@@ -1,10 +1,10 @@
 #pragma once
 
 #include <stl/type_traits.h>
+#include <stl/stddef.h>
 #include <infra/Array.h>
 
 #include <cassert>
-#include <stl/stddef.h>
 #include <cstdlib>
 
 #include <atomic>

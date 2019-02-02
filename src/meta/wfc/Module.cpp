@@ -21,17 +21,17 @@ using namespace mud;
 
 void mud_Result__to_string(void* val, string& str) { str = g_enu[type<mud::Result>().m_id]->name(uint32_t((*static_cast<mud::Result*>(val)))); }
 void mud_Result__to_value(const string& str, void* val) { (*static_cast<mud::Result*>(val)) = mud::Result(g_enu[type<mud::Result>().m_id]->value(str.c_str())); }
-void mud_Tile__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Tile*>(ref))) mud::Tile(  ); }
-void mud_Tile__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Tile*>(ref))) mud::Tile((*static_cast<mud::Tile*>(other))); }
-void mud_Tileset__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Tileset*>(ref))) mud::Tileset(  ); }
-void mud_Tileset__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Tileset*>(ref))) mud::Tileset((*static_cast<mud::Tileset*>(other))); }
-void mud_Wave__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Wave*>(ref))) mud::Wave(  ); }
-void mud_Wave__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Wave*>(ref))) mud::Wave((*static_cast<mud::Wave*>(other))); }
+void mud_Tile__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Tile*>(ref))) mud::Tile(  ); }
+void mud_Tile__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Tile*>(ref))) mud::Tile((*static_cast<mud::Tile*>(other))); }
+void mud_Tileset__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Tileset*>(ref))) mud::Tileset(  ); }
+void mud_Tileset__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Tileset*>(ref))) mud::Tileset((*static_cast<mud::Tileset*>(other))); }
+void mud_Wave__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Wave*>(ref))) mud::Wave(  ); }
+void mud_Wave__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Wave*>(ref))) mud::Wave((*static_cast<mud::Wave*>(other))); }
 void mud_Wave_solve(void* object, array<void*> args, void*& result) { (*static_cast<mud::Result*>(result)) = (*static_cast<mud::Wave*>(object)).solve(*static_cast<size_t*>(args[0])); }
-void mud_TileWave__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::TileWave*>(ref))) mud::TileWave( *static_cast<mud::WaveTileset*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<uint16_t*>(args[2]), *static_cast<uint16_t*>(args[3]), *static_cast<bool*>(args[4]) ); }
-void mud_TileWave__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::TileWave*>(ref))) mud::TileWave((*static_cast<mud::TileWave*>(other))); }
-void mud_WaveTileset__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::WaveTileset*>(ref))) mud::WaveTileset(  ); }
-void mud_WaveTileset__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::WaveTileset*>(ref))) mud::WaveTileset((*static_cast<mud::WaveTileset*>(other))); }
+void mud_TileWave__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::TileWave*>(ref))) mud::TileWave( *static_cast<mud::WaveTileset*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<uint16_t*>(args[2]), *static_cast<uint16_t*>(args[3]), *static_cast<bool*>(args[4]) ); }
+void mud_TileWave__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TileWave*>(ref))) mud::TileWave((*static_cast<mud::TileWave*>(other))); }
+void mud_WaveTileset__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::WaveTileset*>(ref))) mud::WaveTileset(  ); }
+void mud_WaveTileset__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::WaveTileset*>(ref))) mud::WaveTileset((*static_cast<mud::WaveTileset*>(other))); }
 void mud_parse_json_tileset_0(array<void*> args, void*& result) { UNUSED(result);  mud::parse_json_tileset(*static_cast<string*>(args[0]), *static_cast<string*>(args[1]), *static_cast<mud::Tileset*>(args[2])); }
 void mud_parse_json_wave_tileset_1(array<void*> args, void*& result) { UNUSED(result);  mud::parse_json_wave_tileset(*static_cast<string*>(args[0]), *static_cast<string*>(args[1]), *static_cast<mud::WaveTileset*>(args[2])); }
 

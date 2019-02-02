@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <math/Math.h>
 #include <math/Vec.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Style/Style.h>

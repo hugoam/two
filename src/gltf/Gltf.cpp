@@ -2,14 +2,13 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#define ENFORCE_STL_INITIALIZER_LIST
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <cassert>
 #include <iostream>
 #include <fstream>
 #endif
-
-#include <base64.h>
 
 #ifdef MUD_MODULES
 module mud.gltf;
@@ -22,6 +21,7 @@ using json = json11::Json;
 #include <infra/File.h>
 #include <infra/String.h>
 #include <infra/StringConvert.h>
+#include <type/Var.h>
 #include <math/Stream.h>
 #include <pool/Pool.h>
 #include <srlz/Serial.h>

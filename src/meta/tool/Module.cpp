@@ -33,11 +33,11 @@ void mud_ToolState__to_string(void* val, string& str) { str = g_enu[type<mud::To
 void mud_ToolState__to_value(const string& str, void* val) { (*static_cast<mud::ToolState*>(val)) = mud::ToolState(g_enu[type<mud::ToolState>().m_id]->value(str.c_str())); }
 void* mud_Tool__get_type(void* object) { return &(*static_cast<mud::Tool*>(object)).m_type; }
 void* mud_Tool__get_context(void* object) { return &(*static_cast<mud::Tool*>(object)).m_context; }
-void mud_ToolContext__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ToolContext*>(ref))) mud::ToolContext(  ); }
-void mud_ToolContext__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ToolContext*>(ref))) mud::ToolContext((*static_cast<mud::ToolContext*>(other))); }
-void mud_CircleBrush__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::CircleBrush*>(ref))) mud::CircleBrush( *static_cast<mud::ToolContext*>(args[0]) ); }
-void mud_PlaceBrush__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::PlaceBrush*>(ref))) mud::PlaceBrush( *static_cast<mud::ToolContext*>(args[0]) ); }
-void mud_ScriptedBrush__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::ScriptedBrush*>(ref))) mud::ScriptedBrush( *static_cast<mud::ToolContext*>(args[0]), *static_cast<mud::Script*>(args[1]) ); }
+void mud_ToolContext__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ToolContext*>(ref))) mud::ToolContext(  ); }
+void mud_ToolContext__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ToolContext*>(ref))) mud::ToolContext((*static_cast<mud::ToolContext*>(other))); }
+void mud_CircleBrush__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::CircleBrush*>(ref))) mud::CircleBrush( *static_cast<mud::ToolContext*>(args[0]) ); }
+void mud_PlaceBrush__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::PlaceBrush*>(ref))) mud::PlaceBrush( *static_cast<mud::ToolContext*>(args[0]) ); }
+void mud_ScriptedBrush__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ScriptedBrush*>(ref))) mud::ScriptedBrush( *static_cast<mud::ToolContext*>(args[0]), *static_cast<mud::Script*>(args[1]) ); }
 
 namespace mud
 {

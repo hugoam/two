@@ -12,6 +12,8 @@ module mud.gfx;
 #include <pool/ObjectPool.hpp>
 #include <math/Math.h>
 #include <math/ImageAtlas.h>
+#include <math/Vec.hpp>
+#include <geom/Geom.h>
 #include <geom/Intersect.h>
 #include <geom/Symbol.h>
 #include <geom/Shapes.h>

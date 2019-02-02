@@ -2,6 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#define ENFORCE_STL_INITIALIZER_LIST
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -18,6 +19,7 @@ module mud.uio;
 #include <lang/Lua.h>
 #include <lang/Wren.h>
 #include <ui/Input.h>
+#include <ui/Edit/TypeIn.h>
 #include <ui/Edit/Lang.h>
 #include <uio/Types.h>
 #include <uio/Edit/Script.h>

@@ -54,115 +54,115 @@ size_t vector_uint32_t___size(void* vec) { return (*static_cast<vector<uint32_t>
 void* vector_uint32_t___at(void* vec, size_t i) { return &(*static_cast<vector<uint32_t>*>(vec))[i]; }
 void vector_uint32_t___add(void* vec, void* value) { (*static_cast<vector<uint32_t>*>(vec)).push_back(*static_cast<uint32_t*>(value)); }
 void vector_uint32_t___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<uint32_t>*>(vec)), *static_cast<uint32_t*>(value)); }
-void mud_AutoStat_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::AutoStat<float>*>(ref))) mud::AutoStat<float>(  ); }
-void mud_AutoStat_float___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::AutoStat<float>*>(ref))) mud::AutoStat<float>((*static_cast<mud::AutoStat<float>*>(other))); }
-void mud_AutoStat_int___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::AutoStat<int>*>(ref))) mud::AutoStat<int>(  ); }
-void mud_AutoStat_int___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::AutoStat<int>*>(ref))) mud::AutoStat<int>((*static_cast<mud::AutoStat<int>*>(other))); }
-void mud_Colour__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Colour*>(ref))) mud::Colour(  ); }
-void mud_Colour__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::Colour*>(ref))) mud::Colour( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]) ); }
-void mud_Colour__construct_2(void* ref, array<void*> args) { new(&(*static_cast<mud::Colour*>(ref))) mud::Colour( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]) ); }
-void mud_Colour__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Colour*>(ref))) mud::Colour((*static_cast<mud::Colour*>(other))); }
-void mud_Image__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Image*>(ref))) mud::Image(  ); }
-void mud_Image__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Image*>(ref))) mud::Image((*static_cast<mud::Image*>(other))); }
-void mud_Image256__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Image256*>(ref))) mud::Image256( *static_cast<uint16_t*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<mud::Palette*>(args[2]) ); }
-void mud_Image256__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Image256*>(ref))) mud::Image256((*static_cast<mud::Image256*>(other))); }
-void mud_Palette__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Palette*>(ref))) mud::Palette( *static_cast<mud::Spectrum*>(args[0]), *static_cast<size_t*>(args[1]) ); }
-void mud_Palette__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::Palette*>(ref))) mud::Palette( *static_cast<vector<mud::Colour>*>(args[0]) ); }
-void mud_Palette__construct_2(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Palette*>(ref))) mud::Palette(  ); }
-void mud_Palette__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Palette*>(ref))) mud::Palette((*static_cast<mud::Palette*>(other))); }
-void mud_Range_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Range<float>*>(ref))) mud::Range<float>(  ); }
-void mud_Range_float___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Range<float>*>(ref))) mud::Range<float>((*static_cast<mud::Range<float>*>(other))); }
-void mud_Range_mud_Colour___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Range<mud::Colour>*>(ref))) mud::Range<mud::Colour>(  ); }
-void mud_Range_mud_Colour___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Range<mud::Colour>*>(ref))) mud::Range<mud::Colour>((*static_cast<mud::Range<mud::Colour>*>(other))); }
-void mud_Range_mud_quat___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Range<mud::quat>*>(ref))) mud::Range<mud::quat>(  ); }
-void mud_Range_mud_quat___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Range<mud::quat>*>(ref))) mud::Range<mud::quat>((*static_cast<mud::Range<mud::quat>*>(other))); }
-void mud_Range_mud_vec3___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Range<mud::vec3>*>(ref))) mud::Range<mud::vec3>(  ); }
-void mud_Range_mud_vec3___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Range<mud::vec3>*>(ref))) mud::Range<mud::vec3>((*static_cast<mud::Range<mud::vec3>*>(other))); }
-void mud_Range_uint32_t___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Range<uint32_t>*>(ref))) mud::Range<uint32_t>(  ); }
-void mud_Range_uint32_t___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Range<uint32_t>*>(ref))) mud::Range<uint32_t>((*static_cast<mud::Range<uint32_t>*>(other))); }
-void mud_Time__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Time*>(ref))) mud::Time( *static_cast<double*>(args[0]) ); }
-void mud_Time__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Time*>(ref))) mud::Time((*static_cast<mud::Time*>(other))); }
-void mud_TimeSpan__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::TimeSpan*>(ref))) mud::TimeSpan( *static_cast<mud::Time*>(args[0]), *static_cast<mud::Time*>(args[1]) ); }
-void mud_TimeSpan__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::TimeSpan*>(ref))) mud::TimeSpan((*static_cast<mud::TimeSpan*>(other))); }
-//void mud_Transform__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Transform*>(ref))) mud::Transform(  ); }
-//void mud_Transform__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::Transform*>(ref))) mud::Transform( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2]) ); }
-void mud_Transform__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Transform*>(ref))) mud::Transform((*static_cast<mud::Transform*>(other))); }
-void mud_ValueCurve_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ValueCurve<float>*>(ref))) mud::ValueCurve<float>(  ); }
-void mud_ValueCurve_float___construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ValueCurve<float>*>(ref))) mud::ValueCurve<float>( *static_cast<vector<float>*>(args[0]) ); }
-void mud_ValueCurve_float___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ValueCurve<float>*>(ref))) mud::ValueCurve<float>((*static_cast<mud::ValueCurve<float>*>(other))); }
-void mud_ValueCurve_mud_Colour___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ValueCurve<mud::Colour>*>(ref))) mud::ValueCurve<mud::Colour>(  ); }
-void mud_ValueCurve_mud_Colour___construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ValueCurve<mud::Colour>*>(ref))) mud::ValueCurve<mud::Colour>( *static_cast<vector<mud::Colour>*>(args[0]) ); }
-void mud_ValueCurve_mud_Colour___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ValueCurve<mud::Colour>*>(ref))) mud::ValueCurve<mud::Colour>((*static_cast<mud::ValueCurve<mud::Colour>*>(other))); }
-void mud_ValueCurve_mud_quat___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ValueCurve<mud::quat>*>(ref))) mud::ValueCurve<mud::quat>(  ); }
-void mud_ValueCurve_mud_quat___construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ValueCurve<mud::quat>*>(ref))) mud::ValueCurve<mud::quat>( *static_cast<vector<mud::quat>*>(args[0]) ); }
-void mud_ValueCurve_mud_quat___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ValueCurve<mud::quat>*>(ref))) mud::ValueCurve<mud::quat>((*static_cast<mud::ValueCurve<mud::quat>*>(other))); }
-void mud_ValueCurve_mud_vec3___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ValueCurve<mud::vec3>*>(ref))) mud::ValueCurve<mud::vec3>(  ); }
-void mud_ValueCurve_mud_vec3___construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ValueCurve<mud::vec3>*>(ref))) mud::ValueCurve<mud::vec3>( *static_cast<vector<mud::vec3>*>(args[0]) ); }
-void mud_ValueCurve_mud_vec3___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ValueCurve<mud::vec3>*>(ref))) mud::ValueCurve<mud::vec3>((*static_cast<mud::ValueCurve<mud::vec3>*>(other))); }
-void mud_ValueCurve_uint32_t___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ValueCurve<uint32_t>*>(ref))) mud::ValueCurve<uint32_t>(  ); }
-void mud_ValueCurve_uint32_t___construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ValueCurve<uint32_t>*>(ref))) mud::ValueCurve<uint32_t>( *static_cast<vector<uint32_t>*>(args[0]) ); }
-void mud_ValueCurve_uint32_t___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ValueCurve<uint32_t>*>(ref))) mud::ValueCurve<uint32_t>((*static_cast<mud::ValueCurve<uint32_t>*>(other))); }
-void mud_ValueTrack_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ValueTrack<float>*>(ref))) mud::ValueTrack<float>(  ); }
-void mud_ValueTrack_float___construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ValueTrack<float>*>(ref))) mud::ValueTrack<float>( *static_cast<mud::TrackMode*>(args[0]), *static_cast<mud::ValueCurve<float>*>(args[1]), *static_cast<mud::ValueCurve<float>*>(args[2]), *static_cast<mud::ValueCurve<float>*>(args[3]) ); }
-void mud_ValueTrack_float___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ValueTrack<float>*>(ref))) mud::ValueTrack<float>((*static_cast<mud::ValueTrack<float>*>(other))); }
-void mud_ValueTrack_mud_Colour___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ValueTrack<mud::Colour>*>(ref))) mud::ValueTrack<mud::Colour>(  ); }
-void mud_ValueTrack_mud_Colour___construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ValueTrack<mud::Colour>*>(ref))) mud::ValueTrack<mud::Colour>( *static_cast<mud::TrackMode*>(args[0]), *static_cast<mud::ValueCurve<mud::Colour>*>(args[1]), *static_cast<mud::ValueCurve<mud::Colour>*>(args[2]), *static_cast<mud::ValueCurve<mud::Colour>*>(args[3]) ); }
-void mud_ValueTrack_mud_Colour___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ValueTrack<mud::Colour>*>(ref))) mud::ValueTrack<mud::Colour>((*static_cast<mud::ValueTrack<mud::Colour>*>(other))); }
-void mud_ValueTrack_mud_quat___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ValueTrack<mud::quat>*>(ref))) mud::ValueTrack<mud::quat>(  ); }
-void mud_ValueTrack_mud_quat___construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ValueTrack<mud::quat>*>(ref))) mud::ValueTrack<mud::quat>( *static_cast<mud::TrackMode*>(args[0]), *static_cast<mud::ValueCurve<mud::quat>*>(args[1]), *static_cast<mud::ValueCurve<mud::quat>*>(args[2]), *static_cast<mud::ValueCurve<mud::quat>*>(args[3]) ); }
-void mud_ValueTrack_mud_quat___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ValueTrack<mud::quat>*>(ref))) mud::ValueTrack<mud::quat>((*static_cast<mud::ValueTrack<mud::quat>*>(other))); }
-void mud_ValueTrack_mud_vec3___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ValueTrack<mud::vec3>*>(ref))) mud::ValueTrack<mud::vec3>(  ); }
-void mud_ValueTrack_mud_vec3___construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ValueTrack<mud::vec3>*>(ref))) mud::ValueTrack<mud::vec3>( *static_cast<mud::TrackMode*>(args[0]), *static_cast<mud::ValueCurve<mud::vec3>*>(args[1]), *static_cast<mud::ValueCurve<mud::vec3>*>(args[2]), *static_cast<mud::ValueCurve<mud::vec3>*>(args[3]) ); }
-void mud_ValueTrack_mud_vec3___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ValueTrack<mud::vec3>*>(ref))) mud::ValueTrack<mud::vec3>((*static_cast<mud::ValueTrack<mud::vec3>*>(other))); }
-void mud_ValueTrack_uint32_t___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ValueTrack<uint32_t>*>(ref))) mud::ValueTrack<uint32_t>(  ); }
-void mud_ValueTrack_uint32_t___construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ValueTrack<uint32_t>*>(ref))) mud::ValueTrack<uint32_t>( *static_cast<mud::TrackMode*>(args[0]), *static_cast<mud::ValueCurve<uint32_t>*>(args[1]), *static_cast<mud::ValueCurve<uint32_t>*>(args[2]), *static_cast<mud::ValueCurve<uint32_t>*>(args[3]) ); }
-void mud_ValueTrack_uint32_t___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ValueTrack<uint32_t>*>(ref))) mud::ValueTrack<uint32_t>((*static_cast<mud::ValueTrack<uint32_t>*>(other))); }
-void mud_bvec3__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::bvec3*>(ref))) mud::bvec3(  ); }
-void mud_bvec3__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::bvec3*>(ref))) mud::bvec3((*static_cast<mud::bvec3*>(other))); }
-void mud_bvec4__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::bvec4*>(ref))) mud::bvec4(  ); }
-void mud_bvec4__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::bvec4*>(ref))) mud::bvec4((*static_cast<mud::bvec4*>(other))); }
-void mud_half2__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::half2*>(ref))) mud::half2(  ); }
-void mud_half2__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::half2*>(ref))) mud::half2((*static_cast<mud::half2*>(other))); }
-void mud_half3__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::half3*>(ref))) mud::half3(  ); }
-void mud_half3__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::half3*>(ref))) mud::half3((*static_cast<mud::half3*>(other))); }
-void mud_ivec2__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ivec2*>(ref))) mud::ivec2(  ); }
-void mud_ivec2__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ivec2*>(ref))) mud::ivec2((*static_cast<mud::ivec2*>(other))); }
-void mud_ivec3__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ivec3*>(ref))) mud::ivec3(  ); }
-void mud_ivec3__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ivec3*>(ref))) mud::ivec3( *static_cast<int*>(args[0]) ); }
-void mud_ivec3__construct_2(void* ref, array<void*> args) { new(&(*static_cast<mud::ivec3*>(ref))) mud::ivec3( *static_cast<int*>(args[0]), *static_cast<int*>(args[1]), *static_cast<int*>(args[2]) ); }
-void mud_ivec3__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ivec3*>(ref))) mud::ivec3((*static_cast<mud::ivec3*>(other))); }
-void mud_ivec4__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ivec4*>(ref))) mud::ivec4(  ); }
-void mud_ivec4__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ivec4*>(ref))) mud::ivec4((*static_cast<mud::ivec4*>(other))); }
-void mud_mat4__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::mat4*>(ref))) mud::mat4(  ); }
-void mud_mat4__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::mat4*>(ref))) mud::mat4((*static_cast<mud::mat4*>(other))); }
-void mud_quat__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::quat*>(ref))) mud::quat(  ); }
-void mud_quat__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::quat*>(ref))) mud::quat( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]) ); }
-void mud_quat__construct_2(void* ref, array<void*> args) { new(&(*static_cast<mud::quat*>(ref))) mud::quat( *static_cast<mud::vec3*>(args[0]) ); }
-void mud_quat__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::quat*>(ref))) mud::quat((*static_cast<mud::quat*>(other))); }
-void mud_uvec2__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::uvec2*>(ref))) mud::uvec2(  ); }
-void mud_uvec2__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::uvec2*>(ref))) mud::uvec2( *static_cast<uint32_t*>(args[0]) ); }
-void mud_uvec2__construct_2(void* ref, array<void*> args) { new(&(*static_cast<mud::uvec2*>(ref))) mud::uvec2( *static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]) ); }
-void mud_uvec2__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::uvec2*>(ref))) mud::uvec2((*static_cast<mud::uvec2*>(other))); }
-void mud_uvec3__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::uvec3*>(ref))) mud::uvec3(  ); }
-void mud_uvec3__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::uvec3*>(ref))) mud::uvec3( *static_cast<uint32_t*>(args[0]) ); }
-void mud_uvec3__construct_2(void* ref, array<void*> args) { new(&(*static_cast<mud::uvec3*>(ref))) mud::uvec3( *static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<uint32_t*>(args[2]) ); }
-void mud_uvec3__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::uvec3*>(ref))) mud::uvec3((*static_cast<mud::uvec3*>(other))); }
-void mud_uvec4__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::uvec4*>(ref))) mud::uvec4(  ); }
-void mud_uvec4__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::uvec4*>(ref))) mud::uvec4( *static_cast<uint32_t*>(args[0]) ); }
-void mud_uvec4__construct_2(void* ref, array<void*> args) { new(&(*static_cast<mud::uvec4*>(ref))) mud::uvec4( *static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<uint32_t*>(args[3]) ); }
-void mud_uvec4__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::uvec4*>(ref))) mud::uvec4((*static_cast<mud::uvec4*>(other))); }
-void mud_vec2__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::vec2*>(ref))) mud::vec2(  ); }
-void mud_vec2__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::vec2*>(ref))) mud::vec2( *static_cast<float*>(args[0]) ); }
-void mud_vec2__construct_2(void* ref, array<void*> args) { new(&(*static_cast<mud::vec2*>(ref))) mud::vec2( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]) ); }
-void mud_vec2__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::vec2*>(ref))) mud::vec2((*static_cast<mud::vec2*>(other))); }
-void mud_vec3__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::vec3*>(ref))) mud::vec3(  ); }
-void mud_vec3__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::vec3*>(ref))) mud::vec3( *static_cast<float*>(args[0]) ); }
-void mud_vec3__construct_2(void* ref, array<void*> args) { new(&(*static_cast<mud::vec3*>(ref))) mud::vec3( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]) ); }
-void mud_vec3__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::vec3*>(ref))) mud::vec3((*static_cast<mud::vec3*>(other))); }
-void mud_vec4__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::vec4*>(ref))) mud::vec4(  ); }
-void mud_vec4__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::vec4*>(ref))) mud::vec4( *static_cast<float*>(args[0]) ); }
-void mud_vec4__construct_2(void* ref, array<void*> args) { new(&(*static_cast<mud::vec4*>(ref))) mud::vec4( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]) ); }
-void mud_vec4__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::vec4*>(ref))) mud::vec4((*static_cast<mud::vec4*>(other))); }
+void mud_AutoStat_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::AutoStat<float>*>(ref))) mud::AutoStat<float>(  ); }
+void mud_AutoStat_float___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::AutoStat<float>*>(ref))) mud::AutoStat<float>((*static_cast<mud::AutoStat<float>*>(other))); }
+void mud_AutoStat_int___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::AutoStat<int>*>(ref))) mud::AutoStat<int>(  ); }
+void mud_AutoStat_int___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::AutoStat<int>*>(ref))) mud::AutoStat<int>((*static_cast<mud::AutoStat<int>*>(other))); }
+void mud_Colour__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Colour*>(ref))) mud::Colour(  ); }
+void mud_Colour__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Colour*>(ref))) mud::Colour( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]) ); }
+void mud_Colour__construct_2(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Colour*>(ref))) mud::Colour( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]) ); }
+void mud_Colour__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Colour*>(ref))) mud::Colour((*static_cast<mud::Colour*>(other))); }
+void mud_Image__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Image*>(ref))) mud::Image(  ); }
+void mud_Image__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Image*>(ref))) mud::Image((*static_cast<mud::Image*>(other))); }
+void mud_Image256__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Image256*>(ref))) mud::Image256( *static_cast<uint16_t*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<mud::Palette*>(args[2]) ); }
+void mud_Image256__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Image256*>(ref))) mud::Image256((*static_cast<mud::Image256*>(other))); }
+void mud_Palette__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Palette*>(ref))) mud::Palette( *static_cast<mud::Spectrum*>(args[0]), *static_cast<size_t*>(args[1]) ); }
+void mud_Palette__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Palette*>(ref))) mud::Palette( *static_cast<vector<mud::Colour>*>(args[0]) ); }
+void mud_Palette__construct_2(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Palette*>(ref))) mud::Palette(  ); }
+void mud_Palette__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Palette*>(ref))) mud::Palette((*static_cast<mud::Palette*>(other))); }
+void mud_Range_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Range<float>*>(ref))) mud::Range<float>(  ); }
+void mud_Range_float___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Range<float>*>(ref))) mud::Range<float>((*static_cast<mud::Range<float>*>(other))); }
+void mud_Range_mud_Colour___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Range<mud::Colour>*>(ref))) mud::Range<mud::Colour>(  ); }
+void mud_Range_mud_Colour___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Range<mud::Colour>*>(ref))) mud::Range<mud::Colour>((*static_cast<mud::Range<mud::Colour>*>(other))); }
+void mud_Range_mud_quat___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Range<mud::quat>*>(ref))) mud::Range<mud::quat>(  ); }
+void mud_Range_mud_quat___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Range<mud::quat>*>(ref))) mud::Range<mud::quat>((*static_cast<mud::Range<mud::quat>*>(other))); }
+void mud_Range_mud_vec3___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Range<mud::vec3>*>(ref))) mud::Range<mud::vec3>(  ); }
+void mud_Range_mud_vec3___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Range<mud::vec3>*>(ref))) mud::Range<mud::vec3>((*static_cast<mud::Range<mud::vec3>*>(other))); }
+void mud_Range_uint32_t___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Range<uint32_t>*>(ref))) mud::Range<uint32_t>(  ); }
+void mud_Range_uint32_t___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Range<uint32_t>*>(ref))) mud::Range<uint32_t>((*static_cast<mud::Range<uint32_t>*>(other))); }
+void mud_Time__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Time*>(ref))) mud::Time( *static_cast<double*>(args[0]) ); }
+void mud_Time__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Time*>(ref))) mud::Time((*static_cast<mud::Time*>(other))); }
+void mud_TimeSpan__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::TimeSpan*>(ref))) mud::TimeSpan( *static_cast<mud::Time*>(args[0]), *static_cast<mud::Time*>(args[1]) ); }
+void mud_TimeSpan__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TimeSpan*>(ref))) mud::TimeSpan((*static_cast<mud::TimeSpan*>(other))); }
+//void mud_Transform__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Transform*>(ref))) mud::Transform(  ); }
+//void mud_Transform__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Transform*>(ref))) mud::Transform( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2]) ); }
+void mud_Transform__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Transform*>(ref))) mud::Transform((*static_cast<mud::Transform*>(other))); }
+void mud_ValueCurve_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ValueCurve<float>*>(ref))) mud::ValueCurve<float>(  ); }
+void mud_ValueCurve_float___construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ValueCurve<float>*>(ref))) mud::ValueCurve<float>( *static_cast<vector<float>*>(args[0]) ); }
+void mud_ValueCurve_float___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ValueCurve<float>*>(ref))) mud::ValueCurve<float>((*static_cast<mud::ValueCurve<float>*>(other))); }
+void mud_ValueCurve_mud_Colour___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ValueCurve<mud::Colour>*>(ref))) mud::ValueCurve<mud::Colour>(  ); }
+void mud_ValueCurve_mud_Colour___construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ValueCurve<mud::Colour>*>(ref))) mud::ValueCurve<mud::Colour>( *static_cast<vector<mud::Colour>*>(args[0]) ); }
+void mud_ValueCurve_mud_Colour___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ValueCurve<mud::Colour>*>(ref))) mud::ValueCurve<mud::Colour>((*static_cast<mud::ValueCurve<mud::Colour>*>(other))); }
+void mud_ValueCurve_mud_quat___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ValueCurve<mud::quat>*>(ref))) mud::ValueCurve<mud::quat>(  ); }
+void mud_ValueCurve_mud_quat___construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ValueCurve<mud::quat>*>(ref))) mud::ValueCurve<mud::quat>( *static_cast<vector<mud::quat>*>(args[0]) ); }
+void mud_ValueCurve_mud_quat___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ValueCurve<mud::quat>*>(ref))) mud::ValueCurve<mud::quat>((*static_cast<mud::ValueCurve<mud::quat>*>(other))); }
+void mud_ValueCurve_mud_vec3___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ValueCurve<mud::vec3>*>(ref))) mud::ValueCurve<mud::vec3>(  ); }
+void mud_ValueCurve_mud_vec3___construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ValueCurve<mud::vec3>*>(ref))) mud::ValueCurve<mud::vec3>( *static_cast<vector<mud::vec3>*>(args[0]) ); }
+void mud_ValueCurve_mud_vec3___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ValueCurve<mud::vec3>*>(ref))) mud::ValueCurve<mud::vec3>((*static_cast<mud::ValueCurve<mud::vec3>*>(other))); }
+void mud_ValueCurve_uint32_t___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ValueCurve<uint32_t>*>(ref))) mud::ValueCurve<uint32_t>(  ); }
+void mud_ValueCurve_uint32_t___construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ValueCurve<uint32_t>*>(ref))) mud::ValueCurve<uint32_t>( *static_cast<vector<uint32_t>*>(args[0]) ); }
+void mud_ValueCurve_uint32_t___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ValueCurve<uint32_t>*>(ref))) mud::ValueCurve<uint32_t>((*static_cast<mud::ValueCurve<uint32_t>*>(other))); }
+void mud_ValueTrack_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ValueTrack<float>*>(ref))) mud::ValueTrack<float>(  ); }
+void mud_ValueTrack_float___construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ValueTrack<float>*>(ref))) mud::ValueTrack<float>( *static_cast<mud::TrackMode*>(args[0]), *static_cast<mud::ValueCurve<float>*>(args[1]), *static_cast<mud::ValueCurve<float>*>(args[2]), *static_cast<mud::ValueCurve<float>*>(args[3]) ); }
+void mud_ValueTrack_float___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ValueTrack<float>*>(ref))) mud::ValueTrack<float>((*static_cast<mud::ValueTrack<float>*>(other))); }
+void mud_ValueTrack_mud_Colour___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ValueTrack<mud::Colour>*>(ref))) mud::ValueTrack<mud::Colour>(  ); }
+void mud_ValueTrack_mud_Colour___construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ValueTrack<mud::Colour>*>(ref))) mud::ValueTrack<mud::Colour>( *static_cast<mud::TrackMode*>(args[0]), *static_cast<mud::ValueCurve<mud::Colour>*>(args[1]), *static_cast<mud::ValueCurve<mud::Colour>*>(args[2]), *static_cast<mud::ValueCurve<mud::Colour>*>(args[3]) ); }
+void mud_ValueTrack_mud_Colour___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ValueTrack<mud::Colour>*>(ref))) mud::ValueTrack<mud::Colour>((*static_cast<mud::ValueTrack<mud::Colour>*>(other))); }
+void mud_ValueTrack_mud_quat___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ValueTrack<mud::quat>*>(ref))) mud::ValueTrack<mud::quat>(  ); }
+void mud_ValueTrack_mud_quat___construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ValueTrack<mud::quat>*>(ref))) mud::ValueTrack<mud::quat>( *static_cast<mud::TrackMode*>(args[0]), *static_cast<mud::ValueCurve<mud::quat>*>(args[1]), *static_cast<mud::ValueCurve<mud::quat>*>(args[2]), *static_cast<mud::ValueCurve<mud::quat>*>(args[3]) ); }
+void mud_ValueTrack_mud_quat___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ValueTrack<mud::quat>*>(ref))) mud::ValueTrack<mud::quat>((*static_cast<mud::ValueTrack<mud::quat>*>(other))); }
+void mud_ValueTrack_mud_vec3___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ValueTrack<mud::vec3>*>(ref))) mud::ValueTrack<mud::vec3>(  ); }
+void mud_ValueTrack_mud_vec3___construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ValueTrack<mud::vec3>*>(ref))) mud::ValueTrack<mud::vec3>( *static_cast<mud::TrackMode*>(args[0]), *static_cast<mud::ValueCurve<mud::vec3>*>(args[1]), *static_cast<mud::ValueCurve<mud::vec3>*>(args[2]), *static_cast<mud::ValueCurve<mud::vec3>*>(args[3]) ); }
+void mud_ValueTrack_mud_vec3___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ValueTrack<mud::vec3>*>(ref))) mud::ValueTrack<mud::vec3>((*static_cast<mud::ValueTrack<mud::vec3>*>(other))); }
+void mud_ValueTrack_uint32_t___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ValueTrack<uint32_t>*>(ref))) mud::ValueTrack<uint32_t>(  ); }
+void mud_ValueTrack_uint32_t___construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ValueTrack<uint32_t>*>(ref))) mud::ValueTrack<uint32_t>( *static_cast<mud::TrackMode*>(args[0]), *static_cast<mud::ValueCurve<uint32_t>*>(args[1]), *static_cast<mud::ValueCurve<uint32_t>*>(args[2]), *static_cast<mud::ValueCurve<uint32_t>*>(args[3]) ); }
+void mud_ValueTrack_uint32_t___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ValueTrack<uint32_t>*>(ref))) mud::ValueTrack<uint32_t>((*static_cast<mud::ValueTrack<uint32_t>*>(other))); }
+void mud_bvec3__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::bvec3*>(ref))) mud::bvec3(  ); }
+void mud_bvec3__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::bvec3*>(ref))) mud::bvec3((*static_cast<mud::bvec3*>(other))); }
+void mud_bvec4__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::bvec4*>(ref))) mud::bvec4(  ); }
+void mud_bvec4__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::bvec4*>(ref))) mud::bvec4((*static_cast<mud::bvec4*>(other))); }
+void mud_half2__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::half2*>(ref))) mud::half2(  ); }
+void mud_half2__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::half2*>(ref))) mud::half2((*static_cast<mud::half2*>(other))); }
+void mud_half3__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::half3*>(ref))) mud::half3(  ); }
+void mud_half3__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::half3*>(ref))) mud::half3((*static_cast<mud::half3*>(other))); }
+void mud_ivec2__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ivec2*>(ref))) mud::ivec2(  ); }
+void mud_ivec2__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ivec2*>(ref))) mud::ivec2((*static_cast<mud::ivec2*>(other))); }
+void mud_ivec3__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ivec3*>(ref))) mud::ivec3(  ); }
+void mud_ivec3__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ivec3*>(ref))) mud::ivec3( *static_cast<int*>(args[0]) ); }
+void mud_ivec3__construct_2(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ivec3*>(ref))) mud::ivec3( *static_cast<int*>(args[0]), *static_cast<int*>(args[1]), *static_cast<int*>(args[2]) ); }
+void mud_ivec3__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ivec3*>(ref))) mud::ivec3((*static_cast<mud::ivec3*>(other))); }
+void mud_ivec4__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ivec4*>(ref))) mud::ivec4(  ); }
+void mud_ivec4__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ivec4*>(ref))) mud::ivec4((*static_cast<mud::ivec4*>(other))); }
+void mud_mat4__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::mat4*>(ref))) mud::mat4(  ); }
+void mud_mat4__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::mat4*>(ref))) mud::mat4((*static_cast<mud::mat4*>(other))); }
+void mud_quat__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::quat*>(ref))) mud::quat(  ); }
+void mud_quat__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::quat*>(ref))) mud::quat( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]) ); }
+void mud_quat__construct_2(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::quat*>(ref))) mud::quat( *static_cast<mud::vec3*>(args[0]) ); }
+void mud_quat__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::quat*>(ref))) mud::quat((*static_cast<mud::quat*>(other))); }
+void mud_uvec2__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::uvec2*>(ref))) mud::uvec2(  ); }
+void mud_uvec2__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::uvec2*>(ref))) mud::uvec2( *static_cast<uint32_t*>(args[0]) ); }
+void mud_uvec2__construct_2(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::uvec2*>(ref))) mud::uvec2( *static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]) ); }
+void mud_uvec2__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::uvec2*>(ref))) mud::uvec2((*static_cast<mud::uvec2*>(other))); }
+void mud_uvec3__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::uvec3*>(ref))) mud::uvec3(  ); }
+void mud_uvec3__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::uvec3*>(ref))) mud::uvec3( *static_cast<uint32_t*>(args[0]) ); }
+void mud_uvec3__construct_2(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::uvec3*>(ref))) mud::uvec3( *static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<uint32_t*>(args[2]) ); }
+void mud_uvec3__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::uvec3*>(ref))) mud::uvec3((*static_cast<mud::uvec3*>(other))); }
+void mud_uvec4__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::uvec4*>(ref))) mud::uvec4(  ); }
+void mud_uvec4__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::uvec4*>(ref))) mud::uvec4( *static_cast<uint32_t*>(args[0]) ); }
+void mud_uvec4__construct_2(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::uvec4*>(ref))) mud::uvec4( *static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<uint32_t*>(args[3]) ); }
+void mud_uvec4__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::uvec4*>(ref))) mud::uvec4((*static_cast<mud::uvec4*>(other))); }
+void mud_vec2__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::vec2*>(ref))) mud::vec2(  ); }
+void mud_vec2__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::vec2*>(ref))) mud::vec2( *static_cast<float*>(args[0]) ); }
+void mud_vec2__construct_2(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::vec2*>(ref))) mud::vec2( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]) ); }
+void mud_vec2__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::vec2*>(ref))) mud::vec2((*static_cast<mud::vec2*>(other))); }
+void mud_vec3__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::vec3*>(ref))) mud::vec3(  ); }
+void mud_vec3__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::vec3*>(ref))) mud::vec3( *static_cast<float*>(args[0]) ); }
+void mud_vec3__construct_2(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::vec3*>(ref))) mud::vec3( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]) ); }
+void mud_vec3__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::vec3*>(ref))) mud::vec3((*static_cast<mud::vec3*>(other))); }
+void mud_vec4__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::vec4*>(ref))) mud::vec4(  ); }
+void mud_vec4__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::vec4*>(ref))) mud::vec4( *static_cast<float*>(args[0]) ); }
+void mud_vec4__construct_2(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::vec4*>(ref))) mud::vec4( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]) ); }
+void mud_vec4__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::vec4*>(ref))) mud::vec4((*static_cast<mud::vec4*>(other))); }
 void _sinf_0(array<void*> args, void*& result) { (*static_cast<float*>(result)) = sinf(*static_cast<float*>(args[0])); }
 void _cosf_1(array<void*> args, void*& result) { (*static_cast<float*>(result)) = cosf(*static_cast<float*>(args[0])); }
 void _sin_2(array<void*> args, void*& result) { (*static_cast<double*>(result)) = sin(*static_cast<double*>(args[0])); }

@@ -6,9 +6,7 @@
 
 #include <math/Forward.h>
 
-#ifndef MUD_CPP_20
 #include <ctime>
-#endif
 
 namespace mud
 {

@@ -3,9 +3,6 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <gfx/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <mutex>
-#endif
 
 #include <bx/platform.h>
 #include <bx/readerwriter.h>

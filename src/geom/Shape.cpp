@@ -120,9 +120,18 @@ namespace mud
 	ConvexHull::ConvexHull(const vector<vec3>& vertices) : Shape(type<ConvexHull>()), m_vertices(vertices) {}
 	object<Shape> ConvexHull::clone() const { return oconstruct<ConvexHull>(*this); }
 
+	Aabb aabb(const vec3& min, const vec3& max)
+	{
+		vec3 extents = (max - min) / 2.f;
+		return Aabb(min + extents, extents);
+	}
+
 	Aabb::Aabb() : m_empty(true) {}
 	Aabb::Aabb(const vec3& center, const vec3& extents) : m_center(center), m_extents(extents), m_empty(false) {}
 	//object<Shape> Aabb::clone() const { return {}; } //oconstruct<Aabb>(*this); }
+
+	vec3 Aabb::bmin() const { return m_center - m_extents; }
+	vec3 Aabb::bmax() const { return m_center + m_extents; }
 
 	bool Aabb::intersects(const Aabb& other) const
 	{

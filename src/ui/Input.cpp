@@ -20,8 +20,6 @@ module mud.ui;
 #include <ui/Style/Skin.h>
 #endif
 
-#include <algorithm>
-
 namespace mud
 {
 namespace ui

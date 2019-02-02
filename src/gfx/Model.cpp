@@ -9,6 +9,7 @@ module mud.gfx;
 #else
 #include <type/Indexer.h>
 #include <pool/Pool.hpp>
+#include <math/Vec.hpp>
 #include <geom/Geom.h>
 #include <gfx/Types.h>
 #include <gfx/Model.h>

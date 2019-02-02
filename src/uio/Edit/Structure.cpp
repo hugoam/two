@@ -9,6 +9,7 @@ module mud.uio;
 #else
 #include <stl/string.h>
 #include <stl/algorithm.h>
+#include <type/Var.h>
 #include <refl/Meta.h>
 #include <refl/Member.h>
 #include <refl/Convert.h>

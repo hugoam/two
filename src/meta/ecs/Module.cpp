@@ -17,8 +17,8 @@ module mud.ecs;
 
 using namespace mud;
 
-void mud_Complex__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Complex*>(ref))) mud::Complex( *static_cast<uint32_t*>(args[0]), *static_cast<mud::Type*>(args[1]) ); }
-void mud_Complex__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::Complex*>(ref))) mud::Complex( *static_cast<uint32_t*>(args[0]), *static_cast<mud::Type*>(args[1]), *static_cast<vector<mud::Ref>*>(args[2]) ); }
+void mud_Complex__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Complex*>(ref))) mud::Complex( *static_cast<uint32_t*>(args[0]), *static_cast<mud::Type*>(args[1]) ); }
+void mud_Complex__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Complex*>(ref))) mud::Complex( *static_cast<uint32_t*>(args[0]), *static_cast<mud::Type*>(args[1]), *static_cast<vector<mud::Ref>*>(args[2]) ); }
 void* mud_Complex__get_type(void* object) { return &(*static_cast<mud::Complex*>(object)).m_type; }
 void* mud_Complex__get_prototype(void* object) { return &(*static_cast<mud::Complex*>(object)).m_prototype; }
 void mud_Complex_setup(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Complex*>(object)).setup(*static_cast<vector<mud::Ref>*>(args[0])); }
@@ -26,8 +26,8 @@ void mud_Complex_add_part(void* object, array<void*> args, void*& result) { UNUS
 void mud_Complex_has_part(void* object, array<void*> args, void*& result) { (*static_cast<bool*>(result)) = (*static_cast<mud::Complex*>(object)).has_part(*static_cast<mud::Type*>(args[0])); }
 void mud_Complex_part(void* object, array<void*> args, void*& result) { (*static_cast<mud::Ref*>(result)) = (*static_cast<mud::Complex*>(object)).part(*static_cast<mud::Type*>(args[0])); }
 void mud_Complex_try_part(void* object, array<void*> args, void*& result) { (*static_cast<mud::Ref*>(result)) = (*static_cast<mud::Complex*>(object)).try_part(*static_cast<mud::Type*>(args[0])); }
-void mud_Entity__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Entity*>(ref))) mud::Entity(  ); }
-void mud_Entity__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Entity*>(ref))) mud::Entity((*static_cast<mud::Entity*>(other))); }
+void mud_Entity__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Entity*>(ref))) mud::Entity(  ); }
+void mud_Entity__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Entity*>(ref))) mud::Entity((*static_cast<mud::Entity*>(other))); }
 
 namespace mud
 {

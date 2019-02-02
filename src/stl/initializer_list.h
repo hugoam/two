@@ -1,6 +1,6 @@
 #pragma once
 
-#if 1 //def USE_STL
+#ifdef ENFORCE_STL_INITIALIZER_LIST
 #include <initializer_list>
 #else
 #include <stl/stddef.h>
@@ -24,6 +24,7 @@ namespace std
 
 		constexpr const T* begin() const { return ptr_; }
 		constexpr const T* end() const { return ptr_ + size_; }
+		constexpr size_t size() const { return size_; }
 	};
 }
 #endif

@@ -2,6 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#define ENFORCE_STL_INITIALIZER_LIST
 #include <gfx/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <array>
@@ -13,6 +14,7 @@
 module mud.gfx;
 #else
 #include <infra/ToString.h>
+#include <math/Vec.hpp>
 #include <geom/Mesh.h>
 #include <geom/Shape/ProcShape.h>
 #include <gfx/Types.h>

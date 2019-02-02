@@ -15,7 +15,6 @@ module mud.ui;
 #include <math/ImageAtlas.h>
 #endif
 
-#include <algorithm>
 #include <cstring>
 
 namespace mud
@@ -99,7 +98,7 @@ namespace mud
 		for(int y = 0; y < height; ++y)
 		{
 			size_t dest_offset = sprite.d_coord.x * 4 + (sprite.d_coord.y + y) * m_size.x * 4;
-			std::copy(sprite_data + y * width * 4, sprite_data + (y + 1) * width * 4, data.data() + dest_offset);
+			memcpy(data.data() + dest_offset, sprite_data + y * width * 4, width * 4);
 		}
 
 		stbi_image_free(sprite_data);

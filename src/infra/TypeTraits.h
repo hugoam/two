@@ -15,10 +15,7 @@
 namespace mud
 {
 	export_ template <class T>
-	constexpr bool is_function_pointer = is_pointer<T> && is_function<remove_pointer<T>>;
-
-	export_ template <class T>
-	constexpr bool is_object_pointer = is_pointer<T> && !is_function_pointer<T>;
+	constexpr bool is_object_pointer = is_pointer<T>;// && !is_function_pointer<T>;
 
 	export_ template <class T, typename = void>
 	struct is_comparable_base : false_type {};

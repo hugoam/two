@@ -1,3 +1,4 @@
+#define ENFORCE_STL_INITIALIZER_LIST
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES

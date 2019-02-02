@@ -3,6 +3,7 @@
 #ifdef MUD_MODULES
 module mud.noise;
 #else
+#include <stl/new.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -28,8 +29,8 @@ void mud_Noise_Interp__to_string(void* val, string& str) { str = g_enu[type<mud:
 void mud_Noise_Interp__to_value(const string& str, void* val) { (*static_cast<mud::Noise::Interp*>(val)) = mud::Noise::Interp(g_enu[type<mud::Noise::Interp>().m_id]->value(str.c_str())); }
 void mud_Noise_NoiseType__to_string(void* val, string& str) { str = g_enu[type<mud::Noise::NoiseType>().m_id]->name(uint32_t((*static_cast<mud::Noise::NoiseType*>(val)))); }
 void mud_Noise_NoiseType__to_value(const string& str, void* val) { (*static_cast<mud::Noise::NoiseType*>(val)) = mud::Noise::NoiseType(g_enu[type<mud::Noise::NoiseType>().m_id]->value(str.c_str())); }
-void mud_array3d_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::array3d<float>*>(ref))) mud::array3d<float>(  ); }
-void mud_array3d_float___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::array3d<float>*>(ref))) mud::array3d<float>((*static_cast<mud::array3d<float>*>(other))); }
+void mud_array3d_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::array3d<float>*>(ref))) mud::array3d<float>(  ); }
+void mud_array3d_float___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::array3d<float>*>(ref))) mud::array3d<float>((*static_cast<mud::array3d<float>*>(other))); }
 void mud_noise_2d_0(array<void*> args, void*& result) { (*static_cast<float*>(result)) = mud::noise_2d(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<mud::Noise::NoiseType*>(args[2]), *static_cast<float*>(args[3]), *static_cast<mud::Noise::Interp*>(args[4])); }
 void mud_noise_3d_1(array<void*> args, void*& result) { (*static_cast<float*>(result)) = mud::noise_3d(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<mud::Noise::NoiseType*>(args[3]), *static_cast<float*>(args[4]), *static_cast<mud::Noise::Interp*>(args[5])); }
 void mud_noise_fract_2d_2(array<void*> args, void*& result) { (*static_cast<float*>(result)) = mud::noise_fract_2d(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<mud::Noise::NoiseType*>(args[2]), *static_cast<float*>(args[3]), *static_cast<mud::Noise::Interp*>(args[4]), *static_cast<mud::Noise::FractalType*>(args[5]), *static_cast<int*>(args[6]), *static_cast<float*>(args[7]), *static_cast<float*>(args[8])); }

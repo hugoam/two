@@ -9,12 +9,11 @@ module mud.ui;
 #else
 #include <stl/algorithm.h>
 #include <infra/Reverse.h>
+#include <infra/Sort.h>
 #include <ui/Frame/Layer.h>
 #include <ui/Sheet.h>
 #include <ui/Style/Layout.h>
 #endif
-
-#include <algorithm>
 
 namespace mud
 {
@@ -45,7 +44,7 @@ namespace mud
 
 	void Layer::reorder()
 	{
-		std::sort(d_sublayers.begin(), d_sublayers.end(), [](Layer* first, Layer* second) { if(first->z() < second->z()) return true; else if(first->z() > second->z()) return false; return first->d_index < second->d_index; });
+		quicksort<Layer*>(d_sublayers, [](Layer* first, Layer* second) { if(first->z() < second->z()) return true; else if(first->z() > second->z()) return false; return first->d_index < second->d_index; });
 		this->reindex();
 	}
 	

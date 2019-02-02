@@ -92,10 +92,10 @@ void mud_Animated_stop(void* object, array<void*> args, void*& result) { UNUSED(
 void mud_Animated_advance(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Animated*>(object)).advance(*static_cast<float*>(args[0])); }
 void mud_Animated_next_animation(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Animated*>(object)).next_animation(); }
 void mud_Animated_playing(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<string*>(result)) = (*static_cast<mud::Animated*>(object)).playing(); }
-void mud_AnimatedTrack__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::AnimatedTrack*>(ref))) mud::AnimatedTrack(  ); }
-void mud_AnimatedTrack__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::AnimatedTrack*>(ref))) mud::AnimatedTrack((*static_cast<mud::AnimatedTrack*>(other))); }
-void mud_AnimationPlay__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::AnimationPlay*>(ref))) mud::AnimationPlay(  ); }
-void mud_AnimationPlay__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::AnimationPlay*>(ref))) mud::AnimationPlay((*static_cast<mud::AnimationPlay*>(other))); }
+void mud_AnimatedTrack__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::AnimatedTrack*>(ref))) mud::AnimatedTrack(  ); }
+void mud_AnimatedTrack__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::AnimatedTrack*>(ref))) mud::AnimatedTrack((*static_cast<mud::AnimatedTrack*>(other))); }
+void mud_AnimationPlay__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::AnimationPlay*>(ref))) mud::AnimationPlay(  ); }
+void mud_AnimationPlay__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::AnimationPlay*>(ref))) mud::AnimationPlay((*static_cast<mud::AnimationPlay*>(other))); }
 void mud_AssetStore_mud_Material__get(void* object, array<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Material>*>(object)).get(*static_cast<string*>(args[0])); }
 void mud_AssetStore_mud_Material__create(void* object, array<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Material>*>(object)).create(*static_cast<string*>(args[0])); }
 void mud_AssetStore_mud_Material__fetch(void* object, array<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Material>*>(object)).fetch(*static_cast<string*>(args[0])); }
@@ -132,24 +132,24 @@ void mud_AssetStore_mud_Texture__fetch(void* object, array<void*> args, void*& r
 void mud_AssetStore_mud_Texture__file(void* object, array<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Texture>*>(object)).file(*static_cast<string*>(args[0])); }
 void mud_AssetStore_mud_Texture__file_at(void* object, array<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Texture>*>(object)).file_at(*static_cast<string*>(args[0]), *static_cast<string*>(args[1])); }
 void mud_AssetStore_mud_Texture__destroy(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::AssetStore<mud::Texture>*>(object)).destroy(*static_cast<string*>(args[0])); }
-void mud_Background__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Background*>(ref))) mud::Background(  ); }
-void mud_Background__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Background*>(ref))) mud::Background((*static_cast<mud::Background*>(other))); }
-void mud_BaseMaterialBlock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::BaseMaterialBlock*>(ref))) mud::BaseMaterialBlock(  ); }
-void mud_BaseMaterialBlock__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::BaseMaterialBlock*>(ref))) mud::BaseMaterialBlock((*static_cast<mud::BaseMaterialBlock*>(other))); }
-void mud_Bone__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Bone*>(ref))) mud::Bone(  ); }
-void mud_Bone__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Bone*>(ref))) mud::Bone((*static_cast<mud::Bone*>(other))); }
-void mud_DepthParams__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::DepthParams*>(ref))) mud::DepthParams(  ); }
-void mud_DepthParams__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::DepthParams*>(ref))) mud::DepthParams((*static_cast<mud::DepthParams*>(other))); }
-void mud_Environment__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Environment*>(ref))) mud::Environment(  ); }
-void mud_Environment__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Environment*>(ref))) mud::Environment((*static_cast<mud::Environment*>(other))); }
-void mud_Fog__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Fog*>(ref))) mud::Fog(  ); }
-void mud_Fog__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Fog*>(ref))) mud::Fog((*static_cast<mud::Fog*>(other))); }
-void mud_FresnelMaterialBlock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::FresnelMaterialBlock*>(ref))) mud::FresnelMaterialBlock(  ); }
-void mud_FresnelMaterialBlock__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::FresnelMaterialBlock*>(ref))) mud::FresnelMaterialBlock((*static_cast<mud::FresnelMaterialBlock*>(other))); }
-void mud_FrustumSlice__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::FrustumSlice*>(ref))) mud::FrustumSlice(  ); }
-void mud_FrustumSlice__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::FrustumSlice*>(ref))) mud::FrustumSlice((*static_cast<mud::FrustumSlice*>(other))); }
+void mud_Background__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Background*>(ref))) mud::Background(  ); }
+void mud_Background__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Background*>(ref))) mud::Background((*static_cast<mud::Background*>(other))); }
+void mud_BaseMaterialBlock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::BaseMaterialBlock*>(ref))) mud::BaseMaterialBlock(  ); }
+void mud_BaseMaterialBlock__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::BaseMaterialBlock*>(ref))) mud::BaseMaterialBlock((*static_cast<mud::BaseMaterialBlock*>(other))); }
+void mud_Bone__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Bone*>(ref))) mud::Bone(  ); }
+void mud_Bone__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Bone*>(ref))) mud::Bone((*static_cast<mud::Bone*>(other))); }
+void mud_DepthParams__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::DepthParams*>(ref))) mud::DepthParams(  ); }
+void mud_DepthParams__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::DepthParams*>(ref))) mud::DepthParams((*static_cast<mud::DepthParams*>(other))); }
+void mud_Environment__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Environment*>(ref))) mud::Environment(  ); }
+void mud_Environment__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Environment*>(ref))) mud::Environment((*static_cast<mud::Environment*>(other))); }
+void mud_Fog__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Fog*>(ref))) mud::Fog(  ); }
+void mud_Fog__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Fog*>(ref))) mud::Fog((*static_cast<mud::Fog*>(other))); }
+void mud_FresnelMaterialBlock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::FresnelMaterialBlock*>(ref))) mud::FresnelMaterialBlock(  ); }
+void mud_FresnelMaterialBlock__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::FresnelMaterialBlock*>(ref))) mud::FresnelMaterialBlock((*static_cast<mud::FresnelMaterialBlock*>(other))); }
+void mud_FrustumSlice__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::FrustumSlice*>(ref))) mud::FrustumSlice(  ); }
+void mud_FrustumSlice__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::FrustumSlice*>(ref))) mud::FrustumSlice((*static_cast<mud::FrustumSlice*>(other))); }
 void* mud_GfxBlock__get_type(void* object) { return &(*static_cast<mud::GfxBlock*>(object)).m_type; }
-void mud_GfxSystem__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::GfxSystem*>(ref))) mud::GfxSystem( *static_cast<string*>(args[0]) ); }
+void mud_GfxSystem__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::GfxSystem*>(ref))) mud::GfxSystem( *static_cast<string*>(args[0]) ); }
 void* mud_GfxSystem__get_textures(void* object) { return &(*static_cast<mud::GfxSystem*>(object)).textures(); }
 void* mud_GfxSystem__get_programs(void* object) { return &(*static_cast<mud::GfxSystem*>(object)).programs(); }
 void* mud_GfxSystem__get_materials(void* object) { return &(*static_cast<mud::GfxSystem*>(object)).materials(); }
@@ -163,38 +163,38 @@ void mud_GfxSystem_fetch_material(void* object, array<void*> args, void*& result
 void mud_GfxSystem_fetch_image256_material(void* object, array<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_image256_material(*static_cast<mud::Image256*>(args[0])); }
 void mud_GfxSystem_fetch_symbol(void* object, array<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_symbol(*static_cast<mud::Symbol*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::DrawMode*>(args[2])); }
 void mud_GfxSystem_fetch_symbol_material(void* object, array<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_symbol_material(*static_cast<mud::Symbol*>(args[0]), *static_cast<mud::DrawMode*>(args[1])); }
-void mud_ImportConfig__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ImportConfig*>(ref))) mud::ImportConfig(  ); }
-void mud_ImportConfig__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ImportConfig*>(ref))) mud::ImportConfig((*static_cast<mud::ImportConfig*>(other))); }
-void mud_Joint__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Joint*>(ref))) mud::Joint(  ); }
-void mud_Joint__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Joint*>(ref))) mud::Joint((*static_cast<mud::Joint*>(other))); }
+void mud_ImportConfig__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ImportConfig*>(ref))) mud::ImportConfig(  ); }
+void mud_ImportConfig__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ImportConfig*>(ref))) mud::ImportConfig((*static_cast<mud::ImportConfig*>(other))); }
+void mud_Joint__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Joint*>(ref))) mud::Joint(  ); }
+void mud_Joint__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Joint*>(ref))) mud::Joint((*static_cast<mud::Joint*>(other))); }
 void* mud_Light__get_node(void* object) { return &(*static_cast<mud::Light*>(object)).m_node; }
-void mud_MaterialParam_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::MaterialParam<float>*>(ref))) mud::MaterialParam<float>(  ); }
-void mud_MaterialParam_float___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::MaterialParam<float>*>(ref))) mud::MaterialParam<float>((*static_cast<mud::MaterialParam<float>*>(other))); }
-void mud_MaterialParam_mud_Colour___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::MaterialParam<mud::Colour>*>(ref))) mud::MaterialParam<mud::Colour>(  ); }
-void mud_MaterialParam_mud_Colour___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::MaterialParam<mud::Colour>*>(ref))) mud::MaterialParam<mud::Colour>((*static_cast<mud::MaterialParam<mud::Colour>*>(other))); }
-void mud_ModelItem__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ModelItem*>(ref))) mud::ModelItem(  ); }
-void mud_ModelItem__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ModelItem*>(ref))) mud::ModelItem((*static_cast<mud::ModelItem*>(other))); }
-void mud_ParticleFlow__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ParticleFlow*>(ref))) mud::ParticleFlow(  ); }
-void mud_ParticleFlow__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ParticleFlow*>(ref))) mud::ParticleFlow((*static_cast<mud::ParticleFlow*>(other))); }
-void mud_PbrMaterialBlock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::PbrMaterialBlock*>(ref))) mud::PbrMaterialBlock(  ); }
-void mud_PbrMaterialBlock__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::PbrMaterialBlock*>(ref))) mud::PbrMaterialBlock( *static_cast<mud::Colour*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]) ); }
-void mud_PbrMaterialBlock__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::PbrMaterialBlock*>(ref))) mud::PbrMaterialBlock((*static_cast<mud::PbrMaterialBlock*>(other))); }
+void mud_MaterialParam_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::MaterialParam<float>*>(ref))) mud::MaterialParam<float>(  ); }
+void mud_MaterialParam_float___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::MaterialParam<float>*>(ref))) mud::MaterialParam<float>((*static_cast<mud::MaterialParam<float>*>(other))); }
+void mud_MaterialParam_mud_Colour___construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::MaterialParam<mud::Colour>*>(ref))) mud::MaterialParam<mud::Colour>(  ); }
+void mud_MaterialParam_mud_Colour___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::MaterialParam<mud::Colour>*>(ref))) mud::MaterialParam<mud::Colour>((*static_cast<mud::MaterialParam<mud::Colour>*>(other))); }
+void mud_ModelItem__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ModelItem*>(ref))) mud::ModelItem(  ); }
+void mud_ModelItem__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ModelItem*>(ref))) mud::ModelItem((*static_cast<mud::ModelItem*>(other))); }
+void mud_ParticleFlow__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ParticleFlow*>(ref))) mud::ParticleFlow(  ); }
+void mud_ParticleFlow__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ParticleFlow*>(ref))) mud::ParticleFlow((*static_cast<mud::ParticleFlow*>(other))); }
+void mud_PbrMaterialBlock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::PbrMaterialBlock*>(ref))) mud::PbrMaterialBlock(  ); }
+void mud_PbrMaterialBlock__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::PbrMaterialBlock*>(ref))) mud::PbrMaterialBlock( *static_cast<mud::Colour*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]) ); }
+void mud_PbrMaterialBlock__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::PbrMaterialBlock*>(ref))) mud::PbrMaterialBlock((*static_cast<mud::PbrMaterialBlock*>(other))); }
 //void* mud_Program__get_name(void* object) { return (*static_cast<mud::Program*>(object)).name(); }
-void mud_Radiance__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Radiance*>(ref))) mud::Radiance(  ); }
-void mud_Radiance__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Radiance*>(ref))) mud::Radiance((*static_cast<mud::Radiance*>(other))); }
-void mud_RenderFrame__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::RenderFrame*>(ref))) mud::RenderFrame(  ); }
-void mud_RenderFrame__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::RenderFrame*>(ref))) mud::RenderFrame((*static_cast<mud::RenderFrame*>(other))); }
-void mud_RenderQuad__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::RenderQuad*>(ref))) mud::RenderQuad(  ); }
-void mud_RenderQuad__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::RenderQuad*>(ref))) mud::RenderQuad((*static_cast<mud::RenderQuad*>(other))); }
+void mud_Radiance__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Radiance*>(ref))) mud::Radiance(  ); }
+void mud_Radiance__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Radiance*>(ref))) mud::Radiance((*static_cast<mud::Radiance*>(other))); }
+void mud_RenderFrame__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::RenderFrame*>(ref))) mud::RenderFrame(  ); }
+void mud_RenderFrame__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::RenderFrame*>(ref))) mud::RenderFrame((*static_cast<mud::RenderFrame*>(other))); }
+void mud_RenderQuad__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::RenderQuad*>(ref))) mud::RenderQuad(  ); }
+void mud_RenderQuad__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::RenderQuad*>(ref))) mud::RenderQuad((*static_cast<mud::RenderQuad*>(other))); }
 void mud_Scene_begin(void* object, array<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Scene*>(object)).begin(); }
-void mud_Sun__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Sun*>(ref))) mud::Sun(  ); }
-void mud_Sun__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Sun*>(ref))) mud::Sun((*static_cast<mud::Sun*>(other))); }
-void mud_UnshadedMaterialBlock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::UnshadedMaterialBlock*>(ref))) mud::UnshadedMaterialBlock(  ); }
-void mud_UnshadedMaterialBlock__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::UnshadedMaterialBlock*>(ref))) mud::UnshadedMaterialBlock((*static_cast<mud::UnshadedMaterialBlock*>(other))); }
-void mud_ClusteredFrustum__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ClusteredFrustum*>(ref))) mud::ClusteredFrustum(  ); }
-void mud_ClusteredFrustum__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ClusteredFrustum*>(ref))) mud::ClusteredFrustum((*static_cast<mud::ClusteredFrustum*>(other))); }
-void mud_Particles__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Particles*>(ref))) mud::Particles(  ); }
-void mud_Particles__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Particles*>(ref))) mud::Particles((*static_cast<mud::Particles*>(other))); }
+void mud_Sun__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Sun*>(ref))) mud::Sun(  ); }
+void mud_Sun__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Sun*>(ref))) mud::Sun((*static_cast<mud::Sun*>(other))); }
+void mud_UnshadedMaterialBlock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::UnshadedMaterialBlock*>(ref))) mud::UnshadedMaterialBlock(  ); }
+void mud_UnshadedMaterialBlock__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::UnshadedMaterialBlock*>(ref))) mud::UnshadedMaterialBlock((*static_cast<mud::UnshadedMaterialBlock*>(other))); }
+void mud_ClusteredFrustum__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ClusteredFrustum*>(ref))) mud::ClusteredFrustum(  ); }
+void mud_ClusteredFrustum__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ClusteredFrustum*>(ref))) mud::ClusteredFrustum((*static_cast<mud::ClusteredFrustum*>(other))); }
+void mud_Particles__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Particles*>(ref))) mud::Particles(  ); }
+void mud_Particles__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Particles*>(ref))) mud::Particles((*static_cast<mud::Particles*>(other))); }
 void mud_gfx_update_item_lights_0(array<void*> args, void*& result) { UNUSED(result);  mud::gfx::update_item_lights(*static_cast<mud::Item*>(args[0])); }
 void mud_gfx_update_item_aabb_1(array<void*> args, void*& result) { UNUSED(result);  mud::gfx::update_item_aabb(*static_cast<mud::Item*>(args[0])); }
 void mud_gfx_node_2(array<void*> args, void*& result) { result = &mud::gfx::node(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Ref*>(args[1]), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::quat*>(args[3]), *static_cast<mud::vec3*>(args[4])); }

@@ -10,6 +10,7 @@
 
 namespace mud
 {
+#if 0
 	template <class T_Key, class T_Value, class T_Indices, class T_Greater>
 	void quicksort(array<T_Key> keys, array<T_Value> values, T_Indices& indices, T_Greater greater, const size_t left, const size_t right)
 	{
@@ -65,5 +66,55 @@ namespace mud
 		auto greater = [](T_Key a, T_Key b) { return a > b; };
 		if(keys.size() > 0)
 			quicksort(keys, values, indices, greater, 0, keys.size() - 1);
+	}
+#endif
+	
+	template <class T, class Pred>
+	void quicksort(array<T> vec, Pred greater, const size_t left, const size_t right)
+	{
+		auto partition = [&](const size_t left, const size_t right)
+		{
+			const size_t mid = left + (right - left) / 2;
+			const T& pivot = vec[mid];
+			// move the mid point value to the front.
+			swap(vec[mid], vec[left]);
+			size_t i = left + 1;
+			size_t j = right;
+			while(i <= j)
+			{
+				while(i <= j && !greater(vec[i], pivot))
+					i++;
+
+				while(i <= j && greater(vec[j], pivot))
+					j--;
+
+				if(i < j)
+					swap(vec[i], vec[j]);
+			}
+			swap(vec[i - 1], vec[left]);
+			return i - 1;
+		};
+
+		size_t part = partition(left, right);
+
+		if(int(left) < int(part) - 1)
+			quicksort(vec, greater, left, part - 1);
+		if(part + 1 < right)
+			quicksort(vec, greater, part + 1, right);
+	}
+
+	template <class T, class Pred>
+	void quicksort(array<T> values, Pred greater)
+	{
+		if(values.size() > 0)
+			quicksort(values, greater, 0, values.size() - 1);
+	}
+
+	template <class T>
+	void quicksort(array<T> values)
+	{
+		auto greater = [](T a, T b) { return a > b; };
+		if(values.size() > 0)
+			quicksort(values, greater, 0, values.size() - 1);
 	}
 }

@@ -7,10 +7,9 @@
 #include <stl/vector.h>
 #include <stl/string.h>
 #include <refl/Forward.h>
+#include <type/Ref.h>
 #include <type/Var.h>
 #include <type/Type.h>
-
-#include <cstdlib>
 
 namespace mud
 {
@@ -28,9 +27,7 @@ namespace mud
 
 	export_ template <class T_Object, class T_Base> uintptr_t base_offset()
 	{
-		void* mem = malloc(sizeof(T_Object));
-		uintptr_t offset = (char*)static_cast<T_Base*>((T_Object*)mem) - (char*)(T_Object*)mem;
-		free(mem);
+		uintptr_t offset = (char*)static_cast<T_Base*>((T_Object*)0) - (char*)(T_Object*)0;
 		return offset;
 	}
 
@@ -104,26 +101,17 @@ namespace mud
 	//export_ inline bool is_sequence(Type& ty) { return g_sequence[ty.m_id] != nullptr; }
 
 	export_ inline Meta& meta(const Ref& ref) { return meta(type(ref)); }
-	export_ inline Meta& meta(const Var& var) { return meta(*var.m_ref.m_type); }
-
 	export_ inline Class& cls(const Ref& ref) { return cls(type(ref)); }
-	export_ inline Class& cls(const Var& var) { return cls(*var.m_ref.m_type); }
-
 	export_ inline Enum& enu(const Ref& ref) { return enu(type(ref)); }
-	export_ inline Enum& enu(const Var& var) { return enu(*var.m_ref.m_type); }
-
 	export_ inline Iterable& iter(const Ref& ref) { return iter(type(ref)); }
-	export_ inline Iterable& iter(const Var& var) { return iter(*var.m_ref.m_type); }
-
 	export_ inline Sequence& sequence(const Ref& ref) { return sequence(type(ref)); }
-	export_ inline Sequence& sequence(const Var& var) { return sequence(*var.m_ref.m_type); }
 
 	export_ MUD_REFL_EXPORT void copy_construct(Ref dest, Ref source);
 
-	export_ inline Var construct(Type& type)
-	{
-		return meta(type).m_empty_var;
-	}
+	//export_ inline Var construct(Type& type)
+	//{
+	//	return meta(type).m_empty_var;
+	//}
 
 	export_ MUD_REFL_EXPORT void assign(Ref first, Ref second);
 	export_ MUD_REFL_EXPORT void assign_pointer(Ref first, Ref second);

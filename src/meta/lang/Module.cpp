@@ -21,20 +21,20 @@ using namespace mud;
 void mud_Language__to_string(void* val, string& str) { str = g_enu[type<mud::Language>().m_id]->name(uint32_t((*static_cast<mud::Language*>(val)))); }
 void mud_Language__to_value(const string& str, void* val) { (*static_cast<mud::Language*>(val)) = mud::Language(g_enu[type<mud::Language>().m_id]->value(str.c_str())); }
 void* mud_Process__get_type(void* object) { return &(*static_cast<mud::Process*>(object)).m_type; }
-void mud_ScriptClass__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::ScriptClass*>(ref))) mud::ScriptClass( *static_cast<string*>(args[0]), *static_cast<vector<mud::Type*>*>(args[1]) ); }
-void mud_ScriptError__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ScriptError*>(ref))) mud::ScriptError(  ); }
-void mud_ScriptError__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ScriptError*>(ref))) mud::ScriptError((*static_cast<mud::ScriptError*>(other))); }
-void mud_ProcessCallable__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::ProcessCallable*>(ref))) mud::ProcessCallable( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Callable*>(args[1]) ); }
-void mud_ProcessCreate__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::ProcessCreate*>(ref))) mud::ProcessCreate( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Type*>(args[1]), *static_cast<mud::Constructor*>(args[2]) ); }
-void mud_ProcessFunction__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::ProcessFunction*>(ref))) mud::ProcessFunction( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Function*>(args[1]) ); }
-void mud_ProcessGetMember__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::ProcessGetMember*>(ref))) mud::ProcessGetMember( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Member*>(args[1]) ); }
-void mud_ProcessMethod__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::ProcessMethod*>(ref))) mud::ProcessMethod( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Method*>(args[1]) ); }
-void mud_ProcessScript__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::ProcessScript*>(ref))) mud::ProcessScript( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::VisualScript*>(args[1]) ); }
-void mud_ProcessSetMember__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::ProcessSetMember*>(ref))) mud::ProcessSetMember( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Member*>(args[1]) ); }
-void mud_ProcessValue__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::ProcessValue*>(ref))) mud::ProcessValue( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Var*>(args[1]) ); }
+void mud_ScriptClass__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ScriptClass*>(ref))) mud::ScriptClass( *static_cast<string*>(args[0]), *static_cast<vector<mud::Type*>*>(args[1]) ); }
+void mud_ScriptError__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ScriptError*>(ref))) mud::ScriptError(  ); }
+void mud_ScriptError__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ScriptError*>(ref))) mud::ScriptError((*static_cast<mud::ScriptError*>(other))); }
+void mud_ProcessCallable__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ProcessCallable*>(ref))) mud::ProcessCallable( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Callable*>(args[1]) ); }
+void mud_ProcessCreate__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ProcessCreate*>(ref))) mud::ProcessCreate( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Type*>(args[1]), *static_cast<mud::Constructor*>(args[2]) ); }
+void mud_ProcessFunction__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ProcessFunction*>(ref))) mud::ProcessFunction( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Function*>(args[1]) ); }
+void mud_ProcessGetMember__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ProcessGetMember*>(ref))) mud::ProcessGetMember( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Member*>(args[1]) ); }
+void mud_ProcessMethod__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ProcessMethod*>(ref))) mud::ProcessMethod( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Method*>(args[1]) ); }
+void mud_ProcessScript__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ProcessScript*>(ref))) mud::ProcessScript( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::VisualScript*>(args[1]) ); }
+void mud_ProcessSetMember__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ProcessSetMember*>(ref))) mud::ProcessSetMember( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Member*>(args[1]) ); }
+void mud_ProcessValue__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ProcessValue*>(ref))) mud::ProcessValue( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Var*>(args[1]) ); }
 void* mud_Script__get_type(void* object) { return &(*static_cast<mud::Script*>(object)).m_type; }
-void mud_TextScript__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::TextScript*>(ref))) mud::TextScript( *static_cast<string*>(args[0]), *static_cast<mud::Language*>(args[1]), *static_cast<mud::Signature*>(args[2]) ); }
-void mud_VisualScript__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::VisualScript*>(ref))) mud::VisualScript( static_cast<const char*>(args[0]), *static_cast<mud::Signature*>(args[1]) ); }
+void mud_TextScript__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::TextScript*>(ref))) mud::TextScript( *static_cast<string*>(args[0]), *static_cast<mud::Language*>(args[1]), *static_cast<mud::Signature*>(args[2]) ); }
+void mud_VisualScript__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::VisualScript*>(ref))) mud::VisualScript( static_cast<const char*>(args[0]), *static_cast<mud::Signature*>(args[1]) ); }
 
 namespace mud
 {

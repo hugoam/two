@@ -2,14 +2,13 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#define ENFORCE_STL_INITIALIZER_LIST
 #include <gfx/Cpp20.h>
-#ifndef MUD_CPP20
-#include <algorithm>
-#endif
 
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <infra/Sort.h>
 #include <jobs/JobLoop.h>
 #include <gfx/Types.h>
 #include <gfx/Renderer.h>
@@ -222,7 +221,7 @@ namespace mud
 
 		DrawElement& add_element() { this->resize(this->size() + 1); return this->back(); }
 
-		void sort() { std::sort(this->begin(), this->end(), SortByKey()); }
+		void sort() { quicksort<DrawElement>(*this, SortByKey()); }
 	};
 
 	struct DrawPass::Impl

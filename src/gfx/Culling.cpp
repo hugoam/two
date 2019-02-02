@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <math/Vec.hpp>
 #include <geom/Mesh.h>
 #include <geom/Shapes.h>
 #include <gfx/Culling.h>

@@ -13,6 +13,8 @@ module mud.ui;
 #include <ui/Style/Styles.h>
 #endif
 
+#include <cassert>
+
 namespace mud
 {
 namespace ui

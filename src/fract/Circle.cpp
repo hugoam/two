@@ -7,13 +7,12 @@
 #ifdef MUD_MODULES
 module mud.fract;
 #else
+#include <infra/Sort.h>
 #include <math/Colour.h>
 #include <math/Image256.h>
 #include <geom/Shapes.h>
 #include <fract/Circle.h>
 #endif
-
-#include <algorithm>
 
 namespace mud
 {
@@ -69,7 +68,7 @@ namespace mud
 	void Circlifier::cull(size_t colour)
 	{
 		vector<Pixircle> sorted(m_pixircles.begin(), m_pixircles.end());
-		std::sort(sorted.begin(), sorted.end(), [](Pixircle& lhs, Pixircle& rhs) { return rhs < lhs; });
+		quicksort<Pixircle>(sorted, [](const Pixircle& lhs, const Pixircle& rhs) { return rhs < lhs; });
 
 		for(Pixircle& circle : sorted)
 			if(circle.colour == colour)

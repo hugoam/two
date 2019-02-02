@@ -26,10 +26,10 @@ module mud.wfc-gfx;
 
 using namespace mud;
 
-void mud_TileModel__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::TileModel*>(ref))) mud::TileModel(  ); }
-void mud_TileModel__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::TileModel*>(ref))) mud::TileModel((*static_cast<mud::TileModel*>(other))); }
-void mud_WfcBlock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::WfcBlock*>(ref))) mud::WfcBlock(  ); }
-void mud_WfcBlock__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::WfcBlock*>(ref))) mud::WfcBlock( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::uvec3*>(args[1]), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::WaveTileset*>(args[3]), *static_cast<bool*>(args[4]) ); }
+void mud_TileModel__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::TileModel*>(ref))) mud::TileModel(  ); }
+void mud_TileModel__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TileModel*>(ref))) mud::TileModel((*static_cast<mud::TileModel*>(other))); }
+void mud_WfcBlock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::WfcBlock*>(ref))) mud::WfcBlock(  ); }
+void mud_WfcBlock__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::WfcBlock*>(ref))) mud::WfcBlock( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::uvec3*>(args[1]), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::WaveTileset*>(args[3]), *static_cast<bool*>(args[4]) ); }
 void mud_WfcBlock_reset(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::WfcBlock*>(object)).reset(); }
 void mud_WfcBlock_observe(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::WfcBlock*>(object)).observe(); }
 void mud_WfcBlock_propagate(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::WfcBlock*>(object)).propagate(); }

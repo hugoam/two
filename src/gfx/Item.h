@@ -9,7 +9,6 @@
 #include <math/Vec.h>
 #include <math/Colour.h>
 #include <geom/Aabb.h>
-#include <geom/Geom.h>
 #endif
 #include <gfx/Forward.h>
 

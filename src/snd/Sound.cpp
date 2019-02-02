@@ -9,8 +9,6 @@
 #include <snd/SharedBuffer.h>
 #include <snd/SoundImplementer.h>
 
-#include <iostream>
-
 #include <AL/al.h>
 
 namespace mud

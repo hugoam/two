@@ -2,6 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#define ENFORCE_STL_INITIALIZER_LIST
 #include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -18,6 +19,7 @@ module mud.gfx;
 //#include <limits>
 #include <stl/stddef.h>
 #include <stdint.h>
+#include <cassert>
 
 namespace mud
 {

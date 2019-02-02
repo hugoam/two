@@ -7,7 +7,6 @@
 #ifndef MUD_MODULES
 #include <infra/Array.h>
 #include <math/Vec.h>
-#include <math/Vec.hpp>
 #endif
 #include <geom/Forward.h>
 //#include <geom/Shapes.h>
@@ -24,8 +23,8 @@ namespace mud
 		attr_ vec3 m_extents;
 		attr_ bool m_empty;
 
-		vec3 bmin() const { return m_center - m_extents; }
-		vec3 bmax() const { return m_center + m_extents; }
+		vec3 bmin() const;
+		vec3 bmax() const;
 
 		bool intersects(const Aabb& other) const;
 
@@ -37,11 +36,7 @@ namespace mud
 		bool cull(array<vec3> points) const;
 	};
 
-	export_ inline Aabb aabb(const vec3& min, const vec3& max)
-	{
-		vec3 extents = (max - min) / 2.f;
-		return Aabb(min + extents, extents);
-	}
+	export_ MUD_GEOM_EXPORT Aabb aabb(const vec3& min, const vec3& max);
 
 	export_ MUD_GEOM_EXPORT Aabb face_aabb(const vec3* vertices);
 	export_ MUD_GEOM_EXPORT Aabb face_aabb(const Face3& face);

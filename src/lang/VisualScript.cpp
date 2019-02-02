@@ -11,11 +11,10 @@ module mud.lang;
 #include <refl/Convert.h>
 #include <infra/ToString.h>
 #include <infra/Reverse.h>
+#include <infra/Sort.h>
 #include <lang/Types.h>
 #include <lang/VisualScript.h>
 #endif
-
-#include <algorithm>
 
 #define MUD_DEBUG_SCRIPT
 
@@ -417,8 +416,7 @@ namespace mud
 		for(auto& process : m_processes)
 			m_execution.push_back(process.get());
 
-		std::sort(m_execution.begin(), m_execution.end(),
-			[](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
+		quicksort<Process*>(m_execution, [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
 	}
 
 	void VisualScript::connect(Valve& output, Valve& input, StreamModifier modifier)

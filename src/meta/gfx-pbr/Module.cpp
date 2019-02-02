@@ -21,17 +21,17 @@ using namespace mud;
 
 void mud_TonemapMode__to_string(void* val, string& str) { str = g_enu[type<mud::TonemapMode>().m_id]->name(uint32_t((*static_cast<mud::TonemapMode*>(val)))); }
 void mud_TonemapMode__to_value(const string& str, void* val) { (*static_cast<mud::TonemapMode*>(val)) = mud::TonemapMode(g_enu[type<mud::TonemapMode>().m_id]->value(str.c_str())); }
-void mud_BCS__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::BCS*>(ref))) mud::BCS(  ); }
-void mud_BCS__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::BCS*>(ref))) mud::BCS((*static_cast<mud::BCS*>(other))); }
-void mud_DofBlur__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::DofBlur*>(ref))) mud::DofBlur(  ); }
-void mud_DofBlur__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::DofBlur*>(ref))) mud::DofBlur((*static_cast<mud::DofBlur*>(other))); }
-void mud_Glow__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Glow*>(ref))) mud::Glow(  ); }
-void mud_Glow__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Glow*>(ref))) mud::Glow((*static_cast<mud::Glow*>(other))); }
-void mud_LightShadow__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::LightShadow*>(ref))) mud::LightShadow(  ); }
-void mud_LightShadow__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::LightShadow*>(ref))) mud::LightShadow((*static_cast<mud::LightShadow*>(other))); }
+void mud_BCS__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::BCS*>(ref))) mud::BCS(  ); }
+void mud_BCS__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::BCS*>(ref))) mud::BCS((*static_cast<mud::BCS*>(other))); }
+void mud_DofBlur__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::DofBlur*>(ref))) mud::DofBlur(  ); }
+void mud_DofBlur__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::DofBlur*>(ref))) mud::DofBlur((*static_cast<mud::DofBlur*>(other))); }
+void mud_Glow__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Glow*>(ref))) mud::Glow(  ); }
+void mud_Glow__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Glow*>(ref))) mud::Glow((*static_cast<mud::Glow*>(other))); }
+void mud_LightShadow__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::LightShadow*>(ref))) mud::LightShadow(  ); }
+void mud_LightShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::LightShadow*>(ref))) mud::LightShadow((*static_cast<mud::LightShadow*>(other))); }
 void* mud_ReflectionProbe__get_node(void* object) { return &(*static_cast<mud::ReflectionProbe*>(object)).m_node; }
-void mud_Tonemap__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Tonemap*>(ref))) mud::Tonemap(  ); }
-void mud_Tonemap__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Tonemap*>(ref))) mud::Tonemap((*static_cast<mud::Tonemap*>(other))); }
+void mud_Tonemap__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Tonemap*>(ref))) mud::Tonemap(  ); }
+void mud_Tonemap__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Tonemap*>(ref))) mud::Tonemap((*static_cast<mud::Tonemap*>(other))); }
 void mud_gfx_gi_probe_0(array<void*> args, void*& result) { result = &mud::gfx::gi_probe(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
 void mud_gfx_lightmap_1(array<void*> args, void*& result) { result = &mud::gfx::lightmap(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<float*>(args[2]), *static_cast<string*>(args[3])); }
 

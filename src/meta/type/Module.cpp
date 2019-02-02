@@ -22,9 +22,9 @@ void vector_mud_Ref___add(void* vec, void* value) { (*static_cast<vector<mud::Re
 void vector_mud_Ref___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<mud::Ref>*>(vec)), *static_cast<mud::Ref*>(value)); }
 void mud_Index_indexer(void* object, array<void*> args, void*& result) { result = &(*static_cast<mud::Index*>(object)).indexer(*static_cast<mud::Type*>(args[0])); }
 void* mud_Indexer__get_type(void* object) { return &(*static_cast<mud::Indexer*>(object)).m_type; }
-void mud_Ref__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Ref*>(ref))) mud::Ref(  ); }
-void mud_Ref__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::Ref*>(ref))) mud::Ref( static_cast<void**>(args[0]), *static_cast<mud::Type*>(args[1]) ); }
-void mud_Ref__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Ref*>(ref))) mud::Ref((*static_cast<mud::Ref*>(other))); }
+void mud_Ref__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Ref*>(ref))) mud::Ref(  ); }
+void mud_Ref__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Ref*>(ref))) mud::Ref( static_cast<void**>(args[0]), *static_cast<mud::Type*>(args[1]) ); }
+void mud_Ref__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Ref*>(ref))) mud::Ref((*static_cast<mud::Ref*>(other))); }
 void mud_indexed_0(array<void*> args, void*& result) { (*static_cast<mud::Ref*>(result)) = mud::indexed(*static_cast<mud::Type*>(args[0]), *static_cast<uint32_t*>(args[1])); }
 
 namespace mud

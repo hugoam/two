@@ -3,10 +3,6 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <gfx/Cpp20.h>
-#ifndef MUD_CPP20
-#include <algorithm>
-#include <cstdio>
-#endif
 
 #include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
@@ -24,6 +20,9 @@ module mud.gfx;
 #include <gfx/Node3.h>
 #include <gfx/Renderer.h>
 #endif
+
+#include <cstdio>
+#include <cstring>
 
 namespace mud
 {
@@ -222,7 +221,7 @@ namespace mud
 	void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, array<uint8_t> data)
 	{
 		const bgfx::Memory* memory = bgfx::alloc(uint32_t(sizeof(uint8_t) * data.m_count));
-		std::copy(data.m_pointer, data.m_pointer + data.m_count, memory->data);
+		memcpy(memory->data, data.m_pointer, data.m_count);
 		texture.m_texture = bgfx::createTexture2D(width, height, false, 1, bgfx::TextureFormat::RGBA8, GFX_TEXTURE_POINT, memory);
 	}
 

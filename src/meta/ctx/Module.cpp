@@ -31,14 +31,14 @@ void mud_Context_reset(void* object, array<void*> args, void*& result) { UNUSED(
 void mud_Context_init_input(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).init_input(*static_cast<mud::Mouse*>(args[0]), *static_cast<mud::Keyboard*>(args[1])); }
 void mud_Context_next_frame(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Context*>(object)).next_frame(); }
 void mud_Context_lock_mouse(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).lock_mouse(*static_cast<bool*>(args[0])); }
-void mud_InputEvent__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::InputEvent*>(ref))) mud::InputEvent(  ); }
-void mud_InputEvent__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::InputEvent*>(ref))) mud::InputEvent((*static_cast<mud::InputEvent*>(other))); }
+void mud_InputEvent__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::InputEvent*>(ref))) mud::InputEvent(  ); }
+void mud_InputEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::InputEvent*>(ref))) mud::InputEvent((*static_cast<mud::InputEvent*>(other))); }
 void mud_InputEvent_consume(void* object, array<void*> args, void*& result) { (*static_cast<mud::InputEvent*>(result)) = (*static_cast<mud::InputEvent*>(object)).consume(*static_cast<mud::ControlNode*>(args[0])); }
 void mud_InputEvent_valid(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::InputEvent*>(object)).valid(); }
-void mud_KeyEvent__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::KeyEvent*>(ref))) mud::KeyEvent(  ); }
-void mud_KeyEvent__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::KeyEvent*>(ref))) mud::KeyEvent((*static_cast<mud::KeyEvent*>(other))); }
-void mud_MouseEvent__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::MouseEvent*>(ref))) mud::MouseEvent(  ); }
-void mud_MouseEvent__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::MouseEvent*>(ref))) mud::MouseEvent((*static_cast<mud::MouseEvent*>(other))); }
+void mud_KeyEvent__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::KeyEvent*>(ref))) mud::KeyEvent(  ); }
+void mud_KeyEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::KeyEvent*>(ref))) mud::KeyEvent((*static_cast<mud::KeyEvent*>(other))); }
+void mud_MouseEvent__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::MouseEvent*>(ref))) mud::MouseEvent(  ); }
+void mud_MouseEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::MouseEvent*>(ref))) mud::MouseEvent((*static_cast<mud::MouseEvent*>(other))); }
 
 namespace mud
 {

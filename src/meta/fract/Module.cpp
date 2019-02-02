@@ -24,22 +24,22 @@ size_t vector_mud_Image256___size(void* vec) { return (*static_cast<vector<mud::
 void* vector_mud_Image256___at(void* vec, size_t i) { return &(*static_cast<vector<mud::Image256>*>(vec))[i]; }
 void vector_mud_Image256___add(void* vec, void* value) { (*static_cast<vector<mud::Image256>*>(vec)).push_back(*static_cast<mud::Image256*>(value)); }
 void vector_mud_Image256___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<mud::Image256>*>(vec)), *static_cast<mud::Image256*>(value)); }
-void mud_Circlifier__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Circlifier*>(ref))) mud::Circlifier( *static_cast<mud::Image256*>(args[0]) ); }
+void mud_Circlifier__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Circlifier*>(ref))) mud::Circlifier( *static_cast<mud::Image256*>(args[0]) ); }
 void mud_Circlifier_compute(void* object, array<void*> args, void*& result) { (*static_cast<vector<mud::Circle>*>(result)) = (*static_cast<mud::Circlifier*>(object)).compute(*static_cast<mud::Colour*>(args[0]), *static_cast<float*>(args[1])); }
-void mud_Fract__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Fract*>(ref))) mud::Fract( *static_cast<size_t*>(args[0]) ); }
+void mud_Fract__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Fract*>(ref))) mud::Fract( *static_cast<size_t*>(args[0]) ); }
 void mud_Fract_generate(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Fract*>(object)).generate(*static_cast<size_t*>(args[0])); }
 void mud_Fract_regen(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Fract*>(object)).regen(); }
 void mud_Fract_render(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Fract*>(object)).render(*static_cast<mud::Rect*>(args[0]), *static_cast<mud::Pattern*>(args[1]), *static_cast<mud::uvec2*>(args[2]), *static_cast<mud::Image256*>(args[3])); }
 void mud_Fract_render_whole(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Fract*>(object)).render_whole(*static_cast<mud::Pattern*>(args[0]), *static_cast<mud::uvec2*>(args[1]), *static_cast<mud::Image256*>(args[2])); }
 void mud_Fract_render_grid(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Fract*>(object)).render_grid(*static_cast<mud::uvec2*>(args[0]), *static_cast<mud::Pattern*>(args[1]), *static_cast<mud::uvec2*>(args[2]), *static_cast<vector<mud::Image256>*>(args[3])); }
-void mud_FractSample__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::FractSample*>(ref))) mud::FractSample( *static_cast<mud::Fract*>(args[0]), *static_cast<mud::Rect*>(args[1]), *static_cast<mud::uvec2*>(args[2]) ); }
+void mud_FractSample__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::FractSample*>(ref))) mud::FractSample( *static_cast<mud::Fract*>(args[0]), *static_cast<mud::Rect*>(args[1]), *static_cast<mud::uvec2*>(args[2]) ); }
 void* mud_FractSample__get_fract(void* object) { return &(*static_cast<mud::FractSample*>(object)).m_fract; }
 void mud_FractSample_render(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::FractSample*>(object)).render(*static_cast<mud::Pattern*>(args[0]), *static_cast<mud::Image256*>(args[1])); }
-void mud_FractTab__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::FractTab*>(ref))) mud::FractTab(  ); }
-void mud_FractTab__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::FractTab*>(ref))) mud::FractTab((*static_cast<mud::FractTab*>(other))); }
-void mud_Pattern__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Pattern*>(ref))) mud::Pattern( *static_cast<mud::Palette*>(args[0]), *static_cast<mud::PatternSampling*>(args[1]), *static_cast<float*>(args[2]), *static_cast<size_t*>(args[3]) ); }
-void mud_Pattern__construct_1(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Pattern*>(ref))) mud::Pattern(  ); }
-void mud_Pattern__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Pattern*>(ref))) mud::Pattern((*static_cast<mud::Pattern*>(other))); }
+void mud_FractTab__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::FractTab*>(ref))) mud::FractTab(  ); }
+void mud_FractTab__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::FractTab*>(ref))) mud::FractTab((*static_cast<mud::FractTab*>(other))); }
+void mud_Pattern__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Pattern*>(ref))) mud::Pattern( *static_cast<mud::Palette*>(args[0]), *static_cast<mud::PatternSampling*>(args[1]), *static_cast<float*>(args[2]), *static_cast<size_t*>(args[3]) ); }
+void mud_Pattern__construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Pattern*>(ref))) mud::Pattern(  ); }
+void mud_Pattern__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Pattern*>(ref))) mud::Pattern((*static_cast<mud::Pattern*>(other))); }
 void mud_generate_fract_0(array<void*> args, void*& result) { UNUSED(result);  mud::generate_fract(*static_cast<mud::uvec2*>(args[0]), *static_cast<mud::Pattern*>(args[1]), *static_cast<mud::Image256*>(args[2])); }
 
 namespace mud

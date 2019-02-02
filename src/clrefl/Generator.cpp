@@ -1,3 +1,4 @@
+#define ENFORCE_STL_INITIALIZER_LIST
 #include <clrefl/Generator.h>
 #include <clrefl/Codegen.h>
 #include <infra/ToString.h>
@@ -6,12 +7,16 @@
 #include <stl/unordered_map.hpp>
 #include <stl/unordered_set.hpp>
 
-#include <string>
+#include <json11.hpp>
+
+#include <cctype>
 
 #define PARSE_EXTERNAL 0
 
 namespace mud
 {
+	using Json = json11::Json;
+
 	CLQualType qual_type(CLModule& module, CLPrimitive& parent, CXType type, bool real_type)
 	{
 		CLQualType qual;

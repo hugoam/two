@@ -1,3 +1,4 @@
+#define ENFORCE_STL_INITIALIZER_LIST
 #include <stl/vector.hpp>
 #include <stl/algorithm.h>
 #include <infra/AlignedAlloc.h>

@@ -5,8 +5,6 @@
 
 #include <snd/StaticSound.h>
 
-#include <iostream>
-
 #include <AL/al.h>
 
 namespace mud

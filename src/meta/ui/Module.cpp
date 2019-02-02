@@ -58,62 +58,62 @@ size_t vector_string___size(void* vec) { return (*static_cast<vector<string>*>(v
 void* vector_string___at(void* vec, size_t i) { return &(*static_cast<vector<string>*>(vec))[i]; }
 void vector_string___add(void* vec, void* value) { (*static_cast<vector<string>*>(vec)).push_back(*static_cast<string*>(value)); }
 void vector_string___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<string>*>(vec)), *static_cast<string*>(value)); }
-void mud_CanvasConnect__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::CanvasConnect*>(ref))) mud::CanvasConnect(  ); }
-void mud_CanvasConnect__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::CanvasConnect*>(ref))) mud::CanvasConnect((*static_cast<mud::CanvasConnect*>(other))); }
-void mud_Clipboard__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Clipboard*>(ref))) mud::Clipboard(  ); }
-void mud_Clipboard__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Clipboard*>(ref))) mud::Clipboard((*static_cast<mud::Clipboard*>(other))); }
-void mud_Dim2_bool___construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Dim2<bool>*>(ref))) mud::Dim2<bool>( *static_cast<bool*>(args[0]), *static_cast<bool*>(args[1]) ); }
-void mud_Dim2_bool___construct_1(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Dim2<bool>*>(ref))) mud::Dim2<bool>(  ); }
-void mud_Dim2_bool___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Dim2<bool>*>(ref))) mud::Dim2<bool>((*static_cast<mud::Dim2<bool>*>(other))); }
-void mud_Dim2_mud_Align___construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Dim2<mud::Align>*>(ref))) mud::Dim2<mud::Align>( *static_cast<mud::Align*>(args[0]), *static_cast<mud::Align*>(args[1]) ); }
-void mud_Dim2_mud_Align___construct_1(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Dim2<mud::Align>*>(ref))) mud::Dim2<mud::Align>(  ); }
-void mud_Dim2_mud_Align___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Dim2<mud::Align>*>(ref))) mud::Dim2<mud::Align>((*static_cast<mud::Dim2<mud::Align>*>(other))); }
-void mud_Dim2_mud_AutoLayout___construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Dim2<mud::AutoLayout>*>(ref))) mud::Dim2<mud::AutoLayout>( *static_cast<mud::AutoLayout*>(args[0]), *static_cast<mud::AutoLayout*>(args[1]) ); }
-void mud_Dim2_mud_AutoLayout___construct_1(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Dim2<mud::AutoLayout>*>(ref))) mud::Dim2<mud::AutoLayout>(  ); }
-void mud_Dim2_mud_AutoLayout___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Dim2<mud::AutoLayout>*>(ref))) mud::Dim2<mud::AutoLayout>((*static_cast<mud::Dim2<mud::AutoLayout>*>(other))); }
-void mud_Dim2_mud_Pivot___construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Dim2<mud::Pivot>*>(ref))) mud::Dim2<mud::Pivot>( *static_cast<mud::Pivot*>(args[0]), *static_cast<mud::Pivot*>(args[1]) ); }
-void mud_Dim2_mud_Pivot___construct_1(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Dim2<mud::Pivot>*>(ref))) mud::Dim2<mud::Pivot>(  ); }
-void mud_Dim2_mud_Pivot___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Dim2<mud::Pivot>*>(ref))) mud::Dim2<mud::Pivot>((*static_cast<mud::Dim2<mud::Pivot>*>(other))); }
-void mud_Dim2_mud_Sizing___construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Dim2<mud::Sizing>*>(ref))) mud::Dim2<mud::Sizing>( *static_cast<mud::Sizing*>(args[0]), *static_cast<mud::Sizing*>(args[1]) ); }
-void mud_Dim2_mud_Sizing___construct_1(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Dim2<mud::Sizing>*>(ref))) mud::Dim2<mud::Sizing>(  ); }
-void mud_Dim2_mud_Sizing___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Dim2<mud::Sizing>*>(ref))) mud::Dim2<mud::Sizing>((*static_cast<mud::Dim2<mud::Sizing>*>(other))); }
-void mud_Dim2_size_t___construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Dim2<size_t>*>(ref))) mud::Dim2<size_t>( *static_cast<size_t*>(args[0]), *static_cast<size_t*>(args[1]) ); }
-void mud_Dim2_size_t___construct_1(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Dim2<size_t>*>(ref))) mud::Dim2<size_t>(  ); }
-void mud_Dim2_size_t___copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Dim2<size_t>*>(ref))) mud::Dim2<size_t>((*static_cast<mud::Dim2<size_t>*>(other))); }
-void mud_Dock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Dock*>(ref))) mud::Dock(  ); }
-void mud_Dock__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Dock*>(ref))) mud::Dock((*static_cast<mud::Dock*>(other))); }
-void mud_Gradient__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Gradient*>(ref))) mud::Gradient(  ); }
-void mud_Gradient__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Gradient*>(ref))) mud::Gradient((*static_cast<mud::Gradient*>(other))); }
-void mud_ImageSkin__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::ImageSkin*>(ref))) mud::ImageSkin( *static_cast<mud::Image*>(args[0]), *static_cast<int*>(args[1]), *static_cast<int*>(args[2]), *static_cast<int*>(args[3]), *static_cast<int*>(args[4]), *static_cast<int*>(args[5]), *static_cast<mud::Dim*>(args[6]) ); }
-void mud_ImageSkin__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ImageSkin*>(ref))) mud::ImageSkin((*static_cast<mud::ImageSkin*>(other))); }
-void mud_InkStyle__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::InkStyle*>(ref))) mud::InkStyle(  ); }
-void mud_InkStyle__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::InkStyle*>(ref))) mud::InkStyle( static_cast<const char*>(args[0]) ); }
-void mud_InkStyle__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::InkStyle*>(ref))) mud::InkStyle((*static_cast<mud::InkStyle*>(other))); }
-void mud_Layout__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Layout*>(ref))) mud::Layout(  ); }
-void mud_Layout__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::Layout*>(ref))) mud::Layout( static_cast<const char*>(args[0]) ); }
-void mud_Layout__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Layout*>(ref))) mud::Layout((*static_cast<mud::Layout*>(other))); }
-void mud_NodeConnection__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::NodeConnection*>(ref))) mud::NodeConnection(  ); }
-void mud_NodeConnection__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::NodeConnection*>(ref))) mud::NodeConnection((*static_cast<mud::NodeConnection*>(other))); }
-void mud_Paint__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Paint*>(ref))) mud::Paint(  ); }
-void mud_Paint__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Paint*>(ref))) mud::Paint((*static_cast<mud::Paint*>(other))); }
-void mud_Shadow__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Shadow*>(ref))) mud::Shadow( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<mud::Colour*>(args[4]) ); }
-void mud_Shadow__construct_1(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Shadow*>(ref))) mud::Shadow(  ); }
-void mud_Shadow__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Shadow*>(ref))) mud::Shadow((*static_cast<mud::Shadow*>(other))); }
-void mud_Space__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Space*>(ref))) mud::Space(  ); }
-void mud_Space__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Space*>(ref))) mud::Space((*static_cast<mud::Space*>(other))); }
+void mud_CanvasConnect__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::CanvasConnect*>(ref))) mud::CanvasConnect(  ); }
+void mud_CanvasConnect__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::CanvasConnect*>(ref))) mud::CanvasConnect((*static_cast<mud::CanvasConnect*>(other))); }
+void mud_Clipboard__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Clipboard*>(ref))) mud::Clipboard(  ); }
+void mud_Clipboard__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Clipboard*>(ref))) mud::Clipboard((*static_cast<mud::Clipboard*>(other))); }
+void mud_Dim2_bool___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<bool>*>(ref))) mud::Dim2<bool>( *static_cast<bool*>(args[0]), *static_cast<bool*>(args[1]) ); }
+void mud_Dim2_bool___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<bool>*>(ref))) mud::Dim2<bool>(  ); }
+void mud_Dim2_bool___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<bool>*>(ref))) mud::Dim2<bool>((*static_cast<mud::Dim2<bool>*>(other))); }
+void mud_Dim2_mud_Align___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Align>*>(ref))) mud::Dim2<mud::Align>( *static_cast<mud::Align*>(args[0]), *static_cast<mud::Align*>(args[1]) ); }
+void mud_Dim2_mud_Align___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Align>*>(ref))) mud::Dim2<mud::Align>(  ); }
+void mud_Dim2_mud_Align___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Align>*>(ref))) mud::Dim2<mud::Align>((*static_cast<mud::Dim2<mud::Align>*>(other))); }
+void mud_Dim2_mud_AutoLayout___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::AutoLayout>*>(ref))) mud::Dim2<mud::AutoLayout>( *static_cast<mud::AutoLayout*>(args[0]), *static_cast<mud::AutoLayout*>(args[1]) ); }
+void mud_Dim2_mud_AutoLayout___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::AutoLayout>*>(ref))) mud::Dim2<mud::AutoLayout>(  ); }
+void mud_Dim2_mud_AutoLayout___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::AutoLayout>*>(ref))) mud::Dim2<mud::AutoLayout>((*static_cast<mud::Dim2<mud::AutoLayout>*>(other))); }
+void mud_Dim2_mud_Pivot___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Pivot>*>(ref))) mud::Dim2<mud::Pivot>( *static_cast<mud::Pivot*>(args[0]), *static_cast<mud::Pivot*>(args[1]) ); }
+void mud_Dim2_mud_Pivot___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Pivot>*>(ref))) mud::Dim2<mud::Pivot>(  ); }
+void mud_Dim2_mud_Pivot___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Pivot>*>(ref))) mud::Dim2<mud::Pivot>((*static_cast<mud::Dim2<mud::Pivot>*>(other))); }
+void mud_Dim2_mud_Sizing___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Sizing>*>(ref))) mud::Dim2<mud::Sizing>( *static_cast<mud::Sizing*>(args[0]), *static_cast<mud::Sizing*>(args[1]) ); }
+void mud_Dim2_mud_Sizing___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Sizing>*>(ref))) mud::Dim2<mud::Sizing>(  ); }
+void mud_Dim2_mud_Sizing___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Sizing>*>(ref))) mud::Dim2<mud::Sizing>((*static_cast<mud::Dim2<mud::Sizing>*>(other))); }
+void mud_Dim2_size_t___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<size_t>*>(ref))) mud::Dim2<size_t>( *static_cast<size_t*>(args[0]), *static_cast<size_t*>(args[1]) ); }
+void mud_Dim2_size_t___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<size_t>*>(ref))) mud::Dim2<size_t>(  ); }
+void mud_Dim2_size_t___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<size_t>*>(ref))) mud::Dim2<size_t>((*static_cast<mud::Dim2<size_t>*>(other))); }
+void mud_Dock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dock*>(ref))) mud::Dock(  ); }
+void mud_Dock__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dock*>(ref))) mud::Dock((*static_cast<mud::Dock*>(other))); }
+void mud_Gradient__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Gradient*>(ref))) mud::Gradient(  ); }
+void mud_Gradient__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Gradient*>(ref))) mud::Gradient((*static_cast<mud::Gradient*>(other))); }
+void mud_ImageSkin__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ImageSkin*>(ref))) mud::ImageSkin( *static_cast<mud::Image*>(args[0]), *static_cast<int*>(args[1]), *static_cast<int*>(args[2]), *static_cast<int*>(args[3]), *static_cast<int*>(args[4]), *static_cast<int*>(args[5]), *static_cast<mud::Dim*>(args[6]) ); }
+void mud_ImageSkin__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ImageSkin*>(ref))) mud::ImageSkin((*static_cast<mud::ImageSkin*>(other))); }
+void mud_InkStyle__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::InkStyle*>(ref))) mud::InkStyle(  ); }
+void mud_InkStyle__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::InkStyle*>(ref))) mud::InkStyle( static_cast<const char*>(args[0]) ); }
+void mud_InkStyle__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::InkStyle*>(ref))) mud::InkStyle((*static_cast<mud::InkStyle*>(other))); }
+void mud_Layout__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Layout*>(ref))) mud::Layout(  ); }
+void mud_Layout__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Layout*>(ref))) mud::Layout( static_cast<const char*>(args[0]) ); }
+void mud_Layout__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Layout*>(ref))) mud::Layout((*static_cast<mud::Layout*>(other))); }
+void mud_NodeConnection__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::NodeConnection*>(ref))) mud::NodeConnection(  ); }
+void mud_NodeConnection__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::NodeConnection*>(ref))) mud::NodeConnection((*static_cast<mud::NodeConnection*>(other))); }
+void mud_Paint__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Paint*>(ref))) mud::Paint(  ); }
+void mud_Paint__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Paint*>(ref))) mud::Paint((*static_cast<mud::Paint*>(other))); }
+void mud_Shadow__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Shadow*>(ref))) mud::Shadow( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<mud::Colour*>(args[4]) ); }
+void mud_Shadow__construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Shadow*>(ref))) mud::Shadow(  ); }
+void mud_Shadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Shadow*>(ref))) mud::Shadow((*static_cast<mud::Shadow*>(other))); }
+void mud_Space__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Space*>(ref))) mud::Space(  ); }
+void mud_Space__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Space*>(ref))) mud::Space((*static_cast<mud::Space*>(other))); }
 //void* mud_Style__get_name(void* object) { return (*static_cast<mud::Style*>(object)).name(); }
 void* mud_Style__get_layout(void* object) { return &(*static_cast<mud::Style*>(object)).layout(); }
 void* mud_Style__get_skin(void* object) { return &(*static_cast<mud::Style*>(object)).skin(); }
-void mud_TextCursor__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::TextCursor*>(ref))) mud::TextCursor(  ); }
-void mud_TextCursor__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::TextCursor*>(ref))) mud::TextCursor((*static_cast<mud::TextCursor*>(other))); }
-void mud_TextMarker__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::TextMarker*>(ref))) mud::TextMarker(  ); }
-void mud_TextMarker__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::TextMarker*>(ref))) mud::TextMarker((*static_cast<mud::TextMarker*>(other))); }
-void mud_TextPaint__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::TextPaint*>(ref))) mud::TextPaint(  ); }
-void mud_TextPaint__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::TextPaint*>(ref))) mud::TextPaint((*static_cast<mud::TextPaint*>(other))); }
-void mud_TextSelection__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::TextSelection*>(ref))) mud::TextSelection(  ); }
-void mud_TextSelection__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::TextSelection*>(ref))) mud::TextSelection((*static_cast<mud::TextSelection*>(other))); }
-void mud_UiRect__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::UiRect*>(ref))) mud::UiRect(  ); }
-void mud_UiRect__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::UiRect*>(ref))) mud::UiRect((*static_cast<mud::UiRect*>(other))); }
+void mud_TextCursor__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::TextCursor*>(ref))) mud::TextCursor(  ); }
+void mud_TextCursor__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TextCursor*>(ref))) mud::TextCursor((*static_cast<mud::TextCursor*>(other))); }
+void mud_TextMarker__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::TextMarker*>(ref))) mud::TextMarker(  ); }
+void mud_TextMarker__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TextMarker*>(ref))) mud::TextMarker((*static_cast<mud::TextMarker*>(other))); }
+void mud_TextPaint__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::TextPaint*>(ref))) mud::TextPaint(  ); }
+void mud_TextPaint__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TextPaint*>(ref))) mud::TextPaint((*static_cast<mud::TextPaint*>(other))); }
+void mud_TextSelection__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::TextSelection*>(ref))) mud::TextSelection(  ); }
+void mud_TextSelection__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TextSelection*>(ref))) mud::TextSelection((*static_cast<mud::TextSelection*>(other))); }
+void mud_UiRect__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::UiRect*>(ref))) mud::UiRect(  ); }
+void mud_UiRect__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::UiRect*>(ref))) mud::UiRect((*static_cast<mud::UiRect*>(other))); }
 void mud_Widget_focused(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).focused(); }
 void mud_Widget_hovered(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).hovered(); }
 void mud_Widget_pressed(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).pressed(); }

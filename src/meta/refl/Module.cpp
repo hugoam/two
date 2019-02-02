@@ -35,15 +35,15 @@ size_t vector_mud_Var___size(void* vec) { return (*static_cast<vector<mud::Var>*
 void* vector_mud_Var___at(void* vec, size_t i) { return &(*static_cast<vector<mud::Var>*>(vec))[i]; }
 void vector_mud_Var___add(void* vec, void* value) { (*static_cast<vector<mud::Var>*>(vec)).push_back(*static_cast<mud::Var*>(value)); }
 void vector_mud_Var___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<mud::Var>*>(vec)), *static_cast<mud::Var*>(value)); }
-void mud_Call__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Call*>(ref))) mud::Call(  ); }
-void mud_Call__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::Call*>(ref))) mud::Call( *static_cast<mud::Callable*>(args[0]), *static_cast<vector<mud::Var>*>(args[1]) ); }
-void mud_Call__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Call*>(ref))) mud::Call((*static_cast<mud::Call*>(other))); }
+void mud_Call__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Call*>(ref))) mud::Call(  ); }
+void mud_Call__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Call*>(ref))) mud::Call( *static_cast<mud::Callable*>(args[0]), *static_cast<vector<mud::Var>*>(args[1]) ); }
+void mud_Call__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Call*>(ref))) mud::Call((*static_cast<mud::Call*>(other))); }
 void* mud_Creator__get_type(void* object) { return &(*static_cast<mud::Creator*>(object)).m_type; }
 void* mud_Creator__get_injector(void* object) { return &(*static_cast<mud::Creator*>(object)).injector(); }
-void mud_Operator__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Operator*>(ref))) mud::Operator(  ); }
-void mud_Operator__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Operator*>(ref))) mud::Operator((*static_cast<mud::Operator*>(other))); }
-void mud_QualType__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::QualType*>(ref))) mud::QualType(  ); }
-void mud_QualType__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::QualType*>(ref))) mud::QualType((*static_cast<mud::QualType*>(other))); }
+void mud_Operator__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Operator*>(ref))) mud::Operator(  ); }
+void mud_Operator__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Operator*>(ref))) mud::Operator((*static_cast<mud::Operator*>(other))); }
+void mud_QualType__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::QualType*>(ref))) mud::QualType(  ); }
+void mud_QualType__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::QualType*>(ref))) mud::QualType((*static_cast<mud::QualType*>(other))); }
 void mud_system_0(array<void*> args, void*& result) { UNUSED(args); result = &mud::system(); }
 
 namespace mud

@@ -10,6 +10,7 @@
 module mud.gfx.pbr;
 #else
 #include <stl/algorithm.h>
+#include <math/Vec.hpp>
 #include <gfx/Shot.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/ManualRender.h>

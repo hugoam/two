@@ -10,7 +10,6 @@
 #ifndef MUD_CPP_20
 #include <stl/stddef.h>
 #include <stdint.h>
-#include <cassert>
 #endif
 
 namespace mud
@@ -55,8 +54,11 @@ namespace mud
 		bool empty() const { return m_count == 0; }
 		T* data() const { return m_pointer; }
 
-		T& operator[](size_t at) { assert(at < m_count); return m_pointer[at]; }
-		const T& operator[](size_t at) const { assert(at < m_count); return m_pointer[at]; }
+		//T& operator[](size_t at) { assert(at < m_count); return m_pointer[at]; }
+		//const T& operator[](size_t at) const { assert(at < m_count); return m_pointer[at]; }
+
+		T& operator[](size_t at) { return m_pointer[at]; }
+		const T& operator[](size_t at) const { return m_pointer[at]; }
 
 		T* begin() { return m_pointer; }
 		T* end() { return m_pointer + m_count; }

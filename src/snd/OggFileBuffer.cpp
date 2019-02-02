@@ -4,7 +4,6 @@
 
 #include <snd/OggFileBuffer.h>
 
-#include <iostream>
 #include <stl/vector.h>
 
 #include <vorbis/vorbisfile.h>

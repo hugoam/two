@@ -5,13 +5,13 @@
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <cmath>
-#include <limits>
-#include <numeric>
+#include <cfloat>
 #endif
 
 #ifdef MUD_MODULES
 module mud.wfc;
 #else
+#include <stl/limits.h>
 #include <infra/ToString.h>
 #include <math/Random.h>
 #include <wfc/Wfc.h>
@@ -21,7 +21,10 @@ namespace mud
 {
 	double calc_sum(const vector<double>& a)
 	{
-		return std::accumulate(a.begin(), a.end(), 0.0);
+		double sum = 0.0;
+		for(double d : a)
+			sum += d;
+		return sum;
 	}
 
 	// Pick a random index weighted by a
@@ -69,7 +72,7 @@ namespace mud
 	Result Wave::find_lowest_entropy(uvec3& coord)
 	{
 		// We actually calculate exp(entropy), i.e. the sum of the weights of the possible patterns
-		double min = std::numeric_limits<double>::infinity();
+		double min = FLT_MAX;// std::numeric_limits<double>::infinity();
 
 		for(uint16_t x = 0; x < m_width; ++x)
 			for(uint16_t y = 0; y < m_height; ++y)
@@ -116,7 +119,7 @@ namespace mud
 					}
 				}
 
-		if(min == std::numeric_limits<double>::infinity())
+		if(min == FLT_MAX) //std::numeric_limits<double>::infinity())
 			return Result::kSuccess;
 		else
 			return Result::kUnfinished;

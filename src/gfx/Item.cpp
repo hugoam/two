@@ -9,13 +9,14 @@ module mud.gfx;
 #else
 #include <bgfx/bgfx.h>
 
+#include <math/Vec.hpp>
 #include <gfx/Item.h>
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>
 #include <gfx/Node3.h>
 #endif
 
-#include <algorithm>
+#include <cstring>
 
 namespace mud
 {
@@ -62,7 +63,7 @@ namespace mud
 			}
 			else
 			{
-				std::copy(m_instances.begin(), m_instances.end(), mat);
+				memcpy(mat, m_instances.begin(), m_instances.size());
 			}
 		}
 	}

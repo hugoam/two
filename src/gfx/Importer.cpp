@@ -8,6 +8,7 @@
 module mud.gfx;
 #else
 #include <infra/File.h>
+#include <geom/Geom.h>
 //#include <srlz/Serial.h>
 #include <gfx/Types.h>
 #include <gfx/Importer.h>

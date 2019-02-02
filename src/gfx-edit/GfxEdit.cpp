@@ -375,6 +375,9 @@ namespace mud
 			particle_editor(*particles, gfx_system);
 	}
 
+	export_ template <class T>
+	T& upcast(Ref value) { Ref base = cls(value).upcast(value, type<T>()); return val<T>(base); }
+
 	bool edit_shape(Widget& parent, ShapeVar& shape)
 	{
 		bool changed = false;

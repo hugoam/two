@@ -101,62 +101,62 @@ size_t vector_int___size(void* vec) { return (*static_cast<vector<int>*>(vec)).s
 void* vector_int___at(void* vec, size_t i) { return &(*static_cast<vector<int>*>(vec))[i]; }
 void vector_int___add(void* vec, void* value) { (*static_cast<vector<int>*>(vec)).push_back(*static_cast<int*>(value)); }
 void vector_int___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<int>*>(vec)), *static_cast<int*>(value)); }
-void glTF__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTF*>(ref))) glTF(  ); }
-void glTF__copy_construct(void* ref, void* other) { new(&(*static_cast<glTF*>(ref))) glTF((*static_cast<glTF*>(other))); }
-void glTFAccessor__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFAccessor*>(ref))) glTFAccessor(  ); }
-void glTFAccessor__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFAccessor*>(ref))) glTFAccessor((*static_cast<glTFAccessor*>(other))); }
-void glTFAnimation__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFAnimation*>(ref))) glTFAnimation(  ); }
-void glTFAnimation__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFAnimation*>(ref))) glTFAnimation((*static_cast<glTFAnimation*>(other))); }
-void glTFAnimationChannel__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFAnimationChannel*>(ref))) glTFAnimationChannel(  ); }
-void glTFAnimationChannel__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFAnimationChannel*>(ref))) glTFAnimationChannel((*static_cast<glTFAnimationChannel*>(other))); }
-void glTFAnimationSampler__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFAnimationSampler*>(ref))) glTFAnimationSampler(  ); }
-void glTFAnimationSampler__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFAnimationSampler*>(ref))) glTFAnimationSampler((*static_cast<glTFAnimationSampler*>(other))); }
-void glTFAnimationTarget__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFAnimationTarget*>(ref))) glTFAnimationTarget(  ); }
-void glTFAnimationTarget__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFAnimationTarget*>(ref))) glTFAnimationTarget((*static_cast<glTFAnimationTarget*>(other))); }
-void glTFAttributes__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFAttributes*>(ref))) glTFAttributes(  ); }
-void glTFAttributes__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFAttributes*>(ref))) glTFAttributes((*static_cast<glTFAttributes*>(other))); }
-void glTFBuffer__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFBuffer*>(ref))) glTFBuffer(  ); }
-void glTFBuffer__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFBuffer*>(ref))) glTFBuffer((*static_cast<glTFBuffer*>(other))); }
-void glTFBufferView__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFBufferView*>(ref))) glTFBufferView(  ); }
-void glTFBufferView__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFBufferView*>(ref))) glTFBufferView((*static_cast<glTFBufferView*>(other))); }
-void glTFCamera__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFCamera*>(ref))) glTFCamera(  ); }
-void glTFCamera__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFCamera*>(ref))) glTFCamera((*static_cast<glTFCamera*>(other))); }
-void glTFImage__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFImage*>(ref))) glTFImage(  ); }
-void glTFImage__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFImage*>(ref))) glTFImage((*static_cast<glTFImage*>(other))); }
-void glTFMaterial__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFMaterial*>(ref))) glTFMaterial(  ); }
-void glTFMaterial__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFMaterial*>(ref))) glTFMaterial((*static_cast<glTFMaterial*>(other))); }
-void glTFMaterialPBR__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFMaterialPBR*>(ref))) glTFMaterialPBR(  ); }
-void glTFMaterialPBR__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFMaterialPBR*>(ref))) glTFMaterialPBR((*static_cast<glTFMaterialPBR*>(other))); }
-void glTFMesh__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFMesh*>(ref))) glTFMesh(  ); }
-void glTFMesh__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFMesh*>(ref))) glTFMesh((*static_cast<glTFMesh*>(other))); }
-void glTFMorphTarget__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFMorphTarget*>(ref))) glTFMorphTarget(  ); }
-void glTFMorphTarget__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFMorphTarget*>(ref))) glTFMorphTarget((*static_cast<glTFMorphTarget*>(other))); }
-void glTFNode__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFNode*>(ref))) glTFNode(  ); }
-void glTFNode__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFNode*>(ref))) glTFNode((*static_cast<glTFNode*>(other))); }
-void glTFNodeExtras__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFNodeExtras*>(ref))) glTFNodeExtras(  ); }
-void glTFNodeExtras__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFNodeExtras*>(ref))) glTFNodeExtras((*static_cast<glTFNodeExtras*>(other))); }
-void glTFOrthographic__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFOrthographic*>(ref))) glTFOrthographic(  ); }
-void glTFOrthographic__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFOrthographic*>(ref))) glTFOrthographic((*static_cast<glTFOrthographic*>(other))); }
-void glTFPerspective__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFPerspective*>(ref))) glTFPerspective(  ); }
-void glTFPerspective__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFPerspective*>(ref))) glTFPerspective((*static_cast<glTFPerspective*>(other))); }
-void glTFPrimitive__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFPrimitive*>(ref))) glTFPrimitive(  ); }
-void glTFPrimitive__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFPrimitive*>(ref))) glTFPrimitive((*static_cast<glTFPrimitive*>(other))); }
-void glTFSampler__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFSampler*>(ref))) glTFSampler(  ); }
-void glTFSampler__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFSampler*>(ref))) glTFSampler((*static_cast<glTFSampler*>(other))); }
-void glTFScene__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFScene*>(ref))) glTFScene(  ); }
-void glTFScene__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFScene*>(ref))) glTFScene((*static_cast<glTFScene*>(other))); }
-void glTFSkin__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFSkin*>(ref))) glTFSkin(  ); }
-void glTFSkin__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFSkin*>(ref))) glTFSkin((*static_cast<glTFSkin*>(other))); }
-void glTFSparse__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFSparse*>(ref))) glTFSparse(  ); }
-void glTFSparse__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFSparse*>(ref))) glTFSparse((*static_cast<glTFSparse*>(other))); }
-void glTFSparseIndices__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFSparseIndices*>(ref))) glTFSparseIndices(  ); }
-void glTFSparseIndices__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFSparseIndices*>(ref))) glTFSparseIndices((*static_cast<glTFSparseIndices*>(other))); }
-void glTFSparseValues__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFSparseValues*>(ref))) glTFSparseValues(  ); }
-void glTFSparseValues__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFSparseValues*>(ref))) glTFSparseValues((*static_cast<glTFSparseValues*>(other))); }
-void glTFTexture__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFTexture*>(ref))) glTFTexture(  ); }
-void glTFTexture__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFTexture*>(ref))) glTFTexture((*static_cast<glTFTexture*>(other))); }
-void glTFTextureInfo__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<glTFTextureInfo*>(ref))) glTFTextureInfo(  ); }
-void glTFTextureInfo__copy_construct(void* ref, void* other) { new(&(*static_cast<glTFTextureInfo*>(ref))) glTFTextureInfo((*static_cast<glTFTextureInfo*>(other))); }
+void glTF__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTF*>(ref))) glTF(  ); }
+void glTF__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTF*>(ref))) glTF((*static_cast<glTF*>(other))); }
+void glTFAccessor__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAccessor*>(ref))) glTFAccessor(  ); }
+void glTFAccessor__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAccessor*>(ref))) glTFAccessor((*static_cast<glTFAccessor*>(other))); }
+void glTFAnimation__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAnimation*>(ref))) glTFAnimation(  ); }
+void glTFAnimation__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAnimation*>(ref))) glTFAnimation((*static_cast<glTFAnimation*>(other))); }
+void glTFAnimationChannel__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAnimationChannel*>(ref))) glTFAnimationChannel(  ); }
+void glTFAnimationChannel__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAnimationChannel*>(ref))) glTFAnimationChannel((*static_cast<glTFAnimationChannel*>(other))); }
+void glTFAnimationSampler__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAnimationSampler*>(ref))) glTFAnimationSampler(  ); }
+void glTFAnimationSampler__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAnimationSampler*>(ref))) glTFAnimationSampler((*static_cast<glTFAnimationSampler*>(other))); }
+void glTFAnimationTarget__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAnimationTarget*>(ref))) glTFAnimationTarget(  ); }
+void glTFAnimationTarget__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAnimationTarget*>(ref))) glTFAnimationTarget((*static_cast<glTFAnimationTarget*>(other))); }
+void glTFAttributes__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAttributes*>(ref))) glTFAttributes(  ); }
+void glTFAttributes__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAttributes*>(ref))) glTFAttributes((*static_cast<glTFAttributes*>(other))); }
+void glTFBuffer__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFBuffer*>(ref))) glTFBuffer(  ); }
+void glTFBuffer__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFBuffer*>(ref))) glTFBuffer((*static_cast<glTFBuffer*>(other))); }
+void glTFBufferView__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFBufferView*>(ref))) glTFBufferView(  ); }
+void glTFBufferView__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFBufferView*>(ref))) glTFBufferView((*static_cast<glTFBufferView*>(other))); }
+void glTFCamera__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFCamera*>(ref))) glTFCamera(  ); }
+void glTFCamera__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFCamera*>(ref))) glTFCamera((*static_cast<glTFCamera*>(other))); }
+void glTFImage__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFImage*>(ref))) glTFImage(  ); }
+void glTFImage__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFImage*>(ref))) glTFImage((*static_cast<glTFImage*>(other))); }
+void glTFMaterial__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFMaterial*>(ref))) glTFMaterial(  ); }
+void glTFMaterial__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFMaterial*>(ref))) glTFMaterial((*static_cast<glTFMaterial*>(other))); }
+void glTFMaterialPBR__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFMaterialPBR*>(ref))) glTFMaterialPBR(  ); }
+void glTFMaterialPBR__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFMaterialPBR*>(ref))) glTFMaterialPBR((*static_cast<glTFMaterialPBR*>(other))); }
+void glTFMesh__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFMesh*>(ref))) glTFMesh(  ); }
+void glTFMesh__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFMesh*>(ref))) glTFMesh((*static_cast<glTFMesh*>(other))); }
+void glTFMorphTarget__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFMorphTarget*>(ref))) glTFMorphTarget(  ); }
+void glTFMorphTarget__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFMorphTarget*>(ref))) glTFMorphTarget((*static_cast<glTFMorphTarget*>(other))); }
+void glTFNode__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFNode*>(ref))) glTFNode(  ); }
+void glTFNode__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFNode*>(ref))) glTFNode((*static_cast<glTFNode*>(other))); }
+void glTFNodeExtras__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFNodeExtras*>(ref))) glTFNodeExtras(  ); }
+void glTFNodeExtras__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFNodeExtras*>(ref))) glTFNodeExtras((*static_cast<glTFNodeExtras*>(other))); }
+void glTFOrthographic__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFOrthographic*>(ref))) glTFOrthographic(  ); }
+void glTFOrthographic__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFOrthographic*>(ref))) glTFOrthographic((*static_cast<glTFOrthographic*>(other))); }
+void glTFPerspective__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFPerspective*>(ref))) glTFPerspective(  ); }
+void glTFPerspective__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFPerspective*>(ref))) glTFPerspective((*static_cast<glTFPerspective*>(other))); }
+void glTFPrimitive__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFPrimitive*>(ref))) glTFPrimitive(  ); }
+void glTFPrimitive__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFPrimitive*>(ref))) glTFPrimitive((*static_cast<glTFPrimitive*>(other))); }
+void glTFSampler__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFSampler*>(ref))) glTFSampler(  ); }
+void glTFSampler__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFSampler*>(ref))) glTFSampler((*static_cast<glTFSampler*>(other))); }
+void glTFScene__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFScene*>(ref))) glTFScene(  ); }
+void glTFScene__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFScene*>(ref))) glTFScene((*static_cast<glTFScene*>(other))); }
+void glTFSkin__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFSkin*>(ref))) glTFSkin(  ); }
+void glTFSkin__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFSkin*>(ref))) glTFSkin((*static_cast<glTFSkin*>(other))); }
+void glTFSparse__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFSparse*>(ref))) glTFSparse(  ); }
+void glTFSparse__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFSparse*>(ref))) glTFSparse((*static_cast<glTFSparse*>(other))); }
+void glTFSparseIndices__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFSparseIndices*>(ref))) glTFSparseIndices(  ); }
+void glTFSparseIndices__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFSparseIndices*>(ref))) glTFSparseIndices((*static_cast<glTFSparseIndices*>(other))); }
+void glTFSparseValues__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFSparseValues*>(ref))) glTFSparseValues(  ); }
+void glTFSparseValues__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFSparseValues*>(ref))) glTFSparseValues((*static_cast<glTFSparseValues*>(other))); }
+void glTFTexture__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFTexture*>(ref))) glTFTexture(  ); }
+void glTFTexture__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFTexture*>(ref))) glTFTexture((*static_cast<glTFTexture*>(other))); }
+void glTFTextureInfo__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFTextureInfo*>(ref))) glTFTextureInfo(  ); }
+void glTFTextureInfo__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFTextureInfo*>(ref))) glTFTextureInfo((*static_cast<glTFTextureInfo*>(other))); }
 
 namespace mud
 {

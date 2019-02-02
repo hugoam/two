@@ -19,9 +19,6 @@ namespace mud
 	export_ template <>
 	inline void to_string<Ref>(const Ref& object, string& str) { convert(*object.m_type).m_to_string(object.m_value, str); }
 
-	export_ template <>
-	inline void to_string<Var>(const Var& value, string& str) { convert(type(value)).m_to_string(value.m_ref.m_value, str); }
-
 	export_ template <class T_Source, class T_Dest>
 	void convert(T_Source& from, T_Dest& to)
 	{

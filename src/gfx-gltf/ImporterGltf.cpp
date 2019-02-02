@@ -2,20 +2,18 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+//#define ENFORCE_STL_INITIALIZER_LIST
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 #include <cpp/stdguard.h>
 #endif
-#include <base64.h>
+//#include <base64.h>
 #include <bgfx/bgfx.h>
 
 #ifdef MUD_MODULES
 module mud.gfx.gltf;
 #else
-#include <json11.hpp>
-using json = json11::Json;
-
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <infra/File.h>
@@ -92,8 +90,8 @@ namespace mud
 
 	static vector<uint8_t> read_base64_uri(const string& uri)
 	{
-		std::string base64 = uri.substr(uri.find(",") + 1).c_str();
-		string decoded = decode_base64(base64).c_str();
+		//std::string base64 = uri.substr(uri.find(",") + 1).c_str();
+		string decoded;// = decode_base64(base64).c_str();
 		return {};//convert<uint8_t>(decoded);
 	}
 
@@ -189,8 +187,8 @@ namespace mud
 		if(attributes.TEXCOORD_1 != -1)
 		{
 			vector<vec2> uv1s = unpack_accessor<vec2, 2>(gltf, attributes.TEXCOORD_1, true);
-			if(!std::equal(uv1s.begin() + 1, uv1s.end(), uv1s.begin())) // probably full of zeroes, skip it
-				mesh.m_uv1s = uv1s;
+			//if(!equal(uv1s.begin() + 1, uv1s.end(), uv1s.begin())) // probably full of zeroes, skip it
+			//	mesh.m_uv1s = uv1s;
 		}
 		if(attributes.COLOR_0 != -1)
 		{
@@ -244,7 +242,7 @@ namespace mud
 					}
 				}
 
-				Mesh& mesh = state.m_gfx_system.meshes().construct(name.c_str(), config.m_cache_geometry || occluder);
+				Mesh& mesh = model.add_mesh(name.c_str(), config.m_cache_geometry || occluder);
 				state.m_meshes.push_back(&mesh);
 				model.add_item(mesh, bxidentity());
 

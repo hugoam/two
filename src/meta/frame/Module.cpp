@@ -16,10 +16,10 @@ module mud.frame;
 
 using namespace mud;
 
-void mud_Shell__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Shell*>(ref))) mud::Shell( *static_cast<string*>(args[0]), *static_cast<string*>(args[1]) ); }
+void mud_Shell__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Shell*>(ref))) mud::Shell( *static_cast<string*>(args[0]), *static_cast<string*>(args[1]) ); }
 void mud_Shell_pump(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Shell*>(object)).pump(); }
-void mud_ShellContext__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ShellContext*>(ref))) mud::ShellContext(  ); }
-void mud_ShellContext__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::ShellContext*>(ref))) mud::ShellContext((*static_cast<mud::ShellContext*>(other))); }
+void mud_ShellContext__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ShellContext*>(ref))) mud::ShellContext(  ); }
+void mud_ShellContext__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ShellContext*>(ref))) mud::ShellContext((*static_cast<mud::ShellContext*>(other))); }
 
 namespace mud
 {

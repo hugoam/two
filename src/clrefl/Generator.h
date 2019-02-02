@@ -8,15 +8,14 @@
 #include <stl/map.h>
 #include <stl/memory.h>
 #include <stl/function.h>
+#include <infra/Sort.h>
 #include <infra/String.h>
 #include <infra/File.h>
 #include <infra/Vector.h>
 //#include <refl/Api.h>
 
-#include <json11.hpp>
+#include <cstdio>
 
-#include <fstream>
-#include <algorithm>
 
 namespace mud
 {
@@ -24,8 +23,6 @@ namespace mud
 	// - add error/warning for member of non reflected type
 	// - handle aliases of known types (either by parsing using/typedef, or by checking canonical type always)
 	// - allow precompilation of separate modules
-
-	using json11::Json;
 
 	template <class T, class... Args>
 	inline T& vector_emplace(vector<unique<T>>& vector, Args&&... args)
@@ -40,10 +37,10 @@ namespace mud
 		return map.find(key) != map.end();
 	}
 
-	template <class T_Vector, class T_Pred>
-	void sort(T_Vector& vector, T_Pred pred)
+	template <class T, class Pred>
+	void sort(T& vec, Pred pred)
 	{
-		std::sort(vector.begin(), vector.end(), pred);
+		quicksort<typename T::value_type>(vec, pred);
 	}
 
 	class CLModule;

@@ -5,8 +5,8 @@
 #pragma once
 
 #include <stl/vector.h>
+#include <type/Ref.h>
 #include <refl/Forward.h>
-#include <type/RefVal.h>
 #include <refl/Method.h>
 #include <refl/Member.h>
 
@@ -91,7 +91,7 @@ namespace mud
 		vector<Method*> m_deep_methods;
 
 		// Implementation
-		using MakePool = unique<Pool>(*)(); MakePool m_make_pool;
+		//using MakePool = unique<Pool>(*)(); MakePool m_make_pool;
 
 		// Deprecated ??
 		Type* m_root = nullptr;
@@ -127,8 +127,8 @@ namespace mud
 
 	export_ inline bool is_root_type(Type& ty) { return !g_class[ty.m_id] || cls(ty).m_root == &ty; }
 
-	export_ template <class T>
-	T& upcast(Ref value) { Ref base = cls(value).upcast(value, type<T>()); return val<T>(base); }
+	//export_ template <class T>
+	//T& upcast(Ref value) { Ref base = cls(value).upcast(value, type<T>()); return val<T>(base); }
 
 	export_ template <class T_Return, class T, typename... T_Params>
 	inline Method& method(T_Return(T::*meth)(T_Params...)) { return cls<T>().method(member_address(meth)); }

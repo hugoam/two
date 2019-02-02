@@ -1,17 +1,12 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <type/Type.h>
 #include <gfx/Importer.h>
 #endif
 #include <gfx-obj/Forward.h>
 
 namespace mud
 {
-	using MaterialMap = map<string, Material*>;
 
 	export_ class MUD_GFX_OBJ_EXPORT ImporterOBJ : public Importer
 	{

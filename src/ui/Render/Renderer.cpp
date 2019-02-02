@@ -3,14 +3,12 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <stl/map.h>
-#include <stl/string.h>
-#endif
 
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <stl/string.h>
+#include <stl/map.h>
 #include <math/Vec.hpp>
 #include <ui/Render/Renderer.h>
 #include <ui/Frame/Layer.h>
@@ -22,7 +20,6 @@ module mud.ui;
 #include <math/ImageAtlas.h>
 #endif
 
-#include <algorithm>
 #include <cstdio>
 
 namespace mud

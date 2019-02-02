@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <math/Vec.hpp>
 #include <geom/Primitive.h>
 #include <gfx/Types.h>
 #include <gfx/Filter.h>
@@ -18,6 +19,7 @@ module mud.gfx;
 #endif
 
 #include <cstdio>
+#include <cassert>
 
 namespace mud
 {

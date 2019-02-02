@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.geom;
 #else
+#include <math/Vec.hpp>
 #include <geom/Types.h>
 #include <geom/Shape/ProcShape.h>
 #include <geom/Shape/DrawShape.h>

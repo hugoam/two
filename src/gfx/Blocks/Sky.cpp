@@ -10,6 +10,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <math/Vec.hpp>
 #include <gfx/Types.h>
 #include <gfx/Blocks/Sky.h>
 #include <gfx/GfxSystem.h>

@@ -4,9 +4,12 @@
 
 #pragma once
 
+#include <stl/string.h>
+#include <stl/vector.h>
 #include <stl/unordered_map.h>
 #include <stl/unordered_set.h>
 #include <stl/map.h>
+#include <math/Vec.h>
 #include <ui/Forward.h>
 #include <ui/Edit/TypeIn.h>
 

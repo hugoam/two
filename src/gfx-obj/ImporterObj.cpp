@@ -12,7 +12,6 @@ module mud.gfx.obj;
 #include <stl/algorithm.h>
 #include <infra/File.h>
 #include <infra/ToString.h>
-#include <pool/Pool.hpp>
 #include <math/Timer.h>
 #include <math/Vec.hpp>
 #include <geom/Mesh.h>
@@ -64,6 +63,8 @@ namespace mud
 		gfx_system.models().add_format(".obj", load_obj_model);
 		gfx_system.prefabs().add_format(".obj", load_obj_prefab);
 	}
+
+	using MaterialMap = map<string, Material*>;
 
 	void import_material_library(GfxSystem& gfx_system, const string& path, MaterialMap& material_map)
 	{
@@ -258,13 +259,14 @@ namespace mud
 				if(m_shape.vertex_count() == 0 || m_skip)
 					return;
 
-				Mesh& mesh = m_import.m_gfx_system.meshes().construct(m_name.c_str(), true);
+				Model& model = m_import.m_gfx_system.models().create(m_name.c_str());
+				Mesh& mesh = model.add_mesh(m_name, true);
+
 				m_shape.bake(!m_normals, m_generate_tangents && m_uvs);
 				mesh.write(PLAIN, m_shape, m_config.m_optimize_geometry);
 				mesh.m_material = m_material;
 				m_import.m_meshes.push_back(&mesh);
 
-				Model& model = m_import.m_gfx_system.models().create(m_name.c_str());
 				model.add_item(mesh, bxidentity());
 				model.prepare();
 				m_import.m_models.push_back(&model);

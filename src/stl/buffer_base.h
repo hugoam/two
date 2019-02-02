@@ -5,8 +5,6 @@
 #include <stl/move_tiny.h>
 #include <stl/traits.h>
 
-#include <type_traits>
-
 namespace stl {
 
 	template <class T>
