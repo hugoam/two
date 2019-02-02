@@ -9,6 +9,7 @@ module mud.lang;
 #else
 #include <type/Indexer.h>
 #include <type/Var.h>
+#include <type/Any.h>
 #include <ecs/Proto.h>
 #include <lang/Types.h>
 #include <lang/Script.h>

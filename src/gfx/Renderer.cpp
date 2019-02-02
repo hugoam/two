@@ -8,6 +8,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/algorithm.h>
 #include <infra/Sort.h>
 #include <jobs/JobLoop.h>
 #include <gfx/Types.h>
@@ -133,7 +134,7 @@ namespace mud
 
 	bool Renderer::has_block(GfxBlock& block)
 	{
-		return std::find(m_impl->m_gfx_blocks.begin(), m_impl->m_gfx_blocks.end(), &block) != m_impl->m_gfx_blocks.end();
+		return has(m_impl->m_gfx_blocks, &block);
 	}
 
 	void Renderer::add_block(GfxBlock& block)
