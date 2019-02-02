@@ -3,6 +3,7 @@
 #ifdef MUD_MODULES
 module mud.geom;
 #else
+#include <stl/new.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -45,7 +46,7 @@ void mud_ShapeVar__copy_construct(void* ref, void* other) { new(stl::placeholder
 void* mud_ShapeVar__get_shape(void* object) { return &(*static_cast<mud::ShapeVar*>(object)).shape(); }
 void mud_Symbol__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Symbol*>(ref))) mud::Symbol( *static_cast<mud::Colour*>(args[0]), *static_cast<mud::Colour*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3]), *static_cast<mud::SymbolDetail*>(args[4]) ); }
 void mud_Symbol__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Symbol*>(ref))) mud::Symbol((*static_cast<mud::Symbol*>(other))); }
-void mud_Arc__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Arc*>(ref))) mud::Arc(  ); }
+void mud_Arc__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Arc(  ); }
 void mud_Arc__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Arc*>(ref))) mud::Arc( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]) ); }
 void mud_Arc__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Arc*>(ref))) mud::Arc((*static_cast<mud::Arc*>(other))); }
 void mud_ArcLine__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ArcLine*>(ref))) mud::ArcLine(  ); }

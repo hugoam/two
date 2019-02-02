@@ -375,6 +375,11 @@ namespace mud
 			particle_editor(*particles, gfx_system);
 	}
 
+	export_ inline Var construct(Type& type)
+	{
+		return meta(type).m_empty_var;
+	}
+
 	export_ template <class T>
 	T& upcast(Ref value) { Ref base = cls(value).upcast(value, type<T>()); return val<T>(base); }
 
