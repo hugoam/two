@@ -1765,8 +1765,8 @@ namespace clgen
 
 			cw("\n}\n\n");
 
-			write_file((m.m_bind_path + "\\" + m.m_dotname + ".c.cpp").c_str(), ct.c_str());
-			write_file((m.m_bind_path + "\\" + m.m_dotname + ".js.js").c_str(), jst.c_str());
+			write_file((m.m_bind_path + "/" + m.m_dotname + ".c.cpp").c_str(), ct.c_str());
+			write_file((m.m_bind_path + "/" + m.m_dotname + ".js.js").c_str(), jst.c_str());
 	}
 }
 }

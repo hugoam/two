@@ -535,7 +535,7 @@ namespace mud
 
 		void generate_module(CLModule& module)
 		{
-			if(!file_exists(module.m_path + "\\" + "Types.h"))
+			if(!file_exists(module.m_path + "/" + "Types.h"))
 			{
 				//with open(os.path.join(module.path, "Types.h"), "w") as f :
 				//	pass
@@ -546,7 +546,7 @@ namespace mud
 			printf("NUM CLASSES : %i\n", int(module.m_classes.size()));
 
 			//string forward_h = clgen::forward_h_template(module);
-			//update_file((module.m_path + "\\" + "Forward.h", forward_h);
+			//update_file((module.m_path + "/" + "Forward.h", forward_h);
 
 			this->parse_through(module, build_classes);
         
@@ -586,30 +586,24 @@ namespace mud
 			printf("Generating meta reflection files for %s:\n", module.m_name.c_str());
 
 			string types_h = clgen::types_h_template(module);
-			update_file(module.m_path + "\\" + "Types.h", types_h);
+			update_file(module.m_path + "/" + "Types.h", types_h);
 
 			string types_cpp = clgen::types_cpp_template(module);
-			update_file(module.m_path + "\\" + module.m_dotname + ".types.cpp", types_cpp);
+			update_file(module.m_path + "/" + module.m_dotname + ".types.cpp", types_cpp);
 
 			string module_h = clgen::module_h_template(module);
-			update_file(module.m_refl_path + "\\" + module.m_dotname + ".meta.h", module_h);
+			update_file(module.m_refl_path + "/" + module.m_dotname + ".meta.h", module_h);
 
 			string module_cpp = clgen::module_cpp_template(module);
-			update_file(module.m_refl_path + "\\" + module.m_dotname + ".meta.cpp", module_cpp);
+			update_file(module.m_refl_path + "/" + module.m_dotname + ".meta.cpp", module_cpp);
 
 			string convert_h = clgen::convert_h_template(module);
-			update_file(module.m_refl_path + "\\" + module.m_dotname + ".conv.h", convert_h);
+			update_file(module.m_refl_path + "/" + module.m_dotname + ".conv.h", convert_h);
 
 			printf("Generating bindings files for %s:\n", module.m_name.c_str());
 
 			if(!directory_exists(module.m_bind_path))
 				create_directory_tree(module.m_bind_path);
-
-			//string embind_cpp = clgen::bind_embind_h_template(module);
-			//update_file((module.m_bind_path + "\\" + "Embind.cpp", embind_cpp);
-
-			//string module_idl = clgen::bind_webidl_h_template(module);
-			//update_file((module.m_bind_path + "\\" + "Module.idl", module_idl);
 
 			clgen::bind_javascript(module);
 		}
