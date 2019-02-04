@@ -598,8 +598,8 @@ namespace mud
 			m_export = m_preproc_name + "_EXPORT";
 			m_refl_export = m_preproc_name + "_REFL_EXPORT";
 
-			m_refl_path = m_rootdir + "\\" + "meta" + "\\" + m_subdir;
-			m_bind_path = m_rootdir + "\\" + "bind" + "\\" + m_subdir;
+			m_refl_path = m_rootdir + "\\" + "meta";
+			m_bind_path = m_rootdir + "\\" + "bind";
 
 			m_has_structs = file_exists((m_path + "\\" + "Structs.h").c_str());
 		}

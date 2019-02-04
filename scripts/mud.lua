@@ -380,10 +380,7 @@ table.insert(lgfx, mud.frame)
 
 if _OPTIONS["unity"] then
     for _, m in pairs(mud.all) do
-        m.unity = true
-        if m.refl then
-            m.refl.unity = true
-        end
+        mud_unity(m)
     end
 end
 

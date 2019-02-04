@@ -727,13 +727,17 @@ namespace clgen
 		p("#ifdef MUD_MODULES");
 		p("module " + m.m_namespace + "." + m.m_name + ";");
 		p("#else");
+		p("#include <cstddef>");
+		p("#include <stl/new.h>");
+		p("#include <infra/ToString.h>");
+		p("#include <infra/ToValue.h>");
 		p("#include <type/Vector.h>");
 		p("#include <refl/MetaDecl.h>");
 		p("#include <refl/Module.h>");
 		for(CLModule* d : m.m_dependencies)
-			p("#include <meta/" + d->m_subdir + "/Module.h>");
-		p("#include <meta/" + m.m_subdir + "/Module.h>");
-		p("#include <meta/" + m.m_subdir + "/Convert.h>");
+			p("#include <meta/" + d->m_dotname + ".meta.h>");
+		p("#include <meta/" + m.m_dotname + ".meta.h>");
+		p("#include <meta/" + m.m_dotname + ".conv.h>");
 		p("#endif");
 		p("");
 		p("#include <" + m.m_subdir + "/Api.h>");
@@ -1761,8 +1765,8 @@ namespace clgen
 
 			cw("\n}\n\n");
 
-			write_file((m.m_bind_path + "\\" + "c.cpp").c_str(), ct.c_str());
-			write_file((m.m_bind_path + "\\" + "js.js").c_str(), jst.c_str());
+			write_file((m.m_bind_path + "\\" + m.m_dotname + ".c.cpp").c_str(), ct.c_str());
+			write_file((m.m_bind_path + "\\" + m.m_dotname + ".js.js").c_str(), jst.c_str());
 	}
 }
 }

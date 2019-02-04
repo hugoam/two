@@ -589,16 +589,16 @@ namespace mud
 			update_file(module.m_path + "\\" + "Types.h", types_h);
 
 			string types_cpp = clgen::types_cpp_template(module);
-			update_file(module.m_path + "\\" + "Types.cpp", types_cpp);
+			update_file(module.m_path + "\\" + module.m_dotname + ".types.cpp", types_cpp);
 
 			string module_h = clgen::module_h_template(module);
-			update_file(module.m_refl_path + "\\" + "Module.h", module_h);
+			update_file(module.m_refl_path + "\\" + module.m_dotname + ".meta.h", module_h);
 
 			string module_cpp = clgen::module_cpp_template(module);
-			update_file(module.m_refl_path + "\\" + "Module.cpp", module_cpp);
+			update_file(module.m_refl_path + "\\" + module.m_dotname + ".meta.cpp", module_cpp);
 
 			string convert_h = clgen::convert_h_template(module);
-			update_file(module.m_refl_path + "\\" + "Convert.h", convert_h);
+			update_file(module.m_refl_path + "\\" + module.m_dotname + ".conv.h", convert_h);
 
 			printf("Generating bindings files for %s:\n", module.m_name.c_str());
 

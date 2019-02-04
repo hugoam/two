@@ -65,12 +65,12 @@ namespace stl {
 	}
 
 	template <class T, class Alloc>
-	inline typename vector<T, Alloc>::iterator vector<T, Alloc>::erase_unordered(iterator where) {
-		return this->erase_unordered(where, where + 1);
+	inline typename vector<T, Alloc>::iterator vector<T, Alloc>::erase_unstable(iterator where) {
+		return this->erase_unstable(where, where + 1);
 	}
 
 	template <class T, class Alloc>
-	inline typename vector<T, Alloc>::iterator vector<T, Alloc>::erase_unordered(iterator first, iterator last) {
+	inline typename vector<T, Alloc>::iterator vector<T, Alloc>::erase_unstable(iterator first, iterator last) {
 		const size_t count = (last - first);
 		const size_t tail = (this->m_last - last);
 		pointer it = this->m_last - ((count < tail) ? count : tail);

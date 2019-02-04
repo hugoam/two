@@ -2,12 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-//#define ENFORCE_STL_INITIALIZER_LIST
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-#include <cpp/stdguard.h>
-#endif
 //#include <base64.h>
 #include <bgfx/bgfx.h>
 
@@ -36,9 +32,9 @@ module mud.gfx.gltf;
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
 #include <gltf/Gltf.h>
-#include <meta/gltf/gltf.meta.h>
 #include <gfx-gltf/Types.h>
 #include <gfx-gltf/ImporterGltf.h>
+#include <meta/gltf.meta.h>
 #endif
 
 #include <cstdio>

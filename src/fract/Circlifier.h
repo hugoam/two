@@ -1,14 +1,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <math/Grid.h>
 #include <geom/Shape.h>
 #endif
 #include <fract/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
 
 namespace mud
 {

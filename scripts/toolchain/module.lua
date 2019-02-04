@@ -78,6 +78,8 @@ function mud_refl(m, force_project)
         end
     end
     m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), nil, m.usage_decl, false, deps, true)
+    m.refl.headers = { path.join(m.root, "meta", string.gsub(m.name, "-", ".") .. ".meta.h") }
+    m.refl.sources = { path.join(m.root, "meta", string.gsub(m.name, "-", ".") .. ".meta.cpp") }
     m.decl = mud_refl_decl
     m.refl.force_project = force_project
     m.refl.reflected = m
@@ -124,16 +126,22 @@ function mud_module_decl(m)
         m.root,
     }
     
-    if not m.unity then
+    if m.headers then
+        print("    headers " .. m.headers[1])
+        files(m.headers)
+    else
         files {
             path.join(m.path, "**.h"),
             path.join(m.path, "**.hpp"),
-            path.join(m.path, "**.cpp"),
         }
+    end
+    
+    if m.sources then
+        print("    sources " .. m.headers[1])
+        files(m.sources)
     else
         files {
-            path.join(m.root, m.namespace, string.gsub(m.name, "-", ".") .. ".h"),
-            path.join(m.root, m.namespace, string.gsub(m.name, "-", ".") .. ".cpp"),
+            path.join(m.path, "**.cpp"),
         }
     end
     
@@ -212,5 +220,13 @@ function mud_libs(modules, libkind, deps)
             m.refl.lib = mud_lib(m.refl.idname, { m.refl }, libkind, deps)
             table.insert(modules, m.refl)
         end
+    end
+end
+
+function mud_unity(m)
+    m.headers = { path.join(m.root, m.namespace, string.gsub(m.name, "-", ".") .. ".h") }
+    m.sources = { path.join(m.root, m.namespace, string.gsub(m.name, "-", ".") .. ".cpp") }
+    if m.refl then
+        mud_unity(m.refl)
     end
 end

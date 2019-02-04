@@ -10,7 +10,7 @@ namespace stl = std;
 #include <stl/buffer.h>
 #include <stl/stddef.h>
 
-#define USE_UVECTOR
+//#define USE_UVECTOR
 
 #ifdef USE_UVECTOR
 #include <stl/ubuffer.h>
@@ -48,8 +48,8 @@ namespace stl {
 		iterator erase(iterator where);
 		iterator erase(iterator first, iterator last);
 
-		iterator erase_unordered(iterator where);
-		iterator erase_unordered(iterator first, iterator last);
+		iterator erase_unstable(iterator where);
+		iterator erase_unstable(iterator first, iterator last);
 	};
 #endif
 }
