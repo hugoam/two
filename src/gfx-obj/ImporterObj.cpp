@@ -14,7 +14,7 @@ module mud.gfx.obj;
 #include <infra/ToString.h>
 #include <math/Timer.h>
 #include <math/Vec.hpp>
-#include <geom/Mesh.h>
+#include <geom/Geometry.h>
 #include <srlz/Serial.h>
 #include <gfx/Material.h>
 #include <gfx/Mesh.h>

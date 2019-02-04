@@ -9,7 +9,7 @@ module mud.geom;
 #else
 #include <math/Vec.hpp>
 #include <geom/Shape/Geom.h>
-#include <geom/Mesh.h>
+#include <geom/Geometry.h>
 #endif
 
 namespace mud

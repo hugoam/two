@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frame/Forward.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 
 using namespace mud;
 

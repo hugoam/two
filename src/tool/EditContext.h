@@ -5,8 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <ui/Structs/Dock.h>
-#include <uio/Edit/Script.h>
+#include <ui/DockStruct.h>
+#include <uio/ScriptEdit.h>
 #endif
 
 #include <tool/Forward.h>

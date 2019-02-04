@@ -3,7 +3,7 @@
 #include <geom/Geom.h>
 #include <geom/Geom.hpp>
 #include <geom/Intersect.h>
-#include <geom/Mesh.h>
+#include <geom/Geometry.h>
 #include <geom/Poisson.h>
 #include <geom/Primitive.h>
 #include <geom/Shape.h>

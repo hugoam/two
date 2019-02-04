@@ -10,16 +10,16 @@
 module mud.gfx.ui;
 #else
 #include <stl/algorithm.h>
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <math/Math.h>
 #include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <ctx/InputEvent.h>
-#include <ui/Render/Renderer.h>
+#include <ui/Render/UiRenderer.h>
 #include <ui/Frame/Frame.h>
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>
-#include <ui/Structs/RootSheet.h>
+#include <ui/UiRoot.h>
 #include <ui/Style/Styles.h>
 #include <ui/Controller/Controller.h>
 #include <ui/UiWindow.h>
@@ -214,6 +214,42 @@ namespace ui
 			//dummy(self, size);
 		}
 		return self;
+	}
+
+	void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection)
+	{
+		if (MouseEvent mouse_event = widget.mouse_event(DeviceType::Mouse, EventType::Moved, InputMod::None, false))
+		{
+			auto callback = [&](Item* item) { viewer.m_hovered = item; };
+			viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Selectable);
+		}
+
+		if (MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		{
+			if (viewer.m_hovered)
+				select(selection, viewer.m_hovered->m_node->m_object);
+		}
+
+		if (MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+		{
+			//Entity* entity = pick_entity(viewer, mouse_event.m_relative, ItemFlag::Selectable | ItemFlag::Static);
+			//context_menu(viewer.m_vision.m_user.m_selector, *entity);
+		}
+	}
+
+	Viewer& scene_viewport(Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection)
+	{
+		Viewer& viewer = parent.suba<Viewer, Scene&>(scene);
+		if (viewer.once())
+		{
+			UNUSED(camera);
+			//scene.m_cameras.push_back({ &camera, &viewer.m_camera });
+			//viewer.m_controller = make_unique<RTSCameraController>(viewer, camera);
+		}
+
+		//viewer.m_controller->process(viewer);
+		viewport_picker(viewer, viewer, selection);
+		return viewer;
 	}
 
 	OrbitController& orbit_controller(Viewer& viewer, float yaw, float pitch, float distance)

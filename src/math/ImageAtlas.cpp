@@ -9,7 +9,7 @@ module mud.ui;
 #else
 #include <stb_rect_pack.h>
 #include <stb_image.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 #include <infra/File.h>
 #include <math/Interp.h>
 #include <math/ImageAtlas.h>

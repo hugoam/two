@@ -2,7 +2,7 @@
 #include <stl/vector.hpp>
 #include <stl/algorithm.h>
 #include <infra/AlignedAlloc.h>
-#include <infra/Pool.h>
+#include <infra/Arena.h>
 #include <infra/Thread.h>
 #include <infra/Array.h>
 #include <jobs/JobSystem.h>

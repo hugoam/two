@@ -27,7 +27,7 @@ module mud.gfx.pbr;
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Shadow.h>
-#include <gfx-pbr/Light.h>
+#include <gfx-pbr/Lighting.h>
 #endif
 
 //#define DEBUG_CSM

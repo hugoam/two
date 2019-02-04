@@ -13,8 +13,8 @@ module mud.ui;
 #include <ui/Style/Layout.h>
 #include <ui/UiWindow.h>
 #include <ui/Ui.h>
-#include <ui/Structs/Widget.h>
-#include <ui/Structs/RootSheet.h>
+#include <ui/WidgetStruct.h>
+#include <ui/UiRoot.h>
 #endif
 
 namespace mud

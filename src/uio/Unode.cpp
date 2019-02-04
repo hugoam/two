@@ -7,8 +7,8 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <ui/Structs/Window.h>
-#include <ui/Structs/Container.h>
+#include <ui/WindowStruct.h>
+#include <ui/ContainerStruct.h>
 #include <uio/Unode.h>
 #endif
 

@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <ui/Structs/RootSheet.h>
+#include <ui/UiRoot.h>
 #endif
 #include <gfx-ui/Forward.h>
 

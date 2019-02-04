@@ -9,7 +9,7 @@
 #include <stl/memory.h>
 #include <stl/function.h>
 #include <infra/Sort.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 #include <infra/File.h>
 #include <infra/Vector.h>
 //#include <refl/Api.h>

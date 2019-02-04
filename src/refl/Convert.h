@@ -9,7 +9,7 @@
 #include <type/DoubleDispatch.h>
 #include <type/DispatchDecl.h>
 #include <infra/Global.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 
 namespace mud
 {

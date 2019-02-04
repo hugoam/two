@@ -10,8 +10,8 @@ module mud.ui;
 #include <math/Vec.hpp>
 #include <math/Timer.h>
 #include <ui/Cursor.h>
-#include <ui/Structs/Widget.h>
-#include <ui/Structs/RootSheet.h>
+#include <ui/WidgetStruct.h>
+#include <ui/UiRoot.h>
 #include <ui/Frame/Caption.h>
 #include <ui/Style/Skin.h>
 #endif

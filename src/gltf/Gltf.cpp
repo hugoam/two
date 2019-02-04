@@ -19,7 +19,7 @@ using json = json11::Json;
 #include <type/DispatchDecl.h>
 #include <stl/algorithm.h>
 #include <infra/File.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 #include <infra/StringConvert.h>
 #include <type/Var.h>
 #include <math/Stream.h>
@@ -30,7 +30,7 @@ using json = json11::Json;
 #include <refl/Convert.h>
 #include <math/VecJson.h>
 #include <math/Interp.h>
-#include <geom/Mesh.h>
+#include <geom/Geometry.h>
 #include <gltf/Gltf.h>
 #include <gltf/Types.h>
 #endif

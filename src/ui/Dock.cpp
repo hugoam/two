@@ -11,11 +11,11 @@ module mud.ui;
 #include <stl/map.h>
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <ui/Dock.h>
-#include <ui/Structs/Dock.h>
-#include <ui/Structs/Window.h>
-#include <ui/Structs/Container.h>
+#include <ui/DockStruct.h>
+#include <ui/WindowStruct.h>
+#include <ui/ContainerStruct.h>
 #endif
 
 namespace mud

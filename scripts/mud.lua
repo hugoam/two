@@ -58,6 +58,10 @@ else
     vorbisfile = null
 end
 
+os.mkdir(path.join(PROJECT_DIR, "data/shaders/compiled"))
+os.mkdir(path.join(PROJECT_DIR, "data/shaders/compiled/filter"))
+os.mkdir(path.join(PROJECT_DIR, "data/shaders/compiled/pbr"))
+
 group "lib"
 
 mud = {}
@@ -210,6 +214,55 @@ function mud_clrefl()
     configuration {}
 end
 
+function uses_mud_bgfx()
+    uses_mud()
+    
+    includedirs {
+        path.join(BX_DIR,    "include"),
+        path.join(BIMG_DIR,  "include"),
+        path.join(BGFX_DIR,  "include"),
+    }
+    
+    configuration { "vs*", "not orbis", "not asmjs" }
+        includedirs { path.join(BX_DIR, "include/compat/msvc") }
+    
+    configuration {}
+end
+
+function uses_mud_gfx()
+    includedirs {
+        path.join(MUD_3RDPARTY_DIR, "glm"),
+    }
+end
+
+function mud_gfx()
+    includedirs {
+        path.join(MUD_3RDPARTY_DIR, "json11"),
+        path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src"),
+    }
+    
+    if _OPTIONS["culling"] then
+        includedirs {
+            path.join(MUD_3RDPARTY_DIR, "culling"),
+        }
+    else
+        defines { "NO_OCCLUSION_CULLING" }
+    end
+end
+
+function mud_gfx_pbr()
+    includedirs {
+        path.join(MUD_3RDPARTY_DIR, "xatlas"),
+    }
+end
+
+function mud_gltf()
+    includedirs {
+        path.join(MUD_3RDPARTY_DIR, "base64"),
+        path.join(MUD_3RDPARTY_DIR, "json11"),
+    }
+end
+
 -- @todo deactivate reflection for infra, tree, srlz, bgfx, gfx.obj, gfx.gltf, gfx.edit
 --       and make reflection generator generate empty modules in those cases
 --                       base   name        root path       sub path    self decl   usage decl      reflect     dependencies
@@ -246,6 +299,40 @@ mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR,    "uio",      nil,    
 -- snd
 mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR,    "snd",      mud_snd,    uses_mud_snd,   true,       { ogg, vorbis, vorbisfile, mud.type, mud.math })
 
+if _OPTIONS["context-glfw"] then
+    dofile(path.join(MUD_DIR, "scripts/mud_ctx_glfw.lua"))
+elseif _OPTIONS["context-wasm"] then
+    dofile(path.join(MUD_DIR, "scripts/mud_ctx_wasm.lua"))
+end
+
+if _OPTIONS["renderer-bgfx"] then
+    dofile(path.join(MUD_DIR, "scripts/mud_ui_bgfx.lua"))
+else
+    dofile(path.join(MUD_DIR, "scripts/mud_ui_gl.lua"))
+end
+
+mud.ctxbackend  = mud_ctx_backend()
+mud.uibackend   = mud_ui_backend()
+
+--                       base   name        root path       sub path    self decl   usage decl      reflect     dependencies
+-- gfx
+mud.bgfx    = mud_module("mud", "bgfx",     MUD_SRC_DIR,    "bgfx",     nil,        uses_mud_bgfx,  true,       { bx, bimg, bimg.decode, bimg.encode, bgfx, mud.infra, mud.type, mud.math, mud.ctx })
+mud.gfx     = mud_module("mud", "gfx",      MUD_SRC_DIR,    "gfx",      mud_gfx,    uses_mud_gfx,   true,       { tracy, json11, meshopt, culling, bgfx, shaderc, mud.infra, mud.jobs, mud.type, mud.pool, mud.ecs, mud.math, mud.geom, mud.ctx, mud.bgfx })
+-- gltf                                                     
+mud.gltf    = mud_module("mud", "gltf",     MUD_SRC_DIR,    "gltf",     mud_gltf,   nil,            true,       { json11, base64, mud.infra, mud.type, mud.refl, mud.srlz, mud.math })
+-- gfx exts                                                 
+mud.gfx.pbr = mud_module("mud", "gfx-pbr",  MUD_SRC_DIR,    "gfx-pbr",  mud_gfx_pbr,nil,            true,       { xatlas, mud.infra, mud.type, mud.math, mud.geom, mud.gfx })
+mud.gfx.obj = mud_module("mud", "gfx-obj",  MUD_SRC_DIR,    "gfx-obj",  nil,        nil,            true,       { mud.infra, mud.type, mud.srlz, mud.math, mud.geom, mud.gfx })
+mud.gfx.gltf= mud_module("mud", "gfx-gltf", MUD_SRC_DIR,    "gfx-gltf", mud_gltf,   nil,            true,       { json11, mud.infra, mud.type, mud.refl, mud.srlz, mud.math, mud.geom, mud.gfx, mud.gltf, mud.gltf.refl })
+mud.gfx.ui  = mud_module("mud", "gfx-ui",   MUD_SRC_DIR,    "gfx-ui",   nil,        nil,            true,       { mud.infra, mud.tree, mud.type, mud.math, mud.geom, mud.ctx, mud.ui, mud.gfx })
+mud.gfx.edit= mud_module("mud", "gfx-edit", MUD_SRC_DIR,    "gfx-edit", nil,        nil,            true,       { mud.infra, mud.type, mud.refl, mud.srlz, mud.math, mud.geom, mud.ui, mud.uio, mud.gfx, mud.gfx.pbr })
+-- tool                                                     
+mud.tool    = mud_module("mud", "tool",     MUD_SRC_DIR,    "tool",     nil,        nil,            true,       { mud.infra, mud.tree, mud.type, mud.refl, mud.srlz, mud.lang, mud.math, mud.geom, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.gfx.pbr, mud.gfx.ui, mud.gfx.edit })
+-- wfc                                                      
+mud.wfc.gfx = mud_module("mud", "wfc-gfx",  MUD_SRC_DIR,    "wfc-gfx",  nil,        nil,            true,       { json11, mud.infra, mud.tree, mud.type, mud.srlz, mud.math, mud.geom, mud.wfc, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.gfx.ui })
+-- frame                                                    
+mud.frame   = mud_module("mud", "frame",    MUD_SRC_DIR,    "frame",    nil,        nil,            true,       { mud.gfx, mud.gfx.ui, mud.ctxbackend, mud.uibackend })
+
 if _OPTIONS["tools"] then
   mud.clrefl = mud_module("mud", "clrefl",  MUD_SRC_DIR,    "clrefl",   mud_clrefl, nil,            false,      { json11, mud.infra })
   mud.amalg  = mud_module("mud", "amalg",   MUD_SRC_DIR,    "amalg",    nil,        nil,            false,      { json11, mud.infra })
@@ -255,15 +342,23 @@ end
 --mud_vec(true)
 --mud.db = mud_module("mud", "db", MUD_SRC_DIR, "db", { mud.type, mud.util })
 
-mud.mud = { mud.infra, mud.jobs, mud.type, mud.tree, mud.pool, mud.refl, mud.ecs, mud.srlz, mud.math, mud.geom, mud.noise, mud.wfc, mud.fract, mud.lang, mud.ctx, mud.ui, mud.uio }
+mud.mud = { mud.infra, mud.jobs, mud.type, mud.tree, mud.pool, mud.refl, mud.ecs, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio, mud.bgfx, mud.gfx, mud.gfx.ui, mud.frame,
+            mud.ctxbackend, mud.uibackend }
+mud.opts = { mud.noise, mud.wfc, mud.fract, mud.gfx.pbr, mud.gfx.obj, mud.gltf, mud.gfx.gltf, mud.gfx.edit, mud.tool, mud.wfc.gfx }
 
 if _OPTIONS["tools"] then
-    table.insert(mud.mud, mud.clrefl)
-    table.insert(mud.mud, mud.amalg)
+    table.insert(mud.opts, mud.clrefl)
+    table.insert(mud.opts, mud.amalg)
 end
 
 if _OPTIONS["sound"] then
     table.insert(mud.mud, mud.snd)
+end
+
+mud.all = table.union(mud.mud, mud.opts)
+
+for _, m in pairs(mud.all) do
+    print("    module " .. m.dotname)
 end
 
 if _OPTIONS["as-libs"] then
@@ -273,14 +368,18 @@ end
 mud.type.basetypes = { 'void', 'void*', 'bool', 'short', 'int', 'long', 'long long', 'float', 'double', 'char', 'unsigned char', 'unsigned short', 'unsigned int', 'unsigned long', 'unsigned long long', 'string', 'const char*' }
 mud.type.aliases = { ['mud::string'] = 'string', ['mud::cstring'] = 'const char*' }
 
+local lgfx = {}
+
 if _OPTIONS["renderer-gl"] then
-    dofile(path.join(MUD_DIR, "scripts/mud_gl.lua"))
+    lgfx = { mud.gl, mud.uibackend }
 elseif _OPTIONS["renderer-bgfx"] then
-    dofile(path.join(MUD_DIR, "scripts/mud_gfx.lua"))
+    lgfx = { mud.bgfx, mud.uibackend }
 end
 
+table.insert(lgfx, mud.frame)
+
 if _OPTIONS["unity"] then
-    for _, m in pairs(mud.mud) do
+    for _, m in pairs(mud.all) do
         m.unity = true
         if m.refl then
             m.refl.unity = true
@@ -290,10 +389,10 @@ end
 
 if _OPTIONS["as-libs"] then
     group "lib/mud"
-        mud_libs(mud.mud, "StaticLib")
+        mud_libs(mud.all, "StaticLib")
     group "lib"
 else
-    mud.lib = mud_lib("mud", mud.mud, "StaticLib")
+    mud.lib = mud_lib("mud", mud.all, "StaticLib")
     
         --files {
         --    path.join(MUD_SRC_DIR, "mud", "**.h"),
@@ -306,6 +405,9 @@ else
             
         configuration {}
 end
+
+--group "lib/mud-opts"
+--mud_libs(mud.opts, "StaticLib")
 
 function mud_binary(name, modules, deps)
     mud_lib(name, modules, "ConsoleApp", deps)

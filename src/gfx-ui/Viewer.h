@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <math/Math.h>
 #include <math/Vec.h>
-#include <ui/Structs/Widget.h>
+#include <ui/WidgetStruct.h>
 #include <ui/Style/Style.h>
 #include <gfx/Viewport.h>
 #include <gfx/Picker.h>
@@ -108,6 +108,9 @@ namespace ui
 {
 	export_ MUD_GFX_UI_EXPORT func_ Viewer& viewer(Widget& parent, Scene& scene);
 	export_ MUD_GFX_UI_EXPORT func_ SceneViewer& scene_viewer(Widget& parent, const vec2& size = Zero2);
+
+	export_ MUD_GFX_UI_EXPORT void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection);
+	export_ MUD_GFX_UI_EXPORT Viewer& scene_viewport(Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection);
 
 	enum class refl_ OrbitMode
 	{

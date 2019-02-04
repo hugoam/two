@@ -14,7 +14,7 @@ module mud.gfx.pbr;
 #include <stl/algorithm.h>
 #include <math/Vec.hpp>
 #include <geom/Intersect.h>
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <pool/ObjectPool.hpp>
 #include <gfx/Item.h>
 #include <gfx/ManualRender.h>
@@ -25,7 +25,7 @@ module mud.gfx.pbr;
 #include <gfx/GfxSystem.h>
 #include <gfx/Pipeline.h>
 #include <gfx-pbr/VoxelGI.h>
-#include <gfx-pbr/Light.h>
+#include <gfx-pbr/Lighting.h>
 #include <gfx-pbr/Shadow.h>
 #include <gfx-pbr/Lightmap.h>
 #endif

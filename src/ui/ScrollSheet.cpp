@@ -8,12 +8,12 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <math/Vec.hpp>
 #include <ui/ScrollSheet.h>
-#include <ui/Structs/Container.h>
+#include <ui/ContainerStruct.h>
 #include <ui/Frame/Frame.h>
-#include <ui/Render/Renderer.h>
+#include <ui/Render/UiRenderer.h>
 #include <ui/Style/Paint.h>
 #endif
 

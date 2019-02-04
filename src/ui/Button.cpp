@@ -13,8 +13,8 @@ module mud.ui;
 #include <infra/ToString.h>
 #include <math/Image256.h>
 #include <ui/Button.h>
-#include <ui/Structs/Widget.h>
-#include <ui/Structs/Container.h>
+#include <ui/WidgetStruct.h>
+#include <ui/ContainerStruct.h>
 #include <ui/Sheet.h>
 #include <ui/ScrollSheet.h>
 #include <ui/UiWindow.h>

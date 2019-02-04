@@ -7,13 +7,13 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <math/Vec.hpp>
 #include <ui/Window.h>
 #include <ui/Cursor.h>
 #include <ui/Frame/Layer.h>
-#include <ui/Structs/Window.h>
-#include <ui/Structs/RootSheet.h>
+#include <ui/WindowStruct.h>
+#include <ui/UiRoot.h>
 #include <ui/Dock.h>
 #endif
 

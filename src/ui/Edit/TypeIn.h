@@ -8,7 +8,7 @@
 #include <stl/vector.h>
 #include <stl/memory.h>
 #include <ui/Forward.h>
-#include <ui/Structs/Widget.h>
+#include <ui/WidgetStruct.h>
 #include <ui/Frame/Caption.h>
 #include <ui/Style/Paint.h>
 

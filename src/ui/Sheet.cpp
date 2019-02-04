@@ -9,9 +9,9 @@ module mud.ui;
 #else
 #include <stl/algorithm.h>
 #include <ui/Sheet.h>
-#include <ui/Structs/Widget.h>
-#include <ui/Structs/RootSheet.h>
-#include <ui/Structs/Container.h>
+#include <ui/WidgetStruct.h>
+#include <ui/UiRoot.h>
+#include <ui/ContainerStruct.h>
 #include <ui/ScrollSheet.h>
 #include <ui/Cursor.h>
 #endif

@@ -9,10 +9,10 @@ module mud.ui;
 #else
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <ui/Container.h>
-#include <ui/Structs/Container.h>
-#include <ui/Structs/Widget.h>
+#include <ui/ContainerStruct.h>
+#include <ui/WidgetStruct.h>
 #include <ui/Sheet.h>
 #include <ui/ScrollSheet.h>
 #include <ui/Frame/Solver.h>

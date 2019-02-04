@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 #include <type/Var.h>
 #endif
 #include <lang/Forward.h>

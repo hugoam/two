@@ -6,7 +6,7 @@
 
 #include <infra/Config.h>
 #include <infra/Base.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 
 namespace mud
 {

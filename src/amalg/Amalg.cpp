@@ -3,7 +3,7 @@
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <infra/File.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 #include <amalg/Amalg.h>
 
 #include <stl/string.hpp>

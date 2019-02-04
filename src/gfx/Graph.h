@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <tree/Node.h>
+#include <tree/Graph.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>

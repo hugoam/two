@@ -7,7 +7,7 @@
 #include <stl/vector.h>
 //#include <stl/type_traits.h>
 #include <infra/Config.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
 

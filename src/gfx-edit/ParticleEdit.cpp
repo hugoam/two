@@ -9,7 +9,7 @@ module mud.gfx-edit;
 #else
 #include <infra/File.h>
 #include <type/Var.h>
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <srlz/Serial.h>
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>
@@ -17,8 +17,8 @@ module mud.gfx-edit;
 #include <gfx/GfxSystem.h>
 #include <ui/Section.h>
 #include <ui/Ui.h>
-#include <uio/Edit/Inspector.h>
-#include <uio/Edit/Value.h>
+#include <uio/Inspector.h>
+#include <uio/ValueEdit.h>
 #include <gfx/Particles.h>
 #include <gfx-ui/Types.h>
 #include <gfx-ui/Viewer.h>

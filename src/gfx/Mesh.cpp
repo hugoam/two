@@ -10,7 +10,7 @@ module mud.gfx;
 #include <stl/map.h>
 #include <stl/algorithm.h>
 #include <math/Vec.hpp>
-#include <geom/Mesh.h>
+#include <geom/Geometry.h>
 #include <gfx/Mesh.h>
 #include <gfx/Node3.h>
 #endif

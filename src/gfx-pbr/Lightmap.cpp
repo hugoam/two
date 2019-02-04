@@ -15,7 +15,7 @@ module mud.gfx.pbr;
 #include <infra/File.h>
 #include <math/Random.h>
 #include <geom/Intersect.h>
-#include <geom/Mesh.h>
+#include <geom/Geometry.h>
 #include <pool/ObjectPool.hpp>
 #include <gfx/Item.h>
 #include <gfx/ManualRender.h>
@@ -28,10 +28,10 @@ module mud.gfx.pbr;
 #include <gfx/Pipeline.h>
 #include <gfx-pbr/Lightmap.h>
 #include <gfx-pbr/VoxelGI.h>
-#include <gfx-pbr/Light.h>
+#include <gfx-pbr/Lighting.h>
 #include <gfx-pbr/Shadow.h>
 #include <gfx-pbr/Lightmap.h>
-#include <gfx-pbr/Pipeline.h>
+#include <gfx-pbr/PipelinePbr.h>
 #endif
 
 #include <cstdio>

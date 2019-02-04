@@ -19,7 +19,7 @@
 module mud.infra;
 #else
 #include <infra/File.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 #endif
 
 #if defined _WIN32

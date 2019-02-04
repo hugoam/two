@@ -13,7 +13,7 @@ module mud.gfx.pbr;
 #include <gfx/Renderer.h>
 #include <gfx/Node3.h>
 #include <gfx-pbr/ReflectionAtlas.h>
-#include <gfx-pbr/Reflection.h>
+#include <gfx-pbr/ReflectionProbe.h>
 #endif
 
 namespace mud

@@ -12,7 +12,7 @@ module mud.ui;
 #include <ui/Slider.h>
 #include <ui/Button.h>
 #include <ui/Style/Styles.h>
-#include <ui/Structs/Widget.h>
+#include <ui/WidgetStruct.h>
 #include <ctx/InputDevice.h>
 #endif
 

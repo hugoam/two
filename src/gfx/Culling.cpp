@@ -8,7 +8,7 @@
 module mud.gfx;
 #else
 #include <math/Vec.hpp>
-#include <geom/Mesh.h>
+#include <geom/Geometry.h>
 #include <geom/Shapes.h>
 #include <gfx/Culling.h>
 #include <gfx/Viewport.h>

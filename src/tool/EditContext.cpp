@@ -14,8 +14,8 @@ module mud.tool;
 #include <lang/VisualScript.h>
 #include <ui/Ui.h>
 #include <ui/Edit/Console.h>
-#include <uio/Edit/Inspector.h>
-#include <uio/Edit/UiEdit.h>
+#include <uio/Inspector.h>
+#include <uio/UiEdit.h>
 #include <tool/Types.h>
 #include <tool/EditContext.h>
 #include <gfx-edit/GfxEdit.h>

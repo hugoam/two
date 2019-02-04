@@ -9,7 +9,7 @@ module mud.ui;
 #else
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>
-#include <ui/Structs/Container.h>
+#include <ui/ContainerStruct.h>
 #include <ui/Types.h>
 #include <ui/Section.h>
 #include <ui/Ui.h>

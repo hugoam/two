@@ -617,7 +617,7 @@ namespace clgen
 		p("#if !defined MUD_MODULES || defined MUD_TYPE_LIB");
 		p("#include <refl/Meta.h>");
 		p("#include <refl/Enum.h>");
-		p("#include <infra/String.h>");
+		p("#include <infra/StringOps.h>");
 		p("#endif");
 		p("");
 		p("namespace mud");

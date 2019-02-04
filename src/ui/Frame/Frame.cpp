@@ -7,15 +7,15 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <infra/String.h>
+#include <infra/StringOps.h>
 #include <math/Vec.hpp>
 #include <ui/Frame/Frame.h>
-#include <ui/Structs/Widget.h>
+#include <ui/WidgetStruct.h>
 #include <ui/Frame/Solver.h>
 #include <ui/Frame/Layer.h>
 #include <ui/Style/Style.h>
 #include <ui/Style/Skin.h>
-#include <ui/Render/Renderer.h>
+#include <ui/Render/UiRenderer.h>
 #endif
 
 #include <cstdio>

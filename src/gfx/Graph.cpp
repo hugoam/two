@@ -9,7 +9,7 @@ module mud.gfx;
 #else
 #include <stl/algorithm.h>
 #include <infra/Copy.h>
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <pool/ObjectPool.hpp>
 #include <math/Math.h>
 #include <math/ImageAtlas.h>

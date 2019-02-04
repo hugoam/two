@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/string.h>
-#include <ui/Structs/Widget.h>
+#include <ui/WidgetStruct.h>
 #endif
 #include <ui/Forward.h>
 

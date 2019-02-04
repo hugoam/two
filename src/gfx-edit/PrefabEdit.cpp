@@ -12,10 +12,10 @@ module mud.gfx-edit;
 //#include <infra/ToString.h>
 #include <refl/Convert.h>
 #include <refl/System.h>
-#include <ui/Structs/Container.h>
+#include <ui/ContainerStruct.h>
 #include <ui/Section.h>
-#include <uio/Edit/Inspector.h>
-#include <uio/Edit/Method.h>
+#include <uio/Inspector.h>
+#include <uio/MethodEdit.h>
 #include <gfx/Types.h>
 #include <gfx/Prefab.h>
 #include <gfx/Gfx.h>

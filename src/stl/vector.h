@@ -10,7 +10,7 @@ namespace stl = std;
 #include <stl/buffer.h>
 #include <stl/stddef.h>
 
-//#define USE_UVECTOR
+#define USE_UVECTOR
 
 #ifdef USE_UVECTOR
 #include <stl/ubuffer.h>

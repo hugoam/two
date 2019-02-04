@@ -9,7 +9,7 @@
 #include <stl/map.h>
 #endif
 #include <ui/Forward.h>
-#include <ui/Render/Renderer.h>
+#include <ui/Render/UiRenderer.h>
 
 #ifndef MUD_MODULES
 #include <vg/vg.h>

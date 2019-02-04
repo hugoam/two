@@ -15,7 +15,7 @@ module mud.gfx;
 #else
 #include <infra/ToString.h>
 #include <math/Vec.hpp>
-#include <geom/Mesh.h>
+#include <geom/Geometry.h>
 #include <geom/Shape/ProcShape.h>
 #include <gfx/Types.h>
 #include <gfx/Draw.h>

@@ -9,7 +9,7 @@ module mud.ui;
 #else
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 #include <infra/File.h>
 #include <ctx/Context.h>
 #include <ui/UiWindow.h>

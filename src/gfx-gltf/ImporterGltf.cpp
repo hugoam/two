@@ -17,13 +17,13 @@ module mud.gfx.gltf;
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <infra/File.h>
-#include <infra/String.h>
+#include <infra/StringOps.h>
 #include <infra/ToString.h>
 #include <pool/Pool.hpp>
 #include <srlz/Serial.h>
 #include <math/VecJson.h>
 #include <math/Interp.h>
-#include <geom/Mesh.h>
+#include <geom/Geometry.h>
 #include <gfx/Node3.h>
 #include <gfx/Item.h>
 #include <gfx/Mesh.h>
@@ -36,7 +36,7 @@ module mud.gfx.gltf;
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
 #include <gltf/Gltf.h>
-#include <meta/gltf/Module.h>
+#include <meta/gltf/gltf.meta.h>
 #include <gfx-gltf/Types.h>
 #include <gfx-gltf/ImporterGltf.h>
 #endif

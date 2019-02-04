@@ -14,7 +14,7 @@
 #include <math/ImageAtlas.h>
 #endif
 #include <ui/Forward.h>
-#include <ui/Render/Renderer.h>
+#include <ui/Render/UiRenderer.h>
 
 namespace mud
 {

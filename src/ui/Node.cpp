@@ -9,16 +9,16 @@ module mud.ui;
 #else
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <math/Vec.hpp>
 //#include <ui/Extern.h>
 #include <ui/Node.h>
-#include <ui/Structs/Node.h>
-#include <ui/Structs/Container.h>
+#include <ui/NodeStruct.h>
+#include <ui/ContainerStruct.h>
 #include <ui/ScrollSheet.h>
 #include <ui/Cursor.h>
 #include <ui/Style/Paint.h>
-#include <ui/Render/Renderer.h>
+#include <ui/Render/UiRenderer.h>
 #include <ui/Frame/Solver.h>
 #include <ui/Style/Layout.h>
 #endif

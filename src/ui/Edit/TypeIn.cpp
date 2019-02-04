@@ -19,16 +19,16 @@ module mud.ui;
 #include <stl/algorithm.h>
 #include <math/Math.h>
 #include <math/Vec.hpp>
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <ui/Edit/TypeIn.h>
-#include <ui/Structs/Container.h>
+#include <ui/ContainerStruct.h>
 #include <ui/ScrollSheet.h>
 #include <ui/Edit/Lang.h>
 #include <ui/Frame/Layer.h>
 #include <ui/Frame/Caption.h>
-#include <ui/Structs/RootSheet.h>
+#include <ui/UiRoot.h>
 #include <ui/Cursor.h>
-#include <ui/Render/Renderer.h>
+#include <ui/Render/UiRenderer.h>
 #include <ui/Style/Skin.h>
 #include <ui/UiWindow.h>
 #endif

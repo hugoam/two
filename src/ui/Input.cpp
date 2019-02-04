@@ -13,9 +13,9 @@ module mud.ui;
 #include <ui/Input.hpp>
 #include <ui/Sheet.h>
 #include <ui/Container.h>
-#include <ui/Structs/Container.h>
-#include <ui/Structs/RootSheet.h>
-#include <ui/Render/Renderer.h>
+#include <ui/ContainerStruct.h>
+#include <ui/UiRoot.h>
+#include <ui/Render/UiRenderer.h>
 #include <ui/Container.h>
 #include <ui/Style/Skin.h>
 #endif

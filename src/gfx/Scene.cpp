@@ -8,7 +8,7 @@
 module mud.gfx;
 #else
 #include <stl/algorithm.h>
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <math/Timer.h>
 #include <pool/ObjectPool.hpp>
 #include <geom/Geom.hpp>

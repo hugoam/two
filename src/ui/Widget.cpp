@@ -8,9 +8,9 @@
 module mud.ui;
 #else
 #include <stl/string.h>
-#include <tree/Node.hpp>
+#include <tree/Graph.hpp>
 #include <ui/Widget.h>
-#include <ui/Structs/Widget.h>
+#include <ui/WidgetStruct.h>
 #include <ui/Style/Styles.h>
 #endif
 

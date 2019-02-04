@@ -11,7 +11,7 @@ module mud.ui;
 #include <ui/Scrollbar.h>
 #include <ui/Button.h>
 #include <ui/Style/Styles.h>
-#include <ui/Structs/Widget.h>
+#include <ui/WidgetStruct.h>
 #endif
 
 namespace mud

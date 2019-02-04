@@ -11,7 +11,7 @@ module mud.ui;
 #include <math/Vec.hpp>
 #include <ui/Frame/Solver.h>
 #include <ui/Style/Style.h>
-#include <ui/Structs/Widget.h>
+#include <ui/WidgetStruct.h>
 #include <ui/Frame/Caption.h>
 #include <ui/Frame/Layer.h>
 #endif

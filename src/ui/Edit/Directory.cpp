@@ -11,8 +11,8 @@ module mud.ui;
 #include <infra/File.h>
 #include <ui/Edit/Directory.h>
 #include <ui/Button.h>
-#include <ui/Structs/Widget.h>
-#include <ui/Structs/Container.h>
+#include <ui/WidgetStruct.h>
+#include <ui/ContainerStruct.h>
 #include <ui/Style/Styles.h>
 #endif
 
