@@ -41,7 +41,7 @@ namespace mud
 		void* m_identity = nullptr;
 		size_t m_heartbeat = 0;
 		vector<unique<T>> m_nodes;
-		//unique<NodeState> m_state;
+		unique<NodeState> m_state;
 		uint16_t m_next = 0;
 		
 		template <class Child = T, class... Args>
