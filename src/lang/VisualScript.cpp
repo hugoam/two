@@ -369,7 +369,7 @@ namespace mud
 		return m_order;
 	}
 
-	VisualScript::VisualScript(cstring name, const Signature& signature)
+	VisualScript::VisualScript(const string& name, const Signature& signature)
 		: Script(type<VisualScript>(), name, signature)
 	{
 		if(!signature.m_return_type.isvoid())

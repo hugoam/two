@@ -139,7 +139,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT VisualScript final : public NonCopy, public Script
 	{
 	public:
-		constr_ VisualScript(cstring name, const Signature& signature = {});
+		constr_ VisualScript(const string& name, const Signature& signature = {});
 
 		vector<object<Process>> m_processes;
 		vector<object<Pipe>> m_pipes;
