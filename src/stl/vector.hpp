@@ -55,12 +55,12 @@ namespace stl {
 	template <class T, class Alloc>
 	inline typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator first, iterator last) {
 		const size_t count = (last - first);
-		for (pointer it = last, end = m_last, dest = first; it != end; ++it, ++dest)
+		for (pointer it = last, end = this->m_last, dest = first; it != end; ++it, ++dest)
 			move(*dest, *it);
 
-		destroy_urange(m_last - count, m_last);
+		destroy_urange(this->m_last - count, this->m_last);
 
-		m_last -= count;
+		this->m_last -= count;
 		return first;
 	}
 
@@ -72,14 +72,14 @@ namespace stl {
 	template <class T, class Alloc>
 	inline typename vector<T, Alloc>::iterator vector<T, Alloc>::erase_unordered(iterator first, iterator last) {
 		const size_t count = (last - first);
-		const size_t tail = (m_last - last);
-		pointer it = m_last - ((count < tail) ? count : tail);
-		for (pointer end = m_last, dest = first; it != end; ++it, ++dest)
+		const size_t tail = (this->m_last - last);
+		pointer it = this->m_last - ((count < tail) ? count : tail);
+		for (pointer end = this->m_last, dest = first; it != end; ++it, ++dest)
 			move(*dest, *it);
 
-		destroy_urange(m_last - count, m_last);
+		destroy_urange(this->m_last - count, this->m_last);
 
-		m_last -= count;
+		this->m_last -= count;
 		return first;
 	}
 
