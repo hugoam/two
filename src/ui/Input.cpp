@@ -33,7 +33,7 @@ namespace ui
 	//template bool input(Widget& parent, bool& value);
 	template bool input(Widget& parent, int& value);
 	template bool input(Widget& parent, float& value);
-	template bool input(Widget& parent, string& value);
+	//template bool input(Widget& parent, string& value);
 
 	bool drag_float(Widget& parent, float& value, float step)
 	{

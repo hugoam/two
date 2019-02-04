@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
+#include <tree/Node.hpp>
 #include <stl/algorithm.h>
 #include <type/Any.h>
 #include <ecs/ECS.h>

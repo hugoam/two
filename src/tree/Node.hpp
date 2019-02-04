@@ -63,7 +63,6 @@ namespace mud
 	template <class T>
 	inline T& Graph<T>::root() { if (m_parent) return m_parent->root(); return impl(); }
 
-#if 0
 	template <class T>
 	template <class T_State, class... Args>
 	inline T_State& Graph<T>::state(Args&&... args)
@@ -72,7 +71,6 @@ namespace mud
 			m_state = make_unique<T_State>(static_cast<Args&&>(args)...);
 		return static_cast<T_State&>(*m_state);
 	}
-#endif
 
 	template <class T>
 	void Graph<T>::clean_tree(size_t heartbeat)

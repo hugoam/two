@@ -10,6 +10,7 @@
 module mud.gfx.ui;
 #else
 #include <stl/algorithm.h>
+#include <tree/Node.hpp>
 #include <math/Math.h>
 #include <geom/Geom.hpp>
 #include <geom/Intersect.h>

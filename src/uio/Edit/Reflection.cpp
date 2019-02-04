@@ -9,6 +9,7 @@ module mud.uio;
 #else
 #include <stl/algorithm.h>
 //#include <type/Entity.h>
+#include <tree/Node.hpp>
 #include <refl/Class.h>
 #include <refl/System.h>
 #include <refl/Convert.h>

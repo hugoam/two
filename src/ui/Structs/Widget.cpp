@@ -9,6 +9,7 @@ module mud.ui;
 #else
 #include <infra/String.h>
 #include <infra/Reverse.h>
+#include <tree/Node.hpp>
 #include <ctx/InputDevice.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Structs/RootSheet.h>

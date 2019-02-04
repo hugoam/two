@@ -10,6 +10,7 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
+#include <tree/Node.hpp>
 #include <refl/Meta.h>
 #include <refl/Method.h>
 #include <refl/Call.h>

@@ -5,6 +5,7 @@ module mud.type;
 #else
 #include <stddef.h>
 #include <infra/ToString.h>
+#include <infra/ToValue.h>
 #include <type/Vector.h>
 #include <type/Any.h>
 #include <refl/MetaDecl.h>

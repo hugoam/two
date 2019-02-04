@@ -9,6 +9,7 @@ module mud.gfx-edit;
 #else
 #include <infra/File.h>
 #include <type/Var.h>
+#include <tree/Node.hpp>
 #include <srlz/Serial.h>
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>

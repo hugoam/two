@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
+#include <tree/Node.hpp>
 #include <refl/Class.h>
 #include <refl/System.h>
 #include <ecs/Proto.h>

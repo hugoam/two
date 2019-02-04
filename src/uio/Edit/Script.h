@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
 #include <lang/Script.h>
 #endif
 #include <ui/Section.h>
@@ -27,8 +28,8 @@ namespace mud
 		void open(Script& script);
 		void close(Script& script);
 
-		TextScript& create_script(cstring name, Language language, Signature signature = {});
-		VisualScript& create_visual(cstring name, Signature signature = {});
+		TextScript& create_script(const string& name, Language language, Signature signature = {});
+		VisualScript& create_visual(const string& name, Signature signature = {});
 	};
 
 	export_ MUD_UIO_EXPORT void script_edit_output(Widget& parent, Interpreter& interpreter);

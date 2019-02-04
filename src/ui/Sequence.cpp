@@ -8,6 +8,7 @@
 module mud.ui;
 #else
 #include <stl/algorithm.h>
+#include <tree/Node.hpp>
 #include <ui/Sequence.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Structs/RootSheet.h>

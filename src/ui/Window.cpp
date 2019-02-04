@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <tree/Node.hpp>
 #include <math/Vec.hpp>
 #include <ui/Window.h>
 #include <ui/Cursor.h>

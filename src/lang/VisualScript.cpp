@@ -8,6 +8,7 @@
 module mud.lang;
 #else
 #include <stl/algorithm.h>
+#include <infra/ToString.h>
 #include <refl/Convert.h>
 #include <infra/ToString.h>
 #include <infra/Reverse.h>

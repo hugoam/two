@@ -10,6 +10,7 @@ module mud.uio;
 #else
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
+#include <infra/ToString.h>
 #include <math/Vec.hpp>
 #include <type/Any.h>
 #include <refl/System.h>
@@ -63,7 +64,7 @@ namespace mud
 		remove(m_scripts, &script);
 	}
 
-	TextScript& ScriptEditor::create_script(cstring name, Language language, Signature signature)
+	TextScript& ScriptEditor::create_script(const string& name, Language language, Signature signature)
 	{
 		TextScript& script = global_pool<TextScript>().construct(name, language, signature);
 		if(language == Language::Lua)
@@ -74,7 +75,7 @@ namespace mud
 		return script;
 	}
 
-	VisualScript& ScriptEditor::create_visual(cstring name, Signature signature)
+	VisualScript& ScriptEditor::create_visual(const string& name, Signature signature)
 	{
 		VisualScript& script = global_pool<VisualScript>().construct(name, signature);
 		this->open(script);
@@ -213,9 +214,9 @@ namespace mud
 		Section& self = section(parent, "Script Editor");
 
 		if(section_action(self, "New Script"))
-			editor.create_script(("Untitled " + to_string(editor.m_scripts.size())).c_str(), Language::Lua);
+			editor.create_script("Untitled " + to_string(editor.m_scripts.size()), Language::Lua);
 		if(section_action(self, "New Visual Script"))
-			editor.create_visual(("Untitled " + to_string(editor.m_scripts.size())).c_str());
+			editor.create_visual("Untitled " + to_string(editor.m_scripts.size()));
 
 		if(ui::modal_button(self, *self.m_toolbar, "Open Script", Open))
 		{
