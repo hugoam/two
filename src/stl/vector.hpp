@@ -85,8 +85,9 @@ namespace stl {
 
 	template <class T, class Alloc>
 	template <class... Params>
-	inline void vector<T, Alloc>::emplace(typename vector::iterator where, Params&&... params) {
-		//buffer_emplace(m_buffer, where, 1, static_cast<Params&&>(params)...);
+	inline void vector<T, Alloc>::emplace(iterator where, Params&&... params) {
+		where = this->spread(where, 1);
+		new(placeholder(), where) T(static_cast<Params&&>(params)...);
 	}
 #endif
 }

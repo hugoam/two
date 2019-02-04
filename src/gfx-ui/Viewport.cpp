@@ -8,6 +8,7 @@
 module mud.gfx.ui;
 #else
 #include <stl/algorithm.h>
+#include <tree/Node.hpp>
 #include <gfx/Item.h>
 #include <gfx-ui/Types.h>
 #include <gfx-ui/Viewport.h>

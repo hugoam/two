@@ -1,6 +1,7 @@
 #include <geom/Aabb.h>
 #include <geom/Forward.h>
 #include <geom/Geom.h>
+#include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <geom/Mesh.h>
 #include <geom/Poisson.h>

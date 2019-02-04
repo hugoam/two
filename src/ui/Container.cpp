@@ -9,6 +9,7 @@ module mud.ui;
 #else
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
+#include <tree/Node.hpp>
 #include <ui/Container.h>
 #include <ui/Structs/Container.h>
 #include <ui/Structs/Widget.h>

@@ -11,6 +11,7 @@ module mud.ui;
 #include <stl/map.h>
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
+#include <tree/Node.hpp>
 #include <ui/Dock.h>
 #include <ui/Structs/Dock.h>
 #include <ui/Structs/Window.h>

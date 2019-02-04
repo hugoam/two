@@ -19,6 +19,7 @@ module mud.ui;
 #include <stl/algorithm.h>
 #include <math/Math.h>
 #include <math/Vec.hpp>
+#include <tree/Node.hpp>
 #include <ui/Edit/TypeIn.h>
 #include <ui/Structs/Container.h>
 #include <ui/ScrollSheet.h>

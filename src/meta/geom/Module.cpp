@@ -382,9 +382,9 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Symbol", sizeof(mud::Symbol), TypeClass::Struct };
 		// bases
 		// defaults
-		static const char* image_default = nullptr;
+		//static const char* image_default = nullptr;
 		static mud::Image256* image256_default = nullptr;
-		static const char* program_default = nullptr;
+		//static const char* program_default = nullptr;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Symbol__construct_0, { { "fill", type<mud::Colour>(), Param::Default }, { "outline", type<mud::Colour>(), Param::Default }, { "overlay", type<bool>(), Param::Default }, { "double_sided", type<bool>(), Param::Default }, { "detail", type<mud::SymbolDetail>(), Param::Default } } }
