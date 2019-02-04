@@ -3,6 +3,7 @@
 #ifdef MUD_MODULES
 module mud.gfx-pbr;
 #else
+#include <cstddef>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>

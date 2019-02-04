@@ -324,8 +324,8 @@ namespace stl {
 
 	template <class Alloc>
 	inline size_t basic_string<Alloc>::find(char c, const size_t offset) const {
-		const size_t hay_size = size();
-		const char* hay = m_first;
+		const size_t hay_size = this->size();
+		const char* hay = this->m_first;
 		if(offset < hay_size)
 		{
 			const char* match = string_find(hay + offset, hay_size - offset, c);
@@ -338,7 +338,7 @@ namespace stl {
 
 	template <class Alloc>
 	inline size_t basic_string<Alloc>::rfind(char c, const size_t offset) const {
-		const size_t hay_size = size();
+		const size_t hay_size = this->size();
 		const char* hay = this->m_first;
 		if(hay_size != 0)
 			for(const char* current = hay + min(offset, hay_size - 1); current != hay; --current)
@@ -354,7 +354,7 @@ namespace stl {
 	inline size_t basic_string<Alloc>::find(const basic_string& other, const size_t offset) const {
 		const char* hay = this->begin();
 		const char* needle = other.begin();
-		const size_t hay_size = size();
+		const size_t hay_size = this->size();
 		const size_t needle_size = other.size();
 
 		if(needle_size > hay_size || offset > hay_size - needle_size)

@@ -120,41 +120,41 @@ namespace stl {
 
 	template <class T, class Alloc, size_t Pad>
 	inline const T& buffer<T, Alloc, Pad>::front() const {
-		return m_first[0];
+		return this->m_first[0];
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline T& buffer<T, Alloc, Pad>::front() {
-		return m_first[0];
+		return this->m_first[0];
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline const T& buffer<T, Alloc, Pad>::back() const {
-		return m_last[-1];
+		return this->m_last[-1];
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline T& buffer<T, Alloc, Pad>::back() {
-		return m_last[-1];
+		return this->m_last[-1];
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline typename buffer<T, Alloc, Pad>::iterator buffer<T, Alloc, Pad>::begin() {
-		return m_first;
+		return this->m_first;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline typename buffer<T, Alloc, Pad>::iterator buffer<T, Alloc, Pad>::end() {
-		return m_last;
+		return this->m_last;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline typename buffer<T, Alloc, Pad>::const_iterator buffer<T, Alloc, Pad>::begin() const {
-		return m_first;
+		return this->m_first;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline typename buffer<T, Alloc, Pad>::const_iterator buffer<T, Alloc, Pad>::end() const {
-		return m_last;
+		return this->m_last;
 	}
 }

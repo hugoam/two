@@ -3,6 +3,7 @@
 #ifdef MUD_MODULES
 module mud.geom;
 #else
+#include <cstddef>
 #include <stl/new.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>

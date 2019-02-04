@@ -62,8 +62,8 @@ namespace mud
 			return *this;
 		}
 
-		bool operator==(std::nullptr_t) const { return m_ptr == nullptr; }
-		bool operator!=(std::nullptr_t) const { return m_ptr != nullptr; }
+		bool operator==(nullptr_t) const { return m_ptr == nullptr; }
+		bool operator!=(nullptr_t) const { return m_ptr != nullptr; }
 
 		explicit operator bool() const { return m_ptr; }
 
@@ -101,8 +101,8 @@ namespace mud
 	}
 #endif
 
-	template <class T> bool operator==(std::nullptr_t, const unique<T>& b) { return b == nullptr; }
-	template <class T> bool operator!=(std::nullptr_t, const unique<T>& b) { return b != nullptr; }
+	template <class T> bool operator==(nullptr_t, const unique<T>& b) { return b == nullptr; }
+	template <class T> bool operator!=(nullptr_t, const unique<T>& b) { return b != nullptr; }
 
 	template <class T, class U> inline bool operator==(const unique<T>& l, const unique<U>& r) { return (l.get() == r.get()); }
 	template <class T, class U> inline bool operator!=(const unique<T>& l, const unique<U>& r) {	return (l.get() != r.get()); }

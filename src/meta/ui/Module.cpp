@@ -3,6 +3,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <cstddef>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>

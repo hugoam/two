@@ -8,6 +8,8 @@
 #include <type/Ref.h>
 #include <pool/Forward.h>
 
+#include <cstddef>
+
 namespace mud
 {
 	export_ class refl_ MUD_POOL_EXPORT Pool

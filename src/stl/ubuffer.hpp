@@ -65,7 +65,7 @@ namespace stl {
 		//enable_if<!is_copy_constructible<T>, T&> upush_back(const uvector<T>& self, const T& entry) {}
 
 		template <class T>
-		enable_if<is_copy_constructible<T>, void> uassign(uvector<T>& self, const uvector<T>& other) { m_ubuffer.assign(other.m_ubuffer, ucopy_construct<T>::func, udestruct<T>::func); }
+		enable_if<is_copy_constructible<T>, void> uassign(uvector<T>& self, const uvector<T>& other) { self.m_ubuffer.assign(other.m_ubuffer, ucopy_construct<T>::func, udestruct<T>::func); }
 	}
 
 	template <typename T>
