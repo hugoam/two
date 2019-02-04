@@ -342,8 +342,8 @@ end
 --mud_vec(true)
 --mud.db = mud_module("mud", "db", MUD_SRC_DIR, "db", { mud.type, mud.util })
 
-mud.mud = { mud.infra, mud.jobs, mud.type, mud.tree, mud.pool, mud.refl, mud.ecs, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio, mud.bgfx, mud.gfx, mud.gfx.ui, mud.frame,
-            mud.ctxbackend, mud.uibackend }
+mud.mud = { mud.infra, mud.jobs, mud.type, mud.tree, mud.pool, mud.refl, mud.ecs, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio, mud.bgfx, mud.gfx, mud.gfx.ui,
+            mud.ctxbackend, mud.uibackend, mud.frame }
 mud.opts = { mud.noise, mud.wfc, mud.fract, mud.gfx.pbr, mud.gfx.obj, mud.gltf, mud.gfx.gltf, mud.gfx.edit, mud.tool, mud.wfc.gfx }
 
 if _OPTIONS["tools"] then
@@ -356,10 +356,6 @@ if _OPTIONS["sound"] then
 end
 
 mud.all = table.union(mud.mud, mud.opts)
-
-for _, m in pairs(mud.all) do
-    print("    module " .. m.dotname)
-end
 
 if _OPTIONS["as-libs"] then
     FORCE_REFL_PROJECTS = true

@@ -127,7 +127,6 @@ function mud_module_decl(m)
     }
     
     if m.headers then
-        print("    headers " .. m.headers[1])
         files(m.headers)
     else
         files {
@@ -137,7 +136,6 @@ function mud_module_decl(m)
     end
     
     if m.sources then
-        print("    sources " .. m.headers[1])
         files(m.sources)
     else
         files {

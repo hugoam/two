@@ -7,7 +7,6 @@
 #ifdef MUD_MODULES
 module mud.wfc.gfx;
 #else
-#include <meta/math/Convert.h>
 #include <math/Axes.h>
 #include <geom/Intersect.h>
 #include <geom/Shapes.h>
@@ -27,6 +26,7 @@ module mud.wfc.gfx;
 #include <wfc-gfx/Types.h>
 #include <wfc-gfx/Wfc/Tileblock.h>
 #include <ecs/ECS.h>
+#include <meta/math.conv.h>
 #endif
 
 namespace mud

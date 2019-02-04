@@ -35,6 +35,7 @@ namespace stl {
 		void resize(size_t size);
 		void resize(size_t size, char value);
 		void clear();
+		void alloc(size_t capacity);
 		void reserve(size_t capacity);
 
 		void push_back(char t);
@@ -81,7 +82,7 @@ namespace stl {
 
 		static constexpr auto npos{ static_cast<size_t>(-1) };
 
-	private:
+	//private:
 		void reset(size_t size);
 		void fill(const char* first, const char* last);
 

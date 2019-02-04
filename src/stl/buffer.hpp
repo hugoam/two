@@ -136,11 +136,8 @@ namespace stl {
 
 	template <class T, class Alloc, size_t Pad>
 	inline buf<T, Alloc, Pad>::~buf() {
-		if(this->m_first != nullptr)
-		{
-			destroy_urange(this->m_first, this->m_last);
-			Alloc::static_deallocate(this->m_first, this->capacity());
-		}
+		destroy_urange(this->m_first, this->m_last);
+		Alloc::static_deallocate(this->m_first, this->capacity());
 	}
 
 	template <class T, class Alloc, size_t Pad>
@@ -165,7 +162,7 @@ namespace stl {
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buf<T, Alloc, Pad>::alloc(size_t size) {
-		this->m_first = (T*)Alloc::static_allocate(sizeof(T) * size);
+		this->m_first = (T*)Alloc::static_allocate(sizeof(T) * (size + Pad));
 		this->m_last = this->m_capacity = this->m_first + size;
 	}
 
@@ -268,8 +265,7 @@ namespace stl {
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buffer<T, Alloc, Pad>::fill(const T* first, const T* last) {
-		copy_urange(this->m_last, first, last);
-		this->m_last += size_t(last - first);
+		copy_urange(this->m_first, first, last);
 	}
 
 	template <class T, class Alloc, size_t Pad>

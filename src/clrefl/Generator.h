@@ -601,7 +601,7 @@ namespace mud
 			m_refl_path = m_rootdir + "/" + "meta";
 			m_bind_path = m_rootdir + "/" + "bind";
 
-			m_has_structs = file_exists((m_path + "/" + "Structs.h").c_str());
+			m_has_structs = file_exists(m_path + "/" + "Structs.h");
 		}
 
 		CLContext& m_context;
