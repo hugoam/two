@@ -113,7 +113,7 @@ namespace stl {
 	template <class T, class Alloc, size_t Pad>
 	inline buf<T, Alloc, Pad>::buf(const buf& other) {
 		this->alloc(other.size());
-		copy_urange(m_first, other.m_first, other.m_last);
+		copy_urange(this->m_first, other.m_first, other.m_last);
 	}
 
 	template <class T, class Alloc, size_t Pad>
@@ -125,21 +125,21 @@ namespace stl {
 	template <class T, class Alloc, size_t Pad>
 	inline buf<T, Alloc, Pad>::buf(size_t size) {
 		this->alloc(size);
-		fill_urange(m_first, m_first + size);
+		fill_urange(this->m_first, this->m_first + size);
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline buf<T, Alloc, Pad>::buf(size_t size, const T& value) {
 		this->alloc(size);
-		fill_urange(m_first, m_first + size, value);
+		fill_urange(this->m_first, this->m_first + size, value);
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline buf<T, Alloc, Pad>::~buf() {
-		if(m_first != nullptr)
+		if(this->m_first != nullptr)
 		{
-			destroy_urange(m_first, m_last);
-			Alloc::static_deallocate(m_first, this->capacity());
+			destroy_urange(this->m_first, this->m_last);
+			Alloc::static_deallocate(this->m_first, this->capacity());
 		}
 	}
 
@@ -165,23 +165,23 @@ namespace stl {
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buf<T, Alloc, Pad>::alloc(size_t size) {
-		m_first = (T*)Alloc::static_allocate(sizeof(T) * size);
-		m_last = m_capacity = m_first + size;
+		this->m_first = (T*)Alloc::static_allocate(sizeof(T) * size);
+		this->m_last = this->m_capacity = this->m_first + size;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buf<T, Alloc, Pad>::realloc(size_t capacity, bool dealloc) {
 		const size_t size = this->size();
 		T* first = (T*)Alloc::static_allocate(sizeof(T) * (capacity + Pad));
-		move_urange(first, m_first, m_last);
+		move_urange(first, this->m_first, this->m_last);
 		if (dealloc)
 		{
 			const size_t oldcapacity = this->capacity();
-			Alloc::static_deallocate(m_first, sizeof(T) * (oldcapacity + Pad));
+			Alloc::static_deallocate(this->m_first, sizeof(T) * (oldcapacity + Pad));
 		}
-		m_first = first;
-		m_last = first + size;
-		m_capacity = first + capacity;
+		this->m_first = first;
+		this->m_last = first + size;
+		this->m_capacity = first + capacity;
 	}
 
 	template <class T, class Alloc, size_t Pad>
@@ -194,23 +194,23 @@ namespace stl {
 	template <class T, class Alloc, size_t Pad>
 	inline void buf<T, Alloc, Pad>::resize(size_t size) {
 		this->reserve(size);
-		fill_urange(m_last, m_first + size);
-		destroy_urange(m_first + size, m_last);
-		m_last = m_first + size;
+		fill_urange(this->m_last, this->m_first + size);
+		destroy_urange(this->m_first + size, this->m_last);
+		this->m_last = this->m_first + size;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buf<T, Alloc, Pad>::resize(size_t size, const T& value) {
 		this->reserve(size);
-		fill_urange(m_last, m_first + size, value);
-		destroy_urange(m_first + size, m_last);
-		m_last = m_first + size;
+		fill_urange(this->m_last, this->m_first + size, value);
+		destroy_urange(this->m_first + size, this->m_last);
+		this->m_last = this->m_first + size;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buf<T, Alloc, Pad>::clear() {
-		destroy_urange(m_first, m_last);
-		m_last = m_first;
+		destroy_urange(this->m_first, this->m_last);
+		this->m_last = this->m_first;
 	}
 
 	template <class T, class Alloc, size_t Pad>
@@ -234,59 +234,59 @@ namespace stl {
 	template <class T, class Alloc, size_t Pad>
 	inline void buffer<T, Alloc, Pad>::push_back(const T& t) {
 		this->grow(this->size() + 1);
-		copy_construct(m_last, t);
-		m_last++;
+		copy_construct(this->m_last, t);
+		this->m_last++;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buffer<T, Alloc, Pad>::push_back(T&& t) {
 		this->grow(this->size() + 1);
-		new(placeholder(), m_last) T(static_cast<T&&>(t));
-		m_last++;
+		new(placeholder(), this->m_last) T(static_cast<T&&>(t));
+		this->m_last++;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	template <class... Params>
 	inline void buffer<T, Alloc, Pad>::emplace_back(Params&&... params) {
 		this->grow(this->size() + 1);
-		new(placeholder(), m_last) T(static_cast<Params&&>(params)...);
-		m_last++;
+		new(placeholder(), this->m_last) T(static_cast<Params&&>(params)...);
+		this->m_last++;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buffer<T, Alloc, Pad>::emplace_back() {
 		this->grow(this->size() + 1);
-		new(placeholder(), m_last) T();
-		m_last++;
+		new(placeholder(), this->m_last) T();
+		this->m_last++;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buffer<T, Alloc, Pad>::pop_back() {
-		destroy_urange(m_last - 1, m_last);
-		m_last--;
+		destroy_urange(this->m_last - 1, this->m_last);
+		this->m_last--;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buffer<T, Alloc, Pad>::fill(const T* first, const T* last) {
-		copy_urange(m_last, first, last);
-		m_last += size_t(last - first);
+		copy_urange(this->m_last, first, last);
+		this->m_last += size_t(last - first);
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buffer<T, Alloc, Pad>::append(const T* first, const T* last) {
 		const size_t count = last - first;
 		this->grow(this->size() + count);
-		copy_urange(m_last, first, last);
-		m_last += count;
+		copy_urange(this->m_last, first, last);
+		this->m_last += count;
 	}
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buffer<T, Alloc, Pad>::shrink_to_fit() {
-		if (m_capacity == m_last) return;
+		if (this->m_capacity == this->m_last) return;
 		if (this->empty()) {
 			const size_t capacity = this->capacity();
-			Alloc::static_deallocate(m_first, sizeof(T) * (capacity + Pad));
-			m_capacity = m_first = m_last = nullptr;
+			Alloc::static_deallocate(this->m_first, sizeof(T) * (capacity + Pad));
+			this->m_capacity = this->m_first = this->m_last = nullptr;
 		} else {
 			const size_t size = this->size();
 			this->realloc(size);
@@ -295,14 +295,14 @@ namespace stl {
 
 	template <class T, class Alloc, size_t Pad>
 	inline T* buffer<T, Alloc, Pad>::spread(T* where, size_t count, bool dealloc) {
-		const size_t offset = size_t(where - m_first);
+		const size_t offset = size_t(where - this->m_first);
 		const size_t newsize = this->size() + count;
 		this->grow(newsize, dealloc);
-		where = m_first + offset;
+		where = this->m_first + offset;
 
-		if (where != m_last)
-			bmove_urange(where + count, where, m_last);
-		m_last = m_first + newsize;
+		if (where != this->m_last)
+			bmove_urange(where + count, where, this->m_last);
+		this->m_last = this->m_first + newsize;
 		return where;
 	}
 }
