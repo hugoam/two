@@ -4,7 +4,13 @@
 #include <stl/string.h>
 #include <stl/unordered_map.h>
 #include <ui/Api.h>
-//#include <ui/Edit/Lang.h>
+#include <ui/Edit/Lang.h>
+
+#ifdef USE_UVECTOR
+#define vector uvector
+#elif defined USE_BUFFER
+#define vector buffer
+#endif
 
 namespace stl
 {

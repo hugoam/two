@@ -2,6 +2,7 @@
 
 #ifdef USE_STL
 #include <unordered_map>
+namespace stl = std;
 #else
 #include <stl/allocator.h>
 #include <stl/buffer.h>
@@ -21,10 +22,10 @@ namespace stl {
 		unordered_map& operator=(const unordered_map& other);
 		unordered_map& operator=(unordered_map&& other);
 
-		typedef pair<Key, Value> value_type;
+		using value_type = pair<Key, Value>;
 
-		typedef unordered_hash_iterator<const unordered_hash_node<Key, Value> > const_iterator;
-		typedef unordered_hash_iterator<unordered_hash_node<Key, Value> > iterator;
+		using const_iterator = unordered_hash_iterator<const unordered_hash_node<Key, Value>>;
+		using iterator = unordered_hash_iterator<unordered_hash_node<Key, Value>>;
 
 		iterator begin();
 		iterator end();
@@ -49,13 +50,12 @@ namespace stl {
 		void swap(unordered_map& other);
 
 	private:
-
 		void rehash(size_t nbuckets);
 
 		typedef unordered_hash_node<Key, Value>* pointer;
 
 		size_t m_size;
-		stl::buffer<pointer, Alloc> m_buckets;
+		buf<pointer, Alloc> m_buckets;
 	};
 }
 #endif

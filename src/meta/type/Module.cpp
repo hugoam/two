@@ -3,6 +3,7 @@
 #ifdef MUD_MODULES
 module mud.type;
 #else
+#include <stddef.h>
 #include <type/Vector.h>
 #include <type/Any.h>
 #include <refl/MetaDecl.h>

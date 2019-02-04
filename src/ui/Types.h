@@ -4,7 +4,6 @@
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
 #include <type/Type.h>
-#include <type/Vector.h>
 #endif
 
 #ifndef MUD_MODULES

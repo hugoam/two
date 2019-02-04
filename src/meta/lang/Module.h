@@ -5,7 +5,7 @@
 #endif
 
 #include <lang/Forward.h>
-#include <lang/Types.h>
+//#include <lang/Types.h>
 
 #ifndef MUD_LANG_REFL_EXPORT
 #define MUD_LANG_REFL_EXPORT MUD_IMPORT

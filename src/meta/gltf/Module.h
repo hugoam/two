@@ -5,7 +5,7 @@
 #endif
 
 #include <gltf/Forward.h>
-#include <gltf/Types.h>
+//#include <gltf/Types.h>
 
 #ifndef MUD_GLTF_REFL_EXPORT
 #define MUD_GLTF_REFL_EXPORT MUD_IMPORT

@@ -29,6 +29,8 @@ module mud.gfx.obj;
 #include <gfx-obj/ImporterObj.h>
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
 	static ImportConfig load_model_config(const string& path, const string& model_name)

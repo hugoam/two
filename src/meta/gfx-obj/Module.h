@@ -5,7 +5,7 @@
 #endif
 
 #include <gfx-obj/Forward.h>
-#include <gfx-obj/Types.h>
+//#include <gfx-obj/Types.h>
 
 #ifndef MUD_GFX_OBJ_REFL_EXPORT
 #define MUD_GFX_OBJ_REFL_EXPORT MUD_IMPORT

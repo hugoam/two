@@ -5,7 +5,7 @@
 #endif
 
 #include <srlz/Forward.h>
-#include <srlz/Types.h>
+//#include <srlz/Types.h>
 
 #ifndef MUD_SRLZ_REFL_EXPORT
 #define MUD_SRLZ_REFL_EXPORT MUD_IMPORT

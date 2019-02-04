@@ -20,6 +20,7 @@ module mud.refl;
 #endif
 
 #include <cstring>
+#include <cstdio>
 
 namespace mud
 {

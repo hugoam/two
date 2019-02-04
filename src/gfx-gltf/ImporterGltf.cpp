@@ -41,6 +41,8 @@ module mud.gfx.gltf;
 #include <gfx-gltf/ImporterGltf.h>
 #endif
 
+#include <cstdio>
+
 #define KUPOMAN_EXPORTER 1
 
 namespace mud

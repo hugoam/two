@@ -16,6 +16,8 @@ module mud.lang;
 #include <lang/VisualScript.h>
 #endif
 
+#include <cstdio>
+
 #define MUD_DEBUG_SCRIPT
 
 namespace mud

@@ -20,15 +20,16 @@ namespace mud
 #endif
 #else
 #include <stl/swap.h>
-#include <cstddef>
 namespace mud
 {
+	using nullptr_t = decltype(nullptr);
+
 	template <class T>
 	class unique
 	{
 	public:
 		unique() : m_ptr(nullptr) {}
-		unique(std::nullptr_t) : m_ptr(nullptr) {}
+		unique(nullptr_t) : m_ptr(nullptr) {}
 		explicit unique(T* m_ptr) : m_ptr(m_ptr) {}
 		~unique() { delete m_ptr; }
 

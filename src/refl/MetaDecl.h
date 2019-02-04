@@ -7,12 +7,10 @@
 #include <refl/Forward.h>
 #include <refl/Meta.h>
 #include <refl/Enum.h>
-#include <refl/Sequence.h>
-//#include <refl/Convert.h>
-#include <refl/Sequence.h>
+#include <refl/Iterable.h>
+#include <refl/Class.h>
 #include <refl/Namespace.h>
 #include <refl/Vector.h>
-//#include <pool/Pool.h>
 
 namespace mud
 {

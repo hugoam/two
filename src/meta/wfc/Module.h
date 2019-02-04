@@ -5,7 +5,7 @@
 #endif
 
 #include <wfc/Forward.h>
-#include <wfc/Types.h>
+//#include <wfc/Types.h>
 
 #ifndef MUD_WFC_REFL_EXPORT
 #define MUD_WFC_REFL_EXPORT MUD_IMPORT

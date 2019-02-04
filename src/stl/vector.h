@@ -2,10 +2,7 @@
 
 #ifdef USE_STL
 #include <vector>
-namespace mud
-{
-	export_ using std::vector;
-}
+namespace stl = std;
 #else
 #include <stl/initializer_list.h>
 
@@ -13,66 +10,32 @@ namespace mud
 #include <stl/buffer.h>
 #include <stl/stddef.h>
 
+#define USE_UVECTOR
+
+#ifdef USE_UVECTOR
+#include <stl/ubuffer.h>
+#endif
+
 namespace stl {
 
+#ifdef USE_UVECTOR
 	template <class T, class Alloc = TINYSTL_ALLOCATOR>
-	class vector {
+	using vector = uvector<T>;
+#elif defined USE_BUFFER
+	template <class T, class Alloc = TINYSTL_ALLOCATOR>
+	using vector = buffer<T>;
+#else
+	template <class T, class Alloc = TINYSTL_ALLOCATOR>
+	class vector : public buffer<T, Alloc> {
 	public:
-		vector();
-		vector(const vector& other);
-		vector(vector&& other);
-		vector(size_t size);
-		vector(size_t size, const T& value);
-		vector(const T* first, const T* last);
-		vector(std::initializer_list<T> list);
-		~vector();
+		using buffer<T, Alloc>::buffer;
 
-		vector& operator=(const vector& other);
-		vector& operator=(vector&& other);
+		using value_type = T;
+		using pointer = T*;
+		using iterator = T*;
+		using const_iterator = const T*;
 
 		void assign(const T* first, const T* last);
-
-		const T* data() const;
-		T* data();
-		size_t size() const;
-		size_t capacity() const;
-		bool empty() const;
-
-		T& operator[](size_t idx);
-		const T& operator[](size_t idx) const;
-
-		const T& front() const;
-		T& front();
-		const T& back() const;
-		T& back();
-
-		void resize(size_t size);
-		void resize(size_t size, const T& value);
-		void clear();
-		void reserve(size_t capacity);
-
-		void push_back(const T& t);
-		void push_back(T&& t);
-		void pop_back();
-
-		void emplace_back();
-		void emplace_back(T&& t);
-		template <class... Params>
-		void emplace_back(Params&&... params);
-
-		void shrink_to_fit();
-
-		void swap(vector& other);
-
-		typedef T value_type;
-
-		typedef T* iterator;
-		iterator begin();
-		iterator end();
-
-		typedef const T* const_iterator;
-		const_iterator begin() const;
-		const_iterator end() const;
 
 		iterator insert(iterator where);
 		iterator insert(iterator where, const T& value);
@@ -87,20 +50,14 @@ namespace stl {
 
 		iterator erase_unordered(iterator where);
 		iterator erase_unordered(iterator first, iterator last);
-
-	protected:
-		buffer<T, Alloc> m_buffer;
 	};
+#endif
 }
 #endif
 
 namespace mud
 {
-#ifdef USE_STL
-	using std::vector;
-#else
 	using stl::vector;
-#endif
 
 	template <class It1, class It2, class Pr>
 	inline bool equal(It1 first1, const It1 last1, It2 first2, Pr pred)

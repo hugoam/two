@@ -6,6 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/string.h>
+#include <stl/vector.h>
 #include <type/Ref.h>
 #include <type/Dispatch.h>
 #include <infra/Global.h>

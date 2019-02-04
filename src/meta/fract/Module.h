@@ -5,7 +5,7 @@
 #endif
 
 #include <fract/Forward.h>
-#include <fract/Types.h>
+//#include <fract/Types.h>
 
 #ifndef MUD_FRACT_REFL_EXPORT
 #define MUD_FRACT_REFL_EXPORT MUD_IMPORT

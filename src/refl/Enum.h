@@ -7,7 +7,6 @@
 #include <stl/vector.h>
 #include <infra/Array.h>
 #include <refl/Forward.h>
-#include <refl/Meta.h>
 
 namespace mud
 {

@@ -4,13 +4,13 @@
 
 #ifdef USE_STL
 #include <utility>
-namespace mud
+namespace stl
 {
 	using std::swap;
 }
 #else
 #include <stl/move.h>
-namespace mud
+namespace stl
 {
 	namespace
 	{
@@ -24,4 +24,9 @@ namespace mud
 	}
 }
 #endif
+
+namespace mud
+{
+	using stl::swap;
+}
 

@@ -433,7 +433,7 @@ namespace clgen
 
 	string constructor_body(const CLType& c, const CLConstructor& ctor)
 	{
-		return unused_args(ctor) + "new(&" + cast(c, "ref") + ") " + c.m_id + "( " + get_args(ctor.m_params) + " );";
+		return unused_args(ctor) + "new(stl::placeholder(), ref) " + c.m_id + "( " + get_args(ctor.m_params) + " );";
 	}
 
 #if LAMBDAS
@@ -460,7 +460,7 @@ namespace clgen
 
 	string copy_constructor_body(const CLType& c)
 	{
-		return "new(&" + cast(c, "ref") + ") " + c.m_id + "(" + cast(c, "other") + ");";
+		return "new(stl::placeholder(), ref) " + c.m_id + "(" + cast(c, "other") + ");";
 	}
 
 #if LAMBDAS
@@ -617,7 +617,7 @@ namespace clgen
 		p("#if !defined MUD_MODULES || defined MUD_TYPE_LIB");
 		p("#include <refl/Meta.h>");
 		p("#include <refl/Enum.h>");
-		p("#include <infra/StringConvert.h>");
+		p("#include <infra/String.h>");
 		p("#endif");
 		p("");
 		p("namespace mud");

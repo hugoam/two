@@ -3,6 +3,7 @@
 #ifdef MUD_MODULES
 module mud.wfc-gfx;
 #else
+#include <stddef.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>

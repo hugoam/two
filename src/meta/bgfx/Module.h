@@ -5,7 +5,7 @@
 #endif
 
 #include <bgfx/Forward.h>
-#include <bgfx/Types.h>
+//#include <bgfx/Types.h>
 
 #ifndef MUD_BGFX_REFL_EXPORT
 #define MUD_BGFX_REFL_EXPORT MUD_IMPORT

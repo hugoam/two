@@ -5,7 +5,7 @@
 #endif
 
 #include <frame/Forward.h>
-#include <frame/Types.h>
+//#include <frame/Types.h>
 
 #ifndef MUD_FRAME_REFL_EXPORT
 #define MUD_FRAME_REFL_EXPORT MUD_IMPORT

@@ -4,6 +4,12 @@
 #include <stl/unordered_map.h>
 #include <lang/Api.h>
 
+#ifdef USE_UVECTOR
+#define vector uvector
+#elif defined USE_BUFFER
+#define vector buffer
+#endif
+
 typedef struct WrenHandle WrenHandle;
 //struct WrenHandle;
 

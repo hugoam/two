@@ -5,7 +5,7 @@
 #endif
 
 #include <noise/Forward.h>
-#include <noise/Types.h>
+//#include <noise/Types.h>
 
 #ifndef MUD_NOISE_REFL_EXPORT
 #define MUD_NOISE_REFL_EXPORT MUD_IMPORT

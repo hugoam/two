@@ -10,7 +10,7 @@ module mud.ui;
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <math/Vec.hpp>
-#include <ui/Extern.h>
+//#include <ui/Extern.h>
 #include <ui/Node.h>
 #include <ui/Structs/Node.h>
 #include <ui/Structs/Container.h>

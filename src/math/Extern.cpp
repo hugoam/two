@@ -10,6 +10,8 @@ module mud.math;
 
 namespace stl
 {
+	//static_assert(is_pod<vec3>);
+	static_assert(!is_pod<vec3> && is_copy_constructible<vec3>);
 	using namespace mud;
 	template class MUD_MATH_EXPORT vector<const char*>;
 	template class MUD_MATH_EXPORT vector<char>;
@@ -34,7 +36,7 @@ namespace stl
 	template class MUD_MATH_EXPORT vector<Colour>;
 	template class MUD_MATH_EXPORT vector<Image>;
 	template class MUD_MATH_EXPORT vector<Sprite>;
-	template class MUD_MATH_EXPORT unordered_map<Type*, Colour>;
+	//template class MUD_MATH_EXPORT unordered_map<Type*, Colour>;
 
 	template class MUD_MATH_EXPORT vector<stbrp_node>;
 }

@@ -5,7 +5,7 @@
 #endif
 
 #include <uio/Forward.h>
-#include <uio/Types.h>
+//#include <uio/Types.h>
 
 #ifndef MUD_UIO_REFL_EXPORT
 #define MUD_UIO_REFL_EXPORT MUD_IMPORT

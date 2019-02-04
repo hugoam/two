@@ -8,7 +8,6 @@ module mud.math;
 #include <stl/string.hpp>
 #include <stl/unordered_map.hpp>
 #include <ui/Extern.h>
-#include <ui/Edit/Lang.h>
 #endif
 
 namespace stl

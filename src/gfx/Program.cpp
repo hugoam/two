@@ -27,6 +27,7 @@ module mud.gfx;
 #endif
 
 #include <cstring>
+#include <cstdio>
 
 namespace bgfx
 {

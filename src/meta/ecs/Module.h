@@ -5,7 +5,7 @@
 #endif
 
 #include <ecs/Forward.h>
-#include <ecs/Types.h>
+//#include <ecs/Types.h>
 
 #ifndef MUD_ECS_REFL_EXPORT
 #define MUD_ECS_REFL_EXPORT MUD_IMPORT

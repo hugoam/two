@@ -109,7 +109,7 @@ namespace mud
 						if(agrees(m_patterns[t], m_patterns[t2], x - n + 1, y - n + 1))
 							patterns.push_back(t2);
 
-					patterns.shrink_to_fit();
+					//patterns.shrink_to_fit();
 					longest_propagator = max(longest_propagator, patterns.size());
 					sum_propagator += patterns.size();
 				}

@@ -34,6 +34,8 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Pipeline.h>
 #endif
 
+#include <cstdio>
+
 //#define LIGHTMAP_HDR
 #define LIGHTMAP_COMPRESS
 //#define LIGHTMAP_FORCE_RENDER

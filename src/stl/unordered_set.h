@@ -46,7 +46,7 @@ namespace stl {
 		typedef unordered_hash_node<Key, void>* pointer;
 
 		size_t m_size;
-		stl::buffer<pointer, Alloc> m_buckets;
+		buf<pointer, Alloc> m_buckets;
 	};
 
 }

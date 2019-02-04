@@ -5,7 +5,7 @@
 #endif
 
 #include <gfx-pbr/Forward.h>
-#include <gfx-pbr/Types.h>
+//#include <gfx-pbr/Types.h>
 
 #ifndef MUD_GFX_PBR_REFL_EXPORT
 #define MUD_GFX_PBR_REFL_EXPORT MUD_IMPORT

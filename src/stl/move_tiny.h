@@ -14,7 +14,8 @@
 
 namespace stl {
 
-	template <class T, bool pod = TINYSTL_TRY_POD_OPTIMIZATION(T)> struct pod_traits {};
+	template <class T>
+	constexpr bool is_pod = TINYSTL_TRY_POD_OPTIMIZATION(T);
 
 	template <class T, T t> struct swap_holder;
 
