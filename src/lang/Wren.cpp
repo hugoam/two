@@ -14,9 +14,9 @@
 #endif
 
 #ifdef MUD_MODULES
-#include <stdlib.h>
 module mud.lang;
 #else
+#include <stl/new.h>
 #include <stl/vector.h>
 #include <stl/map.h>
 #include <stl/unordered_map.h>
@@ -185,7 +185,7 @@ namespace mud
 	{
 		//printf("DEBUG: Wren -> alloc object %s\n", type.m_name);
 		WrenRef* ref = static_cast<WrenRef*>(wrenSetSlotNewForeign(vm, slot, class_slot, sizeof(WrenRef) + meta(type).m_size));
-		new (ref) WrenRef(true, ref + 1, type);
+		new (stl::placeholder(), ref) WrenRef(true, ref + 1, type);
 		return *ref;
 	}
 
@@ -193,7 +193,7 @@ namespace mud
 	{
 		//printf("DEBUG: Wren -> alloc ref %s\n", type(source).m_name);
 		WrenRef* ref = static_cast<WrenRef*>(wrenSetSlotNewForeign(vm, slot, class_slot, sizeof(WrenRef)));
-		new (ref) WrenRef(false, source.m_value, *source.m_type);
+		new (stl::placeholder(), ref) WrenRef(false, source.m_value, *source.m_type);
 		return *ref;
 	}
 
@@ -803,7 +803,7 @@ namespace mud
 			{
 				const char* name = wrenGetSlotString(vm, 1);
 				Ref t = alloc_object(vm, 0, 0, type<Type>());
-				Type* type = new (t.m_value) Type(name);
+				Type* type = new (stl::placeholder(), t.m_value) Type(name);
 				assert(g_wren_types[type->m_id] == nullptr);
 				g_wren_types[type->m_id] = wrenGetSlotHandle(vm, 0);
 			};

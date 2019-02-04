@@ -13,9 +13,9 @@
 #endif
 
 #ifdef MUD_MODULES
-#include <stdlib.h>
 module mud.lang;
 #else
+#include <stl/new.h>
 #include <stl/vector.h>
 #include <infra/NonCopy.h>
 #include <stl/algorithm.h>
@@ -223,13 +223,13 @@ namespace mud
 	inline Ref alloc_object(lua_State* state, Type& type)
 	{
 		LuaRef* ref = alloc_userdata(state, type, sizeof(LuaRef) + meta(type).m_size);
-		new (ref) LuaRef(true, ref + 1, type); return *ref;
+		new (stl::placeholder(), ref) LuaRef(true, ref + 1, type); return *ref;
 	}
 
 	inline Ref alloc_ref(lua_State* state, Ref source)
 	{
 		LuaRef* ref = alloc_userdata(state, *source.m_type, sizeof(LuaRef));
-		new (ref) LuaRef(false, source.m_value, *source.m_type); return *ref;
+		new (stl::placeholder(), ref) LuaRef(false, source.m_value, *source.m_type); return *ref;
 	}
 
 	inline Stack push_ref(lua_State* state, Ref object)
