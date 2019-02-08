@@ -90,9 +90,8 @@ void ex_14_live_gfx_visual(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene->begin();
 
-	static Var result;
-	static vector<Var> args = { Ref(&scene) };
-	script(args, result);
+	static Call call = { script, vector<Var>{ Ref(&scene)} };
+	call();
 }
 
 #ifdef _14_LIVE_GFX_VISUAL_EXE

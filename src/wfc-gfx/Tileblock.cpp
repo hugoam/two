@@ -29,7 +29,7 @@ module mud.wfc.gfx;
 #include <gfx/Gfx.h>
 #include <gfx-ui/Viewer.h>
 #include <wfc-gfx/Types.h>
-#include <wfc-gfx/Wfc/Tileblock.h>
+#include <wfc-gfx/Tileblock.h>
 #include <ecs/ECS.h>
 #include <meta/math.conv.h>
 #endif

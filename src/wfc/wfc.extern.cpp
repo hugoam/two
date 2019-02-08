@@ -10,7 +10,7 @@ module mud.wfc;
 namespace stl
 {
 	using namespace mud;
-	template class MUD_GLTF_EXPORT vector<Tile>;
-	template class MUD_GLTF_EXPORT unordered_map<char, uint>;
+	template class MUD_WFC_EXPORT vector<Tile>;
+	template class MUD_WFC_EXPORT unordered_map<char, uint>;
 }
 #endif
