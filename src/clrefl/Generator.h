@@ -90,8 +90,8 @@ namespace mud
 	long long enum_value(CXCursor cursor) { return clang_getEnumConstantDeclValue(cursor); }
 	bool is_scoped(CXCursor cursor) { return clang_EnumDecl_isScoped(cursor); }
 
-	CXType type(CXCursor cursor) { return clang_getCursorType(cursor); }
-	CXType actual_type(CXCursor cursor) { CXType t = type(cursor); return t.kind == CXType_Elaborated ? clang_Type_getNamedType(t) : t; }
+	CXType type(CXCursor cursor) { CXType t = clang_getCursorType(cursor); return t.kind == CXType_Elaborated ? clang_Type_getNamedType(t) : t; }
+	//CXType actual_type(CXCursor cursor) { CXType t = type(cursor); return t.kind == CXType_Elaborated ? clang_Type_getNamedType(t) : t; }
 	CXType result_type(CXCursor cursor) { return clang_getCursorResultType(cursor); }
 
 	CXType pointee(CXType type)
@@ -191,61 +191,14 @@ namespace mud
 		return split(name.substr(name.find("<") + 1, name.rfind(">") - name.find("<") - 1), ",");
 	}
 
-	string clean_const(const string& name)
+	CXType class_type(CXType type, bool canon = true)
 	{
-		return replace(name, "const ", "");
-	}
-
-	string type_name(CXType type)
-	{
-		string name = spelling(type);
-
-		if(name.find("<") != string::npos)
-		{
-			// only way to get fully qualified template arguments is through clang_Type_getNamedType
-			CXType named_type = clang_Type_getNamedType(type);
-			if(named_type.kind == CXType_Invalid)
-				return name;
-			string canonical = spelling(named_type);
-			vector<string> types = template_types(canonical);
-			name = template_name(canonical) + "<" + join(types, ",") + ">";
-		}
-
-		if(name == "stl::span<char>")
-			int i = 0;
-		return name;
-	}
-
-	CXType class_type(CXType type)
-	{
-		if(type.kind == CXType_Pointer || type.kind == CXType_LValueReference)
-			return unqual(canonical(pointee(type)));
-		if(type.kind == CXType_ConstantArray)
-			return unqual(canonical(pointee(type)));
+		if(pointee(type).kind == CXType_Void)
+			return type;
+		else if(type.kind == CXType_Pointer || type.kind == CXType_LValueReference || type.kind == CXType_ConstantArray)
+			return unqual(canon ? canonical(pointee(type)) : pointee(type));
 		else
-			return unqual(canonical(type));
-	}
-
-	string class_name(CXType type)
-	{
-		if(spelling(type) == "void*")
-			return "void*";
-		if(type.kind == CXType_Pointer)
-			return clean_const(type_name(pointee(type)));
-		if(type.kind == CXType_LValueReference)
-			return clean_const(type_name(pointee(type)));
-		if(type.kind == CXType_ConstantArray)
-			return clean_const(type_name(pointee(type)));
-    
-		return clean_const(type_name(type));
-	}
-
-	string unqual_type_name(CXType type)
-	{
-		if(type.kind == CXType_LValueReference)
-			return clean_const(type_name(pointee(type)));
-        
-		return clean_const(type_name(type));
+			return unqual(canon ? canonical(type) : type);
 	}
 
 	void decl_enum(CLModule& module, CLPrimitive& parent, CXCursor cursor);
@@ -312,7 +265,7 @@ namespace mud
 
 		vector<string> m_annotations;
 
-		virtual string fix_template(const string& name) { return name; };
+		virtual string fix_template(const string& name) const { return name; };
 	};
 
 	class CLNamespace : public CLPrimitive
@@ -342,8 +295,8 @@ namespace mud
 
 	string type_name(CLPrimitive& parent, CXType type)
 	{
-		//return replace(type_name(type), parent.m_prefix, "");
-		string name = type_name(type);
+		//return replace(spelling(type), parent.m_prefix, "");
+		string name = spelling(type);
 		if(starts_with(name, parent.m_prefix))
 			name.erase(0, parent.m_prefix.size());
 		return name;
@@ -356,8 +309,6 @@ namespace mud
 			: CLPrimitive(CLPrimitiveKind::Type, type_name(parent, cxtype), &parent) // spelling(cxtype), 
 			, m_cxtype(cxtype)
 		{
-			if(m_id == "stl::span<const char*>")
-				int i = 0;
 			m_module = &module;
 			//m_nested = parent.m_kind == CLPrimitiveKind::Class;
 
@@ -583,14 +534,14 @@ namespace mud
 		vector<string> m_template_types;
 		vector<CLType*> m_templated_types;
 
-		CLType* templated_type(const string& name)
+		CLType* templated_type(const string& name) const
 		{
 			//printf("substituting %s\n", name.c_str());
 			size_t pos = index_of(m_template->m_template_types, name);
 			return pos < m_templated_types.size() ? m_templated_types[pos] : nullptr;
 		}
 
-		virtual string fix_template(const string& name) override
+		virtual string fix_template(const string& name) const override
 		{
 			// fix type itself in case it is a template parameter
 			if(CLType* templated = this->templated_type(name))

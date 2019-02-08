@@ -30,44 +30,29 @@ namespace mud
 		return location.find(module.m_path) == 0 && location.find("meta") == string::npos;
 	}
 
-	CLQualType qual_type(CLModule& module, CLPrimitive& parent, CXType type, bool real_type)
+	CLQualType qual_type(CLModule& module, const CLPrimitive& parent, CXType type, bool real_type)
 	{
-		CLQualType qual;
-
-		if(type.kind == CXType_Elaborated)
-			type = clang_Type_getNamedType(type);
-		if(upointee(type).kind == CXType_Unexposed && !parent.m_is_templated)
-			type = canonical(type);
+		//if(upointee(type).kind == CXType_Unexposed && !parent.m_is_templated)
+		//	type = canonical(type);
 		bool templated = parent.m_is_templated && upointee(type).kind == CXType_Unexposed;
+
+		CLQualType t;
 		auto fix = [&](const string& name) { return templated ? parent.fix_template(name) : name; };
-		qual.m_spelling = fix(type_name(type));
-		qual.m_type_name = fix(class_name(type));
+		t.m_spelling = fix(spelling(type));
+		t.m_type_name = fix(spelling(class_type(type, !templated)));
+		if(!real_type) return t;
 
-		if(qual.m_type_name == "mud::vec3")
-			int i = 0;
+		t.m_type = templated ? module.get_type(type, t.m_type_name) : module.get_type(type);
 
-		if(real_type)
-		{
-			if(!templated)
-				qual.m_type = module.get_type(type);
-			else
-				qual.m_type = module.get_type(type, qual.m_type_name);
+		// fixing type names because of spellings from libclang are not always fully qualified (mostly namespaces)
+		t.m_spelling = (t.isconst() ? "const " : "") + t.m_type->m_id + (t.pointer() ? "*" : "") + (t.reference() ? "&" : "");
+		t.m_type_name = t.m_type->m_id;
 
-			// fixing type because of FUCKING clang.....................
-			string spelling = qual.m_type->m_id;
-			if(qual.pointer())   spelling = spelling + "*";
-			if(qual.reference()) spelling = spelling + "&";
-			if(qual.isconst())   spelling = "const " + spelling;
-			qual.m_spelling = spelling;
-			qual.m_type_name = qual.m_type->m_id;
+		// substitute real aliased type only after fixing the spellings, so we see the alias types in reflection/bindings code
+		if(t.m_type->m_type_kind == CLTypeKind::Alias)
+			t.m_type = ((CLAlias*)t.m_type)->m_target;
 
-			if(qual.m_type->m_type_kind == CLTypeKind::Alias)
-			{
-				qual.m_type = ((CLAlias&)*qual.m_type).m_target;
-			}
-		}
-
-		return qual;
+		return t;
 	}
 
 	void decl_enum(CLModule& module, CLPrimitive& parent, CXCursor cursor)
@@ -335,7 +320,7 @@ namespace mud
 
 		else if(cursor.kind == CXCursor_CXXBaseSpecifier)
 		{
-			string name = class_name(type(cursor));
+			string name = spelling(type(cursor));
 
 			//if(c.m_is_templated && name.find("<") != string::npos)
 			//	name = c.fix_template(name);
