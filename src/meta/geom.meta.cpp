@@ -96,8 +96,8 @@ void mud_Points__construct_0(void* ref, span<void*> args) { UNUSED(args); new(st
 void mud_Points__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Points( *static_cast<stl::vector<mud::vec3>*>(args[0]) ); }
 void mud_Points__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Points((*static_cast<mud::Points*>(other))); }
 void mud_Poisson__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Poisson( *static_cast<mud::vec2*>(args[0]), *static_cast<float*>(args[1]) ); }
-void mud_Poisson_distribute(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Poisson*>(object)).distribute(*static_cast<float*>(args[0])); }
-void mud_Poisson_distribute_circles(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Poisson*>(object)).distribute_circles(*static_cast<float*>(args[0])); }
+void mud_Poisson_distribute(void* object, span<void*> args, void*& result) { (*static_cast<stl::vector<mud::vec3>*>(result)) = (*static_cast<mud::Poisson*>(object)).distribute(*static_cast<float*>(args[0])); }
+void mud_Poisson_distribute_circles(void* object, span<void*> args, void*& result) { (*static_cast<stl::vector<mud::Circle>*>(result)) = (*static_cast<mud::Poisson*>(object)).distribute_circles(*static_cast<float*>(args[0])); }
 void mud_Poisson_addPoint(void* object, span<void*> args, void*& result) { (*static_cast<bool*>(result)) = (*static_cast<mud::Poisson*>(object)).addPoint(*static_cast<float*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
 void mud_Polygon__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Polygon(  ); }
 void mud_Polygon__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Polygon( *static_cast<stl::vector<mud::vec3>*>(args[0]) ); }
@@ -134,7 +134,7 @@ void mud_to_ray_0(span<void*> args, void*& result) { (*static_cast<mud::Ray*>(re
 void mud_to_segment_1(span<void*> args, void*& result) { (*static_cast<mud::Segment*>(result)) = mud::to_segment(*static_cast<mud::Ray*>(args[0])); }
 void mud_to_ray_2(span<void*> args, void*& result) { (*static_cast<mud::Ray*>(result)) = mud::to_ray(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<float*>(args[2])); }
 void mud_to_segment_3(span<void*> args, void*& result) { (*static_cast<mud::Segment*>(result)) = mud::to_segment(*static_cast<mud::Ray*>(args[0])); }
-void mud_distribute_poisson_4(span<void*> args, void*& result) { result = &mud::distribute_poisson(*static_cast<mud::vec2*>(args[0]), *static_cast<float*>(args[1])); }
+void mud_distribute_poisson_4(span<void*> args, void*& result) { (*static_cast<stl::vector<mud::vec3>*>(result)) = mud::distribute_poisson(*static_cast<mud::vec2*>(args[0]), *static_cast<float*>(args[1])); }
 
 namespace mud
 {

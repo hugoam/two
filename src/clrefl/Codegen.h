@@ -213,12 +213,12 @@ namespace clgen
 			return "{ &" + type_get(t) + ", QualType::None }";
 	}
 	
-	string value_assign(const CLType& c, string var, bool pointer, string value)
+	string value_assign(const CLQualType& t, string var, string value)
 	{
-		if(c.m_struct && !pointer)
-			return cast(c, var) + " = " + value;
+		if(t.value() && !t.pointer())
+			return cast(*t.m_type, var) + " = " + value;
 		else
-			return var + " = " + string(pointer ? "" : "&") + value;
+			return var + " = " + string(t.pointer() ? "" : "&") + value;
 	}
 
 	string oname(const CLCallable& f)
@@ -431,10 +431,11 @@ namespace clgen
 	string method_body(const CLType& c, const CLMethod& m)
 	{
 		string call = cast(c, "object") + "." + m.m_name + "(" + get_args(m.m_params) + ")";
+		
 		if(m.m_return_type.isvoid())
 			return "UNUSED(result); " + unused_args(m) + call + ";";
 		else
-			return unused_args(m) + value_assign(*m.m_return_type.m_type, "result", m.m_return_type.pointer(), call) + ";";
+			return unused_args(m) + value_assign(m.m_return_type, "result", call) + ";";
 	}
 
 #if LAMBDAS
@@ -549,7 +550,7 @@ namespace clgen
 		if(f.m_return_type.isvoid())
 			return "UNUSED(result); " + unused_args(f) + " " + f.m_id + "(" + get_args(f.m_params) + ");";
 		else
-			return unused_args(f) + value_assign(*f.m_return_type.m_type, "result", f.m_return_type.pointer(), f.m_id + "(" + get_args(f.m_params) + ")") + ";";
+			return unused_args(f) + value_assign(f.m_return_type, "result", f.m_id + "(" + get_args(f.m_params) + ")") + ";";
 	}
 
 #if LAMBDAS

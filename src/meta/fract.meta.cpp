@@ -30,7 +30,7 @@ void stl_vector_mud_Image256__push(void* vec) { (*static_cast<stl::vector<mud::I
 void stl_vector_mud_Image256__add(void* vec, void* value) { (*static_cast<stl::vector<mud::Image256>*>(vec)).push_back(*static_cast<mud::Image256*>(value)); }
 void stl_vector_mud_Image256__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Image256>*>(vec)), *static_cast<mud::Image256*>(value)); }
 void mud_Circlifier__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Circlifier( *static_cast<mud::Image256*>(args[0]) ); }
-void mud_Circlifier_compute(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Circlifier*>(object)).compute(*static_cast<mud::Colour*>(args[0]), *static_cast<float*>(args[1])); }
+void mud_Circlifier_compute(void* object, span<void*> args, void*& result) { (*static_cast<stl::vector<mud::Circle>*>(result)) = (*static_cast<mud::Circlifier*>(object)).compute(*static_cast<mud::Colour*>(args[0]), *static_cast<float*>(args[1])); }
 void mud_Fract__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Fract( *static_cast<size_t*>(args[0]) ); }
 void mud_Fract_generate(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Fract*>(object)).generate(*static_cast<size_t*>(args[0])); }
 void mud_Fract_regen(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Fract*>(object)).regen(); }
