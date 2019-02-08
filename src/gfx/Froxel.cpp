@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #include <gfx/Cpp20.h>
 
 #include <bx/allocator.h>
@@ -11,6 +10,8 @@
 module mud.gfx;
 #else
 #include <stl/swap.h>
+#include <stl/span.h>
+#include <stl/array.h>
 #include <jobs/Job.h>
 #include <geom/Aabb.h>
 #include <geom/Intersect.h>
@@ -48,7 +49,7 @@ namespace mud
 	using LightGroupType = uint32_t;
 
 	// The first entry always encodes the type of light, i.e. point/spot
-	using FroxelThreadData = carray<LightGroupType, FROXEL_BUFFER_ENTRY_COUNT_MAX + 1>;
+	using FroxelThreadData = array<LightGroupType, FROXEL_BUFFER_ENTRY_COUNT_MAX + 1>;
 
 	static constexpr bool SUPPORTS_REMAPPED_FROXELS = false;
 
@@ -315,7 +316,7 @@ namespace mud
 		submit(encoder, vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_params_f), 0.f), m_params_z);
 	}
 
-	void Froxelizer::froxelize_lights(const Camera& camera, array<Light*> lights)
+	void Froxelizer::froxelize_lights(const Camera& camera, span<Light*> lights)
 	{
 		// note: this is called asynchronously
 		froxelize_loop(camera, lights);
@@ -325,7 +326,7 @@ namespace mud
 	template <class T>
 	inline T sq(T val) { return val * val; }
 
-	void Froxelizer::froxelize_light_group(const Camera& camera, array<Light*> lights, uint32_t offset, uint32_t stride)
+	void Froxelizer::froxelize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride)
 	{
 		const mat4& projection = m_projection;
 
@@ -352,7 +353,7 @@ namespace mud
 
 #define MUD_THREADED
 
-	void Froxelizer::froxelize_loop(const Camera& camera, array<Light*> lights)
+	void Froxelizer::froxelize_loop(const Camera& camera, span<Light*> lights)
 	{
 		memset(m_impl->m_froxel_sharded_data.data(), 0, m_impl->m_froxel_sharded_data.size() * sizeof(FroxelThreadData));
 

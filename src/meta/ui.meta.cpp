@@ -4,6 +4,9 @@
 module mud.ui;
 #else
 #include <cstddef>
+#include <stl/new.h>
+#include <infra/ToString.h>
+#include <infra/ToValue.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -47,214 +50,211 @@ void mud_WidgetState__to_string(void* val, string& str) { str = g_enu[type<mud::
 void mud_WidgetState__to_value(const string& str, void* val) { (*static_cast<mud::WidgetState*>(val)) = mud::WidgetState(g_enu[type<mud::WidgetState>().m_id]->value(str.c_str())); }
 void mud_WindowState__to_string(void* val, string& str) { str = g_enu[type<mud::WindowState>().m_id]->name(uint32_t((*static_cast<mud::WindowState*>(val)))); }
 void mud_WindowState__to_value(const string& str, void* val) { (*static_cast<mud::WindowState*>(val)) = mud::WindowState(g_enu[type<mud::WindowState>().m_id]->value(str.c_str())); }
-size_t array_const_char____size(void* vec) { return (*static_cast<array<const char*>*>(vec)).size(); }
-void* array_const_char____at(void* vec, size_t i) { return &(*static_cast<array<const char*>*>(vec))[i]; }
-size_t array_float___size(void* vec) { return (*static_cast<array<float>*>(vec)).size(); }
-void* array_float___at(void* vec, size_t i) { return &(*static_cast<array<float>*>(vec))[i]; }
-size_t vector_mud_Space___size(void* vec) { return (*static_cast<vector<mud::Space>*>(vec)).size(); }
-void* vector_mud_Space___at(void* vec, size_t i) { return &(*static_cast<vector<mud::Space>*>(vec))[i]; }
-void vector_mud_Space___add(void* vec, void* value) { (*static_cast<vector<mud::Space>*>(vec)).push_back(*static_cast<mud::Space*>(value)); }
-void vector_mud_Space___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<mud::Space>*>(vec)), *static_cast<mud::Space*>(value)); }
-size_t vector_string___size(void* vec) { return (*static_cast<vector<string>*>(vec)).size(); }
-void* vector_string___at(void* vec, size_t i) { return &(*static_cast<vector<string>*>(vec))[i]; }
-void vector_string___add(void* vec, void* value) { (*static_cast<vector<string>*>(vec)).push_back(*static_cast<string*>(value)); }
-void vector_string___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<string>*>(vec)), *static_cast<string*>(value)); }
-void mud_CanvasConnect__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::CanvasConnect*>(ref))) mud::CanvasConnect(  ); }
-void mud_CanvasConnect__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::CanvasConnect*>(ref))) mud::CanvasConnect((*static_cast<mud::CanvasConnect*>(other))); }
-void mud_Clipboard__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Clipboard*>(ref))) mud::Clipboard(  ); }
-void mud_Clipboard__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Clipboard*>(ref))) mud::Clipboard((*static_cast<mud::Clipboard*>(other))); }
-void mud_Dim2_bool___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<bool>*>(ref))) mud::Dim2<bool>( *static_cast<bool*>(args[0]), *static_cast<bool*>(args[1]) ); }
-void mud_Dim2_bool___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<bool>*>(ref))) mud::Dim2<bool>(  ); }
-void mud_Dim2_bool___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<bool>*>(ref))) mud::Dim2<bool>((*static_cast<mud::Dim2<bool>*>(other))); }
-void mud_Dim2_mud_Align___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Align>*>(ref))) mud::Dim2<mud::Align>( *static_cast<mud::Align*>(args[0]), *static_cast<mud::Align*>(args[1]) ); }
-void mud_Dim2_mud_Align___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Align>*>(ref))) mud::Dim2<mud::Align>(  ); }
-void mud_Dim2_mud_Align___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Align>*>(ref))) mud::Dim2<mud::Align>((*static_cast<mud::Dim2<mud::Align>*>(other))); }
-void mud_Dim2_mud_AutoLayout___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::AutoLayout>*>(ref))) mud::Dim2<mud::AutoLayout>( *static_cast<mud::AutoLayout*>(args[0]), *static_cast<mud::AutoLayout*>(args[1]) ); }
-void mud_Dim2_mud_AutoLayout___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::AutoLayout>*>(ref))) mud::Dim2<mud::AutoLayout>(  ); }
-void mud_Dim2_mud_AutoLayout___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::AutoLayout>*>(ref))) mud::Dim2<mud::AutoLayout>((*static_cast<mud::Dim2<mud::AutoLayout>*>(other))); }
-void mud_Dim2_mud_Pivot___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Pivot>*>(ref))) mud::Dim2<mud::Pivot>( *static_cast<mud::Pivot*>(args[0]), *static_cast<mud::Pivot*>(args[1]) ); }
-void mud_Dim2_mud_Pivot___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Pivot>*>(ref))) mud::Dim2<mud::Pivot>(  ); }
-void mud_Dim2_mud_Pivot___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Pivot>*>(ref))) mud::Dim2<mud::Pivot>((*static_cast<mud::Dim2<mud::Pivot>*>(other))); }
-void mud_Dim2_mud_Sizing___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Sizing>*>(ref))) mud::Dim2<mud::Sizing>( *static_cast<mud::Sizing*>(args[0]), *static_cast<mud::Sizing*>(args[1]) ); }
-void mud_Dim2_mud_Sizing___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Sizing>*>(ref))) mud::Dim2<mud::Sizing>(  ); }
-void mud_Dim2_mud_Sizing___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<mud::Sizing>*>(ref))) mud::Dim2<mud::Sizing>((*static_cast<mud::Dim2<mud::Sizing>*>(other))); }
-void mud_Dim2_size_t___construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Dim2<size_t>*>(ref))) mud::Dim2<size_t>( *static_cast<size_t*>(args[0]), *static_cast<size_t*>(args[1]) ); }
-void mud_Dim2_size_t___construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dim2<size_t>*>(ref))) mud::Dim2<size_t>(  ); }
-void mud_Dim2_size_t___copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dim2<size_t>*>(ref))) mud::Dim2<size_t>((*static_cast<mud::Dim2<size_t>*>(other))); }
-void mud_Dock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Dock*>(ref))) mud::Dock(  ); }
-void mud_Dock__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Dock*>(ref))) mud::Dock((*static_cast<mud::Dock*>(other))); }
-void mud_Gradient__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Gradient*>(ref))) mud::Gradient(  ); }
-void mud_Gradient__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Gradient*>(ref))) mud::Gradient((*static_cast<mud::Gradient*>(other))); }
-void mud_ImageSkin__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::ImageSkin*>(ref))) mud::ImageSkin( *static_cast<mud::Image*>(args[0]), *static_cast<int*>(args[1]), *static_cast<int*>(args[2]), *static_cast<int*>(args[3]), *static_cast<int*>(args[4]), *static_cast<int*>(args[5]), *static_cast<mud::Dim*>(args[6]) ); }
-void mud_ImageSkin__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ImageSkin*>(ref))) mud::ImageSkin((*static_cast<mud::ImageSkin*>(other))); }
-void mud_InkStyle__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::InkStyle*>(ref))) mud::InkStyle(  ); }
-void mud_InkStyle__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::InkStyle*>(ref))) mud::InkStyle( static_cast<const char*>(args[0]) ); }
-void mud_InkStyle__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::InkStyle*>(ref))) mud::InkStyle((*static_cast<mud::InkStyle*>(other))); }
-void mud_Layout__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Layout*>(ref))) mud::Layout(  ); }
-void mud_Layout__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Layout*>(ref))) mud::Layout( static_cast<const char*>(args[0]) ); }
-void mud_Layout__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Layout*>(ref))) mud::Layout((*static_cast<mud::Layout*>(other))); }
-void mud_NodeConnection__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::NodeConnection*>(ref))) mud::NodeConnection(  ); }
-void mud_NodeConnection__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::NodeConnection*>(ref))) mud::NodeConnection((*static_cast<mud::NodeConnection*>(other))); }
-void mud_Paint__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Paint*>(ref))) mud::Paint(  ); }
-void mud_Paint__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Paint*>(ref))) mud::Paint((*static_cast<mud::Paint*>(other))); }
-void mud_Shadow__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Shadow*>(ref))) mud::Shadow( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<mud::Colour*>(args[4]) ); }
-void mud_Shadow__construct_1(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Shadow*>(ref))) mud::Shadow(  ); }
-void mud_Shadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Shadow*>(ref))) mud::Shadow((*static_cast<mud::Shadow*>(other))); }
-void mud_Space__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Space*>(ref))) mud::Space(  ); }
-void mud_Space__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Space*>(ref))) mud::Space((*static_cast<mud::Space*>(other))); }
-//void* mud_Style__get_name(void* object) { return (*static_cast<mud::Style*>(object)).name(); }
+size_t stl_span_const_char___size(void* vec) { return (*static_cast<stl::span<const char*>*>(vec)).size(); }
+void* stl_span_const_char___at(void* vec, size_t i) { return &(*static_cast<stl::span<const char*>*>(vec))[i]; }
+size_t stl_span_float__size(void* vec) { return (*static_cast<stl::span<float>*>(vec)).size(); }
+void* stl_span_float__at(void* vec, size_t i) { return &(*static_cast<stl::span<float>*>(vec))[i]; }
+size_t stl_vector_mud_Space__size(void* vec) { return (*static_cast<stl::vector<mud::Space>*>(vec)).size(); }
+void* stl_vector_mud_Space__at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Space>*>(vec))[i]; }
+void stl_vector_mud_Space__push(void* vec) { (*static_cast<stl::vector<mud::Space>*>(vec)).emplace_back(); }
+void stl_vector_mud_Space__add(void* vec, void* value) { (*static_cast<stl::vector<mud::Space>*>(vec)).push_back(*static_cast<mud::Space*>(value)); }
+void stl_vector_mud_Space__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Space>*>(vec)), *static_cast<mud::Space*>(value)); }
+void mud_CanvasConnect__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CanvasConnect(  ); }
+void mud_CanvasConnect__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CanvasConnect((*static_cast<mud::CanvasConnect*>(other))); }
+void mud_Clipboard__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Clipboard(  ); }
+void mud_Clipboard__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Clipboard((*static_cast<mud::Clipboard*>(other))); }
+void mud_Dim2_bool__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Dim2<bool>( *static_cast<bool*>(args[0]), *static_cast<bool*>(args[1]) ); }
+void mud_Dim2_bool__construct_1(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Dim2<bool>(  ); }
+void mud_Dim2_bool__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Dim2<bool>((*static_cast<mud::Dim2<bool>*>(other))); }
+void mud_Dim2_mud_Align__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Dim2<mud::Align>( *static_cast<mud::Align*>(args[0]), *static_cast<mud::Align*>(args[1]) ); }
+void mud_Dim2_mud_Align__construct_1(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Dim2<mud::Align>(  ); }
+void mud_Dim2_mud_Align__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Dim2<mud::Align>((*static_cast<mud::Dim2<mud::Align>*>(other))); }
+void mud_Dim2_mud_AutoLayout__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Dim2<mud::AutoLayout>( *static_cast<mud::AutoLayout*>(args[0]), *static_cast<mud::AutoLayout*>(args[1]) ); }
+void mud_Dim2_mud_AutoLayout__construct_1(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Dim2<mud::AutoLayout>(  ); }
+void mud_Dim2_mud_AutoLayout__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Dim2<mud::AutoLayout>((*static_cast<mud::Dim2<mud::AutoLayout>*>(other))); }
+void mud_Dim2_mud_Pivot__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Dim2<mud::Pivot>( *static_cast<mud::Pivot*>(args[0]), *static_cast<mud::Pivot*>(args[1]) ); }
+void mud_Dim2_mud_Pivot__construct_1(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Dim2<mud::Pivot>(  ); }
+void mud_Dim2_mud_Pivot__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Dim2<mud::Pivot>((*static_cast<mud::Dim2<mud::Pivot>*>(other))); }
+void mud_Dim2_mud_Sizing__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Dim2<mud::Sizing>( *static_cast<mud::Sizing*>(args[0]), *static_cast<mud::Sizing*>(args[1]) ); }
+void mud_Dim2_mud_Sizing__construct_1(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Dim2<mud::Sizing>(  ); }
+void mud_Dim2_mud_Sizing__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Dim2<mud::Sizing>((*static_cast<mud::Dim2<mud::Sizing>*>(other))); }
+void mud_Dim2_size_t__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Dim2<size_t>( *static_cast<size_t*>(args[0]), *static_cast<size_t*>(args[1]) ); }
+void mud_Dim2_size_t__construct_1(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Dim2<size_t>(  ); }
+void mud_Dim2_size_t__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Dim2<size_t>((*static_cast<mud::Dim2<size_t>*>(other))); }
+void mud_Dock__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Dock(  ); }
+void mud_Dock__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Dock((*static_cast<mud::Dock*>(other))); }
+void mud_Gradient__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Gradient(  ); }
+void mud_Gradient__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Gradient((*static_cast<mud::Gradient*>(other))); }
+void mud_ImageSkin__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ImageSkin( *static_cast<mud::Image*>(args[0]), *static_cast<int*>(args[1]), *static_cast<int*>(args[2]), *static_cast<int*>(args[3]), *static_cast<int*>(args[4]), *static_cast<int*>(args[5]), *static_cast<mud::Dim*>(args[6]) ); }
+void mud_ImageSkin__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ImageSkin((*static_cast<mud::ImageSkin*>(other))); }
+void mud_InkStyle__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::InkStyle(  ); }
+void mud_InkStyle__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::InkStyle( static_cast<const char*>(args[0]) ); }
+void mud_InkStyle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::InkStyle((*static_cast<mud::InkStyle*>(other))); }
+void mud_Layout__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Layout(  ); }
+void mud_Layout__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Layout( static_cast<const char*>(args[0]) ); }
+void mud_Layout__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Layout((*static_cast<mud::Layout*>(other))); }
+void mud_NodeConnection__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::NodeConnection(  ); }
+void mud_NodeConnection__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::NodeConnection((*static_cast<mud::NodeConnection*>(other))); }
+void mud_Paint__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Paint(  ); }
+void mud_Paint__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Paint((*static_cast<mud::Paint*>(other))); }
+void mud_Shadow__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Shadow( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<mud::Colour*>(args[4]) ); }
+void mud_Shadow__construct_1(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Shadow(  ); }
+void mud_Shadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Shadow((*static_cast<mud::Shadow*>(other))); }
+void mud_Space__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Space(  ); }
+void mud_Space__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Space((*static_cast<mud::Space*>(other))); }
+void* mud_Style__get_name(void* object) { return (void*)(*static_cast<mud::Style*>(object)).name(); }
 void* mud_Style__get_layout(void* object) { return &(*static_cast<mud::Style*>(object)).layout(); }
 void* mud_Style__get_skin(void* object) { return &(*static_cast<mud::Style*>(object)).skin(); }
-void mud_TextCursor__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::TextCursor*>(ref))) mud::TextCursor(  ); }
-void mud_TextCursor__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TextCursor*>(ref))) mud::TextCursor((*static_cast<mud::TextCursor*>(other))); }
-void mud_TextMarker__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::TextMarker*>(ref))) mud::TextMarker(  ); }
-void mud_TextMarker__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TextMarker*>(ref))) mud::TextMarker((*static_cast<mud::TextMarker*>(other))); }
-void mud_TextPaint__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::TextPaint*>(ref))) mud::TextPaint(  ); }
-void mud_TextPaint__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TextPaint*>(ref))) mud::TextPaint((*static_cast<mud::TextPaint*>(other))); }
-void mud_TextSelection__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::TextSelection*>(ref))) mud::TextSelection(  ); }
-void mud_TextSelection__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TextSelection*>(ref))) mud::TextSelection((*static_cast<mud::TextSelection*>(other))); }
-void mud_UiRect__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::UiRect*>(ref))) mud::UiRect(  ); }
-void mud_UiRect__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::UiRect*>(ref))) mud::UiRect((*static_cast<mud::UiRect*>(other))); }
-void mud_Widget_focused(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).focused(); }
-void mud_Widget_hovered(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).hovered(); }
-void mud_Widget_pressed(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).pressed(); }
-void mud_Widget_activated(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).activated(); }
-void mud_Widget_selected(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).selected(); }
-void mud_Widget_modal(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).modal(); }
-void mud_Widget_closed(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).closed(); }
-void mud_Widget_ui_window(void* object, array<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Widget*>(object)).ui_window(); }
-void mud_Widget_ui(void* object, array<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Widget*>(object)).ui(); }
-void mud_Widget_parent_modal(void* object, array<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Widget*>(object)).parent_modal(); }
-void mud_Widget_toggle_state(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).toggle_state(*static_cast<mud::WidgetState*>(args[0])); }
-void mud_Widget_disable_state(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).disable_state(*static_cast<mud::WidgetState*>(args[0])); }
-void mud_Widget_set_state(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).set_state(*static_cast<mud::WidgetState*>(args[0]), *static_cast<bool*>(args[1])); }
-void mud_Widget_enable_state(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).enable_state(*static_cast<mud::WidgetState*>(args[0])); }
-void mud_Widget_clear_focus(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Widget*>(object)).clear_focus(); }
-void mud_Widget_take_focus(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Widget*>(object)).take_focus(); }
-void mud_Widget_yield_focus(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Widget*>(object)).yield_focus(); }
-void mud_Widget_take_modal(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).take_modal(*static_cast<uint32_t*>(args[0])); }
-void mud_Widget_yield_modal(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Widget*>(object)).yield_modal(); }
-void mud_Widget_key_event(void* object, array<void*> args, void*& result) { (*static_cast<mud::KeyEvent*>(result)) = (*static_cast<mud::Widget*>(object)).key_event(*static_cast<mud::Key*>(args[0]), *static_cast<mud::EventType*>(args[1]), *static_cast<mud::InputMod*>(args[2])); }
-void mud_Widget_key_stroke(void* object, array<void*> args, void*& result) { (*static_cast<mud::KeyEvent*>(result)) = (*static_cast<mud::Widget*>(object)).key_stroke(*static_cast<mud::Key*>(args[0]), *static_cast<mud::InputMod*>(args[1])); }
-void mud_Widget_char_stroke(void* object, array<void*> args, void*& result) { (*static_cast<mud::KeyEvent*>(result)) = (*static_cast<mud::Widget*>(object)).char_stroke(*static_cast<mud::Key*>(args[0]), *static_cast<mud::InputMod*>(args[1])); }
-void mud_Widget_mouse_event(void* object, array<void*> args, void*& result) { (*static_cast<mud::MouseEvent*>(result)) = (*static_cast<mud::Widget*>(object)).mouse_event(*static_cast<mud::DeviceType*>(args[0]), *static_cast<mud::EventType*>(args[1]), *static_cast<mud::InputMod*>(args[2]), *static_cast<bool*>(args[3])); }
-void mud_Ui_begin(void* object, array<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Ui*>(object)).begin(); }
-void mud_ui_widget_0(array<void*> args, void*& result) { result = &mud::ui::widget(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<mud::Dim*>(args[3]), *static_cast<mud::Dim2<size_t>*>(args[4])); }
-void mud_ui_item_1(array<void*> args, void*& result) { result = &mud::ui::item(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), static_cast<const char*>(args[2])); }
-void mud_ui_multi_item_2(array<void*> args, void*& result) { result = &mud::ui::multi_item(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), *static_cast<array<const char*>*>(args[2]), static_cast<mud::Style*>(args[3])); }
-void mud_ui_spanner_3(array<void*> args, void*& result) { result = &mud::ui::spanner(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), *static_cast<mud::Dim*>(args[2]), *static_cast<float*>(args[3])); }
-void mud_ui_spacer_4(array<void*> args, void*& result) { result = &mud::ui::spacer(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_icon_5(array<void*> args, void*& result) { result = &mud::ui::icon(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_label_6(array<void*> args, void*& result) { result = &mud::ui::label(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_title_7(array<void*> args, void*& result) { result = &mud::ui::title(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_message_8(array<void*> args, void*& result) { result = &mud::ui::message(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_text_9(array<void*> args, void*& result) { result = &mud::ui::text(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_button_10(array<void*> args, void*& result) { result = &mud::ui::button(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_toggle_11(array<void*> args, void*& result) { result = &mud::ui::toggle(*static_cast<mud::Widget*>(args[0]), *static_cast<bool*>(args[1]), static_cast<const char*>(args[2])); }
-void mud_ui_button_12(array<void*> args, void*& result) { result = &mud::ui::button(*static_cast<mud::Widget*>(args[0]), *static_cast<string*>(args[1])); }
-void mud_ui_toggle_13(array<void*> args, void*& result) { result = &mud::ui::toggle(*static_cast<mud::Widget*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<string*>(args[2])); }
-void mud_ui_multi_button_14(array<void*> args, void*& result) { result = &mud::ui::multi_button(*static_cast<mud::Widget*>(args[0]), *static_cast<array<const char*>*>(args[1]), static_cast<mud::Style*>(args[2])); }
-void mud_ui_multi_toggle_15(array<void*> args, void*& result) { result = &mud::ui::multi_toggle(*static_cast<mud::Widget*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<array<const char*>*>(args[2]), static_cast<mud::Style*>(args[3])); }
-void mud_ui_modal_button_16(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::modal_button(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<uint32_t*>(args[3])); }
-void mud_ui_modal_multi_button_17(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::modal_multi_button(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Widget*>(args[1]), *static_cast<array<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3])); }
-void mud_ui_checkbox_18(array<void*> args, void*& result) { result = &mud::ui::checkbox(*static_cast<mud::Widget*>(args[0]), *static_cast<bool*>(args[1])); }
-void mud_ui_fill_bar_19(array<void*> args, void*& result) { result = &mud::ui::fill_bar(*static_cast<mud::Widget*>(args[0]), *static_cast<float*>(args[1]), *static_cast<mud::Dim*>(args[2])); }
-void mud_ui_image256_20(array<void*> args, void*& result) { result = &mud::ui::image256(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::Image256*>(args[2])); }
-void mud_ui_image256_21(array<void*> args, void*& result) { result = &mud::ui::image256(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::Image256*>(args[2]), *static_cast<mud::vec2*>(args[3])); }
-void mud_ui_image256_22(array<void*> args, void*& result) { result = &mud::ui::image256(*static_cast<mud::Widget*>(args[0]), *static_cast<string*>(args[1]), *static_cast<mud::Image256*>(args[2])); }
-void mud_ui_image256_23(array<void*> args, void*& result) { result = &mud::ui::image256(*static_cast<mud::Widget*>(args[0]), *static_cast<string*>(args[1]), *static_cast<mud::Image256*>(args[2]), *static_cast<mud::vec2*>(args[3])); }
-void mud_ui_radio_choice_24(array<void*> args, void*& result) { result = &mud::ui::radio_choice(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<bool*>(args[2])); }
-void mud_ui_radio_switch_25(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::radio_switch(*static_cast<mud::Widget*>(args[0]), *static_cast<array<const char*>*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<mud::Dim*>(args[3])); }
-void mud_ui_popdown_26(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::popdown(*static_cast<mud::Widget*>(args[0]), *static_cast<array<const char*>*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<mud::vec2*>(args[3]), *static_cast<mud::ui::PopupFlags*>(args[4])); }
-void mud_ui_dropdown_27(array<void*> args, void*& result) { result = &mud::ui::dropdown(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), static_cast<const char*>(args[2]), *static_cast<mud::ui::PopupFlags*>(args[3]), static_cast<mud::Style*>(args[4])); }
-void mud_ui_dropdown_input_28(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::dropdown_input(*static_cast<mud::Widget*>(args[0]), *static_cast<array<const char*>*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<bool*>(args[3])); }
-void mud_ui_typedown_input_29(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::typedown_input(*static_cast<mud::Widget*>(args[0]), *static_cast<array<const char*>*>(args[1]), *static_cast<uint32_t*>(args[2])); }
-void mud_ui_menu_choice_30(array<void*> args, void*& result) { result = &mud::ui::menu_choice(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_menu_31(array<void*> args, void*& result) { result = &mud::ui::menu(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<bool*>(args[2])); }
-void mud_ui_menubar_32(array<void*> args, void*& result) { result = &mud::ui::menubar(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_toolbutton_33(array<void*> args, void*& result) { result = &mud::ui::toolbutton(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_tooldock_34(array<void*> args, void*& result) { result = &mud::ui::tooldock(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_toolbar_35(array<void*> args, void*& result) { result = &mud::ui::toolbar(*static_cast<mud::Widget*>(args[0]), *static_cast<bool*>(args[1])); }
-void mud_ui_select_list_36(array<void*> args, void*& result) { result = &mud::ui::select_list(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_columns_37(array<void*> args, void*& result) { result = &mud::ui::columns(*static_cast<mud::Widget*>(args[0]), *static_cast<array<float>*>(args[1])); }
-void mud_ui_table_38(array<void*> args, void*& result) { result = &mud::ui::table(*static_cast<mud::Widget*>(args[0]), *static_cast<array<const char*>*>(args[1]), *static_cast<array<float>*>(args[2])); }
-void mud_ui_table_row_39(array<void*> args, void*& result) { result = &mud::ui::table_row(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_table_separator_40(array<void*> args, void*& result) { result = &mud::ui::table_separator(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_expandbox_41(array<void*> args, void*& result) { result = &mud::ui::expandbox(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<bool*>(args[2])); }
-void mud_ui_tree_node_42(array<void*> args, void*& result) { result = &mud::ui::tree_node(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3])); }
-void mud_ui_tree_43(array<void*> args, void*& result) { result = &mud::ui::tree(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_tab_44(array<void*> args, void*& result) { result = mud::ui::tab(*static_cast<mud::Tabber*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_tabber_45(array<void*> args, void*& result) { result = &mud::ui::tabber(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_row_46(array<void*> args, void*& result) { result = &mud::ui::row(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_header_47(array<void*> args, void*& result) { result = &mud::ui::header(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_div_48(array<void*> args, void*& result) { result = &mud::ui::div(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_stack_49(array<void*> args, void*& result) { result = &mud::ui::stack(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_sheet_50(array<void*> args, void*& result) { result = &mud::ui::sheet(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_board_51(array<void*> args, void*& result) { result = &mud::ui::board(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_layout_52(array<void*> args, void*& result) { result = &mud::ui::layout(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_screen_53(array<void*> args, void*& result) { result = &mud::ui::screen(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_decal_54(array<void*> args, void*& result) { result = &mud::ui::decal(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_overlay_55(array<void*> args, void*& result) { result = &mud::ui::overlay(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_title_header_56(array<void*> args, void*& result) { result = &mud::ui::title_header(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_dummy_57(array<void*> args, void*& result) { result = &mud::ui::dummy(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1])); }
-void mud_ui_popup_58(array<void*> args, void*& result) { result = &mud::ui::popup(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::ui::PopupFlags*>(args[1])); }
-void mud_ui_popup_59(array<void*> args, void*& result) { result = &mud::ui::popup(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1]), *static_cast<mud::ui::PopupFlags*>(args[2])); }
-void mud_ui_popup_at_60(array<void*> args, void*& result) { result = &mud::ui::popup_at(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1]), *static_cast<mud::ui::PopupFlags*>(args[2])); }
-void mud_ui_modal_61(array<void*> args, void*& result) { result = &mud::ui::modal(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_modal_62(array<void*> args, void*& result) { result = &mud::ui::modal(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1])); }
-void mud_ui_auto_modal_63(array<void*> args, void*& result) { result = &mud::ui::auto_modal(*static_cast<mud::Widget*>(args[0]), *static_cast<uint32_t*>(args[1])); }
-void mud_ui_auto_modal_64(array<void*> args, void*& result) { result = &mud::ui::auto_modal(*static_cast<mud::Widget*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<mud::vec2*>(args[2])); }
-void mud_ui_context_65(array<void*> args, void*& result) { result = mud::ui::context(*static_cast<mud::Widget*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<mud::ui::PopupFlags*>(args[2])); }
-void mud_ui_hoverbox_66(array<void*> args, void*& result) { result = mud::ui::hoverbox(*static_cast<mud::Widget*>(args[0]), *static_cast<float*>(args[1])); }
-void mud_ui_tooltip_67(array<void*> args, void*& result) { result = mud::ui::tooltip(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1]), static_cast<const char*>(args[2])); }
-void mud_ui_cursor_68(array<void*> args, void*& result) { result = &mud::ui::cursor(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1]), *static_cast<mud::Widget*>(args[2]), *static_cast<bool*>(args[3])); }
-void mud_ui_rectangle_69(array<void*> args, void*& result) { result = &mud::ui::rectangle(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec4*>(args[1])); }
-void mud_ui_dockspace_70(array<void*> args, void*& result) { result = &mud::ui::dockspace(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Docksystem*>(args[1])); }
-void mud_ui_dockbar_71(array<void*> args, void*& result) { result = &mud::ui::dockbar(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Docksystem*>(args[1])); }
-void mud_ui_dockitem_72(array<void*> args, void*& result) { result = mud::ui::dockitem(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Docksystem*>(args[1]), *static_cast<mud::Dock*>(args[2])); }
-void mud_ui_text_box_73(array<void*> args, void*& result) { result = &mud::ui::text_box(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), *static_cast<string*>(args[2]), *static_cast<bool*>(args[3]), *static_cast<size_t*>(args[4]), *static_cast<string*>(args[5])); }
-void mud_ui_type_in_74(array<void*> args, void*& result) { result = &mud::ui::type_in(*static_cast<mud::Widget*>(args[0]), *static_cast<string*>(args[1]), *static_cast<size_t*>(args[2]), *static_cast<string*>(args[3])); }
-void mud_ui_text_edit_75(array<void*> args, void*& result) { result = &mud::ui::text_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<string*>(args[1]), *static_cast<size_t*>(args[2]), static_cast<vector<string>*>(args[3])); }
-void mud_ui_code_edit_76(array<void*> args, void*& result) { result = &mud::ui::code_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<string*>(args[1]), *static_cast<size_t*>(args[2]), static_cast<vector<string>*>(args[3])); }
-void mud_ui_drag_float_77(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::drag_float(*static_cast<mud::Widget*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
-void mud_ui_vec2_edit_78(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::vec2_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1])); }
-void mud_ui_vec3_edit_79(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::vec3_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
-void mud_ui_quat_edit_80(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::quat_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::quat*>(args[1])); }
-void mud_ui_color_edit_hsl_81(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::color_edit_hsl(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Colour*>(args[1]), *static_cast<mud::Colour*>(args[2])); }
-void mud_ui_color_display_82(array<void*> args, void*& result) { result = &mud::ui::color_display(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
-void mud_ui_color_edit_83(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::color_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
-void mud_ui_color_edit_simple_84(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::color_edit_simple(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
-void mud_ui_color_toggle_edit_85(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::color_toggle_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
-void mud_ui_curve_graph_86(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::curve_graph(*static_cast<mud::Widget*>(args[0]), *static_cast<array<float>*>(args[1]), *static_cast<array<float>*>(args[2])); }
-void mud_ui_curve_edit_87(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::curve_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<array<float>*>(args[1]), *static_cast<array<float>*>(args[2])); }
-void mud_ui_flag_field_88(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::flag_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<uint8_t*>(args[3]), *static_cast<bool*>(args[4])); }
-void mud_ui_radio_field_89(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::radio_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<array<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3]), *static_cast<mud::Dim*>(args[4]), *static_cast<bool*>(args[5])); }
-void mud_ui_dropdown_field_90(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::dropdown_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<array<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3]), *static_cast<bool*>(args[4])); }
-void mud_ui_typedown_field_91(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::typedown_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<array<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3]), *static_cast<bool*>(args[4])); }
-void mud_ui_color_field_92(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::color_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::Colour*>(args[2]), *static_cast<bool*>(args[3])); }
-void mud_ui_color_display_field_93(array<void*> args, void*& result) { UNUSED(result);  mud::ui::color_display_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::Colour*>(args[2]), *static_cast<bool*>(args[3])); }
-void mud_ui_node_input_94(array<void*> args, void*& result) { result = &mud::ui::node_input(*static_cast<mud::Node*>(args[0]), static_cast<const char*>(args[1]), static_cast<const char*>(args[2]), *static_cast<mud::Colour*>(args[3]), *static_cast<bool*>(args[4]), *static_cast<bool*>(args[5])); }
-void mud_ui_node_output_95(array<void*> args, void*& result) { result = &mud::ui::node_output(*static_cast<mud::Node*>(args[0]), static_cast<const char*>(args[1]), static_cast<const char*>(args[2]), *static_cast<mud::Colour*>(args[3]), *static_cast<bool*>(args[4]), *static_cast<bool*>(args[5])); }
-void mud_ui_node_96(array<void*> args, void*& result) { result = &mud::ui::node(*static_cast<mud::Canvas*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::vec2*>(args[2]), *static_cast<int*>(args[3]), *static_cast<mud::Ref*>(args[4])); }
-void mud_ui_node_cable_97(array<void*> args, void*& result) { result = &mud::ui::node_cable(*static_cast<mud::Canvas*>(args[0]), *static_cast<mud::NodePlug*>(args[1]), *static_cast<mud::NodePlug*>(args[2])); }
-void mud_ui_canvas_98(array<void*> args, void*& result) { result = &mud::ui::canvas(*static_cast<mud::Widget*>(args[0]), *static_cast<size_t*>(args[1])); }
-void mud_ui_scrollable_99(array<void*> args, void*& result) { result = &mud::ui::scrollable(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_sequence_100(array<void*> args, void*& result) { result = &mud::ui::sequence(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_scroll_sequence_101(array<void*> args, void*& result) { result = &mud::ui::scroll_sequence(*static_cast<mud::Widget*>(args[0])); }
-void mud_ui_multiselect_logic_102(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::multiselect_logic(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1]), *static_cast<vector<mud::Ref>*>(args[2])); }
-void mud_ui_select_logic_103(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::select_logic(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1]), *static_cast<mud::Ref*>(args[2])); }
-void mud_ui_element_104(array<void*> args, void*& result) { result = &mud::ui::element(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
-void mud_ui_sequence_element_105(array<void*> args, void*& result) { result = &mud::ui::sequence_element(*static_cast<mud::ui::Sequence*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
-void mud_ui_window_106(array<void*> args, void*& result) { result = &mud::ui::window(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::WindowState*>(args[2])); }
-void mud_ui_dir_item_107(array<void*> args, void*& result) { result = &mud::ui::dir_item(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_file_item_108(array<void*> args, void*& result) { result = &mud::ui::file_item(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_file_list_109(array<void*> args, void*& result) { result = &mud::ui::file_list(*static_cast<mud::Widget*>(args[0]), *static_cast<string*>(args[1])); }
-void mud_ui_file_browser_110(array<void*> args, void*& result) { result = &mud::ui::file_browser(*static_cast<mud::Widget*>(args[0]), *static_cast<string*>(args[1])); }
-void mud_ui_dir_node_111(array<void*> args, void*& result) { result = &mud::ui::dir_node(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), static_cast<const char*>(args[2]), *static_cast<bool*>(args[3])); }
-void mud_ui_file_node_112(array<void*> args, void*& result) { result = &mud::ui::file_node(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_file_tree_113(array<void*> args, void*& result) { result = &mud::ui::file_tree(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
-void mud_ui_command_line_114(array<void*> args, void*& result) { result = &mud::ui::command_line(*static_cast<mud::Widget*>(args[0]), *static_cast<string*>(args[1]), *static_cast<string*>(args[2])); }
-void mud_ui_console_115(array<void*> args, void*& result) { result = &mud::ui::console(*static_cast<mud::Widget*>(args[0]), *static_cast<string*>(args[1]), *static_cast<string*>(args[2]), *static_cast<string*>(args[3]), *static_cast<size_t*>(args[4])); }
+void mud_TextCursor__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::TextCursor(  ); }
+void mud_TextCursor__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::TextCursor((*static_cast<mud::TextCursor*>(other))); }
+void mud_TextMarker__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::TextMarker(  ); }
+void mud_TextMarker__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::TextMarker((*static_cast<mud::TextMarker*>(other))); }
+void mud_TextPaint__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::TextPaint(  ); }
+void mud_TextPaint__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::TextPaint((*static_cast<mud::TextPaint*>(other))); }
+void mud_TextSelection__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::TextSelection(  ); }
+void mud_TextSelection__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::TextSelection((*static_cast<mud::TextSelection*>(other))); }
+void mud_UiRect__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::UiRect(  ); }
+void mud_UiRect__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::UiRect((*static_cast<mud::UiRect*>(other))); }
+void mud_Widget_focused(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).focused(); }
+void mud_Widget_hovered(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).hovered(); }
+void mud_Widget_pressed(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).pressed(); }
+void mud_Widget_activated(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).activated(); }
+void mud_Widget_selected(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).selected(); }
+void mud_Widget_modal(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).modal(); }
+void mud_Widget_closed(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).closed(); }
+void mud_Widget_ui_window(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Widget*>(object)).ui_window(); }
+void mud_Widget_ui(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Widget*>(object)).ui(); }
+void mud_Widget_parent_modal(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Widget*>(object)).parent_modal(); }
+void mud_Widget_toggle_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).toggle_state(*static_cast<mud::WidgetState*>(args[0])); }
+void mud_Widget_disable_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).disable_state(*static_cast<mud::WidgetState*>(args[0])); }
+void mud_Widget_set_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).set_state(*static_cast<mud::WidgetState*>(args[0]), *static_cast<bool*>(args[1])); }
+void mud_Widget_enable_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).enable_state(*static_cast<mud::WidgetState*>(args[0])); }
+void mud_Widget_clear_focus(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Widget*>(object)).clear_focus(); }
+void mud_Widget_take_focus(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Widget*>(object)).take_focus(); }
+void mud_Widget_yield_focus(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Widget*>(object)).yield_focus(); }
+void mud_Widget_take_modal(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).take_modal(*static_cast<uint32_t*>(args[0])); }
+void mud_Widget_yield_modal(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Widget*>(object)).yield_modal(); }
+void mud_Widget_key_event(void* object, span<void*> args, void*& result) { (*static_cast<mud::KeyEvent*>(result)) = (*static_cast<mud::Widget*>(object)).key_event(*static_cast<mud::Key*>(args[0]), *static_cast<mud::EventType*>(args[1]), *static_cast<mud::InputMod*>(args[2])); }
+void mud_Widget_key_stroke(void* object, span<void*> args, void*& result) { (*static_cast<mud::KeyEvent*>(result)) = (*static_cast<mud::Widget*>(object)).key_stroke(*static_cast<mud::Key*>(args[0]), *static_cast<mud::InputMod*>(args[1])); }
+void mud_Widget_char_stroke(void* object, span<void*> args, void*& result) { (*static_cast<mud::KeyEvent*>(result)) = (*static_cast<mud::Widget*>(object)).char_stroke(*static_cast<mud::Key*>(args[0]), *static_cast<mud::InputMod*>(args[1])); }
+void mud_Widget_mouse_event(void* object, span<void*> args, void*& result) { (*static_cast<mud::MouseEvent*>(result)) = (*static_cast<mud::Widget*>(object)).mouse_event(*static_cast<mud::DeviceType*>(args[0]), *static_cast<mud::EventType*>(args[1]), *static_cast<mud::InputMod*>(args[2]), *static_cast<bool*>(args[3])); }
+void mud_Ui_begin(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Ui*>(object)).begin(); }
+void mud_ui_widget_0(span<void*> args, void*& result) { result = &mud::ui::widget(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<mud::Dim*>(args[3]), *static_cast<mud::Dim2<size_t>*>(args[4])); }
+void mud_ui_item_1(span<void*> args, void*& result) { result = &mud::ui::item(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), static_cast<const char*>(args[2])); }
+void mud_ui_multi_item_2(span<void*> args, void*& result) { result = &mud::ui::multi_item(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), static_cast<mud::Style*>(args[3])); }
+void mud_ui_spanner_3(span<void*> args, void*& result) { result = &mud::ui::spanner(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), *static_cast<mud::Dim*>(args[2]), *static_cast<float*>(args[3])); }
+void mud_ui_spacer_4(span<void*> args, void*& result) { result = &mud::ui::spacer(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_icon_5(span<void*> args, void*& result) { result = &mud::ui::icon(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_label_6(span<void*> args, void*& result) { result = &mud::ui::label(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_title_7(span<void*> args, void*& result) { result = &mud::ui::title(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_message_8(span<void*> args, void*& result) { result = &mud::ui::message(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_text_9(span<void*> args, void*& result) { result = &mud::ui::text(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_button_10(span<void*> args, void*& result) { result = &mud::ui::button(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_toggle_11(span<void*> args, void*& result) { result = &mud::ui::toggle(*static_cast<mud::Widget*>(args[0]), *static_cast<bool*>(args[1]), static_cast<const char*>(args[2])); }
+void mud_ui_button_12(span<void*> args, void*& result) { result = &mud::ui::button(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::string*>(args[1])); }
+void mud_ui_toggle_13(span<void*> args, void*& result) { result = &mud::ui::toggle(*static_cast<mud::Widget*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<stl::string*>(args[2])); }
+void mud_ui_multi_button_14(span<void*> args, void*& result) { result = &mud::ui::multi_button(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::span<const char*>*>(args[1]), static_cast<mud::Style*>(args[2])); }
+void mud_ui_multi_toggle_15(span<void*> args, void*& result) { result = &mud::ui::multi_toggle(*static_cast<mud::Widget*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), static_cast<mud::Style*>(args[3])); }
+void mud_ui_modal_button_16(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::modal_button(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<uint32_t*>(args[3])); }
+void mud_ui_modal_multi_button_17(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::modal_multi_button(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Widget*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3])); }
+void mud_ui_checkbox_18(span<void*> args, void*& result) { result = &mud::ui::checkbox(*static_cast<mud::Widget*>(args[0]), *static_cast<bool*>(args[1])); }
+void mud_ui_fill_bar_19(span<void*> args, void*& result) { result = &mud::ui::fill_bar(*static_cast<mud::Widget*>(args[0]), *static_cast<float*>(args[1]), *static_cast<mud::Dim*>(args[2])); }
+void mud_ui_image256_20(span<void*> args, void*& result) { result = &mud::ui::image256(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::Image256*>(args[2])); }
+void mud_ui_image256_21(span<void*> args, void*& result) { result = &mud::ui::image256(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::Image256*>(args[2]), *static_cast<mud::vec2*>(args[3])); }
+void mud_ui_image256_22(span<void*> args, void*& result) { result = &mud::ui::image256(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::Image256*>(args[2])); }
+void mud_ui_image256_23(span<void*> args, void*& result) { result = &mud::ui::image256(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::Image256*>(args[2]), *static_cast<mud::vec2*>(args[3])); }
+void mud_ui_radio_choice_24(span<void*> args, void*& result) { result = &mud::ui::radio_choice(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<bool*>(args[2])); }
+void mud_ui_radio_switch_25(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::radio_switch(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::span<const char*>*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<mud::Dim*>(args[3])); }
+void mud_ui_popdown_26(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::popdown(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::span<const char*>*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<mud::vec2*>(args[3]), *static_cast<mud::ui::PopupFlags*>(args[4])); }
+void mud_ui_dropdown_27(span<void*> args, void*& result) { result = &mud::ui::dropdown(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), static_cast<const char*>(args[2]), *static_cast<mud::ui::PopupFlags*>(args[3]), static_cast<mud::Style*>(args[4])); }
+void mud_ui_dropdown_input_28(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::dropdown_input(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::span<const char*>*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<bool*>(args[3])); }
+void mud_ui_typedown_input_29(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::typedown_input(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::span<const char*>*>(args[1]), *static_cast<uint32_t*>(args[2])); }
+void mud_ui_menu_choice_30(span<void*> args, void*& result) { result = &mud::ui::menu_choice(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_menu_31(span<void*> args, void*& result) { result = &mud::ui::menu(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<bool*>(args[2])); }
+void mud_ui_menubar_32(span<void*> args, void*& result) { result = &mud::ui::menubar(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_toolbutton_33(span<void*> args, void*& result) { result = &mud::ui::toolbutton(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_tooldock_34(span<void*> args, void*& result) { result = &mud::ui::tooldock(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_toolbar_35(span<void*> args, void*& result) { result = &mud::ui::toolbar(*static_cast<mud::Widget*>(args[0]), *static_cast<bool*>(args[1])); }
+void mud_ui_select_list_36(span<void*> args, void*& result) { result = &mud::ui::select_list(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_columns_37(span<void*> args, void*& result) { result = &mud::ui::columns(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::span<float>*>(args[1])); }
+void mud_ui_table_38(span<void*> args, void*& result) { result = &mud::ui::table(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::span<const char*>*>(args[1]), *static_cast<stl::span<float>*>(args[2])); }
+void mud_ui_table_row_39(span<void*> args, void*& result) { result = &mud::ui::table_row(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_table_separator_40(span<void*> args, void*& result) { result = &mud::ui::table_separator(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_expandbox_41(span<void*> args, void*& result) { result = &mud::ui::expandbox(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<bool*>(args[2])); }
+void mud_ui_tree_node_42(span<void*> args, void*& result) { result = &mud::ui::tree_node(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3])); }
+void mud_ui_tree_43(span<void*> args, void*& result) { result = &mud::ui::tree(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_tab_44(span<void*> args, void*& result) { result = mud::ui::tab(*static_cast<mud::Tabber*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_tabber_45(span<void*> args, void*& result) { result = &mud::ui::tabber(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_row_46(span<void*> args, void*& result) { result = &mud::ui::row(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_header_47(span<void*> args, void*& result) { result = &mud::ui::header(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_div_48(span<void*> args, void*& result) { result = &mud::ui::div(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_stack_49(span<void*> args, void*& result) { result = &mud::ui::stack(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_sheet_50(span<void*> args, void*& result) { result = &mud::ui::sheet(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_board_51(span<void*> args, void*& result) { result = &mud::ui::board(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_layout_52(span<void*> args, void*& result) { result = &mud::ui::layout(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_screen_53(span<void*> args, void*& result) { result = &mud::ui::screen(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_decal_54(span<void*> args, void*& result) { result = &mud::ui::decal(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_overlay_55(span<void*> args, void*& result) { result = &mud::ui::overlay(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_title_header_56(span<void*> args, void*& result) { result = &mud::ui::title_header(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_dummy_57(span<void*> args, void*& result) { result = &mud::ui::dummy(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1])); }
+void mud_ui_popup_58(span<void*> args, void*& result) { result = &mud::ui::popup(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::ui::PopupFlags*>(args[1])); }
+void mud_ui_popup_59(span<void*> args, void*& result) { result = &mud::ui::popup(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1]), *static_cast<mud::ui::PopupFlags*>(args[2])); }
+void mud_ui_popup_at_60(span<void*> args, void*& result) { result = &mud::ui::popup_at(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1]), *static_cast<mud::ui::PopupFlags*>(args[2])); }
+void mud_ui_modal_61(span<void*> args, void*& result) { result = &mud::ui::modal(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_modal_62(span<void*> args, void*& result) { result = &mud::ui::modal(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1])); }
+void mud_ui_auto_modal_63(span<void*> args, void*& result) { result = &mud::ui::auto_modal(*static_cast<mud::Widget*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void mud_ui_auto_modal_64(span<void*> args, void*& result) { result = &mud::ui::auto_modal(*static_cast<mud::Widget*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<mud::vec2*>(args[2])); }
+void mud_ui_context_65(span<void*> args, void*& result) { result = mud::ui::context(*static_cast<mud::Widget*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<mud::ui::PopupFlags*>(args[2])); }
+void mud_ui_hoverbox_66(span<void*> args, void*& result) { result = mud::ui::hoverbox(*static_cast<mud::Widget*>(args[0]), *static_cast<float*>(args[1])); }
+void mud_ui_tooltip_67(span<void*> args, void*& result) { result = mud::ui::tooltip(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1]), static_cast<const char*>(args[2])); }
+void mud_ui_cursor_68(span<void*> args, void*& result) { result = &mud::ui::cursor(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1]), *static_cast<mud::Widget*>(args[2]), *static_cast<bool*>(args[3])); }
+void mud_ui_rectangle_69(span<void*> args, void*& result) { result = &mud::ui::rectangle(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec4*>(args[1])); }
+void mud_ui_dockspace_70(span<void*> args, void*& result) { result = &mud::ui::dockspace(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Docksystem*>(args[1])); }
+void mud_ui_dockbar_71(span<void*> args, void*& result) { result = &mud::ui::dockbar(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Docksystem*>(args[1])); }
+void mud_ui_dockitem_72(span<void*> args, void*& result) { result = mud::ui::dockitem(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Docksystem*>(args[1]), *static_cast<mud::Dock*>(args[2])); }
+void mud_ui_drag_float_73(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::drag_float(*static_cast<mud::Widget*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
+void mud_ui_vec2_edit_74(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::vec2_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1])); }
+void mud_ui_vec3_edit_75(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::vec3_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
+void mud_ui_quat_edit_76(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::quat_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::quat*>(args[1])); }
+void mud_ui_color_edit_hsl_77(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::color_edit_hsl(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Colour*>(args[1]), *static_cast<mud::Colour*>(args[2])); }
+void mud_ui_color_display_78(span<void*> args, void*& result) { result = &mud::ui::color_display(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
+void mud_ui_color_edit_79(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::color_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
+void mud_ui_color_edit_simple_80(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::color_edit_simple(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
+void mud_ui_color_toggle_edit_81(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::color_toggle_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
+void mud_ui_curve_graph_82(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::curve_graph(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::span<float>*>(args[1]), *static_cast<stl::span<float>*>(args[2])); }
+void mud_ui_curve_edit_83(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::curve_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::span<float>*>(args[1]), *static_cast<stl::span<float>*>(args[2])); }
+void mud_ui_flag_field_84(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::flag_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<uint8_t*>(args[3]), *static_cast<bool*>(args[4])); }
+void mud_ui_radio_field_85(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::radio_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3]), *static_cast<mud::Dim*>(args[4]), *static_cast<bool*>(args[5])); }
+void mud_ui_dropdown_field_86(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::dropdown_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3]), *static_cast<bool*>(args[4])); }
+void mud_ui_typedown_field_87(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::typedown_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3]), *static_cast<bool*>(args[4])); }
+void mud_ui_color_field_88(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::color_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::Colour*>(args[2]), *static_cast<bool*>(args[3])); }
+void mud_ui_color_display_field_89(span<void*> args, void*& result) { UNUSED(result);  mud::ui::color_display_field(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::Colour*>(args[2]), *static_cast<bool*>(args[3])); }
+void mud_ui_text_box_90(span<void*> args, void*& result) { result = &mud::ui::text_box(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<bool*>(args[3]), *static_cast<size_t*>(args[4]), *static_cast<stl::string*>(args[5])); }
+void mud_ui_type_in_91(span<void*> args, void*& result) { result = &mud::ui::type_in(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<size_t*>(args[2]), *static_cast<stl::string*>(args[3])); }
+void mud_ui_text_edit_92(span<void*> args, void*& result) { result = &mud::ui::text_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<size_t*>(args[2]), static_cast<stl::vector<stl::string>*>(args[3])); }
+void mud_ui_code_edit_93(span<void*> args, void*& result) { result = &mud::ui::code_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<size_t*>(args[2]), static_cast<stl::vector<stl::string>*>(args[3])); }
+void mud_ui_node_input_94(span<void*> args, void*& result) { result = &mud::ui::node_input(*static_cast<mud::Node*>(args[0]), static_cast<const char*>(args[1]), static_cast<const char*>(args[2]), *static_cast<mud::Colour*>(args[3]), *static_cast<bool*>(args[4]), *static_cast<bool*>(args[5])); }
+void mud_ui_node_output_95(span<void*> args, void*& result) { result = &mud::ui::node_output(*static_cast<mud::Node*>(args[0]), static_cast<const char*>(args[1]), static_cast<const char*>(args[2]), *static_cast<mud::Colour*>(args[3]), *static_cast<bool*>(args[4]), *static_cast<bool*>(args[5])); }
+void mud_ui_node_96(span<void*> args, void*& result) { result = &mud::ui::node(*static_cast<mud::Canvas*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::vec2*>(args[2]), *static_cast<int*>(args[3]), *static_cast<mud::Ref*>(args[4])); }
+void mud_ui_node_cable_97(span<void*> args, void*& result) { result = &mud::ui::node_cable(*static_cast<mud::Canvas*>(args[0]), *static_cast<mud::NodePlug*>(args[1]), *static_cast<mud::NodePlug*>(args[2])); }
+void mud_ui_canvas_98(span<void*> args, void*& result) { result = &mud::ui::canvas(*static_cast<mud::Widget*>(args[0]), *static_cast<size_t*>(args[1])); }
+void mud_ui_scrollable_99(span<void*> args, void*& result) { result = &mud::ui::scrollable(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_sequence_100(span<void*> args, void*& result) { result = &mud::ui::sequence(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_scroll_sequence_101(span<void*> args, void*& result) { result = &mud::ui::scroll_sequence(*static_cast<mud::Widget*>(args[0])); }
+void mud_ui_multiselect_logic_102(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::multiselect_logic(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1]), *static_cast<stl::vector<mud::Ref>*>(args[2])); }
+void mud_ui_select_logic_103(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::ui::select_logic(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1]), *static_cast<mud::Ref*>(args[2])); }
+void mud_ui_element_104(span<void*> args, void*& result) { result = &mud::ui::element(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
+void mud_ui_sequence_element_105(span<void*> args, void*& result) { result = &mud::ui::sequence_element(*static_cast<mud::ui::Sequence*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
+void mud_ui_window_106(span<void*> args, void*& result) { result = &mud::ui::window(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::WindowState*>(args[2])); }
+void mud_ui_dir_item_107(span<void*> args, void*& result) { result = &mud::ui::dir_item(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_file_item_108(span<void*> args, void*& result) { result = &mud::ui::file_item(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_file_list_109(span<void*> args, void*& result) { result = &mud::ui::file_list(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::string*>(args[1])); }
+void mud_ui_file_browser_110(span<void*> args, void*& result) { result = &mud::ui::file_browser(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::string*>(args[1])); }
+void mud_ui_dir_node_111(span<void*> args, void*& result) { result = &mud::ui::dir_node(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1]), static_cast<const char*>(args[2]), *static_cast<bool*>(args[3])); }
+void mud_ui_file_node_112(span<void*> args, void*& result) { result = &mud::ui::file_node(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_file_tree_113(span<void*> args, void*& result) { result = &mud::ui::file_tree(*static_cast<mud::Widget*>(args[0]), static_cast<const char*>(args[1])); }
+void mud_ui_command_line_114(span<void*> args, void*& result) { result = &mud::ui::command_line(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<stl::string*>(args[2])); }
+void mud_ui_console_115(span<void*> args, void*& result) { result = &mud::ui::console(*static_cast<mud::Widget*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<stl::string*>(args[3]), *static_cast<size_t*>(args[4])); }
 
 namespace mud
 {
@@ -436,168 +436,34 @@ namespace mud
 	
 	// Sequences
 	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+		Type& t = type<stl::span<const char*>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<const char*>", sizeof(stl::span<const char*>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
+		                             stl_span_const_char___size,
+		                             stl_span_const_char___at};
 		g_iterable[t.m_id] = &iterable;
 	}
 	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<array<const char*>>();
-		static Meta meta = { t, &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<const char*>(),
-		                             array_const_char____size,
-		                             array_const_char____at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<array<float>>();
-		static Meta meta = { t, &namspc({}), "array<float>", sizeof(array<float>), TypeClass::Sequence };
+		Type& t = type<stl::span<float>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<float>", sizeof(stl::span<float>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<float>(),
-		                             array_float___size,
-		                             array_float___at};
+		                             stl_span_float__size,
+		                             stl_span_float__at};
 		g_iterable[t.m_id] = &iterable;
 	}
 	{
-		Type& t = type<vector<mud::Space>>();
-		static Meta meta = { t, &namspc({}), "vector<mud::Space>", sizeof(vector<mud::Space>), TypeClass::Sequence };
+		Type& t = type<stl::vector<mud::Space>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Space>", sizeof(stl::vector<mud::Space>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<mud::Space>(),
-		                             vector_mud_Space___size,
-		                             vector_mud_Space___at};
+		                             stl_vector_mud_Space__size,
+		                             stl_vector_mud_Space__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_mud_Space___add,
-		                             vector_mud_Space___remove };
-		g_sequence[t.m_id] = &sequence;
-	}
-	{
-		Type& t = type<vector<string>>();
-		static Meta meta = { t, &namspc({}), "vector<string>", sizeof(vector<string>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<string>(),
-		                             vector_string___size,
-		                             vector_string___at};
-		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_string___add,
-		                             vector_string___remove };
-		g_sequence[t.m_id] = &sequence;
-	}
-	{
-		Type& t = type<vector<string>>();
-		static Meta meta = { t, &namspc({}), "vector<string>", sizeof(vector<string>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<string>(),
-		                             vector_string___size,
-		                             vector_string___at};
-		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_string___add,
-		                             vector_string___remove };
-		g_sequence[t.m_id] = &sequence;
-	}
-	{
-		Type& t = type<vector<string>>();
-		static Meta meta = { t, &namspc({}), "vector<string>", sizeof(vector<string>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<string>(),
-		                             vector_string___size,
-		                             vector_string___at};
-		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_string___add,
-		                             vector_string___remove };
+		static Sequence sequence = { stl_vector_mud_Space__push,
+		                             stl_vector_mud_Space__add,
+		                             stl_vector_mud_Space__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	
@@ -626,9 +492,9 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Clipboard", sizeof(mud::Clipboard), TypeClass::Struct };
 		// bases
 		// defaults
-		static string text_default = "";
+		static stl::string text_default = "";
 		static bool line_mode_default = false;
-		static vector<string> pasted_default = {};
+		static stl::vector<stl::string> pasted_default = {};
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Clipboard__construct_0, {} }
@@ -639,9 +505,9 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Clipboard, m_text), type<string>(), "text", &text_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Clipboard, m_text), type<stl::string>(), "text", &text_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Clipboard, m_line_mode), type<bool>(), "line_mode", &line_mode_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Clipboard, m_pasted), type<vector<string>>(), "pasted", &pasted_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Clipboard, m_pasted), type<stl::vector<stl::string>>(), "pasted", &pasted_default, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
@@ -655,12 +521,12 @@ namespace mud
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Dim2_bool___construct_0, { { "a", type<bool>(),  }, { "b", type<bool>(),  } } },
-			{ t, mud_Dim2_bool___construct_1, {} }
+			{ t, mud_Dim2_bool__construct_0, { { "a", type<bool>(),  }, { "b", type<bool>(),  } } },
+			{ t, mud_Dim2_bool__construct_1, {} }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_Dim2_bool___copy_construct }
+			{ t, mud_Dim2_bool__copy_construct }
 		};
 		// members
 		static Member members[] = {
@@ -679,12 +545,12 @@ namespace mud
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Dim2_mud_Align___construct_0, { { "a", type<mud::Align>(),  }, { "b", type<mud::Align>(),  } } },
-			{ t, mud_Dim2_mud_Align___construct_1, {} }
+			{ t, mud_Dim2_mud_Align__construct_0, { { "a", type<mud::Align>(),  }, { "b", type<mud::Align>(),  } } },
+			{ t, mud_Dim2_mud_Align__construct_1, {} }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_Dim2_mud_Align___copy_construct }
+			{ t, mud_Dim2_mud_Align__copy_construct }
 		};
 		// members
 		static Member members[] = {
@@ -703,12 +569,12 @@ namespace mud
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Dim2_mud_AutoLayout___construct_0, { { "a", type<mud::AutoLayout>(),  }, { "b", type<mud::AutoLayout>(),  } } },
-			{ t, mud_Dim2_mud_AutoLayout___construct_1, {} }
+			{ t, mud_Dim2_mud_AutoLayout__construct_0, { { "a", type<mud::AutoLayout>(),  }, { "b", type<mud::AutoLayout>(),  } } },
+			{ t, mud_Dim2_mud_AutoLayout__construct_1, {} }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_Dim2_mud_AutoLayout___copy_construct }
+			{ t, mud_Dim2_mud_AutoLayout__copy_construct }
 		};
 		// members
 		static Member members[] = {
@@ -727,12 +593,12 @@ namespace mud
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Dim2_mud_Pivot___construct_0, { { "a", type<mud::Pivot>(),  }, { "b", type<mud::Pivot>(),  } } },
-			{ t, mud_Dim2_mud_Pivot___construct_1, {} }
+			{ t, mud_Dim2_mud_Pivot__construct_0, { { "a", type<mud::Pivot>(),  }, { "b", type<mud::Pivot>(),  } } },
+			{ t, mud_Dim2_mud_Pivot__construct_1, {} }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_Dim2_mud_Pivot___copy_construct }
+			{ t, mud_Dim2_mud_Pivot__copy_construct }
 		};
 		// members
 		static Member members[] = {
@@ -751,12 +617,12 @@ namespace mud
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Dim2_mud_Sizing___construct_0, { { "a", type<mud::Sizing>(),  }, { "b", type<mud::Sizing>(),  } } },
-			{ t, mud_Dim2_mud_Sizing___construct_1, {} }
+			{ t, mud_Dim2_mud_Sizing__construct_0, { { "a", type<mud::Sizing>(),  }, { "b", type<mud::Sizing>(),  } } },
+			{ t, mud_Dim2_mud_Sizing__construct_1, {} }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_Dim2_mud_Sizing___copy_construct }
+			{ t, mud_Dim2_mud_Sizing__copy_construct }
 		};
 		// members
 		static Member members[] = {
@@ -775,12 +641,12 @@ namespace mud
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Dim2_size_t___construct_0, { { "a", type<size_t>(),  }, { "b", type<size_t>(),  } } },
-			{ t, mud_Dim2_size_t___construct_1, {} }
+			{ t, mud_Dim2_size_t__construct_0, { { "a", type<size_t>(),  }, { "b", type<size_t>(),  } } },
+			{ t, mud_Dim2_size_t__construct_1, {} }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_Dim2_size_t___copy_construct }
+			{ t, mud_Dim2_size_t__copy_construct }
 		};
 		// members
 		static Member members[] = {
@@ -872,9 +738,11 @@ namespace mud
 		static int d_bottom_default = 0;
 		static int margin_default = 0;
 		static mud::Dim d_stretch_default = DIM_NONE;
+		static int construct_0_margin_default = 0;
+		static mud::Dim construct_0_stretch_default = DIM_NONE;
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ImageSkin__construct_0, { { "image", type<mud::Image>(),  }, { "left", type<int>(),  }, { "top", type<int>(),  }, { "right", type<int>(),  }, { "bottom", type<int>(),  }, { "margin", type<int>(), Param::Default }, { "stretch", type<mud::Dim>(), Param::Default } } }
+			{ t, mud_ImageSkin__construct_0, { { "image", type<mud::Image>(),  }, { "left", type<int>(),  }, { "top", type<int>(),  }, { "right", type<int>(),  }, { "bottom", type<int>(),  }, { "margin", type<int>(), Param::Default, &construct_0_margin_default }, { "stretch", type<mud::Dim>(), Param::Default, &construct_0_stretch_default } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -900,13 +768,13 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "InkStyle", sizeof(mud::InkStyle), TypeClass::Struct };
 		// bases
 		// defaults
-		static string name_default = "";
+		static stl::string name_default = "";
 		static bool empty_default = true;
 		static mud::Colour background_colour_default = mud::Colour::None;
 		static mud::Colour border_colour_default = mud::Colour::None;
 		static mud::Colour image_colour_default = mud::Colour::None;
 		static mud::Colour text_colour_default = mud::Colour::None;
-		static string text_font_default = "dejavu";
+		static stl::string text_font_default = "dejavu";
 		static float text_size_default = 14.f;
 		static bool text_break_default = false;
 		static bool text_wrap_default = false;
@@ -929,13 +797,13 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::InkStyle, m_name), type<string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(mud::InkStyle, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(mud::InkStyle, m_empty), type<bool>(), "empty", &empty_default, Member::Value, nullptr },
 			{ t, offsetof(mud::InkStyle, m_background_colour), type<mud::Colour>(), "background_colour", &background_colour_default, Member::Value, nullptr },
 			{ t, offsetof(mud::InkStyle, m_border_colour), type<mud::Colour>(), "border_colour", &border_colour_default, Member::Value, nullptr },
 			{ t, offsetof(mud::InkStyle, m_image_colour), type<mud::Colour>(), "image_colour", &image_colour_default, Member::Value, nullptr },
 			{ t, offsetof(mud::InkStyle, m_text_colour), type<mud::Colour>(), "text_colour", &text_colour_default, Member::Value, nullptr },
-			{ t, offsetof(mud::InkStyle, m_text_font), type<string>(), "text_font", &text_font_default, Member::Value, nullptr },
+			{ t, offsetof(mud::InkStyle, m_text_font), type<stl::string>(), "text_font", &text_font_default, Member::Value, nullptr },
 			{ t, offsetof(mud::InkStyle, m_text_size), type<float>(), "text_size", &text_size_default, Member::Value, nullptr },
 			{ t, offsetof(mud::InkStyle, m_text_break), type<bool>(), "text_break", &text_break_default, Member::Value, nullptr },
 			{ t, offsetof(mud::InkStyle, m_text_wrap), type<bool>(), "text_wrap", &text_wrap_default, Member::Value, nullptr },
@@ -979,7 +847,7 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Layout", sizeof(mud::Layout), TypeClass::Struct };
 		// bases
 		// defaults
-		static string name_default = "";
+		static stl::string name_default = "";
 		static mud::LayoutSolver solver_default = FRAME_SOLVER;
 		static mud::Dim2<mud::AutoLayout> layout_default = {AUTO_LAYOUT,AUTO_LAYOUT};
 		static mud::Flow flow_default = FLOW;
@@ -1002,7 +870,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Layout, m_name), type<string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Layout, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Layout, m_solver), type<mud::LayoutSolver>(), "solver", &solver_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Layout, m_layout), type<mud::Dim2<mud::AutoLayout>>(), "layout", &layout_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Layout, m_flow), type<mud::Flow>(), "flow", &flow_default, Member::Value, nullptr },
@@ -1018,8 +886,8 @@ namespace mud
 			{ t, offsetof(mud::Layout, m_pivot), type<mud::Dim2<mud::Pivot>>(), "pivot", &pivot_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Layout, m_zorder), type<int>(), "zorder", &zorder_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Layout, m_no_grid), type<bool>(), "no_grid", &no_grid_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Layout, m_grid_division), type<vector<mud::Space>>(), "grid_division", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Layout, m_table_division), type<vector<float>>(), "table_division", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Layout, m_grid_division), type<stl::vector<mud::Space>>(), "grid_division", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Layout, m_table_division), type<stl::vector<float>>(), "table_division", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::Layout, m_updated), type<size_t>(), "updated", &updated_default, Member::Value, nullptr }
 		};
 		// methods
@@ -1075,9 +943,10 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Shadow", sizeof(mud::Shadow), TypeClass::Struct };
 		// bases
 		// defaults
+		static mud::Colour construct_0_colour_default = mud::Colour::AlphaBlack;
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Shadow__construct_0, { { "xpos", type<float>(),  }, { "ypos", type<float>(),  }, { "blur", type<float>(),  }, { "spread", type<float>(),  }, { "colour", type<mud::Colour>(), Param::Default } } },
+			{ t, mud_Shadow__construct_0, { { "xpos", type<float>(),  }, { "ypos", type<float>(),  }, { "blur", type<float>(),  }, { "spread", type<float>(),  }, { "colour", type<mud::Colour>(), Param::Default, &construct_0_colour_default } } },
 			{ t, mud_Shadow__construct_1, {} }
 		};
 		// copy constructor
@@ -1131,6 +1000,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::Style, m_base), type<mud::Style>(), "base", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, SIZE_MAX, type<const char*>(), "name", nullptr, Member::Flags(Member::Pointer|Member::NonMutable|Member::Link), mud_Style__get_name },
 			{ t, SIZE_MAX, type<mud::Layout>(), "layout", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), mud_Style__get_layout },
 			{ t, SIZE_MAX, type<mud::InkStyle>(), "skin", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), mud_Style__get_skin }
 		};
@@ -1218,6 +1088,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
+			{ t, offsetof(mud::TextPaint, m_font), type<const char*>(), "font", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::TextPaint, m_colour), type<mud::Colour>(), "colour", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::TextPaint, m_size), type<float>(), "size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::TextPaint, m_align), type<mud::Dim2<mud::Align>>(), "align", nullptr, Member::Value, nullptr },
@@ -1317,64 +1188,22 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
-	// mud::Frame
-	{
-		Type& t = type<mud::Frame>();
-		static Meta meta = { t, &namspc({ "mud" }), "Frame", sizeof(mud::Frame), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::UiRect>() };
-		static size_t bases_offsets[] = { base_offset<mud::Frame, mud::UiRect>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::FrameSolver
-	{
-		Type& t = type<mud::FrameSolver>();
-		static Meta meta = { t, &namspc({ "mud" }), "FrameSolver", sizeof(mud::FrameSolver), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::UiRect>() };
-		static size_t bases_offsets[] = { base_offset<mud::FrameSolver, mud::UiRect>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::LineSolver
-	{
-		Type& t = type<mud::LineSolver>();
-		static Meta meta = { t, &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::RowSolver>() };
-		static size_t bases_offsets[] = { base_offset<mud::LineSolver, mud::RowSolver>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
 	// mud::Widget
 	{
 		Type& t = type<mud::Widget>();
 		static Meta meta = { t, &namspc({ "mud" }), "Widget", sizeof(mud::Widget), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::ControlNode>() };
-		static size_t bases_offsets[] = { base_offset<mud::Widget, mud::ControlNode>() };
 		// defaults
 		static mud::WidgetState state_default = CREATED;
 		static uint32_t switch_default = 0;
 		static size_t index_default = 0;
 		static bool open_default = false;
 		static mud::Widget* body_default = nullptr;
+		static mud::InputMod key_event_0_modifier_default = mud::InputMod::Any;
+		static mud::InputMod key_stroke_0_modifier_default = mud::InputMod::Any;
+		static mud::InputMod char_stroke_0_modifier_default = mud::InputMod::Any;
+		static mud::InputMod mouse_event_0_modifier_default = mud::InputMod::None;
+		static bool mouse_event_0_consume_default = true;
 		// constructors
 		// copy constructor
 		// members
@@ -1407,13 +1236,13 @@ namespace mud
 			{ t, "yield_focus", Address(), mud_Widget_yield_focus, {}, g_qvoid },
 			{ t, "take_modal", Address(), mud_Widget_take_modal, { { "device_filter", type<uint32_t>(),  } }, g_qvoid },
 			{ t, "yield_modal", Address(), mud_Widget_yield_modal, {}, g_qvoid },
-			{ t, "key_event", Address(), mud_Widget_key_event, { { "code", type<mud::Key>(),  }, { "event_type", type<mud::EventType>(),  }, { "modifier", type<mud::InputMod>(), Param::Default } }, { &type<mud::KeyEvent>(), QualType::None } },
-			{ t, "key_stroke", Address(), mud_Widget_key_stroke, { { "code", type<mud::Key>(),  }, { "modifier", type<mud::InputMod>(), Param::Default } }, { &type<mud::KeyEvent>(), QualType::None } },
-			{ t, "char_stroke", Address(), mud_Widget_char_stroke, { { "code", type<mud::Key>(),  }, { "modifier", type<mud::InputMod>(), Param::Default } }, { &type<mud::KeyEvent>(), QualType::None } },
-			{ t, "mouse_event", Address(), mud_Widget_mouse_event, { { "device", type<mud::DeviceType>(),  }, { "event_type", type<mud::EventType>(),  }, { "modifier", type<mud::InputMod>(), Param::Default }, { "consume", type<bool>(), Param::Default } }, { &type<mud::MouseEvent>(), QualType::None } }
+			{ t, "key_event", Address(), mud_Widget_key_event, { { "code", type<mud::Key>(),  }, { "event_type", type<mud::EventType>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &key_event_0_modifier_default } }, { &type<mud::KeyEvent>(), QualType::None } },
+			{ t, "key_stroke", Address(), mud_Widget_key_stroke, { { "code", type<mud::Key>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &key_stroke_0_modifier_default } }, { &type<mud::KeyEvent>(), QualType::None } },
+			{ t, "char_stroke", Address(), mud_Widget_char_stroke, { { "code", type<mud::Key>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &char_stroke_0_modifier_default } }, { &type<mud::KeyEvent>(), QualType::None } },
+			{ t, "mouse_event", Address(), mud_Widget_mouse_event, { { "device", type<mud::DeviceType>(),  }, { "event_type", type<mud::EventType>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &mouse_event_0_modifier_default }, { "consume", type<bool>(), Param::Default, &mouse_event_0_consume_default } }, { &type<mud::MouseEvent>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
 	}
 	// mud::Canvas
 	{
@@ -1505,6 +1334,66 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
+	// mud::Frame
+	{
+		Type& t = type<mud::Frame>();
+		static Meta meta = { t, &namspc({ "mud" }), "Frame", sizeof(mud::Frame), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::UiRect>() };
+		static size_t bases_offsets[] = { base_offset<mud::Frame, mud::UiRect>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::FrameSolver
+	{
+		Type& t = type<mud::FrameSolver>();
+		static Meta meta = { t, &namspc({ "mud" }), "FrameSolver", sizeof(mud::FrameSolver), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::UiRect>() };
+		static size_t bases_offsets[] = { base_offset<mud::FrameSolver, mud::UiRect>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::RowSolver
+	{
+		Type& t = type<mud::RowSolver>();
+		static Meta meta = { t, &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::FrameSolver>() };
+		static size_t bases_offsets[] = { base_offset<mud::RowSolver, mud::FrameSolver>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::LineSolver
+	{
+		Type& t = type<mud::LineSolver>();
+		static Meta meta = { t, &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::RowSolver>() };
+		static size_t bases_offsets[] = { base_offset<mud::LineSolver, mud::RowSolver>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
 	// mud::Node
 	{
 		Type& t = type<mud::Node>();
@@ -1527,21 +1416,6 @@ namespace mud
 		// bases
 		static Type* bases[] = { &type<mud::Widget>() };
 		static size_t bases_offsets[] = { base_offset<mud::NodePlug, mud::Widget>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::RowSolver
-	{
-		Type& t = type<mud::RowSolver>();
-		static Meta meta = { t, &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::FrameSolver>() };
-		static size_t bases_offsets[] = { base_offset<mud::RowSolver, mud::FrameSolver>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -1673,6 +1547,13 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
+	
+	{
+		Type& t = type<unsigned short>();
+		static Alias alias = { &t, &namspc({ "mud" }), "PaletteIndex" };
+		m.m_aliases.push_back(&alias);
+	}
+	
 		m.m_types.push_back(&type<mud::Align>());
 		m.m_types.push_back(&type<mud::AutoLayout>());
 		m.m_types.push_back(&type<mud::CanvasConnect>());
@@ -1699,6 +1580,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::NodeConnection>());
 		m.m_types.push_back(&type<mud::Opacity>());
 		m.m_types.push_back(&type<mud::Paint>());
+		m.m_types.push_back(&type<mud::PaletteIndex>());
 		m.m_types.push_back(&type<mud::Pivot>());
 		m.m_types.push_back(&type<mud::ui::PopupFlags>());
 		m.m_types.push_back(&type<mud::Shadow>());
@@ -1716,38 +1598,24 @@ namespace mud
 		m.m_types.push_back(&type<mud::UiWindow>());
 		m.m_types.push_back(&type<mud::User>());
 		m.m_types.push_back(&type<mud::Vg>());
+		m.m_types.push_back(&type<mud::Widget>());
 		m.m_types.push_back(&type<mud::WidgetState>());
 		m.m_types.push_back(&type<mud::WindowState>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<const char*>>());
-		m.m_types.push_back(&type<array<float>>());
-		m.m_types.push_back(&type<vector<mud::Space>>());
-		m.m_types.push_back(&type<vector<string>>());
-		m.m_types.push_back(&type<vector<string>>());
-		m.m_types.push_back(&type<vector<string>>());
-		m.m_types.push_back(&type<mud::Dockable>());
-		m.m_types.push_back(&type<mud::Frame>());
-		m.m_types.push_back(&type<mud::Widget>());
+		m.m_types.push_back(&type<stl::span<const char*>>());
+		m.m_types.push_back(&type<stl::span<float>>());
+		m.m_types.push_back(&type<stl::vector<mud::Space>>());
 		m.m_types.push_back(&type<mud::Canvas>());
+		m.m_types.push_back(&type<mud::Dockable>());
 		m.m_types.push_back(&type<mud::Docker>());
 		m.m_types.push_back(&type<mud::Dockbar>());
 		m.m_types.push_back(&type<mud::Dockspace>());
 		m.m_types.push_back(&type<mud::Expandbox>());
+		m.m_types.push_back(&type<mud::Frame>());
 		m.m_types.push_back(&type<mud::FrameSolver>());
-		m.m_types.push_back(&type<mud::RowSolver>());
-		m.m_types.push_back(&type<mud::LineSolver>());
 		m.m_types.push_back(&type<mud::Node>());
 		m.m_types.push_back(&type<mud::NodePlug>());
+		m.m_types.push_back(&type<mud::RowSolver>());
+		m.m_types.push_back(&type<mud::LineSolver>());
 		m.m_types.push_back(&type<mud::ScrollSheet>());
 		m.m_types.push_back(&type<mud::ui::Sequence>());
 		m.m_types.push_back(&type<mud::Tabber>());
@@ -1757,15 +1625,20 @@ namespace mud
 		m.m_types.push_back(&type<mud::Ui>());
 		m.m_types.push_back(&type<mud::Window>());
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "widget", nullptr, mud_ui_widget_0, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "open", type<bool>(), Param::Default }, { "length", type<mud::Dim>(), Param::Default }, { "index", type<mud::Dim2<size_t>>(), Param::Default } }, { &type<mud::Widget>(), QualType::None } };
+			static bool open_default = false;
+			static mud::Dim length_default = DIM_NONE;
+			static mud::Dim2<size_t> index_default = {0,0};
+			static Function f = { &namspc({ "mud", "ui" }), "widget", nullptr, mud_ui_widget_0, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "open", type<bool>(), Param::Default, &open_default }, { "length", type<mud::Dim>(), Param::Default, &length_default }, { "index", type<mud::Dim2<size_t>>(), Param::Default, &index_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "item", nullptr, mud_ui_item_1, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default) } }, { &type<mud::Widget>(), QualType::None } };
+			static const char* content_default = nullptr;
+			static Function f = { &namspc({ "mud", "ui" }), "item", nullptr, mud_ui_item_1, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &content_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "multi_item", nullptr, mud_ui_multi_item_2, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "elements", type<array<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default) } }, { &type<mud::Widget>(), QualType::None } };
+			static mud::Style* element_style_default = nullptr;
+			static Function f = { &namspc({ "mud", "ui" }), "multi_item", nullptr, mud_ui_multi_item_2, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &element_style_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1797,27 +1670,31 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "button", nullptr, mud_ui_button_10, { { "parent", type<mud::Widget>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default) } }, { &type<mud::Widget>(), QualType::None } };
+			static const char* content_default = nullptr;
+			static Function f = { &namspc({ "mud", "ui" }), "button", nullptr, mud_ui_button_10, { { "parent", type<mud::Widget>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &content_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "toggle", nullptr, mud_ui_toggle_11, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default) } }, { &type<mud::Widget>(), QualType::None } };
+			static const char* content_default = nullptr;
+			static Function f = { &namspc({ "mud", "ui" }), "toggle", nullptr, mud_ui_toggle_11, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &content_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "button", nullptr, mud_ui_button_12, { { "parent", type<mud::Widget>(),  }, { "content", type<string>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "button", nullptr, mud_ui_button_12, { { "parent", type<mud::Widget>(),  }, { "content", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "toggle", nullptr, mud_ui_toggle_13, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "content", type<string>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "toggle", nullptr, mud_ui_toggle_13, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "content", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "multi_button", nullptr, mud_ui_multi_button_14, { { "parent", type<mud::Widget>(),  }, { "elements", type<array<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default) } }, { &type<mud::Widget>(), QualType::None } };
+			static mud::Style* element_style_default = nullptr;
+			static Function f = { &namspc({ "mud", "ui" }), "multi_button", nullptr, mud_ui_multi_button_14, { { "parent", type<mud::Widget>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &element_style_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "multi_toggle", nullptr, mud_ui_multi_toggle_15, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "elements", type<array<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default) } }, { &type<mud::Widget>(), QualType::None } };
+			static mud::Style* element_style_default = nullptr;
+			static Function f = { &namspc({ "mud", "ui" }), "multi_toggle", nullptr, mud_ui_multi_toggle_15, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &element_style_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1825,7 +1702,7 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "modal_multi_button", nullptr, mud_ui_modal_multi_button_17, { { "screen", type<mud::Widget>(),  }, { "parent", type<mud::Widget>(),  }, { "elements", type<array<const char*>>(),  }, { "mode", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "modal_multi_button", nullptr, mud_ui_modal_multi_button_17, { { "screen", type<mud::Widget>(),  }, { "parent", type<mud::Widget>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "mode", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1833,7 +1710,8 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "fill_bar", nullptr, mud_ui_fill_bar_19, { { "parent", type<mud::Widget>(),  }, { "percentage", type<float>(),  }, { "dim", type<mud::Dim>(), Param::Default } }, { &type<mud::Widget>(), QualType::None } };
+			static mud::Dim dim_default = DIM_X;
+			static Function f = { &namspc({ "mud", "ui" }), "fill_bar", nullptr, mud_ui_fill_bar_19, { { "parent", type<mud::Widget>(),  }, { "percentage", type<float>(),  }, { "dim", type<mud::Dim>(), Param::Default, &dim_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1845,11 +1723,11 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "image256", nullptr, mud_ui_image256_22, { { "parent", type<mud::Widget>(),  }, { "name", type<string>(),  }, { "source", type<mud::Image256>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "image256", nullptr, mud_ui_image256_22, { { "parent", type<mud::Widget>(),  }, { "name", type<stl::string>(),  }, { "source", type<mud::Image256>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "image256", nullptr, mud_ui_image256_23, { { "parent", type<mud::Widget>(),  }, { "name", type<string>(),  }, { "source", type<mud::Image256>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "image256", nullptr, mud_ui_image256_23, { { "parent", type<mud::Widget>(),  }, { "name", type<stl::string>(),  }, { "source", type<mud::Image256>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1857,23 +1735,26 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "radio_switch", nullptr, mud_ui_radio_switch_25, { { "parent", type<mud::Widget>(),  }, { "labels", type<array<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "dim", type<mud::Dim>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static mud::Dim dim_default = DIM_X;
+			static Function f = { &namspc({ "mud", "ui" }), "radio_switch", nullptr, mud_ui_radio_switch_25, { { "parent", type<mud::Widget>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "dim", type<mud::Dim>(), Param::Default, &dim_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "popdown", nullptr, mud_ui_popdown_26, { { "parent", type<mud::Widget>(),  }, { "choices", type<array<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "position", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "popdown", nullptr, mud_ui_popdown_26, { { "parent", type<mud::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "position", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "dropdown", nullptr, mud_ui_dropdown_27, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "value", type<const char*>(), Param::Nullable }, { "flags", type<mud::ui::PopupFlags>(),  }, { "list_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default) } }, { &type<mud::Widget>(), QualType::None } };
+			static mud::Style* list_style_default = nullptr;
+			static Function f = { &namspc({ "mud", "ui" }), "dropdown", nullptr, mud_ui_dropdown_27, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "value", type<const char*>(), Param::Nullable }, { "flags", type<mud::ui::PopupFlags>(),  }, { "list_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &list_style_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "dropdown_input", nullptr, mud_ui_dropdown_input_28, { { "parent", type<mud::Widget>(),  }, { "choices", type<array<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "compact", type<bool>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static bool compact_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "dropdown_input", nullptr, mud_ui_dropdown_input_28, { { "parent", type<mud::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "compact", type<bool>(), Param::Default, &compact_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "typedown_input", nullptr, mud_ui_typedown_input_29, { { "parent", type<mud::Widget>(),  }, { "choices", type<array<const char*>>(),  }, { "value", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "typedown_input", nullptr, mud_ui_typedown_input_29, { { "parent", type<mud::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1881,7 +1762,8 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "menu", nullptr, mud_ui_menu_31, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable }, { "submenu", type<bool>(), Param::Default } }, { &type<mud::Widget>(), QualType::None } };
+			static bool submenu_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "menu", nullptr, mud_ui_menu_31, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable }, { "submenu", type<bool>(), Param::Default, &submenu_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1897,7 +1779,8 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "toolbar", nullptr, mud_ui_toolbar_35, { { "parent", type<mud::Widget>(),  }, { "wrap", type<bool>(), Param::Default } }, { &type<mud::Widget>(), QualType::None } };
+			static bool wrap_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "toolbar", nullptr, mud_ui_toolbar_35, { { "parent", type<mud::Widget>(),  }, { "wrap", type<bool>(), Param::Default, &wrap_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1905,11 +1788,11 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "columns", nullptr, mud_ui_columns_37, { { "parent", type<mud::Widget>(),  }, { "weights", type<array<float>>(),  } }, { &type<mud::Table>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "columns", nullptr, mud_ui_columns_37, { { "parent", type<mud::Widget>(),  }, { "weights", type<stl::span<float>>(),  } }, { &type<mud::Table>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "table", nullptr, mud_ui_table_38, { { "parent", type<mud::Widget>(),  }, { "columns", type<array<const char*>>(),  }, { "weights", type<array<float>>(),  } }, { &type<mud::Table>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "table", nullptr, mud_ui_table_38, { { "parent", type<mud::Widget>(),  }, { "columns", type<stl::span<const char*>>(),  }, { "weights", type<stl::span<float>>(),  } }, { &type<mud::Table>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1921,11 +1804,14 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "expandbox", nullptr, mud_ui_expandbox_41, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "open", type<bool>(), Param::Default } }, { &type<mud::Expandbox>(), QualType::None } };
+			static bool open_default = true;
+			static Function f = { &namspc({ "mud", "ui" }), "expandbox", nullptr, mud_ui_expandbox_41, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "open", type<bool>(), Param::Default, &open_default } }, { &type<mud::Expandbox>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "tree_node", nullptr, mud_ui_tree_node_42, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "leaf", type<bool>(), Param::Default }, { "open", type<bool>(), Param::Default } }, { &type<mud::TreeNode>(), QualType::None } };
+			static bool leaf_default = false;
+			static bool open_default = true;
+			static Function f = { &namspc({ "mud", "ui" }), "tree_node", nullptr, mud_ui_tree_node_42, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "leaf", type<bool>(), Param::Default, &leaf_default }, { "open", type<bool>(), Param::Default, &open_default } }, { &type<mud::TreeNode>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1993,11 +1879,13 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "popup", nullptr, mud_ui_popup_59, { { "parent", type<mud::Widget>(),  }, { "size", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default } }, { &type<mud::Widget>(), QualType::None } };
+			static mud::ui::PopupFlags flags_default = mud::ui::PopupFlags::None;
+			static Function f = { &namspc({ "mud", "ui" }), "popup", nullptr, mud_ui_popup_59, { { "parent", type<mud::Widget>(),  }, { "size", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "popup_at", nullptr, mud_ui_popup_at_60, { { "parent", type<mud::Widget>(),  }, { "position", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default } }, { &type<mud::Widget>(), QualType::None } };
+			static mud::ui::PopupFlags flags_default = mud::ui::PopupFlags::None;
+			static Function f = { &namspc({ "mud", "ui" }), "popup_at", nullptr, mud_ui_popup_at_60, { { "parent", type<mud::Widget>(),  }, { "position", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2017,11 +1905,13 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "context", nullptr, mud_ui_context_65, { { "parent", type<mud::Widget>(),  }, { "mode", type<uint32_t>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default } }, { &type<mud::Widget>(), QualType::None } };
+			static mud::ui::PopupFlags flags_default = mud::ui::PopupFlags::None;
+			static Function f = { &namspc({ "mud", "ui" }), "context", nullptr, mud_ui_context_65, { { "parent", type<mud::Widget>(),  }, { "mode", type<uint32_t>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "hoverbox", nullptr, mud_ui_hoverbox_66, { { "parent", type<mud::Widget>(),  }, { "delay", type<float>(), Param::Default } }, { &type<mud::Widget>(), QualType::None } };
+			static float delay_default = 0.5f;
+			static Function f = { &namspc({ "mud", "ui" }), "hoverbox", nullptr, mud_ui_hoverbox_66, { { "parent", type<mud::Widget>(),  }, { "delay", type<float>(), Param::Default, &delay_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2029,7 +1919,8 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "cursor", nullptr, mud_ui_cursor_68, { { "parent", type<mud::Widget>(),  }, { "position", type<mud::vec2>(),  }, { "hovered", type<mud::Widget>(),  }, { "locked", type<bool>(), Param::Default } }, { &type<mud::Widget>(), QualType::None } };
+			static bool locked_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "cursor", nullptr, mud_ui_cursor_68, { { "parent", type<mud::Widget>(),  }, { "position", type<mud::vec2>(),  }, { "hovered", type<mud::Widget>(),  }, { "locked", type<bool>(), Param::Default, &locked_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2049,99 +1940,128 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "text_box", nullptr, mud_ui_text_box_73, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "text", type<string>(),  }, { "editor", type<bool>(), Param::Default }, { "lines", type<size_t>(), Param::Default }, { "allowed_chars", type<string>(), Param::Default } }, { &type<mud::TextEdit>(), QualType::None } };
+			static float step_default = 0.1f;
+			static Function f = { &namspc({ "mud", "ui" }), "drag_float", nullptr, mud_ui_drag_float_73, { { "parent", type<mud::Widget>(),  }, { "value", type<float>(),  }, { "step", type<float>(), Param::Default, &step_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "type_in", nullptr, mud_ui_type_in_74, { { "parent", type<mud::Widget>(),  }, { "text", type<string>(),  }, { "lines", type<size_t>(), Param::Default }, { "allowed_chars", type<string>(), Param::Default } }, { &type<mud::TextEdit>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "vec2_edit", nullptr, mud_ui_vec2_edit_74, { { "parent", type<mud::Widget>(),  }, { "vec", type<mud::vec2>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "text_edit", nullptr, mud_ui_text_edit_75, { { "parent", type<mud::Widget>(),  }, { "text", type<string>(),  }, { "lines", type<size_t>(), Param::Default }, { "vocabulary", type<vector<string>>(), Param::Flags(Param::Nullable|Param::Default) } }, { &type<mud::TextEdit>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "vec3_edit", nullptr, mud_ui_vec3_edit_75, { { "parent", type<mud::Widget>(),  }, { "vec", type<mud::vec3>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "code_edit", nullptr, mud_ui_code_edit_76, { { "parent", type<mud::Widget>(),  }, { "text", type<string>(),  }, { "lines", type<size_t>(), Param::Default }, { "vocabulary", type<vector<string>>(), Param::Flags(Param::Nullable|Param::Default) } }, { &type<mud::TextEdit>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "quat_edit", nullptr, mud_ui_quat_edit_76, { { "parent", type<mud::Widget>(),  }, { "quat", type<mud::quat>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "drag_float", nullptr, mud_ui_drag_float_77, { { "parent", type<mud::Widget>(),  }, { "value", type<float>(),  }, { "step", type<float>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "color_edit_hsl", nullptr, mud_ui_color_edit_hsl_77, { { "parent", type<mud::Widget>(),  }, { "colour", type<mud::Colour>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "vec2_edit", nullptr, mud_ui_vec2_edit_78, { { "parent", type<mud::Widget>(),  }, { "vec", type<mud::vec2>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "color_display", nullptr, mud_ui_color_display_78, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "vec3_edit", nullptr, mud_ui_vec3_edit_79, { { "parent", type<mud::Widget>(),  }, { "vec", type<mud::vec3>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "color_edit", nullptr, mud_ui_color_edit_79, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "quat_edit", nullptr, mud_ui_quat_edit_80, { { "parent", type<mud::Widget>(),  }, { "quat", type<mud::quat>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "color_edit_simple", nullptr, mud_ui_color_edit_simple_80, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "color_edit_hsl", nullptr, mud_ui_color_edit_hsl_81, { { "parent", type<mud::Widget>(),  }, { "colour", type<mud::Colour>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "color_toggle_edit", nullptr, mud_ui_color_toggle_edit_81, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "color_display", nullptr, mud_ui_color_display_82, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static stl::span<float> points_default = {};
+			static Function f = { &namspc({ "mud", "ui" }), "curve_graph", nullptr, mud_ui_curve_graph_82, { { "parent", type<mud::Widget>(),  }, { "values", type<stl::span<float>>(),  }, { "points", type<stl::span<float>>(), Param::Default, &points_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "color_edit", nullptr, mud_ui_color_edit_83, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
+			static stl::span<float> points_default = {};
+			static Function f = { &namspc({ "mud", "ui" }), "curve_edit", nullptr, mud_ui_curve_edit_83, { { "parent", type<mud::Widget>(),  }, { "values", type<stl::span<float>>(),  }, { "points", type<stl::span<float>>(), Param::Default, &points_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "color_edit_simple", nullptr, mud_ui_color_edit_simple_84, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
+			static bool reverse_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "flag_field", nullptr, mud_ui_flag_field_84, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<uint32_t>(),  }, { "shift", type<uint8_t>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "color_toggle_edit", nullptr, mud_ui_color_toggle_edit_85, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
+			static mud::Dim dim_default = DIM_X;
+			static bool reverse_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "radio_field", nullptr, mud_ui_radio_field_85, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "dim", type<mud::Dim>(), Param::Default, &dim_default }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "curve_graph", nullptr, mud_ui_curve_graph_86, { { "parent", type<mud::Widget>(),  }, { "values", type<array<float>>(),  }, { "points", type<array<float>>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static bool reverse_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "dropdown_field", nullptr, mud_ui_dropdown_field_86, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "curve_edit", nullptr, mud_ui_curve_edit_87, { { "parent", type<mud::Widget>(),  }, { "values", type<array<float>>(),  }, { "points", type<array<float>>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static bool reverse_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "typedown_field", nullptr, mud_ui_typedown_field_87, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "flag_field", nullptr, mud_ui_flag_field_88, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<uint32_t>(),  }, { "shift", type<uint8_t>(),  }, { "reverse", type<bool>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static bool reverse_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "color_field", nullptr, mud_ui_color_field_88, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<mud::Colour>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "radio_field", nullptr, mud_ui_radio_field_89, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<array<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "dim", type<mud::Dim>(), Param::Default }, { "reverse", type<bool>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static bool reverse_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "color_display_field", nullptr, mud_ui_color_display_field_89, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<mud::Colour>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "dropdown_field", nullptr, mud_ui_dropdown_field_90, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<array<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "reverse", type<bool>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static bool editor_default = false;
+			static size_t lines_default = 1;
+			static stl::string allowed_chars_default = "";
+			static Function f = { &namspc({ "mud", "ui" }), "text_box", nullptr, mud_ui_text_box_90, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "text", type<stl::string>(),  }, { "editor", type<bool>(), Param::Default, &editor_default }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "allowed_chars", type<stl::string>(), Param::Default, &allowed_chars_default } }, { &type<mud::TextEdit>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "typedown_field", nullptr, mud_ui_typedown_field_91, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<array<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "reverse", type<bool>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static size_t lines_default = 1;
+			static stl::string allowed_chars_default = "";
+			static Function f = { &namspc({ "mud", "ui" }), "type_in", nullptr, mud_ui_type_in_91, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "allowed_chars", type<stl::string>(), Param::Default, &allowed_chars_default } }, { &type<mud::TextEdit>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "color_field", nullptr, mud_ui_color_field_92, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<mud::Colour>(),  }, { "reverse", type<bool>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static size_t lines_default = 1;
+			static stl::vector<stl::string>* vocabulary_default = nullptr;
+			static Function f = { &namspc({ "mud", "ui" }), "text_edit", nullptr, mud_ui_text_edit_92, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "vocabulary", type<stl::vector<stl::string>>(), Param::Flags(Param::Nullable|Param::Default), &vocabulary_default } }, { &type<mud::TextEdit>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "color_display_field", nullptr, mud_ui_color_display_field_93, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<mud::Colour>(),  }, { "reverse", type<bool>(), Param::Default } }, g_qvoid };
+			static size_t lines_default = 1;
+			static stl::vector<stl::string>* vocabulary_default = nullptr;
+			static Function f = { &namspc({ "mud", "ui" }), "code_edit", nullptr, mud_ui_code_edit_93, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "vocabulary", type<stl::vector<stl::string>>(), Param::Flags(Param::Nullable|Param::Default), &vocabulary_default } }, { &type<mud::TextEdit>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "node_input", nullptr, mud_ui_node_input_94, { { "node", type<mud::Node>(),  }, { "name", type<const char*>(), Param::Nullable }, { "icon", type<const char*>(), Param::Flags(Param::Nullable|Param::Default) }, { "colour", type<mud::Colour>(), Param::Default }, { "active", type<bool>(), Param::Default }, { "connected", type<bool>(), Param::Default } }, { &type<mud::NodePlug>(), QualType::None } };
+			static const char* icon_default = "";
+			static mud::Colour colour_default = mud::Colour::NeonGreen;
+			static bool active_default = true;
+			static bool connected_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "node_input", nullptr, mud_ui_node_input_94, { { "node", type<mud::Node>(),  }, { "name", type<const char*>(), Param::Nullable }, { "icon", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &icon_default }, { "colour", type<mud::Colour>(), Param::Default, &colour_default }, { "active", type<bool>(), Param::Default, &active_default }, { "connected", type<bool>(), Param::Default, &connected_default } }, { &type<mud::NodePlug>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "node_output", nullptr, mud_ui_node_output_95, { { "node", type<mud::Node>(),  }, { "name", type<const char*>(), Param::Nullable }, { "icon", type<const char*>(), Param::Flags(Param::Nullable|Param::Default) }, { "colour", type<mud::Colour>(), Param::Default }, { "active", type<bool>(), Param::Default }, { "connected", type<bool>(), Param::Default } }, { &type<mud::NodePlug>(), QualType::None } };
+			static const char* icon_default = "";
+			static mud::Colour colour_default = mud::Colour::NeonGreen;
+			static bool active_default = true;
+			static bool connected_default = false;
+			static Function f = { &namspc({ "mud", "ui" }), "node_output", nullptr, mud_ui_node_output_95, { { "node", type<mud::Node>(),  }, { "name", type<const char*>(), Param::Nullable }, { "icon", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &icon_default }, { "colour", type<mud::Colour>(), Param::Default, &colour_default }, { "active", type<bool>(), Param::Default, &active_default }, { "connected", type<bool>(), Param::Default, &connected_default } }, { &type<mud::NodePlug>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "node", nullptr, mud_ui_node_96, { { "parent", type<mud::Canvas>(),  }, { "title", type<const char*>(), Param::Nullable }, { "position", type<mud::vec2>(),  }, { "order", type<int>(), Param::Default }, { "identity", type<mud::Ref>(), Param::Flags(Param::Nullable|Param::Default) } }, { &type<mud::Node>(), QualType::None } };
+			static int order_default = 0;
+			static mud::Ref identity_default = {};
+			static Function f = { &namspc({ "mud", "ui" }), "node", nullptr, mud_ui_node_96, { { "parent", type<mud::Canvas>(),  }, { "title", type<const char*>(), Param::Nullable }, { "position", type<mud::vec2>(),  }, { "order", type<int>(), Param::Default, &order_default }, { "identity", type<mud::Ref>(), Param::Flags(Param::Nullable|Param::Default), &identity_default } }, { &type<mud::Node>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2149,7 +2069,8 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "canvas", nullptr, mud_ui_canvas_98, { { "parent", type<mud::Widget>(),  }, { "num_nodes", type<size_t>(), Param::Default } }, { &type<mud::Canvas>(), QualType::None } };
+			static size_t num_nodes_default = 0;
+			static Function f = { &namspc({ "mud", "ui" }), "canvas", nullptr, mud_ui_canvas_98, { { "parent", type<mud::Widget>(),  }, { "num_nodes", type<size_t>(), Param::Default, &num_nodes_default } }, { &type<mud::Canvas>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2165,7 +2086,7 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "multiselect_logic", nullptr, mud_ui_multiselect_logic_102, { { "element", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable }, { "selection", type<vector<mud::Ref>>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "multiselect_logic", nullptr, mud_ui_multiselect_logic_102, { { "element", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable }, { "selection", type<stl::vector<mud::Ref>>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2181,7 +2102,8 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "window", nullptr, mud_ui_window_106, { { "parent", type<mud::Widget>(),  }, { "title", type<const char*>(), Param::Nullable }, { "state", type<mud::WindowState>(), Param::Default } }, { &type<mud::Window>(), QualType::None } };
+			static mud::WindowState state_default = WINDOW_DEFAULT;
+			static Function f = { &namspc({ "mud", "ui" }), "window", nullptr, mud_ui_window_106, { { "parent", type<mud::Widget>(),  }, { "title", type<const char*>(), Param::Nullable }, { "state", type<mud::WindowState>(), Param::Default, &state_default } }, { &type<mud::Window>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2193,11 +2115,11 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "file_list", nullptr, mud_ui_file_list_109, { { "parent", type<mud::Widget>(),  }, { "path", type<string>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "file_list", nullptr, mud_ui_file_list_109, { { "parent", type<mud::Widget>(),  }, { "path", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "file_browser", nullptr, mud_ui_file_browser_110, { { "parent", type<mud::Widget>(),  }, { "path", type<string>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "file_browser", nullptr, mud_ui_file_browser_110, { { "parent", type<mud::Widget>(),  }, { "path", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2213,11 +2135,12 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "command_line", nullptr, mud_ui_command_line_114, { { "parent", type<mud::Widget>(),  }, { "text", type<string>(),  }, { "command", type<string>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "command_line", nullptr, mud_ui_command_line_114, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "command", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "console", nullptr, mud_ui_console_115, { { "parent", type<mud::Widget>(),  }, { "feed", type<string>(),  }, { "line", type<string>(),  }, { "command", type<string>(),  }, { "num_lines", type<size_t>(), Param::Default } }, { &type<mud::Widget>(), QualType::None } };
+			static size_t num_lines_default = 0;
+			static Function f = { &namspc({ "mud", "ui" }), "console", nullptr, mud_ui_console_115, { { "parent", type<mud::Widget>(),  }, { "feed", type<stl::string>(),  }, { "line", type<stl::string>(),  }, { "command", type<stl::string>(),  }, { "num_lines", type<size_t>(), Param::Default, &num_lines_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 	}

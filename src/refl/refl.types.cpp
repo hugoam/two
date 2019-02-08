@@ -11,8 +11,16 @@ module mud.refl;
 namespace mud
 {
     // Exported types
-    template <> MUD_REFL_EXPORT Type& type<mud::TypeClass>() { static Type ty("mud::TypeClass", sizeof(mud::TypeClass)); return ty; }
+    template <> MUD_REFL_EXPORT Type& type<mud::TypeClass>() { static Type ty("TypeClass", sizeof(mud::TypeClass)); return ty; }
     
+    template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Alias*>>() { static Type ty("vector<mud::Alias*>", sizeof(stl::vector<mud::Alias*>)); return ty; }
+    template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Function*>>() { static Type ty("vector<mud::Function*>", sizeof(stl::vector<mud::Function*>)); return ty; }
+    template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Module*>>() { static Type ty("vector<mud::Module*>", sizeof(stl::vector<mud::Module*>)); return ty; }
+    template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Type*>>() { static Type ty("vector<mud::Type*>", sizeof(stl::vector<mud::Type*>)); return ty; }
+    template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Var>>() { static Type ty("vector<mud::Var>", sizeof(stl::vector<mud::Var>)); return ty; }
+    template <> MUD_REFL_EXPORT Type& type<stl::vector<void*>>() { static Type ty("vector<void*>", sizeof(stl::vector<void*>)); return ty; }
+    
+    template <> MUD_REFL_EXPORT Type& type<mud::Alias>() { static Type ty("Alias", sizeof(mud::Alias)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Call>() { static Type ty("Call", sizeof(mud::Call)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Callable>() { static Type ty("Callable", sizeof(mud::Callable)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Class>() { static Type ty("Class", sizeof(mud::Class)); return ty; }

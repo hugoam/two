@@ -19,7 +19,7 @@ namespace mud
 	export_ class refl_ MUD_TOOL_EXPORT RotateAction : public TransformAction
 	{
 	public:
-		RotateAction(array<Transform*> targets, const vec3& axis);
+		RotateAction(span<Transform*> targets, const vec3& axis);
 
 		virtual void apply(Transform& transform) final;
 		virtual void undo(Transform& transform) final;
@@ -38,6 +38,6 @@ namespace mud
 
 		unique<Gizmo> rotation_gizmo(Axis axis, float hue);
 
-		virtual object<TransformAction> create_action(array<Transform*> transforms);
+		virtual object<TransformAction> create_action(span<Transform*> transforms);
 	};
 }

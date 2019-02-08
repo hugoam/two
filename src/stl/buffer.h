@@ -101,7 +101,6 @@ namespace stl {
 		void emplace_back(Params&&... params);
 		void pop_back();
 
-		void fill(const T* first, const T* last);
 		void append(const T* first, const T* last);
 
 		void shrink_to_fit();

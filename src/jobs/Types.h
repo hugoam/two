@@ -21,7 +21,6 @@ namespace mud
 {
     // Exported types
     
-    export_ template <> MUD_JOBS_EXPORT Type& type<mud::JobSystem>();
     
-    export_ template <> MUD_JOBS_EXPORT Type& type<vector<mud::JobSystem*>>();
+    export_ template <> MUD_JOBS_EXPORT Type& type<mud::JobSystem>();
 }

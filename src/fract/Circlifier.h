@@ -37,6 +37,6 @@ namespace mud
 		Image256& m_image;
 		size_t m_size;
 		size_t m_last;
-		Grid<Pixircle> m_pixircles;
+		vector2d<Pixircle> m_pixircles;
 	};
 }

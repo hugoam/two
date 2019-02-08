@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <cctype>
@@ -1128,7 +1127,7 @@ namespace ui
 		return edit;
 	}
 
-	void autocomplete_popup(TextEdit& edit, string& text, const string& current_word, size_t cursor, size_t word_start, array<cstring> completions)
+	void autocomplete_popup(TextEdit& edit, string& text, const string& current_word, size_t cursor, size_t word_start, span<cstring> completions)
 	{
 		vec4 word_rect = edit.m_text.interval_rect(word_start, cursor - 1);
 		vec2 popup_position = edit.m_text_offset + rect_offset(word_rect) + vec2(0.f, rect_h(word_rect));

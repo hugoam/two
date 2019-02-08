@@ -21,14 +21,14 @@ module mud.lang;
 #include <stl/map.h>
 #include <stl/unordered_map.h>
 #include <stl/set.h>
-#include <infra/NonCopy.h>
+#include <stl/hash_base.hpp>
 #include <stl/algorithm.h>
 #include <infra/ToString.h>
 #include <infra/Global.h>
 #include <type/Any.h>
 #include <type/Dispatch.h>
 #include <type/DispatchDecl.h>
-#include <ecs/Proto.h>
+#include <type/Proto.h>
 #include <refl/Meta.h>
 #include <refl/Enum.h>
 #include <refl/Call.h>
@@ -100,7 +100,7 @@ namespace mud
 		ToWren();
 	};
 
-	inline void read_sequence(WrenVM* vm, int slot, Type& sequence_type, Ref result);
+	inline void read_sequence(WrenVM* vm, int slot, const Type& sequence_type, Ref result);
 	inline void push_sequence(WrenVM* vm, int slot, Ref value);
 
 	inline void read_enum(WrenVM* vm, int slot, Ref result);
@@ -110,12 +110,12 @@ namespace mud
 
 	inline Call& cached_call(const Callable& callable)
 	{
-		static vector<object<Call>> call_table;
+		static vector<unique<Call>> call_table;
 		if(callable.m_index >= call_table.size())
 			call_table.resize(callable.m_index + 1);
 
 		if(!call_table[callable.m_index])
-			call_table[callable.m_index] = oconstruct<Call>(callable);
+			call_table[callable.m_index] = construct<Call>(callable);
 		return *call_table[callable.m_index];
 	}
 
@@ -130,7 +130,7 @@ namespace mud
 	string signature(cstring name, size_t num_args)
 	{
 		string sig = string(name) + "(";
-		for (size_t i = 0; i < num_args; ++i)
+		for(size_t i = 0; i < num_args; ++i)
 			sig += "_" + (i == num_args - 1 ? string("") : string(","));
 		sig += ")";
 		return sig;
@@ -138,7 +138,7 @@ namespace mud
 
 	struct WrenRef : public Ref
 	{
-		WrenRef(bool alloc, void* pointer, Type& type) : Ref(pointer, type), m_alloc(alloc) {}
+		WrenRef(bool alloc, void* pointer, const Type& type) : Ref(pointer, type), m_alloc(alloc) {}
 		bool m_alloc;
 	};
 
@@ -155,7 +155,7 @@ namespace mud
 		else return wren_ref(vm, slot);
 	}
 
-	inline void read_object(WrenVM* vm, int slot, Type& type, Ref& result)
+	inline void read_object(WrenVM* vm, int slot, const Type& type, Ref& result)
 	{
 		WrenType slot_type = wrenGetSlotType(vm, slot);
 		if(slot_type == WREN_TYPE_NULL) result = Ref(type);
@@ -168,20 +168,20 @@ namespace mud
 		}
 	}
 
-	inline Type& read_type(WrenVM* vm, int slot)
+	inline const Type& read_type(WrenVM* vm, int slot)
 	{
 		Ref ref = read_ref(vm, slot);
 		return val<Type>(ref);
 	}
 
-	inline void read_value(WrenVM* vm, int index, Type& type, Ref& result)
+	inline void read_value(WrenVM* vm, int index, const Type& type, Ref& result)
 	{
 		FromWren::me().dispatch(Ref(type), vm, index, result);
 		//if(result.none())
 		//	printf("ERROR : wren -> reading wrong type %s expected %s\n", "", type.m_name);//lua_typename(vm, lua_type(vm, index)), type.m_name);
 	}
 
-	inline Ref alloc_object(WrenVM* vm, int slot, int class_slot, Type& type)
+	inline Ref alloc_object(WrenVM* vm, int slot, int class_slot, const Type& type)
 	{
 		//printf("DEBUG: Wren -> alloc object %s\n", type.m_name);
 		WrenRef* ref = static_cast<WrenRef*>(wrenSetSlotNewForeign(vm, slot, class_slot, sizeof(WrenRef) + meta(type).m_size));
@@ -197,7 +197,7 @@ namespace mud
 		return *ref;
 	}
 
-	inline Ref alloc_object(WrenVM* vm, int slot, Type& type)
+	inline Ref alloc_object(WrenVM* vm, int slot, const Type& type)
 	{
 		int class_slot = wrenGetSlotCount(vm);
 		wrenEnsureSlots(vm, class_slot + 1);
@@ -273,7 +273,7 @@ namespace mud
 	{
 		// @todo: what about automatic conversion as with visual scripts ? it might not belong here, maybe in read_value() ?
 		// @todo: might want a case for is_complex() before is_object() ?
-		Type& ty = type(value);
+		const Type& ty = type(value);
 		if(!value)
 			push_null(vm, slot);
 		else if(is_sequence(ty))
@@ -288,7 +288,7 @@ namespace mud
 			push_val(vm, slot, value);
 	}
 
-	inline bool read_params(WrenVM* vm, const Callable& callable, array<Var> vars, size_t offset, size_t first_slot)
+	inline bool read_params(WrenVM* vm, const Callable& callable, span<Var> vars, size_t offset, size_t first_slot)
 	{
 		size_t num_args = wrenGetSlotCount(vm) - first_slot;
 		for(size_t i = offset; i < offset + num_args; ++i)
@@ -296,7 +296,7 @@ namespace mud
 			read_value(vm, int(first_slot - offset + i), vars[i].m_ref);
 			bool success = !vars[i].none();
 			success &= callable.m_params[i].nullable() || !vars[i].null();
-			if (!success)
+			if(!success)
 			{
 #ifdef MUD_WREN_DEBUG
 				printf("ERROR: wren -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, type(callable.m_params[i].m_value).m_name, type(vars[i]).m_name);
@@ -354,7 +354,7 @@ namespace mud
 		call_method(vm, num_args);
 	}
 
-	inline void call_wren(WrenVM* vm, WrenHandle* method, WrenHandle* object, array<Var> parameters, Var* result = nullptr)
+	inline void call_wren(WrenVM* vm, WrenHandle* method, WrenHandle* object, span<Var> parameters, Var* result = nullptr)
 	{
 		wrenBegin(vm);
 		wrenEnsureSlots(vm, int(parameters.m_count + 1));
@@ -365,7 +365,7 @@ namespace mud
 		if(result) read_value(vm, 0, *result);
 	}
 
-	inline void call_wren_virtual(WrenVM* vm, Method& method, Ref object, array<Var> parameters)
+	inline void call_wren_virtual(WrenVM* vm, Method& method, Ref object, span<Var> parameters)
 	{
 #ifdef MUD_WREN_DEBUG
 		printf("INFO: wren -> call wren %s\n", method.m_name);
@@ -394,7 +394,7 @@ namespace mud
 #endif
 		Ref object = read_ref(vm, 1);
 #ifdef MUD_WREN_OPTIMIZE_SET_MEMBER
-		//if (member.m_name == string("value"))
+		//if(member.m_name == string("value"))
 		//	int i = 0;
 		Ref value = member.cast_get(object);
 		read_value(vm, 2, value);
@@ -440,7 +440,7 @@ namespace mud
 	inline void copy_construct(WrenVM* vm)
 	{
 		const CopyConstructor* constructor = &val<CopyConstructor>(read_ref(vm, 0));
-		if (!constructor) return;
+		if(!constructor) return;
 #ifdef MUD_WREN_DEBUG
 		printf("INFO: wren -> copy construct %s\n", constructor->m_name);
 #endif
@@ -454,12 +454,12 @@ namespace mud
 	{
 		WrenInterpreter* wren = mud::wren(vm);
 		const Constructor* constructor = &val<Constructor>(read_ref(vm, 0));
-		if (!constructor) return;
+		if(!constructor) return;
 #ifdef MUD_WREN_DEBUG
 		printf("INFO: wren -> construct %s\n", constructor->m_name);
 #endif
 		Call& construct = cached_call(*constructor);
-		VirtualMethod virtual_method = [=](Method& method, Ref object, array<Var> args) { wren->virtual_call(method, object, args); };
+		VirtualMethod virtual_method = [=](Method& method, Ref object, span<Var> args) { wren->virtual_call(method, object, args); };
 		construct.m_args.back() = var(virtual_method);
 		if(read_params(vm, *construct.m_callable, construct.m_args, 1, 2))
 		{
@@ -478,7 +478,7 @@ namespace mud
 		//	cls(ref).m_destructor[0].m_call(ref);
 	}
 
-	inline void register_enum(WrenVM* vm, string module, string name, Type& type)
+	inline void register_enum(WrenVM* vm, string module, string name, const Type& type)
 	{
 		Enum& enu = mud::enu(type);
 
@@ -507,7 +507,7 @@ namespace mud
 		if(count == offset)
 			return string(""); 
 		string params;
-		for(const Param& param : array<Param>{ callable.m_params, offset, count - offset })
+		for(const Param& param : span<Param>{ callable.m_params, offset, count - offset })
 		{
 			params += param.m_name;
 			params += ",";
@@ -516,7 +516,7 @@ namespace mud
 		return params;
 	}
 
-	inline void register_class(WrenVM* vm, string module, string name, Type& type)
+	inline void register_class(WrenVM* vm, string module, string name, const Type& type)
 	{
 		if(type.is<Function>() || type.is<Type>() || type.is<Constructor>() || type.is<CopyConstructor>() || type.is<Method>() || type.is<Member>() || type.is<Static>()) return;
 		if(type.is<Class>() || type.is<Creator>() || type.is<System>()) return;
@@ -642,8 +642,8 @@ namespace mud
 
 	Function* find_function(cstring nemespace, cstring name, size_t num_args)
 	{
-		for (Function* function : system().m_functions)
-			if (function->m_namespace->m_name == string(nemespace) && function->m_name == string(name) && function->m_params.size() == num_args)
+		for(Function* function : system().m_functions)
+			if(function->m_namespace->m_name == string(nemespace) && function->m_name == string(name) && function->m_params.size() == num_args)
 				return function;
 		return nullptr;
 	}
@@ -671,7 +671,7 @@ namespace mud
 			{
 				const char* name = wrenGetSlotString(vm, 1);
 				Type* type = system().find_type(name);
-				if (g_wren_types[type->m_id] != nullptr)
+				if(g_wren_types[type->m_id] != nullptr)
 					printf("WARNING: type %s already fetched\n", name);
 				else
 				{
@@ -904,7 +904,7 @@ namespace mud
 			enu(result).varn(uint32_t(wrenGetSlotDouble(vm, slot)), result);
 	}
 
-	inline void read_sequence(WrenVM* vm, int slot, Type& sequence_type, Ref result)
+	inline void read_sequence(WrenVM* vm, int slot, const Type& sequence_type, Ref result)
 	{
 		if(wrenGetSlotType(vm, slot) != WREN_TYPE_LIST)
 			return;
@@ -1011,7 +1011,7 @@ namespace mud
 		dispatch_branch<bool>    (*this, +[](bool&     value, WrenVM* vm, int slot) { return push_bool(vm, slot, value); });
 	}
 
-	class WrenContext : public NonCopy
+	class WrenContext
 	{
 	public:
 		explicit WrenContext(WrenInterpreter& interpreter, map<string, string> namespaces = {})
@@ -1058,10 +1058,10 @@ namespace mud
 
 		void register_primitives()
 		{
-			for (size_t num_args = 0; num_args < 6; ++num_args)
+			for(size_t num_args = 0; num_args < 6; ++num_args)
 			{
 				string signature = "construct" + to_string(num_args) + "(";
-				for (size_t i = 0; i < num_args; ++i)
+				for(size_t i = 0; i < num_args; ++i)
 					signature += "_" + (i == num_args - 1 ? string("") : string(","));
 				signature += ")";
 
@@ -1155,10 +1155,10 @@ namespace mud
 			g_wren_classes[type<Type>().m_id] = wrenGetSlotHandle(m_vm, 0);
 		}
 
-		array<cstring> namespace_path(Namespace& location)
+		span<cstring> namespace_path(Namespace& location)
 		{
 			if(location.is_root())
-				return array<cstring>{};
+				return {};
 			else
 				return location.m_path;
 		}
@@ -1181,7 +1181,7 @@ namespace mud
 			return result;
 		}
 
-		void register_type(Type& type)
+		void register_type(const Type& type)
 		{
 			if(!g_meta[type.m_id])
 			{
@@ -1189,7 +1189,7 @@ namespace mud
 				return;
 			}
 
-			auto module = [&](Type& type) -> string
+			auto module = [&](const Type& type) -> string
 			{
 				if(meta(type).m_namespace->m_name != string(""))
 					return m_namespaces[string(meta(type).m_namespace->m_name)];
@@ -1209,7 +1209,7 @@ namespace mud
 			if(as_operator(function))
 				return;
 
-			array<cstring> path = namespace_path(*function.m_namespace);
+			span<cstring> path = namespace_path(*function.m_namespace);
 
 			string c = path.size() > 0 ? to_pascalcase(path[path.m_count - 1]) : "Module";
 			string n = string(function.m_name);
@@ -1310,7 +1310,7 @@ namespace mud
 		this->flush();
 	}
 
-	const Var& WrenInterpreter::get(const string& name, Type& type)
+	Var WrenInterpreter::get(const string& name, const Type& type)
 	{
 		wrenBegin(m_context->m_vm);
 		wrenEnsureSlots(m_context->m_vm, 1);
@@ -1334,13 +1334,13 @@ namespace mud
 		wrenAssignVariable(m_context->m_vm, "main", name.c_str(), 0);
 	}
 
-	const Var& WrenInterpreter::getx(array<cstring> path, Type& type)
+	Var WrenInterpreter::getx(span<cstring> path, const Type& type)
 	{
 		UNUSED(path); UNUSED(type);
 		return Var();
 	}
 
-	void WrenInterpreter::setx(array<cstring> path, const Var& value)
+	void WrenInterpreter::setx(span<cstring> path, const Var& value)
 	{
 		UNUSED(path); UNUSED(value);
 	}
@@ -1351,7 +1351,7 @@ namespace mud
 		wrenInterpret(m_context->m_vm, "main", code.c_str());
 	}
 
-	void WrenInterpreter::virtual_call(Method& method, Ref object, array<Var> args)
+	void WrenInterpreter::virtual_call(Method& method, Ref object, span<Var> args)
 	{
 		m_script = m_virtual_scripts[object.m_value];
 		call_wren_virtual(m_context->m_vm, method, object, args);

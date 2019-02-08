@@ -10,6 +10,7 @@ module mud.gfx;
 #include <stl/map.h>
 #include <stl/algorithm.h>
 #include <math/Vec.hpp>
+#include <geom/Primitive.hpp>
 #include <geom/Geometry.h>
 #include <gfx/Mesh.h>
 #include <gfx/Node3.h>
@@ -85,9 +86,8 @@ namespace mud
 	{
 		GpuMesh gpu_mesh = { vertex_count, index_count };
 
-		gpu_mesh.m_vertex_memory = bgfx::alloc(vertex_size(vertex_format) * vertex_count);
-		gpu_mesh.m_index_memory = index32 ? bgfx::alloc(sizeof(uint32_t) * index_count)
-			: bgfx::alloc(sizeof(uint16_t) * index_count);
+		gpu_mesh.m_vertex_memory = bgfx::alloc(vertex_count * vertex_size(vertex_format));
+		gpu_mesh.m_index_memory = bgfx::alloc(index_count * (index32 ? sizeof(uint32_t) : sizeof(uint16_t)));
 		gpu_mesh.m_index32 = index32;
 
 		gpu_mesh.m_vertices = gpu_mesh.m_vertex_memory->data;

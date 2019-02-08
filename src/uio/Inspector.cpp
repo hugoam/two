@@ -10,7 +10,7 @@ module mud.uio;
 #include <tree/Graph.hpp>
 #include <stl/algorithm.h>
 #include <type/Any.h>
-#include <ecs/ECS.h>
+#include <ecs/ECS.hpp>
 #include <refl/Class.h>
 #include <uio/Inspector.h>
 #include <ui/ContainerStruct.h>

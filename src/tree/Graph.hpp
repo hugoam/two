@@ -51,23 +51,23 @@ namespace mud
 	{
 		uint16_t index = m_next++;
 
-		if (m_nodes.size() <= index)
+		if(m_nodes.size() <= index)
 			append<Child, Args...>(args..., identity);
 
-		if (m_nodes[index]->m_identity != identity)
+		if(m_nodes[index]->m_identity != identity)
 			m_nodes.insert(m_nodes.begin() + index, make_unique<Child>(&impl(), identity, args...));
 
 		return static_cast<Child&>(update(*m_nodes[index]));
 	}
 
 	template <class T>
-	inline T& Graph<T>::root() { if (m_parent) return m_parent->root(); return impl(); }
+	inline T& Graph<T>::root() { if(m_parent) return m_parent->root(); return impl(); }
 
 	template <class T>
 	template <class T_State, class... Args>
 	inline T_State& Graph<T>::state(Args&&... args)
 	{
-		if (!m_state)
+		if(!m_state)
 			m_state = make_unique<T_State>(static_cast<Args&&>(args)...);
 		return static_cast<T_State&>(*m_state);
 	}

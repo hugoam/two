@@ -8,9 +8,6 @@
 #include <ecs/Entity.h>
 #include <uio/Forward.h>
 
-#ifndef MUD_CPP_20
-#endif
-
 namespace mud
 {
 	export_ enum class refl_ EditNestMode : unsigned int

@@ -114,7 +114,7 @@ namespace mud
 	{
 		printf("INFO: Init Sound Manager\n");
 
-		if (m_device)
+		if(m_device)
 			return true;
 
 		alGetError();
@@ -138,7 +138,7 @@ namespace mud
 		if(!m_context)
 			return false;
 
-		if (!alcMakeContextCurrent(m_context))
+		if(!alcMakeContextCurrent(m_context))
 			return false;
 
 		this->log_features();

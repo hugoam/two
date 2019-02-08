@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -10,6 +9,7 @@ module mud.gfx;
 #else
 #include <stl/algorithm.h>
 #include <infra/Sort.h>
+#include <math/Vec.hpp>
 #include <jobs/JobLoop.h>
 #include <gfx/Types.h>
 #include <gfx/Renderer.h>
@@ -216,7 +216,7 @@ namespace mud
 			: vector<DrawElement>(size)
 		{}
 
-		array<DrawElement> elements() { return{ this->first(), this->size() }; }
+		span<DrawElement> elements() { return{ this->first(), this->size() }; }
 
 		DrawElement* first() { return &(*this)[0]; }
 

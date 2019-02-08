@@ -4,18 +4,19 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
-#include <infra/NonCopy.h>
-#endif
 #include <tool/Tool.h>
 #include <tool/Forward.h>
 
 namespace mud
 {
-	export_ class MUD_TOOL_EXPORT ActionStack : public NonCopy
+	export_ class MUD_TOOL_EXPORT ActionStack
 	{
 	public:
 		ActionStack();
+		~ActionStack();
+
+		ActionStack(const ActionStack& other) = delete;
+		ActionStack& operator=(const ActionStack& other) = delete;
 
 		void push(object<EditorAction> action);
 

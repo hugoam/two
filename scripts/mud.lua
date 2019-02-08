@@ -74,9 +74,9 @@ function uses_mud()
         path.join(MUD_3RDPARTY_DIR, "tinystl", "include"),
     }
     
-    if not _OPTIONS["use-stl"] then
+    if _OPTIONS["use-stl"] then
         configuration { "Debug" }
-            defines { "MUD_NO_STL" }
+            defines { "USE_STL" }
             
         configuration {}
     end
@@ -346,11 +346,6 @@ mud.mud = { mud.infra, mud.jobs, mud.type, mud.tree, mud.pool, mud.refl, mud.ecs
             mud.ctxbackend, mud.uibackend, mud.frame }
 mud.opts = { mud.noise, mud.wfc, mud.fract, mud.gfx.pbr, mud.gfx.obj, mud.gltf, mud.gfx.gltf, mud.gfx.edit, mud.tool, mud.wfc.gfx }
 
-if _OPTIONS["tools"] then
-    table.insert(mud.opts, mud.clrefl)
-    table.insert(mud.opts, mud.amalg)
-end
-
 if _OPTIONS["sound"] then
     table.insert(mud.mud, mud.snd)
 end
@@ -401,6 +396,11 @@ end
 
 --group "lib/mud-opts"
 --mud_libs(mud.opts, "StaticLib")
+
+if _OPTIONS["tools"] then
+    mud_lib("mud_clrefl", { mud.clrefl }, "StaticLib", {}, true)
+    mud_lib("mud_amalg", { mud.amalg }, "StaticLib", {}, true)
+end
 
 function mud_binary(name, modules, deps)
     mud_lib(name, modules, "ConsoleApp", deps)

@@ -169,7 +169,7 @@ namespace ui
 		return self;
 	}
 
-	Widget& grid_sheet(Widget& parent, Style& style, Dim dim, array<float> spans)
+	Widget& grid_sheet(Widget& parent, Style& style, Dim dim, span<float> spans)
 	{
 		Widget& self = widget(parent, style, false, dim);
 

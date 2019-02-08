@@ -19,7 +19,7 @@ module mud.uio;
 #include <ui/Input.hpp>
 #include <uio/Types.h>
 #include <uio/ValueEdit.h>
-#include <uio/ObjectEdit.h>
+#include <uio/Object.h>
 #include <uio/Inspector.h>
 #include <uio/InjectorEdit.h>
 #include <uio/IndexerEdit.h>
@@ -67,7 +67,7 @@ namespace mud
 		{
 			Widget& widget = ui::auto_modal(parent, EDIT_CURVE, { 300.f, 120.f });
 			ui::label(*widget.m_body, "Curve Editor");
-			return ui::curve_edit(*widget.m_body, array<float>(keys));
+			return ui::curve_edit(*widget.m_body, span<float>(keys));
 		}
 
 		return false;
@@ -141,7 +141,7 @@ namespace mud
 		//dispatch_branch<Image256>([](Image256& image, Wedge& parent) -> object<Widget> { return oconstruct<Figure>(Widget::Input{ &parent }, image); });
 	}
 
-	bool type_selector(Widget& parent, uint32_t& type, array<Type*> types)
+	bool type_selector(Widget& parent, uint32_t& type, span<Type*> types)
 	{
 		vector<cstring> type_names;
 		for(size_t i = 0; i < types.size(); ++i)

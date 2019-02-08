@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/string.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <math/Vec.h>
 #endif
 #include <gfx/Forward.h>
@@ -24,6 +24,8 @@ namespace bx
 
 namespace mud
 {
+	export_ using cstring = const char*;
+
 	export_ enum class refl_ TextureHint : unsigned int
 	{
 		Black,
@@ -38,8 +40,8 @@ namespace mud
 
 	export_ MUD_GFX_EXPORT void save_texture(GfxSystem& gfx_system, Texture& texture, const string& path);
 	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx_system, Texture& texture, const string& path);
-	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx_system, Texture& texture, array<uint8_t> data);
-	export_ MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, array<uint8_t> data);
+	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx_system, Texture& texture, span<uint8_t> data);
+	export_ MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data);
 
 	export_ class refl_ MUD_GFX_EXPORT Texture
 	{

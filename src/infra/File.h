@@ -4,10 +4,11 @@
 
 #pragma once
 
+#include <stdint.h>
 #include <stl/string.h>
 #include <stl/vector.h>
 #include <stl/function.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <type/Forward.h>
 
 namespace mud
@@ -29,7 +30,7 @@ namespace mud
 
 	export_ MUD_INFRA_EXPORT void write_file(const string& path, const string& content);
 	export_ MUD_INFRA_EXPORT void update_file(const string& path, const string& content);
-	export_ MUD_INFRA_EXPORT void write_binary_file(const string& path, array<uint8_t> data);
+	export_ MUD_INFRA_EXPORT void write_binary_file(const string& path, span<uint8_t> data);
 
 	export_ MUD_INFRA_EXPORT void copy_file(const string& source, const string& dest);
 

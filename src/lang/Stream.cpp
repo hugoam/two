@@ -18,6 +18,7 @@ module mud.lang;
 
 namespace mud
 {
+	StreamBranch::StreamBranch() {}
 	StreamBranch::StreamBranch(Stream* stream, const Var& value, StreamIndex index)
 		: m_stream(stream)
 		, m_index(index)
@@ -99,7 +100,7 @@ namespace mud
 		}
 	}
 
-	bool StreamBranch::read(Var& value, Type* expected_type, bool ref)
+	bool StreamBranch::read(Var& value, const Type* expected_type, bool ref)
 	{
 		if(!expected_type)
 		{

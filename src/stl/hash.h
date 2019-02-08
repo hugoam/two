@@ -10,7 +10,7 @@ namespace stl {
 
 		size_t hash = 0;
 		typedef const char* pointer;
-		for (pointer it = str, end = str + len; it != end; ++it)
+		for(pointer it = str, end = str + len; it != end; ++it)
 			hash = *it + (hash << 6) + (hash << 16) - hash;
 
 		return hash;

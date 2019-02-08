@@ -7,7 +7,7 @@
 #include <stl/string.h>
 #include <stl/vector.h>
 #include <infra/Config.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 
 namespace mud
 {
@@ -34,10 +34,10 @@ namespace mud
 	export_ template <> inline void to_value<string>(const string& str, string& val) { val = str; }
 	export_ template <> inline void to_string<string>(const string& val, string& str){ str = val; }
 
-	export_ MUD_INFRA_EXPORT void split(const string& str, const string& separator, array<string> output);
+	export_ MUD_INFRA_EXPORT void split(const string& str, const string& separator, span<string> output);
 	export_ MUD_INFRA_EXPORT vector<string> split(const string& str, const string& separator);
 
-	//export_ MUD_INFRA_EXPORT string join(array<string> strings, string separator);
+	//export_ MUD_INFRA_EXPORT string join(span<string> strings, string separator);
 	export_ MUD_INFRA_EXPORT string join(const vector<string>& strings, string separator);
 
 	export_ MUD_INFRA_EXPORT string replace(const string& original, const string& before, const string& after);

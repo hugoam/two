@@ -20,7 +20,7 @@ namespace mud
 	export_ class refl_ MUD_TOOL_EXPORT TranslateAction : public TransformAction
 	{
 	public:
-		TranslateAction(array<Transform*> targets);
+		TranslateAction(span<Transform*> targets);
 
 		virtual void apply(Transform& transform) override;
 		virtual void undo(Transform& transform) override;
@@ -39,6 +39,6 @@ namespace mud
 		unique<Gizmo> linear_gizmo(Axis axis, float hue);
 		unique<Gizmo> planar_gizmo(Axis normal, float hue);
 
-		virtual object<TransformAction> create_action(array<Transform*> transforms);
+		virtual object<TransformAction> create_action(span<Transform*> transforms);
 	};
 }

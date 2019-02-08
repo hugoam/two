@@ -6,8 +6,8 @@
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>
-#include <infra/Array.h>
-#include <infra/Bitset.h>
+#include <stl/span.h>
+#include <stl/bitset.h>
 #include <geom/Geom.h>
 #endif
 #include <gfx/Forward.h>
@@ -75,19 +75,15 @@ namespace mud
 	class MUD_GFX_EXPORT Froxelizer
 	{
 	public:
-		Froxelizer();
 		Froxelizer(GfxSystem& gfx_system);
 		~Froxelizer();
-
-		Froxelizer(Froxelizer&& other);
-		Froxelizer& operator=(Froxelizer&& other);
 
 		bool prepare(const Viewport& viewport, const mat4& projection, float near, float far);
 		bool update(const Viewport& viewport, const mat4& projection, float near, float far);
 
 		// update Records and Froxels texture with lights data. this is thread-safe.
-		void froxelize_lights(const Camera& camera, array<Light*> lights);
-		void froxelize_loop(const Camera& camera, array<Light*> lights);
+		void froxelize_lights(const Camera& camera, span<Light*> lights);
+		void froxelize_loop(const Camera& camera, span<Light*> lights);
 
 		// send froxel data to GPU
 		void upload();
@@ -120,7 +116,7 @@ namespace mud
 
 		void froxelize_assign_records_compress(uint32_t num_lights);
 
-		void froxelize_light_group(const Camera& camera, array<Light*> lights, uint32_t offset, uint32_t stride);
+		void froxelize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride);
 
 		GfxSystem& m_gfx_system;
 

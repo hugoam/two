@@ -3,7 +3,10 @@
 #ifdef MUD_MODULES
 module mud.wfc-gfx;
 #else
-#include <stddef.h>
+#include <cstddef>
+#include <stl/new.h>
+#include <infra/ToString.h>
+#include <infra/ToValue.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -27,15 +30,15 @@ module mud.wfc-gfx;
 
 using namespace mud;
 
-void mud_TileModel__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::TileModel*>(ref))) mud::TileModel(  ); }
-void mud_TileModel__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::TileModel*>(ref))) mud::TileModel((*static_cast<mud::TileModel*>(other))); }
-void mud_WfcBlock__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::WfcBlock*>(ref))) mud::WfcBlock(  ); }
-void mud_WfcBlock__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::WfcBlock*>(ref))) mud::WfcBlock( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::uvec3*>(args[1]), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::WaveTileset*>(args[3]), *static_cast<bool*>(args[4]) ); }
-void mud_WfcBlock_reset(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::WfcBlock*>(object)).reset(); }
-void mud_WfcBlock_observe(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::WfcBlock*>(object)).observe(); }
-void mud_WfcBlock_propagate(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::WfcBlock*>(object)).propagate(); }
-void mud_WfcBlock_solve(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::WfcBlock*>(object)).solve(*static_cast<size_t*>(args[0])); }
-void mud_WfcBlock_update(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::WfcBlock*>(object)).update(*static_cast<mud::Wave*>(args[0])); }
+void mud_TileModel__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::TileModel(  ); }
+void mud_TileModel__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::TileModel((*static_cast<mud::TileModel*>(other))); }
+void mud_WfcBlock__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::WfcBlock(  ); }
+void mud_WfcBlock__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::WfcBlock( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::uvec3*>(args[1]), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::WaveTileset*>(args[3]), *static_cast<bool*>(args[4]) ); }
+void mud_WfcBlock_reset(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::WfcBlock*>(object)).reset(); }
+void mud_WfcBlock_observe(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::WfcBlock*>(object)).observe(); }
+void mud_WfcBlock_propagate(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::WfcBlock*>(object)).propagate(); }
+void mud_WfcBlock_solve(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::WfcBlock*>(object)).solve(*static_cast<size_t*>(args[0])); }
+void mud_WfcBlock_update(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::WfcBlock*>(object)).update(*static_cast<mud::Wave*>(args[0])); }
 
 namespace mud
 {
@@ -74,10 +77,12 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "WfcBlock", sizeof(mud::WfcBlock), TypeClass::Object };
 		// bases
 		// defaults
+		static bool construct_1_auto_solve_default = false;
+		static size_t solve_0_limit_default = 0;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_WfcBlock__construct_0, {} },
-			{ t, mud_WfcBlock__construct_1, { { "position", type<mud::vec3>(),  }, { "size", type<mud::uvec3>(),  }, { "scale", type<mud::vec3>(),  }, { "tileset", type<mud::WaveTileset>(),  }, { "auto_solve", type<bool>(), Param::Default } } }
+			{ t, mud_WfcBlock__construct_1, { { "position", type<mud::vec3>(),  }, { "size", type<mud::uvec3>(),  }, { "scale", type<mud::vec3>(),  }, { "tileset", type<mud::WaveTileset>(),  }, { "auto_solve", type<bool>(), Param::Default, &construct_1_auto_solve_default } } }
 		};
 		// copy constructor
 		// members
@@ -92,12 +97,14 @@ namespace mud
 			{ t, "reset", Address(), mud_WfcBlock_reset, {}, g_qvoid },
 			{ t, "observe", Address(), mud_WfcBlock_observe, {}, g_qvoid },
 			{ t, "propagate", Address(), mud_WfcBlock_propagate, {}, g_qvoid },
-			{ t, "solve", Address(), mud_WfcBlock_solve, { { "limit", type<size_t>(), Param::Default } }, g_qvoid },
+			{ t, "solve", Address(), mud_WfcBlock_solve, { { "limit", type<size_t>(), Param::Default, &solve_0_limit_default } }, g_qvoid },
 			{ t, "update", Address(), mud_WfcBlock_update, { { "wave", type<mud::Wave>(),  } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
+	
+	
 		m.m_types.push_back(&type<mud::TileModel>());
 		m.m_types.push_back(&type<mud::WfcBlock>());
 	}

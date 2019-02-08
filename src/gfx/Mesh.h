@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <stl/vector.h>
 #include <stl/string.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <math/Vec.h>
 #include <geom/Primitive.h>
 #include <geom/Aabb.h>

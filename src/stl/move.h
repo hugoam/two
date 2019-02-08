@@ -4,7 +4,10 @@
 
 #ifdef USE_STL
 #include <utility>
-namespace stl = std;
+namespace stl
+{
+	using std::move;
+}
 #else
 #include <stl/traits.h>
 namespace stl

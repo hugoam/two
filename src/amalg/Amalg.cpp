@@ -58,7 +58,7 @@ namespace mud
 
 		bool filter(const string& line)
 		{
-			if (line == "#pragma once") return true;
+			if(line == "#pragma once") return true;
 			return has(m_filter, line);
 		}
 
@@ -82,7 +82,7 @@ namespace mud
 
 		void process_cpp(Module& module, const string& file)
 		{
-			if (module.m_included_cpp.find(file) != module.m_included_cpp.end())
+			if(module.m_included_cpp.find(file) != module.m_included_cpp.end())
 				return;
 
 			printf("processing file %s\n", file.c_str());
@@ -129,7 +129,7 @@ namespace mud
 					module.m_deps_h.insert(include.module->dest_h());
 				//else if(include.file != "")
 				//	module.m_includes_h.insert(include.file);
-				else if (filter(line))
+				else if(filter(line))
 					;
 				else
 					module.m_h += line + "\n";
@@ -172,7 +172,7 @@ namespace mud
 				string header;
 				if(pragma)
 					header += "#pragma once\n\n";
-				for (string include : includes)
+				for(string include : includes)
 					header += "#include <" + include + ">" + "\n";
 				file.insert(size_t(0), header);
 			};
@@ -208,15 +208,15 @@ int main(int argc, char *argv[])
 	Amalgamator amalgamator;
 	amalgamator.m_filter = filter;
 
-	for (string module : { "infra", "jobs", "type", "tree", "pool", "refl", "ecs", "srlz", "math", "geom", "noise", "wfc", "fract", "lang", "ctx", "ui", "uio", "snd" })
+	for(string module : { "infra", "jobs", "type", "tree", "pool", "refl", "ecs", "srlz", "math", "geom", "noise", "wfc", "fract", "lang", "ctx", "ui", "uio", "snd" })
 		amalgamator.add(mudsrc, "mud", module, module);
-	for (string module : { "ctx-glfw", "ctx-wasm", "ctx-win" })
+	for(string module : { "ctx-glfw", "ctx-wasm", "ctx-win" })
 		amalgamator.add(mudsrc, "mud", module, module);
-	for (string module : { "ui-vg", "ui-nvg" })
+	for(string module : { "ui-vg", "ui-nvg" })
 		amalgamator.add(mudsrc, "mud", module, module);
-	for (string module : { "bgfx", "gfx", "gltf", "gfx-pbr", "gfx-obj", "gfx-gltf", "gfx-ui", "gfx-edit", "tool", "wfc-gfx", "frame" })
+	for(string module : { "bgfx", "gfx", "gltf", "gfx-pbr", "gfx-obj", "gfx-gltf", "gfx-ui", "gfx-edit", "tool", "wfc-gfx", "frame" })
 		amalgamator.add(mudsrc, "mud", module, module);
-	for (string module : { "util", "core", "visu", "block", "edit", "shell" })
+	for(string module : { "util", "core", "visu", "block", "edit", "shell" })
 		amalgamator.add(toysrc, "toy", module, module);
 
 	amalgamator.run();

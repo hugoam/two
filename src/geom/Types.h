@@ -25,6 +25,9 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::PrimitiveType>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::SymbolDetail>();
     
+    export_ template <> MUD_GEOM_EXPORT Type& type<stl::vector<mud::Circle>>();
+    
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Face3>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::MeshPacker>();
@@ -37,12 +40,11 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Symbol>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Arc>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::ArcLine>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Capsule>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Cube>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Box>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Capsule>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Circle>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::ConvexHull>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Cube>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Cylinder>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Ellipsis>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Geometry>();
@@ -60,40 +62,4 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Torus>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>();
-    
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Distribution*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Face3*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::MeshPacker*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Plane*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Plane3*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Ray*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Segment*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Shape*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::ShapeVar*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Symbol*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Arc*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::ArcLine*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Capsule*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Cube*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Aabb*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Box*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Circle*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::ConvexHull*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Cylinder*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Ellipsis*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Geometry*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Grid2*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Grid3*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Line*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Points*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Poisson*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Polygon*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Quad*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Rect*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Ring*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Sphere*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::SphereRing*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Spheroid*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Torus*>>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Triangle*>>();
 }

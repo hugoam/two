@@ -24,7 +24,7 @@
 
 namespace mud
 {
-	export_ class refl_ MUD_TOOL_EXPORT EditContext : public NonCopy
+	export_ class refl_ MUD_TOOL_EXPORT EditContext
     {
     public:
 		EditContext(GfxSystem& gfx_system);

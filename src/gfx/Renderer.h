@@ -5,8 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/Array.h>
-#include <infra/NonCopy.h>
+#include <stl/span.h>
 #include <ecs/Entity.h>
 #include <type/Cls.h>
 #include <type/Unique.h>
@@ -132,7 +131,7 @@ namespace mud
 		uint32_t m_num_triangles = 0;
 	};
 
-	export_ struct MUD_GFX_EXPORT Render : public NonCopy
+	export_ struct MUD_GFX_EXPORT Render
 	{
 		Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame);
 		Render(Shading shading, Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame);
@@ -246,8 +245,8 @@ namespace mud
 		GfxSystem& m_gfx_system;
 		const char* m_name;
 		PassType m_pass_type;
-		array<GfxBlock*> m_gfx_blocks;
-		array<DrawBlock*> m_draw_blocks;
+		span<GfxBlock*> m_gfx_blocks;
+		span<DrawBlock*> m_draw_blocks;
 	};
 	
 	export_ struct MUD_GFX_EXPORT DrawElement
@@ -270,7 +269,7 @@ namespace mud
 	{
 		ShaderVersion m_shader_version = {};
 		uint64_t m_bgfx_state = 0;
-		array<Light*> m_lights = {};
+		span<Light*> m_lights = {};
 	};
 
 	export_ class MUD_GFX_EXPORT DrawPass : public RenderPass
@@ -295,7 +294,7 @@ namespace mud
 		unique<Impl> m_impl;
 	};
 
-	export_ class MUD_GFX_EXPORT Renderer : public NonCopy
+	export_ class MUD_GFX_EXPORT Renderer
 	{
 	public:
 		Renderer(GfxSystem& gfx_system, Pipeline& pipeline, Shading shading);

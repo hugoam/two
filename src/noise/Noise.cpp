@@ -64,7 +64,7 @@ namespace mud
 		return n.GetNoise(x, y, z);
 	}
 
-	void noise_field_2d(array3d<float>& output_values, Noise::NoiseType noise_type, float frequency, Noise::Interp interp)
+	void noise_field_2d(vector3d<float>& output_values, Noise::NoiseType noise_type, float frequency, Noise::Interp interp)
 	{
 		for(size_t x = 0; x < output_values.m_x; ++x)
 			for(size_t y = 0; y < output_values.m_y; ++y)
@@ -73,7 +73,7 @@ namespace mud
 				}
 	}
 
-	void noise_field_3d(array3d<float>& output_values, Noise::NoiseType noise_type, float frequency, Noise::Interp interp)
+	void noise_field_3d(vector3d<float>& output_values, Noise::NoiseType noise_type, float frequency, Noise::Interp interp)
 	{
 		for(size_t x = 0; x < output_values.m_x; ++x)
 			for(size_t y = 0; y < output_values.m_y; ++y)

@@ -1,7 +1,8 @@
-#include <mud/frame.h>
+//#include <mud/frame.h>
+#include <frame/Api.h>
 #include <lang/Api.h>
 #include <uio/Api.h>
-#include <meta/ui/Module.h>
+#include <meta/ui.meta.h>
 
 #include <13_live_ui/13_live_ui.h>
 
@@ -30,7 +31,7 @@ using namespace mud;
 
 static TextScript create_script(LuaInterpreter& interpreter)
 {
-	Signature signature = { { Param{ "ui_root", Ref(type<Widget>()) } } };
+	Signature signature = { vector<Param>{ { "ui_root", type<Widget>() } } };
 	TextScript script = { "Example Script", Language::Lua, signature };
 	script.m_interpreter = &interpreter;
 
@@ -124,9 +125,9 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	UNUSED(app);
 	static LuaInterpreter interpreter = { true };
 	static TextScript script = create_script(interpreter);
+	static Call call = { script, vector<Var>{ Ref(&parent) } };
 
-	vector<Var> args = { Ref(&parent) };
-	script(args);
+	call();
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 		script_edit(*dock, script);

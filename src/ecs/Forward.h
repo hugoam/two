@@ -17,3 +17,10 @@ namespace mud
 	class GridECS;
 	class Complex;
 }
+
+#ifdef MUD_META_GENERATOR
+#include <stl/vector.h>
+namespace stl
+{
+}
+#endif

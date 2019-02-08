@@ -5,7 +5,7 @@
 #pragma once
 
 #include <infra/Config.h>
-#include <infra/Base.h>
+#include <stl/base.h>
 #include <infra/StringOps.h>
 
 namespace mud
@@ -14,6 +14,7 @@ namespace mud
 	export_ template <> MUD_INFRA_EXPORT void to_string(const char&    value, string& str);
 	export_ template <> MUD_INFRA_EXPORT void to_string(const schar&   value, string& str);
 	export_ template <> MUD_INFRA_EXPORT void to_string(const uchar&   value, string& str);
+	export_ template <> MUD_INFRA_EXPORT void to_string(const short&   value, string& str);
 	export_ template <> MUD_INFRA_EXPORT void to_string(const int&     value, string& str);
 	export_ template <> MUD_INFRA_EXPORT void to_string(const long&    value, string& str);
 	export_ template <> MUD_INFRA_EXPORT void to_string(const llong&   value, string& str);

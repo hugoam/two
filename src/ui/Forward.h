@@ -121,3 +121,11 @@ namespace mud
     class Options;
     class Styler;
 }
+
+#ifdef MUD_META_GENERATOR
+namespace stl
+{
+	//export_ extern template class refl_ seque_ vector<string>;
+	export_ extern template class refl_ seque_ vector<mud::Space>;
+}
+#endif

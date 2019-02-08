@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/Array.h>
+#include <stl/span.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Frame/Dim.h>
@@ -37,7 +37,7 @@ namespace mud
 
 		bool null() const { return d_image == nullptr; }
 
-		void stretch_coords(vec2 offset, vec2 size, array<vec4> coords) const;
+		void stretch_coords(vec2 offset, vec2 size, span<vec4> coords) const;
 
 		attr_ Image* d_image = nullptr;
 

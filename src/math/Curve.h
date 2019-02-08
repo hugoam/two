@@ -31,10 +31,10 @@ namespace mud
 		attr_ vector<T> m_keys;
 	};
 
-	export_ extern template struct refl_ ValueCurve<vec3>;
-	export_ extern template struct refl_ ValueCurve<quat>;
 	export_ extern template struct refl_ ValueCurve<float>;
 	export_ extern template struct refl_ ValueCurve<uint32_t>;
+	export_ extern template struct refl_ ValueCurve<vec3>;
+	export_ extern template struct refl_ ValueCurve<quat>;
 	export_ extern template struct refl_ ValueCurve<Colour>;
 
 	template <class T>

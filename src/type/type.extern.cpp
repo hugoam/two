@@ -1,12 +1,11 @@
-#include <infra/Cpp20.h>
-
+#ifndef USE_STL
 #ifdef MUD_MODULES
 module mud.math;
 #else
 #include <stl/vector.hpp>
 #include <stl/unordered_set.hpp>
 #include <stl/unordered_map.hpp>
-#include <type/Extern.h>
+#include <type/Api.h>
 #endif
 
 namespace stl
@@ -22,3 +21,4 @@ namespace stl
 	//template class MUD_TYPE_EXPORT unordered_set<string>;
 	template class MUD_TYPE_EXPORT unordered_map<string, string>;
 }
+#endif

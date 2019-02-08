@@ -26,15 +26,10 @@ namespace mud
     // Exported types
     export_ template <> MUD_WFC_EXPORT Type& type<mud::Result>();
     
+    
     export_ template <> MUD_WFC_EXPORT Type& type<mud::Tile>();
     export_ template <> MUD_WFC_EXPORT Type& type<mud::Tileset>();
     export_ template <> MUD_WFC_EXPORT Type& type<mud::Wave>();
     export_ template <> MUD_WFC_EXPORT Type& type<mud::TileWave>();
     export_ template <> MUD_WFC_EXPORT Type& type<mud::WaveTileset>();
-    
-    export_ template <> MUD_WFC_EXPORT Type& type<vector<mud::Tile*>>();
-    export_ template <> MUD_WFC_EXPORT Type& type<vector<mud::Tileset*>>();
-    export_ template <> MUD_WFC_EXPORT Type& type<vector<mud::Wave*>>();
-    export_ template <> MUD_WFC_EXPORT Type& type<vector<mud::TileWave*>>();
-    export_ template <> MUD_WFC_EXPORT Type& type<vector<mud::WaveTileset*>>();
 }

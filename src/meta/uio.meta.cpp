@@ -3,6 +3,10 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
+#include <cstddef>
+#include <stl/new.h>
+#include <infra/ToString.h>
+#include <infra/ToValue.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -28,18 +32,18 @@ void mud_EditNestMode__to_string(void* val, string& str) { str = g_enu[type<mud:
 void mud_EditNestMode__to_value(const string& str, void* val) { (*static_cast<mud::EditNestMode*>(val)) = mud::EditNestMode(g_enu[type<mud::EditNestMode>().m_id]->value(str.c_str())); }
 void mud_EditorHint__to_string(void* val, string& str) { str = g_enu[type<mud::EditorHint>().m_id]->name(uint32_t((*static_cast<mud::EditorHint*>(val)))); }
 void mud_EditorHint__to_value(const string& str, void* val) { (*static_cast<mud::EditorHint*>(val)) = mud::EditorHint(g_enu[type<mud::EditorHint>().m_id]->value(str.c_str())); }
-void mud_object_edit_inline_0(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit_inline(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
-void mud_object_edit_rows_1(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit_rows(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
-void mud_object_edit_columns_2(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit_columns(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
-void mud_object_edit_table_3(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit_table(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
-void mud_object_edit_expandbox_4(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit_expandbox(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
-void mud_object_edit_5(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1]), *static_cast<mud::EditorHint*>(args[2])); }
-void mud_entity_edit_6(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::entity_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Entity*>(args[1]), *static_cast<mud::EditorHint*>(args[2])); }
-void mud_inspector_7(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::inspector(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
-void mud_inspector_8(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::inspector(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Entity*>(args[1])); }
-void mud_inspector_9(array<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::inspector(*static_cast<mud::Widget*>(args[0])); }
-void mud_multi_inspector_10(array<void*> args, void*& result) { UNUSED(result);  mud::multi_inspector(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Type*>(args[1]), *static_cast<vector<mud::Var>*>(args[2]), *static_cast<size_t*>(args[3])); }
-void mud_multi_object_edit_11(array<void*> args, void*& result) { UNUSED(result);  mud::multi_object_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Type*>(args[1]), *static_cast<vector<mud::Ref>*>(args[2])); }
+void mud_object_edit_inline_0(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit_inline(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
+void mud_object_edit_rows_1(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit_rows(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
+void mud_object_edit_columns_2(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit_columns(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
+void mud_object_edit_table_3(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit_table(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
+void mud_object_edit_expandbox_4(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit_expandbox(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
+void mud_object_edit_5(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::object_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1]), *static_cast<mud::EditorHint*>(args[2])); }
+void mud_entity_edit_6(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::entity_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Entity*>(args[1]), *static_cast<mud::EditorHint*>(args[2])); }
+void mud_inspector_7(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::inspector(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Ref*>(args[1])); }
+void mud_inspector_8(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::inspector(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Entity*>(args[1])); }
+void mud_inspector_9(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = mud::inspector(*static_cast<mud::Widget*>(args[0])); }
+void mud_multi_inspector_10(span<void*> args, void*& result) { UNUSED(result);  mud::multi_inspector(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Type*>(args[1]), *static_cast<stl::vector<mud::Var>*>(args[2]), *static_cast<size_t*>(args[3])); }
+void mud_multi_object_edit_11(span<void*> args, void*& result) { UNUSED(result);  mud::multi_object_edit(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Type*>(args[1]), *static_cast<stl::vector<mud::Ref>*>(args[2])); }
 
 namespace mud
 {
@@ -90,6 +94,8 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
+	
+	
 		m.m_types.push_back(&type<mud::EditNestMode>());
 		m.m_types.push_back(&type<mud::EditorHint>());
 		m.m_types.push_back(&type<mud::ScriptEditor>());
@@ -114,11 +120,13 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "object_edit", nullptr, mud_object_edit_5, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable }, { "hint", type<mud::EditorHint>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static mud::EditorHint hint_default = mud::EditorHint::Table;
+			static Function f = { &namspc({ "mud" }), "object_edit", nullptr, mud_object_edit_5, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable }, { "hint", type<mud::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "entity_edit", nullptr, mud_entity_edit_6, { { "parent", type<mud::Widget>(),  }, { "entity", type<mud::Entity>(),  }, { "hint", type<mud::EditorHint>(), Param::Default } }, { &type<bool>(), QualType::None } };
+			static mud::EditorHint hint_default = mud::EditorHint::Table;
+			static Function f = { &namspc({ "mud" }), "entity_edit", nullptr, mud_entity_edit_6, { { "parent", type<mud::Widget>(),  }, { "entity", type<mud::Entity>(),  }, { "hint", type<mud::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -134,11 +142,11 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "multi_inspector", nullptr, mud_multi_inspector_10, { { "parent", type<mud::Widget>(),  }, { "type", type<mud::Type>(),  }, { "objects", type<vector<mud::Var>>(),  }, { "selected", type<size_t>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "multi_inspector", nullptr, mud_multi_inspector_10, { { "parent", type<mud::Widget>(),  }, { "type", type<mud::Type>(),  }, { "objects", type<stl::vector<mud::Var>>(),  }, { "selected", type<size_t>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "multi_object_edit", nullptr, mud_multi_object_edit_11, { { "parent", type<mud::Widget>(),  }, { "type", type<mud::Type>(),  }, { "objects", type<vector<mud::Ref>>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "multi_object_edit", nullptr, mud_multi_object_edit_11, { { "parent", type<mud::Widget>(),  }, { "type", type<mud::Type>(),  }, { "objects", type<stl::vector<mud::Ref>>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

@@ -52,5 +52,5 @@ namespace mud
 	inline void* val<void*>(const Ref& ref) { return ref.m_value; }
 
 	template <class T>
-	export_ inline T* try_val(Ref object) { if (object && type(object).template is<T>()) return &val<T>(object); else return nullptr; }
+	export_ inline T* try_val(Ref object) { if(object && type(object).template is<T>()) return &val<T>(object); else return nullptr; }
 }

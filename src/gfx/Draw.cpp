@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #include <gfx/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <array>
@@ -29,7 +28,7 @@ module mud.gfx;
 
 namespace mud
 {
-	void shapes_size(array<const ProcShape> shapes, DrawMode draw_mode, ShapeSize& size, size_t& count)
+	void shapes_size(span<const ProcShape> shapes, DrawMode draw_mode, ShapeSize& size, size_t& count)
 	{
 		for(const ProcShape& shape : shapes)
 			if(shape.m_draw_mode == draw_mode)
@@ -40,7 +39,7 @@ namespace mud
 			}
 	}
 
-	void shapes_size(array<const ProcShape> shapes, array<ShapeSize> size, size_t& count)
+	void shapes_size(span<const ProcShape> shapes, span<ShapeSize> size, size_t& count)
 	{
 		shapes_size(shapes, PLAIN, size[PLAIN], count);
 		shapes_size(shapes, OUTLINE, size[OUTLINE], count);
@@ -84,7 +83,7 @@ namespace mud
 		this->draw(transform, { shape });
 	}
 
-	void ImmediateDraw::draw(const mat4& transform, array<ProcShape> shapes)
+	void ImmediateDraw::draw(const mat4& transform, span<ProcShape> shapes)
 	{
 		ShapeSize size[2] = { { 0, 0 }, { 0, 0 } };
 		size_t shape_count = 0;
@@ -97,14 +96,14 @@ namespace mud
 			this->draw(transform, shapes, size[OUTLINE], OUTLINE);
 	}
 
-	void ImmediateDraw::draw(const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode)
+	void ImmediateDraw::draw(const mat4& transform, span<ProcShape> shapes, ShapeSize size, DrawMode draw_mode)
 	{
 		Batch* batch = this->batch(draw_mode, size.vertex_count);
 		if(batch)
 			this->draw(*batch, transform, shapes, size, draw_mode);
 	}
 
-	void ImmediateDraw::draw(Batch& batch, const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode)
+	void ImmediateDraw::draw(Batch& batch, const mat4& transform, span<ProcShape> shapes, ShapeSize size, DrawMode draw_mode)
 	{
 		size_t vertex_offset = batch.m_vertices.size();
 		size_t index_offset = batch.m_indices.size();
@@ -237,7 +236,7 @@ namespace mud
 
 	object<Model> draw_model(cstring id, const ProcShape& shape, bool readback)
 	{
-		return draw_model(id, vector<ProcShape>{ { shape } }, readback);
+		return draw_model(id, vector<ProcShape>{ shape }, readback);
 	}
 
 	object<Model> draw_model(cstring id, const vector<ProcShape>& shapes, bool readback)
@@ -249,7 +248,7 @@ namespace mud
 
 	void draw_model(const ProcShape& shape, Model& model, bool readback, Material* material)
 	{
-		draw_model(vector<ProcShape>{ { shape } }, model, readback, material);
+		draw_model(vector<ProcShape>{ shape }, model, readback, material);
 	}
 
 	void draw_model(const vector<ProcShape>& shapes, Model& model, bool readback, Material* material)

@@ -72,7 +72,7 @@ namespace mud
 		m_duration = static_cast<float>(ov_time_total(&m_impl->m_ogg_file, -1));
 		m_seekable = (ov_seekable(&m_impl->m_ogg_file) != 0);
 
-		if (!this->read_buffer_info())
+		if(!this->read_buffer_info())
 			return;
 
 		m_mono = ((m_format==AL_FORMAT_MONO16) || (m_format==AL_FORMAT_MONO8));
@@ -181,28 +181,28 @@ namespace mud
 			break;
 		case 4:
 				m_format = alGetEnumValue("AL_FORMAT_QUAD16");
-				if (!m_format) return false;
+				if(!m_format) return false;
 				// Set BufferSize to 250ms (Frequency * 8 (16bit 4-channel) divided by 4 (quarter of a second))
 				m_chunk_size = m_impl->m_vorbis_info->rate * 2;
 				m_chunk_size -= (m_chunk_size % 8);
 			break;
 		case 6:
 				m_format = alGetEnumValue("AL_FORMAT_51CHN16");
-				if (!m_format) return false;
+				if(!m_format) return false;
 				// Set BufferSize to 250ms (Frequency * 12 (16bit 6-channel) divided by 4 (quarter of a second))
 				m_chunk_size = m_impl->m_vorbis_info->rate * 3;
 				m_chunk_size -= (m_chunk_size % 12);
 			break;
 		case 7:
 				m_format = alGetEnumValue("AL_FORMAT_61CHN16");
-				if (!m_format) return false;
+				if(!m_format) return false;
 				// Set BufferSize to 250ms (Frequency * 16 (16bit 7-channel) divided by 4 (quarter of a second))
 				m_chunk_size = m_impl->m_vorbis_info->rate * 4;
 				m_chunk_size -= (m_chunk_size % 16);
 			break;
 		case 8:
 				m_format = alGetEnumValue("AL_FORMAT_71CHN16");
-				if (!m_format) return false;
+				if(!m_format) return false;
 				// Set BufferSize to 250ms (Frequency * 20 (16bit 8-channel) divided by 4 (quarter of a second))
 				m_chunk_size = m_impl->m_vorbis_info->rate * 5;
 				m_chunk_size -= (m_chunk_size % 20);

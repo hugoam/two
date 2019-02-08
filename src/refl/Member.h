@@ -7,7 +7,7 @@
 #include <refl/Forward.h>
 #include <type/Type.h>
 #include <type/Ref.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <refl/Meta.h>
 
 namespace mud

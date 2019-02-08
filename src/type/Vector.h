@@ -15,15 +15,15 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 {
 #if 1
 	export_ template <class T>
-	struct Typed<array<T>>
+	struct Typed<span<T>>
 	{
-		static inline Type& type() { static string name = "array<" + string(mud::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
+		static inline Type& type() { static string name = "span<" + string(mud::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
 	};
 	
 	export_ template <>
-	struct Typed<array<cstring>>
+	struct Typed<span<cstring>>
 	{
-		static inline Type& type() { static Type ty("array<cstring>"); return ty; }
+		static inline Type& type() { static Type ty("span<cstring>"); return ty; }
 	};
 
 	export_ template <class T>

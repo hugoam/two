@@ -2,7 +2,7 @@
 #include <frame/Api.h>
 #include <lang/Api.h>
 #include <uio/Api.h>
-#include <meta/gfx/Module.h>
+#include <meta/gfx.meta.h>
 
 #include <14_live_gfx/14_live_gfx.h>
 
@@ -10,7 +10,7 @@ using namespace mud;
 
 static TextScript& create_wren_script(WrenInterpreter& interpreter)
 {
-	Signature signature = { { Param{ "scene", type<Gnode>() }, Param{ "time", type<float>() } } };
+	Signature signature = { vector<Param>{ { "scene", type<Gnode>() }, { "time", type<float>() } } };
 	static TextScript script = { "Example Script", Language::Wren, signature };
 	script.m_interpreter = &interpreter;
 
@@ -19,8 +19,8 @@ static TextScript& create_wren_script(WrenInterpreter& interpreter)
 		"//n = Gfx.node(scene)\n"
 		"//Gfx.shape(n, Cube.new(), Symbol.new(Colour.White))\n"
 		"\n"
-		"for (x in 1..11) {\n"
-		"    for (y in 1..11) {\n"
+		"for(x in 1..11) {\n"
+		"    for(y in 1..11) {\n"
 		"\n"
 		"        var angles = Vec3.new(time + x * 0.21, 0, time + y * 0.37)\n"
 		"        var pos = Vec3.new(-15 + x * 3, 0, -15 + y * 3)\n"
@@ -43,7 +43,7 @@ static TextScript& create_wren_script(WrenInterpreter& interpreter)
 
 static TextScript& create_lua_script(LuaInterpreter& interpreter)
 {
-	Signature signature = { { Param{ "scene", type<Gnode>() }, Param{ "time", type<float>() } } };
+	Signature signature = { vector<Param>{ { "scene", type<Gnode>() }, { "time", type<float>() } } };
 	static TextScript script = { "Example Script", Language::Lua, signature };
 	script.m_interpreter = &interpreter;
 
@@ -99,10 +99,10 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& scene = viewer.m_scene->begin();
 
 	static LuaInterpreter& lua = create_lua();
-	static WrenInterpreter& wren = create_wren();
+	//static WrenInterpreter& wren = create_wren();
 
 	static TextScript& lua_script = create_lua_script(lua);
-	static TextScript& wren_script = create_wren_script(wren);
+	//static TextScript& wren_script = create_wren_script(wren);
 
 	//static Language language = Language::Wren;
 	static Language language = Language::Lua;
@@ -111,17 +111,24 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		if(language == Language::Lua)
 			script_edit(*dock, lua_script);
-		else if(language == Language::Wren)
-			script_edit(*dock, wren_script);
+		//else if(language == Language::Wren)
+		//	script_edit(*dock, wren_script);
 	}
 
 	static Clock clock;
+	static float time = 0.f;
+	time = clock.read();
 
-	//vector<Var> args = { Ref(&scene), var(clock.read()) };
-	//if(language == Language::Lua)
-	//	lua_script(args);
-	//else if(language == Language::Wren)
-	//	wren_script(args);
+	if(language == Language::Lua)
+	{
+		static Call call = { lua_script, vector<Var>{ Ref(&scene), Ref(&time) } };
+		call();
+	}
+	else if(language == Language::Wren)
+	{
+		//static Call call = { wren_script, vector<Var>{ Ref(&scene), Ref(&time) } };
+		//call();
+	}
 }
 
 #ifdef _14_LIVE_GFX_EXE

@@ -9,7 +9,6 @@
 #include <stl/vector.h>
 #include <stl/memory.h>
 #include <stl/map.h>
-#include <infra/NonCopy.h>
 #include <type/Unique.h>
 #include <math/Timer.h>
 #include <math/Vec.h>
@@ -30,7 +29,7 @@ namespace mud
 
 	bool openal_check_error();
 
-	class MUD_SND_EXPORT SoundManager : public NonCopy, public SoundImplementer
+	class MUD_SND_EXPORT SoundManager : public SoundImplementer
 	{
 	public:
 		using SoundAction = function<void()>;
@@ -40,6 +39,9 @@ namespace mud
 	public:
 		SoundManager(const string& resource_path = "");
 		~SoundManager();
+
+		SoundManager(const SoundManager& other) = delete;
+		SoundManager& operator=(const SoundManager& other) = delete;
 
 		bool init(const string& device_name = "", unsigned int max_sources = 100);
 

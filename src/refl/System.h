@@ -26,7 +26,7 @@ namespace mud
 		vector<Namespace> m_namespaces; // @todo fix reflection
 		attr_ vector<Module*> m_modules;
 		attr_ vector<Type*> m_types;
-		//attr_ vector<Prototype*> m_prototypes;
+		attr_ vector<Alias*> m_aliases;
 		attr_ vector<Function*> m_functions;
 
 		void launch_process(cstring path, cstring args);

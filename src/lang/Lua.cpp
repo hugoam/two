@@ -17,12 +17,12 @@ module mud.lang;
 #else
 #include <stl/new.h>
 #include <stl/vector.h>
-#include <infra/NonCopy.h>
 #include <stl/algorithm.h>
 #include <infra/Global.h>
 #include <infra/ToString.h>
+#include <math/Vec.h>
 #include <type/Any.h>
-#include <ecs/Proto.h>
+#include <type/Proto.h>
 #include <type/Dispatch.h>
 #include <type/DispatchDecl.h>
 #include <refl/Meta.h>
@@ -30,6 +30,7 @@ module mud.lang;
 #include <refl/Call.h>
 #include <refl/Sequence.h>
 #include <refl/Convert.h>
+#include <refl/Module.h>
 #include <refl/System.h>
 #include <lang/Types.h>
 #include <lang/Lua.h>
@@ -42,8 +43,8 @@ extern "C"
 #include <lualib.h>
 }
 
-//#define MUD_LUA_DEBUG
-//#define MUD_LUA_DEBUG_IO
+#define MUD_LUA_DEBUG 0
+#define MUD_LUA_DEBUG_IO 0
 
 // @todo: there is a weird thing where there are constantly about 10 tables on the stack when entering a script
 // so we are missing a pop somewhere in the paths used when declaring reflected types and functions probably
@@ -146,12 +147,12 @@ namespace mud
 		}
 	}
 
-	struct Stack : public NonCopy
+	struct Stack
 	{
 		Stack(lua_State* state, int num = 1) : m_state(state), m_num(num) {}
 		~Stack() { assert(lua_gettop(m_state) >= m_num); if(m_num >= 1) lua_pop(m_state, m_num); }
 
-		Stack& operator=(Stack&& other) { swap(m_state, other.m_state); swap(m_num, other.m_num); return *this; }
+		Stack& operator=(Stack&& other) { using stl::swap; swap(m_state, other.m_state); swap(m_num, other.m_num); return *this; }
 		Stack(Stack&& other) : m_state(other.m_state), m_num(other.m_num) { other.m_num = 0; }
 
 		Stack operator+(Stack&& other) && { Stack obj(m_state, m_num + other.m_num); m_num = 0; other.m_num = 0; return obj; }
@@ -175,10 +176,10 @@ namespace mud
 		ToLua();
 	};
 
-	inline void read_sequence(lua_State* state, int index, Type& sequence_type, Ref result);
+	inline void read_sequence(lua_State* state, int index, const Type& sequence_type, Ref result);
 	inline Stack push_sequence(lua_State* state, const Var& value);
 
-	inline void read_enum(lua_State* state, int index, Type& type, Ref result);
+	inline void read_enum(lua_State* state, int index, const Type& type, Ref result);
 	inline Stack push_enum(lua_State* state, const Var& value);
 
 	inline Stack push_callable(lua_State* state, const Callable& callable);
@@ -186,24 +187,24 @@ namespace mud
 
 	inline Call& lua_cached_call(const Callable& callable)
 	{
-		static vector<object<Call>> lua_call_table;
+		static vector<unique<Call>> lua_call_table;
 		if(callable.m_index >= lua_call_table.size())
 			lua_call_table.resize(callable.m_index + 1);
 
 		if(!lua_call_table[callable.m_index])
-			lua_call_table[callable.m_index] = oconstruct<Call>(callable);
+			lua_call_table[callable.m_index] = construct<Call>(callable);
 		return *lua_call_table[callable.m_index];
 	}
 
-	inline void get_type_table(lua_State* state, Type& type)
+	inline void get_type_table(lua_State* state, const Type& type)
 	{
-		lua_pushlightuserdata(state, &type);
+		lua_pushlightuserdata(state, (void*)&type);
 		lua_gettable(state, LUA_REGISTRYINDEX);
 	}
 
 	struct LuaRef : public Ref
 	{
-		LuaRef(bool alloc, void* pointer, Type& type) : Ref(pointer, type), m_alloc(alloc) {}
+		LuaRef(bool alloc, void* pointer, const Type& type) : Ref(pointer, type), m_alloc(alloc) {}
 		bool m_alloc;
 	};
 
@@ -212,7 +213,7 @@ namespace mud
 		return *static_cast<LuaRef*>(lua_touserdata(state, index));
 	}
 
-	inline LuaRef* alloc_userdata(lua_State* state, Type& type, size_t size)
+	inline LuaRef* alloc_userdata(lua_State* state, const Type& type, size_t size)
 	{
 		LuaRef* ref = static_cast<LuaRef*>(lua_newuserdata(state, size));
 		get_type_table(state, type);
@@ -220,9 +221,9 @@ namespace mud
 		return ref;
 	}
 
-	inline Ref alloc_object(lua_State* state, Type& type)
+	inline Ref alloc_object(lua_State* state, const Type& type)
 	{
-		LuaRef* ref = alloc_userdata(state, type, sizeof(LuaRef) + meta(type).m_size);
+		LuaRef* ref = alloc_userdata(state, type, sizeof(LuaRef) + type.m_size);
 		new (stl::placeholder(), ref) LuaRef(true, ref + 1, type); return *ref;
 	}
 
@@ -235,7 +236,7 @@ namespace mud
 	inline Stack push_ref(lua_State* state, Ref object)
 	{
 		alloc_ref(state, object);
-#ifdef MUD_LUA_DEBUG
+#if MUD_LUA_DEBUG
 		printf("Lua -> pushed ref %s at %p\n", type(object).m_name, object.m_value);
 #endif
 		return{ state, 1 };
@@ -245,7 +246,7 @@ namespace mud
 	{
 		Ref ref = alloc_object(state, *value.m_type);
 		copy_construct(ref, value);
-#ifdef MUD_LUA_DEBUG
+#if MUD_LUA_DEBUG
 		printf("Lua -> pushed object %s at %p\n", type(value).m_name, ref.m_value);
 #endif
 		return{ state, 1 };
@@ -261,40 +262,40 @@ namespace mud
 		return ToLua::me().dispatch(value, state);
 	}
 
-	inline void read_ref(lua_State* state, int index, Ref result)
+	inline Ref read_ref(lua_State* state, int index)
 	{
-		if(lua_isnil(state, index)) result = Ref();
-		else if(!lua_isuserdata(state, index)) result = Ref();
-		else result = userdata(state, index);
-#ifdef MUD_LUA_DEBUG
-		printf("Lua -> read_value ref %s at %p\n", result.m_ref.m_type ? result.m_ref.m_type->m_name : "none", result.m_ref.m_value);
+		if(lua_isnil(state, index)) return Ref();
+		else if(!lua_isuserdata(state, index)) return Ref();
+		else return userdata(state, index);
+#if MUD_LUA_DEBUG
+		//printf("Lua -> read_value ref %s at %p\n", result.m_type ? result.m_type->m_name : "none", result.m_value);
 #endif
 	}
 
-	inline void read_object(lua_State* state, int index, Type& type_to_read, Ref result)
+	inline Ref read_object(lua_State* state, int index, const Type& type_to_read)
 	{
-		if(lua_isnil(state, index)) result = Ref(type_to_read);
+		if(lua_isnil(state, index)) return Ref(type_to_read);
 		else if(lua_isuserdata(state, index))
 		{
 			Ref object = userdata(state, index);
 			if(object.m_type->is(type_to_read))
-				result = object;
+				return object;
 		}
-#ifdef MUD_LUA_DEBUG
-		printf("Lua -> read_value object %s at %p\n", type(result).m_name, result.m_ref.m_value);
+#if MUD_LUA_DEBUG
+		//printf("Lua -> read_value object %s at %p\n", type(result).m_name, result.m_value);
 #endif
 	}
 
-	inline void read_type(lua_State* state, int index, Var& value)
+	inline Ref read_type(lua_State* state, int index)
 	{
-		if(!lua_istable(state, index)) return;
+		if(!lua_istable(state, index)) return Ref();
 		lua_getfield(state, index, "cpp_type");
 		Type* type = static_cast<Type*>(lua_touserdata(state, -1));
 		lua_pop(state, 1);
-		value = Ref(type);
+		return Ref(type);
 	}
 
-	inline void read_value(lua_State* state, int index, Type& type, Ref result)
+	inline void read_value(lua_State* state, int index, const Type& type, Ref result)
 	{
 		UNUSED(type);
 		FromLua::me().dispatch(result, state, index);
@@ -328,13 +329,13 @@ namespace mud
 	inline void read_value(lua_State* state, int index, Var& value)
 	{
 		if(value.m_mode == REF && value.m_ref == Ref())
-			read_ref(state, index, value);
+			value = read_ref(state, index);
 		else if(type(value).is<Type>())
-			read_type(state, index, value);
+			value = read_type(state, index);
 		else if(is_sequence(type(value)))
 			read_sequence(state, index, type(value), value);
 		else if(is_object(type(value)) || is_struct(type(value)))
-			read_object(state, index, type(value), value);
+			value = read_object(state, index, type(value));
 		else if(is_enum(type(value)))
 			read_enum(state, index, type(value), value);
 		else
@@ -371,7 +372,7 @@ namespace mud
 		lua_setglobal(state, index);
 	}
 
-	inline void lookup_table_var(lua_State* state, Stack& stack, array<Var> indices)
+	inline void lookup_table_var(lua_State* state, Stack& stack, span<Var> indices)
 	{
 		for(size_t i = 0; i < indices.size(); ++i)
 		{
@@ -386,7 +387,7 @@ namespace mud
 		return { state, 1 };
 	}
 
-	inline void lookup_table(lua_State* state, Stack& stack, array<cstring> indices)
+	inline void lookup_table(lua_State* state, Stack& stack, span<cstring> indices)
 	{
 		for(size_t i = 0; i < indices.size(); ++i)
 		{
@@ -395,21 +396,21 @@ namespace mud
 		}
 	}
 
-	inline Stack lookup_table_var(lua_State* state, array<Var> indices)
+	inline Stack lookup_table_var(lua_State* state, span<Var> indices)
 	{
 		Stack stack = global_table(state);
 		lookup_table_var(state, stack, indices);
 		return stack;
 	}
 
-	inline Stack lookup_table(lua_State* state, array<cstring> indices)
+	inline Stack lookup_table(lua_State* state, span<cstring> indices)
 	{
 		Stack stack = global_table(state);
 		lookup_table(state, stack, indices);
 		return stack;
 	}
 
-	inline const Var& get_global(lua_State* state, cstring name, Type& type)
+	inline Var get_global(lua_State* state, cstring name, const Type& type)
 	{
 		Var result = meta(type).m_empty_var;
 		lua_getglobal(state, name);
@@ -418,7 +419,7 @@ namespace mud
 		return result;
 	}
 	
-	inline const Var& get_global(lua_State* state, array<cstring> indices, Type& type)
+	inline Var get_global(lua_State* state, span<cstring> indices, const Type& type)
 	{
 		Var result = meta(type).m_empty_var;
 		Stack stack = global_table(state);
@@ -440,7 +441,7 @@ namespace mud
 		return Stack{ state, error ? 0 : num_results };
 	}
 	
-	inline void call_lua(lua_State* state, Stack function, array<Var> parameters, Var* result = nullptr)
+	inline void call_lua(lua_State* state, Stack function, span<Var> parameters, Var* result = nullptr)
 	{
 		Stack arguments = { state, 0 };
 		for(Var& param : parameters)
@@ -457,19 +458,20 @@ namespace mud
 			call_lua(state, move(stack), {}, result);
 	}
 
-	inline bool read_params(lua_State* state, const Callable& callable, array<Var> vars)
+	inline bool read_params(lua_State* state, const Callable& callable, span<Var> vars, size_t skip = 0)
 	{
 		bool success = true;
-		for(size_t i = 0; i < vars.m_count; ++i)
+		auto read_param = [&](const Param& param , Var& arg, size_t i)
 		{
-			read_value(state, -int(vars.m_count) + int(i), vars[i]);
-			success &= !vars[i].none();
-			success &= callable.m_params[i].nullable() || !vars[i].null();
-#if 1
+			read_value(state, -int(vars.m_count) + int(i), arg);
+			success &= !arg.none();
+			success &= param.nullable() || !arg.null();
 			if(!success)
-				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, callable.m_params[i].m_type->m_name, type(vars[i]).m_name);
-#endif
-		}
+				printf("ERROR: lua -> %s wrong argument %s, expect %s%s, got %s%s\n",
+					   callable.m_name, param.m_name, param.m_type->m_name, param.nullable() ? "" : " (non null)", type(arg).m_name, arg.null() ? " (null)" : "");
+		};
+		for(size_t i = 0; i < vars.m_count; ++i)
+			read_param(callable.m_params[i+skip], vars[i], i);
 		return success;
 	}
 
@@ -478,11 +480,16 @@ namespace mud
 		bool enough_arguments = num_arguments >= call.m_callable->m_num_required;
 		if(enough_arguments && read_params(state, *call.m_callable, { call.m_args, 0, num_arguments }))
 		{
+			call.prepare();
 			call();
-			Stack result = call.m_result.none() ? Stack{ state, 0 } : push_value(state, call.m_result);
-#ifdef MUD_LUA_DEBUG
+#if MUD_LUA_DEBUG
 			printf("Lua -> called %s\n", call.m_callable->m_name);
-			lua_dump_stack(state);
+#endif
+			Stack result = Stack{ state, 0 };
+			if(!call.m_result.none())
+				result = push_value(state, call.m_result);
+#if MUD_LUA_DEBUG
+			//lua_dump_stack(state);
 #endif
 			return result;
 		}
@@ -522,19 +529,26 @@ namespace mud
 
 	inline int construct_function(lua_State* state)
 	{
-		Type* type = static_cast<Type*>(lua_touserdata(state, lua_upvalueindex(1)));
+		const Type& type = *static_cast<Type*>(lua_touserdata(state, lua_upvalueindex(1)));
+		const Class& c = cls(type);
 		size_t num_args = lua_gettop(state) - 1;
-		const Constructor* constructor = cls(*type).constructor(num_args);
+		const Constructor* constructor = c.constructor(num_args);
 		if(constructor)
 		{
 			Call& construct = lua_cached_call(*constructor);
-			if(read_params(state, *construct.m_callable, { construct.m_args, 1, num_args }))
-				construct(alloc_object(state, *type));
+			if(read_params(state, *construct.m_callable, { construct.m_args, 1, num_args }, 1))
+			{
+				construct.prepare();
+				construct(alloc_object(state, type));
+			}
 			else
 				lua_pushnil(state);
 		}
 		else
+		{
+			lua_printf("ERROR: lua -> %s no constructor taking %d arguments\n", type.m_name, int(num_args)); // lua_printf
 			lua_pushnil(state);
+		}
 		return 1;
 	}
 
@@ -593,17 +607,17 @@ namespace mud
 		lua_settable(state, -3);
 	}
 
-	inline void set_type_closure(lua_State* state, cstring name, lua_CFunction func, Type& type)
+	inline void set_type_closure(lua_State* state, cstring name, lua_CFunction func, const Type& type)
 	{
 		lua_pushstring(state, name);
-		lua_pushlightuserdata(state, &type);
+		lua_pushlightuserdata(state, (void*)&type);
 		lua_pushcclosure(state, func, 1);
 		lua_settable(state, -3);
 	}
 
-	inline void create_type_metatable(lua_State* state, Type& type)
+	inline void create_type_metatable(lua_State* state, const Type& type)
 	{
-		lua_pushlightuserdata(state, &type);
+		lua_pushlightuserdata(state, (void*)&type);
 		luaL_newmetatable(state, type.m_name);
 
 		lua_newtable(state);
@@ -618,16 +632,13 @@ namespace mud
 			set_type_closure(state, "__gc", gc_function, type);
 
 		lua_pushstring(state, "cpp_type");
-		lua_pushlightuserdata(state, &type);
+		lua_pushlightuserdata(state, (void*)&type);
 		lua_settable(state, -3);
-
-		//lua_pushvalue(state, -1);
-		//lua_setglobal(state, type.m_name);
 
 		lua_settable(state, LUA_REGISTRYINDEX);
 	}
 
-	void register_field(lua_State* state, Type& type, cstring key, Ref field)
+	void register_field(lua_State* state, const Type& type, cstring key, Ref field)
 	{
 		get_type_table(state, type);
 		set_table(state, key, field);
@@ -670,14 +681,14 @@ namespace mud
 			result = Ref();
 	}
 
-	inline void read_enum(lua_State* state, int index, Type& type, Ref result)
+	inline void read_enum(lua_State* state, int index, const Type& type, Ref result)
 	{
 		if(!lua_isnumber(state, index) || fmod(lua_tonumber(state, index), 1.) != 0)
 			return;
 		result = enu(type).varn(uint32_t(lua_tointeger(state, index)));
 	}
 
-	inline void read_sequence(lua_State* state, int index, Type& sequence_type, Ref result)
+	inline void read_sequence(lua_State* state, int index, const Type& sequence_type, Ref result)
 	{
 		if(!lua_istable(state, index))
 			return;
@@ -788,7 +799,7 @@ namespace mud
 		dispatch_branch<bool>    (*this, +[](bool&     value, lua_State* state) { return push_bool(state, value); });
 	}
 
-	class LuaContext : public NonCopy
+	class LuaContext
 	{
 	public:
 		explicit LuaContext(vector<string> import_namespaces = {})
@@ -824,14 +835,14 @@ namespace mud
 			return false;
 		}
 
-		array<cstring> namespace_path(Namespace& location, size_t shave_off = 0)
+		span<cstring> namespace_path(Namespace& location, size_t shave_off = 0)
 		{
 			if(location.is_root())
-				return array<cstring>{};
+				return {};
 			if(import_namespace(location.m_path[0]))
-				return location.m_path.size() == 1 ? array<cstring>{} : array<cstring>{ location.m_path.data() + 1, location.m_path.size() - 1 - shave_off };
+				return location.m_path.size() == 1 ? span<cstring>{} : span<cstring>{ location.m_path.data() + 1, location.m_path.size() - 1 - shave_off };
 			else
-				return array<cstring>{ location.m_path.data(), location.m_path.size() - shave_off };
+				return { location.m_path.data(), location.m_path.size() - shave_off };
 		}
 
 		void register_namespace(Namespace& location)
@@ -843,7 +854,7 @@ namespace mud
 			lua_setfield(m_state, -2, location.m_path.back());
 		}
 
-		void register_enum(Type& type)
+		void register_enum(const Type& type)
 		{
 			Enum& e = enu(type);
 
@@ -858,7 +869,7 @@ namespace mud
 			}
 		}
 
-		void register_type(Type& type)
+		void register_type(const Type& type)
 		{
 			if(!g_meta[type.m_id])
 			{
@@ -876,25 +887,32 @@ namespace mud
 				register_enum(type);
 		}
 
+		void register_alias(Alias& alias)
+		{
+			Stack stack = lookup_table(m_state, namespace_path(*alias.m_namespace));
+			get_type_table(m_state, *alias.m_type);
+			lua_setfield(m_state, -2, alias.m_name);
+		}
+
 		void register_function(Function& function)
 		{
 			Stack stack = lookup_table(m_state, namespace_path(*function.m_namespace));
 			set_table(m_state, function.m_name, Ref(&function));
 		}
 
-		void register_static(Type& type, Static& member)
+		void register_static(const Type& type, Static& member)
 		{
 			//Stack stack = lookup_table(m_state, { string(type.m_name) });
 			get_type_table(m_state, type);
 			set_table(m_state, member.m_name, member.m_value);
 		}
 
-		void register_method(Type& type, Method& method)
+		void register_method(const Type& type, Method& method)
 		{
 			register_field(m_state, type, method.m_name, Ref(&method));
 		}
 
-		void register_member(Type& type, Member& member)
+		void register_member(const Type& type, Member& member)
 		{
 			register_field(m_state, type, member.m_name, Ref(&member));
 		}
@@ -911,7 +929,7 @@ namespace mud
 	LuaInterpreter::LuaInterpreter(bool import_symbols)
 		: m_context(construct<LuaContext>(vector<string>{ "mud", "toy" }))
 	{
-		g_lua_print_output = &m_output;
+		//g_lua_print_output = &m_output;
 		if(import_symbols)
 			this->declare_types();
 	}
@@ -935,6 +953,9 @@ namespace mud
 		for(Type* type : system.m_types)
 			m_context->register_type(*type);
 
+		for(Alias* alias : system.m_aliases)
+			m_context->register_alias(*alias);
+
 		for(Type* type : system.m_types)
 			if(g_class[type->m_id])
 			{
@@ -947,7 +968,7 @@ namespace mud
 			}
 	}
 
-	const Var& LuaInterpreter::get(const string& name, Type& type)
+	Var LuaInterpreter::get(const string& name, const Type& type)
 	{
 		return get_global(m_context->m_state, name.c_str(), type);
 	}
@@ -957,12 +978,12 @@ namespace mud
 		set_global(m_context->m_state, name.c_str(), value);
 	}
 
-	const Var& LuaInterpreter::getx(array<cstring> path, Type& type)
+	Var LuaInterpreter::getx(span<cstring> path, const Type& type)
 	{
 		return get_global(m_context->m_state, path, type);
 	}
 
-	void LuaInterpreter::setx(array<cstring> path, const Var& value)
+	void LuaInterpreter::setx(span<cstring> path, const Var& value)
 	{
 		Stack stack = lookup_table(m_context->m_state, { path, path.size() - 1 });
 		set_table(m_context->m_state, *path.end(), value);
@@ -970,11 +991,11 @@ namespace mud
 
 	void LuaInterpreter::call(const string& code, Var* result)
 	{
-#ifdef MUD_LUA_DEBUG_IO
+#if MUD_LUA_DEBUG_IO
 		printf("lua -> %s\n", code);
 #endif
 		exec_lua(m_context->m_state, code.c_str(), result);
-#ifdef MUD_LUA_DEBUG_IO
+#if MUD_LUA_DEBUG_IO
 		printf("lua -> %s\n", m_output.c_str());
 		m_output = "";
 #endif

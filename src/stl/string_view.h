@@ -109,8 +109,8 @@ namespace stl {
 	}
 
 	constexpr string_view::size_type string_view::strlen(const char* s) {
-		for (size_t len = 0; ; ++len) {
-			if (0 == s[len]) {
+		for(size_t len = 0; ; ++len) {
+			if(0 == s[len]) {
 				return len;
 			}
 		}

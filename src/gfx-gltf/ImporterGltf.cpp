@@ -11,6 +11,7 @@
 module mud.gfx.gltf;
 #else
 #include <stl/algorithm.h>
+#include <stl/hash_base.hpp>
 #include <infra/Vector.h>
 #include <infra/File.h>
 #include <infra/StringOps.h>
@@ -112,7 +113,7 @@ namespace mud
 
 	void import_images(glTF& gltf, Import& state)
 	{
-		auto import_image_mem = [&](array<uint8_t> data)
+		auto import_image_mem = [&](span<uint8_t> data)
 		{
 			string name = state.m_file + to_string(state.m_images.size());
 			Texture& texture = state.m_gfx_system.textures().create(name.c_str());
@@ -140,7 +141,7 @@ namespace mud
 			else if(image.buffer_view != -1)
 			{
 				const glTFBufferView& buffer_view = gltf.m_buffer_views[image.buffer_view];
-				array<uint8_t> data = { gltf.m_binary_buffers[buffer_view.buffer].data() + buffer_view.byte_offset, buffer_view.byte_length };
+				span<uint8_t> data = { gltf.m_binary_buffers[buffer_view.buffer].data() + buffer_view.byte_offset, buffer_view.byte_length };
 				import_image_mem(data);
 			}
 		}

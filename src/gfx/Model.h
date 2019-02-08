@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <stl/vector.h>
 #include <stl/string.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <math/Colour.h>
 #include <math/Vec.h>
 #include <geom/Aabb.h>
@@ -54,5 +54,5 @@ namespace mud
 		static GfxSystem* ms_gfx_system;
 	};
 
-	export_ MUD_GFX_EXPORT Model& model_variant(GfxSystem& gfx_system, Model& original, const string& name, array<string> materials, array<Material*> substitutes);
+	export_ MUD_GFX_EXPORT Model& model_variant(GfxSystem& gfx_system, Model& original, const string& name, span<string> materials, span<Material*> substitutes);
 }

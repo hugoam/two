@@ -1,13 +1,13 @@
-#define ENFORCE_STL_INITIALIZER_LIST
-#include <infra/Cpp20.h>
-
+#ifndef USE_STL
 #ifdef MUD_MODULES
 module mud.math;
 #else
 #include <stl/vector.hpp>
 #include <stl/string.hpp>
+#include <stl/unordered_set.hpp>
 #include <stl/unordered_map.hpp>
-#include <ui/Extern.h>
+#include <ui/Api.h>
+#include <ui/Edit/Lang.h>
 #endif
 
 namespace stl
@@ -40,7 +40,9 @@ namespace stl
 	template class MUD_UI_EXPORT unordered_map<string, Dock>;
 	template class MUD_UI_EXPORT unordered_map<string, Style*>;
 
+	template class MUD_UI_EXPORT unordered_set<string>;
 	template class MUD_UI_EXPORT vector<LanguageDefinition::StringToken>;
 	template class MUD_UI_EXPORT vector<LanguageDefinition::RegexToken>;
 	template class MUD_UI_EXPORT unordered_map<string, Identifier>;
 }
+#endif

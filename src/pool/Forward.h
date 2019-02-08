@@ -18,3 +18,10 @@ namespace mud
     class Pool;
     class ObjectPool;
 }
+
+#ifdef MUD_META_GENERATOR
+#include <stl/vector.h>
+namespace stl
+{
+}
+#endif

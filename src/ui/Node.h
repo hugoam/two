@@ -56,9 +56,9 @@ namespace ui
 		return node_plug(node, name, icon, colour, false, active, connected);
 	}
 
-	export_ MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, int order = 0, Ref identity = {});
-	export_ MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, float* position, int order = 0, Ref identity = {});
-	export_ MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, vec2& position, int order = 0, Ref identity = {});
+	export_ MUD_UI_EXPORT Node& node(Canvas& parent, span<cstring> title, int order = 0, Ref identity = {});
+	export_ MUD_UI_EXPORT Node& node(Canvas& parent, span<cstring> title, float* position, int order = 0, Ref identity = {});
+	export_ MUD_UI_EXPORT Node& node(Canvas& parent, span<cstring> title, vec2& position, int order = 0, Ref identity = {});
 	export_ MUD_UI_EXPORT func_ Node& node(Canvas& parent, cstring title, vec2& position, int order = 0, Ref identity = {});
 
 	export_ MUD_UI_EXPORT func_ Widget& node_cable(Canvas& canvas, NodePlug& plug_out, NodePlug& plug_in);

@@ -60,7 +60,7 @@ namespace mud
 	Type::~Type()
 	{}
 
-	bool Type::is(Type& type) const
+	bool Type::is(const Type& type) const
 	{
 		if(&type == this)
 			return true;

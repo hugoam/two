@@ -57,7 +57,7 @@ namespace ui
 		return item(parent, style, content.c_str());
 	}
 
-	Widget& multi_item(Widget& parent, Style& style, array<cstring> elements, Style* element_style)
+	Widget& multi_item(Widget& parent, Style& style, span<cstring> elements, Style* element_style)
 	{
 		Widget& self = widget(parent, style);
 		for(cstring value : elements)
@@ -65,7 +65,7 @@ namespace ui
 		return self;
 	}
 
-	Widget& multi_item(Widget& parent, array<cstring> elements, Style* element_style)
+	Widget& multi_item(Widget& parent, span<cstring> elements, Style* element_style)
 	{
 		return multi_item(parent, styles().row, elements, element_style);
 	}

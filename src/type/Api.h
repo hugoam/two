@@ -13,5 +13,6 @@
 #include <type/Unique.h>
 #include <type/Var.h>
 #include <type/Vector.h>
+#include <type/Proto.h>
 #include <type/Util/LocklessQueue.h>
 

@@ -2,7 +2,10 @@
 
 #ifdef USE_STL
 #include <unordered_map>
-namespace stl = std;
+namespace stl
+{
+	using std::unordered_map;
+}
 #else
 #include <stl/allocator.h>
 #include <stl/buffer.h>

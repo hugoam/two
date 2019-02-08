@@ -1,6 +1,6 @@
 #pragma once
 
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <jobs/Job.h>
 
 namespace mud
@@ -105,7 +105,7 @@ namespace mud
 	}
 
 	template <class T, class S, class F>
-	Job* split_jobs(JobSystem& js, Job* parent, array<T> slice, F functor, const S& splitter)
+	Job* split_jobs(JobSystem& js, Job* parent, span<T> slice, F functor, const S& splitter)
 	{
 		return split_jobs(js, parent, slice.data(), slice.size(), functor, splitter);
 	}
@@ -124,7 +124,7 @@ namespace mud
 	}
 
 	template <uint32_t Count, class T, class F>
-	Job* split_jobs(JobSystem& js, Job* parent, array<T> slice, F functor)
+	Job* split_jobs(JobSystem& js, Job* parent, span<T> slice, F functor)
 	{
 		return split_jobs(js, parent, slice.data(), slice.size(), functor, CountSplitter<Count>());
 	}

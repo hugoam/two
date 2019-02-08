@@ -54,9 +54,9 @@ namespace mud
 #endif
 
 	template <bool Dense>
-	BufferArray<Dense>::BufferArray() {}
+	inline BufferArray<Dense>::BufferArray() {}
 	template <bool Dense>
-	BufferArray<Dense>::BufferArray(Typemap& typemap, uint32_t size)
+	inline BufferArray<Dense>::BufferArray(Typemap& typemap, uint32_t size)
 		: m_typemap(&typemap)
 		, m_buffer_map(64)
 	{
@@ -65,7 +65,7 @@ namespace mud
 
 	template <bool Dense>
 	template <class T>
-	uint32_t BufferArray<Dense>::type_index()
+	inline uint32_t BufferArray<Dense>::type_index()
 	{
 #if 0 //def MUD_ECS_TYPED
 		return m_typemap[type<T>().m_id];
@@ -76,7 +76,7 @@ namespace mud
 
 	template <bool Dense>
 	template <class T>
-	void BufferArray<Dense>::add_buffer()
+	inline void BufferArray<Dense>::add_buffer()
 	{
 #ifdef MUD_ECS_TYPED
 		m_buffers.push_back(construct<TBuffer<T>>(type<T>()));
@@ -88,35 +88,35 @@ namespace mud
 
 	template <bool Dense>
 	template <class... Types>
-	void BufferArray<Dense>::init()
+	inline void BufferArray<Dense>::init()
 	{
 		swallow{ (this->add_buffer<Types>(), 0)... };
 	}
 
 	template <bool Dense>
 	template <class T>
-	TBuffer<T>& BufferArray<Dense>::buffer()
+	inline TBuffer<T>& BufferArray<Dense>::buffer()
 	{
 		return static_cast<TBuffer<T>&>(*m_buffer_map[this->type_index<T>()]);
 	}
 
 	template <bool Dense>
-	uint32_t BufferArray<Dense>::size() const { return m_handles.size(); }
+	inline uint32_t BufferArray<Dense>::size() const { return m_handles.size(); }
 
 	template <bool Dense>
-	uint32_t BufferArray<Dense>::reverse(uint32_t index) const { return m_handles.reverse(index); }
+	inline uint32_t BufferArray<Dense>::reverse(uint32_t index) const { return m_handles.reverse(index); }
 
 	template <bool Dense>
-	uint32_t BufferArray<Dense>::handle(uint32_t index) const { return m_handles.reverse(index); }
+	inline uint32_t BufferArray<Dense>::handle(uint32_t index) const { return m_handles.reverse(index); }
 
 	template <bool Dense>
-	void BufferArray<Dense>::ensure(uint32_t capacity)
+	inline void BufferArray<Dense>::ensure(uint32_t capacity)
 	{
 		m_handles.ensure(capacity);
 	}
 
 	template <bool Dense>
-	void BufferArray<Dense>::clear()
+	inline void BufferArray<Dense>::clear()
 	{
 		m_handles.clear();
 		for(auto& buffer : m_buffers)
@@ -124,16 +124,16 @@ namespace mud
 	}
 
 	template <bool Dense>
-	uint32_t BufferArray<Dense>::create()
+	inline uint32_t BufferArray<Dense>::create()
 	{
 		const uint32_t handle = m_handles.create();
-		for (auto& buffer : m_buffers)
+		for(auto& buffer : m_buffers)
 			buffer->add();
 		return handle;
 	}
 
 	template <bool Dense>
-	void BufferArray<Dense>::add(uint32_t handle)
+	inline void BufferArray<Dense>::add(uint32_t handle)
 	{
 		m_handles.add(handle);
 		for(auto& buffer : m_buffers)
@@ -141,7 +141,7 @@ namespace mud
 	}
 
 	template <bool Dense>
-	void BufferArray<Dense>::remove(uint32_t handle)
+	inline void BufferArray<Dense>::remove(uint32_t handle)
 	{
 		const uint32_t index = m_handles.remove(handle);
 		for(auto& buffer : m_buffers)
@@ -150,7 +150,7 @@ namespace mud
 
 	template <bool Dense>
 	template <class T>
-	void BufferArray<Dense>::set(uint32_t handle, T component)
+	inline void BufferArray<Dense>::set(uint32_t handle, T component)
 	{
 		uint32_t index = m_handles[handle];
 		this->buffer<T>().m_data[index] = move(component);
@@ -158,53 +158,53 @@ namespace mud
 
 	template <bool Dense>
 	template <class T>
-	T& BufferArray<Dense>::get(uint32_t handle)
+	inline T& BufferArray<Dense>::get(uint32_t handle)
 	{
 		uint32_t index = m_handles[handle];
 		return this->buffer<T>().m_data[index];
 	}
 
-	EntityStream::EntityStream() {}
-	EntityStream::EntityStream(cstring name, Typemap& typemap, uint32_t size)
+	inline EntityStream::EntityStream() {}
+	inline EntityStream::EntityStream(cstring name, Typemap& typemap, uint32_t size)
 		: BufferArray<false>(typemap, size)
 		, m_name(name)
 	{}
 
 	template <class... Types>
-	void EntityStream::init(uint64_t prototype)
+	inline void EntityStream::init(uint64_t prototype)
 	{
 		m_prototype = prototype;
 		swallow{ (this->add_buffer<Types>(), 0)... };
 	}
 
-	GridECS::GridECS()
+	inline GridECS::GridECS()
 		: BufferArray<false>(m_typemap)
 	{}
 
-	uint32_t GridECS::create()
+	inline uint32_t GridECS::create()
 	{
 		uint32_t handle = m_available.size() > 0 ? pop(m_available) : m_handles.alloc();
 		this->add(handle);
 		return handle;
 	}
 
-	void GridECS::destroy(uint32_t handle)
+	inline void GridECS::destroy(uint32_t handle)
 	{
 		this->remove(handle);
 		m_available.push_back(handle);
 	}
 
 	template <class T>
-	T& Entt::comp() { return m_ecs->get<T>(m_handle); }
+	inline T& Entt::comp() { return m_ecs->get<T>(m_handle); }
 
-	ECS::ECS(int capacity)
+	inline ECS::ECS(int capacity)
 	{
 		m_streams.reserve(64);
 		m_entities.reserve(capacity);
 	}
 
 	template <class T>
-	uint32_t ECS::type_index()
+	inline uint32_t ECS::type_index()
 	{
 #if 0 //def MUD_ECS_TYPED
 		return (*m_typemap)[type<T>().m_id];
@@ -214,26 +214,26 @@ namespace mud
 	}
 
 	template <class... Types>
-	uint64_t ECS::prototype()
+	inline uint64_t ECS::prototype()
 	{
 		return any_flags(1ULL << this->type_index<Types>()...);
 	}
 
 	template <class... Types>
-	EntityStream& ECS::stream()
+	inline EntityStream& ECS::stream()
 	{
 		uint64_t prototype = this->prototype<Types...>();
 		uint16_t stream = m_stream_map[prototype];
 		return m_streams[stream];
 	}
 
-	EntityStream& ECS::stream(uint32_t handle)
+	inline EntityStream& ECS::stream(uint32_t handle)
 	{
 		uint16_t stream = m_entities[handle].m_stream;
 		return m_streams[stream];
 	}
 
-	vector<EntityStream*> ECS::match(uint64_t prototype)
+	inline vector<EntityStream*> ECS::match(uint64_t prototype)
 	{
 		vector<EntityStream*> matches;
 		for(EntityStream& buffers : m_streams)
@@ -243,7 +243,7 @@ namespace mud
 	}
 
 	template <class... Types>
-	void ECS::add_stream(cstring name)
+	inline void ECS::add_stream(cstring name)
 	{
 		uint64_t prototype = this->prototype<Types...>();
 		m_stream_map[prototype] = uint16_t(m_streams.size());
@@ -253,7 +253,7 @@ namespace mud
 
 #ifdef MUD_ECS_TYPED
 	template <class T>
-	void ECS::register_type()
+	inline void ECS::register_type()
 	{
 #if 0
 		if(m_typemap[type<T>().m_id] == 0)
@@ -262,7 +262,7 @@ namespace mud
 	}
 
 	template <class... Types>
-	void ECS::add_stream()
+	inline void ECS::add_stream()
 	{
 		using T_Prototype = typename select_last<Types...>::type;
 		this->add_stream<Types...>(type<T_Prototype>().m_name);
@@ -270,13 +270,13 @@ namespace mud
 	}
 #endif
 
-	void ECS::ensure_size()
+	inline void ECS::ensure_size()
 	{
 		for(auto& buffer : m_streams)
 			buffer.ensure(uint32_t(m_entities.size()));
 	}
 
-	uint32_t ECS::alloc(uint64_t prototype, uint16_t stream)
+	inline uint32_t ECS::alloc(uint64_t prototype, uint16_t stream)
 	{
 		if(m_available.size() > 0)
 			return pop(m_available);
@@ -287,7 +287,7 @@ namespace mud
 	}
 
 	template <class... Types>
-	uint32_t ECS::create()
+	inline uint32_t ECS::create()
 	{
 		uint64_t prototype = this->prototype<Types...>();
 		if(m_stream_map.find(prototype) == m_stream_map.end())
@@ -298,7 +298,7 @@ namespace mud
 		return handle;
 	}
 
-	void ECS::destroy(uint32_t handle)
+	inline void ECS::destroy(uint32_t handle)
 	{
 		EntityData& entity = m_entities[handle];
 		m_streams[entity.m_stream].remove(handle);
@@ -306,14 +306,14 @@ namespace mud
 	}
 
 	template <class T>
-	void ECS::set(uint32_t handle, T component)
+	inline void ECS::set(uint32_t handle, T component)
 	{
 		EntityData& entity = m_entities[handle];
 		m_streams[entity.m_stream].set<T>(handle, move(component));
 	}
 
 	template <class T>
-	bool ECS::has(uint32_t handle)
+	inline bool ECS::has(uint32_t handle)
 	{
 		uint64_t flag = (1ULL << this->type_index<T>());
 		EntityData& entity = m_entities[handle];
@@ -321,14 +321,14 @@ namespace mud
 	}
 
 	template <class T>
-	T& ECS::get(uint32_t handle)
+	inline T& ECS::get(uint32_t handle)
 	{
 		EntityData& entity = m_entities[handle];
 		return m_streams[entity.m_stream].get<T>(handle);
 	}
 
 	template <class T, class... Types>
-	vector<T*> ECS::gather()
+	inline vector<T*> ECS::gather()
 	{
 		uint64_t prototype = this->prototype<T, Types...>();
 		
@@ -351,7 +351,7 @@ namespace mud
 	}
 
 	template <class... Types, size_t... Is, class T_Function>
-	void loop_ent_impl(ECS& ecs, T_Function action, index_sequence<Is...>)
+	inline void loop_ent_impl(ECS& ecs, T_Function action, index_sequence<Is...>)
 	{
 		uint64_t prototype = ecs.prototype<Types...>();
 
@@ -370,7 +370,7 @@ namespace mud
 	}
 
 	template <class... Types, size_t... Is, class T_Function>
-	void loop_impl(ECS& ecs, T_Function action, index_sequence<Is...>)
+	inline void loop_impl(ECS& ecs, T_Function action, index_sequence<Is...>)
 	{
 		uint64_t prototype = ecs.prototype<Types...>();
 
@@ -388,50 +388,50 @@ namespace mud
 	}
 
 	template <class... Types, class T_Function>
-	void ECS::loop(T_Function action)
+	inline void ECS::loop(T_Function action)
 	{
 		loop_impl<Types...>(*this, action, index_tuple<sizeof...(Types)>());
 	}
 
 	template <class... Types, class T_Function>
-	void ECS::loop_ent(T_Function action)
+	inline void ECS::loop_ent(T_Function action)
 	{
 		loop_ent_impl<Types...>(*this, action, index_tuple<sizeof...(Types)>());
 	}
 
 	template <class T>
-	ComponentHandle<T>::ComponentHandle() {}
+	inline ComponentHandle<T>::ComponentHandle() {}
 	template <class T>
-	ComponentHandle<T>::ComponentHandle(uint32_t handle, uint32_t stream) : Entity(handle, stream) {}
+	inline ComponentHandle<T>::ComponentHandle(uint32_t handle, uint32_t stream) : Entity(handle, stream) {}
 	template <class T>
-	ComponentHandle<T>::ComponentHandle(const Entity& entity) : Entity(entity) {}
+	inline ComponentHandle<T>::ComponentHandle(const Entity& entity) : Entity(entity) {}
 
 	template <class T>
-	ComponentHandle<T>::operator T&() { return asa<T>(*this); }
+	inline ComponentHandle<T>::operator T&() { return asa<T>(*this); }
 	template <class T>
-	ComponentHandle<T>::operator const T&() const { return asa<T>(*this); }
+	inline ComponentHandle<T>::operator const T&() const { return asa<T>(*this); }
 
 	template <class T>
-	T* ComponentHandle<T>::operator->() { return &asa<T>(*this); }
+	inline T* ComponentHandle<T>::operator->() { return &asa<T>(*this); }
 	template <class T>
-	T& ComponentHandle<T>::operator*() { return asa<T>(*this); }
+	inline T& ComponentHandle<T>::operator*() { return asa<T>(*this); }
 	template <class T>
-	const T* ComponentHandle<T>::operator->() const { return &asa<T>(*this); }
+	inline const T* ComponentHandle<T>::operator->() const { return &asa<T>(*this); }
 	template <class T>
-	const T& ComponentHandle<T>::operator*() const { return asa<T>(*this); }
+	inline const T& ComponentHandle<T>::operator*() const { return asa<T>(*this); }
 
 	template <class T>
-	EntityHandle<T>::EntityHandle() {}
+	inline EntityHandle<T>::EntityHandle() {}
 	template <class T>
-	EntityHandle<T>::EntityHandle(uint32_t handle, uint32_t stream) : ComponentHandle<T>(handle, stream) {}
+	inline EntityHandle<T>::EntityHandle(uint32_t handle, uint32_t stream) : ComponentHandle<T>(handle, stream) {}
 	template <class T>
-	EntityHandle<T>::~EntityHandle() { this->destroy(); }
+	inline EntityHandle<T>::~EntityHandle() { this->destroy(); }
 
 	template <class T>
-	EntityHandle<T>::EntityHandle(EntityHandle<T>&& other) { other.swap(*this); }
+	inline EntityHandle<T>::EntityHandle(EntityHandle<T>&& other) { other.swap(*this); }
 	template <class T>
-	EntityHandle<T>& EntityHandle<T>::operator=(EntityHandle<T>&& other) { other.swap(*this); return *this; }
+	inline EntityHandle<T>& EntityHandle<T>::operator=(EntityHandle<T>&& other) { other.swap(*this); return *this; }
 
 	template <class T>
-	EntityHandle<T>::operator Entity() const { return { this->m_handle, this->m_stream }; }
+	inline EntityHandle<T>::operator Entity() const { return { this->m_handle, this->m_stream }; }
 }

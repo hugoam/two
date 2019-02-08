@@ -8,11 +8,11 @@
 module mud.uio;
 #else
 #include <tree/Graph.hpp>
+#include <type/Proto.h>
 #include <refl/Class.h>
 #include <refl/System.h>
-#include <ecs/Proto.h>
 #include <ui/ContainerStruct.h>
-#include <uio/ObjectEdit.h>
+#include <uio/Object.h>
 #include <uio/InjectorEdit.h>
 #include <uio/MethodEdit.h>
 #include <uio/Inspector.h>
@@ -53,7 +53,7 @@ namespace mud
 		return false;
 	}
 
-	bool object_switch_creator(Widget& parent, array<Type*> types)
+	bool object_switch_creator(Widget& parent, span<Type*> types)
 	{
 		Widget& self = ui::sheet(parent);
 		ui::title(self, "Create Object");

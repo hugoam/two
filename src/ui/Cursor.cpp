@@ -39,7 +39,7 @@ namespace ui
 		return hoverbox(parent, parent.ui().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position(), delay);
 	}
 
-	Widget* tooltip(Widget& parent, const vec2& position, array<cstring> elements)
+	Widget* tooltip(Widget& parent, const vec2& position, span<cstring> elements)
 	{
 		Widget* self = hoverbox(parent, position);
 		if(self)
@@ -57,7 +57,7 @@ namespace ui
 		return hoverbox(parent, vec2{ 0.f, 0.f + parent_frame.m_size.y });
 	}
 
-	Widget* tooltip(Widget& parent, const Frame& parent_frame, array<cstring> elements)
+	Widget* tooltip(Widget& parent, const Frame& parent_frame, span<cstring> elements)
 	{
 		return tooltip(parent, vec2{ parent_frame.m_position.x, parent_frame.m_position.y + parent_frame.m_size.y }, elements);
 	}

@@ -16,15 +16,11 @@ namespace mud
 	export_ class refl_ MUD_GEOM_EXPORT Distribution
 	{
 	public:
-		class Point
+		struct Point
 		{
-		public:
-			Point() {}
-			Point(const vec3& p, float r) : position(p), radius(r), visits(0) {}
-
 			vec3 position;
 			float radius;
-			size_t visits;
+			size_t visits = 0;
 		};
 
 		//meth_ virtual vector<Circle> distribute(float radius, const vec3& offset) = 0;
@@ -66,7 +62,7 @@ namespace mud
 		vector<Point> m_points;
 
 		vector<Point> m_unprocessed;
-		Grid<vector<Point>> m_grid;
+		vector2d<vector<Point>> m_grid;
 	};
 
 	MUD_GEOM_EXPORT func_ vector<vec3> distribute_poisson(vec2 size, float radius);

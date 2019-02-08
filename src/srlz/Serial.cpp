@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <string>
@@ -28,9 +27,10 @@ module mud.srlz;
 #include <refl/Method.h>
 #include <srlz/Types.h>
 #include <srlz/Serial.h>
+#include <srlz/Serial.hpp>
 #endif
 
-//#define MUD_DEBUG_SERIAL
+#define MUD_DEBUG_SERIAL 0
 #define NO_HUMAN_READABLE
 #define NO_PACK_DEFAULT
 
@@ -58,7 +58,7 @@ namespace mud
 
 	void dump_json_file(const string& path, const json& value)
 	{
-		if (!file_exists(path))
+		if(!file_exists(path))
 			printf("ERROR: couldn't open file %s\n", path.c_str());
 		std::string text = value.dump();
 		write_file(path, string(text.data(), text.data() + text.size()));
@@ -121,8 +121,8 @@ namespace mud
 
 		dispatch_branch<vector<Var>>(*this, +[](vector<Var>& values, json& json_value)
 		{
-			vector<json> json_values = vector<json>(values.size());
-			for (size_t i = 0; i < values.size(); ++i)
+			std::vector<json> json_values = std::vector<json>(values.size());
+			for(size_t i = 0; i < values.size(); ++i)
 				pack_typed(values[i], json_values[i]);
 			json_value = json_values;
 		});
@@ -141,7 +141,7 @@ namespace mud
 		memcpy(value.m_value, &enum_value, meta(value).m_size);
 	}
 
-	const Var& unpack(Type& type, const json& json_value)
+	Var unpack(Type& type, const json& json_value)
 	{
 		static FromJson unpacker;
 		return unpack(unpacker, type, json_value);
@@ -160,7 +160,7 @@ namespace mud
 		unpack(unpacker, value, json_value);
 	}
 	
-	const Var& unpack(FromJson& unpacker, Type& type, const json& json_value, bool typed)
+	Var unpack(FromJson& unpacker, Type& type, const json& json_value, bool typed)
 	{
 		Var result = meta(type).m_empty_var;
 		unpack(unpacker, result, json_value, typed);
@@ -180,6 +180,11 @@ namespace mud
 			return;
 		}
 
+		unpack(unpacker, value.m_ref, json_value);
+	}
+
+	void unpack(FromJson& unpacker, Ref value, const json& json_value)
+	{
 		if(unpacker.check(value))
 		{
 			unpacker.dispatch(value, json_value);
@@ -199,8 +204,11 @@ namespace mud
 		{
 			for(const json& json_element : json_value.array_items())
 			{
-				Var element = unpack(unpacker, *iter(value).m_element_type, json_element);
-				sequence(value).add(value, element);
+				sequence(value).push(value);
+				Ref element = iter(value).back(value);
+				unpack(unpacker, element, json_element);
+				//Var element = unpack(unpacker, *iter(value).m_element_type, json_element);
+				//sequence(value).add(value, element);
 			}
 			return;
 		}
@@ -213,22 +221,24 @@ namespace mud
 			return;
 		}
 
-		const Class& cls = mud::cls(value);
-		const Constructor* constructor = cls.constructor(size);
+		const Class& cl = cls(value);
+		const Constructor* constructor = cl.constructor(size);
 
-		if(!constructor)
+		if(is_struct(*value.m_type)) // true) //!constructor)
 		{
 			auto unpack_member = [&](const Member& member, const json& member_value)
 			{
-#ifdef MUD_DEBUG_SERIAL
+#if MUD_DEBUG_SERIAL
 				printf("DEBUG: unpacking member %s :: %s\n", type(value).m_name, member.m_name);
 #endif
-				member.set(value, unpack(unpacker, *member.m_type, member_value));
+				Ref m = member.get(value);
+				unpack(unpacker, m, member_value);
+				//member.set(value, unpack(unpacker, *member.m_type, member_value));
 			};
 
 			if(json_value.is_object())
 			{
-				for(const Member& member : cls.m_members)
+				for(const Member& member : cl.m_members)
 					if(!json_value[member.m_name].is_null())
 					{
 						unpack_member(member, json_value[member.m_name]);
@@ -238,7 +248,7 @@ namespace mud
 			{
 				for(size_t index = 0; index < size; ++index)
 				{
-					unpack_member(cls.m_members[index], json_value[index]);
+					unpack_member(cl.m_members[index], json_value[index]);
 				}
 			}
 		}
@@ -261,14 +271,14 @@ namespace mud
 		}
 	}
 
-	const Var& unpack_typed(FromJson& unpacker, const json& json_typed_value)
+	Var unpack_typed(FromJson& unpacker, const json& json_typed_value)
 	{
 		cstring type_name = json_typed_value["type"].string_value().c_str();
 		json json_value = json_typed_value["value"];
 		return unpack(unpacker, *System::instance().find_type(type_name), json_value, true);
 	}
 
-	const Var& unpack_typed(const json& json_value)
+	Var unpack_typed(const json& json_value)
 	{
 		static FromJson unpacker;
 		return unpack_typed(unpacker, json_value);
@@ -282,20 +292,20 @@ namespace mud
 		}
 		else if(is_base_type(type(value)))
 		{
-			json_value = to_string(value);
+			json_value = to_string(value.m_ref);
 		}
 		else if(is_enum(type(value)))
 		{
 #ifdef NO_HUMAN_READABLE
 			json_value = int(enu(value).value(value));
 #else
-			json_value = to_string(value);
+			json_value = to_string(value.m_ref);
 #endif
 		}
 		else if(is_sequence(type(value)))
 		{
 			size_t i = 0;
-			vector<json> json_values = vector<json>(iter(value).size(value));
+			std::vector<json> json_values = std::vector<json>(iter(value).size(value));
 			iter(value).iterate(value, [&](Ref element) {
 				pack(packer, element, json_values[i++]);
 			});
@@ -309,7 +319,7 @@ namespace mud
 				pack_typed(packer, value, json_value);
 			else if(is_array(type(value)))
 			{
-				vector<json> json_members;
+				std::vector<json> json_members;
 				json_members.resize(cls(value).m_members.size());
 
 				for(Member& member : cls(value).m_members)

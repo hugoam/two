@@ -7,15 +7,23 @@
 #ifdef MUD_MODULES
 module mud.refl;
 #else
+#include <stl/algorithm.h>
+#include <type/Types.h>
 #include <refl/Method.h>
 #include <refl/Meta.h>
 #include <refl/Class.h>
 #include <refl/VirtualMethod.h>
-#include <stl/algorithm.h>
 #endif
 
 namespace mud
 {
+	bool QualType::isvoid() const { return m_type == &type<void>(); }
+
+	bool QualType::operator==(const QualType& other) const { return m_flags == other.m_flags && m_type == other.m_type; }
+	bool QualType::operator!=(const QualType& other) const { return !(*this == other); }
+
+	QualType g_qvoid = { &type<void>(), QualType::None };
+
 	template <> Type& type<VirtualMethod>() { static Type ty("VirtualMethod"); return ty; }
 
 	Param::Param(cstring name, Type& type, Flags flags, void* default_val)
@@ -35,6 +43,7 @@ namespace mud
 
 	static uint32_t s_callable_index = 0;
 
+	Callable::Callable() {}
 	Callable::Callable(cstring name, const vector<Param>& params, QualType return_type)
 		: m_index(++s_callable_index)
 		, m_name(name)
@@ -47,25 +56,24 @@ namespace mud
 
 	void Callable::setup()
 	{
-		//for(size_t i = 0; i < m_params.size(); ++i)
-		//{
-		//	m_params[i].m_index = i;
-		//	m_args.push_back({ m_params[i].m_value });
-		//
-		//	if(m_num_defaults == 0 && m_params[i].defaulted())
-		//		m_num_defaults = m_params.size() - i;
-		//}
-		//
-		//m_num_required = m_params.size() - m_num_defaults;
+		for(size_t i = 0; i < m_params.size(); ++i)
+		{
+			m_params[i].m_index = i;
+
+			if(m_num_defaults == 0 && m_params[i].defaulted())
+				m_num_defaults = m_params.size() - i;
+		}
+		
+		m_num_required = m_params.size() - m_num_defaults;
 	}
 
-	bool Callable::validate(array<Var> args, size_t offset) const
+	bool Callable::validate(span<Var> args, size_t offset) const
 	{
-		if (args.m_count < m_params.size() - m_num_defaults)
+		if(args.m_count < m_params.size() - m_num_defaults)
 			return false;
 
 		bool valid = true;
-		for (size_t i = offset; i < m_params.size(); ++i)
+		for(size_t i = offset; i < m_params.size(); ++i)
 		{
 			valid &= m_params[i].m_type->is(type(args[i]));
 			valid &= m_params[i].nullable() || !args[i].null();
@@ -73,17 +81,18 @@ namespace mud
 		return valid;
 	}
 
-	void Callable::operator()(array<void*> args) const
+	void Callable::operator()(span<void*> args) const
 	{
 		void* none;
 		return (*this)(args, none);
 	}
 
-	void Callable::operator()(array<void*> args, void*& result) const
+	void Callable::operator()(span<void*> args, void*& result) const
 	{
 		UNUSED(args); UNUSED(result);
 	}
 
+	Function::Function() {}
 	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, const vector<Param>& params, QualType return_type)
 		: Callable(name, params, return_type)
 		, m_namespace(location)
@@ -95,6 +104,11 @@ namespace mud
 		{
 			cls(*op.m_type).m_operators.push_back(op);
 		}
+	}
+
+	void Function::operator()(span<void*> args, void*& result) const
+	{
+		return m_call(args, result);
 	}
 
 	Operator as_operator(Function& function)
@@ -118,6 +132,7 @@ namespace mud
 		else return {};
 	}
 
+	Method::Method() {}
 	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, const vector<Param>& params, QualType return_type)
 		: Callable(name, merge({ 1, { "self", object_type } }, params), return_type)
 		, m_object_type(&object_type)
@@ -125,6 +140,12 @@ namespace mud
 		, m_call(trigger)
 	{}
 
+	void Method::operator()(span<void*> args, void*& result) const
+	{
+		return m_call(args[0], span<void*>{ args, 1 }, result);
+	}
+
+	Constructor::Constructor() {}
 	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, const vector<Param>& params)
 		: Callable(object_type.m_name, merge({ 1, { "self", object_type } }, params))
 		, m_object_type(&object_type)
@@ -137,15 +158,32 @@ namespace mud
 		, m_call(constructor)
 	{}
 
+	void Constructor::operator()(span<void*> args, void*& result) const
+	{
+		UNUSED(result); m_call(args[0], span<void*>{ args, 1 });
+	}
+
+	CopyConstructor::CopyConstructor() {}
 	CopyConstructor::CopyConstructor(Type& object_type, CopyConstructorFunc constructor)
 		: Callable(object_type.m_name, { 1, { "self", object_type } })
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
+	void CopyConstructor::operator()(span<void*> args, void*& result) const
+	{
+		UNUSED(result); m_call(args[0], args[1]);
+	}
+
+	Destructor::Destructor() {}
 	Destructor::Destructor(Type& object_type, DestructorFunc destructor)
 		: Callable(object_type.m_name, { 1, { "self", object_type } })
 		, m_object_type(&object_type)
 		, m_call(destructor)
 	{}
+
+	void Destructor::operator()(span<void*> args, void*& result) const
+	{
+		UNUSED(result); m_call(args[0]);
+	}
 }

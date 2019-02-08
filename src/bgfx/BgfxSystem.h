@@ -56,7 +56,7 @@ namespace mud
 		float end();
 	};
 
-	export_ class MUD_BGFX_EXPORT BgfxSystem : public NonCopy, public RenderSystem
+	export_ class MUD_BGFX_EXPORT BgfxSystem : public RenderSystem
 	{
 	public:
 		BgfxSystem(const string& resource_path);

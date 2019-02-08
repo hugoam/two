@@ -23,11 +23,7 @@ namespace mud
 {
     // Exported types
     
+    
     export_ template <> MUD_ECS_EXPORT Type& type<mud::Complex>();
     export_ template <> MUD_ECS_EXPORT Type& type<mud::Entity>();
-    export_ template <> MUD_ECS_EXPORT Type& type<mud::Prototype>();
-    
-    export_ template <> MUD_ECS_EXPORT Type& type<vector<mud::Complex*>>();
-    export_ template <> MUD_ECS_EXPORT Type& type<vector<mud::Entity*>>();
-    export_ template <> MUD_ECS_EXPORT Type& type<vector<mud::Prototype*>>();
 }

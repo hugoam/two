@@ -30,6 +30,24 @@ namespace mud
     export_ template <> MUD_GLTF_EXPORT Type& type<glTFPrimitiveType>();
     export_ template <> MUD_GLTF_EXPORT Type& type<glTFType>();
     
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFAccessor>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFAnimation>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFAnimationChannel>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFAnimationSampler>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFBuffer>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFBufferView>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFCamera>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFImage>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFMaterial>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFMesh>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFMorphTarget>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFNode>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFPrimitive>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFSampler>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFScene>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFSkin>>();
+    export_ template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFTexture>>();
+    
     export_ template <> MUD_GLTF_EXPORT Type& type<glTF>();
     export_ template <> MUD_GLTF_EXPORT Type& type<glTFAccessor>();
     export_ template <> MUD_GLTF_EXPORT Type& type<glTFAnimation>();
@@ -58,33 +76,4 @@ namespace mud
     export_ template <> MUD_GLTF_EXPORT Type& type<glTFSparseValues>();
     export_ template <> MUD_GLTF_EXPORT Type& type<glTFTexture>();
     export_ template <> MUD_GLTF_EXPORT Type& type<glTFTextureInfo>();
-    
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTF*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFAccessor*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFAnimation*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFAnimationChannel*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFAnimationSampler*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFAnimationTarget*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFAttributes*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFBuffer*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFBufferView*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFCamera*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFImage*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFMaterial*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFMaterialPBR*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFMesh*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFMorphTarget*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFNode*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFNodeExtras*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFOrthographic*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFPerspective*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFPrimitive*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFSampler*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFScene*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFSkin*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFSparse*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFSparseIndices*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFSparseValues*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFTexture*>>();
-    export_ template <> MUD_GLTF_EXPORT Type& type<vector<glTFTextureInfo*>>();
 }

@@ -20,21 +20,21 @@ namespace mud
 		Class(Type& type);
 		Class(
 			Type& type,
-			array<Type*> bases,
-			array<size_t> bases_offsets,
-			array<Constructor> constructors,
-			array<CopyConstructor> copy_constructors,
-			array<Member> members,
-			array<Method> methods,
-			array<Static> static_members
+			span<Type*> bases,
+			span<size_t> bases_offsets,
+			span<Constructor> constructors,
+			span<CopyConstructor> copy_constructors,
+			span<Member> members,
+			span<Method> methods,
+			span<Static> static_members
 		);
 		~Class();
 
 		void inherit(vector<Type*> types);
 		void setup_class();
 
-		Ref upcast(Ref object, Type& base);
-		Ref downcast(Ref object, Type& derived);
+		Ref upcast(Ref object, const Type& base);
+		Ref downcast(Ref object, const Type& derived);
 
 		Member& member(cstring name);
 		Method& method(cstring name);
@@ -56,25 +56,25 @@ namespace mud
 		const Constructor* constructor(ConstructorIndex index) const;
 		const Constructor* constructor(size_t arguments) const;
 
-		bool is(Type& component);
-		Ref as(Ref object, Type& component);
+		bool is(const Type& component);
+		Ref as(Ref object, const Type& component);
 
 	public:
 		Type* m_type;
 		Meta* m_meta;
 
 		// Reflection
-		array<Type*> m_bases;
-		array<size_t> m_bases_offsets;
+		span<Type*> m_bases;
+		span<size_t> m_bases_offsets;
 
-		array<Constructor> m_constructors;
-		array<CopyConstructor> m_copy_constructors; // in a vector until we update to c++17 optional
-		array<Destructor> m_destructor; // in a vector until we update to c++17 optional
-		array<Member> m_members;
-		array<Method> m_methods;
+		span<Constructor> m_constructors;
+		span<CopyConstructor> m_copy_constructors; // in a vector until we update to c++17 optional
+		span<Destructor> m_destructor; // in a vector until we update to c++17 optional
+		span<Member> m_members;
+		span<Method> m_methods;
 
-		array<Static> m_static_members;
-		array<Function> m_static_functions;
+		span<Static> m_static_members;
+		span<Function> m_static_functions;
 
 		vector<Operator> m_operators;
 

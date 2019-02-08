@@ -227,12 +227,12 @@ namespace mud
 		d = hypot(dx,dy); // Suggested by Keith Briggs
 
 		/* Check for solvability. */
-		if (d > (r0 + r1))
+		if(d > (r0 + r1))
 		{
 			/* no solution. circles do not intersect. */
 			return false;
 		}
-		if (d < fabs(r0 - r1))
+		if(d < fabs(r0 - r1))
 		{
 			/* no solution. one circle is contained in the other */
 			return false;

@@ -55,7 +55,7 @@ namespace mud
 		virtual void options(Render& render, ShaderVersion& shader_version) const final;
 		virtual void submit(Render& render, const Pass& render_pass) const final;
 
-		void update_lights(Render& render, const mat4& view, array<Light*> lights, array<LightShadow> shadows);
+		void update_lights(Render& render, const mat4& view, span<Light*> lights, span<LightShadow> shadows);
 
 		void upload_environment(Render& render, const Pass& render_pass, Environment* environment) const;
 		void upload_fog(Render& render, const Pass& render_pass, Fog& fog) const;

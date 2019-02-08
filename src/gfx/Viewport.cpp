@@ -9,7 +9,7 @@ module mud.gfx;
 #else
 #include <bgfx/bgfx.h>
 
-#include <ecs/ECS.h>
+#include <ecs/ECS.hpp>
 #include <geom/Intersect.h>
 #include <gfx/Viewport.h>
 #include <gfx/Camera.h>

@@ -31,7 +31,7 @@ namespace mud
 		uint16_t subdiv = circle_vertices(shape, cylinder.m_center + offset, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), true, writer);
 						  circle_vertices(shape, cylinder.m_center - offset, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, false), true, writer);
 
-		for (uint16_t i = 0; i < subdiv; i++)
+		for(uint16_t i = 0; i < subdiv; i++)
 		{
 			writer.line(i, i + 1 < subdiv ? i + 1 : 0);
 			writer.line(subdiv + i, i + 1 < subdiv ? subdiv + i + 1 : subdiv);

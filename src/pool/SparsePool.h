@@ -6,7 +6,6 @@
 
 #include <stl/unordered_map.h>
 #include <stl/vector.h>
-#include <infra/NonCopy.h>
 #include <pool/Forward.h>
 
 #include <stdint.h>
@@ -138,7 +137,7 @@ namespace mud
 	};
 
 	export_ template <class T>
-	class SparsePool : public NonCopy, public HandlePool
+	class SparsePool : public HandlePool
 	{
 	public:
 		SparsePool();

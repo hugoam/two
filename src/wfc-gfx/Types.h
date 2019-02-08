@@ -32,9 +32,7 @@ namespace mud
 {
     // Exported types
     
+    
     export_ template <> MUD_WFC_GFX_EXPORT Type& type<mud::TileModel>();
     export_ template <> MUD_WFC_GFX_EXPORT Type& type<mud::WfcBlock>();
-    
-    export_ template <> MUD_WFC_GFX_EXPORT Type& type<vector<mud::TileModel*>>();
-    export_ template <> MUD_WFC_GFX_EXPORT Type& type<vector<mud::WfcBlock*>>();
 }

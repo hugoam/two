@@ -11,6 +11,7 @@ module mud.tool;
 #include <refl/Method.h>
 #include <refl/Meta.h>
 #include <lang/VisualScript.h>
+#include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <geom/Shapes.h>
 #include <ui/Ui.h>
@@ -130,7 +131,7 @@ namespace mud
 	void PlaceBrush::activate()
 	{
 		m_creator.injector().m_args[0] = var(size_t(0));
-		//m_creator.injector().m_args[1] = Ref(m_context.m_origin);
+		//m_creator.injector().m_args[1] = Ref(m_origin);
 		m_state = ToolState::Active;
 	}
 
@@ -166,7 +167,7 @@ namespace mud
 	void CircleBrush::activate()
 	{
 		m_creator.injector().m_args[0] = var(size_t(0));
-		//m_creator.injector().m_args[1] = Ref(m_context.m_origin);
+		//m_creator.injector().m_args[1] = Ref(m_origin);
 		m_state = ToolState::Active;
 	}
 

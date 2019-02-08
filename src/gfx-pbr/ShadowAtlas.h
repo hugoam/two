@@ -20,6 +20,7 @@ namespace mud
 {
 	struct ShadowCubemap
 	{
+		ShadowCubemap() {}
 		ShadowCubemap(uint16_t size);
 		bgfx::FrameBufferHandle m_fbos[6];
 		bgfx::TextureHandle m_cubemap;
@@ -49,6 +50,7 @@ namespace mud
 
 		struct Slice
 		{
+			Slice() {}
 			Slice(uint32_t size, uint16_t subdiv, uvec4 rect);
 
 			uint32_t m_size;

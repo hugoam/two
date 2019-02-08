@@ -20,7 +20,7 @@ namespace stl {
 		const size_t nbuckets = (size_t)(other.m_buckets.m_last - other.m_buckets.m_first);
 		m_buckets.resize(nbuckets, 0);
 
-		for (pointer it = *other.m_buckets.m_first; it; it = it->next) {
+		for(pointer it = *other.m_buckets.m_first; it; it = it->next) {
 			unordered_hash_node<Key, void>* newnode = new(placeholder(), Alloc::static_allocate(sizeof(unordered_hash_node<Key, void>))) unordered_hash_node<Key, void>(*it);
 			newnode->next = newnode->prev = 0;
 			unordered_hash_node_insert(newnode, hash(it->first), m_buckets.m_first, nbuckets - 1);
@@ -37,7 +37,7 @@ namespace stl {
 
 	template <class Key, class Alloc>
 	inline unordered_set<Key, Alloc>::~unordered_set() {
-		if (!m_buckets.empty())
+		if(!m_buckets.empty())
 			this->clear();
 	}
 
@@ -102,7 +102,7 @@ namespace stl {
 
 	template <class Key, class Alloc>
 	inline void unordered_set<Key, Alloc>::rehash(size_t nbuckets) {
-		if (m_size + 1 > 4 * nbuckets) {
+		if(m_size + 1 > 4 * nbuckets) {
 			pointer root = *m_buckets.m_first;
 
 			const size_t newnbuckets = ((size_t)(m_buckets.m_last - m_buckets.m_first) - 1) * 8;
@@ -125,7 +125,7 @@ namespace stl {
 		result.second = false;
 
 		result.first = find(key);
-		if (result.first.node != 0)
+		if(result.first.node != 0)
 			return result;
 
 		unordered_hash_node<Key, void>* newnode = new(placeholder(), Alloc::static_allocate(sizeof(unordered_hash_node<Key, void>))) unordered_hash_node<Key, void>(key);
@@ -148,7 +148,7 @@ namespace stl {
 		result.second = false;
 
 		result.first = find(key);
-		if (result.first.node != 0)
+		if(result.first.node != 0)
 			return result;
 
 		const size_t keyhash = hash(key);
@@ -178,7 +178,7 @@ namespace stl {
 	template <class Key, class Alloc>
 	inline size_t unordered_set<Key, Alloc>::erase(const Key& key) {
 		const iterator it = find(key);
-		if (it.node == 0)
+		if(it.node == 0)
 			return 0;
 
 		erase(it);

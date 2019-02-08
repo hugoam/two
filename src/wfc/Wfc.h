@@ -66,7 +66,7 @@ namespace mud
 
 		vector<double> m_states;
 		vector<string> m_pattern_names; // debug
-		array3d<vector<ubool>> m_wave;
+		vector3d<vector<ubool>> m_wave;
 		vector<uvec3> m_changes;
 
 		bool m_stabilized = true;
@@ -103,14 +103,14 @@ namespace mud
 
 	export_ struct refl_ MUD_WFC_EXPORT WaveTileset : public Tileset
 	{
-		array3d<ubool> m_propagator[6];
+		vector3d<ubool> m_propagator[6];
 
 		constr_ WaveTileset();
 		void initialize();
 		void connect(int left, int right, bool horizontal);
 		void finalize();
 
-		array3d<ubool>& side(SignedAxis axis) { return m_propagator[size_t(axis)]; }
+		vector3d<ubool>& side(SignedAxis axis) { return m_propagator[size_t(axis)]; }
 	};
 
 	export_ struct refl_ MUD_WFC_EXPORT TileWave : public Wave
@@ -153,7 +153,7 @@ namespace mud
 
 	const size_t MAX_COLORS = 1 << (sizeof(ColorIndex) * 8);
 
-	using OverlapGraphics = array3d<vector<ColorIndex>>;
+	using OverlapGraphics = vector3d<vector<ColorIndex>>;
 
 	struct PalettedImage
 	{
@@ -173,7 +173,7 @@ namespace mud
 		Patternset(int n, const PatternPrevalence& hashed_patterns, const ColorPalette& palette, PatternHash foundation_pattern);
 
 		int m_n;
-		array3d<vector<vector<PatternIndex>>> m_propagator;
+		vector3d<vector<vector<PatternIndex>>> m_propagator;
 		vector<ColorPattern> m_patterns;
 		vector<double> m_weights;
 	};

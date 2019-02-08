@@ -163,6 +163,8 @@ namespace mud
 
 		for(Type* type : m.m_types)
 			m_types.push_back(type);
+		for(Alias* alias : m.m_aliases)
+			m_aliases.push_back(alias);
 
 		for(Function* function : m.m_functions)
 			m_functions.push_back(function);
@@ -174,6 +176,8 @@ namespace mud
 
 		for(Type* type : m.m_types)
 			remove(m_types, type);
+		for(Alias* alias : m.m_aliases)
+			remove(m_aliases, alias);
 
 		for(Function* function : m.m_functions)
 			remove(m_functions, function);

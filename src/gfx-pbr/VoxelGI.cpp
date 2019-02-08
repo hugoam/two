@@ -38,10 +38,10 @@ namespace mud
 {
 namespace gfx
 {
-	template <class T_Element, class... Args>
-	inline T_Element& create(Scene& scene, Args&&... args)
+	template <class T, class... Args>
+	inline T& create(Scene& scene, Args&&... args)
 	{
-		return scene.m_pool->pool<T_Element>().construct(static_cast<Args&&>(args)...);
+		return scene.m_pool->pool<T>().construct(static_cast<Args&&>(args)...);
 	}
 
 	GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents)

@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #endif
 #include <geom/Forward.h>
 #include <geom/Shape.h>
@@ -28,7 +28,7 @@ namespace mud
 	{
 	public:
 		constr_ Box();
-		Box(array<vec3> vertices);
+		Box(span<vec3> vertices);
 
 		Box(const Cube& cube);
 

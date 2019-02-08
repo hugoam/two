@@ -191,17 +191,17 @@ namespace mud
 	void meta_class(Widget& parent, Class& cls)
 	{
 		//meta_description(parent, type);
-		if (!cls.m_constructors.empty())
+		if(!cls.m_constructors.empty())
 		{
 			ui::item(parent, meta_styles().label, "constructors:");
 			meta_constructors(parent, cls);
 		}
-		if (!cls.m_methods.empty())
+		if(!cls.m_methods.empty())
 		{
 			ui::item(parent, meta_styles().label, "methods:");
 			meta_methods(parent, cls);
 		}
-		if (!cls.m_members.empty())
+		if(!cls.m_members.empty())
 		{
 			ui::item(parent, meta_styles().label, "fields:");
 			meta_fields(parent, cls);
@@ -217,7 +217,7 @@ namespace mud
 		ui::item(row, meta_styles().type, type.m_name);
 		if(g_enu[type.m_id])
 			meta_enum(self, enu(type));
-		if (g_class[type.m_id])
+		if(g_class[type.m_id])
 			meta_class(self, cls(type));
 	}
 
@@ -260,11 +260,11 @@ namespace mud
 		Section& self = section(parent, ("Type Info : " + string(type.m_name)).c_str());
 		MetaEditState& state = self.state<MetaEditState>(type);
 
-		if (ui::modal_button(self, *self.m_toolbar, "Browse", Browse))
+		if(ui::modal_button(self, *self.m_toolbar, "Browse", Browse))
 		{
 			Widget& modal = ui::modal(parent.parent_modal(), { 400, 800 });
 			bool done = type_browser(*modal.m_body, state.m_type);
-			if (done || !modal.m_open)
+			if(done || !modal.m_open)
 				self.m_switch &= ~Browse;
 		}
 

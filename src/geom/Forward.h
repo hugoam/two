@@ -66,3 +66,11 @@ namespace mud
     struct DispatchDrawProcShape;
     class IcoSphere;
 }
+
+#ifdef MUD_META_GENERATOR // #ifndef USE_STL
+#include <stl/vector.h>
+namespace stl
+{
+	export_ extern template class refl_ seque_ vector<mud::Circle>;
+}
+#endif

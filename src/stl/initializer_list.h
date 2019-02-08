@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef ENFORCE_STL_INITIALIZER_LIST
+#if 1 //def ENFORCE_STL_INITIALIZER_LIST
 #include <initializer_list>
 #else
 #include <stl/stddef.h>
@@ -9,8 +9,8 @@ namespace std
 	template <class T>
 	class initializer_list
 	{
-		const T* ptr_;
-		size_t size_;
+		const T* ptr_ = nullptr;
+		size_t size_ = 0;
 
 		// GCC/clang
 		constexpr initializer_list(const T* ptr, size_t size)

@@ -23,11 +23,14 @@ namespace mud
 		enum_array<PassType, vector<PassJob>> m_jobs;
 	};
 
-	export_ class MUD_GFX_EXPORT Pipeline : public NonCopy
+	export_ class MUD_GFX_EXPORT Pipeline
 	{
 	public:
 		Pipeline(GfxSystem& gfx_system);
 		~Pipeline();
+
+		Pipeline(const Pipeline& other) = delete;
+		Pipeline& operator=(const Pipeline& other) = delete;
 
 		using GatherFunc = void(*)(Scene&, Render&);
 		GatherFunc m_gather_func;
@@ -38,7 +41,7 @@ namespace mud
 		template <class T_Block, class... Args>
 		T_Block& add_block(Args&&... args) { m_gfx_blocks.push_back(make_unique<T_Block>(static_cast<Args&&>(args)...)); return as<T_Block>(*m_gfx_blocks.back()); }
 
-		array<GfxBlock*> pass_blocks(PassType pass);
+		span<GfxBlock*> pass_blocks(PassType pass);
 
 		vector<unique<GfxBlock>> m_gfx_blocks;
 

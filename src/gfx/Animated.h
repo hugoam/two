@@ -26,7 +26,7 @@ namespace mud
 	{
 		AnimationPlay() {}
 		AnimationPlay(const Animation& animation, bool loop, float speed, bool transient, Skeleton* skeleton = nullptr);
-		
+
 		void step(float delta, float speed);
 		void update(float time, float delta, float interp);
 

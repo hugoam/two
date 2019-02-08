@@ -7,6 +7,8 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <stl/hash_base.hpp>
+#include <math/Vec.hpp>
 #include <infra/Reverse.h>
 #include <ui/Style/Style.h>
 #include <ui/Style/Layout.h>

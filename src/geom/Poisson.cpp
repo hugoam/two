@@ -44,7 +44,7 @@ namespace mud
 		float x = rr * sin(rt) + point.position.x;
 		float y = rr * cos(rt) + point.position.y;
 
-		return Point(vec3(x, y, 0.f), radius);
+		return { vec3(x, y, 0.f), radius };
 	}
 
 	bool Poisson::checkSpace(const Point& point)

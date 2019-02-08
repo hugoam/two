@@ -1,8 +1,9 @@
-#include <mud/frame.h>
+//#include <mud/frame.h>
+#include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 #include <refl/Api.h>
 #include <uio/Api.h>
-#include <meta/gfx/Module.h>
+#include <meta/gfx.meta.h>
 
 #include <03_materials/03_materials.h>
 
@@ -133,7 +134,7 @@ vector<Material*> create_roughness_metallic_materials(GfxSystem& gfx_system)
 	return materials;
 }
 
-void material_spheres(Gnode& parent, array<Material*> materials)
+void material_spheres(Gnode& parent, span<Material*> materials)
 {
 	float spacing = 2.f;
 	float center = (materials.size() - 1) * spacing / 2.f;

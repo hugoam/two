@@ -1,13 +1,13 @@
-#include <infra/Cpp20.h>
-
+#ifndef USE_STL
 #ifdef MUD_MODULES
 module mud.jobs;
 #else
 #include <stl/vector.hpp>
-#include <noise/Extern.h>
+#include <noise/Api.h>
 #endif
 
 namespace mud
 {
-	template struct MUD_NOISE_EXPORT array3d<float>;
+	template struct MUD_NOISE_EXPORT vector3d<float>;
 }
+#endif

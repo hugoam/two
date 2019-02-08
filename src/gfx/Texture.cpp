@@ -210,7 +210,7 @@ namespace mud
 		set_texture_info(texture, texture_info);
 	}
 
-	void load_texture_mem(GfxSystem& gfx_system, Texture& texture, array<uint8_t> data)
+	void load_texture_mem(GfxSystem& gfx_system, Texture& texture, span<uint8_t> data)
 	{
 		bgfx::TextureInfo texture_info;
 		texture.m_texture = load_bgfx_texture(gfx_system.allocator(), texture.m_name.c_str(), (void*)data.m_pointer, data.m_count, 0U, &texture_info, true);
@@ -218,7 +218,7 @@ namespace mud
 		set_texture_info(texture, texture_info);
 	}
 
-	void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, array<uint8_t> data)
+	void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data)
 	{
 		const bgfx::Memory* memory = bgfx::alloc(uint32_t(sizeof(uint8_t) * data.m_count));
 		memcpy(memory->data, data.m_pointer, data.m_count);

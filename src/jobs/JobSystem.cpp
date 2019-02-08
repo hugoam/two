@@ -1,10 +1,11 @@
-#define ENFORCE_STL_INITIALIZER_LIST
+#ifndef USE_STL
 #include <stl/vector.hpp>
+#endif
 #include <stl/algorithm.h>
 #include <infra/AlignedAlloc.h>
 #include <infra/Arena.h>
 #include <infra/Thread.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <jobs/JobSystem.h>
 #include <jobs/JobQueue.h>
 #include <jobs/Job.h>
@@ -141,7 +142,7 @@ namespace mud
 		std::atomic<uint32_t> m_active_jobs = { 0 };
 		Arena<Job, AtomicFreeList> m_job_pool;
 
-#ifdef MUD_NO_STL
+#ifndef USE_STL
 		template <class T>
 		using aligned_vector = vector<T, TinystlAlignedAllocator<T>>;
 #else

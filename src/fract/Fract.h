@@ -4,7 +4,6 @@
 #include <stl/vector.h>
 #include <stl/map.h>
 #include <stl/memory.h>
-#include <ecs/Proto.h>
 #include <math/Colour.h>
 #include <math/Image256.h>
 #include <math/Vec.h>

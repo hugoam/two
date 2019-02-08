@@ -1,26 +1,36 @@
 #pragma once
 
 #include <infra/Config.h>
+#include <stl/base.h>
 
 #ifndef MUD_INFRA_EXPORT
 #define MUD_INFRA_EXPORT MUD_IMPORT
 #endif
 
+#ifdef USE_STL
+namespace stl
+{
+	template <class T> struct span;
+	template <class T, size_t Size> struct array;
+}
+#else
+#include <stl/decls.h>
+#endif
+
 namespace mud
 {
-	using uchar = unsigned char;
-	using ushort = unsigned short;
-	using uint = unsigned int;
-	using ulong = unsigned long;
-	using ullong = unsigned long long;
-	using llong = long long;
-	using ddouble = long double;
+	using stl::array;
+	using stl::span;
 
-    template <class T> struct array;
-    
     struct Filepath;
     struct swallow;
     class NonCopy;
     class Movabl;
 }
 
+#ifdef MUD_META_GENERATOR // #ifdef MUD_META_GENERATOR // #ifndef USE_STL
+#include <stl/decls.h>
+namespace stl
+{
+}
+#endif

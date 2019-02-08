@@ -17,9 +17,19 @@ namespace mud
     class Ref;
     class None;
     class Any;
-    class Any;
     class Var;
     class DoubleDispatch;
     class Indexer;
     class Index;
+	class Prototype;
 }
+
+#ifdef MUD_META_GENERATOR
+#include <stl/string.h>
+#include <stl/vector.h>
+namespace stl
+{
+	export_ extern template class refl_ seque_ vector<string>;
+	export_ extern template class refl_ seque_ vector<mud::Ref>;
+}
+#endif

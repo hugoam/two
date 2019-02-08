@@ -15,14 +15,4 @@ namespace mud
 		NonCopy(const NonCopy&) = delete;
 		NonCopy& operator=(const NonCopy&) = delete;
 	};
-
-	export_ class MUD_INFRA_EXPORT Movabl
-	{
-	public:
-		Movabl() {}
-		Movabl(const Movabl&) = delete;
-		Movabl& operator=(const NonCopy&) = delete;
-		Movabl(Movabl&& other) = default;
-		Movabl& operator=(Movabl&& other) = default;
-	};
 }

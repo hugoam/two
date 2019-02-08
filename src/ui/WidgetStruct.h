@@ -10,7 +10,7 @@
 #ifdef _MSC_VER
 #include <tree/Graph.hpp>
 #endif
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <ctx/ControlNode.h>
 #include <ctx/InputEvent.h>
 #endif
@@ -49,7 +49,7 @@ namespace mud
 
 		meth_ void toggle_state(WidgetState state);
 
-		meth_ void disable_state(WidgetState state) { if (m_state & state) this->toggle_state(state); }
+		meth_ void disable_state(WidgetState state) { if(m_state & state) this->toggle_state(state); }
 		meth_ void set_state(WidgetState state, bool enabled) { enabled ? enable_state(state) : disable_state(state); }
 		meth_ void enable_state(WidgetState state) { if(!(m_state & state)) this->toggle_state(state); }
 

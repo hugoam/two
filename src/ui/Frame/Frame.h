@@ -6,7 +6,6 @@
 
 #ifndef MUD_MODULES
 #include <stl/memory.h>
-#include <infra/NonCopy.h>
 #include <type/Unique.h>
 #endif
 #include <ui/Forward.h>
@@ -29,7 +28,7 @@ namespace mud
 		DIRTY_FORCE_LAYOUT	// The frame layout has changed
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Frame : public NonCopy, public UiRect
+	export_ class refl_ MUD_UI_EXPORT Frame : public UiRect
 	{
 	public:
 		Frame(Frame* parent, Widget& widget);

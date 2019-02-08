@@ -31,3 +31,10 @@ namespace mud
     class ScriptEditor;
     class DispatchInput;
 }
+
+#ifdef MUD_META_GENERATOR
+namespace stl
+{
+	export_ extern template class refl_ seque_ vector<mud::Var>;
+}
+#endif

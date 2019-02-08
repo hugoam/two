@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #include <gfx/Cpp20.h>
 
 #include <bx/timer.h>
@@ -16,7 +15,7 @@ module mud.gfx;
 #else
 #include <stl/string.h>
 #include <stl/map.h>
-#include <pool/ObjectPool.h>
+#include <pool/ObjectPool.hpp>
 #include <infra/ToString.h>
 #include <infra/File.h>
 #include <math/Image256.h>
@@ -234,8 +233,8 @@ namespace mud
 		{
 			ZoneScopedNC("programs", tracy::Color::Cyan);
 
-			for(auto& name_program : m_impl->m_programs->m_assets)
-				name_program.second->update(*this);
+			for(Program* program : m_impl->m_programs->m_vector)
+				program->update(*this);
 		}
 
 		{
@@ -321,7 +320,7 @@ namespace mud
 		return { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 	}
 
-	LocatedFile GfxSystem::locate_file(const string& file, array<string> extensions)
+	LocatedFile GfxSystem::locate_file(const string& file, span<string> extensions)
 	{
 		for(const string& path : m_impl->m_resource_paths)
 			for(size_t i = 0; i < extensions.size(); ++i)

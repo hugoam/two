@@ -19,7 +19,7 @@ module mud.tool;
 
 namespace mud
 {
-	ScaleAction::ScaleAction(array<Transform*> targets)
+	ScaleAction::ScaleAction(span<Transform*> targets)
 		: TransformAction(targets)
 		, m_scale_offset(Zero3)
 	{}
@@ -123,7 +123,7 @@ namespace mud
 		return make_unique<ScaleUniformGizmo>(*this);
 	}
 
-	object<TransformAction> ScaleTool::create_action(array<Transform*> targets)
+	object<TransformAction> ScaleTool::create_action(span<Transform*> targets)
 	{
 		return oconstruct<ScaleAction>(targets);
 	}

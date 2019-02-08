@@ -68,7 +68,7 @@ namespace mud
 	{
 		if(m_query) return;
 		Ray ray = viewport.ray(position);
-		float fov = viewport.m_camera->m_fov / m_size.y;// / float(m_context.m_target->m_size.y);
+		float fov = viewport.m_camera->m_fov / m_size.y;// / float(m_target->m_size.y);
 		m_query = { uvec4{ uvec2(position), uvec2(1U) }, ray, fov, viewport.m_camera->m_aspect, mask };
 		m_query.m_callback = callback;
 	}
@@ -151,7 +151,7 @@ namespace mud
 			map<uint32_t, uint32_t> counts; 
 			uint32_t maxAmount = 0;
 
-			//array<uint32_t> data = { m_data.data(), rect_w(query.m_rect) * rect_h(query.m_rect) };
+			//span<uint32_t> data = { m_data.data(), rect_w(query.m_rect) * rect_h(query.m_rect) };
 			//for(const uint32_t& id : data)
 			for(size_t x = 0; x < rect_w(query.m_rect); ++x)
 				for(size_t y = 0; y < rect_h(query.m_rect); ++y)

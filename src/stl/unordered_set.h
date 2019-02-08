@@ -2,6 +2,10 @@
 
 #ifdef USE_STL
 #include <unordered_set>
+namespace stl
+{
+	using std::unordered_set;
+}
 #else
 #include <stl/allocator.h>
 #include <stl/buffer.h>

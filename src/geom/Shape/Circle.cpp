@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.geom;
 #else
+#include <geom/Geom.hpp>
 #include <math/Axes.h>
 #include <geom/Shape/Circle.h>
 #include <geom/Shape/Line.h>
@@ -64,7 +65,7 @@ namespace mud
 	{
 		uint16_t subdiv = circle_vertices(shape, circle.m_center, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), true, writer);
 
-		for (uint16_t i = 0; i < subdiv; i++)
+		for(uint16_t i = 0; i < subdiv; i++)
 			writer.line(i, i + 1 < subdiv ? i + 1 : 0);
 	}
 
@@ -79,7 +80,7 @@ namespace mud
 	{
 		uint16_t subdiv = circle_vertices(shape, circle.m_center, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), false, writer);
 
-		for (uint16_t i = 0; i < subdiv; i++)
+		for(uint16_t i = 0; i < subdiv; i++)
 			writer.tri(i + 1 < subdiv ? i + 1 : 0, i,  subdiv);
 	}
 
@@ -95,7 +96,7 @@ namespace mud
 	{
 		uint16_t subdiv = circle_vertices(shape, ellipsis.m_center, ellipsis.m_radius, to_signed_axis(ellipsis.m_axis, true), true, writer);
 
-		for (uint16_t i = 0; i < subdiv; i++)
+		for(uint16_t i = 0; i < subdiv; i++)
 			writer.line(i, i + 1 < subdiv ? i + 1 : 0);
 	}
 
@@ -110,7 +111,7 @@ namespace mud
 	{
 		uint16_t subdiv = circle_vertices(shape, ellipsis.m_center, ellipsis.m_radius, to_signed_axis(ellipsis.m_axis, true), false, writer);
 
-		for (uint16_t i = 0; i < subdiv; i++)
+		for(uint16_t i = 0; i < subdiv; i++)
 			writer.tri(i + 1 < subdiv ? i + 1 : 0, i,  subdiv);
 	}
 

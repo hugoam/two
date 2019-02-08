@@ -5,15 +5,14 @@
 #pragma once
 
 #include <infra/Config.h>
-#include <infra/Base.h>
+#include <stl/base.h>
 #include <infra/StringOps.h>
 
 namespace mud
 {
 	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, bool& val);
-	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, float& val);
-	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, double& val);
 	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, char& val);
+	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, schar& val);
 	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, short& val);
 	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, int& val);
 	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, long& val);
@@ -23,4 +22,7 @@ namespace mud
 	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, uint& val);
 	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, ulong& val);
 	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, ullong& val);
+	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, float& val);
+	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, double& val);
+	export_ template <> MUD_INFRA_EXPORT void to_value(const string& str, ldouble& val);
 }

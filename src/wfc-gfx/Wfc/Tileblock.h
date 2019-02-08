@@ -1,14 +1,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/map.h>
 #include <geom/Aabb.h>
 #include <wfc/Wfc.h>
 #endif
 #include <wfc-gfx/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <stl/map.h>
-#endif
 
 namespace mud
 {
@@ -36,8 +33,8 @@ namespace mud
 		size_t m_wave_updated = 0;
 		size_t m_wave_solved = 0;
 
-		array3d<uint16_t> m_tiles;
-		array3d<uint16_t> m_entropy;
+		vector3d<uint16_t> m_tiles;
+		vector3d<uint16_t> m_entropy;
 
 		vector<TileModel> m_tile_models;
 

@@ -50,16 +50,10 @@ namespace mud
 		return nullptr;
 	}
 
+	Skin::Skin() {}
 	Skin::Skin(Skeleton& skeleton, int num_joints)
 		: m_skeleton(&skeleton)
-	{
-		int height = num_joints / SKELETON_TEXTURE_SIZE;
-		if(num_joints % SKELETON_TEXTURE_SIZE)
-			height++;
-
-		m_texture = bgfx::createTexture2D(SKELETON_TEXTURE_SIZE, uint16_t(height * 4), false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
-		//m_texture_data.resize(SKELETON_TEXTURE_SIZE * height * 4 * 4);
-	}
+	{}
 
 	Skin::Skin(const Skin& copy, Skeleton& skeleton)
 		: Skin(skeleton, int(copy.m_joints.size()))
@@ -94,6 +88,9 @@ namespace mud
 		if(m_joints.size() % SKELETON_TEXTURE_SIZE)
 			height++;
 
+		if(!bgfx::isValid(m_texture))
+			m_texture = bgfx::createTexture2D(SKELETON_TEXTURE_SIZE, uint16_t(height * 4), false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
+		
 		m_memory = bgfx::alloc(SKELETON_TEXTURE_SIZE * height * 4 * 4 * sizeof(float));
 
 		int index = 0;
@@ -162,7 +159,7 @@ namespace mud
 
 	void debug_draw_skeleton(Gnode& parent, const vec3& position, const quat& rotation, Rig& rig)
 	{
-		for (Bone& bone : rig.m_skeleton.m_bones)
+		for(Bone& bone : rig.m_skeleton.m_bones)
 		{
 			mat4 pose = bxrotation(rotation) * fix_bone_pose(bone);
 			Gnode& node = gfx::node(parent, {}, position + vec3(pose * vec4(Zero3, 1.f)));

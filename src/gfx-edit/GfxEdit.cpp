@@ -37,6 +37,7 @@ module mud.gfx-edit;
 #include <gfx/Pipeline.h>
 #include <gfx/Froxel.h>
 #include <gfx/Material.h>
+#include <gfx/Particles.h>
 #include <gfx/Frustum.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
@@ -190,10 +191,10 @@ namespace mud
 		return DispatchAssetViewer::me.dispatch(asset, parent);
 	}
 
-	Widget& asset_item(Widget& parent, cstring icon, cstring name, Ref asset)
+	Widget& asset_item(Widget& parent, const string& icon, const string& name, Ref asset)
 	{
 		Widget& self = ui::element(parent, asset);
-		ui::multi_item(self, { icon, name });
+		ui::multi_item(self, { icon.c_str(), name.c_str() });
 		//if(self.selected())
 		//	asset_viewer(self, asset);
 		if(Widget* tooltip = ui::hoverbox(self, 0.f))
@@ -201,7 +202,7 @@ namespace mud
 		return self;
 	}
 
-	Widget& asset_element(ui::Sequence& sequence, cstring icon, cstring name, Ref asset)
+	Widget& asset_element(ui::Sequence& sequence, const string& icon, const string& name, Ref asset)
 	{
 		Widget& self = asset_item(sequence.m_body ? *sequence.m_body : sequence, icon, name, asset);
 		ui::multiselect_logic(self, asset, *sequence.m_selection);
@@ -230,29 +231,29 @@ namespace mud
 		sequence.m_selection = &selection;
 
 		if(materials)
-			for(auto& name_material : gfx_system.materials().m_assets)
-				if(!name_material.second->m_builtin)
+			for(Material* material : gfx_system.materials().m_vector)
+				if(!material->m_builtin)
 				{
-					asset_element(sequence, "(material)", name_material.first.c_str(), Ref(name_material.second.get()));
+					asset_element(sequence, "(material)", material->m_name, Ref(material));
 				}
 
 		if(programs)
-			for(auto& name_program : gfx_system.programs().m_assets)
+			for(Program* program : gfx_system.programs().m_vector)
 			{
-				Widget& element = ui::element(sequence, Ref(name_program.second.get()));
-				ui::multi_item(element, { "(program)", name_program.first.c_str() });
+				Widget& element = ui::element(sequence, Ref(program));
+				ui::multi_item(element, { "(program)", program->name() });
 			}
 
 		if(models)
-			for(auto& name_model : gfx_system.models().m_assets)
+			for(Model* model : gfx_system.models().m_vector)
 			{
-				asset_element(sequence, "(model)", name_model.first.c_str(), Ref(name_model.second.get()));
+				asset_element(sequence, "(model)", model->m_name, Ref(model));
 			}
 
 		if(particles)
-			for(auto& name_particles : gfx_system.particles().m_assets)
+			for(ParticleFlow* particles : gfx_system.particles().m_vector)
 			{
-				asset_element(sequence, "(particles)", name_particles.first.c_str(), Ref(name_particles.second.get()));
+				asset_element(sequence, "(particles)", particles->m_name, Ref(particles));
 			}
 	}
 

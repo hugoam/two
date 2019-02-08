@@ -5,7 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <type/Type.h>
 #include <type/Ref.h>
 #include <refl/Forward.h>
@@ -18,11 +18,11 @@ namespace mud
 
 	export_ using FunctionPointer = void* (*)();
 
-	export_ using ConstructorFunc = void(*)(void*, array<void*>);
+	export_ using ConstructorFunc = void(*)(void*, span<void*>);
 	export_ using CopyConstructorFunc = void(*)(void*, void*);
 	export_ using DestructorFunc = void(*)(void*);
-	export_ using MethodFunc = void(*)(void*, array<void*>, void*&);
-	export_ using FunctionFunc = void(*)(array<void*>, void*&);
+	export_ using MethodFunc = void(*)(void*, span<void*>, void*&);
+	export_ using FunctionFunc = void(*)(span<void*>, void*&);
 
 	export_ struct refl_ MUD_REFL_EXPORT QualType
 	{
@@ -43,7 +43,6 @@ namespace mud
 		bool operator!=(const QualType& other) const;
 	};
 
-	export_ extern Type* g_void;
 	export_ extern QualType g_qvoid;
 
 	export_ class refl_ MUD_REFL_EXPORT Param
@@ -89,15 +88,16 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Callable
 	{
 	public:
+		Callable();
 		Callable(cstring name, const vector<Param>& params = {}, QualType return_type = g_qvoid);
 		virtual ~Callable() {}
 
 		void setup();
 
-		bool validate(array<Var> args, size_t offset = 0) const;
+		bool validate(span<Var> args, size_t offset = 0) const;
 
-		virtual void operator()(array<void*> args) const;
-		virtual void operator()(array<void*> args, void*& result) const;
+		virtual void operator()(span<void*> args) const;
+		virtual void operator()(span<void*> args, void*& result) const;
 
 		uint32_t m_index;
 		cstring m_name;
@@ -109,7 +109,7 @@ namespace mud
 
 		//vector<Var> m_args;
 
-		//bool checkArgs(const vector<Var>& args) const; // { for (const Param& param : m_params) if (!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
+		//bool checkArgs(const vector<Var>& args) const; // { for(const Param& param : m_params) if(!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
 	};
 
 	export_ class refl_ MUD_REFL_EXPORT Function final : public Callable
@@ -118,7 +118,7 @@ namespace mud
 		Function();
 		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, const vector<Param>& params = {}, QualType return_type = g_qvoid);
 
-		virtual void operator()(array<void*> args, void*& result) const; // { return m_call(args, result); }
+		virtual void operator()(span<void*> args, void*& result) const;
 
 		Namespace* m_namespace;
 		FunctionPointer m_identity;
@@ -142,7 +142,7 @@ namespace mud
 		Method();
 		Method(Type& object_type, cstring name, Address address, MethodFunc method, const vector<Param>& params = {}, QualType return_type = g_qvoid);
 
-		virtual void operator()(array<void*> args, void*& result) const; // { return m_call(args[0], array<void*>{ args, 1 }, result); }
+		virtual void operator()(span<void*> args, void*& result) const;
 
 		Type* m_object_type;
 		Address m_address;
@@ -163,7 +163,7 @@ namespace mud
 		Constructor(Type& object_type, ConstructorFunc func, const vector<Param>& params = {});
 		Constructor(Type& object_type, cstring name, ConstructorFunc func, const vector<Param>& params = {});
 
-		virtual void operator()(array<void*> args, void*& result) const; // { UNUSED(result); m_call(args[0], array<void*>{ args, 1 }); }
+		virtual void operator()(span<void*> args, void*& result) const;
 		
 		size_t m_index;
 		Type* m_object_type;
@@ -176,7 +176,7 @@ namespace mud
 		CopyConstructor();
 		CopyConstructor(Type& object_type, CopyConstructorFunc func);
 
-		virtual void operator()(array<void*> args, void*& result) const; // { UNUSED(result); m_call(args[0], args[1]); }
+		virtual void operator()(span<void*> args, void*& result) const;
 
 		Type* m_object_type;
 		CopyConstructorFunc m_call;
@@ -188,7 +188,7 @@ namespace mud
 		Destructor();
 		Destructor(Type& object_type, DestructorFunc func);
 
-		virtual void operator()(array<void*> args, void*& result) const; // { UNUSED(result); m_call(args[0]); }
+		virtual void operator()(span<void*> args, void*& result) const;
 
 		Type* m_object_type;
 		DestructorFunc m_call;

@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/Array.h>
+#include <stl/span.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Sheet.h>
@@ -31,6 +31,6 @@ namespace ui
 
 	export_ MUD_UI_EXPORT func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, Dock& dock);
 
-	export_ MUD_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, array<uint16_t> dockid = {}, float span = 0.f);
+	export_ MUD_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, span<uint16_t> dockid = {}, float span = 0.f);
 }
 }

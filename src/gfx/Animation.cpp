@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -30,6 +29,7 @@ namespace mud
 		: m_name(name)
 	{}
 	
+	AnimationTrack::AnimationTrack() {}
 	AnimationTrack::AnimationTrack(Animation& animation, size_t node, cstring node_name, AnimationTarget target)
 		: m_animation(&animation), m_node(node), m_node_name(node_name), m_target(target), m_value_type(s_target_types[size_t(target)])
 	{}

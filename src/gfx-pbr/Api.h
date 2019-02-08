@@ -1,3 +1,5 @@
+#include <gfx/Node3.h>
+#include <gfx/Graph.h>
 #include <gfx-pbr/Forward.h>
 #include <gfx-pbr/Lighting.h>
 #include <gfx-pbr/Lightmap.h>

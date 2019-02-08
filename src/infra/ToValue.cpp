@@ -12,11 +12,10 @@ module mud.infra;
 
 namespace mud
 {
-#ifdef MUD_NO_STL
+#ifndef USE_STL
 	template <> inline void to_value(const string& str, bool& val) { val = atoi(str.c_str()) != 0; } //str == "true" ? true : false; }
-	template <> inline void to_value(const string& str, float& val) { val = float(atof(str.c_str())); }
-	template <> inline void to_value(const string& str, double& val) { val = atof(str.c_str()); } //sscanf(str.c_str(), "%lf", &val); }
 	template <> inline void to_value(const string& str, char& val) { val = char(atoi(str.c_str())); }
+	template <> inline void to_value(const string& str, schar& val) { val = schar(atoi(str.c_str())); }
 	template <> inline void to_value(const string& str, short& val) { val = short(atoi(str.c_str())); }
 	template <> inline void to_value(const string& str, int& val) { val = atoi(str.c_str()); }
 	template <> inline void to_value(const string& str, long& val) { val = atoi(str.c_str()); }
@@ -26,11 +25,13 @@ namespace mud
 	template <> inline void to_value(const string& str, uint& val) { val = atoi(str.c_str()); }
 	template <> inline void to_value(const string& str, ulong& val) { val = atoi(str.c_str()); }
 	template <> inline void to_value(const string& str, ullong& val) { val = atoi(str.c_str()); }
+	template <> inline void to_value(const string& str, float& val) { val = float(atof(str.c_str())); }
+	template <> inline void to_value(const string& str, double& val) { val = atof(str.c_str()); } //sscanf(str.c_str(), "%lf", &val); }
+	template <> inline void to_value(const string& str, ldouble& val) { val = atof(str.c_str()); }
 #else
 	template <> inline void to_value(const string& str, bool& val) { val = std::stoi(str) != 0; } //str == "true" ? true : false; }
-	template <> inline void to_value(const string& str, float& val) { val = std::stof(str); }
-	template <> inline void to_value(const string& str, double& val) { val = std::stod(str); }
 	template <> inline void to_value(const string& str, char& val) { val = char(std::stoi(str)); }
+	template <> inline void to_value(const string& str, schar& val) { val = schar(std::stoi(str)); }
 	template <> inline void to_value(const string& str, short& val) { val = short(std::stoi(str)); }
 	template <> inline void to_value(const string& str, int& val) { val = std::stoi(str); }
 	template <> inline void to_value(const string& str, long& val) { val = std::stoi(str); }
@@ -40,5 +41,8 @@ namespace mud
 	template <> inline void to_value(const string& str, uint& val) { val = std::stoi(str); }
 	template <> inline void to_value(const string& str, ulong& val) { val = std::stoi(str); }
 	template <> inline void to_value(const string& str, ullong& val) { val = std::stoi(str); }
+	template <> inline void to_value(const string& str, float& val) { val = std::stof(str); }
+	template <> inline void to_value(const string& str, double& val) { val = std::stod(str); }
+	template <> inline void to_value(const string& str, ldouble& val) { val = std::stod(str); }
 #endif
 }

@@ -28,6 +28,7 @@ namespace mud
     export_ template <> MUD_CTX_EXPORT Type& type<mud::Key>();
     export_ template <> MUD_CTX_EXPORT Type& type<mud::MouseButtonCode>();
     
+    
     export_ template <> MUD_CTX_EXPORT Type& type<mud::Context>();
     export_ template <> MUD_CTX_EXPORT Type& type<mud::ControlNode>();
     export_ template <> MUD_CTX_EXPORT Type& type<mud::InputEvent>();
@@ -36,13 +37,4 @@ namespace mud
     export_ template <> MUD_CTX_EXPORT Type& type<mud::RenderSystem>();
     export_ template <> MUD_CTX_EXPORT Type& type<mud::KeyEvent>();
     export_ template <> MUD_CTX_EXPORT Type& type<mud::MouseEvent>();
-    
-    export_ template <> MUD_CTX_EXPORT Type& type<vector<mud::Context*>>();
-    export_ template <> MUD_CTX_EXPORT Type& type<vector<mud::ControlNode*>>();
-    export_ template <> MUD_CTX_EXPORT Type& type<vector<mud::InputEvent*>>();
-    export_ template <> MUD_CTX_EXPORT Type& type<vector<mud::Keyboard*>>();
-    export_ template <> MUD_CTX_EXPORT Type& type<vector<mud::Mouse*>>();
-    export_ template <> MUD_CTX_EXPORT Type& type<vector<mud::RenderSystem*>>();
-    export_ template <> MUD_CTX_EXPORT Type& type<vector<mud::KeyEvent*>>();
-    export_ template <> MUD_CTX_EXPORT Type& type<vector<mud::MouseEvent*>>();
 }

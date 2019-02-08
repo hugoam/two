@@ -8,8 +8,8 @@
 module mud.proto;
 #else
 #include <type/Indexer.h>
+#include <type/Proto.h>
 #include <ecs/Complex.h>
-#include <ecs/Proto.h>
 #endif
 
 namespace mud
@@ -34,7 +34,7 @@ namespace mud
 
 	void Complex::setup(const vector<Ref>& parts)
 	{
-		for (Ref ref : parts)
+		for(Ref ref : parts)
 			this->add_part(ref);
 	}
 }

@@ -5,7 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <refl/Forward.h>
 
 namespace mud
@@ -13,14 +13,14 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Enum
 	{
 	public:
-		Enum(Type& type, bool scoped, array<cstring> names, array<uint32_t> values, array<void*> vars);
+		Enum(Type& type, bool scoped, span<cstring> names, span<uint32_t> values, span<void*> vars);
 
 		Type& m_type;
 
 		bool m_scoped = true;
-		array<cstring> m_names;
-		array<uint32_t> m_values;
-		array<void*> m_vars;
+		span<cstring> m_names;
+		span<uint32_t> m_values;
+		span<void*> m_vars;
 		vector<cstring> m_reverse;
 
 		uint32_t value(cstring name);

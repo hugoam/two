@@ -5,6 +5,7 @@
 #include <ui/Dock.h>
 #include <ui/Forward.h>
 #include <ui/Input.h>
+#include <ui/Input.hpp>
 #include <ui/Node.h>
 #include <ui/Scrollbar.h>
 #include <ui/ScrollSheet.h>

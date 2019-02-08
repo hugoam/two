@@ -87,7 +87,8 @@ namespace mud
 		read_text_file(filename, [&](string line)
 		{
 			string tokens[5];
-			split(line.c_str(), " ", { tokens, 5 });
+			line = replace(line, "\t", "");
+			split(line.c_str(), " ", tokens);
 
 			const string& command = tokens[0];
 
@@ -322,7 +323,7 @@ namespace mud
 				line.pop_back();
 
 			string tokens[5];
-			split(line.c_str(), " ", { tokens, 5 });
+			split(line.c_str(), " ", tokens);
 
 			const string& command = tokens[0];
 

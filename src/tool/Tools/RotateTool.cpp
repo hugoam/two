@@ -19,7 +19,7 @@ module mud.tool;
 
 namespace mud
 {
-	RotateAction::RotateAction(array<Transform*> targets, const vec3& axis)
+	RotateAction::RotateAction(span<Transform*> targets, const vec3& axis)
 		: TransformAction(targets)
 		, m_axis(axis)
 		, m_angle(0.f)
@@ -72,7 +72,7 @@ namespace mud
 		return make_unique<RotationGizmo>(*this, axis, hue);
 	}
 
-	object<TransformAction> RotateTool::create_action(array<Transform*> targets)
+	object<TransformAction> RotateTool::create_action(span<Transform*> targets)
 	{
 		vec3 axis = m_current == &*m_gizmos[0] ? -X3
 				  : m_current == &*m_gizmos[1] ?  Y3

@@ -1,9 +1,12 @@
-#include <mud/frame.h>
+//#include <mud/frame.h>
+#include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 
 #include <08_sky/08_sky.h>
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
+
+#include <stl/vector.hpp>
 
 #include <map>
 
@@ -296,7 +299,7 @@ void ProceduralSky::init(GfxSystem& gfx_system, ivec2 vertex_count)
 
 	m_preventBanding = false;
 
-	ScreenPosVertex* vertices = (ScreenPosVertex*)BX_ALLOC(&gfx_system.allocator(), vertex_count.y * vertex_count.x * sizeof(ScreenPosVertex));
+	vector<ScreenPosVertex> vertices = vector<ScreenPosVertex>(vertex_count.y * vertex_count.x);
 
 	for(int i = 0; i < vertex_count.y; i++)
 	{
@@ -308,7 +311,7 @@ void ProceduralSky::init(GfxSystem& gfx_system, ivec2 vertex_count)
 		}
 	}
 
-	uint16_t* indices = (uint16_t*)BX_ALLOC(&gfx_system.allocator(), (vertex_count.y - 1) * (vertex_count.x - 1) * 6 * sizeof(uint16_t));
+	vector<uint16_t> indices = vector<uint16_t>((vertex_count.y - 1) * (vertex_count.x - 1) * 6);
 
 	int k = 0;
 	for(int i = 0; i < vertex_count.y - 1; i++)
@@ -325,11 +328,8 @@ void ProceduralSky::init(GfxSystem& gfx_system, ivec2 vertex_count)
 		}
 	}
 
-	m_vbh = bgfx::createVertexBuffer(bgfx::copy(vertices, sizeof(ScreenPosVertex) * vertex_count.y * vertex_count.x), ScreenPosVertex::ms_decl);
-	m_ibh = bgfx::createIndexBuffer(bgfx::copy(indices, sizeof(uint16_t) * k));
-
-	BX_FREE(&gfx_system.allocator(), indices);
-	BX_FREE(&gfx_system.allocator(), vertices);
+	m_vbh = bgfx::createVertexBuffer(bgfx::copy(vertices.data(), sizeof(ScreenPosVertex) * vertex_count.y * vertex_count.x), ScreenPosVertex::ms_decl);
+	m_ibh = bgfx::createIndexBuffer(bgfx::copy(indices.data(), sizeof(uint16_t) * k));
 }
 
 void ProceduralSky::shutdown()
@@ -430,10 +430,10 @@ void example_options(Widget& parent, PerezSky& sky)
 	//Widget& body = *ui::window(parent, "Procedural Sky").m_body;
 	//Widget& body = ui::columns(parent, {});
 	Widget& body = ui::table(parent, { "field", "value" }, {});
-	ui::slider_field<float>(body, "Time scale", { sky.m_time_scale, StatDef<float>(0.0f, 1.0f, 0.01f) });
-	ui::slider_field<float>(body, "Time", { sky.m_time, StatDef<float>(0.0f, 24.0f) });
-	ui::slider_field<float>(body, "Latitude", { sky.m_sun.m_latitude, StatDef<float>(-90.0f, 90.0f) });
-	ui::slider_field<float>(body, "Turbidity", { sky.m_turbidity, StatDef<float>(1.9f, 10.0f, 0.1f) });
+	ui::slider_field<float>(body, "Time scale", { sky.m_time_scale, { 0.0f, 1.0f, 0.01f } });
+	ui::slider_field<float>(body, "Time", { sky.m_time, { 0.0f, 24.0f } });
+	ui::slider_field<float>(body, "Latitude", { sky.m_sun.m_latitude, { -90.0f, 90.0f } });
+	ui::slider_field<float>(body, "Turbidity", { sky.m_turbidity, { 1.9f, 10.0f, 0.1f } });
 	ui::input_field<bool>(body, "Prevent color banding", sky.m_sky.m_preventBanding);
 
 	static cstring months[12] =

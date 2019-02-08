@@ -7,7 +7,6 @@
 #include <stl/vector.h>
 #include <type/Var.h>
 #include <type/Unique.h>
-#include <infra/NonCopy.h>
 #include <refl/Forward.h>
 #include <refl/Call.h>
 
@@ -32,7 +31,7 @@ namespace mud
 		void destroy(Ref object);
 	};
 
-	export_ class refl_ MUD_REFL_EXPORT Creator : public NonCopy
+	export_ class refl_ MUD_REFL_EXPORT Creator
 	{
 	public:
 		Creator(Type& type);

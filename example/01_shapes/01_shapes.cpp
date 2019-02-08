@@ -1,9 +1,8 @@
-#include <math/Api.h>
-#include <gfx/Api.h>
-#include <gfx-ui/Api.h>
-#include <frame/Shell.h>
-
+//#include <mud/frame.h>
+#include <frame/Api.h>
 #include <01_shapes/01_shapes.h>
+
+#include <stl/vector.hpp>
 
 using namespace mud;
 
@@ -25,7 +24,7 @@ vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, const vect
 	return shape_items;
 }
 
-void shape_grid(Gnode& parent, array2d<ShapeInstance> shape_grid, const Symbol* symbol, bool rotate, Material* material)
+void shape_grid(Gnode& parent, span2d<ShapeInstance> shape_grid, const Symbol* symbol, bool rotate, Material* material)
 {
 	static float time = 0.f;
 	time += 0.01f;

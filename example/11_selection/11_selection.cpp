@@ -1,5 +1,7 @@
-#include <mud/frame.h>
+//#include <mud/frame.h>
+#include <frame/Api.h>
 #include <gfx-pbr/Api.h>
+#include <infra/Vector.h>
 
 #include <11_selection/11_selection.h>
 #include <01_shapes/01_shapes.h>
@@ -50,7 +52,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 	{
-		auto select = [&](array<Item*> items) { selected = to_vector(items); };
+		auto select = [&](span<Item*> items) { selected = to_vector(items); };
 		viewer.picker(0).pick_rectangle(viewer.m_viewport, select_rect, select, ItemFlag::Default | ItemFlag::Selectable);
 		select_rect = Zero4;
 	}
@@ -60,7 +62,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	for(Item* selected_item : selected)
 		if(selected_item)
-			gfx::draw(scene, selected_item->m_aabb, Symbol::wire(Colour::White));
+			gfx::draw(scene, Cube(selected_item->m_aabb), Symbol::wire(Colour::White));
 }
 
 #ifdef _11_SELECTION_EXE

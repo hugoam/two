@@ -8,7 +8,6 @@
 #include <stl/vector.h>
 #include <stl/string.h>
 #include <math/Axis.h>
-#include <infra/NonCopy.h>
 #include <infra/Global.h>
 #include <type/Dispatch.h>
 #include <math/Vec.h>
@@ -51,7 +50,7 @@ namespace mud
 		Active = 2
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT Tool : public NonCopy
+	export_ class refl_ MUD_TOOL_EXPORT Tool
 	{
 	public:
 		using Callback = void(*)(Tool&);
@@ -59,6 +58,9 @@ namespace mud
 	public:
 		Tool(ToolContext& context, cstring name, Type& type);
 		virtual ~Tool() {}
+
+		Tool(const Tool& other) = delete;
+		Tool& operator=(const Tool& other) = delete;
 
 		attr_ Type& m_type;
 		attr_ ToolContext& m_context;
@@ -121,7 +123,7 @@ namespace mud
 	export_ class refl_ MUD_TOOL_EXPORT TransformAction : public EditorAction
 	{
 	public:
-		TransformAction(array<Transform*> targets);
+		TransformAction(span<Transform*> targets);
 
 		virtual void apply() final;
 		virtual void undo() final;
@@ -151,7 +153,7 @@ namespace mud
 
 		virtual bool enabled(const vector<Ref>& selection) override;
 
-		virtual object<TransformAction> create_action(array<Transform*> targets) = 0;
+		virtual object<TransformAction> create_action(span<Transform*> targets) = 0;
 		virtual bool test_target(Ref target) { UNUSED(target); return true; }
 
 	public:

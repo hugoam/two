@@ -7,7 +7,12 @@
 #ifdef MUD_MODULES
 module mud.wfc.gfx;
 #else
+#ifndef USE_STL
+#include <stl/vector.hpp>
+#include <stl/unordered_map.hpp>
+#endif
 #include <math/Axes.h>
+#include <math/Stat.hpp>
 #include <geom/Intersect.h>
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>

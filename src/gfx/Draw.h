@@ -5,8 +5,6 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/NonCopy.h>
-#include <infra/Global.h>
 #include <math/Vec.h>
 #include <geom/Shape/ProcShape.h>
 #endif
@@ -51,17 +49,17 @@ namespace mud
 		Batch* batch(DrawMode draw_mode, size_t vertex_count);
 
 		void shape(const mat4& transform, const ProcShape& shape);
-		void draw(const mat4& transform, array<ProcShape> shapes);
-		void draw(const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
+		void draw(const mat4& transform, span<ProcShape> shapes);
+		void draw(const mat4& transform, span<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
 
-		void draw(Batch& batch, const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
+		void draw(Batch& batch, const mat4& transform, span<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
 
 		void submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state);
 		void submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state, DrawMode draw_mode);
 		void submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state, DrawMode draw_mode, Batch& batch);
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT SymbolIndex : public NonCopy
+	export_ class refl_ MUD_GFX_EXPORT SymbolIndex
 	{
 	public:
 		SymbolIndex();

@@ -1,10 +1,9 @@
-#include <infra/Cpp20.h>
-
+#ifndef USE_STL
 #ifdef MUD_MODULES
 module mud.infra;
 #else
 #include <stl/vector.hpp>
-#include <infra/Extern.h>
+#include <infra/Api.h>
 #endif
 
 namespace stl
@@ -13,3 +12,4 @@ namespace stl
 	template class MUD_INFRA_EXPORT vector<string>;
 	template class MUD_INFRA_EXPORT vector<uchar>;
 }
+#endif

@@ -1,3 +1,4 @@
+#include <math/Image256.h>
 #include <geom/Aabb.h>
 #include <geom/Forward.h>
 #include <geom/Geom.h>

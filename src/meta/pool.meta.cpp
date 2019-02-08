@@ -3,6 +3,10 @@
 #ifdef MUD_MODULES
 module mud.pool;
 #else
+#include <cstddef>
+#include <stl/new.h>
+#include <infra/ToString.h>
+#include <infra/ToValue.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -55,6 +59,8 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
+	
+	
 		m.m_types.push_back(&type<mud::HandlePool>());
 		m.m_types.push_back(&type<mud::Pool>());
 	}

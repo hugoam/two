@@ -71,12 +71,12 @@ namespace mud
 	export_ extern MUD_REFL_EXPORT vector<Iterable*> g_iterable;
 	export_ extern MUD_REFL_EXPORT vector<Sequence*> g_sequence;
 
-	export_ inline Meta& meta(Type& type) { return *g_meta[type.m_id]; }
-	export_ inline Class& cls(Type& type) { return *g_class[type.m_id]; }
-	export_ inline Enum& enu(Type& type) { return *g_enu[type.m_id]; }
-	export_ inline Convert& convert(Type& type) { return *g_convert[type.m_id]; }
-	export_ inline Iterable& iter(Type& type) { return *g_iterable[type.m_id]; }
-	export_ inline Sequence& sequence(Type& type) { return *g_sequence[type.m_id]; }
+	export_ inline Meta& meta(const Type& type) { return *g_meta[type.m_id]; }
+	export_ inline Class& cls(const Type& type) { return *g_class[type.m_id]; }
+	export_ inline Enum& enu(const Type& type) { return *g_enu[type.m_id]; }
+	export_ inline Convert& convert(const Type& type) { return *g_convert[type.m_id]; }
+	export_ inline Iterable& iter(const Type& type) { return *g_iterable[type.m_id]; }
+	export_ inline Sequence& sequence(const Type& type) { return *g_sequence[type.m_id]; }
 
 	export_ template <class T>
 	inline Meta& meta() { return meta(type<T>()); }
@@ -87,18 +87,18 @@ namespace mud
 	export_ template <class T>
 	inline Enum& enu() { return enu(type<T>()); }
 
-	export_ inline bool is_base_type(Type& ty) { return meta(ty).m_type_class == TypeClass::BaseType; }
-	export_ inline bool is_enum(Type& ty) { return meta(ty).m_type_class == TypeClass::Enum; }
-	export_ inline bool is_basic(Type& ty) { return meta(ty).m_type_class == TypeClass::BaseType || meta(ty).m_type_class == TypeClass::Enum; }
-	export_ inline bool is_struct(Type& ty) { return meta(ty).m_type_class == TypeClass::Struct; }
-	export_ inline bool is_object(Type& ty) { return meta(ty).m_type_class == TypeClass::Object; }
-	export_ inline bool is_sequence(Type& ty) { return meta(ty).m_type_class == TypeClass::Sequence; }
-	export_ inline bool is_class(Type& ty) { return meta(ty).m_type_class < TypeClass::Sequence; }
+	export_ inline bool is_base_type(const Type& ty) { return meta(ty).m_type_class == TypeClass::BaseType; }
+	export_ inline bool is_enum(const Type& ty) { return meta(ty).m_type_class == TypeClass::Enum; }
+	export_ inline bool is_basic(const Type& ty) { return meta(ty).m_type_class == TypeClass::BaseType || meta(ty).m_type_class == TypeClass::Enum; }
+	export_ inline bool is_struct(const Type& ty) { return meta(ty).m_type_class == TypeClass::Struct; }
+	export_ inline bool is_object(const Type& ty) { return meta(ty).m_type_class == TypeClass::Object; }
+	export_ inline bool is_sequence(const Type& ty) { return meta(ty).m_type_class == TypeClass::Sequence; }
+	export_ inline bool is_class(const Type& ty) { return meta(ty).m_type_class < TypeClass::Sequence; }
 
-	export_ inline bool is_array(Type& ty) { return meta(ty).m_is_array; }
+	export_ inline bool is_array(const Type& ty) { return meta(ty).m_is_array; }
 
-	export_ inline bool is_iterable(Type& ty) { return g_iterable[ty.m_id] != nullptr; }
-	//export_ inline bool is_sequence(Type& ty) { return g_sequence[ty.m_id] != nullptr; }
+	export_ inline bool is_iterable(const Type& ty) { return g_iterable[ty.m_id] != nullptr; }
+	//export_ inline bool is_sequence(const Type& ty) { return g_sequence[ty.m_id] != nullptr; }
 
 	export_ inline Meta& meta(const Ref& ref) { return meta(type(ref)); }
 	export_ inline Class& cls(const Ref& ref) { return cls(type(ref)); }
@@ -117,12 +117,12 @@ namespace mud
 	export_ MUD_REFL_EXPORT void assign_pointer(Ref first, Ref second);
 	export_ MUD_REFL_EXPORT bool compare(Ref first, Ref second);
 
-	export_ MUD_REFL_EXPORT bool is_related(Type& input, Type& output);
+	export_ MUD_REFL_EXPORT bool is_related(const Type& input, const Type& output);
 
-	export_ MUD_REFL_EXPORT bool convert(Var& input, Type& output, Var& result, bool ref = false);
-	export_ MUD_REFL_EXPORT bool convert(Ref input, Type& output, Var& result);
-	export_ MUD_REFL_EXPORT Var convert(Ref input, Type& output);
+	export_ MUD_REFL_EXPORT bool convert(Var& input, const Type& output, Var& result, bool ref = false);
+	export_ MUD_REFL_EXPORT bool convert(Ref input, const Type& output, Var& result);
+	export_ MUD_REFL_EXPORT Var convert(Ref input, const Type& output);
 
-	export_ MUD_REFL_EXPORT bool can_convert(Type& input, Type& output);
-	export_ MUD_REFL_EXPORT bool can_convert(Ref input, Type& output);
+	export_ MUD_REFL_EXPORT bool can_convert(const Type& input, const Type& output);
+	export_ MUD_REFL_EXPORT bool can_convert(Ref input, const Type& output);
 }

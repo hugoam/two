@@ -4,6 +4,9 @@
 module mud.gfx-pbr;
 #else
 #include <cstddef>
+#include <stl/new.h>
+#include <infra/ToString.h>
+#include <infra/ToValue.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -22,19 +25,19 @@ using namespace mud;
 
 void mud_TonemapMode__to_string(void* val, string& str) { str = g_enu[type<mud::TonemapMode>().m_id]->name(uint32_t((*static_cast<mud::TonemapMode*>(val)))); }
 void mud_TonemapMode__to_value(const string& str, void* val) { (*static_cast<mud::TonemapMode*>(val)) = mud::TonemapMode(g_enu[type<mud::TonemapMode>().m_id]->value(str.c_str())); }
-void mud_BCS__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::BCS*>(ref))) mud::BCS(  ); }
-void mud_BCS__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::BCS*>(ref))) mud::BCS((*static_cast<mud::BCS*>(other))); }
-void mud_DofBlur__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::DofBlur*>(ref))) mud::DofBlur(  ); }
-void mud_DofBlur__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::DofBlur*>(ref))) mud::DofBlur((*static_cast<mud::DofBlur*>(other))); }
-void mud_Glow__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Glow*>(ref))) mud::Glow(  ); }
-void mud_Glow__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Glow*>(ref))) mud::Glow((*static_cast<mud::Glow*>(other))); }
-void mud_LightShadow__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::LightShadow*>(ref))) mud::LightShadow(  ); }
-void mud_LightShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::LightShadow*>(ref))) mud::LightShadow((*static_cast<mud::LightShadow*>(other))); }
+void mud_BCS__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::BCS(  ); }
+void mud_BCS__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::BCS((*static_cast<mud::BCS*>(other))); }
+void mud_DofBlur__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DofBlur(  ); }
+void mud_DofBlur__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::DofBlur((*static_cast<mud::DofBlur*>(other))); }
+void mud_Glow__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Glow(  ); }
+void mud_Glow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Glow((*static_cast<mud::Glow*>(other))); }
+void mud_LightShadow__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::LightShadow(  ); }
+void mud_LightShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::LightShadow((*static_cast<mud::LightShadow*>(other))); }
 void* mud_ReflectionProbe__get_node(void* object) { return &(*static_cast<mud::ReflectionProbe*>(object)).m_node; }
-void mud_Tonemap__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Tonemap*>(ref))) mud::Tonemap(  ); }
-void mud_Tonemap__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Tonemap*>(ref))) mud::Tonemap((*static_cast<mud::Tonemap*>(other))); }
-void mud_gfx_gi_probe_0(array<void*> args, void*& result) { result = &mud::gfx::gi_probe(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
-void mud_gfx_lightmap_1(array<void*> args, void*& result) { result = &mud::gfx::lightmap(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<float*>(args[2]), *static_cast<string*>(args[3])); }
+void mud_Tonemap__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Tonemap(  ); }
+void mud_Tonemap__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Tonemap((*static_cast<mud::Tonemap*>(other))); }
+void mud_gfx_gi_probe_0(span<void*> args, void*& result) { result = &mud::gfx::gi_probe(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
+void mud_gfx_lightmap_1(span<void*> args, void*& result) { result = &mud::gfx::lightmap(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<float*>(args[2]), *static_cast<stl::string*>(args[3])); }
 
 namespace mud
 {
@@ -88,6 +91,162 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::BlockBlur
+	{
+		Type& t = type<mud::BlockBlur>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockBlur", sizeof(mud::BlockBlur), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::BlockDofBlur
+	{
+		Type& t = type<mud::BlockDofBlur>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockDofBlur", sizeof(mud::BlockDofBlur), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::BlockGIBake
+	{
+		Type& t = type<mud::BlockGIBake>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockGIBake", sizeof(mud::BlockGIBake), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::BlockGITrace
+	{
+		Type& t = type<mud::BlockGITrace>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockGITrace", sizeof(mud::BlockGITrace), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::BlockGeometry
+	{
+		Type& t = type<mud::BlockGeometry>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockGeometry", sizeof(mud::BlockGeometry), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::BlockGlow
+	{
+		Type& t = type<mud::BlockGlow>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockGlow", sizeof(mud::BlockGlow), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::BlockLight
+	{
+		Type& t = type<mud::BlockLight>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockLight", sizeof(mud::BlockLight), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::BlockLightmap
+	{
+		Type& t = type<mud::BlockLightmap>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockLightmap", sizeof(mud::BlockLightmap), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::BlockRadiance
+	{
+		Type& t = type<mud::BlockRadiance>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockRadiance", sizeof(mud::BlockRadiance), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::BlockReflection
+	{
+		Type& t = type<mud::BlockReflection>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockReflection", sizeof(mud::BlockReflection), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::BlockShadow
+	{
+		Type& t = type<mud::BlockShadow>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockShadow", sizeof(mud::BlockShadow), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::BlockTonemap
+	{
+		Type& t = type<mud::BlockTonemap>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockTonemap", sizeof(mud::BlockTonemap), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// mud::DofBlur
 	{
@@ -289,197 +448,9 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
-	// mud::BlockBlur
-	{
-		Type& t = type<mud::BlockBlur>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockBlur", sizeof(mud::BlockBlur), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::GfxBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockBlur, mud::GfxBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::BlockDofBlur
-	{
-		Type& t = type<mud::BlockDofBlur>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockDofBlur", sizeof(mud::BlockDofBlur), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::GfxBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockDofBlur, mud::GfxBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::BlockGIBake
-	{
-		Type& t = type<mud::BlockGIBake>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockGIBake", sizeof(mud::BlockGIBake), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::DrawBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockGIBake, mud::DrawBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::BlockGITrace
-	{
-		Type& t = type<mud::BlockGITrace>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockGITrace", sizeof(mud::BlockGITrace), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::DrawBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockGITrace, mud::DrawBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::BlockGeometry
-	{
-		Type& t = type<mud::BlockGeometry>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockGeometry", sizeof(mud::BlockGeometry), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::DrawBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockGeometry, mud::DrawBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::BlockGlow
-	{
-		Type& t = type<mud::BlockGlow>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockGlow", sizeof(mud::BlockGlow), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::GfxBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockGlow, mud::GfxBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::BlockLight
-	{
-		Type& t = type<mud::BlockLight>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockLight", sizeof(mud::BlockLight), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::DrawBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockLight, mud::DrawBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::BlockLightmap
-	{
-		Type& t = type<mud::BlockLightmap>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockLightmap", sizeof(mud::BlockLightmap), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::DrawBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockLightmap, mud::DrawBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::BlockRadiance
-	{
-		Type& t = type<mud::BlockRadiance>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockRadiance", sizeof(mud::BlockRadiance), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::DrawBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockRadiance, mud::DrawBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::BlockReflection
-	{
-		Type& t = type<mud::BlockReflection>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockReflection", sizeof(mud::BlockReflection), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::DrawBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockReflection, mud::DrawBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::BlockShadow
-	{
-		Type& t = type<mud::BlockShadow>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockShadow", sizeof(mud::BlockShadow), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::DrawBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockShadow, mud::DrawBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::BlockTonemap
-	{
-		Type& t = type<mud::BlockTonemap>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockTonemap", sizeof(mud::BlockTonemap), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::GfxBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockTonemap, mud::GfxBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
+	
+	
 		m.m_types.push_back(&type<mud::BCS>());
-		m.m_types.push_back(&type<mud::DofBlur>());
-		m.m_types.push_back(&type<mud::GIProbe>());
-		m.m_types.push_back(&type<mud::Glow>());
-		m.m_types.push_back(&type<mud::LightShadow>());
-		m.m_types.push_back(&type<mud::Lightmap>());
-		m.m_types.push_back(&type<mud::LightmapAtlas>());
-		m.m_types.push_back(&type<mud::LightmapItem>());
-		m.m_types.push_back(&type<mud::ReflectionProbe>());
-		m.m_types.push_back(&type<mud::Tonemap>());
-		m.m_types.push_back(&type<mud::TonemapMode>());
 		m.m_types.push_back(&type<mud::BlockBlur>());
 		m.m_types.push_back(&type<mud::BlockDofBlur>());
 		m.m_types.push_back(&type<mud::BlockGIBake>());
@@ -492,12 +463,24 @@ namespace mud
 		m.m_types.push_back(&type<mud::BlockReflection>());
 		m.m_types.push_back(&type<mud::BlockShadow>());
 		m.m_types.push_back(&type<mud::BlockTonemap>());
+		m.m_types.push_back(&type<mud::DofBlur>());
+		m.m_types.push_back(&type<mud::GIProbe>());
+		m.m_types.push_back(&type<mud::Glow>());
+		m.m_types.push_back(&type<mud::LightShadow>());
+		m.m_types.push_back(&type<mud::Lightmap>());
+		m.m_types.push_back(&type<mud::LightmapAtlas>());
+		m.m_types.push_back(&type<mud::LightmapItem>());
+		m.m_types.push_back(&type<mud::ReflectionProbe>());
+		m.m_types.push_back(&type<mud::Tonemap>());
+		m.m_types.push_back(&type<mud::TonemapMode>());
 		{
 			static Function f = { &namspc({ "mud", "gfx" }), "gi_probe", nullptr, mud_gfx_gi_probe_0, { { "parent", type<mud::Gnode>(),  }, { "subdiv", type<uint16_t>(),  }, { "extents", type<mud::vec3>(),  } }, { &type<mud::GIProbe>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "lightmap", nullptr, mud_gfx_lightmap_1, { { "parent", type<mud::Gnode>(),  }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default }, { "save_path", type<string>(), Param::Default } }, { &type<mud::LightmapAtlas>(), QualType::None } };
+			static float density_default = 8.f;
+			static stl::string save_path_default = "";
+			static Function f = { &namspc({ "mud", "gfx" }), "lightmap", nullptr, mud_gfx_lightmap_1, { { "parent", type<mud::Gnode>(),  }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<mud::LightmapAtlas>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 	}

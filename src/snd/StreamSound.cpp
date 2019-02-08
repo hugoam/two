@@ -55,7 +55,7 @@ namespace mud
 	{
 		for(int i = 0; i < m_numBuffers; i++)
 		{
-			if (m_aLBuffers[i] != AL_NONE)
+			if(m_aLBuffers[i] != AL_NONE)
 				alDeleteBuffers(1, &m_aLBuffers[i]);
 		}
 	}
@@ -146,7 +146,7 @@ namespace mud
 		ALfloat pos;
 		alGetSourcef(m_source, AL_SEC_OFFSET, &pos);
 
-		if ((m_lastOffset + pos) >= m_duration) 
+		if((m_lastOffset + pos) >= m_duration) 
 			return (m_lastOffset + pos) - m_duration;
 		else
 			return m_lastOffset + pos;

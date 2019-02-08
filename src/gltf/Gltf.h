@@ -11,8 +11,29 @@
 #endif
 #include <gltf/Forward.h>
 
-using mud::vector;
-using mud::string;
+using stl::vector;
+using stl::string;
+
+namespace stl
+{
+	export_ extern template class refl_ seque_ vector<glTFAnimationSampler>;
+	export_ extern template class refl_ seque_ vector<glTFAnimationChannel>;
+	export_ extern template class refl_ seque_ vector<glTFMorphTarget>;
+	export_ extern template class refl_ seque_ vector<glTFPrimitive>;
+	export_ extern template class refl_ seque_ vector<glTFBuffer>;
+	export_ extern template class refl_ seque_ vector<glTFBufferView>;
+	export_ extern template class refl_ seque_ vector<glTFAccessor>;
+	export_ extern template class refl_ seque_ vector<glTFImage>;
+	export_ extern template class refl_ seque_ vector<glTFTexture>;
+	export_ extern template class refl_ seque_ vector<glTFMaterial>;
+	export_ extern template class refl_ seque_ vector<glTFMesh>;
+	export_ extern template class refl_ seque_ vector<glTFNode>;
+	export_ extern template class refl_ seque_ vector<glTFSkin>;
+	export_ extern template class refl_ seque_ vector<glTFAnimation>;
+	export_ extern template class refl_ seque_ vector<glTFCamera>;
+	export_ extern template class refl_ seque_ vector<glTFSampler>;
+	export_ extern template class refl_ seque_ vector<glTFScene>;
+}
 
 export_ struct refl_ glTFNodeExtras
 {
@@ -113,8 +134,8 @@ export_ struct refl_ glTFAccessor
 	attr_ bool normalized = false;
 	attr_ int count;
 	attr_ glTFType type = glTFType::INVALID;
-	// min is an array whose content depends on glTFType
-	// max is an array whose content depends on glTFType
+	// min is an span whose content depends on glTFType
+	// max is an span whose content depends on glTFType
 
 	attr_ glTFSparse sparse;
 };

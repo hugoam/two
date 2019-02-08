@@ -30,9 +30,9 @@ namespace mud
 	{
 		TypeColours();
 
-		Colour colour(Type& type, const Colour& fallback) { return m_colours.find(&type) != m_colours.end() ? m_colours[&type] : fallback; }
+		Colour colour(const Type& type, const Colour& fallback) { return m_colours.find(&type) != m_colours.end() ? m_colours[&type] : fallback; }
 
-		map<Type*, Colour> m_colours;
+		map<const Type*, Colour> m_colours;
 	};
 
 	TypeColours::TypeColours()
@@ -137,7 +137,7 @@ namespace mud
 			Valve& connecting = node_valve(script, connect_node, connect_plug, canvas.m_connect.m_origin == canvas.m_connect.m_in);
 
 			bool convertible = can_convert(input ? *connecting.m_stream.m_type : *valve.m_stream.m_type,
-											input ? *valve.m_stream.m_type : *connecting.m_stream.m_type);
+										   input ? *valve.m_stream.m_type : *connecting.m_stream.m_type);
 			bool conflicting = connecting.m_kind == valve.m_kind || !convertible;
 			if(&valve != &connecting && conflicting)
 				enabled = false;

@@ -3,6 +3,10 @@
 
 #ifdef USE_STL
 #include <functional>
+namespace stl
+{
+	using std::function;
+}
 #else
 #include <stl/move.h>
 #include <stl/traits.h>

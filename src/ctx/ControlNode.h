@@ -17,7 +17,7 @@ namespace mud
 	{
 		ControlNode* m_parent = nullptr;
 		ControlNode* m_modal = nullptr;
-		uint32_t m_mask = UINT32_MAX;
+		uint32_t m_mask = 0;
 	};
 
 	export_ class refl_ MUD_CTX_EXPORT ControlNode

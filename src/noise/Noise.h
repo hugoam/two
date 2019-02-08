@@ -70,8 +70,8 @@ namespace mud
 											    Noise::FractalType fractal_type = Noise::FBM, int octaves = 3, float lacunarity = 2.f, float gain = 0.5f);
 
 
-	export_ extern template struct refl_ struct_ array3d<float>;
+	export_ extern template struct refl_ struct_ vector3d<float>;
 
-	MUD_NOISE_EXPORT func_ void noise_field_2d(array3d<float>& output_values, Noise::NoiseType noise_type, float frequency = 0.01f, Noise::Interp interp = Noise::Quintic);
-	MUD_NOISE_EXPORT func_ void noise_field_3d(array3d<float>& output_values, Noise::NoiseType noise_type, float frequency = 0.01f, Noise::Interp interp = Noise::Quintic);
+	MUD_NOISE_EXPORT func_ void noise_field_2d(vector3d<float>& output_values, Noise::NoiseType noise_type, float frequency = 0.01f, Noise::Interp interp = Noise::Quintic);
+	MUD_NOISE_EXPORT func_ void noise_field_3d(vector3d<float>& output_values, Noise::NoiseType noise_type, float frequency = 0.01f, Noise::Interp interp = Noise::Quintic);
 }

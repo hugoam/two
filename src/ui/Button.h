@@ -76,8 +76,8 @@ namespace ui
 	export_ MUD_UI_EXPORT Widget& button(Widget& parent, Style& style, cstring content = nullptr);
 	export_ MUD_UI_EXPORT Widget& toggle(Widget& parent, Style& style, bool& on, cstring content = nullptr);
 
-	export_ MUD_UI_EXPORT Widget& multi_button(Widget& parent, Style& style, array<cstring> elements, Style* element_style = nullptr);
-	export_ MUD_UI_EXPORT Widget& multi_toggle(Widget& parent, Style& style, bool& on, array<cstring> elements, Style* element_style = nullptr);
+	export_ MUD_UI_EXPORT Widget& multi_button(Widget& parent, Style& style, span<cstring> elements, Style* element_style = nullptr);
+	export_ MUD_UI_EXPORT Widget& multi_toggle(Widget& parent, Style& style, bool& on, span<cstring> elements, Style* element_style = nullptr);
 
 	export_ MUD_UI_EXPORT func_ Widget& button(Widget& parent, cstring content = nullptr);
 	export_ MUD_UI_EXPORT func_ Widget& toggle(Widget& parent, bool& on, cstring content = nullptr);
@@ -85,11 +85,11 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Widget& button(Widget& parent, const string& content);
 	export_ MUD_UI_EXPORT func_ Widget& toggle(Widget& parent, bool& on, const string& content);
 
-	export_ MUD_UI_EXPORT func_ Widget& multi_button(Widget& parent, array<cstring> elements, Style* element_style = nullptr);
-	export_ MUD_UI_EXPORT func_ Widget& multi_toggle(Widget& parent, bool& on, array<cstring> elements, Style* element_style = nullptr);
+	export_ MUD_UI_EXPORT func_ Widget& multi_button(Widget& parent, span<cstring> elements, Style* element_style = nullptr);
+	export_ MUD_UI_EXPORT func_ Widget& multi_toggle(Widget& parent, bool& on, span<cstring> elements, Style* element_style = nullptr);
 
 	export_ MUD_UI_EXPORT func_ bool modal_button(Widget& screen, Widget& parent, cstring content, uint32_t mode);
-	export_ MUD_UI_EXPORT func_ bool modal_multi_button(Widget& screen, Widget& parent, array<cstring> elements, uint32_t mode);
+	export_ MUD_UI_EXPORT func_ bool modal_multi_button(Widget& screen, Widget& parent, span<cstring> elements, uint32_t mode);
 
 	export_ MUD_UI_EXPORT func_ Widget& checkbox(Widget& parent, bool& on);
 	export_ MUD_UI_EXPORT func_ Widget& fill_bar(Widget& parent, float percentage, Dim dim = DIM_X);
@@ -101,17 +101,17 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, const string& name, const Image256& source, const vec2& size);
 
 	export_ MUD_UI_EXPORT func_ Widget& radio_choice(Widget& parent, cstring value, bool active);
-	export_ MUD_UI_EXPORT func_ bool radio_switch(Widget& parent, array<cstring> labels, uint32_t& value, Dim dim = DIM_X);
-	//MUD_UI_EXPORT bool radio_switch(Widget& parent, array<cstring> labels, string& value, Dim dim = DIM_X);
+	export_ MUD_UI_EXPORT func_ bool radio_switch(Widget& parent, span<cstring> labels, uint32_t& value, Dim dim = DIM_X);
+	//MUD_UI_EXPORT bool radio_switch(Widget& parent, span<cstring> labels, string& value, Dim dim = DIM_X);
 
-	//inline bool radio_switch_string(Widget& parent, array<cstring> labels, string& value) { return radio_switch(parent, labels, value); }
+	//inline bool radio_switch_string(Widget& parent, span<cstring> labels, string& value) { return radio_switch(parent, labels, value); }
 
-	export_ MUD_UI_EXPORT func_ bool popdown(Widget& parent, array<cstring> choices, uint32_t& value, vec2 position, PopupFlags flags);
+	export_ MUD_UI_EXPORT func_ bool popdown(Widget& parent, span<cstring> choices, uint32_t& value, vec2 position, PopupFlags flags);
 	export_ MUD_UI_EXPORT func_ Widget& dropdown(Widget& parent, Style& style, cstring value, PopupFlags flags, Style* list_style = nullptr);
-	export_ MUD_UI_EXPORT func_ bool dropdown_input(Widget& parent, array<cstring> choices, uint32_t& value, bool compact = false);
-	export_ MUD_UI_EXPORT func_ bool typedown_input(Widget& parent, array<cstring> choices, uint32_t& value);
+	export_ MUD_UI_EXPORT func_ bool dropdown_input(Widget& parent, span<cstring> choices, uint32_t& value, bool compact = false);
+	export_ MUD_UI_EXPORT func_ bool typedown_input(Widget& parent, span<cstring> choices, uint32_t& value);
 
-	export_ MUD_UI_EXPORT Widget& menu_choice(Widget& parent, array<cstring> elements);
+	export_ MUD_UI_EXPORT Widget& menu_choice(Widget& parent, span<cstring> elements);
 	export_ MUD_UI_EXPORT func_ Widget& menu_choice(Widget& parent, cstring content);
 	export_ MUD_UI_EXPORT func_ Widget& menu(Widget& parent, cstring label, bool submenu = false);
 	export_ MUD_UI_EXPORT func_ Widget& menubar(Widget& parent);

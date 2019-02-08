@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <geom/Geom.h>
 #endif
 #include <gfx/Forward.h>
@@ -57,7 +57,7 @@ namespace mud
 		attr_ float m_radius;
 	};
 
-	export_ MUD_GFX_EXPORT Frustum optimized_frustum(Camera& camera, array<Item*> items);
+	export_ MUD_GFX_EXPORT Frustum optimized_frustum(Camera& camera, span<Item*> items);
 
 	export_ struct refl_ MUD_GFX_EXPORT FrustumSlice
 	{
@@ -65,5 +65,5 @@ namespace mud
 		Frustum m_frustum;
 	};
 
-	export_ MUD_GFX_EXPORT void split_frustum_slices(Camera& camera, array<FrustumSlice> slices, uint8_t num_splits, float split_distribution);
+	export_ MUD_GFX_EXPORT void split_frustum_slices(Camera& camera, span<FrustumSlice> slices, uint8_t num_splits, float split_distribution);
 }

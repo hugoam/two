@@ -12,5 +12,6 @@ namespace mud
 {
     // Exported types
     
+    
     template <> MUD_JOBS_EXPORT Type& type<mud::JobSystem>() { static Type ty("JobSystem", sizeof(mud::JobSystem)); return ty; }
 }

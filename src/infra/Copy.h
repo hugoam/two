@@ -5,18 +5,18 @@
 #pragma once
 
 #include <infra/Config.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 
 #include <cstring>
 
 namespace mud
 {
 	template <class T>
-	void copy(array<T> dest, array<T> src) { memcpy(dest.m_pointer, src.m_pointer, sizeof(T) * src.m_count); }
+	void copy(span<T> dest, span<T> src) { memcpy(dest.m_pointer, src.m_pointer, sizeof(T) * src.m_count); }
 
 	template <class T>
-	void copy(T* dest, array<T> src) { memcpy(dest, src.m_pointer, sizeof(T) * src.m_count); }
+	void copy(T* dest, span<T> src) { memcpy(dest, src.m_pointer, sizeof(T) * src.m_count); }
 
 	template <class T>
-	void copy(void* dest, array<T> src) { memcpy(dest, src.m_pointer, sizeof(T) * src.m_count); }
+	void copy(void* dest, span<T> src) { memcpy(dest, src.m_pointer, sizeof(T) * src.m_count); }
 }

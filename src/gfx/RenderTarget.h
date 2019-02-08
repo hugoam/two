@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>

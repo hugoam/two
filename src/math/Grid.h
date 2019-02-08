@@ -41,42 +41,39 @@ namespace mud
 		};
 	};
 
-	export_ template <class T_Array>
-	class Grided : public T_Array, public Grided3
+	export_ template <class T>
+		class vector2d : public vector<T>, public Grided3
 	{
 	public:
-		using T = typename T_Array::value_type;
-
-	public:
-		Grided(size_t x, size_t y, size_t z)
-			: T_Array(x*y*z), m_x(x), m_y(y), m_z(z), m_sq(x*y)
+		vector2d(size_t x, size_t y, size_t z)
+			: vector<T>(x*y*z), m_x(x), m_y(y), m_z(z), m_sq(x*y)
 		{
 			this->reset_dims();
 		}
 
-		Grided(size_t x, size_t y, size_t z, const T& val)
-			: T_Array(x*y*z, val), m_x(x), m_y(y), m_z(z), m_sq(x*y)
+		vector2d(size_t x, size_t y, size_t z, const T& val)
+			: vector<T>(x*y*z, val), m_x(x), m_y(y), m_z(z), m_sq(x*y)
 		{
 			this->reset_dims();
 		}
 
-		Grided(size_t s)
-			: Grided(s, s, s)
+		vector2d(size_t s)
+			: vector2d(s, s, s)
 		{}
 
-		Grided()
-			: Grided(0, 0, 0)
+		vector2d()
+			: vector2d(0, 0, 0)
 		{}
 
 		Dim& dim(SignedAxis axis) { return m_dims[size_t(axis)]; }
 
 		void reset_dims()
 		{
-			dim(SignedAxis::PlusX)  = {  int(m_x), m_x - 1, +1, m_x, 1 };
+			dim(SignedAxis::PlusX) = { int(m_x), m_x - 1, +1, m_x, 1 };
 			dim(SignedAxis::MinusX) = { -int(m_x), 0, -1, m_x, 1 };
-			dim(SignedAxis::PlusY)  = {  int(m_x*m_y), m_y - 1, +int(m_x), m_sq, m_x };
+			dim(SignedAxis::PlusY) = { int(m_x*m_y), m_y - 1, +int(m_x), m_sq, m_x };
 			dim(SignedAxis::MinusX) = { -int(m_x*m_y), 0, -int(m_x), m_sq, m_x };
-			dim(SignedAxis::PlusZ)  = {  int(m_x*m_y*m_z), m_z - 1, +int(m_sq), SIZE_MAX, m_sq };
+			dim(SignedAxis::PlusZ) = { int(m_x*m_y*m_z), m_z - 1, +int(m_sq), SIZE_MAX, m_sq };
 			dim(SignedAxis::MinusZ) = { -int(m_x*m_y*m_z), 0, -int(m_sq), SIZE_MAX, m_sq };
 		}
 
@@ -88,26 +85,26 @@ namespace mud
 
 		void reset(size_t x, size_t y, size_t z)
 		{
-			m_x = x; m_y = y; m_z = z; m_sq = x*y;
+			m_x = x; m_y = y; m_z = z; m_sq = x * y;
 			this->reset_dims();
 			this->resize(x*y*z);
 		}
-		
+
 		void reset(size_t x, size_t y, size_t z, T val)
 		{
 			reset(x, y, z);
 			clear(val);
 		}
 
-		inline T& at(size_t i) { return T_Array::operator[](i); }
-		inline const T& at(size_t i) const { return T_Array::operator[](i); }
+		inline T& at(size_t i) { return vector<T>::operator[](i); }
+		inline const T& at(size_t i) const { return vector<T>::operator[](i); }
 
-		inline T& at(size_t x, size_t y, size_t z = 0) { return at(x + y*m_x + z*m_sq); }
-		inline const T& at(size_t x, size_t y, size_t z = 0) const { return at(x + y*m_x + z*m_sq); }
+		inline T& at(size_t x, size_t y, size_t z = 0) { return at(x + y * m_x + z * m_sq); }
+		inline const T& at(size_t x, size_t y, size_t z = 0) const { return at(x + y * m_x + z * m_sq); }
 
 		inline T* safe_at(size_t x, size_t y, size_t z) { if(x > m_x || y > m_y || z > m_z) return nullptr; else return &at(x, y, z); }
-		
-		inline size_t index_at(size_t x, size_t y, size_t z) { return x + y*m_x + z*m_sq; }
+
+		inline size_t index_at(size_t x, size_t y, size_t z) { return x + y * m_x + z * m_sq; }
 
 		inline size_t x(size_t index) { return index % m_x; }
 		inline size_t y(size_t index) { return index % (m_x*m_y) / m_x; }
@@ -125,15 +122,15 @@ namespace mud
 		template <class T_Visitor>
 		bool visit_near_dist(size_t x, size_t y, size_t z, size_t d, T_Visitor callback)
 		{
-			size_t xMin = x > d ? x - d : 0;
-			size_t yMin = y > d ? y - d : 0;
-			size_t xMax = x + d + 1 > m_x ? m_x : x + d + 1;
-			size_t yMax = y + d + 1 > m_y ? m_y : y + d + 1;
+			size_t x_min = x > d ? x - d : 0;
+			size_t y_min = y > d ? y - d : 0;
+			size_t x_max = x + d + 1 > m_x ? m_x : x + d + 1;
+			size_t y_max = y + d + 1 > m_y ? m_y : y + d + 1;
 
 			size_t dsquare = d * d;
 
-			for(size_t i = xMin; i < xMax; ++i)
-				for(size_t j = yMin; j < yMax; ++j)
+			for(size_t i = x_min; i < x_max; ++i)
+				for(size_t j = y_min; j < y_max; ++j)
 					if(!(i == x && j == y))
 						if((x - i)*(x - i) + (y - j)*(y - j) <= dsquare)
 							if(!callback(this->at(i, j, z)))
@@ -144,17 +141,17 @@ namespace mud
 		template <class T_Visitor>
 		bool visit_near_2d(size_t x, size_t y, size_t z, size_t d, T_Visitor callback)
 		{
-			size_t xMin = x > d ? x - d : 0;
-			size_t yMin = y > d ? y - d : 0;
-			size_t xMax = x + d + 1 > m_x ? m_x : x + d + 1;
-			size_t yMax = y + d + 1 > m_y ? m_y : y + d + 1;
+			size_t x_min = x > d ? x - d : 0;
+			size_t y_min = y > d ? y - d : 0;
+			size_t x_max = x + d + 1 > m_x ? m_x : x + d + 1;
+			size_t y_max = y + d + 1 > m_y ? m_y : y + d + 1;
 
 			//size_t dsquare = d*d;
 			//if(sq(x - i) + sq(y - j) > dsquare)
 			//	continue;
 
-			for(size_t i = xMin; i < xMax; ++i)
-				for(size_t j = yMin; j < yMax; ++j)
+			for(size_t i = x_min; i < x_max; ++i)
+				for(size_t j = y_min; j < y_max; ++j)
 					if(!(i == x && j == y))
 						if(!callback(this->at(i, j, z)))
 							return false;
@@ -164,16 +161,16 @@ namespace mud
 		template <class T_Visitor>
 		bool visit_near(size_t x, size_t y, size_t z, size_t d, T_Visitor callback)
 		{
-			size_t xMin = x > d ? x - d : 0;
-			size_t yMin = y > d ? y - d : 0;
-			size_t zMin = z > d ? z - d : 0;
-			size_t xMax = x + d + 1 > m_x ? m_x : x + d + 1;
-			size_t yMax = y + d + 1 > m_y ? m_y : y + d + 1;
-			size_t zMax = z + d + 1 > m_z ? m_z : z + d + 1;
+			size_t x_min = x > d ? x - d : 0;
+			size_t y_min = y > d ? y - d : 0;
+			size_t z_min = z > d ? z - d : 0;
+			size_t x_max = x + d + 1 > m_x ? m_x : x + d + 1;
+			size_t y_max = y + d + 1 > m_y ? m_y : y + d + 1;
+			size_t z_max = z + d + 1 > m_z ? m_z : z + d + 1;
 
-			for(size_t i = xMin; i < xMax; ++i)
-				for(size_t j = yMin; j < yMax; ++j)
-					for(size_t k = zMin; k < zMax; ++k)
+			for(size_t i = x_min; i < x_max; ++i)
+				for(size_t j = y_min; j < y_max; ++j)
+					for(size_t k = z_min; k < z_max; ++k)
 						if(!(i == x && j == y && k == z))
 							if(!callback(this->at(i, j, k)))
 								return false;
@@ -201,14 +198,14 @@ namespace mud
 		vector<T*> neighbours(size_t index, size_t dist)
 		{
 			vector<T*> result;
-			this->visit_near(index, dist, [&](T& obj){ result.push_back(&obj); return true; });
+			this->visit_near(index, dist, [&](T& obj) { result.push_back(&obj); return true; });
 			return result;
 		}
 
 		vector<T*> neighbours_2d(size_t index, size_t dist)
 		{
 			vector<T*> result;
-			this->visit_near_2d(index, dist, [&](T& obj){ result.push_back(&obj); return true; });
+			this->visit_near_2d(index, dist, [&](T& obj) { result.push_back(&obj); return true; });
 			return result;
 		}
 
@@ -220,34 +217,27 @@ namespace mud
 		Dim m_dims[6] = {};
 	};
 
-	export_ template <class T_Element>
-	struct refl_ struct_ Grid : public Grided<vector<T_Element>>
-	{
-		using Grided<vector<T_Element>>::Grided;
-	};
-
-
-	export_ template <class T_Element>
-	struct refl_ struct_ array3d : public vector<T_Element>
+	export_ template <class T>
+		struct refl_ struct_ vector3d : public vector<T>
 	{
 	public:
-		typedef T_Element T;
+		typedef T T;
 
 	public:
-		array3d(size_t x, size_t y, size_t z)
-			: vector<T_Element>(x*y*z), m_x(x), m_y(y), m_z(z)
+		vector3d(size_t x, size_t y, size_t z)
+			: vector<T>(x*y*z), m_x(x), m_y(y), m_z(z)
 		{}
 
-		array3d(size_t x, size_t y, size_t z, const T& val)
-			: vector<T_Element>(x*y*z, val), m_x(x), m_y(y), m_z(z)
+		vector3d(size_t x, size_t y, size_t z, const T& val)
+			: vector<T>(x*y*z, val), m_x(x), m_y(y), m_z(z)
 		{}
 
-		array3d(size_t s)
-			: array3d(s, s, s)
+		vector3d(size_t s)
+			: vector3d(s, s, s)
 		{}
 
-		array3d()
-			: array3d(0, 0, 0)
+		vector3d()
+			: vector3d(0, 0, 0)
 		{}
 
 		void clear(T val)
@@ -268,11 +258,11 @@ namespace mud
 			clear(val);
 		}
 
-		inline T& at(size_t x, size_t y, size_t z = 0) { return vector<T_Element>::operator[](x + y*m_x + z*m_x*m_y); }
-		inline const T& at(size_t x, size_t y, size_t z = 0) const { return vector<T_Element>::operator[](x + y*m_x + z*m_x*m_y); }
+		inline T& at(size_t x, size_t y, size_t z = 0) { return vector<T>::operator[](x + y * m_x + z * m_x*m_y); }
+		inline const T& at(size_t x, size_t y, size_t z = 0) const { return vector<T>::operator[](x + y * m_x + z * m_x*m_y); }
 		inline T* safeAt(size_t x, size_t y, size_t z) { if(x > m_x || y > m_y || z > m_z) return nullptr; else return &at(x, y, z); }
 
-		inline size_t indexAt(size_t x, size_t y, size_t z) { return x + y*m_x + z*m_x*m_y; }
+		inline size_t indexAt(size_t x, size_t y, size_t z) { return x + y * m_x + z * m_x*m_y; }
 
 		inline size_t x(size_t index) { return index % m_x; }
 		inline size_t y(size_t index) { return index % (m_x*m_y) / m_x; }

@@ -50,7 +50,7 @@ namespace mud
 		ALenum state;
 		alGetSourcei(m_source, AL_SOURCE_STATE, &state);
 
-		if (state == AL_STOPPED)
+		if(state == AL_STOPPED)
 		{
 			stop();
 			return;

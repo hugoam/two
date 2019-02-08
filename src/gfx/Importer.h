@@ -32,10 +32,10 @@ namespace mud
 		attr_ quat m_rotation = ZeroQuat;
 		attr_ vec3 m_scale = Unit3;
 		attr_ mat4 m_transform = bxidentity();
-		attr_ vector<string> m_exclude_elements = {};
-		attr_ vector<string> m_exclude_materials = {};
-		attr_ vector<string> m_include_elements = {};
-		attr_ vector<string> m_include_materials = {};
+		attr_ vector<string> m_exclude_elements; // = {};
+		attr_ vector<string> m_exclude_materials; // = {};
+		attr_ vector<string> m_include_elements; // = {};
+		attr_ vector<string> m_include_materials; // = {};
 		attr_ string m_suffix;
 		attr_ bool m_force_reimport = false;
 		attr_ bool m_cache_geometry = false;

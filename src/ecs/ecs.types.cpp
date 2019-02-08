@@ -12,7 +12,7 @@ namespace mud
 {
     // Exported types
     
+    
     template <> MUD_ECS_EXPORT Type& type<mud::Complex>() { static Type ty("Complex", sizeof(mud::Complex)); return ty; }
     template <> MUD_ECS_EXPORT Type& type<mud::Entity>() { static Type ty("Entity", sizeof(mud::Entity)); return ty; }
-    template <> MUD_ECS_EXPORT Type& type<mud::Prototype>() { static Type ty("Prototype", sizeof(mud::Prototype)); return ty; }
 }

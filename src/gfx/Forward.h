@@ -162,3 +162,12 @@ namespace mud
 	class LightmapAtlas;
 	class LightmapItem;
 }
+
+#ifdef MUD_META_GENERATOR // #ifndef USE_STL
+#include <stl/vector.h>
+namespace stl
+{
+	export_ extern template class refl_ seque_ vector<mud::Animation*>;
+	export_ extern template class refl_ seque_ vector<mud::AnimationPlay>;
+}
+#endif

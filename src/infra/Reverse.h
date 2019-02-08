@@ -9,7 +9,7 @@
 
 namespace mud
 {
-#ifdef MUD_NO_STL
+#ifndef USE_STL
 	template <class T>
 	class reverse_pointer
 	{
@@ -75,7 +75,7 @@ namespace mud
 		reverse_adapter(T& container) : m_container(container) { }
 		reverse_adapter& operator=(const reverse_adapter&) = delete;
 
-#ifdef MUD_NO_STL
+#ifndef USE_STL
 		using iterator = reverse_pointer<typename T::value_type>;
 		iterator begin() { return iterator(m_container.end()); }
 		iterator end() { return iterator(m_container.begin()); }

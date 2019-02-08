@@ -53,24 +53,24 @@ namespace mud
 	template <class T>
 	void ValueTrack<T>::set_mode(TrackMode mode)
 	{
-		if (mode == TrackMode::Constant)
+		if(mode == TrackMode::Constant)
 			*this = ValueTrack<T>(T());
-		else if (mode == TrackMode::ConstantRandom)
+		else if(mode == TrackMode::ConstantRandom)
 			*this = ValueTrack<T>(T(), T());
-		else if (mode == TrackMode::Curve)
+		else if(mode == TrackMode::Curve)
 			*this = ValueTrack<T>(vector<T>(2, T()));
-		else if (mode == TrackMode::CurveRandom)
+		else if(mode == TrackMode::CurveRandom)
 			*this = ValueTrack<T>(vector<T>(2, T()), vector<T>(2, T()));
 	}
 
 	template <class T>
 	T ValueTrack<T>::sample(float t, float seed)
 	{
-		if (m_mode == TrackMode::Constant)
+		if(m_mode == TrackMode::Constant)
 			return m_value;
-		else if (m_mode == TrackMode::ConstantRandom)
+		else if(m_mode == TrackMode::ConstantRandom)
 			return mud::lerp(m_min, m_max, seed);
-		else if (m_mode == TrackMode::Curve)
+		else if(m_mode == TrackMode::Curve)
 			return m_value * m_curve.sample_curve(t);
 		else //if(m_mode == TrackMode::CurveRandom)
 			return mud::lerp(m_min * m_min_curve.sample_curve(t), m_max * m_max_curve.sample_curve(t), seed);

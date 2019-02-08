@@ -10,7 +10,7 @@ module mud.infra;
 namespace mud
 {
 	mud_infra::mud_infra()
-		: Module("mud::infra", {})
+		: Module("mud::infra", {  })
 	{}
 }
 

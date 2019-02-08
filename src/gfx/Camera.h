@@ -5,8 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/Array.h>
-#include <infra/NonCopy.h>
+#include <stl/span.h>
 #include <type/Unique.h>
 #include <math/Vec.h>
 #include <geom/Geom.h>
@@ -24,7 +23,7 @@ namespace mud
 		WEST = (2 << 8)
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Camera : public NonCopy
+	export_ class refl_ MUD_GFX_EXPORT Camera
 	{
 	public:
 		Camera();

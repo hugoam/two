@@ -11,20 +11,24 @@ module mud.ui;
 namespace mud
 {
     // Exported types
-    template <> MUD_UI_EXPORT Type& type<mud::Align>() { static Type ty("mud::Align", sizeof(mud::Align)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::AutoLayout>() { static Type ty("mud::AutoLayout", sizeof(mud::AutoLayout)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Clipping>() { static Type ty("mud::Clipping", sizeof(mud::Clipping)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dim>() { static Type ty("mud::Dim", sizeof(mud::Dim)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Flow>() { static Type ty("mud::Flow", sizeof(mud::Flow)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>() { static Type ty("mud::FlowAxis", sizeof(mud::FlowAxis)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::LayoutSolver>() { static Type ty("mud::LayoutSolver", sizeof(mud::LayoutSolver)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Opacity>() { static Type ty("mud::Opacity", sizeof(mud::Opacity)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Pivot>() { static Type ty("mud::Pivot", sizeof(mud::Pivot)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::ui::PopupFlags>() { static Type ty("mud::ui::PopupFlags", sizeof(mud::ui::PopupFlags)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Sizing>() { static Type ty("mud::Sizing", sizeof(mud::Sizing)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::SpacePreset>() { static Type ty("mud::SpacePreset", sizeof(mud::SpacePreset)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::WidgetState>() { static Type ty("mud::WidgetState", sizeof(mud::WidgetState)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::WindowState>() { static Type ty("mud::WindowState", sizeof(mud::WindowState)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Align>() { static Type ty("Align", sizeof(mud::Align)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::AutoLayout>() { static Type ty("AutoLayout", sizeof(mud::AutoLayout)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Clipping>() { static Type ty("Clipping", sizeof(mud::Clipping)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Dim>() { static Type ty("Dim", sizeof(mud::Dim)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Flow>() { static Type ty("Flow", sizeof(mud::Flow)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>() { static Type ty("FlowAxis", sizeof(mud::FlowAxis)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::LayoutSolver>() { static Type ty("LayoutSolver", sizeof(mud::LayoutSolver)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Opacity>() { static Type ty("Opacity", sizeof(mud::Opacity)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Pivot>() { static Type ty("Pivot", sizeof(mud::Pivot)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::ui::PopupFlags>() { static Type ty("PopupFlags", sizeof(mud::ui::PopupFlags)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Sizing>() { static Type ty("Sizing", sizeof(mud::Sizing)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::SpacePreset>() { static Type ty("SpacePreset", sizeof(mud::SpacePreset)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::WidgetState>() { static Type ty("WidgetState", sizeof(mud::WidgetState)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::WindowState>() { static Type ty("WindowState", sizeof(mud::WindowState)); return ty; }
+    
+    template <> MUD_UI_EXPORT Type& type<stl::span<const char*>>() { static Type ty("span<const char*>", sizeof(stl::span<const char*>)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<stl::span<float>>() { static Type ty("span<float>", sizeof(stl::span<float>)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<stl::vector<mud::Space>>() { static Type ty("vector<mud::Space>", sizeof(stl::vector<mud::Space>)); return ty; }
     
     template <> MUD_UI_EXPORT Type& type<mud::CanvasConnect>() { static Type ty("CanvasConnect", sizeof(mud::CanvasConnect)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Clipboard>() { static Type ty("Clipboard", sizeof(mud::Clipboard)); return ty; }
@@ -57,19 +61,19 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::UiWindow>() { static Type ty("UiWindow", sizeof(mud::UiWindow)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::User>() { static Type ty("User", sizeof(mud::User)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Vg>() { static Type ty("Vg", sizeof(mud::Vg)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Frame>() { static Type ty("Frame", type<mud::UiRect>(), sizeof(mud::Frame)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>() { static Type ty("FrameSolver", type<mud::UiRect>(), sizeof(mud::FrameSolver)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::LineSolver>() { static Type ty("LineSolver", type<mud::RowSolver>(), sizeof(mud::LineSolver)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Widget>() { static Type ty("Widget", type<mud::ControlNode>(), sizeof(mud::Widget)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Widget>() { static Type ty("Widget", sizeof(mud::Widget)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Canvas>() { static Type ty("Canvas", type<mud::Widget>(), sizeof(mud::Canvas)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Dockable>() { static Type ty("Dockable", type<mud::Widget>(), sizeof(mud::Dockable)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Docker>() { static Type ty("Docker", type<mud::Widget>(), sizeof(mud::Docker)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Dockbar>() { static Type ty("Dockbar", type<mud::Docker>(), sizeof(mud::Dockbar)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Dockspace>() { static Type ty("Dockspace", type<mud::Docker>(), sizeof(mud::Dockspace)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Expandbox>() { static Type ty("Expandbox", type<mud::Widget>(), sizeof(mud::Expandbox)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Frame>() { static Type ty("Frame", type<mud::UiRect>(), sizeof(mud::Frame)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>() { static Type ty("FrameSolver", type<mud::UiRect>(), sizeof(mud::FrameSolver)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::RowSolver>() { static Type ty("RowSolver", type<mud::FrameSolver>(), sizeof(mud::RowSolver)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::LineSolver>() { static Type ty("LineSolver", type<mud::RowSolver>(), sizeof(mud::LineSolver)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Node>() { static Type ty("Node", type<mud::Widget>(), sizeof(mud::Node)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::NodePlug>() { static Type ty("NodePlug", type<mud::Widget>(), sizeof(mud::NodePlug)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::RowSolver>() { static Type ty("RowSolver", type<mud::FrameSolver>(), sizeof(mud::RowSolver)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::ScrollSheet>() { static Type ty("ScrollSheet", type<mud::Widget>(), sizeof(mud::ScrollSheet)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::ui::Sequence>() { static Type ty("Sequence", type<mud::Widget>(), sizeof(mud::ui::Sequence)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Tabber>() { static Type ty("Tabber", type<mud::Widget>(), sizeof(mud::Tabber)); return ty; }

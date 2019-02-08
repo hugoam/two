@@ -45,11 +45,11 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ bool color_edit_simple(Widget& parent, Colour& value);
 	export_ MUD_UI_EXPORT func_ bool color_toggle_edit(Widget& parent, Colour& value);
 
-	export_ MUD_UI_EXPORT func_ bool curve_graph(Widget& parent, array<float> values, array<float> points = {});
+	export_ MUD_UI_EXPORT func_ bool curve_graph(Widget& parent, span<float> values, span<float> points = {});
 
-	export_ MUD_UI_EXPORT func_ bool curve_edit(Widget& parent, array<float> values, array<float> points = {});
+	export_ MUD_UI_EXPORT func_ bool curve_edit(Widget& parent, span<float> values, span<float> points = {});
 
-	export_ MUD_UI_EXPORT bool curve_edit(Widget& parent, array<Colour> values, array<float> points = {});
+	export_ MUD_UI_EXPORT bool curve_edit(Widget& parent, span<Colour> values, span<float> points = {});
 
 	export_ MUD_UI_EXPORT bool flag_input(Widget& parent, uint32_t& value, uint8_t shift);
 
@@ -73,9 +73,9 @@ namespace ui
 	inline bool slider_field(Widget& parent, cstring name, AutoStat<T> value, bool reverse = false) { return field([&](Widget& self) { return slider_input<T>(self, value); }, parent, name, reverse); }
 
 	export_ func_ inline bool flag_field(Widget& parent, cstring name, uint32_t& value, uint8_t shift, bool reverse = false) { return field([&](Widget& self) { return flag_input(self, value, shift); }, parent, name, reverse); }
-	export_ func_ inline bool radio_field(Widget& parent, cstring name, array<cstring> choices, uint32_t& value, Dim dim = DIM_X, bool reverse = false) { return field([&](Widget& self) { return radio_switch(self, choices, value, dim); }, parent, name, reverse); }
-	export_ func_ inline bool dropdown_field(Widget& parent, cstring name, array<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return dropdown_input(self, choices, value); }, parent, name, reverse); }
-	export_ func_ inline bool typedown_field(Widget& parent, cstring name, array<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return typedown_input(self, choices, value); }, parent, name, reverse); }
+	export_ func_ inline bool radio_field(Widget& parent, cstring name, span<cstring> choices, uint32_t& value, Dim dim = DIM_X, bool reverse = false) { return field([&](Widget& self) { return radio_switch(self, choices, value, dim); }, parent, name, reverse); }
+	export_ func_ inline bool dropdown_field(Widget& parent, cstring name, span<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return dropdown_input(self, choices, value); }, parent, name, reverse); }
+	export_ func_ inline bool typedown_field(Widget& parent, cstring name, span<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return typedown_input(self, choices, value); }, parent, name, reverse); }
 	export_ func_ inline bool color_field(Widget& parent, cstring name, Colour& value, bool reverse = false) { return field([&](Widget& self) { return color_toggle_edit(self, value); }, parent, name, reverse); }
 	export_ func_ inline void color_display_field(Widget& parent, cstring name, const Colour& value, bool reverse = false) { field([&](Widget& self) { color_display(self, value); return false; }, parent, name, reverse); }
 

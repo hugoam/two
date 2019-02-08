@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ MUD_REFL_EXPORT string to_name(Type& type, Ref value);
+	export_ MUD_REFL_EXPORT string to_name(const Type& type, Ref value);
 	export_ inline string to_name(Ref value) { return to_name(type(value), value); }
 
 	export_ template <>
@@ -36,10 +36,10 @@ namespace mud
 	public:
 		TypeConverter();
 
-		bool check(Type& input, Type& output);
-		bool check(Ref input, Type& output);
-		Var convert(Ref input, Type& output);
-		void convert(Ref input, Type& output, Var& result);
+		bool check(const Type& input, const Type& output);
+		bool check(Ref input, const Type& output);
+		Var convert(Ref input, const Type& output);
+		void convert(Ref input, const Type& output, Var& result);
 
 		template <class T_First, class T_Second>
 		void default_converter()

@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
 #endif
@@ -88,7 +88,7 @@ namespace mud
 
 	export_ size_t vertex_offset(uint32_t vertex_format, VertexAttribute::Enum attribute);
 
-	export_ struct MeshAdapter
+	export_ struct MUD_GEOM_EXPORT MeshAdapter
 	{
 		struct Array
 		{
@@ -108,8 +108,8 @@ namespace mud
 		Array m_vertices = {};
 		Array m_indices = {};
 
-		//array<void> m_vertices = {};
-		//array<void> m_indices = {};
+		//span<void> m_vertices = {};
+		//span<void> m_indices = {};
 
 		uint32_t m_vertex_format = 0;
 		uint32_t m_vertex_stride = 0;

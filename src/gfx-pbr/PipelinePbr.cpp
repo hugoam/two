@@ -9,7 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <ecs/ECS.h>
+#include <ecs/ECS.hpp>
 #include <pool/ObjectPool.hpp>
 #include <gfx/Types.h>
 #include <gfx/Api.h>
@@ -280,7 +280,7 @@ namespace mud
 
 		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
 
-#ifdef DEPTH_PASS
+#if DEPTH_PASS
 		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_EQUAL
 								     | BGFX_STATE_WRITE_Z | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA;
 #else

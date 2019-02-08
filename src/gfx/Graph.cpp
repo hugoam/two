@@ -101,10 +101,10 @@ namespace mud
 			debug_tree(*node.m_nodes[i], i, depth + 1);
 	}
 
-	template <class T_Element, class... Args>
-	inline T_Element& create(Scene& scene, Args&&... args)
+	template <class T, class... Args>
+	inline T& create(Scene& scene, Args&&... args)
 	{
-		return scene.m_pool->pool<T_Element>().construct(static_cast<Args&&>(args)...);
+		return scene.m_pool->pool<T>().construct(static_cast<Args&&>(args)...);
 	}
 
 namespace gfx
@@ -166,7 +166,7 @@ namespace gfx
 		});
 	}
 
-	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material, size_t instances, array<mat4> transforms)
+	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material, size_t instances, span<mat4> transforms)
 	{
 		Gnode& self = parent.suba<Gnode>();
 		bool update = (flags & ItemFlag::NoUpdate) == 0;
@@ -195,7 +195,7 @@ namespace gfx
 		return *self.m_item;
 	}
 
-	void prefab(Gnode& parent, const Prefab& prefab, bool transform, uint32_t flags, Material* material, size_t instances, array<mat4> transforms)
+	void prefab(Gnode& parent, const Prefab& prefab, bool transform, uint32_t flags, Material* material, size_t instances, span<mat4> transforms)
 	{
 		Gnode& self = parent.suba<Gnode>();
 		

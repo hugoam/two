@@ -186,7 +186,7 @@ namespace mud
 		return false;
 	}
 
-	bool Aabb::cull(array<vec3> points) const
+	bool Aabb::cull(span<vec3> points) const
 	{
 		for(const vec3& point : points)
 			if(cull(point))
@@ -207,7 +207,7 @@ namespace mud
 		return face_aabb(face.m_vertices);
 	}
 
-	void quad_vertices(const vec2& size, const vec3& u, const vec3& v, array<vec3> vertices, const vec2& offset = Zero2)
+	void quad_vertices(const vec2& size, const vec3& u, const vec3& v, span<vec3> vertices, const vec2& offset = Zero2)
 	{
 		vec3 offset3d = u * offset.x + v * offset.y;
 		vec3 a = (u * size.x + v * size.y) / 2.f;
@@ -225,7 +225,7 @@ namespace mud
 	Quad::Quad(float size, const vec3& x, const vec3& y) : Quad({ size, size }, x, y) {}
 	Quad::Quad(const Rect& rect) : Quad({ rect.m_size.x, rect.m_size.y }, X3, Z3) {}
 
-	void box_vertices(const vec3& center, const vec3& extents, array<vec3> vertices)
+	void box_vertices(const vec3& center, const vec3& extents, span<vec3> vertices)
 	{
 		vec3 min = center - extents;
 		vec3 max = center + extents;
@@ -240,7 +240,7 @@ namespace mud
 		vertices[7] = { max.x, max.y, min.z };
 	}
 
-	Box::Box(array<vec3> vertices) : Shape(type<Box>()) { array<vec3> dest = { m_vertices, 8 }; copy(dest, vertices); }
+	Box::Box(span<vec3> vertices) : Shape(type<Box>()) { span<vec3> dest = { m_vertices, 8 }; copy(dest, vertices); }
 	Box::Box(const Cube& cube) : Shape(type<Box>()) { box_vertices(cube.m_center, cube.m_extents, { m_vertices, 8 }); }
 
 	Symbol::Symbol(Colour fill, Colour outline, bool overlay, bool double_sided, SymbolDetail detail)

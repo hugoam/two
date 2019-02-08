@@ -6,8 +6,8 @@
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>
+#include <type/Unique.h>
 #include <type/Var.h>
-#include <infra/NonCopy.h>
 #endif
 #include <lang/Forward.h>
 #include <lang/Stream.h>
@@ -136,10 +136,13 @@ namespace mud
 		int visit_order();
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT VisualScript final : public NonCopy, public Script
+	export_ class refl_ MUD_LANG_EXPORT VisualScript final : public Script
 	{
 	public:
 		constr_ VisualScript(const string& name, const Signature& signature = {});
+
+		VisualScript(const VisualScript& other) = delete;
+		VisualScript& operator=(const VisualScript& other) = delete;
 
 		vector<object<Process>> m_processes;
 		vector<object<Pipe>> m_pipes;
@@ -150,7 +153,7 @@ namespace mud
 		vector<ProcessOutput*> m_outputs;
 
 		using Callable::operator();
-		virtual void operator()(array<Var> args, Var& result) const;
+		virtual void operator()(span<void*> args, void*& result) const;
 
 		void lock();
 		void unlock(bool execute = false);

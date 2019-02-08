@@ -4,6 +4,9 @@
 module mud.frame;
 #else
 #include <cstddef>
+#include <stl/new.h>
+#include <infra/ToString.h>
+#include <infra/ToValue.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -17,10 +20,10 @@ module mud.frame;
 
 using namespace mud;
 
-void mud_Shell__construct_0(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Shell*>(ref))) mud::Shell( *static_cast<string*>(args[0]), *static_cast<string*>(args[1]) ); }
-void mud_Shell_pump(void* object, array<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Shell*>(object)).pump(); }
-void mud_ShellContext__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::ShellContext*>(ref))) mud::ShellContext(  ); }
-void mud_ShellContext__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::ShellContext*>(ref))) mud::ShellContext((*static_cast<mud::ShellContext*>(other))); }
+void mud_Shell__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Shell( *static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1]) ); }
+void mud_Shell_pump(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Shell*>(object)).pump(); }
+void mud_ShellContext__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ShellContext(  ); }
+void mud_ShellContext__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ShellContext((*static_cast<mud::ShellContext*>(other))); }
 
 namespace mud
 {
@@ -41,15 +44,16 @@ namespace mud
 		// bases
 		// defaults
 		static mud::Ui* ui_default = nullptr;
+		static stl::string construct_0_exec_path_default = "";
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Shell__construct_0, { { "resource_path", type<string>(),  }, { "exec_path", type<string>(), Param::Default } } }
+			{ t, mud_Shell__construct_0, { { "resource_path", type<stl::string>(),  }, { "exec_path", type<stl::string>(), Param::Default, &construct_0_exec_path_default } } }
 		};
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Shell, m_exec_path), type<string>(), "exec_path", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Shell, m_resource_path), type<string>(), "resource_path", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Shell, m_exec_path), type<stl::string>(), "exec_path", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Shell, m_resource_path), type<stl::string>(), "resource_path", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Shell, m_job_system), type<mud::JobSystem>(), "job_system", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::Shell, m_gfx_system), type<mud::GfxSystem>(), "gfx_system", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::Shell, m_editor), type<mud::ShellContext>(), "editor", nullptr, Member::Value, nullptr },
@@ -87,6 +91,14 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
+	
+	{
+		Type& t = type<stl::vector<mud::Ref>>();
+		static Alias alias = { &t, &namspc({ "mud" }), "Selection" };
+		m.m_aliases.push_back(&alias);
+	}
+	
+		m.m_types.push_back(&type<mud::Selection>());
 		m.m_types.push_back(&type<mud::Shell>());
 		m.m_types.push_back(&type<mud::ShellContext>());
 	}

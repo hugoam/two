@@ -24,6 +24,14 @@ namespace mud
     // Exported types
     export_ template <> MUD_REFL_EXPORT Type& type<mud::TypeClass>();
     
+    export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Alias*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Function*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Module*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Type*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Var>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<void*>>();
+    
+    export_ template <> MUD_REFL_EXPORT Type& type<mud::Alias>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Call>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Callable>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Class>();
@@ -46,27 +54,4 @@ namespace mud
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Function>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Injector>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Method>();
-    
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Call*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Callable*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Class*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Convert*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Creator*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Enum*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Member*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Meta*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Module*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Namespace*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Operator*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Param*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::QualType*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Signature*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Static*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::System*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Constructor*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::CopyConstructor*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Destructor*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Function*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Injector*>>();
-    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Method*>>();
 }

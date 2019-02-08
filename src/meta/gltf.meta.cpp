@@ -5,6 +5,8 @@ module mud.gltf;
 #else
 #include <cstddef>
 #include <stl/new.h>
+#include <infra/ToString.h>
+#include <infra/ToValue.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -31,134 +33,147 @@ void glTFPrimitiveType__to_string(void* val, string& str) { str = g_enu[type<glT
 void glTFPrimitiveType__to_value(const string& str, void* val) { (*static_cast<glTFPrimitiveType*>(val)) = glTFPrimitiveType(g_enu[type<glTFPrimitiveType>().m_id]->value(str.c_str())); }
 void glTFType__to_string(void* val, string& str) { str = g_enu[type<glTFType>().m_id]->name(uint32_t((*static_cast<glTFType*>(val)))); }
 void glTFType__to_value(const string& str, void* val) { (*static_cast<glTFType*>(val)) = glTFType(g_enu[type<glTFType>().m_id]->value(str.c_str())); }
-size_t vector_glTFAccessor___size(void* vec) { return (*static_cast<vector<glTFAccessor>*>(vec)).size(); }
-void* vector_glTFAccessor___at(void* vec, size_t i) { return &(*static_cast<vector<glTFAccessor>*>(vec))[i]; }
-void vector_glTFAccessor___add(void* vec, void* value) { (*static_cast<vector<glTFAccessor>*>(vec)).push_back(*static_cast<glTFAccessor*>(value)); }
-void vector_glTFAccessor___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFAccessor>*>(vec)), *static_cast<glTFAccessor*>(value)); }
-size_t vector_glTFAnimation___size(void* vec) { return (*static_cast<vector<glTFAnimation>*>(vec)).size(); }
-void* vector_glTFAnimation___at(void* vec, size_t i) { return &(*static_cast<vector<glTFAnimation>*>(vec))[i]; }
-void vector_glTFAnimation___add(void* vec, void* value) { (*static_cast<vector<glTFAnimation>*>(vec)).push_back(*static_cast<glTFAnimation*>(value)); }
-void vector_glTFAnimation___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFAnimation>*>(vec)), *static_cast<glTFAnimation*>(value)); }
-size_t vector_glTFAnimationChannel___size(void* vec) { return (*static_cast<vector<glTFAnimationChannel>*>(vec)).size(); }
-void* vector_glTFAnimationChannel___at(void* vec, size_t i) { return &(*static_cast<vector<glTFAnimationChannel>*>(vec))[i]; }
-void vector_glTFAnimationChannel___add(void* vec, void* value) { (*static_cast<vector<glTFAnimationChannel>*>(vec)).push_back(*static_cast<glTFAnimationChannel*>(value)); }
-void vector_glTFAnimationChannel___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFAnimationChannel>*>(vec)), *static_cast<glTFAnimationChannel*>(value)); }
-size_t vector_glTFAnimationSampler___size(void* vec) { return (*static_cast<vector<glTFAnimationSampler>*>(vec)).size(); }
-void* vector_glTFAnimationSampler___at(void* vec, size_t i) { return &(*static_cast<vector<glTFAnimationSampler>*>(vec))[i]; }
-void vector_glTFAnimationSampler___add(void* vec, void* value) { (*static_cast<vector<glTFAnimationSampler>*>(vec)).push_back(*static_cast<glTFAnimationSampler*>(value)); }
-void vector_glTFAnimationSampler___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFAnimationSampler>*>(vec)), *static_cast<glTFAnimationSampler*>(value)); }
-size_t vector_glTFBuffer___size(void* vec) { return (*static_cast<vector<glTFBuffer>*>(vec)).size(); }
-void* vector_glTFBuffer___at(void* vec, size_t i) { return &(*static_cast<vector<glTFBuffer>*>(vec))[i]; }
-void vector_glTFBuffer___add(void* vec, void* value) { (*static_cast<vector<glTFBuffer>*>(vec)).push_back(*static_cast<glTFBuffer*>(value)); }
-void vector_glTFBuffer___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFBuffer>*>(vec)), *static_cast<glTFBuffer*>(value)); }
-size_t vector_glTFBufferView___size(void* vec) { return (*static_cast<vector<glTFBufferView>*>(vec)).size(); }
-void* vector_glTFBufferView___at(void* vec, size_t i) { return &(*static_cast<vector<glTFBufferView>*>(vec))[i]; }
-void vector_glTFBufferView___add(void* vec, void* value) { (*static_cast<vector<glTFBufferView>*>(vec)).push_back(*static_cast<glTFBufferView*>(value)); }
-void vector_glTFBufferView___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFBufferView>*>(vec)), *static_cast<glTFBufferView*>(value)); }
-size_t vector_glTFCamera___size(void* vec) { return (*static_cast<vector<glTFCamera>*>(vec)).size(); }
-void* vector_glTFCamera___at(void* vec, size_t i) { return &(*static_cast<vector<glTFCamera>*>(vec))[i]; }
-void vector_glTFCamera___add(void* vec, void* value) { (*static_cast<vector<glTFCamera>*>(vec)).push_back(*static_cast<glTFCamera*>(value)); }
-void vector_glTFCamera___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFCamera>*>(vec)), *static_cast<glTFCamera*>(value)); }
-size_t vector_glTFImage___size(void* vec) { return (*static_cast<vector<glTFImage>*>(vec)).size(); }
-void* vector_glTFImage___at(void* vec, size_t i) { return &(*static_cast<vector<glTFImage>*>(vec))[i]; }
-void vector_glTFImage___add(void* vec, void* value) { (*static_cast<vector<glTFImage>*>(vec)).push_back(*static_cast<glTFImage*>(value)); }
-void vector_glTFImage___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFImage>*>(vec)), *static_cast<glTFImage*>(value)); }
-size_t vector_glTFMaterial___size(void* vec) { return (*static_cast<vector<glTFMaterial>*>(vec)).size(); }
-void* vector_glTFMaterial___at(void* vec, size_t i) { return &(*static_cast<vector<glTFMaterial>*>(vec))[i]; }
-void vector_glTFMaterial___add(void* vec, void* value) { (*static_cast<vector<glTFMaterial>*>(vec)).push_back(*static_cast<glTFMaterial*>(value)); }
-void vector_glTFMaterial___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFMaterial>*>(vec)), *static_cast<glTFMaterial*>(value)); }
-size_t vector_glTFMesh___size(void* vec) { return (*static_cast<vector<glTFMesh>*>(vec)).size(); }
-void* vector_glTFMesh___at(void* vec, size_t i) { return &(*static_cast<vector<glTFMesh>*>(vec))[i]; }
-void vector_glTFMesh___add(void* vec, void* value) { (*static_cast<vector<glTFMesh>*>(vec)).push_back(*static_cast<glTFMesh*>(value)); }
-void vector_glTFMesh___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFMesh>*>(vec)), *static_cast<glTFMesh*>(value)); }
-size_t vector_glTFMorphTarget___size(void* vec) { return (*static_cast<vector<glTFMorphTarget>*>(vec)).size(); }
-void* vector_glTFMorphTarget___at(void* vec, size_t i) { return &(*static_cast<vector<glTFMorphTarget>*>(vec))[i]; }
-void vector_glTFMorphTarget___add(void* vec, void* value) { (*static_cast<vector<glTFMorphTarget>*>(vec)).push_back(*static_cast<glTFMorphTarget*>(value)); }
-void vector_glTFMorphTarget___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFMorphTarget>*>(vec)), *static_cast<glTFMorphTarget*>(value)); }
-size_t vector_glTFNode___size(void* vec) { return (*static_cast<vector<glTFNode>*>(vec)).size(); }
-void* vector_glTFNode___at(void* vec, size_t i) { return &(*static_cast<vector<glTFNode>*>(vec))[i]; }
-void vector_glTFNode___add(void* vec, void* value) { (*static_cast<vector<glTFNode>*>(vec)).push_back(*static_cast<glTFNode*>(value)); }
-void vector_glTFNode___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFNode>*>(vec)), *static_cast<glTFNode*>(value)); }
-size_t vector_glTFPrimitive___size(void* vec) { return (*static_cast<vector<glTFPrimitive>*>(vec)).size(); }
-void* vector_glTFPrimitive___at(void* vec, size_t i) { return &(*static_cast<vector<glTFPrimitive>*>(vec))[i]; }
-void vector_glTFPrimitive___add(void* vec, void* value) { (*static_cast<vector<glTFPrimitive>*>(vec)).push_back(*static_cast<glTFPrimitive*>(value)); }
-void vector_glTFPrimitive___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFPrimitive>*>(vec)), *static_cast<glTFPrimitive*>(value)); }
-size_t vector_glTFSampler___size(void* vec) { return (*static_cast<vector<glTFSampler>*>(vec)).size(); }
-void* vector_glTFSampler___at(void* vec, size_t i) { return &(*static_cast<vector<glTFSampler>*>(vec))[i]; }
-void vector_glTFSampler___add(void* vec, void* value) { (*static_cast<vector<glTFSampler>*>(vec)).push_back(*static_cast<glTFSampler*>(value)); }
-void vector_glTFSampler___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFSampler>*>(vec)), *static_cast<glTFSampler*>(value)); }
-size_t vector_glTFScene___size(void* vec) { return (*static_cast<vector<glTFScene>*>(vec)).size(); }
-void* vector_glTFScene___at(void* vec, size_t i) { return &(*static_cast<vector<glTFScene>*>(vec))[i]; }
-void vector_glTFScene___add(void* vec, void* value) { (*static_cast<vector<glTFScene>*>(vec)).push_back(*static_cast<glTFScene*>(value)); }
-void vector_glTFScene___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFScene>*>(vec)), *static_cast<glTFScene*>(value)); }
-size_t vector_glTFSkin___size(void* vec) { return (*static_cast<vector<glTFSkin>*>(vec)).size(); }
-void* vector_glTFSkin___at(void* vec, size_t i) { return &(*static_cast<vector<glTFSkin>*>(vec))[i]; }
-void vector_glTFSkin___add(void* vec, void* value) { (*static_cast<vector<glTFSkin>*>(vec)).push_back(*static_cast<glTFSkin*>(value)); }
-void vector_glTFSkin___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFSkin>*>(vec)), *static_cast<glTFSkin*>(value)); }
-size_t vector_glTFTexture___size(void* vec) { return (*static_cast<vector<glTFTexture>*>(vec)).size(); }
-void* vector_glTFTexture___at(void* vec, size_t i) { return &(*static_cast<vector<glTFTexture>*>(vec))[i]; }
-void vector_glTFTexture___add(void* vec, void* value) { (*static_cast<vector<glTFTexture>*>(vec)).push_back(*static_cast<glTFTexture*>(value)); }
-void vector_glTFTexture___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<glTFTexture>*>(vec)), *static_cast<glTFTexture*>(value)); }
-size_t vector_int___size(void* vec) { return (*static_cast<vector<int>*>(vec)).size(); }
-void* vector_int___at(void* vec, size_t i) { return &(*static_cast<vector<int>*>(vec))[i]; }
-void vector_int___add(void* vec, void* value) { (*static_cast<vector<int>*>(vec)).push_back(*static_cast<int*>(value)); }
-void vector_int___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<int>*>(vec)), *static_cast<int*>(value)); }
-void glTF__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTF*>(ref))) glTF(  ); }
-void glTF__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTF*>(ref))) glTF((*static_cast<glTF*>(other))); }
-void glTFAccessor__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAccessor*>(ref))) glTFAccessor(  ); }
-void glTFAccessor__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAccessor*>(ref))) glTFAccessor((*static_cast<glTFAccessor*>(other))); }
-void glTFAnimation__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAnimation*>(ref))) glTFAnimation(  ); }
-void glTFAnimation__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAnimation*>(ref))) glTFAnimation((*static_cast<glTFAnimation*>(other))); }
-void glTFAnimationChannel__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAnimationChannel*>(ref))) glTFAnimationChannel(  ); }
-void glTFAnimationChannel__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAnimationChannel*>(ref))) glTFAnimationChannel((*static_cast<glTFAnimationChannel*>(other))); }
-void glTFAnimationSampler__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAnimationSampler*>(ref))) glTFAnimationSampler(  ); }
-void glTFAnimationSampler__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAnimationSampler*>(ref))) glTFAnimationSampler((*static_cast<glTFAnimationSampler*>(other))); }
-void glTFAnimationTarget__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAnimationTarget*>(ref))) glTFAnimationTarget(  ); }
-void glTFAnimationTarget__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAnimationTarget*>(ref))) glTFAnimationTarget((*static_cast<glTFAnimationTarget*>(other))); }
-void glTFAttributes__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFAttributes*>(ref))) glTFAttributes(  ); }
-void glTFAttributes__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFAttributes*>(ref))) glTFAttributes((*static_cast<glTFAttributes*>(other))); }
-void glTFBuffer__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFBuffer*>(ref))) glTFBuffer(  ); }
-void glTFBuffer__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFBuffer*>(ref))) glTFBuffer((*static_cast<glTFBuffer*>(other))); }
-void glTFBufferView__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFBufferView*>(ref))) glTFBufferView(  ); }
-void glTFBufferView__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFBufferView*>(ref))) glTFBufferView((*static_cast<glTFBufferView*>(other))); }
-void glTFCamera__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFCamera*>(ref))) glTFCamera(  ); }
-void glTFCamera__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFCamera*>(ref))) glTFCamera((*static_cast<glTFCamera*>(other))); }
-void glTFImage__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFImage*>(ref))) glTFImage(  ); }
-void glTFImage__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFImage*>(ref))) glTFImage((*static_cast<glTFImage*>(other))); }
-void glTFMaterial__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFMaterial*>(ref))) glTFMaterial(  ); }
-void glTFMaterial__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFMaterial*>(ref))) glTFMaterial((*static_cast<glTFMaterial*>(other))); }
-void glTFMaterialPBR__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFMaterialPBR*>(ref))) glTFMaterialPBR(  ); }
-void glTFMaterialPBR__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFMaterialPBR*>(ref))) glTFMaterialPBR((*static_cast<glTFMaterialPBR*>(other))); }
-void glTFMesh__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFMesh*>(ref))) glTFMesh(  ); }
-void glTFMesh__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFMesh*>(ref))) glTFMesh((*static_cast<glTFMesh*>(other))); }
-void glTFMorphTarget__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFMorphTarget*>(ref))) glTFMorphTarget(  ); }
-void glTFMorphTarget__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFMorphTarget*>(ref))) glTFMorphTarget((*static_cast<glTFMorphTarget*>(other))); }
-void glTFNode__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFNode*>(ref))) glTFNode(  ); }
-void glTFNode__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFNode*>(ref))) glTFNode((*static_cast<glTFNode*>(other))); }
-void glTFNodeExtras__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFNodeExtras*>(ref))) glTFNodeExtras(  ); }
-void glTFNodeExtras__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFNodeExtras*>(ref))) glTFNodeExtras((*static_cast<glTFNodeExtras*>(other))); }
-void glTFOrthographic__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFOrthographic*>(ref))) glTFOrthographic(  ); }
-void glTFOrthographic__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFOrthographic*>(ref))) glTFOrthographic((*static_cast<glTFOrthographic*>(other))); }
-void glTFPerspective__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFPerspective*>(ref))) glTFPerspective(  ); }
-void glTFPerspective__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFPerspective*>(ref))) glTFPerspective((*static_cast<glTFPerspective*>(other))); }
-void glTFPrimitive__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFPrimitive*>(ref))) glTFPrimitive(  ); }
-void glTFPrimitive__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFPrimitive*>(ref))) glTFPrimitive((*static_cast<glTFPrimitive*>(other))); }
-void glTFSampler__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFSampler*>(ref))) glTFSampler(  ); }
-void glTFSampler__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFSampler*>(ref))) glTFSampler((*static_cast<glTFSampler*>(other))); }
-void glTFScene__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFScene*>(ref))) glTFScene(  ); }
-void glTFScene__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFScene*>(ref))) glTFScene((*static_cast<glTFScene*>(other))); }
-void glTFSkin__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFSkin*>(ref))) glTFSkin(  ); }
-void glTFSkin__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFSkin*>(ref))) glTFSkin((*static_cast<glTFSkin*>(other))); }
-void glTFSparse__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFSparse*>(ref))) glTFSparse(  ); }
-void glTFSparse__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFSparse*>(ref))) glTFSparse((*static_cast<glTFSparse*>(other))); }
-void glTFSparseIndices__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFSparseIndices*>(ref))) glTFSparseIndices(  ); }
-void glTFSparseIndices__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFSparseIndices*>(ref))) glTFSparseIndices((*static_cast<glTFSparseIndices*>(other))); }
-void glTFSparseValues__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFSparseValues*>(ref))) glTFSparseValues(  ); }
-void glTFSparseValues__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFSparseValues*>(ref))) glTFSparseValues((*static_cast<glTFSparseValues*>(other))); }
-void glTFTexture__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFTexture*>(ref))) glTFTexture(  ); }
-void glTFTexture__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFTexture*>(ref))) glTFTexture((*static_cast<glTFTexture*>(other))); }
-void glTFTextureInfo__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<glTFTextureInfo*>(ref))) glTFTextureInfo(  ); }
-void glTFTextureInfo__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<glTFTextureInfo*>(ref))) glTFTextureInfo((*static_cast<glTFTextureInfo*>(other))); }
+size_t stl_vector_glTFAccessor__size(void* vec) { return (*static_cast<stl::vector<glTFAccessor>*>(vec)).size(); }
+void* stl_vector_glTFAccessor__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFAccessor>*>(vec))[i]; }
+void stl_vector_glTFAccessor__push(void* vec) { (*static_cast<stl::vector<glTFAccessor>*>(vec)).emplace_back(); }
+void stl_vector_glTFAccessor__add(void* vec, void* value) { (*static_cast<stl::vector<glTFAccessor>*>(vec)).push_back(*static_cast<glTFAccessor*>(value)); }
+void stl_vector_glTFAccessor__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFAccessor>*>(vec)), *static_cast<glTFAccessor*>(value)); }
+size_t stl_vector_glTFAnimation__size(void* vec) { return (*static_cast<stl::vector<glTFAnimation>*>(vec)).size(); }
+void* stl_vector_glTFAnimation__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFAnimation>*>(vec))[i]; }
+void stl_vector_glTFAnimation__push(void* vec) { (*static_cast<stl::vector<glTFAnimation>*>(vec)).emplace_back(); }
+void stl_vector_glTFAnimation__add(void* vec, void* value) { (*static_cast<stl::vector<glTFAnimation>*>(vec)).push_back(*static_cast<glTFAnimation*>(value)); }
+void stl_vector_glTFAnimation__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFAnimation>*>(vec)), *static_cast<glTFAnimation*>(value)); }
+size_t stl_vector_glTFAnimationChannel__size(void* vec) { return (*static_cast<stl::vector<glTFAnimationChannel>*>(vec)).size(); }
+void* stl_vector_glTFAnimationChannel__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFAnimationChannel>*>(vec))[i]; }
+void stl_vector_glTFAnimationChannel__push(void* vec) { (*static_cast<stl::vector<glTFAnimationChannel>*>(vec)).emplace_back(); }
+void stl_vector_glTFAnimationChannel__add(void* vec, void* value) { (*static_cast<stl::vector<glTFAnimationChannel>*>(vec)).push_back(*static_cast<glTFAnimationChannel*>(value)); }
+void stl_vector_glTFAnimationChannel__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFAnimationChannel>*>(vec)), *static_cast<glTFAnimationChannel*>(value)); }
+size_t stl_vector_glTFAnimationSampler__size(void* vec) { return (*static_cast<stl::vector<glTFAnimationSampler>*>(vec)).size(); }
+void* stl_vector_glTFAnimationSampler__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFAnimationSampler>*>(vec))[i]; }
+void stl_vector_glTFAnimationSampler__push(void* vec) { (*static_cast<stl::vector<glTFAnimationSampler>*>(vec)).emplace_back(); }
+void stl_vector_glTFAnimationSampler__add(void* vec, void* value) { (*static_cast<stl::vector<glTFAnimationSampler>*>(vec)).push_back(*static_cast<glTFAnimationSampler*>(value)); }
+void stl_vector_glTFAnimationSampler__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFAnimationSampler>*>(vec)), *static_cast<glTFAnimationSampler*>(value)); }
+size_t stl_vector_glTFBuffer__size(void* vec) { return (*static_cast<stl::vector<glTFBuffer>*>(vec)).size(); }
+void* stl_vector_glTFBuffer__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFBuffer>*>(vec))[i]; }
+void stl_vector_glTFBuffer__push(void* vec) { (*static_cast<stl::vector<glTFBuffer>*>(vec)).emplace_back(); }
+void stl_vector_glTFBuffer__add(void* vec, void* value) { (*static_cast<stl::vector<glTFBuffer>*>(vec)).push_back(*static_cast<glTFBuffer*>(value)); }
+void stl_vector_glTFBuffer__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFBuffer>*>(vec)), *static_cast<glTFBuffer*>(value)); }
+size_t stl_vector_glTFBufferView__size(void* vec) { return (*static_cast<stl::vector<glTFBufferView>*>(vec)).size(); }
+void* stl_vector_glTFBufferView__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFBufferView>*>(vec))[i]; }
+void stl_vector_glTFBufferView__push(void* vec) { (*static_cast<stl::vector<glTFBufferView>*>(vec)).emplace_back(); }
+void stl_vector_glTFBufferView__add(void* vec, void* value) { (*static_cast<stl::vector<glTFBufferView>*>(vec)).push_back(*static_cast<glTFBufferView*>(value)); }
+void stl_vector_glTFBufferView__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFBufferView>*>(vec)), *static_cast<glTFBufferView*>(value)); }
+size_t stl_vector_glTFCamera__size(void* vec) { return (*static_cast<stl::vector<glTFCamera>*>(vec)).size(); }
+void* stl_vector_glTFCamera__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFCamera>*>(vec))[i]; }
+void stl_vector_glTFCamera__push(void* vec) { (*static_cast<stl::vector<glTFCamera>*>(vec)).emplace_back(); }
+void stl_vector_glTFCamera__add(void* vec, void* value) { (*static_cast<stl::vector<glTFCamera>*>(vec)).push_back(*static_cast<glTFCamera*>(value)); }
+void stl_vector_glTFCamera__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFCamera>*>(vec)), *static_cast<glTFCamera*>(value)); }
+size_t stl_vector_glTFImage__size(void* vec) { return (*static_cast<stl::vector<glTFImage>*>(vec)).size(); }
+void* stl_vector_glTFImage__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFImage>*>(vec))[i]; }
+void stl_vector_glTFImage__push(void* vec) { (*static_cast<stl::vector<glTFImage>*>(vec)).emplace_back(); }
+void stl_vector_glTFImage__add(void* vec, void* value) { (*static_cast<stl::vector<glTFImage>*>(vec)).push_back(*static_cast<glTFImage*>(value)); }
+void stl_vector_glTFImage__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFImage>*>(vec)), *static_cast<glTFImage*>(value)); }
+size_t stl_vector_glTFMaterial__size(void* vec) { return (*static_cast<stl::vector<glTFMaterial>*>(vec)).size(); }
+void* stl_vector_glTFMaterial__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFMaterial>*>(vec))[i]; }
+void stl_vector_glTFMaterial__push(void* vec) { (*static_cast<stl::vector<glTFMaterial>*>(vec)).emplace_back(); }
+void stl_vector_glTFMaterial__add(void* vec, void* value) { (*static_cast<stl::vector<glTFMaterial>*>(vec)).push_back(*static_cast<glTFMaterial*>(value)); }
+void stl_vector_glTFMaterial__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFMaterial>*>(vec)), *static_cast<glTFMaterial*>(value)); }
+size_t stl_vector_glTFMesh__size(void* vec) { return (*static_cast<stl::vector<glTFMesh>*>(vec)).size(); }
+void* stl_vector_glTFMesh__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFMesh>*>(vec))[i]; }
+void stl_vector_glTFMesh__push(void* vec) { (*static_cast<stl::vector<glTFMesh>*>(vec)).emplace_back(); }
+void stl_vector_glTFMesh__add(void* vec, void* value) { (*static_cast<stl::vector<glTFMesh>*>(vec)).push_back(*static_cast<glTFMesh*>(value)); }
+void stl_vector_glTFMesh__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFMesh>*>(vec)), *static_cast<glTFMesh*>(value)); }
+size_t stl_vector_glTFMorphTarget__size(void* vec) { return (*static_cast<stl::vector<glTFMorphTarget>*>(vec)).size(); }
+void* stl_vector_glTFMorphTarget__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFMorphTarget>*>(vec))[i]; }
+void stl_vector_glTFMorphTarget__push(void* vec) { (*static_cast<stl::vector<glTFMorphTarget>*>(vec)).emplace_back(); }
+void stl_vector_glTFMorphTarget__add(void* vec, void* value) { (*static_cast<stl::vector<glTFMorphTarget>*>(vec)).push_back(*static_cast<glTFMorphTarget*>(value)); }
+void stl_vector_glTFMorphTarget__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFMorphTarget>*>(vec)), *static_cast<glTFMorphTarget*>(value)); }
+size_t stl_vector_glTFNode__size(void* vec) { return (*static_cast<stl::vector<glTFNode>*>(vec)).size(); }
+void* stl_vector_glTFNode__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFNode>*>(vec))[i]; }
+void stl_vector_glTFNode__push(void* vec) { (*static_cast<stl::vector<glTFNode>*>(vec)).emplace_back(); }
+void stl_vector_glTFNode__add(void* vec, void* value) { (*static_cast<stl::vector<glTFNode>*>(vec)).push_back(*static_cast<glTFNode*>(value)); }
+void stl_vector_glTFNode__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFNode>*>(vec)), *static_cast<glTFNode*>(value)); }
+size_t stl_vector_glTFPrimitive__size(void* vec) { return (*static_cast<stl::vector<glTFPrimitive>*>(vec)).size(); }
+void* stl_vector_glTFPrimitive__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFPrimitive>*>(vec))[i]; }
+void stl_vector_glTFPrimitive__push(void* vec) { (*static_cast<stl::vector<glTFPrimitive>*>(vec)).emplace_back(); }
+void stl_vector_glTFPrimitive__add(void* vec, void* value) { (*static_cast<stl::vector<glTFPrimitive>*>(vec)).push_back(*static_cast<glTFPrimitive*>(value)); }
+void stl_vector_glTFPrimitive__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFPrimitive>*>(vec)), *static_cast<glTFPrimitive*>(value)); }
+size_t stl_vector_glTFSampler__size(void* vec) { return (*static_cast<stl::vector<glTFSampler>*>(vec)).size(); }
+void* stl_vector_glTFSampler__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFSampler>*>(vec))[i]; }
+void stl_vector_glTFSampler__push(void* vec) { (*static_cast<stl::vector<glTFSampler>*>(vec)).emplace_back(); }
+void stl_vector_glTFSampler__add(void* vec, void* value) { (*static_cast<stl::vector<glTFSampler>*>(vec)).push_back(*static_cast<glTFSampler*>(value)); }
+void stl_vector_glTFSampler__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFSampler>*>(vec)), *static_cast<glTFSampler*>(value)); }
+size_t stl_vector_glTFScene__size(void* vec) { return (*static_cast<stl::vector<glTFScene>*>(vec)).size(); }
+void* stl_vector_glTFScene__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFScene>*>(vec))[i]; }
+void stl_vector_glTFScene__push(void* vec) { (*static_cast<stl::vector<glTFScene>*>(vec)).emplace_back(); }
+void stl_vector_glTFScene__add(void* vec, void* value) { (*static_cast<stl::vector<glTFScene>*>(vec)).push_back(*static_cast<glTFScene*>(value)); }
+void stl_vector_glTFScene__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFScene>*>(vec)), *static_cast<glTFScene*>(value)); }
+size_t stl_vector_glTFSkin__size(void* vec) { return (*static_cast<stl::vector<glTFSkin>*>(vec)).size(); }
+void* stl_vector_glTFSkin__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFSkin>*>(vec))[i]; }
+void stl_vector_glTFSkin__push(void* vec) { (*static_cast<stl::vector<glTFSkin>*>(vec)).emplace_back(); }
+void stl_vector_glTFSkin__add(void* vec, void* value) { (*static_cast<stl::vector<glTFSkin>*>(vec)).push_back(*static_cast<glTFSkin*>(value)); }
+void stl_vector_glTFSkin__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFSkin>*>(vec)), *static_cast<glTFSkin*>(value)); }
+size_t stl_vector_glTFTexture__size(void* vec) { return (*static_cast<stl::vector<glTFTexture>*>(vec)).size(); }
+void* stl_vector_glTFTexture__at(void* vec, size_t i) { return &(*static_cast<stl::vector<glTFTexture>*>(vec))[i]; }
+void stl_vector_glTFTexture__push(void* vec) { (*static_cast<stl::vector<glTFTexture>*>(vec)).emplace_back(); }
+void stl_vector_glTFTexture__add(void* vec, void* value) { (*static_cast<stl::vector<glTFTexture>*>(vec)).push_back(*static_cast<glTFTexture*>(value)); }
+void stl_vector_glTFTexture__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFTexture>*>(vec)), *static_cast<glTFTexture*>(value)); }
+void glTF__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTF(  ); }
+void glTF__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTF((*static_cast<glTF*>(other))); }
+void glTFAccessor__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAccessor(  ); }
+void glTFAccessor__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAccessor((*static_cast<glTFAccessor*>(other))); }
+void glTFAnimation__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAnimation(  ); }
+void glTFAnimation__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAnimation((*static_cast<glTFAnimation*>(other))); }
+void glTFAnimationChannel__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAnimationChannel(  ); }
+void glTFAnimationChannel__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAnimationChannel((*static_cast<glTFAnimationChannel*>(other))); }
+void glTFAnimationSampler__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAnimationSampler(  ); }
+void glTFAnimationSampler__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAnimationSampler((*static_cast<glTFAnimationSampler*>(other))); }
+void glTFAnimationTarget__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAnimationTarget(  ); }
+void glTFAnimationTarget__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAnimationTarget((*static_cast<glTFAnimationTarget*>(other))); }
+void glTFAttributes__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAttributes(  ); }
+void glTFAttributes__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAttributes((*static_cast<glTFAttributes*>(other))); }
+void glTFBuffer__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFBuffer(  ); }
+void glTFBuffer__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFBuffer((*static_cast<glTFBuffer*>(other))); }
+void glTFBufferView__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFBufferView(  ); }
+void glTFBufferView__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFBufferView((*static_cast<glTFBufferView*>(other))); }
+void glTFCamera__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFCamera(  ); }
+void glTFCamera__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFCamera((*static_cast<glTFCamera*>(other))); }
+void glTFImage__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFImage(  ); }
+void glTFImage__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFImage((*static_cast<glTFImage*>(other))); }
+void glTFMaterial__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFMaterial(  ); }
+void glTFMaterial__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFMaterial((*static_cast<glTFMaterial*>(other))); }
+void glTFMaterialPBR__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFMaterialPBR(  ); }
+void glTFMaterialPBR__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFMaterialPBR((*static_cast<glTFMaterialPBR*>(other))); }
+void glTFMesh__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFMesh(  ); }
+void glTFMesh__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFMesh((*static_cast<glTFMesh*>(other))); }
+void glTFMorphTarget__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFMorphTarget(  ); }
+void glTFMorphTarget__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFMorphTarget((*static_cast<glTFMorphTarget*>(other))); }
+void glTFNode__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFNode(  ); }
+void glTFNode__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFNode((*static_cast<glTFNode*>(other))); }
+void glTFNodeExtras__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFNodeExtras(  ); }
+void glTFNodeExtras__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFNodeExtras((*static_cast<glTFNodeExtras*>(other))); }
+void glTFOrthographic__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFOrthographic(  ); }
+void glTFOrthographic__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFOrthographic((*static_cast<glTFOrthographic*>(other))); }
+void glTFPerspective__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFPerspective(  ); }
+void glTFPerspective__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFPerspective((*static_cast<glTFPerspective*>(other))); }
+void glTFPrimitive__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFPrimitive(  ); }
+void glTFPrimitive__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFPrimitive((*static_cast<glTFPrimitive*>(other))); }
+void glTFSampler__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFSampler(  ); }
+void glTFSampler__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFSampler((*static_cast<glTFSampler*>(other))); }
+void glTFScene__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFScene(  ); }
+void glTFScene__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFScene((*static_cast<glTFScene*>(other))); }
+void glTFSkin__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFSkin(  ); }
+void glTFSkin__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFSkin((*static_cast<glTFSkin*>(other))); }
+void glTFSparse__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFSparse(  ); }
+void glTFSparse__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFSparse((*static_cast<glTFSparse*>(other))); }
+void glTFSparseIndices__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFSparseIndices(  ); }
+void glTFSparseIndices__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFSparseIndices((*static_cast<glTFSparseIndices*>(other))); }
+void glTFSparseValues__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFSparseValues(  ); }
+void glTFSparseValues__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFSparseValues((*static_cast<glTFSparseValues*>(other))); }
+void glTFTexture__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFTexture(  ); }
+void glTFTexture__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFTexture((*static_cast<glTFTexture*>(other))); }
+void glTFTextureInfo__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFTextureInfo(  ); }
+void glTFTextureInfo__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFTextureInfo((*static_cast<glTFTextureInfo*>(other))); }
 
 namespace mud
 {
@@ -232,219 +247,224 @@ namespace mud
 	
 	// Sequences
 	{
-		Type& t = type<vector<glTFAccessor>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFAccessor>", sizeof(vector<glTFAccessor>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFAccessor>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFAccessor>", sizeof(stl::vector<glTFAccessor>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFAccessor>(),
-		                             vector_glTFAccessor___size,
-		                             vector_glTFAccessor___at};
+		                             stl_vector_glTFAccessor__size,
+		                             stl_vector_glTFAccessor__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFAccessor___add,
-		                             vector_glTFAccessor___remove };
+		static Sequence sequence = { stl_vector_glTFAccessor__push,
+		                             stl_vector_glTFAccessor__add,
+		                             stl_vector_glTFAccessor__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFAnimation>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFAnimation>", sizeof(vector<glTFAnimation>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFAnimation>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFAnimation>", sizeof(stl::vector<glTFAnimation>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFAnimation>(),
-		                             vector_glTFAnimation___size,
-		                             vector_glTFAnimation___at};
+		                             stl_vector_glTFAnimation__size,
+		                             stl_vector_glTFAnimation__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFAnimation___add,
-		                             vector_glTFAnimation___remove };
+		static Sequence sequence = { stl_vector_glTFAnimation__push,
+		                             stl_vector_glTFAnimation__add,
+		                             stl_vector_glTFAnimation__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFAnimationChannel>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFAnimationChannel>", sizeof(vector<glTFAnimationChannel>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFAnimationChannel>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFAnimationChannel>", sizeof(stl::vector<glTFAnimationChannel>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFAnimationChannel>(),
-		                             vector_glTFAnimationChannel___size,
-		                             vector_glTFAnimationChannel___at};
+		                             stl_vector_glTFAnimationChannel__size,
+		                             stl_vector_glTFAnimationChannel__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFAnimationChannel___add,
-		                             vector_glTFAnimationChannel___remove };
+		static Sequence sequence = { stl_vector_glTFAnimationChannel__push,
+		                             stl_vector_glTFAnimationChannel__add,
+		                             stl_vector_glTFAnimationChannel__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFAnimationSampler>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFAnimationSampler>", sizeof(vector<glTFAnimationSampler>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFAnimationSampler>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFAnimationSampler>", sizeof(stl::vector<glTFAnimationSampler>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFAnimationSampler>(),
-		                             vector_glTFAnimationSampler___size,
-		                             vector_glTFAnimationSampler___at};
+		                             stl_vector_glTFAnimationSampler__size,
+		                             stl_vector_glTFAnimationSampler__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFAnimationSampler___add,
-		                             vector_glTFAnimationSampler___remove };
+		static Sequence sequence = { stl_vector_glTFAnimationSampler__push,
+		                             stl_vector_glTFAnimationSampler__add,
+		                             stl_vector_glTFAnimationSampler__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFBuffer>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFBuffer>", sizeof(vector<glTFBuffer>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFBuffer>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFBuffer>", sizeof(stl::vector<glTFBuffer>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFBuffer>(),
-		                             vector_glTFBuffer___size,
-		                             vector_glTFBuffer___at};
+		                             stl_vector_glTFBuffer__size,
+		                             stl_vector_glTFBuffer__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFBuffer___add,
-		                             vector_glTFBuffer___remove };
+		static Sequence sequence = { stl_vector_glTFBuffer__push,
+		                             stl_vector_glTFBuffer__add,
+		                             stl_vector_glTFBuffer__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFBufferView>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFBufferView>", sizeof(vector<glTFBufferView>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFBufferView>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFBufferView>", sizeof(stl::vector<glTFBufferView>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFBufferView>(),
-		                             vector_glTFBufferView___size,
-		                             vector_glTFBufferView___at};
+		                             stl_vector_glTFBufferView__size,
+		                             stl_vector_glTFBufferView__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFBufferView___add,
-		                             vector_glTFBufferView___remove };
+		static Sequence sequence = { stl_vector_glTFBufferView__push,
+		                             stl_vector_glTFBufferView__add,
+		                             stl_vector_glTFBufferView__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFCamera>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFCamera>", sizeof(vector<glTFCamera>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFCamera>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFCamera>", sizeof(stl::vector<glTFCamera>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFCamera>(),
-		                             vector_glTFCamera___size,
-		                             vector_glTFCamera___at};
+		                             stl_vector_glTFCamera__size,
+		                             stl_vector_glTFCamera__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFCamera___add,
-		                             vector_glTFCamera___remove };
+		static Sequence sequence = { stl_vector_glTFCamera__push,
+		                             stl_vector_glTFCamera__add,
+		                             stl_vector_glTFCamera__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFImage>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFImage>", sizeof(vector<glTFImage>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFImage>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFImage>", sizeof(stl::vector<glTFImage>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFImage>(),
-		                             vector_glTFImage___size,
-		                             vector_glTFImage___at};
+		                             stl_vector_glTFImage__size,
+		                             stl_vector_glTFImage__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFImage___add,
-		                             vector_glTFImage___remove };
+		static Sequence sequence = { stl_vector_glTFImage__push,
+		                             stl_vector_glTFImage__add,
+		                             stl_vector_glTFImage__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFMaterial>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFMaterial>", sizeof(vector<glTFMaterial>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFMaterial>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFMaterial>", sizeof(stl::vector<glTFMaterial>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFMaterial>(),
-		                             vector_glTFMaterial___size,
-		                             vector_glTFMaterial___at};
+		                             stl_vector_glTFMaterial__size,
+		                             stl_vector_glTFMaterial__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFMaterial___add,
-		                             vector_glTFMaterial___remove };
+		static Sequence sequence = { stl_vector_glTFMaterial__push,
+		                             stl_vector_glTFMaterial__add,
+		                             stl_vector_glTFMaterial__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFMesh>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFMesh>", sizeof(vector<glTFMesh>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFMesh>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFMesh>", sizeof(stl::vector<glTFMesh>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFMesh>(),
-		                             vector_glTFMesh___size,
-		                             vector_glTFMesh___at};
+		                             stl_vector_glTFMesh__size,
+		                             stl_vector_glTFMesh__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFMesh___add,
-		                             vector_glTFMesh___remove };
+		static Sequence sequence = { stl_vector_glTFMesh__push,
+		                             stl_vector_glTFMesh__add,
+		                             stl_vector_glTFMesh__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFMorphTarget>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFMorphTarget>", sizeof(vector<glTFMorphTarget>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFMorphTarget>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFMorphTarget>", sizeof(stl::vector<glTFMorphTarget>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFMorphTarget>(),
-		                             vector_glTFMorphTarget___size,
-		                             vector_glTFMorphTarget___at};
+		                             stl_vector_glTFMorphTarget__size,
+		                             stl_vector_glTFMorphTarget__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFMorphTarget___add,
-		                             vector_glTFMorphTarget___remove };
+		static Sequence sequence = { stl_vector_glTFMorphTarget__push,
+		                             stl_vector_glTFMorphTarget__add,
+		                             stl_vector_glTFMorphTarget__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFNode>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFNode>", sizeof(vector<glTFNode>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFNode>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFNode>", sizeof(stl::vector<glTFNode>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFNode>(),
-		                             vector_glTFNode___size,
-		                             vector_glTFNode___at};
+		                             stl_vector_glTFNode__size,
+		                             stl_vector_glTFNode__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFNode___add,
-		                             vector_glTFNode___remove };
+		static Sequence sequence = { stl_vector_glTFNode__push,
+		                             stl_vector_glTFNode__add,
+		                             stl_vector_glTFNode__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFPrimitive>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFPrimitive>", sizeof(vector<glTFPrimitive>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFPrimitive>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFPrimitive>", sizeof(stl::vector<glTFPrimitive>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFPrimitive>(),
-		                             vector_glTFPrimitive___size,
-		                             vector_glTFPrimitive___at};
+		                             stl_vector_glTFPrimitive__size,
+		                             stl_vector_glTFPrimitive__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFPrimitive___add,
-		                             vector_glTFPrimitive___remove };
+		static Sequence sequence = { stl_vector_glTFPrimitive__push,
+		                             stl_vector_glTFPrimitive__add,
+		                             stl_vector_glTFPrimitive__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFSampler>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFSampler>", sizeof(vector<glTFSampler>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFSampler>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFSampler>", sizeof(stl::vector<glTFSampler>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFSampler>(),
-		                             vector_glTFSampler___size,
-		                             vector_glTFSampler___at};
+		                             stl_vector_glTFSampler__size,
+		                             stl_vector_glTFSampler__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFSampler___add,
-		                             vector_glTFSampler___remove };
+		static Sequence sequence = { stl_vector_glTFSampler__push,
+		                             stl_vector_glTFSampler__add,
+		                             stl_vector_glTFSampler__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFScene>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFScene>", sizeof(vector<glTFScene>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFScene>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFScene>", sizeof(stl::vector<glTFScene>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFScene>(),
-		                             vector_glTFScene___size,
-		                             vector_glTFScene___at};
+		                             stl_vector_glTFScene__size,
+		                             stl_vector_glTFScene__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFScene___add,
-		                             vector_glTFScene___remove };
+		static Sequence sequence = { stl_vector_glTFScene__push,
+		                             stl_vector_glTFScene__add,
+		                             stl_vector_glTFScene__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFSkin>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFSkin>", sizeof(vector<glTFSkin>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFSkin>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFSkin>", sizeof(stl::vector<glTFSkin>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFSkin>(),
-		                             vector_glTFSkin___size,
-		                             vector_glTFSkin___at};
+		                             stl_vector_glTFSkin__size,
+		                             stl_vector_glTFSkin__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFSkin___add,
-		                             vector_glTFSkin___remove };
+		static Sequence sequence = { stl_vector_glTFSkin__push,
+		                             stl_vector_glTFSkin__add,
+		                             stl_vector_glTFSkin__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<glTFTexture>>();
-		static Meta meta = { t, &namspc({}), "vector<glTFTexture>", sizeof(vector<glTFTexture>), TypeClass::Sequence };
+		Type& t = type<stl::vector<glTFTexture>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFTexture>", sizeof(stl::vector<glTFTexture>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<glTFTexture>(),
-		                             vector_glTFTexture___size,
-		                             vector_glTFTexture___at};
+		                             stl_vector_glTFTexture__size,
+		                             stl_vector_glTFTexture__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_glTFTexture___add,
-		                             vector_glTFTexture___remove };
-		g_sequence[t.m_id] = &sequence;
-	}
-	{
-		Type& t = type<vector<int>>();
-		static Meta meta = { t, &namspc({}), "vector<int>", sizeof(vector<int>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<int>(),
-		                             vector_int___size,
-		                             vector_int___at};
-		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_int___add,
-		                             vector_int___remove };
+		static Sequence sequence = { stl_vector_glTFTexture__push,
+		                             stl_vector_glTFTexture__add,
+		                             stl_vector_glTFTexture__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	
@@ -464,19 +484,19 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTF, m_buffers), type<vector<glTFBuffer>>(), "buffers", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_buffer_views), type<vector<glTFBufferView>>(), "buffer_views", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_accessors), type<vector<glTFAccessor>>(), "accessors", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_images), type<vector<glTFImage>>(), "images", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_textures), type<vector<glTFTexture>>(), "textures", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_materials), type<vector<glTFMaterial>>(), "materials", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_meshes), type<vector<glTFMesh>>(), "meshes", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_nodes), type<vector<glTFNode>>(), "nodes", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_skins), type<vector<glTFSkin>>(), "skins", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_animations), type<vector<glTFAnimation>>(), "animations", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_cameras), type<vector<glTFCamera>>(), "cameras", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_samplers), type<vector<glTFSampler>>(), "samplers", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTF, m_scenes), type<vector<glTFScene>>(), "scenes", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTF, m_buffers), type<stl::vector<glTFBuffer>>(), "buffers", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_buffer_views), type<stl::vector<glTFBufferView>>(), "buffer_views", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_accessors), type<stl::vector<glTFAccessor>>(), "accessors", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_images), type<stl::vector<glTFImage>>(), "images", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_textures), type<stl::vector<glTFTexture>>(), "textures", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_materials), type<stl::vector<glTFMaterial>>(), "materials", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_meshes), type<stl::vector<glTFMesh>>(), "meshes", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_nodes), type<stl::vector<glTFNode>>(), "nodes", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_skins), type<stl::vector<glTFSkin>>(), "skins", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_animations), type<stl::vector<glTFAnimation>>(), "animations", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_cameras), type<stl::vector<glTFCamera>>(), "cameras", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_samplers), type<stl::vector<glTFSampler>>(), "samplers", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTF, m_scenes), type<stl::vector<glTFScene>>(), "scenes", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
@@ -501,7 +521,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAccessor, name), type<string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFAccessor, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, buffer_view), type<int>(), "buffer_view", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, byte_offset), type<int>(), "byte_offset", &byte_offset_default, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, component_type), type<glTFComponentType>(), "component_type", nullptr, Member::Value, nullptr },
@@ -530,9 +550,9 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAnimation, name), type<string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAnimation, samplers), type<vector<glTFAnimationSampler>>(), "samplers", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAnimation, channels), type<vector<glTFAnimationChannel>>(), "channels", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFAnimation, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFAnimation, samplers), type<stl::vector<glTFAnimationSampler>>(), "samplers", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTFAnimation, channels), type<stl::vector<glTFAnimationChannel>>(), "channels", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
@@ -602,7 +622,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTFAnimationTarget, node), type<int>(), "node", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAnimationTarget, path), type<string>(), "path", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFAnimationTarget, path), type<stl::string>(), "path", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -653,9 +673,9 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFBuffer, name), type<string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFBuffer, mime_type), type<string>(), "mime_type", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFBuffer, uri), type<string>(), "uri", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFBuffer, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFBuffer, mime_type), type<stl::string>(), "mime_type", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFBuffer, uri), type<stl::string>(), "uri", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFBuffer, byte_length), type<size_t>(), "byte_length", nullptr, Member::Value, nullptr }
 		};
 		// methods
@@ -683,7 +703,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFBufferView, name), type<string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFBufferView, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFBufferView, buffer), type<int>(), "buffer", &buffer_default, Member::Value, nullptr },
 			{ t, offsetof(glTFBufferView, byte_offset), type<size_t>(), "byte_offset", &byte_offset_default, Member::Value, nullptr },
 			{ t, offsetof(glTFBufferView, byte_length), type<size_t>(), "byte_length", &byte_length_default, Member::Value, nullptr },
@@ -710,8 +730,8 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFCamera, name), type<string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFCamera, type), type<string>(), "type", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFCamera, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFCamera, type), type<stl::string>(), "type", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFCamera, orthographic), type<glTFOrthographic>(), "orthographic", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFCamera, perspective), type<glTFPerspective>(), "perspective", nullptr, Member::Value, nullptr }
 		};
@@ -735,9 +755,9 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFImage, name), type<string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFImage, mime_type), type<string>(), "mime_type", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFImage, uri), type<string>(), "uri", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFImage, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFImage, mime_type), type<stl::string>(), "mime_type", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFImage, uri), type<stl::string>(), "uri", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFImage, buffer_view), type<int>(), "buffer_view", nullptr, Member::Value, nullptr }
 		};
 		// methods
@@ -763,7 +783,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFMaterial, name), type<string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterial, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, normal_texture), type<glTFTextureInfo>(), "normal_texture", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, occlusion_texture), type<glTFTextureInfo>(), "occlusion_texture", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, emissive_factor), type<mud::vec3>(), "emissive_factor", &emissive_factor_default, Member::Value, nullptr },
@@ -820,9 +840,9 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFMesh, name), type<string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFMesh, primitives), type<vector<glTFPrimitive>>(), "primitives", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFMesh, weights), type<vector<float>>(), "weights", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFMesh, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFMesh, primitives), type<stl::vector<glTFPrimitive>>(), "primitives", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(glTFMesh, weights), type<stl::vector<float>>(), "weights", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
@@ -858,6 +878,7 @@ namespace mud
 		static Meta meta = { t, &namspc({}), "glTFNode", sizeof(glTFNode), TypeClass::Struct };
 		// bases
 		// defaults
+		static mud::mat4 matrix_default = {};
 		static mud::vec3 translation_default = mud::Zero3;
 		static mud::quat rotation_default = mud::ZeroQuat;
 		static mud::vec3 scale_default = mud::Unit3;
@@ -871,15 +892,15 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFNode, name), type<string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, mesh), type<int>(), "mesh", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, camera), type<int>(), "camera", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, skin), type<int>(), "skin", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, matrix), type<mud::mat4>(), "matrix", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, matrix), type<mud::mat4>(), "matrix", &matrix_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, translation), type<mud::vec3>(), "translation", &translation_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, rotation), type<mud::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, scale), type<mud::vec3>(), "scale", &scale_default, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, children), type<vector<int>>(), "children", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFNode, children), type<stl::vector<int>>(), "children", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
@@ -975,7 +996,7 @@ namespace mud
 			{ t, offsetof(glTFPrimitive, indices), type<int>(), "indices", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFPrimitive, material), type<int>(), "material", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFPrimitive, mode), type<glTFPrimitiveType>(), "mode", &mode_default, Member::Value, nullptr },
-			{ t, offsetof(glTFPrimitive, targets), type<vector<glTFMorphTarget>>(), "targets", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFPrimitive, targets), type<stl::vector<glTFMorphTarget>>(), "targets", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
@@ -1003,7 +1024,7 @@ namespace mud
 			{ t, offsetof(glTFSampler, min_filter), type<int>(), "min_filter", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFSampler, wrap_s), type<int>(), "wrap_s", &wrap_s_default, Member::Value, nullptr },
 			{ t, offsetof(glTFSampler, wrap_t), type<int>(), "wrap_t", &wrap_t_default, Member::Value, nullptr },
-			{ t, offsetof(glTFSampler, name), type<string>(), "name", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFSampler, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1025,8 +1046,8 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFScene, name), type<string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFScene, nodes), type<vector<int>>(), "nodes", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFScene, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFScene, nodes), type<stl::vector<int>>(), "nodes", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
@@ -1048,9 +1069,9 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFSkin, name), type<string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFSkin, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFSkin, skeleton), type<int>(), "skeleton", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFSkin, joints), type<vector<int>>(), "joints", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFSkin, joints), type<stl::vector<int>>(), "joints", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(glTFSkin, inverse_bind_matrices), type<int>(), "inverse_bind_matrices", nullptr, Member::Value, nullptr }
 		};
 		// methods
@@ -1147,7 +1168,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFTexture, name), type<string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFTexture, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFTexture, sampler), type<int>(), "sampler", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFTexture, source), type<int>(), "source", nullptr, Member::Value, nullptr }
 		};
@@ -1179,6 +1200,8 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
+	
+	
 		m.m_types.push_back(&type<glTF>());
 		m.m_types.push_back(&type<glTFAccessor>());
 		m.m_types.push_back(&type<glTFAlphaMode>());
@@ -1212,24 +1235,23 @@ namespace mud
 		m.m_types.push_back(&type<glTFTexture>());
 		m.m_types.push_back(&type<glTFTextureInfo>());
 		m.m_types.push_back(&type<glTFType>());
-		m.m_types.push_back(&type<vector<glTFAccessor>>());
-		m.m_types.push_back(&type<vector<glTFAnimation>>());
-		m.m_types.push_back(&type<vector<glTFAnimationChannel>>());
-		m.m_types.push_back(&type<vector<glTFAnimationSampler>>());
-		m.m_types.push_back(&type<vector<glTFBuffer>>());
-		m.m_types.push_back(&type<vector<glTFBufferView>>());
-		m.m_types.push_back(&type<vector<glTFCamera>>());
-		m.m_types.push_back(&type<vector<glTFImage>>());
-		m.m_types.push_back(&type<vector<glTFMaterial>>());
-		m.m_types.push_back(&type<vector<glTFMesh>>());
-		m.m_types.push_back(&type<vector<glTFMorphTarget>>());
-		m.m_types.push_back(&type<vector<glTFNode>>());
-		m.m_types.push_back(&type<vector<glTFPrimitive>>());
-		m.m_types.push_back(&type<vector<glTFSampler>>());
-		m.m_types.push_back(&type<vector<glTFScene>>());
-		m.m_types.push_back(&type<vector<glTFSkin>>());
-		m.m_types.push_back(&type<vector<glTFTexture>>());
-		m.m_types.push_back(&type<vector<int>>());
+		m.m_types.push_back(&type<stl::vector<glTFAccessor>>());
+		m.m_types.push_back(&type<stl::vector<glTFAnimation>>());
+		m.m_types.push_back(&type<stl::vector<glTFAnimationChannel>>());
+		m.m_types.push_back(&type<stl::vector<glTFAnimationSampler>>());
+		m.m_types.push_back(&type<stl::vector<glTFBuffer>>());
+		m.m_types.push_back(&type<stl::vector<glTFBufferView>>());
+		m.m_types.push_back(&type<stl::vector<glTFCamera>>());
+		m.m_types.push_back(&type<stl::vector<glTFImage>>());
+		m.m_types.push_back(&type<stl::vector<glTFMaterial>>());
+		m.m_types.push_back(&type<stl::vector<glTFMesh>>());
+		m.m_types.push_back(&type<stl::vector<glTFMorphTarget>>());
+		m.m_types.push_back(&type<stl::vector<glTFNode>>());
+		m.m_types.push_back(&type<stl::vector<glTFPrimitive>>());
+		m.m_types.push_back(&type<stl::vector<glTFSampler>>());
+		m.m_types.push_back(&type<stl::vector<glTFScene>>());
+		m.m_types.push_back(&type<stl::vector<glTFSkin>>());
+		m.m_types.push_back(&type<stl::vector<glTFTexture>>());
 	}
 }
 

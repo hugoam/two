@@ -345,7 +345,7 @@ namespace mud
 	//inline const float3& mat3::operator[](uint index) const { return *((float3*)f + index); }
 	//inline float3& mat3::operator[](uint index) { return *((float3*)f + index); }
 
-	inline mat4::mat4() {}
+	inline mat4::mat4() : f{} {}
 	inline mat4::mat4(const float4& x, const float4& y, const float4& z, const float4& w)
 	{
 		f[0] = x.x; f[1] = x.y; f[2] = x.z; f[3] = x.w;
@@ -375,7 +375,7 @@ namespace mud
 	//inline bool mat4::operator!=(const mat4& other) const { return !(*this == other); }
 
 	inline quat::quat() { }
-	inline quat::quat(float v) : float4(v) { }
+	//inline quat::quat(float v) : float4(v) { }
 	inline quat::quat(float x, float y, float z, float w) : float4(x, y, z, w) { }
 	inline quat::quat(const float3& euler_angles)
 	{

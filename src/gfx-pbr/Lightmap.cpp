@@ -263,12 +263,6 @@ namespace mud
 		mesh.write(PLAIN, result, false);
 	}
 
-	struct ModelUnwrap
-	{
-		vector<bool> success;
-		uvec2 size;
-	};
-
 	void unwrap_model(Model& model, ModelUnwrap& unwrap, uint32_t rect_size, float density)
 	{
 		unwrap.success = vector<bool>(model.m_items.size(), false);
@@ -350,7 +344,7 @@ namespace mud
 		map<Model*, ModelUnwrap> unwraps;
 	};
 
-	void BlockLightmap::bake_geometry(array<Item*> items, LightmapAtlas& lightmaps)
+	void BlockLightmap::bake_geometry(span<Item*> items, LightmapAtlas& lightmaps)
 	{
 		struct PackResult { Image* image; Lightmap* lightmap; };
 

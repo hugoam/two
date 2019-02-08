@@ -1,3 +1,4 @@
+#ifndef USE_STL
 #include <stl/string.h>
 #include <stl/string.hpp>
 
@@ -14,3 +15,4 @@ namespace stl {
 		return result;
 	}
 }
+#endif

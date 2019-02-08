@@ -1,11 +1,16 @@
 #pragma once
+#include <infra/Config.h>
 
 #ifdef USE_STL
 #include <vector>
-namespace stl = std;
+namespace stl
+{
+	using std::vector;
+}
 #else
 #include <stl/initializer_list.h>
 
+#include <stl/decls.h>
 #include <stl/allocator.h>
 #include <stl/buffer.h>
 #include <stl/stddef.h>
@@ -19,14 +24,14 @@ namespace stl = std;
 namespace stl {
 
 #ifdef USE_UVECTOR
-	template <class T, class Alloc = TINYSTL_ALLOCATOR>
+	template <class T, class Alloc>
 	using vector = uvector<T>;
 #elif defined USE_BUFFER
-	template <class T, class Alloc = TINYSTL_ALLOCATOR>
+	template <class T, class Alloc>
 	using vector = buffer<T>;
 #else
-	template <class T, class Alloc = TINYSTL_ALLOCATOR>
-	class vector : public buffer<T, Alloc> {
+	template <class T, class Alloc>
+	class refl_ seque_ vector : public buffer<T, Alloc> {
 	public:
 		using buffer<T, Alloc>::buffer;
 
@@ -52,18 +57,12 @@ namespace stl {
 		iterator erase_unstable(iterator first, iterator last);
 	};
 #endif
-}
-#endif
-
-namespace mud
-{
-	using stl::vector;
-
+	
 	template <class It1, class It2, class Pr>
 	inline bool equal(It1 first1, const It1 last1, It2 first2, Pr pred)
 	{
-		for (; first1 != last1; ++first1, (void)++first2)
-			if (!pred(*first1, *first2))
+		for(; first1 != last1; ++first1, (void)++first2)
+			if(!pred(*first1, *first2))
 			{
 				return false;
 			}
@@ -73,15 +72,15 @@ namespace mud
 	template <class It1, class It2, class Pr>
 	inline bool equal(It1 first1, const It1 last1, It2 first2, const It2 last2, Pr Pred)
 	{
-		for (;;)
+		for(;;)
 		{
-			if (first1 == last1)
+			if(first1 == last1)
 				return first2 == last2;
 
-			if (first2 == last2)
+			if(first2 == last2)
 				return false;
 
-			if (!Pred(*first1, *first2))
+			if(!Pred(*first1, *first2))
 				return false;
 
 			++first1;
@@ -119,4 +118,11 @@ namespace mud
 		};
 		return left.size() == right.size() && equal(left.begin(), left.end(), right.begin(), equal_to);
 	}
+}
+#endif
+
+namespace mud
+{
+	using stl::vector;
+	using stl::equal;
 }

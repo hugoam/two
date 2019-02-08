@@ -259,8 +259,8 @@ namespace mud
 
 	struct ShapeData
 	{
-		array<ShapeIndex> m_indices;
-		array<ShapeVertex> m_vertices;
+		span<ShapeIndex> m_indices;
+		span<ShapeVertex> m_vertices;
 	};
 
 	inline ShapeData& mikkt_mesh(const SMikkTSpaceContext* context) { return *static_cast<ShapeData*>(context->m_pUserData); }
@@ -271,7 +271,7 @@ namespace mud
 		return shape_data.m_vertices[index];
 	}
 
-	void generate_mikkt_tangents(array<ShapeIndex> indices, array<ShapeVertex> vertices)
+	void generate_mikkt_tangents(span<ShapeIndex> indices, span<ShapeVertex> vertices)
 	{
 		ShapeData shape_data = { indices, vertices };
 		vector<ShapeVertex> verts = to_vector(vertices);

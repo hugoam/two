@@ -6,13 +6,13 @@
 
 #include <stl/swap.h>
 #include <infra/Config.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 
 namespace mud
 {
 #if 0
 	template <class T_Key, class T_Value, class T_Indices, class T_Greater>
-	void quicksort(array<T_Key> keys, array<T_Value> values, T_Indices& indices, T_Greater greater, const size_t left, const size_t right)
+	void quicksort(span<T_Key> keys, span<T_Value> values, T_Indices& indices, T_Greater greater, const size_t left, const size_t right)
 	{
 		auto swap = [&](size_t first, size_t second)
 		{
@@ -54,14 +54,14 @@ namespace mud
 	}
 
 	template <class T_Key, class T_Value, class T_Indices, class T_Greater>
-	void quicksort(array<T_Key> keys, array<T_Value> values, T_Indices& indices, T_Greater greater)
+	void quicksort(span<T_Key> keys, span<T_Value> values, T_Indices& indices, T_Greater greater)
 	{
 		if(keys.size() > 0)
 			quicksort(keys, values, indices, greater, 0, keys.size() - 1);
 	}
 
 	template <class T_Key, class T_Value, class T_Indices>
-	void quicksort(array<T_Key> keys, array<T_Value> values, T_Indices& indices)
+	void quicksort(span<T_Key> keys, span<T_Value> values, T_Indices& indices)
 	{
 		auto greater = [](T_Key a, T_Key b) { return a > b; };
 		if(keys.size() > 0)
@@ -70,10 +70,11 @@ namespace mud
 #endif
 	
 	template <class T, class Pred>
-	void quicksort(array<T> vec, Pred greater, const size_t left, const size_t right)
+	void quicksort(span<T> vec, Pred greater, const size_t left, const size_t right)
 	{
 		auto partition = [&](const size_t left, const size_t right)
 		{
+			using stl::swap;
 			const size_t mid = left + (right - left) / 2;
 			const T& pivot = vec[mid];
 			// move the mid point value to the front.
@@ -104,14 +105,14 @@ namespace mud
 	}
 
 	template <class T, class Pred>
-	void quicksort(array<T> values, Pred greater)
+	void quicksort(span<T> values, Pred greater)
 	{
 		if(values.size() > 0)
 			quicksort(values, greater, 0, values.size() - 1);
 	}
 
 	template <class T>
-	void quicksort(array<T> values)
+	void quicksort(span<T> values)
 	{
 		auto greater = [](T a, T b) { return a > b; };
 		if(values.size() > 0)

@@ -1,7 +1,8 @@
-#include <mud/frame.h>
+//#include <mud/frame.h>
+#include <frame/Api.h>
 #include <lang/Api.h>
 #include <uio/Api.h>
-#include <meta/gfx/Module.h>
+#include <meta/gfx.meta.h>
 
 #include <14_live_gfx_visual/14_live_gfx_visual.h>
 
@@ -63,7 +64,7 @@ void define_visual_script(VisualScript& script)
 
 VisualScript& create_visual_script()
 {
-	Signature signature = { { Param{ "scene", Ref(type<Gnode>()) } } };
+	Signature signature = { { Param{ "scene", type<Gnode>() } } };
 	static VisualScript script = { "Example Script", signature };
 	define_visual_script(script);
 	return script;

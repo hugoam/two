@@ -66,7 +66,7 @@ namespace mud
 		Var(const Ref& ref) : m_mode(REF), m_ref(ref) {}
 
 		Var(const Var& other) : m_mode(other.m_mode), m_any(other.m_any), m_ref(m_mode == VAL ? m_any.ref() : other.m_ref) {}
-		Var& operator=(const Var& other) { m_mode = other.m_mode; if (m_mode == VAL) { m_any = other.m_any; m_ref = m_any.ref(); } else m_ref = other.m_ref; return *this; }
+		Var& operator=(const Var& other) { m_mode = other.m_mode; if(m_mode == VAL) { m_any = other.m_any; m_ref = m_any.ref(); } else m_ref = other.m_ref; return *this; }
 		Var& operator=(const Ref& ref) { m_mode = REF; m_ref = ref; return *this; }
 
 		VarMode m_mode;
@@ -88,5 +88,5 @@ namespace mud
 		inline operator Ref&() { return m_ref; }
 	};
 
-	export_ inline Type& type(const Var& var) { return *var.m_ref.m_type; }
+	export_ inline const Type& type(const Var& var) { return *var.m_ref.m_type; }
 }

@@ -6,7 +6,6 @@
 
 #ifndef MUD_MODULES
 #include <stl/string.h>
-#include <infra/NonCopy.h>
 #include <type/Unique.h>
 #include <math/Vec.h>
 #endif
@@ -31,7 +30,7 @@ namespace mud
 		const bool m_manual_render;
 	};
 
-	export_ class refl_ MUD_CTX_EXPORT Context : public NonCopy
+	export_ class refl_ MUD_CTX_EXPORT Context
 	{
 	public:
 		Context(RenderSystem& render_system, const string& title, int width, int height, bool full_screen = false);

@@ -7,8 +7,8 @@
 #include <stl/vector.h>
 #include <infra/Generic.h>
 #include <type/Ref.h>
+#include <type/Proto.h>
 #include <ecs/Forward.h>
-#include <ecs/Proto.h>
 
 namespace mud
 {

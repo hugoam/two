@@ -8,6 +8,8 @@
 #include <03_materials/03_materials.h>
 #include <04_lights/04_lights.h>
 
+#include <stl/vector.hpp>
+
 using namespace mud;
 
 #define DEBUG_FRUSTUM 0

@@ -2,10 +2,8 @@
 #include <infra/Config.h>
 
 #ifdef USE_STL
-#ifndef MUD_CPP_20
 #include <algorithm>
-#endif
-namespace mud
+namespace stl
 {
 	using std::move;
 	using std::swap;
@@ -20,7 +18,7 @@ namespace mud
 #else
 #include <stl/vector.h>
 #include <stl/swap.h>
-namespace mud
+namespace stl
 {
 	template <class It, class T>
 	inline It find_char(It first, const It last, const T& val)
@@ -131,7 +129,11 @@ namespace mud
 			swap(*first, *last);
 		}
 	}
-	
+}
+#endif
+
+namespace stl
+{
 	export_ template <class U, class T>
 	inline bool has(const T& vec, const U& value)
 	{
@@ -169,6 +171,20 @@ namespace mud
 		return find_if(vec.begin(), vec.end(), predicate);
 	}
 	
+	export_ template <class T, class Pred>
+	inline auto in(T& vec, Pred predicate)
+	{
+		auto result = find_if(vec.begin(), vec.end(), predicate);
+		return result == vec.end() ? *result : nullptr;
+	}
+	
+	export_ template <class T, class Pred>
+	inline auto in(const T& vec, Pred predicate)
+	{
+		auto result = find_if(vec.begin(), vec.end(), predicate);
+		return result == vec.end() ? *result : nullptr;
+	}
+
 	export_ template <class T>
 	inline bool contains(const T& vec, const T& other)
 	{
@@ -281,7 +297,7 @@ namespace mud
 	inline void select(T& vec, U value) { vec.clear(); vec.push_back(value); }
 
 	export_ template <class T, class U>
-	inline bool select_swap(T& vec, U value) { if(has(vec, value)) { remove(vec, value); return false; } else { push(vec, value); return true; } }
+	inline bool select_swap(T& vec, U value) { if(has(vec, value)) { remove(vec, value); return false; } else { add(vec, value); return true; } }
 	
 	export_ template <class T, class U>
 	inline auto transfer_unique(T& source, T& target, U& value)
@@ -291,4 +307,40 @@ namespace mud
 		source.erase(pos);
 	}
 }
-#endif
+
+namespace mud
+{
+	using stl::move;
+	//using stl::swap;
+	using stl::find;
+	using stl::find_if;
+	using stl::includes;
+	using stl::remove;
+	using stl::remove_if;
+	using stl::transform;
+	using stl::reverse;
+	using stl::has;
+	using stl::has_pred;
+	using stl::find;
+	using stl::index_of;
+	using stl::find_if;
+	//using stl::in;
+	using stl::contains;
+	using stl::reverse;
+	using stl::push;
+	using stl::add;
+	using stl::pop;
+	using stl::swap_pop;
+	using stl::extend;
+	using stl::merge;
+	using stl::prepend;
+	using stl::remove;
+	using stl::remove_ref;
+	using stl::remove_object;
+	using stl::remove_pt;
+	using stl::remove_if;
+	using stl::prune;
+	using stl::select;
+	using stl::select_swap;
+	using stl::transfer_unique;
+}

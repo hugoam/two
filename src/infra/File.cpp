@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #ifdef MUD_CPP_20
 #include <infra/Cpp20.h>
 #include <dirent.h>
@@ -50,7 +49,7 @@ namespace mud
 			write_file(path, content);
 	}
 
-	void write_binary_file(const string& path, array<uint8_t> data)
+	void write_binary_file(const string& path, span<uint8_t> data)
 	{
 		std::ofstream file(path.c_str(), std::ios::out | std::ios::binary);
 		file.write((const char*)data.data(), data.size());
@@ -62,7 +61,7 @@ namespace mud
 		std::ifstream file = std::ifstream(path.c_str(), std::ios::binary);
 		buffer.resize(file.gcount());
 		buffer.insert(buffer.begin(), std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
-#ifdef MUD_NO_STL
+#ifndef USE_STL
 		return vector<uint8_t>(buffer.data(), buffer.data() + buffer.size());
 #else
 		return buffer;
@@ -73,7 +72,7 @@ namespace mud
 	{
 		std::ifstream file = std::ifstream(path.c_str());
 		std::string result((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-#ifdef MUD_NO_STL
+#ifndef USE_STL
 		return string(result.data(), result.data() + result.size());
 #else
 		return result;

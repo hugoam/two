@@ -32,7 +32,6 @@ namespace mud
     export_ template <> MUD_UIO_EXPORT Type& type<mud::EditNestMode>();
     export_ template <> MUD_UIO_EXPORT Type& type<mud::EditorHint>();
     
-    export_ template <> MUD_UIO_EXPORT Type& type<mud::ScriptEditor>();
     
-    export_ template <> MUD_UIO_EXPORT Type& type<vector<mud::ScriptEditor*>>();
+    export_ template <> MUD_UIO_EXPORT Type& type<mud::ScriptEditor>();
 }

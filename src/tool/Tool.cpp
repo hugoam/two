@@ -94,7 +94,7 @@ namespace mud
 		return plane_segment_intersection(plane, to_segment(viewer.mouse_ray()));
 	}
 
-	TransformAction::TransformAction(array<Transform*> targets)
+	TransformAction::TransformAction(span<Transform*> targets)
 		: m_targets(to_vector(targets))
 	{}
 

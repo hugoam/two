@@ -20,7 +20,7 @@ module mud.ui;
 
 namespace mud
 {
-	Table::Table(Widget* parent, void* identity, array<float> weights)
+	Table::Table(Widget* parent, void* identity, span<float> weights)
 		: Widget(parent, identity)
 		, m_weights(to_vector(weights))
 	{}
@@ -37,9 +37,9 @@ namespace ui
 		return scroll_sheet(parent, styles().list);
 	}
 
-	Table& columns(Widget& parent, array<float> weights)
+	Table& columns(Widget& parent, span<float> weights)
 	{
-		Table& self = parent.suba<Table, array<float>>(weights);
+		Table& self = parent.suba<Table, span<float>>(weights);
 		self.init(styles().table);
 
 		as<TableSolver>(*self.m_frame.m_solver).update(self.m_weights);
@@ -47,15 +47,15 @@ namespace ui
 		return self;
 	}
 	
-	Table& table(Widget& parent, size_t columns, array<float> weights)
+	Table& table(Widget& parent, size_t columns, span<float> weights)
 	{
 		if(weights.size() > 0)
-			return parent.suba<Table, array<float>>(weights);
+			return parent.suba<Table, span<float>>(weights);
 		else
 			return parent.suba<Table, size_t>(columns);
 	}
 
-	Table& table(Widget& parent, array<cstring> columns, array<float> weights)
+	Table& table(Widget& parent, span<cstring> columns, span<float> weights)
 	{
 		Table& self = table(parent, columns.size(), weights);
 		self.init(styles().table);
@@ -84,7 +84,7 @@ namespace ui
 		return widget(parent, table_styles().separator);
 	}
 
-	Widget& toggle_header(Widget& parent, Style& header_style, Style& toggle_style, array<cstring> elements, bool& open)
+	Widget& toggle_header(Widget& parent, Style& header_style, Style& toggle_style, span<cstring> elements, bool& open)
 	{
 		Widget& self = button(parent, header_style);
 		Widget& button = toggle(self, toggle_style, open);
@@ -93,7 +93,7 @@ namespace ui
 		return self;
 	}
 
-	Expandbox& expandbox(Widget& parent, array<cstring> elements, bool open)
+	Expandbox& expandbox(Widget& parent, span<cstring> elements, bool open)
 	{
 		Expandbox& self = twidget<Expandbox>(parent, expandbox_styles().expandbox, open);
 		self.m_header = &toggle_header(self, expandbox_styles().header, expandbox_styles().toggle, elements, self.m_open);
@@ -108,7 +108,7 @@ namespace ui
 		return expandbox(parent, { &name, 1 }, open);
 	}
 
-	TreeNode& tree_node(Widget& parent, array<cstring> elements, bool leaf, bool open)
+	TreeNode& tree_node(Widget& parent, span<cstring> elements, bool leaf, bool open)
 	{
 		TreeNode& self = twidget<TreeNode>(parent, treenode_styles().treenode, open);
 		self.m_header = &toggle_header(self, treenode_styles().header, leaf ? treenode_styles().no_toggle : treenode_styles().toggle, elements, self.m_open);

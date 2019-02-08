@@ -107,7 +107,7 @@ namespace mud
 		int64_t hi = index0 < index1 ? index1 : index0;
 		int64_t key = (lo << 32) | hi;
 
-		if (m_middle_point_cache.find(key) != m_middle_point_cache.end())
+		if(m_middle_point_cache.find(key) != m_middle_point_cache.end())
 			return m_middle_point_cache[key];
 
 		vec3 point1 = m_vertices[index0];

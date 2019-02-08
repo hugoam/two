@@ -2,13 +2,13 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.uio;
 #else
 #include <stl/algorithm.h>
+#include <stl/hash_base.hpp>
 #include <infra/Vector.h>
 #include <infra/ToString.h>
 #include <math/Vec.hpp>
@@ -229,7 +229,7 @@ namespace mud
 			}
 		}
 
-		if (ui::modal_button(self, *self.m_toolbar, "Browse API", Browse))
+		if(ui::modal_button(self, *self.m_toolbar, "Browse API", Browse))
 		{
 			Widget& modal = ui::auto_modal(self, Browse, { 600, 600 });
 			meta_browser(*modal.m_body);

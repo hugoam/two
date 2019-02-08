@@ -23,11 +23,11 @@ namespace mud
 
 		virtual void declare_types() final;
 
-		virtual const Var& get(const string& name, Type& type) final;
+		virtual Var get(const string& name, const Type& type) final;
 		virtual void set(const string& name, const Var& value) final;
 
-		virtual const Var& getx(array<cstring> path, Type& type) final;
-		virtual void setx(array<cstring> path, const Var& value) final;
+		virtual Var getx(span<cstring> path, const Type& type) final;
+		virtual void setx(span<cstring> path, const Var& value) final;
 
 		virtual void call(const string& code, Var* result = nullptr) final;
 

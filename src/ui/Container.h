@@ -5,10 +5,15 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/Array.h>
+#include <stl/span.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Style/Style.h>
+
+namespace stl
+{
+	export_ extern template struct refl_ span<float>;
+}
 
 namespace mud
 {
@@ -48,16 +53,16 @@ namespace ui
 
 	export_ MUD_UI_EXPORT func_ ScrollSheet& select_list(Widget& parent);
 
-	// @todo reflection for array<T>
-	export_ MUD_UI_EXPORT func_ Table& columns(Widget& parent, array<float> weights);
-	export_ MUD_UI_EXPORT func_ Table& table(Widget& parent, array<cstring> columns, array<float> weights);
+	// @todo reflection for span<T>
+	export_ MUD_UI_EXPORT func_ Table& columns(Widget& parent, span<float> weights);
+	export_ MUD_UI_EXPORT func_ Table& table(Widget& parent, span<cstring> columns, span<float> weights);
 	export_ MUD_UI_EXPORT func_ Widget& table_row(Widget& parent);
 	export_ MUD_UI_EXPORT func_ Widget& table_separator(Widget& parent);
 
-	export_ MUD_UI_EXPORT Expandbox& expandbox(Widget& parent, array<cstring> elements, bool open = true);
+	export_ MUD_UI_EXPORT Expandbox& expandbox(Widget& parent, span<cstring> elements, bool open = true);
 	export_ MUD_UI_EXPORT func_ Expandbox& expandbox(Widget& parent, cstring name, bool open = true);
 
-	export_ MUD_UI_EXPORT TreeNode& tree_node(Widget& parent, array<cstring> elements, bool leaf = false, bool open = true);
+	export_ MUD_UI_EXPORT TreeNode& tree_node(Widget& parent, span<cstring> elements, bool leaf = false, bool open = true);
 	export_ MUD_UI_EXPORT func_ TreeNode& tree_node(Widget& parent, cstring name, bool leaf = false, bool open = true);
 	export_ MUD_UI_EXPORT func_ Widget& tree(Widget& parent);
 

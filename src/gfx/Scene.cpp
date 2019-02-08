@@ -29,7 +29,7 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #endif
 
-#define DEBUG_ITEMS 1
+#define DEBUG_ITEMS 0
 
 namespace mud
 {

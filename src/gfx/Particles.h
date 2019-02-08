@@ -97,8 +97,6 @@ namespace mud
 		float m_blend;
 		float m_radius;
 		//float m_angle;
-
-		static void init();
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT Particles : public ParticleFlow

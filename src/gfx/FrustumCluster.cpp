@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -12,6 +11,7 @@ module mud.gfx;
 #include <stl/algorithm.h>
 #include <stl/traits.h>
 #include <math/Vec.hpp>
+#include <geom/Geom.hpp>
 #include <gfx/FrustumCluster.h>
 #endif
 
@@ -25,6 +25,7 @@ namespace mud
 {
 	void compute_frustum_subdiv(ClusteredFrustum& frustum, vec2 clip_size, size_t slices)
 	{
+		using stl::swap;
 		// TODO: don't hardcode this
 		frustum.m_subdiv_x = uint16_t(32);
 		frustum.m_subdiv_y = uint16_t(16);

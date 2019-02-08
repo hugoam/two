@@ -29,6 +29,7 @@ namespace mud
     class Meta;
     class Static;
     class Member;
+	struct Alias;
     class Class;
     class Convert;
     class TypeConverter;
@@ -43,3 +44,16 @@ namespace mud
 	class Prototype;
 }
 
+#ifdef MUD_META_GENERATOR // #ifndef USE_STL
+#include <stl/vector.h>
+namespace stl
+{
+	export_ extern template class refl_ seque_ vector<mud::Var>;
+	export_ extern template class refl_ seque_ vector<void*>;
+
+	export_ extern template class refl_ seque_ vector<mud::Module*>;
+	export_ extern template class refl_ seque_ vector<mud::Type*>;
+	export_ extern template class refl_ seque_ vector<mud::Alias*>;
+	export_ extern template class refl_ seque_ vector<mud::Function*>;
+}
+#endif

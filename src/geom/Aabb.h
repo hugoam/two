@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <math/Vec.h>
 #endif
 #include <geom/Forward.h>
@@ -33,7 +33,7 @@ namespace mud
 		void mergeSafe(const Aabb& other);
 
 		bool cull(const vec3& point) const;
-		bool cull(array<vec3> points) const;
+		bool cull(span<vec3> points) const;
 	};
 
 	export_ MUD_GEOM_EXPORT Aabb aabb(const vec3& min, const vec3& max);

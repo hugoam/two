@@ -49,7 +49,7 @@ namespace mud
 		vertex(d, normal, quadUVs[3]);
 	}
 
-	void quad_vertices(const ProcShape& shape, const vec3& center, array<vec3> vertices, bool fill, MeshAdapter& writer)
+	void quad_vertices(const ProcShape& shape, const vec3& center, span<vec3> vertices, bool fill, MeshAdapter& writer)
 	{
 		quad_vertices(shape, center, vertices[0], vertices[1], vertices[2], vertices[3], fill, writer);
 	}
@@ -91,7 +91,7 @@ namespace mud
 	void draw_shape_lines(const ProcShape& shape, const Grid3& grid, MeshAdapter& writer)
 	{
 		// @todo: could draw it like a grid instead of per quads...
-		array2d<vec3> points = { const_cast<vec3*>(grid.m_points.data()), grid.m_size.x, grid.m_size.y };
+		span2d<vec3> points = { const_cast<vec3*>(grid.m_points.data()), grid.m_size.x, grid.m_size.y };
 
 		uint32_t offset = 0;
 
@@ -113,7 +113,7 @@ namespace mud
 
 	void draw_shape_triangles(const ProcShape& shape, const Grid3& grid, MeshAdapter& writer)
 	{
-		array2d<vec3> points = { const_cast<vec3*>(grid.m_points.data()), grid.m_size.x, grid.m_size.y };
+		span2d<vec3> points = { const_cast<vec3*>(grid.m_points.data()), grid.m_size.x, grid.m_size.y };
 
 		uint32_t offset = 0;
 

@@ -10,7 +10,7 @@
 
 namespace mud
 {
-	using cstring = const char*;
+	export_ using cstring = const char*;
 
 	export_ enum class refl_ Spectrum : short int
 	{

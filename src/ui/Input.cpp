@@ -229,7 +229,7 @@ namespace
 {
 	struct Curve
 	{
-		Curve(const vec2& size, float min, float max, array<float> values, array<float> points)
+		Curve(const vec2& size, float min, float max, span<float> values, span<float> points)
 			: m_min(min), m_max(max), m_values(values), m_points(points)
 		{
 			m_scale = size * vec2{ 1.f, max - min };
@@ -237,8 +237,8 @@ namespace
 
 		float m_min;
 		float m_max;
-		array<float> m_values;
-		array<float> m_points;
+		span<float> m_values;
+		span<float> m_points;
 		vec2 m_scale;
 
 		vec2 point(size_t i)
@@ -284,7 +284,7 @@ namespace
 		}
 	}
 
-	bool curve_graph(Widget& parent, array<float> values, array<float> points)
+	bool curve_graph(Widget& parent, span<float> values, span<float> points)
 	{
 		const float lowest = 0.f;
 		const float highest = 1.f;
@@ -323,14 +323,14 @@ namespace
 		return false;
 	}
 
-	bool curve_edit(Widget& parent, array<float> values, array<float> points)
+	bool curve_edit(Widget& parent, span<float> values, span<float> points)
 	{
 		Widget& self = widget(parent, styles().curve_input);
 		curve_graph(self, values, points);
 		return false;
 	}
 
-	bool curve_edit(Widget& parent, array<Colour> values, array<float> points)
+	bool curve_edit(Widget& parent, span<Colour> values, span<float> points)
 	{
 		UNUSED(parent); UNUSED(values); UNUSED(points);
 		return false;

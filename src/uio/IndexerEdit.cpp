@@ -16,7 +16,7 @@ module mud.uio;
 #include <ui/Sequence.h>
 #include <ui/ContainerStruct.h>
 #include <ui/WindowStruct.h>
-#include <uio/ObjectEdit.h>
+#include <uio/Object.h>
 #include <uio/IndexerEdit.h>
 #endif
 
@@ -27,7 +27,7 @@ namespace mud
 
 	void complex_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection)
 	{
-		Member& complex = cls(indexer.m_type).member("complex");
+		Member& complex = cls(*indexer.m_type).member("complex");
 
 		Widget& self = ui::sheet(parent);
 		for(Ref component : indexer.m_objects)

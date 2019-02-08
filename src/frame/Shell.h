@@ -3,8 +3,11 @@
 #include <frame/Forward.h>
 
 #include <infra/Api.h>
+#include <ecs/Api.h>
 #include <jobs/Api.h>
 #include <ui/Api.h>
+#include <math/Api.h>
+#include <geom/Api.h>
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
 
@@ -22,7 +25,7 @@ namespace mud
 	using ShellUpdate = void(*)(Shell&);
 	//using ShellUpdate = std::function<void(Shell&)>;
 
-	class refl_ Shell : public NonCopy
+	class refl_ Shell
 	{
 	public:
 		constr_ Shell(const string& resource_path, const string& exec_path = "");

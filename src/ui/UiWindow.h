@@ -8,7 +8,6 @@
 #include <stl/string.h>
 #include <stl/vector.h>
 #include <stl/map.h>
-#include <infra/NonCopy.h>
 #include <type/Unique.h>
 #include <math/Timer.h>
 #include <math/ImageAtlas.h>
@@ -27,7 +26,7 @@ namespace mud
 		attr_ vector<string> m_pasted = {};
 	};
 
-	export_ class refl_ MUD_UI_EXPORT UiWindow : public NonCopy
+	export_ class refl_ MUD_UI_EXPORT UiWindow
 	{
 	public:
 		UiWindow(Context& context, Vg& vg, User* user = nullptr);

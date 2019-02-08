@@ -4,25 +4,21 @@
 
 #pragma once
 
+#include <stdint.h>
 #include <stl/vector.h>
 #include <type/Forward.h>
 #include <type/Ref.h>
 #include <type/Type.h>
-#include <infra/NonCopy.h>
 #include <type/Unique.h>
-
-#ifndef MUD_CPP20
-#include <stdint.h>
-#endif
 
 namespace mud
 {
 	export_ class refl_ MUD_TYPE_EXPORT Indexer
 	{
 	public:
-		Indexer(Type& type) : m_type(type), m_objects(1, Ref{ type }), m_count(0), m_next(1) {}
+		Indexer(const Type& type) : m_type(&type), m_objects(1, Ref{ type }), m_count(0), m_next(1) {}
 
-		attr_ Type& m_type;
+		attr_ const Type* m_type;
 		attr_ vector<Ref> m_objects;
 
 		inline uint32_t alloc() { return m_next++; }
@@ -44,12 +40,15 @@ namespace mud
 		uint32_t m_next;
 	};
 
-	export_ class refl_ MUD_TYPE_EXPORT Index : public NonCopy
+	export_ class refl_ MUD_TYPE_EXPORT Index //
 	{
 	public:
 		Index() : m_indexers(c_max_types) {}
 
-		meth_ Indexer& indexer(Type& type)
+		Index(const Index& other) = delete;
+		Index& operator=(const Index& other) = delete;
+
+		meth_ Indexer& indexer(const Type& type)
 		{
 			if(!m_indexers[type.m_id])
 				m_indexers[type.m_id] = make_unique<Indexer>(type);
@@ -61,10 +60,10 @@ namespace mud
 		attr_ static Index me;
 	};
 
-	export_ inline Indexer& indexer(Type& type) { return Index::me.indexer(type); }
-	export_ inline uint32_t index(Type& type, uint32_t id, Ref object) { return Index::me.indexer(type).index(id, object); }
-	export_ inline uint32_t index(Type& type, Ref object) { return Index::me.indexer(type).index(object); }
-	export_ inline void unindex(Type& type, uint32_t id) { Index::me.indexer(type).remove(id); }
+	export_ inline Indexer& indexer(const Type& type) { return Index::me.indexer(type); }
+	export_ inline uint32_t index(const Type& type, uint32_t id, Ref object) { return Index::me.indexer(type).index(id, object); }
+	export_ inline uint32_t index(const Type& type, Ref object) { return Index::me.indexer(type).index(object); }
+	export_ inline void unindex(const Type& type, uint32_t id) { Index::me.indexer(type).remove(id); }
 
-	export_ func_ inline Ref indexed(Type& type, uint32_t id) { return Index::me.indexer(type).m_objects[id]; }
+	export_ func_ inline Ref indexed(const Type& type, uint32_t id) { return Index::me.indexer(type).m_objects[id]; }
 }

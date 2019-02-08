@@ -11,13 +11,21 @@ module mud.math;
 namespace mud
 {
     // Exported types
-    template <> MUD_MATH_EXPORT Type& type<mud::Axes>() { static Type ty("mud::Axes", sizeof(mud::Axes)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::Axis>() { static Type ty("mud::Axis", sizeof(mud::Axis)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::Clockwise>() { static Type ty("mud::Clockwise", sizeof(mud::Clockwise)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::Side>() { static Type ty("mud::Side", sizeof(mud::Side)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::SignedAxis>() { static Type ty("mud::SignedAxis", sizeof(mud::SignedAxis)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::Spectrum>() { static Type ty("mud::Spectrum", sizeof(mud::Spectrum)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::TrackMode>() { static Type ty("mud::TrackMode", sizeof(mud::TrackMode)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Axes>() { static Type ty("Axes", sizeof(mud::Axes)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Axis>() { static Type ty("Axis", sizeof(mud::Axis)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Clockwise>() { static Type ty("Clockwise", sizeof(mud::Clockwise)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Side>() { static Type ty("Side", sizeof(mud::Side)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::SignedAxis>() { static Type ty("SignedAxis", sizeof(mud::SignedAxis)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Spectrum>() { static Type ty("Spectrum", sizeof(mud::Spectrum)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::TrackMode>() { static Type ty("TrackMode", sizeof(mud::TrackMode)); return ty; }
+    
+    template <> MUD_MATH_EXPORT Type& type<stl::vector<float>>() { static Type ty("vector<float>", sizeof(stl::vector<float>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::vector<int>>() { static Type ty("vector<int>", sizeof(stl::vector<int>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::vector<mud::Colour>>() { static Type ty("vector<mud::Colour>", sizeof(stl::vector<mud::Colour>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::vector<mud::quat>>() { static Type ty("vector<mud::quat>", sizeof(stl::vector<mud::quat>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::vector<mud::uvec3>>() { static Type ty("vector<mud::uvec3>", sizeof(stl::vector<mud::uvec3>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::vector<mud::vec3>>() { static Type ty("vector<mud::vec3>", sizeof(stl::vector<mud::vec3>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::vector<uint32_t>>() { static Type ty("vector<uint32_t>", sizeof(stl::vector<uint32_t>)); return ty; }
     
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<float>>() { static Type ty("AutoStat<float>", sizeof(mud::AutoStat<float>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<int>>() { static Type ty("AutoStat<int>", sizeof(mud::AutoStat<int>)); return ty; }
@@ -44,22 +52,22 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::ValueTrack<mud::quat>>() { static Type ty("ValueTrack<mud::quat>", sizeof(mud::ValueTrack<mud::quat>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ValueTrack<mud::vec3>>() { static Type ty("ValueTrack<mud::vec3>", sizeof(mud::ValueTrack<mud::vec3>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ValueTrack<uint32_t>>() { static Type ty("ValueTrack<uint32_t>", sizeof(mud::ValueTrack<uint32_t>)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::bvec3>() { static Type ty("bvec3", sizeof(mud::bvec3)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::bvec4>() { static Type ty("bvec4", sizeof(mud::bvec4)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::half2>() { static Type ty("half2", sizeof(mud::half2)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::half3>() { static Type ty("half3", sizeof(mud::half3)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::ivec2>() { static Type ty("ivec2", sizeof(mud::ivec2)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::ivec3>() { static Type ty("ivec3", sizeof(mud::ivec3)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::ivec4>() { static Type ty("ivec4", sizeof(mud::ivec4)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::mat3>() { static Type ty("mat3", sizeof(mud::mat3)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::mat4>() { static Type ty("mat4", sizeof(mud::mat4)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::quat>() { static Type ty("quat", sizeof(mud::quat)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::uvec2>() { static Type ty("uvec2", sizeof(mud::uvec2)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::uvec3>() { static Type ty("uvec3", sizeof(mud::uvec3)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::uvec4>() { static Type ty("uvec4", sizeof(mud::uvec4)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::vec2>() { static Type ty("vec2", sizeof(mud::vec2)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::vec3>() { static Type ty("vec3", sizeof(mud::vec3)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::vec4>() { static Type ty("vec4", sizeof(mud::vec4)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v2<bool>>() { static Type ty("v2<bool>", sizeof(mud::v2<bool>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v2<float>>() { static Type ty("v2<float>", sizeof(mud::v2<float>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v2<int>>() { static Type ty("v2<int>", sizeof(mud::v2<int>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v2<stl::uint>>() { static Type ty("v2<stl::uint>", sizeof(mud::v2<stl::uint>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v3<bool>>() { static Type ty("v3<bool>", sizeof(mud::v3<bool>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v3<float>>() { static Type ty("v3<float>", sizeof(mud::v3<float>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v3<int>>() { static Type ty("v3<int>", sizeof(mud::v3<int>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v3<stl::uint>>() { static Type ty("v3<stl::uint>", sizeof(mud::v3<stl::uint>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v4<bool>>() { static Type ty("v4<bool>", sizeof(mud::v4<bool>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v4<float>>() { static Type ty("v4<float>", sizeof(mud::v4<float>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v4<int>>() { static Type ty("v4<int>", sizeof(mud::v4<int>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v4<stl::uint>>() { static Type ty("v4<stl::uint>", sizeof(mud::v4<stl::uint>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Sprite>() { static Type ty("Sprite", type<mud::Image>(), sizeof(mud::Sprite)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>() { static Type ty("SpriteAtlas", type<mud::ImageAtlas>(), sizeof(mud::SpriteAtlas)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::TextureAtlas>() { static Type ty("TextureAtlas", type<mud::ImageAtlas>(), sizeof(mud::TextureAtlas)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::quat>() { static Type ty("quat", type<mud::float4>(), sizeof(mud::quat)); return ty; }
 }

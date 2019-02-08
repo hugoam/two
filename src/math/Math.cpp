@@ -8,7 +8,7 @@
 #include <cstdlib>
 module mud.math;
 #else
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <math/Types.h>
 #include <math/Vec.hpp>
 #include <math/Math.h>
@@ -68,7 +68,7 @@ namespace mud
 		return normalize(cumulative * factor);
 	}
 
-	Transform average_transforms(array<Transform*> transforms)
+	Transform average_transforms(span<Transform*> transforms)
 	{
 		Transform average;
 		average.m_scale = Zero3;

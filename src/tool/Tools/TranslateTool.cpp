@@ -19,7 +19,7 @@ module mud.tool;
 
 namespace mud
 {
-	TranslateAction::TranslateAction(array<Transform*> targets)
+	TranslateAction::TranslateAction(span<Transform*> targets)
 		: TransformAction(targets)
 		, m_translation(Zero3)
 	{}
@@ -95,7 +95,7 @@ namespace mud
 		return make_unique<TranslatePlanarGizmo>(*this, normal, hue);
 	}
 
-	object<TransformAction> TranslateTool::create_action(array<Transform*> targets)
+	object<TransformAction> TranslateTool::create_action(span<Transform*> targets)
 	{
 		return oconstruct<TranslateAction>(targets);
 	}

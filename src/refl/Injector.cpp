@@ -79,7 +79,7 @@ namespace mud
 	}
 
 #ifdef MUD_ECS_PROTO
-	array<Var> Injector::args(Type& type)
+	span<Var> Injector::args(Type& type)
 	{
 		size_t index = m_partIndex[m_proto->part_index(type)];
 		return to_array(m_args, index);

@@ -11,7 +11,9 @@ module mud.fract;
 namespace mud
 {
     // Exported types
-    template <> MUD_FRACT_EXPORT Type& type<mud::PatternSampling>() { static Type ty("mud::PatternSampling", sizeof(mud::PatternSampling)); return ty; }
+    template <> MUD_FRACT_EXPORT Type& type<mud::PatternSampling>() { static Type ty("PatternSampling", sizeof(mud::PatternSampling)); return ty; }
+    
+    template <> MUD_FRACT_EXPORT Type& type<stl::vector<mud::Image256>>() { static Type ty("vector<mud::Image256>", sizeof(stl::vector<mud::Image256>)); return ty; }
     
     template <> MUD_FRACT_EXPORT Type& type<mud::Circlifier>() { static Type ty("Circlifier", sizeof(mud::Circlifier)); return ty; }
     template <> MUD_FRACT_EXPORT Type& type<mud::Fract>() { static Type ty("Fract", sizeof(mud::Fract)); return ty; }

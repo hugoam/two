@@ -3,8 +3,10 @@
 #ifdef MUD_MODULES
 module mud.refl;
 #else
-#include <stddef.h>
+#include <cstddef>
 #include <stl/new.h>
+#include <infra/ToString.h>
+#include <infra/ToValue.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -21,32 +23,48 @@ using namespace mud;
 
 void mud_TypeClass__to_string(void* val, string& str) { str = g_enu[type<mud::TypeClass>().m_id]->name(uint32_t((*static_cast<mud::TypeClass*>(val)))); }
 void mud_TypeClass__to_value(const string& str, void* val) { (*static_cast<mud::TypeClass*>(val)) = mud::TypeClass(g_enu[type<mud::TypeClass>().m_id]->value(str.c_str())); }
-size_t vector_mud_Function____size(void* vec) { return (*static_cast<vector<mud::Function*>*>(vec)).size(); }
-void* vector_mud_Function____at(void* vec, size_t i) { return &(*static_cast<vector<mud::Function*>*>(vec))[i]; }
-void vector_mud_Function____add(void* vec, void* value) { (*static_cast<vector<mud::Function*>*>(vec)).push_back(static_cast<mud::Function*>(value)); }
-void vector_mud_Function____remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<mud::Function*>*>(vec)), static_cast<mud::Function*>(value)); }
-size_t vector_mud_Module____size(void* vec) { return (*static_cast<vector<mud::Module*>*>(vec)).size(); }
-void* vector_mud_Module____at(void* vec, size_t i) { return &(*static_cast<vector<mud::Module*>*>(vec))[i]; }
-void vector_mud_Module____add(void* vec, void* value) { (*static_cast<vector<mud::Module*>*>(vec)).push_back(static_cast<mud::Module*>(value)); }
-void vector_mud_Module____remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<mud::Module*>*>(vec)), static_cast<mud::Module*>(value)); }
-size_t vector_mud_Type____size(void* vec) { return (*static_cast<vector<mud::Type*>*>(vec)).size(); }
-void* vector_mud_Type____at(void* vec, size_t i) { return &(*static_cast<vector<mud::Type*>*>(vec))[i]; }
-void vector_mud_Type____add(void* vec, void* value) { (*static_cast<vector<mud::Type*>*>(vec)).push_back(static_cast<mud::Type*>(value)); }
-void vector_mud_Type____remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<mud::Type*>*>(vec)), static_cast<mud::Type*>(value)); }
-size_t vector_mud_Var___size(void* vec) { return (*static_cast<vector<mud::Var>*>(vec)).size(); }
-void* vector_mud_Var___at(void* vec, size_t i) { return &(*static_cast<vector<mud::Var>*>(vec))[i]; }
-void vector_mud_Var___add(void* vec, void* value) { (*static_cast<vector<mud::Var>*>(vec)).push_back(*static_cast<mud::Var*>(value)); }
-void vector_mud_Var___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<mud::Var>*>(vec)), *static_cast<mud::Var*>(value)); }
-void mud_Call__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Call*>(ref))) mud::Call(  ); }
-void mud_Call__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Call*>(ref))) mud::Call( *static_cast<mud::Callable*>(args[0]), *static_cast<vector<mud::Var>*>(args[1]) ); }
-void mud_Call__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Call*>(ref))) mud::Call((*static_cast<mud::Call*>(other))); }
+size_t stl_vector_mud_Alias___size(void* vec) { return (*static_cast<stl::vector<mud::Alias*>*>(vec)).size(); }
+void* stl_vector_mud_Alias___at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Alias*>*>(vec))[i]; }
+void stl_vector_mud_Alias___push(void* vec) { (*static_cast<stl::vector<mud::Alias*>*>(vec)).emplace_back(); }
+void stl_vector_mud_Alias___add(void* vec, void* value) { (*static_cast<stl::vector<mud::Alias*>*>(vec)).push_back(static_cast<mud::Alias*>(value)); }
+void stl_vector_mud_Alias___remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Alias*>*>(vec)), static_cast<mud::Alias*>(value)); }
+size_t stl_vector_mud_Function___size(void* vec) { return (*static_cast<stl::vector<mud::Function*>*>(vec)).size(); }
+void* stl_vector_mud_Function___at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Function*>*>(vec))[i]; }
+void stl_vector_mud_Function___push(void* vec) { (*static_cast<stl::vector<mud::Function*>*>(vec)).emplace_back(); }
+void stl_vector_mud_Function___add(void* vec, void* value) { (*static_cast<stl::vector<mud::Function*>*>(vec)).push_back(static_cast<mud::Function*>(value)); }
+void stl_vector_mud_Function___remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Function*>*>(vec)), static_cast<mud::Function*>(value)); }
+size_t stl_vector_mud_Module___size(void* vec) { return (*static_cast<stl::vector<mud::Module*>*>(vec)).size(); }
+void* stl_vector_mud_Module___at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Module*>*>(vec))[i]; }
+void stl_vector_mud_Module___push(void* vec) { (*static_cast<stl::vector<mud::Module*>*>(vec)).emplace_back(); }
+void stl_vector_mud_Module___add(void* vec, void* value) { (*static_cast<stl::vector<mud::Module*>*>(vec)).push_back(static_cast<mud::Module*>(value)); }
+void stl_vector_mud_Module___remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Module*>*>(vec)), static_cast<mud::Module*>(value)); }
+size_t stl_vector_mud_Type___size(void* vec) { return (*static_cast<stl::vector<mud::Type*>*>(vec)).size(); }
+void* stl_vector_mud_Type___at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Type*>*>(vec))[i]; }
+void stl_vector_mud_Type___push(void* vec) { (*static_cast<stl::vector<mud::Type*>*>(vec)).emplace_back(); }
+void stl_vector_mud_Type___add(void* vec, void* value) { (*static_cast<stl::vector<mud::Type*>*>(vec)).push_back(static_cast<mud::Type*>(value)); }
+void stl_vector_mud_Type___remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Type*>*>(vec)), static_cast<mud::Type*>(value)); }
+size_t stl_vector_mud_Var__size(void* vec) { return (*static_cast<stl::vector<mud::Var>*>(vec)).size(); }
+void* stl_vector_mud_Var__at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Var>*>(vec))[i]; }
+void stl_vector_mud_Var__push(void* vec) { (*static_cast<stl::vector<mud::Var>*>(vec)).emplace_back(); }
+void stl_vector_mud_Var__add(void* vec, void* value) { (*static_cast<stl::vector<mud::Var>*>(vec)).push_back(*static_cast<mud::Var*>(value)); }
+void stl_vector_mud_Var__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Var>*>(vec)), *static_cast<mud::Var*>(value)); }
+size_t stl_vector_void___size(void* vec) { return (*static_cast<stl::vector<void*>*>(vec)).size(); }
+void* stl_vector_void___at(void* vec, size_t i) { return &(*static_cast<stl::vector<void*>*>(vec))[i]; }
+void stl_vector_void___push(void* vec) { (*static_cast<stl::vector<void*>*>(vec)).emplace_back(); }
+void stl_vector_void___add(void* vec, void* value) { (*static_cast<stl::vector<void*>*>(vec)).push_back(static_cast<void*>(value)); }
+void stl_vector_void___remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<void*>*>(vec)), static_cast<void*>(value)); }
+void mud_Alias__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Alias(  ); }
+void mud_Alias__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Alias((*static_cast<mud::Alias*>(other))); }
+void mud_Call__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Call(  ); }
+void mud_Call__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Call( *static_cast<mud::Callable*>(args[0]), *static_cast<stl::vector<mud::Var>*>(args[1]) ); }
+void mud_Call__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Call((*static_cast<mud::Call*>(other))); }
 void* mud_Creator__get_type(void* object) { return &(*static_cast<mud::Creator*>(object)).m_type; }
 void* mud_Creator__get_injector(void* object) { return &(*static_cast<mud::Creator*>(object)).injector(); }
-void mud_Operator__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Operator*>(ref))) mud::Operator(  ); }
-void mud_Operator__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Operator*>(ref))) mud::Operator((*static_cast<mud::Operator*>(other))); }
-void mud_QualType__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::QualType*>(ref))) mud::QualType(  ); }
-void mud_QualType__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::QualType*>(ref))) mud::QualType((*static_cast<mud::QualType*>(other))); }
-void mud_system_0(array<void*> args, void*& result) { UNUSED(args); result = &mud::system(); }
+void mud_Operator__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Operator(  ); }
+void mud_Operator__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Operator((*static_cast<mud::Operator*>(other))); }
+void mud_QualType__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::QualType(  ); }
+void mud_QualType__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::QualType((*static_cast<mud::QualType*>(other))); }
+void mud_system_0(span<void*> args, void*& result) { UNUSED(args); result = &mud::system(); }
 
 namespace mud
 {
@@ -72,54 +90,103 @@ namespace mud
 	
 	// Sequences
 	{
-		Type& t = type<vector<mud::Function*>>();
-		static Meta meta = { t, &namspc({}), "vector<mud::Function*>", sizeof(vector<mud::Function*>), TypeClass::Sequence };
+		Type& t = type<stl::vector<mud::Alias*>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Alias*>", sizeof(stl::vector<mud::Alias*>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::Alias>(),
+		                             stl_vector_mud_Alias___size,
+		                             stl_vector_mud_Alias___at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { stl_vector_mud_Alias___push,
+		                             stl_vector_mud_Alias___add,
+		                             stl_vector_mud_Alias___remove };
+		g_sequence[t.m_id] = &sequence;
+	}
+	{
+		Type& t = type<stl::vector<mud::Function*>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Function*>", sizeof(stl::vector<mud::Function*>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<mud::Function>(),
-		                             vector_mud_Function____size,
-		                             vector_mud_Function____at};
+		                             stl_vector_mud_Function___size,
+		                             stl_vector_mud_Function___at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_mud_Function____add,
-		                             vector_mud_Function____remove };
+		static Sequence sequence = { stl_vector_mud_Function___push,
+		                             stl_vector_mud_Function___add,
+		                             stl_vector_mud_Function___remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<mud::Module*>>();
-		static Meta meta = { t, &namspc({}), "vector<mud::Module*>", sizeof(vector<mud::Module*>), TypeClass::Sequence };
+		Type& t = type<stl::vector<mud::Module*>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Module*>", sizeof(stl::vector<mud::Module*>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<mud::Module>(),
-		                             vector_mud_Module____size,
-		                             vector_mud_Module____at};
+		                             stl_vector_mud_Module___size,
+		                             stl_vector_mud_Module___at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_mud_Module____add,
-		                             vector_mud_Module____remove };
+		static Sequence sequence = { stl_vector_mud_Module___push,
+		                             stl_vector_mud_Module___add,
+		                             stl_vector_mud_Module___remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<mud::Type*>>();
-		static Meta meta = { t, &namspc({}), "vector<mud::Type*>", sizeof(vector<mud::Type*>), TypeClass::Sequence };
+		Type& t = type<stl::vector<mud::Type*>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Type*>", sizeof(stl::vector<mud::Type*>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<mud::Type>(),
-		                             vector_mud_Type____size,
-		                             vector_mud_Type____at};
+		                             stl_vector_mud_Type___size,
+		                             stl_vector_mud_Type___at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_mud_Type____add,
-		                             vector_mud_Type____remove };
+		static Sequence sequence = { stl_vector_mud_Type___push,
+		                             stl_vector_mud_Type___add,
+		                             stl_vector_mud_Type___remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<vector<mud::Var>>();
-		static Meta meta = { t, &namspc({}), "vector<mud::Var>", sizeof(vector<mud::Var>), TypeClass::Sequence };
+		Type& t = type<stl::vector<mud::Var>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Var>", sizeof(stl::vector<mud::Var>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<mud::Var>(),
-		                             vector_mud_Var___size,
-		                             vector_mud_Var___at};
+		                             stl_vector_mud_Var__size,
+		                             stl_vector_mud_Var__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_mud_Var___add,
-		                             vector_mud_Var___remove };
+		static Sequence sequence = { stl_vector_mud_Var__push,
+		                             stl_vector_mud_Var__add,
+		                             stl_vector_mud_Var__remove };
+		g_sequence[t.m_id] = &sequence;
+	}
+	{
+		Type& t = type<stl::vector<void*>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<void*>", sizeof(stl::vector<void*>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<void*>(),
+		                             stl_vector_void___size,
+		                             stl_vector_void___at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { stl_vector_void___push,
+		                             stl_vector_void___add,
+		                             stl_vector_void___remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	
+	// mud::Alias
+	{
+		Type& t = type<mud::Alias>();
+		static Meta meta = { t, &namspc({ "mud" }), "Alias", sizeof(mud::Alias), TypeClass::Struct };
+		// bases
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Alias__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_Alias__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+	}
 	// mud::Call
 	{
 		Type& t = type<mud::Call>();
@@ -129,7 +196,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Call__construct_0, {} },
-			{ t, mud_Call__construct_1, { { "callable", type<mud::Callable>(),  }, { "arguments", type<vector<mud::Var>>(),  } } }
+			{ t, mud_Call__construct_1, { { "callable", type<mud::Callable>(),  }, { "args", type<stl::vector<mud::Var>>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -137,7 +204,8 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Call, m_args), type<vector<mud::Var>>(), "arguments", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Call, m_args), type<stl::vector<mud::Var>>(), "args", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Call, m_vargs), type<stl::vector<void*>>(), "vargs", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::Call, m_result), type<mud::Var>(), "result", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
@@ -251,9 +319,12 @@ namespace mud
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Module, m_deps), type<vector<mud::Module*>>(), "deps", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Module, m_types), type<vector<mud::Type*>>(), "types", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Module, m_functions), type<vector<mud::Function*>>(), "functions", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Module, m_name), type<const char*>(), "name", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Module, m_deps), type<stl::vector<mud::Module*>>(), "deps", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Module, m_types), type<stl::vector<mud::Type*>>(), "types", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Module, m_aliases), type<stl::vector<mud::Alias*>>(), "aliases", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Module, m_functions), type<stl::vector<mud::Function*>>(), "functions", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Module, m_path), type<const char*>(), "path", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
 		// static members
@@ -290,6 +361,8 @@ namespace mud
 		static Member members[] = {
 			{ t, offsetof(mud::Operator, m_function), type<mud::Function>(), "function", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Operator, m_type), type<mud::Type>(), "type", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Operator, m_name), type<const char*>(), "name", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Operator, m_sign), type<const char*>(), "sign", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
 		// static members
@@ -363,9 +436,10 @@ namespace mud
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::System, m_modules), type<vector<mud::Module*>>(), "modules", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::System, m_types), type<vector<mud::Type*>>(), "types", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::System, m_functions), type<vector<mud::Function*>>(), "functions", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::System, m_modules), type<stl::vector<mud::Module*>>(), "modules", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::System, m_types), type<stl::vector<mud::Type*>>(), "types", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::System, m_aliases), type<stl::vector<mud::Alias*>>(), "aliases", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::System, m_functions), type<stl::vector<mud::Function*>>(), "functions", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
@@ -461,6 +535,9 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
+	
+	
+		m.m_types.push_back(&type<mud::Alias>());
 		m.m_types.push_back(&type<mud::Call>());
 		m.m_types.push_back(&type<mud::Callable>());
 		m.m_types.push_back(&type<mud::Class>());
@@ -478,10 +555,12 @@ namespace mud
 		m.m_types.push_back(&type<mud::Static>());
 		m.m_types.push_back(&type<mud::System>());
 		m.m_types.push_back(&type<mud::TypeClass>());
-		m.m_types.push_back(&type<vector<mud::Function*>>());
-		m.m_types.push_back(&type<vector<mud::Module*>>());
-		m.m_types.push_back(&type<vector<mud::Type*>>());
-		m.m_types.push_back(&type<vector<mud::Var>>());
+		m.m_types.push_back(&type<stl::vector<mud::Alias*>>());
+		m.m_types.push_back(&type<stl::vector<mud::Function*>>());
+		m.m_types.push_back(&type<stl::vector<mud::Module*>>());
+		m.m_types.push_back(&type<stl::vector<mud::Type*>>());
+		m.m_types.push_back(&type<stl::vector<mud::Var>>());
+		m.m_types.push_back(&type<stl::vector<void*>>());
 		m.m_types.push_back(&type<mud::Constructor>());
 		m.m_types.push_back(&type<mud::CopyConstructor>());
 		m.m_types.push_back(&type<mud::Destructor>());

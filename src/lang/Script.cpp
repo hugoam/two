@@ -10,7 +10,7 @@ module mud.lang;
 #include <type/Indexer.h>
 #include <type/Var.h>
 #include <type/Any.h>
-#include <ecs/Proto.h>
+#include <type/Proto.h>
 #include <lang/Types.h>
 #include <lang/Script.h>
 #include <lang/Lua.h>
@@ -37,22 +37,22 @@ namespace mud
 	Interpreter::Interpreter()
 	{}
 
-	const Var& Interpreter::get(const string& name, Type& type) { UNUSED(name); UNUSED(type); return Var(); }
+	Var Interpreter::get(const string& name, const Type& type) { UNUSED(name); UNUSED(type); return Var(); }
 	void Interpreter::set(const string& name, const Var& value) { UNUSED(name); UNUSED(value); }
 
-	const Var& Interpreter::getx(array<cstring> path, Type& type) { UNUSED(path); UNUSED(type); return Var(); }
-	void Interpreter::setx(array<cstring> path, const Var& value) { UNUSED(path); UNUSED(value); }
+	Var Interpreter::getx(span<cstring> path, const Type& type) { UNUSED(path); UNUSED(type); return Var(); }
+	void Interpreter::setx(span<cstring> path, const Var& value) { UNUSED(path); UNUSED(value); }
 
 	template <class T>
 	T* tget(const string& name) { Var value = get(name, type<T>()); return try_val<T>(value); }
 
 	template <class T>
-	T* tgetx(array<cstring> path) { Var value = getx(path, type<T>()); return try_val<T>(value); }
+	T* tgetx(span<cstring> path) { Var value = getx(path, type<T>()); return try_val<T>(value); }
 
 	template <class T>
 	T* tcall(const string& expr) { Var result = call(expr, &type<T>()); return try_val<T>(result); }
 
-	void Interpreter::call(const TextScript& script, array<Var> args, Var* result)
+	void Interpreter::call(const TextScript& script, span<void*> args, void*& result)
 	{
 		m_script = &script;
 		script.m_runtime_errors.clear();
@@ -60,10 +60,11 @@ namespace mud
 
 		for(const Param& param : script.m_signature.m_params)
 		{
-			this->set(param.m_name, args[param.m_index]);
+			this->set(param.m_name, Ref(args[param.m_index], *param.m_type));
 		}
 
-		this->call(script.m_script, result);
+		this->call(script.m_script, nullptr);
+		UNUSED(result);
 	}
 
 	string Interpreter::flush()
@@ -78,9 +79,9 @@ namespace mud
 		, m_language(language)
 	{}
 
-	void TextScript::operator()(array<Var> args, Var& result) const
+	void TextScript::operator()(span<void*> args, void*& result) const
 	{
-		m_interpreter->call(*this, args, result.none() ? nullptr : &result);
+		m_interpreter->call(*this, args, result);
 	}
 
 	ScriptClass::ScriptClass(const string& name, const vector<Type*>& parts)

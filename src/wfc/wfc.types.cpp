@@ -11,7 +11,8 @@ module mud.wfc;
 namespace mud
 {
     // Exported types
-    template <> MUD_WFC_EXPORT Type& type<mud::Result>() { static Type ty("mud::Result", sizeof(mud::Result)); return ty; }
+    template <> MUD_WFC_EXPORT Type& type<mud::Result>() { static Type ty("Result", sizeof(mud::Result)); return ty; }
+    
     
     template <> MUD_WFC_EXPORT Type& type<mud::Tile>() { static Type ty("Tile", sizeof(mud::Tile)); return ty; }
     template <> MUD_WFC_EXPORT Type& type<mud::Tileset>() { static Type ty("Tileset", sizeof(mud::Tileset)); return ty; }

@@ -60,14 +60,14 @@ namespace mud
 	{
 		//return draw_cube_corners_lines(shape, box, writer);
 
-		for (int i = 0; i < 8; ++i)
+		for(int i = 0; i < 8; ++i)
 			writer.position(box.m_center + box.m_vertices[i])
 				  .colour(shape.m_symbol.m_outline);
 
-		for (uint16_t i = 0; i < 4; ++i)
+		for(uint16_t i = 0; i < 4; ++i)
 			writer.line(i, (i + 1) % 4);
 
-		for (uint16_t i = 4; i < 8; ++i)
+		for(uint16_t i = 4; i < 8; ++i)
 			writer.line(i,  i == 7 ? 4 : i + 1);
 
 		writer.line(1, 4);
@@ -106,7 +106,7 @@ namespace mud
 #else
 		static vec2 quadUVs[4] = { { 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f }, { 0.f, 1.f } };
 
-		for (int i = 0; i < 8; ++i)
+		for(int i = 0; i < 8; ++i)
 			writer.position(shape.m_position + box.m_vertices[i])
 				  .colour(Colour::White)
 				  .uv0(quadUVs[i%4]);

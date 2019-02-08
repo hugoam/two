@@ -40,7 +40,7 @@ namespace mud
 #endif
 	}
 
-#ifdef MUD_NO_STL
+#ifndef USE_STL
 	template <class T>
 	class TinystlAlignedAllocator
 	{
@@ -62,8 +62,8 @@ namespace mud
 		using const_reference = const T&;
 		using size_type = size_t;
 		using difference_type = std::ptrdiff_t;
-		using propagate_on_container_move_assignment = true_type;
-		using is_always_equal = true_type;
+		using propagate_on_container_move_assignment = std::true_type;
+		using is_always_equal = std::true_type;
 
 		template <class U>
 		struct rebind { using other = STLAlignedAllocator<U>; };

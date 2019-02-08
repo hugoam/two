@@ -8,6 +8,7 @@
 module mud.gfx;
 #else
 #include <stl/set.h>
+#include <stl/hash_base.hpp>
 #include <pool/Pool.h>
 #include <gfx/Types.h>
 #include <gfx/Prefab.h>

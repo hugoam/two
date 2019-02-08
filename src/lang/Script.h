@@ -7,9 +7,9 @@
 #ifndef MUD_MODULES
 #include <stl/string.h>
 #include <stl/map.h>
-#include <infra/Array.h>
-#include <infra/NonCopy.h>
-#include <ecs/Proto.h>
+#include <stl/span.h>
+#include <type/Var.h>
+#include <type/Proto.h>
 #include <refl/Method.h>
 #include <refl/Class.h>
 #endif
@@ -57,13 +57,13 @@ namespace mud
 		Interpreter* m_interpreter;
 
 		using Callable::operator();
-		virtual void operator()(array<Var> args, Var& result) const;
+		virtual void operator()(span<void*> args, void*& result) const override;
 
 		mutable map<int, ScriptError> m_compile_errors;
 		mutable map<int, ScriptError> m_runtime_errors;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT Interpreter : public NonCopy
+	export_ class refl_ MUD_LANG_EXPORT Interpreter
 	{
 	public:
 		Interpreter();
@@ -71,16 +71,17 @@ namespace mud
 
 		virtual void declare_types() = 0;
 
-		virtual const Var& get(const string& name, Type& type);
+		virtual Var get(const string& name, const Type& type);
 		virtual void set(const string& name, const Var& value);
 
-		virtual const Var& getx(array<cstring> path, Type& type);
-		virtual void setx(array<cstring> path, const Var& value);
+		virtual Var getx(span<cstring> path, const Type& type);
+		virtual void setx(span<cstring> path, const Var& value);
 
 		virtual void call(const string& code, Var* result = nullptr) = 0;
-		virtual void virtual_call(Method& method, Ref object, array<Var> args) { UNUSED(method); UNUSED(object); UNUSED(args); }
+		virtual void virtual_call(Method& method, Ref object, span<Var> args) { UNUSED(method); UNUSED(object); UNUSED(args); }
 
-		void call(const TextScript& script, array<Var> args, Var* result = nullptr);
+		//void call(const TextScript& script, span<Var> args, Var* result = nullptr);
+		void call(const TextScript& script, span<void*> args, void*& result);
 
 		string flush();
 
@@ -88,7 +89,7 @@ namespace mud
 		T* tget(const string& name);
 
 		template <class T>
-		T* tgetx(array<cstring> path);
+		T* tgetx(span<cstring> path);
 
 		template <class T>
 		T* tcall(const string& expr);
@@ -97,7 +98,7 @@ namespace mud
 		string m_output;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ScriptClass : public NonCopy
+	export_ class refl_ MUD_LANG_EXPORT ScriptClass
 	{
 	public:
 		constr_ ScriptClass(const string& name, const vector<Type*>& parts);

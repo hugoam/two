@@ -1,10 +1,13 @@
-#include <mud/frame.h>
+//#include <mud/frame.h>
+#include <frame/Api.h>
 #include <refl/Api.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-gltf/Api.h>
-#include <meta/gfx-gltf/Module.h>
+#include <meta/gfx.gltf.meta.h>
 
 #include <07_gltf/07_gltf.h>
+
+#include <geom/Primitive.hpp>
 
 using namespace mud;
 

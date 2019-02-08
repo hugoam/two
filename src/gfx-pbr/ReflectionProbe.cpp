@@ -97,7 +97,7 @@ namespace mud
 		//upload_reflection_probes(render, to_array(render.m_shot->m_reflection_probes));
 	}
 
-	void BlockReflection::upload_reflection_probes(Render& render, Pass& render_pass, array<ReflectionProbe*> probes)
+	void BlockReflection::upload_reflection_probes(Render& render, Pass& render_pass, span<ReflectionProbe*> probes)
 	{
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		mat4 view_matrix = inverse(render.m_camera.m_transform);

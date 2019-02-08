@@ -35,7 +35,7 @@ namespace mud
 		inline bool push(const T& obj)
 		{
 			size_t next_head = (m_head + 1) % m_size;
-			if (next_head == m_tail) return false;
+			if(next_head == m_tail) return false;
 			m_buffer[m_head] = obj;
 			m_head = next_head;
 			return true;
@@ -44,7 +44,7 @@ namespace mud
 
 		inline bool pop(T& obj)
 		{
-			if (m_tail == m_head) return false;
+			if(m_tail == m_head) return false;
 			obj = m_buffer[m_tail];
 			m_tail = (m_tail + 1) % m_size;
 			return true;

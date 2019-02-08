@@ -1,11 +1,10 @@
-#include <infra/Cpp20.h>
-
+#ifndef USE_STL
 #ifdef MUD_MODULES
 module mud.uio;
 #else
 #include <stl/vector.hpp>
 #include <stl/unordered_map.hpp>
-#include <ui-vg/Extern.h>
+#include <ui-vg/Api.h>
 #endif
 
 namespace stl
@@ -14,3 +13,4 @@ namespace stl
 	template class MUD_UI_VG_EXPORT vector<vg::GlyphPosition>;
 	template class MUD_UI_VG_EXPORT unordered_map<string, vg::FontHandle>;
 }
+#endif

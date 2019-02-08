@@ -6,6 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>
+#include <type/Any.h>
 #include <refl/Class.h>
 #include <refl/Injector.h>
 #include <refl/System.h>

@@ -1,8 +1,12 @@
 #pragma once
+#include <infra/Config.h>
 
 #ifdef USE_STL
 #include <string>
-namespace stl = std;
+namespace stl
+{
+	using std::string;
+}
 #else
 #include <stl/initializer_list.h>
 
@@ -14,7 +18,7 @@ namespace stl = std;
 namespace stl {
 
 	template <class Alloc>
-	class basic_string : public buffer<char, Alloc, 1> {
+	class refl_ basic_string : public buffer<char, Alloc, 1> {
 	public:
 		basic_string();
 		basic_string(const basic_string& other);
@@ -82,9 +86,8 @@ namespace stl {
 
 		static constexpr auto npos{ static_cast<size_t>(-1) };
 
-	//private:
+	private:
 		void reset(size_t size);
-		void fill(const char* first, const char* last);
 
 	protected:
 		static const size_t c_nbuffer = 12;
@@ -108,7 +111,7 @@ namespace stl {
 		return hash_string(value.c_str(), value.size());
 	}
 
-	extern template class basic_string<TINYSTL_ALLOCATOR>;
+	extern template class refl_ basic_string<TINYSTL_ALLOCATOR>;
 	using string = basic_string<TINYSTL_ALLOCATOR>;
 
 	string operator+(const string& lhs, const string& rhs);
@@ -119,3 +122,8 @@ namespace mud
 {
 	using stl::string;
 }
+
+#ifdef MUD_META_GENERATOR
+//base_ static stl::basic_string<TINYSTL_ALLOCATOR> dbasicstring;
+base_ static stl::string dstring;
+#endif

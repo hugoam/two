@@ -87,7 +87,7 @@ namespace ui
 		}
 	}
 
-	Widget* dockitem(Docker& docker, cstring name, array<uint16_t> dockid, float span)
+	Widget* dockitem(Docker& docker, cstring name, span<uint16_t> dockid, float span)
 	{
 		if(docker.m_docksystem->m_docks.find(name) == docker.m_docksystem->m_docks.end())
 		{

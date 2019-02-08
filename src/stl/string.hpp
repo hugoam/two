@@ -21,44 +21,42 @@ namespace stl {
 	}
 
 	template <class Alloc>
-	inline basic_string<Alloc>::basic_string(const basic_string& other)
-		: basic_string()
-	{
-		size_t s = other.size();
-		this->alloc(other.size());
-		this->fill(other.m_first, other.m_last);
-	}
+	basic_string<Alloc>::basic_string(const basic_string& other)
+		: basic_string(other.m_first, other.m_last)
+	{}
 
 	template <class Alloc>
-	inline basic_string<Alloc>::basic_string(basic_string&& other)
+	basic_string<Alloc>::basic_string(basic_string&& other)
 		: basic_string()
 	{
-		if(other.m_first == other.m_small)
-			this->fill(other.m_first, other.m_last);
-		else
+		if(other.m_first != other.m_small)
 			buffer<char, Alloc, 1>::swap(other);
+		else
+		{
+			copy_urange(this->m_first, other.m_first, other.m_last);
+			this->m_last += other.size();
+			*this->m_last = 0;
+		}
 		other.reset(0);
 	}
 
-	template <class Alloc>
-	inline basic_string<Alloc>::basic_string(const char* s)
-		: basic_string()
+	inline size_t length(const char* s)
 	{
 		size_t len = 0;
 		for(const char* it = s; *it; ++it)
 			++len;
-
-		this->alloc(len);
-		this->fill(s, s + len);
+		return len;
 	}
 
 	template <class Alloc>
+	inline basic_string<Alloc>::basic_string(const char* s)
+		: basic_string(s, s + length(s))
+	{}
+
+	template <class Alloc>
 	inline basic_string<Alloc>::basic_string(const char* s, size_t len)
-		: basic_string()
-	{
-		this->alloc(len);
-		this->fill(s, s + len);
-	}
+		: basic_string(s, s + len)
+	{}
 
 	template <class Alloc>
 	inline basic_string<Alloc>::basic_string(size_t len, char c)
@@ -74,7 +72,8 @@ namespace stl {
 		: basic_string()
 	{
 		this->alloc(last - first);
-		this->fill(first, last);
+		copy_urange(this->m_first, first, last);
+		*this->m_last = 0;
 	}
 
 	template <class Alloc>
@@ -84,7 +83,7 @@ namespace stl {
 
 	template <class Alloc>
 	inline basic_string<Alloc>::~basic_string() {
-		if (this->m_first == m_small)
+		if(this->m_first == m_small)
 			this->m_first = this->m_last = this->m_capacity = nullptr;
 	}
 
@@ -102,14 +101,7 @@ namespace stl {
 	}
 
 	template <class Alloc>
-	inline void basic_string<Alloc>::fill(const char* first, const char* last)
-	{
-		copy_urange(this->m_first, first, last);
-		*this->m_last = 0;
-	}
-
-	template <class Alloc>
-	inline basic_string<Alloc>& basic_string<Alloc>::operator=(const basic_string& other) {
+	basic_string<Alloc>& basic_string<Alloc>::operator=(const basic_string& other) {
 		basic_string(other).swap(*this);
 		return *this;
 	}
@@ -144,7 +136,7 @@ namespace stl {
 
 	template <class Alloc>
 	inline void basic_string<Alloc>::alloc(size_t size) {
-		if (size > c_nbuffer)
+		if(size > c_nbuffer)
 			buffer<char, Alloc, 1>::alloc(size);
 		else
 			this->m_last = this->m_first + size;
@@ -277,7 +269,7 @@ namespace stl {
 	template <class Alloc>
 	inline typename basic_string<Alloc>::iterator basic_string<Alloc>::erase(iterator first, iterator last) {
 		const size_t count = (last - first);
-		for (pointer it = last, end = this->m_last, dest = first; it != end; ++it, ++dest)
+		for(pointer it = last, end = this->m_last, dest = first; it != end; ++it, ++dest)
 			*dest = *it;
 		this->m_last -= count;
 		*this->m_last = 0;
@@ -407,14 +399,14 @@ namespace stl {
 	template <class Alloc>
 	inline bool basic_string<Alloc>::operator==(const basic_string& other) const {
 		const size_t lsize = this->size(), rsize = other.size();
-		if (lsize != rsize)
+		if(lsize != rsize)
 			return false;
 
 		const char* lit = this->c_str();
 		const char* rit = other.c_str();
 		const char* lend = lit + lsize;
 		while (lit != lend)
-			if (*lit++ != *rit++)
+			if(*lit++ != *rit++)
 				return false;
 
 		return true;

@@ -19,6 +19,6 @@ namespace ui
 
 	export_ MUD_UI_EXPORT func_ Widget& scrollable(Widget& parent);
 
-	export_ MUD_UI_EXPORT void autofit_scroll_plan(ScrollSheet& scroll_sheet, array<Widget*> elements);
+	export_ MUD_UI_EXPORT void autofit_scroll_plan(ScrollSheet& scroll_sheet, span<Widget*> elements);
 }
 }

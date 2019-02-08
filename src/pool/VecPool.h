@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include <infra/NonCopy.h>
+#include <stl/vector.h>
 #include <type/Unique.h>
 
 namespace mud
 {
 	export_ template <class T>
-	class VecPool : public NonCopy
+	class VecPool
 	{
 	public:
 		VecPool(size_t size = 256);

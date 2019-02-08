@@ -22,12 +22,12 @@ namespace ui
 	export_ MUD_UI_EXPORT Widget* hoverbox(Widget& parent, const vec2& position, float delay = 0.5f);
 	export_ MUD_UI_EXPORT func_ Widget* hoverbox(Widget& parent, float delay = 0.5f);
 
-	export_ MUD_UI_EXPORT Widget* tooltip(Widget& parent, const vec2& position, array<cstring> elements);
+	export_ MUD_UI_EXPORT Widget* tooltip(Widget& parent, const vec2& position, span<cstring> elements);
 	export_ MUD_UI_EXPORT func_ Widget* tooltip(Widget& parent, const vec2& position, cstring content);
 
 	export_ MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame);
 	export_ MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame, cstring content);
-	export_ MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame, array<cstring> elements);
+	export_ MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame, span<cstring> elements);
 
 	export_ MUD_UI_EXPORT Widget& cursor(Widget& parent, const vec2& position, Style& style, bool locked = false);
 	export_ MUD_UI_EXPORT func_ Widget& cursor(Widget& parent, const vec2& position, Widget& hovered, bool locked = false);

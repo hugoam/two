@@ -21,6 +21,12 @@ namespace mud
 		vec4 m_uv_scale_offset = vec4(1.f, 1.f, 0.f, 0.f);
 	};
 
+	struct ModelUnwrap
+	{
+		vector<bool> success;
+		uvec2 size;
+	};
+
 	export_ class refl_ MUD_GFX_PBR_EXPORT Lightmap
 	{
 	public:
@@ -39,11 +45,14 @@ namespace mud
 		void add_item(size_t index, Item& item, bool valid, const vec4& uv_scale_offset);
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT LightmapAtlas : public NonCopy
+	export_ class refl_ MUD_GFX_PBR_EXPORT LightmapAtlas
 	{
 	public:
 		LightmapAtlas(uint32_t size, float density);
 		~LightmapAtlas();
+
+		LightmapAtlas(const LightmapAtlas& other) = delete;
+		LightmapAtlas& operator=(const LightmapAtlas& other) = delete;
 
 		Lightmap& add_lightmap() { m_layers.push_back(make_unique<Lightmap>(m_size)); return *m_layers.back(); }
 
@@ -94,7 +103,7 @@ namespace mud
 		virtual void submit(Render& render, const Pass& render_pass) const override;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
 
-		void bake_geometry(array<Item*> items, LightmapAtlas& atlas);
+		void bake_geometry(span<Item*> items, LightmapAtlas& atlas);
 		void bake_lightmaps(Scene& scene, LightmapAtlas& atlas, const mat4& transform, const vec3& extents);
 
 		struct VoxelGIUniform

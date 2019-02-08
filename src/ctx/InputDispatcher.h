@@ -19,16 +19,16 @@
 
 namespace mud
 {
-	export_ template <class T_Element>
+	export_ template <class T>
 	struct EventMap
 	{
-		enum_array<DeviceType, enum_array<EventType, T_Element>> m_events = {};
-		enum_array<DeviceType, enum_array<EventType, map<int, T_Element>>> m_keyed_events = {};
+		enum_array<DeviceType, enum_array<EventType, T>> m_events = {};
+		enum_array<DeviceType, enum_array<EventType, map<int, T>>> m_keyed_events = {};
 
 		void clear() { *this = {}; }
 
-		T_Element& event(DeviceType device_type, EventType event_type) { return m_events[size_t(device_type)][size_t(event_type)]; }
-		T_Element& event(DeviceType device_type, EventType event_type, int key) { return m_keyed_events[size_t(device_type)][size_t(event_type)][key]; }
+		T& event(DeviceType device_type, EventType event_type) { return m_events[size_t(device_type)][size_t(event_type)]; }
+		T& event(DeviceType device_type, EventType event_type, int key) { return m_keyed_events[size_t(device_type)][size_t(event_type)][key]; }
 	};
 
 	export_ struct MUD_CTX_EXPORT EventBatch : public EventMap<InputEvent*>

@@ -123,7 +123,7 @@ namespace ui
 		return self;
 	}
 
-	void autofit_scroll_plan(ScrollSheet& scroll_sheet, array<Widget*> elements)
+	void autofit_scroll_plan(ScrollSheet& scroll_sheet, span<Widget*> elements)
 	{
 		if(elements.size() == 0)
 			return;

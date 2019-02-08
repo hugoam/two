@@ -1,17 +1,19 @@
-#include <infra/Cpp20.h>
-
+#ifndef USE_STL
 #ifdef MUD_MODULES
 module mud.math;
 #else
 #include <stl/vector.hpp>
 #include <stl/unordered_map.hpp>
-#include <math/Extern.h>
+#include <math/Api.h>
 #endif
+
+#include <stb_rect_pack.h>
 
 namespace stl
 {
 	using namespace mud;
 	template class MUD_MATH_EXPORT vector<const char*>;
+	template class MUD_MATH_EXPORT vector<bool>;
 	template class MUD_MATH_EXPORT vector<char>;
 	template class MUD_MATH_EXPORT vector<uchar>;
 	template class MUD_MATH_EXPORT vector<ushort>;
@@ -34,7 +36,10 @@ namespace stl
 	template class MUD_MATH_EXPORT vector<Colour>;
 	template class MUD_MATH_EXPORT vector<Image>;
 	template class MUD_MATH_EXPORT vector<Sprite>;
+	template class MUD_MATH_EXPORT unordered_map<uint64_t, ushort>;
+	template class MUD_MATH_EXPORT unordered_map<ushort, ushort>;
 	//template class MUD_MATH_EXPORT unordered_map<Type*, Colour>;
 
 	template class MUD_MATH_EXPORT vector<stbrp_node>;
 }
+#endif

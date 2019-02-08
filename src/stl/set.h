@@ -3,7 +3,10 @@
 
 #ifdef USE_STL
 #include <set>
-namespace stl = std;
+namespace stl
+{
+	using std::set;
+}
 #else
 #include <stl/unordered_set.h>
 namespace stl

@@ -37,7 +37,7 @@ namespace mud
 		m_min_size.y = d_stretch == DIM_Y ? float(d_solid_size.y) : 0.f;
 
 		vec4 coords[Count] = {};
-		this->stretch_coords(Zero2, vec2(image.d_size), array<vec4>{ coords, Count });
+		this->stretch_coords(Zero2, vec2(image.d_size), span<vec4>{ coords, Count });
 		for(size_t s = 0; s < Count; ++s)
 		{
 			this->d_images[s].d_coord = this->d_image->d_coord + uvec2(rect_offset(coords[s]));
@@ -53,7 +53,7 @@ namespace mud
 		: d_image(nullptr)
 	{}
 
-	void ImageSkin::stretch_coords(vec2 offset, vec2 size, array<vec4> coords) const
+	void ImageSkin::stretch_coords(vec2 offset, vec2 size, span<vec4> coords) const
 	{
 		vec2 fill = { size.x - d_left - d_right, size.y - d_top - d_bottom };
 

@@ -14,12 +14,14 @@ module mud.refl;
 
 namespace mud
 {
+	Static::Static() {}
 	Static::Static(Type& parent_type, cstring name, Ref value)
 		: m_parent_type(&parent_type)
 		, m_name(name)
 		, m_value(value)
 	{}
 
+	Member::Member() {}
 	Member::Member(Type& object_type, size_t offset, Type& type, cstring name, const void* default_value, Flags flags, MemberGet get)
 		: m_index(0)
 		, m_object_type(&object_type)

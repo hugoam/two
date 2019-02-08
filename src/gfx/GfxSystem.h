@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <stl/vector.h>
 #include <stl/string.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>
@@ -108,7 +108,7 @@ namespace mud
 		bx::FileWriterI& file_writer();
 
 		LocatedFile locate_file(const string& file);
-		LocatedFile locate_file(const string& file, array<string> extensions);
+		LocatedFile locate_file(const string& file, span<string> extensions);
 
 		TPool<Mesh>& meshes();
 		TPool<Rig>& rigs();

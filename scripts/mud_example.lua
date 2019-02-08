@@ -41,7 +41,7 @@ if not _OPTIONS["renderer-gl"] then
     mud_example("02_camera",            { mud.frame, mud.gfx.pbr },                        { _G["03_materials"] })
     mud_example("04_lights",            { mud.frame, mud.gfx.pbr },                        { _G["01_shapes"], _G["03_materials"] })
     mud_example("04_sponza",            { mud.frame, mud.gfx.pbr, mud.gfx.obj },           { _G["01_shapes"], _G["03_materials"], _G["04_lights"] })
-    mud_example("05_character",         { mud.frame, mud.gfx.pbr, mud.gfx.gltf, mud.gfx.gltf, mud.uio },          { _G["03_materials"] })
+    mud_example("05_character",         { mud.frame, mud.gfx.pbr, mud.gfx.gltf, mud.gfx.edit, mud.uio },          { _G["03_materials"] })
     mud_example("06_particles",         { mud.frame, mud.srlz, mud.gfx.refl },             {})
     mud_example("07_gltf",              { mud.frame, mud.gfx.pbr, mud.gfx.gltf },          {})
 --  mud_example("07_prefabs",           { mud.frame, mud.gfx.pbr },                        { _G["07_gltf"] })

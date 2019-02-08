@@ -40,7 +40,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 		attr_ size_t m_size;
 		attr_ Type* m_base = nullptr;
 
-		bool is(Type& type) const;
+		bool is(const Type& type) const;
 
 		template <class T>
 		inline bool is() const { return this->is(mud::type<T>()); }

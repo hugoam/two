@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <geom/Geom.hpp>
 #include <gfx/Camera.h>
 #include <gfx/Froxel.h>
 #endif

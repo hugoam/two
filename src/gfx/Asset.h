@@ -10,7 +10,6 @@
 #include <stl/vector.h>
 #include <stl/map.h>
 #include <type/Unique.h>
-#include <infra/NonCopy.h>
 #endif
 #include <gfx/Forward.h>
 
@@ -19,7 +18,7 @@ namespace mud
 	using cstring = const char*;
 
 	export_ template <class T_Asset>
-	class refl_ AssetStore : public NonCopy
+	class refl_ AssetStore
 	{
 	public:
 		using Loader = function<void(T_Asset&, const string&)>;
@@ -27,6 +26,9 @@ namespace mud
 		AssetStore(GfxSystem& gfx_system, const string& path);
 		AssetStore(GfxSystem& gfx_system, const string& path, const Loader& loader);
 		AssetStore(GfxSystem& gfx_system, const string& path, const string& format);
+
+		AssetStore(const AssetStore& other) = delete;
+		AssetStore& operator=(const AssetStore& other) = delete;
 
 		void add_format(const string& format, const Loader& loader);
 
@@ -50,5 +52,6 @@ namespace mud
 		void load_files(const string& path);
 
 		map<string, unique<T_Asset>> m_assets;
+		vector<T_Asset*> m_vector;
 	};
 }

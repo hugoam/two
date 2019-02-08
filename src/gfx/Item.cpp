@@ -20,6 +20,7 @@ module mud.gfx;
 
 namespace mud
 {
+	Item::Item() {}
 	Item::Item(Node3& node, const Model& model, uint32_t flags, Material* material, size_t instances)
 		: m_node(&node)
 		, m_model(const_cast<Model*>(&model))
@@ -63,7 +64,7 @@ namespace mud
 			}
 			else
 			{
-				memcpy(mat, m_instances.begin(), m_instances.size());
+				memcpy(mat, m_instances.data(), m_instances.size());
 			}
 		}
 	}

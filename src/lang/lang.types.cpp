@@ -11,11 +11,13 @@ module mud.lang;
 namespace mud
 {
     // Exported types
-    template <> MUD_LANG_EXPORT Type& type<mud::Language>() { static Type ty("mud::Language", sizeof(mud::Language)); return ty; }
+    template <> MUD_LANG_EXPORT Type& type<mud::Language>() { static Type ty("Language", sizeof(mud::Language)); return ty; }
+    
     
     template <> MUD_LANG_EXPORT Type& type<mud::Interpreter>() { static Type ty("Interpreter", sizeof(mud::Interpreter)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::Pipe>() { static Type ty("Pipe", sizeof(mud::Pipe)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::Process>() { static Type ty("Process", sizeof(mud::Process)); return ty; }
+    template <> MUD_LANG_EXPORT Type& type<mud::Script>() { static Type ty("Script", sizeof(mud::Script)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ScriptClass>() { static Type ty("ScriptClass", sizeof(mud::ScriptClass)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ScriptError>() { static Type ty("ScriptError", sizeof(mud::ScriptError)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::StreamBranch>() { static Type ty("StreamBranch", sizeof(mud::StreamBranch)); return ty; }
@@ -32,7 +34,6 @@ namespace mud
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>() { static Type ty("ProcessScript", type<mud::ProcessCallable>(), sizeof(mud::ProcessScript)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessSetMember>() { static Type ty("ProcessSetMember", type<mud::Process>(), sizeof(mud::ProcessSetMember)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessValue>() { static Type ty("ProcessValue", type<mud::Process>(), sizeof(mud::ProcessValue)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::Script>() { static Type ty("Script", type<mud::Callable>(), sizeof(mud::Script)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::Stream>() { static Type ty("Stream", type<mud::StreamBranch>(), sizeof(mud::Stream)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::TextScript>() { static Type ty("TextScript", type<mud::Script>(), sizeof(mud::TextScript)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>() { static Type ty("VisualScript", type<mud::Script>(), sizeof(mud::VisualScript)); return ty; }

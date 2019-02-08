@@ -27,8 +27,8 @@ namespace mud
 
 		void allocate(size_t vertex_count, size_t tri_count);
 
-		array<Vertex> vertices() { return { &m_vertices[0], m_vertices.size() }; }
-		array<uint32_t> indices() { return { &m_triangles[0].a, m_triangles.size() / 3 }; }
+		span<Vertex> vertices() { return { &m_vertices[0], m_vertices.size() }; }
+		span<uint32_t> indices() { return { &m_triangles[0].a, m_triangles.size() / 3 }; }
 
 		virtual object<Shape> clone() const;
 	};
@@ -64,5 +64,5 @@ namespace mud
 		void generate_tangents();
 	};
 
-	export_ MUD_GEOM_EXPORT void generate_mikkt_tangents(array<ShapeIndex> indices, array<ShapeVertex> vertices);
+	export_ MUD_GEOM_EXPORT void generate_mikkt_tangents(span<ShapeIndex> indices, span<ShapeVertex> vertices);
 }

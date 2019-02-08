@@ -12,7 +12,14 @@
 namespace mud
 {
 	export_ using cstring = const char*;
-	
+
+	export_ struct refl_ MUD_REFL_EXPORT Alias
+	{
+		Type* m_type;
+		Namespace* m_namespace;
+		cstring m_name;
+	};
+
 	export_ class refl_ MUD_REFL_EXPORT Module
 	{
 	public:
@@ -21,6 +28,7 @@ namespace mud
 		attr_ cstring m_name;
 		attr_ vector<Module*> m_deps;
 		attr_ vector<Type*> m_types;
+		attr_ vector<Alias*> m_aliases;
 		attr_ vector<Function*> m_functions;
 
 		attr_ cstring m_path;

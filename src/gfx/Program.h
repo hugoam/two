@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/decls.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>
@@ -34,9 +34,9 @@ namespace mud
 
 	export_ struct MUD_GFX_EXPORT ShaderBlock
 	{
-		array<cstring> m_options;
-		array<cstring> m_modes;
-		array<ShaderDefine> m_defines;
+		span<cstring> m_options;
+		span<cstring> m_modes;
+		span<ShaderDefine> m_defines;
 	};
 
 	export_ struct MUD_GFX_EXPORT ProgramBlock
@@ -48,7 +48,7 @@ namespace mud
 
 	export_ struct MUD_GFX_EXPORT ProgramBlockArray
 	{
-		// maps a block index to its shader options array
+		// maps a block index to its shader options span
 		ProgramBlock m_shader_blocks[32];
 		uint8_t m_next_option = 0;
 	};
@@ -66,7 +66,7 @@ namespace mud
 
 	public:
 		Program(const string& name, bool compute = false);
-		Program(const string& name, array<GfxBlock*> blocks, array<cstring> sources);
+		Program(const string& name, span<GfxBlock*> blocks, span<cstring> sources);
 		~Program();
 
 		attr_ cstring name();
@@ -92,10 +92,10 @@ namespace mud
 
 		ShaderVersion shader_version(Version& version);
 
-		void register_blocks(array<GfxBlock*> blocks);
+		void register_blocks(span<GfxBlock*> blocks);
 		void register_block(const GfxBlock& block);
-		void register_options(uint8_t block, array<cstring> options);
-		void register_modes(uint8_t block, array<cstring> modes);
+		void register_options(uint8_t block, span<cstring> options);
+		void register_modes(uint8_t block, span<cstring> modes);
 
 		ProgramBlockArray m_blocks;
 

@@ -71,7 +71,7 @@ namespace ui
 		return self;
 	}
 
-	Widget& multi_button(Widget& parent, Style& style, array<cstring> elements, Style* element_style)
+	Widget& multi_button(Widget& parent, Style& style, span<cstring> elements, Style* element_style)
 	{
 		Widget& self = multi_item(parent, style, elements, element_style);
 		button_logic(self);
@@ -85,7 +85,7 @@ namespace ui
 		return self;
 	}
 
-	Widget& multi_toggle(Widget& parent, Style& style, bool& on, array<cstring> elements, Style* element_style)
+	Widget& multi_toggle(Widget& parent, Style& style, bool& on, span<cstring> elements, Style* element_style)
 	{
 		Widget& self = multi_item(parent, style, elements, element_style);
 		toggle_logic(self, on);
@@ -98,12 +98,12 @@ namespace ui
 	Widget& button(Widget& parent, const string& content) { return button(parent, styles().button, content.c_str()); }
 	Widget& toggle(Widget& parent, bool& on, const string& content) { return toggle(parent, styles().toggle, on, content.c_str()); }
 
-	Widget& multi_button(Widget& parent, array<cstring> elements, Style* element_style)
+	Widget& multi_button(Widget& parent, span<cstring> elements, Style* element_style)
 {
 		return multi_button(parent, styles().multi_button, elements, element_style);
 	}
 
-	Widget& multi_toggle(Widget& parent, bool& on, array<cstring> elements, Style* element_style)
+	Widget& multi_toggle(Widget& parent, bool& on, span<cstring> elements, Style* element_style)
 	{
 		return multi_toggle(parent, styles().multi_button, on, elements, element_style);
 	}
@@ -115,7 +115,7 @@ namespace ui
 		return (screen.m_switch & mode) != 0;
 	}
 
-	bool modal_multi_button(Widget& screen, Widget& parent, array<cstring> elements, uint32_t mode)
+	bool modal_multi_button(Widget& screen, Widget& parent, span<cstring> elements, uint32_t mode)
 	{
 		if(multi_button(parent, elements).activated())
 			screen.m_switch |= mode;
@@ -172,7 +172,7 @@ namespace ui
 		return self;
 	}
 
-	bool radio_switch(Widget& parent, array<cstring> labels, uint32_t& value, Dim dim)
+	bool radio_switch(Widget& parent, span<cstring> labels, uint32_t& value, Dim dim)
 	{
 		Widget& self = widget(parent, styles().radio_switch, false, dim);
 		bool changed = false;
@@ -205,14 +205,14 @@ namespace ui
 		return self;
 	}
 
-	Widget& dropdown_choice(Widget& parent, array<cstring> elements, bool active)
+	Widget& dropdown_choice(Widget& parent, span<cstring> elements, bool active)
 	{
 		Widget& self = multi_button(parent, dropdown_styles().choice, elements);
 		self.set_state(ACTIVE, active);
 		return self;
 	}
 
-	bool popdown(Widget& parent, array<cstring> choices, uint32_t& value, vec2 position, PopupFlags popup_flags)
+	bool popdown(Widget& parent, span<cstring> choices, uint32_t& value, vec2 position, PopupFlags popup_flags)
 	{
 		Widget& self = popup_at(parent, dropdown_styles().popdown, position, popup_flags);
 		ScrollSheet& sheet = scroll_sheet(self);
@@ -226,7 +226,7 @@ namespace ui
 		return false;
 	}
 
-	bool dropdown_input(Widget& parent, array<cstring> choices, uint32_t& value, bool compact)
+	bool dropdown_input(Widget& parent, span<cstring> choices, uint32_t& value, bool compact)
 	{
 		if(value >= choices.size())
 			value = uint32_t(choices.size()) - 1;
@@ -245,7 +245,7 @@ namespace ui
 		return false;
 	}
 
-	bool typedown_input(Widget& parent, array<cstring> choices, uint32_t& value)
+	bool typedown_input(Widget& parent, span<cstring> choices, uint32_t& value)
 	{
 		bool changed = dropdown_input(parent, choices, value); //dropdown_styles().typedown_input
 		//if(scope->m_state & ACTIVATED)
@@ -253,7 +253,7 @@ namespace ui
 		return changed;
 	}
 
-	Widget& menu_choice(Widget& parent, array<cstring> elements)
+	Widget& menu_choice(Widget& parent, span<cstring> elements)
 	{
 		Widget& self = multi_button(parent, elements); //, menu_styles().choice
 		if(self.activated())
@@ -263,7 +263,7 @@ namespace ui
 
 	Widget& menu_choice(Widget& parent, cstring content)
 	{
-		return menu_choice(parent, array<cstring>{ content });
+		return menu_choice(parent, span<cstring>{ content });
 	}
 
 	Widget& menu(Widget& parent, cstring label, bool submenu)

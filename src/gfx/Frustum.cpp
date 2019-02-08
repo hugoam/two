@@ -185,7 +185,7 @@ namespace mud
 			m_radius = max(distance(m_center, m_corners[i]), m_radius);
 	}
 
-	Frustum optimized_frustum(Camera& camera, array<Item*> items)
+	Frustum optimized_frustum(Camera& camera, span<Item*> items)
 	{
 		if(!camera.m_optimize_ends)
 			return Frustum{ camera.m_transform, camera.m_fov, camera.m_aspect, camera.m_near, camera.m_far };
@@ -209,7 +209,7 @@ namespace mud
 		return Frustum{ camera.m_transform, camera.m_fov, camera.m_aspect, near, far };
 	}
 
-	void split_frustum_slices(Camera& camera, array<FrustumSlice> slices, uint8_t num_splits, float near, float far, float split_distribution)
+	void split_frustum_slices(Camera& camera, span<FrustumSlice> slices, uint8_t num_splits, float near, float far, float split_distribution)
 	{
 		const float ratio = far / near;
 
@@ -236,7 +236,7 @@ namespace mud
 		}
 	}
 
-	void split_frustum_slices(Camera& camera, array<FrustumSlice> slices, uint8_t num_splits, float split_distribution)
+	void split_frustum_slices(Camera& camera, span<FrustumSlice> slices, uint8_t num_splits, float split_distribution)
 	{
 		split_frustum_slices(camera, slices, num_splits, camera.m_near, camera.m_far, split_distribution);
 	}

@@ -20,6 +20,7 @@ namespace mud
 {
 	struct ReflectionCubemap
 	{
+		ReflectionCubemap() {}
 		ReflectionCubemap(uint16_t size);
 		bgfx::FrameBufferHandle m_fbo[6];
 		bgfx::TextureHandle m_cubemap;

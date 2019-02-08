@@ -27,9 +27,11 @@ namespace mud
     export_ template <> MUD_TYPE_EXPORT Type& type<float>();
     export_ template <> MUD_TYPE_EXPORT Type& type<int>();
     export_ template <> MUD_TYPE_EXPORT Type& type<long>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<long double>();
     export_ template <> MUD_TYPE_EXPORT Type& type<long long>();
     export_ template <> MUD_TYPE_EXPORT Type& type<short>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<string>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<signed char>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<stl::string>();
     export_ template <> MUD_TYPE_EXPORT Type& type<unsigned char>();
     export_ template <> MUD_TYPE_EXPORT Type& type<unsigned int>();
     export_ template <> MUD_TYPE_EXPORT Type& type<unsigned long>();
@@ -38,13 +40,12 @@ namespace mud
     export_ template <> MUD_TYPE_EXPORT Type& type<void>();
     export_ template <> MUD_TYPE_EXPORT Type& type<void*>();
     
+    export_ template <> MUD_TYPE_EXPORT Type& type<stl::vector<mud::Ref>>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<stl::vector<stl::string>>();
+    
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Index>();
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Indexer>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<mud::Prototype>();
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Ref>();
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Var>();
-    
-    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Index*>>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Indexer*>>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Ref*>>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Var*>>();
 }

@@ -1,6 +1,8 @@
+#include <ui/Style/Layout.h>
+#include <ui/Style/Skin.h>
 #include <uio/Dropper.h>
 #include <uio/Forward.h>
-#include <uio/ObjectEdit.h>
+#include <uio/Object.h>
 #include <uio/Types.h>
 #include <uio/Canvas.h>
 #include <uio/IndexerEdit.h>

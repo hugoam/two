@@ -2,20 +2,6 @@
 
 namespace stl
 {
-	template <class T, T Val>
-	struct integral_constant
-	{
-		static constexpr T value = Val;
-		using value_type = T;
-		using type = integral_constant;
-	};
-
-	template <bool Val>
-	using bool_constant = integral_constant<bool, Val>;
-
-	using true_type = bool_constant<true>;
-	using false_type = bool_constant<false>;
-
 	template <bool Test, class T = void>
 	struct enable_if_base {};
 
@@ -122,7 +108,7 @@ namespace stl
 	constexpr bool is_assignable = false;
 
 	template<class T, class U>
-	constexpr bool is_assignable<T, U, decltype(declval<T>() = declval<U>(), void())> = true;
+	constexpr bool is_assignable<T, U, decltype(declval<T&>() = declval<U&>(), void())> = true;
 
 	template<class T>
 	constexpr bool is_copy_assignable = is_assignable<T, T>;
@@ -208,8 +194,6 @@ namespace stl
 	template <> constexpr bool is_integral_impl<char> = true;
 	template <> constexpr bool is_integral_impl<unsigned char> = true;
 	template <> constexpr bool is_integral_impl<signed char> = true;
-	template <> constexpr bool is_integral_impl<char16_t> = true;
-	template <> constexpr bool is_integral_impl<char32_t> = true;
 	template <> constexpr bool is_integral_impl<unsigned short> = true;
 	template <> constexpr bool is_integral_impl<short> = true;
 	template <> constexpr bool is_integral_impl<unsigned int> = true;
@@ -238,7 +222,6 @@ namespace stl
 namespace mud
 {
 	using stl::declval;
-	using stl::true_type; using stl::false_type;
 	using stl::enable_if;
 	using stl::remove_pointer; using stl::remove_reference; using stl::remove_cv;
 	using stl::is_same;

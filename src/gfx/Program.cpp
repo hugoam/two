@@ -14,6 +14,7 @@ module mud.gfx;
 #include <stl/string.h>
 #include <stl/vector.h>
 #include <stl/map.h>
+#include <stl/hash_base.hpp>
 #include <stl/algorithm.h>
 #include <infra/ToString.h>
 #include <infra/EnumArray.h>
@@ -177,7 +178,7 @@ namespace mud
 		args.push_back("-O3");
 #endif
 
-		if (target == GLSL)
+		if(target == GLSL)
 		{
 			push_arg("--platform", "linux");
 			push_arg("--profile", "120");
@@ -194,7 +195,7 @@ namespace mud
 			push_arg("--platform", "windows");
 			push_arg("--profile", profiles[size_t(shader_type)]);
 		}
-		else if (target == Metal)
+		else if(target == Metal)
 		{
 			push_arg("--platform", "osx");
 			push_arg("--profile", "metal");
@@ -259,7 +260,7 @@ namespace mud
 		this->register_options(pbr.m_index, pbr.m_shader_block->m_options);
 	}
 
-	Program::Program(const string& name, array<GfxBlock*> blocks, array<cstring> sources)
+	Program::Program(const string& name, span<GfxBlock*> blocks, span<cstring> sources)
 		: Program(name)
 	{
 		this->register_blocks(blocks);
@@ -360,7 +361,7 @@ namespace mud
 		vector.insert(vector.begin(), other.begin(), other.end());
 	}
 
-	void Program::register_blocks(array<GfxBlock*> blocks)
+	void Program::register_blocks(span<GfxBlock*> blocks)
 	{
 		for(GfxBlock* block : blocks)
 			this->register_block(*block);
@@ -373,7 +374,7 @@ namespace mud
 		vector_prepend(m_impl->m_defines, block.m_shader_block->m_defines);
 	}
 
-	void Program::register_options(uint8_t block, array<cstring> options)
+	void Program::register_options(uint8_t block, span<cstring> options)
 	{
 		m_blocks.m_shader_blocks[block].m_option_shift = uint8_t(m_impl->m_option_names.size());
 
@@ -381,7 +382,7 @@ namespace mud
 			m_impl->m_option_names.push_back(options[i]);
 	}
 
-	void Program::register_modes(uint8_t block, array<cstring> modes)
+	void Program::register_modes(uint8_t block, span<cstring> modes)
 	{
 		m_blocks.m_shader_blocks[block].m_mode_shift = uint8_t(m_impl->m_mode_names.size());
 

@@ -6,7 +6,6 @@
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>
-#include <infra/NonCopy.h>
 #endif
 #include <ui/Frame/Frame.h>
 #include <ui/Style/Layout.h>
@@ -128,10 +127,13 @@ namespace mud
 		float positionSequence(FrameSolver& frame, float space);
 	};
 
-	export_ class MUD_UI_EXPORT CustomSolver : public NonCopy, public RowSolver
+	export_ class MUD_UI_EXPORT CustomSolver : public RowSolver
 	{
 	public:
 		CustomSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
+
+		CustomSolver(const CustomSolver& other) = delete;
+		CustomSolver& operator=(const CustomSolver& other) = delete;
 
 		virtual void collect(SolverVector& solvers);
 

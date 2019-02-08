@@ -467,7 +467,7 @@ namespace mud
 	using cstring = const char*;
 
 	export_ template <class T_Asset>
-	class refl_ AssetStore : public NonCopy
+	class refl_ AssetStore //: public NonCopy
 	{
 	public:
 		using Loader = function<void(T_Asset&, const string&)>;
@@ -536,8 +536,8 @@ namespace mud
 
 	export_ MUD_GFX_EXPORT void save_texture(GfxSystem& gfx_system, Texture& texture, const string& path);
 	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx_system, Texture& texture, const string& path);
-	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx_system, Texture& texture, array<uint8_t> data);
-	export_ MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, array<uint8_t> data);
+	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx_system, Texture& texture, span<uint8_t> data);
+	export_ MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data);
 
 	export_ class refl_ MUD_GFX_EXPORT Texture
 	{
@@ -583,9 +583,9 @@ namespace mud
 
 	export_ struct MUD_GFX_EXPORT ShaderBlock
 	{
-		array<cstring> m_options;
-		array<cstring> m_modes;
-		array<ShaderDefine> m_defines;
+		span<cstring> m_options;
+		span<cstring> m_modes;
+		span<ShaderDefine> m_defines;
 	};
 
 	export_ struct MUD_GFX_EXPORT ProgramBlock
@@ -597,7 +597,7 @@ namespace mud
 
 	export_ struct MUD_GFX_EXPORT ProgramBlockArray
 	{
-		// maps a block index to its shader options array
+		// maps a block index to its shader options span
 		ProgramBlock m_shader_blocks[32];
 		uint8_t m_next_option = 0;
 	};
@@ -615,7 +615,7 @@ namespace mud
 
 	public:
 		Program(const string& name, bool compute = false);
-		Program(const string& name, array<GfxBlock*> blocks, array<cstring> sources);
+		Program(const string& name, span<GfxBlock*> blocks, span<cstring> sources);
 		~Program();
 
 		attr_ cstring name();
@@ -641,10 +641,10 @@ namespace mud
 
 		ShaderVersion shader_version(Version& version);
 
-		void register_blocks(array<GfxBlock*> blocks);
+		void register_blocks(span<GfxBlock*> blocks);
 		void register_block(const GfxBlock& block);
-		void register_options(uint8_t block, array<cstring> options);
-		void register_modes(uint8_t block, array<cstring> modes);
+		void register_options(uint8_t block, span<cstring> options);
+		void register_modes(uint8_t block, span<cstring> modes);
 
 		ProgramBlockArray m_blocks;
 
@@ -916,7 +916,7 @@ namespace mud
 		static GfxSystem* ms_gfx_system;
 	};
 
-	export_ MUD_GFX_EXPORT Model& model_variant(GfxSystem& gfx_system, Model& original, const string& name, array<string> materials, array<Material*> substitutes);
+	export_ MUD_GFX_EXPORT Model& model_variant(GfxSystem& gfx_system, Model& original, const string& name, span<string> materials, span<Material*> substitutes);
 }
 
 
@@ -1096,7 +1096,7 @@ namespace mud
 		uint32_t m_num_triangles = 0;
 	};
 
-	export_ struct MUD_GFX_EXPORT Render : public NonCopy
+	export_ struct MUD_GFX_EXPORT Render //: public NonCopy
 	{
 		Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame);
 		Render(Shading shading, Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame);
@@ -1210,8 +1210,8 @@ namespace mud
 		GfxSystem& m_gfx_system;
 		const char* m_name;
 		PassType m_pass_type;
-		array<GfxBlock*> m_gfx_blocks;
-		array<DrawBlock*> m_draw_blocks;
+		span<GfxBlock*> m_gfx_blocks;
+		span<DrawBlock*> m_draw_blocks;
 	};
 	
 	export_ struct MUD_GFX_EXPORT DrawElement
@@ -1234,7 +1234,7 @@ namespace mud
 	{
 		ShaderVersion m_shader_version = {};
 		uint64_t m_bgfx_state = 0;
-		array<Light*> m_lights = {};
+		span<Light*> m_lights = {};
 	};
 
 	export_ class MUD_GFX_EXPORT DrawPass : public RenderPass
@@ -1259,7 +1259,7 @@ namespace mud
 		unique<Impl> m_impl;
 	};
 
-	export_ class MUD_GFX_EXPORT Renderer : public NonCopy
+	export_ class MUD_GFX_EXPORT Renderer //: public NonCopy
 	{
 	public:
 		Renderer(GfxSystem& gfx_system, Pipeline& pipeline, Shading shading);
@@ -1745,7 +1745,7 @@ namespace mud
 		WEST = (2 << 8)
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Camera : public NonCopy
+	export_ class refl_ MUD_GFX_EXPORT Camera //: public NonCopy
 	{
 	public:
 		Camera();
@@ -1997,17 +1997,17 @@ namespace mud
 		Batch* batch(DrawMode draw_mode, size_t vertex_count);
 
 		void shape(const mat4& transform, const ProcShape& shape);
-		void draw(const mat4& transform, array<ProcShape> shapes);
-		void draw(const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
+		void draw(const mat4& transform, span<ProcShape> shapes);
+		void draw(const mat4& transform, span<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
 
-		void draw(Batch& batch, const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
+		void draw(Batch& batch, const mat4& transform, span<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
 
 		void submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state);
 		void submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state, DrawMode draw_mode);
 		void submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state, DrawMode draw_mode, Batch& batch);
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT SymbolIndex : public NonCopy
+	export_ class refl_ MUD_GFX_EXPORT SymbolIndex //: public NonCopy
 	{
 	public:
 		SymbolIndex();
@@ -2376,7 +2376,7 @@ namespace mud
 		attr_ float m_radius;
 	};
 
-	export_ MUD_GFX_EXPORT Frustum optimized_frustum(Camera& camera, array<Item*> items);
+	export_ MUD_GFX_EXPORT Frustum optimized_frustum(Camera& camera, span<Item*> items);
 
 	export_ struct refl_ MUD_GFX_EXPORT FrustumSlice
 	{
@@ -2384,7 +2384,7 @@ namespace mud
 		Frustum m_frustum;
 	};
 
-	export_ MUD_GFX_EXPORT void split_frustum_slices(Camera& camera, array<FrustumSlice> slices, uint8_t num_splits, float split_distribution);
+	export_ MUD_GFX_EXPORT void split_frustum_slices(Camera& camera, span<FrustumSlice> slices, uint8_t num_splits, float split_distribution);
 }
 
 namespace mud
@@ -2494,8 +2494,8 @@ namespace mud
 		bool update(const Viewport& viewport, const mat4& projection, float near, float far);
 
 		// update Records and Froxels texture with lights data. this is thread-safe.
-		void froxelize_lights(const Camera& camera, array<Light*> lights);
-		void froxelize_loop(const Camera& camera, array<Light*> lights);
+		void froxelize_lights(const Camera& camera, span<Light*> lights);
+		void froxelize_loop(const Camera& camera, span<Light*> lights);
 
 		// send froxel data to GPU
 		void upload();
@@ -2528,7 +2528,7 @@ namespace mud
 
 		void froxelize_assign_records_compress(uint32_t num_lights);
 
-		void froxelize_light_group(const Camera& camera, array<Light*> lights, uint32_t offset, uint32_t stride);
+		void froxelize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride);
 
 		GfxSystem& m_gfx_system;
 
@@ -2639,8 +2639,8 @@ namespace gfx
 	export_ MUD_GFX_EXPORT void draw(Scene& scene, const mat4& transform, const Shape& shape, const Symbol& symbol, uint32_t flags = 0);
 	export_ MUD_GFX_EXPORT func_ void draw(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags = 0);
 	export_ MUD_GFX_EXPORT func_ Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
-	export_ MUD_GFX_EXPORT func_ Item& item(Gnode& parent, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0, array<mat4> transforms = {});
-	export_ MUD_GFX_EXPORT func_ void prefab(Gnode& parent, const Prefab& prefab, bool transform = true, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0, array<mat4> transforms = {});
+	export_ MUD_GFX_EXPORT func_ Item& item(Gnode& parent, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0, span<mat4> transforms = {});
+	export_ MUD_GFX_EXPORT func_ void prefab(Gnode& parent, const Prefab& prefab, bool transform = true, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0, span<mat4> transforms = {});
 	export_ MUD_GFX_EXPORT func_ Item* model(Gnode& parent, const string& name, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
 	export_ MUD_GFX_EXPORT func_ Animated& animated(Gnode& parent, Item& item);
 	export_ MUD_GFX_EXPORT func_ Particles& particles(Gnode& parent, const ParticleFlow& emitter, uint32_t flags = 0, size_t instances = 0);
@@ -2764,7 +2764,7 @@ namespace mud
 		bx::FileWriterI& file_writer();
 
 		LocatedFile locate_file(const string& file);
-		LocatedFile locate_file(const string& file, array<string> extensions);
+		LocatedFile locate_file(const string& file, span<string> extensions);
 
 		TPool<Mesh>& meshes();
 		TPool<Rig>& rigs();
@@ -2963,7 +2963,7 @@ namespace mud
 #define PICKING_BUFFER_SIZE 8  // Size of the ID buffer
 
 	using PickCallback = function<void(Item*)>;
-	using MultipickCallback = function<void(array<Item*>)>;
+	using MultipickCallback = function<void(span<Item*>)>;
 
 	export_ struct PickQuery
 	{
@@ -3032,7 +3032,7 @@ namespace mud
 		enum_array<PassType, vector<PassJob>> m_jobs;
 	};
 
-	export_ class MUD_GFX_EXPORT Pipeline : public NonCopy
+	export_ class MUD_GFX_EXPORT Pipeline //: public NonCopy
 	{
 	public:
 		Pipeline(GfxSystem& gfx_system);
@@ -3047,7 +3047,7 @@ namespace mud
 		template <class T_Block, class... Args>
 		T_Block& add_block(Args&&... args) { m_gfx_blocks.push_back(make_unique<T_Block>(static_cast<Args&&>(args)...)); return as<T_Block>(*m_gfx_blocks.back()); }
 
-		array<GfxBlock*> pass_blocks(PassType pass);
+		span<GfxBlock*> pass_blocks(PassType pass);
 
 		vector<unique<GfxBlock>> m_gfx_blocks;
 
@@ -3288,7 +3288,7 @@ namespace mud
 
 	class Shot;
 
-	export_ class refl_ MUD_GFX_EXPORT Scene : public NonCopy
+	export_ class refl_ MUD_GFX_EXPORT Scene //: public NonCopy
 	{
 	public:
 		Scene(GfxSystem& gfx_system);
@@ -3768,10 +3768,9 @@ namespace stl
 	export_ extern template class vector<DrawElement>;
 	export_ extern template class vector<ProcShape>;
 	export_ extern template class vector<Frustum>;
-	export_ extern template class vector<Froxelizer>;
 	export_ extern template class vector<LightRecord>;
 	export_ extern template class vector<Froxelizer::FroxelEntry>;
-	export_ extern template class vector<carray<uint, 8193>>;
+	export_ extern template class vector<span<uint, 8193>>;
 	export_ extern template class vector<unique<Gnode>>;
 	export_ extern template class vector<unique<RenderPass>>;
 	export_ extern template class vector<unique<GfxBlock>>;

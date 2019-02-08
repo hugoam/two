@@ -5,7 +5,6 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/NonCopy.h>
 #include <type/Unique.h>
 #include <math/Vec.h>
 #endif
@@ -80,7 +79,7 @@ namespace mud
 
 	class Shot;
 
-	export_ class refl_ MUD_GFX_EXPORT Scene : public NonCopy
+	export_ class refl_ MUD_GFX_EXPORT Scene
 	{
 	public:
 		Scene(GfxSystem& gfx_system);

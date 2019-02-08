@@ -98,10 +98,10 @@ namespace stl {
 
 		unordered_hash_node<Key, Value>* it = buckets[bucket + 1];
 		node->next = it;
-		if (it) {
+		if(it) {
 			node->prev = it->prev;
 			it->prev = node;
-			if (node->prev)
+			if(node->prev)
 				node->prev->next = node;
 		} else {
 			size_t newbucket = bucket;
@@ -113,14 +113,14 @@ namespace stl {
 				prev = prev->next;
 
 			node->prev = prev;
-			if (prev)
+			if(prev)
 				prev->next = node;
 		}
 
 		// propagate node through buckets
-		for (; it == buckets[bucket]; --bucket) {
+		for(; it == buckets[bucket]; --bucket) {
 			buckets[bucket] = node;
-			if (!bucket)
+			if(!bucket)
 				break;
 		}
 	}
@@ -130,15 +130,15 @@ namespace stl {
 		size_t bucket = hash & (nbuckets - 1);
 
 		unordered_hash_node<Key, Value>* next = where->next;
-		for (; buckets[bucket] == where; --bucket) {
+		for(; buckets[bucket] == where; --bucket) {
 			buckets[bucket] = next;
-			if (!bucket)
+			if(!bucket)
 				break;
 		}
 
-		if (where->prev)
+		if(where->prev)
 			where->prev->next = where->next;
-		if (next)
+		if(next)
 			next->prev = where->prev;
 	}
 
@@ -175,8 +175,8 @@ namespace stl {
 	template <class Node, class Key>
 	static inline Node unordered_hash_find(const Key& key, Node* buckets, size_t nbuckets) {
 		const size_t bucket = hash(key) & (nbuckets - 2);
-		for (Node it = buckets[bucket], end = buckets[bucket+1]; it != end; it = it->next)
-			if (it->first == key)
+		for(Node it = buckets[bucket], end = buckets[bucket+1]; it != end; it = it->next)
+			if(it->first == key)
 				return it;
 
 		return 0;

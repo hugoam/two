@@ -3,11 +3,12 @@
 #ifdef MUD_MODULES
 module mud.type;
 #else
-#include <stddef.h>
+#include <cstddef>
+#include <stl/new.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
-#include <type/Vector.h>
 #include <type/Any.h>
+#include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
 #include <meta/infra.meta.h>
@@ -19,16 +20,21 @@ module mud.type;
 
 using namespace mud;
 
-size_t vector_mud_Ref___size(void* vec) { return (*static_cast<vector<mud::Ref>*>(vec)).size(); }
-void* vector_mud_Ref___at(void* vec, size_t i) { return &(*static_cast<vector<mud::Ref>*>(vec))[i]; }
-void vector_mud_Ref___add(void* vec, void* value) { (*static_cast<vector<mud::Ref>*>(vec)).push_back(*static_cast<mud::Ref*>(value)); }
-void vector_mud_Ref___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<mud::Ref>*>(vec)), *static_cast<mud::Ref*>(value)); }
-void mud_Index_indexer(void* object, array<void*> args, void*& result) { result = &(*static_cast<mud::Index*>(object)).indexer(*static_cast<mud::Type*>(args[0])); }
-void* mud_Indexer__get_type(void* object) { return &(*static_cast<mud::Indexer*>(object)).m_type; }
-void mud_Ref__construct_0(void* ref, array<void*> args) { UNUSED(args); new(stl::placeholder(), &(*static_cast<mud::Ref*>(ref))) mud::Ref(  ); }
-void mud_Ref__construct_1(void* ref, array<void*> args) { new(stl::placeholder(), &(*static_cast<mud::Ref*>(ref))) mud::Ref( static_cast<void**>(args[0]), *static_cast<mud::Type*>(args[1]) ); }
-void mud_Ref__copy_construct(void* ref, void* other) { new(stl::placeholder(), &(*static_cast<mud::Ref*>(ref))) mud::Ref((*static_cast<mud::Ref*>(other))); }
-void mud_indexed_0(array<void*> args, void*& result) { (*static_cast<mud::Ref*>(result)) = mud::indexed(*static_cast<mud::Type*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+size_t stl_vector_mud_Ref__size(void* vec) { return (*static_cast<stl::vector<mud::Ref>*>(vec)).size(); }
+void* stl_vector_mud_Ref__at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Ref>*>(vec))[i]; }
+void stl_vector_mud_Ref__push(void* vec) { (*static_cast<stl::vector<mud::Ref>*>(vec)).emplace_back(); }
+void stl_vector_mud_Ref__add(void* vec, void* value) { (*static_cast<stl::vector<mud::Ref>*>(vec)).push_back(*static_cast<mud::Ref*>(value)); }
+void stl_vector_mud_Ref__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Ref>*>(vec)), *static_cast<mud::Ref*>(value)); }
+size_t stl_vector_stl_string__size(void* vec) { return (*static_cast<stl::vector<stl::string>*>(vec)).size(); }
+void* stl_vector_stl_string__at(void* vec, size_t i) { return &(*static_cast<stl::vector<stl::string>*>(vec))[i]; }
+void stl_vector_stl_string__push(void* vec) { (*static_cast<stl::vector<stl::string>*>(vec)).emplace_back(); }
+void stl_vector_stl_string__add(void* vec, void* value) { (*static_cast<stl::vector<stl::string>*>(vec)).push_back(*static_cast<stl::string*>(value)); }
+void stl_vector_stl_string__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<stl::string>*>(vec)), *static_cast<stl::string*>(value)); }
+void mud_Index_indexer(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Index*>(object)).indexer(*static_cast<mud::Type*>(args[0])); }
+void mud_Ref__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Ref(  ); }
+void mud_Ref__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Ref( static_cast<void**>(args[0]), *static_cast<mud::Type*>(args[1]) ); }
+void mud_Ref__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Ref((*static_cast<mud::Ref*>(other))); }
+void mud_indexed_0(span<void*> args, void*& result) { (*static_cast<mud::Ref*>(result)) = mud::indexed(*static_cast<mud::Type*>(args[0]), *static_cast<uint32_t*>(args[1])); }
 
 namespace mud
 {
@@ -90,9 +96,17 @@ namespace mud
 		g_convert[t.m_id] = &convert;
 	}
 	{
+		Type& t = type<long double>();
+		static Meta meta = { t, &namspc({}), "long double", sizeof(long double), TypeClass::BaseType };
+		g_meta[t.m_id]->m_empty_var = var(long double());
+		static Convert convert = { [](void* val, string& str) { to_string<long double>((*static_cast<long double*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<long double>(str, (*static_cast<long double*>(val))); } };
+		g_convert[t.m_id] = &convert;
+	}
+	{
 		Type& t = type<long long>();
 		static Meta meta = { t, &namspc({}), "long long", sizeof(long long), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(llong());
+		g_meta[t.m_id]->m_empty_var = var(long long());
 		static Convert convert = { [](void* val, string& str) { to_string<long long>((*static_cast<long long*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<long long>(str, (*static_cast<long long*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -106,17 +120,25 @@ namespace mud
 		g_convert[t.m_id] = &convert;
 	}
 	{
-		Type& t = type<string>();
-		static Meta meta = { t, &namspc({}), "string", sizeof(string), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(string());
-		static Convert convert = { [](void* val, string& str) { to_string<string>((*static_cast<string*>(val)), str); }, 
-		                           [](const string& str, void* val) { to_value<string>(str, (*static_cast<string*>(val))); } };
+		Type& t = type<signed char>();
+		static Meta meta = { t, &namspc({}), "signed char", sizeof(signed char), TypeClass::BaseType };
+		g_meta[t.m_id]->m_empty_var = var(signed char());
+		static Convert convert = { [](void* val, string& str) { to_string<signed char>((*static_cast<signed char*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<signed char>(str, (*static_cast<signed char*>(val))); } };
+		g_convert[t.m_id] = &convert;
+	}
+	{
+		Type& t = type<stl::string>();
+		static Meta meta = { t, &namspc({}), "stl::string", sizeof(stl::string), TypeClass::BaseType };
+		g_meta[t.m_id]->m_empty_var = var(stl::string());
+		static Convert convert = { [](void* val, string& str) { to_string<stl::string>((*static_cast<stl::string*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<stl::string>(str, (*static_cast<stl::string*>(val))); } };
 		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<unsigned char>();
 		static Meta meta = { t, &namspc({}), "unsigned char", sizeof(unsigned char), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(uchar());
+		g_meta[t.m_id]->m_empty_var = var(unsigned char());
 		static Convert convert = { [](void* val, string& str) { to_string<unsigned char>((*static_cast<unsigned char*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<unsigned char>(str, (*static_cast<unsigned char*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -124,7 +146,7 @@ namespace mud
 	{
 		Type& t = type<unsigned int>();
 		static Meta meta = { t, &namspc({}), "unsigned int", sizeof(unsigned int), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(uint());
+		g_meta[t.m_id]->m_empty_var = var(unsigned int());
 		static Convert convert = { [](void* val, string& str) { to_string<unsigned int>((*static_cast<unsigned int*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<unsigned int>(str, (*static_cast<unsigned int*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -132,7 +154,7 @@ namespace mud
 	{
 		Type& t = type<unsigned long>();
 		static Meta meta = { t, &namspc({}), "unsigned long", sizeof(unsigned long), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(ulong());
+		g_meta[t.m_id]->m_empty_var = var(unsigned long());
 		static Convert convert = { [](void* val, string& str) { to_string<unsigned long>((*static_cast<unsigned long*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<unsigned long>(str, (*static_cast<unsigned long*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -140,7 +162,7 @@ namespace mud
 	{
 		Type& t = type<unsigned long long>();
 		static Meta meta = { t, &namspc({}), "unsigned long long", sizeof(unsigned long long), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(ullong());
+		g_meta[t.m_id]->m_empty_var = var(unsigned long long());
 		static Convert convert = { [](void* val, string& str) { to_string<unsigned long long>((*static_cast<unsigned long long*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<unsigned long long>(str, (*static_cast<unsigned long long*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -148,7 +170,7 @@ namespace mud
 	{
 		Type& t = type<unsigned short>();
 		static Meta meta = { t, &namspc({}), "unsigned short", sizeof(unsigned short), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(ushort());
+		g_meta[t.m_id]->m_empty_var = var(unsigned short());
 		static Convert convert = { [](void* val, string& str) { to_string<unsigned short>((*static_cast<unsigned short*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<unsigned short>(str, (*static_cast<unsigned short*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -166,15 +188,29 @@ namespace mud
 	
 	// Sequences
 	{
-		Type& t = type<vector<mud::Ref>>();
-		static Meta meta = { t, &namspc({}), "vector<mud::Ref>", sizeof(vector<mud::Ref>), TypeClass::Sequence };
+		Type& t = type<stl::vector<mud::Ref>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Ref>", sizeof(stl::vector<mud::Ref>), TypeClass::Sequence };
 		static Class cls = { t };
 		static Iterable iterable = { &type<mud::Ref>(),
-		                             vector_mud_Ref___size,
-		                             vector_mud_Ref___at};
+		                             stl_vector_mud_Ref__size,
+		                             stl_vector_mud_Ref__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { vector_mud_Ref___add,
-		                             vector_mud_Ref___remove };
+		static Sequence sequence = { stl_vector_mud_Ref__push,
+		                             stl_vector_mud_Ref__add,
+		                             stl_vector_mud_Ref__remove };
+		g_sequence[t.m_id] = &sequence;
+	}
+	{
+		Type& t = type<stl::vector<stl::string>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<stl::string>", sizeof(stl::vector<stl::string>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<stl::string>(),
+		                             stl_vector_stl_string__size,
+		                             stl_vector_stl_string__at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { stl_vector_stl_string__push,
+		                             stl_vector_stl_string__add,
+		                             stl_vector_stl_string__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	
@@ -207,12 +243,25 @@ namespace mud
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Indexer__get_type },
-			{ t, offsetof(mud::Indexer, m_objects), type<vector<mud::Ref>>(), "objects", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::Indexer, m_type), type<mud::Type>(), "type", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Indexer, m_objects), type<stl::vector<mud::Ref>>(), "objects", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+	}
+	// mud::Prototype
+	{
+		Type& t = type<mud::Prototype>();
+		static Meta meta = { t, &namspc({ "mud" }), "Prototype", sizeof(mud::Prototype), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// mud::Ref
 	{
@@ -250,6 +299,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::Type, m_id), type<uint32_t>(), "id", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Type, m_name), type<const char*>(), "name", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Type, m_size), type<size_t>(), "size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Type, m_base), type<mud::Type>(), "base", base_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
@@ -270,8 +320,11 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
+	
+	
 		m.m_types.push_back(&type<mud::Index>());
 		m.m_types.push_back(&type<mud::Indexer>());
+		m.m_types.push_back(&type<mud::Prototype>());
 		m.m_types.push_back(&type<mud::Ref>());
 		m.m_types.push_back(&type<mud::Type>());
 		m.m_types.push_back(&type<mud::Var>());
@@ -282,15 +335,18 @@ namespace mud
 		m.m_types.push_back(&type<float>());
 		m.m_types.push_back(&type<int>());
 		m.m_types.push_back(&type<long>());
+		m.m_types.push_back(&type<long double>());
 		m.m_types.push_back(&type<long long>());
 		m.m_types.push_back(&type<short>());
-		m.m_types.push_back(&type<string>());
+		m.m_types.push_back(&type<signed char>());
+		m.m_types.push_back(&type<stl::string>());
 		m.m_types.push_back(&type<unsigned char>());
 		m.m_types.push_back(&type<unsigned int>());
 		m.m_types.push_back(&type<unsigned long>());
 		m.m_types.push_back(&type<unsigned long long>());
 		m.m_types.push_back(&type<unsigned short>());
-		m.m_types.push_back(&type<vector<mud::Ref>>());
+		m.m_types.push_back(&type<stl::vector<mud::Ref>>());
+		m.m_types.push_back(&type<stl::vector<stl::string>>());
 		m.m_types.push_back(&type<void>());
 		m.m_types.push_back(&type<void*>());
 		{

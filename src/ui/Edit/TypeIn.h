@@ -55,7 +55,7 @@ namespace mud
 	};
 
 	using PaletteIndex = uint16_t;
-	using ColourPalette = array<uint32_t>;
+	using ColourPalette = span<uint32_t>;
 
 	enum class TextMarkerKind
 	{

@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frame/Forward.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <geom/Shape.h>
 
 #include <vector>
@@ -16,6 +16,6 @@ struct ShapeInstance { ShapeVar shape; Colour colour; Symbol symbol; };
 
 vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, const vector<ShapeVar>& shapes, bool plain = true);
 
-void shape_grid(Gnode& parent, array2d<ShapeInstance> shape_grid, const Symbol* symbol = nullptr, bool rotate = true, Material* material = nullptr);
+void shape_grid(Gnode& parent, span2d<ShapeInstance> shape_grid, const Symbol* symbol = nullptr, bool rotate = true, Material* material = nullptr);
 
 void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar);

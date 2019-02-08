@@ -7,10 +7,12 @@
 #include <infra/Pragma.h>
 
 #ifndef MUD_META_GENERATOR
+#define base_   // Base type
 #define refl_   // Reflect
 #define struct_ // Struct
 #define nocopy_ // Nocopy type
 #define array_	// Array type
+#define seque_	// Sequence type
 #define extern_ // Extern type
 #define comp_   // Component
 #define constr_ // Constructor
@@ -65,4 +67,25 @@
 
 #ifndef MUD_INFRA_EXPORT
 #define MUD_INFRA_EXPORT MUD_IMPORT
+#endif
+
+#ifdef MUD_META_GENERATOR
+base_ static void* dvoidptr;
+base_ static bool dbool;
+base_ static char dchar;
+base_ static signed char dschar;
+base_ static short dshort;
+base_ static int dint;
+base_ static long dlong;
+base_ static unsigned char duchar;
+base_ static unsigned short dushort;
+base_ static unsigned int duint;
+base_ static unsigned long dulong;
+base_ static unsigned long long dullong;
+base_ static long long dllong;
+base_ static long double dldouble;
+base_ static float dfloat;
+base_ static double ddouble;
+#include <stdint.h>
+#include <stddef.h>
 #endif

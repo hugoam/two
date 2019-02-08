@@ -19,6 +19,8 @@ namespace mud
 
 		inline size_t size(Ref vec) const { return m_size(vec.m_value); }
 		inline Ref at(Ref vec, size_t i) const { return Ref(m_at(vec.m_value, i), *m_element_type); }
+		inline Ref front(Ref vec) const { return at(vec, 0); }
+		inline Ref back(Ref vec) const { return at(vec, size(vec) - 1); }
 
 		template <class T_Visitor>
 		void iterate(Ref vec, T_Visitor visitor) const
@@ -40,9 +42,11 @@ namespace mud
 	export_ class MUD_REFL_EXPORT Sequence
 	{
 	public:
+		using Push = void(*)(void*); Push m_push;
 		using Add = void(*)(void*, void*); Add m_add;
 		using Remove = void(*)(void*, void*); Remove m_remove;
 
+		inline void push(Ref vec) const { m_push(vec.m_value); }
 		inline void add(Ref vec, Ref element) const { m_add(vec.m_value, element.m_value); }
 		inline void remove(Ref vec, Ref element) const { m_remove(vec.m_value, element.m_value); }
 	};

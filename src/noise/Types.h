@@ -4,7 +4,6 @@
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
 #include <type/Type.h>
-#include <type/Vector.h>
 #endif
 
 #ifndef MUD_MODULES
@@ -31,9 +30,7 @@ namespace mud
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::Interp>();
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::NoiseType>();
     
-    export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise>();
-    export_ template <> MUD_NOISE_EXPORT Type& type<mud::array3d<float>>();
     
-    export_ template <> MUD_NOISE_EXPORT Type& type<vector<mud::Noise*>>();
-    export_ template <> MUD_NOISE_EXPORT Type& type<vector<mud::array3d<float>*>>();
+    export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise>();
+    export_ template <> MUD_NOISE_EXPORT Type& type<mud::vector3d<float>>();
 }

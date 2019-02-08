@@ -12,7 +12,6 @@ module mud.infra;
 #include <infra/StringOps.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
-#include <infra/NonCopy.h>
 #endif
 
 #include <cctype>
@@ -21,7 +20,7 @@ namespace mud
 {
 	const size_t g_num_precision = 3;
 
-	void split(const string& str, const string& separator, array<string> output)
+	void split(const string& str, const string& separator, span<string> output)
 	{
 		size_t start = 0;
 		size_t next = str.find(separator, start);
@@ -57,7 +56,7 @@ namespace mud
 		return result;
 	}
 
-	//string join(array<string> strings, string separator)
+	//string join(span<string> strings, string separator)
 	string join(const vector<string>& strings, string separator)
 	{
 		if(strings.size() == 0) return "";
@@ -73,6 +72,7 @@ namespace mud
 
 	string replace(const string& original, const string& before, const string& after)
 	{
+		if(before.empty()) return original;
 		string retval;
 		retval.reserve(original.size());
 
@@ -107,7 +107,7 @@ namespace mud
 	{
 		string result = name;
 		result[0] = char(::toupper(name[0]));
-		for (size_t pos = result.find("_"); pos != string::npos; pos = result.find("_", pos))
+		for(size_t pos = result.find("_"); pos != string::npos; pos = result.find("_", pos))
 		{
 			result.erase(pos, 1);
 			result[pos] = char(::toupper(result[pos]));

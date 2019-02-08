@@ -99,7 +99,7 @@ namespace mud
 			{
 				info += "(" + string(meta(branch.m_value).m_name) + ") ";
 				if(g_convert[type(branch.m_value).m_id])
-					info += to_string(branch.m_value);
+					info += to_string(branch.m_value.m_ref);
 				info += "\n";
 			}
 		});
@@ -166,7 +166,7 @@ namespace mud
 		{
 			for(size_t d = 0; d < branch.m_depth; ++d)
 				printf("    ");
-			printf("Branch %s value %s\n", to_string(branch.m_index).c_str(), convert(type(branch.m_value)).m_to_string ? to_string(branch.m_value).c_str()
+			printf("Branch %s value %s\n", to_string(branch.m_index).c_str(), convert(type(branch.m_value)).m_to_string ? to_string(branch.m_value.m_ref).c_str()
 																														: to_name(type(branch.m_value), branch.m_value.m_ref).c_str());
 		});
 	}
@@ -453,13 +453,13 @@ namespace mud
 			}
 	}
 
-	void VisualScript::operator()(array<Var> args, Var& result) const
+	void VisualScript::operator()(span<void*> args, void*& result) const
 	{
 		// @kludge: ugly cast until we decide something on this callable constness mess
 		VisualScript& self = const_cast<VisualScript&>(*this);
 		self.lock();
 		for(size_t i = 0; i < m_inputs.size(); ++i)
-			m_inputs[i]->m_output.m_stream.write(args[i]);
+			m_inputs[i]->m_output.m_stream.write(Ref(args[i], *m_signature.m_params[i].m_type));
 		self.unlock(false);
 
 		self.reorder();

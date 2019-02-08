@@ -2,7 +2,7 @@
 
 #include <stl/type_traits.h>
 #include <stl/stddef.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 
 #include <cassert>
 #include <cstdlib>

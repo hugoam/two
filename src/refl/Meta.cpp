@@ -50,7 +50,7 @@ namespace mud
 
 	bool is_string(Type& type)
 	{
-		return type.is<string>() || type.is<cstring>() || type.is<string>();
+		return type.is<string>() || type.is<cstring>();
 	}
 
 	string get_string(Member& member, Ref value)
@@ -75,7 +75,7 @@ namespace mud
 		g_meta[type.m_id] = this;
 	}
 
-	Enum::Enum(Type& type, bool scoped, array<cstring> names, array<uint32_t> values, array<void*> vars)
+	Enum::Enum(Type& type, bool scoped, span<cstring> names, span<uint32_t> values, span<void*> vars)
 		: m_type(type)
 		, m_scoped(scoped)
 		, m_names(names)
@@ -143,8 +143,8 @@ namespace mud
 		g_class[type.m_id] = this;
 	}
 
-	Class::Class(Type& type, array<Type*> bases, array<size_t> bases_offsets, array<Constructor> constructors, array<CopyConstructor> copy_constructors,
-				 array<Member> members, array<Method> methods, array<Static> static_members)
+	Class::Class(Type& type, span<Type*> bases, span<size_t> bases_offsets, span<Constructor> constructors, span<CopyConstructor> copy_constructors,
+				 span<Member> members, span<Method> methods, span<Static> static_members)
 		: m_type(&type)
 		, m_meta(&meta(type))
 		, m_bases(bases)
@@ -211,7 +211,7 @@ namespace mud
 			}
 	}
 
-	Ref Class::upcast(Ref object, Type& base)
+	Ref Class::upcast(Ref object, const Type& base)
 	{
 		if(!object) return object;
 		for(size_t i = 0; i < m_bases.size(); ++i)
@@ -223,7 +223,7 @@ namespace mud
 		return object;
 	}
 
-	Ref Class::downcast(Ref object, Type& base)
+	Ref Class::downcast(Ref object, const Type& base)
 	{
 		if(!object) return object;
 		for(size_t i = 0; i < m_bases.size(); ++i)
@@ -326,12 +326,12 @@ namespace mud
 		return nullptr;
 	}
 
-	bool Class::is(Type& component)
+	bool Class::is(const Type& component)
 	{
 		return find(m_components, [&](Member* member) { return member->m_type->is(component); }) != nullptr;
 	}
 
-	Ref Class::as(Ref object, Type& component)
+	Ref Class::as(Ref object, const Type& component)
 	{
 		Member* member = *find(m_components, [&](Member* member) { return member->m_type->is(component); });
 		return cls(*member->m_type).upcast(member->get(object), component);
@@ -364,7 +364,7 @@ namespace mud
 		UNUSED(first); UNUSED(second);
 	}
 
-	string to_name(Type& type, Ref value)
+	string to_name(const Type& type, Ref value)
 	{
 		string name;
 		if(is_basic(type))
@@ -406,31 +406,31 @@ namespace mud
 		this->default_converter<ulong, ullong>();
 	}
 
-	bool TypeConverter::check(Type& input, Type& output)
+	bool TypeConverter::check(const Type& input, const Type& output)
 	{
 		return DoubleDispatch::check(input, output);
 	}
 
-	bool TypeConverter::check(Ref input, Type& output)
+	bool TypeConverter::check(Ref input, const Type& output)
 	{
 		return DoubleDispatch::check(*input.m_type, output);
 	}
 
-	Var TypeConverter::convert(Ref input, Type& output)
+	Var TypeConverter::convert(Ref input, const Type& output)
 	{
 		Var result = meta(output).m_empty_var;
 		DoubleDispatch::dispatch(input, result);
 		return result;
 	}
 
-	void TypeConverter::convert(Ref input, Type& output, Var& result)
+	void TypeConverter::convert(Ref input, const Type& output, Var& result)
 	{
 		if(result.none() || !type(result).is(output))
 			result = meta(output).m_empty_var;
 		DoubleDispatch::dispatch(input, result);
 	}
 
-	bool is_related(Type& input, Type& output)
+	bool is_related(const Type& input, const Type& output)
 	{
 		UNUSED(input); UNUSED(output);
 		return false;
@@ -444,7 +444,7 @@ namespace mud
 			dest = source.m_ref;
 	}
 
-	bool convert(Var& source, Type& output, Var& dest, bool ref)
+	bool convert(Var& source, const Type& output, Var& dest, bool ref)
 	{
 		Ref value = source;
 		if(output.is(type<Ref>()))
@@ -464,25 +464,25 @@ namespace mud
 		return true;
 	}
 
-	bool convert(Ref input, Type& output, Var& result)
+	bool convert(Ref input, const Type& output, Var& result)
 	{
 		Var inputvar = input;
 		return convert(inputvar, output, result);
 	}
 
-	Var convert(Ref input, Type& output)
+	Var convert(Ref input, const Type& output)
 	{
 		Var result;
 		convert(input, output, result);
 		return result;
 	}
 
-	bool can_convert(Type& input, Type& output)
+	bool can_convert(const Type& input, const Type& output)
 	{
 		return input.is(output) || is_related(input, output) || TypeConverter::me().check(input, output);
 	}
 
-	bool can_convert(Ref input, Type& output)
+	bool can_convert(Ref input, const Type& output)
 	{
 		return type(input).is(output) || is_related(type(input), output) || TypeConverter::me().check(input, output);
 	}

@@ -15,7 +15,7 @@
 //#include <refl/Api.h>
 
 #include <cstdio>
-
+#include <algorithm>
 
 namespace mud
 {
@@ -40,10 +40,11 @@ namespace mud
 	template <class T, class Pred>
 	void sort(T& vec, Pred pred)
 	{
-		quicksort<typename T::value_type>(vec, pred);
+		std::sort(vec.begin(), vec.end(), pred);
 	}
 
 	class CLModule;
+	class CLParam;
 	class CLCallable;
 	class CLFunction;
 	class CLPrimitive;
@@ -52,6 +53,9 @@ namespace mud
 	class CLMethod;
 	class CLClass;
 	class CLEnum;
+
+	static CXTypeKind c_base_types[] = { CXType_Void, CXType_Bool, CXType_Char_S, CXType_SChar, CXType_UChar, CXType_Short, CXType_Int, CXType_Long, CXType_LongLong,
+										 CXType_UShort, CXType_UInt, CXType_ULong, CXType_ULongLong, CXType_Float, CXType_Double, CXType_LongDouble };
 
 	void visit_tokens(CXCursor cursor, const function<void(CXToken)>& visitor);
 	void visit_children(CXCursor cursor, const function<void(CXCursor)>& visitor);
@@ -71,20 +75,38 @@ namespace mud
 
 	CXTokenKind kind(CXToken token) { return clang_getTokenKind(token); }
 
-	string spelling(CXCursor cursor, CXToken token) { CXTranslationUnit tu = clang_Cursor_getTranslationUnit(cursor); return clang_string(clang_getTokenSpelling(tu, token)); }
-	string spelling(CXCursor cursor) { return clang_string(clang_getCursorSpelling(cursor)); }
-	string spelling(CXType type) { return clang_string(clang_getTypeSpelling(type)); }
+	string clean_name(const string& name)
+	{
+		return replace(replace(replace(name, " *", "*"), " &", "&"), "> >", ">>");
+	}
 
-	string displayname(CXCursor cursor) { return clang_string(clang_getCursorDisplayName(cursor)); }
+	string spelling(CXCursor cursor, CXToken token) { CXTranslationUnit tu = clang_Cursor_getTranslationUnit(cursor); return clean_name(clang_string(clang_getTokenSpelling(tu, token))); }
+	string spelling(CXCursor cursor) { return clean_name(clang_string(clang_getCursorSpelling(cursor))); }
+	string spelling(CXType type) { return clean_name(clang_string(clang_getTypeSpelling(type))); }
+
+	string displayname(CXCursor cursor) { return clean_name(clang_string(clang_getCursorDisplayName(cursor))); }
 
 	CXType enum_type(CXCursor cursor) { return clang_getEnumDeclIntegerType(cursor); }
 	long long enum_value(CXCursor cursor) { return clang_getEnumConstantDeclValue(cursor); }
 	bool is_scoped(CXCursor cursor) { return clang_EnumDecl_isScoped(cursor); }
 
 	CXType type(CXCursor cursor) { return clang_getCursorType(cursor); }
+	CXType actual_type(CXCursor cursor) { CXType t = type(cursor); return t.kind == CXType_Elaborated ? clang_Type_getNamedType(t) : t; }
 	CXType result_type(CXCursor cursor) { return clang_getCursorResultType(cursor); }
 
-	CXType get_pointee(CXType type) { return clang_getPointeeType(type); }
+	CXType pointee(CXType type)
+	{
+		if(type.kind == CXType_Pointer || type.kind == CXType_LValueReference) return clang_getPointeeType(type);
+		if(type.kind == CXType_ConstantArray) return clang_getElementType(type);
+		else return type;
+	}
+
+	CXType canonical(CXType type) { return clang_getCanonicalType(type); }
+
+	// @kludge @hack: clears the last bit of CXType data, which holds the const qualifier
+	// proper solution is to request libclang to implement clang_getUnqualifiedType
+	CXType unqual(CXType type) { CXType result = type; result.data[0] = (void*)(ullong(result.data[0]) & ~(1)); return result; }
+	CXType upointee(CXType type) { return unqual(pointee(type)); }
 
 	bool is_definition(CXCursor cursor) { return clang_isCursorDefinition(cursor); }
 
@@ -92,6 +114,11 @@ namespace mud
 
 	void dump_ast(CXCursor cursor, int level)
 	{
+		visit_tokens(cursor, [&](CXToken t) {
+			for(int i = 0; i < level; ++i) printf("    ");
+			printf("+-- token %s\n", spelling(cursor, t).c_str());
+		});
+
 		visit_children(cursor, [&](CXCursor c) {
 			for(int i = 0; i < level; ++i) printf("    ");
 			printf("+-- %s %s %s\n", clang_string(clang_getCursorKindSpelling(c.kind)).c_str(), spelling(c).c_str(), spelling(type(c)).c_str());
@@ -164,14 +191,14 @@ namespace mud
 		return split(name.substr(name.find("<") + 1, name.rfind(">") - name.find("<") - 1), ",");
 	}
 
-	string clean_name(const string& name)
+	string clean_const(const string& name)
 	{
-		return replace(replace(replace(name, " *", "*"), " &", "&"), "> >", ">>");
+		return replace(name, "const ", "");
 	}
 
 	string type_name(CXType type)
 	{
-		string name = clean_name(spelling(type));
+		string name = spelling(type);
 
 		if(name.find("<") != string::npos)
 		{
@@ -179,46 +206,71 @@ namespace mud
 			CXType named_type = clang_Type_getNamedType(type);
 			if(named_type.kind == CXType_Invalid)
 				return name;
-			vector<string> types = template_types(clean_name(spelling(named_type)));
-			return template_name(name) + "<" + join(types, ",") + ">";
+			string canonical = spelling(named_type);
+			vector<string> types = template_types(canonical);
+			name = template_name(canonical) + "<" + join(types, ",") + ">";
 		}
 
+		if(name == "stl::span<char>")
+			int i = 0;
 		return name;
+	}
+
+	CXType class_type(CXType type)
+	{
+		if(type.kind == CXType_Pointer || type.kind == CXType_LValueReference)
+			return unqual(canonical(pointee(type)));
+		if(type.kind == CXType_ConstantArray)
+			return unqual(canonical(pointee(type)));
+		else
+			return unqual(canonical(type));
 	}
 
 	string class_name(CXType type)
 	{
-		if(spelling(type) == "void *")
+		if(spelling(type) == "void*")
 			return "void*";
 		if(type.kind == CXType_Pointer)
-			return replace(type_name(get_pointee(type)), "const ", "");
+			return clean_const(type_name(pointee(type)));
 		if(type.kind == CXType_LValueReference)
-			return replace(type_name(get_pointee(type)), "const ", "");
+			return clean_const(type_name(pointee(type)));
+		if(type.kind == CXType_ConstantArray)
+			return clean_const(type_name(pointee(type)));
     
-		return replace(type_name(type), "const ", "");
+		return clean_const(type_name(type));
 	}
 
 	string unqual_type_name(CXType type)
 	{
 		if(type.kind == CXType_LValueReference)
-			return replace(type_name(get_pointee(type)), "const ", "");
+			return clean_const(type_name(pointee(type)));
         
-		return replace(type_name(type), "const ", "");
+		return clean_const(type_name(type));
 	}
 
-	string substitute_template(const string& name, const vector<string>& template_types, const vector<string>& real_types)
-	{
-		string result = name;
-		for(size_t i = 0; i < template_types.size(); ++i)
-			result = replace(name, template_types[i], real_types[i]);
-		return result;
-	}
+	void decl_enum(CLModule& module, CLPrimitive& parent, CXCursor cursor);
+	void decl_callable(CLModule& module, CLPrimitive& parent, CLCallable& f, CXCursor cursor);
+	void decl_function(CLModule& module, CLPrimitive& parent, CXCursor cursor);
+	void decl_function_template(CLModule& module, CLPrimitive& parent, CXCursor cursor);
+	void decl_class(CLModule& module, CLPrimitive& parent, CLClass& c, CXCursor cursor, CXType cxtype);
+	CLClass& decl_class_type(CLModule& module, CLPrimitive& parent, CXCursor cursor);
+	CLClass& decl_class_template(CLModule& module, CLPrimitive& parent, CXCursor cursor);
+
+	void parse_enum(CLModule& module, CLEnum& e);
+	void parse_static(CLModule& module, CLClass& c, CXCursor cursor);
+	void parse_param(CLModule& module, CLPrimitive& parent, CLCallable& f, CLParam& p, CXCursor cursor);
+	void parse_callable(CLModule& module, CLCallable& f);
+	void parse_constructor(CLModule& module, CLClass& c, CXCursor cursor);
+	void parse_method(CLModule& module, CLClass& c, CLMethod& m, CXCursor cursor);
+	void parse_method(CLModule& module, CLClass& c, CXCursor cursor);
+	void parse_member(CLModule& module, CLClass& c, CXCursor cursor);
+	void parse_class(CLModule& module, CLClass& c);
+	void parse_sequence(CLModule& module, CLClass& c);
 
 	enum class CLPrimitiveKind
 	{
 		Namespace,
 		Type,
-		Class,
 		Function,
 		Constructor,
 		Method
@@ -236,6 +288,13 @@ namespace mud
 			, m_prefix(m_id == "" ? "" : m_id + "::")
 		{}
 
+		void set_name(const string& name)
+		{
+			m_name = name;
+			m_id = m_parent ? m_parent->m_prefix + name : name;
+			m_prefix = m_id == "" ? "" : m_id + "::";
+		}
+
 		CLPrimitiveKind m_kind;
 		string m_name;
 		string m_id;
@@ -243,10 +302,11 @@ namespace mud
 		CLModule* m_module = nullptr;
 		string m_prefix;
 
+		CXCursor m_cursor;
+
 		bool m_reflect = false;
 		bool m_reflect_content = false;
 
-		bool m_is_basetype = false;
 		bool m_is_template = false;
 		bool m_is_templated = false;
 
@@ -265,6 +325,7 @@ namespace mud
 
 	enum class CLTypeKind
 	{
+		Unknown,
 		Void,
 		VoidPtr,
 		Boolean,
@@ -275,39 +336,36 @@ namespace mud
 		String,
 		Enum,
 		Class,
-		Array
+		Array,
+		Alias
 	};
+
+	string type_name(CLPrimitive& parent, CXType type)
+	{
+		//return replace(type_name(type), parent.m_prefix, "");
+		string name = type_name(type);
+		if(starts_with(name, parent.m_prefix))
+			name.erase(0, parent.m_prefix.size());
+		return name;
+	}
 
 	class CLType : public CLPrimitive
 	{
 	public:
-		CLType(CLModule& module, CLPrimitive& parent, const string& name)
-			: CLPrimitive(CLPrimitiveKind::Type, name, &parent)
+		CLType(CLModule& module, CLPrimitive& parent, CXType cxtype)
+			: CLPrimitive(CLPrimitiveKind::Type, type_name(parent, cxtype), &parent) // spelling(cxtype), 
+			, m_cxtype(cxtype)
 		{
+			if(m_id == "stl::span<const char*>")
+				int i = 0;
 			m_module = &module;
 			//m_nested = parent.m_kind == CLPrimitiveKind::Class;
 
-			if(name.back() == '*')
+			if(m_id.back() == '*')
 				m_pointer = true;
-
-			if(has({ "void" }, name))
-				m_type_kind = CLTypeKind::Void;
-			if(has({ "void*" }, name))
-				m_type_kind = CLTypeKind::VoidPtr;
-			else if(has({ "bool" }, name))
-				m_type_kind = CLTypeKind::Boolean;
-			else if(has({ "char", "signed char", "unsigned char" }, name))
-				m_type_kind = CLTypeKind::Char;
-			else if(has({ "short", "int", "long", "long long", "unsigned short", "unsigned int", "unsigned long", "unsigned long long" }, name))
-				m_type_kind = CLTypeKind::Integer;
-			else if(has({ "float", "double" }, name))
-				m_type_kind = CLTypeKind::Float;
-			else if(has({ "char*", "const char*" }, name))
-				m_type_kind = CLTypeKind::CString;
-			else if(has({ "string", "std::string", "mud::string" }, name))
-				m_type_kind = CLTypeKind::String;
 		}
 
+		CXType m_cxtype;
 		CLTypeKind m_type_kind;
 		bool m_nested = false;
 		bool m_struct = true;
@@ -319,12 +377,27 @@ namespace mud
 		vector<string> m_aliases;
 	};
 
+	class CLAlias : public CLType
+	{
+	public:
+		CLAlias(CLModule& module, CLPrimitive& parent, CXType alias, CXType target)
+			: CLType(module, parent, alias)
+			, m_cxtarget(target)
+		{
+			m_type_kind = CLTypeKind::Alias;
+			if(m_name.find("string") != string::npos)
+				m_type_kind = CLTypeKind::String;
+		}
+
+		CXType m_cxtarget;
+		CLType* m_target = nullptr;
+	};
+
 	struct CLQualType
 	{
 		CLType* m_type = nullptr;
 		string m_spelling;
 		string m_type_name;
-		string m_unqual_type_name;
 
 		bool operator==(const CLQualType& o) const { return m_type == o.m_type && m_spelling == o.m_spelling; }
 		bool operator!=(const CLQualType& o) const { return !(*this == o); }
@@ -357,19 +430,18 @@ namespace mud
 	class CLBaseType : public CLType
 	{
 	public:
-		CLBaseType(CLModule& module, CLPrimitive& parent, const string& name)
-			: CLType(module, parent, name)
+		CLBaseType(CLModule& module, CLPrimitive& parent, CXType cxtype, CLTypeKind type_kind)
+			: CLType(module, parent, cxtype)
 		{
-			m_reflect = true;
-			m_is_basetype = true;
+			m_type_kind = type_kind;
 		}
 	};
 
 	class CLEnum : public CLType
 	{
 	public:
-		CLEnum(CLModule& module, CLPrimitive& parent, const string& name)
-			: CLType(module, parent, name)
+		CLEnum(CLModule& module, CLPrimitive& parent, CXType cxtype)
+			: CLType(module, parent, cxtype)
 		{
 			m_type_kind = CLTypeKind::Enum;
 		}
@@ -382,34 +454,14 @@ namespace mud
 
 		vector<string> m_scoped_ids;
 	};
-
-	class CLSequence : public CLType
-	{
-	public:
-		CLSequence(CLModule& module, const string& store, CLType& content_type, bool pointer, CLPrimitive& parent)
-			: CLType(module, parent, store + "<" + content_type.m_id + (pointer ? "*" : "") + ">")
-		{
-			m_type_kind = CLTypeKind::Class;
-			m_store = store;
-			m_contentcls = &content_type;
-			m_content = content_type.m_id + (pointer ? "*" : "");
-			m_reflect = true;
-		}
-
-		string m_store;
-		CLType* m_contentcls;
-		string m_content;
-	};
 	
 	class CLParam
 	{
 	public:
 		CLParam(CLCallable& func, size_t index)
-			: m_func(&func)
-			, m_index(index)
+			: m_index(index)
 		{}
 
-		CLCallable* m_func;
 		size_t m_index;
 		string m_name;
 		CLQualType m_type;
@@ -431,6 +483,7 @@ namespace mud
 		vector<CLParam> m_params;
 		size_t m_min_args = 0;
 		bool m_overloaded = false;
+		uint32_t m_overload_index = 0;
 	};
 
 	class CLFunction : public CLCallable
@@ -459,8 +512,6 @@ namespace mud
 		CLConstructor(CLType& parent, const string& name)
 			: CLCallable(CLPrimitiveKind::Constructor, parent, name)
 		{}
-
-		uint32_t m_index;
 	};
 	
 	class CLStatic
@@ -506,91 +557,67 @@ namespace mud
 	class CLClass : public CLType
 	{
 	public:
-		CLClass(CLModule& module, CLPrimitive& parent, const string& name)
-			: CLType(module, parent, name)
+		CLClass(CLModule& module, CLPrimitive& parent, CXType cxtype)
+			: CLType(module, parent, cxtype)
 		{
 			m_type_kind = CLTypeKind::Class;
+			//this->set_alias(displayname(cursor));
 		}
-
-		CXCursor m_cursor;
 
 		vector<CLConstructor> m_constructors;
 		vector<CLMember> m_members;
 		vector<CLMethod> m_methods;
 		vector<CLStatic> m_statics;
 
-		vector<string> m_annotations;
-
 		bool m_array = false;
 		size_t m_array_size = 0;
 		CLType* m_array_type = nullptr;
 		bool m_extern = false;
 
+		bool m_sequence = false;
+		CLType* m_element_type = nullptr;
+		string m_element = "";
+
 		string m_template_name;
-		bool m_template_used = false;
 		CLClass* m_template = nullptr;
 		vector<string> m_template_types;
+		vector<CLType*> m_templated_types;
 
-		string fix_template_element(const string& name)
+		CLType* templated_type(const string& name)
 		{
-			if(m_template && has(m_template->m_template_types, name))
-				return m_template_types[index_of(m_template->m_template_types, name)];
-			else
-				return name;
+			//printf("substituting %s\n", name.c_str());
+			size_t pos = index_of(m_template->m_template_types, name);
+			return pos < m_templated_types.size() ? m_templated_types[pos] : nullptr;
 		}
 
 		virtual string fix_template(const string& name) override
 		{
-			// first fix nested template types
-			vector<string> real_types;
+			// fix type itself in case it is a template parameter
+			if(CLType* templated = this->templated_type(name))
+				return templated->m_id;
+
+			// fix nested template types
+			string result = name;
 			for(const string& t : template_types(name))
-				real_types.push_back(this->fix_template_element(t));
-			string result = substitute_template(name, template_types(name), real_types);
-			// then fix type itself in case it is a template parameter
-			return this->fix_template_element(result);
+				if(CLType* templated = this->templated_type(t))
+					result = replace(result, t, templated->m_id);
+			return result;
 			// printf("substituted template base name: %s\n", name.c_str);
-		}
-	};
-
-	class CLContext
-	{
-	public:
-		CLContext()
-			: m_root_namespace("")
-		{
-			m_base_aliases = { "uint8_t", "uint16_t", "uint32_t", "uint64_t", "size_t" };
-		}
-
-		CLNamespace m_root_namespace;
-
-		map<string, CLType*> m_types;
-		map<string, CLClass*> m_class_templates;
-		map<string, CLFunction*> m_func_templates;
-
-		map<string, unique<CLNamespace>> m_namespaces;
-
-		vector<string> m_base_aliases;
-
-		set<string> m_parsed_files;
-
-		CLNamespace& get_namespace(const string& name, CLPrimitive& parent)
-		{
-			string full_name = parent.m_prefix + name;
-			if(m_namespaces.find(full_name) == m_namespaces.end())
-				m_namespaces[full_name] = make_unique<CLNamespace>(name, &parent);
-			return *m_namespaces[full_name];
 		}
 	};
 
 	class CLModule
 	{
 	public:
-		CLModule(CLContext& context) : m_context(context) {}
-		CLModule(CLContext& context, const string& nemespace, const string& name, const string& dotname, const string& id, 
+		CLModule() : m_global("") {}
+		CLModule(const string& nemespace, const string& name, const string& dotname, const string& id, 
 				 const string& rootdir, const string& subdir, const string& path, vector<string> includedirs, vector<CLModule*> dependencies)
-			: m_context(context), m_namespace(nemespace), m_name(name), m_dotname(dotname), m_id(id), m_rootdir(rootdir), m_subdir(subdir), m_path(path)
+			: m_namespace(nemespace), m_name(name), m_dotname(dotname), m_id(id), m_rootdir(rootdir), m_subdir(subdir), m_path(path)
 			, m_includedirs(includedirs), m_dependencies(dependencies)
+			, m_global("")
 		{
+			m_dotname = replace(m_dotname, nemespace + ".", "");
+
 			m_modules = dependencies;
 			m_modules.push_back(this);
 
@@ -604,7 +631,6 @@ namespace mud
 			m_has_structs = file_exists(m_path + "/" + "Structs.h");
 		}
 
-		CLContext& m_context;
 		string m_namespace;
 		string m_name;
 		string m_dotname;
@@ -619,145 +645,203 @@ namespace mud
 		string m_preproc_name;
 		string m_export;
 		string m_refl_export;
+		bool m_decl_basetypes = false;
 
 		vector<CLModule*> m_modules;
 
 		string m_refl_path;
 		string m_bind_path;
 
-		bool m_has_structs;
+		bool m_has_structs = false;
+		bool m_has_reflected = false;
 
+		set<string> m_parsed_files;
+
+		CLNamespace m_global;
+
+		map<string, unique<CLNamespace>> m_namespaces;
+
+		vector<CLType*> m_types;
+
+		vector<unique<CLBaseType>> m_basetypes = {};
+		vector<unique<CLEnum>> m_enums = {};
 		vector<unique<CLClass>> m_classes = {};
 		vector<unique<CLClass>> m_class_templates = {};
-		vector<unique<CLEnum>> m_enums = {};
-		vector<unique<CLSequence>> m_sequences = {};
-		vector<unique<CLBaseType>> m_basetypes = {};
+		vector<unique<CLClass>> m_sequences = {};
 		vector<unique<CLType>> m_extern_types = {};
-
-		vector<CLType*> m_types = {};
 
 		vector<unique<CLFunction>> m_functions = {};
 		vector<unique<CLFunction>> m_func_templates = {};
 
+		vector<unique<CLAlias>> m_aliases = {};
+
 		CLNamespace& get_namespace(const string& name, CLPrimitive& parent)
 		{
-			return m_context.get_namespace(name, parent);
+			string full_name = parent.m_prefix + name;
+			if(m_namespaces.find(full_name) == m_namespaces.end())
+				m_namespaces[full_name] = make_unique<CLNamespace>(name, &parent);
+			return *m_namespaces[full_name];
+		}
+
+		CLClass* find_class_template(const string& name)
+		{
+			auto result = find_if(m_class_templates, [&](unique<CLClass>& c) { return c->m_template_name == name || c->m_parent->m_prefix + c->m_template_name == name; });
+			return result == m_class_templates.end() ? nullptr : &**result;
 		}
 
 		CLClass& get_class_template(const string& name)
 		{
-			return *m_context.m_class_templates[name];
+			return *find_class_template(name);
+		}
+
+		CLType* find_type(const string& name)
+		{
+			auto result = find_if(m_types, [&](CLType* t) { return t->m_id == name; });
+			return result == m_types.end() ? nullptr : *result;
 		}
 
 		CLClass& get_class(const string& name)
 		{
-			return (CLClass&)*m_context.m_types[name];
-		}
-
-		CLType& get_type(const string& name)
-		{
-			return *m_context.m_types[name];
+			return (CLClass&)*this->find_type(name);
 		}
 
 		void register_type(CLType& type)
 		{
 			if(!type.m_is_template)
 			{
-				m_context.m_types[type.m_id] = &type;
-				m_types.push_back(&type);
 				printf("Type %s\n", type.m_id.c_str());
+				m_types.push_back(&type);
 			}
 		}
 
-		CLType& base_type(const string& name, CLPrimitive& parent)
+		CLType& proxy_type(CXType cxtype, CLTypeKind type_kind)
 		{
-			CLType& type = vector_emplace<CLBaseType>(m_basetypes, *this, parent, name);
+			CLType& type = vector_emplace<CLType>(m_extern_types, *this, m_global, cxtype);
+			type.m_type_kind = type_kind;
 			register_type(type);
 			return type;
 		}
 
-		CLType& proxy_type(const string& name, CLPrimitive& parent)
+		CLType& unknown_type(CXType cxtype)
 		{
-			CLType& type = vector_emplace<CLType>(m_extern_types, *this, parent, name);
+			return this->proxy_type(cxtype, CLTypeKind::Unknown);
+		}
+
+		CLType& base_type(CXType cxtype, CLTypeKind type_kind)
+		{
+			CLType& type = vector_emplace<CLBaseType>(m_basetypes, *this, m_global, cxtype, type_kind);
+			type.m_reflect = m_decl_basetypes && type.m_type_kind != CLTypeKind::Unknown;
 			register_type(type);
 			return type;
 		}
 
-		CLEnum& enum_type(CLPrimitive& parent, const string& name)
+		CLType& base_type(CXType cxtype)
 		{
-			CLEnum& type = vector_emplace<CLEnum>(m_enums, *this, parent, name);
-			register_type(type);
-			return type;
+			const CXType cxbase = pointee(cxtype);
+			const bool pointer = cxtype.kind == CXType_Pointer;
+
+			if(cxtype.kind == CXType_Elaborated)
+				cxtype = clang_Type_getNamedType(cxtype);
+
+			CLTypeKind type_kind = CLTypeKind::Unknown;
+
+			if(has({ CXType_Void }, cxbase.kind))
+				type_kind = pointer ? CLTypeKind::VoidPtr : CLTypeKind::Void;
+			else if(has({ CXType_Bool }, cxbase.kind))
+				type_kind = CLTypeKind::Boolean;
+			else if(has({ CXType_Char_S, CXType_SChar, CXType_UChar }, cxbase.kind))
+				type_kind = pointer ? CLTypeKind::CString : CLTypeKind::Char;
+			else if(has({ CXType_Short, CXType_Int, CXType_Long, CXType_LongLong, CXType_UShort, CXType_UInt, CXType_ULong, CXType_ULongLong }, cxbase.kind))
+				type_kind = CLTypeKind::Integer;
+			else if(has({ CXType_Float, CXType_Double, CXType_LongDouble }, cxbase.kind))
+				type_kind = CLTypeKind::Float;
+			else if(spelling(cxtype).find("string") != string::npos)
+				type_kind = CLTypeKind::String;
+
+			return this->base_type(cxtype, type_kind);
 		}
 
-		CLSequence& sequence_type(const string& name, const string& content_name, CLType& content_type)
+		CLType* basic_type(CXType cxtype)
 		{
-			bool pointer = content_name.find("*") != string::npos;
-			CLSequence& cls = vector_emplace<CLSequence>(m_sequences, *this, name, content_type, pointer, m_context.m_root_namespace);
-			register_type(cls);
-			return cls;
+			cxtype = canonical(cxtype);
+			if(has({ c_base_types }, upointee(cxtype).kind))
+				return &this->base_type(cxtype);
+			return nullptr;
 		}
 
-		CLType& register_type(CLPrimitive& parent, const string& clsname)
+		CLType* instantiate_type(CXType cxtype)
 		{
-			for(const string& name : { "vector", "list", "array" })
-				if(clsname.find(name) != string::npos)
-				{
-					string content_name = template_types(clsname)[0];
-					CLType* content_type = this->find_type(parent, replace(content_name, "*", ""));
-					if(content_type)
-						return sequence_type(name, content_name, *content_type);
-				}
-			for(const string& name : { "unique", "object" })
-				if(clsname.find(name) != string::npos)
-				{
-					CLType& type = this->proxy_type(clsname, m_context.m_root_namespace);
-					type.m_move_only = true;
-					return type;
-				}
-			printf("WARNING: declaring empty type %s\n", clsname.c_str());
-			return this->proxy_type(clsname, m_context.m_root_namespace);
-		}
-
-		CLType* find_type_in(CLPrimitive& parent, const string& name, bool warn = true)
-		{
-			// stupid fix because clang FUCKING doesn"t always put the prefix in types ..............
-			if(has(m_context.m_types, name))
-				return m_context.m_types[name];
-			else if(has(m_context.m_types, parent.m_prefix + name))
-				return m_context.m_types[parent.m_prefix + name];
-			else if(parent.m_parent)
-				return this->find_type_in(*parent.m_parent, name, warn);
-			else
-				return nullptr;
-		}
-
-		CLType* find_type(CLPrimitive& parent, const string& name, bool warn = true)
-		{
-			CLType* cls = this->find_type_in(parent, name, warn);
-			if(!cls)
+			CXType cl = class_type(cxtype);
+			if(clang_Type_getNumTemplateArguments(cl) > 0)
 			{
-				if(has(m_context.m_base_aliases, name))
-					return &this->proxy_type(name, m_context.m_root_namespace);
-				for(auto& name_namespace : m_context.m_namespaces)
-				{
-					cls = this->find_type_in(*name_namespace.second, name, warn);
-					if(cls)
-						break;
-				}
+				string type_name = spelling(cxtype);
+				CLClass* templatee = this->find_class_template(template_name(type_name));
+				CXCursor cursor = clang_getTypeDeclaration(cl);
+				if(!templatee)
+					return nullptr;
+				CLClass* templated = &decl_class_type(*this, *templatee->m_parent, cursor);
+				parse_class(*this, *templated);
+				printf("instantiated template %s (requested %s)\n", templated->m_id.c_str(), type_name.c_str());
+				return templated;
 			}
-			return cls;
+			return nullptr;
 		}
 
-		CLType* get_type(CLPrimitive& parent, const string& name, bool warn = true)
+		CLType& register_type(CXType cxtype)
 		{
-			CLType* cls = this->find_type(parent, name, warn);
-			if(!cls)
-				cls = &this->register_type(parent, name);
-			if(!cls && warn)
-				printf("ERROR: Type %s not found\n", parent.m_name.c_str());
-			return cls;
-		 }
+			if(CLType* type = this->basic_type(cxtype))
+				return *type;
+			if(CLType* type = this->instantiate_type(cxtype))
+				return *type;
+
+			CXType cl = class_type(cxtype);
+			int g = clang_Type_getNumTemplateArguments(cl);
+
+			printf("WARNING: unknown type %s\n", spelling(cxtype).c_str());
+			return this->unknown_type(cxtype);
+		}
+
+		CLType* find_type(CXType cxtype)
+		{
+			auto alias = find_if(m_aliases, [&](const unique<CLAlias>& a) { return clang_equalTypes(a->m_cxtype, cxtype); });
+			if(alias != m_aliases.end()) return &**alias;
+			auto type = find_if(m_types, [&](CLType* t) { return clang_equalTypes(t->m_cxtype, cxtype); });
+			if(type != m_types.end()) return *type;
+			if(has({ c_base_types }, cxtype.kind))
+				return &this->base_type(cxtype);
+			return nullptr;
+		}
+
+		CLType* get_type(CXType cxtype)
+		{
+			if(CLType* cl = this->find_type(cxtype))
+				return cl;
+			if(CLType* cl = this->find_type(upointee(cxtype)))
+				return cl;
+			if(CLType* cl = this->find_type(class_type(cxtype)))
+				return cl;
+			return &this->register_type(cxtype);
+		}
+
+		CLType* find_alias(CXType cxtype, const string& name)
+		{
+			auto result = find_if(m_aliases, [&](const unique<CLAlias>& a) { return clang_equalTypes(a->m_cxtarget, cxtype) && (a->m_id == name || a->m_name == name); });
+			return result == m_aliases.end() ? nullptr : &**result;
+		}
+
+		CLType* get_type(CXType cxtype, const string& name)
+		{
+			CLType* t = this->find_type(name);
+			for(const string& n : { "stl", "mud" })
+				if(!t)
+					t = this->find_type(n + "::" + name);
+			if(!t)
+			{
+				printf("WARNING: failed to find suitable template type for %s %s\n", spelling(canonical(cxtype)).c_str(), name.c_str());
+				t = &this->register_type(cxtype);
+			}
+			return t;
+		}
 	};
 
 }

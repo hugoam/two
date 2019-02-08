@@ -22,3 +22,12 @@ namespace mud
     class Fract;
     class FractSample;
 }
+
+#ifdef MUD_META_GENERATOR // #ifndef USE_STL
+#include <stl/vector.h>
+namespace stl
+{
+	export_ extern template class refl_ seque_ vector<mud::Circle>;
+	export_ extern template class refl_ seque_ vector<mud::Image256>;
+}
+#endif

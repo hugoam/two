@@ -2,13 +2,13 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.math;
 #else
 #include <stl/vector.h>
+#include <math/Vec.hpp>
 #include <math/VecJson.h>
 #endif
 
@@ -48,7 +48,7 @@ namespace mud
 
 	void to_json(const Colour& col, json& j)
 	{
-		vector<json> values;
+		std::vector<json> values;
 		values = { col.m_r, col.m_g, col.m_b, col.m_a };
 		j = values;
 	}

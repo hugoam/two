@@ -67,7 +67,7 @@ namespace mud
 		StreamBranch* find_branch(const StreamIndex& branch) { return this->find_branch(branch, m_depth); }
 
 		void write(const Var& value, bool multiplex = true);
-		bool read(Var& value, Type* expected_type, bool ref);
+		bool read(Var& value, const Type* expected_type, bool ref);
 
 		void write(const StreamLocation& location, const Var& value, bool multiplex = true) { this->branch(location.m_index).write(value, multiplex); }
 		//void write(const Var& value, bool multiplex = true) { this->branch({ 0 }).write(value, multiplex); }
@@ -110,7 +110,7 @@ namespace mud
 		size_t m_num_invalid = 0;
 
 		Var m_default;
-		Type* m_type = nullptr;
+		const Type* m_type = nullptr;
 		bool m_nullable = false;
 		bool m_reference = false;
 

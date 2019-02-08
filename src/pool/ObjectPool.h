@@ -6,16 +6,18 @@
 
 #include <stl/memory.h>
 #include <stl/vector.h>
-#include <infra/NonCopy.h>
 #include <pool/Forward.h>
 #include <pool/Pool.h>
 
 namespace mud
 {
-	export_ class MUD_POOL_EXPORT ObjectPool : public NonCopy
+	export_ class MUD_POOL_EXPORT ObjectPool //
 	{
 	public:
 		ObjectPool();
+
+		ObjectPool(const ObjectPool& other) = delete;
+		ObjectPool& operator=(const ObjectPool& other) = delete;
 
 		void clear();
 

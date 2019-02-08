@@ -17,6 +17,24 @@ namespace mud
     template <> MUD_GLTF_EXPORT Type& type<glTFPrimitiveType>() { static Type ty("glTFPrimitiveType", sizeof(glTFPrimitiveType)); return ty; }
     template <> MUD_GLTF_EXPORT Type& type<glTFType>() { static Type ty("glTFType", sizeof(glTFType)); return ty; }
     
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFAccessor>>() { static Type ty("vector<glTFAccessor>", sizeof(stl::vector<glTFAccessor>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFAnimation>>() { static Type ty("vector<glTFAnimation>", sizeof(stl::vector<glTFAnimation>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFAnimationChannel>>() { static Type ty("vector<glTFAnimationChannel>", sizeof(stl::vector<glTFAnimationChannel>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFAnimationSampler>>() { static Type ty("vector<glTFAnimationSampler>", sizeof(stl::vector<glTFAnimationSampler>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFBuffer>>() { static Type ty("vector<glTFBuffer>", sizeof(stl::vector<glTFBuffer>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFBufferView>>() { static Type ty("vector<glTFBufferView>", sizeof(stl::vector<glTFBufferView>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFCamera>>() { static Type ty("vector<glTFCamera>", sizeof(stl::vector<glTFCamera>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFImage>>() { static Type ty("vector<glTFImage>", sizeof(stl::vector<glTFImage>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFMaterial>>() { static Type ty("vector<glTFMaterial>", sizeof(stl::vector<glTFMaterial>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFMesh>>() { static Type ty("vector<glTFMesh>", sizeof(stl::vector<glTFMesh>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFMorphTarget>>() { static Type ty("vector<glTFMorphTarget>", sizeof(stl::vector<glTFMorphTarget>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFNode>>() { static Type ty("vector<glTFNode>", sizeof(stl::vector<glTFNode>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFPrimitive>>() { static Type ty("vector<glTFPrimitive>", sizeof(stl::vector<glTFPrimitive>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFSampler>>() { static Type ty("vector<glTFSampler>", sizeof(stl::vector<glTFSampler>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFScene>>() { static Type ty("vector<glTFScene>", sizeof(stl::vector<glTFScene>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFSkin>>() { static Type ty("vector<glTFSkin>", sizeof(stl::vector<glTFSkin>)); return ty; }
+    template <> MUD_GLTF_EXPORT Type& type<stl::vector<glTFTexture>>() { static Type ty("vector<glTFTexture>", sizeof(stl::vector<glTFTexture>)); return ty; }
+    
     template <> MUD_GLTF_EXPORT Type& type<glTF>() { static Type ty("glTF", sizeof(glTF)); return ty; }
     template <> MUD_GLTF_EXPORT Type& type<glTFAccessor>() { static Type ty("glTFAccessor", sizeof(glTFAccessor)); return ty; }
     template <> MUD_GLTF_EXPORT Type& type<glTFAnimation>() { static Type ty("glTFAnimation", sizeof(glTFAnimation)); return ty; }

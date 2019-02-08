@@ -17,7 +17,7 @@ module mud.uio;
 #include <ui/ContainerStruct.h>
 #include <uio/GraphEdit.h>
 #include <ui/Section.h>
-#include <uio/ObjectEdit.h>
+#include <uio/Object.h>
 #endif
 
 namespace mud

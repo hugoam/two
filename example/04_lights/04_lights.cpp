@@ -1,9 +1,12 @@
-#include <mud/frame.h>
+//#include <mud/frame.h>
+#include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 
 #include <04_lights/04_lights.h>
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
+
+#include <stl/vector.hpp>
 
 //#include <meta/gfx/Convert.h>
 
@@ -31,7 +34,7 @@ vector<LightInstance> create_light_grid(size_t size_x, size_t size_y)
 	return light_items;
 }
 
-void light_grid(Gnode& parent, array2d<LightInstance> light_grid, bool moving, LightType light_type, float range, float attenuation, float spot_angle, float spot_attenuation)
+void light_grid(Gnode& parent, span2d<LightInstance> light_grid, bool moving, LightType light_type, float range, float attenuation, float spot_angle, float spot_attenuation)
 {
 	size_t size_x = light_grid.m_x / 2;
 	size_t size_y = light_grid.m_y / 2;
@@ -86,8 +89,8 @@ void ex_04_lights(Shell& app, Widget& parent)
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder(1.f, 2.f, Axis::Y) }; // @todo Circle() looks weird
-	static vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
-	static vector<LightInstance > light_items = create_light_grid(10U, 10U);
+	static vector<ShapeInstance> shape_items = create_shape_grid(10U, 10U, shapes);
+	static vector<LightInstance> light_items = create_light_grid(10U, 10U);
 
 #if DEBUG_CLUSTERED
 	static bool debug = true;

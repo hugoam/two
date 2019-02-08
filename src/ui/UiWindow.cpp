@@ -172,8 +172,8 @@ namespace mud
 		bool pursue = !m_shutdown;
 		pursue &= m_context.next_frame();
 
-		if(m_context.m_width != uint(m_width) || m_context.m_height != uint(m_height))
-			this->resize(uint16_t(m_context.m_width), uint16_t(m_context.m_height));
+		if(m_width != uint(m_width) || m_height != uint(m_height))
+			this->resize(uint16_t(m_width), uint16_t(m_height));
 
 		m_root_sheet->input_frame();
 

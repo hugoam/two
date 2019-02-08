@@ -218,19 +218,19 @@ namespace ui
 
 	void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection)
 	{
-		if (MouseEvent mouse_event = widget.mouse_event(DeviceType::Mouse, EventType::Moved, InputMod::None, false))
+		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::Mouse, EventType::Moved, InputMod::None, false))
 		{
 			auto callback = [&](Item* item) { viewer.m_hovered = item; };
 			viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Selectable);
 		}
 
-		if (MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
-			if (viewer.m_hovered)
+			if(viewer.m_hovered)
 				select(selection, viewer.m_hovered->m_node->m_object);
 		}
 
-		if (MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 		{
 			//Entity* entity = pick_entity(viewer, mouse_event.m_relative, ItemFlag::Selectable | ItemFlag::Static);
 			//context_menu(viewer.m_vision.m_user.m_selector, *entity);
@@ -240,7 +240,7 @@ namespace ui
 	Viewer& scene_viewport(Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection)
 	{
 		Viewer& viewer = parent.suba<Viewer, Scene&>(scene);
-		if (viewer.once())
+		if(viewer.once())
 		{
 			UNUSED(camera);
 			//scene.m_cameras.push_back({ &camera, &viewer.m_camera });

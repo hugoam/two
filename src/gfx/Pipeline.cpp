@@ -79,7 +79,7 @@ namespace mud
 	Pipeline::~Pipeline()
 	{}
 
-	array<GfxBlock*> Pipeline::pass_blocks(PassType pass)
+	span<GfxBlock*> Pipeline::pass_blocks(PassType pass)
 	{
 		return m_pass_blocks[size_t(pass)];
 	}

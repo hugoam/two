@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#define ENFORCE_STL_INITIALIZER_LIST
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -91,24 +90,24 @@ namespace mud
 		return palette;
 	}
 
-	void builtin_keywords(LanguageDefinition& language, array<cstring> keywords)
+	void builtin_keywords(LanguageDefinition& language, span<cstring> keywords)
 	{
 		for(cstring i : keywords)
 			language.m_keywords.insert(string(i));
 	}
 
-	void builtin_identifiers(LanguageDefinition& language, array<cstring> identifiers)
+	void builtin_identifiers(LanguageDefinition& language, span<cstring> identifiers)
 	{
-		for (cstring k : identifiers)
+		for(cstring k : identifiers)
 		{
 			Identifier id = { {}, "Built-in identifier" };
 			language.m_identifiers.insert({ string(k), id });
 		}
 	}
 
-	void builtin_functions(LanguageDefinition& language, array<cstring> functions)
+	void builtin_functions(LanguageDefinition& language, span<cstring> functions)
 	{
-		for (cstring k : functions)
+		for(cstring k : functions)
 		{
 			Identifier id = { {}, "Built-in function" };
 			language.m_functions.insert({ string(k), id });

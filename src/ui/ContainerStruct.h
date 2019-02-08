@@ -62,7 +62,7 @@ namespace ui
 	export_ class refl_ MUD_UI_EXPORT Table : public Widget
 	{
 	public:
-		Table(Widget* parent, void* identity, array<float> weights);
+		Table(Widget* parent, void* identity, span<float> weights);
 		Table(Widget* parent, void* identity, size_t columns);
 		vector<float> m_weights;
 	};

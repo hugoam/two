@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <stdint.h>
 #include <stl/vector.h>
 //#include <stl/type_traits.h>
 #include <infra/Config.h>

@@ -1,4 +1,4 @@
-#include <infra/Array.h>
+#include <stl/span.h>
 #include <infra/Config.h>
 #include <infra/Cpp20.h>
 #include <infra/EnumArray.h>

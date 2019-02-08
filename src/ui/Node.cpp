@@ -174,7 +174,7 @@ namespace ui
 		return self;
 	}
 
-	Widget& node_header(Widget& parent, array<cstring> title)
+	Widget& node_header(Widget& parent, span<cstring> title)
 	{
 		Widget& self = multi_item(parent, node_styles().header, title);
 		spacer(self);
@@ -207,7 +207,7 @@ namespace ui
 		T& self = parent.subi<T>(identity); self.init(style); return self;
 	}
 
-	Node& node(Canvas& parent, array<cstring> title, int order, Ref identity)
+	Node& node(Canvas& parent, span<cstring> title, int order, Ref identity)
 	{
 		Node& self = ttwidget<Node>(*parent.m_plan, node_styles().node, identity.m_value);
 		self.layer();
@@ -243,7 +243,7 @@ namespace ui
 		return self;
 	}
 
-	Node& node(Canvas& parent, array<cstring> title, float* position, int order, Ref identity)
+	Node& node(Canvas& parent, span<cstring> title, float* position, int order, Ref identity)
 	{
 		Node& self = node(parent, title, order, identity);
 		if(self.once())// && position != Zero2)
@@ -256,7 +256,7 @@ namespace ui
 		return self;
 	}
 
-	Node& node(Canvas& parent, array<cstring> title, vec2& position, int order, Ref identity)
+	Node& node(Canvas& parent, span<cstring> title, vec2& position, int order, Ref identity)
 	{
 		return node(parent, title, &position[0], order, identity);
 	}

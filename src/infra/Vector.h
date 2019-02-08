@@ -7,29 +7,35 @@
 #include <stl/vector.h>
 #include <stl/algorithm.h>
 #include <infra/Config.h>
-#include <infra/Array.h>
+#include <stl/span.h>
 
 namespace mud
 {
 	export_ template <class T>
-	array<T> to_array(vector<T>& vec) { return { &vec[0], vec.size() }; }
+	span<T> to_array(vector<T>& vec) { return { &vec[0], vec.size() }; }
 	export_ template <class T>
-	array<T> to_array(vector<T>& vec, size_t offset) { return { &vec[offset], vec.size() - offset }; }
+	span<T> to_array(vector<T>& vec, size_t offset) { return { &vec[offset], vec.size() - offset }; }
 	export_ template <class T>
-	array<T> to_array(vector<T>& vec, size_t offset, size_t count) { return { &vec[offset], count }; }
+	span<T> to_array(vector<T>& vec, size_t offset, size_t count) { return { &vec[offset], count }; }
 
 	template <class T, class U>
-	array<T> to_array_cast(vector<U>& vec) { return{ (T*)&vec[0], vec.size() }; }
+	span<T> to_array_cast(vector<U>& vec) { return{ (T*)&vec[0], vec.size() }; }
 
 	export_ template <class T>
-	vector<T> to_vector(const array<T>& array) { return { array.m_pointer, array.m_pointer + array.m_count }; }
+	vector<T> to_vector(const span<T>& span) { return { span.m_pointer, span.m_pointer + span.m_count }; }
+	
+	//export_ template <class T>
+	//inline bool has(const vector<T>& vec, const T& value)
+	//{
+	//	return find(vec.begin(), vec.end(), value) != vec.end();
+	//}
 	
 	export_ template <class T>
-	inline bool has(const vector<T>& vec, const T& value)
+	inline bool has(span<T> vec, const T& value)
 	{
 		return find(vec.begin(), vec.end(), value) != vec.end();
 	}
-	
+
 	export_ template <class T>
 	inline bool has(std::initializer_list<T> vec, const T& value)
 	{
