@@ -365,11 +365,15 @@ namespace mud
 		{
 			//c = *c.m_template;
 			c.m_template = &module.get_class_template(c.m_template_name);
+			if(c.m_template == nullptr)
+			{
+				c.m_reflect = false;
+				printf("ERROR: %s - could not find template type definition\n", c.m_name.c_str());
+				return;
+			}
 
 			for(size_t i = 0; i < c.m_template_types.size(); ++i)
 			{
-				if(c.m_template_types[i].find("cstring") != string::npos)
-					int i = 0;
 				CXType t = clang_Type_getTemplateArgumentAsType(type(c.m_cursor), i);
 				CLType* type = module.find_alias(t, c.m_template_types[i]);
 				if(type == nullptr)
@@ -382,7 +386,7 @@ namespace mud
 			c.set_name(c.m_template_name + "<" + clgen::comma(c.m_template_types) + ">");
 		}
 		
-		if(c.m_is_templated) // && is_template_decl(cursor))
+		if(c.m_is_templated && c.m_template) // && is_template_decl(cursor))
 			cursor = c.m_template->m_cursor;
 
 		visit_children(cursor, [&](CXCursor a) {
@@ -418,8 +422,6 @@ namespace mud
 		c.m_element = c.m_template_types[0];
 		c.m_element_type = c.m_templated_types[0];
 		c.m_name = c.m_template_name + "<" + c.m_element + ">";
-		if(c.m_name == "span<char>")
-			int i = 0;
 	}
 
 	void build_classes(CXCursor cursor, CLModule& module, CLPrimitive& parent)

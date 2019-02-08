@@ -2,6 +2,7 @@
 
 #include <stl/vector.h>
 #include <stl/buffer.hpp>
+#include <stl/algorithm.h>
 
 #ifdef USE_UVECTOR
 #include <stl/ubuffer.hpp>
@@ -90,4 +91,14 @@ namespace stl {
 		new(placeholder(), where) T(static_cast<Params&&>(params)...);
 	}
 #endif
+
+	template <class T, class Alloc>
+	inline bool operator==(const vector<T, Alloc>& left, const vector<T, Alloc>& right)
+	{
+		auto equal_to = [](auto&& left, auto&& right)
+		{
+			return static_cast<decltype(left) && >(left) == static_cast<decltype(right) && >(right);
+		};
+		return left.size() == right.size() && equal(left.begin(), left.end(), right.begin(), equal_to);
+	}
 }

@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_GLTF_REFL_EXPORT mud_gltf : public Module
+	export_ class MUD_GLTF_REFL_EXPORT mud_gltf : public mud::Module
 	{
 	private:
 		mud_gltf();

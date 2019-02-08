@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stdint.h>
+#include <stl/string.h>
+#include <stl/vector.h>
 #include <tool/Forward.h>
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -22,12 +25,6 @@
 #include <gfx-pbr/Types.h>
 #include <gfx-ui/Types.h>
 #include <gfx-edit/Types.h>
-#endif
-
-#ifndef MUD_CPP_20
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stdint.h>
 #endif
 
 

@@ -4,12 +4,9 @@
 
 #pragma once
 
-#include <math/Forward.h>
-
-#ifndef MUD_CPP_20
 #include <stdint.h>
 #include <cmath>
-#endif
+#include <math/Forward.h>
 
 #ifdef MUD_META_GENERATOR
 func_ float sinf(float a);

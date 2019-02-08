@@ -4,12 +4,9 @@
 
 #pragma once
 
+#include <cstring>
 #include <geom/Forward.h>
 #include <geom/Primitive.h>
-
-#ifndef MUD_CPP_20
-#include <cstring>
-#endif
 
 namespace mud
 {

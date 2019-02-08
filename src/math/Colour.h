@@ -4,12 +4,9 @@
 
 #pragma once
 
-#include <math/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <stl/stddef.h>
 #include <stdint.h>
-#endif
+#include <stl/stddef.h>
+#include <math/Forward.h>
 
 namespace mud
 {

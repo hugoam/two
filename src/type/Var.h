@@ -4,12 +4,9 @@
 
 #pragma once
 
+#include <stdint.h>
 #include <stl/swap.h>
 #include <type/Ref.h>
-
-#ifndef MUD_CPP_20
-#include <stdint.h>
-#endif
 
 namespace mud
 {

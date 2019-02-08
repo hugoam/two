@@ -11,6 +11,7 @@
 
 namespace mud
 {
+	//export_ extern template class refl_ function<void(Method&, Ref, span<Var>)>;
 	export_ using VirtualMethod = function<void(Method&, Ref, span<Var>)>;
 
 	export_ template <> MUD_REFL_EXPORT Type& type<VirtualMethod>();

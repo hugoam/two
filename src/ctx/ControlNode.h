@@ -4,12 +4,9 @@
 
 #pragma once
 
+#include <stdint.h>
 #include <ctx/Forward.h>
 #include <ctx/InputEvent.h>
-
-#ifndef MUD_CPP_20
-#include <stdint.h>
-#endif
 
 namespace mud
 {

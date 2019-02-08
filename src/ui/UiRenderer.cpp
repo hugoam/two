@@ -10,7 +10,7 @@ module mud.ui;
 #include <stl/string.h>
 #include <stl/map.h>
 #include <math/Vec.hpp>
-#include <ui/Render/UiRenderer.h>
+#include <ui/UiRenderer.h>
 #include <ui/Frame/Layer.h>
 #include <ui/Frame/Solver.h>
 #include <ui/Widget.h>

@@ -4,6 +4,8 @@
 
 #pragma once
 
+//#include <cinttypes>
+#include <climits>
 #include <stl/string.h>
 #include <stl/vector.h>
 #include <stl/memory.h>
@@ -11,12 +13,6 @@
 #include <ui/WidgetStruct.h>
 #include <ui/Frame/Caption.h>
 #include <ui/Style/Paint.h>
-
-#ifndef MUD_CPP_20
-#include <cinttypes>
-#include <climits>
-//#include <inttypes.h>
-#endif
 
 namespace mud
 {

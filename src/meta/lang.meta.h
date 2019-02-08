@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_LANG_REFL_EXPORT mud_lang : public Module
+	export_ class MUD_LANG_REFL_EXPORT mud_lang : public mud::Module
 	{
 	private:
 		mud_lang();

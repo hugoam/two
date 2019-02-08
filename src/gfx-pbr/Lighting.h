@@ -3,14 +3,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <gfx/Renderer.h>
 #include <gfx/Light.h>
 #endif
 #include <gfx-pbr/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
 
 namespace mud
 {

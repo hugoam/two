@@ -688,7 +688,7 @@ namespace clgen
 			p("namespace " + m.m_namespace);
 			p("{");
 		}
-		p("export_ class " + m.m_refl_export + " " + m.m_id + " : public Module");
+		p("export_ class " + m.m_refl_export + " " + m.m_id + " : public mud::Module");
 		p("{");
 		s("private:");
 		p(m.m_id + "();");
@@ -1067,6 +1067,9 @@ namespace clgen
 
 		p("#pragma once");
 		p("");
+		p("#include <stdint.h>");
+		p("#include <stl/string.h>");
+		p("#include <stl/vector.h>");
 		p("#include <" + m.m_subdir + "/Forward.h>");
 		p("");
 		p("#if !defined MUD_MODULES || defined MUD_TYPE_LIB");
@@ -1076,12 +1079,6 @@ namespace clgen
 		p("#ifndef MUD_MODULES");
 		for(auto& d : m.m_dependencies)
 			p("#include <" + d->m_subdir + "/Types.h>");
-		p("#endif");
-		p("");
-		p("#ifndef MUD_CPP_20");
-		p("#include <stl/string.h>");
-		p("#include <stl/vector.h>");
-		p("#include <stdint.h>");
 		p("#endif");
 		p("");
 		if(m.m_has_structs)

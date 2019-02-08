@@ -30,7 +30,7 @@
 #include <ui/Frame/Layer.h>
 #include <ui/Frame/Solver.h>
 #include <ui/Frame/UiRect.h>
-#include <ui/Render/UiRenderer.h>
+#include <ui/UiRenderer.h>
 #include <ui/ContainerStruct.h>
 #include <ui/DockStruct.h>
 #include <ui/NodeStruct.h>

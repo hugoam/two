@@ -4,9 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_CPP_20
 #include <stl/stddef.h>
-#endif
 
 namespace mud
 {

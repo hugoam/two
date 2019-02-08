@@ -8,6 +8,7 @@
 #include <refl/Meta.h>
 #include <refl/MetaDecl.h>
 #include <refl/Method.h>
+#include <refl/VirtualMethod.h>
 #include <refl/Module.h>
 #include <refl/Namespace.h>
 #include <refl/Sequence.h>

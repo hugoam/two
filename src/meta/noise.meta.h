@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_NOISE_REFL_EXPORT mud_noise : public Module
+	export_ class MUD_NOISE_REFL_EXPORT mud_noise : public mud::Module
 	{
 	private:
 		mud_noise();

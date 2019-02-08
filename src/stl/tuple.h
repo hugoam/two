@@ -2,9 +2,7 @@
 #include <infra/Config.h>
 
 #ifdef USE_STL
-#ifndef MUD_CPP_20
 #include <tuple>
-#endif
 namespace mud
 {
 	export_ using std::tuple;

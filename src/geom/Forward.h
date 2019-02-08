@@ -67,7 +67,7 @@ namespace mud
     class IcoSphere;
 }
 
-#ifdef MUD_META_GENERATOR // #ifndef USE_STL
+#ifdef MUD_META_GENERATOR
 #include <stl/vector.h>
 namespace stl
 {

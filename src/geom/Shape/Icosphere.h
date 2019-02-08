@@ -4,13 +4,10 @@
 
 #pragma once
 
+#include <stdint.h>
 #include <stl/vector.h>
 #include <stl/map.h>
 #include <geom/Shape/ProcShape.h>
-
-#ifndef MUD_CPP_20
-#include <stdint.h>
-#endif
 
 namespace mud
 {

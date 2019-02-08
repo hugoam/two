@@ -4,11 +4,8 @@
 
 #pragma once
 
-#include <ui/Forward.h>
-
-#ifndef MUD_CPP_20
 #include <stl/stddef.h>
-#endif
+#include <ui/Forward.h>
 
 #if defined _WIN32
 #undef OPAQUE

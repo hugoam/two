@@ -44,7 +44,7 @@ namespace mud
 	class Prototype;
 }
 
-#ifdef MUD_META_GENERATOR // #ifndef USE_STL
+#ifdef MUD_META_GENERATOR
 #include <stl/vector.h>
 namespace stl
 {

@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_GEOM_REFL_EXPORT mud_geom : public Module
+	export_ class MUD_GEOM_REFL_EXPORT mud_geom : public mud::Module
 	{
 	private:
 		mud_geom();

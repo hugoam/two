@@ -18,7 +18,7 @@ module mud.ui;
 #include <ui/ScrollSheet.h>
 #include <ui/Cursor.h>
 #include <ui/Style/Paint.h>
-#include <ui/Render/UiRenderer.h>
+#include <ui/UiRenderer.h>
 #include <ui/Frame/Solver.h>
 #include <ui/Style/Layout.h>
 #endif

@@ -5,15 +5,12 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <math/Vec.h>
 #include <math/Axis.h>
 #endif
 #include <tool/Forward.h>
 #include <tool/Tool.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
 
 namespace mud
 {

@@ -5,15 +5,12 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <cfloat>
 #include <stl/span.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
 #endif
 #include <geom/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <cfloat>
-#endif
 
 namespace mud
 {

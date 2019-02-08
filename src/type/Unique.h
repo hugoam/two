@@ -6,12 +6,10 @@
 
 #include <stl/memory.h>
 
-#ifndef MUD_CPP_20
 #ifdef MUD_TRACK_MEMORY
 #include <type/Cls.h>
 #include <stl/traits.h>
 #include <stl/function.h>
-#endif
 #endif
 
 namespace mud

@@ -5,16 +5,13 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/map.h>
 #include <math/Vec.h>
 #endif
 #include <gfx-pbr/Forward.h>
 
 #include <bgfx/bgfx.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#include <stl/map.h>
-#endif
 
 namespace mud
 {

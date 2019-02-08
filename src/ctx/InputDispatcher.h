@@ -5,17 +5,14 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/map.h>
 #include <type/Unique.h>
 #include <infra/EnumArray.h>
 #endif
 #include <ctx/Forward.h>
 #include <ctx/KeyCode.h>
 #include <ctx/InputEvent.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#include <stl/map.h>
-#endif
 
 namespace mud
 {

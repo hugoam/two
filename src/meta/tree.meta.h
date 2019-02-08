@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_TREE_REFL_EXPORT mud_tree : public Module
+	export_ class MUD_TREE_REFL_EXPORT mud_tree : public mud::Module
 	{
 	private:
 		mud_tree();

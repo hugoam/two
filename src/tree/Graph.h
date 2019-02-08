@@ -4,13 +4,10 @@
 
 #pragma once
 
+#include <stdint.h>
 #include <stl/vector.h>
 #include <stl/memory.h>
 #include <infra/Config.h>
-
-#ifndef MUD_CPP_20
-#include <stdint.h>
-#endif
 
 #ifndef MUD_TREE_EXPORT
 #define MUD_TREE_EXPORT MUD_IMPORT

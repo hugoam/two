@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stdint.h>
+#include <stl/string.h>
+#include <stl/vector.h>
 #include <gfx-obj/Forward.h>
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -13,12 +16,6 @@
 #include <math/Types.h>
 #include <geom/Types.h>
 #include <gfx/Types.h>
-#endif
-
-#ifndef MUD_CPP_20
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stdint.h>
 #endif
 
 

@@ -51,8 +51,8 @@ namespace mud
 
 		void copy(const StreamBranch& branch);
 
-		template <class T_Visitor>
-		void visit(bool leafs, const T_Visitor& visitor)
+		template <class Visitor>
+		void visit(bool leafs, const Visitor& visitor)
 		{
 			for(auto& branch : m_branches)
 				branch.visit(leafs, visitor);

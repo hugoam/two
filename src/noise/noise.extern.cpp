@@ -3,6 +3,7 @@
 module mud.jobs;
 #else
 #include <stl/vector.hpp>
+#include <math/Grid.hpp>
 #include <noise/Api.h>
 #endif
 

@@ -4,13 +4,10 @@
 
 #pragma once
 
+#include <stl/map.h>
 #include <gfx/Forward.h>
 #include <gfx/Renderer.h>
 #include <gfx/Filter.h>
-
-#ifndef MUD_CPP_20
-#include <stl/map.h>
-#endif
 
 namespace mud
 {

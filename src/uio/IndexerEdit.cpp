@@ -3,13 +3,11 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <stl/string.h>
-#endif
 
 #ifdef MUD_MODULES
 module mud.uio;
 #else
+#include <stl/string.h>
 #include <type/Indexer.h>
 #include <refl/Meta.h>
 #include <refl/Class.h>

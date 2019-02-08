@@ -13,9 +13,7 @@
 #include <ui/Forward.h>
 #include <ui/Edit/TypeIn.h>
 
-#ifndef MUD_CPP_20
 #include <regex>
-#endif
 
 namespace mud
 {

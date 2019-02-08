@@ -14,6 +14,9 @@ namespace mud
 	template <class T> class VecPool;
 	template <class T> class TPool;
 
+	template <class T> struct SparseHandle;
+	template <class T> struct OwnedHandle;
+
 	class HandlePool;
     class Pool;
     class ObjectPool;

@@ -17,7 +17,7 @@ namespace stl
 	class function;
 
 	template <class Return, typename... Args>
-	class function<Return(Args...)>
+	class refl_ function<Return(Args...)>
 	{
 	public:
 		function() {}

@@ -12,9 +12,9 @@
 #include <lang/Api.h>
 #include <ui/Api.h>
 #include <uio/Api.h>
-#include <noise/Api.h>
-#include <wfc/Api.h>
-#include <fract/Api.h>
+//#include <noise/Api.h>
+//#include <wfc/Api.h>
+//#include <fract/Api.h>
 
 #if defined MUD_RENDERER_BGFX
 #include <bgfx/Config.h>

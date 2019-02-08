@@ -15,7 +15,7 @@ module mud.gfx.ui;
 #include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <ctx/InputEvent.h>
-#include <ui/Render/UiRenderer.h>
+#include <ui/UiRenderer.h>
 #include <ui/Frame/Frame.h>
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>

@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <ctx/Forward.h>
 #include <bgfx/Config.h>
 
@@ -17,10 +18,6 @@
 	#else
 		#include <ctx/Context.h>
 	#endif
-#endif
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
 #endif
 
 namespace bx

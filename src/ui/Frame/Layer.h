@@ -4,12 +4,9 @@
 
 #pragma once
 
+#include <stdint.h>
 #include <stl/vector.h>
 #include <ui/Frame/Frame.h>
-
-#ifndef MUD_CPP_20
-#include <stdint.h>
-#endif
 
 namespace mud
 {
@@ -45,8 +42,8 @@ namespace mud
 		void reindex();
 		void reorder();
 
-		template <class T_Visitor>
-		void visit(const T_Visitor& visitor)
+		template <class Visitor>
+		void visit(const Visitor& visitor)
 		{
 			visitor(*this);
 			for(Layer* layer : d_sublayers)

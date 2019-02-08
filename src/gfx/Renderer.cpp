@@ -10,7 +10,7 @@ module mud.gfx;
 #include <stl/algorithm.h>
 #include <infra/Sort.h>
 #include <math/Vec.hpp>
-#include <jobs/JobLoop.h>
+#include <jobs/JobLoop.hpp>
 #include <gfx/Types.h>
 #include <gfx/Renderer.h>
 #include <gfx/Pipeline.h>

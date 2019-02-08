@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_GFX_PBR_REFL_EXPORT mud_gfx_pbr : public Module
+	export_ class MUD_GFX_PBR_REFL_EXPORT mud_gfx_pbr : public mud::Module
 	{
 	private:
 		mud_gfx_pbr();

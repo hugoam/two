@@ -2,8 +2,8 @@
 
 #include <stl/tuple.h>
 #include <ecs/Forward.h>
-#include <ecs/ECS.h>
-#include <jobs/JobLoop.h>
+#include <ecs/ECS.hpp>
+#include <jobs/JobLoop.hpp>
 
 namespace mud
 {

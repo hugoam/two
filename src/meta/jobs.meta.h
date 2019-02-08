@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_JOBS_REFL_EXPORT mud_jobs : public Module
+	export_ class MUD_JOBS_REFL_EXPORT mud_jobs : public mud::Module
 	{
 	private:
 		mud_jobs();

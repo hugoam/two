@@ -11,6 +11,9 @@
 
 namespace mud
 {
+	template <class T> struct ComponentHandle;
+	template <class T> struct EntityHandle;
+
     class Prototype;
 	struct Entity;
 	class ECS;

@@ -27,7 +27,7 @@ module mud.ui;
 #include <ui/Frame/Caption.h>
 #include <ui/UiRoot.h>
 #include <ui/Cursor.h>
-#include <ui/Render/UiRenderer.h>
+#include <ui/UiRenderer.h>
 #include <ui/Style/Skin.h>
 #include <ui/UiWindow.h>
 #endif

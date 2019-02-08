@@ -15,7 +15,7 @@ module mud.ui;
 #include <ui/Frame/Layer.h>
 #include <ui/Style/Style.h>
 #include <ui/Style/Skin.h>
-#include <ui/Render/UiRenderer.h>
+#include <ui/UiRenderer.h>
 #endif
 
 #include <cstdio>

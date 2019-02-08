@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_CTX_REFL_EXPORT mud_ctx : public Module
+	export_ class MUD_CTX_REFL_EXPORT mud_ctx : public mud::Module
 	{
 	private:
 		mud_ctx();

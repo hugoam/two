@@ -9,9 +9,7 @@
 #include <math/Vec.h>
 #include <math/Colour.h>
 
-#ifndef MUD_CPP_20
 #include <sstream>
-#endif
 
 namespace mud
 {

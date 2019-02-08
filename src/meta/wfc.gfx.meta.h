@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_WFC_GFX_REFL_EXPORT mud_wfc_gfx : public Module
+	export_ class MUD_WFC_GFX_REFL_EXPORT mud_wfc_gfx : public mud::Module
 	{
 	private:
 		mud_wfc_gfx();

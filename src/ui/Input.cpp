@@ -15,7 +15,7 @@ module mud.ui;
 #include <ui/Container.h>
 #include <ui/ContainerStruct.h>
 #include <ui/UiRoot.h>
-#include <ui/Render/UiRenderer.h>
+#include <ui/UiRenderer.h>
 #include <ui/Container.h>
 #include <ui/Style/Skin.h>
 #endif

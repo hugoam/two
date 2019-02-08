@@ -24,6 +24,8 @@ namespace mud
 
 	QualType g_qvoid = { &type<void>(), QualType::None };
 
+	template class function<void(Method&, Ref, span<Var>)>;
+
 	template <> Type& type<VirtualMethod>() { static Type ty("VirtualMethod"); return ty; }
 
 	Param::Param(cstring name, Type& type, Flags flags, void* default_val)

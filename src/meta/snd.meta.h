@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_SND_REFL_EXPORT mud_snd : public Module
+	export_ class MUD_SND_REFL_EXPORT mud_snd : public mud::Module
 	{
 	private:
 		mud_snd();

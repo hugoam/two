@@ -19,12 +19,13 @@ namespace mud
     enum class Side : unsigned int;
     enum class TrackMode : unsigned int;
     enum class Spectrum : short;
-    
+
+	template <class T> class vector2d;
+	template <class T> struct vector3d;
+
     template <class T> struct Range;
     template <class T> struct ValueCurve;
     template <class T> struct ValueTrack;
-    template <class T> struct Grid;
-    template <class T> struct vector3d;
 	template <class T> struct StatDef;
 	template <class T> struct Stat;
     template <class T> struct AutoStat;

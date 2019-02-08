@@ -394,8 +394,6 @@ namespace mud
 #endif
 		Ref object = read_ref(vm, 1);
 #ifdef MUD_WREN_OPTIMIZE_SET_MEMBER
-		//if(member.m_name == string("value"))
-		//	int i = 0;
 		Ref value = member.cast_get(object);
 		read_value(vm, 2, value);
 		if(member.is_pointer())

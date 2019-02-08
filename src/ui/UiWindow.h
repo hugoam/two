@@ -13,7 +13,7 @@
 #include <math/ImageAtlas.h>
 #endif
 #include <ui/Forward.h>
-#include <ui/Render/UiRenderer.h>
+#include <ui/UiRenderer.h>
 
 namespace mud
 {

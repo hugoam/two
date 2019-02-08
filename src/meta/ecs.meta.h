@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_ECS_REFL_EXPORT mud_ecs : public Module
+	export_ class MUD_ECS_REFL_EXPORT mud_ecs : public mud::Module
 	{
 	private:
 		mud_ecs();

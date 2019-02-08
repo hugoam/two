@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_GFX_EDIT_REFL_EXPORT mud_gfx_edit : public Module
+	export_ class MUD_GFX_EDIT_REFL_EXPORT mud_gfx_edit : public mud::Module
 	{
 	private:
 		mud_gfx_edit();

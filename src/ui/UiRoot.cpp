@@ -12,7 +12,7 @@ module mud.ui;
 #include <ctx/Context.h>
 #include <ui/UiRoot.h>
 #include <ui/Frame/Layer.h>
-#include <ui/Render/UiRenderer.h>
+#include <ui/UiRenderer.h>
 #include <ui/Cursor.h>
 #include <ui/Controller/Controller.h>
 #include <ui/UiWindow.h>

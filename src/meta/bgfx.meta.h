@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_BGFX_REFL_EXPORT mud_bgfx : public Module
+	export_ class MUD_BGFX_REFL_EXPORT mud_bgfx : public mud::Module
 	{
 	private:
 		mud_bgfx();

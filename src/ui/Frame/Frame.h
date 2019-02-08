@@ -11,10 +11,6 @@
 #include <ui/Forward.h>
 #include <ui/Frame/UiRect.h>
 
-#ifndef MUD_CPP_20
-#include <cmath>
-#endif
-
 namespace mud
 {
 	using cstring = const char*;

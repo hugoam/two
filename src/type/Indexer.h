@@ -29,8 +29,8 @@ namespace mud
 
 		inline void resize(uint32_t id) { if(id >= m_objects.size()) m_objects.resize(id+1); }
 
-		template <class T_Visitor>
-		inline void iterate(T_Visitor visitor) const { for(Ref object : m_objects) if(object.m_value) visitor(object); }
+		template <class Visitor>
+		inline void iterate(Visitor visitor) const { for(Ref object : m_objects) if(object.m_value) visitor(object); }
 		inline bool has(uint32_t id) const { return m_objects[id].m_value != nullptr; }
 
 		inline void clear() { m_objects.clear(); m_count = 0; }

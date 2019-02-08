@@ -2,18 +2,21 @@
 #include <infra/Config.h>
 
 #ifdef USE_STL
-#ifndef MUD_CPP_20
 #include <map>
-namespace mud
+namespace stl
 {
-	export_ using std::map;
+	using std::map;
 }
-#endif
 #else
 #include <stl/unordered_map.h>
-namespace mud
+namespace stl
 {
 	template <class K, class T>
-	export_ using map = stl::unordered_map<K, T>;
+	using map = stl::unordered_map<K, T>;
 }
 #endif
+
+namespace mud
+{
+	export_ using stl::map;
+}

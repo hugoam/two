@@ -28,7 +28,7 @@ namespace mud
     class Movabl;
 }
 
-#ifdef MUD_META_GENERATOR // #ifdef MUD_META_GENERATOR // #ifndef USE_STL
+#ifdef MUD_META_GENERATOR // #ifdef MUD_META_GENERATOR
 #include <stl/decls.h>
 namespace stl
 {

@@ -22,16 +22,16 @@ namespace mud
 		inline Ref front(Ref vec) const { return at(vec, 0); }
 		inline Ref back(Ref vec) const { return at(vec, size(vec) - 1); }
 
-		template <class T_Visitor>
-		void iterate(Ref vec, T_Visitor visitor) const
+		template <class Visitor>
+		void iterate(Ref vec, Visitor visitor) const
 		{
 			const size_t count = this->size(vec);
 			for(size_t i = 0; i < count; ++i)
 				visitor(this->at(vec, i));
 		}
 
-		template <class T_Visitor>
-		void iteratei(Ref vec, T_Visitor visitor) const
+		template <class Visitor>
+		void iteratei(Ref vec, Visitor visitor) const
 		{
 			const size_t count = this->size(vec);
 			for(size_t i = 0; i < count; ++i)

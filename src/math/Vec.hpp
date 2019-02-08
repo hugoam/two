@@ -1,14 +1,11 @@
 #pragma once
 
+#include <stdint.h>
+#include <cmath>
 #include <math/Forward.h>
 #include <math/Vec.h>
 #include <math/Math.h>
 #include <math/Colour.h>
-
-#ifndef MUD_CPP_20
-#include <stdint.h>
-#include <cmath>
-#endif
 
 // These are binary-exact approximations of pi/e constants
 // http://www.exploringbinary.com/pi-and-e-in-binary/

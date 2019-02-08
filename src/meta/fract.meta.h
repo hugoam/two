@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class MUD_FRACT_REFL_EXPORT mud_fract : public Module
+	export_ class MUD_FRACT_REFL_EXPORT mud_fract : public mud::Module
 	{
 	private:
 		mud_fract();

@@ -13,7 +13,7 @@ module mud.ui;
 #include <ui/ScrollSheet.h>
 #include <ui/ContainerStruct.h>
 #include <ui/Frame/Frame.h>
-#include <ui/Render/UiRenderer.h>
+#include <ui/UiRenderer.h>
 #include <ui/Style/Paint.h>
 #endif
 
