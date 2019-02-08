@@ -123,8 +123,13 @@ namespace mud
 }
 
 #ifdef MUD_META_GENERATOR
+#include <stl/vector.h>
+#include <stl/span.h>
 namespace stl
 {
+	export_ using cstring = const char*;
+	export_ extern template struct refl_ seque_ span<float>;
+	export_ extern template struct refl_ seque_ span<cstring>;
 	//export_ extern template class refl_ seque_ vector<string>;
 	export_ extern template class refl_ seque_ vector<mud::Space>;
 }

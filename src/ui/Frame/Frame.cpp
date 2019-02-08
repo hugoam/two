@@ -22,6 +22,13 @@ module mud.ui;
 
 namespace mud
 {
+	template struct Dim2<bool>;
+	template struct Dim2<size_t>;
+	template struct Dim2<AutoLayout>;
+	template struct Dim2<Sizing>;
+	template struct Dim2<Align>;
+	template struct Dim2<Pivot>;
+
 	template <> string to_string<DirtyLayout>(const DirtyLayout& dirty) { if(dirty == CLEAN) return "CLEAN"; else if(dirty == DIRTY_REDRAW) return "DIRTY_REDRAW"; else if(dirty == DIRTY_PARENT) return "DIRTY_PARENT"; else if(dirty == DIRTY_LAYOUT) return "DIRTY_LAYOUT"; else if(dirty == DIRTY_FORCE_LAYOUT) return "DIRTY_FORCE_LAYOUT"; else /*if(dirty == DIRTY_STRUCTURE)*/ return "DIRTY_STRUCTURE"; }
 
 	Vg* Frame::s_vg = nullptr;

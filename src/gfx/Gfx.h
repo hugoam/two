@@ -12,11 +12,6 @@
 #include <gfx/Node3.h>
 #include <gfx/Light.h>
 
-namespace stl
-{
-	export_ extern template struct refl_ span<mud::mat4>;
-}
-
 namespace mud
 {
 namespace gfx

@@ -9,12 +9,6 @@
 #include <ui/Forward.h>
 #include <ui/Frame/Dim.h>
 
-namespace stl
-{
-	export_ using cstring = const char*;
-	export_ extern template struct refl_ span<cstring>;
-}
-
 namespace mud
 {
 	export_ namespace ui

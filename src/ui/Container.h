@@ -10,11 +10,6 @@
 #include <ui/Forward.h>
 #include <ui/Style/Style.h>
 
-namespace stl
-{
-	export_ extern template struct refl_ span<float>;
-}
-
 namespace mud
 {
 namespace ui
