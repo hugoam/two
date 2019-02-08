@@ -8,6 +8,7 @@
 module mud.fract;
 #else
 #include <infra/Sort.h>
+#include <math/Grid.hpp>
 #include <math/Colour.h>
 #include <math/Image256.h>
 #include <geom/Shapes.h>
