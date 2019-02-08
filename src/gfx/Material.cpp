@@ -28,6 +28,9 @@ module mud.gfx;
 
 namespace mud
 {
+	template struct MaterialParam<Colour>;
+	template struct MaterialParam<float>;
+
 	void blend_state(BlendMode blend_mode, uint64_t& bgfx_state)
 	{
 		if(blend_mode == BlendMode::Mix)

@@ -20,14 +20,14 @@ namespace stl {
 
 		void swap(buf& other);
 
-		const T* data() const;
-		T* data();
-		size_t size() const;
-		size_t capacity() const;
-		bool empty() const;
+		const T* data() const { return m_first; }
+		T* data() { return m_first; }
+		size_t size() const { return size_t(m_last - m_first); }
+		size_t capacity() const { return size_t(m_capacity - m_first); }
+		bool empty() const { return m_last == m_first; }
 
-		T& operator[](size_t idx);
-		const T& operator[](size_t idx) const;
+		T& operator[](size_t idx) { return m_first[idx]; }
+		const T& operator[](size_t idx) const { return m_first[idx]; }
 
 		void alloc(size_t size);
 		void realloc(size_t size, bool dealloc = true);
@@ -45,41 +45,6 @@ namespace stl {
 		T* m_capacity = 0;
 	};
 
-	template <class T, class Alloc, size_t Pad>
-	inline const T* buf<T, Alloc, Pad>::data() const {
-		return m_first;
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline T* buf<T, Alloc, Pad>::data() {
-		return m_first;
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline size_t buf<T, Alloc, Pad>::size() const {
-		return size_t(m_last - m_first);
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline size_t buf<T, Alloc, Pad>::capacity() const {
-		return size_t(m_capacity - m_first);
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline bool buf<T, Alloc, Pad>::empty() const {
-		return m_last == m_first;
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline T& buf<T, Alloc, Pad>::operator[](size_t idx) {
-		return m_first[idx];
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline const T& buf<T, Alloc, Pad>::operator[](size_t idx) const {
-		return m_first[idx];
-	}
-
 	template <class T, class Alloc = TINYSTL_ALLOCATOR, size_t Pad = 0>
 	class buffer : public buf<T, Alloc, Pad> {
 	public:
@@ -87,10 +52,10 @@ namespace stl {
 		buffer(const T* first, const T* last);
 		buffer(std::initializer_list<T> list);
 
-		const T& front() const;
-		T& front();
-		const T& back() const;
-		T& back();
+		const T& front() const { return this->m_first[0]; }
+		T& front() { return this->m_first[0]; }
+		const T& back() const { return this->m_last[-1]; }
+		T& back() { return this->m_last[-1]; }
 
 		void grow(size_t size, bool dealloc = true);
 
@@ -110,50 +75,10 @@ namespace stl {
 		using iterator = T*;
 		using const_iterator = const T*;
 
-		iterator begin();
-		iterator end();
+		iterator begin() { return this->m_first; }
+		iterator end() { return this->m_last; }
 
-		const_iterator begin() const;
-		const_iterator end() const;
+		const_iterator begin() const { return this->m_first; }
+		const_iterator end() const { return this->m_last; }
 	};
-
-	template <class T, class Alloc, size_t Pad>
-	inline const T& buffer<T, Alloc, Pad>::front() const {
-		return this->m_first[0];
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline T& buffer<T, Alloc, Pad>::front() {
-		return this->m_first[0];
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline const T& buffer<T, Alloc, Pad>::back() const {
-		return this->m_last[-1];
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline T& buffer<T, Alloc, Pad>::back() {
-		return this->m_last[-1];
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline typename buffer<T, Alloc, Pad>::iterator buffer<T, Alloc, Pad>::begin() {
-		return this->m_first;
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline typename buffer<T, Alloc, Pad>::iterator buffer<T, Alloc, Pad>::end() {
-		return this->m_last;
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline typename buffer<T, Alloc, Pad>::const_iterator buffer<T, Alloc, Pad>::begin() const {
-		return this->m_first;
-	}
-
-	template <class T, class Alloc, size_t Pad>
-	inline typename buffer<T, Alloc, Pad>::const_iterator buffer<T, Alloc, Pad>::end() const {
-		return this->m_last;
-	}
 }
