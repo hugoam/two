@@ -11,7 +11,7 @@ module mud.geom;
 #include <geom/Shape/Quad.h>
 #include <geom/Shapes.h>
 #include <geom/ShapesComplex.h>
-#include <geom/Primitive.h>
+#include <geom/Primitive.hpp>
 #endif
 
 //#define PK_GLITCH

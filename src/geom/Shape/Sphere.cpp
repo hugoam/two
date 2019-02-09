@@ -11,7 +11,7 @@ module mud.geom;
 #include <geom/Shape/Sphere.h>
 #include <geom/Shape/Icosphere.h>
 #include <geom/Shapes.h>
-#include <geom/Primitive.h>
+#include <geom/Primitive.hpp>
 #endif
 
 #define ICO_SPHERE_LOD 2

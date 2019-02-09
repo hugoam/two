@@ -10,7 +10,7 @@ module mud.geom;
 #include <math/Vec.hpp>
 #include <geom/Shape/Triangle.h>
 #include <geom/Shapes.h>
-#include <geom/Primitive.h>
+#include <geom/Primitive.hpp>
 #endif
 
 //#define PK_GLITCH
