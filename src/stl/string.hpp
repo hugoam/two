@@ -139,7 +139,7 @@ namespace stl {
 
 	template <class Alloc>
 	inline void basic_string<Alloc>::alloc(size_t size) {
-		if(size > c_nbuffer)
+		if(size + 1 > c_nbuffer)
 			buffer<char, Alloc, 1>::alloc(size);
 		else
 			this->m_last = this->m_first + size;
