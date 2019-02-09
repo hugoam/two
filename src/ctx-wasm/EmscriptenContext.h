@@ -21,7 +21,7 @@ namespace mud
 	class MUD_CTX_WASM_EXPORT EmContext : public Context
 	{
 	public:
-		EmContext(RenderSystem& renderSystem, cstring name, int width, int height, bool full_screen);
+		EmContext(RenderSystem& renderSystem, const string& name, int width, int height, bool full_screen);
 
 		void init_context();
 		virtual void init_input(Mouse& mouse, Keyboard& keyboard) final;

@@ -122,9 +122,9 @@ namespace stl {
 
 	using string = basic_string<TINYSTL_ALLOCATOR>;
 
-	template MUD_INFRA_EXPORT string operator+(const string& lhs, const string& rhs);
-	template MUD_INFRA_EXPORT string operator+(const char* lhs, const string& rhs);
-	template MUD_INFRA_EXPORT string operator+(const string& lhs, const char* rhs);
+	extern template MUD_INFRA_EXPORT string operator+(const string& lhs, const string& rhs);
+	extern template MUD_INFRA_EXPORT string operator+(const char* lhs, const string& rhs);
+	extern template MUD_INFRA_EXPORT string operator+(const string& lhs, const char* rhs);
 }
 #endif
 

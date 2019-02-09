@@ -4,6 +4,7 @@
 
 #include <ctx-wasm/EmscriptenContext.h>
 
+#include <math/Vec.hpp>
 #include <type/Type.h>
 //#include <ui/UiWindow.h>
 #include <ctx/InputDevice.h>
@@ -147,7 +148,7 @@ namespace mud
 		else return translate(convert_html5_key(string));
 	}
 
-	EmContext::EmContext(RenderSystem& render_system, cstring name, int width, int height, bool full_screen)
+	EmContext::EmContext(RenderSystem& render_system, const string& name, int width, int height, bool full_screen)
 		: Context(render_system, name, width, height, full_screen)
 	{
 #ifdef MUD_RENDERER_BGFX
