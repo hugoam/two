@@ -20,7 +20,7 @@ module mud.geom;
 #include <geom/Shape/Sphere.h>
 #include <geom/Shape/Spheroid.h>
 #include <geom/Shape/Geom.h>
-#include <geom/Primitive.h>
+#include <geom/Primitive.hpp>
 #include <geom/Shapes.h>
 #include <geom/ShapesComplex.h>
 #include <geom/Aabb.h>
