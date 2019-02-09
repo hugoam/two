@@ -29,6 +29,6 @@ install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export GENIE_FOLDER="darwin" TOOLCHAIN="osx" GMAKE_FOLDER="gmake-osx"; fi
 
 script:
-  - bin/$GENIE_FOLDER/genie --compile-only --gcc=$TOOLCHAIN gmake
+  - bin/$GENIE_FOLDER/genie --gcc=$TOOLCHAIN gmake
   - cd build/projects/$GMAKE_FOLDER
-  - time make config=debug64 mud
+  - time make config=debug64
