@@ -319,7 +319,7 @@ System.prototype["__destroy__"] = System.prototype.__destroy__ = function() {
 };
 // Constructor
 function Constructor() { throw "cannot construct a Constructor, no constructor in IDL" }
-Constructor.prototype = Object.create(WrapperObject.prototype);
+Constructor.prototype = Object.create(Callable.prototype);
 Constructor.prototype.constructor = Constructor;
 Constructor.prototype.__class__ = Constructor;
 Constructor.__cache__ = {};
@@ -330,7 +330,7 @@ Constructor.prototype["__destroy__"] = Constructor.prototype.__destroy__ = funct
 };
 // CopyConstructor
 function CopyConstructor() { throw "cannot construct a CopyConstructor, no constructor in IDL" }
-CopyConstructor.prototype = Object.create(WrapperObject.prototype);
+CopyConstructor.prototype = Object.create(Callable.prototype);
 CopyConstructor.prototype.constructor = CopyConstructor;
 CopyConstructor.prototype.__class__ = CopyConstructor;
 CopyConstructor.__cache__ = {};
@@ -341,7 +341,7 @@ CopyConstructor.prototype["__destroy__"] = CopyConstructor.prototype.__destroy__
 };
 // Destructor
 function Destructor() { throw "cannot construct a Destructor, no constructor in IDL" }
-Destructor.prototype = Object.create(WrapperObject.prototype);
+Destructor.prototype = Object.create(Callable.prototype);
 Destructor.prototype.constructor = Destructor;
 Destructor.prototype.__class__ = Destructor;
 Destructor.__cache__ = {};
@@ -352,7 +352,7 @@ Destructor.prototype["__destroy__"] = Destructor.prototype.__destroy__ = functio
 };
 // Function
 function Function() { throw "cannot construct a Function, no constructor in IDL" }
-Function.prototype = Object.create(WrapperObject.prototype);
+Function.prototype = Object.create(Callable.prototype);
 Function.prototype.constructor = Function;
 Function.prototype.__class__ = Function;
 Function.__cache__ = {};
@@ -363,7 +363,7 @@ Function.prototype["__destroy__"] = Function.prototype.__destroy__ = function() 
 };
 // Injector
 function Injector() { throw "cannot construct a Injector, no constructor in IDL" }
-Injector.prototype = Object.create(WrapperObject.prototype);
+Injector.prototype = Object.create(Call.prototype);
 Injector.prototype.constructor = Injector;
 Injector.prototype.__class__ = Injector;
 Injector.__cache__ = {};
@@ -374,7 +374,7 @@ Injector.prototype["__destroy__"] = Injector.prototype.__destroy__ = function() 
 };
 // Method
 function Method() { throw "cannot construct a Method, no constructor in IDL" }
-Method.prototype = Object.create(WrapperObject.prototype);
+Method.prototype = Object.create(Callable.prototype);
 Method.prototype.constructor = Method;
 Method.prototype.__class__ = Method;
 Method.__cache__ = {};

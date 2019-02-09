@@ -161,7 +161,7 @@ function TileWave(tileset, width, height, depth, periodic) {
     this.ptr = _mud_TileWave__construct_5(tileset, width, height, depth, periodic); getCache(TileWave)[this.ptr] = this;
     this.type = TileWave;
 };
-TileWave.prototype = Object.create(WrapperObject.prototype);
+TileWave.prototype = Object.create(Wave.prototype);
 TileWave.prototype.constructor = TileWave;
 TileWave.prototype.__class__ = TileWave;
 TileWave.__cache__ = {};
@@ -175,7 +175,7 @@ function WaveTileset() {
     this.ptr = _mud_WaveTileset__construct_0(); getCache(WaveTileset)[this.ptr] = this;
     this.type = WaveTileset;
 };
-WaveTileset.prototype = Object.create(WrapperObject.prototype);
+WaveTileset.prototype = Object.create(Tileset.prototype);
 WaveTileset.prototype.constructor = WaveTileset;
 WaveTileset.prototype.__class__ = WaveTileset;
 WaveTileset.__cache__ = {};

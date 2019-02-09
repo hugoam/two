@@ -75,7 +75,7 @@ ViewerController.prototype["__destroy__"] = ViewerController.prototype.__destroy
 };
 // OrbitController
 function OrbitController() { throw "cannot construct a OrbitController, no constructor in IDL" }
-OrbitController.prototype = Object.create(WrapperObject.prototype);
+OrbitController.prototype = Object.create(ViewerController.prototype);
 OrbitController.prototype.constructor = OrbitController;
 OrbitController.prototype.__class__ = OrbitController;
 OrbitController.__cache__ = {};
@@ -143,7 +143,7 @@ OrbitController.prototype["__destroy__"] = OrbitController.prototype.__destroy__
 };
 // FreeOrbitController
 function FreeOrbitController() { throw "cannot construct a FreeOrbitController, no constructor in IDL" }
-FreeOrbitController.prototype = Object.create(WrapperObject.prototype);
+FreeOrbitController.prototype = Object.create(OrbitController.prototype);
 FreeOrbitController.prototype.constructor = FreeOrbitController;
 FreeOrbitController.prototype.__class__ = FreeOrbitController;
 FreeOrbitController.__cache__ = {};
@@ -154,7 +154,7 @@ FreeOrbitController.prototype["__destroy__"] = FreeOrbitController.prototype.__d
 };
 // SceneViewer
 function SceneViewer() { throw "cannot construct a SceneViewer, no constructor in IDL" }
-SceneViewer.prototype = Object.create(WrapperObject.prototype);
+SceneViewer.prototype = Object.create(Viewer.prototype);
 SceneViewer.prototype.constructor = SceneViewer;
 SceneViewer.prototype.__class__ = SceneViewer;
 SceneViewer.__cache__ = {};

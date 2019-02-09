@@ -449,7 +449,7 @@ function Arc(radius, start, end) {
     this.ptr = _mud_Arc__construct_3(radius, start, end); getCache(Arc)[this.ptr] = this;
     this.type = Arc;
 };
-Arc.prototype = Object.create(WrapperObject.prototype);
+Arc.prototype = Object.create(Shape.prototype);
 Arc.prototype.constructor = Arc;
 Arc.prototype.__class__ = Arc;
 Arc.__cache__ = {};
@@ -506,7 +506,7 @@ function ArcLine(center, start, middle, end) {
     this.ptr = _mud_ArcLine__construct_4(center, start, middle, end); getCache(ArcLine)[this.ptr] = this;
     this.type = ArcLine;
 };
-ArcLine.prototype = Object.create(WrapperObject.prototype);
+ArcLine.prototype = Object.create(Shape.prototype);
 ArcLine.prototype.constructor = ArcLine;
 ArcLine.prototype.__class__ = ArcLine;
 ArcLine.__cache__ = {};
@@ -556,7 +556,7 @@ function Box() {
     this.ptr = _mud_Box__construct_0(); getCache(Box)[this.ptr] = this;
     this.type = Box;
 };
-Box.prototype = Object.create(WrapperObject.prototype);
+Box.prototype = Object.create(Shape.prototype);
 Box.prototype.constructor = Box;
 Box.prototype.__class__ = Box;
 Box.__cache__ = {};
@@ -576,7 +576,7 @@ function Capsule(radius, height, axis) {
     this.ptr = _mud_Capsule__construct_3(radius, height, axis); getCache(Capsule)[this.ptr] = this;
     this.type = Capsule;
 };
-Capsule.prototype = Object.create(WrapperObject.prototype);
+Capsule.prototype = Object.create(Shape.prototype);
 Capsule.prototype.constructor = Capsule;
 Capsule.prototype.__class__ = Capsule;
 Capsule.__cache__ = {};
@@ -629,7 +629,7 @@ function Circle(radius, axis) {
     this.ptr = _mud_Circle__construct_2(radius, axis); getCache(Circle)[this.ptr] = this;
     this.type = Circle;
 };
-Circle.prototype = Object.create(WrapperObject.prototype);
+Circle.prototype = Object.create(Shape.prototype);
 Circle.prototype.constructor = Circle;
 Circle.prototype.__class__ = Circle;
 Circle.__cache__ = {};
@@ -669,7 +669,7 @@ function ConvexHull(vertices) {
     this.ptr = _mud_ConvexHull__construct_1(vertices); getCache(ConvexHull)[this.ptr] = this;
     this.type = ConvexHull;
 };
-ConvexHull.prototype = Object.create(WrapperObject.prototype);
+ConvexHull.prototype = Object.create(Shape.prototype);
 ConvexHull.prototype.constructor = ConvexHull;
 ConvexHull.prototype.__class__ = ConvexHull;
 ConvexHull.__cache__ = {};
@@ -689,7 +689,7 @@ function Cube(center, extents) {
     this.ptr = _mud_Cube__construct_2(center, extents); getCache(Cube)[this.ptr] = this;
     this.type = Cube;
 };
-Cube.prototype = Object.create(WrapperObject.prototype);
+Cube.prototype = Object.create(Shape.prototype);
 Cube.prototype.constructor = Cube;
 Cube.prototype.__class__ = Cube;
 Cube.__cache__ = {};
@@ -721,7 +721,7 @@ function Cylinder(radius, height, axis) {
     this.ptr = _mud_Cylinder__construct_3(radius, height, axis); getCache(Cylinder)[this.ptr] = this;
     this.type = Cylinder;
 };
-Cylinder.prototype = Object.create(WrapperObject.prototype);
+Cylinder.prototype = Object.create(Shape.prototype);
 Cylinder.prototype.constructor = Cylinder;
 Cylinder.prototype.__class__ = Cylinder;
 Cylinder.__cache__ = {};
@@ -775,7 +775,7 @@ function Ellipsis(radius, axis) {
     this.ptr = _mud_Ellipsis__construct_2(radius, axis); getCache(Ellipsis)[this.ptr] = this;
     this.type = Ellipsis;
 };
-Ellipsis.prototype = Object.create(WrapperObject.prototype);
+Ellipsis.prototype = Object.create(Shape.prototype);
 Ellipsis.prototype.constructor = Ellipsis;
 Ellipsis.prototype.__class__ = Ellipsis;
 Ellipsis.__cache__ = {};
@@ -813,7 +813,7 @@ function Geometry() {
     this.ptr = _mud_Geometry__construct_0(); getCache(Geometry)[this.ptr] = this;
     this.type = Geometry;
 };
-Geometry.prototype = Object.create(WrapperObject.prototype);
+Geometry.prototype = Object.create(Shape.prototype);
 Geometry.prototype.constructor = Geometry;
 Geometry.prototype.__class__ = Geometry;
 Geometry.__cache__ = {};
@@ -833,7 +833,7 @@ function Grid2(size, space) {
     this.ptr = _mud_Grid2__construct_2(size, space); getCache(Grid2)[this.ptr] = this;
     this.type = Grid2;
 };
-Grid2.prototype = Object.create(WrapperObject.prototype);
+Grid2.prototype = Object.create(Shape.prototype);
 Grid2.prototype.constructor = Grid2;
 Grid2.prototype.__class__ = Grid2;
 Grid2.__cache__ = {};
@@ -877,7 +877,7 @@ function Grid3(size, points) {
     this.ptr = _mud_Grid3__construct_2(size, points); getCache(Grid3)[this.ptr] = this;
     this.type = Grid3;
 };
-Grid3.prototype = Object.create(WrapperObject.prototype);
+Grid3.prototype = Object.create(Shape.prototype);
 Grid3.prototype.constructor = Grid3;
 Grid3.prototype.__class__ = Grid3;
 Grid3.__cache__ = {};
@@ -908,7 +908,7 @@ function Line(start, end) {
     this.ptr = _mud_Line__construct_2(start, end); getCache(Line)[this.ptr] = this;
     this.type = Line;
 };
-Line.prototype = Object.create(WrapperObject.prototype);
+Line.prototype = Object.create(Shape.prototype);
 Line.prototype.constructor = Line;
 Line.prototype.__class__ = Line;
 Line.__cache__ = {};
@@ -949,7 +949,7 @@ function Points(points) {
     this.ptr = _mud_Points__construct_1(points); getCache(Points)[this.ptr] = this;
     this.type = Points;
 };
-Points.prototype = Object.create(WrapperObject.prototype);
+Points.prototype = Object.create(Shape.prototype);
 Points.prototype.constructor = Points;
 Points.prototype.__class__ = Points;
 Points.__cache__ = {};
@@ -966,7 +966,7 @@ function Poisson(size, maxRadius) {
     this.ptr = _mud_Poisson__construct_2(size, maxRadius); getCache(Poisson)[this.ptr] = this;
     this.type = Poisson;
 };
-Poisson.prototype = Object.create(WrapperObject.prototype);
+Poisson.prototype = Object.create(Distribution.prototype);
 Poisson.prototype.constructor = Poisson;
 Poisson.prototype.__class__ = Poisson;
 Poisson.__cache__ = {};
@@ -990,7 +990,7 @@ function Polygon(vertices) {
     this.ptr = _mud_Polygon__construct_1(vertices); getCache(Polygon)[this.ptr] = this;
     this.type = Polygon;
 };
-Polygon.prototype = Object.create(WrapperObject.prototype);
+Polygon.prototype = Object.create(Shape.prototype);
 Polygon.prototype.constructor = Polygon;
 Polygon.prototype.__class__ = Polygon;
 Polygon.__cache__ = {};
@@ -1013,7 +1013,7 @@ function Quad(a, b, c, d) {
     this.ptr = _mud_Quad__construct_4(a, b, c, d); getCache(Quad)[this.ptr] = this;
     this.type = Quad;
 };
-Quad.prototype = Object.create(WrapperObject.prototype);
+Quad.prototype = Object.create(Shape.prototype);
 Quad.prototype.constructor = Quad;
 Quad.prototype.__class__ = Quad;
 Quad.__cache__ = {};
@@ -1032,7 +1032,7 @@ function Rect(position, size) {
     this.ptr = _mud_Rect__construct_2(position, size); getCache(Rect)[this.ptr] = this;
     this.type = Rect;
 };
-Rect.prototype = Object.create(WrapperObject.prototype);
+Rect.prototype = Object.create(Shape.prototype);
 Rect.prototype.constructor = Rect;
 Rect.prototype.__class__ = Rect;
 Rect.__cache__ = {};
@@ -1074,7 +1074,7 @@ function Ring(radius, min, max) {
     this.ptr = _mud_Ring__construct_3(radius, min, max); getCache(Ring)[this.ptr] = this;
     this.type = Ring;
 };
-Ring.prototype = Object.create(WrapperObject.prototype);
+Ring.prototype = Object.create(Shape.prototype);
 Ring.prototype.constructor = Ring;
 Ring.prototype.__class__ = Ring;
 Ring.__cache__ = {};
@@ -1123,7 +1123,7 @@ function Sphere(radius) {
     this.ptr = _mud_Sphere__construct_1(radius); getCache(Sphere)[this.ptr] = this;
     this.type = Sphere;
 };
-Sphere.prototype = Object.create(WrapperObject.prototype);
+Sphere.prototype = Object.create(Shape.prototype);
 Sphere.prototype.constructor = Sphere;
 Sphere.prototype.__class__ = Sphere;
 Sphere.__cache__ = {};
@@ -1152,7 +1152,7 @@ function SphereRing(radius, min, max) {
     this.ptr = _mud_SphereRing__construct_3(radius, min, max); getCache(SphereRing)[this.ptr] = this;
     this.type = SphereRing;
 };
-SphereRing.prototype = Object.create(WrapperObject.prototype);
+SphereRing.prototype = Object.create(Shape.prototype);
 SphereRing.prototype.constructor = SphereRing;
 SphereRing.prototype.__class__ = SphereRing;
 SphereRing.__cache__ = {};
@@ -1201,7 +1201,7 @@ function Spheroid(radius) {
     this.ptr = _mud_Spheroid__construct_1(radius); getCache(Spheroid)[this.ptr] = this;
     this.type = Spheroid;
 };
-Spheroid.prototype = Object.create(WrapperObject.prototype);
+Spheroid.prototype = Object.create(Shape.prototype);
 Spheroid.prototype.constructor = Spheroid;
 Spheroid.prototype.__class__ = Spheroid;
 Spheroid.__cache__ = {};
@@ -1232,7 +1232,7 @@ function Torus(radius, solid_radius, axis) {
     this.ptr = _mud_Torus__construct_3(radius, solid_radius, axis); getCache(Torus)[this.ptr] = this;
     this.type = Torus;
 };
-Torus.prototype = Object.create(WrapperObject.prototype);
+Torus.prototype = Object.create(Shape.prototype);
 Torus.prototype.constructor = Torus;
 Torus.prototype.__class__ = Torus;
 Torus.__cache__ = {};
@@ -1283,7 +1283,7 @@ function Triangle(size) {
     this.ptr = _mud_Triangle__construct_1(size); getCache(Triangle)[this.ptr] = this;
     this.type = Triangle;
 };
-Triangle.prototype = Object.create(WrapperObject.prototype);
+Triangle.prototype = Object.create(Shape.prototype);
 Triangle.prototype.constructor = Triangle;
 Triangle.prototype.__class__ = Triangle;
 Triangle.__cache__ = {};

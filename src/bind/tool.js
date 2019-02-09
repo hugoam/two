@@ -189,7 +189,7 @@ ToolOption.prototype["__destroy__"] = ToolOption.prototype.__destroy__ = functio
 };
 // Brush
 function Brush() { throw "cannot construct a Brush, no constructor in IDL" }
-Brush.prototype = Object.create(WrapperObject.prototype);
+Brush.prototype = Object.create(SpatialTool.prototype);
 Brush.prototype.constructor = Brush;
 Brush.prototype.__class__ = Brush;
 Brush.__cache__ = {};
@@ -205,7 +205,7 @@ function CircleBrush(context) {
     this.ptr = _mud_CircleBrush__construct_1(context); getCache(CircleBrush)[this.ptr] = this;
     this.type = CircleBrush;
 };
-CircleBrush.prototype = Object.create(WrapperObject.prototype);
+CircleBrush.prototype = Object.create(Brush.prototype);
 CircleBrush.prototype.constructor = CircleBrush;
 CircleBrush.prototype.__class__ = CircleBrush;
 CircleBrush.__cache__ = {};
@@ -248,7 +248,7 @@ function PlaceBrush(context) {
     this.ptr = _mud_PlaceBrush__construct_1(context); getCache(PlaceBrush)[this.ptr] = this;
     this.type = PlaceBrush;
 };
-PlaceBrush.prototype = Object.create(WrapperObject.prototype);
+PlaceBrush.prototype = Object.create(Brush.prototype);
 PlaceBrush.prototype.constructor = PlaceBrush;
 PlaceBrush.prototype.__class__ = PlaceBrush;
 PlaceBrush.__cache__ = {};
@@ -264,7 +264,7 @@ PlaceBrush.prototype["__destroy__"] = PlaceBrush.prototype.__destroy__ = functio
 };
 // PlaneSnapOption
 function PlaneSnapOption() { throw "cannot construct a PlaneSnapOption, no constructor in IDL" }
-PlaneSnapOption.prototype = Object.create(WrapperObject.prototype);
+PlaneSnapOption.prototype = Object.create(ToolOption.prototype);
 PlaneSnapOption.prototype.constructor = PlaneSnapOption;
 PlaneSnapOption.prototype.__class__ = PlaneSnapOption;
 PlaneSnapOption.__cache__ = {};
@@ -275,7 +275,7 @@ PlaneSnapOption.prototype["__destroy__"] = PlaneSnapOption.prototype.__destroy__
 };
 // RedoTool
 function RedoTool() { throw "cannot construct a RedoTool, no constructor in IDL" }
-RedoTool.prototype = Object.create(WrapperObject.prototype);
+RedoTool.prototype = Object.create(Tool.prototype);
 RedoTool.prototype.constructor = RedoTool;
 RedoTool.prototype.__class__ = RedoTool;
 RedoTool.__cache__ = {};
@@ -286,7 +286,7 @@ RedoTool.prototype["__destroy__"] = RedoTool.prototype.__destroy__ = function() 
 };
 // SpatialTool
 function SpatialTool() { throw "cannot construct a SpatialTool, no constructor in IDL" }
-SpatialTool.prototype = Object.create(WrapperObject.prototype);
+SpatialTool.prototype = Object.create(ViewportTool.prototype);
 SpatialTool.prototype.constructor = SpatialTool;
 SpatialTool.prototype.__class__ = SpatialTool;
 SpatialTool.__cache__ = {};
@@ -297,7 +297,7 @@ SpatialTool.prototype["__destroy__"] = SpatialTool.prototype.__destroy__ = funct
 };
 // CopyTool
 function CopyTool() { throw "cannot construct a CopyTool, no constructor in IDL" }
-CopyTool.prototype = Object.create(WrapperObject.prototype);
+CopyTool.prototype = Object.create(TransformTool.prototype);
 CopyTool.prototype.constructor = CopyTool;
 CopyTool.prototype.__class__ = CopyTool;
 CopyTool.__cache__ = {};
@@ -308,7 +308,7 @@ CopyTool.prototype["__destroy__"] = CopyTool.prototype.__destroy__ = function() 
 };
 // FrameViewTool
 function FrameViewTool() { throw "cannot construct a FrameViewTool, no constructor in IDL" }
-FrameViewTool.prototype = Object.create(WrapperObject.prototype);
+FrameViewTool.prototype = Object.create(ViewportTool.prototype);
 FrameViewTool.prototype.constructor = FrameViewTool;
 FrameViewTool.prototype.__class__ = FrameViewTool;
 FrameViewTool.__cache__ = {};
@@ -319,7 +319,7 @@ FrameViewTool.prototype["__destroy__"] = FrameViewTool.prototype.__destroy__ = f
 };
 // RotateTool
 function RotateTool() { throw "cannot construct a RotateTool, no constructor in IDL" }
-RotateTool.prototype = Object.create(WrapperObject.prototype);
+RotateTool.prototype = Object.create(TransformTool.prototype);
 RotateTool.prototype.constructor = RotateTool;
 RotateTool.prototype.__class__ = RotateTool;
 RotateTool.__cache__ = {};
@@ -330,7 +330,7 @@ RotateTool.prototype["__destroy__"] = RotateTool.prototype.__destroy__ = functio
 };
 // ScaleTool
 function ScaleTool() { throw "cannot construct a ScaleTool, no constructor in IDL" }
-ScaleTool.prototype = Object.create(WrapperObject.prototype);
+ScaleTool.prototype = Object.create(TransformTool.prototype);
 ScaleTool.prototype.constructor = ScaleTool;
 ScaleTool.prototype.__class__ = ScaleTool;
 ScaleTool.__cache__ = {};
@@ -348,7 +348,7 @@ function ScriptedBrush(context, script) {
     this.ptr = _mud_ScriptedBrush__construct_2(context, script); getCache(ScriptedBrush)[this.ptr] = this;
     this.type = ScriptedBrush;
 };
-ScriptedBrush.prototype = Object.create(WrapperObject.prototype);
+ScriptedBrush.prototype = Object.create(Brush.prototype);
 ScriptedBrush.prototype.constructor = ScriptedBrush;
 ScriptedBrush.prototype.__class__ = ScriptedBrush;
 ScriptedBrush.__cache__ = {};
@@ -371,7 +371,7 @@ ScriptedBrush.prototype["__destroy__"] = ScriptedBrush.prototype.__destroy__ = f
 };
 // TransformAction
 function TransformAction() { throw "cannot construct a TransformAction, no constructor in IDL" }
-TransformAction.prototype = Object.create(WrapperObject.prototype);
+TransformAction.prototype = Object.create(EditorAction.prototype);
 TransformAction.prototype.constructor = TransformAction;
 TransformAction.prototype.__class__ = TransformAction;
 TransformAction.__cache__ = {};
@@ -382,7 +382,7 @@ TransformAction.prototype["__destroy__"] = TransformAction.prototype.__destroy__
 };
 // CopyAction
 function CopyAction() { throw "cannot construct a CopyAction, no constructor in IDL" }
-CopyAction.prototype = Object.create(WrapperObject.prototype);
+CopyAction.prototype = Object.create(TranslateAction.prototype);
 CopyAction.prototype.constructor = CopyAction;
 CopyAction.prototype.__class__ = CopyAction;
 CopyAction.__cache__ = {};
@@ -393,7 +393,7 @@ CopyAction.prototype["__destroy__"] = CopyAction.prototype.__destroy__ = functio
 };
 // RotateAction
 function RotateAction() { throw "cannot construct a RotateAction, no constructor in IDL" }
-RotateAction.prototype = Object.create(WrapperObject.prototype);
+RotateAction.prototype = Object.create(TransformAction.prototype);
 RotateAction.prototype.constructor = RotateAction;
 RotateAction.prototype.__class__ = RotateAction;
 RotateAction.__cache__ = {};
@@ -404,7 +404,7 @@ RotateAction.prototype["__destroy__"] = RotateAction.prototype.__destroy__ = fun
 };
 // ScaleAction
 function ScaleAction() { throw "cannot construct a ScaleAction, no constructor in IDL" }
-ScaleAction.prototype = Object.create(WrapperObject.prototype);
+ScaleAction.prototype = Object.create(TransformAction.prototype);
 ScaleAction.prototype.constructor = ScaleAction;
 ScaleAction.prototype.__class__ = ScaleAction;
 ScaleAction.__cache__ = {};
@@ -415,7 +415,7 @@ ScaleAction.prototype["__destroy__"] = ScaleAction.prototype.__destroy__ = funct
 };
 // TransformGizmo
 function TransformGizmo() { throw "cannot construct a TransformGizmo, no constructor in IDL" }
-TransformGizmo.prototype = Object.create(WrapperObject.prototype);
+TransformGizmo.prototype = Object.create(Gizmo.prototype);
 TransformGizmo.prototype.constructor = TransformGizmo;
 TransformGizmo.prototype.__class__ = TransformGizmo;
 TransformGizmo.__cache__ = {};
@@ -426,7 +426,7 @@ TransformGizmo.prototype["__destroy__"] = TransformGizmo.prototype.__destroy__ =
 };
 // TranslateAction
 function TranslateAction() { throw "cannot construct a TranslateAction, no constructor in IDL" }
-TranslateAction.prototype = Object.create(WrapperObject.prototype);
+TranslateAction.prototype = Object.create(TransformAction.prototype);
 TranslateAction.prototype.constructor = TranslateAction;
 TranslateAction.prototype.__class__ = TranslateAction;
 TranslateAction.__cache__ = {};
@@ -437,7 +437,7 @@ TranslateAction.prototype["__destroy__"] = TranslateAction.prototype.__destroy__
 };
 // TranslateTool
 function TranslateTool() { throw "cannot construct a TranslateTool, no constructor in IDL" }
-TranslateTool.prototype = Object.create(WrapperObject.prototype);
+TranslateTool.prototype = Object.create(TransformTool.prototype);
 TranslateTool.prototype.constructor = TranslateTool;
 TranslateTool.prototype.__class__ = TranslateTool;
 TranslateTool.__cache__ = {};
@@ -448,7 +448,7 @@ TranslateTool.prototype["__destroy__"] = TranslateTool.prototype.__destroy__ = f
 };
 // UndoTool
 function UndoTool() { throw "cannot construct a UndoTool, no constructor in IDL" }
-UndoTool.prototype = Object.create(WrapperObject.prototype);
+UndoTool.prototype = Object.create(Tool.prototype);
 UndoTool.prototype.constructor = UndoTool;
 UndoTool.prototype.__class__ = UndoTool;
 UndoTool.__cache__ = {};
@@ -459,7 +459,7 @@ UndoTool.prototype["__destroy__"] = UndoTool.prototype.__destroy__ = function() 
 };
 // ViewAction
 function ViewAction() { throw "cannot construct a ViewAction, no constructor in IDL" }
-ViewAction.prototype = Object.create(WrapperObject.prototype);
+ViewAction.prototype = Object.create(EditorAction.prototype);
 ViewAction.prototype.constructor = ViewAction;
 ViewAction.prototype.__class__ = ViewAction;
 ViewAction.__cache__ = {};
@@ -470,7 +470,7 @@ ViewAction.prototype["__destroy__"] = ViewAction.prototype.__destroy__ = functio
 };
 // ViewportTool
 function ViewportTool() { throw "cannot construct a ViewportTool, no constructor in IDL" }
-ViewportTool.prototype = Object.create(WrapperObject.prototype);
+ViewportTool.prototype = Object.create(Tool.prototype);
 ViewportTool.prototype.constructor = ViewportTool;
 ViewportTool.prototype.__class__ = ViewportTool;
 ViewportTool.__cache__ = {};
@@ -481,7 +481,7 @@ ViewportTool.prototype["__destroy__"] = ViewportTool.prototype.__destroy__ = fun
 };
 // TransformTool
 function TransformTool() { throw "cannot construct a TransformTool, no constructor in IDL" }
-TransformTool.prototype = Object.create(WrapperObject.prototype);
+TransformTool.prototype = Object.create(SpatialTool.prototype);
 TransformTool.prototype.constructor = TransformTool;
 TransformTool.prototype.__class__ = TransformTool;
 TransformTool.__cache__ = {};
@@ -492,7 +492,7 @@ TransformTool.prototype["__destroy__"] = TransformTool.prototype.__destroy__ = f
 };
 // ViewTool
 function ViewTool() { throw "cannot construct a ViewTool, no constructor in IDL" }
-ViewTool.prototype = Object.create(WrapperObject.prototype);
+ViewTool.prototype = Object.create(ViewportTool.prototype);
 ViewTool.prototype.constructor = ViewTool;
 ViewTool.prototype.__class__ = ViewTool;
 ViewTool.__cache__ = {};
@@ -503,7 +503,7 @@ ViewTool.prototype["__destroy__"] = ViewTool.prototype.__destroy__ = function() 
 };
 // WorkPlaneAction
 function WorkPlaneAction() { throw "cannot construct a WorkPlaneAction, no constructor in IDL" }
-WorkPlaneAction.prototype = Object.create(WrapperObject.prototype);
+WorkPlaneAction.prototype = Object.create(EditorAction.prototype);
 WorkPlaneAction.prototype.constructor = WorkPlaneAction;
 WorkPlaneAction.prototype.__class__ = WorkPlaneAction;
 WorkPlaneAction.__cache__ = {};
@@ -514,7 +514,7 @@ WorkPlaneAction.prototype["__destroy__"] = WorkPlaneAction.prototype.__destroy__
 };
 // WorkPlaneTool
 function WorkPlaneTool() { throw "cannot construct a WorkPlaneTool, no constructor in IDL" }
-WorkPlaneTool.prototype = Object.create(WrapperObject.prototype);
+WorkPlaneTool.prototype = Object.create(Tool.prototype);
 WorkPlaneTool.prototype.constructor = WorkPlaneTool;
 WorkPlaneTool.prototype.__class__ = WorkPlaneTool;
 WorkPlaneTool.__cache__ = {};
@@ -525,7 +525,7 @@ WorkPlaneTool.prototype["__destroy__"] = WorkPlaneTool.prototype.__destroy__ = f
 };
 // WorldSnapOption
 function WorldSnapOption() { throw "cannot construct a WorldSnapOption, no constructor in IDL" }
-WorldSnapOption.prototype = Object.create(WrapperObject.prototype);
+WorldSnapOption.prototype = Object.create(ToolOption.prototype);
 WorldSnapOption.prototype.constructor = WorldSnapOption;
 WorldSnapOption.prototype.__class__ = WorldSnapOption;
 WorldSnapOption.__cache__ = {};

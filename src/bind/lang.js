@@ -173,7 +173,7 @@ Valve.prototype["__destroy__"] = Valve.prototype.__destroy__ = function() {
 };
 // LuaInterpreter
 function LuaInterpreter() { throw "cannot construct a LuaInterpreter, no constructor in IDL" }
-LuaInterpreter.prototype = Object.create(WrapperObject.prototype);
+LuaInterpreter.prototype = Object.create(Interpreter.prototype);
 LuaInterpreter.prototype.constructor = LuaInterpreter;
 LuaInterpreter.prototype.__class__ = LuaInterpreter;
 LuaInterpreter.__cache__ = {};
@@ -191,7 +191,7 @@ function ProcessCallable(script, callable) {
     this.ptr = _mud_ProcessCallable__construct_2(script, callable); getCache(ProcessCallable)[this.ptr] = this;
     this.type = ProcessCallable;
 };
-ProcessCallable.prototype = Object.create(WrapperObject.prototype);
+ProcessCallable.prototype = Object.create(Process.prototype);
 ProcessCallable.prototype.constructor = ProcessCallable;
 ProcessCallable.prototype.__class__ = ProcessCallable;
 ProcessCallable.__cache__ = {};
@@ -211,7 +211,7 @@ function ProcessCreate(script, type, constructor) {
     this.ptr = _mud_ProcessCreate__construct_3(script, type, constructor); getCache(ProcessCreate)[this.ptr] = this;
     this.type = ProcessCreate;
 };
-ProcessCreate.prototype = Object.create(WrapperObject.prototype);
+ProcessCreate.prototype = Object.create(Process.prototype);
 ProcessCreate.prototype.constructor = ProcessCreate;
 ProcessCreate.prototype.__class__ = ProcessCreate;
 ProcessCreate.__cache__ = {};
@@ -222,7 +222,7 @@ ProcessCreate.prototype["__destroy__"] = ProcessCreate.prototype.__destroy__ = f
 };
 // ProcessDisplay
 function ProcessDisplay() { throw "cannot construct a ProcessDisplay, no constructor in IDL" }
-ProcessDisplay.prototype = Object.create(WrapperObject.prototype);
+ProcessDisplay.prototype = Object.create(Process.prototype);
 ProcessDisplay.prototype.constructor = ProcessDisplay;
 ProcessDisplay.prototype.__class__ = ProcessDisplay;
 ProcessDisplay.__cache__ = {};
@@ -240,7 +240,7 @@ function ProcessFunction(script, function) {
     this.ptr = _mud_ProcessFunction__construct_2(script, function); getCache(ProcessFunction)[this.ptr] = this;
     this.type = ProcessFunction;
 };
-ProcessFunction.prototype = Object.create(WrapperObject.prototype);
+ProcessFunction.prototype = Object.create(ProcessCallable.prototype);
 ProcessFunction.prototype.constructor = ProcessFunction;
 ProcessFunction.prototype.__class__ = ProcessFunction;
 ProcessFunction.__cache__ = {};
@@ -258,7 +258,7 @@ function ProcessGetMember(script, member) {
     this.ptr = _mud_ProcessGetMember__construct_2(script, member); getCache(ProcessGetMember)[this.ptr] = this;
     this.type = ProcessGetMember;
 };
-ProcessGetMember.prototype = Object.create(WrapperObject.prototype);
+ProcessGetMember.prototype = Object.create(Process.prototype);
 ProcessGetMember.prototype.constructor = ProcessGetMember;
 ProcessGetMember.prototype.__class__ = ProcessGetMember;
 ProcessGetMember.__cache__ = {};
@@ -269,7 +269,7 @@ ProcessGetMember.prototype["__destroy__"] = ProcessGetMember.prototype.__destroy
 };
 // ProcessInput
 function ProcessInput() { throw "cannot construct a ProcessInput, no constructor in IDL" }
-ProcessInput.prototype = Object.create(WrapperObject.prototype);
+ProcessInput.prototype = Object.create(Process.prototype);
 ProcessInput.prototype.constructor = ProcessInput;
 ProcessInput.prototype.__class__ = ProcessInput;
 ProcessInput.__cache__ = {};
@@ -287,7 +287,7 @@ function ProcessMethod(script, method) {
     this.ptr = _mud_ProcessMethod__construct_2(script, method); getCache(ProcessMethod)[this.ptr] = this;
     this.type = ProcessMethod;
 };
-ProcessMethod.prototype = Object.create(WrapperObject.prototype);
+ProcessMethod.prototype = Object.create(ProcessCallable.prototype);
 ProcessMethod.prototype.constructor = ProcessMethod;
 ProcessMethod.prototype.__class__ = ProcessMethod;
 ProcessMethod.__cache__ = {};
@@ -298,7 +298,7 @@ ProcessMethod.prototype["__destroy__"] = ProcessMethod.prototype.__destroy__ = f
 };
 // ProcessOutput
 function ProcessOutput() { throw "cannot construct a ProcessOutput, no constructor in IDL" }
-ProcessOutput.prototype = Object.create(WrapperObject.prototype);
+ProcessOutput.prototype = Object.create(Process.prototype);
 ProcessOutput.prototype.constructor = ProcessOutput;
 ProcessOutput.prototype.__class__ = ProcessOutput;
 ProcessOutput.__cache__ = {};
@@ -316,7 +316,7 @@ function ProcessScript(script, target) {
     this.ptr = _mud_ProcessScript__construct_2(script, target); getCache(ProcessScript)[this.ptr] = this;
     this.type = ProcessScript;
 };
-ProcessScript.prototype = Object.create(WrapperObject.prototype);
+ProcessScript.prototype = Object.create(ProcessCallable.prototype);
 ProcessScript.prototype.constructor = ProcessScript;
 ProcessScript.prototype.__class__ = ProcessScript;
 ProcessScript.__cache__ = {};
@@ -334,7 +334,7 @@ function ProcessSetMember(script, member) {
     this.ptr = _mud_ProcessSetMember__construct_2(script, member); getCache(ProcessSetMember)[this.ptr] = this;
     this.type = ProcessSetMember;
 };
-ProcessSetMember.prototype = Object.create(WrapperObject.prototype);
+ProcessSetMember.prototype = Object.create(Process.prototype);
 ProcessSetMember.prototype.constructor = ProcessSetMember;
 ProcessSetMember.prototype.__class__ = ProcessSetMember;
 ProcessSetMember.__cache__ = {};
@@ -352,7 +352,7 @@ function ProcessValue(script, value) {
     this.ptr = _mud_ProcessValue__construct_2(script, value); getCache(ProcessValue)[this.ptr] = this;
     this.type = ProcessValue;
 };
-ProcessValue.prototype = Object.create(WrapperObject.prototype);
+ProcessValue.prototype = Object.create(Process.prototype);
 ProcessValue.prototype.constructor = ProcessValue;
 ProcessValue.prototype.__class__ = ProcessValue;
 ProcessValue.__cache__ = {};
@@ -363,7 +363,7 @@ ProcessValue.prototype["__destroy__"] = ProcessValue.prototype.__destroy__ = fun
 };
 // Stream
 function Stream() { throw "cannot construct a Stream, no constructor in IDL" }
-Stream.prototype = Object.create(WrapperObject.prototype);
+Stream.prototype = Object.create(StreamBranch.prototype);
 Stream.prototype.constructor = Stream;
 Stream.prototype.__class__ = Stream;
 Stream.__cache__ = {};
@@ -386,7 +386,7 @@ function TextScript(name, language, signature) {
     this.ptr = _mud_TextScript__construct_3(name, language, signature); getCache(TextScript)[this.ptr] = this;
     this.type = TextScript;
 };
-TextScript.prototype = Object.create(WrapperObject.prototype);
+TextScript.prototype = Object.create(Script.prototype);
 TextScript.prototype.constructor = TextScript;
 TextScript.prototype.__class__ = TextScript;
 TextScript.__cache__ = {};
@@ -443,7 +443,7 @@ function VisualScript(name, signature) {
     this.ptr = _mud_VisualScript__construct_2(name, signature); getCache(VisualScript)[this.ptr] = this;
     this.type = VisualScript;
 };
-VisualScript.prototype = Object.create(WrapperObject.prototype);
+VisualScript.prototype = Object.create(Script.prototype);
 VisualScript.prototype.constructor = VisualScript;
 VisualScript.prototype.__class__ = VisualScript;
 VisualScript.__cache__ = {};
@@ -454,7 +454,7 @@ VisualScript.prototype["__destroy__"] = VisualScript.prototype.__destroy__ = fun
 };
 // WrenInterpreter
 function WrenInterpreter() { throw "cannot construct a WrenInterpreter, no constructor in IDL" }
-WrenInterpreter.prototype = Object.create(WrapperObject.prototype);
+WrenInterpreter.prototype = Object.create(Interpreter.prototype);
 WrenInterpreter.prototype.constructor = WrenInterpreter;
 WrenInterpreter.prototype.__class__ = WrenInterpreter;
 WrenInterpreter.__cache__ = {};

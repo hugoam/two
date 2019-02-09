@@ -1848,7 +1848,7 @@ v4_stl_uint.prototype["__destroy__"] = v4_stl_uint.prototype.__destroy__ = funct
 };
 // Sprite
 function Sprite() { throw "cannot construct a Sprite, no constructor in IDL" }
-Sprite.prototype = Object.create(WrapperObject.prototype);
+Sprite.prototype = Object.create(Image.prototype);
 Sprite.prototype.constructor = Sprite;
 Sprite.prototype.__class__ = Sprite;
 Sprite.__cache__ = {};
@@ -1859,7 +1859,7 @@ Sprite.prototype["__destroy__"] = Sprite.prototype.__destroy__ = function() {
 };
 // SpriteAtlas
 function SpriteAtlas() { throw "cannot construct a SpriteAtlas, no constructor in IDL" }
-SpriteAtlas.prototype = Object.create(WrapperObject.prototype);
+SpriteAtlas.prototype = Object.create(ImageAtlas.prototype);
 SpriteAtlas.prototype.constructor = SpriteAtlas;
 SpriteAtlas.prototype.__class__ = SpriteAtlas;
 SpriteAtlas.__cache__ = {};
@@ -1870,7 +1870,7 @@ SpriteAtlas.prototype["__destroy__"] = SpriteAtlas.prototype.__destroy__ = funct
 };
 // TextureAtlas
 function TextureAtlas() { throw "cannot construct a TextureAtlas, no constructor in IDL" }
-TextureAtlas.prototype = Object.create(WrapperObject.prototype);
+TextureAtlas.prototype = Object.create(ImageAtlas.prototype);
 TextureAtlas.prototype.constructor = TextureAtlas;
 TextureAtlas.prototype.__class__ = TextureAtlas;
 TextureAtlas.__cache__ = {};
@@ -1889,7 +1889,7 @@ function quat(x, y, z, w) {
     this.ptr = _mud_quat__construct_4(x, y, z, w); getCache(quat)[this.ptr] = this;
     this.type = quat;
 };
-quat.prototype = Object.create(WrapperObject.prototype);
+quat.prototype = Object.create(float4.prototype);
 quat.prototype.constructor = quat;
 quat.prototype.__class__ = quat;
 quat.__cache__ = {};
@@ -2056,6 +2056,29 @@ Module['grid_center'] = function(coord, cell_size) {
     cell_size = cell_size.ptr;
     return wrapPointer(_mud_grid_center_2(coord, cell_size), v3_float);
 };
+Module['float2'] = v2_float;
+Module['float3'] = v3_float;
+Module['float4'] = v4_float;
+Module['int2'] = v2_int;
+Module['int3'] = v3_int;
+Module['int4'] = v4_int;
+Module['uint2'] = v2_stl_uint;
+Module['uint3'] = v3_stl_uint;
+Module['uint4'] = v4_stl_uint;
+Module['bool2'] = v2_bool;
+Module['bool3'] = v3_bool;
+Module['bool4'] = v4_bool;
+Module['vec2'] = v2_float;
+Module['vec3'] = v3_float;
+Module['vec4'] = v4_float;
+Module['uvec2'] = v2_stl_uint;
+Module['uvec3'] = v3_stl_uint;
+Module['uvec4'] = v4_stl_uint;
+Module['ivec2'] = v2_int;
+Module['ivec3'] = v3_int;
+Module['ivec4'] = v4_int;
+Module['bvec3'] = v3_bool;
+Module['bvec4'] = v4_bool;
 
 (function() {
     function setup() {

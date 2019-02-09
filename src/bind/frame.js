@@ -122,6 +122,7 @@ ShellContext.prototype["__destroy__"] = ShellContext.prototype.__destroy__ = fun
     var self = this.ptr;
     _mud_ShellContext__destroy(self);
 };
+Module['Selection'] = vector_mud_Ref;
 
 (function() {
     function setup() {

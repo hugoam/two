@@ -1719,7 +1719,7 @@ Widget.prototype["__destroy__"] = Widget.prototype.__destroy__ = function() {
 };
 // Canvas
 function Canvas() { throw "cannot construct a Canvas, no constructor in IDL" }
-Canvas.prototype = Object.create(WrapperObject.prototype);
+Canvas.prototype = Object.create(Widget.prototype);
 Canvas.prototype.constructor = Canvas;
 Canvas.prototype.__class__ = Canvas;
 Canvas.__cache__ = {};
@@ -1730,7 +1730,7 @@ Canvas.prototype["__destroy__"] = Canvas.prototype.__destroy__ = function() {
 };
 // Dockable
 function Dockable() { throw "cannot construct a Dockable, no constructor in IDL" }
-Dockable.prototype = Object.create(WrapperObject.prototype);
+Dockable.prototype = Object.create(Widget.prototype);
 Dockable.prototype.constructor = Dockable;
 Dockable.prototype.__class__ = Dockable;
 Dockable.__cache__ = {};
@@ -1741,7 +1741,7 @@ Dockable.prototype["__destroy__"] = Dockable.prototype.__destroy__ = function() 
 };
 // Docker
 function Docker() { throw "cannot construct a Docker, no constructor in IDL" }
-Docker.prototype = Object.create(WrapperObject.prototype);
+Docker.prototype = Object.create(Widget.prototype);
 Docker.prototype.constructor = Docker;
 Docker.prototype.__class__ = Docker;
 Docker.__cache__ = {};
@@ -1752,7 +1752,7 @@ Docker.prototype["__destroy__"] = Docker.prototype.__destroy__ = function() {
 };
 // Dockbar
 function Dockbar() { throw "cannot construct a Dockbar, no constructor in IDL" }
-Dockbar.prototype = Object.create(WrapperObject.prototype);
+Dockbar.prototype = Object.create(Docker.prototype);
 Dockbar.prototype.constructor = Dockbar;
 Dockbar.prototype.__class__ = Dockbar;
 Dockbar.__cache__ = {};
@@ -1763,7 +1763,7 @@ Dockbar.prototype["__destroy__"] = Dockbar.prototype.__destroy__ = function() {
 };
 // Dockspace
 function Dockspace() { throw "cannot construct a Dockspace, no constructor in IDL" }
-Dockspace.prototype = Object.create(WrapperObject.prototype);
+Dockspace.prototype = Object.create(Docker.prototype);
 Dockspace.prototype.constructor = Dockspace;
 Dockspace.prototype.__class__ = Dockspace;
 Dockspace.__cache__ = {};
@@ -1774,7 +1774,7 @@ Dockspace.prototype["__destroy__"] = Dockspace.prototype.__destroy__ = function(
 };
 // Expandbox
 function Expandbox() { throw "cannot construct a Expandbox, no constructor in IDL" }
-Expandbox.prototype = Object.create(WrapperObject.prototype);
+Expandbox.prototype = Object.create(Widget.prototype);
 Expandbox.prototype.constructor = Expandbox;
 Expandbox.prototype.__class__ = Expandbox;
 Expandbox.__cache__ = {};
@@ -1785,7 +1785,7 @@ Expandbox.prototype["__destroy__"] = Expandbox.prototype.__destroy__ = function(
 };
 // Frame
 function Frame() { throw "cannot construct a Frame, no constructor in IDL" }
-Frame.prototype = Object.create(WrapperObject.prototype);
+Frame.prototype = Object.create(UiRect.prototype);
 Frame.prototype.constructor = Frame;
 Frame.prototype.__class__ = Frame;
 Frame.__cache__ = {};
@@ -1796,7 +1796,7 @@ Frame.prototype["__destroy__"] = Frame.prototype.__destroy__ = function() {
 };
 // FrameSolver
 function FrameSolver() { throw "cannot construct a FrameSolver, no constructor in IDL" }
-FrameSolver.prototype = Object.create(WrapperObject.prototype);
+FrameSolver.prototype = Object.create(UiRect.prototype);
 FrameSolver.prototype.constructor = FrameSolver;
 FrameSolver.prototype.__class__ = FrameSolver;
 FrameSolver.__cache__ = {};
@@ -1807,7 +1807,7 @@ FrameSolver.prototype["__destroy__"] = FrameSolver.prototype.__destroy__ = funct
 };
 // RowSolver
 function RowSolver() { throw "cannot construct a RowSolver, no constructor in IDL" }
-RowSolver.prototype = Object.create(WrapperObject.prototype);
+RowSolver.prototype = Object.create(FrameSolver.prototype);
 RowSolver.prototype.constructor = RowSolver;
 RowSolver.prototype.__class__ = RowSolver;
 RowSolver.__cache__ = {};
@@ -1818,7 +1818,7 @@ RowSolver.prototype["__destroy__"] = RowSolver.prototype.__destroy__ = function(
 };
 // LineSolver
 function LineSolver() { throw "cannot construct a LineSolver, no constructor in IDL" }
-LineSolver.prototype = Object.create(WrapperObject.prototype);
+LineSolver.prototype = Object.create(RowSolver.prototype);
 LineSolver.prototype.constructor = LineSolver;
 LineSolver.prototype.__class__ = LineSolver;
 LineSolver.__cache__ = {};
@@ -1829,7 +1829,7 @@ LineSolver.prototype["__destroy__"] = LineSolver.prototype.__destroy__ = functio
 };
 // Node
 function Node() { throw "cannot construct a Node, no constructor in IDL" }
-Node.prototype = Object.create(WrapperObject.prototype);
+Node.prototype = Object.create(Widget.prototype);
 Node.prototype.constructor = Node;
 Node.prototype.__class__ = Node;
 Node.__cache__ = {};
@@ -1840,7 +1840,7 @@ Node.prototype["__destroy__"] = Node.prototype.__destroy__ = function() {
 };
 // NodePlug
 function NodePlug() { throw "cannot construct a NodePlug, no constructor in IDL" }
-NodePlug.prototype = Object.create(WrapperObject.prototype);
+NodePlug.prototype = Object.create(Widget.prototype);
 NodePlug.prototype.constructor = NodePlug;
 NodePlug.prototype.__class__ = NodePlug;
 NodePlug.__cache__ = {};
@@ -1851,7 +1851,7 @@ NodePlug.prototype["__destroy__"] = NodePlug.prototype.__destroy__ = function() 
 };
 // ScrollSheet
 function ScrollSheet() { throw "cannot construct a ScrollSheet, no constructor in IDL" }
-ScrollSheet.prototype = Object.create(WrapperObject.prototype);
+ScrollSheet.prototype = Object.create(Widget.prototype);
 ScrollSheet.prototype.constructor = ScrollSheet;
 ScrollSheet.prototype.__class__ = ScrollSheet;
 ScrollSheet.__cache__ = {};
@@ -1862,7 +1862,7 @@ ScrollSheet.prototype["__destroy__"] = ScrollSheet.prototype.__destroy__ = funct
 };
 // Sequence
 function Sequence() { throw "cannot construct a Sequence, no constructor in IDL" }
-Sequence.prototype = Object.create(WrapperObject.prototype);
+Sequence.prototype = Object.create(Widget.prototype);
 Sequence.prototype.constructor = Sequence;
 Sequence.prototype.__class__ = Sequence;
 Sequence.__cache__ = {};
@@ -1873,7 +1873,7 @@ Sequence.prototype["__destroy__"] = Sequence.prototype.__destroy__ = function() 
 };
 // Tabber
 function Tabber() { throw "cannot construct a Tabber, no constructor in IDL" }
-Tabber.prototype = Object.create(WrapperObject.prototype);
+Tabber.prototype = Object.create(Widget.prototype);
 Tabber.prototype.constructor = Tabber;
 Tabber.prototype.__class__ = Tabber;
 Tabber.__cache__ = {};
@@ -1884,7 +1884,7 @@ Tabber.prototype["__destroy__"] = Tabber.prototype.__destroy__ = function() {
 };
 // Table
 function Table() { throw "cannot construct a Table, no constructor in IDL" }
-Table.prototype = Object.create(WrapperObject.prototype);
+Table.prototype = Object.create(Widget.prototype);
 Table.prototype.constructor = Table;
 Table.prototype.__class__ = Table;
 Table.__cache__ = {};
@@ -1895,7 +1895,7 @@ Table.prototype["__destroy__"] = Table.prototype.__destroy__ = function() {
 };
 // TextEdit
 function TextEdit() { throw "cannot construct a TextEdit, no constructor in IDL" }
-TextEdit.prototype = Object.create(WrapperObject.prototype);
+TextEdit.prototype = Object.create(Widget.prototype);
 TextEdit.prototype.constructor = TextEdit;
 TextEdit.prototype.__class__ = TextEdit;
 TextEdit.__cache__ = {};
@@ -1906,7 +1906,7 @@ TextEdit.prototype["__destroy__"] = TextEdit.prototype.__destroy__ = function() 
 };
 // TreeNode
 function TreeNode() { throw "cannot construct a TreeNode, no constructor in IDL" }
-TreeNode.prototype = Object.create(WrapperObject.prototype);
+TreeNode.prototype = Object.create(Widget.prototype);
 TreeNode.prototype.constructor = TreeNode;
 TreeNode.prototype.__class__ = TreeNode;
 TreeNode.__cache__ = {};
@@ -1917,7 +1917,7 @@ TreeNode.prototype["__destroy__"] = TreeNode.prototype.__destroy__ = function() 
 };
 // Ui
 function Ui() { throw "cannot construct a Ui, no constructor in IDL" }
-Ui.prototype = Object.create(WrapperObject.prototype);
+Ui.prototype = Object.create(Widget.prototype);
 Ui.prototype.constructor = Ui;
 Ui.prototype.__class__ = Ui;
 Ui.__cache__ = {};
@@ -1932,7 +1932,7 @@ Ui.prototype["__destroy__"] = Ui.prototype.__destroy__ = function() {
 };
 // Window
 function Window() { throw "cannot construct a Window, no constructor in IDL" }
-Window.prototype = Object.create(WrapperObject.prototype);
+Window.prototype = Object.create(Dockable.prototype);
 Window.prototype.constructor = Window;
 Window.prototype.__class__ = Window;
 Window.__cache__ = {};

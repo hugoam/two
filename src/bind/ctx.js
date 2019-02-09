@@ -283,7 +283,7 @@ function KeyEvent() {
     this.ptr = _mud_KeyEvent__construct_0(); getCache(KeyEvent)[this.ptr] = this;
     this.type = KeyEvent;
 };
-KeyEvent.prototype = Object.create(WrapperObject.prototype);
+KeyEvent.prototype = Object.create(InputEvent.prototype);
 KeyEvent.prototype.constructor = KeyEvent;
 KeyEvent.prototype.__class__ = KeyEvent;
 KeyEvent.__cache__ = {};
@@ -320,7 +320,7 @@ function MouseEvent() {
     this.ptr = _mud_MouseEvent__construct_0(); getCache(MouseEvent)[this.ptr] = this;
     this.type = MouseEvent;
 };
-MouseEvent.prototype = Object.create(WrapperObject.prototype);
+MouseEvent.prototype = Object.create(InputEvent.prototype);
 MouseEvent.prototype.constructor = MouseEvent;
 MouseEvent.prototype.__class__ = MouseEvent;
 MouseEvent.__cache__ = {};

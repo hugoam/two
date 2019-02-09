@@ -3824,7 +3824,7 @@ Viewport.prototype["__destroy__"] = Viewport.prototype.__destroy__ = function() 
 };
 // BlockCopy
 function BlockCopy() { throw "cannot construct a BlockCopy, no constructor in IDL" }
-BlockCopy.prototype = Object.create(WrapperObject.prototype);
+BlockCopy.prototype = Object.create(GfxBlock.prototype);
 BlockCopy.prototype.constructor = BlockCopy;
 BlockCopy.prototype.__class__ = BlockCopy;
 BlockCopy.__cache__ = {};
@@ -3835,7 +3835,7 @@ BlockCopy.prototype["__destroy__"] = BlockCopy.prototype.__destroy__ = function(
 };
 // BlockFilter
 function BlockFilter() { throw "cannot construct a BlockFilter, no constructor in IDL" }
-BlockFilter.prototype = Object.create(WrapperObject.prototype);
+BlockFilter.prototype = Object.create(GfxBlock.prototype);
 BlockFilter.prototype.constructor = BlockFilter;
 BlockFilter.prototype.__class__ = BlockFilter;
 BlockFilter.__cache__ = {};
@@ -3846,7 +3846,7 @@ BlockFilter.prototype["__destroy__"] = BlockFilter.prototype.__destroy__ = funct
 };
 // BlockParticles
 function BlockParticles() { throw "cannot construct a BlockParticles, no constructor in IDL" }
-BlockParticles.prototype = Object.create(WrapperObject.prototype);
+BlockParticles.prototype = Object.create(GfxBlock.prototype);
 BlockParticles.prototype.constructor = BlockParticles;
 BlockParticles.prototype.__class__ = BlockParticles;
 BlockParticles.__cache__ = {};
@@ -3857,7 +3857,7 @@ BlockParticles.prototype["__destroy__"] = BlockParticles.prototype.__destroy__ =
 };
 // BlockResolve
 function BlockResolve() { throw "cannot construct a BlockResolve, no constructor in IDL" }
-BlockResolve.prototype = Object.create(WrapperObject.prototype);
+BlockResolve.prototype = Object.create(GfxBlock.prototype);
 BlockResolve.prototype.constructor = BlockResolve;
 BlockResolve.prototype.__class__ = BlockResolve;
 BlockResolve.__cache__ = {};
@@ -3868,7 +3868,7 @@ BlockResolve.prototype["__destroy__"] = BlockResolve.prototype.__destroy__ = fun
 };
 // BlockSky
 function BlockSky() { throw "cannot construct a BlockSky, no constructor in IDL" }
-BlockSky.prototype = Object.create(WrapperObject.prototype);
+BlockSky.prototype = Object.create(GfxBlock.prototype);
 BlockSky.prototype.constructor = BlockSky;
 BlockSky.prototype.__class__ = BlockSky;
 BlockSky.__cache__ = {};
@@ -3882,7 +3882,7 @@ function ClusteredFrustum() {
     this.ptr = _mud_ClusteredFrustum__construct_0(); getCache(ClusteredFrustum)[this.ptr] = this;
     this.type = ClusteredFrustum;
 };
-ClusteredFrustum.prototype = Object.create(WrapperObject.prototype);
+ClusteredFrustum.prototype = Object.create(Frustum.prototype);
 ClusteredFrustum.prototype.constructor = ClusteredFrustum;
 ClusteredFrustum.prototype.__class__ = ClusteredFrustum;
 ClusteredFrustum.__cache__ = {};
@@ -3893,7 +3893,7 @@ ClusteredFrustum.prototype["__destroy__"] = ClusteredFrustum.prototype.__destroy
 };
 // DrawBlock
 function DrawBlock() { throw "cannot construct a DrawBlock, no constructor in IDL" }
-DrawBlock.prototype = Object.create(WrapperObject.prototype);
+DrawBlock.prototype = Object.create(GfxBlock.prototype);
 DrawBlock.prototype.constructor = DrawBlock;
 DrawBlock.prototype.__class__ = DrawBlock;
 DrawBlock.__cache__ = {};
@@ -3904,7 +3904,7 @@ DrawBlock.prototype["__destroy__"] = DrawBlock.prototype.__destroy__ = function(
 };
 // BlockDepth
 function BlockDepth() { throw "cannot construct a BlockDepth, no constructor in IDL" }
-BlockDepth.prototype = Object.create(WrapperObject.prototype);
+BlockDepth.prototype = Object.create(DrawBlock.prototype);
 BlockDepth.prototype.constructor = BlockDepth;
 BlockDepth.prototype.__class__ = BlockDepth;
 BlockDepth.__cache__ = {};
@@ -3918,7 +3918,7 @@ function Particles() {
     this.ptr = _mud_Particles__construct_0(); getCache(Particles)[this.ptr] = this;
     this.type = Particles;
 };
-Particles.prototype = Object.create(WrapperObject.prototype);
+Particles.prototype = Object.create(ParticleFlow.prototype);
 Particles.prototype.constructor = Particles;
 Particles.prototype.__class__ = Particles;
 Particles.__cache__ = {};
@@ -3941,7 +3941,7 @@ Particles.prototype["__destroy__"] = Particles.prototype.__destroy__ = function(
 };
 // RenderTarget
 function RenderTarget() { throw "cannot construct a RenderTarget, no constructor in IDL" }
-RenderTarget.prototype = Object.create(WrapperObject.prototype);
+RenderTarget.prototype = Object.create(FrameBuffer.prototype);
 RenderTarget.prototype.constructor = RenderTarget;
 RenderTarget.prototype.__class__ = RenderTarget;
 RenderTarget.__cache__ = {};

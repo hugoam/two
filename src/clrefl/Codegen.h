@@ -1233,10 +1233,6 @@ namespace clgen
 		cw("}");
 #endif
 
-		//js_constructor("WrapperObject");
-
-		//jsw(module_js);
-
 		auto address = [](const CLQualType& t) -> string {
 			return (!t.isbasetype() && !t.isenum()) && (t.reference() || t.value()) ? "&" : "";
 		};
@@ -1572,7 +1568,7 @@ namespace clgen
 
 		auto js_constructor = [&](const CLClass& c)
 		{
-			string implementing = "WrapperObject"; // = implements[name][0] if implements.get(name) else 'WrapperObject'
+			string implementing = c.m_bases.size() > 0 ? name(*c.m_bases[0]) : "WrapperObject"; // = implements[name][0] if implements.get(name) else 'WrapperObject'
 			jsw(name(c) + ".prototype = Object.create(" + implementing + ".prototype);");
 			jsw(name(c) + ".prototype.constructor = " + name(c) + ";");
 			jsw(name(c) + ".prototype.__class__ = " + name(c) + ";");
@@ -1816,6 +1812,15 @@ namespace clgen
 				c_bind_callable(o);
 				js_bind_callable(o);
 			}
+
+			for(auto& pc : m.m_aliases)
+				if(pc->m_reflect)
+				{
+					CLAlias& a = *pc;
+					// only bind aliases to classes (not base types)
+					if(a.m_target->m_type_kind == CLTypeKind::Class)
+						jsw(js_module_path(m, a) + " = " + name(*a.m_target) + ";");
+				}
 
 			jsw("");
 			jsw("(function() {");
