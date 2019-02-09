@@ -1,6 +1,6 @@
 #ifndef USE_STL
 #ifdef MUD_MODULES
-module mud.math;
+module mud.geom;
 #else
 #include <stl/vector.hpp>
 #include <stl/unordered_map.hpp>
