@@ -9,7 +9,7 @@ module mud.wfc.gfx;
 
 namespace mud
 {
-	template class MUD_WFC_GFX_EXPORT vector3d<unsigned short>;
+	template struct MUD_WFC_GFX_EXPORT vector3d<unsigned short>;
 }
 
 namespace stl

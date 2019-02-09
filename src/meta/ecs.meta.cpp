@@ -11,6 +11,7 @@ module mud.ecs;
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
 #include <meta/infra.meta.h>
+#include <meta/pool.meta.h>
 #include <meta/type.meta.h>
 #include <meta/refl.meta.h>
 #include <meta/ecs.meta.h>
@@ -104,7 +105,7 @@ namespace mud
 namespace mud
 {
 	mud_ecs::mud_ecs()
-		: Module("mud::ecs", { &mud_infra::m(), &mud_type::m(), &mud_refl::m() })
+		: Module("mud::ecs", { &mud_infra::m(), &mud_pool::m(), &mud_type::m(), &mud_refl::m() })
 	{
 		// setup reflection meta data
 		mud_ecs_meta(*this);

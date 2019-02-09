@@ -2,6 +2,7 @@
 #include <jobs/Api.h>
 #include <type/Api.h>
 #include <pool/Api.h>
+#include <ecs/Api.h>
 #include <math/Api.h>
 #include <geom/Api.h>
 #include <ctx/Api.h>

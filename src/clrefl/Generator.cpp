@@ -694,7 +694,7 @@ namespace mud
 																   tos(m["root"]), tos(m["subdir"]), tos(m["path"]), includedirs, dependencies);
 			m_generator_queue.push_back(&module);
 
-			for(const Json& ty : m["basetypes"].array_items())
+			if(module.m_name == "type")
 				module.m_decl_basetypes = true;
 		}
 

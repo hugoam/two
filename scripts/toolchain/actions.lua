@@ -118,8 +118,6 @@ function mud_reflect(modules)
                 root = m.root,
                 subdir = m.subdir,
                 path = m.path,
-                basetypes = m.basetypes,
-                aliases = m.aliases,
                 dependencies = {},
                 includedirs = {},
             }

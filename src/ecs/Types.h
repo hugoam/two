@@ -11,6 +11,7 @@
 
 #ifndef MUD_MODULES
 #include <infra/Types.h>
+#include <pool/Types.h>
 #include <type/Types.h>
 #include <refl/Types.h>
 #endif

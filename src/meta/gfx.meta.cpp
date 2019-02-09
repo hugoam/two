@@ -14,6 +14,7 @@ module mud.gfx;
 #include <meta/jobs.meta.h>
 #include <meta/type.meta.h>
 #include <meta/pool.meta.h>
+#include <meta/ecs.meta.h>
 #include <meta/math.meta.h>
 #include <meta/geom.meta.h>
 #include <meta/ctx.meta.h>
@@ -2240,13 +2241,13 @@ namespace mud
 		m.m_types.push_back(&type<stl::vector<mud::Animation*>>());
 		m.m_types.push_back(&type<stl::vector<mud::AnimationPlay>>());
 		m.m_types.push_back(&type<mud::BlockCopy>());
-		m.m_types.push_back(&type<mud::BlockParticles>());
-		m.m_types.push_back(&type<mud::DrawBlock>());
 		m.m_types.push_back(&type<mud::BlockDepth>());
 		m.m_types.push_back(&type<mud::BlockFilter>());
+		m.m_types.push_back(&type<mud::BlockParticles>());
 		m.m_types.push_back(&type<mud::BlockResolve>());
 		m.m_types.push_back(&type<mud::BlockSky>());
 		m.m_types.push_back(&type<mud::ClusteredFrustum>());
+		m.m_types.push_back(&type<mud::DrawBlock>());
 		m.m_types.push_back(&type<mud::Particles>());
 		m.m_types.push_back(&type<mud::RenderTarget>());
 		{
@@ -2338,7 +2339,7 @@ namespace mud
 namespace mud
 {
 	mud_gfx::mud_gfx()
-		: Module("mud::gfx", { &mud_infra::m(), &mud_jobs::m(), &mud_type::m(), &mud_pool::m(), &mud_math::m(), &mud_geom::m(), &mud_ctx::m(), &mud_bgfx::m() })
+		: Module("mud::gfx", { &mud_infra::m(), &mud_jobs::m(), &mud_type::m(), &mud_pool::m(), &mud_ecs::m(), &mud_math::m(), &mud_geom::m(), &mud_ctx::m(), &mud_bgfx::m() })
 	{
 		// setup reflection meta data
 		mud_gfx_meta(*this);
