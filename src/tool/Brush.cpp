@@ -8,6 +8,7 @@
 module mud.tool;
 #else
 #include <type/Any.h>
+#include <tree/Graph.hpp>
 #include <refl/Method.h>
 #include <refl/Meta.h>
 #include <lang/VisualScript.h>

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stl/algorithm.h>
+#include <stl/swap.h>
 #include <pool/SparsePool.h>
 
 namespace mud
@@ -45,7 +46,7 @@ namespace mud
 	inline OwnedHandle<T>& OwnedHandle<T>::operator=(OwnedHandle&& other) { other.swap(*this); return *this; }
 
 	template <class T>
-	inline void OwnedHandle<T>::swap(OwnedHandle& other) { using mud::swap; swap(this->m_handle, other.m_handle); swap(this->m_pool, other.m_pool); }
+	inline void OwnedHandle<T>::swap(OwnedHandle& other) { using stl::swap; swap(this->m_handle, other.m_handle); swap(this->m_pool, other.m_pool); }
 
 	template <class T>
 	inline OwnedHandle<T>::operator SparseHandle<T>() const { return { *this->m_pool, this->m_handle }; }
