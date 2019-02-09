@@ -3,7 +3,6 @@
 module mud.math;
 #else
 #include <stl/vector.hpp>
-#include <stl/string.hpp>
 #include <stl/unordered_set.hpp>
 #include <stl/unordered_map.hpp>
 #include <ui/Api.h>

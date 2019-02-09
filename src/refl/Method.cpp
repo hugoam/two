@@ -22,7 +22,7 @@ namespace mud
 	bool QualType::operator==(const QualType& other) const { return m_flags == other.m_flags && m_type == other.m_type; }
 	bool QualType::operator!=(const QualType& other) const { return !(*this == other); }
 
-	QualType g_qvoid = { &type<void>(), QualType::None };
+	const QualType g_qvoid = { &type<void>(), QualType::None };
 
 	//template class function<void(Method&, Ref, span<Var>)>;
 

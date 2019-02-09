@@ -7,7 +7,6 @@ addons:
     packages:
       - gcc-8
       - g++-8
-      - mesa-common-dev
       - xorg-dev
 
 dist: xenial

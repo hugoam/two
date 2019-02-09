@@ -105,16 +105,35 @@ namespace stl {
 
 	template <class Alloc>
 	inline bool operator!=(const char* lhs, const basic_string<Alloc>& rhs) { return basic_string<Alloc>(lhs) != rhs; }
-	
+
+	template <class Alloc>
+	basic_string<Alloc> operator+(const basic_string<Alloc>& lhs, const basic_string<Alloc>& rhs);
+
+	template <class Alloc>
+	basic_string<Alloc> operator+(const basic_string<Alloc>& lhs, const char* rhs);
+
+	template <class Alloc>
+	basic_string<Alloc> operator+(const char* lhs, const basic_string<Alloc>& rhs);
+
 	template <class Alloc>
 	static inline size_t hash(const basic_string<Alloc>& value) {
 		return hash_string(value.c_str(), value.size());
 	}
 
-	extern template class refl_ basic_string<TINYSTL_ALLOCATOR>;
 	using string = basic_string<TINYSTL_ALLOCATOR>;
 
-	string operator+(const string& lhs, const string& rhs);
+	template MUD_INFRA_EXPORT string operator+(const string& lhs, const string& rhs);
+	template MUD_INFRA_EXPORT string operator+(const char* lhs, const string& rhs);
+	template MUD_INFRA_EXPORT string operator+(const string& lhs, const char* rhs);
+}
+#endif
+
+#ifdef MUD_META_GENERATOR
+namespace stl
+{
+	extern template class refl_ basic_string<TINYSTL_ALLOCATOR>;
+	using string = basic_string<TINYSTL_ALLOCATOR>;
+	base_ static string dstring;
 }
 #endif
 
@@ -123,7 +142,3 @@ namespace mud
 	using stl::string;
 }
 
-#ifdef MUD_META_GENERATOR
-//base_ static stl::basic_string<TINYSTL_ALLOCATOR> dbasicstring;
-base_ static stl::string dstring;
-#endif

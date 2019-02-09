@@ -144,15 +144,14 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	for(size_t i = 0; i < num_characters; ++i)
 	{
+		const Human::State& state = characters[i].m_states.back();
 		animated = &paint_human(scene, characters[i], model_high_lod);
-		cstring state = characters[i].m_states.back().m_action.c_str();
 
 		if(anim_editor && selected == &characters[i])
 			continue;
 
-		if(animated->m_playing.empty() || animated->playing() != state)
+		if(animated->m_playing.empty() || animated->playing() != state.m_action)
 		{
-			const Human::State& state = characters[i].m_states.back();
 			animated->start(state.m_action.c_str(), true, 0.f, state.m_action_speed);
 		}
 	}

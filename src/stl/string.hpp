@@ -424,5 +424,27 @@ namespace stl {
 	inline bool basic_string<Alloc>::operator<(const basic_string& other) const {
 		return this->compare(other) < 0;
 	}
+
+	template <class Alloc>
+	inline basic_string<Alloc> operator+(const basic_string<Alloc>& lhs, const basic_string<Alloc>& rhs)
+	{
+		basic_string<Alloc> result;
+		result.reserve(lhs.size() + rhs.size());
+		result.append(lhs);
+		result.append(rhs);
+		return result;
+	}
+
+	template <class Alloc>
+	inline basic_string<Alloc> operator+(const basic_string<Alloc>& lhs, const char* rhs)
+	{
+		return operator+(lhs, basic_string<Alloc>(rhs));
+	}
+
+	template <class Alloc>
+	inline basic_string<Alloc> operator+(const char* lhs, const basic_string<Alloc>& rhs)
+	{
+		return operator+(basic_string<Alloc>(lhs), rhs);
+	}
 }
 #endif

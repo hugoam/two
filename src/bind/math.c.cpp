@@ -728,11 +728,11 @@ extern "C" {
 	mud::mat3* DECL mud_mat3__construct_3(const mud::float3* x, const mud::float3* y, const mud::float3* z) {
 		return new mud::mat3(*x, *y, *z);
 	}
-	float DECL mud_mat3__get_f(mud::mat3* self) {
-		return self->f;
+	float DECL mud_mat3__get_f(mud::mat3* self, unsigned int index) {
+		return self->f[index];
 	}
-	void DECL mud_mat3__set_f(mud::mat3* self, float value) {
-		self->f = value;
+	void DECL mud_mat3__set_f(mud::mat3* self, unsigned int index, float value) {
+		self->f[index] = value;
 	}
 	void DECL mud_mat3__destroy(mud::mat3* self) {
 		delete self;
@@ -747,11 +747,11 @@ extern "C" {
 	mud::mat4* DECL mud_mat4__construct_4(const mud::float4* x, const mud::float4* y, const mud::float4* z, const mud::float4* w) {
 		return new mud::mat4(*x, *y, *z, *w);
 	}
-	float DECL mud_mat4__get_f(mud::mat4* self) {
-		return self->f;
+	float DECL mud_mat4__get_f(mud::mat4* self, unsigned int index) {
+		return self->f[index];
 	}
-	void DECL mud_mat4__set_f(mud::mat4* self, float value) {
-		self->f = value;
+	void DECL mud_mat4__set_f(mud::mat4* self, unsigned int index, float value) {
+		self->f[index] = value;
 	}
 	void DECL mud_mat4__destroy(mud::mat4* self) {
 		delete self;

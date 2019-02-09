@@ -6,6 +6,9 @@
 
 #ifndef MUD_MODULES
 #include <tree/Graph.h>
+#ifdef _MSC_VER
+#include <tree/Graph.hpp>
+#endif
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
@@ -16,10 +19,11 @@ namespace mud
 	class SoundManager;
 	class Sound;
 
+#ifndef _MSC_VER
 	export_ extern template class Graph<Gnode>;
+#endif
 
-	//export_ class refl_ MUD_GFX_EXPORT Gnode : public Graph<Gnode>
-	export_ class refl_ Gnode : public Graph<Gnode>
+	export_ class refl_ MUD_GFX_EXPORT Gnode : public Graph<Gnode>
 	{
 	public:
 		Gnode();

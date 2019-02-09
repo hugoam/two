@@ -36,6 +36,7 @@ module mud.wfc.gfx;
 
 namespace mud
 {
+	WfcBlock::WfcBlock() {}
 	WfcBlock::WfcBlock(const vec3& position, const uvec3& size, const vec3& scale, WaveTileset& tileset, bool auto_solve)
 		: m_position(position)
 		, m_size(size)

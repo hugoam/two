@@ -1,5 +1,3 @@
-#pragma once
-
 #include <stl/vector.h>
 #include <stl/ubuffer.h>
 #include <stl/ubuffer.hpp>

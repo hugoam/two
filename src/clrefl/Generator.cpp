@@ -40,6 +40,7 @@ namespace mud
 		auto fix = [&](const string& name) { return templated ? parent.fix_template(name) : name; };
 		t.m_spelling = fix(spelling(type));
 		t.m_type_name = fix(spelling(class_type(type, !templated)));
+		t.m_array = type.kind == CXType_ConstantArray;
 		if(!real_type) return t;
 
 		t.m_type = templated ? module.get_type(type, t.m_type_name) : module.get_type(type);

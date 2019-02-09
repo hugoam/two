@@ -1245,13 +1245,12 @@ namespace clgen
 			return (!t.isbasetype() && !t.isenum()) && (t.reference() || t.value()) ? "*" : "";
 		};
 
-		auto type_to_c = [&](const CLQualType& t, bool non_pointing = false, bool no_array = false) -> string
+		auto type_to_c = [&](const CLQualType& t, bool non_pointing = false, bool no_array = true) -> string
 		{
 			if(t.isstring()) return "const char*";
 			if(t.isenum()) return t.m_type_name;
 			string name = !t.isbasetype() ? t.m_type_name + (non_pointing ? "" : "*") : t.m_type_name;
-			if(no_array) name = replace(name, "[]", "");
-			return (t.isconst() && name != "const char*" ? "const " : "") + name + (t.isarray() ? "[]" : "");
+			return (t.isconst() && name != "const char*" ? "const " : "") + name + (!no_array && t.isarray() ? "[]" : "");
 		};
 
 		/*auto type_to_cdec = [&](const CLQualType& raw)
@@ -1672,20 +1671,20 @@ namespace clgen
 			cw("}");
 		};
 
-		auto c_getter = [&](const CLClass& c, const CLMember& m, bool isarray = false)
+		auto c_getter = [&](const CLClass& c, const CLMember& m)
 		{
-			cw(type_to_c(m.m_type) + " DECL " + id(c, "_get_" + m.m_name) + "(" + c.m_id + "* self" + (isarray ? ", unsigned int index" : "") + ") {");
-			c_call_return_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : "") + (isarray ? "[index]" : ""));
+			cw(type_to_c(m.m_type) + " DECL " + id(c, "_get_" + m.m_name) + "(" + c.m_id + "* self" + (m.m_type.isarray() ? ", unsigned int index" : "") + ") {");
+			c_call_return_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : "") + (m.m_type.isarray() ? "[index]" : ""));
 			cw("}");
 		};
 
-		auto c_setter = [&](const CLClass& c, const CLMember& m, bool isarray = false)
+		auto c_setter = [&](const CLClass& c, const CLMember& m)
 		{
-			cw("void DECL " + id(c, "_set_" + m.m_name) + "(" + c.m_id + "* self, " + (isarray ? "unsigned int index, " : "") + type_to_c(m.m_type) + " value"  + ") {");
+			cw("void DECL " + id(c, "_set_" + m.m_name) + "(" + c.m_id + "* self, " + (m.m_type.isarray() ? "unsigned int index, " : "") + type_to_c(m.m_type) + " value"  + ") {");
 			if(m.m_setter)
 				cw("self->" + m.m_member + "(" + value(m.m_type) + "value);");
 			else
-				cw("self->" + m.m_member + (isarray ? "[index]" : "") + " = " + value(m.m_type) + "value;");
+				cw("self->" + m.m_member + (m.m_type.isarray() ? "[index]" : "") + " = " + value(m.m_type) + "value;");
 			cw("}");
 		};
 

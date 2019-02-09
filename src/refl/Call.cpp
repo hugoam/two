@@ -21,7 +21,6 @@ namespace mud
 		vector<Var> args;
 		for(const Param& p : callable.m_params)
 		{
-			Var t = meta(*p.m_type).m_empty_var;
 			if(p.defaulted())
 				args.push_back(Ref(p.m_default, *p.m_type));
 			else if(is_base_type(*p.m_type))

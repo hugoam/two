@@ -10,6 +10,7 @@ module mud.tool;
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <type/Any.h>
+#include <tree/Graph.hpp>
 #include <refl/Class.h>
 #include <refl/Convert.h>
 #include <math/Axes.h>

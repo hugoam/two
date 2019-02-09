@@ -349,6 +349,7 @@ namespace mud
 		CLType* m_type = nullptr;
 		string m_spelling;
 		string m_type_name;
+		bool m_array = false;
 
 		bool operator==(const CLQualType& o) const { return m_type == o.m_type && m_spelling == o.m_spelling; }
 		bool operator!=(const CLQualType& o) const { return !(*this == o); }
@@ -361,7 +362,7 @@ namespace mud
 		bool nullable() const { return this->pointer() || m_type_name == "mud::Ref"; }
 		bool copyable() const { return this->isbasetype() || this->isenum() || m_type->m_struct; }
 
-		bool isarray() const { return false; }
+		bool isarray() const { return m_array; }
 		bool isvoid() const { return m_type->m_type_kind == CLTypeKind::Void; }
 		bool isvoidptr() const { return m_type->m_type_kind == CLTypeKind::VoidPtr; }
 		bool isboolean() const { return m_type->m_type_kind == CLTypeKind::Boolean; }

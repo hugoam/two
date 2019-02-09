@@ -43,7 +43,7 @@ namespace mud
 		bool operator!=(const QualType& other) const;
 	};
 
-	export_ extern QualType g_qvoid;
+	export_ extern MUD_REFL_EXPORT const QualType g_qvoid;
 
 	export_ class refl_ MUD_REFL_EXPORT Param
 	{

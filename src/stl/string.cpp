@@ -6,13 +6,8 @@ namespace stl {
 
 	template class basic_string<TINYSTL_ALLOCATOR>;
 
-	string operator+(const string& lhs, const string& rhs)
-	{
-		string result;
-		result.reserve(lhs.size() + rhs.size());
-		result.append(lhs);
-		result.append(rhs);
-		return result;
-	}
+	template MUD_INFRA_EXPORT string operator+(const string& lhs, const string& rhs);
+	template MUD_INFRA_EXPORT string operator+(const char* lhs, const string& rhs);
+	template MUD_INFRA_EXPORT string operator+(const string& lhs, const char* rhs);
 }
 #endif

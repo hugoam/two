@@ -19,7 +19,7 @@ namespace mud
 	export_ class refl_ MUD_WFC_GFX_EXPORT WfcBlock
 	{
 	public:
-		constr_ WfcBlock() {}
+		constr_ WfcBlock();
 		constr_ WfcBlock(const vec3& position, const uvec3& size, const vec3& scale, WaveTileset& tileset, bool auto_solve = false);
 
 		attr_ vec3 m_position;

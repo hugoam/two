@@ -162,7 +162,7 @@ function mud_module_decl(m)
     
     if _OPTIONS["gcc"] == "asmjs" and _OPTIONS["jsbind"] and m.reflect then
         files {
-            path.join(m.root, "bind", m.subdir, "c.cpp")
+            path.join(m.root, "bind", string.gsub(m.name, "-", ".") .. ".c.cpp")
         }
     end
 end
