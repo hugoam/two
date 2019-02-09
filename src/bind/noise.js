@@ -9,75 +9,35 @@ Noise.prototype["__destroy__"] = Noise.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Noise__destroy(self);
 };
-Module['noise_2d'] = function(x, y, noise_type, frequency, interp) {
+Module['noise_2d'] = function(a0, a1, a2, a3, a4) {
     var self = this.ptr;
-    /* x <float> [] */
-    /* y <float> [] */
-    /* noise_type <mud::Noise::NoiseType> [] */
-    if (noise_type && typeof noise_type === "object") noise_type = noise_type.ptr;
-    /* frequency <float> [] */
-    /* interp <mud::Noise::Interp> [] */
-    if (interp && typeof interp === "object") interp = interp.ptr;
-    if (frequency === undefined) { return _mud_noise_2d_3(x, y, noise_type); }
-    if (interp === undefined) { return _mud_noise_2d_4(x, y, noise_type, frequency); }
-    return _mud_noise_2d_5(x, y, noise_type, frequency, interp);
+    if (a3 === undefined) { return _mud_noise_2d_3(/*x*/a0, /*y*/a1, /*noise_type*/a2); }
+    if (a4 === undefined) { return _mud_noise_2d_4(/*x*/a0, /*y*/a1, /*noise_type*/a2, /*frequency*/a3); }
+    return _mud_noise_2d_5(/*x*/a0, /*y*/a1, /*noise_type*/a2, /*frequency*/a3, /*interp*/a4);
 };
-Module['noise_3d'] = function(x, y, z, noise_type, frequency, interp) {
+Module['noise_3d'] = function(a0, a1, a2, a3, a4, a5) {
     var self = this.ptr;
-    /* x <float> [] */
-    /* y <float> [] */
-    /* z <float> [] */
-    /* noise_type <mud::Noise::NoiseType> [] */
-    if (noise_type && typeof noise_type === "object") noise_type = noise_type.ptr;
-    /* frequency <float> [] */
-    /* interp <mud::Noise::Interp> [] */
-    if (interp && typeof interp === "object") interp = interp.ptr;
-    if (frequency === undefined) { return _mud_noise_3d_4(x, y, z, noise_type); }
-    if (interp === undefined) { return _mud_noise_3d_5(x, y, z, noise_type, frequency); }
-    return _mud_noise_3d_6(x, y, z, noise_type, frequency, interp);
+    if (a4 === undefined) { return _mud_noise_3d_4(/*x*/a0, /*y*/a1, /*z*/a2, /*noise_type*/a3); }
+    if (a5 === undefined) { return _mud_noise_3d_5(/*x*/a0, /*y*/a1, /*z*/a2, /*noise_type*/a3, /*frequency*/a4); }
+    return _mud_noise_3d_6(/*x*/a0, /*y*/a1, /*z*/a2, /*noise_type*/a3, /*frequency*/a4, /*interp*/a5);
 };
-Module['noise_fract_2d'] = function(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain) {
+Module['noise_fract_2d'] = function(a0, a1, a2, a3, a4, a5, a6, a7, a8) {
     var self = this.ptr;
-    /* x <float> [] */
-    /* y <float> [] */
-    /* noise_type <mud::Noise::NoiseType> [] */
-    if (noise_type && typeof noise_type === "object") noise_type = noise_type.ptr;
-    /* frequency <float> [] */
-    /* interp <mud::Noise::Interp> [] */
-    if (interp && typeof interp === "object") interp = interp.ptr;
-    /* fractal_type <mud::Noise::FractalType> [] */
-    if (fractal_type && typeof fractal_type === "object") fractal_type = fractal_type.ptr;
-    /* octaves <int> [] */
-    /* lacunarity <float> [] */
-    /* gain <float> [] */
-    if (interp === undefined) { return _mud_noise_fract_2d_4(x, y, noise_type, frequency); }
-    if (fractal_type === undefined) { return _mud_noise_fract_2d_5(x, y, noise_type, frequency, interp); }
-    if (octaves === undefined) { return _mud_noise_fract_2d_6(x, y, noise_type, frequency, interp, fractal_type); }
-    if (lacunarity === undefined) { return _mud_noise_fract_2d_7(x, y, noise_type, frequency, interp, fractal_type, octaves); }
-    if (gain === undefined) { return _mud_noise_fract_2d_8(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity); }
-    return _mud_noise_fract_2d_9(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
+    if (a4 === undefined) { return _mud_noise_fract_2d_4(/*x*/a0, /*y*/a1, /*noise_type*/a2, /*frequency*/a3); }
+    if (a5 === undefined) { return _mud_noise_fract_2d_5(/*x*/a0, /*y*/a1, /*noise_type*/a2, /*frequency*/a3, /*interp*/a4); }
+    if (a6 === undefined) { return _mud_noise_fract_2d_6(/*x*/a0, /*y*/a1, /*noise_type*/a2, /*frequency*/a3, /*interp*/a4, /*fractal_type*/a5); }
+    if (a7 === undefined) { return _mud_noise_fract_2d_7(/*x*/a0, /*y*/a1, /*noise_type*/a2, /*frequency*/a3, /*interp*/a4, /*fractal_type*/a5, /*octaves*/a6); }
+    if (a8 === undefined) { return _mud_noise_fract_2d_8(/*x*/a0, /*y*/a1, /*noise_type*/a2, /*frequency*/a3, /*interp*/a4, /*fractal_type*/a5, /*octaves*/a6, /*lacunarity*/a7); }
+    return _mud_noise_fract_2d_9(/*x*/a0, /*y*/a1, /*noise_type*/a2, /*frequency*/a3, /*interp*/a4, /*fractal_type*/a5, /*octaves*/a6, /*lacunarity*/a7, /*gain*/a8);
 };
-Module['noise_fract_3d'] = function(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain) {
+Module['noise_fract_3d'] = function(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) {
     var self = this.ptr;
-    /* x <float> [] */
-    /* y <float> [] */
-    /* z <float> [] */
-    /* noise_type <mud::Noise::NoiseType> [] */
-    if (noise_type && typeof noise_type === "object") noise_type = noise_type.ptr;
-    /* frequency <float> [] */
-    /* interp <mud::Noise::Interp> [] */
-    if (interp && typeof interp === "object") interp = interp.ptr;
-    /* fractal_type <mud::Noise::FractalType> [] */
-    if (fractal_type && typeof fractal_type === "object") fractal_type = fractal_type.ptr;
-    /* octaves <int> [] */
-    /* lacunarity <float> [] */
-    /* gain <float> [] */
-    if (interp === undefined) { return _mud_noise_fract_3d_5(x, y, z, noise_type, frequency); }
-    if (fractal_type === undefined) { return _mud_noise_fract_3d_6(x, y, z, noise_type, frequency, interp); }
-    if (octaves === undefined) { return _mud_noise_fract_3d_7(x, y, z, noise_type, frequency, interp, fractal_type); }
-    if (lacunarity === undefined) { return _mud_noise_fract_3d_8(x, y, z, noise_type, frequency, interp, fractal_type, octaves); }
-    if (gain === undefined) { return _mud_noise_fract_3d_9(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity); }
-    return _mud_noise_fract_3d_10(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
+    if (a5 === undefined) { return _mud_noise_fract_3d_5(/*x*/a0, /*y*/a1, /*z*/a2, /*noise_type*/a3, /*frequency*/a4); }
+    if (a6 === undefined) { return _mud_noise_fract_3d_6(/*x*/a0, /*y*/a1, /*z*/a2, /*noise_type*/a3, /*frequency*/a4, /*interp*/a5); }
+    if (a7 === undefined) { return _mud_noise_fract_3d_7(/*x*/a0, /*y*/a1, /*z*/a2, /*noise_type*/a3, /*frequency*/a4, /*interp*/a5, /*fractal_type*/a6); }
+    if (a8 === undefined) { return _mud_noise_fract_3d_8(/*x*/a0, /*y*/a1, /*z*/a2, /*noise_type*/a3, /*frequency*/a4, /*interp*/a5, /*fractal_type*/a6, /*octaves*/a7); }
+    if (a9 === undefined) { return _mud_noise_fract_3d_9(/*x*/a0, /*y*/a1, /*z*/a2, /*noise_type*/a3, /*frequency*/a4, /*interp*/a5, /*fractal_type*/a6, /*octaves*/a7, /*lacunarity*/a8); }
+    return _mud_noise_fract_3d_10(/*x*/a0, /*y*/a1, /*z*/a2, /*noise_type*/a3, /*frequency*/a4, /*interp*/a5, /*fractal_type*/a6, /*octaves*/a7, /*lacunarity*/a8, /*gain*/a9);
 };
 
 (function() {

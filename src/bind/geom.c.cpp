@@ -680,6 +680,9 @@ extern "C" {
 	mud::Rect* DECL mud_Rect__construct_2(const mud::vec2* position, const mud::vec2* size) {
 		return new mud::Rect(*position, *size);
 	}
+	mud::Rect* DECL mud_Rect__construct_4(float x, float y, float w, float h) {
+		return new mud::Rect(x, y, w, h);
+	}
 	mud::vec2* DECL mud_Rect__get_position(mud::Rect* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_position, &temp);
@@ -738,6 +741,9 @@ extern "C" {
 	mud::Sphere* DECL mud_Sphere__construct_1(float radius) {
 		return new mud::Sphere(radius);
 	}
+	mud::Sphere* DECL mud_Sphere__construct_2(const mud::vec3* center, float radius) {
+		return new mud::Sphere(*center, radius);
+	}
 	float DECL mud_Sphere__get_radius(mud::Sphere* self) {
 		return self->m_radius;
 	}
@@ -787,6 +793,9 @@ extern "C" {
 	}
 	mud::Spheroid* DECL mud_Spheroid__construct_1(float radius) {
 		return new mud::Spheroid(radius);
+	}
+	mud::Spheroid* DECL mud_Spheroid__construct_2(const mud::vec3* center, float radius) {
+		return new mud::Spheroid(*center, radius);
 	}
 	float DECL mud_Spheroid__get_radius(mud::Spheroid* self) {
 		return self->m_radius;

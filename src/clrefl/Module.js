@@ -104,51 +104,59 @@ var ensureCache = {
   },
 };
 function ensureString(value) {
-  if (typeof value === 'string') {
-    var intArray = intArrayFromString(value);
-    var offset = ensureCache.alloc(intArray, HEAP8);
-    ensureCache.copy(intArray, HEAP8, offset);
-    return offset;
-  }
-  return value;
+    if (typeof value === 'string') {
+        var intArray = intArrayFromString(value);
+        var offset = ensureCache.alloc(intArray, HEAP8);
+        ensureCache.copy(intArray, HEAP8, offset);
+        return offset;
+    }
+    return value;
+}
+function ensureRefValue(value) {
+    if (typeof value !== 'undefined' && value !== null) { return value.ptr; }
+	else { return 0; }
+}
+function ensureRefType(value) {
+    if (typeof value !== 'undefined' && value !== null) { return value.type.__type__; }
+	else { return 0; }
 }
 function ensureInt8(value) {
-  if (typeof value === 'object') {
-    var offset = ensureCache.alloc(value, HEAP8);
-    ensureCache.copy(value, HEAP8, offset);
-    return offset;
-  }
-  return value;
+    if (typeof value === 'object') {
+        var offset = ensureCache.alloc(value, HEAP8);
+        ensureCache.copy(value, HEAP8, offset);
+        return offset;
+    }
+    return value;
 }
 function ensureInt16(value) {
-  if (typeof value === 'object') {
-    var offset = ensureCache.alloc(value, HEAP16);
-    ensureCache.copy(value, HEAP16, offset);
-    return offset;
-  }
-  return value;
+    if (typeof value === 'object') {
+        var offset = ensureCache.alloc(value, HEAP16);
+        ensureCache.copy(value, HEAP16, offset);
+        return offset;
+    }
+    return value;
 }
 function ensureInt32(value) {
-  if (typeof value === 'object') {
-    var offset = ensureCache.alloc(value, HEAP32);
-    ensureCache.copy(value, HEAP32, offset);
-    return offset;
-  }
-  return value;
+    if (typeof value === 'object') {
+        var offset = ensureCache.alloc(value, HEAP32);
+        ensureCache.copy(value, HEAP32, offset);
+        return offset;
+    }
+    return value;
 }
 function ensureFloat32(value) {
-  if (typeof value === 'object') {
-    var offset = ensureCache.alloc(value, HEAPF32);
-    ensureCache.copy(value, HEAPF32, offset);
-    return offset;
-  }
-  return value;
+    if (typeof value === 'object') {
+        var offset = ensureCache.alloc(value, HEAPF32);
+        ensureCache.copy(value, HEAPF32, offset);
+        return offset;
+    }
+    return value;
 }
 function ensureFloat64(value) {
-  if (typeof value === 'object') {
-    var offset = ensureCache.alloc(value, HEAPF64);
-    ensureCache.copy(value, HEAPF64, offset);
-    return offset;
-  }
-  return value;
+    if (typeof value === 'object') {
+        var offset = ensureCache.alloc(value, HEAPF64);
+        ensureCache.copy(value, HEAPF64, offset);
+        return offset;
+    }
+    return value;
 }

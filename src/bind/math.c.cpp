@@ -161,6 +161,12 @@ extern "C" {
 	mud::Type* DECL mud_Palette__type() {
 		return &mud::type<mud::Palette>();
 	}
+	mud::Palette* DECL mud_Palette__construct_0() {
+		return new mud::Palette();
+	}
+	mud::Palette* DECL mud_Palette__construct_1(stl::vector<mud::Colour>* colours) {
+		return new mud::Palette(*colours);
+	}
 	mud::Palette* DECL mud_Palette__construct_2(mud::Spectrum spectrum, size_t steps) {
 		return new mud::Palette(spectrum, steps);
 	}
@@ -728,6 +734,9 @@ extern "C" {
 	mud::mat3* DECL mud_mat3__construct_3(const mud::float3* x, const mud::float3* y, const mud::float3* z) {
 		return new mud::mat3(*x, *y, *z);
 	}
+	mud::mat3* DECL mud_mat3__construct_9(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
+		return new mud::mat3(f0, f1, f2, f3, f4, f5, f6, f7, f8);
+	}
 	float DECL mud_mat3__get_f(mud::mat3* self, unsigned int index) {
 		return self->f[index];
 	}
@@ -746,6 +755,9 @@ extern "C" {
 	}
 	mud::mat4* DECL mud_mat4__construct_4(const mud::float4* x, const mud::float4* y, const mud::float4* z, const mud::float4* w) {
 		return new mud::mat4(*x, *y, *z, *w);
+	}
+	mud::mat4* DECL mud_mat4__construct_16(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, float f12, float f13, float f14, float f15) {
+		return new mud::mat4(f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15);
 	}
 	float DECL mud_mat4__get_f(mud::mat4* self, unsigned int index) {
 		return self->f[index];
@@ -1191,6 +1203,9 @@ extern "C" {
 	}
 	mud::quat* DECL mud_quat__construct_0() {
 		return new mud::quat();
+	}
+	mud::quat* DECL mud_quat__construct_1(const mud::float3* euler_angles) {
+		return new mud::quat(*euler_angles);
 	}
 	mud::quat* DECL mud_quat__construct_4(float x, float y, float z, float w) {
 		return new mud::quat(x, y, z, w);

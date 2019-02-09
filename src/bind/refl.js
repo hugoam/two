@@ -1,8 +1,7 @@
 Module['stl'] = Module['stl'] || {};
 // Alias
 function Alias() {
-    this.ptr = _mud_Alias__construct_0(); getCache(Alias)[this.ptr] = this;
-    this.type = Alias;
+    this.ptr = _mud_Alias__construct_0(); this.type = Alias; getCache(Alias)[this.ptr] = this;
 };
 Alias.prototype = Object.create(WrapperObject.prototype);
 Alias.prototype.constructor = Alias;
@@ -14,14 +13,9 @@ Alias.prototype["__destroy__"] = Alias.prototype.__destroy__ = function() {
     _mud_Alias__destroy(self);
 };
 // Call
-function Call(callable, args) {
-    /* callable <mud::Callable> [] */
-    if (typeof callable !== "undefined" && callable !== null) { callable = callable.ptr; }
-    /* args <stl::vector<mud::Var>> [] */
-    if (typeof args !== "undefined" && args !== null) { args = args.ptr; }
-    if (callable === undefined) { this.ptr = _mud_Call__construct_0(); getCache(Call)[this.ptr] = this; return; }
-    this.ptr = _mud_Call__construct_2(callable, args); getCache(Call)[this.ptr] = this;
-    this.type = Call;
+function Call(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_Call__construct_0(); this.type = Call; getCache(Call)[this.ptr] = this; return; }
+    this.ptr = _mud_Call__construct_2(/*callable*/a0.ptr, /*args*/a1.ptr); this.type = Call; getCache(Call)[this.ptr] = this;
 };
 Call.prototype = Object.create(WrapperObject.prototype);
 Call.prototype.constructor = Call;
@@ -89,7 +83,6 @@ Object.defineProperty(Creator.prototype, "construct", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_Creator__set_construct(self, value);
     }
 });
@@ -100,9 +93,7 @@ Object.defineProperty(Creator.prototype, "prototype", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Type> [] */
-        value = value.ptr;
-        _mud_Creator__set_prototype(self, value);
+        _mud_Creator__set_prototype(self, value.ptr);
     }
 });
 Object.defineProperty(Creator.prototype, "injector", {
@@ -161,10 +152,7 @@ Object.defineProperty(Module.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <const char*> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Module__set_name(self, value);
+        _mud_Module__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(Module.prototype, "path", {
@@ -174,10 +162,7 @@ Object.defineProperty(Module.prototype, "path", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <const char*> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Module__set_path(self, value);
+        _mud_Module__set_path(self, ensureString(value));
     }
 });
 Module.prototype["__destroy__"] = Module.prototype.__destroy__ = function() {
@@ -197,8 +182,7 @@ Namespace.prototype["__destroy__"] = Namespace.prototype.__destroy__ = function(
 };
 // Operator
 function Operator() {
-    this.ptr = _mud_Operator__construct_0(); getCache(Operator)[this.ptr] = this;
-    this.type = Operator;
+    this.ptr = _mud_Operator__construct_0(); this.type = Operator; getCache(Operator)[this.ptr] = this;
 };
 Operator.prototype = Object.create(WrapperObject.prototype);
 Operator.prototype.constructor = Operator;
@@ -212,9 +196,7 @@ Object.defineProperty(Operator.prototype, "function", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Function> [] */
-        value = value.ptr;
-        _mud_Operator__set_function(self, value);
+        _mud_Operator__set_function(self, value.ptr);
     }
 });
 Object.defineProperty(Operator.prototype, "type", {
@@ -224,9 +206,7 @@ Object.defineProperty(Operator.prototype, "type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Type> [] */
-        value = value.ptr;
-        _mud_Operator__set_type(self, value);
+        _mud_Operator__set_type(self, value.ptr);
     }
 });
 Object.defineProperty(Operator.prototype, "name", {
@@ -236,10 +216,7 @@ Object.defineProperty(Operator.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <const char*> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Operator__set_name(self, value);
+        _mud_Operator__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(Operator.prototype, "sign", {
@@ -249,10 +226,7 @@ Object.defineProperty(Operator.prototype, "sign", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <const char*> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Operator__set_sign(self, value);
+        _mud_Operator__set_sign(self, ensureString(value));
     }
 });
 Operator.prototype["__destroy__"] = Operator.prototype.__destroy__ = function() {
@@ -272,8 +246,7 @@ Param.prototype["__destroy__"] = Param.prototype.__destroy__ = function() {
 };
 // QualType
 function QualType() {
-    this.ptr = _mud_QualType__construct_0(); getCache(QualType)[this.ptr] = this;
-    this.type = QualType;
+    this.ptr = _mud_QualType__construct_0(); this.type = QualType; getCache(QualType)[this.ptr] = this;
 };
 QualType.prototype = Object.create(WrapperObject.prototype);
 QualType.prototype.constructor = QualType;

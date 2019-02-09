@@ -102,6 +102,9 @@ extern "C" {
 	mud::Type* DECL mud_Pattern__type() {
 		return &mud::type<mud::Pattern>();
 	}
+	mud::Pattern* DECL mud_Pattern__construct_0() {
+		return new mud::Pattern();
+	}
 	mud::Pattern* DECL mud_Pattern__construct_2(mud::Palette* palette, mud::PatternSampling sampling) {
 		return new mud::Pattern(*palette, sampling);
 	}

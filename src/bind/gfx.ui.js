@@ -24,9 +24,7 @@ Object.defineProperty(Viewer.prototype, "scene", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Scene> [] */
-        value = value.ptr;
-        _mud_Viewer__set_scene(self, value);
+        _mud_Viewer__set_scene(self, value.ptr);
     }
 });
 Object.defineProperty(Viewer.prototype, "viewport", {
@@ -41,9 +39,7 @@ Object.defineProperty(Viewer.prototype, "position", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_Viewer__set_position(self, value);
+        _mud_Viewer__set_position(self, value.ptr);
     }
 });
 Object.defineProperty(Viewer.prototype, "size", {
@@ -53,9 +49,7 @@ Object.defineProperty(Viewer.prototype, "size", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_Viewer__set_size(self, value);
+        _mud_Viewer__set_size(self, value.ptr);
     }
 });
 Viewer.prototype["__destroy__"] = Viewer.prototype.__destroy__ = function() {
@@ -80,17 +74,13 @@ OrbitController.prototype.constructor = OrbitController;
 OrbitController.prototype.__class__ = OrbitController;
 OrbitController.__cache__ = {};
 Module['OrbitController'] = OrbitController;
-OrbitController.prototype["set_eye"] = OrbitController.prototype.set_eye = function(self, rotation) {
+OrbitController.prototype["set_eye"] = OrbitController.prototype.set_eye = function(self, a0) {
     var self = this.ptr;
-    /* rotation <mud::quat> [] */
-    rotation = rotation.ptr;
-    _mud_OrbitController_set_eye_1(self, rotation);
+    _mud_OrbitController_set_eye_1(self, /*rotation*/a0.ptr);
 };
-OrbitController.prototype["set_target"] = OrbitController.prototype.set_target = function(self, position) {
+OrbitController.prototype["set_target"] = OrbitController.prototype.set_target = function(self, a0) {
     var self = this.ptr;
-    /* position <mud::vec3> [] */
-    position = position.ptr;
-    _mud_OrbitController_set_target_1(self, position);
+    _mud_OrbitController_set_target_1(self, /*position*/a0.ptr);
 };
 Object.defineProperty(OrbitController.prototype, "position", {
     get: function() {
@@ -99,9 +89,7 @@ Object.defineProperty(OrbitController.prototype, "position", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec3> [] */
-        value = value.ptr;
-        _mud_OrbitController__set_position(self, value);
+        _mud_OrbitController__set_position(self, value.ptr);
     }
 });
 Object.defineProperty(OrbitController.prototype, "yaw", {
@@ -111,7 +99,6 @@ Object.defineProperty(OrbitController.prototype, "yaw", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_OrbitController__set_yaw(self, value);
     }
 });
@@ -122,7 +109,6 @@ Object.defineProperty(OrbitController.prototype, "pitch", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_OrbitController__set_pitch(self, value);
     }
 });
@@ -133,7 +119,6 @@ Object.defineProperty(OrbitController.prototype, "distance", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_OrbitController__set_distance(self, value);
     }
 });
@@ -163,73 +148,38 @@ SceneViewer.prototype["__destroy__"] = SceneViewer.prototype.__destroy__ = funct
     var self = this.ptr;
     _mud_SceneViewer__destroy(self);
 };
-Module['ui']['viewer'] = function(parent, scene) {
+Module['ui']['viewer'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* scene <mud::Scene> [] */
-    scene = scene.ptr;
-    return wrapPointer(_mud_ui_viewer_2(parent, scene), Viewer);
+    return wrapPointer(_mud_ui_viewer_2(/*parent*/a0.ptr, /*scene*/a1.ptr), Viewer);
 };
-Module['ui']['scene_viewer'] = function(parent, size) {
+Module['ui']['scene_viewer'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* size <mud::vec2> [] */
-    if (typeof size !== "undefined" && size !== null) { size = size.ptr; }
-    if (size === undefined) { return wrapPointer(_mud_ui_scene_viewer_1(parent), SceneViewer); }
-    return wrapPointer(_mud_ui_scene_viewer_2(parent, size), SceneViewer);
+    if (a1 === undefined) { return wrapPointer(_mud_ui_scene_viewer_1(/*parent*/a0.ptr), SceneViewer); }
+    return wrapPointer(_mud_ui_scene_viewer_2(/*parent*/a0.ptr, /*size*/a1.ptr), SceneViewer);
 };
-Module['ui']['orbit_controller'] = function(viewer, yaw, pitch, distance) {
+Module['ui']['orbit_controller'] = function(a0, a1, a2, a3) {
     var self = this.ptr;
-    /* viewer <mud::Viewer> [] */
-    viewer = viewer.ptr;
-    /* yaw <float> [] */
-    /* pitch <float> [] */
-    /* distance <float> [] */
-    if (distance === undefined) { return wrapPointer(_mud_ui_orbit_controller_3(viewer, yaw, pitch), OrbitController); }
-    return wrapPointer(_mud_ui_orbit_controller_4(viewer, yaw, pitch, distance), OrbitController);
+    if (a3 === undefined) { return wrapPointer(_mud_ui_orbit_controller_3(/*viewer*/a0.ptr, /*yaw*/a1, /*pitch*/a2), OrbitController); }
+    return wrapPointer(_mud_ui_orbit_controller_4(/*viewer*/a0.ptr, /*yaw*/a1, /*pitch*/a2, /*distance*/a3), OrbitController);
 };
-Module['ui']['free_orbit_controller'] = function(viewer) {
+Module['ui']['free_orbit_controller'] = function(a0) {
     var self = this.ptr;
-    /* viewer <mud::Viewer> [] */
-    viewer = viewer.ptr;
-    return wrapPointer(_mud_ui_free_orbit_controller_1(viewer), FreeOrbitController);
+    return wrapPointer(_mud_ui_free_orbit_controller_1(/*viewer*/a0.ptr), FreeOrbitController);
 };
-Module['ui']['isometric_controller'] = function(viewer, topdown) {
+Module['ui']['isometric_controller'] = function(a0, a1) {
     var self = this.ptr;
-    /* viewer <mud::Viewer> [] */
-    viewer = viewer.ptr;
-    /* topdown <bool> [] */
-    if (topdown === undefined) { return wrapPointer(_mud_ui_isometric_controller_1(viewer), OrbitController); }
-    return wrapPointer(_mud_ui_isometric_controller_2(viewer, topdown), OrbitController);
+    if (a1 === undefined) { return wrapPointer(_mud_ui_isometric_controller_1(/*viewer*/a0.ptr), OrbitController); }
+    return wrapPointer(_mud_ui_isometric_controller_2(/*viewer*/a0.ptr, /*topdown*/a1), OrbitController);
 };
-Module['ui']['hybrid_controller'] = function(viewer, mode, entity, aiming, angles, modal) {
+Module['ui']['hybrid_controller'] = function(a0, a1, a2, a3, a4, a5) {
     var self = this.ptr;
-    /* viewer <mud::Viewer> [] */
-    viewer = viewer.ptr;
-    /* mode <mud::ui::OrbitMode> [] */
-    if (mode && typeof mode === "object") mode = mode.ptr;
-    /* entity <mud::Transform> [] */
-    entity = entity.ptr;
-    /* aiming <bool> [] */
-    /* angles <mud::vec2> [] */
-    angles = angles.ptr;
-    /* modal <bool> [] */
-    if (modal === undefined) { return wrapPointer(_mud_ui_hybrid_controller_5(viewer, mode, entity, aiming, angles), OrbitController); }
-    return wrapPointer(_mud_ui_hybrid_controller_6(viewer, mode, entity, aiming, angles, modal), OrbitController);
+    if (a5 === undefined) { return wrapPointer(_mud_ui_hybrid_controller_5(/*viewer*/a0.ptr, /*mode*/a1, /*entity*/a2.ptr, /*aiming*/a3, /*angles*/a4.ptr), OrbitController); }
+    return wrapPointer(_mud_ui_hybrid_controller_6(/*viewer*/a0.ptr, /*mode*/a1, /*entity*/a2.ptr, /*aiming*/a3, /*angles*/a4.ptr, /*modal*/a5), OrbitController);
 };
-Module['ui']['velocity_controller'] = function(viewer, linear, angular, speed) {
+Module['ui']['velocity_controller'] = function(a0, a1, a2, a3) {
     var self = this.ptr;
-    /* viewer <mud::Viewer> [] */
-    viewer = viewer.ptr;
-    /* linear <mud::vec3> [] */
-    linear = linear.ptr;
-    /* angular <mud::vec3> [] */
-    angular = angular.ptr;
-    /* speed <float> [] */
-    if (speed === undefined) { _mud_ui_velocity_controller_3(viewer, linear, angular); return; }
-    _mud_ui_velocity_controller_4(viewer, linear, angular, speed);
+    if (a3 === undefined) { _mud_ui_velocity_controller_3(/*viewer*/a0.ptr, /*linear*/a1.ptr, /*angular*/a2.ptr); return; }
+    _mud_ui_velocity_controller_4(/*viewer*/a0.ptr, /*linear*/a1.ptr, /*angular*/a2.ptr, /*speed*/a3);
 };
 
 (function() {

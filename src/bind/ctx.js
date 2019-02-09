@@ -5,28 +5,21 @@ Context.prototype.constructor = Context;
 Context.prototype.__class__ = Context;
 Context.__cache__ = {};
 Module['Context'] = Context;
-Context.prototype["reset"] = Context.prototype.reset = function(self, width, height) {
+Context.prototype["reset"] = Context.prototype.reset = function(self, a0, a1) {
     var self = this.ptr;
-    /* width <uint16_t> [] */
-    /* height <uint16_t> [] */
-    _mud_Context_reset_2(self, width, height);
+    _mud_Context_reset_2(self, /*width*/a0, /*height*/a1);
 };
-Context.prototype["init_input"] = Context.prototype.init_input = function(self, mouse, keyboard) {
+Context.prototype["init_input"] = Context.prototype.init_input = function(self, a0, a1) {
     var self = this.ptr;
-    /* mouse <mud::Mouse> [] */
-    mouse = mouse.ptr;
-    /* keyboard <mud::Keyboard> [] */
-    keyboard = keyboard.ptr;
-    _mud_Context_init_input_2(self, mouse, keyboard);
+    _mud_Context_init_input_2(self, /*mouse*/a0.ptr, /*keyboard*/a1.ptr);
 };
 Context.prototype["next_frame"] = Context.prototype.next_frame = function(self) {
     var self = this.ptr;
     return !!(_mud_Context_next_frame_0(self));
 };
-Context.prototype["lock_mouse"] = Context.prototype.lock_mouse = function(self, locked) {
+Context.prototype["lock_mouse"] = Context.prototype.lock_mouse = function(self, a0) {
     var self = this.ptr;
-    /* locked <bool> [] */
-    _mud_Context_lock_mouse_1(self, locked);
+    _mud_Context_lock_mouse_1(self, /*locked*/a0);
 };
 Object.defineProperty(Context.prototype, "resource_path", {
     get: function() {
@@ -40,10 +33,7 @@ Object.defineProperty(Context.prototype, "title", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Context__set_title(self, value);
+        _mud_Context__set_title(self, ensureString(value));
     }
 });
 Object.defineProperty(Context.prototype, "width", {
@@ -53,7 +43,6 @@ Object.defineProperty(Context.prototype, "width", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <unsigned int> [] */
         _mud_Context__set_width(self, value);
     }
 });
@@ -64,7 +53,6 @@ Object.defineProperty(Context.prototype, "height", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <unsigned int> [] */
         _mud_Context__set_height(self, value);
     }
 });
@@ -75,7 +63,6 @@ Object.defineProperty(Context.prototype, "full_screen", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_Context__set_full_screen(self, value);
     }
 });
@@ -86,7 +73,6 @@ Object.defineProperty(Context.prototype, "active", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_Context__set_active(self, value);
     }
 });
@@ -97,7 +83,6 @@ Object.defineProperty(Context.prototype, "shutdown", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_Context__set_shutdown(self, value);
     }
 });
@@ -108,9 +93,7 @@ Object.defineProperty(Context.prototype, "cursor", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_Context__set_cursor(self, value);
+        _mud_Context__set_cursor(self, value.ptr);
     }
 });
 Object.defineProperty(Context.prototype, "mouse_lock", {
@@ -120,7 +103,6 @@ Object.defineProperty(Context.prototype, "mouse_lock", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_Context__set_mouse_lock(self, value);
     }
 });
@@ -141,19 +123,16 @@ ControlNode.prototype["__destroy__"] = ControlNode.prototype.__destroy__ = funct
 };
 // InputEvent
 function InputEvent() {
-    this.ptr = _mud_InputEvent__construct_0(); getCache(InputEvent)[this.ptr] = this;
-    this.type = InputEvent;
+    this.ptr = _mud_InputEvent__construct_0(); this.type = InputEvent; getCache(InputEvent)[this.ptr] = this;
 };
 InputEvent.prototype = Object.create(WrapperObject.prototype);
 InputEvent.prototype.constructor = InputEvent;
 InputEvent.prototype.__class__ = InputEvent;
 InputEvent.__cache__ = {};
 Module['InputEvent'] = InputEvent;
-InputEvent.prototype["consume"] = InputEvent.prototype.consume = function(self, consumer) {
+InputEvent.prototype["consume"] = InputEvent.prototype.consume = function(self, a0) {
     var self = this.ptr;
-    /* consumer <mud::ControlNode> [] */
-    consumer = consumer.ptr;
-    return wrapPointer(_mud_InputEvent_consume_1(self, consumer), InputEvent);
+    return wrapPointer(_mud_InputEvent_consume_1(self, /*consumer*/a0.ptr), InputEvent);
 };
 InputEvent.prototype["valid"] = InputEvent.prototype.valid = function(self) {
     var self = this.ptr;
@@ -166,8 +145,6 @@ Object.defineProperty(InputEvent.prototype, "deviceType", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::DeviceType> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_InputEvent__set_deviceType(self, value);
     }
 });
@@ -178,8 +155,6 @@ Object.defineProperty(InputEvent.prototype, "eventType", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::EventType> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_InputEvent__set_eventType(self, value);
     }
 });
@@ -190,9 +165,7 @@ Object.defineProperty(InputEvent.prototype, "receiver", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::ControlNode> [] */
-        value = value.ptr;
-        _mud_InputEvent__set_receiver(self, value);
+        _mud_InputEvent__set_receiver(self, value.ptr);
     }
 });
 Object.defineProperty(InputEvent.prototype, "consumer", {
@@ -202,9 +175,7 @@ Object.defineProperty(InputEvent.prototype, "consumer", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::ControlNode> [] */
-        value = value.ptr;
-        _mud_InputEvent__set_consumer(self, value);
+        _mud_InputEvent__set_consumer(self, value.ptr);
     }
 });
 Object.defineProperty(InputEvent.prototype, "abort", {
@@ -214,7 +185,6 @@ Object.defineProperty(InputEvent.prototype, "abort", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_InputEvent__set_abort(self, value);
     }
 });
@@ -225,8 +195,6 @@ Object.defineProperty(InputEvent.prototype, "modifiers", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::InputMod> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_InputEvent__set_modifiers(self, value);
     }
 });
@@ -237,7 +205,6 @@ Object.defineProperty(InputEvent.prototype, "key", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _mud_InputEvent__set_key(self, value);
     }
 });
@@ -280,8 +247,7 @@ RenderSystem.prototype["__destroy__"] = RenderSystem.prototype.__destroy__ = fun
 };
 // KeyEvent
 function KeyEvent() {
-    this.ptr = _mud_KeyEvent__construct_0(); getCache(KeyEvent)[this.ptr] = this;
-    this.type = KeyEvent;
+    this.ptr = _mud_KeyEvent__construct_0(); this.type = KeyEvent; getCache(KeyEvent)[this.ptr] = this;
 };
 KeyEvent.prototype = Object.create(InputEvent.prototype);
 KeyEvent.prototype.constructor = KeyEvent;
@@ -295,8 +261,6 @@ Object.defineProperty(KeyEvent.prototype, "code", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Key> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_KeyEvent__set_code(self, value);
     }
 });
@@ -307,7 +271,6 @@ Object.defineProperty(KeyEvent.prototype, "char", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <char> [] */
         _mud_KeyEvent__set_char(self, value);
     }
 });
@@ -317,8 +280,7 @@ KeyEvent.prototype["__destroy__"] = KeyEvent.prototype.__destroy__ = function() 
 };
 // MouseEvent
 function MouseEvent() {
-    this.ptr = _mud_MouseEvent__construct_0(); getCache(MouseEvent)[this.ptr] = this;
-    this.type = MouseEvent;
+    this.ptr = _mud_MouseEvent__construct_0(); this.type = MouseEvent; getCache(MouseEvent)[this.ptr] = this;
 };
 MouseEvent.prototype = Object.create(InputEvent.prototype);
 MouseEvent.prototype.constructor = MouseEvent;
@@ -332,9 +294,7 @@ Object.defineProperty(MouseEvent.prototype, "pos", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_MouseEvent__set_pos(self, value);
+        _mud_MouseEvent__set_pos(self, value.ptr);
     }
 });
 Object.defineProperty(MouseEvent.prototype, "relative", {
@@ -344,9 +304,7 @@ Object.defineProperty(MouseEvent.prototype, "relative", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_MouseEvent__set_relative(self, value);
+        _mud_MouseEvent__set_relative(self, value.ptr);
     }
 });
 Object.defineProperty(MouseEvent.prototype, "delta", {
@@ -356,9 +314,7 @@ Object.defineProperty(MouseEvent.prototype, "delta", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_MouseEvent__set_delta(self, value);
+        _mud_MouseEvent__set_delta(self, value.ptr);
     }
 });
 Object.defineProperty(MouseEvent.prototype, "deltaZ", {
@@ -368,7 +324,6 @@ Object.defineProperty(MouseEvent.prototype, "deltaZ", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_MouseEvent__set_deltaZ(self, value);
     }
 });
@@ -379,9 +334,7 @@ Object.defineProperty(MouseEvent.prototype, "pressed", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_MouseEvent__set_pressed(self, value);
+        _mud_MouseEvent__set_pressed(self, value.ptr);
     }
 });
 Object.defineProperty(MouseEvent.prototype, "button", {
@@ -391,8 +344,6 @@ Object.defineProperty(MouseEvent.prototype, "button", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::MouseButtonCode> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_MouseEvent__set_button(self, value);
     }
 });

@@ -2,8 +2,7 @@ Module['ui'] = Module['ui'] || {};
 Module['stl'] = Module['stl'] || {};
 // CanvasConnect
 function CanvasConnect() {
-    this.ptr = _mud_CanvasConnect__construct_0(); getCache(CanvasConnect)[this.ptr] = this;
-    this.type = CanvasConnect;
+    this.ptr = _mud_CanvasConnect__construct_0(); this.type = CanvasConnect; getCache(CanvasConnect)[this.ptr] = this;
 };
 CanvasConnect.prototype = Object.create(WrapperObject.prototype);
 CanvasConnect.prototype.constructor = CanvasConnect;
@@ -16,8 +15,7 @@ CanvasConnect.prototype["__destroy__"] = CanvasConnect.prototype.__destroy__ = f
 };
 // Clipboard
 function Clipboard() {
-    this.ptr = _mud_Clipboard__construct_0(); getCache(Clipboard)[this.ptr] = this;
-    this.type = Clipboard;
+    this.ptr = _mud_Clipboard__construct_0(); this.type = Clipboard; getCache(Clipboard)[this.ptr] = this;
 };
 Clipboard.prototype = Object.create(WrapperObject.prototype);
 Clipboard.prototype.constructor = Clipboard;
@@ -31,10 +29,7 @@ Object.defineProperty(Clipboard.prototype, "text", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Clipboard__set_text(self, value);
+        _mud_Clipboard__set_text(self, ensureString(value));
     }
 });
 Object.defineProperty(Clipboard.prototype, "line_mode", {
@@ -44,7 +39,6 @@ Object.defineProperty(Clipboard.prototype, "line_mode", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_Clipboard__set_line_mode(self, value);
     }
 });
@@ -53,11 +47,9 @@ Clipboard.prototype["__destroy__"] = Clipboard.prototype.__destroy__ = function(
     _mud_Clipboard__destroy(self);
 };
 // Dim2<bool>
-function Dim2_bool(a, b) {
-    /* a <bool> [] */
-    /* b <bool> [] */
-    this.ptr = _mud_Dim2_bool__construct_2(a, b); getCache(Dim2_bool)[this.ptr] = this;
-    this.type = Dim2_bool;
+function Dim2_bool(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_Dim2_bool__construct_0(); this.type = Dim2_bool; getCache(Dim2_bool)[this.ptr] = this; return; }
+    this.ptr = _mud_Dim2_bool__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_bool; getCache(Dim2_bool)[this.ptr] = this;
 };
 Dim2_bool.prototype = Object.create(WrapperObject.prototype);
 Dim2_bool.prototype.constructor = Dim2_bool;
@@ -71,7 +63,6 @@ Object.defineProperty(Dim2_bool.prototype, "x", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_Dim2_bool__set_x(self, value);
     }
 });
@@ -82,7 +73,6 @@ Object.defineProperty(Dim2_bool.prototype, "y", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_Dim2_bool__set_y(self, value);
     }
 });
@@ -91,13 +81,9 @@ Dim2_bool.prototype["__destroy__"] = Dim2_bool.prototype.__destroy__ = function(
     _mud_Dim2_bool__destroy(self);
 };
 // Dim2<mud::Align>
-function Dim2_mud_Align(a, b) {
-    /* a <mud::Align> [] */
-    if (a && typeof a === "object") a = a.ptr;
-    /* b <mud::Align> [] */
-    if (b && typeof b === "object") b = b.ptr;
-    this.ptr = _mud_Dim2_mud_Align__construct_2(a, b); getCache(Dim2_mud_Align)[this.ptr] = this;
-    this.type = Dim2_mud_Align;
+function Dim2_mud_Align(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_Dim2_mud_Align__construct_0(); this.type = Dim2_mud_Align; getCache(Dim2_mud_Align)[this.ptr] = this; return; }
+    this.ptr = _mud_Dim2_mud_Align__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_mud_Align; getCache(Dim2_mud_Align)[this.ptr] = this;
 };
 Dim2_mud_Align.prototype = Object.create(WrapperObject.prototype);
 Dim2_mud_Align.prototype.constructor = Dim2_mud_Align;
@@ -111,8 +97,6 @@ Object.defineProperty(Dim2_mud_Align.prototype, "x", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Align> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Dim2_mud_Align__set_x(self, value);
     }
 });
@@ -123,8 +107,6 @@ Object.defineProperty(Dim2_mud_Align.prototype, "y", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Align> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Dim2_mud_Align__set_y(self, value);
     }
 });
@@ -133,13 +115,9 @@ Dim2_mud_Align.prototype["__destroy__"] = Dim2_mud_Align.prototype.__destroy__ =
     _mud_Dim2_mud_Align__destroy(self);
 };
 // Dim2<mud::AutoLayout>
-function Dim2_mud_AutoLayout(a, b) {
-    /* a <mud::AutoLayout> [] */
-    if (a && typeof a === "object") a = a.ptr;
-    /* b <mud::AutoLayout> [] */
-    if (b && typeof b === "object") b = b.ptr;
-    this.ptr = _mud_Dim2_mud_AutoLayout__construct_2(a, b); getCache(Dim2_mud_AutoLayout)[this.ptr] = this;
-    this.type = Dim2_mud_AutoLayout;
+function Dim2_mud_AutoLayout(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_Dim2_mud_AutoLayout__construct_0(); this.type = Dim2_mud_AutoLayout; getCache(Dim2_mud_AutoLayout)[this.ptr] = this; return; }
+    this.ptr = _mud_Dim2_mud_AutoLayout__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_mud_AutoLayout; getCache(Dim2_mud_AutoLayout)[this.ptr] = this;
 };
 Dim2_mud_AutoLayout.prototype = Object.create(WrapperObject.prototype);
 Dim2_mud_AutoLayout.prototype.constructor = Dim2_mud_AutoLayout;
@@ -153,8 +131,6 @@ Object.defineProperty(Dim2_mud_AutoLayout.prototype, "x", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::AutoLayout> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Dim2_mud_AutoLayout__set_x(self, value);
     }
 });
@@ -165,8 +141,6 @@ Object.defineProperty(Dim2_mud_AutoLayout.prototype, "y", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::AutoLayout> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Dim2_mud_AutoLayout__set_y(self, value);
     }
 });
@@ -175,13 +149,9 @@ Dim2_mud_AutoLayout.prototype["__destroy__"] = Dim2_mud_AutoLayout.prototype.__d
     _mud_Dim2_mud_AutoLayout__destroy(self);
 };
 // Dim2<mud::Pivot>
-function Dim2_mud_Pivot(a, b) {
-    /* a <mud::Pivot> [] */
-    if (a && typeof a === "object") a = a.ptr;
-    /* b <mud::Pivot> [] */
-    if (b && typeof b === "object") b = b.ptr;
-    this.ptr = _mud_Dim2_mud_Pivot__construct_2(a, b); getCache(Dim2_mud_Pivot)[this.ptr] = this;
-    this.type = Dim2_mud_Pivot;
+function Dim2_mud_Pivot(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_Dim2_mud_Pivot__construct_0(); this.type = Dim2_mud_Pivot; getCache(Dim2_mud_Pivot)[this.ptr] = this; return; }
+    this.ptr = _mud_Dim2_mud_Pivot__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_mud_Pivot; getCache(Dim2_mud_Pivot)[this.ptr] = this;
 };
 Dim2_mud_Pivot.prototype = Object.create(WrapperObject.prototype);
 Dim2_mud_Pivot.prototype.constructor = Dim2_mud_Pivot;
@@ -195,8 +165,6 @@ Object.defineProperty(Dim2_mud_Pivot.prototype, "x", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Pivot> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Dim2_mud_Pivot__set_x(self, value);
     }
 });
@@ -207,8 +175,6 @@ Object.defineProperty(Dim2_mud_Pivot.prototype, "y", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Pivot> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Dim2_mud_Pivot__set_y(self, value);
     }
 });
@@ -217,13 +183,9 @@ Dim2_mud_Pivot.prototype["__destroy__"] = Dim2_mud_Pivot.prototype.__destroy__ =
     _mud_Dim2_mud_Pivot__destroy(self);
 };
 // Dim2<mud::Sizing>
-function Dim2_mud_Sizing(a, b) {
-    /* a <mud::Sizing> [] */
-    if (a && typeof a === "object") a = a.ptr;
-    /* b <mud::Sizing> [] */
-    if (b && typeof b === "object") b = b.ptr;
-    this.ptr = _mud_Dim2_mud_Sizing__construct_2(a, b); getCache(Dim2_mud_Sizing)[this.ptr] = this;
-    this.type = Dim2_mud_Sizing;
+function Dim2_mud_Sizing(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_Dim2_mud_Sizing__construct_0(); this.type = Dim2_mud_Sizing; getCache(Dim2_mud_Sizing)[this.ptr] = this; return; }
+    this.ptr = _mud_Dim2_mud_Sizing__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_mud_Sizing; getCache(Dim2_mud_Sizing)[this.ptr] = this;
 };
 Dim2_mud_Sizing.prototype = Object.create(WrapperObject.prototype);
 Dim2_mud_Sizing.prototype.constructor = Dim2_mud_Sizing;
@@ -237,8 +199,6 @@ Object.defineProperty(Dim2_mud_Sizing.prototype, "x", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Sizing> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Dim2_mud_Sizing__set_x(self, value);
     }
 });
@@ -249,8 +209,6 @@ Object.defineProperty(Dim2_mud_Sizing.prototype, "y", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Sizing> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Dim2_mud_Sizing__set_y(self, value);
     }
 });
@@ -259,11 +217,9 @@ Dim2_mud_Sizing.prototype["__destroy__"] = Dim2_mud_Sizing.prototype.__destroy__
     _mud_Dim2_mud_Sizing__destroy(self);
 };
 // Dim2<size_t>
-function Dim2_size_t(a, b) {
-    /* a <size_t> [] */
-    /* b <size_t> [] */
-    this.ptr = _mud_Dim2_size_t__construct_2(a, b); getCache(Dim2_size_t)[this.ptr] = this;
-    this.type = Dim2_size_t;
+function Dim2_size_t(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_Dim2_size_t__construct_0(); this.type = Dim2_size_t; getCache(Dim2_size_t)[this.ptr] = this; return; }
+    this.ptr = _mud_Dim2_size_t__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_size_t; getCache(Dim2_size_t)[this.ptr] = this;
 };
 Dim2_size_t.prototype = Object.create(WrapperObject.prototype);
 Dim2_size_t.prototype.constructor = Dim2_size_t;
@@ -277,7 +233,6 @@ Object.defineProperty(Dim2_size_t.prototype, "x", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <size_t> [] */
         _mud_Dim2_size_t__set_x(self, value);
     }
 });
@@ -288,7 +243,6 @@ Object.defineProperty(Dim2_size_t.prototype, "y", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <size_t> [] */
         _mud_Dim2_size_t__set_y(self, value);
     }
 });
@@ -298,8 +252,7 @@ Dim2_size_t.prototype["__destroy__"] = Dim2_size_t.prototype.__destroy__ = funct
 };
 // Dock
 function Dock() {
-    this.ptr = _mud_Dock__construct_0(); getCache(Dock)[this.ptr] = this;
-    this.type = Dock;
+    this.ptr = _mud_Dock__construct_0(); this.type = Dock; getCache(Dock)[this.ptr] = this;
 };
 Dock.prototype = Object.create(WrapperObject.prototype);
 Dock.prototype.constructor = Dock;
@@ -323,8 +276,7 @@ Docksystem.prototype["__destroy__"] = Docksystem.prototype.__destroy__ = functio
 };
 // Gradient
 function Gradient() {
-    this.ptr = _mud_Gradient__construct_0(); getCache(Gradient)[this.ptr] = this;
-    this.type = Gradient;
+    this.ptr = _mud_Gradient__construct_0(); this.type = Gradient; getCache(Gradient)[this.ptr] = this;
 };
 Gradient.prototype = Object.create(WrapperObject.prototype);
 Gradient.prototype.constructor = Gradient;
@@ -338,9 +290,7 @@ Object.defineProperty(Gradient.prototype, "start", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Colour> [] */
-        value = value.ptr;
-        _mud_Gradient__set_start(self, value);
+        _mud_Gradient__set_start(self, value.ptr);
     }
 });
 Object.defineProperty(Gradient.prototype, "end", {
@@ -350,9 +300,7 @@ Object.defineProperty(Gradient.prototype, "end", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Colour> [] */
-        value = value.ptr;
-        _mud_Gradient__set_end(self, value);
+        _mud_Gradient__set_end(self, value.ptr);
     }
 });
 Gradient.prototype["__destroy__"] = Gradient.prototype.__destroy__ = function() {
@@ -371,20 +319,10 @@ GridSolver.prototype["__destroy__"] = GridSolver.prototype.__destroy__ = functio
     _mud_GridSolver__destroy(self);
 };
 // ImageSkin
-function ImageSkin(image, left, top, right, bottom, margin, stretch) {
-    /* image <mud::Image> [] */
-    image = image.ptr;
-    /* left <int> [] */
-    /* top <int> [] */
-    /* right <int> [] */
-    /* bottom <int> [] */
-    /* margin <int> [] */
-    /* stretch <mud::Dim> [] */
-    if (stretch && typeof stretch === "object") stretch = stretch.ptr;
-    if (margin === undefined) { this.ptr = _mud_ImageSkin__construct_5(image, left, top, right, bottom); getCache(ImageSkin)[this.ptr] = this; return; }
-    if (stretch === undefined) { this.ptr = _mud_ImageSkin__construct_6(image, left, top, right, bottom, margin); getCache(ImageSkin)[this.ptr] = this; return; }
-    this.ptr = _mud_ImageSkin__construct_7(image, left, top, right, bottom, margin, stretch); getCache(ImageSkin)[this.ptr] = this;
-    this.type = ImageSkin;
+function ImageSkin(a0, a1, a2, a3, a4, a5, a6) {
+    if (a5 === undefined) { this.ptr = _mud_ImageSkin__construct_5(/*image*/a0.ptr, /*left*/a1, /*top*/a2, /*right*/a3, /*bottom*/a4); this.type = ImageSkin; getCache(ImageSkin)[this.ptr] = this; return; }
+    if (a6 === undefined) { this.ptr = _mud_ImageSkin__construct_6(/*image*/a0.ptr, /*left*/a1, /*top*/a2, /*right*/a3, /*bottom*/a4, /*margin*/a5); this.type = ImageSkin; getCache(ImageSkin)[this.ptr] = this; return; }
+    this.ptr = _mud_ImageSkin__construct_7(/*image*/a0.ptr, /*left*/a1, /*top*/a2, /*right*/a3, /*bottom*/a4, /*margin*/a5, /*stretch*/a6); this.type = ImageSkin; getCache(ImageSkin)[this.ptr] = this;
 };
 ImageSkin.prototype = Object.create(WrapperObject.prototype);
 ImageSkin.prototype.constructor = ImageSkin;
@@ -398,9 +336,7 @@ Object.defineProperty(ImageSkin.prototype, "d_image", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Image> [] */
-        value = value.ptr;
-        _mud_ImageSkin__set_d_image(self, value);
+        _mud_ImageSkin__set_d_image(self, value.ptr);
     }
 });
 Object.defineProperty(ImageSkin.prototype, "d_left", {
@@ -410,7 +346,6 @@ Object.defineProperty(ImageSkin.prototype, "d_left", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _mud_ImageSkin__set_d_left(self, value);
     }
 });
@@ -421,7 +356,6 @@ Object.defineProperty(ImageSkin.prototype, "d_top", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _mud_ImageSkin__set_d_top(self, value);
     }
 });
@@ -432,7 +366,6 @@ Object.defineProperty(ImageSkin.prototype, "d_right", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _mud_ImageSkin__set_d_right(self, value);
     }
 });
@@ -443,7 +376,6 @@ Object.defineProperty(ImageSkin.prototype, "d_bottom", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _mud_ImageSkin__set_d_bottom(self, value);
     }
 });
@@ -454,7 +386,6 @@ Object.defineProperty(ImageSkin.prototype, "margin", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _mud_ImageSkin__set_margin(self, value);
     }
 });
@@ -465,8 +396,6 @@ Object.defineProperty(ImageSkin.prototype, "d_stretch", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Dim> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_ImageSkin__set_d_stretch(self, value);
     }
 });
@@ -475,14 +404,10 @@ ImageSkin.prototype["__destroy__"] = ImageSkin.prototype.__destroy__ = function(
     _mud_ImageSkin__destroy(self);
 };
 // InkStyle
-function InkStyle(name) {
+function InkStyle(a0) {
     ensureCache.prepare();
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    if (name === undefined) { this.ptr = _mud_InkStyle__construct_0(); getCache(InkStyle)[this.ptr] = this; return; }
-    this.ptr = _mud_InkStyle__construct_1(name); getCache(InkStyle)[this.ptr] = this;
-    this.type = InkStyle;
+    if (a0 === undefined) { this.ptr = _mud_InkStyle__construct_0(); this.type = InkStyle; getCache(InkStyle)[this.ptr] = this; return; }
+    this.ptr = _mud_InkStyle__construct_1(ensureString(/*name*/a0)); this.type = InkStyle; getCache(InkStyle)[this.ptr] = this;
 };
 InkStyle.prototype = Object.create(WrapperObject.prototype);
 InkStyle.prototype.constructor = InkStyle;
@@ -496,10 +421,7 @@ Object.defineProperty(InkStyle.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_InkStyle__set_name(self, value);
+        _mud_InkStyle__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(InkStyle.prototype, "empty", {
@@ -509,7 +431,6 @@ Object.defineProperty(InkStyle.prototype, "empty", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_InkStyle__set_empty(self, value);
     }
 });
@@ -520,9 +441,7 @@ Object.defineProperty(InkStyle.prototype, "background_colour", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Colour> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_background_colour(self, value);
+        _mud_InkStyle__set_background_colour(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "border_colour", {
@@ -532,9 +451,7 @@ Object.defineProperty(InkStyle.prototype, "border_colour", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Colour> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_border_colour(self, value);
+        _mud_InkStyle__set_border_colour(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "image_colour", {
@@ -544,9 +461,7 @@ Object.defineProperty(InkStyle.prototype, "image_colour", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Colour> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_image_colour(self, value);
+        _mud_InkStyle__set_image_colour(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "text_colour", {
@@ -556,9 +471,7 @@ Object.defineProperty(InkStyle.prototype, "text_colour", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Colour> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_text_colour(self, value);
+        _mud_InkStyle__set_text_colour(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "text_font", {
@@ -568,10 +481,7 @@ Object.defineProperty(InkStyle.prototype, "text_font", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_InkStyle__set_text_font(self, value);
+        _mud_InkStyle__set_text_font(self, ensureString(value));
     }
 });
 Object.defineProperty(InkStyle.prototype, "text_size", {
@@ -581,7 +491,6 @@ Object.defineProperty(InkStyle.prototype, "text_size", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_InkStyle__set_text_size(self, value);
     }
 });
@@ -592,7 +501,6 @@ Object.defineProperty(InkStyle.prototype, "text_break", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_InkStyle__set_text_break(self, value);
     }
 });
@@ -603,7 +511,6 @@ Object.defineProperty(InkStyle.prototype, "text_wrap", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_InkStyle__set_text_wrap(self, value);
     }
 });
@@ -614,9 +521,7 @@ Object.defineProperty(InkStyle.prototype, "border_width", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec4> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_border_width(self, value);
+        _mud_InkStyle__set_border_width(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "corner_radius", {
@@ -626,9 +531,7 @@ Object.defineProperty(InkStyle.prototype, "corner_radius", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec4> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_corner_radius(self, value);
+        _mud_InkStyle__set_corner_radius(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "weak_corners", {
@@ -638,7 +541,6 @@ Object.defineProperty(InkStyle.prototype, "weak_corners", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_InkStyle__set_weak_corners(self, value);
     }
 });
@@ -649,9 +551,7 @@ Object.defineProperty(InkStyle.prototype, "padding", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec4> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_padding(self, value);
+        _mud_InkStyle__set_padding(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "margin", {
@@ -661,9 +561,7 @@ Object.defineProperty(InkStyle.prototype, "margin", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec4> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_margin(self, value);
+        _mud_InkStyle__set_margin(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "align", {
@@ -673,9 +571,7 @@ Object.defineProperty(InkStyle.prototype, "align", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Dim2<mud::Align>> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_align(self, value);
+        _mud_InkStyle__set_align(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "linear_gradient", {
@@ -685,9 +581,7 @@ Object.defineProperty(InkStyle.prototype, "linear_gradient", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_linear_gradient(self, value);
+        _mud_InkStyle__set_linear_gradient(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "linear_gradient_dim", {
@@ -697,8 +591,6 @@ Object.defineProperty(InkStyle.prototype, "linear_gradient_dim", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Dim> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_InkStyle__set_linear_gradient_dim(self, value);
     }
 });
@@ -709,9 +601,7 @@ Object.defineProperty(InkStyle.prototype, "stretch", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Dim2<bool>> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_stretch(self, value);
+        _mud_InkStyle__set_stretch(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "image", {
@@ -721,9 +611,7 @@ Object.defineProperty(InkStyle.prototype, "image", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Image> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_image(self, value);
+        _mud_InkStyle__set_image(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "overlay", {
@@ -733,9 +621,7 @@ Object.defineProperty(InkStyle.prototype, "overlay", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Image> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_overlay(self, value);
+        _mud_InkStyle__set_overlay(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "tile", {
@@ -745,9 +631,7 @@ Object.defineProperty(InkStyle.prototype, "tile", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Image> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_tile(self, value);
+        _mud_InkStyle__set_tile(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "image_skin", {
@@ -757,9 +641,7 @@ Object.defineProperty(InkStyle.prototype, "image_skin", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::ImageSkin> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_image_skin(self, value);
+        _mud_InkStyle__set_image_skin(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "shadow", {
@@ -769,9 +651,7 @@ Object.defineProperty(InkStyle.prototype, "shadow", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Shadow> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_shadow(self, value);
+        _mud_InkStyle__set_shadow(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "shadow_colour", {
@@ -781,9 +661,7 @@ Object.defineProperty(InkStyle.prototype, "shadow_colour", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Colour> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_shadow_colour(self, value);
+        _mud_InkStyle__set_shadow_colour(self, value.ptr);
     }
 });
 Object.defineProperty(InkStyle.prototype, "hover_cursor", {
@@ -793,9 +671,7 @@ Object.defineProperty(InkStyle.prototype, "hover_cursor", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Style> [] */
-        value = value.ptr;
-        _mud_InkStyle__set_hover_cursor(self, value);
+        _mud_InkStyle__set_hover_cursor(self, value.ptr);
     }
 });
 InkStyle.prototype["__destroy__"] = InkStyle.prototype.__destroy__ = function() {
@@ -814,14 +690,10 @@ Layer.prototype["__destroy__"] = Layer.prototype.__destroy__ = function() {
     _mud_Layer__destroy(self);
 };
 // Layout
-function Layout(name) {
+function Layout(a0) {
     ensureCache.prepare();
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    if (name === undefined) { this.ptr = _mud_Layout__construct_0(); getCache(Layout)[this.ptr] = this; return; }
-    this.ptr = _mud_Layout__construct_1(name); getCache(Layout)[this.ptr] = this;
-    this.type = Layout;
+    if (a0 === undefined) { this.ptr = _mud_Layout__construct_0(); this.type = Layout; getCache(Layout)[this.ptr] = this; return; }
+    this.ptr = _mud_Layout__construct_1(ensureString(/*name*/a0)); this.type = Layout; getCache(Layout)[this.ptr] = this;
 };
 Layout.prototype = Object.create(WrapperObject.prototype);
 Layout.prototype.constructor = Layout;
@@ -835,10 +707,7 @@ Object.defineProperty(Layout.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Layout__set_name(self, value);
+        _mud_Layout__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(Layout.prototype, "solver", {
@@ -848,8 +717,6 @@ Object.defineProperty(Layout.prototype, "solver", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::LayoutSolver> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Layout__set_solver(self, value);
     }
 });
@@ -860,9 +727,7 @@ Object.defineProperty(Layout.prototype, "layout", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Dim2<mud::AutoLayout>> [] */
-        value = value.ptr;
-        _mud_Layout__set_layout(self, value);
+        _mud_Layout__set_layout(self, value.ptr);
     }
 });
 Object.defineProperty(Layout.prototype, "flow", {
@@ -872,8 +737,6 @@ Object.defineProperty(Layout.prototype, "flow", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Flow> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Layout__set_flow(self, value);
     }
 });
@@ -884,9 +747,7 @@ Object.defineProperty(Layout.prototype, "space", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Space> [] */
-        value = value.ptr;
-        _mud_Layout__set_space(self, value);
+        _mud_Layout__set_space(self, value.ptr);
     }
 });
 Object.defineProperty(Layout.prototype, "clipping", {
@@ -896,8 +757,6 @@ Object.defineProperty(Layout.prototype, "clipping", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Clipping> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Layout__set_clipping(self, value);
     }
 });
@@ -908,8 +767,6 @@ Object.defineProperty(Layout.prototype, "opacity", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Opacity> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Layout__set_opacity(self, value);
     }
 });
@@ -920,9 +777,7 @@ Object.defineProperty(Layout.prototype, "align", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Dim2<mud::Align>> [] */
-        value = value.ptr;
-        _mud_Layout__set_align(self, value);
+        _mud_Layout__set_align(self, value.ptr);
     }
 });
 Object.defineProperty(Layout.prototype, "span", {
@@ -932,9 +787,7 @@ Object.defineProperty(Layout.prototype, "span", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_Layout__set_span(self, value);
+        _mud_Layout__set_span(self, value.ptr);
     }
 });
 Object.defineProperty(Layout.prototype, "size", {
@@ -944,9 +797,7 @@ Object.defineProperty(Layout.prototype, "size", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_Layout__set_size(self, value);
+        _mud_Layout__set_size(self, value.ptr);
     }
 });
 Object.defineProperty(Layout.prototype, "padding", {
@@ -956,9 +807,7 @@ Object.defineProperty(Layout.prototype, "padding", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec4> [] */
-        value = value.ptr;
-        _mud_Layout__set_padding(self, value);
+        _mud_Layout__set_padding(self, value.ptr);
     }
 });
 Object.defineProperty(Layout.prototype, "margin", {
@@ -968,9 +817,7 @@ Object.defineProperty(Layout.prototype, "margin", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_Layout__set_margin(self, value);
+        _mud_Layout__set_margin(self, value.ptr);
     }
 });
 Object.defineProperty(Layout.prototype, "spacing", {
@@ -980,9 +827,7 @@ Object.defineProperty(Layout.prototype, "spacing", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_Layout__set_spacing(self, value);
+        _mud_Layout__set_spacing(self, value.ptr);
     }
 });
 Object.defineProperty(Layout.prototype, "pivot", {
@@ -992,9 +837,7 @@ Object.defineProperty(Layout.prototype, "pivot", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Dim2<mud::Pivot>> [] */
-        value = value.ptr;
-        _mud_Layout__set_pivot(self, value);
+        _mud_Layout__set_pivot(self, value.ptr);
     }
 });
 Object.defineProperty(Layout.prototype, "zorder", {
@@ -1004,7 +847,6 @@ Object.defineProperty(Layout.prototype, "zorder", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _mud_Layout__set_zorder(self, value);
     }
 });
@@ -1015,7 +857,6 @@ Object.defineProperty(Layout.prototype, "no_grid", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_Layout__set_no_grid(self, value);
     }
 });
@@ -1026,7 +867,6 @@ Object.defineProperty(Layout.prototype, "updated", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <size_t> [] */
         _mud_Layout__set_updated(self, value);
     }
 });
@@ -1036,8 +876,7 @@ Layout.prototype["__destroy__"] = Layout.prototype.__destroy__ = function() {
 };
 // NodeConnection
 function NodeConnection() {
-    this.ptr = _mud_NodeConnection__construct_0(); getCache(NodeConnection)[this.ptr] = this;
-    this.type = NodeConnection;
+    this.ptr = _mud_NodeConnection__construct_0(); this.type = NodeConnection; getCache(NodeConnection)[this.ptr] = this;
 };
 NodeConnection.prototype = Object.create(WrapperObject.prototype);
 NodeConnection.prototype.constructor = NodeConnection;
@@ -1050,8 +889,7 @@ NodeConnection.prototype["__destroy__"] = NodeConnection.prototype.__destroy__ =
 };
 // Paint
 function Paint() {
-    this.ptr = _mud_Paint__construct_0(); getCache(Paint)[this.ptr] = this;
-    this.type = Paint;
+    this.ptr = _mud_Paint__construct_0(); this.type = Paint; getCache(Paint)[this.ptr] = this;
 };
 Paint.prototype = Object.create(WrapperObject.prototype);
 Paint.prototype.constructor = Paint;
@@ -1065,9 +903,7 @@ Object.defineProperty(Paint.prototype, "fill_colour", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Colour> [] */
-        value = value.ptr;
-        _mud_Paint__set_fill_colour(self, value);
+        _mud_Paint__set_fill_colour(self, value.ptr);
     }
 });
 Object.defineProperty(Paint.prototype, "stroke_colour", {
@@ -1077,9 +913,7 @@ Object.defineProperty(Paint.prototype, "stroke_colour", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Colour> [] */
-        value = value.ptr;
-        _mud_Paint__set_stroke_colour(self, value);
+        _mud_Paint__set_stroke_colour(self, value.ptr);
     }
 });
 Object.defineProperty(Paint.prototype, "stroke_width", {
@@ -1089,7 +923,6 @@ Object.defineProperty(Paint.prototype, "stroke_width", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_Paint__set_stroke_width(self, value);
     }
 });
@@ -1098,16 +931,10 @@ Paint.prototype["__destroy__"] = Paint.prototype.__destroy__ = function() {
     _mud_Paint__destroy(self);
 };
 // Shadow
-function Shadow(xpos, ypos, blur, spread, colour) {
-    /* xpos <float> [] */
-    /* ypos <float> [] */
-    /* blur <float> [] */
-    /* spread <float> [] */
-    /* colour <mud::Colour> [] */
-    if (typeof colour !== "undefined" && colour !== null) { colour = colour.ptr; }
-    if (colour === undefined) { this.ptr = _mud_Shadow__construct_4(xpos, ypos, blur, spread); getCache(Shadow)[this.ptr] = this; return; }
-    this.ptr = _mud_Shadow__construct_5(xpos, ypos, blur, spread, colour); getCache(Shadow)[this.ptr] = this;
-    this.type = Shadow;
+function Shadow(a0, a1, a2, a3, a4) {
+    if (a0 === undefined) { this.ptr = _mud_Shadow__construct_0(); this.type = Shadow; getCache(Shadow)[this.ptr] = this; return; }
+    if (a4 === undefined) { this.ptr = _mud_Shadow__construct_4(/*xpos*/a0, /*ypos*/a1, /*blur*/a2, /*spread*/a3); this.type = Shadow; getCache(Shadow)[this.ptr] = this; return; }
+    this.ptr = _mud_Shadow__construct_5(/*xpos*/a0, /*ypos*/a1, /*blur*/a2, /*spread*/a3, /*colour*/a4.ptr); this.type = Shadow; getCache(Shadow)[this.ptr] = this;
 };
 Shadow.prototype = Object.create(WrapperObject.prototype);
 Shadow.prototype.constructor = Shadow;
@@ -1121,7 +948,6 @@ Object.defineProperty(Shadow.prototype, "d_xpos", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_Shadow__set_d_xpos(self, value);
     }
 });
@@ -1132,7 +958,6 @@ Object.defineProperty(Shadow.prototype, "d_ypos", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_Shadow__set_d_ypos(self, value);
     }
 });
@@ -1143,7 +968,6 @@ Object.defineProperty(Shadow.prototype, "d_blur", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_Shadow__set_d_blur(self, value);
     }
 });
@@ -1154,7 +978,6 @@ Object.defineProperty(Shadow.prototype, "d_spread", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_Shadow__set_d_spread(self, value);
     }
 });
@@ -1165,9 +988,7 @@ Object.defineProperty(Shadow.prototype, "d_colour", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Colour> [] */
-        value = value.ptr;
-        _mud_Shadow__set_d_colour(self, value);
+        _mud_Shadow__set_d_colour(self, value.ptr);
     }
 });
 Shadow.prototype["__destroy__"] = Shadow.prototype.__destroy__ = function() {
@@ -1176,8 +997,7 @@ Shadow.prototype["__destroy__"] = Shadow.prototype.__destroy__ = function() {
 };
 // Space
 function Space() {
-    this.ptr = _mud_Space__construct_0(); getCache(Space)[this.ptr] = this;
-    this.type = Space;
+    this.ptr = _mud_Space__construct_0(); this.type = Space; getCache(Space)[this.ptr] = this;
 };
 Space.prototype = Object.create(WrapperObject.prototype);
 Space.prototype.constructor = Space;
@@ -1191,8 +1011,6 @@ Object.defineProperty(Space.prototype, "direction", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::FlowAxis> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Space__set_direction(self, value);
     }
 });
@@ -1203,8 +1021,6 @@ Object.defineProperty(Space.prototype, "sizingLength", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Sizing> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Space__set_sizingLength(self, value);
     }
 });
@@ -1215,8 +1031,6 @@ Object.defineProperty(Space.prototype, "sizingDepth", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Sizing> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Space__set_sizingDepth(self, value);
     }
 });
@@ -1238,9 +1052,7 @@ Object.defineProperty(Style.prototype, "base", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Style> [] */
-        value = value.ptr;
-        _mud_Style__set_base(self, value);
+        _mud_Style__set_base(self, value.ptr);
     }
 });
 Object.defineProperty(Style.prototype, "name", {
@@ -1286,8 +1098,7 @@ Text.prototype["__destroy__"] = Text.prototype.__destroy__ = function() {
 };
 // TextCursor
 function TextCursor() {
-    this.ptr = _mud_TextCursor__construct_0(); getCache(TextCursor)[this.ptr] = this;
-    this.type = TextCursor;
+    this.ptr = _mud_TextCursor__construct_0(); this.type = TextCursor; getCache(TextCursor)[this.ptr] = this;
 };
 TextCursor.prototype = Object.create(WrapperObject.prototype);
 TextCursor.prototype.constructor = TextCursor;
@@ -1300,8 +1111,7 @@ TextCursor.prototype["__destroy__"] = TextCursor.prototype.__destroy__ = functio
 };
 // TextMarker
 function TextMarker() {
-    this.ptr = _mud_TextMarker__construct_0(); getCache(TextMarker)[this.ptr] = this;
-    this.type = TextMarker;
+    this.ptr = _mud_TextMarker__construct_0(); this.type = TextMarker; getCache(TextMarker)[this.ptr] = this;
 };
 TextMarker.prototype = Object.create(WrapperObject.prototype);
 TextMarker.prototype.constructor = TextMarker;
@@ -1314,8 +1124,7 @@ TextMarker.prototype["__destroy__"] = TextMarker.prototype.__destroy__ = functio
 };
 // TextPaint
 function TextPaint() {
-    this.ptr = _mud_TextPaint__construct_0(); getCache(TextPaint)[this.ptr] = this;
-    this.type = TextPaint;
+    this.ptr = _mud_TextPaint__construct_0(); this.type = TextPaint; getCache(TextPaint)[this.ptr] = this;
 };
 TextPaint.prototype = Object.create(WrapperObject.prototype);
 TextPaint.prototype.constructor = TextPaint;
@@ -1329,10 +1138,7 @@ Object.defineProperty(TextPaint.prototype, "font", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <const char*> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_TextPaint__set_font(self, value);
+        _mud_TextPaint__set_font(self, ensureString(value));
     }
 });
 Object.defineProperty(TextPaint.prototype, "colour", {
@@ -1342,9 +1148,7 @@ Object.defineProperty(TextPaint.prototype, "colour", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Colour> [] */
-        value = value.ptr;
-        _mud_TextPaint__set_colour(self, value);
+        _mud_TextPaint__set_colour(self, value.ptr);
     }
 });
 Object.defineProperty(TextPaint.prototype, "size", {
@@ -1354,7 +1158,6 @@ Object.defineProperty(TextPaint.prototype, "size", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_TextPaint__set_size(self, value);
     }
 });
@@ -1365,9 +1168,7 @@ Object.defineProperty(TextPaint.prototype, "align", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Dim2<mud::Align>> [] */
-        value = value.ptr;
-        _mud_TextPaint__set_align(self, value);
+        _mud_TextPaint__set_align(self, value.ptr);
     }
 });
 Object.defineProperty(TextPaint.prototype, "text_break", {
@@ -1377,7 +1178,6 @@ Object.defineProperty(TextPaint.prototype, "text_break", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_TextPaint__set_text_break(self, value);
     }
 });
@@ -1388,7 +1188,6 @@ Object.defineProperty(TextPaint.prototype, "text_wrap", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_TextPaint__set_text_wrap(self, value);
     }
 });
@@ -1398,8 +1197,7 @@ TextPaint.prototype["__destroy__"] = TextPaint.prototype.__destroy__ = function(
 };
 // TextSelection
 function TextSelection() {
-    this.ptr = _mud_TextSelection__construct_0(); getCache(TextSelection)[this.ptr] = this;
-    this.type = TextSelection;
+    this.ptr = _mud_TextSelection__construct_0(); this.type = TextSelection; getCache(TextSelection)[this.ptr] = this;
 };
 TextSelection.prototype = Object.create(WrapperObject.prototype);
 TextSelection.prototype.constructor = TextSelection;
@@ -1412,8 +1210,7 @@ TextSelection.prototype["__destroy__"] = TextSelection.prototype.__destroy__ = f
 };
 // UiRect
 function UiRect() {
-    this.ptr = _mud_UiRect__construct_0(); getCache(UiRect)[this.ptr] = this;
-    this.type = UiRect;
+    this.ptr = _mud_UiRect__construct_0(); this.type = UiRect; getCache(UiRect)[this.ptr] = this;
 };
 UiRect.prototype = Object.create(WrapperObject.prototype);
 UiRect.prototype.constructor = UiRect;
@@ -1427,9 +1224,7 @@ Object.defineProperty(UiRect.prototype, "position", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_UiRect__set_position(self, value);
+        _mud_UiRect__set_position(self, value.ptr);
     }
 });
 Object.defineProperty(UiRect.prototype, "size", {
@@ -1439,9 +1234,7 @@ Object.defineProperty(UiRect.prototype, "size", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_UiRect__set_size(self, value);
+        _mud_UiRect__set_size(self, value.ptr);
     }
 });
 Object.defineProperty(UiRect.prototype, "content", {
@@ -1451,9 +1244,7 @@ Object.defineProperty(UiRect.prototype, "content", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_UiRect__set_content(self, value);
+        _mud_UiRect__set_content(self, value.ptr);
     }
 });
 Object.defineProperty(UiRect.prototype, "span", {
@@ -1463,9 +1254,7 @@ Object.defineProperty(UiRect.prototype, "span", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec2> [] */
-        value = value.ptr;
-        _mud_UiRect__set_span(self, value);
+        _mud_UiRect__set_span(self, value.ptr);
     }
 });
 Object.defineProperty(UiRect.prototype, "scale", {
@@ -1475,7 +1264,6 @@ Object.defineProperty(UiRect.prototype, "scale", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_UiRect__set_scale(self, value);
     }
 });
@@ -1563,30 +1351,21 @@ Widget.prototype["parent_modal"] = Widget.prototype.parent_modal = function(self
     var self = this.ptr;
     return wrapPointer(_mud_Widget_parent_modal_0(self), Widget);
 };
-Widget.prototype["toggle_state"] = Widget.prototype.toggle_state = function(self, state) {
+Widget.prototype["toggle_state"] = Widget.prototype.toggle_state = function(self, a0) {
     var self = this.ptr;
-    /* state <mud::WidgetState> [] */
-    if (state && typeof state === "object") state = state.ptr;
-    _mud_Widget_toggle_state_1(self, state);
+    _mud_Widget_toggle_state_1(self, /*state*/a0);
 };
-Widget.prototype["disable_state"] = Widget.prototype.disable_state = function(self, state) {
+Widget.prototype["disable_state"] = Widget.prototype.disable_state = function(self, a0) {
     var self = this.ptr;
-    /* state <mud::WidgetState> [] */
-    if (state && typeof state === "object") state = state.ptr;
-    _mud_Widget_disable_state_1(self, state);
+    _mud_Widget_disable_state_1(self, /*state*/a0);
 };
-Widget.prototype["set_state"] = Widget.prototype.set_state = function(self, state, enabled) {
+Widget.prototype["set_state"] = Widget.prototype.set_state = function(self, a0, a1) {
     var self = this.ptr;
-    /* state <mud::WidgetState> [] */
-    if (state && typeof state === "object") state = state.ptr;
-    /* enabled <bool> [] */
-    _mud_Widget_set_state_2(self, state, enabled);
+    _mud_Widget_set_state_2(self, /*state*/a0, /*enabled*/a1);
 };
-Widget.prototype["enable_state"] = Widget.prototype.enable_state = function(self, state) {
+Widget.prototype["enable_state"] = Widget.prototype.enable_state = function(self, a0) {
     var self = this.ptr;
-    /* state <mud::WidgetState> [] */
-    if (state && typeof state === "object") state = state.ptr;
-    _mud_Widget_enable_state_1(self, state);
+    _mud_Widget_enable_state_1(self, /*state*/a0);
 };
 Widget.prototype["clear_focus"] = Widget.prototype.clear_focus = function(self) {
     var self = this.ptr;
@@ -1600,56 +1379,34 @@ Widget.prototype["yield_focus"] = Widget.prototype.yield_focus = function(self) 
     var self = this.ptr;
     _mud_Widget_yield_focus_0(self);
 };
-Widget.prototype["take_modal"] = Widget.prototype.take_modal = function(self, device_filter) {
+Widget.prototype["take_modal"] = Widget.prototype.take_modal = function(self, a0) {
     var self = this.ptr;
-    /* device_filter <uint32_t> [] */
-    _mud_Widget_take_modal_1(self, device_filter);
+    _mud_Widget_take_modal_1(self, /*device_filter*/a0);
 };
 Widget.prototype["yield_modal"] = Widget.prototype.yield_modal = function(self) {
     var self = this.ptr;
     _mud_Widget_yield_modal_0(self);
 };
-Widget.prototype["key_event"] = Widget.prototype.key_event = function(self, code, event_type, modifier) {
+Widget.prototype["key_event"] = Widget.prototype.key_event = function(self, a0, a1, a2) {
     var self = this.ptr;
-    /* code <mud::Key> [] */
-    if (code && typeof code === "object") code = code.ptr;
-    /* event_type <mud::EventType> [] */
-    if (event_type && typeof event_type === "object") event_type = event_type.ptr;
-    /* modifier <mud::InputMod> [] */
-    if (modifier && typeof modifier === "object") modifier = modifier.ptr;
-    if (modifier === undefined) { return wrapPointer(_mud_Widget_key_event_2(self, code, event_type), KeyEvent); }
-    return wrapPointer(_mud_Widget_key_event_3(self, code, event_type, modifier), KeyEvent);
+    if (a2 === undefined) { return wrapPointer(_mud_Widget_key_event_2(self, /*code*/a0, /*event_type*/a1), KeyEvent); }
+    return wrapPointer(_mud_Widget_key_event_3(self, /*code*/a0, /*event_type*/a1, /*modifier*/a2), KeyEvent);
 };
-Widget.prototype["key_stroke"] = Widget.prototype.key_stroke = function(self, code, modifier) {
+Widget.prototype["key_stroke"] = Widget.prototype.key_stroke = function(self, a0, a1) {
     var self = this.ptr;
-    /* code <mud::Key> [] */
-    if (code && typeof code === "object") code = code.ptr;
-    /* modifier <mud::InputMod> [] */
-    if (modifier && typeof modifier === "object") modifier = modifier.ptr;
-    if (modifier === undefined) { return wrapPointer(_mud_Widget_key_stroke_1(self, code), KeyEvent); }
-    return wrapPointer(_mud_Widget_key_stroke_2(self, code, modifier), KeyEvent);
+    if (a1 === undefined) { return wrapPointer(_mud_Widget_key_stroke_1(self, /*code*/a0), KeyEvent); }
+    return wrapPointer(_mud_Widget_key_stroke_2(self, /*code*/a0, /*modifier*/a1), KeyEvent);
 };
-Widget.prototype["char_stroke"] = Widget.prototype.char_stroke = function(self, code, modifier) {
+Widget.prototype["char_stroke"] = Widget.prototype.char_stroke = function(self, a0, a1) {
     var self = this.ptr;
-    /* code <mud::Key> [] */
-    if (code && typeof code === "object") code = code.ptr;
-    /* modifier <mud::InputMod> [] */
-    if (modifier && typeof modifier === "object") modifier = modifier.ptr;
-    if (modifier === undefined) { return wrapPointer(_mud_Widget_char_stroke_1(self, code), KeyEvent); }
-    return wrapPointer(_mud_Widget_char_stroke_2(self, code, modifier), KeyEvent);
+    if (a1 === undefined) { return wrapPointer(_mud_Widget_char_stroke_1(self, /*code*/a0), KeyEvent); }
+    return wrapPointer(_mud_Widget_char_stroke_2(self, /*code*/a0, /*modifier*/a1), KeyEvent);
 };
-Widget.prototype["mouse_event"] = Widget.prototype.mouse_event = function(self, device, event_type, modifier, consume) {
+Widget.prototype["mouse_event"] = Widget.prototype.mouse_event = function(self, a0, a1, a2, a3) {
     var self = this.ptr;
-    /* device <mud::DeviceType> [] */
-    if (device && typeof device === "object") device = device.ptr;
-    /* event_type <mud::EventType> [] */
-    if (event_type && typeof event_type === "object") event_type = event_type.ptr;
-    /* modifier <mud::InputMod> [] */
-    if (modifier && typeof modifier === "object") modifier = modifier.ptr;
-    /* consume <bool> [] */
-    if (modifier === undefined) { return wrapPointer(_mud_Widget_mouse_event_2(self, device, event_type), MouseEvent); }
-    if (consume === undefined) { return wrapPointer(_mud_Widget_mouse_event_3(self, device, event_type, modifier), MouseEvent); }
-    return wrapPointer(_mud_Widget_mouse_event_4(self, device, event_type, modifier, consume), MouseEvent);
+    if (a2 === undefined) { return wrapPointer(_mud_Widget_mouse_event_2(self, /*device*/a0, /*event_type*/a1), MouseEvent); }
+    if (a3 === undefined) { return wrapPointer(_mud_Widget_mouse_event_3(self, /*device*/a0, /*event_type*/a1, /*modifier*/a2), MouseEvent); }
+    return wrapPointer(_mud_Widget_mouse_event_4(self, /*device*/a0, /*event_type*/a1, /*modifier*/a2, /*consume*/a3), MouseEvent);
 };
 Object.defineProperty(Widget.prototype, "frame", {
     get: function() {
@@ -1663,8 +1420,6 @@ Object.defineProperty(Widget.prototype, "state", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::WidgetState> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Widget__set_state(self, value);
     }
 });
@@ -1675,7 +1430,6 @@ Object.defineProperty(Widget.prototype, "switch", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <uint32_t> [] */
         _mud_Widget__set_switch(self, value);
     }
 });
@@ -1686,7 +1440,6 @@ Object.defineProperty(Widget.prototype, "index", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <size_t> [] */
         _mud_Widget__set_index(self, value);
     }
 });
@@ -1697,7 +1450,6 @@ Object.defineProperty(Widget.prototype, "open", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_Widget__set_open(self, value);
     }
 });
@@ -1708,9 +1460,7 @@ Object.defineProperty(Widget.prototype, "body", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Widget> [] */
-        value = value.ptr;
-        _mud_Widget__set_body(self, value);
+        _mud_Widget__set_body(self, value.ptr);
     }
 });
 Widget.prototype["__destroy__"] = Widget.prototype.__destroy__ = function() {
@@ -1941,816 +1691,409 @@ Window.prototype["__destroy__"] = Window.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Window__destroy(self);
 };
-Module['ui']['widget'] = function(parent, style, open, length, index) {
+Module['ui']['widget'] = function(a0, a1, a2, a3, a4) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* style <mud::Style> [] */
-    style = style.ptr;
-    /* open <bool> [] */
-    /* length <mud::Dim> [] */
-    if (length && typeof length === "object") length = length.ptr;
-    /* index <mud::Dim2<size_t>> [] */
-    if (typeof index !== "undefined" && index !== null) { index = index.ptr; }
-    if (open === undefined) { return wrapPointer(_mud_ui_widget_2(parent, style), Widget); }
-    if (length === undefined) { return wrapPointer(_mud_ui_widget_3(parent, style, open), Widget); }
-    if (index === undefined) { return wrapPointer(_mud_ui_widget_4(parent, style, open, length), Widget); }
-    return wrapPointer(_mud_ui_widget_5(parent, style, open, length, index), Widget);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_widget_2(/*parent*/a0.ptr, /*style*/a1.ptr), Widget); }
+    if (a3 === undefined) { return wrapPointer(_mud_ui_widget_3(/*parent*/a0.ptr, /*style*/a1.ptr, /*open*/a2), Widget); }
+    if (a4 === undefined) { return wrapPointer(_mud_ui_widget_4(/*parent*/a0.ptr, /*style*/a1.ptr, /*open*/a2, /*length*/a3), Widget); }
+    return wrapPointer(_mud_ui_widget_5(/*parent*/a0.ptr, /*style*/a1.ptr, /*open*/a2, /*length*/a3, /*index*/a4.ptr), Widget);
 };
-Module['ui']['item'] = function(parent, style, content) {
+Module['ui']['item'] = function(a0, a1, a2) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* style <mud::Style> [] */
-    style = style.ptr;
-    /* content <const char*> [] */
-    if (content && typeof content === "object") content = content.ptr;
-    else content = ensureString(content);
-    if (content === undefined) { return wrapPointer(_mud_ui_item_2(parent, style), Widget); }
-    return wrapPointer(_mud_ui_item_3(parent, style, content), Widget);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_item_2(/*parent*/a0.ptr, /*style*/a1.ptr), Widget); }
+    return wrapPointer(_mud_ui_item_3(/*parent*/a0.ptr, /*style*/a1.ptr, ensureString(/*content*/a2)), Widget);
 };
-Module['ui']['spanner'] = function(parent, style, dim, span) {
+Module['ui']['spanner'] = function(a0, a1, a2, a3) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* style <mud::Style> [] */
-    style = style.ptr;
-    /* dim <mud::Dim> [] */
-    if (dim && typeof dim === "object") dim = dim.ptr;
-    /* span <float> [] */
-    return wrapPointer(_mud_ui_spanner_4(parent, style, dim, span), Widget);
+    return wrapPointer(_mud_ui_spanner_4(/*parent*/a0.ptr, /*style*/a1.ptr, /*dim*/a2, /*span*/a3), Widget);
 };
-Module['ui']['spacer'] = function(parent) {
+Module['ui']['spacer'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_spacer_1(parent), Widget);
+    return wrapPointer(_mud_ui_spacer_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['icon'] = function(parent, image) {
+Module['ui']['icon'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* image <const char*> [] */
-    if (image && typeof image === "object") image = image.ptr;
-    else image = ensureString(image);
-    return wrapPointer(_mud_ui_icon_2(parent, image), Widget);
+    return wrapPointer(_mud_ui_icon_2(/*parent*/a0.ptr, ensureString(/*image*/a1)), Widget);
 };
-Module['ui']['label'] = function(parent, label) {
+Module['ui']['label'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* label <const char*> [] */
-    if (label && typeof label === "object") label = label.ptr;
-    else label = ensureString(label);
-    return wrapPointer(_mud_ui_label_2(parent, label), Widget);
+    return wrapPointer(_mud_ui_label_2(/*parent*/a0.ptr, ensureString(/*label*/a1)), Widget);
 };
-Module['ui']['title'] = function(parent, label) {
+Module['ui']['title'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* label <const char*> [] */
-    if (label && typeof label === "object") label = label.ptr;
-    else label = ensureString(label);
-    return wrapPointer(_mud_ui_title_2(parent, label), Widget);
+    return wrapPointer(_mud_ui_title_2(/*parent*/a0.ptr, ensureString(/*label*/a1)), Widget);
 };
-Module['ui']['message'] = function(parent, label) {
+Module['ui']['message'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* label <const char*> [] */
-    if (label && typeof label === "object") label = label.ptr;
-    else label = ensureString(label);
-    return wrapPointer(_mud_ui_message_2(parent, label), Widget);
+    return wrapPointer(_mud_ui_message_2(/*parent*/a0.ptr, ensureString(/*label*/a1)), Widget);
 };
-Module['ui']['text'] = function(parent, label) {
+Module['ui']['text'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* label <const char*> [] */
-    if (label && typeof label === "object") label = label.ptr;
-    else label = ensureString(label);
-    return wrapPointer(_mud_ui_text_2(parent, label), Widget);
+    return wrapPointer(_mud_ui_text_2(/*parent*/a0.ptr, ensureString(/*label*/a1)), Widget);
 };
-Module['ui']['button'] = function(parent, content) {
+Module['ui']['button'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* content <const char*> [] */
-    if (content && typeof content === "object") content = content.ptr;
-    else content = ensureString(content);
-    if (content === undefined) { return wrapPointer(_mud_ui_button_1(parent), Widget); }
-    return wrapPointer(_mud_ui_button_2(parent, content), Widget);
+    if (a1 === undefined) { return wrapPointer(_mud_ui_button_1(/*parent*/a0.ptr), Widget); }
+    return wrapPointer(_mud_ui_button_2(/*parent*/a0.ptr, ensureString(/*content*/a1)), Widget);
 };
-Module['ui']['toggle'] = function(parent, on, content) {
+Module['ui']['toggle'] = function(a0, a1, a2) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* on <bool> [] */
-    /* content <const char*> [] */
-    if (content && typeof content === "object") content = content.ptr;
-    else content = ensureString(content);
-    if (content === undefined) { return wrapPointer(_mud_ui_toggle_2(parent, on), Widget); }
-    return wrapPointer(_mud_ui_toggle_3(parent, on, content), Widget);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_toggle_2(/*parent*/a0.ptr, /*on*/a1), Widget); }
+    return wrapPointer(_mud_ui_toggle_3(/*parent*/a0.ptr, /*on*/a1, ensureString(/*content*/a2)), Widget);
 };
-Module['ui']['modal_button'] = function(screen, parent, content, mode) {
+Module['ui']['modal_button'] = function(a0, a1, a2, a3) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* screen <mud::Widget> [] */
-    screen = screen.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* content <const char*> [] */
-    if (content && typeof content === "object") content = content.ptr;
-    else content = ensureString(content);
-    /* mode <uint32_t> [] */
-    return !!(_mud_ui_modal_button_4(screen, parent, content, mode));
+    return !!(_mud_ui_modal_button_4(/*screen*/a0.ptr, /*parent*/a1.ptr, ensureString(/*content*/a2), /*mode*/a3));
 };
-Module['ui']['checkbox'] = function(parent, on) {
+Module['ui']['checkbox'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* on <bool> [] */
-    return wrapPointer(_mud_ui_checkbox_2(parent, on), Widget);
+    return wrapPointer(_mud_ui_checkbox_2(/*parent*/a0.ptr, /*on*/a1), Widget);
 };
-Module['ui']['fill_bar'] = function(parent, percentage, dim) {
+Module['ui']['fill_bar'] = function(a0, a1, a2) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* percentage <float> [] */
-    /* dim <mud::Dim> [] */
-    if (dim && typeof dim === "object") dim = dim.ptr;
-    if (dim === undefined) { return wrapPointer(_mud_ui_fill_bar_2(parent, percentage), Widget); }
-    return wrapPointer(_mud_ui_fill_bar_3(parent, percentage, dim), Widget);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_fill_bar_2(/*parent*/a0.ptr, /*percentage*/a1), Widget); }
+    return wrapPointer(_mud_ui_fill_bar_3(/*parent*/a0.ptr, /*percentage*/a1, /*dim*/a2), Widget);
 };
-Module['ui']['image256'] = function(parent, name, source) {
+Module['ui']['image256'] = function(a0, a1, a2, a3) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* source <mud::Image256> [] */
-    source = source.ptr;
-    return wrapPointer(_mud_ui_image256_3(parent, name, source), Widget);
+    if (a3 === undefined) { return wrapPointer(_mud_ui_image256_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*source*/a2.ptr), Widget); }
+    return wrapPointer(_mud_ui_image256_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*source*/a2.ptr, /*size*/a3.ptr), Widget);
 };
-Module['ui']['radio_choice'] = function(parent, value, active) {
+Module['ui']['radio_choice'] = function(a0, a1, a2) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* value <const char*> [] */
-    if (value && typeof value === "object") value = value.ptr;
-    else value = ensureString(value);
-    /* active <bool> [] */
-    return wrapPointer(_mud_ui_radio_choice_3(parent, value, active), Widget);
+    return wrapPointer(_mud_ui_radio_choice_3(/*parent*/a0.ptr, ensureString(/*value*/a1), /*active*/a2), Widget);
 };
-Module['ui']['dropdown'] = function(parent, style, value, flags, list_style) {
+Module['ui']['dropdown'] = function(a0, a1, a2, a3, a4) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* style <mud::Style> [] */
-    style = style.ptr;
-    /* value <const char*> [] */
-    if (value && typeof value === "object") value = value.ptr;
-    else value = ensureString(value);
-    /* flags <mud::ui::PopupFlags> [] */
-    if (flags && typeof flags === "object") flags = flags.ptr;
-    /* list_style <mud::Style> [] */
-    if (typeof list_style !== "undefined" && list_style !== null) { list_style = list_style.ptr; }
-    if (list_style === undefined) { return wrapPointer(_mud_ui_dropdown_4(parent, style, value, flags), Widget); }
-    return wrapPointer(_mud_ui_dropdown_5(parent, style, value, flags, list_style), Widget);
+    if (a4 === undefined) { return wrapPointer(_mud_ui_dropdown_4(/*parent*/a0.ptr, /*style*/a1.ptr, ensureString(/*value*/a2), /*flags*/a3), Widget); }
+    return wrapPointer(_mud_ui_dropdown_5(/*parent*/a0.ptr, /*style*/a1.ptr, ensureString(/*value*/a2), /*flags*/a3, /*list_style*/a4.ptr), Widget);
 };
-Module['ui']['menu_choice'] = function(parent, content) {
+Module['ui']['menu_choice'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* content <const char*> [] */
-    if (content && typeof content === "object") content = content.ptr;
-    else content = ensureString(content);
-    return wrapPointer(_mud_ui_menu_choice_2(parent, content), Widget);
+    return wrapPointer(_mud_ui_menu_choice_2(/*parent*/a0.ptr, ensureString(/*content*/a1)), Widget);
 };
-Module['ui']['menu'] = function(parent, label, submenu) {
+Module['ui']['menu'] = function(a0, a1, a2) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* label <const char*> [] */
-    if (label && typeof label === "object") label = label.ptr;
-    else label = ensureString(label);
-    /* submenu <bool> [] */
-    if (submenu === undefined) { return wrapPointer(_mud_ui_menu_2(parent, label), Widget); }
-    return wrapPointer(_mud_ui_menu_3(parent, label, submenu), Widget);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_menu_2(/*parent*/a0.ptr, ensureString(/*label*/a1)), Widget); }
+    return wrapPointer(_mud_ui_menu_3(/*parent*/a0.ptr, ensureString(/*label*/a1), /*submenu*/a2), Widget);
 };
-Module['ui']['menubar'] = function(parent) {
+Module['ui']['menubar'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_menubar_1(parent), Widget);
+    return wrapPointer(_mud_ui_menubar_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['toolbutton'] = function(parent, icon) {
+Module['ui']['toolbutton'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* icon <const char*> [] */
-    if (icon && typeof icon === "object") icon = icon.ptr;
-    else icon = ensureString(icon);
-    return wrapPointer(_mud_ui_toolbutton_2(parent, icon), Widget);
+    return wrapPointer(_mud_ui_toolbutton_2(/*parent*/a0.ptr, ensureString(/*icon*/a1)), Widget);
 };
-Module['ui']['tooldock'] = function(parent) {
+Module['ui']['tooldock'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_tooldock_1(parent), Widget);
+    return wrapPointer(_mud_ui_tooldock_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['toolbar'] = function(parent, wrap) {
+Module['ui']['toolbar'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* wrap <bool> [] */
-    if (wrap === undefined) { return wrapPointer(_mud_ui_toolbar_1(parent), Widget); }
-    return wrapPointer(_mud_ui_toolbar_2(parent, wrap), Widget);
+    if (a1 === undefined) { return wrapPointer(_mud_ui_toolbar_1(/*parent*/a0.ptr), Widget); }
+    return wrapPointer(_mud_ui_toolbar_2(/*parent*/a0.ptr, /*wrap*/a1), Widget);
 };
-Module['ui']['select_list'] = function(parent) {
+Module['ui']['select_list'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_select_list_1(parent), ScrollSheet);
+    return wrapPointer(_mud_ui_select_list_1(/*parent*/a0.ptr), ScrollSheet);
 };
-Module['ui']['table_row'] = function(parent) {
+Module['ui']['table_row'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_table_row_1(parent), Widget);
+    return wrapPointer(_mud_ui_table_row_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['table_separator'] = function(parent) {
+Module['ui']['table_separator'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_table_separator_1(parent), Widget);
+    return wrapPointer(_mud_ui_table_separator_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['expandbox'] = function(parent, name, open) {
+Module['ui']['expandbox'] = function(a0, a1, a2) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* open <bool> [] */
-    if (open === undefined) { return wrapPointer(_mud_ui_expandbox_2(parent, name), Expandbox); }
-    return wrapPointer(_mud_ui_expandbox_3(parent, name, open), Expandbox);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_expandbox_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), Expandbox); }
+    return wrapPointer(_mud_ui_expandbox_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*open*/a2), Expandbox);
 };
-Module['ui']['tree_node'] = function(parent, name, leaf, open) {
+Module['ui']['tree_node'] = function(a0, a1, a2, a3) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* leaf <bool> [] */
-    /* open <bool> [] */
-    if (leaf === undefined) { return wrapPointer(_mud_ui_tree_node_2(parent, name), TreeNode); }
-    if (open === undefined) { return wrapPointer(_mud_ui_tree_node_3(parent, name, leaf), TreeNode); }
-    return wrapPointer(_mud_ui_tree_node_4(parent, name, leaf, open), TreeNode);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_tree_node_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), TreeNode); }
+    if (a3 === undefined) { return wrapPointer(_mud_ui_tree_node_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*leaf*/a2), TreeNode); }
+    return wrapPointer(_mud_ui_tree_node_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*leaf*/a2, /*open*/a3), TreeNode);
 };
-Module['ui']['tree'] = function(parent) {
+Module['ui']['tree'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_tree_1(parent), Widget);
+    return wrapPointer(_mud_ui_tree_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['tab'] = function(tabber, name) {
+Module['ui']['tab'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* tabber <mud::Tabber> [] */
-    tabber = tabber.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    return wrapPointer(_mud_ui_tab_2(tabber, name), Widget);
+    return wrapPointer(_mud_ui_tab_2(/*tabber*/a0.ptr, ensureString(/*name*/a1)), Widget);
 };
-Module['ui']['tabber'] = function(parent) {
+Module['ui']['tabber'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_tabber_1(parent), Tabber);
+    return wrapPointer(_mud_ui_tabber_1(/*parent*/a0.ptr), Tabber);
 };
-Module['ui']['row'] = function(parent) {
+Module['ui']['row'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_row_1(parent), Widget);
+    return wrapPointer(_mud_ui_row_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['header'] = function(parent) {
+Module['ui']['header'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_header_1(parent), Widget);
+    return wrapPointer(_mud_ui_header_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['div'] = function(parent) {
+Module['ui']['div'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_div_1(parent), Widget);
+    return wrapPointer(_mud_ui_div_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['stack'] = function(parent) {
+Module['ui']['stack'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_stack_1(parent), Widget);
+    return wrapPointer(_mud_ui_stack_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['sheet'] = function(parent) {
+Module['ui']['sheet'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_sheet_1(parent), Widget);
+    return wrapPointer(_mud_ui_sheet_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['board'] = function(parent) {
+Module['ui']['board'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_board_1(parent), Widget);
+    return wrapPointer(_mud_ui_board_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['layout'] = function(parent) {
+Module['ui']['layout'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_layout_1(parent), Widget);
+    return wrapPointer(_mud_ui_layout_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['screen'] = function(parent) {
+Module['ui']['screen'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_screen_1(parent), Widget);
+    return wrapPointer(_mud_ui_screen_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['decal'] = function(parent) {
+Module['ui']['decal'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_decal_1(parent), Widget);
+    return wrapPointer(_mud_ui_decal_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['overlay'] = function(parent) {
+Module['ui']['overlay'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_overlay_1(parent), Widget);
+    return wrapPointer(_mud_ui_overlay_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['title_header'] = function(parent, title) {
+Module['ui']['title_header'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* title <const char*> [] */
-    if (title && typeof title === "object") title = title.ptr;
-    else title = ensureString(title);
-    return wrapPointer(_mud_ui_title_header_2(parent, title), Widget);
+    return wrapPointer(_mud_ui_title_header_2(/*parent*/a0.ptr, ensureString(/*title*/a1)), Widget);
 };
-Module['ui']['dummy'] = function(parent, size) {
+Module['ui']['dummy'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* size <mud::vec2> [] */
-    size = size.ptr;
-    return wrapPointer(_mud_ui_dummy_2(parent, size), Widget);
+    return wrapPointer(_mud_ui_dummy_2(/*parent*/a0.ptr, /*size*/a1.ptr), Widget);
 };
-Module['ui']['popup'] = function(parent, flags) {
+Module['ui']['popup'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* flags <mud::ui::PopupFlags> [] */
-    if (flags && typeof flags === "object") flags = flags.ptr;
-    return wrapPointer(_mud_ui_popup_2(parent, flags), Widget);
+    return wrapPointer(_mud_ui_popup_2(/*parent*/a0.ptr, /*flags*/a1), Widget);
 };
-Module['ui']['popup_at'] = function(parent, position, flags) {
+Module['ui']['popup_at'] = function(a0, a1, a2) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* position <mud::vec2> [] */
-    position = position.ptr;
-    /* flags <mud::ui::PopupFlags> [] */
-    if (flags && typeof flags === "object") flags = flags.ptr;
-    if (flags === undefined) { return wrapPointer(_mud_ui_popup_at_2(parent, position), Widget); }
-    return wrapPointer(_mud_ui_popup_at_3(parent, position, flags), Widget);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_popup_at_2(/*parent*/a0.ptr, /*position*/a1.ptr), Widget); }
+    return wrapPointer(_mud_ui_popup_at_3(/*parent*/a0.ptr, /*position*/a1.ptr, /*flags*/a2), Widget);
 };
-Module['ui']['modal'] = function(parent, size) {
+Module['ui']['modal'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* size <mud::vec2> [] */
-    if (typeof size !== "undefined" && size !== null) { size = size.ptr; }
-    if (size === undefined) { return wrapPointer(_mud_ui_modal_1(parent), Widget); }
-    return wrapPointer(_mud_ui_modal_2(parent, size), Widget);
+    if (a1 === undefined) { return wrapPointer(_mud_ui_modal_1(/*parent*/a0.ptr), Widget); }
+    return wrapPointer(_mud_ui_modal_2(/*parent*/a0.ptr, /*size*/a1.ptr), Widget);
 };
-Module['ui']['auto_modal'] = function(parent, mode) {
+Module['ui']['auto_modal'] = function(a0, a1, a2) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* mode <uint32_t> [] */
-    return wrapPointer(_mud_ui_auto_modal_2(parent, mode), Widget);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_auto_modal_2(/*parent*/a0.ptr, /*mode*/a1), Widget); }
+    return wrapPointer(_mud_ui_auto_modal_3(/*parent*/a0.ptr, /*mode*/a1, /*size*/a2.ptr), Widget);
 };
-Module['ui']['context'] = function(parent, mode, flags) {
+Module['ui']['context'] = function(a0, a1, a2) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* mode <uint32_t> [] */
-    /* flags <mud::ui::PopupFlags> [] */
-    if (flags && typeof flags === "object") flags = flags.ptr;
-    if (flags === undefined) { return wrapPointer(_mud_ui_context_2(parent, mode), Widget); }
-    return wrapPointer(_mud_ui_context_3(parent, mode, flags), Widget);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_context_2(/*parent*/a0.ptr, /*mode*/a1), Widget); }
+    return wrapPointer(_mud_ui_context_3(/*parent*/a0.ptr, /*mode*/a1, /*flags*/a2), Widget);
 };
-Module['ui']['hoverbox'] = function(parent, delay) {
+Module['ui']['hoverbox'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* delay <float> [] */
-    if (delay === undefined) { return wrapPointer(_mud_ui_hoverbox_1(parent), Widget); }
-    return wrapPointer(_mud_ui_hoverbox_2(parent, delay), Widget);
+    if (a1 === undefined) { return wrapPointer(_mud_ui_hoverbox_1(/*parent*/a0.ptr), Widget); }
+    return wrapPointer(_mud_ui_hoverbox_2(/*parent*/a0.ptr, /*delay*/a1), Widget);
 };
-Module['ui']['tooltip'] = function(parent, position, content) {
+Module['ui']['tooltip'] = function(a0, a1, a2) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* position <mud::vec2> [] */
-    position = position.ptr;
-    /* content <const char*> [] */
-    if (content && typeof content === "object") content = content.ptr;
-    else content = ensureString(content);
-    return wrapPointer(_mud_ui_tooltip_3(parent, position, content), Widget);
+    return wrapPointer(_mud_ui_tooltip_3(/*parent*/a0.ptr, /*position*/a1.ptr, ensureString(/*content*/a2)), Widget);
 };
-Module['ui']['cursor'] = function(parent, position, hovered, locked) {
+Module['ui']['cursor'] = function(a0, a1, a2, a3) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* position <mud::vec2> [] */
-    position = position.ptr;
-    /* hovered <mud::Widget> [] */
-    hovered = hovered.ptr;
-    /* locked <bool> [] */
-    if (locked === undefined) { return wrapPointer(_mud_ui_cursor_3(parent, position, hovered), Widget); }
-    return wrapPointer(_mud_ui_cursor_4(parent, position, hovered, locked), Widget);
+    if (a3 === undefined) { return wrapPointer(_mud_ui_cursor_3(/*parent*/a0.ptr, /*position*/a1.ptr, /*hovered*/a2.ptr), Widget); }
+    return wrapPointer(_mud_ui_cursor_4(/*parent*/a0.ptr, /*position*/a1.ptr, /*hovered*/a2.ptr, /*locked*/a3), Widget);
 };
-Module['ui']['rectangle'] = function(parent, rect) {
+Module['ui']['rectangle'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* rect <mud::vec4> [] */
-    rect = rect.ptr;
-    return wrapPointer(_mud_ui_rectangle_2(parent, rect), Widget);
+    return wrapPointer(_mud_ui_rectangle_2(/*parent*/a0.ptr, /*rect*/a1.ptr), Widget);
 };
-Module['ui']['dockspace'] = function(parent, docksystem) {
+Module['ui']['dockspace'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* docksystem <mud::Docksystem> [] */
-    docksystem = docksystem.ptr;
-    return wrapPointer(_mud_ui_dockspace_2(parent, docksystem), Dockspace);
+    return wrapPointer(_mud_ui_dockspace_2(/*parent*/a0.ptr, /*docksystem*/a1.ptr), Dockspace);
 };
-Module['ui']['dockbar'] = function(parent, docksystem) {
+Module['ui']['dockbar'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* docksystem <mud::Docksystem> [] */
-    docksystem = docksystem.ptr;
-    return wrapPointer(_mud_ui_dockbar_2(parent, docksystem), Dockbar);
+    return wrapPointer(_mud_ui_dockbar_2(/*parent*/a0.ptr, /*docksystem*/a1.ptr), Dockbar);
 };
-Module['ui']['dockitem'] = function(parent, docksystem, dock) {
+Module['ui']['dockitem'] = function(a0, a1, a2) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* docksystem <mud::Docksystem> [] */
-    docksystem = docksystem.ptr;
-    /* dock <mud::Dock> [] */
-    dock = dock.ptr;
-    return wrapPointer(_mud_ui_dockitem_3(parent, docksystem, dock), Widget);
+    return wrapPointer(_mud_ui_dockitem_3(/*parent*/a0.ptr, /*docksystem*/a1.ptr, /*dock*/a2.ptr), Widget);
 };
-Module['ui']['drag_float'] = function(parent, value, step) {
+Module['ui']['drag_float'] = function(a0, a1, a2) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* value <float> [] */
-    /* step <float> [] */
-    if (step === undefined) { return !!(_mud_ui_drag_float_2(parent, value)); }
-    return !!(_mud_ui_drag_float_3(parent, value, step));
+    if (a2 === undefined) { return !!(_mud_ui_drag_float_2(/*parent*/a0.ptr, /*value*/a1)); }
+    return !!(_mud_ui_drag_float_3(/*parent*/a0.ptr, /*value*/a1, /*step*/a2));
 };
-Module['ui']['vec2_edit'] = function(parent, vec) {
+Module['ui']['vec2_edit'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* vec <mud::vec2> [] */
-    vec = vec.ptr;
-    return !!(_mud_ui_vec2_edit_2(parent, vec));
+    return !!(_mud_ui_vec2_edit_2(/*parent*/a0.ptr, /*vec*/a1.ptr));
 };
-Module['ui']['vec3_edit'] = function(parent, vec) {
+Module['ui']['vec3_edit'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* vec <mud::vec3> [] */
-    vec = vec.ptr;
-    return !!(_mud_ui_vec3_edit_2(parent, vec));
+    return !!(_mud_ui_vec3_edit_2(/*parent*/a0.ptr, /*vec*/a1.ptr));
 };
-Module['ui']['quat_edit'] = function(parent, quat) {
+Module['ui']['quat_edit'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* quat <mud::quat> [] */
-    quat = quat.ptr;
-    return !!(_mud_ui_quat_edit_2(parent, quat));
+    return !!(_mud_ui_quat_edit_2(/*parent*/a0.ptr, /*quat*/a1.ptr));
 };
-Module['ui']['color_edit_hsl'] = function(parent, colour, value) {
+Module['ui']['color_edit_hsl'] = function(a0, a1, a2) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* colour <mud::Colour> [] */
-    colour = colour.ptr;
-    /* value <mud::Colour> [] */
-    value = value.ptr;
-    return !!(_mud_ui_color_edit_hsl_3(parent, colour, value));
+    return !!(_mud_ui_color_edit_hsl_3(/*parent*/a0.ptr, /*colour*/a1.ptr, /*value*/a2.ptr));
 };
-Module['ui']['color_display'] = function(parent, value) {
+Module['ui']['color_display'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* value <mud::Colour> [] */
-    value = value.ptr;
-    return wrapPointer(_mud_ui_color_display_2(parent, value), Widget);
+    return wrapPointer(_mud_ui_color_display_2(/*parent*/a0.ptr, /*value*/a1.ptr), Widget);
 };
-Module['ui']['color_edit'] = function(parent, value) {
+Module['ui']['color_edit'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* value <mud::Colour> [] */
-    value = value.ptr;
-    return !!(_mud_ui_color_edit_2(parent, value));
+    return !!(_mud_ui_color_edit_2(/*parent*/a0.ptr, /*value*/a1.ptr));
 };
-Module['ui']['color_edit_simple'] = function(parent, value) {
+Module['ui']['color_edit_simple'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* value <mud::Colour> [] */
-    value = value.ptr;
-    return !!(_mud_ui_color_edit_simple_2(parent, value));
+    return !!(_mud_ui_color_edit_simple_2(/*parent*/a0.ptr, /*value*/a1.ptr));
 };
-Module['ui']['color_toggle_edit'] = function(parent, value) {
+Module['ui']['color_toggle_edit'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* value <mud::Colour> [] */
-    value = value.ptr;
-    return !!(_mud_ui_color_toggle_edit_2(parent, value));
+    return !!(_mud_ui_color_toggle_edit_2(/*parent*/a0.ptr, /*value*/a1.ptr));
 };
-Module['ui']['flag_field'] = function(parent, name, value, shift, reverse) {
+Module['ui']['flag_field'] = function(a0, a1, a2, a3, a4) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* value <uint32_t> [] */
-    /* shift <uint8_t> [] */
-    /* reverse <bool> [] */
-    if (reverse === undefined) { return !!(_mud_ui_flag_field_4(parent, name, value, shift)); }
-    return !!(_mud_ui_flag_field_5(parent, name, value, shift, reverse));
+    if (a4 === undefined) { return !!(_mud_ui_flag_field_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2, /*shift*/a3)); }
+    return !!(_mud_ui_flag_field_5(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2, /*shift*/a3, /*reverse*/a4));
 };
-Module['ui']['color_field'] = function(parent, name, value, reverse) {
+Module['ui']['color_field'] = function(a0, a1, a2, a3) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* value <mud::Colour> [] */
-    value = value.ptr;
-    /* reverse <bool> [] */
-    if (reverse === undefined) { return !!(_mud_ui_color_field_3(parent, name, value)); }
-    return !!(_mud_ui_color_field_4(parent, name, value, reverse));
+    if (a3 === undefined) { return !!(_mud_ui_color_field_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2.ptr)); }
+    return !!(_mud_ui_color_field_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2.ptr, /*reverse*/a3));
 };
-Module['ui']['color_display_field'] = function(parent, name, value, reverse) {
+Module['ui']['color_display_field'] = function(a0, a1, a2, a3) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* value <mud::Colour> [] */
-    value = value.ptr;
-    /* reverse <bool> [] */
-    if (reverse === undefined) { _mud_ui_color_display_field_3(parent, name, value); return; }
-    _mud_ui_color_display_field_4(parent, name, value, reverse);
+    if (a3 === undefined) { _mud_ui_color_display_field_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2.ptr); return; }
+    _mud_ui_color_display_field_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2.ptr, /*reverse*/a3);
 };
-Module['ui']['node_input'] = function(node, name, icon, colour, active, connected) {
+Module['ui']['node_input'] = function(a0, a1, a2, a3, a4, a5) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* node <mud::Node> [] */
-    node = node.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* icon <const char*> [] */
-    if (icon && typeof icon === "object") icon = icon.ptr;
-    else icon = ensureString(icon);
-    /* colour <mud::Colour> [] */
-    if (typeof colour !== "undefined" && colour !== null) { colour = colour.ptr; }
-    /* active <bool> [] */
-    /* connected <bool> [] */
-    if (icon === undefined) { return wrapPointer(_mud_ui_node_input_2(node, name), NodePlug); }
-    if (colour === undefined) { return wrapPointer(_mud_ui_node_input_3(node, name, icon), NodePlug); }
-    if (active === undefined) { return wrapPointer(_mud_ui_node_input_4(node, name, icon, colour), NodePlug); }
-    if (connected === undefined) { return wrapPointer(_mud_ui_node_input_5(node, name, icon, colour, active), NodePlug); }
-    return wrapPointer(_mud_ui_node_input_6(node, name, icon, colour, active, connected), NodePlug);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_node_input_2(/*node*/a0.ptr, ensureString(/*name*/a1)), NodePlug); }
+    if (a3 === undefined) { return wrapPointer(_mud_ui_node_input_3(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2)), NodePlug); }
+    if (a4 === undefined) { return wrapPointer(_mud_ui_node_input_4(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.ptr), NodePlug); }
+    if (a5 === undefined) { return wrapPointer(_mud_ui_node_input_5(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.ptr, /*active*/a4), NodePlug); }
+    return wrapPointer(_mud_ui_node_input_6(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.ptr, /*active*/a4, /*connected*/a5), NodePlug);
 };
-Module['ui']['node_output'] = function(node, name, icon, colour, active, connected) {
+Module['ui']['node_output'] = function(a0, a1, a2, a3, a4, a5) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* node <mud::Node> [] */
-    node = node.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* icon <const char*> [] */
-    if (icon && typeof icon === "object") icon = icon.ptr;
-    else icon = ensureString(icon);
-    /* colour <mud::Colour> [] */
-    if (typeof colour !== "undefined" && colour !== null) { colour = colour.ptr; }
-    /* active <bool> [] */
-    /* connected <bool> [] */
-    if (icon === undefined) { return wrapPointer(_mud_ui_node_output_2(node, name), NodePlug); }
-    if (colour === undefined) { return wrapPointer(_mud_ui_node_output_3(node, name, icon), NodePlug); }
-    if (active === undefined) { return wrapPointer(_mud_ui_node_output_4(node, name, icon, colour), NodePlug); }
-    if (connected === undefined) { return wrapPointer(_mud_ui_node_output_5(node, name, icon, colour, active), NodePlug); }
-    return wrapPointer(_mud_ui_node_output_6(node, name, icon, colour, active, connected), NodePlug);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_node_output_2(/*node*/a0.ptr, ensureString(/*name*/a1)), NodePlug); }
+    if (a3 === undefined) { return wrapPointer(_mud_ui_node_output_3(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2)), NodePlug); }
+    if (a4 === undefined) { return wrapPointer(_mud_ui_node_output_4(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.ptr), NodePlug); }
+    if (a5 === undefined) { return wrapPointer(_mud_ui_node_output_5(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.ptr, /*active*/a4), NodePlug); }
+    return wrapPointer(_mud_ui_node_output_6(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.ptr, /*active*/a4, /*connected*/a5), NodePlug);
 };
-Module['ui']['node'] = function(parent, title, position, order, identity) {
+Module['ui']['node'] = function(a0, a1, a2, a3, a4) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Canvas> [] */
-    parent = parent.ptr;
-    /* title <const char*> [] */
-    if (title && typeof title === "object") title = title.ptr;
-    else title = ensureString(title);
-    /* position <mud::vec2> [] */
-    position = position.ptr;
-    /* order <int> [] */
-    /* identity <mud::Ref> [] */
-    var identity_type;
-    if (typeof identity !== "undefined" && identity !== null) { identity = identity.ptr; identity_type = identity.type.__type__; }
-    else { identity = 0; identity_type = 0; }
-    if (order === undefined) { return wrapPointer(_mud_ui_node_3(parent, title, position), Node); }
-    if (identity === undefined) { return wrapPointer(_mud_ui_node_4(parent, title, position, order), Node); }
-    return wrapPointer(_mud_ui_node_5(parent, title, position, order, identity, identity_type), Node);
+    if (a3 === undefined) { return wrapPointer(_mud_ui_node_3(/*parent*/a0.ptr, ensureString(/*title*/a1), /*position*/a2.ptr), Node); }
+    if (a4 === undefined) { return wrapPointer(_mud_ui_node_4(/*parent*/a0.ptr, ensureString(/*title*/a1), /*position*/a2.ptr, /*order*/a3), Node); }
+    return wrapPointer(_mud_ui_node_5(/*parent*/a0.ptr, ensureString(/*title*/a1), /*position*/a2.ptr, /*order*/a3, ensureRef(/*identity*/a4), ensureRefType(/*identity*/a4)), Node);
 };
-Module['ui']['node_cable'] = function(canvas, plug_out, plug_in) {
+Module['ui']['node_cable'] = function(a0, a1, a2) {
     var self = this.ptr;
-    /* canvas <mud::Canvas> [] */
-    canvas = canvas.ptr;
-    /* plug_out <mud::NodePlug> [] */
-    plug_out = plug_out.ptr;
-    /* plug_in <mud::NodePlug> [] */
-    plug_in = plug_in.ptr;
-    return wrapPointer(_mud_ui_node_cable_3(canvas, plug_out, plug_in), Widget);
+    return wrapPointer(_mud_ui_node_cable_3(/*canvas*/a0.ptr, /*plug_out*/a1.ptr, /*plug_in*/a2.ptr), Widget);
 };
-Module['ui']['canvas'] = function(parent, num_nodes) {
+Module['ui']['canvas'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* num_nodes <size_t> [] */
-    if (num_nodes === undefined) { return wrapPointer(_mud_ui_canvas_1(parent), Canvas); }
-    return wrapPointer(_mud_ui_canvas_2(parent, num_nodes), Canvas);
+    if (a1 === undefined) { return wrapPointer(_mud_ui_canvas_1(/*parent*/a0.ptr), Canvas); }
+    return wrapPointer(_mud_ui_canvas_2(/*parent*/a0.ptr, /*num_nodes*/a1), Canvas);
 };
-Module['ui']['scrollable'] = function(parent) {
+Module['ui']['scrollable'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_scrollable_1(parent), Widget);
+    return wrapPointer(_mud_ui_scrollable_1(/*parent*/a0.ptr), Widget);
 };
-Module['ui']['sequence'] = function(parent) {
+Module['ui']['sequence'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_sequence_1(parent), Sequence);
+    return wrapPointer(_mud_ui_sequence_1(/*parent*/a0.ptr), Sequence);
 };
-Module['ui']['scroll_sequence'] = function(parent) {
+Module['ui']['scroll_sequence'] = function(a0) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    return wrapPointer(_mud_ui_scroll_sequence_1(parent), Sequence);
+    return wrapPointer(_mud_ui_scroll_sequence_1(/*parent*/a0.ptr), Sequence);
 };
-Module['ui']['select_logic'] = function(element, object, selection) {
+Module['ui']['select_logic'] = function(a0, a1, a2) {
     var self = this.ptr;
-    /* element <mud::Widget> [] */
-    element = element.ptr;
-    /* object <mud::Ref> [] */
-    var object_type;
-    if (typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    /* selection <mud::Ref> [] */
-    var selection_type;
-    if (typeof selection !== "undefined" && selection !== null) { selection = selection.ptr; selection_type = selection.type.__type__; }
-    else { selection = 0; selection_type = 0; }
-    return !!(_mud_ui_select_logic_3(element, object, object_type, selection, selection_type));
+    return !!(_mud_ui_select_logic_3(/*element*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), ensureRef(/*selection*/a2), ensureRefType(/*selection*/a2)));
 };
-Module['ui']['element'] = function(parent, object) {
+Module['ui']['element'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* object <mud::Ref> [] */
-    var object_type;
-    if (typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    return wrapPointer(_mud_ui_element_2(parent, object, object_type), Widget);
+    return wrapPointer(_mud_ui_element_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)), Widget);
 };
-Module['ui']['sequence_element'] = function(parent, object) {
+Module['ui']['sequence_element'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::ui::Sequence> [] */
-    parent = parent.ptr;
-    /* object <mud::Ref> [] */
-    var object_type;
-    if (typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    return wrapPointer(_mud_ui_sequence_element_2(parent, object, object_type), Widget);
+    return wrapPointer(_mud_ui_sequence_element_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)), Widget);
 };
-Module['ui']['window'] = function(parent, title, state) {
+Module['ui']['window'] = function(a0, a1, a2) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* title <const char*> [] */
-    if (title && typeof title === "object") title = title.ptr;
-    else title = ensureString(title);
-    /* state <mud::WindowState> [] */
-    if (state && typeof state === "object") state = state.ptr;
-    if (state === undefined) { return wrapPointer(_mud_ui_window_2(parent, title), Window); }
-    return wrapPointer(_mud_ui_window_3(parent, title, state), Window);
+    if (a2 === undefined) { return wrapPointer(_mud_ui_window_2(/*parent*/a0.ptr, ensureString(/*title*/a1)), Window); }
+    return wrapPointer(_mud_ui_window_3(/*parent*/a0.ptr, ensureString(/*title*/a1), /*state*/a2), Window);
 };
-Module['ui']['dir_item'] = function(parent, name) {
+Module['ui']['dir_item'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    return wrapPointer(_mud_ui_dir_item_2(parent, name), Widget);
+    return wrapPointer(_mud_ui_dir_item_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), Widget);
 };
-Module['ui']['file_item'] = function(parent, name) {
+Module['ui']['file_item'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    return wrapPointer(_mud_ui_file_item_2(parent, name), Widget);
+    return wrapPointer(_mud_ui_file_item_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), Widget);
 };
-Module['ui']['dir_node'] = function(parent, path, name, collapsed) {
+Module['ui']['dir_node'] = function(a0, a1, a2, a3) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* path <const char*> [] */
-    if (path && typeof path === "object") path = path.ptr;
-    else path = ensureString(path);
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* collapsed <bool> [] */
-    return wrapPointer(_mud_ui_dir_node_4(parent, path, name, collapsed), Widget);
+    return wrapPointer(_mud_ui_dir_node_4(/*parent*/a0.ptr, ensureString(/*path*/a1), ensureString(/*name*/a2), /*collapsed*/a3), Widget);
 };
-Module['ui']['file_node'] = function(parent, name) {
+Module['ui']['file_node'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    return wrapPointer(_mud_ui_file_node_2(parent, name), Widget);
+    return wrapPointer(_mud_ui_file_node_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), Widget);
 };
-Module['ui']['file_tree'] = function(parent, path) {
+Module['ui']['file_tree'] = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* path <const char*> [] */
-    if (path && typeof path === "object") path = path.ptr;
-    else path = ensureString(path);
-    return wrapPointer(_mud_ui_file_tree_2(parent, path), Widget);
+    return wrapPointer(_mud_ui_file_tree_2(/*parent*/a0.ptr, ensureString(/*path*/a1)), Widget);
 };
 
 (function() {

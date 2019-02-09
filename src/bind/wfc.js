@@ -1,7 +1,6 @@
 // Tile
 function Tile() {
-    this.ptr = _mud_Tile__construct_0(); getCache(Tile)[this.ptr] = this;
-    this.type = Tile;
+    this.ptr = _mud_Tile__construct_0(); this.type = Tile; getCache(Tile)[this.ptr] = this;
 };
 Tile.prototype = Object.create(WrapperObject.prototype);
 Tile.prototype.constructor = Tile;
@@ -15,7 +14,6 @@ Object.defineProperty(Tile.prototype, "index", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <uint32_t> [] */
         _mud_Tile__set_index(self, value);
     }
 });
@@ -26,10 +24,7 @@ Object.defineProperty(Tile.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Tile__set_name(self, value);
+        _mud_Tile__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(Tile.prototype, "symmetry", {
@@ -39,7 +34,6 @@ Object.defineProperty(Tile.prototype, "symmetry", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <char> [] */
         _mud_Tile__set_symmetry(self, value);
     }
 });
@@ -50,7 +44,6 @@ Object.defineProperty(Tile.prototype, "cardinality", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _mud_Tile__set_cardinality(self, value);
     }
 });
@@ -61,7 +54,6 @@ Object.defineProperty(Tile.prototype, "profile", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _mud_Tile__set_profile(self, value);
     }
 });
@@ -71,8 +63,7 @@ Tile.prototype["__destroy__"] = Tile.prototype.__destroy__ = function() {
 };
 // Tileset
 function Tileset() {
-    this.ptr = _mud_Tileset__construct_0(); getCache(Tileset)[this.ptr] = this;
-    this.type = Tileset;
+    this.ptr = _mud_Tileset__construct_0(); this.type = Tileset; getCache(Tileset)[this.ptr] = this;
 };
 Tileset.prototype = Object.create(WrapperObject.prototype);
 Tileset.prototype.constructor = Tileset;
@@ -86,10 +77,7 @@ Object.defineProperty(Tileset.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Tileset__set_name(self, value);
+        _mud_Tileset__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(Tileset.prototype, "tile_size", {
@@ -99,9 +87,7 @@ Object.defineProperty(Tileset.prototype, "tile_size", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec3> [] */
-        value = value.ptr;
-        _mud_Tileset__set_tile_size(self, value);
+        _mud_Tileset__set_tile_size(self, value.ptr);
     }
 });
 Object.defineProperty(Tileset.prototype, "tile_scale", {
@@ -111,9 +97,7 @@ Object.defineProperty(Tileset.prototype, "tile_scale", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec3> [] */
-        value = value.ptr;
-        _mud_Tileset__set_tile_scale(self, value);
+        _mud_Tileset__set_tile_scale(self, value.ptr);
     }
 });
 Object.defineProperty(Tileset.prototype, "nutiles", {
@@ -123,7 +107,6 @@ Object.defineProperty(Tileset.prototype, "nutiles", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <uint16_t> [] */
         _mud_Tileset__set_nutiles(self, value);
     }
 });
@@ -133,33 +116,24 @@ Tileset.prototype["__destroy__"] = Tileset.prototype.__destroy__ = function() {
 };
 // Wave
 function Wave() {
-    this.ptr = _mud_Wave__construct_0(); getCache(Wave)[this.ptr] = this;
-    this.type = Wave;
+    this.ptr = _mud_Wave__construct_0(); this.type = Wave; getCache(Wave)[this.ptr] = this;
 };
 Wave.prototype = Object.create(WrapperObject.prototype);
 Wave.prototype.constructor = Wave;
 Wave.prototype.__class__ = Wave;
 Wave.__cache__ = {};
 Module['Wave'] = Wave;
-Wave.prototype["solve"] = Wave.prototype.solve = function(self, limit) {
+Wave.prototype["solve"] = Wave.prototype.solve = function(self, a0) {
     var self = this.ptr;
-    /* limit <size_t> [] */
-    return _mud_Wave_solve_1(self, limit);
+    return _mud_Wave_solve_1(self, /*limit*/a0);
 };
 Wave.prototype["__destroy__"] = Wave.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Wave__destroy(self);
 };
 // TileWave
-function TileWave(tileset, width, height, depth, periodic) {
-    /* tileset <mud::WaveTileset> [] */
-    tileset = tileset.ptr;
-    /* width <uint16_t> [] */
-    /* height <uint16_t> [] */
-    /* depth <uint16_t> [] */
-    /* periodic <bool> [] */
-    this.ptr = _mud_TileWave__construct_5(tileset, width, height, depth, periodic); getCache(TileWave)[this.ptr] = this;
-    this.type = TileWave;
+function TileWave(a0, a1, a2, a3, a4) {
+    this.ptr = _mud_TileWave__construct_5(/*tileset*/a0.ptr, /*width*/a1, /*height*/a2, /*depth*/a3, /*periodic*/a4); this.type = TileWave; getCache(TileWave)[this.ptr] = this;
 };
 TileWave.prototype = Object.create(Wave.prototype);
 TileWave.prototype.constructor = TileWave;
@@ -172,8 +146,7 @@ TileWave.prototype["__destroy__"] = TileWave.prototype.__destroy__ = function() 
 };
 // WaveTileset
 function WaveTileset() {
-    this.ptr = _mud_WaveTileset__construct_0(); getCache(WaveTileset)[this.ptr] = this;
-    this.type = WaveTileset;
+    this.ptr = _mud_WaveTileset__construct_0(); this.type = WaveTileset; getCache(WaveTileset)[this.ptr] = this;
 };
 WaveTileset.prototype = Object.create(Tileset.prototype);
 WaveTileset.prototype.constructor = WaveTileset;
@@ -184,31 +157,15 @@ WaveTileset.prototype["__destroy__"] = WaveTileset.prototype.__destroy__ = funct
     var self = this.ptr;
     _mud_WaveTileset__destroy(self);
 };
-Module['parse_json_tileset'] = function(path, subset, outputTileset) {
+Module['parse_json_tileset'] = function(a0, a1, a2) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* path <stl::string> [] */
-    if (path && typeof path === "object") path = path.ptr;
-    else path = ensureString(path);
-    /* subset <stl::string> [] */
-    if (subset && typeof subset === "object") subset = subset.ptr;
-    else subset = ensureString(subset);
-    /* outputTileset <mud::Tileset> [] */
-    outputTileset = outputTileset.ptr;
-    _mud_parse_json_tileset_3(path, subset, outputTileset);
+    _mud_parse_json_tileset_3(ensureString(/*path*/a0), ensureString(/*subset*/a1), /*outputTileset*/a2.ptr);
 };
-Module['parse_json_wave_tileset'] = function(path, subset, outputTileset) {
+Module['parse_json_wave_tileset'] = function(a0, a1, a2) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* path <stl::string> [] */
-    if (path && typeof path === "object") path = path.ptr;
-    else path = ensureString(path);
-    /* subset <stl::string> [] */
-    if (subset && typeof subset === "object") subset = subset.ptr;
-    else subset = ensureString(subset);
-    /* outputTileset <mud::WaveTileset> [] */
-    outputTileset = outputTileset.ptr;
-    _mud_parse_json_wave_tileset_3(path, subset, outputTileset);
+    _mud_parse_json_wave_tileset_3(ensureString(/*path*/a0), ensureString(/*subset*/a1), /*outputTileset*/a2.ptr);
 };
 
 (function() {

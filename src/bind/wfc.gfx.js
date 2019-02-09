@@ -1,7 +1,6 @@
 // TileModel
 function TileModel() {
-    this.ptr = _mud_TileModel__construct_0(); getCache(TileModel)[this.ptr] = this;
-    this.type = TileModel;
+    this.ptr = _mud_TileModel__construct_0(); this.type = TileModel; getCache(TileModel)[this.ptr] = this;
 };
 TileModel.prototype = Object.create(WrapperObject.prototype);
 TileModel.prototype.constructor = TileModel;
@@ -13,20 +12,10 @@ TileModel.prototype["__destroy__"] = TileModel.prototype.__destroy__ = function(
     _mud_TileModel__destroy(self);
 };
 // WfcBlock
-function WfcBlock(position, size, scale, tileset, auto_solve) {
-    /* position <mud::vec3> [] */
-    if (typeof position !== "undefined" && position !== null) { position = position.ptr; }
-    /* size <mud::uvec3> [] */
-    if (typeof size !== "undefined" && size !== null) { size = size.ptr; }
-    /* scale <mud::vec3> [] */
-    if (typeof scale !== "undefined" && scale !== null) { scale = scale.ptr; }
-    /* tileset <mud::WaveTileset> [] */
-    if (typeof tileset !== "undefined" && tileset !== null) { tileset = tileset.ptr; }
-    /* auto_solve <bool> [] */
-    if (position === undefined) { this.ptr = _mud_WfcBlock__construct_0(); getCache(WfcBlock)[this.ptr] = this; return; }
-    if (auto_solve === undefined) { this.ptr = _mud_WfcBlock__construct_4(position, size, scale, tileset); getCache(WfcBlock)[this.ptr] = this; return; }
-    this.ptr = _mud_WfcBlock__construct_5(position, size, scale, tileset, auto_solve); getCache(WfcBlock)[this.ptr] = this;
-    this.type = WfcBlock;
+function WfcBlock(a0, a1, a2, a3, a4) {
+    if (a0 === undefined) { this.ptr = _mud_WfcBlock__construct_0(); this.type = WfcBlock; getCache(WfcBlock)[this.ptr] = this; return; }
+    if (a4 === undefined) { this.ptr = _mud_WfcBlock__construct_4(/*position*/a0.ptr, /*size*/a1.ptr, /*scale*/a2.ptr, /*tileset*/a3.ptr); this.type = WfcBlock; getCache(WfcBlock)[this.ptr] = this; return; }
+    this.ptr = _mud_WfcBlock__construct_5(/*position*/a0.ptr, /*size*/a1.ptr, /*scale*/a2.ptr, /*tileset*/a3.ptr, /*auto_solve*/a4); this.type = WfcBlock; getCache(WfcBlock)[this.ptr] = this;
 };
 WfcBlock.prototype = Object.create(WrapperObject.prototype);
 WfcBlock.prototype.constructor = WfcBlock;
@@ -45,17 +34,14 @@ WfcBlock.prototype["propagate"] = WfcBlock.prototype.propagate = function(self) 
     var self = this.ptr;
     _mud_WfcBlock_propagate_0(self);
 };
-WfcBlock.prototype["solve"] = WfcBlock.prototype.solve = function(self, limit) {
+WfcBlock.prototype["solve"] = WfcBlock.prototype.solve = function(self, a0) {
     var self = this.ptr;
-    /* limit <size_t> [] */
-    if (limit === undefined) { _mud_WfcBlock_solve_0(self); return; }
-    _mud_WfcBlock_solve_1(self, limit);
+    if (a0 === undefined) { _mud_WfcBlock_solve_0(self); return; }
+    _mud_WfcBlock_solve_1(self, /*limit*/a0);
 };
-WfcBlock.prototype["update"] = WfcBlock.prototype.update = function(self, wave) {
+WfcBlock.prototype["update"] = WfcBlock.prototype.update = function(self, a0) {
     var self = this.ptr;
-    /* wave <mud::Wave> [] */
-    wave = wave.ptr;
-    _mud_WfcBlock_update_1(self, wave);
+    _mud_WfcBlock_update_1(self, /*wave*/a0.ptr);
 };
 Object.defineProperty(WfcBlock.prototype, "position", {
     get: function() {
@@ -64,9 +50,7 @@ Object.defineProperty(WfcBlock.prototype, "position", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec3> [] */
-        value = value.ptr;
-        _mud_WfcBlock__set_position(self, value);
+        _mud_WfcBlock__set_position(self, value.ptr);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "size", {
@@ -76,9 +60,7 @@ Object.defineProperty(WfcBlock.prototype, "size", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::uvec3> [] */
-        value = value.ptr;
-        _mud_WfcBlock__set_size(self, value);
+        _mud_WfcBlock__set_size(self, value.ptr);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "scale", {
@@ -88,9 +70,7 @@ Object.defineProperty(WfcBlock.prototype, "scale", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec3> [] */
-        value = value.ptr;
-        _mud_WfcBlock__set_scale(self, value);
+        _mud_WfcBlock__set_scale(self, value.ptr);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "aabb", {
@@ -100,9 +80,7 @@ Object.defineProperty(WfcBlock.prototype, "aabb", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Aabb> [] */
-        value = value.ptr;
-        _mud_WfcBlock__set_aabb(self, value);
+        _mud_WfcBlock__set_aabb(self, value.ptr);
     }
 });
 WfcBlock.prototype["__destroy__"] = WfcBlock.prototype.__destroy__ = function() {

@@ -1,15 +1,8 @@
 // Shell
-function Shell(resource_path, exec_path) {
+function Shell(a0, a1) {
     ensureCache.prepare();
-    /* resource_path <stl::string> [] */
-    if (resource_path && typeof resource_path === "object") resource_path = resource_path.ptr;
-    else resource_path = ensureString(resource_path);
-    /* exec_path <stl::string> [] */
-    if (exec_path && typeof exec_path === "object") exec_path = exec_path.ptr;
-    else exec_path = ensureString(exec_path);
-    if (exec_path === undefined) { this.ptr = _mud_Shell__construct_1(resource_path); getCache(Shell)[this.ptr] = this; return; }
-    this.ptr = _mud_Shell__construct_2(resource_path, exec_path); getCache(Shell)[this.ptr] = this;
-    this.type = Shell;
+    if (a1 === undefined) { this.ptr = _mud_Shell__construct_1(ensureString(/*resource_path*/a0)); this.type = Shell; getCache(Shell)[this.ptr] = this; return; }
+    this.ptr = _mud_Shell__construct_2(ensureString(/*resource_path*/a0), ensureString(/*exec_path*/a1)); this.type = Shell; getCache(Shell)[this.ptr] = this;
 };
 Shell.prototype = Object.create(WrapperObject.prototype);
 Shell.prototype.constructor = Shell;
@@ -27,10 +20,7 @@ Object.defineProperty(Shell.prototype, "exec_path", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Shell__set_exec_path(self, value);
+        _mud_Shell__set_exec_path(self, ensureString(value));
     }
 });
 Object.defineProperty(Shell.prototype, "resource_path", {
@@ -40,10 +30,7 @@ Object.defineProperty(Shell.prototype, "resource_path", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Shell__set_resource_path(self, value);
+        _mud_Shell__set_resource_path(self, ensureString(value));
     }
 });
 Object.defineProperty(Shell.prototype, "job_system", {
@@ -63,9 +50,7 @@ Object.defineProperty(Shell.prototype, "editor", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::ShellContext> [] */
-        value = value.ptr;
-        _mud_Shell__set_editor(self, value);
+        _mud_Shell__set_editor(self, value.ptr);
     }
 });
 Object.defineProperty(Shell.prototype, "ui", {
@@ -75,9 +60,7 @@ Object.defineProperty(Shell.prototype, "ui", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Ui> [] */
-        value = value.ptr;
-        _mud_Shell__set_ui(self, value);
+        _mud_Shell__set_ui(self, value.ptr);
     }
 });
 Shell.prototype["__destroy__"] = Shell.prototype.__destroy__ = function() {
@@ -86,8 +69,7 @@ Shell.prototype["__destroy__"] = Shell.prototype.__destroy__ = function() {
 };
 // ShellContext
 function ShellContext() {
-    this.ptr = _mud_ShellContext__construct_0(); getCache(ShellContext)[this.ptr] = this;
-    this.type = ShellContext;
+    this.ptr = _mud_ShellContext__construct_0(); this.type = ShellContext; getCache(ShellContext)[this.ptr] = this;
 };
 ShellContext.prototype = Object.create(WrapperObject.prototype);
 ShellContext.prototype.constructor = ShellContext;
@@ -101,9 +83,7 @@ Object.defineProperty(ShellContext.prototype, "screen", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Widget> [] */
-        value = value.ptr;
-        _mud_ShellContext__set_screen(self, value);
+        _mud_ShellContext__set_screen(self, value.ptr);
     }
 });
 Object.defineProperty(ShellContext.prototype, "dockbar", {
@@ -113,9 +93,7 @@ Object.defineProperty(ShellContext.prototype, "dockbar", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Dockbar> [] */
-        value = value.ptr;
-        _mud_ShellContext__set_dockbar(self, value);
+        _mud_ShellContext__set_dockbar(self, value.ptr);
     }
 });
 ShellContext.prototype["__destroy__"] = ShellContext.prototype.__destroy__ = function() {

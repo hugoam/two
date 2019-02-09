@@ -9,89 +9,40 @@ ScriptEditor.prototype["__destroy__"] = ScriptEditor.prototype.__destroy__ = fun
     var self = this.ptr;
     _mud_ScriptEditor__destroy(self);
 };
-Module['object_edit_inline'] = function(parent, object) {
+Module['object_edit_inline'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* object <mud::Ref> [] */
-    var object_type;
-    if (typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    return !!(_mud_object_edit_inline_2(parent, object, object_type));
+    return !!(_mud_object_edit_inline_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
-Module['object_edit_rows'] = function(parent, object) {
+Module['object_edit_rows'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* object <mud::Ref> [] */
-    var object_type;
-    if (typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    return !!(_mud_object_edit_rows_2(parent, object, object_type));
+    return !!(_mud_object_edit_rows_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
-Module['object_edit_columns'] = function(parent, object) {
+Module['object_edit_columns'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* object <mud::Ref> [] */
-    var object_type;
-    if (typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    return !!(_mud_object_edit_columns_2(parent, object, object_type));
+    return !!(_mud_object_edit_columns_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
-Module['object_edit_table'] = function(parent, object) {
+Module['object_edit_table'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* object <mud::Ref> [] */
-    var object_type;
-    if (typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    return !!(_mud_object_edit_table_2(parent, object, object_type));
+    return !!(_mud_object_edit_table_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
-Module['object_edit_expandbox'] = function(parent, object) {
+Module['object_edit_expandbox'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* object <mud::Ref> [] */
-    var object_type;
-    if (typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    return !!(_mud_object_edit_expandbox_2(parent, object, object_type));
+    return !!(_mud_object_edit_expandbox_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
-Module['object_edit'] = function(parent, object, hint) {
+Module['object_edit'] = function(a0, a1, a2) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* object <mud::Ref> [] */
-    var object_type;
-    if (typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    /* hint <mud::EditorHint> [] */
-    if (hint && typeof hint === "object") hint = hint.ptr;
-    if (hint === undefined) { return !!(_mud_object_edit_2(parent, object, object_type)); }
-    return !!(_mud_object_edit_3(parent, object, object_type, hint));
+    if (a2 === undefined) { return !!(_mud_object_edit_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1))); }
+    return !!(_mud_object_edit_3(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), /*hint*/a2));
 };
-Module['entity_edit'] = function(parent, entity, hint) {
+Module['entity_edit'] = function(a0, a1, a2) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* entity <mud::Entity> [] */
-    entity = entity.ptr;
-    /* hint <mud::EditorHint> [] */
-    if (hint && typeof hint === "object") hint = hint.ptr;
-    if (hint === undefined) { return !!(_mud_entity_edit_2(parent, entity)); }
-    return !!(_mud_entity_edit_3(parent, entity, hint));
+    if (a2 === undefined) { return !!(_mud_entity_edit_2(/*parent*/a0.ptr, /*entity*/a1.ptr)); }
+    return !!(_mud_entity_edit_3(/*parent*/a0.ptr, /*entity*/a1.ptr, /*hint*/a2));
 };
-Module['inspector'] = function(parent, object) {
+Module['inspector'] = function(a0, a1) {
     var self = this.ptr;
-    /* parent <mud::Widget> [] */
-    parent = parent.ptr;
-    /* object <mud::Ref> [] */
-    var object_type;
-    if (typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    return !!(_mud_inspector_2(parent, object, object_type));
+    if (a1 === undefined) { return !!(_mud_inspector_1(/*parent*/a0.ptr)); }
+    return !!(_mud_inspector_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
 
 (function() {

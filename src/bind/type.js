@@ -6,11 +6,9 @@ Index.prototype.constructor = Index;
 Index.prototype.__class__ = Index;
 Index.__cache__ = {};
 Module['Index'] = Index;
-Index.prototype["indexer"] = Index.prototype.indexer = function(self, type) {
+Index.prototype["indexer"] = Index.prototype.indexer = function(self, a0) {
     var self = this.ptr;
-    /* type <mud::Type> [] */
-    type = type.ptr;
-    return wrapPointer(_mud_Index_indexer_1(self, type), Indexer);
+    return wrapPointer(_mud_Index_indexer_1(self, /*type*/a0.ptr), Indexer);
 };
 Index.prototype["__destroy__"] = Index.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -30,9 +28,7 @@ Object.defineProperty(Indexer.prototype, "type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Type> [] */
-        value = value.ptr;
-        _mud_Indexer__set_type(self, value);
+        _mud_Indexer__set_type(self, value.ptr);
     }
 });
 Indexer.prototype["__destroy__"] = Indexer.prototype.__destroy__ = function() {
@@ -51,13 +47,9 @@ Prototype.prototype["__destroy__"] = Prototype.prototype.__destroy__ = function(
     _mud_Prototype__destroy(self);
 };
 // Ref
-function Ref(value, type) {
-    /* value <void*> [] */
-    /* type <mud::Type> [] */
-    if (typeof type !== "undefined" && type !== null) { type = type.ptr; }
-    if (value === undefined) { this.ptr = _mud_Ref__construct_0(); getCache(Ref)[this.ptr] = this; return; }
-    this.ptr = _mud_Ref__construct_2(value, type); getCache(Ref)[this.ptr] = this;
-    this.type = Ref;
+function Ref(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_Ref__construct_0(); this.type = Ref; getCache(Ref)[this.ptr] = this; return; }
+    this.ptr = _mud_Ref__construct_2(/*value*/a0, /*type*/a1.ptr); this.type = Ref; getCache(Ref)[this.ptr] = this;
 };
 Ref.prototype = Object.create(WrapperObject.prototype);
 Ref.prototype.constructor = Ref;
@@ -71,9 +63,7 @@ Object.defineProperty(Ref.prototype, "type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Type> [] */
-        value = value.ptr;
-        _mud_Ref__set_type(self, value);
+        _mud_Ref__set_type(self, value.ptr);
     }
 });
 Object.defineProperty(Ref.prototype, "value", {
@@ -83,7 +73,6 @@ Object.defineProperty(Ref.prototype, "value", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <void*> [] */
         _mud_Ref__set_value(self, value);
     }
 });
@@ -105,7 +94,6 @@ Object.defineProperty(Type.prototype, "id", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <uint32_t> [] */
         _mud_Type__set_id(self, value);
     }
 });
@@ -116,10 +104,7 @@ Object.defineProperty(Type.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <const char*> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Type__set_name(self, value);
+        _mud_Type__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(Type.prototype, "size", {
@@ -129,7 +114,6 @@ Object.defineProperty(Type.prototype, "size", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <size_t> [] */
         _mud_Type__set_size(self, value);
     }
 });
@@ -140,9 +124,7 @@ Object.defineProperty(Type.prototype, "base", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Type> [] */
-        value = value.ptr;
-        _mud_Type__set_base(self, value);
+        _mud_Type__set_base(self, value.ptr);
     }
 });
 Type.prototype["__destroy__"] = Type.prototype.__destroy__ = function() {
@@ -160,12 +142,9 @@ Var.prototype["__destroy__"] = Var.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Var__destroy(self);
 };
-Module['indexed'] = function(type, id) {
+Module['indexed'] = function(a0, a1) {
     var self = this.ptr;
-    /* type <mud::Type> [] */
-    type = type.ptr;
-    /* id <uint32_t> [] */
-    return wrapPointer(_mud_indexed_2(type, id), Ref);
+    return wrapPointer(_mud_indexed_2(/*type*/a0.ptr, /*id*/a1), Ref);
 };
 
 (function() {

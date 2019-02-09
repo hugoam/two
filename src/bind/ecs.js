@@ -1,7 +1,6 @@
 // Entity
 function Entity() {
-    this.ptr = _mud_Entity__construct_0(); getCache(Entity)[this.ptr] = this;
-    this.type = Entity;
+    this.ptr = _mud_Entity__construct_0(); this.type = Entity; getCache(Entity)[this.ptr] = this;
 };
 Entity.prototype = Object.create(WrapperObject.prototype);
 Entity.prototype.constructor = Entity;

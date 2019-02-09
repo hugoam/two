@@ -1,8 +1,7 @@
 Module['stl'] = Module['stl'] || {};
 // glTF
 function glTF() {
-    this.ptr = _glTF__construct_0(); getCache(glTF)[this.ptr] = this;
-    this.type = glTF;
+    this.ptr = _glTF__construct_0(); this.type = glTF; getCache(glTF)[this.ptr] = this;
 };
 glTF.prototype = Object.create(WrapperObject.prototype);
 glTF.prototype.constructor = glTF;
@@ -15,8 +14,7 @@ glTF.prototype["__destroy__"] = glTF.prototype.__destroy__ = function() {
 };
 // glTFAccessor
 function glTFAccessor() {
-    this.ptr = _glTFAccessor__construct_0(); getCache(glTFAccessor)[this.ptr] = this;
-    this.type = glTFAccessor;
+    this.ptr = _glTFAccessor__construct_0(); this.type = glTFAccessor; getCache(glTFAccessor)[this.ptr] = this;
 };
 glTFAccessor.prototype = Object.create(WrapperObject.prototype);
 glTFAccessor.prototype.constructor = glTFAccessor;
@@ -30,10 +28,7 @@ Object.defineProperty(glTFAccessor.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFAccessor__set_name(self, value);
+        _glTFAccessor__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFAccessor.prototype, "buffer_view", {
@@ -43,7 +38,6 @@ Object.defineProperty(glTFAccessor.prototype, "buffer_view", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAccessor__set_buffer_view(self, value);
     }
 });
@@ -54,7 +48,6 @@ Object.defineProperty(glTFAccessor.prototype, "byte_offset", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAccessor__set_byte_offset(self, value);
     }
 });
@@ -65,8 +58,6 @@ Object.defineProperty(glTFAccessor.prototype, "component_type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFComponentType> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _glTFAccessor__set_component_type(self, value);
     }
 });
@@ -77,7 +68,6 @@ Object.defineProperty(glTFAccessor.prototype, "normalized", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _glTFAccessor__set_normalized(self, value);
     }
 });
@@ -88,7 +78,6 @@ Object.defineProperty(glTFAccessor.prototype, "count", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAccessor__set_count(self, value);
     }
 });
@@ -99,8 +88,6 @@ Object.defineProperty(glTFAccessor.prototype, "type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFType> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _glTFAccessor__set_type(self, value);
     }
 });
@@ -111,9 +98,7 @@ Object.defineProperty(glTFAccessor.prototype, "sparse", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFSparse> [] */
-        value = value.ptr;
-        _glTFAccessor__set_sparse(self, value);
+        _glTFAccessor__set_sparse(self, value.ptr);
     }
 });
 glTFAccessor.prototype["__destroy__"] = glTFAccessor.prototype.__destroy__ = function() {
@@ -122,8 +107,7 @@ glTFAccessor.prototype["__destroy__"] = glTFAccessor.prototype.__destroy__ = fun
 };
 // glTFAnimation
 function glTFAnimation() {
-    this.ptr = _glTFAnimation__construct_0(); getCache(glTFAnimation)[this.ptr] = this;
-    this.type = glTFAnimation;
+    this.ptr = _glTFAnimation__construct_0(); this.type = glTFAnimation; getCache(glTFAnimation)[this.ptr] = this;
 };
 glTFAnimation.prototype = Object.create(WrapperObject.prototype);
 glTFAnimation.prototype.constructor = glTFAnimation;
@@ -137,10 +121,7 @@ Object.defineProperty(glTFAnimation.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFAnimation__set_name(self, value);
+        _glTFAnimation__set_name(self, ensureString(value));
     }
 });
 glTFAnimation.prototype["__destroy__"] = glTFAnimation.prototype.__destroy__ = function() {
@@ -149,8 +130,7 @@ glTFAnimation.prototype["__destroy__"] = glTFAnimation.prototype.__destroy__ = f
 };
 // glTFAnimationChannel
 function glTFAnimationChannel() {
-    this.ptr = _glTFAnimationChannel__construct_0(); getCache(glTFAnimationChannel)[this.ptr] = this;
-    this.type = glTFAnimationChannel;
+    this.ptr = _glTFAnimationChannel__construct_0(); this.type = glTFAnimationChannel; getCache(glTFAnimationChannel)[this.ptr] = this;
 };
 glTFAnimationChannel.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationChannel.prototype.constructor = glTFAnimationChannel;
@@ -164,7 +144,6 @@ Object.defineProperty(glTFAnimationChannel.prototype, "sampler", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAnimationChannel__set_sampler(self, value);
     }
 });
@@ -175,9 +154,7 @@ Object.defineProperty(glTFAnimationChannel.prototype, "target", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFAnimationTarget> [] */
-        value = value.ptr;
-        _glTFAnimationChannel__set_target(self, value);
+        _glTFAnimationChannel__set_target(self, value.ptr);
     }
 });
 glTFAnimationChannel.prototype["__destroy__"] = glTFAnimationChannel.prototype.__destroy__ = function() {
@@ -186,8 +163,7 @@ glTFAnimationChannel.prototype["__destroy__"] = glTFAnimationChannel.prototype._
 };
 // glTFAnimationSampler
 function glTFAnimationSampler() {
-    this.ptr = _glTFAnimationSampler__construct_0(); getCache(glTFAnimationSampler)[this.ptr] = this;
-    this.type = glTFAnimationSampler;
+    this.ptr = _glTFAnimationSampler__construct_0(); this.type = glTFAnimationSampler; getCache(glTFAnimationSampler)[this.ptr] = this;
 };
 glTFAnimationSampler.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationSampler.prototype.constructor = glTFAnimationSampler;
@@ -201,8 +177,6 @@ Object.defineProperty(glTFAnimationSampler.prototype, "interpolation", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFInterpolation> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _glTFAnimationSampler__set_interpolation(self, value);
     }
 });
@@ -213,7 +187,6 @@ Object.defineProperty(glTFAnimationSampler.prototype, "input", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAnimationSampler__set_input(self, value);
     }
 });
@@ -224,7 +197,6 @@ Object.defineProperty(glTFAnimationSampler.prototype, "output", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAnimationSampler__set_output(self, value);
     }
 });
@@ -234,8 +206,7 @@ glTFAnimationSampler.prototype["__destroy__"] = glTFAnimationSampler.prototype._
 };
 // glTFAnimationTarget
 function glTFAnimationTarget() {
-    this.ptr = _glTFAnimationTarget__construct_0(); getCache(glTFAnimationTarget)[this.ptr] = this;
-    this.type = glTFAnimationTarget;
+    this.ptr = _glTFAnimationTarget__construct_0(); this.type = glTFAnimationTarget; getCache(glTFAnimationTarget)[this.ptr] = this;
 };
 glTFAnimationTarget.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationTarget.prototype.constructor = glTFAnimationTarget;
@@ -249,7 +220,6 @@ Object.defineProperty(glTFAnimationTarget.prototype, "node", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAnimationTarget__set_node(self, value);
     }
 });
@@ -260,10 +230,7 @@ Object.defineProperty(glTFAnimationTarget.prototype, "path", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFAnimationTarget__set_path(self, value);
+        _glTFAnimationTarget__set_path(self, ensureString(value));
     }
 });
 glTFAnimationTarget.prototype["__destroy__"] = glTFAnimationTarget.prototype.__destroy__ = function() {
@@ -272,8 +239,7 @@ glTFAnimationTarget.prototype["__destroy__"] = glTFAnimationTarget.prototype.__d
 };
 // glTFAttributes
 function glTFAttributes() {
-    this.ptr = _glTFAttributes__construct_0(); getCache(glTFAttributes)[this.ptr] = this;
-    this.type = glTFAttributes;
+    this.ptr = _glTFAttributes__construct_0(); this.type = glTFAttributes; getCache(glTFAttributes)[this.ptr] = this;
 };
 glTFAttributes.prototype = Object.create(WrapperObject.prototype);
 glTFAttributes.prototype.constructor = glTFAttributes;
@@ -287,7 +253,6 @@ Object.defineProperty(glTFAttributes.prototype, "POSITION", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAttributes__set_POSITION(self, value);
     }
 });
@@ -298,7 +263,6 @@ Object.defineProperty(glTFAttributes.prototype, "NORMAL", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAttributes__set_NORMAL(self, value);
     }
 });
@@ -309,7 +273,6 @@ Object.defineProperty(glTFAttributes.prototype, "TANGENT", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAttributes__set_TANGENT(self, value);
     }
 });
@@ -320,7 +283,6 @@ Object.defineProperty(glTFAttributes.prototype, "TEXCOORD_0", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAttributes__set_TEXCOORD_0(self, value);
     }
 });
@@ -331,7 +293,6 @@ Object.defineProperty(glTFAttributes.prototype, "TEXCOORD_1", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAttributes__set_TEXCOORD_1(self, value);
     }
 });
@@ -342,7 +303,6 @@ Object.defineProperty(glTFAttributes.prototype, "COLOR_0", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAttributes__set_COLOR_0(self, value);
     }
 });
@@ -353,7 +313,6 @@ Object.defineProperty(glTFAttributes.prototype, "JOINTS_0", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAttributes__set_JOINTS_0(self, value);
     }
 });
@@ -364,7 +323,6 @@ Object.defineProperty(glTFAttributes.prototype, "WEIGHTS_0", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFAttributes__set_WEIGHTS_0(self, value);
     }
 });
@@ -374,8 +332,7 @@ glTFAttributes.prototype["__destroy__"] = glTFAttributes.prototype.__destroy__ =
 };
 // glTFBuffer
 function glTFBuffer() {
-    this.ptr = _glTFBuffer__construct_0(); getCache(glTFBuffer)[this.ptr] = this;
-    this.type = glTFBuffer;
+    this.ptr = _glTFBuffer__construct_0(); this.type = glTFBuffer; getCache(glTFBuffer)[this.ptr] = this;
 };
 glTFBuffer.prototype = Object.create(WrapperObject.prototype);
 glTFBuffer.prototype.constructor = glTFBuffer;
@@ -389,10 +346,7 @@ Object.defineProperty(glTFBuffer.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFBuffer__set_name(self, value);
+        _glTFBuffer__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFBuffer.prototype, "mime_type", {
@@ -402,10 +356,7 @@ Object.defineProperty(glTFBuffer.prototype, "mime_type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFBuffer__set_mime_type(self, value);
+        _glTFBuffer__set_mime_type(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFBuffer.prototype, "uri", {
@@ -415,10 +366,7 @@ Object.defineProperty(glTFBuffer.prototype, "uri", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFBuffer__set_uri(self, value);
+        _glTFBuffer__set_uri(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFBuffer.prototype, "byte_length", {
@@ -428,7 +376,6 @@ Object.defineProperty(glTFBuffer.prototype, "byte_length", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <size_t> [] */
         _glTFBuffer__set_byte_length(self, value);
     }
 });
@@ -438,8 +385,7 @@ glTFBuffer.prototype["__destroy__"] = glTFBuffer.prototype.__destroy__ = functio
 };
 // glTFBufferView
 function glTFBufferView() {
-    this.ptr = _glTFBufferView__construct_0(); getCache(glTFBufferView)[this.ptr] = this;
-    this.type = glTFBufferView;
+    this.ptr = _glTFBufferView__construct_0(); this.type = glTFBufferView; getCache(glTFBufferView)[this.ptr] = this;
 };
 glTFBufferView.prototype = Object.create(WrapperObject.prototype);
 glTFBufferView.prototype.constructor = glTFBufferView;
@@ -453,10 +399,7 @@ Object.defineProperty(glTFBufferView.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFBufferView__set_name(self, value);
+        _glTFBufferView__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFBufferView.prototype, "buffer", {
@@ -466,7 +409,6 @@ Object.defineProperty(glTFBufferView.prototype, "buffer", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFBufferView__set_buffer(self, value);
     }
 });
@@ -477,7 +419,6 @@ Object.defineProperty(glTFBufferView.prototype, "byte_offset", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <size_t> [] */
         _glTFBufferView__set_byte_offset(self, value);
     }
 });
@@ -488,7 +429,6 @@ Object.defineProperty(glTFBufferView.prototype, "byte_length", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <size_t> [] */
         _glTFBufferView__set_byte_length(self, value);
     }
 });
@@ -499,7 +439,6 @@ Object.defineProperty(glTFBufferView.prototype, "byte_stride", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <size_t> [] */
         _glTFBufferView__set_byte_stride(self, value);
     }
 });
@@ -510,7 +449,6 @@ Object.defineProperty(glTFBufferView.prototype, "target", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFBufferView__set_target(self, value);
     }
 });
@@ -520,8 +458,7 @@ glTFBufferView.prototype["__destroy__"] = glTFBufferView.prototype.__destroy__ =
 };
 // glTFCamera
 function glTFCamera() {
-    this.ptr = _glTFCamera__construct_0(); getCache(glTFCamera)[this.ptr] = this;
-    this.type = glTFCamera;
+    this.ptr = _glTFCamera__construct_0(); this.type = glTFCamera; getCache(glTFCamera)[this.ptr] = this;
 };
 glTFCamera.prototype = Object.create(WrapperObject.prototype);
 glTFCamera.prototype.constructor = glTFCamera;
@@ -535,10 +472,7 @@ Object.defineProperty(glTFCamera.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFCamera__set_name(self, value);
+        _glTFCamera__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFCamera.prototype, "type", {
@@ -548,10 +482,7 @@ Object.defineProperty(glTFCamera.prototype, "type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFCamera__set_type(self, value);
+        _glTFCamera__set_type(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFCamera.prototype, "orthographic", {
@@ -561,9 +492,7 @@ Object.defineProperty(glTFCamera.prototype, "orthographic", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFOrthographic> [] */
-        value = value.ptr;
-        _glTFCamera__set_orthographic(self, value);
+        _glTFCamera__set_orthographic(self, value.ptr);
     }
 });
 Object.defineProperty(glTFCamera.prototype, "perspective", {
@@ -573,9 +502,7 @@ Object.defineProperty(glTFCamera.prototype, "perspective", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFPerspective> [] */
-        value = value.ptr;
-        _glTFCamera__set_perspective(self, value);
+        _glTFCamera__set_perspective(self, value.ptr);
     }
 });
 glTFCamera.prototype["__destroy__"] = glTFCamera.prototype.__destroy__ = function() {
@@ -584,8 +511,7 @@ glTFCamera.prototype["__destroy__"] = glTFCamera.prototype.__destroy__ = functio
 };
 // glTFImage
 function glTFImage() {
-    this.ptr = _glTFImage__construct_0(); getCache(glTFImage)[this.ptr] = this;
-    this.type = glTFImage;
+    this.ptr = _glTFImage__construct_0(); this.type = glTFImage; getCache(glTFImage)[this.ptr] = this;
 };
 glTFImage.prototype = Object.create(WrapperObject.prototype);
 glTFImage.prototype.constructor = glTFImage;
@@ -599,10 +525,7 @@ Object.defineProperty(glTFImage.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFImage__set_name(self, value);
+        _glTFImage__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFImage.prototype, "mime_type", {
@@ -612,10 +535,7 @@ Object.defineProperty(glTFImage.prototype, "mime_type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFImage__set_mime_type(self, value);
+        _glTFImage__set_mime_type(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFImage.prototype, "uri", {
@@ -625,10 +545,7 @@ Object.defineProperty(glTFImage.prototype, "uri", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFImage__set_uri(self, value);
+        _glTFImage__set_uri(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFImage.prototype, "buffer_view", {
@@ -638,7 +555,6 @@ Object.defineProperty(glTFImage.prototype, "buffer_view", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFImage__set_buffer_view(self, value);
     }
 });
@@ -648,8 +564,7 @@ glTFImage.prototype["__destroy__"] = glTFImage.prototype.__destroy__ = function(
 };
 // glTFMaterial
 function glTFMaterial() {
-    this.ptr = _glTFMaterial__construct_0(); getCache(glTFMaterial)[this.ptr] = this;
-    this.type = glTFMaterial;
+    this.ptr = _glTFMaterial__construct_0(); this.type = glTFMaterial; getCache(glTFMaterial)[this.ptr] = this;
 };
 glTFMaterial.prototype = Object.create(WrapperObject.prototype);
 glTFMaterial.prototype.constructor = glTFMaterial;
@@ -663,10 +578,7 @@ Object.defineProperty(glTFMaterial.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFMaterial__set_name(self, value);
+        _glTFMaterial__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "normal_texture", {
@@ -676,9 +588,7 @@ Object.defineProperty(glTFMaterial.prototype, "normal_texture", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFTextureInfo> [] */
-        value = value.ptr;
-        _glTFMaterial__set_normal_texture(self, value);
+        _glTFMaterial__set_normal_texture(self, value.ptr);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "occlusion_texture", {
@@ -688,9 +598,7 @@ Object.defineProperty(glTFMaterial.prototype, "occlusion_texture", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFTextureInfo> [] */
-        value = value.ptr;
-        _glTFMaterial__set_occlusion_texture(self, value);
+        _glTFMaterial__set_occlusion_texture(self, value.ptr);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "emissive_factor", {
@@ -700,9 +608,7 @@ Object.defineProperty(glTFMaterial.prototype, "emissive_factor", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec3> [] */
-        value = value.ptr;
-        _glTFMaterial__set_emissive_factor(self, value);
+        _glTFMaterial__set_emissive_factor(self, value.ptr);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "emissive_texture", {
@@ -712,9 +618,7 @@ Object.defineProperty(glTFMaterial.prototype, "emissive_texture", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFTextureInfo> [] */
-        value = value.ptr;
-        _glTFMaterial__set_emissive_texture(self, value);
+        _glTFMaterial__set_emissive_texture(self, value.ptr);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "double_sided", {
@@ -724,7 +628,6 @@ Object.defineProperty(glTFMaterial.prototype, "double_sided", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _glTFMaterial__set_double_sided(self, value);
     }
 });
@@ -735,8 +638,6 @@ Object.defineProperty(glTFMaterial.prototype, "alpha_mode", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFAlphaMode> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _glTFMaterial__set_alpha_mode(self, value);
     }
 });
@@ -747,9 +648,7 @@ Object.defineProperty(glTFMaterial.prototype, "pbr_metallic_roughness", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFMaterialPBR> [] */
-        value = value.ptr;
-        _glTFMaterial__set_pbr_metallic_roughness(self, value);
+        _glTFMaterial__set_pbr_metallic_roughness(self, value.ptr);
     }
 });
 glTFMaterial.prototype["__destroy__"] = glTFMaterial.prototype.__destroy__ = function() {
@@ -758,8 +657,7 @@ glTFMaterial.prototype["__destroy__"] = glTFMaterial.prototype.__destroy__ = fun
 };
 // glTFMaterialPBR
 function glTFMaterialPBR() {
-    this.ptr = _glTFMaterialPBR__construct_0(); getCache(glTFMaterialPBR)[this.ptr] = this;
-    this.type = glTFMaterialPBR;
+    this.ptr = _glTFMaterialPBR__construct_0(); this.type = glTFMaterialPBR; getCache(glTFMaterialPBR)[this.ptr] = this;
 };
 glTFMaterialPBR.prototype = Object.create(WrapperObject.prototype);
 glTFMaterialPBR.prototype.constructor = glTFMaterialPBR;
@@ -773,9 +671,7 @@ Object.defineProperty(glTFMaterialPBR.prototype, "base_color_factor", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec4> [] */
-        value = value.ptr;
-        _glTFMaterialPBR__set_base_color_factor(self, value);
+        _glTFMaterialPBR__set_base_color_factor(self, value.ptr);
     }
 });
 Object.defineProperty(glTFMaterialPBR.prototype, "base_color_texture", {
@@ -785,9 +681,7 @@ Object.defineProperty(glTFMaterialPBR.prototype, "base_color_texture", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFTextureInfo> [] */
-        value = value.ptr;
-        _glTFMaterialPBR__set_base_color_texture(self, value);
+        _glTFMaterialPBR__set_base_color_texture(self, value.ptr);
     }
 });
 Object.defineProperty(glTFMaterialPBR.prototype, "metallic_factor", {
@@ -797,7 +691,6 @@ Object.defineProperty(glTFMaterialPBR.prototype, "metallic_factor", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _glTFMaterialPBR__set_metallic_factor(self, value);
     }
 });
@@ -808,7 +701,6 @@ Object.defineProperty(glTFMaterialPBR.prototype, "roughness_factor", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _glTFMaterialPBR__set_roughness_factor(self, value);
     }
 });
@@ -819,9 +711,7 @@ Object.defineProperty(glTFMaterialPBR.prototype, "metallic_roughness_texture", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFTextureInfo> [] */
-        value = value.ptr;
-        _glTFMaterialPBR__set_metallic_roughness_texture(self, value);
+        _glTFMaterialPBR__set_metallic_roughness_texture(self, value.ptr);
     }
 });
 glTFMaterialPBR.prototype["__destroy__"] = glTFMaterialPBR.prototype.__destroy__ = function() {
@@ -830,8 +720,7 @@ glTFMaterialPBR.prototype["__destroy__"] = glTFMaterialPBR.prototype.__destroy__
 };
 // glTFMesh
 function glTFMesh() {
-    this.ptr = _glTFMesh__construct_0(); getCache(glTFMesh)[this.ptr] = this;
-    this.type = glTFMesh;
+    this.ptr = _glTFMesh__construct_0(); this.type = glTFMesh; getCache(glTFMesh)[this.ptr] = this;
 };
 glTFMesh.prototype = Object.create(WrapperObject.prototype);
 glTFMesh.prototype.constructor = glTFMesh;
@@ -845,10 +734,7 @@ Object.defineProperty(glTFMesh.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFMesh__set_name(self, value);
+        _glTFMesh__set_name(self, ensureString(value));
     }
 });
 glTFMesh.prototype["__destroy__"] = glTFMesh.prototype.__destroy__ = function() {
@@ -857,8 +743,7 @@ glTFMesh.prototype["__destroy__"] = glTFMesh.prototype.__destroy__ = function() 
 };
 // glTFMorphTarget
 function glTFMorphTarget() {
-    this.ptr = _glTFMorphTarget__construct_0(); getCache(glTFMorphTarget)[this.ptr] = this;
-    this.type = glTFMorphTarget;
+    this.ptr = _glTFMorphTarget__construct_0(); this.type = glTFMorphTarget; getCache(glTFMorphTarget)[this.ptr] = this;
 };
 glTFMorphTarget.prototype = Object.create(WrapperObject.prototype);
 glTFMorphTarget.prototype.constructor = glTFMorphTarget;
@@ -872,7 +757,6 @@ Object.defineProperty(glTFMorphTarget.prototype, "POSITION", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFMorphTarget__set_POSITION(self, value);
     }
 });
@@ -883,7 +767,6 @@ Object.defineProperty(glTFMorphTarget.prototype, "NORMAL", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFMorphTarget__set_NORMAL(self, value);
     }
 });
@@ -894,7 +777,6 @@ Object.defineProperty(glTFMorphTarget.prototype, "TANGENT", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFMorphTarget__set_TANGENT(self, value);
     }
 });
@@ -904,8 +786,7 @@ glTFMorphTarget.prototype["__destroy__"] = glTFMorphTarget.prototype.__destroy__
 };
 // glTFNode
 function glTFNode() {
-    this.ptr = _glTFNode__construct_0(); getCache(glTFNode)[this.ptr] = this;
-    this.type = glTFNode;
+    this.ptr = _glTFNode__construct_0(); this.type = glTFNode; getCache(glTFNode)[this.ptr] = this;
 };
 glTFNode.prototype = Object.create(WrapperObject.prototype);
 glTFNode.prototype.constructor = glTFNode;
@@ -919,10 +800,7 @@ Object.defineProperty(glTFNode.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFNode__set_name(self, value);
+        _glTFNode__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFNode.prototype, "mesh", {
@@ -932,7 +810,6 @@ Object.defineProperty(glTFNode.prototype, "mesh", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFNode__set_mesh(self, value);
     }
 });
@@ -943,7 +820,6 @@ Object.defineProperty(glTFNode.prototype, "camera", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFNode__set_camera(self, value);
     }
 });
@@ -954,7 +830,6 @@ Object.defineProperty(glTFNode.prototype, "skin", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFNode__set_skin(self, value);
     }
 });
@@ -965,9 +840,7 @@ Object.defineProperty(glTFNode.prototype, "matrix", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::mat4> [] */
-        value = value.ptr;
-        _glTFNode__set_matrix(self, value);
+        _glTFNode__set_matrix(self, value.ptr);
     }
 });
 Object.defineProperty(glTFNode.prototype, "translation", {
@@ -977,9 +850,7 @@ Object.defineProperty(glTFNode.prototype, "translation", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec3> [] */
-        value = value.ptr;
-        _glTFNode__set_translation(self, value);
+        _glTFNode__set_translation(self, value.ptr);
     }
 });
 Object.defineProperty(glTFNode.prototype, "rotation", {
@@ -989,9 +860,7 @@ Object.defineProperty(glTFNode.prototype, "rotation", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::quat> [] */
-        value = value.ptr;
-        _glTFNode__set_rotation(self, value);
+        _glTFNode__set_rotation(self, value.ptr);
     }
 });
 Object.defineProperty(glTFNode.prototype, "scale", {
@@ -1001,9 +870,7 @@ Object.defineProperty(glTFNode.prototype, "scale", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::vec3> [] */
-        value = value.ptr;
-        _glTFNode__set_scale(self, value);
+        _glTFNode__set_scale(self, value.ptr);
     }
 });
 glTFNode.prototype["__destroy__"] = glTFNode.prototype.__destroy__ = function() {
@@ -1012,8 +879,7 @@ glTFNode.prototype["__destroy__"] = glTFNode.prototype.__destroy__ = function() 
 };
 // glTFNodeExtras
 function glTFNodeExtras() {
-    this.ptr = _glTFNodeExtras__construct_0(); getCache(glTFNodeExtras)[this.ptr] = this;
-    this.type = glTFNodeExtras;
+    this.ptr = _glTFNodeExtras__construct_0(); this.type = glTFNodeExtras; getCache(glTFNodeExtras)[this.ptr] = this;
 };
 glTFNodeExtras.prototype = Object.create(WrapperObject.prototype);
 glTFNodeExtras.prototype.constructor = glTFNodeExtras;
@@ -1026,8 +892,7 @@ glTFNodeExtras.prototype["__destroy__"] = glTFNodeExtras.prototype.__destroy__ =
 };
 // glTFOrthographic
 function glTFOrthographic() {
-    this.ptr = _glTFOrthographic__construct_0(); getCache(glTFOrthographic)[this.ptr] = this;
-    this.type = glTFOrthographic;
+    this.ptr = _glTFOrthographic__construct_0(); this.type = glTFOrthographic; getCache(glTFOrthographic)[this.ptr] = this;
 };
 glTFOrthographic.prototype = Object.create(WrapperObject.prototype);
 glTFOrthographic.prototype.constructor = glTFOrthographic;
@@ -1041,7 +906,6 @@ Object.defineProperty(glTFOrthographic.prototype, "xmag", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _glTFOrthographic__set_xmag(self, value);
     }
 });
@@ -1052,7 +916,6 @@ Object.defineProperty(glTFOrthographic.prototype, "ymag", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _glTFOrthographic__set_ymag(self, value);
     }
 });
@@ -1063,7 +926,6 @@ Object.defineProperty(glTFOrthographic.prototype, "zfar", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _glTFOrthographic__set_zfar(self, value);
     }
 });
@@ -1074,7 +936,6 @@ Object.defineProperty(glTFOrthographic.prototype, "znear", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _glTFOrthographic__set_znear(self, value);
     }
 });
@@ -1084,8 +945,7 @@ glTFOrthographic.prototype["__destroy__"] = glTFOrthographic.prototype.__destroy
 };
 // glTFPerspective
 function glTFPerspective() {
-    this.ptr = _glTFPerspective__construct_0(); getCache(glTFPerspective)[this.ptr] = this;
-    this.type = glTFPerspective;
+    this.ptr = _glTFPerspective__construct_0(); this.type = glTFPerspective; getCache(glTFPerspective)[this.ptr] = this;
 };
 glTFPerspective.prototype = Object.create(WrapperObject.prototype);
 glTFPerspective.prototype.constructor = glTFPerspective;
@@ -1099,7 +959,6 @@ Object.defineProperty(glTFPerspective.prototype, "yfov", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _glTFPerspective__set_yfov(self, value);
     }
 });
@@ -1110,7 +969,6 @@ Object.defineProperty(glTFPerspective.prototype, "zfar", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _glTFPerspective__set_zfar(self, value);
     }
 });
@@ -1121,7 +979,6 @@ Object.defineProperty(glTFPerspective.prototype, "znear", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _glTFPerspective__set_znear(self, value);
     }
 });
@@ -1132,7 +989,6 @@ Object.defineProperty(glTFPerspective.prototype, "aspect_ratio", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _glTFPerspective__set_aspect_ratio(self, value);
     }
 });
@@ -1142,8 +998,7 @@ glTFPerspective.prototype["__destroy__"] = glTFPerspective.prototype.__destroy__
 };
 // glTFPrimitive
 function glTFPrimitive() {
-    this.ptr = _glTFPrimitive__construct_0(); getCache(glTFPrimitive)[this.ptr] = this;
-    this.type = glTFPrimitive;
+    this.ptr = _glTFPrimitive__construct_0(); this.type = glTFPrimitive; getCache(glTFPrimitive)[this.ptr] = this;
 };
 glTFPrimitive.prototype = Object.create(WrapperObject.prototype);
 glTFPrimitive.prototype.constructor = glTFPrimitive;
@@ -1157,9 +1012,7 @@ Object.defineProperty(glTFPrimitive.prototype, "attributes", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFAttributes> [] */
-        value = value.ptr;
-        _glTFPrimitive__set_attributes(self, value);
+        _glTFPrimitive__set_attributes(self, value.ptr);
     }
 });
 Object.defineProperty(glTFPrimitive.prototype, "indices", {
@@ -1169,7 +1022,6 @@ Object.defineProperty(glTFPrimitive.prototype, "indices", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFPrimitive__set_indices(self, value);
     }
 });
@@ -1180,7 +1032,6 @@ Object.defineProperty(glTFPrimitive.prototype, "material", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFPrimitive__set_material(self, value);
     }
 });
@@ -1191,8 +1042,6 @@ Object.defineProperty(glTFPrimitive.prototype, "mode", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFPrimitiveType> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _glTFPrimitive__set_mode(self, value);
     }
 });
@@ -1202,8 +1051,7 @@ glTFPrimitive.prototype["__destroy__"] = glTFPrimitive.prototype.__destroy__ = f
 };
 // glTFSampler
 function glTFSampler() {
-    this.ptr = _glTFSampler__construct_0(); getCache(glTFSampler)[this.ptr] = this;
-    this.type = glTFSampler;
+    this.ptr = _glTFSampler__construct_0(); this.type = glTFSampler; getCache(glTFSampler)[this.ptr] = this;
 };
 glTFSampler.prototype = Object.create(WrapperObject.prototype);
 glTFSampler.prototype.constructor = glTFSampler;
@@ -1217,7 +1065,6 @@ Object.defineProperty(glTFSampler.prototype, "mag_filter", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFSampler__set_mag_filter(self, value);
     }
 });
@@ -1228,7 +1075,6 @@ Object.defineProperty(glTFSampler.prototype, "min_filter", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFSampler__set_min_filter(self, value);
     }
 });
@@ -1239,7 +1085,6 @@ Object.defineProperty(glTFSampler.prototype, "wrap_s", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFSampler__set_wrap_s(self, value);
     }
 });
@@ -1250,7 +1095,6 @@ Object.defineProperty(glTFSampler.prototype, "wrap_t", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFSampler__set_wrap_t(self, value);
     }
 });
@@ -1261,10 +1105,7 @@ Object.defineProperty(glTFSampler.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFSampler__set_name(self, value);
+        _glTFSampler__set_name(self, ensureString(value));
     }
 });
 glTFSampler.prototype["__destroy__"] = glTFSampler.prototype.__destroy__ = function() {
@@ -1273,8 +1114,7 @@ glTFSampler.prototype["__destroy__"] = glTFSampler.prototype.__destroy__ = funct
 };
 // glTFScene
 function glTFScene() {
-    this.ptr = _glTFScene__construct_0(); getCache(glTFScene)[this.ptr] = this;
-    this.type = glTFScene;
+    this.ptr = _glTFScene__construct_0(); this.type = glTFScene; getCache(glTFScene)[this.ptr] = this;
 };
 glTFScene.prototype = Object.create(WrapperObject.prototype);
 glTFScene.prototype.constructor = glTFScene;
@@ -1288,10 +1128,7 @@ Object.defineProperty(glTFScene.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFScene__set_name(self, value);
+        _glTFScene__set_name(self, ensureString(value));
     }
 });
 glTFScene.prototype["__destroy__"] = glTFScene.prototype.__destroy__ = function() {
@@ -1300,8 +1137,7 @@ glTFScene.prototype["__destroy__"] = glTFScene.prototype.__destroy__ = function(
 };
 // glTFSkin
 function glTFSkin() {
-    this.ptr = _glTFSkin__construct_0(); getCache(glTFSkin)[this.ptr] = this;
-    this.type = glTFSkin;
+    this.ptr = _glTFSkin__construct_0(); this.type = glTFSkin; getCache(glTFSkin)[this.ptr] = this;
 };
 glTFSkin.prototype = Object.create(WrapperObject.prototype);
 glTFSkin.prototype.constructor = glTFSkin;
@@ -1315,10 +1151,7 @@ Object.defineProperty(glTFSkin.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFSkin__set_name(self, value);
+        _glTFSkin__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFSkin.prototype, "skeleton", {
@@ -1328,7 +1161,6 @@ Object.defineProperty(glTFSkin.prototype, "skeleton", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFSkin__set_skeleton(self, value);
     }
 });
@@ -1339,7 +1171,6 @@ Object.defineProperty(glTFSkin.prototype, "inverse_bind_matrices", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFSkin__set_inverse_bind_matrices(self, value);
     }
 });
@@ -1349,8 +1180,7 @@ glTFSkin.prototype["__destroy__"] = glTFSkin.prototype.__destroy__ = function() 
 };
 // glTFSparse
 function glTFSparse() {
-    this.ptr = _glTFSparse__construct_0(); getCache(glTFSparse)[this.ptr] = this;
-    this.type = glTFSparse;
+    this.ptr = _glTFSparse__construct_0(); this.type = glTFSparse; getCache(glTFSparse)[this.ptr] = this;
 };
 glTFSparse.prototype = Object.create(WrapperObject.prototype);
 glTFSparse.prototype.constructor = glTFSparse;
@@ -1364,7 +1194,6 @@ Object.defineProperty(glTFSparse.prototype, "count", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFSparse__set_count(self, value);
     }
 });
@@ -1375,9 +1204,7 @@ Object.defineProperty(glTFSparse.prototype, "indices", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFSparseIndices> [] */
-        value = value.ptr;
-        _glTFSparse__set_indices(self, value);
+        _glTFSparse__set_indices(self, value.ptr);
     }
 });
 Object.defineProperty(glTFSparse.prototype, "values", {
@@ -1387,9 +1214,7 @@ Object.defineProperty(glTFSparse.prototype, "values", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFSparseValues> [] */
-        value = value.ptr;
-        _glTFSparse__set_values(self, value);
+        _glTFSparse__set_values(self, value.ptr);
     }
 });
 glTFSparse.prototype["__destroy__"] = glTFSparse.prototype.__destroy__ = function() {
@@ -1398,8 +1223,7 @@ glTFSparse.prototype["__destroy__"] = glTFSparse.prototype.__destroy__ = functio
 };
 // glTFSparseIndices
 function glTFSparseIndices() {
-    this.ptr = _glTFSparseIndices__construct_0(); getCache(glTFSparseIndices)[this.ptr] = this;
-    this.type = glTFSparseIndices;
+    this.ptr = _glTFSparseIndices__construct_0(); this.type = glTFSparseIndices; getCache(glTFSparseIndices)[this.ptr] = this;
 };
 glTFSparseIndices.prototype = Object.create(WrapperObject.prototype);
 glTFSparseIndices.prototype.constructor = glTFSparseIndices;
@@ -1413,7 +1237,6 @@ Object.defineProperty(glTFSparseIndices.prototype, "buffer_view", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFSparseIndices__set_buffer_view(self, value);
     }
 });
@@ -1424,7 +1247,6 @@ Object.defineProperty(glTFSparseIndices.prototype, "byte_offset", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFSparseIndices__set_byte_offset(self, value);
     }
 });
@@ -1435,8 +1257,6 @@ Object.defineProperty(glTFSparseIndices.prototype, "component_type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <glTFComponentType> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _glTFSparseIndices__set_component_type(self, value);
     }
 });
@@ -1446,8 +1266,7 @@ glTFSparseIndices.prototype["__destroy__"] = glTFSparseIndices.prototype.__destr
 };
 // glTFSparseValues
 function glTFSparseValues() {
-    this.ptr = _glTFSparseValues__construct_0(); getCache(glTFSparseValues)[this.ptr] = this;
-    this.type = glTFSparseValues;
+    this.ptr = _glTFSparseValues__construct_0(); this.type = glTFSparseValues; getCache(glTFSparseValues)[this.ptr] = this;
 };
 glTFSparseValues.prototype = Object.create(WrapperObject.prototype);
 glTFSparseValues.prototype.constructor = glTFSparseValues;
@@ -1461,7 +1280,6 @@ Object.defineProperty(glTFSparseValues.prototype, "buffer_view", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFSparseValues__set_buffer_view(self, value);
     }
 });
@@ -1472,7 +1290,6 @@ Object.defineProperty(glTFSparseValues.prototype, "byte_offset", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFSparseValues__set_byte_offset(self, value);
     }
 });
@@ -1482,8 +1299,7 @@ glTFSparseValues.prototype["__destroy__"] = glTFSparseValues.prototype.__destroy
 };
 // glTFTexture
 function glTFTexture() {
-    this.ptr = _glTFTexture__construct_0(); getCache(glTFTexture)[this.ptr] = this;
-    this.type = glTFTexture;
+    this.ptr = _glTFTexture__construct_0(); this.type = glTFTexture; getCache(glTFTexture)[this.ptr] = this;
 };
 glTFTexture.prototype = Object.create(WrapperObject.prototype);
 glTFTexture.prototype.constructor = glTFTexture;
@@ -1497,10 +1313,7 @@ Object.defineProperty(glTFTexture.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _glTFTexture__set_name(self, value);
+        _glTFTexture__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(glTFTexture.prototype, "sampler", {
@@ -1510,7 +1323,6 @@ Object.defineProperty(glTFTexture.prototype, "sampler", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFTexture__set_sampler(self, value);
     }
 });
@@ -1521,7 +1333,6 @@ Object.defineProperty(glTFTexture.prototype, "source", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFTexture__set_source(self, value);
     }
 });
@@ -1531,8 +1342,7 @@ glTFTexture.prototype["__destroy__"] = glTFTexture.prototype.__destroy__ = funct
 };
 // glTFTextureInfo
 function glTFTextureInfo() {
-    this.ptr = _glTFTextureInfo__construct_0(); getCache(glTFTextureInfo)[this.ptr] = this;
-    this.type = glTFTextureInfo;
+    this.ptr = _glTFTextureInfo__construct_0(); this.type = glTFTextureInfo; getCache(glTFTextureInfo)[this.ptr] = this;
 };
 glTFTextureInfo.prototype = Object.create(WrapperObject.prototype);
 glTFTextureInfo.prototype.constructor = glTFTextureInfo;
@@ -1546,7 +1356,6 @@ Object.defineProperty(glTFTextureInfo.prototype, "index", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
         _glTFTextureInfo__set_index(self, value);
     }
 });
@@ -1557,7 +1366,6 @@ Object.defineProperty(glTFTextureInfo.prototype, "scale", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _glTFTextureInfo__set_scale(self, value);
     }
 });

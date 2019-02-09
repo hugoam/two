@@ -22,9 +22,7 @@ Object.defineProperty(EditContext.prototype, "work_plane", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Plane> [] */
-        value = value.ptr;
-        _mud_EditContext__set_work_plane(self, value);
+        _mud_EditContext__set_work_plane(self, value.ptr);
     }
 });
 Object.defineProperty(EditContext.prototype, "translate_tool", {
@@ -49,9 +47,7 @@ Object.defineProperty(EditContext.prototype, "viewer", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Viewer> [] */
-        value = value.ptr;
-        _mud_EditContext__set_viewer(self, value);
+        _mud_EditContext__set_viewer(self, value.ptr);
     }
 });
 Object.defineProperty(EditContext.prototype, "tool", {
@@ -61,9 +57,7 @@ Object.defineProperty(EditContext.prototype, "tool", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::ViewportTool> [] */
-        value = value.ptr;
-        _mud_EditContext__set_tool(self, value);
+        _mud_EditContext__set_tool(self, value.ptr);
     }
 });
 Object.defineProperty(EditContext.prototype, "spatial_tool", {
@@ -73,9 +67,7 @@ Object.defineProperty(EditContext.prototype, "spatial_tool", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::SpatialTool> [] */
-        value = value.ptr;
-        _mud_EditContext__set_spatial_tool(self, value);
+        _mud_EditContext__set_spatial_tool(self, value.ptr);
     }
 });
 Object.defineProperty(EditContext.prototype, "brush", {
@@ -85,9 +77,7 @@ Object.defineProperty(EditContext.prototype, "brush", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Brush> [] */
-        value = value.ptr;
-        _mud_EditContext__set_brush(self, value);
+        _mud_EditContext__set_brush(self, value.ptr);
     }
 });
 EditContext.prototype["__destroy__"] = EditContext.prototype.__destroy__ = function() {
@@ -140,10 +130,7 @@ Object.defineProperty(Tool.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Tool__set_name(self, value);
+        _mud_Tool__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(Tool.prototype, "state", {
@@ -153,8 +140,6 @@ Object.defineProperty(Tool.prototype, "state", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::ToolState> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_Tool__set_state(self, value);
     }
 });
@@ -164,8 +149,7 @@ Tool.prototype["__destroy__"] = Tool.prototype.__destroy__ = function() {
 };
 // ToolContext
 function ToolContext() {
-    this.ptr = _mud_ToolContext__construct_0(); getCache(ToolContext)[this.ptr] = this;
-    this.type = ToolContext;
+    this.ptr = _mud_ToolContext__construct_0(); this.type = ToolContext; getCache(ToolContext)[this.ptr] = this;
 };
 ToolContext.prototype = Object.create(WrapperObject.prototype);
 ToolContext.prototype.constructor = ToolContext;
@@ -199,11 +183,8 @@ Brush.prototype["__destroy__"] = Brush.prototype.__destroy__ = function() {
     _mud_Brush__destroy(self);
 };
 // CircleBrush
-function CircleBrush(context) {
-    /* context <mud::ToolContext> [] */
-    context = context.ptr;
-    this.ptr = _mud_CircleBrush__construct_1(context); getCache(CircleBrush)[this.ptr] = this;
-    this.type = CircleBrush;
+function CircleBrush(a0) {
+    this.ptr = _mud_CircleBrush__construct_1(/*context*/a0.ptr); this.type = CircleBrush; getCache(CircleBrush)[this.ptr] = this;
 };
 CircleBrush.prototype = Object.create(Brush.prototype);
 CircleBrush.prototype.constructor = CircleBrush;
@@ -222,7 +203,6 @@ Object.defineProperty(CircleBrush.prototype, "radius", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_CircleBrush__set_radius(self, value);
     }
 });
@@ -233,7 +213,6 @@ Object.defineProperty(CircleBrush.prototype, "maxSpotRadius", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <float> [] */
         _mud_CircleBrush__set_maxSpotRadius(self, value);
     }
 });
@@ -242,11 +221,8 @@ CircleBrush.prototype["__destroy__"] = CircleBrush.prototype.__destroy__ = funct
     _mud_CircleBrush__destroy(self);
 };
 // PlaceBrush
-function PlaceBrush(context) {
-    /* context <mud::ToolContext> [] */
-    context = context.ptr;
-    this.ptr = _mud_PlaceBrush__construct_1(context); getCache(PlaceBrush)[this.ptr] = this;
-    this.type = PlaceBrush;
+function PlaceBrush(a0) {
+    this.ptr = _mud_PlaceBrush__construct_1(/*context*/a0.ptr); this.type = PlaceBrush; getCache(PlaceBrush)[this.ptr] = this;
 };
 PlaceBrush.prototype = Object.create(Brush.prototype);
 PlaceBrush.prototype.constructor = PlaceBrush;
@@ -340,13 +316,8 @@ ScaleTool.prototype["__destroy__"] = ScaleTool.prototype.__destroy__ = function(
     _mud_ScaleTool__destroy(self);
 };
 // ScriptedBrush
-function ScriptedBrush(context, script) {
-    /* context <mud::ToolContext> [] */
-    context = context.ptr;
-    /* script <mud::Script> [] */
-    script = script.ptr;
-    this.ptr = _mud_ScriptedBrush__construct_2(context, script); getCache(ScriptedBrush)[this.ptr] = this;
-    this.type = ScriptedBrush;
+function ScriptedBrush(a0, a1) {
+    this.ptr = _mud_ScriptedBrush__construct_2(/*context*/a0.ptr, /*script*/a1.ptr); this.type = ScriptedBrush; getCache(ScriptedBrush)[this.ptr] = this;
 };
 ScriptedBrush.prototype = Object.create(Brush.prototype);
 ScriptedBrush.prototype.constructor = ScriptedBrush;
@@ -360,9 +331,7 @@ Object.defineProperty(ScriptedBrush.prototype, "call", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Call> [] */
-        value = value.ptr;
-        _mud_ScriptedBrush__set_call(self, value);
+        _mud_ScriptedBrush__set_call(self, value.ptr);
     }
 });
 ScriptedBrush.prototype["__destroy__"] = ScriptedBrush.prototype.__destroy__ = function() {

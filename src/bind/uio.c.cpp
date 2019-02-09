@@ -54,6 +54,9 @@ extern "C" {
 	bool DECL mud_entity_edit_3(mud::Widget* parent, mud::Entity* entity, mud::EditorHint hint) {
 		return mud::entity_edit(*parent, *entity, hint);
 	}
+	bool DECL mud_inspector_1(mud::Widget* parent) {
+		return mud::inspector(*parent);
+	}
 	bool DECL mud_inspector_2(mud::Widget* parent, void* object, mud::Type* object_type) {
 		return mud::inspector(*parent, { object, *object_type });
 	}

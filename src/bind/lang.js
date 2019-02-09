@@ -50,7 +50,6 @@ Object.defineProperty(Script.prototype, "index", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <uint32_t> [] */
         _mud_Script__set_index(self, value);
     }
 });
@@ -66,10 +65,7 @@ Object.defineProperty(Script.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_Script__set_name(self, value);
+        _mud_Script__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(Script.prototype, "locked", {
@@ -79,7 +75,6 @@ Object.defineProperty(Script.prototype, "locked", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_Script__set_locked(self, value);
     }
 });
@@ -88,15 +83,9 @@ Script.prototype["__destroy__"] = Script.prototype.__destroy__ = function() {
     _mud_Script__destroy(self);
 };
 // ScriptClass
-function ScriptClass(name, parts) {
+function ScriptClass(a0, a1) {
     ensureCache.prepare();
-    /* name <stl::string> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* parts <stl::vector<mud::Type*>> [] */
-    parts = parts.ptr;
-    this.ptr = _mud_ScriptClass__construct_2(name, parts); getCache(ScriptClass)[this.ptr] = this;
-    this.type = ScriptClass;
+    this.ptr = _mud_ScriptClass__construct_2(ensureString(/*name*/a0), /*parts*/a1.ptr); this.type = ScriptClass; getCache(ScriptClass)[this.ptr] = this;
 };
 ScriptClass.prototype = Object.create(WrapperObject.prototype);
 ScriptClass.prototype.constructor = ScriptClass;
@@ -110,10 +99,7 @@ Object.defineProperty(ScriptClass.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_ScriptClass__set_name(self, value);
+        _mud_ScriptClass__set_name(self, ensureString(value));
     }
 });
 Object.defineProperty(ScriptClass.prototype, "class_type", {
@@ -137,8 +123,7 @@ ScriptClass.prototype["__destroy__"] = ScriptClass.prototype.__destroy__ = funct
 };
 // ScriptError
 function ScriptError() {
-    this.ptr = _mud_ScriptError__construct_0(); getCache(ScriptError)[this.ptr] = this;
-    this.type = ScriptError;
+    this.ptr = _mud_ScriptError__construct_0(); this.type = ScriptError; getCache(ScriptError)[this.ptr] = this;
 };
 ScriptError.prototype = Object.create(WrapperObject.prototype);
 ScriptError.prototype.constructor = ScriptError;
@@ -183,13 +168,8 @@ LuaInterpreter.prototype["__destroy__"] = LuaInterpreter.prototype.__destroy__ =
     _mud_LuaInterpreter__destroy(self);
 };
 // ProcessCallable
-function ProcessCallable(script, callable) {
-    /* script <mud::VisualScript> [] */
-    script = script.ptr;
-    /* callable <mud::Callable> [] */
-    callable = callable.ptr;
-    this.ptr = _mud_ProcessCallable__construct_2(script, callable); getCache(ProcessCallable)[this.ptr] = this;
-    this.type = ProcessCallable;
+function ProcessCallable(a0, a1) {
+    this.ptr = _mud_ProcessCallable__construct_2(/*script*/a0.ptr, /*callable*/a1.ptr); this.type = ProcessCallable; getCache(ProcessCallable)[this.ptr] = this;
 };
 ProcessCallable.prototype = Object.create(Process.prototype);
 ProcessCallable.prototype.constructor = ProcessCallable;
@@ -201,15 +181,8 @@ ProcessCallable.prototype["__destroy__"] = ProcessCallable.prototype.__destroy__
     _mud_ProcessCallable__destroy(self);
 };
 // ProcessCreate
-function ProcessCreate(script, type, constructor) {
-    /* script <mud::VisualScript> [] */
-    script = script.ptr;
-    /* type <mud::Type> [] */
-    type = type.ptr;
-    /* constructor <mud::Constructor> [] */
-    constructor = constructor.ptr;
-    this.ptr = _mud_ProcessCreate__construct_3(script, type, constructor); getCache(ProcessCreate)[this.ptr] = this;
-    this.type = ProcessCreate;
+function ProcessCreate(a0, a1, a2) {
+    this.ptr = _mud_ProcessCreate__construct_3(/*script*/a0.ptr, /*type*/a1.ptr, /*constructor*/a2.ptr); this.type = ProcessCreate; getCache(ProcessCreate)[this.ptr] = this;
 };
 ProcessCreate.prototype = Object.create(Process.prototype);
 ProcessCreate.prototype.constructor = ProcessCreate;
@@ -232,13 +205,8 @@ ProcessDisplay.prototype["__destroy__"] = ProcessDisplay.prototype.__destroy__ =
     _mud_ProcessDisplay__destroy(self);
 };
 // ProcessFunction
-function ProcessFunction(script, function) {
-    /* script <mud::VisualScript> [] */
-    script = script.ptr;
-    /* function <mud::Function> [] */
-    function = function.ptr;
-    this.ptr = _mud_ProcessFunction__construct_2(script, function); getCache(ProcessFunction)[this.ptr] = this;
-    this.type = ProcessFunction;
+function ProcessFunction(a0, a1) {
+    this.ptr = _mud_ProcessFunction__construct_2(/*script*/a0.ptr, /*function*/a1.ptr); this.type = ProcessFunction; getCache(ProcessFunction)[this.ptr] = this;
 };
 ProcessFunction.prototype = Object.create(ProcessCallable.prototype);
 ProcessFunction.prototype.constructor = ProcessFunction;
@@ -250,13 +218,8 @@ ProcessFunction.prototype["__destroy__"] = ProcessFunction.prototype.__destroy__
     _mud_ProcessFunction__destroy(self);
 };
 // ProcessGetMember
-function ProcessGetMember(script, member) {
-    /* script <mud::VisualScript> [] */
-    script = script.ptr;
-    /* member <mud::Member> [] */
-    member = member.ptr;
-    this.ptr = _mud_ProcessGetMember__construct_2(script, member); getCache(ProcessGetMember)[this.ptr] = this;
-    this.type = ProcessGetMember;
+function ProcessGetMember(a0, a1) {
+    this.ptr = _mud_ProcessGetMember__construct_2(/*script*/a0.ptr, /*member*/a1.ptr); this.type = ProcessGetMember; getCache(ProcessGetMember)[this.ptr] = this;
 };
 ProcessGetMember.prototype = Object.create(Process.prototype);
 ProcessGetMember.prototype.constructor = ProcessGetMember;
@@ -279,13 +242,8 @@ ProcessInput.prototype["__destroy__"] = ProcessInput.prototype.__destroy__ = fun
     _mud_ProcessInput__destroy(self);
 };
 // ProcessMethod
-function ProcessMethod(script, method) {
-    /* script <mud::VisualScript> [] */
-    script = script.ptr;
-    /* method <mud::Method> [] */
-    method = method.ptr;
-    this.ptr = _mud_ProcessMethod__construct_2(script, method); getCache(ProcessMethod)[this.ptr] = this;
-    this.type = ProcessMethod;
+function ProcessMethod(a0, a1) {
+    this.ptr = _mud_ProcessMethod__construct_2(/*script*/a0.ptr, /*method*/a1.ptr); this.type = ProcessMethod; getCache(ProcessMethod)[this.ptr] = this;
 };
 ProcessMethod.prototype = Object.create(ProcessCallable.prototype);
 ProcessMethod.prototype.constructor = ProcessMethod;
@@ -308,13 +266,8 @@ ProcessOutput.prototype["__destroy__"] = ProcessOutput.prototype.__destroy__ = f
     _mud_ProcessOutput__destroy(self);
 };
 // ProcessScript
-function ProcessScript(script, target) {
-    /* script <mud::VisualScript> [] */
-    script = script.ptr;
-    /* target <mud::VisualScript> [] */
-    target = target.ptr;
-    this.ptr = _mud_ProcessScript__construct_2(script, target); getCache(ProcessScript)[this.ptr] = this;
-    this.type = ProcessScript;
+function ProcessScript(a0, a1) {
+    this.ptr = _mud_ProcessScript__construct_2(/*script*/a0.ptr, /*target*/a1.ptr); this.type = ProcessScript; getCache(ProcessScript)[this.ptr] = this;
 };
 ProcessScript.prototype = Object.create(ProcessCallable.prototype);
 ProcessScript.prototype.constructor = ProcessScript;
@@ -326,13 +279,8 @@ ProcessScript.prototype["__destroy__"] = ProcessScript.prototype.__destroy__ = f
     _mud_ProcessScript__destroy(self);
 };
 // ProcessSetMember
-function ProcessSetMember(script, member) {
-    /* script <mud::VisualScript> [] */
-    script = script.ptr;
-    /* member <mud::Member> [] */
-    member = member.ptr;
-    this.ptr = _mud_ProcessSetMember__construct_2(script, member); getCache(ProcessSetMember)[this.ptr] = this;
-    this.type = ProcessSetMember;
+function ProcessSetMember(a0, a1) {
+    this.ptr = _mud_ProcessSetMember__construct_2(/*script*/a0.ptr, /*member*/a1.ptr); this.type = ProcessSetMember; getCache(ProcessSetMember)[this.ptr] = this;
 };
 ProcessSetMember.prototype = Object.create(Process.prototype);
 ProcessSetMember.prototype.constructor = ProcessSetMember;
@@ -344,13 +292,8 @@ ProcessSetMember.prototype["__destroy__"] = ProcessSetMember.prototype.__destroy
     _mud_ProcessSetMember__destroy(self);
 };
 // ProcessValue
-function ProcessValue(script, value) {
-    /* script <mud::VisualScript> [] */
-    script = script.ptr;
-    /* value <mud::Var> [] */
-    value = value.ptr;
-    this.ptr = _mud_ProcessValue__construct_2(script, value); getCache(ProcessValue)[this.ptr] = this;
-    this.type = ProcessValue;
+function ProcessValue(a0, a1) {
+    this.ptr = _mud_ProcessValue__construct_2(/*script*/a0.ptr, /*value*/a1.ptr); this.type = ProcessValue; getCache(ProcessValue)[this.ptr] = this;
 };
 ProcessValue.prototype = Object.create(Process.prototype);
 ProcessValue.prototype.constructor = ProcessValue;
@@ -373,18 +316,10 @@ Stream.prototype["__destroy__"] = Stream.prototype.__destroy__ = function() {
     _mud_Stream__destroy(self);
 };
 // TextScript
-function TextScript(name, language, signature) {
+function TextScript(a0, a1, a2) {
     ensureCache.prepare();
-    /* name <stl::string> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* language <mud::Language> [] */
-    if (language && typeof language === "object") language = language.ptr;
-    /* signature <mud::Signature> [] */
-    if (typeof signature !== "undefined" && signature !== null) { signature = signature.ptr; }
-    if (signature === undefined) { this.ptr = _mud_TextScript__construct_2(name, language); getCache(TextScript)[this.ptr] = this; return; }
-    this.ptr = _mud_TextScript__construct_3(name, language, signature); getCache(TextScript)[this.ptr] = this;
-    this.type = TextScript;
+    if (a2 === undefined) { this.ptr = _mud_TextScript__construct_2(ensureString(/*name*/a0), /*language*/a1); this.type = TextScript; getCache(TextScript)[this.ptr] = this; return; }
+    this.ptr = _mud_TextScript__construct_3(ensureString(/*name*/a0), /*language*/a1, /*signature*/a2.ptr); this.type = TextScript; getCache(TextScript)[this.ptr] = this;
 };
 TextScript.prototype = Object.create(Script.prototype);
 TextScript.prototype.constructor = TextScript;
@@ -398,8 +333,6 @@ Object.defineProperty(TextScript.prototype, "language", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Language> [] */
-        if (value && typeof value === "object") value = value.ptr;
         _mud_TextScript__set_language(self, value);
     }
 });
@@ -410,10 +343,7 @@ Object.defineProperty(TextScript.prototype, "script", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <stl::string> [] */
-        if (value && typeof value === "object") value = value.ptr;
-        else value = ensureString(value);
-        _mud_TextScript__set_script(self, value);
+        _mud_TextScript__set_script(self, ensureString(value));
     }
 });
 Object.defineProperty(TextScript.prototype, "dirty", {
@@ -423,7 +353,6 @@ Object.defineProperty(TextScript.prototype, "dirty", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <bool> [] */
         _mud_TextScript__set_dirty(self, value);
     }
 });
@@ -432,16 +361,10 @@ TextScript.prototype["__destroy__"] = TextScript.prototype.__destroy__ = functio
     _mud_TextScript__destroy(self);
 };
 // VisualScript
-function VisualScript(name, signature) {
+function VisualScript(a0, a1) {
     ensureCache.prepare();
-    /* name <stl::string> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* signature <mud::Signature> [] */
-    if (typeof signature !== "undefined" && signature !== null) { signature = signature.ptr; }
-    if (signature === undefined) { this.ptr = _mud_VisualScript__construct_1(name); getCache(VisualScript)[this.ptr] = this; return; }
-    this.ptr = _mud_VisualScript__construct_2(name, signature); getCache(VisualScript)[this.ptr] = this;
-    this.type = VisualScript;
+    if (a1 === undefined) { this.ptr = _mud_VisualScript__construct_1(ensureString(/*name*/a0)); this.type = VisualScript; getCache(VisualScript)[this.ptr] = this; return; }
+    this.ptr = _mud_VisualScript__construct_2(ensureString(/*name*/a0), /*signature*/a1.ptr); this.type = VisualScript; getCache(VisualScript)[this.ptr] = this;
 };
 VisualScript.prototype = Object.create(Script.prototype);
 VisualScript.prototype.constructor = VisualScript;

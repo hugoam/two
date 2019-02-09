@@ -50,6 +50,9 @@ extern "C" {
 	mud::Type* DECL mud_Dim2_bool__type() {
 		return &mud::type<mud::Dim2<bool>>();
 	}
+	mud::Dim2<bool>* DECL mud_Dim2_bool__construct_0() {
+		return new mud::Dim2<bool>();
+	}
 	mud::Dim2<bool>* DECL mud_Dim2_bool__construct_2(bool a, bool b) {
 		return new mud::Dim2<bool>(a, b);
 	}
@@ -71,6 +74,9 @@ extern "C" {
 	// Dim2<mud::Align>
 	mud::Type* DECL mud_Dim2_mud_Align__type() {
 		return &mud::type<mud::Dim2<mud::Align>>();
+	}
+	mud::Dim2<mud::Align>* DECL mud_Dim2_mud_Align__construct_0() {
+		return new mud::Dim2<mud::Align>();
 	}
 	mud::Dim2<mud::Align>* DECL mud_Dim2_mud_Align__construct_2(mud::Align a, mud::Align b) {
 		return new mud::Dim2<mud::Align>(a, b);
@@ -94,6 +100,9 @@ extern "C" {
 	mud::Type* DECL mud_Dim2_mud_AutoLayout__type() {
 		return &mud::type<mud::Dim2<mud::AutoLayout>>();
 	}
+	mud::Dim2<mud::AutoLayout>* DECL mud_Dim2_mud_AutoLayout__construct_0() {
+		return new mud::Dim2<mud::AutoLayout>();
+	}
 	mud::Dim2<mud::AutoLayout>* DECL mud_Dim2_mud_AutoLayout__construct_2(mud::AutoLayout a, mud::AutoLayout b) {
 		return new mud::Dim2<mud::AutoLayout>(a, b);
 	}
@@ -115,6 +124,9 @@ extern "C" {
 	// Dim2<mud::Pivot>
 	mud::Type* DECL mud_Dim2_mud_Pivot__type() {
 		return &mud::type<mud::Dim2<mud::Pivot>>();
+	}
+	mud::Dim2<mud::Pivot>* DECL mud_Dim2_mud_Pivot__construct_0() {
+		return new mud::Dim2<mud::Pivot>();
 	}
 	mud::Dim2<mud::Pivot>* DECL mud_Dim2_mud_Pivot__construct_2(mud::Pivot a, mud::Pivot b) {
 		return new mud::Dim2<mud::Pivot>(a, b);
@@ -138,6 +150,9 @@ extern "C" {
 	mud::Type* DECL mud_Dim2_mud_Sizing__type() {
 		return &mud::type<mud::Dim2<mud::Sizing>>();
 	}
+	mud::Dim2<mud::Sizing>* DECL mud_Dim2_mud_Sizing__construct_0() {
+		return new mud::Dim2<mud::Sizing>();
+	}
 	mud::Dim2<mud::Sizing>* DECL mud_Dim2_mud_Sizing__construct_2(mud::Sizing a, mud::Sizing b) {
 		return new mud::Dim2<mud::Sizing>(a, b);
 	}
@@ -159,6 +174,9 @@ extern "C" {
 	// Dim2<size_t>
 	mud::Type* DECL mud_Dim2_size_t__type() {
 		return &mud::type<mud::Dim2<size_t>>();
+	}
+	mud::Dim2<size_t>* DECL mud_Dim2_size_t__construct_0() {
+		return new mud::Dim2<size_t>();
 	}
 	mud::Dim2<size_t>* DECL mud_Dim2_size_t__construct_2(size_t a, size_t b) {
 		return new mud::Dim2<size_t>(a, b);
@@ -641,6 +659,9 @@ extern "C" {
 	// Shadow
 	mud::Type* DECL mud_Shadow__type() {
 		return &mud::type<mud::Shadow>();
+	}
+	mud::Shadow* DECL mud_Shadow__construct_0() {
+		return new mud::Shadow();
 	}
 	mud::Shadow* DECL mud_Shadow__construct_4(float xpos, float ypos, float blur, float spread) {
 		return new mud::Shadow(xpos, ypos, blur, spread);
@@ -1231,6 +1252,9 @@ extern "C" {
 	mud::Widget* DECL mud_ui_image256_3(mud::Widget* parent, const char* name, const mud::Image256* source) {
 		return &mud::ui::image256(*parent, name, *source);
 	}
+	mud::Widget* DECL mud_ui_image256_4(mud::Widget* parent, const char* name, const mud::Image256* source, const mud::vec2* size) {
+		return &mud::ui::image256(*parent, name, *source, *size);
+	}
 	mud::Widget* DECL mud_ui_radio_choice_3(mud::Widget* parent, const char* value, bool active) {
 		return &mud::ui::radio_choice(*parent, value, active);
 	}
@@ -1350,6 +1374,9 @@ extern "C" {
 	}
 	mud::Widget* DECL mud_ui_auto_modal_2(mud::Widget* parent, uint32_t mode) {
 		return &mud::ui::auto_modal(*parent, mode);
+	}
+	mud::Widget* DECL mud_ui_auto_modal_3(mud::Widget* parent, uint32_t mode, const mud::vec2* size) {
+		return &mud::ui::auto_modal(*parent, mode, *size);
 	}
 	mud::Widget* DECL mud_ui_context_2(mud::Widget* parent, uint32_t mode) {
 		return mud::ui::context(*parent, mode);
@@ -1490,7 +1517,7 @@ extern "C" {
 		return &mud::ui::scroll_sequence(*parent);
 	}
 	bool DECL mud_ui_select_logic_3(mud::Widget* element, void* object, mud::Type* object_type, void* selection, mud::Type* selection_type) {
-		return false;//mud::ui::select_logic(*element, { object, *object_type }, { selection, *selection_type });
+		return mud::ui::select_logic(*element, { object, *object_type }, { selection, *selection_type });
 	}
 	mud::Widget* DECL mud_ui_element_2(mud::Widget* parent, void* object, mud::Type* object_type) {
 		return &mud::ui::element(*parent, { object, *object_type });

@@ -363,7 +363,7 @@ namespace mud
 		bool copyable() const { return this->isbasetype() || this->isenum() || m_type->m_struct; }
 
 		bool isarray() const { return m_array; }
-		bool isvoid() const { return m_type->m_type_kind == CLTypeKind::Void; }
+		bool isvoid() const { return !m_type || m_type->m_type_kind == CLTypeKind::Void; }
 		bool isvoidptr() const { return m_type->m_type_kind == CLTypeKind::VoidPtr; }
 		bool isboolean() const { return m_type->m_type_kind == CLTypeKind::Boolean; }
 		bool isinteger() const { return m_type->m_type_kind == CLTypeKind::Integer; }
