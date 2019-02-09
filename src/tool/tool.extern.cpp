@@ -12,6 +12,7 @@ namespace stl
 	template class MUD_TOOL_EXPORT vector<Transform*>;
 	template class MUD_TOOL_EXPORT vector<unique<Gizmo>>;
 	template class MUD_TOOL_EXPORT vector<unique<ToolOption>>;
+	template class MUD_TOOL_EXPORT vector<unique<Brush>>;
 	template class MUD_TOOL_EXPORT vector<unique<EditorAction>>;
 }
 #endif

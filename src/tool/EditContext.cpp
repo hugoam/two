@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.tool;
 #else
+#include <geom/Geom.hpp>
 #include <type/Any.h>
 #include <pool/ObjectPool.h>
 #include <ecs/ECS.h>
@@ -16,9 +17,9 @@ module mud.tool;
 #include <ui/Edit/Console.h>
 #include <uio/Inspector.h>
 #include <uio/UiEdit.h>
+#include <gfx-edit/GfxEdit.h>
 #include <tool/Types.h>
 #include <tool/EditContext.h>
-#include <gfx-edit/GfxEdit.h>
 #include <tool/Brush.h>
 #endif
 

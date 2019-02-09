@@ -4,6 +4,7 @@
 
 #include <snd/SoundManager.h>
 
+#include <stl/hash_base.hpp>
 #include <stl/algorithm.h>
 #include <infra/File.h>
 #include <math/Vec.hpp>

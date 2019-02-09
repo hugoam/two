@@ -43,15 +43,6 @@ namespace mud
 	Var Interpreter::getx(span<cstring> path, const Type& type) { UNUSED(path); UNUSED(type); return Var(); }
 	void Interpreter::setx(span<cstring> path, const Var& value) { UNUSED(path); UNUSED(value); }
 
-	template <class T>
-	T* tget(const string& name) { Var value = get(name, type<T>()); return try_val<T>(value); }
-
-	template <class T>
-	T* tgetx(span<cstring> path) { Var value = getx(path, type<T>()); return try_val<T>(value); }
-
-	template <class T>
-	T* tcall(const string& expr) { Var result = call(expr, &type<T>()); return try_val<T>(result); }
-
 	void Interpreter::call(const TextScript& script, span<void*> args, void*& result)
 	{
 		m_script = &script;

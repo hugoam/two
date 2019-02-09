@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <stl/algorithm.h>
 #include <pool/SparsePool.h>
 
 namespace mud

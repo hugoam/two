@@ -73,8 +73,8 @@ namespace mud
 	template <class T>
 	inline void vector2d<T>::reset(size_t x, size_t y, size_t z, T val)
 	{
-		reset(x, y, z);
-		clear(val);
+		this->reset(x, y, z);
+		this->clear(val);
 	}
 
 	template <class T>
