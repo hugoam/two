@@ -11,7 +11,7 @@ module mud.geom;
 #include <geom/Shape/Cube.h>
 #include <geom/Shapes.h>
 #include <geom/ShapesComplex.h>
-#include <geom/Primitive.h>
+#include <geom/Primitive.hpp>
 #include <geom/Shape/Quad.h>
 #endif
 

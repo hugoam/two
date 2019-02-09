@@ -17,6 +17,7 @@ module mud.wfc.gfx;
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>
 #include <geom/Primitive.h>
+#include <tree/Graph.hpp>
 #include <ui/Input.h>
 #include <ui/Section.h>
 #include <gfx/Graph.h>

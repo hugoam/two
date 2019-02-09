@@ -14,10 +14,17 @@ module mud.math;
 #include <math/Math.h>
 #include <math/Grid.h>
 #include <math/Axes.h>
+#include <math/Range.h>
 #endif
 
 namespace mud
 {
+	template struct Range<vec3>;
+        template struct Range<quat>;
+        template struct Range<float>;
+        template struct Range<uint32_t>;
+        template struct Range<Colour>;
+
 #ifndef M_PI
 	const float c_pi = 3.14159265358979323846f;
 #else

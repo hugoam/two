@@ -15,6 +15,7 @@ using json = json11::Json;
 #include <srlz/Serial.h>
 #include <math/Axes.h>
 #include <math/VecJson.h>
+#include <math/Grid.hpp>
 #include <wfc/Wfc.h>
 #endif
 

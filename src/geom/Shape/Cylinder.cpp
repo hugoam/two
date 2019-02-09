@@ -10,7 +10,7 @@ module mud.geom;
 #include <math/Vec.hpp>
 #include <geom/Shape/Cylinder.h>
 #include <geom/Shape/Circle.h>
-#include <geom/Primitive.h>
+#include <geom/Primitive.hpp>
 #endif
 
 namespace mud

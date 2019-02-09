@@ -2,6 +2,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/map.h>
+#include <math/Vec.hpp>
 #include <geom/Aabb.h>
 #include <wfc/Wfc.h>
 #endif

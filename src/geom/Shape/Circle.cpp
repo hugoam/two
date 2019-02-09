@@ -11,7 +11,7 @@ module mud.geom;
 #include <math/Axes.h>
 #include <geom/Shape/Circle.h>
 #include <geom/Shape/Line.h>
-#include <geom/Primitive.h>
+#include <geom/Primitive.hpp>
 #include <geom/Intersect.h>
 #include <geom/Geom.h>
 #endif

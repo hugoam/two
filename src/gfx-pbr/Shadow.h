@@ -3,6 +3,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <math/Vec.hpp>
 #include <gfx/Renderer.h>
 #include <gfx/Frustum.h>
 #include <gfx/Depth.h>

@@ -7,6 +7,8 @@
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
 
+#include <stl/vector.hpp>
+
 using namespace mud;
 
 vec4 abs_rect(const vec2& start, const vec2& size)

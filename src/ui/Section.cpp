@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <tree/Graph.hpp>
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>
 #include <ui/ContainerStruct.h>

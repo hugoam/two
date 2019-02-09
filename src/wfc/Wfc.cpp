@@ -14,6 +14,7 @@ module mud.wfc;
 #include <stl/limits.h>
 #include <infra/ToString.h>
 #include <math/Random.h>
+#include <math/Grid.hpp>
 #include <wfc/Wfc.h>
 #endif
 
