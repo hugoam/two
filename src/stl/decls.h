@@ -2,6 +2,7 @@
 #include <infra/Config.h>
 
 #ifdef USE_STL
+#include <cstddef>
 namespace stl
 {
 	template <class T> struct span;

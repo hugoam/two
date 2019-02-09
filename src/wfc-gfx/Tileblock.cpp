@@ -11,6 +11,7 @@ module mud.wfc.gfx;
 #include <stl/unordered_map.hpp>
 #include <math/Axes.h>
 #include <math/Stat.hpp>
+#include <math/Grid.hpp>
 #include <geom/Intersect.h>
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>

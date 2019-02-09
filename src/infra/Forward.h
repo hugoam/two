@@ -8,6 +8,7 @@
 #endif
 
 #ifdef USE_STL
+#include <cstddef>
 namespace stl
 {
 	template <class T> struct span;

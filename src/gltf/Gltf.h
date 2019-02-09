@@ -14,6 +14,7 @@
 using stl::vector;
 using stl::string;
 
+#ifndef USE_STL
 namespace stl
 {
 	export_ extern template class refl_ seque_ vector<glTFAnimationSampler>;
@@ -34,6 +35,7 @@ namespace stl
 	export_ extern template class refl_ seque_ vector<glTFSampler>;
 	export_ extern template class refl_ seque_ vector<glTFScene>;
 }
+#endif
 
 export_ struct refl_ glTFNodeExtras
 {
