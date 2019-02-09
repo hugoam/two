@@ -1,7 +1,13 @@
 #pragma once
 
+#ifdef USE_STL
+#include <string_view>
+namespace stl
+{
+	using std::string_view;
+}
+#else
 #include <stl/stddef.h>
-
 namespace stl {
 
 	class string_view
@@ -116,3 +122,4 @@ namespace stl {
 		}
 	}
 }
+#endif

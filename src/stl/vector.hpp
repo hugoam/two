@@ -1,5 +1,8 @@
 #pragma once
 
+#ifdef USE_STL
+#include <vector>
+#else
 #include <stl/vector.h>
 #include <stl/buffer.h>
 #include <stl/new.h>
@@ -298,3 +301,4 @@ namespace stl {
 		return left.size() == right.size() && equal(left.begin(), left.end(), right.begin(), equal_to);
 	}
 }
+#endif

@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef USE_STL
+#else
 #include <stl/stddef.h>
 #include <stl/traits.h>
 
@@ -89,3 +91,4 @@ namespace stl {
 		lhs.node = lhs.node->next;
 	}
 }
+#endif

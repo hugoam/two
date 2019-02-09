@@ -1,5 +1,8 @@
 #pragma once
 
+#ifdef USE_STL
+#include <unordered_map>
+#else
 #include <stl/unordered_map.h>
 #include <stl/buffer.hpp>
 #include <stl/hash.h>
@@ -207,3 +210,4 @@ namespace stl {
 		m_buckets.swap(other.m_buckets);
 	}
 }
+#endif

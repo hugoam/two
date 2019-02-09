@@ -10,14 +10,9 @@
 
 namespace stl
 {
-	template <class T>
-	struct span;
-
 	export_ template <class T, size_t Size>
 	struct array
 	{
-		//template <class... Args>
-		//span(Args... args) : m_array{ T(args)... } {}
 		T m_array[Size];
 		size_t size() { return Size; }
 		T* data() { return m_array; }

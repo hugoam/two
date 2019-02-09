@@ -1,7 +1,8 @@
 #pragma once
 
+#ifdef USE_STL
+#else
 #include <stl/stddef.h>
-
 namespace stl {
 
 	static inline size_t hash_string(const char* str, size_t len) {
@@ -22,3 +23,4 @@ namespace stl {
 		return hash_string((const char*)&asint, sizeof(asint));
 	}
 }
+#endif

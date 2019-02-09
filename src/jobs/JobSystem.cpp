@@ -1,6 +1,4 @@
-#ifndef USE_STL
 #include <stl/vector.hpp>
-#endif
 #include <stl/algorithm.h>
 #include <infra/AlignedAlloc.h>
 #include <infra/Arena.h>

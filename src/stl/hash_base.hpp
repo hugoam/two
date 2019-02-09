@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef USE_STL
+#else
 #include <stl/hash_base.h>
 
 namespace stl {
@@ -182,3 +184,4 @@ namespace stl {
 		return 0;
 	}
 }
+#endif

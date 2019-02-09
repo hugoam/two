@@ -1,5 +1,8 @@
 #pragma once
 
+#ifdef USE_STL
+#include <unordered_set>
+#else
 #include <stl/buffer.hpp>
 #include <stl/unordered_set.h>
 #include <stl/hash_base.hpp>
@@ -193,3 +196,4 @@ namespace stl {
 	}
 
 }
+#endif

@@ -1,5 +1,8 @@
 #pragma once
 
+#ifdef USE_STL
+#include <string>
+#else
 #include <stl/string.h>
 #include <stl/buffer.hpp>
 #include <stl/stddef.h>
@@ -422,3 +425,4 @@ namespace stl {
 		return this->compare(other) < 0;
 	}
 }
+#endif
