@@ -1742,7 +1742,7 @@ namespace clgen
 				if(c.m_constructors.empty())
 				{
 					// Ensure a constructor even if one is not specified.
-					jsw(js_supress + "function " + c.m_name + "() { throw \"cannot construct a " + c.m_name + ", no constructor in IDL\" }");
+					jsw(js_supress + "function " + name(c) + "() { throw \"cannot construct a " + c.m_name + ", no constructor in IDL\" }");
 				}
 
 				js_constructor(c);

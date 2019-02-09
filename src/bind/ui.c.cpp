@@ -1490,7 +1490,7 @@ extern "C" {
 		return &mud::ui::scroll_sequence(*parent);
 	}
 	bool DECL mud_ui_select_logic_3(mud::Widget* element, void* object, mud::Type* object_type, void* selection, mud::Type* selection_type) {
-		return false;//mud::ui::select_logic(*element, { object, *object_type }, { selection, *selection_type });
+		return mud::ui::select_logic(*element, { object, *object_type }, { selection, *selection_type });
 	}
 	mud::Widget* DECL mud_ui_element_2(mud::Widget* parent, void* object, mud::Type* object_type) {
 		return &mud::ui::element(*parent, { object, *object_type });

@@ -356,7 +356,7 @@ AnimationTrack.prototype["__destroy__"] = AnimationTrack.prototype.__destroy__ =
     _mud_AnimationTrack__destroy(self);
 };
 // AssetStore<mud::Material>
-function AssetStore<mud::Material>() { throw "cannot construct a AssetStore<mud::Material>, no constructor in IDL" }
+function AssetStore_mud_Material() { throw "cannot construct a AssetStore<mud::Material>, no constructor in IDL" }
 AssetStore_mud_Material.prototype = Object.create(WrapperObject.prototype);
 AssetStore_mud_Material.prototype.constructor = AssetStore_mud_Material;
 AssetStore_mud_Material.prototype.__class__ = AssetStore_mud_Material;
@@ -418,7 +418,7 @@ AssetStore_mud_Material.prototype["__destroy__"] = AssetStore_mud_Material.proto
     _mud_AssetStore_mud_Material__destroy(self);
 };
 // AssetStore<mud::Model>
-function AssetStore<mud::Model>() { throw "cannot construct a AssetStore<mud::Model>, no constructor in IDL" }
+function AssetStore_mud_Model() { throw "cannot construct a AssetStore<mud::Model>, no constructor in IDL" }
 AssetStore_mud_Model.prototype = Object.create(WrapperObject.prototype);
 AssetStore_mud_Model.prototype.constructor = AssetStore_mud_Model;
 AssetStore_mud_Model.prototype.__class__ = AssetStore_mud_Model;
@@ -480,7 +480,7 @@ AssetStore_mud_Model.prototype["__destroy__"] = AssetStore_mud_Model.prototype._
     _mud_AssetStore_mud_Model__destroy(self);
 };
 // AssetStore<mud::ParticleFlow>
-function AssetStore<mud::ParticleFlow>() { throw "cannot construct a AssetStore<mud::ParticleFlow>, no constructor in IDL" }
+function AssetStore_mud_ParticleFlow() { throw "cannot construct a AssetStore<mud::ParticleFlow>, no constructor in IDL" }
 AssetStore_mud_ParticleFlow.prototype = Object.create(WrapperObject.prototype);
 AssetStore_mud_ParticleFlow.prototype.constructor = AssetStore_mud_ParticleFlow;
 AssetStore_mud_ParticleFlow.prototype.__class__ = AssetStore_mud_ParticleFlow;
@@ -542,7 +542,7 @@ AssetStore_mud_ParticleFlow.prototype["__destroy__"] = AssetStore_mud_ParticleFl
     _mud_AssetStore_mud_ParticleFlow__destroy(self);
 };
 // AssetStore<mud::Prefab>
-function AssetStore<mud::Prefab>() { throw "cannot construct a AssetStore<mud::Prefab>, no constructor in IDL" }
+function AssetStore_mud_Prefab() { throw "cannot construct a AssetStore<mud::Prefab>, no constructor in IDL" }
 AssetStore_mud_Prefab.prototype = Object.create(WrapperObject.prototype);
 AssetStore_mud_Prefab.prototype.constructor = AssetStore_mud_Prefab;
 AssetStore_mud_Prefab.prototype.__class__ = AssetStore_mud_Prefab;
@@ -604,7 +604,7 @@ AssetStore_mud_Prefab.prototype["__destroy__"] = AssetStore_mud_Prefab.prototype
     _mud_AssetStore_mud_Prefab__destroy(self);
 };
 // AssetStore<mud::Program>
-function AssetStore<mud::Program>() { throw "cannot construct a AssetStore<mud::Program>, no constructor in IDL" }
+function AssetStore_mud_Program() { throw "cannot construct a AssetStore<mud::Program>, no constructor in IDL" }
 AssetStore_mud_Program.prototype = Object.create(WrapperObject.prototype);
 AssetStore_mud_Program.prototype.constructor = AssetStore_mud_Program;
 AssetStore_mud_Program.prototype.__class__ = AssetStore_mud_Program;
@@ -666,7 +666,7 @@ AssetStore_mud_Program.prototype["__destroy__"] = AssetStore_mud_Program.prototy
     _mud_AssetStore_mud_Program__destroy(self);
 };
 // AssetStore<mud::Texture>
-function AssetStore<mud::Texture>() { throw "cannot construct a AssetStore<mud::Texture>, no constructor in IDL" }
+function AssetStore_mud_Texture() { throw "cannot construct a AssetStore<mud::Texture>, no constructor in IDL" }
 AssetStore_mud_Texture.prototype = Object.create(WrapperObject.prototype);
 AssetStore_mud_Texture.prototype.constructor = AssetStore_mud_Texture;
 AssetStore_mud_Texture.prototype.__class__ = AssetStore_mud_Texture;
