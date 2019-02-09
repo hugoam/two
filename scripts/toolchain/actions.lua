@@ -82,7 +82,7 @@ function mud_glue_js(modules)
     
     local files = { path.join(MUD_DIR, "src/clrefl", "Module.js") }
     for _, m in ipairs(modules) do
-        table.insert(files, path.join(m.root, "bind", m.subdir, "js.js"))
+        table.insert(files, path.join(m.root, "bind", string.gsub(m.name, "-", ".") .. ".js"))
     end
     concat_files(files)
     io.printf("")

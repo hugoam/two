@@ -62,14 +62,14 @@ if not _OPTIONS["renderer-gl"] then
 --  mud_example("xx_three",             { mud.frame, mud.gfx.pbr },                        {})
 end
 
-if _OPTIONS["jsbind"] and not _OPTIONS["as-libs"] then
-    mud_js("xx_js", mud.all)
-    mud_js("two", mud.all)
-end
-
-if _OPTIONS["jsbind"] and _OPTIONS["as-libs"] then
-    mud_js("xx_js", { mud.frame })
-    mud_js("two", { mud.frame })
+if _OPTIONS["jsbind"] then
+    if _OPTIONS["as-libs"] then
+        mud_js("xx_js", { mud.frame })
+        mud_js("two", { mud.frame })
+    else
+        mud_js("xx_js", mud.all)
+        mud_js("two", mud.all)
+    end
 end
 
 if _OPTIONS["renderer-bgfx"] then
