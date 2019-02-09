@@ -9,8 +9,6 @@ addons:
       - g++-8
       - xorg-dev
 
-dist: xenial
-
 matrix:
   include:
     - os: linux
