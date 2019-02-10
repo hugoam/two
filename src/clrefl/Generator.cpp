@@ -162,12 +162,16 @@ namespace mud
 		e.m_enum_type = spelling(enum_type(e.m_cursor));
 		e.m_prefix = e.m_scoped ? e.m_id + "::" : e.m_parent->m_prefix;
 
+		const CXType integer_type = canonical(clang_getEnumDeclIntegerType(e.m_cursor));
+		bool is_signed = has({ CXType_SChar, CXType_Short, CXType_Int, CXType_Long, CXType_LongLong }, integer_type.kind);
+
 		visit_children(e.m_cursor, [&](CXCursor c)
 		{
 			if(c.kind == CXCursor_EnumConstantDecl)
 			{
 				e.m_ids.push_back(displayname(c));
-				e.m_values.push_back(to_string(enum_value(c)));
+				e.m_values.push_back(is_signed ? to_string(clang_getEnumConstantDeclValue(c))
+											   : to_string(clang_getEnumConstantDeclUnsignedValue(c)));
 				e.m_scoped_ids.push_back(e.m_prefix + displayname(c));
 			}
 		});
