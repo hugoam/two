@@ -390,12 +390,13 @@ namespace mud
 		{
 			m_type_kind = type_kind;
 
-			const CXTypeKind shorten[] = { CXType_SChar, CXType_UChar, CXType_LongLong, CXType_UShort, CXType_UInt, CXType_ULong, CXType_ULongLong, CXType_LongDouble };
-			const cstring shortened[] = { "schar", "uchar", "llong", "ushort", "uint", "ulong", "ullong", "ldouble" };
+			struct Shorten { CXTypeKind type; cstring shortened; };
+			const Shorten shorten[] = { { CXType_SChar, "schar" }, { CXType_UChar, "uchar" }, { CXType_LongLong, "llong" }, { CXType_UShort, "ushort" },
+										{ CXType_UInt, "uint" }, { CXType_ULong, "ulong" }, { CXType_ULongLong, "ullong" }, { CXType_LongDouble, "ldouble" } };
 
-			for(size_t i = 0; i < array_size(shorten); ++i)
-				if(cxtype.kind == shorten[i])
-					this->set_name(shortened[i]);
+			for(const Shorten& s : shorten)
+				if(cxtype.kind == s.type)
+					this->set_name(s.shortened);
 		}
 	};
 
