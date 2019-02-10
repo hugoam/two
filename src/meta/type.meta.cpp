@@ -88,6 +88,22 @@ namespace mud
 		g_convert[t.m_id] = &convert;
 	}
 	{
+		Type& t = type<ldouble>();
+		static Meta meta = { t, &namspc({}), "ldouble", sizeof(ldouble), TypeClass::BaseType };
+		g_meta[t.m_id]->m_empty_var = var(ldouble());
+		static Convert convert = { [](void* val, string& str) { to_string<ldouble>((*static_cast<ldouble*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<ldouble>(str, (*static_cast<ldouble*>(val))); } };
+		g_convert[t.m_id] = &convert;
+	}
+	{
+		Type& t = type<llong>();
+		static Meta meta = { t, &namspc({}), "llong", sizeof(llong), TypeClass::BaseType };
+		g_meta[t.m_id]->m_empty_var = var(llong());
+		static Convert convert = { [](void* val, string& str) { to_string<llong>((*static_cast<llong*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<llong>(str, (*static_cast<llong*>(val))); } };
+		g_convert[t.m_id] = &convert;
+	}
+	{
 		Type& t = type<long>();
 		static Meta meta = { t, &namspc({}), "long", sizeof(long), TypeClass::BaseType };
 		g_meta[t.m_id]->m_empty_var = var(long());
@@ -96,19 +112,11 @@ namespace mud
 		g_convert[t.m_id] = &convert;
 	}
 	{
-		Type& t = type<long double>();
-		static Meta meta = { t, &namspc({}), "long double", sizeof(long double), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(long double());
-		static Convert convert = { [](void* val, string& str) { to_string<long double>((*static_cast<long double*>(val)), str); }, 
-		                           [](const string& str, void* val) { to_value<long double>(str, (*static_cast<long double*>(val))); } };
-		g_convert[t.m_id] = &convert;
-	}
-	{
-		Type& t = type<long long>();
-		static Meta meta = { t, &namspc({}), "long long", sizeof(long long), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(long long());
-		static Convert convert = { [](void* val, string& str) { to_string<long long>((*static_cast<long long*>(val)), str); }, 
-		                           [](const string& str, void* val) { to_value<long long>(str, (*static_cast<long long*>(val))); } };
+		Type& t = type<schar>();
+		static Meta meta = { t, &namspc({}), "schar", sizeof(schar), TypeClass::BaseType };
+		g_meta[t.m_id]->m_empty_var = var(schar());
+		static Convert convert = { [](void* val, string& str) { to_string<schar>((*static_cast<schar*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<schar>(str, (*static_cast<schar*>(val))); } };
 		g_convert[t.m_id] = &convert;
 	}
 	{
@@ -120,14 +128,6 @@ namespace mud
 		g_convert[t.m_id] = &convert;
 	}
 	{
-		Type& t = type<signed char>();
-		static Meta meta = { t, &namspc({}), "signed char", sizeof(signed char), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(signed char());
-		static Convert convert = { [](void* val, string& str) { to_string<signed char>((*static_cast<signed char*>(val)), str); }, 
-		                           [](const string& str, void* val) { to_value<signed char>(str, (*static_cast<signed char*>(val))); } };
-		g_convert[t.m_id] = &convert;
-	}
-	{
 		Type& t = type<stl::string>();
 		static Meta meta = { t, &namspc({}), "stl::string", sizeof(stl::string), TypeClass::BaseType };
 		g_meta[t.m_id]->m_empty_var = var(stl::string());
@@ -136,43 +136,43 @@ namespace mud
 		g_convert[t.m_id] = &convert;
 	}
 	{
-		Type& t = type<unsigned char>();
-		static Meta meta = { t, &namspc({}), "unsigned char", sizeof(unsigned char), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(unsigned char());
-		static Convert convert = { [](void* val, string& str) { to_string<unsigned char>((*static_cast<unsigned char*>(val)), str); }, 
-		                           [](const string& str, void* val) { to_value<unsigned char>(str, (*static_cast<unsigned char*>(val))); } };
+		Type& t = type<uchar>();
+		static Meta meta = { t, &namspc({}), "uchar", sizeof(uchar), TypeClass::BaseType };
+		g_meta[t.m_id]->m_empty_var = var(uchar());
+		static Convert convert = { [](void* val, string& str) { to_string<uchar>((*static_cast<uchar*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<uchar>(str, (*static_cast<uchar*>(val))); } };
 		g_convert[t.m_id] = &convert;
 	}
 	{
-		Type& t = type<unsigned int>();
-		static Meta meta = { t, &namspc({}), "unsigned int", sizeof(unsigned int), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(unsigned int());
-		static Convert convert = { [](void* val, string& str) { to_string<unsigned int>((*static_cast<unsigned int*>(val)), str); }, 
-		                           [](const string& str, void* val) { to_value<unsigned int>(str, (*static_cast<unsigned int*>(val))); } };
+		Type& t = type<uint>();
+		static Meta meta = { t, &namspc({}), "uint", sizeof(uint), TypeClass::BaseType };
+		g_meta[t.m_id]->m_empty_var = var(uint());
+		static Convert convert = { [](void* val, string& str) { to_string<uint>((*static_cast<uint*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<uint>(str, (*static_cast<uint*>(val))); } };
 		g_convert[t.m_id] = &convert;
 	}
 	{
-		Type& t = type<unsigned long>();
-		static Meta meta = { t, &namspc({}), "unsigned long", sizeof(unsigned long), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(unsigned long());
-		static Convert convert = { [](void* val, string& str) { to_string<unsigned long>((*static_cast<unsigned long*>(val)), str); }, 
-		                           [](const string& str, void* val) { to_value<unsigned long>(str, (*static_cast<unsigned long*>(val))); } };
+		Type& t = type<ullong>();
+		static Meta meta = { t, &namspc({}), "ullong", sizeof(ullong), TypeClass::BaseType };
+		g_meta[t.m_id]->m_empty_var = var(ullong());
+		static Convert convert = { [](void* val, string& str) { to_string<ullong>((*static_cast<ullong*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<ullong>(str, (*static_cast<ullong*>(val))); } };
 		g_convert[t.m_id] = &convert;
 	}
 	{
-		Type& t = type<unsigned long long>();
-		static Meta meta = { t, &namspc({}), "unsigned long long", sizeof(unsigned long long), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(unsigned long long());
-		static Convert convert = { [](void* val, string& str) { to_string<unsigned long long>((*static_cast<unsigned long long*>(val)), str); }, 
-		                           [](const string& str, void* val) { to_value<unsigned long long>(str, (*static_cast<unsigned long long*>(val))); } };
+		Type& t = type<ulong>();
+		static Meta meta = { t, &namspc({}), "ulong", sizeof(ulong), TypeClass::BaseType };
+		g_meta[t.m_id]->m_empty_var = var(ulong());
+		static Convert convert = { [](void* val, string& str) { to_string<ulong>((*static_cast<ulong*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<ulong>(str, (*static_cast<ulong*>(val))); } };
 		g_convert[t.m_id] = &convert;
 	}
 	{
-		Type& t = type<unsigned short>();
-		static Meta meta = { t, &namspc({}), "unsigned short", sizeof(unsigned short), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(unsigned short());
-		static Convert convert = { [](void* val, string& str) { to_string<unsigned short>((*static_cast<unsigned short*>(val)), str); }, 
-		                           [](const string& str, void* val) { to_value<unsigned short>(str, (*static_cast<unsigned short*>(val))); } };
+		Type& t = type<ushort>();
+		static Meta meta = { t, &namspc({}), "ushort", sizeof(ushort), TypeClass::BaseType };
+		g_meta[t.m_id]->m_empty_var = var(ushort());
+		static Convert convert = { [](void* val, string& str) { to_string<ushort>((*static_cast<ushort*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<ushort>(str, (*static_cast<ushort*>(val))); } };
 		g_convert[t.m_id] = &convert;
 	}
 	{
@@ -334,17 +334,17 @@ namespace mud
 		m.m_types.push_back(&type<double>());
 		m.m_types.push_back(&type<float>());
 		m.m_types.push_back(&type<int>());
+		m.m_types.push_back(&type<ldouble>());
+		m.m_types.push_back(&type<llong>());
 		m.m_types.push_back(&type<long>());
-		m.m_types.push_back(&type<long double>());
-		m.m_types.push_back(&type<long long>());
+		m.m_types.push_back(&type<schar>());
 		m.m_types.push_back(&type<short>());
-		m.m_types.push_back(&type<signed char>());
 		m.m_types.push_back(&type<stl::string>());
-		m.m_types.push_back(&type<unsigned char>());
-		m.m_types.push_back(&type<unsigned int>());
-		m.m_types.push_back(&type<unsigned long>());
-		m.m_types.push_back(&type<unsigned long long>());
-		m.m_types.push_back(&type<unsigned short>());
+		m.m_types.push_back(&type<uchar>());
+		m.m_types.push_back(&type<uint>());
+		m.m_types.push_back(&type<ullong>());
+		m.m_types.push_back(&type<ulong>());
+		m.m_types.push_back(&type<ushort>());
 		m.m_types.push_back(&type<stl::vector<mud::Ref>>());
 		m.m_types.push_back(&type<stl::vector<stl::string>>());
 		m.m_types.push_back(&type<void>());

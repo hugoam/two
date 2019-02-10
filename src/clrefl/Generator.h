@@ -379,6 +379,9 @@ namespace mud
 		//explicit operator const CLType&() const { return *m_type; }
 	};
 
+	template<typename T, size_t N>
+	constexpr size_t array_size(T(&array)[N]) { return N; }
+
 	class CLBaseType : public CLType
 	{
 	public:
@@ -386,6 +389,13 @@ namespace mud
 			: CLType(module, parent, cxtype)
 		{
 			m_type_kind = type_kind;
+
+			const CXTypeKind shorten[] = { CXType_SChar, CXType_UChar, CXType_LongLong, CXType_UShort, CXType_UInt, CXType_ULong, CXType_ULongLong, CXType_LongDouble };
+			const cstring shortened[] = { "schar", "uchar", "llong", "ushort", "uint", "ulong", "ullong", "ldouble" };
+
+			for(size_t i = 0; i < array_size(shorten); ++i)
+				if(cxtype.kind == shorten[i])
+					this->set_name(shortened[i]);
 		}
 	};
 

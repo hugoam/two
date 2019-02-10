@@ -852,32 +852,32 @@ extern "C" {
 	void DECL mud_v2_int__destroy(mud::v2<int>* self) {
 		delete self;
 	}
-	// v2<stl::uint>
-	mud::Type* DECL mud_v2_stl_uint__type() {
-		return &mud::type<mud::v2<stl::uint>>();
+	// v2<uint>
+	mud::Type* DECL mud_v2_uint__type() {
+		return &mud::type<mud::v2<uint>>();
 	}
-	mud::v2<stl::uint>* DECL mud_v2_stl_uint__construct_0() {
-		return new mud::v2<stl::uint>();
+	mud::v2<uint>* DECL mud_v2_uint__construct_0() {
+		return new mud::v2<uint>();
 	}
-	mud::v2<stl::uint>* DECL mud_v2_stl_uint__construct_1(stl::uint v) {
-		return new mud::v2<stl::uint>(v);
+	mud::v2<uint>* DECL mud_v2_uint__construct_1(uint v) {
+		return new mud::v2<uint>(v);
 	}
-	mud::v2<stl::uint>* DECL mud_v2_stl_uint__construct_2(stl::uint x, stl::uint y) {
-		return new mud::v2<stl::uint>(x, y);
+	mud::v2<uint>* DECL mud_v2_uint__construct_2(uint x, uint y) {
+		return new mud::v2<uint>(x, y);
 	}
-	stl::uint DECL mud_v2_stl_uint__get_x(mud::v2<stl::uint>* self) {
+	uint DECL mud_v2_uint__get_x(mud::v2<uint>* self) {
 		return self->x;
 	}
-	void DECL mud_v2_stl_uint__set_x(mud::v2<stl::uint>* self, stl::uint value) {
+	void DECL mud_v2_uint__set_x(mud::v2<uint>* self, uint value) {
 		self->x = value;
 	}
-	stl::uint DECL mud_v2_stl_uint__get_y(mud::v2<stl::uint>* self) {
+	uint DECL mud_v2_uint__get_y(mud::v2<uint>* self) {
 		return self->y;
 	}
-	void DECL mud_v2_stl_uint__set_y(mud::v2<stl::uint>* self, stl::uint value) {
+	void DECL mud_v2_uint__set_y(mud::v2<uint>* self, uint value) {
 		self->y = value;
 	}
-	void DECL mud_v2_stl_uint__destroy(mud::v2<stl::uint>* self) {
+	void DECL mud_v2_uint__destroy(mud::v2<uint>* self) {
 		delete self;
 	}
 	// v3<bool>
@@ -982,38 +982,38 @@ extern "C" {
 	void DECL mud_v3_int__destroy(mud::v3<int>* self) {
 		delete self;
 	}
-	// v3<stl::uint>
-	mud::Type* DECL mud_v3_stl_uint__type() {
-		return &mud::type<mud::v3<stl::uint>>();
+	// v3<uint>
+	mud::Type* DECL mud_v3_uint__type() {
+		return &mud::type<mud::v3<uint>>();
 	}
-	mud::v3<stl::uint>* DECL mud_v3_stl_uint__construct_0() {
-		return new mud::v3<stl::uint>();
+	mud::v3<uint>* DECL mud_v3_uint__construct_0() {
+		return new mud::v3<uint>();
 	}
-	mud::v3<stl::uint>* DECL mud_v3_stl_uint__construct_1(stl::uint v) {
-		return new mud::v3<stl::uint>(v);
+	mud::v3<uint>* DECL mud_v3_uint__construct_1(uint v) {
+		return new mud::v3<uint>(v);
 	}
-	mud::v3<stl::uint>* DECL mud_v3_stl_uint__construct_3(stl::uint x, stl::uint y, stl::uint z) {
-		return new mud::v3<stl::uint>(x, y, z);
+	mud::v3<uint>* DECL mud_v3_uint__construct_3(uint x, uint y, uint z) {
+		return new mud::v3<uint>(x, y, z);
 	}
-	stl::uint DECL mud_v3_stl_uint__get_x(mud::v3<stl::uint>* self) {
+	uint DECL mud_v3_uint__get_x(mud::v3<uint>* self) {
 		return self->x;
 	}
-	void DECL mud_v3_stl_uint__set_x(mud::v3<stl::uint>* self, stl::uint value) {
+	void DECL mud_v3_uint__set_x(mud::v3<uint>* self, uint value) {
 		self->x = value;
 	}
-	stl::uint DECL mud_v3_stl_uint__get_y(mud::v3<stl::uint>* self) {
+	uint DECL mud_v3_uint__get_y(mud::v3<uint>* self) {
 		return self->y;
 	}
-	void DECL mud_v3_stl_uint__set_y(mud::v3<stl::uint>* self, stl::uint value) {
+	void DECL mud_v3_uint__set_y(mud::v3<uint>* self, uint value) {
 		self->y = value;
 	}
-	stl::uint DECL mud_v3_stl_uint__get_z(mud::v3<stl::uint>* self) {
+	uint DECL mud_v3_uint__get_z(mud::v3<uint>* self) {
 		return self->z;
 	}
-	void DECL mud_v3_stl_uint__set_z(mud::v3<stl::uint>* self, stl::uint value) {
+	void DECL mud_v3_uint__set_z(mud::v3<uint>* self, uint value) {
 		self->z = value;
 	}
-	void DECL mud_v3_stl_uint__destroy(mud::v3<stl::uint>* self) {
+	void DECL mud_v3_uint__destroy(mud::v3<uint>* self) {
 		delete self;
 	}
 	// v4<bool>
@@ -1136,44 +1136,44 @@ extern "C" {
 	void DECL mud_v4_int__destroy(mud::v4<int>* self) {
 		delete self;
 	}
-	// v4<stl::uint>
-	mud::Type* DECL mud_v4_stl_uint__type() {
-		return &mud::type<mud::v4<stl::uint>>();
+	// v4<uint>
+	mud::Type* DECL mud_v4_uint__type() {
+		return &mud::type<mud::v4<uint>>();
 	}
-	mud::v4<stl::uint>* DECL mud_v4_stl_uint__construct_0() {
-		return new mud::v4<stl::uint>();
+	mud::v4<uint>* DECL mud_v4_uint__construct_0() {
+		return new mud::v4<uint>();
 	}
-	mud::v4<stl::uint>* DECL mud_v4_stl_uint__construct_1(stl::uint v) {
-		return new mud::v4<stl::uint>(v);
+	mud::v4<uint>* DECL mud_v4_uint__construct_1(uint v) {
+		return new mud::v4<uint>(v);
 	}
-	mud::v4<stl::uint>* DECL mud_v4_stl_uint__construct_4(stl::uint x, stl::uint y, stl::uint z, stl::uint w) {
-		return new mud::v4<stl::uint>(x, y, z, w);
+	mud::v4<uint>* DECL mud_v4_uint__construct_4(uint x, uint y, uint z, uint w) {
+		return new mud::v4<uint>(x, y, z, w);
 	}
-	stl::uint DECL mud_v4_stl_uint__get_x(mud::v4<stl::uint>* self) {
+	uint DECL mud_v4_uint__get_x(mud::v4<uint>* self) {
 		return self->x;
 	}
-	void DECL mud_v4_stl_uint__set_x(mud::v4<stl::uint>* self, stl::uint value) {
+	void DECL mud_v4_uint__set_x(mud::v4<uint>* self, uint value) {
 		self->x = value;
 	}
-	stl::uint DECL mud_v4_stl_uint__get_y(mud::v4<stl::uint>* self) {
+	uint DECL mud_v4_uint__get_y(mud::v4<uint>* self) {
 		return self->y;
 	}
-	void DECL mud_v4_stl_uint__set_y(mud::v4<stl::uint>* self, stl::uint value) {
+	void DECL mud_v4_uint__set_y(mud::v4<uint>* self, uint value) {
 		self->y = value;
 	}
-	stl::uint DECL mud_v4_stl_uint__get_z(mud::v4<stl::uint>* self) {
+	uint DECL mud_v4_uint__get_z(mud::v4<uint>* self) {
 		return self->z;
 	}
-	void DECL mud_v4_stl_uint__set_z(mud::v4<stl::uint>* self, stl::uint value) {
+	void DECL mud_v4_uint__set_z(mud::v4<uint>* self, uint value) {
 		self->z = value;
 	}
-	stl::uint DECL mud_v4_stl_uint__get_w(mud::v4<stl::uint>* self) {
+	uint DECL mud_v4_uint__get_w(mud::v4<uint>* self) {
 		return self->w;
 	}
-	void DECL mud_v4_stl_uint__set_w(mud::v4<stl::uint>* self, stl::uint value) {
+	void DECL mud_v4_uint__set_w(mud::v4<uint>* self, uint value) {
 		self->w = value;
 	}
-	void DECL mud_v4_stl_uint__destroy(mud::v4<stl::uint>* self) {
+	void DECL mud_v4_uint__destroy(mud::v4<uint>* self) {
 		delete self;
 	}
 	// Sprite

@@ -1095,7 +1095,7 @@ namespace mud
 	}
 	
 	{
-		Type& t = type<unsigned short>();
+		Type& t = type<ushort>();
 		static Alias alias = { &t, &namspc({ "mud" }), "ShapeIndex" };
 		m.m_aliases.push_back(&alias);
 	}

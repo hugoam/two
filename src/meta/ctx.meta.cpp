@@ -131,8 +131,8 @@ namespace mud
 		static Member members[] = {
 			{ t, offsetof(mud::Context, m_resource_path), type<stl::string>(), "resource_path", nullptr, Member::Flags(Member::Value|Member::NonMutable), nullptr },
 			{ t, offsetof(mud::Context, m_title), type<stl::string>(), "title", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_width), type<unsigned int>(), "width", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_height), type<unsigned int>(), "height", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_width), type<uint>(), "width", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_height), type<uint>(), "height", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_full_screen), type<bool>(), "full_screen", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_active), type<bool>(), "active", &active_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_shutdown), type<bool>(), "shutdown", &shutdown_default, Member::Value, nullptr },

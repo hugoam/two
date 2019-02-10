@@ -112,7 +112,7 @@ function ensureString(value) {
     }
     return value;
 }
-function ensureRefValue(value) {
+function ensureRef(value) {
     if (typeof value !== 'undefined' && value !== null) { return value.ptr; }
 	else { return 0; }
 }

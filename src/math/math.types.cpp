@@ -57,15 +57,15 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::v2<bool>>() { static Type ty("v2<bool>", sizeof(mud::v2<bool>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::v2<float>>() { static Type ty("v2<float>", sizeof(mud::v2<float>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::v2<int>>() { static Type ty("v2<int>", sizeof(mud::v2<int>)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::v2<stl::uint>>() { static Type ty("v2<stl::uint>", sizeof(mud::v2<stl::uint>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v2<uint>>() { static Type ty("v2<uint>", sizeof(mud::v2<uint>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::v3<bool>>() { static Type ty("v3<bool>", sizeof(mud::v3<bool>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::v3<float>>() { static Type ty("v3<float>", sizeof(mud::v3<float>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::v3<int>>() { static Type ty("v3<int>", sizeof(mud::v3<int>)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::v3<stl::uint>>() { static Type ty("v3<stl::uint>", sizeof(mud::v3<stl::uint>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v3<uint>>() { static Type ty("v3<uint>", sizeof(mud::v3<uint>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::v4<bool>>() { static Type ty("v4<bool>", sizeof(mud::v4<bool>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::v4<float>>() { static Type ty("v4<float>", sizeof(mud::v4<float>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::v4<int>>() { static Type ty("v4<int>", sizeof(mud::v4<int>)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::v4<stl::uint>>() { static Type ty("v4<stl::uint>", sizeof(mud::v4<stl::uint>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::v4<uint>>() { static Type ty("v4<uint>", sizeof(mud::v4<uint>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Sprite>() { static Type ty("Sprite", type<mud::Image>(), sizeof(mud::Sprite)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>() { static Type ty("SpriteAtlas", type<mud::ImageAtlas>(), sizeof(mud::SpriteAtlas)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::TextureAtlas>() { static Type ty("TextureAtlas", type<mud::ImageAtlas>(), sizeof(mud::TextureAtlas)); return ty; }

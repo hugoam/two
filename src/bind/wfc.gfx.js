@@ -56,7 +56,7 @@ Object.defineProperty(WfcBlock.prototype, "position", {
 Object.defineProperty(WfcBlock.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_WfcBlock__get_size(self), v3_stl_uint);
+        return wrapPointer(_mud_WfcBlock__get_size(self), v3_uint);
     },
     set: function(value) {
         var self = this.ptr;

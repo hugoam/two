@@ -7,20 +7,11 @@
 #include <infra/Config.h>
 #include <stdint.h>
 
-namespace stl
-{
-	using schar = signed char;
-	using uchar = unsigned char;
-	using ushort = unsigned short;
-	using uint = unsigned int;
-	using ulong = unsigned long;
-	using ullong = unsigned long long;
-	using llong = long long;
-	using ldouble = long double;
-}
-
-namespace mud
-{
-	using stl::schar; using stl::uchar; using stl::ushort; using stl::uint;
-	using stl::ulong;using stl::ullong; using stl::llong; using stl::ldouble;
-}
+using schar = signed char;
+using uchar = unsigned char;
+using ushort = unsigned short;
+using uint = unsigned int;
+using ulong = unsigned long;
+using ullong = unsigned long long;
+using llong = long long;
+using ldouble = long double;

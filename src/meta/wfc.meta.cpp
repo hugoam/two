@@ -180,22 +180,22 @@ namespace mud
 	}
 	
 	{
-		Type& t = type<unsigned char>();
+		Type& t = type<uchar>();
 		static Alias alias = { &t, &namspc({ "mud" }), "ubool" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<unsigned char>();
+		Type& t = type<uchar>();
 		static Alias alias = { &t, &namspc({ "mud" }), "ColorIndex" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<unsigned long long>();
+		Type& t = type<ullong>();
 		static Alias alias = { &t, &namspc({ "mud" }), "PatternHash" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<unsigned short>();
+		Type& t = type<ushort>();
 		static Alias alias = { &t, &namspc({ "mud" }), "PatternIndex" };
 		m.m_aliases.push_back(&alias);
 	}

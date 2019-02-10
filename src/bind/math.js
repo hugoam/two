@@ -1116,40 +1116,40 @@ v2_int.prototype["__destroy__"] = v2_int.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_v2_int__destroy(self);
 };
-// v2<stl::uint>
-function v2_stl_uint(a0, a1) {
-    if (a0 === undefined) { this.ptr = _mud_v2_stl_uint__construct_0(); this.type = v2_stl_uint; getCache(v2_stl_uint)[this.ptr] = this; return; }
-    if (a1 === undefined) { this.ptr = _mud_v2_stl_uint__construct_1(/*v*/a0); this.type = v2_stl_uint; getCache(v2_stl_uint)[this.ptr] = this; return; }
-    this.ptr = _mud_v2_stl_uint__construct_2(/*x*/a0, /*y*/a1); this.type = v2_stl_uint; getCache(v2_stl_uint)[this.ptr] = this;
+// v2<uint>
+function v2_uint(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_v2_uint__construct_0(); this.type = v2_uint; getCache(v2_uint)[this.ptr] = this; return; }
+    if (a1 === undefined) { this.ptr = _mud_v2_uint__construct_1(/*v*/a0); this.type = v2_uint; getCache(v2_uint)[this.ptr] = this; return; }
+    this.ptr = _mud_v2_uint__construct_2(/*x*/a0, /*y*/a1); this.type = v2_uint; getCache(v2_uint)[this.ptr] = this;
 };
-v2_stl_uint.prototype = Object.create(WrapperObject.prototype);
-v2_stl_uint.prototype.constructor = v2_stl_uint;
-v2_stl_uint.prototype.__class__ = v2_stl_uint;
-v2_stl_uint.__cache__ = {};
-Module['v2_stl_uint'] = v2_stl_uint;
-Object.defineProperty(v2_stl_uint.prototype, "x", {
+v2_uint.prototype = Object.create(WrapperObject.prototype);
+v2_uint.prototype.constructor = v2_uint;
+v2_uint.prototype.__class__ = v2_uint;
+v2_uint.__cache__ = {};
+Module['v2_uint'] = v2_uint;
+Object.defineProperty(v2_uint.prototype, "x", {
     get: function() {
         var self = this.ptr;
-        return _mud_v2_stl_uint__get_x(self);
+        return _mud_v2_uint__get_x(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_v2_stl_uint__set_x(self, value);
+        _mud_v2_uint__set_x(self, value);
     }
 });
-Object.defineProperty(v2_stl_uint.prototype, "y", {
+Object.defineProperty(v2_uint.prototype, "y", {
     get: function() {
         var self = this.ptr;
-        return _mud_v2_stl_uint__get_y(self);
+        return _mud_v2_uint__get_y(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_v2_stl_uint__set_y(self, value);
+        _mud_v2_uint__set_y(self, value);
     }
 });
-v2_stl_uint.prototype["__destroy__"] = v2_stl_uint.prototype.__destroy__ = function() {
+v2_uint.prototype["__destroy__"] = v2_uint.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_v2_stl_uint__destroy(self);
+    _mud_v2_uint__destroy(self);
 };
 // v3<bool>
 function v3_bool(a0, a1, a2) {
@@ -1286,50 +1286,50 @@ v3_int.prototype["__destroy__"] = v3_int.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_v3_int__destroy(self);
 };
-// v3<stl::uint>
-function v3_stl_uint(a0, a1, a2) {
-    if (a0 === undefined) { this.ptr = _mud_v3_stl_uint__construct_0(); this.type = v3_stl_uint; getCache(v3_stl_uint)[this.ptr] = this; return; }
-    if (a1 === undefined) { this.ptr = _mud_v3_stl_uint__construct_1(/*v*/a0); this.type = v3_stl_uint; getCache(v3_stl_uint)[this.ptr] = this; return; }
-    this.ptr = _mud_v3_stl_uint__construct_3(/*x*/a0, /*y*/a1, /*z*/a2); this.type = v3_stl_uint; getCache(v3_stl_uint)[this.ptr] = this;
+// v3<uint>
+function v3_uint(a0, a1, a2) {
+    if (a0 === undefined) { this.ptr = _mud_v3_uint__construct_0(); this.type = v3_uint; getCache(v3_uint)[this.ptr] = this; return; }
+    if (a1 === undefined) { this.ptr = _mud_v3_uint__construct_1(/*v*/a0); this.type = v3_uint; getCache(v3_uint)[this.ptr] = this; return; }
+    this.ptr = _mud_v3_uint__construct_3(/*x*/a0, /*y*/a1, /*z*/a2); this.type = v3_uint; getCache(v3_uint)[this.ptr] = this;
 };
-v3_stl_uint.prototype = Object.create(WrapperObject.prototype);
-v3_stl_uint.prototype.constructor = v3_stl_uint;
-v3_stl_uint.prototype.__class__ = v3_stl_uint;
-v3_stl_uint.__cache__ = {};
-Module['v3_stl_uint'] = v3_stl_uint;
-Object.defineProperty(v3_stl_uint.prototype, "x", {
+v3_uint.prototype = Object.create(WrapperObject.prototype);
+v3_uint.prototype.constructor = v3_uint;
+v3_uint.prototype.__class__ = v3_uint;
+v3_uint.__cache__ = {};
+Module['v3_uint'] = v3_uint;
+Object.defineProperty(v3_uint.prototype, "x", {
     get: function() {
         var self = this.ptr;
-        return _mud_v3_stl_uint__get_x(self);
+        return _mud_v3_uint__get_x(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_v3_stl_uint__set_x(self, value);
+        _mud_v3_uint__set_x(self, value);
     }
 });
-Object.defineProperty(v3_stl_uint.prototype, "y", {
+Object.defineProperty(v3_uint.prototype, "y", {
     get: function() {
         var self = this.ptr;
-        return _mud_v3_stl_uint__get_y(self);
+        return _mud_v3_uint__get_y(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_v3_stl_uint__set_y(self, value);
+        _mud_v3_uint__set_y(self, value);
     }
 });
-Object.defineProperty(v3_stl_uint.prototype, "z", {
+Object.defineProperty(v3_uint.prototype, "z", {
     get: function() {
         var self = this.ptr;
-        return _mud_v3_stl_uint__get_z(self);
+        return _mud_v3_uint__get_z(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_v3_stl_uint__set_z(self, value);
+        _mud_v3_uint__set_z(self, value);
     }
 });
-v3_stl_uint.prototype["__destroy__"] = v3_stl_uint.prototype.__destroy__ = function() {
+v3_uint.prototype["__destroy__"] = v3_uint.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_v3_stl_uint__destroy(self);
+    _mud_v3_uint__destroy(self);
 };
 // v4<bool>
 function v4_bool(a0, a1, a2, a3) {
@@ -1496,60 +1496,60 @@ v4_int.prototype["__destroy__"] = v4_int.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_v4_int__destroy(self);
 };
-// v4<stl::uint>
-function v4_stl_uint(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.ptr = _mud_v4_stl_uint__construct_0(); this.type = v4_stl_uint; getCache(v4_stl_uint)[this.ptr] = this; return; }
-    if (a1 === undefined) { this.ptr = _mud_v4_stl_uint__construct_1(/*v*/a0); this.type = v4_stl_uint; getCache(v4_stl_uint)[this.ptr] = this; return; }
-    this.ptr = _mud_v4_stl_uint__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.type = v4_stl_uint; getCache(v4_stl_uint)[this.ptr] = this;
+// v4<uint>
+function v4_uint(a0, a1, a2, a3) {
+    if (a0 === undefined) { this.ptr = _mud_v4_uint__construct_0(); this.type = v4_uint; getCache(v4_uint)[this.ptr] = this; return; }
+    if (a1 === undefined) { this.ptr = _mud_v4_uint__construct_1(/*v*/a0); this.type = v4_uint; getCache(v4_uint)[this.ptr] = this; return; }
+    this.ptr = _mud_v4_uint__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.type = v4_uint; getCache(v4_uint)[this.ptr] = this;
 };
-v4_stl_uint.prototype = Object.create(WrapperObject.prototype);
-v4_stl_uint.prototype.constructor = v4_stl_uint;
-v4_stl_uint.prototype.__class__ = v4_stl_uint;
-v4_stl_uint.__cache__ = {};
-Module['v4_stl_uint'] = v4_stl_uint;
-Object.defineProperty(v4_stl_uint.prototype, "x", {
+v4_uint.prototype = Object.create(WrapperObject.prototype);
+v4_uint.prototype.constructor = v4_uint;
+v4_uint.prototype.__class__ = v4_uint;
+v4_uint.__cache__ = {};
+Module['v4_uint'] = v4_uint;
+Object.defineProperty(v4_uint.prototype, "x", {
     get: function() {
         var self = this.ptr;
-        return _mud_v4_stl_uint__get_x(self);
+        return _mud_v4_uint__get_x(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_v4_stl_uint__set_x(self, value);
+        _mud_v4_uint__set_x(self, value);
     }
 });
-Object.defineProperty(v4_stl_uint.prototype, "y", {
+Object.defineProperty(v4_uint.prototype, "y", {
     get: function() {
         var self = this.ptr;
-        return _mud_v4_stl_uint__get_y(self);
+        return _mud_v4_uint__get_y(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_v4_stl_uint__set_y(self, value);
+        _mud_v4_uint__set_y(self, value);
     }
 });
-Object.defineProperty(v4_stl_uint.prototype, "z", {
+Object.defineProperty(v4_uint.prototype, "z", {
     get: function() {
         var self = this.ptr;
-        return _mud_v4_stl_uint__get_z(self);
+        return _mud_v4_uint__get_z(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_v4_stl_uint__set_z(self, value);
+        _mud_v4_uint__set_z(self, value);
     }
 });
-Object.defineProperty(v4_stl_uint.prototype, "w", {
+Object.defineProperty(v4_uint.prototype, "w", {
     get: function() {
         var self = this.ptr;
-        return _mud_v4_stl_uint__get_w(self);
+        return _mud_v4_uint__get_w(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_v4_stl_uint__set_w(self, value);
+        _mud_v4_uint__set_w(self, value);
     }
 });
-v4_stl_uint.prototype["__destroy__"] = v4_stl_uint.prototype.__destroy__ = function() {
+v4_uint.prototype["__destroy__"] = v4_uint.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_v4_stl_uint__destroy(self);
+    _mud_v4_uint__destroy(self);
 };
 // Sprite
 function Sprite() { throw "cannot construct a Sprite, no constructor in IDL" }
@@ -1711,18 +1711,18 @@ Module['float4'] = v4_float;
 Module['int2'] = v2_int;
 Module['int3'] = v3_int;
 Module['int4'] = v4_int;
-Module['uint2'] = v2_stl_uint;
-Module['uint3'] = v3_stl_uint;
-Module['uint4'] = v4_stl_uint;
+Module['uint2'] = v2_uint;
+Module['uint3'] = v3_uint;
+Module['uint4'] = v4_uint;
 Module['bool2'] = v2_bool;
 Module['bool3'] = v3_bool;
 Module['bool4'] = v4_bool;
 Module['vec2'] = v2_float;
 Module['vec3'] = v3_float;
 Module['vec4'] = v4_float;
-Module['uvec2'] = v2_stl_uint;
-Module['uvec3'] = v3_stl_uint;
-Module['uvec4'] = v4_stl_uint;
+Module['uvec2'] = v2_uint;
+Module['uvec3'] = v3_uint;
+Module['uvec4'] = v4_uint;
 Module['ivec2'] = v2_int;
 Module['ivec3'] = v3_int;
 Module['ivec4'] = v4_int;

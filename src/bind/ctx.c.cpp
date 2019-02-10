@@ -38,16 +38,16 @@ extern "C" {
 	void DECL mud_Context__set_title(mud::Context* self, const char* value) {
 		self->m_title = value;
 	}
-	unsigned int DECL mud_Context__get_width(mud::Context* self) {
+	uint DECL mud_Context__get_width(mud::Context* self) {
 		return self->m_width;
 	}
-	void DECL mud_Context__set_width(mud::Context* self, unsigned int value) {
+	void DECL mud_Context__set_width(mud::Context* self, uint value) {
 		self->m_width = value;
 	}
-	unsigned int DECL mud_Context__get_height(mud::Context* self) {
+	uint DECL mud_Context__get_height(mud::Context* self) {
 		return self->m_height;
 	}
-	void DECL mud_Context__set_height(mud::Context* self, unsigned int value) {
+	void DECL mud_Context__set_height(mud::Context* self, uint value) {
 		self->m_height = value;
 	}
 	bool DECL mud_Context__get_full_screen(mud::Context* self) {

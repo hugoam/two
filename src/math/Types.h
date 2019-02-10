@@ -65,15 +65,15 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::v2<bool>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::v2<float>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::v2<int>>();
-    export_ template <> MUD_MATH_EXPORT Type& type<mud::v2<stl::uint>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::v2<uint>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::v3<bool>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::v3<float>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::v3<int>>();
-    export_ template <> MUD_MATH_EXPORT Type& type<mud::v3<stl::uint>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::v3<uint>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::v4<bool>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::v4<float>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::v4<int>>();
-    export_ template <> MUD_MATH_EXPORT Type& type<mud::v4<stl::uint>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::v4<uint>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Sprite>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::TextureAtlas>();

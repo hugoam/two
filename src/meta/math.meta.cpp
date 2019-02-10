@@ -151,10 +151,10 @@ void mud_v2_int__construct_0(void* ref, span<void*> args) { UNUSED(args); new(st
 void mud_v2_int__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<int>( *static_cast<int*>(args[0]) ); }
 void mud_v2_int__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<int>( *static_cast<int*>(args[0]), *static_cast<int*>(args[1]) ); }
 void mud_v2_int__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<int>((*static_cast<mud::v2<int>*>(other))); }
-void mud_v2_stl_uint__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<stl::uint>(  ); }
-void mud_v2_stl_uint__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<stl::uint>( *static_cast<stl::uint*>(args[0]) ); }
-void mud_v2_stl_uint__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<stl::uint>( *static_cast<stl::uint*>(args[0]), *static_cast<stl::uint*>(args[1]) ); }
-void mud_v2_stl_uint__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<stl::uint>((*static_cast<mud::v2<stl::uint>*>(other))); }
+void mud_v2_uint__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<uint>(  ); }
+void mud_v2_uint__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<uint>( *static_cast<uint*>(args[0]) ); }
+void mud_v2_uint__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<uint>( *static_cast<uint*>(args[0]), *static_cast<uint*>(args[1]) ); }
+void mud_v2_uint__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<uint>((*static_cast<mud::v2<uint>*>(other))); }
 void mud_v3_bool__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v3<bool>(  ); }
 void mud_v3_bool__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v3<bool>( *static_cast<bool*>(args[0]) ); }
 void mud_v3_bool__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v3<bool>( *static_cast<bool*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<bool*>(args[2]) ); }
@@ -167,10 +167,10 @@ void mud_v3_int__construct_0(void* ref, span<void*> args) { UNUSED(args); new(st
 void mud_v3_int__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v3<int>( *static_cast<int*>(args[0]) ); }
 void mud_v3_int__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v3<int>( *static_cast<int*>(args[0]), *static_cast<int*>(args[1]), *static_cast<int*>(args[2]) ); }
 void mud_v3_int__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v3<int>((*static_cast<mud::v3<int>*>(other))); }
-void mud_v3_stl_uint__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v3<stl::uint>(  ); }
-void mud_v3_stl_uint__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v3<stl::uint>( *static_cast<stl::uint*>(args[0]) ); }
-void mud_v3_stl_uint__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v3<stl::uint>( *static_cast<stl::uint*>(args[0]), *static_cast<stl::uint*>(args[1]), *static_cast<stl::uint*>(args[2]) ); }
-void mud_v3_stl_uint__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v3<stl::uint>((*static_cast<mud::v3<stl::uint>*>(other))); }
+void mud_v3_uint__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v3<uint>(  ); }
+void mud_v3_uint__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v3<uint>( *static_cast<uint*>(args[0]) ); }
+void mud_v3_uint__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v3<uint>( *static_cast<uint*>(args[0]), *static_cast<uint*>(args[1]), *static_cast<uint*>(args[2]) ); }
+void mud_v3_uint__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v3<uint>((*static_cast<mud::v3<uint>*>(other))); }
 void mud_v4_bool__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v4<bool>(  ); }
 void mud_v4_bool__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v4<bool>( *static_cast<bool*>(args[0]) ); }
 void mud_v4_bool__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v4<bool>( *static_cast<bool*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3]) ); }
@@ -183,16 +183,16 @@ void mud_v4_int__construct_0(void* ref, span<void*> args) { UNUSED(args); new(st
 void mud_v4_int__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v4<int>( *static_cast<int*>(args[0]) ); }
 void mud_v4_int__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v4<int>( *static_cast<int*>(args[0]), *static_cast<int*>(args[1]), *static_cast<int*>(args[2]), *static_cast<int*>(args[3]) ); }
 void mud_v4_int__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v4<int>((*static_cast<mud::v4<int>*>(other))); }
-void mud_v4_stl_uint__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v4<stl::uint>(  ); }
-void mud_v4_stl_uint__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v4<stl::uint>( *static_cast<stl::uint*>(args[0]) ); }
-void mud_v4_stl_uint__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v4<stl::uint>( *static_cast<stl::uint*>(args[0]), *static_cast<stl::uint*>(args[1]), *static_cast<stl::uint*>(args[2]), *static_cast<stl::uint*>(args[3]) ); }
-void mud_v4_stl_uint__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v4<stl::uint>((*static_cast<mud::v4<stl::uint>*>(other))); }
+void mud_v4_uint__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v4<uint>(  ); }
+void mud_v4_uint__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v4<uint>( *static_cast<uint*>(args[0]) ); }
+void mud_v4_uint__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v4<uint>( *static_cast<uint*>(args[0]), *static_cast<uint*>(args[1]), *static_cast<uint*>(args[2]), *static_cast<uint*>(args[3]) ); }
+void mud_v4_uint__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v4<uint>((*static_cast<mud::v4<uint>*>(other))); }
 void mud_quat__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::quat(  ); }
 void mud_quat__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::quat( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]) ); }
 void mud_quat__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::quat( *static_cast<mud::float3*>(args[0]) ); }
 void mud_quat__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::quat((*static_cast<mud::quat*>(other))); }
-void mud_to_rgba_0(span<void*> args, void*& result) { (*static_cast<unsigned int*>(result)) = mud::to_rgba(*static_cast<mud::Colour*>(args[0])); }
-void mud_to_abgr_1(span<void*> args, void*& result) { (*static_cast<unsigned int*>(result)) = mud::to_abgr(*static_cast<mud::Colour*>(args[0])); }
+void mud_to_rgba_0(span<void*> args, void*& result) { (*static_cast<uint*>(result)) = mud::to_rgba(*static_cast<mud::Colour*>(args[0])); }
+void mud_to_abgr_1(span<void*> args, void*& result) { (*static_cast<uint*>(result)) = mud::to_abgr(*static_cast<mud::Colour*>(args[0])); }
 void mud_from_rgba_2(span<void*> args, void*& result) { (*static_cast<mud::Colour*>(result)) = mud::from_rgba(*static_cast<uint32_t*>(args[0])); }
 void mud_from_abgr_3(span<void*> args, void*& result) { (*static_cast<mud::Colour*>(result)) = mud::from_abgr(*static_cast<uint32_t*>(args[0])); }
 void mud_to_linear_4(span<void*> args, void*& result) { (*static_cast<mud::Colour*>(result)) = mud::to_linear(*static_cast<mud::Colour*>(args[0])); }
@@ -1174,26 +1174,26 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
-	// mud::v2<stl::uint>
+	// mud::v2<uint>
 	{
-		Type& t = type<mud::v2<stl::uint>>();
-		static Meta meta = { t, &namspc({ "mud" }), "v2<stl::uint>", sizeof(mud::v2<stl::uint>), TypeClass::Struct };
+		Type& t = type<mud::v2<uint>>();
+		static Meta meta = { t, &namspc({ "mud" }), "v2<uint>", sizeof(mud::v2<uint>), TypeClass::Struct };
 		// bases
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_v2_stl_uint__construct_0, {} },
-			{ t, mud_v2_stl_uint__construct_1, { { "v", type<stl::uint>(),  } } },
-			{ t, mud_v2_stl_uint__construct_2, { { "x", type<stl::uint>(),  }, { "y", type<stl::uint>(),  } } }
+			{ t, mud_v2_uint__construct_0, {} },
+			{ t, mud_v2_uint__construct_1, { { "v", type<uint>(),  } } },
+			{ t, mud_v2_uint__construct_2, { { "x", type<uint>(),  }, { "y", type<uint>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_v2_stl_uint__copy_construct }
+			{ t, mud_v2_uint__copy_construct }
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::v2<stl::uint>, x), type<stl::uint>(), "x", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::v2<stl::uint>, y), type<stl::uint>(), "y", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::v2<uint>, x), type<uint>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::v2<uint>, y), type<uint>(), "y", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1277,27 +1277,27 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
-	// mud::v3<stl::uint>
+	// mud::v3<uint>
 	{
-		Type& t = type<mud::v3<stl::uint>>();
-		static Meta meta = { t, &namspc({ "mud" }), "v3<stl::uint>", sizeof(mud::v3<stl::uint>), TypeClass::Struct };
+		Type& t = type<mud::v3<uint>>();
+		static Meta meta = { t, &namspc({ "mud" }), "v3<uint>", sizeof(mud::v3<uint>), TypeClass::Struct };
 		// bases
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_v3_stl_uint__construct_0, {} },
-			{ t, mud_v3_stl_uint__construct_1, { { "v", type<stl::uint>(),  } } },
-			{ t, mud_v3_stl_uint__construct_2, { { "x", type<stl::uint>(),  }, { "y", type<stl::uint>(),  }, { "z", type<stl::uint>(),  } } }
+			{ t, mud_v3_uint__construct_0, {} },
+			{ t, mud_v3_uint__construct_1, { { "v", type<uint>(),  } } },
+			{ t, mud_v3_uint__construct_2, { { "x", type<uint>(),  }, { "y", type<uint>(),  }, { "z", type<uint>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_v3_stl_uint__copy_construct }
+			{ t, mud_v3_uint__copy_construct }
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::v3<stl::uint>, x), type<stl::uint>(), "x", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::v3<stl::uint>, y), type<stl::uint>(), "y", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::v3<stl::uint>, z), type<stl::uint>(), "z", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::v3<uint>, x), type<uint>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::v3<uint>, y), type<uint>(), "y", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::v3<uint>, z), type<uint>(), "z", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1384,28 +1384,28 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
-	// mud::v4<stl::uint>
+	// mud::v4<uint>
 	{
-		Type& t = type<mud::v4<stl::uint>>();
-		static Meta meta = { t, &namspc({ "mud" }), "v4<stl::uint>", sizeof(mud::v4<stl::uint>), TypeClass::Struct };
+		Type& t = type<mud::v4<uint>>();
+		static Meta meta = { t, &namspc({ "mud" }), "v4<uint>", sizeof(mud::v4<uint>), TypeClass::Struct };
 		// bases
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_v4_stl_uint__construct_0, {} },
-			{ t, mud_v4_stl_uint__construct_1, { { "v", type<stl::uint>(),  } } },
-			{ t, mud_v4_stl_uint__construct_2, { { "x", type<stl::uint>(),  }, { "y", type<stl::uint>(),  }, { "z", type<stl::uint>(),  }, { "w", type<stl::uint>(),  } } }
+			{ t, mud_v4_uint__construct_0, {} },
+			{ t, mud_v4_uint__construct_1, { { "v", type<uint>(),  } } },
+			{ t, mud_v4_uint__construct_2, { { "x", type<uint>(),  }, { "y", type<uint>(),  }, { "z", type<uint>(),  }, { "w", type<uint>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_v4_stl_uint__copy_construct }
+			{ t, mud_v4_uint__copy_construct }
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::v4<stl::uint>, x), type<stl::uint>(), "x", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::v4<stl::uint>, y), type<stl::uint>(), "y", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::v4<stl::uint>, z), type<stl::uint>(), "z", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::v4<stl::uint>, w), type<stl::uint>(), "w", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::v4<uint>, x), type<uint>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::v4<uint>, y), type<uint>(), "y", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::v4<uint>, z), type<uint>(), "z", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::v4<uint>, w), type<uint>(), "w", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1511,17 +1511,17 @@ namespace mud
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<mud::v2<stl::uint>>();
+		Type& t = type<mud::v2<uint>>();
 		static Alias alias = { &t, &namspc({ "mud" }), "uint2" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<mud::v3<stl::uint>>();
+		Type& t = type<mud::v3<uint>>();
 		static Alias alias = { &t, &namspc({ "mud" }), "uint3" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<mud::v4<stl::uint>>();
+		Type& t = type<mud::v4<uint>>();
 		static Alias alias = { &t, &namspc({ "mud" }), "uint4" };
 		m.m_aliases.push_back(&alias);
 	}
@@ -1556,17 +1556,17 @@ namespace mud
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<mud::v2<stl::uint>>();
+		Type& t = type<mud::v2<uint>>();
 		static Alias alias = { &t, &namspc({ "mud" }), "uvec2" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<mud::v3<stl::uint>>();
+		Type& t = type<mud::v3<uint>>();
 		static Alias alias = { &t, &namspc({ "mud" }), "uvec3" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<mud::v4<stl::uint>>();
+		Type& t = type<mud::v4<uint>>();
 		static Alias alias = { &t, &namspc({ "mud" }), "uvec4" };
 		m.m_aliases.push_back(&alias);
 	}
@@ -1596,27 +1596,27 @@ namespace mud
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<unsigned char>();
+		Type& t = type<uchar>();
 		static Alias alias = { &t, &namspc({ "mud" }), "uchar" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<unsigned short>();
+		Type& t = type<ushort>();
 		static Alias alias = { &t, &namspc({ "mud" }), "ushort" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<unsigned int>();
+		Type& t = type<uint>();
 		static Alias alias = { &t, &namspc({ "mud" }), "uint" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<unsigned short>();
+		Type& t = type<ushort>();
 		static Alias alias = { &t, &namspc({ "mud" }), "u16" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<unsigned int>();
+		Type& t = type<uint>();
 		static Alias alias = { &t, &namspc({ "mud" }), "u32" };
 		m.m_aliases.push_back(&alias);
 	}
@@ -1695,15 +1695,15 @@ namespace mud
 		m.m_types.push_back(&type<mud::v2<bool>>());
 		m.m_types.push_back(&type<mud::v2<float>>());
 		m.m_types.push_back(&type<mud::v2<int>>());
-		m.m_types.push_back(&type<mud::v2<stl::uint>>());
+		m.m_types.push_back(&type<mud::v2<uint>>());
 		m.m_types.push_back(&type<mud::v3<bool>>());
 		m.m_types.push_back(&type<mud::v3<float>>());
 		m.m_types.push_back(&type<mud::v3<int>>());
-		m.m_types.push_back(&type<mud::v3<stl::uint>>());
+		m.m_types.push_back(&type<mud::v3<uint>>());
 		m.m_types.push_back(&type<mud::v4<bool>>());
 		m.m_types.push_back(&type<mud::v4<float>>());
 		m.m_types.push_back(&type<mud::v4<int>>());
-		m.m_types.push_back(&type<mud::v4<stl::uint>>());
+		m.m_types.push_back(&type<mud::v4<uint>>());
 		m.m_types.push_back(&type<mud::vec2>());
 		m.m_types.push_back(&type<mud::vec3>());
 		m.m_types.push_back(&type<mud::vec4>());
