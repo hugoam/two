@@ -9,10 +9,6 @@ Shell.prototype.constructor = Shell;
 Shell.prototype.__class__ = Shell;
 Shell.__cache__ = {};
 Module['Shell'] = Shell;
-Shell.prototype["pump"] = Shell.prototype.pump = function(self) {
-    var self = this.ptr;
-    return !!(_mud_Shell_pump_0(self));
-};
 Shell.prototype["begin_frame"] = Shell.prototype.begin_frame = function(self) {
     var self = this.ptr;
     return !!(_mud_Shell_begin_frame_0(self));
@@ -20,6 +16,10 @@ Shell.prototype["begin_frame"] = Shell.prototype.begin_frame = function(self) {
 Shell.prototype["end_frame"] = Shell.prototype.end_frame = function(self) {
     var self = this.ptr;
     return !!(_mud_Shell_end_frame_0(self));
+};
+Shell.prototype["pump"] = Shell.prototype.pump = function(self) {
+    var self = this.ptr;
+    return !!(_mud_Shell_pump_0(self));
 };
 Object.defineProperty(Shell.prototype, "exec_path", {
     get: function() {

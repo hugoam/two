@@ -119,7 +119,7 @@ namespace mud
 		if(quad.m_source.z > 1.f || quad.m_source.w > 1.f)
 			printf("WARNING: Source rect expected in relative coordinates\n");
 
-#if _DEBUG
+#ifdef _DEBUG
 		bgfx::setViewName(view, "quad");
 #endif
 		bgfx::setViewFrameBuffer(view, fbo);

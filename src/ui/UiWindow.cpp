@@ -11,6 +11,7 @@ module mud.ui;
 #include <infra/Vector.h>
 #include <infra/StringOps.h>
 #include <infra/File.h>
+#include <math/Vec.hpp>
 #include <ctx/Context.h>
 #include <ui/UiWindow.h>
 #include <ui/Api.h>
