@@ -156,8 +156,8 @@ namespace mud
 
 	void UiWindow::resize(const uvec2& size, const uvec2& fb_size)
 	{
-		printf("INFO: UiWindow :: resize %i, %i\n", int(size.x), int(size.y));
-		//m_size = size;
+		printf("INFO: ui window - resize to (%i, %i) - pixel size (%i, %i)\n", int(size.x), int(size.y), int(fb_size.x), int(fb_size.y));
+		m_size = size;
 		m_context.reset_fb(fb_size);
 		m_root_sheet->m_frame.set_size(vec2(fb_size));
 	}
