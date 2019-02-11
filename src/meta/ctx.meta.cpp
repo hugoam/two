@@ -175,6 +175,7 @@ namespace mud
 		static mud::ControlNode* consumer_default = nullptr;
 		static bool abort_default = false;
 		static mud::InputMod modifiers_default = mud::InputMod::None;
+		static int key_default = -1;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_InputEvent__construct_0, {} }
@@ -191,7 +192,7 @@ namespace mud
 			{ t, offsetof(mud::InputEvent, m_consumer), type<mud::ControlNode>(), "consumer", consumer_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::InputEvent, m_abort), type<bool>(), "abort", &abort_default, Member::Value, nullptr },
 			{ t, offsetof(mud::InputEvent, m_modifiers), type<mud::InputMod>(), "modifiers", &modifiers_default, Member::Value, nullptr },
-			{ t, offsetof(mud::InputEvent, m_key), type<int>(), "key", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::InputEvent, m_key), type<int>(), "key", &key_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {

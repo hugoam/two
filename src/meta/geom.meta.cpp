@@ -987,6 +987,7 @@ namespace mud
 		static size_t bases_offsets[] = { base_offset<mud::SphereRing, mud::Shape>() };
 		// defaults
 		static float radius_default = 1.f;
+		static float min_default = -1.f;
 		static float max_default = 1.f;
 		// constructors
 		static Constructor constructors[] = {
@@ -1000,7 +1001,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::SphereRing, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
-			{ t, offsetof(mud::SphereRing, m_min), type<float>(), "min", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::SphereRing, m_min), type<float>(), "min", &min_default, Member::Value, nullptr },
 			{ t, offsetof(mud::SphereRing, m_max), type<float>(), "max", &max_default, Member::Value, nullptr }
 		};
 		// methods

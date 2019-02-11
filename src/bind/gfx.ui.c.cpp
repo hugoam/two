@@ -123,6 +123,12 @@ extern "C" {
 	mud::SceneViewer* DECL mud_ui_scene_viewer_2(mud::Widget* parent, const mud::vec2* size) {
 		return &mud::ui::scene_viewer(*parent, *size);
 	}
+	mud::OrbitController* DECL mud_ui_orbit_controller_1(mud::Viewer* viewer) {
+		return &mud::ui::orbit_controller(*viewer);
+	}
+	mud::OrbitController* DECL mud_ui_orbit_controller_2(mud::Viewer* viewer, float yaw) {
+		return &mud::ui::orbit_controller(*viewer, yaw);
+	}
 	mud::OrbitController* DECL mud_ui_orbit_controller_3(mud::Viewer* viewer, float yaw, float pitch) {
 		return &mud::ui::orbit_controller(*viewer, yaw, pitch);
 	}

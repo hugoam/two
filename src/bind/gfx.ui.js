@@ -159,6 +159,8 @@ Module['ui']['scene_viewer'] = function(a0, a1) {
 };
 Module['ui']['orbit_controller'] = function(a0, a1, a2, a3) {
     var self = this.ptr;
+    if (a1 === undefined) { return wrapPointer(_mud_ui_orbit_controller_1(/*viewer*/a0.ptr), OrbitController); }
+    if (a2 === undefined) { return wrapPointer(_mud_ui_orbit_controller_2(/*viewer*/a0.ptr, /*yaw*/a1), OrbitController); }
     if (a3 === undefined) { return wrapPointer(_mud_ui_orbit_controller_3(/*viewer*/a0.ptr, /*yaw*/a1, /*pitch*/a2), OrbitController); }
     return wrapPointer(_mud_ui_orbit_controller_4(/*viewer*/a0.ptr, /*yaw*/a1, /*pitch*/a2, /*distance*/a3), OrbitController);
 };

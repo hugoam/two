@@ -508,6 +508,7 @@ namespace mud
 		static Meta meta = { t, &namspc({}), "glTFAccessor", sizeof(glTFAccessor), TypeClass::Struct };
 		// bases
 		// defaults
+		static int buffer_view_default = -1;
 		static int byte_offset_default = 0;
 		static bool normalized_default = false;
 		static glTFType type_default = glTFType::INVALID;
@@ -522,7 +523,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTFAccessor, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAccessor, buffer_view), type<int>(), "buffer_view", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFAccessor, buffer_view), type<int>(), "buffer_view", &buffer_view_default, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, byte_offset), type<int>(), "byte_offset", &byte_offset_default, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, component_type), type<glTFComponentType>(), "component_type", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, normalized), type<bool>(), "normalized", &normalized_default, Member::Value, nullptr },
@@ -634,6 +635,14 @@ namespace mud
 		static Meta meta = { t, &namspc({}), "glTFAttributes", sizeof(glTFAttributes), TypeClass::Struct };
 		// bases
 		// defaults
+		static int POSITION_default = -1;
+		static int NORMAL_default = -1;
+		static int TANGENT_default = -1;
+		static int TEXCOORD_0_default = -1;
+		static int TEXCOORD_1_default = -1;
+		static int COLOR_0_default = -1;
+		static int JOINTS_0_default = -1;
+		static int WEIGHTS_0_default = -1;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, glTFAttributes__construct_0, {} }
@@ -644,14 +653,14 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAttributes, POSITION), type<int>(), "POSITION", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAttributes, NORMAL), type<int>(), "NORMAL", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAttributes, TANGENT), type<int>(), "TANGENT", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAttributes, TEXCOORD_0), type<int>(), "TEXCOORD_0", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAttributes, TEXCOORD_1), type<int>(), "TEXCOORD_1", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAttributes, COLOR_0), type<int>(), "COLOR_0", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAttributes, JOINTS_0), type<int>(), "JOINTS_0", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAttributes, WEIGHTS_0), type<int>(), "WEIGHTS_0", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFAttributes, POSITION), type<int>(), "POSITION", &POSITION_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAttributes, NORMAL), type<int>(), "NORMAL", &NORMAL_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAttributes, TANGENT), type<int>(), "TANGENT", &TANGENT_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAttributes, TEXCOORD_0), type<int>(), "TEXCOORD_0", &TEXCOORD_0_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAttributes, TEXCOORD_1), type<int>(), "TEXCOORD_1", &TEXCOORD_1_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAttributes, COLOR_0), type<int>(), "COLOR_0", &COLOR_0_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAttributes, JOINTS_0), type<int>(), "JOINTS_0", &JOINTS_0_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAttributes, WEIGHTS_0), type<int>(), "WEIGHTS_0", &WEIGHTS_0_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -854,6 +863,9 @@ namespace mud
 		static Meta meta = { t, &namspc({}), "glTFMorphTarget", sizeof(glTFMorphTarget), TypeClass::Struct };
 		// bases
 		// defaults
+		static int POSITION_default = -1;
+		static int NORMAL_default = -1;
+		static int TANGENT_default = -1;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, glTFMorphTarget__construct_0, {} }
@@ -864,9 +876,9 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFMorphTarget, POSITION), type<int>(), "POSITION", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFMorphTarget, NORMAL), type<int>(), "NORMAL", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFMorphTarget, TANGENT), type<int>(), "TANGENT", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFMorphTarget, POSITION), type<int>(), "POSITION", &POSITION_default, Member::Value, nullptr },
+			{ t, offsetof(glTFMorphTarget, NORMAL), type<int>(), "NORMAL", &NORMAL_default, Member::Value, nullptr },
+			{ t, offsetof(glTFMorphTarget, TANGENT), type<int>(), "TANGENT", &TANGENT_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -878,6 +890,9 @@ namespace mud
 		static Meta meta = { t, &namspc({}), "glTFNode", sizeof(glTFNode), TypeClass::Struct };
 		// bases
 		// defaults
+		static int mesh_default = -1;
+		static int camera_default = -1;
+		static int skin_default = -1;
 		static mud::mat4 matrix_default = {};
 		static mud::vec3 translation_default = mud::Zero3;
 		static mud::quat rotation_default = mud::ZeroQuat;
@@ -893,9 +908,9 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTFNode, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, mesh), type<int>(), "mesh", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, camera), type<int>(), "camera", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, skin), type<int>(), "skin", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, mesh), type<int>(), "mesh", &mesh_default, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, camera), type<int>(), "camera", &camera_default, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, skin), type<int>(), "skin", &skin_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, matrix), type<mud::mat4>(), "matrix", &matrix_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, translation), type<mud::vec3>(), "translation", &translation_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, rotation), type<mud::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
@@ -981,6 +996,8 @@ namespace mud
 		static Meta meta = { t, &namspc({}), "glTFPrimitive", sizeof(glTFPrimitive), TypeClass::Struct };
 		// bases
 		// defaults
+		static int indices_default = -1;
+		static int material_default = -1;
 		static glTFPrimitiveType mode_default = glTFPrimitiveType::TRIANGLES;
 		// constructors
 		static Constructor constructors[] = {
@@ -993,8 +1010,8 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTFPrimitive, attributes), type<glTFAttributes>(), "attributes", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFPrimitive, indices), type<int>(), "indices", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFPrimitive, material), type<int>(), "material", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFPrimitive, indices), type<int>(), "indices", &indices_default, Member::Value, nullptr },
+			{ t, offsetof(glTFPrimitive, material), type<int>(), "material", &material_default, Member::Value, nullptr },
 			{ t, offsetof(glTFPrimitive, mode), type<glTFPrimitiveType>(), "mode", &mode_default, Member::Value, nullptr },
 			{ t, offsetof(glTFPrimitive, targets), type<stl::vector<glTFMorphTarget>>(), "targets", nullptr, Member::NonMutable, nullptr }
 		};
@@ -1059,6 +1076,7 @@ namespace mud
 		static Meta meta = { t, &namspc({}), "glTFSkin", sizeof(glTFSkin), TypeClass::Struct };
 		// bases
 		// defaults
+		static int skeleton_default = -1;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, glTFSkin__construct_0, {} }
@@ -1070,7 +1088,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTFSkin, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFSkin, skeleton), type<int>(), "skeleton", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFSkin, skeleton), type<int>(), "skeleton", &skeleton_default, Member::Value, nullptr },
 			{ t, offsetof(glTFSkin, joints), type<stl::vector<int>>(), "joints", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(glTFSkin, inverse_bind_matrices), type<int>(), "inverse_bind_matrices", nullptr, Member::Value, nullptr }
 		};
@@ -1158,6 +1176,8 @@ namespace mud
 		static Meta meta = { t, &namspc({}), "glTFTexture", sizeof(glTFTexture), TypeClass::Struct };
 		// bases
 		// defaults
+		static int sampler_default = -1;
+		static int source_default = -1;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, glTFTexture__construct_0, {} }
@@ -1169,8 +1189,8 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTFTexture, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFTexture, sampler), type<int>(), "sampler", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFTexture, source), type<int>(), "source", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFTexture, sampler), type<int>(), "sampler", &sampler_default, Member::Value, nullptr },
+			{ t, offsetof(glTFTexture, source), type<int>(), "source", &source_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1182,6 +1202,7 @@ namespace mud
 		static Meta meta = { t, &namspc({}), "glTFTextureInfo", sizeof(glTFTextureInfo), TypeClass::Struct };
 		// bases
 		// defaults
+		static int index_default = -1;
 		static float scale_default = 1.f;
 		// constructors
 		static Constructor constructors[] = {
@@ -1193,7 +1214,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFTextureInfo, index), type<int>(), "index", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFTextureInfo, index), type<int>(), "index", &index_default, Member::Value, nullptr },
 			{ t, offsetof(glTFTextureInfo, scale), type<float>(), "scale", &scale_default, Member::Value, nullptr }
 		};
 		// methods
