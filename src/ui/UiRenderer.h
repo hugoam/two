@@ -108,7 +108,7 @@ namespace mud
 		UiRenderer(Vg& vg);
 		virtual ~UiRenderer();
 
-		void render(Layer& layer);
+		void render(Layer& layer, float pixel_ratio);// = 1.f);
 
 		// drawing implementation
 		void render_layer(Layer& layer);

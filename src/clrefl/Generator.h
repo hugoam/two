@@ -379,9 +379,6 @@ namespace mud
 		//explicit operator const CLType&() const { return *m_type; }
 	};
 
-	template<typename T, size_t N>
-	constexpr size_t array_size(T(&array)[N]) { return N; }
-
 	class CLBaseType : public CLType
 	{
 	public:

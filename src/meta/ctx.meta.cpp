@@ -31,7 +31,7 @@ void mud_Key__to_string(void* val, string& str) { str = g_enu[type<mud::Key>().m
 void mud_Key__to_value(const string& str, void* val) { (*static_cast<mud::Key*>(val)) = mud::Key(g_enu[type<mud::Key>().m_id]->value(str.c_str())); }
 void mud_MouseButtonCode__to_string(void* val, string& str) { str = g_enu[type<mud::MouseButtonCode>().m_id]->name(uint32_t((*static_cast<mud::MouseButtonCode*>(val)))); }
 void mud_MouseButtonCode__to_value(const string& str, void* val) { (*static_cast<mud::MouseButtonCode*>(val)) = mud::MouseButtonCode(g_enu[type<mud::MouseButtonCode>().m_id]->value(str.c_str())); }
-void mud_Context_reset(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).reset(*static_cast<uint16_t*>(args[0]), *static_cast<uint16_t*>(args[1])); }
+void mud_Context_reset(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).reset_fb(*static_cast<uvec2*>(args[0])); }
 void mud_Context_init_input(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).init_input(*static_cast<mud::Mouse*>(args[0]), *static_cast<mud::Keyboard*>(args[1])); }
 void mud_Context_next_frame(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Context*>(object)).next_frame(); }
 void mud_Context_lock_mouse(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).lock_mouse(*static_cast<bool*>(args[0])); }
@@ -131,8 +131,8 @@ namespace mud
 		static Member members[] = {
 			{ t, offsetof(mud::Context, m_resource_path), type<stl::string>(), "resource_path", nullptr, Member::Flags(Member::Value|Member::NonMutable), nullptr },
 			{ t, offsetof(mud::Context, m_title), type<stl::string>(), "title", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_width), type<uint>(), "width", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_height), type<uint>(), "height", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_size), type<uvec2>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_fb_size), type<uvec2>(), "fb_size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_full_screen), type<bool>(), "full_screen", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_active), type<bool>(), "active", &active_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_shutdown), type<bool>(), "shutdown", &shutdown_default, Member::Value, nullptr },

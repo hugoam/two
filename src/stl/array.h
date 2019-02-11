@@ -10,6 +10,9 @@
 
 namespace stl
 {
+	template<typename T, size_t N>
+	constexpr size_t array_size(T(&array)[N]) { return N; }
+
 	export_ template <class T, size_t Size>
 	struct array
 	{

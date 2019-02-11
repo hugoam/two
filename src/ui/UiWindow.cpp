@@ -28,11 +28,11 @@ namespace mud
 		, m_vg(vg)
 		, m_renderer(vg)
 		, m_atlas(uvec2(1024U))
-		, m_width(float(context.m_width))
-		, m_height(float(context.m_height))
+		, m_size(context.m_size)
 		, m_user(user)
 	{
 		this->init();
+		this->resize(context.m_size, context.m_fb_size);
 	}
 
 	UiWindow::~UiWindow()
@@ -59,8 +59,6 @@ namespace mud
 		m_root_sheet = oconstruct<Ui>(*this);
 
 		m_context.init_input(m_root_sheet->m_mouse, m_root_sheet->m_keyboard);
-
-		this->resize(uint16_t(m_width), uint16_t(m_height));
 	}
 
 	void UiWindow::init_styles()
@@ -156,15 +154,12 @@ namespace mud
 		return nullptr;
 	}
 
-	void UiWindow::resize(uint16_t width, uint16_t height)
+	void UiWindow::resize(const uvec2& size, const uvec2& fb_size)
 	{
-		m_width = float(width);
-		m_height = float(height);
-
-		m_context.reset(width, height);
-
-		printf("INFO: UiWindow :: resize %i, %i\n", int(width), int(height));
-		m_root_sheet->m_frame.set_size({ m_width, m_height });
+		printf("INFO: UiWindow :: resize %i, %i\n", int(size.x), int(size.y));
+		//m_size = size;
+		m_context.reset_fb(fb_size);
+		m_root_sheet->m_frame.set_size(vec2(fb_size));
 	}
 
 	bool UiWindow::input_frame()
@@ -172,8 +167,8 @@ namespace mud
 		bool pursue = !m_shutdown;
 		pursue &= m_context.next_frame();
 
-		if(m_width != uint(m_width) || m_height != uint(m_height))
-			this->resize(uint16_t(m_width), uint16_t(m_height));
+		if(m_size != m_context.m_size)
+			this->resize(m_context.m_size, m_context.m_fb_size);
 
 		m_root_sheet->input_frame();
 
@@ -188,7 +183,7 @@ namespace mud
 
 		if(m_context.m_render_system.m_manual_render)
 		{
-			m_renderer.render(*m_root_sheet->m_frame.m_layer);
+			m_renderer.render(*m_root_sheet->m_frame.m_layer, m_context.m_pixel_ratio);
 			// add sub layers
 		}
 

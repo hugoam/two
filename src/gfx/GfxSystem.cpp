@@ -44,28 +44,28 @@ module mud.gfx;
 
 namespace mud
 {
-	GfxContext::GfxContext(GfxSystem& gfx_system, const string& name, int width, int height, bool fullScreen, bool init)
-		: BgfxContext(gfx_system, name, width, height, fullScreen, false)
+	GfxContext::GfxContext(GfxSystem& gfx_system, const string& name, uvec2 size, bool fullScreen, bool init)
+		: BgfxContext(gfx_system, name, size, fullScreen, false)
 		, m_gfx_system(gfx_system)
 		, m_target()
 	{
 		if(init)
 			gfx_system.init(*this);
-		m_target = oconstruct<RenderTarget>(uvec2(width, height));
+		m_target = oconstruct<RenderTarget>(size);
 	}
 
 	GfxContext::~GfxContext()
 	{}
 
-	void GfxContext::reset(uint16_t width, uint16_t height)
+	void GfxContext::reset_fb(const uvec2& size)
 	{
-		bgfx::reset(width, height, BGFX_RESET_NONE);
-		if(width == 0 || height == 0)
+		bgfx::reset(uint16_t(size.x), uint16_t(size.y), BGFX_RESET_NONE);
+		if(size.x == 0 || size.y == 0)
 			m_target = nullptr;
 		else
 		{
-			if(!m_target || width != m_target->m_size.x || height != m_target->m_size.y)
-				m_target = oconstruct<RenderTarget>(uvec2(width, height));
+			if(!m_target || size != m_target->m_size)
+				m_target = oconstruct<RenderTarget>(size);
 		}
 		m_vg_handle = m_reset_vg(*this, *m_gfx_system.m_vg);
 	}
@@ -145,9 +145,9 @@ namespace mud
 		return m_impl->m_importers[size_t(format)];
 	}
 
-	object<Context> GfxSystem::create_context(const string& name, int width, int height, bool fullScreen)
+	object<Context> GfxSystem::create_context(const string& name, uvec2 size, bool fullScreen)
 	{
-		object<GfxContext> context = oconstruct<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
+		object<GfxContext> context = oconstruct<GfxContext>(*this, name, size, fullScreen, !m_initialized);
 		m_impl->m_contexts.push_back(context.get());
 		return move(context);
 	}

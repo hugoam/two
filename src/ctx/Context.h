@@ -24,7 +24,7 @@ namespace mud
 		virtual void begin_frame() = 0;
 		virtual bool next_frame() = 0;
 
-		virtual object<Context> create_context(const string& name, int width, int height, bool fullScreen) = 0;
+		virtual object<Context> create_context(const string& name, uvec2 size, bool fullScreen) = 0;
 		
 		const string m_resource_path;
 		const bool m_manual_render;
@@ -33,16 +33,18 @@ namespace mud
 	export_ class refl_ MUD_CTX_EXPORT Context
 	{
 	public:
-		Context(RenderSystem& render_system, const string& title, int width, int height, bool full_screen = false);
+		Context(RenderSystem& render_system, const string& title, uvec2 size, bool full_screen = false);
 		virtual ~Context();
 
 		RenderSystem& m_render_system;
 		attr_ const string m_resource_path;
 
 		attr_ string m_title;
-		attr_ unsigned int m_width;
-		attr_ unsigned int m_height;
+		attr_ uvec2 m_size;
+		attr_ uvec2 m_fb_size;
 		attr_ bool m_full_screen;
+
+		attr_ float m_pixel_ratio;
 
 		size_t m_handle = 0;
 		void* m_native_handle = nullptr;
@@ -54,7 +56,7 @@ namespace mud
 		attr_ vec2 m_cursor;
 		attr_ bool m_mouse_lock = false;
 
-		meth_ virtual void reset(uint16_t width, uint16_t height) = 0;
+		meth_ virtual void reset_fb(const uvec2& size) = 0;
 		meth_ virtual void init_input(Mouse& mouse, Keyboard& keyboard) = 0;
 
 		meth_ virtual bool next_frame() = 0;

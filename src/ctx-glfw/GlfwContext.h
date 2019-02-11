@@ -22,12 +22,11 @@ namespace mud
 	export_ class refl_ MUD_CTX_GLFW_EXPORT GlfwContext : public Context
 	{
 	public:
-		GlfwContext(RenderSystem& render_system, const string& name, int width, int height, bool full_screen, bool auto_swap = true);
+		GlfwContext(RenderSystem& render_system, const string& name, uvec2 size, bool full_screen, bool auto_swap = true);
 		~GlfwContext();
 
 		void init_context();
 		virtual void init_input(Mouse& mouse, Keyboard& keyboard) final;
-		virtual void reset(uint16_t width, uint16_t height) override;
 
 		virtual bool next_frame() final;
 

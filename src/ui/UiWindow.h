@@ -40,7 +40,7 @@ namespace mud
 		void init_styles();
 		void reset_styles();
 
-		void resize(uint16_t width, uint16_t height);
+		void resize(const uvec2& size, const uvec2& fb_size);
 
 		Image& create_image(cstring image, uvec2 size, uint8_t* data, bool filtering = true);
 		void remove_image(Image& image);
@@ -61,8 +61,7 @@ namespace mud
 		vector<object<Image>> m_images;
 		ImageAtlas m_atlas;
 
-		float m_width;
-		float m_height;
+		uvec2 m_size;
 
 		Clipboard m_clipboard;
 

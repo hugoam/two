@@ -34,10 +34,10 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT GfxContext : public BgfxContext
 	{
 	public:
-		GfxContext(GfxSystem& gfx_system, const string& name, int width, int height, bool fullScreen, bool init);
+		GfxContext(GfxSystem& gfx_system, const string& name, uvec2 size, bool fullScreen, bool init);
 		~GfxContext();
 
-		virtual void reset(uint16_t width, uint16_t height) override;
+		virtual void reset_fb(const uvec2& size) override;
 
 		GfxSystem& m_gfx_system;
 
@@ -85,7 +85,7 @@ namespace mud
 		virtual void begin_frame() final;
 		virtual bool next_frame() final;
 
-		virtual object<Context> create_context(const string& name, int width, int height, bool full_screen) final;
+		virtual object<Context> create_context(const string& name, uvec2 size, bool full_screen) final;
 
 		void init(GfxContext& context);
 

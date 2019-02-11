@@ -40,9 +40,9 @@ namespace mud
 #endif
 	{
 	public:
-		BgfxContext(BgfxSystem& gfx_system, const string& name, int width, int height, bool fullScreen, bool init);
+		BgfxContext(BgfxSystem& gfx_system, const string& name, uvec2 size, bool fullScreen, bool init);
 
-		virtual void reset(uint16_t width, uint16_t height) override;
+		virtual void reset_fb(const uvec2& size) override;
 	};
 
 	export_ struct MUD_BGFX_EXPORT TimerBx
@@ -62,7 +62,7 @@ namespace mud
 		virtual void begin_frame() override;
 		virtual bool next_frame() override;
 
-		virtual object<Context> create_context(const string& name, int width, int height, bool fullScreen) override;
+		virtual object<Context> create_context(const string& name, uvec2 size, bool fullScreen) override;
 		
 		void init(BgfxContext& context);
 		void advance();

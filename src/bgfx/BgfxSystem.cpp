@@ -20,22 +20,22 @@ module mud.bgfx;
 
 namespace mud
 {
-	BgfxContext::BgfxContext(BgfxSystem& gfx_system, const string& name, int width, int height, bool fullScreen, bool init)
+	BgfxContext::BgfxContext(BgfxSystem& gfx_system, const string& name, uvec2 size, bool fullScreen, bool init)
 #if defined MUD_CONTEXT_GLFW
-		: GlfwContext(gfx_system, name, width, height, fullScreen, false)
+		: GlfwContext(gfx_system, name, size, fullScreen, false)
 #elif defined MUD_CONTEXT_WASM
-		: EmContext(gfx_system, name, width, height, fullScreen)
+		: EmContext(gfx_system, name, size, fullScreen)
 #elif defined MUD_CONTEXT_WINDOWS
-		: WinContext(gfx_system, name, width, height, fullScreen)
+		: WinContext(gfx_system, name, size, fullScreen)
 #endif
 	{
 		if(init)
 			gfx_system.init(*this);
 	}
 
-	void BgfxContext::reset(uint16_t width, uint16_t height)
+	void BgfxContext::reset_fb(const uvec2& size)
 	{
-		bgfx::reset(width, height, BGFX_RESET_NONE);
+		bgfx::reset(uint16_t(size.x), uint16_t(size.y), BGFX_RESET_NONE);
 	}
 
 	BgfxSystem::BgfxSystem(const string& resource_path)
@@ -57,9 +57,9 @@ namespace mud
 		return alloc;
 	}
 
-	object<Context> BgfxSystem::create_context(const string& name, int width, int height, bool fullScreen)
+	object<Context> BgfxSystem::create_context(const string& name, uvec2 size, bool fullScreen)
 	{
-		return oconstruct<BgfxContext>(*this, name, width, height, fullScreen, !m_initialized);
+		return oconstruct<BgfxContext>(*this, name, size, fullScreen, !m_initialized);
 	}
 
 	void BgfxSystem::init(BgfxContext& context)
@@ -74,8 +74,8 @@ namespace mud
 		bgfx::Init params = {};
 		params.type = bgfx::RendererType::OpenGL;
 		//params.type = bgfx::RendererType::Direct3D11;
-		params.resolution.width = uint32_t(context.m_width);
-		params.resolution.height = uint32_t(context.m_height);
+		params.resolution.width = uint32_t(context.m_size.x);
+		params.resolution.height = uint32_t(context.m_size.y);
 		params.resolution.reset = BGFX_RESET_NONE;
 		bgfx::init(params);
 
@@ -85,7 +85,7 @@ namespace mud
 		bgfx::setDebug(BGFX_DEBUG_TEXT | BGFX_DEBUG_PROFILER);
 #endif
 
-		bgfx::setViewRect(0, 0, 0, uint16_t(context.m_width), uint16_t(context.m_height));
+		bgfx::setViewRect(0, 0, 0, uint16_t(context.m_fb_size.x), uint16_t(context.m_fb_size.y));
 		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
 
 		m_start_counter = double(bx::getHPCounter());

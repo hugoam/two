@@ -72,7 +72,7 @@ namespace mud
 
 	void Shell::init()
 	{
-		m_context = m_gfx_system.create_context("mud EditorCore", 1600, 900, false);
+		m_context = m_gfx_system.create_context("mud EditorCore", { 1600U, 900U }, false);
 		GfxContext& context = as<GfxContext>(*m_context);
 #if defined MUD_VG_VG
 		m_vg = oconstruct<VgVg>(m_resource_path.c_str(), &m_gfx_system.allocator());

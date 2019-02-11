@@ -187,8 +187,8 @@ namespace mud
 		else return translate(convert_glfw_key(key));
 	}
 
-	GlfwContext::GlfwContext(RenderSystem& render_system, const string& name, int width, int height, bool full_screen, bool auto_swap)
-		: Context(render_system, name, width, height, full_screen)
+	GlfwContext::GlfwContext(RenderSystem& render_system, const string& name, uvec2 size, bool full_screen, bool auto_swap)
+		: Context(render_system, name, size, full_screen)
 		, m_gl_window(nullptr)
 		, m_auto_swap(auto_swap)
 	{
@@ -222,7 +222,7 @@ namespace mud
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, 1);
 		//glfwWindowHint(GLFW_DECORATED, 0);
 
-		m_gl_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
+		m_gl_window = glfwCreateWindow(int(m_size.x), int(m_size.y), m_title.c_str(), NULL, NULL);
 
 		if(!m_gl_window)
 		{
@@ -244,11 +244,6 @@ namespace mud
 #elif defined MUD_PLATFORM_WINDOWS
 		m_native_handle = glfwGetWin32Window(m_gl_window);
 #endif
-	}
-
-	void GlfwContext::reset(uint16_t width, uint16_t height)
-	{
-		UNUSED(width); UNUSED(height);
 	}
 
 	void GlfwContext::lock_mouse(bool locked)
@@ -275,15 +270,15 @@ namespace mud
 	void GlfwContext::update_size()
 	{
 		int width, height;
-		int fbWidth, fbHeight;
+		int fb_width, fb_height;
 		glfwGetWindowSize(m_gl_window, &width, &height);
-		glfwGetFramebufferSize(m_gl_window, &fbWidth, &fbHeight);
+		glfwGetFramebufferSize(m_gl_window, &fb_width, &fb_height);
 
 		// Calculate pixel ration for hi-dpi devices.
-		// float pxRatio = (float)fbWidth / (float)winWidth;
+		m_pixel_ratio = (float)fb_width / (float)width;
 
-		m_width = width;
-		m_height = height;
+		m_size = { uint(width), uint(height) };
+		m_fb_size = { uint(fb_width), uint(fb_height) };
 	}
 
 	void GlfwContext::init_input(Mouse& mouse, Keyboard& keyboard)
@@ -303,11 +298,10 @@ namespace mud
 	void GlfwContext::inject_mouse_move(double x, double y)
 	{
 		//printf("glfw: mouse move %f, %f\n", float(x), float(y));
-		vec2 size = { float(m_width), float(m_height) };
 		if(m_mouse_lock)
 			m_cursor = { float(x), float(y) };
 		else
-			m_cursor = max(vec2(0.f), min(size, vec2{ float(x), float(y) }));
+			m_cursor = max(vec2(0.f), min(vec2(m_fb_size), vec2{ float(x), float(y) }));
 		m_mouse->moved(m_cursor);
 	}
 
