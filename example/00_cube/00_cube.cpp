@@ -34,6 +34,10 @@ void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 	ui::orbit_controller(viewer);
 	viewer.take_focus();
 
+	SceneViewer* v = &viewer;
+	Viewer* t = &viewer;
+	Scene* s = &viewer;
+
 	static vec3 position = Zero3;
 	static vec3 speed = Zero3;
 

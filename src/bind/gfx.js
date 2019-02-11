@@ -2941,7 +2941,9 @@ Rig.prototype["__destroy__"] = Rig.prototype.__destroy__ = function() {
     _mud_Rig__destroy(self);
 };
 // Scene
-function Scene() { throw "cannot construct a Scene, no constructor in IDL" }
+function Scene(a0) {
+    this.ptr = _mud_Scene__construct_1(/*gfx_system*/a0.ptr); this.type = Scene; getCache(Scene)[this.ptr] = this;
+};
 Scene.prototype = Object.create(WrapperObject.prototype);
 Scene.prototype.constructor = Scene;
 Scene.prototype.__class__ = Scene;

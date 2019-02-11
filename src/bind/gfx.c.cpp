@@ -1943,6 +1943,9 @@ extern "C" {
 	mud::Type* DECL mud_Scene__type() {
 		return &mud::type<mud::Scene>();
 	}
+	mud::Scene* DECL mud_Scene__construct_1(mud::GfxSystem* gfx_system) {
+		return new mud::Scene(*gfx_system);
+	}
 	mud::Gnode* DECL mud_Scene_begin_0(mud::Scene* self) {
 		return &self->begin();
 	}

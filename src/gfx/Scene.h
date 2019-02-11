@@ -82,7 +82,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Scene
 	{
 	public:
-		Scene(GfxSystem& gfx_system);
+		constr_ Scene(GfxSystem& gfx_system);
 		~Scene();
 
 		GfxSystem& m_gfx_system;
