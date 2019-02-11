@@ -13,6 +13,7 @@ namespace stl
 	using namespace mud;
 	template class MUD_TYPE_EXPORT vector<string>;
 	template class MUD_TYPE_EXPORT vector<Type*>;
+	template class MUD_TYPE_EXPORT vector<Prototype*>;
 	template class MUD_TYPE_EXPORT buf<Var>;
 	template class MUD_TYPE_EXPORT buffer<Var>;
 	template class MUD_TYPE_EXPORT vector<Var>;

@@ -21,7 +21,6 @@ namespace stl
 	template class MUD_REFL_EXPORT vector<Sequence*>;
 	template class MUD_REFL_EXPORT vector<Class*>;
 	template class MUD_REFL_EXPORT vector<Module*>;
-	template class MUD_REFL_EXPORT vector<Prototype*>;
 	template class MUD_REFL_EXPORT vector<Namespace>;
 	template class MUD_REFL_EXPORT vector<Param>;
 	template class MUD_REFL_EXPORT vector<Function>;
