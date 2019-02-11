@@ -17,8 +17,8 @@ extern "C" {
 	mud::Type* DECL mud_Context__type() {
 		return &mud::type<mud::Context>();
 	}
-	void DECL mud_Context_reset_2(mud::Context* self, uint16_t width, uint16_t height) {
-		self->reset(width, height);
+	void DECL mud_Context_reset_fb_1(mud::Context* self, const mud::uvec2* size) {
+		self->reset_fb(*size);
 	}
 	void DECL mud_Context_init_input_2(mud::Context* self, mud::Mouse* mouse, mud::Keyboard* keyboard) {
 		self->init_input(*mouse, *keyboard);
@@ -38,23 +38,31 @@ extern "C" {
 	void DECL mud_Context__set_title(mud::Context* self, const char* value) {
 		self->m_title = value;
 	}
-	uint DECL mud_Context__get_width(mud::Context* self) {
-		return self->m_width;
+	mud::uvec2* DECL mud_Context__get_size(mud::Context* self) {
+		static mud::uvec2 temp;
+		return (temp = self->m_size, &temp);
 	}
-	void DECL mud_Context__set_width(mud::Context* self, uint value) {
-		self->m_width = value;
+	void DECL mud_Context__set_size(mud::Context* self, mud::uvec2* value) {
+		self->m_size = *value;
 	}
-	uint DECL mud_Context__get_height(mud::Context* self) {
-		return self->m_height;
+	mud::uvec2* DECL mud_Context__get_fb_size(mud::Context* self) {
+		static mud::uvec2 temp;
+		return (temp = self->m_fb_size, &temp);
 	}
-	void DECL mud_Context__set_height(mud::Context* self, uint value) {
-		self->m_height = value;
+	void DECL mud_Context__set_fb_size(mud::Context* self, mud::uvec2* value) {
+		self->m_fb_size = *value;
 	}
 	bool DECL mud_Context__get_full_screen(mud::Context* self) {
 		return self->m_full_screen;
 	}
 	void DECL mud_Context__set_full_screen(mud::Context* self, bool value) {
 		self->m_full_screen = value;
+	}
+	float DECL mud_Context__get_pixel_ratio(mud::Context* self) {
+		return self->m_pixel_ratio;
+	}
+	void DECL mud_Context__set_pixel_ratio(mud::Context* self, float value) {
+		self->m_pixel_ratio = value;
 	}
 	bool DECL mud_Context__get_active(mud::Context* self) {
 		return self->m_active;

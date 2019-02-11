@@ -33,6 +33,10 @@ namespace mud
 
 		void init();
 		void run(const ShellUpdate& func, size_t iterations = 0U);
+
+		meth_ bool begin_frame();
+		meth_ bool end_frame();
+
 		meth_ bool pump();
 
 	public:

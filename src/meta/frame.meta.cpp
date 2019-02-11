@@ -22,6 +22,8 @@ using namespace mud;
 
 void mud_Shell__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Shell( *static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1]) ); }
 void mud_Shell_pump(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Shell*>(object)).pump(); }
+void mud_Shell_begin_frame(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Shell*>(object)).begin_frame(); }
+void mud_Shell_end_frame(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Shell*>(object)).end_frame(); }
 void mud_ShellContext__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ShellContext(  ); }
 void mud_ShellContext__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ShellContext((*static_cast<mud::ShellContext*>(other))); }
 
@@ -61,7 +63,9 @@ namespace mud
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "pump", Address(), mud_Shell_pump, {}, { &type<bool>(), QualType::None } }
+			{ t, "pump", Address(), mud_Shell_pump, {}, { &type<bool>(), QualType::None } },
+			{ t, "begin_frame", Address(), mud_Shell_begin_frame, {}, { &type<bool>(), QualType::None } },
+			{ t, "end_frame", Address(), mud_Shell_end_frame, {}, { &type<bool>(), QualType::None } }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };

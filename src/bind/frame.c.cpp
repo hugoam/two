@@ -25,6 +25,12 @@ extern "C" {
 	bool DECL mud_Shell_pump_0(mud::Shell* self) {
 		return self->pump();
 	}
+	bool DECL mud_Shell_begin_frame_0(mud::Shell* self) {
+		return self->begin_frame();
+	}
+	bool DECL mud_Shell_end_frame_0(mud::Shell* self) {
+		return self->end_frame();
+	}
 	const char* DECL mud_Shell__get_exec_path(mud::Shell* self) {
 		return self->m_exec_path.c_str();
 	}

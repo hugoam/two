@@ -5,9 +5,9 @@ Context.prototype.constructor = Context;
 Context.prototype.__class__ = Context;
 Context.__cache__ = {};
 Module['Context'] = Context;
-Context.prototype["reset"] = Context.prototype.reset = function(self, a0, a1) {
+Context.prototype["reset_fb"] = Context.prototype.reset_fb = function(self, a0) {
     var self = this.ptr;
-    _mud_Context_reset_2(self, /*width*/a0, /*height*/a1);
+    _mud_Context_reset_fb_1(self, /*size*/a0.ptr);
 };
 Context.prototype["init_input"] = Context.prototype.init_input = function(self, a0, a1) {
     var self = this.ptr;
@@ -36,24 +36,24 @@ Object.defineProperty(Context.prototype, "title", {
         _mud_Context__set_title(self, ensureString(value));
     }
 });
-Object.defineProperty(Context.prototype, "width", {
+Object.defineProperty(Context.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return _mud_Context__get_width(self);
+        return wrapPointer(_mud_Context__get_size(self), v2_uint);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_Context__set_width(self, value);
+        _mud_Context__set_size(self, value.ptr);
     }
 });
-Object.defineProperty(Context.prototype, "height", {
+Object.defineProperty(Context.prototype, "fb_size", {
     get: function() {
         var self = this.ptr;
-        return _mud_Context__get_height(self);
+        return wrapPointer(_mud_Context__get_fb_size(self), v2_uint);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_Context__set_height(self, value);
+        _mud_Context__set_fb_size(self, value.ptr);
     }
 });
 Object.defineProperty(Context.prototype, "full_screen", {
@@ -64,6 +64,16 @@ Object.defineProperty(Context.prototype, "full_screen", {
     set: function(value) {
         var self = this.ptr;
         _mud_Context__set_full_screen(self, value);
+    }
+});
+Object.defineProperty(Context.prototype, "pixel_ratio", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Context__get_pixel_ratio(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Context__set_pixel_ratio(self, value);
     }
 });
 Object.defineProperty(Context.prototype, "active", {

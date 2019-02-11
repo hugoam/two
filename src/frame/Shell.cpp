@@ -59,14 +59,23 @@ namespace mud
 #endif
 	}
 
-	bool Shell::pump()
+	bool Shell::begin_frame()
 	{
-		bool pursue = m_ui_window->input_frame();
-		if(m_pump)
-			m_pump(*this);
+		return m_ui_window->input_frame();
+	}
+
+	bool Shell::end_frame()
+	{
 		m_gfx_system.begin_frame();
 		m_ui_window->render_frame();
-		pursue &= m_gfx_system.next_frame();
+		return m_gfx_system.next_frame();
+	}
+
+	bool Shell::pump()
+	{
+		bool pursue = this->begin_frame();
+		if(m_pump) m_pump(*this);
+		pursue &= this->end_frame();
 		return pursue;
 	}
 
