@@ -5,7 +5,7 @@
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
-module mud.proto;
+module mud.ecs;
 #else
 #include <ecs/Entity.h>
 #include <ecs/ECS.h>

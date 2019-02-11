@@ -10,7 +10,6 @@
 #include <ecs/Forward.h>
 #include <ecs/Entity.h>
 #include <ecs/Buffer.h>
-#include <ecs/SparseBuffer.h>
 
 namespace mud
 {
