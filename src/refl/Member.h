@@ -98,7 +98,6 @@ namespace mud
 		inline void cast_set(Ref object, Ref value) const;
 	};
 
-#if 0
 	export_ template <class T_Value, class T>
 	Member& member(T_Value T::*mem) { return cls<T>().member(member_address(mem)); }
 
@@ -107,5 +106,4 @@ namespace mud
 
 	export_ template <class T_Return, class T, typename... T_Params>
 	Member& member(T_Return(T::*meth)(T_Params...) const) { return cls<T>().member(member_address(meth)); }
-#endif
 }
