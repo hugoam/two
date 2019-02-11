@@ -148,8 +148,8 @@ namespace mud
 		else return translate(convert_html5_key(string));
 	}
 
-	EmContext::EmContext(RenderSystem& render_system, const string& name, int width, int height, bool full_screen)
-		: Context(render_system, name, width, height, full_screen)
+	EmContext::EmContext(RenderSystem& render_system, const string& name, uvec2 size, bool full_screen)
+		: Context(render_system, name, size, full_screen)
 	{
 #ifdef MUD_RENDERER_BGFX
 		// bgfx creates the context itself
@@ -157,8 +157,9 @@ namespace mud
 		emscripten_get_element_css_size("#canvas", &canvas_width, &canvas_height);
 		emscripten_set_canvas_element_size("#canvas", int(canvas_width), int(canvas_height));
 
-		m_width = int(canvas_width);
-		m_height = int(canvas_height);
+		m_size = { uint(canvas_width), uint(canvas_height) };
+		m_fb_size = m_size;
+
 #else
 		this->init_context();
 #endif
@@ -200,7 +201,7 @@ namespace mud
 
 		m_window = emscripten_webgl_create_context("#canvas", &attrs);
 
-		emscripten_set_canvas_element_size("#canvas", m_width, m_height);
+		emscripten_set_canvas_element_size("#canvas", m_size.x, m_size.y);
 		emscripten_webgl_make_context_current(m_window);
 	}
 
@@ -208,11 +209,6 @@ namespace mud
 	{
 		m_mouse = &mouse;
 		m_keyboard = &keyboard;
-	}
-
-	void EmContext::reset(uint16_t width, uint16_t height)
-	{
-		UNUSED(width); UNUSED(height);
 	}
 
 	bool EmContext::next_frame()
@@ -234,14 +230,13 @@ namespace mud
 		emscripten_get_element_css_size("#canvas", &width, &height);
 		emscripten_set_canvas_element_size("#canvas", int(width), int(height));
 
-		m_width = width;
-		m_height = height;
+		m_size = { uint(width), uint(height) };
+		m_fb_size = m_size;
 	}
 
 	bool EmContext::inject_mouse_move(const EmscriptenMouseEvent& mouseEvent)
 	{
-		vec2 size = { float(m_width), float(m_height) };
-		m_cursor = max(vec2(0.f), min(size, vec2(float(mouseEvent.canvasX), float(mouseEvent.canvasY))));
+		m_cursor = max(vec2(0.f), min(vec2(m_size), vec2(float(mouseEvent.canvasX), float(mouseEvent.canvasY))));
 		vec2 movement = { float(mouseEvent.movementX), float(mouseEvent.movementY) };
 		m_mouse->moved(m_cursor, m_mouse_lock ? &movement : nullptr);
 		return true;
