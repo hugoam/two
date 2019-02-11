@@ -96,7 +96,7 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
 
 	static LuaInterpreter& lua = create_lua();
 	//static WrenInterpreter& wren = create_wren();

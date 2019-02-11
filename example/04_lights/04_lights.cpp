@@ -81,9 +81,9 @@ void ex_04_lights(Shell& app, Widget& parent)
 
 	//viewer.m_viewport.comp<Tonemap>().m_enabled = true;
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
 
-	Material& material = milky_white(viewer.m_gfx_system);
+	Material& material = milky_white(app.m_gfx_system);
 
 	//gfx::radiance(scene, "radiance/rocky_ridge_1k.hdr", BackgroundMode::None);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
@@ -121,7 +121,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 	if(clustered && viewer.m_viewport.m_rect != uvec4(0U) && !viewer.m_camera.m_clusters)
 	{
 		viewer.m_camera.m_clustered = true;
-		viewer.m_camera.m_clusters = make_unique<Froxelizer>(viewer.m_scene->m_gfx_system);
+		viewer.m_camera.m_clusters = make_unique<Froxelizer>(app.m_gfx_system);
 		viewer.m_camera.m_clusters->prepare(viewer.m_viewport, viewer.m_camera.m_projection, viewer.m_camera.m_near, viewer.m_camera.m_far);
 	}
 #endif
@@ -147,7 +147,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
 
 		ui::label(sheet, "Environment :");
-		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
+		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
 
 		ui::label(sheet, "Lights :");
 

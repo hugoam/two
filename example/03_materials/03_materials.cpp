@@ -178,10 +178,10 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	OrbitController& controller = ui::orbit_controller(viewer);
 	UNUSED(controller);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
 
 	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -1.f, 0.f });
-	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &milky_white(viewer.m_gfx_system));
+	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &milky_white(app.m_gfx_system));
 
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
@@ -215,7 +215,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
 
 		ui::label(sheet, "Environment :");
-		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
+		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
 
 		if(edited)
 			object_edit(*dock, Ref(edited)); // "Particle Editor" // identity = edited

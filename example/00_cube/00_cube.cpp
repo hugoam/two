@@ -34,17 +34,13 @@ void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 	ui::orbit_controller(viewer);
 	viewer.take_focus();
 
-	SceneViewer* v = &viewer;
-	Viewer* t = &viewer;
-	Scene* s = &viewer;
-
 	static vec3 position = Zero3;
 	static vec3 speed = Zero3;
 
 	velocity_controller(viewer, speed, 0.01f);
 	position += speed;
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
     Gnode& node = gfx::node(scene, {}, position);
 	gfx::shape(node, Cube(), Symbol::wire(Colour::Red));
 }

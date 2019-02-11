@@ -42,9 +42,9 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 		controller.m_distance = 80.f;
 	}
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
 
-	Material& material = milky_white(viewer.m_gfx_system);
+	Material& material = milky_white(app.m_gfx_system);
 
 #if DIRECT_LIGHT
 	static float azimuth = 0.f;
@@ -108,7 +108,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(rect_size(vec4(viewer.m_viewport.m_rect)) != vec2(0.f) && !viewer.m_camera.m_clusters)
 	{
 		viewer.m_camera.m_clustered = true;
-		viewer.m_camera.m_clusters = make_unique<Froxelizer>(viewer.m_scene->m_gfx_system);
+		viewer.m_camera.m_clusters = make_unique<Froxelizer>(app.m_gfx_system);
 		viewer.m_camera.m_clusters->prepare(viewer.m_viewport, viewer.m_camera.m_projection, viewer.m_camera.m_near, viewer.m_camera.m_far);
 	}
 #endif
@@ -118,7 +118,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
 
 		ui::label(sheet, "Environment :");
-		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
+		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
 
 #if POSTPROCESS
 		ui::label(sheet, "Post process :");

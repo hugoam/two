@@ -26,7 +26,7 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 	ui::orbit_controller(viewer);
 	//viewer.m_camera.set_isometric(IsometricAngle(SOUTH | WEST), Zero3);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
 
 	static WaveTileset& tileset = create_tileset(app);
 	static WfcBlock block = { Zero3, { 20, 4, 20 }, Unit3, tileset };

@@ -315,7 +315,7 @@ namespace mud
 			state.m_items[i].m_scale = vec3{ 1.f / (state.m_item_radius * 2.f * margin) };
 		}
 
-		Gnode& scene = viewer.m_scene->begin();
+		Gnode& scene = viewer.m_scene.begin();
 		gfx::direct_light_node(scene);
 
 		auto draw = [](Gnode& parent, const Model& model, const vec3& position, const quat& rotation, const vec3& scale)

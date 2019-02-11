@@ -47,7 +47,7 @@ namespace mud
 		//viewer.m_clear_colour = Colour::DarkGrey;
 		//viewer.m_camera.set_isometric(SOUTH, Zero3);
 
-		Gnode& scene = viewer.m_scene->begin();
+		Gnode& scene = viewer.m_scene.begin();
 		gfx::particles(scene, particles);
 
 		Shape* shape = particles.m_shape.m_shape.get();

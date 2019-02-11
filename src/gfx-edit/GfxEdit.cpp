@@ -148,7 +148,7 @@ namespace mud
 
 		quat rotation = axis_angle(Y3, fmod(time, 2.f * c_pi));
 
-		Gnode& scene = viewer.m_scene->begin();
+		Gnode& scene = viewer.m_scene.begin();
 		gfx::node(scene, object, offset, rotation);
 		gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 		return viewer;
@@ -157,21 +157,21 @@ namespace mud
 	SceneViewer& material_viewer(Widget& parent, Material& material)
 	{
 		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&material), Zero3, 1.f);
-		gfx::shape(*viewer.m_scene->m_graph.m_nodes[0], Sphere(), Symbol(Colour::White), 0U, &material);
+		gfx::shape(*viewer.m_scene.m_graph.m_nodes[0], Sphere(), Symbol(Colour::White), 0U, &material);
 		return viewer;
 	}
 
 	SceneViewer& model_viewer(Widget& parent, Model& model)
 	{
 		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&model), -model.m_origin, model.m_radius);
-		gfx::item(*viewer.m_scene->m_graph.m_nodes[0], model);
+		gfx::item(*viewer.m_scene.m_graph.m_nodes[0], model);
 		return viewer;
 	}
 
 	SceneViewer& particles_viewer(Widget& parent, ParticleFlow& particles)
 	{
 		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&particles), Zero3, 1.f); // particles.m_radius
-		gfx::particles(*viewer.m_scene->m_graph.m_nodes[0], particles);
+		gfx::particles(*viewer.m_scene.m_graph.m_nodes[0], particles);
 		return viewer;
 	}
 
@@ -251,9 +251,9 @@ namespace mud
 			}
 
 		if(particles)
-			for(ParticleFlow* particles : gfx_system.particles().m_vector)
+			for(ParticleFlow* particle : gfx_system.particles().m_vector)
 			{
-				asset_element(sequence, "(particles)", particles->m_name, Ref(particles));
+				asset_element(sequence, "(particles)", particle->m_name, Ref(particle));
 			}
 	}
 

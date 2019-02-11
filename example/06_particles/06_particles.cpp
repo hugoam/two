@@ -54,10 +54,10 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	OrbitController& controller = ui::orbit_controller(viewer);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
 
 	static vector<string> particles_names = { "particles_0" };//, "particles_1" }; //, "particles_2" };
-	static vector<ParticleItem> particles_vector = create_particles(viewer.m_gfx_system, particles_names);
+	static vector<ParticleItem> particles_vector = create_particles(app.m_gfx_system, particles_names);
 	static ParticleItem* edited = &particles_vector[0];
 
 	float middle = 0.f;//particles_vector.size() * 10.f / 2.f;

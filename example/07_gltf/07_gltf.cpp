@@ -30,7 +30,7 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
 
 	gfx::direct_light_node(scene, sun_rotation(c_pi / 4.f, c_pi / 4.f));
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
@@ -38,7 +38,7 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& model_node = gfx::node(scene);
 	gfx::model(model_node, "DamagedHelmet");
 	
-	//Model& model = *viewer.m_gfx_system.models().file("DamagedHelmet");
+	//Model& model = *app.m_gfx_system.models().file("DamagedHelmet");
 	//debug_normals(scene, *model.m_meshes[0], model.m_items[0].m_transform, 0.2f);
 	
 	//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))

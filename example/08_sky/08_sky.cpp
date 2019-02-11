@@ -473,9 +473,9 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 		example_options(*dock, g_sky);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
 
-	Material& material = milky_white(viewer.m_gfx_system);
+	Material& material = milky_white(app.m_gfx_system);
 
 	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
 	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &material);

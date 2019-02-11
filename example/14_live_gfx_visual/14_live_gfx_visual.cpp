@@ -88,7 +88,7 @@ void ex_14_live_gfx_visual(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 		visual_script_edit(*dock, script);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
 
 	static Call call = { script, vector<Var>{ Ref(&scene)} };
 	call();	

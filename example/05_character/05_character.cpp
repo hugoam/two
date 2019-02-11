@@ -108,9 +108,9 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 	OrbitController& orbit = ui::orbit_controller(viewer);
 	viewer.take_focus();
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
 
-	Material& material = milky_white(viewer.m_gfx_system);
+	Material& material = milky_white(app.m_gfx_system);
 
 	gfx::shape(scene, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol::plain(Colour::White), 0U, &material);
 

@@ -69,10 +69,12 @@ namespace mud
 		Picker& picker(size_t index);
 	};
 
-	export_ class refl_ MUD_GFX_UI_EXPORT SceneViewer : public Scene, public Viewer
+	export_ class refl_ MUD_GFX_UI_EXPORT SceneViewer : public Viewer
 	{
 	public:
 		SceneViewer(Widget* parent, void* identity);
+
+		Scene m_scene;
 	};
 
 	export_ class refl_ MUD_GFX_UI_EXPORT OrbitController : public ViewerController//, public EventDispatch

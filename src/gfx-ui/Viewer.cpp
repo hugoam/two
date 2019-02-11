@@ -134,8 +134,8 @@ namespace mud
 	}
 
 	SceneViewer::SceneViewer(Widget* parent, void* identity)
-		: Scene(as<GfxContext>(parent->ui_window().m_context).m_gfx_system)
-		, Viewer(parent, identity, *this)
+		: Viewer(parent, identity, m_scene)
+		, m_scene(as<GfxContext>(parent->ui_window().m_context).m_gfx_system)
 	{}
 
 	OrbitController::OrbitController(Viewer& viewer, float yaw, float pitch, float distance) : m_viewer(viewer), m_camera(viewer.m_camera), m_yaw(yaw), m_pitch(pitch), m_distance(distance) {}
