@@ -12,6 +12,10 @@
 #include <dirent.h>
 #undef min
 #undef max
+#undef near
+#undef far
+#undef NEAR
+#undef FAR
 #endif
 
 #ifdef MUD_MODULES

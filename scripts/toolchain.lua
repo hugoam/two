@@ -8,7 +8,8 @@ MODULES = {}
 if not MUD_DIR then
     MUD_DIR = path.getabsolute("..")
 end
-MUD_SRC_DIR    = path.join(MUD_DIR, "src")
+MUD_SRC_DIR  = path.join(MUD_DIR, "src")
+MUD_DIST_DIR = path.join(MUD_DIR, "dist")
 
 MUD_3RDPARTY_DIR = path.join(MUD_DIR, "3rdparty")
 

@@ -131,9 +131,6 @@ namespace mud
 		}
 	}
 
-	template <class T>
-	inline T sq(T val) { return val * val; }
-
 	uint32_t Particles::render(const SpriteAtlas& atlas, const mat4& view, const vec3& eye, uint32_t first, uint32_t max, ParticleSort* outSort, ParticleVertex* outVertices)
 	{
 		m_aabb =

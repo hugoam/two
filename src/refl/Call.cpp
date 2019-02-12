@@ -23,7 +23,7 @@ namespace mud
 		{
 			if(p.defaulted())
 				args.push_back(Ref(p.m_default, *p.m_type));
-			else if(is_base_type(*p.m_type))
+			else if(!meta(*p.m_type).m_empty_var.none())
 				args.push_back(meta(*p.m_type).m_empty_var);
 			else
 				args.push_back(Ref(*p.m_type));
@@ -42,7 +42,7 @@ namespace mud
 		if(!callable.m_return_type.isvoid())
 		{
 			Type& return_type = *callable.m_return_type.m_type;
-			if(is_base_type(return_type))
+			if(!meta(return_type).m_empty_var.none())
 				m_result = meta(return_type).m_empty_var;
 			else
 				m_result = Ref(return_type);

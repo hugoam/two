@@ -9,7 +9,7 @@
 #include <stl/vector.h>
 #include <stl/function.h>
 #include <stl/span.h>
-#include <type/Forward.h>
+#include <infra/Forward.h>
 
 namespace mud
 {

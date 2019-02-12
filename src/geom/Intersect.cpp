@@ -456,8 +456,6 @@ namespace mud
 		return true;
 	}
 
-	inline float sqr(float a) { return a * a; }
-
 	bool sphere_aabb_intersection(const vec3& center, float radius, const Aabb& aabb)
 	{
 		vec3 min = aabb.m_center - aabb.m_extents;
@@ -468,8 +466,8 @@ namespace mud
 
 		for(vec3::length_type i = 0; i < 3; ++i)
 		{
-			if(center[i] < min[i]) dmin += sqr(center[i] - min[i]);
-			else if(center[i] > max[i]) dmin += sqr(center[i] - max[i]);
+			if(center[i] < min[i]) dmin += sq(center[i] - min[i]);
+			else if(center[i] > max[i]) dmin += sq(center[i] - max[i]);
 		}
 
 		return dmin <= r2;

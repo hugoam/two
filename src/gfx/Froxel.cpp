@@ -323,9 +323,6 @@ namespace mud
 		froxelize_assign_records_compress(uint32_t(lights.size()));
 	}
 
-	template <class T>
-	inline T sq(T val) { return val * val; }
-
 	void Froxelizer::froxelize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride)
 	{
 		const mat4& projection = m_projection;

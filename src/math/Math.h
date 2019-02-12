@@ -4,8 +4,7 @@
 
 #pragma once
 
-#include <stdint.h>
-#include <cmath>
+#include <stl/math.h>
 #include <math/Forward.h>
 
 #ifdef MUD_META_GENERATOR
@@ -18,37 +17,6 @@ func_ double cos(double a);
 namespace mud
 {
 	export_ extern MUD_MATH_EXPORT const float c_pi;
-
-	export_ using uchar = unsigned char;
-	export_ using ushort = unsigned short;
-	export_ using uint = unsigned int;
-
-	export_ using u16 = uint16_t;
-	export_ using u32 = uint32_t;
-	export_ using i16 = int16_t;
-	export_ using i32 = int32_t;
-
-	export_ using std::abs;
-	export_ using std::floor;
-	export_ using std::ceil;
-	export_ using std::sin;
-	export_ using std::cos;
-	export_ using std::pow;
-	export_ using std::log2;
-	export_ using std::isnan;
-	export_ using std::isinf;
-
-	export_ template <class T>
-	inline T sign(T val) { return T(T(0) < val) - (val < T(0)); }
-
-	export_ template <class T>
-	inline T min(T a, T b) { return (b < a) ? b : a; }
-
-	export_ template <class T>
-	inline T max(T a, T b) { return (a < b) ? b : a; }
-
-	export_ template <class T>
-	inline T clamp(T v, T lo, T hi) { return min(max(v, lo), hi); }
 
 	export_ template <class T>
 	func_ T add(T a, T b) { return a + b; }

@@ -7,14 +7,9 @@
 #include <stl/buffer.hpp>
 #include <stl/stddef.h>
 #include <stl/hash.h>
+#include <stl/math.h>
 
 namespace stl {
-
-	template <class T>
-	inline constexpr T min(const T& a, const T& b) { return a < b ? a : b; }
-
-	template <class T>
-	inline constexpr T max(const T& a, const T& b) { return a > b ? a : b; }
 
 	template <class Alloc>
 	inline basic_string<Alloc>::basic_string()

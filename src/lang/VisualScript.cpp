@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.lang;
 #else
+#include <stl/math.h>
 #include <stl/algorithm.h>
 #include <infra/ToString.h>
 #include <refl/Convert.h>
@@ -29,8 +30,6 @@ namespace mud
 		auto pos = find_if(vec.begin(), vec.end(), [&](auto& pt) { return pt.get() == &value; });
 		vec.erase(pos);
 	}
-
-	template <class T> inline T min(T a, T b) { return a < b ? a : b; }
 
 	template <> void to_value<StreamIndex>(const string& str, StreamIndex& val) { UNUSED(str); UNUSED(val); }
 	template <> void to_string<StreamIndex>(const StreamIndex& val, string& str) { str += "{"; for(size_t i : val) str += to_string(i) + ","; str.pop_back(); str += "}"; }

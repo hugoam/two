@@ -1,5 +1,37 @@
-//#include <mud/frame.h>
-#include <frame/Api.h>
+#define HEADER_ONLY 1
+
+#if !HEADER_ONLY
+#include <mud/frame.h>
+//#include <frame/Api.h>
+#else
+#ifdef _MSC_VER
+#include <Windows.h>
+#undef near
+#undef far
+#undef min
+#undef max
+#undef small
+#undef NEAR
+#undef FAR
+#endif
+
+#include <mud/infra.cpp>
+#include <mud/pool.cpp>
+#include <mud/jobs.cpp>
+#include <mud/type.cpp>
+#include <mud/ecs.cpp>
+#include <mud/math.cpp>
+#include <mud/geom.cpp>
+#include <mud/bgfx.cpp>
+#include <mud/gfx.cpp>
+#include <mud/ctx.cpp>
+#include <mud/ui.cpp>
+#include <mud/gfx.ui.cpp>
+#include <mud/ctx.glfw.cpp>
+#include <mud/ui.vg.cpp>
+#include <mud/frame.cpp>
+#endif
+
 #include <00_cube/00_cube.h>
 
 using namespace mud;

@@ -31,6 +31,10 @@
 #if defined MUD_PLATFORM_WINDOWS
 	#undef max
 	#undef min
+	#undef near
+	#undef far
+	#undef NEAR
+	#undef FAR
 #endif
 
 #ifdef MUD_MODULES

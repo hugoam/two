@@ -7,6 +7,7 @@ module mud.math;
 #include <stl/new.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
+#include <type/Any.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -459,6 +460,7 @@ namespace mud
 	{
 		Type& t = type<mud::Colour>();
 		static Meta meta = { t, &namspc({ "mud" }), "Colour", sizeof(mud::Colour), TypeClass::Struct };
+		meta.m_empty_var = var(Colour());
 		// bases
 		// defaults
 		static float construct_1_a_default = 1.f;
@@ -1671,8 +1673,6 @@ namespace mud
 		m.m_types.push_back(&type<mud::float2>());
 		m.m_types.push_back(&type<mud::float3>());
 		m.m_types.push_back(&type<mud::float4>());
-		m.m_types.push_back(&type<mud::i16>());
-		m.m_types.push_back(&type<mud::i32>());
 		m.m_types.push_back(&type<mud::int2>());
 		m.m_types.push_back(&type<mud::int3>());
 		m.m_types.push_back(&type<mud::int4>());
@@ -1681,14 +1681,9 @@ namespace mud
 		m.m_types.push_back(&type<mud::ivec4>());
 		m.m_types.push_back(&type<mud::mat3>());
 		m.m_types.push_back(&type<mud::mat4>());
-		m.m_types.push_back(&type<mud::u16>());
-		m.m_types.push_back(&type<mud::u32>());
-		m.m_types.push_back(&type<mud::uchar>());
-		m.m_types.push_back(&type<mud::uint>());
 		m.m_types.push_back(&type<mud::uint2>());
 		m.m_types.push_back(&type<mud::uint3>());
 		m.m_types.push_back(&type<mud::uint4>());
-		m.m_types.push_back(&type<mud::ushort>());
 		m.m_types.push_back(&type<mud::uvec2>());
 		m.m_types.push_back(&type<mud::uvec3>());
 		m.m_types.push_back(&type<mud::uvec4>());

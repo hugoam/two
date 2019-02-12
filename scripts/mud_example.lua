@@ -27,13 +27,13 @@ function mud_example(name, deps, exdeps, ismodule)
 
     _G[name] = mud_module(nil, "_" .. name, path.join(MUD_DIR, "example"), name, nil, uses_example, false, deps, not ismodule)
     
-    mud_binary(name, table.union({ _G[name] }, exdeps), {})
+    mud_binary(name, table.union({ _G[name] }, exdeps), deps)
 end
 
 --mud_example("00_ui",               {})
     
 if not _OPTIONS["renderer-gl"] then
---              name                    dependencies                                   examples deps
+--              name                    dependencies                                       examples deps
 --  mud_example("00_tutorial",          { mud.frame },                                     {}, true)
     mud_example("00_cube",              { mud.frame },                                     {})
     mud_example("01_shapes",            { mud.frame },                                     {})

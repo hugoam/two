@@ -1,9 +1,10 @@
 #include <stl/vector.hpp>
+#include <stl/span.h>
+#include <stl/math.h>
 #include <stl/algorithm.h>
 #include <infra/AlignedAlloc.h>
 #include <infra/Arena.h>
 #include <infra/Thread.h>
-#include <stl/span.h>
 #include <jobs/JobSystem.h>
 #include <jobs/JobQueue.h>
 #include <jobs/Job.h>
@@ -51,8 +52,6 @@
 
 namespace mud
 {
-	using std::min;
-
 	thread_local JobSystem::ThreadState* s_thread_state(nullptr);
 
 	template <size_t Count>

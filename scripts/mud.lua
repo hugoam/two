@@ -71,6 +71,7 @@ function uses_mud()
     
     includedirs {
         path.join(MUD_SRC_DIR),
+        path.join(MUD_DIST_DIR),
         path.join(MUD_3RDPARTY_DIR, "tinystl", "include"),
     }
     

@@ -112,8 +112,15 @@ end
 
 function mud_depend(lib, m)
     --print("    depends on " .. m.dotname)
-    if lib.name ~= m.lib.name and not table.contains(lib.links, m.lib) then
-        mud_links(lib, m.lib)
+    if m.header_only then
+        defines { m.idname:upper() .. "_EXPORT=" }
+        if m.self_decl then
+            m.self_decl()
+        end
+    else
+        if lib.name ~= m.lib.name and not table.contains(lib.links, m.lib) then
+            mud_links(lib, m.lib)
+        end
     end
     
     if m.usage_decl then
@@ -224,6 +231,7 @@ end
 function mud_unity(m)
     m.headers = { path.join(m.root, m.namespace, string.gsub(m.name, "-", ".") .. ".h") }
     m.sources = { path.join(m.root, m.namespace, string.gsub(m.name, "-", ".") .. ".cpp") }
+    m.header_only = true
     if m.refl then
         mud_unity(m.refl)
     end

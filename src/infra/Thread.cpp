@@ -28,8 +28,9 @@
 #endif
 
 #ifdef WIN32
-#include <Windows.h>
-#include <tchar.h>
+//#include <Windows.h>
+//#include <tchar.h>*
+//#undef small
 #endif
 
 
