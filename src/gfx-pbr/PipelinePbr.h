@@ -97,6 +97,6 @@ namespace mud
 	
 namespace gfx
 {
-	export_ MUD_GFX_EXPORT func_ void setup_pipeline_pbr(GfxSystem& gfx);
+	export_ MUD_GFX_PBR_EXPORT func_ void setup_pipeline_pbr(GfxSystem& gfx);
 }
 }
