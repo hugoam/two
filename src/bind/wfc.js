@@ -158,12 +158,10 @@ WaveTileset.prototype["__destroy__"] = WaveTileset.prototype.__destroy__ = funct
     _mud_WaveTileset__destroy(self);
 };
 Module['parse_json_tileset'] = function(a0, a1, a2) {
-    var self = this.ptr;
     ensureCache.prepare();
     _mud_parse_json_tileset_3(ensureString(/*path*/a0), ensureString(/*subset*/a1), /*outputTileset*/a2.ptr);
 };
 Module['parse_json_wave_tileset'] = function(a0, a1, a2) {
-    var self = this.ptr;
     ensureCache.prepare();
     _mud_parse_json_wave_tileset_3(ensureString(/*path*/a0), ensureString(/*subset*/a1), /*outputTileset*/a2.ptr);
 };

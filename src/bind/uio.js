@@ -10,37 +10,29 @@ ScriptEditor.prototype["__destroy__"] = ScriptEditor.prototype.__destroy__ = fun
     _mud_ScriptEditor__destroy(self);
 };
 Module['object_edit_inline'] = function(a0, a1) {
-    var self = this.ptr;
     return !!(_mud_object_edit_inline_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
 Module['object_edit_rows'] = function(a0, a1) {
-    var self = this.ptr;
     return !!(_mud_object_edit_rows_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
 Module['object_edit_columns'] = function(a0, a1) {
-    var self = this.ptr;
     return !!(_mud_object_edit_columns_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
 Module['object_edit_table'] = function(a0, a1) {
-    var self = this.ptr;
     return !!(_mud_object_edit_table_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
 Module['object_edit_expandbox'] = function(a0, a1) {
-    var self = this.ptr;
     return !!(_mud_object_edit_expandbox_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
 Module['object_edit'] = function(a0, a1, a2) {
-    var self = this.ptr;
     if (a2 === undefined) { return !!(_mud_object_edit_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1))); }
     return !!(_mud_object_edit_3(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), /*hint*/a2));
 };
 Module['entity_edit'] = function(a0, a1, a2) {
-    var self = this.ptr;
     if (a2 === undefined) { return !!(_mud_entity_edit_2(/*parent*/a0.ptr, /*entity*/a1.ptr)); }
     return !!(_mud_entity_edit_3(/*parent*/a0.ptr, /*entity*/a1.ptr, /*hint*/a2));
 };
 Module['inspector'] = function(a0, a1) {
-    var self = this.ptr;
     if (a1 === undefined) { return !!(_mud_inspector_1(/*parent*/a0.ptr)); }
     return !!(_mud_inspector_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };

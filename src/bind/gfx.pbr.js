@@ -547,15 +547,12 @@ Tonemap.prototype["__destroy__"] = Tonemap.prototype.__destroy__ = function() {
     _mud_Tonemap__destroy(self);
 };
 Module['gfx']['setup_pipeline_pbr'] = function(a0) {
-    var self = this.ptr;
-    _mud_gfx_setup_pipeline_pbr_1(/*gfx*/a0);
+    _mud_gfx_setup_pipeline_pbr_1(/*gfx*/a0.ptr);
 };
 Module['gfx']['gi_probe'] = function(a0, a1, a2) {
-    var self = this.ptr;
     return wrapPointer(_mud_gfx_gi_probe_3(/*parent*/a0.ptr, /*subdiv*/a1, /*extents*/a2.ptr), GIProbe);
 };
 Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_gfx_lightmap_2(/*parent*/a0.ptr, /*resolution*/a1), LightmapAtlas); }
     if (a3 === undefined) { return wrapPointer(_mud_gfx_lightmap_3(/*parent*/a0.ptr, /*resolution*/a1, /*density*/a2), LightmapAtlas); }

@@ -1600,109 +1600,83 @@ quat.prototype["__destroy__"] = quat.prototype.__destroy__ = function() {
     _mud_quat__destroy(self);
 };
 Module['to_rgba'] = function(a0) {
-    var self = this.ptr;
     return _mud_to_rgba_1(/*colour*/a0.ptr);
 };
 Module['to_abgr'] = function(a0) {
-    var self = this.ptr;
     return _mud_to_abgr_1(/*colour*/a0.ptr);
 };
 Module['from_rgba'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_from_rgba_1(/*colour*/a0), Colour);
 };
 Module['from_abgr'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_from_abgr_1(/*colour*/a0), Colour);
 };
 Module['to_linear'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_to_linear_1(/*colour*/a0.ptr), Colour);
 };
 Module['to_gamma'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_to_gamma_1(/*colour*/a0.ptr), Colour);
 };
 Module['to_srgb'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_to_srgb_1(/*colour*/a0.ptr), Colour);
 };
 Module['hsl_to_rgb'] = function(a0, a1, a2) {
-    var self = this.ptr;
     return wrapPointer(_mud_hsl_to_rgb_3(/*h*/a0, /*s*/a1, /*l*/a2), Colour);
 };
 Module['rgb_to_hsl'] = function(a0, a1, a2) {
-    var self = this.ptr;
     return wrapPointer(_mud_rgb_to_hsl_3(/*r*/a0, /*g*/a1, /*b*/a2), Colour);
 };
 Module['rgba_to_hsla'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_rgba_to_hsla_1(/*colour*/a0.ptr), Colour);
 };
 Module['hsla_to_rgba'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_hsla_to_rgba_1(/*colour*/a0.ptr), Colour);
 };
 Module['sinf'] = function(a0) {
-    var self = this.ptr;
     return _sinf_1(/*a*/a0);
 };
 Module['cosf'] = function(a0) {
-    var self = this.ptr;
     return _cosf_1(/*a*/a0);
 };
 Module['sin'] = function(a0) {
-    var self = this.ptr;
     return _sin_1(/*a*/a0);
 };
 Module['cos'] = function(a0) {
-    var self = this.ptr;
     return _cos_1(/*a*/a0);
 };
 Module['add'] = function(a0, a1) {
-    var self = this.ptr;
     return _mud_add_2(/*a*/a0, /*b*/a1);
 };
 Module['subtract'] = function(a0, a1) {
-    var self = this.ptr;
     return _mud_subtract_2(/*a*/a0, /*b*/a1);
 };
 Module['multiply'] = function(a0, a1) {
-    var self = this.ptr;
     return _mud_multiply_2(/*a*/a0, /*b*/a1);
 };
 Module['divide'] = function(a0, a1) {
-    var self = this.ptr;
     return _mud_divide_2(/*a*/a0, /*b*/a1);
 };
 Module['nsinf'] = function(a0) {
-    var self = this.ptr;
     return _mud_nsinf_1(/*a*/a0);
 };
 Module['ncosf'] = function(a0) {
-    var self = this.ptr;
     return _mud_ncosf_1(/*a*/a0);
 };
 Module['nsin'] = function(a0) {
-    var self = this.ptr;
     return _mud_nsin_1(/*a*/a0);
 };
 Module['ncos'] = function(a0) {
-    var self = this.ptr;
     return _mud_ncos_1(/*a*/a0);
 };
 Module['look_dir'] = function(a0, a1) {
-    var self = this.ptr;
     if (a1 === undefined) { return wrapPointer(_mud_look_dir_1(/*direction*/a0.ptr), quat); }
     return wrapPointer(_mud_look_dir_2(/*direction*/a0.ptr, /*forward*/a1.ptr), quat);
 };
 Module['look_at'] = function(a0, a1, a2) {
-    var self = this.ptr;
     if (a2 === undefined) { return wrapPointer(_mud_look_at_2(/*eye*/a0.ptr, /*target*/a1.ptr), quat); }
     return wrapPointer(_mud_look_at_3(/*eye*/a0.ptr, /*target*/a1.ptr, /*forward*/a2.ptr), quat);
 };
 Module['grid_center'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_grid_center_2(/*coord*/a0.ptr, /*cell_size*/a1.ptr), v3_float);
 };
 Module['float2'] = v2_float;

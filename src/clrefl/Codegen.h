@@ -1483,7 +1483,7 @@ namespace clgen
 			else if(f.m_kind == CLPrimitiveKind::Function)
 				jsw(js_module_path(m, f) + " = ", true);
 			jsw(js_supress + "function" + (ctor ? " " + name(*f.m_parent) : "") + "(" + comma(js_signature_args(f, max_args)) + ") {");
-			if(!ctor) 
+			if(f.m_kind == CLPrimitiveKind::Method)
 				jsw("var self = this.ptr;");
 			js_call_prepare(f);
 			js_call(f, o);

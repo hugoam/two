@@ -143,7 +143,6 @@ Var.prototype["__destroy__"] = Var.prototype.__destroy__ = function() {
     _mud_Var__destroy(self);
 };
 Module['indexed'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_indexed_2(/*type*/a0.ptr, /*id*/a1), Ref);
 };
 

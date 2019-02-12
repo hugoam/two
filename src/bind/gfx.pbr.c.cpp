@@ -364,8 +364,8 @@ extern "C" {
 	void DECL mud_Tonemap__destroy(mud::Tonemap* self) {
 		delete self;
 	}
-	void DECL mud_gfx_setup_pipeline_pbr_1(mud::GfxSystem& gfx) {
-		mud::gfx::setup_pipeline_pbr(gfx);
+	void DECL mud_gfx_setup_pipeline_pbr_1(mud::GfxSystem* gfx) {
+		mud::gfx::setup_pipeline_pbr(*gfx);
 	}
 	mud::GIProbe* DECL mud_gfx_gi_probe_3(mud::Gnode* parent, uint16_t subdiv, const mud::vec3* extents) {
 		return &mud::gfx::gi_probe(*parent, subdiv, *extents);

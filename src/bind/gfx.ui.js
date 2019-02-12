@@ -149,37 +149,30 @@ SceneViewer.prototype["__destroy__"] = SceneViewer.prototype.__destroy__ = funct
     _mud_SceneViewer__destroy(self);
 };
 Module['ui']['viewer'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_viewer_2(/*parent*/a0.ptr, /*scene*/a1.ptr), Viewer);
 };
 Module['ui']['scene_viewer'] = function(a0, a1) {
-    var self = this.ptr;
     if (a1 === undefined) { return wrapPointer(_mud_ui_scene_viewer_1(/*parent*/a0.ptr), SceneViewer); }
     return wrapPointer(_mud_ui_scene_viewer_2(/*parent*/a0.ptr, /*size*/a1.ptr), SceneViewer);
 };
 Module['ui']['orbit_controller'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     if (a1 === undefined) { return wrapPointer(_mud_ui_orbit_controller_1(/*viewer*/a0.ptr), OrbitController); }
     if (a2 === undefined) { return wrapPointer(_mud_ui_orbit_controller_2(/*viewer*/a0.ptr, /*yaw*/a1), OrbitController); }
     if (a3 === undefined) { return wrapPointer(_mud_ui_orbit_controller_3(/*viewer*/a0.ptr, /*yaw*/a1, /*pitch*/a2), OrbitController); }
     return wrapPointer(_mud_ui_orbit_controller_4(/*viewer*/a0.ptr, /*yaw*/a1, /*pitch*/a2, /*distance*/a3), OrbitController);
 };
 Module['ui']['free_orbit_controller'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_free_orbit_controller_1(/*viewer*/a0.ptr), FreeOrbitController);
 };
 Module['ui']['isometric_controller'] = function(a0, a1) {
-    var self = this.ptr;
     if (a1 === undefined) { return wrapPointer(_mud_ui_isometric_controller_1(/*viewer*/a0.ptr), OrbitController); }
     return wrapPointer(_mud_ui_isometric_controller_2(/*viewer*/a0.ptr, /*topdown*/a1), OrbitController);
 };
 Module['ui']['hybrid_controller'] = function(a0, a1, a2, a3, a4, a5) {
-    var self = this.ptr;
     if (a5 === undefined) { return wrapPointer(_mud_ui_hybrid_controller_5(/*viewer*/a0.ptr, /*mode*/a1, /*entity*/a2.ptr, /*aiming*/a3, /*angles*/a4.ptr), OrbitController); }
     return wrapPointer(_mud_ui_hybrid_controller_6(/*viewer*/a0.ptr, /*mode*/a1, /*entity*/a2.ptr, /*aiming*/a3, /*angles*/a4.ptr, /*modal*/a5), OrbitController);
 };
 Module['ui']['velocity_controller'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     if (a3 === undefined) { _mud_ui_velocity_controller_3(/*viewer*/a0.ptr, /*linear*/a1.ptr, /*angular*/a2.ptr); return; }
     _mud_ui_velocity_controller_4(/*viewer*/a0.ptr, /*linear*/a1.ptr, /*angular*/a2.ptr, /*speed*/a3);
 };

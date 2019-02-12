@@ -1085,12 +1085,10 @@ Triangle.prototype["__destroy__"] = Triangle.prototype.__destroy__ = function() 
     _mud_Triangle__destroy(self);
 };
 Module['to_ray'] = function(a0, a1, a2) {
-    var self = this.ptr;
     if (a2 === undefined) { return wrapPointer(_mud_to_ray_2(/*pos*/a0.ptr, /*dir*/a1.ptr), Ray); }
     return wrapPointer(_mud_to_ray_3(/*pos*/a0.ptr, /*dir*/a1.ptr, /*distance*/a2), Ray);
 };
 Module['to_segment'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_to_segment_1(/*ray*/a0.ptr), Segment);
 };
 

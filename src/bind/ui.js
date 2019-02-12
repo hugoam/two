@@ -1692,322 +1692,254 @@ Window.prototype["__destroy__"] = Window.prototype.__destroy__ = function() {
     _mud_Window__destroy(self);
 };
 Module['ui']['widget'] = function(a0, a1, a2, a3, a4) {
-    var self = this.ptr;
     if (a2 === undefined) { return wrapPointer(_mud_ui_widget_2(/*parent*/a0.ptr, /*style*/a1.ptr), Widget); }
     if (a3 === undefined) { return wrapPointer(_mud_ui_widget_3(/*parent*/a0.ptr, /*style*/a1.ptr, /*open*/a2), Widget); }
     if (a4 === undefined) { return wrapPointer(_mud_ui_widget_4(/*parent*/a0.ptr, /*style*/a1.ptr, /*open*/a2, /*length*/a3), Widget); }
     return wrapPointer(_mud_ui_widget_5(/*parent*/a0.ptr, /*style*/a1.ptr, /*open*/a2, /*length*/a3, /*index*/a4.ptr), Widget);
 };
 Module['ui']['item'] = function(a0, a1, a2) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_ui_item_2(/*parent*/a0.ptr, /*style*/a1.ptr), Widget); }
     return wrapPointer(_mud_ui_item_3(/*parent*/a0.ptr, /*style*/a1.ptr, ensureString(/*content*/a2)), Widget);
 };
 Module['ui']['spanner'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_spanner_4(/*parent*/a0.ptr, /*style*/a1.ptr, /*dim*/a2, /*span*/a3), Widget);
 };
 Module['ui']['spacer'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_spacer_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['icon'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_icon_2(/*parent*/a0.ptr, ensureString(/*image*/a1)), Widget);
 };
 Module['ui']['label'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_label_2(/*parent*/a0.ptr, ensureString(/*label*/a1)), Widget);
 };
 Module['ui']['title'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_title_2(/*parent*/a0.ptr, ensureString(/*label*/a1)), Widget);
 };
 Module['ui']['message'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_message_2(/*parent*/a0.ptr, ensureString(/*label*/a1)), Widget);
 };
 Module['ui']['text'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_text_2(/*parent*/a0.ptr, ensureString(/*label*/a1)), Widget);
 };
 Module['ui']['button'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a1 === undefined) { return wrapPointer(_mud_ui_button_1(/*parent*/a0.ptr), Widget); }
     return wrapPointer(_mud_ui_button_2(/*parent*/a0.ptr, ensureString(/*content*/a1)), Widget);
 };
 Module['ui']['toggle'] = function(a0, a1, a2) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_ui_toggle_2(/*parent*/a0.ptr, /*on*/a1), Widget); }
     return wrapPointer(_mud_ui_toggle_3(/*parent*/a0.ptr, /*on*/a1, ensureString(/*content*/a2)), Widget);
 };
 Module['ui']['modal_button'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     ensureCache.prepare();
     return !!(_mud_ui_modal_button_4(/*screen*/a0.ptr, /*parent*/a1.ptr, ensureString(/*content*/a2), /*mode*/a3));
 };
 Module['ui']['checkbox'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_checkbox_2(/*parent*/a0.ptr, /*on*/a1), Widget);
 };
 Module['ui']['fill_bar'] = function(a0, a1, a2) {
-    var self = this.ptr;
     if (a2 === undefined) { return wrapPointer(_mud_ui_fill_bar_2(/*parent*/a0.ptr, /*percentage*/a1), Widget); }
     return wrapPointer(_mud_ui_fill_bar_3(/*parent*/a0.ptr, /*percentage*/a1, /*dim*/a2), Widget);
 };
 Module['ui']['image256'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a3 === undefined) { return wrapPointer(_mud_ui_image256_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*source*/a2.ptr), Widget); }
     return wrapPointer(_mud_ui_image256_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*source*/a2.ptr, /*size*/a3.ptr), Widget);
 };
 Module['ui']['radio_choice'] = function(a0, a1, a2) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_radio_choice_3(/*parent*/a0.ptr, ensureString(/*value*/a1), /*active*/a2), Widget);
 };
 Module['ui']['dropdown'] = function(a0, a1, a2, a3, a4) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a4 === undefined) { return wrapPointer(_mud_ui_dropdown_4(/*parent*/a0.ptr, /*style*/a1.ptr, ensureString(/*value*/a2), /*flags*/a3), Widget); }
     return wrapPointer(_mud_ui_dropdown_5(/*parent*/a0.ptr, /*style*/a1.ptr, ensureString(/*value*/a2), /*flags*/a3, /*list_style*/a4.ptr), Widget);
 };
 Module['ui']['menu_choice'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_menu_choice_2(/*parent*/a0.ptr, ensureString(/*content*/a1)), Widget);
 };
 Module['ui']['menu'] = function(a0, a1, a2) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_ui_menu_2(/*parent*/a0.ptr, ensureString(/*label*/a1)), Widget); }
     return wrapPointer(_mud_ui_menu_3(/*parent*/a0.ptr, ensureString(/*label*/a1), /*submenu*/a2), Widget);
 };
 Module['ui']['menubar'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_menubar_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['toolbutton'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_toolbutton_2(/*parent*/a0.ptr, ensureString(/*icon*/a1)), Widget);
 };
 Module['ui']['tooldock'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_tooldock_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['toolbar'] = function(a0, a1) {
-    var self = this.ptr;
     if (a1 === undefined) { return wrapPointer(_mud_ui_toolbar_1(/*parent*/a0.ptr), Widget); }
     return wrapPointer(_mud_ui_toolbar_2(/*parent*/a0.ptr, /*wrap*/a1), Widget);
 };
 Module['ui']['select_list'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_select_list_1(/*parent*/a0.ptr), ScrollSheet);
 };
 Module['ui']['table_row'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_table_row_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['table_separator'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_table_separator_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['expandbox'] = function(a0, a1, a2) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_ui_expandbox_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), Expandbox); }
     return wrapPointer(_mud_ui_expandbox_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*open*/a2), Expandbox);
 };
 Module['ui']['tree_node'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_ui_tree_node_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), TreeNode); }
     if (a3 === undefined) { return wrapPointer(_mud_ui_tree_node_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*leaf*/a2), TreeNode); }
     return wrapPointer(_mud_ui_tree_node_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*leaf*/a2, /*open*/a3), TreeNode);
 };
 Module['ui']['tree'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_tree_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['tab'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_tab_2(/*tabber*/a0.ptr, ensureString(/*name*/a1)), Widget);
 };
 Module['ui']['tabber'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_tabber_1(/*parent*/a0.ptr), Tabber);
 };
 Module['ui']['row'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_row_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['header'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_header_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['div'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_div_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['stack'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_stack_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['sheet'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_sheet_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['board'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_board_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['layout'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_layout_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['screen'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_screen_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['decal'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_decal_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['overlay'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_overlay_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['title_header'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_title_header_2(/*parent*/a0.ptr, ensureString(/*title*/a1)), Widget);
 };
 Module['ui']['dummy'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_dummy_2(/*parent*/a0.ptr, /*size*/a1.ptr), Widget);
 };
 Module['ui']['popup'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_popup_2(/*parent*/a0.ptr, /*flags*/a1), Widget);
 };
 Module['ui']['popup_at'] = function(a0, a1, a2) {
-    var self = this.ptr;
     if (a2 === undefined) { return wrapPointer(_mud_ui_popup_at_2(/*parent*/a0.ptr, /*position*/a1.ptr), Widget); }
     return wrapPointer(_mud_ui_popup_at_3(/*parent*/a0.ptr, /*position*/a1.ptr, /*flags*/a2), Widget);
 };
 Module['ui']['modal'] = function(a0, a1) {
-    var self = this.ptr;
     if (a1 === undefined) { return wrapPointer(_mud_ui_modal_1(/*parent*/a0.ptr), Widget); }
     return wrapPointer(_mud_ui_modal_2(/*parent*/a0.ptr, /*size*/a1.ptr), Widget);
 };
 Module['ui']['auto_modal'] = function(a0, a1, a2) {
-    var self = this.ptr;
     if (a2 === undefined) { return wrapPointer(_mud_ui_auto_modal_2(/*parent*/a0.ptr, /*mode*/a1), Widget); }
     return wrapPointer(_mud_ui_auto_modal_3(/*parent*/a0.ptr, /*mode*/a1, /*size*/a2.ptr), Widget);
 };
 Module['ui']['context'] = function(a0, a1, a2) {
-    var self = this.ptr;
     if (a2 === undefined) { return wrapPointer(_mud_ui_context_2(/*parent*/a0.ptr, /*mode*/a1), Widget); }
     return wrapPointer(_mud_ui_context_3(/*parent*/a0.ptr, /*mode*/a1, /*flags*/a2), Widget);
 };
 Module['ui']['hoverbox'] = function(a0, a1) {
-    var self = this.ptr;
     if (a1 === undefined) { return wrapPointer(_mud_ui_hoverbox_1(/*parent*/a0.ptr), Widget); }
     return wrapPointer(_mud_ui_hoverbox_2(/*parent*/a0.ptr, /*delay*/a1), Widget);
 };
 Module['ui']['tooltip'] = function(a0, a1, a2) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_tooltip_3(/*parent*/a0.ptr, /*position*/a1.ptr, ensureString(/*content*/a2)), Widget);
 };
 Module['ui']['cursor'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     if (a3 === undefined) { return wrapPointer(_mud_ui_cursor_3(/*parent*/a0.ptr, /*position*/a1.ptr, /*hovered*/a2.ptr), Widget); }
     return wrapPointer(_mud_ui_cursor_4(/*parent*/a0.ptr, /*position*/a1.ptr, /*hovered*/a2.ptr, /*locked*/a3), Widget);
 };
 Module['ui']['rectangle'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_rectangle_2(/*parent*/a0.ptr, /*rect*/a1.ptr), Widget);
 };
 Module['ui']['dockspace'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_dockspace_2(/*parent*/a0.ptr, /*docksystem*/a1.ptr), Dockspace);
 };
 Module['ui']['dockbar'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_dockbar_2(/*parent*/a0.ptr, /*docksystem*/a1.ptr), Dockbar);
 };
 Module['ui']['dockitem'] = function(a0, a1, a2) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_dockitem_3(/*parent*/a0.ptr, /*docksystem*/a1.ptr, /*dock*/a2.ptr), Widget);
 };
 Module['ui']['drag_float'] = function(a0, a1, a2) {
-    var self = this.ptr;
     if (a2 === undefined) { return !!(_mud_ui_drag_float_2(/*parent*/a0.ptr, /*value*/a1)); }
     return !!(_mud_ui_drag_float_3(/*parent*/a0.ptr, /*value*/a1, /*step*/a2));
 };
 Module['ui']['vec2_edit'] = function(a0, a1) {
-    var self = this.ptr;
     return !!(_mud_ui_vec2_edit_2(/*parent*/a0.ptr, /*vec*/a1.ptr));
 };
 Module['ui']['vec3_edit'] = function(a0, a1) {
-    var self = this.ptr;
     return !!(_mud_ui_vec3_edit_2(/*parent*/a0.ptr, /*vec*/a1.ptr));
 };
 Module['ui']['quat_edit'] = function(a0, a1) {
-    var self = this.ptr;
     return !!(_mud_ui_quat_edit_2(/*parent*/a0.ptr, /*quat*/a1.ptr));
 };
 Module['ui']['color_edit_hsl'] = function(a0, a1, a2) {
-    var self = this.ptr;
     return !!(_mud_ui_color_edit_hsl_3(/*parent*/a0.ptr, /*colour*/a1.ptr, /*value*/a2.ptr));
 };
 Module['ui']['color_display'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_color_display_2(/*parent*/a0.ptr, /*value*/a1.ptr), Widget);
 };
 Module['ui']['color_edit'] = function(a0, a1) {
-    var self = this.ptr;
     return !!(_mud_ui_color_edit_2(/*parent*/a0.ptr, /*value*/a1.ptr));
 };
 Module['ui']['color_edit_simple'] = function(a0, a1) {
-    var self = this.ptr;
     return !!(_mud_ui_color_edit_simple_2(/*parent*/a0.ptr, /*value*/a1.ptr));
 };
 Module['ui']['color_toggle_edit'] = function(a0, a1) {
-    var self = this.ptr;
     return !!(_mud_ui_color_toggle_edit_2(/*parent*/a0.ptr, /*value*/a1.ptr));
 };
 Module['ui']['flag_field'] = function(a0, a1, a2, a3, a4) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a4 === undefined) { return !!(_mud_ui_flag_field_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2, /*shift*/a3)); }
     return !!(_mud_ui_flag_field_5(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2, /*shift*/a3, /*reverse*/a4));
 };
 Module['ui']['color_field'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a3 === undefined) { return !!(_mud_ui_color_field_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2.ptr)); }
     return !!(_mud_ui_color_field_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2.ptr, /*reverse*/a3));
 };
 Module['ui']['color_display_field'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a3 === undefined) { _mud_ui_color_display_field_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2.ptr); return; }
     _mud_ui_color_display_field_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2.ptr, /*reverse*/a3);
 };
 Module['ui']['node_input'] = function(a0, a1, a2, a3, a4, a5) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_ui_node_input_2(/*node*/a0.ptr, ensureString(/*name*/a1)), NodePlug); }
     if (a3 === undefined) { return wrapPointer(_mud_ui_node_input_3(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2)), NodePlug); }
@@ -2016,7 +1948,6 @@ Module['ui']['node_input'] = function(a0, a1, a2, a3, a4, a5) {
     return wrapPointer(_mud_ui_node_input_6(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.ptr, /*active*/a4, /*connected*/a5), NodePlug);
 };
 Module['ui']['node_output'] = function(a0, a1, a2, a3, a4, a5) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_ui_node_output_2(/*node*/a0.ptr, ensureString(/*name*/a1)), NodePlug); }
     if (a3 === undefined) { return wrapPointer(_mud_ui_node_output_3(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2)), NodePlug); }
@@ -2025,73 +1956,58 @@ Module['ui']['node_output'] = function(a0, a1, a2, a3, a4, a5) {
     return wrapPointer(_mud_ui_node_output_6(/*node*/a0.ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.ptr, /*active*/a4, /*connected*/a5), NodePlug);
 };
 Module['ui']['node'] = function(a0, a1, a2, a3, a4) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a3 === undefined) { return wrapPointer(_mud_ui_node_3(/*parent*/a0.ptr, ensureString(/*title*/a1), /*position*/a2.ptr), Node); }
     if (a4 === undefined) { return wrapPointer(_mud_ui_node_4(/*parent*/a0.ptr, ensureString(/*title*/a1), /*position*/a2.ptr, /*order*/a3), Node); }
     return wrapPointer(_mud_ui_node_5(/*parent*/a0.ptr, ensureString(/*title*/a1), /*position*/a2.ptr, /*order*/a3, ensureRef(/*identity*/a4), ensureRefType(/*identity*/a4)), Node);
 };
 Module['ui']['node_cable'] = function(a0, a1, a2) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_node_cable_3(/*canvas*/a0.ptr, /*plug_out*/a1.ptr, /*plug_in*/a2.ptr), Widget);
 };
 Module['ui']['canvas'] = function(a0, a1) {
-    var self = this.ptr;
     if (a1 === undefined) { return wrapPointer(_mud_ui_canvas_1(/*parent*/a0.ptr), Canvas); }
     return wrapPointer(_mud_ui_canvas_2(/*parent*/a0.ptr, /*num_nodes*/a1), Canvas);
 };
 Module['ui']['scrollable'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_scrollable_1(/*parent*/a0.ptr), Widget);
 };
 Module['ui']['sequence'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_sequence_1(/*parent*/a0.ptr), Sequence);
 };
 Module['ui']['scroll_sequence'] = function(a0) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_scroll_sequence_1(/*parent*/a0.ptr), Sequence);
 };
 Module['ui']['select_logic'] = function(a0, a1, a2) {
-    var self = this.ptr;
     return !!(_mud_ui_select_logic_3(/*element*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), ensureRef(/*selection*/a2), ensureRefType(/*selection*/a2)));
 };
 Module['ui']['element'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_element_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)), Widget);
 };
 Module['ui']['sequence_element'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_ui_sequence_element_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)), Widget);
 };
 Module['ui']['window'] = function(a0, a1, a2) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_ui_window_2(/*parent*/a0.ptr, ensureString(/*title*/a1)), Window); }
     return wrapPointer(_mud_ui_window_3(/*parent*/a0.ptr, ensureString(/*title*/a1), /*state*/a2), Window);
 };
 Module['ui']['dir_item'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_dir_item_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), Widget);
 };
 Module['ui']['file_item'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_file_item_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), Widget);
 };
 Module['ui']['dir_node'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_dir_node_4(/*parent*/a0.ptr, ensureString(/*path*/a1), ensureString(/*name*/a2), /*collapsed*/a3), Widget);
 };
 Module['ui']['file_node'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_file_node_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), Widget);
 };
 Module['ui']['file_tree'] = function(a0, a1) {
-    var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_ui_file_tree_2(/*parent*/a0.ptr, ensureString(/*path*/a1)), Widget);
 };

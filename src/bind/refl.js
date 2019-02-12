@@ -357,7 +357,6 @@ Method.prototype["__destroy__"] = Method.prototype.__destroy__ = function() {
     _mud_Method__destroy(self);
 };
 Module['system'] = function() {
-    var self = this.ptr;
     return wrapPointer(_mud_system_0(), System);
 };
 

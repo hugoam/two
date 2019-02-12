@@ -3394,19 +3394,15 @@ RenderTarget.prototype["__destroy__"] = RenderTarget.prototype.__destroy__ = fun
     _mud_RenderTarget__destroy(self);
 };
 Module['gfx']['setup_pipeline_minimal'] = function(a0) {
-    var self = this.ptr;
     _mud_gfx_setup_pipeline_minimal_1(/*gfx*/a0.ptr);
 };
 Module['gfx']['update_item_lights'] = function(a0) {
-    var self = this.ptr;
     _mud_gfx_update_item_lights_1(/*item*/a0.ptr);
 };
 Module['gfx']['update_item_aabb'] = function(a0) {
-    var self = this.ptr;
     _mud_gfx_update_item_aabb_1(/*item*/a0.ptr);
 };
 Module['gfx']['node'] = function(a0, a1, a2, a3, a4) {
-    var self = this.ptr;
     if (a1 === undefined) { return wrapPointer(_mud_gfx_node_1(/*parent*/a0.ptr), Gnode); }
     if (a2 === undefined) { return wrapPointer(_mud_gfx_node_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)), Gnode); }
     if (a3 === undefined) { return wrapPointer(_mud_gfx_node_3(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), /*position*/a2.ptr), Gnode); }
@@ -3414,26 +3410,22 @@ Module['gfx']['node'] = function(a0, a1, a2, a3, a4) {
     return wrapPointer(_mud_gfx_node_5(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), /*position*/a2.ptr, /*rotation*/a3.ptr, /*scale*/a4.ptr), Gnode);
 };
 Module['gfx']['shape'] = function(a0, a1, a2, a3, a4, a5) {
-    var self = this.ptr;
     if (a3 === undefined) { return wrapPointer(_mud_gfx_shape_3(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr), Item); }
     if (a4 === undefined) { return wrapPointer(_mud_gfx_shape_4(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr, /*flags*/a3), Item); }
     if (a5 === undefined) { return wrapPointer(_mud_gfx_shape_5(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr, /*flags*/a3, /*material*/a4.ptr), Item); }
     return wrapPointer(_mud_gfx_shape_6(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr, /*flags*/a3, /*material*/a4.ptr, /*instances*/a5), Item);
 };
 Module['gfx']['draw'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     if (a3 === undefined) { _mud_gfx_draw_3(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr); return; }
     _mud_gfx_draw_4(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr, /*flags*/a3);
 };
 Module['gfx']['sprite'] = function(a0, a1, a2, a3, a4, a5) {
-    var self = this.ptr;
     if (a3 === undefined) { return wrapPointer(_mud_gfx_sprite_3(/*parent*/a0.ptr, /*image*/a1.ptr, /*size*/a2.ptr), Item); }
     if (a4 === undefined) { return wrapPointer(_mud_gfx_sprite_4(/*parent*/a0.ptr, /*image*/a1.ptr, /*size*/a2.ptr, /*flags*/a3), Item); }
     if (a5 === undefined) { return wrapPointer(_mud_gfx_sprite_5(/*parent*/a0.ptr, /*image*/a1.ptr, /*size*/a2.ptr, /*flags*/a3, /*material*/a4.ptr), Item); }
     return wrapPointer(_mud_gfx_sprite_6(/*parent*/a0.ptr, /*image*/a1.ptr, /*size*/a2.ptr, /*flags*/a3, /*material*/a4.ptr, /*instances*/a5), Item);
 };
 Module['gfx']['model'] = function(a0, a1, a2, a3, a4) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_gfx_model_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), Item); }
     if (a3 === undefined) { return wrapPointer(_mud_gfx_model_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*flags*/a2), Item); }
@@ -3441,36 +3433,29 @@ Module['gfx']['model'] = function(a0, a1, a2, a3, a4) {
     return wrapPointer(_mud_gfx_model_5(/*parent*/a0.ptr, ensureString(/*name*/a1), /*flags*/a2, /*material*/a3.ptr, /*instances*/a4), Item);
 };
 Module['gfx']['animated'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_gfx_animated_2(/*parent*/a0.ptr, /*item*/a1.ptr), Animated);
 };
 Module['gfx']['particles'] = function(a0, a1, a2, a3) {
-    var self = this.ptr;
     if (a2 === undefined) { return wrapPointer(_mud_gfx_particles_2(/*parent*/a0.ptr, /*emitter*/a1.ptr), Particles); }
     if (a3 === undefined) { return wrapPointer(_mud_gfx_particles_3(/*parent*/a0.ptr, /*emitter*/a1.ptr, /*flags*/a2), Particles); }
     return wrapPointer(_mud_gfx_particles_4(/*parent*/a0.ptr, /*emitter*/a1.ptr, /*flags*/a2, /*instances*/a3), Particles);
 };
 Module['gfx']['light'] = function(a0, a1, a2, a3, a4, a5) {
-    var self = this.ptr;
     if (a4 === undefined) { return wrapPointer(_mud_gfx_light_4(/*parent*/a0.ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.ptr), Light); }
     if (a5 === undefined) { return wrapPointer(_mud_gfx_light_5(/*parent*/a0.ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.ptr, /*range*/a4), Light); }
     return wrapPointer(_mud_gfx_light_6(/*parent*/a0.ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.ptr, /*range*/a4, /*attenuation*/a5), Light);
 };
 Module['gfx']['sun_light'] = function(a0, a1, a2) {
-    var self = this.ptr;
     return wrapPointer(_mud_gfx_sun_light_3(/*parent*/a0.ptr, /*azimuth*/a1, /*elevation*/a2), Light);
 };
 Module['gfx']['radiance'] = function(a0, a1, a2) {
-    var self = this.ptr;
     ensureCache.prepare();
     _mud_gfx_radiance_3(/*parent*/a0.ptr, ensureString(/*texture*/a1), /*background*/a2);
 };
 Module['gfx']['direct_light_node'] = function(a0, a1) {
-    var self = this.ptr;
     return wrapPointer(_mud_gfx_direct_light_node_2(/*parent*/a0.ptr, /*direction*/a1.ptr), Light);
 };
 Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
-    var self = this.ptr;
     ensureCache.prepare();
     if (a3 === undefined) { return wrapPointer(_mud_gfx_pbr_material_3(/*gfx*/a0.ptr, ensureString(/*name*/a1), /*albedo*/a2.ptr), Material); }
     if (a4 === undefined) { return wrapPointer(_mud_gfx_pbr_material_4(/*gfx*/a0.ptr, ensureString(/*name*/a1), /*albedo*/a2.ptr, /*metallic*/a3), Material); }

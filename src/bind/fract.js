@@ -125,7 +125,6 @@ Pattern.prototype["__destroy__"] = Pattern.prototype.__destroy__ = function() {
     _mud_Pattern__destroy(self);
 };
 Module['generate_fract'] = function(a0, a1, a2) {
-    var self = this.ptr;
     _mud_generate_fract_3(/*resolution*/a0.ptr, /*pattern*/a1.ptr, /*output_image*/a2.ptr);
 };
 
