@@ -2234,6 +2234,9 @@ extern "C" {
 	void DECL mud_RenderTarget__destroy(mud::RenderTarget* self) {
 		delete self;
 	}
+	void DECL mud_gfx_setup_pipeline_minimal_1(mud::GfxSystem* gfx) {
+		mud::gfx::setup_pipeline_minimal(*gfx);
+	}
 	void DECL mud_gfx_update_item_lights_1(mud::Item* item) {
 		mud::gfx::update_item_lights(*item);
 	}
@@ -2323,6 +2326,18 @@ extern "C" {
 	}
 	void DECL mud_gfx_radiance_3(mud::Gnode* parent, const char* texture, mud::BackgroundMode background) {
 		mud::gfx::radiance(*parent, texture, background);
+	}
+	mud::Light* DECL mud_gfx_direct_light_node_2(mud::Gnode* parent, const mud::vec3* direction) {
+		return &mud::gfx::direct_light_node(*parent, *direction);
+	}
+	mud::Material* DECL mud_gfx_pbr_material_3(mud::GfxSystem* gfx, const char* name, const mud::Colour* albedo) {
+		return &mud::gfx::pbr_material(*gfx, name, *albedo);
+	}
+	mud::Material* DECL mud_gfx_pbr_material_4(mud::GfxSystem* gfx, const char* name, const mud::Colour* albedo, float metallic) {
+		return &mud::gfx::pbr_material(*gfx, name, *albedo, metallic);
+	}
+	mud::Material* DECL mud_gfx_pbr_material_5(mud::GfxSystem* gfx, const char* name, const mud::Colour* albedo, float metallic, float roughness) {
+		return &mud::gfx::pbr_material(*gfx, name, *albedo, metallic, roughness);
 	}
 	// AnimationTarget
 	mud::AnimationTarget DECL mud_AnimationTarget_Position() {

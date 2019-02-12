@@ -36,8 +36,9 @@ void mud_LightShadow__copy_construct(void* ref, void* other) { new(stl::placehol
 void* mud_ReflectionProbe__get_node(void* object) { return &(*static_cast<mud::ReflectionProbe*>(object)).m_node; }
 void mud_Tonemap__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Tonemap(  ); }
 void mud_Tonemap__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Tonemap((*static_cast<mud::Tonemap*>(other))); }
-void mud_gfx_gi_probe_0(span<void*> args, void*& result) { result = &mud::gfx::gi_probe(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
-void mud_gfx_lightmap_1(span<void*> args, void*& result) { result = &mud::gfx::lightmap(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<float*>(args[2]), *static_cast<stl::string*>(args[3])); }
+void mud_gfx_setup_pipeline_pbr_0(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::setup_pipeline_pbr(*static_cast<mud::GfxSystem&*>(args[0])); }
+void mud_gfx_gi_probe_1(span<void*> args, void*& result) { result = &mud::gfx::gi_probe(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
+void mud_gfx_lightmap_2(span<void*> args, void*& result) { result = &mud::gfx::lightmap(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<float*>(args[2]), *static_cast<stl::string*>(args[3])); }
 
 namespace mud
 {
@@ -474,13 +475,17 @@ namespace mud
 		m.m_types.push_back(&type<mud::Tonemap>());
 		m.m_types.push_back(&type<mud::TonemapMode>());
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "gi_probe", nullptr, mud_gfx_gi_probe_0, { { "parent", type<mud::Gnode>(),  }, { "subdiv", type<uint16_t>(),  }, { "extents", type<mud::vec3>(),  } }, { &type<mud::GIProbe>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "setup_pipeline_pbr", nullptr, mud_gfx_setup_pipeline_pbr_0, { { "gfx", type<mud::GfxSystem&>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "gfx" }), "gi_probe", nullptr, mud_gfx_gi_probe_1, { { "parent", type<mud::Gnode>(),  }, { "subdiv", type<uint16_t>(),  }, { "extents", type<mud::vec3>(),  } }, { &type<mud::GIProbe>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float density_default = 8.f;
 			static stl::string save_path_default = "";
-			static Function f = { &namspc({ "mud", "gfx" }), "lightmap", nullptr, mud_gfx_lightmap_1, { { "parent", type<mud::Gnode>(),  }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<mud::LightmapAtlas>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "lightmap", nullptr, mud_gfx_lightmap_2, { { "parent", type<mud::Gnode>(),  }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<mud::LightmapAtlas>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 	}

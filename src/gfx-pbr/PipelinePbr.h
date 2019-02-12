@@ -94,4 +94,9 @@ namespace mud
 	export_ MUD_GFX_PBR_EXPORT void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes);
 
 	export_ MUD_GFX_PBR_EXPORT void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred = false);
+	
+namespace gfx
+{
+	export_ MUD_GFX_EXPORT func_ void setup_pipeline_pbr(GfxSystem& gfx);
+}
 }

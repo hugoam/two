@@ -546,6 +546,10 @@ Tonemap.prototype["__destroy__"] = Tonemap.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Tonemap__destroy(self);
 };
+Module['gfx']['setup_pipeline_pbr'] = function(a0) {
+    var self = this.ptr;
+    _mud_gfx_setup_pipeline_pbr_1(/*gfx*/a0);
+};
 Module['gfx']['gi_probe'] = function(a0, a1, a2) {
     var self = this.ptr;
     return wrapPointer(_mud_gfx_gi_probe_3(/*parent*/a0.ptr, /*subdiv*/a1, /*extents*/a2.ptr), GIProbe);

@@ -1612,10 +1612,10 @@ namespace mud
 		m.m_types.push_back(&type<mud::Expandbox>());
 		m.m_types.push_back(&type<mud::Frame>());
 		m.m_types.push_back(&type<mud::FrameSolver>());
+		m.m_types.push_back(&type<mud::LineSolver>());
 		m.m_types.push_back(&type<mud::Node>());
 		m.m_types.push_back(&type<mud::NodePlug>());
 		m.m_types.push_back(&type<mud::RowSolver>());
-		m.m_types.push_back(&type<mud::LineSolver>());
 		m.m_types.push_back(&type<mud::ScrollSheet>());
 		m.m_types.push_back(&type<mud::ui::Sequence>());
 		m.m_types.push_back(&type<mud::Tabber>());

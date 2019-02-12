@@ -7,7 +7,6 @@ module mud.math;
 #include <stl/new.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
-#include <type/Any.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -460,7 +459,6 @@ namespace mud
 	{
 		Type& t = type<mud::Colour>();
 		static Meta meta = { t, &namspc({ "mud" }), "Colour", sizeof(mud::Colour), TypeClass::Struct };
-		meta.m_empty_var = var(Colour());
 		// bases
 		// defaults
 		static float construct_1_a_default = 1.f;
@@ -1595,41 +1593,6 @@ namespace mud
 	{
 		Type& t = type<mud::v4<bool>>();
 		static Alias alias = { &t, &namspc({ "mud" }), "bvec4" };
-		m.m_aliases.push_back(&alias);
-	}
-	{
-		Type& t = type<uchar>();
-		static Alias alias = { &t, &namspc({ "mud" }), "uchar" };
-		m.m_aliases.push_back(&alias);
-	}
-	{
-		Type& t = type<ushort>();
-		static Alias alias = { &t, &namspc({ "mud" }), "ushort" };
-		m.m_aliases.push_back(&alias);
-	}
-	{
-		Type& t = type<uint>();
-		static Alias alias = { &t, &namspc({ "mud" }), "uint" };
-		m.m_aliases.push_back(&alias);
-	}
-	{
-		Type& t = type<ushort>();
-		static Alias alias = { &t, &namspc({ "mud" }), "u16" };
-		m.m_aliases.push_back(&alias);
-	}
-	{
-		Type& t = type<uint>();
-		static Alias alias = { &t, &namspc({ "mud" }), "u32" };
-		m.m_aliases.push_back(&alias);
-	}
-	{
-		Type& t = type<short>();
-		static Alias alias = { &t, &namspc({ "mud" }), "i16" };
-		m.m_aliases.push_back(&alias);
-	}
-	{
-		Type& t = type<int>();
-		static Alias alias = { &t, &namspc({ "mud" }), "i32" };
 		m.m_aliases.push_back(&alias);
 	}
 	

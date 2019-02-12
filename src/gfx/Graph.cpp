@@ -109,6 +109,11 @@ namespace mud
 
 namespace gfx
 {
+	void setup_pipeline_minimal(GfxSystem& gfx)
+	{
+		gfx.init_pipeline(pipeline_minimal);
+	}
+
 	Gnode& node(Gnode& parent, Ref object, const mat4& transform)
 	{
 		Gnode& self = parent.subi(object.m_value);

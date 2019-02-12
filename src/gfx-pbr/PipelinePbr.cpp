@@ -29,6 +29,14 @@ namespace mud
 #define MUD_GFX_STATE_DEFAULT_ALPHA 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS \
 									  | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA
 
+namespace gfx
+{
+	void setup_pipeline_pbr(GfxSystem& gfx)
+	{
+		gfx.init_pipeline(pipeline_pbr);
+	}
+}
+
 	void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes)
 	{
 		//gi_probes.reserve(m_pool->pool<GIProbe>().size());
