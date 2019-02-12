@@ -1,4 +1,4 @@
-#define HEADER_ONLY 1
+#define HEADER_ONLY 0
 
 #if !HEADER_ONLY
 #include <mud/frame.h>
