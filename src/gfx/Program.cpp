@@ -330,7 +330,7 @@ namespace mud
 		}
 	}
 
-	cstring Program::name()
+	cstring Program::name() const
 	{
 		return m_impl->m_name.c_str();
 	}

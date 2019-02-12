@@ -806,7 +806,7 @@ Poisson.prototype.constructor = Poisson;
 Poisson.prototype.__class__ = Poisson;
 Poisson.__cache__ = {};
 Module['Poisson'] = Poisson;
-Poisson.prototype["addPoint"] = Poisson.prototype.addPoint = function(self, a0, a1) {
+Poisson.prototype["addPoint"] = Poisson.prototype.addPoint = function(a0, a1) {
     var self = this.ptr;
     return !!(_mud_Poisson_addPoint_2(self, /*radius*/a0, /*point*/a1.ptr));
 };

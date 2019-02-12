@@ -1311,98 +1311,98 @@ Widget.prototype.constructor = Widget;
 Widget.prototype.__class__ = Widget;
 Widget.__cache__ = {};
 Module['Widget'] = Widget;
-Widget.prototype["focused"] = Widget.prototype.focused = function(self) {
+Widget.prototype["focused"] = Widget.prototype.focused = function() {
     var self = this.ptr;
     return !!(_mud_Widget_focused_0(self));
 };
-Widget.prototype["hovered"] = Widget.prototype.hovered = function(self) {
+Widget.prototype["hovered"] = Widget.prototype.hovered = function() {
     var self = this.ptr;
     return !!(_mud_Widget_hovered_0(self));
 };
-Widget.prototype["pressed"] = Widget.prototype.pressed = function(self) {
+Widget.prototype["pressed"] = Widget.prototype.pressed = function() {
     var self = this.ptr;
     return !!(_mud_Widget_pressed_0(self));
 };
-Widget.prototype["activated"] = Widget.prototype.activated = function(self) {
+Widget.prototype["activated"] = Widget.prototype.activated = function() {
     var self = this.ptr;
     return !!(_mud_Widget_activated_0(self));
 };
-Widget.prototype["selected"] = Widget.prototype.selected = function(self) {
+Widget.prototype["selected"] = Widget.prototype.selected = function() {
     var self = this.ptr;
     return !!(_mud_Widget_selected_0(self));
 };
-Widget.prototype["modal"] = Widget.prototype.modal = function(self) {
+Widget.prototype["modal"] = Widget.prototype.modal = function() {
     var self = this.ptr;
     return !!(_mud_Widget_modal_0(self));
 };
-Widget.prototype["closed"] = Widget.prototype.closed = function(self) {
+Widget.prototype["closed"] = Widget.prototype.closed = function() {
     var self = this.ptr;
     return !!(_mud_Widget_closed_0(self));
 };
-Widget.prototype["ui_window"] = Widget.prototype.ui_window = function(self) {
+Widget.prototype["ui_window"] = Widget.prototype.ui_window = function() {
     var self = this.ptr;
     return wrapPointer(_mud_Widget_ui_window_0(self), UiWindow);
 };
-Widget.prototype["ui"] = Widget.prototype.ui = function(self) {
+Widget.prototype["ui"] = Widget.prototype.ui = function() {
     var self = this.ptr;
     return wrapPointer(_mud_Widget_ui_0(self), Ui);
 };
-Widget.prototype["parent_modal"] = Widget.prototype.parent_modal = function(self) {
+Widget.prototype["parent_modal"] = Widget.prototype.parent_modal = function() {
     var self = this.ptr;
     return wrapPointer(_mud_Widget_parent_modal_0(self), Widget);
 };
-Widget.prototype["toggle_state"] = Widget.prototype.toggle_state = function(self, a0) {
+Widget.prototype["toggle_state"] = Widget.prototype.toggle_state = function(a0) {
     var self = this.ptr;
     _mud_Widget_toggle_state_1(self, /*state*/a0);
 };
-Widget.prototype["disable_state"] = Widget.prototype.disable_state = function(self, a0) {
+Widget.prototype["disable_state"] = Widget.prototype.disable_state = function(a0) {
     var self = this.ptr;
     _mud_Widget_disable_state_1(self, /*state*/a0);
 };
-Widget.prototype["set_state"] = Widget.prototype.set_state = function(self, a0, a1) {
+Widget.prototype["set_state"] = Widget.prototype.set_state = function(a0, a1) {
     var self = this.ptr;
     _mud_Widget_set_state_2(self, /*state*/a0, /*enabled*/a1);
 };
-Widget.prototype["enable_state"] = Widget.prototype.enable_state = function(self, a0) {
+Widget.prototype["enable_state"] = Widget.prototype.enable_state = function(a0) {
     var self = this.ptr;
     _mud_Widget_enable_state_1(self, /*state*/a0);
 };
-Widget.prototype["clear_focus"] = Widget.prototype.clear_focus = function(self) {
+Widget.prototype["clear_focus"] = Widget.prototype.clear_focus = function() {
     var self = this.ptr;
     _mud_Widget_clear_focus_0(self);
 };
-Widget.prototype["take_focus"] = Widget.prototype.take_focus = function(self) {
+Widget.prototype["take_focus"] = Widget.prototype.take_focus = function() {
     var self = this.ptr;
     _mud_Widget_take_focus_0(self);
 };
-Widget.prototype["yield_focus"] = Widget.prototype.yield_focus = function(self) {
+Widget.prototype["yield_focus"] = Widget.prototype.yield_focus = function() {
     var self = this.ptr;
     _mud_Widget_yield_focus_0(self);
 };
-Widget.prototype["take_modal"] = Widget.prototype.take_modal = function(self, a0) {
+Widget.prototype["take_modal"] = Widget.prototype.take_modal = function(a0) {
     var self = this.ptr;
     _mud_Widget_take_modal_1(self, /*device_filter*/a0);
 };
-Widget.prototype["yield_modal"] = Widget.prototype.yield_modal = function(self) {
+Widget.prototype["yield_modal"] = Widget.prototype.yield_modal = function() {
     var self = this.ptr;
     _mud_Widget_yield_modal_0(self);
 };
-Widget.prototype["key_event"] = Widget.prototype.key_event = function(self, a0, a1, a2) {
+Widget.prototype["key_event"] = Widget.prototype.key_event = function(a0, a1, a2) {
     var self = this.ptr;
     if (a2 === undefined) { return wrapPointer(_mud_Widget_key_event_2(self, /*code*/a0, /*event_type*/a1), KeyEvent); }
     return wrapPointer(_mud_Widget_key_event_3(self, /*code*/a0, /*event_type*/a1, /*modifier*/a2), KeyEvent);
 };
-Widget.prototype["key_stroke"] = Widget.prototype.key_stroke = function(self, a0, a1) {
+Widget.prototype["key_stroke"] = Widget.prototype.key_stroke = function(a0, a1) {
     var self = this.ptr;
     if (a1 === undefined) { return wrapPointer(_mud_Widget_key_stroke_1(self, /*code*/a0), KeyEvent); }
     return wrapPointer(_mud_Widget_key_stroke_2(self, /*code*/a0, /*modifier*/a1), KeyEvent);
 };
-Widget.prototype["char_stroke"] = Widget.prototype.char_stroke = function(self, a0, a1) {
+Widget.prototype["char_stroke"] = Widget.prototype.char_stroke = function(a0, a1) {
     var self = this.ptr;
     if (a1 === undefined) { return wrapPointer(_mud_Widget_char_stroke_1(self, /*code*/a0), KeyEvent); }
     return wrapPointer(_mud_Widget_char_stroke_2(self, /*code*/a0, /*modifier*/a1), KeyEvent);
 };
-Widget.prototype["mouse_event"] = Widget.prototype.mouse_event = function(self, a0, a1, a2, a3) {
+Widget.prototype["mouse_event"] = Widget.prototype.mouse_event = function(a0, a1, a2, a3) {
     var self = this.ptr;
     if (a2 === undefined) { return wrapPointer(_mud_Widget_mouse_event_2(self, /*device*/a0, /*event_type*/a1), MouseEvent); }
     if (a3 === undefined) { return wrapPointer(_mud_Widget_mouse_event_3(self, /*device*/a0, /*event_type*/a1, /*modifier*/a2), MouseEvent); }
@@ -1672,7 +1672,7 @@ Ui.prototype.constructor = Ui;
 Ui.prototype.__class__ = Ui;
 Ui.__cache__ = {};
 Module['Ui'] = Ui;
-Ui.prototype["begin"] = Ui.prototype.begin = function(self) {
+Ui.prototype["begin"] = Ui.prototype.begin = function() {
     var self = this.ptr;
     return wrapPointer(_mud_Ui_begin_0(self), Widget);
 };

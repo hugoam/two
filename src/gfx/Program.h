@@ -69,7 +69,7 @@ namespace mud
 		Program(const string& name, span<GfxBlock*> blocks, span<cstring> sources);
 		~Program();
 
-		attr_ cstring name();
+		attr_ cstring name() const;
 
 		uint8_t block_option_shift(uint8_t block) const
 		{

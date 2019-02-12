@@ -6,7 +6,7 @@ Index.prototype.constructor = Index;
 Index.prototype.__class__ = Index;
 Index.__cache__ = {};
 Module['Index'] = Index;
-Index.prototype["indexer"] = Index.prototype.indexer = function(self, a0) {
+Index.prototype["indexer"] = Index.prototype.indexer = function(a0) {
     var self = this.ptr;
     return wrapPointer(_mud_Index_indexer_1(self, /*type*/a0.ptr), Indexer);
 };

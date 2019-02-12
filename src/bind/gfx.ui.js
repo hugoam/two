@@ -74,11 +74,11 @@ OrbitController.prototype.constructor = OrbitController;
 OrbitController.prototype.__class__ = OrbitController;
 OrbitController.__cache__ = {};
 Module['OrbitController'] = OrbitController;
-OrbitController.prototype["set_eye"] = OrbitController.prototype.set_eye = function(self, a0) {
+OrbitController.prototype["set_eye"] = OrbitController.prototype.set_eye = function(a0) {
     var self = this.ptr;
     _mud_OrbitController_set_eye_1(self, /*rotation*/a0.ptr);
 };
-OrbitController.prototype["set_target"] = OrbitController.prototype.set_target = function(self, a0) {
+OrbitController.prototype["set_target"] = OrbitController.prototype.set_target = function(a0) {
     var self = this.ptr;
     _mud_OrbitController_set_target_1(self, /*position*/a0.ptr);
 };

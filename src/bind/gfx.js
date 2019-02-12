@@ -7,7 +7,7 @@ Animated.prototype.constructor = Animated;
 Animated.prototype.__class__ = Animated;
 Animated.__cache__ = {};
 Module['Animated'] = Animated;
-Animated.prototype["start"] = Animated.prototype.start = function(self, a0, a1, a2, a3, a4) {
+Animated.prototype["start"] = Animated.prototype.start = function(a0, a1, a2, a3, a4) {
     var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { _mud_Animated_start_2(self, ensureString(/*animation*/a0), /*loop*/a1); return; }
@@ -15,34 +15,34 @@ Animated.prototype["start"] = Animated.prototype.start = function(self, a0, a1, 
     if (a4 === undefined) { _mud_Animated_start_4(self, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2, /*speed*/a3); return; }
     _mud_Animated_start_5(self, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2, /*speed*/a3, /*transient*/a4);
 };
-Animated.prototype["play"] = Animated.prototype.play = function(self, a0, a1, a2, a3, a4) {
+Animated.prototype["play"] = Animated.prototype.play = function(a0, a1, a2, a3, a4) {
     var self = this.ptr;
     if (a2 === undefined) { _mud_Animated_play_2(self, /*animation*/a0.ptr, /*loop*/a1); return; }
     if (a3 === undefined) { _mud_Animated_play_3(self, /*animation*/a0.ptr, /*loop*/a1, /*blend*/a2); return; }
     if (a4 === undefined) { _mud_Animated_play_4(self, /*animation*/a0.ptr, /*loop*/a1, /*blend*/a2, /*speed*/a3); return; }
     _mud_Animated_play_5(self, /*animation*/a0.ptr, /*loop*/a1, /*blend*/a2, /*speed*/a3, /*transient*/a4);
 };
-Animated.prototype["seek"] = Animated.prototype.seek = function(self, a0) {
+Animated.prototype["seek"] = Animated.prototype.seek = function(a0) {
     var self = this.ptr;
     _mud_Animated_seek_1(self, /*time*/a0);
 };
-Animated.prototype["pause"] = Animated.prototype.pause = function(self) {
+Animated.prototype["pause"] = Animated.prototype.pause = function() {
     var self = this.ptr;
     _mud_Animated_pause_0(self);
 };
-Animated.prototype["stop"] = Animated.prototype.stop = function(self) {
+Animated.prototype["stop"] = Animated.prototype.stop = function() {
     var self = this.ptr;
     _mud_Animated_stop_0(self);
 };
-Animated.prototype["advance"] = Animated.prototype.advance = function(self, a0) {
+Animated.prototype["advance"] = Animated.prototype.advance = function(a0) {
     var self = this.ptr;
     _mud_Animated_advance_1(self, /*time*/a0);
 };
-Animated.prototype["next_animation"] = Animated.prototype.next_animation = function(self) {
+Animated.prototype["next_animation"] = Animated.prototype.next_animation = function() {
     var self = this.ptr;
     _mud_Animated_next_animation_0(self);
 };
-Animated.prototype["playing"] = Animated.prototype.playing = function(self) {
+Animated.prototype["playing"] = Animated.prototype.playing = function() {
     var self = this.ptr;
     return Pointer_stringify(_mud_Animated_playing_0(self));
 };
@@ -315,32 +315,32 @@ AssetStore_mud_Material.prototype.constructor = AssetStore_mud_Material;
 AssetStore_mud_Material.prototype.__class__ = AssetStore_mud_Material;
 AssetStore_mud_Material.__cache__ = {};
 Module['AssetStore_mud_Material'] = AssetStore_mud_Material;
-AssetStore_mud_Material.prototype["get"] = AssetStore_mud_Material.prototype.get = function(self, a0) {
+AssetStore_mud_Material.prototype["get"] = AssetStore_mud_Material.prototype.get = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Material_get_1(self, ensureString(/*name*/a0)), Material);
 };
-AssetStore_mud_Material.prototype["create"] = AssetStore_mud_Material.prototype.create = function(self, a0) {
+AssetStore_mud_Material.prototype["create"] = AssetStore_mud_Material.prototype.create = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Material_create_1(self, ensureString(/*name*/a0)), Material);
 };
-AssetStore_mud_Material.prototype["fetch"] = AssetStore_mud_Material.prototype.fetch = function(self, a0) {
+AssetStore_mud_Material.prototype["fetch"] = AssetStore_mud_Material.prototype.fetch = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Material_fetch_1(self, ensureString(/*name*/a0)), Material);
 };
-AssetStore_mud_Material.prototype["file"] = AssetStore_mud_Material.prototype.file = function(self, a0) {
+AssetStore_mud_Material.prototype["file"] = AssetStore_mud_Material.prototype.file = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Material_file_1(self, ensureString(/*name*/a0)), Material);
 };
-AssetStore_mud_Material.prototype["file_at"] = AssetStore_mud_Material.prototype.file_at = function(self, a0, a1) {
+AssetStore_mud_Material.prototype["file_at"] = AssetStore_mud_Material.prototype.file_at = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Material_file_at_2(self, ensureString(/*path*/a0), ensureString(/*name*/a1)), Material);
 };
-AssetStore_mud_Material.prototype["destroy"] = AssetStore_mud_Material.prototype.destroy = function(self, a0) {
+AssetStore_mud_Material.prototype["destroy"] = AssetStore_mud_Material.prototype.destroy = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     _mud_AssetStore_mud_Material_destroy_1(self, ensureString(/*name*/a0));
@@ -356,32 +356,32 @@ AssetStore_mud_Model.prototype.constructor = AssetStore_mud_Model;
 AssetStore_mud_Model.prototype.__class__ = AssetStore_mud_Model;
 AssetStore_mud_Model.__cache__ = {};
 Module['AssetStore_mud_Model'] = AssetStore_mud_Model;
-AssetStore_mud_Model.prototype["get"] = AssetStore_mud_Model.prototype.get = function(self, a0) {
+AssetStore_mud_Model.prototype["get"] = AssetStore_mud_Model.prototype.get = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Model_get_1(self, ensureString(/*name*/a0)), Model);
 };
-AssetStore_mud_Model.prototype["create"] = AssetStore_mud_Model.prototype.create = function(self, a0) {
+AssetStore_mud_Model.prototype["create"] = AssetStore_mud_Model.prototype.create = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Model_create_1(self, ensureString(/*name*/a0)), Model);
 };
-AssetStore_mud_Model.prototype["fetch"] = AssetStore_mud_Model.prototype.fetch = function(self, a0) {
+AssetStore_mud_Model.prototype["fetch"] = AssetStore_mud_Model.prototype.fetch = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Model_fetch_1(self, ensureString(/*name*/a0)), Model);
 };
-AssetStore_mud_Model.prototype["file"] = AssetStore_mud_Model.prototype.file = function(self, a0) {
+AssetStore_mud_Model.prototype["file"] = AssetStore_mud_Model.prototype.file = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Model_file_1(self, ensureString(/*name*/a0)), Model);
 };
-AssetStore_mud_Model.prototype["file_at"] = AssetStore_mud_Model.prototype.file_at = function(self, a0, a1) {
+AssetStore_mud_Model.prototype["file_at"] = AssetStore_mud_Model.prototype.file_at = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Model_file_at_2(self, ensureString(/*path*/a0), ensureString(/*name*/a1)), Model);
 };
-AssetStore_mud_Model.prototype["destroy"] = AssetStore_mud_Model.prototype.destroy = function(self, a0) {
+AssetStore_mud_Model.prototype["destroy"] = AssetStore_mud_Model.prototype.destroy = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     _mud_AssetStore_mud_Model_destroy_1(self, ensureString(/*name*/a0));
@@ -397,32 +397,32 @@ AssetStore_mud_ParticleFlow.prototype.constructor = AssetStore_mud_ParticleFlow;
 AssetStore_mud_ParticleFlow.prototype.__class__ = AssetStore_mud_ParticleFlow;
 AssetStore_mud_ParticleFlow.__cache__ = {};
 Module['AssetStore_mud_ParticleFlow'] = AssetStore_mud_ParticleFlow;
-AssetStore_mud_ParticleFlow.prototype["get"] = AssetStore_mud_ParticleFlow.prototype.get = function(self, a0) {
+AssetStore_mud_ParticleFlow.prototype["get"] = AssetStore_mud_ParticleFlow.prototype.get = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_ParticleFlow_get_1(self, ensureString(/*name*/a0)), ParticleFlow);
 };
-AssetStore_mud_ParticleFlow.prototype["create"] = AssetStore_mud_ParticleFlow.prototype.create = function(self, a0) {
+AssetStore_mud_ParticleFlow.prototype["create"] = AssetStore_mud_ParticleFlow.prototype.create = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_ParticleFlow_create_1(self, ensureString(/*name*/a0)), ParticleFlow);
 };
-AssetStore_mud_ParticleFlow.prototype["fetch"] = AssetStore_mud_ParticleFlow.prototype.fetch = function(self, a0) {
+AssetStore_mud_ParticleFlow.prototype["fetch"] = AssetStore_mud_ParticleFlow.prototype.fetch = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_ParticleFlow_fetch_1(self, ensureString(/*name*/a0)), ParticleFlow);
 };
-AssetStore_mud_ParticleFlow.prototype["file"] = AssetStore_mud_ParticleFlow.prototype.file = function(self, a0) {
+AssetStore_mud_ParticleFlow.prototype["file"] = AssetStore_mud_ParticleFlow.prototype.file = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_ParticleFlow_file_1(self, ensureString(/*name*/a0)), ParticleFlow);
 };
-AssetStore_mud_ParticleFlow.prototype["file_at"] = AssetStore_mud_ParticleFlow.prototype.file_at = function(self, a0, a1) {
+AssetStore_mud_ParticleFlow.prototype["file_at"] = AssetStore_mud_ParticleFlow.prototype.file_at = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_ParticleFlow_file_at_2(self, ensureString(/*path*/a0), ensureString(/*name*/a1)), ParticleFlow);
 };
-AssetStore_mud_ParticleFlow.prototype["destroy"] = AssetStore_mud_ParticleFlow.prototype.destroy = function(self, a0) {
+AssetStore_mud_ParticleFlow.prototype["destroy"] = AssetStore_mud_ParticleFlow.prototype.destroy = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     _mud_AssetStore_mud_ParticleFlow_destroy_1(self, ensureString(/*name*/a0));
@@ -438,32 +438,32 @@ AssetStore_mud_Prefab.prototype.constructor = AssetStore_mud_Prefab;
 AssetStore_mud_Prefab.prototype.__class__ = AssetStore_mud_Prefab;
 AssetStore_mud_Prefab.__cache__ = {};
 Module['AssetStore_mud_Prefab'] = AssetStore_mud_Prefab;
-AssetStore_mud_Prefab.prototype["get"] = AssetStore_mud_Prefab.prototype.get = function(self, a0) {
+AssetStore_mud_Prefab.prototype["get"] = AssetStore_mud_Prefab.prototype.get = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Prefab_get_1(self, ensureString(/*name*/a0)), Prefab);
 };
-AssetStore_mud_Prefab.prototype["create"] = AssetStore_mud_Prefab.prototype.create = function(self, a0) {
+AssetStore_mud_Prefab.prototype["create"] = AssetStore_mud_Prefab.prototype.create = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Prefab_create_1(self, ensureString(/*name*/a0)), Prefab);
 };
-AssetStore_mud_Prefab.prototype["fetch"] = AssetStore_mud_Prefab.prototype.fetch = function(self, a0) {
+AssetStore_mud_Prefab.prototype["fetch"] = AssetStore_mud_Prefab.prototype.fetch = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Prefab_fetch_1(self, ensureString(/*name*/a0)), Prefab);
 };
-AssetStore_mud_Prefab.prototype["file"] = AssetStore_mud_Prefab.prototype.file = function(self, a0) {
+AssetStore_mud_Prefab.prototype["file"] = AssetStore_mud_Prefab.prototype.file = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Prefab_file_1(self, ensureString(/*name*/a0)), Prefab);
 };
-AssetStore_mud_Prefab.prototype["file_at"] = AssetStore_mud_Prefab.prototype.file_at = function(self, a0, a1) {
+AssetStore_mud_Prefab.prototype["file_at"] = AssetStore_mud_Prefab.prototype.file_at = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Prefab_file_at_2(self, ensureString(/*path*/a0), ensureString(/*name*/a1)), Prefab);
 };
-AssetStore_mud_Prefab.prototype["destroy"] = AssetStore_mud_Prefab.prototype.destroy = function(self, a0) {
+AssetStore_mud_Prefab.prototype["destroy"] = AssetStore_mud_Prefab.prototype.destroy = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     _mud_AssetStore_mud_Prefab_destroy_1(self, ensureString(/*name*/a0));
@@ -479,32 +479,32 @@ AssetStore_mud_Program.prototype.constructor = AssetStore_mud_Program;
 AssetStore_mud_Program.prototype.__class__ = AssetStore_mud_Program;
 AssetStore_mud_Program.__cache__ = {};
 Module['AssetStore_mud_Program'] = AssetStore_mud_Program;
-AssetStore_mud_Program.prototype["get"] = AssetStore_mud_Program.prototype.get = function(self, a0) {
+AssetStore_mud_Program.prototype["get"] = AssetStore_mud_Program.prototype.get = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Program_get_1(self, ensureString(/*name*/a0)), Program);
 };
-AssetStore_mud_Program.prototype["create"] = AssetStore_mud_Program.prototype.create = function(self, a0) {
+AssetStore_mud_Program.prototype["create"] = AssetStore_mud_Program.prototype.create = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Program_create_1(self, ensureString(/*name*/a0)), Program);
 };
-AssetStore_mud_Program.prototype["fetch"] = AssetStore_mud_Program.prototype.fetch = function(self, a0) {
+AssetStore_mud_Program.prototype["fetch"] = AssetStore_mud_Program.prototype.fetch = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Program_fetch_1(self, ensureString(/*name*/a0)), Program);
 };
-AssetStore_mud_Program.prototype["file"] = AssetStore_mud_Program.prototype.file = function(self, a0) {
+AssetStore_mud_Program.prototype["file"] = AssetStore_mud_Program.prototype.file = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Program_file_1(self, ensureString(/*name*/a0)), Program);
 };
-AssetStore_mud_Program.prototype["file_at"] = AssetStore_mud_Program.prototype.file_at = function(self, a0, a1) {
+AssetStore_mud_Program.prototype["file_at"] = AssetStore_mud_Program.prototype.file_at = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Program_file_at_2(self, ensureString(/*path*/a0), ensureString(/*name*/a1)), Program);
 };
-AssetStore_mud_Program.prototype["destroy"] = AssetStore_mud_Program.prototype.destroy = function(self, a0) {
+AssetStore_mud_Program.prototype["destroy"] = AssetStore_mud_Program.prototype.destroy = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     _mud_AssetStore_mud_Program_destroy_1(self, ensureString(/*name*/a0));
@@ -520,32 +520,32 @@ AssetStore_mud_Texture.prototype.constructor = AssetStore_mud_Texture;
 AssetStore_mud_Texture.prototype.__class__ = AssetStore_mud_Texture;
 AssetStore_mud_Texture.__cache__ = {};
 Module['AssetStore_mud_Texture'] = AssetStore_mud_Texture;
-AssetStore_mud_Texture.prototype["get"] = AssetStore_mud_Texture.prototype.get = function(self, a0) {
+AssetStore_mud_Texture.prototype["get"] = AssetStore_mud_Texture.prototype.get = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Texture_get_1(self, ensureString(/*name*/a0)), Texture);
 };
-AssetStore_mud_Texture.prototype["create"] = AssetStore_mud_Texture.prototype.create = function(self, a0) {
+AssetStore_mud_Texture.prototype["create"] = AssetStore_mud_Texture.prototype.create = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Texture_create_1(self, ensureString(/*name*/a0)), Texture);
 };
-AssetStore_mud_Texture.prototype["fetch"] = AssetStore_mud_Texture.prototype.fetch = function(self, a0) {
+AssetStore_mud_Texture.prototype["fetch"] = AssetStore_mud_Texture.prototype.fetch = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Texture_fetch_1(self, ensureString(/*name*/a0)), Texture);
 };
-AssetStore_mud_Texture.prototype["file"] = AssetStore_mud_Texture.prototype.file = function(self, a0) {
+AssetStore_mud_Texture.prototype["file"] = AssetStore_mud_Texture.prototype.file = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Texture_file_1(self, ensureString(/*name*/a0)), Texture);
 };
-AssetStore_mud_Texture.prototype["file_at"] = AssetStore_mud_Texture.prototype.file_at = function(self, a0, a1) {
+AssetStore_mud_Texture.prototype["file_at"] = AssetStore_mud_Texture.prototype.file_at = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
     return wrapPointer(_mud_AssetStore_mud_Texture_file_at_2(self, ensureString(/*path*/a0), ensureString(/*name*/a1)), Texture);
 };
-AssetStore_mud_Texture.prototype["destroy"] = AssetStore_mud_Texture.prototype.destroy = function(self, a0) {
+AssetStore_mud_Texture.prototype["destroy"] = AssetStore_mud_Texture.prototype.destroy = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
     _mud_AssetStore_mud_Texture_destroy_1(self, ensureString(/*name*/a0));
@@ -1330,35 +1330,35 @@ GfxSystem.prototype.constructor = GfxSystem;
 GfxSystem.prototype.__class__ = GfxSystem;
 GfxSystem.__cache__ = {};
 Module['GfxSystem'] = GfxSystem;
-GfxSystem.prototype["default_pipeline"] = GfxSystem.prototype.default_pipeline = function(self) {
+GfxSystem.prototype["default_pipeline"] = GfxSystem.prototype.default_pipeline = function() {
     var self = this.ptr;
     _mud_GfxSystem_default_pipeline_0(self);
 };
-GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(self, a0, a1) {
+GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(a0, a1) {
     var self = this.ptr;
     ensureCache.prepare();
     if (a1 === undefined) { _mud_GfxSystem_add_resource_path_1(self, ensureString(/*path*/a0)); return; }
     _mud_GfxSystem_add_resource_path_2(self, ensureString(/*path*/a0), /*relative*/a1);
 };
-GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = function(self) {
+GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = function() {
     var self = this.ptr;
     return wrapPointer(_mud_GfxSystem_debug_material_0(self), Material);
 };
-GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(self, a0, a1, a2) {
+GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(a0, a1, a2) {
     var self = this.ptr;
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_fetch_material_2(self, ensureString(/*name*/a0), ensureString(/*shader*/a1)), Material); }
     return wrapPointer(_mud_GfxSystem_fetch_material_3(self, ensureString(/*name*/a0), ensureString(/*shader*/a1), /*builtin*/a2), Material);
 };
-GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image256_material = function(self, a0) {
+GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image256_material = function(a0) {
     var self = this.ptr;
     return wrapPointer(_mud_GfxSystem_fetch_image256_material_1(self, /*image*/a0.ptr), Material);
 };
-GfxSystem.prototype["fetch_symbol"] = GfxSystem.prototype.fetch_symbol = function(self, a0, a1, a2) {
+GfxSystem.prototype["fetch_symbol"] = GfxSystem.prototype.fetch_symbol = function(a0, a1, a2) {
     var self = this.ptr;
     return wrapPointer(_mud_GfxSystem_fetch_symbol_3(self, /*symbol*/a0.ptr, /*shape*/a1.ptr, /*draw_mode*/a2), Model);
 };
-GfxSystem.prototype["fetch_symbol_material"] = GfxSystem.prototype.fetch_symbol_material = function(self, a0, a1) {
+GfxSystem.prototype["fetch_symbol_material"] = GfxSystem.prototype.fetch_symbol_material = function(a0, a1) {
     var self = this.ptr;
     return wrapPointer(_mud_GfxSystem_fetch_symbol_material_2(self, /*symbol*/a0.ptr, /*draw_mode*/a1), Material);
 };
@@ -2949,7 +2949,7 @@ Scene.prototype.constructor = Scene;
 Scene.prototype.__class__ = Scene;
 Scene.__cache__ = {};
 Module['Scene'] = Scene;
-Scene.prototype["begin"] = Scene.prototype.begin = function(self) {
+Scene.prototype["begin"] = Scene.prototype.begin = function() {
     var self = this.ptr;
     return wrapPointer(_mud_Scene_begin_0(self), Gnode);
 };

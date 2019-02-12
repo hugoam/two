@@ -22,20 +22,20 @@ Fract.prototype.constructor = Fract;
 Fract.prototype.__class__ = Fract;
 Fract.__cache__ = {};
 Module['Fract'] = Fract;
-Fract.prototype["generate"] = Fract.prototype.generate = function(self, a0) {
+Fract.prototype["generate"] = Fract.prototype.generate = function(a0) {
     var self = this.ptr;
     if (a0 === undefined) { _mud_Fract_generate_0(self); return; }
     _mud_Fract_generate_1(self, /*num_tabs*/a0);
 };
-Fract.prototype["regen"] = Fract.prototype.regen = function(self) {
+Fract.prototype["regen"] = Fract.prototype.regen = function() {
     var self = this.ptr;
     _mud_Fract_regen_0(self);
 };
-Fract.prototype["render"] = Fract.prototype.render = function(self, a0, a1, a2, a3) {
+Fract.prototype["render"] = Fract.prototype.render = function(a0, a1, a2, a3) {
     var self = this.ptr;
     _mud_Fract_render_4(self, /*rect*/a0.ptr, /*pattern*/a1.ptr, /*resolution*/a2.ptr, /*output_image*/a3.ptr);
 };
-Fract.prototype["render_whole"] = Fract.prototype.render_whole = function(self, a0, a1, a2) {
+Fract.prototype["render_whole"] = Fract.prototype.render_whole = function(a0, a1, a2) {
     var self = this.ptr;
     _mud_Fract_render_whole_3(self, /*pattern*/a0.ptr, /*resolution*/a1.ptr, /*output_image*/a2.ptr);
 };
@@ -62,7 +62,7 @@ FractSample.prototype.constructor = FractSample;
 FractSample.prototype.__class__ = FractSample;
 FractSample.__cache__ = {};
 Module['FractSample'] = FractSample;
-FractSample.prototype["render"] = FractSample.prototype.render = function(self, a0, a1) {
+FractSample.prototype["render"] = FractSample.prototype.render = function(a0, a1) {
     var self = this.ptr;
     _mud_FractSample_render_2(self, /*pattern*/a0.ptr, /*outputImage*/a1.ptr);
 };

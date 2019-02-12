@@ -123,7 +123,7 @@ Wave.prototype.constructor = Wave;
 Wave.prototype.__class__ = Wave;
 Wave.__cache__ = {};
 Module['Wave'] = Wave;
-Wave.prototype["solve"] = Wave.prototype.solve = function(self, a0) {
+Wave.prototype["solve"] = Wave.prototype.solve = function(a0) {
     var self = this.ptr;
     return _mud_Wave_solve_1(self, /*limit*/a0);
 };

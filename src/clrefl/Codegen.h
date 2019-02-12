@@ -1363,9 +1363,7 @@ namespace clgen
 		
 		auto js_signature_args = [](const CLCallable& f, size_t n)
 		{
-			vector<string> args = transform<string>(0, n, [&](size_t i) { return "a" + to_string(i); });
-			return f.m_kind == CLPrimitiveKind::Method ? merge({ "self" }, args)
-													   : args;
+			return transform<string>(0, n, [&](size_t i) { return "a" + to_string(i); });
 		};
 
 		auto js_forward_arg = [&](const CLCallable& f, const CLParam& p, size_t i)

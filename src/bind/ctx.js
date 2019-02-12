@@ -5,19 +5,19 @@ Context.prototype.constructor = Context;
 Context.prototype.__class__ = Context;
 Context.__cache__ = {};
 Module['Context'] = Context;
-Context.prototype["reset_fb"] = Context.prototype.reset_fb = function(self, a0) {
+Context.prototype["reset_fb"] = Context.prototype.reset_fb = function(a0) {
     var self = this.ptr;
     _mud_Context_reset_fb_1(self, /*size*/a0.ptr);
 };
-Context.prototype["init_input"] = Context.prototype.init_input = function(self, a0, a1) {
+Context.prototype["init_input"] = Context.prototype.init_input = function(a0, a1) {
     var self = this.ptr;
     _mud_Context_init_input_2(self, /*mouse*/a0.ptr, /*keyboard*/a1.ptr);
 };
-Context.prototype["next_frame"] = Context.prototype.next_frame = function(self) {
+Context.prototype["next_frame"] = Context.prototype.next_frame = function() {
     var self = this.ptr;
     return !!(_mud_Context_next_frame_0(self));
 };
-Context.prototype["lock_mouse"] = Context.prototype.lock_mouse = function(self, a0) {
+Context.prototype["lock_mouse"] = Context.prototype.lock_mouse = function(a0) {
     var self = this.ptr;
     _mud_Context_lock_mouse_1(self, /*locked*/a0);
 };
@@ -140,11 +140,11 @@ InputEvent.prototype.constructor = InputEvent;
 InputEvent.prototype.__class__ = InputEvent;
 InputEvent.__cache__ = {};
 Module['InputEvent'] = InputEvent;
-InputEvent.prototype["consume"] = InputEvent.prototype.consume = function(self, a0) {
+InputEvent.prototype["consume"] = InputEvent.prototype.consume = function(a0) {
     var self = this.ptr;
     return wrapPointer(_mud_InputEvent_consume_1(self, /*consumer*/a0.ptr), InputEvent);
 };
-InputEvent.prototype["valid"] = InputEvent.prototype.valid = function(self) {
+InputEvent.prototype["valid"] = InputEvent.prototype.valid = function() {
     var self = this.ptr;
     return !!(_mud_InputEvent_valid_0(self));
 };

@@ -22,24 +22,24 @@ WfcBlock.prototype.constructor = WfcBlock;
 WfcBlock.prototype.__class__ = WfcBlock;
 WfcBlock.__cache__ = {};
 Module['WfcBlock'] = WfcBlock;
-WfcBlock.prototype["reset"] = WfcBlock.prototype.reset = function(self) {
+WfcBlock.prototype["reset"] = WfcBlock.prototype.reset = function() {
     var self = this.ptr;
     _mud_WfcBlock_reset_0(self);
 };
-WfcBlock.prototype["observe"] = WfcBlock.prototype.observe = function(self) {
+WfcBlock.prototype["observe"] = WfcBlock.prototype.observe = function() {
     var self = this.ptr;
     _mud_WfcBlock_observe_0(self);
 };
-WfcBlock.prototype["propagate"] = WfcBlock.prototype.propagate = function(self) {
+WfcBlock.prototype["propagate"] = WfcBlock.prototype.propagate = function() {
     var self = this.ptr;
     _mud_WfcBlock_propagate_0(self);
 };
-WfcBlock.prototype["solve"] = WfcBlock.prototype.solve = function(self, a0) {
+WfcBlock.prototype["solve"] = WfcBlock.prototype.solve = function(a0) {
     var self = this.ptr;
     if (a0 === undefined) { _mud_WfcBlock_solve_0(self); return; }
     _mud_WfcBlock_solve_1(self, /*limit*/a0);
 };
-WfcBlock.prototype["update"] = WfcBlock.prototype.update = function(self, a0) {
+WfcBlock.prototype["update"] = WfcBlock.prototype.update = function(a0) {
     var self = this.ptr;
     _mud_WfcBlock_update_1(self, /*wave*/a0.ptr);
 };
