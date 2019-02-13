@@ -72,15 +72,13 @@ extern "C" {
 		return &self->m_fract;
 	}
 	mud::Rect* DECL mud_FractSample__get_rect(mud::FractSample* self) {
-		static mud::Rect temp;
-		return (temp = self->m_rect, &temp);
+		return &self->m_rect;
 	}
 	void DECL mud_FractSample__set_rect(mud::FractSample* self, mud::Rect* value) {
 		self->m_rect = *value;
 	}
 	mud::uvec2* DECL mud_FractSample__get_resolution(mud::FractSample* self) {
-		static mud::uvec2 temp;
-		return (temp = self->m_resolution, &temp);
+		return &self->m_resolution;
 	}
 	void DECL mud_FractSample__set_resolution(mud::FractSample* self, mud::uvec2* value) {
 		self->m_resolution = *value;

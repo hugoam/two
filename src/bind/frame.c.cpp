@@ -50,8 +50,7 @@ extern "C" {
 		return &self->m_gfx_system;
 	}
 	mud::ShellContext* DECL mud_Shell__get_editor(mud::Shell* self) {
-		static mud::ShellContext temp;
-		return (temp = self->m_editor, &temp);
+		return &self->m_editor;
 	}
 	void DECL mud_Shell__set_editor(mud::Shell* self, mud::ShellContext* value) {
 		self->m_editor = *value;

@@ -64,29 +64,25 @@ extern "C" {
 		self->update(*wave);
 	}
 	mud::vec3* DECL mud_WfcBlock__get_position(mud::WfcBlock* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_position, &temp);
+		return &self->m_position;
 	}
 	void DECL mud_WfcBlock__set_position(mud::WfcBlock* self, mud::vec3* value) {
 		self->m_position = *value;
 	}
 	mud::uvec3* DECL mud_WfcBlock__get_size(mud::WfcBlock* self) {
-		static mud::uvec3 temp;
-		return (temp = self->m_size, &temp);
+		return &self->m_size;
 	}
 	void DECL mud_WfcBlock__set_size(mud::WfcBlock* self, mud::uvec3* value) {
 		self->m_size = *value;
 	}
 	mud::vec3* DECL mud_WfcBlock__get_scale(mud::WfcBlock* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_scale, &temp);
+		return &self->m_scale;
 	}
 	void DECL mud_WfcBlock__set_scale(mud::WfcBlock* self, mud::vec3* value) {
 		self->m_scale = *value;
 	}
 	mud::Aabb* DECL mud_WfcBlock__get_aabb(mud::WfcBlock* self) {
-		static mud::Aabb temp;
-		return (temp = self->m_aabb, &temp);
+		return &self->m_aabb;
 	}
 	void DECL mud_WfcBlock__set_aabb(mud::WfcBlock* self, mud::Aabb* value) {
 		self->m_aabb = *value;

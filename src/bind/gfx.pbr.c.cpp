@@ -212,15 +212,13 @@ extern "C" {
 		self->m_enabled = value;
 	}
 	mud::vec4* DECL mud_Glow__get_levels_1_4(mud::Glow* self) {
-		static mud::vec4 temp;
-		return (temp = self->m_levels_1_4, &temp);
+		return &self->m_levels_1_4;
 	}
 	void DECL mud_Glow__set_levels_1_4(mud::Glow* self, mud::vec4* value) {
 		self->m_levels_1_4 = *value;
 	}
 	mud::vec4* DECL mud_Glow__get_levels_5_8(mud::Glow* self) {
-		static mud::vec4 temp;
-		return (temp = self->m_levels_5_8, &temp);
+		return &self->m_levels_5_8;
 	}
 	void DECL mud_Glow__set_levels_5_8(mud::Glow* self, mud::vec4* value) {
 		self->m_levels_5_8 = *value;
@@ -309,8 +307,7 @@ extern "C" {
 		self->m_intensity = value;
 	}
 	mud::vec3* DECL mud_ReflectionProbe__get_extents(mud::ReflectionProbe* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_extents, &temp);
+		return &self->m_extents;
 	}
 	void DECL mud_ReflectionProbe__set_extents(mud::ReflectionProbe* self, mud::vec3* value) {
 		self->m_extents = *value;

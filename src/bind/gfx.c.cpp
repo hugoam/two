@@ -392,8 +392,7 @@ extern "C" {
 		self->m_mode = value;
 	}
 	mud::Colour* DECL mud_Background__get_colour(mud::Background* self) {
-		static mud::Colour temp;
-		return (temp = self->m_colour, &temp);
+		return &self->m_colour;
 	}
 	void DECL mud_Background__set_colour(mud::Background* self, mud::Colour* value) {
 		self->m_colour = *value;
@@ -439,29 +438,25 @@ extern "C" {
 		self->m_depth_test = value;
 	}
 	mud::vec2* DECL mud_BaseMaterialBlock__get_uv0_scale(mud::BaseMaterialBlock* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_uv0_scale, &temp);
+		return &self->m_uv0_scale;
 	}
 	void DECL mud_BaseMaterialBlock__set_uv0_scale(mud::BaseMaterialBlock* self, mud::vec2* value) {
 		self->m_uv0_scale = *value;
 	}
 	mud::vec2* DECL mud_BaseMaterialBlock__get_uv0_offset(mud::BaseMaterialBlock* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_uv0_offset, &temp);
+		return &self->m_uv0_offset;
 	}
 	void DECL mud_BaseMaterialBlock__set_uv0_offset(mud::BaseMaterialBlock* self, mud::vec2* value) {
 		self->m_uv0_offset = *value;
 	}
 	mud::vec2* DECL mud_BaseMaterialBlock__get_uv1_scale(mud::BaseMaterialBlock* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_uv1_scale, &temp);
+		return &self->m_uv1_scale;
 	}
 	void DECL mud_BaseMaterialBlock__set_uv1_scale(mud::BaseMaterialBlock* self, mud::vec2* value) {
 		self->m_uv1_scale = *value;
 	}
 	mud::vec2* DECL mud_BaseMaterialBlock__get_uv1_offset(mud::BaseMaterialBlock* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_uv1_offset, &temp);
+		return &self->m_uv1_offset;
 	}
 	void DECL mud_BaseMaterialBlock__set_uv1_offset(mud::BaseMaterialBlock* self, mud::vec2* value) {
 		self->m_uv1_offset = *value;
@@ -489,22 +484,19 @@ extern "C" {
 		return new mud::Bone();
 	}
 	mud::vec3* DECL mud_Bone__get_position(mud::Bone* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_position, &temp);
+		return &self->m_position;
 	}
 	void DECL mud_Bone__set_position(mud::Bone* self, mud::vec3* value) {
 		self->m_position = *value;
 	}
 	mud::quat* DECL mud_Bone__get_rotation(mud::Bone* self) {
-		static mud::quat temp;
-		return (temp = self->m_rotation, &temp);
+		return &self->m_rotation;
 	}
 	void DECL mud_Bone__set_rotation(mud::Bone* self, mud::quat* value) {
 		self->m_rotation = *value;
 	}
 	mud::vec3* DECL mud_Bone__get_scale(mud::Bone* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_scale, &temp);
+		return &self->m_scale;
 	}
 	void DECL mud_Bone__set_scale(mud::Bone* self, mud::vec3* value) {
 		self->m_scale = *value;
@@ -517,29 +509,25 @@ extern "C" {
 		return &mud::type<mud::Camera>();
 	}
 	mud::vec3* DECL mud_Camera__get_eye(mud::Camera* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_eye, &temp);
+		return &self->m_eye;
 	}
 	void DECL mud_Camera__set_eye(mud::Camera* self, mud::vec3* value) {
 		self->m_eye = *value;
 	}
 	mud::vec3* DECL mud_Camera__get_target(mud::Camera* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_target, &temp);
+		return &self->m_target;
 	}
 	void DECL mud_Camera__set_target(mud::Camera* self, mud::vec3* value) {
 		self->m_target = *value;
 	}
 	mud::mat4* DECL mud_Camera__get_transform(mud::Camera* self) {
-		static mud::mat4 temp;
-		return (temp = self->m_transform, &temp);
+		return &self->m_transform;
 	}
 	void DECL mud_Camera__set_transform(mud::Camera* self, mud::mat4* value) {
 		self->m_transform = *value;
 	}
 	mud::mat4* DECL mud_Camera__get_projection(mud::Camera* self) {
-		static mud::mat4 temp;
-		return (temp = self->m_projection, &temp);
+		return &self->m_projection;
 	}
 	void DECL mud_Camera__set_projection(mud::Camera* self, mud::mat4* value) {
 		self->m_projection = *value;
@@ -593,8 +581,7 @@ extern "C" {
 		self->m_clustered = value;
 	}
 	mud::vec4* DECL mud_Camera__get_lod_offsets(mud::Camera* self) {
-		static mud::vec4 temp;
-		return (temp = self->m_lod_offsets, &temp);
+		return &self->m_lod_offsets;
 	}
 	void DECL mud_Camera__set_lod_offsets(mud::Camera* self, mud::vec4* value) {
 		self->m_lod_offsets = *value;
@@ -633,29 +620,25 @@ extern "C" {
 		return new mud::Environment();
 	}
 	mud::Background* DECL mud_Environment__get_background(mud::Environment* self) {
-		static mud::Background temp;
-		return (temp = self->m_background, &temp);
+		return &self->m_background;
 	}
 	void DECL mud_Environment__set_background(mud::Environment* self, mud::Background* value) {
 		self->m_background = *value;
 	}
 	mud::Radiance* DECL mud_Environment__get_radiance(mud::Environment* self) {
-		static mud::Radiance temp;
-		return (temp = self->m_radiance, &temp);
+		return &self->m_radiance;
 	}
 	void DECL mud_Environment__set_radiance(mud::Environment* self, mud::Radiance* value) {
 		self->m_radiance = *value;
 	}
 	mud::Sun* DECL mud_Environment__get_sun(mud::Environment* self) {
-		static mud::Sun temp;
-		return (temp = self->m_sun, &temp);
+		return &self->m_sun;
 	}
 	void DECL mud_Environment__set_sun(mud::Environment* self, mud::Sun* value) {
 		self->m_sun = *value;
 	}
 	mud::Fog* DECL mud_Environment__get_fog(mud::Environment* self) {
-		static mud::Fog temp;
-		return (temp = self->m_fog, &temp);
+		return &self->m_fog;
 	}
 	void DECL mud_Environment__set_fog(mud::Environment* self, mud::Fog* value) {
 		self->m_fog = *value;
@@ -690,8 +673,7 @@ extern "C" {
 		self->m_density = value;
 	}
 	mud::Colour* DECL mud_Fog__get_colour(mud::Fog* self) {
-		static mud::Colour temp;
-		return (temp = self->m_colour, &temp);
+		return &self->m_colour;
 	}
 	void DECL mud_Fog__set_colour(mud::Fog* self, mud::Colour* value) {
 		self->m_colour = *value;
@@ -774,8 +756,7 @@ extern "C" {
 		self->m_enabled = value;
 	}
 	mud::MaterialParam<mud::Colour>* DECL mud_FresnelMaterialBlock__get_value(mud::FresnelMaterialBlock* self) {
-		static mud::MaterialParam<mud::Colour> temp;
-		return (temp = self->m_value, &temp);
+		return &self->m_value;
 	}
 	void DECL mud_FresnelMaterialBlock__set_value(mud::FresnelMaterialBlock* self, mud::MaterialParam<mud::Colour>* value) {
 		self->m_value = *value;
@@ -830,8 +811,7 @@ extern "C" {
 		self->m_far = value;
 	}
 	mud::vec3* DECL mud_Frustum__get_center(mud::Frustum* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_center, &temp);
+		return &self->m_center;
 	}
 	void DECL mud_Frustum__set_center(mud::Frustum* self, mud::vec3* value) {
 		self->m_center = *value;
@@ -961,29 +941,25 @@ extern "C" {
 		self->m_format = value;
 	}
 	mud::vec3* DECL mud_ImportConfig__get_position(mud::ImportConfig* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_position, &temp);
+		return &self->m_position;
 	}
 	void DECL mud_ImportConfig__set_position(mud::ImportConfig* self, mud::vec3* value) {
 		self->m_position = *value;
 	}
 	mud::quat* DECL mud_ImportConfig__get_rotation(mud::ImportConfig* self) {
-		static mud::quat temp;
-		return (temp = self->m_rotation, &temp);
+		return &self->m_rotation;
 	}
 	void DECL mud_ImportConfig__set_rotation(mud::ImportConfig* self, mud::quat* value) {
 		self->m_rotation = *value;
 	}
 	mud::vec3* DECL mud_ImportConfig__get_scale(mud::ImportConfig* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_scale, &temp);
+		return &self->m_scale;
 	}
 	void DECL mud_ImportConfig__set_scale(mud::ImportConfig* self, mud::vec3* value) {
 		self->m_scale = *value;
 	}
 	mud::mat4* DECL mud_ImportConfig__get_transform(mud::ImportConfig* self) {
-		static mud::mat4 temp;
-		return (temp = self->m_transform, &temp);
+		return &self->m_transform;
 	}
 	void DECL mud_ImportConfig__set_transform(mud::ImportConfig* self, mud::mat4* value) {
 		self->m_transform = *value;
@@ -1044,8 +1020,7 @@ extern "C" {
 		self->m_flags = value;
 	}
 	mud::Colour* DECL mud_Item__get_colour(mud::Item* self) {
-		static mud::Colour temp;
-		return (temp = self->m_colour, &temp);
+		return &self->m_colour;
 	}
 	void DECL mud_Item__set_colour(mud::Item* self, mud::Colour* value) {
 		self->m_colour = *value;
@@ -1107,8 +1082,7 @@ extern "C" {
 		self->m_visible = value;
 	}
 	mud::Colour* DECL mud_Light__get_colour(mud::Light* self) {
-		static mud::Colour temp;
-		return (temp = self->m_colour, &temp);
+		return &self->m_colour;
 	}
 	void DECL mud_Light__set_colour(mud::Light* self, mud::Colour* value) {
 		self->m_colour = *value;
@@ -1144,8 +1118,7 @@ extern "C" {
 		self->m_shadows = value;
 	}
 	mud::Colour* DECL mud_Light__get_shadow_colour(mud::Light* self) {
-		static mud::Colour temp;
-		return (temp = self->m_shadow_colour, &temp);
+		return &self->m_shadow_colour;
 	}
 	void DECL mud_Light__set_shadow_colour(mud::Light* self, mud::Colour* value) {
 		self->m_shadow_colour = *value;
@@ -1248,29 +1221,25 @@ extern "C" {
 		self->m_program = value;
 	}
 	mud::BaseMaterialBlock* DECL mud_Material__get_base_block(mud::Material* self) {
-		static mud::BaseMaterialBlock temp;
-		return (temp = self->m_base_block, &temp);
+		return &self->m_base_block;
 	}
 	void DECL mud_Material__set_base_block(mud::Material* self, mud::BaseMaterialBlock* value) {
 		self->m_base_block = *value;
 	}
 	mud::UnshadedMaterialBlock* DECL mud_Material__get_unshaded_block(mud::Material* self) {
-		static mud::UnshadedMaterialBlock temp;
-		return (temp = self->m_unshaded_block, &temp);
+		return &self->m_unshaded_block;
 	}
 	void DECL mud_Material__set_unshaded_block(mud::Material* self, mud::UnshadedMaterialBlock* value) {
 		self->m_unshaded_block = *value;
 	}
 	mud::PbrMaterialBlock* DECL mud_Material__get_pbr_block(mud::Material* self) {
-		static mud::PbrMaterialBlock temp;
-		return (temp = self->m_pbr_block, &temp);
+		return &self->m_pbr_block;
 	}
 	void DECL mud_Material__set_pbr_block(mud::Material* self, mud::PbrMaterialBlock* value) {
 		self->m_pbr_block = *value;
 	}
 	mud::FresnelMaterialBlock* DECL mud_Material__get_fresnel_block(mud::Material* self) {
-		static mud::FresnelMaterialBlock temp;
-		return (temp = self->m_fresnel_block, &temp);
+		return &self->m_fresnel_block;
 	}
 	void DECL mud_Material__set_fresnel_block(mud::Material* self, mud::FresnelMaterialBlock* value) {
 		self->m_fresnel_block = *value;
@@ -1314,8 +1283,7 @@ extern "C" {
 		return new mud::MaterialParam<mud::Colour>();
 	}
 	mud::Colour* DECL mud_MaterialParam_mud_Colour__get_value(mud::MaterialParam<mud::Colour>* self) {
-		static mud::Colour temp;
-		return (temp = self->m_value, &temp);
+		return &self->m_value;
 	}
 	void DECL mud_MaterialParam_mud_Colour__set_value(mud::MaterialParam<mud::Colour>* self, mud::Colour* value) {
 		self->m_value = *value;
@@ -1358,8 +1326,7 @@ extern "C" {
 		self->m_draw_mode = value;
 	}
 	mud::Aabb* DECL mud_Mesh__get_aabb(mud::Mesh* self) {
-		static mud::Aabb temp;
-		return (temp = self->m_aabb, &temp);
+		return &self->m_aabb;
 	}
 	void DECL mud_Mesh__set_aabb(mud::Mesh* self, mud::Aabb* value) {
 		self->m_aabb = *value;
@@ -1371,8 +1338,7 @@ extern "C" {
 		self->m_radius = value;
 	}
 	mud::vec3* DECL mud_Mesh__get_origin(mud::Mesh* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_origin, &temp);
+		return &self->m_origin;
 	}
 	void DECL mud_Mesh__set_origin(mud::Mesh* self, mud::vec3* value) {
 		self->m_origin = *value;
@@ -1439,8 +1405,7 @@ extern "C" {
 		self->m_index = value;
 	}
 	mud::Aabb* DECL mud_Model__get_aabb(mud::Model* self) {
-		static mud::Aabb temp;
-		return (temp = self->m_aabb, &temp);
+		return &self->m_aabb;
 	}
 	void DECL mud_Model__set_aabb(mud::Model* self, mud::Aabb* value) {
 		self->m_aabb = *value;
@@ -1452,8 +1417,7 @@ extern "C" {
 		self->m_radius = value;
 	}
 	mud::vec3* DECL mud_Model__get_origin(mud::Model* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_origin, &temp);
+		return &self->m_origin;
 	}
 	void DECL mud_Model__set_origin(mud::Model* self, mud::vec3* value) {
 		self->m_origin = *value;
@@ -1487,8 +1451,7 @@ extern "C" {
 		self->m_has_transform = value;
 	}
 	mud::mat4* DECL mud_ModelItem__get_transform(mud::ModelItem* self) {
-		static mud::mat4 temp;
-		return (temp = self->m_transform, &temp);
+		return &self->m_transform;
 	}
 	void DECL mud_ModelItem__set_transform(mud::ModelItem* self, mud::mat4* value) {
 		self->m_transform = *value;
@@ -1500,8 +1463,7 @@ extern "C" {
 		self->m_skin = value;
 	}
 	mud::Colour* DECL mud_ModelItem__get_colour(mud::ModelItem* self) {
-		static mud::Colour temp;
-		return (temp = self->m_colour, &temp);
+		return &self->m_colour;
 	}
 	void DECL mud_ModelItem__set_colour(mud::ModelItem* self, mud::Colour* value) {
 		self->m_colour = *value;
@@ -1532,8 +1494,7 @@ extern "C" {
 		self->m_index = value;
 	}
 	mud::mat4* DECL mud_Node3__get_transform(mud::Node3* self) {
-		static mud::mat4 temp;
-		return (temp = self->m_transform, &temp);
+		return &self->m_transform;
 	}
 	void DECL mud_Node3__set_transform(mud::Node3* self, mud::mat4* value) {
 		self->m_transform = *value;
@@ -1579,8 +1540,7 @@ extern "C" {
 		self->m_loop = value;
 	}
 	mud::ShapeVar* DECL mud_ParticleFlow__get_shape(mud::ParticleFlow* self) {
-		static mud::ShapeVar temp;
-		return (temp = self->m_shape, &temp);
+		return &self->m_shape;
 	}
 	void DECL mud_ParticleFlow__set_shape(mud::ParticleFlow* self, mud::ShapeVar* value) {
 		self->m_shape = *value;
@@ -1598,15 +1558,13 @@ extern "C" {
 		self->m_billboard = value;
 	}
 	mud::vec3* DECL mud_ParticleFlow__get_direction(mud::ParticleFlow* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_direction, &temp);
+		return &self->m_direction;
 	}
 	void DECL mud_ParticleFlow__set_direction(mud::ParticleFlow* self, mud::vec3* value) {
 		self->m_direction = *value;
 	}
 	mud::quat* DECL mud_ParticleFlow__get_rotation(mud::ParticleFlow* self) {
-		static mud::quat temp;
-		return (temp = self->m_rotation, &temp);
+		return &self->m_rotation;
 	}
 	void DECL mud_ParticleFlow__set_rotation(mud::ParticleFlow* self, mud::quat* value) {
 		self->m_rotation = *value;
@@ -1618,71 +1576,61 @@ extern "C" {
 		self->m_blend_mode = value;
 	}
 	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_volume(mud::ParticleFlow* self) {
-		static mud::ValueTrack<float> temp;
-		return (temp = self->m_volume, &temp);
+		return &self->m_volume;
 	}
 	void DECL mud_ParticleFlow__set_volume(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
 		self->m_volume = *value;
 	}
 	mud::ValueTrack<uint32_t>* DECL mud_ParticleFlow__get_rate(mud::ParticleFlow* self) {
-		static mud::ValueTrack<uint32_t> temp;
-		return (temp = self->m_rate, &temp);
+		return &self->m_rate;
 	}
 	void DECL mud_ParticleFlow__set_rate(mud::ParticleFlow* self, mud::ValueTrack<uint32_t>* value) {
 		self->m_rate = *value;
 	}
 	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_lifetime(mud::ParticleFlow* self) {
-		static mud::ValueTrack<float> temp;
-		return (temp = self->m_lifetime, &temp);
+		return &self->m_lifetime;
 	}
 	void DECL mud_ParticleFlow__set_lifetime(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
 		self->m_lifetime = *value;
 	}
 	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_gravity(mud::ParticleFlow* self) {
-		static mud::ValueTrack<float> temp;
-		return (temp = self->m_gravity, &temp);
+		return &self->m_gravity;
 	}
 	void DECL mud_ParticleFlow__set_gravity(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
 		self->m_gravity = *value;
 	}
 	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_speed(mud::ParticleFlow* self) {
-		static mud::ValueTrack<float> temp;
-		return (temp = self->m_speed, &temp);
+		return &self->m_speed;
 	}
 	void DECL mud_ParticleFlow__set_speed(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
 		self->m_speed = *value;
 	}
 	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_angle(mud::ParticleFlow* self) {
-		static mud::ValueTrack<float> temp;
-		return (temp = self->m_angle, &temp);
+		return &self->m_angle;
 	}
 	void DECL mud_ParticleFlow__set_angle(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
 		self->m_angle = *value;
 	}
 	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_blend(mud::ParticleFlow* self) {
-		static mud::ValueTrack<float> temp;
-		return (temp = self->m_blend, &temp);
+		return &self->m_blend;
 	}
 	void DECL mud_ParticleFlow__set_blend(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
 		self->m_blend = *value;
 	}
 	mud::ValueTrack<mud::Colour>* DECL mud_ParticleFlow__get_colour(mud::ParticleFlow* self) {
-		static mud::ValueTrack<mud::Colour> temp;
-		return (temp = self->m_colour, &temp);
+		return &self->m_colour;
 	}
 	void DECL mud_ParticleFlow__set_colour(mud::ParticleFlow* self, mud::ValueTrack<mud::Colour>* value) {
 		self->m_colour = *value;
 	}
 	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_scale(mud::ParticleFlow* self) {
-		static mud::ValueTrack<float> temp;
-		return (temp = self->m_scale, &temp);
+		return &self->m_scale;
 	}
 	void DECL mud_ParticleFlow__set_scale(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
 		self->m_scale = *value;
 	}
 	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_sprite_frame(mud::ParticleFlow* self) {
-		static mud::ValueTrack<float> temp;
-		return (temp = self->m_sprite_frame, &temp);
+		return &self->m_sprite_frame;
 	}
 	void DECL mud_ParticleFlow__set_sprite_frame(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
 		self->m_sprite_frame = *value;
@@ -1719,8 +1667,7 @@ extern "C" {
 		self->m_enabled = value;
 	}
 	mud::MaterialParam<mud::Colour>* DECL mud_PbrMaterialBlock__get_albedo(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<mud::Colour> temp;
-		return (temp = self->m_albedo, &temp);
+		return &self->m_albedo;
 	}
 	void DECL mud_PbrMaterialBlock__set_albedo(mud::PbrMaterialBlock* self, mud::MaterialParam<mud::Colour>* value) {
 		self->m_albedo = *value;
@@ -1732,22 +1679,19 @@ extern "C" {
 		self->m_specular = value;
 	}
 	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_metallic(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<float> temp;
-		return (temp = self->m_metallic, &temp);
+		return &self->m_metallic;
 	}
 	void DECL mud_PbrMaterialBlock__set_metallic(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
 		self->m_metallic = *value;
 	}
 	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_roughness(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<float> temp;
-		return (temp = self->m_roughness, &temp);
+		return &self->m_roughness;
 	}
 	void DECL mud_PbrMaterialBlock__set_roughness(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
 		self->m_roughness = *value;
 	}
 	mud::MaterialParam<mud::Colour>* DECL mud_PbrMaterialBlock__get_emissive(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<mud::Colour> temp;
-		return (temp = self->m_emissive, &temp);
+		return &self->m_emissive;
 	}
 	void DECL mud_PbrMaterialBlock__set_emissive(mud::PbrMaterialBlock* self, mud::MaterialParam<mud::Colour>* value) {
 		self->m_emissive = *value;
@@ -1759,15 +1703,13 @@ extern "C" {
 		self->m_emissive_energy = value;
 	}
 	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_normal(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<float> temp;
-		return (temp = self->m_normal, &temp);
+		return &self->m_normal;
 	}
 	void DECL mud_PbrMaterialBlock__set_normal(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
 		self->m_normal = *value;
 	}
 	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_rim(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<float> temp;
-		return (temp = self->m_rim, &temp);
+		return &self->m_rim;
 	}
 	void DECL mud_PbrMaterialBlock__set_rim(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
 		self->m_rim = *value;
@@ -1779,8 +1721,7 @@ extern "C" {
 		self->m_rim_tint = value;
 	}
 	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_clearcoat(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<float> temp;
-		return (temp = self->m_clearcoat, &temp);
+		return &self->m_clearcoat;
 	}
 	void DECL mud_PbrMaterialBlock__set_clearcoat(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
 		self->m_clearcoat = *value;
@@ -1792,43 +1733,37 @@ extern "C" {
 		self->m_clearcoat_gloss = value;
 	}
 	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_anisotropy(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<float> temp;
-		return (temp = self->m_anisotropy, &temp);
+		return &self->m_anisotropy;
 	}
 	void DECL mud_PbrMaterialBlock__set_anisotropy(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
 		self->m_anisotropy = *value;
 	}
 	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_subsurface(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<float> temp;
-		return (temp = self->m_subsurface, &temp);
+		return &self->m_subsurface;
 	}
 	void DECL mud_PbrMaterialBlock__set_subsurface(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
 		self->m_subsurface = *value;
 	}
 	mud::MaterialParam<mud::Colour>* DECL mud_PbrMaterialBlock__get_transmission(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<mud::Colour> temp;
-		return (temp = self->m_transmission, &temp);
+		return &self->m_transmission;
 	}
 	void DECL mud_PbrMaterialBlock__set_transmission(mud::PbrMaterialBlock* self, mud::MaterialParam<mud::Colour>* value) {
 		self->m_transmission = *value;
 	}
 	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_refraction(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<float> temp;
-		return (temp = self->m_refraction, &temp);
+		return &self->m_refraction;
 	}
 	void DECL mud_PbrMaterialBlock__set_refraction(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
 		self->m_refraction = *value;
 	}
 	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_ambient_occlusion(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<float> temp;
-		return (temp = self->m_ambient_occlusion, &temp);
+		return &self->m_ambient_occlusion;
 	}
 	void DECL mud_PbrMaterialBlock__set_ambient_occlusion(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
 		self->m_ambient_occlusion = *value;
 	}
 	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_depth(mud::PbrMaterialBlock* self) {
-		static mud::MaterialParam<float> temp;
-		return (temp = self->m_depth, &temp);
+		return &self->m_depth;
 	}
 	void DECL mud_PbrMaterialBlock__set_depth(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
 		self->m_depth = *value;
@@ -1897,8 +1832,7 @@ extern "C" {
 		self->m_ambient = value;
 	}
 	mud::Colour* DECL mud_Radiance__get_colour(mud::Radiance* self) {
-		static mud::Colour temp;
-		return (temp = self->m_colour, &temp);
+		return &self->m_colour;
 	}
 	void DECL mud_Radiance__set_colour(mud::Radiance* self, mud::Colour* value) {
 		self->m_colour = *value;
@@ -1956,15 +1890,13 @@ extern "C" {
 		return &self->m_root_node;
 	}
 	mud::Environment* DECL mud_Scene__get_environment(mud::Scene* self) {
-		static mud::Environment temp;
-		return (temp = self->m_environment, &temp);
+		return &self->m_environment;
 	}
 	void DECL mud_Scene__set_environment(mud::Scene* self, mud::Environment* value) {
 		self->m_environment = *value;
 	}
 	mud::Ref* DECL mud_Scene__get_user(mud::Scene* self) {
-		static mud::Ref temp;
-		return (temp = self->m_user, &temp);
+		return &self->m_user;
 	}
 	void DECL mud_Scene__set_user(mud::Scene* self, mud::Ref* value) {
 		self->m_user = *value;
@@ -2013,8 +1945,7 @@ extern "C" {
 		self->elevation = value;
 	}
 	mud::Colour* DECL mud_Sun__get_colour(mud::Sun* self) {
-		static mud::Colour temp;
-		return (temp = self->m_colour, &temp);
+		return &self->m_colour;
 	}
 	void DECL mud_Sun__set_colour(mud::Sun* self, mud::Colour* value) {
 		self->m_colour = *value;
@@ -2080,8 +2011,7 @@ extern "C" {
 		self->m_enabled = value;
 	}
 	mud::MaterialParam<mud::Colour>* DECL mud_UnshadedMaterialBlock__get_colour(mud::UnshadedMaterialBlock* self) {
-		static mud::MaterialParam<mud::Colour> temp;
-		return (temp = self->m_colour, &temp);
+		return &self->m_colour;
 	}
 	void DECL mud_UnshadedMaterialBlock__set_colour(mud::UnshadedMaterialBlock* self, mud::MaterialParam<mud::Colour>* value) {
 		self->m_colour = *value;
@@ -2118,8 +2048,7 @@ extern "C" {
 		self->m_active = value;
 	}
 	mud::uvec4* DECL mud_Viewport__get_rect(mud::Viewport* self) {
-		static mud::uvec4 temp;
-		return (temp = self->m_rect, &temp);
+		return &self->m_rect;
 	}
 	void DECL mud_Viewport__set_rect(mud::Viewport* self, mud::uvec4* value) {
 		self->m_rect = *value;
@@ -2131,8 +2060,7 @@ extern "C" {
 		self->m_scissor = value;
 	}
 	mud::Colour* DECL mud_Viewport__get_clear_colour(mud::Viewport* self) {
-		static mud::Colour temp;
-		return (temp = self->m_clear_colour, &temp);
+		return &self->m_clear_colour;
 	}
 	void DECL mud_Viewport__set_clear_colour(mud::Viewport* self, mud::Colour* value) {
 		self->m_clear_colour = *value;

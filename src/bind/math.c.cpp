@@ -141,8 +141,7 @@ extern "C" {
 		self->m_height = value;
 	}
 	mud::Palette* DECL mud_Image256__get_palette(mud::Image256* self) {
-		static mud::Palette temp;
-		return (temp = self->m_palette, &temp);
+		return &self->m_palette;
 	}
 	void DECL mud_Image256__set_palette(mud::Image256* self, mud::Palette* value) {
 		self->m_palette = *value;
@@ -203,15 +202,13 @@ extern "C" {
 		return new mud::Range<mud::Colour>();
 	}
 	mud::Colour* DECL mud_Range_mud_Colour__get_min(mud::Range<mud::Colour>* self) {
-		static mud::Colour temp;
-		return (temp = self->m_min, &temp);
+		return &self->m_min;
 	}
 	void DECL mud_Range_mud_Colour__set_min(mud::Range<mud::Colour>* self, mud::Colour* value) {
 		self->m_min = *value;
 	}
 	mud::Colour* DECL mud_Range_mud_Colour__get_max(mud::Range<mud::Colour>* self) {
-		static mud::Colour temp;
-		return (temp = self->m_max, &temp);
+		return &self->m_max;
 	}
 	void DECL mud_Range_mud_Colour__set_max(mud::Range<mud::Colour>* self, mud::Colour* value) {
 		self->m_max = *value;
@@ -227,15 +224,13 @@ extern "C" {
 		return new mud::Range<mud::quat>();
 	}
 	mud::quat* DECL mud_Range_mud_quat__get_min(mud::Range<mud::quat>* self) {
-		static mud::quat temp;
-		return (temp = self->m_min, &temp);
+		return &self->m_min;
 	}
 	void DECL mud_Range_mud_quat__set_min(mud::Range<mud::quat>* self, mud::quat* value) {
 		self->m_min = *value;
 	}
 	mud::quat* DECL mud_Range_mud_quat__get_max(mud::Range<mud::quat>* self) {
-		static mud::quat temp;
-		return (temp = self->m_max, &temp);
+		return &self->m_max;
 	}
 	void DECL mud_Range_mud_quat__set_max(mud::Range<mud::quat>* self, mud::quat* value) {
 		self->m_max = *value;
@@ -251,15 +246,13 @@ extern "C" {
 		return new mud::Range<mud::vec3>();
 	}
 	mud::vec3* DECL mud_Range_mud_vec3__get_min(mud::Range<mud::vec3>* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_min, &temp);
+		return &self->m_min;
 	}
 	void DECL mud_Range_mud_vec3__set_min(mud::Range<mud::vec3>* self, mud::vec3* value) {
 		self->m_min = *value;
 	}
 	mud::vec3* DECL mud_Range_mud_vec3__get_max(mud::Range<mud::vec3>* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_max, &temp);
+		return &self->m_max;
 	}
 	void DECL mud_Range_mud_vec3__set_max(mud::Range<mud::vec3>* self, mud::vec3* value) {
 		self->m_max = *value;
@@ -313,15 +306,13 @@ extern "C" {
 		return new mud::TimeSpan(*s, *e);
 	}
 	mud::Time* DECL mud_TimeSpan__get_start(mud::TimeSpan* self) {
-		static mud::Time temp;
-		return (temp = self->start, &temp);
+		return &self->start;
 	}
 	void DECL mud_TimeSpan__set_start(mud::TimeSpan* self, mud::Time* value) {
 		self->start = *value;
 	}
 	mud::Time* DECL mud_TimeSpan__get_end(mud::TimeSpan* self) {
-		static mud::Time temp;
-		return (temp = self->end, &temp);
+		return &self->end;
 	}
 	void DECL mud_TimeSpan__set_end(mud::TimeSpan* self, mud::Time* value) {
 		self->end = *value;
@@ -337,22 +328,19 @@ extern "C" {
 		return new mud::Transform();
 	}
 	mud::vec3* DECL mud_Transform__get_position(mud::Transform* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_position, &temp);
+		return &self->m_position;
 	}
 	void DECL mud_Transform__set_position(mud::Transform* self, mud::vec3* value) {
 		self->m_position = *value;
 	}
 	mud::quat* DECL mud_Transform__get_rotation(mud::Transform* self) {
-		static mud::quat temp;
-		return (temp = self->m_rotation, &temp);
+		return &self->m_rotation;
 	}
 	void DECL mud_Transform__set_rotation(mud::Transform* self, mud::quat* value) {
 		self->m_rotation = *value;
 	}
 	mud::vec3* DECL mud_Transform__get_scale(mud::Transform* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_scale, &temp);
+		return &self->m_scale;
 	}
 	void DECL mud_Transform__set_scale(mud::Transform* self, mud::vec3* value) {
 		self->m_scale = *value;
@@ -460,22 +448,19 @@ extern "C" {
 		self->m_max = value;
 	}
 	mud::ValueCurve<float>* DECL mud_ValueTrack_float__get_curve(mud::ValueTrack<float>* self) {
-		static mud::ValueCurve<float> temp;
-		return (temp = self->m_curve, &temp);
+		return &self->m_curve;
 	}
 	void DECL mud_ValueTrack_float__set_curve(mud::ValueTrack<float>* self, mud::ValueCurve<float>* value) {
 		self->m_curve = *value;
 	}
 	mud::ValueCurve<float>* DECL mud_ValueTrack_float__get_min_curve(mud::ValueTrack<float>* self) {
-		static mud::ValueCurve<float> temp;
-		return (temp = self->m_min_curve, &temp);
+		return &self->m_min_curve;
 	}
 	void DECL mud_ValueTrack_float__set_min_curve(mud::ValueTrack<float>* self, mud::ValueCurve<float>* value) {
 		self->m_min_curve = *value;
 	}
 	mud::ValueCurve<float>* DECL mud_ValueTrack_float__get_max_curve(mud::ValueTrack<float>* self) {
-		static mud::ValueCurve<float> temp;
-		return (temp = self->m_max_curve, &temp);
+		return &self->m_max_curve;
 	}
 	void DECL mud_ValueTrack_float__set_max_curve(mud::ValueTrack<float>* self, mud::ValueCurve<float>* value) {
 		self->m_max_curve = *value;
@@ -500,43 +485,37 @@ extern "C" {
 		self->m_mode = value;
 	}
 	mud::Colour* DECL mud_ValueTrack_mud_Colour__get_value(mud::ValueTrack<mud::Colour>* self) {
-		static mud::Colour temp;
-		return (temp = self->m_value, &temp);
+		return &self->m_value;
 	}
 	void DECL mud_ValueTrack_mud_Colour__set_value(mud::ValueTrack<mud::Colour>* self, mud::Colour* value) {
 		self->m_value = *value;
 	}
 	mud::Colour* DECL mud_ValueTrack_mud_Colour__get_min(mud::ValueTrack<mud::Colour>* self) {
-		static mud::Colour temp;
-		return (temp = self->m_min, &temp);
+		return &self->m_min;
 	}
 	void DECL mud_ValueTrack_mud_Colour__set_min(mud::ValueTrack<mud::Colour>* self, mud::Colour* value) {
 		self->m_min = *value;
 	}
 	mud::Colour* DECL mud_ValueTrack_mud_Colour__get_max(mud::ValueTrack<mud::Colour>* self) {
-		static mud::Colour temp;
-		return (temp = self->m_max, &temp);
+		return &self->m_max;
 	}
 	void DECL mud_ValueTrack_mud_Colour__set_max(mud::ValueTrack<mud::Colour>* self, mud::Colour* value) {
 		self->m_max = *value;
 	}
 	mud::ValueCurve<mud::Colour>* DECL mud_ValueTrack_mud_Colour__get_curve(mud::ValueTrack<mud::Colour>* self) {
-		static mud::ValueCurve<mud::Colour> temp;
-		return (temp = self->m_curve, &temp);
+		return &self->m_curve;
 	}
 	void DECL mud_ValueTrack_mud_Colour__set_curve(mud::ValueTrack<mud::Colour>* self, mud::ValueCurve<mud::Colour>* value) {
 		self->m_curve = *value;
 	}
 	mud::ValueCurve<mud::Colour>* DECL mud_ValueTrack_mud_Colour__get_min_curve(mud::ValueTrack<mud::Colour>* self) {
-		static mud::ValueCurve<mud::Colour> temp;
-		return (temp = self->m_min_curve, &temp);
+		return &self->m_min_curve;
 	}
 	void DECL mud_ValueTrack_mud_Colour__set_min_curve(mud::ValueTrack<mud::Colour>* self, mud::ValueCurve<mud::Colour>* value) {
 		self->m_min_curve = *value;
 	}
 	mud::ValueCurve<mud::Colour>* DECL mud_ValueTrack_mud_Colour__get_max_curve(mud::ValueTrack<mud::Colour>* self) {
-		static mud::ValueCurve<mud::Colour> temp;
-		return (temp = self->m_max_curve, &temp);
+		return &self->m_max_curve;
 	}
 	void DECL mud_ValueTrack_mud_Colour__set_max_curve(mud::ValueTrack<mud::Colour>* self, mud::ValueCurve<mud::Colour>* value) {
 		self->m_max_curve = *value;
@@ -561,43 +540,37 @@ extern "C" {
 		self->m_mode = value;
 	}
 	mud::quat* DECL mud_ValueTrack_mud_quat__get_value(mud::ValueTrack<mud::quat>* self) {
-		static mud::quat temp;
-		return (temp = self->m_value, &temp);
+		return &self->m_value;
 	}
 	void DECL mud_ValueTrack_mud_quat__set_value(mud::ValueTrack<mud::quat>* self, mud::quat* value) {
 		self->m_value = *value;
 	}
 	mud::quat* DECL mud_ValueTrack_mud_quat__get_min(mud::ValueTrack<mud::quat>* self) {
-		static mud::quat temp;
-		return (temp = self->m_min, &temp);
+		return &self->m_min;
 	}
 	void DECL mud_ValueTrack_mud_quat__set_min(mud::ValueTrack<mud::quat>* self, mud::quat* value) {
 		self->m_min = *value;
 	}
 	mud::quat* DECL mud_ValueTrack_mud_quat__get_max(mud::ValueTrack<mud::quat>* self) {
-		static mud::quat temp;
-		return (temp = self->m_max, &temp);
+		return &self->m_max;
 	}
 	void DECL mud_ValueTrack_mud_quat__set_max(mud::ValueTrack<mud::quat>* self, mud::quat* value) {
 		self->m_max = *value;
 	}
 	mud::ValueCurve<mud::quat>* DECL mud_ValueTrack_mud_quat__get_curve(mud::ValueTrack<mud::quat>* self) {
-		static mud::ValueCurve<mud::quat> temp;
-		return (temp = self->m_curve, &temp);
+		return &self->m_curve;
 	}
 	void DECL mud_ValueTrack_mud_quat__set_curve(mud::ValueTrack<mud::quat>* self, mud::ValueCurve<mud::quat>* value) {
 		self->m_curve = *value;
 	}
 	mud::ValueCurve<mud::quat>* DECL mud_ValueTrack_mud_quat__get_min_curve(mud::ValueTrack<mud::quat>* self) {
-		static mud::ValueCurve<mud::quat> temp;
-		return (temp = self->m_min_curve, &temp);
+		return &self->m_min_curve;
 	}
 	void DECL mud_ValueTrack_mud_quat__set_min_curve(mud::ValueTrack<mud::quat>* self, mud::ValueCurve<mud::quat>* value) {
 		self->m_min_curve = *value;
 	}
 	mud::ValueCurve<mud::quat>* DECL mud_ValueTrack_mud_quat__get_max_curve(mud::ValueTrack<mud::quat>* self) {
-		static mud::ValueCurve<mud::quat> temp;
-		return (temp = self->m_max_curve, &temp);
+		return &self->m_max_curve;
 	}
 	void DECL mud_ValueTrack_mud_quat__set_max_curve(mud::ValueTrack<mud::quat>* self, mud::ValueCurve<mud::quat>* value) {
 		self->m_max_curve = *value;
@@ -622,43 +595,37 @@ extern "C" {
 		self->m_mode = value;
 	}
 	mud::vec3* DECL mud_ValueTrack_mud_vec3__get_value(mud::ValueTrack<mud::vec3>* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_value, &temp);
+		return &self->m_value;
 	}
 	void DECL mud_ValueTrack_mud_vec3__set_value(mud::ValueTrack<mud::vec3>* self, mud::vec3* value) {
 		self->m_value = *value;
 	}
 	mud::vec3* DECL mud_ValueTrack_mud_vec3__get_min(mud::ValueTrack<mud::vec3>* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_min, &temp);
+		return &self->m_min;
 	}
 	void DECL mud_ValueTrack_mud_vec3__set_min(mud::ValueTrack<mud::vec3>* self, mud::vec3* value) {
 		self->m_min = *value;
 	}
 	mud::vec3* DECL mud_ValueTrack_mud_vec3__get_max(mud::ValueTrack<mud::vec3>* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_max, &temp);
+		return &self->m_max;
 	}
 	void DECL mud_ValueTrack_mud_vec3__set_max(mud::ValueTrack<mud::vec3>* self, mud::vec3* value) {
 		self->m_max = *value;
 	}
 	mud::ValueCurve<mud::vec3>* DECL mud_ValueTrack_mud_vec3__get_curve(mud::ValueTrack<mud::vec3>* self) {
-		static mud::ValueCurve<mud::vec3> temp;
-		return (temp = self->m_curve, &temp);
+		return &self->m_curve;
 	}
 	void DECL mud_ValueTrack_mud_vec3__set_curve(mud::ValueTrack<mud::vec3>* self, mud::ValueCurve<mud::vec3>* value) {
 		self->m_curve = *value;
 	}
 	mud::ValueCurve<mud::vec3>* DECL mud_ValueTrack_mud_vec3__get_min_curve(mud::ValueTrack<mud::vec3>* self) {
-		static mud::ValueCurve<mud::vec3> temp;
-		return (temp = self->m_min_curve, &temp);
+		return &self->m_min_curve;
 	}
 	void DECL mud_ValueTrack_mud_vec3__set_min_curve(mud::ValueTrack<mud::vec3>* self, mud::ValueCurve<mud::vec3>* value) {
 		self->m_min_curve = *value;
 	}
 	mud::ValueCurve<mud::vec3>* DECL mud_ValueTrack_mud_vec3__get_max_curve(mud::ValueTrack<mud::vec3>* self) {
-		static mud::ValueCurve<mud::vec3> temp;
-		return (temp = self->m_max_curve, &temp);
+		return &self->m_max_curve;
 	}
 	void DECL mud_ValueTrack_mud_vec3__set_max_curve(mud::ValueTrack<mud::vec3>* self, mud::ValueCurve<mud::vec3>* value) {
 		self->m_max_curve = *value;
@@ -701,22 +668,19 @@ extern "C" {
 		self->m_max = value;
 	}
 	mud::ValueCurve<uint32_t>* DECL mud_ValueTrack_uint32_t__get_curve(mud::ValueTrack<uint32_t>* self) {
-		static mud::ValueCurve<uint32_t> temp;
-		return (temp = self->m_curve, &temp);
+		return &self->m_curve;
 	}
 	void DECL mud_ValueTrack_uint32_t__set_curve(mud::ValueTrack<uint32_t>* self, mud::ValueCurve<uint32_t>* value) {
 		self->m_curve = *value;
 	}
 	mud::ValueCurve<uint32_t>* DECL mud_ValueTrack_uint32_t__get_min_curve(mud::ValueTrack<uint32_t>* self) {
-		static mud::ValueCurve<uint32_t> temp;
-		return (temp = self->m_min_curve, &temp);
+		return &self->m_min_curve;
 	}
 	void DECL mud_ValueTrack_uint32_t__set_min_curve(mud::ValueTrack<uint32_t>* self, mud::ValueCurve<uint32_t>* value) {
 		self->m_min_curve = *value;
 	}
 	mud::ValueCurve<uint32_t>* DECL mud_ValueTrack_uint32_t__get_max_curve(mud::ValueTrack<uint32_t>* self) {
-		static mud::ValueCurve<uint32_t> temp;
-		return (temp = self->m_max_curve, &temp);
+		return &self->m_max_curve;
 	}
 	void DECL mud_ValueTrack_uint32_t__set_max_curve(mud::ValueTrack<uint32_t>* self, mud::ValueCurve<uint32_t>* value) {
 		self->m_max_curve = *value;

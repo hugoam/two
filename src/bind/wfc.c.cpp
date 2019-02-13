@@ -69,15 +69,13 @@ extern "C" {
 		self->m_name = value;
 	}
 	mud::vec3* DECL mud_Tileset__get_tile_size(mud::Tileset* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_tile_size, &temp);
+		return &self->m_tile_size;
 	}
 	void DECL mud_Tileset__set_tile_size(mud::Tileset* self, mud::vec3* value) {
 		self->m_tile_size = *value;
 	}
 	mud::vec3* DECL mud_Tileset__get_tile_scale(mud::Tileset* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_tile_scale, &temp);
+		return &self->m_tile_scale;
 	}
 	void DECL mud_Tileset__set_tile_scale(mud::Tileset* self, mud::vec3* value) {
 		self->m_tile_scale = *value;

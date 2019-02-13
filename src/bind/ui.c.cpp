@@ -221,15 +221,13 @@ extern "C" {
 		return new mud::Gradient();
 	}
 	mud::Colour* DECL mud_Gradient__get_start(mud::Gradient* self) {
-		static mud::Colour temp;
-		return (temp = self->m_start, &temp);
+		return &self->m_start;
 	}
 	void DECL mud_Gradient__set_start(mud::Gradient* self, mud::Colour* value) {
 		self->m_start = *value;
 	}
 	mud::Colour* DECL mud_Gradient__get_end(mud::Gradient* self) {
-		static mud::Colour temp;
-		return (temp = self->m_end, &temp);
+		return &self->m_end;
 	}
 	void DECL mud_Gradient__set_end(mud::Gradient* self, mud::Colour* value) {
 		self->m_end = *value;
@@ -325,29 +323,25 @@ extern "C" {
 		self->m_empty = value;
 	}
 	mud::Colour* DECL mud_InkStyle__get_background_colour(mud::InkStyle* self) {
-		static mud::Colour temp;
-		return (temp = self->m_background_colour, &temp);
+		return &self->m_background_colour;
 	}
 	void DECL mud_InkStyle__set_background_colour(mud::InkStyle* self, mud::Colour* value) {
 		self->m_background_colour = *value;
 	}
 	mud::Colour* DECL mud_InkStyle__get_border_colour(mud::InkStyle* self) {
-		static mud::Colour temp;
-		return (temp = self->m_border_colour, &temp);
+		return &self->m_border_colour;
 	}
 	void DECL mud_InkStyle__set_border_colour(mud::InkStyle* self, mud::Colour* value) {
 		self->m_border_colour = *value;
 	}
 	mud::Colour* DECL mud_InkStyle__get_image_colour(mud::InkStyle* self) {
-		static mud::Colour temp;
-		return (temp = self->m_image_colour, &temp);
+		return &self->m_image_colour;
 	}
 	void DECL mud_InkStyle__set_image_colour(mud::InkStyle* self, mud::Colour* value) {
 		self->m_image_colour = *value;
 	}
 	mud::Colour* DECL mud_InkStyle__get_text_colour(mud::InkStyle* self) {
-		static mud::Colour temp;
-		return (temp = self->m_text_colour, &temp);
+		return &self->m_text_colour;
 	}
 	void DECL mud_InkStyle__set_text_colour(mud::InkStyle* self, mud::Colour* value) {
 		self->m_text_colour = *value;
@@ -377,15 +371,13 @@ extern "C" {
 		self->m_text_wrap = value;
 	}
 	mud::vec4* DECL mud_InkStyle__get_border_width(mud::InkStyle* self) {
-		static mud::vec4 temp;
-		return (temp = self->m_border_width, &temp);
+		return &self->m_border_width;
 	}
 	void DECL mud_InkStyle__set_border_width(mud::InkStyle* self, mud::vec4* value) {
 		self->m_border_width = *value;
 	}
 	mud::vec4* DECL mud_InkStyle__get_corner_radius(mud::InkStyle* self) {
-		static mud::vec4 temp;
-		return (temp = self->m_corner_radius, &temp);
+		return &self->m_corner_radius;
 	}
 	void DECL mud_InkStyle__set_corner_radius(mud::InkStyle* self, mud::vec4* value) {
 		self->m_corner_radius = *value;
@@ -397,29 +389,25 @@ extern "C" {
 		self->m_weak_corners = value;
 	}
 	mud::vec4* DECL mud_InkStyle__get_padding(mud::InkStyle* self) {
-		static mud::vec4 temp;
-		return (temp = self->m_padding, &temp);
+		return &self->m_padding;
 	}
 	void DECL mud_InkStyle__set_padding(mud::InkStyle* self, mud::vec4* value) {
 		self->m_padding = *value;
 	}
 	mud::vec4* DECL mud_InkStyle__get_margin(mud::InkStyle* self) {
-		static mud::vec4 temp;
-		return (temp = self->m_margin, &temp);
+		return &self->m_margin;
 	}
 	void DECL mud_InkStyle__set_margin(mud::InkStyle* self, mud::vec4* value) {
 		self->m_margin = *value;
 	}
 	mud::Dim2<mud::Align>* DECL mud_InkStyle__get_align(mud::InkStyle* self) {
-		static mud::Dim2<mud::Align> temp;
-		return (temp = self->m_align, &temp);
+		return &self->m_align;
 	}
 	void DECL mud_InkStyle__set_align(mud::InkStyle* self, mud::Dim2<mud::Align>* value) {
 		self->m_align = *value;
 	}
 	mud::vec2* DECL mud_InkStyle__get_linear_gradient(mud::InkStyle* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_linear_gradient, &temp);
+		return &self->m_linear_gradient;
 	}
 	void DECL mud_InkStyle__set_linear_gradient(mud::InkStyle* self, mud::vec2* value) {
 		self->m_linear_gradient = *value;
@@ -431,8 +419,7 @@ extern "C" {
 		self->m_linear_gradient_dim = value;
 	}
 	mud::Dim2<bool>* DECL mud_InkStyle__get_stretch(mud::InkStyle* self) {
-		static mud::Dim2<bool> temp;
-		return (temp = self->m_stretch, &temp);
+		return &self->m_stretch;
 	}
 	void DECL mud_InkStyle__set_stretch(mud::InkStyle* self, mud::Dim2<bool>* value) {
 		self->m_stretch = *value;
@@ -456,22 +443,19 @@ extern "C" {
 		self->m_tile = value;
 	}
 	mud::ImageSkin* DECL mud_InkStyle__get_image_skin(mud::InkStyle* self) {
-		static mud::ImageSkin temp;
-		return (temp = self->m_image_skin, &temp);
+		return &self->m_image_skin;
 	}
 	void DECL mud_InkStyle__set_image_skin(mud::InkStyle* self, mud::ImageSkin* value) {
 		self->m_image_skin = *value;
 	}
 	mud::Shadow* DECL mud_InkStyle__get_shadow(mud::InkStyle* self) {
-		static mud::Shadow temp;
-		return (temp = self->m_shadow, &temp);
+		return &self->m_shadow;
 	}
 	void DECL mud_InkStyle__set_shadow(mud::InkStyle* self, mud::Shadow* value) {
 		self->m_shadow = *value;
 	}
 	mud::Colour* DECL mud_InkStyle__get_shadow_colour(mud::InkStyle* self) {
-		static mud::Colour temp;
-		return (temp = self->m_shadow_colour, &temp);
+		return &self->m_shadow_colour;
 	}
 	void DECL mud_InkStyle__set_shadow_colour(mud::InkStyle* self, mud::Colour* value) {
 		self->m_shadow_colour = *value;
@@ -515,8 +499,7 @@ extern "C" {
 		self->m_solver = value;
 	}
 	mud::Dim2<mud::AutoLayout>* DECL mud_Layout__get_layout(mud::Layout* self) {
-		static mud::Dim2<mud::AutoLayout> temp;
-		return (temp = self->m_layout, &temp);
+		return &self->m_layout;
 	}
 	void DECL mud_Layout__set_layout(mud::Layout* self, mud::Dim2<mud::AutoLayout>* value) {
 		self->m_layout = *value;
@@ -528,8 +511,7 @@ extern "C" {
 		self->m_flow = value;
 	}
 	mud::Space* DECL mud_Layout__get_space(mud::Layout* self) {
-		static mud::Space temp;
-		return (temp = self->m_space, &temp);
+		return &self->m_space;
 	}
 	void DECL mud_Layout__set_space(mud::Layout* self, mud::Space* value) {
 		self->m_space = *value;
@@ -547,50 +529,43 @@ extern "C" {
 		self->m_opacity = value;
 	}
 	mud::Dim2<mud::Align>* DECL mud_Layout__get_align(mud::Layout* self) {
-		static mud::Dim2<mud::Align> temp;
-		return (temp = self->m_align, &temp);
+		return &self->m_align;
 	}
 	void DECL mud_Layout__set_align(mud::Layout* self, mud::Dim2<mud::Align>* value) {
 		self->m_align = *value;
 	}
 	mud::vec2* DECL mud_Layout__get_span(mud::Layout* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_span, &temp);
+		return &self->m_span;
 	}
 	void DECL mud_Layout__set_span(mud::Layout* self, mud::vec2* value) {
 		self->m_span = *value;
 	}
 	mud::vec2* DECL mud_Layout__get_size(mud::Layout* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_size, &temp);
+		return &self->m_size;
 	}
 	void DECL mud_Layout__set_size(mud::Layout* self, mud::vec2* value) {
 		self->m_size = *value;
 	}
 	mud::vec4* DECL mud_Layout__get_padding(mud::Layout* self) {
-		static mud::vec4 temp;
-		return (temp = self->m_padding, &temp);
+		return &self->m_padding;
 	}
 	void DECL mud_Layout__set_padding(mud::Layout* self, mud::vec4* value) {
 		self->m_padding = *value;
 	}
 	mud::vec2* DECL mud_Layout__get_margin(mud::Layout* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_margin, &temp);
+		return &self->m_margin;
 	}
 	void DECL mud_Layout__set_margin(mud::Layout* self, mud::vec2* value) {
 		self->m_margin = *value;
 	}
 	mud::vec2* DECL mud_Layout__get_spacing(mud::Layout* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_spacing, &temp);
+		return &self->m_spacing;
 	}
 	void DECL mud_Layout__set_spacing(mud::Layout* self, mud::vec2* value) {
 		self->m_spacing = *value;
 	}
 	mud::Dim2<mud::Pivot>* DECL mud_Layout__get_pivot(mud::Layout* self) {
-		static mud::Dim2<mud::Pivot> temp;
-		return (temp = self->m_pivot, &temp);
+		return &self->m_pivot;
 	}
 	void DECL mud_Layout__set_pivot(mud::Layout* self, mud::Dim2<mud::Pivot>* value) {
 		self->m_pivot = *value;
@@ -634,15 +609,13 @@ extern "C" {
 		return new mud::Paint();
 	}
 	mud::Colour* DECL mud_Paint__get_fill_colour(mud::Paint* self) {
-		static mud::Colour temp;
-		return (temp = self->m_fill_colour, &temp);
+		return &self->m_fill_colour;
 	}
 	void DECL mud_Paint__set_fill_colour(mud::Paint* self, mud::Colour* value) {
 		self->m_fill_colour = *value;
 	}
 	mud::Colour* DECL mud_Paint__get_stroke_colour(mud::Paint* self) {
-		static mud::Colour temp;
-		return (temp = self->m_stroke_colour, &temp);
+		return &self->m_stroke_colour;
 	}
 	void DECL mud_Paint__set_stroke_colour(mud::Paint* self, mud::Colour* value) {
 		self->m_stroke_colour = *value;
@@ -694,8 +667,7 @@ extern "C" {
 		self->d_spread = value;
 	}
 	mud::Colour* DECL mud_Shadow__get_d_colour(mud::Shadow* self) {
-		static mud::Colour temp;
-		return (temp = self->d_colour, &temp);
+		return &self->d_colour;
 	}
 	void DECL mud_Shadow__set_d_colour(mud::Shadow* self, mud::Colour* value) {
 		self->d_colour = *value;
@@ -801,8 +773,7 @@ extern "C" {
 		self->m_font = value;
 	}
 	mud::Colour* DECL mud_TextPaint__get_colour(mud::TextPaint* self) {
-		static mud::Colour temp;
-		return (temp = self->m_colour, &temp);
+		return &self->m_colour;
 	}
 	void DECL mud_TextPaint__set_colour(mud::TextPaint* self, mud::Colour* value) {
 		self->m_colour = *value;
@@ -814,8 +785,7 @@ extern "C" {
 		self->m_size = value;
 	}
 	mud::Dim2<mud::Align>* DECL mud_TextPaint__get_align(mud::TextPaint* self) {
-		static mud::Dim2<mud::Align> temp;
-		return (temp = self->m_align, &temp);
+		return &self->m_align;
 	}
 	void DECL mud_TextPaint__set_align(mud::TextPaint* self, mud::Dim2<mud::Align>* value) {
 		self->m_align = *value;
@@ -853,29 +823,25 @@ extern "C" {
 		return new mud::UiRect();
 	}
 	mud::vec2* DECL mud_UiRect__get_position(mud::UiRect* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_position, &temp);
+		return &self->m_position;
 	}
 	void DECL mud_UiRect__set_position(mud::UiRect* self, mud::vec2* value) {
 		self->m_position = *value;
 	}
 	mud::vec2* DECL mud_UiRect__get_size(mud::UiRect* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_size, &temp);
+		return &self->m_size;
 	}
 	void DECL mud_UiRect__set_size(mud::UiRect* self, mud::vec2* value) {
 		self->m_size = *value;
 	}
 	mud::vec2* DECL mud_UiRect__get_content(mud::UiRect* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_content, &temp);
+		return &self->m_content;
 	}
 	void DECL mud_UiRect__set_content(mud::UiRect* self, mud::vec2* value) {
 		self->m_content = *value;
 	}
 	mud::vec2* DECL mud_UiRect__get_span(mud::UiRect* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_span, &temp);
+		return &self->m_span;
 	}
 	void DECL mud_UiRect__set_span(mud::UiRect* self, mud::vec2* value) {
 		self->m_span = *value;

@@ -39,15 +39,13 @@ extern "C" {
 		self->m_title = value;
 	}
 	mud::uvec2* DECL mud_Context__get_size(mud::Context* self) {
-		static mud::uvec2 temp;
-		return (temp = self->m_size, &temp);
+		return &self->m_size;
 	}
 	void DECL mud_Context__set_size(mud::Context* self, mud::uvec2* value) {
 		self->m_size = *value;
 	}
 	mud::uvec2* DECL mud_Context__get_fb_size(mud::Context* self) {
-		static mud::uvec2 temp;
-		return (temp = self->m_fb_size, &temp);
+		return &self->m_fb_size;
 	}
 	void DECL mud_Context__set_fb_size(mud::Context* self, mud::uvec2* value) {
 		self->m_fb_size = *value;
@@ -77,8 +75,7 @@ extern "C" {
 		self->m_shutdown = value;
 	}
 	mud::vec2* DECL mud_Context__get_cursor(mud::Context* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_cursor, &temp);
+		return &self->m_cursor;
 	}
 	void DECL mud_Context__set_cursor(mud::Context* self, mud::vec2* value) {
 		self->m_cursor = *value;
@@ -208,22 +205,19 @@ extern "C" {
 		return new mud::MouseEvent();
 	}
 	mud::vec2* DECL mud_MouseEvent__get_pos(mud::MouseEvent* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_pos, &temp);
+		return &self->m_pos;
 	}
 	void DECL mud_MouseEvent__set_pos(mud::MouseEvent* self, mud::vec2* value) {
 		self->m_pos = *value;
 	}
 	mud::vec2* DECL mud_MouseEvent__get_relative(mud::MouseEvent* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_relative, &temp);
+		return &self->m_relative;
 	}
 	void DECL mud_MouseEvent__set_relative(mud::MouseEvent* self, mud::vec2* value) {
 		self->m_relative = *value;
 	}
 	mud::vec2* DECL mud_MouseEvent__get_delta(mud::MouseEvent* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_delta, &temp);
+		return &self->m_delta;
 	}
 	void DECL mud_MouseEvent__set_delta(mud::MouseEvent* self, mud::vec2* value) {
 		self->m_delta = *value;
@@ -235,8 +229,7 @@ extern "C" {
 		self->m_deltaZ = value;
 	}
 	mud::vec2* DECL mud_MouseEvent__get_pressed(mud::MouseEvent* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_pressed, &temp);
+		return &self->m_pressed;
 	}
 	void DECL mud_MouseEvent__set_pressed(mud::MouseEvent* self, mud::vec2* value) {
 		self->m_pressed = *value;

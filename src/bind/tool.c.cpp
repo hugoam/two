@@ -36,8 +36,7 @@ extern "C" {
 		return &self->m_redo_tool;
 	}
 	mud::Plane* DECL mud_EditContext__get_work_plane(mud::EditContext* self) {
-		static mud::Plane temp;
-		return (temp = self->m_work_plane, &temp);
+		return &self->m_work_plane;
 	}
 	void DECL mud_EditContext__set_work_plane(mud::EditContext* self, mud::Plane* value) {
 		self->m_work_plane = *value;
@@ -236,8 +235,7 @@ extern "C" {
 		return new mud::ScriptedBrush(*context, *script);
 	}
 	mud::Call* DECL mud_ScriptedBrush__get_call(mud::ScriptedBrush* self) {
-		static mud::Call temp;
-		return (temp = self->m_call, &temp);
+		return &self->m_call;
 	}
 	void DECL mud_ScriptedBrush__set_call(mud::ScriptedBrush* self, mud::Call* value) {
 		self->m_call = *value;

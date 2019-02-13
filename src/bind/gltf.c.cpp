@@ -75,8 +75,7 @@ extern "C" {
 		self->type = value;
 	}
 	glTFSparse* DECL glTFAccessor__get_sparse(glTFAccessor* self) {
-		static glTFSparse temp;
-		return (temp = self->sparse, &temp);
+		return &self->sparse;
 	}
 	void DECL glTFAccessor__set_sparse(glTFAccessor* self, glTFSparse* value) {
 		self->sparse = *value;
@@ -114,8 +113,7 @@ extern "C" {
 		self->sampler = value;
 	}
 	glTFAnimationTarget* DECL glTFAnimationChannel__get_target(glTFAnimationChannel* self) {
-		static glTFAnimationTarget temp;
-		return (temp = self->target, &temp);
+		return &self->target;
 	}
 	void DECL glTFAnimationChannel__set_target(glTFAnimationChannel* self, glTFAnimationTarget* value) {
 		self->target = *value;
@@ -331,15 +329,13 @@ extern "C" {
 		self->type = value;
 	}
 	glTFOrthographic* DECL glTFCamera__get_orthographic(glTFCamera* self) {
-		static glTFOrthographic temp;
-		return (temp = self->orthographic, &temp);
+		return &self->orthographic;
 	}
 	void DECL glTFCamera__set_orthographic(glTFCamera* self, glTFOrthographic* value) {
 		self->orthographic = *value;
 	}
 	glTFPerspective* DECL glTFCamera__get_perspective(glTFCamera* self) {
-		static glTFPerspective temp;
-		return (temp = self->perspective, &temp);
+		return &self->perspective;
 	}
 	void DECL glTFCamera__set_perspective(glTFCamera* self, glTFPerspective* value) {
 		self->perspective = *value;
@@ -395,29 +391,25 @@ extern "C" {
 		self->name = value;
 	}
 	glTFTextureInfo* DECL glTFMaterial__get_normal_texture(glTFMaterial* self) {
-		static glTFTextureInfo temp;
-		return (temp = self->normal_texture, &temp);
+		return &self->normal_texture;
 	}
 	void DECL glTFMaterial__set_normal_texture(glTFMaterial* self, glTFTextureInfo* value) {
 		self->normal_texture = *value;
 	}
 	glTFTextureInfo* DECL glTFMaterial__get_occlusion_texture(glTFMaterial* self) {
-		static glTFTextureInfo temp;
-		return (temp = self->occlusion_texture, &temp);
+		return &self->occlusion_texture;
 	}
 	void DECL glTFMaterial__set_occlusion_texture(glTFMaterial* self, glTFTextureInfo* value) {
 		self->occlusion_texture = *value;
 	}
 	mud::vec3* DECL glTFMaterial__get_emissive_factor(glTFMaterial* self) {
-		static mud::vec3 temp;
-		return (temp = self->emissive_factor, &temp);
+		return &self->emissive_factor;
 	}
 	void DECL glTFMaterial__set_emissive_factor(glTFMaterial* self, mud::vec3* value) {
 		self->emissive_factor = *value;
 	}
 	glTFTextureInfo* DECL glTFMaterial__get_emissive_texture(glTFMaterial* self) {
-		static glTFTextureInfo temp;
-		return (temp = self->emissive_texture, &temp);
+		return &self->emissive_texture;
 	}
 	void DECL glTFMaterial__set_emissive_texture(glTFMaterial* self, glTFTextureInfo* value) {
 		self->emissive_texture = *value;
@@ -435,8 +427,7 @@ extern "C" {
 		self->alpha_mode = value;
 	}
 	glTFMaterialPBR* DECL glTFMaterial__get_pbr_metallic_roughness(glTFMaterial* self) {
-		static glTFMaterialPBR temp;
-		return (temp = self->pbr_metallic_roughness, &temp);
+		return &self->pbr_metallic_roughness;
 	}
 	void DECL glTFMaterial__set_pbr_metallic_roughness(glTFMaterial* self, glTFMaterialPBR* value) {
 		self->pbr_metallic_roughness = *value;
@@ -452,15 +443,13 @@ extern "C" {
 		return new glTFMaterialPBR();
 	}
 	mud::vec4* DECL glTFMaterialPBR__get_base_color_factor(glTFMaterialPBR* self) {
-		static mud::vec4 temp;
-		return (temp = self->base_color_factor, &temp);
+		return &self->base_color_factor;
 	}
 	void DECL glTFMaterialPBR__set_base_color_factor(glTFMaterialPBR* self, mud::vec4* value) {
 		self->base_color_factor = *value;
 	}
 	glTFTextureInfo* DECL glTFMaterialPBR__get_base_color_texture(glTFMaterialPBR* self) {
-		static glTFTextureInfo temp;
-		return (temp = self->base_color_texture, &temp);
+		return &self->base_color_texture;
 	}
 	void DECL glTFMaterialPBR__set_base_color_texture(glTFMaterialPBR* self, glTFTextureInfo* value) {
 		self->base_color_texture = *value;
@@ -478,8 +467,7 @@ extern "C" {
 		self->roughness_factor = value;
 	}
 	glTFTextureInfo* DECL glTFMaterialPBR__get_metallic_roughness_texture(glTFMaterialPBR* self) {
-		static glTFTextureInfo temp;
-		return (temp = self->metallic_roughness_texture, &temp);
+		return &self->metallic_roughness_texture;
 	}
 	void DECL glTFMaterialPBR__set_metallic_roughness_texture(glTFMaterialPBR* self, glTFTextureInfo* value) {
 		self->metallic_roughness_texture = *value;
@@ -563,29 +551,25 @@ extern "C" {
 		self->skin = value;
 	}
 	mud::mat4* DECL glTFNode__get_matrix(glTFNode* self) {
-		static mud::mat4 temp;
-		return (temp = self->matrix, &temp);
+		return &self->matrix;
 	}
 	void DECL glTFNode__set_matrix(glTFNode* self, mud::mat4* value) {
 		self->matrix = *value;
 	}
 	mud::vec3* DECL glTFNode__get_translation(glTFNode* self) {
-		static mud::vec3 temp;
-		return (temp = self->translation, &temp);
+		return &self->translation;
 	}
 	void DECL glTFNode__set_translation(glTFNode* self, mud::vec3* value) {
 		self->translation = *value;
 	}
 	mud::quat* DECL glTFNode__get_rotation(glTFNode* self) {
-		static mud::quat temp;
-		return (temp = self->rotation, &temp);
+		return &self->rotation;
 	}
 	void DECL glTFNode__set_rotation(glTFNode* self, mud::quat* value) {
 		self->rotation = *value;
 	}
 	mud::vec3* DECL glTFNode__get_scale(glTFNode* self) {
-		static mud::vec3 temp;
-		return (temp = self->scale, &temp);
+		return &self->scale;
 	}
 	void DECL glTFNode__set_scale(glTFNode* self, mud::vec3* value) {
 		self->scale = *value;
@@ -679,8 +663,7 @@ extern "C" {
 		return new glTFPrimitive();
 	}
 	glTFAttributes* DECL glTFPrimitive__get_attributes(glTFPrimitive* self) {
-		static glTFAttributes temp;
-		return (temp = self->attributes, &temp);
+		return &self->attributes;
 	}
 	void DECL glTFPrimitive__set_attributes(glTFPrimitive* self, glTFAttributes* value) {
 		self->attributes = *value;
@@ -804,15 +787,13 @@ extern "C" {
 		self->count = value;
 	}
 	glTFSparseIndices* DECL glTFSparse__get_indices(glTFSparse* self) {
-		static glTFSparseIndices temp;
-		return (temp = self->indices, &temp);
+		return &self->indices;
 	}
 	void DECL glTFSparse__set_indices(glTFSparse* self, glTFSparseIndices* value) {
 		self->indices = *value;
 	}
 	glTFSparseValues* DECL glTFSparse__get_values(glTFSparse* self) {
-		static glTFSparseValues temp;
-		return (temp = self->values, &temp);
+		return &self->values;
 	}
 	void DECL glTFSparse__set_values(glTFSparse* self, glTFSparseValues* value) {
 		self->values = *value;

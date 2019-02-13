@@ -1554,23 +1554,29 @@ namespace clgen
 				printf("ERROR: unfamiliar operator %s\n", op.c_str());
 		};
 
+		auto c_value_wrap = [&](const CLQualType& type, const string& call, bool ref)
+		{
+			if(type.isvoid())
+				cw(call + ";");
+			else if(type.isstring())
+				cw("return " + call + ".c_str();");
+			else if(type.isbasetype() || type.isenum())
+				cw("return " + call + ";");
+			else if(ref || !type.value() || !type.copyable())
+				cw("return " + address(type) + call + ";");
+			else
+			{
+				cw("static " + type.m_type_name + " temp;");
+				cw("return (temp = " + call + ", &temp);");
+			}
+		};
+
 		auto c_call_return_wrap = [&](const CLQualType& return_type, const string& call, bool ctor = false)
 		{
 			if(ctor)
 				cw("return " + call + ";");
-			else if(return_type.isvoid())
-				cw(call + ";");
-			else if(return_type.isstring())
-				cw("return " + call + ".c_str();");
-			else if(return_type.isbasetype() || return_type.isenum())
-				cw("return " + call + ";");
-			else if(!return_type.value() || !return_type.copyable())
-				cw("return " + address(return_type) + call + ";");
 			else
-			{
-				cw("static " + return_type.m_type_name + " temp;");
-				cw("return (temp = " + call + ", &temp);");
-			}
+				return c_value_wrap(return_type, call, false);
 		};
 
 		auto c_call_wrapped_n = [&](const CLCallable& f, size_t i)
@@ -1621,7 +1627,7 @@ namespace clgen
 		auto c_getter = [&](const CLClass& c, const CLMember& m)
 		{
 			cw(type_to_c(m.m_type) + " DECL " + id(c, "_get_" + m.m_name) + "(" + c.m_id + "* self" + (m.m_type.isarray() ? ", unsigned int index" : "") + ") {");
-			c_call_return_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : "") + (m.m_type.isarray() ? "[index]" : ""));
+			c_value_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : "") + (m.m_type.isarray() ? "[index]" : ""), true);
 			cw("}");
 		};
 

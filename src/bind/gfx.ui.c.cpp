@@ -39,15 +39,13 @@ extern "C" {
 		return &self->m_viewport;
 	}
 	mud::vec2* DECL mud_Viewer__get_position(mud::Viewer* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_position, &temp);
+		return &self->m_position;
 	}
 	void DECL mud_Viewer__set_position(mud::Viewer* self, mud::vec2* value) {
 		self->m_position = *value;
 	}
 	mud::vec2* DECL mud_Viewer__get_size(mud::Viewer* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_size, &temp);
+		return &self->m_size;
 	}
 	void DECL mud_Viewer__set_size(mud::Viewer* self, mud::vec2* value) {
 		self->m_size = *value;
@@ -73,8 +71,7 @@ extern "C" {
 		self->set_target(*position);
 	}
 	mud::vec3* DECL mud_OrbitController__get_position(mud::OrbitController* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_position, &temp);
+		return &self->m_position;
 	}
 	void DECL mud_OrbitController__set_position(mud::OrbitController* self, mud::vec3* value) {
 		self->m_position = *value;

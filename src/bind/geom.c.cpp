@@ -23,15 +23,13 @@ extern "C" {
 		return new mud::Aabb(*center, *extents);
 	}
 	mud::vec3* DECL mud_Aabb__get_center(mud::Aabb* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_center, &temp);
+		return &self->m_center;
 	}
 	void DECL mud_Aabb__set_center(mud::Aabb* self, mud::vec3* value) {
 		self->m_center = *value;
 	}
 	mud::vec3* DECL mud_Aabb__get_extents(mud::Aabb* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_extents, &temp);
+		return &self->m_extents;
 	}
 	void DECL mud_Aabb__set_extents(mud::Aabb* self, mud::vec3* value) {
 		self->m_extents = *value;
@@ -80,8 +78,7 @@ extern "C" {
 		return new mud::Plane();
 	}
 	mud::vec3* DECL mud_Plane__get_normal(mud::Plane* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_normal, &temp);
+		return &self->m_normal;
 	}
 	void DECL mud_Plane__set_normal(mud::Plane* self, mud::vec3* value) {
 		self->m_normal = *value;
@@ -103,22 +100,19 @@ extern "C" {
 		return new mud::Plane3();
 	}
 	mud::vec3* DECL mud_Plane3__get_origin(mud::Plane3* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_origin, &temp);
+		return &self->m_origin;
 	}
 	void DECL mud_Plane3__set_origin(mud::Plane3* self, mud::vec3* value) {
 		self->m_origin = *value;
 	}
 	mud::vec3* DECL mud_Plane3__get_a(mud::Plane3* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_a, &temp);
+		return &self->m_a;
 	}
 	void DECL mud_Plane3__set_a(mud::Plane3* self, mud::vec3* value) {
 		self->m_a = *value;
 	}
 	mud::vec3* DECL mud_Plane3__get_b(mud::Plane3* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_b, &temp);
+		return &self->m_b;
 	}
 	void DECL mud_Plane3__set_b(mud::Plane3* self, mud::vec3* value) {
 		self->m_b = *value;
@@ -134,29 +128,25 @@ extern "C" {
 		return new mud::Ray();
 	}
 	mud::vec3* DECL mud_Ray__get_start(mud::Ray* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_start, &temp);
+		return &self->m_start;
 	}
 	void DECL mud_Ray__set_start(mud::Ray* self, mud::vec3* value) {
 		self->m_start = *value;
 	}
 	mud::vec3* DECL mud_Ray__get_end(mud::Ray* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_end, &temp);
+		return &self->m_end;
 	}
 	void DECL mud_Ray__set_end(mud::Ray* self, mud::vec3* value) {
 		self->m_end = *value;
 	}
 	mud::vec3* DECL mud_Ray__get_dir(mud::Ray* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_dir, &temp);
+		return &self->m_dir;
 	}
 	void DECL mud_Ray__set_dir(mud::Ray* self, mud::vec3* value) {
 		self->m_dir = *value;
 	}
 	mud::vec3* DECL mud_Ray__get_inv_dir(mud::Ray* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_inv_dir, &temp);
+		return &self->m_inv_dir;
 	}
 	void DECL mud_Ray__set_inv_dir(mud::Ray* self, mud::vec3* value) {
 		self->m_inv_dir = *value;
@@ -172,15 +162,13 @@ extern "C" {
 		return new mud::Segment();
 	}
 	mud::vec3* DECL mud_Segment__get_start(mud::Segment* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_start, &temp);
+		return &self->m_start;
 	}
 	void DECL mud_Segment__set_start(mud::Segment* self, mud::vec3* value) {
 		self->m_start = *value;
 	}
 	mud::vec3* DECL mud_Segment__get_end(mud::Segment* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_end, &temp);
+		return &self->m_end;
 	}
 	void DECL mud_Segment__set_end(mud::Segment* self, mud::vec3* value) {
 		self->m_end = *value;
@@ -237,15 +225,13 @@ extern "C" {
 		return new mud::Symbol(*fill, *outline, overlay, double_sided, detail);
 	}
 	mud::Colour* DECL mud_Symbol__get_outline(mud::Symbol* self) {
-		static mud::Colour temp;
-		return (temp = self->m_outline, &temp);
+		return &self->m_outline;
 	}
 	void DECL mud_Symbol__set_outline(mud::Symbol* self, mud::Colour* value) {
 		self->m_outline = *value;
 	}
 	mud::Colour* DECL mud_Symbol__get_fill(mud::Symbol* self) {
-		static mud::Colour temp;
-		return (temp = self->m_fill, &temp);
+		return &self->m_fill;
 	}
 	void DECL mud_Symbol__set_fill(mud::Symbol* self, mud::Colour* value) {
 		self->m_fill = *value;
@@ -334,22 +320,19 @@ extern "C" {
 		return new mud::ArcLine(*center, *start, *middle, *end);
 	}
 	mud::vec3* DECL mud_ArcLine__get_start(mud::ArcLine* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_start, &temp);
+		return &self->m_start;
 	}
 	void DECL mud_ArcLine__set_start(mud::ArcLine* self, mud::vec3* value) {
 		self->m_start = *value;
 	}
 	mud::vec3* DECL mud_ArcLine__get_middle(mud::ArcLine* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_middle, &temp);
+		return &self->m_middle;
 	}
 	void DECL mud_ArcLine__set_middle(mud::ArcLine* self, mud::vec3* value) {
 		self->m_middle = *value;
 	}
 	mud::vec3* DECL mud_ArcLine__get_end(mud::ArcLine* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_end, &temp);
+		return &self->m_end;
 	}
 	void DECL mud_ArcLine__set_end(mud::ArcLine* self, mud::vec3* value) {
 		self->m_end = *value;
@@ -456,8 +439,7 @@ extern "C" {
 		return new mud::Cube(*center, *extents);
 	}
 	mud::vec3* DECL mud_Cube__get_extents(mud::Cube* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_extents, &temp);
+		return &self->m_extents;
 	}
 	void DECL mud_Cube__set_extents(mud::Cube* self, mud::vec3* value) {
 		self->m_extents = *value;
@@ -513,8 +495,7 @@ extern "C" {
 		return new mud::Ellipsis(*radius, axis);
 	}
 	mud::vec2* DECL mud_Ellipsis__get_radius(mud::Ellipsis* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_radius, &temp);
+		return &self->m_radius;
 	}
 	void DECL mud_Ellipsis__set_radius(mud::Ellipsis* self, mud::vec2* value) {
 		self->m_radius = *value;
@@ -552,15 +533,13 @@ extern "C" {
 		return new mud::Grid2(*size, *space);
 	}
 	mud::vec2* DECL mud_Grid2__get_size(mud::Grid2* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_size, &temp);
+		return &self->m_size;
 	}
 	void DECL mud_Grid2__set_size(mud::Grid2* self, mud::vec2* value) {
 		self->m_size = *value;
 	}
 	mud::vec2* DECL mud_Grid2__get_space(mud::Grid2* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_space, &temp);
+		return &self->m_space;
 	}
 	void DECL mud_Grid2__set_space(mud::Grid2* self, mud::vec2* value) {
 		self->m_space = *value;
@@ -582,8 +561,7 @@ extern "C" {
 		return new mud::Grid3(*size, *points);
 	}
 	mud::uvec2* DECL mud_Grid3__get_size(mud::Grid3* self) {
-		static mud::uvec2 temp;
-		return (temp = self->m_size, &temp);
+		return &self->m_size;
 	}
 	void DECL mud_Grid3__set_size(mud::Grid3* self, mud::uvec2* value) {
 		self->m_size = *value;
@@ -602,15 +580,13 @@ extern "C" {
 		return new mud::Line(*start, *end);
 	}
 	mud::vec3* DECL mud_Line__get_start(mud::Line* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_start, &temp);
+		return &self->m_start;
 	}
 	void DECL mud_Line__set_start(mud::Line* self, mud::vec3* value) {
 		self->m_start = *value;
 	}
 	mud::vec3* DECL mud_Line__get_end(mud::Line* self) {
-		static mud::vec3 temp;
-		return (temp = self->m_end, &temp);
+		return &self->m_end;
 	}
 	void DECL mud_Line__set_end(mud::Line* self, mud::vec3* value) {
 		self->m_end = *value;
@@ -684,15 +660,13 @@ extern "C" {
 		return new mud::Rect(x, y, w, h);
 	}
 	mud::vec2* DECL mud_Rect__get_position(mud::Rect* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_position, &temp);
+		return &self->m_position;
 	}
 	void DECL mud_Rect__set_position(mud::Rect* self, mud::vec2* value) {
 		self->m_position = *value;
 	}
 	mud::vec2* DECL mud_Rect__get_size(mud::Rect* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_size, &temp);
+		return &self->m_size;
 	}
 	void DECL mud_Rect__set_size(mud::Rect* self, mud::vec2* value) {
 		self->m_size = *value;
@@ -851,8 +825,7 @@ extern "C" {
 		return new mud::Triangle(*size);
 	}
 	mud::vec2* DECL mud_Triangle__get_size(mud::Triangle* self) {
-		static mud::vec2 temp;
-		return (temp = self->m_size, &temp);
+		return &self->m_size;
 	}
 	void DECL mud_Triangle__set_size(mud::Triangle* self, mud::vec2* value) {
 		self->m_size = *value;
