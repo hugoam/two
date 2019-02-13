@@ -364,6 +364,16 @@ namespace gfx
 		parent.m_scene->m_pass_jobs->m_jobs[pass].push_back(job);
 	}
 
+	Material& unshaded_material(GfxSystem& gfx_system, cstring name, const Colour& colour)
+	{
+		Program& program = *gfx_system.programs().file("unshaded");
+		Material& material = gfx_system.materials().fetch(name);
+		material.m_program = &program;
+		material.m_unshaded_block.m_enabled = true;
+		material.m_unshaded_block.m_colour = colour;
+		return material;
+	}
+
 	Material& pbr_material(GfxSystem& gfx_system, cstring name, const PbrMaterialBlock& pbr_block)
 	{
 		Program& program = *gfx_system.programs().file("pbr/pbr");

@@ -55,6 +55,8 @@ namespace gfx
 	export_ MUD_GFX_EXPORT Light& direct_light_node(Gnode& parent, const quat& rotation);
 	export_ MUD_GFX_EXPORT func_ Light& direct_light_node(Gnode& parent, const vec3& direction);
 
+	export_ MUD_GFX_EXPORT func_ Material& unshaded_material(GfxSystem& gfx, cstring name, const Colour& colour);
+
 	export_ MUD_GFX_EXPORT Material& pbr_material(GfxSystem& gfx, cstring name, const PbrMaterialBlock& pbr_block);
 	export_ MUD_GFX_EXPORT func_ Material& pbr_material(GfxSystem& gfx, cstring name, const Colour& albedo, float metallic = 0.f, float roughness = 1.f);
 }

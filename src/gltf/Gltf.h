@@ -291,7 +291,7 @@ export_ struct refl_ glTFMaterialPBR
 
 export_ enum class refl_ glTFAlphaMode : unsigned int
 {
-	Opacity::Opaque,
+	OPAQUE,
 	MASK,
 	BLEND,
 };
@@ -305,7 +305,7 @@ export_ struct refl_ glTFMaterial
 	attr_ mud::vec3 emissive_factor = to_vec3(mud::Colour::Black);
 	attr_ glTFTextureInfo emissive_texture;
 	attr_ bool double_sided = false;
-	attr_ glTFAlphaMode alpha_mode = glTFAlphaMode::Opacity::Opaque;
+	attr_ glTFAlphaMode alpha_mode = glTFAlphaMode::OPAQUE;
 
 	attr_ glTFMaterialPBR pbr_metallic_roughness;
 };

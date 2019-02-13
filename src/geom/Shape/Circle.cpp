@@ -182,28 +182,34 @@ namespace mud
 
 	void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshAdapter& writer)
 	{
+		SignedAxis axis = to_signed_axis(torus.m_axis, true);
+
 		uint16_t sides = torus_sides(uint(shape.m_symbol.m_detail));
 		uint16_t rings = torus_rings(uint(shape.m_symbol.m_detail));
 
 		uint16_t sides_subdiv = sides + 1;
 		uint16_t rings_subdiv = rings + 1;
 
-		float vertical_delta = c_pi * 2.0f / float(rings);
-		float horizontal_delta = c_pi * 2.0f / float(sides);
+		float radius_step = c_pi * 2.0f / float(rings);
+		float subradius_step = c_pi * 2.0f / float(sides);
 
 		for(uint16_t v = 0; v < sides_subdiv; v++)
 			for(uint16_t h = 0; h < rings_subdiv; h++)
 			{
-				const float theta = vertical_delta * v;
-				const float phi = horizontal_delta * h;
+				const float theta = radius_step * v;
+				const float phi = subradius_step * h;
 
 				const float x = cos(theta) * (torus.m_radius + torus.m_solid_radius * cos(phi));
-				const float y = sin(theta) * (torus.m_radius + torus.m_solid_radius * cos(phi));
-				const float z = torus.m_solid_radius * sin(phi);
+				const float y = torus.m_solid_radius * sin(phi);
+				const float z = sin(theta) * (torus.m_radius + torus.m_solid_radius * cos(phi));
 
-				vec3 point = flip_point_axis({ x, z, y }, to_signed_axis(torus.m_axis, true));
+				vec3 circle = flip_point_axis(vec3(cos(theta), 0.f, sin(theta)) * torus.m_radius, axis);
+				vec3 point = flip_point_axis(vec3(x, y, z), axis);
+
+				vec3 normal = circle - point;
 
 				writer.position(point)
+					  .normal(normal)
 					  .colour(shape.m_symbol.m_fill);
 			}
 
@@ -216,8 +222,8 @@ namespace mud
 				const uint16_t lb = h + (v + 1) * sides_subdiv;
 				const uint16_t rb = (h + 1) + (v + 1) * sides_subdiv;
 
-				writer.tri(lt, rt, lb);
-				writer.tri(rt, rb, lb);
+				writer.tri(lt, lb, rt);
+				writer.tri(rt, lb, rb);
 			}
 	}
 }

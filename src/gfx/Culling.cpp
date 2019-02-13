@@ -247,6 +247,8 @@ namespace mud
 
 	void Culler::render(Render& render)
 	{
+		if(render.m_shot->m_occluders.empty())
+			return;
 		if(rect_w(render.m_viewport.m_rect) == 0 || rect_h(render.m_viewport.m_rect) == 0)
 			return;
 

@@ -10,6 +10,115 @@ using namespace mud;
 void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 #if 1
+	Viewer& viewer = ui::scene_viewer(parent);
+	ui::orbit_controller(viewer);
+
+	Scene& scene = *viewer.m_scene;
+	Gnode& root = viewer.m_scene->begin();
+
+	Material& material = milky_white(app.m_gfx_system);
+
+	//gfx::direct_light_node(root);
+	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
+	gfx::shape(root, Sphere(), Symbol(), 0U, &material);
+	gfx::shape(root, Torus(1.f, 0.1f), Symbol(), 0U, &material);
+
+	static vector<Node3*> lights;
+
+	static bool once = false;
+	if(!once)
+	{
+		once = true;
+
+		// MATERIALS
+
+#if 0
+		Texture* texture = app.m_gfx_system.textures().file("disturb.jpg");
+		//texture.repeat.set( 20, 10 );
+		//texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+		//texture.format = THREE.RGBFormat;
+
+		Material& ground_material = app.m_gfx_system.materials().fetch("ground"); //new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
+		Material& material = gfx::pbr_material(app.m_gfx_system, "object", from_rgba(0xffffff), 0.5f, 1.0f); //new THREE.MeshStandardMaterial( { color: 0xffffff, roughness: 0.5, metalness: 1.0 } );
+
+		// GROUND
+
+		Model& model = app.m_gfx_system.fetch_symbol(Symbol(), Rect(), DrawMode::PLAIN); //new THREE.Mesh( new THREE.PlaneBufferGeometry( 800, 400, 2, 2 ), groundMaterial );
+		Node3& node = gfx::nodes(scene).tconstruct(Node3(vec3(0, -5, 0), quat(-c_pi / 2.f, 0, 0, 1)));
+		gfx::items(scene).tconstruct(Item(node, model, 0, &ground_material));
+#endif
+
+		// OBJECTS
+
+		//var torus = Torus();
+		Model& torus_model = app.m_gfx_system.fetch_symbol(Symbol(), Torus(1.f, 0.1f), DrawMode::PLAIN); //new THREE.TorusBufferGeometry( 1.5, 0.4, 8, 16 );
+
+		for(int i = 0; i < 5000; i++) {
+
+			float x = 400.f * (0.5 - random_scalar<float>());
+			float y = 50.f * (0.5 - random_scalar<float>()) + 25;
+			float z = 200.f * (0.5 - random_scalar<float>());
+
+			float a = 3.14 * (0.5 - random_scalar<float>());
+			float b = 3.14 * (0.5 - random_scalar<float>());
+
+			Node3& n = gfx::nodes(scene).tconstruct(Node3(vec3(x, y, z), quat(a, b, 0, 1)));
+			Item& it = gfx::items(scene).tconstruct(Item(n, torus_model, 0, &material));
+
+			gfx::update_item_aabb(it);
+
+			//Gnode& n = gfx::node(root, {}, vec3(x, y, z));
+			//gfx::item(n, torus_model, 0, &material);
+		}
+
+		// LIGHTS
+
+		float intensity = 2.5;
+		float distance = 100;
+		float decay = 2.0;
+
+		uint32_t colours[] = { 0xff0040, 0x0040ff, 0x80ff80, 0xffaa00, 0x00ffaa, 0xff1100 };
+
+		Sphere sphere = Sphere(0.25); //THREE.SphereBufferGeometry( 0.25, 16, 8 );
+		Model& sphere_model = app.m_gfx_system.fetch_symbol(Symbol(), sphere, DrawMode::PLAIN);
+
+		for(int i = 0; i < 6; ++i)
+		{
+			Material& m = gfx::unshaded_material(app.m_gfx_system, ("light" + to_string(i)).c_str(), from_rgba(colours[i])); //Material({ color: colours[i] }) );
+			Node3& n = gfx::nodes(scene).tconstruct(Node3());
+			Light& l = gfx::lights(scene).tconstruct(Light(n, LightType::Point, false));
+			l.m_colour = from_rgba(colours[i]);
+			l.m_energy = intensity;
+			l.m_range = distance;
+			//l.decay = decay;
+			Item& it = gfx::items(scene).tconstruct(Item(n, sphere_model, 0, &m));
+
+			lights.push_back(&n);
+		}
+
+		Node3& direct_node = gfx::nodes(scene).tconstruct(Node3());
+		Light& direct_light = gfx::lights(scene).tconstruct(Light(direct_node, LightType::Direct)); //THREE.DirectionalLight( 0xffffff, 0.05 );
+		//dlight.position.set( 0.5, 1, 0 ).normalize();
+	}
+
+	//var scene = viewer.scene.begin();
+
+	float coef0[] = { 0.7, 0.3, 0.7, 0.3, 0.3, 0.7 };
+	float coef1[] = { 0.3, 0.7, 0.5, 0.5, 0.5, 0.5 };
+
+	//var time = Date.now() * 0.00025;
+	float d = 150;
+
+	static float time = 0.f;
+	time += 0.01f;
+
+	for(int i = 0; i < 6; ++i)
+	{
+		vec2 pos = { sin(time * coef0[i]) * d, cos(time * coef1[i]) * d };
+		lights[i]->m_transform = bxtranslation({ pos.x, 0.f, pos.y });
+	}
+
+#elif 1
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 

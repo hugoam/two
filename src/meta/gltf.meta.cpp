@@ -189,7 +189,7 @@ namespace mud
 		static Meta meta = { t, &namspc({}), "glTFAlphaMode", sizeof(glTFAlphaMode), TypeClass::Enum };
 		static cstring ids[] = { "Opacity", "MASK", "BLEND" };
 		static uint32_t values[] = { 0, 1, 2 };
-		static glTFAlphaMode vars[] = { glTFAlphaMode::Opacity, glTFAlphaMode::MASK, glTFAlphaMode::BLEND};
+		static glTFAlphaMode vars[] = { glTFAlphaMode::OPAQUE, glTFAlphaMode::MASK, glTFAlphaMode::BLEND};
 		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { glTFAlphaMode__to_string,

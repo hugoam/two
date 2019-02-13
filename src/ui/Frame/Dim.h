@@ -89,7 +89,7 @@ namespace mud
 		Block,   // Paragraph   direction, Sizing::Fixed  length, Sizing::Fixed  depth
 		Line,	 // Reading     direction, Sizing::Wrap   length, Sizing::Shrink depth
 		Stack,   // Paragraph   direction, Sizing::Shrink length, Sizing::Wrap   depth 
-		Div,	 // Flip      direction, Sizing::Wrap   length, Sizing::Shrink depth
+		Div,	 // Flip        direction, Sizing::Wrap   length, Sizing::Shrink depth
 		Spacer,  // Same        direction, Sizing::Wrap   length, Sizing::Shrink depth
 		Board,   // Reading     direction, Sizing::Expand length, Sizing::Expand depth
 		Layout   // Paragraph   direction, Sizing::Expand length, Sizing::Expand depth

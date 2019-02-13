@@ -375,7 +375,7 @@ namespace mud
 		if(gltf_material.double_sided)
 			material.m_base_block.m_cull_mode = CullMode::None;
 
-		if(gltf_material.alpha_mode != glTFAlphaMode::Opacity::Opaque)
+		if(gltf_material.alpha_mode != glTFAlphaMode::OPAQUE)
 			material.m_base_block.m_is_alpha = true;
 	}
 

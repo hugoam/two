@@ -694,7 +694,7 @@ namespace mud
 		static stl::string name_default = "";
 		static mud::Solver solver_default = mud::Solver::Frame;
 		static mud::v2<mud::AutoLayout> layout_default = {AutoLayout::Layout,AutoLayout::Layout};
-		static mud::LayoutFlow flow_default = mud::LayoutFlow::mud::LayoutFlow;
+		static mud::LayoutFlow flow_default = mud::LayoutFlow::Flow;
 		static mud::Space space_default = Preset::Sheet;
 		static mud::Clip clipping_default = mud::Clip::None;
 		static mud::Opacity opacity_default = mud::Opacity::Clear;

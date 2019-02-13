@@ -73,8 +73,13 @@ namespace mud
 	{
 		bgfx_state |= item.m_mesh->submit(encoder);
 
-		mat4 transform = m_node->m_transform * item.m_transform;
-		encoder.setTransform(value_ptr(transform));
+		if(!item.m_has_transform)
+			encoder.setTransform(value_ptr(m_node->m_transform));
+		else
+		{
+			mat4 transform = m_node->m_transform * item.m_transform;
+			encoder.setTransform(value_ptr(transform));
+		}
 
 		if(!m_instances.empty())
 			encoder.setInstanceDataBuffer(&m_instance_buffers[item.m_index]);
