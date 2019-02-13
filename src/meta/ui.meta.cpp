@@ -30,10 +30,10 @@ void mud_Clipping__to_string(void* val, string& str) { str = g_enu[type<mud::Cli
 void mud_Clipping__to_value(const string& str, void* val) { (*static_cast<mud::Clipping*>(val)) = mud::Clipping(g_enu[type<mud::Clipping>().m_id]->value(str.c_str())); }
 void mud_Dim__to_string(void* val, string& str) { str = g_enu[type<mud::Dim>().m_id]->name(uint32_t((*static_cast<mud::Dim*>(val)))); }
 void mud_Dim__to_value(const string& str, void* val) { (*static_cast<mud::Dim*>(val)) = mud::Dim(g_enu[type<mud::Dim>().m_id]->value(str.c_str())); }
-void mud_Flow__to_string(void* val, string& str) { str = g_enu[type<mud::Flow>().m_id]->name(uint32_t((*static_cast<mud::Flow*>(val)))); }
-void mud_Flow__to_value(const string& str, void* val) { (*static_cast<mud::Flow*>(val)) = mud::Flow(g_enu[type<mud::Flow>().m_id]->value(str.c_str())); }
 void mud_FlowAxis__to_string(void* val, string& str) { str = g_enu[type<mud::FlowAxis>().m_id]->name(uint32_t((*static_cast<mud::FlowAxis*>(val)))); }
 void mud_FlowAxis__to_value(const string& str, void* val) { (*static_cast<mud::FlowAxis*>(val)) = mud::FlowAxis(g_enu[type<mud::FlowAxis>().m_id]->value(str.c_str())); }
+void mud_LayoutFlow__to_string(void* val, string& str) { str = g_enu[type<mud::LayoutFlow>().m_id]->name(uint32_t((*static_cast<mud::LayoutFlow*>(val)))); }
+void mud_LayoutFlow__to_value(const string& str, void* val) { (*static_cast<mud::LayoutFlow*>(val)) = mud::LayoutFlow(g_enu[type<mud::LayoutFlow>().m_id]->value(str.c_str())); }
 void mud_LayoutSolver__to_string(void* val, string& str) { str = g_enu[type<mud::LayoutSolver>().m_id]->name(uint32_t((*static_cast<mud::LayoutSolver*>(val)))); }
 void mud_LayoutSolver__to_value(const string& str, void* val) { (*static_cast<mud::LayoutSolver*>(val)) = mud::LayoutSolver(g_enu[type<mud::LayoutSolver>().m_id]->value(str.c_str())); }
 void mud_Opacity__to_string(void* val, string& str) { str = g_enu[type<mud::Opacity>().m_id]->name(uint32_t((*static_cast<mud::Opacity*>(val)))); }
@@ -314,18 +314,6 @@ namespace mud
 		g_convert[t.m_id] = &convert;
 	}
 	{
-		Type& t = type<mud::Flow>();
-		static Meta meta = { t, &namspc({ "mud" }), "Flow", sizeof(mud::Flow), TypeClass::Enum };
-		static cstring ids[] = { "FLOW", "OVERLAY", "ALIGN", "FREE" };
-		static uint32_t values[] = { 0, 1, 2, 3 };
-		static mud::Flow vars[] = { mud::FLOW, mud::OVERLAY, mud::ALIGN, mud::FREE};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
-		static Enum enu = { t, false, ids, values, refs };
-		static Convert convert = { mud_Flow__to_string,
-		                           mud_Flow__to_value };
-		g_convert[t.m_id] = &convert;
-	}
-	{
 		Type& t = type<mud::FlowAxis>();
 		static Meta meta = { t, &namspc({ "mud" }), "FlowAxis", sizeof(mud::FlowAxis), TypeClass::Enum };
 		static cstring ids[] = { "READING", "PARAGRAPH", "PARALLEL", "ORTHOGONAL", "AXIS_NONE" };
@@ -335,6 +323,18 @@ namespace mud
 		static Enum enu = { t, false, ids, values, refs };
 		static Convert convert = { mud_FlowAxis__to_string,
 		                           mud_FlowAxis__to_value };
+		g_convert[t.m_id] = &convert;
+	}
+	{
+		Type& t = type<mud::LayoutFlow>();
+		static Meta meta = { t, &namspc({ "mud" }), "LayoutFlow", sizeof(mud::LayoutFlow), TypeClass::Enum };
+		static cstring ids[] = { "FLOW", "OVERLAY", "ALIGN", "FREE" };
+		static uint32_t values[] = { 0, 1, 2, 3 };
+		static mud::LayoutFlow vars[] = { mud::FLOW, mud::OVERLAY, mud::ALIGN, mud::FREE};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { t, false, ids, values, refs };
+		static Convert convert = { mud_LayoutFlow__to_string,
+		                           mud_LayoutFlow__to_value };
 		g_convert[t.m_id] = &convert;
 	}
 	{
@@ -850,7 +850,7 @@ namespace mud
 		static stl::string name_default = "";
 		static mud::LayoutSolver solver_default = FRAME_SOLVER;
 		static mud::Dim2<mud::AutoLayout> layout_default = {AUTO_LAYOUT,AUTO_LAYOUT};
-		static mud::Flow flow_default = FLOW;
+		static mud::LayoutFlow flow_default = FLOW;
 		static mud::Space space_default = SHEET;
 		static mud::Clipping clipping_default = NOCLIP;
 		static mud::Opacity opacity_default = CLEAR;
@@ -873,7 +873,7 @@ namespace mud
 			{ t, offsetof(mud::Layout, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Layout, m_solver), type<mud::LayoutSolver>(), "solver", &solver_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Layout, m_layout), type<mud::Dim2<mud::AutoLayout>>(), "layout", &layout_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Layout, m_flow), type<mud::Flow>(), "flow", &flow_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Layout, m_flow), type<mud::LayoutFlow>(), "flow", &flow_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Layout, m_space), type<mud::Space>(), "space", &space_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Layout, m_clipping), type<mud::Clipping>(), "clipping", &clipping_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Layout, m_opacity), type<mud::Opacity>(), "opacity", &opacity_default, Member::Value, nullptr },
@@ -1124,10 +1124,6 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "UiRect", sizeof(mud::UiRect), TypeClass::Struct };
 		// bases
 		// defaults
-		static mud::vec2 position_default = Zero2;
-		static mud::vec2 size_default = Zero2;
-		static mud::vec2 content_default = Zero2;
-		static mud::vec2 span_default = Unit2;
 		static float scale_default = 1.f;
 		// constructors
 		static Constructor constructors[] = {
@@ -1139,10 +1135,10 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::UiRect, m_position), type<mud::vec2>(), "position", &position_default, Member::Value, nullptr },
-			{ t, offsetof(mud::UiRect, m_size), type<mud::vec2>(), "size", &size_default, Member::Value, nullptr },
-			{ t, offsetof(mud::UiRect, m_content), type<mud::vec2>(), "content", &content_default, Member::Value, nullptr },
-			{ t, offsetof(mud::UiRect, m_span), type<mud::vec2>(), "span", &span_default, Member::Value, nullptr },
+			{ t, offsetof(mud::UiRect, m_position), type<mud::vec2>(), "position", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::UiRect, m_size), type<mud::vec2>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::UiRect, m_content), type<mud::vec2>(), "content", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::UiRect, m_span), type<mud::vec2>(), "span", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::UiRect, m_scale), type<float>(), "scale", &scale_default, Member::Value, nullptr }
 		};
 		// methods
@@ -1568,7 +1564,6 @@ namespace mud
 		m.m_types.push_back(&type<mud::Dim2<size_t>>());
 		m.m_types.push_back(&type<mud::Dock>());
 		m.m_types.push_back(&type<mud::Docksystem>());
-		m.m_types.push_back(&type<mud::Flow>());
 		m.m_types.push_back(&type<mud::FlowAxis>());
 		m.m_types.push_back(&type<mud::Gradient>());
 		m.m_types.push_back(&type<mud::GridSolver>());
@@ -1576,6 +1571,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::InkStyle>());
 		m.m_types.push_back(&type<mud::Layer>());
 		m.m_types.push_back(&type<mud::Layout>());
+		m.m_types.push_back(&type<mud::LayoutFlow>());
 		m.m_types.push_back(&type<mud::LayoutSolver>());
 		m.m_types.push_back(&type<mud::NodeConnection>());
 		m.m_types.push_back(&type<mud::Opacity>());

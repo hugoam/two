@@ -28,7 +28,7 @@ namespace mud
 		attr_ string m_name = "";
 		attr_ LayoutSolver m_solver = FRAME_SOLVER;
 		attr_ Dim2<AutoLayout> m_layout = { AUTO_LAYOUT, AUTO_LAYOUT };
-		attr_ Flow m_flow = FLOW;
+		attr_ LayoutFlow m_flow = FLOW;
 		attr_ Space m_space = SHEET;
 		attr_ Clipping m_clipping = NOCLIP;
 		attr_ Opacity m_opacity = CLEAR;

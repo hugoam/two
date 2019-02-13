@@ -28,15 +28,17 @@ namespace mud
 	};
 
 	export_ template <class T>
-	class TPool : public Pool
+	class refl_ TPool : public Pool
 	{
 	public:
 		TPool(size_t size = 12);
 		~TPool();
 
-		inline T* talloc();
-		inline void tdestroy(T& object);
-		inline void tfree(T& object);
+		meth_ T* talloc();
+		//meth_ T& tconstruct(T&& value);
+		meth_ T& tconstruct(const T& value);
+		meth_ void tdestroy(T& object);
+		meth_ void tfree(T& object);
 
 		virtual void alloc(Ref& ref);
 		virtual Ref alloc();
@@ -44,18 +46,18 @@ namespace mud
 		virtual void destroy(Ref object);
 		virtual void free(Ref object);
 
-		inline void reset(size_t size);
+		void reset(size_t size);
 		virtual void reset();
 		virtual void clear();
 
 		template <class... Types>
-		inline T& construct(Types&&... args);
+		T& construct(Types&&... args);
 
 		template <class T_Func>
-		inline void iterate(T_Func func) const;
+		void iterate(T_Func func) const;
 
 		template <class T_Test>
-		inline T* find(T_Test test) const;
+		T* find(T_Test test) const;
 
 		unique<VecPool<T>> m_vec_pool;
 	};

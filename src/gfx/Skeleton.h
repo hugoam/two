@@ -30,9 +30,9 @@ namespace mud
 		int m_index = 0;
 		int m_parent = -1;
 
-		attr_ vec3 m_position = Zero3;
+		attr_ vec3 m_position = vec3(0.f);
 		attr_ quat m_rotation = ZeroQuat;
-		attr_ vec3 m_scale = Unit3;
+		attr_ vec3 m_scale = vec3(1.f);
 
 		mat4 m_pose_local;
 		mat4 m_pose;

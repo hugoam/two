@@ -48,10 +48,11 @@ namespace mud
 		Absolute
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT ParticleFlow
+	// alternate names: spout, flux, jet
+	export_ struct refl_ MUD_GFX_EXPORT Flow
 	{
-		ParticleFlow();
-		ParticleFlow(const string& name);
+		Flow();
+		Flow(const string& name);
 
 		attr_ string m_name;
 
@@ -66,7 +67,7 @@ namespace mud
 		attr_ quat m_rotation = ZeroQuat;
 		attr_ BlendMode m_blend_mode = BlendMode::Normal;
 
-		//attr_ ValueTrack<vec3> m_position = { Zero3 };
+		//attr_ ValueTrack<vec3> m_position = { vec3(0.f) };
 		//attr_ ValueTrack<quat> m_rotation = { ZeroQuat };
 		attr_ ValueTrack<float> m_volume = { 1.f };
 
@@ -99,10 +100,11 @@ namespace mud
 		//float m_angle;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT Particles : public ParticleFlow
+	// alternate names: jet, flow, surge, spray
+	export_ struct refl_ MUD_GFX_EXPORT Flare : public Flow
 	{
 	public:
-		Particles(Node3* node = nullptr, ShapeVar shape = {}, uint32_t max_particles = 1024);
+		Flare(Node3* node = nullptr, ShapeVar shape = {}, uint32_t max_particles = 1024);
 
 		attr_ Node3* m_node = nullptr;
 
@@ -133,7 +135,7 @@ namespace mud
 	export_ class MUD_GFX_EXPORT ParticleSystem
 	{
 	public:
-		ParticleSystem(GfxSystem& gfx_system, TPool<Particles>& emitters);
+		ParticleSystem(GfxSystem& gfx_system, TPool<Flare>& emitters);
 		~ParticleSystem();
 
 		GfxSystem& m_gfx_system;
@@ -144,7 +146,7 @@ namespace mud
 		void update(float timestep);
 		void render(bgfx::Encoder& encoder, uint8_t pass, const mat4& view, const vec3& eye);
 		
-		TPool<Particles>& m_emitters;
+		TPool<Flare>& m_emitters;
 
 		bgfx::ProgramHandle m_program;
 

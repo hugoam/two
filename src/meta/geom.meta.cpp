@@ -482,7 +482,6 @@ namespace mud
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::ArcLine, mud::Shape>() };
 		// defaults
-		static mud::vec3 start_default = Zero3;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_ArcLine__construct_0, {} },
@@ -495,7 +494,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::ArcLine, m_start), type<mud::vec3>(), "start", &start_default, Member::Value, nullptr },
+			{ t, offsetof(mud::ArcLine, m_start), type<mud::vec3>(), "start", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::ArcLine, m_middle), type<mud::vec3>(), "middle", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::ArcLine, m_end), type<mud::vec3>(), "end", nullptr, Member::Value, nullptr }
 		};
@@ -677,7 +676,6 @@ namespace mud
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Ellipsis, mud::Shape>() };
 		// defaults
-		static mud::vec2 radius_default = Unit2;
 		static mud::Axis axis_default = mud::Axis::Y;
 		static mud::Axis construct_1_axis_default = mud::Axis::Y;
 		// constructors
@@ -691,7 +689,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Ellipsis, m_radius), type<mud::vec2>(), "radius", &radius_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Ellipsis, m_radius), type<mud::vec2>(), "radius", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Ellipsis, m_axis), type<mud::Axis>(), "axis", &axis_default, Member::Value, nullptr }
 		};
 		// methods
@@ -726,7 +724,7 @@ namespace mud
 		// defaults
 		static mud::vec2 size_default = vec2{1.f};
 		static mud::vec2 space_default = vec2{0.1f};
-		static mud::vec2 construct_1_space_default = Unit2;
+		static mud::vec2 construct_1_space_default = vec2(1.f);
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Grid2__construct_0, {} },
@@ -780,8 +778,6 @@ namespace mud
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Line, mud::Shape>() };
 		// defaults
-		static mud::vec3 start_default = Zero3;
-		static mud::vec3 end_default = Unit3;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Line__construct_0, {} },
@@ -793,8 +789,8 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Line, m_start), type<mud::vec3>(), "start", &start_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Line, m_end), type<mud::vec3>(), "end", &end_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Line, m_start), type<mud::vec3>(), "start", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Line, m_end), type<mud::vec3>(), "end", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -900,8 +896,6 @@ namespace mud
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Rect, mud::Shape>() };
 		// defaults
-		static mud::vec2 position_default = Zero2;
-		static mud::vec2 size_default = Unit2;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Rect__construct_0, {} },
@@ -914,8 +908,8 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Rect, m_position), type<mud::vec2>(), "position", &position_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Rect, m_size), type<mud::vec2>(), "size", &size_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Rect, m_position), type<mud::vec2>(), "position", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Rect, m_size), type<mud::vec2>(), "size", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1076,7 +1070,6 @@ namespace mud
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Triangle, mud::Shape>() };
 		// defaults
-		static mud::vec2 size_default = Unit2;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Triangle__construct_0, {} },
@@ -1088,7 +1081,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Triangle, m_size), type<mud::vec2>(), "size", &size_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Triangle, m_size), type<mud::vec2>(), "size", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members

@@ -18,8 +18,8 @@ namespace mud
 		constr_ Line();
 		constr_ Line(const vec3& start, const vec3& end);
 
-		attr_ vec3 m_start = Zero3;
-		attr_ vec3 m_end = Unit3;
+		attr_ vec3 m_start = vec3(0.f);
+		attr_ vec3 m_end = vec3(1.f);
 
 		virtual object<Shape> clone() const;
 	};
@@ -31,8 +31,8 @@ namespace mud
 		constr_ Rect(const vec2& position, const vec2& size);
 		constr_ Rect(float x, float y, float w, float h);
 
-		attr_ vec2 m_position = Zero2;
-		attr_ vec2 m_size = Unit2;
+		attr_ vec2 m_position = vec2(0.f);
+		attr_ vec2 m_size = vec2(1.f);
 
 		virtual object<Shape> clone() const;
 	};
@@ -61,7 +61,7 @@ namespace mud
 	{
 	public:
 		constr_ Grid2();
-		constr_ Grid2(const vec2& size, const vec2& space = Unit2);
+		constr_ Grid2(const vec2& size, const vec2& space = vec2(1.f));
 
 		attr_ vec2 m_size = vec2{ 1.f };
 		attr_ vec2 m_space = vec2{ 0.1f };
@@ -75,7 +75,7 @@ namespace mud
 		constr_ Triangle();
 		constr_ Triangle(const vec2& size);
 
-		attr_ vec2 m_size = Unit2;
+		attr_ vec2 m_size = vec2(1.f);
 
 		virtual object<Shape> clone() const;
 	};
@@ -130,7 +130,7 @@ namespace mud
 		constr_ Ellipsis();
 		constr_ Ellipsis(vec2 radius, Axis axis = Axis::Y);
 
-		attr_ vec2 m_radius = Unit2;
+		attr_ vec2 m_radius = vec2(1.f);
 		attr_ Axis m_axis = Axis::Y;
 
 		virtual object<Shape> clone() const;
@@ -156,7 +156,7 @@ namespace mud
 		constr_ ArcLine(const vec3& start, const vec3& middle, const vec3& end);
 		constr_ ArcLine(const vec3& center, const vec3& start, const vec3& middle, const vec3& end);
 
-		attr_ vec3 m_start = Zero3;
+		attr_ vec3 m_start = vec3(0.f);
 		attr_ vec3 m_middle;
 		attr_ vec3 m_end;
 

@@ -14,7 +14,7 @@ namespace mud
 	public:
 		SoundListener();
 
-		vec3 m_position = Zero3;
+		vec3 m_position = vec3(0.f);
 		vec3 m_front = { 0.f, 0.f, -1.f }; //-Z3;
 		vec3 m_up = Y3;
 

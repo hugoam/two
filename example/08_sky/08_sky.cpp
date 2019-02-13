@@ -63,7 +63,7 @@ public:
 
 	vec3 m_north_direction = { 0.f, 0.f, -1.f }; //-Z3; // @kludge somehow meta generator doesn't like this ?
 	quat m_sun_rotation = ZeroQuat;
-	vec3 m_sun_direction = Zero3;
+	vec3 m_sun_direction = vec3(0.f);
 	vec3 m_up = Y3;
 	float m_latitude = 50.f;
 	Month m_month = Month::June;

@@ -89,7 +89,7 @@ namespace mud
 		if(m_picker)
 		{
 			BlockCopy& copy = *m_scene->m_gfx_system.m_pipeline->block<BlockCopy>();
-			vec4 source_rect = { Zero2, rect_size(vec4(m_pick_query.m_rect)) };
+			vec4 source_rect = { vec2(0.f), rect_size(vec4(m_pick_query.m_rect)) };
 			vec4 target_rect = { vec2(0.f), vec2(render.m_target->m_size) * 0.33f };
 			copy.submit_quad(*render.m_target, 251, BGFX_INVALID_HANDLE, m_picker->m_fbo_texture, { source_rect, target_rect, true });
 		}
@@ -207,7 +207,7 @@ namespace ui
 	{
 		SceneViewer& self = parent.subi<SceneViewer>(&type<SceneViewer>());
 		self.m_viewport.m_rect = uvec4(self.query_size());
-		if(self.once() && size != Zero2)
+		if(self.once() && size != vec2(0.f))
 		{
 			self.m_frame.m_content = size;
 			self.m_frame.solver(viewer_styles().viewer_fixed);

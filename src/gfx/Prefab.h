@@ -23,7 +23,7 @@ namespace mud
 		Item,
 		Model,
 		Shape,
-		Particles,
+		Flare,
 		Light
 	};
 

@@ -86,7 +86,7 @@ namespace gfx
 		vec4 params = { diffuse, specular, gi_probe.m_bias, gi_probe.m_normal_bias };
 		vec4 bounds = { gi_probe.m_extents * 2.f, 0.f };
 		mat4 transform = gi_probe.m_transform * inverse(view);
-		vec4 inv_extents = { Unit3 / gi_probe.m_extents, 1.f };
+		vec4 inv_extents = { vec3(1.f) / gi_probe.m_extents, 1.f };
 		vec4 cell_size = { gi_probe.m_extents * 2.f / float(gi_probe.m_subdiv), 1.f };
 
 		encoder.setUniform(u_transform, &transform);

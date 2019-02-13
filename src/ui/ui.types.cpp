@@ -15,8 +15,8 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::AutoLayout>() { static Type ty("AutoLayout", sizeof(mud::AutoLayout)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Clipping>() { static Type ty("Clipping", sizeof(mud::Clipping)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Dim>() { static Type ty("Dim", sizeof(mud::Dim)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Flow>() { static Type ty("Flow", sizeof(mud::Flow)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>() { static Type ty("FlowAxis", sizeof(mud::FlowAxis)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::LayoutFlow>() { static Type ty("LayoutFlow", sizeof(mud::LayoutFlow)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::LayoutSolver>() { static Type ty("LayoutSolver", sizeof(mud::LayoutSolver)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Opacity>() { static Type ty("Opacity", sizeof(mud::Opacity)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Pivot>() { static Type ty("Pivot", sizeof(mud::Pivot)); return ty; }

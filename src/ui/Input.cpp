@@ -205,7 +205,7 @@ namespace ui
 		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
-			vg.draw_rect({ Zero2, frame.m_size }, value, frame.d_inkstyle->m_corner_radius);
+			vg.draw_rect({ vec2(0.f), frame.m_size }, value, frame.d_inkstyle->m_corner_radius);
 		};
 		return self;
 	}

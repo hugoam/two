@@ -248,10 +248,10 @@ namespace mud
 	{
 		Type& t = type<mud::Axis>();
 		static Meta meta = { t, &namspc({ "mud" }), "Axis", sizeof(mud::Axis), TypeClass::Enum };
-		static cstring ids[] = { "X", "Y", "Z" };
-		static uint32_t values[] = { 0, 1, 2 };
-		static mud::Axis vars[] = { mud::Axis::X, mud::Axis::Y, mud::Axis::Z};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static cstring ids[] = { "X", "Y", "Z", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 3 };
+		static mud::Axis vars[] = { mud::Axis::X, mud::Axis::Y, mud::Axis::Z, mud::Axis::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { mud_Axis__to_string,
 		                           mud_Axis__to_value };
@@ -272,10 +272,10 @@ namespace mud
 	{
 		Type& t = type<mud::Side>();
 		static Meta meta = { t, &namspc({ "mud" }), "Side", sizeof(mud::Side), TypeClass::Enum };
-		static cstring ids[] = { "Right", "Left", "Up", "Down", "Back", "Front" };
-		static uint32_t values[] = { 0, 1, 2, 3, 4, 5 };
-		static mud::Side vars[] = { mud::Side::Right, mud::Side::Left, mud::Side::Up, mud::Side::Down, mud::Side::Back, mud::Side::Front};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5]};
+		static cstring ids[] = { "Right", "Left", "Up", "Down", "Back", "Front", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6 };
+		static mud::Side vars[] = { mud::Side::Right, mud::Side::Left, mud::Side::Up, mud::Side::Down, mud::Side::Back, mud::Side::Front, mud::Side::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6]};
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { mud_Side__to_string,
 		                           mud_Side__to_value };
@@ -284,10 +284,10 @@ namespace mud
 	{
 		Type& t = type<mud::SignedAxis>();
 		static Meta meta = { t, &namspc({ "mud" }), "SignedAxis", sizeof(mud::SignedAxis), TypeClass::Enum };
-		static cstring ids[] = { "PlusX", "MinusX", "PlusY", "MinusY", "PlusZ", "MinusZ" };
-		static uint32_t values[] = { 0, 1, 2, 3, 4, 5 };
-		static mud::SignedAxis vars[] = { mud::SignedAxis::PlusX, mud::SignedAxis::MinusX, mud::SignedAxis::PlusY, mud::SignedAxis::MinusY, mud::SignedAxis::PlusZ, mud::SignedAxis::MinusZ};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5]};
+		static cstring ids[] = { "PlusX", "MinusX", "PlusY", "MinusY", "PlusZ", "MinusZ", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6 };
+		static mud::SignedAxis vars[] = { mud::SignedAxis::PlusX, mud::SignedAxis::MinusX, mud::SignedAxis::PlusY, mud::SignedAxis::MinusY, mud::SignedAxis::PlusZ, mud::SignedAxis::MinusZ, mud::SignedAxis::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6]};
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { mud_SignedAxis__to_string,
 		                           mud_SignedAxis__to_value };
@@ -755,9 +755,7 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Transform", sizeof(mud::Transform), TypeClass::Struct };
 		// bases
 		// defaults
-		static mud::vec3 position_default = Zero3;
 		static mud::quat rotation_default = ZeroQuat;
-		static mud::vec3 scale_default = Unit3;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Transform__construct_0, {} }
@@ -768,9 +766,9 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Transform, m_position), type<mud::vec3>(), "position", &position_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Transform, m_position), type<mud::vec3>(), "position", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Transform, m_rotation), type<mud::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Transform, m_scale), type<mud::vec3>(), "scale", &scale_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Transform, m_scale), type<mud::vec3>(), "scale", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members

@@ -464,6 +464,7 @@ namespace mud
 		{}
 
 		bool m_const = false;
+		CLFunction* m_function = nullptr;
 	};
 
 	class CLConstructor : public CLCallable
@@ -631,6 +632,7 @@ namespace mud
 		vector<unique<CLType>> m_extern_types = {};
 
 		vector<unique<CLFunction>> m_functions = {};
+		vector<unique<CLFunction>> m_methods = {};
 		vector<unique<CLFunction>> m_func_templates = {};
 
 		vector<unique<CLAlias>> m_aliases = {};

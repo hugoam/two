@@ -114,11 +114,11 @@ namespace mud
 	inline MeshAdapter& MeshAdapter::weights(const vec4& w) { if(m_cursor.m_weights) { *m_cursor.m_weights = w; next(m_cursor.m_weights); } return *this; }
 
 	inline vec3 MeshAdapter::position() { vec3 value = *m_cursor.m_position; next(m_cursor.m_position); return value; }
-	inline vec3 MeshAdapter::normal() { if(!m_cursor.m_normal) return Zero3; vec3 value = *m_cursor.m_normal; next(m_cursor.m_normal); return value; }
+	inline vec3 MeshAdapter::normal() { if(!m_cursor.m_normal) return vec3(0.f); vec3 value = *m_cursor.m_normal; next(m_cursor.m_normal); return value; }
 	inline Colour MeshAdapter::colour() { if(!m_cursor.m_colour) return Colour::None; Colour value = from_abgr(*m_cursor.m_colour); next(m_cursor.m_colour); return value; }
-	inline vec4 MeshAdapter::tangent() { if(!m_cursor.m_tangent) return vec4(Zero3, 1.f); vec4 value = *m_cursor.m_tangent; next(m_cursor.m_tangent); return value; }
-	inline vec2 MeshAdapter::uv0() { if(!m_cursor.m_uv0) return Zero2; vec2 value = *m_cursor.m_uv0; next(m_cursor.m_uv0); return value; }
-	inline vec2 MeshAdapter::uv1() { if(!m_cursor.m_uv1) return Zero2; vec2 value = *m_cursor.m_uv1; next(m_cursor.m_uv1); return value; }
+	inline vec4 MeshAdapter::tangent() { if(!m_cursor.m_tangent) return vec4(vec3(0.f), 1.f); vec4 value = *m_cursor.m_tangent; next(m_cursor.m_tangent); return value; }
+	inline vec2 MeshAdapter::uv0() { if(!m_cursor.m_uv0) return vec2(0.f); vec2 value = *m_cursor.m_uv0; next(m_cursor.m_uv0); return value; }
+	inline vec2 MeshAdapter::uv1() { if(!m_cursor.m_uv1) return vec2(0.f); vec2 value = *m_cursor.m_uv1; next(m_cursor.m_uv1); return value; }
 	inline uint16_t MeshAdapter::index() { uint16_t value = *(uint16_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
 	inline uint32_t MeshAdapter::index32() { uint32_t value = *(uint32_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
 

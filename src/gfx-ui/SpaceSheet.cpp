@@ -45,7 +45,6 @@ namespace mud
 		: m_texture("SpaceSheetTexture")
 		, m_material("SpaceSheetMaterial")
 		, m_model("SpaceSheet")
-		, m_node(viewport.m_scene)
 		, m_item(m_node, m_model, ItemFlag::Ui, &m_material)
 	{
 		load_texture_rgba(m_texture, uint16_t(width), uint16_t(height), {});

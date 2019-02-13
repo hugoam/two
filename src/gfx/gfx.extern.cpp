@@ -20,9 +20,9 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<Light*>;
 	template class MUD_GFX_EXPORT vector<Mesh*>;
 	template class MUD_GFX_EXPORT vector<Model*>;
-	template class MUD_GFX_EXPORT vector<Animated*>;
-	template class MUD_GFX_EXPORT vector<Particles*>;
-	template class MUD_GFX_EXPORT vector<ParticleFlow*>;
+	template class MUD_GFX_EXPORT vector<Mime*>;
+	template class MUD_GFX_EXPORT vector<Flare*>;
+	template class MUD_GFX_EXPORT vector<Flow*>;
 	template class MUD_GFX_EXPORT vector<Prefab*>;
 	template class MUD_GFX_EXPORT vector<Item*>;
 	template class MUD_GFX_EXPORT vector<Sound*>;
@@ -77,13 +77,13 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<function<void(Material&, const string&)>>;
 	template class MUD_GFX_EXPORT vector<function<void(Program&, const string&)>>;
 	template class MUD_GFX_EXPORT vector<function<void(Model&, const string&)>>;
-	template class MUD_GFX_EXPORT vector<function<void(ParticleFlow&, const string&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Flow&, const string&)>>;
 	template class MUD_GFX_EXPORT vector<function<void(Prefab&, const string&)>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Texture>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Material>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Program>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Model>>;
-	template class MUD_GFX_EXPORT unordered_map<string, unique<ParticleFlow>>;
+	template class MUD_GFX_EXPORT unordered_map<string, unique<Flow>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Prefab>>;
 	template class MUD_GFX_EXPORT unordered_map<uint32_t, uint32_t>;
 	template class MUD_GFX_EXPORT unordered_map<uint64_t, Program::Version>;

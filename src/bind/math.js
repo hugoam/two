@@ -1730,6 +1730,7 @@ Module['bvec4'] = v4_bool;
         Module['Axis']['X'] = _mud_Axis_X();
         Module['Axis']['Y'] = _mud_Axis_Y();
         Module['Axis']['Z'] = _mud_Axis_Z();
+        Module['Axis']['Count'] = _mud_Axis_Count();
         // Clockwise
         Module['CLOCKWISE'] = _mud_Clockwise_CLOCKWISE();
         Module['ANTI_CLOCKWISE'] = _mud_Clockwise_ANTI_CLOCKWISE();
@@ -1741,6 +1742,7 @@ Module['bvec4'] = v4_bool;
         Module['Side']['Down'] = _mud_Side_Down();
         Module['Side']['Back'] = _mud_Side_Back();
         Module['Side']['Front'] = _mud_Side_Front();
+        Module['Side']['Count'] = _mud_Side_Count();
         // SignedAxis
         Module['SignedAxis'] = Module['SignedAxis'] || {};
         Module['SignedAxis']['PlusX'] = _mud_SignedAxis_PlusX();
@@ -1749,6 +1751,7 @@ Module['bvec4'] = v4_bool;
         Module['SignedAxis']['MinusY'] = _mud_SignedAxis_MinusY();
         Module['SignedAxis']['PlusZ'] = _mud_SignedAxis_PlusZ();
         Module['SignedAxis']['MinusZ'] = _mud_SignedAxis_MinusZ();
+        Module['SignedAxis']['Count'] = _mud_SignedAxis_Count();
         // Spectrum
         Module['Spectrum'] = Module['Spectrum'] || {};
         Module['Spectrum']['Value'] = _mud_Spectrum_Value();

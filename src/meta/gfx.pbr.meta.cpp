@@ -307,7 +307,6 @@ namespace mud
 		// defaults
 		static bool enabled_default = false;
 		static mud::vec4 levels_1_4_default = {1.f,0.f,0.f,0.f};
-		static mud::vec4 levels_5_8_default = Zero4;
 		static float intensity_default = 0.4f;
 		static float bloom_default = 0.0f;
 		static float bleed_threshold_default = 1.0f;
@@ -325,7 +324,7 @@ namespace mud
 		static Member members[] = {
 			{ t, offsetof(mud::Glow, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Glow, m_levels_1_4), type<mud::vec4>(), "levels_1_4", &levels_1_4_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Glow, m_levels_5_8), type<mud::vec4>(), "levels_5_8", &levels_5_8_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Glow, m_levels_5_8), type<mud::vec4>(), "levels_5_8", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Glow, m_intensity), type<float>(), "intensity", &intensity_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Glow, m_bloom), type<float>(), "bloom", &bloom_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Glow, m_bleed_threshold), type<float>(), "bleed_threshold", &bleed_threshold_default, Member::Value, nullptr },
@@ -402,7 +401,6 @@ namespace mud
 		// defaults
 		static bool visible_default = true;
 		static float intensity_default = 1.f;
-		static mud::vec3 extents_default = Zero3;
 		static bool shadows_default = false;
 		static bool dirty_default = true;
 		// constructors
@@ -412,7 +410,7 @@ namespace mud
 			{ t, SIZE_MAX, type<mud::Node3>(), "node", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_ReflectionProbe__get_node },
 			{ t, offsetof(mud::ReflectionProbe, m_visible), type<bool>(), "visible", &visible_default, Member::Value, nullptr },
 			{ t, offsetof(mud::ReflectionProbe, m_intensity), type<float>(), "intensity", &intensity_default, Member::Value, nullptr },
-			{ t, offsetof(mud::ReflectionProbe, m_extents), type<mud::vec3>(), "extents", &extents_default, Member::Value, nullptr },
+			{ t, offsetof(mud::ReflectionProbe, m_extents), type<mud::vec3>(), "extents", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::ReflectionProbe, m_shadows), type<bool>(), "shadows", &shadows_default, Member::Value, nullptr },
 			{ t, offsetof(mud::ReflectionProbe, m_dirty), type<bool>(), "dirty", &dirty_default, Member::Value, nullptr }
 		};

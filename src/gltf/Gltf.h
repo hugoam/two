@@ -320,9 +320,9 @@ export_ struct refl_ glTFNode
 	attr_ int skin = -1;
 
 	attr_ mud::mat4 matrix = {};
-	attr_ mud::vec3 translation = mud::Zero3;
+	attr_ mud::vec3 translation = mud::vec3(0.f);
 	attr_ mud::quat rotation = mud::ZeroQuat;
-	attr_ mud::vec3 scale = mud::Unit3;
+	attr_ mud::vec3 scale = mud::vec3(1.f);
 
 	attr_ vector<int> children;
 

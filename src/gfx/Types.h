@@ -54,14 +54,13 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Animation*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::AnimationPlay>>();
     
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::Animated>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimatedTrack>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Animation>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimationPlay>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimationTrack>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Flow>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Material>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Model>>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::ParticleFlow>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Prefab>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Program>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Texture>>();
@@ -73,6 +72,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DepthParams>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Environment>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Filter>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Flow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Fog>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::FrameBuffer>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::FresnelMaterialBlock>();
@@ -91,10 +91,10 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<float>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::Colour>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Mesh>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Mime>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Model>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelItem>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Node3>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleFlow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::PbrMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Prefab>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Program>();
@@ -108,17 +108,22 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Skin>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Sun>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::SymbolIndex>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Flare>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Item>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Light>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Mime>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Node3>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Texture>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::UnshadedMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Viewport>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockCopy>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockFilter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockResolve>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::Particles>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Flare>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
 }

@@ -280,7 +280,7 @@ namespace mud
 		vec3 P = N * d;
 		vec3 result = L1 + (dot(N, P - L1) / dot(N, L2 - L1)) * (L2 - L1);
 		if(any(isnan(result)) || any(isinf(result)))
-			return Zero3; // @todo move to optional when C++17
+			return vec3(0.f); // @todo move to optional when C++17
 		return result;
 	}
 
@@ -289,7 +289,7 @@ namespace mud
 		vec3 N = cross(P2 - P1, P3 - P1);
 		vec3 result = L1 + (dot(N, P1 - L1) / dot(N, L2 - L1)) * (L2 - L1);
 		if(any(isnan(result)) || any(isinf(result)))
-			return Zero3; // @todo move to optional when C++17
+			return vec3(0.f); // @todo move to optional when C++17
 		return result;
 	}
 
@@ -302,7 +302,7 @@ namespace mud
 		float denom = dot(cross(normal0, normal1), normal2);
 
 		if(abs(denom) <= c_cmp_epsilon)
-			return Zero3; // @todo move to optional when C++17
+			return vec3(0.f); // @todo move to optional when C++17
 
 		return ((cross(normal1, normal2) * plane0.m_distance) +
 				(cross(normal2, normal0) * plane1.m_distance) +

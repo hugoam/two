@@ -19,6 +19,6 @@ namespace mud
 	export_ extern template class refl_ AssetStore<Program>;
 	export_ extern template class refl_ AssetStore<Material>;
 	export_ extern template class refl_ AssetStore<Model>;
-	export_ extern template class refl_ AssetStore<ParticleFlow>;
+	export_ extern template class refl_ AssetStore<Flow>;
 	export_ extern template class refl_ AssetStore<Prefab>;
 }

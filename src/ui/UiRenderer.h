@@ -45,10 +45,10 @@ namespace mud
 		virtual void begin_cached(Layer& layer) = 0;
 		virtual void end_cached() = 0;
 
-		virtual void draw_layer(Layer& layer, const vec2& position = Zero2, float scale = 1.f) = 0;
+		virtual void draw_layer(Layer& layer, const vec2& position = vec2(0.f), float scale = 1.f) = 0;
 #endif
 
-		virtual void begin_layer(Layer& layer, const vec2& position = Zero2, float scale = 1.f) = 0;
+		virtual void begin_layer(Layer& layer, const vec2& position = vec2(0.f), float scale = 1.f) = 0;
 		virtual void end_layer() = 0;
 
 		virtual void begin_update(const vec2& position, float scale) = 0;
@@ -91,7 +91,7 @@ namespace mud
 		virtual float text_size(cstring text, size_t len, Dim dim, const TextPaint& paint) = 0;
 		virtual vec2 text_size(cstring text, size_t len, const TextPaint& paint) = 0;
 
-		void draw_rect(const vec4& rect, const Paint& paint, const vec4& corners = Zero4);
+		void draw_rect(const vec4& rect, const Paint& paint, const vec4& corners = vec4(0.f));
 
 		cstring font_path(cstring font);
 

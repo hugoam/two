@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stl/new.h>
+#include <stl/move.h>
 #include <pool/Pool.h>
 #include <pool/VecPool.hpp>
 #include <type/RefVal.h>
@@ -18,6 +19,14 @@ namespace mud
 
 	template <class T>
 	inline T* TPool<T>::talloc() { return m_vec_pool->alloc(); }
+	template <class T>
+	//inline T& TPool<T>::tconstruct(T&& value)
+	inline T& TPool<T>::tconstruct(const T& value)
+	{
+		T* at = this->talloc();
+		new (stl::placeholder(), at) T(value);
+		return *at;
+	}
 	template <class T>
 	inline void TPool<T>::tdestroy(T& object) { m_vec_pool->destroy(&object); }
 	template <class T>

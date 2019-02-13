@@ -28,9 +28,9 @@ namespace mud
 		ImportConfig() {}
 
 		attr_ ModelFormat m_format = ModelFormat::obj;
-		attr_ vec3 m_position = Zero3;
+		attr_ vec3 m_position = vec3(0.f);
 		attr_ quat m_rotation = ZeroQuat;
-		attr_ vec3 m_scale = Unit3;
+		attr_ vec3 m_scale = vec3(1.f);
 		attr_ mat4 m_transform = bxidentity();
 		attr_ vector<string> m_exclude_elements; // = {};
 		attr_ vector<string> m_exclude_materials; // = {};

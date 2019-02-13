@@ -18,7 +18,7 @@ namespace mud
 {
 	Camera::Camera()
 		: m_eye(Z3)
-		, m_target(Zero3)
+		, m_target(vec3(0.f))
 	{
 		m_eye = vec3(10.f);
 		m_far = 300.f;
@@ -93,8 +93,8 @@ namespace mud
 
 	void Camera::set_isometric(IsometricAngle from_angle, const vec3& position)
 	{
-		static const vec3 z_angles[3] = { Zero3, -Z3,  Z3 };
-		static const vec3 x_angles[3] = { Zero3,  X3, -X3 };
+		static const vec3 z_angles[3] = { vec3(0.f), -Z3,  Z3 };
+		static const vec3 x_angles[3] = { vec3(0.f),  X3, -X3 };
 
 		vec3 angle = Y3 + z_angles[uint8_t(from_angle >> 0)] + x_angles[uint8_t(from_angle >> 8)];
 

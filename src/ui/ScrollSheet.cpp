@@ -53,7 +53,7 @@ namespace ui
 	{
 		vec2 position = scroll_plan.m_position + mouse_event.m_delta;
 		vec2 overflow = (scroll_plan.m_size * scroll_plan.m_scale) - scroll_zone.m_size;
-		scroll_plan.set_position(min(Zero2, max(position, -overflow)));
+		scroll_plan.set_position(min(vec2(0.f), max(position, -overflow)));
 		//m_frame.mark_dirty(DIRTY_FORCE_LAYOUT);
 	}
 

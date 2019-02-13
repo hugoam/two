@@ -54,7 +54,7 @@ module mud.gfx-edit;
 
 namespace mud
 {
-	void animation_edit(Widget& parent, Animated& animated)
+	void animation_edit(Widget& parent, Mime& animated)
 	{
 		Widget& self = ui::sheet(parent);
 
@@ -156,7 +156,7 @@ namespace mud
 
 	SceneViewer& material_viewer(Widget& parent, Material& material)
 	{
-		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&material), Zero3, 1.f);
+		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&material), vec3(0.f), 1.f);
 		gfx::shape(*viewer.m_scene.m_graph.m_nodes[0], Sphere(), Symbol(Colour::White), 0U, &material);
 		return viewer;
 	}
@@ -168,10 +168,10 @@ namespace mud
 		return viewer;
 	}
 
-	SceneViewer& particles_viewer(Widget& parent, ParticleFlow& particles)
+	SceneViewer& particles_viewer(Widget& parent, Flow& particles)
 	{
-		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&particles), Zero3, 1.f); // particles.m_radius
-		gfx::particles(*viewer.m_scene.m_graph.m_nodes[0], particles);
+		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&particles), vec3(0.f), 1.f); // particles.m_radius
+		gfx::flows(*viewer.m_scene.m_graph.m_nodes[0], particles);
 		return viewer;
 	}
 
@@ -182,7 +182,7 @@ namespace mud
 		{
 			dispatch_branch<Material>		(*this, +[](Material& material, Widget& parent) -> SceneViewer&			{ return material_viewer(parent, material); });
 			dispatch_branch<Model>			(*this, +[](Model& model, Widget& parent) -> SceneViewer&				{ return model_viewer(parent, model); });
-			dispatch_branch<ParticleFlow>	(*this, +[](ParticleFlow& generator, Widget& parent) -> SceneViewer&	{ return particles_viewer(parent, generator); });
+			dispatch_branch<Flow>	(*this, +[](Flow& generator, Widget& parent) -> SceneViewer&	{ return particles_viewer(parent, generator); });
 		}
 	};
 
@@ -251,7 +251,7 @@ namespace mud
 			}
 
 		if(particles)
-			for(ParticleFlow* particle : gfx_system.particles().m_vector)
+			for(Flow* particle : gfx_system.flows().m_vector)
 			{
 				asset_element(sequence, "(particles)", particle->m_name, Ref(particle));
 			}
@@ -334,8 +334,8 @@ namespace mud
 
 		if(asset)
 		{
-			if(type(asset).is<ParticleFlow>())
-				particle_edit(sheet, gfx_system, val<ParticleFlow>(asset));
+			if(type(asset).is<Flow>())
+				particle_edit(sheet, gfx_system, val<Flow>(asset));
 		}
 	}
 

@@ -1298,6 +1298,9 @@ extern "C" {
 	mud::Axis DECL mud_Axis_Z() {
 		return mud::Axis::Z;
 	}
+	mud::Axis DECL mud_Axis_Count() {
+		return mud::Axis::Count;
+	}
 	// Clockwise
 	mud::Clockwise DECL mud_Clockwise_CLOCKWISE() {
 		return mud::CLOCKWISE;
@@ -1324,6 +1327,9 @@ extern "C" {
 	mud::Side DECL mud_Side_Front() {
 		return mud::Side::Front;
 	}
+	mud::Side DECL mud_Side_Count() {
+		return mud::Side::Count;
+	}
 	// SignedAxis
 	mud::SignedAxis DECL mud_SignedAxis_PlusX() {
 		return mud::SignedAxis::PlusX;
@@ -1342,6 +1348,9 @@ extern "C" {
 	}
 	mud::SignedAxis DECL mud_SignedAxis_MinusZ() {
 		return mud::SignedAxis::MinusZ;
+	}
+	mud::SignedAxis DECL mud_SignedAxis_Count() {
+		return mud::SignedAxis::Count;
 	}
 	// Spectrum
 	mud::Spectrum DECL mud_Spectrum_Value() {

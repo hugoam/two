@@ -2078,17 +2078,17 @@ Module['ui']['file_tree'] = function(a0, a1) {
         Module['DIM_X'] = _mud_Dim_DIM_X();
         Module['DIM_Y'] = _mud_Dim_DIM_Y();
         Module['DIM_NONE'] = _mud_Dim_DIM_NONE();
-        // Flow
-        Module['FLOW'] = _mud_Flow_FLOW();
-        Module['OVERLAY'] = _mud_Flow_OVERLAY();
-        Module['ALIGN'] = _mud_Flow_ALIGN();
-        Module['FREE'] = _mud_Flow_FREE();
         // FlowAxis
         Module['READING'] = _mud_FlowAxis_READING();
         Module['PARAGRAPH'] = _mud_FlowAxis_PARAGRAPH();
         Module['PARALLEL'] = _mud_FlowAxis_PARALLEL();
         Module['ORTHOGONAL'] = _mud_FlowAxis_ORTHOGONAL();
         Module['AXIS_NONE'] = _mud_FlowAxis_AXIS_NONE();
+        // LayoutFlow
+        Module['FLOW'] = _mud_LayoutFlow_FLOW();
+        Module['OVERLAY'] = _mud_LayoutFlow_OVERLAY();
+        Module['ALIGN'] = _mud_LayoutFlow_ALIGN();
+        Module['FREE'] = _mud_LayoutFlow_FREE();
         // LayoutSolver
         Module['FRAME_SOLVER'] = _mud_LayoutSolver_FRAME_SOLVER();
         Module['ROW_SOLVER'] = _mud_LayoutSolver_ROW_SOLVER();

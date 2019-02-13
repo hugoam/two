@@ -38,7 +38,7 @@ void shape_grid(Gnode& parent, span2d<ShapeInstance> shape_grid, const Symbol* s
 			const ShapeInstance& shape = shape_grid[x + y * shape_grid.m_x];
 
 			vec3 angles = rotate ? vec3{ time + float(x) * 0.21f, 0.f, time + float(y) * 0.37f }
-								 : Zero3;
+								 : vec3(0.f);
 
 			Gnode& node = gfx::node(parent, {}, center + vec3{ x * spacing, 0.f, y * spacing }, quat(angles));
 			gfx::shape(node, shape.shape, symbol ? *symbol : shape.symbol, ItemFlag::Default | ItemFlag::Selectable, material);

@@ -344,7 +344,7 @@ namespace mud
 			for(Tile& tile : tileset.m_tiles_flip)
 			{
 				TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
-				state.m_items.push_back({ tile_model.m_model, Zero3, rotate(tile_model.m_rotation, c_pi / 4.f, Y3), Unit3 });
+				state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi / 4.f, Y3), vec3(1.f) });
 				if(tile_model.m_model && state.m_item_radius == 0.f)
 					state.m_item_radius = tile_model.m_model->m_radius;
 			}
@@ -362,7 +362,7 @@ namespace mud
 				{
 					Tile& tile = tileblock.m_tileset->m_tiles_flip[t];
 					TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
-					state.m_items.push_back({ tile_model.m_model, Zero3, rotate(tile_model.m_rotation, c_pi / 4.f, Y3), Unit3 });
+					state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi / 4.f, Y3), vec3(1.f) });
 					if(tile_model.m_model && state.m_item_radius == 0.f)
 						state.m_item_radius = tile_model.m_model->m_radius;
 				}

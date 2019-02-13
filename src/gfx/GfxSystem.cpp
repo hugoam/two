@@ -88,7 +88,7 @@ namespace mud
 		unique<AssetStore<Program>> m_programs;
 		unique<AssetStore<Material>> m_materials;
 		unique<AssetStore<Model>> m_models;
-		unique<AssetStore<ParticleFlow>> m_particles;
+		unique<AssetStore<Flow>> m_particles;
 		unique<AssetStore<Prefab>> m_prefabs;
 
 		table<ModelFormat, Importer*> m_importers;
@@ -131,7 +131,7 @@ namespace mud
 	AssetStore<Program>& GfxSystem::programs() { return *m_impl->m_programs; }
 	AssetStore<Material>& GfxSystem::materials() { return *m_impl->m_materials; }
 	AssetStore<Model>& GfxSystem::models() { return *m_impl->m_models; }
-	AssetStore<ParticleFlow>& GfxSystem::particles() { return *m_impl->m_particles; }
+	AssetStore<Flow>& GfxSystem::flows() { return *m_impl->m_particles; }
 	AssetStore<Prefab>& GfxSystem::prefabs() { return *m_impl->m_prefabs; }
 
 	void GfxSystem::add_importer(ModelFormat format, Importer& importer)
@@ -163,7 +163,7 @@ namespace mud
 		m_impl->m_programs = make_unique<AssetStore<Program>>(*this, "programs/", ".prg");
 		m_impl->m_materials = make_unique<AssetStore<Material>>(*this, "materials/", ".mtl");
 		m_impl->m_models = make_unique<AssetStore<Model>>(*this, "models/");
-		m_impl->m_particles = make_unique<AssetStore<ParticleFlow>>(*this, "particles/", ".ptc");
+		m_impl->m_particles = make_unique<AssetStore<Flow>>(*this, "particles/", ".ptc");
 		//m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "prefabs/", ".pfb");
 		m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "models/");
 

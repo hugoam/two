@@ -45,7 +45,7 @@ void define_visual_script(VisualScript& script)
 	Var& b = *script.function(nsinf, { &ty });
 	Var& g = *script.function(ncosf, { &time });
 
-	Var& s0 = script.value(Unit3);
+	Var& s0 = script.value(vec3(1.f));
 	Var& s1 = script.value(1.f);
 	Var& scale = *script.function(multiply<vec3>, { &s0, &s1 });
 

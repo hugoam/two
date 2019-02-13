@@ -15,6 +15,7 @@ namespace stl
 	template class MUD_MATH_EXPORT vector<const char*>;
 	template class MUD_MATH_EXPORT vector<bool>;
 	template class MUD_MATH_EXPORT vector<char>;
+	template class MUD_MATH_EXPORT vector<int>;
 	template class MUD_MATH_EXPORT vector<uchar>;
 	template class MUD_MATH_EXPORT vector<ushort>;
 	template class MUD_MATH_EXPORT vector<uint>;

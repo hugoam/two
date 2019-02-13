@@ -181,7 +181,7 @@ namespace mud
 		vg::beginPath(m_vg);
 
 		vec4 path_rect = { rect_offset(rect) + border * 0.5f, rect_size(rect) - border };
-		if(corners == Zero4)
+		if(corners == vec4(0.f))
 			vg::rect(m_vg, RECT_FLOATS(path_rect));
 		else
 			vg::roundedRectVarying(m_vg, RECT_FLOATS(path_rect), RECT_FLOATS(corners));

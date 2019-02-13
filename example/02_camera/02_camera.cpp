@@ -41,8 +41,8 @@ void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		Gnode& node = gfx::node(parent, {}, pos, rot);
 		Light& light = gfx::light(node, LightType::Point, false, color, range, 0.4f);// intensity);
-		Item& inner = gfx::shape(node, Sphere(0.3), Symbol::plain(color * intensity));
-		Item& outer = gfx::shape(node, Sphere(2.0), Symbol::plain(Colour::White), 0, &sphere_material);
+		Item& inner = gfx::shape(node, Sphere(0.3f), Symbol::plain(color * intensity));
+		Item& outer = gfx::shape(node, Sphere(2.0f), Symbol::plain(Colour::White), 0U, &sphere_material);
 		return node;
 	};
 

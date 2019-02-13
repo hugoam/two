@@ -66,7 +66,7 @@ namespace mud
 		Lights,
 		Opaque,
 		Background,
-		Particles,
+		Flare,
 		Alpha,
 		Unshaded,
 		Effects,

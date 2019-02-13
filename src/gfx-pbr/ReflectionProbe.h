@@ -31,7 +31,7 @@ namespace mud
 
 		attr_ bool m_visible = true;
 		attr_ float m_intensity = 1.f;
-		attr_ vec3 m_extents = Zero3;
+		attr_ vec3 m_extents = vec3(0.f);
 		attr_ bool m_shadows = false;
 
 		ReflectionAtlas* m_atlas;

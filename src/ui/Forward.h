@@ -49,7 +49,7 @@ namespace mud
     enum Align : unsigned int;
     enum LayoutSolver : unsigned int;
     enum AutoLayout : unsigned int;
-    enum Flow : unsigned int;
+    enum LayoutFlow : unsigned int;
     enum Sizing : unsigned int;
     enum SpacePreset : unsigned int;
     enum Clipping : unsigned int;

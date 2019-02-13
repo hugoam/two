@@ -102,7 +102,7 @@ namespace mud
 		c = normal_c;
 		
 		normal = vec3(a, b, 0.f);
-		if(normal == Zero3)
+		if(normal == vec3(0.f))
 			normal = X3;
 		else
 			normal = normalize(normal);

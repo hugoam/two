@@ -91,9 +91,8 @@ namespace mud
 
 	static uint16_t s_node_index = 0;
 
-	Node3::Node3(Scene* scene, Ref object)
-		: m_scene(scene)
-		, m_index(s_node_index++)
+	Node3::Node3(Ref object)
+		: m_index(s_node_index++)
 		, m_object(object)
 	{}
 
@@ -102,7 +101,11 @@ namespace mud
 		, m_transform(transform)
 	{}
 
-	vec3 Node3::position() const { return mulp(m_transform, Zero3); }
+	Node3::Node3(const vec3& position, const quat& rotation, const vec3& scale)
+		: Node3(bxTRS(scale, rotation, position))
+	{}
+
+	vec3 Node3::position() const { return mulp(m_transform, vec3(0.f)); }
 	vec3 Node3::axis(const vec3& dir) const { return muln(m_transform, dir); }
 	vec3 Node3::direction() const { return muln(m_transform, -Z3); }
 }

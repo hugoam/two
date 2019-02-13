@@ -63,7 +63,7 @@ namespace mud
 	{
 		Section& self = section(parent, "Prefab Inspector");
 
-		static cstring types[6] = { "None", "Item", "Model", "Shape", "Particles", "Light" };
+		static cstring types[6] = { "None", "Item", "Model", "Shape", "Flare", "Light" };
 		static vector<Function*> functions = { nullptr, &function(gfx::item), &function(gfx::model), &function(gfx::shape), &function(&gfx::particles), &function(gfx::light) };
 
 		static cstring columns[2] = { "field", "value" };

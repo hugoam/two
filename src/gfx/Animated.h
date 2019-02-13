@@ -43,11 +43,11 @@ namespace mud
 		vector<AnimatedTrack> m_tracks;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Animated
+	export_ class refl_ MUD_GFX_EXPORT Mime
 	{
 	public:
-		Animated(Node3& node);
-		~Animated();
+		Mime(Node3& node);
+		~Mime();
 
 		Node3& m_node;
 		Rig m_rig;

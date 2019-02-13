@@ -1,85 +1,5 @@
 Module['stl'] = Module['stl'] || {};
 Module['gfx'] = Module['gfx'] || {};
-// Animated
-function Animated() { throw "cannot construct a Animated, no constructor in IDL" }
-Animated.prototype = Object.create(WrapperObject.prototype);
-Animated.prototype.constructor = Animated;
-Animated.prototype.__class__ = Animated;
-Animated.__cache__ = {};
-Module['Animated'] = Animated;
-Animated.prototype["start"] = Animated.prototype.start = function(a0, a1, a2, a3, a4) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    if (a2 === undefined) { _mud_Animated_start_2(self, ensureString(/*animation*/a0), /*loop*/a1); return; }
-    if (a3 === undefined) { _mud_Animated_start_3(self, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2); return; }
-    if (a4 === undefined) { _mud_Animated_start_4(self, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2, /*speed*/a3); return; }
-    _mud_Animated_start_5(self, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2, /*speed*/a3, /*transient*/a4);
-};
-Animated.prototype["play"] = Animated.prototype.play = function(a0, a1, a2, a3, a4) {
-    var self = this.ptr;
-    if (a2 === undefined) { _mud_Animated_play_2(self, /*animation*/a0.ptr, /*loop*/a1); return; }
-    if (a3 === undefined) { _mud_Animated_play_3(self, /*animation*/a0.ptr, /*loop*/a1, /*blend*/a2); return; }
-    if (a4 === undefined) { _mud_Animated_play_4(self, /*animation*/a0.ptr, /*loop*/a1, /*blend*/a2, /*speed*/a3); return; }
-    _mud_Animated_play_5(self, /*animation*/a0.ptr, /*loop*/a1, /*blend*/a2, /*speed*/a3, /*transient*/a4);
-};
-Animated.prototype["seek"] = Animated.prototype.seek = function(a0) {
-    var self = this.ptr;
-    _mud_Animated_seek_1(self, /*time*/a0);
-};
-Animated.prototype["pause"] = Animated.prototype.pause = function() {
-    var self = this.ptr;
-    _mud_Animated_pause_0(self);
-};
-Animated.prototype["stop"] = Animated.prototype.stop = function() {
-    var self = this.ptr;
-    _mud_Animated_stop_0(self);
-};
-Animated.prototype["advance"] = Animated.prototype.advance = function(a0) {
-    var self = this.ptr;
-    _mud_Animated_advance_1(self, /*time*/a0);
-};
-Animated.prototype["next_animation"] = Animated.prototype.next_animation = function() {
-    var self = this.ptr;
-    _mud_Animated_next_animation_0(self);
-};
-Animated.prototype["playing"] = Animated.prototype.playing = function() {
-    var self = this.ptr;
-    return Pointer_stringify(_mud_Animated_playing_0(self));
-};
-Object.defineProperty(Animated.prototype, "active", {
-    get: function() {
-        var self = this.ptr;
-        return !!(_mud_Animated__get_active(self));
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Animated__set_active(self, value);
-    }
-});
-Object.defineProperty(Animated.prototype, "speed_scale", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Animated__get_speed_scale(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Animated__set_speed_scale(self, value);
-    }
-});
-Object.defineProperty(Animated.prototype, "default_blend_time", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Animated__get_default_blend_time(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Animated__set_default_blend_time(self, value);
-    }
-});
-Animated.prototype["__destroy__"] = Animated.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Animated__destroy(self);
-};
 // AnimatedTrack
 function AnimatedTrack() {
     this.ptr = _mud_AnimatedTrack__construct_0(); this.type = AnimatedTrack; getCache(AnimatedTrack)[this.ptr] = this;
@@ -308,6 +228,47 @@ AnimationTrack.prototype["__destroy__"] = AnimationTrack.prototype.__destroy__ =
     var self = this.ptr;
     _mud_AnimationTrack__destroy(self);
 };
+// AssetStore<mud::Flow>
+function AssetStore_mud_Flow() { throw "cannot construct a AssetStore<mud::Flow>, no constructor in IDL" }
+AssetStore_mud_Flow.prototype = Object.create(WrapperObject.prototype);
+AssetStore_mud_Flow.prototype.constructor = AssetStore_mud_Flow;
+AssetStore_mud_Flow.prototype.__class__ = AssetStore_mud_Flow;
+AssetStore_mud_Flow.__cache__ = {};
+Module['AssetStore_mud_Flow'] = AssetStore_mud_Flow;
+AssetStore_mud_Flow.prototype["get"] = AssetStore_mud_Flow.prototype.get = function(a0) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    return wrapPointer(_mud_AssetStore_mud_Flow_get_1(self, ensureString(/*name*/a0)), Flow);
+};
+AssetStore_mud_Flow.prototype["create"] = AssetStore_mud_Flow.prototype.create = function(a0) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    return wrapPointer(_mud_AssetStore_mud_Flow_create_1(self, ensureString(/*name*/a0)), Flow);
+};
+AssetStore_mud_Flow.prototype["fetch"] = AssetStore_mud_Flow.prototype.fetch = function(a0) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    return wrapPointer(_mud_AssetStore_mud_Flow_fetch_1(self, ensureString(/*name*/a0)), Flow);
+};
+AssetStore_mud_Flow.prototype["file"] = AssetStore_mud_Flow.prototype.file = function(a0) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    return wrapPointer(_mud_AssetStore_mud_Flow_file_1(self, ensureString(/*name*/a0)), Flow);
+};
+AssetStore_mud_Flow.prototype["file_at"] = AssetStore_mud_Flow.prototype.file_at = function(a0, a1) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    return wrapPointer(_mud_AssetStore_mud_Flow_file_at_2(self, ensureString(/*path*/a0), ensureString(/*name*/a1)), Flow);
+};
+AssetStore_mud_Flow.prototype["destroy"] = AssetStore_mud_Flow.prototype.destroy = function(a0) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    _mud_AssetStore_mud_Flow_destroy_1(self, ensureString(/*name*/a0));
+};
+AssetStore_mud_Flow.prototype["__destroy__"] = AssetStore_mud_Flow.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_AssetStore_mud_Flow__destroy(self);
+};
 // AssetStore<mud::Material>
 function AssetStore_mud_Material() { throw "cannot construct a AssetStore<mud::Material>, no constructor in IDL" }
 AssetStore_mud_Material.prototype = Object.create(WrapperObject.prototype);
@@ -389,47 +350,6 @@ AssetStore_mud_Model.prototype["destroy"] = AssetStore_mud_Model.prototype.destr
 AssetStore_mud_Model.prototype["__destroy__"] = AssetStore_mud_Model.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_AssetStore_mud_Model__destroy(self);
-};
-// AssetStore<mud::ParticleFlow>
-function AssetStore_mud_ParticleFlow() { throw "cannot construct a AssetStore<mud::ParticleFlow>, no constructor in IDL" }
-AssetStore_mud_ParticleFlow.prototype = Object.create(WrapperObject.prototype);
-AssetStore_mud_ParticleFlow.prototype.constructor = AssetStore_mud_ParticleFlow;
-AssetStore_mud_ParticleFlow.prototype.__class__ = AssetStore_mud_ParticleFlow;
-AssetStore_mud_ParticleFlow.__cache__ = {};
-Module['AssetStore_mud_ParticleFlow'] = AssetStore_mud_ParticleFlow;
-AssetStore_mud_ParticleFlow.prototype["get"] = AssetStore_mud_ParticleFlow.prototype.get = function(a0) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    return wrapPointer(_mud_AssetStore_mud_ParticleFlow_get_1(self, ensureString(/*name*/a0)), ParticleFlow);
-};
-AssetStore_mud_ParticleFlow.prototype["create"] = AssetStore_mud_ParticleFlow.prototype.create = function(a0) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    return wrapPointer(_mud_AssetStore_mud_ParticleFlow_create_1(self, ensureString(/*name*/a0)), ParticleFlow);
-};
-AssetStore_mud_ParticleFlow.prototype["fetch"] = AssetStore_mud_ParticleFlow.prototype.fetch = function(a0) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    return wrapPointer(_mud_AssetStore_mud_ParticleFlow_fetch_1(self, ensureString(/*name*/a0)), ParticleFlow);
-};
-AssetStore_mud_ParticleFlow.prototype["file"] = AssetStore_mud_ParticleFlow.prototype.file = function(a0) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    return wrapPointer(_mud_AssetStore_mud_ParticleFlow_file_1(self, ensureString(/*name*/a0)), ParticleFlow);
-};
-AssetStore_mud_ParticleFlow.prototype["file_at"] = AssetStore_mud_ParticleFlow.prototype.file_at = function(a0, a1) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    return wrapPointer(_mud_AssetStore_mud_ParticleFlow_file_at_2(self, ensureString(/*path*/a0), ensureString(/*name*/a1)), ParticleFlow);
-};
-AssetStore_mud_ParticleFlow.prototype["destroy"] = AssetStore_mud_ParticleFlow.prototype.destroy = function(a0) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    _mud_AssetStore_mud_ParticleFlow_destroy_1(self, ensureString(/*name*/a0));
-};
-AssetStore_mud_ParticleFlow.prototype["__destroy__"] = AssetStore_mud_ParticleFlow.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_AssetStore_mud_ParticleFlow__destroy(self);
 };
 // AssetStore<mud::Prefab>
 function AssetStore_mud_Prefab() { throw "cannot construct a AssetStore<mud::Prefab>, no constructor in IDL" }
@@ -992,6 +912,229 @@ Filter.prototype["__destroy__"] = Filter.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Filter__destroy(self);
 };
+// Flow
+function Flow() {
+    this.ptr = _mud_Flow__construct_0(); this.type = Flow; getCache(Flow)[this.ptr] = this;
+};
+Flow.prototype = Object.create(WrapperObject.prototype);
+Flow.prototype.constructor = Flow;
+Flow.prototype.__class__ = Flow;
+Flow.__cache__ = {};
+Module['Flow'] = Flow;
+Object.defineProperty(Flow.prototype, "name", {
+    get: function() {
+        var self = this.ptr;
+        return Pointer_stringify(_mud_Flow__get_name(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_name(self, ensureString(value));
+    }
+});
+Object.defineProperty(Flow.prototype, "duration", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Flow__get_duration(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_duration(self, value);
+    }
+});
+Object.defineProperty(Flow.prototype, "start_time", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Flow__get_start_time(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_start_time(self, value);
+    }
+});
+Object.defineProperty(Flow.prototype, "loop", {
+    get: function() {
+        var self = this.ptr;
+        return !!(_mud_Flow__get_loop(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_loop(self, value);
+    }
+});
+Object.defineProperty(Flow.prototype, "shape", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_shape(self), ShapeVar);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_shape(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "flow", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Flow__get_flow(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_flow(self, value);
+    }
+});
+Object.defineProperty(Flow.prototype, "billboard", {
+    get: function() {
+        var self = this.ptr;
+        return !!(_mud_Flow__get_billboard(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_billboard(self, value);
+    }
+});
+Object.defineProperty(Flow.prototype, "direction", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_direction(self), v3_float);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_direction(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "rotation", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_rotation(self), quat);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_rotation(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "blend_mode", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Flow__get_blend_mode(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_blend_mode(self, value);
+    }
+});
+Object.defineProperty(Flow.prototype, "volume", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_volume(self), ValueTrack_float);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_volume(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "rate", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_rate(self), ValueTrack_uint32_t);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_rate(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "lifetime", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_lifetime(self), ValueTrack_float);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_lifetime(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "gravity", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_gravity(self), ValueTrack_float);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_gravity(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "speed", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_speed(self), ValueTrack_float);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_speed(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "angle", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_angle(self), ValueTrack_float);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_angle(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "blend", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_blend(self), ValueTrack_float);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_blend(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "colour", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_colour(self), ValueTrack_mud_Colour);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_colour(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "scale", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_scale(self), ValueTrack_float);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_scale(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "sprite_frame", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Flow__get_sprite_frame(self), ValueTrack_float);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_sprite_frame(self, value.ptr);
+    }
+});
+Object.defineProperty(Flow.prototype, "sprite_name", {
+    get: function() {
+        var self = this.ptr;
+        return Pointer_stringify(_mud_Flow__get_sprite_name(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Flow__set_sprite_name(self, ensureString(value));
+    }
+});
+Flow.prototype["__destroy__"] = Flow.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_Flow__destroy(self);
+};
 // Fog
 function Fog() {
     this.ptr = _mud_Fog__construct_0(); this.type = Fog; getCache(Fog)[this.ptr] = this;
@@ -1382,10 +1525,10 @@ Object.defineProperty(GfxSystem.prototype, "models", {
         var self = this.ptr;
         return wrapPointer(_mud_GfxSystem__get_models(self), AssetStore_mud_Model);
     }});
-Object.defineProperty(GfxSystem.prototype, "particles", {
+Object.defineProperty(GfxSystem.prototype, "flows", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_GfxSystem__get_particles(self), AssetStore_mud_ParticleFlow);
+        return wrapPointer(_mud_GfxSystem__get_flows(self), AssetStore_mud_Flow);
     }});
 Object.defineProperty(GfxSystem.prototype, "prefabs", {
     get: function() {
@@ -1532,7 +1675,13 @@ ImportConfig.prototype["__destroy__"] = ImportConfig.prototype.__destroy__ = fun
     _mud_ImportConfig__destroy(self);
 };
 // Item
-function Item() { throw "cannot construct a Item, no constructor in IDL" }
+function Item(a0, a1, a2, a3, a4) {
+    if (a0 === undefined) { this.ptr = _mud_Item__construct_0(); this.type = Item; getCache(Item)[this.ptr] = this; return; }
+    if (a2 === undefined) { this.ptr = _mud_Item__construct_2(/*node*/a0.ptr, /*model*/a1.ptr); this.type = Item; getCache(Item)[this.ptr] = this; return; }
+    if (a3 === undefined) { this.ptr = _mud_Item__construct_3(/*node*/a0.ptr, /*model*/a1.ptr, /*flags*/a2); this.type = Item; getCache(Item)[this.ptr] = this; return; }
+    if (a4 === undefined) { this.ptr = _mud_Item__construct_4(/*node*/a0.ptr, /*model*/a1.ptr, /*flags*/a2, /*material*/a3.ptr); this.type = Item; getCache(Item)[this.ptr] = this; return; }
+    this.ptr = _mud_Item__construct_5(/*node*/a0.ptr, /*model*/a1.ptr, /*flags*/a2, /*material*/a3.ptr, /*instances*/a4); this.type = Item; getCache(Item)[this.ptr] = this;
+};
 Item.prototype = Object.create(WrapperObject.prototype);
 Item.prototype.constructor = Item;
 Item.prototype.__class__ = Item;
@@ -1636,7 +1785,11 @@ Joint.prototype["__destroy__"] = Joint.prototype.__destroy__ = function() {
     _mud_Joint__destroy(self);
 };
 // Light
-function Light() { throw "cannot construct a Light, no constructor in IDL" }
+function Light(a0, a1, a2) {
+    if (a1 === undefined) { this.ptr = _mud_Light__construct_1(/*node*/a0.ptr); this.type = Light; getCache(Light)[this.ptr] = this; return; }
+    if (a2 === undefined) { this.ptr = _mud_Light__construct_2(/*node*/a0.ptr, /*type*/a1); this.type = Light; getCache(Light)[this.ptr] = this; return; }
+    this.ptr = _mud_Light__construct_3(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2); this.type = Light; getCache(Light)[this.ptr] = this;
+};
 Light.prototype = Object.create(WrapperObject.prototype);
 Light.prototype.constructor = Light;
 Light.prototype.__class__ = Light;
@@ -2169,6 +2322,86 @@ Mesh.prototype["__destroy__"] = Mesh.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Mesh__destroy(self);
 };
+// Mime
+function Mime() { throw "cannot construct a Mime, no constructor in IDL" }
+Mime.prototype = Object.create(WrapperObject.prototype);
+Mime.prototype.constructor = Mime;
+Mime.prototype.__class__ = Mime;
+Mime.__cache__ = {};
+Module['Mime'] = Mime;
+Mime.prototype["start"] = Mime.prototype.start = function(a0, a1, a2, a3, a4) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    if (a2 === undefined) { _mud_Mime_start_2(self, ensureString(/*animation*/a0), /*loop*/a1); return; }
+    if (a3 === undefined) { _mud_Mime_start_3(self, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2); return; }
+    if (a4 === undefined) { _mud_Mime_start_4(self, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2, /*speed*/a3); return; }
+    _mud_Mime_start_5(self, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2, /*speed*/a3, /*transient*/a4);
+};
+Mime.prototype["play"] = Mime.prototype.play = function(a0, a1, a2, a3, a4) {
+    var self = this.ptr;
+    if (a2 === undefined) { _mud_Mime_play_2(self, /*animation*/a0.ptr, /*loop*/a1); return; }
+    if (a3 === undefined) { _mud_Mime_play_3(self, /*animation*/a0.ptr, /*loop*/a1, /*blend*/a2); return; }
+    if (a4 === undefined) { _mud_Mime_play_4(self, /*animation*/a0.ptr, /*loop*/a1, /*blend*/a2, /*speed*/a3); return; }
+    _mud_Mime_play_5(self, /*animation*/a0.ptr, /*loop*/a1, /*blend*/a2, /*speed*/a3, /*transient*/a4);
+};
+Mime.prototype["seek"] = Mime.prototype.seek = function(a0) {
+    var self = this.ptr;
+    _mud_Mime_seek_1(self, /*time*/a0);
+};
+Mime.prototype["pause"] = Mime.prototype.pause = function() {
+    var self = this.ptr;
+    _mud_Mime_pause_0(self);
+};
+Mime.prototype["stop"] = Mime.prototype.stop = function() {
+    var self = this.ptr;
+    _mud_Mime_stop_0(self);
+};
+Mime.prototype["advance"] = Mime.prototype.advance = function(a0) {
+    var self = this.ptr;
+    _mud_Mime_advance_1(self, /*time*/a0);
+};
+Mime.prototype["next_animation"] = Mime.prototype.next_animation = function() {
+    var self = this.ptr;
+    _mud_Mime_next_animation_0(self);
+};
+Mime.prototype["playing"] = Mime.prototype.playing = function() {
+    var self = this.ptr;
+    return Pointer_stringify(_mud_Mime_playing_0(self));
+};
+Object.defineProperty(Mime.prototype, "active", {
+    get: function() {
+        var self = this.ptr;
+        return !!(_mud_Mime__get_active(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Mime__set_active(self, value);
+    }
+});
+Object.defineProperty(Mime.prototype, "speed_scale", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Mime__get_speed_scale(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Mime__set_speed_scale(self, value);
+    }
+});
+Object.defineProperty(Mime.prototype, "default_blend_time", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Mime__get_default_blend_time(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Mime__set_default_blend_time(self, value);
+    }
+});
+Mime.prototype["__destroy__"] = Mime.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_Mime__destroy(self);
+};
 // Model
 function Model() { throw "cannot construct a Model, no constructor in IDL" }
 Model.prototype = Object.create(WrapperObject.prototype);
@@ -2314,22 +2547,16 @@ ModelItem.prototype["__destroy__"] = ModelItem.prototype.__destroy__ = function(
     _mud_ModelItem__destroy(self);
 };
 // Node3
-function Node3() { throw "cannot construct a Node3, no constructor in IDL" }
+function Node3(a0, a1, a2) {
+    if (a1 === undefined) { this.ptr = _mud_Node3__construct_1(/*transform*/a0.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this; return; }
+    if (a2 === undefined) { this.ptr = _mud_Node3__construct_2(/*position*/a0.ptr, /*rotation*/a1.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this; return; }
+    this.ptr = _mud_Node3__construct_3(/*position*/a0.ptr, /*rotation*/a1.ptr, /*scale*/a2.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this;
+};
 Node3.prototype = Object.create(WrapperObject.prototype);
 Node3.prototype.constructor = Node3;
 Node3.prototype.__class__ = Node3;
 Node3.__cache__ = {};
 Module['Node3'] = Node3;
-Object.defineProperty(Node3.prototype, "scene", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_Node3__get_scene(self), Scene);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Node3__set_scene(self, value.ptr);
-    }
-});
 Object.defineProperty(Node3.prototype, "index", {
     get: function() {
         var self = this.ptr;
@@ -2363,229 +2590,6 @@ Object.defineProperty(Node3.prototype, "visible", {
 Node3.prototype["__destroy__"] = Node3.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Node3__destroy(self);
-};
-// ParticleFlow
-function ParticleFlow() {
-    this.ptr = _mud_ParticleFlow__construct_0(); this.type = ParticleFlow; getCache(ParticleFlow)[this.ptr] = this;
-};
-ParticleFlow.prototype = Object.create(WrapperObject.prototype);
-ParticleFlow.prototype.constructor = ParticleFlow;
-ParticleFlow.prototype.__class__ = ParticleFlow;
-ParticleFlow.__cache__ = {};
-Module['ParticleFlow'] = ParticleFlow;
-Object.defineProperty(ParticleFlow.prototype, "name", {
-    get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_mud_ParticleFlow__get_name(self));
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_name(self, ensureString(value));
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "duration", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_ParticleFlow__get_duration(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_duration(self, value);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "start_time", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_ParticleFlow__get_start_time(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_start_time(self, value);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "loop", {
-    get: function() {
-        var self = this.ptr;
-        return !!(_mud_ParticleFlow__get_loop(self));
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_loop(self, value);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "shape", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_shape(self), ShapeVar);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_shape(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "flow", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_ParticleFlow__get_flow(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_flow(self, value);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "billboard", {
-    get: function() {
-        var self = this.ptr;
-        return !!(_mud_ParticleFlow__get_billboard(self));
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_billboard(self, value);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "direction", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_direction(self), v3_float);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_direction(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "rotation", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_rotation(self), quat);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_rotation(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "blend_mode", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_ParticleFlow__get_blend_mode(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_blend_mode(self, value);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "volume", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_volume(self), ValueTrack_float);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_volume(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "rate", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_rate(self), ValueTrack_uint32_t);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_rate(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "lifetime", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_lifetime(self), ValueTrack_float);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_lifetime(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "gravity", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_gravity(self), ValueTrack_float);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_gravity(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "speed", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_speed(self), ValueTrack_float);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_speed(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "angle", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_angle(self), ValueTrack_float);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_angle(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "blend", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_blend(self), ValueTrack_float);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_blend(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "colour", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_colour(self), ValueTrack_mud_Colour);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_colour(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "scale", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_scale(self), ValueTrack_float);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_scale(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "sprite_frame", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ParticleFlow__get_sprite_frame(self), ValueTrack_float);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_sprite_frame(self, value.ptr);
-    }
-});
-Object.defineProperty(ParticleFlow.prototype, "sprite_name", {
-    get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_mud_ParticleFlow__get_sprite_name(self));
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_ParticleFlow__set_sprite_name(self, ensureString(value));
-    }
-});
-ParticleFlow.prototype["__destroy__"] = ParticleFlow.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_ParticleFlow__destroy(self);
 };
 // PbrMaterialBlock
 function PbrMaterialBlock(a0, a1, a2) {
@@ -2953,6 +2957,26 @@ Scene.prototype["begin"] = Scene.prototype.begin = function() {
     var self = this.ptr;
     return wrapPointer(_mud_Scene_begin_0(self), Gnode);
 };
+Scene.prototype["nodes"] = Scene.prototype.nodes = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_Scene_nodes_0(self), TPool_mud_Node3);
+};
+Scene.prototype["items"] = Scene.prototype.items = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_Scene_items_0(self), TPool_mud_Item);
+};
+Scene.prototype["mimes"] = Scene.prototype.mimes = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_Scene_mimes_0(self), TPool_mud_Mime);
+};
+Scene.prototype["lights"] = Scene.prototype.lights = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_Scene_lights_0(self), TPool_mud_Light);
+};
+Scene.prototype["flares"] = Scene.prototype.flares = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_Scene_flares_0(self), TPool_mud_Flare);
+};
 Object.defineProperty(Scene.prototype, "graph", {
     get: function() {
         var self = this.ptr;
@@ -3083,6 +3107,141 @@ Module['SymbolIndex'] = SymbolIndex;
 SymbolIndex.prototype["__destroy__"] = SymbolIndex.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_SymbolIndex__destroy(self);
+};
+// TPool<mud::Flare>
+function TPool_mud_Flare() { throw "cannot construct a TPool<mud::Flare>, no constructor in IDL" }
+TPool_mud_Flare.prototype = Object.create(WrapperObject.prototype);
+TPool_mud_Flare.prototype.constructor = TPool_mud_Flare;
+TPool_mud_Flare.prototype.__class__ = TPool_mud_Flare;
+TPool_mud_Flare.__cache__ = {};
+Module['TPool_mud_Flare'] = TPool_mud_Flare;
+TPool_mud_Flare.prototype["talloc"] = TPool_mud_Flare.prototype.talloc = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Flare_talloc_0(self), Flare);
+};
+TPool_mud_Flare.prototype["tconstruct"] = TPool_mud_Flare.prototype.tconstruct = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Flare_tconstruct_1(self, /*value*/a0.ptr), Flare);
+};
+TPool_mud_Flare.prototype["tdestroy"] = TPool_mud_Flare.prototype.tdestroy = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Flare_tdestroy_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Flare.prototype["tfree"] = TPool_mud_Flare.prototype.tfree = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Flare_tfree_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Flare.prototype["__destroy__"] = TPool_mud_Flare.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TPool_mud_Flare__destroy(self);
+};
+// TPool<mud::Item>
+function TPool_mud_Item() { throw "cannot construct a TPool<mud::Item>, no constructor in IDL" }
+TPool_mud_Item.prototype = Object.create(WrapperObject.prototype);
+TPool_mud_Item.prototype.constructor = TPool_mud_Item;
+TPool_mud_Item.prototype.__class__ = TPool_mud_Item;
+TPool_mud_Item.__cache__ = {};
+Module['TPool_mud_Item'] = TPool_mud_Item;
+TPool_mud_Item.prototype["talloc"] = TPool_mud_Item.prototype.talloc = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Item_talloc_0(self), Item);
+};
+TPool_mud_Item.prototype["tconstruct"] = TPool_mud_Item.prototype.tconstruct = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Item_tconstruct_1(self, /*value*/a0.ptr), Item);
+};
+TPool_mud_Item.prototype["tdestroy"] = TPool_mud_Item.prototype.tdestroy = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Item_tdestroy_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Item.prototype["tfree"] = TPool_mud_Item.prototype.tfree = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Item_tfree_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Item.prototype["__destroy__"] = TPool_mud_Item.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TPool_mud_Item__destroy(self);
+};
+// TPool<mud::Light>
+function TPool_mud_Light() { throw "cannot construct a TPool<mud::Light>, no constructor in IDL" }
+TPool_mud_Light.prototype = Object.create(WrapperObject.prototype);
+TPool_mud_Light.prototype.constructor = TPool_mud_Light;
+TPool_mud_Light.prototype.__class__ = TPool_mud_Light;
+TPool_mud_Light.__cache__ = {};
+Module['TPool_mud_Light'] = TPool_mud_Light;
+TPool_mud_Light.prototype["talloc"] = TPool_mud_Light.prototype.talloc = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Light_talloc_0(self), Light);
+};
+TPool_mud_Light.prototype["tconstruct"] = TPool_mud_Light.prototype.tconstruct = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Light_tconstruct_1(self, /*value*/a0.ptr), Light);
+};
+TPool_mud_Light.prototype["tdestroy"] = TPool_mud_Light.prototype.tdestroy = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Light_tdestroy_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Light.prototype["tfree"] = TPool_mud_Light.prototype.tfree = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Light_tfree_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Light.prototype["__destroy__"] = TPool_mud_Light.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TPool_mud_Light__destroy(self);
+};
+// TPool<mud::Mime>
+function TPool_mud_Mime() { throw "cannot construct a TPool<mud::Mime>, no constructor in IDL" }
+TPool_mud_Mime.prototype = Object.create(WrapperObject.prototype);
+TPool_mud_Mime.prototype.constructor = TPool_mud_Mime;
+TPool_mud_Mime.prototype.__class__ = TPool_mud_Mime;
+TPool_mud_Mime.__cache__ = {};
+Module['TPool_mud_Mime'] = TPool_mud_Mime;
+TPool_mud_Mime.prototype["talloc"] = TPool_mud_Mime.prototype.talloc = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Mime_talloc_0(self), Mime);
+};
+TPool_mud_Mime.prototype["tconstruct"] = TPool_mud_Mime.prototype.tconstruct = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Mime_tconstruct_1(self, /*value*/a0.ptr), Mime);
+};
+TPool_mud_Mime.prototype["tdestroy"] = TPool_mud_Mime.prototype.tdestroy = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Mime_tdestroy_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Mime.prototype["tfree"] = TPool_mud_Mime.prototype.tfree = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Mime_tfree_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Mime.prototype["__destroy__"] = TPool_mud_Mime.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TPool_mud_Mime__destroy(self);
+};
+// TPool<mud::Node3>
+function TPool_mud_Node3() { throw "cannot construct a TPool<mud::Node3>, no constructor in IDL" }
+TPool_mud_Node3.prototype = Object.create(WrapperObject.prototype);
+TPool_mud_Node3.prototype.constructor = TPool_mud_Node3;
+TPool_mud_Node3.prototype.__class__ = TPool_mud_Node3;
+TPool_mud_Node3.__cache__ = {};
+Module['TPool_mud_Node3'] = TPool_mud_Node3;
+TPool_mud_Node3.prototype["talloc"] = TPool_mud_Node3.prototype.talloc = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Node3_talloc_0(self), Node3);
+};
+TPool_mud_Node3.prototype["tconstruct"] = TPool_mud_Node3.prototype.tconstruct = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Node3_tconstruct_1(self, /*value*/a0.ptr), Node3);
+};
+TPool_mud_Node3.prototype["tdestroy"] = TPool_mud_Node3.prototype.tdestroy = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Node3_tdestroy_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Node3.prototype["tfree"] = TPool_mud_Node3.prototype.tfree = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Node3_tfree_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Node3.prototype["__destroy__"] = TPool_mud_Node3.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TPool_mud_Node3__destroy(self);
 };
 // Texture
 function Texture() { throw "cannot construct a Texture, no constructor in IDL" }
@@ -3280,6 +3439,28 @@ BlockCopy.prototype["__destroy__"] = BlockCopy.prototype.__destroy__ = function(
     var self = this.ptr;
     _mud_BlockCopy__destroy(self);
 };
+// DrawBlock
+function DrawBlock() { throw "cannot construct a DrawBlock, no constructor in IDL" }
+DrawBlock.prototype = Object.create(GfxBlock.prototype);
+DrawBlock.prototype.constructor = DrawBlock;
+DrawBlock.prototype.__class__ = DrawBlock;
+DrawBlock.__cache__ = {};
+Module['DrawBlock'] = DrawBlock;
+DrawBlock.prototype["__destroy__"] = DrawBlock.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_DrawBlock__destroy(self);
+};
+// BlockDepth
+function BlockDepth() { throw "cannot construct a BlockDepth, no constructor in IDL" }
+BlockDepth.prototype = Object.create(DrawBlock.prototype);
+BlockDepth.prototype.constructor = BlockDepth;
+BlockDepth.prototype.__class__ = BlockDepth;
+BlockDepth.__cache__ = {};
+Module['BlockDepth'] = BlockDepth;
+BlockDepth.prototype["__destroy__"] = BlockDepth.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_BlockDepth__destroy(self);
+};
 // BlockFilter
 function BlockFilter() { throw "cannot construct a BlockFilter, no constructor in IDL" }
 BlockFilter.prototype = Object.create(GfxBlock.prototype);
@@ -3337,50 +3518,28 @@ ClusteredFrustum.prototype["__destroy__"] = ClusteredFrustum.prototype.__destroy
     var self = this.ptr;
     _mud_ClusteredFrustum__destroy(self);
 };
-// DrawBlock
-function DrawBlock() { throw "cannot construct a DrawBlock, no constructor in IDL" }
-DrawBlock.prototype = Object.create(GfxBlock.prototype);
-DrawBlock.prototype.constructor = DrawBlock;
-DrawBlock.prototype.__class__ = DrawBlock;
-DrawBlock.__cache__ = {};
-Module['DrawBlock'] = DrawBlock;
-DrawBlock.prototype["__destroy__"] = DrawBlock.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_DrawBlock__destroy(self);
+// Flare
+function Flare() {
+    this.ptr = _mud_Flare__construct_0(); this.type = Flare; getCache(Flare)[this.ptr] = this;
 };
-// BlockDepth
-function BlockDepth() { throw "cannot construct a BlockDepth, no constructor in IDL" }
-BlockDepth.prototype = Object.create(DrawBlock.prototype);
-BlockDepth.prototype.constructor = BlockDepth;
-BlockDepth.prototype.__class__ = BlockDepth;
-BlockDepth.__cache__ = {};
-Module['BlockDepth'] = BlockDepth;
-BlockDepth.prototype["__destroy__"] = BlockDepth.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockDepth__destroy(self);
-};
-// Particles
-function Particles() {
-    this.ptr = _mud_Particles__construct_0(); this.type = Particles; getCache(Particles)[this.ptr] = this;
-};
-Particles.prototype = Object.create(ParticleFlow.prototype);
-Particles.prototype.constructor = Particles;
-Particles.prototype.__class__ = Particles;
-Particles.__cache__ = {};
-Module['Particles'] = Particles;
-Object.defineProperty(Particles.prototype, "node", {
+Flare.prototype = Object.create(Flow.prototype);
+Flare.prototype.constructor = Flare;
+Flare.prototype.__class__ = Flare;
+Flare.__cache__ = {};
+Module['Flare'] = Flare;
+Object.defineProperty(Flare.prototype, "node", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Particles__get_node(self), Node3);
+        return wrapPointer(_mud_Flare__get_node(self), Node3);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_Particles__set_node(self, value.ptr);
+        _mud_Flare__set_node(self, value.ptr);
     }
 });
-Particles.prototype["__destroy__"] = Particles.prototype.__destroy__ = function() {
+Flare.prototype["__destroy__"] = Flare.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Particles__destroy(self);
+    _mud_Flare__destroy(self);
 };
 // RenderTarget
 function RenderTarget() { throw "cannot construct a RenderTarget, no constructor in IDL" }
@@ -3396,11 +3555,11 @@ RenderTarget.prototype["__destroy__"] = RenderTarget.prototype.__destroy__ = fun
 Module['gfx']['setup_pipeline_minimal'] = function(a0) {
     _mud_gfx_setup_pipeline_minimal_1(/*gfx*/a0.ptr);
 };
-Module['gfx']['update_item_lights'] = function(a0) {
-    _mud_gfx_update_item_lights_1(/*item*/a0.ptr);
-};
 Module['gfx']['update_item_aabb'] = function(a0) {
     _mud_gfx_update_item_aabb_1(/*item*/a0.ptr);
+};
+Module['gfx']['update_item_lights'] = function(a0, a1) {
+    _mud_gfx_update_item_lights_2(/*scene*/a0.ptr, /*item*/a1.ptr);
 };
 Module['gfx']['node'] = function(a0, a1, a2, a3, a4) {
     if (a1 === undefined) { return wrapPointer(_mud_gfx_node_1(/*parent*/a0.ptr), Gnode); }
@@ -3433,12 +3592,12 @@ Module['gfx']['model'] = function(a0, a1, a2, a3, a4) {
     return wrapPointer(_mud_gfx_model_5(/*parent*/a0.ptr, ensureString(/*name*/a1), /*flags*/a2, /*material*/a3.ptr, /*instances*/a4), Item);
 };
 Module['gfx']['animated'] = function(a0, a1) {
-    return wrapPointer(_mud_gfx_animated_2(/*parent*/a0.ptr, /*item*/a1.ptr), Animated);
+    return wrapPointer(_mud_gfx_animated_2(/*parent*/a0.ptr, /*item*/a1.ptr), Mime);
 };
-Module['gfx']['particles'] = function(a0, a1, a2, a3) {
-    if (a2 === undefined) { return wrapPointer(_mud_gfx_particles_2(/*parent*/a0.ptr, /*emitter*/a1.ptr), Particles); }
-    if (a3 === undefined) { return wrapPointer(_mud_gfx_particles_3(/*parent*/a0.ptr, /*emitter*/a1.ptr, /*flags*/a2), Particles); }
-    return wrapPointer(_mud_gfx_particles_4(/*parent*/a0.ptr, /*emitter*/a1.ptr, /*flags*/a2, /*instances*/a3), Particles);
+Module['gfx']['flows'] = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { return wrapPointer(_mud_gfx_flows_2(/*parent*/a0.ptr, /*emitter*/a1.ptr), Flare); }
+    if (a3 === undefined) { return wrapPointer(_mud_gfx_flows_3(/*parent*/a0.ptr, /*emitter*/a1.ptr, /*flags*/a2), Flare); }
+    return wrapPointer(_mud_gfx_flows_4(/*parent*/a0.ptr, /*emitter*/a1.ptr, /*flags*/a2, /*instances*/a3), Flare);
 };
 Module['gfx']['light'] = function(a0, a1, a2, a3, a4, a5) {
     if (a4 === undefined) { return wrapPointer(_mud_gfx_light_4(/*parent*/a0.ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.ptr), Light); }
@@ -3464,7 +3623,6 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
 
 (function() {
     function setup() {
-        Animated.__type__ = _mud_Animated__type();
         AnimatedTrack.__type__ = _mud_AnimatedTrack__type();
         Animation.__type__ = _mud_Animation__type();
         AnimationPlay.__type__ = _mud_AnimationPlay__type();
@@ -3477,6 +3635,7 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         DepthParams.__type__ = _mud_DepthParams__type();
         Environment.__type__ = _mud_Environment__type();
         Filter.__type__ = _mud_Filter__type();
+        Flow.__type__ = _mud_Flow__type();
         Fog.__type__ = _mud_Fog__type();
         FrameBuffer.__type__ = _mud_FrameBuffer__type();
         FresnelMaterialBlock.__type__ = _mud_FresnelMaterialBlock__type();
@@ -3493,10 +3652,10 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Light.__type__ = _mud_Light__type();
         Material.__type__ = _mud_Material__type();
         Mesh.__type__ = _mud_Mesh__type();
+        Mime.__type__ = _mud_Mime__type();
         Model.__type__ = _mud_Model__type();
         ModelItem.__type__ = _mud_ModelItem__type();
         Node3.__type__ = _mud_Node3__type();
-        ParticleFlow.__type__ = _mud_ParticleFlow__type();
         PbrMaterialBlock.__type__ = _mud_PbrMaterialBlock__type();
         Prefab.__type__ = _mud_Prefab__type();
         Program.__type__ = _mud_Program__type();
@@ -3514,20 +3673,21 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         UnshadedMaterialBlock.__type__ = _mud_UnshadedMaterialBlock__type();
         Viewport.__type__ = _mud_Viewport__type();
         BlockCopy.__type__ = _mud_BlockCopy__type();
+        DrawBlock.__type__ = _mud_DrawBlock__type();
+        BlockDepth.__type__ = _mud_BlockDepth__type();
         BlockFilter.__type__ = _mud_BlockFilter__type();
         BlockParticles.__type__ = _mud_BlockParticles__type();
         BlockResolve.__type__ = _mud_BlockResolve__type();
         BlockSky.__type__ = _mud_BlockSky__type();
         ClusteredFrustum.__type__ = _mud_ClusteredFrustum__type();
-        DrawBlock.__type__ = _mud_DrawBlock__type();
-        BlockDepth.__type__ = _mud_BlockDepth__type();
-        Particles.__type__ = _mud_Particles__type();
+        Flare.__type__ = _mud_Flare__type();
         RenderTarget.__type__ = _mud_RenderTarget__type();
         // AnimationTarget
         Module['AnimationTarget'] = Module['AnimationTarget'] || {};
         Module['AnimationTarget']['Position'] = _mud_AnimationTarget_Position();
         Module['AnimationTarget']['Rotation'] = _mud_AnimationTarget_Rotation();
         Module['AnimationTarget']['Scale'] = _mud_AnimationTarget_Scale();
+        Module['AnimationTarget']['Count'] = _mud_AnimationTarget_Count();
         // BackgroundMode
         Module['BackgroundMode'] = Module['BackgroundMode'] || {};
         Module['BackgroundMode']['None'] = _mud_BackgroundMode_None();
@@ -3547,6 +3707,7 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Module['CullMode']['None'] = _mud_CullMode_None();
         Module['CullMode']['Front'] = _mud_CullMode_Front();
         Module['CullMode']['Back'] = _mud_CullMode_Back();
+        Module['CullMode']['Count'] = _mud_CullMode_Count();
         // DepthDraw
         Module['DepthDraw'] = Module['DepthDraw'] || {};
         Module['DepthDraw']['Enabled'] = _mud_DepthDraw_Enabled();
@@ -3592,6 +3753,7 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Module['MSAA']['X4'] = _mud_MSAA_X4();
         Module['MSAA']['X8'] = _mud_MSAA_X8();
         Module['MSAA']['X16'] = _mud_MSAA_X16();
+        Module['MSAA']['Count'] = _mud_MSAA_Count();
         // MaterialFlag
         Module['MaterialFlag'] = Module['MaterialFlag'] || {};
         Module['MaterialFlag']['TriplanarUV1'] = _mud_MaterialFlag_TriplanarUV1();

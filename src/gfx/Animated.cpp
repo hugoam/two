@@ -23,20 +23,20 @@ module mud.gfx;
 
 namespace mud
 {
-	Animated::Animated(Node3& node)
+	Mime::Mime(Node3& node)
 		: m_node(node)
 	{}
 
-	Animated::~Animated()
+	Mime::~Mime()
 	{}
 
-	void Animated::add_item(Item& item)
+	void Mime::add_item(Item& item)
 	{
 		m_rig = *item.m_model->m_rig;
 		item.m_rig = &m_rig;
 	}
 
-	void Animated::start(cstring name, bool loop, float blend, float speed, bool transient)
+	void Mime::start(cstring name, bool loop, float blend, float speed, bool transient)
 	{
 		for(Animation* animation : m_rig.m_skeleton.m_animations)
 			if(animation->m_name == name)
@@ -46,7 +46,7 @@ namespace mud
 			}
 	}
 
-	void Animated::play(const Animation& animation, bool loop, float blend, float speed, bool transient)
+	void Mime::play(const Animation& animation, bool loop, float blend, float speed, bool transient)
 	{
 		for(AnimationPlay& playing : m_playing)
 		{
@@ -61,25 +61,25 @@ namespace mud
 		m_active = true;
 	}
 
-	void Animated::stop()
+	void Mime::stop()
 	{
 		m_playing.clear();
 	}
 
-	void Animated::pause()
+	void Mime::pause()
 	{
 		m_active = false;
 	}
 
-	void Animated::next_animation()
+	void Mime::next_animation()
 	{
 		//this->play(*pop(m_queue));
 	}
 
-	void Animated::advance(float delta)
+	void Mime::advance(float delta)
 	{
 		if(m_playing.size() > 2)
-			printf("WARNING: Animated playing more than 2 animations at the same time\n");
+			printf("WARNING: Mime playing more than 2 animations at the same time\n");
 
 		for(AnimationPlay& play : m_playing)
 			play.step(delta, m_speed_scale);
@@ -92,7 +92,7 @@ namespace mud
 		m_rig.update_rig();
 	}
 
-	void Animated::seek(float time)
+	void Mime::seek(float time)
 	{
 		for(AnimationPlay& play : m_playing)
 		{

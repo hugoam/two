@@ -9,6 +9,7 @@ module mud.gfx;
 #else
 #include <stl/algorithm.h>
 #include <infra/Copy.h>
+#include <pool/Pool.hpp>
 #include <tree/Graph.hpp>
 #include <pool/ObjectPool.hpp>
 #include <math/Math.h>
@@ -41,6 +42,12 @@ namespace mud
 {
 	template class Graph<Gnode>;
 
+	template class TPool<Node3>;
+	template class TPool<Item>;
+	template class TPool<Mime>;
+	template class TPool<Light>;
+	template class TPool<Flare>;
+
 	Gnode::Gnode() : Graph() {}
 	Gnode::Gnode(Scene& scene, SoundManager* sound_manager) : Graph(), m_scene(&scene), m_attach(&scene.m_root_node), m_sound_manager(sound_manager) {}
 	Gnode::Gnode(Gnode* parent, void* identity) : Graph(parent, identity), m_scene(parent->m_scene), m_attach(parent->m_attach), m_sound_manager(parent->m_sound_manager) {}
@@ -65,12 +72,12 @@ namespace mud
 		}
 		if(m_animated)
 		{
-			m_scene->m_pool->pool<Animated>().tdestroy(*m_animated);
+			m_scene->m_pool->pool<Mime>().tdestroy(*m_animated);
 			m_animated = nullptr;
 		}
 		if(m_particles)
 		{
-			m_scene->m_pool->pool<Particles>().tdestroy(*m_particles);
+			m_scene->m_pool->pool<Flare>().tdestroy(*m_particles);
 			m_particles = nullptr;
 		}
 		if(m_light)
@@ -114,12 +121,18 @@ namespace gfx
 		gfx.init_pipeline(pipeline_minimal);
 	}
 
+	TPool<Node3>&  nodes(Scene& scene)  { return scene.m_pool->pool<Node3>(); }
+	TPool<Item>&   items(Scene& scene)  { return scene.m_pool->pool<Item>(); }
+	TPool<Mime>&   mimes(Scene& scene)  { return scene.m_pool->pool<Mime>(); }
+	TPool<Light>&  lights(Scene& scene) { return scene.m_pool->pool<Light>(); }
+	TPool<Flare>&  flares(Scene& scene) { return scene.m_pool->pool<Flare>(); }
+
 	Gnode& node(Gnode& parent, Ref object, const mat4& transform)
 	{
 		Gnode& self = parent.subi(object.m_value);
 		if(!self.m_node)
 		{
-			self.m_node = &create<Node3>(*parent.m_scene, parent.m_scene, object);
+			self.m_node = &create<Node3>(*parent.m_scene, object);
 			self.m_attach = self.m_node;
 		}
 		self.m_node->m_transform = transform;
@@ -143,7 +156,7 @@ namespace gfx
 
 	Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation)
 	{
-		return node(parent, object, parent.m_attach->m_transform * bxTRS(Unit3, rotation, position));
+		return node(parent, object, parent.m_attach->m_transform * bxTRS(vec3(1.f), rotation, position));
 	}
 
 	void update_item_aabb(Item& item)
@@ -160,11 +173,11 @@ namespace gfx
 		}
 	}
 
-	void update_item_lights(Item& item)
+	void update_item_lights(Scene& scene, Item& item)
 	{
 		item.m_lights.clear();
 
-		item.m_node->m_scene->m_pool->pool<Light>().iterate([&](Light& light)
+		scene.m_pool->pool<Light>().iterate([&](Light& light)
 		{
 			if(light.m_type == LightType::Direct || sphere_aabb_intersection(light.m_node.position(), light.m_range, item.m_aabb))
 				item.m_lights.push_back(&light);
@@ -195,7 +208,7 @@ namespace gfx
 		if(update)
 		{
 			update_item_aabb(*self.m_item);
-			update_item_lights(*self.m_item);
+			update_item_lights(*self.m_scene, *self.m_item);
 		}
 		return *self.m_item;
 	}
@@ -262,24 +275,24 @@ namespace gfx
 		return nullptr;
 	}
 
-	Animated& animated(Gnode& parent, Item& item)
+	Mime& animated(Gnode& parent, Item& item)
 	{
 		Gnode& self = parent.suba();
 		if(!self.m_animated)
 		{
-			self.m_animated = &create<Animated>(*self.m_scene, *self.m_attach);
+			self.m_animated = &create<Mime>(*self.m_scene, *self.m_attach);
 			self.m_animated->add_item(item);
 		}
 		return *self.m_animated;
 	}
 
-	Particles& particles(Gnode& parent, const ParticleFlow& emitter, uint32_t flags, size_t instances)
+	Flare& flows(Gnode& parent, const Flow& emitter, uint32_t flags, size_t instances)
 	{
 		UNUSED(flags); UNUSED(instances);
 		Gnode& self = parent.suba();
 		if(!self.m_particles)
-			self.m_particles = &create<Particles>(*self.m_scene, self.m_attach, Sphere(1.f), 1024);
-		as<ParticleFlow>(*self.m_particles) = emitter;
+			self.m_particles = &create<Flare>(*self.m_scene, self.m_attach, Sphere(1.f), 1024);
+		as<Flow>(*self.m_particles) = emitter;
 		self.m_particles->m_node = self.m_attach;
 		self.m_particles->m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites->find_sprite(emitter.m_sprite_name.c_str());
 		return *self.m_particles;
@@ -301,7 +314,7 @@ namespace gfx
 
 	Light& direct_light_node(Gnode& parent, const quat& rotation)
 	{
-		Gnode& self = node(parent, {}, Zero3, rotation);
+		Gnode& self = node(parent, {}, vec3(0.f), rotation);
 		Light& l = light(self, LightType::Direct, true, Colour{ 0.8f, 0.8f, 0.7f }, 1.f);
 		l.m_energy = 0.6f;
 		l.m_shadow_flags = CSM_Stabilize;

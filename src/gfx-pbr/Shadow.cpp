@@ -281,7 +281,7 @@ namespace mud
 		shadow.m_frustum_slices.resize(light.m_shadow_num_splits);
 		split_frustum_slices(render.m_camera, shadow.m_frustum_slices, light.m_shadow_num_splits, light.m_shadow_split_distribution);
 
-		mat4 light_transform = bxlookat(-light.m_node.direction(), Zero3);
+		mat4 light_transform = bxlookat(-light.m_node.direction(), vec3(0.f));
 		mat4 light_proj = bxortho(1.0f, -1.0f, 1.0f, -1.0f, -light.m_shadow_range, light.m_shadow_range, 0.0f, bgfx::getCaps()->homogeneousDepth);
 
 		shadow.m_slices.clear();
@@ -414,7 +414,7 @@ namespace mud
 					static const vec3 view_normals[6] = { -X3, X3, -Y3, Y3, -Z3, Z3 };
 					static const vec3 view_up[6] = { -Y3, -Y3, -Z3, Z3, -Y3, -Y3 };
 
-					mat4 transform = light->m_node.m_transform * bxlookat(Zero3, view_normals[i], view_up[i]);
+					mat4 transform = light->m_node.m_transform * bxlookat(vec3(0.f), view_normals[i], view_up[i]);
 
 					ShadowCubemap& cubemap = m_atlas.light_cubemap(*light, uint16_t(rect_w(atlas_rect)));
 

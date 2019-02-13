@@ -246,7 +246,7 @@ namespace ui
 	Node& node(Canvas& parent, span<cstring> title, float* position, int order, Ref identity)
 	{
 		Node& self = node(parent, title, order, identity);
-		if(self.once())// && position != Zero2)
+		if(self.once())// && position != vec2(0.f))
 			self.m_frame.set_position({ position[0], position[1] });
 		else
 		{
@@ -324,7 +324,7 @@ namespace ui
 		}
 		else
 		{
-			canvas_cable(*canvas.m_plan, Zero2, Zero2, Colour::None, Colour::None);
+			canvas_cable(*canvas.m_plan, vec2(0.f), vec2(0.f), Colour::None, Colour::None);
 			connect = {};
 		}
 

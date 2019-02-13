@@ -504,10 +504,10 @@ extern "C" {
 	void DECL mud_Layout__set_layout(mud::Layout* self, mud::Dim2<mud::AutoLayout>* value) {
 		self->m_layout = *value;
 	}
-	mud::Flow DECL mud_Layout__get_flow(mud::Layout* self) {
+	mud::LayoutFlow DECL mud_Layout__get_flow(mud::Layout* self) {
 		return self->m_flow;
 	}
-	void DECL mud_Layout__set_flow(mud::Layout* self, mud::Flow value) {
+	void DECL mud_Layout__set_flow(mud::Layout* self, mud::LayoutFlow value) {
 		self->m_flow = value;
 	}
 	mud::Space* DECL mud_Layout__get_space(mud::Layout* self) {
@@ -1558,19 +1558,6 @@ extern "C" {
 	mud::Dim DECL mud_Dim_DIM_NONE() {
 		return mud::DIM_NONE;
 	}
-	// Flow
-	mud::Flow DECL mud_Flow_FLOW() {
-		return mud::FLOW;
-	}
-	mud::Flow DECL mud_Flow_OVERLAY() {
-		return mud::OVERLAY;
-	}
-	mud::Flow DECL mud_Flow_ALIGN() {
-		return mud::ALIGN;
-	}
-	mud::Flow DECL mud_Flow_FREE() {
-		return mud::FREE;
-	}
 	// FlowAxis
 	mud::FlowAxis DECL mud_FlowAxis_READING() {
 		return mud::READING;
@@ -1586,6 +1573,19 @@ extern "C" {
 	}
 	mud::FlowAxis DECL mud_FlowAxis_AXIS_NONE() {
 		return mud::AXIS_NONE;
+	}
+	// LayoutFlow
+	mud::LayoutFlow DECL mud_LayoutFlow_FLOW() {
+		return mud::FLOW;
+	}
+	mud::LayoutFlow DECL mud_LayoutFlow_OVERLAY() {
+		return mud::OVERLAY;
+	}
+	mud::LayoutFlow DECL mud_LayoutFlow_ALIGN() {
+		return mud::ALIGN;
+	}
+	mud::LayoutFlow DECL mud_LayoutFlow_FREE() {
+		return mud::FREE;
 	}
 	// LayoutSolver
 	mud::LayoutSolver DECL mud_LayoutSolver_FRAME_SOLVER() {

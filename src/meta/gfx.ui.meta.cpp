@@ -115,7 +115,6 @@ namespace mud
 		static Type* bases[] = { &type<mud::ViewerController>() };
 		static size_t bases_offsets[] = { base_offset<mud::OrbitController, mud::ViewerController>() };
 		// defaults
-		static mud::vec3 position_default = Zero3;
 		static float yaw_default = 0.f;
 		static float pitch_default = 0.f;
 		static float distance_default = 1.f;
@@ -123,7 +122,7 @@ namespace mud
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::OrbitController, m_position), type<mud::vec3>(), "position", &position_default, Member::Value, nullptr },
+			{ t, offsetof(mud::OrbitController, m_position), type<mud::vec3>(), "position", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::OrbitController, m_yaw), type<float>(), "yaw", &yaw_default, Member::Value, nullptr },
 			{ t, offsetof(mud::OrbitController, m_pitch), type<float>(), "pitch", &pitch_default, Member::Value, nullptr },
 			{ t, offsetof(mud::OrbitController, m_distance), type<float>(), "distance", &distance_default, Member::Value, nullptr }
@@ -180,7 +179,7 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static mud::vec2 size_default = Zero2;
+			static mud::vec2 size_default = vec2(0.f);
 			static Function f = { &namspc({ "mud", "ui" }), "scene_viewer", nullptr, mud_ui_scene_viewer_1, { { "parent", type<mud::Widget>(),  }, { "size", type<mud::vec2>(), Param::Default, &size_default } }, { &type<mud::SceneViewer>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}

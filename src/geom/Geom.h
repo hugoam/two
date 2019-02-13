@@ -24,7 +24,7 @@ namespace mud
 		attr_ vec3 m_normal;
 		attr_ float m_distance;
 
-		Plane(const vec3& normal = Zero3, float distance = 0.f);
+		Plane(const vec3& normal = vec3(0.f), float distance = 0.f);
 		Plane(float a, float b, float c, float d);
 		Plane(const vec3& point, const vec3& normal);
 		Plane(const vec3& p1, const vec3& p2, const vec3& p3, Clockwise dir = ANTI_CLOCKWISE);

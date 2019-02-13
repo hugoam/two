@@ -63,7 +63,7 @@ namespace mud
     class Rig;
     struct AnimatedTrack;
     struct AnimationPlay;
-    class Animated;
+    class Mime;
     class GfxContext;
     struct LocatedFile;
     class GfxSystem;
@@ -98,9 +98,9 @@ namespace mud
     class Mesh;
     struct Particle;
     struct ParticleSort;
-    struct ParticleFlow;
+    struct Flow;
     struct ParticleVertex;
-    struct Particles;
+    struct Flare;
     class ParticleSystem;
     class BlockParticles;
     class PassParticles;

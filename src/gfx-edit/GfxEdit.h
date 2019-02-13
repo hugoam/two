@@ -19,7 +19,7 @@ namespace mud
 
 	MUD_GFX_EDIT_EXPORT void space_axes(Gnode& parent);
 
-	MUD_GFX_EDIT_EXPORT void animation_edit(Widget& parent, Animated& animated);
+	MUD_GFX_EDIT_EXPORT void animation_edit(Widget& parent, Mime& animated);
 
 	MUD_GFX_EDIT_EXPORT void asset_browser(Widget& parent, GfxSystem& gfx_system);
 

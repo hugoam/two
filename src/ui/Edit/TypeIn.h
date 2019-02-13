@@ -295,7 +295,7 @@ namespace mud
 		vec2 m_text_offset;
 
 		string m_hovered_word = "";
-		vec4 m_hovered_word_rect = Zero4;
+		vec4 m_hovered_word_rect = vec4(0.f);
 
 		using AllowChar = bool(*)(char); AllowChar m_allow_char;
 

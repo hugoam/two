@@ -44,7 +44,7 @@ namespace mud
 	{
 		float l = length(plane.m_normal);
 		if(l == 0)
-			return { Zero3, 0.f };
+			return { vec3(0.f), 0.f };
 		return { plane.m_normal / l, plane.m_distance / l };
 	}
 

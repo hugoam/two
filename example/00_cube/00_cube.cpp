@@ -66,8 +66,8 @@ void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 	ui::orbit_controller(viewer);
 	viewer.take_focus();
 
-	static vec3 position = Zero3;
-	static vec3 speed = Zero3;
+	static vec3 position = vec3(0.f);
+	static vec3 speed = vec3(0.f);
 
 	velocity_controller(viewer, speed, 0.01f);
 	position += speed;

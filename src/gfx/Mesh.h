@@ -59,7 +59,7 @@ namespace mud
 		attr_ DrawMode m_draw_mode = PLAIN;
 		attr_ Aabb m_aabb = {};
 		attr_ float m_radius = 0.f;
-		attr_ vec3 m_origin = Zero3;
+		attr_ vec3 m_origin = vec3(0.f);
 		attr_ bool m_readback = false;
 
 		attr_ uint32_t m_vertex_format = 0;

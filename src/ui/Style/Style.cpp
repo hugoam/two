@@ -37,7 +37,7 @@ namespace mud
 		m_min_size.y = d_stretch == DIM_Y ? float(d_solid_size.y) : 0.f;
 
 		vec4 coords[Count] = {};
-		this->stretch_coords(Zero2, vec2(image.d_size), span<vec4>{ coords, Count });
+		this->stretch_coords(vec2(0.f), vec2(image.d_size), span<vec4>{ coords, Count });
 		for(size_t s = 0; s < Count; ++s)
 		{
 			this->d_images[s].d_coord = this->d_image->d_coord + uvec2(rect_offset(coords[s]));

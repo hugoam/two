@@ -207,7 +207,7 @@ namespace mud
 		return face_aabb(face.m_vertices);
 	}
 
-	void quad_vertices(const vec2& size, const vec3& u, const vec3& v, span<vec3> vertices, const vec2& offset = Zero2)
+	void quad_vertices(const vec2& size, const vec3& u, const vec3& v, span<vec3> vertices, const vec2& offset = vec2(0.f))
 	{
 		vec3 offset3d = u * offset.x + v * offset.y;
 		vec3 a = (u * size.x + v * size.y) / 2.f;
@@ -326,7 +326,7 @@ namespace mud
 	vector<vec3> distribute_shape(const Shape& shape, size_t count)
 	{
 		if(!RandomShapePoint::me().check(Ref(&shape)))
-			return vector<vec3>(count, Zero3);
+			return vector<vec3>(count, vec3(0.f));
 
 		vector<vec3> points(count);
 		for(size_t i = 0; i < count; ++i)

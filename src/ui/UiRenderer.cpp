@@ -179,7 +179,7 @@ namespace mud
 		});
 
 		target.visit([&](Layer& layer) {
-			m_vg.draw_layer(layer, Zero2, 1.f);
+			m_vg.draw_layer(layer, vec2(0.f), 1.f);
 		});
 #else
 		target.visit([&](Layer& layer)
@@ -450,7 +450,7 @@ namespace mud
 
 		if(!inkstyle.m_background_colour.null())
 		{
-			if(inkstyle.m_linear_gradient == Zero2)
+			if(inkstyle.m_linear_gradient == vec2(0.f))
 			{
 				m_vg.fill({ inkstyle.m_background_colour, inkstyle.m_border_colour, inkstyle.m_border_width.x });
 			}

@@ -24,12 +24,12 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
-	//viewer.m_camera.set_isometric(IsometricAngle(SOUTH | WEST), Zero3);
+	//viewer.m_camera.set_isometric(IsometricAngle(SOUTH | WEST), vec3(0.f));
 
 	Gnode& scene = viewer.m_scene.begin();
 
 	static WaveTileset& tileset = create_tileset(app);
-	static WfcBlock block = { Zero3, { 20, 4, 20 }, Unit3, tileset };
+	static WfcBlock block = { vec3(0.f), { 20, 4, 20 }, vec3(1.f), tileset };
 	static uvec3 highlighted = uvec3(UINT32_MAX);
 	static uvec3 selected = uvec3(UINT32_MAX);
 	static uvec3 focused = uvec3(UINT32_MAX);

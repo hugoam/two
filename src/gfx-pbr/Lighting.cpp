@@ -172,7 +172,7 @@ namespace mud
 		span<Light*> lights = { all_lights.m_pointer, min(all_lights.m_count, size_t(ShotUniform::max_lights)) };
 		uint16_t light_count = 0;
 
-		m_lights_data.light_counts = Zero4;
+		m_lights_data.light_counts = vec4(0.f);
 
 		for(Light* light : lights)
 		{

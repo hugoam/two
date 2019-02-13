@@ -25,8 +25,8 @@ void add_asset_loader(AssetStore<T_Asset>& store, cstring format)
 struct ParticleItem
 {
 	size_t m_index;
-	ParticleFlow* m_emitter;
-	Particles* m_particles;
+	Flow* m_emitter;
+	Flare* m_particles;
 };
 
 namespace mud
@@ -41,7 +41,7 @@ vector<ParticleItem> create_particles(GfxSystem& gfx_system, const vector<string
 	size_t index = 0;
 	for(const string& name : names)
 	{
-		ParticleFlow* emitter = gfx_system.particles().file(name.c_str());
+		Flow* emitter = gfx_system.flows().file(name.c_str());
 		particles_vector.push_back({ index++, emitter, nullptr });
 	}
 
@@ -64,7 +64,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 	for(ParticleItem& item : particles_vector)
 	{
 		Gnode& node = gfx::node(scene, {}, vec3{ -middle + item.m_index * 10.f, 0.f, 0.f });
-		item.m_particles = &gfx::particles(node, *item.m_emitter);
+		item.m_particles = &gfx::flows(node, *item.m_emitter);
 
 		if(item.m_particles->ended())
 			item.m_particles->m_time = 0.f;
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
 	System::instance().load_modules({ &mud_gfx::m() });
-	add_asset_loader(app.m_gfx_system.particles(), ".ptc");
+	add_asset_loader(app.m_gfx_system.flows(), ".ptc");
 	app.m_gfx_system.add_resource_path("examples/06_particles");
 	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);

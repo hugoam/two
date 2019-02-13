@@ -51,14 +51,14 @@ namespace mud
 		//ms_decl = vertex_decl(VertexAttribute::Position | VertexAttribute::Colour | VertexAttribute::TexCoord0);
 	}
 
-	ParticleFlow::ParticleFlow()
+	Flow::Flow()
 	{}
 
-	ParticleFlow::ParticleFlow(const string& name)
+	Flow::Flow(const string& name)
 		: m_name(name)
 	{}
 
-	Particles::Particles(Node3* node, ShapeVar shape, uint32_t max_particles)
+	Flare::Flare(Node3* node, ShapeVar shape, uint32_t max_particles)
 		: m_node(node)
 		, m_max(max_particles)
 	{
@@ -66,10 +66,10 @@ namespace mud
 		m_particles.reserve(m_max);
 	}
 
-	void Particles::upload()
+	void Flare::upload()
 	{}
 
-	void Particles::update(float delta)
+	void Flare::update(float delta)
 	{
 		m_time += delta;
 
@@ -84,13 +84,13 @@ namespace mud
 	}
 
 
-	void Particles::spawn(float dt)
+	void Flare::spawn(float dt)
 	{
 		mat4 transform = m_node ? m_node->m_transform : bxidentity();
 
 		//quat rotation = m_rotation.sample(m_time, random_scalar(0.f, 1.f));
 		//vec3 position = m_position.sample(m_time, random_scalar(0.f, 1.f));
-		//transform = bxSRT(Unit3, rotation, position) * transform;
+		//transform = bxSRT(vec3(1.f), rotation, position) * transform;
 
 		m_dt += dt;
 
@@ -131,7 +131,7 @@ namespace mud
 		}
 	}
 
-	uint32_t Particles::render(const SpriteAtlas& atlas, const mat4& view, const vec3& eye, uint32_t first, uint32_t max, ParticleSort* outSort, ParticleVertex* outVertices)
+	uint32_t Flare::render(const SpriteAtlas& atlas, const mat4& view, const vec3& eye, uint32_t first, uint32_t max, ParticleSort* outSort, ParticleVertex* outVertices)
 	{
 		m_aabb =
 		{
@@ -195,7 +195,7 @@ namespace mud
 		return uint32_t(m_particles.size());
 	}
 
-	inline void Particles::write_vertex(ParticleVertex*& dest, ParticleVertex vertex)
+	inline void Flare::write_vertex(ParticleVertex*& dest, ParticleVertex vertex)
 	{
 		m_aabb.merge(vertex.m_pos);
 		*dest = vertex;
@@ -209,7 +209,7 @@ namespace mud
 		return lhs.dist > rhs.dist ? -1 : 1;
 	}
 
-	ParticleSystem::ParticleSystem(GfxSystem& gfx_system, TPool<Particles>& emitters)
+	ParticleSystem::ParticleSystem(GfxSystem& gfx_system, TPool<Flare>& emitters)
 		: m_gfx_system(gfx_system)
 		, m_block(*gfx_system.m_pipeline->block<BlockParticles>())
 		, m_emitters(emitters)
@@ -227,7 +227,7 @@ namespace mud
 	void ParticleSystem::update(float _dt)
 	{
 		uint32_t num_particles = 0;
-		for(Particles* emitter : m_emitters.m_vec_pool->m_objects)
+		for(Flare* emitter : m_emitters.m_vec_pool->m_objects)
 		{
 			emitter->update(_dt);
 			num_particles += uint32_t(emitter->m_particles.size());
@@ -259,7 +259,7 @@ namespace mud
 			uint32_t pos = 0;
 			ParticleVertex* vertices = (ParticleVertex*)vertex_buffer.data;
 
-			for(Particles* emitter : m_emitters.m_vec_pool->m_objects)
+			for(Flare* emitter : m_emitters.m_vec_pool->m_objects)
 				pos += emitter->render(*m_block.m_sprites, view, eye, pos, max, particleSort.data(), vertices);
 
 			qsort(particleSort.data(), max, sizeof(ParticleSort), particleSortFn);

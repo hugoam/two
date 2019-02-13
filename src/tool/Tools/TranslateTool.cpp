@@ -21,7 +21,7 @@ namespace mud
 {
 	TranslateAction::TranslateAction(span<Transform*> targets)
 		: TransformAction(targets)
-		, m_translation(Zero3)
+		, m_translation(vec3(0.f))
 	{}
 
 	void TranslateAction::apply(Transform& transform)

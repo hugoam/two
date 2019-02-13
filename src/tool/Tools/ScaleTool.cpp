@@ -21,7 +21,7 @@ namespace mud
 {
 	ScaleAction::ScaleAction(span<Transform*> targets)
 		: TransformAction(targets)
-		, m_scale_offset(Zero3)
+		, m_scale_offset(vec3(0.f))
 	{}
 
 	void ScaleAction::apply(Transform& transform)
@@ -67,7 +67,7 @@ namespace mud
 
 	Item& scale_3d_gizmo(Gnode& parent, Colour colour, uint32_t flags = 0U)
 	{
-		Gnode& node = gfx::transform(parent, {}, Zero3, ZeroQuat);
+		Gnode& node = gfx::transform(parent, {}, vec3(0.f), ZeroQuat);
 		return gfx::shape(node, Cube(0.1f), Symbol(colour, Colour::None, true), flags);
 	}
 

@@ -174,7 +174,7 @@ namespace mud
 
 	void Frustum::compute()
 	{
-		m_center = Zero3;
+		m_center = vec3(0.f);
 		for(uint i = 0; i < 8; i++)
 			m_center += m_corners[i];
 		//m_center /= 8.f;

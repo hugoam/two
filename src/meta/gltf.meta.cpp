@@ -894,9 +894,7 @@ namespace mud
 		static int camera_default = -1;
 		static int skin_default = -1;
 		static mud::mat4 matrix_default = {};
-		static mud::vec3 translation_default = mud::Zero3;
 		static mud::quat rotation_default = mud::ZeroQuat;
-		static mud::vec3 scale_default = mud::Unit3;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, glTFNode__construct_0, {} }
@@ -912,9 +910,9 @@ namespace mud
 			{ t, offsetof(glTFNode, camera), type<int>(), "camera", &camera_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, skin), type<int>(), "skin", &skin_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, matrix), type<mud::mat4>(), "matrix", &matrix_default, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, translation), type<mud::vec3>(), "translation", &translation_default, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, translation), type<mud::vec3>(), "translation", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, rotation), type<mud::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, scale), type<mud::vec3>(), "scale", &scale_default, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, scale), type<mud::vec3>(), "scale", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, children), type<stl::vector<int>>(), "children", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods

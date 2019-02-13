@@ -22,7 +22,7 @@ namespace mud
 	{
 		attr_ bool m_enabled = false;
 		attr_ vec4 m_levels_1_4 = { 1.f, 0.f, 0.f, 0.f };
-		attr_ vec4 m_levels_5_8 = Zero4;
+		attr_ vec4 m_levels_5_8 = vec4(0.f);
 		attr_ float m_intensity = 0.4f;
 		attr_ float m_bloom = 0.0f;
 		attr_ float m_bleed_threshold = 1.0f;

@@ -118,7 +118,7 @@ namespace mud
 		attr_ AssetStore<Program>& programs();
 		attr_ AssetStore<Material>& materials();
 		attr_ AssetStore<Model>& models();
-		attr_ AssetStore<ParticleFlow>& particles();
+		attr_ AssetStore<Flow>& flows();
 		attr_ AssetStore<Prefab>& prefabs();
 
 		void add_importer(ModelFormat format, Importer& importer);

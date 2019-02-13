@@ -105,6 +105,12 @@ namespace mud
 		decl_callable(module, parent, f, cursor);
 	}
 
+	void decl_function_method(CLModule& module, CLPrimitive& parent, CXCursor cursor)
+	{
+		CLFunction& f = vector_emplace<CLFunction>(module.m_methods, parent, spelling(cursor));
+		decl_callable(module, parent, f, cursor);
+	}
+
 	void decl_class(CLModule& module, CLPrimitive& parent, CLClass& c, CXCursor cursor, CXType cxtype)
 	{
 		c.m_cursor = cursor;
@@ -265,6 +271,20 @@ namespace mud
 	{
 		CLMethod& m = push(c.m_methods, c, spelling(cursor));
 		parse_method(module, c, m, cursor);
+	}
+
+	void parse_function_method(CLModule& module, CLFunction& f)
+	{
+		parse_callable(module, f);
+		CLClass& c = (CLClass&)*f.m_params[0].m_type.m_type;
+		
+		//parse_method(module, c, f.m_cursor);
+
+		CLMethod& m = push(c.m_methods, c, f.m_name);
+		decl_callable(module, c, m, f.m_cursor);
+		m.m_return_type = f.m_return_type;
+		m.m_params = vector<CLParam>(f.m_params.begin() + 1, f.m_params.end());
+		m.m_function = &f;
 	}
 
 	void parse_member(CLModule& module, CLClass& c, CXCursor cursor)
@@ -481,6 +501,8 @@ namespace mud
 				decl_function_template(module, parent, c);
 			else if(c.kind == CXCursor_FunctionDecl && has(annotations, "func") && should_reflect(c, module))
 				decl_function(module, parent, c);
+			else if(c.kind == CXCursor_FunctionDecl && has(annotations, "meth") && should_reflect(c, module))
+				decl_function_method(module, parent, c);
 		});
 	}
 
@@ -614,6 +636,9 @@ namespace mud
 			for(auto& f : module.m_functions)
 				if(f->m_reflect)
 					parse_callable(module, *f);
+			for(auto& f : module.m_methods)
+				if(f->m_reflect)
+					parse_function_method(module, *f);
 
 			clang_disposeTranslationUnit(tu);
 

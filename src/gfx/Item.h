@@ -47,8 +47,8 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Item
 	{
 	public:
-		Item();
-		Item(Node3& node, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
+		constr_ Item();
+		constr_ Item(Node3& node, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
 		~Item();
 
 		attr_ Node3* m_node;

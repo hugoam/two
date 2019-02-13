@@ -64,7 +64,7 @@ namespace mud
 		AUTO_LAYOUT = 2
 	};
 
-	export_ enum refl_ Flow : unsigned int
+	export_ enum refl_ LayoutFlow : unsigned int
 	{
 		FLOW = 0,			// AUTO_LAYOUT
 		OVERLAY = 1,		// AUTO_SIZE

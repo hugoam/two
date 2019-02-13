@@ -126,7 +126,7 @@ namespace mud
 	{
 		d_layout = &d_style->layout();
 		m_opacity = d_layout->m_opacity;
-		m_size = d_layout->m_size == Zero2 ? m_size : d_layout->m_size;
+		m_size = d_layout->m_size == vec2(0.f) ? m_size : d_layout->m_size;
 
 		this->update_inkstyle(d_style->state_skin(d_widget.m_state));
 
@@ -164,7 +164,7 @@ namespace mud
 			m_content = s_vg->text_size(d_content->d_caption.c_str(), d_content->d_caption.size(), paint);
 		}
 		else
-			m_content = Zero2;
+			m_content = vec2(0.f);
 		mark_dirty(DIRTY_LAYOUT);
 	}
 
@@ -175,7 +175,7 @@ namespace mud
 		if(d_content->d_icon == image)
 			return;
 		d_content->d_icon = image;
-		m_content = image ? vec2{ image->d_size } : Zero2;
+		m_content = image ? vec2{ image->d_size } : vec2(0.f);
 		mark_dirty(DIRTY_LAYOUT);
 	}
 
@@ -234,7 +234,7 @@ namespace mud
 	{
 		//Frame* clip = clip_parent(*this);
 		Frame* clip = &this->root();
-		vec2 position = this->derive_position(Zero2, *clip);
+		vec2 position = this->derive_position(vec2(0.f), *clip);
 
 		for(Dim dim : { DIM_X, DIM_Y })
 		{
@@ -295,7 +295,7 @@ namespace mud
 	void Frame::sync_solver(FrameSolver& solver)
 	{
 		vec2 content = m_content + rect_sum(d_inkstyle->m_padding);
-		solver.setup(m_position, m_size, m_span, m_content != Zero2 ? &content : nullptr);
+		solver.setup(m_position, m_size, m_span, m_content != vec2(0.f) ? &content : nullptr);
 
 		if(d_dirty == DIRTY_PARENT)
 		{

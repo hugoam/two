@@ -52,7 +52,7 @@ namespace mud
 
 	Item& rotate_gizmo(Gnode& parent, Axis axis, Colour colour, float ring_radius, uint32_t flags = 0U)
 	{
-		Gnode& node = gfx::transform(parent, {}, Zero3, ZeroQuat);
+		Gnode& node = gfx::transform(parent, {}, vec3(0.f), ZeroQuat);
 		return gfx::shape(node, Torus(1.f, ring_radius, axis), Symbol(colour, Colour::None, true, true), ItemFlag::Render | flags);
 	}
 

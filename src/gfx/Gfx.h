@@ -18,10 +18,16 @@ namespace gfx
 {
 	export_ MUD_GFX_EXPORT func_ void setup_pipeline_minimal(GfxSystem& gfx);
 
-	export_ MUD_GFX_EXPORT func_ void update_item_lights(Item& item);
-	export_ MUD_GFX_EXPORT func_ void update_item_aabb(Item& item);
+	export_ MUD_GFX_EXPORT meth_ TPool<Node3>&  nodes(Scene& scene);
+	export_ MUD_GFX_EXPORT meth_ TPool<Item>&   items(Scene& scene);
+	export_ MUD_GFX_EXPORT meth_ TPool<Mime>&   mimes(Scene& scene);
+	export_ MUD_GFX_EXPORT meth_ TPool<Light>&  lights(Scene& scene);
+	export_ MUD_GFX_EXPORT meth_ TPool<Flare>&	flares(Scene& scene);
 
-	export_ MUD_GFX_EXPORT func_ Gnode& node(Gnode& parent, Ref object = {}, const vec3& position = Zero3, const quat& rotation = ZeroQuat, const vec3& scale = Unit3);
+	export_ MUD_GFX_EXPORT func_ void update_item_aabb(Item& item);
+	export_ MUD_GFX_EXPORT func_ void update_item_lights(Scene& scene, Item& item);
+
+	export_ MUD_GFX_EXPORT func_ Gnode& node(Gnode& parent, Ref object = {}, const vec3& position = vec3(0.f), const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
 	export_ MUD_GFX_EXPORT Gnode& node(Gnode& parent, Ref object, const mat4& transform);
 	export_ MUD_GFX_EXPORT Gnode& node(Gnode& parent, Ref object, const Transform& transform);
 	export_ MUD_GFX_EXPORT Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale);
@@ -33,8 +39,8 @@ namespace gfx
 	export_ MUD_GFX_EXPORT func_ Item& item(Gnode& parent, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0, span<mat4> transforms = {});
 	export_ MUD_GFX_EXPORT func_ void prefab(Gnode& parent, const Prefab& prefab, bool transform = true, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0, span<mat4> transforms = {});
 	export_ MUD_GFX_EXPORT func_ Item* model(Gnode& parent, const string& name, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
-	export_ MUD_GFX_EXPORT func_ Animated& animated(Gnode& parent, Item& item);
-	export_ MUD_GFX_EXPORT func_ Particles& particles(Gnode& parent, const ParticleFlow& emitter, uint32_t flags = 0, size_t instances = 0);
+	export_ MUD_GFX_EXPORT func_ Mime& animated(Gnode& parent, Item& item);
+	export_ MUD_GFX_EXPORT func_ Flare& flows(Gnode& parent, const Flow& emitter, uint32_t flags = 0, size_t instances = 0);
 	export_ MUD_GFX_EXPORT func_ Light& light(Gnode& parent, LightType type, bool shadows, Colour colour, float range = 0.f, float attenuation = 0.5f);
 	export_ MUD_GFX_EXPORT func_ Light& sun_light(Gnode& parent, float azimuth, float elevation);
 	export_ MUD_GFX_EXPORT func_ void radiance(Gnode& parent, const string& texture, BackgroundMode background);

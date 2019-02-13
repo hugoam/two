@@ -30,7 +30,7 @@ namespace mud
 	struct ParticleEditorState : public NodeState
 	{
 		ParticleEditorState() {}
-		ParticleFlow m_particles;
+		Flow m_particles;
 	};
 
 	void cube_test(Gnode& parent)
@@ -39,16 +39,16 @@ namespace mud
 		gfx::shape(self, Cube(1.f), Symbol());
 	}
 
-	void particle_editor_viewer(Widget& parent, ParticleFlow& particles)
+	void particle_editor_viewer(Widget& parent, Flow& particles)
 	{
 		SceneViewer& viewer = ui::scene_viewer(parent, vec2{ 500.f });
 		ui::orbit_controller(viewer);
 
 		//viewer.m_clear_colour = Colour::DarkGrey;
-		//viewer.m_camera.set_isometric(SOUTH, Zero3);
+		//viewer.m_camera.set_isometric(SOUTH, vec3(0.f));
 
 		Gnode& scene = viewer.m_scene.begin();
-		gfx::particles(scene, particles);
+		gfx::flows(scene, particles);
 
 		Shape* shape = particles.m_shape.m_shape.get();
 		if(shape)
@@ -63,7 +63,7 @@ namespace mud
 		SAVE_PARTICLES = 1 << 1
 	};
 
-	void open_particles(Widget& parent, GfxSystem& system, ParticleFlow& generator)
+	void open_particles(Widget& parent, GfxSystem& system, Flow& generator)
 	{
 		static string location = "";
 		if(select_value(parent, OPEN_PARTICLES, location, true))
@@ -75,7 +75,7 @@ namespace mud
 		}
 	}
 
-	void save_particles(Widget& parent, GfxSystem& system, ParticleFlow& generator)
+	void save_particles(Widget& parent, GfxSystem& system, Flow& generator)
 	{
 		static string destination = "";
 		if(select_value(parent, SAVE_PARTICLES, destination, true))
@@ -84,7 +84,7 @@ namespace mud
 		}
 	}
 
-	void particle_edit(Widget& parent, GfxSystem& system, ParticleFlow& generator)
+	void particle_edit(Widget& parent, GfxSystem& system, Flow& generator)
 	{
 		Section& self = section(parent, "Particle Editor");
 

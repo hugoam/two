@@ -44,7 +44,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, pick, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
-	static vec4 select_rect = Zero4;
+	static vec4 select_rect = vec4(0.f);
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 	{
 		vec2 start = viewer.m_frame.local_position(mouse_event.m_pressed);
@@ -56,10 +56,10 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		auto select = [&](span<Item*> items) { selected = to_vector(items); };
 		viewer.picker(0).pick_rectangle(viewer.m_viewport, select_rect, select, ItemFlag::Default | ItemFlag::Selectable);
-		select_rect = Zero4;
+		select_rect = vec4(0.f);
 	}
 
-	if(select_rect != Zero4)
+	if(select_rect != vec4(0.f))
 		ui::rectangle(viewer, select_rect);
 
 	for(Item* selected_item : selected)

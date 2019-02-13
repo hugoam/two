@@ -15,7 +15,7 @@ namespace mud
 	export_ class refl_ MUD_GEOM_EXPORT Shape
 	{
 	public:
-		Shape(Type& type) : m_type(type), m_center(Zero3) {}
+		Shape(Type& type) : m_type(type), m_center(vec3(0.f)) {}
 		Shape(Type& type, const vec3& center) : m_type(type), m_center(center) {}
 		virtual ~Shape() {}
 

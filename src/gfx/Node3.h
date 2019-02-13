@@ -37,10 +37,10 @@ namespace mud
 	{
 	public:
 		// @todo factor out scene management stuff from items, nodes, lights and add it to the graph / scene
-		Node3(Scene* scene = nullptr, Ref object = {});
-		Node3(const mat4& transform);
+		Node3(Ref object = {});
+		constr_ Node3(const mat4& transform);
+		constr_ Node3(const vec3& position, const quat& rotation, const vec3& scale = vec3(1.f));
 
-		attr_ Scene* m_scene = nullptr;
 		attr_ uint16_t m_index = 0;
 
 		attr_ mat4 m_transform = bxidentity();

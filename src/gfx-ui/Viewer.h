@@ -85,7 +85,7 @@ namespace mud
 		Viewer& m_viewer;
 		Camera& m_camera;
 
-		attr_ vec3 m_position = Zero3;
+		attr_ vec3 m_position = vec3(0.f);
 		attr_ float m_yaw = 0.f;
 		attr_ float m_pitch = 0.f;
 		attr_ float m_distance = 1.f;
@@ -103,13 +103,13 @@ namespace mud
 	public:
 		FreeOrbitController(Viewer& viewer);
 
-		vec3 m_speed = Zero3;
+		vec3 m_speed = vec3(0.f);
 	};
 
 namespace ui
 {
 	export_ MUD_GFX_UI_EXPORT func_ Viewer& viewer(Widget& parent, Scene& scene);
-	export_ MUD_GFX_UI_EXPORT func_ SceneViewer& scene_viewer(Widget& parent, const vec2& size = Zero2);
+	export_ MUD_GFX_UI_EXPORT func_ SceneViewer& scene_viewer(Widget& parent, const vec2& size = vec2(0.f));
 
 	export_ MUD_GFX_UI_EXPORT void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection);
 	export_ MUD_GFX_UI_EXPORT Viewer& scene_viewport(Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection);

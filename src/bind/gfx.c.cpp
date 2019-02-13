@@ -19,73 +19,6 @@
 
 extern "C" {
 	
-	// Animated
-	mud::Type* DECL mud_Animated__type() {
-		return &mud::type<mud::Animated>();
-	}
-	void DECL mud_Animated_start_2(mud::Animated* self, const char* animation, bool loop) {
-		self->start(animation, loop);
-	}
-	void DECL mud_Animated_start_3(mud::Animated* self, const char* animation, bool loop, float blend) {
-		self->start(animation, loop, blend);
-	}
-	void DECL mud_Animated_start_4(mud::Animated* self, const char* animation, bool loop, float blend, float speed) {
-		self->start(animation, loop, blend, speed);
-	}
-	void DECL mud_Animated_start_5(mud::Animated* self, const char* animation, bool loop, float blend, float speed, bool transient) {
-		self->start(animation, loop, blend, speed, transient);
-	}
-	void DECL mud_Animated_play_2(mud::Animated* self, const mud::Animation* animation, bool loop) {
-		self->play(*animation, loop);
-	}
-	void DECL mud_Animated_play_3(mud::Animated* self, const mud::Animation* animation, bool loop, float blend) {
-		self->play(*animation, loop, blend);
-	}
-	void DECL mud_Animated_play_4(mud::Animated* self, const mud::Animation* animation, bool loop, float blend, float speed) {
-		self->play(*animation, loop, blend, speed);
-	}
-	void DECL mud_Animated_play_5(mud::Animated* self, const mud::Animation* animation, bool loop, float blend, float speed, bool transient) {
-		self->play(*animation, loop, blend, speed, transient);
-	}
-	void DECL mud_Animated_seek_1(mud::Animated* self, float time) {
-		self->seek(time);
-	}
-	void DECL mud_Animated_pause_0(mud::Animated* self) {
-		self->pause();
-	}
-	void DECL mud_Animated_stop_0(mud::Animated* self) {
-		self->stop();
-	}
-	void DECL mud_Animated_advance_1(mud::Animated* self, float time) {
-		self->advance(time);
-	}
-	void DECL mud_Animated_next_animation_0(mud::Animated* self) {
-		self->next_animation();
-	}
-	const char* DECL mud_Animated_playing_0(mud::Animated* self) {
-		return self->playing().c_str();
-	}
-	bool DECL mud_Animated__get_active(mud::Animated* self) {
-		return self->m_active;
-	}
-	void DECL mud_Animated__set_active(mud::Animated* self, bool value) {
-		self->m_active = value;
-	}
-	float DECL mud_Animated__get_speed_scale(mud::Animated* self) {
-		return self->m_speed_scale;
-	}
-	void DECL mud_Animated__set_speed_scale(mud::Animated* self, float value) {
-		self->m_speed_scale = value;
-	}
-	float DECL mud_Animated__get_default_blend_time(mud::Animated* self) {
-		return self->m_default_blend_time;
-	}
-	void DECL mud_Animated__set_default_blend_time(mud::Animated* self, float value) {
-		self->m_default_blend_time = value;
-	}
-	void DECL mud_Animated__destroy(mud::Animated* self) {
-		delete self;
-	}
 	// AnimatedTrack
 	mud::Type* DECL mud_AnimatedTrack__type() {
 		return &mud::type<mud::AnimatedTrack>();
@@ -228,6 +161,31 @@ extern "C" {
 	void DECL mud_AnimationTrack__destroy(mud::AnimationTrack* self) {
 		delete self;
 	}
+	// AssetStore<mud::Flow>
+	mud::Type* DECL mud_AssetStore_mud_Flow__type() {
+		return &mud::type<mud::AssetStore<mud::Flow>>();
+	}
+	mud::Flow* DECL mud_AssetStore_mud_Flow_get_1(mud::AssetStore<mud::Flow>* self, const char* name) {
+		return self->get(name);
+	}
+	mud::Flow* DECL mud_AssetStore_mud_Flow_create_1(mud::AssetStore<mud::Flow>* self, const char* name) {
+		return &self->create(name);
+	}
+	mud::Flow* DECL mud_AssetStore_mud_Flow_fetch_1(mud::AssetStore<mud::Flow>* self, const char* name) {
+		return &self->fetch(name);
+	}
+	mud::Flow* DECL mud_AssetStore_mud_Flow_file_1(mud::AssetStore<mud::Flow>* self, const char* name) {
+		return self->file(name);
+	}
+	mud::Flow* DECL mud_AssetStore_mud_Flow_file_at_2(mud::AssetStore<mud::Flow>* self, const char* path, const char* name) {
+		return &self->file_at(path, name);
+	}
+	void DECL mud_AssetStore_mud_Flow_destroy_1(mud::AssetStore<mud::Flow>* self, const char* name) {
+		self->destroy(name);
+	}
+	void DECL mud_AssetStore_mud_Flow__destroy(mud::AssetStore<mud::Flow>* self) {
+		delete self;
+	}
 	// AssetStore<mud::Material>
 	mud::Type* DECL mud_AssetStore_mud_Material__type() {
 		return &mud::type<mud::AssetStore<mud::Material>>();
@@ -276,31 +234,6 @@ extern "C" {
 		self->destroy(name);
 	}
 	void DECL mud_AssetStore_mud_Model__destroy(mud::AssetStore<mud::Model>* self) {
-		delete self;
-	}
-	// AssetStore<mud::ParticleFlow>
-	mud::Type* DECL mud_AssetStore_mud_ParticleFlow__type() {
-		return &mud::type<mud::AssetStore<mud::ParticleFlow>>();
-	}
-	mud::ParticleFlow* DECL mud_AssetStore_mud_ParticleFlow_get_1(mud::AssetStore<mud::ParticleFlow>* self, const char* name) {
-		return self->get(name);
-	}
-	mud::ParticleFlow* DECL mud_AssetStore_mud_ParticleFlow_create_1(mud::AssetStore<mud::ParticleFlow>* self, const char* name) {
-		return &self->create(name);
-	}
-	mud::ParticleFlow* DECL mud_AssetStore_mud_ParticleFlow_fetch_1(mud::AssetStore<mud::ParticleFlow>* self, const char* name) {
-		return &self->fetch(name);
-	}
-	mud::ParticleFlow* DECL mud_AssetStore_mud_ParticleFlow_file_1(mud::AssetStore<mud::ParticleFlow>* self, const char* name) {
-		return self->file(name);
-	}
-	mud::ParticleFlow* DECL mud_AssetStore_mud_ParticleFlow_file_at_2(mud::AssetStore<mud::ParticleFlow>* self, const char* path, const char* name) {
-		return &self->file_at(path, name);
-	}
-	void DECL mud_AssetStore_mud_ParticleFlow_destroy_1(mud::AssetStore<mud::ParticleFlow>* self, const char* name) {
-		self->destroy(name);
-	}
-	void DECL mud_AssetStore_mud_ParticleFlow__destroy(mud::AssetStore<mud::ParticleFlow>* self) {
 		delete self;
 	}
 	// AssetStore<mud::Prefab>
@@ -653,6 +586,142 @@ extern "C" {
 	void DECL mud_Filter__destroy(mud::Filter* self) {
 		delete self;
 	}
+	// Flow
+	mud::Type* DECL mud_Flow__type() {
+		return &mud::type<mud::Flow>();
+	}
+	mud::Flow* DECL mud_Flow__construct_0() {
+		return new mud::Flow();
+	}
+	const char* DECL mud_Flow__get_name(mud::Flow* self) {
+		return self->m_name.c_str();
+	}
+	void DECL mud_Flow__set_name(mud::Flow* self, const char* value) {
+		self->m_name = value;
+	}
+	float DECL mud_Flow__get_duration(mud::Flow* self) {
+		return self->m_duration;
+	}
+	void DECL mud_Flow__set_duration(mud::Flow* self, float value) {
+		self->m_duration = value;
+	}
+	float DECL mud_Flow__get_start_time(mud::Flow* self) {
+		return self->m_start_time;
+	}
+	void DECL mud_Flow__set_start_time(mud::Flow* self, float value) {
+		self->m_start_time = value;
+	}
+	bool DECL mud_Flow__get_loop(mud::Flow* self) {
+		return self->m_loop;
+	}
+	void DECL mud_Flow__set_loop(mud::Flow* self, bool value) {
+		self->m_loop = value;
+	}
+	mud::ShapeVar* DECL mud_Flow__get_shape(mud::Flow* self) {
+		return &self->m_shape;
+	}
+	void DECL mud_Flow__set_shape(mud::Flow* self, mud::ShapeVar* value) {
+		self->m_shape = *value;
+	}
+	mud::EmitterFlow DECL mud_Flow__get_flow(mud::Flow* self) {
+		return self->m_flow;
+	}
+	void DECL mud_Flow__set_flow(mud::Flow* self, mud::EmitterFlow value) {
+		self->m_flow = value;
+	}
+	bool DECL mud_Flow__get_billboard(mud::Flow* self) {
+		return self->m_billboard;
+	}
+	void DECL mud_Flow__set_billboard(mud::Flow* self, bool value) {
+		self->m_billboard = value;
+	}
+	mud::vec3* DECL mud_Flow__get_direction(mud::Flow* self) {
+		return &self->m_direction;
+	}
+	void DECL mud_Flow__set_direction(mud::Flow* self, mud::vec3* value) {
+		self->m_direction = *value;
+	}
+	mud::quat* DECL mud_Flow__get_rotation(mud::Flow* self) {
+		return &self->m_rotation;
+	}
+	void DECL mud_Flow__set_rotation(mud::Flow* self, mud::quat* value) {
+		self->m_rotation = *value;
+	}
+	mud::BlendMode DECL mud_Flow__get_blend_mode(mud::Flow* self) {
+		return self->m_blend_mode;
+	}
+	void DECL mud_Flow__set_blend_mode(mud::Flow* self, mud::BlendMode value) {
+		self->m_blend_mode = value;
+	}
+	mud::ValueTrack<float>* DECL mud_Flow__get_volume(mud::Flow* self) {
+		return &self->m_volume;
+	}
+	void DECL mud_Flow__set_volume(mud::Flow* self, mud::ValueTrack<float>* value) {
+		self->m_volume = *value;
+	}
+	mud::ValueTrack<uint32_t>* DECL mud_Flow__get_rate(mud::Flow* self) {
+		return &self->m_rate;
+	}
+	void DECL mud_Flow__set_rate(mud::Flow* self, mud::ValueTrack<uint32_t>* value) {
+		self->m_rate = *value;
+	}
+	mud::ValueTrack<float>* DECL mud_Flow__get_lifetime(mud::Flow* self) {
+		return &self->m_lifetime;
+	}
+	void DECL mud_Flow__set_lifetime(mud::Flow* self, mud::ValueTrack<float>* value) {
+		self->m_lifetime = *value;
+	}
+	mud::ValueTrack<float>* DECL mud_Flow__get_gravity(mud::Flow* self) {
+		return &self->m_gravity;
+	}
+	void DECL mud_Flow__set_gravity(mud::Flow* self, mud::ValueTrack<float>* value) {
+		self->m_gravity = *value;
+	}
+	mud::ValueTrack<float>* DECL mud_Flow__get_speed(mud::Flow* self) {
+		return &self->m_speed;
+	}
+	void DECL mud_Flow__set_speed(mud::Flow* self, mud::ValueTrack<float>* value) {
+		self->m_speed = *value;
+	}
+	mud::ValueTrack<float>* DECL mud_Flow__get_angle(mud::Flow* self) {
+		return &self->m_angle;
+	}
+	void DECL mud_Flow__set_angle(mud::Flow* self, mud::ValueTrack<float>* value) {
+		self->m_angle = *value;
+	}
+	mud::ValueTrack<float>* DECL mud_Flow__get_blend(mud::Flow* self) {
+		return &self->m_blend;
+	}
+	void DECL mud_Flow__set_blend(mud::Flow* self, mud::ValueTrack<float>* value) {
+		self->m_blend = *value;
+	}
+	mud::ValueTrack<mud::Colour>* DECL mud_Flow__get_colour(mud::Flow* self) {
+		return &self->m_colour;
+	}
+	void DECL mud_Flow__set_colour(mud::Flow* self, mud::ValueTrack<mud::Colour>* value) {
+		self->m_colour = *value;
+	}
+	mud::ValueTrack<float>* DECL mud_Flow__get_scale(mud::Flow* self) {
+		return &self->m_scale;
+	}
+	void DECL mud_Flow__set_scale(mud::Flow* self, mud::ValueTrack<float>* value) {
+		self->m_scale = *value;
+	}
+	mud::ValueTrack<float>* DECL mud_Flow__get_sprite_frame(mud::Flow* self) {
+		return &self->m_sprite_frame;
+	}
+	void DECL mud_Flow__set_sprite_frame(mud::Flow* self, mud::ValueTrack<float>* value) {
+		self->m_sprite_frame = *value;
+	}
+	const char* DECL mud_Flow__get_sprite_name(mud::Flow* self) {
+		return self->m_sprite_name.c_str();
+	}
+	void DECL mud_Flow__set_sprite_name(mud::Flow* self, const char* value) {
+		self->m_sprite_name = value;
+	}
+	void DECL mud_Flow__destroy(mud::Flow* self) {
+		delete self;
+	}
 	// Fog
 	mud::Type* DECL mud_Fog__type() {
 		return &mud::type<mud::Fog>();
@@ -904,8 +973,8 @@ extern "C" {
 	mud::AssetStore<mud::Model>* DECL mud_GfxSystem__get_models(mud::GfxSystem* self) {
 		return &self->models();
 	}
-	mud::AssetStore<mud::ParticleFlow>* DECL mud_GfxSystem__get_particles(mud::GfxSystem* self) {
-		return &self->particles();
+	mud::AssetStore<mud::Flow>* DECL mud_GfxSystem__get_flows(mud::GfxSystem* self) {
+		return &self->flows();
 	}
 	mud::AssetStore<mud::Prefab>* DECL mud_GfxSystem__get_prefabs(mud::GfxSystem* self) {
 		return &self->prefabs();
@@ -1001,6 +1070,21 @@ extern "C" {
 	mud::Type* DECL mud_Item__type() {
 		return &mud::type<mud::Item>();
 	}
+	mud::Item* DECL mud_Item__construct_0() {
+		return new mud::Item();
+	}
+	mud::Item* DECL mud_Item__construct_2(mud::Node3* node, const mud::Model* model) {
+		return new mud::Item(*node, *model);
+	}
+	mud::Item* DECL mud_Item__construct_3(mud::Node3* node, const mud::Model* model, uint32_t flags) {
+		return new mud::Item(*node, *model, flags);
+	}
+	mud::Item* DECL mud_Item__construct_4(mud::Node3* node, const mud::Model* model, uint32_t flags, mud::Material* material) {
+		return new mud::Item(*node, *model, flags, material);
+	}
+	mud::Item* DECL mud_Item__construct_5(mud::Node3* node, const mud::Model* model, uint32_t flags, mud::Material* material, size_t instances) {
+		return new mud::Item(*node, *model, flags, material, instances);
+	}
 	mud::Node3* DECL mud_Item__get_node(mud::Item* self) {
 		return self->m_node;
 	}
@@ -1065,6 +1149,15 @@ extern "C" {
 	// Light
 	mud::Type* DECL mud_Light__type() {
 		return &mud::type<mud::Light>();
+	}
+	mud::Light* DECL mud_Light__construct_1(mud::Node3* node) {
+		return new mud::Light(*node);
+	}
+	mud::Light* DECL mud_Light__construct_2(mud::Node3* node, mud::LightType type) {
+		return new mud::Light(*node, type);
+	}
+	mud::Light* DECL mud_Light__construct_3(mud::Node3* node, mud::LightType type, bool shadows) {
+		return new mud::Light(*node, type, shadows);
 	}
 	mud::Node3* DECL mud_Light__get_node(mud::Light* self) {
 		return &self->m_node;
@@ -1388,6 +1481,73 @@ extern "C" {
 	void DECL mud_Mesh__destroy(mud::Mesh* self) {
 		delete self;
 	}
+	// Mime
+	mud::Type* DECL mud_Mime__type() {
+		return &mud::type<mud::Mime>();
+	}
+	void DECL mud_Mime_start_2(mud::Mime* self, const char* animation, bool loop) {
+		self->start(animation, loop);
+	}
+	void DECL mud_Mime_start_3(mud::Mime* self, const char* animation, bool loop, float blend) {
+		self->start(animation, loop, blend);
+	}
+	void DECL mud_Mime_start_4(mud::Mime* self, const char* animation, bool loop, float blend, float speed) {
+		self->start(animation, loop, blend, speed);
+	}
+	void DECL mud_Mime_start_5(mud::Mime* self, const char* animation, bool loop, float blend, float speed, bool transient) {
+		self->start(animation, loop, blend, speed, transient);
+	}
+	void DECL mud_Mime_play_2(mud::Mime* self, const mud::Animation* animation, bool loop) {
+		self->play(*animation, loop);
+	}
+	void DECL mud_Mime_play_3(mud::Mime* self, const mud::Animation* animation, bool loop, float blend) {
+		self->play(*animation, loop, blend);
+	}
+	void DECL mud_Mime_play_4(mud::Mime* self, const mud::Animation* animation, bool loop, float blend, float speed) {
+		self->play(*animation, loop, blend, speed);
+	}
+	void DECL mud_Mime_play_5(mud::Mime* self, const mud::Animation* animation, bool loop, float blend, float speed, bool transient) {
+		self->play(*animation, loop, blend, speed, transient);
+	}
+	void DECL mud_Mime_seek_1(mud::Mime* self, float time) {
+		self->seek(time);
+	}
+	void DECL mud_Mime_pause_0(mud::Mime* self) {
+		self->pause();
+	}
+	void DECL mud_Mime_stop_0(mud::Mime* self) {
+		self->stop();
+	}
+	void DECL mud_Mime_advance_1(mud::Mime* self, float time) {
+		self->advance(time);
+	}
+	void DECL mud_Mime_next_animation_0(mud::Mime* self) {
+		self->next_animation();
+	}
+	const char* DECL mud_Mime_playing_0(mud::Mime* self) {
+		return self->playing().c_str();
+	}
+	bool DECL mud_Mime__get_active(mud::Mime* self) {
+		return self->m_active;
+	}
+	void DECL mud_Mime__set_active(mud::Mime* self, bool value) {
+		self->m_active = value;
+	}
+	float DECL mud_Mime__get_speed_scale(mud::Mime* self) {
+		return self->m_speed_scale;
+	}
+	void DECL mud_Mime__set_speed_scale(mud::Mime* self, float value) {
+		self->m_speed_scale = value;
+	}
+	float DECL mud_Mime__get_default_blend_time(mud::Mime* self) {
+		return self->m_default_blend_time;
+	}
+	void DECL mud_Mime__set_default_blend_time(mud::Mime* self, float value) {
+		self->m_default_blend_time = value;
+	}
+	void DECL mud_Mime__destroy(mud::Mime* self) {
+		delete self;
+	}
 	// Model
 	mud::Type* DECL mud_Model__type() {
 		return &mud::type<mud::Model>();
@@ -1481,11 +1641,14 @@ extern "C" {
 	mud::Type* DECL mud_Node3__type() {
 		return &mud::type<mud::Node3>();
 	}
-	mud::Scene* DECL mud_Node3__get_scene(mud::Node3* self) {
-		return self->m_scene;
+	mud::Node3* DECL mud_Node3__construct_1(const mud::mat4* transform) {
+		return new mud::Node3(*transform);
 	}
-	void DECL mud_Node3__set_scene(mud::Node3* self, mud::Scene* value) {
-		self->m_scene = value;
+	mud::Node3* DECL mud_Node3__construct_2(const mud::vec3* position, const mud::quat* rotation) {
+		return new mud::Node3(*position, *rotation);
+	}
+	mud::Node3* DECL mud_Node3__construct_3(const mud::vec3* position, const mud::quat* rotation, const mud::vec3* scale) {
+		return new mud::Node3(*position, *rotation, *scale);
 	}
 	uint16_t DECL mud_Node3__get_index(mud::Node3* self) {
 		return self->m_index;
@@ -1506,142 +1669,6 @@ extern "C" {
 		self->m_visible = value;
 	}
 	void DECL mud_Node3__destroy(mud::Node3* self) {
-		delete self;
-	}
-	// ParticleFlow
-	mud::Type* DECL mud_ParticleFlow__type() {
-		return &mud::type<mud::ParticleFlow>();
-	}
-	mud::ParticleFlow* DECL mud_ParticleFlow__construct_0() {
-		return new mud::ParticleFlow();
-	}
-	const char* DECL mud_ParticleFlow__get_name(mud::ParticleFlow* self) {
-		return self->m_name.c_str();
-	}
-	void DECL mud_ParticleFlow__set_name(mud::ParticleFlow* self, const char* value) {
-		self->m_name = value;
-	}
-	float DECL mud_ParticleFlow__get_duration(mud::ParticleFlow* self) {
-		return self->m_duration;
-	}
-	void DECL mud_ParticleFlow__set_duration(mud::ParticleFlow* self, float value) {
-		self->m_duration = value;
-	}
-	float DECL mud_ParticleFlow__get_start_time(mud::ParticleFlow* self) {
-		return self->m_start_time;
-	}
-	void DECL mud_ParticleFlow__set_start_time(mud::ParticleFlow* self, float value) {
-		self->m_start_time = value;
-	}
-	bool DECL mud_ParticleFlow__get_loop(mud::ParticleFlow* self) {
-		return self->m_loop;
-	}
-	void DECL mud_ParticleFlow__set_loop(mud::ParticleFlow* self, bool value) {
-		self->m_loop = value;
-	}
-	mud::ShapeVar* DECL mud_ParticleFlow__get_shape(mud::ParticleFlow* self) {
-		return &self->m_shape;
-	}
-	void DECL mud_ParticleFlow__set_shape(mud::ParticleFlow* self, mud::ShapeVar* value) {
-		self->m_shape = *value;
-	}
-	mud::EmitterFlow DECL mud_ParticleFlow__get_flow(mud::ParticleFlow* self) {
-		return self->m_flow;
-	}
-	void DECL mud_ParticleFlow__set_flow(mud::ParticleFlow* self, mud::EmitterFlow value) {
-		self->m_flow = value;
-	}
-	bool DECL mud_ParticleFlow__get_billboard(mud::ParticleFlow* self) {
-		return self->m_billboard;
-	}
-	void DECL mud_ParticleFlow__set_billboard(mud::ParticleFlow* self, bool value) {
-		self->m_billboard = value;
-	}
-	mud::vec3* DECL mud_ParticleFlow__get_direction(mud::ParticleFlow* self) {
-		return &self->m_direction;
-	}
-	void DECL mud_ParticleFlow__set_direction(mud::ParticleFlow* self, mud::vec3* value) {
-		self->m_direction = *value;
-	}
-	mud::quat* DECL mud_ParticleFlow__get_rotation(mud::ParticleFlow* self) {
-		return &self->m_rotation;
-	}
-	void DECL mud_ParticleFlow__set_rotation(mud::ParticleFlow* self, mud::quat* value) {
-		self->m_rotation = *value;
-	}
-	mud::BlendMode DECL mud_ParticleFlow__get_blend_mode(mud::ParticleFlow* self) {
-		return self->m_blend_mode;
-	}
-	void DECL mud_ParticleFlow__set_blend_mode(mud::ParticleFlow* self, mud::BlendMode value) {
-		self->m_blend_mode = value;
-	}
-	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_volume(mud::ParticleFlow* self) {
-		return &self->m_volume;
-	}
-	void DECL mud_ParticleFlow__set_volume(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
-		self->m_volume = *value;
-	}
-	mud::ValueTrack<uint32_t>* DECL mud_ParticleFlow__get_rate(mud::ParticleFlow* self) {
-		return &self->m_rate;
-	}
-	void DECL mud_ParticleFlow__set_rate(mud::ParticleFlow* self, mud::ValueTrack<uint32_t>* value) {
-		self->m_rate = *value;
-	}
-	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_lifetime(mud::ParticleFlow* self) {
-		return &self->m_lifetime;
-	}
-	void DECL mud_ParticleFlow__set_lifetime(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
-		self->m_lifetime = *value;
-	}
-	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_gravity(mud::ParticleFlow* self) {
-		return &self->m_gravity;
-	}
-	void DECL mud_ParticleFlow__set_gravity(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
-		self->m_gravity = *value;
-	}
-	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_speed(mud::ParticleFlow* self) {
-		return &self->m_speed;
-	}
-	void DECL mud_ParticleFlow__set_speed(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
-		self->m_speed = *value;
-	}
-	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_angle(mud::ParticleFlow* self) {
-		return &self->m_angle;
-	}
-	void DECL mud_ParticleFlow__set_angle(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
-		self->m_angle = *value;
-	}
-	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_blend(mud::ParticleFlow* self) {
-		return &self->m_blend;
-	}
-	void DECL mud_ParticleFlow__set_blend(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
-		self->m_blend = *value;
-	}
-	mud::ValueTrack<mud::Colour>* DECL mud_ParticleFlow__get_colour(mud::ParticleFlow* self) {
-		return &self->m_colour;
-	}
-	void DECL mud_ParticleFlow__set_colour(mud::ParticleFlow* self, mud::ValueTrack<mud::Colour>* value) {
-		self->m_colour = *value;
-	}
-	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_scale(mud::ParticleFlow* self) {
-		return &self->m_scale;
-	}
-	void DECL mud_ParticleFlow__set_scale(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
-		self->m_scale = *value;
-	}
-	mud::ValueTrack<float>* DECL mud_ParticleFlow__get_sprite_frame(mud::ParticleFlow* self) {
-		return &self->m_sprite_frame;
-	}
-	void DECL mud_ParticleFlow__set_sprite_frame(mud::ParticleFlow* self, mud::ValueTrack<float>* value) {
-		self->m_sprite_frame = *value;
-	}
-	const char* DECL mud_ParticleFlow__get_sprite_name(mud::ParticleFlow* self) {
-		return self->m_sprite_name.c_str();
-	}
-	void DECL mud_ParticleFlow__set_sprite_name(mud::ParticleFlow* self, const char* value) {
-		self->m_sprite_name = value;
-	}
-	void DECL mud_ParticleFlow__destroy(mud::ParticleFlow* self) {
 		delete self;
 	}
 	// PbrMaterialBlock
@@ -1883,6 +1910,21 @@ extern "C" {
 	mud::Gnode* DECL mud_Scene_begin_0(mud::Scene* self) {
 		return &self->begin();
 	}
+	mud::TPool<mud::Node3>* DECL mud_Scene_nodes_0(mud::Scene* self) {
+		return &mud::gfx::nodes(*self);
+	}
+	mud::TPool<mud::Item>* DECL mud_Scene_items_0(mud::Scene* self) {
+		return &mud::gfx::items(*self);
+	}
+	mud::TPool<mud::Mime>* DECL mud_Scene_mimes_0(mud::Scene* self) {
+		return &mud::gfx::mimes(*self);
+	}
+	mud::TPool<mud::Light>* DECL mud_Scene_lights_0(mud::Scene* self) {
+		return &mud::gfx::lights(*self);
+	}
+	mud::TPool<mud::Flare>* DECL mud_Scene_flares_0(mud::Scene* self) {
+		return &mud::gfx::flares(*self);
+	}
 	mud::Gnode* DECL mud_Scene__get_graph(mud::Scene* self) {
 		return &self->m_graph;
 	}
@@ -1964,6 +2006,101 @@ extern "C" {
 		return &mud::type<mud::SymbolIndex>();
 	}
 	void DECL mud_SymbolIndex__destroy(mud::SymbolIndex* self) {
+		delete self;
+	}
+	// TPool<mud::Flare>
+	mud::Type* DECL mud_TPool_mud_Flare__type() {
+		return &mud::type<mud::TPool<mud::Flare>>();
+	}
+	mud::Flare* DECL mud_TPool_mud_Flare_talloc_0(mud::TPool<mud::Flare>* self) {
+		return self->talloc();
+	}
+	mud::Flare* DECL mud_TPool_mud_Flare_tconstruct_1(mud::TPool<mud::Flare>* self, const mud::Flare* value) {
+		return &self->tconstruct(*value);
+	}
+	void DECL mud_TPool_mud_Flare_tdestroy_1(mud::TPool<mud::Flare>* self, mud::Flare* object) {
+		self->tdestroy(*object);
+	}
+	void DECL mud_TPool_mud_Flare_tfree_1(mud::TPool<mud::Flare>* self, mud::Flare* object) {
+		self->tfree(*object);
+	}
+	void DECL mud_TPool_mud_Flare__destroy(mud::TPool<mud::Flare>* self) {
+		delete self;
+	}
+	// TPool<mud::Item>
+	mud::Type* DECL mud_TPool_mud_Item__type() {
+		return &mud::type<mud::TPool<mud::Item>>();
+	}
+	mud::Item* DECL mud_TPool_mud_Item_talloc_0(mud::TPool<mud::Item>* self) {
+		return self->talloc();
+	}
+	mud::Item* DECL mud_TPool_mud_Item_tconstruct_1(mud::TPool<mud::Item>* self, const mud::Item* value) {
+		return &self->tconstruct(*value);
+	}
+	void DECL mud_TPool_mud_Item_tdestroy_1(mud::TPool<mud::Item>* self, mud::Item* object) {
+		self->tdestroy(*object);
+	}
+	void DECL mud_TPool_mud_Item_tfree_1(mud::TPool<mud::Item>* self, mud::Item* object) {
+		self->tfree(*object);
+	}
+	void DECL mud_TPool_mud_Item__destroy(mud::TPool<mud::Item>* self) {
+		delete self;
+	}
+	// TPool<mud::Light>
+	mud::Type* DECL mud_TPool_mud_Light__type() {
+		return &mud::type<mud::TPool<mud::Light>>();
+	}
+	mud::Light* DECL mud_TPool_mud_Light_talloc_0(mud::TPool<mud::Light>* self) {
+		return self->talloc();
+	}
+	mud::Light* DECL mud_TPool_mud_Light_tconstruct_1(mud::TPool<mud::Light>* self, const mud::Light* value) {
+		return &self->tconstruct(*value);
+	}
+	void DECL mud_TPool_mud_Light_tdestroy_1(mud::TPool<mud::Light>* self, mud::Light* object) {
+		self->tdestroy(*object);
+	}
+	void DECL mud_TPool_mud_Light_tfree_1(mud::TPool<mud::Light>* self, mud::Light* object) {
+		self->tfree(*object);
+	}
+	void DECL mud_TPool_mud_Light__destroy(mud::TPool<mud::Light>* self) {
+		delete self;
+	}
+	// TPool<mud::Mime>
+	mud::Type* DECL mud_TPool_mud_Mime__type() {
+		return &mud::type<mud::TPool<mud::Mime>>();
+	}
+	mud::Mime* DECL mud_TPool_mud_Mime_talloc_0(mud::TPool<mud::Mime>* self) {
+		return self->talloc();
+	}
+	mud::Mime* DECL mud_TPool_mud_Mime_tconstruct_1(mud::TPool<mud::Mime>* self, const mud::Mime* value) {
+		return &self->tconstruct(*value);
+	}
+	void DECL mud_TPool_mud_Mime_tdestroy_1(mud::TPool<mud::Mime>* self, mud::Mime* object) {
+		self->tdestroy(*object);
+	}
+	void DECL mud_TPool_mud_Mime_tfree_1(mud::TPool<mud::Mime>* self, mud::Mime* object) {
+		self->tfree(*object);
+	}
+	void DECL mud_TPool_mud_Mime__destroy(mud::TPool<mud::Mime>* self) {
+		delete self;
+	}
+	// TPool<mud::Node3>
+	mud::Type* DECL mud_TPool_mud_Node3__type() {
+		return &mud::type<mud::TPool<mud::Node3>>();
+	}
+	mud::Node3* DECL mud_TPool_mud_Node3_talloc_0(mud::TPool<mud::Node3>* self) {
+		return self->talloc();
+	}
+	mud::Node3* DECL mud_TPool_mud_Node3_tconstruct_1(mud::TPool<mud::Node3>* self, const mud::Node3* value) {
+		return &self->tconstruct(*value);
+	}
+	void DECL mud_TPool_mud_Node3_tdestroy_1(mud::TPool<mud::Node3>* self, mud::Node3* object) {
+		self->tdestroy(*object);
+	}
+	void DECL mud_TPool_mud_Node3_tfree_1(mud::TPool<mud::Node3>* self, mud::Node3* object) {
+		self->tfree(*object);
+	}
+	void DECL mud_TPool_mud_Node3__destroy(mud::TPool<mud::Node3>* self) {
 		delete self;
 	}
 	// Texture
@@ -2087,6 +2224,20 @@ extern "C" {
 	void DECL mud_BlockCopy__destroy(mud::BlockCopy* self) {
 		delete self;
 	}
+	// DrawBlock
+	mud::Type* DECL mud_DrawBlock__type() {
+		return &mud::type<mud::DrawBlock>();
+	}
+	void DECL mud_DrawBlock__destroy(mud::DrawBlock* self) {
+		delete self;
+	}
+	// BlockDepth
+	mud::Type* DECL mud_BlockDepth__type() {
+		return &mud::type<mud::BlockDepth>();
+	}
+	void DECL mud_BlockDepth__destroy(mud::BlockDepth* self) {
+		delete self;
+	}
 	// BlockFilter
 	mud::Type* DECL mud_BlockFilter__type() {
 		return &mud::type<mud::BlockFilter>();
@@ -2125,34 +2276,20 @@ extern "C" {
 	void DECL mud_ClusteredFrustum__destroy(mud::ClusteredFrustum* self) {
 		delete self;
 	}
-	// DrawBlock
-	mud::Type* DECL mud_DrawBlock__type() {
-		return &mud::type<mud::DrawBlock>();
+	// Flare
+	mud::Type* DECL mud_Flare__type() {
+		return &mud::type<mud::Flare>();
 	}
-	void DECL mud_DrawBlock__destroy(mud::DrawBlock* self) {
-		delete self;
+	mud::Flare* DECL mud_Flare__construct_0() {
+		return new mud::Flare();
 	}
-	// BlockDepth
-	mud::Type* DECL mud_BlockDepth__type() {
-		return &mud::type<mud::BlockDepth>();
-	}
-	void DECL mud_BlockDepth__destroy(mud::BlockDepth* self) {
-		delete self;
-	}
-	// Particles
-	mud::Type* DECL mud_Particles__type() {
-		return &mud::type<mud::Particles>();
-	}
-	mud::Particles* DECL mud_Particles__construct_0() {
-		return new mud::Particles();
-	}
-	mud::Node3* DECL mud_Particles__get_node(mud::Particles* self) {
+	mud::Node3* DECL mud_Flare__get_node(mud::Flare* self) {
 		return self->m_node;
 	}
-	void DECL mud_Particles__set_node(mud::Particles* self, mud::Node3* value) {
+	void DECL mud_Flare__set_node(mud::Flare* self, mud::Node3* value) {
 		self->m_node = value;
 	}
-	void DECL mud_Particles__destroy(mud::Particles* self) {
+	void DECL mud_Flare__destroy(mud::Flare* self) {
 		delete self;
 	}
 	// RenderTarget
@@ -2165,11 +2302,11 @@ extern "C" {
 	void DECL mud_gfx_setup_pipeline_minimal_1(mud::GfxSystem* gfx) {
 		mud::gfx::setup_pipeline_minimal(*gfx);
 	}
-	void DECL mud_gfx_update_item_lights_1(mud::Item* item) {
-		mud::gfx::update_item_lights(*item);
-	}
 	void DECL mud_gfx_update_item_aabb_1(mud::Item* item) {
 		mud::gfx::update_item_aabb(*item);
+	}
+	void DECL mud_gfx_update_item_lights_2(mud::Scene* scene, mud::Item* item) {
+		mud::gfx::update_item_lights(*scene, *item);
 	}
 	mud::Gnode* DECL mud_gfx_node_1(mud::Gnode* parent) {
 		return &mud::gfx::node(*parent);
@@ -2228,17 +2365,17 @@ extern "C" {
 	mud::Item* DECL mud_gfx_model_5(mud::Gnode* parent, const char* name, uint32_t flags, mud::Material* material, size_t instances) {
 		return mud::gfx::model(*parent, name, flags, material, instances);
 	}
-	mud::Animated* DECL mud_gfx_animated_2(mud::Gnode* parent, mud::Item* item) {
+	mud::Mime* DECL mud_gfx_animated_2(mud::Gnode* parent, mud::Item* item) {
 		return &mud::gfx::animated(*parent, *item);
 	}
-	mud::Particles* DECL mud_gfx_particles_2(mud::Gnode* parent, const mud::ParticleFlow* emitter) {
-		return &mud::gfx::particles(*parent, *emitter);
+	mud::Flare* DECL mud_gfx_flows_2(mud::Gnode* parent, const mud::Flow* emitter) {
+		return &mud::gfx::flows(*parent, *emitter);
 	}
-	mud::Particles* DECL mud_gfx_particles_3(mud::Gnode* parent, const mud::ParticleFlow* emitter, uint32_t flags) {
-		return &mud::gfx::particles(*parent, *emitter, flags);
+	mud::Flare* DECL mud_gfx_flows_3(mud::Gnode* parent, const mud::Flow* emitter, uint32_t flags) {
+		return &mud::gfx::flows(*parent, *emitter, flags);
 	}
-	mud::Particles* DECL mud_gfx_particles_4(mud::Gnode* parent, const mud::ParticleFlow* emitter, uint32_t flags, size_t instances) {
-		return &mud::gfx::particles(*parent, *emitter, flags, instances);
+	mud::Flare* DECL mud_gfx_flows_4(mud::Gnode* parent, const mud::Flow* emitter, uint32_t flags, size_t instances) {
+		return &mud::gfx::flows(*parent, *emitter, flags, instances);
 	}
 	mud::Light* DECL mud_gfx_light_4(mud::Gnode* parent, mud::LightType type, bool shadows, mud::Colour* colour) {
 		return &mud::gfx::light(*parent, type, shadows, *colour);
@@ -2276,6 +2413,9 @@ extern "C" {
 	}
 	mud::AnimationTarget DECL mud_AnimationTarget_Scale() {
 		return mud::AnimationTarget::Scale;
+	}
+	mud::AnimationTarget DECL mud_AnimationTarget_Count() {
+		return mud::AnimationTarget::Count;
 	}
 	// BackgroundMode
 	mud::BackgroundMode DECL mud_BackgroundMode_None() {
@@ -2318,6 +2458,9 @@ extern "C" {
 	}
 	mud::CullMode DECL mud_CullMode_Back() {
 		return mud::CullMode::Back;
+	}
+	mud::CullMode DECL mud_CullMode_Count() {
+		return mud::CullMode::Count;
 	}
 	// DepthDraw
 	mud::DepthDraw DECL mud_DepthDraw_Enabled() {
@@ -2411,6 +2554,9 @@ extern "C" {
 	}
 	mud::MSAA DECL mud_MSAA_X16() {
 		return mud::MSAA::X16;
+	}
+	mud::MSAA DECL mud_MSAA_Count() {
+		return mud::MSAA::Count;
 	}
 	// MaterialFlag
 	mud::MaterialFlag DECL mud_MaterialFlag_TriplanarUV1() {

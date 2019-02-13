@@ -433,7 +433,8 @@ namespace clgen
 
 	string method_body(const CLType& c, const CLMethod& m)
 	{
-		string call = cast(c, "object") + "." + m.m_name + "(" + get_args(m.m_params) + ")";
+		string call = m.m_function ? m.m_function->m_id + "(" + cast(c, "object") + (m.m_params.size() > 0 ? ", " + get_args(m.m_params) : "") + ")"
+								   : cast(c, "object") + "." + m.m_name + "(" + get_args(m.m_params) + ")";
 		
 		if(m.m_return_type.isvoid())
 			return "UNUSED(result); " + unused_args(m) + call + ";";
@@ -1537,7 +1538,13 @@ namespace clgen
 			if(f.m_kind == CLPrimitiveKind::Constructor)
 				return "new " + f.m_parent->m_id + "(" + comma(c_forward_args(f, i)) + ")";
 			else if(f.m_kind == CLPrimitiveKind::Method)
-				return "self->" + f.m_name + "(" + comma(c_forward_args(f, i)) + ")";
+			{
+				CLMethod& m = (CLMethod&)f;
+				if(m.m_function) // hack for function methods
+					return m.m_function->m_id + "(" + comma(merge({ "*self" }, c_forward_args(f, i))) + ")";
+				else
+					return "self->" + f.m_name + "(" + comma(c_forward_args(f, i)) + ")";
+			}
 			else if(f.m_kind == CLPrimitiveKind::Function || true)
 				return f.m_id + "(" + comma(c_forward_args(f, i)) + ")";
 		};

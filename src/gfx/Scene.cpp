@@ -38,16 +38,15 @@ namespace mud
 		, m_immediate(oconstruct<ImmediateDraw>(gfx_system.fetch_material("immediate", "unshaded")))
 		, m_pass_jobs(oconstruct<PassJobs>())
 		, m_graph(*this)
-		, m_root_node(this)
 	{
 		m_environment.m_radiance.m_colour = Colour::White;//{ 0.35f, 0.33f, 0.3f, 1.f };
 		m_environment.m_radiance.m_energy = 0.3f;
 		m_environment.m_radiance.m_ambient = 0.7f;
 
 		m_pool = oconstruct<ObjectPool>();
-		m_pool->create_pool<Particles>(1024);
+		m_pool->create_pool<Flare>(1024);
 
-		m_particle_system = oconstruct<ParticleSystem>(gfx_system, m_pool->pool<Particles>());
+		m_particle_system = oconstruct<ParticleSystem>(gfx_system, m_pool->pool<Flare>());
 	}
 
 	Scene::~Scene()
@@ -58,7 +57,7 @@ namespace mud
 		static Clock clock;
 		float timestep = float(clock.step());
 
-		m_pool->pool<Animated>().iterate([=](Animated& animated)
+		m_pool->pool<Mime>().iterate([=](Mime& animated)
 		{
 			animated.advance(timestep);
 		});

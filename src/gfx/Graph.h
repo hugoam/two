@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <pool/Pool.h>
 #include <tree/Graph.h>
 #ifdef _MSC_VER
 #include <tree/Graph.hpp>
@@ -38,14 +39,20 @@ namespace mud
 		Node3* m_attach = nullptr;
 		Node3* m_node = nullptr;
 		Item* m_item = nullptr;
-		Animated* m_animated = nullptr;
-		Particles* m_particles = nullptr;
+		Mime* m_animated = nullptr;
+		Flare* m_particles = nullptr;
 		Light* m_light = nullptr;
 		GIProbe* m_gi_probe = nullptr;
 		LightmapAtlas* m_lightmap_atlas = nullptr;
 		SoundManager* m_sound_manager = nullptr;
 		Sound* m_sound = nullptr;
 	};
+
+	export_ extern template class refl_ TPool<Node3>;
+	export_ extern template class refl_ TPool<Item>;
+	export_ extern template class refl_ TPool<Mime>;
+	export_ extern template class refl_ TPool<Light>;
+	export_ extern template class refl_ TPool<Flare>;
 
 	export_ MUD_GFX_EXPORT void debug_tree(Gnode& node, size_t index = 0, size_t depth = 0);
 }

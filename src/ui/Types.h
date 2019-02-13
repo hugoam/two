@@ -24,8 +24,8 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::AutoLayout>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Clipping>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Dim>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Flow>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::LayoutFlow>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::LayoutSolver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Opacity>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Pivot>();

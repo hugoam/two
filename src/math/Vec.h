@@ -194,15 +194,8 @@ namespace mud
 	export_ extern MUD_MATH_EXPORT const vec3 Y3; // = { 0.f, 1.f, 0.f };
 	export_ extern MUD_MATH_EXPORT const vec3 Z3; // = { 0.f, 0.f, 1.f };
 
-	export_ extern MUD_MATH_EXPORT const vec3 Zero3; // = { 0.f, 0.f, 0.f };
-	export_ extern MUD_MATH_EXPORT const vec3 Unit3; // = { 1.f, 1.f, 1.f };
-
 	export_ extern MUD_MATH_EXPORT const quat ZeroQuat; // = { 1.f, 0.f, 0.f, 0.f };
 
-	export_ extern MUD_MATH_EXPORT const vec2 Zero2; // = { 0.f, 0.f };
-	export_ extern MUD_MATH_EXPORT const vec2 Unit2; // = { 1.f, 1.f };
-
-	export_ extern MUD_MATH_EXPORT const vec4 Zero4; // = { 0.f, 0.f, 0.f, 0.f };
 	export_ extern MUD_MATH_EXPORT const vec4 Rect4; // = { 0.f, 0.f, 1.f, 1.f };
 
 	export_ inline bool rect_intersects(const vec4& first, const vec4& second)
@@ -212,9 +205,9 @@ namespace mud
 
 	export_ struct refl_ MUD_MATH_EXPORT Transform
 	{
-		attr_ vec3 m_position = Zero3;
+		attr_ vec3 m_position = vec3(0.f);
 		attr_ quat m_rotation = ZeroQuat;
-		attr_ vec3 m_scale = Unit3;
+		attr_ vec3 m_scale = vec3(1.f);
 	};
 
 	Transform average_transforms(span<Transform*> transforms);

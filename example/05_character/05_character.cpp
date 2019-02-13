@@ -18,7 +18,7 @@ using namespace mud;
 class Human
 {
 public:
-	Human(vec3 position = Zero3) : m_position(position) { m_states.push_back({ "Idle", 1.f }); }
+	Human(vec3 position = vec3(0.f)) : m_position(position) { m_states.push_back({ "Idle", 1.f }); }
 
 	struct State
 	{
@@ -26,21 +26,21 @@ public:
 		float m_action_speed;
 	};
 
-	vec3 m_position = Zero3;
+	vec3 m_position = vec3(0.f);
 	quat m_rotation = ZeroQuat;
 
-	vec3 m_linear_velocity = Zero3;
-	vec3 m_angular_velocity = Zero3;
+	vec3 m_linear_velocity = vec3(0.f);
+	vec3 m_angular_velocity = vec3(0.f);
 
 	vector<State> m_states;
 };
 
-Animated& paint_human(Gnode& parent, Human& human, bool high_lod)
+Mime& paint_human(Gnode& parent, Human& human, bool high_lod)
 {
 	Gnode& self = gfx::node(parent, {}, human.m_position, human.m_rotation);
 	gfx::shape(self, Circle(0.35f), Symbol::wire(Colour::White), ItemFlag::Default | ItemFlag::Selectable);
 	Item* item = gfx::model(self, high_lod ? "human" : "human00", ItemFlag::Default | ItemFlag::Selectable);
-	Animated& animated = gfx::animated(self, *item);
+	Mime& animated = gfx::animated(self, *item);
 	return animated;
 }
 
@@ -124,7 +124,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Human* selected = &characters[0];
 	static cstring animations[] = { "TPose", "Idle", "Walk", "Run", "WalkFight" };
 	static size_t animation = 1;
-	static Animated* animated = nullptr;
+	static Mime* animated = nullptr;
 	static bool follow_character = false;
 	static bool anim_editor = false;
 	static bool model_high_lod = false;
@@ -166,7 +166,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 	vec3 velocity = rotate(selected->m_rotation, selected->m_linear_velocity);
 	selected->m_position += velocity * timestep;
 
-	if(selected->m_angular_velocity != Zero3)
+	if(selected->m_angular_velocity != vec3(0.f))
 	{
 		float angular_speed = length(selected->m_angular_velocity);
 		selected->m_rotation = rotate(selected->m_rotation, timestep * angular_speed, selected->m_angular_velocity / angular_speed);

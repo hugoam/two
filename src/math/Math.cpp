@@ -44,9 +44,6 @@ namespace mud
 	const vec3 Y3 = { 0.f, 1.f, 0.f };
 	const vec3 Z3 = { 0.f, 0.f, 1.f };
 
-	const vec3 Zero3 = { 0.f, 0.f, 0.f };
-	const vec3 Unit3 = { 1.f, 1.f, 1.f };
-
 	const Side c_sides[6] = { Side::Right, Side::Left, Side::Up, Side::Down, Side::Back, Side::Front };
 
 	const table<Axis, vec3> c_axes      = {  X3,  Y3,  Z3 };
@@ -59,10 +56,6 @@ namespace mud
 
 	const quat ZeroQuat = { 0.f, 0.f, 0.f, 1.f };
 
-	const vec2 Zero2 = { 0.f, 0.f };
-	const vec2 Unit2 = { 1.f, 1.f };
-
-	const vec4 Zero4 = { 0.f, 0.f, 0.f, 0.f };
 	const vec4 Rect4 = { 0.f, 0.f, 1.f, 1.f };
 
 	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, uint32_t count)
@@ -78,7 +71,7 @@ namespace mud
 	Transform average_transforms(span<Transform*> transforms)
 	{
 		Transform average;
-		average.m_scale = Zero3;
+		average.m_scale = vec3(0.f);
 
 		quat cumulative = { 0.f, 0.f, 0.f, 0.f };
 
