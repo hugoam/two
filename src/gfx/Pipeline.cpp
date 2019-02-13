@@ -79,11 +79,6 @@ namespace mud
 	Pipeline::~Pipeline()
 	{}
 
-	//span<GfxBlock*> Pipeline::m_pass_blocks[PassType pass)
-	//{
-	//	return m_pass_blocks[pass];
-	//}
-
 	MinimalRenderer::MinimalRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
 		: Renderer(gfx_system, pipeline, Shading::Shaded)
 	{
