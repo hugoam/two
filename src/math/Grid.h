@@ -99,7 +99,7 @@ namespace mud
 		size_t m_x, m_y, m_z;
 		size_t m_sq;
 
-		enum_array<Side, GridDim> m_dims = {};
+		table<Side, GridDim> m_dims = {};
 		//GridDim m_dims[6] = {};
 	};
 

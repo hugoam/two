@@ -34,7 +34,7 @@ namespace mud
 		attr_ int m_cardinality;
 		attr_ int m_profile;
 		int m_flips[8];
-		uint32_t m_edges[6];
+		table<SignedAxis, uint32_t> m_edges;
 	};
 
 	export_ struct refl_ MUD_WFC_EXPORT Tileset

@@ -185,7 +185,7 @@ namespace mud
 		attr_ PbrDiffuseMode m_diffuse_mode = PbrDiffuseMode::Burley;
 		attr_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
 
-		enum_array<MaterialFlag, bool> m_flags;
+		table<MaterialFlag, bool> m_flags;
 	};
 
 	export_ GfxBlock& pbr_block(GfxSystem& gfx_system);

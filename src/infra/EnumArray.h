@@ -4,12 +4,13 @@
 
 #pragma once
 
+#include <infra/Config.h>
 #include <cstddef>
 
 namespace mud
 {
 	export_ template <class Enum, class T, size_t Size = size_t(Enum::Count)>
-	struct enum_array
+	struct table
 	{
 		const T& operator[](Enum e) const { return m_values[size_t(e)]; }
 		T& operator[](Enum e) { return m_values[size_t(e)]; }

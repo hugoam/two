@@ -49,13 +49,13 @@ namespace mud
 
 	const Side c_sides[6] = { Side::Right, Side::Left, Side::Up, Side::Down, Side::Back, Side::Front };
 
-	const vec3 c_axes[3]			 = {  X3,  Y3,  Z3 };
-	const vec3 c_tangents[6]		 = {  Y3,  Z3,  Y3 };
-	const vec3 c_binormals[6]		 = {  Z3,  X3,  X3 };
+	const table<Axis, vec3> c_axes      = {  X3,  Y3,  Z3 };
+	const table<Axis, vec3> c_tangents  = {  Y3,  Z3,  Y3 };
+	const table<Axis, vec3> c_binormals = {  Z3,  X3,  X3 };
 
-	const vec3 c_dirs[6]			 = {  X3, -X3,  Y3, -Y3,  Z3, -Z3 };
-	const vec3 c_dirs_tangents[6]	 = {  Y3, -Z3, -Z3,  X3,  Y3,  X3 };
-	const vec3 c_dirs_normals[6]	 = { -Z3,  Y3,  X3, -Z3,  X3,  Y3 };
+	const table<SignedAxis, vec3> c_dirs		   = {  X3, -X3,  Y3, -Y3,  Z3, -Z3 };
+	const table<SignedAxis, vec3> c_dirs_tangents = {  Y3, -Z3, -Z3,  X3,  Y3,  X3 };
+	const table<SignedAxis, vec3> c_dirs_normals  = { -Z3,  Y3,  X3, -Z3,  X3,  Y3 };
 
 	const quat ZeroQuat = { 0.f, 0.f, 0.f, 1.f };
 

@@ -19,8 +19,8 @@ namespace mud
 	export_ template <class T>
 	struct EventMap
 	{
-		enum_array<DeviceType, enum_array<EventType, T>> m_events = {};
-		enum_array<DeviceType, enum_array<EventType, map<int, T>>> m_keyed_events = {};
+		table<DeviceType, table<EventType, T>> m_events = {};
+		table<DeviceType, table<EventType, map<int, T>>> m_keyed_events = {};
 
 		void clear() { *this = {}; }
 	};

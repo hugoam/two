@@ -59,8 +59,8 @@ namespace mud
 
 	Item& translate_2d_gizmo(Gnode& parent, Axis axis, Colour colour, uint32_t flags = 0U)
 	{
-		Gnode& node = gfx::transform(parent, {}, 0.5f * (c_tangents[uint(axis)] + c_binormals[uint(axis)]), ZeroQuat);
-		return gfx::shape(node, Quad(0.3f, c_tangents[uint(axis)], c_binormals[uint(axis)]), Symbol(colour, Colour::None, true, true), flags);
+		Gnode& node = gfx::transform(parent, {}, 0.5f * (c_tangents[axis] + c_binormals[axis]), ZeroQuat);
+		return gfx::shape(node, Quad(0.3f, c_tangents[axis], c_binormals[axis]), Symbol(colour, Colour::None, true, true), flags);
 	}
 
 	class TranslateLinearGizmo : public TransformGizmo

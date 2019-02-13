@@ -84,7 +84,7 @@ namespace mud
 	vec3 gizmo_grab_linear(Viewer& viewer, const Transform& space, Axis axis)
 	{
 		vec3 direction = space.m_rotation * to_vec3(axis);
-		vec3 normal = space.m_rotation * c_tangents[uint(axis)];
+		vec3 normal = space.m_rotation * c_tangents[axis];
 		vec3 projected = plane_segment_intersection(Plane(space.m_position, space.m_position + direction, space.m_position + normal), to_segment(viewer.mouse_ray()));
 		return nearest_point_on_line(space.m_position, direction, projected);
 	}

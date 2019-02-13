@@ -63,6 +63,6 @@ namespace mud
 
 		DepthParams m_depth_params;
 
-		enum_array<CullMode, Material*> m_depth_material = {};
+		table<CullMode, Material*> m_depth_material = {};
 	};
 }

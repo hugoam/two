@@ -92,7 +92,7 @@ namespace mud
 		return program;
 	}
 
-	static cstring shader_suffixes[] = 
+	static table<ShaderType, cstring> c_shader_suffixes = 
 	{
 		"_cs.sc",
 		"_fs.sc",
@@ -100,14 +100,9 @@ namespace mud
 		"_vs.sc",
 	};
 
-	cstring shader_suffix(ShaderType shader_type)
-	{
-		return shader_suffixes[size_t(shader_type)];
-	}
-
 	string shader_path(GfxSystem& gfx_system, const string& name, ShaderType shader_type)
 	{
-		string suffix = shader_suffix(shader_type);
+		string suffix = c_shader_suffixes[shader_type];
 		return gfx_system.m_resource_path + "/shaders/" + name + suffix;
 	}
 
@@ -131,9 +126,9 @@ namespace mud
 		//bool debug = false;
 #endif
 
-		static cstring output_suffixes[] = { "_cs", "_fs", "_gs", "_vs" };
+		static table<ShaderType, cstring> output_suffixes = { "_cs", "_fs", "_gs", "_vs" };
 
-		string output_suffix = output_suffixes[size_t(shader_type)];
+		string output_suffix = output_suffixes[shader_type];
 		string output_path = gfx_system.m_resource_path + "/shaders/compiled/" + name + suffix + output_suffix;
 
 		create_file_tree(output_path.c_str());
@@ -161,7 +156,7 @@ namespace mud
 		vector<cstring> args;
 		auto push_arg = [&args](cstring name, cstring arg) { args.push_back(name); args.push_back(arg); };
 
-		static cstring types[] = { "compute", "fragment", "geometry", "vertex" };
+		static table<ShaderType, cstring> types = { "compute", "fragment", "geometry", "vertex" };
 
 		push_arg("-f", source_path.c_str());
 		push_arg("-o", output_path.c_str());
@@ -169,7 +164,7 @@ namespace mud
 		args.push_back("--depends");
 		push_arg("--varyingdef", varying_path.c_str());
 		push_arg("--define", defines.c_str());
-		push_arg("--type", types[size_t(shader_type)]);
+		push_arg("--type", types[shader_type]);
 
 		//if(debug)
 			//args.push_back("--debug");
@@ -191,9 +186,9 @@ namespace mud
 		}
 		else if(target == HLSL)
 		{
-			static cstring profiles[] = { "cs_5_0", "ps_5_0", "gs_5_0", "vs_5_0" };
+			static table<ShaderType, cstring> profiles = { "cs_5_0", "ps_5_0", "gs_5_0", "vs_5_0" };
 			push_arg("--platform", "windows");
-			push_arg("--profile", profiles[size_t(shader_type)]);
+			push_arg("--profile", profiles[shader_type]);
 		}
 		else if(target == Metal)
 		{

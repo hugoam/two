@@ -8,6 +8,7 @@
 module mud.gfx;
 #else
 #include <stl/algorithm.h>
+#include <infra/EnumArray.h>
 #include <math/Interp.h>
 #include <math/Math.h>
 #include <gfx/Types.h>
@@ -23,7 +24,7 @@ module mud.gfx;
 
 namespace mud
 {
-	static Type* s_target_types[3] = { &type<vec3>(), &type<quat>(), &type<vec3>() };
+	static table<AnimationTarget, Type*> s_target_types = { &type<vec3>(), &type<quat>(), &type<vec3>() };
 
 	Animation::Animation(cstring name)
 		: m_name(name)
@@ -31,7 +32,7 @@ namespace mud
 	
 	AnimationTrack::AnimationTrack() {}
 	AnimationTrack::AnimationTrack(Animation& animation, size_t node, cstring node_name, AnimationTarget target)
-		: m_animation(&animation), m_node(node), m_node_name(node_name), m_target(target), m_value_type(s_target_types[size_t(target)])
+		: m_animation(&animation), m_node(node), m_node_name(node_name), m_target(target), m_value_type(s_target_types[target])
 	{}
 
 	void AnimationTrack::insert_key(float time, const Value& value, float transition)

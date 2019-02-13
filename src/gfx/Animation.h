@@ -18,7 +18,8 @@ namespace mud
 	{
 		Position,
 		Rotation,
-		Scale
+		Scale,
+		Count
 	};
 
 	export_ enum class refl_ Interpolation : unsigned int

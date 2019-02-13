@@ -25,6 +25,7 @@ namespace mud
 		X4,
 		X8,
 		X16,
+		Count
 	};
 
 	export_ enum class refl_ Shading : unsigned int

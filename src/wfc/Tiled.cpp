@@ -199,8 +199,8 @@ namespace mud
 			Tile* tile = tileset.tile(json_tile["name"].string_value().c_str());
 			string edges = json_tile["edges"].string_value().c_str();
 
-			for(size_t side = 0; side < 6; ++side)
-				tile->m_edges[side] = edge_keys[edges[side]];
+			for(SignedAxis side = SignedAxis(0); side != SignedAxis::Count; side = SignedAxis(size_t(side) + 1))
+				tile->m_edges[side] = edge_keys[edges[size_t(side)]];
 		}
 
 		for(const Tile& tile1 : tileset.m_tiles)
@@ -209,12 +209,12 @@ namespace mud
 				if(&tile1 == &tile2)
 					continue;
 
-				if(tile1.m_edges[size_t(SignedAxis::PlusX)] == tile2.m_edges[size_t(SignedAxis::MinusX)])
+				if(tile1.m_edges[SignedAxis::PlusX] == tile2.m_edges[SignedAxis::MinusX])
 					tileset.connect(tile1.m_index, tile2.m_index, true);
-				if(tile1.m_edges[size_t(SignedAxis::PlusY)] == tile2.m_edges[size_t(SignedAxis::MinusY)])
+				if(tile1.m_edges[SignedAxis::PlusY] == tile2.m_edges[SignedAxis::MinusY])
 					tileset.connect(tile1.m_index, tile2.m_index, true);
 
-				if(tile1.m_edges[size_t(SignedAxis::PlusZ)] == tile2.m_edges[size_t(SignedAxis::MinusZ)])
+				if(tile1.m_edges[SignedAxis::PlusZ] == tile2.m_edges[SignedAxis::MinusZ])
 					tileset.connect(tile1.m_index, tile2.m_index, true);
 			}
 	}

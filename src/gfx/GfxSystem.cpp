@@ -91,9 +91,8 @@ namespace mud
 		unique<AssetStore<ParticleFlow>> m_particles;
 		unique<AssetStore<Prefab>> m_prefabs;
 
-		vector<Importer*> m_importers;
-
-		vector<Renderer*> m_renderers;
+		table<ModelFormat, Importer*> m_importers;
+		table<Shading, Renderer*> m_renderers;
 
 		Texture* m_white_texture = nullptr;
 		Texture* m_black_texture = nullptr;
@@ -137,12 +136,12 @@ namespace mud
 
 	void GfxSystem::add_importer(ModelFormat format, Importer& importer)
 	{
-		m_impl->m_importers[size_t(format)] = &importer;
+		m_impl->m_importers[format] = &importer;
 	}
 
 	Importer* GfxSystem::importer(ModelFormat format)
 	{
-		return m_impl->m_importers[size_t(format)];
+		return m_impl->m_importers[format];
 	}
 
 	object<Context> GfxSystem::create_context(const string& name, uvec2 size, bool fullScreen)
@@ -167,9 +166,6 @@ namespace mud
 		m_impl->m_particles = make_unique<AssetStore<ParticleFlow>>(*this, "particles/", ".ptc");
 		//m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "prefabs/", ".pfb");
 		m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "models/");
-
-		m_impl->m_renderers.resize(size_t(Shading::Count));
-		m_impl->m_importers.resize(size_t(ModelFormat::Count));
 
 		m_impl->m_white_texture = this->textures().file("white.png");
 		m_impl->m_black_texture = this->textures().file("black.png");
@@ -213,12 +209,12 @@ namespace mud
 
 	void GfxSystem::set_renderer(Shading shading, Renderer& renderer)
 	{
-		m_impl->m_renderers[size_t(shading)] = &renderer;
+		m_impl->m_renderers[shading] = &renderer;
 	}
 
 	Renderer& GfxSystem::renderer(Shading shading)
 	{
-		return *m_impl->m_renderers[size_t(shading)];
+		return *m_impl->m_renderers[shading];
 	}
 
 	GfxContext& GfxSystem::context(size_t index)

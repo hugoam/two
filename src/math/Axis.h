@@ -14,6 +14,7 @@ namespace mud
 		X = 0,
 		Y = 1,
 		Z = 2,
+		Count
 	};
 
 	export_ enum class refl_ Axes : unsigned int
@@ -35,6 +36,7 @@ namespace mud
 		MinusY = 3,
 		PlusZ  = 4,
 		MinusZ = 5,
+		Count
 	};
 
 	export_ inline SignedAxis to_signed_axis(Axis axis, bool positive)

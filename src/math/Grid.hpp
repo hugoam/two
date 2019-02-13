@@ -78,13 +78,13 @@ namespace mud
 	}
 
 	template <class T>
-	inline bool vector2d<T>::border(size_t index, Side direction) { return !m_dims[size_t(direction)].has_neighbour(index); }
+	inline bool vector2d<T>::border(size_t index, Side direction) { return !m_dims[direction].has_neighbour(index); }
 
 	template <class T>
-	inline size_t vector2d<T>::neighbour_mod(size_t index, Side direction) { return m_dims[size_t(direction)].neighbour_mod(index); }
+	inline size_t vector2d<T>::neighbour_mod(size_t index, Side direction) { return m_dims[direction].neighbour_mod(index); }
 
 	template <class T>
-	inline size_t vector2d<T>::neighbour(size_t index, Side direction) { return m_dims[size_t(direction)].neighbour(index); }
+	inline size_t vector2d<T>::neighbour(size_t index, Side direction) { return m_dims[direction].neighbour(index); }
 
 	template <class T>
 	inline T& vector2d<T>::neighbour_item(size_t index, Side direction) { return at(neighbour(index, direction)); }

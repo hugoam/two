@@ -100,7 +100,7 @@ namespace mud
 
 		ProgramBlockArray m_blocks;
 
-		enum_array<ShaderType, cstring> m_sources = {};
+		table<ShaderType, cstring> m_sources = {};
 
 		bool m_compute = false;
 		uint32_t m_update = 1;

@@ -20,7 +20,7 @@ namespace mud
 
 	export_ struct MUD_GFX_EXPORT PassJobs
 	{
-		enum_array<PassType, vector<PassJob>> m_jobs;
+		table<PassType, vector<PassJob>> m_jobs;
 	};
 
 	export_ class MUD_GFX_EXPORT Pipeline
@@ -43,7 +43,7 @@ namespace mud
 
 		vector<unique<GfxBlock>> m_gfx_blocks;
 
-		enum_array<PassType, vector<GfxBlock*>> m_pass_blocks;
+		table<PassType, vector<GfxBlock*>> m_pass_blocks;
 	};
 
 	export_ class MUD_GFX_EXPORT PassClear : public RenderPass

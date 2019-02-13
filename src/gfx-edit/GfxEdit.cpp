@@ -88,11 +88,11 @@ namespace mud
 
 	void space_axes(Gnode& parent)
 	{
-		static Colour colours[3] = { Colour::Red, Colour::Green, Colour::Blue };
+		static table<Axis, Colour> colours = { Colour::Red, Colour::Green, Colour::Blue };
 		for(Axis axis : { Axis::X, Axis::Y, Axis::Z })
 		{
 			Gnode& node = gfx::node(parent, {}, to_vec3(axis) * 1.f);
-			gfx::shape(node, Cylinder(0.1f, 1.f, axis), Symbol(colours[size_t(axis)]));
+			gfx::shape(node, Cylinder(0.1f, 1.f, axis), Symbol(colours[axis]));
 		}
 	}
 
