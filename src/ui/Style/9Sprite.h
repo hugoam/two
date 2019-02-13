@@ -31,7 +31,7 @@ namespace mud
 		};
 
 	public:
-		constr_ ImageSkin(Image& image, int left, int top, int right, int bottom, int margin = 0, Dim stretch = DIM_NONE);
+		constr_ ImageSkin(Image& image, int left, int top, int right, int bottom, int margin = 0, Axis stretch = Axis::None);
 		ImageSkin(Image& image, const ImageSkin& ref);
 		ImageSkin();
 
@@ -46,7 +46,7 @@ namespace mud
 		attr_ int d_right = 0;
 		attr_ int d_bottom = 0;
 		attr_ int m_margin = 0;
-		attr_ Dim d_stretch = DIM_NONE;
+		attr_ Axis d_stretch = Axis::None;
 
 		vec2 d_size;
 		vec2 d_solid_size;

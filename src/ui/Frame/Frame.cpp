@@ -22,12 +22,12 @@ module mud.ui;
 
 namespace mud
 {
-	template struct Dim2<bool>;
-	template struct Dim2<size_t>;
-	template struct Dim2<AutoLayout>;
-	template struct Dim2<Sizing>;
-	template struct Dim2<Align>;
-	template struct Dim2<Pivot>;
+	template struct v2<bool>;
+	template struct v2<size_t>;
+	template struct v2<AutoLayout>;
+	template struct v2<Sizing>;
+	template struct v2<Align>;
+	template struct v2<Pivot>;
 
 	template <> string to_string<DirtyLayout>(const DirtyLayout& dirty) { if(dirty == CLEAN) return "CLEAN"; else if(dirty == DIRTY_REDRAW) return "DIRTY_REDRAW"; else if(dirty == DIRTY_PARENT) return "DIRTY_PARENT"; else if(dirty == DIRTY_LAYOUT) return "DIRTY_LAYOUT"; else if(dirty == DIRTY_FORCE_LAYOUT) return "DIRTY_FORCE_LAYOUT"; else /*if(dirty == DIRTY_STRUCTURE)*/ return "DIRTY_STRUCTURE"; }
 
@@ -75,7 +75,7 @@ namespace mud
 		return d_content->d_caption.c_str();
 	}
 
-	FrameSolver& Frame::solver(Style& style, Dim length, Dim2<size_t> index)
+	FrameSolver& Frame::solver(Style& style, Axis length, v2<size_t> index)
 	{
 		d_style = &style;
 		d_layout = &style.layout();
@@ -83,17 +83,17 @@ namespace mud
 
 		this->update_style();
 
-		LayoutSolver type = d_layout->m_solver;
+		Solver type = d_layout->m_solver;
 		FrameSolver* solver = d_parent ? d_parent->m_solver.get() : nullptr;
 
-		if(type == FRAME_SOLVER)
-			m_solver = oconstruct<FrameSolver>(solver, d_layout, this);
-		else if(type == ROW_SOLVER)
-			m_solver = oconstruct<RowSolver>(solver, d_layout, this);
-		else if(type == GRID_SOLVER)
-			m_solver = oconstruct<GridSolver>(solver, d_layout, this);
-		else if(type == TABLE_SOLVER)
-			m_solver = oconstruct<TableSolver>(solver, d_layout, this);
+		if(type == Solver::Frame)
+			m_solver = construct<FrameSolver>(solver, d_layout, this);
+		else if(type == Solver::Row)
+			m_solver = construct<RowSolver>(solver, d_layout, this);
+		else if(type == Solver::Grid)
+			m_solver = construct<GridSolver>(solver, d_layout, this);
+		else if(type == Solver::Table)
+			m_solver = construct<TableSolver>(solver, d_layout, this);
 
 		m_solver->applySpace(length);
 		return *m_solver;
@@ -179,21 +179,21 @@ namespace mud
 		mark_dirty(DIRTY_LAYOUT);
 	}
 
-	void Frame::set_size(Dim dim, float size)
+	void Frame::set_size(Axis dim, float size)
 	{
 		if(m_size[dim] == size) return;
 		m_size[dim] = size;
 		this->mark_dirty(DIRTY_FORCE_LAYOUT);
 	}
 
-	void Frame::set_span(Dim dim, float span)
+	void Frame::set_span(Axis dim, float span)
 	{
 		if(m_span[dim] == span) return;
 		m_span[dim] = span;
 		this->mark_dirty(DIRTY_FORCE_LAYOUT);
 	}
 
-	void Frame::set_position(Dim dim, float position)
+	void Frame::set_position(Axis dim, float position)
 	{
 		if(m_position[dim] == position) return;
 		m_position[dim] = position;
@@ -225,7 +225,7 @@ namespace mud
 	Frame* clip_parent(Frame& frame)
 	{
 		Frame* parent = frame.d_parent;
-		while(parent->d_layout->m_clipping != CLIP)
+		while(parent->d_layout->m_clipping != Clip::Clip)
 			parent = parent->d_parent;
 		return parent;
 	}
@@ -236,7 +236,7 @@ namespace mud
 		Frame* clip = &this->root();
 		vec2 position = this->derive_position(vec2(0.f), *clip);
 
-		for(Dim dim : { DIM_X, DIM_Y })
+		for(Axis dim : { Axis::X, Axis::Y })
 		{
 			m_size[dim] = min(clip->m_size[dim], m_size[dim]);
 
@@ -267,7 +267,7 @@ namespace mud
 		return frame.d_widget.m_index == d_widget.m_nodes.size() - 1;
 	}
 
-	void Frame::transfer_pixel_span(Frame& prev, Frame& next, Dim dim, float pixelSpan)
+	void Frame::transfer_pixel_span(Frame& prev, Frame& next, Axis dim, float pixelSpan)
 	{
 		float pixspan = 1.f / this->m_size[dim];
 		float offset = pixelSpan * pixspan;
@@ -304,7 +304,7 @@ namespace mud
 		}
 	}
 
-	void fix_position(Frame& frame, Dim dim, FrameSolver* solver)
+	void fix_position(Frame& frame, Axis dim, FrameSolver* solver)
 	{
 		// @todo should be while but it causes a bug with nested tables
 		if(solver->m_solvers[dim] && solver->m_solvers[dim]->d_frame != frame.d_parent)
@@ -321,8 +321,8 @@ namespace mud
 		this->set_size(solver.m_size);
 		m_span = solver.m_span;
 
-		fix_position(*this, DIM_X, &solver);
-		fix_position(*this, DIM_Y, &solver);
+		fix_position(*this, Axis::X, &solver);
+		fix_position(*this, Axis::Y, &solver);
 	}
 
 	void Frame::debug_print(bool commit)

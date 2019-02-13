@@ -26,19 +26,19 @@ namespace mud
 		Layout(T_Initializer func) { func(*this); }
 
 		attr_ string m_name = "";
-		attr_ LayoutSolver m_solver = FRAME_SOLVER;
-		attr_ Dim2<AutoLayout> m_layout = { AUTO_LAYOUT, AUTO_LAYOUT };
-		attr_ LayoutFlow m_flow = FLOW;
-		attr_ Space m_space = SHEET;
-		attr_ Clipping m_clipping = NOCLIP;
-		attr_ Opacity m_opacity = CLEAR;
-		attr_ Dim2<Align> m_align = { Left, Left };
+		attr_ Solver m_solver = Solver::Frame;
+		attr_ v2<AutoLayout> m_layout = { AutoLayout::Layout, AutoLayout::Layout };
+		attr_ LayoutFlow m_flow = LayoutFlow::Flow;
+		attr_ Space m_space = Preset::Sheet;
+		attr_ Clip m_clipping = Clip::None;
+		attr_ Opacity m_opacity = Opacity::Clear;
+		attr_ v2<Align> m_align = { Align::Left, Align::Left };
 		attr_ vec2 m_span = vec2(1.f);
 		attr_ vec2 m_size = vec2(0.f);
 		attr_ vec4 m_padding = vec4(0.f);
 		attr_ vec2 m_margin = vec2(0.f);
 		attr_ vec2 m_spacing = vec2(0.f);
-		attr_ Dim2<Pivot> m_pivot = { FORWARD, FORWARD };
+		attr_ v2<Pivot> m_pivot = { Pivot::Forward, Pivot::Forward };
 		attr_ int m_zorder = 0;
 		attr_ bool m_no_grid = false;
 

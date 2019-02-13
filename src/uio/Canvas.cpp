@@ -67,7 +67,7 @@ namespace mud
 			script.m_processes.back()->m_position[1] = position.y;
 		};
 
-		Widget& board = ui::widget(parent, styles().sheet, false, DIM_X);
+		Widget& board = ui::widget(parent, styles().sheet, false, Axis::X);
 
 		Widget& functions = ui::sheet(board);
 		ui::label(functions, "Functions");

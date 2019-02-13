@@ -18,7 +18,7 @@ namespace mud
 namespace ui
 {
 	export_ template <class T>
-	bool slider_input_dim(Widget& parent, AutoStat<T> value, Dim dim = DIM_X);
+	bool slider_input_dim(Widget& parent, AutoStat<T> value, Axis dim = Axis::X);
 
 	export_ template <class T>
 	bool slider_input(Widget& parent, AutoStat<T> value);
@@ -73,7 +73,7 @@ namespace ui
 	inline bool slider_field(Widget& parent, cstring name, AutoStat<T> value, bool reverse = false) { return field([&](Widget& self) { return slider_input<T>(self, value); }, parent, name, reverse); }
 
 	export_ func_ inline bool flag_field(Widget& parent, cstring name, uint32_t& value, uint8_t shift, bool reverse = false) { return field([&](Widget& self) { return flag_input(self, value, shift); }, parent, name, reverse); }
-	export_ func_ inline bool radio_field(Widget& parent, cstring name, span<cstring> choices, uint32_t& value, Dim dim = DIM_X, bool reverse = false) { return field([&](Widget& self) { return radio_switch(self, choices, value, dim); }, parent, name, reverse); }
+	export_ func_ inline bool radio_field(Widget& parent, cstring name, span<cstring> choices, uint32_t& value, Axis dim = Axis::X, bool reverse = false) { return field([&](Widget& self) { return radio_switch(self, choices, value, dim); }, parent, name, reverse); }
 	export_ func_ inline bool dropdown_field(Widget& parent, cstring name, span<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return dropdown_input(self, choices, value); }, parent, name, reverse); }
 	export_ func_ inline bool typedown_field(Widget& parent, cstring name, span<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return typedown_input(self, choices, value); }, parent, name, reverse); }
 	export_ func_ inline bool color_field(Widget& parent, cstring name, Colour& value, bool reverse = false) { return field([&](Widget& self) { return color_toggle_edit(self, value); }, parent, name, reverse); }

@@ -22,7 +22,7 @@ namespace mud
 {
 namespace ui
 {
-	Widget& dockline(Widget& parent, uint16_t index, Dim dim)
+	Widget& dockline(Widget& parent, uint16_t index, Axis dim)
 	{
 		if(parent.m_nodes.size() > index && parent.m_nodes[index]->m_heartbeat == parent.m_heartbeat)
 			return *parent.m_nodes[index];
@@ -46,7 +46,7 @@ namespace ui
 	{
 		Dockspace& self = parent.suba<Dockspace, Docksystem&>(docksystem);
 		self.init(dock_styles().dockspace);
-		self.m_mainline = &dockline(self, 0, DIM_Y);
+		self.m_mainline = &dockline(self, 0, Axis::Y);
 		return self;
 	}
 

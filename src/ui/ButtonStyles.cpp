@@ -37,34 +37,34 @@ namespace ui
 		, scroll_down("ScrollDown", styles().button, {})
 		, scroll_left("ScrollLeft", styles().button, {})
 		, scroll_right("ScrollRight", styles().button, {})
-		, scroller("Scroller", styles().slider, [](Layout& l) { l.m_space = FLEX; })
-		, scroller_knob("ScrollerKnob", styles().slider_knob, [](Layout& l) { l.m_space = FLEX; })
+		, scroller("Scroller", styles().slider, [](Layout& l) { l.m_space = Preset::Flex; })
+		, scroller_knob("ScrollerKnob", styles().slider_knob, [](Layout& l) { l.m_space = Preset::Flex; })
 	{}
 
 	DropdownStyles::DropdownStyles()
-		: popdown("Popdown", styles().popup, [](Layout& l) { l.m_flow = FREE; l.m_space = BLOCK; l.m_size = { 200.f, 200.f }; })
+		: popdown("Popdown", styles().popup, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_space = Preset::Block; l.m_size = { 200.f, 200.f }; })
 		, dropdown("Dropdown", styles().wrap_button, {})
 		, toggle("DropdownToggle", styles().button, {})
 		, head("DropdownHead", styles().multi_button, {})
-		, list("DropdownList", styles().overlay, [](Layout& l) { l.m_flow = ALIGN; l.m_clipping = UNCLIP; l.m_align = { Left, OUT_RIGHT }; })
+		, list("DropdownList", styles().overlay, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_clipping = Clip::Unclip; l.m_align = { Align::Left, Align::OutRight }; })
 		, choice("DropdownChoice", styles().multi_button, {})
 		, dropdown_input("DropdownInput", dropdown, {})
-		, dropdown_input_compact("DropdownInputCompact", dropdown, [](Layout& l) { l.m_space = ITEM; })
+		, dropdown_input_compact("DropdownInputCompact", dropdown, [](Layout& l) { l.m_space = Preset::Item; })
 		, typedown_input("TypedownInput", dropdown, {})
 	{}
 
 	MenuStyles::MenuStyles()
 		: menubar("Menubar", styles().header, {})
-		, menu("Menu", dropdown_styles().dropdown, [](Layout& l) { l.m_space = ITEM; })
-		, list("MenuList", dropdown_styles().list, [](Layout& l) { l.m_align = { Left, OUT_RIGHT }; })
-		, sublist("SubMenuList", list, [](Layout& l) { l.m_align = { OUT_RIGHT, Left }; })
+		, menu("Menu", dropdown_styles().dropdown, [](Layout& l) { l.m_space = Preset::Item; })
+		, list("MenuList", dropdown_styles().list, [](Layout& l) { l.m_align = { Align::Left, Align::OutRight }; })
+		, sublist("SubMenuList", list, [](Layout& l) { l.m_align = { Align::OutRight, Align::Left }; })
 	{}
 
 	ToolbarStyles::ToolbarStyles()
 		: toolbutton("ToolButton", dropdown_styles().dropdown_input, {})
 		, tooldock("Tooldock", styles().div, {})
 		, toolbar("Toolbar", styles().wrap_control, {})
-		, toolbar_wrap("ToolbarWrap", toolbar, [](Layout& l) { l.m_space = ITEM; })
+		, toolbar_wrap("ToolbarWrap", toolbar, [](Layout& l) { l.m_space = Preset::Item; })
 		, mover("ToolbarMover", styles().control, {})
 	{}
 

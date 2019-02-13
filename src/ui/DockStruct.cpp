@@ -113,14 +113,14 @@ namespace mud
 		vector<uint16_t> dockid = reverse(dock.m_dockid);
 		Widget* line = m_mainline;
 
-		Dim dim = DIM_Y;
+		Axis dim = Axis::Y;
 		while(dockid.size() > 0)
 		{
 			uint16_t index = pop(dockid);
-			dim = flip_dim(dim);
+			dim = flip(dim);
 			line = &ui::dockline(*line, index, dim);
-			if(dockid.size() == 0 && dock.m_span > 0.f && line->m_frame.m_span[flip_dim(dim)] == 1.f)
-				line->m_frame.set_span(flip_dim(dim), dock.m_span);
+			if(dockid.size() == 0 && dock.m_span > 0.f && line->m_frame.m_span[flip(dim)] == 1.f)
+				line->m_frame.set_span(flip(dim), dock.m_span);
 		}
 
 		Tabber& section = ui::docksection(*line);
@@ -145,8 +145,8 @@ namespace mud
 	{
 		vec2 local = frame.local_position(pos);
 
-		Dim dim = Dim(target.m_dockid.size() % 2);
-		Dim ortho = flip_dim(dim);
+		Axis dim = Axis(target.m_dockid.size() % 2);
+		Axis ortho = flip(dim);
 
 		if(local[dim] < frame.m_size[dim] * 0.25f)
 			this->dock_split(dock, target, false); // dock split first

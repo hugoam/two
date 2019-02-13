@@ -6,6 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>
+#include <stl/table.h>
 #endif
 #include <ui/Frame/Frame.h>
 #include <ui/Style/Layout.h>
@@ -24,22 +25,22 @@ namespace mud
 		FrameSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 		virtual ~FrameSolver() {}
 
-		inline bool flow() { return d_layout->m_flow == FLOW; }
-		inline bool posflow() { return d_layout->m_flow <= ALIGN; }
-		inline bool sizeflow() { return d_layout->m_flow <= OVERLAY; }
+		inline bool flow() { return d_layout->m_flow == LayoutFlow::Flow; }
+		inline bool posflow() { return d_layout->m_flow <= LayoutFlow::Align; }
+		inline bool sizeflow() { return d_layout->m_flow <= LayoutFlow::Overlay; }
 
-		inline float dpadding(Dim dim) { return d_layout->m_padding[dim]; }
-		inline float dbackpadding(Dim dim) { return d_layout->m_padding[dim + 2]; }
-		inline float dmargin(Dim dim) { return d_layout->m_margin[dim]; }
+		inline float dpadding(Axis dim) { return d_layout->m_padding[size_t(dim)]; }
+		inline float dbackpadding(Axis dim) { return d_layout->m_padding[size_t(dim) + 2]; }
+		inline float dmargin(Axis dim) { return d_layout->m_margin[dim]; }
 
-		inline Align dalign(Dim dim) { return d_layout->m_align[dim]; }
+		inline Align dalign(Axis dim) { return d_layout->m_align[dim]; }
 
-		inline float dcontent(Dim dim) { return d_content[dim] + dpadding(dim) + dbackpadding(dim); }
-		inline float dbounds(Dim dim) { return dcontent(dim) + dmargin(dim) * 2.f; }
+		inline float dcontent(Axis dim) { return d_content[dim] + dpadding(dim) + dbackpadding(dim); }
+		inline float dbounds(Axis dim) { return dcontent(dim) + dmargin(dim) * 2.f; }
 
-		inline float dextent(Dim dim) { return m_size[dim] + dmargin(dim) * 2.f; }
-		inline float doffset(Dim dim) { return m_position[dim] + m_size[dim] + dmargin(dim); }
-		inline float dspace(Dim dim) { return m_size[dim] - dpadding(dim) - dbackpadding(dim); }
+		inline float dextent(Axis dim) { return m_size[dim] + dmargin(dim) * 2.f; }
+		inline float doffset(Axis dim) { return m_position[dim] + m_size[dim] + dmargin(dim); }
+		inline float dspace(Axis dim) { return m_size[dim] - dpadding(dim) - dbackpadding(dim); }
 
 		//inline float spacing(FrameSolver& frame) { return d_prev ? d_layout->m_spacing[d_length] : 0.f; }
 		inline float spacing() { return d_layout->m_spacing[d_length]; }
@@ -50,10 +51,10 @@ namespace mud
 			m_span = span;
 			m_size = size;
 
-			if(d_sizing.x == FIXED) d_content.x = (content ? content->x : m_size.x - dpadding(DIM_X) - dbackpadding(DIM_X));
-			if(d_sizing.y == FIXED) d_content.y = (content ? content->y : m_size.y - dpadding(DIM_Y) - dbackpadding(DIM_Y));
-			if(d_sizing.x == FIXED) m_size.x = d_content.x + dpadding(DIM_X) + dbackpadding(DIM_X);
-			if(d_sizing.y == FIXED) m_size.y = d_content.y + dpadding(DIM_Y) + dbackpadding(DIM_Y);
+			if(d_sizing.x == Sizing::Fixed) d_content.x = (content ? content->x : m_size.x - dpadding(Axis::X) - dbackpadding(Axis::X));
+			if(d_sizing.y == Sizing::Fixed) d_content.y = (content ? content->y : m_size.y - dpadding(Axis::Y) - dbackpadding(Axis::Y));
+			if(d_sizing.x == Sizing::Fixed) m_size.x = d_content.x + dpadding(Axis::X) + dbackpadding(Axis::X);
+			if(d_sizing.y == Sizing::Fixed) m_size.y = d_content.y + dpadding(Axis::Y) + dbackpadding(Axis::Y);
 		}
 
 		void reset(bool partial = false)
@@ -62,18 +63,18 @@ namespace mud
 			if(!partial)
 				d_content = { 0.f, 0.f };
 			d_spacing = { 0.f, 0.f };
-			m_spaceContent = { 0.f, 0.f };
-			d_contentExpand = false;
-			d_totalSpan = 0.f;
+			m_space_content = { 0.f, 0.f };
+			d_content_expand = false;
+			d_total_span = 0.f;
 			d_prev = nullptr;
 			d_count = 0;
 		}
 
-		void applySpace(Dim length = DIM_NONE);
+		void applySpace(Axis length = Axis::None);
 
 		virtual void collect(SolverVector& solvers);
 
-		virtual FrameSolver& solver(FrameSolver& frame, Dim dim);
+		virtual FrameSolver& solver(FrameSolver& frame, Axis dim);
 		virtual FrameSolver* grid() { return nullptr; }
 
 		void sync();
@@ -81,29 +82,30 @@ namespace mud
 		void layout();
 		void read();
 
-		virtual void compute(FrameSolver& frame, Dim dim);
-		virtual void layout(FrameSolver& frame, Dim dim);
+		virtual void compute(FrameSolver& frame, Axis dim);
+		virtual void layout(FrameSolver& frame, Axis dim);
 
 	public:
 		Frame* d_frame;
 		FrameSolver* d_parent;
 		Layout* d_layout;
 
-		FrameSolver* m_solvers[2];
+		table<Axis, FrameSolver*> m_solvers;
+		//FrameSolver* m_solvers[2];
 		FrameSolver* d_grid;
 
-		Dim d_length = DIM_NONE;
-		Dim d_depth = DIM_NONE;
+		Axis d_length = Axis::None;
+		Axis d_depth = Axis::None;
 
-		Dim2<Sizing> d_sizing = { SHRINK, SHRINK };
+		v2<Sizing> d_sizing = { Sizing::Shrink, Sizing::Shrink };
 
 		vec2 d_content = { 0.f, 0.f };
 		vec2 d_spacing = { 0.f, 0.f };
-		vec2 m_spaceContent = { 0.f, 0.f };
-		bool d_contentExpand = false;
-		float d_totalSpan;
+		vec2 m_space_content = { 0.f, 0.f };
+		bool d_content_expand = false;
+		float d_total_span;
 
-		Dim2<size_t> d_index;
+		v2<size_t> d_index;
 
 		FrameSolver* d_prev = nullptr;
 		size_t d_count = 0;
@@ -115,15 +117,15 @@ namespace mud
 		RowSolver();
 		RowSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 
-		virtual void compute(FrameSolver& frame, Dim dim);
-		virtual void layout(FrameSolver& frame, Dim dim);
+		virtual void compute(FrameSolver& frame, Axis dim);
+		virtual void layout(FrameSolver& frame, Axis dim);
 
 	protected:
-		void measure(FrameSolver& frame, Dim dim);
-		void resize(FrameSolver& frame, Dim dim);
-		void position(FrameSolver& frame, Dim dim);
+		void measure(FrameSolver& frame, Axis dim);
+		void resize(FrameSolver& frame, Axis dim);
+		void position(FrameSolver& frame, Axis dim);
 
-		float positionFree(FrameSolver& frame, Dim dim, float space);
+		float positionFree(FrameSolver& frame, Axis dim, float space);
 		float positionSequence(FrameSolver& frame, float space);
 	};
 
@@ -149,7 +151,7 @@ namespace mud
 		void divide(const vector<float>& spans);
 		void update(const vector<float>& spans);
 
-		virtual FrameSolver& solver(FrameSolver& frame, Dim dim);
+		virtual FrameSolver& solver(FrameSolver& frame, Axis dim);
 		virtual FrameSolver* grid() { return this; }
 	};
 
@@ -170,6 +172,6 @@ namespace mud
 
 		void divide(vector<Space> spaces);
 
-		virtual FrameSolver& solver(FrameSolver& frame, Dim dim);
+		virtual FrameSolver& solver(FrameSolver& frame, Axis dim);
 	};
 }

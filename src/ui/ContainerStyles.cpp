@@ -41,7 +41,7 @@ namespace ui
 	{}
 
 	TabberStyles::TabberStyles()
-		: tab("Tab", styles().wedge, [](Layout& l) { l.m_clipping = CLIP; })
+		: tab("Tab", styles().wedge, [](Layout& l) { l.m_clipping = Clip::Clip; })
 		, tab_button("TabHeader", styles().button, {})
 		, tabber("Tabber", styles().wedge, {})
 		, head("TabberHead", styles().row, {})

@@ -43,17 +43,17 @@ namespace ui
 
 namespace mud
 {
-    enum Dim : unsigned int;
-    enum FlowAxis : unsigned int;
-    enum Pivot : unsigned int;
-    enum Align : unsigned int;
-    enum LayoutSolver : unsigned int;
-    enum AutoLayout : unsigned int;
-    enum LayoutFlow : unsigned int;
-    enum Sizing : unsigned int;
-    enum SpacePreset : unsigned int;
-    enum Clipping : unsigned int;
-    enum Opacity : unsigned int;
+    enum class Axis : unsigned int;
+    enum class FlowAxis : unsigned int;
+    enum class Pivot : unsigned int;
+    enum class Align : unsigned int;
+    enum class Solver : unsigned int;
+    enum class AutoLayout : unsigned int;
+    enum class LayoutFlow : unsigned int;
+    enum class Sizing : unsigned int;
+    enum class Preset : unsigned int;
+    enum class Clip : unsigned int;
+    enum class Opacity : unsigned int;
     enum WidgetState : unsigned int;
     enum DirtyLayout : unsigned int;
     enum class CodePalette : unsigned char;
@@ -61,7 +61,7 @@ namespace mud
     enum WindowState : unsigned int;
     enum class DropState : unsigned int;
     
-    template <class T> struct Dim2;
+    template <class T> struct v2;
     
     class Style;
     struct Space;

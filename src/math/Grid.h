@@ -6,7 +6,7 @@
 
 #include <stdint.h>
 #include <stl/vector.h>
-#include <infra/EnumArray.h>
+#include <stl/table.h>
 #include <math/Forward.h>
 #include <math/Vec.h>
 #include <math/Axis.h>

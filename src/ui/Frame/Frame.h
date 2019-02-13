@@ -32,8 +32,8 @@ namespace mud
 
 		bool empty() const;
 
-		inline bool opaque() const { return m_opacity == OPAQUE; }
-		inline bool hollow() const { return m_opacity == HOLLOW; }
+		inline bool opaque() const { return m_opacity == Opacity::Opaque; }
+		inline bool hollow() const { return m_opacity == Opacity::Hollow; }
 
 		void set_caption(cstring text);
 		void set_icon(Image* image);
@@ -43,7 +43,7 @@ namespace mud
 		Frame& root();
 		Layer& layer();
 
-		FrameSolver& solver(Style& style, Dim length = DIM_NONE, Dim2<size_t> index = { 0, 0 });
+		FrameSolver& solver(Style& style, Axis length = Axis::None, v2<size_t> index = { 0, 0 });
 
 		DirtyLayout clearDirty() { DirtyLayout dirty = d_dirty; d_dirty = CLEAN; return dirty; }
 		void set_dirty(DirtyLayout dirty) { if(dirty > d_dirty) d_dirty = dirty; }
@@ -53,12 +53,12 @@ namespace mud
 		void update_state(WidgetState state);
 		void update_inkstyle(InkStyle& inkstyle);
 
-		void set_size(Dim dim, float size);
-		void set_span(Dim dim, float span);
-		void set_position(Dim dim, float position);
+		void set_size(Axis dim, float size);
+		void set_span(Axis dim, float span);
+		void set_position(Axis dim, float position);
 
-		inline void set_position(const vec2& pos) { set_position(DIM_X, pos.x), set_position(DIM_Y, pos.y); }
-		inline void set_size(const vec2& size) { set_size(DIM_X, size.x); set_size(DIM_Y, size.y); }
+		inline void set_position(const vec2& pos) { set_position(Axis::X, pos.x), set_position(Axis::Y, pos.y); }
+		inline void set_size(const vec2& size) { set_size(Axis::X, size.x); set_size(Axis::Y, size.y); }
 
 		// global to local
 		void integrate_position(Frame& root, vec2& global);
@@ -84,7 +84,7 @@ namespace mud
 		bool first(const Frame& frame);
 		bool last(const Frame& frame);
 
-		void transfer_pixel_span(Frame& prev, Frame& next, Dim dim, float pixelSpan);
+		void transfer_pixel_span(Frame& prev, Frame& next, Axis dim, float pixelSpan);
 
 		void relayout();
 
@@ -97,9 +97,9 @@ namespace mud
 		Widget& d_widget;
 		Frame* d_parent;
 		DirtyLayout d_dirty = DIRTY_FORCE_LAYOUT;
-		Dim2<size_t> d_index = { 0, 0 };
+		v2<size_t> d_index = { 0, 0 };
 
-		Opacity m_opacity = CLEAR;
+		Opacity m_opacity = Opacity::Clear;
 
 		Style* d_style = nullptr;
 		Layout* d_layout = nullptr;

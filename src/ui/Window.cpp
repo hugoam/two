@@ -36,7 +36,7 @@ namespace ui
 				window.m_dock->m_docker->undock(window);
 
 			window.m_frame.layer().moveToTop();
-			window.m_frame.layer().m_frame.m_opacity = HOLLOW;
+			window.m_frame.layer().m_frame.m_opacity = Opacity::Hollow;
 
 			if(window.movable())
 				window.m_frame.set_position(window.m_frame.m_position + mouse_event.m_delta);
@@ -47,7 +47,7 @@ namespace ui
 			//if(window.dockable())
 			//	window.m_dock->m_docksystem->dock(window, mouse_event.m_pos);
 
-			window.m_frame.layer().m_frame.m_opacity = OPAQUE;
+			window.m_frame.layer().m_frame.m_opacity = Opacity::Opaque;
 		}
 	}
 
@@ -58,7 +58,7 @@ namespace ui
 			window.m_frame.layer().moveToTop();
 
 			if(left)
-				window.m_frame.set_position(DIM_X, window.m_frame.m_position.x + mouse_event.m_delta.x);
+				window.m_frame.set_position(Axis::X, window.m_frame.m_position.x + mouse_event.m_delta.x);
 			if(left)
 				window.m_frame.set_size({ max(50.f, window.m_frame.m_size.x - mouse_event.m_delta.x), max(50.f, window.m_frame.m_size.y + mouse_event.m_delta.y) });
 			else

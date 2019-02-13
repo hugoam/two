@@ -20,7 +20,7 @@ module mud.ui;
 
 namespace mud
 {
-	ImageSkin::ImageSkin(Image& image, int left, int top, int right, int bottom, int margin, Dim stretch)
+	ImageSkin::ImageSkin(Image& image, int left, int top, int right, int bottom, int margin, Axis stretch)
 		: d_image(&image)
 		, d_left(left), d_top(top), d_right(right), d_bottom(bottom)
 		, m_margin(margin)
@@ -33,8 +33,8 @@ namespace mud
 		for(Image& subimage : d_images)
 			subimage = *d_image;
 
-		m_min_size.x = d_stretch == DIM_X ? float(d_solid_size.x) : 0.f;
-		m_min_size.y = d_stretch == DIM_Y ? float(d_solid_size.y) : 0.f;
+		m_min_size.x = d_stretch == Axis::X ? float(d_solid_size.x) : 0.f;
+		m_min_size.y = d_stretch == Axis::Y ? float(d_solid_size.y) : 0.f;
 
 		vec4 coords[Count] = {};
 		this->stretch_coords(vec2(0.f), vec2(image.d_size), span<vec4>{ coords, Count });

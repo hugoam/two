@@ -187,9 +187,9 @@ namespace mud
 	{
 		Type& t = type<glTFAlphaMode>();
 		static Meta meta = { t, &namspc({}), "glTFAlphaMode", sizeof(glTFAlphaMode), TypeClass::Enum };
-		static cstring ids[] = { "OPAQUE", "MASK", "BLEND" };
+		static cstring ids[] = { "Opacity::Opaque", "MASK", "BLEND" };
 		static uint32_t values[] = { 0, 1, 2 };
-		static glTFAlphaMode vars[] = { glTFAlphaMode::OPAQUE, glTFAlphaMode::MASK, glTFAlphaMode::BLEND};
+		static glTFAlphaMode vars[] = { glTFAlphaMode::Opacity::Opaque, glTFAlphaMode::MASK, glTFAlphaMode::BLEND};
 		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { glTFAlphaMode__to_string,
@@ -781,7 +781,7 @@ namespace mud
 		// defaults
 		static mud::vec3 emissive_factor_default = to_vec3(mud::Colour::Black);
 		static bool double_sided_default = false;
-		static glTFAlphaMode alpha_mode_default = glTFAlphaMode::OPAQUE;
+		static glTFAlphaMode alpha_mode_default = glTFAlphaMode::Opacity::Opaque;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, glTFMaterial__construct_0, {} }

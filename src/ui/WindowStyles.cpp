@@ -23,18 +23,18 @@ namespace mud
 namespace ui
 {
 	WindowStyles::WindowStyles()
-		: window("Window", styles().overlay, [](Layout& l) { l.m_space = BLOCK; })
-		, body("WindowBody", styles().wedge, [](Layout& l) { l.m_clipping = CLIP; })
-		, close_button("CloseButton", styles().button, [](Layout& l) { l.m_align = { Right, CENTER }; })
+		: window("Window", styles().overlay, [](Layout& l) { l.m_space = Preset::Block; })
+		, body("WindowBody", styles().wedge, [](Layout& l) { l.m_clipping = Clip::Clip; })
+		, close_button("CloseButton", styles().button, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; })
 		, header("WindowHeader", styles().wrap_control, {}, {})
 		, header_movable("WindowHeaderMovable", header, {}, {}) //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().move; } })
-		, footer("WindowFooter", styles().wrap_control, {}, {}) // , [](Layout& l) { l.m_space = Space{ READING, WRAP, FIXED }; } }
-		, sizer("WindowSizer", styles().control, [](Layout& l) { l.m_space = Space{ READING, WRAP, FIXED }; })
+		, footer("WindowFooter", styles().wrap_control, {}, {}) // , [](Layout& l) { l.m_space = Space{ FlowAxis::Reading, Sizing::Wrap, Sizing::Fixed }; } }
+		, sizer("WindowSizer", styles().control, [](Layout& l) { l.m_space = Space{ FlowAxis::Reading, Sizing::Wrap, Sizing::Fixed }; })
 		, sizer_left("WindowSizerLeft", sizer, {}, {}) //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().resize_diag_left; } })
 		, sizer_right("WindowSizerRight", sizer, {}, {}) //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().resize_diag_right; } })
 
-		, dock_window("DockWindow", window, [](Layout& l) { l.m_flow = FLOW; l.m_space = SHEET; })
-		, wrap_window("WrapWindow", window, [](Layout& l) { l.m_space = UNIT; })
+		, dock_window("DockWindow", window, [](Layout& l) { l.m_flow = LayoutFlow::Flow; l.m_space = Preset::Sheet; })
+		, wrap_window("WrapWindow", window, [](Layout& l) { l.m_space = Preset::Unit; })
 	{}
 
 	WindowStyles& window_styles() { static WindowStyles styles; return styles; }
@@ -44,36 +44,36 @@ namespace ui
 		, placeholder("Placeholder", styles().board, {}, [](InkStyle& l) { l.m_background_colour = Colour::Blue; })
 
 		, docksection("Docksection", styles().gridsheet, {}, {})
-		, dockline("Dockline", styles().gridsheet, [](Layout& l) { l.m_space = SHEET; })
-		, dockspace("Dockspace", styles().layout, [](Layout& l) { l.m_opacity = OPAQUE; l.m_spacing = vec2(6.f); })
+		, dockline("Dockline", styles().gridsheet, [](Layout& l) { l.m_space = Preset::Sheet; })
+		, dockspace("Dockspace", styles().layout, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_spacing = vec2(6.f); })
 
 		, docktoggle("DockToggle", styles().toggle, {}, {})
-		, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_space = { PARAGRAPH, WRAP, FIXED }; })
-		//, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_flow = ALIGN; l.m_space = SPACER; l.m_align = { Left, OUT_LEFT }; })
-		, docktabs("Docktabs", styles().wedge, [](Layout& l) { l.m_flow = ALIGN; l.m_space = DIV; l.m_align = { OUT_LEFT, Left }; })
-		, dockbar("Dockbar", styles().wedge, [](Layout& l) { l.m_space = { PARALLEL, SHRINK, WRAP }; })
+		, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Fixed }; })
+		//, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Spacer; l.m_align = { Align::Left, OUT_LEFT }; })
+		, docktabs("Docktabs", styles().wedge, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Div; l.m_align = { Align::OutLeft, Align::Left }; })
+		, dockbar("Dockbar", styles().wedge, [](Layout& l) { l.m_space = { FlowAxis::Same, Sizing::Shrink, Sizing::Wrap }; })
 
-		//, dockbox("Dockbox", window_styles().window, [](Layout& l) { l.m_flow = FLOW; l.m_space = { PARAGRAPH, WRAP, SHRINK }; l.m_size = vec2{ 300.f, 0.f }; })
+		//, dockbox("Dockbox", window_styles().window, [](Layout& l) { l.m_flow = LayoutFlow::Flow; l.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Shrink }; l.m_size = vec2{ 300.f, 0.f }; })
 	{}
 
 	DockStyles& dock_styles() { static DockStyles styles; return styles; }
 
 	NodeStyles::NodeStyles()
-		: node("Node", styles().overlay, [](Layout& l) { l.m_space = UNIT; })
+		: node("Node", styles().overlay, [](Layout& l) { l.m_space = Preset::Unit; })
 		, body("NodeBody", styles().sheet, {}, {})
-		, plugs("NodePlugs", styles().sheet, [](Layout& l) { l.m_space = { READING, WRAP, WRAP }; })
+		, plugs("NodePlugs", styles().sheet, [](Layout& l) { l.m_space = { FlowAxis::Reading, Sizing::Wrap, Sizing::Wrap }; })
 		, inputs("NodeInputs", styles().div, {}, {})
-		, outputs("NodeOutputs", styles().div, [](Layout& l) { l.m_align = { Right, CENTER }; })
+		, outputs("NodeOutputs", styles().div, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; })
 		, knob("NodeKnob", styles().item, [](Layout& l) { l.m_size = { 10.f, 22.f }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
-		, knob_output("NodeKnobOutput", knob, [](Layout& l) { l.m_align = { Right, CENTER }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
-		, knob_proxy("NodeKnobProxy", knob, [](Layout& l) { l.m_flow = FREE; })
+		, knob_output("NodeKnobOutput", knob, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
+		, knob_proxy("NodeKnobProxy", knob, [](Layout& l) { l.m_flow = LayoutFlow::Free; })
 		, plug("NodePlug", styles().wrap_control, {}, {})
-		, cable("NodeCable", styles().decal, [](Layout& l) { l.m_space = UNIT; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
+		, cable("NodeCable", styles().decal, [](Layout& l) { l.m_space = Preset::Unit; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
 		, header("NodeHeader", styles().row, {}, {})
 	{}
 
 	CanvasStyles::CanvasStyles()
-		: canvas("Canvas", styles().layout, [](Layout& l) { l.m_clipping = CLIP; }) // l.m_opacity = OPAQUE;
+		: canvas("Canvas", styles().layout, [](Layout& l) { l.m_clipping = Clip::Clip; }) // l.m_opacity = Opacity::Opaque;
 	{}
 
 	NodeStyles& node_styles() { static NodeStyles styles; return styles; }

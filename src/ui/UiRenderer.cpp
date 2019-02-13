@@ -82,7 +82,7 @@ namespace mud
 
 	void Vg::fill_text(cstring text, size_t len, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
-		row = text_row(text, text, text + len, { rect.x, rect.y, this->text_size(text, len, DIM_X, paint), line_height(paint) });
+		row = text_row(text, text, text + len, { rect.x, rect.y, this->text_size(text, len, Axis::X, paint), line_height(paint) });
 		this->break_glyphs(rect, paint, row);
 	}
 
@@ -101,7 +101,7 @@ namespace mud
 		while(*iter != '\n' && iter < end)
 			++iter;
 
-		row = text_row(text, first, iter, vec4{ rect.x, rect.y, this->text_size(first, iter - first, DIM_X, paint), line_height(paint) });
+		row = text_row(text, first, iter, vec4{ rect.x, rect.y, this->text_size(first, iter - first, Axis::X, paint), line_height(paint) });
 		this->break_glyphs(rect, paint, row);
 
 		// @kludge because text_size doesn't report the correct size when there is a space at the end : investigate (vg-renderer, nanovg)
@@ -231,12 +231,12 @@ namespace mud
 	{
 		m_vg.begin_update(floor(frame.m_position), frame.m_scale);
 
-		if(frame.d_layout->m_clipping == CLIP)
+		if(frame.d_layout->m_clipping == Clip::Clip)
 		{
 			m_vg.clip(frame.content_rect());
 		}
 
-		if(frame.d_layout->m_clipping == UNCLIP)
+		if(frame.d_layout->m_clipping == Clip::Unclip)
 			m_vg.unclip();
 	}
 
@@ -296,34 +296,34 @@ namespace mud
 
 	void UiRenderer::draw_frame(const Frame& frame, const vec4& rect)
 	{
-		vec4 padded_rect = { floor(rect_offset(frame.d_inkstyle->m_padding)),
-							 floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding)) };
+		vec2 padded_pos = floor(rect_offset(frame.d_inkstyle->m_padding));
+		vec2 padded_size = floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding));
 
 		vec2 content = frame.m_content;
 		if(frame.d_inkstyle->m_stretch.x)
-			content.x = rect_w(padded_rect);
+			content.x = padded_size.x;
 		if(frame.d_inkstyle->m_stretch.y)
-			content.y = rect_h(padded_rect);
+			content.y = padded_size.y;
 
-		vec2 content_pos = { this->content_pos(frame, content, padded_rect, DIM_X), this->content_pos(frame, content, padded_rect, DIM_Y) };
+		vec2 content_pos = { this->content_pos(frame, content, padded_pos, padded_size, Axis::X), this->content_pos(frame, content, padded_pos, padded_size, Axis::Y) };
 		vec4 content_rect = { content_pos, content };
 
 		//m_vg.debug_rect(rect, Colour::Red);
 		//m_vg.debug_rect(padded_rect, Colour::Green);
 		//m_vg.debug_rect(content_rect, Colour::Blue);
 
-		this->draw_background(frame, rect, padded_rect, content_rect);
-		this->draw_content(frame, rect, padded_rect, content_rect);
+		this->draw_background(frame, rect, { padded_pos, padded_size }, content_rect);
+		this->draw_content(frame, rect, { padded_pos, padded_size }, content_rect);
 	}
 
-	float UiRenderer::content_pos(const Frame& frame, const vec2& content, const vec4& padded_rect, Dim dim)
+	float UiRenderer::content_pos(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim)
 	{
-		if(frame.d_inkstyle->m_align[dim] == CENTER)
-			return padded_rect[dim] + padded_rect[dim + 2] / 2.f - content[dim] / 2.f;
-		else if(frame.d_inkstyle->m_align[dim] == Right)
-			return padded_rect[dim] + padded_rect[dim + 2] - content[dim];
+		if(frame.d_inkstyle->m_align[dim] == Align::Center)
+			return padded_pos[dim] + padded_size[dim] / 2.f - content[dim] / 2.f;
+		else if(frame.d_inkstyle->m_align[dim] == Align::Right)
+			return padded_pos[dim] + padded_size[dim] - content[dim];
 		else
-			return padded_rect[dim];
+			return padded_pos[dim];
 	}
 
 	vec4 UiRenderer::select_corners(const Frame& frame)
@@ -332,9 +332,9 @@ namespace mud
 
 		const vec4& corners = parent.d_inkstyle->m_corner_radius;
 		if(parent.first(frame))
-			return parent.m_solver->d_length == DIM_X ? vec4(corners[0], 0.f, 0.f, corners[3]) : vec4(corners[0], corners[1], 0.f, 0.f);
+			return parent.m_solver->d_length == Axis::X ? vec4(corners[0], 0.f, 0.f, corners[3]) : vec4(corners[0], corners[1], 0.f, 0.f);
 		else if(parent.last(frame))
-			return parent.m_solver->d_length == DIM_X ? vec4(0.f, corners[1], corners[2], 0.f) : vec4(0.f, 0.f, corners[2], corners[3]);
+			return parent.m_solver->d_length == Axis::X ? vec4(0.f, corners[1], corners[2], 0.f) : vec4(0.f, 0.f, corners[2], corners[3]);
 		else
 			return vec4();
 	}
@@ -365,9 +365,9 @@ namespace mud
 			float margin = image_skin.m_margin * 2.f;
 			vec4 skin_rect = { rect_offset(rect), rect_size(rect) + margin };
 
-			if(image_skin.d_stretch == DIM_X)
+			if(image_skin.d_stretch == Axis::X)
 				skin_rect = { rect.x, content_rect.y + margin, rect.z + margin, image_skin.d_size.y };
-			else if(image_skin.d_stretch == DIM_Y)
+			else if(image_skin.d_stretch == Axis::Y)
 				skin_rect = { content_rect.x + image_skin.m_margin, rect.y, image_skin.d_size.x, rect.w + margin };
 
 			vec4 sections[ImageSkin::Count];
@@ -458,7 +458,7 @@ namespace mud
 			{
 				Colour first = offset_colour(inkstyle.m_background_colour, inkstyle.m_linear_gradient.x);
 				Colour second = offset_colour(inkstyle.m_background_colour, inkstyle.m_linear_gradient.y);
-				if(inkstyle.m_linear_gradient_dim == DIM_X)
+				if(inkstyle.m_linear_gradient_dim == Axis::X)
 					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x + rect_w(rect), rect.y });
 				else
 					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x, rect.y + rect_h(rect) });

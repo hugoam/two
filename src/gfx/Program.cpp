@@ -17,7 +17,7 @@ module mud.gfx;
 #include <stl/hash_base.hpp>
 #include <stl/algorithm.h>
 #include <infra/ToString.h>
-#include <infra/EnumArray.h>
+#include <stl/table.h>
 #include <infra/File.h>
 #include <gfx/Program.h>
 #include <gfx/GfxSystem.h>

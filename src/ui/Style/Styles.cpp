@@ -20,59 +20,59 @@ module mud.ui;
 namespace mud
 {
 	Styles::Styles()
-		: widget("Widget", nullptr, [](Layout& l) { l.m_solver = FRAME_SOLVER; })
-		, wedge("Wedge", widget, [](Layout& l) { l.m_solver = ROW_SOLVER; l.m_space = SHEET; })
-		, ui("Ui", wedge, [](Layout& l) { l.m_space = LAYOUT; l.m_clipping = CLIP; l.m_opacity = OPAQUE; })
+		: widget("Widget", nullptr, [](Layout& l) { l.m_solver = Solver::Frame; })
+		, wedge("Wedge", widget, [](Layout& l) { l.m_solver = Solver::Row; l.m_space = Preset::Sheet; })
+		, ui("Ui", wedge, [](Layout& l) { l.m_space = Preset::Layout; l.m_clipping = Clip::Clip; l.m_opacity = Opacity::Opaque; })
 
-		, unit("Unit", wedge, [](Layout& l) { l.m_space = UNIT; l.m_align = { Left, CENTER }; },
+		, unit("Unit", wedge, [](Layout& l) { l.m_space = Preset::Unit; l.m_align = { Align::Left, Align::Center }; },
 							  [](InkStyle& o) { o.m_empty = false; o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })
-		, item("Item", widget, [](Layout& l) { l.m_space = BLOCK; l.m_align = { Left, CENTER }; },
+		, item("Item", widget, [](Layout& l) { l.m_space = Preset::Block; l.m_align = { Align::Left, Align::Center }; },
 							   [](InkStyle& o) { o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })
-		, control("Control", item, [](Layout& l) { l.m_opacity = OPAQUE; })
-		, wrap_control("WrapControl", wedge, [](Layout& l) { l.m_space = LINE; l.m_opacity = OPAQUE; })
+		, control("Control", item, [](Layout& l) { l.m_opacity = Opacity::Opaque; })
+		, wrap_control("WrapControl", wedge, [](Layout& l) { l.m_space = Preset::Line; l.m_opacity = Opacity::Opaque; })
 
-		, spacer("Spacer", item, [](Layout& l) { l.m_space = SPACER; })
-		, filler("Filler", spacer, [](Layout& l) { l.m_space = FLEX; })
+		, spacer("Spacer", item, [](Layout& l) { l.m_space = Preset::Spacer; })
+		, filler("Filler", spacer, [](Layout& l) { l.m_space = Preset::Flex; })
 
-		, drag_handle("DragHandle", control, [](Layout& l) { l.m_space = { ORTHOGONAL, WRAP, FIXED }; l.m_size = vec2{ 5.f, 5.f }; })
+		, drag_handle("DragHandle", control, [](Layout& l) { l.m_space = { FlowAxis::Flip, Sizing::Wrap, Sizing::Fixed }; l.m_size = vec2{ 5.f, 5.f }; })
 
-		, div("Div", wedge, [](Layout& l) { l.m_space = DIV; })
-		, row("Row", wedge, [](Layout& l) { l.m_space = LINE; })
-		, stack("Stack", wedge, [](Layout& l) { l.m_space = STACK; })
-		, sheet("Sheet", wedge, [](Layout& l) { l.m_space = SHEET; })
-		, flex("Flex", wedge, [](Layout& l) { l.m_space = FLEX; })
+		, div("Div", wedge, [](Layout& l) { l.m_space = Preset::Div; })
+		, row("Row", wedge, [](Layout& l) { l.m_space = Preset::Line; })
+		, stack("Stack", wedge, [](Layout& l) { l.m_space = Preset::Stack; })
+		, sheet("Sheet", wedge, [](Layout& l) { l.m_space = Preset::Sheet; })
+		, flex("Flex", wedge, [](Layout& l) { l.m_space = Preset::Flex; })
 		, list("List", wedge, {})
 		, header("Header", row, {})
-		, board("Board", wedge, [](Layout& l) { l.m_space = BOARD; l.m_clipping = CLIP; })
-		, layout("Layout", board, [](Layout& l) { l.m_space = LAYOUT; })
-		, screen("Screen", wedge, [](Layout& l) { l.m_flow = FREE; l.m_space = LAYOUT; })
-		, decal("Decal", wedge, [](Layout& l) { l.m_flow = FREE; l.m_space = BLOCK; })
-		, overlay("Overlay", wedge, [](Layout& l) { l.m_flow = FREE; l.m_opacity = OPAQUE; })
-		, gridsheet("GridSheet", wedge, [](Layout& l) { l.m_opacity = OPAQUE; l.m_spacing = vec2(5.f); })
+		, board("Board", wedge, [](Layout& l) { l.m_space = Preset::Board; l.m_clipping = Clip::Clip; })
+		, layout("Layout", board, [](Layout& l) { l.m_space = Preset::Layout; })
+		, screen("Screen", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_space = Preset::Layout; })
+		, decal("Decal", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_space = Preset::Block; })
+		, overlay("Overlay", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_opacity = Opacity::Opaque; })
+		, gridsheet("GridSheet", wedge, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_spacing = vec2(5.f); })
 
-		, sequence("Sequence", wedge, [](Layout& l) { l.m_space = SHEET; })
-		, element("Element", wedge, [](Layout& l) { l.m_space = STACK; l.m_opacity = OPAQUE; })
+		, sequence("Sequence", wedge, [](Layout& l) { l.m_space = Preset::Sheet; })
+		, element("Element", wedge, [](Layout& l) { l.m_space = Preset::Stack; l.m_opacity = Opacity::Opaque; })
 
-		, label("Label", item, [](Layout& l) { l.m_align = { Left, CENTER }; })
+		, label("Label", item, [](Layout& l) { l.m_align = { Align::Left, Align::Center }; })
 		, title("Title", label, {}, [](InkStyle& o) { UNUSED(o); }) //o.m_text_size = 18.f; })
 		, message("Message", label, {}, [](InkStyle& o) { UNUSED(o); }) //o.m_text_size = 18.f; })
-		, text("Text", item, [](Layout& l) { l.m_space = { PARAGRAPH, FIXED, WRAP }; },
+		, text("Text", item, [](Layout& l) { l.m_space = { FlowAxis::Paragraph, Sizing::Fixed, Sizing::Wrap }; },
 							 [](InkStyle& o) { o.m_text_break = true; })
 
 		, button("Button", control, {})
 		, wrap_button("WrapButton", wrap_control, {})
 		, multi_button("MultiButton", wrap_button, {})
 		, toggle("Toggle", control, {})
-		, checkbox("Checkbox", toggle, [](Layout& l) { l.m_align = { Left, CENTER }; }) // @todo why doesn't work ?? why u checkbox not aligned ??
+		, checkbox("Checkbox", toggle, [](Layout& l) { l.m_align = { Align::Left, Align::Center }; }) // @todo why doesn't work ?? why u checkbox not aligned ??
 
-		, dummy("Dummy", wedge, [](Layout& l) { l.m_space = BLOCK; })
-		, tooltip("Tooltip", decal, [](Layout& l) { l.m_space = UNIT; l.m_zorder = -2; })
-		, rectangle("Rectangle", decal, [](Layout& l) { l.m_space = BLOCK; l.m_zorder = -3; },
+		, dummy("Dummy", wedge, [](Layout& l) { l.m_space = Preset::Block; })
+		, tooltip("Tooltip", decal, [](Layout& l) { l.m_space = Preset::Unit; l.m_zorder = -2; })
+		, rectangle("Rectangle", decal, [](Layout& l) { l.m_space = Preset::Block; l.m_zorder = -3; },
 										[](InkStyle& l) { l.m_border_width = vec4(1.f); l.m_border_colour = Colour::White; l.m_background_colour = Colour::AlphaGrey; })
 
-		, type_in("TypeIn", wrap_control, [](Layout& l) { l.m_opacity = OPAQUE; })
-		, text_edit("TextEdit", type_in, [](Layout& l) { l.m_space = LAYOUT; })
-		, type_zone("TypeZone", wrap_control, [](Layout& l) { l.m_space = SHEET; l.m_opacity = OPAQUE; },
+		, type_in("TypeIn", wrap_control, [](Layout& l) { l.m_opacity = Opacity::Opaque; })
+		, text_edit("TextEdit", type_in, [](Layout& l) { l.m_space = Preset::Layout; })
+		, type_zone("TypeZone", wrap_control, [](Layout& l) { l.m_space = Preset::Sheet; l.m_opacity = Opacity::Opaque; },
 											  [](InkStyle& l) { l.m_text_font = "consolas"; l.m_text_break = true; })
 		, caret("Caret", item, {}, [](InkStyle& l) { l.m_background_colour = Colour::White; })
 
@@ -80,44 +80,44 @@ namespace mud
 		, image_stretch("ImageStretch", unit, {}, [](InkStyle& l) { l.m_empty = false; l.m_stretch = { true, true }; })
 
 		, radio_switch("RadioSwitch", wrap_control, {})
-		, radio_switch_h("RadioSwitchH", radio_switch, [](Layout& l) { l.m_space = STACK; })
+		, radio_switch_h("RadioSwitchH", radio_switch, [](Layout& l) { l.m_space = Preset::Stack; })
 		, radio_choice("RadioChoice", multi_button, {})
 		, radio_choice_item("RadioChoiceItem", item, {})
 
-		, slider("Slider", wrap_control, [](Layout& l) { l.m_space = FLEX; })
-		, slider_knob("SliderKnob", control, {}) // [](Layout& l) { l.m_space = FLEX; } }
-		, slider_display("SliderDisplay", label, [](Layout& l) { l.m_flow = OVERLAY; l.m_align = { CENTER, CENTER }; })
+		, slider("Slider", wrap_control, [](Layout& l) { l.m_space = Preset::Flex; })
+		, slider_knob("SliderKnob", control, {}) // [](Layout& l) { l.m_space = Preset::Flex; } }
+		, slider_display("SliderDisplay", label, [](Layout& l) { l.m_flow = LayoutFlow::Overlay; l.m_align = { Align::Center, Align::Center }; })
 
 		, fill_bar("Fillbar", row, {})
 
 		, number_input("NumberInput", row, {})
 		, slider_input("SliderInput", row, {})
 		, field_input("Field", wrap_control, {})
-		, curve_graph("CurveGraph", sheet, [](Layout& l) { l.m_opacity = OPAQUE; }, [](InkStyle& l) { l.m_empty = false; })
+		, curve_graph("CurveGraph", sheet, [](Layout& l) { l.m_opacity = Opacity::Opaque; }, [](InkStyle& l) { l.m_empty = false; })
 		, curve_input("CurveInput", sheet, [](Layout& l) { l.m_padding = vec4(6.f); })
-		, input_bool("Input<bool>", wedge, [](Layout& l) { l.m_space = UNIT; })
+		, input_bool("Input<bool>", wedge, [](Layout& l) { l.m_space = Preset::Unit; })
 		, input_string("Input<string>", type_in, {})
 		, input_color("Input<Colour>", row, {})
 
 		, color_wheel("ColourWheel", control, [](Layout& l) { l.m_size = { 200.f, 200.f }; }, [](InkStyle& l) { l.m_empty = false; })
 		, color_slab("ColourSlab", control, [](Layout& l) { l.m_size = { 22.f, 22.f }; }, [](InkStyle& l) { l.m_empty = false; })
 		, color_display("ColourDisplay", flex, {}, [](InkStyle& l) { l.m_empty = false; })
-		, color_toggle("ColourToggle", color_slab, [](Layout& l) { l.m_solver = ROW_SOLVER; }, [](InkStyle& l) { l.m_empty = false; })
+		, color_toggle("ColourToggle", color_slab, [](Layout& l) { l.m_solver = Solver::Row; }, [](InkStyle& l) { l.m_empty = false; })
 
-		, scrollsheet("ScrollSheet", wedge, [](Layout& l) { l.m_solver = GRID_SOLVER; l.m_opacity = OPAQUE; l.m_grid_division = { LAYOUT, LINE }; })
-		, scroll_zone("ScrollZone", layout, [](Layout& l) { l.m_layout = { AUTO_SIZE, AUTO_SIZE }; l.m_clipping = CLIP; })
+		, scrollsheet("ScrollSheet", wedge, [](Layout& l) { l.m_solver = Solver::Grid; l.m_opacity = Opacity::Opaque; l.m_grid_division = { Preset::Layout, Preset::Line }; })
+		, scroll_zone("ScrollZone", layout, [](Layout& l) { l.m_layout = { AutoLayout::Size, AutoLayout::Size }; l.m_clipping = Clip::Clip; })
 
 		, scroll_surface("ScrollSurface", wedge, {})
-		, scroll_plan("ScrollPlan", sheet, [](Layout& l) { l.m_space = BLOCK; }) // { l.m_custom_draw = &draw_grid }
+		, scroll_plan("ScrollPlan", sheet, [](Layout& l) { l.m_space = Preset::Block; }) // { l.m_custom_draw = &draw_grid }
 
-		, table("Table", stack, [](Layout& l) { l.m_solver = TABLE_SOLVER; l.m_spacing = vec2(0.f, 2.f); })
-		, table_head("TableHead", gridsheet, [](Layout& l) { l.m_space = DIV; })
-		, column_header("ColumnHeader", row, [](Layout& l) { l.m_space = LINE; })
+		, table("Table", stack, [](Layout& l) { l.m_solver = Solver::Table; l.m_spacing = vec2(0.f, 2.f); })
+		, table_head("TableHead", gridsheet, [](Layout& l) { l.m_space = Preset::Div; })
+		, column_header("ColumnHeader", row, [](Layout& l) { l.m_space = Preset::Line; })
 
-		, popup("Popup", overlay, [](Layout& l) { l.m_space = UNIT; l.m_clipping = UNCLIP; })
-		, modal("Modal", popup, [](Layout& l) { l.m_flow = ALIGN; l.m_space = UNIT; l.m_align = { CENTER, CENTER }; })
+		, popup("Popup", overlay, [](Layout& l) { l.m_space = Preset::Unit; l.m_clipping = Clip::Unclip; })
+		, modal("Modal", popup, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Unit; l.m_align = { Align::Center, Align::Center }; })
 
-		, color_popup("ColourPopup", overlay, [](Layout& l) { l.m_flow = ALIGN; l.m_clipping = UNCLIP; l.m_align = { Left, OUT_RIGHT }; })
+		, color_popup("ColourPopup", overlay, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_clipping = Clip::Unclip; l.m_align = { Align::Left, Align::OutRight }; })
 	{}
 
 	void Styles::setup(UiWindow& ui_window)

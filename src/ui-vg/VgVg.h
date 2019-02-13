@@ -88,7 +88,7 @@ namespace mud
 		virtual void break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) final;
 
 		virtual float line_height(const TextPaint& paint) final;
-		virtual float text_size(cstring text, size_t len, Dim dim, const TextPaint& paint) final;
+		virtual float text_size(cstring text, size_t len, Axis dim, const TextPaint& paint) final;
 		virtual vec2 text_size(cstring text, size_t len, const TextPaint& paint) final;
 
 	private:

@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/EnumArray.h>
+#include <stl/table.h>
 #include <gfx/Pipeline.h>
 #endif
 #include <gfx-pbr/Forward.h>

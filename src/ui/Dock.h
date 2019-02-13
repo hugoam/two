@@ -23,7 +23,7 @@ namespace ui
 
 	export_ MUD_UI_EXPORT DockStyles& dock_styles();
 
-	export_ MUD_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Dim dim);
+	export_ MUD_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Axis dim);
 	export_ MUD_UI_EXPORT Tabber& docksection(Widget& parent);
 
 	export_ MUD_UI_EXPORT func_ Dockspace& dockspace(Widget& parent, Docksystem& docksystem);

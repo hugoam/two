@@ -21,7 +21,7 @@ namespace mud
 namespace ui
 {
 	export_ template <class T>
-	bool slider_input_dim(Widget& parent, AutoStat<T> value, Dim dim)
+	bool slider_input_dim(Widget& parent, AutoStat<T> value, Axis dim)
 	{
 		Widget& self = widget(parent, styles().slider_input);
 		SliderMetrics metrics = { float(value.min()), float(value.max()), float(value.step()) };
@@ -35,7 +35,7 @@ namespace ui
 	export_ template <class T>
 	bool slider_input(Widget& parent, AutoStat<T> value)
 	{
-		return slider_input_dim(parent, value, DIM_X);
+		return slider_input_dim(parent, value, Axis::X);
 	}
 
 	export_ template <class T>

@@ -20,7 +20,7 @@ namespace ui
 
 	export_ MUD_UI_EXPORT ScrollbarStyles& scrollbar_styles();
 
-	export_ MUD_UI_EXPORT bool overflow(Frame& frame, Frame& content, Dim dim);
-	export_ MUD_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Dim dim, Dim2<size_t> grid_index = { 0, 0 });
+	export_ MUD_UI_EXPORT bool overflow(Frame& frame, Frame& content, Axis dim);
+	export_ MUD_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Axis dim, v2<size_t> grid_index = { 0, 0 });
 }
 }

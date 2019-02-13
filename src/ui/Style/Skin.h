@@ -47,10 +47,10 @@ namespace mud
 		attr_ bool m_weak_corners = false;
 		attr_ vec4 m_padding = vec4(0.f);
 		attr_ vec4 m_margin = vec4(0.f);
-		attr_ Dim2<Align> m_align = { Left, Left };
+		attr_ v2<Align> m_align = { Align::Left, Align::Left };
 		attr_ vec2 m_linear_gradient = vec2(0.f);
-		attr_ Dim m_linear_gradient_dim = DIM_Y;
-		attr_ Dim2<bool> m_stretch = { false, false };
+		attr_ Axis m_linear_gradient_dim = Axis::Y;
+		attr_ v2<bool> m_stretch = { false, false };
 		attr_ Image* m_image = nullptr;
 		attr_ Image* m_overlay = nullptr;
 		attr_ Image* m_tile = nullptr;

@@ -5,94 +5,94 @@
 #pragma once
 
 #include <stl/stddef.h>
+#include <stl/table.h>
+#include <math/Vec.h>
 #include <ui/Forward.h>
-
-#if defined _WIN32
-#undef OPAQUE
-#endif
 
 namespace mud
 {
-	export_ enum refl_ Dim : unsigned int
+	//export_ enum class refl_ Dim : unsigned int
+	//{
+	//	X = 0,
+	//	Y = 1,
+	//	None = 2,
+	//	Count
+	//};
+
+	inline Axis flip(Axis dim) { return dim == Axis::X ? Axis::Y : Axis::X; }
+
+	export_ enum class refl_ FlowAxis : unsigned int
 	{
-		DIM_X = 0,
-		DIM_Y = 1,
-		DIM_NONE = 2
+		Reading = 0,
+		Paragraph = 1,
+		Same = 2,
+		Flip = 3,
+		None = 4,
 	};
 
-	inline Dim flip_dim(Dim dim) { return dim == DIM_X ? DIM_Y : DIM_X; }
-
-	export_ enum refl_ FlowAxis : unsigned int
+	export_ enum class refl_ Pivot : unsigned int
 	{
-		READING = 0,
-		PARAGRAPH = 1,
-		PARALLEL = 2,
-		ORTHOGONAL = 3,
-		AXIS_NONE = 4,
+		Forward = 0,
+		Reverse = 1
 	};
 
-	export_ enum refl_ Pivot : unsigned int
-	{
-		FORWARD = 0,
-		REVERSE = 1
-	};
-
-	export_ enum refl_ Align : unsigned int
+	export_ enum class refl_ Align : unsigned int
 	{
 		Left = 0,
-		CENTER = 1,
+		Center = 1,
 		Right = 2,
-		OUT_LEFT = 3,
-		OUT_RIGHT = 4
+		OutLeft = 3,
+		OutRight = 4,
+		Count
 	};
 
-	extern float AlignExtent[5];
-	extern float AlignSpace[5];
+	extern table<Align, float> c_align_extent;
+	extern table<Align, float> c_align_space;
 
-	export_ enum refl_ LayoutSolver : unsigned int
+	export_ enum class refl_ Solver : unsigned int
 	{
-		FRAME_SOLVER = 0,
-		ROW_SOLVER = 1,
-		GRID_SOLVER = 2,
-		TABLE_SOLVER = 3,
+		Frame = 0,
+		Row = 1,
+		Grid = 2,
+		Table = 3,
 	};
 
-	export_ enum refl_ AutoLayout : unsigned int
+	export_ enum class refl_ AutoLayout : unsigned int
 	{
-		NO_LAYOUT = 0,
-		AUTO_SIZE = 1,
-		AUTO_LAYOUT = 2
+		None = 0,
+		Size = 1,
+		Layout = 2
 	};
 
-	export_ enum refl_ LayoutFlow : unsigned int
+	export_ enum class refl_ LayoutFlow : unsigned int
 	{
-		FLOW = 0,			// AUTO_LAYOUT
-		OVERLAY = 1,		// AUTO_SIZE
-		ALIGN = 2,			// AUTO_POSITION
-		FREE = 3			// NO_LAYOUT
+		Flow = 0,			// AutoLayout::Layout
+		Overlay = 1,		// AutoLayout::Size
+		Align = 2,			// AUTO_POSITION
+		Free = 3			// AutoLayout::None
 	};
 
-	export_ enum refl_ Sizing : unsigned int
+	export_ enum class refl_ Sizing : unsigned int
 	{
-		FIXED,
-		SHRINK,
-		WRAP,
-		EXPAND
+		Fixed,
+		Shrink,
+		Wrap,
+		Expand
 	};
 
-	export_ enum refl_ SpacePreset : unsigned int
+	export_ enum class refl_ Preset : unsigned int
 	{
-		SHEET,               // PARAGRAPH   direction, WRAP   length, WRAP   depth
-		FLEX,			     // PARALLEL    direction, WRAP   length, WRAP   depth
-		ITEM,                // READING     direction, SHRINK length, SHRINK depth
-		UNIT,                // PARAGRAPH   direction, SHRINK length, SHRINK depth
-		BLOCK,               // PARAGRAPH   direction, FIXED  length, FIXED  depth
-		LINE,	             // READING     direction, WRAP   length, SHRINK depth
-		STACK,               // PARAGRAPH   direction, SHRINK length, WRAP   depth 
-		DIV,	             // ORTHOGONAL  direction, WRAP   length, SHRINK depth
-		SPACER,              // PARALLEL    direction, WRAP   length, SHRINK depth
-		BOARD,               // READING     direction, EXPAND length, EXPAND depth
-		LAYOUT               // PARAGRAPH   direction, EXPAND length, EXPAND depth
+		Sheet,   // Paragraph   direction, Sizing::Wrap   length, Sizing::Wrap   depth
+		Flex,	 // Same		direction, Sizing::Wrap   length, Sizing::Wrap   depth
+		Item,    // Reading     direction, Sizing::Shrink length, Sizing::Shrink depth
+		Unit,    // Paragraph   direction, Sizing::Shrink length, Sizing::Shrink depth
+		Block,   // Paragraph   direction, Sizing::Fixed  length, Sizing::Fixed  depth
+		Line,	 // Reading     direction, Sizing::Wrap   length, Sizing::Shrink depth
+		Stack,   // Paragraph   direction, Sizing::Shrink length, Sizing::Wrap   depth 
+		Div,	 // Flip      direction, Sizing::Wrap   length, Sizing::Shrink depth
+		Spacer,  // Same        direction, Sizing::Wrap   length, Sizing::Shrink depth
+		Board,   // Reading     direction, Sizing::Expand length, Sizing::Expand depth
+		Layout   // Paragraph   direction, Sizing::Expand length, Sizing::Expand depth
 	};
 
 	export_ struct refl_ MUD_UI_EXPORT Space
@@ -102,51 +102,33 @@ namespace mud
 		attr_ Sizing sizingDepth;
 
 		Space(FlowAxis dir, Sizing length, Sizing depth) : direction(dir), sizingLength(length), sizingDepth(depth) {}
-		Space(SpacePreset preset = FLEX) { *this = Space::preset(preset); }
+		Space(Preset preset = Preset::Flex) { *this = Space::preset(preset); }
 
 		bool operator==(const Space& other) const { return direction == other.direction && sizingLength == other.sizingLength && sizingDepth == other.sizingDepth; }
 
-		static Space preset(SpacePreset preset);
+		static Space preset(Preset preset);
 	};
 
 	extern Space SpacePresets[11];
 
-	export_ enum refl_ Clipping : unsigned int
+	export_ enum class refl_ Clip : unsigned int
 	{
-		NOCLIP = 0,
-		CLIP = 1,
-		UNCLIP = 2
+		None = 0,
+		Clip = 1,
+		Unclip = 2
 	};
 
-	export_ enum refl_ Opacity : unsigned int
+	export_ enum class refl_ Opacity : unsigned int
 	{
-		OPAQUE = 0,
-		CLEAR = 1,
-		HOLLOW = 2
-	};
-	
-	export_ template <class T>
-	struct refl_ struct_ Dim2
-	{
-	public:
-		constr_ Dim2(T a, T b) : d_values{ a, b } {}
-		constr_ Dim2() : Dim2(T(), T()) {}
-
-		T operator[](size_t i) const { return d_values[i]; }
-		T& operator[](size_t i) { return d_values[i]; }
-
-	public:
-		union {
-			T d_values[2];
-			struct { attr_ T x; attr_ T y; };
-			struct { T w; T h; };
-		};
+		Opaque = 0,
+		Clear = 1,
+		Hollow = 2
 	};
 
-	export_ extern template struct refl_ array_ struct_ Dim2<bool>;
-	export_ extern template struct refl_ array_ struct_ Dim2<size_t>;
-	export_ extern template struct refl_ array_ struct_ Dim2<AutoLayout>;
-	export_ extern template struct refl_ array_ struct_ Dim2<Sizing>;
-	export_ extern template struct refl_ array_ struct_ Dim2<Align>;
-	export_ extern template struct refl_ array_ struct_ Dim2<Pivot>;
+	export_ extern template struct refl_ array_ struct_ v2<bool>;
+	export_ extern template struct refl_ array_ struct_ v2<size_t>;
+	export_ extern template struct refl_ array_ struct_ v2<AutoLayout>;
+	export_ extern template struct refl_ array_ struct_ v2<Sizing>;
+	export_ extern template struct refl_ array_ struct_ v2<Align>;
+	export_ extern template struct refl_ array_ struct_ v2<Pivot>;
 }

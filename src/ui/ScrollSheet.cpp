@@ -91,18 +91,18 @@ namespace ui
 	ScrollSheet& scroll_sheet(Widget& parent, Style& style, Style* surface_style)
 	{
 		ScrollSheet& self = twidget<ScrollSheet>(parent, style);
-		self.m_scroll_zone = &widget(self, styles().scroll_zone, false, DIM_NONE, { 0, 0 });
+		self.m_scroll_zone = &widget(self, styles().scroll_zone, false, Axis::None, { 0, 0 });
 		self.m_body = &widget(*self.m_scroll_zone, surface_style ? *surface_style : styles().scroll_surface);
 
-		scrollbar(self, self.m_scroll_zone->m_frame, self.m_body->m_frame, DIM_X, { 0, 1 });
-		scrollbar(self, self.m_scroll_zone->m_frame, self.m_body->m_frame, DIM_Y, { 1, 0 });
+		scrollbar(self, self.m_scroll_zone->m_frame, self.m_body->m_frame, Axis::X, { 0, 1 });
+		scrollbar(self, self.m_scroll_zone->m_frame, self.m_body->m_frame, Axis::Y, { 1, 0 });
 
 #if 0
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
-			self.m_body->m_frame.set_position(DIM_X, self.m_body->m_frame.m_position[DIM_X] - mouse_event.m_delta.x);
-			self.m_body->m_frame.set_position(DIM_Y, self.m_body->m_frame.m_position[DIM_Y] - mouse_event.m_delta.y);
-			self.m_body->m_frame.set_position(DIM_Y, self.m_body->m_frame.m_position[DIM_Y] - 10.f * mouse_event.m_deltaZ);
+			self.m_body->m_frame.set_position(Axis::X, self.m_body->m_frame.m_position[Axis::X] - mouse_event.m_delta.x);
+			self.m_body->m_frame.set_position(Axis::Y, self.m_body->m_frame.m_position[Axis::Y] - mouse_event.m_delta.y);
+			self.m_body->m_frame.set_position(Axis::Y, self.m_body->m_frame.m_position[Axis::Y] - 10.f * mouse_event.m_deltaZ);
 		}
 #endif
 

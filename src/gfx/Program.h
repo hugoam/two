@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <stl/decls.h>
 #include <stl/span.h>
-#include <infra/EnumArray.h>
+#include <stl/table.h>
 #include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>

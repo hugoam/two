@@ -127,7 +127,7 @@ namespace ui
 		return toggle(parent, styles().checkbox, on);
 	}
 
-	Widget& fill_bar(Widget& parent, float percentage, Dim dim)
+	Widget& fill_bar(Widget& parent, float percentage, Axis dim)
 	{
 		Widget& self = widget(parent, styles().fill_bar);
 		spanner(self, styles().filler, dim, percentage);
@@ -172,7 +172,7 @@ namespace ui
 		return self;
 	}
 
-	bool radio_switch(Widget& parent, span<cstring> labels, uint32_t& value, Dim dim)
+	bool radio_switch(Widget& parent, span<cstring> labels, uint32_t& value, Axis dim)
 	{
 		Widget& self = widget(parent, styles().radio_switch, false, dim);
 		bool changed = false;

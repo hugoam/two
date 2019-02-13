@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <infra/EnumArray.h>
+#include <stl/table.h>
 #include <math/Forward.h>
 #include <math/Axis.h>
 #include <math/Vec.h>

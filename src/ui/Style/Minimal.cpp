@@ -129,7 +129,7 @@ namespace mud
 		
 		select({ "RadioChoiceItem" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
-			l.m_align = { CENTER, CENTER };
+			l.m_align = { Align::Center, Align::Center };
 		});
 	}
 
@@ -289,7 +289,7 @@ namespace mud
 
 		select({ "WindowSizerRight" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-			i.m_align = { Right, Right };
+			i.m_align = { Align::Right, Align::Right };
 		});
 
 		select({  "Toolbar", "Tooldock"  })

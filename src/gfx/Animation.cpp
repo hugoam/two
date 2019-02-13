@@ -8,7 +8,7 @@
 module mud.gfx;
 #else
 #include <stl/algorithm.h>
-#include <infra/EnumArray.h>
+#include <stl/table.h>
 #include <math/Interp.h>
 #include <math/Math.h>
 #include <gfx/Types.h>

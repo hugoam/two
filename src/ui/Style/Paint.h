@@ -53,7 +53,7 @@ namespace mud
 		attr_ cstring m_font;
 		attr_ Colour m_colour;
 		attr_ float m_size;
-		attr_ Dim2<Align> m_align;
+		attr_ v2<Align> m_align;
 		attr_ bool m_text_break;
 		attr_ bool m_text_wrap;
 	};

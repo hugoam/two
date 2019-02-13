@@ -23,7 +23,7 @@ namespace mud
 {
 	template class Graph<Widget>;
 
-	inline bool clip(const Frame& frame) { return frame.d_layout->m_clipping == CLIP; }
+	inline bool clip(const Frame& frame) { return frame.d_layout->m_clipping == Clip::Clip; }
 
 	Frame* pinpoint(Frame& frame, vec2 pos, const FrameFilter& filter)
 	{

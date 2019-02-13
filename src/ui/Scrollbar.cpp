@@ -18,26 +18,26 @@ namespace mud
 {
 namespace ui
 {
-	bool overflow(Frame& frame, Frame& content, Dim dim)
+	bool overflow(Frame& frame, Frame& content, Axis dim)
 	{
 		float visible_size = frame.m_size[dim];
 		float content_size = content.m_size[dim] * content.m_scale;
 		return content_size - visible_size > 0.f;
 	}
 
-	void scroll_to(Frame& content, Dim dim, float offset)
+	void scroll_to(Frame& content, Axis dim, float offset)
 	{
 		content.set_position(dim, -offset);
 		//content.layer().setForceRedraw();
 	}
 
-	bool scroller(Widget& parent, float& cursor, float overflow, float visible_size, Dim dim)
+	bool scroller(Widget& parent, float& cursor, float overflow, float visible_size, Axis dim)
 	{
 		return slider(parent, scrollbar_styles().scroller, cursor, SliderMetrics{ 0.f, overflow, 1.f, visible_size },
 					  dim, true, false, &scrollbar_styles().scroller_knob);
 	}
 
-	Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Dim dim, Dim2<size_t> grid_index)
+	Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Axis dim, v2<size_t> grid_index)
 	{
 		Widget& self = widget(parent, styles().row, false, dim, grid_index);
 
@@ -54,12 +54,12 @@ namespace ui
 		if(cursor > 0.f && content_size - cursor < visible_size)
 			cursor = max(content_size - visible_size, 0.f);
 
-		Widget& rewind = button(scrollbar, dim == DIM_Y ? scrollbar_styles().scroll_up
+		Widget& rewind = button(scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_up
 														: scrollbar_styles().scroll_left);
 
 		scroller(scrollbar, cursor, overflow, visible_size, dim);
 
-		Widget& forward = button(scrollbar, dim == DIM_Y ? scrollbar_styles().scroll_down
+		Widget& forward = button(scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_down
 														 : scrollbar_styles().scroll_right);
 
 		if(rewind.activated())

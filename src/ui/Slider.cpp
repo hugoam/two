@@ -53,7 +53,7 @@ namespace ui
 		return state;
 	}
 
-	bool slider_cursor(Frame& slider, Frame& knob, Dim dim, const MouseEvent& mouse_event, float& value, const SliderMetrics& metrics, bool relative)
+	bool slider_cursor(Frame& slider, Frame& knob, Axis dim, const MouseEvent& mouse_event, float& value, const SliderMetrics& metrics, bool relative)
 	{
 		if(relative)
 		{
@@ -71,7 +71,7 @@ namespace ui
 		return true;
 	}
 
-	bool slider_logic(Widget& self, Frame& slider, Frame& filler, Frame& knob, float& value, const SliderMetrics& metrics, Dim dim, bool relative)
+	bool slider_logic(Widget& self, Frame& slider, Frame& filler, Frame& knob, float& value, const SliderMetrics& metrics, Axis dim, bool relative)
 	{
         UNUSED(filler);
 		bool changed = false;
@@ -91,7 +91,7 @@ namespace ui
 		return changed;
 	}
 
-	bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Dim dim, bool relative, bool fill, Style* knob_style)
+	bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
 	{
 		Widget& self = widget(parent, style, false, dim);
 
@@ -106,7 +106,7 @@ namespace ui
 		return changed;
 	}
 
-	bool slider(Widget& parent, float& value, SliderMetrics metrics, Dim dim, bool relative, bool fill, Style* knob_style)
+	bool slider(Widget& parent, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
 	{
 		return slider(parent, styles().slider, value, metrics, dim, relative, fill, knob_style);
 	}

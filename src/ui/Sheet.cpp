@@ -34,8 +34,8 @@ namespace ui
 	Widget& layout_span(Widget& parent, float span)
 	{
 		Widget& self = ui::layout(parent);
-		self.m_frame.set_span(DIM_X, span);
-		self.m_frame.set_span(DIM_Y, span);
+		self.m_frame.set_span(Axis::X, span);
+		self.m_frame.set_span(Axis::Y, span);
 		return self;
 	}
 
@@ -113,7 +113,7 @@ namespace ui
 	}
 
 
-	DragPoint grid_sheet_drag(Widget& self, MouseEvent& mouse_event, Dim dim, bool start_drag)
+	DragPoint grid_sheet_drag(Widget& self, MouseEvent& mouse_event, Axis dim, bool start_drag)
 	{
 		// If not dragging already we take the position BEFORE the mouse moved as a reference
 		DragPoint drag_point;
@@ -132,7 +132,7 @@ namespace ui
 		return drag_point;
 	}
 
-	DragPoint grid_sheet_logic(Widget& self, Dim dim, bool& dragging)
+	DragPoint grid_sheet_logic(Widget& self, Axis dim, bool& dragging)
 	{
 		// @todo we need to store the drag point only when the drag starts
 		static DragPoint drag_point;
@@ -146,30 +146,30 @@ namespace ui
 		{
 			dragging = true;
 			if(drag_point.next && drag_point.prev)
-				self.m_frame.transfer_pixel_span(*drag_point.prev, *drag_point.next, dim, mouse_event.m_delta[dim]);
+				self.m_frame.transfer_pixel_span(*drag_point.prev, *drag_point.next, dim, mouse_event.m_delta[size_t(dim)]);
 		}
 
 		if(&self == self.ui().m_hovered)
-			self.ui().m_cursor_style = dim == DIM_X ? &cursor_styles().resize_x
-															: &cursor_styles().resize_x;
+			self.ui().m_cursor_style = dim == Axis::X ? &cursor_styles().resize_x
+													  : &cursor_styles().resize_x;
 
 		return drag_point;
 	}
 
-	DragPoint grid_sheet_logic(Widget& self, Dim dim)
+	DragPoint grid_sheet_logic(Widget& self, Axis dim)
 	{
 		bool dragging = false;
 		return grid_sheet_logic(self, dim, dragging);
 	}
 
-	Widget& grid_sheet(Widget& parent, Style& style, Dim dim)
+	Widget& grid_sheet(Widget& parent, Style& style, Axis dim)
 	{
 		Widget& self = widget(parent, style, false, dim);
 		grid_sheet_logic(self, dim);
 		return self;
 	}
 
-	Widget& grid_sheet(Widget& parent, Style& style, Dim dim, span<float> spans)
+	Widget& grid_sheet(Widget& parent, Style& style, Axis dim, span<float> spans)
 	{
 		Widget& self = widget(parent, style, false, dim);
 

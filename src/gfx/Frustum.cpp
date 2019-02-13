@@ -28,10 +28,10 @@ namespace mud
 	inline Plane bounding_plane(const mat4& mat, Axis component, float dir)
 	{
 		return {
-			mat[0][3] + dir * mat[0][size_t(component)],
-			mat[1][3] + dir * mat[1][size_t(component)],
-			mat[2][3] + dir * mat[2][size_t(component)],
-			mat[3][3] + dir * mat[3][size_t(component)]
+			mat[0][3] + dir * mat[0][component],
+			mat[1][3] + dir * mat[1][component],
+			mat[2][3] + dir * mat[2][component],
+			mat[3][3] + dir * mat[3][component]
 		};
 	}
 

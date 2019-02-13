@@ -88,7 +88,7 @@ namespace mud
 		virtual void break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) = 0;
 
 		virtual float line_height(const TextPaint& paint) = 0;
-		virtual float text_size(cstring text, size_t len, Dim dim, const TextPaint& paint) = 0;
+		virtual float text_size(cstring text, size_t len, Axis dim, const TextPaint& paint) = 0;
 		virtual vec2 text_size(cstring text, size_t len, const TextPaint& paint) = 0;
 
 		void draw_rect(const vec4& rect, const Paint& paint, const vec4& corners = vec4(0.f));
@@ -122,7 +122,7 @@ namespace mud
 		void draw_frame(const Frame& frame, const vec4& rect);
 
 		vec4 select_corners(const Frame& frame);
-		float content_pos(const Frame& frame, const vec2& content, const vec4& padded_rect, Dim dim);
+		float content_pos(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim);
 		void draw_content(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
 		void draw_background(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
 		void draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle);

@@ -89,7 +89,7 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ bool modal_multi_button(Widget& screen, Widget& parent, span<cstring> elements, uint32_t mode);
 
 	export_ MUD_UI_EXPORT func_ Widget& checkbox(Widget& parent, bool& on);
-	export_ MUD_UI_EXPORT func_ Widget& fill_bar(Widget& parent, float percentage, Dim dim = DIM_X);
+	export_ MUD_UI_EXPORT func_ Widget& fill_bar(Widget& parent, float percentage, Axis dim = Axis::X);
 
 	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, cstring name, const Image256& source);
 	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, cstring name, const Image256& source, const vec2& size);
@@ -98,8 +98,8 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, const string& name, const Image256& source, const vec2& size);
 
 	export_ MUD_UI_EXPORT func_ Widget& radio_choice(Widget& parent, cstring value, bool active);
-	export_ MUD_UI_EXPORT func_ bool radio_switch(Widget& parent, span<cstring> labels, uint32_t& value, Dim dim = DIM_X);
-	//MUD_UI_EXPORT bool radio_switch(Widget& parent, span<cstring> labels, string& value, Dim dim = DIM_X);
+	export_ MUD_UI_EXPORT func_ bool radio_switch(Widget& parent, span<cstring> labels, uint32_t& value, Axis dim = Axis::X);
+	//MUD_UI_EXPORT bool radio_switch(Widget& parent, span<cstring> labels, string& value, Axis dim = Axis::X);
 
 	//inline bool radio_switch_string(Widget& parent, span<cstring> labels, string& value) { return radio_switch(parent, labels, value); }
 

@@ -36,7 +36,7 @@ namespace ui
 		SliderState compute(float value);
 	};
 
-	export_ MUD_UI_EXPORT bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Dim dim = DIM_X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
-	export_ MUD_UI_EXPORT bool slider(Widget& parent, float& value, SliderMetrics metrics, Dim dim = DIM_X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
+	export_ MUD_UI_EXPORT bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
+	export_ MUD_UI_EXPORT bool slider(Widget& parent, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
 }
 }

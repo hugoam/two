@@ -60,13 +60,13 @@ namespace ui
 		Table& self = table(parent, columns.size(), weights);
 		self.init(styles().table);
 
-		Widget& header = grid_sheet(self, styles().table_head, DIM_X, self.m_weights); // [this](Frame& first, Frame& second) { this->resize(first, second); }
+		Widget& header = grid_sheet(self, styles().table_head, Axis::X, self.m_weights); // [this](Frame& first, Frame& second) { this->resize(first, second); }
 
 		as<TableSolver>(*self.m_frame.m_solver).update(self.m_weights);
 
 		for(size_t i = 0; i < columns.size(); ++i)
 		{
-			Widget& column = spanner(header, styles().column_header, DIM_X, self.m_weights[i]);
+			Widget& column = spanner(header, styles().column_header, Axis::X, self.m_weights[i]);
 			label(column, columns[i]);
 		}
 

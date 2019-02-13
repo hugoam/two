@@ -8,7 +8,7 @@
 #include <stl/vector.h>
 #include <stl/map.h>
 #include <type/Unique.h>
-#include <infra/EnumArray.h>
+#include <stl/table.h>
 #endif
 #include <ctx/Forward.h>
 #include <ctx/KeyCode.h>

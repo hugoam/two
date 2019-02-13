@@ -6,6 +6,7 @@
 
 #include <stdint.h>
 #include <stl/base.h>
+#include <math/Axis.h>
 #include <math/Forward.h>
 
 namespace mud
@@ -22,6 +23,8 @@ namespace mud
 		explicit v2(V v);
 		T operator[](uint index) const;
 		T& operator[](uint index);
+		T operator[](Axis axis) const;
+		T& operator[](Axis axis);
 		bool operator==(const v2& other) const;
 		bool operator!=(const v2& other) const;
 		explicit operator T();
@@ -45,6 +48,8 @@ namespace mud
 		explicit v3(V v);
 		T operator[](uint index) const;
 		T& operator[](uint index);
+		T operator[](Axis axis) const;
+		T& operator[](Axis axis);
 		bool operator==(const v3& other) const;
 		bool operator!=(const v3& other) const;
 		explicit operator T();
@@ -73,6 +78,8 @@ namespace mud
 		explicit v4(V v);
 		T operator[](uint index) const;
 		T& operator[](uint index);
+		T operator[](Axis axis) const;
+		T& operator[](Axis axis);
 		bool operator==(const v4& other) const;
 		bool operator!=(const v4& other) const;
 		explicit operator v2<T>();

@@ -14,6 +14,7 @@ namespace mud
 		X = 0,
 		Y = 1,
 		Z = 2,
+		None = 2, // @hack for ui lib usage
 		Count
 	};
 

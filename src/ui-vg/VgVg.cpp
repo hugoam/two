@@ -286,9 +286,9 @@ namespace mud
 
 	uint32_t VgVg::text_align(const TextPaint& paint)
 	{
-		if(paint.m_align.x == CENTER)
+		if(paint.m_align.x == Align::Center)
 			return vg::TextAlign::Center | vg::TextAlign::Top;
-		else if(paint.m_align.x == Right)
+		else if(paint.m_align.x == Align::Right)
 			return vg::TextAlign::Right | vg::TextAlign::Top;
 		else
 			return vg::TextAlign::Left | vg::TextAlign::Top;
@@ -417,8 +417,8 @@ namespace mud
 		return { bounds[2] - bounds[0], bounds[3] - bounds[1] };
 	}
 
-	float VgVg::text_size(cstring text, size_t len, Dim dim, const TextPaint& paint)
+	float VgVg::text_size(cstring text, size_t len, Axis dim, const TextPaint& paint)
 	{
-		return dim == DIM_X ? text_size(text, len, paint).x : text_size(text, len, paint).y;
+		return dim == Axis::X ? text_size(text, len, paint).x : text_size(text, len, paint).y;
 	}
 }

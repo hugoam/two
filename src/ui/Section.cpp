@@ -20,7 +20,7 @@ namespace mud
 {
 	Style& section_style()
 	{
-		// STACK
+		// Preset::Stack
 		static Style style = { "Section", styles().sheet, [](Layout& l) { l.m_padding = vec4{ 2.f }; } };
 		return style;
 	}

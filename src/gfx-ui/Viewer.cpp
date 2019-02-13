@@ -37,11 +37,11 @@ module mud.gfx.ui;
 namespace mud
 {
 	ViewerStyles::ViewerStyles()
-		: viewer("Viewer", styles().wedge, [](Layout& l) { l.m_opacity = OPAQUE; l.m_space = SHEET; }, [](InkStyle& l) { l.m_empty = false; })
-		, viewer_fixed("ViewerFixed", viewer, [](Layout& l) { l.m_space = BLOCK; l.m_align = { CENTER, CENTER }; l.m_padding = vec4(4.f); }, [](InkStyle& l) { l.m_empty = false; l.m_border_width = vec4(1.f); l.m_border_colour = Colour::MidGrey; })
+		: viewer("Viewer", styles().wedge, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_space = Preset::Sheet; }, [](InkStyle& l) { l.m_empty = false; })
+		, viewer_fixed("ViewerFixed", viewer, [](Layout& l) { l.m_space = Preset::Block; l.m_align = { Align::Center, Align::Center }; l.m_padding = vec4(4.f); }, [](InkStyle& l) { l.m_empty = false; l.m_border_width = vec4(1.f); l.m_border_colour = Colour::MidGrey; })
 		//, skin_definitions["Viewer:modal"].set({ &InkStyle::m_border_colour, Colour::White });
 		//, skin_definitions["Viewer:modal"].set({ &InkStyle::m_border_width, vec4(1.f) });
-		, space_sheet("SpaceSheet", styles().ui, [](Layout& l) { l.m_opacity = OPAQUE; l.m_flow = FREE; l.m_size = vec2(600.f, 450.f); })
+		, space_sheet("SpaceSheet", styles().ui, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_flow = LayoutFlow::Free; l.m_size = vec2(600.f, 450.f); })
 	{}
 
 	ViewerStyles& viewer_styles() { static ViewerStyles styles; return styles; }

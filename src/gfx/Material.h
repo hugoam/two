@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/string.h>
-#include <infra/EnumArray.h>
+#include <stl/table.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
 #include <geom/Primitive.h>
