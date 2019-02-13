@@ -186,14 +186,14 @@ namespace mud
 	KeyEvent Widget::key_event(Key code, EventType event_type, InputMod modifier)
 	{
 		if(!m_events) return KeyEvent();
-		KeyEvent* event = static_cast<KeyEvent*>(m_events->event(DeviceType::Keyboard, event_type, int(code)));
+		KeyEvent* event = static_cast<KeyEvent*>(m_events->m_keyed_events[DeviceType::Keyboard][event_type][int(code)]);
 		return event && fits_modifier(event->m_modifiers, modifier) ? *event : KeyEvent();
 	}
 
 	MouseEvent Widget::mouse_event(DeviceType device, EventType event_type, InputMod modifier, bool consume)
 	{
 		if(!m_events) return MouseEvent();
-		MouseEvent* event = static_cast<MouseEvent*>(m_events->event(device, event_type));
+		MouseEvent* event = static_cast<MouseEvent*>(m_events->m_events[device][event_type]);
 		if(event && fits_modifier(event->m_modifiers, modifier))
 		{
 			MouseEvent result = *event;;

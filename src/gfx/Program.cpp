@@ -266,7 +266,7 @@ namespace mud
 		this->register_blocks(blocks);
 
 		for(ShaderType shader_type = ShaderType(0); shader_type != ShaderType::Count; shader_type = ShaderType(uint32_t(shader_type) + 1))
-			m_sources[size_t(shader_type)] = sources[size_t(shader_type)];
+			m_sources[shader_type] = sources[size_t(shader_type)];
 	}
 
 	Program::~Program()
@@ -290,15 +290,15 @@ namespace mud
 #ifdef MUD_LIVE_SHADER_COMPILER
 		if(compute)
 		{
-			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Compute, defines, m_sources[size_t(ShaderType::Compute)]);
+			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Compute, defines, m_sources[ShaderType::Compute]);
 		}
 		else
 		{
-			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Vertex, defines, m_sources[size_t(ShaderType::Vertex)]);
-			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Fragment, defines, m_sources[size_t(ShaderType::Fragment)]);
+			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Vertex, defines, m_sources[ShaderType::Vertex]);
+			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Fragment, defines, m_sources[ShaderType::Fragment]);
 
 			if(file_exists(shader_path(gfx_system, m_impl->m_name, ShaderType::Geometry).c_str()))
-				compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Geometry, defines, m_sources[size_t(ShaderType::Geometry)]);
+				compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Geometry, defines, m_sources[ShaderType::Geometry]);
 		}
 #endif
 

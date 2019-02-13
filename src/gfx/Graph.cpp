@@ -348,7 +348,7 @@ namespace gfx
 
 	void manual_job(Gnode& parent, PassType pass, ManualJob job)
 	{
-		parent.m_scene->m_pass_jobs->m_jobs[size_t(pass)].push_back(job);
+		parent.m_scene->m_pass_jobs->m_jobs[pass].push_back(job);
 	}
 
 	Material& pbr_material(GfxSystem& gfx_system, cstring name, const PbrMaterialBlock& pbr_block)

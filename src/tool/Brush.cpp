@@ -60,7 +60,7 @@ namespace mud
 		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			this->update(m_position);
-			static_cast<MouseEvent*>(screen.m_events->event(DeviceType::MouseLeft, EventType::Dragged))->consume(screen); // @todo this works, and not the next one
+			static_cast<MouseEvent*>(screen.m_events->m_events[DeviceType::MouseLeft][EventType::Dragged])->consume(screen); // @todo this works, and not the next one
 			mouse_event.consume(screen);
 		}
 

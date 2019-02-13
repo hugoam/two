@@ -68,8 +68,8 @@ namespace mud
 			item.update();
 		});
 
-		for(size_t i = 0; i < size_t(PassType::Count); ++i)
-			m_pass_jobs->m_jobs[i].clear();
+		for(PassType pass = PassType(0); pass != PassType::Count; pass = PassType(size_t(pass) + 1))
+			m_pass_jobs->m_jobs[pass].clear();
 	}
 
 	Gnode& Scene::begin()

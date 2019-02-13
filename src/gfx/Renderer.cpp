@@ -197,7 +197,7 @@ namespace mud
 		: m_gfx_system(gfx_system)
 		, m_name(name)
 		, m_pass_type(pass_type)
-		, m_gfx_blocks(gfx_system.m_pipeline->pass_blocks(pass_type))
+		, m_gfx_blocks(gfx_system.m_pipeline->m_pass_blocks[pass_type])
 	{}
 
 	DrawElement::DrawElement(Item& item, const Program& program, const ModelItem& model, const Material& material, const Skin* skin)
@@ -363,7 +363,7 @@ namespace mud
 
 		uint8_t num_sub_passes = this->num_draw_passes(render);
 
-		for(PassJob& job : render.m_scene.m_pass_jobs->m_jobs[size_t(m_pass_type)])
+		for(PassJob& job : render.m_scene.m_pass_jobs->m_jobs[m_pass_type])
 		{
 			Pass render_pass = render.next_pass(m_name);
 			render.set_uniforms(*render_pass.m_encoder);

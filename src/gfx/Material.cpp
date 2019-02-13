@@ -317,8 +317,11 @@ namespace mud
 
 	void Material::state(uint64_t& bgfx_state) const
 	{
-		if(m_base_block.m_cull_mode == CullMode::None)
+		if(m_base_block.m_cull_mode == CullMode::None
+		|| m_base_block.m_cull_mode == CullMode::Front)
 			bgfx_state &= ~BGFX_STATE_CULL_MASK;
+		if(m_base_block.m_cull_mode == CullMode::Front)
+			bgfx_state |= BGFX_STATE_CULL_CCW;
 
 		if(m_base_block.m_depth_test == DepthTest::Disabled)
 			bgfx_state &= ~BGFX_STATE_DEPTH_TEST_MASK;

@@ -47,9 +47,9 @@ namespace mud
 			receiver.m_events->m_control_node = &receiver;
 		}
 
-		receiver.m_events->event(event.m_deviceType, event.m_eventType) = &event;
+		receiver.m_events->m_events[event.m_deviceType][event.m_eventType] = &event;
 		if(event.m_key != -1)
-			receiver.m_events->event(event.m_deviceType, event.m_eventType, event.m_key) = &event;
+			receiver.m_events->m_keyed_events[event.m_deviceType][event.m_eventType][event.m_key] = &event;
 	}
 
 	ControlNode* EventDispatcher::dispatch_event(InputEvent& event, ControlNode* topReceiver)

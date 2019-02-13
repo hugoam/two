@@ -50,5 +50,6 @@ namespace mud
 		Down  = uint(SignedAxis::MinusY),
 		Back  = uint(SignedAxis::PlusZ),
 		Front = uint(SignedAxis::MinusZ),
+		Count
 	};
 }

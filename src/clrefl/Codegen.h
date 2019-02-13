@@ -1627,7 +1627,7 @@ namespace clgen
 		auto c_getter = [&](const CLClass& c, const CLMember& m)
 		{
 			cw(type_to_c(m.m_type) + " DECL " + id(c, "_get_" + m.m_name) + "(" + c.m_id + "* self" + (m.m_type.isarray() ? ", unsigned int index" : "") + ") {");
-			c_value_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : "") + (m.m_type.isarray() ? "[index]" : ""), true);
+			c_value_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : "") + (m.m_type.isarray() ? "[index]" : ""), !m.m_method);
 			cw("}");
 		};
 

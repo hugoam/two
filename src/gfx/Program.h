@@ -7,6 +7,7 @@
 #ifndef MUD_MODULES
 #include <stl/decls.h>
 #include <stl/span.h>
+#include <infra/EnumArray.h>
 #include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>
@@ -99,7 +100,7 @@ namespace mud
 
 		ProgramBlockArray m_blocks;
 
-		cstring m_sources[size_t(ShaderType::Count)] = {};
+		enum_array<ShaderType, cstring> m_sources = {};
 
 		bool m_compute = false;
 		uint32_t m_update = 1;

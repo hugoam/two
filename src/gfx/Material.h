@@ -6,6 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/string.h>
+#include <infra/EnumArray.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
 #include <geom/Primitive.h>
@@ -35,7 +36,8 @@ namespace mud
 	{
 		None,
 		Front,
-		Back
+		Back,
+		Count
 	};
 
 	export_ enum class refl_ DepthDraw : unsigned int
@@ -183,7 +185,7 @@ namespace mud
 		attr_ PbrDiffuseMode m_diffuse_mode = PbrDiffuseMode::Burley;
 		attr_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
 
-		bool m_flags[size_t(MaterialFlag::Count)];
+		enum_array<MaterialFlag, bool> m_flags;
 	};
 
 	export_ GfxBlock& pbr_block(GfxSystem& gfx_system);

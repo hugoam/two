@@ -4,8 +4,10 @@
 
 #ifndef MUD_MODULES
 #include <type/Unique.h>
+#include <infra/EnumArray.h>
 #endif
 #include <gfx/Renderer.h>
+#include <gfx/Material.h>
 #include <gfx/Forward.h>
 
 namespace mud
@@ -61,7 +63,6 @@ namespace mud
 
 		DepthParams m_depth_params;
 
-		Material* m_depth_material = nullptr;
-		Material* m_depth_material_twosided = nullptr;
+		enum_array<CullMode, Material*> m_depth_material = {};
 	};
 }

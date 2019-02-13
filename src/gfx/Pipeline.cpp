@@ -40,23 +40,23 @@ namespace mud
 
 		// effects
 
-		pipeline.m_pass_blocks[size_t(PassType::Depth)] = { &depth };
-		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = {};
-		pipeline.m_pass_blocks[size_t(PassType::Background)] = { &sky };
-		pipeline.m_pass_blocks[size_t(PassType::Opaque)] = {};
-		pipeline.m_pass_blocks[size_t(PassType::Alpha)] = {};
-		pipeline.m_pass_blocks[size_t(PassType::Effects)] = { &resolve };
-		pipeline.m_pass_blocks[size_t(PassType::PostProcess)] = {};
+		pipeline.m_pass_blocks[PassType::Depth] = { &depth };
+		pipeline.m_pass_blocks[PassType::Unshaded] = {};
+		pipeline.m_pass_blocks[PassType::Background] = { &sky };
+		pipeline.m_pass_blocks[PassType::Opaque] = {};
+		pipeline.m_pass_blocks[PassType::Alpha] = {};
+		pipeline.m_pass_blocks[PassType::Effects] = { &resolve };
+		pipeline.m_pass_blocks[PassType::PostProcess] = {};
 
 		{
 			Program& program_unshaded = gfx_system.programs().create("unshaded");
-			program_unshaded.register_blocks(pipeline.pass_blocks(PassType::Unshaded));
+			program_unshaded.register_blocks(pipeline.m_pass_blocks[PassType::Unshaded]);
 
 			Program& program_depth = gfx_system.programs().create("depth");
-			program_depth.register_blocks(pipeline.pass_blocks(PassType::Depth));
+			program_depth.register_blocks(pipeline.m_pass_blocks[PassType::Depth]);
 
 			Program& program_pbr = gfx_system.programs().create("pbr/pbr");
-			program_pbr.register_blocks(pipeline.pass_blocks(PassType::Opaque));
+			program_pbr.register_blocks(pipeline.m_pass_blocks[PassType::Opaque]);
 
 			Program& program_fresnel = gfx_system.programs().create("fresnel");
 			UNUSED(program_fresnel);
@@ -79,10 +79,10 @@ namespace mud
 	Pipeline::~Pipeline()
 	{}
 
-	span<GfxBlock*> Pipeline::pass_blocks(PassType pass)
-	{
-		return m_pass_blocks[size_t(pass)];
-	}
+	//span<GfxBlock*> Pipeline::m_pass_blocks[PassType pass)
+	//{
+	//	return m_pass_blocks[pass];
+	//}
 
 	MinimalRenderer::MinimalRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
 		: Renderer(gfx_system, pipeline, Shading::Shaded)

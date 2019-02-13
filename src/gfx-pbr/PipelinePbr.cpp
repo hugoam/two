@@ -126,22 +126,22 @@ namespace gfx
 		vector<GfxBlock*> gi_blocks = { &light, &shadow, &gi_bake };
 		vector<GfxBlock*> lightmap_blocks = { &light, &shadow, &gi_trace, &lightmap };
 
-		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = {};
-		pipeline.m_pass_blocks[size_t(PassType::Background)] = { &sky };
-		pipeline.m_pass_blocks[size_t(PassType::Effects)] = { /*&ssao, &ssr, &sss,*/ &resolve };
-		pipeline.m_pass_blocks[size_t(PassType::PostProcess)] = { &dof_blur/*, &exposure*/, &glow, &tonemap };
+		pipeline.m_pass_blocks[PassType::Unshaded] = {};
+		pipeline.m_pass_blocks[PassType::Background] = { &sky };
+		pipeline.m_pass_blocks[PassType::Effects] = { /*&ssao, &ssr, &sss,*/ &resolve };
+		pipeline.m_pass_blocks[PassType::PostProcess] = { &dof_blur/*, &exposure*/, &glow, &tonemap };
 
-		pipeline.m_pass_blocks[size_t(PassType::VoxelGI)] = gi_blocks;
-		pipeline.m_pass_blocks[size_t(PassType::Lightmap)] = lightmap_blocks;
+		pipeline.m_pass_blocks[PassType::VoxelGI] = gi_blocks;
+		pipeline.m_pass_blocks[PassType::Lightmap] = lightmap_blocks;
 
 		// forward
-		pipeline.m_pass_blocks[size_t(PassType::Depth)] = depth_blocks;
-		pipeline.m_pass_blocks[size_t(PassType::Opaque)] = shading_blocks;
-		pipeline.m_pass_blocks[size_t(PassType::Alpha)] = shading_blocks;
+		pipeline.m_pass_blocks[PassType::Depth] = depth_blocks;
+		pipeline.m_pass_blocks[PassType::Opaque] = shading_blocks;
+		pipeline.m_pass_blocks[PassType::Alpha] = shading_blocks;
 
 		// deferred
-		pipeline.m_pass_blocks[size_t(PassType::Geometry)] = geometry_blocks;
-		pipeline.m_pass_blocks[size_t(PassType::Lights)] = shading_blocks;
+		pipeline.m_pass_blocks[PassType::Geometry] = geometry_blocks;
+		pipeline.m_pass_blocks[PassType::Lights] = shading_blocks;
 
 		{
 			Program& program_unshaded = gfx_system.programs().create("unshaded");

@@ -6,6 +6,7 @@
 
 #include <stdint.h>
 #include <stl/vector.h>
+#include <infra/EnumArray.h>
 #include <math/Forward.h>
 #include <math/Vec.h>
 #include <math/Axis.h>
@@ -41,7 +42,7 @@ namespace mud
 		vector2d(size_t s);
 		vector2d();
 
-		GridDim& dim(SignedAxis axis) { return m_dims[size_t(axis)]; }
+		GridDim& dim(SignedAxis axis) { return m_dims[Side(axis)]; }
 
 		void reset_dims();
 
@@ -98,8 +99,8 @@ namespace mud
 		size_t m_x, m_y, m_z;
 		size_t m_sq;
 
-		//enum_array<Side, GridDim> m_dims;
-		GridDim m_dims[6] = {};
+		enum_array<Side, GridDim> m_dims = {};
+		//GridDim m_dims[6] = {};
 	};
 
 	export_ template <class T>

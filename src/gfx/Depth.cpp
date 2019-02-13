@@ -44,11 +44,9 @@ namespace mud
 		
 		if(element.m_material->m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
 		{
-			if(element.m_item->m_shadow == ItemShadow::DoubleSided)
-				element.m_material = m_block_depth.m_depth_material_twosided;
-			else
-				element.m_material = m_block_depth.m_depth_material;
+			CullMode cull_mode = element.m_material->m_base_block.m_cull_mode;
 
+			element.m_material = m_block_depth.m_depth_material[cull_mode];
 			element.m_program = element.m_material->m_program;
 			element.m_shader_version = { element.m_material->m_program };
 
@@ -65,9 +63,15 @@ namespace mud
 
 	void BlockDepth::init_block()
 	{
-		m_depth_material = &m_gfx_system.fetch_material("depth", "depth");
-		m_depth_material_twosided = &m_gfx_system.fetch_material("depth_twosided", "depth");
-		m_depth_material_twosided->m_base_block.m_cull_mode = CullMode::None;
+		m_depth_material[CullMode::None] = &m_gfx_system.fetch_material("depth_none", "depth");
+		m_depth_material[CullMode::None]->m_base_block.m_cull_mode = CullMode::None;
+
+		m_depth_material[CullMode::Back] = &m_gfx_system.fetch_material("depth_back", "depth");
+		m_depth_material[CullMode::Back]->m_base_block.m_cull_mode = CullMode::Back;
+
+		m_depth_material[CullMode::Front] = &m_gfx_system.fetch_material("depth_front", "depth");
+		m_depth_material[CullMode::Front]->m_base_block.m_cull_mode = CullMode::Front;
+
 		u_depth.createUniforms();
 	}
 

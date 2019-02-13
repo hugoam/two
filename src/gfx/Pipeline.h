@@ -41,7 +41,7 @@ namespace mud
 		template <class T_Block, class... Args>
 		T_Block& add_block(Args&&... args) { m_gfx_blocks.push_back(make_unique<T_Block>(static_cast<Args&&>(args)...)); return as<T_Block>(*m_gfx_blocks.back()); }
 
-		span<GfxBlock*> pass_blocks(PassType pass);
+		//span<GfxBlock*> m_pass_blocks[PassType pass);
 
 		vector<unique<GfxBlock>> m_gfx_blocks;
 
