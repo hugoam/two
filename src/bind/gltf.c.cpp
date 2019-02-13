@@ -902,8 +902,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFAlphaMode
-	glTFAlphaMode DECL glTFAlphaMode_OPAQUE() {
-		return glTFAlphaMode::OPAQUE;
+	glTFAlphaMode DECL glTFAlphaMode_Opacity() {
+		return glTFAlphaMode::Opacity;
 	}
 	glTFAlphaMode DECL glTFAlphaMode_MASK() {
 		return glTFAlphaMode::MASK;

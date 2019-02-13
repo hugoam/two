@@ -23,15 +23,14 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::Align>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::AutoLayout>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Clip>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Axis>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::LayoutFlow>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Solver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Opacity>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Pivot>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::ui::PopupFlags>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Sizing>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Preset>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Sizing>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Solver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::WidgetState>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::WindowState>();
     
@@ -41,12 +40,6 @@ namespace mud
     
     export_ template <> MUD_UI_EXPORT Type& type<mud::CanvasConnect>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Clipboard>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<bool>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Align>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::AutoLayout>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Pivot>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Sizing>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<size_t>>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Dock>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Docksystem>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Gradient>();
@@ -71,6 +64,11 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::User>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Vg>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Align>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::AutoLayout>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Pivot>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Sizing>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<size_t>>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Canvas>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Dockable>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Docker>();

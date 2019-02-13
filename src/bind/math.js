@@ -1730,6 +1730,7 @@ Module['bvec4'] = v4_bool;
         Module['Axis']['X'] = _mud_Axis_X();
         Module['Axis']['Y'] = _mud_Axis_Y();
         Module['Axis']['Z'] = _mud_Axis_Z();
+        Module['Axis']['None'] = _mud_Axis_None();
         Module['Axis']['Count'] = _mud_Axis_Count();
         // Clockwise
         Module['CLOCKWISE'] = _mud_Clockwise_CLOCKWISE();

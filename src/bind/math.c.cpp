@@ -1298,6 +1298,9 @@ extern "C" {
 	mud::Axis DECL mud_Axis_Z() {
 		return mud::Axis::Z;
 	}
+	mud::Axis DECL mud_Axis_None() {
+		return mud::Axis::None;
+	}
 	mud::Axis DECL mud_Axis_Count() {
 		return mud::Axis::Count;
 	}

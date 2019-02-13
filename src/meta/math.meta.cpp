@@ -248,10 +248,10 @@ namespace mud
 	{
 		Type& t = type<mud::Axis>();
 		static Meta meta = { t, &namspc({ "mud" }), "Axis", sizeof(mud::Axis), TypeClass::Enum };
-		static cstring ids[] = { "X", "Y", "Z", "Count" };
-		static uint32_t values[] = { 0, 1, 2, 3 };
-		static mud::Axis vars[] = { mud::Axis::X, mud::Axis::Y, mud::Axis::Z, mud::Axis::Count};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static cstring ids[] = { "X", "Y", "Z", "None", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 2, 3 };
+		static mud::Axis vars[] = { mud::Axis::X, mud::Axis::Y, mud::Axis::Z, mud::Axis::None, mud::Axis::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { mud_Axis__to_string,
 		                           mud_Axis__to_value };

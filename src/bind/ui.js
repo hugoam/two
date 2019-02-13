@@ -46,210 +46,6 @@ Clipboard.prototype["__destroy__"] = Clipboard.prototype.__destroy__ = function(
     var self = this.ptr;
     _mud_Clipboard__destroy(self);
 };
-// Dim2<bool>
-function Dim2_bool(a0, a1) {
-    if (a0 === undefined) { this.ptr = _mud_Dim2_bool__construct_0(); this.type = Dim2_bool; getCache(Dim2_bool)[this.ptr] = this; return; }
-    this.ptr = _mud_Dim2_bool__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_bool; getCache(Dim2_bool)[this.ptr] = this;
-};
-Dim2_bool.prototype = Object.create(WrapperObject.prototype);
-Dim2_bool.prototype.constructor = Dim2_bool;
-Dim2_bool.prototype.__class__ = Dim2_bool;
-Dim2_bool.__cache__ = {};
-Module['Dim2_bool'] = Dim2_bool;
-Object.defineProperty(Dim2_bool.prototype, "x", {
-    get: function() {
-        var self = this.ptr;
-        return !!(_mud_Dim2_bool__get_x(self));
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_bool__set_x(self, value);
-    }
-});
-Object.defineProperty(Dim2_bool.prototype, "y", {
-    get: function() {
-        var self = this.ptr;
-        return !!(_mud_Dim2_bool__get_y(self));
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_bool__set_y(self, value);
-    }
-});
-Dim2_bool.prototype["__destroy__"] = Dim2_bool.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Dim2_bool__destroy(self);
-};
-// Dim2<mud::Align>
-function Dim2_mud_Align(a0, a1) {
-    if (a0 === undefined) { this.ptr = _mud_Dim2_mud_Align__construct_0(); this.type = Dim2_mud_Align; getCache(Dim2_mud_Align)[this.ptr] = this; return; }
-    this.ptr = _mud_Dim2_mud_Align__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_mud_Align; getCache(Dim2_mud_Align)[this.ptr] = this;
-};
-Dim2_mud_Align.prototype = Object.create(WrapperObject.prototype);
-Dim2_mud_Align.prototype.constructor = Dim2_mud_Align;
-Dim2_mud_Align.prototype.__class__ = Dim2_mud_Align;
-Dim2_mud_Align.__cache__ = {};
-Module['Dim2_mud_Align'] = Dim2_mud_Align;
-Object.defineProperty(Dim2_mud_Align.prototype, "x", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Dim2_mud_Align__get_x(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_mud_Align__set_x(self, value);
-    }
-});
-Object.defineProperty(Dim2_mud_Align.prototype, "y", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Dim2_mud_Align__get_y(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_mud_Align__set_y(self, value);
-    }
-});
-Dim2_mud_Align.prototype["__destroy__"] = Dim2_mud_Align.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Dim2_mud_Align__destroy(self);
-};
-// Dim2<mud::AutoLayout>
-function Dim2_mud_AutoLayout(a0, a1) {
-    if (a0 === undefined) { this.ptr = _mud_Dim2_mud_AutoLayout__construct_0(); this.type = Dim2_mud_AutoLayout; getCache(Dim2_mud_AutoLayout)[this.ptr] = this; return; }
-    this.ptr = _mud_Dim2_mud_AutoLayout__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_mud_AutoLayout; getCache(Dim2_mud_AutoLayout)[this.ptr] = this;
-};
-Dim2_mud_AutoLayout.prototype = Object.create(WrapperObject.prototype);
-Dim2_mud_AutoLayout.prototype.constructor = Dim2_mud_AutoLayout;
-Dim2_mud_AutoLayout.prototype.__class__ = Dim2_mud_AutoLayout;
-Dim2_mud_AutoLayout.__cache__ = {};
-Module['Dim2_mud_AutoLayout'] = Dim2_mud_AutoLayout;
-Object.defineProperty(Dim2_mud_AutoLayout.prototype, "x", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Dim2_mud_AutoLayout__get_x(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_mud_AutoLayout__set_x(self, value);
-    }
-});
-Object.defineProperty(Dim2_mud_AutoLayout.prototype, "y", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Dim2_mud_AutoLayout__get_y(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_mud_AutoLayout__set_y(self, value);
-    }
-});
-Dim2_mud_AutoLayout.prototype["__destroy__"] = Dim2_mud_AutoLayout.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Dim2_mud_AutoLayout__destroy(self);
-};
-// Dim2<mud::Pivot>
-function Dim2_mud_Pivot(a0, a1) {
-    if (a0 === undefined) { this.ptr = _mud_Dim2_mud_Pivot__construct_0(); this.type = Dim2_mud_Pivot; getCache(Dim2_mud_Pivot)[this.ptr] = this; return; }
-    this.ptr = _mud_Dim2_mud_Pivot__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_mud_Pivot; getCache(Dim2_mud_Pivot)[this.ptr] = this;
-};
-Dim2_mud_Pivot.prototype = Object.create(WrapperObject.prototype);
-Dim2_mud_Pivot.prototype.constructor = Dim2_mud_Pivot;
-Dim2_mud_Pivot.prototype.__class__ = Dim2_mud_Pivot;
-Dim2_mud_Pivot.__cache__ = {};
-Module['Dim2_mud_Pivot'] = Dim2_mud_Pivot;
-Object.defineProperty(Dim2_mud_Pivot.prototype, "x", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Dim2_mud_Pivot__get_x(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_mud_Pivot__set_x(self, value);
-    }
-});
-Object.defineProperty(Dim2_mud_Pivot.prototype, "y", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Dim2_mud_Pivot__get_y(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_mud_Pivot__set_y(self, value);
-    }
-});
-Dim2_mud_Pivot.prototype["__destroy__"] = Dim2_mud_Pivot.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Dim2_mud_Pivot__destroy(self);
-};
-// Dim2<mud::Sizing>
-function Dim2_mud_Sizing(a0, a1) {
-    if (a0 === undefined) { this.ptr = _mud_Dim2_mud_Sizing__construct_0(); this.type = Dim2_mud_Sizing; getCache(Dim2_mud_Sizing)[this.ptr] = this; return; }
-    this.ptr = _mud_Dim2_mud_Sizing__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_mud_Sizing; getCache(Dim2_mud_Sizing)[this.ptr] = this;
-};
-Dim2_mud_Sizing.prototype = Object.create(WrapperObject.prototype);
-Dim2_mud_Sizing.prototype.constructor = Dim2_mud_Sizing;
-Dim2_mud_Sizing.prototype.__class__ = Dim2_mud_Sizing;
-Dim2_mud_Sizing.__cache__ = {};
-Module['Dim2_mud_Sizing'] = Dim2_mud_Sizing;
-Object.defineProperty(Dim2_mud_Sizing.prototype, "x", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Dim2_mud_Sizing__get_x(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_mud_Sizing__set_x(self, value);
-    }
-});
-Object.defineProperty(Dim2_mud_Sizing.prototype, "y", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Dim2_mud_Sizing__get_y(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_mud_Sizing__set_y(self, value);
-    }
-});
-Dim2_mud_Sizing.prototype["__destroy__"] = Dim2_mud_Sizing.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Dim2_mud_Sizing__destroy(self);
-};
-// Dim2<size_t>
-function Dim2_size_t(a0, a1) {
-    if (a0 === undefined) { this.ptr = _mud_Dim2_size_t__construct_0(); this.type = Dim2_size_t; getCache(Dim2_size_t)[this.ptr] = this; return; }
-    this.ptr = _mud_Dim2_size_t__construct_2(/*a*/a0, /*b*/a1); this.type = Dim2_size_t; getCache(Dim2_size_t)[this.ptr] = this;
-};
-Dim2_size_t.prototype = Object.create(WrapperObject.prototype);
-Dim2_size_t.prototype.constructor = Dim2_size_t;
-Dim2_size_t.prototype.__class__ = Dim2_size_t;
-Dim2_size_t.__cache__ = {};
-Module['Dim2_size_t'] = Dim2_size_t;
-Object.defineProperty(Dim2_size_t.prototype, "x", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Dim2_size_t__get_x(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_size_t__set_x(self, value);
-    }
-});
-Object.defineProperty(Dim2_size_t.prototype, "y", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_Dim2_size_t__get_y(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Dim2_size_t__set_y(self, value);
-    }
-});
-Dim2_size_t.prototype["__destroy__"] = Dim2_size_t.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Dim2_size_t__destroy(self);
-};
 // Dock
 function Dock() {
     this.ptr = _mud_Dock__construct_0(); this.type = Dock; getCache(Dock)[this.ptr] = this;
@@ -567,7 +363,7 @@ Object.defineProperty(InkStyle.prototype, "margin", {
 Object.defineProperty(InkStyle.prototype, "align", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_InkStyle__get_align(self), Dim2_mud_Align);
+        return wrapPointer(_mud_InkStyle__get_align(self), v2_mud_Align);
     },
     set: function(value) {
         var self = this.ptr;
@@ -597,7 +393,7 @@ Object.defineProperty(InkStyle.prototype, "linear_gradient_dim", {
 Object.defineProperty(InkStyle.prototype, "stretch", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_InkStyle__get_stretch(self), Dim2_bool);
+        return wrapPointer(_mud_InkStyle__get_stretch(self), v2_bool);
     },
     set: function(value) {
         var self = this.ptr;
@@ -723,7 +519,7 @@ Object.defineProperty(Layout.prototype, "solver", {
 Object.defineProperty(Layout.prototype, "layout", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Layout__get_layout(self), Dim2_mud_AutoLayout);
+        return wrapPointer(_mud_Layout__get_layout(self), v2_mud_AutoLayout);
     },
     set: function(value) {
         var self = this.ptr;
@@ -773,7 +569,7 @@ Object.defineProperty(Layout.prototype, "opacity", {
 Object.defineProperty(Layout.prototype, "align", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Layout__get_align(self), Dim2_mud_Align);
+        return wrapPointer(_mud_Layout__get_align(self), v2_mud_Align);
     },
     set: function(value) {
         var self = this.ptr;
@@ -833,7 +629,7 @@ Object.defineProperty(Layout.prototype, "spacing", {
 Object.defineProperty(Layout.prototype, "pivot", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Layout__get_pivot(self), Dim2_mud_Pivot);
+        return wrapPointer(_mud_Layout__get_pivot(self), v2_mud_Pivot);
     },
     set: function(value) {
         var self = this.ptr;
@@ -1164,7 +960,7 @@ Object.defineProperty(TextPaint.prototype, "size", {
 Object.defineProperty(TextPaint.prototype, "align", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_TextPaint__get_align(self), Dim2_mud_Align);
+        return wrapPointer(_mud_TextPaint__get_align(self), v2_mud_Align);
     },
     set: function(value) {
         var self = this.ptr;
@@ -1466,6 +1262,181 @@ Object.defineProperty(Widget.prototype, "body", {
 Widget.prototype["__destroy__"] = Widget.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Widget__destroy(self);
+};
+// v2<mud::Align>
+function v2_mud_Align(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_v2_mud_Align__construct_0(); this.type = v2_mud_Align; getCache(v2_mud_Align)[this.ptr] = this; return; }
+    if (a1 === undefined) { this.ptr = _mud_v2_mud_Align__construct_1(/*v*/a0); this.type = v2_mud_Align; getCache(v2_mud_Align)[this.ptr] = this; return; }
+    this.ptr = _mud_v2_mud_Align__construct_2(/*x*/a0, /*y*/a1); this.type = v2_mud_Align; getCache(v2_mud_Align)[this.ptr] = this;
+};
+v2_mud_Align.prototype = Object.create(WrapperObject.prototype);
+v2_mud_Align.prototype.constructor = v2_mud_Align;
+v2_mud_Align.prototype.__class__ = v2_mud_Align;
+v2_mud_Align.__cache__ = {};
+Module['v2_mud_Align'] = v2_mud_Align;
+Object.defineProperty(v2_mud_Align.prototype, "x", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_v2_mud_Align__get_x(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_v2_mud_Align__set_x(self, value);
+    }
+});
+Object.defineProperty(v2_mud_Align.prototype, "y", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_v2_mud_Align__get_y(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_v2_mud_Align__set_y(self, value);
+    }
+});
+v2_mud_Align.prototype["__destroy__"] = v2_mud_Align.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_v2_mud_Align__destroy(self);
+};
+// v2<mud::AutoLayout>
+function v2_mud_AutoLayout(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_v2_mud_AutoLayout__construct_0(); this.type = v2_mud_AutoLayout; getCache(v2_mud_AutoLayout)[this.ptr] = this; return; }
+    if (a1 === undefined) { this.ptr = _mud_v2_mud_AutoLayout__construct_1(/*v*/a0); this.type = v2_mud_AutoLayout; getCache(v2_mud_AutoLayout)[this.ptr] = this; return; }
+    this.ptr = _mud_v2_mud_AutoLayout__construct_2(/*x*/a0, /*y*/a1); this.type = v2_mud_AutoLayout; getCache(v2_mud_AutoLayout)[this.ptr] = this;
+};
+v2_mud_AutoLayout.prototype = Object.create(WrapperObject.prototype);
+v2_mud_AutoLayout.prototype.constructor = v2_mud_AutoLayout;
+v2_mud_AutoLayout.prototype.__class__ = v2_mud_AutoLayout;
+v2_mud_AutoLayout.__cache__ = {};
+Module['v2_mud_AutoLayout'] = v2_mud_AutoLayout;
+Object.defineProperty(v2_mud_AutoLayout.prototype, "x", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_v2_mud_AutoLayout__get_x(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_v2_mud_AutoLayout__set_x(self, value);
+    }
+});
+Object.defineProperty(v2_mud_AutoLayout.prototype, "y", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_v2_mud_AutoLayout__get_y(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_v2_mud_AutoLayout__set_y(self, value);
+    }
+});
+v2_mud_AutoLayout.prototype["__destroy__"] = v2_mud_AutoLayout.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_v2_mud_AutoLayout__destroy(self);
+};
+// v2<mud::Pivot>
+function v2_mud_Pivot(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_v2_mud_Pivot__construct_0(); this.type = v2_mud_Pivot; getCache(v2_mud_Pivot)[this.ptr] = this; return; }
+    if (a1 === undefined) { this.ptr = _mud_v2_mud_Pivot__construct_1(/*v*/a0); this.type = v2_mud_Pivot; getCache(v2_mud_Pivot)[this.ptr] = this; return; }
+    this.ptr = _mud_v2_mud_Pivot__construct_2(/*x*/a0, /*y*/a1); this.type = v2_mud_Pivot; getCache(v2_mud_Pivot)[this.ptr] = this;
+};
+v2_mud_Pivot.prototype = Object.create(WrapperObject.prototype);
+v2_mud_Pivot.prototype.constructor = v2_mud_Pivot;
+v2_mud_Pivot.prototype.__class__ = v2_mud_Pivot;
+v2_mud_Pivot.__cache__ = {};
+Module['v2_mud_Pivot'] = v2_mud_Pivot;
+Object.defineProperty(v2_mud_Pivot.prototype, "x", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_v2_mud_Pivot__get_x(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_v2_mud_Pivot__set_x(self, value);
+    }
+});
+Object.defineProperty(v2_mud_Pivot.prototype, "y", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_v2_mud_Pivot__get_y(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_v2_mud_Pivot__set_y(self, value);
+    }
+});
+v2_mud_Pivot.prototype["__destroy__"] = v2_mud_Pivot.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_v2_mud_Pivot__destroy(self);
+};
+// v2<mud::Sizing>
+function v2_mud_Sizing(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_v2_mud_Sizing__construct_0(); this.type = v2_mud_Sizing; getCache(v2_mud_Sizing)[this.ptr] = this; return; }
+    if (a1 === undefined) { this.ptr = _mud_v2_mud_Sizing__construct_1(/*v*/a0); this.type = v2_mud_Sizing; getCache(v2_mud_Sizing)[this.ptr] = this; return; }
+    this.ptr = _mud_v2_mud_Sizing__construct_2(/*x*/a0, /*y*/a1); this.type = v2_mud_Sizing; getCache(v2_mud_Sizing)[this.ptr] = this;
+};
+v2_mud_Sizing.prototype = Object.create(WrapperObject.prototype);
+v2_mud_Sizing.prototype.constructor = v2_mud_Sizing;
+v2_mud_Sizing.prototype.__class__ = v2_mud_Sizing;
+v2_mud_Sizing.__cache__ = {};
+Module['v2_mud_Sizing'] = v2_mud_Sizing;
+Object.defineProperty(v2_mud_Sizing.prototype, "x", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_v2_mud_Sizing__get_x(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_v2_mud_Sizing__set_x(self, value);
+    }
+});
+Object.defineProperty(v2_mud_Sizing.prototype, "y", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_v2_mud_Sizing__get_y(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_v2_mud_Sizing__set_y(self, value);
+    }
+});
+v2_mud_Sizing.prototype["__destroy__"] = v2_mud_Sizing.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_v2_mud_Sizing__destroy(self);
+};
+// v2<size_t>
+function v2_size_t(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_v2_size_t__construct_0(); this.type = v2_size_t; getCache(v2_size_t)[this.ptr] = this; return; }
+    if (a1 === undefined) { this.ptr = _mud_v2_size_t__construct_1(/*v*/a0); this.type = v2_size_t; getCache(v2_size_t)[this.ptr] = this; return; }
+    this.ptr = _mud_v2_size_t__construct_2(/*x*/a0, /*y*/a1); this.type = v2_size_t; getCache(v2_size_t)[this.ptr] = this;
+};
+v2_size_t.prototype = Object.create(WrapperObject.prototype);
+v2_size_t.prototype.constructor = v2_size_t;
+v2_size_t.prototype.__class__ = v2_size_t;
+v2_size_t.__cache__ = {};
+Module['v2_size_t'] = v2_size_t;
+Object.defineProperty(v2_size_t.prototype, "x", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_v2_size_t__get_x(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_v2_size_t__set_x(self, value);
+    }
+});
+Object.defineProperty(v2_size_t.prototype, "y", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_v2_size_t__get_y(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_v2_size_t__set_y(self, value);
+    }
+});
+v2_size_t.prototype["__destroy__"] = v2_size_t.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_v2_size_t__destroy(self);
 };
 // Canvas
 function Canvas() { throw "cannot construct a Canvas, no constructor in IDL" }
@@ -2061,46 +2032,45 @@ Module['ui']['file_tree'] = function(a0, a1) {
         Ui.__type__ = _mud_Ui__type();
         Window.__type__ = _mud_Window__type();
         // Align
-        Module['Left'] = _mud_Align_Left();
-        Module['CENTER'] = _mud_Align_CENTER();
-        Module['Right'] = _mud_Align_Right();
-        Module['OUT_LEFT'] = _mud_Align_OUT_LEFT();
-        Module['OUT_RIGHT'] = _mud_Align_OUT_RIGHT();
+        Module['Align'] = Module['Align'] || {};
+        Module['Align']['Left'] = _mud_Align_Left();
+        Module['Align']['Center'] = _mud_Align_Center();
+        Module['Align']['Right'] = _mud_Align_Right();
+        Module['Align']['OutLeft'] = _mud_Align_OutLeft();
+        Module['Align']['OutRight'] = _mud_Align_OutRight();
+        Module['Align']['Count'] = _mud_Align_Count();
         // AutoLayout
-        Module['NO_LAYOUT'] = _mud_AutoLayout_NO_LAYOUT();
-        Module['AUTO_SIZE'] = _mud_AutoLayout_AUTO_SIZE();
-        Module['AUTO_LAYOUT'] = _mud_AutoLayout_AUTO_LAYOUT();
-        // Clipping
-        Module['NOCLIP'] = _mud_Clipping_NOCLIP();
-        Module['CLIP'] = _mud_Clipping_CLIP();
-        Module['UNCLIP'] = _mud_Clipping_UNCLIP();
-        // Dim
-        Module['DIM_X'] = _mud_Dim_DIM_X();
-        Module['DIM_Y'] = _mud_Dim_DIM_Y();
-        Module['DIM_NONE'] = _mud_Dim_DIM_NONE();
+        Module['AutoLayout'] = Module['AutoLayout'] || {};
+        Module['AutoLayout']['None'] = _mud_AutoLayout_None();
+        Module['AutoLayout']['Size'] = _mud_AutoLayout_Size();
+        Module['AutoLayout']['Layout'] = _mud_AutoLayout_Layout();
+        // Clip
+        Module['Clip'] = Module['Clip'] || {};
+        Module['Clip']['None'] = _mud_Clip_None();
+        Module['Clip']['Clip'] = _mud_Clip_Clip();
+        Module['Clip']['Unclip'] = _mud_Clip_Unclip();
         // FlowAxis
-        Module['READING'] = _mud_FlowAxis_READING();
-        Module['PARAGRAPH'] = _mud_FlowAxis_PARAGRAPH();
-        Module['PARALLEL'] = _mud_FlowAxis_PARALLEL();
-        Module['ORTHOGONAL'] = _mud_FlowAxis_ORTHOGONAL();
-        Module['AXIS_NONE'] = _mud_FlowAxis_AXIS_NONE();
+        Module['FlowAxis'] = Module['FlowAxis'] || {};
+        Module['FlowAxis']['Reading'] = _mud_FlowAxis_Reading();
+        Module['FlowAxis']['Paragraph'] = _mud_FlowAxis_Paragraph();
+        Module['FlowAxis']['Same'] = _mud_FlowAxis_Same();
+        Module['FlowAxis']['Flip'] = _mud_FlowAxis_Flip();
+        Module['FlowAxis']['None'] = _mud_FlowAxis_None();
         // LayoutFlow
-        Module['FLOW'] = _mud_LayoutFlow_FLOW();
-        Module['OVERLAY'] = _mud_LayoutFlow_OVERLAY();
-        Module['ALIGN'] = _mud_LayoutFlow_ALIGN();
-        Module['FREE'] = _mud_LayoutFlow_FREE();
-        // LayoutSolver
-        Module['FRAME_SOLVER'] = _mud_LayoutSolver_FRAME_SOLVER();
-        Module['ROW_SOLVER'] = _mud_LayoutSolver_ROW_SOLVER();
-        Module['GRID_SOLVER'] = _mud_LayoutSolver_GRID_SOLVER();
-        Module['TABLE_SOLVER'] = _mud_LayoutSolver_TABLE_SOLVER();
+        Module['LayoutFlow'] = Module['LayoutFlow'] || {};
+        Module['LayoutFlow']['Flow'] = _mud_LayoutFlow_Flow();
+        Module['LayoutFlow']['Overlay'] = _mud_LayoutFlow_Overlay();
+        Module['LayoutFlow']['Align'] = _mud_LayoutFlow_Align();
+        Module['LayoutFlow']['Free'] = _mud_LayoutFlow_Free();
         // Opacity
-        Module['OPAQUE'] = _mud_Opacity_OPAQUE();
-        Module['CLEAR'] = _mud_Opacity_CLEAR();
-        Module['HOLLOW'] = _mud_Opacity_HOLLOW();
+        Module['Opacity'] = Module['Opacity'] || {};
+        Module['Opacity']['Opaque'] = _mud_Opacity_Opaque();
+        Module['Opacity']['Clear'] = _mud_Opacity_Clear();
+        Module['Opacity']['Hollow'] = _mud_Opacity_Hollow();
         // Pivot
-        Module['FORWARD'] = _mud_Pivot_FORWARD();
-        Module['REVERSE'] = _mud_Pivot_REVERSE();
+        Module['Pivot'] = Module['Pivot'] || {};
+        Module['Pivot']['Forward'] = _mud_Pivot_Forward();
+        Module['Pivot']['Reverse'] = _mud_Pivot_Reverse();
         // PopupFlags
         Module['ui']['PopupFlags'] = Module['ui']['PopupFlags'] || {};
         Module['ui']['PopupFlags']['None'] = _mud_ui_PopupFlags_None();
@@ -2108,23 +2078,31 @@ Module['ui']['file_tree'] = function(a0, a1) {
         Module['ui']['PopupFlags']['Clamp'] = _mud_ui_PopupFlags_Clamp();
         Module['ui']['PopupFlags']['AutoClose'] = _mud_ui_PopupFlags_AutoClose();
         Module['ui']['PopupFlags']['AutoModal'] = _mud_ui_PopupFlags_AutoModal();
+        // Preset
+        Module['Preset'] = Module['Preset'] || {};
+        Module['Preset']['Sheet'] = _mud_Preset_Sheet();
+        Module['Preset']['Flex'] = _mud_Preset_Flex();
+        Module['Preset']['Item'] = _mud_Preset_Item();
+        Module['Preset']['Unit'] = _mud_Preset_Unit();
+        Module['Preset']['Block'] = _mud_Preset_Block();
+        Module['Preset']['Line'] = _mud_Preset_Line();
+        Module['Preset']['Stack'] = _mud_Preset_Stack();
+        Module['Preset']['Div'] = _mud_Preset_Div();
+        Module['Preset']['Spacer'] = _mud_Preset_Spacer();
+        Module['Preset']['Board'] = _mud_Preset_Board();
+        Module['Preset']['Layout'] = _mud_Preset_Layout();
         // Sizing
-        Module['FIXED'] = _mud_Sizing_FIXED();
-        Module['SHRINK'] = _mud_Sizing_SHRINK();
-        Module['WRAP'] = _mud_Sizing_WRAP();
-        Module['EXPAND'] = _mud_Sizing_EXPAND();
-        // SpacePreset
-        Module['SHEET'] = _mud_SpacePreset_SHEET();
-        Module['FLEX'] = _mud_SpacePreset_FLEX();
-        Module['ITEM'] = _mud_SpacePreset_ITEM();
-        Module['UNIT'] = _mud_SpacePreset_UNIT();
-        Module['BLOCK'] = _mud_SpacePreset_BLOCK();
-        Module['LINE'] = _mud_SpacePreset_LINE();
-        Module['STACK'] = _mud_SpacePreset_STACK();
-        Module['DIV'] = _mud_SpacePreset_DIV();
-        Module['SPACER'] = _mud_SpacePreset_SPACER();
-        Module['BOARD'] = _mud_SpacePreset_BOARD();
-        Module['LAYOUT'] = _mud_SpacePreset_LAYOUT();
+        Module['Sizing'] = Module['Sizing'] || {};
+        Module['Sizing']['Fixed'] = _mud_Sizing_Fixed();
+        Module['Sizing']['Shrink'] = _mud_Sizing_Shrink();
+        Module['Sizing']['Wrap'] = _mud_Sizing_Wrap();
+        Module['Sizing']['Expand'] = _mud_Sizing_Expand();
+        // Solver
+        Module['Solver'] = Module['Solver'] || {};
+        Module['Solver']['Frame'] = _mud_Solver_Frame();
+        Module['Solver']['Row'] = _mud_Solver_Row();
+        Module['Solver']['Grid'] = _mud_Solver_Grid();
+        Module['Solver']['Table'] = _mud_Solver_Table();
         // WidgetState
         Module['NOSTATE'] = _mud_WidgetState_NOSTATE();
         Module['CREATED'] = _mud_WidgetState_CREATED();

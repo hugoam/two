@@ -46,156 +46,6 @@ extern "C" {
 	void DECL mud_Clipboard__destroy(mud::Clipboard* self) {
 		delete self;
 	}
-	// Dim2<bool>
-	mud::Type* DECL mud_Dim2_bool__type() {
-		return &mud::type<mud::Dim2<bool>>();
-	}
-	mud::Dim2<bool>* DECL mud_Dim2_bool__construct_0() {
-		return new mud::Dim2<bool>();
-	}
-	mud::Dim2<bool>* DECL mud_Dim2_bool__construct_2(bool a, bool b) {
-		return new mud::Dim2<bool>(a, b);
-	}
-	bool DECL mud_Dim2_bool__get_x(mud::Dim2<bool>* self) {
-		return self->x;
-	}
-	void DECL mud_Dim2_bool__set_x(mud::Dim2<bool>* self, bool value) {
-		self->x = value;
-	}
-	bool DECL mud_Dim2_bool__get_y(mud::Dim2<bool>* self) {
-		return self->y;
-	}
-	void DECL mud_Dim2_bool__set_y(mud::Dim2<bool>* self, bool value) {
-		self->y = value;
-	}
-	void DECL mud_Dim2_bool__destroy(mud::Dim2<bool>* self) {
-		delete self;
-	}
-	// Dim2<mud::Align>
-	mud::Type* DECL mud_Dim2_mud_Align__type() {
-		return &mud::type<mud::Dim2<mud::Align>>();
-	}
-	mud::Dim2<mud::Align>* DECL mud_Dim2_mud_Align__construct_0() {
-		return new mud::Dim2<mud::Align>();
-	}
-	mud::Dim2<mud::Align>* DECL mud_Dim2_mud_Align__construct_2(mud::Align a, mud::Align b) {
-		return new mud::Dim2<mud::Align>(a, b);
-	}
-	mud::Align DECL mud_Dim2_mud_Align__get_x(mud::Dim2<mud::Align>* self) {
-		return self->x;
-	}
-	void DECL mud_Dim2_mud_Align__set_x(mud::Dim2<mud::Align>* self, mud::Align value) {
-		self->x = value;
-	}
-	mud::Align DECL mud_Dim2_mud_Align__get_y(mud::Dim2<mud::Align>* self) {
-		return self->y;
-	}
-	void DECL mud_Dim2_mud_Align__set_y(mud::Dim2<mud::Align>* self, mud::Align value) {
-		self->y = value;
-	}
-	void DECL mud_Dim2_mud_Align__destroy(mud::Dim2<mud::Align>* self) {
-		delete self;
-	}
-	// Dim2<mud::AutoLayout>
-	mud::Type* DECL mud_Dim2_mud_AutoLayout__type() {
-		return &mud::type<mud::Dim2<mud::AutoLayout>>();
-	}
-	mud::Dim2<mud::AutoLayout>* DECL mud_Dim2_mud_AutoLayout__construct_0() {
-		return new mud::Dim2<mud::AutoLayout>();
-	}
-	mud::Dim2<mud::AutoLayout>* DECL mud_Dim2_mud_AutoLayout__construct_2(mud::AutoLayout a, mud::AutoLayout b) {
-		return new mud::Dim2<mud::AutoLayout>(a, b);
-	}
-	mud::AutoLayout DECL mud_Dim2_mud_AutoLayout__get_x(mud::Dim2<mud::AutoLayout>* self) {
-		return self->x;
-	}
-	void DECL mud_Dim2_mud_AutoLayout__set_x(mud::Dim2<mud::AutoLayout>* self, mud::AutoLayout value) {
-		self->x = value;
-	}
-	mud::AutoLayout DECL mud_Dim2_mud_AutoLayout__get_y(mud::Dim2<mud::AutoLayout>* self) {
-		return self->y;
-	}
-	void DECL mud_Dim2_mud_AutoLayout__set_y(mud::Dim2<mud::AutoLayout>* self, mud::AutoLayout value) {
-		self->y = value;
-	}
-	void DECL mud_Dim2_mud_AutoLayout__destroy(mud::Dim2<mud::AutoLayout>* self) {
-		delete self;
-	}
-	// Dim2<mud::Pivot>
-	mud::Type* DECL mud_Dim2_mud_Pivot__type() {
-		return &mud::type<mud::Dim2<mud::Pivot>>();
-	}
-	mud::Dim2<mud::Pivot>* DECL mud_Dim2_mud_Pivot__construct_0() {
-		return new mud::Dim2<mud::Pivot>();
-	}
-	mud::Dim2<mud::Pivot>* DECL mud_Dim2_mud_Pivot__construct_2(mud::Pivot a, mud::Pivot b) {
-		return new mud::Dim2<mud::Pivot>(a, b);
-	}
-	mud::Pivot DECL mud_Dim2_mud_Pivot__get_x(mud::Dim2<mud::Pivot>* self) {
-		return self->x;
-	}
-	void DECL mud_Dim2_mud_Pivot__set_x(mud::Dim2<mud::Pivot>* self, mud::Pivot value) {
-		self->x = value;
-	}
-	mud::Pivot DECL mud_Dim2_mud_Pivot__get_y(mud::Dim2<mud::Pivot>* self) {
-		return self->y;
-	}
-	void DECL mud_Dim2_mud_Pivot__set_y(mud::Dim2<mud::Pivot>* self, mud::Pivot value) {
-		self->y = value;
-	}
-	void DECL mud_Dim2_mud_Pivot__destroy(mud::Dim2<mud::Pivot>* self) {
-		delete self;
-	}
-	// Dim2<mud::Sizing>
-	mud::Type* DECL mud_Dim2_mud_Sizing__type() {
-		return &mud::type<mud::Dim2<mud::Sizing>>();
-	}
-	mud::Dim2<mud::Sizing>* DECL mud_Dim2_mud_Sizing__construct_0() {
-		return new mud::Dim2<mud::Sizing>();
-	}
-	mud::Dim2<mud::Sizing>* DECL mud_Dim2_mud_Sizing__construct_2(mud::Sizing a, mud::Sizing b) {
-		return new mud::Dim2<mud::Sizing>(a, b);
-	}
-	mud::Sizing DECL mud_Dim2_mud_Sizing__get_x(mud::Dim2<mud::Sizing>* self) {
-		return self->x;
-	}
-	void DECL mud_Dim2_mud_Sizing__set_x(mud::Dim2<mud::Sizing>* self, mud::Sizing value) {
-		self->x = value;
-	}
-	mud::Sizing DECL mud_Dim2_mud_Sizing__get_y(mud::Dim2<mud::Sizing>* self) {
-		return self->y;
-	}
-	void DECL mud_Dim2_mud_Sizing__set_y(mud::Dim2<mud::Sizing>* self, mud::Sizing value) {
-		self->y = value;
-	}
-	void DECL mud_Dim2_mud_Sizing__destroy(mud::Dim2<mud::Sizing>* self) {
-		delete self;
-	}
-	// Dim2<size_t>
-	mud::Type* DECL mud_Dim2_size_t__type() {
-		return &mud::type<mud::Dim2<size_t>>();
-	}
-	mud::Dim2<size_t>* DECL mud_Dim2_size_t__construct_0() {
-		return new mud::Dim2<size_t>();
-	}
-	mud::Dim2<size_t>* DECL mud_Dim2_size_t__construct_2(size_t a, size_t b) {
-		return new mud::Dim2<size_t>(a, b);
-	}
-	size_t DECL mud_Dim2_size_t__get_x(mud::Dim2<size_t>* self) {
-		return self->x;
-	}
-	void DECL mud_Dim2_size_t__set_x(mud::Dim2<size_t>* self, size_t value) {
-		self->x = value;
-	}
-	size_t DECL mud_Dim2_size_t__get_y(mud::Dim2<size_t>* self) {
-		return self->y;
-	}
-	void DECL mud_Dim2_size_t__set_y(mud::Dim2<size_t>* self, size_t value) {
-		self->y = value;
-	}
-	void DECL mud_Dim2_size_t__destroy(mud::Dim2<size_t>* self) {
-		delete self;
-	}
 	// Dock
 	mud::Type* DECL mud_Dock__type() {
 		return &mud::type<mud::Dock>();
@@ -252,7 +102,7 @@ extern "C" {
 	mud::ImageSkin* DECL mud_ImageSkin__construct_6(mud::Image* image, int left, int top, int right, int bottom, int margin) {
 		return new mud::ImageSkin(*image, left, top, right, bottom, margin);
 	}
-	mud::ImageSkin* DECL mud_ImageSkin__construct_7(mud::Image* image, int left, int top, int right, int bottom, int margin, mud::Dim stretch) {
+	mud::ImageSkin* DECL mud_ImageSkin__construct_7(mud::Image* image, int left, int top, int right, int bottom, int margin, mud::Axis stretch) {
 		return new mud::ImageSkin(*image, left, top, right, bottom, margin, stretch);
 	}
 	mud::Image* DECL mud_ImageSkin__get_d_image(mud::ImageSkin* self) {
@@ -291,10 +141,10 @@ extern "C" {
 	void DECL mud_ImageSkin__set_margin(mud::ImageSkin* self, int value) {
 		self->m_margin = value;
 	}
-	mud::Dim DECL mud_ImageSkin__get_d_stretch(mud::ImageSkin* self) {
+	mud::Axis DECL mud_ImageSkin__get_d_stretch(mud::ImageSkin* self) {
 		return self->d_stretch;
 	}
-	void DECL mud_ImageSkin__set_d_stretch(mud::ImageSkin* self, mud::Dim value) {
+	void DECL mud_ImageSkin__set_d_stretch(mud::ImageSkin* self, mud::Axis value) {
 		self->d_stretch = value;
 	}
 	void DECL mud_ImageSkin__destroy(mud::ImageSkin* self) {
@@ -400,10 +250,10 @@ extern "C" {
 	void DECL mud_InkStyle__set_margin(mud::InkStyle* self, mud::vec4* value) {
 		self->m_margin = *value;
 	}
-	mud::Dim2<mud::Align>* DECL mud_InkStyle__get_align(mud::InkStyle* self) {
+	mud::v2<mud::Align>* DECL mud_InkStyle__get_align(mud::InkStyle* self) {
 		return &self->m_align;
 	}
-	void DECL mud_InkStyle__set_align(mud::InkStyle* self, mud::Dim2<mud::Align>* value) {
+	void DECL mud_InkStyle__set_align(mud::InkStyle* self, mud::v2<mud::Align>* value) {
 		self->m_align = *value;
 	}
 	mud::vec2* DECL mud_InkStyle__get_linear_gradient(mud::InkStyle* self) {
@@ -412,16 +262,16 @@ extern "C" {
 	void DECL mud_InkStyle__set_linear_gradient(mud::InkStyle* self, mud::vec2* value) {
 		self->m_linear_gradient = *value;
 	}
-	mud::Dim DECL mud_InkStyle__get_linear_gradient_dim(mud::InkStyle* self) {
+	mud::Axis DECL mud_InkStyle__get_linear_gradient_dim(mud::InkStyle* self) {
 		return self->m_linear_gradient_dim;
 	}
-	void DECL mud_InkStyle__set_linear_gradient_dim(mud::InkStyle* self, mud::Dim value) {
+	void DECL mud_InkStyle__set_linear_gradient_dim(mud::InkStyle* self, mud::Axis value) {
 		self->m_linear_gradient_dim = value;
 	}
-	mud::Dim2<bool>* DECL mud_InkStyle__get_stretch(mud::InkStyle* self) {
+	mud::v2<bool>* DECL mud_InkStyle__get_stretch(mud::InkStyle* self) {
 		return &self->m_stretch;
 	}
-	void DECL mud_InkStyle__set_stretch(mud::InkStyle* self, mud::Dim2<bool>* value) {
+	void DECL mud_InkStyle__set_stretch(mud::InkStyle* self, mud::v2<bool>* value) {
 		self->m_stretch = *value;
 	}
 	mud::Image* DECL mud_InkStyle__get_image(mud::InkStyle* self) {
@@ -492,16 +342,16 @@ extern "C" {
 	void DECL mud_Layout__set_name(mud::Layout* self, const char* value) {
 		self->m_name = value;
 	}
-	mud::LayoutSolver DECL mud_Layout__get_solver(mud::Layout* self) {
+	mud::Solver DECL mud_Layout__get_solver(mud::Layout* self) {
 		return self->m_solver;
 	}
-	void DECL mud_Layout__set_solver(mud::Layout* self, mud::LayoutSolver value) {
+	void DECL mud_Layout__set_solver(mud::Layout* self, mud::Solver value) {
 		self->m_solver = value;
 	}
-	mud::Dim2<mud::AutoLayout>* DECL mud_Layout__get_layout(mud::Layout* self) {
+	mud::v2<mud::AutoLayout>* DECL mud_Layout__get_layout(mud::Layout* self) {
 		return &self->m_layout;
 	}
-	void DECL mud_Layout__set_layout(mud::Layout* self, mud::Dim2<mud::AutoLayout>* value) {
+	void DECL mud_Layout__set_layout(mud::Layout* self, mud::v2<mud::AutoLayout>* value) {
 		self->m_layout = *value;
 	}
 	mud::LayoutFlow DECL mud_Layout__get_flow(mud::Layout* self) {
@@ -516,10 +366,10 @@ extern "C" {
 	void DECL mud_Layout__set_space(mud::Layout* self, mud::Space* value) {
 		self->m_space = *value;
 	}
-	mud::Clipping DECL mud_Layout__get_clipping(mud::Layout* self) {
+	mud::Clip DECL mud_Layout__get_clipping(mud::Layout* self) {
 		return self->m_clipping;
 	}
-	void DECL mud_Layout__set_clipping(mud::Layout* self, mud::Clipping value) {
+	void DECL mud_Layout__set_clipping(mud::Layout* self, mud::Clip value) {
 		self->m_clipping = value;
 	}
 	mud::Opacity DECL mud_Layout__get_opacity(mud::Layout* self) {
@@ -528,10 +378,10 @@ extern "C" {
 	void DECL mud_Layout__set_opacity(mud::Layout* self, mud::Opacity value) {
 		self->m_opacity = value;
 	}
-	mud::Dim2<mud::Align>* DECL mud_Layout__get_align(mud::Layout* self) {
+	mud::v2<mud::Align>* DECL mud_Layout__get_align(mud::Layout* self) {
 		return &self->m_align;
 	}
-	void DECL mud_Layout__set_align(mud::Layout* self, mud::Dim2<mud::Align>* value) {
+	void DECL mud_Layout__set_align(mud::Layout* self, mud::v2<mud::Align>* value) {
 		self->m_align = *value;
 	}
 	mud::vec2* DECL mud_Layout__get_span(mud::Layout* self) {
@@ -564,10 +414,10 @@ extern "C" {
 	void DECL mud_Layout__set_spacing(mud::Layout* self, mud::vec2* value) {
 		self->m_spacing = *value;
 	}
-	mud::Dim2<mud::Pivot>* DECL mud_Layout__get_pivot(mud::Layout* self) {
+	mud::v2<mud::Pivot>* DECL mud_Layout__get_pivot(mud::Layout* self) {
 		return &self->m_pivot;
 	}
-	void DECL mud_Layout__set_pivot(mud::Layout* self, mud::Dim2<mud::Pivot>* value) {
+	void DECL mud_Layout__set_pivot(mud::Layout* self, mud::v2<mud::Pivot>* value) {
 		self->m_pivot = *value;
 	}
 	int DECL mud_Layout__get_zorder(mud::Layout* self) {
@@ -784,10 +634,10 @@ extern "C" {
 	void DECL mud_TextPaint__set_size(mud::TextPaint* self, float value) {
 		self->m_size = value;
 	}
-	mud::Dim2<mud::Align>* DECL mud_TextPaint__get_align(mud::TextPaint* self) {
+	mud::v2<mud::Align>* DECL mud_TextPaint__get_align(mud::TextPaint* self) {
 		return &self->m_align;
 	}
-	void DECL mud_TextPaint__set_align(mud::TextPaint* self, mud::Dim2<mud::Align>* value) {
+	void DECL mud_TextPaint__set_align(mud::TextPaint* self, mud::v2<mud::Align>* value) {
 		self->m_align = *value;
 	}
 	bool DECL mud_TextPaint__get_text_break(mud::TextPaint* self) {
@@ -1009,6 +859,146 @@ extern "C" {
 	void DECL mud_Widget__destroy(mud::Widget* self) {
 		delete self;
 	}
+	// v2<mud::Align>
+	mud::Type* DECL mud_v2_mud_Align__type() {
+		return &mud::type<mud::v2<mud::Align>>();
+	}
+	mud::v2<mud::Align>* DECL mud_v2_mud_Align__construct_0() {
+		return new mud::v2<mud::Align>();
+	}
+	mud::v2<mud::Align>* DECL mud_v2_mud_Align__construct_1(mud::Align v) {
+		return new mud::v2<mud::Align>(v);
+	}
+	mud::v2<mud::Align>* DECL mud_v2_mud_Align__construct_2(mud::Align x, mud::Align y) {
+		return new mud::v2<mud::Align>(x, y);
+	}
+	mud::Align DECL mud_v2_mud_Align__get_x(mud::v2<mud::Align>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_mud_Align__set_x(mud::v2<mud::Align>* self, mud::Align value) {
+		self->x = value;
+	}
+	mud::Align DECL mud_v2_mud_Align__get_y(mud::v2<mud::Align>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_mud_Align__set_y(mud::v2<mud::Align>* self, mud::Align value) {
+		self->y = value;
+	}
+	void DECL mud_v2_mud_Align__destroy(mud::v2<mud::Align>* self) {
+		delete self;
+	}
+	// v2<mud::AutoLayout>
+	mud::Type* DECL mud_v2_mud_AutoLayout__type() {
+		return &mud::type<mud::v2<mud::AutoLayout>>();
+	}
+	mud::v2<mud::AutoLayout>* DECL mud_v2_mud_AutoLayout__construct_0() {
+		return new mud::v2<mud::AutoLayout>();
+	}
+	mud::v2<mud::AutoLayout>* DECL mud_v2_mud_AutoLayout__construct_1(mud::AutoLayout v) {
+		return new mud::v2<mud::AutoLayout>(v);
+	}
+	mud::v2<mud::AutoLayout>* DECL mud_v2_mud_AutoLayout__construct_2(mud::AutoLayout x, mud::AutoLayout y) {
+		return new mud::v2<mud::AutoLayout>(x, y);
+	}
+	mud::AutoLayout DECL mud_v2_mud_AutoLayout__get_x(mud::v2<mud::AutoLayout>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_mud_AutoLayout__set_x(mud::v2<mud::AutoLayout>* self, mud::AutoLayout value) {
+		self->x = value;
+	}
+	mud::AutoLayout DECL mud_v2_mud_AutoLayout__get_y(mud::v2<mud::AutoLayout>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_mud_AutoLayout__set_y(mud::v2<mud::AutoLayout>* self, mud::AutoLayout value) {
+		self->y = value;
+	}
+	void DECL mud_v2_mud_AutoLayout__destroy(mud::v2<mud::AutoLayout>* self) {
+		delete self;
+	}
+	// v2<mud::Pivot>
+	mud::Type* DECL mud_v2_mud_Pivot__type() {
+		return &mud::type<mud::v2<mud::Pivot>>();
+	}
+	mud::v2<mud::Pivot>* DECL mud_v2_mud_Pivot__construct_0() {
+		return new mud::v2<mud::Pivot>();
+	}
+	mud::v2<mud::Pivot>* DECL mud_v2_mud_Pivot__construct_1(mud::Pivot v) {
+		return new mud::v2<mud::Pivot>(v);
+	}
+	mud::v2<mud::Pivot>* DECL mud_v2_mud_Pivot__construct_2(mud::Pivot x, mud::Pivot y) {
+		return new mud::v2<mud::Pivot>(x, y);
+	}
+	mud::Pivot DECL mud_v2_mud_Pivot__get_x(mud::v2<mud::Pivot>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_mud_Pivot__set_x(mud::v2<mud::Pivot>* self, mud::Pivot value) {
+		self->x = value;
+	}
+	mud::Pivot DECL mud_v2_mud_Pivot__get_y(mud::v2<mud::Pivot>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_mud_Pivot__set_y(mud::v2<mud::Pivot>* self, mud::Pivot value) {
+		self->y = value;
+	}
+	void DECL mud_v2_mud_Pivot__destroy(mud::v2<mud::Pivot>* self) {
+		delete self;
+	}
+	// v2<mud::Sizing>
+	mud::Type* DECL mud_v2_mud_Sizing__type() {
+		return &mud::type<mud::v2<mud::Sizing>>();
+	}
+	mud::v2<mud::Sizing>* DECL mud_v2_mud_Sizing__construct_0() {
+		return new mud::v2<mud::Sizing>();
+	}
+	mud::v2<mud::Sizing>* DECL mud_v2_mud_Sizing__construct_1(mud::Sizing v) {
+		return new mud::v2<mud::Sizing>(v);
+	}
+	mud::v2<mud::Sizing>* DECL mud_v2_mud_Sizing__construct_2(mud::Sizing x, mud::Sizing y) {
+		return new mud::v2<mud::Sizing>(x, y);
+	}
+	mud::Sizing DECL mud_v2_mud_Sizing__get_x(mud::v2<mud::Sizing>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_mud_Sizing__set_x(mud::v2<mud::Sizing>* self, mud::Sizing value) {
+		self->x = value;
+	}
+	mud::Sizing DECL mud_v2_mud_Sizing__get_y(mud::v2<mud::Sizing>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_mud_Sizing__set_y(mud::v2<mud::Sizing>* self, mud::Sizing value) {
+		self->y = value;
+	}
+	void DECL mud_v2_mud_Sizing__destroy(mud::v2<mud::Sizing>* self) {
+		delete self;
+	}
+	// v2<size_t>
+	mud::Type* DECL mud_v2_size_t__type() {
+		return &mud::type<mud::v2<size_t>>();
+	}
+	mud::v2<size_t>* DECL mud_v2_size_t__construct_0() {
+		return new mud::v2<size_t>();
+	}
+	mud::v2<size_t>* DECL mud_v2_size_t__construct_1(size_t v) {
+		return new mud::v2<size_t>(v);
+	}
+	mud::v2<size_t>* DECL mud_v2_size_t__construct_2(size_t x, size_t y) {
+		return new mud::v2<size_t>(x, y);
+	}
+	size_t DECL mud_v2_size_t__get_x(mud::v2<size_t>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_size_t__set_x(mud::v2<size_t>* self, size_t value) {
+		self->x = value;
+	}
+	size_t DECL mud_v2_size_t__get_y(mud::v2<size_t>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_size_t__set_y(mud::v2<size_t>* self, size_t value) {
+		self->y = value;
+	}
+	void DECL mud_v2_size_t__destroy(mud::v2<size_t>* self) {
+		delete self;
+	}
 	// Canvas
 	mud::Type* DECL mud_Canvas__type() {
 		return &mud::type<mud::Canvas>();
@@ -1158,10 +1148,10 @@ extern "C" {
 	mud::Widget* DECL mud_ui_widget_3(mud::Widget* parent, mud::Style* style, bool open) {
 		return &mud::ui::widget(*parent, *style, open);
 	}
-	mud::Widget* DECL mud_ui_widget_4(mud::Widget* parent, mud::Style* style, bool open, mud::Dim length) {
+	mud::Widget* DECL mud_ui_widget_4(mud::Widget* parent, mud::Style* style, bool open, mud::Axis length) {
 		return &mud::ui::widget(*parent, *style, open, length);
 	}
-	mud::Widget* DECL mud_ui_widget_5(mud::Widget* parent, mud::Style* style, bool open, mud::Dim length, mud::Dim2<size_t>* index) {
+	mud::Widget* DECL mud_ui_widget_5(mud::Widget* parent, mud::Style* style, bool open, mud::Axis length, mud::v2<size_t>* index) {
 		return &mud::ui::widget(*parent, *style, open, length, *index);
 	}
 	mud::Widget* DECL mud_ui_item_2(mud::Widget* parent, mud::Style* style) {
@@ -1170,7 +1160,7 @@ extern "C" {
 	mud::Widget* DECL mud_ui_item_3(mud::Widget* parent, mud::Style* style, const char* content) {
 		return &mud::ui::item(*parent, *style, content);
 	}
-	mud::Widget* DECL mud_ui_spanner_4(mud::Widget* parent, mud::Style* style, mud::Dim dim, float span) {
+	mud::Widget* DECL mud_ui_spanner_4(mud::Widget* parent, mud::Style* style, mud::Axis dim, float span) {
 		return &mud::ui::spanner(*parent, *style, dim, span);
 	}
 	mud::Widget* DECL mud_ui_spacer_1(mud::Widget* parent) {
@@ -1212,7 +1202,7 @@ extern "C" {
 	mud::Widget* DECL mud_ui_fill_bar_2(mud::Widget* parent, float percentage) {
 		return &mud::ui::fill_bar(*parent, percentage);
 	}
-	mud::Widget* DECL mud_ui_fill_bar_3(mud::Widget* parent, float percentage, mud::Dim dim) {
+	mud::Widget* DECL mud_ui_fill_bar_3(mud::Widget* parent, float percentage, mud::Axis dim) {
 		return &mud::ui::fill_bar(*parent, percentage, dim);
 	}
 	mud::Widget* DECL mud_ui_image256_3(mud::Widget* parent, const char* name, const mud::Image256* source) {
@@ -1514,108 +1504,88 @@ extern "C" {
 	}
 	// Align
 	mud::Align DECL mud_Align_Left() {
-		return mud::Left;
+		return mud::Align::Left;
 	}
-	mud::Align DECL mud_Align_CENTER() {
-		return mud::CENTER;
+	mud::Align DECL mud_Align_Center() {
+		return mud::Align::Center;
 	}
 	mud::Align DECL mud_Align_Right() {
-		return mud::Right;
+		return mud::Align::Right;
 	}
-	mud::Align DECL mud_Align_OUT_LEFT() {
-		return mud::OUT_LEFT;
+	mud::Align DECL mud_Align_OutLeft() {
+		return mud::Align::OutLeft;
 	}
-	mud::Align DECL mud_Align_OUT_RIGHT() {
-		return mud::OUT_RIGHT;
+	mud::Align DECL mud_Align_OutRight() {
+		return mud::Align::OutRight;
+	}
+	mud::Align DECL mud_Align_Count() {
+		return mud::Align::Count;
 	}
 	// AutoLayout
-	mud::AutoLayout DECL mud_AutoLayout_NO_LAYOUT() {
-		return mud::NO_LAYOUT;
+	mud::AutoLayout DECL mud_AutoLayout_None() {
+		return mud::AutoLayout::None;
 	}
-	mud::AutoLayout DECL mud_AutoLayout_AUTO_SIZE() {
-		return mud::AUTO_SIZE;
+	mud::AutoLayout DECL mud_AutoLayout_Size() {
+		return mud::AutoLayout::Size;
 	}
-	mud::AutoLayout DECL mud_AutoLayout_AUTO_LAYOUT() {
-		return mud::AUTO_LAYOUT;
+	mud::AutoLayout DECL mud_AutoLayout_Layout() {
+		return mud::AutoLayout::Layout;
 	}
-	// Clipping
-	mud::Clipping DECL mud_Clipping_NOCLIP() {
-		return mud::NOCLIP;
+	// Clip
+	mud::Clip DECL mud_Clip_None() {
+		return mud::Clip::None;
 	}
-	mud::Clipping DECL mud_Clipping_CLIP() {
-		return mud::CLIP;
+	mud::Clip DECL mud_Clip_Clip() {
+		return mud::Clip::Clip;
 	}
-	mud::Clipping DECL mud_Clipping_UNCLIP() {
-		return mud::UNCLIP;
-	}
-	// Dim
-	mud::Dim DECL mud_Dim_DIM_X() {
-		return mud::DIM_X;
-	}
-	mud::Dim DECL mud_Dim_DIM_Y() {
-		return mud::DIM_Y;
-	}
-	mud::Dim DECL mud_Dim_DIM_NONE() {
-		return mud::DIM_NONE;
+	mud::Clip DECL mud_Clip_Unclip() {
+		return mud::Clip::Unclip;
 	}
 	// FlowAxis
-	mud::FlowAxis DECL mud_FlowAxis_READING() {
-		return mud::READING;
+	mud::FlowAxis DECL mud_FlowAxis_Reading() {
+		return mud::FlowAxis::Reading;
 	}
-	mud::FlowAxis DECL mud_FlowAxis_PARAGRAPH() {
-		return mud::PARAGRAPH;
+	mud::FlowAxis DECL mud_FlowAxis_Paragraph() {
+		return mud::FlowAxis::Paragraph;
 	}
-	mud::FlowAxis DECL mud_FlowAxis_PARALLEL() {
-		return mud::PARALLEL;
+	mud::FlowAxis DECL mud_FlowAxis_Same() {
+		return mud::FlowAxis::Same;
 	}
-	mud::FlowAxis DECL mud_FlowAxis_ORTHOGONAL() {
-		return mud::ORTHOGONAL;
+	mud::FlowAxis DECL mud_FlowAxis_Flip() {
+		return mud::FlowAxis::Flip;
 	}
-	mud::FlowAxis DECL mud_FlowAxis_AXIS_NONE() {
-		return mud::AXIS_NONE;
+	mud::FlowAxis DECL mud_FlowAxis_None() {
+		return mud::FlowAxis::None;
 	}
 	// LayoutFlow
-	mud::LayoutFlow DECL mud_LayoutFlow_FLOW() {
-		return mud::FLOW;
+	mud::LayoutFlow DECL mud_LayoutFlow_Flow() {
+		return mud::LayoutFlow::Flow;
 	}
-	mud::LayoutFlow DECL mud_LayoutFlow_OVERLAY() {
-		return mud::OVERLAY;
+	mud::LayoutFlow DECL mud_LayoutFlow_Overlay() {
+		return mud::LayoutFlow::Overlay;
 	}
-	mud::LayoutFlow DECL mud_LayoutFlow_ALIGN() {
-		return mud::ALIGN;
+	mud::LayoutFlow DECL mud_LayoutFlow_Align() {
+		return mud::LayoutFlow::Align;
 	}
-	mud::LayoutFlow DECL mud_LayoutFlow_FREE() {
-		return mud::FREE;
-	}
-	// LayoutSolver
-	mud::LayoutSolver DECL mud_LayoutSolver_FRAME_SOLVER() {
-		return mud::FRAME_SOLVER;
-	}
-	mud::LayoutSolver DECL mud_LayoutSolver_ROW_SOLVER() {
-		return mud::ROW_SOLVER;
-	}
-	mud::LayoutSolver DECL mud_LayoutSolver_GRID_SOLVER() {
-		return mud::GRID_SOLVER;
-	}
-	mud::LayoutSolver DECL mud_LayoutSolver_TABLE_SOLVER() {
-		return mud::TABLE_SOLVER;
+	mud::LayoutFlow DECL mud_LayoutFlow_Free() {
+		return mud::LayoutFlow::Free;
 	}
 	// Opacity
-	mud::Opacity DECL mud_Opacity_OPAQUE() {
-		return mud::OPAQUE;
+	mud::Opacity DECL mud_Opacity_Opaque() {
+		return mud::Opacity::Opaque;
 	}
-	mud::Opacity DECL mud_Opacity_CLEAR() {
-		return mud::CLEAR;
+	mud::Opacity DECL mud_Opacity_Clear() {
+		return mud::Opacity::Clear;
 	}
-	mud::Opacity DECL mud_Opacity_HOLLOW() {
-		return mud::HOLLOW;
+	mud::Opacity DECL mud_Opacity_Hollow() {
+		return mud::Opacity::Hollow;
 	}
 	// Pivot
-	mud::Pivot DECL mud_Pivot_FORWARD() {
-		return mud::FORWARD;
+	mud::Pivot DECL mud_Pivot_Forward() {
+		return mud::Pivot::Forward;
 	}
-	mud::Pivot DECL mud_Pivot_REVERSE() {
-		return mud::REVERSE;
+	mud::Pivot DECL mud_Pivot_Reverse() {
+		return mud::Pivot::Reverse;
 	}
 	// PopupFlags
 	mud::ui::PopupFlags DECL mud_ui_PopupFlags_None() {
@@ -1633,52 +1603,65 @@ extern "C" {
 	mud::ui::PopupFlags DECL mud_ui_PopupFlags_AutoModal() {
 		return mud::ui::PopupFlags::AutoModal;
 	}
+	// Preset
+	mud::Preset DECL mud_Preset_Sheet() {
+		return mud::Preset::Sheet;
+	}
+	mud::Preset DECL mud_Preset_Flex() {
+		return mud::Preset::Flex;
+	}
+	mud::Preset DECL mud_Preset_Item() {
+		return mud::Preset::Item;
+	}
+	mud::Preset DECL mud_Preset_Unit() {
+		return mud::Preset::Unit;
+	}
+	mud::Preset DECL mud_Preset_Block() {
+		return mud::Preset::Block;
+	}
+	mud::Preset DECL mud_Preset_Line() {
+		return mud::Preset::Line;
+	}
+	mud::Preset DECL mud_Preset_Stack() {
+		return mud::Preset::Stack;
+	}
+	mud::Preset DECL mud_Preset_Div() {
+		return mud::Preset::Div;
+	}
+	mud::Preset DECL mud_Preset_Spacer() {
+		return mud::Preset::Spacer;
+	}
+	mud::Preset DECL mud_Preset_Board() {
+		return mud::Preset::Board;
+	}
+	mud::Preset DECL mud_Preset_Layout() {
+		return mud::Preset::Layout;
+	}
 	// Sizing
-	mud::Sizing DECL mud_Sizing_FIXED() {
-		return mud::FIXED;
+	mud::Sizing DECL mud_Sizing_Fixed() {
+		return mud::Sizing::Fixed;
 	}
-	mud::Sizing DECL mud_Sizing_SHRINK() {
-		return mud::SHRINK;
+	mud::Sizing DECL mud_Sizing_Shrink() {
+		return mud::Sizing::Shrink;
 	}
-	mud::Sizing DECL mud_Sizing_WRAP() {
-		return mud::WRAP;
+	mud::Sizing DECL mud_Sizing_Wrap() {
+		return mud::Sizing::Wrap;
 	}
-	mud::Sizing DECL mud_Sizing_EXPAND() {
-		return mud::EXPAND;
+	mud::Sizing DECL mud_Sizing_Expand() {
+		return mud::Sizing::Expand;
 	}
-	// SpacePreset
-	mud::SpacePreset DECL mud_SpacePreset_SHEET() {
-		return mud::SHEET;
+	// Solver
+	mud::Solver DECL mud_Solver_Frame() {
+		return mud::Solver::Frame;
 	}
-	mud::SpacePreset DECL mud_SpacePreset_FLEX() {
-		return mud::FLEX;
+	mud::Solver DECL mud_Solver_Row() {
+		return mud::Solver::Row;
 	}
-	mud::SpacePreset DECL mud_SpacePreset_ITEM() {
-		return mud::ITEM;
+	mud::Solver DECL mud_Solver_Grid() {
+		return mud::Solver::Grid;
 	}
-	mud::SpacePreset DECL mud_SpacePreset_UNIT() {
-		return mud::UNIT;
-	}
-	mud::SpacePreset DECL mud_SpacePreset_BLOCK() {
-		return mud::BLOCK;
-	}
-	mud::SpacePreset DECL mud_SpacePreset_LINE() {
-		return mud::LINE;
-	}
-	mud::SpacePreset DECL mud_SpacePreset_STACK() {
-		return mud::STACK;
-	}
-	mud::SpacePreset DECL mud_SpacePreset_DIV() {
-		return mud::DIV;
-	}
-	mud::SpacePreset DECL mud_SpacePreset_SPACER() {
-		return mud::SPACER;
-	}
-	mud::SpacePreset DECL mud_SpacePreset_BOARD() {
-		return mud::BOARD;
-	}
-	mud::SpacePreset DECL mud_SpacePreset_LAYOUT() {
-		return mud::LAYOUT;
+	mud::Solver DECL mud_Solver_Table() {
+		return mud::Solver::Table;
 	}
 	// WidgetState
 	mud::WidgetState DECL mud_WidgetState_NOSTATE() {
