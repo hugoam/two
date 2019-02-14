@@ -206,7 +206,7 @@ namespace mud
 				vec3 circle = flip_point_axis(vec3(cos(theta), 0.f, sin(theta)) * torus.m_radius, axis);
 				vec3 point = flip_point_axis(vec3(x, y, z), axis);
 
-				vec3 normal = circle - point;
+				vec3 normal = normalize(point - circle);
 
 				writer.position(point)
 					  .normal(normal)

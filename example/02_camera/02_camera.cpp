@@ -14,14 +14,6 @@ void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 	ui::orbit_controller(viewer);
 
 	Scene& scene = *viewer.m_scene;
-	Gnode& root = viewer.m_scene->begin();
-
-	Material& material = milky_white(app.m_gfx_system);
-
-	//gfx::direct_light_node(root);
-	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
-	gfx::shape(root, Sphere(), Symbol(), 0U, &material);
-	gfx::shape(root, Torus(1.f, 0.1f), Symbol(), 0U, &material);
 
 	static vector<Node3*> lights;
 
@@ -44,11 +36,12 @@ void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 		// GROUND
 
 		Model& model = app.m_gfx_system.fetch_symbol(Symbol(), Rect(), DrawMode::PLAIN); //new THREE.Mesh( new THREE.PlaneBufferGeometry( 800, 400, 2, 2 ), groundMaterial );
-		Node3& node = gfx::nodes(scene).tconstruct(Node3(vec3(0, -5, 0), quat(-c_pi / 2.f, 0, 0, 1)));
-		gfx::items(scene).tconstruct(Item(node, model, 0, &ground_material));
+		Node3& node = gfx::nodes(scene).add(Node3(vec3(0, -5, 0), quat(-c_pi / 2.f, 0, 0, 1)));
+		gfx::items(scene).add(Item(node, model, 0, &ground_material));
 #endif
 
 		// OBJECTS
+		Material& material = gfx::pbr_material(app.m_gfx_system, "object", Colour(1.f));//, 0.5, 1.0); //new THREE.MeshStandardMaterial( { color: 0xffffff, roughness: 0.5, metalness: 1.0 } );
 
 		//var torus = Torus();
 		Model& torus_model = app.m_gfx_system.fetch_symbol(Symbol(), Torus(1.f, 0.1f), DrawMode::PLAIN); //new THREE.TorusBufferGeometry( 1.5, 0.4, 8, 16 );
@@ -62,10 +55,10 @@ void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 			float a = 3.14 * (0.5 - random_scalar<float>());
 			float b = 3.14 * (0.5 - random_scalar<float>());
 
-			Node3& n = gfx::nodes(scene).tconstruct(Node3(vec3(x, y, z), quat(a, b, 0, 1)));
-			Item& it = gfx::items(scene).tconstruct(Item(n, torus_model, 0, &material));
+			Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(a, b, 0, 1)));
+			Item& it = gfx::items(scene).add(Item(n, torus_model, 0, &material));
 
-			gfx::update_item_aabb(it);
+			//gfx::update_item_aabb(it);
 
 			//Gnode& n = gfx::node(root, {}, vec3(x, y, z));
 			//gfx::item(n, torus_model, 0, &material);
@@ -85,23 +78,34 @@ void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 		for(int i = 0; i < 6; ++i)
 		{
 			Material& m = gfx::unshaded_material(app.m_gfx_system, ("light" + to_string(i)).c_str(), from_rgba(colours[i])); //Material({ color: colours[i] }) );
-			Node3& n = gfx::nodes(scene).tconstruct(Node3());
-			Light& l = gfx::lights(scene).tconstruct(Light(n, LightType::Point, false));
+			Node3& n = gfx::nodes(scene).add(Node3());
+			Light& l = gfx::lights(scene).add(Light(n, LightType::Point, false));
 			l.m_colour = from_rgba(colours[i]);
 			l.m_energy = intensity;
 			l.m_range = distance;
 			//l.decay = decay;
-			Item& it = gfx::items(scene).tconstruct(Item(n, sphere_model, 0, &m));
+			Item& it = gfx::items(scene).add(Item(n, sphere_model, 0, &m));
 
 			lights.push_back(&n);
 		}
 
-		Node3& direct_node = gfx::nodes(scene).tconstruct(Node3());
-		Light& direct_light = gfx::lights(scene).tconstruct(Light(direct_node, LightType::Direct)); //THREE.DirectionalLight( 0xffffff, 0.05 );
+		//Node3& direct_node = gfx::nodes(scene).add(Node3());
+		//Light& direct_light = gfx::lights(scene).add(Light(direct_node, LightType::Direct)); //THREE.DirectionalLight( 0xffffff, 0.05 );
 		//dlight.position.set( 0.5, 1, 0 ).normalize();
 	}
 
 	//var scene = viewer.scene.begin();
+
+	Gnode& root = viewer.m_scene->begin();
+
+	Material& material = milky_white(app.m_gfx_system);
+
+	//gfx::direct_light_node(root);
+	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
+	gfx::shape(root, Sphere(), Symbol(), 0U, &material);
+	gfx::shape(root, Torus(1.f, 0.1f), Symbol(), 0U, &material);
+
+	return;
 
 	float coef0[] = { 0.7, 0.3, 0.7, 0.3, 0.3, 0.7 };
 	float coef1[] = { 0.3, 0.7, 0.5, 0.5, 0.5, 0.5 };
