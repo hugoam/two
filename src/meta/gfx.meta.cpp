@@ -182,8 +182,9 @@ void mud_Mime_next_animation(void* object, span<void*> args, void*& result) { UN
 void mud_Mime_playing(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<stl::string*>(result)) = (*static_cast<mud::Mime*>(object)).playing(); }
 void mud_ModelItem__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ModelItem(  ); }
 void mud_ModelItem__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ModelItem((*static_cast<mud::ModelItem*>(other))); }
-void mud_Node3__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Node3( *static_cast<mud::mat4*>(args[0]) ); }
-void mud_Node3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Node3( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2]) ); }
+void mud_Node3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Node3(  ); }
+void mud_Node3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Node3( *static_cast<mud::mat4*>(args[0]) ); }
+void mud_Node3__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Node3( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2]) ); }
 void mud_PbrMaterialBlock__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::PbrMaterialBlock(  ); }
 void mud_PbrMaterialBlock__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::PbrMaterialBlock( *static_cast<mud::Colour*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]) ); }
 void mud_PbrMaterialBlock__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::PbrMaterialBlock((*static_cast<mud::PbrMaterialBlock*>(other))); }
@@ -203,24 +204,24 @@ void mud_Scene_lights(void* object, span<void*> args, void*& result) { UNUSED(ar
 void mud_Scene_flares(void* object, span<void*> args, void*& result) { UNUSED(args); result = &mud::gfx::flares((*static_cast<mud::Scene*>(object))); }
 void mud_Sun__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Sun(  ); }
 void mud_Sun__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Sun((*static_cast<mud::Sun*>(other))); }
+void mud_TPool_mud_Flare_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::TPool<mud::Flare>*>(object)).add(*static_cast<mud::Flare*>(args[0])); }
 void mud_TPool_mud_Flare_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<mud::TPool<mud::Flare>*>(object)).talloc(); }
-void mud_TPool_mud_Flare_tconstruct(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::TPool<mud::Flare>*>(object)).tconstruct(*static_cast<mud::Flare*>(args[0])); }
 void mud_TPool_mud_Flare_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Flare>*>(object)).tdestroy(*static_cast<mud::Flare*>(args[0])); }
 void mud_TPool_mud_Flare_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Flare>*>(object)).tfree(*static_cast<mud::Flare*>(args[0])); }
+void mud_TPool_mud_Item_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::TPool<mud::Item>*>(object)).add(*static_cast<mud::Item*>(args[0])); }
 void mud_TPool_mud_Item_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<mud::TPool<mud::Item>*>(object)).talloc(); }
-void mud_TPool_mud_Item_tconstruct(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::TPool<mud::Item>*>(object)).tconstruct(*static_cast<mud::Item*>(args[0])); }
 void mud_TPool_mud_Item_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Item>*>(object)).tdestroy(*static_cast<mud::Item*>(args[0])); }
 void mud_TPool_mud_Item_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Item>*>(object)).tfree(*static_cast<mud::Item*>(args[0])); }
+void mud_TPool_mud_Light_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::TPool<mud::Light>*>(object)).add(*static_cast<mud::Light*>(args[0])); }
 void mud_TPool_mud_Light_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<mud::TPool<mud::Light>*>(object)).talloc(); }
-void mud_TPool_mud_Light_tconstruct(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::TPool<mud::Light>*>(object)).tconstruct(*static_cast<mud::Light*>(args[0])); }
 void mud_TPool_mud_Light_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Light>*>(object)).tdestroy(*static_cast<mud::Light*>(args[0])); }
 void mud_TPool_mud_Light_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Light>*>(object)).tfree(*static_cast<mud::Light*>(args[0])); }
+void mud_TPool_mud_Mime_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::TPool<mud::Mime>*>(object)).add(*static_cast<mud::Mime*>(args[0])); }
 void mud_TPool_mud_Mime_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<mud::TPool<mud::Mime>*>(object)).talloc(); }
-void mud_TPool_mud_Mime_tconstruct(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::TPool<mud::Mime>*>(object)).tconstruct(*static_cast<mud::Mime*>(args[0])); }
 void mud_TPool_mud_Mime_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Mime>*>(object)).tdestroy(*static_cast<mud::Mime*>(args[0])); }
 void mud_TPool_mud_Mime_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Mime>*>(object)).tfree(*static_cast<mud::Mime*>(args[0])); }
+void mud_TPool_mud_Node3_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::TPool<mud::Node3>*>(object)).add(*static_cast<mud::Node3*>(args[0])); }
 void mud_TPool_mud_Node3_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<mud::TPool<mud::Node3>*>(object)).talloc(); }
-void mud_TPool_mud_Node3_tconstruct(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::TPool<mud::Node3>*>(object)).tconstruct(*static_cast<mud::Node3*>(args[0])); }
 void mud_TPool_mud_Node3_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Node3>*>(object)).tdestroy(*static_cast<mud::Node3*>(args[0])); }
 void mud_TPool_mud_Node3_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Node3>*>(object)).tfree(*static_cast<mud::Node3*>(args[0])); }
 void mud_UnshadedMaterialBlock__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::UnshadedMaterialBlock(  ); }
@@ -229,23 +230,42 @@ void mud_ClusteredFrustum__construct_0(void* ref, span<void*> args) { UNUSED(arg
 void mud_ClusteredFrustum__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ClusteredFrustum((*static_cast<mud::ClusteredFrustum*>(other))); }
 void mud_Flare__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Flare(  ); }
 void mud_Flare__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Flare((*static_cast<mud::Flare*>(other))); }
-void mud_gfx_setup_pipeline_minimal_0(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::setup_pipeline_minimal(*static_cast<mud::GfxSystem*>(args[0])); }
-void mud_gfx_update_item_aabb_1(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::update_item_aabb(*static_cast<mud::Item*>(args[0])); }
-void mud_gfx_update_item_lights_2(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::update_item_lights(*static_cast<mud::Scene*>(args[0]), *static_cast<mud::Item*>(args[1])); }
-void mud_gfx_node_3(span<void*> args, void*& result) { result = &mud::gfx::node(*static_cast<mud::Gnode*>(args[0]), Ref(), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::quat*>(args[3]), *static_cast<mud::vec3*>(args[4])); }
-void mud_gfx_shape_4(span<void*> args, void*& result) { result = &mud::gfx::shape(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::Symbol*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4]), *static_cast<size_t*>(args[5])); }
-void mud_gfx_draw_5(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::draw(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::Symbol*>(args[2]), *static_cast<uint32_t*>(args[3])); }
-void mud_gfx_sprite_6(span<void*> args, void*& result) { result = &mud::gfx::sprite(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Image256*>(args[1]), *static_cast<mud::vec2*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4]), *static_cast<size_t*>(args[5])); }
-void mud_gfx_item_7(span<void*> args, void*& result) { result = &mud::gfx::item(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Model*>(args[1]), *static_cast<uint32_t*>(args[2]), static_cast<mud::Material*>(args[3]), *static_cast<size_t*>(args[4]), *static_cast<stl::span<mud::mat4>*>(args[5])); }
-void mud_gfx_prefab_8(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::prefab(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Prefab*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4]), *static_cast<size_t*>(args[5]), *static_cast<stl::span<mud::mat4>*>(args[6])); }
-void mud_gfx_model_9(span<void*> args, void*& result) { result = mud::gfx::model(*static_cast<mud::Gnode*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<uint32_t*>(args[2]), static_cast<mud::Material*>(args[3]), *static_cast<size_t*>(args[4])); }
-void mud_gfx_animated_10(span<void*> args, void*& result) { result = &mud::gfx::animated(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Item*>(args[1])); }
-void mud_gfx_flows_11(span<void*> args, void*& result) { result = &mud::gfx::flows(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Flow*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<size_t*>(args[3])); }
-void mud_gfx_light_12(span<void*> args, void*& result) { result = &mud::gfx::light(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::LightType*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<mud::Colour*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5])); }
-void mud_gfx_sun_light_13(span<void*> args, void*& result) { result = &mud::gfx::sun_light(*static_cast<mud::Gnode*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
-void mud_gfx_radiance_14(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::radiance(*static_cast<mud::Gnode*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::BackgroundMode*>(args[2])); }
-void mud_gfx_direct_light_node_15(span<void*> args, void*& result) { result = &mud::gfx::direct_light_node(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
-void mud_gfx_pbr_material_16(span<void*> args, void*& result) { result = &mud::gfx::pbr_material(*static_cast<mud::GfxSystem*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::Colour*>(args[2]), *static_cast<float*>(args[3]), *static_cast<float*>(args[4])); }
+void mud_bxidentity_0(span<void*> args, void*& result) { UNUSED(args); (*static_cast<mud::mat4*>(result)) = mud::bxidentity(); }
+void mud_bxinverse_1(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxinverse(*static_cast<mud::mat4*>(args[0])); }
+void mud_bxSRT_2(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxSRT(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
+void mud_bxscale_3(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxscale(*static_cast<mud::vec3*>(args[0])); }
+void mud_bxrotation_4(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxrotation(*static_cast<mud::quat*>(args[0])); }
+void mud_bxtranslation_5(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxtranslation(*static_cast<mud::vec3*>(args[0])); }
+void mud_bxmul_6(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxmul(*static_cast<mud::mat4*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
+void mud_bxmul_7(span<void*> args, void*& result) { (*static_cast<mud::v4<float>*>(result)) = mud::bxmul(*static_cast<mud::mat4*>(args[0]), *static_cast<mud::vec4*>(args[1])); }
+void mud_bxmul_8(span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = mud::bxmul(*static_cast<mud::mat4*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
+void mud_bxmulh_9(span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = mud::bxmulh(*static_cast<mud::mat4*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
+void mud_bxlookat_10(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxlookat(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
+void mud_bxlookat_11(span<void*> args, void*& result) { UNUSED(result);  mud::bxlookat(*static_cast<mud::mat4*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::vec3*>(args[3])); }
+void mud_bxlookat_12(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxlookat(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
+void mud_bxproj_13(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxproj(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
+void mud_bxortho_14(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxortho(*static_cast<mud::vec4*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
+void mud_bxortho_15(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxortho(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5]), *static_cast<float*>(args[6]), *static_cast<bool*>(args[7])); }
+void mud_bxSRT_16(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxSRT(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
+void mud_bxTRS_17(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxTRS(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
+void mud_gfx_setup_pipeline_minimal_18(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::setup_pipeline_minimal(*static_cast<mud::GfxSystem*>(args[0])); }
+void mud_gfx_update_item_aabb_19(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::update_item_aabb(*static_cast<mud::Item*>(args[0])); }
+void mud_gfx_update_item_lights_20(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::update_item_lights(*static_cast<mud::Scene*>(args[0]), *static_cast<mud::Item*>(args[1])); }
+void mud_gfx_node_21(span<void*> args, void*& result) { result = &mud::gfx::node(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Ref*>(args[1]), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::quat*>(args[3]), *static_cast<mud::vec3*>(args[4])); }
+void mud_gfx_shape_22(span<void*> args, void*& result) { result = &mud::gfx::shape(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::Symbol*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4]), *static_cast<size_t*>(args[5])); }
+void mud_gfx_draw_23(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::draw(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::Symbol*>(args[2]), *static_cast<uint32_t*>(args[3])); }
+void mud_gfx_sprite_24(span<void*> args, void*& result) { result = &mud::gfx::sprite(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Image256*>(args[1]), *static_cast<mud::vec2*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4]), *static_cast<size_t*>(args[5])); }
+void mud_gfx_item_25(span<void*> args, void*& result) { result = &mud::gfx::item(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Model*>(args[1]), *static_cast<uint32_t*>(args[2]), static_cast<mud::Material*>(args[3]), *static_cast<size_t*>(args[4]), *static_cast<stl::span<mud::mat4>*>(args[5])); }
+void mud_gfx_prefab_26(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::prefab(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Prefab*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4]), *static_cast<size_t*>(args[5]), *static_cast<stl::span<mud::mat4>*>(args[6])); }
+void mud_gfx_model_27(span<void*> args, void*& result) { result = mud::gfx::model(*static_cast<mud::Gnode*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<uint32_t*>(args[2]), static_cast<mud::Material*>(args[3]), *static_cast<size_t*>(args[4])); }
+void mud_gfx_animated_28(span<void*> args, void*& result) { result = &mud::gfx::animated(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Item*>(args[1])); }
+void mud_gfx_flows_29(span<void*> args, void*& result) { result = &mud::gfx::flows(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Flow*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<size_t*>(args[3])); }
+void mud_gfx_light_30(span<void*> args, void*& result) { result = &mud::gfx::light(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::LightType*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<mud::Colour*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5])); }
+void mud_gfx_sun_light_31(span<void*> args, void*& result) { result = &mud::gfx::sun_light(*static_cast<mud::Gnode*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
+void mud_gfx_radiance_32(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::radiance(*static_cast<mud::Gnode*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::BackgroundMode*>(args[2])); }
+void mud_gfx_direct_light_node_33(span<void*> args, void*& result) { result = &mud::gfx::direct_light_node(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
+void mud_gfx_unshaded_material_34(span<void*> args, void*& result) { result = &mud::gfx::unshaded_material(*static_cast<mud::GfxSystem*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::Colour*>(args[2])); }
+void mud_gfx_pbr_material_35(span<void*> args, void*& result) { result = &mud::gfx::pbr_material(*static_cast<mud::GfxSystem*>(args[0]), static_cast<const char*>(args[1]), *static_cast<mud::Colour*>(args[2]), *static_cast<float*>(args[3]), *static_cast<float*>(args[4])); }
 
 namespace mud
 {
@@ -1667,11 +1687,12 @@ namespace mud
 		static uint16_t index_default = 0;
 		static mud::mat4 transform_default = bxidentity();
 		static bool visible_default = true;
-		static mud::vec3 construct_1_scale_default = vec3(1.f);
+		static mud::vec3 construct_2_scale_default = vec3(1.f);
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Node3__construct_0, { { "transform", type<mud::mat4>(),  } } },
-			{ t, mud_Node3__construct_1, { { "position", type<mud::vec3>(),  }, { "rotation", type<mud::quat>(),  }, { "scale", type<mud::vec3>(), Param::Default, &construct_1_scale_default } } }
+			{ t, mud_Node3__construct_0, {} },
+			{ t, mud_Node3__construct_1, { { "transform", type<mud::mat4>(),  } } },
+			{ t, mud_Node3__construct_2, { { "position", type<mud::vec3>(),  }, { "rotation", type<mud::quat>(),  }, { "scale", type<mud::vec3>(), Param::Default, &construct_2_scale_default } } }
 		};
 		// copy constructor
 		// members
@@ -1973,8 +1994,8 @@ namespace mud
 		// members
 		// methods
 		static Method methods[] = {
+			{ t, "add", Address(), mud_TPool_mud_Flare_add, { { "value", type<mud::Flare>(),  } }, { &type<mud::Flare>(), QualType::None } },
 			{ t, "talloc", Address(), mud_TPool_mud_Flare_talloc, {}, { &type<mud::Flare>(), QualType::None } },
-			{ t, "tconstruct", Address(), mud_TPool_mud_Flare_tconstruct, { { "value", type<mud::Flare>(),  } }, { &type<mud::Flare>(), QualType::None } },
 			{ t, "tdestroy", Address(), mud_TPool_mud_Flare_tdestroy, { { "object", type<mud::Flare>(),  } }, g_qvoid },
 			{ t, "tfree", Address(), mud_TPool_mud_Flare_tfree, { { "object", type<mud::Flare>(),  } }, g_qvoid }
 		};
@@ -1992,8 +2013,8 @@ namespace mud
 		// members
 		// methods
 		static Method methods[] = {
+			{ t, "add", Address(), mud_TPool_mud_Item_add, { { "value", type<mud::Item>(),  } }, { &type<mud::Item>(), QualType::None } },
 			{ t, "talloc", Address(), mud_TPool_mud_Item_talloc, {}, { &type<mud::Item>(), QualType::None } },
-			{ t, "tconstruct", Address(), mud_TPool_mud_Item_tconstruct, { { "value", type<mud::Item>(),  } }, { &type<mud::Item>(), QualType::None } },
 			{ t, "tdestroy", Address(), mud_TPool_mud_Item_tdestroy, { { "object", type<mud::Item>(),  } }, g_qvoid },
 			{ t, "tfree", Address(), mud_TPool_mud_Item_tfree, { { "object", type<mud::Item>(),  } }, g_qvoid }
 		};
@@ -2011,8 +2032,8 @@ namespace mud
 		// members
 		// methods
 		static Method methods[] = {
+			{ t, "add", Address(), mud_TPool_mud_Light_add, { { "value", type<mud::Light>(),  } }, { &type<mud::Light>(), QualType::None } },
 			{ t, "talloc", Address(), mud_TPool_mud_Light_talloc, {}, { &type<mud::Light>(), QualType::None } },
-			{ t, "tconstruct", Address(), mud_TPool_mud_Light_tconstruct, { { "value", type<mud::Light>(),  } }, { &type<mud::Light>(), QualType::None } },
 			{ t, "tdestroy", Address(), mud_TPool_mud_Light_tdestroy, { { "object", type<mud::Light>(),  } }, g_qvoid },
 			{ t, "tfree", Address(), mud_TPool_mud_Light_tfree, { { "object", type<mud::Light>(),  } }, g_qvoid }
 		};
@@ -2030,8 +2051,8 @@ namespace mud
 		// members
 		// methods
 		static Method methods[] = {
+			{ t, "add", Address(), mud_TPool_mud_Mime_add, { { "value", type<mud::Mime>(),  } }, { &type<mud::Mime>(), QualType::None } },
 			{ t, "talloc", Address(), mud_TPool_mud_Mime_talloc, {}, { &type<mud::Mime>(), QualType::None } },
-			{ t, "tconstruct", Address(), mud_TPool_mud_Mime_tconstruct, { { "value", type<mud::Mime>(),  } }, { &type<mud::Mime>(), QualType::None } },
 			{ t, "tdestroy", Address(), mud_TPool_mud_Mime_tdestroy, { { "object", type<mud::Mime>(),  } }, g_qvoid },
 			{ t, "tfree", Address(), mud_TPool_mud_Mime_tfree, { { "object", type<mud::Mime>(),  } }, g_qvoid }
 		};
@@ -2049,8 +2070,8 @@ namespace mud
 		// members
 		// methods
 		static Method methods[] = {
+			{ t, "add", Address(), mud_TPool_mud_Node3_add, { { "value", type<mud::Node3>(),  } }, { &type<mud::Node3>(), QualType::None } },
 			{ t, "talloc", Address(), mud_TPool_mud_Node3_talloc, {}, { &type<mud::Node3>(), QualType::None } },
-			{ t, "tconstruct", Address(), mud_TPool_mud_Node3_tconstruct, { { "value", type<mud::Node3>(),  } }, { &type<mud::Node3>(), QualType::None } },
 			{ t, "tdestroy", Address(), mud_TPool_mud_Node3_tdestroy, { { "object", type<mud::Node3>(),  } }, g_qvoid },
 			{ t, "tfree", Address(), mud_TPool_mud_Node3_tfree, { { "object", type<mud::Node3>(),  } }, g_qvoid }
 		};
@@ -2402,15 +2423,87 @@ namespace mud
 		m.m_types.push_back(&type<mud::Flare>());
 		m.m_types.push_back(&type<mud::RenderTarget>());
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "setup_pipeline_minimal", nullptr, mud_gfx_setup_pipeline_minimal_0, { { "gfx", type<mud::GfxSystem>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "bxidentity", nullptr, mud_bxidentity_0, {}, { &type<mud::mat4>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "update_item_aabb", nullptr, mud_gfx_update_item_aabb_1, { { "item", type<mud::Item>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "bxinverse", nullptr, mud_bxinverse_1, { { "mat", type<mud::mat4>(),  } }, { &type<mud::mat4>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "update_item_lights", nullptr, mud_gfx_update_item_lights_2, { { "scene", type<mud::Scene>(),  }, { "item", type<mud::Item>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "bxSRT", nullptr, mud_bxSRT_2, { { "scale", type<mud::vec3>(),  }, { "rot", type<mud::vec3>(),  }, { "trans", type<mud::vec3>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxscale", nullptr, mud_bxscale_3, { { "scale", type<mud::vec3>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxrotation", nullptr, mud_bxrotation_4, { { "rot", type<mud::quat>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxtranslation", nullptr, mud_bxtranslation_5, { { "vec", type<mud::vec3>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxmul", nullptr, mud_bxmul_6, { { "lhs", type<mud::mat4>(),  }, { "rhs", type<mud::mat4>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxmul", nullptr, mud_bxmul_7, { { "mat", type<mud::mat4>(),  }, { "vec", type<mud::vec4>(),  } }, { &type<mud::vec4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxmul", nullptr, mud_bxmul_8, { { "mat", type<mud::mat4>(),  }, { "vec", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxmulh", nullptr, mud_bxmulh_9, { { "mat", type<mud::mat4>(),  }, { "vec", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxlookat", nullptr, mud_bxlookat_10, { { "eye", type<mud::vec3>(),  }, { "at", type<mud::vec3>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxlookat", nullptr, mud_bxlookat_11, { { "result", type<mud::mat4>(),  }, { "eye", type<mud::vec3>(),  }, { "at", type<mud::vec3>(),  }, { "up", type<mud::vec3>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxlookat", nullptr, mud_bxlookat_12, { { "eye", type<mud::vec3>(),  }, { "at", type<mud::vec3>(),  }, { "up", type<mud::vec3>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxproj", nullptr, mud_bxproj_13, { { "fov", type<float>(),  }, { "aspect", type<float>(),  }, { "near", type<float>(),  }, { "far", type<float>(),  }, { "oglNdc", type<bool>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxortho", nullptr, mud_bxortho_14, { { "rect", type<mud::vec4>(),  }, { "near", type<float>(),  }, { "far", type<float>(),  }, { "offset", type<float>(),  }, { "oglNdc", type<bool>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxortho", nullptr, mud_bxortho_15, { { "left", type<float>(),  }, { "right", type<float>(),  }, { "bottom", type<float>(),  }, { "top", type<float>(),  }, { "near", type<float>(),  }, { "far", type<float>(),  }, { "offset", type<float>(),  }, { "oglNdc", type<bool>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxSRT", nullptr, mud_bxSRT_16, { { "scale", type<mud::vec3>(),  }, { "rot", type<mud::quat>(),  }, { "trans", type<mud::vec3>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "bxTRS", nullptr, mud_bxTRS_17, { { "scale", type<mud::vec3>(),  }, { "rot", type<mud::quat>(),  }, { "trans", type<mud::vec3>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "gfx" }), "setup_pipeline_minimal", nullptr, mud_gfx_setup_pipeline_minimal_18, { { "gfx", type<mud::GfxSystem>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "gfx" }), "update_item_aabb", nullptr, mud_gfx_update_item_aabb_19, { { "item", type<mud::Item>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "gfx" }), "update_item_lights", nullptr, mud_gfx_update_item_lights_20, { { "scene", type<mud::Scene>(),  }, { "item", type<mud::Item>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2418,26 +2511,26 @@ namespace mud
 			static mud::vec3 position_default = vec3(0.f);
 			static mud::quat rotation_default = ZeroQuat;
 			static mud::vec3 scale_default = vec3(1.f);
-			static Function f = { &namspc({ "mud", "gfx" }), "node", nullptr, mud_gfx_node_3, { { "parent", type<mud::Gnode>(),  }, { "object", type<mud::Ref>(), Param::Flags(Param::Nullable|Param::Default), &object_default }, { "position", type<mud::vec3>(), Param::Default, &position_default }, { "rotation", type<mud::quat>(), Param::Default, &rotation_default }, { "scale", type<mud::vec3>(), Param::Default, &scale_default } }, { &type<mud::Gnode>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "node", nullptr, mud_gfx_node_21, { { "parent", type<mud::Gnode>(),  }, { "object", type<mud::Ref>(), Param::Flags(Param::Nullable|Param::Default), &object_default }, { "position", type<mud::vec3>(), Param::Default, &position_default }, { "rotation", type<mud::quat>(), Param::Default, &rotation_default }, { "scale", type<mud::vec3>(), Param::Default, &scale_default } }, { &type<mud::Gnode>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static uint32_t flags_default = 0;
 			static mud::Material* material_default = nullptr;
 			static size_t instances_default = 0;
-			static Function f = { &namspc({ "mud", "gfx" }), "shape", nullptr, mud_gfx_shape_4, { { "parent", type<mud::Gnode>(),  }, { "shape", type<mud::Shape>(),  }, { "symbol", type<mud::Symbol>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &material_default }, { "instances", type<size_t>(), Param::Default, &instances_default } }, { &type<mud::Item>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "shape", nullptr, mud_gfx_shape_22, { { "parent", type<mud::Gnode>(),  }, { "shape", type<mud::Shape>(),  }, { "symbol", type<mud::Symbol>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &material_default }, { "instances", type<size_t>(), Param::Default, &instances_default } }, { &type<mud::Item>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static uint32_t flags_default = 0;
-			static Function f = { &namspc({ "mud", "gfx" }), "draw", nullptr, mud_gfx_draw_5, { { "parent", type<mud::Gnode>(),  }, { "shape", type<mud::Shape>(),  }, { "symbol", type<mud::Symbol>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default } }, g_qvoid };
+			static Function f = { &namspc({ "mud", "gfx" }), "draw", nullptr, mud_gfx_draw_23, { { "parent", type<mud::Gnode>(),  }, { "shape", type<mud::Shape>(),  }, { "symbol", type<mud::Symbol>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static uint32_t flags_default = 0;
 			static mud::Material* material_default = nullptr;
 			static size_t instances_default = 0;
-			static Function f = { &namspc({ "mud", "gfx" }), "sprite", nullptr, mud_gfx_sprite_6, { { "parent", type<mud::Gnode>(),  }, { "image", type<mud::Image256>(),  }, { "size", type<mud::vec2>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &material_default }, { "instances", type<size_t>(), Param::Default, &instances_default } }, { &type<mud::Item>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "sprite", nullptr, mud_gfx_sprite_24, { { "parent", type<mud::Gnode>(),  }, { "image", type<mud::Image256>(),  }, { "size", type<mud::vec2>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &material_default }, { "instances", type<size_t>(), Param::Default, &instances_default } }, { &type<mud::Item>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2445,7 +2538,7 @@ namespace mud
 			static mud::Material* material_default = nullptr;
 			static size_t instances_default = 0;
 			static stl::span<mud::mat4> transforms_default = {};
-			static Function f = { &namspc({ "mud", "gfx" }), "item", nullptr, mud_gfx_item_7, { { "parent", type<mud::Gnode>(),  }, { "model", type<mud::Model>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &material_default }, { "instances", type<size_t>(), Param::Default, &instances_default }, { "transforms", type<stl::span<mud::mat4>>(), Param::Default, &transforms_default } }, { &type<mud::Item>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "item", nullptr, mud_gfx_item_25, { { "parent", type<mud::Gnode>(),  }, { "model", type<mud::Model>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &material_default }, { "instances", type<size_t>(), Param::Default, &instances_default }, { "transforms", type<stl::span<mud::mat4>>(), Param::Default, &transforms_default } }, { &type<mud::Item>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2454,48 +2547,52 @@ namespace mud
 			static mud::Material* material_default = nullptr;
 			static size_t instances_default = 0;
 			static stl::span<mud::mat4> transforms_default = {};
-			static Function f = { &namspc({ "mud", "gfx" }), "prefab", nullptr, mud_gfx_prefab_8, { { "parent", type<mud::Gnode>(),  }, { "prefab", type<mud::Prefab>(),  }, { "transform", type<bool>(), Param::Default, &transform_default }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &material_default }, { "instances", type<size_t>(), Param::Default, &instances_default }, { "transforms", type<stl::span<mud::mat4>>(), Param::Default, &transforms_default } }, g_qvoid };
+			static Function f = { &namspc({ "mud", "gfx" }), "prefab", nullptr, mud_gfx_prefab_26, { { "parent", type<mud::Gnode>(),  }, { "prefab", type<mud::Prefab>(),  }, { "transform", type<bool>(), Param::Default, &transform_default }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &material_default }, { "instances", type<size_t>(), Param::Default, &instances_default }, { "transforms", type<stl::span<mud::mat4>>(), Param::Default, &transforms_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static uint32_t flags_default = 0;
 			static mud::Material* material_default = nullptr;
 			static size_t instances_default = 0;
-			static Function f = { &namspc({ "mud", "gfx" }), "model", nullptr, mud_gfx_model_9, { { "parent", type<mud::Gnode>(),  }, { "name", type<stl::string>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &material_default }, { "instances", type<size_t>(), Param::Default, &instances_default } }, { &type<mud::Item>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "model", nullptr, mud_gfx_model_27, { { "parent", type<mud::Gnode>(),  }, { "name", type<stl::string>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &material_default }, { "instances", type<size_t>(), Param::Default, &instances_default } }, { &type<mud::Item>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "animated", nullptr, mud_gfx_animated_10, { { "parent", type<mud::Gnode>(),  }, { "item", type<mud::Item>(),  } }, { &type<mud::Mime>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "animated", nullptr, mud_gfx_animated_28, { { "parent", type<mud::Gnode>(),  }, { "item", type<mud::Item>(),  } }, { &type<mud::Mime>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static uint32_t flags_default = 0;
 			static size_t instances_default = 0;
-			static Function f = { &namspc({ "mud", "gfx" }), "flows", nullptr, mud_gfx_flows_11, { { "parent", type<mud::Gnode>(),  }, { "emitter", type<mud::Flow>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "instances", type<size_t>(), Param::Default, &instances_default } }, { &type<mud::Flare>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "flows", nullptr, mud_gfx_flows_29, { { "parent", type<mud::Gnode>(),  }, { "emitter", type<mud::Flow>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default }, { "instances", type<size_t>(), Param::Default, &instances_default } }, { &type<mud::Flare>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float range_default = 0.f;
 			static float attenuation_default = 0.5f;
-			static Function f = { &namspc({ "mud", "gfx" }), "light", nullptr, mud_gfx_light_12, { { "parent", type<mud::Gnode>(),  }, { "type", type<mud::LightType>(),  }, { "shadows", type<bool>(),  }, { "colour", type<mud::Colour>(),  }, { "range", type<float>(), Param::Default, &range_default }, { "attenuation", type<float>(), Param::Default, &attenuation_default } }, { &type<mud::Light>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "light", nullptr, mud_gfx_light_30, { { "parent", type<mud::Gnode>(),  }, { "type", type<mud::LightType>(),  }, { "shadows", type<bool>(),  }, { "colour", type<mud::Colour>(),  }, { "range", type<float>(), Param::Default, &range_default }, { "attenuation", type<float>(), Param::Default, &attenuation_default } }, { &type<mud::Light>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "sun_light", nullptr, mud_gfx_sun_light_13, { { "parent", type<mud::Gnode>(),  }, { "azimuth", type<float>(),  }, { "elevation", type<float>(),  } }, { &type<mud::Light>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "sun_light", nullptr, mud_gfx_sun_light_31, { { "parent", type<mud::Gnode>(),  }, { "azimuth", type<float>(),  }, { "elevation", type<float>(),  } }, { &type<mud::Light>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "radiance", nullptr, mud_gfx_radiance_14, { { "parent", type<mud::Gnode>(),  }, { "texture", type<stl::string>(),  }, { "background", type<mud::BackgroundMode>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud", "gfx" }), "radiance", nullptr, mud_gfx_radiance_32, { { "parent", type<mud::Gnode>(),  }, { "texture", type<stl::string>(),  }, { "background", type<mud::BackgroundMode>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "direct_light_node", nullptr, mud_gfx_direct_light_node_15, { { "parent", type<mud::Gnode>(),  }, { "direction", type<mud::vec3>(),  } }, { &type<mud::Light>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "direct_light_node", nullptr, mud_gfx_direct_light_node_33, { { "parent", type<mud::Gnode>(),  }, { "direction", type<mud::vec3>(),  } }, { &type<mud::Light>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "gfx" }), "unshaded_material", nullptr, mud_gfx_unshaded_material_34, { { "gfx", type<mud::GfxSystem>(),  }, { "name", type<const char*>(), Param::Nullable }, { "colour", type<mud::Colour>(),  } }, { &type<mud::Material>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float metallic_default = 0.f;
 			static float roughness_default = 1.f;
-			static Function f = { &namspc({ "mud", "gfx" }), "pbr_material", nullptr, mud_gfx_pbr_material_16, { { "gfx", type<mud::GfxSystem>(),  }, { "name", type<const char*>(), Param::Nullable }, { "albedo", type<mud::Colour>(),  }, { "metallic", type<float>(), Param::Default, &metallic_default }, { "roughness", type<float>(), Param::Default, &roughness_default } }, { &type<mud::Material>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "pbr_material", nullptr, mud_gfx_pbr_material_35, { { "gfx", type<mud::GfxSystem>(),  }, { "name", type<const char*>(), Param::Nullable }, { "albedo", type<mud::Colour>(),  }, { "metallic", type<float>(), Param::Default, &metallic_default }, { "roughness", type<float>(), Param::Default, &roughness_default } }, { &type<mud::Material>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 	}

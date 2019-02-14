@@ -187,7 +187,7 @@ namespace mud
 	{
 		Type& t = type<glTFAlphaMode>();
 		static Meta meta = { t, &namspc({}), "glTFAlphaMode", sizeof(glTFAlphaMode), TypeClass::Enum };
-		static cstring ids[] = { "Opacity", "MASK", "BLEND" };
+		static cstring ids[] = { "OPAQUE", "MASK", "BLEND" };
 		static uint32_t values[] = { 0, 1, 2 };
 		static glTFAlphaMode vars[] = { glTFAlphaMode::OPAQUE, glTFAlphaMode::MASK, glTFAlphaMode::BLEND};
 		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
@@ -781,6 +781,7 @@ namespace mud
 		// defaults
 		static mud::vec3 emissive_factor_default = to_vec3(mud::Colour::Black);
 		static bool double_sided_default = false;
+		static glTFAlphaMode alpha_mode_default = glTFAlphaMode::OPAQUE;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, glTFMaterial__construct_0, {} }
@@ -797,7 +798,7 @@ namespace mud
 			{ t, offsetof(glTFMaterial, emissive_factor), type<mud::vec3>(), "emissive_factor", &emissive_factor_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, emissive_texture), type<glTFTextureInfo>(), "emissive_texture", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, double_sided), type<bool>(), "double_sided", &double_sided_default, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterial, alpha_mode), type<glTFAlphaMode>(), "alpha_mode", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterial, alpha_mode), type<glTFAlphaMode>(), "alpha_mode", &alpha_mode_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, pbr_metallic_roughness), type<glTFMaterialPBR>(), "pbr_metallic_roughness", nullptr, Member::Value, nullptr }
 		};
 		// methods

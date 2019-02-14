@@ -1641,6 +1641,9 @@ extern "C" {
 	mud::Type* DECL mud_Node3__type() {
 		return &mud::type<mud::Node3>();
 	}
+	mud::Node3* DECL mud_Node3__construct_0() {
+		return new mud::Node3();
+	}
 	mud::Node3* DECL mud_Node3__construct_1(const mud::mat4* transform) {
 		return new mud::Node3(*transform);
 	}
@@ -2012,11 +2015,11 @@ extern "C" {
 	mud::Type* DECL mud_TPool_mud_Flare__type() {
 		return &mud::type<mud::TPool<mud::Flare>>();
 	}
+	mud::Flare* DECL mud_TPool_mud_Flare_add_1(mud::TPool<mud::Flare>* self, const mud::Flare* value) {
+		return &self->add(*value);
+	}
 	mud::Flare* DECL mud_TPool_mud_Flare_talloc_0(mud::TPool<mud::Flare>* self) {
 		return self->talloc();
-	}
-	mud::Flare* DECL mud_TPool_mud_Flare_tconstruct_1(mud::TPool<mud::Flare>* self, const mud::Flare* value) {
-		return &self->tconstruct(*value);
 	}
 	void DECL mud_TPool_mud_Flare_tdestroy_1(mud::TPool<mud::Flare>* self, mud::Flare* object) {
 		self->tdestroy(*object);
@@ -2031,11 +2034,11 @@ extern "C" {
 	mud::Type* DECL mud_TPool_mud_Item__type() {
 		return &mud::type<mud::TPool<mud::Item>>();
 	}
+	mud::Item* DECL mud_TPool_mud_Item_add_1(mud::TPool<mud::Item>* self, const mud::Item* value) {
+		return &self->add(*value);
+	}
 	mud::Item* DECL mud_TPool_mud_Item_talloc_0(mud::TPool<mud::Item>* self) {
 		return self->talloc();
-	}
-	mud::Item* DECL mud_TPool_mud_Item_tconstruct_1(mud::TPool<mud::Item>* self, const mud::Item* value) {
-		return &self->tconstruct(*value);
 	}
 	void DECL mud_TPool_mud_Item_tdestroy_1(mud::TPool<mud::Item>* self, mud::Item* object) {
 		self->tdestroy(*object);
@@ -2050,11 +2053,11 @@ extern "C" {
 	mud::Type* DECL mud_TPool_mud_Light__type() {
 		return &mud::type<mud::TPool<mud::Light>>();
 	}
+	mud::Light* DECL mud_TPool_mud_Light_add_1(mud::TPool<mud::Light>* self, const mud::Light* value) {
+		return &self->add(*value);
+	}
 	mud::Light* DECL mud_TPool_mud_Light_talloc_0(mud::TPool<mud::Light>* self) {
 		return self->talloc();
-	}
-	mud::Light* DECL mud_TPool_mud_Light_tconstruct_1(mud::TPool<mud::Light>* self, const mud::Light* value) {
-		return &self->tconstruct(*value);
 	}
 	void DECL mud_TPool_mud_Light_tdestroy_1(mud::TPool<mud::Light>* self, mud::Light* object) {
 		self->tdestroy(*object);
@@ -2069,11 +2072,11 @@ extern "C" {
 	mud::Type* DECL mud_TPool_mud_Mime__type() {
 		return &mud::type<mud::TPool<mud::Mime>>();
 	}
+	mud::Mime* DECL mud_TPool_mud_Mime_add_1(mud::TPool<mud::Mime>* self, const mud::Mime* value) {
+		return &self->add(*value);
+	}
 	mud::Mime* DECL mud_TPool_mud_Mime_talloc_0(mud::TPool<mud::Mime>* self) {
 		return self->talloc();
-	}
-	mud::Mime* DECL mud_TPool_mud_Mime_tconstruct_1(mud::TPool<mud::Mime>* self, const mud::Mime* value) {
-		return &self->tconstruct(*value);
 	}
 	void DECL mud_TPool_mud_Mime_tdestroy_1(mud::TPool<mud::Mime>* self, mud::Mime* object) {
 		self->tdestroy(*object);
@@ -2088,11 +2091,11 @@ extern "C" {
 	mud::Type* DECL mud_TPool_mud_Node3__type() {
 		return &mud::type<mud::TPool<mud::Node3>>();
 	}
+	mud::Node3* DECL mud_TPool_mud_Node3_add_1(mud::TPool<mud::Node3>* self, const mud::Node3* value) {
+		return &self->add(*value);
+	}
 	mud::Node3* DECL mud_TPool_mud_Node3_talloc_0(mud::TPool<mud::Node3>* self) {
 		return self->talloc();
-	}
-	mud::Node3* DECL mud_TPool_mud_Node3_tconstruct_1(mud::TPool<mud::Node3>* self, const mud::Node3* value) {
-		return &self->tconstruct(*value);
 	}
 	void DECL mud_TPool_mud_Node3_tdestroy_1(mud::TPool<mud::Node3>* self, mud::Node3* object) {
 		self->tdestroy(*object);
@@ -2299,6 +2302,65 @@ extern "C" {
 	void DECL mud_RenderTarget__destroy(mud::RenderTarget* self) {
 		delete self;
 	}
+	mud::mat4* DECL mud_bxidentity_0() {
+		static mud::mat4 temp;
+		return (temp = mud::bxidentity(), &temp);
+	}
+	mud::mat4* DECL mud_bxinverse_1(const mud::mat4* mat) {
+		static mud::mat4 temp;
+		return (temp = mud::bxinverse(*mat), &temp);
+	}
+	mud::mat4* DECL mud_bxSRT_3(const mud::vec3* scale, const mud::vec3* rot, const mud::vec3* trans) {
+		static mud::mat4 temp;
+		return (temp = mud::bxSRT(*scale, *rot, *trans), &temp);
+	}
+	mud::mat4* DECL mud_bxscale_1(const mud::vec3* scale) {
+		static mud::mat4 temp;
+		return (temp = mud::bxscale(*scale), &temp);
+	}
+	mud::mat4* DECL mud_bxrotation_1(const mud::quat* rot) {
+		static mud::mat4 temp;
+		return (temp = mud::bxrotation(*rot), &temp);
+	}
+	mud::mat4* DECL mud_bxtranslation_1(const mud::vec3* vec) {
+		static mud::mat4 temp;
+		return (temp = mud::bxtranslation(*vec), &temp);
+	}
+	mud::mat4* DECL mud_bxmul_2(const mud::mat4* lhs, const mud::mat4* rhs) {
+		static mud::mat4 temp;
+		return (temp = mud::bxmul(*lhs, *rhs), &temp);
+	}
+	mud::vec3* DECL mud_bxmulh_2(const mud::mat4* mat, const mud::vec3* vec) {
+		static mud::vec3 temp;
+		return (temp = mud::bxmulh(*mat, *vec), &temp);
+	}
+	mud::mat4* DECL mud_bxlookat_2(const mud::vec3* eye, const mud::vec3* at) {
+		static mud::mat4 temp;
+		return (temp = mud::bxlookat(*eye, *at), &temp);
+	}
+	mud::mat4* DECL mud_bxlookat_3(const mud::vec3* eye, const mud::vec3* at, const mud::vec3* up) {
+		static mud::mat4 temp;
+		return (temp = mud::bxlookat(*eye, *at, *up), &temp);
+	}
+	void DECL mud_bxlookat_4(mud::mat4* result, const mud::vec3* eye, const mud::vec3* at, const mud::vec3* up) {
+		mud::bxlookat(*result, *eye, *at, *up);
+	}
+	mud::mat4* DECL mud_bxproj_5(float fov, float aspect, float near, float far, bool oglNdc) {
+		static mud::mat4 temp;
+		return (temp = mud::bxproj(fov, aspect, near, far, oglNdc), &temp);
+	}
+	mud::mat4* DECL mud_bxortho_5(const mud::vec4* rect, float near, float far, float offset, bool oglNdc) {
+		static mud::mat4 temp;
+		return (temp = mud::bxortho(*rect, near, far, offset, oglNdc), &temp);
+	}
+	mud::mat4* DECL mud_bxortho_8(float left, float right, float bottom, float top, float near, float far, float offset, bool oglNdc) {
+		static mud::mat4 temp;
+		return (temp = mud::bxortho(left, right, bottom, top, near, far, offset, oglNdc), &temp);
+	}
+	mud::mat4* DECL mud_bxTRS_3(const mud::vec3* scale, const mud::quat* rot, const mud::vec3* trans) {
+		static mud::mat4 temp;
+		return (temp = mud::bxTRS(*scale, *rot, *trans), &temp);
+	}
 	void DECL mud_gfx_setup_pipeline_minimal_1(mud::GfxSystem* gfx) {
 		mud::gfx::setup_pipeline_minimal(*gfx);
 	}
@@ -2394,6 +2456,9 @@ extern "C" {
 	}
 	mud::Light* DECL mud_gfx_direct_light_node_2(mud::Gnode* parent, const mud::vec3* direction) {
 		return &mud::gfx::direct_light_node(*parent, *direction);
+	}
+	mud::Material* DECL mud_gfx_unshaded_material_3(mud::GfxSystem* gfx, const char* name, const mud::Colour* colour) {
+		return &mud::gfx::unshaded_material(*gfx, name, *colour);
 	}
 	mud::Material* DECL mud_gfx_pbr_material_3(mud::GfxSystem* gfx, const char* name, const mud::Colour* albedo) {
 		return &mud::gfx::pbr_material(*gfx, name, *albedo);

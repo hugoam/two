@@ -34,9 +34,10 @@ namespace mud
 		TPool(size_t size = 12);
 		~TPool();
 
+		//meth_ T& add(T&& value);
+		meth_ T& add(const T& value);
+
 		meth_ T* talloc();
-		//meth_ T& tconstruct(T&& value);
-		meth_ T& tconstruct(const T& value);
 		meth_ void tdestroy(T& object);
 		meth_ void tfree(T& object);
 

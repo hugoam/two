@@ -1406,7 +1406,7 @@ glTFTextureInfo.prototype["__destroy__"] = glTFTextureInfo.prototype.__destroy__
         glTFTextureInfo.__type__ = _glTFTextureInfo__type();
         // glTFAlphaMode
         Module['glTFAlphaMode'] = Module['glTFAlphaMode'] || {};
-        Module['glTFAlphaMode']['Opacity'] = _glTFAlphaMode_Opacity();
+        Module['glTFAlphaMode']['OPAQUE'] = _glTFAlphaMode_OPAQUE();
         Module['glTFAlphaMode']['MASK'] = _glTFAlphaMode_MASK();
         Module['glTFAlphaMode']['BLEND'] = _glTFAlphaMode_BLEND();
         // glTFComponentType

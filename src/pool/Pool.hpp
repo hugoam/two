@@ -18,15 +18,16 @@ namespace mud
 	TPool<T>::~TPool() {}
 
 	template <class T>
-	inline T* TPool<T>::talloc() { return m_vec_pool->alloc(); }
-	template <class T>
-	//inline T& TPool<T>::tconstruct(T&& value)
-	inline T& TPool<T>::tconstruct(const T& value)
+	//inline T& TPool<T>::add(T&& value)
+	inline T& TPool<T>::add(const T& value)
 	{
 		T* at = this->talloc();
 		new (stl::placeholder(), at) T(value);
 		return *at;
 	}
+
+	template <class T>
+	inline T* TPool<T>::talloc() { return m_vec_pool->alloc(); }
 	template <class T>
 	inline void TPool<T>::tdestroy(T& object) { m_vec_pool->destroy(&object); }
 	template <class T>

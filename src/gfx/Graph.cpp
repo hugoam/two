@@ -132,9 +132,10 @@ namespace gfx
 		Gnode& self = parent.subi(object.m_value);
 		if(!self.m_node)
 		{
-			self.m_node = &create<Node3>(*parent.m_scene, object);
+			self.m_node = &create<Node3>(*parent.m_scene);
 			self.m_attach = self.m_node;
 		}
+		self.m_node->m_object = object;
 		self.m_node->m_transform = transform;
 		return self;
 	}

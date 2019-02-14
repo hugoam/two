@@ -2548,6 +2548,7 @@ ModelItem.prototype["__destroy__"] = ModelItem.prototype.__destroy__ = function(
 };
 // Node3
 function Node3(a0, a1, a2) {
+    if (a0 === undefined) { this.ptr = _mud_Node3__construct_0(); this.type = Node3; getCache(Node3)[this.ptr] = this; return; }
     if (a1 === undefined) { this.ptr = _mud_Node3__construct_1(/*transform*/a0.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this; return; }
     if (a2 === undefined) { this.ptr = _mud_Node3__construct_2(/*position*/a0.ptr, /*rotation*/a1.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this; return; }
     this.ptr = _mud_Node3__construct_3(/*position*/a0.ptr, /*rotation*/a1.ptr, /*scale*/a2.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this;
@@ -3115,13 +3116,13 @@ TPool_mud_Flare.prototype.constructor = TPool_mud_Flare;
 TPool_mud_Flare.prototype.__class__ = TPool_mud_Flare;
 TPool_mud_Flare.__cache__ = {};
 Module['TPool_mud_Flare'] = TPool_mud_Flare;
+TPool_mud_Flare.prototype["add"] = TPool_mud_Flare.prototype.add = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Flare_add_1(self, /*value*/a0.ptr), Flare);
+};
 TPool_mud_Flare.prototype["talloc"] = TPool_mud_Flare.prototype.talloc = function() {
     var self = this.ptr;
     return wrapPointer(_mud_TPool_mud_Flare_talloc_0(self), Flare);
-};
-TPool_mud_Flare.prototype["tconstruct"] = TPool_mud_Flare.prototype.tconstruct = function(a0) {
-    var self = this.ptr;
-    return wrapPointer(_mud_TPool_mud_Flare_tconstruct_1(self, /*value*/a0.ptr), Flare);
 };
 TPool_mud_Flare.prototype["tdestroy"] = TPool_mud_Flare.prototype.tdestroy = function(a0) {
     var self = this.ptr;
@@ -3142,13 +3143,13 @@ TPool_mud_Item.prototype.constructor = TPool_mud_Item;
 TPool_mud_Item.prototype.__class__ = TPool_mud_Item;
 TPool_mud_Item.__cache__ = {};
 Module['TPool_mud_Item'] = TPool_mud_Item;
+TPool_mud_Item.prototype["add"] = TPool_mud_Item.prototype.add = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Item_add_1(self, /*value*/a0.ptr), Item);
+};
 TPool_mud_Item.prototype["talloc"] = TPool_mud_Item.prototype.talloc = function() {
     var self = this.ptr;
     return wrapPointer(_mud_TPool_mud_Item_talloc_0(self), Item);
-};
-TPool_mud_Item.prototype["tconstruct"] = TPool_mud_Item.prototype.tconstruct = function(a0) {
-    var self = this.ptr;
-    return wrapPointer(_mud_TPool_mud_Item_tconstruct_1(self, /*value*/a0.ptr), Item);
 };
 TPool_mud_Item.prototype["tdestroy"] = TPool_mud_Item.prototype.tdestroy = function(a0) {
     var self = this.ptr;
@@ -3169,13 +3170,13 @@ TPool_mud_Light.prototype.constructor = TPool_mud_Light;
 TPool_mud_Light.prototype.__class__ = TPool_mud_Light;
 TPool_mud_Light.__cache__ = {};
 Module['TPool_mud_Light'] = TPool_mud_Light;
+TPool_mud_Light.prototype["add"] = TPool_mud_Light.prototype.add = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Light_add_1(self, /*value*/a0.ptr), Light);
+};
 TPool_mud_Light.prototype["talloc"] = TPool_mud_Light.prototype.talloc = function() {
     var self = this.ptr;
     return wrapPointer(_mud_TPool_mud_Light_talloc_0(self), Light);
-};
-TPool_mud_Light.prototype["tconstruct"] = TPool_mud_Light.prototype.tconstruct = function(a0) {
-    var self = this.ptr;
-    return wrapPointer(_mud_TPool_mud_Light_tconstruct_1(self, /*value*/a0.ptr), Light);
 };
 TPool_mud_Light.prototype["tdestroy"] = TPool_mud_Light.prototype.tdestroy = function(a0) {
     var self = this.ptr;
@@ -3196,13 +3197,13 @@ TPool_mud_Mime.prototype.constructor = TPool_mud_Mime;
 TPool_mud_Mime.prototype.__class__ = TPool_mud_Mime;
 TPool_mud_Mime.__cache__ = {};
 Module['TPool_mud_Mime'] = TPool_mud_Mime;
+TPool_mud_Mime.prototype["add"] = TPool_mud_Mime.prototype.add = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Mime_add_1(self, /*value*/a0.ptr), Mime);
+};
 TPool_mud_Mime.prototype["talloc"] = TPool_mud_Mime.prototype.talloc = function() {
     var self = this.ptr;
     return wrapPointer(_mud_TPool_mud_Mime_talloc_0(self), Mime);
-};
-TPool_mud_Mime.prototype["tconstruct"] = TPool_mud_Mime.prototype.tconstruct = function(a0) {
-    var self = this.ptr;
-    return wrapPointer(_mud_TPool_mud_Mime_tconstruct_1(self, /*value*/a0.ptr), Mime);
 };
 TPool_mud_Mime.prototype["tdestroy"] = TPool_mud_Mime.prototype.tdestroy = function(a0) {
     var self = this.ptr;
@@ -3223,13 +3224,13 @@ TPool_mud_Node3.prototype.constructor = TPool_mud_Node3;
 TPool_mud_Node3.prototype.__class__ = TPool_mud_Node3;
 TPool_mud_Node3.__cache__ = {};
 Module['TPool_mud_Node3'] = TPool_mud_Node3;
+TPool_mud_Node3.prototype["add"] = TPool_mud_Node3.prototype.add = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Node3_add_1(self, /*value*/a0.ptr), Node3);
+};
 TPool_mud_Node3.prototype["talloc"] = TPool_mud_Node3.prototype.talloc = function() {
     var self = this.ptr;
     return wrapPointer(_mud_TPool_mud_Node3_talloc_0(self), Node3);
-};
-TPool_mud_Node3.prototype["tconstruct"] = TPool_mud_Node3.prototype.tconstruct = function(a0) {
-    var self = this.ptr;
-    return wrapPointer(_mud_TPool_mud_Node3_tconstruct_1(self, /*value*/a0.ptr), Node3);
 };
 TPool_mud_Node3.prototype["tdestroy"] = TPool_mud_Node3.prototype.tdestroy = function(a0) {
     var self = this.ptr;
@@ -3552,6 +3553,45 @@ RenderTarget.prototype["__destroy__"] = RenderTarget.prototype.__destroy__ = fun
     var self = this.ptr;
     _mud_RenderTarget__destroy(self);
 };
+Module['bxidentity'] = function() {
+    return wrapPointer(_mud_bxidentity_0(), mat4);
+};
+Module['bxinverse'] = function(a0) {
+    return wrapPointer(_mud_bxinverse_1(/*mat*/a0.ptr), mat4);
+};
+Module['bxSRT'] = function(a0, a1, a2) {
+    return wrapPointer(_mud_bxSRT_3(/*scale*/a0.ptr, /*rot*/a1.ptr, /*trans*/a2.ptr), mat4);
+};
+Module['bxscale'] = function(a0) {
+    return wrapPointer(_mud_bxscale_1(/*scale*/a0.ptr), mat4);
+};
+Module['bxrotation'] = function(a0) {
+    return wrapPointer(_mud_bxrotation_1(/*rot*/a0.ptr), mat4);
+};
+Module['bxtranslation'] = function(a0) {
+    return wrapPointer(_mud_bxtranslation_1(/*vec*/a0.ptr), mat4);
+};
+Module['bxmul'] = function(a0, a1) {
+    return wrapPointer(_mud_bxmul_2(/*lhs*/a0.ptr, /*rhs*/a1.ptr), mat4);
+};
+Module['bxmulh'] = function(a0, a1) {
+    return wrapPointer(_mud_bxmulh_2(/*mat*/a0.ptr, /*vec*/a1.ptr), v3_float);
+};
+Module['bxlookat'] = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { return wrapPointer(_mud_bxlookat_2(/*eye*/a0.ptr, /*at*/a1.ptr), mat4); }
+    if (a3 === undefined) { return wrapPointer(_mud_bxlookat_3(/*eye*/a0.ptr, /*at*/a1.ptr, /*up*/a2.ptr), mat4); }
+    _mud_bxlookat_4(/*result*/a0.ptr, /*eye*/a1.ptr, /*at*/a2.ptr, /*up*/a3.ptr);
+};
+Module['bxproj'] = function(a0, a1, a2, a3, a4) {
+    return wrapPointer(_mud_bxproj_5(/*fov*/a0, /*aspect*/a1, /*near*/a2, /*far*/a3, /*oglNdc*/a4), mat4);
+};
+Module['bxortho'] = function(a0, a1, a2, a3, a4, a5, a6, a7) {
+    if (a5 === undefined) { return wrapPointer(_mud_bxortho_5(/*rect*/a0.ptr, /*near*/a1, /*far*/a2, /*offset*/a3, /*oglNdc*/a4), mat4); }
+    return wrapPointer(_mud_bxortho_8(/*left*/a0, /*right*/a1, /*bottom*/a2, /*top*/a3, /*near*/a4, /*far*/a5, /*offset*/a6, /*oglNdc*/a7), mat4);
+};
+Module['bxTRS'] = function(a0, a1, a2) {
+    return wrapPointer(_mud_bxTRS_3(/*scale*/a0.ptr, /*rot*/a1.ptr, /*trans*/a2.ptr), mat4);
+};
 Module['gfx']['setup_pipeline_minimal'] = function(a0) {
     _mud_gfx_setup_pipeline_minimal_1(/*gfx*/a0.ptr);
 };
@@ -3613,6 +3653,10 @@ Module['gfx']['radiance'] = function(a0, a1, a2) {
 };
 Module['gfx']['direct_light_node'] = function(a0, a1) {
     return wrapPointer(_mud_gfx_direct_light_node_2(/*parent*/a0.ptr, /*direction*/a1.ptr), Light);
+};
+Module['gfx']['unshaded_material'] = function(a0, a1, a2) {
+    ensureCache.prepare();
+    return wrapPointer(_mud_gfx_unshaded_material_3(/*gfx*/a0.ptr, ensureString(/*name*/a1), /*colour*/a2.ptr), Material);
 };
 Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();

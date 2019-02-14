@@ -91,9 +91,8 @@ namespace mud
 
 	static uint16_t s_node_index = 0;
 
-	Node3::Node3(Ref object)
+	Node3::Node3()
 		: m_index(s_node_index++)
-		, m_object(object)
 	{}
 
 	Node3::Node3(const mat4& transform)
