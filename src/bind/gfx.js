@@ -848,58 +848,58 @@ DepthParams.prototype["__destroy__"] = DepthParams.prototype.__destroy__ = funct
     var self = this.ptr;
     _mud_DepthParams__destroy(self);
 };
-// Environment
-function Environment() {
-    this.ptr = _mud_Environment__construct_0(); this.type = Environment; getCache(Environment)[this.ptr] = this;
+// Zone
+function Zone() {
+    this.ptr = _mud_Zone__construct_0(); this.type = Zone; getCache(Zone)[this.ptr] = this;
 };
-Environment.prototype = Object.create(WrapperObject.prototype);
-Environment.prototype.constructor = Environment;
-Environment.prototype.__class__ = Environment;
-Environment.__cache__ = {};
-Module['Environment'] = Environment;
-Object.defineProperty(Environment.prototype, "background", {
+Zone.prototype = Object.create(WrapperObject.prototype);
+Zone.prototype.constructor = Zone;
+Zone.prototype.__class__ = Zone;
+Zone.__cache__ = {};
+Module['Zone'] = Zone;
+Object.defineProperty(Zone.prototype, "background", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Environment__get_background(self), Background);
+        return wrapPointer(_mud_Zone__get_background(self), Background);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_Environment__set_background(self, value.ptr);
+        _mud_Zone__set_background(self, value.ptr);
     }
 });
-Object.defineProperty(Environment.prototype, "radiance", {
+Object.defineProperty(Zone.prototype, "radiance", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Environment__get_radiance(self), Radiance);
+        return wrapPointer(_mud_Zone__get_radiance(self), Radiance);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_Environment__set_radiance(self, value.ptr);
+        _mud_Zone__set_radiance(self, value.ptr);
     }
 });
-Object.defineProperty(Environment.prototype, "sun", {
+Object.defineProperty(Zone.prototype, "sun", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Environment__get_sun(self), Sun);
+        return wrapPointer(_mud_Zone__get_sun(self), Sun);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_Environment__set_sun(self, value.ptr);
+        _mud_Zone__set_sun(self, value.ptr);
     }
 });
-Object.defineProperty(Environment.prototype, "fog", {
+Object.defineProperty(Zone.prototype, "fog", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Environment__get_fog(self), Fog);
+        return wrapPointer(_mud_Zone__get_fog(self), Fog);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_Environment__set_fog(self, value.ptr);
+        _mud_Zone__set_fog(self, value.ptr);
     }
 });
-Environment.prototype["__destroy__"] = Environment.prototype.__destroy__ = function() {
+Zone.prototype["__destroy__"] = Zone.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Environment__destroy(self);
+    _mud_Zone__destroy(self);
 };
 // Filter
 function Filter() { throw "cannot construct a Filter, no constructor in IDL" }
@@ -2991,7 +2991,7 @@ Object.defineProperty(Scene.prototype, "root_node", {
 Object.defineProperty(Scene.prototype, "environment", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Scene__get_environment(self), Environment);
+        return wrapPointer(_mud_Scene__get_environment(self), Zone);
     },
     set: function(value) {
         var self = this.ptr;
@@ -3677,7 +3677,7 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Camera.__type__ = _mud_Camera__type();
         Culler.__type__ = _mud_Culler__type();
         DepthParams.__type__ = _mud_DepthParams__type();
-        Environment.__type__ = _mud_Environment__type();
+        Zone.__type__ = _mud_Zone__type();
         Filter.__type__ = _mud_Filter__type();
         Flow.__type__ = _mud_Flow__type();
         Fog.__type__ = _mud_Fog__type();

@@ -545,38 +545,38 @@ extern "C" {
 	void DECL mud_DepthParams__destroy(mud::DepthParams* self) {
 		delete self;
 	}
-	// Environment
-	mud::Type* DECL mud_Environment__type() {
-		return &mud::type<mud::Environment>();
+	// Zone
+	mud::Type* DECL mud_Zone__type() {
+		return &mud::type<mud::Zone>();
 	}
-	mud::Environment* DECL mud_Environment__construct_0() {
-		return new mud::Environment();
+	mud::Zone* DECL mud_Zone__construct_0() {
+		return new mud::Zone();
 	}
-	mud::Background* DECL mud_Environment__get_background(mud::Environment* self) {
+	mud::Background* DECL mud_Zone__get_background(mud::Zone* self) {
 		return &self->m_background;
 	}
-	void DECL mud_Environment__set_background(mud::Environment* self, mud::Background* value) {
+	void DECL mud_Zone__set_background(mud::Zone* self, mud::Background* value) {
 		self->m_background = *value;
 	}
-	mud::Radiance* DECL mud_Environment__get_radiance(mud::Environment* self) {
+	mud::Radiance* DECL mud_Zone__get_radiance(mud::Zone* self) {
 		return &self->m_radiance;
 	}
-	void DECL mud_Environment__set_radiance(mud::Environment* self, mud::Radiance* value) {
+	void DECL mud_Zone__set_radiance(mud::Zone* self, mud::Radiance* value) {
 		self->m_radiance = *value;
 	}
-	mud::Sun* DECL mud_Environment__get_sun(mud::Environment* self) {
+	mud::Sun* DECL mud_Zone__get_sun(mud::Zone* self) {
 		return &self->m_sun;
 	}
-	void DECL mud_Environment__set_sun(mud::Environment* self, mud::Sun* value) {
+	void DECL mud_Zone__set_sun(mud::Zone* self, mud::Sun* value) {
 		self->m_sun = *value;
 	}
-	mud::Fog* DECL mud_Environment__get_fog(mud::Environment* self) {
+	mud::Fog* DECL mud_Zone__get_fog(mud::Zone* self) {
 		return &self->m_fog;
 	}
-	void DECL mud_Environment__set_fog(mud::Environment* self, mud::Fog* value) {
+	void DECL mud_Zone__set_fog(mud::Zone* self, mud::Fog* value) {
 		self->m_fog = *value;
 	}
-	void DECL mud_Environment__destroy(mud::Environment* self) {
+	void DECL mud_Zone__destroy(mud::Zone* self) {
 		delete self;
 	}
 	// Filter
@@ -1934,10 +1934,10 @@ extern "C" {
 	mud::Node3* DECL mud_Scene__get_root_node(mud::Scene* self) {
 		return &self->m_root_node;
 	}
-	mud::Environment* DECL mud_Scene__get_environment(mud::Scene* self) {
+	mud::Zone* DECL mud_Scene__get_environment(mud::Scene* self) {
 		return &self->m_environment;
 	}
-	void DECL mud_Scene__set_environment(mud::Scene* self, mud::Environment* value) {
+	void DECL mud_Scene__set_environment(mud::Scene* self, mud::Zone* value) {
 		self->m_environment = *value;
 	}
 	mud::Ref* DECL mud_Scene__get_user(mud::Scene* self) {
