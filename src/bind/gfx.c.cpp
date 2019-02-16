@@ -1935,10 +1935,10 @@ extern "C" {
 		return &self->m_root_node;
 	}
 	mud::Zone* DECL mud_Scene__get_environment(mud::Scene* self) {
-		return &self->m_environment;
+		return &self->m_env;
 	}
 	void DECL mud_Scene__set_environment(mud::Scene* self, mud::Zone* value) {
-		self->m_environment = *value;
+		self->m_env = *value;
 	}
 	mud::Ref* DECL mud_Scene__get_user(mud::Scene* self) {
 		return &self->m_user;
