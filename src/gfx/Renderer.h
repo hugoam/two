@@ -96,7 +96,7 @@ namespace mud
 		return (uint(lighting) & uint(option)) != 0;
 	}
 
-	export_ struct refl_ GpuTexture
+	struct GpuTexture
 	{
 		bgfx::TextureHandle texture;
 		uint16_t width = 1024;

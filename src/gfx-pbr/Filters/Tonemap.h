@@ -33,7 +33,7 @@ namespace mud
 		ACES
 	};
 
-	export_ struct refl_ gpu_ BCS
+	export_ struct refl_ BCS
 	{
 		attr_ gpu_ bool m_enabled = false;
 		attr_ gpu_ float m_brightness = 1.0f;
@@ -41,7 +41,7 @@ namespace mud
 		attr_ gpu_ float m_saturation = 1.0f;
 	};
 
-	export_ struct refl_ gpu_ Tonemap
+	export_ struct refl_ Tonemap
 	{
 		attr_ TonemapMode m_mode = TonemapMode::Linear;
 		attr_ bool m_enabled = false;

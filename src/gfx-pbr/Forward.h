@@ -54,6 +54,7 @@ namespace mud
     struct EffectBlurUniform;
     struct BlurKernel;
     class BlockBlur;
+	struct DofParams;
     struct DofBlur;
     struct DofBlurUniform;
     class BlockDofBlur;

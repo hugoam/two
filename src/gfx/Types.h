@@ -79,7 +79,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxContext>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Gnode>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::GpuTexture>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ImmediateDraw>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ImportConfig>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Item>();
