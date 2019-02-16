@@ -28,22 +28,17 @@ module mud.gfx.pbr;
 
 #include <cstring>
 
-#define ZONES_BUFFER 0
-
 namespace mud
 {
 	constexpr size_t BlockLight::ShotUniform::max_lights;
 	constexpr size_t BlockLight::ShotUniform::max_shadows;
 	constexpr size_t BlockLight::ShotUniform::max_forward_lights;
 
-#if ZONES_BUFFER
 	GpuState<Radiance> GpuState<Radiance>::me;
 	GpuState<Fog> GpuState<Fog>::me;
-#else
-	GpuState<Radiance> GpuState<Radiance>::me;
-	GpuState<Fog> GpuState<Fog>::me;
+	GpuState<Zone> GpuState<Zone>::me;
 	GpuState<ZoneLights> GpuState<ZoneLights>::me;
-#endif
+
 	GpuState<GpuLight> GpuState<GpuLight>::me;
 
 	BlockLight::BlockLight(GfxSystem& gfx_system, BlockShadow& block_shadow)
@@ -71,8 +66,8 @@ namespace mud
 #else
 		GpuState<Radiance>::me.init();
 		GpuState<Fog>::me.init();
-		GpuState<ZoneLights>::me.init();
 #endif
+		GpuState<ZoneLights>::me.init();
 	}
 
 	void BlockLight::begin_render(Render& render)
@@ -208,7 +203,7 @@ namespace mud
 	void BlockLight::update_zones(span<Zone> zones)
 	{
 #if ZONES_BUFFER
-		GpuState<Zone>::me.pack(m_zoness_texture, zones);
+		GpuState<Zone>::me.pack(m_zones_texture, zones);
 #else
 #endif
 	}
@@ -228,8 +223,8 @@ namespace mud
 		encoder.setTexture(uint8_t(TextureSampler::Zones), u_shot.s_zones, m_zones_texture);
 #else
 		GpuState<Zone>::me.upload(encoder, render.m_scene.m_env);
-		GpuState<ZoneLights>::me.upload(encoder, m_zones[0]);
 #endif
+		GpuState<ZoneLights>::me.upload(encoder, m_zones[0]);
 	}
 }
 

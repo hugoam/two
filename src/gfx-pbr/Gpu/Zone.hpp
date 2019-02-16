@@ -16,10 +16,54 @@ module mud.gfx.pbr;
 
 #include <cstring>
 
-#define ZONES_BUFFER 0
+#define ZONES_LIGHTS_BUFFER 0
+#define ZONES_BUFFER 1
 
 namespace mud
 {
+#if !ZONES_LIGHTS_BUFFER
+	template <>
+	struct GpuState<ZoneLights>
+	{
+		void init()
+		{
+			u_light_indices = bgfx::createUniform("u_light_indices", bgfx::UniformType::Vec4, BlockLight::ShotUniform::max_lights);
+			u_light_counts = bgfx::createUniform("u_light_counts", bgfx::UniformType::Vec4);
+		}
+
+		void upload(bgfx::Encoder& encoder, const ZoneLights& lights) const
+		{
+			encoder.setUniform(u_light_counts, &lights.m_light_counts);
+			encoder.setUniform(u_light_indices, lights.m_light_indices, BlockLight::ShotUniform::max_lights);
+		}
+
+		bgfx::UniformHandle u_light_indices = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_light_counts = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+#else
+	template <>
+	struct GpuState<ZoneLights>
+	{
+		constexpr static size_t rows = 1 + BlockLight::ShotUniform::max_lights;
+
+		void pack(const ZoneLights& lights, size_t& offset, GpuTexture& buffer, float* dest)
+		{
+			memcpy(dest + offset, &lights.m_light_counts, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			for(size_t i = 0; i < BlockLight::ShotUniform::max_lights; ++i)
+			{
+				memcpy(dest + offset, lights.m_light_indices + i, sizeof(float) * 4);
+				offset += buffer.width * buffer.stride;
+			}
+		}
+
+		static GpuState me;
+	};
+#endif
+
 #if !ZONES_BUFFER
 	template <>
 	struct GpuState<Radiance>
@@ -73,28 +117,6 @@ namespace mud
 		bgfx::UniformHandle u_fog_params_1 = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle u_fog_params_2 = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle u_fog_params_3 = BGFX_INVALID_HANDLE;
-
-		static GpuState me;
-	};
-
-
-	template <>
-	struct GpuState<ZoneLights>
-	{
-		void init()
-		{
-			u_light_indices = bgfx::createUniform("u_light_indices", bgfx::UniformType::Vec4, BlockLight::ShotUniform::max_lights);
-			u_light_counts = bgfx::createUniform("u_light_counts", bgfx::UniformType::Vec4);
-		}
-
-		void upload(bgfx::Encoder& encoder, const ZoneLights& lights) const
-		{
-			encoder.setUniform(u_light_counts, &lights.m_light_counts);
-			encoder.setUniform(u_light_indices, lights.m_light_indices, BlockLight::ShotUniform::max_lights);
-		}
-
-		bgfx::UniformHandle u_light_indices = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_light_counts = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
@@ -161,26 +183,6 @@ namespace mud
 	};
 
 	template <>
-	struct GpuState<ZoneLights>
-	{
-		constexpr static size_t rows = 1 + BlockLight::ShotUniform::max_lights;
-
-		void pack(const ZoneLights& lights, size_t& offset, GpuTexture& buffer, float* dest)
-		{
-			memcpy(dest + offset, &lights.m_light_counts, sizeof(float) * 4);
-			offset += buffer.width * buffer.stride;
-
-			for(size_t i = 0; i < BlockLight::ShotUniform::max_lights; ++i)
-			{
-				memcpy(dest + offset, lights.m_light_indices + i, sizeof(float) * 4);
-				offset += buffer.width * buffer.stride;
-			}
-		}
-
-		static GpuState me;
-	};
-
-	template <>
 	struct GpuState<Zone>
 	{
 		void pack(const Zone& zone, size_t offset, GpuTexture& buffer, float* dest)
@@ -210,6 +212,8 @@ namespace mud
 
 			bgfx::updateTexture2D(texture, 0, 0, 0, 0, buffer.width, uint16_t(lines * height), memory);
 		}
+
+		static GpuState me;
 	};
 #endif
 }
