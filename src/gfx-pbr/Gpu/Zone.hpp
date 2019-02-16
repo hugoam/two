@@ -27,14 +27,15 @@ namespace mud
 	{
 		void init()
 		{
-			u_light_indices = bgfx::createUniform("u_light_indices", bgfx::UniformType::Vec4, BlockLight::ShotUniform::max_lights);
+			u_light_indices = bgfx::createUniform("u_light_indices", bgfx::UniformType::Vec4, c_max_forward_lights);
 			u_light_counts = bgfx::createUniform("u_light_counts", bgfx::UniformType::Vec4);
 		}
 
 		void upload(bgfx::Encoder& encoder, const ZoneLights& lights) const
 		{
 			encoder.setUniform(u_light_counts, &lights.m_light_counts);
-			encoder.setUniform(u_light_indices, lights.m_light_indices, BlockLight::ShotUniform::max_lights);
+			if(lights.m_light_count > 0U)
+				encoder.setUniform(u_light_indices, lights.m_light_indices, lights.m_light_count);
 		}
 
 		bgfx::UniformHandle u_light_indices = BGFX_INVALID_HANDLE;

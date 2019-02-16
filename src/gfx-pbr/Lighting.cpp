@@ -30,10 +30,6 @@ module mud.gfx.pbr;
 
 namespace mud
 {
-	constexpr size_t BlockLight::ShotUniform::max_lights;
-	constexpr size_t BlockLight::ShotUniform::max_shadows;
-	constexpr size_t BlockLight::ShotUniform::max_forward_lights;
-
 	GpuState<Radiance> GpuState<Radiance>::me;
 	GpuState<Fog> GpuState<Fog>::me;
 	GpuState<Zone> GpuState<Zone>::me;
@@ -48,8 +44,8 @@ namespace mud
 		static cstring options[2] = { "FOG", "DIRECT_LIGHT" };
 		m_shader_block->m_options = { options, 2 };
 
-		static string max_lights = to_string(ShotUniform::max_lights);
-		static string max_shadows = to_string(ShotUniform::max_shadows);
+		static string max_lights = to_string(c_max_forward_lights);
+		static string max_shadows = to_string(c_max_shadows);
 
 		static ShaderDefine defines[2] = {
 			{ "MAX_LIGHTS", max_lights.c_str()  },
@@ -143,7 +139,7 @@ namespace mud
 		UNUSED(render);
 		mat4 inverse_view = inverse(view);
 
-		span<Light*> lights = { all_lights.m_pointer, min(all_lights.m_count, size_t(ShotUniform::max_lights)) };
+		span<Light*> lights = { all_lights.m_pointer, min(all_lights.m_count, size_t(c_max_forward_lights)) };
 		uint16_t light_count = 0;
 
 		vector<GpuLight> gpu_lights;
@@ -196,6 +192,7 @@ namespace mud
 		}
 
 		m_light_count = light_count;
+		zone.m_light_count = light_count;
 
 		GpuState<GpuLight>::me.pack(m_lights_texture, gpu_lights);
 	}

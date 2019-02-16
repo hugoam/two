@@ -47,10 +47,19 @@ namespace mud
 	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Camera& camera);
 	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums = true, bool bounds = true);
 
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+	constexpr size_t c_max_forward_lights = 8;
+	constexpr size_t c_max_shadows = 4;
+#else
+	constexpr size_t c_max_forward_lights = 64;
+	constexpr size_t c_max_shadows = 32;
+#endif
+
 	struct ZoneLights
 	{
-		vec4 m_light_indices[64];
+		vec4 m_light_indices[c_max_forward_lights];
 		vec4 m_light_counts;
+		uint16_t m_light_count;
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockLight : public DrawBlock
@@ -82,10 +91,6 @@ namespace mud
 
 		struct ShotUniform
 		{
-			static constexpr size_t max_lights = 64;
-			static constexpr size_t max_shadows = 32;
-			static constexpr size_t max_forward_lights = 16;
-
 			void createUniforms()
 			{
 				s_zones = bgfx::createUniform("s_zones", bgfx::UniformType::Int1);
