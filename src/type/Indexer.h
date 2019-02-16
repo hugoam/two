@@ -16,14 +16,14 @@ namespace mud
 	export_ class refl_ MUD_TYPE_EXPORT Indexer
 	{
 	public:
-		Indexer(const Type& type) : m_type(&type), m_objects(1, Ref{ type }), m_count(0), m_next(1) {}
+		Indexer(const Type& type) : m_type(&type), m_objects(1, Ref{ type }), m_count(0), m_next(0) {}
 
 		attr_ const Type* m_type;
 		attr_ vector<Ref> m_objects;
 
 		inline uint32_t alloc() { return m_next++; }
 		inline void add(uint32_t id, Ref object) { this->resize(id); m_objects[id] = object; ++m_count; }
-		inline uint32_t index(uint32_t id, Ref object) { if(id == 0) id = this->alloc(); this->add(id, object); return id; }
+		inline uint32_t index(uint32_t id, Ref object) { if(id == UINT32_MAX) id = this->alloc(); this->add(id, object); return id; }
 		inline uint32_t index(Ref object) { uint32_t id = this->alloc(); this->add(id, object); return id; }
 		inline void remove(uint32_t id) { m_objects[id] = Ref(m_type); --m_count; }
 

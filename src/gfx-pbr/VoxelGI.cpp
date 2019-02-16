@@ -28,6 +28,7 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Lighting.h>
 #include <gfx-pbr/Shadow.h>
 #include <gfx-pbr/Lightmap.h>
+#include <gfx-pbr/Gpu/VoxelGI.hpp>
 #endif
 
 #include <cstdio>
@@ -36,6 +37,9 @@ module mud.gfx.pbr;
 
 namespace mud
 {
+	GpuState<GpuVoxelGI> GpuState<GpuVoxelGI>::me;
+	GpuState<GIProbe> GpuState<GIProbe>::me;
+
 namespace gfx
 {
 	template <class T, class... Args>
@@ -67,34 +71,14 @@ namespace gfx
 	}
 }
 
-	void BlockGITrace::GIProbeUniform::createUniforms()
+	struct gpu_ GpuGIProbe
 	{
-		u_transform   = bgfx::createUniform("u_gi_probe_transform",    bgfx::UniformType::Mat4, max_gi_probes);
-		u_bounds      = bgfx::createUniform("u_gi_probe_bounds4",      bgfx::UniformType::Vec4, max_gi_probes);
-		// multiplier, bias, normal_bias, blend_ambient
-		u_params      = bgfx::createUniform("u_gi_probe_params",       bgfx::UniformType::Vec4, max_gi_probes);
-		u_inv_extents = bgfx::createUniform("u_gi_probe_inv_extents4", bgfx::UniformType::Vec4, max_gi_probes);
-		u_cell_size   = bgfx::createUniform("u_gi_probe_cell_size4",   bgfx::UniformType::Vec4, max_gi_probes);
-
-		s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Int1, max_gi_probes);
-	}
-
-	void BlockGITrace::GIProbeUniform::setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe, const mat4& view) const
-	{
-		float diffuse = gi_probe.m_dynamic_range * gi_probe.m_diffuse;
-		float specular = gi_probe.m_dynamic_range * gi_probe.m_specular;
-		vec4 params = { diffuse, specular, gi_probe.m_bias, gi_probe.m_normal_bias };
-		vec4 bounds = { gi_probe.m_extents * 2.f, 0.f };
-		mat4 transform = gi_probe.m_transform * inverse(view);
-		vec4 inv_extents = { vec3(1.f) / gi_probe.m_extents, 1.f };
-		vec4 cell_size = { gi_probe.m_extents * 2.f / float(gi_probe.m_subdiv), 1.f };
-
-		encoder.setUniform(u_transform, &transform);
-		encoder.setUniform(u_bounds, &bounds);
-		encoder.setUniform(u_params, &params);
-		encoder.setUniform(u_inv_extents, &inv_extents);
-		encoder.setUniform(u_cell_size, &cell_size);
-	}
+		attr_ gpu_ mat4 transform;
+		attr_ gpu_ vec4 params;
+		attr_ gpu_ vec4 bounds;
+		attr_ gpu_ vec4 inv_extents;
+		attr_ gpu_ vec4 cell_size;
+	};
 
 	GIProbe::GIProbe(Node3& node)
 		: m_node(node)
@@ -286,10 +270,10 @@ namespace gfx
 		encoder.setImage(1, u_voxelgi.s_voxels_normals, gi_probe.m_voxels_normals, 0, bgfx::Access::Read,      bgfx::TextureFormat::R32U);
 		encoder.setImage(2, u_voxelgi.s_voxels_light,   gi_probe.m_voxels_light,   0, bgfx::Access::ReadWrite, bgfx::TextureFormat::R32U);
 
-		u_voxelgi.setUniforms(encoder, gi_probe);
+		GpuState<GpuVoxelGI>::me.upload(encoder, gi_probe);
 
 		m_block_light.update_lights(render, bxidentity(), render.m_shot->m_lights, m_block_light.m_block_shadow.m_shadows);
-		m_block_light.upload_lights(render_pass);
+		m_block_light.upload_lights(render, render_pass);
 
 		ShaderVersion shader_version = { m_direct_light };
 		if(m_block_light.m_direct_light)
@@ -311,8 +295,8 @@ namespace gfx
 		encoder.setTexture(1, u_voxelgi.s_voxels_light_rgba, gi_probe.m_voxels_light_rgba);
 		encoder.setImage(2,   u_voxelgi.s_voxels_light,      gi_probe.m_voxels_light,      0, bgfx::Access::Write, bgfx::TextureFormat::R32U);
 
-		u_voxelgi.setUniforms(encoder, gi_probe);
-		m_block_trace.u_gi_probe.setUniforms(encoder, gi_probe, bxidentity());
+		GpuState<GpuVoxelGI>::me.upload(encoder, gi_probe);
+		GpuState<GIProbe>::me.upload(encoder, gi_probe, bxidentity());
 
 		uint16_t subdiv = gi_probe.m_subdiv;
 		bgfx::ProgramHandle program = m_bounce_light->default_version();
@@ -369,10 +353,10 @@ namespace gfx
 		encoder.setUniform(u_voxelgi.s_voxels_normals, &voxels_normals_index);
 		encoder.setUniform(u_voxelgi.s_voxels_light,   &voxels_light_index);
 
-		u_voxelgi.setUniforms(encoder, gi_probe);
+		GpuState<GpuVoxelGI>::me.upload(encoder, gi_probe);
 
 #ifndef VOXELGI_COMPUTE_LIGHTS
-		m_block_light.upload_lights(render_pass);
+		m_block_light.upload_lights(render, render_pass);
 #endif
 	}
 
@@ -425,7 +409,7 @@ namespace gfx
 			{
 				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, u_gi_probe.s_gi_probe, gi_probe->m_voxels_light_rgba, GFX_TEXTURE_CLAMP_UVW);
 
-				u_gi_probe.setUniforms(encoder, *gi_probe, render.m_camera.m_transform);
+				GpuState<GIProbe>::me.upload(encoder, *gi_probe, render.m_camera.m_transform);
 			}
 		}
 	}

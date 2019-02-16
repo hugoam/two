@@ -17,6 +17,7 @@ namespace stl
 	template class MUD_GFX_PBR_EXPORT vector<BCS>;;
 	template class MUD_GFX_PBR_EXPORT vector<Tonemap>;
 	template class MUD_GFX_PBR_EXPORT vector<MeshPacker>;
+	template class MUD_GFX_PBR_EXPORT vector<GpuLight>;
 	template class MUD_GFX_PBR_EXPORT vector<LightShadow>;
 	template class MUD_GFX_PBR_EXPORT vector<LightmapItem>;
 	template class MUD_GFX_PBR_EXPORT vector<FrustumSlice>;

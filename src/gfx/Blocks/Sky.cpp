@@ -62,21 +62,21 @@ namespace mud
 
 	void BlockSky::begin_pass(Render& render)
 	{
-		if(!render.m_environment)
+		if(!render.m_env)
 			return;
 
-		BackgroundMode mode = render.m_environment->m_background.m_mode;
+		BackgroundMode mode = render.m_env->m_background.m_mode;
 		if(mode == BackgroundMode::Custom)
-			return render.m_environment->m_background.m_custom_function(render);
+			return render.m_env->m_background.m_custom_function(render);
 		else if(mode == BackgroundMode::Radiance || mode == BackgroundMode::Panorama)
 		{
-			if(!bgfx::isValid(render.m_environment->m_radiance.m_roughness_array))
+			if(!bgfx::isValid(render.m_env->m_radiance.m_roughness_array))
 				return;
 
 			Pass sky_pass = render.next_pass("sky");
 			bgfx::Encoder& encoder = *sky_pass.m_encoder;
 
-			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, render.m_environment->m_radiance.m_roughness_array);
+			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, render.m_env->m_radiance.m_roughness_array);
 
 			unsigned int level = mode == BackgroundMode::Radiance ? 3 : 0;
 			vec4 skybox_params = { float(level), float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };

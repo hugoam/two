@@ -14,6 +14,7 @@
 #define array_	// Array type
 #define seque_	// Sequence type
 #define extern_ // Extern type
+#define gpu_    // Gpu type
 #define comp_   // Component
 #define constr_ // Constructor
 #define meth_   // Method

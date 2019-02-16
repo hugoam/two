@@ -17,10 +17,14 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Handles.h>
 #include <gfx-pbr/Filters/Tonemap.h>
+#include <gfx-pbr/Gpu/Tonemap.hpp>
 #endif
 
 namespace mud
 {
+	GpuState<BCS> GpuState<BCS>::me;
+	GpuState<Tonemap> GpuState<Tonemap>::me;
+
 	BlockTonemap::BlockTonemap(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy)
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
@@ -43,7 +47,8 @@ namespace mud
 
 	void BlockTonemap::init_block()
 	{
-		u_uniform.createUniforms();
+		GpuState<BCS>::me.init();
+		GpuState<Tonemap>::me.init();
 	}
 
 	void BlockTonemap::begin_render(Render& render)
@@ -80,15 +85,13 @@ namespace mud
 			bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, tonemap.m_color_correction);
 		}
 
-		vec4 exposure_params = { tonemap.m_exposure, tonemap.m_white_point, 0.f, 0.f };
-		bgfx::setUniform(u_uniform.u_exposure_params, &exposure_params);
+		GpuState<Tonemap>::me.upload(tonemap);
 
 		if(bcs.m_enabled)
 		{
 			shader_version.set_option(m_index, ADJUST_BCS, true);
 
-			vec4 bcs_values = { bcs.m_brightness, bcs.m_contrast, bcs.m_saturation, 0.f };
-			bgfx::setUniform(u_uniform.u_bcs, &bcs_values);
+			GpuState<BCS>::me.upload(bcs);
 		}
 
 		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_fbo, m_program.version(shader_version), render.m_viewport.m_rect);

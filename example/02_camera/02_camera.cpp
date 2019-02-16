@@ -55,10 +55,11 @@ void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 			float a = 3.14 * (0.5 - random_scalar<float>());
 			float b = 3.14 * (0.5 - random_scalar<float>());
 
+			uint32_t flags = ItemFlag::Default;// | ItemFlag::NoCull;
 			Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(a, b, 0, 1)));
-			Item& it = gfx::items(scene).add(Item(n, torus_model, 0, &material));
+			Item& it = gfx::items(scene).add(Item(n, torus_model, flags, &material));
 
-			//gfx::update_item_aabb(it);
+			gfx::update_item_aabb(it);
 
 			//Gnode& n = gfx::node(root, {}, vec3(x, y, z));
 			//gfx::item(n, torus_model, 0, &material);
@@ -135,13 +136,13 @@ void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		Material& c = app.m_gfx_system.materials().fetch("cube");
 		c.m_program = pbr;
-		c.m_pbr_block = PbrMaterialBlock(Colour(1.f, 0.f, 1.f));
+		c.m_pbr_block = MaterialPbr(Colour(1.f, 0.f, 1.f));
 		c.m_base_block.m_cull_mode = CullMode::Front;
 
 		Material& s = app.m_gfx_system.materials().fetch("sphere");
 		s.m_program = pbr;
 		s.m_pbr_block.m_enabled = true;
-		//s.m_pbr_block = PbrMaterialBlock(from_rgba(0xa0adaf));
+		//s.m_pbr_block = MaterialPbr(from_rgba(0xa0adaf));
 	}
 
 	Material& cube_material = app.m_gfx_system.materials().fetch("cube");

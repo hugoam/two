@@ -50,17 +50,17 @@ namespace mud
 
 	void BlockRadiance::begin_render(Render& render)
 	{
-		if(!render.m_environment || !render.m_environment->m_radiance.m_texture)
+		if(!render.m_env || !render.m_env->m_radiance.m_texture)
 			return;
 
-		if(!render.m_environment->m_radiance.m_preprocessed)
-			m_prefilter_queue.push_back(&render.m_environment->m_radiance);
+		if(!render.m_env->m_radiance.m_preprocessed)
+			m_prefilter_queue.push_back(&render.m_env->m_radiance);
 
 #ifdef DEBUG_RADIANCE
-		if(bgfx::isValid(render.m_environment->m_radiance.m_roughness_array))
+		if(bgfx::isValid(render.m_env->m_radiance.m_roughness_array))
 		{
 			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
-			copy.debug_show_texture(render, render.m_environment->m_radiance.m_roughness_array, vec4(0.f), false, false, false, 2);
+			copy.debug_show_texture(render, render.m_env->m_radiance.m_roughness_array, vec4(0.f), false, false, false, 2);
 		}
 #endif
 	}
@@ -77,7 +77,7 @@ namespace mud
 
 	void BlockRadiance::options(Render& render, ShaderVersion& shader_version) const
 	{
-		bgfx::TextureHandle radiance = render.m_environment->m_radiance.m_roughness_array;
+		bgfx::TextureHandle radiance = render.m_env->m_radiance.m_roughness_array;
 
 		if(bgfx::isValid(radiance))
 			shader_version.set_option(m_index, RADIANCE_ENVMAP);
@@ -86,7 +86,7 @@ namespace mud
 	void BlockRadiance::submit(Render& render, const Pass& render_pass) const
 	{
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		bgfx::TextureHandle radiance = render.m_environment->m_radiance.m_roughness_array;
+		bgfx::TextureHandle radiance = render.m_env->m_radiance.m_roughness_array;
 
 		if(bgfx::isValid(radiance))
 			encoder.setTexture(uint8_t(TextureSampler::Radiance), u_radiance.s_radiance_map, radiance);

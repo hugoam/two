@@ -44,9 +44,11 @@ namespace mud
 
 		Skeleton = 5,
 		ShadowCSM = 6,
+		Materials = 7,
 		ShadowAtlas = 7,
 		Radiance = 8,
 		ReflectionProbe = 9,
+		Zones = 9,
 		GIProbe = 10,
 		Lights = 13,
 		Clusters = 14,
@@ -94,6 +96,23 @@ namespace mud
 		return (uint(lighting) & uint(option)) != 0;
 	}
 
+	export_ struct refl_ GpuTexture
+	{
+		bgfx::TextureHandle texture;
+		uint16_t width = 1024;
+		uint8_t stride = 4;
+	};
+
+	enum class GpuStorage
+	{
+		Uniform,
+		Buffer,
+		Texture,
+	};
+
+	template <class T>
+	struct GpuState {};
+
 	/*
 	initial idea (reality is quite far from that)
 	blocks
@@ -106,7 +125,6 @@ namespace mud
 	passes are the unit of renderer work
 	both are orthogonal
 	*/
-
 	export_ struct MUD_GFX_EXPORT Pass
 	{
 		RenderTarget* m_target = nullptr;
@@ -147,7 +165,7 @@ namespace mud
 
 		unique<Frustum> m_frustum;
 
-		Environment* m_environment = nullptr;
+		Zone* m_env = nullptr;
 		Entt m_filters;
 
 		Lighting m_lighting = Lighting::None;

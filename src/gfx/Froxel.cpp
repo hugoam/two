@@ -301,6 +301,15 @@ namespace mud
 		m_impl->m_records.m_buffer.commit(m_impl->m_records.m_memory);
 	}
 
+	struct refl_ GpuClusters
+	{
+		attr_ gpu_ vec2 inv_tile_size;
+		attr_ gpu_ vec2 viewport_pos;
+		attr_ gpu_ vec3 params_f;
+		attr_ gpu_ vec4 params_z;
+	};
+
+
 	void Froxelizer::submit(bgfx::Encoder& encoder) const
 	{
 		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_impl->m_uniform.s_light_records, m_impl->m_records.m_buffer.m_texture);

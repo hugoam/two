@@ -117,8 +117,8 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
 
-		ui::label(sheet, "Environment :");
-		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
+		ui::label(sheet, "Zone :");
+		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_env.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
 
 #if POSTPROCESS
 		ui::label(sheet, "Post process :");

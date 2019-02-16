@@ -53,6 +53,12 @@ namespace mud
 		UNUSED(render);
 	}
 
+	struct GpuTargetRect
+	{
+		attr_ gpu_ vec2 rect_size;
+		attr_ gpu_ vec2 pixel_size;
+	};
+
 	void BlockFilter::set_uniforms(Render& render, bgfx::Encoder& encoder)
 	{
 		render.set_uniforms(encoder);

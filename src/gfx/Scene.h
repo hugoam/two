@@ -26,9 +26,9 @@ namespace mud
 
 	export_ struct refl_ Radiance
 	{
-		attr_ float m_energy = 1.0f;
-		attr_ float m_ambient = 1.0f;
-		attr_ Colour m_colour = Colour::Black;
+		attr_ gpu_ Colour m_colour = Colour::Black;
+		attr_ gpu_ float m_energy = 1.0f;
+		attr_ gpu_ float m_ambient = 1.0f;
 		attr_ Texture* m_texture = nullptr;
 		bgfx::TextureHandle m_roughness_array = BGFX_INVALID_HANDLE;
 		bool m_preprocessed = false;
@@ -53,23 +53,23 @@ namespace mud
 	export_ struct refl_ Fog
 	{
 		attr_ bool m_enabled = false;
-		attr_ float m_density = 0.01f;
-		attr_ Colour m_colour = Colour::White;
+		attr_ gpu_ float m_density = 0.01f;
+		attr_ gpu_ Colour m_colour = Colour::White;
 
-		attr_ bool m_depth = false;
-		attr_ float m_depth_begin = 0.f;
-		attr_ float m_depth_curve = 1.f;
+		attr_ gpu_ bool m_depth = false;
+		attr_ gpu_ float m_depth_begin = 0.f;
+		attr_ gpu_ float m_depth_curve = 1.f;
 
-		attr_ bool m_height = false;
-		attr_ float m_height_min = 0.f;
-		attr_ float m_height_max = 1.f;
-		attr_ float m_height_curve = 0.1f;
+		attr_ gpu_ bool m_height = false;
+		attr_ gpu_ float m_height_min = 0.f;
+		attr_ gpu_ float m_height_max = 1.f;
+		attr_ gpu_ float m_height_curve = 0.1f;
 
-		attr_ bool m_transmit = false;
-		attr_ float m_transmit_curve = 1.f;
+		attr_ gpu_ bool m_transmit = false;
+		attr_ gpu_ float m_transmit_curve = 1.f;
 	};
 
-	export_ struct refl_ Environment
+	export_ struct refl_ Zone
 	{
 		attr_ Background m_background;
 		attr_ Radiance m_radiance;
@@ -95,7 +95,7 @@ namespace mud
 
 		attr_ Gnode m_graph;
 		attr_ Node3 m_root_node;
-		attr_ Environment m_environment;
+		attr_ Zone m_env;
 		attr_ Ref m_user;
 
 		meth_ Gnode& begin();

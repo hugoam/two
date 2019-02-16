@@ -350,14 +350,14 @@ namespace gfx
 
 	void radiance(Gnode& parent, const string& texture, BackgroundMode background)
 	{
-		parent.m_scene->m_environment.m_radiance.m_texture = parent.m_scene->m_gfx_system.textures().file(texture.c_str());
-		parent.m_scene->m_environment.m_background.m_mode = background;
+		parent.m_scene->m_env.m_radiance.m_texture = parent.m_scene->m_gfx_system.textures().file(texture.c_str());
+		parent.m_scene->m_env.m_background.m_mode = background;
 	}
 
 	void custom_sky(Gnode& parent, CustomSky renderer)
 	{
-		parent.m_scene->m_environment.m_background.m_custom_function = renderer;
-		parent.m_scene->m_environment.m_background.m_mode = BackgroundMode::Custom;
+		parent.m_scene->m_env.m_background.m_custom_function = renderer;
+		parent.m_scene->m_env.m_background.m_mode = BackgroundMode::Custom;
 	}
 
 	void manual_job(Gnode& parent, PassType pass, ManualJob job)
@@ -375,7 +375,7 @@ namespace gfx
 		return material;
 	}
 
-	Material& pbr_material(GfxSystem& gfx_system, cstring name, const PbrMaterialBlock& pbr_block)
+	Material& pbr_material(GfxSystem& gfx_system, cstring name, const MaterialPbr& pbr_block)
 	{
 		Program& program = *gfx_system.programs().file("pbr/pbr");
 		Material& material = gfx_system.materials().fetch(name);

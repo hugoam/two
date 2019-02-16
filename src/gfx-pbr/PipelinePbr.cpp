@@ -78,7 +78,7 @@ namespace gfx
 
 		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, render.m_shot->m_items));
 
-		render.m_environment = &scene.m_environment;
+		render.m_env = &scene.m_env;
 		render.m_shot->m_immediate = { scene.m_immediate.get() };
 
 #if DEBUG_ITEMS
@@ -88,6 +88,9 @@ namespace gfx
 
 	void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred)
 	{
+		MaterialBlock& material = pipeline.add_block<MaterialBlock>(gfx_system);
+		UNUSED(material);
+
 		// filters
 		BlockFilter& filter = pipeline.add_block<BlockFilter>(gfx_system);
 		BlockCopy& copy = pipeline.add_block<BlockCopy>(gfx_system, filter);

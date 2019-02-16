@@ -421,9 +421,9 @@ namespace mud
 			g_edit_specs[type.m_id].m_setup = true;
 		};
 
-		nest_mode(type<BaseMaterialBlock>(), EditNestMode::Embed);
-		nest_mode(type<UnshadedMaterialBlock>(), EditNestMode::Embed);
-		nest_mode(type<PbrMaterialBlock>(), EditNestMode::Embed);
+		nest_mode(type<MaterialBase>(), EditNestMode::Embed);
+		nest_mode(type<MaterialUnshaded>(), EditNestMode::Embed);
+		nest_mode(type<MaterialPbr>(), EditNestMode::Embed);
 
 		nest_mode(type<MaterialParam<float>>(), EditNestMode::Embed);
 		nest_mode(type<MaterialParam<Colour>>(), EditNestMode::Embed);

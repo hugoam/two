@@ -39,9 +39,9 @@ namespace mud
 		, m_pass_jobs(oconstruct<PassJobs>())
 		, m_graph(*this)
 	{
-		m_environment.m_radiance.m_colour = Colour::White;//{ 0.35f, 0.33f, 0.3f, 1.f };
-		m_environment.m_radiance.m_energy = 0.3f;
-		m_environment.m_radiance.m_ambient = 0.7f;
+		m_env.m_radiance.m_colour = Colour::White;//{ 0.35f, 0.33f, 0.3f, 1.f };
+		m_env.m_radiance.m_energy = 0.3f;
+		m_env.m_radiance.m_ambient = 0.7f;
 
 		m_pool = oconstruct<ObjectPool>();
 		m_pool->create_pool<Flare>(1024);
@@ -97,11 +97,11 @@ namespace mud
 		//items.reserve(m_pool->pool<Item>().size());
 		scene.m_pool->pool<Item>().iterate([&](Item& item)
 		{
-			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0
-			&& frustum_aabb_intersection(planes, item.m_aabb))
-			{
-				items.push_back(&item);
-			}
+			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
+				if((item.m_flags & ItemFlag::NoCull) != 0 || frustum_aabb_intersection(planes, item.m_aabb))
+				{
+					items.push_back(&item);
+				}
 		});
 	}
 
@@ -118,7 +118,8 @@ namespace mud
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
 			{
-				if(!frustum_aabb_intersection(planes, item.m_aabb))
+				bool no_cull = (item.m_flags & ItemFlag::NoCull) != 0;
+				if(!no_cull && !frustum_aabb_intersection(planes, item.m_aabb))
 					return;
 
 				float depth = distance(near_plane, item.m_aabb.m_center);
@@ -173,7 +174,7 @@ namespace mud
 
 		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, render.m_shot->m_items));
 
-		render.m_environment = &scene.m_environment;
+		render.m_env = &scene.m_env;
 		render.m_shot->m_immediate = { scene.m_immediate.get() };
 
 #if DEBUG_ITEMS

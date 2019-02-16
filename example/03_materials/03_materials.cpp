@@ -12,7 +12,7 @@ using namespace mud;
 Material& milky_white(GfxSystem& gfx_system, const string& name)
 {
 	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
-	PbrMaterialBlock& pbr = mat.m_pbr_block;
+	MaterialPbr& pbr = mat.m_pbr_block;
 	pbr.m_enabled = true;
 	pbr.m_albedo.m_value = Colour::White;
 	pbr.m_metallic.m_value = 0.4f;
@@ -24,7 +24,7 @@ Material& milky_white(GfxSystem& gfx_system, const string& name)
 Material& mirror(GfxSystem& gfx_system)
 {
 	Material& mat = gfx_system.fetch_material("mirror", "pbr/pbr");
-	PbrMaterialBlock& pbr = mat.m_pbr_block;
+	MaterialPbr& pbr = mat.m_pbr_block;
 	pbr.m_enabled = true;
 	pbr.m_albedo.m_value = Colour::White;
 	pbr.m_metallic.m_value = 1.f;
@@ -35,7 +35,7 @@ Material& mirror(GfxSystem& gfx_system)
 Material& material(GfxSystem& gfx_system, const string& name)
 {
 	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
-	PbrMaterialBlock& pbr = mat.m_pbr_block;
+	MaterialPbr& pbr = mat.m_pbr_block;
 
 	pbr.m_enabled = true;
 	pbr.m_albedo.m_texture = gfx_system.textures().file(name + "/" + name + "_col.jpg");
@@ -104,7 +104,7 @@ Material& wood_floor_05(GfxSystem& gfx_system)
 Material& roughness_material(GfxSystem& gfx_system, const string& name, Colour albedo, float metallic, float roughness)
 {
 	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
-	PbrMaterialBlock& pbr = mat.m_pbr_block;
+	MaterialPbr& pbr = mat.m_pbr_block;
 	pbr.m_enabled = true;
 	pbr.m_albedo.m_value = albedo;
 	pbr.m_metallic.m_value = metallic;
@@ -214,8 +214,8 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
 
-		ui::label(sheet, "Environment :");
-		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
+		ui::label(sheet, "Zone :");
+		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_env.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
 
 		if(edited)
 			object_edit(*dock, Ref(edited)); // "Particle Editor" // identity = edited

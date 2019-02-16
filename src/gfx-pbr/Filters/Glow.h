@@ -21,29 +21,13 @@ namespace mud
 	export_ struct refl_ MUD_GFX_PBR_EXPORT Glow
 	{
 		attr_ bool m_enabled = false;
-		attr_ vec4 m_levels_1_4 = { 1.f, 0.f, 0.f, 0.f };
-		attr_ vec4 m_levels_5_8 = vec4(0.f);
-		attr_ float m_intensity = 0.4f;
-		attr_ float m_bloom = 0.0f;
-		attr_ float m_bleed_threshold = 1.0f;
-		attr_ float m_bleed_scale = 2.0f;
-		attr_ bool m_bicubic_filter = false;
-	};
-
-	struct GlowUniform
-	{
-		void createUniforms()
-		{
-			u_glow_params_0 = bgfx::createUniform("u_glow_params_0", bgfx::UniformType::Vec4);
-			u_glow_params_1 = bgfx::createUniform("u_glow_params_1", bgfx::UniformType::Vec4);
-			u_glow_levels_1_4 = bgfx::createUniform("u_glow_levels_1_4", bgfx::UniformType::Vec4);
-			u_glow_levels_5_8 = bgfx::createUniform("u_glow_levels_5_8", bgfx::UniformType::Vec4);
-		}
-
-		bgfx::UniformHandle u_glow_params_0;
-		bgfx::UniformHandle u_glow_params_1;
-		bgfx::UniformHandle u_glow_levels_1_4;
-		bgfx::UniformHandle u_glow_levels_5_8;
+		attr_ gpu_ vec4 m_levels_1_4 = { 1.f, 0.f, 0.f, 0.f };
+		attr_ gpu_ vec4 m_levels_5_8 = vec4(0.f);
+		attr_ gpu_ float m_intensity = 0.4f;
+		attr_ gpu_ float m_bloom = 0.0f;
+		attr_ gpu_ float m_bleed_threshold = 1.0f;
+		attr_ gpu_ float m_bleed_scale = 2.0f;
+		attr_ gpu_ bool m_bicubic_filter = false;
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGlow : public GfxBlock
@@ -67,10 +51,7 @@ namespace mud
 		BlockCopy& m_copy;
 		BlockBlur& m_blur;
 
-		GlowUniform u_uniform;
-
 		Program& m_bleed_program;
 		Program& m_merge_program;
 	};
-
 }

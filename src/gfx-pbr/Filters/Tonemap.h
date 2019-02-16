@@ -33,34 +33,22 @@ namespace mud
 		ACES
 	};
 
-	export_ struct refl_ MUD_GFX_PBR_EXPORT BCS
+	export_ struct refl_ gpu_ BCS
 	{
-		attr_ bool m_enabled = false;
-		attr_ float m_brightness = 1.0f;
-		attr_ float m_contrast = 1.0f;
-		attr_ float m_saturation = 1.0f;
+		attr_ gpu_ bool m_enabled = false;
+		attr_ gpu_ float m_brightness = 1.0f;
+		attr_ gpu_ float m_contrast = 1.0f;
+		attr_ gpu_ float m_saturation = 1.0f;
 	};
 
-	export_ struct refl_ MUD_GFX_PBR_EXPORT Tonemap
+	export_ struct refl_ gpu_ Tonemap
 	{
 		attr_ TonemapMode m_mode = TonemapMode::Linear;
 		attr_ bool m_enabled = false;
-		attr_ float m_exposure = 1.0f;
-		attr_ float m_white_point = 1.0f;
+		attr_ gpu_ float m_exposure = 1.0f;
+		attr_ gpu_ float m_white_point = 1.0f;
 
 		bgfx::TextureHandle m_color_correction = BGFX_INVALID_HANDLE;
-	};
-
-	struct TonemapUniform
-	{
-		void createUniforms()
-		{
-			u_bcs = bgfx::createUniform("u_tonemap_bcs", bgfx::UniformType::Vec4);
-			u_exposure_params = bgfx::createUniform("u_exposure_params", bgfx::UniformType::Vec4);
-		}
-
-		bgfx::UniformHandle u_bcs;
-		bgfx::UniformHandle u_exposure_params;
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockTonemap : public GfxBlock
@@ -79,7 +67,6 @@ namespace mud
 		BlockFilter& m_filter;
 		BlockCopy& m_copy;
 
-		TonemapUniform u_uniform;
 		Program& m_program;
 	};
 }

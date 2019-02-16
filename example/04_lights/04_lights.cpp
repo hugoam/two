@@ -12,7 +12,7 @@
 
 using namespace mud;
 
-#define CLUSTERED 1
+#define CLUSTERED 0
 #define DEBUG_CLUSTERED 0
 #define OCCLUSION 0
 #define DOCKBAR 1
@@ -146,8 +146,8 @@ void ex_04_lights(Shell& app, Widget& parent)
 	{
 		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
 
-		ui::label(sheet, "Environment :");
-		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
+		ui::label(sheet, "Zone :");
+		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_env.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
 
 		ui::label(sheet, "Lights :");
 

@@ -115,18 +115,21 @@ namespace gfx
 		{
 			static const int max_gi_probes = 2;
 
-			void createUniforms();
-			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe, const mat4& view) const;
-
-			bgfx::UniformHandle u_transform;
-			bgfx::UniformHandle u_bounds;
-			bgfx::UniformHandle u_params;
-			bgfx::UniformHandle u_inv_extents;
-			bgfx::UniformHandle u_cell_size;
+			void createUniforms()
+			{
+				s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Int1, max_gi_probes);
+			}
 
 			bgfx::UniformHandle s_gi_probe;
 
 		} u_gi_probe;
+	};
+
+	struct gpu_ GpuVoxelGI
+	{
+		attr_ gpu_ vec3 extents;
+		attr_ gpu_ vec3 subdiv;
+		attr_ gpu_ mat4 world;
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGIBake : public DrawBlock
@@ -161,39 +164,12 @@ namespace gfx
 				s_voxels_light     = bgfx::createUniform("s_voxels_light",   bgfx::UniformType::Int1);
 
 				s_voxels_light_rgba  = bgfx::createUniform("s_voxels_light_rgba",   bgfx::UniformType::Int1);
-
-				u_world  = bgfx::createUniform("u_voxelgi_world",  bgfx::UniformType::Mat4);
-				u_normal = bgfx::createUniform("u_voxelgi_normal", bgfx::UniformType::Mat3);
-
-				u_params_0 = bgfx::createUniform("u_voxelgi_params_0", bgfx::UniformType::Vec4);
-				u_params_1 = bgfx::createUniform("u_voxelgi_params_1", bgfx::UniformType::Vec4);
-			}
-
-			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe) const
-			{
-				vec4 voxelgi_extents = { gi_probe.m_extents, 0.f };
-				vec4 voxelgi_subdiv = { vec3(float(gi_probe.m_subdiv)), 0.f };
-
-				mat4 voxelgi_world = gi_probe.m_transform;
-				//mat3 voxelgi_normal = {};
-
-				encoder.setUniform(u_params_0, &voxelgi_extents);
-				encoder.setUniform(u_params_1, &voxelgi_subdiv);
-
-				encoder.setUniform(u_world, &voxelgi_world);
-				//encoder.setUniform(u_normal, &voxelgi_normal);
 			}
 
 			bgfx::UniformHandle s_voxels_albedo;
 			bgfx::UniformHandle s_voxels_normals;
 			bgfx::UniformHandle s_voxels_light;
 			bgfx::UniformHandle s_voxels_light_rgba;
-
-			bgfx::UniformHandle u_world;
-			bgfx::UniformHandle u_normal;
-
-			bgfx::UniformHandle u_params_0;
-			bgfx::UniformHandle u_params_1;
 
 		} u_voxelgi;
 

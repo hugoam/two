@@ -29,10 +29,11 @@ namespace mud
 			Selectable = 1 << 5,
 			Ui = 1 << 6,
 			NoUpdate = 1 << 7,
-			Lod0 = 1 << 8,
-			Lod1 = 1 << 9,
-			Lod2 = 1 << 10,
-			Lod3 = 1 << 11,
+			NoCull = 1 << 8,
+			Lod0 = 1 << 9,
+			Lod1 = 1 << 10,
+			Lod2 = 1 << 11,
+			Lod3 = 1 << 12,
 			LodAll = Lod0 | Lod1 | Lod2 | Lod3,
 			Default = Render | Shadows | LodAll
 		};

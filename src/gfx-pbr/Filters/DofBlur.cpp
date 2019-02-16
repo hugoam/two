@@ -17,10 +17,13 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Handles.h>
 #include <gfx-pbr/Filters/DofBlur.h>
 #include <gfx-pbr/Filters/Tonemap.h>
+#include <gfx-pbr/Gpu/DofBlur.hpp>
 #endif
 
 namespace mud
 {
+	GpuState<DofBlur> GpuState<DofBlur>::me;
+
 	BlockDofBlur::BlockDofBlur(GfxSystem& gfx_system, BlockFilter& filter)
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
@@ -33,7 +36,7 @@ namespace mud
 
 	void BlockDofBlur::init_block()
 	{
-		u_uniform.createUniforms();
+		GpuState<DofBlur>::me.init();
 	}
 
 	void BlockDofBlur::begin_render(Render& render)
@@ -63,27 +66,7 @@ namespace mud
 		ShaderVersion shader_version = { &m_program };
 		shader_version.set_option(m_index, DOF_FIRST_PASS, first_pass);
 
-		vec4 dof_near_params =
-		{
-			blur.m_near_distance,
-			blur.m_near_distance - blur.m_near_transition,
-			blur.m_near_radius,
-			1.f / blur.m_near_radius,
-		};
-
-		vec4 dof_far_params =
-		{
-			blur.m_far_distance,
-			blur.m_far_distance + blur.m_far_transition,
-			blur.m_far_radius,
-			0.f
-		};
-
-		vec4 dof_params = { blur.m_max_coc_radius, 0.f, 0.f, 0.f };
-
-		bgfx::setUniform(u_uniform.u_dof_near_params, &dof_near_params);
-		bgfx::setUniform(u_uniform.u_dof_far_params, &dof_far_params);
-		bgfx::setUniform(u_uniform.u_dof_params, &dof_params);
+		GpuState<DofBlur>::me.upload(blur);
 
 		if(first_pass)
 		{

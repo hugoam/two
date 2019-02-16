@@ -41,10 +41,10 @@ namespace mud
 #if defined MUD_UNIFORM_BLOCKS
 		attr_ FrustumBlock m_frustum;
 #endif
-		attr_ float m_fov = 60.f;
-		attr_ float m_aspect = 1.f;
-		attr_ float m_near = 0.1f;
-		attr_ float m_far = 100.f;
+		attr_ gpu_ float m_fov = 60.f;
+		attr_ gpu_ float m_aspect = 1.f;
+		attr_ gpu_ float m_near = 0.1f;
+		attr_ gpu_ float m_far = 100.f;
 
 		attr_ bool m_orthographic = false;
 		attr_ float m_height = 1.f;

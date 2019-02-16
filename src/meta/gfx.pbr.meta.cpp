@@ -274,12 +274,12 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::DofBlur, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
-			{ t, offsetof(mud::DofBlur, m_far_distance), type<float>(), "far_distance", &far_distance_default, Member::Value, nullptr },
-			{ t, offsetof(mud::DofBlur, m_far_transition), type<float>(), "far_transition", &far_transition_default, Member::Value, nullptr },
-			{ t, offsetof(mud::DofBlur, m_far_radius), type<float>(), "far_radius", &far_radius_default, Member::Value, nullptr },
-			{ t, offsetof(mud::DofBlur, m_near_distance), type<float>(), "near_distance", &near_distance_default, Member::Value, nullptr },
-			{ t, offsetof(mud::DofBlur, m_near_transition), type<float>(), "near_transition", &near_transition_default, Member::Value, nullptr },
-			{ t, offsetof(mud::DofBlur, m_near_radius), type<float>(), "near_radius", &near_radius_default, Member::Value, nullptr },
+			//{ t, offsetof(mud::DofBlur, m_far_distance), type<float>(), "far_distance", &far_distance_default, Member::Value, nullptr },
+			//{ t, offsetof(mud::DofBlur, m_far_transition), type<float>(), "far_transition", &far_transition_default, Member::Value, nullptr },
+			//{ t, offsetof(mud::DofBlur, m_far_radius), type<float>(), "far_radius", &far_radius_default, Member::Value, nullptr },
+			//{ t, offsetof(mud::DofBlur, m_near_distance), type<float>(), "near_distance", &near_distance_default, Member::Value, nullptr },
+			//{ t, offsetof(mud::DofBlur, m_near_transition), type<float>(), "near_transition", &near_transition_default, Member::Value, nullptr },
+			//{ t, offsetof(mud::DofBlur, m_near_radius), type<float>(), "near_radius", &near_radius_default, Member::Value, nullptr },
 			{ t, offsetof(mud::DofBlur, m_max_coc_radius), type<float>(), "max_coc_radius", &max_coc_radius_default, Member::Value, nullptr }
 		};
 		// methods

@@ -10,6 +10,14 @@
 
 namespace mud
 {
+	struct gpu_ GpuReflectionProbe
+	{
+		attr_ gpu_ vec3 extents;
+		attr_ gpu_ float intensity;
+		attr_ gpu_ vec4 atlas_rect;
+		attr_ gpu_ mat4 transform;
+	};
+
 	template <uint16_t num_probes>
 	struct ReflectionProbeArray
 	{

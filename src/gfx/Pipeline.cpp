@@ -25,6 +25,9 @@ namespace mud
 	{
 		UNUSED(deferred);
 
+		MaterialBlock& material = pipeline.add_block<MaterialBlock>(gfx_system);
+		UNUSED(material);
+
 		// filters
 		BlockFilter& filter = pipeline.add_block<BlockFilter>(gfx_system);
 		BlockCopy& copy = pipeline.add_block<BlockCopy>(gfx_system, filter);

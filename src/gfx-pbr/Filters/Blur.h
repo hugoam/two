@@ -31,6 +31,11 @@ namespace mud
 		bgfx::UniformHandle u_blur_kernel_4_7;
 	};
 
+	struct gpu_ GpuBlurKernel
+	{
+		attr_ gpu_ float m_kernel[8];
+	};
+
 	struct BlurKernel
 	{
 		float m_horizontal[7];

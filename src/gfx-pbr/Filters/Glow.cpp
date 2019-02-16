@@ -21,12 +21,15 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Filters/Glow.h>
 #include <gfx-pbr/Filters/Blur.h>
 #include <gfx-pbr/Filters/Tonemap.h>
+#include <gfx-pbr/Gpu/Glow.hpp>
 #endif
 
 #define MAX_GLOW_LEVELS 7
 
 namespace mud
 {
+	GpuState<Glow> GpuState<Glow>::me;
+
 	BlockGlow::BlockGlow(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur)
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
@@ -44,7 +47,7 @@ namespace mud
 
 	void BlockGlow::init_block()
 	{
-		u_uniform.createUniforms();
+		GpuState<Glow>::me.init();
 	}
 
 	void BlockGlow::begin_render(Render& render)
@@ -80,8 +83,7 @@ namespace mud
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_diffuse);
 		//bgfx::setUniform(m_blur.u_uniform.u_exposure, &m_tonemap.m_exposure);
 
-		vec4 glow_params = { 0.f, glow.m_bloom, glow.m_bleed_threshold, glow.m_bleed_scale };
-		bgfx::setUniform(u_uniform.u_glow_params_0, &glow_params);
+		GpuState<Glow>::me.upload(glow);
 
 		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_ping_pong.swap(), m_bleed_program.default_version(), render.m_viewport.m_rect);
 	}
@@ -131,10 +133,7 @@ namespace mud
 
 		bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, render.m_target->m_cascade.m_texture);
 
-		vec4 glow_params = { glow.m_intensity, 0.f, float(render.m_target->m_size.x), float(render.m_target->m_size.y) };
-		bgfx::setUniform(u_uniform.u_glow_params_1, &glow_params);
-		bgfx::setUniform(u_uniform.u_glow_levels_1_4, &glow.m_levels_1_4);
-		bgfx::setUniform(u_uniform.u_glow_levels_5_8, &glow.m_levels_5_8);
+		GpuState<Glow>::me.upload(glow);
 
 		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(), m_merge_program.version(shader_version), render.m_viewport.m_rect);
 	}

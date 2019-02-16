@@ -7,6 +7,7 @@
 #ifndef MUD_MODULES
 #include <infra/File.h>
 #include <stl/span.h>
+#include <stl/algorithm.h>
 //#include <srlz/Serial.h>
 #endif
 #include <gfx/Asset.h>
@@ -58,12 +59,14 @@ namespace mud
 		if(m_assets.find(name) != m_assets.end())
 			printf("WARNING: creating asset of already existing name: previous asset deleted\n");
 		m_assets[name] = make_unique<T_Asset>(name);
+		m_vector.push_back(&*m_assets[name]);
 		return *m_assets[name];
 	}
 
 	template <class T_Asset>
 	void AssetStore<T_Asset>::destroy(const string& name)
 	{
+		remove(m_vector, &*m_assets[name]);
 		m_assets[name] = nullptr;
 	}
 
@@ -80,8 +83,8 @@ namespace mud
 	{
 		if(m_assets.find(name) == m_assets.end())
 		{
-			m_assets[name] = make_unique<T_Asset>(name);
-			m_loader(*m_assets[name], path + "/" + name);
+			T_Asset& asset = this->create(name);
+			m_loader(asset, path + "/" + name);
 		}
 		return *m_assets[name];
 	}
@@ -98,9 +101,9 @@ namespace mud
 			if(!location)
 				return nullptr;
 
-			m_assets[name] = make_unique<T_Asset>(name);
+			T_Asset& asset = this->create(name);
 			Loader& loader = m_formats.size() > 0 ? m_format_loaders[location.m_extension_index] : m_loader;
-			loader(*m_assets[name], location.path(false));
+			loader(asset, location.path(false));
 		}
 		return m_assets[name].get();
 	}

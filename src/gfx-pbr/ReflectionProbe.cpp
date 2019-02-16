@@ -112,7 +112,7 @@ namespace mud
 
 			probe_array.extents_intensity[probe_count] = { probe->m_extents, probe->m_intensity };
 
-			Colour ambient_linear = to_linear(render.m_environment->m_radiance.m_ambient) * render.m_environment->m_radiance.m_energy;
+			Colour ambient_linear = to_linear(render.m_env->m_radiance.m_ambient) * render.m_env->m_radiance.m_energy;
 			probe_array.ambient[probe_count] = { to_vec3(ambient_linear), 0.f };
 
 			probe_array.atlas_rect[probe_count] = { m_atlas.probe_rect(*probe) };

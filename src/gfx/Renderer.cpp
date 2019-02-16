@@ -157,6 +157,8 @@ namespace mud
 	{
 		//render.m_needs_depth_prepass = true;
 
+		m_pipeline.block<MaterialBlock>()->begin_render(render);
+
 		for(GfxBlock* block : m_impl->m_gfx_blocks)
 			block->begin_render(render);
 

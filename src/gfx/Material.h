@@ -12,6 +12,7 @@
 #include <geom/Primitive.h>
 #endif
 #include <gfx/Forward.h>
+#include <gfx/Renderer.h>
 
 namespace bgfx
 {
@@ -59,17 +60,17 @@ namespace mud
 		Count
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT BaseMaterialBlock
+	export_ struct refl_ MUD_GFX_EXPORT MaterialBase
 	{
 		attr_ BlendMode m_blend_mode = BlendMode::Mix;
 		attr_ CullMode m_cull_mode = CullMode::Back;
 		attr_ DepthDraw m_depth_draw_mode = DepthDraw::Enabled;
 		attr_ DepthTest m_depth_test = DepthTest::Enabled;
 
-		attr_ vec2 m_uv0_scale = { 1.f, 1.f };
-		attr_ vec2 m_uv0_offset = { 0.f, 0.f };
-		attr_ vec2 m_uv1_scale = { 1.f, 1.f };
-		attr_ vec2 m_uv1_offset = { 0.f, 0.f };
+		attr_ gpu_ vec2 m_uv0_scale = { 1.f, 1.f };
+		attr_ gpu_ vec2 m_uv0_offset = { 0.f, 0.f };
+		attr_ gpu_ vec2 m_uv1_scale = { 1.f, 1.f };
+		attr_ gpu_ vec2 m_uv1_offset = { 0.f, 0.f };
 
 		attr_ bool m_is_alpha = false;
 		attr_ bool m_screen_filter = false;
@@ -95,7 +96,7 @@ namespace mud
 	{
 		MaterialParam() {}
 		MaterialParam(T_Param value, Texture* texture = nullptr, TextureChannel channel = TextureChannel::All) : m_value(value), m_texture(texture), m_channel(channel) {}
-		attr_ T_Param m_value = {};
+		attr_ gpu_ T_Param m_value = {};
 		attr_ Texture* m_texture = nullptr;
 		attr_ TextureChannel m_channel = TextureChannel::All;
 	};
@@ -103,14 +104,14 @@ namespace mud
 	export_ extern template struct refl_ MaterialParam<Colour>;
 	export_ extern template struct refl_ MaterialParam<float>;
 
-	export_ struct refl_ MUD_GFX_EXPORT UnshadedMaterialBlock
+	export_ struct refl_ MUD_GFX_EXPORT MaterialUnshaded
 	{
 		attr_ bool m_enabled = false;
 
 		attr_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT FresnelMaterialBlock
+	export_ struct refl_ MUD_GFX_EXPORT MaterialFresnel
 	{
 		attr_ bool m_enabled = false;
 
@@ -150,35 +151,35 @@ namespace mud
 		LIGHTMAP
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT PbrMaterialBlock
+	export_ struct refl_ MUD_GFX_EXPORT MaterialPbr
 	{
-		constr_ PbrMaterialBlock() {}
-		constr_ PbrMaterialBlock(const Colour& albedo, float metallic = 0.f, float roughness = 1.f) : m_enabled(true), m_albedo(albedo, nullptr), m_metallic(metallic, nullptr, TextureChannel::Red), m_roughness(roughness, nullptr, TextureChannel::Red) {}
+		constr_ MaterialPbr() {}
+		constr_ MaterialPbr(const Colour& albedo, float metallic = 0.f, float roughness = 1.f) : m_enabled(true), m_albedo(albedo, nullptr), m_metallic(metallic, nullptr, TextureChannel::Red), m_roughness(roughness, nullptr, TextureChannel::Red) {}
 
-		PbrMaterialBlock& operator=(const PbrMaterialBlock&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
+		MaterialPbr& operator=(const MaterialPbr&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
 
 		attr_ bool m_enabled = false;
 
 		// basic
-		attr_ MaterialParam<Colour> m_albedo = { Colour::White, nullptr };
-		attr_ float m_specular = 0.5f;
-		attr_ MaterialParam<float> m_metallic = { 0.f, nullptr, TextureChannel::Red };
-		attr_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Red };
-		attr_ MaterialParam<Colour> m_emissive = { Colour::None, nullptr };
-		attr_ float m_emissive_energy = 0.f;
-		attr_ MaterialParam<float> m_normal = { 1.f, nullptr };
+		attr_ gpu_ MaterialParam<Colour> m_albedo = { Colour::White, nullptr };
+		attr_ gpu_ float m_specular = 0.5f;
+		attr_ gpu_ MaterialParam<float> m_metallic = { 0.f, nullptr, TextureChannel::Red };
+		attr_ gpu_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Red };
+		attr_ gpu_ MaterialParam<float> m_normal = { 1.f, nullptr };
+		attr_ gpu_ MaterialParam<Colour> m_emissive = { Colour::None, nullptr };
+		attr_ gpu_ float m_emissive_energy = 0.f;
 
 		// advanced
-		attr_ MaterialParam<float> m_rim;
-		attr_ float m_rim_tint;
-		attr_ MaterialParam<float> m_clearcoat;
-		attr_ float m_clearcoat_gloss;
-		attr_ MaterialParam<float> m_anisotropy;
-		attr_ MaterialParam<float> m_subsurface;
-		attr_ MaterialParam<Colour> m_transmission;
-		attr_ MaterialParam<float> m_refraction;
-		attr_ MaterialParam<float> m_ambient_occlusion;
-		attr_ MaterialParam<float> m_depth = { -0.02f, nullptr };
+		attr_ gpu_ MaterialParam<float> m_rim;
+		attr_ gpu_ float m_rim_tint;
+		attr_ gpu_ MaterialParam<float> m_clearcoat;
+		attr_ gpu_ float m_clearcoat_gloss;
+		attr_ gpu_ MaterialParam<float> m_anisotropy;
+		attr_ gpu_ MaterialParam<float> m_subsurface;
+		attr_ gpu_ MaterialParam<float> m_refraction;
+		attr_ gpu_ MaterialParam<float> m_depth = { -0.02f, nullptr };
+		attr_ gpu_ MaterialParam<float> m_ambient_occlusion;
+		attr_ gpu_ MaterialParam<Colour> m_transmission;
 
 		attr_ bool m_deep_parallax = false;
 
@@ -186,6 +187,21 @@ namespace mud
 		attr_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
 
 		table<MaterialFlag, bool> m_flags;
+	};
+
+	export_ class refl_ MUD_GFX_EXPORT MaterialBlock : public GfxBlock
+	{
+	public:
+		MaterialBlock(GfxSystem& gfx_system);
+
+		virtual void init_block() override;
+
+		virtual void begin_render(Render& render) override;
+		virtual void begin_pass(Render& render) override;
+
+		bgfx::UniformHandle u_state = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle s_materials = BGFX_INVALID_HANDLE;
+		bgfx::TextureHandle m_materials_texture = BGFX_INVALID_HANDLE;
 	};
 
 	export_ GfxBlock& pbr_block(GfxSystem& gfx_system);
@@ -205,10 +221,10 @@ namespace mud
 		attr_ bool m_builtin = false;
 		attr_ Program* m_program = nullptr;
 
-		attr_ BaseMaterialBlock m_base_block;
-		attr_ UnshadedMaterialBlock m_unshaded_block;
-		attr_ PbrMaterialBlock m_pbr_block;
-		attr_ FresnelMaterialBlock m_fresnel_block;
+		attr_ MaterialBase m_base_block;
+		attr_ MaterialUnshaded m_unshaded_block;
+		attr_ MaterialPbr m_pbr_block;
+		attr_ MaterialFresnel m_fresnel_block;
 
 		void state(uint64_t& bgfx_state) const;
 		ShaderVersion shader_version(const Program& program) const;

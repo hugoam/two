@@ -84,12 +84,13 @@ namespace mud
 	struct DrawCluster;
     class DrawPass;
     class Renderer;
-    struct BaseMaterialBlock;
-    struct UnshadedMaterialBlock;
-    struct FresnelMaterialBlock;
-    struct PbrMaterialBlock;
+    struct MaterialBase;
+    struct MaterialUnshaded;
+    struct MaterialFresnel;
+    struct MaterialPbr;
     struct PbrBlock;
     class Material;
+	class MaterialBlock;
     struct ImportConfig;
 	class Importer;
     struct ModelItem;
@@ -149,7 +150,7 @@ namespace mud
     struct Radiance;
     struct Background;
     struct Fog;
-    struct Environment;
+    struct Zone;
     class Scene;
     class Shot;
     struct Uniform;
