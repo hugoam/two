@@ -3,6 +3,7 @@
 
 #include <bgfx_shader.sh>
 #include <srgb.sh>
+#include <gpu/material.sh>
 
 uniform vec4 u_render_params;
 #define u_time u_render_params.x
@@ -19,12 +20,17 @@ uniform vec4 u_screen_size_pixel_size;
 #define u_screen_size u_screen_size_pixel_size.xy
 #define u_pixel_size u_screen_size_pixel_size.zw
 
-uniform vec4 u_material_params_0;
-uniform vec4 u_material_params_1;
-#define u_uv1_scale u_material_params_0.xy
-#define u_uv1_offset u_material_params_0.zw
-#define u_uv2_scale u_material_params_1.xy
-#define u_uv2_offset u_material_params_1.zw
+//#define ZONES_BUFFER
+#define ZONES_TEXTURE_WIDTH 1024
+
+#ifdef MATERIALS_BUFFER
+uniform vec4 u_state;
+#define u_state_zone u_state.x
+#define u_state_material u_state.y
+#else
+#define u_state_zone 0
+#define u_state_material 0
+#endif
 
 #if BGFX_SHADER_LANGUAGE_GLSL == 110
 mat4 transpose(in mat4 mat)

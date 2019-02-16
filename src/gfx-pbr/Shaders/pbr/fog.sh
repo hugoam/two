@@ -40,7 +40,7 @@ void apply_fog_0(Fragment fragment, inout vec3 color)
     
     float fog = exp(-u_fog_density * fog_depth_intensity * fog_height_intensity);
     
-#ifdef DIRECTIONAL_LIGHT
+#ifdef DIRECT_LIGHT
     float sun_highlight = saturate(dot(fragment.view, u_light_direction_attenuation[0].xyz));
     sun_highlight = pow(sun_highlight, 8.0);
     
@@ -59,7 +59,7 @@ void apply_fog(Fragment fragment, inout vec3 emission, inout vec3 ambient, inout
     float fog_amount = 0.0;
 
 #if 0
-//#ifdef DIRECTIONAL_LIGHT
+//#ifdef DIRECT_LIGHT
     float attenuation = pow(max(dot(normalize(fragment.position), -u_light_direction_attenuation[0].xyz), 0.0), 8.0);
     vec3 fog_color = mix(u_fog_color.rgb, u_fog_sun_color_amount.rgb, u_fog_sun_color_amount.a * attenuation);
 #else

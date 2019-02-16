@@ -5,13 +5,13 @@
 #if BGFX_SHADER_LANGUAGE_HLSL
     vec3 view_dir = normalize(mul(mat3(v_tangent, v_binormal, v_normal), fragment.view));
 #else
-    vec3 view_dir = normalize(mul(fragment.view, mat3(v_tangent, v_binormal, v_normal)));
+    vec3 view_dir = normalize(mul(transpose(mat3(v_tangent, v_binormal, v_normal)), fragment.view));
 #endif
 
 #ifdef DEEP_PARALLAX
     float num_layers = mix(float(8), float(32), abs(dot(vec3(0.0, 0.0, 1.0), view_dir)));
     float layer_depth = 1.0 / num_layers;
-    vec2 P = view_dir.xy * u_depth_scale;
+    vec2 P = view_dir.xy * pbr.depth_scale;
     vec2 delta = P / num_layers;
     float depth = texture2D(s_depth, fragment.uv).r;
     float current_depth = 0.0;
@@ -29,7 +29,7 @@
     fragment.uv = mix(current_uv, prev_uv, weight);
 #else
     float depth = texture2D(s_depth, fragment.uv).r;
-    fragment.uv -= view_dir.xy / view_dir.z * (depth * u_depth_scale);
+    fragment.uv -= view_dir.xy / view_dir.z * (depth * pbr.depth_scale);
 #endif
 
 #endif

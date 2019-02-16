@@ -22,7 +22,7 @@ void main()
 #include "modelview.sh"
 
 	vec3 vertex = mul(modelView, vec4(a_position, 1.0)).xyz;
-	vec3 normal = mul(modelView, vec4(a_normal.xyz, 0.0)).xyz;
+	vec3 normal = mul(modelView, vec4(a_normal, 0.0)).xyz;
     
 	render_depth(normal, vertex);
 

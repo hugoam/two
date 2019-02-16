@@ -15,7 +15,7 @@ uniform vec4 u_perez_coeff[5];
 #include <common.sh>
 #include <convert.sh>
 
-vec3 Perez(vec3 A,vec3 B,vec3 C,vec3 D, vec3 E,float costeta, float cosgamma)
+vec3 Perez(vec3 A, vec3 B, vec3 C, vec3 D, vec3 E, float costeta, float cosgamma)
 {
 	float _1_costeta = 1.0 / costeta;
 	float cos2gamma = cosgamma * cosgamma;
@@ -65,7 +65,7 @@ void main()
 
 	vec3 Yp = skyColorxyY * P / P0;
 
-	vec3 skyColorXYZ = vec3(Yp.x * Yp.z / Yp.y,Yp.z, (1.0 - Yp.x- Yp.y)*Yp.z/Yp.y);
+	vec3 skyColorXYZ = vec3(Yp.x * Yp.z / Yp.y, Yp.z, (1.0 - Yp.x - Yp.y) * Yp.z / Yp.y);
 
 	v_color.rgb = convertXYZ2RGB(skyColorXYZ * u_sky_params.z);
 }

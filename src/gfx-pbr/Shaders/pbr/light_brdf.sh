@@ -1,6 +1,43 @@
 #include <pbr/light.sh>
 
-#define BRDF_ARGS float NoL, float NoH, float LoH, float LoV, float XoH, float RoV, float NoV
+struct LightRay
+{
+    vec3 l;
+    
+    float NoL;
+    float NoH;
+    float LoH;
+
+    float LoV;
+    float XoH;
+    float YoH;
+
+	float RoV;
+};
+
+LightRay calc_light_ray(Fragment fragment, vec3 l)
+{
+    vec3 V = fragment.view;
+    vec3 N = fragment.normal;
+    vec3 B = fragment.binormal;
+    vec3 T = fragment.tangent;
+    vec3 L = normalize(l);
+    vec3 H = normalize(V + L);
+	vec3 R = normalize(-reflect(L, N));
+    
+    LightRay r;
+    r.l = l;
+    r.NoL = max(dot(N, L), 0.0);
+    r.NoH = max(dot(N, H), 0.0);
+    r.LoH = max(dot(L, H), 0.0);
+    
+    r.LoV = dot(L, V);
+    r.XoH = dot(T, H);
+    r.YoH = dot(B, H);
+    
+	r.RoV = max(dot(R, V), 0.0);
+    return r;
+}
 
 float sqr(float a) { return a * a; }
 
@@ -26,62 +63,62 @@ float GTR1(float NoH, float a)
     return (a2 - 1.0) / (M_PI * log(a2) * t);
 }
 
-float diffuse_lambert(BRDF_ARGS, float roughness)
+float diffuse_lambert(LightRay l, float NoV, float roughness)
 {
-	return max(NoL, 0.0);
+	return max(l.NoL, 0.0);
 }
 
-float diffuse_half_lambert(BRDF_ARGS, float roughness)
+float diffuse_half_lambert(LightRay l, float NoV, float roughness)
 {
-	return NoL * 0.5 + 0.5;
+	return l.NoL * 0.5 + 0.5;
 }
 
-vec3 diffuse_oren_nayar(BRDF_ARGS, float roughness, vec3 albedo)
+vec3 diffuse_oren_nayar(LightRay l, float NoV, float roughness, vec3 albedo)
 {
-    float s = LoV - NoL * NoV;
-    float t = mix(1.0, max(NoL, NoV), step(0.0, s));
+    float s = l.LoV - l.NoL * NoV;
+    float t = mix(1.0, max(l.NoL, NoV), step(0.0, s));
 
     float sigma2 = roughness * roughness;
     vec3 alpha = 1.0 + sigma2 * (albedo / (sigma2 + 0.13) + 0.5 / (sigma2 + 0.33));
     float beta = 0.45 * sigma2 / (sigma2 + 0.09);
 
-    return max(0.0, NoL) * (alpha + vec3_splat(beta) * s / t) / M_PI;
+    return max(0.0, l.NoL) * (alpha + vec3_splat(beta) * s / t) / M_PI;
 }
 
-float diffuse_toon(BRDF_ARGS, float roughness)
+float diffuse_toon(LightRay l, float NoV, float roughness)
 {
-	return smoothstep(-roughness, max(roughness, 0.01), NoL);
+	return smoothstep(-roughness, max(roughness, 0.01), l.NoL);
 }
 
-float diffuse_burley(BRDF_ARGS, float roughness)
+float diffuse_burley(LightRay l, float NoV, float roughness)
 {
     float energyBias = mix(roughness, 0.0, 0.5);
     float energyFactor = mix(roughness, 1.0, 1.0 / 1.51);
-    float fd90 = energyBias + 2.0 * LoH * LoH * roughness;
+    float fd90 = energyBias + 2.0 * l.LoH * l.LoH * roughness;
     float f0 = 1.0;
-    float lightScatter = f0 + (fd90 - f0) * pow(1.0 - NoL, 5.0);
+    float lightScatter = f0 + (fd90 - f0) * pow(1.0 - l.NoL, 5.0);
     float viewScatter = f0 + (fd90 - f0) * pow(1.0 - NoV, 5.0);
 
     return lightScatter * viewScatter * energyFactor;
 }
 
-float specular_blinn(BRDF_ARGS, float roughness)
+float specular_blinn(LightRay l, float NoV, float roughness)
 {
-	return pow(NoH, (1.0 - roughness) * 256.0);
+	return pow(l.NoH, (1.0 - roughness) * 256.0);
 }
 
-float specular_phong(BRDF_ARGS, float roughness)
+float specular_phong(LightRay l, float NoV, float roughness)
 {
-	return pow(RoV, (1.0 - roughness) * 256.0);
+	return pow(l.RoV, (1.0 - roughness) * 256.0);
 }
 
-float specular_toon(BRDF_ARGS, float roughness)
+float specular_toon(LightRay l, float NoV, float roughness)
 {
 	float mid = sqr(1.0 - roughness);
-	return smoothstep(mid - roughness * 0.5, mid + roughness * 0.5, RoV) * mid;
+	return smoothstep(mid - roughness * 0.5, mid + roughness * 0.5, l.RoV) * mid;
 }
 
-float specular_schlick_GGX(BRDF_ARGS, float roughness, float anisotropy)
+float specular_schlick_GGX(LightRay l, float NoV, float roughness, float anisotropy)
 {
     float alpha = roughness * roughness;
 
@@ -92,29 +129,29 @@ float specular_schlick_GGX(BRDF_ARGS, float roughness, float anisotropy)
     float ax = rx * rx;
     float ay = ry * ry;
     float pi = M_PI;
-    float denom = sqr(XoH) / sqr(ax) + sqr(YoH) / sqr(ay) + sqr(NoH);
+    float denom = sqr(l.XoH) / sqr(ax) + sqr(l.YoH) / sqr(ay) + sqr(l.NoH);
     float D = 1.0 / ( pi * ax * ay * denom * denom );
 #else
     float alpha2 = alpha * alpha;
     float pi = M_PI;
-    float denom = NoH * NoH * (alpha2 - 1.0) + 1.0;
+    float denom = l.NoH * l.NoH * (alpha2 - 1.0) + 1.0;
     float D = alpha2 / (pi * denom * denom);
 #endif
     // F
     float F0 = 1.0;
-    float FH = SchlickFresnel( LoH );
+    float FH = SchlickFresnel( l.LoH );
     float F = F0 + (1.0 - F0) * (FH);
 
     // V
     float k = alpha / 2.0f;
-    float vis = G1V(NoL, k) * G1V(NoV, k);
+    float vis = G1V(l.NoL, k) * G1V(NoV, k);
 
-    return NoL * D * F * vis;
+    return l.NoL * D * F * vis;
 
 #ifdef CLEARCOAT
-    float Dr = GTR1(NoH, mix(.1, .001, material.clearcoat_gloss));
+    float Dr = GTR1(l.NoH, mix(.1, .001, material.clearcoat_gloss));
     float Fr = mix(.04, 1.0, FH);
-    float Gr = G1V(NoL, .25) * G1V(NoV, .25);
+    float Gr = G1V(l.NoL, .25) * G1V(NoV, .25);
 
     specular += .25 * material.clearcoat * Gr * Fr * Dr;
 #endif
@@ -137,21 +174,21 @@ vec3 brdf_specular_term(Fragment fragment, Material material)
 	return material.f0 * brdf.x + brdf.y;
 }
 
-#define PASS_BRDF light.NoL, light.NoH, light.LoH, light.LoV, light.XoH, light.RoV, fragment.NoV
-
-void light_brdf(Light light, Fragment fragment, Material material, vec3 attenuation, inout vec3 diffuse, inout vec3 specular)
+void light_brdf(Light light, vec3 l, Fragment fragment, Material material, vec3 attenuation, inout vec3 diffuse, inout vec3 specular)
 {
+    LightRay ray = calc_light_ray(fragment, l);
+ 
     if(material.metallic < 1.0) {
 #if DIFFUSE_MODE == 0
-        diffuse += light.energy * attenuation * material.albedo * diffuse_lambert(      PASS_BRDF, material.roughness);
+        diffuse += light.energy * attenuation * material.albedo * diffuse_lambert(      ray, fragment.NoV, material.roughness);
 #elif DIFFUSE_MODE == 1
-        diffuse += light.energy * attenuation * material.albedo * diffuse_half_lambert( PASS_BRDF, material.roughness);
+        diffuse += light.energy * attenuation * material.albedo * diffuse_half_lambert( ray, fragment.NoV, material.roughness);
 #elif DIFFUSE_MODE == 2
-        diffuse += light.energy * attenuation * material.albedo * diffuse_oren_nayar(   PASS_BRDF, material.roughness, material.albedo);
+        diffuse += light.energy * attenuation * material.albedo * diffuse_oren_nayar(   ray, fragment.NoV, material.roughness, material.albedo);
 #elif DIFFUSE_MODE == 3
-        diffuse += light.energy * attenuation * material.albedo * diffuse_burley(       PASS_BRDF, material.roughness);
+        diffuse += light.energy * attenuation * material.albedo * diffuse_burley(       ray, fragment.NoV, material.roughness);
 #elif DIFFUSE_MODE == 4
-        diffuse += light.energy * attenuation * material.albedo * diffuse_toon(         PASS_BRDF, material.roughness);
+        diffuse += light.energy * attenuation * material.albedo * diffuse_toon(         ray, fragment.NoV, material.roughness);
 #endif
     }
     
@@ -162,13 +199,13 @@ void light_brdf(Light light, Fragment fragment, Material material, vec3 attenuat
 
 	if (material.roughness > 0.0) {
 #if SPECULAR_MODE == 0
-        specular += light.energy * attenuation * light.specular * specular_schlick_GGX(PASS_BRDF, material.roughness, material.anisotropy);
+        specular += light.energy * attenuation * light.specular * specular_schlick_GGX(ray, fragment.NoV, material.roughness, material.anisotropy);
 #elif SPECULAR_MODE == 1
-        specular += light.energy * attenuation * light.specular * specular_blinn(      PASS_BRDF, material.roughness);
+        specular += light.energy * attenuation * light.specular * specular_blinn(      ray, fragment.NoV, material.roughness);
 #elif SPECULAR_MODE == 2
-        specular += light.energy * attenuation * light.specular * specular_phong(      PASS_BRDF, material.roughness);
+        specular += light.energy * attenuation * light.specular * specular_phong(      ray, fragment.NoV, material.roughness);
 #elif SPECULAR_MODE == 3
-        diffuse += light.energy * attenuation * light.specular * specular_toon(        PASS_BRDF, material.roughness) * material.specular * 2.0;
+        diffuse += light.energy * attenuation * light.specular * specular_toon(        ray, fragment.NoV, material.roughness) * material.specular * 2.0;
 #elif SPECULAR_MODE == 4
 #endif
 	}

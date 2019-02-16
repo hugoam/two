@@ -37,7 +37,7 @@ vec3 ImportanceSampleGGX(vec2 Xi, float Roughness, vec3 N)
 	return TangentX * H.x + TangentY * H.y + N * H.z;
 }
 
-#if BGFX_SHADER_LANGUAGE_GLSL < 120
+#if BGFX_SHADER_LANGUAGE_GLSL <= 120
 float VanDerCorpus(int n, int base)
 {
     float invBase = 1.0 / float(base);
@@ -85,7 +85,7 @@ void main()
 
 	vec4 color = vec4_splat(0.0);
 
-#if BGFX_SHADER_LANGUAGE_GLSL < 120
+#if BGFX_SHADER_LANGUAGE_GLSL <= 120
     int num_samples = int(u_num_samples);
 	for(int i = 0; i < num_samples; i++)
 #else

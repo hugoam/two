@@ -1,81 +1,70 @@
-$input v_voxposition, v_wnormal, v_vcolor, v_texcoord0
+$input v_position, v_normal, v_color, v_texcoord0
 
-// #extension GL_ARB_shader_image_load_store : enable
+#include <pbr/pbr.sh>
+#include <pbr/light.sh>
 
-#include <compiled.inc>
-#include <std/math.glsl>
-#include <std/imageatomic.glsl>
-#include <std/gbuffer.glsl>
+#include <gi/gi.sh>
+#include <gi/light.sh>
 
-layout(r32ui) uimage3D voxels;
-layout(r32ui) uimage3D voxelsNor;
+#include <encode.sh>
+#include <bgfx_compute.sh>
+
+UIMAGE3D_RW(s_voxels_albedo,  r32ui, 1);
+UIMAGE3D_RW(s_voxels_normals, r32ui, 2);
+UIMAGE3D_RW(s_voxels_light,   r32ui, 3);
+
+#define COMPUTE_VOXEL_LIGHT
 
 void main()
 {
-    if (abs(voxposition.z) > ' + rpdat.rp_voxelgi_resolution_z + ' || abs(voxposition.x) > 1 || abs(voxposition.y) > 1) return;
-    vec3 wposition = voxposition * voxelgiHalfExtents;
-    //if rpdat.arm_voxelgi_revoxelize and rpdat.arm_voxelgi_camera:
-    //    frag.add_uniform('vec3 eyeSnap', '_cameraPositionSnap
-    //    wposition += eyeSnap;
+    if (abs(v_position.z) > VOXELGI_RESOLUTION_Z || abs(v_position.x) > 1.0 || abs(v_position.y) > 1.0) return;
+    vec3 position = v_position.xyz * u_voxelgi_extents;
+    //position += u_eye_snap;
 
-    vec3 basecol;
-    float roughness;
-    float metallic;
-    float occlusion;
-    float specular;
-    //parse_opacity = rpdat.arm_voxelgi_refraction
-    //if parse_opacity:
-    //    float opacity;
-    float dotNV = 0.0;
-    //cycles.parse(mat_state.nodes, con_voxel, vert, frag, geom, tesc, tese, parse_opacity=parse_opacity, parse_displacement=False, basecol_only=True)
+    Fragment fragment;
+	fragment.position = position;
+	fragment.normal = normalize(v_normal);
+	fragment.uv = v_texcoord0.xy;
+	fragment.color = v_color;
+    
+    int material_index = int(u_state_material);
+    PbrMaterial pbr = read_pbr_material(material_index);
+    
+    vec3 albedo = pbr.albedo.rgb * sample_material_texture(s_albedo, fragment.uv).rgb;
 
-    if not frag.contains('vec3 n =:
-        frag.write_pre = True
-        vec3 n;
-        frag.write_pre = False
+	vec4 emission = vec4_splat(0.0);
+#include <pbr/fs_emission.sh>
 
-    vec3 voxel = voxposition * 0.5 + 0.5;
-    uint val = convVec4ToRGBA8(vec4(basecol, 1.0) * 255);
-    imageAtomicMax(voxels, ivec3(voxelgiResolution * voxel), val);
+    fragment.color = vec4(albedo + emission.rgb, 1.0);
+    
+    vec3 voxel = v_position.xyz * 0.5 + 0.5; // [-1,1] to [0,1]
+    ivec3 coord = ivec3(u_voxelgi_subdiv * voxel);
+    
+    uint color_enc = encodeColor(fragment.color);
+#if BGFX_SHADER_LANGUAGE_HLSL
+    InterlockedMax(s_voxels_albedo.m_texture[coord], color_enc);
+#else
+    imageAtomicMax(s_voxels_albedo, coord, color_enc);
+#endif
 
-    val = encNor(wnormal);;
-    imageAtomicMax(voxelsNor, ivec3(voxelgiResolution * voxel), val);
-        
-        // imageStore(voxels, ivec3(voxelgiResolution * voxel), vec4(color, 1.0));
-        // imageAtomicRGBA8Avg(voxels, ivec3(voxelgiResolution * voxel), vec4(color, 1.0));
-        //   
-        // ivec3 coords = ivec3(voxelgiResolution * voxel);
-        // if parse_opacity:
-        //     vec4 val = vec4(color, opacity);
-        // else:
-        //     vec4 val = vec4(color, 1.0);
-        // val *= 255.0;
-        // uint newVal = encUnsignedNibble(convVec4ToRGBA8(val), 1);
-        // uint prevStoredVal = 0;
-        // uint currStoredVal;
-        // # int counter = 0;
-        // # while ((currStoredVal = imageAtomicCompSwap(voxels, coords, prevStoredVal, newVal)) != prevStoredVal && counter < 16) {
-        // while ((currStoredVal = imageAtomicCompSwap(voxels, coords, prevStoredVal, newVal)) != prevStoredVal) {
-        //     vec4 rval = convRGBA8ToVec4(currStoredVal & 0xFEFEFEFE);
-        //     uint n = decUnsignedNibble(currStoredVal);
-        //     rval = rval * n + val;
-        //     rval /= ++n;
-        //     rval = round(rval / 2) * 2;
-        //     newVal = encUnsignedNibble(convVec4ToRGBA8(rval), n);
-        //     prevStoredVal = currStoredVal;
-        // #     counter++;
-        // }
-        //
-        // val.rgb *= 255.0f;
-        // uint newVal = convVec4ToRGBA8(val);
-        // uint prevStoredVal = 0;
-        // uint curStoredVal;
-        // while ((curStoredVal = imageAtomicCompSwap(voxels, coords, prevStoredVal, newVal)) != prevStoredVal) {
-        //     prevStoredVal = curStoredVal;
-        //     vec4 rval = convRGBA8ToVec4(curStoredVal);
-        //     rval.xyz = (rval.xyz * rval.w);
-        //     vec4 curValF = rval + val;
-        //     curValF.xyz /= (curValF.w);
-        //     newVal = convVec4ToRGBA8(curValF);
-        // }
+    uint normal_enc = encodeNormal(fragment.normal);
+#if BGFX_SHADER_LANGUAGE_HLSL
+    InterlockedMax(s_voxels_normals.m_texture[coord], normal_enc);
+#else
+    imageAtomicMax(s_voxels_normals, coord, normal_enc);
+#endif
+
+#ifdef COMPUTE_VOXEL_LIGHT
+    vec3 diffuse = compute_voxel_lights(fragment.position, fragment.color.rgb, fragment.normal);
+    uint light_enc = encodeColor(vec4(diffuse + emission.rgb, 1.0));
+#else
+    uint light_enc = encodeColor(vec4(emission.rgb, 1.0));
+#endif
+    
+#if BGFX_SHADER_LANGUAGE_HLSL
+    InterlockedMax(s_voxels_light.m_texture[coord], light_enc);
+#else
+    imageAtomicMax(s_voxels_light, coord, light_enc);
+#endif
+
 }
