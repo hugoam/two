@@ -339,74 +339,74 @@ extern "C" {
 	void DECL mud_Background__destroy(mud::Background* self) {
 		delete self;
 	}
-	// BaseMaterialBlock
-	mud::Type* DECL mud_BaseMaterialBlock__type() {
-		return &mud::type<mud::BaseMaterialBlock>();
+	// MaterialBase
+	mud::Type* DECL mud_MaterialBase__type() {
+		return &mud::type<mud::MaterialBase>();
 	}
-	mud::BaseMaterialBlock* DECL mud_BaseMaterialBlock__construct_0() {
-		return new mud::BaseMaterialBlock();
+	mud::MaterialBase* DECL mud_MaterialBase__construct_0() {
+		return new mud::MaterialBase();
 	}
-	mud::BlendMode DECL mud_BaseMaterialBlock__get_blend_mode(mud::BaseMaterialBlock* self) {
+	mud::BlendMode DECL mud_MaterialBase__get_blend_mode(mud::MaterialBase* self) {
 		return self->m_blend_mode;
 	}
-	void DECL mud_BaseMaterialBlock__set_blend_mode(mud::BaseMaterialBlock* self, mud::BlendMode value) {
+	void DECL mud_MaterialBase__set_blend_mode(mud::MaterialBase* self, mud::BlendMode value) {
 		self->m_blend_mode = value;
 	}
-	mud::CullMode DECL mud_BaseMaterialBlock__get_cull_mode(mud::BaseMaterialBlock* self) {
+	mud::CullMode DECL mud_MaterialBase__get_cull_mode(mud::MaterialBase* self) {
 		return self->m_cull_mode;
 	}
-	void DECL mud_BaseMaterialBlock__set_cull_mode(mud::BaseMaterialBlock* self, mud::CullMode value) {
+	void DECL mud_MaterialBase__set_cull_mode(mud::MaterialBase* self, mud::CullMode value) {
 		self->m_cull_mode = value;
 	}
-	mud::DepthDraw DECL mud_BaseMaterialBlock__get_depth_draw_mode(mud::BaseMaterialBlock* self) {
+	mud::DepthDraw DECL mud_MaterialBase__get_depth_draw_mode(mud::MaterialBase* self) {
 		return self->m_depth_draw_mode;
 	}
-	void DECL mud_BaseMaterialBlock__set_depth_draw_mode(mud::BaseMaterialBlock* self, mud::DepthDraw value) {
+	void DECL mud_MaterialBase__set_depth_draw_mode(mud::MaterialBase* self, mud::DepthDraw value) {
 		self->m_depth_draw_mode = value;
 	}
-	mud::DepthTest DECL mud_BaseMaterialBlock__get_depth_test(mud::BaseMaterialBlock* self) {
+	mud::DepthTest DECL mud_MaterialBase__get_depth_test(mud::MaterialBase* self) {
 		return self->m_depth_test;
 	}
-	void DECL mud_BaseMaterialBlock__set_depth_test(mud::BaseMaterialBlock* self, mud::DepthTest value) {
+	void DECL mud_MaterialBase__set_depth_test(mud::MaterialBase* self, mud::DepthTest value) {
 		self->m_depth_test = value;
 	}
-	mud::vec2* DECL mud_BaseMaterialBlock__get_uv0_scale(mud::BaseMaterialBlock* self) {
+	mud::vec2* DECL mud_MaterialBase__get_uv0_scale(mud::MaterialBase* self) {
 		return &self->m_uv0_scale;
 	}
-	void DECL mud_BaseMaterialBlock__set_uv0_scale(mud::BaseMaterialBlock* self, mud::vec2* value) {
+	void DECL mud_MaterialBase__set_uv0_scale(mud::MaterialBase* self, mud::vec2* value) {
 		self->m_uv0_scale = *value;
 	}
-	mud::vec2* DECL mud_BaseMaterialBlock__get_uv0_offset(mud::BaseMaterialBlock* self) {
+	mud::vec2* DECL mud_MaterialBase__get_uv0_offset(mud::MaterialBase* self) {
 		return &self->m_uv0_offset;
 	}
-	void DECL mud_BaseMaterialBlock__set_uv0_offset(mud::BaseMaterialBlock* self, mud::vec2* value) {
+	void DECL mud_MaterialBase__set_uv0_offset(mud::MaterialBase* self, mud::vec2* value) {
 		self->m_uv0_offset = *value;
 	}
-	mud::vec2* DECL mud_BaseMaterialBlock__get_uv1_scale(mud::BaseMaterialBlock* self) {
+	mud::vec2* DECL mud_MaterialBase__get_uv1_scale(mud::MaterialBase* self) {
 		return &self->m_uv1_scale;
 	}
-	void DECL mud_BaseMaterialBlock__set_uv1_scale(mud::BaseMaterialBlock* self, mud::vec2* value) {
+	void DECL mud_MaterialBase__set_uv1_scale(mud::MaterialBase* self, mud::vec2* value) {
 		self->m_uv1_scale = *value;
 	}
-	mud::vec2* DECL mud_BaseMaterialBlock__get_uv1_offset(mud::BaseMaterialBlock* self) {
+	mud::vec2* DECL mud_MaterialBase__get_uv1_offset(mud::MaterialBase* self) {
 		return &self->m_uv1_offset;
 	}
-	void DECL mud_BaseMaterialBlock__set_uv1_offset(mud::BaseMaterialBlock* self, mud::vec2* value) {
+	void DECL mud_MaterialBase__set_uv1_offset(mud::MaterialBase* self, mud::vec2* value) {
 		self->m_uv1_offset = *value;
 	}
-	bool DECL mud_BaseMaterialBlock__get_is_alpha(mud::BaseMaterialBlock* self) {
+	bool DECL mud_MaterialBase__get_is_alpha(mud::MaterialBase* self) {
 		return self->m_is_alpha;
 	}
-	void DECL mud_BaseMaterialBlock__set_is_alpha(mud::BaseMaterialBlock* self, bool value) {
+	void DECL mud_MaterialBase__set_is_alpha(mud::MaterialBase* self, bool value) {
 		self->m_is_alpha = value;
 	}
-	bool DECL mud_BaseMaterialBlock__get_screen_filter(mud::BaseMaterialBlock* self) {
+	bool DECL mud_MaterialBase__get_screen_filter(mud::MaterialBase* self) {
 		return self->m_screen_filter;
 	}
-	void DECL mud_BaseMaterialBlock__set_screen_filter(mud::BaseMaterialBlock* self, bool value) {
+	void DECL mud_MaterialBase__set_screen_filter(mud::MaterialBase* self, bool value) {
 		self->m_screen_filter = value;
 	}
-	void DECL mud_BaseMaterialBlock__destroy(mud::BaseMaterialBlock* self) {
+	void DECL mud_MaterialBase__destroy(mud::MaterialBase* self) {
 		delete self;
 	}
 	// Bone
@@ -811,44 +811,44 @@ extern "C" {
 	void DECL mud_FrameBuffer__destroy(mud::FrameBuffer* self) {
 		delete self;
 	}
-	// FresnelMaterialBlock
-	mud::Type* DECL mud_FresnelMaterialBlock__type() {
-		return &mud::type<mud::FresnelMaterialBlock>();
+	// MaterialFresnel
+	mud::Type* DECL mud_MaterialFresnel__type() {
+		return &mud::type<mud::MaterialFresnel>();
 	}
-	mud::FresnelMaterialBlock* DECL mud_FresnelMaterialBlock__construct_0() {
-		return new mud::FresnelMaterialBlock();
+	mud::MaterialFresnel* DECL mud_MaterialFresnel__construct_0() {
+		return new mud::MaterialFresnel();
 	}
-	bool DECL mud_FresnelMaterialBlock__get_enabled(mud::FresnelMaterialBlock* self) {
+	bool DECL mud_MaterialFresnel__get_enabled(mud::MaterialFresnel* self) {
 		return self->m_enabled;
 	}
-	void DECL mud_FresnelMaterialBlock__set_enabled(mud::FresnelMaterialBlock* self, bool value) {
+	void DECL mud_MaterialFresnel__set_enabled(mud::MaterialFresnel* self, bool value) {
 		self->m_enabled = value;
 	}
-	mud::MaterialParam<mud::Colour>* DECL mud_FresnelMaterialBlock__get_value(mud::FresnelMaterialBlock* self) {
+	mud::MaterialParam<mud::Colour>* DECL mud_MaterialFresnel__get_value(mud::MaterialFresnel* self) {
 		return &self->m_value;
 	}
-	void DECL mud_FresnelMaterialBlock__set_value(mud::FresnelMaterialBlock* self, mud::MaterialParam<mud::Colour>* value) {
+	void DECL mud_MaterialFresnel__set_value(mud::MaterialFresnel* self, mud::MaterialParam<mud::Colour>* value) {
 		self->m_value = *value;
 	}
-	float DECL mud_FresnelMaterialBlock__get_fresnel_scale(mud::FresnelMaterialBlock* self) {
+	float DECL mud_MaterialFresnel__get_fresnel_scale(mud::MaterialFresnel* self) {
 		return self->m_fresnel_scale;
 	}
-	void DECL mud_FresnelMaterialBlock__set_fresnel_scale(mud::FresnelMaterialBlock* self, float value) {
+	void DECL mud_MaterialFresnel__set_fresnel_scale(mud::MaterialFresnel* self, float value) {
 		self->m_fresnel_scale = value;
 	}
-	float DECL mud_FresnelMaterialBlock__get_fresnel_bias(mud::FresnelMaterialBlock* self) {
+	float DECL mud_MaterialFresnel__get_fresnel_bias(mud::MaterialFresnel* self) {
 		return self->m_fresnel_bias;
 	}
-	void DECL mud_FresnelMaterialBlock__set_fresnel_bias(mud::FresnelMaterialBlock* self, float value) {
+	void DECL mud_MaterialFresnel__set_fresnel_bias(mud::MaterialFresnel* self, float value) {
 		self->m_fresnel_bias = value;
 	}
-	float DECL mud_FresnelMaterialBlock__get_fresnel_power(mud::FresnelMaterialBlock* self) {
+	float DECL mud_MaterialFresnel__get_fresnel_power(mud::MaterialFresnel* self) {
 		return self->m_fresnel_power;
 	}
-	void DECL mud_FresnelMaterialBlock__set_fresnel_power(mud::FresnelMaterialBlock* self, float value) {
+	void DECL mud_MaterialFresnel__set_fresnel_power(mud::MaterialFresnel* self, float value) {
 		self->m_fresnel_power = value;
 	}
-	void DECL mud_FresnelMaterialBlock__destroy(mud::FresnelMaterialBlock* self) {
+	void DECL mud_MaterialFresnel__destroy(mud::MaterialFresnel* self) {
 		delete self;
 	}
 	// Frustum
@@ -1313,28 +1313,28 @@ extern "C" {
 	void DECL mud_Material__set_program(mud::Material* self, mud::Program* value) {
 		self->m_program = value;
 	}
-	mud::BaseMaterialBlock* DECL mud_Material__get_base_block(mud::Material* self) {
+	mud::MaterialBase* DECL mud_Material__get_base_block(mud::Material* self) {
 		return &self->m_base_block;
 	}
-	void DECL mud_Material__set_base_block(mud::Material* self, mud::BaseMaterialBlock* value) {
+	void DECL mud_Material__set_base_block(mud::Material* self, mud::MaterialBase* value) {
 		self->m_base_block = *value;
 	}
-	mud::UnshadedMaterialBlock* DECL mud_Material__get_unshaded_block(mud::Material* self) {
+	mud::MaterialUnshaded* DECL mud_Material__get_unshaded_block(mud::Material* self) {
 		return &self->m_unshaded_block;
 	}
-	void DECL mud_Material__set_unshaded_block(mud::Material* self, mud::UnshadedMaterialBlock* value) {
+	void DECL mud_Material__set_unshaded_block(mud::Material* self, mud::MaterialUnshaded* value) {
 		self->m_unshaded_block = *value;
 	}
-	mud::PbrMaterialBlock* DECL mud_Material__get_pbr_block(mud::Material* self) {
+	mud::MaterialPbr* DECL mud_Material__get_pbr_block(mud::Material* self) {
 		return &self->m_pbr_block;
 	}
-	void DECL mud_Material__set_pbr_block(mud::Material* self, mud::PbrMaterialBlock* value) {
+	void DECL mud_Material__set_pbr_block(mud::Material* self, mud::MaterialPbr* value) {
 		self->m_pbr_block = *value;
 	}
-	mud::FresnelMaterialBlock* DECL mud_Material__get_fresnel_block(mud::Material* self) {
+	mud::MaterialFresnel* DECL mud_Material__get_fresnel_block(mud::Material* self) {
 		return &self->m_fresnel_block;
 	}
-	void DECL mud_Material__set_fresnel_block(mud::Material* self, mud::FresnelMaterialBlock* value) {
+	void DECL mud_Material__set_fresnel_block(mud::Material* self, mud::MaterialFresnel* value) {
 		self->m_fresnel_block = *value;
 	}
 	void DECL mud_Material__destroy(mud::Material* self) {
@@ -1674,149 +1674,149 @@ extern "C" {
 	void DECL mud_Node3__destroy(mud::Node3* self) {
 		delete self;
 	}
-	// PbrMaterialBlock
-	mud::Type* DECL mud_PbrMaterialBlock__type() {
-		return &mud::type<mud::PbrMaterialBlock>();
+	// MaterialPbr
+	mud::Type* DECL mud_MaterialPbr__type() {
+		return &mud::type<mud::MaterialPbr>();
 	}
-	mud::PbrMaterialBlock* DECL mud_PbrMaterialBlock__construct_0() {
-		return new mud::PbrMaterialBlock();
+	mud::MaterialPbr* DECL mud_MaterialPbr__construct_0() {
+		return new mud::MaterialPbr();
 	}
-	mud::PbrMaterialBlock* DECL mud_PbrMaterialBlock__construct_1(const mud::Colour* albedo) {
-		return new mud::PbrMaterialBlock(*albedo);
+	mud::MaterialPbr* DECL mud_MaterialPbr__construct_1(const mud::Colour* albedo) {
+		return new mud::MaterialPbr(*albedo);
 	}
-	mud::PbrMaterialBlock* DECL mud_PbrMaterialBlock__construct_2(const mud::Colour* albedo, float metallic) {
-		return new mud::PbrMaterialBlock(*albedo, metallic);
+	mud::MaterialPbr* DECL mud_MaterialPbr__construct_2(const mud::Colour* albedo, float metallic) {
+		return new mud::MaterialPbr(*albedo, metallic);
 	}
-	mud::PbrMaterialBlock* DECL mud_PbrMaterialBlock__construct_3(const mud::Colour* albedo, float metallic, float roughness) {
-		return new mud::PbrMaterialBlock(*albedo, metallic, roughness);
+	mud::MaterialPbr* DECL mud_MaterialPbr__construct_3(const mud::Colour* albedo, float metallic, float roughness) {
+		return new mud::MaterialPbr(*albedo, metallic, roughness);
 	}
-	bool DECL mud_PbrMaterialBlock__get_enabled(mud::PbrMaterialBlock* self) {
+	bool DECL mud_MaterialPbr__get_enabled(mud::MaterialPbr* self) {
 		return self->m_enabled;
 	}
-	void DECL mud_PbrMaterialBlock__set_enabled(mud::PbrMaterialBlock* self, bool value) {
+	void DECL mud_MaterialPbr__set_enabled(mud::MaterialPbr* self, bool value) {
 		self->m_enabled = value;
 	}
-	mud::MaterialParam<mud::Colour>* DECL mud_PbrMaterialBlock__get_albedo(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<mud::Colour>* DECL mud_MaterialPbr__get_albedo(mud::MaterialPbr* self) {
 		return &self->m_albedo;
 	}
-	void DECL mud_PbrMaterialBlock__set_albedo(mud::PbrMaterialBlock* self, mud::MaterialParam<mud::Colour>* value) {
+	void DECL mud_MaterialPbr__set_albedo(mud::MaterialPbr* self, mud::MaterialParam<mud::Colour>* value) {
 		self->m_albedo = *value;
 	}
-	float DECL mud_PbrMaterialBlock__get_specular(mud::PbrMaterialBlock* self) {
+	float DECL mud_MaterialPbr__get_specular(mud::MaterialPbr* self) {
 		return self->m_specular;
 	}
-	void DECL mud_PbrMaterialBlock__set_specular(mud::PbrMaterialBlock* self, float value) {
+	void DECL mud_MaterialPbr__set_specular(mud::MaterialPbr* self, float value) {
 		self->m_specular = value;
 	}
-	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_metallic(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<float>* DECL mud_MaterialPbr__get_metallic(mud::MaterialPbr* self) {
 		return &self->m_metallic;
 	}
-	void DECL mud_PbrMaterialBlock__set_metallic(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
+	void DECL mud_MaterialPbr__set_metallic(mud::MaterialPbr* self, mud::MaterialParam<float>* value) {
 		self->m_metallic = *value;
 	}
-	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_roughness(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<float>* DECL mud_MaterialPbr__get_roughness(mud::MaterialPbr* self) {
 		return &self->m_roughness;
 	}
-	void DECL mud_PbrMaterialBlock__set_roughness(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
+	void DECL mud_MaterialPbr__set_roughness(mud::MaterialPbr* self, mud::MaterialParam<float>* value) {
 		self->m_roughness = *value;
 	}
-	mud::MaterialParam<mud::Colour>* DECL mud_PbrMaterialBlock__get_emissive(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<mud::Colour>* DECL mud_MaterialPbr__get_emissive(mud::MaterialPbr* self) {
 		return &self->m_emissive;
 	}
-	void DECL mud_PbrMaterialBlock__set_emissive(mud::PbrMaterialBlock* self, mud::MaterialParam<mud::Colour>* value) {
+	void DECL mud_MaterialPbr__set_emissive(mud::MaterialPbr* self, mud::MaterialParam<mud::Colour>* value) {
 		self->m_emissive = *value;
 	}
-	float DECL mud_PbrMaterialBlock__get_emissive_energy(mud::PbrMaterialBlock* self) {
+	float DECL mud_MaterialPbr__get_emissive_energy(mud::MaterialPbr* self) {
 		return self->m_emissive_energy;
 	}
-	void DECL mud_PbrMaterialBlock__set_emissive_energy(mud::PbrMaterialBlock* self, float value) {
+	void DECL mud_MaterialPbr__set_emissive_energy(mud::MaterialPbr* self, float value) {
 		self->m_emissive_energy = value;
 	}
-	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_normal(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<float>* DECL mud_MaterialPbr__get_normal(mud::MaterialPbr* self) {
 		return &self->m_normal;
 	}
-	void DECL mud_PbrMaterialBlock__set_normal(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
+	void DECL mud_MaterialPbr__set_normal(mud::MaterialPbr* self, mud::MaterialParam<float>* value) {
 		self->m_normal = *value;
 	}
-	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_rim(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<float>* DECL mud_MaterialPbr__get_rim(mud::MaterialPbr* self) {
 		return &self->m_rim;
 	}
-	void DECL mud_PbrMaterialBlock__set_rim(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
+	void DECL mud_MaterialPbr__set_rim(mud::MaterialPbr* self, mud::MaterialParam<float>* value) {
 		self->m_rim = *value;
 	}
-	float DECL mud_PbrMaterialBlock__get_ritint(mud::PbrMaterialBlock* self) {
+	float DECL mud_MaterialPbr__get_ritint(mud::MaterialPbr* self) {
 		return self->m_rim_tint;
 	}
-	void DECL mud_PbrMaterialBlock__set_ritint(mud::PbrMaterialBlock* self, float value) {
+	void DECL mud_MaterialPbr__set_ritint(mud::MaterialPbr* self, float value) {
 		self->m_rim_tint = value;
 	}
-	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_clearcoat(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<float>* DECL mud_MaterialPbr__get_clearcoat(mud::MaterialPbr* self) {
 		return &self->m_clearcoat;
 	}
-	void DECL mud_PbrMaterialBlock__set_clearcoat(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
+	void DECL mud_MaterialPbr__set_clearcoat(mud::MaterialPbr* self, mud::MaterialParam<float>* value) {
 		self->m_clearcoat = *value;
 	}
-	float DECL mud_PbrMaterialBlock__get_clearcoat_gloss(mud::PbrMaterialBlock* self) {
+	float DECL mud_MaterialPbr__get_clearcoat_gloss(mud::MaterialPbr* self) {
 		return self->m_clearcoat_gloss;
 	}
-	void DECL mud_PbrMaterialBlock__set_clearcoat_gloss(mud::PbrMaterialBlock* self, float value) {
+	void DECL mud_MaterialPbr__set_clearcoat_gloss(mud::MaterialPbr* self, float value) {
 		self->m_clearcoat_gloss = value;
 	}
-	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_anisotropy(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<float>* DECL mud_MaterialPbr__get_anisotropy(mud::MaterialPbr* self) {
 		return &self->m_anisotropy;
 	}
-	void DECL mud_PbrMaterialBlock__set_anisotropy(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
+	void DECL mud_MaterialPbr__set_anisotropy(mud::MaterialPbr* self, mud::MaterialParam<float>* value) {
 		self->m_anisotropy = *value;
 	}
-	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_subsurface(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<float>* DECL mud_MaterialPbr__get_subsurface(mud::MaterialPbr* self) {
 		return &self->m_subsurface;
 	}
-	void DECL mud_PbrMaterialBlock__set_subsurface(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
+	void DECL mud_MaterialPbr__set_subsurface(mud::MaterialPbr* self, mud::MaterialParam<float>* value) {
 		self->m_subsurface = *value;
 	}
-	mud::MaterialParam<mud::Colour>* DECL mud_PbrMaterialBlock__get_transmission(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<mud::Colour>* DECL mud_MaterialPbr__get_transmission(mud::MaterialPbr* self) {
 		return &self->m_transmission;
 	}
-	void DECL mud_PbrMaterialBlock__set_transmission(mud::PbrMaterialBlock* self, mud::MaterialParam<mud::Colour>* value) {
+	void DECL mud_MaterialPbr__set_transmission(mud::MaterialPbr* self, mud::MaterialParam<mud::Colour>* value) {
 		self->m_transmission = *value;
 	}
-	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_refraction(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<float>* DECL mud_MaterialPbr__get_refraction(mud::MaterialPbr* self) {
 		return &self->m_refraction;
 	}
-	void DECL mud_PbrMaterialBlock__set_refraction(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
+	void DECL mud_MaterialPbr__set_refraction(mud::MaterialPbr* self, mud::MaterialParam<float>* value) {
 		self->m_refraction = *value;
 	}
-	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_ambient_occlusion(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<float>* DECL mud_MaterialPbr__get_ambient_occlusion(mud::MaterialPbr* self) {
 		return &self->m_ambient_occlusion;
 	}
-	void DECL mud_PbrMaterialBlock__set_ambient_occlusion(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
+	void DECL mud_MaterialPbr__set_ambient_occlusion(mud::MaterialPbr* self, mud::MaterialParam<float>* value) {
 		self->m_ambient_occlusion = *value;
 	}
-	mud::MaterialParam<float>* DECL mud_PbrMaterialBlock__get_depth(mud::PbrMaterialBlock* self) {
+	mud::MaterialParam<float>* DECL mud_MaterialPbr__get_depth(mud::MaterialPbr* self) {
 		return &self->m_depth;
 	}
-	void DECL mud_PbrMaterialBlock__set_depth(mud::PbrMaterialBlock* self, mud::MaterialParam<float>* value) {
+	void DECL mud_MaterialPbr__set_depth(mud::MaterialPbr* self, mud::MaterialParam<float>* value) {
 		self->m_depth = *value;
 	}
-	bool DECL mud_PbrMaterialBlock__get_deep_parallax(mud::PbrMaterialBlock* self) {
+	bool DECL mud_MaterialPbr__get_deep_parallax(mud::MaterialPbr* self) {
 		return self->m_deep_parallax;
 	}
-	void DECL mud_PbrMaterialBlock__set_deep_parallax(mud::PbrMaterialBlock* self, bool value) {
+	void DECL mud_MaterialPbr__set_deep_parallax(mud::MaterialPbr* self, bool value) {
 		self->m_deep_parallax = value;
 	}
-	mud::PbrDiffuseMode DECL mud_PbrMaterialBlock__get_diffuse_mode(mud::PbrMaterialBlock* self) {
+	mud::PbrDiffuseMode DECL mud_MaterialPbr__get_diffuse_mode(mud::MaterialPbr* self) {
 		return self->m_diffuse_mode;
 	}
-	void DECL mud_PbrMaterialBlock__set_diffuse_mode(mud::PbrMaterialBlock* self, mud::PbrDiffuseMode value) {
+	void DECL mud_MaterialPbr__set_diffuse_mode(mud::MaterialPbr* self, mud::PbrDiffuseMode value) {
 		self->m_diffuse_mode = value;
 	}
-	mud::PbrSpecularMode DECL mud_PbrMaterialBlock__get_specular_mode(mud::PbrMaterialBlock* self) {
+	mud::PbrSpecularMode DECL mud_MaterialPbr__get_specular_mode(mud::MaterialPbr* self) {
 		return self->m_specular_mode;
 	}
-	void DECL mud_PbrMaterialBlock__set_specular_mode(mud::PbrMaterialBlock* self, mud::PbrSpecularMode value) {
+	void DECL mud_MaterialPbr__set_specular_mode(mud::MaterialPbr* self, mud::PbrSpecularMode value) {
 		self->m_specular_mode = value;
 	}
-	void DECL mud_PbrMaterialBlock__destroy(mud::PbrMaterialBlock* self) {
+	void DECL mud_MaterialPbr__destroy(mud::MaterialPbr* self) {
 		delete self;
 	}
 	// Prefab
@@ -2137,26 +2137,26 @@ extern "C" {
 	void DECL mud_Texture__destroy(mud::Texture* self) {
 		delete self;
 	}
-	// UnshadedMaterialBlock
-	mud::Type* DECL mud_UnshadedMaterialBlock__type() {
-		return &mud::type<mud::UnshadedMaterialBlock>();
+	// MaterialUnshaded
+	mud::Type* DECL mud_MaterialUnshaded__type() {
+		return &mud::type<mud::MaterialUnshaded>();
 	}
-	mud::UnshadedMaterialBlock* DECL mud_UnshadedMaterialBlock__construct_0() {
-		return new mud::UnshadedMaterialBlock();
+	mud::MaterialUnshaded* DECL mud_MaterialUnshaded__construct_0() {
+		return new mud::MaterialUnshaded();
 	}
-	bool DECL mud_UnshadedMaterialBlock__get_enabled(mud::UnshadedMaterialBlock* self) {
+	bool DECL mud_MaterialUnshaded__get_enabled(mud::MaterialUnshaded* self) {
 		return self->m_enabled;
 	}
-	void DECL mud_UnshadedMaterialBlock__set_enabled(mud::UnshadedMaterialBlock* self, bool value) {
+	void DECL mud_MaterialUnshaded__set_enabled(mud::MaterialUnshaded* self, bool value) {
 		self->m_enabled = value;
 	}
-	mud::MaterialParam<mud::Colour>* DECL mud_UnshadedMaterialBlock__get_colour(mud::UnshadedMaterialBlock* self) {
+	mud::MaterialParam<mud::Colour>* DECL mud_MaterialUnshaded__get_colour(mud::MaterialUnshaded* self) {
 		return &self->m_colour;
 	}
-	void DECL mud_UnshadedMaterialBlock__set_colour(mud::UnshadedMaterialBlock* self, mud::MaterialParam<mud::Colour>* value) {
+	void DECL mud_MaterialUnshaded__set_colour(mud::MaterialUnshaded* self, mud::MaterialParam<mud::Colour>* value) {
 		self->m_colour = *value;
 	}
-	void DECL mud_UnshadedMaterialBlock__destroy(mud::UnshadedMaterialBlock* self) {
+	void DECL mud_MaterialUnshaded__destroy(mud::MaterialUnshaded* self) {
 		delete self;
 	}
 	// Viewport
