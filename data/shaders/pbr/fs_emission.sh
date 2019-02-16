@@ -1,4 +1,4 @@
 #ifdef EMISSIVE
 	vec3 emission_tex = sample_material_texture(s_emissive, fragment.uv).rgb;
-	emission = vec4((u_emissive.rgb + emission_tex) * u_emissive_energy, u_emissive_energy);
+	emission = vec4((pbr.emissive + emission_tex) * pbr.emissive_energy, pbr.emissive_energy);
 #endif

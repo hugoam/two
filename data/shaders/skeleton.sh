@@ -1,3 +1,6 @@
+#ifndef MUD_SHADER_SKELETON
+#define MUD_SHADER_SKELETON
+
 #include <common.sh>
 
 #define SKELETON_TEXTURE_WIDTH 256
@@ -37,4 +40,6 @@ mat4 skeleton_matrix(sampler2D skeleton_texture, ivec4 bone_indices, vec4 bone_w
 
 #ifdef NO_TEXEL_FETCH
 #undef texelFetch
+#endif
+
 #endif

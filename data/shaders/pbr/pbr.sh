@@ -3,16 +3,7 @@
 
 #include <common.sh>
 #include <srgb.sh>
-
-uniform vec4 u_albedo;
-uniform vec4 u_pbr_params_0;
-#define u_specular u_pbr_params_0.x
-#define u_metallic u_pbr_params_0.y
-#define u_roughness u_pbr_params_0.z
-#define u_normal_scale u_pbr_params_0.w
-
-uniform vec4 u_emissive;
-#define u_emissive_energy u_emissive.w
+#include <gpu/material.sh>
 
 SAMPLER2D(s_albedo, 0);
 SAMPLER2D(s_metallic, 1);
@@ -45,22 +36,6 @@ SAMPLER2D(s_clearcoat, 10);
 SAMPLER2D(s_albedo_detail, 11);
 SAMPLER2D(s_normal_detail, 12);
 #endif
-
-uniform vec4 u_pbr_channels_0;
-#define u_roughness_channel u_pbr_channels_0.x
-#define u_metallic_channel u_pbr_channels_0.y
-
-uniform vec4 u_pbr_params_1;
-#define u_anisotropy u_pbr_params_1.x
-#define u_refraction u_pbr_params_1.y
-#define u_subsurface u_pbr_params_1.z
-#define u_depth_scale u_pbr_params_1.w
-
-uniform vec4 u_pbr_params_2;
-#define u_rim u_pbr_params_2.x
-#define u_rim_tint u_pbr_params_2.y
-#define u_clearcoat u_pbr_params_2.z
-#define u_clearcoat_gloss u_pbr_params_2.w
 
 uniform vec4 u_lightmap_params;
 #define u_lightmap_offset u_lightmap_params.xy

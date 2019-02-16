@@ -35,14 +35,17 @@ void main()
 
     //fragment.coord.z = fragment.depth;
 
+    int material_index = int(u_state_material);
+    PbrMaterial pbr = read_pbr_material(material_index);
+    
 #include "fs_depth.sh"
 #include "fs_normal.sh"
 
     Material material;
-	material.albedo = u_albedo.rgb * sample_material_texture(s_albedo, fragment.uv).rgb;
-    material.roughness = u_roughness * sample_material_texture(s_roughness, fragment.uv)[ int(u_roughness_channel) ];
-	material.metallic = u_metallic * sample_material_texture(s_metallic, fragment.uv)[ int(u_metallic_channel) ];
-    material.specular = u_specular;
+	material.albedo = pbr.albedo * sample_material_texture(s_albedo, fragment.uv).rgb;
+    material.roughness = pbr.roughness * sample_material_texture(s_roughness, fragment.uv)[ int(pbr.roughness_channel) ];
+	material.metallic = pbr.metallic * sample_material_texture(s_metallic, fragment.uv)[ int(pbr.metallic_channel) ];
+    material.specular = pbr.specular;
 	material.alpha = 1.0;
 
 	vec4 emission = vec4_splat(0.0);
@@ -51,7 +54,7 @@ void main()
 #include "fs_ao.sh"
 
 #ifdef DEFERRED
-    float emissive = float(u_emissive_energy > 0.0);
+    float emissive = float(pbr.emissive_energy > 0.0);
     vec3 colour = material.albedo * (1.0 - emissive) + emission.rgb * emissive;
 	gl_FragData[0] = vec4(fragment.position, fragment.coord.z);
 	gl_FragData[1] = vec4(fragment.normal, 1.0);
@@ -70,11 +73,14 @@ void main()
 	vec3 diffuse = vec3_splat(0.0);
 	vec3 ambient = vec3_splat(0.0);
 
+    int zone_index = int(u_state_zone);
+    Zone zone = read_zone(zone_index);
+    
 #ifdef RADIANCE_ENVMAP
-    ambient += radiance_ambient(fragment.normal);
-    specular += radiance_reflection(fragment.view, fragment.normal, material.roughness);
+    ambient += radiance_ambient(zone, fragment.normal);
+    specular += radiance_reflection(zone, fragment.view, fragment.normal, material.roughness);
 #else
-	ambient += u_radiance_color * u_ambient;
+	ambient += zone.radiance_color * zone.ambient;
 #endif
 
 #if defined LIGHTMAP

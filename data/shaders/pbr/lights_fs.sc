@@ -78,11 +78,14 @@ void main()
 	vec3 ambient = vec3_splat(0.0);
     vec3 emission = colour.rgb * colour.a;
 
+    int zone_index = int(u_state_zone);
+    Zone zone = read_zone(zone_index);
+    
 #ifdef RADIANCE_ENVMAP
-    ambient += radiance_ambient(fragment.normal);
-    specular += radiance_reflection(fragment.view, fragment.normal, material.roughness);
+    ambient += radiance_ambient(zone, fragment.normal);
+    specular += radiance_reflection(zone, fragment.view, fragment.normal, material.roughness);
 #else
-	ambient += u_radiance_color * u_ambient;
+	ambient += zone.radiance_color * zone.ambient;
 #endif
 	ambient *= material.albedo;
     

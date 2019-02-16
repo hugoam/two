@@ -27,7 +27,10 @@ void main()
 	fragment.uv = v_texcoord0.xy;
 	fragment.color = v_color;
     
-    vec3 albedo = u_albedo.rgb * sample_material_texture(s_albedo, fragment.uv).rgb;
+    int material_index = int(u_state_material);
+    PbrMaterial pbr = read_pbr_material(material_index);
+    
+    vec3 albedo = pbr.albedo.rgb * sample_material_texture(s_albedo, fragment.uv).rgb;
 
 	vec4 emission = vec4_splat(0.0);
 #include <pbr/fs_emission.sh>

@@ -11,6 +11,8 @@
 //SAMPLER2DSHADOW(s_shadow_atlas, 5);
 
 #ifdef CSM_SHADOW
+uniform mat4 u_csm_matrix[4];
+uniform vec4 u_csm_splits;
 uniform vec4 u_csm_params;
 #define u_csm_atlas_pixel_size u_csm_params.xy
 #define u_csm_pcf_offset u_csm_params.zw
