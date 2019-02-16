@@ -568,7 +568,7 @@ namespace mud
 				//"-DMUD_NO_GLM", // @todo
 			};
 
-			for(string attr : { "base", "refl", "struct", "nocopy", "extern", "array", "seque", "comp", "constr", "meth", "func", "attr", "nomut", "graph", "link" })
+			for(string attr : { "base", "refl", "struct", "nocopy", "extern", "gpu", "array", "seque", "comp", "constr", "meth", "func", "attr", "nomut", "graph", "link" })
 				compiler_args.push_back("-D" + attr + "_=__attribute__((annotate(\"" + attr + "\")))");
 
 			for(string dir : module.m_includedirs)

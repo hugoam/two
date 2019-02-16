@@ -28,6 +28,7 @@ namespace mud
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockShadow>() { static Type ty("BlockShadow", sizeof(mud::BlockShadow)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockTonemap>() { static Type ty("BlockTonemap", sizeof(mud::BlockTonemap)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>() { static Type ty("DofBlur", sizeof(mud::DofBlur)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofParams>() { static Type ty("DofParams", sizeof(mud::DofParams)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::GIProbe>() { static Type ty("GIProbe", sizeof(mud::GIProbe)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::Glow>() { static Type ty("Glow", sizeof(mud::Glow)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightShadow>() { static Type ty("LightShadow", sizeof(mud::LightShadow)); return ty; }

@@ -203,64 +203,24 @@ Object.defineProperty(DofBlur.prototype, "enabled", {
         _mud_DofBlur__set_enabled(self, value);
     }
 });
-Object.defineProperty(DofBlur.prototype, "far_distance", {
+Object.defineProperty(DofBlur.prototype, "far", {
     get: function() {
         var self = this.ptr;
-        return _mud_DofBlur__get_far_distance(self);
+        return wrapPointer(_mud_DofBlur__get_far(self), DofParams);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_DofBlur__set_far_distance(self, value);
+        _mud_DofBlur__set_far(self, value.ptr);
     }
 });
-Object.defineProperty(DofBlur.prototype, "far_transition", {
+Object.defineProperty(DofBlur.prototype, "near", {
     get: function() {
         var self = this.ptr;
-        return _mud_DofBlur__get_far_transition(self);
+        return wrapPointer(_mud_DofBlur__get_near(self), DofParams);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_DofBlur__set_far_transition(self, value);
-    }
-});
-Object.defineProperty(DofBlur.prototype, "far_radius", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_DofBlur__get_far_radius(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_DofBlur__set_far_radius(self, value);
-    }
-});
-Object.defineProperty(DofBlur.prototype, "near_distance", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_DofBlur__get_near_distance(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_DofBlur__set_near_distance(self, value);
-    }
-});
-Object.defineProperty(DofBlur.prototype, "near_transition", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_DofBlur__get_near_transition(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_DofBlur__set_near_transition(self, value);
-    }
-});
-Object.defineProperty(DofBlur.prototype, "near_radius", {
-    get: function() {
-        var self = this.ptr;
-        return _mud_DofBlur__get_near_radius(self);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_DofBlur__set_near_radius(self, value);
+        _mud_DofBlur__set_near(self, value.ptr);
     }
 });
 Object.defineProperty(DofBlur.prototype, "max_coc_radius", {
@@ -276,6 +236,49 @@ Object.defineProperty(DofBlur.prototype, "max_coc_radius", {
 DofBlur.prototype["__destroy__"] = DofBlur.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_DofBlur__destroy(self);
+};
+// DofParams
+function DofParams() {
+    this.ptr = _mud_DofParams__construct_0(); this.type = DofParams; getCache(DofParams)[this.ptr] = this;
+};
+DofParams.prototype = Object.create(WrapperObject.prototype);
+DofParams.prototype.constructor = DofParams;
+DofParams.prototype.__class__ = DofParams;
+DofParams.__cache__ = {};
+Module['DofParams'] = DofParams;
+Object.defineProperty(DofParams.prototype, "distance", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_DofParams__get_distance(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_DofParams__set_distance(self, value);
+    }
+});
+Object.defineProperty(DofParams.prototype, "transition", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_DofParams__get_transition(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_DofParams__set_transition(self, value);
+    }
+});
+Object.defineProperty(DofParams.prototype, "radius", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_DofParams__get_radius(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_DofParams__set_radius(self, value);
+    }
+});
+DofParams.prototype["__destroy__"] = DofParams.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_DofParams__destroy(self);
 };
 // GIProbe
 function GIProbe() { throw "cannot construct a GIProbe, no constructor in IDL" }
@@ -575,6 +578,7 @@ Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
         BlockShadow.__type__ = _mud_BlockShadow__type();
         BlockTonemap.__type__ = _mud_BlockTonemap__type();
         DofBlur.__type__ = _mud_DofBlur__type();
+        DofParams.__type__ = _mud_DofParams__type();
         GIProbe.__type__ = _mud_GIProbe__type();
         Glow.__type__ = _mud_Glow__type();
         LightShadow.__type__ = _mud_LightShadow__type();

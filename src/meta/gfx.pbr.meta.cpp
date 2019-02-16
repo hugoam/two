@@ -29,6 +29,8 @@ void mud_BCS__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::
 void mud_BCS__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::BCS((*static_cast<mud::BCS*>(other))); }
 void mud_DofBlur__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DofBlur(  ); }
 void mud_DofBlur__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::DofBlur((*static_cast<mud::DofBlur*>(other))); }
+void mud_DofParams__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DofParams(  ); }
+void mud_DofParams__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::DofParams((*static_cast<mud::DofParams*>(other))); }
 void mud_Glow__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Glow(  ); }
 void mud_Glow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Glow((*static_cast<mud::Glow*>(other))); }
 void mud_LightShadow__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::LightShadow(  ); }
@@ -256,12 +258,6 @@ namespace mud
 		// bases
 		// defaults
 		static bool enabled_default = false;
-		static float far_distance_default = 10.f;
-		static float far_transition_default = 5.f;
-		static float far_radius_default = 5.f;
-		static float near_distance_default = 2.f;
-		static float near_transition_default = 1.f;
-		static float near_radius_default = 5.f;
 		static float max_coc_radius_default = 8.f;
 		// constructors
 		static Constructor constructors[] = {
@@ -274,13 +270,33 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::DofBlur, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
-			//{ t, offsetof(mud::DofBlur, m_far_distance), type<float>(), "far_distance", &far_distance_default, Member::Value, nullptr },
-			//{ t, offsetof(mud::DofBlur, m_far_transition), type<float>(), "far_transition", &far_transition_default, Member::Value, nullptr },
-			//{ t, offsetof(mud::DofBlur, m_far_radius), type<float>(), "far_radius", &far_radius_default, Member::Value, nullptr },
-			//{ t, offsetof(mud::DofBlur, m_near_distance), type<float>(), "near_distance", &near_distance_default, Member::Value, nullptr },
-			//{ t, offsetof(mud::DofBlur, m_near_transition), type<float>(), "near_transition", &near_transition_default, Member::Value, nullptr },
-			//{ t, offsetof(mud::DofBlur, m_near_radius), type<float>(), "near_radius", &near_radius_default, Member::Value, nullptr },
+			{ t, offsetof(mud::DofBlur, m_far), type<mud::DofParams>(), "far", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::DofBlur, m_near), type<mud::DofParams>(), "near", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::DofBlur, m_max_coc_radius), type<float>(), "max_coc_radius", &max_coc_radius_default, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::DofParams
+	{
+		Type& t = type<mud::DofParams>();
+		static Meta meta = { t, &namspc({ "mud" }), "DofParams", sizeof(mud::DofParams), TypeClass::Struct };
+		// bases
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_DofParams__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_DofParams__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::DofParams, m_distance), type<float>(), "distance", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::DofParams, m_transition), type<float>(), "transition", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::DofParams, m_radius), type<float>(), "radius", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -463,6 +479,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::BlockShadow>());
 		m.m_types.push_back(&type<mud::BlockTonemap>());
 		m.m_types.push_back(&type<mud::DofBlur>());
+		m.m_types.push_back(&type<mud::DofParams>());
 		m.m_types.push_back(&type<mud::GIProbe>());
 		m.m_types.push_back(&type<mud::Glow>());
 		m.m_types.push_back(&type<mud::LightShadow>());

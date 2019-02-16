@@ -165,6 +165,27 @@ extern "C" {
 	void DECL mud_CircleBrush__destroy(mud::CircleBrush* self) {
 		delete self;
 	}
+	// CopyAction
+	mud::Type* DECL mud_CopyAction__type() {
+		return &mud::type<mud::CopyAction>();
+	}
+	void DECL mud_CopyAction__destroy(mud::CopyAction* self) {
+		delete self;
+	}
+	// CopyTool
+	mud::Type* DECL mud_CopyTool__type() {
+		return &mud::type<mud::CopyTool>();
+	}
+	void DECL mud_CopyTool__destroy(mud::CopyTool* self) {
+		delete self;
+	}
+	// FrameViewTool
+	mud::Type* DECL mud_FrameViewTool__type() {
+		return &mud::type<mud::FrameViewTool>();
+	}
+	void DECL mud_FrameViewTool__destroy(mud::FrameViewTool* self) {
+		delete self;
+	}
 	// PlaceBrush
 	mud::Type* DECL mud_PlaceBrush__type() {
 		return &mud::type<mud::PlaceBrush>();
@@ -192,22 +213,6 @@ extern "C" {
 	void DECL mud_RedoTool__destroy(mud::RedoTool* self) {
 		delete self;
 	}
-	// ScriptedBrush
-	mud::Type* DECL mud_ScriptedBrush__type() {
-		return &mud::type<mud::ScriptedBrush>();
-	}
-	mud::ScriptedBrush* DECL mud_ScriptedBrush__construct_2(mud::ToolContext* context, mud::Script* script) {
-		return new mud::ScriptedBrush(*context, *script);
-	}
-	mud::Call* DECL mud_ScriptedBrush__get_call(mud::ScriptedBrush* self) {
-		return &self->m_call;
-	}
-	void DECL mud_ScriptedBrush__set_call(mud::ScriptedBrush* self, mud::Call* value) {
-		self->m_call = *value;
-	}
-	void DECL mud_ScriptedBrush__destroy(mud::ScriptedBrush* self) {
-		delete self;
-	}
 	// TransformAction
 	mud::Type* DECL mud_TransformAction__type() {
 		return &mud::type<mud::TransformAction>();
@@ -215,11 +220,25 @@ extern "C" {
 	void DECL mud_TransformAction__destroy(mud::TransformAction* self) {
 		delete self;
 	}
+	// RotateAction
+	mud::Type* DECL mud_RotateAction__type() {
+		return &mud::type<mud::RotateAction>();
+	}
+	void DECL mud_RotateAction__destroy(mud::RotateAction* self) {
+		delete self;
+	}
 	// TransformGizmo
 	mud::Type* DECL mud_TransformGizmo__type() {
 		return &mud::type<mud::TransformGizmo>();
 	}
 	void DECL mud_TransformGizmo__destroy(mud::TransformGizmo* self) {
+		delete self;
+	}
+	// UndoTool
+	mud::Type* DECL mud_UndoTool__type() {
+		return &mud::type<mud::UndoTool>();
+	}
+	void DECL mud_UndoTool__destroy(mud::UndoTool* self) {
 		delete self;
 	}
 	// ViewportTool
@@ -243,20 +262,6 @@ extern "C" {
 	void DECL mud_TransformTool__destroy(mud::TransformTool* self) {
 		delete self;
 	}
-	// CopyTool
-	mud::Type* DECL mud_CopyTool__type() {
-		return &mud::type<mud::CopyTool>();
-	}
-	void DECL mud_CopyTool__destroy(mud::CopyTool* self) {
-		delete self;
-	}
-	// RotateAction
-	mud::Type* DECL mud_RotateAction__type() {
-		return &mud::type<mud::RotateAction>();
-	}
-	void DECL mud_RotateAction__destroy(mud::RotateAction* self) {
-		delete self;
-	}
 	// RotateTool
 	mud::Type* DECL mud_RotateTool__type() {
 		return &mud::type<mud::RotateTool>();
@@ -278,6 +283,22 @@ extern "C" {
 	void DECL mud_ScaleTool__destroy(mud::ScaleTool* self) {
 		delete self;
 	}
+	// ScriptedBrush
+	mud::Type* DECL mud_ScriptedBrush__type() {
+		return &mud::type<mud::ScriptedBrush>();
+	}
+	mud::ScriptedBrush* DECL mud_ScriptedBrush__construct_2(mud::ToolContext* context, mud::Script* script) {
+		return new mud::ScriptedBrush(*context, *script);
+	}
+	mud::Call* DECL mud_ScriptedBrush__get_call(mud::ScriptedBrush* self) {
+		return &self->m_call;
+	}
+	void DECL mud_ScriptedBrush__set_call(mud::ScriptedBrush* self, mud::Call* value) {
+		self->m_call = *value;
+	}
+	void DECL mud_ScriptedBrush__destroy(mud::ScriptedBrush* self) {
+		delete self;
+	}
 	// TranslateAction
 	mud::Type* DECL mud_TranslateAction__type() {
 		return &mud::type<mud::TranslateAction>();
@@ -285,32 +306,11 @@ extern "C" {
 	void DECL mud_TranslateAction__destroy(mud::TranslateAction* self) {
 		delete self;
 	}
-	// CopyAction
-	mud::Type* DECL mud_CopyAction__type() {
-		return &mud::type<mud::CopyAction>();
-	}
-	void DECL mud_CopyAction__destroy(mud::CopyAction* self) {
-		delete self;
-	}
-	// FrameViewTool
-	mud::Type* DECL mud_FrameViewTool__type() {
-		return &mud::type<mud::FrameViewTool>();
-	}
-	void DECL mud_FrameViewTool__destroy(mud::FrameViewTool* self) {
-		delete self;
-	}
 	// TranslateTool
 	mud::Type* DECL mud_TranslateTool__type() {
 		return &mud::type<mud::TranslateTool>();
 	}
 	void DECL mud_TranslateTool__destroy(mud::TranslateTool* self) {
-		delete self;
-	}
-	// UndoTool
-	mud::Type* DECL mud_UndoTool__type() {
-		return &mud::type<mud::UndoTool>();
-	}
-	void DECL mud_UndoTool__destroy(mud::UndoTool* self) {
 		delete self;
 	}
 	// ViewAction

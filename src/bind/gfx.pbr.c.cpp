@@ -146,41 +146,17 @@ extern "C" {
 	void DECL mud_DofBlur__set_enabled(mud::DofBlur* self, bool value) {
 		self->m_enabled = value;
 	}
-	float DECL mud_DofBlur__get_far_distance(mud::DofBlur* self) {
-		return self->m_far_distance;
+	mud::DofParams* DECL mud_DofBlur__get_far(mud::DofBlur* self) {
+		return &self->m_far;
 	}
-	void DECL mud_DofBlur__set_far_distance(mud::DofBlur* self, float value) {
-		self->m_far_distance = value;
+	void DECL mud_DofBlur__set_far(mud::DofBlur* self, mud::DofParams* value) {
+		self->m_far = *value;
 	}
-	float DECL mud_DofBlur__get_far_transition(mud::DofBlur* self) {
-		return self->m_far_transition;
+	mud::DofParams* DECL mud_DofBlur__get_near(mud::DofBlur* self) {
+		return &self->m_near;
 	}
-	void DECL mud_DofBlur__set_far_transition(mud::DofBlur* self, float value) {
-		self->m_far_transition = value;
-	}
-	float DECL mud_DofBlur__get_far_radius(mud::DofBlur* self) {
-		return self->m_far_radius;
-	}
-	void DECL mud_DofBlur__set_far_radius(mud::DofBlur* self, float value) {
-		self->m_far_radius = value;
-	}
-	float DECL mud_DofBlur__get_near_distance(mud::DofBlur* self) {
-		return self->m_near_distance;
-	}
-	void DECL mud_DofBlur__set_near_distance(mud::DofBlur* self, float value) {
-		self->m_near_distance = value;
-	}
-	float DECL mud_DofBlur__get_near_transition(mud::DofBlur* self) {
-		return self->m_near_transition;
-	}
-	void DECL mud_DofBlur__set_near_transition(mud::DofBlur* self, float value) {
-		self->m_near_transition = value;
-	}
-	float DECL mud_DofBlur__get_near_radius(mud::DofBlur* self) {
-		return self->m_near_radius;
-	}
-	void DECL mud_DofBlur__set_near_radius(mud::DofBlur* self, float value) {
-		self->m_near_radius = value;
+	void DECL mud_DofBlur__set_near(mud::DofBlur* self, mud::DofParams* value) {
+		self->m_near = *value;
 	}
 	float DECL mud_DofBlur__get_max_coc_radius(mud::DofBlur* self) {
 		return self->m_max_coc_radius;
@@ -189,6 +165,34 @@ extern "C" {
 		self->m_max_coc_radius = value;
 	}
 	void DECL mud_DofBlur__destroy(mud::DofBlur* self) {
+		delete self;
+	}
+	// DofParams
+	mud::Type* DECL mud_DofParams__type() {
+		return &mud::type<mud::DofParams>();
+	}
+	mud::DofParams* DECL mud_DofParams__construct_0() {
+		return new mud::DofParams();
+	}
+	float DECL mud_DofParams__get_distance(mud::DofParams* self) {
+		return self->m_distance;
+	}
+	void DECL mud_DofParams__set_distance(mud::DofParams* self, float value) {
+		self->m_distance = value;
+	}
+	float DECL mud_DofParams__get_transition(mud::DofParams* self) {
+		return self->m_transition;
+	}
+	void DECL mud_DofParams__set_transition(mud::DofParams* self, float value) {
+		self->m_transition = value;
+	}
+	float DECL mud_DofParams__get_radius(mud::DofParams* self) {
+		return self->m_radius;
+	}
+	void DECL mud_DofParams__set_radius(mud::DofParams* self, float value) {
+		self->m_radius = value;
+	}
+	void DECL mud_DofParams__destroy(mud::DofParams* self) {
 		delete self;
 	}
 	// GIProbe
