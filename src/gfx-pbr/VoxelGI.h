@@ -108,6 +108,7 @@ namespace gfx
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
 
 		void upload_gi_probes(Render& render, const Pass& render_pass) const;
 
@@ -149,6 +150,7 @@ namespace gfx
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
 
 		void voxelize(Render& render, GIProbe& gi_probe);
 		void compute(Render& render, GIProbe& gi_probe);

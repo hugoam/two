@@ -85,9 +85,16 @@ namespace mud
 
 	void BlockRadiance::submit(Render& render, const Pass& render_pass) const
 	{
+		UNUSED(render); UNUSED(render_pass);
+		//bgfx::setViewUniform
+	}
+
+	void BlockRadiance::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	{
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		bgfx::TextureHandle radiance = render.m_env->m_radiance.m_roughness_array;
 
+		// @todo implement bgfx::setViewTexture
 		if(bgfx::isValid(radiance))
 			encoder.setTexture(uint8_t(TextureSampler::Radiance), u_radiance.s_radiance_map, radiance);
 	}

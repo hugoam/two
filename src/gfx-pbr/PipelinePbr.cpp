@@ -451,4 +451,9 @@ namespace gfx
 	{
 		UNUSED(render); UNUSED(render_pass);
 	}
+
+	void BlockGeometry::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	{
+		UNUSED(render); UNUSED(render_pass);
+	}
 }

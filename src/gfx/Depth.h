@@ -46,12 +46,13 @@ namespace mud
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
 
 		struct DepthUniform
 		{
 			void createUniforms()
 			{
-				u_depth_params = bgfx::createUniform("u_depth_params", bgfx::UniformType::Vec4);
+				u_depth_params = bgfx::createUniform("u_depth_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 			}
 
 			bgfx::UniformHandle u_depth_params;

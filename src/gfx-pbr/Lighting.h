@@ -76,6 +76,7 @@ namespace mud
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const final;
 		virtual void submit(Render& render, const Pass& render_pass) const final;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const final;
 
 		void update_zones(span<Zone> zones);
 		void update_lights(Render& render, const mat4& view, span<Light*> lights, span<LightShadow> shadows);

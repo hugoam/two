@@ -112,6 +112,7 @@ namespace mud
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
 
 		void update_shadows(Render& render);
 		void render_shadows(Render& render);

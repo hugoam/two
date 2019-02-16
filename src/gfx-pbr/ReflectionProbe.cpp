@@ -88,6 +88,11 @@ namespace mud
 
 	void BlockReflection::submit(Render& render, const Pass& render_pass) const
 	{
+		UNUSED(render); UNUSED(render_pass);
+	}
+
+	void BlockReflection::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	{
 		UNUSED(render);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 

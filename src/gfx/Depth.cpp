@@ -97,8 +97,12 @@ namespace mud
 
 	void BlockDepth::submit(Render& render, const Pass& render_pass) const
 	{
-		UNUSED(render);
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		encoder.setUniform(u_depth.u_depth_params, &(*m_current_params));
+		UNUSED(render); UNUSED(render_pass);
+		bgfx::setViewUniform(render_pass.m_index, u_depth.u_depth_params, &(*m_current_params));
+	}
+
+	void BlockDepth::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	{
+		UNUSED(render); UNUSED(element); UNUSED(render_pass);
 	}
 }

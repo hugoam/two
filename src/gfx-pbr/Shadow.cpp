@@ -466,6 +466,11 @@ namespace mud
 	void BlockShadow::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render); UNUSED(render_pass);
+	}
+
+	void BlockShadow::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	{
+		UNUSED(render); UNUSED(render_pass);
 
 		Light* light = m_direct_light;
 		bool direct = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;

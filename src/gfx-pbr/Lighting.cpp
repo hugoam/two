@@ -123,6 +123,12 @@ namespace mud
 
 	void BlockLight::submit(Render& render, const Pass& render_pass) const
 	{
+		UNUSED(render);
+		GpuState<ZoneLights>::me.upload(render_pass.m_index, m_zones[0]);
+	}
+
+	void BlockLight::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	{
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		if(render.m_camera.m_clustered)
@@ -221,7 +227,7 @@ namespace mud
 #else
 		GpuState<Zone>::me.upload(encoder, render.m_scene.m_env);
 #endif
-		GpuState<ZoneLights>::me.upload(encoder, m_zones[0]);
+		//GpuState<ZoneLights>::me.upload(encoder, m_zones[0]);
 	}
 }
 

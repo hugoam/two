@@ -245,7 +245,7 @@ namespace mud
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const = 0;
 		virtual void submit(Render& render, const Pass& render_pass) const = 0;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const { UNUSED(element); this->submit(render, render_pass); }
+		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const = 0;
 	};
 
 	export_ class MUD_GFX_EXPORT RenderPass
@@ -257,8 +257,8 @@ namespace mud
 		virtual void submit_render_pass(Render& render) = 0;
 
 		void blocks_begin_render(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_render(render); }
-		void blocks_begin_draw_pass(Render& render) { for(DrawBlock* block : m_draw_blocks) block->begin_draw_pass(render); }
 		void blocks_begin_pass(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_pass(render); }
+		void blocks_begin_draw_pass(Render& render) { for(DrawBlock* block : m_draw_blocks) block->begin_draw_pass(render); }
 
 		GfxSystem& m_gfx_system;
 		const char* m_name;

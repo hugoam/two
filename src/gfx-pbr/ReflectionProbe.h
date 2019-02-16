@@ -70,8 +70,9 @@ namespace mud
 
 		virtual void begin_draw_pass(Render& render) override;
 
-		virtual void options(Render& render, ShaderVersion& shader_version) const final;
-		virtual void submit(Render& render, const Pass& render_pass) const final;
+		virtual void options(Render& render, ShaderVersion& shader_version) const override;
+		virtual void submit(Render& render, const Pass& render_pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
 
 		void upload_reflection_probes(Render& render, Pass& render_pass, span<ReflectionProbe*> probes);
 		void render_reflection_probe(Render& render, ReflectionProbe& reflection_probe);
