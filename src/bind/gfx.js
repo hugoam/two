@@ -1351,19 +1351,6 @@ Gnode.prototype["__destroy__"] = Gnode.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Gnode__destroy(self);
 };
-// GpuTexture
-function GpuTexture() {
-    this.ptr = _mud_GpuTexture__construct_0(); this.type = GpuTexture; getCache(GpuTexture)[this.ptr] = this;
-};
-GpuTexture.prototype = Object.create(WrapperObject.prototype);
-GpuTexture.prototype.constructor = GpuTexture;
-GpuTexture.prototype.__class__ = GpuTexture;
-GpuTexture.__cache__ = {};
-Module['GpuTexture'] = GpuTexture;
-GpuTexture.prototype["__destroy__"] = GpuTexture.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_GpuTexture__destroy(self);
-};
 // ImmediateDraw
 function ImmediateDraw() { throw "cannot construct a ImmediateDraw, no constructor in IDL" }
 ImmediateDraw.prototype = Object.create(WrapperObject.prototype);
@@ -3483,6 +3470,30 @@ BlockCopy.prototype["__destroy__"] = BlockCopy.prototype.__destroy__ = function(
     var self = this.ptr;
     _mud_BlockCopy__destroy(self);
 };
+// ClusteredFrustum
+function ClusteredFrustum() {
+    this.ptr = _mud_ClusteredFrustum__construct_0(); this.type = ClusteredFrustum; getCache(ClusteredFrustum)[this.ptr] = this;
+};
+ClusteredFrustum.prototype = Object.create(Frustum.prototype);
+ClusteredFrustum.prototype.constructor = ClusteredFrustum;
+ClusteredFrustum.prototype.__class__ = ClusteredFrustum;
+ClusteredFrustum.__cache__ = {};
+Module['ClusteredFrustum'] = ClusteredFrustum;
+ClusteredFrustum.prototype["__destroy__"] = ClusteredFrustum.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_ClusteredFrustum__destroy(self);
+};
+// DrawBlock
+function DrawBlock() { throw "cannot construct a DrawBlock, no constructor in IDL" }
+DrawBlock.prototype = Object.create(GfxBlock.prototype);
+DrawBlock.prototype.constructor = DrawBlock;
+DrawBlock.prototype.__class__ = DrawBlock;
+DrawBlock.__cache__ = {};
+Module['DrawBlock'] = DrawBlock;
+DrawBlock.prototype["__destroy__"] = DrawBlock.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_DrawBlock__destroy(self);
+};
 // BlockDepth
 function BlockDepth() { throw "cannot construct a BlockDepth, no constructor in IDL" }
 BlockDepth.prototype = Object.create(DrawBlock.prototype);
@@ -3537,30 +3548,6 @@ Module['BlockSky'] = BlockSky;
 BlockSky.prototype["__destroy__"] = BlockSky.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_BlockSky__destroy(self);
-};
-// ClusteredFrustum
-function ClusteredFrustum() {
-    this.ptr = _mud_ClusteredFrustum__construct_0(); this.type = ClusteredFrustum; getCache(ClusteredFrustum)[this.ptr] = this;
-};
-ClusteredFrustum.prototype = Object.create(Frustum.prototype);
-ClusteredFrustum.prototype.constructor = ClusteredFrustum;
-ClusteredFrustum.prototype.__class__ = ClusteredFrustum;
-ClusteredFrustum.__cache__ = {};
-Module['ClusteredFrustum'] = ClusteredFrustum;
-ClusteredFrustum.prototype["__destroy__"] = ClusteredFrustum.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_ClusteredFrustum__destroy(self);
-};
-// DrawBlock
-function DrawBlock() { throw "cannot construct a DrawBlock, no constructor in IDL" }
-DrawBlock.prototype = Object.create(GfxBlock.prototype);
-DrawBlock.prototype.constructor = DrawBlock;
-DrawBlock.prototype.__class__ = DrawBlock;
-DrawBlock.__cache__ = {};
-Module['DrawBlock'] = DrawBlock;
-DrawBlock.prototype["__destroy__"] = DrawBlock.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_DrawBlock__destroy(self);
 };
 // Flare
 function Flare() {
@@ -3740,7 +3727,6 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         GfxContext.__type__ = _mud_GfxContext__type();
         GfxSystem.__type__ = _mud_GfxSystem__type();
         Gnode.__type__ = _mud_Gnode__type();
-        GpuTexture.__type__ = _mud_GpuTexture__type();
         ImmediateDraw.__type__ = _mud_ImmediateDraw__type();
         ImportConfig.__type__ = _mud_ImportConfig__type();
         Item.__type__ = _mud_Item__type();
@@ -3772,13 +3758,13 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Viewport.__type__ = _mud_Viewport__type();
         Zone.__type__ = _mud_Zone__type();
         BlockCopy.__type__ = _mud_BlockCopy__type();
+        ClusteredFrustum.__type__ = _mud_ClusteredFrustum__type();
+        DrawBlock.__type__ = _mud_DrawBlock__type();
         BlockDepth.__type__ = _mud_BlockDepth__type();
         BlockFilter.__type__ = _mud_BlockFilter__type();
         BlockParticles.__type__ = _mud_BlockParticles__type();
         BlockResolve.__type__ = _mud_BlockResolve__type();
         BlockSky.__type__ = _mud_BlockSky__type();
-        ClusteredFrustum.__type__ = _mud_ClusteredFrustum__type();
-        DrawBlock.__type__ = _mud_DrawBlock__type();
         Flare.__type__ = _mud_Flare__type();
         MaterialBlock.__type__ = _mud_MaterialBlock__type();
         RenderTarget.__type__ = _mud_RenderTarget__type();

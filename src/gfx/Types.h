@@ -117,13 +117,13 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Viewport>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Zone>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockCopy>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockFilter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockResolve>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Flare>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();

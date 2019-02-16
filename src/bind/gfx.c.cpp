@@ -863,16 +863,6 @@ extern "C" {
 	void DECL mud_Gnode__destroy(mud::Gnode* self) {
 		delete self;
 	}
-	// GpuTexture
-	mud::Type* DECL mud_GpuTexture__type() {
-		return &mud::type<mud::GpuTexture>();
-	}
-	mud::GpuTexture* DECL mud_GpuTexture__construct_0() {
-		return new mud::GpuTexture();
-	}
-	void DECL mud_GpuTexture__destroy(mud::GpuTexture* self) {
-		delete self;
-	}
 	// ImmediateDraw
 	mud::Type* DECL mud_ImmediateDraw__type() {
 		return &mud::type<mud::ImmediateDraw>();
@@ -2255,6 +2245,23 @@ extern "C" {
 	void DECL mud_BlockCopy__destroy(mud::BlockCopy* self) {
 		delete self;
 	}
+	// ClusteredFrustum
+	mud::Type* DECL mud_ClusteredFrustum__type() {
+		return &mud::type<mud::ClusteredFrustum>();
+	}
+	mud::ClusteredFrustum* DECL mud_ClusteredFrustum__construct_0() {
+		return new mud::ClusteredFrustum();
+	}
+	void DECL mud_ClusteredFrustum__destroy(mud::ClusteredFrustum* self) {
+		delete self;
+	}
+	// DrawBlock
+	mud::Type* DECL mud_DrawBlock__type() {
+		return &mud::type<mud::DrawBlock>();
+	}
+	void DECL mud_DrawBlock__destroy(mud::DrawBlock* self) {
+		delete self;
+	}
 	// BlockDepth
 	mud::Type* DECL mud_BlockDepth__type() {
 		return &mud::type<mud::BlockDepth>();
@@ -2288,23 +2295,6 @@ extern "C" {
 		return &mud::type<mud::BlockSky>();
 	}
 	void DECL mud_BlockSky__destroy(mud::BlockSky* self) {
-		delete self;
-	}
-	// ClusteredFrustum
-	mud::Type* DECL mud_ClusteredFrustum__type() {
-		return &mud::type<mud::ClusteredFrustum>();
-	}
-	mud::ClusteredFrustum* DECL mud_ClusteredFrustum__construct_0() {
-		return new mud::ClusteredFrustum();
-	}
-	void DECL mud_ClusteredFrustum__destroy(mud::ClusteredFrustum* self) {
-		delete self;
-	}
-	// DrawBlock
-	mud::Type* DECL mud_DrawBlock__type() {
-		return &mud::type<mud::DrawBlock>();
-	}
-	void DECL mud_DrawBlock__destroy(mud::DrawBlock* self) {
 		delete self;
 	}
 	// Flare

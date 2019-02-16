@@ -154,8 +154,6 @@ void mud_GfxSystem_fetch_material(void* object, span<void*> args, void*& result)
 void mud_GfxSystem_fetch_image256_material(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_image256_material(*static_cast<mud::Image256*>(args[0])); }
 void mud_GfxSystem_fetch_symbol(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_symbol(*static_cast<mud::Symbol*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::DrawMode*>(args[2])); }
 void mud_GfxSystem_fetch_symbol_material(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_symbol_material(*static_cast<mud::Symbol*>(args[0]), *static_cast<mud::DrawMode*>(args[1])); }
-void mud_GpuTexture__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::GpuTexture(  ); }
-void mud_GpuTexture__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::GpuTexture((*static_cast<mud::GpuTexture*>(other))); }
 void mud_ImportConfig__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ImportConfig(  ); }
 void mud_ImportConfig__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ImportConfig((*static_cast<mud::ImportConfig*>(other))); }
 void mud_Item__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Item(  ); }
@@ -253,7 +251,7 @@ void mud_bxTRS_17(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(r
 void mud_gfx_setup_pipeline_minimal_18(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::setup_pipeline_minimal(*static_cast<mud::GfxSystem*>(args[0])); }
 void mud_gfx_update_item_aabb_19(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::update_item_aabb(*static_cast<mud::Item*>(args[0])); }
 void mud_gfx_update_item_lights_20(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::update_item_lights(*static_cast<mud::Scene*>(args[0]), *static_cast<mud::Item*>(args[1])); }
-void mud_gfx_node_21(span<void*> args, void*& result) { result = &mud::gfx::node(*static_cast<mud::Gnode*>(args[0]), Ref(), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::quat*>(args[3]), *static_cast<mud::vec3*>(args[4])); }
+void mud_gfx_node_21(span<void*> args, void*& result) { result = &mud::gfx::node(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Ref*>(args[1]), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::quat*>(args[3]), *static_cast<mud::vec3*>(args[4])); }
 void mud_gfx_shape_22(span<void*> args, void*& result) { result = &mud::gfx::shape(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::Symbol*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4]), *static_cast<size_t*>(args[5])); }
 void mud_gfx_draw_23(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::draw(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::Symbol*>(args[2]), *static_cast<uint32_t*>(args[3])); }
 void mud_gfx_sprite_24(span<void*> args, void*& result) { result = &mud::gfx::sprite(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Image256*>(args[1]), *static_cast<mud::vec2*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4]), *static_cast<size_t*>(args[5])); }
@@ -2180,6 +2178,42 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
+	// mud::ClusteredFrustum
+	{
+		Type& t = type<mud::ClusteredFrustum>();
+		static Meta meta = { t, &namspc({ "mud" }), "ClusteredFrustum", sizeof(mud::ClusteredFrustum), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Frustum>() };
+		static size_t bases_offsets[] = { base_offset<mud::ClusteredFrustum, mud::Frustum>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_ClusteredFrustum__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_ClusteredFrustum__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, {}, {}, {}, };
+	}
+	// mud::DrawBlock
+	{
+		Type& t = type<mud::DrawBlock>();
+		static Meta meta = { t, &namspc({ "mud" }), "DrawBlock", sizeof(mud::DrawBlock), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::GfxBlock>() };
+		static size_t bases_offsets[] = { base_offset<mud::DrawBlock, mud::GfxBlock>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
 	// mud::BlockDepth
 	{
 		Type& t = type<mud::BlockDepth>();
@@ -2247,42 +2281,6 @@ namespace mud
 		// bases
 		static Type* bases[] = { &type<mud::GfxBlock>() };
 		static size_t bases_offsets[] = { base_offset<mud::BlockSky, mud::GfxBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::ClusteredFrustum
-	{
-		Type& t = type<mud::ClusteredFrustum>();
-		static Meta meta = { t, &namspc({ "mud" }), "ClusteredFrustum", sizeof(mud::ClusteredFrustum), TypeClass::Struct };
-		// bases
-		static Type* bases[] = { &type<mud::Frustum>() };
-		static size_t bases_offsets[] = { base_offset<mud::ClusteredFrustum, mud::Frustum>() };
-		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_ClusteredFrustum__construct_0, {} }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, mud_ClusteredFrustum__copy_construct }
-		};
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, {}, {}, {}, };
-	}
-	// mud::DrawBlock
-	{
-		Type& t = type<mud::DrawBlock>();
-		static Meta meta = { t, &namspc({ "mud" }), "DrawBlock", sizeof(mud::DrawBlock), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::GfxBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::DrawBlock, mud::GfxBlock>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -2438,13 +2436,13 @@ namespace mud
 		m.m_types.push_back(&type<stl::vector<mud::Animation*>>());
 		m.m_types.push_back(&type<stl::vector<mud::AnimationPlay>>());
 		m.m_types.push_back(&type<mud::BlockCopy>());
+		m.m_types.push_back(&type<mud::DrawBlock>());
 		m.m_types.push_back(&type<mud::BlockDepth>());
 		m.m_types.push_back(&type<mud::BlockFilter>());
 		m.m_types.push_back(&type<mud::BlockParticles>());
 		m.m_types.push_back(&type<mud::BlockResolve>());
 		m.m_types.push_back(&type<mud::BlockSky>());
 		m.m_types.push_back(&type<mud::ClusteredFrustum>());
-		m.m_types.push_back(&type<mud::DrawBlock>());
 		m.m_types.push_back(&type<mud::Flare>());
 		m.m_types.push_back(&type<mud::MaterialBlock>());
 		m.m_types.push_back(&type<mud::RenderTarget>());
