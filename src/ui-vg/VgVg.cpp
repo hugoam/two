@@ -327,7 +327,7 @@ namespace mud
 	void VgVg::draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint)
 	{
 		if(paint.m_text_break)
-			vg::textBox(m_vg, text_font(paint), offset.x, offset.y, FLT_MAX, start, end);
+			vg::textBox(m_vg, text_font(paint), offset.x, offset.y, FLT_MAX, start, end, 0); // vg::TextBoxFlags::KeepSpaces);
 		else
 			vg::text(m_vg, text_font(paint), offset.x, offset.y, start, end);
 	}
