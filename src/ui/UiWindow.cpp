@@ -49,7 +49,7 @@ namespace mud
 	{
 		this->init_styles();
 
-		printf("INFO: Initializing UiWindow: resource path %s\n", m_resource_path.c_str());
+		printf("INFO: ui - window init - resource path %s\n", m_resource_path.c_str());
 		m_vg.setup_context();
 
 		this->init_resources();
@@ -59,6 +59,7 @@ namespace mud
 
 		m_root_sheet = oconstruct<Ui>(*this);
 
+		printf("INFO: ui - init input\n");
 		m_context.init_input(m_root_sheet->m_mouse, m_root_sheet->m_keyboard);
 	}
 
@@ -106,7 +107,7 @@ namespace mud
 	{
 		string sprite_path = m_resource_path + "/interface/uisprites";
 
-		printf("INFO: Loading Images in path %s\n", sprite_path.c_str());
+		printf("INFO: ui - loading images from path %s\n", sprite_path.c_str());
 
 		vector<Image> images;
 		load_folder_images(images, sprite_path, "");
@@ -123,6 +124,8 @@ namespace mud
 
 	void UiWindow::load_resources()
 	{
+		printf("INFO: ui - loading resources\n");
+
 		m_vg.load_default_font();
 
 		vector<Image*> images;
