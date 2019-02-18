@@ -48,7 +48,7 @@ namespace mud
 			{
 				u_skybox_matrix = bgfx::createUniform("u_skybox_matrix", bgfx::UniformType::Mat4);
 				u_skybox_params = bgfx::createUniform("u_skybox_params", bgfx::UniformType::Vec4);
-				s_skybox_map = bgfx::createUniform("s_skybox_map", bgfx::UniformType::Int1);
+				s_skybox_map = bgfx::createUniform("s_skybox_map", bgfx::UniformType::Sampler);
 			}
 
 			bgfx::UniformHandle u_skybox_matrix;

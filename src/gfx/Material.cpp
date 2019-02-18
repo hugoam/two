@@ -65,7 +65,7 @@ namespace mud
 	void MaterialBlock::init_block()
 	{
 		u_state = bgfx::createUniform("u_state", bgfx::UniformType::Vec4);
-		s_materials = bgfx::createUniform("s_materials", bgfx::UniformType::Int1);
+		s_materials = bgfx::createUniform("s_materials", bgfx::UniformType::Sampler);
 	}
 
 	void MaterialBlock::begin_render(Render& render)
@@ -85,7 +85,7 @@ namespace mud
 	{
 		BaseMaterialUniform() {}
 		BaseMaterialUniform(GfxSystem& gfx_system)
-			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Int1))
+			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Sampler))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialBase>::me.init();
@@ -108,7 +108,7 @@ namespace mud
 		UnshadedMaterialUniform() {}
 		UnshadedMaterialUniform(GfxSystem& gfx_system)
 			: m_white_tex (&gfx_system.default_texture(TextureHint::White))
-			, s_color (bgfx::createUniform("s_color", bgfx::UniformType::Int1))
+			, s_color (bgfx::createUniform("s_color", bgfx::UniformType::Sampler))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialUnshaded>::me.init();
@@ -134,7 +134,7 @@ namespace mud
 		FresnelMaterialUniform() {}
 		FresnelMaterialUniform(GfxSystem& gfx_system)
 			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
-			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Int1))
+			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Sampler))
 		{
 #if !MATERIALS_BUFFER
 			//GpuState<MaterialFresnel>::me.init();
@@ -162,14 +162,14 @@ namespace mud
 			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
 			, m_black_tex (&gfx_system.default_texture(TextureHint::Black))
 			, m_normal_tex(&gfx_system.default_texture(TextureHint::Normal))
-			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Int1))
-			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Int1))
-			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Int1))
-			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformType::Int1))
-			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Int1))
-			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Int1))
-			, s_ambient_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Int1))
-			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Int1))
+			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Sampler))
+			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Sampler))
+			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Sampler))
+			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformType::Sampler))
+			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Sampler))
+			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Sampler))
+			, s_ambient_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Sampler))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialPbr>::me.init();

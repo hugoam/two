@@ -94,8 +94,8 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				s_zones = bgfx::createUniform("s_zones", bgfx::UniformType::Int1);
-				s_lights = bgfx::createUniform("s_lights", bgfx::UniformType::Int1);
+				s_zones = bgfx::createUniform("s_zones", bgfx::UniformType::Sampler);
+				s_lights = bgfx::createUniform("s_lights", bgfx::UniformType::Sampler);
 			}
 
 			bgfx::UniformHandle s_zones;

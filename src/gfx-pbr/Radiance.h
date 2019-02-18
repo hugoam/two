@@ -43,7 +43,7 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				s_radiance_map = bgfx::createUniform("s_radiance_map", bgfx::UniformType::Int1);
+				s_radiance_map = bgfx::createUniform("s_radiance_map", bgfx::UniformType::Sampler);
 			}
 
 			bgfx::UniformHandle s_radiance_map;

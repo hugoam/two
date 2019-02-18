@@ -30,7 +30,7 @@ namespace mud
 
 		for(int i = 0; i < 6; i++)
 		{
-			bgfx::Attachment attachment = { m_cubemap, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS };
+			bgfx::Attachment attachment = { bgfx::Access::Write, m_cubemap, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS };
 			m_fbos[i] = bgfx::createFrameBuffer(1, &attachment, true);
 		}
 	}

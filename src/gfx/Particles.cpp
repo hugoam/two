@@ -298,7 +298,7 @@ namespace mud
 
 	void BlockParticles::init_block()
 	{
-		s_color = bgfx::createUniform("s_texColor", bgfx::UniformType::Int1);
+		s_color = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
 		m_texture = bgfx::createTexture2D(SPRITE_TEXTURE_SIZE, SPRITE_TEXTURE_SIZE, false, 1, bgfx::TextureFormat::BGRA8);
 
 		this->create_sprite("particle.ktx", "particle.ktx");

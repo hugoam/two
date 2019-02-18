@@ -118,7 +118,7 @@ namespace gfx
 
 			void createUniforms()
 			{
-				s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Int1, max_gi_probes);
+				s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Sampler, max_gi_probes);
 			}
 
 			bgfx::UniformHandle s_gi_probe;
@@ -161,11 +161,11 @@ namespace gfx
 		{
 			void createUniforms()
 			{
-				s_voxels_albedo    = bgfx::createUniform("s_voxels_albedo",  bgfx::UniformType::Int1);
-				s_voxels_normals   = bgfx::createUniform("s_voxels_normals", bgfx::UniformType::Int1);
-				s_voxels_light     = bgfx::createUniform("s_voxels_light",   bgfx::UniformType::Int1);
+				s_voxels_albedo    = bgfx::createUniform("s_voxels_albedo",  bgfx::UniformType::Sampler);
+				s_voxels_normals   = bgfx::createUniform("s_voxels_normals", bgfx::UniformType::Sampler);
+				s_voxels_light     = bgfx::createUniform("s_voxels_light",   bgfx::UniformType::Sampler);
 
-				s_voxels_light_rgba  = bgfx::createUniform("s_voxels_light_rgba",   bgfx::UniformType::Int1);
+				s_voxels_light_rgba  = bgfx::createUniform("s_voxels_light_rgba",   bgfx::UniformType::Sampler);
 			}
 
 			bgfx::UniformHandle s_voxels_albedo;

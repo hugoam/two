@@ -160,7 +160,7 @@ namespace mud
 			}
 			else
 			{
-				bgfx::Attachment attachment = { radiance_array, uint16_t(mips ? level : 0), uint16_t(mips ? 0 : level), BGFX_RESOLVE_NONE };
+				bgfx::Attachment attachment = { bgfx::Access::Write, radiance_array, uint16_t(mips ? level : 0), uint16_t(mips ? 0 : level), BGFX_RESOLVE_NONE };
 				FrameBuffer render_target = { size, bgfx::createFrameBuffer(1, &attachment, false) };
 				m_copy.submit_quad(render_target, view_id + 1, texture);
 				bgfx::frame();

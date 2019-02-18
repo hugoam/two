@@ -130,7 +130,7 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				s_csm_atlas	 = bgfx::createUniform("s_csm_atlas",  bgfx::UniformType::Int1);
+				s_csm_atlas	 = bgfx::createUniform("s_csm_atlas",  bgfx::UniformType::Sampler);
 				u_csm_params = bgfx::createUniform("u_csm_params", bgfx::UniformType::Vec4);
 			}
 
@@ -143,7 +143,7 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				s_shadow_atlas = bgfx::createUniform("s_shadow_atlas", bgfx::UniformType::Int1);
+				s_shadow_atlas = bgfx::createUniform("s_shadow_atlas", bgfx::UniformType::Sampler);
 				u_shadow_pixel_size = bgfx::createUniform("u_shadow_pixel_size", bgfx::UniformType::Vec4);
 			}
 

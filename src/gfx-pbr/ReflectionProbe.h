@@ -90,8 +90,8 @@ namespace mud
 				u_atlas_rect			= bgfx::createUniform("u_reflection_atlas_rect",		bgfx::UniformType::Mat4, max_probes);
 				u_matrix				= bgfx::createUniform("u_reflection_matrix",			bgfx::UniformType::Vec4, max_probes);
 
-				u_indices		= bgfx::createUniform("u_reflection_indices",		bgfx::UniformType::Int1, max_probes);
-				u_count			= bgfx::createUniform("u_reflection_count",			bgfx::UniformType::Int1);
+				u_indices		= bgfx::createUniform("u_reflection_indices",		bgfx::UniformType::Sampler, max_probes);
+				u_count			= bgfx::createUniform("u_reflection_count",			bgfx::UniformType::Sampler);
 			}
 
 			template <uint16_t size>

@@ -282,7 +282,7 @@ namespace gfx
 		uint16_t subdiv = gi_probe.m_subdiv;
 		bgfx::ProgramHandle program = m_direct_light->version(shader_version);
 		if(bgfx::isValid(program))
-			encoder.dispatch(render_pass.m_index, program, subdiv / 64, subdiv, subdiv, BGFX_VIEW_NONE);
+			encoder.dispatch(render_pass.m_index, program, subdiv / 64, subdiv, subdiv);
 	}
 	
 	void BlockGIBake::bounce(Render& render, GIProbe& gi_probe)
@@ -301,7 +301,7 @@ namespace gfx
 		uint16_t subdiv = gi_probe.m_subdiv;
 		bgfx::ProgramHandle program = m_bounce_light->default_version();
 		if(bgfx::isValid(program))
-			encoder.dispatch(render_pass.m_index, program, subdiv / 64, subdiv, subdiv, BGFX_VIEW_NONE);
+			encoder.dispatch(render_pass.m_index, program, subdiv / 64, subdiv, subdiv);
 	}
 
 	void BlockGIBake::output(Render& render, GIProbe& gi_probe)
@@ -315,7 +315,7 @@ namespace gfx
 		uint16_t subdiv = gi_probe.m_subdiv;
 		bgfx::ProgramHandle program = m_output_light->default_version();
 		if(bgfx::isValid(program))
-			encoder.dispatch(render_pass.m_index, program, subdiv / 64, subdiv, subdiv, BGFX_VIEW_NONE);
+			encoder.dispatch(render_pass.m_index, program, subdiv / 64, subdiv, subdiv);
 	}
 
 	void BlockGIBake::begin_render(Render& render)

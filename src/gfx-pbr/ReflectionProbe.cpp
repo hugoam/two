@@ -42,8 +42,8 @@ namespace mud
 		{
 			bgfx::Attachment attachments[2] =
 			{
-				{ m_depth , 0, 1, BGFX_RESOLVE_AUTO_GEN_MIPS },
-				{ m_cubemap, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS }
+				{ bgfx::Access::Write, m_depth , 0, 1, BGFX_RESOLVE_AUTO_GEN_MIPS },
+				{ bgfx::Access::Write, m_cubemap, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS }
 			};
 			m_fbo[i] = bgfx::createFrameBuffer(2, attachments, true);
 		}

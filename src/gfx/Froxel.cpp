@@ -101,8 +101,8 @@ namespace mud
 	{
 		void createUniforms()
 		{
-			s_light_records = bgfx::createUniform("s_light_records", bgfx::UniformType::Int1);
-			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Int1);
+			s_light_records = bgfx::createUniform("s_light_records", bgfx::UniformType::Sampler);
+			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Sampler);
 
 			u_froxel_params = bgfx::createUniform("u_froxel_params", bgfx::UniformType::Vec4);
 			u_froxel_f = bgfx::createUniform("u_froxel_f", bgfx::UniformType::Vec4);

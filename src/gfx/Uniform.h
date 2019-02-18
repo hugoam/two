@@ -83,7 +83,7 @@ namespace mud
 
 		void create()
 		{
-			m_uniform = bgfx::createUniform(m_name.c_str(), bgfx::UniformType::Int1);
+			m_uniform = bgfx::createUniform(m_name.c_str(), bgfx::UniformType::Sampler);
 		}
 
 		template <class T>
