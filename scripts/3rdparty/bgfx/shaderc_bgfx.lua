@@ -523,7 +523,7 @@ project "glsl-optimizer"
 			"/wd4996", -- warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _strdup.
 		}
 
-	configuration { "mingw* or linux or osx" }
+	configuration { "mingw* or linux or osx or asmjs" }
 		buildoptions {
 			"-fno-strict-aliasing", -- glsl-optimizer has bugs if strict aliasing is used.
 
