@@ -125,6 +125,11 @@ namespace mud
 	{
 		UNUSED(render);
 		GpuState<ZoneLights>::me.upload(render_pass.m_index, m_zones[0]);
+
+		uint8_t lights = uint8_t(TextureSampler::Lights);
+		uint8_t zones = uint8_t(TextureSampler::Zones);
+		bgfx::setViewUniform(render_pass.m_index, u_shot.s_lights, &lights);
+		bgfx::setViewUniform(render_pass.m_index, u_shot.s_zones, &zones);
 	}
 
 	void BlockLight::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
@@ -215,7 +220,7 @@ namespace mud
 	{
 		UNUSED(render);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		encoder.setTexture(uint8_t(TextureSampler::Lights), u_shot.s_lights, m_lights_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Lights), m_lights_texture);
 	}
 
 	void BlockLight::upload_zones(Render& render, const Pass& render_pass) const
@@ -223,7 +228,7 @@ namespace mud
 		UNUSED(render);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 #if ZONES_BUFFER
-		encoder.setTexture(uint8_t(TextureSampler::Zones), u_shot.s_zones, m_zones_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Zones), m_zones_texture);
 #else
 		GpuState<Zone>::me.upload(encoder, render.m_scene.m_env);
 #endif

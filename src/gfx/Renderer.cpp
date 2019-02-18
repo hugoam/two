@@ -378,6 +378,8 @@ namespace mud
 			this->next_draw_pass(render, render_pass);
 			render.m_viewport.render_pass(m_name, render_pass);
 
+			m_gfx_system.m_pipeline->block<MaterialBlock>()->submit(render, render_pass);
+
 			for(DrawBlock* block : m_impl->m_draw_blocks)
 				block->submit(render, render_pass);
 

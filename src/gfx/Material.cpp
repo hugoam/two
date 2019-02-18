@@ -58,38 +58,21 @@ namespace mud
 			bgfx_state |= BGFX_STATE_BLEND_ALPHA;
 	}
 
-	MaterialBlock::MaterialBlock(GfxSystem& gfx_system)
-		: GfxBlock(gfx_system, *this)
-	{}
-
-	void MaterialBlock::init_block()
-	{
-		u_state = bgfx::createUniform("u_state", bgfx::UniformType::Vec4);
-		s_materials = bgfx::createUniform("s_materials", bgfx::UniformType::Sampler);
-	}
-
-	void MaterialBlock::begin_render(Render& render)
-	{
-		UNUSED(render);
-#if MATERIALS_BUFFER
-		GpuState<Material>::me.pack(m_materials_texture, m_gfx_system.materials().m_vector);
-#endif
-	}
-
-	void MaterialBlock::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	struct BaseMaterialUniform
 	{
 		BaseMaterialUniform() {}
 		BaseMaterialUniform(GfxSystem& gfx_system)
-			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Sampler))
+			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialBase>::me.init();
 #endif
+		}
+
+		void prepare(const Pass& render_pass) const
+		{
+			uint8_t skeleton = uint8_t(TextureSampler::Skeleton);
+			bgfx::setViewUniform(render_pass.m_index, s_skeleton, &skeleton);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialBase& block) const
@@ -107,12 +90,18 @@ namespace mud
 	{
 		UnshadedMaterialUniform() {}
 		UnshadedMaterialUniform(GfxSystem& gfx_system)
-			: m_white_tex (&gfx_system.default_texture(TextureHint::White))
-			, s_color (bgfx::createUniform("s_color", bgfx::UniformType::Sampler))
+			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
+			, s_color(bgfx::createUniform("s_color", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialUnshaded>::me.init();
 #endif
+		}
+
+		void prepare(const Pass& render_pass) const
+		{
+			uint8_t color = int8_t(TextureSampler::Color);
+			bgfx::setViewUniform(render_pass.m_index, s_color, &color);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialUnshaded& block) const
@@ -121,7 +110,7 @@ namespace mud
 			GpuState<MaterialUnshaded>::me.upload(encoder, block);
 #endif
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), s_color, block.m_colour.m_texture ? block.m_colour.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Color), block.m_colour.m_texture ? block.m_colour.m_texture->m_texture : m_white_tex->m_texture);
 		}
 
 		Texture* m_white_tex;
@@ -134,11 +123,17 @@ namespace mud
 		FresnelMaterialUniform() {}
 		FresnelMaterialUniform(GfxSystem& gfx_system)
 			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
-			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Sampler))
+			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
 #if !MATERIALS_BUFFER
 			//GpuState<MaterialFresnel>::me.init();
 #endif
+		}
+
+		void prepare(const Pass& render_pass) const
+		{
+			uint8_t color = int8_t(TextureSampler::Color);
+			bgfx::setViewUniform(render_pass.m_index, s_fresnel, &color);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialFresnel& block) const
@@ -147,7 +142,7 @@ namespace mud
 			//GpuState<MaterialFresnel>::me.upload(encoder, block);
 #endif
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), s_fresnel, block.m_value.m_texture ? block.m_value.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Color), block.m_value.m_texture ? block.m_value.m_texture->m_texture : m_white_tex->m_texture);
 		}
 
 		Texture* m_white_tex;
@@ -162,18 +157,37 @@ namespace mud
 			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
 			, m_black_tex (&gfx_system.default_texture(TextureHint::Black))
 			, m_normal_tex(&gfx_system.default_texture(TextureHint::Normal))
-			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Sampler))
-			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Sampler))
-			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Sampler))
-			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformType::Sampler))
-			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Sampler))
-			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Sampler))
-			, s_ambient_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Sampler))
-			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler))
+			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_ambient_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialPbr>::me.init();
 #endif
+		}
+
+		void prepare(const Pass& render_pass) const
+		{
+			uint8_t albedo = int8_t(TextureSampler::Color);
+			uint8_t metallic = uint8_t(TextureSampler::Metallic);
+			uint8_t roughness = uint8_t(TextureSampler::Roughness);
+			uint8_t normal = uint8_t(TextureSampler::Normal);
+			uint8_t emissive = uint8_t(TextureSampler::Emissive);
+			uint8_t depth = uint8_t(TextureSampler::Depth);
+			uint8_t ao = uint8_t(TextureSampler::AO);
+
+			bgfx::setViewUniform(render_pass.m_index, s_albedo, &albedo);
+			bgfx::setViewUniform(render_pass.m_index, s_metallic, &metallic);
+			bgfx::setViewUniform(render_pass.m_index, s_roughness, &roughness);
+			bgfx::setViewUniform(render_pass.m_index, s_normal, &normal);
+			bgfx::setViewUniform(render_pass.m_index, s_emissive, &emissive);
+			bgfx::setViewUniform(render_pass.m_index, s_depth, &depth);
+			bgfx::setViewUniform(render_pass.m_index, s_ambient_occlusion, &ao);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialPbr& block) const
@@ -184,23 +198,23 @@ namespace mud
 
 			auto is_valid = [](Texture* texture) { return texture != nullptr && bgfx::isValid(texture->m_texture); };
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), s_albedo, is_valid(block.m_albedo.m_texture) ? block.m_albedo.m_texture->m_texture : m_white_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::Metallic), s_metallic, is_valid(block.m_metallic.m_texture) ? block.m_metallic.m_texture->m_texture : m_white_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::Roughness), s_roughness, is_valid(block.m_roughness.m_texture) ? block.m_roughness.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Color), is_valid(block.m_albedo.m_texture) ? block.m_albedo.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Metallic), is_valid(block.m_metallic.m_texture) ? block.m_metallic.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Roughness), is_valid(block.m_roughness.m_texture) ? block.m_roughness.m_texture->m_texture : m_white_tex->m_texture);
 
 			if(is_valid(block.m_normal.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Normal), s_normal, block.m_normal.m_texture->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Normal), block.m_normal.m_texture->m_texture);
 
 			if(is_valid(block.m_emissive.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Emissive), s_emissive, block.m_emissive.m_texture->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), block.m_emissive.m_texture->m_texture);
 			else if(block.m_emissive.m_value.m_a > 0.f)
-				encoder.setTexture(uint8_t(TextureSampler::Emissive), s_emissive, m_black_tex->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), m_black_tex->m_texture);
 
 			if(is_valid(block.m_depth.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Depth), s_depth, block.m_depth.m_texture->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Depth), block.m_depth.m_texture->m_texture);
 			
 			if(is_valid(block.m_ambient_occlusion.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::AO), s_ambient_occlusion, block.m_ambient_occlusion.m_texture->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::AO), block.m_ambient_occlusion.m_texture->m_texture);
 		}
 
 		Texture* m_white_tex;
@@ -350,7 +364,7 @@ namespace mud
 		const MaterialBlock& block = *ms_gfx_system->m_pipeline->block<MaterialBlock>();
 		vec4 state = { 0.f, float(m_index), 0.f, 0.f };
 		encoder.setUniform(block.u_state, &state);
-		encoder.setTexture(uint8_t(TextureSampler::Materials), block.s_materials, block.m_materials_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Materials), block.m_materials_texture);
 #endif
 
 		s_base_material_uniform.upload(encoder, m_base_block);
@@ -362,6 +376,40 @@ namespace mud
 			s_pbr_material_block.upload(encoder, m_pbr_block);
 
 		if(skin)
-			encoder.setTexture(uint8_t(TextureSampler::Skeleton), s_base_material_uniform.s_skeleton, skin->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Skeleton), skin->m_texture);
+	}
+
+	MaterialBlock::MaterialBlock(GfxSystem& gfx_system)
+		: GfxBlock(gfx_system, *this)
+	{}
+
+	void MaterialBlock::init_block()
+	{
+		u_state = bgfx::createUniform("u_state", bgfx::UniformType::Vec4);
+		s_materials = bgfx::createUniform("s_materials", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+	}
+
+	void MaterialBlock::begin_render(Render& render)
+	{
+		UNUSED(render);
+#if MATERIALS_BUFFER
+		GpuState<Material>::me.pack(m_materials_texture, m_gfx_system.materials().m_vector);
+#endif
+	}
+
+	void MaterialBlock::begin_pass(Render& render)
+	{
+		UNUSED(render);
+	}
+
+	void MaterialBlock::submit(Render& render, const Pass& render_pass)
+	{
+		uint8_t materials = uint8_t(TextureSampler::Materials);
+		bgfx::setViewUniform(render_pass.m_index, s_materials, &materials);
+
+		s_base_material_uniform.prepare(render_pass);
+		s_unshaded_material_block.prepare(render_pass);
+		s_fresnel_material_block.prepare(render_pass);
+		s_pbr_material_block.prepare(render_pass);
 	}
 }

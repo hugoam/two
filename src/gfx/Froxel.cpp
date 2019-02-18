@@ -101,8 +101,8 @@ namespace mud
 	{
 		void createUniforms()
 		{
-			s_light_records = bgfx::createUniform("s_light_records", bgfx::UniformType::Sampler);
-			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Sampler);
+			s_light_records = bgfx::createUniform("s_light_records", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 
 			u_froxel_params = bgfx::createUniform("u_froxel_params", bgfx::UniformType::Vec4);
 			u_froxel_f = bgfx::createUniform("u_froxel_f", bgfx::UniformType::Vec4);
@@ -310,19 +310,28 @@ namespace mud
 	};
 
 
-	void Froxelizer::submit(bgfx::Encoder& encoder) const
+	void Froxelizer::submit(const Pass& render_pass) const
 	{
-		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_impl->m_uniform.s_light_records, m_impl->m_records.m_buffer.m_texture);
-		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_impl->m_uniform.s_light_clusters, m_impl->m_froxels.m_buffer.m_texture);
+		uint8_t records = uint8_t(TextureSampler::LightRecords);
+		uint8_t clusters = uint8_t(TextureSampler::Clusters);
 
-		auto submit = [=](bgfx::Encoder& encoder, vec4 params, vec4 f, vec4 z)
+		bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.s_light_records, &records);
+		bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.s_light_clusters, &clusters);
+
+		auto submit = [=](vec4 params, vec4 f, vec4 z)
 		{
-			encoder.setUniform(m_impl->m_uniform.u_froxel_params, &params);
-			encoder.setUniform(m_impl->m_uniform.u_froxel_f, &f);
-			encoder.setUniform(m_impl->m_uniform.u_froxel_z, &z);
+			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_froxel_params, &params);
+			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_froxel_f, &f);
+			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_froxel_z, &z);
 		};
 
-		submit(encoder, vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_params_f), 0.f), m_params_z);
+		submit(vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_params_f), 0.f), m_params_z);
+	}
+
+	void Froxelizer::submit(bgfx::Encoder& encoder) const
+	{
+		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_impl->m_records.m_buffer.m_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_impl->m_froxels.m_buffer.m_texture);
 	}
 
 	void Froxelizer::froxelize_lights(const Camera& camera, span<Light*> lights)

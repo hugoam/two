@@ -199,6 +199,8 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 		virtual void begin_pass(Render& render) override;
 
+		virtual void submit(Render& render, const Pass& render_pass);
+
 		bgfx::UniformHandle u_state = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle s_materials = BGFX_INVALID_HANDLE;
 		bgfx::TextureHandle m_materials_texture = BGFX_INVALID_HANDLE;

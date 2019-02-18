@@ -118,7 +118,7 @@ namespace gfx
 
 			void createUniforms()
 			{
-				s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Sampler, max_gi_probes);
+				s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Sampler, max_gi_probes, bgfx::UniformFreq::View);
 			}
 
 			bgfx::UniformHandle s_gi_probe;

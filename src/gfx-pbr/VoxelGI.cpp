@@ -404,6 +404,8 @@ namespace gfx
 	void BlockGITrace::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render); UNUSED(render_pass);
+		uint8_t stage = uint8_t(TextureSampler::GIProbe);
+		bgfx::setViewUniform(render_pass.m_index, u_gi_probe.s_gi_probe, &stage);
 	}
 
 	void BlockGITrace::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
@@ -417,10 +419,12 @@ namespace gfx
 		{
 			if(gi_probe->m_enabled)
 			{
-				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, u_gi_probe.s_gi_probe, gi_probe->m_voxels_light_rgba, GFX_TEXTURE_CLAMP_UVW);
+				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, gi_probe->m_voxels_light_rgba, GFX_TEXTURE_CLAMP_UVW);
 
 				GpuState<GIProbe>::me.upload(encoder, *gi_probe, render.m_camera.m_transform);
 			}
+
+			return;
 		}
 	}
 

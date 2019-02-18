@@ -465,7 +465,12 @@ namespace mud
 
 	void BlockShadow::submit(Render& render, const Pass& render_pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render);
+		uint8_t shadow_csm = uint8_t(TextureSampler::ShadowCSM);
+		bgfx::setViewUniform(render_pass.m_index, u_direct_shadow.s_csm_atlas, &shadow_csm);
+
+		//uint8_t shadow_atlas = uint8_t(TextureSampler::ShadowAtlas);
+		//bgfx::setViewUniform(render_pass.m_index, u_shadow.s_shadow_atlas, &shadow_atlas);
 	}
 
 	void BlockShadow::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
@@ -484,15 +489,15 @@ namespace mud
 			encoder.setUniform(u_direct_shadow.u_csm_params, &csm_params);
 
 			if(m_pcf_level == CSM_HARD_PCF)
-				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_direct_shadow.s_csm_atlas, m_csm.m_depth, GFX_TEXTURE_POINT);
+				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), m_csm.m_depth, GFX_TEXTURE_POINT);
 			else
-				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_direct_shadow.s_csm_atlas, m_csm.m_depth, BGFX_SAMPLER_COMPARE_LESS);
+				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), m_csm.m_depth, BGFX_SAMPLER_COMPARE_LESS);
 				//encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_direct_shadow.s_csm_atlas, m_csm.m_depth);
 		}
 
 		if(0)//render.m_shadow_atlas)
 		{
-			encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), u_shadow.s_shadow_atlas, m_atlas.m_depth, BGFX_SAMPLER_COMPARE_LESS);
+			encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), m_atlas.m_depth, BGFX_SAMPLER_COMPARE_LESS);
 			vec2 shadow_atlas_pixel_size = vec2(1.f) / float(m_atlas.m_size);
 			encoder.setUniform(u_shadow.u_shadow_pixel_size, &shadow_atlas_pixel_size[0]);
 		}

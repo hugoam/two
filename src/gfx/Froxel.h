@@ -87,6 +87,7 @@ namespace mud
 
 		// send froxel data to GPU
 		void upload();
+		void submit(const Pass& render_pass) const;
 		void submit(bgfx::Encoder& encoder) const;
 
 		void compute_froxels();

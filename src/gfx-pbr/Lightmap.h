@@ -110,7 +110,7 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				s_lightmap = bgfx::createUniform("s_lightmap",        bgfx::UniformType::Sampler);
+				s_lightmap = bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 			}
 
 			bgfx::UniformHandle s_lightmap;

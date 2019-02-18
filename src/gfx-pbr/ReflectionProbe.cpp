@@ -88,7 +88,9 @@ namespace mud
 
 	void BlockReflection::submit(Render& render, const Pass& render_pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render);
+		//uint8_t stage = uint8_t(TextureSampler::ReflectionProbe);
+		//bgfx::setViewUniform(render_pass.m_index, u_uniform.s_atlas, &stage);
 	}
 
 	void BlockReflection::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
@@ -97,7 +99,7 @@ namespace mud
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		if(bgfx::isValid(m_atlas.m_color_tex) && m_atlas.m_size > 0)
-			encoder.setTexture(uint8_t(TextureSampler::ReflectionProbe), u_uniform.s_atlas, m_atlas.m_color_tex);
+			encoder.setTexture(uint8_t(TextureSampler::ReflectionProbe), m_atlas.m_color_tex);
 
 		//upload_reflection_probes(render, to_array(render.m_shot->m_reflection_probes));
 	}

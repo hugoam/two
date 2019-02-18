@@ -517,6 +517,8 @@ namespace mud
 	void BlockLightmap::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render); UNUSED(render_pass);
+		uint8_t lightmap = uint8_t(TextureSampler::Lightmap);
+		bgfx::setViewUniform(render_pass.m_index, u_lightmap.s_lightmap, &lightmap);
 	}
 
 	void BlockLightmap::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
@@ -533,9 +535,9 @@ namespace mud
 
 			if(bgfx::isValid(binding.m_lightmap))
 #ifdef LIGHTMAP_PIXELS
-				encoder.setTexture(uint8_t(TextureSampler::Lightmap), u_lightmap.s_lightmap, binding.m_lightmap, GFX_TEXTURE_POINT);
+				encoder.setTexture(uint8_t(TextureSampler::Lightmap), binding.m_lightmap, GFX_TEXTURE_POINT);
 #else
-				encoder.setTexture(uint8_t(TextureSampler::Lightmap), u_lightmap.s_lightmap, binding.m_lightmap);
+				encoder.setTexture(uint8_t(TextureSampler::Lightmap), binding.m_lightmap);
 #endif
 		}
 		else

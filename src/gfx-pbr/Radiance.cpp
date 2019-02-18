@@ -85,8 +85,9 @@ namespace mud
 
 	void BlockRadiance::submit(Render& render, const Pass& render_pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
-		//bgfx::setViewUniform
+		UNUSED(render);
+		uint8_t stage = uint8_t(TextureSampler::Radiance);
+		bgfx::setViewUniform(render_pass.m_index, u_radiance.s_radiance_map, &stage);
 	}
 
 	void BlockRadiance::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
@@ -96,7 +97,7 @@ namespace mud
 
 		// @todo implement bgfx::setViewTexture
 		if(bgfx::isValid(radiance))
-			encoder.setTexture(uint8_t(TextureSampler::Radiance), u_radiance.s_radiance_map, radiance);
+			encoder.setTexture(uint8_t(TextureSampler::Radiance), radiance);
 	}
 
 	void BlockRadiance::prefilter_radiance(Radiance& radiance)
