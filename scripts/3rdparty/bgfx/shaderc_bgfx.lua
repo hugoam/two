@@ -292,7 +292,7 @@ project "glslang"
 			"-Wno-unused-but-set-variable",
 		}
 
-	configuration { "mingw* or linux or osx" }
+	configuration { "mingw* or linux or osx or asmjs" }
 		buildoptions {
 			"-fno-strict-aliasing", -- glslang has bugs if strict aliasing is used.
 		}
