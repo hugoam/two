@@ -109,6 +109,7 @@ function uses_shaderc()
         "glslang",
         "glsl-optimizer",
         "spirv-opt",
+        "spirv-cross",
     }
 end
 
