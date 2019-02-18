@@ -312,8 +312,8 @@ namespace mud
 
 	void Froxelizer::submit(const Pass& render_pass) const
 	{
-		uint8_t records = uint8_t(TextureSampler::LightRecords);
-		uint8_t clusters = uint8_t(TextureSampler::Clusters);
+		uint32_t records = uint32_t(TextureSampler::LightRecords);
+		uint32_t clusters = uint32_t(TextureSampler::Clusters);
 
 		bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.s_light_records, &records);
 		bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.s_light_clusters, &clusters);

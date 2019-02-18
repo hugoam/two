@@ -517,7 +517,7 @@ namespace mud
 	void BlockLightmap::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render); UNUSED(render_pass);
-		uint8_t lightmap = uint8_t(TextureSampler::Lightmap);
+		uint32_t lightmap = uint32_t(TextureSampler::Lightmap);
 		bgfx::setViewUniform(render_pass.m_index, u_lightmap.s_lightmap, &lightmap);
 	}
 

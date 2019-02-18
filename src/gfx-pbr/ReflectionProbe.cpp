@@ -89,7 +89,7 @@ namespace mud
 	void BlockReflection::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render);
-		//uint8_t stage = uint8_t(TextureSampler::ReflectionProbe);
+		//uint32_t stage = uint32_t(TextureSampler::ReflectionProbe);
 		//bgfx::setViewUniform(render_pass.m_index, u_uniform.s_atlas, &stage);
 	}
 

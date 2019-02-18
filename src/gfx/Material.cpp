@@ -71,7 +71,7 @@ namespace mud
 
 		void prepare(const Pass& render_pass) const
 		{
-			uint8_t skeleton = uint8_t(TextureSampler::Skeleton);
+			uint32_t skeleton = uint32_t(TextureSampler::Skeleton);
 			bgfx::setViewUniform(render_pass.m_index, s_skeleton, &skeleton);
 		}
 
@@ -173,13 +173,13 @@ namespace mud
 
 		void prepare(const Pass& render_pass) const
 		{
-			uint8_t albedo = int8_t(TextureSampler::Color);
-			uint8_t metallic = uint8_t(TextureSampler::Metallic);
-			uint8_t roughness = uint8_t(TextureSampler::Roughness);
-			uint8_t normal = uint8_t(TextureSampler::Normal);
-			uint8_t emissive = uint8_t(TextureSampler::Emissive);
-			uint8_t depth = uint8_t(TextureSampler::Depth);
-			uint8_t ao = uint8_t(TextureSampler::AO);
+			uint32_t albedo    = uint32_t(TextureSampler::Color);
+			uint32_t metallic  = uint32_t(TextureSampler::Metallic);
+			uint32_t roughness = uint32_t(TextureSampler::Roughness);
+			uint32_t normal    = uint32_t(TextureSampler::Normal);
+			uint32_t emissive  = uint32_t(TextureSampler::Emissive);
+			uint32_t depth     = uint32_t(TextureSampler::Depth);
+			uint32_t ao        = uint32_t(TextureSampler::AO);
 
 			bgfx::setViewUniform(render_pass.m_index, s_albedo, &albedo);
 			bgfx::setViewUniform(render_pass.m_index, s_metallic, &metallic);
@@ -404,7 +404,7 @@ namespace mud
 
 	void MaterialBlock::submit(Render& render, const Pass& render_pass)
 	{
-		uint8_t materials = uint8_t(TextureSampler::Materials);
+		uint32_t materials = uint32_t(TextureSampler::Materials);
 		bgfx::setViewUniform(render_pass.m_index, s_materials, &materials);
 
 		s_base_material_uniform.prepare(render_pass);

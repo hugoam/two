@@ -466,10 +466,10 @@ namespace mud
 	void BlockShadow::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render);
-		uint8_t shadow_csm = uint8_t(TextureSampler::ShadowCSM);
+		uint32_t shadow_csm = uint32_t(TextureSampler::ShadowCSM);
 		bgfx::setViewUniform(render_pass.m_index, u_direct_shadow.s_csm_atlas, &shadow_csm);
 
-		//uint8_t shadow_atlas = uint8_t(TextureSampler::ShadowAtlas);
+		//uint32_t shadow_atlas = uint32_t(TextureSampler::ShadowAtlas);
 		//bgfx::setViewUniform(render_pass.m_index, u_shadow.s_shadow_atlas, &shadow_atlas);
 	}
 

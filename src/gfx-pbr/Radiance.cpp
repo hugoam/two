@@ -86,7 +86,7 @@ namespace mud
 	void BlockRadiance::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render);
-		uint8_t stage = uint8_t(TextureSampler::Radiance);
+		uint32_t stage = uint32_t(TextureSampler::Radiance);
 		bgfx::setViewUniform(render_pass.m_index, u_radiance.s_radiance_map, &stage);
 	}
 

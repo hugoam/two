@@ -404,7 +404,7 @@ namespace gfx
 	void BlockGITrace::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render); UNUSED(render_pass);
-		uint8_t stage = uint8_t(TextureSampler::GIProbe);
+		uint32_t stage = uint32_t(TextureSampler::GIProbe);
 		bgfx::setViewUniform(render_pass.m_index, u_gi_probe.s_gi_probe, &stage);
 	}
 

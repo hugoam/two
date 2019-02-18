@@ -126,8 +126,8 @@ namespace mud
 		UNUSED(render);
 		GpuState<ZoneLights>::me.upload(render_pass.m_index, m_zones[0]);
 
-		uint8_t lights = uint8_t(TextureSampler::Lights);
-		uint8_t zones = uint8_t(TextureSampler::Zones);
+		uint32_t lights = uint32_t(TextureSampler::Lights);
+		uint32_t zones = uint32_t(TextureSampler::Zones);
 		bgfx::setViewUniform(render_pass.m_index, u_shot.s_lights, &lights);
 		bgfx::setViewUniform(render_pass.m_index, u_shot.s_zones, &zones);
 	}
