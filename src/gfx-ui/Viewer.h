@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <cfloat>
 #include <math/Math.h>
 #include <math/Vec.h>
 #include <ui/WidgetStruct.h>
@@ -98,6 +99,77 @@ namespace mud
 		void update_eye();
 	};
 
+	export_ class refl_ MUD_GFX_UI_EXPORT TrackballController : public ViewerController
+	{
+	public:
+		TrackballController(const vec3& eye, const vec3& target, const vec3& up);
+		TrackballController(Viewer& viewer);
+
+		enum State { None = -1, Rotate = 0, Zoom = 1, Pan = 2, TouchRotate = 3, TouchZoomPan = 4 };
+
+		bool m_enabled = true;
+
+		float m_rotateSpeed = 1.0f;
+		float m_zoomSpeed = 1.2f;
+		float m_panSpeed = 0.3f;
+
+		bool m_noRotate = false;
+		bool m_noZoom = false;
+		bool m_noPan = false;
+
+		bool m_staticMoving = false;
+		float m_dynamicDampingFactor = 0.2f;
+
+		float m_minDistance = 0.f;
+		float m_maxDistance = FLT_MAX;// Infinity;
+
+		Key m_keys[3] = { Key::A, Key::S, Key::D };
+		//m_keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
+
+	private:
+		vec3 m_target = vec3(0.f);
+
+		vec3 m_lastEye = vec3(0.f);
+
+		State m_state = State::None;
+		State m_prevState = State::None;
+
+		vec3 m_to_eye = vec3(0.f);
+
+		vec2 m_movePrev = vec2(0.f);
+		vec2 m_moveCurr = vec2(0.f);
+
+		vec3 m_lastAxis = vec3(0.f);
+		float m_lastAngle = 0.f;
+
+		vec2 m_zoomStart = vec2(0.f);
+		vec2 m_zoomEnd = vec2(0.f);
+
+		float m_touchZoomDistanceStart = 0.f;
+		float m_touchZoomDistanceEnd = 0.f;
+
+		vec2 m_panStart = vec2(0.f);
+		vec2 m_panEnd = vec2(0.f);
+
+		// for reset
+		vec3 m_target0;
+		vec3 m_eye0;
+		vec3 m_up0;
+
+	public:
+		void rotateCamera(vec3& eye, vec3& up);
+		void zoomCamera();
+		void panCamera(vec3& position, const vec3& up);
+
+		void checkDistances(vec3& position);
+
+		void reset(vec3& eye, vec3& target, vec3& up);
+
+		void process(Viewer& viewer);
+		void update(Widget& widget, vec3& eye, vec3& target, vec3& up);
+
+	};
+
 	export_ class refl_ MUD_GFX_UI_EXPORT FreeOrbitController : public OrbitController
 	{
 	public:
@@ -121,6 +193,7 @@ namespace ui
 		PseudoIsometric,
 	};
 
+	export_ MUD_GFX_UI_EXPORT func_ TrackballController& trackball_controller(Viewer& viewer);
 	export_ MUD_GFX_UI_EXPORT func_ OrbitController& orbit_controller(Viewer& viewer, float yaw = c_pi / 4.f, float pitch = -c_pi / 4.f, float distance = 10.f);
 	export_ MUD_GFX_UI_EXPORT func_ FreeOrbitController& free_orbit_controller(Viewer& viewer);
 	export_ MUD_GFX_UI_EXPORT func_ OrbitController& isometric_controller(Viewer& viewer, bool topdown = false);

@@ -181,6 +181,352 @@ namespace mud
 	}
 
 	FreeOrbitController::FreeOrbitController(Viewer& viewer) : OrbitController(viewer) {}
+	
+	vec3 set_length(const vec3& vec, float length)
+	{
+		return normalize(vec) * length;
+	}
+
+	TrackballController::TrackballController(Viewer& viewer)
+		: m_target0(viewer.m_camera.m_target)
+		, m_eye0(viewer.m_camera.m_eye)
+		, m_up0(viewer.m_camera.m_up)
+	{}
+
+	TrackballController::TrackballController(const vec3& eye, const vec3& target, const vec3& up)
+	{
+		// force an update at start
+		//this->update(eye, target, up);
+
+		m_target0 = target;
+		m_eye0 = eye;
+		m_up0 = up;
+	}
+
+	void TrackballController::rotateCamera(vec3& eye, vec3& up)
+	{
+		vec3 moveDirection = { m_moveCurr.x - m_movePrev.x, m_moveCurr.y - m_movePrev.y, 0 };
+		float angle = length(moveDirection);
+
+		if(angle)
+		{
+			m_to_eye = eye - m_target;
+
+			vec3 eyeDirection = normalize(m_to_eye);
+			vec3 objectUpDirection = normalize(up);
+			vec3 objectSidewaysDirection = normalize(cross(objectUpDirection, eyeDirection));
+
+			objectUpDirection = set_length(objectUpDirection, m_moveCurr.y - m_movePrev.y);
+			objectSidewaysDirection = set_length(objectSidewaysDirection, m_moveCurr.x - m_movePrev.x);
+
+			moveDirection = objectUpDirection + objectSidewaysDirection;
+
+			vec3 axis = normalize(cross(moveDirection, m_to_eye));
+
+			angle *= m_rotateSpeed;
+			quat quaternion = axis_angle(axis, angle);
+
+			m_to_eye = quaternion * m_to_eye;
+			up = quaternion * up;
+
+			m_lastAxis = axis;
+			m_lastAngle = angle;
+		}
+		else if(!m_staticMoving && m_lastAngle)
+		{
+			m_lastAngle *= sqrt(1.f - m_dynamicDampingFactor);
+			m_to_eye = eye - m_target;
+			quat quaternion = axis_angle(m_lastAxis, m_lastAngle);
+			m_to_eye = quaternion * m_to_eye;
+			up = quaternion * up;
+		}
+
+		m_movePrev = m_moveCurr;
+	}
+
+	void TrackballController::zoomCamera()
+	{
+		if(m_state == State::TouchZoomPan)
+		{
+			float factor = m_touchZoomDistanceStart / m_touchZoomDistanceEnd;
+			m_touchZoomDistanceStart = m_touchZoomDistanceEnd;
+			m_to_eye *= factor;
+		}
+		else
+		{
+			float factor = 1.0f + (m_zoomEnd.y - m_zoomStart.y) * m_zoomSpeed;
+
+			if(factor != 1.0f && factor > 0.0f)
+				m_to_eye *= factor;
+
+			if(m_staticMoving)
+				m_zoomStart = m_zoomEnd;
+			else
+				m_zoomStart.y += (m_zoomEnd.y - m_zoomStart.y) * m_dynamicDampingFactor;
+		}
+	}
+
+	void TrackballController::panCamera(vec3& position, const vec3& up)
+	{
+		vec2 mouseChange = m_panEnd - m_panStart;
+
+		if(length2(mouseChange))
+		{
+			mouseChange *= length(m_to_eye) * m_panSpeed;
+
+			vec3 pan = set_length(cross(m_to_eye, up), mouseChange.x);
+			pan += set_length(up, mouseChange.y);
+
+			position += pan;
+			m_target += pan;
+
+			if(m_staticMoving)
+				m_panStart = m_panEnd;
+			else
+				m_panStart += (m_panEnd - m_panStart) * m_dynamicDampingFactor;
+		}
+	}
+
+	void TrackballController::checkDistances(vec3& position)
+	{
+		if(!m_noZoom || !m_noPan)
+		{
+			if(length2(m_to_eye) > sq(m_maxDistance))
+			{
+				position = m_target + set_length(m_to_eye, m_maxDistance);
+				m_zoomStart = m_zoomEnd;
+			}
+
+			if(length2(m_to_eye) < sq(m_minDistance))
+			{
+				position = m_target + set_length(m_to_eye, m_minDistance);
+				m_zoomStart = m_zoomEnd;
+			}
+		}
+	}
+
+	void TrackballController::process(Viewer& viewer)
+	{
+		Camera& camera = viewer.m_camera;
+		this->update(viewer, camera.m_eye, camera.m_target, camera.m_up); // , camera.m_up);
+	}
+
+	void TrackballController::update(Widget& widget, vec3& eye, vec3& target, vec3& up)
+	{
+		m_to_eye = eye - m_target;
+
+		if(!m_noRotate) this->rotateCamera(eye, up);
+		if(!m_noZoom) this->zoomCamera();
+		if(!m_noPan) this->panCamera(eye, up);
+
+		eye = m_target + m_to_eye;
+
+		this->checkDistances(eye);
+
+		if(m_enabled == false) return;
+
+		auto getMouseOnScreen = [](const vec2& rect, const vec2& pos) -> vec2
+		{
+			return pos / rect;
+		};
+
+		auto getMouseOnCircle = [](const vec2& rect, const vec2& pos) -> vec2
+		{
+			return {
+				(pos.x - rect.x * 0.5f) / (rect.x * 0.5f),
+				(rect.y + 2 * -pos.y / rect.x) // screen.width intentional
+			};
+		};
+
+		if(m_state == State::None)
+		{
+			for(State state : { State::Rotate, State::Zoom, State::Pan })
+			{
+				if(KeyEvent event = widget.key_event(m_keys[state], EventType::Pressed))
+				{
+					m_state = state;
+					m_prevState = m_state;
+				}
+
+				if(KeyEvent event = widget.key_event(m_keys[state], EventType::Released))
+				{
+					m_state = m_prevState;
+				}
+			}
+		}
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+		{
+			m_state = State::Rotate;
+			if(!m_noRotate)
+			{
+				m_moveCurr = getMouseOnCircle(widget.m_frame.m_size, event.m_relative);
+				m_movePrev = m_moveCurr;
+			}
+		}
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Pressed))
+		{
+			m_state = State::Zoom;
+			if(!m_noZoom)
+			{
+				m_zoomStart = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+				m_zoomEnd = m_zoomStart;
+			}
+		}
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Pressed))
+		{
+			m_state = State::Pan;
+			if(!m_noPan)
+			{
+				m_panStart = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+				m_panEnd = m_panStart;
+			}
+		}
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::Mouse, EventType::Moved))
+		{
+			if(m_state == State::Rotate && !m_noRotate)
+			{
+				m_movePrev = m_moveCurr;
+				m_moveCurr = getMouseOnCircle(widget.m_frame.m_size, event.m_relative);
+			}
+			else if(m_state == State::Zoom && !m_noZoom)
+			{
+				m_zoomEnd = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+			}
+			else if(m_state == State::Pan && !m_noPan)
+			{
+				m_panEnd = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+			}
+		}
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Released))
+			m_state = State::None;
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Released))
+			m_state = State::None;
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Released))
+			m_state = State::None;
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		{
+			if(m_noZoom != true)
+			{
+				m_zoomStart.y += event.m_deltaZ * 0.025f;
+			}
+
+		}
+
+		target = m_target;
+
+		if(distance2(m_lastEye, eye) > c_cmp_epsilon) // FLT_EPSILON) // EPS)
+		{
+			//this->dispatchEvent(changeEvent);
+			m_lastEye = eye;
+		}
+
+	}
+
+	void TrackballController::reset(vec3& eye, vec3& target, vec3& up)
+	{
+		m_state = State::None;
+		m_prevState = State::None;
+
+		m_target = m_target0;
+		eye = m_eye0;
+		up = m_up0;
+
+		m_to_eye = eye - m_target;
+
+		target = m_target;
+
+		m_lastEye = eye;
+	}
+
+	/*
+	function touchstart(event) {
+
+		if(m_enabled == = false) return;
+
+		event.preventDefault();
+
+		switch(event.touches.length) {
+
+		case 1:
+			m_state = State::TouchRotate;
+			m_moveCurr = getMouseOnCircle(event.touches[0].pageX, event.touches[0].pageY));
+			m_movePrev = m_moveCurr);
+			break;
+
+		default: // 2 or more
+			m_state = State::TouchZoomPan;
+			var dx = event.touches[0].pageX - event.touches[1].pageX;
+			var dy = event.touches[0].pageY - event.touches[1].pageY;
+			m_touchZoomDistanceEnd = m_touchZoomDistanceStart = sqrt(dx * dx + dy * dy);
+
+			var x = (event.touches[0].pageX + event.touches[1].pageX) / 2;
+			var y = (event.touches[0].pageY + event.touches[1].pageY) / 2;
+			m_panStart = getMouseOnScreen(x, y));
+			m_panEnd = m_panStart);
+			break;
+
+		}
+
+		_m_dispatchEvent(startEvent);
+
+	}
+
+	function touchmove(event) {
+
+		if(m_enabled == = false) return;
+
+		event.preventDefault();
+		event.stopPropagation();
+
+		switch(event.touches.length) {
+
+		case 1:
+			m_movePrev = m_moveCurr);
+			m_moveCurr = getMouseOnCircle(event.touches[0].pageX, event.touches[0].pageY));
+			break;
+
+		default: // 2 or more
+			var dx = event.touches[0].pageX - event.touches[1].pageX;
+			var dy = event.touches[0].pageY - event.touches[1].pageY;
+			m_touchZoomDistanceEnd = sqrt(dx * dx + dy * dy);
+
+			var x = (event.touches[0].pageX + event.touches[1].pageX) / 2;
+			var y = (event.touches[0].pageY + event.touches[1].pageY) / 2;
+			m_panEnd = getMouseOnScreen(x, y));
+			break;
+
+		}
+
+	}
+
+	function touchend(event) {
+
+		if(m_enabled == = false) return;
+
+		switch(event.touches.length) {
+
+		case 0:
+			m_state = State::None;
+			break;
+
+		case 1:
+			m_state = State::TouchRotate;
+			m_moveCurr = getMouseOnCircle(event.touches[0].pageX, event.touches[0].pageY));
+			m_movePrev = m_moveCurr);
+			break;
+
+		}
+
+		_m_dispatchEvent(endEvent);
+
+	}
+	*/
 
 namespace ui
 {
@@ -258,6 +604,14 @@ namespace ui
 			viewer.m_controller = make_unique<OrbitController>(viewer, yaw, pitch, distance);
 		viewer.m_controller->process(viewer);
 		return as<OrbitController>(*viewer.m_controller);
+	}
+
+	TrackballController& trackball_controller(Viewer& viewer)
+	{
+		if(!viewer.m_controller)
+			viewer.m_controller = make_unique<TrackballController>(viewer);
+		viewer.m_controller->process(viewer);
+		return as<TrackballController>(*viewer.m_controller);
 	}
 
 	FreeOrbitController& free_orbit_controller(Viewer& viewer)
