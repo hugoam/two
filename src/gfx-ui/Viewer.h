@@ -46,7 +46,7 @@ namespace mud
 		attr_ Scene* m_scene;
 		GfxContext& m_context;
 
-		Camera m_camera;
+		attr_ Camera m_camera;
 		attr_ Viewport m_viewport;
 		attr_ vec2 m_position;
 		attr_ vec2 m_size;
@@ -111,7 +111,7 @@ namespace mud
 
 		float m_rotateSpeed = 1.0f;
 		float m_zoomSpeed = 1.2f;
-		float m_panSpeed = 0.3f;
+		float m_panSpeed = 0.3f; // 0.8f
 
 		bool m_noRotate = false;
 		bool m_noZoom = false;

@@ -49,10 +49,8 @@ namespace mud
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 	constexpr size_t c_max_forward_lights = 8;
-	constexpr size_t c_max_shadows = 4;
 #else
 	constexpr size_t c_max_forward_lights = 64;
-	constexpr size_t c_max_shadows = 32;
 #endif
 
 	struct ZoneLights
@@ -65,7 +63,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockLight : public DrawBlock
 	{
 	public:
-		BlockLight(GfxSystem& gfx_system, BlockShadow& block_shadow);
+		BlockLight(GfxSystem& gfx_system);
 
 		virtual void init_block() override;
 
@@ -79,12 +77,10 @@ namespace mud
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const final;
 
 		void update_zones(span<Zone> zones);
-		void update_lights(Render& render, const mat4& view, span<Light*> lights, span<LightShadow> shadows);
+		void update_lights(Render& render, const mat4& view);
 
 		void upload_zones(Render& render, const Pass& render_pass) const;
 		void upload_lights(Render& render, const Pass& render_pass) const;
-
-		BlockShadow& m_block_shadow;
 
 		uint16_t m_direct_light_index = 0;
 		Light* m_direct_light = nullptr;
@@ -108,9 +104,6 @@ namespace mud
 		ZoneLights m_zones[1];
 
 		vector<GpuLight> m_gpu_lights;
-
-		mat4 m_csm_matrix[4];
-		vec4 m_csm_splits;
 
 		bgfx::TextureHandle m_zones_texture = BGFX_INVALID_HANDLE;
 		bgfx::TextureHandle m_lights_texture = BGFX_INVALID_HANDLE;

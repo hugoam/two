@@ -130,9 +130,10 @@ namespace gfx
 		gi_probe.m_voxels_light_rgba = load_bgfx_texture(gfx_system.allocator(), gfx_system.file_reader(), path.c_str());
 	}
 
-	PassGIBake::PassGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake)
+	PassGIBake::PassGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockShadow& block_shadow, BlockGIBake& block_gi_bake)
 		: DrawPass(gfx_system, "voxelGI", PassType::VoxelGI)
 		, m_block_light(block_light)
+		, m_block_shadow(block_shadow)
 		, m_block_gi_bake(block_gi_bake)
 	{}
 
@@ -148,7 +149,8 @@ namespace gfx
 #ifndef VOXELGI_COMPUTE_LIGHTS
 		GIProbe& gi_probe = *m_block_gi_bake.m_bake_probe; UNUSED(gi_probe);
 		mat4 view = bxidentity();//gi_probe.m_transform * bxscale(1.f / gi_probe.m_extents);
-		m_block_light.update_lights(render, view, render.m_shot->m_lights, m_block_light.m_block_shadow.m_shadows);
+		m_block_light.update_lights(render, view);
+		m_block_shadow.update_shadows(render, view);
 #endif
 	}
 
@@ -210,9 +212,10 @@ namespace gfx
 		}
 	}
 
-	BlockGIBake::BlockGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGITrace& block_trace)
+	BlockGIBake::BlockGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockShadow& block_shadow, BlockGITrace& block_trace)
 		: DrawBlock(gfx_system, type<BlockGIBake>())
 		, m_block_light(block_light)
+		, m_block_shadow(block_shadow)
 		, m_block_trace(block_trace)
 	{}
 
@@ -272,8 +275,9 @@ namespace gfx
 
 		GpuState<GpuVoxelGI>::me.upload(encoder, gi_probe);
 
-		m_block_light.update_lights(render, bxidentity(), render.m_shot->m_lights, m_block_light.m_block_shadow.m_shadows);
+		m_block_light.update_lights(render, bxidentity());
 		m_block_light.upload_lights(render, render_pass);
+		m_block_shadow.update_shadows(render, bxidentity());
 
 		ShaderVersion shader_version = { m_direct_light };
 		if(m_block_light.m_direct_light)

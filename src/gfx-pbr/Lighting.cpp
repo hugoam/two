@@ -37,9 +37,8 @@ namespace mud
 
 	GpuState<GpuLight> GpuState<GpuLight>::me;
 
-	BlockLight::BlockLight(GfxSystem& gfx_system, BlockShadow& block_shadow)
+	BlockLight::BlockLight(GfxSystem& gfx_system)
 		: DrawBlock(gfx_system, type<BlockLight>())
-		, m_block_shadow(block_shadow)
 	{
 		static cstring options[] = { "FOG", "DIRECT_LIGHT" };
 		m_shader_block->m_options = options;
@@ -67,7 +66,9 @@ namespace mud
 		GpuState<GpuLight>::me.init();
 #endif
 
+#if !ZONES_LIGHTS_BUFFER
 		GpuState<ZoneLights>::me.init();
+#endif
 	}
 
 	void BlockLight::begin_render(Render& render)
@@ -82,7 +83,6 @@ namespace mud
 			}
 
 		m_direct_light = m_direct_lights.empty() ? nullptr : m_direct_lights[m_direct_light_index];
-		m_block_shadow.m_direct_light = m_direct_light;
 	}
 
 	void BlockLight::begin_pass(Render& render)
@@ -92,13 +92,12 @@ namespace mud
 
 	void BlockLight::begin_draw_pass(Render& render)
 	{
-		this->update_lights(render, render.m_camera.m_transform, render.m_shot->m_lights, m_block_shadow.m_shadows);
+		this->update_lights(render, render.m_camera.m_transform);
 		this->update_zones({ &render.m_scene.m_env, 1 });
 
 		m_direct_light_index = 0;
 
 		m_direct_light = m_direct_lights.empty() ? nullptr : m_direct_lights[m_direct_light_index];
-		m_block_shadow.m_direct_light = m_direct_light;
 
 #ifdef MULTIPLE_DIRECT_LIGHTS
 		if(!m_direct_lights.empty())
@@ -128,7 +127,9 @@ namespace mud
 	void BlockLight::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render);
+#if !ZONES_LIGHTS_BUFFER
 		GpuState<ZoneLights>::me.upload(render_pass.m_index, m_zones[0]);
+#endif
 
 #if !ZONES_BUFFER
 		GpuState<Zone>::me.upload(render_pass, render.m_scene.m_env);
@@ -158,13 +159,10 @@ namespace mud
 		// set to not render if not first direct pass, depending on cull
 	}
 
-	void BlockLight::update_lights(Render& render, const mat4& view, span<Light*> all_lights, span<LightShadow> shadows)
+	void BlockLight::update_lights(Render& render, const mat4& view)
 	{
-		UNUSED(render);
-		mat4 inverse_view = inverse(view);
-
-		span<Light*> lights = { all_lights.m_pointer, min(all_lights.m_count, size_t(c_max_forward_lights)) };
-		uint16_t light_count = 0;
+		span<Light*> lights = render.m_shot->m_lights;
+		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
 
 		ZoneLights& zone = m_zones[0];
 		zone.m_light_counts = vec4(0.f);
@@ -173,7 +171,7 @@ namespace mud
 
 		for(size_t index = 0; index < lights.size(); ++index)
 		{
-			Light& light = *lights[index];
+			const Light& light = *lights[index];
 
 			vec3 position = mulp(view, light.m_node.position());
 			float range = light.m_range;
@@ -189,34 +187,12 @@ namespace mud
 			m_gpu_lights.push_back({ position, range, energy, specular, direction, attenuation, shadow_enabled, shadow_color, spot_attenuation, spot_cutoff });
 
 			float& light_type_count = zone.m_light_counts[size_t(light.m_type)];
-			zone.m_light_indices[size_t(light_type_count)][size_t(light.m_type)] = light_count;
+			zone.m_light_indices[size_t(light_type_count)][size_t(light.m_type)] = index;
 			light_type_count++;
-
-			if(light.m_shadows) //&& shadows[light_count])
-			{
-				if(light.m_type == LightType::Direct)
-				{
-					for(uint32_t i = 0; i < shadows[light_count].m_frustum_slices.size(); ++i)
-					{
-						m_csm_splits[i] = shadows[light_count].m_frustum_slices[i].m_frustum.m_far;
-						m_csm_matrix[i] = shadows[light_count].m_slices[i].m_shadow_matrix * inverse_view;
-					}
-				}
-				else if(light.m_type == LightType::Point)
-				{
-					//m_shadow_matrix[light_count] = inverse(view * light.m_node.m_transform);
-				}
-				else if(light.m_type == LightType::Spot)
-				{
-					//m_shadow_matrix[light_count] = shadows[light_count].m_slices[0].m_shadow_matrix * inverse_view;
-				}
-			}
-
-			light_count++;
 		}
 
-		m_light_count = light_count;
-		zone.m_light_count = light_count;
+		m_light_count = lights.m_count;
+		zone.m_light_count = lights.m_count;
 
 #if LIGHTS_BUFFER
 		GpuState<GpuLight>::me.pack(m_lights_texture, m_gpu_lights);

@@ -28,12 +28,15 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Shadow.h>
 #include <gfx-pbr/Lighting.h>
+#include <gfx-pbr/Gpu/Light.hpp>
 #endif
 
 //#define DEBUG_CSM
 
 namespace mud
 {
+	GpuState<CSMShadow> GpuState<CSMShadow>::me;
+
 	float snap_step(float value, float step)
 	{
 		return std::floor(value / step + 0.5f) * step;
@@ -321,9 +324,10 @@ namespace mud
 		m_fbo = bgfx::createFrameBuffer(1, &m_depth, true);
 	}
 
-	BlockShadow::BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth)
+	BlockShadow::BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockLight& block_light)
 		: DrawBlock(gfx_system, type<BlockShadow>())
 		, m_block_depth(block_depth)
+		, m_block_light(block_light)
 	{
 		static cstring options[] = { "CSM_SHADOW" };
 		static cstring modes[] = { "CSM_NUM_CASCADES", "CSM_PCF_LEVEL" };
@@ -334,6 +338,8 @@ namespace mud
 	void BlockShadow::init_block()
 	{
 		u_direct_shadow.createUniforms();
+
+		GpuState<CSMShadow>::me.init();
 	}
 
 	void BlockShadow::begin_render(Render& render)
@@ -361,7 +367,7 @@ namespace mud
 #endif
 	}
 
-	void BlockShadow::update_shadows(Render& render)
+	void BlockShadow::update_shadows(Render& render, const mat4& view)
 	{
 		size_t num_direct_shadow = 0;
 		for(Light* light : render.m_shot->m_lights)
@@ -374,22 +380,41 @@ namespace mud
 
 		m_shadows.clear();
 
-		for(Light* light : render.m_shot->m_lights)
+		span<Light*> lights = render.m_shot->m_lights;
+		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
+
+		const mat4 inverse_view = inverse(view);
+
+		for(size_t index = 0; index < lights.size(); ++index)
 		{
-			if(!light->m_shadows)
-				continue;
+			Light& light = *lights[index];
+			if(!light.m_shadows) continue;
 
 			m_shadows.emplace_back();
 
-			if(light->m_type == LightType::Direct)
+			if(light.m_type == LightType::Direct)
 			{
-				this->update_direct(render, *light, num_direct_shadow, direct_shadow_index);
+				this->update_direct(render, light, num_direct_shadow, direct_shadow_index);
 				direct_shadow_index++;
+
+				for(uint32_t i = 0; i < m_shadows[index].m_frustum_slices.size(); ++i)
+				{
+					m_csm_splits[i] = m_shadows[index].m_frustum_slices[i].m_frustum.m_far;
+					m_csm_matrix[i] = m_shadows[index].m_slices[i].m_shadow_matrix * inverse_view;
+				}
+			}
+			else if(light.m_type == LightType::Point)
+			{
+				m_shadow_matrix[index] = inverse(view * light.m_node.m_transform);
+			}
+			else if(light.m_type == LightType::Spot)
+			{
+				m_shadow_matrix[index] = m_shadows[index].m_slices[0].m_shadow_matrix * inverse_view;
 			}
 		}
 	}
 
-	void BlockShadow::render_shadows(Render& render)
+	void BlockShadow::render_shadows(Render& render, const mat4& view)
 	{
 		size_t direct_shadow_index = 0;
 
@@ -440,11 +465,13 @@ namespace mud
 	void BlockShadow::begin_pass(Render& render)
 	{
 		UNUSED(render);
+		m_direct_light = m_block_light.m_direct_light;
 	}
 
 	void BlockShadow::begin_draw_pass(Render& render)
 	{
 		UNUSED(render);
+		m_direct_light = m_block_light.m_direct_light;
 	}
 
 	void BlockShadow::options(Render& render, ShaderVersion& shader_version) const
@@ -466,11 +493,30 @@ namespace mud
 	void BlockShadow::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render);
+
 		uint32_t shadow_csm = uint32_t(TextureSampler::ShadowCSM);
 		bgfx::setViewUniform(render_pass.m_index, u_direct_shadow.s_csm_atlas, &shadow_csm);
 
 		//uint32_t shadow_atlas = uint32_t(TextureSampler::ShadowAtlas);
 		//bgfx::setViewUniform(render_pass.m_index, u_shadow.s_shadow_atlas, &shadow_atlas);
+
+		Light* light = m_direct_light;
+		bool direct = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;
+
+		if(direct && light->m_shadows)
+		{
+			vec2 pcf_offset = { 1.f, 1.f };
+			vec4 csm_params = { vec2(1.f / float(m_csm.m_size)), pcf_offset };
+			bgfx::setViewUniform(render_pass.m_index, u_direct_shadow.u_csm_params, &csm_params);
+
+			GpuState<CSMShadow>::me.upload(render_pass, const_cast<BlockShadow*>(this)->m_csm_matrix, m_csm_splits);
+		}
+
+		if(0)//render.m_shadow_atlas)
+		{
+			vec2 shadow_atlas_pixel_size = vec2(1.f) / float(m_atlas.m_size);
+			bgfx::setViewUniform(render_pass.m_index, u_shadow.u_shadow_pixel_size, &shadow_atlas_pixel_size[0]);
+		}
 	}
 
 	void BlockShadow::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
@@ -484,10 +530,6 @@ namespace mud
 
 		if(direct && light->m_shadows)
 		{
-			vec2 pcf_offset = { 1.f, 1.f };
-			vec4 csm_params = { vec2(1.f / float(m_csm.m_size)), pcf_offset };
-			encoder.setUniform(u_direct_shadow.u_csm_params, &csm_params);
-
 			if(m_pcf_level == CSM_HARD_PCF)
 				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), m_csm.m_depth, GFX_TEXTURE_POINT);
 			else
@@ -510,8 +552,8 @@ namespace mud
 
 	void PassShadowmap::submit_render_pass(Render& render)
 	{
-		m_block_shadow.update_shadows(render);
-		m_block_shadow.render_shadows(render);
+		m_block_shadow.update_shadows(render, render.m_camera.m_transform);
+		m_block_shadow.render_shadows(render, render.m_camera.m_transform);
 	}
 
 	PassShadow::PassShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockShadow& block_shadow)

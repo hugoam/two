@@ -101,11 +101,11 @@ namespace gfx
 		BlockGeometry& geometry = pipeline.add_block<BlockGeometry>(gfx_system);
 		BlockSky& sky = pipeline.add_block<BlockSky>(gfx_system, filter);
 		BlockRadiance& radiance = pipeline.add_block<BlockRadiance>(gfx_system, filter, copy);
-		BlockShadow& shadow = pipeline.add_block<BlockShadow>(gfx_system, depth);
-		BlockLight& light = pipeline.add_block<BlockLight>(gfx_system, shadow);
+		BlockLight& light = pipeline.add_block<BlockLight>(gfx_system);
+		BlockShadow& shadow = pipeline.add_block<BlockShadow>(gfx_system, depth, light);
 		BlockReflection& reflection = pipeline.add_block<BlockReflection>(gfx_system);
 		BlockGITrace& gi_trace = pipeline.add_block<BlockGITrace>(gfx_system);
-		BlockGIBake& gi_bake = pipeline.add_block<BlockGIBake>(gfx_system, light, gi_trace);
+		BlockGIBake& gi_bake = pipeline.add_block<BlockGIBake>(gfx_system, light, shadow, gi_trace);
 		BlockLightmap& lightmap = pipeline.add_block<BlockLightmap>(gfx_system, light, gi_bake);
 		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx_system);
 		UNUSED(geometry);
@@ -257,7 +257,7 @@ namespace gfx
 	{
 		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassGIBake>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
+		this->add_pass<PassGIBake>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockShadow>(), *pipeline.block<BlockGIBake>());
 		this->init();
 	}
 

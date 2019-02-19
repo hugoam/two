@@ -16,6 +16,27 @@
 
 namespace mud
 {
+	template <>
+	struct GpuState<CSMShadow>
+	{
+		void init()
+		{
+			u_csm_matrix = bgfx::createUniform("u_csm_matrix", bgfx::UniformType::Mat4, 4U, bgfx::UniformFreq::View);
+			u_csm_splits = bgfx::createUniform("u_csm_splits", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+		}
+
+		void upload(const Pass& render_pass, span<mat4> matrices, const vec4& splits)
+		{
+			bgfx::setViewUniform(render_pass.m_index, u_csm_matrix, matrices.m_pointer, 4U);
+			bgfx::setViewUniform(render_pass.m_index, u_csm_splits, &splits);
+		}
+
+		bgfx::UniformHandle u_csm_matrix;
+		bgfx::UniformHandle u_csm_splits;
+
+		static GpuState me;
+	};
+
 #if !LIGHTS_BUFFER
 	template <>
 	struct GpuState<GpuLight>
@@ -70,24 +91,6 @@ namespace mud
 		bgfx::UniformHandle u_light_spot_params;
 
 		static GpuState me;
-	};
-
-	template <>
-	struct GpuState<CSMShadow>
-	{
-		void init()
-		{
-			u_csm_matrix = bgfx::createUniform("u_csm_matrix", bgfx::UniformType::Mat4, 4);
-			u_csm_splits = bgfx::createUniform("u_csm_splits", bgfx::UniformType::Vec4);
-		}
-
-		void upload()
-		{
-
-		}
-
-		bgfx::UniformHandle u_csm_matrix;
-		bgfx::UniformHandle u_csm_splits;
 	};
 #else
 	template <>

@@ -98,10 +98,16 @@ namespace mud
 		vector<Slice> m_slices;
 	};
 
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+	constexpr size_t c_max_shadows = 4;
+#else
+	constexpr size_t c_max_shadows = 32;
+#endif
+
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockShadow : public DrawBlock
 	{
 	public:
-		BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth);
+		BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockLight& block_light);
 
 		virtual void init_block() override;
 
@@ -114,13 +120,14 @@ namespace mud
 		virtual void submit(Render& render, const Pass& render_pass) const override;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
 
-		void update_shadows(Render& render);
-		void render_shadows(Render& render);
+		void update_shadows(Render& render, const mat4& view);
+		void render_shadows(Render& render, const mat4& view);
 
 		void update_direct(Render& render, Light& light, size_t num_direct, size_t index);
 		void render_direct(Render& render, Light& light, size_t index);
 
 		BlockDepth& m_block_depth;
+		BlockLight& m_block_light;
 
 		DepthParams m_depth_params;
 
@@ -131,7 +138,7 @@ namespace mud
 			void createUniforms()
 			{
 				s_csm_atlas	 = bgfx::createUniform("s_csm_atlas",  bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
-				u_csm_params = bgfx::createUniform("u_csm_params", bgfx::UniformType::Vec4);
+				u_csm_params = bgfx::createUniform("u_csm_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 			}
 
 			bgfx::UniformHandle s_csm_atlas;
@@ -155,6 +162,11 @@ namespace mud
 		ShadowAtlas m_atlas;
 
 		vector<LightShadow> m_shadows;
+
+		mat4 m_csm_matrix[4];
+		vec4 m_csm_splits;
+
+		mat4 m_shadow_matrix[c_max_shadows];
 
 		CSMShadow m_csm;
 

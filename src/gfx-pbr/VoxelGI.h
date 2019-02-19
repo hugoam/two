@@ -74,9 +74,10 @@ namespace gfx
 	export_ class MUD_GFX_PBR_EXPORT PassGIBake : public DrawPass
 	{
 	public:
-		PassGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake);
+		PassGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockShadow& block_shadow, BlockGIBake& block_gi_bake);
 
 		BlockLight& m_block_light;
+		BlockShadow& m_block_shadow;
 		BlockGIBake& m_block_gi_bake;
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
@@ -136,9 +137,10 @@ namespace gfx
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGIBake : public DrawBlock
 	{
 	public:
-		BlockGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGITrace& block_trace);
+		BlockGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockShadow& block_shadow, BlockGITrace& block_trace);
 
 		BlockLight& m_block_light;
+		BlockShadow& m_block_shadow;
 		BlockGITrace& m_block_trace;
 
 		virtual void init_block() override;

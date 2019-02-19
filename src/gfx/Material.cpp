@@ -100,7 +100,7 @@ namespace mud
 
 		void prepare(const Pass& render_pass) const
 		{
-			uint8_t color = int8_t(TextureSampler::Color);
+			uint32_t color = uint32_t(TextureSampler::Color);
 			bgfx::setViewUniform(render_pass.m_index, s_color, &color);
 		}
 
