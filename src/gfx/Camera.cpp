@@ -17,8 +17,6 @@ module mud.gfx;
 namespace mud
 {
 	Camera::Camera()
-		: m_eye(Z3)
-		, m_target(vec3(0.f))
 	{
 		m_eye = vec3(10.f);
 		m_far = 300.f;
@@ -77,7 +75,7 @@ namespace mud
 
 	void Camera::update()
 	{
-		m_transform = bxlookat(m_eye, m_target);
+		m_transform = bxlookat(m_eye, m_target, m_up);
 
 		if(!m_orthographic)
 			m_projection = bxproj(m_fov, m_aspect, m_near, m_far, bgfx::getCaps()->homogeneousDepth);

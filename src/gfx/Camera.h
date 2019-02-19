@@ -32,8 +32,9 @@ namespace mud
 		Camera(mat4 transform, vec2 rect, float near, float far);
 		~Camera();
 
-		attr_ vec3 m_eye;
-		attr_ vec3 m_target;
+		attr_ vec3 m_eye = Z3;
+		attr_ vec3 m_target = vec3(0.f);
+		attr_ vec3 m_up = Y3;
 
 		attr_ mat4 m_transform;
 		attr_ mat4 m_projection;
