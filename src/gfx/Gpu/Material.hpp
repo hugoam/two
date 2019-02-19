@@ -15,7 +15,7 @@ module mud.gfx;
 
 #include <cstring>
 
-#define MATERIALS_BUFFER 0
+#define MATERIALS_BUFFER 1
 
 namespace mud
 {

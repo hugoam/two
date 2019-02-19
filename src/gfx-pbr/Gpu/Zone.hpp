@@ -71,17 +71,17 @@ namespace mud
 	{
 		void init()
 		{
-			u_radiance_color_energy = bgfx::createUniform("u_radiance_color_energy", bgfx::UniformType::Vec4);
-			u_ambient_params = bgfx::createUniform("u_ambient_params", bgfx::UniformType::Vec4);
+			u_radiance_color_energy = bgfx::createUniform("u_radiance_color_energy", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_ambient_params = bgfx::createUniform("u_ambient_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
 
-		void upload(bgfx::Encoder& encoder, const Radiance& radiance) const
+		void upload(const Pass& render_pass, const Radiance& radiance) const
 		{
 			vec4 radiance_color_energy = { to_vec3(radiance.m_colour), radiance.m_energy };
 			vec4 ambient_params = { radiance.m_ambient, 0.f, 0.f, 0.f };
 
-			encoder.setUniform(u_radiance_color_energy, &radiance_color_energy);
-			encoder.setUniform(u_ambient_params, &ambient_params);
+			bgfx::setViewUniform(render_pass.m_index, u_radiance_color_energy, &radiance_color_energy);
+			bgfx::setViewUniform(render_pass.m_index, u_ambient_params, &ambient_params);
 		}
 
 		bgfx::UniformHandle u_radiance_color_energy = BGFX_INVALID_HANDLE;
@@ -95,23 +95,23 @@ namespace mud
 	{
 		void init()
 		{
-			u_fog_params_0 = bgfx::createUniform("u_fog_params_0", bgfx::UniformType::Vec4);
-			u_fog_params_1 = bgfx::createUniform("u_fog_params_1", bgfx::UniformType::Vec4);
-			u_fog_params_2 = bgfx::createUniform("u_fog_params_2", bgfx::UniformType::Vec4);
-			u_fog_params_3 = bgfx::createUniform("u_fog_params_3", bgfx::UniformType::Vec4);
+			u_fog_params_0 = bgfx::createUniform("u_fog_params_0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_fog_params_1 = bgfx::createUniform("u_fog_params_1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_fog_params_2 = bgfx::createUniform("u_fog_params_2", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_fog_params_3 = bgfx::createUniform("u_fog_params_3", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
 
-		void upload(bgfx::Encoder& encoder, const Fog& fog) const
+		void upload(const Pass& render_pass, const Fog& fog) const
 		{
 			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
 			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_curve, 0.f };
 			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
 			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, 0.f, 0.f };
 
-			encoder.setUniform(u_fog_params_0, &params_0);
-			encoder.setUniform(u_fog_params_1, &params_1);
-			encoder.setUniform(u_fog_params_2, &params_2);
-			encoder.setUniform(u_fog_params_3, &params_3);
+			bgfx::setViewUniform(render_pass.m_index, u_fog_params_0, &params_0);
+			bgfx::setViewUniform(render_pass.m_index, u_fog_params_1, &params_1);
+			bgfx::setViewUniform(render_pass.m_index, u_fog_params_2, &params_2);
+			bgfx::setViewUniform(render_pass.m_index, u_fog_params_3, &params_3);
 		}
 
 		bgfx::UniformHandle u_fog_params_0 = BGFX_INVALID_HANDLE;
@@ -125,11 +125,11 @@ namespace mud
 	template <>
 	struct GpuState<Zone>
 	{
-		void upload(bgfx::Encoder& encoder, const Zone& zone) const
+		void upload(const Pass& render_pass, const Zone& zone) const
 		{
-			GpuState<Radiance>::me.upload(encoder, zone.m_radiance);
+			GpuState<Radiance>::me.upload(render_pass, zone.m_radiance);
 			if(zone.m_fog.m_enabled)
-				GpuState<Fog>::me.upload(encoder, zone.m_fog);
+				GpuState<Fog>::me.upload(render_pass, zone.m_fog);
 		}
 
 		static GpuState me;

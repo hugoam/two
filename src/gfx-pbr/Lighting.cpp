@@ -126,6 +126,10 @@ namespace mud
 		UNUSED(render);
 		GpuState<ZoneLights>::me.upload(render_pass.m_index, m_zones[0]);
 
+#if !ZONES_BUFFER
+		GpuState<Zone>::me.upload(render_pass, render.m_scene.m_env);
+#endif
+
 		uint32_t lights = uint32_t(TextureSampler::Lights);
 		uint32_t zones = uint32_t(TextureSampler::Zones);
 		bgfx::setViewUniform(render_pass.m_index, u_shot.s_lights, &lights);
@@ -229,8 +233,6 @@ namespace mud
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 #if ZONES_BUFFER
 		encoder.setTexture(uint8_t(TextureSampler::Zones), m_zones_texture);
-#else
-		GpuState<Zone>::me.upload(encoder, render.m_scene.m_env);
 #endif
 		//GpuState<ZoneLights>::me.upload(encoder, m_zones[0]);
 	}
