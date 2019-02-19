@@ -16,9 +16,6 @@ module mud.gfx.pbr;
 
 #include <cstring>
 
-#define ZONES_LIGHTS_BUFFER 0
-#define ZONES_BUFFER 0
-
 namespace mud
 {
 #if !ZONES_LIGHTS_BUFFER

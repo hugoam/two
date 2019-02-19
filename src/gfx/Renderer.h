@@ -17,6 +17,12 @@
 
 #include <bgfx/bgfx.h>
 
+#define ZONES_BUFFER 0
+#define MATERIALS_BUFFER 1
+#define LIGHTS_BUFFER 1
+
+#define ZONES_LIGHTS_BUFFER 0
+
 namespace mud
 {
 #define GFX_TEXTURE_CLAMP BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP

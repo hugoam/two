@@ -16,6 +16,62 @@
 
 namespace mud
 {
+#if !LIGHTS_BUFFER
+	template <>
+	struct GpuState<GpuLight>
+	{
+		void init()
+		{
+			u_light_position_range			= bgfx::createUniform("u_light_position_range",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_energy_specular			= bgfx::createUniform("u_light_energy_specular",		bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_direction_attenuation	= bgfx::createUniform("u_light_direction_attenuation",	bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_shadow					= bgfx::createUniform("u_light_shadow",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_spot_params				= bgfx::createUniform("u_light_spot_params",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_shadow_matrix			= bgfx::createUniform("u_light_shadow_matrix",			bgfx::UniformType::Mat4, c_max_forward_lights, bgfx::UniformFreq::View);
+			//u_csm_matrix					= bgfx::createUniform("u_csm_matrix",					bgfx::UniformType::Mat4, max_direct * 4);
+			//u_csm_splits					= bgfx::createUniform("u_csm_splits",					bgfx::UniformType::Vec4, max_direct);
+		}
+
+		void upload(const Pass& render_pass, span<GpuLight> lights) const
+		{
+			vec4 position_range[c_max_forward_lights];
+			vec4 energy_specular[c_max_forward_lights];
+			vec4 direction_attenuation[c_max_forward_lights];
+			vec4 shadow_color_enabled[c_max_forward_lights];
+			vec4 spot_params[c_max_forward_lights];
+			//mat4 shadow_matrix[c_max_forward_lights];
+
+			for(size_t i = 0; i < lights.size(); ++i)
+			{
+				GpuLight& l = lights[i];
+				position_range[i] = { l.position, l.range };
+				energy_specular[i] = { l.energy, l.specular };
+				direction_attenuation[i] = { l.direction, l.attenuation };
+				shadow_color_enabled[i] = { l.shadow_color, l.shadow_enabled };
+				spot_params[i] = { l.spot_attenuation, l.spot_cutoff, 0.f, 0.f };
+			}
+
+			bgfx::setViewUniform(render_pass.m_index, u_light_position_range,			&position_range,		uint16_t(lights.size()));
+			bgfx::setViewUniform(render_pass.m_index, u_light_energy_specular,			&energy_specular,		uint16_t(lights.size()));
+			bgfx::setViewUniform(render_pass.m_index, u_light_direction_attenuation,	&direction_attenuation,	uint16_t(lights.size()));
+			bgfx::setViewUniform(render_pass.m_index, u_light_shadow,					&shadow_color_enabled,	uint16_t(lights.size()));
+			bgfx::setViewUniform(render_pass.m_index, u_light_spot_params,				&spot_params,			uint16_t(lights.size()));
+			//bgfx::setViewUniform(render_pass.m_index, u_light_shadow_matrix,			&shadow_matrix,			uint16_t(lights.size()));
+
+			//encoder.setUniform(u_csm_matrix, &data.csm_matrix[0], direct_light_count * 4);
+			//encoder.setUniform(u_csm_splits, &data.csm_splits,	direct_light_count);
+		}
+
+		bgfx::UniformHandle u_light_position_range;
+		bgfx::UniformHandle u_light_energy_specular;
+		bgfx::UniformHandle u_light_direction_attenuation;
+		bgfx::UniformHandle u_light_shadow;
+		bgfx::UniformHandle u_light_shadow_matrix;
+		bgfx::UniformHandle u_light_spot_params;
+
+		static GpuState me;
+	};
+
 	template <>
 	struct GpuState<CSMShadow>
 	{
@@ -32,9 +88,8 @@ namespace mud
 
 		bgfx::UniformHandle u_csm_matrix;
 		bgfx::UniformHandle u_csm_splits;
-
 	};
-
+#else
 	template <>
 	struct GpuState<GpuLight>
 	{
@@ -83,5 +138,5 @@ namespace mud
 
 		static GpuState me;
 	};
-
+#endif
 }

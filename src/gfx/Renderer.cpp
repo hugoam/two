@@ -263,6 +263,10 @@ namespace mud
 		element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
 		element.m_shader_version.set_option(0, QNORMALS, element.m_model->m_mesh->m_qnormals);
 
+		element.m_shader_version.set_option(0, BUFFER_ZONES, ZONES_BUFFER);
+		element.m_shader_version.set_option(0, BUFFER_LIGHTS, LIGHTS_BUFFER);
+		element.m_shader_version.set_option(0, BUFFER_MATERIALS, MATERIALS_BUFFER);
+
 		element.m_bgfx_program = const_cast<Program*>(element.m_program)->version(element.m_shader_version);
 
 		m_impl->m_draw_elements.add_element() = element;

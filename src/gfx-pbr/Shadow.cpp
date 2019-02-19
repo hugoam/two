@@ -325,10 +325,10 @@ namespace mud
 		: DrawBlock(gfx_system, type<BlockShadow>())
 		, m_block_depth(block_depth)
 	{
-		static cstring options[1] = { "CSM_SHADOW" };
-		static cstring modes[2] = { "CSM_NUM_CASCADES", "CSM_PCF_LEVEL" };
-		m_shader_block->m_options = { options, 1 };
-		m_shader_block->m_modes = { modes, 2 };
+		static cstring options[] = { "CSM_SHADOW" };
+		static cstring modes[] = { "CSM_NUM_CASCADES", "CSM_PCF_LEVEL" };
+		m_shader_block->m_options = options;
+		m_shader_block->m_modes = modes;
 	}
 
 	void BlockShadow::init_block()

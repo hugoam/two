@@ -30,8 +30,8 @@ namespace mud
 		, m_copy(copy)
 		, m_prefilter_program(gfx_system.programs().create("filter/prefilter_envmap"))
 	{
-		static cstring options[2] = { "RADIANCE_ENVMAP", "RADIANCE_ARRAY" };
-		m_shader_block->m_options = { options, 2 };
+		static cstring options[] = { "RADIANCE_ENVMAP", "RADIANCE_ARRAY" };
+		m_shader_block->m_options = options;
 	}
 
 	void BlockRadiance::init_block()

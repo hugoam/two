@@ -31,16 +31,10 @@ namespace mud
 		, m_copy(copy)
 		, m_program(gfx_system.programs().create("filter/tonemap"))
 	{
-		static cstring options[2] = {
-			"ADJUST_BCS",
-			"COLOR_CORRECTION",
-		};
-		static cstring modes[2] = {
-			"TONEMAP_MODE",
-		};
-
-		m_shader_block->m_options = { options, 1 };
-		m_shader_block->m_modes = { modes, 1 };
+		static cstring options[] = { "ADJUST_BCS", "COLOR_CORRECTION" };
+		static cstring modes[] = { "TONEMAP_MODE" };
+		m_shader_block->m_options = options;
+		m_shader_block->m_modes = modes;
 
 		m_program.register_block(*this);
 	}

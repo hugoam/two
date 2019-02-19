@@ -18,7 +18,10 @@ namespace mud
 		QNORMALS,
 		MRT,
 		DEFERRED,
-		CLUSTERED
+		CLUSTERED,
+		BUFFER_ZONES,
+		BUFFER_LIGHTS,
+		BUFFER_MATERIALS,
 	};
 
 	export_ struct MUD_GFX_EXPORT ShaderVersion

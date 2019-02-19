@@ -249,9 +249,10 @@ namespace mud
 	{
 		m_impl->m_name = name;
 		GfxBlock& pbr = pbr_block(*ms_gfx_system);
-
-		static cstring options[7] = { "SKELETON", "INSTANCING", "BILLBOARD", "QNORMALS", "MRT", "DEFERRED", "CLUSTERED" };
-		this->register_options(0, { options, 7 });
+		
+		static cstring options[] = { "SKELETON", "INSTANCING", "BILLBOARD", "QNORMALS", "MRT", "DEFERRED", "CLUSTERED",
+									 "ZONES_BUFFER", "LIGHTS_BUFFER", "MATERIALS_BUFFER" };
+		this->register_options(0, options);
 		this->register_options(pbr.m_index, pbr.m_shader_block->m_options);
 	}
 

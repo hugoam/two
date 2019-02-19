@@ -25,8 +25,8 @@ namespace mud
 		, m_filter(filter)
 		, m_program(gfx_system.programs().create("filter/gaussian_blur"))
 	{
-		static cstring options[2] = { "GAUSSIAN_HORIZONTAL", "GAUSSIAN_VERTICAL" };
-		m_shader_block->m_options = { options, 2 };
+		static cstring options[] = { "GAUSSIAN_HORIZONTAL", "GAUSSIAN_VERTICAL" };
+		m_shader_block->m_options = options;
 		m_program.register_block(*this);
 	}
 

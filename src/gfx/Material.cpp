@@ -244,7 +244,7 @@ namespace mud
 	PbrBlock::PbrBlock(GfxSystem& gfx_system)
 		: GfxBlock(gfx_system, *this)
 	{
-		static cstring options[7] = {
+		static cstring options[] = {
 			"NORMAL_MAP",
 			"EMISSIVE",
 			"ANISOTROPY",
@@ -253,7 +253,7 @@ namespace mud
 			"DEEP_PARALLAX",
 			"LIGHTMAP"
 		};
-		m_shader_block->m_options = { options, 7 };
+		m_shader_block->m_options = options;
 	}
 
 	template <> Type& type<mud::PbrBlock>() { static Type ty("PbrBlock"); return ty; }

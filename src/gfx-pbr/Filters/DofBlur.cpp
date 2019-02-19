@@ -29,8 +29,8 @@ namespace mud
 		, m_filter(filter)
 		, m_program(gfx_system.programs().create("filter/dof_blur"))
 	{
-		static cstring options[1] = { "DOF_FIRST_PASS" };
-		m_shader_block->m_options = { options, 1 };
+		static cstring options[] = { "DOF_FIRST_PASS" };
+		m_shader_block->m_options = options;
 		m_program.register_block(*this);
 	}
 

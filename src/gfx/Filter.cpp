@@ -27,14 +27,14 @@ namespace mud
 		: GfxBlock(gfx_system, *this)
 		, m_quad_program(gfx_system.programs().create("filter/quad"))
 	{
-		static cstring options[5] = {
+		static cstring options[] = {
 			"UNPACK_DEPTH",
 			"SOURCE_DEPTH",
 			"SOURCE_0_CUBE",
 			"SOURCE_0_ARRAY",
 			"FILTER_DEBUG_UV"
 		};
-		m_shader_block->m_options = { options, 5 };
+		m_shader_block->m_options = options;
 	}
 
 	void BlockFilter::init_block()

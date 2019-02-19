@@ -38,8 +38,8 @@ namespace mud
 		, m_bleed_program(gfx_system.programs().create("filter/glow_bleed"))
 		, m_merge_program(gfx_system.programs().create("filter/glow"))
 	{
-		static cstring options[1] = { "GLOW_FILTER_BICUBIC" };
-		m_shader_block->m_options = { options, 1 };
+		static cstring options[] = { "GLOW_FILTER_BICUBIC" };
+		m_shader_block->m_options = options;
 
 		m_blur.m_program.register_block(*this);
 		m_merge_program.register_block(*this);

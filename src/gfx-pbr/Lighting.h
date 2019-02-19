@@ -107,6 +107,8 @@ namespace mud
 
 		ZoneLights m_zones[1];
 
+		vector<GpuLight> m_gpu_lights;
+
 		mat4 m_csm_matrix[4];
 		vec4 m_csm_splits;
 

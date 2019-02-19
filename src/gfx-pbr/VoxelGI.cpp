@@ -368,8 +368,8 @@ namespace gfx
 	BlockGITrace::BlockGITrace(GfxSystem& gfx_system)
 		: DrawBlock(gfx_system, type<BlockGITrace>())
 	{
-		static cstring options[1] = { "GI_CONETRACE" };
-		m_shader_block->m_options = { options, 1 };
+		static cstring options[] = { "GI_CONETRACE" };
+		m_shader_block->m_options = options;
 	}
 
 	void BlockGITrace::init_block()

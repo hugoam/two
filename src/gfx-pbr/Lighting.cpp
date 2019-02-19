@@ -41,28 +41,32 @@ namespace mud
 		: DrawBlock(gfx_system, type<BlockLight>())
 		, m_block_shadow(block_shadow)
 	{
-		static cstring options[2] = { "FOG", "DIRECT_LIGHT" };
-		m_shader_block->m_options = { options, 2 };
+		static cstring options[] = { "FOG", "DIRECT_LIGHT" };
+		m_shader_block->m_options = options;
 
 		static string max_lights = to_string(c_max_forward_lights);
 		static string max_shadows = to_string(c_max_shadows);
 
-		static ShaderDefine defines[2] = {
+		static ShaderDefine defines[] = {
 			{ "MAX_LIGHTS", max_lights.c_str()  },
 			{ "MAX_SHADOWS", max_shadows.c_str() },
 		};
-		m_shader_block->m_defines = { defines, 2 };
+		m_shader_block->m_defines = defines;
 	}
 
 	void BlockLight::init_block()
 	{
 		u_shot.createUniforms();
 
-#if ZONES_BUFFER
-#else
+#if !ZONES_BUFFER
 		GpuState<Radiance>::me.init();
 		GpuState<Fog>::me.init();
 #endif
+
+#if !LIGHTS_BUFFER
+		GpuState<GpuLight>::me.init();
+#endif
+
 		GpuState<ZoneLights>::me.init();
 	}
 
@@ -130,6 +134,10 @@ namespace mud
 		GpuState<Zone>::me.upload(render_pass, render.m_scene.m_env);
 #endif
 
+#if !LIGHTS_BUFFER
+		GpuState<GpuLight>::me.upload(render_pass, const_cast<vector<GpuLight>&>(m_gpu_lights));
+#endif
+
 		uint32_t lights = uint32_t(TextureSampler::Lights);
 		uint32_t zones = uint32_t(TextureSampler::Zones);
 		bgfx::setViewUniform(render_pass.m_index, u_shot.s_lights, &lights);
@@ -138,6 +146,7 @@ namespace mud
 
 	void BlockLight::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
 	{
+		UNUSED(element);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		if(render.m_camera.m_clustered)
@@ -157,10 +166,10 @@ namespace mud
 		span<Light*> lights = { all_lights.m_pointer, min(all_lights.m_count, size_t(c_max_forward_lights)) };
 		uint16_t light_count = 0;
 
-		vector<GpuLight> gpu_lights;
-
 		ZoneLights& zone = m_zones[0];
 		zone.m_light_counts = vec4(0.f);
+
+		m_gpu_lights.clear();
 
 		for(size_t index = 0; index < lights.size(); ++index)
 		{
@@ -177,7 +186,7 @@ namespace mud
 			float spot_attenuation = light.m_spot_attenuation;
 			float spot_cutoff = cos(to_radians(light.m_spot_angle));
 
-			gpu_lights.push_back({ position, range, energy, specular, direction, attenuation, shadow_enabled, shadow_color, spot_attenuation, spot_cutoff });
+			m_gpu_lights.push_back({ position, range, energy, specular, direction, attenuation, shadow_enabled, shadow_color, spot_attenuation, spot_cutoff });
 
 			float& light_type_count = zone.m_light_counts[size_t(light.m_type)];
 			zone.m_light_indices[size_t(light_type_count)][size_t(light.m_type)] = light_count;
@@ -209,7 +218,9 @@ namespace mud
 		m_light_count = light_count;
 		zone.m_light_count = light_count;
 
-		GpuState<GpuLight>::me.pack(m_lights_texture, gpu_lights);
+#if LIGHTS_BUFFER
+		GpuState<GpuLight>::me.pack(m_lights_texture, m_gpu_lights);
+#endif
 	}
 
 	void BlockLight::update_zones(span<Zone> zones)
@@ -222,16 +233,18 @@ namespace mud
 
 	void BlockLight::upload_lights(Render& render, const Pass& render_pass) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(render_pass);
+#if LIGHTS_BUFFER
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		encoder.setTexture(uint8_t(TextureSampler::Lights), m_lights_texture);
+#endif
 	}
 
 	void BlockLight::upload_zones(Render& render, const Pass& render_pass) const
 	{
-		UNUSED(render);
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		UNUSED(render); UNUSED(render_pass);
 #if ZONES_BUFFER
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		encoder.setTexture(uint8_t(TextureSampler::Zones), m_zones_texture);
 #endif
 		//GpuState<ZoneLights>::me.upload(encoder, m_zones[0]);
