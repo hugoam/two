@@ -111,6 +111,13 @@ extern "C" {
 	void DECL mud_SceneViewer__destroy(mud::SceneViewer* self) {
 		delete self;
 	}
+	// TrackballController
+	mud::Type* DECL mud_TrackballController__type() {
+		return &mud::type<mud::TrackballController>();
+	}
+	void DECL mud_TrackballController__destroy(mud::TrackballController* self) {
+		delete self;
+	}
 	mud::Viewer* DECL mud_ui_viewer_2(mud::Widget* parent, mud::Scene* scene) {
 		return &mud::ui::viewer(*parent, *scene);
 	}
@@ -119,6 +126,9 @@ extern "C" {
 	}
 	mud::SceneViewer* DECL mud_ui_scene_viewer_2(mud::Widget* parent, const mud::vec2* size) {
 		return &mud::ui::scene_viewer(*parent, *size);
+	}
+	mud::TrackballController* DECL mud_ui_trackball_controller_1(mud::Viewer* viewer) {
+		return &mud::ui::trackball_controller(*viewer);
 	}
 	mud::OrbitController* DECL mud_ui_orbit_controller_1(mud::Viewer* viewer) {
 		return &mud::ui::orbit_controller(*viewer);

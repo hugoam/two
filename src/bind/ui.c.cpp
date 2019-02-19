@@ -1055,20 +1055,6 @@ extern "C" {
 	void DECL mud_FrameSolver__destroy(mud::FrameSolver* self) {
 		delete self;
 	}
-	// RowSolver
-	mud::Type* DECL mud_RowSolver__type() {
-		return &mud::type<mud::RowSolver>();
-	}
-	void DECL mud_RowSolver__destroy(mud::RowSolver* self) {
-		delete self;
-	}
-	// LineSolver
-	mud::Type* DECL mud_LineSolver__type() {
-		return &mud::type<mud::LineSolver>();
-	}
-	void DECL mud_LineSolver__destroy(mud::LineSolver* self) {
-		delete self;
-	}
 	// Node
 	mud::Type* DECL mud_Node__type() {
 		return &mud::type<mud::Node>();
@@ -1081,6 +1067,20 @@ extern "C" {
 		return &mud::type<mud::NodePlug>();
 	}
 	void DECL mud_NodePlug__destroy(mud::NodePlug* self) {
+		delete self;
+	}
+	// RowSolver
+	mud::Type* DECL mud_RowSolver__type() {
+		return &mud::type<mud::RowSolver>();
+	}
+	void DECL mud_RowSolver__destroy(mud::RowSolver* self) {
+		delete self;
+	}
+	// LineSolver
+	mud::Type* DECL mud_LineSolver__type() {
+		return &mud::type<mud::LineSolver>();
+	}
+	void DECL mud_LineSolver__destroy(mud::LineSolver* self) {
 		delete self;
 	}
 	// ScrollSheet

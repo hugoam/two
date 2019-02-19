@@ -887,6 +887,8 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Camera", sizeof(mud::Camera), TypeClass::Object };
 		// bases
 		// defaults
+		static mud::vec3 eye_default = Z3;
+		static mud::vec3 up_default = Y3;
 		static float fov_default = 60.f;
 		static float aspect_default = 1.f;
 		static float near_default = 0.1f;
@@ -900,8 +902,9 @@ namespace mud
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Camera, m_eye), type<mud::vec3>(), "eye", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Camera, m_eye), type<mud::vec3>(), "eye", &eye_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Camera, m_target), type<mud::vec3>(), "target", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Camera, m_up), type<mud::vec3>(), "up", &up_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Camera, m_transform), type<mud::mat4>(), "transform", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Camera, m_projection), type<mud::mat4>(), "projection", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Camera, m_fov), type<float>(), "fov", &fov_default, Member::Value, nullptr },
@@ -2178,27 +2181,6 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::ClusteredFrustum
-	{
-		Type& t = type<mud::ClusteredFrustum>();
-		static Meta meta = { t, &namspc({ "mud" }), "ClusteredFrustum", sizeof(mud::ClusteredFrustum), TypeClass::Struct };
-		// bases
-		static Type* bases[] = { &type<mud::Frustum>() };
-		static size_t bases_offsets[] = { base_offset<mud::ClusteredFrustum, mud::Frustum>() };
-		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_ClusteredFrustum__construct_0, {} }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, mud_ClusteredFrustum__copy_construct }
-		};
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, {}, {}, {}, };
-	}
 	// mud::DrawBlock
 	{
 		Type& t = type<mud::DrawBlock>();
@@ -2288,6 +2270,27 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::ClusteredFrustum
+	{
+		Type& t = type<mud::ClusteredFrustum>();
+		static Meta meta = { t, &namspc({ "mud" }), "ClusteredFrustum", sizeof(mud::ClusteredFrustum), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Frustum>() };
+		static size_t bases_offsets[] = { base_offset<mud::ClusteredFrustum, mud::Frustum>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_ClusteredFrustum__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_ClusteredFrustum__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, {}, {}, {}, };
 	}
 	// mud::Flare
 	{
@@ -2436,13 +2439,13 @@ namespace mud
 		m.m_types.push_back(&type<stl::vector<mud::Animation*>>());
 		m.m_types.push_back(&type<stl::vector<mud::AnimationPlay>>());
 		m.m_types.push_back(&type<mud::BlockCopy>());
-		m.m_types.push_back(&type<mud::DrawBlock>());
 		m.m_types.push_back(&type<mud::BlockDepth>());
 		m.m_types.push_back(&type<mud::BlockFilter>());
 		m.m_types.push_back(&type<mud::BlockParticles>());
 		m.m_types.push_back(&type<mud::BlockResolve>());
 		m.m_types.push_back(&type<mud::BlockSky>());
 		m.m_types.push_back(&type<mud::ClusteredFrustum>());
+		m.m_types.push_back(&type<mud::DrawBlock>());
 		m.m_types.push_back(&type<mud::Flare>());
 		m.m_types.push_back(&type<mud::MaterialBlock>());
 		m.m_types.push_back(&type<mud::RenderTarget>());

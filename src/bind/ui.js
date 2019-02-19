@@ -1526,28 +1526,6 @@ FrameSolver.prototype["__destroy__"] = FrameSolver.prototype.__destroy__ = funct
     var self = this.ptr;
     _mud_FrameSolver__destroy(self);
 };
-// RowSolver
-function RowSolver() { throw "cannot construct a RowSolver, no constructor in IDL" }
-RowSolver.prototype = Object.create(FrameSolver.prototype);
-RowSolver.prototype.constructor = RowSolver;
-RowSolver.prototype.__class__ = RowSolver;
-RowSolver.__cache__ = {};
-Module['RowSolver'] = RowSolver;
-RowSolver.prototype["__destroy__"] = RowSolver.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_RowSolver__destroy(self);
-};
-// LineSolver
-function LineSolver() { throw "cannot construct a LineSolver, no constructor in IDL" }
-LineSolver.prototype = Object.create(RowSolver.prototype);
-LineSolver.prototype.constructor = LineSolver;
-LineSolver.prototype.__class__ = LineSolver;
-LineSolver.__cache__ = {};
-Module['LineSolver'] = LineSolver;
-LineSolver.prototype["__destroy__"] = LineSolver.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_LineSolver__destroy(self);
-};
 // Node
 function Node() { throw "cannot construct a Node, no constructor in IDL" }
 Node.prototype = Object.create(Widget.prototype);
@@ -1569,6 +1547,28 @@ Module['NodePlug'] = NodePlug;
 NodePlug.prototype["__destroy__"] = NodePlug.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_NodePlug__destroy(self);
+};
+// RowSolver
+function RowSolver() { throw "cannot construct a RowSolver, no constructor in IDL" }
+RowSolver.prototype = Object.create(FrameSolver.prototype);
+RowSolver.prototype.constructor = RowSolver;
+RowSolver.prototype.__class__ = RowSolver;
+RowSolver.__cache__ = {};
+Module['RowSolver'] = RowSolver;
+RowSolver.prototype["__destroy__"] = RowSolver.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_RowSolver__destroy(self);
+};
+// LineSolver
+function LineSolver() { throw "cannot construct a LineSolver, no constructor in IDL" }
+LineSolver.prototype = Object.create(RowSolver.prototype);
+LineSolver.prototype.constructor = LineSolver;
+LineSolver.prototype.__class__ = LineSolver;
+LineSolver.__cache__ = {};
+Module['LineSolver'] = LineSolver;
+LineSolver.prototype["__destroy__"] = LineSolver.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_LineSolver__destroy(self);
 };
 // ScrollSheet
 function ScrollSheet() { throw "cannot construct a ScrollSheet, no constructor in IDL" }
@@ -2019,10 +2019,10 @@ Module['ui']['file_tree'] = function(a0, a1) {
         Expandbox.__type__ = _mud_Expandbox__type();
         Frame.__type__ = _mud_Frame__type();
         FrameSolver.__type__ = _mud_FrameSolver__type();
-        RowSolver.__type__ = _mud_RowSolver__type();
-        LineSolver.__type__ = _mud_LineSolver__type();
         Node.__type__ = _mud_Node__type();
         NodePlug.__type__ = _mud_NodePlug__type();
+        RowSolver.__type__ = _mud_RowSolver__type();
+        LineSolver.__type__ = _mud_LineSolver__type();
         ScrollSheet.__type__ = _mud_ScrollSheet__type();
         Sequence.__type__ = _mud_ui_Sequence__type();
         Tabber.__type__ = _mud_Tabber__type();

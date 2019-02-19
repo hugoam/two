@@ -148,12 +148,26 @@ SceneViewer.prototype["__destroy__"] = SceneViewer.prototype.__destroy__ = funct
     var self = this.ptr;
     _mud_SceneViewer__destroy(self);
 };
+// TrackballController
+function TrackballController() { throw "cannot construct a TrackballController, no constructor in IDL" }
+TrackballController.prototype = Object.create(ViewerController.prototype);
+TrackballController.prototype.constructor = TrackballController;
+TrackballController.prototype.__class__ = TrackballController;
+TrackballController.__cache__ = {};
+Module['TrackballController'] = TrackballController;
+TrackballController.prototype["__destroy__"] = TrackballController.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TrackballController__destroy(self);
+};
 Module['ui']['viewer'] = function(a0, a1) {
     return wrapPointer(_mud_ui_viewer_2(/*parent*/a0.ptr, /*scene*/a1.ptr), Viewer);
 };
 Module['ui']['scene_viewer'] = function(a0, a1) {
     if (a1 === undefined) { return wrapPointer(_mud_ui_scene_viewer_1(/*parent*/a0.ptr), SceneViewer); }
     return wrapPointer(_mud_ui_scene_viewer_2(/*parent*/a0.ptr, /*size*/a1.ptr), SceneViewer);
+};
+Module['ui']['trackball_controller'] = function(a0) {
+    return wrapPointer(_mud_ui_trackball_controller_1(/*viewer*/a0.ptr), TrackballController);
 };
 Module['ui']['orbit_controller'] = function(a0, a1, a2, a3) {
     if (a1 === undefined) { return wrapPointer(_mud_ui_orbit_controller_1(/*viewer*/a0.ptr), OrbitController); }
@@ -185,6 +199,7 @@ Module['ui']['velocity_controller'] = function(a0, a1, a2, a3) {
         OrbitController.__type__ = _mud_OrbitController__type();
         FreeOrbitController.__type__ = _mud_FreeOrbitController__type();
         SceneViewer.__type__ = _mud_SceneViewer__type();
+        TrackballController.__type__ = _mud_TrackballController__type();
         // OrbitMode
         Module['ui']['OrbitMode'] = Module['ui']['OrbitMode'] || {};
         Module['ui']['OrbitMode']['ThirdPerson'] = _mud_ui_OrbitMode_ThirdPerson();

@@ -213,53 +213,11 @@ extern "C" {
 	void DECL mud_RedoTool__destroy(mud::RedoTool* self) {
 		delete self;
 	}
-	// TransformAction
-	mud::Type* DECL mud_TransformAction__type() {
-		return &mud::type<mud::TransformAction>();
-	}
-	void DECL mud_TransformAction__destroy(mud::TransformAction* self) {
-		delete self;
-	}
 	// RotateAction
 	mud::Type* DECL mud_RotateAction__type() {
 		return &mud::type<mud::RotateAction>();
 	}
 	void DECL mud_RotateAction__destroy(mud::RotateAction* self) {
-		delete self;
-	}
-	// TransformGizmo
-	mud::Type* DECL mud_TransformGizmo__type() {
-		return &mud::type<mud::TransformGizmo>();
-	}
-	void DECL mud_TransformGizmo__destroy(mud::TransformGizmo* self) {
-		delete self;
-	}
-	// UndoTool
-	mud::Type* DECL mud_UndoTool__type() {
-		return &mud::type<mud::UndoTool>();
-	}
-	void DECL mud_UndoTool__destroy(mud::UndoTool* self) {
-		delete self;
-	}
-	// ViewportTool
-	mud::Type* DECL mud_ViewportTool__type() {
-		return &mud::type<mud::ViewportTool>();
-	}
-	void DECL mud_ViewportTool__destroy(mud::ViewportTool* self) {
-		delete self;
-	}
-	// SpatialTool
-	mud::Type* DECL mud_SpatialTool__type() {
-		return &mud::type<mud::SpatialTool>();
-	}
-	void DECL mud_SpatialTool__destroy(mud::SpatialTool* self) {
-		delete self;
-	}
-	// TransformTool
-	mud::Type* DECL mud_TransformTool__type() {
-		return &mud::type<mud::TransformTool>();
-	}
-	void DECL mud_TransformTool__destroy(mud::TransformTool* self) {
 		delete self;
 	}
 	// RotateTool
@@ -274,6 +232,20 @@ extern "C" {
 		return &mud::type<mud::ScaleAction>();
 	}
 	void DECL mud_ScaleAction__destroy(mud::ScaleAction* self) {
+		delete self;
+	}
+	// ViewportTool
+	mud::Type* DECL mud_ViewportTool__type() {
+		return &mud::type<mud::ViewportTool>();
+	}
+	void DECL mud_ViewportTool__destroy(mud::ViewportTool* self) {
+		delete self;
+	}
+	// SpatialTool
+	mud::Type* DECL mud_SpatialTool__type() {
+		return &mud::type<mud::SpatialTool>();
+	}
+	void DECL mud_SpatialTool__destroy(mud::SpatialTool* self) {
 		delete self;
 	}
 	// ScaleTool
@@ -299,6 +271,27 @@ extern "C" {
 	void DECL mud_ScriptedBrush__destroy(mud::ScriptedBrush* self) {
 		delete self;
 	}
+	// TransformAction
+	mud::Type* DECL mud_TransformAction__type() {
+		return &mud::type<mud::TransformAction>();
+	}
+	void DECL mud_TransformAction__destroy(mud::TransformAction* self) {
+		delete self;
+	}
+	// TransformGizmo
+	mud::Type* DECL mud_TransformGizmo__type() {
+		return &mud::type<mud::TransformGizmo>();
+	}
+	void DECL mud_TransformGizmo__destroy(mud::TransformGizmo* self) {
+		delete self;
+	}
+	// TransformTool
+	mud::Type* DECL mud_TransformTool__type() {
+		return &mud::type<mud::TransformTool>();
+	}
+	void DECL mud_TransformTool__destroy(mud::TransformTool* self) {
+		delete self;
+	}
 	// TranslateAction
 	mud::Type* DECL mud_TranslateAction__type() {
 		return &mud::type<mud::TranslateAction>();
@@ -311,6 +304,13 @@ extern "C" {
 		return &mud::type<mud::TranslateTool>();
 	}
 	void DECL mud_TranslateTool__destroy(mud::TranslateTool* self) {
+		delete self;
+	}
+	// UndoTool
+	mud::Type* DECL mud_UndoTool__type() {
+		return &mud::type<mud::UndoTool>();
+	}
+	void DECL mud_UndoTool__destroy(mud::UndoTool* self) {
 		delete self;
 	}
 	// ViewAction

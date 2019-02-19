@@ -293,17 +293,6 @@ RedoTool.prototype["__destroy__"] = RedoTool.prototype.__destroy__ = function() 
     var self = this.ptr;
     _mud_RedoTool__destroy(self);
 };
-// TransformAction
-function TransformAction() { throw "cannot construct a TransformAction, no constructor in IDL" }
-TransformAction.prototype = Object.create(EditorAction.prototype);
-TransformAction.prototype.constructor = TransformAction;
-TransformAction.prototype.__class__ = TransformAction;
-TransformAction.__cache__ = {};
-Module['TransformAction'] = TransformAction;
-TransformAction.prototype["__destroy__"] = TransformAction.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_TransformAction__destroy(self);
-};
 // RotateAction
 function RotateAction() { throw "cannot construct a RotateAction, no constructor in IDL" }
 RotateAction.prototype = Object.create(TransformAction.prototype);
@@ -314,61 +303,6 @@ Module['RotateAction'] = RotateAction;
 RotateAction.prototype["__destroy__"] = RotateAction.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_RotateAction__destroy(self);
-};
-// TransformGizmo
-function TransformGizmo() { throw "cannot construct a TransformGizmo, no constructor in IDL" }
-TransformGizmo.prototype = Object.create(Gizmo.prototype);
-TransformGizmo.prototype.constructor = TransformGizmo;
-TransformGizmo.prototype.__class__ = TransformGizmo;
-TransformGizmo.__cache__ = {};
-Module['TransformGizmo'] = TransformGizmo;
-TransformGizmo.prototype["__destroy__"] = TransformGizmo.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_TransformGizmo__destroy(self);
-};
-// UndoTool
-function UndoTool() { throw "cannot construct a UndoTool, no constructor in IDL" }
-UndoTool.prototype = Object.create(Tool.prototype);
-UndoTool.prototype.constructor = UndoTool;
-UndoTool.prototype.__class__ = UndoTool;
-UndoTool.__cache__ = {};
-Module['UndoTool'] = UndoTool;
-UndoTool.prototype["__destroy__"] = UndoTool.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_UndoTool__destroy(self);
-};
-// ViewportTool
-function ViewportTool() { throw "cannot construct a ViewportTool, no constructor in IDL" }
-ViewportTool.prototype = Object.create(Tool.prototype);
-ViewportTool.prototype.constructor = ViewportTool;
-ViewportTool.prototype.__class__ = ViewportTool;
-ViewportTool.__cache__ = {};
-Module['ViewportTool'] = ViewportTool;
-ViewportTool.prototype["__destroy__"] = ViewportTool.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_ViewportTool__destroy(self);
-};
-// SpatialTool
-function SpatialTool() { throw "cannot construct a SpatialTool, no constructor in IDL" }
-SpatialTool.prototype = Object.create(ViewportTool.prototype);
-SpatialTool.prototype.constructor = SpatialTool;
-SpatialTool.prototype.__class__ = SpatialTool;
-SpatialTool.__cache__ = {};
-Module['SpatialTool'] = SpatialTool;
-SpatialTool.prototype["__destroy__"] = SpatialTool.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_SpatialTool__destroy(self);
-};
-// TransformTool
-function TransformTool() { throw "cannot construct a TransformTool, no constructor in IDL" }
-TransformTool.prototype = Object.create(SpatialTool.prototype);
-TransformTool.prototype.constructor = TransformTool;
-TransformTool.prototype.__class__ = TransformTool;
-TransformTool.__cache__ = {};
-Module['TransformTool'] = TransformTool;
-TransformTool.prototype["__destroy__"] = TransformTool.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_TransformTool__destroy(self);
 };
 // RotateTool
 function RotateTool() { throw "cannot construct a RotateTool, no constructor in IDL" }
@@ -391,6 +325,28 @@ Module['ScaleAction'] = ScaleAction;
 ScaleAction.prototype["__destroy__"] = ScaleAction.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_ScaleAction__destroy(self);
+};
+// ViewportTool
+function ViewportTool() { throw "cannot construct a ViewportTool, no constructor in IDL" }
+ViewportTool.prototype = Object.create(Tool.prototype);
+ViewportTool.prototype.constructor = ViewportTool;
+ViewportTool.prototype.__class__ = ViewportTool;
+ViewportTool.__cache__ = {};
+Module['ViewportTool'] = ViewportTool;
+ViewportTool.prototype["__destroy__"] = ViewportTool.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_ViewportTool__destroy(self);
+};
+// SpatialTool
+function SpatialTool() { throw "cannot construct a SpatialTool, no constructor in IDL" }
+SpatialTool.prototype = Object.create(ViewportTool.prototype);
+SpatialTool.prototype.constructor = SpatialTool;
+SpatialTool.prototype.__class__ = SpatialTool;
+SpatialTool.__cache__ = {};
+Module['SpatialTool'] = SpatialTool;
+SpatialTool.prototype["__destroy__"] = SpatialTool.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_SpatialTool__destroy(self);
 };
 // ScaleTool
 function ScaleTool() { throw "cannot construct a ScaleTool, no constructor in IDL" }
@@ -426,6 +382,39 @@ ScriptedBrush.prototype["__destroy__"] = ScriptedBrush.prototype.__destroy__ = f
     var self = this.ptr;
     _mud_ScriptedBrush__destroy(self);
 };
+// TransformAction
+function TransformAction() { throw "cannot construct a TransformAction, no constructor in IDL" }
+TransformAction.prototype = Object.create(EditorAction.prototype);
+TransformAction.prototype.constructor = TransformAction;
+TransformAction.prototype.__class__ = TransformAction;
+TransformAction.__cache__ = {};
+Module['TransformAction'] = TransformAction;
+TransformAction.prototype["__destroy__"] = TransformAction.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TransformAction__destroy(self);
+};
+// TransformGizmo
+function TransformGizmo() { throw "cannot construct a TransformGizmo, no constructor in IDL" }
+TransformGizmo.prototype = Object.create(Gizmo.prototype);
+TransformGizmo.prototype.constructor = TransformGizmo;
+TransformGizmo.prototype.__class__ = TransformGizmo;
+TransformGizmo.__cache__ = {};
+Module['TransformGizmo'] = TransformGizmo;
+TransformGizmo.prototype["__destroy__"] = TransformGizmo.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TransformGizmo__destroy(self);
+};
+// TransformTool
+function TransformTool() { throw "cannot construct a TransformTool, no constructor in IDL" }
+TransformTool.prototype = Object.create(SpatialTool.prototype);
+TransformTool.prototype.constructor = TransformTool;
+TransformTool.prototype.__class__ = TransformTool;
+TransformTool.__cache__ = {};
+Module['TransformTool'] = TransformTool;
+TransformTool.prototype["__destroy__"] = TransformTool.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TransformTool__destroy(self);
+};
 // TranslateAction
 function TranslateAction() { throw "cannot construct a TranslateAction, no constructor in IDL" }
 TranslateAction.prototype = Object.create(TransformAction.prototype);
@@ -447,6 +436,17 @@ Module['TranslateTool'] = TranslateTool;
 TranslateTool.prototype["__destroy__"] = TranslateTool.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_TranslateTool__destroy(self);
+};
+// UndoTool
+function UndoTool() { throw "cannot construct a UndoTool, no constructor in IDL" }
+UndoTool.prototype = Object.create(Tool.prototype);
+UndoTool.prototype.constructor = UndoTool;
+UndoTool.prototype.__class__ = UndoTool;
+UndoTool.__cache__ = {};
+Module['UndoTool'] = UndoTool;
+UndoTool.prototype["__destroy__"] = UndoTool.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_UndoTool__destroy(self);
 };
 // ViewAction
 function ViewAction() { throw "cannot construct a ViewAction, no constructor in IDL" }
@@ -520,19 +520,19 @@ WorldSnapOption.prototype["__destroy__"] = WorldSnapOption.prototype.__destroy__
         PlaceBrush.__type__ = _mud_PlaceBrush__type();
         PlaneSnapOption.__type__ = _mud_PlaneSnapOption__type();
         RedoTool.__type__ = _mud_RedoTool__type();
-        TransformAction.__type__ = _mud_TransformAction__type();
         RotateAction.__type__ = _mud_RotateAction__type();
-        TransformGizmo.__type__ = _mud_TransformGizmo__type();
-        UndoTool.__type__ = _mud_UndoTool__type();
-        ViewportTool.__type__ = _mud_ViewportTool__type();
-        SpatialTool.__type__ = _mud_SpatialTool__type();
-        TransformTool.__type__ = _mud_TransformTool__type();
         RotateTool.__type__ = _mud_RotateTool__type();
         ScaleAction.__type__ = _mud_ScaleAction__type();
+        ViewportTool.__type__ = _mud_ViewportTool__type();
+        SpatialTool.__type__ = _mud_SpatialTool__type();
         ScaleTool.__type__ = _mud_ScaleTool__type();
         ScriptedBrush.__type__ = _mud_ScriptedBrush__type();
+        TransformAction.__type__ = _mud_TransformAction__type();
+        TransformGizmo.__type__ = _mud_TransformGizmo__type();
+        TransformTool.__type__ = _mud_TransformTool__type();
         TranslateAction.__type__ = _mud_TranslateAction__type();
         TranslateTool.__type__ = _mud_TranslateTool__type();
+        UndoTool.__type__ = _mud_UndoTool__type();
         ViewAction.__type__ = _mud_ViewAction__type();
         ViewTool.__type__ = _mud_ViewTool__type();
         WorkPlaneAction.__type__ = _mud_WorkPlaneAction__type();

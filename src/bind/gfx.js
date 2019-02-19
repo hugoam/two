@@ -587,6 +587,16 @@ Object.defineProperty(Camera.prototype, "target", {
         _mud_Camera__set_target(self, value.ptr);
     }
 });
+Object.defineProperty(Camera.prototype, "up", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Camera__get_up(self), v3_float);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Camera__set_up(self, value.ptr);
+    }
+});
 Object.defineProperty(Camera.prototype, "transform", {
     get: function() {
         var self = this.ptr;
@@ -3470,19 +3480,6 @@ BlockCopy.prototype["__destroy__"] = BlockCopy.prototype.__destroy__ = function(
     var self = this.ptr;
     _mud_BlockCopy__destroy(self);
 };
-// ClusteredFrustum
-function ClusteredFrustum() {
-    this.ptr = _mud_ClusteredFrustum__construct_0(); this.type = ClusteredFrustum; getCache(ClusteredFrustum)[this.ptr] = this;
-};
-ClusteredFrustum.prototype = Object.create(Frustum.prototype);
-ClusteredFrustum.prototype.constructor = ClusteredFrustum;
-ClusteredFrustum.prototype.__class__ = ClusteredFrustum;
-ClusteredFrustum.__cache__ = {};
-Module['ClusteredFrustum'] = ClusteredFrustum;
-ClusteredFrustum.prototype["__destroy__"] = ClusteredFrustum.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_ClusteredFrustum__destroy(self);
-};
 // DrawBlock
 function DrawBlock() { throw "cannot construct a DrawBlock, no constructor in IDL" }
 DrawBlock.prototype = Object.create(GfxBlock.prototype);
@@ -3548,6 +3545,19 @@ Module['BlockSky'] = BlockSky;
 BlockSky.prototype["__destroy__"] = BlockSky.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_BlockSky__destroy(self);
+};
+// ClusteredFrustum
+function ClusteredFrustum() {
+    this.ptr = _mud_ClusteredFrustum__construct_0(); this.type = ClusteredFrustum; getCache(ClusteredFrustum)[this.ptr] = this;
+};
+ClusteredFrustum.prototype = Object.create(Frustum.prototype);
+ClusteredFrustum.prototype.constructor = ClusteredFrustum;
+ClusteredFrustum.prototype.__class__ = ClusteredFrustum;
+ClusteredFrustum.__cache__ = {};
+Module['ClusteredFrustum'] = ClusteredFrustum;
+ClusteredFrustum.prototype["__destroy__"] = ClusteredFrustum.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_ClusteredFrustum__destroy(self);
 };
 // Flare
 function Flare() {
@@ -3758,13 +3768,13 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Viewport.__type__ = _mud_Viewport__type();
         Zone.__type__ = _mud_Zone__type();
         BlockCopy.__type__ = _mud_BlockCopy__type();
-        ClusteredFrustum.__type__ = _mud_ClusteredFrustum__type();
         DrawBlock.__type__ = _mud_DrawBlock__type();
         BlockDepth.__type__ = _mud_BlockDepth__type();
         BlockFilter.__type__ = _mud_BlockFilter__type();
         BlockParticles.__type__ = _mud_BlockParticles__type();
         BlockResolve.__type__ = _mud_BlockResolve__type();
         BlockSky.__type__ = _mud_BlockSky__type();
+        ClusteredFrustum.__type__ = _mud_ClusteredFrustum__type();
         Flare.__type__ = _mud_Flare__type();
         MaterialBlock.__type__ = _mud_MaterialBlock__type();
         RenderTarget.__type__ = _mud_RenderTarget__type();

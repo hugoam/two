@@ -1329,36 +1329,6 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::RowSolver
-	{
-		Type& t = type<mud::RowSolver>();
-		static Meta meta = { t, &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::FrameSolver>() };
-		static size_t bases_offsets[] = { base_offset<mud::RowSolver, mud::FrameSolver>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::LineSolver
-	{
-		Type& t = type<mud::LineSolver>();
-		static Meta meta = { t, &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::RowSolver>() };
-		static size_t bases_offsets[] = { base_offset<mud::LineSolver, mud::RowSolver>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
 	// mud::Node
 	{
 		Type& t = type<mud::Node>();
@@ -1381,6 +1351,36 @@ namespace mud
 		// bases
 		static Type* bases[] = { &type<mud::Widget>() };
 		static size_t bases_offsets[] = { base_offset<mud::NodePlug, mud::Widget>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::RowSolver
+	{
+		Type& t = type<mud::RowSolver>();
+		static Meta meta = { t, &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::FrameSolver>() };
+		static size_t bases_offsets[] = { base_offset<mud::RowSolver, mud::FrameSolver>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::LineSolver
+	{
+		Type& t = type<mud::LineSolver>();
+		static Meta meta = { t, &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::RowSolver>() };
+		static size_t bases_offsets[] = { base_offset<mud::LineSolver, mud::RowSolver>() };
 		// defaults
 		// constructors
 		// copy constructor

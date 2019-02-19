@@ -383,6 +383,12 @@ extern "C" {
 	void DECL mud_Camera__set_target(mud::Camera* self, mud::vec3* value) {
 		self->m_target = *value;
 	}
+	mud::vec3* DECL mud_Camera__get_up(mud::Camera* self) {
+		return &self->m_up;
+	}
+	void DECL mud_Camera__set_up(mud::Camera* self, mud::vec3* value) {
+		self->m_up = *value;
+	}
 	mud::mat4* DECL mud_Camera__get_transform(mud::Camera* self) {
 		return &self->m_transform;
 	}
@@ -2245,16 +2251,6 @@ extern "C" {
 	void DECL mud_BlockCopy__destroy(mud::BlockCopy* self) {
 		delete self;
 	}
-	// ClusteredFrustum
-	mud::Type* DECL mud_ClusteredFrustum__type() {
-		return &mud::type<mud::ClusteredFrustum>();
-	}
-	mud::ClusteredFrustum* DECL mud_ClusteredFrustum__construct_0() {
-		return new mud::ClusteredFrustum();
-	}
-	void DECL mud_ClusteredFrustum__destroy(mud::ClusteredFrustum* self) {
-		delete self;
-	}
 	// DrawBlock
 	mud::Type* DECL mud_DrawBlock__type() {
 		return &mud::type<mud::DrawBlock>();
@@ -2295,6 +2291,16 @@ extern "C" {
 		return &mud::type<mud::BlockSky>();
 	}
 	void DECL mud_BlockSky__destroy(mud::BlockSky* self) {
+		delete self;
+	}
+	// ClusteredFrustum
+	mud::Type* DECL mud_ClusteredFrustum__type() {
+		return &mud::type<mud::ClusteredFrustum>();
+	}
+	mud::ClusteredFrustum* DECL mud_ClusteredFrustum__construct_0() {
+		return new mud::ClusteredFrustum();
+	}
+	void DECL mud_ClusteredFrustum__destroy(mud::ClusteredFrustum* self) {
 		delete self;
 	}
 	// Flare
