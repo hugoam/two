@@ -38,9 +38,9 @@ namespace mud
 	}
 
 	template <class T, class Pred>
-	void sort(T& vec, Pred pred)
+	void stable_sort(T& vec, Pred pred)
 	{
-		std::sort(vec.begin(), vec.end(), pred);
+		std::stable_sort(vec.begin(), vec.end(), pred);
 	}
 
 	class CLModule;

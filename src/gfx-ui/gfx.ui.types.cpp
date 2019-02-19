@@ -20,4 +20,5 @@ namespace mud
     template <> MUD_GFX_UI_EXPORT Type& type<mud::OrbitController>() { static Type ty("OrbitController", type<mud::ViewerController>(), sizeof(mud::OrbitController)); return ty; }
     template <> MUD_GFX_UI_EXPORT Type& type<mud::FreeOrbitController>() { static Type ty("FreeOrbitController", type<mud::OrbitController>(), sizeof(mud::FreeOrbitController)); return ty; }
     template <> MUD_GFX_UI_EXPORT Type& type<mud::SceneViewer>() { static Type ty("SceneViewer", type<mud::Viewer>(), sizeof(mud::SceneViewer)); return ty; }
+    template <> MUD_GFX_UI_EXPORT Type& type<mud::TrackballController>() { static Type ty("TrackballController", type<mud::ViewerController>(), sizeof(mud::TrackballController)); return ty; }
 }

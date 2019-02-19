@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
@@ -36,6 +34,7 @@ namespace mud
     class Viewer;
     class SceneViewer;
     class OrbitController;
+    class TrackballController;
     class FreeOrbitController;
     class SpaceViewport;
 }

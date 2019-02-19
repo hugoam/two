@@ -12,6 +12,7 @@
 #include <ui/Forward.h>
 #include <uio/Forward.h>
 #include <gfx/Forward.h>
+#include <gfx-ui/Forward.h>
 #include <gfx-pbr/Forward.h>
 
 #ifndef MUD_GFX_EDIT_EXPORT
@@ -20,21 +21,4 @@
 
 namespace mud
 {
-namespace ui
-{
-    enum class OrbitMode : int;
-    
-}
-}
-
-namespace mud
-{
-    class SpaceSheet;
-    struct ViewerStyles;
-    class ViewerController;
-    class Viewer;
-    class SceneViewer;
-    class OrbitController;
-    class FreeOrbitController;
-    class SpaceViewport;
 }

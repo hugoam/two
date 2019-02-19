@@ -77,10 +77,10 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::Expandbox>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Frame>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Node>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::NodePlug>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::ScrollSheet>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::ui::Sequence>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Tabber>();

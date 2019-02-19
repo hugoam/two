@@ -666,12 +666,12 @@ namespace mud
 				}
 			};
 
-			sort(module.m_types, [&](CLType* a, CLType* b) { return cmp_types(*a, *b) < 0; });
+			stable_sort(module.m_types, [&](CLType* a, CLType* b) { return cmp_types(*a, *b) < 0; });
 
-			sort(module.m_classes, [&](const unique<CLClass>& a, const unique<CLClass>& b) { return cmp_types(*a, *b) < 0; });
-			sort(module.m_enums, [&](const unique<CLEnum>& a, const unique<CLEnum>& b) { return cmp_types(*a, *b) < 0; });
-			sort(module.m_sequences, [&](const unique<CLClass>& a, const unique<CLClass>& b) { return cmp_types(*a, *b) < 0; });
-			sort(module.m_basetypes, [&](const unique<CLBaseType>& a, const unique<CLBaseType>& b) { return cmp_types(*a, *b) < 0; });
+			stable_sort(module.m_classes, [&](const unique<CLClass>& a, const unique<CLClass>& b) { return cmp_types(*a, *b) < 0; });
+			stable_sort(module.m_enums, [&](const unique<CLEnum>& a, const unique<CLEnum>& b) { return cmp_types(*a, *b) < 0; });
+			stable_sort(module.m_sequences, [&](const unique<CLClass>& a, const unique<CLClass>& b) { return cmp_types(*a, *b) < 0; });
+			stable_sort(module.m_basetypes, [&](const unique<CLBaseType>& a, const unique<CLBaseType>& b) { return cmp_types(*a, *b) < 0; });
             
 			//if(module.m_classes.size() == 0 && module.m_enums.size() == 0)
 			//	return;
