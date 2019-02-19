@@ -49,8 +49,6 @@ namespace mud
 			u_light_shadow					= bgfx::createUniform("u_light_shadow",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
 			u_light_spot_params				= bgfx::createUniform("u_light_spot_params",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
 			u_light_shadow_matrix			= bgfx::createUniform("u_light_shadow_matrix",			bgfx::UniformType::Mat4, c_max_forward_lights, bgfx::UniformFreq::View);
-			//u_csm_matrix					= bgfx::createUniform("u_csm_matrix",					bgfx::UniformType::Mat4, max_direct * 4);
-			//u_csm_splits					= bgfx::createUniform("u_csm_splits",					bgfx::UniformType::Vec4, max_direct);
 		}
 
 		void upload(const Pass& render_pass, span<GpuLight> lights) const
@@ -78,9 +76,6 @@ namespace mud
 			bgfx::setViewUniform(render_pass.m_index, u_light_shadow,					&shadow_color_enabled,	uint16_t(lights.size()));
 			bgfx::setViewUniform(render_pass.m_index, u_light_spot_params,				&spot_params,			uint16_t(lights.size()));
 			//bgfx::setViewUniform(render_pass.m_index, u_light_shadow_matrix,			&shadow_matrix,			uint16_t(lights.size()));
-
-			//encoder.setUniform(u_csm_matrix, &data.csm_matrix[0], direct_light_count * 4);
-			//encoder.setUniform(u_csm_splits, &data.csm_splits,	direct_light_count);
 		}
 
 		bgfx::UniformHandle u_light_position_range;

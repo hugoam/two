@@ -12,7 +12,7 @@
 
 using namespace mud;
 
-#define CLUSTERED 0
+#define CLUSTERED 1
 #define DEBUG_CLUSTERED 0
 #define OCCLUSION 0
 #define DOCKBAR 1

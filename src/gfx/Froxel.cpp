@@ -101,12 +101,12 @@ namespace mud
 	{
 		void createUniforms()
 		{
-			s_light_records = bgfx::createUniform("s_light_records", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+			s_light_records  = bgfx::createUniform("s_light_records",  bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 
-			u_froxel_params = bgfx::createUniform("u_froxel_params", bgfx::UniformType::Vec4);
-			u_froxel_f = bgfx::createUniform("u_froxel_f", bgfx::UniformType::Vec4);
-			u_froxel_z = bgfx::createUniform("u_froxel_z", bgfx::UniformType::Vec4);
+			u_froxel_params = bgfx::createUniform("u_froxel_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_froxel_f = bgfx::createUniform("u_froxel_f", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_froxel_z = bgfx::createUniform("u_froxel_z", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
 
 		bgfx::UniformHandle s_light_records;

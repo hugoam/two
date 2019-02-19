@@ -143,6 +143,9 @@ namespace mud
 		uint32_t zones = uint32_t(TextureSampler::Zones);
 		bgfx::setViewUniform(render_pass.m_index, u_shot.s_lights, &lights);
 		bgfx::setViewUniform(render_pass.m_index, u_shot.s_zones, &zones);
+
+		if(render.m_camera.m_clustered)
+			render.m_camera.m_clusters->submit(render_pass);
 	}
 
 	void BlockLight::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
