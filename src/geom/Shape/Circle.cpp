@@ -158,8 +158,8 @@ namespace mud
 		UNUSED(shape); UNUSED(arc); UNUSED(writer);
 	}
 
-	uint16_t torus_sides(uint lod) { return uint16_t(12 + 12 * lod); }
-	uint16_t torus_rings(uint lod) { return uint16_t(12 + 12 * lod); }
+	uint16_t torus_sides(uint lod) { return uint16_t(4 + 2 * lod); }
+	uint16_t torus_rings(uint lod) { return uint16_t(8 + 4 * lod); }
 
 	ShapeSize size_shape_lines(const ProcShape& shape, const Torus& torus)
 	{
@@ -184,20 +184,20 @@ namespace mud
 	{
 		SignedAxis axis = to_signed_axis(torus.m_axis, true);
 
-		uint16_t sides = torus_sides(uint(shape.m_symbol.m_detail));
 		uint16_t rings = torus_rings(uint(shape.m_symbol.m_detail));
+		uint16_t sides = torus_sides(uint(shape.m_symbol.m_detail));
 
-		uint16_t sides_subdiv = sides + 1;
 		uint16_t rings_subdiv = rings + 1;
+		uint16_t sides_subdiv = sides + 1;
 
-		float radius_step = c_pi * 2.0f / float(rings);
-		float subradius_step = c_pi * 2.0f / float(sides);
+		float ring_step = c_pi * 2.0f / float(rings);
+		float side_step = c_pi * 2.0f / float(sides);
 
 		for(uint16_t v = 0; v < sides_subdiv; v++)
 			for(uint16_t h = 0; h < rings_subdiv; h++)
 			{
-				const float theta = radius_step * v;
-				const float phi = subradius_step * h;
+				const float theta = ring_step * h;
+				const float phi = side_step * v;
 
 				const float x = cos(theta) * (torus.m_radius + torus.m_solid_radius * cos(phi));
 				const float y = torus.m_solid_radius * sin(phi);
@@ -216,14 +216,14 @@ namespace mud
 		for(uint16_t v = 0; v < sides; v++)
 			for(uint16_t h = 0; h < rings; h++)
 			{
-				const uint16_t lt = h + v * sides_subdiv;
-				const uint16_t rt = (h + 1) + v * sides_subdiv;
+				const uint16_t lt = h + v * rings_subdiv;
+				const uint16_t rt = (h + 1) + v * rings_subdiv;
 
-				const uint16_t lb = h + (v + 1) * sides_subdiv;
-				const uint16_t rb = (h + 1) + (v + 1) * sides_subdiv;
+				const uint16_t lb = h + (v + 1) * rings_subdiv;
+				const uint16_t rb = (h + 1) + (v + 1) * rings_subdiv;
 
-				writer.tri(lt, lb, rt);
-				writer.tri(rt, lb, rb);
+				writer.tri(lt, rt, lb);
+				writer.tri(rt, rb, lb);
 			}
 	}
 }

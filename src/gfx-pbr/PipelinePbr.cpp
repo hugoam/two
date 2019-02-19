@@ -18,7 +18,7 @@ module mud.gfx.pbr;
 #endif
 
 #define DEBUG_ITEMS 0
-#define DEPTH_PASS 1
+#define DEPTH_PASS 0
 #define DEBUG_GBUFFERS 0
 
 namespace mud
