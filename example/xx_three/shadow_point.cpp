@@ -115,7 +115,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& light1 = light_source(scene, from_rgba(0xff8888ff), pos1, rot1);
 
 	Box box = Cube(vec3(15.f));
-	Gnode& node = gfx::node(scene, {}, Y3 * 10.f);
+	Gnode& node = gfx::node(scene, {});// , Y3 * 10.f);
 	//gfx::shape(node, box, Symbol::plain(Colour::White), 0U, cube_material); // @todo fix that shadow pass bug
 	gfx::shape(node, box, Symbol::plain(Colour::White), ItemFlag::Render | ItemFlag::LodAll, cube_material);
 	//mesh.receiveShadow = true;

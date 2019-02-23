@@ -35,7 +35,7 @@ module mud.gfx.pbr;
 #include <cstdio>
 
 #define DEBUG_CSM 0
-#define DEBUG_ATLAS 0
+#define DEBUG_ATLAS 1
 
 #define SHADOW_ATLAS 1
 
@@ -384,8 +384,8 @@ namespace mud
 			if(light->m_shadows && light->m_type != LightType::Direct)
 			{
 				if(m_atlas.m_size == 0)
-					//m_atlas = { 1024U, { 4U, 8U, 16U } };
-					m_atlas = { 1024U, { 2U, 4U, 8U, 16U } };
+					m_atlas = { 1024U, { 4U } };
+					//m_atlas = { 1024U, { 2U, 4U, 8U, 16U } };
 
 				m_atlas.render_update(render, *light);
 			}
@@ -605,6 +605,8 @@ namespace mud
 
 			index++;
 		}
+
+		m_block_light.upload_lights(render);
 	}
 
 	void BlockShadow::upload_shadows(Render& render, const Pass& render_pass) const

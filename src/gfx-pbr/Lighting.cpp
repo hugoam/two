@@ -174,6 +174,7 @@ namespace mud
 		zone.m_light_counts = vec4(0.f);
 
 		m_gpu_lights.clear();
+		m_gpu_shadows.clear();
 
 		for(size_t index = 0; index < lights.size(); ++index)
 		{
