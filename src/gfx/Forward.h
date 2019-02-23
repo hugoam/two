@@ -29,6 +29,7 @@ namespace mud
     enum class CullMode : unsigned int;
     enum class DepthDraw : unsigned int;
     enum class DepthTest : unsigned int;
+	enum class DepthMethod : unsigned int;
     enum class MaterialFlag : unsigned int;
     enum class TextureChannel : unsigned int;
 	enum class MaterialBlock : unsigned int;
@@ -86,6 +87,7 @@ namespace mud
     class DrawPass;
     class Renderer;
     struct MaterialBase;
+	struct MaterialAlpha;
     struct MaterialUnshaded;
     struct MaterialFresnel;
     struct MaterialPbr;
@@ -112,6 +114,7 @@ namespace mud
 	class Culler;
 	class Froxelizer;
     struct DepthParams;
+	struct DistanceParams;
     class PassDepth;
     class BlockDepth;
     class ImmediateDraw;
