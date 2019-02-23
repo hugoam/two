@@ -38,7 +38,7 @@ namespace mud
 {
 	inline vg::Color vgColour(const Colour& colour)
 	{
-		return vg::color4f(colour.r, colour.g, colour.b, colour.m_a);
+		return vg::color4f(colour.r, colour.g, colour.b, colour.a);
 	}
 
 #define RECT_FLOATS(rect) rect.x, rect.y, rect.z, rect.w

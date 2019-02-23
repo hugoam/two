@@ -483,7 +483,7 @@ namespace mud
 			{ t, offsetof(mud::Colour, r), type<float>(), "r", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Colour, g), type<float>(), "g", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Colour, b), type<float>(), "b", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Colour, m_a), type<float>(), "a", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::Colour, a), type<float>(), "a", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members

@@ -143,7 +143,7 @@ namespace mud
 			{
 				Colour emissive = tocol(tokens);
 				current->m_pbr.m_emissive.m_value = emissive;
-				current->m_pbr.m_emissive.m_value.m_a = length(to_vec3(emissive));
+				current->m_pbr.m_emissive.m_value.a = length(to_vec3(emissive));
 			}
 			else if(command == "Ns")
 			{
@@ -153,12 +153,12 @@ namespace mud
 			else if(command == "d")
 			{
 				float d = tof(tokens[1]);
-				current->m_pbr.m_albedo.m_value.m_a = d;
+				current->m_pbr.m_albedo.m_value.a = d;
 			}
 			else if(command == "Tr")
 			{
 				float tr = tof(tokens[1]);
-				current->m_pbr.m_albedo.m_value.m_a = 1.f - tr;
+				current->m_pbr.m_albedo.m_value.a = 1.f - tr;
 			}
 			else if(command == "Pr")
 			{
@@ -189,7 +189,7 @@ namespace mud
 				else if(command == "map_Ke") // emissive texture
 				{
 					current->m_pbr.m_emissive.m_texture = fetch_texture(map);
-					current->m_pbr.m_emissive.m_value.m_a = 2.f;
+					current->m_pbr.m_emissive.m_value.a = 2.f;
 				}
 				else if(command == "map_Ns") // specular highlight texture
 				{

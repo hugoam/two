@@ -33,20 +33,20 @@ namespace mud
 	Colour Colour::None(0.f, 0.f, 0.f, 0.f);
 
 	Colour::Colour()
-		: r(1.f), g(1.f), b(1.f), m_a(1.f)
+		: r(1.f), g(1.f), b(1.f), a(1.f)
 	{}
 
 	Colour::Colour(float v, float a)
-		: r(v), g(v), b(v), m_a(a)
+		: r(v), g(v), b(v), a(a)
 	{}
 
 	Colour::Colour(float r, float g, float b, float a)
-		: r(r), g(g), b(b), m_a(a)
+		: r(r), g(g), b(b), a(a)
 	{}
 
 	Colour Colour::hsl(float h, float s, float l)
 	{
-		return hsl(h, s, l);
+		return mud::hsl(h, s, l);
 	}
 
 	Colour clamp_colour(const Colour& colour)
@@ -68,7 +68,7 @@ namespace mud
 		rgba |= uint8_t(col.r * 255.f) << 24;
 		rgba |= uint8_t(col.g * 255.f) << 16;
 		rgba |= uint8_t(col.b * 255.f) << 8;
-		rgba |= uint8_t(col.m_a * 255.f);
+		rgba |= uint8_t(col.a * 255.f);
 		return rgba;
 	}
 
@@ -79,7 +79,7 @@ namespace mud
 		rgba |= uint8_t(col.r * 255.f);
 		rgba |= uint8_t(col.g * 255.f) << 8;
 		rgba |= uint8_t(col.b * 255.f) << 16;
-		rgba |= uint8_t(col.m_a * 255.f) << 24;
+		rgba |= uint8_t(col.a * 255.f) << 24;
 		return rgba;
 	}
 
@@ -89,7 +89,7 @@ namespace mud
 		colour.r =  (rgba >> 24) / 255.f;
 		colour.g = ((rgba >> 16) & 0xFF) / 255.f;
 		colour.b = ((rgba >> 8) & 0xFF) / 255.f;
-		colour.m_a = ((rgba >> 0) & 0xFF) / 255.f;
+		colour.a = ((rgba >> 0) & 0xFF) / 255.f;
 		return colour;
 	}
 
@@ -99,7 +99,7 @@ namespace mud
 		colour.r = ((abgr >> 0)  & 0xFF) / 255.f;
 		colour.g = ((abgr >> 8)  & 0xFF) / 255.f;
 		colour.b = ((abgr >> 16) & 0xFF) / 255.f;
-		colour.m_a =  (abgr >> 24) / 255.f;
+		colour.a =  (abgr >> 24) / 255.f;
 		return colour;
 	}
 
@@ -115,17 +115,17 @@ namespace mud
 
 	Colour to_linear(const Colour& colour)
 	{
-		return Colour(to_linear(colour.r), to_linear(colour.g), to_linear(colour.b), colour.m_a);
+		return Colour(to_linear(colour.r), to_linear(colour.g), to_linear(colour.b), colour.a);
 	}
 
 	Colour to_gamma(const Colour& colour)
 	{
-		return Colour(to_gamma(colour.r), to_gamma(colour.g), to_gamma(colour.b), colour.m_a);
+		return Colour(to_gamma(colour.r), to_gamma(colour.g), to_gamma(colour.b), colour.a);
 	}
 
 	Colour to_srgb(const Colour& colour)
 	{
-		return Colour(to_gamma(colour.r), to_gamma(colour.g), to_gamma(colour.b), colour.m_a);
+		return Colour(to_gamma(colour.r), to_gamma(colour.g), to_gamma(colour.b), colour.a);
 	}
 
 	float hue_to_rgb(float p, float q, float t)
@@ -184,6 +184,11 @@ namespace mud
 		}
 
 		return { h, s, l };
+	}
+
+	ColourHSL to_hsl(const Colour& colour)
+	{
+		return to_hsl(colour.r, colour.g, colour.b);
 	}
 
 	ColourHSL to_hsla(const Colour& colour)

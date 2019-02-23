@@ -147,23 +147,21 @@ void roughness_spheres(Gnode& parent)
 {
 	GfxSystem& gfx_system = parent.m_scene->m_gfx_system;
 
-	static vector<Material*> roughness_dielectric_materials = create_roughness_dielectric_materials(gfx_system);
-	static vector<Material*> roughness_metallic_materials = create_roughness_metallic_materials(gfx_system);
+	static vector<Material*> dielectric = create_roughness_dielectric_materials(gfx_system);
+	static vector<Material*> metallic = create_roughness_metallic_materials(gfx_system);
 
-	float dielectric_center = roughness_dielectric_materials.size() * 2.f / 2.f;
-	for(size_t i = 0; i < roughness_dielectric_materials.size(); ++i)
+	float dielectric_center = dielectric.size() * 2.f / 2.f;
+	for(size_t i = 0; i < dielectric.size(); ++i)
 	{
 		Gnode& material_node = gfx::node(parent, {}, vec3{ -dielectric_center + float(i) * 2.f, 0.f, 0.f });
-		//Item& item = gfx::shape(material_node, Sphere(), Symbol());
-		gfx::shape(material_node, Sphere(), Symbol(), 0U, roughness_dielectric_materials[i]);
+		gfx::shape(material_node, Sphere(), Symbol(), 0U, dielectric[i]);
 	}
 
-	float metallic_center = roughness_metallic_materials.size() * 2.f / 2.f;
-	for(size_t i = 0; i < roughness_metallic_materials.size(); ++i)
+	float metallic_center = metallic.size() * 2.f / 2.f;
+	for(size_t i = 0; i < metallic.size(); ++i)
 	{
 		Gnode& material_node = gfx::node(parent, {}, vec3{ -metallic_center + float(i) * 2.f, 0.f, 4.f });
-		//Item& item = gfx::shape(material_node, Sphere(), Symbol());
-		gfx::shape(material_node, Sphere(), Symbol(), 0U, roughness_metallic_materials[i]);
+		gfx::shape(material_node, Sphere(), Symbol(), 0U, metallic[i]);
 	}
 }
 

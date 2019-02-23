@@ -241,7 +241,7 @@ namespace mud
 
 			if(is_valid(block.m_emissive.m_texture))
 				encoder.setTexture(uint8_t(TextureSampler::Emissive), block.m_emissive.m_texture->m_texture);
-			else if(block.m_emissive.m_value.m_a > 0.f)
+			else if(block.m_emissive.m_value.a > 0.f)
 				encoder.setTexture(uint8_t(TextureSampler::Emissive), m_black_tex->m_texture);
 
 			if(is_valid(block.m_depth.m_texture))
@@ -350,7 +350,7 @@ namespace mud
 		if(program.m_blocks[MaterialBlock::Pbr])
 		{
 			version.set_option(pbr.m_index, NORMAL_MAP, is_valid(m_pbr.m_normal.m_texture));
-			version.set_option(pbr.m_index, EMISSIVE, is_valid(m_pbr.m_emissive.m_texture) || m_pbr.m_emissive.m_value.m_a > 0.f);
+			version.set_option(pbr.m_index, EMISSIVE, is_valid(m_pbr.m_emissive.m_texture) || m_pbr.m_emissive.m_value.a > 0.f);
 			version.set_option(pbr.m_index, AMBIENT_OCCLUSION, is_valid(m_pbr.m_ambient_occlusion.m_texture));
 			version.set_option(pbr.m_index, DEPTH_MAPPING, is_valid(m_pbr.m_depth.m_texture));
 			version.set_option(pbr.m_index, DEEP_PARALLAX, m_pbr.m_deep_parallax);

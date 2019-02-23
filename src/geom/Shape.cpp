@@ -258,14 +258,14 @@ namespace mud
 		: Symbol()
 	{
 		m_image = image;
-		m_fill.m_a = alpha;
+		m_fill.a = alpha;
 	}
 
 	Symbol::Symbol(const Image256& image, float alpha)
 		: Symbol()
 	{
 		m_image256 = &const_cast<Image256&>(image);
-		m_fill.m_a = alpha;
+		m_fill.a = alpha;
 	}
 
 	bool Symbol::operator==(const Symbol& other) const

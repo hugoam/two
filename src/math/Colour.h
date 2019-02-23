@@ -26,14 +26,14 @@ namespace mud
 		Colour(const Colour& col) = default;
 		Colour& operator=(const Colour&) = default;
 
-		bool operator==(const Colour& other) const { return this->r == other.r && g == other.g && b == other.b && m_a == other.m_a; }
+		bool operator==(const Colour& other) const { return this->r == other.r && g == other.g && b == other.b && a == other.a; }
 
 		union {
 			struct {
 				attr_ float r;
 				attr_ float g;
 				attr_ float b;
-				attr_ float m_a;
+				attr_ float a;
 			};
 			float m_floats[4];
 		};
@@ -41,12 +41,12 @@ namespace mud
 		float operator[](size_t i) const { return m_floats[i]; }
 		float& operator[](size_t i) { return m_floats[i]; }
 
-		Colour operator*(const float factor) const { return Colour(r*factor, g*factor, b*factor, m_a); }
-		Colour operator*(const Colour& colour) const { return Colour(r*colour.r, g*colour.g, b*colour.b, m_a); }
-		Colour operator+(const Colour& colour) const { return Colour(r+colour.r, g+colour.g, b+colour.b, m_a+colour.m_a); }
-		Colour operator-(const Colour& colour) const { return Colour(r-colour.r, g-colour.g, b-colour.b, m_a-colour.m_a); }
+		Colour operator*(const float factor) const { return Colour(r*factor, g*factor, b*factor, a); }
+		Colour operator*(const Colour& colour) const { return Colour(r*colour.r, g*colour.g, b*colour.b, a); }
+		Colour operator+(const Colour& colour) const { return Colour(r+colour.r, g+colour.g, b+colour.b, a+colour.a); }
+		Colour operator-(const Colour& colour) const { return Colour(r-colour.r, g-colour.g, b-colour.b, a-colour.a); }
 
-		bool null() const { return m_a == 0.f; }
+		bool null() const { return a == 0.f; }
 
 	public:
 		attr_ static Colour Black;

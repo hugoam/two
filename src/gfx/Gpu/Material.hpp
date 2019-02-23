@@ -216,7 +216,7 @@ namespace mud
 		{
 			vec4 albedo = { to_vec3(block.m_albedo.m_value), 0.f };
 			vec4 spec_met_rough = { block.m_specular, block.m_metallic.m_value, block.m_roughness.m_value, block.m_normal.m_value };
-			vec4 emissive = { to_vec3(block.m_emissive.m_value), block.m_emissive.m_value.m_a };
+			vec4 emissive = { to_vec3(block.m_emissive.m_value), block.m_emissive.m_value.a };
 			vec4 channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), 0.f, 0.f };
 			vec4 params = { block.m_anisotropy.m_value, block.m_refraction.m_value, block.m_subsurface.m_value, block.m_depth.m_value };
 

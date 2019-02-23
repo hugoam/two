@@ -12,7 +12,7 @@
 
 using namespace mud;
 
-#define CLUSTERED 1
+#define CLUSTERED 0
 #define DEBUG_CLUSTERED 0
 #define OCCLUSION 0
 #define DOCKBAR 1
@@ -28,7 +28,7 @@ vector<LightInstance> create_light_grid(size_t size_x, size_t size_y)
 		for(size_t y = 0; y < size_y; ++y)
 		{
 			LightInstance& light_item = light_items[x + y * size_x];
-			light_item.colour = hsla_to_rgba({ random_scalar(0.f, 1.f), 1.f, 0.5f });
+			light_item.colour = to_rgba({ random_scalar(0.f, 1.f), 1.f, 0.5f });
 		}
 
 	return light_items;
@@ -58,7 +58,7 @@ void light_grid(Gnode& parent, span2d<LightInstance> light_grid, bool moving, Li
 
 			gfx::shape(light_node, Cube(0.1f), Symbol(), ItemFlag::Default | ItemFlag::Selectable);
 			//if(light_type == LightType::Point)
-			//	gfx::shape(light_node, Spheroid(range), Symbol::wire(hsl_to_rgb(float(light.m_shot_index) / float(255.f), 1.f, 0.5f)), ItemFlag::Default | ItemFlag::Selectable);
+			//	gfx::shape(light_node, Spheroid(range), Symbol::wire(hsl(float(light.m_shot_index) / float(255.f), 1.f, 0.5f)), ItemFlag::Default | ItemFlag::Selectable);
 			
 		}
 }

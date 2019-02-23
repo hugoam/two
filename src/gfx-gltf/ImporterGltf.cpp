@@ -368,7 +368,7 @@ namespace mud
 		{
 			material.m_pbr.m_emissive.m_texture = get_texture(gltf, state, gltf_material.emissive_texture.index);
 			material.m_pbr.m_emissive.m_value = Colour::Black;
-			material.m_pbr.m_emissive.m_value.m_a = emissive_factor;
+			material.m_pbr.m_emissive.m_value.a = emissive_factor;
 		}
 
 		if(gltf_material.double_sided)

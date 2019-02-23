@@ -30,7 +30,7 @@ namespace mud
 		return Colour(clamp(colour.r + offset, 0.f, 1.f),
 					  clamp(colour.g + offset, 0.f, 1.f),
 					  clamp(colour.b + offset, 0.f, 1.f),
-					  colour.m_a);
+					  colour.a);
 	}
 
 	struct Vg::Impl

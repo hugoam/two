@@ -69,9 +69,9 @@ static TextScript create_script(LuaInterpreter& interpreter)
 		"local prev_output = nil\n"
 		"\n"
 		"function next_colour()\n"
-		"    col = rgba_to_hsla(col)\n"
+		"    local c = to_hsla(col)\n"
 		"    col.r = (col.r + 0.13) % 1.0\n"
-		"    col = hsla_to_rgba(col)\n"
+		"    col = to_rgba(c)\n"
 		"end\n"
 		"\n"
 		"for i = 1,5 do\n"
@@ -155,9 +155,9 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	NodePlug* prev_output = nullptr;
 		
 	auto next_colour = [&]() {
-		col = rgba_to_hsla(col);
-		col.m_r = fmod((col.m_r + 0.13), 1.0);
-		col = hsla_to_rgba(col);
+		col = to_hsla(col);
+		col.r = fmod((col.r + 0.13), 1.0);
+		col = to_rgba(col);
 	};
 		
 	for(int i = 1; i < 5; ++i)
