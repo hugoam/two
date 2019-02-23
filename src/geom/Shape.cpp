@@ -78,6 +78,7 @@ namespace mud
 
 	Cylinder::Cylinder() : Shape(type<Cylinder>()) {}
 	Cylinder::Cylinder(float radius, float height, Axis axis) : Shape(type<Cylinder>()), m_radius(radius), m_height(height), m_axis(axis) {}
+	Cylinder::Cylinder(const vec3& center, float radius, float height, Axis axis) : Shape(type<Cylinder>(), center), m_radius(radius), m_height(height), m_axis(axis) {}
 	object<Shape> Cylinder::clone() const { return oconstruct<Cylinder>(*this); }
 
 	Capsule::Capsule() : Shape(type<Capsule>()) {}
@@ -223,6 +224,8 @@ namespace mud
 	Quad::Quad(const vec3& center, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices, 4 }); }
 	Quad::Quad(const vec3& center, const vec2& offset, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices, 4 }, offset); }
 	Quad::Quad(float size, const vec3& x, const vec3& y) : Quad({ size, size }, x, y) {}
+	// @todo this should probably be Z3, X3 since default faces up and cross(z, x) = y
+	// find out where in the geometry generation is the fuckup
 	Quad::Quad(const Rect& rect) : Quad({ rect.m_size.x, rect.m_size.y }, X3, Z3) {}
 
 	void box_vertices(const vec3& center, const vec3& extents, span<vec3> vertices)

@@ -83,17 +83,10 @@ namespace mud
 			}
 
 		m_direct_light = m_direct_lights.empty() ? nullptr : m_direct_lights[m_direct_light_index];
-	}
 
-	void BlockLight::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
-	void BlockLight::begin_draw_pass(Render& render)
-	{
-		this->update_lights(render, render.m_camera.m_transform);
-		this->update_zones({ &render.m_scene.m_env, 1 });
+		this->setup_lights(render, render.m_camera.m_transform);
+		this->upload_lights(render);
+		this->upload_zones(render);
 
 		m_direct_light_index = 0;
 
@@ -108,6 +101,11 @@ namespace mud
 
 		request.num_passes = m_direct_lights.empty() ? 1 : m_direct_lights.size();
 #endif
+	}
+
+	void BlockLight::begin_pass(Render& render)
+	{
+		UNUSED(render);
 	}
 
 	void BlockLight::options(Render& render, ShaderVersion& shader_version) const
@@ -136,13 +134,18 @@ namespace mud
 #endif
 
 #if !LIGHTS_BUFFER
-		GpuState<GpuLight>::me.upload(render_pass, const_cast<vector<GpuLight>&>(m_gpu_lights));
+		GpuState<GpuLight>::me.upload(render_pass, const_cast<vector<GpuLight>&>(m_gpu_lights), const_cast<vector<GpuLightShadow>&>(m_gpu_shadows));
 #endif
 
-		uint32_t lights = uint32_t(TextureSampler::Lights);
+#if ZONES_BUFFER
 		uint32_t zones = uint32_t(TextureSampler::Zones);
-		bgfx::setViewUniform(render_pass.m_index, u_shot.s_lights, &lights);
 		bgfx::setViewUniform(render_pass.m_index, u_shot.s_zones, &zones);
+#endif
+
+#if LIGHTS_BUFFER
+		uint32_t lights = uint32_t(TextureSampler::Lights);
+		bgfx::setViewUniform(render_pass.m_index, u_shot.s_lights, &lights);
+#endif
 
 		if(render.m_camera.m_clustered)
 			render.m_camera.m_clusters->submit(render_pass);
@@ -156,13 +159,13 @@ namespace mud
 		if(render.m_camera.m_clustered)
 			render.m_camera.m_clusters->submit(encoder);
 
-		this->upload_zones(render, render_pass); //render, render_pass, render.m_env);
-		this->upload_lights(render, render_pass);
+		this->commit_zones(render, render_pass); //render, render_pass, render.m_env);
+		this->commit_lights(render, render_pass);
 
 		// set to not render if not first direct pass, depending on cull
 	}
 
-	void BlockLight::update_lights(Render& render, const mat4& view)
+	void BlockLight::setup_lights(Render& render, const mat4& view)
 	{
 		span<Light*> lights = render.m_shot->m_lights;
 		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
@@ -182,35 +185,52 @@ namespace mud
 			float specular = light.m_specular;
 			vec3 direction = muln(view, light.m_node.direction());
 			float attenuation = light.m_attenuation;
-			float shadow_enabled = light.m_shadows ? 1.f : 0.f;
-			vec3 shadow_color = to_vec3(to_linear(light.m_shadow_colour));
 			float spot_attenuation = light.m_spot_attenuation;
 			float spot_cutoff = cos(to_radians(light.m_spot_angle));
 
-			m_gpu_lights.push_back({ position, range, energy, specular, direction, attenuation, shadow_enabled, shadow_color, spot_attenuation, spot_cutoff });
+			m_gpu_lights.push_back({ position, range, energy, specular, direction, attenuation, spot_attenuation, spot_cutoff });
 
 			float& light_type_count = zone.m_light_counts[size_t(light.m_type)];
-			zone.m_light_indices[size_t(light_type_count)][size_t(light.m_type)] = index;
+			zone.m_light_indices[size_t(light_type_count)][size_t(light.m_type)] = float(index);
 			light_type_count++;
 		}
 
-		m_light_count = lights.m_count;
-		zone.m_light_count = lights.m_count;
+		for(size_t index = 0; index < lights.size(); ++index)
+		{
+			const Light& light = *lights[index];
 
+			float matrix = c_max_shadows;
+			float bias = light.m_shadow_bias;
+			float radius = 1.f;
+			vec2 atlas_offset = vec2(0.f);
+			vec2 atlas_scale = vec2(0.f);
+
+			m_gpu_shadows.push_back({ matrix, bias, radius, atlas_offset, atlas_scale });
+		}
+
+		m_light_count = uint16_t(lights.m_count);
+		zone.m_light_count = uint16_t(lights.m_count);
+	}
+
+	void BlockLight::upload_lights(Render& render)
+	{
+		UNUSED(render);
 #if LIGHTS_BUFFER
-		GpuState<GpuLight>::me.pack(m_lights_texture, m_gpu_lights);
+		GpuState<GpuLight>::me.pack(m_lights_texture, m_gpu_lights, m_gpu_shadows);
 #endif
 	}
 
-	void BlockLight::update_zones(span<Zone> zones)
+	void BlockLight::upload_zones(Render& render)
 	{
 #if ZONES_BUFFER
+		span<Zone> zones = { &render.m_scene.m_env, 1 };
 		GpuState<Zone>::me.pack(m_zones_texture, zones);
 #else
+		UNUSED(render);
 #endif
 	}
 
-	void BlockLight::upload_lights(Render& render, const Pass& render_pass) const
+	void BlockLight::commit_lights(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render); UNUSED(render_pass);
 #if LIGHTS_BUFFER
@@ -219,7 +239,7 @@ namespace mud
 #endif
 	}
 
-	void BlockLight::upload_zones(Render& render, const Pass& render_pass) const
+	void BlockLight::commit_zones(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render); UNUSED(render_pass);
 #if ZONES_BUFFER
@@ -288,7 +308,7 @@ namespace mud
 		if(index >= block_shadow.m_shadows.size())
 			return;
 
-		LightShadow& shadow = block_shadow.m_shadows[index];
+		CSMShadow& shadow = block_shadow.m_csm_shadows[index];
 
 		auto draw = [](Gnode& parent, const Shape& shape, const Symbol& symbol)
 		{

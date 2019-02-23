@@ -12,11 +12,26 @@
 
 namespace mud
 {
+	export_ enum class refl_ DepthMethod : unsigned int
+	{
+		Depth,
+		DepthPacked,
+		Distance,
+		Count
+	};
+
 	export_ struct refl_ DepthParams
 	{
 		attr_ gpu_ float m_depth_bias = 0.f;
 		attr_ gpu_ float m_depth_normal_bias = 0.f;
 		attr_ gpu_ float m_depth_z_far = 0.f;
+	};
+
+	export_ struct refl_ DistanceParams
+	{
+		attr_ gpu_ vec3 m_eye = vec3(0.f);
+		attr_ gpu_ float m_near = 0.f;
+		attr_ gpu_ float m_far = 1.f;
 	};
 
 	export_ class MUD_GFX_EXPORT PassDepth : public DrawPass
@@ -42,8 +57,6 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
-
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
@@ -53,16 +66,21 @@ namespace mud
 			void createUniforms()
 			{
 				u_depth_params = bgfx::createUniform("u_depth_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+				u_distance_params_0 = bgfx::createUniform("u_distance_params_0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+				u_distance_params_1 = bgfx::createUniform("u_distance_params_1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 			}
 
 			bgfx::UniformHandle u_depth_params;
+			bgfx::UniformHandle u_distance_params_0;
+			bgfx::UniformHandle u_distance_params_1;
 
 		} u_depth;
 
-		DepthParams* m_current_params = nullptr;
+		DepthMethod m_depth_method = DepthMethod::Depth;
+		DepthParams m_depth_params = {};
+		DistanceParams m_distance_params = {};
 
-		DepthParams m_depth_params;
-
-		table<CullMode, Material*> m_depth_material = {};
+		Program* m_depth_program = nullptr;
+		Program* m_distance_program = nullptr;
 	};
 }

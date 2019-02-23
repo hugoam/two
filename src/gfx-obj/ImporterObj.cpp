@@ -123,7 +123,6 @@ namespace mud
 			{
 				string name = tokens[1];
 				current = &gfx_system.fetch_material(name.c_str(), "pbr/pbr");
-				current->m_pbr_block.m_enabled = true;
 				material_map[name] = current;
 			}
 			else if(command == "Ka")
@@ -133,43 +132,43 @@ namespace mud
 			else if(command == "Kd")
 			{
 				Colour albedo = tocol(tokens);
-				current->m_pbr_block.m_albedo.m_value = albedo;
+				current->m_pbr.m_albedo.m_value = albedo;
 			}
 			else if(command == "Ks")
 			{
 				Colour specular = tocol(tokens);
-				current->m_pbr_block.m_metallic.m_value = max(specular.m_r, max(specular.m_g, specular.m_b));
+				current->m_pbr.m_metallic.m_value = max(specular.m_r, max(specular.m_g, specular.m_b));
 			}
 			else if(command == "Ke")
 			{
 				Colour emissive = tocol(tokens);
-				current->m_pbr_block.m_emissive.m_value = emissive;
-				current->m_pbr_block.m_emissive.m_value.m_a = length(to_vec3(emissive));
+				current->m_pbr.m_emissive.m_value = emissive;
+				current->m_pbr.m_emissive.m_value.m_a = length(to_vec3(emissive));
 			}
 			else if(command == "Ns")
 			{
 				float specular = tof(tokens[1]);
-				current->m_pbr_block.m_metallic.m_value = (1000.f - specular) / 1000.f;
+				current->m_pbr.m_metallic.m_value = (1000.f - specular) / 1000.f;
 			}
 			else if(command == "d")
 			{
 				float d = tof(tokens[1]);
-				current->m_pbr_block.m_albedo.m_value.m_a = d;
+				current->m_pbr.m_albedo.m_value.m_a = d;
 			}
 			else if(command == "Tr")
 			{
 				float tr = tof(tokens[1]);
-				current->m_pbr_block.m_albedo.m_value.m_a = 1.f - tr;
+				current->m_pbr.m_albedo.m_value.m_a = 1.f - tr;
 			}
 			else if(command == "Pr")
 			{
 				float roughness = tof(tokens[1]);
-				current->m_pbr_block.m_roughness.m_value = roughness;
+				current->m_pbr.m_roughness.m_value = roughness;
 			}
 			else if(command == "Pm")
 			{
 				float metallic = tof(tokens[1]);
-				current->m_pbr_block.m_metallic.m_value = metallic;
+				current->m_pbr.m_metallic.m_value = metallic;
 			}
 			else if(command.substr(0, 3) == "map")
 			{
@@ -180,34 +179,34 @@ namespace mud
 				}
 				else if(command == "map_Kd") // diffuse texture
 				{
-					current->m_pbr_block.m_albedo.m_texture = fetch_texture(map);
+					current->m_pbr.m_albedo.m_texture = fetch_texture(map);
 				}
 				else if(command == "map_Ks") // specular texture
 				{
-					//current->m_pbr_block.m_metallic.m_value = 1.f;
-					current->m_pbr_block.m_metallic.m_texture = fetch_texture(map);
+					//current->m_pbr.m_metallic.m_value = 1.f;
+					current->m_pbr.m_metallic.m_texture = fetch_texture(map);
 				}
 				else if(command == "map_Ke") // emissive texture
 				{
-					current->m_pbr_block.m_emissive.m_texture = fetch_texture(map);
-					current->m_pbr_block.m_emissive.m_value.m_a = 2.f;
+					current->m_pbr.m_emissive.m_texture = fetch_texture(map);
+					current->m_pbr.m_emissive.m_value.m_a = 2.f;
 				}
 				else if(command == "map_Ns") // specular highlight texture
 				{
-					current->m_pbr_block.m_roughness.m_texture = fetch_texture(map);
+					current->m_pbr.m_roughness.m_texture = fetch_texture(map);
 				}
 				else if(command == "map_bump" || command == "bump") // bump texture
 				{
-					current->m_pbr_block.m_normal.m_texture = fetch_texture(map);
+					current->m_pbr.m_normal.m_texture = fetch_texture(map);
 				}
 				else if(command == "map_Pr") // PBR: roughness texture
 				{
-					current->m_pbr_block.m_roughness.m_texture = fetch_texture(map);
+					current->m_pbr.m_roughness.m_texture = fetch_texture(map);
 				}
 				else if(command == "map_Pm") // PBR: metallic texture
 				{
-					//current->m_pbr_block.m_metallic.m_value = 1.f;
-					current->m_pbr_block.m_metallic.m_texture = fetch_texture(map);
+					//current->m_pbr.m_metallic.m_value = 1.f;
+					current->m_pbr.m_metallic.m_texture = fetch_texture(map);
 				}
 			}
 

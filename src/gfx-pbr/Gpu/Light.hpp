@@ -11,13 +11,14 @@
 #include <gfx/Renderer.h>
 #endif
 #include <gfx-pbr/Lighting.h>
+#include <gfx-pbr/Shadow.h>
 
 #include <cstring>
 
 namespace mud
 {
 	template <>
-	struct GpuState<CSMShadow>
+	struct GpuState<GpuCSM>
 	{
 		void init()
 		{
@@ -37,6 +38,24 @@ namespace mud
 		static GpuState me;
 	};
 
+	template <>
+	struct GpuState<GpuShadow>
+	{
+		void init()
+		{
+			u_shadow_matrix = bgfx::createUniform("u_shadow_matrix", bgfx::UniformType::Mat4, c_max_shadows, bgfx::UniformFreq::View);
+		}
+
+		void upload(const Pass& render_pass, span<mat4> matrices)
+		{
+			bgfx::setViewUniform(render_pass.m_index, u_shadow_matrix, matrices.m_pointer, uint16_t(matrices.size()));
+		}
+
+		bgfx::UniformHandle u_shadow_matrix;
+
+		static GpuState me;
+	};
+
 #if !LIGHTS_BUFFER
 	template <>
 	struct GpuState<GpuLight>
@@ -46,18 +65,19 @@ namespace mud
 			u_light_position_range			= bgfx::createUniform("u_light_position_range",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
 			u_light_energy_specular			= bgfx::createUniform("u_light_energy_specular",		bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
 			u_light_direction_attenuation	= bgfx::createUniform("u_light_direction_attenuation",	bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
-			u_light_shadow					= bgfx::createUniform("u_light_shadow",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
 			u_light_spot_params				= bgfx::createUniform("u_light_spot_params",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
-			u_light_shadow_matrix			= bgfx::createUniform("u_light_shadow_matrix",			bgfx::UniformType::Mat4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_shadow_params			= bgfx::createUniform("u_light_shadow_params",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_shadowmap_params		= bgfx::createUniform("u_light_shadowmap_params",		bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
 		}
 
-		void upload(const Pass& render_pass, span<GpuLight> lights) const
+		void upload(const Pass& render_pass, span<GpuLight> lights, span<GpuLightShadow> shadows) const
 		{
 			vec4 position_range[c_max_forward_lights];
 			vec4 energy_specular[c_max_forward_lights];
 			vec4 direction_attenuation[c_max_forward_lights];
-			vec4 shadow_color_enabled[c_max_forward_lights];
 			vec4 spot_params[c_max_forward_lights];
+			vec4 shadow_params[c_max_forward_lights];
+			vec4 shadowmap_params[c_max_forward_lights];
 			//mat4 shadow_matrix[c_max_forward_lights];
 
 			for(size_t i = 0; i < lights.size(); ++i)
@@ -66,24 +86,30 @@ namespace mud
 				position_range[i] = { l.position, l.range };
 				energy_specular[i] = { l.energy, l.specular };
 				direction_attenuation[i] = { l.direction, l.attenuation };
-				shadow_color_enabled[i] = { l.shadow_color, l.shadow_enabled };
 				spot_params[i] = { l.spot_attenuation, l.spot_cutoff, 0.f, 0.f };
+			}
+
+			for(size_t i = 0; i < lights.size(); ++i)
+			{
+				GpuLightShadow& s = shadows[i];
+				shadow_params[i] = { s.matrix, s.bias, s.radius, 0.f };
+				shadowmap_params[i] = { s.atlas_slot, s.atlas_subdiv };
 			}
 
 			bgfx::setViewUniform(render_pass.m_index, u_light_position_range,			&position_range,		uint16_t(lights.size()));
 			bgfx::setViewUniform(render_pass.m_index, u_light_energy_specular,			&energy_specular,		uint16_t(lights.size()));
 			bgfx::setViewUniform(render_pass.m_index, u_light_direction_attenuation,	&direction_attenuation,	uint16_t(lights.size()));
-			bgfx::setViewUniform(render_pass.m_index, u_light_shadow,					&shadow_color_enabled,	uint16_t(lights.size()));
 			bgfx::setViewUniform(render_pass.m_index, u_light_spot_params,				&spot_params,			uint16_t(lights.size()));
-			//bgfx::setViewUniform(render_pass.m_index, u_light_shadow_matrix,			&shadow_matrix,			uint16_t(lights.size()));
+			bgfx::setViewUniform(render_pass.m_index, u_light_shadow_params,			&shadow_params,			uint16_t(lights.size()));
+			bgfx::setViewUniform(render_pass.m_index, u_light_shadowmap_params,			&shadowmap_params,		uint16_t(lights.size()));
 		}
 
 		bgfx::UniformHandle u_light_position_range;
 		bgfx::UniformHandle u_light_energy_specular;
 		bgfx::UniformHandle u_light_direction_attenuation;
-		bgfx::UniformHandle u_light_shadow;
-		bgfx::UniformHandle u_light_shadow_matrix;
 		bgfx::UniformHandle u_light_spot_params;
+		bgfx::UniformHandle u_light_shadow_params;
+		bgfx::UniformHandle u_light_shadowmap_params;
 
 		static GpuState me;
 	};
@@ -91,7 +117,7 @@ namespace mud
 	template <>
 	struct GpuState<GpuLight>
 	{
-		void pack(GpuLight& gpu_light, size_t index, const GpuTexture& buffer, float* dest)
+		void pack(GpuLight& gpu_light, GpuLightShadow& gpu_shadow, size_t index, const GpuTexture& buffer, float* dest)
 		{
 			size_t offset = index * buffer.stride;// + (index % texture_size) * height;
 
@@ -106,18 +132,21 @@ namespace mud
 			memcpy(dest + offset, &gpu_light.direction, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 
-			memcpy(dest + offset, &gpu_light.shadow_enabled, sizeof(float) * 4);
+			memcpy(dest + offset, &gpu_light.spot_attenuation, sizeof(float) * 2);
 			offset += buffer.width * buffer.stride;
 
-			memcpy(dest + offset, &gpu_light.spot_attenuation, sizeof(float) * 2);
+			memcpy(dest + offset, &gpu_shadow.matrix, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &gpu_shadow.atlas_slot, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 		}
 
-		void pack(bgfx::TextureHandle& texture, span<GpuLight> lights)
+		void pack(bgfx::TextureHandle& texture, span<GpuLight> lights, span<GpuLightShadow> shadows)
 		{
 			GpuTexture buffer = { texture, 1024, 4 };
 
-			size_t height = 5;
+			size_t height = 6;
 			size_t lines = 1;
 
 			if(!bgfx::isValid(texture))
@@ -127,7 +156,7 @@ namespace mud
 
 			for(size_t index = 0; index < lights.size(); ++index)
 			{
-				this->pack(lights[index], index, buffer, (float*)memory->data);
+				this->pack(lights[index], shadows[index], index, buffer, (float*)memory->data);
 			}
 
 			//const bgfx::Memory* mem = bgfx::makeRef(m_texture_data.data(), sizeof(float) * m_texture_data.size());

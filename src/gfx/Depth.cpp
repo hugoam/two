@@ -15,6 +15,7 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #include <gfx/Types.h>
 #include <gfx/Depth.h>
+#include <gfx/Asset.h>
 #endif
 
 namespace mud
@@ -31,24 +32,27 @@ namespace mud
 	void PassDepth::next_draw_pass(Render& render, Pass& render_pass)
 	{
 		UNUSED(render);
-		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_CULL_CW ;
+		if(m_block_depth.m_depth_method == DepthMethod::Distance)
+			render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_CULL_CW; // | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL
+		else
+			render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_CULL_CW;
 
 		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
-
-		m_block_depth.m_current_params = &m_block_depth.m_depth_params;
 	}
 
 	void PassDepth::queue_draw_element(Render& render, DrawElement& element)
 	{
 		UNUSED(render);
-		
-		if(element.m_material->m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
-		{
-			CullMode cull_mode = element.m_material->m_base_block.m_cull_mode;
 
-			element.m_material = m_block_depth.m_depth_material[cull_mode];
-			element.m_program = element.m_material->m_program;
-			element.m_shader_version = { element.m_material->m_program };
+		if(element.m_material->m_base.m_depth_draw_mode == DepthDraw::Enabled
+		&& !element.m_material->m_alpha.m_is_alpha)
+		{
+			const DepthMethod depth_method = m_block_depth.m_depth_method;
+			const Program& program = depth_method == DepthMethod::Distance ? *m_block_depth.m_distance_program
+																		   : *m_block_depth.m_depth_program;
+
+			element.m_program = &program;
+			element.m_shader_version = element.m_material->shader_version(*element.m_program);
 
 			this->add_element(render, element);
 		}
@@ -63,14 +67,8 @@ namespace mud
 
 	void BlockDepth::init_block()
 	{
-		m_depth_material[CullMode::None] = &m_gfx_system.fetch_material("depth_none", "depth");
-		m_depth_material[CullMode::None]->m_base_block.m_cull_mode = CullMode::None;
-
-		m_depth_material[CullMode::Back] = &m_gfx_system.fetch_material("depth_back", "depth");
-		m_depth_material[CullMode::Back]->m_base_block.m_cull_mode = CullMode::Back;
-
-		m_depth_material[CullMode::Front] = &m_gfx_system.fetch_material("depth_front", "depth");
-		m_depth_material[CullMode::Front]->m_base_block.m_cull_mode = CullMode::Front;
+		m_depth_program = m_gfx_system.programs().file("depth");
+		m_distance_program = m_gfx_system.programs().file("distance");
 
 		u_depth.createUniforms();
 	}
@@ -78,14 +76,12 @@ namespace mud
 	void BlockDepth::begin_render(Render& render)
 	{
 		UNUSED(render);
+
+		m_depth_params = {};
+		m_distance_params = {};
 	}
 
 	void BlockDepth::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
-	void BlockDepth::begin_draw_pass(Render& render)
 	{
 		UNUSED(render);
 	}
@@ -98,7 +94,12 @@ namespace mud
 	void BlockDepth::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render); UNUSED(render_pass);
-		bgfx::setViewUniform(render_pass.m_index, u_depth.u_depth_params, &(*m_current_params));
+		bgfx::setViewUniform(render_pass.m_index, u_depth.u_depth_params, &m_depth_params);
+
+		vec4 distance_params_0 = { m_distance_params.m_eye, 0.f };
+		vec4 distance_params_1 = { m_distance_params.m_near, m_distance_params.m_far, 0.f, 0.f };
+		bgfx::setViewUniform(render_pass.m_index, u_depth.u_distance_params_0, &distance_params_0);
+		bgfx::setViewUniform(render_pass.m_index, u_depth.u_distance_params_1, &distance_params_1);
 	}
 
 	void BlockDepth::submit(Render& render, const DrawElement& element, const Pass& render_pass) const

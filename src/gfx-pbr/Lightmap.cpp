@@ -127,7 +127,7 @@ namespace mud
 	void PassLightmap::queue_draw_element(Render& render, DrawElement& element)
 	{
 		UNUSED(render);
-		if(element.m_material->m_pbr_block.m_enabled)
+		if(element.m_program->m_blocks[MaterialBlock::Pbr])
 		{
 			element.m_program = m_block_lightmap.m_lightmap;
 			element.m_shader_version = element.m_material->shader_version(*element.m_program);
@@ -500,11 +500,6 @@ namespace mud
 	}
 
 	void BlockLightmap::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
-	void BlockLightmap::begin_draw_pass(Render& render)
 	{
 		UNUSED(render);
 	}

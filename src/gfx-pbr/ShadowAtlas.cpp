@@ -9,6 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
+#include <stl/algorithm.h>
 #include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <gfx/Light.h>
@@ -16,123 +17,125 @@ module mud.gfx.pbr;
 #include <gfx/Frustum.h>
 #include <gfx/Renderer.h>
 #include <gfx-pbr/ShadowAtlas.h>
+#include <gfx-pbr/Shadow.h>
 #endif
+
+#include <cstdio>
 
 namespace mud
 {
-	ShadowCubemap::ShadowCubemap(uint16_t size)
-		: m_size(size)
-	{
-		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT))
-			return;
-
-		m_cubemap = bgfx::createTextureCube(m_size, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT);
-
-		for(int i = 0; i < 6; i++)
-		{
-			bgfx::Attachment attachment = { bgfx::Access::Write, m_cubemap, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS };
-			m_fbos[i] = bgfx::createFrameBuffer(1, &attachment, true);
-		}
-	}
-
 	ShadowAtlas::ShadowAtlas(uint16_t size, vector<uint16_t> slices_subdiv)
 		: m_size(size)
+		, m_rect_size(size * slices_subdiv.size(), size)
 	{
-		m_depth = bgfx::createTexture2D(m_size, m_size * uint16_t(slices_subdiv.size()), false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP);
-		m_fbo = bgfx::createFrameBuffer(1, &m_depth);
+		m_depth = bgfx::createTexture2D(m_size * uint16_t(slices_subdiv.size()), m_size, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP);
+		m_color = bgfx::createTexture2D(m_size * uint16_t(slices_subdiv.size()), m_size, false, 1, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP);
+		bgfx::TextureHandle textures[] = { m_depth, m_color };
+		m_fbo = bgfx::createFrameBuffer(2, textures);
 
-		uint16_t index = 0;
+		//m_depth = bgfx::createTexture2D(m_size, m_size * uint16_t(slices_subdiv.size()), false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP);
+		//m_fbo = bgfx::createFrameBuffer(1, &m_depth);
+
+		uint8_t index = 0;
 		for(uint16_t subdiv : slices_subdiv)
 		{
-			m_slices.push_back({ m_size, subdiv, uvec4(0, index * m_size, m_size, m_size) });
-		}
-
-		uint16_t max_cubemap_size = 512;
-		uint16_t cubemap_size = max_cubemap_size;
-		while(cubemap_size >= 32)
-		{
-			m_cubemaps.push_back({ cubemap_size });
-			cubemap_size >>= 1;
+			m_slices.push_back({ index, m_size, subdiv, uvec4(index * m_size, 0, m_size, m_size) });
+			index++;
 		}
 	}
 
-	ShadowCubemap& ShadowAtlas::light_cubemap(Light& light, uint16_t shadow_size)
+	ShadowAtlas::Slot& ShadowAtlas::light_slot(Light& light)
 	{
-		UNUSED(light);
-		for(int i = int(m_cubemaps.size()) - 1; i >= 0; i--)
-			if(m_cubemaps[i].m_size > shadow_size * 2)
-			{
-				return m_cubemaps[i];
-			}
-
-		return m_cubemaps.back();
+		union { Index index; uint32_t i; } cast;
+		cast.i = light.m_shadow_index;
+		Slice& slice = m_slices[cast.index.slice];
+		return slice.m_slots[cast.index.slot];
 	}
 
-	uvec4 ShadowAtlas::light_rect(Light& light)
+	ShadowAtlas::Slice& ShadowAtlas::light_slice(Light& light)
 	{
-		UNUSED(light);
-		Index index = {};// = m_light_indices[light.m_light_index];
-		Slice& slice = m_slices[index.m_slice];
-		Slice::Slot& slot = slice.m_slots[index.m_slot];
-		return slot.m_rect;
+		union { Index index; uint32_t i; } cast;
+		cast.i = light.m_shadow_index;
+		return m_slices[cast.index.slice];
 	}
 
-	ShadowAtlas::Slice::Slice(uint32_t size, uint16_t subdiv, uvec4 rect)
-		: m_size(size)
+	ShadowAtlas::Slice::Slice(uint8_t index, uint16_t size, uint16_t subdiv, uvec4 rect)
+		: m_index(index)
+		, m_size(size)
 		, m_subdiv(subdiv)
 		, m_rect(rect)
+		, m_slot_size(size / subdiv)
 	{
-		uint32_t subdiv_size = size / subdiv;
+		const uint32_t slot_size = size / subdiv;
+
+		uint16_t i = 0;
+		for(uint16_t y = 0; y < subdiv; ++y)
+			for(uint16_t x = 0; x < subdiv; ++x)
+			{
+				uvec4 slot_rect = { rect.x + x * slot_size, rect.y + y * slot_size,
+									slot_size, slot_size };
+
+				m_slots.push_back({ i++, nullptr, slot_rect });
+			}
+
+		// @todo change to highwater + free list under waterline
+		for(size_t i = 0; i < m_slots.size(); ++i)
+		{
+			m_free_slots.push_back(&m_slots[i]);
+		}
 
 		for(uint16_t y = 0; y < subdiv; ++y)
 			for(uint16_t x = 0; x < subdiv; ++x)
 			{
-				uvec4 slot_rect = { rect.x + x * subdiv_size, rect.y + y * subdiv_size,
-									subdiv_size, subdiv_size };
-
-				m_slots.push_back({ nullptr, slot_rect });
+				bool at_block = x % 4 == 0 && y % 2 == 0;
+				bool has_space = subdiv - x >= 4 && subdiv - y >= 2;
+				if(at_block && has_space)
+					m_free_blocks.push_back(&m_slots[x + y * subdiv]);
 			}
-	}
-
-	void ShadowAtlas::Slice::remove_light(Light& light)
-	{
-		UNUSED(light);
-	}
-
-	void ShadowAtlas::Slice::add_light(Light& light)
-	{
-		UNUSED(light);
 	}
 
 	void ShadowAtlas::remove_light(Light& light)
 	{
-		UNUSED(light);
-		Index index = {}; // = m_light_indices[light.m_light_index];
-		Slice& slice = m_slices[index.m_slice];
-		slice.m_slots[index.m_slot].m_light = nullptr;
+		Slot& slot = this->light_slot(light);
+		slot.m_light = nullptr;
 	}
 
 	bool ShadowAtlas::update_light(Light& light, uint64_t render, float coverage, uint64_t light_version)
 	{
 		UNUSED(render); UNUSED(light_version);
-		uint16_t target_size = min<uint16_t>(m_size / m_slices[0].m_subdiv, uint16_t(pow2_round_up(uint(m_size * coverage))));
+		uint16_t biggest = m_slices[0].m_slot_size;
+		uint16_t target_size = min(biggest, uint16_t(pow2_round_up(uint(m_size * coverage))));
 
-		// @todo check if we need to allocate a new slot
+		if(light.m_shadow_index != UINT32_MAX)
+		{
+			Slice& slice = this->light_slice(light);
+			if(slice.m_slot_size > target_size) return false;
+		}
+
+		//printf("looking for a shadow atlas slot of size %i\n", int(target_size));
 
 		for(Slice& slice : m_slices)
-			if(slice.m_size > target_size)
-			{
-				if(!slice.m_free_slots.empty())
-					slice.add_light(light);
-			}
+		{
+			if(slice.m_slot_size <= target_size)
+				continue;
 
-		return true;
+			if(light.m_type == LightType::Point && !slice.m_free_blocks.empty())
+			{
+				Slot* slot = pop(slice.m_free_blocks);
+				// @todo remove from free_slots list
+				slot->m_light = &light;
+				union { Index index; uint32_t i; } cast;
+				cast.index = { slice.m_index, slot->m_index };
+				light.m_shadow_index = cast.i;
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	uvec4 ShadowAtlas::render_update(Render& render, Light& light)
 	{
-		float coverage;
-
 		Plane camera_near_plane = render.m_camera.near_plane();
 
 		vec3 points[2];
@@ -144,8 +147,8 @@ namespace mud
 		}
 		else if(light.m_type == LightType::Spot)
 		{
-			float w = light.m_range * std::sin(light.m_spot_angle);
-			float d = light.m_range * std::cos(light.m_spot_angle);
+			float w = light.m_range * sin(light.m_spot_angle);
+			float d = light.m_range * cos(light.m_spot_angle);
 
 			vec3 base = light.m_node.position() + light.m_node.direction() * d;
 
@@ -167,7 +170,7 @@ namespace mud
 		vec2 size = frustum_viewport_size(render.m_camera.m_projection);
 
 		float screen_diameter = distance(points[0], points[1]) * 2.f;
-		coverage = screen_diameter / (size.x + size.y);
+		float coverage = screen_diameter / (size.x + size.y);
 
 		//if(light.m_shadow_dirty) // updated when lights and objects bounds start or stop intersecting, or move
 		//{
@@ -177,6 +180,6 @@ namespace mud
 
 		bool redraw = this->update_light(light, light.m_last_render, coverage, light.m_last_update);
 		UNUSED(redraw);
-		return light_rect(light);
+		return this->light_slot(light).m_rect;
 	}
 }

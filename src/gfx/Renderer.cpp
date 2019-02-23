@@ -17,6 +17,7 @@ module mud.gfx;
 #include <gfx/Shot.h>
 #include <gfx/Program.h>
 #include <gfx/Viewport.h>
+#include <gfx/Camera.h>
 #include <gfx/Scene.h>
 #include <gfx/Item.h>
 #include <gfx/Mesh.h>
@@ -41,10 +42,14 @@ namespace mud
 	{
 		RenderUniform() {}
 		RenderUniform(int)
-			: u_render_params(bgfx::createUniform("u_render_params", bgfx::UniformType::Vec4))
+			: u_render_params(bgfx::createUniform("u_render_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
+			, u_viewport_params(bgfx::createUniform("u_viewport_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
+			, u_camera_params(bgfx::createUniform("u_camera_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
 		{}
 
 		bgfx::UniformHandle u_render_params;
+		bgfx::UniformHandle u_viewport_params;
+		bgfx::UniformHandle u_camera_params;
 	};
 
 	static RenderUniform s_render_uniform;
@@ -76,7 +81,7 @@ namespace mud
 	Render::~Render()
 	{}
 
-	Pass Render::next_pass(const char* name, bool subpass)
+	Pass Render::next_pass(cstring name, bool subpass)
 	{
 		if(!subpass)
 			m_sub_pass_index = 0;
@@ -86,6 +91,7 @@ namespace mud
 		render_pass.m_bgfx_state = 0;
 		render_pass.m_fbo = m_target_fbo;
 		render_pass.m_viewport = &m_viewport;
+		render_pass.m_rect = m_viewport.m_rect;
 		render_pass.m_use_mrt = m_needs_mrt;
 		render_pass.m_index = m_pass_index++;
 		render_pass.m_sub_pass = m_sub_pass_index++;
@@ -97,13 +103,32 @@ namespace mud
 
 		bgfx::setViewName(render_pass.m_index, name);
 
+		this->set_uniforms(render_pass);
+
 		return render_pass;
 	}
 
-	void Render::set_uniforms(bgfx::Encoder& encoder) const
+	Pass Render::composite_pass(cstring name, bgfx::FrameBufferHandle fbo, const uvec4& rect)
+	{
+		Pass render_pass = this->next_pass(name);
+		render_pass.m_fbo = fbo;
+		render_pass.m_rect = rect;
+		return render_pass;
+	}
+
+	void Render::set_uniforms(const Pass& render_pass) const
 	{
 		vec4 render_params = { m_frame.m_time, float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
-		encoder.setUniform(s_render_uniform.u_render_params, &render_params);
+		bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_render_params, &render_params);
+
+		if(m_target)
+		{
+			vec4 screen_params{ vec2(m_target->m_size), 1.0f / vec2(m_target->m_size) };
+			bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_viewport_params, &screen_params);
+		}
+
+		vec4 camera_params{ m_camera.m_near, m_camera.m_far, m_camera.m_fov, m_camera.m_aspect };
+		bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_camera_params, &camera_params);
 	}
 
 	struct Renderer::Impl
@@ -157,7 +182,7 @@ namespace mud
 	{
 		//render.m_needs_depth_prepass = true;
 
-		m_pipeline.block<MaterialBlock>()->begin_render(render);
+		m_pipeline.block<BlockMaterial>()->begin_render(render);
 
 		for(GfxBlock* block : m_impl->m_gfx_blocks)
 			block->begin_render(render);
@@ -188,7 +213,7 @@ namespace mud
 	}
 
 	GfxBlock::GfxBlock(GfxSystem& gfx_system, Type& type)
-		: m_gfx_system(gfx_system), m_type(type), m_index(s_block_index++)
+		: m_gfx_system(gfx_system), m_type(type), m_index(++s_block_index)
 		, m_shader_block(make_unique<ShaderBlock>())
 	{}
 
@@ -204,7 +229,8 @@ namespace mud
 
 	DrawElement::DrawElement(Item& item, const Program& program, const ModelItem& model, const Material& material, const Skin* skin)
 		: m_item(&item), m_program(&program), m_model(&model), m_material(&material), m_skin(skin)
-		, m_shader_version(material.shader_version(program, item, model))
+		//, m_shader_version(material.shader_version(program, item, model))
+		, m_shader_version(material.shader_version(program))
 	{}
 
 	struct DrawList : public vector<DrawElement>
@@ -299,7 +325,7 @@ namespace mud
 				Material& material = item_material(*item, model_item, fallback_material);
 				Program& program = *material.m_program;
 
-				if(mask_draw_mode(material.m_base_block.m_geometry_filter, model_item.m_mesh->m_draw_mode))
+				if(mask_draw_mode(material.m_base.m_geometry_filter, model_item.m_mesh->m_draw_mode))
 					continue;
 
 				Skin* skin = (model_item.m_skin > -1 && item->m_rig) ? &item->m_rig->m_skins[model_item.m_skin] : nullptr;
@@ -345,11 +371,17 @@ namespace mud
 				block->submit(render, element, render_pass);
 			
 			uint64_t render_state = 0 | render_pass.m_bgfx_state | element.m_bgfx_state;
-			element.m_material->submit(encoder, render_state, element.m_skin);
+			element.m_material->submit(*element.m_program, encoder, render_state, element.m_skin);
 			element.m_item->submit(encoder, render_state, *element.m_model);
 
-			render.set_uniforms(encoder);
+			if(m_name == string("shadow"))
+				int i = 0;
 
+			if(m_name == string("shadow") && (render_state & BGFX_STATE_WRITE_Z) != 0)
+				int i = 0;
+			if(m_name == string("shadow") && (render_state & BGFX_STATE_DEPTH_TEST_MASK) != 0)
+				int i = 0;
+			
 			encoder.setState(render_state);
 
 			encoder.submit(render_pass.m_index, element.m_bgfx_program, depth_to_bits(element.m_item->m_depth));
@@ -362,8 +394,6 @@ namespace mud
 
 	void DrawPass::submit_render_pass(Render& render)
 	{
-		this->blocks_begin_draw_pass(render);
-
 		m_impl->m_draw_elements.clear();
 		this->gather_draw_elements(render);
 
@@ -372,7 +402,6 @@ namespace mud
 		for(PassJob& job : render.m_scene.m_pass_jobs->m_jobs[m_pass_type])
 		{
 			Pass render_pass = render.next_pass(m_name);
-			render.set_uniforms(*render_pass.m_encoder);
 			job(render, render_pass);
 		}
 
@@ -382,7 +411,7 @@ namespace mud
 			this->next_draw_pass(render, render_pass);
 			render.m_viewport.render_pass(m_name, render_pass);
 
-			m_gfx_system.m_pipeline->block<MaterialBlock>()->submit(render, render_pass);
+			m_gfx_system.m_pipeline->block<BlockMaterial>()->submit(render, render_pass);
 
 			for(DrawBlock* block : m_impl->m_draw_blocks)
 				block->submit(render, render_pass);

@@ -125,6 +125,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Flare>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialBlock>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockMaterial>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
 }

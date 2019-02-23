@@ -218,11 +218,18 @@ namespace mud
 		set_texture_info(texture, texture_info);
 	}
 
+	void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, const bgfx::Memory& memory)
+	{
+		texture.m_width = width;
+		texture.m_height = height;
+		texture.m_texture = bgfx::createTexture2D(width, height, false, 1, bgfx::TextureFormat::RGBA8, GFX_TEXTURE_POINT, &memory);
+	}
+
 	void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data)
 	{
 		const bgfx::Memory* memory = bgfx::alloc(uint32_t(sizeof(uint8_t) * data.m_count));
 		memcpy(memory->data, data.m_pointer, data.m_count);
-		texture.m_texture = bgfx::createTexture2D(width, height, false, 1, bgfx::TextureFormat::RGBA8, GFX_TEXTURE_POINT, memory);
+		load_texture_rgba(texture, width, height, *memory);
 	}
 
 	Texture::Texture(const string& name)

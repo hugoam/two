@@ -29,13 +29,17 @@ module mud.gfx;
 #endif
 
 #include <cstring>
+#include <cstdio>
 
 namespace mud
 {
+	bool is_valid(Texture* texture) { return texture != nullptr && bgfx::isValid(texture->m_texture); };
+
 	template struct MaterialParam<Colour>;
 	template struct MaterialParam<float>;
 
 	GpuState<MaterialBase> GpuState<MaterialBase>::me;
+	GpuState<MaterialAlpha> GpuState<MaterialAlpha>::me;
 	GpuState<MaterialUnshaded> GpuState<MaterialUnshaded>::me;
 	GpuState<MaterialPbr> GpuState<MaterialPbr>::me;
 	GpuState<Material> GpuState<Material>::me;
@@ -64,6 +68,7 @@ namespace mud
 		BaseMaterialUniform(GfxSystem& gfx_system)
 			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
+			UNUSED(gfx_system);
 #if !MATERIALS_BUFFER
 			GpuState<MaterialBase>::me.init();
 #endif
@@ -84,6 +89,37 @@ namespace mud
 		}
 
 		bgfx::UniformHandle s_skeleton;
+	};
+
+	struct AlphaMaterialUniform
+	{
+		AlphaMaterialUniform() {}
+		AlphaMaterialUniform(GfxSystem& gfx_system)
+			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
+			, s_alpha(bgfx::createUniform("s_alpha", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialAlpha>::me.init();
+#endif
+		}
+
+		void prepare(const Pass& render_pass) const
+		{
+			uint32_t alpha = uint32_t(TextureSampler::Alpha);
+			bgfx::setViewUniform(render_pass.m_index, s_alpha, &alpha);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialAlpha& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialAlpha>::me.upload(encoder, block);
+#endif
+			encoder.setTexture(uint8_t(TextureSampler::Alpha), is_valid(block.m_alpha.m_texture) ? block.m_alpha.m_texture->m_texture : m_white_tex->m_texture);
+		}
+
+		Texture* m_white_tex;
+
+		bgfx::UniformHandle s_alpha;
 	};
 
 	struct UnshadedMaterialUniform
@@ -196,8 +232,6 @@ namespace mud
 			GpuState<MaterialPbr>::me.upload(encoder, block);
 #endif
 
-			auto is_valid = [](Texture* texture) { return texture != nullptr && bgfx::isValid(texture->m_texture); };
-
 			encoder.setTexture(uint8_t(TextureSampler::Color), is_valid(block.m_albedo.m_texture) ? block.m_albedo.m_texture->m_texture : m_white_tex->m_texture);
 			encoder.setTexture(uint8_t(TextureSampler::Metallic), is_valid(block.m_metallic.m_texture) ? block.m_metallic.m_texture->m_texture : m_white_tex->m_texture);
 			encoder.setTexture(uint8_t(TextureSampler::Roughness), is_valid(block.m_roughness.m_texture) ? block.m_roughness.m_texture->m_texture : m_white_tex->m_texture);
@@ -273,7 +307,8 @@ namespace mud
 
 	//static uint16_t s_material_index = 0;
 
-	static BaseMaterialUniform s_base_material_uniform = {};
+	static BaseMaterialUniform s_base_material_block = {};
+	static AlphaMaterialUniform s_alpha_material_block = {};
 	static UnshadedMaterialUniform s_unshaded_material_block = {};
 	static FresnelMaterialUniform s_fresnel_material_block = {};
 	static PbrMaterialUniform s_pbr_material_block = {};
@@ -285,7 +320,8 @@ namespace mud
 		static bool init_blocks = true;
 		if(init_blocks)
 		{
-			s_base_material_uniform = { *ms_gfx_system };
+			s_base_material_block = { *ms_gfx_system };
+			s_alpha_material_block = { *ms_gfx_system };
 			s_unshaded_material_block = { *ms_gfx_system };
 			s_fresnel_material_block = { *ms_gfx_system };
 			s_pbr_material_block = { *ms_gfx_system };
@@ -296,34 +332,38 @@ namespace mud
 
 	ShaderVersion Material::shader_version(const Program& program) const
 	{
-		GfxBlock& pbr = pbr_block(*ms_gfx_system);
+		static GfxBlock& pbr = pbr_block(*ms_gfx_system);
+		static GfxBlock& mat = *ms_gfx_system->m_pipeline->block<BlockMaterial>();
 
 		ShaderVersion version = { &program };
 
-		auto is_valid = [](Texture* texture) { return texture != nullptr && bgfx::isValid(texture->m_texture); };
+		version.set_option(mat.m_index, DOUBLE_SIDED, m_base.m_cull_mode == CullMode::None);
 
-		if(m_pbr_block.m_enabled)
+		//version.set_option(mat.m_index, ALPHA, m_alpha.m_is_alpha);
+		version.set_option(mat.m_index, ALPHA_TEST, m_alpha.m_alpha_test);
+
+		if(program.m_blocks[MaterialBlock::Alpha])
 		{
-			if(is_valid(m_pbr_block.m_normal.m_texture))
-				version.set_option(pbr.m_index, NORMAL_MAP);
-			if(is_valid(m_pbr_block.m_emissive.m_texture) || m_pbr_block.m_emissive.m_value.m_a > 0.f)
-				version.set_option(pbr.m_index, EMISSIVE);
-			if(is_valid(m_pbr_block.m_ambient_occlusion.m_texture))
-				version.set_option(pbr.m_index, AMBIENT_OCCLUSION);
-			if(is_valid(m_pbr_block.m_depth.m_texture))
-				version.set_option(pbr.m_index, DEPTH_MAPPING);
-			if(m_pbr_block.m_deep_parallax)
-				version.set_option(pbr.m_index, DEEP_PARALLAX);
+			version.set_option(mat.m_index, ALPHA_MAP, is_valid(m_alpha.m_alpha.m_texture));
+		}
+
+		if(program.m_blocks[MaterialBlock::Pbr])
+		{
+			version.set_option(pbr.m_index, NORMAL_MAP, is_valid(m_pbr.m_normal.m_texture));
+			version.set_option(pbr.m_index, EMISSIVE, is_valid(m_pbr.m_emissive.m_texture) || m_pbr.m_emissive.m_value.m_a > 0.f);
+			version.set_option(pbr.m_index, AMBIENT_OCCLUSION, is_valid(m_pbr.m_ambient_occlusion.m_texture));
+			version.set_option(pbr.m_index, DEPTH_MAPPING, is_valid(m_pbr.m_depth.m_texture));
+			version.set_option(pbr.m_index, DEEP_PARALLAX, m_pbr.m_deep_parallax);
 		}
 
 		return version;
 	}
 
+#if 0
 	ShaderVersion Material::shader_version(const Program& program, const Item& item, const ModelItem& model_item) const
 	{
 		ShaderVersion version = this->shader_version(program);
 		UNUSED(item); UNUSED(model_item);
-#if 0
 		PbrBlock& pbr = pbr_block(*ms_gfx_system);
 
 		if(item.m_lightmaps.size() > 0)
@@ -334,62 +374,71 @@ namespace mud
 				version.set_option(pbr.m_index, LIGHTMAP);
 			}
 		}
-#endif
-
 		return version;
 	}
+#endif
 
 	void Material::state(uint64_t& bgfx_state) const
 	{
-		if(m_base_block.m_cull_mode == CullMode::None
-		|| m_base_block.m_cull_mode == CullMode::Front)
+		if(m_base.m_cull_mode == CullMode::None
+		|| m_base.m_cull_mode == CullMode::Front)
 			bgfx_state &= ~BGFX_STATE_CULL_MASK;
-		if(m_base_block.m_cull_mode == CullMode::Front)
+		if(m_base.m_cull_mode == CullMode::Front)
 			bgfx_state |= BGFX_STATE_CULL_CCW;
 
-		if(m_base_block.m_depth_test == DepthTest::Disabled)
+		if(m_base.m_depth_test == DepthTest::Disabled)
 			bgfx_state &= ~BGFX_STATE_DEPTH_TEST_MASK;
 
-		if(m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
-			bgfx_state |= BGFX_STATE_WRITE_Z;
-		if(m_base_block.m_depth_draw_mode == DepthDraw::Disabled)
-			bgfx_state &= ~BGFX_STATE_WRITE_Z;
+		//if(m_base.m_depth_draw_mode == DepthDraw::Enabled)
+		//	bgfx_state |= BGFX_STATE_WRITE_Z;
+		//if(m_base.m_depth_draw_mode == DepthDraw::Disabled)
+		//	bgfx_state &= ~BGFX_STATE_WRITE_Z;
 	}
 
-	void Material::submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin) const
+	void Material::submit(const Program& program, bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin) const
 	{
+		//if(program.name() == string("distance"))
+		//{
+		//	printf("submit distance material with alpha ? %i\n", int(program.m_blocks[MaterialBlock::Alpha] && m_alpha.m_alpha.m_texture));
+		//}
+
 		this->state(bgfx_state);
 
 #if MATERIALS_BUFFER
-		const MaterialBlock& block = *ms_gfx_system->m_pipeline->block<MaterialBlock>();
+		const BlockMaterial& block = *ms_gfx_system->m_pipeline->block<BlockMaterial>();
 		vec4 state = { 0.f, float(m_index), 0.f, 0.f };
 		encoder.setUniform(block.u_state, &state);
 		encoder.setTexture(uint8_t(TextureSampler::Materials), block.m_materials_texture);
 #endif
 
-		s_base_material_uniform.upload(encoder, m_base_block);
-		if(m_unshaded_block.m_enabled)
-			s_unshaded_material_block.upload(encoder, m_unshaded_block);
-		if(m_fresnel_block.m_enabled)
-			s_fresnel_material_block.upload(encoder, m_fresnel_block);
-		if(m_pbr_block.m_enabled)
-			s_pbr_material_block.upload(encoder, m_pbr_block);
+		s_base_material_block.upload(encoder, m_base);
+		if(program.m_blocks[MaterialBlock::Alpha])
+			s_alpha_material_block.upload(encoder, m_alpha);
+		if(program.m_blocks[MaterialBlock::Unshaded])
+			s_unshaded_material_block.upload(encoder, m_unshaded);
+		if(program.m_blocks[MaterialBlock::Pbr])
+			s_pbr_material_block.upload(encoder, m_pbr);
+		if(program.m_blocks[MaterialBlock::Fresnel])
+			s_fresnel_material_block.upload(encoder, m_fresnel);
 
 		if(skin)
 			encoder.setTexture(uint8_t(TextureSampler::Skeleton), skin->m_texture);
 	}
 
-	MaterialBlock::MaterialBlock(GfxSystem& gfx_system)
+	BlockMaterial::BlockMaterial(GfxSystem& gfx_system)
 		: GfxBlock(gfx_system, *this)
-	{}
+	{
+		static cstring options[] = { "DOUBLE_SIDED", "ALPHA_MAP", "ALPHA_TEST" };
+		m_shader_block->m_options = options;
+	}
 
-	void MaterialBlock::init_block()
+	void BlockMaterial::init_block()
 	{
 		u_state = bgfx::createUniform("u_state", bgfx::UniformType::Vec4);
 		s_materials = bgfx::createUniform("s_materials", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 	}
 
-	void MaterialBlock::begin_render(Render& render)
+	void BlockMaterial::begin_render(Render& render)
 	{
 		UNUSED(render);
 #if MATERIALS_BUFFER
@@ -397,17 +446,18 @@ namespace mud
 #endif
 	}
 
-	void MaterialBlock::begin_pass(Render& render)
+	void BlockMaterial::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void MaterialBlock::submit(Render& render, const Pass& render_pass)
+	void BlockMaterial::submit(Render& render, const Pass& render_pass)
 	{
 		uint32_t materials = uint32_t(TextureSampler::Materials);
 		bgfx::setViewUniform(render_pass.m_index, s_materials, &materials);
 
-		s_base_material_uniform.prepare(render_pass);
+		s_base_material_block.prepare(render_pass);
+		s_alpha_material_block.prepare(render_pass);
 		s_unshaded_material_block.prepare(render_pass);
 		s_fresnel_material_block.prepare(render_pass);
 		s_pbr_material_block.prepare(render_pass);

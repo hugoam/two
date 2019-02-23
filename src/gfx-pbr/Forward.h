@@ -18,7 +18,7 @@ namespace mud
     enum ShaderOptionRadiance : unsigned int;
     enum ShaderOptionShadow : unsigned int;
     enum ShaderModeShadow : unsigned int;
-    enum CSMFilterMode : unsigned int;
+    enum ShadowFilterMode : unsigned int;
     enum ShaderOptionBlur : unsigned int;
     enum ShaderOptionDofBlur : unsigned int;
     enum ShaderOptionGlow : unsigned int;
@@ -42,7 +42,7 @@ namespace mud
 	class PassAlpha;
     class PassProbes;
     class BlockReflection;
-    struct ShadowCubemap;
+    struct ShadowmapCube;
     class ShadowAtlas;
     struct CSMShadow;
     class PassShadow;

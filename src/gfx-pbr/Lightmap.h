@@ -97,8 +97,6 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
-
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;

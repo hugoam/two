@@ -65,9 +65,7 @@ namespace mud
 
 	void BlockTonemap::render(Render& render, Tonemap& tonemap, BCS& bcs)
 	{
-		ShaderVersion shader_version(&m_program);
-
-		m_filter.set_uniforms(render, *bgfx::begin());
+		ShaderVersion shader_version = { &m_program };
 
 		shader_version.set_mode(m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
 

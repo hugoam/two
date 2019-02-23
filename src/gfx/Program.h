@@ -40,18 +40,21 @@ namespace mud
 		span<ShaderDefine> m_defines;
 	};
 
-	export_ struct MUD_GFX_EXPORT ProgramBlock
+	export_ struct ProgramBlock
 	{
 		// maps a block shader option to the program option shift
 		uint8_t m_option_shift;
 		uint8_t m_mode_shift;
 	};
 
-	export_ struct MUD_GFX_EXPORT ProgramBlockArray
+	export_ enum class refl_ MaterialBlock : unsigned int
 	{
-		// maps a block index to its shader options span
-		ProgramBlock m_shader_blocks[32];
-		uint8_t m_next_option = 0;
+		Base,
+		Alpha,
+		Unshaded,
+		Pbr,
+		Fresnel,
+		Count
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT Program
@@ -74,12 +77,12 @@ namespace mud
 
 		uint8_t block_option_shift(uint8_t block) const
 		{
-			return m_blocks.m_shader_blocks[block].m_option_shift;
+			return m_shader_blocks[block].m_option_shift;
 		}
 
 		uint8_t block_mode_shift(uint8_t block) const
 		{
-			return m_blocks.m_shader_blocks[block].m_mode_shift;
+			return m_shader_blocks[block].m_mode_shift;
 		}
 
 		void reload() { m_update++; }
@@ -98,9 +101,12 @@ namespace mud
 		void register_options(uint8_t block, span<cstring> options);
 		void register_modes(uint8_t block, span<cstring> modes);
 
-		ProgramBlockArray m_blocks;
+		// maps a block index to its shader options span
+		ProgramBlock m_shader_blocks[32];
+		uint8_t m_next_option = 0;
 
 		table<ShaderType, cstring> m_sources = {};
+		table<MaterialBlock, bool> m_blocks = {};
 
 		bool m_compute = false;
 		uint32_t m_update = 1;

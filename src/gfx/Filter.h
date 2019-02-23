@@ -37,9 +37,6 @@ namespace mud
 			u_source_depth_level = bgfx::createUniform("u_source_depth_level",	bgfx::UniformType::Sampler);
 
 			u_source_0_crop		 = bgfx::createUniform("u_source_0_crop",		bgfx::UniformType::Vec4);
-
-			u_screen_size_pixel_size =		bgfx::createUniform("u_screen_size_pixel_size",		bgfx::UniformType::Vec4);
-			u_camera_params =				bgfx::createUniform("u_camera_params",				bgfx::UniformType::Vec4);
 		}
 
 		bgfx::UniformHandle s_source_0;
@@ -55,9 +52,6 @@ namespace mud
 		bgfx::UniformHandle u_source_depth_level;
 
 		bgfx::UniformHandle u_source_0_crop;
-
-		bgfx::UniformHandle u_screen_size_pixel_size;
-		bgfx::UniformHandle u_camera_params;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT Filter
@@ -88,8 +82,6 @@ namespace mud
 
 		virtual void begin_render(Render& render) override;
 		virtual void begin_pass(Render& render) override;
-
-		void set_uniforms(Render& render, bgfx::Encoder& encoder);
 
 		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
 		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags = 0U, bool render = false);

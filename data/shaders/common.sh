@@ -10,18 +10,15 @@ uniform vec4 u_render_params;
 #define u_origin_bottom_left u_render_params.y
 #define u_point_size u_render_params.zw
 
+uniform vec4 u_viewport_params;
+#define u_screen_size u_viewport_params.xy
+#define u_pixel_size u_viewport_params.zw
+
 uniform vec4 u_camera_params;
 #define u_z_near u_camera_params.x
 #define u_z_far u_camera_params.y
 #define u_fov u_camera_params.z
 #define u_aspect u_camera_params.w
-
-uniform vec4 u_screen_size_pixel_size;
-#define u_screen_size u_screen_size_pixel_size.xy
-#define u_pixel_size u_screen_size_pixel_size.zw
-
-//#define ZONES_BUFFER
-#define ZONES_TEXTURE_WIDTH 1024
 
 #ifdef MATERIALS_BUFFER
 uniform vec4 u_state;
@@ -31,6 +28,9 @@ uniform vec4 u_state;
 #define u_state_zone 0
 #define u_state_material 0
 #endif
+
+SAMPLER2D(s_color, 0);
+SAMPLER2D(s_alpha, 1);
 
 #if BGFX_SHADER_LANGUAGE_GLSL == 110
 mat4 transpose(in mat4 mat)

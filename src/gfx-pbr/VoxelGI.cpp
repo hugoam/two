@@ -149,15 +149,15 @@ namespace gfx
 #ifndef VOXELGI_COMPUTE_LIGHTS
 		GIProbe& gi_probe = *m_block_gi_bake.m_bake_probe; UNUSED(gi_probe);
 		mat4 view = bxidentity();//gi_probe.m_transform * bxscale(1.f / gi_probe.m_extents);
-		m_block_light.update_lights(render, view);
-		m_block_shadow.update_shadows(render, view);
+		m_block_light.setup_lights(render, view);
+		m_block_shadow.commit_shadows(render, view);
 #endif
 	}
 
 	void PassGIBake::queue_draw_element(Render& render, DrawElement& element)
 	{
 		UNUSED(render);
-		if(element.m_material->m_pbr_block.m_enabled)
+		if(element.m_program->m_blocks[MaterialBlock::Pbr])
 		{
 			element.m_program = m_block_gi_bake.m_voxelize;
 			element.m_shader_version = element.m_material->shader_version(*element.m_program);
@@ -240,9 +240,9 @@ namespace gfx
 		Render voxel_render = { Shading::Voxels, viewport, gi_probe.m_fbo, render.m_frame };
 
 		BlockShadow& block_shadow = *m_gfx_system.m_pipeline->block<BlockShadow>();
-		CSMFilterMode pcf_level = block_shadow.m_pcf_level;
+		ShadowFilterMode pcf_level = block_shadow.m_pcf_level;
 		uint8_t splits = 0;
-		block_shadow.m_pcf_level = CSM_NO_PCF;
+		block_shadow.m_pcf_level = PCF_NONE;
 		if(m_block_light.m_direct_light)
 		{
 			splits = m_block_light.m_direct_light->m_shadow_num_splits;
@@ -275,9 +275,9 @@ namespace gfx
 
 		GpuState<GpuVoxelGI>::me.upload(encoder, gi_probe);
 
-		m_block_light.update_lights(render, bxidentity());
-		m_block_light.upload_lights(render, render_pass);
-		m_block_shadow.update_shadows(render, bxidentity());
+		m_block_light.setup_lights(render, bxidentity());
+		m_block_light.commit_lights(render, render_pass);
+		m_block_shadow.commit_shadows(render, bxidentity());
 
 		ShaderVersion shader_version = { m_direct_light };
 		if(m_block_light.m_direct_light)
@@ -332,11 +332,6 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGIBake::begin_draw_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	void BlockGIBake::options(Render& render, ShaderVersion& shader_version) const
 	{
 		UNUSED(render); UNUSED(shader_version);
@@ -349,7 +344,7 @@ namespace gfx
 
 	void BlockGIBake::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(element);
 
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
@@ -365,7 +360,7 @@ namespace gfx
 		GpuState<GpuVoxelGI>::me.upload(encoder, gi_probe);
 
 #ifndef VOXELGI_COMPUTE_LIGHTS
-		m_block_light.upload_lights(render, render_pass);
+		m_block_light.commit_lights(render, render_pass);
 #endif
 	}
 
@@ -391,11 +386,6 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGITrace::begin_draw_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	void BlockGITrace::options(Render& render, ShaderVersion& shader_version) const
 	{
 		for(GIProbe* gi_probe : render.m_shot->m_gi_probes)
@@ -414,7 +404,7 @@ namespace gfx
 
 	void BlockGITrace::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render); UNUSED(element); UNUSED(render_pass);
 
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 

@@ -16,9 +16,9 @@ namespace mud
 	{
 		typedef uint length_type;
 		typedef T type;
-		constr_ v2();
-		constr_ explicit v2(T v);
-		constr_ v2(T x, T y);
+		constr_ constexpr v2() {}
+		constr_ constexpr explicit v2(T v) : x(v), y(v) {}
+		constr_ constexpr v2(T x, T y) : x(x), y(y) {}
 		template <class V>
 		explicit v2(V v);
 		T operator[](uint index) const;
@@ -40,9 +40,9 @@ namespace mud
 		typedef uint length_type;
 		typedef T type;
 		typedef v2<T> type2;
-		constr_ v3();
-		constr_ explicit v3(T v);
-		constr_ v3(T x, T y, T z);
+		constr_ constexpr v3() {}
+		constr_ constexpr explicit v3(T v) : x(v), y(v), z(v) {}
+		constr_ constexpr v3(T x, T y, T z) : x(x), y(y), z(z) {}
 		v3(v2<T> a, T z);
 		template <class V>
 		explicit v3(V v);
@@ -68,9 +68,9 @@ namespace mud
 		typedef T type;
 		typedef v2<T> type2;
 		typedef v3<T> type3;
-		constr_ v4();
-		constr_ explicit v4(T v);
-		constr_ v4(T x, T y, T z, T w);
+		constr_ constexpr v4() {}
+		constr_ constexpr explicit v4(T v) : x(v), y(v), z(v), w(v) {}
+		constr_ constexpr v4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
 		v4(v3<T> a, T w);
 		v4(T x, v3<T> b);
 		v4(v2<T> a, v2<T> b);
@@ -90,6 +90,10 @@ namespace mud
 			T f[4];
 		};
 	};
+
+	template <class T> inline constexpr v2<T> operator-(const v2<T>& a) { return v2<T>(-a.x, -a.y); }
+	template <class T> inline constexpr v3<T> operator-(const v3<T>& a) { return v3<T>(-a.x, -a.y, -a.z); }
+	template <class T> inline constexpr v4<T> operator-(const v4<T>& a) { return v4<T>(-a.x, -a.y, -a.z, -a.w); }
 
 	export_ extern template struct refl_ v2<float>;
 	export_ extern template struct refl_ v3<float>;
@@ -182,9 +186,8 @@ namespace mud
 	export_ struct refl_ struct_ quat : public float4 // array_
 	{
 		typedef float type;
-		constr_ quat();
-		//quat(float v);
-		constr_ quat(float x, float y, float z, float w);
+		constr_ constexpr quat() : float4() {}
+		constr_ constexpr quat(float x, float y, float z, float w) : float4(x, y, z, w) { }
 		constr_ explicit quat(const float3& euler_angles);
 	};
 
@@ -197,13 +200,13 @@ namespace mud
 
 namespace mud
 {
-	export_ extern MUD_MATH_EXPORT const vec3 X3; // = { 1.f, 0.f, 0.f };
-	export_ extern MUD_MATH_EXPORT const vec3 Y3; // = { 0.f, 1.f, 0.f };
-	export_ extern MUD_MATH_EXPORT const vec3 Z3; // = { 0.f, 0.f, 1.f };
+	export_ constexpr inline vec3 X3 = { 1.f, 0.f, 0.f };
+	export_ constexpr inline vec3 Y3 = { 0.f, 1.f, 0.f };
+	export_ constexpr inline vec3 Z3 = { 0.f, 0.f, 1.f };
 
-	export_ extern MUD_MATH_EXPORT const quat ZeroQuat; // = { 1.f, 0.f, 0.f, 0.f };
+	export_ constexpr inline quat ZeroQuat = { 0.f, 0.f, 0.f, 1.f };
 
-	export_ extern MUD_MATH_EXPORT const vec4 Rect4; // = { 0.f, 0.f, 1.f, 1.f };
+	export_ constexpr inline vec4 Rect4 = { 0.f, 0.f, 1.f, 1.f };
 
 	export_ inline bool rect_intersects(const vec4& first, const vec4& second)
 	{

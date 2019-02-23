@@ -59,19 +59,6 @@ namespace mud
 		attr_ gpu_ vec2 pixel_size;
 	};
 
-	void BlockFilter::set_uniforms(Render& render, bgfx::Encoder& encoder)
-	{
-		render.set_uniforms(encoder);
-
-		vec4 camera_params{ render.m_camera.m_near, render.m_camera.m_far,
-							render.m_camera.m_fov, render.m_camera.m_aspect };
-		encoder.setUniform(u_uniform.u_camera_params, &camera_params);
-
-		vec4 screen_params{ vec2(render.m_target->m_size),
-							1.0f / vec2(render.m_target->m_size) };
-		encoder.setUniform(u_uniform.u_screen_size_pixel_size, &screen_params);
-	}
-
 	struct ScreenQuadVertex
 	{
 		vec3 m_pos;

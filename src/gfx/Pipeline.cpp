@@ -25,7 +25,7 @@ namespace mud
 	{
 		UNUSED(deferred);
 
-		MaterialBlock& material = pipeline.add_block<MaterialBlock>(gfx_system);
+		BlockMaterial& material = pipeline.add_block<BlockMaterial>(gfx_system);
 		UNUSED(material);
 
 		// filters
@@ -51,19 +51,32 @@ namespace mud
 		pipeline.m_pass_blocks[PassType::Effects] = { &resolve };
 		pipeline.m_pass_blocks[PassType::PostProcess] = {};
 
+		auto create_programs = [&]()
 		{
-			Program& program_unshaded = gfx_system.programs().create("unshaded");
-			program_unshaded.register_blocks(pipeline.m_pass_blocks[PassType::Unshaded]);
+			Program& unshaded = gfx_system.programs().create("unshaded");
+			unshaded.register_blocks(pipeline.m_pass_blocks[PassType::Unshaded]);
+			unshaded.m_blocks[MaterialBlock::Alpha] = true;
+			unshaded.m_blocks[MaterialBlock::Unshaded] = true;
 
-			Program& program_depth = gfx_system.programs().create("depth");
-			program_depth.register_blocks(pipeline.m_pass_blocks[PassType::Depth]);
+			Program& depth = gfx_system.programs().create("depth");
+			depth.register_blocks(pipeline.m_pass_blocks[PassType::Depth]);
+			depth.m_blocks[MaterialBlock::Alpha] = true;
 
-			Program& program_pbr = gfx_system.programs().create("pbr/pbr");
-			program_pbr.register_blocks(pipeline.m_pass_blocks[PassType::Opaque]);
+			Program& distance = gfx_system.programs().create("distance");
+			distance.register_blocks(pipeline.m_pass_blocks[PassType::Depth]);
+			distance.m_blocks[MaterialBlock::Alpha] = true;
 
-			Program& program_fresnel = gfx_system.programs().create("fresnel");
-			UNUSED(program_fresnel);
-		}
+			Program& pbr = gfx_system.programs().create("pbr/pbr");
+			pbr.register_blocks(pipeline.m_pass_blocks[PassType::Opaque]);
+			pbr.m_blocks[MaterialBlock::Alpha] = true;
+			pbr.m_blocks[MaterialBlock::Pbr] = true;
+
+			Program& fresnel = gfx_system.programs().create("fresnel");
+			fresnel.m_blocks[MaterialBlock::Alpha] = true;
+			fresnel.m_blocks[MaterialBlock::Fresnel] = true;
+		};
+
+		create_programs();
 
 		static MinimalRenderer main_renderer = { gfx_system, pipeline };
 		static MinimalRenderer shadow_renderer = { gfx_system, pipeline };
@@ -156,7 +169,7 @@ namespace mud
 	{
 		UNUSED(render);
 
-		if(element.m_material->m_unshaded_block.m_enabled || element.m_material->m_fresnel_block.m_enabled)
+		if(element.m_program->m_blocks[MaterialBlock::Unshaded] || element.m_program->m_blocks[MaterialBlock::Fresnel])
 			this->add_element(render, element);
 	}
 

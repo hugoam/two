@@ -6,7 +6,7 @@
 #define SKELETON_TEXTURE_WIDTH 256
 #define SKELETON_TEXTURE_HEIGHT 4
 
-SAMPLER2D(s_skeleton, 5);
+SAMPLER2D(s_skeleton, 15);
 
 #ifdef NO_TEXEL_FETCH
 #define texelFetch(_sampler, _coord, _level) texture2DLod(_sampler, vec2(_coord) / vec2(float(SKELETON_TEXTURE_WIDTH), float(SKELETON_TEXTURE_HEIGHT)), _level)

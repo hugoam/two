@@ -64,70 +64,9 @@ void main()
 	material.metallic = surface.y;
     material.specular = surface.z;
 	material.alpha = 1.0;
-
-    // metallic energy conservation
-	vec3 dielectric = vec3_splat(0.034) * material.specular * 2.0;
-	material.f0 = mix(dielectric, material.albedo, material.metallic);
-    material.albedo = mix(material.albedo, vec3_splat(0.0), material.metallic);
-   
-	fragment.NoV = saturate(dot(fragment.normal, fragment.view));
+    material.emission = colour.rgb * colour.a;
     
-    // Radiance radiance;
-	vec3 specular = vec3_splat(0.0);
-	vec3 diffuse = vec3_splat(0.0);
-	vec3 ambient = vec3_splat(0.0);
-    vec3 emission = colour.rgb * colour.a;
+#include "fs_pbr.sh"
 
-    int zone_index = int(u_state_zone);
-    Zone zone = read_zone(zone_index);
-    
-#ifdef RADIANCE_ENVMAP
-    ambient += radiance_ambient(zone, fragment.normal);
-    specular += radiance_reflection(zone, fragment.view, fragment.normal, material.roughness);
-#else
-	ambient += zone.radiance_color * zone.ambient;
-#endif
-	ambient *= material.albedo;
-    
-#ifdef AMBIENT_OCCLUSION
-	ambient *= material.ao;
-#endif
-
-#ifdef DIRECT_LIGHT
-	direct_light(fragment, material, fragment.depth, diffuse, specular);
-#endif
-
-    //apply_reflections(specular, ambient);
-    
-#ifdef CLUSTERED
-    apply_cluster_lights(fragment, material, diffuse, specular);
-#else
-	apply_lights(fragment, material, diffuse, specular);
-#endif
-    
-#ifdef DIFFUSE_TOON
-	specular *= material.specular * material.metallic * material.albedo * 2.0;
-#else
-    specular *= brdf_specular_term(fragment, material);
-#endif
-
-#ifdef FOG
-    //apply_fog(fragment, emission, ambient, diffuse, specular);
-    apply_fog_0(fragment, emission);
-#endif
-
-#ifdef MRT
-	gl_FragData[0] = vec4(emission + diffuse + ambient, surface.a);
-	gl_FragData[1] = vec4(specular, material.metallic);
-	gl_FragData[2] = vec4(normalize(fragment.normal) * 0.5 + 0.5, material.roughness);
-#ifdef SUBSURFACE
-	gl_FragData[3] = subsurface;
-#endif
-
-#else
-	gl_FragColor = vec4(emission + ambient + diffuse + specular, surface.a);
-	//gl_FragColor = vec4(normalize(fragment.normal) * 0.5 + 0.5, 1.0);
-	//gl_FragColor = vec4(v_color.rgb, 1.0);
-#endif
-
+#include "fs_out_pbr.sh"
 }

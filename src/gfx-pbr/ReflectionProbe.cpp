@@ -76,11 +76,6 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockReflection::begin_draw_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	void BlockReflection::options(Render& render, ShaderVersion& shader_version) const
 	{
 		UNUSED(render); UNUSED(shader_version);

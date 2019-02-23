@@ -31,6 +31,7 @@ namespace mud
     enum class DepthTest : unsigned int;
     enum class MaterialFlag : unsigned int;
     enum class TextureChannel : unsigned int;
+	enum class MaterialBlock : unsigned int;
 	enum class Lighting : unsigned int;
     enum class PbrDiffuseMode : unsigned int;
     enum class PbrSpecularMode : unsigned int;
@@ -90,7 +91,7 @@ namespace mud
     struct MaterialPbr;
     struct PbrBlock;
     class Material;
-	class MaterialBlock;
+	class BlockMaterial;
     struct ImportConfig;
 	class Importer;
     struct ModelItem;

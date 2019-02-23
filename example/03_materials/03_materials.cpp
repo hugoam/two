@@ -12,20 +12,18 @@ using namespace mud;
 Material& milky_white(GfxSystem& gfx_system, const string& name)
 {
 	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
-	MaterialPbr& pbr = mat.m_pbr_block;
-	pbr.m_enabled = true;
+	MaterialPbr& pbr = mat.m_pbr;
 	pbr.m_albedo.m_value = Colour::White;
 	pbr.m_metallic.m_value = 0.4f;
 	pbr.m_roughness.m_value = 0.35f;
-	//mat.m_pbr_block.m_roughness.m_value = 0.8f;
+	//mat.m_pbr.m_roughness.m_value = 0.8f;
 	return mat;
 }
 
 Material& mirror(GfxSystem& gfx_system)
 {
 	Material& mat = gfx_system.fetch_material("mirror", "pbr/pbr");
-	MaterialPbr& pbr = mat.m_pbr_block;
-	pbr.m_enabled = true;
+	MaterialPbr& pbr = mat.m_pbr;
 	pbr.m_albedo.m_value = Colour::White;
 	pbr.m_metallic.m_value = 1.f;
 	pbr.m_roughness.m_value = 0.02f;
@@ -35,9 +33,8 @@ Material& mirror(GfxSystem& gfx_system)
 Material& material(GfxSystem& gfx_system, const string& name)
 {
 	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
-	MaterialPbr& pbr = mat.m_pbr_block;
+	MaterialPbr& pbr = mat.m_pbr;
 
-	pbr.m_enabled = true;
 	pbr.m_albedo.m_texture = gfx_system.textures().file(name + "/" + name + "_col.jpg");
 	pbr.m_normal.m_texture = gfx_system.textures().file(name + "/" + name + "_nrm.jpg");
 	pbr.m_roughness.m_texture = gfx_system.textures().file(name + "/" + name + "_rgh.jpg");
@@ -58,40 +55,40 @@ Material& material(GfxSystem& gfx_system, const string& name)
 Material& fabric_08(GfxSystem& gfx_system)
 {
 	Material& mat = material(gfx_system, "Fabric08");
-	mat.m_pbr_block.m_deep_parallax = true;
-	mat.m_pbr_block.m_depth.m_value = -0.05f;
+	mat.m_pbr.m_deep_parallax = true;
+	mat.m_pbr.m_depth.m_value = -0.05f;
 	return mat;
 }
 
 Material& paving_stones_08(GfxSystem& gfx_system)
 {
 	Material& mat = material(gfx_system, "PavingStones08");
-	mat.m_pbr_block.m_deep_parallax = true;
-	mat.m_pbr_block.m_depth.m_value = -0.04f;
+	mat.m_pbr.m_deep_parallax = true;
+	mat.m_pbr.m_depth.m_value = -0.04f;
 	return mat;
 }
 
 Material& metal_plates_02(GfxSystem& gfx_system)
 {
 	Material& mat = material(gfx_system, "MetalPlates02");
-	//mat.m_pbr_block.m_deep_parallax = true;
-	//mat.m_pbr_block.m_depth.m_value = -0.04f;
+	//mat.m_pbr.m_deep_parallax = true;
+	//mat.m_pbr.m_depth.m_value = -0.04f;
 	return mat;
 }
 
 Material& paving_stones_11(GfxSystem& gfx_system)
 {
 	Material& mat = material(gfx_system, "PavingStones11");
-	mat.m_pbr_block.m_deep_parallax = true;
-	mat.m_pbr_block.m_depth.m_value = -0.04f;
+	mat.m_pbr.m_deep_parallax = true;
+	mat.m_pbr.m_depth.m_value = -0.04f;
 	return mat;
 }
 
 Material& rocks_01(GfxSystem& gfx_system)
 {
 	Material& mat = material(gfx_system, "Rocks01");
-	mat.m_pbr_block.m_deep_parallax = true;
-	mat.m_pbr_block.m_depth.m_value = -0.08f;
+	mat.m_pbr.m_deep_parallax = true;
+	mat.m_pbr.m_depth.m_value = -0.08f;
 	return mat;
 }
 
@@ -104,8 +101,7 @@ Material& wood_floor_05(GfxSystem& gfx_system)
 Material& roughness_material(GfxSystem& gfx_system, const string& name, Colour albedo, float metallic, float roughness)
 {
 	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
-	MaterialPbr& pbr = mat.m_pbr_block;
-	pbr.m_enabled = true;
+	MaterialPbr& pbr = mat.m_pbr;
 	pbr.m_albedo.m_value = albedo;
 	pbr.m_metallic.m_value = metallic;
 	pbr.m_roughness.m_value = roughness;
@@ -180,8 +176,8 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene.begin();
 
-	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -1.f, 0.f });
-	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &milky_white(app.m_gfx_system));
+	Gnode& ground_node = gfx::node(scene, {}, -Y3);
+	gfx::shape(ground_node, Rect(vec2(-50.f), vec2(100.f)), Symbol(), 0U, &milky_white(app.m_gfx_system));
 
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);

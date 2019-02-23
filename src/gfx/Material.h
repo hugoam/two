@@ -60,6 +60,13 @@ namespace mud
 		Count
 	};
 
+	export_ enum MaterialShaderOption : unsigned int
+	{
+		DOUBLE_SIDED,
+		ALPHA_MAP,
+		ALPHA_TEST,
+	};
+
 	export_ struct refl_ MUD_GFX_EXPORT MaterialBase
 	{
 		attr_ BlendMode m_blend_mode = BlendMode::Mix;
@@ -72,7 +79,6 @@ namespace mud
 		attr_ gpu_ vec2 m_uv1_scale = { 1.f, 1.f };
 		attr_ gpu_ vec2 m_uv1_offset = { 0.f, 0.f };
 
-		attr_ bool m_is_alpha = false;
 		attr_ bool m_screen_filter = false;
 
 		uint m_geometry_filter = (1 << OUTLINE) | (1 << PLAIN);
@@ -104,17 +110,22 @@ namespace mud
 	export_ extern template struct refl_ MaterialParam<Colour>;
 	export_ extern template struct refl_ MaterialParam<float>;
 
+	export_ struct refl_ MUD_GFX_EXPORT MaterialAlpha
+	{
+		attr_ gpu_ MaterialParam<float> m_alpha = { 1.f, nullptr };
+		attr_ gpu_ float m_alpha_scissor = 0.5f;
+
+		attr_ bool m_alpha_test = false;
+		attr_ bool m_is_alpha = false;
+	};
+
 	export_ struct refl_ MUD_GFX_EXPORT MaterialUnshaded
 	{
-		attr_ bool m_enabled = false;
-
 		attr_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialFresnel
 	{
-		attr_ bool m_enabled = false;
-
 		attr_ MaterialParam<Colour> m_value = { Colour::White, nullptr };
 
 		attr_ float m_fresnel_scale = 1.f;
@@ -154,11 +165,9 @@ namespace mud
 	export_ struct refl_ MUD_GFX_EXPORT MaterialPbr
 	{
 		constr_ MaterialPbr() {}
-		constr_ MaterialPbr(const Colour& albedo, float metallic = 0.f, float roughness = 1.f) : m_enabled(true), m_albedo(albedo, nullptr), m_metallic(metallic, nullptr, TextureChannel::Red), m_roughness(roughness, nullptr, TextureChannel::Red) {}
+		constr_ MaterialPbr(const Colour& albedo, float metallic = 0.f, float roughness = 1.f) : m_albedo(albedo, nullptr), m_metallic(metallic, nullptr, TextureChannel::Red), m_roughness(roughness, nullptr, TextureChannel::Red) {}
 
 		MaterialPbr& operator=(const MaterialPbr&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
-
-		attr_ bool m_enabled = false;
 
 		// basic
 		attr_ gpu_ MaterialParam<Colour> m_albedo = { Colour::White, nullptr };
@@ -189,10 +198,10 @@ namespace mud
 		table<MaterialFlag, bool> m_flags;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT MaterialBlock : public GfxBlock
+	export_ class refl_ MUD_GFX_EXPORT BlockMaterial : public GfxBlock
 	{
 	public:
-		MaterialBlock(GfxSystem& gfx_system);
+		BlockMaterial(GfxSystem& gfx_system);
 
 		virtual void init_block() override;
 
@@ -223,16 +232,17 @@ namespace mud
 		attr_ bool m_builtin = false;
 		attr_ Program* m_program = nullptr;
 
-		attr_ MaterialBase m_base_block;
-		attr_ MaterialUnshaded m_unshaded_block;
-		attr_ MaterialPbr m_pbr_block;
-		attr_ MaterialFresnel m_fresnel_block;
+		attr_ MaterialBase m_base;
+		attr_ MaterialAlpha m_alpha;
+		attr_ MaterialUnshaded m_unshaded;
+		attr_ MaterialPbr m_pbr;
+		attr_ MaterialFresnel m_fresnel;
 
 		void state(uint64_t& bgfx_state) const;
 		ShaderVersion shader_version(const Program& program) const;
-		ShaderVersion shader_version(const Program& program, const Item& item, const ModelItem& model_item) const;
+		//ShaderVersion shader_version(const Program& program, const Item& item, const ModelItem& model_item) const;
 
-		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
+		void submit(const Program& program, bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
 
 		static GfxSystem* ms_gfx_system;
 	};

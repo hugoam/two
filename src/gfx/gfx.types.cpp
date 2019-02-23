@@ -111,6 +111,6 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>() { static Type ty("BlockSky", type<mud::GfxBlock>(), sizeof(mud::BlockSky)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>() { static Type ty("ClusteredFrustum", type<mud::Frustum>(), sizeof(mud::ClusteredFrustum)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Flare>() { static Type ty("Flare", type<mud::Flow>(), sizeof(mud::Flare)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::MaterialBlock>() { static Type ty("MaterialBlock", type<mud::GfxBlock>(), sizeof(mud::MaterialBlock)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::BlockMaterial>() { static Type ty("BlockMaterial", type<mud::GfxBlock>(), sizeof(mud::BlockMaterial)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>() { static Type ty("RenderTarget", type<mud::FrameBuffer>(), sizeof(mud::RenderTarget)); return ty; }
 }

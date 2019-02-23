@@ -59,7 +59,7 @@ if not _OPTIONS["renderer-gl"] then
 --  mud_example("18_pathfinding",       { mud.frame, mud.gfx.pbr },                        {})
     mud_example("19_multi_viewport",    { mud.frame },                                     {})
 --  mud_example("20_meta",              { mud.frame, mud.gfx.pbr },                        { _G["01_shapes"], _G["03_materials"] })
---  mud_example("xx_three",             { mud.frame, mud.gfx.pbr },                        {})
+    mud_example("xx_three",             { mud.frame, mud.gfx.pbr },                        {})
 end
 
 if _OPTIONS["jsbind"] then

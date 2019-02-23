@@ -1370,7 +1370,6 @@ namespace mud
 			{ t, offsetof(mud::Light, m_specular), type<float>(), "specular", &specular_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Light, m_attenuation), type<float>(), "attenuation", &attenuation_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Light, m_shadows), type<bool>(), "shadows", &shadows_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Light, m_shadow_colour), type<mud::Colour>(), "shadow_colour", &shadow_colour_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Light, m_shadow_range), type<float>(), "shadow_range", &shadow_range_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Light, m_layers), type<uint32_t>(), "layers", &layers_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Light, m_last_render), type<uint32_t>(), "last_render", &last_render_default, Member::Value, nullptr },
@@ -1404,10 +1403,10 @@ namespace mud
 			{ t, offsetof(mud::Material, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Material, m_builtin), type<bool>(), "builtin", &builtin_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Material, m_program), type<mud::Program>(), "program", program_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::Material, m_base_block), type<mud::MaterialBase>(), "base_block", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Material, m_unshaded_block), type<mud::MaterialUnshaded>(), "unshaded_block", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Material, m_pbr_block), type<mud::MaterialPbr>(), "pbr_block", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Material, m_fresnel_block), type<mud::MaterialFresnel>(), "fresnel_block", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::Material, m_base), type<mud::MaterialBase>(), "base", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Material, m_unshaded), type<mud::MaterialUnshaded>(), "unshaded", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Material, m_pbr), type<mud::MaterialPbr>(), "pbr", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Material, m_fresnel), type<mud::MaterialFresnel>(), "fresnel", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1447,7 +1446,6 @@ namespace mud
 			{ t, offsetof(mud::MaterialBase, m_uv0_offset), type<mud::vec2>(), "uv0_offset", &uv0_offset_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialBase, m_uv1_scale), type<mud::vec2>(), "uv1_scale", &uv1_scale_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialBase, m_uv1_offset), type<mud::vec2>(), "uv1_offset", &uv1_offset_default, Member::Value, nullptr },
-			{ t, offsetof(mud::MaterialBase, m_is_alpha), type<bool>(), "is_alpha", &is_alpha_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialBase, m_screen_filter), type<bool>(), "screen_filter", &screen_filter_default, Member::Value, nullptr }
 		};
 		// methods
@@ -1475,7 +1473,6 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::MaterialFresnel, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialFresnel, m_value), type<mud::MaterialParam<mud::Colour>>(), "value", &value_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialFresnel, m_fresnel_scale), type<float>(), "fresnel_scale", &fresnel_scale_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialFresnel, m_fresnel_bias), type<float>(), "fresnel_bias", &fresnel_bias_default, Member::Value, nullptr },
@@ -1568,7 +1565,6 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::MaterialPbr, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialPbr, m_albedo), type<mud::MaterialParam<mud::Colour>>(), "albedo", &albedo_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialPbr, m_specular), type<float>(), "specular", &specular_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialPbr, m_metallic), type<mud::MaterialParam<float>>(), "metallic", &metallic_default, Member::Value, nullptr },
@@ -1612,7 +1608,6 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::MaterialUnshaded, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialUnshaded, m_colour), type<mud::MaterialParam<mud::Colour>>(), "colour", &colour_default, Member::Value, nullptr }
 		};
 		// methods
@@ -2317,13 +2312,13 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
 	}
-	// mud::MaterialBlock
+	// mud::BlockMaterial
 	{
-		Type& t = type<mud::MaterialBlock>();
-		static Meta meta = { t, &namspc({ "mud" }), "MaterialBlock", sizeof(mud::MaterialBlock), TypeClass::Object };
+		Type& t = type<mud::BlockMaterial>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockMaterial", sizeof(mud::BlockMaterial), TypeClass::Object };
 		// bases
 		static Type* bases[] = { &type<mud::GfxBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::MaterialBlock, mud::GfxBlock>() };
+		static size_t bases_offsets[] = { base_offset<mud::BlockMaterial, mud::GfxBlock>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -2447,7 +2442,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::ClusteredFrustum>());
 		m.m_types.push_back(&type<mud::DrawBlock>());
 		m.m_types.push_back(&type<mud::Flare>());
-		m.m_types.push_back(&type<mud::MaterialBlock>());
+		m.m_types.push_back(&type<mud::BlockMaterial>());
 		m.m_types.push_back(&type<mud::RenderTarget>());
 		{
 			static Function f = { &namspc({ "mud" }), "bxidentity", nullptr, mud_bxidentity_0, {}, { &type<mud::mat4>(), QualType::None } };

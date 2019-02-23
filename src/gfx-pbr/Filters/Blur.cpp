@@ -66,32 +66,29 @@ namespace mud
 		bgfx::TextureHandle source = render.m_target->m_ping_pong.last();
 		bgfx::FrameBufferHandle target = render.m_target->m_ping_pong.swap();
 
-		// @todo: optimize this, I can't think of another way right now than to have a clear pass for EVERY blur level :/
-		uint8_t clear = render.composite_pass();
-		bgfx::setViewRect(clear, 0, 0, uint16_t(render.m_target->m_size.x), uint16_t(render.m_target->m_size.y));
-		bgfx::setViewClear(clear, BGFX_CLEAR_COLOR);
-		bgfx::setViewFrameBuffer(clear, target);
-		bgfx::touch(clear);
-
 		uvec4 source_rect = rect;
-		if(horizontal)
-			rect = rect / 2U;
+		if(horizontal) rect = rect / 2U;
 
-		vec4 screen_params{ rect_size(vec4(rect)), 1.f / rect_size(vec4(rect)) };
-		bgfx::setUniform(m_filter.u_uniform.u_screen_size_pixel_size, &screen_params);
+		// @todo: optimize this, I can't think of another way right now than to have a clear pass for EVERY blur level :/
+		Pass clear_pass = render.composite_pass("blur", target, uvec4(uvec2(0U), render.m_target->m_size));
+		bgfx::setViewRect(clear_pass.m_index, 0, 0, uint16_t(render.m_target->m_size.x), uint16_t(render.m_target->m_size.y));
+		bgfx::setViewClear(clear_pass.m_index, BGFX_CLEAR_COLOR);
+		bgfx::setViewFrameBuffer(clear_pass.m_index, target);
+		bgfx::touch(clear_pass.m_index);
 
+		Pass blur_pass = render.composite_pass("blur", target, rect);
 		vec4 blur_params = { float(lod), 0.f, 0.f, 0.f };
 		bgfx::setUniform(u_uniform.u_blur_params, &blur_params);
 
 		bgfx::setUniform(u_uniform.u_blur_kernel_0_3, horizontal ? &kernel.m_horizontal[0] : &kernel.m_vertical[0]);
 		bgfx::setUniform(u_uniform.u_blur_kernel_4_7, horizontal ? &kernel.m_horizontal[4] : &kernel.m_vertical[4]);
 
-		ShaderVersion version(&m_program);
+		ShaderVersion version = { &m_program };
 		version.set_option(m_index, uint8_t(horizontal ? GAUSSIAN_HORIZONTAL : GAUSSIAN_VERTICAL), true);
 
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, source);
 
 		RenderQuad quad = { render.m_target->source_quad(vec4(source_rect), true), render.m_target->dest_quad(vec4(rect), true), true };
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), target, m_program.version(version), quad);
+		m_filter.submit_quad(*render.m_target, blur_pass.m_index, target, m_program.version(version), quad);
 	}
 }

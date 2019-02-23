@@ -40,24 +40,6 @@ namespace mud
 #endif
 	}
 
-	const vec3 X3 = { 1.f, 0.f, 0.f };
-	const vec3 Y3 = { 0.f, 1.f, 0.f };
-	const vec3 Z3 = { 0.f, 0.f, 1.f };
-
-	const Side c_sides[6] = { Side::Right, Side::Left, Side::Up, Side::Down, Side::Back, Side::Front };
-
-	const table<Axis, vec3> c_axes      = {  X3,  Y3,  Z3 };
-	const table<Axis, vec3> c_tangents  = {  Y3,  Z3,  Y3 };
-	const table<Axis, vec3> c_binormals = {  Z3,  X3,  X3 };
-
-	const table<SignedAxis, vec3> c_dirs		   = {  X3, -X3,  Y3, -Y3,  Z3, -Z3 };
-	const table<SignedAxis, vec3> c_dirs_tangents = {  Y3, -Z3, -Z3,  X3,  Y3,  X3 };
-	const table<SignedAxis, vec3> c_dirs_normals  = { -Z3,  Y3,  X3, -Z3,  X3,  Y3 };
-
-	const quat ZeroQuat = { 0.f, 0.f, 0.f, 1.f };
-
-	const vec4 Rect4 = { 0.f, 0.f, 1.f, 1.f };
-
 	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, uint32_t count)
 	{
 		if(dot(rotation, first) < 0.f)

@@ -12,12 +12,15 @@ module mud.gfx;
 
 namespace mud
 {
+	static uint32_t s_light_index = 0;
+
 	Light::Light(Node3& node, LightType type, bool shadows)
 		: m_node(node)
 		, m_type(type)
 		, m_shadows(shadows)
+		, m_index(s_light_index++)
 	{
-		m_shadow_bias = 0.1f;
+		m_shadow_bias = 0.01f;
 		m_shadow_normal_bias = 0.f; // @todo investigate why making this higher fucks up the first shadow slice
 
 		if(type != LightType::Spot)

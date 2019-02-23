@@ -168,6 +168,7 @@ namespace mud
 	public:
 		constr_ Cylinder();
 		constr_ Cylinder(float radius, float height, Axis axis = Axis::X);
+		constr_ Cylinder(const vec3& center, float radius, float height, Axis axis = Axis::X);
 
 		attr_ float m_radius = 1.f;
 		attr_ float m_height = 2.f;

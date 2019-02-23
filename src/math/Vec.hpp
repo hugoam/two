@@ -18,12 +18,6 @@
 namespace mud
 {
 	template <class T>
-	inline v2<T>::v2() { }
-	template <class T>
-	inline v2<T>::v2(T v) : x(v), y(v) {}
-	template <class T>
-	inline v2<T>::v2(T x, T y) : x(x), y(y) {}
-	template <class T>
 	template <class V>
 	inline v2<T>::v2(V v) : x(T(v.x)), y(T(v.y)) {}
 	template <class T>
@@ -41,12 +35,6 @@ namespace mud
 	template <class T>
 	inline v2<T>::operator T() { return T(x); }
 
-	template <class T>
-	inline v3<T>::v3() { }
-	template <class T>
-	inline v3<T>::v3(T v) : x(v), y(v), z(v) {}
-	template <class T>
-	inline v3<T>::v3(T x, T y, T z) : x(x), y(y), z(z) {}
 	template <class T>
 	inline v3<T>::v3(v2<T> a, T z) : x(a.x), y(a.y), z(z) {}
 	template <class T>
@@ -69,12 +57,6 @@ namespace mud
 	template <class T>
 	inline v3<T>::operator v2<T>() { return v2<T>(x, y); }
 
-	template <class T>
-	inline v4<T>::v4() {}
-	template <class T>
-	inline v4<T>::v4(T v) : x(v), y(v), z(v), w(v) {}
-	template <class T>
-	inline v4<T>::v4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
 	template <class T>
 	inline v4<T>::v4(v3<T> a, T w) : x(a.x), y(a.y), z(a.z), w(w) {}
 	template <class T>
@@ -142,6 +124,7 @@ namespace mud
 	template <class T> inline v2<T> operator*(const v2<T>& a, T b) { return v2<T>(a.x * b, a.y * b); }
 	template <class T> inline v3<T> operator*(const v3<T>& a, T b) { return v3<T>(a.x * b, a.y * b, a.z * b); }
 	template <class T> inline v4<T> operator*(const v4<T>& a, T b) { return v4<T>(a.x * b, a.y * b, a.z * b, a.w * b); }
+	//template <class T> inline v4<T> operator*(const v4<T>& a, const v2<T>& b) { return v4<T>(a.x * b.x, a.y * b.y, a.z * b.x, a.w * b.y); }
 	template <class T> inline v2<T> operator*(T a, const v2<T>& b) { return v2<T>(a * b.x, a * b.y); }
 	template <class T> inline v3<T> operator*(T a, const v3<T>& b) { return v3<T>(a * b.x, a * b.y, a * b.z); }
 	template <class T> inline v4<T> operator*(T a, const v4<T>& b) { return v4<T>(a * b.x, a * b.y, a * b.z, a * b.w); }
@@ -152,13 +135,10 @@ namespace mud
 	template <class T> inline v2<T> operator/(const v2<T>& a, T b) { return v2<T>(a.x / b, a.y / b); }
 	template <class T> inline v3<T> operator/(const v3<T>& a, T b) { return v3<T>(a.x / b, a.y / b, a.z / b); }
 	template <class T> inline v4<T> operator/(const v4<T>& a, T b) { return v4<T>(a.x / b, a.y / b, a.z / b, a.w / b); }
+	//template <class T> inline v4<T> operator/(const v4<T>& a, const v2<T>& b) { return v4<T>(a.x / b.x, a.y / b.y, a.z / b.x, a.w / b.y); }
 	template <class T> inline v2<T> operator/(T a, const v2<T>& b) { return v2<T>(a / b.x, a / b.y); }
 	template <class T> inline v3<T> operator/(T a, const v3<T>& b) { return v3<T>(a / b.x, a / b.y, a / b.z); }
 	template <class T> inline v4<T> operator/(T a, const v4<T>& b) { return v4<T>(a / b.x, a / b.y, a / b.z, a / b.w); }
-
-	template <class T> inline v2<T> operator-(const v2<T>& a) { return v2<T>(-a.x, -a.y); }
-	template <class T> inline v3<T> operator-(const v3<T>& a) { return v3<T>(-a.x, -a.y, -a.z); }
-	template <class T> inline v4<T> operator-(const v4<T>& a) { return v4<T>(-a.x, -a.y, -a.z, -a.w); }
 
 	template <class T> inline v2<T>& operator+=(v2<T>& a, const v2<T>& b) { a = a + b; return a; }
 	template <class T> inline v3<T>& operator+=(v3<T>& a, const v3<T>& b) { a = a + b; return a; }
@@ -383,9 +363,6 @@ namespace mud
 
 	//inline bool mat4::operator!=(const mat4& other) const { return !(*this == other); }
 
-	inline quat::quat() { }
-	//inline quat::quat(float v) : float4(v) { }
-	inline quat::quat(float x, float y, float z, float w) : float4(x, y, z, w) { }
 	inline quat::quat(const float3& euler_angles)
 	{
 		float3 c = cos(euler_angles * float(0.5));

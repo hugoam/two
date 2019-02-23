@@ -25,6 +25,7 @@ module mud.gfx;
 #include <gfx/Material.h>
 #include <gfx/Shader.h>
 #include <gfx/Renderer.h>
+#include <gfx/Pipeline.h>
 #endif
 
 #include <cstring>
@@ -249,11 +250,15 @@ namespace mud
 	{
 		m_impl->m_name = name;
 		GfxBlock& pbr = pbr_block(*ms_gfx_system);
+		GfxBlock& mat = *ms_gfx_system->m_pipeline->block<BlockMaterial>();
 		
 		static cstring options[] = { "SKELETON", "INSTANCING", "BILLBOARD", "QNORMALS", "MRT", "DEFERRED", "CLUSTERED",
 									 "ZONES_BUFFER", "LIGHTS_BUFFER", "MATERIALS_BUFFER" };
 		this->register_options(0, options);
+		this->register_options(mat.m_index, mat.m_shader_block->m_options);
 		this->register_options(pbr.m_index, pbr.m_shader_block->m_options);
+
+		m_blocks[MaterialBlock::Base] = true;
 	}
 
 	Program::Program(const string& name, span<GfxBlock*> blocks, span<cstring> sources)
@@ -333,7 +338,8 @@ namespace mud
 
 	bgfx::ProgramHandle Program::default_version()
 	{
-		ShaderVersion config(this);
+		ShaderVersion config;
+		config.m_program = this;
 		return this->version(config);
 	}
 
@@ -372,7 +378,7 @@ namespace mud
 
 	void Program::register_options(uint8_t block, span<cstring> options)
 	{
-		m_blocks.m_shader_blocks[block].m_option_shift = uint8_t(m_impl->m_option_names.size());
+		m_shader_blocks[block].m_option_shift = uint8_t(m_impl->m_option_names.size());
 
 		for(size_t i = 0; i < options.size(); ++i)
 			m_impl->m_option_names.push_back(options[i]);
@@ -380,7 +386,7 @@ namespace mud
 
 	void Program::register_modes(uint8_t block, span<cstring> modes)
 	{
-		m_blocks.m_shader_blocks[block].m_mode_shift = uint8_t(m_impl->m_mode_names.size());
+		m_shader_blocks[block].m_mode_shift = uint8_t(m_impl->m_mode_names.size());
 
 		for(size_t i = 0; i < modes.size(); ++i)
 			m_impl->m_mode_names.push_back(modes[i]);

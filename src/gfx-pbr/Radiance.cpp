@@ -70,11 +70,6 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockRadiance::begin_draw_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	void BlockRadiance::options(Render& render, ShaderVersion& shader_version) const
 	{
 		bgfx::TextureHandle radiance = render.m_env->m_radiance.m_roughness_array;
@@ -87,7 +82,7 @@ namespace mud
 	{
 		UNUSED(render);
 		uint32_t stage = uint32_t(TextureSampler::Radiance);
-		bgfx::setViewUniform(render_pass.m_index, u_radiance.s_radiance_map, &stage);
+		bgfx::setViewUniform(render_pass.m_index, u_radiance.s_radiance, &stage);
 	}
 
 	void BlockRadiance::submit(Render& render, const DrawElement& element, const Pass& render_pass) const

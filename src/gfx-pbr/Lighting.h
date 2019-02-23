@@ -30,18 +30,17 @@ namespace mud
 		attr_ float specular;
 		attr_ vec3 direction;
 		attr_ float attenuation;
-		attr_ float shadow_enabled;
-		attr_ vec3 shadow_color;
 		attr_ float spot_attenuation;
 		attr_ float spot_cutoff;
-
-		//mat4 shadow_matrix;
 	};
 
-	struct gpu_ GpuCSMLight
+	struct gpu_ GpuLightShadow
 	{
-		mat4 matrix[4];
-		vec4 splits;
+		attr_ float matrix;
+		attr_ float bias;
+		attr_ float radius;
+		attr_ vec2 atlas_slot;
+		attr_ vec2 atlas_subdiv;
 	};
 
 	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Camera& camera);
@@ -70,17 +69,18 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
-
 		virtual void options(Render& render, ShaderVersion& shader_version) const final;
 		virtual void submit(Render& render, const Pass& render_pass) const final;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const final;
 
-		void update_zones(span<Zone> zones);
-		void update_lights(Render& render, const mat4& view);
+		void setup_lights(Render& render, const mat4& view);
+		void setup_zones(Render& render);
 
-		void upload_zones(Render& render, const Pass& render_pass) const;
-		void upload_lights(Render& render, const Pass& render_pass) const;
+		void upload_lights(Render& render);
+		void upload_zones(Render& render);
+
+		void commit_zones(Render& render, const Pass& render_pass) const;
+		void commit_lights(Render& render, const Pass& render_pass) const;
 
 		uint16_t m_direct_light_index = 0;
 		Light* m_direct_light = nullptr;
@@ -104,6 +104,7 @@ namespace mud
 		ZoneLights m_zones[1];
 
 		vector<GpuLight> m_gpu_lights;
+		vector<GpuLightShadow> m_gpu_shadows;
 
 		bgfx::TextureHandle m_zones_texture = BGFX_INVALID_HANDLE;
 		bgfx::TextureHandle m_lights_texture = BGFX_INVALID_HANDLE;

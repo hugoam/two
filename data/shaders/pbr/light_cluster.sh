@@ -10,10 +10,10 @@ uniform vec4 u_froxel_f;
 #define u_froxel_inv_dimension u_froxel_params.xy
 #define u_froxel_origin u_froxel_params.zw
 
-SAMPLER2D(s_light_clusters, 14);
-SAMPLER2D(s_light_records, 15);
-//USAMPLER2D(s_light_clusters, 14);
-//USAMPLER2D(s_light_records, 15);
+SAMPLER2D(s_light_clusters, 13);
+SAMPLER2D(s_light_records, 14);
+//USAMPLER2D(s_light_clusters, 13);
+//USAMPLER2D(s_light_records, 14);
     
 #define FROXEL_BUFFER_WIDTH_SHIFT   6u
 #define FROXEL_BUFFER_WIDTH         (1u << FROXEL_BUFFER_WIDTH_SHIFT)

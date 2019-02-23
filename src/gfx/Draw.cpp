@@ -50,8 +50,6 @@ namespace mud
 		: m_material(material)
 		, m_cursor{ 0, 0 }
 	{
-		m_material.m_unshaded_block.m_enabled = true;
-
 		m_batches[PLAIN].resize(64);
 		m_batches[OUTLINE].resize(64);
 
@@ -162,7 +160,7 @@ namespace mud
 		bgfx::allocTransientIndexBuffer(&index_buffer, num_indices);
 		memcpy(index_buffer.data, batch.m_indices.data(), num_indices * sizeof(uint16_t));
 
-		m_material.submit(encoder, bgfx_state);
+		m_material.submit(*m_material.m_program, encoder, bgfx_state);
 
 		encoder.setVertexBuffer(0, &vertex_buffer);
 		encoder.setIndexBuffer(&index_buffer);
@@ -208,11 +206,10 @@ namespace mud
 		if(m_impl->m_materials.find(hash) == m_impl->m_materials.end())
 		{
 			Material& m = gfx_system.fetch_material("Symbol" + to_string(hash), "unshaded");
-			m.m_base_block.m_depth_draw_mode = DepthDraw::Disabled;
-			m.m_base_block.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
-			m.m_base_block.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
-			m.m_unshaded_block.m_enabled = true;
-			m.m_unshaded_block.m_colour.m_value = colour;
+			m.m_base.m_depth_draw_mode = DepthDraw::Disabled;
+			m.m_base.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
+			m.m_base.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
+			m.m_unshaded.m_colour.m_value = colour;
 			m_impl->m_materials[hash] = &m;
 		}
 		return *m_impl->m_materials[hash];

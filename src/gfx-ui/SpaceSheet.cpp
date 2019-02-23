@@ -47,11 +47,9 @@ namespace mud
 		, m_model("SpaceSheet")
 		, m_item(m_node, m_model, ItemFlag::Ui, &m_material)
 	{
-		load_texture_rgba(m_texture, uint16_t(width), uint16_t(height), {});
+		load_texture_rgba(m_texture, uint16_t(width), uint16_t(height), span<uint8_t>{});
 		m_material.m_program = viewport.m_scene->m_gfx_system.programs().file("debug");
-
-		m_material.m_unshaded_block.m_enabled = true;
-		m_material.m_unshaded_block.m_colour.m_texture = &m_texture;
+		m_material.m_unshaded.m_colour.m_texture = &m_texture;
 
 		//m_target = oconstruct<FrameBuffer>(*m_viewport.ui_window().m_renderer, as<Layer>(*m_frame), m_viewport.m_scene, m_viewport.m_camera, gfx_system, *m_texture);
 

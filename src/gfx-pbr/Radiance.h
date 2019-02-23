@@ -31,8 +31,6 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
-
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
@@ -43,10 +41,10 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				s_radiance_map = bgfx::createUniform("s_radiance_map", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+				s_radiance = bgfx::createUniform("s_radiance", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 			}
 
-			bgfx::UniformHandle s_radiance_map;
+			bgfx::UniformHandle s_radiance;
 
 		} u_radiance;
 

@@ -110,7 +110,7 @@ namespace stl {
 
 	template <class T, class Alloc>
 	inline void vector<T, Alloc>::reserve(size_t capacity, bool dealloc) {
-		if(this->capacity() > capacity)
+		if(this->capacity() >= capacity)
 			return;
 		this->realloc(capacity, dealloc);
 	}
@@ -154,14 +154,6 @@ namespace stl {
 	inline void vector<T, Alloc>::push_back(T&& t) {
 		this->grow(this->size() + 1);
 		new(placeholder(), this->m_last) T(static_cast<T&&>(t));
-		this->m_last++;
-	}
-
-	template <class T, class Alloc>
-	template <class... Params>
-	inline void vector<T, Alloc>::emplace_back(Params&&... params) {
-		this->grow(this->size() + 1);
-		new(placeholder(), this->m_last) T(static_cast<Params&&>(params)...);
 		this->m_last++;
 	}
 

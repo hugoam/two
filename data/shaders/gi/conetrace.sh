@@ -8,7 +8,7 @@
 
 #define CONETRACE_MAT3
 
-SAMPLER3D(s_gi_probe, 10);
+SAMPLER3D(s_gi_probe, 14);
 
 CONST(float) sqrt2 = 1.41421356237;
 

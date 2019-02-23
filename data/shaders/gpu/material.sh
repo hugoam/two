@@ -1,7 +1,6 @@
 #ifndef MUD_GPU_MATERIAL
 #define MUD_GPU_MATERIAL
 
-#define MATERIALS_BUFFER
 #define MATERIALS_TEXTURE_WIDTH 1024
 #define MATERIALS_TEXTURE_HEIGHT 8
 
@@ -10,7 +9,7 @@
 #endif
 
 #ifdef MATERIALS_BUFFER
-SAMPLER2D(s_materials, 7);
+SAMPLER2D(s_materials, 8);
 #else
 uniform vec4 u_material_params_0;
 uniform vec4 u_material_params_1;
@@ -48,6 +47,25 @@ BaseMaterial read_base_material(int index)
     return m;
 }
 
+struct AlphaMaterial
+{
+    float alpha;
+};
+
+AlphaMaterial read_alpha_material(int index)
+{
+    AlphaMaterial m;
+    
+#ifndef MATERIALS_BUFFER
+#else
+    int x = int(mod(index, MATERIALS_TEXTURE_WIDTH));
+    
+    vec4 params = texelFetch(s_materials, ivec2(x, 2), 0);
+#endif
+
+    return m;
+}
+
 #ifndef MATERIALS_BUFFER
 uniform vec4 u_color;
 #endif
@@ -66,7 +84,7 @@ UnshadedMaterial read_unshaded_material(int index)
 #else
     int x = int(mod(index, MATERIALS_TEXTURE_WIDTH));
     
-    m.color = texelFetch(s_materials, ivec2(x, 2), 0);
+    m.color = texelFetch(s_materials, ivec2(x, 3), 0);
 #endif
 
     return m;
@@ -84,6 +102,7 @@ uniform vec4 u_pbr_params_2;
 struct PbrMaterial
 {
     vec3 albedo;
+    float alpha;
     float specular;
     float metallic;
     float roughness;
@@ -108,6 +127,7 @@ PbrMaterial read_pbr_material(int index)
     
 #ifndef MATERIALS_BUFFER
     m.albedo = u_albedo.xyz;
+    m.alpha = u_albedo.w;
     m.specular = u_pbr_params_0.x;
     m.metallic = u_pbr_params_0.y;
     m.roughness = u_pbr_params_0.z;
@@ -127,30 +147,31 @@ PbrMaterial read_pbr_material(int index)
 #else
     int x = int(mod(index, MATERIALS_TEXTURE_WIDTH));
     
-    vec4 albedo = texelFetch(s_materials, ivec2(x, 3), 0);
+    vec4 albedo = texelFetch(s_materials, ivec2(x, 4), 0);
     m.albedo = albedo.xyz;
+    m.alpha = albedo.w;
     
-    vec4 params_0 = texelFetch(s_materials, ivec2(x, 4), 0);
+    vec4 params_0 = texelFetch(s_materials, ivec2(x, 5), 0);
     m.specular = params_0.x;
     m.metallic = params_0.y;
     m.roughness = params_0.z;
     m.normal_scale = params_0.w;
 
-    vec4 emissive = texelFetch(s_materials, ivec2(x, 5), 0);
+    vec4 emissive = texelFetch(s_materials, ivec2(x, 6), 0);
     m.emissive = emissive.xyz;
     m.emissive_energy = emissive.w;
     
-    vec4 channels = texelFetch(s_materials, ivec2(x, 6), 0);
+    vec4 channels = texelFetch(s_materials, ivec2(x, 7), 0);
     m.roughness_channel = channels.x;
     m.metallic_channel = channels.y;
     
-    vec4 params_1 = texelFetch(s_materials, ivec2(x, 7), 0);
+    vec4 params_1 = texelFetch(s_materials, ivec2(x, 8), 0);
     m.anisotropy = params_1.x;
     m.refaction = params_1.y;
     m.subsurface = params_1.z;
     m.depth_scale = params_1.w;
     
-    vec4 params_2 = texelFetch(s_materials, ivec2(x, 8), 0);
+    vec4 params_2 = texelFetch(s_materials, ivec2(x, 9), 0);
     m.rim = params_2.x;
     m.rim_tint = params_2.y;
     m.clearcoat = params_2.z;

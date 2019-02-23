@@ -125,7 +125,7 @@ namespace mud
 
 	void BlockGlow::glow_merge(Render& render, Glow& glow)
 	{
-		ShaderVersion shader_version(&m_merge_program);
+		ShaderVersion shader_version = { &m_merge_program };
 
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_post_process.last());
 

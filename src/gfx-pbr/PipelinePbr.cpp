@@ -88,7 +88,7 @@ namespace gfx
 
 	void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred)
 	{
-		MaterialBlock& material = pipeline.add_block<MaterialBlock>(gfx_system);
+		BlockMaterial& material = pipeline.add_block<BlockMaterial>(gfx_system);
 		UNUSED(material);
 
 		// filters
@@ -146,43 +146,58 @@ namespace gfx
 		pipeline.m_pass_blocks[PassType::Geometry] = geometry_blocks;
 		pipeline.m_pass_blocks[PassType::Lights] = shading_blocks;
 
+		auto create_programs = [&]()
 		{
-			Program& program_unshaded = gfx_system.programs().create("unshaded");
-			program_unshaded.register_blocks(depth_blocks);
+			Program& unshaded = gfx_system.programs().create("unshaded");
+			unshaded.m_blocks[MaterialBlock::Alpha] = true;
+			unshaded.m_blocks[MaterialBlock::Unshaded] = true;
+			unshaded.register_blocks(depth_blocks);
 
-			Program& program_depth = gfx_system.programs().create("depth");
-			program_depth.register_blocks(depth_blocks);
-			
-			Program& program_pbr = gfx_system.programs().create("pbr/pbr");
-			program_pbr.register_blocks(shading_blocks);
+			Program& depth = gfx_system.programs().create("depth");
+			depth.register_blocks(depth_blocks);
+			depth.m_blocks[MaterialBlock::Alpha] = true;
 
-			Program& program_geometry = gfx_system.programs().create("pbr/geometry");
-			program_geometry.register_blocks(geometry_blocks);
+			Program& distance = gfx_system.programs().create("distance");
+			distance.register_blocks(depth_blocks);
+			distance.m_blocks[MaterialBlock::Alpha] = true;
 
-			Program& program_lights = gfx_system.programs().create("pbr/lights");
-			program_lights.register_blocks(shading_blocks);
+			Program& pbr = gfx_system.programs().create("pbr/pbr");
+			pbr.register_blocks(shading_blocks);
+			pbr.m_blocks[MaterialBlock::Alpha] = true;
+			pbr.m_blocks[MaterialBlock::Pbr] = true;
 
-			Program& program_fresnel = gfx_system.programs().create("fresnel");
-			UNUSED(program_fresnel);
+			Program& geometry = gfx_system.programs().create("pbr/geometry");
+			geometry.register_blocks(geometry_blocks);
+			geometry.m_blocks[MaterialBlock::Alpha] = true;
+			geometry.m_blocks[MaterialBlock::Pbr] = true;
 
-			Program& program_gi_voxelize = gfx_system.programs().create("gi/voxelize");
-			program_gi_voxelize.register_blocks(gi_blocks);
+			Program& lights = gfx_system.programs().create("pbr/lights");
+			lights.register_blocks(shading_blocks);
 
-			Program& program_gi_voxel_light = gfx_system.programs().create("gi/direct_light");
-			program_gi_voxel_light.m_compute = true;
-			program_gi_voxel_light.register_blocks(gi_blocks);
+			Program& fresnel = gfx_system.programs().create("fresnel");
+			fresnel.m_blocks[MaterialBlock::Alpha] = true;
+			fresnel.m_blocks[MaterialBlock::Fresnel] = true;
 
-			Program& program_gi_voxel_bounce = gfx_system.programs().create("gi/bounce_light");
-			program_gi_voxel_bounce.m_compute = true;
-			program_gi_voxel_bounce.register_blocks(gi_blocks);
+			Program& gi_voxelize = gfx_system.programs().create("gi/voxelize");
+			gi_voxelize.register_blocks(gi_blocks);
 
-			Program& program_gi_voxel_output = gfx_system.programs().create("gi/output_light");
-			program_gi_voxel_output.m_compute = true;
-			program_gi_voxel_output.register_blocks(gi_blocks);
+			Program& gi_voxel_light = gfx_system.programs().create("gi/direct_light");
+			gi_voxel_light.m_compute = true;
+			gi_voxel_light.register_blocks(gi_blocks);
 
-			Program& program_lightmap = gfx_system.programs().create("pbr/lightmap");
-			program_lightmap.register_blocks(lightmap_blocks);
-		}
+			Program& gi_voxel_bounce = gfx_system.programs().create("gi/bounce_light");
+			gi_voxel_bounce.m_compute = true;
+			gi_voxel_bounce.register_blocks(gi_blocks);
+
+			Program& gi_voxel_output = gfx_system.programs().create("gi/output_light");
+			gi_voxel_output.m_compute = true;
+			gi_voxel_output.register_blocks(gi_blocks);
+
+			Program& lightmap = gfx_system.programs().create("pbr/lightmap");
+			lightmap.register_blocks(lightmap_blocks);
+		};
+
+		create_programs();
 
 		static ForwardRenderer forward_renderer = { gfx_system, pipeline };
 		static DeferredRenderer deferred_renderer = { gfx_system, pipeline };
@@ -301,9 +316,9 @@ namespace gfx
 
 	void PassOpaque::queue_draw_element(Render& render, DrawElement& element)
 	{
-		if(element.m_material->m_pbr_block.m_enabled && !element.m_material->m_base_block.m_is_alpha)
+		if(element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha)
 		{
-			if(element.m_material->m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
+			if(element.m_material->m_base.m_depth_draw_mode == DepthDraw::Enabled)
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
 			element.m_shader_version.set_option(0, MRT, render.m_is_mrt);
@@ -328,9 +343,9 @@ namespace gfx
 	void PassAlpha::queue_draw_element(Render& render, DrawElement& element)
 	{
 		UNUSED(render);
-		if(element.m_material->m_pbr_block.m_enabled && element.m_material->m_base_block.m_is_alpha)
+		if(element.m_program->m_blocks[MaterialBlock::Pbr] && element.m_material->m_alpha.m_is_alpha)
 		{
-			blend_state(element.m_material->m_base_block.m_blend_mode, element.m_bgfx_state);
+			blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);
 
 			this->add_element(render, element);
 		}
@@ -353,9 +368,9 @@ namespace gfx
 	void PassGeometry::queue_draw_element(Render& render, DrawElement& element)
 	{
 		UNUSED(render);
-		if(element.m_material->m_pbr_block.m_enabled && !element.m_material->m_base_block.m_is_alpha)
+		if(element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha)
 		{
-			if(element.m_material->m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
+			if(element.m_material->m_base.m_depth_draw_mode == DepthDraw::Enabled)
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
 			element.m_shader_version.set_option(0, DEFERRED, true);
@@ -385,7 +400,7 @@ namespace gfx
 		for(GfxBlock* block : m_gfx_blocks)
 			if(block->m_draw_block)
 			{
-				as<DrawBlock>(*block).begin_draw_pass(render);
+				as<DrawBlock>(*block).begin_pass(render);
 				as<DrawBlock>(*block).options(render, cluster.m_shader_version);
 				as<DrawBlock>(*block).submit(render, render_pass);
 			}
@@ -424,7 +439,7 @@ namespace gfx
 	{
 		m_material = &m_gfx_system.fetch_material("geometry", "pbr/geometry");
 		m_material_twosided = &m_gfx_system.fetch_material("geometry_twosided", "pbr/geometry");
-		m_material_twosided->m_base_block.m_cull_mode = CullMode::None;
+		m_material_twosided->m_base.m_cull_mode = CullMode::None;
 	}
 
 	void BlockGeometry::begin_render(Render& render)
@@ -433,11 +448,6 @@ namespace gfx
 	}
 
 	void BlockGeometry::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
-	void BlockGeometry::begin_draw_pass(Render& render)
 	{
 		UNUSED(render);
 	}
@@ -454,6 +464,6 @@ namespace gfx
 
 	void BlockGeometry::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render); UNUSED(element); UNUSED(render_pass);
 	}
 }

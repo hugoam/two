@@ -43,7 +43,6 @@ namespace mud
 		attr_ float m_specular = 0.5f;
 		attr_ float m_attenuation = 0.5f;
 		attr_ bool m_shadows = false;
-		attr_ Colour m_shadow_colour = Colour::Black;
 		attr_ float m_shadow_range = 100.f;
 		attr_ uint32_t m_layers = 0xFFFFFFFF;
 
@@ -62,5 +61,8 @@ namespace mud
 		attr_ float m_shadow_bias = 0.f;
 
 		size_t m_shot_index = 0;
+
+		uint32_t m_index = 0;
+		uint32_t m_shadow_index = UINT32_MAX;
 	};
 }

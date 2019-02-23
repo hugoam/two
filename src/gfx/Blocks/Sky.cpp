@@ -85,8 +85,6 @@ namespace mud
 			mat4 skybox_matrix = bxinverse(render.m_camera.m_transform);
 			encoder.setUniform(u_skybox.u_skybox_matrix, &skybox_matrix);
 
-			m_filter.set_uniforms(render, encoder);
-
 			m_filter.submit_quad(*render.m_target, sky_pass.m_index, render.m_target_fbo, m_skybox_program.default_version(), render.m_viewport.m_rect, BGFX_STATE_DEPTH_TEST_LEQUAL);
 		}
 	}

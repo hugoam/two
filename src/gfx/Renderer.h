@@ -6,6 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/span.h>
+#include <math/Vec.h>
 #include <ecs/Entity.h>
 #include <type/Cls.h>
 #include <type/Unique.h>
@@ -18,7 +19,7 @@
 #include <bgfx/bgfx.h>
 
 #define ZONES_BUFFER 0
-#define MATERIALS_BUFFER 1
+#define MATERIALS_BUFFER 0
 #define LIGHTS_BUFFER 1
 
 #define ZONES_LIGHTS_BUFFER 0
@@ -33,33 +34,42 @@ namespace mud
 
 	export_ enum class refl_ TextureSampler : unsigned int
 	{
+		// Screen
 		Source0 = 0,
 		Source1 = 1,
 		Source2 = 2,
 		Source3 = 3,
 		SourceDepth = 3,
 
+		// Material
 		Color = 0,
 		Albedo = 0,
-		Metallic = 1,
-		Roughness = 2,
-		Emissive = 3,
-		Normal = 4,
-		AO = 11,
-		Depth = 12,
+		Alpha = 1,
+		Metallic = 2,
+		Roughness = 3,
+		Emissive = 4,
+		Normal = 5,
+		AO = 6,
+		Depth = 7,
 
-		Skeleton = 5,
-		ShadowCSM = 6,
-		Materials = 7,
-		ShadowAtlas = 7,
-		Radiance = 8,
-		ReflectionProbe = 9,
-		Zones = 9,
-		GIProbe = 10,
-		Lights = 13,
-		Clusters = 14,
-		LightRecords = 15,
-		Lightmap = 7,  // can't be 16 because max samplers... FIX THIS
+		// Scene
+		Radiance = 10,
+		ShadowAtlas = 11,
+		ShadowCSM = 12,
+		Lightmap = 13,
+		ReflectionProbe = 14,
+		GIProbe = 14,
+
+		// Model
+		Skeleton = 15,
+
+		// Buffers
+		Zones = 0,
+		Materials = 8,
+		Lights = 9,
+
+		Clusters = 13,	   // collides with Lightmap
+		LightRecords = 14, // collides with GIProbe
 	};
 
 	export_ enum class PassType : unsigned int
@@ -136,6 +146,7 @@ namespace mud
 		RenderTarget* m_target = nullptr;
 		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
 		Viewport* m_viewport = nullptr;
+		uvec4 m_rect = {};
 		uint64_t m_bgfx_state = 0;
 		bgfx::Encoder* m_encoder = nullptr;
 
@@ -194,15 +205,15 @@ namespace mud
 		uint32_t m_num_vertices = 0;
 		uint32_t m_num_triangles = 0;
 
-		Pass next_pass(const char* name, bool subpass = false);
-		uint8_t next_pass_id() { return m_pass_index++; }
+		Pass next_pass(cstring name, bool subpass = false);
+		Pass composite_pass(cstring name, bgfx::FrameBufferHandle fbo, const uvec4& rect);
 
 		uint8_t picking_pass() { return m_picking_pass_index++; }
 		uint8_t preprocess_pass() { return m_preprocess_pass_index++; }
 		uint8_t composite_pass() { return m_pass_index++; }
 		uint8_t debug_pass() { return m_debug_pass_index++; }
 
-		void set_uniforms(bgfx::Encoder& encoder) const;
+		void set_uniforms(const Pass& render_pass) const;
 
 		static const uint8_t s_picking_pass_id = 1;
 		static const uint8_t s_preprocess_pass_id = 20;
@@ -247,8 +258,6 @@ namespace mud
 	public:
 		DrawBlock(GfxSystem& gfx_system, Type& type) : GfxBlock(gfx_system, type) { m_draw_block = true; }
 
-		virtual void begin_draw_pass(Render& render) = 0;
-
 		virtual void options(Render& render, ShaderVersion& shader_version) const = 0;
 		virtual void submit(Render& render, const Pass& render_pass) const = 0;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const = 0;
@@ -264,7 +273,6 @@ namespace mud
 
 		void blocks_begin_render(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_render(render); }
 		void blocks_begin_pass(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_pass(render); }
-		void blocks_begin_draw_pass(Render& render) { for(DrawBlock* block : m_draw_blocks) block->begin_draw_pass(render); }
 
 		GfxSystem& m_gfx_system;
 		const char* m_name;
@@ -305,7 +313,7 @@ namespace mud
 		void init_blocks();
 		void add_element(Render& render, DrawElement element);
 
-		virtual void submit_render_pass(Render& render) final;
+		virtual void submit_render_pass(Render& render) override;
 
 		void gather_draw_elements(Render& render);
 		void submit_draw_elements(bgfx::Encoder& encoder, Render& render, Pass& render_pass, size_t first, size_t count) const;

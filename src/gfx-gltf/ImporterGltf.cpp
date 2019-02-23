@@ -324,38 +324,37 @@ namespace mud
 		{
 			glTFMaterialPBR pbr_material = gltf_material.pbr_metallic_roughness;
 
-			material.m_pbr_block.m_enabled = true;
-			material.m_pbr_block.m_albedo.m_value = to_colour(pbr_material.base_color_factor);
+			material.m_pbr.m_albedo.m_value = to_colour(pbr_material.base_color_factor);
 
 			if(pbr_material.base_color_texture.index != -1)
 			{
-				material.m_pbr_block.m_albedo.m_value = Colour::White;
-				material.m_pbr_block.m_albedo.m_texture = get_texture(gltf, state, pbr_material.base_color_texture.index);
+				material.m_pbr.m_albedo.m_value = Colour::White;
+				material.m_pbr.m_albedo.m_texture = get_texture(gltf, state, pbr_material.base_color_texture.index);
 			}
 
-			material.m_pbr_block.m_metallic.m_value = pbr_material.metallic_factor;
-			material.m_pbr_block.m_roughness.m_value = pbr_material.roughness_factor;
+			material.m_pbr.m_metallic.m_value = pbr_material.metallic_factor;
+			material.m_pbr.m_roughness.m_value = pbr_material.roughness_factor;
 
 			if(pbr_material.metallic_roughness_texture.index != -1)
 			{
 				Texture* texture = get_texture(gltf, state, pbr_material.metallic_roughness_texture.index);
-				material.m_pbr_block.m_metallic.m_texture = texture;
-				material.m_pbr_block.m_metallic.m_channel = TextureChannel::Blue;
-				material.m_pbr_block.m_roughness.m_texture = texture;
-				material.m_pbr_block.m_roughness.m_channel = TextureChannel::Green;
+				material.m_pbr.m_metallic.m_texture = texture;
+				material.m_pbr.m_metallic.m_channel = TextureChannel::Blue;
+				material.m_pbr.m_roughness.m_texture = texture;
+				material.m_pbr.m_roughness.m_channel = TextureChannel::Green;
 			}
 		}
 
 		if(gltf_material.normal_texture.index != -1)
 		{
-			material.m_pbr_block.m_normal.m_texture = get_texture(gltf, state, gltf_material.normal_texture.index);
-			material.m_pbr_block.m_normal.m_value = gltf_material.normal_texture.scale;
+			material.m_pbr.m_normal.m_texture = get_texture(gltf, state, gltf_material.normal_texture.index);
+			material.m_pbr.m_normal.m_value = gltf_material.normal_texture.scale;
 		}
 
 		if(gltf_material.occlusion_texture.index != -1)
 		{
-			material.m_pbr_block.m_ambient_occlusion.m_texture = get_texture(gltf, state, gltf_material.occlusion_texture.index);
-			material.m_pbr_block.m_ambient_occlusion.m_channel = TextureChannel::Red;
+			material.m_pbr.m_ambient_occlusion.m_texture = get_texture(gltf, state, gltf_material.occlusion_texture.index);
+			material.m_pbr.m_ambient_occlusion.m_channel = TextureChannel::Red;
 		}
 
 		vec3 emissive = gltf_material.emissive_factor;
@@ -363,20 +362,20 @@ namespace mud
 		emissive *= vec3(gltf_material.pbr_metallic_roughness.base_color_factor);
 #endif
 		float emissive_factor = (emissive.r + emissive.g + emissive.b) / 3.f;
-		material.m_pbr_block.m_emissive.m_value = to_colour(vec4(emissive / emissive_factor, emissive_factor));
+		material.m_pbr.m_emissive.m_value = to_colour(vec4(emissive / emissive_factor, emissive_factor));
 
 		if(gltf_material.emissive_texture.index != -1)
 		{
-			material.m_pbr_block.m_emissive.m_texture = get_texture(gltf, state, gltf_material.emissive_texture.index);
-			material.m_pbr_block.m_emissive.m_value = Colour::Black;
-			material.m_pbr_block.m_emissive.m_value.m_a = emissive_factor;
+			material.m_pbr.m_emissive.m_texture = get_texture(gltf, state, gltf_material.emissive_texture.index);
+			material.m_pbr.m_emissive.m_value = Colour::Black;
+			material.m_pbr.m_emissive.m_value.m_a = emissive_factor;
 		}
 
 		if(gltf_material.double_sided)
-			material.m_base_block.m_cull_mode = CullMode::None;
+			material.m_base.m_cull_mode = CullMode::None;
 
 		if(gltf_material.alpha_mode != glTFAlphaMode::OPAQUE)
-			material.m_base_block.m_is_alpha = true;
+			material.m_alpha.m_is_alpha = true;
 	}
 
 	void import_materials(const glTF& gltf, Import& state)

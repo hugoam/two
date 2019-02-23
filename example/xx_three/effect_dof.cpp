@@ -1,4 +1,8 @@
-#include <mud/frame.h>
+//#include <mud/frame.h>
+#include <frame/Api.h>
+#include <gfx-pbr/Api.h>
+
+#include <xx_three/xx_three.h>
 
 using namespace mud;
 
@@ -56,7 +60,7 @@ struct DoFRenderer : public Renderer
 	}
 };
 
-void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
@@ -68,7 +72,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//renderer.setSize(width, height);
 	//container.appendChild(renderer.domElement);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene.begin();
 
 	static int xgrid = 14;
 	static int ygrid = 9;
@@ -98,7 +102,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Sphere sphere = {};
 	static Model& geo = app.m_gfx_system.fetch_symbol(Symbol(), sphere, PLAIN);
 
-	static std::vector<Material*> materials;
+	static vector<Material*> materials;
 
 	Texture* texcube = load_envmap("textures/cube/SwedishRoyalCastle/", ".jpg");
 	for(int i = 0; i < nobjects; ++i)
@@ -117,7 +121,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 				int x = 200 * (i - xgrid / 2);
 				int y = 200 * (j - ygrid / 2);
 				int z = 200 * (k - zgrid / 2);
-				Gnode& n = gfx::node(scene, {}, vec3(x, y, z), ZeroQuat, vec3(60));
+				Gnode& n = gfx::node(scene, {}, vec3(ivec3(x, y, z)), ZeroQuat, vec3(60.f));
 				gfx::item(n, geo, 0U, single_material ? materials[0] : materials[count]);
 				count++;
 			}
@@ -126,9 +130,9 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	Parameters params;
 
 	Widget& controls = ui::stack(viewer);
-	ui::slider_field<float>(controls, "focus",    { params.focus,    { 10.0, 3000.0, 10 } });
-	ui::slider_field<float>(controls, "aperture", { params.aperture, { 0, 10, 0.1 } });
-	ui::slider_field<float>(controls, "maxblur",  { params.maxblur,  { 0.0, 3.0, 0.025 } });
+	ui::slider_field<float>(controls, "focus",    { params.focus,    { 10.f, 3000.f, 10.f } });
+	ui::slider_field<float>(controls, "aperture", { params.aperture, { 0.f, 10.f, 0.1f } });
+	ui::slider_field<float>(controls, "maxblur",  { params.maxblur,  { 0.f, 3.f, 0.025f } });
 
 	auto update = []()
 	{
@@ -148,24 +152,8 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 		for(int i = 0; i < nobjects; i++)
 		{
 			float h = (360 * (i / nobjects + int(time)) % 360) / 360;
-			materials[i]->m_unshaded_block.m_colour = hsl_to_rgb(h, 1, 0.5);
+			materials[i]->m_unshaded.m_colour = hsl_to_rgb(h, 1, 0.5);
 		}
 	
 	//postprocessing.composer.render(0.1);
 }
-
-
-#ifdef _XX_THREE_EXE
-void pump(Shell& app)
-{
-	shell_context(app.m_ui->begin(), app.m_editor);
-	ex_xx_three(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
-}
-
-int main(int argc, char *argv[])
-{
-	cstring example_path = MUD_RESOURCE_PATH "examples/17_wfc/";
-	Shell app(carray<cstring, 2>{ MUD_RESOURCE_PATH, example_path }, argc, argv);
-	app.run(pump);
-}
-#endif

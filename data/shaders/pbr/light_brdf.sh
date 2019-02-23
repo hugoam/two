@@ -174,21 +174,21 @@ vec3 brdf_specular_term(Fragment fragment, Material material)
 	return material.f0 * brdf.x + brdf.y;
 }
 
-void light_brdf(Light light, vec3 l, Fragment fragment, Material material, vec3 attenuation, inout vec3 diffuse, inout vec3 specular)
+void light_brdf(Light light, vec3 l, Fragment fragment, Material material, float factor, inout vec3 diffuse, inout vec3 specular)
 {
     LightRay ray = calc_light_ray(fragment, l);
  
     if(material.metallic < 1.0) {
 #if DIFFUSE_MODE == 0
-        diffuse += light.energy * attenuation * material.albedo * diffuse_lambert(      ray, fragment.NoV, material.roughness);
+        diffuse += light.energy * factor * material.albedo * diffuse_lambert(      ray, fragment.NoV, material.roughness);
 #elif DIFFUSE_MODE == 1
-        diffuse += light.energy * attenuation * material.albedo * diffuse_half_lambert( ray, fragment.NoV, material.roughness);
+        diffuse += light.energy * factor * material.albedo * diffuse_half_lambert( ray, fragment.NoV, material.roughness);
 #elif DIFFUSE_MODE == 2
-        diffuse += light.energy * attenuation * material.albedo * diffuse_oren_nayar(   ray, fragment.NoV, material.roughness, material.albedo);
+        diffuse += light.energy * factor * material.albedo * diffuse_oren_nayar(   ray, fragment.NoV, material.roughness, material.albedo);
 #elif DIFFUSE_MODE == 3
-        diffuse += light.energy * attenuation * material.albedo * diffuse_burley(       ray, fragment.NoV, material.roughness);
+        diffuse += light.energy * factor * material.albedo * diffuse_burley(       ray, fragment.NoV, material.roughness);
 #elif DIFFUSE_MODE == 4
-        diffuse += light.energy * attenuation * material.albedo * diffuse_toon(         ray, fragment.NoV, material.roughness);
+        diffuse += light.energy * factor * material.albedo * diffuse_toon(         ray, fragment.NoV, material.roughness);
 #endif
     }
     
@@ -199,13 +199,13 @@ void light_brdf(Light light, vec3 l, Fragment fragment, Material material, vec3 
 
 	if (material.roughness > 0.0) {
 #if SPECULAR_MODE == 0
-        specular += light.energy * attenuation * light.specular * specular_schlick_GGX(ray, fragment.NoV, material.roughness, material.anisotropy);
+        specular += light.energy * factor * light.specular * specular_schlick_GGX(ray, fragment.NoV, material.roughness, material.anisotropy);
 #elif SPECULAR_MODE == 1
-        specular += light.energy * attenuation * light.specular * specular_blinn(      ray, fragment.NoV, material.roughness);
+        specular += light.energy * factor * light.specular * specular_blinn(      ray, fragment.NoV, material.roughness);
 #elif SPECULAR_MODE == 2
-        specular += light.energy * attenuation * light.specular * specular_phong(      ray, fragment.NoV, material.roughness);
+        specular += light.energy * factor * light.specular * specular_phong(      ray, fragment.NoV, material.roughness);
 #elif SPECULAR_MODE == 3
-        diffuse += light.energy * attenuation * light.specular * specular_toon(        ray, fragment.NoV, material.roughness) * material.specular * 2.0;
+        diffuse += light.energy * factor * light.specular * specular_toon(        ray, fragment.NoV, material.roughness) * material.specular * 2.0;
 #elif SPECULAR_MODE == 4
 #endif
 	}

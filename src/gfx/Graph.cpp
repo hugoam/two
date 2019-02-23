@@ -319,6 +319,7 @@ namespace gfx
 		Light& l = light(self, LightType::Direct, true, Colour{ 0.8f, 0.8f, 0.7f }, 1.f);
 		l.m_energy = 0.6f;
 		l.m_shadow_flags = CSM_Stabilize;
+		l.m_shadow_bias = 0.1f;
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 		l.m_shadow_num_splits = 2;
 #else
@@ -370,8 +371,7 @@ namespace gfx
 		Program& program = *gfx_system.programs().file("unshaded");
 		Material& material = gfx_system.materials().fetch(name);
 		material.m_program = &program;
-		material.m_unshaded_block.m_enabled = true;
-		material.m_unshaded_block.m_colour = colour;
+		material.m_unshaded.m_colour = colour;
 		return material;
 	}
 
@@ -380,7 +380,7 @@ namespace gfx
 		Program& program = *gfx_system.programs().file("pbr/pbr");
 		Material& material = gfx_system.materials().fetch(name);
 		material.m_program = &program;
-		material.m_pbr_block = pbr_block;
+		material.m_pbr = pbr_block;
 		return material;
 	}
 

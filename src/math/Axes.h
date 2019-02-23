@@ -13,15 +13,15 @@
 
 namespace mud
 {
-	// @todo replace with inline constexpr when moving to C++17
-	export_ extern MUD_MATH_EXPORT const Side c_sides[6]; // = { Side::Right, Side::Left, Side::Up, Side::Down, Side::Back, Side::Front };
+	export_ constexpr inline Side c_sides[6] = { Side::Right, Side::Left, Side::Up, Side::Down, Side::Back, Side::Front };
+	export_ constexpr inline SignedAxis c_signed_axes[6] = { SignedAxis::PlusX, SignedAxis::MinusX, SignedAxis::PlusY, SignedAxis::MinusY, SignedAxis::PlusZ, SignedAxis::MinusZ };
 
-	export_ extern MUD_MATH_EXPORT const table<Axis, vec3> c_axes;			// = {  X3,  Y3,  Z3 };
-	export_ extern MUD_MATH_EXPORT const table<Axis, vec3> c_tangents;		// = {  Y3, -Z3,  Y3 };
-	export_ extern MUD_MATH_EXPORT const table<Axis, vec3> c_binormals;	// = { -Z3,  X3,  X3 };
-	export_ extern MUD_MATH_EXPORT const table<SignedAxis, vec3> c_dirs;			// = {  X3, -X3,  Y3, -Y3,  Z3, -Z3 };
-	export_ extern MUD_MATH_EXPORT const table<SignedAxis, vec3> c_dirs_tangents;	// = {  Y3, -Z3, -Z3,  X3,  Y3,  X3 };
-	export_ extern MUD_MATH_EXPORT const table<SignedAxis, vec3> c_dirs_normals;	// = { -Z3,  Y3,  X3, -Z3,  X3,  Y3 };
+	export_ constexpr inline table<Axis, vec3> c_axes		= {  X3,  Y3,  Z3 };
+	export_ constexpr inline table<Axis, vec3> c_tangents	= {  Y3,  Z3,  Y3 };
+	export_ constexpr inline table<Axis, vec3> c_binormals	= {  Z3,  X3,  X3 };
+	export_ constexpr inline table<SignedAxis, vec3> c_dirs			 = {  X3, -X3,  Y3, -Y3,  Z3, -Z3 };
+	export_ constexpr inline table<SignedAxis, vec3> c_dirs_tangents = {  Y3, -Z3, -Z3,  X3,  Y3,  X3 };
+	export_ constexpr inline table<SignedAxis, vec3> c_dirs_normals	 = { -Z3,  Y3,  X3, -Z3,  X3,  Y3 };
 
 	export_ inline vec3 to_vec3(Axis axis) { return c_axes[axis]; }
 	export_ inline vec3 to_vec3(Side side) { return c_dirs[SignedAxis(side)]; }

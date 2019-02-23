@@ -117,7 +117,15 @@ namespace stl {
 		T* m_capacity = 0;
 	};
 #endif
-	
+
+	template <class T, class Alloc>
+	template <class... Params>
+	inline void vector<T, Alloc>::emplace_back(Params&&... params) {
+		this->grow(this->size() + 1);
+		new(placeholder(), this->m_last) T(static_cast<Params&&>(params)...);
+		this->m_last++;
+	}
+
 	template <class T, class Alloc>
 	inline bool operator==(const vector<T, Alloc>& left, const vector<T, Alloc>& right);
 }

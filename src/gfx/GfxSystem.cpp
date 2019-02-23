@@ -348,14 +348,11 @@ namespace mud
 	void GfxSystem::create_debug_materials()
 	{
 		Material& debug = this->fetch_material("debug", "unshaded");
-		debug.m_unshaded_block.m_enabled = true;
 
 		Material& alpha = this->fetch_material("debug_alpha", "unshaded");
-		alpha.m_unshaded_block.m_enabled = true;
-		alpha.m_unshaded_block.m_colour = Colour{ 0.2f, 0.2f, 0.2f, 0.1f };
+		alpha.m_unshaded.m_colour = Colour{ 0.2f, 0.2f, 0.2f, 0.1f };
 
 		Material& pbr = this->fetch_material("debug_pbr", "pbr/pbr");
-		pbr.m_pbr_block.m_enabled = true;
 	}
 
 	Material& GfxSystem::debug_material()
@@ -385,8 +382,7 @@ namespace mud
 			Texture& texture = this->textures().fetch(image_name);
 			initializer(texture);
 			material = &this->fetch_material(name, "unshaded");
-			material->m_unshaded_block.m_enabled = true;
-			material->m_unshaded_block.m_colour.m_texture = &texture;
+			material->m_unshaded.m_colour.m_texture = &texture;
 		}
 
 		return *material;

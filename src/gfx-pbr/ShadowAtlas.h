@@ -15,15 +15,6 @@
 
 namespace mud
 {
-	struct ShadowCubemap
-	{
-		ShadowCubemap() {}
-		ShadowCubemap(uint16_t size);
-		bgfx::FrameBufferHandle m_fbos[6];
-		bgfx::TextureHandle m_cubemap;
-		uint16_t m_size;
-	};
-
 	class ShadowAtlas
 	{
 	public:
@@ -31,50 +22,47 @@ namespace mud
 		ShadowAtlas(uint16_t size, vector<uint16_t> slices_subdiv);
 
 		uint16_t m_size = 0;
+		uvec2 m_rect_size;
 
+		bgfx::TextureHandle m_color = BGFX_INVALID_HANDLE;
 		bgfx::TextureHandle m_depth = BGFX_INVALID_HANDLE;
 		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
 
-		vector<ShadowCubemap> m_cubemaps;
+		struct Slot
+		{
+			uint16_t m_index;
+			Light* m_light;
+			uvec4 m_rect;
+		};
 
-		uvec4 light_rect(Light& light);
+		struct Slice;
+
+		Slice& light_slice(Light& light);
+		Slot& light_slot(Light& light);
 
 		uvec4 render_update(Render& render, Light& light);
 		bool update_light(Light& light, uint64_t render, float coverage, uint64_t light_version);
 		void remove_light(Light& light);
 
-		ShadowCubemap& light_cubemap(Light& light, uint16_t shadow_size);
-
 		struct Slice
 		{
 			Slice() {}
-			Slice(uint32_t size, uint16_t subdiv, uvec4 rect);
+			Slice(uint8_t index, uint16_t size, uint16_t subdiv, uvec4 rect);
 
-			uint32_t m_size;
+			uint8_t m_index;
+			uint16_t m_size;
 			uint16_t m_subdiv;
 			uvec4 m_rect;
 
-			struct Slot
-			{
-				Light* m_light;
-				uvec4 m_rect;
-			};
-
-			void remove_light(Light& light);
-			void add_light(Light& light);
-
+			uint16_t m_slot_size;
 			vector<Slot> m_slots;
+
 			vector<Slot*> m_free_slots;
+			vector<Slot*> m_free_blocks;
 		};
 
 		vector<Slice> m_slices;
 
-		struct Index
-		{
-			uint8_t m_slice;
-			uint16_t m_slot;
-		};
-
-		vector<Index> m_light_indices;
+		struct Index { uint8_t slice; uint16_t slot; };
 	};
 }
