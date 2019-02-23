@@ -286,13 +286,13 @@ namespace mud
 			uint32_t light = clusters.light(record);
 
 			if(mode == ClusterIndex)
-				colour = hsl_to_rgb(float(i) / (29.f * 16.f * 16.f), 1.f, 0.5f);
+				colour = hsl(float(i) / (29.f * 16.f * 16.f), 1.f, 0.5f);
 			else if(mode == RecordIndex)
-				colour = hsl_to_rgb(float(record) / float(255.f), 1.f, 0.5f);
+				colour = hsl(float(record) / float(255.f), 1.f, 0.5f);
 			else if(mode == LightIndex)
-				colour = hsl_to_rgb(float(light) / 255.f, 1.f, 0.5f);
+				colour = hsl(float(light) / 255.f, 1.f, 0.5f);
 			else if(mode == LightCount)
-				colour = hsl_to_rgb(float(clusters.count(i)) / 32.f, 1.f, 0.5f);
+				colour = hsl(float(clusters.count(i)) / 32.f, 1.f, 0.5f);
 
 			gfx::draw(*parent.m_scene, transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(colour));
 			i++;

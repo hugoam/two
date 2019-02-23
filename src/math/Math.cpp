@@ -20,16 +20,18 @@ module mud.math;
 namespace mud
 {
 	template struct Range<vec3>;
-        template struct Range<quat>;
-        template struct Range<float>;
-        template struct Range<uint32_t>;
-        template struct Range<Colour>;
+    template struct Range<quat>;
+    template struct Range<float>;
+    template struct Range<uint32_t>;
+    template struct Range<Colour>;
 
 #ifndef M_PI
 	const float c_pi = 3.14159265358979323846f;
 #else
 	const float c_pi = M_PI;
 #endif
+	const float c_pi2 = c_pi / 2.f;
+	const float c_pi4 = c_pi / 4.f;
 
 	void register_math_conversions()
 	{

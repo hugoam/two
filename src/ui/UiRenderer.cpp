@@ -27,9 +27,9 @@ namespace mud
 	inline Colour offset_colour(const Colour& colour, float delta)
 	{
 		float offset = delta / 255.0f;
-		return Colour(clamp(colour.m_r + offset, 0.f, 1.f),
-					  clamp(colour.m_g + offset, 0.f, 1.f),
-					  clamp(colour.m_b + offset, 0.f, 1.f),
+		return Colour(clamp(colour.r + offset, 0.f, 1.f),
+					  clamp(colour.g + offset, 0.f, 1.f),
+					  clamp(colour.b + offset, 0.f, 1.f),
 					  colour.m_a);
 	}
 

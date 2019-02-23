@@ -400,8 +400,8 @@ namespace mud
 	export_ inline vec2 rect_sum(const vec4& rect) { return vec2{ rect.x, rect.y } + vec2{ rect.z, rect.w }; }
 	export_ inline vec2 rect_center(const vec4& rect) { return rect_offset(rect) + rect_size(rect) * 0.5f; }
 
-	export_ inline vec3 to_vec3(const Colour& colour) { return { colour.m_r, colour.m_g, colour.m_b }; }
-	export_ inline vec4 to_vec4(const Colour& colour) { return { colour.m_r, colour.m_g, colour.m_b, colour.m_a }; }
+	export_ inline vec3 to_vec3(const Colour& colour) { return { colour.r, colour.g, colour.b }; }
+	export_ inline vec4 to_vec4(const Colour& colour) { return { colour.r, colour.g, colour.b, colour.m_a }; }
 	export_ inline Colour to_colour(const vec3& vec) { return { vec.x, vec.y, vec.z }; }
 	export_ inline Colour to_colour(const vec4& vec) { return { vec.x, vec.y, vec.z, vec.w }; }
 

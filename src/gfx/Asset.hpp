@@ -64,6 +64,14 @@ namespace mud
 	}
 
 	template <class T_Asset>
+	T_Asset& AssetStore<T_Asset>::create(const string& name, const Init& init)
+	{
+		T_Asset& asset = this->create(name);
+		init(asset);
+		return asset;
+	}
+
+	template <class T_Asset>
 	void AssetStore<T_Asset>::destroy(const string& name)
 	{
 		remove(m_vector, &*m_assets[name]);

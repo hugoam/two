@@ -22,6 +22,7 @@ namespace mud
 	{
 	public:
 		using Loader = function<void(T_Asset&, const string&)>;
+		using Init = function<void(T_Asset&)>;
 
 		AssetStore(GfxSystem& gfx_system, const string& path);
 		AssetStore(GfxSystem& gfx_system, const string& path, const Loader& loader);
@@ -47,6 +48,8 @@ namespace mud
 		meth_ T_Asset* file(const string& name);
 		meth_ T_Asset& file_at(const string& path, const string& name);
 		meth_ void destroy(const string& name);
+
+		T_Asset& create(const string& name, const Init& init);
 
 		T_Asset* load(const string& path, const string& name);
 		void load_files(const string& path);

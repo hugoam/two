@@ -38,7 +38,7 @@ namespace mud
 {
 	inline vg::Color vgColour(const Colour& colour)
 	{
-		return vg::color4f(colour.m_r, colour.m_g, colour.m_b, colour.m_a);
+		return vg::color4f(colour.r, colour.g, colour.b, colour.m_a);
 	}
 
 #define RECT_FLOATS(rect) rect.x, rect.y, rect.z, rect.w
@@ -252,8 +252,8 @@ namespace mud
 			vg::closePath(m_vg);
 			vec2 a = vec2{ cosf(a0), sinf(a0) } *(r0 + r1) * 0.5f + center;
 			vec2 b = vec2{ cosf(a1), sinf(a1) } *(r0 + r1) * 0.5f + center;
-			Colour colour_a = hsla_to_rgba(Colour{ a0 / (c_pi * 2.f), 1.0f, 0.55f });
-			Colour colour_b = hsla_to_rgba(Colour{ a1 / (c_pi * 2.f), 1.0f, 0.55f });
+			Colour colour_a = to_rgba(Colour{ a0 / (c_pi * 2.f), 1.0f, 0.55f });
+			Colour colour_b = to_rgba(Colour{ a1 / (c_pi * 2.f), 1.0f, 0.55f });
 			vg::GradientHandle paint = vg::createLinearGradient(m_vg, a.x, a.y, b.x, b.y, vgColour(colour_a), vgColour(colour_b));
 			vg::fillPath(m_vg, paint, vg::FillFlags::ConvexAA);
 		}
@@ -275,7 +275,7 @@ namespace mud
 		vg::lineTo(m_vg, b.x, b.y);
 		vg::closePath(m_vg);
 
-		Colour colour = hsla_to_rgba(Colour{ hue, 1.0f, 0.5f });
+		Colour colour = to_rgba(Colour{ hue, 1.0f, 0.5f });
 		vg::GradientHandle paint1 = vg::createLinearGradient(m_vg, r, 0, a.x, a.y, vgColour(colour), vg::Colors::White);
 		vg::fillPath(m_vg, paint1, vg::FillFlags::ConvexAA);
 		vg::GradientHandle paint2 = vg::createLinearGradient(m_vg, (r + a.x) * 0.5f, (0 + a.y) * 0.5f, b.x, b.y, vg::Colors::Transparent, vg::Colors::Black);

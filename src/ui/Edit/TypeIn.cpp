@@ -798,18 +798,18 @@ namespace mud
 	
 	Colour palette_colour(const ColourPalette& palette, PaletteIndex color_index)
 	{
-		return from_rgba(palette[color_index]);
+		return rgba(palette[color_index]);
 	}
 
 	Paint palette_paint(const ColourPalette& palette, PaletteIndex color_index)
 	{
-		return { from_rgba(palette[color_index]) };
+		return { rgba(palette[color_index]) };
 	}
 
 	TextPaint palette_text_paint(const Text& text, const ColourPalette& palette, PaletteIndex color_index)
 	{
 		TextPaint paint = text.m_text_paint;
-		paint.m_colour = from_rgba(palette[color_index]);
+		paint.m_colour = rgba(palette[color_index]);
 		return paint;
 	}
 

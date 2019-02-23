@@ -314,7 +314,7 @@ namespace mud
 		static Member members[] = {
 			{ t, offsetof(mud::Plane3, m_origin), type<mud::vec3>(), "origin", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Plane3, m_a), type<mud::vec3>(), "a", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Plane3, m_b), type<mud::vec3>(), "b", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::Plane3, b), type<mud::vec3>(), "b", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members

@@ -137,7 +137,7 @@ namespace mud
 			else if(command == "Ks")
 			{
 				Colour specular = tocol(tokens);
-				current->m_pbr.m_metallic.m_value = max(specular.m_r, max(specular.m_g, specular.m_b));
+				current->m_pbr.m_metallic.m_value = max(specular.r, max(specular.g, specular.b));
 			}
 			else if(command == "Ke")
 			{

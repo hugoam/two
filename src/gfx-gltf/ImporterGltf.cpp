@@ -44,8 +44,8 @@ module mud.gfx.gltf;
 
 namespace mud
 {
-	float* value_ptr(Colour& colour) { return &colour.m_r; }
-	const float* value_ptr(const Colour& colour) { return &colour.m_r; }
+	float* value_ptr(Colour& colour) { return &colour.r; }
+	const float* value_ptr(const Colour& colour) { return &colour.r; }
 }
 
 namespace mud

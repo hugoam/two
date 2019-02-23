@@ -60,14 +60,14 @@ namespace mud
 
 	void set_meta_palette(const vector<uint32_t>& palette)
 	{
-		meta_styles().label.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Word)]);
-		meta_styles().type.skin().m_text_colour			= from_rgba(palette[size_t(CodePalette::Identifier)]);
-		meta_styles().function.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Function)]);
-		meta_styles().identifier.skin().m_text_colour	= from_rgba(palette[size_t(CodePalette::Identifier)]);
-		meta_styles().syntax.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Punctuation)]);
-		meta_styles().argument.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Parameter)]);
-		meta_styles().field.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Field)]);
-		meta_styles().number.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Number)]);
+		meta_styles().label.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Word)]);
+		meta_styles().type.skin().m_text_colour			= rgba(palette[size_t(CodePalette::Identifier)]);
+		meta_styles().function.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Function)]);
+		meta_styles().identifier.skin().m_text_colour	= rgba(palette[size_t(CodePalette::Identifier)]);
+		meta_styles().syntax.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Punctuation)]);
+		meta_styles().argument.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Parameter)]);
+		meta_styles().field.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Field)]);
+		meta_styles().number.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Number)]);
 	}
 
 	void meta_type(Widget& parent, Meta& meta)

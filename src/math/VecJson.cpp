@@ -49,7 +49,7 @@ namespace mud
 	void to_json(const Colour& col, json& j)
 	{
 		std::vector<json> values;
-		values = { col.m_r, col.m_g, col.m_b, col.m_a };
+		values = { col.r, col.g, col.b, col.m_a };
 		j = values;
 	}
 }

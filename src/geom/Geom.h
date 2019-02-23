@@ -34,7 +34,7 @@ namespace mud
 	{
 		attr_ vec3 m_origin;
 		attr_ vec3 m_a;
-		attr_ vec3 m_b;
+		attr_ vec3 b;
 	};
 
 	export_ struct refl_ Face3
@@ -84,6 +84,6 @@ namespace mud
 		Point8(vec3 a, vec3 b, vec3 c, vec3 d, vec3 e, vec3 f, vec3 g, vec3 h);
 		const vec3& operator[](size_t index) const { return *((vec3*)&m_a + index); }
 		vec3& operator[](size_t index) { return *(&m_a + index); }
-		vec3 m_a, m_b, m_c, m_d, m_e, m_f, m_g, m_h;
+		vec3 m_a, b, m_c, m_d, m_e, m_f, g, m_h;
 	};
 }

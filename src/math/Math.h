@@ -17,6 +17,8 @@ func_ double cos(double a);
 namespace mud
 {
 	export_ extern MUD_MATH_EXPORT const float c_pi;
+	export_ extern MUD_MATH_EXPORT const float c_pi2;
+	export_ extern MUD_MATH_EXPORT const float c_pi4;
 
 	export_ template <class T>
 	func_ T add(T a, T b) { return a + b; }

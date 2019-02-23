@@ -49,7 +49,7 @@ namespace mud
 		for(size_t i = 0; i < steps; ++i)
 		{
 			float h = float(i) / float(steps - 1);
-			m_colours.push_back(hsl_to_rgb(h, 0.5f, 0.5f));
+			m_colours.push_back(hsl(h, 0.5f, 0.5f));
 		}
 	}
 
@@ -114,9 +114,9 @@ namespace mud
 				size_t colid = m_pixels[index];
 				Colour color = /*colid == 16 ? Colour() :*/ m_palette.m_colours[colid];
 
-				*data++ = static_cast<uint8_t>(color.m_r * 255);
-				*data++ = static_cast<uint8_t>(color.m_g * 255);
-				*data++ = static_cast<uint8_t>(color.m_b * 255);
+				*data++ = static_cast<uint8_t>(color.r * 255);
+				*data++ = static_cast<uint8_t>(color.g * 255);
+				*data++ = static_cast<uint8_t>(color.b * 255);
 				*data++ = 255;
 			}
 	}

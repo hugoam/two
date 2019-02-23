@@ -118,21 +118,21 @@ namespace ui
 		return dist <= r1 && dist >= r0;
 	}
 
-	void drag_color_wheel(Widget& self, Colour& hsla, const MouseEvent& event)
+	void drag_color_wheel(Widget& self, ColourHSL& hsla, const MouseEvent& event)
 	{
 		vec2 coord = { event.m_relative.x, self.m_frame.m_size.y - event.m_relative.y };
 		vec2 center = self.m_frame.m_size * 0.5f;
 		float angle = oriented_angle_2d(normalize(coord - center), { 1.f, 0.f });
-		hsla.m_h = angle / (c_pi * 2.f);
+		hsla.h = angle / (c_pi * 2.f);
 	}
 
-	bool color_wheel(Widget& parent, Colour& hsla)
+	bool color_wheel(Widget& parent, ColourHSL& hsla)
 	{
 		Widget& self = widget(parent, styles().color_wheel);
 		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
-			draw_color_wheel(vg, frame.m_size, hsla.m_h, hsla.m_s, hsla.m_l);
+			draw_color_wheel(vg, frame.m_size, hsla.h, hsla.s, hsla.l);
 		};
 		bool changed = false;
 
@@ -152,7 +152,7 @@ namespace ui
 		return changed;
 	}
 
-	bool color_edit_hsl(Widget& parent, const Colour& colour, Colour& hsla)
+	bool color_edit_hsl(Widget& parent, const Colour& colour, ColourHSL& hsla)
 	{
 		static cstring columns[2] = { "field", "value" };
 		Widget& self = table(parent, { columns, 2 }, {}); // , { 0.3f, 0.7f }
@@ -160,9 +160,9 @@ namespace ui
 
 		bool changed = false;
 		StatDef<float> def = { 0.f, 1.f, 0.01f };
-		changed |= slider_field<float>(self, "hue", { hsla.m_h, def });
-		changed |= slider_field<float>(self, "saturation", { hsla.m_s, def });
-		changed |= slider_field<float>(self, "lightness", { hsla.m_l, def });
+		changed |= slider_field<float>(self, "hue", { hsla.h, def });
+		changed |= slider_field<float>(self, "saturation", { hsla.s, def });
+		changed |= slider_field<float>(self, "lightness", { hsla.l, def });
 
 		return changed;
 	}
@@ -174,21 +174,21 @@ namespace ui
 
 		bool changed = false;
 		StatDef<float> def = { 0.f, 1.f, 0.01f };
-		changed |= slider_input<float>(self, { value.m_r, def });
-		changed |= slider_input<float>(self, { value.m_g, def });
-		changed |= slider_input<float>(self, { value.m_b, def });
+		changed |= slider_input<float>(self, { value.r, def });
+		changed |= slider_input<float>(self, { value.g, def });
+		changed |= slider_input<float>(self, { value.b, def });
 
 		return changed;
 	}
 
 	bool color_edit(Widget& parent, Colour& value)
 	{
-		Colour hsla = rgba_to_hsla(value);
+		ColourHSL hsla = to_hsla(value);
 		Widget& self = stack(parent);
 		bool changed = false;
 		changed |= color_wheel(self, hsla);
 		changed |= color_edit_hsl(self, value, hsla);
-		value = hsla_to_rgba(hsla);
+		value = to_rgba(hsla);
 		return changed;
 	}
 

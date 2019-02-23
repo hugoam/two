@@ -219,14 +219,14 @@ namespace mud
 		vertices[3] = -b + offset3d;
 	}
 
-	Quad::Quad(const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>()) { quad_vertices(size, x, y, { m_vertices, 4 }); }
-	Quad::Quad(const vec2& offset, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>()) { quad_vertices(size, x, y, { m_vertices, 4 }, offset); }
-	Quad::Quad(const vec3& center, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices, 4 }); }
-	Quad::Quad(const vec3& center, const vec2& offset, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices, 4 }, offset); }
-	Quad::Quad(float size, const vec3& x, const vec3& y) : Quad({ size, size }, x, y) {}
+	Quad::Quad(const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>()) { quad_vertices(size, x, y, { m_vertices }); }
+	Quad::Quad(const vec2& offset, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>()) { quad_vertices(size, x, y, { m_vertices }, offset); }
+	Quad::Quad(const vec3& center, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices }); }
+	Quad::Quad(const vec3& center, const vec2& offset, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices }, offset); }
+	Quad::Quad(float size, const vec3& x, const vec3& y) : Quad(vec2(size), x, y) {}
 	// @todo this should probably be Z3, X3 since default faces up and cross(z, x) = y
 	// find out where in the geometry generation is the fuckup
-	Quad::Quad(const Rect& rect) : Quad({ rect.m_size.x, rect.m_size.y }, X3, Z3) {}
+	Quad::Quad(const Rect& rect) : Quad(rect.m_size, X3, Z3) {}
 
 	void box_vertices(const vec3& center, const vec3& extents, span<vec3> vertices)
 	{
@@ -243,8 +243,8 @@ namespace mud
 		vertices[7] = { max.x, max.y, min.z };
 	}
 
-	Box::Box(span<vec3> vertices) : Shape(type<Box>()) { span<vec3> dest = { m_vertices, 8 }; copy(dest, vertices); }
-	Box::Box(const Cube& cube) : Shape(type<Box>()) { box_vertices(cube.m_center, cube.m_extents, { m_vertices, 8 }); }
+	Box::Box(span<vec3> vertices) : Shape(type<Box>()) { span<vec3> dest = { m_vertices }; copy(dest, vertices); }
+	Box::Box(const Cube& cube) : Shape(type<Box>()) { box_vertices(cube.m_center, cube.m_extents, { m_vertices }); }
 
 	Symbol::Symbol(Colour fill, Colour outline, bool overlay, bool double_sided, SymbolDetail detail)
 		: m_outline(outline)
