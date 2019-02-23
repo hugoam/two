@@ -397,11 +397,6 @@ namespace mud
 
 	void Material::submit(const Program& program, bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin) const
 	{
-		//if(program.name() == string("distance"))
-		//{
-		//	printf("submit distance material with alpha ? %i\n", int(program.m_blocks[MaterialBlock::Alpha] && m_alpha.m_alpha.m_texture));
-		//}
-
 		this->state(bgfx_state);
 
 #if MATERIALS_BUFFER

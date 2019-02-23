@@ -146,13 +146,14 @@ namespace mud
 		{
 			GpuTexture buffer = { texture, 1024, 4 };
 
-			size_t height = 6;
-			size_t lines = 1;
+			const size_t height = 6;
+			const size_t lines = 1;
 
 			if(!bgfx::isValid(texture))
 				texture = bgfx::createTexture2D(buffer.width, uint16_t(lines * height), false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
 
-			const bgfx::Memory* memory = bgfx::alloc(buffer.width * lines * height * buffer.stride * sizeof(float));
+			const uint32_t size = uint32_t(buffer.width * lines * height);
+			const bgfx::Memory* memory = bgfx::alloc(uint32_t(size * buffer.stride * sizeof(float)));
 
 			for(size_t index = 0; index < lights.size(); ++index)
 			{

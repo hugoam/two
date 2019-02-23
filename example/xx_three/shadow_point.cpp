@@ -30,7 +30,8 @@ Texture& generateTexture(GfxSystem& gfx_system)
 void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controller(viewer);
+	//ui::orbit_controller(viewer);
+	ui::trackball_controller(viewer);
 
 	//scene.add( new THREE.AmbientLight( 0x111122 ) );
 
@@ -116,7 +117,5 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Box box = Cube(vec3(15.f));
 	Gnode& node = gfx::node(scene, {});// , Y3 * 10.f);
-	//gfx::shape(node, box, Symbol::plain(Colour::White), 0U, cube_material); // @todo fix that shadow pass bug
-	gfx::shape(node, box, Symbol::plain(Colour::White), ItemFlag::Render | ItemFlag::LodAll, cube_material);
-	//mesh.receiveShadow = true;
+	gfx::shape(node, box, Symbol::plain(Colour::White), 0U, cube_material);
 }

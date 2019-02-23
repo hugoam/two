@@ -384,8 +384,8 @@ namespace mud
 			if(light->m_shadows && light->m_type != LightType::Direct)
 			{
 				if(m_atlas.m_size == 0)
-					m_atlas = { 1024U, { 4U } };
-					//m_atlas = { 1024U, { 2U, 4U, 8U, 16U } };
+					//m_atlas = { 1024U, { 4U } };
+					m_atlas = { 1024U, { 2U, 4U, 8U, 16U } };
 
 				m_atlas.render_update(render, *light);
 			}

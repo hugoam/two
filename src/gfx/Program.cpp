@@ -273,6 +273,11 @@ namespace mud
 	Program::~Program()
 	{}
 
+	string Program::defines(const ShaderVersion& version) const
+	{
+		return program_defines(*m_impl, version);
+	}
+
 	ShaderVersion Program::shader_version(Version& version)
 	{
 		ShaderVersion config = { this };
@@ -357,12 +362,6 @@ namespace mud
 		return version.m_program;
 	}
 
-	template <class T, class U>
-	inline void vector_prepend(vector<T>& vector, const U& other)
-	{
-		vector.insert(vector.begin(), other.begin(), other.end());
-	}
-
 	void Program::register_blocks(span<GfxBlock*> blocks)
 	{
 		for(GfxBlock* block : blocks)
@@ -373,7 +372,7 @@ namespace mud
 	{
 		this->register_options(block.m_index, block.m_shader_block->m_options);
 		this->register_modes(block.m_index, block.m_shader_block->m_modes);
-		vector_prepend(m_impl->m_defines, block.m_shader_block->m_defines);
+		prepend(m_impl->m_defines, block.m_shader_block->m_defines);
 	}
 
 	void Program::register_options(uint8_t block, span<cstring> options)

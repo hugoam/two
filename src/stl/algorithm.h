@@ -292,10 +292,16 @@ namespace stl
 		T result; extend(result, first); extend(result, second); return result;
 	}
 
+	//export_ template <class T, class U>
+	//inline void prepend(T& vec, const U& value)
+	//{
+	//	vec.insert(vec.begin(), value);
+	//}
+
 	export_ template <class T, class U>
-	inline void prepend(T& vec, const U& value)
+	inline void prepend(T& vec, const U& other)
 	{
-		vec.insert(vec.begin(), value);
+		vec.insert(vec.begin(), other.begin(), other.end());
 	}
 
 	export_ template <class T>

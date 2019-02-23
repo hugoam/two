@@ -374,14 +374,6 @@ namespace mud
 			element.m_material->submit(*element.m_program, encoder, render_state, element.m_skin);
 			element.m_item->submit(encoder, render_state, *element.m_model);
 
-			if(m_name == string("shadow"))
-				int i = 0;
-
-			if(m_name == string("shadow") && (render_state & BGFX_STATE_WRITE_Z) != 0)
-				int i = 0;
-			if(m_name == string("shadow") && (render_state & BGFX_STATE_DEPTH_TEST_MASK) != 0)
-				int i = 0;
-			
 			encoder.setState(render_state);
 
 			encoder.submit(render_pass.m_index, element.m_bgfx_program, depth_to_bits(element.m_item->m_depth));

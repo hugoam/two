@@ -75,6 +75,8 @@ namespace mud
 
 		attr_ cstring name() const;
 
+		string defines(const ShaderVersion& version) const;
+
 		uint8_t block_option_shift(uint8_t block) const
 		{
 			return m_shader_blocks[block].m_option_shift;
