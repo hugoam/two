@@ -27,6 +27,8 @@ void mud_TonemapMode__to_string(void* val, string& str) { str = g_enu[type<mud::
 void mud_TonemapMode__to_value(const string& str, void* val) { (*static_cast<mud::TonemapMode*>(val)) = mud::TonemapMode(g_enu[type<mud::TonemapMode>().m_id]->value(str.c_str())); }
 void mud_BCS__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::BCS(  ); }
 void mud_BCS__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::BCS((*static_cast<mud::BCS*>(other))); }
+void mud_CSMShadow__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CSMShadow(  ); }
+void mud_CSMShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CSMShadow((*static_cast<mud::CSMShadow*>(other))); }
 void mud_DofBlur__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DofBlur(  ); }
 void mud_DofBlur__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::DofBlur((*static_cast<mud::DofBlur*>(other))); }
 void mud_DofParams__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DofParams(  ); }
@@ -250,6 +252,25 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::CSMShadow
+	{
+		Type& t = type<mud::CSMShadow>();
+		static Meta meta = { t, &namspc({ "mud" }), "CSMShadow", sizeof(mud::CSMShadow), TypeClass::Struct };
+		// bases
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CSMShadow__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_CSMShadow__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
 	}
 	// mud::DofBlur
 	{
@@ -478,6 +499,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::BlockReflection>());
 		m.m_types.push_back(&type<mud::BlockShadow>());
 		m.m_types.push_back(&type<mud::BlockTonemap>());
+		m.m_types.push_back(&type<mud::CSMShadow>());
 		m.m_types.push_back(&type<mud::DofBlur>());
 		m.m_types.push_back(&type<mud::DofParams>());
 		m.m_types.push_back(&type<mud::GIProbe>());

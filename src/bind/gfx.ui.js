@@ -27,6 +27,11 @@ Object.defineProperty(Viewer.prototype, "scene", {
         _mud_Viewer__set_scene(self, value.ptr);
     }
 });
+Object.defineProperty(Viewer.prototype, "camera", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Viewer__get_camera(self), Camera);
+    }});
 Object.defineProperty(Viewer.prototype, "viewport", {
     get: function() {
         var self = this.ptr;

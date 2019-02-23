@@ -184,6 +184,19 @@ BlockTonemap.prototype["__destroy__"] = BlockTonemap.prototype.__destroy__ = fun
     var self = this.ptr;
     _mud_BlockTonemap__destroy(self);
 };
+// CSMShadow
+function CSMShadow() {
+    this.ptr = _mud_CSMShadow__construct_0(); this.type = CSMShadow; getCache(CSMShadow)[this.ptr] = this;
+};
+CSMShadow.prototype = Object.create(WrapperObject.prototype);
+CSMShadow.prototype.constructor = CSMShadow;
+CSMShadow.prototype.__class__ = CSMShadow;
+CSMShadow.__cache__ = {};
+Module['CSMShadow'] = CSMShadow;
+CSMShadow.prototype["__destroy__"] = CSMShadow.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_CSMShadow__destroy(self);
+};
 // DofBlur
 function DofBlur() {
     this.ptr = _mud_DofBlur__construct_0(); this.type = DofBlur; getCache(DofBlur)[this.ptr] = this;
@@ -577,6 +590,7 @@ Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
         BlockReflection.__type__ = _mud_BlockReflection__type();
         BlockShadow.__type__ = _mud_BlockShadow__type();
         BlockTonemap.__type__ = _mud_BlockTonemap__type();
+        CSMShadow.__type__ = _mud_CSMShadow__type();
         DofBlur.__type__ = _mud_DofBlur__type();
         DofParams.__type__ = _mud_DofParams__type();
         GIProbe.__type__ = _mud_GIProbe__type();

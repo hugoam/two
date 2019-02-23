@@ -78,6 +78,7 @@ void mud_Cube__construct_2(void* ref, span<void*> args) { new(stl::placeholder()
 void mud_Cube__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Cube((*static_cast<mud::Cube*>(other))); }
 void mud_Cylinder__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Cylinder(  ); }
 void mud_Cylinder__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Cylinder( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<mud::Axis*>(args[2]) ); }
+void mud_Cylinder__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Cylinder( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<mud::Axis*>(args[3]) ); }
 void mud_Cylinder__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Cylinder((*static_cast<mud::Cylinder*>(other))); }
 void mud_Ellipsis__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Ellipsis(  ); }
 void mud_Ellipsis__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Ellipsis( *static_cast<mud::vec2*>(args[0]), *static_cast<mud::Axis*>(args[1]) ); }
@@ -649,10 +650,12 @@ namespace mud
 		static float height_default = 2.f;
 		static mud::Axis axis_default = mud::Axis::X;
 		static mud::Axis construct_1_axis_default = mud::Axis::X;
+		static mud::Axis construct_2_axis_default = mud::Axis::X;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Cylinder__construct_0, {} },
-			{ t, mud_Cylinder__construct_1, { { "radius", type<float>(),  }, { "height", type<float>(),  }, { "axis", type<mud::Axis>(), Param::Default, &construct_1_axis_default } } }
+			{ t, mud_Cylinder__construct_1, { { "radius", type<float>(),  }, { "height", type<float>(),  }, { "axis", type<mud::Axis>(), Param::Default, &construct_1_axis_default } } },
+			{ t, mud_Cylinder__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  }, { "height", type<float>(),  }, { "axis", type<mud::Axis>(), Param::Default, &construct_2_axis_default } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {

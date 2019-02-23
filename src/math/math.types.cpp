@@ -30,6 +30,7 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<float>>() { static Type ty("AutoStat<float>", sizeof(mud::AutoStat<float>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<int>>() { static Type ty("AutoStat<int>", sizeof(mud::AutoStat<int>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Colour>() { static Type ty("Colour", sizeof(mud::Colour)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::ColourHSL>() { static Type ty("ColourHSL", sizeof(mud::ColourHSL)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Image>() { static Type ty("Image", sizeof(mud::Image)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Image256>() { static Type ty("Image256", sizeof(mud::Image256)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ImageAtlas>() { static Type ty("ImageAtlas", sizeof(mud::ImageAtlas)); return ty; }

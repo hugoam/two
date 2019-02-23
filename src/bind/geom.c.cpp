@@ -112,10 +112,10 @@ extern "C" {
 		self->m_a = *value;
 	}
 	mud::vec3* DECL mud_Plane3__get_b(mud::Plane3* self) {
-		return &self->m_b;
+		return &self->b;
 	}
 	void DECL mud_Plane3__set_b(mud::Plane3* self, mud::vec3* value) {
-		self->m_b = *value;
+		self->b = *value;
 	}
 	void DECL mud_Plane3__destroy(mud::Plane3* self) {
 		delete self;

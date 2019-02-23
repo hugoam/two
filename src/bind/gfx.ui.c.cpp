@@ -35,6 +35,9 @@ extern "C" {
 	void DECL mud_Viewer__set_scene(mud::Viewer* self, mud::Scene* value) {
 		self->m_scene = value;
 	}
+	mud::Camera* DECL mud_Viewer__get_camera(mud::Viewer* self) {
+		return &self->m_camera;
+	}
 	mud::Viewport* DECL mud_Viewer__get_viewport(mud::Viewer* self) {
 		return &self->m_viewport;
 	}

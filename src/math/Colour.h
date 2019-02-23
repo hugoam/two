@@ -12,7 +12,7 @@ namespace mud
 {
 	export_ struct refl_ array_  MUD_MATH_EXPORT ColourHSL
 	{
-		float h; float s; float l; float a;
+		attr_ float h; attr_ float s; attr_ float l; attr_ float a;
 	};
 
 	export_ struct refl_ array_  MUD_MATH_EXPORT Colour

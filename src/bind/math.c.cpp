@@ -64,22 +64,22 @@ extern "C" {
 		return new mud::Colour(r, g, b, a);
 	}
 	float DECL mud_Colour__get_r(mud::Colour* self) {
-		return self->m_r;
+		return self->r;
 	}
 	void DECL mud_Colour__set_r(mud::Colour* self, float value) {
-		self->m_r = value;
+		self->r = value;
 	}
 	float DECL mud_Colour__get_g(mud::Colour* self) {
-		return self->m_g;
+		return self->g;
 	}
 	void DECL mud_Colour__set_g(mud::Colour* self, float value) {
-		self->m_g = value;
+		self->g = value;
 	}
 	float DECL mud_Colour__get_b(mud::Colour* self) {
-		return self->m_b;
+		return self->b;
 	}
 	void DECL mud_Colour__set_b(mud::Colour* self, float value) {
-		self->m_b = value;
+		self->b = value;
 	}
 	float DECL mud_Colour__get_a(mud::Colour* self) {
 		return self->m_a;
@@ -88,6 +88,40 @@ extern "C" {
 		self->m_a = value;
 	}
 	void DECL mud_Colour__destroy(mud::Colour* self) {
+		delete self;
+	}
+	// ColourHSL
+	mud::Type* DECL mud_ColourHSL__type() {
+		return &mud::type<mud::ColourHSL>();
+	}
+	mud::ColourHSL* DECL mud_ColourHSL__construct_0() {
+		return new mud::ColourHSL();
+	}
+	float DECL mud_ColourHSL__get_h(mud::ColourHSL* self) {
+		return self->h;
+	}
+	void DECL mud_ColourHSL__set_h(mud::ColourHSL* self, float value) {
+		self->h = value;
+	}
+	float DECL mud_ColourHSL__get_s(mud::ColourHSL* self) {
+		return self->s;
+	}
+	void DECL mud_ColourHSL__set_s(mud::ColourHSL* self, float value) {
+		self->s = value;
+	}
+	float DECL mud_ColourHSL__get_l(mud::ColourHSL* self) {
+		return self->l;
+	}
+	void DECL mud_ColourHSL__set_l(mud::ColourHSL* self, float value) {
+		self->l = value;
+	}
+	float DECL mud_ColourHSL__get_a(mud::ColourHSL* self) {
+		return self->a;
+	}
+	void DECL mud_ColourHSL__set_a(mud::ColourHSL* self, float value) {
+		self->a = value;
+	}
+	void DECL mud_ColourHSL__destroy(mud::ColourHSL* self) {
 		delete self;
 	}
 	// Image
@@ -1177,19 +1211,23 @@ extern "C" {
 	void DECL mud_quat__destroy(mud::quat* self) {
 		delete self;
 	}
+	mud::Colour* DECL mud_rgba_1(uint32_t colour) {
+		static mud::Colour temp;
+		return (temp = mud::rgba(colour), &temp);
+	}
+	mud::Colour* DECL mud_abgr_1(uint32_t colour) {
+		static mud::Colour temp;
+		return (temp = mud::abgr(colour), &temp);
+	}
+	mud::Colour* DECL mud_hsl_3(float h, float s, float l) {
+		static mud::Colour temp;
+		return (temp = mud::hsl(h, s, l), &temp);
+	}
 	uint32_t DECL mud_to_rgba_1(const mud::Colour* colour) {
 		return mud::to_rgba(*colour);
 	}
 	uint32_t DECL mud_to_abgr_1(const mud::Colour* colour) {
 		return mud::to_abgr(*colour);
-	}
-	mud::Colour* DECL mud_from_rgba_1(uint32_t colour) {
-		static mud::Colour temp;
-		return (temp = mud::from_rgba(colour), &temp);
-	}
-	mud::Colour* DECL mud_from_abgr_1(uint32_t colour) {
-		static mud::Colour temp;
-		return (temp = mud::from_abgr(colour), &temp);
 	}
 	mud::Colour* DECL mud_to_linear_1(const mud::Colour* colour) {
 		static mud::Colour temp;
@@ -1203,21 +1241,17 @@ extern "C" {
 		static mud::Colour temp;
 		return (temp = mud::to_srgb(*colour), &temp);
 	}
-	mud::Colour* DECL mud_hsl_to_rgb_3(float h, float s, float l) {
-		static mud::Colour temp;
-		return (temp = mud::hsl_to_rgb(h, s, l), &temp);
+	mud::ColourHSL* DECL mud_to_hsl_1(const mud::Colour* colour) {
+		static mud::ColourHSL temp;
+		return (temp = mud::to_hsl(*colour), &temp);
 	}
-	mud::Colour* DECL mud_rgb_to_hsl_3(float r, float g, float b) {
-		static mud::Colour temp;
-		return (temp = mud::rgb_to_hsl(r, g, b), &temp);
+	mud::ColourHSL* DECL mud_to_hsl_3(float r, float g, float b) {
+		static mud::ColourHSL temp;
+		return (temp = mud::to_hsl(r, g, b), &temp);
 	}
-	mud::Colour* DECL mud_rgba_to_hsla_1(const mud::Colour* colour) {
-		static mud::Colour temp;
-		return (temp = mud::rgba_to_hsla(*colour), &temp);
-	}
-	mud::Colour* DECL mud_hsla_to_rgba_1(const mud::Colour* colour) {
-		static mud::Colour temp;
-		return (temp = mud::hsla_to_rgba(*colour), &temp);
+	mud::ColourHSL* DECL mud_to_hsla_1(const mud::Colour* colour) {
+		static mud::ColourHSL temp;
+		return (temp = mud::to_hsla(*colour), &temp);
 	}
 	float DECL sinf_1(float a) {
 		return sinf(a);

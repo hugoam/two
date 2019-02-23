@@ -30,6 +30,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlendMode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::CullMode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DepthDraw>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::DepthMethod>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DepthTest>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::EmitterFlow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Interpolation>();
@@ -38,6 +39,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::LightType>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Lighting>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MSAA>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialFlag>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelFormat>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Month>();
@@ -69,6 +71,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Camera>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Culler>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DepthParams>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::DistanceParams>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Filter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Flow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Fog>();
@@ -85,6 +88,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Joint>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Light>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Material>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialAlpha>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialBase>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialFresnel>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<float>>();
@@ -117,14 +121,14 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Viewport>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Zone>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockCopy>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockFilter>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockMaterial>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockResolve>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Flare>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockMaterial>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
 }

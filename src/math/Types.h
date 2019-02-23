@@ -38,6 +38,7 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<float>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<int>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Colour>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::ColourHSL>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Image>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Image256>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::ImageAtlas>();

@@ -102,6 +102,59 @@ Colour.prototype["__destroy__"] = Colour.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Colour__destroy(self);
 };
+// ColourHSL
+function ColourHSL() {
+    this.ptr = _mud_ColourHSL__construct_0(); this.type = ColourHSL; getCache(ColourHSL)[this.ptr] = this;
+};
+ColourHSL.prototype = Object.create(WrapperObject.prototype);
+ColourHSL.prototype.constructor = ColourHSL;
+ColourHSL.prototype.__class__ = ColourHSL;
+ColourHSL.__cache__ = {};
+Module['ColourHSL'] = ColourHSL;
+Object.defineProperty(ColourHSL.prototype, "h", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_ColourHSL__get_h(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_ColourHSL__set_h(self, value);
+    }
+});
+Object.defineProperty(ColourHSL.prototype, "s", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_ColourHSL__get_s(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_ColourHSL__set_s(self, value);
+    }
+});
+Object.defineProperty(ColourHSL.prototype, "l", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_ColourHSL__get_l(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_ColourHSL__set_l(self, value);
+    }
+});
+Object.defineProperty(ColourHSL.prototype, "a", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_ColourHSL__get_a(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_ColourHSL__set_a(self, value);
+    }
+});
+ColourHSL.prototype["__destroy__"] = ColourHSL.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_ColourHSL__destroy(self);
+};
 // Image
 function Image() {
     this.ptr = _mud_Image__construct_0(); this.type = Image; getCache(Image)[this.ptr] = this;
@@ -1599,17 +1652,20 @@ quat.prototype["__destroy__"] = quat.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_quat__destroy(self);
 };
+Module['rgba'] = function(a0) {
+    return wrapPointer(_mud_rgba_1(/*colour*/a0), Colour);
+};
+Module['abgr'] = function(a0) {
+    return wrapPointer(_mud_abgr_1(/*colour*/a0), Colour);
+};
+Module['hsl'] = function(a0, a1, a2) {
+    return wrapPointer(_mud_hsl_3(/*h*/a0, /*s*/a1, /*l*/a2), Colour);
+};
 Module['to_rgba'] = function(a0) {
     return _mud_to_rgba_1(/*colour*/a0.ptr);
 };
 Module['to_abgr'] = function(a0) {
     return _mud_to_abgr_1(/*colour*/a0.ptr);
-};
-Module['from_rgba'] = function(a0) {
-    return wrapPointer(_mud_from_rgba_1(/*colour*/a0), Colour);
-};
-Module['from_abgr'] = function(a0) {
-    return wrapPointer(_mud_from_abgr_1(/*colour*/a0), Colour);
 };
 Module['to_linear'] = function(a0) {
     return wrapPointer(_mud_to_linear_1(/*colour*/a0.ptr), Colour);
@@ -1620,17 +1676,12 @@ Module['to_gamma'] = function(a0) {
 Module['to_srgb'] = function(a0) {
     return wrapPointer(_mud_to_srgb_1(/*colour*/a0.ptr), Colour);
 };
-Module['hsl_to_rgb'] = function(a0, a1, a2) {
-    return wrapPointer(_mud_hsl_to_rgb_3(/*h*/a0, /*s*/a1, /*l*/a2), Colour);
+Module['to_hsl'] = function(a0, a1, a2) {
+    if (a1 === undefined) { return wrapPointer(_mud_to_hsl_1(/*colour*/a0.ptr), ColourHSL); }
+    return wrapPointer(_mud_to_hsl_3(/*r*/a0, /*g*/a1, /*b*/a2), ColourHSL);
 };
-Module['rgb_to_hsl'] = function(a0, a1, a2) {
-    return wrapPointer(_mud_rgb_to_hsl_3(/*r*/a0, /*g*/a1, /*b*/a2), Colour);
-};
-Module['rgba_to_hsla'] = function(a0) {
-    return wrapPointer(_mud_rgba_to_hsla_1(/*colour*/a0.ptr), Colour);
-};
-Module['hsla_to_rgba'] = function(a0) {
-    return wrapPointer(_mud_hsla_to_rgba_1(/*colour*/a0.ptr), Colour);
+Module['to_hsla'] = function(a0) {
+    return wrapPointer(_mud_to_hsla_1(/*colour*/a0.ptr), ColourHSL);
 };
 Module['sinf'] = function(a0) {
     return _sinf_1(/*a*/a0);
@@ -1706,6 +1757,7 @@ Module['bvec4'] = v4_bool;
 (function() {
     function setup() {
         Colour.__type__ = _mud_Colour__type();
+        ColourHSL.__type__ = _mud_ColourHSL__type();
         Image.__type__ = _mud_Image__type();
         Image256.__type__ = _mud_Image256__type();
         ImageAtlas.__type__ = _mud_ImageAtlas__type();

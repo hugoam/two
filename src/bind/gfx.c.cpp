@@ -499,6 +499,34 @@ extern "C" {
 	void DECL mud_DepthParams__destroy(mud::DepthParams* self) {
 		delete self;
 	}
+	// DistanceParams
+	mud::Type* DECL mud_DistanceParams__type() {
+		return &mud::type<mud::DistanceParams>();
+	}
+	mud::DistanceParams* DECL mud_DistanceParams__construct_0() {
+		return new mud::DistanceParams();
+	}
+	mud::vec3* DECL mud_DistanceParams__get_eye(mud::DistanceParams* self) {
+		return &self->m_eye;
+	}
+	void DECL mud_DistanceParams__set_eye(mud::DistanceParams* self, mud::vec3* value) {
+		self->m_eye = *value;
+	}
+	float DECL mud_DistanceParams__get_near(mud::DistanceParams* self) {
+		return self->m_near;
+	}
+	void DECL mud_DistanceParams__set_near(mud::DistanceParams* self, float value) {
+		self->m_near = value;
+	}
+	float DECL mud_DistanceParams__get_far(mud::DistanceParams* self) {
+		return self->m_far;
+	}
+	void DECL mud_DistanceParams__set_far(mud::DistanceParams* self, float value) {
+		self->m_far = value;
+	}
+	void DECL mud_DistanceParams__destroy(mud::DistanceParams* self) {
+		delete self;
+	}
 	// Filter
 	mud::Type* DECL mud_Filter__type() {
 		return &mud::type<mud::Filter>();
@@ -1090,12 +1118,6 @@ extern "C" {
 	void DECL mud_Light__set_shadows(mud::Light* self, bool value) {
 		self->m_shadows = value;
 	}
-	mud::Colour* DECL mud_Light__get_shadow_colour(mud::Light* self) {
-		return &self->m_shadow_colour;
-	}
-	void DECL mud_Light__set_shadow_colour(mud::Light* self, mud::Colour* value) {
-		self->m_shadow_colour = *value;
-	}
 	float DECL mud_Light__get_shadow_range(mud::Light* self) {
 		return self->m_shadow_range;
 	}
@@ -1193,31 +1215,71 @@ extern "C" {
 	void DECL mud_Material__set_program(mud::Material* self, mud::Program* value) {
 		self->m_program = value;
 	}
-	mud::MaterialBase* DECL mud_Material__get_base_block(mud::Material* self) {
-		return &self->m_base_block;
+	mud::MaterialBase* DECL mud_Material__get_base(mud::Material* self) {
+		return &self->m_base;
 	}
-	void DECL mud_Material__set_base_block(mud::Material* self, mud::MaterialBase* value) {
-		self->m_base_block = *value;
+	void DECL mud_Material__set_base(mud::Material* self, mud::MaterialBase* value) {
+		self->m_base = *value;
 	}
-	mud::MaterialUnshaded* DECL mud_Material__get_unshaded_block(mud::Material* self) {
-		return &self->m_unshaded_block;
+	mud::MaterialAlpha* DECL mud_Material__get_alpha(mud::Material* self) {
+		return &self->m_alpha;
 	}
-	void DECL mud_Material__set_unshaded_block(mud::Material* self, mud::MaterialUnshaded* value) {
-		self->m_unshaded_block = *value;
+	void DECL mud_Material__set_alpha(mud::Material* self, mud::MaterialAlpha* value) {
+		self->m_alpha = *value;
 	}
-	mud::MaterialPbr* DECL mud_Material__get_pbr_block(mud::Material* self) {
-		return &self->m_pbr_block;
+	mud::MaterialUnshaded* DECL mud_Material__get_unshaded(mud::Material* self) {
+		return &self->m_unshaded;
 	}
-	void DECL mud_Material__set_pbr_block(mud::Material* self, mud::MaterialPbr* value) {
-		self->m_pbr_block = *value;
+	void DECL mud_Material__set_unshaded(mud::Material* self, mud::MaterialUnshaded* value) {
+		self->m_unshaded = *value;
 	}
-	mud::MaterialFresnel* DECL mud_Material__get_fresnel_block(mud::Material* self) {
-		return &self->m_fresnel_block;
+	mud::MaterialPbr* DECL mud_Material__get_pbr(mud::Material* self) {
+		return &self->m_pbr;
 	}
-	void DECL mud_Material__set_fresnel_block(mud::Material* self, mud::MaterialFresnel* value) {
-		self->m_fresnel_block = *value;
+	void DECL mud_Material__set_pbr(mud::Material* self, mud::MaterialPbr* value) {
+		self->m_pbr = *value;
+	}
+	mud::MaterialFresnel* DECL mud_Material__get_fresnel(mud::Material* self) {
+		return &self->m_fresnel;
+	}
+	void DECL mud_Material__set_fresnel(mud::Material* self, mud::MaterialFresnel* value) {
+		self->m_fresnel = *value;
 	}
 	void DECL mud_Material__destroy(mud::Material* self) {
+		delete self;
+	}
+	// MaterialAlpha
+	mud::Type* DECL mud_MaterialAlpha__type() {
+		return &mud::type<mud::MaterialAlpha>();
+	}
+	mud::MaterialAlpha* DECL mud_MaterialAlpha__construct_0() {
+		return new mud::MaterialAlpha();
+	}
+	mud::MaterialParam<float>* DECL mud_MaterialAlpha__get_alpha(mud::MaterialAlpha* self) {
+		return &self->m_alpha;
+	}
+	void DECL mud_MaterialAlpha__set_alpha(mud::MaterialAlpha* self, mud::MaterialParam<float>* value) {
+		self->m_alpha = *value;
+	}
+	float DECL mud_MaterialAlpha__get_alpha_scissor(mud::MaterialAlpha* self) {
+		return self->m_alpha_scissor;
+	}
+	void DECL mud_MaterialAlpha__set_alpha_scissor(mud::MaterialAlpha* self, float value) {
+		self->m_alpha_scissor = value;
+	}
+	bool DECL mud_MaterialAlpha__get_alpha_test(mud::MaterialAlpha* self) {
+		return self->m_alpha_test;
+	}
+	void DECL mud_MaterialAlpha__set_alpha_test(mud::MaterialAlpha* self, bool value) {
+		self->m_alpha_test = value;
+	}
+	bool DECL mud_MaterialAlpha__get_is_alpha(mud::MaterialAlpha* self) {
+		return self->m_is_alpha;
+	}
+	void DECL mud_MaterialAlpha__set_is_alpha(mud::MaterialAlpha* self, bool value) {
+		self->m_is_alpha = value;
+	}
+	void DECL mud_MaterialAlpha__destroy(mud::MaterialAlpha* self) {
 		delete self;
 	}
 	// MaterialBase
@@ -1275,12 +1337,6 @@ extern "C" {
 	void DECL mud_MaterialBase__set_uv1_offset(mud::MaterialBase* self, mud::vec2* value) {
 		self->m_uv1_offset = *value;
 	}
-	bool DECL mud_MaterialBase__get_is_alpha(mud::MaterialBase* self) {
-		return self->m_is_alpha;
-	}
-	void DECL mud_MaterialBase__set_is_alpha(mud::MaterialBase* self, bool value) {
-		self->m_is_alpha = value;
-	}
 	bool DECL mud_MaterialBase__get_screen_filter(mud::MaterialBase* self) {
 		return self->m_screen_filter;
 	}
@@ -1296,12 +1352,6 @@ extern "C" {
 	}
 	mud::MaterialFresnel* DECL mud_MaterialFresnel__construct_0() {
 		return new mud::MaterialFresnel();
-	}
-	bool DECL mud_MaterialFresnel__get_enabled(mud::MaterialFresnel* self) {
-		return self->m_enabled;
-	}
-	void DECL mud_MaterialFresnel__set_enabled(mud::MaterialFresnel* self, bool value) {
-		self->m_enabled = value;
 	}
 	mud::MaterialParam<mud::Colour>* DECL mud_MaterialFresnel__get_value(mud::MaterialFresnel* self) {
 		return &self->m_value;
@@ -1401,12 +1451,6 @@ extern "C" {
 	}
 	mud::MaterialPbr* DECL mud_MaterialPbr__construct_3(const mud::Colour* albedo, float metallic, float roughness) {
 		return new mud::MaterialPbr(*albedo, metallic, roughness);
-	}
-	bool DECL mud_MaterialPbr__get_enabled(mud::MaterialPbr* self) {
-		return self->m_enabled;
-	}
-	void DECL mud_MaterialPbr__set_enabled(mud::MaterialPbr* self, bool value) {
-		self->m_enabled = value;
 	}
 	mud::MaterialParam<mud::Colour>* DECL mud_MaterialPbr__get_albedo(mud::MaterialPbr* self) {
 		return &self->m_albedo;
@@ -1537,12 +1581,6 @@ extern "C" {
 	}
 	mud::MaterialUnshaded* DECL mud_MaterialUnshaded__construct_0() {
 		return new mud::MaterialUnshaded();
-	}
-	bool DECL mud_MaterialUnshaded__get_enabled(mud::MaterialUnshaded* self) {
-		return self->m_enabled;
-	}
-	void DECL mud_MaterialUnshaded__set_enabled(mud::MaterialUnshaded* self, bool value) {
-		self->m_enabled = value;
 	}
 	mud::MaterialParam<mud::Colour>* DECL mud_MaterialUnshaded__get_colour(mud::MaterialUnshaded* self) {
 		return &self->m_colour;
@@ -2251,13 +2289,6 @@ extern "C" {
 	void DECL mud_BlockCopy__destroy(mud::BlockCopy* self) {
 		delete self;
 	}
-	// DrawBlock
-	mud::Type* DECL mud_DrawBlock__type() {
-		return &mud::type<mud::DrawBlock>();
-	}
-	void DECL mud_DrawBlock__destroy(mud::DrawBlock* self) {
-		delete self;
-	}
 	// BlockDepth
 	mud::Type* DECL mud_BlockDepth__type() {
 		return &mud::type<mud::BlockDepth>();
@@ -2270,6 +2301,13 @@ extern "C" {
 		return &mud::type<mud::BlockFilter>();
 	}
 	void DECL mud_BlockFilter__destroy(mud::BlockFilter* self) {
+		delete self;
+	}
+	// BlockMaterial
+	mud::Type* DECL mud_BlockMaterial__type() {
+		return &mud::type<mud::BlockMaterial>();
+	}
+	void DECL mud_BlockMaterial__destroy(mud::BlockMaterial* self) {
 		delete self;
 	}
 	// BlockParticles
@@ -2303,6 +2341,13 @@ extern "C" {
 	void DECL mud_ClusteredFrustum__destroy(mud::ClusteredFrustum* self) {
 		delete self;
 	}
+	// DrawBlock
+	mud::Type* DECL mud_DrawBlock__type() {
+		return &mud::type<mud::DrawBlock>();
+	}
+	void DECL mud_DrawBlock__destroy(mud::DrawBlock* self) {
+		delete self;
+	}
 	// Flare
 	mud::Type* DECL mud_Flare__type() {
 		return &mud::type<mud::Flare>();
@@ -2317,13 +2362,6 @@ extern "C" {
 		self->m_node = value;
 	}
 	void DECL mud_Flare__destroy(mud::Flare* self) {
-		delete self;
-	}
-	// MaterialBlock
-	mud::Type* DECL mud_MaterialBlock__type() {
-		return &mud::type<mud::MaterialBlock>();
-	}
-	void DECL mud_MaterialBlock__destroy(mud::MaterialBlock* self) {
 		delete self;
 	}
 	// RenderTarget
@@ -2565,6 +2603,19 @@ extern "C" {
 	mud::DepthDraw DECL mud_DepthDraw_Disabled() {
 		return mud::DepthDraw::Disabled;
 	}
+	// DepthMethod
+	mud::DepthMethod DECL mud_DepthMethod_Depth() {
+		return mud::DepthMethod::Depth;
+	}
+	mud::DepthMethod DECL mud_DepthMethod_DepthPacked() {
+		return mud::DepthMethod::DepthPacked;
+	}
+	mud::DepthMethod DECL mud_DepthMethod_Distance() {
+		return mud::DepthMethod::Distance;
+	}
+	mud::DepthMethod DECL mud_DepthMethod_Count() {
+		return mud::DepthMethod::Count;
+	}
 	// DepthTest
 	mud::DepthTest DECL mud_DepthTest_Enabled() {
 		return mud::DepthTest::Enabled;
@@ -2653,6 +2704,25 @@ extern "C" {
 	}
 	mud::MSAA DECL mud_MSAA_Count() {
 		return mud::MSAA::Count;
+	}
+	// MaterialBlock
+	mud::MaterialBlock DECL mud_MaterialBlock_Base() {
+		return mud::MaterialBlock::Base;
+	}
+	mud::MaterialBlock DECL mud_MaterialBlock_Alpha() {
+		return mud::MaterialBlock::Alpha;
+	}
+	mud::MaterialBlock DECL mud_MaterialBlock_Unshaded() {
+		return mud::MaterialBlock::Unshaded;
+	}
+	mud::MaterialBlock DECL mud_MaterialBlock_Pbr() {
+		return mud::MaterialBlock::Pbr;
+	}
+	mud::MaterialBlock DECL mud_MaterialBlock_Fresnel() {
+		return mud::MaterialBlock::Fresnel;
+	}
+	mud::MaterialBlock DECL mud_MaterialBlock_Count() {
+		return mud::MaterialBlock::Count;
 	}
 	// MaterialFlag
 	mud::MaterialFlag DECL mud_MaterialFlag_TriplanarUV1() {
@@ -2842,6 +2912,9 @@ extern "C" {
 	mud::TextureSampler DECL mud_TextureSampler_Albedo() {
 		return mud::TextureSampler::Albedo;
 	}
+	mud::TextureSampler DECL mud_TextureSampler_Alpha() {
+		return mud::TextureSampler::Alpha;
+	}
 	mud::TextureSampler DECL mud_TextureSampler_Metallic() {
 		return mud::TextureSampler::Metallic;
 	}
@@ -2860,29 +2933,32 @@ extern "C" {
 	mud::TextureSampler DECL mud_TextureSampler_Depth() {
 		return mud::TextureSampler::Depth;
 	}
-	mud::TextureSampler DECL mud_TextureSampler_Skeleton() {
-		return mud::TextureSampler::Skeleton;
-	}
-	mud::TextureSampler DECL mud_TextureSampler_ShadowCSM() {
-		return mud::TextureSampler::ShadowCSM;
-	}
-	mud::TextureSampler DECL mud_TextureSampler_Materials() {
-		return mud::TextureSampler::Materials;
+	mud::TextureSampler DECL mud_TextureSampler_Radiance() {
+		return mud::TextureSampler::Radiance;
 	}
 	mud::TextureSampler DECL mud_TextureSampler_ShadowAtlas() {
 		return mud::TextureSampler::ShadowAtlas;
 	}
-	mud::TextureSampler DECL mud_TextureSampler_Radiance() {
-		return mud::TextureSampler::Radiance;
+	mud::TextureSampler DECL mud_TextureSampler_ShadowCSM() {
+		return mud::TextureSampler::ShadowCSM;
+	}
+	mud::TextureSampler DECL mud_TextureSampler_Lightmap() {
+		return mud::TextureSampler::Lightmap;
 	}
 	mud::TextureSampler DECL mud_TextureSampler_ReflectionProbe() {
 		return mud::TextureSampler::ReflectionProbe;
 	}
+	mud::TextureSampler DECL mud_TextureSampler_GIProbe() {
+		return mud::TextureSampler::GIProbe;
+	}
+	mud::TextureSampler DECL mud_TextureSampler_Skeleton() {
+		return mud::TextureSampler::Skeleton;
+	}
 	mud::TextureSampler DECL mud_TextureSampler_Zones() {
 		return mud::TextureSampler::Zones;
 	}
-	mud::TextureSampler DECL mud_TextureSampler_GIProbe() {
-		return mud::TextureSampler::GIProbe;
+	mud::TextureSampler DECL mud_TextureSampler_Materials() {
+		return mud::TextureSampler::Materials;
 	}
 	mud::TextureSampler DECL mud_TextureSampler_Lights() {
 		return mud::TextureSampler::Lights;
@@ -2892,9 +2968,6 @@ extern "C" {
 	}
 	mud::TextureSampler DECL mud_TextureSampler_LightRecords() {
 		return mud::TextureSampler::LightRecords;
-	}
-	mud::TextureSampler DECL mud_TextureSampler_Lightmap() {
-		return mud::TextureSampler::Lightmap;
 	}
 	
 }

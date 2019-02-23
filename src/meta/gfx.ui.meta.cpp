@@ -87,6 +87,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::Viewer, m_scene), type<mud::Scene>(), "scene", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Viewer, m_camera), type<mud::Camera>(), "camera", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::Viewer, m_viewport), type<mud::Viewport>(), "viewport", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::Viewer, m_position), type<mud::vec2>(), "position", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Viewer, m_size), type<mud::vec2>(), "size", nullptr, Member::Value, nullptr }

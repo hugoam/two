@@ -25,6 +25,9 @@ namespace mud
 	export_ template <> inline void to_value(const string& str, mud::DepthDraw& val) { val = mud::DepthDraw(enu<mud::DepthDraw>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::DepthDraw& val, string& str) { str = enu<mud::DepthDraw>().name(uint32_t(val)); };
 	
+	export_ template <> inline void to_value(const string& str, mud::DepthMethod& val) { val = mud::DepthMethod(enu<mud::DepthMethod>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::DepthMethod& val, string& str) { str = enu<mud::DepthMethod>().name(uint32_t(val)); };
+	
 	export_ template <> inline void to_value(const string& str, mud::DepthTest& val) { val = mud::DepthTest(enu<mud::DepthTest>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::DepthTest& val, string& str) { str = enu<mud::DepthTest>().name(uint32_t(val)); };
 	
@@ -48,6 +51,9 @@ namespace mud
 	
 	export_ template <> inline void to_value(const string& str, mud::MSAA& val) { val = mud::MSAA(enu<mud::MSAA>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::MSAA& val, string& str) { str = enu<mud::MSAA>().name(uint32_t(val)); };
+	
+	export_ template <> inline void to_value(const string& str, mud::MaterialBlock& val) { val = mud::MaterialBlock(enu<mud::MaterialBlock>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::MaterialBlock& val, string& str) { str = enu<mud::MaterialBlock>().name(uint32_t(val)); };
 	
 	export_ template <> inline void to_value(const string& str, mud::MaterialFlag& val) { val = mud::MaterialFlag(enu<mud::MaterialFlag>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::MaterialFlag& val, string& str) { str = enu<mud::MaterialFlag>().name(uint32_t(val)); };

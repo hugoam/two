@@ -133,6 +133,16 @@ extern "C" {
 	void DECL mud_BlockTonemap__destroy(mud::BlockTonemap* self) {
 		delete self;
 	}
+	// CSMShadow
+	mud::Type* DECL mud_CSMShadow__type() {
+		return &mud::type<mud::CSMShadow>();
+	}
+	mud::CSMShadow* DECL mud_CSMShadow__construct_0() {
+		return new mud::CSMShadow();
+	}
+	void DECL mud_CSMShadow__destroy(mud::CSMShadow* self) {
+		delete self;
+	}
 	// DofBlur
 	mud::Type* DECL mud_DofBlur__type() {
 		return &mud::type<mud::DofBlur>();
