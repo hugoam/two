@@ -561,10 +561,10 @@ namespace mud
 				"-fdelayed-template-parsing",
 				"-fms-compatibility",
 				"-fms-extensions",
-				"-fmsc-version=1800",
+				"-fmsc-version=1900",
 				"-Wmicrosoft",
-				"-IC:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/include",
-				"-IC:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt",
+				"-isystemC:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/include",
+				"-isystemC:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt",
 				"-DMUD_META_GENERATOR",
 				//"-DMUD_NO_GLM", // @todo
 			};

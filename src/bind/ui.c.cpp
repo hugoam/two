@@ -1382,9 +1382,6 @@ extern "C" {
 	bool DECL mud_ui_quat_edit_2(mud::Widget* parent, mud::quat* quat) {
 		return mud::ui::quat_edit(*parent, *quat);
 	}
-	bool DECL mud_ui_color_edit_hsl_3(mud::Widget* parent, const mud::Colour* colour, mud::Colour* value) {
-		return mud::ui::color_edit_hsl(*parent, *colour, *value);
-	}
 	mud::Widget* DECL mud_ui_color_display_2(mud::Widget* parent, const mud::Colour* value) {
 		return &mud::ui::color_display(*parent, *value);
 	}

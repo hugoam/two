@@ -1880,9 +1880,6 @@ Module['ui']['vec3_edit'] = function(a0, a1) {
 Module['ui']['quat_edit'] = function(a0, a1) {
     return !!(_mud_ui_quat_edit_2(/*parent*/a0.ptr, /*quat*/a1.ptr));
 };
-Module['ui']['color_edit_hsl'] = function(a0, a1, a2) {
-    return !!(_mud_ui_color_edit_hsl_3(/*parent*/a0.ptr, /*colour*/a1.ptr, /*value*/a2.ptr));
-};
 Module['ui']['color_display'] = function(a0, a1) {
     return wrapPointer(_mud_ui_color_display_2(/*parent*/a0.ptr, /*value*/a1.ptr), Widget);
 };

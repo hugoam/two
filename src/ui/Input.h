@@ -39,7 +39,7 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ bool quat_edit(Widget& parent, quat& quat);
 
 	export_ MUD_UI_EXPORT Widget& color_slab(Widget& parent, Style& style, const Colour& value);
-	export_ MUD_UI_EXPORT func_ bool color_edit_hsl(Widget& parent, const Colour& colour, Colour& value);
+	export_ MUD_UI_EXPORT bool color_edit_hsl(Widget& parent, const Colour& colour, ColourHSL& value);
 	export_ MUD_UI_EXPORT func_ Widget& color_display(Widget& parent, const Colour& value);
 	export_ MUD_UI_EXPORT func_ bool color_edit(Widget& parent, Colour& value);
 	export_ MUD_UI_EXPORT func_ bool color_edit_simple(Widget& parent, Colour& value);
