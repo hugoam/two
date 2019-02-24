@@ -48,7 +48,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 		Material& c = app.m_gfx_system.materials().fetch("cube");
 		c.m_program = pbr;
 		c.m_base.m_cull_mode = CullMode::Front;
-		c.m_pbr = MaterialPbr(from_rgba(0xa0adafff));
+		c.m_pbr = MaterialPbr(rgba(0xa0adafff));
 		c.m_pbr.m_normal = -1.f;
 		//	shininess: 10,
 		//	specular: 0x111111,
@@ -99,13 +99,13 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
 	static bool moving = true;
-	static double time = 0.0;
+	static float time = 0.f;
 	if(moving)
 		time = app.m_gfx_system.m_time;
 
 	vec3 pos0 = light_pos(time); // vec3(0.f, 10.f, 0.f);
 	quat rot0 = light_rot(time); // quat(vec3(0.f, c_pi / 2.f + c_pi / 4.f, c_pi / 2.f + c_pi / 4.f));
-	Gnode& light0 = light_source(scene, from_rgba(0x0088ffff), pos0, rot0);
+	Gnode& light0 = light_source(scene, rgba(0x0088ffff), pos0, rot0);
 
 	gfx::shape(scene, Cylinder(X3, 0.1f, 1.f, Axis::X), Symbol::plain(Colour::Red));
 	gfx::shape(scene, Cylinder(Y3, 0.1f, 1.f, Axis::Y), Symbol::plain(Colour::Green));
@@ -113,7 +113,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	vec3 pos1 = light_pos(time + c_pi);
 	quat rot1 = light_rot(time + c_pi);
-	Gnode& light1 = light_source(scene, from_rgba(0xff8888ff), pos1, rot1);
+	Gnode& light1 = light_source(scene, rgba(0xff8888ff), pos1, rot1);
 
 	Box box = Cube(vec3(15.f));
 	Gnode& node = gfx::node(scene, {});// , Y3 * 10.f);

@@ -152,7 +152,7 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 		for(int i = 0; i < nobjects; i++)
 		{
 			float h = (360 * (i / nobjects + int(time)) % 360) / 360;
-			materials[i]->m_unshaded.m_colour = hsl_to_rgb(h, 1, 0.5);
+			materials[i]->m_unshaded.m_colour = hsl(h, 1, 0.5);
 		}
 	
 	//postprocessing.composer.render(0.1);

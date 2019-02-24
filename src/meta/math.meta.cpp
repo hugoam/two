@@ -7,6 +7,7 @@ module mud.math;
 #include <stl/new.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
+#include <type/Any.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -462,6 +463,7 @@ namespace mud
 	{
 		Type& t = type<mud::Colour>();
 		static Meta meta = { t, &namspc({ "mud" }), "Colour", sizeof(mud::Colour), TypeClass::Struct };
+		meta.m_empty_var = var(Colour());
 		// bases
 		// defaults
 		static float construct_1_a_default = 1.f;

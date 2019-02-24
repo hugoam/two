@@ -33,7 +33,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 		//texture.format = THREE.RGBFormat;
 
 		Material& ground_material = app.m_gfx_system.materials().fetch("ground"); //new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
-		Material& material = gfx::pbr_material(app.m_gfx_system, "object", from_rgba(0xffffff), 0.5f, 1.0f); //new THREE.MeshStandardMaterial( { color: 0xffffff, roughness: 0.5f, metalness: 1.0f } );
+		Material& material = gfx::pbr_material(app.m_gfx_system, "object", rgba(0xffffff), 0.5f, 1.0f); //new THREE.MeshStandardMaterial( { color: 0xffffff, roughness: 0.5f, metalness: 1.0f } );
 
 		// GROUND
 
@@ -80,7 +80,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		for(int i = 0; i < 6; ++i)
 		{
-			Colour c = from_rgba(colours[i]);
+			Colour c = rgba(colours[i]);
 			Material& m = gfx::unshaded_material(app.m_gfx_system, ("light" + to_string(i)).c_str(), c); //Material({ color: colours[i] }) );
 			Node3& n = gfx::nodes(scene).add(Node3());
 			Light& l = gfx::lights(scene).add(Light(n, LightType::Point, false));

@@ -9,7 +9,10 @@ using namespace mud;
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	//xx_lights_point(app, parent, dockbar);
-	xx_shadow_point(app, parent, dockbar);
+	//xx_shadow_point(app, parent, dockbar);
+	//xx_shader(app, parent, dockbar);
+	xx_shader_lava(app, parent, dockbar);
+	//xx_tiled_forward(app, parent, dockbar);
 }
 
 #ifdef _XX_THREE_EXE
@@ -22,6 +25,7 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	app.m_gfx_system.add_resource_path("examples/xx_three");
 	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
