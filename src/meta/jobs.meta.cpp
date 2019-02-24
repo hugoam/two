@@ -65,6 +65,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_jobs::m();
+	return mud_jobs::m();
 }
 #endif

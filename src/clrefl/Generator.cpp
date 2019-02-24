@@ -193,7 +193,7 @@ namespace mud
 		s.m_name = replace(spelling(cursor), "m_", "");
 	}
 	
-	void find_default_value(CXCursor cursor, const string& type_name, bool& has_default, string& default_value)
+	void find_default_value(CXCursor cursor, CLType& value_type, bool& has_default, string& default_value)
 	{
 		if(type(cursor).kind == CXType_ConstantArray)
 			return;
@@ -210,8 +210,9 @@ namespace mud
 				has_default = true;
 				visit_tokens(c, [&](CXToken t) {
 					string token = spelling(c, t);
-					if(ends_with(default_value + token, type_name)) default_value += token;
-					else if(kind(t) == CXToken_Identifier && ends_with(type_name, token)) default_value += type_name;
+					if(ends_with(default_value + token, value_type.m_name))
+						default_value += token;
+					else if(kind(t) == CXToken_Identifier && value_type.m_name == token) default_value += value_type.m_id;
 					else if(token != "=") default_value += token;
 				});
 			}
@@ -227,7 +228,7 @@ namespace mud
 
 		if(p.m_type.m_type)
 		{
-			find_default_value(cursor, p.m_type.m_type->m_id, p.m_has_default, p.m_default);
+			find_default_value(cursor, *p.m_type.m_type, p.m_has_default, p.m_default);
 			if(parent.m_is_templated)
 				p.m_default = parent.fix_template(p.m_default);
 		}
@@ -330,7 +331,7 @@ namespace mud
 
 		if(m.m_type.m_type)
 		{
-			find_default_value(cursor, m.m_type.m_type->m_id, m.m_has_default, m.m_default);
+			find_default_value(cursor, *m.m_type.m_type, m.m_has_default, m.m_default);
 			if(c.m_is_templated)
 				m.m_default = c.fix_template(m.m_default);
 		}
@@ -684,8 +685,11 @@ namespace mud
 			string types_h = clgen::types_h_template(module);
 			update_file(module.m_path + "/" + "Types.h", types_h);
 
-			string types_cpp = clgen::types_cpp_template(module);
-			update_file(module.m_path + "/" + module.m_dotname + ".types.cpp", types_cpp);
+			if(!module.m_notypes)
+			{
+				string types_cpp = clgen::types_cpp_template(module);
+				update_file(module.m_path + "/" + module.m_dotname + ".types.cpp", types_cpp);
+			}
 
 			string module_h = clgen::module_h_template(module);
 			update_file(module.m_refl_path + "/" + module.m_dotname + ".meta.h", module_h);
@@ -722,6 +726,8 @@ namespace mud
 
 			CLModule& module = vector_emplace<CLModule>(m_modules, tos(m["namespace"]), tos(m["name"]), tos(m["dotname"]), tos(m["idname"]),
 																   tos(m["root"]), tos(m["subdir"]), tos(m["path"]), includedirs, dependencies);
+			if(m["notypes"].bool_value())
+				module.m_notypes = true;
 			m_generator_queue.push_back(&module);
 
 			if(module.m_name == "type")

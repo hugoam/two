@@ -21,6 +21,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_srlz::m();
+	return mud_srlz::m();
 }
 #endif

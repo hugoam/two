@@ -588,6 +588,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_refl::m();
+	return mud_refl::m();
 }
 #endif

@@ -235,6 +235,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_wfc::m();
+	return mud_wfc::m();
 }
 #endif

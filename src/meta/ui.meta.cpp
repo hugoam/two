@@ -2123,6 +2123,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_ui::m();
+	return mud_ui::m();
 }
 #endif

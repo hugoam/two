@@ -166,6 +166,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_uio::m();
+	return mud_uio::m();
 }
 #endif

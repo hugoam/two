@@ -80,6 +80,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_pool::m();
+	return mud_pool::m();
 }
 #endif

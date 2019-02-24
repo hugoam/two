@@ -28,6 +28,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_gfx_edit::m();
+	return mud_gfx_edit::m();
 }
 #endif

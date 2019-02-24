@@ -122,6 +122,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_frame::m();
+	return mud_frame::m();
 }
 #endif

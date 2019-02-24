@@ -542,6 +542,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_gfx_pbr::m();
+	return mud_gfx_pbr::m();
 }
 #endif

@@ -19,6 +19,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_tree::m();
+	return mud_tree::m();
 }
 #endif

@@ -82,10 +82,10 @@ extern "C" {
 		self->b = value;
 	}
 	float DECL mud_Colour__get_a(mud::Colour* self) {
-		return self->m_a;
+		return self->a;
 	}
 	void DECL mud_Colour__set_a(mud::Colour* self, float value) {
-		self->m_a = value;
+		self->a = value;
 	}
 	void DECL mud_Colour__destroy(mud::Colour* self) {
 		delete self;

@@ -248,6 +248,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_gfx_ui::m();
+	return mud_gfx_ui::m();
 }
 #endif

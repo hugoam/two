@@ -333,6 +333,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_ctx::m();
+	return mud_ctx::m();
 }
 #endif

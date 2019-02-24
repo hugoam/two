@@ -635,6 +635,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_tool::m();
+	return mud_tool::m();
 }
 #endif

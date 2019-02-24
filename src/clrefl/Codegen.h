@@ -1057,7 +1057,7 @@ namespace clgen
 		p("extern \"C\"");
 		p("Module& getModule()");
 		p("{");
-		p("	return " + m.m_id + "::m();");
+		p("return " + m.m_id + "::m();");
 		p("}");
 		p("#endif");
 
@@ -1071,6 +1071,8 @@ namespace clgen
 		auto p = [&](const string& s) {	write_line(t, i, s, true); };
 
 		p("#pragma once");
+		if(m.m_notypes)
+			return t;
 		p("");
 		p("#include <stdint.h>");
 		p("#include <stl/string.h>");

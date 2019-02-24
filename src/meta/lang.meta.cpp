@@ -513,6 +513,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_lang::m();
+	return mud_lang::m();
 }
 #endif

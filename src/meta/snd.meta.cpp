@@ -18,6 +18,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_snd::m();
+	return mud_snd::m();
 }
 #endif

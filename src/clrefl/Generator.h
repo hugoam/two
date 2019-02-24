@@ -607,6 +607,7 @@ namespace mud
 		string m_export;
 		string m_refl_export;
 		bool m_decl_basetypes = false;
+		bool m_notypes = false;
 
 		vector<CLModule*> m_modules;
 
@@ -744,6 +745,7 @@ namespace mud
 				CLClass* templated = &decl_class_type(*this, *templatee->m_parent, cursor);
 				parse_class(*this, *templated);
 				printf("instantiated template %s (requested %s)\n", templated->m_id.c_str(), type_name.c_str());
+
 				return templated;
 			}
 			return nullptr;

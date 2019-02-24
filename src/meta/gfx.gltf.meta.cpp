@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_gfx_gltf::m();
+	return mud_gfx_gltf::m();
 }
 #endif

@@ -1176,6 +1176,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_geom::m();
+	return mud_geom::m();
 }
 #endif

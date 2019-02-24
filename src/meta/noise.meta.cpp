@@ -213,6 +213,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_noise::m();
+	return mud_noise::m();
 }
 #endif

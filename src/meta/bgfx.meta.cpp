@@ -22,6 +22,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_bgfx::m();
+	return mud_bgfx::m();
 }
 #endif
