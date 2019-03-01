@@ -43,7 +43,7 @@ namespace mud
 		attr_ uint16_t m_index = 0;
 
 		attr_ mat4 m_transform = bxidentity();
-		attr_ bool m_visible = true;
+		//attr_ bool m_visible = true;
 
 		Ref m_object;
 		size_t m_last_updated = 0;

@@ -58,20 +58,58 @@ namespace mud
 	};
 
 	template <>
-	struct GpuState<MaterialUnshaded>
+	struct GpuState<MaterialSolid>
 	{
 		void init()
 		{
 			u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
 		}
 
-		void upload(bgfx::Encoder& encoder, const MaterialUnshaded& block) const
+		void upload(bgfx::Encoder& encoder, const MaterialSolid& block) const
 		{
 			vec4 colour = to_vec4(block.m_colour.m_value);
 			encoder.setUniform(u_color, &colour);
 		}
 
 		bgfx::UniformHandle u_color = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<MaterialPoint>
+	{
+		void init()
+		{
+			u_point_params = bgfx::createUniform("u_point_params", bgfx::UniformType::Vec4);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialPoint& block) const
+		{
+			vec4 params = { block.m_point_size, float(block.m_project), 0.f, 0.f };
+			encoder.setUniform(u_point_params, &params);
+		}
+
+		bgfx::UniformHandle u_point_params = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<MaterialLine>
+	{
+		void init()
+		{
+			u_line_params = bgfx::createUniform("u_line_params", bgfx::UniformType::Vec4);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialLine& block) const
+		{
+			vec4 params = { block.m_line_width, block.m_dash_scale, block.m_dash_size, block.m_dash_gap };
+			encoder.setUniform(u_line_params, &params);
+		}
+
+		bgfx::UniformHandle u_line_params = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
@@ -125,7 +163,7 @@ namespace mud
 			vec4 pbr_params_1 = { block.m_anisotropy.m_value, block.m_refraction.m_value, block.m_subsurface.m_value, block.m_depth.m_value };
 			encoder.setUniform(u_pbr_params_1, &pbr_params_1);
 
-			vec4 pbr_channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), 0.f, 0.f };
+			vec4 pbr_channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), float(block.m_ambient_occlusion.m_channel), 0.f };
 			encoder.setUniform(u_pbr_channels_0, &pbr_channels);
 		}
 
@@ -146,7 +184,9 @@ namespace mud
 		{
 			GpuState<MaterialBase>::me.upload(encoder, material.m_base);
 			GpuState<MaterialAlpha>::me.upload(encoder, material.m_alpha);
-			GpuState<MaterialUnshaded>::me.upload(encoder, material.m_unshaded);
+			GpuState<MaterialSolid>::me.upload(encoder, material.m_solid);
+			GpuState<MaterialPoint>::me.upload(encoder, material.m_point);
+			GpuState<MaterialLine>::me.upload(encoder, material.m_line);
 			GpuState<MaterialPbr>::me.upload(encoder, material.m_pbr);
 			GpuState<MaterialFresnel>::me.upload(encoder, material.m_fresnel);
 		}
@@ -192,15 +232,47 @@ namespace mud
 	};
 
 	template <>
-	struct GpuState<MaterialUnshaded>
+	struct GpuState<MaterialSolid>
 	{
 		constexpr static size_t rows = 1;
 
-		void pack(const MaterialUnshaded& block, size_t& offset, const GpuTexture& buffer, float* dest)
+		void pack(const MaterialSolid& block, size_t& offset, const GpuTexture& buffer, float* dest)
 		{
 			vec4 color = { to_vec4(block.m_colour.m_value) };
 
 			memcpy(dest + offset, &color, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<MaterialPoint>
+	{
+		constexpr static size_t rows = 1;
+
+		void pack(const MaterialPoint& block, size_t& offset, const GpuTexture& buffer, float* dest)
+		{
+			vec4 params = { block.m_point_size, float(block.m_project), 0.f, 0.f };
+
+			memcpy(dest + offset, &params, sizeof(float) * 2);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<MaterialLine>
+	{
+		constexpr static size_t rows = 1;
+
+		void pack(const MaterialLine& block, size_t& offset, const GpuTexture& buffer, float* dest)
+		{
+			vec4 params = { block.m_line_width, block.m_dash_scale, block.m_dash_size, block.m_dash_gap };
+
+			memcpy(dest + offset, &params, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 		}
 
@@ -251,7 +323,9 @@ namespace mud
 
 			GpuState<MaterialBase>::me.me.pack(material.m_base, offset, buffer, dest);
 			GpuState<MaterialAlpha>::me.me.pack(material.m_alpha, offset, buffer, dest);
-			GpuState<MaterialUnshaded>::me.me.pack(material.m_unshaded, offset, buffer, dest);
+			GpuState<MaterialSolid>::me.me.pack(material.m_solid, offset, buffer, dest);
+			GpuState<MaterialPoint>::me.me.pack(material.m_line, offset, buffer, dest);
+			GpuState<MaterialLine>::me.me.pack(material.m_line, offset, buffer, dest);
 			GpuState<MaterialPbr>::me.me.pack(material.m_pbr, offset, buffer, dest);
 			//GpuState<MaterialFresnel>::me.me.pack(material.m_fresnel, offset, buffer, dest);
 		}
@@ -262,7 +336,9 @@ namespace mud
 
 			uint32_t height = GpuState<MaterialBase>::me.rows
 							+ GpuState<MaterialAlpha>::me.rows
-						    + GpuState<MaterialUnshaded>::me.rows
+						    + GpuState<MaterialSolid>::me.rows
+						    + GpuState<MaterialPoint>::me.rows
+						    + GpuState<MaterialLine>::me.rows
 						    + GpuState<MaterialPbr>::me.rows;
 			uint32_t lines = 1;
 

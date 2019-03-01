@@ -88,8 +88,8 @@ namespace mud
 	{
 		mat4 transform = m_node ? m_node->m_transform : bxidentity();
 
-		//quat rotation = m_rotation.sample(m_time, random_scalar(0.f, 1.f));
-		//vec3 position = m_position.sample(m_time, random_scalar(0.f, 1.f));
+		//quat rotation = m_rotation.sample(m_time, randf(0.f, 1.f));
+		//vec3 position = m_position.sample(m_time, randf(0.f, 1.f));
 		//transform = bxSRT(vec3(1.f), rotation, position) * transform;
 
 		m_dt += dt;
@@ -106,24 +106,24 @@ namespace mud
 		{
 			Particle particle;
 
-			float volume = m_volume.sample(m_time, random_scalar(0.f, 1.f));
+			float volume = m_volume.sample(m_time, randf(0.f, 1.f));
 
 			vec3 pos = points[ii] * volume;
 			vec3 dir = m_flow == EmitterFlow::Outward ? normalize(points[ii]) : m_direction;
 
 			particle.life = time;
-			particle.lifetime = m_lifetime.sample(m_time, random_scalar(0.f, 1.f));
+			particle.lifetime = m_lifetime.sample(m_time, randf(0.f, 1.f));
 
-			particle.start = vec3(transform * vec4{ pos, 1.f });
-			particle.dir = vec3(transform * vec4{ dir, 0.f });
+			particle.start = mulp(transform, pos);
+			particle.dir = muln(transform, dir);
 			particle.rot = ZeroQuat; // m_node->m_rotation; // @todo
 
-			particle.speed_seed = random_scalar(0.f, 1.f);
-			particle.angle_seed = random_scalar(0.f, 1.f);
-			particle.blend_seed = random_scalar(0.f, 1.f);
-			particle.colour_seed = random_scalar(0.f, 1.f);
-			particle.scale_seed = random_scalar(0.f, 1.f);
-			particle.sprite_seed = random_scalar(0.f, 1.f);
+			particle.speed_seed = randf(0.f, 1.f);
+			particle.angle_seed = randf(0.f, 1.f);
+			particle.blend_seed = randf(0.f, 1.f);
+			particle.colour_seed = randf(0.f, 1.f);
+			particle.scale_seed = randf(0.f, 1.f);
+			particle.sprite_seed = randf(0.f, 1.f);
 
 			time += particle_period;
 

@@ -73,7 +73,7 @@ namespace mud
 
 		if(m_camera->m_clusters)
 		{
-			m_camera->m_clusters->m_dirty |= Froxelizer::VIEWPORT_CHANGED | Froxelizer::PROJECTION_CHANGED;
+			m_camera->m_clusters->m_dirty |= uint8_t(Froxelizer::Dirty::Viewport) | uint8_t(Froxelizer::Dirty::Projection);
 			m_camera->m_clusters->update(*this, m_camera->m_projection, m_camera->m_near, m_camera->m_far);
 			m_camera->m_clusters->froxelize_lights(*m_camera, render.m_shot->m_lights);
 			m_camera->m_clusters->upload();

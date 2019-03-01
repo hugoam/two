@@ -293,9 +293,9 @@ namespace mud
 					printf("WARNING: mesh %s imported without tangents (no uvs)\n", name.c_str());
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
-				mesh.write(PLAIN, packer, false);
+				mesh.write(packer, false);
 #else
-				mesh.write(PLAIN, packer, config.m_optimize_geometry);
+				mesh.write(packer, config.m_optimize_geometry);
 #endif
 				//mesh.write(PLAIN, packer);
 			}

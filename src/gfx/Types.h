@@ -85,6 +85,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ImmediateDraw>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ImportConfig>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Item>();
+	export_ template <> MUD_GFX_EXPORT Type& type<mud::Batch>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Joint>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Light>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Material>();
@@ -94,7 +95,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<float>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::Colour>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialPbr>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialUnshaded>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialSolid>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Mesh>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Mime>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Model>();

@@ -35,7 +35,7 @@ module mud.gfx.pbr;
 #include <cstdio>
 
 #define DEBUG_CSM 0
-#define DEBUG_ATLAS 1
+#define DEBUG_ATLAS 0
 
 #define SHADOW_ATLAS 1
 
@@ -129,7 +129,7 @@ namespace mud
 
 	void cull_shadow_render(Render& render, vector<Item*>& result, const Plane6& planes)
 	{
-		auto filter = [](Item& item) { return item.m_visible && item.m_model->m_geometry[PLAIN] && (item.m_flags & ItemFlag::Shadows) != 0; };
+		auto filter = [](Item& item) { return item.m_visible && item.m_model->m_geometry[PrimitiveType::Triangles] && (item.m_flags & ItemFlag::Shadows) != 0; };
 		result = filter_cull(render.m_scene, filter);
 		//result = frustum_cull(items, planes, filter);
 

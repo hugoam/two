@@ -16,8 +16,8 @@ namespace mud
 	export_ MUD_GEOM_EXPORT Aabb translate_aabb(const Aabb& source, const vec3& offset);
 	export_ MUD_GEOM_EXPORT vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb);
 
-	export_ extern MUD_GEOM_EXPORT const float c_cmp_epsilon;
-	export_ extern MUD_GEOM_EXPORT const float c_cmp_epsilon2;
+	export_ constexpr inline float c_cmp_epsilon = 0.00001f;
+	export_ constexpr inline float c_cmp_epsilon2 = c_cmp_epsilon * c_cmp_epsilon;
 
 	export_ struct refl_ Plane
 	{

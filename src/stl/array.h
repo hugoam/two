@@ -27,5 +27,6 @@ namespace stl
 
 namespace mud
 {
+	using stl::array_size;
 	using stl::array;
 }

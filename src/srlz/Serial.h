@@ -43,10 +43,10 @@ namespace mud
 #endif
 
 	export_ MUD_SRLZ_EXPORT Var unpack(Type& type, const json& data);
-	export_ MUD_SRLZ_EXPORT Var unpack(FromJson& unpacker, Type& type, const json& data, bool typed = false);
+	export_ MUD_SRLZ_EXPORT Var unpack(FromJson& unpacker, Type& type, const json& data);
 	export_ MUD_SRLZ_EXPORT void unpack(Var& value, const json& data);
 	export_ MUD_SRLZ_EXPORT void unpack(Ref value, const json& data);
-	export_ MUD_SRLZ_EXPORT void unpack(FromJson& unpacker, Var& value, const json& data, bool typed = false);
+	export_ MUD_SRLZ_EXPORT void unpack(FromJson& unpacker, Var& value, const json& data);
 	export_ MUD_SRLZ_EXPORT void unpack(FromJson& unpacker, Ref value, const json& data);
 
 	export_ MUD_SRLZ_EXPORT Var unpack_typed(const json& data);

@@ -79,7 +79,7 @@ namespace mud
 			if(model.m_items[0].m_mesh->m_material && model.m_items[0].m_mesh->m_material->m_name == "occluder")
 				prefab.m_items.back().m_flags = ItemFlag::Occluder;
 
-			prefab.m_aabb.mergeSafe(transform_aabb(model.m_aabb, item.transform));
+			prefab.m_aabb.merge(transform_aabb(model.m_aabb, item.transform));
 		}
 	}
 }

@@ -191,11 +191,11 @@ namespace mud
 			block->init_block();
 
 		static ClearRenderer clear_renderer = { *this, *m_pipeline };
-		static UnshadedRenderer unshaded_renderer = { *this, *m_pipeline };
+		static SolidRenderer solid_renderer = { *this, *m_pipeline };
 		static MinimalRenderer minimal_renderer = { *this, *m_pipeline };
 		UNUSED(minimal_renderer);
 
-		this->set_renderer(Shading::Unshaded, unshaded_renderer);
+		this->set_renderer(Shading::Solid, solid_renderer);
 		this->set_renderer(Shading::Clear, clear_renderer);
 
 		this->create_debug_materials();
@@ -341,16 +341,16 @@ namespace mud
 			return *m_impl->m_black_texture;
 		else if(hint == TextureHint::White)
 			return *m_impl->m_white_texture;
-		else //if(hint == TextureHint::Normal)
+		else if(hint == TextureHint::Normal || true)
 			return *m_impl->m_normal_texture;
 	}
 
 	void GfxSystem::create_debug_materials()
 	{
-		Material& debug = this->fetch_material("debug", "unshaded");
+		Material& debug = this->fetch_material("debug", "solid");
 
-		Material& alpha = this->fetch_material("debug_alpha", "unshaded");
-		alpha.m_unshaded.m_colour = Colour{ 0.2f, 0.2f, 0.2f, 0.1f };
+		Material& alpha = this->fetch_material("debug_alpha", "solid");
+		alpha.m_solid.m_colour = Colour{ 0.2f, 0.2f, 0.2f, 0.1f };
 
 		Material& pbr = this->fetch_material("debug_pbr", "pbr/pbr");
 	}
@@ -381,8 +381,8 @@ namespace mud
 
 			Texture& texture = this->textures().fetch(image_name);
 			initializer(texture);
-			material = &this->fetch_material(name, "unshaded");
-			material->m_unshaded.m_colour.m_texture = &texture;
+			material = &this->fetch_material(name, "solid");
+			material->m_solid.m_colour.m_texture = &texture;
 		}
 
 		return *material;

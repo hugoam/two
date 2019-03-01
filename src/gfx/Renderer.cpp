@@ -13,6 +13,7 @@ module mud.gfx;
 #include <jobs/JobLoop.hpp>
 #include <gfx/Types.h>
 #include <gfx/Renderer.h>
+#include <gfx/ManualRender.h>
 #include <gfx/Pipeline.h>
 #include <gfx/Shot.h>
 #include <gfx/Program.h>
@@ -284,7 +285,7 @@ namespace mud
 		for(DrawBlock* block : m_impl->m_draw_blocks)
 			block->options(render, element.m_shader_version);
 
-		element.m_shader_version.set_option(0, INSTANCING, !element.m_item->m_instances.empty());
+		element.m_shader_version.set_option(0, INSTANCING, element.m_item->m_batch != nullptr);
 		element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ItemFlag::Billboard);
 		element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
 		element.m_shader_version.set_option(0, QNORMALS, element.m_model->m_mesh->m_qnormals);
@@ -298,9 +299,10 @@ namespace mud
 		m_impl->m_draw_elements.add_element() = element;
 	}
 
-	bool mask_draw_mode(uint32_t mask, DrawMode check)
+	bool mask_primitive(uint32_t mask, PrimitiveType check)
 	{
-		return (mask & 1 << check) == 0;
+		uint32_t filter = 1 << uint(check);
+		return (mask & filter) == 0;
 	}
 
 	inline Material& item_material(const Item& item, const ModelItem& model_item, Material& fallback)
@@ -325,7 +327,7 @@ namespace mud
 				Material& material = item_material(*item, model_item, fallback_material);
 				Program& program = *material.m_program;
 
-				if(mask_draw_mode(material.m_base.m_geometry_filter, model_item.m_mesh->m_draw_mode))
+				if(mask_primitive(material.m_base.m_geometry_filter, model_item.m_mesh->m_primitive))
 					continue;
 
 				Skin* skin = (model_item.m_skin > -1 && item->m_rig) ? &item->m_rig->m_skins[model_item.m_skin] : nullptr;
@@ -424,5 +426,29 @@ namespace mud
 			this->submit_draw_elements(encoder, render, render_pass, 0, m_impl->m_draw_elements.size());
 #endif
 		}
+	}
+
+	ManualRender::ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect)
+		: m_render(render)
+		, m_camera()
+		, m_viewport(m_camera, render.m_scene, viewport_rect)
+		, m_sub_render(shading, m_viewport, fbo, render.m_frame)
+	{
+		m_sub_render.m_shot->m_lights = m_render.m_shot->m_lights;
+	}
+
+	ManualRender::ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection, bool ortho)
+		: m_render(render)
+		, m_camera(transform, projection, ortho)
+		, m_viewport(m_camera, render.m_scene, viewport_rect)
+		, m_sub_render(shading, m_viewport, fbo, render.m_frame)
+	{
+		m_sub_render.m_shot->m_lights = m_render.m_shot->m_lights;
+	}
+
+	void ManualRender::render(Renderer& renderer)
+	{
+		renderer.render(m_sub_render);
+		m_render.m_pass_index = m_sub_render.m_pass_index;
 	}
 }

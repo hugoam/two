@@ -88,10 +88,10 @@ namespace mud
     class Renderer;
     struct MaterialBase;
 	struct MaterialAlpha;
-    struct MaterialUnshaded;
+    struct MaterialSolid;
     struct MaterialFresnel;
     struct MaterialPbr;
-    struct PbrBlock;
+    struct BlockPbr;
     class Material;
 	class BlockMaterial;
     struct ImportConfig;
@@ -132,7 +132,8 @@ namespace mud
 	struct ClusteredFrustum;
     class Light;
     class Gnode;
-    class Item;
+	class Item;
+	struct Batch;
     class Viewport;
     struct ManualRender;
     struct PickQuery;
@@ -140,11 +141,11 @@ namespace mud
     struct PassJobs;
     class Pipeline;
     class PassClear;
-    class PassUnshaded;
+    class PassSolid;
     class PassBackground;
     class PassFlip;
     struct MinimalRenderer;
-    struct UnshadedRenderer;
+    struct SolidRenderer;
     struct ClearRenderer;
     class FrameBuffer;
     struct SwapBuffer;

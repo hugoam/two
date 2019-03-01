@@ -16,6 +16,8 @@ func_ double cos(double a);
 
 namespace mud
 {
+	export_ extern MUD_MATH_EXPORT const float c_tau;
+	export_ extern MUD_MATH_EXPORT const float c_2pi;
 	export_ extern MUD_MATH_EXPORT const float c_pi;
 	export_ extern MUD_MATH_EXPORT const float c_pi2;
 	export_ extern MUD_MATH_EXPORT const float c_pi4;

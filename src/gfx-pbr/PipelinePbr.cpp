@@ -91,6 +91,8 @@ namespace gfx
 		BlockMaterial& material = pipeline.add_block<BlockMaterial>(gfx_system);
 		UNUSED(material);
 
+		GfxBlock& pbr = pbr_block(gfx_system);
+
 		// filters
 		BlockFilter& filter = pipeline.add_block<BlockFilter>(gfx_system);
 		BlockCopy& copy = pipeline.add_block<BlockCopy>(gfx_system, filter);
@@ -125,11 +127,11 @@ namespace gfx
 
 		vector<GfxBlock*> depth_blocks = { &depth };
 		vector<GfxBlock*> geometry_blocks = {};
-		vector<GfxBlock*> shading_blocks = { &radiance, &light, &shadow, &gi_trace, &reflection, &lightmap };
+		vector<GfxBlock*> shading_blocks = { &radiance, &light, &shadow, &gi_trace, &reflection, &lightmap, &pbr };
 		vector<GfxBlock*> gi_blocks = { &light, &shadow, &gi_bake };
 		vector<GfxBlock*> lightmap_blocks = { &light, &shadow, &gi_trace, &lightmap };
 
-		pipeline.m_pass_blocks[PassType::Unshaded] = {};
+		pipeline.m_pass_blocks[PassType::Solid] = {};
 		pipeline.m_pass_blocks[PassType::Background] = { &sky };
 		pipeline.m_pass_blocks[PassType::Effects] = { /*&ssao, &ssr, &sss,*/ &resolve };
 		pipeline.m_pass_blocks[PassType::PostProcess] = { &dof_blur/*, &exposure*/, &glow, &tonemap };
@@ -148,10 +150,21 @@ namespace gfx
 
 		auto create_programs = [&]()
 		{
-			Program& unshaded = gfx_system.programs().create("unshaded");
-			unshaded.m_blocks[MaterialBlock::Alpha] = true;
-			unshaded.m_blocks[MaterialBlock::Unshaded] = true;
-			unshaded.register_blocks(depth_blocks);
+			Program& solid = gfx_system.programs().create("solid");
+			solid.m_blocks[MaterialBlock::Alpha] = true;
+			solid.m_blocks[MaterialBlock::Solid] = true;
+			solid.register_blocks(depth_blocks);
+
+			Program& normal = gfx_system.programs().create("normal");
+			normal.m_blocks[MaterialBlock::Pbr] = true;
+
+			Program& point = gfx_system.programs().create("point");
+			point.m_blocks[MaterialBlock::Solid] = true;
+			point.m_blocks[MaterialBlock::Point] = true;
+
+			Program& line = gfx_system.programs().create("line");
+			line.m_blocks[MaterialBlock::Solid] = true;
+			line.m_blocks[MaterialBlock::Line] = true;
 
 			Program& depth = gfx_system.programs().create("depth");
 			depth.register_blocks(depth_blocks);
@@ -234,7 +247,7 @@ namespace gfx
 		this->add_pass<PassBackground>(gfx_system);
 		this->add_pass<PassParticles>(gfx_system);
 		this->add_pass<PassAlpha>(gfx_system);
-		this->add_pass<PassUnshaded>(gfx_system);
+		this->add_pass<PassSolid>(gfx_system);
 		this->add_pass<PassEffects>(gfx_system);
 		this->add_pass<PassPostProcess>(gfx_system, *pipeline.block<BlockCopy>());
 		//this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
@@ -252,7 +265,7 @@ namespace gfx
 		this->add_pass<PassBackground>(gfx_system);
 		this->add_pass<PassParticles>(gfx_system);
 		//this->add_pass<PassAlpha>(gfx_system);
-		this->add_pass<PassUnshaded>(gfx_system);
+		this->add_pass<PassSolid>(gfx_system);
 		this->add_pass<PassEffects>(gfx_system);
 		this->add_pass<PassPostProcess>(gfx_system, *pipeline.block<BlockCopy>());
 		//this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());

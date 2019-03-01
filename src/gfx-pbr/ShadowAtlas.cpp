@@ -79,9 +79,9 @@ namespace mud
 			}
 
 		// @todo change to highwater + free list under waterline
-		for(size_t i = 0; i < m_slots.size(); ++i)
+		for(Slot& slot : m_slots)
 		{
-			m_free_slots.push_back(&m_slots[i]);
+			m_free_slots.push_back(&slot);
 		}
 
 		for(uint16_t y = 0; y < subdiv; ++y)

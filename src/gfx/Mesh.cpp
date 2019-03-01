@@ -82,9 +82,9 @@ namespace mud
 		return decls[vertex_format];
 	}
 
-	GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
+	GpuMesh alloc_mesh(PrimitiveType primitive, uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
 	{
-		GpuMesh gpu_mesh = { vertex_count, index_count };
+		GpuMesh gpu_mesh = { primitive, vertex_count, index_count };
 
 		gpu_mesh.m_vertex_memory = bgfx::alloc(vertex_count * vertex_size(vertex_format));
 		gpu_mesh.m_index_memory = bgfx::alloc(index_count * (index32 ? sizeof(uint32_t) : sizeof(uint16_t)));
@@ -99,9 +99,14 @@ namespace mud
 		return gpu_mesh;
 	}
 
+	GpuMesh alloc_mesh(PrimitiveType primitive, uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
+	{
+		return alloc_mesh(primitive, vertex_format, vertex_count, index_count, vertex_count > UINT16_MAX);
+	}
+
 	GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
 	{
-		return alloc_mesh(vertex_format, vertex_count, index_count, vertex_count > UINT16_MAX);
+		return alloc_mesh(PrimitiveType::Triangles, vertex_format, vertex_count, index_count, vertex_count > UINT16_MAX);
 	}
 
 	static uint16_t s_mesh_index = 0;
@@ -121,10 +126,16 @@ namespace mud
 
 	void Mesh::clear()
 	{
-		if(bgfx::isValid(m_vertex_buffer))
-			bgfx::destroy(m_vertex_buffer);
-		if(bgfx::isValid(m_index_buffer))
-			bgfx::destroy(m_index_buffer);
+		if(m_is_dynamic)
+		{
+			if(bgfx::isValid(m_dynamic.m_vertices)) bgfx::destroy(m_dynamic.m_vertices);
+			if(bgfx::isValid(m_dynamic.m_indices)) bgfx::destroy(m_dynamic.m_indices);
+		}
+		else
+		{
+			if(bgfx::isValid(m_vertices)) bgfx::destroy(m_vertices);
+			if(bgfx::isValid(m_indices)) bgfx::destroy(m_indices);
+		}
 	}
 
 	void Mesh::read(MeshAdapter& writer, const mat4& transform) const
@@ -177,18 +188,28 @@ namespace mud
 		}
 	}
 
-	void Mesh::upload(DrawMode draw_mode, const GpuMesh& gpu_mesh)
+	void Mesh::upload(const GpuMesh& gpu_mesh)
 	{
 		this->clear();
 
-		m_draw_mode = draw_mode;
+		m_primitive = gpu_mesh.m_primitive;
+		//m_draw_mode = draw_mode;
 		m_vertex_format = gpu_mesh.m_vertex_format;
 		m_vertex_count = gpu_mesh.m_vertex_count;
 		m_index_count = gpu_mesh.m_index_count;
 		m_index32 = gpu_mesh.m_index32;
+		m_is_dynamic = gpu_mesh.m_dynamic;
 
-		m_vertex_buffer = bgfx::createVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl(gpu_mesh.m_vertex_format));
-		m_index_buffer = bgfx::createIndexBuffer(gpu_mesh.m_index_memory, m_index32 ? BGFX_BUFFER_INDEX32 : 0);
+		if(gpu_mesh.m_dynamic)
+		{
+			m_dynamic.m_vertices = bgfx::createDynamicVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl(gpu_mesh.m_vertex_format));
+			m_dynamic.m_indices = bgfx::createDynamicIndexBuffer(gpu_mesh.m_index_memory, m_index32 ? BGFX_BUFFER_INDEX32 : 0);
+		}
+		else
+		{
+			m_vertices = bgfx::createVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl(gpu_mesh.m_vertex_format));
+			m_indices = bgfx::createIndexBuffer(gpu_mesh.m_index_memory, m_index32 ? BGFX_BUFFER_INDEX32 : 0);
+		}
 
 		m_aabb = aabb(gpu_mesh.m_writer.m_aabb.lo, gpu_mesh.m_writer.m_aabb.hi);
 		m_uv0_rect = { gpu_mesh.m_writer.m_uv0_rect.lo, gpu_mesh.m_writer.m_uv0_rect.hi };
@@ -197,7 +218,7 @@ namespace mud
 		MeshAdapter reader = gpu_mesh.m_writer.read();
 		m_radius = 0.f;
 		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
-			m_radius = max(length(reader.position() - m_aabb.m_center), m_radius);
+			m_radius = max(m_radius, length(reader.position() - m_aabb.m_center));
 
 		m_origin = m_aabb.m_center;
 
@@ -215,7 +236,7 @@ namespace mud
 		size_t vertex_count = meshopt_generateVertexRemap(remap.data(), (T*)mesh.m_indices, index_count, mesh.m_vertices, mesh.m_vertex_count, vertex_stride);
 
 		// we can't allocate a new mesh with different index size because meshoptimizer remap functions don't allow for different types of indices
-		optmesh = alloc_mesh(mesh.m_vertex_format, uint32_t(vertex_count), index_count, mesh.m_index32);
+		optmesh = alloc_mesh(mesh.m_primitive, mesh.m_vertex_format, uint32_t(vertex_count), index_count, mesh.m_index32);
 
 		optmesh.m_writer.m_aabb = mesh.m_writer.m_aabb;
 		optmesh.m_writer.m_uv0_rect = mesh.m_writer.m_uv0_rect;
@@ -234,7 +255,7 @@ namespace mud
 		//meshopt_simplify(optmesh.m_indices, optmesh.m_indices, index_count, optmesh.m_vertices, vertex_count, vertex_stride);
 	}
 
-	void Mesh::upload_opt(DrawMode draw_mode, const GpuMesh& mesh)
+	void Mesh::upload_opt(const GpuMesh& mesh)
 	{
 		GpuMesh optmesh;
 
@@ -245,21 +266,22 @@ namespace mud
 
 		//printf("optimized mesh %s from %i to %i vertices\n", m_name.c_str(), mesh.m_vertex_count, optmesh.m_vertex_count);
 
-		this->upload(draw_mode, optmesh);
+		this->upload(optmesh);
 	}
 
-	void Mesh::write(DrawMode draw_mode, MeshPacker& packer, bool optimize)
+	void Mesh::write(MeshPacker& packer, bool optimize, bool dynamic)
 	{
 		m_qnormals = packer.m_quantize;
 
-		GpuMesh gpu_mesh = alloc_mesh(packer.vertex_format(), packer.vertex_count(), packer.index_count());
+		GpuMesh gpu_mesh = alloc_mesh(packer.m_primitive, packer.vertex_format(), packer.vertex_count(), packer.index_count());
 		packer.pack_vertices(gpu_mesh.m_writer, bxidentity());
 		gpu_mesh.m_writer.rewind();
+		gpu_mesh.m_dynamic = dynamic;
 
 		if(optimize)
-			this->upload_opt(draw_mode, gpu_mesh);
+			this->upload_opt(gpu_mesh);
 		else
-			this->upload(draw_mode, gpu_mesh);
+			this->upload(gpu_mesh);
 	}
 
 	void Mesh::cache(const GpuMesh& gpu_mesh)
@@ -274,10 +296,35 @@ namespace mud
 		m_cache.rewind();
 	}
 
+	GpuMesh Mesh::begin()
+	{
+		return alloc_mesh(m_primitive, m_vertex_format, m_vertex_count, m_index_count, m_index32);
+	}
+
+	void Mesh::update(const GpuMesh& gpu_mesh)
+	{
+		bgfx::update(m_dynamic.m_vertices, 0U, gpu_mesh.m_vertex_memory);
+		bgfx::update(m_dynamic.m_indices, 0U, gpu_mesh.m_index_memory);
+	}
+
 	uint64_t Mesh::submit(bgfx::Encoder& encoder) const
 	{
-		encoder.setVertexBuffer(0, m_vertex_buffer);
-		encoder.setIndexBuffer(m_index_buffer);
-		return m_draw_mode == PLAIN ? 0 : (BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA);
+		if(m_is_dynamic)
+		{
+			encoder.setVertexBuffer(0, m_dynamic.m_vertices);
+			encoder.setIndexBuffer(m_dynamic.m_indices, m_range.m_start, m_range.m_count);
+		}
+		else
+		{
+			encoder.setVertexBuffer(0, m_vertices);
+			encoder.setIndexBuffer(m_indices);
+		}
+
+		if(m_primitive == PrimitiveType::Lines)
+			return BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA;
+		else if(m_primitive == PrimitiveType::Points)
+			return BGFX_STATE_PT_POINTS; // | BGFX_STATE_POINT_SIZE(10U);
+		else
+			return 0;
 	}
 }

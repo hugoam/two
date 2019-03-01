@@ -26,7 +26,7 @@ namespace mud
 		float interval = 1.f / float(m_keys.size() - 1);
 		float ttmod = fmod(t, interval) / interval;
 
-		return mud::lerp(m_keys[key], m_keys[key + 1], ttmod);
+		return lerp(m_keys[key], m_keys[key + 1], ttmod);
 	}
 
 	template struct MUD_MATH_EXPORT ValueCurve<vec3>;
@@ -69,11 +69,11 @@ namespace mud
 		if(m_mode == TrackMode::Constant)
 			return m_value;
 		else if(m_mode == TrackMode::ConstantRandom)
-			return mud::lerp(m_min, m_max, seed);
+			return lerp(m_min, m_max, seed);
 		else if(m_mode == TrackMode::Curve)
-			return m_value * m_curve.sample_curve(t);
-		else //if(m_mode == TrackMode::CurveRandom)
-			return mud::lerp(m_min * m_min_curve.sample_curve(t), m_max * m_max_curve.sample_curve(t), seed);
+			return m_curve.sample_curve(t);
+		else if(m_mode == TrackMode::CurveRandom || true)
+			return lerp(m_min_curve.sample_curve(t), m_max_curve.sample_curve(t), seed);
 	}
 
 	template struct MUD_MATH_EXPORT ValueTrack<vec3>;

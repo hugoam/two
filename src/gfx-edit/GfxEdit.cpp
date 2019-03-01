@@ -422,7 +422,7 @@ namespace mud
 		};
 
 		nest_mode(type<MaterialBase>(), EditNestMode::Embed);
-		nest_mode(type<MaterialUnshaded>(), EditNestMode::Embed);
+		nest_mode(type<MaterialSolid>(), EditNestMode::Embed);
 		nest_mode(type<MaterialPbr>(), EditNestMode::Embed);
 
 		nest_mode(type<MaterialParam<float>>(), EditNestMode::Embed);

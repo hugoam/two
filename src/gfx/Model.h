@@ -8,8 +8,10 @@
 #include <stl/vector.h>
 #include <stl/string.h>
 #include <stl/span.h>
+#include <stl/table.h>
 #include <math/Colour.h>
 #include <math/Vec.h>
+#include <geom/Primitive.h>
 #include <geom/Aabb.h>
 #endif
 #include <gfx/Forward.h>
@@ -37,14 +39,15 @@ namespace mud
 		attr_ string m_name;
 		attr_ uint16_t m_index;
 
-		Rig* m_rig = nullptr;
-
 		vector<ModelItem> m_items;
 
-		/*attr_*/ bool m_geometry[2] = { false, false };
 		attr_ Aabb m_aabb = { vec3(0.f), vec3(0.f) };
 		attr_ float m_radius = 0.f;
 		attr_ vec3 m_origin = vec3(0.f);
+
+		table<PrimitiveType, bool> m_geometry = { 0 };
+
+		Rig* m_rig = nullptr;
 
 		Mesh& add_mesh(const string& name, bool readback = false);
 		Rig& add_rig(const string& name);

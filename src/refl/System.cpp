@@ -168,6 +168,10 @@ namespace mud
 
 		for(Function* function : m.m_functions)
 			m_functions.push_back(function);
+
+		for(Type* type : m.m_types)
+			if(g_class[type->m_id])
+				cls(*type).setup_class();
 	}
 
 	void System::unload_module(Module& m)

@@ -16,7 +16,7 @@ module mud.math;
 namespace mud
 {
 	template <class T>
-	T random_integer(T min, T max)
+	T randi(T min, T max)
 	{
 		static std::random_device device;
 		static std::mt19937 generator(device());
@@ -25,7 +25,7 @@ namespace mud
 	}
 
 	template <class T>
-	T random_scalar(T min, T max)
+	T randf(T min, T max)
 	{
 		static std::random_device device;
 		static std::mt19937 generator(device());
@@ -34,7 +34,7 @@ namespace mud
 	}
 
 	template <class T>
-	T random_scalar()
+	T randf()
 	{
 		static std::random_device device;
 		static std::mt19937 generator(device());
@@ -42,14 +42,14 @@ namespace mud
 		return distribution(generator);
 	}
 
-	template MUD_MATH_EXPORT float random_scalar<float>();
-	template MUD_MATH_EXPORT double random_scalar<double>();
+	template MUD_MATH_EXPORT float randf();
+	template MUD_MATH_EXPORT double randf<double>();
 
-	template MUD_MATH_EXPORT float random_scalar<float>(float min, float max);
-	template MUD_MATH_EXPORT double random_scalar<double>(double min, double max);
+	template MUD_MATH_EXPORT float randf(float min, float max);
+	template MUD_MATH_EXPORT double randf<double>(double min, double max);
 
-	template MUD_MATH_EXPORT int random_integer<int>(int min, int max);
-	template MUD_MATH_EXPORT uint random_integer<uint>(uint min, uint max);
-	template MUD_MATH_EXPORT ulong random_integer<ulong>(ulong min, ulong max);
-	template MUD_MATH_EXPORT ullong random_integer<ullong>(ullong min, ullong max);
+	template MUD_MATH_EXPORT int randi<int>(int min, int max);
+	template MUD_MATH_EXPORT uint randi<uint>(uint min, uint max);
+	template MUD_MATH_EXPORT ulong randi<ulong>(ulong min, ulong max);
+	template MUD_MATH_EXPORT ullong randi<ullong>(ullong min, ullong max);
 }

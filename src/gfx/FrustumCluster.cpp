@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/stddef.h>
 #include <stl/limits.h>
 #include <stl/algorithm.h>
 #include <stl/traits.h>
@@ -17,7 +18,6 @@ module mud.gfx;
 
 #include <type_traits>
 //#include <limits>
-#include <stl/stddef.h>
 #include <stdint.h>
 #include <cassert>
 
@@ -133,7 +133,9 @@ namespace mud
 		m_distances_z[0] = 0.0f;
 
 		for(int i = 1, n = m_subdiv_z; i <= n; i++)
+		{
 			m_distances_z[i] = m_far * exp2f(float(i - n) * linearizer);
+		}
 
 		// for the inverse-transformation (view-space z to z-slice)
 		m_linearizer = 1 / linearizer;

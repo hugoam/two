@@ -20,9 +20,6 @@ module mud.geom;
 
 namespace mud
 {
-	const float c_cmp_epsilon = 0.00001f;
-	const float c_cmp_epsilon2 = c_cmp_epsilon * c_cmp_epsilon;
-
 	float ray_aabb_intersection_dist(const vec3& bmin, const vec3& bmax, const Ray& ray)
 	{
 		const vec3 t1 = (bmin - ray.m_start) * ray.m_inv_dir;

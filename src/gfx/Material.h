@@ -60,11 +60,19 @@ namespace mud
 		Count
 	};
 
+	export_ enum class refl_ ShaderColor : unsigned int
+	{
+		Shader,
+		Vertex,
+		Face
+	};
+
 	export_ enum MaterialShaderOption : unsigned int
 	{
 		DOUBLE_SIDED,
 		ALPHA_MAP,
 		ALPHA_TEST,
+		DASH,
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialBase
@@ -79,9 +87,11 @@ namespace mud
 		attr_ gpu_ vec2 m_uv1_scale = { 1.f, 1.f };
 		attr_ gpu_ vec2 m_uv1_offset = { 0.f, 0.f };
 
+		attr_ ShaderColor m_shader_color = ShaderColor::Shader;
+
 		attr_ bool m_screen_filter = false;
 
-		uint m_geometry_filter = (1 << OUTLINE) | (1 << PLAIN);
+		uint32_t m_geometry_filter = (1 << uint(PrimitiveType::Triangles)) | (1 << uint(PrimitiveType::Lines));
 
 #if 0
 		BillboardMode m_billboard_mode;
@@ -97,12 +107,13 @@ namespace mud
 		All
 	};
 
-	export_ template <class T_Param>
+	export_ template <class T>
 	struct refl_ struct_ MaterialParam
 	{
 		MaterialParam() {}
-		MaterialParam(T_Param value, Texture* texture = nullptr, TextureChannel channel = TextureChannel::All) : m_value(value), m_texture(texture), m_channel(channel) {}
-		attr_ gpu_ T_Param m_value = {};
+		MaterialParam(T value, Texture* texture = nullptr, TextureChannel channel = TextureChannel::All) : m_value(value), m_texture(texture), m_channel(channel) {}
+		MaterialParam& operator=(const T& value) { m_value = value; return *this; }
+		attr_ gpu_ T m_value = {};
 		attr_ Texture* m_texture = nullptr;
 		attr_ TextureChannel m_channel = TextureChannel::All;
 	};
@@ -119,18 +130,40 @@ namespace mud
 		attr_ bool m_is_alpha = false;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialUnshaded
+	export_ struct refl_ MUD_GFX_EXPORT MaterialSolid
 	{
 		attr_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
 	};
 
+	enum LineShaderOption : unsigned int
+	{
+		//DASH,
+	};
+
+	export_ struct refl_ MUD_GFX_EXPORT MaterialPoint
+	{
+		attr_ gpu_ float m_point_size = 1.f;
+		attr_ gpu_ bool m_project = false;
+	};
+
+	export_ struct refl_ MUD_GFX_EXPORT MaterialLine
+	{
+		attr_ gpu_ float m_line_width = 1.f;
+
+		attr_ bool m_dashed = false;
+		attr_ gpu_ float m_dash_scale = 1.f;
+		attr_ gpu_ float m_dash_size = 1.f;
+		attr_ gpu_ float m_dash_gap = 1.f;
+		// resolution
+	};
+
 	export_ struct refl_ MUD_GFX_EXPORT MaterialFresnel
 	{
-		attr_ MaterialParam<Colour> m_value = { Colour::White, nullptr };
+		attr_ gpu_ MaterialParam<Colour> m_value = { Colour::White, nullptr };
 
-		attr_ float m_fresnel_scale = 1.f;
-		attr_ float m_fresnel_bias = 0.01f;
-		attr_ float m_fresnel_power = 5.f;
+		attr_ gpu_ float m_fresnel_scale = 1.f;
+		attr_ gpu_ float m_fresnel_bias = 0.01f;
+		attr_ gpu_ float m_fresnel_power = 5.f;
 	};
 
 	export_ enum class refl_ PbrDiffuseMode : unsigned int
@@ -151,7 +184,7 @@ namespace mud
 		Disabled,
 	};
 
-	export_ enum PbrShaderOption : unsigned int
+	enum PbrShaderOption : unsigned int
 	{
 		NORMAL_MAP,
 		EMISSIVE,
@@ -160,6 +193,12 @@ namespace mud
 		DEPTH_MAPPING,
 		DEEP_PARALLAX,
 		LIGHTMAP
+	};
+
+	enum PbrShaderMode : unsigned int
+	{
+		DIFFUSE_MODE,
+		SPECULAR_MODE,
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialPbr
@@ -234,7 +273,9 @@ namespace mud
 
 		attr_ MaterialBase m_base;
 		attr_ MaterialAlpha m_alpha;
-		attr_ MaterialUnshaded m_unshaded;
+		attr_ MaterialSolid m_solid;
+		attr_ MaterialPoint m_point;
+		attr_ MaterialLine m_line;
 		attr_ MaterialPbr m_pbr;
 		attr_ MaterialFresnel m_fresnel;
 

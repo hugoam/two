@@ -30,7 +30,7 @@ namespace mud
 		);
 		~Class();
 
-		void inherit(vector<Type*> types);
+		void inherit(span<Type*> types);
 		void setup_class();
 
 		Ref upcast(Ref object, const Type& base);
@@ -125,8 +125,8 @@ namespace mud
 		this->set(cast(object), value);
 	}
 
-	export_ inline bool is_root_type(Type& ty) { return !g_class[ty.m_id] || cls(ty).m_root == &ty; }
-
+	export_ inline bool is_root_type(const Type& ty) { return !g_class[ty.m_id] || cls(ty).m_root == &ty; }
+	export_ inline bool is_abstract(const Type& ty) { return g_class[ty.m_id] && cls(ty).m_type_member; }
 	//export_ template <class T>
 	//T& upcast(Ref value) { Ref base = cls(value).upcast(value, type<T>()); return val<T>(base); }
 

@@ -40,7 +40,9 @@ namespace mud
 
 	GpuState<MaterialBase> GpuState<MaterialBase>::me;
 	GpuState<MaterialAlpha> GpuState<MaterialAlpha>::me;
-	GpuState<MaterialUnshaded> GpuState<MaterialUnshaded>::me;
+	GpuState<MaterialSolid> GpuState<MaterialSolid>::me;
+	GpuState<MaterialPoint> GpuState<MaterialPoint>::me;
+	GpuState<MaterialLine> GpuState<MaterialLine>::me;
 	GpuState<MaterialPbr> GpuState<MaterialPbr>::me;
 	GpuState<Material> GpuState<Material>::me;
 
@@ -122,15 +124,15 @@ namespace mud
 		bgfx::UniformHandle s_alpha;
 	};
 
-	struct UnshadedMaterialUniform
+	struct SolidMaterialUniform
 	{
-		UnshadedMaterialUniform() {}
-		UnshadedMaterialUniform(GfxSystem& gfx_system)
+		SolidMaterialUniform() {}
+		SolidMaterialUniform(GfxSystem& gfx_system)
 			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
 			, s_color(bgfx::createUniform("s_color", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
 #if !MATERIALS_BUFFER
-			GpuState<MaterialUnshaded>::me.init();
+			GpuState<MaterialSolid>::me.init();
 #endif
 		}
 
@@ -140,10 +142,10 @@ namespace mud
 			bgfx::setViewUniform(render_pass.m_index, s_color, &color);
 		}
 
-		void upload(bgfx::Encoder& encoder, const MaterialUnshaded& block) const
+		void upload(bgfx::Encoder& encoder, const MaterialSolid& block) const
 		{
 #if !MATERIALS_BUFFER
-			GpuState<MaterialUnshaded>::me.upload(encoder, block);
+			GpuState<MaterialSolid>::me.upload(encoder, block);
 #endif
 
 			encoder.setTexture(uint8_t(TextureSampler::Color), block.m_colour.m_texture ? block.m_colour.m_texture->m_texture : m_white_tex->m_texture);
@@ -152,6 +154,54 @@ namespace mud
 		Texture* m_white_tex;
 
 		bgfx::UniformHandle s_color;
+	};
+
+	struct PointMaterialUniform
+	{
+		PointMaterialUniform() {}
+		PointMaterialUniform(GfxSystem& gfx_system)
+		{
+			UNUSED(gfx_system);
+#if !MATERIALS_BUFFER
+			GpuState<MaterialPoint>::me.init();
+#endif
+		}
+
+		void prepare(const Pass& render_pass) const
+		{
+			UNUSED(render_pass);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialPoint& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialPoint>::me.upload(encoder, block);
+#endif
+		}
+	};
+
+	struct LineMaterialUniform
+	{
+		LineMaterialUniform() {}
+		LineMaterialUniform(GfxSystem& gfx_system)
+		{
+			UNUSED(gfx_system);
+#if !MATERIALS_BUFFER
+			GpuState<MaterialLine>::me.init();
+#endif
+		}
+
+		void prepare(const Pass& render_pass) const
+		{
+			UNUSED(render_pass);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialLine& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialLine>::me.upload(encoder, block);
+#endif
+		}
 	};
 
 	struct FresnelMaterialUniform
@@ -265,38 +315,15 @@ namespace mud
 		//bgfx::UniformHandle s_lightmap;
 	};
 
-	struct PbrBlock : public GfxBlock
+	struct BlockPbr : public GfxBlock
 	{
-		PbrBlock(GfxSystem& gfx_system);
+		BlockPbr(GfxSystem& gfx_system);
 
 		virtual void init_block() override {}
 
 		virtual void begin_render(Render& render) override { UNUSED(render); }
 		virtual void begin_pass(Render& render) override { UNUSED(render); }
 	};
-
-	PbrBlock::PbrBlock(GfxSystem& gfx_system)
-		: GfxBlock(gfx_system, *this)
-	{
-		static cstring options[] = {
-			"NORMAL_MAP",
-			"EMISSIVE",
-			"ANISOTROPY",
-			"AMBIENT_OCCLUSION",
-			"DEPTH_MAPPING",
-			"DEEP_PARALLAX",
-			"LIGHTMAP"
-		};
-		m_shader_block->m_options = options;
-	}
-
-	template <> Type& type<mud::PbrBlock>() { static Type ty("PbrBlock"); return ty; }
-
-	GfxBlock& pbr_block(GfxSystem& gfx_system)
-	{
-		static PbrBlock pbr = { gfx_system };
-		return pbr;
-	}
 
 	GfxSystem* Material::ms_gfx_system = nullptr;
 
@@ -309,7 +336,9 @@ namespace mud
 
 	static BaseMaterialUniform s_base_material_block = {};
 	static AlphaMaterialUniform s_alpha_material_block = {};
-	static UnshadedMaterialUniform s_unshaded_material_block = {};
+	static SolidMaterialUniform s_solid_material_block = {};
+	static LineMaterialUniform s_line_material_block = {};
+	static PointMaterialUniform s_point_material_block = {};
 	static FresnelMaterialUniform s_fresnel_material_block = {};
 	static PbrMaterialUniform s_pbr_material_block = {};
 
@@ -322,7 +351,9 @@ namespace mud
 		{
 			s_base_material_block = { *ms_gfx_system };
 			s_alpha_material_block = { *ms_gfx_system };
-			s_unshaded_material_block = { *ms_gfx_system };
+			s_solid_material_block = { *ms_gfx_system };
+			s_line_material_block = { *ms_gfx_system };
+			s_point_material_block = { *ms_gfx_system };
 			s_fresnel_material_block = { *ms_gfx_system };
 			s_pbr_material_block = { *ms_gfx_system };
 
@@ -347,8 +378,17 @@ namespace mud
 			version.set_option(mat.m_index, ALPHA_MAP, is_valid(m_alpha.m_alpha.m_texture));
 		}
 
+		if(program.m_blocks[MaterialBlock::Line])
+		{
+			version.set_option(mat.m_index, DASH, m_line.m_dashed);
+		}
+
 		if(program.m_blocks[MaterialBlock::Pbr])
 		{
+			version.set_mode(pbr.m_index, DIFFUSE_MODE, uint8_t(PbrDiffuseMode::Lambert));
+			//version.set_mode(pbr.m_index, DIFFUSE_MODE, uint8_t(m_pbr.m_diffuse_mode));
+			version.set_mode(pbr.m_index, SPECULAR_MODE, uint8_t(m_pbr.m_specular_mode));
+
 			version.set_option(pbr.m_index, NORMAL_MAP, is_valid(m_pbr.m_normal.m_texture));
 			version.set_option(pbr.m_index, EMISSIVE, is_valid(m_pbr.m_emissive.m_texture) || m_pbr.m_emissive.m_value.a > 0.f);
 			version.set_option(pbr.m_index, AMBIENT_OCCLUSION, is_valid(m_pbr.m_ambient_occlusion.m_texture));
@@ -364,7 +404,7 @@ namespace mud
 	{
 		ShaderVersion version = this->shader_version(program);
 		UNUSED(item); UNUSED(model_item);
-		PbrBlock& pbr = pbr_block(*ms_gfx_system);
+		BlockPbr& pbr = pbr_block(*ms_gfx_system);
 
 		if(item.m_lightmaps.size() > 0)
 		{
@@ -409,8 +449,12 @@ namespace mud
 		s_base_material_block.upload(encoder, m_base);
 		if(program.m_blocks[MaterialBlock::Alpha])
 			s_alpha_material_block.upload(encoder, m_alpha);
-		if(program.m_blocks[MaterialBlock::Unshaded])
-			s_unshaded_material_block.upload(encoder, m_unshaded);
+		if(program.m_blocks[MaterialBlock::Solid])
+			s_solid_material_block.upload(encoder, m_solid);
+		if(program.m_blocks[MaterialBlock::Point])
+			s_point_material_block.upload(encoder, m_point);
+		if(program.m_blocks[MaterialBlock::Line])
+			s_line_material_block.upload(encoder, m_line);
 		if(program.m_blocks[MaterialBlock::Pbr])
 			s_pbr_material_block.upload(encoder, m_pbr);
 		if(program.m_blocks[MaterialBlock::Fresnel])
@@ -423,7 +467,7 @@ namespace mud
 	BlockMaterial::BlockMaterial(GfxSystem& gfx_system)
 		: GfxBlock(gfx_system, *this)
 	{
-		static cstring options[] = { "DOUBLE_SIDED", "ALPHA_MAP", "ALPHA_TEST" };
+		static cstring options[] = { "DOUBLE_SIDED", "ALPHA_MAP", "ALPHA_TEST", "DASH" }; // @todo move dash to correct place
 		m_shader_block->m_options = options;
 	}
 
@@ -453,8 +497,27 @@ namespace mud
 
 		s_base_material_block.prepare(render_pass);
 		s_alpha_material_block.prepare(render_pass);
-		s_unshaded_material_block.prepare(render_pass);
+		s_solid_material_block.prepare(render_pass);
+		s_point_material_block.prepare(render_pass);
+		s_line_material_block.prepare(render_pass);
 		s_fresnel_material_block.prepare(render_pass);
 		s_pbr_material_block.prepare(render_pass);
+	}
+
+	BlockPbr::BlockPbr(GfxSystem& gfx_system)
+		: GfxBlock(gfx_system, *this)
+	{
+		static cstring options[] = { "NORMAL_MAP", "EMISSIVE", "ANISOTROPY", "AMBIENT_OCCLUSION", "DEPTH_MAPPING", "DEEP_PARALLAX", "LIGHTMAP" };
+		static cstring modes[] = { "DIFFUSE_MODE", "SPECULAR_MODE" };
+		m_shader_block->m_options = options;
+		m_shader_block->m_modes = modes;
+	}
+
+	template <> Type& type<mud::BlockPbr>() { static Type ty("BlockPbr"); return ty; }
+
+	GfxBlock& pbr_block(GfxSystem& gfx_system)
+	{
+		static BlockPbr pbr = { gfx_system };
+		return pbr;
 	}
 }

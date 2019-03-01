@@ -61,7 +61,7 @@ namespace mud
 		, m_states(states, 1.0)
 		, m_wave(width, height, depth, vector<ubool>(states, true))
 	{
-		m_random_double = []() -> double { return random_scalar<double>(); };
+		m_random_double = []() -> double { return randf<double>(); };
 	}
 
 	void Wave::clear()

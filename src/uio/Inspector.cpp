@@ -205,7 +205,7 @@ namespace mud
 			return object_edit_columns(parent, object);
 		else if(hint == EditorHint::Rows)
 			return object_edit_columns(parent, object);
-		else //if(hint == EditorHint::Inline)
+		else if(hint == EditorHint::Inline || true)
 			return object_edit_inline(parent, object);
 	}
 

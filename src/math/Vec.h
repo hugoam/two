@@ -152,12 +152,13 @@ namespace mud
 		constr_ mat3(const float3& x, const float3& y, const float3& z);
 		constr_ mat3(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8);
 
-		const float3& operator[](uint index) const { return *((float3*)f + index); }
-		float3& operator[](uint index) { return *((float3*)f + index); }
+		const float3& operator[](uint index) const { return v[index]; }
+		float3& operator[](uint index) { return v[index]; }
 
 		union
 		{
 			float m[3][3];
+			float3 v[3];
 			attr_ float f[9];
 		};
 	};
@@ -170,8 +171,8 @@ namespace mud
 		constr_ mat4(const float4& x, const float4& y, const float4& z, const float4& w);
 		constr_ mat4(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, float f12, float f13, float f14, float f15);
 
-		const float4& operator[](uint index) const { return *((float4*)f + index); }
-		float4& operator[](uint index) { return *((float4*)f + index); }
+		const float4& operator[](uint index) const { return v[index]; }
+		float4& operator[](uint index) { return v[index]; }
 
 		bool operator==(const mat4& other) const;
 		bool operator!=(const mat4& other) const { return !(*this == other); }
@@ -179,6 +180,7 @@ namespace mud
 		union
 		{
 			float m[4][4];
+			float4 v[4];
 			attr_ float f[16];
 		};
 	};

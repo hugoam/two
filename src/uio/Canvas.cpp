@@ -230,7 +230,7 @@ namespace mud
 			return as<NodePlug>(*node.m_outputs->m_nodes[valve.m_process.m_out_flow ? valve.m_index + 1 : valve.m_index]);
 		else if(valve.m_kind == FLOW_VALVE_IN)
 			return as<NodePlug>(*node.m_inputs->m_nodes[0]);
-		else //if(valve.m_kind == FLOW_VALVE_OUT)
+		else if(valve.m_kind == FLOW_VALVE_OUT || true)
 			return as<NodePlug>(*node.m_outputs->m_nodes[0]);
 
 		//Widget& plug = input ? *node.m_inputs->m_nodes[valve.m_index] : *node.m_outputs->m_nodes[valve.m_index];

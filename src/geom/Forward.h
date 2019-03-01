@@ -17,7 +17,7 @@ namespace mud
     
     
     class Shape;
-    struct ShapeVar;
+    class ShapeVar;
     struct Line;
     struct Rect;
     struct Quad;

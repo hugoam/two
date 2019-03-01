@@ -205,11 +205,11 @@ namespace mud
 		uint64_t hash = hash_symbol_material(symbol, draw_mode);
 		if(m_impl->m_materials.find(hash) == m_impl->m_materials.end())
 		{
-			Material& m = gfx_system.fetch_material("Symbol" + to_string(hash), "unshaded");
+			Material& m = gfx_system.fetch_material("Symbol" + to_string(hash), "solid");
 			m.m_base.m_depth_draw_mode = DepthDraw::Disabled;
 			m.m_base.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
 			m.m_base.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
-			m.m_unshaded.m_colour.m_value = colour;
+			m.m_solid.m_colour.m_value = colour;
 			m_impl->m_materials[hash] = &m;
 		}
 		return *m_impl->m_materials[hash];
@@ -283,7 +283,8 @@ namespace mud
 		Mesh& mesh = model.add_mesh(model.m_name + to_string(uint(draw_mode)), readback);
 		mesh.m_material = material;
 
-		GpuMesh gpu_mesh = alloc_mesh(ShapeVertex::vertex_format, size.vertex_count, size.index_count);
+		PrimitiveType primitive = draw_mode == PLAIN ? PrimitiveType::Triangles : PrimitiveType::Lines;
+		GpuMesh gpu_mesh = alloc_mesh(primitive, ShapeVertex::vertex_format, size.vertex_count, size.index_count);
 		
 		for(const ProcShape& shape : shapes)
 			if(shape.m_draw_mode == draw_mode)
@@ -296,7 +297,7 @@ namespace mud
 		if(draw_mode == PLAIN)
 			generate_mikkt_tangents({ (ShapeIndex*)gpu_mesh.m_indices, gpu_mesh.m_index_count }, { (ShapeVertex*)gpu_mesh.m_vertices, gpu_mesh.m_vertex_count });
 
-		mesh.upload(draw_mode, gpu_mesh);
+		mesh.upload(gpu_mesh);
 
 		model.add_item(mesh, bxidentity());
 	}

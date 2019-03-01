@@ -30,7 +30,6 @@ namespace mud
 
 		void merge(const vec3& point);
 		void merge(const Aabb& other);
-		void mergeSafe(const Aabb& other);
 
 		bool cull(const vec3& point) const;
 		bool cull(span<vec3> points) const;

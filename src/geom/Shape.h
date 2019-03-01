@@ -29,7 +29,7 @@ namespace mud
 		virtual object<Shape> clone() const = 0;
 	};
 
-	export_ struct refl_ MUD_GEOM_EXPORT ShapeVar
+	export_ class refl_ MUD_GEOM_EXPORT ShapeVar
 	{
 	public:
 		constr_ ShapeVar() : m_shape() {}

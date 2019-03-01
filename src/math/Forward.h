@@ -41,6 +41,10 @@ namespace mud
 	using float3 = v3<float>;
 	using float4 = v4<float>;
 
+	using double2 = v2<double>;
+	using double3 = v3<double>;
+	using double4 = v4<double>;
+
 	using int2 = v2<int>;
 	using int3 = v3<int>;
 	using int4 = v4<int>;

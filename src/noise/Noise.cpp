@@ -20,7 +20,7 @@ namespace mud
 	
 	float noise_2d(float x, float y, Noise::NoiseType noise_type, float frequency, Noise::Interp interp)
 	{
-		static Noise n = { random_integer(INT_MIN, INT_MAX) };
+		static Noise n = { randi(INT_MIN, INT_MAX) };
 		n.SetNoiseType(noise_type);
 		n.SetFrequency(frequency);
 		n.SetInterp(interp);
@@ -29,7 +29,7 @@ namespace mud
 
 	float noise_3d(float x, float y, float z, Noise::NoiseType noise_type, float frequency, Noise::Interp interp)
 	{
-		static Noise n = { random_integer(INT_MIN, INT_MAX) };
+		static Noise n = { randi(INT_MIN, INT_MAX) };
 		n.SetNoiseType(noise_type);
 		n.SetFrequency(frequency);
 		n.SetInterp(interp);
@@ -39,7 +39,7 @@ namespace mud
 	float noise_fract_2d(float x, float y, Noise::NoiseType noise_type, float frequency, Noise::Interp interp, 
 									  Noise::FractalType fractal_type, int octaves, float lacunarity, float gain)
 	{
-		static Noise n = { random_integer(INT_MIN, INT_MAX) };
+		static Noise n = { randi(INT_MIN, INT_MAX) };
 		n.SetNoiseType(noise_type);
 		n.SetFrequency(frequency);
 		n.SetInterp(interp);
@@ -53,7 +53,7 @@ namespace mud
 	float noise_fract_3d(float x, float y, float z, Noise::NoiseType noise_type, float frequency, Noise::Interp interp,
 									  Noise::FractalType fractal_type, int octaves, float lacunarity, float gain)
 	{
-		static Noise n = { random_integer(INT_MIN, INT_MAX) };
+		static Noise n = { randi(INT_MIN, INT_MAX) };
 		n.SetNoiseType(noise_type);
 		n.SetFrequency(frequency);
 		n.SetInterp(interp);

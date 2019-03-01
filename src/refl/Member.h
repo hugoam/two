@@ -54,8 +54,8 @@ namespace mud
 		Flags m_flags;
 		MemberGet m_get;
 
-		Meta& meta() { return mud::meta(*m_type); }
-		Class& cls() { return mud::cls(*m_type); }
+		Meta& meta() const { return mud::meta(*m_type); }
+		Class& cls() const { return mud::cls(*m_type); }
 
 		bool is_pointer() const { return (m_flags & Pointer) != 0; }
 		bool is_mutable() const { return (m_flags & NonMutable) == 0; }

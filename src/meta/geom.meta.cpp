@@ -7,6 +7,7 @@ module mud.geom;
 #include <stl/new.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
+#include <type/Any.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -388,7 +389,7 @@ namespace mud
 	// mud::ShapeVar
 	{
 		Type& t = type<mud::ShapeVar>();
-		static Meta meta = { t, &namspc({ "mud" }), "ShapeVar", sizeof(mud::ShapeVar), TypeClass::Struct };
+		static Meta meta = { t, &namspc({ "mud" }), "ShapeVar", sizeof(mud::ShapeVar), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -449,6 +450,7 @@ namespace mud
 	{
 		Type& t = type<mud::Arc>();
 		static Meta meta = { t, &namspc({ "mud" }), "Arc", sizeof(mud::Arc), TypeClass::Struct };
+		meta.m_empty_var = var(Arc());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Arc, mud::Shape>() };
@@ -479,6 +481,7 @@ namespace mud
 	{
 		Type& t = type<mud::ArcLine>();
 		static Meta meta = { t, &namspc({ "mud" }), "ArcLine", sizeof(mud::ArcLine), TypeClass::Struct };
+		meta.m_empty_var = var(ArcLine());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::ArcLine, mud::Shape>() };
@@ -507,6 +510,7 @@ namespace mud
 	{
 		Type& t = type<mud::Box>();
 		static Meta meta = { t, &namspc({ "mud" }), "Box", sizeof(mud::Box), TypeClass::Struct };
+		meta.m_empty_var = var(Box());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Box, mud::Shape>() };
@@ -528,6 +532,7 @@ namespace mud
 	{
 		Type& t = type<mud::Capsule>();
 		static Meta meta = { t, &namspc({ "mud" }), "Capsule", sizeof(mud::Capsule), TypeClass::Struct };
+		meta.m_empty_var = var(Capsule());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Capsule, mud::Shape>() };
@@ -559,6 +564,7 @@ namespace mud
 	{
 		Type& t = type<mud::Circle>();
 		static Meta meta = { t, &namspc({ "mud" }), "Circle", sizeof(mud::Circle), TypeClass::Struct };
+		meta.m_empty_var = var(Circle());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Circle, mud::Shape>() };
@@ -590,6 +596,7 @@ namespace mud
 	{
 		Type& t = type<mud::ConvexHull>();
 		static Meta meta = { t, &namspc({ "mud" }), "ConvexHull", sizeof(mud::ConvexHull), TypeClass::Struct };
+		meta.m_empty_var = var(ConvexHull());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::ConvexHull, mud::Shape>() };
@@ -615,6 +622,7 @@ namespace mud
 	{
 		Type& t = type<mud::Cube>();
 		static Meta meta = { t, &namspc({ "mud" }), "Cube", sizeof(mud::Cube), TypeClass::Struct };
+		meta.m_empty_var = var(Cube());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Cube, mud::Shape>() };
@@ -642,6 +650,7 @@ namespace mud
 	{
 		Type& t = type<mud::Cylinder>();
 		static Meta meta = { t, &namspc({ "mud" }), "Cylinder", sizeof(mud::Cylinder), TypeClass::Struct };
+		meta.m_empty_var = var(Cylinder());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Cylinder, mud::Shape>() };
@@ -675,6 +684,7 @@ namespace mud
 	{
 		Type& t = type<mud::Ellipsis>();
 		static Meta meta = { t, &namspc({ "mud" }), "Ellipsis", sizeof(mud::Ellipsis), TypeClass::Struct };
+		meta.m_empty_var = var(Ellipsis());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Ellipsis, mud::Shape>() };
@@ -703,6 +713,7 @@ namespace mud
 	{
 		Type& t = type<mud::Geometry>();
 		static Meta meta = { t, &namspc({ "mud" }), "Geometry", sizeof(mud::Geometry), TypeClass::Object };
+		meta.m_empty_var = var(Geometry());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Geometry, mud::Shape>() };
@@ -721,6 +732,7 @@ namespace mud
 	{
 		Type& t = type<mud::Grid2>();
 		static Meta meta = { t, &namspc({ "mud" }), "Grid2", sizeof(mud::Grid2), TypeClass::Struct };
+		meta.m_empty_var = var(Grid2());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Grid2, mud::Shape>() };
@@ -750,6 +762,7 @@ namespace mud
 	{
 		Type& t = type<mud::Grid3>();
 		static Meta meta = { t, &namspc({ "mud" }), "Grid3", sizeof(mud::Grid3), TypeClass::Struct };
+		meta.m_empty_var = var(Grid3());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Grid3, mud::Shape>() };
@@ -777,6 +790,7 @@ namespace mud
 	{
 		Type& t = type<mud::Line>();
 		static Meta meta = { t, &namspc({ "mud" }), "Line", sizeof(mud::Line), TypeClass::Struct };
+		meta.m_empty_var = var(Line());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Line, mud::Shape>() };
@@ -803,6 +817,7 @@ namespace mud
 	{
 		Type& t = type<mud::Points>();
 		static Meta meta = { t, &namspc({ "mud" }), "Points", sizeof(mud::Points), TypeClass::Struct };
+		meta.m_empty_var = var(Points());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Points, mud::Shape>() };
@@ -851,6 +866,7 @@ namespace mud
 	{
 		Type& t = type<mud::Polygon>();
 		static Meta meta = { t, &namspc({ "mud" }), "Polygon", sizeof(mud::Polygon), TypeClass::Struct };
+		meta.m_empty_var = var(Polygon());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Polygon, mud::Shape>() };
@@ -873,6 +889,7 @@ namespace mud
 	{
 		Type& t = type<mud::Quad>();
 		static Meta meta = { t, &namspc({ "mud" }), "Quad", sizeof(mud::Quad), TypeClass::Struct };
+		meta.m_empty_var = var(Quad());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Quad, mud::Shape>() };
@@ -895,6 +912,7 @@ namespace mud
 	{
 		Type& t = type<mud::Rect>();
 		static Meta meta = { t, &namspc({ "mud" }), "Rect", sizeof(mud::Rect), TypeClass::Struct };
+		meta.m_empty_var = var(Rect());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Rect, mud::Shape>() };
@@ -922,6 +940,7 @@ namespace mud
 	{
 		Type& t = type<mud::Ring>();
 		static Meta meta = { t, &namspc({ "mud" }), "Ring", sizeof(mud::Ring), TypeClass::Struct };
+		meta.m_empty_var = var(Ring());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Ring, mud::Shape>() };
@@ -952,6 +971,7 @@ namespace mud
 	{
 		Type& t = type<mud::Sphere>();
 		static Meta meta = { t, &namspc({ "mud" }), "Sphere", sizeof(mud::Sphere), TypeClass::Struct };
+		meta.m_empty_var = var(Sphere());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Sphere, mud::Shape>() };
@@ -979,6 +999,7 @@ namespace mud
 	{
 		Type& t = type<mud::SphereRing>();
 		static Meta meta = { t, &namspc({ "mud" }), "SphereRing", sizeof(mud::SphereRing), TypeClass::Struct };
+		meta.m_empty_var = var(SphereRing());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::SphereRing, mud::Shape>() };
@@ -1009,6 +1030,7 @@ namespace mud
 	{
 		Type& t = type<mud::Spheroid>();
 		static Meta meta = { t, &namspc({ "mud" }), "Spheroid", sizeof(mud::Spheroid), TypeClass::Struct };
+		meta.m_empty_var = var(Spheroid());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Spheroid, mud::Shape>() };
@@ -1036,6 +1058,7 @@ namespace mud
 	{
 		Type& t = type<mud::Torus>();
 		static Meta meta = { t, &namspc({ "mud" }), "Torus", sizeof(mud::Torus), TypeClass::Struct };
+		meta.m_empty_var = var(Torus());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Torus, mud::Shape>() };
@@ -1069,6 +1092,7 @@ namespace mud
 	{
 		Type& t = type<mud::Triangle>();
 		static Meta meta = { t, &namspc({ "mud" }), "Triangle", sizeof(mud::Triangle), TypeClass::Struct };
+		meta.m_empty_var = var(Triangle());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Triangle, mud::Shape>() };

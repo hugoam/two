@@ -45,12 +45,28 @@ namespace mud
 		DoubleSided
 	};
 
+	export_ struct refl_ MUD_GFX_EXPORT Batch
+	{
+		constr_ Batch();
+		constr_ Batch(Item& item);
+
+		attr_ Item* m_item = nullptr;
+
+		bgfx::InstanceDataBuffer m_buffer;
+		vector<bgfx::InstanceDataBuffer> m_buffers;
+
+		meth_ void update_aabb(span<mat4> instances);
+		meth_ void transforms(span<mat4> instances);
+		meth_ span<float> begin(uint32_t count, uint16_t stride);
+
+		void submit(bgfx::Encoder& encoder, const ModelItem& item) const;
+	};
+
 	export_ class refl_ MUD_GFX_EXPORT Item
 	{
 	public:
 		constr_ Item();
-		constr_ Item(Node3& node, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
-		~Item();
+		constr_ Item(Node3& node, const Model& model, uint32_t flags = 0, Material* material = nullptr);
 
 		attr_ Node3* m_node;
 		attr_ Model* m_model = nullptr;
@@ -62,20 +78,12 @@ namespace mud
 		attr_ Rig* m_rig = nullptr;
 
 		Aabb m_aabb;
+		Batch* m_batch = nullptr;
 
-		void update();
-		void update_instances();
+		meth_ void update_aabb();
 
 		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const ModelItem& item) const;
 
-		vector<mat4> m_instances;
-
-		vector<bgfx::InstanceDataBuffer> m_instance_buffers;
-		
-		vector<Light*> m_lights;
-		//vector<ReflectionProbe*> m_reflection_probes;
-		//vector<GIProbe*> m_gi_probes;
-		
 		vector<LightmapItem*> m_lightmaps;
 
 		float m_depth = 0.f;

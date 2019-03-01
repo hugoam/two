@@ -1,10 +1,11 @@
 #include <math/Image256.h>
 #include <geom/Aabb.h>
-#include <geom/Forward.h>
+#include <geom/Curve.h>
 #include <geom/Geom.h>
 #include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <geom/Geometry.h>
+#include <geom/Hilbert.h>
 #include <geom/Poisson.h>
 #include <geom/Primitive.h>
 #include <geom/Shape.h>

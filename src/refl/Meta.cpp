@@ -162,19 +162,19 @@ namespace mud
 	Class::~Class()
 	{}
 
-	void Class::inherit(vector<Type*> types)
+	void Class::inherit(span<Type*> types)
 	{
 		//for(Type* type : types)
 		//	if(g_class[type->m_id])
 		//	{
-		//		vector_prepend(m_members, cls(*type).m_members);
-		//		vector_prepend(m_methods, cls(*type).m_methods);
+		//		prepend(m_members, cls(*type).m_members);
+		//		prepend(m_methods, cls(*type).m_methods);
 		//	}
 	}
 
 	void Class::setup_class()
 	{
-		//this->inherit(m_bases);
+		this->inherit(m_bases);
 
 		for(size_t i = 0; i < m_members.size(); ++i)
 			m_members[i].m_index = int(i);
@@ -346,17 +346,23 @@ namespace mud
 	void copy_construct(Ref dest, Ref source)
 	{
 		if(is_basic(*dest.m_type))
-			memcpy(dest.m_value, source.m_value, meta(dest).m_size);
-		//else if(cls(dest).m_copy_constructors.size() > 0)
-		//	cls(dest).m_copy_constructors[0](dest, source);
+			memcpy(dest.m_value, source.m_value, type(dest).m_size);
+		else // if(cls(dest).m_copy_constructors.size() > 0)
+			;//meta(dest).copy_construct(dest, source);
 	}
 
-	void assign(Ref first, Ref second)
+	void assign(Ref dest, Ref source)
 	{
-		if(second.m_type->is(*first.m_type))
-			meta(first).copy_assign(first, second);
-		else
+		if(!source.m_type->is(*dest.m_type))
+		{
 			printf("WARNING: can't assign values of unrelated types\n");
+			return;
+		}
+
+		if(is_basic(*dest.m_type))
+			memcpy(dest.m_value, source.m_value, meta(dest).m_size);
+		else
+			meta(dest).copy_assign(dest, source);
 	}
 
 	void assign_pointer(Ref first, Ref second)

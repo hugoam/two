@@ -82,14 +82,23 @@ namespace mud
 		rgba |= uint8_t(col.a * 255.f) << 24;
 		return rgba;
 	}
+	
+	Colour rgb(uint32_t rgba)
+	{
+		Colour colour;
+		colour.r = ((rgba >> 16) & 0xFF) / 255.f;
+		colour.g = ((rgba >> 8)  & 0xFF) / 255.f;
+		colour.b = ((rgba >> 0)  & 0xFF) / 255.f;
+		return colour;
+	}
 
 	Colour rgba(uint32_t rgba)
 	{
 		Colour colour;
 		colour.r =  (rgba >> 24) / 255.f;
 		colour.g = ((rgba >> 16) & 0xFF) / 255.f;
-		colour.b = ((rgba >> 8) & 0xFF) / 255.f;
-		colour.a = ((rgba >> 0) & 0xFF) / 255.f;
+		colour.b = ((rgba >> 8)  & 0xFF) / 255.f;
+		colour.a = ((rgba >> 0)  & 0xFF) / 255.f;
 		return colour;
 	}
 

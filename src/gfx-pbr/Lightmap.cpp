@@ -260,7 +260,7 @@ namespace mud
 			result.m_indices.push_back(xmesh->indexArray[i]);
 		}
 
-		mesh.write(PLAIN, result, false);
+		mesh.write(result, false);
 	}
 
 	void unwrap_model(Model& model, ModelUnwrap& unwrap, uint32_t rect_size, float density)
@@ -296,7 +296,7 @@ namespace mud
 			mesh.read(geometry[i], model.m_items[i].m_transform);
 
 			bool skip = false;
-			skip |= mesh.m_draw_mode != PLAIN;
+			skip |= mesh.m_primitive != PrimitiveType::Triangles;
 			skip |= !mesh.m_cache.m_vertex_format;
 
 			bool success = skip ? false : atlas.add_mesh(mesh, geometry[i]);
@@ -512,8 +512,8 @@ namespace mud
 	void BlockLightmap::submit(Render& render, const Pass& render_pass) const
 	{
 		UNUSED(render); UNUSED(render_pass);
-		uint32_t lightmap = uint32_t(TextureSampler::Lightmap);
-		bgfx::setViewUniform(render_pass.m_index, u_lightmap.s_lightmap, &lightmap);
+		//uint32_t lightmap = uint32_t(TextureSampler::Lightmap);
+		//bgfx::setViewUniform(render_pass.m_index, u_lightmap.s_lightmap, &lightmap);
 	}
 
 	void BlockLightmap::submit(Render& render, const DrawElement& element, const Pass& render_pass) const

@@ -35,7 +35,7 @@ namespace mud
 {
 	Scene::Scene(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
-		, m_immediate(oconstruct<ImmediateDraw>(gfx_system.fetch_material("immediate", "unshaded")))
+		, m_immediate(oconstruct<ImmediateDraw>(gfx_system.fetch_material("immediate", "solid")))
 		, m_pass_jobs(oconstruct<PassJobs>())
 		, m_graph(*this)
 	{
@@ -62,13 +62,10 @@ namespace mud
 			animated.advance(timestep);
 		});
 
-		m_pool->pool<Item>().iterate([=](Item& item)
-		{
-			item.update();
-		});
-
 		for(PassType pass = PassType(0); pass != PassType::Count; pass = PassType(size_t(pass) + 1))
+		{
 			m_pass_jobs->m_jobs[pass].clear();
+		}
 	}
 
 	Gnode& Scene::begin()

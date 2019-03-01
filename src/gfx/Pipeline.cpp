@@ -44,7 +44,7 @@ namespace mud
 		// effects
 
 		pipeline.m_pass_blocks[PassType::Depth] = { &depth };
-		pipeline.m_pass_blocks[PassType::Unshaded] = {};
+		pipeline.m_pass_blocks[PassType::Solid] = {};
 		pipeline.m_pass_blocks[PassType::Background] = { &sky };
 		pipeline.m_pass_blocks[PassType::Opaque] = {};
 		pipeline.m_pass_blocks[PassType::Alpha] = {};
@@ -53,10 +53,10 @@ namespace mud
 
 		auto create_programs = [&]()
 		{
-			Program& unshaded = gfx_system.programs().create("unshaded");
-			unshaded.register_blocks(pipeline.m_pass_blocks[PassType::Unshaded]);
-			unshaded.m_blocks[MaterialBlock::Alpha] = true;
-			unshaded.m_blocks[MaterialBlock::Unshaded] = true;
+			Program& solid = gfx_system.programs().create("solid");
+			solid.register_blocks(pipeline.m_pass_blocks[PassType::Solid]);
+			solid.m_blocks[MaterialBlock::Alpha] = true;
+			solid.m_blocks[MaterialBlock::Solid] = true;
 
 			Program& depth = gfx_system.programs().create("depth");
 			depth.register_blocks(pipeline.m_pass_blocks[PassType::Depth]);
@@ -101,16 +101,16 @@ namespace mud
 		this->add_pass<PassClear>(gfx_system);
 		//this->add_pass<PassOpaque>(gfx_system);
 		this->add_pass<PassParticles>(gfx_system);
-		this->add_pass<PassUnshaded>(gfx_system);
+		this->add_pass<PassSolid>(gfx_system);
 		this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
 		this->init();
 	}
 
-	UnshadedRenderer::UnshadedRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Unshaded)
+	SolidRenderer::SolidRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
+		: Renderer(gfx_system, pipeline, Shading::Solid)
 	{
 		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassUnshaded>(gfx_system);
+		this->add_pass<PassSolid>(gfx_system);
 		this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
 		this->init();
 	}
@@ -151,11 +151,11 @@ namespace mud
 		bgfx::touch(render_pass.m_index);
 	}
 
-	PassUnshaded::PassUnshaded(GfxSystem& gfx_system)
-		: DrawPass(gfx_system, "unshaded", PassType::Unshaded)
+	PassSolid::PassSolid(GfxSystem& gfx_system)
+		: DrawPass(gfx_system, "solid", PassType::Solid)
 	{}
 
-	void PassUnshaded::next_draw_pass(Render& render, Pass& render_pass)
+	void PassSolid::next_draw_pass(Render& render, Pass& render_pass)
 	{
 		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A //| BGFX_STATE_DEPTH_TEST_LEQUAL
 									 | BGFX_STATE_MSAA | BGFX_STATE_CULL_CW | BGFX_STATE_BLEND_ALPHA;
@@ -165,11 +165,11 @@ namespace mud
 			immediate->submit(encoder, render_pass.m_index, render_pass.m_bgfx_state);
 	}
 
-	void PassUnshaded::queue_draw_element(Render& render, DrawElement& element)
+	void PassSolid::queue_draw_element(Render& render, DrawElement& element)
 	{
 		UNUSED(render);
 
-		if(element.m_program->m_blocks[MaterialBlock::Unshaded] || element.m_program->m_blocks[MaterialBlock::Fresnel])
+		if(element.m_program->m_blocks[MaterialBlock::Solid] || element.m_program->m_blocks[MaterialBlock::Fresnel])
 			this->add_element(render, element);
 	}
 

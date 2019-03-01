@@ -199,7 +199,7 @@ namespace mud
 			if(!m_bones.empty())	writer.joints(joints(m_bones[i]));
 			if(!m_weights.empty())	writer.weights(m_weights[i]);
 
-			if(m_indices.empty())
+			if(m_primitive == PrimitiveType::Triangles && m_indices.empty())
 				writer.index(i);
 		}
 

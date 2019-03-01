@@ -140,9 +140,10 @@ namespace mud
 
 		// track if we need to update our internal state before froxelizing
 		uint8_t m_dirty = 0;
-		enum {
-			VIEWPORT_CHANGED = 0x01,
-			PROJECTION_CHANGED = 0x02
+		enum class Dirty {
+			None = 0,
+			Viewport,
+			Projection
 		};
 	};
 

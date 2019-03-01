@@ -31,7 +31,7 @@ namespace mud
 	export_ enum class refl_ Shading : unsigned int
 	{
 		Wireframe,
-		Unshaded,
+		Solid,
 		Shaded,
 		Volume,
 		Voxels,

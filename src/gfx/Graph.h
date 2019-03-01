@@ -39,6 +39,7 @@ namespace mud
 		Node3* m_attach = nullptr;
 		Node3* m_node = nullptr;
 		Item* m_item = nullptr;
+		Batch* m_batch = nullptr;
 		Mime* m_animated = nullptr;
 		Flare* m_particles = nullptr;
 		Light* m_light = nullptr;

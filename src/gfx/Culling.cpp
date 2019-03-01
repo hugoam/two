@@ -282,7 +282,7 @@ namespace mud
 			{
 				Mesh& mesh = *model_item.m_mesh;
 
-				if(mesh.m_draw_mode == DrawMode::OUTLINE)
+				if(mesh.m_primitive < PrimitiveType::Triangles)
 					continue;
 
 				float* vertices = (float*)mesh.m_cached_vertices.data();

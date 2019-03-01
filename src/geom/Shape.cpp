@@ -156,20 +156,20 @@ namespace mud
 		m_extents = (bmax - bmin) * 0.5f;
 	}
 
-	void Aabb::mergeSafe(const Aabb& other)
-	{
-		if(other.m_empty) return;
-		if(m_empty) *this = other; else this->merge(other);
-		m_empty = false;
-	}
-
 	void Aabb::merge(const Aabb& other)
 	{
-		vec3 max_bounds = max(m_center + m_extents, other.m_center + other.m_extents);
-		vec3 min_bounds = min(m_center - m_extents, other.m_center - other.m_extents);
+		if(other.m_empty) return;
+		if(m_empty)
+		{
+			*this = other;
+			return;
+		}
 
-		m_center = (max_bounds + min_bounds) * 0.5f;
-		m_extents = (max_bounds - min_bounds) * 0.5f;
+		vec3 bmax = max(m_center + m_extents, other.m_center + other.m_extents);
+		vec3 bmin = min(m_center - m_extents, other.m_center - other.m_extents);
+
+		m_center = (bmax + bmin) * 0.5f;
+		m_extents = (bmax - bmin) * 0.5f;
 	}
 
 	bool Aabb::cull(const vec3& point) const
@@ -276,8 +276,8 @@ namespace mud
 
 	inline vec3 distribute_sphere(float radius, float h = 2.f, float maxh = 1.f)
 	{
-		const float rand0 = random_scalar(0.f, 1.f) * h - maxh;
-		const float rand1 = random_scalar(0.f, 1.f) * c_pi * 2.f;
+		const float rand0 = randf(0.f, 1.f) * h - maxh;
+		const float rand1 = randf(0.f, 1.f) * c_pi * 2.f;
 		const float sqrtf1 = sqrt(1.0f - rand0 * rand0);
 
 		return vec3{ sqrtf1 * cos(rand1), sqrtf1 * sin(rand1), rand0 } * radius;
@@ -292,27 +292,27 @@ namespace mud
 
 	inline vec3 distribute_circle(float radius)
 	{
-		const float angle = random_scalar(0.f, 1.f) * c_pi * 2.f;
+		const float angle = randf(0.f, 1.f) * c_pi * 2.f;
 		return vec3{ cos(angle), 0.0f, sin(angle) } * radius;
 	}
 
 	inline vec3 distribute_ring(float radius, float min = 0.f, float max = 1.f)
 	{
-		const float size = random_scalar(min, max);
+		const float size = randf(min, max);
 		vec3 pos = distribute_circle(radius);
 		return pos * size;
 	}
 
 	inline vec3 distribute_rect(float width = 1.f, float height = 1.f)
 	{
-		const float x = random_scalar(-1.f, 1.f);
-		const float y = random_scalar(-1.f, 1.f);
+		const float x = randf(-1.f, 1.f);
+		const float y = randf(-1.f, 1.f);
 		return { x * width, 0.f, y * height };
 	}
 
 	inline vec3 distribute_points(const vector<vec3>& points)
 	{
-		uint index = random_integer(0U, uint(points.size()) - 1U);
+		uint index = randi(0U, uint(points.size()) - 1U);
 		return points[index];
 	}
 

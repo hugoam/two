@@ -20,27 +20,4 @@ module mud.gfx;
 
 namespace mud
 {
-	ManualRender::ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect)
-		: m_render(render)
-		, m_camera()
-		, m_viewport(m_camera, render.m_scene, viewport_rect)
-		, m_sub_render(shading, m_viewport, fbo, render.m_frame)
-	{
-		m_sub_render.m_shot->m_lights = m_render.m_shot->m_lights;
-	}
-
-	ManualRender::ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection, bool ortho)
-		: m_render(render)
-		, m_camera(transform, projection, ortho)
-		, m_viewport(m_camera, render.m_scene, viewport_rect)
-		, m_sub_render(shading, m_viewport, fbo, render.m_frame)
-	{
-		m_sub_render.m_shot->m_lights = m_render.m_shot->m_lights;
-	}
-
-	void ManualRender::render(Renderer& renderer)
-	{
-		renderer.render(m_sub_render);
-		m_render.m_pass_index = m_sub_render.m_pass_index;
-	}
 }

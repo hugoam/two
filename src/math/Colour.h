@@ -69,6 +69,7 @@ namespace mud
 		attr_ static Colour None;
 	};
 
+	export_ MUD_MATH_EXPORT func_ Colour rgb(uint32_t colour);
 	export_ MUD_MATH_EXPORT func_ Colour rgba(uint32_t colour);
 	export_ MUD_MATH_EXPORT func_ Colour abgr(uint32_t colour);
 

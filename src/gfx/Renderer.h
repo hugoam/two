@@ -86,7 +86,7 @@ namespace mud
 		Background,
 		Flare,
 		Alpha,
-		Unshaded,
+		Solid,
 		Effects,
 		PostProcess,
 		Flip,

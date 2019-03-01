@@ -160,21 +160,21 @@ namespace mud
 		unpack(unpacker, value, json_value);
 	}
 	
-	Var unpack(FromJson& unpacker, Type& type, const json& json_value, bool typed)
+	Var unpack(FromJson& unpacker, Type& type, const json& json_value)
 	{
 		Var result = meta(type).m_empty_var;
-		unpack(unpacker, result, json_value, typed);
+		unpack(unpacker, result.m_ref, json_value);
 		return result;
 	}
 
-	void unpack(FromJson& unpacker, Var& value, const json& json_value, bool typed)
+	void unpack(FromJson& unpacker, Var& value, const json& json_value)
 	{
 		if(json_value.is_null())
 			return;
 
 		// @note: we MUST take a Var& as parameter of this function for this specific case
 		// -> polymorphic objects must be created by value since we don't know in advance the actual type we are loading
-		if(g_class[type(value).m_id] && cls(value).m_type_member && !typed) // @kludge this parameter is only there to tell us we were called from the typed variant of this function, couldn't think of a better design at this time of the day
+		if(is_abstract(type(value)))
 		{
 			value = unpack_typed(unpacker, json_value);
 			return;
@@ -231,9 +231,10 @@ namespace mud
 #if MUD_DEBUG_SERIAL
 				printf("DEBUG: unpacking member %s :: %s\n", type(value).m_name, member.m_name);
 #endif
-				Ref m = member.get(value);
-				unpack(unpacker, m, member_value);
-				//member.set(value, unpack(unpacker, *member.m_type, member_value));
+				if(is_abstract(*member.m_type))
+					member.set(value, unpack_typed(unpacker, member_value));
+				else
+					unpack(unpacker, member.get(value), member_value);
 			};
 
 			if(json_value.is_object())
@@ -258,15 +259,20 @@ namespace mud
 
 			for(size_t index = 0; index < size; ++index)
 			{
+				const Param& param = construct.m_callable->m_params[index + 1];
 #ifdef MUD_DEBUG_SERIAL
-				printf("DEBUG: unpacking member %s :: %s\n", type(value).m_name, construct.m_callable->m_params[index + 1].m_name);
+				printf("DEBUG: unpacking param %s :: %s\n", type(value).m_name, param.m_name);
 #endif
 				const json& json_field = json_value.is_array() ? json_value[index]
-															   : json_value[construct.m_callable->m_params[index + 1].m_name];
+															   : json_value[param.m_name];
 
-				unpack(unpacker, construct.m_args[index + 1], json_field);
+				if(is_abstract(*param.m_type))
+					construct.m_args[index + 1] = unpack_typed(unpacker, json_field);
+				else
+					unpack(unpacker, construct.m_args[index + 1], json_field);
 			}
 
+			construct.prepare();
 			construct(value);
 		}
 	}
@@ -275,7 +281,8 @@ namespace mud
 	{
 		cstring type_name = json_typed_value["type"].string_value().c_str();
 		json json_value = json_typed_value["value"];
-		return unpack(unpacker, *System::instance().find_type(type_name), json_value, true);
+		Type& type = *System::instance().find_type(type_name);
+		return unpack(unpacker, type, json_value);
 	}
 
 	Var unpack_typed(const json& json_value)

@@ -51,7 +51,7 @@ namespace stl
 			return m_func(m_storage, static_cast<Args&&>(args)...);
 		}
 
-		explicit operator bool() { return m_func != nullptr; }
+		explicit operator bool() const { return m_func != nullptr; }
 
 		using Func = Return(*)(const void*, Args...); Func m_func = nullptr;
 		using Dtor = void(*)(void*); Dtor m_dtor = nullptr;

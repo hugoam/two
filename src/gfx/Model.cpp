@@ -60,8 +60,8 @@ namespace mud
 
 		for(const ModelItem& item: m_items)
 		{
-			m_geometry[item.m_mesh->m_draw_mode] = true;
-			m_aabb.mergeSafe(transform_aabb(item.m_mesh->m_aabb, item.m_transform));
+			m_geometry[item.m_mesh->m_primitive] = true;
+			m_aabb.merge(transform_aabb(item.m_mesh->m_aabb, item.m_transform));
 		}
 
 		m_radius = sqrt(2.f) * max(m_aabb.m_extents.x, max(m_aabb.m_extents.y, m_aabb.m_extents.z));

@@ -51,7 +51,9 @@ namespace mud
 	{
 		Base,
 		Alpha,
-		Unshaded,
+		Solid,
+		Point,
+		Line,
 		Pbr,
 		Fresnel,
 		Count

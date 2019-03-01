@@ -38,9 +38,9 @@ namespace mud
 	{
 		float distance = point.radius + radius;
 
-		float rr = m_overlap ? random_scalar(point.radius, distance)
-							 : random_scalar(distance, distance * 2.f);
-		float rt = random_scalar(0.f, float(2.f * c_pi));
+		float rr = m_overlap ? randf(point.radius, distance)
+							 : randf(distance, distance * 2.f);
+		float rt = randf(0.f, float(2.f * c_pi));
 
 		float x = rr * sin(rt) + point.position.x;
 		float y = rr * cos(rt) + point.position.y;
@@ -83,7 +83,7 @@ namespace mud
 		if(m_points.empty())
 		{
 			if(!m_start_from_center)
-				pushPoint({ vec3(random_scalar(0.f, m_size.x), random_scalar(0.f, m_size.y), 0.f), radius });
+				pushPoint({ vec3(randf(0.f, m_size.x), randf(0.f, m_size.y), 0.f), radius });
 			else
 				pushPoint({ vec3(0.5f, 0.5f, 0.f), radius });
 			return true;
@@ -91,7 +91,7 @@ namespace mud
 
 		while(!m_unprocessed.empty())
 		{
-			uint index = random_integer(0U, uint(m_unprocessed.size()) - 1);
+			uint index = randi(0U, uint(m_unprocessed.size()) - 1);
 			Point& refpoint = m_unprocessed[index];
 
 			for(; refpoint.visits < m_k; ++refpoint.visits)

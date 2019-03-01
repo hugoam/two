@@ -44,6 +44,7 @@ namespace mud
 
 	template class TPool<Node3>;
 	template class TPool<Item>;
+	template class TPool<Batch>;
 	template class TPool<Mime>;
 	template class TPool<Light>;
 	template class TPool<Flare>;
@@ -69,6 +70,11 @@ namespace mud
 		{
 			m_scene->m_pool->pool<Item>().tdestroy(*m_item);
 			m_item = nullptr;
+		}
+		if(m_batch)
+		{
+			m_scene->m_pool->pool<Batch>().tdestroy(*m_batch);
+			m_batch = nullptr;
 		}
 		if(m_animated)
 		{
@@ -121,11 +127,12 @@ namespace gfx
 		gfx.init_pipeline(pipeline_minimal);
 	}
 
-	TPool<Node3>&  nodes(Scene& scene)  { return scene.m_pool->pool<Node3>(); }
-	TPool<Item>&   items(Scene& scene)  { return scene.m_pool->pool<Item>(); }
-	TPool<Mime>&   mimes(Scene& scene)  { return scene.m_pool->pool<Mime>(); }
-	TPool<Light>&  lights(Scene& scene) { return scene.m_pool->pool<Light>(); }
-	TPool<Flare>&  flares(Scene& scene) { return scene.m_pool->pool<Flare>(); }
+	TPool<Node3>&  nodes(Scene& scene)   { return scene.m_pool->pool<Node3>(); }
+	TPool<Item>&   items(Scene& scene)   { return scene.m_pool->pool<Item>(); }
+	TPool<Batch>&  batches(Scene& scene) { return scene.m_pool->pool<Batch>(); }
+	TPool<Mime>&   mimes(Scene& scene)   { return scene.m_pool->pool<Mime>(); }
+	TPool<Light>&  lights(Scene& scene)  { return scene.m_pool->pool<Light>(); }
+	TPool<Flare>&  flares(Scene& scene)  { return scene.m_pool->pool<Flare>(); }
 
 	Gnode& node(Gnode& parent, Ref object, const mat4& transform)
 	{
@@ -160,61 +167,47 @@ namespace gfx
 		return node(parent, object, parent.m_attach->m_transform * bxTRS(vec3(1.f), rotation, position));
 	}
 
-	void update_item_aabb(Item& item)
-	{
-		if(item.m_instances.size() == 0)
-		{
-			item.m_aabb = transform_aabb(item.m_model->m_aabb, item.m_node->m_transform);
-		}
-		else
-		{
-			item.m_aabb = {};
-			for(const mat4& transform : item.m_instances)
-				item.m_aabb.mergeSafe(transform_aabb(item.m_model->m_aabb, transform));
-		}
-	}
-
-	void update_item_lights(Scene& scene, Item& item)
-	{
-		item.m_lights.clear();
-
-		scene.m_pool->pool<Light>().iterate([&](Light& light)
-		{
-			if(light.m_type == LightType::Direct || sphere_aabb_intersection(light.m_node.position(), light.m_range, item.m_aabb))
-				item.m_lights.push_back(&light);
-		});
-	}
-
-	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material, size_t instances, span<mat4> transforms)
+	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material)
 	{
 		Gnode& self = parent.suba<Gnode>();
 		bool update = (flags & ItemFlag::NoUpdate) == 0;
 		if(!self.m_item)
 		{
-			self.m_item = &create<Item>(*self.m_scene, *self.m_attach, model, flags, material, instances);
+			self.m_item = &create<Item>(*self.m_scene, *self.m_attach, model, flags, material);
 			update = true;
 		}
 		self.m_item->m_model = const_cast<Model*>(&model);
 		self.m_item->m_material = material;
-		if(transforms.size() > 0)
-		{
-			self.m_item->m_instances.resize(instances);
-			copy<mat4>(self.m_item->m_instances, transforms);
-		}
-		if(instances > 0)
-		{
-			self.m_item->m_instances.resize(instances);
-			self.m_item->update_instances();
-		}
 		if(update)
 		{
-			update_item_aabb(*self.m_item);
-			update_item_lights(*self.m_scene, *self.m_item);
+			self.m_item->update_aabb();
 		}
 		return *self.m_item;
 	}
 
-	void prefab(Gnode& parent, const Prefab& prefab, bool transform, uint32_t flags, Material* material, size_t instances, span<mat4> transforms)
+	Batch& batch(Gnode& parent, Item& item)
+	{
+		Gnode& self = parent.suba<Gnode>();
+		if(!self.m_batch)
+		{
+			self.m_batch = &create<Batch>(*self.m_scene, item);
+		}
+		return *self.m_batch;
+	}
+
+	Batch& instances(Gnode& parent, Item& item, span<mat4> transforms)
+	{
+		Gnode& self = parent.suba<Gnode>();
+		if(!self.m_batch)
+		{
+			self.m_batch = &create<Batch>(*self.m_scene, item);
+		}
+		self.m_batch->transforms(transforms);
+		self.m_batch->update_aabb(transforms);
+		return *self.m_batch;
+	}
+
+	void prefab(Gnode& parent, const Prefab& prefab, bool transform, uint32_t flags, Material* material)
 	{
 		Gnode& self = parent.suba<Gnode>();
 		
@@ -223,7 +216,7 @@ namespace gfx
 			mat4 tr = transform ? parent.m_attach->m_transform * prefab.m_nodes[i].m_transform
 								: prefab.m_nodes[i].m_transform;
 			Gnode& no = node(self, {}, tr);
-			Item& it = item(no, *prefab.m_items[i].m_model, prefab.m_items[i].m_flags | flags, material, instances, transforms);
+			Item& it = item(no, *prefab.m_items[i].m_model, prefab.m_items[i].m_flags | flags, material);
 			//it = prefab.m_items[i];
 			//shape(self, Cube(i.m_aabb.m_center, vec3(0.1f)), Symbol::wire(Colour::Red, true));
 			//shape(self, submodel->m_aabb, Symbol::wire(Colour::White));
@@ -231,21 +224,21 @@ namespace gfx
 		}
 	}
 
-	Item& shape_item(Gnode& parent, Model& model, const Symbol& symbol, uint32_t flags, Material* material, size_t instances, DrawMode draw_mode)
+	Item& shape_item(Gnode& parent, Model& model, const Symbol& symbol, uint32_t flags, Material* material, DrawMode draw_mode)
 	{
-		Item& self = item(parent, model, flags, material, instances);
+		Item& self = item(parent, model, flags, material);
 		self.m_material = material ? material : &parent.m_scene->m_gfx_system.fetch_symbol_material(symbol, draw_mode);
 		return self;
 	}
 
-	Item& shape(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags, Material* material, size_t instances)
+	Item& shape(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags, Material* material)
 	{
 		Item* item = nullptr;
 		Symbol white = { Colour::White, Colour::White };
 		if(symbol.fill())
-			item = &shape_item(parent, parent.m_scene->m_gfx_system.fetch_symbol(white, shape, PLAIN), symbol, flags, material, instances, PLAIN);
+			item = &shape_item(parent, parent.m_scene->m_gfx_system.fetch_symbol(white, shape, PLAIN), symbol, flags, material, PLAIN);
 		if(symbol.outline())
-			item = &shape_item(parent, parent.m_scene->m_gfx_system.fetch_symbol(white, shape, OUTLINE), symbol, flags, material, instances, OUTLINE);
+			item = &shape_item(parent, parent.m_scene->m_gfx_system.fetch_symbol(white, shape, OUTLINE), symbol, flags, material, OUTLINE);
 		return *item;
 	}
 
@@ -263,16 +256,16 @@ namespace gfx
 		draw(*parent.m_scene, parent.m_attach->m_transform, shape, symbol, flags);
 	}
 
-	Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags, Material* material, size_t instances)
+	Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags, Material* material)
 	{
-		return shape(parent, Quad(size), { image }, flags, material, instances);
+		return shape(parent, Quad(size), { image }, flags, material);
 	}
 
-	Item* model(Gnode& parent, const string& name, uint32_t flags, Material* material, size_t instances)
+	Item* model(Gnode& parent, const string& name, uint32_t flags, Material* material)
 	{
 		Model* model = parent.m_scene->m_gfx_system.models().file(name.c_str());
 		if(model)
-			return &item(parent, *model, flags, material, instances);
+			return &item(parent, *model, flags, material);
 		return nullptr;
 	}
 
@@ -287,9 +280,9 @@ namespace gfx
 		return *self.m_animated;
 	}
 
-	Flare& flows(Gnode& parent, const Flow& emitter, uint32_t flags, size_t instances)
+	Flare& flows(Gnode& parent, const Flow& emitter, uint32_t flags)
 	{
-		UNUSED(flags); UNUSED(instances);
+		UNUSED(flags);
 		Gnode& self = parent.suba();
 		if(!self.m_particles)
 			self.m_particles = &create<Flare>(*self.m_scene, self.m_attach, Sphere(1.f), 1024);
@@ -366,12 +359,12 @@ namespace gfx
 		parent.m_scene->m_pass_jobs->m_jobs[pass].push_back(job);
 	}
 
-	Material& unshaded_material(GfxSystem& gfx_system, cstring name, const Colour& colour)
+	Material& solid_material(GfxSystem& gfx_system, cstring name, const Colour& colour)
 	{
-		Program& program = *gfx_system.programs().file("unshaded");
+		Program& program = *gfx_system.programs().file("solid");
 		Material& material = gfx_system.materials().fetch(name);
 		material.m_program = &program;
-		material.m_unshaded.m_colour = colour;
+		material.m_solid.m_colour = colour;
 		return material;
 	}
 

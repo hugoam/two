@@ -54,10 +54,10 @@ namespace mud
 		virtual void submit_render_pass(Render& render) final;
 	};
 
-	export_ class MUD_GFX_EXPORT PassUnshaded : public DrawPass
+	export_ class MUD_GFX_EXPORT PassSolid : public DrawPass
 	{
 	public:
-		PassUnshaded(GfxSystem& gfx_system);
+		PassSolid(GfxSystem& gfx_system);
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
@@ -86,9 +86,9 @@ namespace mud
 		MinimalRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
 	};
 
-	struct UnshadedRenderer : public Renderer
+	struct SolidRenderer : public Renderer
 	{
-		UnshadedRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		SolidRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
 	};
 
 	struct ClearRenderer : public Renderer

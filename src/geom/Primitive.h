@@ -28,7 +28,8 @@ namespace mud
 		LineStrip = 3,
 		Triangles = 4,
 		TriangleStrip = 5,
-		TriangleFan = 6
+		TriangleFan = 6,
+		Count
 	};
 
 	export_ struct VertexAttribute

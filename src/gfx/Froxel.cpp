@@ -163,16 +163,16 @@ namespace mud
 	bool Froxelizer::update(const Viewport& viewport, const mat4& projection, float near, float far)
 	{
 		if(m_viewport != &viewport || m_viewport->m_rect != viewport.m_rect) //[[unlikely]]
-			m_dirty |= VIEWPORT_CHANGED;
+			m_dirty |= uint8_t(Dirty::Viewport);
 		if(m_projection != projection) //[[unlikely]]
-			m_dirty |= PROJECTION_CHANGED;
+			m_dirty |= uint8_t(Dirty::Projection);
 
 		//if(all(less(abs(m_projection), vec3(EPSILON))))
 
 		m_viewport = &viewport;
 		m_projection = projection;
 		m_near = near;
-		UNUSED(far);
+		m_light_far = far;
 
 		bool uniformsNeedUpdating = false;
 
@@ -261,13 +261,13 @@ namespace mud
 	bool Froxelizer::update()
 	{
 		bool uniformsNeedUpdating = false;
-		if(m_dirty & VIEWPORT_CHANGED) // [[unlikely]] 
+		if(m_dirty & uint8_t(Dirty::Viewport)) // [[unlikely]] 
 		{
 			update_viewport();
 			uniformsNeedUpdating = true;
 		}
 
-		if(m_dirty & (PROJECTION_CHANGED | VIEWPORT_CHANGED)) // [[unlikely]] 
+		if(m_dirty & uint8_t(Dirty::Projection) | uint8_t(Dirty::Viewport)) // [[unlikely]] 
 		{
 			update_projection();
 			uniformsNeedUpdating = true;
@@ -308,7 +308,6 @@ namespace mud
 		attr_ gpu_ vec3 params_f;
 		attr_ gpu_ vec4 params_z;
 	};
-
 
 	void Froxelizer::submit(const Pass& render_pass) const
 	{

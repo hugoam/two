@@ -265,7 +265,7 @@ namespace mud
 				Mesh& mesh = model.add_mesh(m_name, true);
 
 				m_shape.bake(!m_normals, m_generate_tangents && m_uvs);
-				mesh.write(PLAIN, m_shape, m_config.m_optimize_geometry);
+				mesh.write(m_shape, m_config.m_optimize_geometry);
 				mesh.m_material = m_material;
 				m_import.m_meshes.push_back(&mesh);
 
