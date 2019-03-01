@@ -12,7 +12,7 @@
 
 using namespace mud;
 
-#define CLUSTERED 0
+#define CLUSTERED 1
 #define DEBUG_CLUSTERED 0
 #define OCCLUSION 0
 #define DOCKBAR 1
@@ -28,7 +28,7 @@ vector<LightInstance> create_light_grid(size_t size_x, size_t size_y)
 		for(size_t y = 0; y < size_y; ++y)
 		{
 			LightInstance& light_item = light_items[x + y * size_x];
-			light_item.colour = to_rgba({ random_scalar(0.f, 1.f), 1.f, 0.5f });
+			light_item.colour = hsl(randf(0.f, 1.f), 1.f, 0.5f);
 		}
 
 	return light_items;
@@ -118,18 +118,19 @@ void ex_04_lights(Shell& app, Widget& parent)
 #endif
 
 #if CLUSTERED
-	if(clustered && viewer.m_viewport.m_rect != uvec4(0U) && !viewer.m_camera.m_clusters)
+	Camera& camera = viewer.m_camera;
+	if(clustered && viewer.m_viewport.m_rect != uvec4(0U) && !camera.m_clusters)
 	{
-		viewer.m_camera.m_clustered = true;
-		viewer.m_camera.m_clusters = make_unique<Froxelizer>(app.m_gfx_system);
-		viewer.m_camera.m_clusters->prepare(viewer.m_viewport, viewer.m_camera.m_projection, viewer.m_camera.m_near, viewer.m_camera.m_far);
+		camera.m_clustered = true;
+		camera.m_clusters = make_unique<Froxelizer>(app.m_gfx_system);
+		camera.m_clusters->prepare(viewer.m_viewport, camera.m_projection, camera.m_near, camera.m_far);
 	}
 #endif
 
 #if DEBUG_CLUSTERED
 	if(debug)
 	{
-		Viewer& debug_viewer = ui::viewer(parent, *viewer.m_scene);
+		Viewer& debug_viewer = ui::viewer(parent, viewer.m_scene);
 		ui::free_orbit_controller(debug_viewer);
 		debug_draw_light_clusters(scene, viewer.m_camera);
 	}

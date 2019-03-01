@@ -11,8 +11,12 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//xx_lights_point(app, parent, dockbar);
 	//xx_shadow_point(app, parent, dockbar);
 	//xx_shader(app, parent, dockbar);
-	xx_shader_lava(app, parent, dockbar);
+	//xx_shader_lava(app, parent, dockbar);
 	//xx_tiled_forward(app, parent, dockbar);
+	//xx_performance(app, parent, dockbar);
+	xx_billboards(app, parent, dockbar);
+	//xx_lines_fat(app, parent, dockbar);
+	//xx_buffergeometry(app, parent, dockbar);
 }
 
 #ifdef _XX_THREE_EXE

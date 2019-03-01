@@ -137,7 +137,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 		orbit.m_position = Y3 * 1.f;
 
 		for(size_t i = 1; i < num_characters; ++i)
-			characters[i].m_position = { random_scalar<float>(-10.f, 10.f), 0.f, random_scalar<float>(-10.f, 10.f) };
+			characters[i].m_position = { randf(-10.f, 10.f), 0.f, randf(-10.f, 10.f) };
 
 		once = true;
 	}

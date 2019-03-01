@@ -1,6 +1,8 @@
 //#include <mud/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
+#include <gfx-obj/Api.h>
+#include <gfx-gltf/Api.h>
 #include <wfc/Api.h>
 #include <wfc-gfx/Api.h>
 
@@ -20,6 +22,9 @@ WaveTileset& create_tileset(Shell& app)
 
 void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	static ImporterOBJ obj_importer(app.m_gfx_system);
+	static ImporterGltf gtlf_importer(app.m_gfx_system);
+
 	//static VisualScript& script = create_visual_script(app);
 
 	SceneViewer& viewer = ui::scene_viewer(parent);

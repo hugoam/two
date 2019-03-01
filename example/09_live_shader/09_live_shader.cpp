@@ -75,7 +75,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 		filter.submit_quad(*render_pass.m_target, render_pass.m_index, render_pass.m_target->m_fbo, program.default_version(), { render_pass.m_viewport->m_rect });
 	};
 
-	gfx::manual_job(scene, PassType::Unshaded, draw_quad);
+	gfx::manual_job(scene, PassType::Solid, draw_quad);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{

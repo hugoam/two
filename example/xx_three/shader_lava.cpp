@@ -157,8 +157,6 @@ void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar)
 		node = &gfx::nodes(scene).add(Node3(vec3(0.f), quat(angles)));
 		Item& it = gfx::items(scene).add(Item(*node, model, 0U, &material));
 
-		gfx::update_item_aabb(it);
-
 		//var renderModel = new THREE.RenderPass(scene, camera);
 		//var effectBloom = new THREE.BloomPass(1.25);
 		//var effectFilm = new THREE.FilmPass(0.35, 0.95, 2048, false);

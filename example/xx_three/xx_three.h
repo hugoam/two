@@ -14,5 +14,10 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar);
+void xx_performance(Shell& app, Widget& parent, Dockbar& dockbar);
+void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar);
+void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar);
+void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar);
+void xx_buffergeometry(Shell& app, Widget& parent, Dockbar& dockbar);
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar);

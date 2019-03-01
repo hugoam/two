@@ -7,6 +7,8 @@
 
 #include <stl/vector.hpp>
 
+#define CLUSTERED 1
+
 #if 0
 // Simple form of tiled forward lighting
 // using texels as bitmasks of 32 lights
@@ -161,8 +163,15 @@ var lightBounds = function() {
 
 void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	static ImporterOBJ obj_importer(app.m_gfx_system);
+
+	static Program& solid = *app.m_gfx_system.programs().file("solid");
+	static Program& pbr = *app.m_gfx_system.programs().file("pbr/pbr");
+
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
+
+	viewer.m_viewport.comp<Tonemap>().m_enabled = true;
 
 	//var controls = new THREE.OrbitControls(camera, renderer.domElement);
 	//controls.minDistance = 120;
@@ -178,6 +187,16 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	//scene.background = new THREE.Color(0x111111);
 
+#if CLUSTERED
+	Camera& camera = viewer.m_camera;
+	if(viewer.m_viewport.m_rect != uvec4(0U) && !camera.m_clusters)
+	{
+		camera.m_clustered = true;
+		camera.m_clusters = make_unique<Froxelizer>(app.m_gfx_system);
+		camera.m_clusters->prepare(viewer.m_viewport, camera.m_projection, camera.m_near, camera.m_far);
+	}
+#endif
+
 	float radius = 75.f;
 
 	Scene& scene = viewer.m_scene;
@@ -185,49 +204,47 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	struct ExLight
 	{
+		Node3* parent;
 		Node3* node;
 		Colour color;
 		float radius = radius;
 		float decay = 1.f;
 		float sy, sr, sc;
 		float py, pr, pc;
-		int dir;
+		float dir;
 	};
 
 	static vector<ExLight> lights = {};
 
+	scene.m_env.m_radiance.m_colour = Colour::White;
+	scene.m_env.m_radiance.m_energy = 0.066f;
+	scene.m_env.m_radiance.m_ambient = 0.33f;
 	//scene.add(new THREE.AmbientLight(0xffffff, 0.33));
 
-	// At least one regular Pointlight is needed to activate light support
-	gfx::light(root, LightType::Point, false, rgba(0xff0000), 0.1f, 0.1f);
+	auto material = [&](const string& name, auto init) -> Material* { return &app.m_gfx_system.materials().create(name, init); };
+
+	static Material* materials[] = {
+		material("first",  [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgba(0x888888ff); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f; }),
+		material("second", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgba(0x666666ff); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; }),
+		material("third",  [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgba(0x777777ff); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; m.m_pbr.m_specular_mode = PbrSpecularMode::Phong; }),
+		material("fourth", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgba(0x555555ff); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; m.m_pbr.m_diffuse_mode = PbrDiffuseMode::Toon; m.m_pbr.m_specular_mode = PbrSpecularMode::Toon; }),
+		//{ type: 'physical', uniforms : { "diffuse": 0x888888, "metalness" : 1.0, "roughness" : 0.66 }, defines : {} },
+		//{ type: 'standard', uniforms : { "diffuse": 0x666666, "metalness" : 0.1, "roughness" : 0.33 }, defines : {} },
+		//{ type: 'phong', uniforms : { "diffuse": 0x777777, "shininess" : 20 }, defines : {} },
+		//{ type: 'phong', uniforms : { "diffuse": 0x555555, "shininess" : 10 }, defines : { TOON: 1 } }
+	};
 
 	static bool once = false;
 	if(!once)
 	{
 		once = true;
 
-		static ImporterOBJ obj_importer(app.m_gfx_system);
-
-		Program& unshaded = *app.m_gfx_system.programs().file("unshaded");
-		Program& pbr = *app.m_gfx_system.programs().file("pbr/pbr");
-
 		Model& model = *app.m_gfx_system.models().file("WaltHead");
 		
 		Model& sphere = app.m_gfx_system.fetch_symbol(Symbol(), Sphere(0.5f), PLAIN);
 		Model& big_sphere = app.m_gfx_system.fetch_symbol(Symbol(), Sphere(0.5f * 6.66f), PLAIN);
 
-		Material* materials[] = {
-			&app.m_gfx_system.materials().create("first",  [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgba(0x888888); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f; }),
-			&app.m_gfx_system.materials().create("second", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgba(0x666666); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; }),
-			&app.m_gfx_system.materials().create("third",  [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgba(0x777777); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; }),
-			&app.m_gfx_system.materials().create("fourth", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgba(0x555555); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; }),
-			//{ type: 'physical', uniforms : { "diffuse": 0x888888, "metalness" : 1.0, "roughness" : 0.66 }, defines : {} },
-			//{ type: 'standard', uniforms : { "diffuse": 0x666666, "metalness" : 0.1, "roughness" : 0.33 }, defines : {} },
-			//{ type: 'phong', uniforms : { "diffuse": 0x777777, "shininess" : 20 }, defines : {} },
-			//{ type: 'phong', uniforms : { "diffuse": 0x555555, "shininess" : 10 }, defines : { TOON: 1 } }
-		};
-
-		size_t transparent = random_integer(0, 3);
+		size_t transparent = randi(0, 3);
 		materials[transparent]->m_alpha.m_alpha = 0.9f;
 
 		//transparent : tIndex == = index ? true : false,
@@ -238,48 +255,61 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 		for(Material* material : materials)
 		{
 			float i = float(index++);
-			vec3 eulers = vec3(sin(i * c_pi2) * radius, i * c_pi2, cos(i * c_pi2) * radius);
-			quat rotation = quat(eulers);
+			vec3 position = vec3(sin(i * c_pi2) * radius, 0.f, cos(i * c_pi2) * radius);
+			quat rotation = quat(vec3(0.f, i * c_pi2, 0.f));
 
-			Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, -37.f, 0.f), ZeroQuat));
-			Item& it = gfx::items(scene).add(Item(n, model, 0U, material));
+			Node3& n = gfx::nodes(scene).add(Node3(position, rotation));
 
-			gfx::update_item_aabb(it);
+			Node3& m = gfx::nodes(scene).add(Node3(n.m_transform * bxTRS(vec3(1.f), ZeroQuat, vec3(0.f, -37.f, 0.f))));
+			Item& it = gfx::items(scene).add(Item(m, model, 0U, material));
 
 			for(size_t i = 0; i < 8; i++)
 			{
-				Colour color = hsl(random_scalar<float>(), 1.0, 0.5f);
+				Colour color = hsl(randf(), 1.0, 0.5f);
 
 				Material& m = app.m_gfx_system.materials().create("l" + material->m_name + to_string(i), [&](Material& m) { 
-					m.m_program = &unshaded; m.m_unshaded.m_colour = color; 
+					m.m_program = &solid; m.m_solid.m_colour = color; 
 				});
 
 				Material& ma = app.m_gfx_system.materials().create("la" + material->m_name + to_string(i), [&](Material& m) {
-					m.m_program = &unshaded; m.m_unshaded.m_colour = color; m.m_alpha.m_alpha = 0.033f;
+					m.m_program = &solid; m.m_solid.m_colour = color; m.m_alpha.m_alpha = 0.033f;
 				});
 
 				Node3& l = gfx::nodes(scene).add(Node3());
-				gfx::items(scene).add(Item(l, sphere, 0U, &m)); // MaterialUnshaded(color)));
+				Item& i0 = gfx::items(scene).add(Item(l, sphere, 0U, &m)); // MaterialSolid(color)));
 			
-				gfx::items(scene).add(Item(l, big_sphere, 0U, &ma)); // MaterialUnshaded(color), MaterialAlpha(0.033f));
+				//Item& i1 = gfx::items(scene).add(Item(l, big_sphere, 0U, &ma)); // MaterialSolid(color), MaterialAlpha(0.033f));
 				//l.children[1].scale.set(6.66, 6.66, 6.66);
 
+				Light& light = gfx::lights(scene).add(Light(l, LightType::Point));
+				light.m_range = 40.f;
+				light.m_colour = color;
+
 				lights.push_back({
+					&n,
 					&l,
 					color,
 					radius,
 					1.f,
-					random_scalar<float>(),
-					random_scalar<float>(),
-					random_scalar<float>(),
-					random_scalar<float>() * c_pi,
-					random_scalar<float>() * c_pi,
-					random_scalar<float>() * c_pi,
-					random_scalar<float>() > 0.5 ? 1 : -1
+					randf(),
+					randf(),
+					randf(),
+					randf() * c_pi,
+					randf() * c_pi,
+					randf() * c_pi,
+					randf() > 0.5 ? 1.f : -1.f
 				});
 			}
 		}
 	}
+
+	static Material& testmat = app.m_gfx_system.materials().create("test", [&](Material& m) {
+		m.m_program = &pbr; m.m_pbr.m_albedo = rgba(0x888888ff); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f;
+	});
+
+	//gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
+
+	gfx::shape(root, Sphere(), Symbol(), 0U, &testmat);
 
 	float time = app.m_gfx_system.m_time;
 
@@ -288,7 +318,7 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 		float r = 0.8 + 0.2 * sin(l.pr + (0.6 + 0.3 * l.sr) * time);
 		float x = (sin(l.pc + (0.8 + 0.2 * l.sc) * time * l.dir)) * r * radius;
 		float z = (cos(l.pc + (0.8 + 0.2 * l.sc) * time * l.dir)) * r * radius;
-		float y = sin(l.py + (0.8 + 0.2 * l.sy) * time) * r * 32;
-		l.node->m_transform = bxtranslation(vec3(x, y, z));
+		float y = sin(l.py + (0.8 + 0.2 * l.sy) * time) * r * 32.f;
+		l.node->m_transform = l.parent->m_transform * bxTRS(vec3(1.f), ZeroQuat, vec3(x, y, z));
 	}
 }

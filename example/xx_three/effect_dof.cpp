@@ -67,10 +67,6 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	//camera = new THREE.PerspectiveCamera(70, width / height, 1, 3000);
 	//camera.position.z = 200;
-	//renderer = new THREE.WebGLRenderer();
-	//renderer.setPixelRatio(window.devicePixelRatio);
-	//renderer.setSize(width, height);
-	//container.appendChild(renderer.domElement);
 
 	Gnode& scene = viewer.m_scene.begin();
 
@@ -152,7 +148,7 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 		for(int i = 0; i < nobjects; i++)
 		{
 			float h = (360 * (i / nobjects + int(time)) % 360) / 360;
-			materials[i]->m_unshaded.m_colour = hsl(h, 1, 0.5);
+			materials[i]->m_solid.m_colour = hsl(h, 1, 0.5);
 		}
 	
 	//postprocessing.composer.render(0.1);

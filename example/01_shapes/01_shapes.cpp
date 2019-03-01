@@ -15,9 +15,9 @@ vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, const vect
 		for(size_t y = 0; y < size_y; ++y)
 		{
 			ShapeInstance& shape = shape_items[x + y * size_x];
-			size_t index = random_integer(size_t(0), shapes.size() - 1);
+			size_t index = randi(size_t(0), shapes.size() - 1);
 			shape.shape = shapes[index];
-			shape.colour = hsl(random_scalar(0.f, 1.f), 1.f, 0.5f);
+			shape.colour = hsl(randf(0.f, 1.f), 1.f, 0.5f);
 			shape.symbol = plain ? Symbol::plain(shape.colour) : Symbol::wire(shape.colour);
 		}
 

@@ -8,14 +8,14 @@ using namespace mud;
 
 void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	Viewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controller(viewer);
 	TrackballController& controls = ui::trackball_controller(viewer);
 	controls.m_dynamicDampingFactor = 0.15f;
 	
 	//controls.keys = [65, 83, 68];
 
-	Scene& scene = *viewer.m_scene;
+	Scene& scene = viewer.m_scene;
 
 	static vector<Node3*> lights;
 
@@ -50,18 +50,16 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		for(int i = 0; i < 5000; i++) {
 
-			float x = 400.f * (0.5f - random_scalar<float>());
-			float y = 50.f * (0.5f - random_scalar<float>()) + 25;
-			float z = 200.f * (0.5f - random_scalar<float>());
+			float x = 400.f * (0.5f - randf());
+			float y = 50.f * (0.5f - randf()) + 25;
+			float z = 200.f * (0.5f - randf());
 
-			float a = 3.14f * (0.5f - random_scalar<float>());
-			float b = 3.14f * (0.5f - random_scalar<float>());
+			float a = 3.14f * (0.5f - randf());
+			float b = 3.14f * (0.5f - randf());
 
 			uint32_t flags = ItemFlag::Default;// | ItemFlag::NoCull;
 			Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(a, b, 0, 1)));
 			Item& it = gfx::items(scene).add(Item(n, torus_model, flags, &material));
-
-			gfx::update_item_aabb(it);
 
 			//Gnode& n = gfx::node(root, {}, vec3(x, y, z));
 			//gfx::item(n, torus_model, 0, &material);
@@ -81,7 +79,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 		for(int i = 0; i < 6; ++i)
 		{
 			Colour c = rgba(colours[i]);
-			Material& m = gfx::unshaded_material(app.m_gfx_system, ("light" + to_string(i)).c_str(), c); //Material({ color: colours[i] }) );
+			Material& m = gfx::solid_material(app.m_gfx_system, ("light" + to_string(i)).c_str(), c); //Material({ color: colours[i] }) );
 			Node3& n = gfx::nodes(scene).add(Node3());
 			Light& l = gfx::lights(scene).add(Light(n, LightType::Point, false));
 			l.m_colour = c;
@@ -92,8 +90,6 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 			Item& it = gfx::items(scene).add(Item(n, sphere_model, ItemFlag::Default, &m));
 			UNUSED(it);
 
-			gfx::update_item_aabb(it);
-
 			lights.push_back(&n);
 		}
 
@@ -102,7 +98,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 		//dlight.position.set( 0.5f, 1, 0 ).normalize();
 	}
 
-	Gnode& root = viewer.m_scene->begin();
+	Gnode& root = viewer.m_scene.begin();
 	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
 	float coef0[] = { 0.7f, 0.3f, 0.7f, 0.3f, 0.3f, 0.7f };

@@ -4,62 +4,114 @@
 
 #include <xx_three/xx_three.h>
 
+#include <stl/vector.hpp>
+
+#include <cstring>
+
+#define INSTANCING 1
 
 void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	//camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 2, 2000);
-	//camera.position.z = 1000;
+	Camera& camera = viewer.m_camera;
+	camera.m_near = 2.f;
+	camera.m_far = 2000.f;
+	camera.m_eye.z = 1000.f;
 
+	Scene& scene = viewer.m_scene;
 	//scene.fog = new THREE.FogExp2(0x000000, 0.001);
+
+	static Program& program = app.m_gfx_system.programs().fetch("point");
+
+	static Texture& sprite = *app.m_gfx_system.textures().file("sprites/disc.png");
+
+	//Material& material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
+	static Material& material = app.m_gfx_system.materials().create("points", [&](Material& m) {
+		m.m_program = &program;
+#if INSTANCING
+		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Triangles));
+#else
+		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Points));
+#endif
+		m.m_solid.m_colour = hsl(1.f, 0.3f, 0.7f);
+		m.m_solid.m_colour.m_texture = &sprite;
+	});
+
+	constexpr size_t num = 10000;
+	//constexpr size_t num = 1;
+
+#if INSTANCING
+	static Batch* batch = nullptr;
+	struct Instance { vec4 d0; vec4 d1; };
+	static vector<Instance> instances = vector<Instance>(num);
+#endif
 
 	static bool once = false;
 	if(!once)
 	{
 		once = true;
 
+		Model& model = app.m_gfx_system.models().create("points");
+		Mesh& mesh = model.add_mesh("points", true);
+
 		MeshPacker geometry;
+#if INSTANCING
+		geometry.m_primitive = PrimitiveType::Triangles;
 
-		for(int i = 0; i < 10000; i++)
+		geometry.m_positions = { vec3(-1, 1, 0), vec3(-1, -1, 0), vec3(1, -1, 0), vec3(1, 1, 0) };
+		geometry.m_uv0s = { vec2(0, 1), vec2(0, 0), vec2(1, 0), vec2(1, 1) };
+		geometry.m_indices = { 0, 1, 2, 2, 3, 0 };
+#else
+		geometry.m_primitive = PrimitiveType::Points;
+#endif
+
+		for(size_t i = 0; i < num; i++)
 		{
-			float x = 2000.f * random_scalar<float>() - 1000.f;
-			float y = 2000.f * random_scalar<float>() - 1000.f;
-			float z = 2000.f * random_scalar<float>() - 1000.f;
-
-			geometry.m_positions.push_back({ x, y, z });
-
+			vec3 pos = vec3(randf(), randf(), randf()) * 2000.f - 1000.f;
+#if INSTANCING
+			vec2 scale = vec2(1.f);
+			instances[i] = { vec4(pos, 0.f), vec4(scale, vec2(0.f)) };
+#else
+			geometry.m_positions.push_back(pos);
+			geometry.m_indices.push_back(i);
+#endif
 		}
 
-		//geometry.addAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+		mesh.write(geometry);
 
-		Texture& sprite = *app.m_gfx_system.textures().file("textures/sprites/disc.png");
+		model.add_item(mesh, bxidentity());
+		model.prepare();
 
-		//Material& material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
-		//material.color.setHSL(1.0, 0.3, 0.7);
-		//
-		//var particles = new THREE.Points(geometry, material);
-		//scene.add(particles);
+		Node3& n = gfx::nodes(scene).add(Node3());
+		Item& it = gfx::items(scene).add(Item(n, model, 0U, &material));
+
+#if INSTANCING
+		batch = &gfx::batches(scene).add(Batch(it));
+#endif
 	}
 
-
-	//var gui = new dat.GUI();
-	//
-	//gui.add(material, 'sizeAttenuation').onChange(function() {
-	//	material.needsUpdate = true;
-	//});
-	//
-	//gui.open();
+	//ui::slider_field(viewer, "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })
 
 	float time = app.m_gfx_system.m_time;
 
-	float mouseX; float mouseY;
-	viewer.m_camera.m_eye.x += (mouseX - viewer.m_camera.m_eye.x) * 0.05f;
-	viewer.m_camera.m_eye.y += (-mouseY - viewer.m_camera.m_eye.y) * 0.05f;
+	static vec2 mouse = vec2(0.f);
+	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
+	{
+		mouse = (event.m_relative - viewer.m_frame.m_size / 2.f);
+	}
+
+	viewer.m_camera.m_eye.x += (mouse.x - viewer.m_camera.m_eye.x) * 0.05f;
+	viewer.m_camera.m_eye.y += (-mouse.y - viewer.m_camera.m_eye.y) * 0.05f;
 
 	//viewer.m_camera.m_target = scene.position;
 
 	float h = fmod(360.f * (1.f + time), 360.f) / 360.f;
-	//material.color.setHSL(h, 0.5f, 0.5f);
+	material.m_solid.m_colour = hsl(h, 0.5f, 0.5f);
+
+#if INSTANCING
+	span<float> memory = batch->begin(instances.size(), sizeof(Instance));
+	memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));
+#endif
 }
