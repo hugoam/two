@@ -51,7 +51,6 @@ namespace mud
 		return offset;
 	}
 
-	inline MeshAdapter::MeshAdapter() {}
 	inline MeshAdapter::MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices, bool index32)
 		: m_vertices(vertices), m_indices(indices), m_vertex_format(vertex_format)
 		, m_vertex_stride(vertex_size(vertex_format)), m_index_stride(index32 ? sizeof(uint32_t) : sizeof(uint16_t)), m_index(indices.data())

@@ -87,7 +87,7 @@ namespace mud
 
 	export_ struct MUD_GEOM_EXPORT MeshAdapter
 	{
-		MeshAdapter();
+		MeshAdapter() {}
 		MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices = {}, bool index32 = false);
 
 		span<void> m_vertices = {};
