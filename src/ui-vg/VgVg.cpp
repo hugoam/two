@@ -250,8 +250,8 @@ namespace mud
 			//vg::ArcTo(center.x, center.y, a0, a1, r0); //, NVG_CW);
 			//vg::ArcTo(center.x, center.y, a1, a0, r1); //, NVG_CCW);
 			vg::closePath(m_vg);
-			vec2 a = vec2{ cosf(a0), sinf(a0) } *(r0 + r1) * 0.5f + center;
-			vec2 b = vec2{ cosf(a1), sinf(a1) } *(r0 + r1) * 0.5f + center;
+			vec2 a = vec2(cosf(a0), sinf(a0)) * (r0 + r1) * 0.5f + center;
+			vec2 b = vec2(cosf(a1), sinf(a1)) * (r0 + r1) * 0.5f + center;
 			Colour colour_a = to_rgba(Colour{ a0 / (c_pi * 2.f), 1.0f, 0.55f });
 			Colour colour_b = to_rgba(Colour{ a1 / (c_pi * 2.f), 1.0f, 0.55f });
 			vg::GradientHandle paint = vg::createLinearGradient(m_vg, a.x, a.y, b.x, b.y, vgColour(colour_a), vgColour(colour_b));
@@ -266,8 +266,8 @@ namespace mud
 		vg::transformRotate(m_vg, hue * c_pi * 2);
 
 		float r = r0 - 6;
-		vec2 a = vec2{ cosf(120.0f / 180.0f * c_pi), sinf(120.0f / 180.0f * c_pi) } *r;
-		vec2 b = vec2{ cosf(-120.0f / 180.0f * c_pi), sinf(-120.0f / 180.0f * c_pi) } *r;
+		vec2 a = vec2(cosf(120.0f / 180.0f * c_pi), sinf(120.0f / 180.0f * c_pi)) * r;
+		vec2 b = vec2(cosf(-120.0f / 180.0f * c_pi), sinf(-120.0f / 180.0f * c_pi)) * r;
 
 		vg::beginPath(m_vg);
 		vg::moveTo(m_vg, r, 0);
@@ -320,7 +320,7 @@ namespace mud
 		for(size_t i = 0; i < glyphs.size(); ++i)
 		{
 			textRow.m_glyphs[i].m_position = textRow.m_start + i;
-			textRow.m_glyphs[i].m_rect = vec4{ glyphs[i].minx, textRow.m_rect.y, glyphs[i].maxx - glyphs[i].minx, rect_h(textRow.m_rect) };
+			textRow.m_glyphs[i].m_rect = { glyphs[i].minx, textRow.m_rect.y, glyphs[i].maxx - glyphs[i].minx, rect_h(textRow.m_rect) };
 		}
 	}
 

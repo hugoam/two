@@ -63,16 +63,16 @@ namespace mud
 
 		if(num_direct == 1)
 		{
-			light_rect = uvec4{ 0, 0, size, size };
+			light_rect = { 0U, 0U, size, size };
 		}
 		else if(num_direct == 2)
 		{
-			light_rect = uvec4{ 0, 0, size, size / 2 };
+			light_rect = { 0U, 0U, size, size / 2 };
 			light_rect.x += index == 1 ? rect_w(light_rect) : 0;
 		}
 		else
 		{
-			light_rect = uvec4{ 0, 0, size / 2, size / 2 };
+			light_rect = { 0U, 0U, size / 2, size / 2 };
 			light_rect.x += index & 1 ? rect_w(light_rect) : 0;
 			light_rect.y += index / 2 ? rect_h(light_rect) : 0;
 		}
@@ -158,7 +158,7 @@ namespace mud
 		for(uint i = 0; i < 8; i++)
 		{
 			// Transform to light space.
-			vec3 corner_light = vec3(light_transform * vec4{ slice.m_corners[i], 1.f });
+			vec3 corner_light = vec3(light_transform * vec4(slice.m_corners[i], 1.f));
 
 			bounds.min = min(bounds.min, corner_light);
 			bounds.max = max(bounds.max, corner_light);
@@ -172,7 +172,7 @@ namespace mud
 		float zmax = light_bounds.max.z;
 		float radius = slice.m_frustum.m_radius * texture_size / (texture_size - 2.f);
 
-		vec3 slice_center = vec3(light_transform * vec4{ slice.m_frustum.m_center, 0.f });
+		vec3 slice_center = vec3(light_transform * vec4(slice.m_frustum.m_center, 0.f));
 		light_bounds.min = slice_center - radius;
 		light_bounds.max = slice_center + radius;
 		light_bounds.max.z = zmax;

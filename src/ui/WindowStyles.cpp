@@ -53,7 +53,7 @@ namespace ui
 		, docktabs("Docktabs", styles().wedge, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Div; l.m_align = { Align::OutLeft, Align::Left }; })
 		, dockbar("Dockbar", styles().wedge, [](Layout& l) { l.m_space = { FlowAxis::Same, Sizing::Shrink, Sizing::Wrap }; })
 
-		//, dockbox("Dockbox", window_styles().window, [](Layout& l) { l.m_flow = LayoutFlow::Flow; l.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Shrink }; l.m_size = vec2{ 300.f, 0.f }; })
+		//, dockbox("Dockbox", window_styles().window, [](Layout& l) { l.m_flow = LayoutFlow::Flow; l.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Shrink }; l.m_size = { 300.f, 0.f }; })
 	{}
 
 	DockStyles& dock_styles() { static DockStyles styles; return styles; }

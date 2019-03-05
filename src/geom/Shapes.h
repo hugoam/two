@@ -63,8 +63,8 @@ namespace mud
 		constr_ Grid2();
 		constr_ Grid2(const vec2& size, const vec2& space = vec2(1.f));
 
-		attr_ vec2 m_size = vec2{ 1.f };
-		attr_ vec2 m_space = vec2{ 0.1f };
+		attr_ vec2 m_size = vec2(1.f);
+		attr_ vec2 m_space = vec2(0.1f);
 
 		virtual object<Shape> clone() const;
 	};
@@ -212,7 +212,7 @@ namespace mud
 		Cube(float side);
 		Cube(const Aabb& aabb);
 
-		attr_ vec3 m_extents = vec3{ 0.5f };
+		attr_ vec3 m_extents = vec3(0.5f);
 
 		virtual object<Shape> clone() const;
 	};

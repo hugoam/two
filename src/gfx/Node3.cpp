@@ -85,7 +85,7 @@ namespace mud
 
 	void debug_print_mat(const mat4& mat)
 	{
-		//vec3 scale = { length(vec3{ mat[0] }), length(vec3{ mat[1] }), length(vec3{ mat[2] }) };
+		//vec3 scale = { length(vec3(mat[0])), length(vec3{ mat[1] }), length(vec3{ mat[2] }) };
 		printf("pos %.1f, %.1f, %.1f ", mat[3].x, mat[3].y, mat[3].z);
 		//printf("orientation %f, %f, %f, %f\n", m_rotation.x, bone.m_rotation.y, bone.m_rotation.z, bone.m_rotation.w);)
 	}
@@ -110,7 +110,7 @@ namespace mud
 		m_transform = bxTRS(scale, rotation, position);
 	}
 
-	void Node3::transform(const Node3& parent, const vec3& position, const quat& rotation, const vec3& scale)
+	void Node3::derive(const Node3& parent, const vec3& position, const quat& rotation, const vec3& scale)
 	{
 		m_transform = parent.m_transform * bxTRS(scale, rotation, position);
 	}

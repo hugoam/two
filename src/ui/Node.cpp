@@ -90,7 +90,7 @@ namespace ui
 	{
 		float distance = straight ? 20.f : 100.f;
 		Gradient paint = { colour_out, colour_in };
-		vg.path_bezier(pos_out, pos_out + vec2{ distance, 0.f }, pos_in - vec2{ distance, 0.f }, pos_in, straight);
+		vg.path_bezier(pos_out, pos_out + vec2(distance, 0.f), pos_in - vec2(distance, 0.f), pos_in, straight);
 		vg.stroke_gradient(paint, 1.f, pos_out, pos_in);
 	}
 

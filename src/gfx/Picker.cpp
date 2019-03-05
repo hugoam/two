@@ -69,7 +69,7 @@ namespace mud
 		if(m_query) return;
 		Ray ray = viewport.ray(position);
 		float fov = viewport.m_camera->m_fov / m_size.y;// / float(m_target->m_size.y);
-		m_query = { uvec4{ uvec2(position), uvec2(1U) }, ray, fov, viewport.m_camera->m_aspect, mask };
+		m_query = { { uvec2(position), uvec2(1U) }, ray, fov, viewport.m_camera->m_aspect, mask };
 		m_query.m_callback = callback;
 	}
 

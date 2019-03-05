@@ -101,12 +101,12 @@ namespace mud
 		while(*iter != '\n' && iter < end)
 			++iter;
 
-		row = text_row(text, first, iter, vec4{ rect.x, rect.y, this->text_size(first, iter - first, Axis::X, paint), line_height(paint) });
+		row = text_row(text, first, iter, { rect.x, rect.y, this->text_size(first, iter - first, Axis::X, paint), line_height(paint) });
 		this->break_glyphs(rect, paint, row);
 
 		// @kludge because text_size doesn't report the correct size when there is a space at the end : investigate (vg-renderer, nanovg)
 		if(!row.m_glyphs.empty())
-			row.m_rect = vec4{ rect.x, rect.y, row.m_glyphs.back().m_rect.x + rect_w(row.m_glyphs.back().m_rect), line_height(paint) };
+			row.m_rect = { rect.x, rect.y, row.m_glyphs.back().m_rect.x + rect_w(row.m_glyphs.back().m_rect), line_height(paint) };
 	}
 
 	void Vg::break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, vector<TextRow>& textRows)

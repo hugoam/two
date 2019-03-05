@@ -175,7 +175,7 @@ namespace mud
 		if(d_content->d_icon == image)
 			return;
 		d_content->d_icon = image;
-		m_content = image ? vec2{ image->d_size } : vec2(0.f);
+		m_content = image ? vec2(image->d_size) : vec2(0.f);
 		mark_dirty(DIRTY_LAYOUT);
 	}
 

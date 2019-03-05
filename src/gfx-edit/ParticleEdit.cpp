@@ -41,7 +41,7 @@ namespace mud
 
 	void particle_editor_viewer(Widget& parent, Flow& particles)
 	{
-		SceneViewer& viewer = ui::scene_viewer(parent, vec2{ 500.f });
+		SceneViewer& viewer = ui::scene_viewer(parent, vec2(500.f));
 		ui::orbit_controller(viewer);
 
 		//viewer.m_clear_colour = Colour::DarkGrey;

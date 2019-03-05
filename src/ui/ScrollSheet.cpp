@@ -131,14 +131,14 @@ namespace ui
 		Frame& scroll_plan = scroll_sheet.m_body->m_frame;
 
 		float margin = 1000.f;
-		vec2 bounds_min = vec2{ FLT_MAX };
-		vec2 bounds_max = vec2{ FLT_MIN };
+		vec2 bounds_min = vec2(FLT_MAX);
+		vec2 bounds_max = vec2(FLT_MIN);
 
 		for(Widget* widget : elements)
 		{
 			bounds_min = min(widget->m_frame.m_position, bounds_min);
 			bounds_max = max(widget->m_frame.m_position + widget->m_frame.m_size, bounds_max);
-			//offset = min(vec2{ widget->m_frame.m_position - margin });
+			//offset = min(vec2(widget->m_frame.m_position - margin));
 		}
 
 		vec2 offset = vec2(margin) - bounds_min;

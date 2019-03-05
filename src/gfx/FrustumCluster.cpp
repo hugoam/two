@@ -104,10 +104,10 @@ namespace mud
 		Frustum froxel;
 		froxel.m_planes.m_left = to_plane(m_planes_x[x]);
 		froxel.m_planes.m_down = to_plane(m_planes_y[y]);
-		froxel.m_planes.m_near = to_plane(vec4{ 0, 0, 1, -m_distances_z[z] });
+		froxel.m_planes.m_near = to_plane({ 0.f, 0.f, 1.f, -m_distances_z[z] });
 		froxel.m_planes.m_right = to_plane(-m_planes_x[x + 1]);
 		froxel.m_planes.m_up = to_plane(-m_planes_y[y + 1]);
-		froxel.m_planes.m_far = to_plane(vec4{ 0, 0, 1, -m_distances_z[z + 1] });
+		froxel.m_planes.m_far = to_plane({ 0.f, 0.f, 1.f, -m_distances_z[z + 1] });
 		froxel.m_corners = frustum_corners(froxel.m_planes);
 		froxel.compute();
 		return froxel;
@@ -188,8 +188,8 @@ namespace mud
 			vec3 maxp;
 
 			// near/far planes for all froxels at iz
-			planes[4] = vec4{ 0, 0, 1, m_distances_z[iz + 0] };
-			planes[5] = -vec4{ 0, 0, 1, m_distances_z[iz + 1] };
+			planes[4] =  vec4(0.f, 0.f, 1.f, m_distances_z[iz + 0]);
+			planes[5] = -vec4(0.f, 0.f, 1.f, m_distances_z[iz + 1]);
 
 			// min/max for z is calculated trivially because near/far planes are parallel to
 			// the camera.
@@ -214,7 +214,7 @@ namespace mud
 					maxp.x = max(maxp.x, px);
 				}
 				assert(minp.x < maxp.x);
-				minMaxX[ix] = vec2{ minp.x, maxp.x };
+				minMaxX[ix] = vec2(minp.x, maxp.x);
 			}
 
 			for(uint16_t iy = 0; iy < m_subdiv_y; ++iy)

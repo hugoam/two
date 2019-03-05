@@ -23,8 +23,8 @@ void ex_10_post_process(Shell& app, Widget& parent, Dockbar& dockbar)//, Dockbar
 
 	Material& material = milky_white(app.m_gfx);
 
-	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
-	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &material);
+	Gnode& ground_node = gfx::node(scene, {}, { 0.f, -5.f, 0.f });
+	gfx::shape(ground_node, Rect(vec2(-50.f), vec2(100.f)), Symbol(), 0U, &material);
 
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);

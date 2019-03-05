@@ -137,7 +137,7 @@ void material_spheres(Gnode& parent, span<Material*> materials)
 
 	for(size_t i = 0; i < materials.size(); ++i)
 	{
-		Gnode& material_node = gfx::node(parent, Ref(materials[i]), vec3{ -center + float(i) * spacing, 0.f, 0.f });
+		Gnode& material_node = gfx::node(parent, Ref(materials[i]), vec3(-center + float(i) * spacing, 0.f, 0.f));
 		gfx::shape(material_node, Sphere(), Symbol(), 0, materials[i]);
 		//gfx::model(material_node, "sphere", 0, materials[i]);
 	}
@@ -150,17 +150,17 @@ void roughness_spheres(Gnode& parent)
 	static vector<Material*> dielectric = create_roughness_dielectric_materials(gfx);
 	static vector<Material*> metallic = create_roughness_metallic_materials(gfx);
 
-	float dielectric_center = dielectric.size() * 2.f / 2.f;
+	float di_center = dielectric.size() * 2.f / 2.f;
 	for(size_t i = 0; i < dielectric.size(); ++i)
 	{
-		Gnode& material_node = gfx::node(parent, {}, vec3{ -dielectric_center + float(i) * 2.f, 0.f, 0.f });
+		Gnode& material_node = gfx::node(parent, {}, vec3(-di_center + float(i) * 2.f, 0.f, 0.f));
 		gfx::shape(material_node, Sphere(), Symbol(), 0U, dielectric[i]);
 	}
 
-	float metallic_center = metallic.size() * 2.f / 2.f;
+	float met_center = metallic.size() * 2.f / 2.f;
 	for(size_t i = 0; i < metallic.size(); ++i)
 	{
-		Gnode& material_node = gfx::node(parent, {}, vec3{ -metallic_center + float(i) * 2.f, 0.f, 4.f });
+		Gnode& material_node = gfx::node(parent, {}, vec3(-met_center + float(i) * 2.f, 0.f, 4.f));
 		gfx::shape(material_node, Sphere(), Symbol(), 0U, metallic[i]);
 	}
 }
@@ -199,7 +199,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 			edited = &val<Material>(item->m_node->m_object);
 			float center = float(materials.size()) * 4.f / 2.f;
 			size_t index = edited->m_index - materials[0]->m_index;
-			controller.m_position = vec3{ -center + index * 4.f, 0.f, 0.f };
+			controller.m_position = { -center + index * 4.f, 0.f, 0.f };
 		};
 		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}

@@ -63,7 +63,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 	float middle = 0.f;//particles_vector.size() * 10.f / 2.f;
 	for(ParticleItem& item : particles_vector)
 	{
-		Gnode& node = gfx::node(scene, {}, vec3{ -middle + item.m_index * 10.f, 0.f, 0.f });
+		Gnode& node = gfx::node(scene, {}, vec3(-middle + item.m_index * 10.f, 0.f, 0.f));
 		item.m_particles = &gfx::flows(node, *item.m_emitter);
 
 		if(item.m_particles->ended())
@@ -82,7 +82,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 		{
 			if(item == nullptr) return;
 			edited = &val<ParticleItem>(item->m_node->m_object);
-			controller.m_position = vec3{ -middle + edited->m_index * 10.f, 0.f, 0.f };
+			controller.m_position = vec3(-middle + edited->m_index * 10.f, 0.f, 0.f);
 		};
 		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}

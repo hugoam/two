@@ -41,7 +41,7 @@ namespace mud
 
 	struct MetaStyles
 	{
-		Style element = { "Element", styles().row, [](Layout& l) { l.m_spacing = vec2{ 5.f, 0.f }; } };
+		Style element = { "Element", styles().row, [](Layout& l) { l.m_spacing = { 5.f, 0.f }; } };
 
 		Style sheet = { "Frame", styles().stack, [](Layout& l) { l.m_padding = vec4(20.f); l.m_spacing = vec2(10.f); } };
 		Style frame = { "Frame", styles().stack, [](Layout& l) { l.m_padding = vec4(5.f); l.m_spacing = vec2(10.f); }, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = to_colour(25, 26, 31); } };

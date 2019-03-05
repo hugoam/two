@@ -178,7 +178,7 @@ namespace mud
 			this->clearStroke(position);
 
 		float side = m_radius * 2.f;
-		m_distribution = oconstruct<Poisson>(vec2{ side }, m_maxSpotRadius);
+		m_distribution = oconstruct<Poisson>(vec2(side), m_maxSpotRadius);
 
 		vec3 point;
 		while(m_distribution->addPoint(m_maxSpotRadius, point))

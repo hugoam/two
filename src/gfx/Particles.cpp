@@ -170,8 +170,8 @@ namespace mud
 
 			if(m_billboard)
 			{
-				udir = scale * vec3{ view[0][0], view[1][0], view[2][0] };
-				vdir = scale * vec3{ view[0][1], view[1][1], view[2][1] };
+				udir = scale * vec3(view[0][0], view[1][0], view[2][0]);
+				vdir = scale * vec3(view[0][1], view[1][1], view[2][1]);
 			}
 			else
 			{

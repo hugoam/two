@@ -305,7 +305,7 @@ namespace mud
 		if(m_mouse_lock)
 			m_cursor = { float(x), float(y) };
 		else
-			m_cursor = max(vec2(0.f), min(vec2(m_fb_size), vec2{ float(x), float(y) }));
+			m_cursor = max(vec2(0.f), min(vec2(m_fb_size), vec2(float(x), float(y))));
 		m_mouse->moved(m_cursor);
 	}
 

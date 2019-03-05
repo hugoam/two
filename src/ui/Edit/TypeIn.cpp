@@ -232,7 +232,7 @@ namespace mud
 		}
 		else
 		{
-			return { vec2{ row.m_rect.x + rect_w(row.m_rect), row.m_rect.y }, vec2{ 1.f, line_height() } };
+			return { vec2(row.m_rect.x + rect_w(row.m_rect), row.m_rect.y), vec2(1.f, line_height()) };
 		}
 	}
 
@@ -322,7 +322,7 @@ namespace mud
 
 		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
 		if(m_editor)
-			m_text_offset = padding + vec2{ m_text.line_height() * float(digits) * 0.7f, 0.f };
+			m_text_offset = padding + vec2(m_text.line_height() * float(digits) * 0.7f, 0.f);
 		else
 			m_text_offset = padding;
 	}
@@ -851,7 +851,7 @@ namespace mud
 
 			if(imarker < text.m_markers.size() && text.m_markers[imarker].m_line == line)
 			{
-				vec4 rect = { offset + padding + vec2{ 0.f, row.m_rect.y + line_height }, vec2{ frame.m_size.x, text.line_height() } };
+				vec4 rect = { offset + padding + vec2(0.f, row.m_rect.y + line_height), vec2(frame.m_size.x, text.line_height()) };
 				vec2 position = offset + text_offset + rect_offset(row.m_rect) + line_height;
 
 				vg.draw_rect(rect, palette_paint(palette, text.m_markers[imarker].m_highlight));
@@ -883,7 +883,7 @@ namespace mud
 			{
 				if(row.m_glyphs.empty())
 				{
-					vg.draw_rect({ offset + text_offset + rect_offset(row.m_rect), vec2{ 5.f, rect_h(row.m_rect) } }, palette_paint(palette, Text::Selection));
+					vg.draw_rect({ offset + text_offset + rect_offset(row.m_rect), vec2(5.f, rect_h(row.m_rect)) }, palette_paint(palette, Text::Selection));
 					continue;
 				}
 
@@ -899,7 +899,7 @@ namespace mud
 				if(current_line && selection.m_start == selection.m_end)
 				{
 					bool focused = false;
-					vec4 rect = { offset + padding + vec2{ 0.f, row.m_rect.y }, vec2{ frame.m_size.x, text.line_height() } };
+					vec4 rect = { offset + padding + vec2(0.f, row.m_rect.y), vec2(frame.m_size.x, text.line_height()) };
 					vg.draw_rect(rect, { palette_colour(palette, focused ? Text::CurrentLineFill : Text::CurrentLineFillInactive),
 										 palette_colour(palette, Text::CurrentLineEdge), 1.0f });
 				}

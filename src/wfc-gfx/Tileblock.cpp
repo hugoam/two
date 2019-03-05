@@ -312,7 +312,7 @@ namespace mud
 		for(uint16_t i = 0; i < state.m_items.size(); ++i)
 		{
 			state.m_items[i].m_position = { float(i % num_columns), 0.f, float(i / num_columns) };
-			state.m_items[i].m_scale = vec3{ 1.f / (state.m_item_radius * 2.f * margin) };
+			state.m_items[i].m_scale = vec3(1.f / (state.m_item_radius * 2.f * margin));
 		}
 
 		Gnode& scene = viewer.m_scene.begin();

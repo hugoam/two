@@ -691,7 +691,7 @@ namespace mud
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Cube, mud::Shape>() };
 		// defaults
-		static mud::vec3 extents_default = vec3{0.5f};
+		static mud::vec3 extents_default = mud::vec3(0.5f);
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Cube__construct_0, {} },
@@ -797,8 +797,8 @@ namespace mud
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Grid2, mud::Shape>() };
 		// defaults
-		static mud::vec2 size_default = vec2{1.f};
-		static mud::vec2 space_default = vec2{0.1f};
+		static mud::vec2 size_default = vec2(1.f);
+		static mud::vec2 space_default = vec2(0.1f);
 		static mud::vec2 construct_1_space_default = vec2(1.f);
 		// constructors
 		static Constructor constructors[] = {

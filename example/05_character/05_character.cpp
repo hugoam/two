@@ -112,7 +112,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Material& material = milky_white(app.m_gfx);
 
-	gfx::shape(scene, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol::plain(Colour::White), 0U, &material);
+	gfx::shape(scene, Rect(vec2(-50.f), vec2(100.f)), Symbol::plain(Colour::White), 0U, &material);
 
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);

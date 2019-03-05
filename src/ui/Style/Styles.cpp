@@ -34,7 +34,7 @@ namespace mud
 		, spacer("Spacer", item, [](Layout& l) { l.m_space = Preset::Spacer; })
 		, filler("Filler", spacer, [](Layout& l) { l.m_space = Preset::Flex; })
 
-		, drag_handle("DragHandle", control, [](Layout& l) { l.m_space = { FlowAxis::Flip, Sizing::Wrap, Sizing::Fixed }; l.m_size = vec2{ 5.f, 5.f }; })
+		, drag_handle("DragHandle", control, [](Layout& l) { l.m_space = { FlowAxis::Flip, Sizing::Wrap, Sizing::Fixed }; l.m_size = { 5.f, 5.f }; })
 
 		, div("Div", wedge, [](Layout& l) { l.m_space = Preset::Div; })
 		, row("Row", wedge, [](Layout& l) { l.m_space = Preset::Line; })

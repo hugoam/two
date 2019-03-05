@@ -56,7 +56,7 @@ namespace mud
 	void draw_shape_lines(const ProcShape& shape, const Grid2& grid, MeshAdapter& writer)
 	{
 		vec2 half = grid.m_size * grid.m_space / 2.f;
-		vec3 origin = grid.m_center - vec3{ half.x, 0.f, half.y };
+		vec3 origin = grid.m_center - vec3(half.x, 0.f, half.y);
 
 		for(size_t x = 0; x < size_t(grid.m_size.x) + 1; ++x)
 			draw_line(origin + to_xz(grid.m_space * vec2(float(x), 0.f)), origin + to_xz(grid.m_space * vec2(float(x), grid.m_size.y)), shape.m_symbol.m_outline, writer);

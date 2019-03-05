@@ -54,12 +54,12 @@ namespace ui
 
 	Widget* tooltip(Widget& parent, const Frame& parent_frame)
 	{
-		return hoverbox(parent, vec2{ 0.f, 0.f + parent_frame.m_size.y });
+		return hoverbox(parent, vec2(0.f, 0.f + parent_frame.m_size.y));
 	}
 
 	Widget* tooltip(Widget& parent, const Frame& parent_frame, span<cstring> elements)
 	{
-		return tooltip(parent, vec2{ parent_frame.m_position.x, parent_frame.m_position.y + parent_frame.m_size.y }, elements);
+		return tooltip(parent, vec2(parent_frame.m_position.x, parent_frame.m_position.y + parent_frame.m_size.y), elements);
 	}
 
 	Widget* tooltip(Widget& parent, const Frame& parent_frame, cstring element)

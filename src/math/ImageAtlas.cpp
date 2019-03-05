@@ -159,8 +159,8 @@ namespace mud
 
 		for(size_t i = 0; i < m_frame_coords.size(); ++i)
 		{
-			vec4 uv = { vec2{ m_frame_coords[i] } * atlas_inverse_size,
-						vec2{ m_frame_coords[i] + m_frame_size } * atlas_inverse_size };
+			vec4 uv = { vec2(m_frame_coords[i]) * atlas_inverse_size,
+						vec2(m_frame_coords[i] + m_frame_size) * atlas_inverse_size };
 			m_frame_uvs.push_back(uv);
 		}
 	}

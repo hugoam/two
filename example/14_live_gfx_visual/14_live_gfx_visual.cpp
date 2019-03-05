@@ -32,7 +32,7 @@ void define_visual_script(VisualScript& script)
 	Var& grid_position = *script.function(multiply<vec3>, { &coords, &grid_interval });
 	Var& position = *script.function(subtract<vec3>, { &grid_position, &c });
 
-	Var& offsets = script.value(vec3{ 0.21f, 0.f, 0.37f });
+	Var& offsets = script.value(vec3(0.21f, 0.f, 0.37f));
 	Var& f = *script.function(multiply<vec3>, { &coords, &offsets });
 	Var& angles = *script.function(add<vec3>, { &f, &time });
 	Var& rotation = script.create<quat>({ &angles });

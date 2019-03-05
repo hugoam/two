@@ -176,7 +176,7 @@ namespace mud
 
 	void OrbitController::update_eye()
 	{
-		quat rotation = quat(vec3{ m_pitch, m_yaw, 0.f });
+		quat rotation = quat({ m_pitch, m_yaw, 0.f });
 		this->set_eye(rotation);
 	}
 
@@ -648,7 +648,7 @@ namespace ui
 		for(const KeyMove& key_move : moves)
 			move_key(viewer, controller.m_speed, key_move);
 
-		vec3 velocity = rotate(quat(vec3{ controller.m_pitch, controller.m_yaw, 0.f }), controller.m_speed);
+		vec3 velocity = rotate(quat({ controller.m_pitch, controller.m_yaw, 0.f }), controller.m_speed);
 		controller.set_target(viewer.m_camera.m_target + velocity);
 
 		return controller;

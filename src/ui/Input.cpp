@@ -232,7 +232,7 @@ namespace
 		Curve(const vec2& size, float min, float max, span<float> values, span<float> points)
 			: m_min(min), m_max(max), m_values(values), m_points(points)
 		{
-			m_scale = size * vec2{ 1.f, max - min };
+			m_scale = size * vec2(1.f, max - min);
 		}
 
 		float m_min;
@@ -244,7 +244,7 @@ namespace
 		vec2 point(size_t i)
 		{
 			float t = m_points.size() > 0 ? m_points[i] : i / float(m_values.size() - 1);
-			return m_scale * vec2{ t, (m_values[i] - m_min) };
+			return m_scale * vec2(t, (m_values[i] - m_min));
 		}
 
 		size_t point_at(vec2 position)
@@ -268,7 +268,7 @@ namespace
 		{
 			vec2 begin = curve.point(i);
 			vec2 end = curve.point(i + 1);
-			vg.path_bezier(begin, begin + vec2{ distance, 0.f }, end - vec2{ distance, 0.f }, end, false);
+			vg.path_bezier(begin, begin + vec2(distance, 0.f), end - (distance, 0.f), end, false);
 			vg.stroke(paint);
 		}
 	}

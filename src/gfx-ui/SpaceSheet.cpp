@@ -81,7 +81,7 @@ namespace mud
 		static Clock clock;
 		if(m_quad)
 		{
-			//quat rotation = { vec3{ 0.002f * float(clock.step()), 0.f, 0.f } };
+			//quat rotation = { vec3(0.002f * float(clock.step()), 0.f, 0.f) };
 			//m_quad->m_node.m_rotation = m_quad->m_node.m_rotation * rotation;
 		}
 	}

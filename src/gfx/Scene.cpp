@@ -104,28 +104,28 @@ namespace mud
 
 	void gather_items(Scene& scene, const Camera& camera, vector<Item*>& items)
 	{
-		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
+		const Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
 
-		Plane near_plane = camera.near_plane();
+		const Plane near_plane = camera.near_plane();
 
-		vec4 lod_levels = camera.m_far * vec4{ 0.02f, 0.3f, 0.6f, 0.8f };
+		const vec4 lod_levels = camera.m_far * vec4(0.02f, 0.3f, 0.6f, 0.8f);
 
 		//items.reserve(m_pool->pool<Item>().size());
 		scene.m_pool->pool<Item>().iterate([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
 			{
-				bool no_cull = (item.m_flags & ItemFlag::NoCull) != 0;
+				const bool no_cull = (item.m_flags & ItemFlag::NoCull) != 0;
 				if(!no_cull && !frustum_aabb_intersection(planes, item.m_aabb))
 					return;
 
-				float depth = distance(near_plane, item.m_aabb.m_center);
+				const float depth = distance(near_plane, item.m_aabb.m_center);
 
-				vec4 comparison = vec4(greater(vec4(depth), lod_levels));
-				float index = dot(vec4(1.f), comparison);
-				uint8_t lod = uint8_t(min(index, 3.f));
+				const vec4 comparison = vec4(greater(vec4(depth), lod_levels));
+				const float index = dot(vec4(1.f), comparison);
+				const uint8_t lod = uint8_t(min(index, 3.f));
 
-				bool has_lod = (item.m_flags & (ItemFlag::Lod0 << lod)) != 0;
+				const bool has_lod = (item.m_flags & (ItemFlag::Lod0 << lod)) != 0;
 				if(has_lod)
 				{
 					item.m_depth = depth;

@@ -278,7 +278,7 @@ namespace mud
 						morph_shape.m_tangents.resize(tangents.size());
 
 						for(size_t i = 0; i < packer.m_tangents.size(); ++i)
-							morph_shape.m_tangents[i] = vec4{ tangents[i], packer.m_tangents[i].w };
+							morph_shape.m_tangents[i] = { tangents[i], packer.m_tangents[i].w };
 					}
 
 					morphs.push_back(morph_shape);

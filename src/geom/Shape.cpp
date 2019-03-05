@@ -292,7 +292,7 @@ namespace mud
 		const float rand1 = randf(0.f, 1.f) * c_pi * 2.f;
 		const float sqrtf1 = sqrt(1.0f - rand0 * rand0);
 
-		return vec3{ sqrtf1 * cos(rand1), sqrtf1 * sin(rand1), rand0 } * radius;
+		return vec3(sqrtf1 * cos(rand1), sqrtf1 * sin(rand1), rand0) * radius;
 	}
 
 	inline vec3 distribute_spherical(float radius, float min, float max)
@@ -305,7 +305,7 @@ namespace mud
 	inline vec3 distribute_circle(float radius)
 	{
 		const float angle = randf(0.f, 1.f) * c_pi * 2.f;
-		return vec3{ cos(angle), 0.0f, sin(angle) } * radius;
+		return vec3(cos(angle), 0.0f, sin(angle)) * radius;
 	}
 
 	inline vec3 distribute_ring(float radius, float min = 0.f, float max = 1.f)

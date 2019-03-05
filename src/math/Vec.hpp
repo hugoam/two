@@ -395,9 +395,9 @@ namespace mud
 	export_ inline unsigned int& rect_w(uvec4& rect) { return rect.z; }
 	export_ inline unsigned int& rect_h(uvec4& rect) { return rect.w; }
 
-	export_ inline vec2 rect_offset(const vec4& rect) { return{ rect.x, rect.y }; }
-	export_ inline vec2 rect_size(const vec4& rect) { return{ rect.z, rect.w }; }
-	export_ inline vec2 rect_sum(const vec4& rect) { return vec2{ rect.x, rect.y } + vec2{ rect.z, rect.w }; }
+	export_ inline vec2 rect_offset(const vec4& rect) { return { rect.x, rect.y }; }
+	export_ inline vec2 rect_size(const vec4& rect) { return { rect.z, rect.w }; }
+	export_ inline vec2 rect_sum(const vec4& rect) { return vec2(rect.x, rect.y) + vec2(rect.z, rect.w); }
 	export_ inline vec2 rect_center(const vec4& rect) { return rect_offset(rect) + rect_size(rect) * 0.5f; }
 
 	export_ inline vec3 to_vec3(const Colour& colour) { return { colour.r, colour.g, colour.b }; }
