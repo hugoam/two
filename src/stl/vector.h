@@ -13,6 +13,7 @@ namespace stl
 #include <stl/stddef.h>
 #include <stl/decls.h>
 #include <stl/allocator.h>
+#include <stl/new.h>
 //#include <stl/buffer.h>
 
 //#define USE_UVECTOR

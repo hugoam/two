@@ -8,6 +8,7 @@
 
 #include <stdint.h>
 #include <cmath>
+#include <cstdlib>
 
 namespace stl
 {

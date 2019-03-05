@@ -1145,14 +1145,14 @@ extern "C" {
 	mud::Light* DECL mud_Light__construct_3(mud::Node3* node, mud::LightType type, bool shadows) {
 		return new mud::Light(*node, type, shadows);
 	}
-	mud::Light* DECL mud_Light__construct_4(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* ) {
-		return new mud::Light(*node, type, shadows, *);
+	mud::Light* DECL mud_Light__construct_4(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* colour) {
+		return new mud::Light(*node, type, shadows, *colour);
 	}
-	mud::Light* DECL mud_Light__construct_5(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* , float energy) {
-		return new mud::Light(*node, type, shadows, *, energy);
+	mud::Light* DECL mud_Light__construct_5(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* colour, float energy) {
+		return new mud::Light(*node, type, shadows, *colour, energy);
 	}
-	mud::Light* DECL mud_Light__construct_6(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* , float energy, float range) {
-		return new mud::Light(*node, type, shadows, *, energy, range);
+	mud::Light* DECL mud_Light__construct_6(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* colour, float energy, float range) {
+		return new mud::Light(*node, type, shadows, *colour, energy, range);
 	}
 	mud::Node3* DECL mud_Light__get_node(mud::Light* self) {
 		return &self->m_node;

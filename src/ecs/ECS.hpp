@@ -351,7 +351,7 @@ namespace mud
 		const uint64_t prototype = ecs.prototype<Types...>();
 
 		const vector<EntityStream*> matches = ecs.match(prototype);
-		const size_t num_matches = matches.size();
+		//const size_t num_matches = matches.size();
 		for(EntityStream* stream : matches)
 		{
 			tuple<TBuffer<Types>&...> buffers = { stream->buffer<Types>()... };
@@ -379,7 +379,7 @@ namespace mud
 	template <unsigned EcsType, unsigned NumComponents>
 	inline void tECS<EcsType, NumComponents>::add_buffer(EntityStream& stream, uint64_t prototype, uint32_t index, unique<Buffer> buffer)
 	{
-		if(prototype & (1ULL << index) != 0)
+		if((prototype & (1ULL << index)) != 0)
 			stream.add_buffer(index, move(buffer));
 	}
 
@@ -390,7 +390,7 @@ namespace mud
 	}
 
 	template <unsigned EcsType, unsigned NumComponents>
-	inline void tECS<EcsType, NumComponents>::add_stream(uint64_t prototype, string name)
+	inline void tECS<EcsType, NumComponents>::add_stream(uint64_t prototype, const string& name)
 	{
 		const uint16_t index = uint16_t(m_streams.size());
 		m_streams.push_back({ name.c_str(), index, m_typemap });

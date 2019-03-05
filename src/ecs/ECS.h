@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stl/memory.h>
 #include <stl/map.h>
+#include <stl/string.h>
 #include <pool/SparsePool.h>
 #include <type/Type.h>
 #include <type/Ref.h>
@@ -176,7 +177,7 @@ namespace mud
 	public:
 		void add_buffer(EntityStream& stream, uint64_t prototype, uint32_t index, unique<Buffer> buffer);
 
-		void add_stream(uint64_t prototype, string name = "");
+		void add_stream(uint64_t prototype, const string& name = "");
 
 		EntityStream& stream(uint64_t prototype);
 
