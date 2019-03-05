@@ -158,8 +158,7 @@ void mud_GfxSystem_add_resource_path(void* object, span<void*> args, void*& resu
 void mud_GfxSystem_debug_material(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::GfxSystem*>(object)).debug_material(); }
 void mud_GfxSystem_fetch_material(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_material(*static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<bool*>(args[2])); }
 void mud_GfxSystem_fetch_image256_material(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_image256_material(*static_cast<mud::Image256*>(args[0])); }
-void mud_GfxSystem_fetch_symbol(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_symbol(*static_cast<mud::Symbol*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::DrawMode*>(args[2])); }
-void mud_GfxSystem_fetch_symbol_material(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_symbol_material(*static_cast<mud::Symbol*>(args[0]), *static_cast<mud::DrawMode*>(args[1])); }
+void mud_GfxSystem_fetch_symbol_material(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).symbol_material(*static_cast<mud::Symbol*>(args[0]), *static_cast<mud::DrawMode*>(args[1])); }
 void mud_ImportConfig__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ImportConfig(  ); }
 void mud_ImportConfig__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ImportConfig((*static_cast<mud::ImportConfig*>(other))); }
 void mud_Item__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Item(  ); }
@@ -1253,8 +1252,7 @@ namespace mud
 			{ t, "debug_material", Address(), mud_GfxSystem_debug_material, {}, { &type<mud::Material>(), QualType::None } },
 			{ t, "fetch_material", Address(), mud_GfxSystem_fetch_material, { { "name", type<stl::string>(),  }, { "shader", type<stl::string>(),  }, { "builtin", type<bool>(), Param::Default, &fetch_material_0_builtin_default } }, { &type<mud::Material>(), QualType::None } },
 			{ t, "fetch_image256_material", Address(), mud_GfxSystem_fetch_image256_material, { { "image", type<mud::Image256>(),  } }, { &type<mud::Material>(), QualType::None } },
-			{ t, "fetch_symbol", Address(), mud_GfxSystem_fetch_symbol, { { "symbol", type<mud::Symbol>(),  }, { "shape", type<mud::Shape>(),  }, { "draw_mode", type<mud::DrawMode>(),  } }, { &type<mud::Model>(), QualType::None } },
-			{ t, "fetch_symbol_material", Address(), mud_GfxSystem_fetch_symbol_material, { { "symbol", type<mud::Symbol>(),  }, { "draw_mode", type<mud::DrawMode>(),  } }, { &type<mud::Material>(), QualType::None } }
+			{ t, "symbol_material", Address(), mud_GfxSystem_fetch_symbol_material, { { "symbol", type<mud::Symbol>(),  }, { "draw_mode", type<mud::DrawMode>(),  } }, { &type<mud::Material>(), QualType::None } }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
@@ -1524,7 +1522,7 @@ namespace mud
 		static Member members[] = {
 			{ t, offsetof(mud::MaterialBase, m_blend_mode), type<mud::BlendMode>(), "blend_mode", &blend_mode_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialBase, m_cull_mode), type<mud::CullMode>(), "cull_mode", &cull_mode_default, Member::Value, nullptr },
-			{ t, offsetof(mud::MaterialBase, m_depth_draw_mode), type<mud::DepthDraw>(), "depth_draw_mode", &depth_draw_mode_default, Member::Value, nullptr },
+			{ t, offsetof(mud::MaterialBase, m_depth_draw), type<mud::DepthDraw>(), "depth_draw_mode", &depth_draw_mode_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialBase, m_depth_test), type<mud::DepthTest>(), "depth_test", &depth_test_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialBase, m_uv0_scale), type<mud::vec2>(), "uv0_scale", &uv0_scale_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialBase, m_uv0_offset), type<mud::vec2>(), "uv0_offset", &uv0_offset_default, Member::Value, nullptr },
@@ -1969,7 +1967,7 @@ namespace mud
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Scene__construct_0, { { "gfx_system", type<mud::GfxSystem>(),  } } }
+			{ t, mud_Scene__construct_0, { { "gfx", type<mud::GfxSystem>(),  } } }
 		};
 		// copy constructor
 		// members

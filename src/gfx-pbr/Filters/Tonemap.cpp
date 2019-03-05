@@ -25,11 +25,11 @@ namespace mud
 	GpuState<BCS> GpuState<BCS>::me;
 	GpuState<Tonemap> GpuState<Tonemap>::me;
 
-	BlockTonemap::BlockTonemap(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy)
-		: GfxBlock(gfx_system, *this)
+	BlockTonemap::BlockTonemap(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy)
+		: GfxBlock(gfx, *this)
 		, m_filter(filter)
 		, m_copy(copy)
-		, m_program(gfx_system.programs().create("filter/tonemap"))
+		, m_program(gfx.programs().create("filter/tonemap"))
 	{
 		static cstring options[] = { "ADJUST_BCS", "COLOR_CORRECTION" };
 		static cstring modes[] = { "TONEMAP_MODE" };

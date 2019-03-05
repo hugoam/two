@@ -22,7 +22,7 @@ namespace mud
 	template <class T>
 	class SparsePool;
 
-	template <class T>
+	export_ template <class T>
 	struct refl_ struct_ SparseHandle
 	{
 		SparseHandle();
@@ -53,7 +53,7 @@ namespace mud
 		static void destroy(const OwnedHandle<T>& handle) { UNUSED(handle); }
 	};
 
-	template <class T>
+	export_ template <class T>
 	struct refl_ struct_ nocopy_ OwnedHandle : public SparseHandle<T>
 	{
 		OwnedHandle();
@@ -71,56 +71,21 @@ namespace mud
 		operator SparseHandle<T>() const;
 	};
 
-	//template <bool Dense = false>
-	//using SparseIndexMap = vector<uint32_t>;
-	//template <>
-	//using SparseIndexMap<true> = unordered_map<uint32_t, uint32_t>;
-
-	template <bool Dense = false>
-	class SparseIndices
-	{
-	public:
-		SparseIndices();
-
-		void add();
-		void clear();
-		void erase(uint32_t handle);
-		void ensure(uint32_t capacity);
-		uint32_t& operator[](uint32_t at);
-		uint32_t size() const;
-
-	private:
-		vector<uint32_t> m_indices;
-	};
-
-	template <>
-	class SparseIndices<true>
-	{
-	public:
-		SparseIndices();
-
-		void add();
-		void clear();
-		void erase(uint32_t handle);
-		void ensure(uint32_t capacity);
-		uint32_t& operator[](uint32_t at);
-		uint32_t size() const;
-
-	private:
-		unordered_map<uint32_t, uint32_t> m_indices;
-	};
-
-	template <bool Dense = false>
-	class SparseHandles
+	export_ class MUD_POOL_EXPORT SparseHandles
 	{
 	public:
 		SparseHandles();
 
 		void ensure(uint32_t capacity);
+
 		uint32_t alloc();
-		uint32_t create();
+		uint32_t alloc(uint32_t count);
 		void add(uint32_t handle);
+
+		uint32_t create();
+		uint32_t create(uint32_t count);
 		uint32_t remove(uint32_t handle);
+
 		void clear();
 
 		uint32_t& operator[](uint32_t at);
@@ -132,7 +97,7 @@ namespace mud
 		uint32_t handle(uint32_t index) const;
 
 	private:
-		SparseIndices<Dense> m_indices;
+		vector<uint32_t> m_indices;
 		vector<uint32_t> m_handles;
 	};
 
@@ -152,7 +117,7 @@ namespace mud
 		virtual void clear();
 
 	public:
-		SparseHandles<false> m_handles;
+		SparseHandles m_handles;
 		vector<T> m_objects;
 		vector<uint32_t> m_available;
 	};

@@ -18,21 +18,21 @@
 namespace mud
 {
 	template <class T_Asset>
-	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx_system, const string& path)
-		: m_gfx_system(gfx_system)
+	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx, const string& path)
+		: m_gfx(gfx)
 		, m_path(path)
 	{}
 
 	template <class T_Asset>
-	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx_system, const string& path, const Loader& loader)
-		: m_gfx_system(gfx_system)
+	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx, const string& path, const Loader& loader)
+		: m_gfx(gfx)
 		, m_path(path)
 		, m_loader(loader)
 	{}
 
 	template <class T_Asset>
-	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx_system, const string& path, const string& format)
-		: m_gfx_system(gfx_system)
+	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx, const string& path, const string& format)
+		: m_gfx(gfx)
 		, m_path(path)
 	{
 		UNUSED(format);
@@ -103,8 +103,8 @@ namespace mud
 		if(m_assets.find(name) == m_assets.end())
 		{
 			string filename = m_path + string(name);
-			LocatedFile location = m_formats.size() > 0 ? m_gfx_system.locate_file(filename, m_formats)
-														: m_gfx_system.locate_file(filename);
+			LocatedFile location = m_formats.size() > 0 ? m_gfx.locate_file(filename, m_formats)
+														: m_gfx.locate_file(filename);
 
 			if(!location)
 				return nullptr;

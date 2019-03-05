@@ -87,7 +87,7 @@ namespace mud
 		constr_ Circle(float radius, Axis axis = Axis::Y);
 		constr_ Circle(const vec3& center, float radius, Axis axis = Axis::Y);
 
-		bool operator==(const Circle& other) const { return m_radius == other.m_radius && m_axis == other.m_axis && m_center == other.m_center; }
+		bool operator==(const Circle& other) const;
 
 		attr_ float m_radius = 1.f;
 		attr_ Axis m_axis = Axis::X;
@@ -102,11 +102,24 @@ namespace mud
 		constr_ Torus(float radius, float solid_radius, Axis axis = Axis::Y);
 		constr_ Torus(const vec3& center, float radius, float solid_radius, Axis axis = Axis::Y);
 
-		bool operator==(const Torus& other) const { return m_radius == other.m_radius && m_solid_radius == other.m_solid_radius && m_axis == other.m_axis && m_center == other.m_center; }
+		//bool operator==(const Torus& other) const;
 
 		attr_ float m_radius = 1.f;
 		attr_ float m_solid_radius = 1.f;
 		attr_ Axis m_axis = Axis::X;
+
+		virtual object<Shape> clone() const;
+	};
+
+	export_ struct refl_ MUD_GEOM_EXPORT TorusKnot final : public Shape
+	{
+	public:
+		constr_ TorusKnot();
+		constr_ TorusKnot(float radius, float solid_radius);
+		constr_ TorusKnot(const vec3& center, float radius, float solid_radius);
+
+		attr_ float m_radius = 1.f;
+		attr_ float m_solid_radius = 1.f;
 
 		virtual object<Shape> clone() const;
 	};
@@ -190,7 +203,6 @@ namespace mud
 		virtual object<Shape> clone() const;
 	};
 
-
 	export_ struct refl_ MUD_GEOM_EXPORT Cube : public Shape
 	{
 	public:
@@ -242,6 +254,18 @@ namespace mud
 		Circle m_circleX;
 		Circle m_circleY;
 		Circle m_circleZ;
+
+		virtual object<Shape> clone() const;
+	};
+
+	export_ struct refl_ MUD_GEOM_EXPORT Icosahedron final : public Shape
+	{
+	public:
+		constr_ Icosahedron();
+		constr_ Icosahedron(float radius);
+		constr_ Icosahedron(const vec3& center, float radius);
+
+		attr_ float m_radius = 1.f;
 
 		virtual object<Shape> clone() const;
 	};

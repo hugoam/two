@@ -15,22 +15,15 @@ using namespace mud;
 struct Lines // LineSegmentsGeometry
 {
 	//var plane = new THREE.BufferGeometry();
-	Lines(GfxSystem& gfx_system)
+	Lines(GfxSystem& gfx)
 	{
-		Model& model = gfx_system.models().create("lines");
-		Mesh& mesh = model.add_mesh("lines", true);
-
 		MeshPacker geometry;
 
 		geometry.m_positions = { vec3(-1, 2, 0), vec3(1, 2, 0), vec3(-1, 1, 0), vec3(1, 1, 0), vec3(-1, 0, 0), vec3(1, 0, 0), vec3(-1, -1, 0), vec3(1, -1, 0) };
 		geometry.m_uv0s = { vec2(-1, 2), vec2(1, 2), vec2(-1, 1), vec2(1, 1), vec2(-1, -1), vec2(1, -1), vec2(-1, -2), vec2(1, -2) };
 		geometry.m_indices = { 0, 2, 1, 2, 3, 1, 2, 4, 3, 4, 5, 3, 4, 6, 5, 6, 7, 5 };
 
-		mesh.write(geometry);
-		model.add_item(mesh, bxidentity());
-		model.prepare();
-
-		m_model = &model;
+		m_model = &gfx.create_model("lines", geometry);
 	}
 
 	Model* m_model = nullptr;
@@ -82,26 +75,19 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
-
-	//controls = new THREE.OrbitControls(camera, renderer.domElement);
 	//controls.minDistance = 10;
 	//controls.maxDistance = 500;
 
-	Camera& camera = viewer.m_camera;
-	camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 1000.f;
-	//camera.m_eye = vec3(-40.f, 0.f, 60.f);
-
 	Scene& scene = viewer.m_scene;
 
-	//camera2 = new THREE.PerspectiveCamera( 40, 1, 1, 1000 );
-	//camera2.position.copy( camera.position );
+	//camera2 = new THREE.PerspectiveCamera(40, 1, 1, 1000);
+	//camera2.position.copy(camera.position);
 	
-	static Program& program = app.m_gfx_system.programs().fetch("line");
+	static Program& program = app.m_gfx.programs().fetch("line");
 
-	//Material& material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
-	static Material& material = app.m_gfx_system.materials().create("line", [&](Material& m) {
+	static Material& material = app.m_gfx.materials().create("line", [&](Material& m) {
 		m.m_program = &program;
-		m.m_solid.m_colour = rgba(0xffffffff);
+		m.m_solid.m_colour = rgb(0xffffff);
 		m.m_line.m_line_width = 5.f;
 		m.m_line.m_dashed = true;
 		m.m_base.m_shader_color = ShaderColor::Vertex;
@@ -115,20 +101,23 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		once = true;
 
-		Lines lines = Lines(app.m_gfx_system);
+		Camera& camera = viewer.m_camera;
+		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 1000.f;
+		camera.m_eye = vec3(-40.f, 0.f, 60.f);
+
+		Lines lines = Lines(app.m_gfx);
 
 		vector<vec3> points = hilbert3d(vec3(0.f), 20.f, 1);
 
-		CatmullRomCurve3 curve = { points };
-		uint32_t divisions = round(12 * points.size());
+		CurveCatmullRom3 curve = { points };
+		uint32_t divisions = uint32_t(12U * points.size());
+
 		float l = float(divisions);
 
-		for(int i = 0; i < divisions - 1; i++)
+		for(uint32_t i = 0; i < divisions - 1; i++)
 		{
 			vec3 start = curve.point(float(i+0) / l);
 			vec3 end   = curve.point(float(i+1) / l);
-
-			//printf("segment %f, %f, %f to %f, %f, %f\n", start.x, start.y, start.z, end.x, end.y, end.z);
 
 			Colour color_start = hsl(float(i+0) / l, 1.f, 0.5f);
 			Colour color_end   = hsl(float(i+1) / l, 1.f, 0.5f);
@@ -140,12 +129,10 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		segments = lines.m_segments;
 
-		// THREE.Line2 ( LineGeometry, LineMaterial )
-		
-
 		Node3& n = gfx::nodes(scene).add(Node3());
 		Item& it = gfx::items(scene).add(Item(n, *lines.m_model, 0U, &material));
 		batch = &gfx::batches(scene).add(Batch(it));
+		it.m_batch = batch;
 
 		//line = new THREE.Line2(geometry, matLine);
 		//line.computeLineDistances();
@@ -153,29 +140,29 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar)
 		//scene.add(line);
 
 
-		// THREE.Line ( BufferGeometry, LineBasicMaterial ) - rendered with gl.LINE_STRIP
+		// THREE.Line (BufferGeometry, LineBasicMaterial) - rendered with gl.LINE_STRIP
 
 		/*var geo = new THREE.BufferGeometry();
-		geo.addAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
-		geo.addAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
+		geo.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+		geo.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
-		matLineBasic = new THREE.LineBasicMaterial( { vertexColors: THREE.VertexColors } );
-		matLineDashed = new THREE.LineDashedMaterial( { vertexColors: THREE.VertexColors, scale: 2, dashSize: 1, gapSize: 1 } );
+		matLineBasic = new THREE.LineBasicMaterial({ vertexColors: THREE.VertexColors });
+		matLineDashed = new THREE.LineDashedMaterial({ vertexColors: THREE.VertexColors, scale: 2, dashSize: 1, gapSize: 1 });
 
-		line1 = new THREE.Line( geo, matLineBasic );
+		line1 = new THREE.Line(geo, matLineBasic);
 		line1.computeLineDistances();
 		line1.visible = false;
-		scene.add( line1 );
+		scene.add(line1);
 
 		initGui();*/
 	}
 
 	Gnode& root = scene.begin();
 
-	static Program& pbr = *app.m_gfx_system.programs().file("pbr/pbr");
+	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
-	static Material& testmat = app.m_gfx_system.materials().create("test", [&](Material& m) {
-		m.m_program = &pbr; m.m_pbr.m_albedo = rgba(0x888888ff); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f;
+	static Material& testmat = app.m_gfx.materials().create("test", [&](Material& m) {
+		m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x888888); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f;
 	});
 
 	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);

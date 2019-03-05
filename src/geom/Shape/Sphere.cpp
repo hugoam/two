@@ -24,7 +24,7 @@ namespace mud
 		UNUSED(shape); UNUSED(sphere);
 		IcoSphere& icosphere = IcoSphere::s_levels[ICO_SPHERE_LOD];
 
-		return { int(icosphere.m_vertices.size()), int(icosphere.m_lines.size()) * 2 };
+		return { uint32_t(icosphere.m_vertices.size()), uint32_t(icosphere.m_lines.size()) * 2U };
 	}
 
 	void draw_icosphere_lines(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
@@ -44,7 +44,7 @@ namespace mud
 		UNUSED(shape); UNUSED(sphere);
 		IcoSphere& icosphere = IcoSphere::s_levels[ICO_SPHERE_LOD];
 
-		return { int(icosphere.m_vertices.size()), int(icosphere.m_faces.size()) * 3 };
+		return { uint32_t(icosphere.m_vertices.size()), uint32_t(icosphere.m_faces.size()) * 3U };
 	}
 
 	void draw_icosphere_triangles(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
@@ -88,7 +88,7 @@ namespace mud
 		uint16_t rings = sphere_rings(uint(shape.m_symbol.m_detail));
 		uint16_t sectors = sphere_sectors(uint(shape.m_symbol.m_detail));
 
-		return { int(rings * sectors), int((rings-1) * (sectors-1) * 4) };
+		return { uint32_t(rings * sectors), uint32_t((rings-1U) * (sectors-1U) * 4U) };
 	}
 
 	void draw_sphere_lines(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
@@ -113,7 +113,7 @@ namespace mud
 		uint16_t rings = sphere_rings(uint(shape.m_symbol.m_detail));
 		uint16_t sectors = sphere_sectors(uint(shape.m_symbol.m_detail));
 
-		return { int(rings * sectors), int((rings-1) * (sectors-1) * 6) };
+		return { uint32_t(rings * sectors), uint32_t((rings-1U) * (sectors-1U) * 6U) };
 	}
 
 	void draw_sphere_triangles(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)

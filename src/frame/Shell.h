@@ -44,7 +44,7 @@ namespace mud
 		attr_ string m_resource_path;
 		
 		attr_ JobSystem m_job_system;
-		attr_ GfxSystem m_gfx_system;
+		attr_ GfxSystem m_gfx;
 		attr_ ShellContext m_editor;
 
 		unique<Context> m_context = nullptr;

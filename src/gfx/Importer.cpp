@@ -20,8 +20,8 @@ module mud.gfx;
 
 namespace mud
 {
-	Import::Import(GfxSystem& gfx_system, const string& filepath, const ImportConfig& config)
-		: m_gfx_system(gfx_system),m_config(config)
+	Import::Import(GfxSystem& gfx, const string& filepath, const ImportConfig& config)
+		: m_gfx(gfx),m_config(config)
 	{
 		m_path = file_directory(filepath);
 		m_file = file_name(filepath);
@@ -61,9 +61,9 @@ namespace mud
 		return false;
 	}
 
-	void import_to_prefab(GfxSystem& gfx_system, Prefab& prefab, Import& state, uint32_t flags)
+	void import_to_prefab(GfxSystem& gfx, Prefab& prefab, Import& state, uint32_t flags)
 	{
-		UNUSED(gfx_system);
+		UNUSED(gfx);
 		prefab.m_nodes.reserve(state.m_items.size());
 		prefab.m_items.reserve(state.m_items.size());
 

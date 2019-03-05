@@ -21,18 +21,20 @@ module mud.gfx;
 
 namespace mud
 {
+	uint32_t item_flags(uint32_t flags)
+	{
+		if(flags == 0) return ItemFlag::Default;
+		if((flags & ItemFlag::LodAll) == 0) return flags | ItemFlag::LodAll;
+		return flags;
+	}
+
 	Item::Item() {}
 	Item::Item(Node3& node, const Model& model, uint32_t flags, Material* material)
 		: m_node(&node)
 		, m_model(const_cast<Model*>(&model))
-		, m_flags(flags)
+		, m_flags(item_flags(flags))
 		, m_material(material)
 	{
-		if(flags == 0)
-			m_flags = ItemFlag::Default;
-		if((flags & ItemFlag::LodAll) == 0)
-			m_flags |= ItemFlag::LodAll;
-
 		this->update_aabb();
 	}
 
@@ -63,9 +65,7 @@ namespace mud
 
 	Batch::Batch(Item& item)
 		: m_item(&item)
-	{
-		item.m_batch = this;
-	}
+	{}
 
 	void Batch::submit(bgfx::Encoder& encoder, const ModelItem& item) const
 	{
@@ -89,7 +89,7 @@ namespace mud
 		uint32_t num = bgfx::getAvailInstanceDataBuffer(count, stride);
 		if(num == 0) return {};
 		bgfx::allocInstanceDataBuffer(&m_buffer, num, stride);
-		return { (float*)m_buffer.data, num };
+		return { (float*)m_buffer.data, num * stride / sizeof(float) };
 	}
 
 	void Batch::transforms(span<mat4> instances)

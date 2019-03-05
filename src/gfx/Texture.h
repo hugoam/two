@@ -38,9 +38,9 @@ namespace mud
 	export_ MUD_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, cstring file_path, uint64_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bool generate_mips = false);
 	export_ MUD_GFX_EXPORT bimg::ImageContainer* load_bgfx_image(bx::AllocatorI& allocator, bx::FileReaderI& reader, cstring file_path, bgfx::TextureFormat::Enum dst_format);
 
-	export_ MUD_GFX_EXPORT void save_texture(GfxSystem& gfx_system, Texture& texture, const string& path);
-	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx_system, Texture& texture, const string& path);
-	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx_system, Texture& texture, span<uint8_t> data);
+	export_ MUD_GFX_EXPORT void save_texture(GfxSystem& gfx, Texture& texture, const string& path);
+	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx, Texture& texture, const string& path);
+	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx, Texture& texture, span<uint8_t> data);
 	export_ MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data);
 	export_ MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, const bgfx::Memory& data);
 

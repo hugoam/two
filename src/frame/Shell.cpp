@@ -27,14 +27,14 @@ namespace mud
         : m_exec_path(exec_path)
 		, m_resource_path(resource_path)
 		, m_job_system()
-		, m_gfx_system(resource_path)
+		, m_gfx(resource_path)
 	{
 		// @todo this should be automatically done by math module
 		register_math_conversions();
 
 		//declare_gfx_edit();
 
-		m_gfx_system.m_job_system = &m_job_system;
+		m_gfx.m_job_system = &m_job_system;
 		m_job_system.adopt();
 
 		this->init();
@@ -66,9 +66,9 @@ namespace mud
 
 	bool Shell::end_frame()
 	{
-		m_gfx_system.begin_frame();
+		m_gfx.begin_frame();
 		m_ui_window->render_frame();
-		return m_gfx_system.next_frame();
+		return m_gfx.next_frame();
 	}
 
 	bool Shell::pump()
@@ -81,14 +81,14 @@ namespace mud
 
 	void Shell::init()
 	{
-		m_context = m_gfx_system.create_context("mud EditorCore", { 1600U, 900U }, false);
+		m_context = m_gfx.create_context("mud EditorCore", { 1600U, 900U }, false);
 		GfxContext& context = as<GfxContext>(*m_context);
 #if defined MUD_VG_VG
-		m_vg = oconstruct<VgVg>(m_resource_path.c_str(), &m_gfx_system.allocator());
+		m_vg = oconstruct<VgVg>(m_resource_path.c_str(), &m_gfx.allocator());
 #elif defined MUD_VG_NANOVG
 		m_vg = oconstruct<VgNanoBgfx>(m_resource_path.c_str());
 #endif
-		m_gfx_system.m_vg = &*m_vg;
+		m_gfx.m_vg = &*m_vg;
 		context.m_reset_vg = [](GfxContext& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.idx); };
 
 		m_ui_window = make_unique<UiWindow>(*m_context, *m_vg);

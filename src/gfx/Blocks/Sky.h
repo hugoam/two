@@ -33,7 +33,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT BlockSky : public GfxBlock
 	{
 	public:
-		BlockSky(GfxSystem& gfx_system, BlockFilter& filter);
+		BlockSky(GfxSystem& gfx, BlockFilter& filter);
 
 		virtual void init_block() override;
 

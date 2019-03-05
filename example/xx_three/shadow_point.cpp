@@ -6,9 +6,9 @@
 
 using namespace mud;
 
-Texture& generateTexture(GfxSystem& gfx_system)
+Texture& generateTexture(GfxSystem& gfx)
 {
-	Texture& texture = gfx_system.textures().create("half");
+	Texture& texture = gfx.textures().create("half");
 
 	uint16_t width = 2U;
 	uint16_t height = 2U;
@@ -29,11 +29,12 @@ Texture& generateTexture(GfxSystem& gfx_system)
 
 void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controller(viewer);
 	ui::trackball_controller(viewer);
 
-	//scene.add( new THREE.AmbientLight( 0x111122 ) );
+	//scene.add(new THREE.AmbientLight(0x111122));
 
 	static Material* cube_material = nullptr;
 	static Material* sphere_material = nullptr;
@@ -43,23 +44,23 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		once = true;
 
-		Program* pbr = app.m_gfx_system.programs().file("pbr/pbr");
+		Program* pbr = app.m_gfx.programs().file("pbr/pbr");
 
-		Material& c = app.m_gfx_system.materials().fetch("cube");
+		Material& c = app.m_gfx.materials().fetch("cube");
 		c.m_program = pbr;
 		c.m_base.m_cull_mode = CullMode::Front;
-		c.m_pbr = MaterialPbr(rgba(0xa0adafff));
+		c.m_pbr = MaterialPbr(rgb(0xa0adaf));
 		c.m_pbr.m_normal = -1.f;
 		//	shininess: 10,
 		//	specular: 0x111111,
 		cube_material = &c;
 
-		Material& s = app.m_gfx_system.materials().fetch("sphere");
+		Material& s = app.m_gfx.materials().fetch("sphere");
 		s.m_program = pbr;
 		s.m_base.m_cull_mode = CullMode::None;
 		s.m_base.m_uv0_scale = { 1.f, 3.5f };
 		s.m_alpha.m_alpha_test = true;
-		s.m_alpha.m_alpha.m_texture = &generateTexture(app.m_gfx_system);
+		s.m_alpha.m_alpha = &generateTexture(app.m_gfx);
 		s.m_pbr.m_normal = -1.f; // @todo @bug @hack check why gl_FrontFacing in shader inverts normals
 		sphere_material = &s;
 
@@ -101,11 +102,11 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 	static bool moving = true;
 	static float time = 0.f;
 	if(moving)
-		time = app.m_gfx_system.m_time;
+		time = app.m_gfx.m_time;
 
 	vec3 pos0 = light_pos(time); // vec3(0.f, 10.f, 0.f);
 	quat rot0 = light_rot(time); // quat(vec3(0.f, c_pi / 2.f + c_pi / 4.f, c_pi / 2.f + c_pi / 4.f));
-	Gnode& light0 = light_source(scene, rgba(0x0088ffff), pos0, rot0);
+	Gnode& light0 = light_source(scene, rgb(0x0088ff), pos0, rot0);
 
 	gfx::shape(scene, Cylinder(X3, 0.1f, 1.f, Axis::X), Symbol::plain(Colour::Red));
 	gfx::shape(scene, Cylinder(Y3, 0.1f, 1.f, Axis::Y), Symbol::plain(Colour::Green));
@@ -113,7 +114,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	vec3 pos1 = light_pos(time + c_pi);
 	quat rot1 = light_rot(time + c_pi);
-	Gnode& light1 = light_source(scene, rgba(0xff8888ff), pos1, rot1);
+	Gnode& light1 = light_source(scene, rgb(0xff8888), pos1, rot1);
 
 	Box box = Cube(vec3(15.f));
 	Gnode& node = gfx::node(scene, {});// , Y3 * 10.f);

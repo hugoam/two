@@ -26,7 +26,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene.begin();
 
-	Material& material = milky_white(app.m_gfx_system);
+	Material& material = milky_white(app.m_gfx);
 
 	//gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
@@ -77,7 +77,7 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
-	app.m_gfx_system.init_pipeline(pipeline_pbr);
+	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

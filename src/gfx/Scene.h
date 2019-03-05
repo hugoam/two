@@ -82,10 +82,10 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Scene
 	{
 	public:
-		constr_ Scene(GfxSystem& gfx_system);
+		constr_ Scene(GfxSystem& gfx);
 		~Scene();
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 
 		object<ImmediateDraw> m_immediate;
 		object<ParticleSystem> m_particle_system;

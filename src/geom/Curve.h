@@ -6,57 +6,24 @@
 
 #include <stl/vector.h>
 #include <math/Vec.h>
+#include <math/Math.h>
 #include <geom/Forward.h>
 
 namespace mud
 {
-
 	struct Curve3
 	{
-		size_t m_arcLengthDivisions = 200;
+		float length() const;
 
-		virtual vec3 point(float t, vec3 target = vec3(0.f)) = 0;
-		//virtual vec2 point(float t, vec2 target = vec2(0.f)) = 0;
+		virtual vec3 point(float t) const = 0;
+		//virtual vec2 point(float t) const = 0;
 
-		// Get point at relative position in curve according to arc length
-		// - u [0 .. 1]
-		vec3 point_at(float u, vec3 target = vec3(0.f))//, bool optionalTarget)
-		{
-			float t = this->at(u);
-			return this->point(t, target); // , optionalTarget);
-		}
+		vec3 tangent(float t) const;
 
-		// Get sequence of points using point(t)
-		vector<vec3> points(size_t divisions = 5);
+		vector<vec3> points(size_t subdiv = 5) const;
 
-		// Get sequence of points using pointAt(u)
-		vector<vec3> getSpacedPoints(size_t divisions = 5);
-
-		// Get total curve arc length
-		float getLength();
-
-		// Get list of cumulative segment lengths
-
-		vector<float> m_cacheArcLengths;
-		bool m_dirty = false;
-
-		vector<float> getLengths();
-		vector<float> getLengths(size_t divisions);
-
-		void updateArcLengths();
-
-		// Given u (0 .. 1), get a t to find p. This gives you points which are equidistant
-
-		float at(float u);
-		float at(float u, float distance);
-
-		// Returns a unit vector tangent at t
-		// In case any sub curve does not implement its tangent derivation,
-		// 2 points a small delta apart will be used to find its gradient
-		// which seems to give a reasonable approximation
-
-		vec3 getTangent(float t);
-		vec3 getTangentAt(float u);
+		vector<float> lengths() const;
+		vector<float> lengths(size_t subdiv) const;
 
 		struct FrenetFrames
 		{
@@ -66,10 +33,111 @@ namespace mud
 		};
 
 		// see http://www.cs.indiana.edu/pub/techreports/TR425.pdf
-		FrenetFrames computeFrenetFrames(size_t segments, bool closed);
+		FrenetFrames frenet_frames(size_t segments, bool closed);
+
+		size_t m_curved_subdiv = 200;
 	};
 
-	struct CatmullRomCurve3 : public Curve3
+	struct Curve3Sampler
+	{
+		Curve3Sampler(Curve3& curve);
+
+		void subdiv(size_t subdiv);
+		vector<vec3> points(size_t subdiv = 5) const;
+		vec3 point(float u) const;
+		vec3 tangent(float u) const;
+		float at(float u) const;
+		float at_distance(float distance) const;
+
+		Curve3& m_curve;
+		vector<float> m_lengths;
+		bool m_dirty = false;
+	};
+
+	struct CurveSpline
+	{
+		vec2 point(float t);
+
+		attr_ vector<vec2> m_points;
+	};
+
+	struct CurveSpline3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vector<vec3> m_points;
+	};
+
+	struct CurveEllipse
+	{
+		vec2 m_a = vec2(0.f);
+		vec2 m_radius = vec2(1.f);
+		float m_angle[2] = { 0.f, c_2pi };
+
+		bool m_clockwise = false;
+		float m_rotation = 0.f;
+
+		vec2 point(float t);
+	};
+
+	struct CurveArcCurve : public CurveEllipse
+	{};
+
+	struct CurveBezierCubic // : public Curve3
+	{
+		vec2 point(float t);
+
+		attr_ vec2 v0;
+		attr_ vec2 v1;
+		attr_ vec2 v2;
+		attr_ vec2 v3;
+	};
+
+	struct CurveBezierCubic3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vec3 v0;
+		attr_ vec3 v1;
+		attr_ vec3 v2;
+		attr_ vec3 v3;
+	};
+
+	struct CurveLine
+	{
+		vec2 point(float t);
+
+		attr_ vec2 v0;
+		attr_ vec2 v1;
+	};
+
+	struct CurveLine3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vec3 v0;
+		attr_ vec3 v1;
+	};
+
+	struct CurveBezierQuadratic // : public Curve3
+	{
+		vec2 point(float t);
+
+		attr_ vec2 v0;
+		attr_ vec2 v1;
+		attr_ vec2 v2;
+	};
+
+	struct CurveBezierQuadratic3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vec3 v0;
+		attr_ vec3 v1;
+		attr_ vec3 v2;
+	};
+
+	struct CurveCatmullRom3 : public Curve3
 	{
 		enum class CurveType
 		{
@@ -78,15 +146,13 @@ namespace mud
 			CatmullRom
 		};
 
-		CatmullRomCurve3(const vector<vec3>& points, bool closed = false, CurveType curveType = CurveType::Centripetal, float tension = 0.5f)
-			: m_points(points), m_closed(closed), m_curveType(curveType), m_tension(tension)
-		{}
+		CurveCatmullRom3(const vector<vec3>& points, bool closed = false, CurveType curveType = CurveType::Centripetal, float tension = 0.5f);
 
-		vector<vec3> m_points = {};
-		bool m_closed = false;
-		CurveType m_curveType = CurveType::Centripetal;
-		float m_tension = 0.5f;
+		virtual vec3 point(float t) const override;
 
-		virtual vec3 point(float t, vec3 target = vec3(0.f)) override;
+		attr_ vector<vec3> m_points = {};
+		attr_ bool m_closed = false;
+		attr_ CurveType m_curve_type = CurveType::Centripetal;
+		attr_ float m_tension = 0.5f;
 	};
 }

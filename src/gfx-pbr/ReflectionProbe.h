@@ -51,7 +51,7 @@ namespace mud
 	export_ class MUD_GFX_PBR_EXPORT PassProbes : public RenderPass
 	{
 	public:
-		PassProbes(GfxSystem& gfx_system, BlockReflection& block_reflection);
+		PassProbes(GfxSystem& gfx, BlockReflection& block_reflection);
 
 		BlockReflection& m_block_reflection;
 
@@ -61,7 +61,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockReflection : public DrawBlock
 	{
 	public:
-		BlockReflection(GfxSystem& gfx_system);
+		BlockReflection(GfxSystem& gfx);
 
 		virtual void init_block() override;
 

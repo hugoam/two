@@ -20,17 +20,17 @@ module mud.bgfx;
 
 namespace mud
 {
-	BgfxContext::BgfxContext(BgfxSystem& gfx_system, const string& name, uvec2 size, bool fullScreen, bool init)
+	BgfxContext::BgfxContext(BgfxSystem& gfx, const string& name, uvec2 size, bool fullScreen, bool init)
 #if defined MUD_CONTEXT_GLFW
-		: GlfwContext(gfx_system, name, size, fullScreen, false)
+		: GlfwContext(gfx, name, size, fullScreen, false)
 #elif defined MUD_CONTEXT_WASM
-		: EmContext(gfx_system, name, size, fullScreen)
+		: EmContext(gfx, name, size, fullScreen)
 #elif defined MUD_CONTEXT_WINDOWS
-		: WinContext(gfx_system, name, size, fullScreen)
+		: WinContext(gfx, name, size, fullScreen)
 #endif
 	{
 		if(init)
-			gfx_system.init(*this);
+			gfx.init(*this);
 	}
 
 	void BgfxContext::reset_fb(const uvec2& size)
@@ -40,7 +40,7 @@ namespace mud
 
 	BgfxSystem::BgfxSystem(const string& resource_path)
 		: RenderSystem(resource_path, true)
-		//, m_capture_every(100)
+		, m_capture_every(100)
 	{
 		printf("INFO: Init Gfx System\n");
 	}
@@ -72,7 +72,7 @@ namespace mud
 
 		printf("GfxSystem: bgfx::init\n");
 		bgfx::Init params = {};
-		params.type = bgfx::RendererType::OpenGL;
+		//params.type = bgfx::RendererType::OpenGL;
 		//params.type = bgfx::RendererType::Direct3D11;
 		params.resolution.width = uint32_t(context.m_size.x);
 		params.resolution.height = uint32_t(context.m_size.y);

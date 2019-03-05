@@ -135,10 +135,10 @@ namespace mud
 	export_ class MUD_GFX_EXPORT ParticleSystem
 	{
 	public:
-		ParticleSystem(GfxSystem& gfx_system, TPool<Flare>& emitters);
+		ParticleSystem(GfxSystem& gfx, TPool<Flare>& emitters);
 		~ParticleSystem();
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 		BlockParticles& m_block;
 
 		void shutdown();
@@ -156,7 +156,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT BlockParticles : public GfxBlock
 	{
 	public:
-		BlockParticles(GfxSystem& gfx_system);
+		BlockParticles(GfxSystem& gfx);
 		~BlockParticles();
 
 		virtual void init_block() override;
@@ -177,7 +177,7 @@ namespace mud
 	export_ class MUD_GFX_EXPORT PassParticles : public RenderPass
 	{
 	public:
-		PassParticles(GfxSystem& gfx_system);
+		PassParticles(GfxSystem& gfx);
 
 		virtual void submit_render_pass(Render& render) final;
 	};

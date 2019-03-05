@@ -6,8 +6,13 @@
 
 #include <stl/vector.hpp>
 
-void xx_buffergeometry(Shell& app, Widget& parent, Dockbar& dockbar)
+#define INSTANCING 1
+
+using namespace mud;
+
+void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	UNUSED(dockbar);
 	constexpr uint max_particles = 1000;
 	constexpr uint num_particles = 500;
 
@@ -39,21 +44,25 @@ void xx_buffergeometry(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	constexpr uint32_t segments = max_particles * max_particles;
 
-	static Program& pointprog = app.m_gfx_system.programs().fetch("point");
-	static Program& lineprog = app.m_gfx_system.programs().fetch("line");
+	static Program& pointprog = app.m_gfx.programs().fetch("point");
+	static Program& lineprog = app.m_gfx.programs().fetch("line");
 
 	//Material& material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
-	static Material& pointmat = app.m_gfx_system.materials().create("point", [&](Material& m) {
+	static Material& pointmat = app.m_gfx.materials().create("point", [&](Material& m) {
 		m.m_program = &pointprog;
 		m.m_base.m_blend_mode = BlendMode::Add;
+#if INSTANCING
+		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Triangles));
+#else
 		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Points));
+#endif
 		m.m_alpha.m_is_alpha = true;
 		m.m_solid.m_colour = rgb(0xffffff);//hsl(1.f, 0.3f, 0.7f);
 		m.m_point.m_project = false;
 		m.m_point.m_point_size = 3.f;
 	});
 
-	static Material& linemat = app.m_gfx_system.materials().create("line", [&](Material& m) {
+	static Material& linemat = app.m_gfx.materials().create("line", [&](Material& m) {
 		m.m_program = &lineprog;
 		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Lines));
 		m.m_base.m_blend_mode = BlendMode::Add;
@@ -67,8 +76,10 @@ void xx_buffergeometry(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Mesh* points_mesh = nullptr;
 	static Mesh* lines_mesh = nullptr;
 
-	static Item* points = nullptr;
-	static Item* lines = nullptr;
+#if INSTANCING
+	static Batch* points_batch = nullptr;
+	static Batch* lines_batch = nullptr;
+#endif
 
 	static bool once = false;
 	if(!once)
@@ -79,31 +90,38 @@ void xx_buffergeometry(Shell& app, Widget& parent, Dockbar& dockbar)
 		camera.m_near = 1.f; camera.m_far = 4000.f;
 		camera.m_eye.z = 1750.f;
 
-		Model& points_model = app.m_gfx_system.models().create("particles");
-		points_mesh = &points_model.add_mesh("particles", true);
-
+#if INSTANCING
+		Model& points_model = *app.m_gfx.models().get("point");
+#else
 		MeshPacker pointgeom; // = new THREE.BufferGeometry();
 		pointgeom.m_primitive = PrimitiveType::Points;
+#endif
 
 		for(uint32_t i = 0; i < max_particles; i++)
 		{
 			vec3 p = vec3(randf(), randf(), randf()) * r - r2;
 			vec3 v = vec3(randf(), randf(), randf()) * 2.f - 1.f;
+#if !INSTANCING
 			pointgeom.m_positions.push_back(p);
 			pointgeom.m_indices.push_back(i);
+#endif
 			particles.push_back({ p, v, 0U });
 		}
 
-		points_mesh->write(pointgeom, false, true);
+#if !INSTANCING
+		Model& model = app.m_gfx.create_model("particles", geometry, false, dynamic = true);
 		points_mesh->m_range = { 0U, num_particles };
-
-		points_model.add_item(*points_mesh, bxidentity());
-		points_model.prepare();
+#endif
 
 		Node3& n = gfx::nodes(scene).add(Node3());
-		points = &gfx::items(scene).add(Item(n, points_model, 0U, &pointmat));
+		Item& p = gfx::items(scene).add(Item(n, points_model, 0U, &pointmat));
 
-		Model& lines_model = app.m_gfx_system.models().create("segments");
+#if INSTANCING
+		points_batch = &gfx::batches(scene).add(Batch(p));
+		p.m_batch = points_batch;
+#endif
+
+		Model& lines_model = app.m_gfx.models().create("segments");
 		lines_mesh = &lines_model.add_mesh("segments", true);
 
 		GpuMesh gpu_mesh = alloc_mesh(PrimitiveType::Lines, VertexAttribute::Position | VertexAttribute::Colour, segments, segments * 2);
@@ -114,7 +132,8 @@ void xx_buffergeometry(Shell& app, Widget& parent, Dockbar& dockbar)
 		//geometry.computeBoundingSphere();
 
 		Node3& n1 = gfx::nodes(scene).add(Node3());
-		lines = &gfx::items(scene).add(Item(n1, lines_model, 0U, &linemat));
+		Item& lines = gfx::items(scene).add(Item(n1, lines_model, 0U, &linemat));
+		UNUSED(lines);
 	}
 
 	uint32_t numConnected = 0;
@@ -122,8 +141,14 @@ void xx_buffergeometry(Shell& app, Widget& parent, Dockbar& dockbar)
 	for(uint32_t i = 0; i < num_particles; i++)
 		particles[i].numConnections = 0;
 
+#if INSTANCING
+	struct Point { vec4 d0; vec4 d1; };
+	span<float> memory = points_batch->begin(num_particles, sizeof(Point));
+	span<Point> points = { (Point*)memory.data(), memory.size() * sizeof(float) / sizeof(Point) };
+#else
 	GpuMesh gpu_points = points_mesh->begin();
-	//GpuMesh gpu_lines = lines_mesh->begin();
+	GpuMesh gpu_lines = lines_mesh->begin();
+#endif
 
 	for(uint32_t i = 0; i < num_particles; i++)
 	{
@@ -131,8 +156,12 @@ void xx_buffergeometry(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		vec3& position = particle.position;
 		position += particle.velocity;
+#if INSTANCING
+		points[i] = { vec4(position, 0.f), vec4(vec2(1.f), vec2(0.f)) };
+#else
 		gpu_points.m_writer.position(position);
 		gpu_points.m_writer.index(i);
+#endif
 
 		if(position.y < -r2 || position.y > r2)
 			particle.velocity.y = -particle.velocity.y;
@@ -161,25 +190,31 @@ void xx_buffergeometry(Shell& app, Widget& parent, Dockbar& dockbar)
 				other.numConnections++;
 				other.numConnections++;
 
-				float alpha = 1.f - dist / controller.minDistance;
+				//float alpha = 1.f - dist / controller.minDistance;
 
-				//gpu_lines.m_writer.position(particle.position);
-				//gpu_lines.m_writer.position(other.position);
-				//
-				//gpu_lines.m_writer.colour(Colour(alpha));
-				//gpu_lines.m_writer.colour(Colour(alpha));
+#if INSTANCING
+#else
+				gpu_lines.m_writer.position(particle.position);
+				gpu_lines.m_writer.position(other.position);
+				
+				gpu_lines.m_writer.colour(Colour(alpha));
+				gpu_lines.m_writer.colour(Colour(alpha));
+#endif
 
 				numConnected++;
 			}
 		}
 	}
 
+#if INSTANCING
+#else
 	points_mesh->update(gpu_points);
 
-	//lines_mesh->update(gpu_lines);
-	//lines_mesh->m_range = { 0U, numConnected * 2U };
+	lines_mesh->update(gpu_lines);
+	lines_mesh->m_range = { 0U, numConnected * 2U };
+#endif
 
-	float time = app.m_gfx_system.m_time;
+	//const float time = app.m_gfx.m_time;
 	//group.rotation.y = time * 0.1;
 
 	//gui.add(effectController, "showDots").onChange(function(value) {

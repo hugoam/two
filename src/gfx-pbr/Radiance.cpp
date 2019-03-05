@@ -24,11 +24,11 @@ module mud.gfx.pbr;
 
 namespace mud
 {
-	BlockRadiance::BlockRadiance(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy)
-		: DrawBlock(gfx_system, type<BlockRadiance>())
+	BlockRadiance::BlockRadiance(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy)
+		: DrawBlock(gfx, type<BlockRadiance>())
 		, m_filter(filter)
 		, m_copy(copy)
-		, m_prefilter_program(gfx_system.programs().create("filter/prefilter_envmap"))
+		, m_prefilter_program(gfx.programs().create("filter/prefilter_envmap"))
 	{
 		static cstring options[] = { "RADIANCE_ENVMAP", "RADIANCE_ARRAY" };
 		m_shader_block->m_options = options;
@@ -59,7 +59,7 @@ namespace mud
 #ifdef DEBUG_RADIANCE
 		if(bgfx::isValid(render.m_env->m_radiance.m_roughness_array))
 		{
-			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+			BlockCopy& copy = *m_gfx.m_pipeline->block<BlockCopy>();
 			copy.debug_show_texture(render, render.m_env->m_radiance.m_roughness_array, vec4(0.f), false, false, false, 2);
 		}
 #endif
@@ -87,10 +87,10 @@ namespace mud
 
 	void BlockRadiance::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
 	{
+		UNUSED(element);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		bgfx::TextureHandle radiance = render.m_env->m_radiance.m_roughness_array;
 
-		// @todo implement bgfx::setViewTexture
 		if(bgfx::isValid(radiance))
 			encoder.setTexture(uint8_t(TextureSampler::Radiance), radiance);
 	}
@@ -114,7 +114,7 @@ namespace mud
 		if(bgfx::isValid(radiance.m_roughness_array))
 			bgfx::destroy(radiance.m_roughness_array);
 
-		RenderTarget& target = *m_gfx_system.context().m_target;
+		RenderTarget& target = *m_gfx.context().m_target;
 		uint16_t width = uint16_t(target.m_size.x); //radiance.m_texture->m_width;
 		uint16_t height = uint16_t(target.m_size.y); //radiance.m_texture->m_height;
 

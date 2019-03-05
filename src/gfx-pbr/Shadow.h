@@ -64,7 +64,7 @@ namespace mud
 	export_ class MUD_GFX_PBR_EXPORT PassShadow : public PassDepth
 	{
 	public:
-		PassShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockShadow& block_shadow);
+		PassShadow(GfxSystem& gfx, BlockDepth& block_depth, BlockShadow& block_shadow);
 
 		BlockDepth& m_block_depth;
 		BlockShadow& m_block_shadow;
@@ -77,7 +77,7 @@ namespace mud
 	export_ class MUD_GFX_PBR_EXPORT PassShadowmap : public RenderPass
 	{
 	public:
-		PassShadowmap(GfxSystem& gfx_system, BlockShadow& block_shadow);
+		PassShadowmap(GfxSystem& gfx, BlockShadow& block_shadow);
 
 		BlockShadow& m_block_shadow;
 
@@ -86,7 +86,7 @@ namespace mud
 
 	struct ShadowRenderer : public Renderer
 	{
-		ShadowRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		ShadowRenderer(GfxSystem& gfx, Pipeline& pipeline);
 	};
 
 	export_ struct LightBounds
@@ -146,7 +146,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockShadow : public DrawBlock
 	{
 	public:
-		BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockLight& block_light);
+		BlockShadow(GfxSystem& gfx, BlockDepth& block_depth, BlockLight& block_light);
 
 		virtual void init_block() override;
 

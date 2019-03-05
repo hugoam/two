@@ -61,7 +61,7 @@ public:
 // 32x32 is a reasonable size for the grid to have smooth enough colors.
 export_ struct MUD_GFX_EXPORT ProceduralSky
 {
-	void init(GfxSystem& gfx_system, ivec2 vertex_count);
+	void init(GfxSystem& gfx, ivec2 vertex_count);
 	void shutdown();
 	void submit(Render& render, Pass& render_pass);
 
@@ -110,7 +110,7 @@ export_ struct MUD_GFX_EXPORT PerezSky
 
 	bool m_initialized = false;
 
-	void init(GfxSystem& gfx_system);
+	void init(GfxSystem& gfx);
 	void render(Render& render);
 };
 
@@ -273,13 +273,13 @@ struct ScreenPosVertex
 
 bgfx::VertexDecl ScreenPosVertex::ms_decl;
 
-void ProceduralSky::init(GfxSystem& gfx_system, ivec2 vertex_count)
+void ProceduralSky::init(GfxSystem& gfx, ivec2 vertex_count)
 {
 	// Create vertex stream declaration.
 	ScreenPosVertex::init();
 
-	m_program = gfx_system.programs().create("sky").default_version();
-	//m_program_colorBandingFix = gfx_system.get_program("sky_color_banding_fix").default_version();
+	m_program = gfx.programs().create("sky").default_version();
+	//m_program_colorBandingFix = gfx.get_program("sky_color_banding_fix").default_version();
 
 	m_preventBanding = false;
 
@@ -336,14 +336,14 @@ void ProceduralSky::submit(Render& render, Pass& render_pass)
 	encoder.submit(render_pass.m_index, m_preventBanding ? m_program_colorBandingFix : m_program);
 }
 
-void PerezSky::init(GfxSystem& gfx_system)
+void PerezSky::init(GfxSystem& gfx)
 {
 	m_sun_luminance_xyz.SetMap(sunLuminanceXYZTable);
 	m_sky_luminance_xyz.SetMap(skyLuminanceXYZTable);
 
 	u_uniform.createUniforms();
 
-	m_sky.init(gfx_system, { 32, 32 });
+	m_sky.init(gfx, { 32, 32 });
 
 	m_sun.Update(0);
 
@@ -446,9 +446,9 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
 	if(!g_sky.m_initialized)
-		g_sky.init(app.m_gfx_system);
+		g_sky.init(app.m_gfx);
 
-	//app.m_gfx_system->m_pipeline->block<BlockTonemap>()->m_enabled = false;
+	//app.m_gfx->m_pipeline->block<BlockTonemap>()->m_enabled = false;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//viewer.m_viewport.m_lighting = Lighting::VoxelGI;
@@ -460,7 +460,7 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene.begin();
 
-	Material& material = milky_white(app.m_gfx_system);
+	Material& material = milky_white(app.m_gfx);
 
 	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
 	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &material);
@@ -488,7 +488,7 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
-	app.m_gfx_system.init_pipeline(pipeline_pbr);
+	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

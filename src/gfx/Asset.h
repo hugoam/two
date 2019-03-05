@@ -24,16 +24,16 @@ namespace mud
 		using Loader = function<void(T_Asset&, const string&)>;
 		using Init = function<void(T_Asset&)>;
 
-		AssetStore(GfxSystem& gfx_system, const string& path);
-		AssetStore(GfxSystem& gfx_system, const string& path, const Loader& loader);
-		AssetStore(GfxSystem& gfx_system, const string& path, const string& format);
+		AssetStore(GfxSystem& gfx, const string& path);
+		AssetStore(GfxSystem& gfx, const string& path, const Loader& loader);
+		AssetStore(GfxSystem& gfx, const string& path, const string& format);
 
 		AssetStore(const AssetStore& other) = delete;
 		AssetStore& operator=(const AssetStore& other) = delete;
 
 		void add_format(const string& format, const Loader& loader);
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 
 		string m_path;
 		Loader m_loader;

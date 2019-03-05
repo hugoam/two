@@ -102,7 +102,7 @@ void human_controller_3rdperson(Viewer& viewer, Human& human)
 
 void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	static ImporterGltf gltf_importer(app.m_gfx_system);
+	static ImporterGltf gltf_importer(app.m_gfx);
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	OrbitController& orbit = ui::orbit_controller(viewer);
@@ -110,7 +110,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene.begin();
 
-	Material& material = milky_white(app.m_gfx_system);
+	Material& material = milky_white(app.m_gfx);
 
 	gfx::shape(scene, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol::plain(Colour::White), 0U, &material);
 
@@ -194,8 +194,8 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
-	app.m_gfx_system.add_resource_path("examples/05_character");
-	app.m_gfx_system.init_pipeline(pipeline_pbr);
+	app.m_gfx.add_resource_path("examples/05_character");
+	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

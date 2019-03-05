@@ -14,6 +14,7 @@
 #include <geom/ShapesComplex.h>
 #include <geom/Symbol.h>
 #include <geom/Types.h>
+#include <geom/Voxel.h>
 #include <geom/Shape/Circle.h>
 #include <geom/Shape/CompoundShape.h>
 #include <geom/Shape/Cube.h>

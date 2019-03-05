@@ -10,6 +10,8 @@
 #include <stl/span.h>
 #include <type/Unique.h>
 #endif
+#include <geom/Primitive.h>
+#include <geom/Symbol.h>
 #include <gfx/Forward.h>
 #ifndef MUD_BGFX_EXPORT
 #define MUD_BGFX_EXPORT MUD_GFX_EXPORT
@@ -34,12 +36,12 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT GfxContext : public BgfxContext
 	{
 	public:
-		GfxContext(GfxSystem& gfx_system, const string& name, uvec2 size, bool fullScreen, bool init);
+		GfxContext(GfxSystem& gfx, const string& name, uvec2 size, bool fullScreen, bool init);
 		~GfxContext();
 
 		virtual void reset_fb(const uvec2& size) override;
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 
 		object<RenderTarget> m_target;
 
@@ -89,7 +91,7 @@ namespace mud
 
 		void init(GfxContext& context);
 
-		using PipelineDecl = void(*)(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred);
+		using PipelineDecl = void(*)(GfxSystem& gfx, Pipeline& pipeline, bool deferred);
 		void init_pipeline(PipelineDecl pipeline);
 
 		meth_ void default_pipeline();
@@ -127,11 +129,14 @@ namespace mud
 		Texture& default_texture(TextureHint hint);
 
 		meth_ Material& debug_material();
+		meth_ Model& create_model(const string& name);
+		meth_ Model& create_model(const string& name, const GpuMesh& gpu_mesh, bool readback = false, bool optimize = false);
+		meth_ Model& create_model(const string& name, const MeshPacker& geometry, bool readback = false, bool optimize = false);
 		meth_ Material& fetch_material(const string& name, const string& shader, bool builtin = true);
 		meth_ Material& fetch_image256_material(const Image256& image);
 
-		meth_ Model& fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
-		meth_ Material& fetch_symbol_material(const Symbol& symbol, DrawMode draw_mode);
+		meth_ Model& shape(const Shape& shape, const Symbol& symbol = {}, DrawMode draw_mode = PLAIN);
+		meth_ Material& symbol_material(const Symbol& symbol, DrawMode draw_mode);
 
 		void create_debug_materials();
 

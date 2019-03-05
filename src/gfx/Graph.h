@@ -40,6 +40,7 @@ namespace mud
 		Node3* m_node = nullptr;
 		Item* m_item = nullptr;
 		Batch* m_batch = nullptr;
+		Direct* m_direct = nullptr;
 		Mime* m_animated = nullptr;
 		Flare* m_particles = nullptr;
 		Light* m_light = nullptr;
@@ -51,6 +52,8 @@ namespace mud
 
 	export_ extern template class refl_ TPool<Node3>;
 	export_ extern template class refl_ TPool<Item>;
+	export_ extern template class refl_ TPool<Batch>;
+	export_ extern template class refl_ TPool<Direct>;
 	export_ extern template class refl_ TPool<Mime>;
 	export_ extern template class refl_ TPool<Light>;
 	export_ extern template class refl_ TPool<Flare>;

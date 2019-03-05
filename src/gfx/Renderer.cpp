@@ -15,6 +15,7 @@ module mud.gfx;
 #include <gfx/Renderer.h>
 #include <gfx/ManualRender.h>
 #include <gfx/Pipeline.h>
+#include <gfx/Draw.h>
 #include <gfx/Shot.h>
 #include <gfx/Program.h>
 #include <gfx/Viewport.h>
@@ -138,8 +139,8 @@ namespace mud
 		vector<unique<RenderPass>> m_render_passes;
 	};
 
-	Renderer::Renderer(GfxSystem& gfx_system, Pipeline& pipeline, Shading shading)
-		: m_gfx_system(gfx_system)
+	Renderer::Renderer(GfxSystem& gfx, Pipeline& pipeline, Shading shading)
+		: m_gfx(gfx)
 		, m_pipeline(pipeline)
 		, m_shading(shading)
 		, m_impl(make_unique<Impl>())
@@ -213,19 +214,19 @@ namespace mud
 		render.m_pass_index = sub.m_pass_index;
 	}
 
-	GfxBlock::GfxBlock(GfxSystem& gfx_system, Type& type)
-		: m_gfx_system(gfx_system), m_type(type), m_index(++s_block_index)
+	GfxBlock::GfxBlock(GfxSystem& gfx, Type& type)
+		: m_gfx(gfx), m_type(type), m_index(++s_block_index)
 		, m_shader_block(make_unique<ShaderBlock>())
 	{}
 
 	GfxBlock::~GfxBlock()
 	{}
 
-	RenderPass::RenderPass(GfxSystem& gfx_system, const char* name, PassType pass_type)
-		: m_gfx_system(gfx_system)
+	RenderPass::RenderPass(GfxSystem& gfx, const char* name, PassType pass_type)
+		: m_gfx(gfx)
 		, m_name(name)
 		, m_pass_type(pass_type)
-		, m_gfx_blocks(gfx_system.m_pipeline->m_pass_blocks[pass_type])
+		, m_gfx_blocks(gfx.m_pipeline->m_pass_blocks[pass_type])
 	{}
 
 	DrawElement::DrawElement(Item& item, const Program& program, const ModelItem& model, const Material& material, const Skin* skin)
@@ -261,8 +262,8 @@ namespace mud
 		vector<DrawBlock*> m_draw_blocks;
 	};
 
-	DrawPass::DrawPass(GfxSystem& gfx_system, const char* name, PassType type)
-		: RenderPass(gfx_system, name, type)
+	DrawPass::DrawPass(GfxSystem& gfx, const char* name, PassType type)
+		: RenderPass(gfx, name, type)
 		, m_impl(make_unique<Impl>())
 	{
 		this->init_blocks();
@@ -280,19 +281,24 @@ namespace mud
 		m_draw_blocks = m_impl->m_draw_blocks;
 	}
 
-	void DrawPass::add_element(Render& render, DrawElement element)
+	void DrawPass::shader_options(Render& render, ShaderVersion& version) const
 	{
 		for(DrawBlock* block : m_impl->m_draw_blocks)
-			block->options(render, element.m_shader_version);
+			block->options(render, version);
+
+		version.set_option(0, BUFFER_ZONES, ZONES_BUFFER);
+		version.set_option(0, BUFFER_LIGHTS, LIGHTS_BUFFER);
+		version.set_option(0, BUFFER_MATERIALS, MATERIALS_BUFFER);
+	}
+
+	void DrawPass::add_element(Render& render, DrawElement element)
+	{
+		this->shader_options(render, element.m_shader_version);
 
 		element.m_shader_version.set_option(0, INSTANCING, element.m_item->m_batch != nullptr);
 		element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ItemFlag::Billboard);
 		element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
 		element.m_shader_version.set_option(0, QNORMALS, element.m_model->m_mesh->m_qnormals);
-
-		element.m_shader_version.set_option(0, BUFFER_ZONES, ZONES_BUFFER);
-		element.m_shader_version.set_option(0, BUFFER_LIGHTS, LIGHTS_BUFFER);
-		element.m_shader_version.set_option(0, BUFFER_MATERIALS, MATERIALS_BUFFER);
 
 		element.m_bgfx_program = const_cast<Program*>(element.m_program)->version(element.m_shader_version);
 
@@ -319,7 +325,7 @@ namespace mud
 
 	void DrawPass::gather_draw_elements(Render& render)
 	{
-		Material& fallback_material = m_gfx_system.debug_material();
+		Material& fallback_material = m_gfx.debug_material();
 
 		for(Item* item : render.m_shot->m_items)
 			for(const ModelItem& model_item : item->m_model->m_items)
@@ -405,7 +411,7 @@ namespace mud
 			this->next_draw_pass(render, render_pass);
 			render.m_viewport.render_pass(m_name, render_pass);
 
-			m_gfx_system.m_pipeline->block<BlockMaterial>()->submit(render, render_pass);
+			m_gfx.m_pipeline->block<BlockMaterial>()->submit(render, render_pass);
 
 			for(DrawBlock* block : m_impl->m_draw_blocks)
 				block->submit(render, render_pass);
@@ -414,11 +420,11 @@ namespace mud
 			auto submit = [&](JobSystem& js, Job* job, size_t start, size_t count)
 			{
 				UNUSED(job);
-				bgfx::Encoder& encoder = *m_gfx_system.m_encoders[js.thread()];
+				bgfx::Encoder& encoder = *m_gfx.m_encoders[js.thread()];
 				this->submit_draw_elements(encoder, render, render_pass, start, count);
 			};
 
-			JobSystem& js = *m_gfx_system.m_job_system;
+			JobSystem& js = *m_gfx.m_job_system;
 			Job* job = split_jobs<16>(js, nullptr, 0, uint32_t(m_impl->m_draw_elements.size()), submit);
 			js.complete(job);
 #else

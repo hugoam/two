@@ -24,11 +24,10 @@ namespace mud
 	{
 		Points = 0,
 		Lines = 1,
-		LineLoop = 2,
-		LineStrip = 3,
-		Triangles = 4,
-		TriangleStrip = 5,
-		TriangleFan = 6,
+		LineStrip = 2,
+		Triangles = 3,
+		TriangleStrip = 4,
+		TriangleFan = 5,
 		Count
 	};
 
@@ -88,23 +87,11 @@ namespace mud
 
 	export_ struct MUD_GEOM_EXPORT MeshAdapter
 	{
-		struct Array
-		{
-			Array();
-			Array(void* pointer, uint32_t count);
-				
-			uint32_t size();
-			void* data() const;
-
-			void* m_pointer;
-			uint32_t m_count;
-		};
-
 		MeshAdapter();
-		MeshAdapter(uint32_t vertex_format, void* vertices, uint32_t num_vertices, void* indices, uint32_t num_indices, bool index32);
+		MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices = {}, bool index32 = false);
 
-		Array m_vertices = {};
-		Array m_indices = {};
+		span<void> m_vertices = {};
+		span<void> m_indices = {};
 
 		//span<void> m_vertices = {};
 		//span<void> m_indices = {};
@@ -148,6 +135,7 @@ namespace mud
 
 		void rewind();
 		void next();
+		void bound();
 
 		MeshAdapter read() const;
 

@@ -159,11 +159,12 @@ namespace mud
 	MeshPacker::MeshPacker()
 	{}
 
-	uint32_t MeshPacker::vertex_format()
+	uint32_t MeshPacker::vertex_format() const
 	{
 		//uint32_t format = m_quantize ? VertexAttribute::QPosition : VertexAttribute::Position;
 		uint32_t format = VertexAttribute::Position;
 		if(!m_normals.empty())	format |= (m_quantize ? VertexAttribute::QNormal : VertexAttribute::Normal);
+		if(!m_colours.empty())	format |= VertexAttribute::Colour;
 		if(!m_tangents.empty())	format |= (m_quantize ? VertexAttribute::QTangent : VertexAttribute::Tangent);
 		if(!m_uv0s.empty())		format |= (m_quantize ? VertexAttribute::QTexCoord0 : VertexAttribute::TexCoord0);
 		if(!m_uv1s.empty())		format |= (m_quantize ? VertexAttribute::QTexCoord1 : VertexAttribute::TexCoord1);
@@ -183,7 +184,7 @@ namespace mud
 			this->generate_tangents();
 	}
 
-	void MeshPacker::pack_vertices(MeshAdapter& writer, const mat4& transform)
+	void MeshPacker::pack_vertices(MeshAdapter& writer, const mat4& transform) const
 	{
 		auto position = [&](uint32_t i) { return vec3(transform * vec4(m_positions[i], 1.f)); };
 		auto normal = [&](uint32_t i) { return normalize(vec3(transform * vec4(m_normals[i], 0.f))); };
@@ -193,14 +194,15 @@ namespace mud
 		{
 			writer.position(position(i));
 			if(!m_normals.empty())	m_quantize ? writer.qnormal(normal(i)) : writer.normal(normal(i));
+			if(!m_colours.empty())  writer.colour(m_colours[i]);
 			if(!m_tangents.empty()) m_quantize ? writer.qtangent(tangent(i)) : writer.tangent(tangent(i));
 			if(!m_uv0s.empty())     m_quantize ? writer.quv0(m_uv0s[i]) : writer.uv0(m_uv0s[i]);
 			if(!m_uv1s.empty())		m_quantize ? writer.quv1(m_uv1s[i]) : writer.uv1(m_uv1s[i]);
 			if(!m_bones.empty())	writer.joints(joints(m_bones[i]));
 			if(!m_weights.empty())	writer.weights(m_weights[i]);
 
-			if(m_primitive == PrimitiveType::Triangles && m_indices.empty())
-				writer.index(i);
+			//if(m_primitive == PrimitiveType::Triangles && m_indices.empty())
+			//	writer.index(i);
 		}
 
 		for(uint32_t i = 0; i < m_indices.size(); ++i)

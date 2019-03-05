@@ -46,7 +46,7 @@ namespace mud
 
 		void next_frame(size_t tick, size_t delta);
 
-		void load_models(GfxSystem& gfx_system, bool from_file = true);
+		void load_models(GfxSystem& gfx, bool from_file = true);
 
 		meth_ void reset();
 		meth_ void observe();

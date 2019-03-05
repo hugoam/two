@@ -45,15 +45,15 @@ namespace mud
 		: m_name(name)
 	{}
 
-	Prefab& import_prefab(GfxSystem& gfx_system, ModelFormat format, const string& name, const ImportConfig& config)
+	Prefab& import_prefab(GfxSystem& gfx, ModelFormat format, const string& name, const ImportConfig& config)
 	{
-		LocatedFile location = gfx_system.locate_file("models/" + name, { format == ModelFormat::obj ? ".obj" : ".gltf" });
-		Prefab& prefab = gfx_system.prefabs().create(name);
-		gfx_system.importer(format)->import_prefab(prefab, location.path(false), config);
+		LocatedFile location = gfx.locate_file("models/" + name, { format == ModelFormat::obj ? ".obj" : ".gltf" });
+		Prefab& prefab = gfx.prefabs().create(name);
+		gfx.importer(format)->import_prefab(prefab, location.path(false), config);
 		return prefab;
 	}
 
-	void destroy_prefab(GfxSystem& gfx_system, Prefab& prefab)
+	void destroy_prefab(GfxSystem& gfx, Prefab& prefab)
 	{
 		set<Model*> models;
 		for(Item& item : prefab.m_items)
@@ -63,10 +63,10 @@ namespace mud
 		{
 			for(ModelItem& model_item : model->m_items)
 			{
-				gfx_system.meshes().destroy(Ref(model_item.m_mesh));
+				gfx.meshes().destroy(Ref(model_item.m_mesh));
 			}
 
-			gfx_system.models().destroy(model->m_name);
+			gfx.models().destroy(model->m_name);
 		}
 	}
 }

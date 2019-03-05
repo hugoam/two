@@ -20,7 +20,8 @@ namespace mud
 		Type* m_type = nullptr;
 #endif
 		virtual void clear() = 0;
-		virtual void add() = 0;
+		virtual void create() = 0;
+		virtual void create(uint32_t count) = 0;
 		virtual void remove(uint32_t index) = 0;
 #ifdef MUD_ECS_TYPED
 		virtual Ref get(uint32_t index) = 0;
@@ -48,7 +49,8 @@ namespace mud
 		TBuffer& operator=(const TBuffer& other) = delete;
 
 		virtual void clear() override {	m_data.clear(); }
-		virtual void add() override { m_data.emplace_back(); }
+		virtual void create() override { m_data.emplace_back(); }
+		virtual void create(uint32_t count) override { m_data.resize(m_data.size() + count); }
 		virtual void remove(uint32_t index) override { swap_pop(m_data, index); }
 
 #ifdef MUD_ECS_TYPED

@@ -69,9 +69,9 @@ namespace mud
 		m_origin = m_aabb.m_center;
 	}
 
-	Model& model_variant(GfxSystem& gfx_system, Model& original, const string& name, span<string> materials, span<Material*> substitutes)
+	Model& model_variant(GfxSystem& gfx, Model& original, const string& name, span<string> materials, span<Material*> substitutes)
 	{
-		Model& variant = gfx_system.models().create(name);
+		Model& variant = gfx.models().create(name);
 		variant = original;
 
 		for(ModelItem& item : variant.m_items)

@@ -75,7 +75,7 @@ namespace mud
 	class MUD_GFX_EXPORT Froxelizer
 	{
 	public:
-		Froxelizer(GfxSystem& gfx_system);
+		Froxelizer(GfxSystem& gfx);
 		~Froxelizer();
 
 		bool prepare(const Viewport& viewport, const mat4& projection, float near, float far);
@@ -119,7 +119,7 @@ namespace mud
 
 		void froxelize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride);
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 
 		ClusteredFrustum m_frustum;
 

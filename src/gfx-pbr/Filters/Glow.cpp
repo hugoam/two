@@ -30,13 +30,13 @@ namespace mud
 {
 	GpuState<Glow> GpuState<Glow>::me;
 
-	BlockGlow::BlockGlow(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur)
-		: GfxBlock(gfx_system, *this)
+	BlockGlow::BlockGlow(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur)
+		: GfxBlock(gfx, *this)
 		, m_filter(filter)
 		, m_copy(copy)
 		, m_blur(blur)
-		, m_bleed_program(gfx_system.programs().create("filter/glow_bleed"))
-		, m_merge_program(gfx_system.programs().create("filter/glow"))
+		, m_bleed_program(gfx.programs().create("filter/glow_bleed"))
+		, m_merge_program(gfx.programs().create("filter/glow"))
 	{
 		static cstring options[] = { "GLOW_FILTER_BICUBIC" };
 		m_shader_block->m_options = options;
@@ -54,7 +54,7 @@ namespace mud
 	{
 		UNUSED(render);
 #ifdef DEBUG_GLOW
-		BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+		BlockCopy& copy = *m_gfx.m_pipeline->block<BlockCopy>();
 		copy.debug_show_texture(render, render.m_target->m_cascade.m_texture, vec4(0.f), false, false, false, 1);
 		copy.debug_show_texture(render, render.m_target->m_ping_pong.last(), vec4(0.f));
 #endif

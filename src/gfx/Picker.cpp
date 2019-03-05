@@ -34,10 +34,10 @@ namespace mud
 {
 #define PICKING_FOV 3.0f
 
-	Picker::Picker(GfxSystem& gfx_system, FrameBuffer& target)
+	Picker::Picker(GfxSystem& gfx, FrameBuffer& target)
 		: m_target(target)
 		, m_size(target.m_size) //PICKING_BUFFER_SIZE)
-		, m_program(gfx_system.programs().fetch("picking_id"))
+		, m_program(gfx.programs().fetch("picking_id"))
 		, m_data(target.m_size.x * target.m_size.y)
 	{
 		u_picking_id = bgfx::createUniform("u_picking_id", bgfx::UniformType::Vec4);

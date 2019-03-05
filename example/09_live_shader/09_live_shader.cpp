@@ -71,7 +71,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	
 	auto draw_quad = [](Render& render, const Pass& render_pass)
 	{
-		BlockFilter& filter = *render.m_scene.m_gfx_system.m_pipeline->block<BlockFilter>();
+		BlockFilter& filter = *render.m_scene.m_gfx.m_pipeline->block<BlockFilter>();
 		filter.submit_quad(*render_pass.m_target, render_pass.m_index, render_pass.m_target->m_fbo, program.default_version(), { render_pass.m_viewport->m_rect });
 	};
 
@@ -105,7 +105,7 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
-	app.m_gfx_system.init_pipeline(pipeline_minimal);
+	app.m_gfx.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

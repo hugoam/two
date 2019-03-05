@@ -23,9 +23,9 @@ module mud.gfx;
 
 namespace mud
 {
-	BlockFilter::BlockFilter(GfxSystem& gfx_system)
-		: GfxBlock(gfx_system, *this)
-		, m_quad_program(gfx_system.programs().create("filter/quad"))
+	BlockFilter::BlockFilter(GfxSystem& gfx)
+		: GfxBlock(gfx, *this)
+		, m_quad_program(gfx.programs().create("filter/quad"))
 	{
 		static cstring options[] = {
 			"UNPACK_DEPTH",
@@ -155,10 +155,10 @@ namespace mud
 		this->submit_quad(target, view, program, quad, flags, render);
 	}
 
-	BlockCopy::BlockCopy(GfxSystem& gfx_system, BlockFilter& filter)
-		: GfxBlock(gfx_system, *this)
+	BlockCopy::BlockCopy(GfxSystem& gfx, BlockFilter& filter)
+		: GfxBlock(gfx, *this)
 		, m_filter(filter)
-		, m_program(gfx_system.programs().create("filter/copy"))
+		, m_program(gfx.programs().create("filter/copy"))
 	{
 		m_program.register_block(filter);
 	}

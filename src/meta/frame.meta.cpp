@@ -57,7 +57,7 @@ namespace mud
 			{ t, offsetof(mud::Shell, m_exec_path), type<stl::string>(), "exec_path", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Shell, m_resource_path), type<stl::string>(), "resource_path", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Shell, m_job_system), type<mud::JobSystem>(), "job_system", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::Shell, m_gfx_system), type<mud::GfxSystem>(), "gfx_system", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Shell, m_gfx), type<mud::GfxSystem>(), "gfx", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::Shell, m_editor), type<mud::ShellContext>(), "editor", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Shell, m_ui), type<mud::Ui>(), "ui", ui_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};

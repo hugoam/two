@@ -34,29 +34,29 @@ namespace mud
 	{
 		constr_ MeshPacker();
 
-		uint32_t vertex_format();
-		uint32_t vertex_count() { return uint32_t(m_positions.size()); }
-		uint32_t index_count() { return m_indices.size() > 0 ? uint32_t(m_indices.size()) : uint32_t(m_positions.size()); }
+		uint32_t vertex_format() const;
+		uint32_t vertex_count() const { return uint32_t(m_positions.size()); }
+		uint32_t index_count() const { return uint32_t(m_indices.size()); }
 
-		PrimitiveType m_primitive = PrimitiveType::Triangles;
+		attr_ PrimitiveType m_primitive = PrimitiveType::Triangles;
 
-		vector<vec3> m_positions;		// Position
-		vector<vec3> m_normals;		// Normal
-		vector<Colour> m_colours;		// Colour
-		vector<vec4> m_tangents;		// Tangent
-		vector<vec3> m_bitangents;		// Bitangent
-		vector<vec2> m_uv0s;			// Texture Coordinates 0
-		vector<vec2> m_uv1s;			// Texture Coordinates 1
-		vector<ivec4> m_bones;			// Bones Indices
-		vector<vec4> m_weights;		// Bones Weights
+		attr_ vector<vec3> m_positions;		// Position
+		attr_ vector<vec3> m_normals;		// Normal
+		attr_ vector<Colour> m_colours;		// Colour
+		attr_ vector<vec4> m_tangents;		// Tangent
+		attr_ vector<vec3> m_bitangents;	// Bitangent
+		attr_ vector<vec2> m_uv0s;			// Texture Coordinates 0
+		attr_ vector<vec2> m_uv1s;			// Texture Coordinates 1
+		attr_ vector<ivec4> m_bones;		// Bones Indices
+		attr_ vector<vec4> m_weights;		// Bones Weights
 
-		vector<uint32_t> m_indices;
+		attr_ vector<uint32_t> m_indices;
 
 		bool m_quantize = false;
 
 		void bake(bool normals, bool tangents);
 
-		void pack_vertices(MeshAdapter& writer, const mat4& transform);
+		void pack_vertices(MeshAdapter& writer, const mat4& transform) const;
 		void generate_normals();
 		void generate_tangents();
 	};

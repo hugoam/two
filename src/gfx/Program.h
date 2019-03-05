@@ -91,9 +91,9 @@ namespace mud
 
 		void reload() { m_update++; }
 
-		void compile(GfxSystem& gfx_system, Version& version, bool compute = false);
+		void compile(GfxSystem& gfx, Version& version, bool compute = false);
 
-		void update(GfxSystem& gfx_system);
+		void update(GfxSystem& gfx);
 
 		bgfx::ProgramHandle default_version();
 		bgfx::ProgramHandle version(const ShaderVersion& config);

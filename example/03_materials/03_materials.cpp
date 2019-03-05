@@ -9,9 +9,9 @@
 
 using namespace mud;
 
-Material& milky_white(GfxSystem& gfx_system, const string& name)
+Material& milky_white(GfxSystem& gfx, const string& name)
 {
-	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
+	Material& mat = gfx.fetch_material(name.c_str(), "pbr/pbr");
 	MaterialPbr& pbr = mat.m_pbr;
 	pbr.m_albedo.m_value = Colour::White;
 	pbr.m_metallic.m_value = 0.4f;
@@ -20,9 +20,9 @@ Material& milky_white(GfxSystem& gfx_system, const string& name)
 	return mat;
 }
 
-Material& mirror(GfxSystem& gfx_system)
+Material& mirror(GfxSystem& gfx)
 {
-	Material& mat = gfx_system.fetch_material("mirror", "pbr/pbr");
+	Material& mat = gfx.fetch_material("mirror", "pbr/pbr");
 	MaterialPbr& pbr = mat.m_pbr;
 	pbr.m_albedo.m_value = Colour::White;
 	pbr.m_metallic.m_value = 1.f;
@@ -30,77 +30,77 @@ Material& mirror(GfxSystem& gfx_system)
 	return mat;
 }
 
-Material& material(GfxSystem& gfx_system, const string& name)
+Material& material(GfxSystem& gfx, const string& name)
 {
-	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
+	Material& mat = gfx.fetch_material(name.c_str(), "pbr/pbr");
 	MaterialPbr& pbr = mat.m_pbr;
 
-	pbr.m_albedo.m_texture = gfx_system.textures().file(name + "/" + name + "_col.jpg");
-	pbr.m_normal.m_texture = gfx_system.textures().file(name + "/" + name + "_nrm.jpg");
-	pbr.m_roughness.m_texture = gfx_system.textures().file(name + "/" + name + "_rgh.jpg");
+	pbr.m_albedo = gfx.textures().file(name + "/" + name + "_col.jpg");
+	pbr.m_normal = gfx.textures().file(name + "/" + name + "_nrm.jpg");
+	pbr.m_roughness = gfx.textures().file(name + "/" + name + "_rgh.jpg");
 
-	if(Texture* ao = gfx_system.textures().file(name + "/" + name + "_AO.jpg"))
-		pbr.m_ambient_occlusion.m_texture = ao;
-	if(Texture* depth = gfx_system.textures().file(name + "/" + name + "_disp.jpg"))
-		pbr.m_depth.m_texture = depth;
-	if(Texture* met = gfx_system.textures().file(name + "/" + name + "_met.jpg"))
+	if(Texture* ao = gfx.textures().file(name + "/" + name + "_AO.jpg"))
+		pbr.m_ambient_occlusion = ao;
+	if(Texture* depth = gfx.textures().file(name + "/" + name + "_disp.jpg"))
+		pbr.m_depth = depth;
+	if(Texture* met = gfx.textures().file(name + "/" + name + "_met.jpg"))
 	{
-		pbr.m_metallic.m_texture = met;
+		pbr.m_metallic = met;
 		pbr.m_metallic.m_value = 1.f;
 	}
 
 	return mat;
 }
 
-Material& fabric_08(GfxSystem& gfx_system)
+Material& fabric_08(GfxSystem& gfx)
 {
-	Material& mat = material(gfx_system, "Fabric08");
+	Material& mat = material(gfx, "Fabric08");
 	mat.m_pbr.m_deep_parallax = true;
 	mat.m_pbr.m_depth.m_value = -0.05f;
 	return mat;
 }
 
-Material& paving_stones_08(GfxSystem& gfx_system)
+Material& paving_stones_08(GfxSystem& gfx)
 {
-	Material& mat = material(gfx_system, "PavingStones08");
+	Material& mat = material(gfx, "PavingStones08");
 	mat.m_pbr.m_deep_parallax = true;
 	mat.m_pbr.m_depth.m_value = -0.04f;
 	return mat;
 }
 
-Material& metal_plates_02(GfxSystem& gfx_system)
+Material& metal_plates_02(GfxSystem& gfx)
 {
-	Material& mat = material(gfx_system, "MetalPlates02");
+	Material& mat = material(gfx, "MetalPlates02");
 	//mat.m_pbr.m_deep_parallax = true;
 	//mat.m_pbr.m_depth.m_value = -0.04f;
 	return mat;
 }
 
-Material& paving_stones_11(GfxSystem& gfx_system)
+Material& paving_stones_11(GfxSystem& gfx)
 {
-	Material& mat = material(gfx_system, "PavingStones11");
+	Material& mat = material(gfx, "PavingStones11");
 	mat.m_pbr.m_deep_parallax = true;
 	mat.m_pbr.m_depth.m_value = -0.04f;
 	return mat;
 }
 
-Material& rocks_01(GfxSystem& gfx_system)
+Material& rocks_01(GfxSystem& gfx)
 {
-	Material& mat = material(gfx_system, "Rocks01");
+	Material& mat = material(gfx, "Rocks01");
 	mat.m_pbr.m_deep_parallax = true;
 	mat.m_pbr.m_depth.m_value = -0.08f;
 	return mat;
 }
 
-Material& wood_floor_05(GfxSystem& gfx_system)
+Material& wood_floor_05(GfxSystem& gfx)
 {
-	Material& mat = material(gfx_system, "WoodFloor05");
+	Material& mat = material(gfx, "WoodFloor05");
 	return mat;
 }
 
-Material& roughness_material(GfxSystem& gfx_system, const string& name, Colour albedo, float metallic, float roughness)
+Material& roughness_material(GfxSystem& gfx, const string& name, Colour albedo, float metallic, float roughness)
 {
-	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
+	Material& mat = gfx.fetch_material(name.c_str(), "pbr/pbr");
 	MaterialPbr& pbr = mat.m_pbr;
 	pbr.m_albedo.m_value = albedo;
 	pbr.m_metallic.m_value = metallic;
@@ -108,24 +108,24 @@ Material& roughness_material(GfxSystem& gfx_system, const string& name, Colour a
 	return mat;
 }
 
-vector<Material*> create_roughness_dielectric_materials(GfxSystem& gfx_system)
+vector<Material*> create_roughness_dielectric_materials(GfxSystem& gfx)
 {
 	vector<Material*> materials;
 	for(size_t i = 0; i < 8; ++i)
 	{
 		float roughness = i / float(8 - 1);
-		materials.push_back(&roughness_material(gfx_system, "roughness_dieletric_" + to_string(roughness), Colour::Black, 0.f, roughness));
+		materials.push_back(&roughness_material(gfx, "roughness_dieletric_" + to_string(roughness), Colour::Black, 0.f, roughness));
 	}
 	return materials;
 }
 
-vector<Material*> create_roughness_metallic_materials(GfxSystem& gfx_system)
+vector<Material*> create_roughness_metallic_materials(GfxSystem& gfx)
 {
 	vector<Material*> materials;
 	for(size_t i = 0; i < 8; ++i)
 	{
 		float roughness = i / float(8 - 1);
-		materials.push_back(&roughness_material(gfx_system, "roughness_metallic_" + to_string(roughness), Colour::White, 1.f, roughness));
+		materials.push_back(&roughness_material(gfx, "roughness_metallic_" + to_string(roughness), Colour::White, 1.f, roughness));
 	}
 	return materials;
 }
@@ -145,10 +145,10 @@ void material_spheres(Gnode& parent, span<Material*> materials)
 
 void roughness_spheres(Gnode& parent)
 {
-	GfxSystem& gfx_system = parent.m_scene->m_gfx_system;
+	GfxSystem& gfx = parent.m_scene->m_gfx;
 
-	static vector<Material*> dielectric = create_roughness_dielectric_materials(gfx_system);
-	static vector<Material*> metallic = create_roughness_metallic_materials(gfx_system);
+	static vector<Material*> dielectric = create_roughness_dielectric_materials(gfx);
+	static vector<Material*> metallic = create_roughness_metallic_materials(gfx);
 
 	float dielectric_center = dielectric.size() * 2.f / 2.f;
 	for(size_t i = 0; i < dielectric.size(); ++i)
@@ -175,16 +175,16 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& scene = viewer.m_scene.begin();
 
 	Gnode& ground_node = gfx::node(scene, {}, -Y3);
-	gfx::shape(ground_node, Rect(vec2(-50.f), vec2(100.f)), Symbol(), 0U, &milky_white(app.m_gfx_system));
+	gfx::shape(ground_node, Rect(vec2(-50.f), vec2(100.f)), Symbol(), 0U, &milky_white(app.m_gfx));
 
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
-	GfxSystem& gfx_system = scene.m_scene->m_gfx_system;
+	GfxSystem& gfx = scene.m_scene->m_gfx;
 	
-	//static vector<Material*> materials = { &milky_white(gfx_system), &mirror(gfx_system), &rocks_01(gfx_system), &fabric_08(gfx_system), &paving_stones_11(gfx_system), 
-	//											&wood_floor_05(gfx_system), &paving_stones_08(gfx_system) };
-	static vector<Material*> materials = { &paving_stones_11(gfx_system), &metal_plates_02(gfx_system), &paving_stones_08(gfx_system) };
+	//static vector<Material*> materials = { &milky_white(gfx), &mirror(gfx), &rocks_01(gfx), &fabric_08(gfx), &paving_stones_11(gfx), 
+	//											&wood_floor_05(gfx), &paving_stones_08(gfx) };
+	static vector<Material*> materials = { &paving_stones_11(gfx), &metal_plates_02(gfx), &paving_stones_08(gfx) };
 
 	static Material* edited = materials[0];
 
@@ -227,8 +227,8 @@ int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
 	System::instance().load_modules({ &mud_gfx::m() });
-	app.m_gfx_system.add_resource_path("examples/03_materials");
-	app.m_gfx_system.init_pipeline(pipeline_pbr);
+	app.m_gfx.add_resource_path("examples/03_materials");
+	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

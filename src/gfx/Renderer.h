@@ -229,11 +229,11 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT GfxBlock
 	{
 	public:
-		GfxBlock(GfxSystem& gfx_system, Type& type);
+		GfxBlock(GfxSystem& gfx, Type& type);
 		virtual ~GfxBlock();
 
 		template <class T>
-		GfxBlock(GfxSystem& gfx_system, T& self) : GfxBlock(gfx_system, type<T>()) { UNUSED(self); }
+		GfxBlock(GfxSystem& gfx, T& self) : GfxBlock(gfx, type<T>()) { UNUSED(self); }
 
 		virtual void init_block() = 0;
 		virtual void begin_frame(const RenderFrame& frame) { UNUSED(frame); }
@@ -242,7 +242,7 @@ namespace mud
 		virtual void begin_pass(Render& render) = 0;
 		virtual void submit_pass(Render& render) { UNUSED(render); }
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 		attr_ Type& m_type;
 		attr_ uint8_t m_index;
 
@@ -256,7 +256,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT DrawBlock : public GfxBlock
 	{
 	public:
-		DrawBlock(GfxSystem& gfx_system, Type& type) : GfxBlock(gfx_system, type) { m_draw_block = true; }
+		DrawBlock(GfxSystem& gfx, Type& type) : GfxBlock(gfx, type) { m_draw_block = true; }
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const = 0;
 		virtual void submit(Render& render, const Pass& render_pass) const = 0;
@@ -266,7 +266,7 @@ namespace mud
 	export_ class MUD_GFX_EXPORT RenderPass
 	{
 	public:
-		RenderPass(GfxSystem& gfx_system, const char* name, PassType pass_type);
+		RenderPass(GfxSystem& gfx, const char* name, PassType pass_type);
 		virtual ~RenderPass() {}
 
 		virtual void submit_render_pass(Render& render) = 0;
@@ -274,7 +274,7 @@ namespace mud
 		void blocks_begin_render(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_render(render); }
 		void blocks_begin_pass(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_pass(render); }
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 		const char* m_name;
 		PassType m_pass_type;
 		span<GfxBlock*> m_gfx_blocks;
@@ -307,10 +307,13 @@ namespace mud
 	export_ class MUD_GFX_EXPORT DrawPass : public RenderPass
 	{
 	public:
-		DrawPass(GfxSystem& gfx_system, const char* name, PassType pass_type);
+		DrawPass(GfxSystem& gfx, const char* name, PassType pass_type);
 		~DrawPass();
 
 		void init_blocks();
+
+		void shader_options(Render& render, ShaderVersion& version) const;
+
 		void add_element(Render& render, DrawElement element);
 
 		virtual void submit_render_pass(Render& render) override;
@@ -329,10 +332,10 @@ namespace mud
 	export_ class MUD_GFX_EXPORT Renderer
 	{
 	public:
-		Renderer(GfxSystem& gfx_system, Pipeline& pipeline, Shading shading);
+		Renderer(GfxSystem& gfx, Pipeline& pipeline, Shading shading);
 		~Renderer();
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 		Pipeline& m_pipeline;
 		Shading m_shading;
 

@@ -33,9 +33,9 @@ module mud.gfx;
 
 namespace mud
 {
-	Scene::Scene(GfxSystem& gfx_system)
-		: m_gfx_system(gfx_system)
-		, m_immediate(oconstruct<ImmediateDraw>(gfx_system.fetch_material("immediate", "solid")))
+	Scene::Scene(GfxSystem& gfx)
+		: m_gfx(gfx)
+		, m_immediate(oconstruct<ImmediateDraw>(gfx.fetch_material("immediate", "solid")))
 		, m_pass_jobs(oconstruct<PassJobs>())
 		, m_graph(*this)
 	{
@@ -46,7 +46,7 @@ namespace mud
 		m_pool = oconstruct<ObjectPool>();
 		m_pool->create_pool<Flare>(1024);
 
-		m_particle_system = oconstruct<ParticleSystem>(gfx_system, m_pool->pool<Flare>());
+		m_particle_system = oconstruct<ParticleSystem>(gfx, m_pool->pool<Flare>());
 	}
 
 	Scene::~Scene()

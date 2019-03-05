@@ -10,6 +10,9 @@ namespace mud
 {
 	export_ template <class T = float>
 	T randf();
+	
+	export_ template <class T = int>
+	T randi();
 
 	export_ template <class T = int>
 	T randi(T min, T max);

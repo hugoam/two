@@ -162,10 +162,10 @@ namespace mud
 	{
 		Type& t = type<mud::PrimitiveType>();
 		static Meta meta = { t, &namspc({ "mud" }), "PrimitiveType", sizeof(mud::PrimitiveType), TypeClass::Enum };
-		static cstring ids[] = { "Points", "Lines", "LineLoop", "LineStrip", "Triangles", "TriangleStrip", "TriangleFan" };
-		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6 };
-		static mud::PrimitiveType vars[] = { mud::PrimitiveType::Points, mud::PrimitiveType::Lines, mud::PrimitiveType::LineLoop, mud::PrimitiveType::LineStrip, mud::PrimitiveType::Triangles, mud::PrimitiveType::TriangleStrip, mud::PrimitiveType::TriangleFan};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6]};
+		static cstring ids[] = { "Points", "Lines", "LineStrip", "Triangles", "TriangleStrip", "TriangleFan" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5 };
+		static mud::PrimitiveType vars[] = { mud::PrimitiveType::Points, mud::PrimitiveType::Lines, mud::PrimitiveType::LineStrip, mud::PrimitiveType::Triangles, mud::PrimitiveType::TriangleStrip, mud::PrimitiveType::TriangleFan};
+		static void* refs[] = { &vars[0], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6]};
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { mud_PrimitiveType__to_string,
 		                           mud_PrimitiveType__to_value };

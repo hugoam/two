@@ -57,6 +57,7 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Sphere>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::SphereRing>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>();
+	export_ template <> MUD_GEOM_EXPORT Type& type<mud::Icosahedron>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Torus>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>();
 }

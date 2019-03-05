@@ -52,7 +52,7 @@ namespace mud
 
 		attr_ Item* m_item = nullptr;
 
-		bgfx::InstanceDataBuffer m_buffer;
+		bgfx::InstanceDataBuffer m_buffer = { 0 };
 		vector<bgfx::InstanceDataBuffer> m_buffers;
 
 		meth_ void update_aabb(span<mat4> instances);
@@ -68,7 +68,7 @@ namespace mud
 		constr_ Item();
 		constr_ Item(Node3& node, const Model& model, uint32_t flags = 0, Material* material = nullptr);
 
-		attr_ Node3* m_node;
+		attr_ Node3* m_node = nullptr;
 		attr_ Model* m_model = nullptr;
 		attr_ uint32_t m_flags = 0;
 		attr_ Colour m_colour = Colour::White;

@@ -14,9 +14,12 @@ namespace mud
 {
 	static uint32_t s_light_index = 0;
 
-	Light::Light(Node3& node, LightType type, bool shadows)
+	Light::Light(Node3& node, LightType type, bool shadows, Colour colour, float energy, float range)
 		: m_node(node)
 		, m_type(type)
+		, m_colour(colour)
+		, m_range(range)
+		, m_energy(energy)
 		, m_shadows(shadows)
 		, m_index(s_light_index++)
 	{

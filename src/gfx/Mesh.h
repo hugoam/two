@@ -36,8 +36,8 @@ namespace mud
 		const bgfx::Memory* m_vertex_memory = nullptr;
 		const bgfx::Memory* m_index_memory = nullptr;
 
-		void* m_vertices = nullptr;
-		void* m_indices = nullptr;
+		span<void> m_vertices = {};
+		span<void> m_indices = {};
 
 		MeshAdapter m_writer = {};
 	};
@@ -79,6 +79,7 @@ namespace mud
 		bgfx::IndexBufferHandle m_indices = BGFX_INVALID_HANDLE;
 
 		attr_ bool m_is_dynamic = false;
+		attr_ bool m_is_direct = false;
 
 		struct Range { uint32_t m_start = 0U; uint32_t m_count = 0U; };
 		Range m_range;
@@ -89,6 +90,13 @@ namespace mud
 			bgfx::DynamicIndexBufferHandle m_indices = BGFX_INVALID_HANDLE;
 
 		} m_dynamic;
+
+		struct Direct
+		{
+			bgfx::TransientVertexBuffer m_vertices;
+			bgfx::TransientIndexBuffer m_indices;
+
+		} m_direct;
 
 		struct UvBounds { vec2 min; vec2 max; };
 		UvBounds m_uv0_rect = {};
@@ -102,13 +110,15 @@ namespace mud
 		void clear();
 		void read(MeshAdapter& writer, const mat4& transform) const;
 		void read(MeshPacker& packer, const mat4& transform) const;
-		void write(MeshPacker& packer, bool optimize = false, bool dynamic = false);
+		void write(const MeshPacker& packer, bool optimize = false, bool dynamic = false);
+		void upload(const GpuMesh& gpu_mesh, bool optimize);
 		void upload(const GpuMesh& gpu_mesh);
-		void upload_opt(const GpuMesh& gpu_mesh);
 		void cache(const GpuMesh& gpu_mesh);
 
 		GpuMesh begin();
 		void update(const GpuMesh& gpu_mesh);
+
+		Direct& direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0, bool index32 = false);
 
 		uint64_t submit(bgfx::Encoder& encoder) const;
 	};

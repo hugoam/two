@@ -87,7 +87,7 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
-	app.m_gfx_system.init_pipeline(pipeline_minimal);
+	app.m_gfx.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

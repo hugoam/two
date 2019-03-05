@@ -44,10 +44,10 @@ namespace mud
 		return sun_rotation(azimuth, altitude, up, north);
 	}
 
-	BlockSky::BlockSky(GfxSystem& gfx_system, BlockFilter& filter)
-		: GfxBlock(gfx_system, *this)
+	BlockSky::BlockSky(GfxSystem& gfx, BlockFilter& filter)
+		: GfxBlock(gfx, *this)
 		, m_filter(filter)
-		, m_skybox_program(gfx_system.programs().create("skybox"))
+		, m_skybox_program(gfx.programs().create("skybox"))
 	{}
 
 	void BlockSky::init_block()

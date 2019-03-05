@@ -27,12 +27,12 @@ namespace mud
 	export_ class refl_ MUD_TOOL_EXPORT EditContext
     {
     public:
-		EditContext(GfxSystem& gfx_system);
+		EditContext(GfxSystem& gfx);
         ~EditContext();
 
 		void set_tool(ViewportTool& tool, Viewer& viewer);
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 
 		vector<Ref> m_selection;
 

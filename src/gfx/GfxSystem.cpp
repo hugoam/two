@@ -19,6 +19,7 @@ module mud.gfx;
 #include <infra/ToString.h>
 #include <infra/File.h>
 #include <math/Image256.h>
+#include <geom/Geometry.h>
 #include <gfx/Types.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Material.h>
@@ -44,13 +45,13 @@ module mud.gfx;
 
 namespace mud
 {
-	GfxContext::GfxContext(GfxSystem& gfx_system, const string& name, uvec2 size, bool fullScreen, bool init)
-		: BgfxContext(gfx_system, name, size, fullScreen, false)
-		, m_gfx_system(gfx_system)
+	GfxContext::GfxContext(GfxSystem& gfx, const string& name, uvec2 size, bool fullScreen, bool init)
+		: BgfxContext(gfx, name, size, fullScreen, false)
+		, m_gfx(gfx)
 		, m_target()
 	{
 		if(init)
-			gfx_system.init(*this);
+			gfx.init(*this);
 		m_target = oconstruct<RenderTarget>(size);
 	}
 
@@ -67,7 +68,7 @@ namespace mud
 			if(!m_target || size != m_target->m_size)
 				m_target = oconstruct<RenderTarget>(size);
 		}
-		m_vg_handle = m_reset_vg(*this, *m_gfx_system.m_vg);
+		m_vg_handle = m_reset_vg(*this, *m_gfx.m_vg);
 	}
 
 	struct GfxSystem::Impl
@@ -172,6 +173,25 @@ namespace mud
 		m_impl->m_normal_texture = this->textures().file("normal.png");
 
 		m_pipeline = make_unique<Pipeline>(*this);
+
+		// create point mesh
+		{
+			Model& model = this->models().create("point");
+			Mesh& mesh = model.add_mesh("point", true);
+
+			MeshPacker geometry;
+
+			geometry.m_primitive = PrimitiveType::Triangles;
+
+			geometry.m_positions = { vec3(-1, 1, 0), vec3(-1, -1, 0), vec3(1, -1, 0), vec3(1, 1, 0) };
+			geometry.m_uv0s = { vec2(0, 1), vec2(0, 0), vec2(1, 0), vec2(1, 1) };
+			geometry.m_indices = { 0, 1, 2, 2, 3, 0 };
+
+			mesh.write(geometry);
+
+			model.add_item(mesh, bxidentity());
+			model.prepare();
+		}
 	}
 
 	void GfxSystem::default_pipeline()
@@ -348,11 +368,46 @@ namespace mud
 	void GfxSystem::create_debug_materials()
 	{
 		Material& debug = this->fetch_material("debug", "solid");
+		UNUSED(debug);
 
 		Material& alpha = this->fetch_material("debug_alpha", "solid");
-		alpha.m_solid.m_colour = Colour{ 0.2f, 0.2f, 0.2f, 0.1f };
+		alpha.m_solid.m_colour = Colour(0.2f, 0.1f);
 
 		Material& pbr = this->fetch_material("debug_pbr", "pbr/pbr");
+		UNUSED(pbr);
+	}
+
+	Model& GfxSystem::create_model(const string& name)
+	{
+		Model& model = this->models().create(name);
+		Mesh& mesh = model.add_mesh(name);
+
+		model.add_item(mesh, bxidentity());
+		return model;
+	}
+
+	Model& GfxSystem::create_model(const string& name, const GpuMesh& gpu_mesh, bool readback, bool optimize)
+	{
+		Model& model = this->models().create(name);
+		Mesh& mesh = model.add_mesh(name, readback);
+
+		mesh.upload(gpu_mesh, optimize);
+
+		model.add_item(mesh, bxidentity());
+		model.prepare();
+		return model;
+	}
+
+	Model& GfxSystem::create_model(const string& name, const MeshPacker& geometry, bool readback, bool optimize)
+	{
+		Model& model = this->models().create(name);
+		Mesh& mesh = model.add_mesh(name, readback);
+
+		mesh.write(geometry, optimize);
+
+		model.add_item(mesh, bxidentity());
+		model.prepare();
+		return model;
 	}
 
 	Material& GfxSystem::debug_material()
@@ -382,18 +437,18 @@ namespace mud
 			Texture& texture = this->textures().fetch(image_name);
 			initializer(texture);
 			material = &this->fetch_material(name, "solid");
-			material->m_solid.m_colour.m_texture = &texture;
+			material->m_solid.m_colour = &texture;
 		}
 
 		return *material;
 	}
 
-	Model& GfxSystem::fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode)
+	Model& GfxSystem::shape(const Shape& shape, const Symbol& symbol, DrawMode draw_mode)
 	{
 		return m_impl->m_symbols.symbol_model(symbol, shape, draw_mode);
 	}
 
-	Material& GfxSystem::fetch_symbol_material(const Symbol& symbol, DrawMode draw_mode)
+	Material& GfxSystem::symbol_material(const Symbol& symbol, DrawMode draw_mode)
 	{
 		if(symbol.m_image256)
 			return this->fetch_image256_material(*symbol.m_image256);

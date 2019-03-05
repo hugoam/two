@@ -79,13 +79,13 @@ namespace mud
 		writer.quad(0, 1, 2, 3);
 	}
 
-	size_t num_rects(const Grid3& grid) { return (grid.m_size.x-1) * (grid.m_size.y-1); }
+	uint32_t num_rects(const Grid3& grid) { return (grid.m_size.x-1) * (grid.m_size.y-1); }
 
 	ShapeSize size_shape_lines(const ProcShape& shape, const Grid3& grid)
 	{
 		UNUSED(shape);
-		size_t rects = num_rects(grid);
-		return { int(rects * 4), int(rects * 8) };
+		uint32_t rects = num_rects(grid);
+		return { rects * 4U, rects * 8U };
 	}
 
 	void draw_shape_lines(const ProcShape& shape, const Grid3& grid, MeshAdapter& writer)
@@ -107,8 +107,8 @@ namespace mud
 	ShapeSize size_shape_triangles(const ProcShape& shape, const Grid3& grid)
 	{
 		UNUSED(shape);
-		size_t rects = num_rects(grid);
-		return{ int(rects * 4), int(rects * 6) };
+		uint32_t rects = num_rects(grid);
+		return { rects * 4U, rects * 6U };
 	}
 
 	void draw_shape_triangles(const ProcShape& shape, const Grid3& grid, MeshAdapter& writer)

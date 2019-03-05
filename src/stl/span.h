@@ -32,11 +32,8 @@ namespace stl
 		bool empty() const { return m_count == 0; }
 		T* data() const { return m_pointer; }
 
-		//T& operator[](size_t at) { assert(at < m_count); return m_pointer[at]; }
-		//const T& operator[](size_t at) const { assert(at < m_count); return m_pointer[at]; }
-
-		T& operator[](size_t at) { return m_pointer[at]; }
-		const T& operator[](size_t at) const { return m_pointer[at]; }
+		T& operator[](size_t at) { return m_pointer[at]; } // assert(at < m_count);
+		const T& operator[](size_t at) const { return m_pointer[at]; } // assert(at < m_count); 
 
 		T* begin() { return m_pointer; }
 		T* end() { return m_pointer + m_count; }
@@ -44,6 +41,20 @@ namespace stl
 		const T* end() const { return m_pointer + m_count; }
 
 		T* m_pointer;
+		size_t m_count;
+	};
+
+	template <>
+	struct span<void>
+	{
+		span() : m_pointer(nullptr), m_count(0) {}
+		span(void* pointer, size_t count) : m_pointer(pointer), m_count(count) {}
+
+		size_t size() { return m_count; }
+		bool empty() const { return m_count == 0; }
+		void* data() const { return m_pointer; }
+
+		void* m_pointer;
 		size_t m_count;
 	};
 

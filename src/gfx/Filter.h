@@ -76,7 +76,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT BlockFilter : public GfxBlock
 	{
 	public:
-		BlockFilter(GfxSystem& gfx_system);
+		BlockFilter(GfxSystem& gfx);
 
 		virtual void init_block() override;
 
@@ -98,7 +98,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT BlockCopy : public GfxBlock
 	{
 	public:
-		BlockCopy(GfxSystem& gfx_system, BlockFilter& filter);
+		BlockCopy(GfxSystem& gfx, BlockFilter& filter);
 
 		virtual void init_block() override;
 

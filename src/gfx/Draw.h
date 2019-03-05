@@ -18,6 +18,27 @@ namespace mud
 
 	using cstring = const char*;
 
+	export_ class refl_ MUD_GFX_EXPORT Direct
+	{
+	public:
+		constr_ Direct();
+		constr_ Direct(Node3& node, Material& material);
+
+		struct Batch
+		{
+			bgfx::TransientVertexBuffer m_vertices;
+			bgfx::TransientIndexBuffer m_indices;
+		};
+
+		void begin();
+		Batch& batch(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0);
+
+		attr_ Node3* m_node = nullptr;
+		attr_ Material* m_material = nullptr;
+
+		vector<Batch> m_batches;
+	};
+
 	export_ class refl_ MUD_GFX_EXPORT ImmediateDraw
 	{
 	public:
@@ -66,7 +87,7 @@ namespace mud
 		~SymbolIndex();
 
 		Model& symbol_model(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
-		Material& symbol_material(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode);
+		Material& symbol_material(GfxSystem& gfx, const Symbol& symbol, DrawMode draw_mode);
 
 		struct Impl;
 		unique<Impl> m_impl;

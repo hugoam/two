@@ -105,6 +105,16 @@ namespace mud
 		: Node3(bxTRS(scale, rotation, position))
 	{}
 
+	void Node3::transform(const vec3& position, const quat& rotation, const vec3& scale)
+	{
+		m_transform = bxTRS(scale, rotation, position);
+	}
+
+	void Node3::transform(const Node3& parent, const vec3& position, const quat& rotation, const vec3& scale)
+	{
+		m_transform = parent.m_transform * bxTRS(scale, rotation, position);
+	}
+
 	vec3 Node3::position() const { return mulp(m_transform, vec3(0.f)); }
 	vec3 Node3::axis(const vec3& dir) const { return muln(m_transform, dir); }
 	vec3 Node3::direction() const { return muln(m_transform, -Z3); }

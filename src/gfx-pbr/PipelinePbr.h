@@ -15,7 +15,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT BlockGeometry : public DrawBlock
 	{
 	public:
-		BlockGeometry(GfxSystem& gfx_system);
+		BlockGeometry(GfxSystem& gfx);
 		~BlockGeometry();
 
 		virtual void init_block() override;
@@ -34,7 +34,7 @@ namespace mud
 	export_ class MUD_GFX_PBR_EXPORT PassOpaque : public DrawPass
 	{
 	public:
-		PassOpaque(GfxSystem& gfx_system);
+		PassOpaque(GfxSystem& gfx);
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
@@ -45,7 +45,7 @@ namespace mud
 	export_ class MUD_GFX_PBR_EXPORT PassAlpha : public DrawPass
 	{
 	public:
-		PassAlpha(GfxSystem& gfx_system);
+		PassAlpha(GfxSystem& gfx);
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
@@ -54,7 +54,7 @@ namespace mud
 	export_ class MUD_GFX_PBR_EXPORT PassGeometry : public DrawPass
 	{
 	public:
-		PassGeometry(GfxSystem& gfx_system, BlockGeometry& block_geometry);
+		PassGeometry(GfxSystem& gfx, BlockGeometry& block_geometry);
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
@@ -65,7 +65,7 @@ namespace mud
 	export_ class MUD_GFX_PBR_EXPORT PassLights : public RenderPass
 	{
 	public:
-		PassLights(GfxSystem& gfx_system, BlockFilter& filter);
+		PassLights(GfxSystem& gfx, BlockFilter& filter);
 
 		virtual void submit_render_pass(Render& render) final;
 		
@@ -75,24 +75,24 @@ namespace mud
 
 	struct ReflectionRenderer : public Renderer
 	{
-		ReflectionRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		ReflectionRenderer(GfxSystem& gfx, Pipeline& pipeline);
 	};
 
 	struct ForwardRenderer : public Renderer
 	{
-		ForwardRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		ForwardRenderer(GfxSystem& gfx, Pipeline& pipeline);
 	};
 
 	struct DeferredRenderer : public Renderer
 	{
-		DeferredRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		DeferredRenderer(GfxSystem& gfx, Pipeline& pipeline);
 	};
 
 	export_ MUD_GFX_PBR_EXPORT void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes);
 	export_ MUD_GFX_PBR_EXPORT void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases);
 	export_ MUD_GFX_PBR_EXPORT void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes);
 
-	export_ MUD_GFX_PBR_EXPORT void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred = false);
+	export_ MUD_GFX_PBR_EXPORT void pipeline_pbr(GfxSystem& gfx, Pipeline& pipeline, bool deferred = false);
 	
 namespace gfx
 {

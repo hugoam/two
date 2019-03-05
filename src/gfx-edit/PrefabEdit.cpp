@@ -81,9 +81,9 @@ namespace mud
 		return self;
 	}
 
-	void prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected)
+	void prefab_edit(Widget& parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected)
 	{
-		UNUSED(gfx_system);
+		UNUSED(gfx);
 		Widget& self = ui::sheet(parent);
 
 		prefab_structure(self, node, selected);

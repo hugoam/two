@@ -45,6 +45,7 @@ namespace mud
 	template class TPool<Node3>;
 	template class TPool<Item>;
 	template class TPool<Batch>;
+	template class TPool<Direct>;
 	template class TPool<Mime>;
 	template class TPool<Light>;
 	template class TPool<Flare>;
@@ -75,6 +76,11 @@ namespace mud
 		{
 			m_scene->m_pool->pool<Batch>().tdestroy(*m_batch);
 			m_batch = nullptr;
+		}
+		if(m_direct)
+		{
+			m_scene->m_pool->pool<Direct>().tdestroy(*m_direct);
+			m_direct = nullptr;
 		}
 		if(m_animated)
 		{
@@ -130,6 +136,7 @@ namespace gfx
 	TPool<Node3>&  nodes(Scene& scene)   { return scene.m_pool->pool<Node3>(); }
 	TPool<Item>&   items(Scene& scene)   { return scene.m_pool->pool<Item>(); }
 	TPool<Batch>&  batches(Scene& scene) { return scene.m_pool->pool<Batch>(); }
+	TPool<Direct>& directs(Scene& scene) { return scene.m_pool->pool<Direct>(); }
 	TPool<Mime>&   mimes(Scene& scene)   { return scene.m_pool->pool<Mime>(); }
 	TPool<Light>&  lights(Scene& scene)  { return scene.m_pool->pool<Light>(); }
 	TPool<Flare>&  flares(Scene& scene)  { return scene.m_pool->pool<Flare>(); }
@@ -227,18 +234,18 @@ namespace gfx
 	Item& shape_item(Gnode& parent, Model& model, const Symbol& symbol, uint32_t flags, Material* material, DrawMode draw_mode)
 	{
 		Item& self = item(parent, model, flags, material);
-		self.m_material = material ? material : &parent.m_scene->m_gfx_system.fetch_symbol_material(symbol, draw_mode);
+		self.m_material = material ? material : &parent.m_scene->m_gfx.symbol_material(symbol, draw_mode);
 		return self;
 	}
 
 	Item& shape(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags, Material* material)
 	{
 		Item* item = nullptr;
-		Symbol white = { Colour::White, Colour::White };
+		static Symbol white = { Colour::White, Colour::White };
 		if(symbol.fill())
-			item = &shape_item(parent, parent.m_scene->m_gfx_system.fetch_symbol(white, shape, PLAIN), symbol, flags, material, PLAIN);
+			item = &shape_item(parent, parent.m_scene->m_gfx.shape(shape, white, PLAIN), symbol, flags, material, PLAIN);
 		if(symbol.outline())
-			item = &shape_item(parent, parent.m_scene->m_gfx_system.fetch_symbol(white, shape, OUTLINE), symbol, flags, material, OUTLINE);
+			item = &shape_item(parent, parent.m_scene->m_gfx.shape(shape, white, OUTLINE), symbol, flags, material, OUTLINE);
 		return *item;
 	}
 
@@ -263,7 +270,7 @@ namespace gfx
 
 	Item* model(Gnode& parent, const string& name, uint32_t flags, Material* material)
 	{
-		Model* model = parent.m_scene->m_gfx_system.models().file(name.c_str());
+		Model* model = parent.m_scene->m_gfx.models().file(name.c_str());
 		if(model)
 			return &item(parent, *model, flags, material);
 		return nullptr;
@@ -326,12 +333,6 @@ namespace gfx
 		return direct_light_node(parent, sun_rotation(azimuth, elevation));
 	}
 
-	quat facing(const vec3& direction)
-	{
-		float angle = atan2(direction.x, direction.z);
-		return { cosf(angle / 2.f), 0.f, 1.f * sinf(angle / 2.f), 0.f };
-	}
-
 	Light& direct_light_node(Gnode& parent, const vec3& direction)
 	{
 		return direct_light_node(parent, facing(direction));
@@ -344,7 +345,7 @@ namespace gfx
 
 	void radiance(Gnode& parent, const string& texture, BackgroundMode background)
 	{
-		parent.m_scene->m_env.m_radiance.m_texture = parent.m_scene->m_gfx_system.textures().file(texture.c_str());
+		parent.m_scene->m_env.m_radiance.m_texture = parent.m_scene->m_gfx.textures().file(texture.c_str());
 		parent.m_scene->m_env.m_background.m_mode = background;
 	}
 
@@ -359,27 +360,27 @@ namespace gfx
 		parent.m_scene->m_pass_jobs->m_jobs[pass].push_back(job);
 	}
 
-	Material& solid_material(GfxSystem& gfx_system, cstring name, const Colour& colour)
+	Material& solid_material(GfxSystem& gfx, const string& name, const Colour& colour)
 	{
-		Program& program = *gfx_system.programs().file("solid");
-		Material& material = gfx_system.materials().fetch(name);
+		Program& program = *gfx.programs().file("solid");
+		Material& material = gfx.materials().fetch(name);
 		material.m_program = &program;
 		material.m_solid.m_colour = colour;
 		return material;
 	}
 
-	Material& pbr_material(GfxSystem& gfx_system, cstring name, const MaterialPbr& pbr_block)
+	Material& pbr_material(GfxSystem& gfx, const string& name, const MaterialPbr& pbr_block)
 	{
-		Program& program = *gfx_system.programs().file("pbr/pbr");
-		Material& material = gfx_system.materials().fetch(name);
+		Program& program = *gfx.programs().file("pbr/pbr");
+		Material& material = gfx.materials().fetch(name);
 		material.m_program = &program;
 		material.m_pbr = pbr_block;
 		return material;
 	}
 
-	Material& pbr_material(GfxSystem& gfx_system, cstring name, const Colour& albedo, float metallic, float roughness)
+	Material& pbr_material(GfxSystem& gfx, const string& name, const Colour& albedo, float metallic, float roughness)
 	{
-		return pbr_material(gfx_system, name, { albedo, metallic, roughness });
+		return pbr_material(gfx, name, { albedo, metallic, roughness });
 	}
 }
 }

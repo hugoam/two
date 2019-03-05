@@ -16,6 +16,7 @@ namespace stl
 	template class MUD_GEOM_EXPORT vector<Circle>;
 	template class MUD_GEOM_EXPORT vector<IcoSphere>;
 	template class MUD_GEOM_EXPORT vector<ProcShape>;
+	template class MUD_GEOM_EXPORT vector<MarchingCubes::Cache::Normal>;
 	template class MUD_GEOM_EXPORT vector<Distribution::Point>;
 	template class MUD_GEOM_EXPORT vector<vector<Distribution::Point>>;
 	template class MUD_GEOM_EXPORT vector<vector<Distribution::Point>*>;

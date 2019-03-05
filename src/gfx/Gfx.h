@@ -21,6 +21,7 @@ namespace gfx
 	export_ MUD_GFX_EXPORT meth_ TPool<Node3>&  nodes(Scene& scene);
 	export_ MUD_GFX_EXPORT meth_ TPool<Item>&   items(Scene& scene);
 	export_ MUD_GFX_EXPORT meth_ TPool<Batch>&  batches(Scene& scene);
+	export_ MUD_GFX_EXPORT meth_ TPool<Direct>& directs(Scene& scene);
 	export_ MUD_GFX_EXPORT meth_ TPool<Mime>&   mimes(Scene& scene);
 	export_ MUD_GFX_EXPORT meth_ TPool<Light>&  lights(Scene& scene);
 	export_ MUD_GFX_EXPORT meth_ TPool<Flare>&	flares(Scene& scene);
@@ -55,9 +56,9 @@ namespace gfx
 	export_ MUD_GFX_EXPORT Light& direct_light_node(Gnode& parent, const quat& rotation);
 	export_ MUD_GFX_EXPORT func_ Light& direct_light_node(Gnode& parent, const vec3& direction);
 
-	export_ MUD_GFX_EXPORT func_ Material& solid_material(GfxSystem& gfx, cstring name, const Colour& colour);
+	export_ MUD_GFX_EXPORT func_ Material& solid_material(GfxSystem& gfx, const string& name, const Colour& colour);
 
-	export_ MUD_GFX_EXPORT Material& pbr_material(GfxSystem& gfx, cstring name, const MaterialPbr& pbr_block);
-	export_ MUD_GFX_EXPORT func_ Material& pbr_material(GfxSystem& gfx, cstring name, const Colour& albedo, float metallic = 0.f, float roughness = 1.f);
+	export_ MUD_GFX_EXPORT Material& pbr_material(GfxSystem& gfx, const string& name, const MaterialPbr& pbr_block);
+	export_ MUD_GFX_EXPORT func_ Material& pbr_material(GfxSystem& gfx, const string& name, const Colour& albedo, float metallic = 0.f, float roughness = 1.f);
 }
 }

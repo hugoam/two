@@ -50,7 +50,7 @@ namespace mud
 	{
 		UNUSED(shape);
 		uint16_t lines = uint16_t(grid.m_size.x) + 1 + uint16_t(grid.m_size.y) + 1;
-		return { lines * 2, lines * 2 };
+		return { lines * 2U, lines * 2U };
 	}
 
 	void draw_shape_lines(const ProcShape& shape, const Grid2& grid, MeshAdapter& writer)

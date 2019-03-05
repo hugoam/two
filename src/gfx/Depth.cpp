@@ -20,13 +20,13 @@ module mud.gfx;
 
 namespace mud
 {
-	PassDepth::PassDepth(GfxSystem& gfx_system, cstring name, BlockDepth& block_depth)
-		: DrawPass(gfx_system, name, PassType::Depth)
+	PassDepth::PassDepth(GfxSystem& gfx, cstring name, BlockDepth& block_depth)
+		: DrawPass(gfx, name, PassType::Depth)
 		, m_block_depth(block_depth)
 	{}
 
-	PassDepth::PassDepth(GfxSystem& gfx_system, BlockDepth& block_depth)
-		: PassDepth(gfx_system, "depth", block_depth)
+	PassDepth::PassDepth(GfxSystem& gfx, BlockDepth& block_depth)
+		: PassDepth(gfx, "depth", block_depth)
 	{}
 
 	void PassDepth::next_draw_pass(Render& render, Pass& render_pass)
@@ -44,7 +44,7 @@ namespace mud
 	{
 		UNUSED(render);
 
-		if(element.m_material->m_base.m_depth_draw_mode == DepthDraw::Enabled
+		if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled
 		&& !element.m_material->m_alpha.m_is_alpha)
 		{
 			const DepthMethod depth_method = m_block_depth.m_depth_method;
@@ -58,8 +58,8 @@ namespace mud
 		}
 	}
 
-	BlockDepth::BlockDepth(GfxSystem& gfx_system)
-		: DrawBlock(gfx_system, type<BlockDepth>())
+	BlockDepth::BlockDepth(GfxSystem& gfx)
+		: DrawBlock(gfx, type<BlockDepth>())
 	{}
 
 	BlockDepth::~BlockDepth()
@@ -67,8 +67,8 @@ namespace mud
 
 	void BlockDepth::init_block()
 	{
-		m_depth_program = m_gfx_system.programs().file("depth");
-		m_distance_program = m_gfx_system.programs().file("distance");
+		m_depth_program = m_gfx.programs().file("depth");
+		m_distance_program = m_gfx.programs().file("distance");
 
 		u_depth.createUniforms();
 	}

@@ -35,7 +35,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockDofBlur : public GfxBlock
 	{
 	public:
-		BlockDofBlur(GfxSystem& gfx_system, BlockFilter& filter);
+		BlockDofBlur(GfxSystem& gfx, BlockFilter& filter);
 
 		virtual void init_block() override;
 

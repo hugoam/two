@@ -38,7 +38,7 @@ namespace mud
 	public:
 		constr_ Node3();
 		constr_ Node3(const mat4& transform);
-		constr_ Node3(const vec3& position, const quat& rotation, const vec3& scale = vec3(1.f));
+		constr_ Node3(const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
 
 		attr_ uint16_t m_index = 0;
 
@@ -46,10 +46,13 @@ namespace mud
 		//attr_ bool m_visible = true;
 
 		Ref m_object;
-		size_t m_last_updated = 0;
+		//size_t m_last_updated = 0;
 
-		vec3 position() const;
-		vec3 axis(const vec3& dir) const;
-		vec3 direction() const;
+		meth_ void transform(const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
+		meth_ void transform(const Node3& parent, const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
+
+		meth_ vec3 position() const;
+		meth_ vec3 axis(const vec3& dir) const;
+		meth_ vec3 direction() const;
 	};
 }

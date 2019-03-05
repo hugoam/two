@@ -11,9 +11,9 @@ namespace mud
 	export_ class MUD_GFX_OBJ_EXPORT ImporterOBJ : public Importer
 	{
 	public:
-		ImporterOBJ(GfxSystem& gfx_system);
+		ImporterOBJ(GfxSystem& gfx);
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 
 		virtual void import(Import& import, const string& filepath, const ImportConfig& config) override;
 		virtual void import_model(Model& model, const string& filepath, const ImportConfig& config) override;

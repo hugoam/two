@@ -49,8 +49,8 @@ namespace mud
 		}
 	}
 
-	BlockReflection::BlockReflection(GfxSystem& gfx_system)
-		: DrawBlock(gfx_system, type<BlockReflection>())
+	BlockReflection::BlockReflection(GfxSystem& gfx)
+		: DrawBlock(gfx, type<BlockReflection>())
 		, m_atlas(1024, 16)
 	{}
 
@@ -90,7 +90,7 @@ namespace mud
 
 	void BlockReflection::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(element);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		if(bgfx::isValid(m_atlas.m_color_tex) && m_atlas.m_size > 0)
@@ -155,7 +155,7 @@ namespace mud
 			mat4 transform = probe.m_node.m_transform * bxlookat(vec3(0.f), view_normal[i], view_up[i]);
 			mat4 projection = bxproj(90.f, 1.f, 0.01f, range, bgfx::getCaps()->homogeneousDepth);
 
-			Renderer& renderer = m_gfx_system.renderer(Shading::Volume);
+			Renderer& renderer = m_gfx.renderer(Shading::Volume);
 
 			ManualRender probe_render = { render, Shading::Volume,  cubemap.m_fbo[i], uvec4(Rect4), transform, projection };
 			//probe_render.cull();
@@ -163,8 +163,8 @@ namespace mud
 		}
 	}
 
-	PassProbes::PassProbes(GfxSystem& gfx_system, BlockReflection& block_reflection)
-		: RenderPass(gfx_system, {}, PassType::Probes)
+	PassProbes::PassProbes(GfxSystem& gfx, BlockReflection& block_reflection)
+		: RenderPass(gfx, {}, PassType::Probes)
 		, m_block_reflection(block_reflection)
 	{}
 

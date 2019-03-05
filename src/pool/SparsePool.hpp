@@ -51,88 +51,74 @@ namespace mud
 	template <class T>
 	inline OwnedHandle<T>::operator SparseHandle<T>() const { return { *this->m_pool, this->m_handle }; }
 	
-
-	template <> inline SparseIndices<false>::SparseIndices() {}
-	template <> inline void SparseIndices<false>::add() { m_indices.emplace_back(); }
-	template <> inline void SparseIndices<false>::clear() { m_indices.resize(m_indices.size(), UINT32_MAX); }
-	template <> inline void SparseIndices<false>::erase(uint32_t handle) { m_indices[handle] = UINT32_MAX; }
-	template <> inline void SparseIndices<false>::ensure(uint32_t capacity) { m_indices.resize(capacity, UINT32_MAX); }
-	template <> inline uint32_t& SparseIndices<false>::operator[](uint32_t at) { return m_indices[at]; }
-	template <> inline uint32_t SparseIndices<false>::size() const { return uint32_t(m_indices.size()); }
-
-	inline SparseIndices<true>::SparseIndices() {}
-	inline void SparseIndices<true>::add() {}
-	inline void SparseIndices<true>::clear() { m_indices.clear(); }
-	inline void SparseIndices<true>::erase(uint32_t handle) { m_indices.erase(handle); }
-	inline void SparseIndices<true>::ensure(uint32_t capacity) { UNUSED(capacity); }
-	inline uint32_t& SparseIndices<true>::operator[](uint32_t at) { return m_indices[at]; }
-	inline uint32_t SparseIndices<true>::size() const { return uint32_t(m_indices.size()); }
-
-	template <bool Dense>
-	inline SparseHandles<Dense>::SparseHandles() {}
-	template <bool Dense>
-	inline void SparseHandles<Dense>::ensure(uint32_t capacity)
+	inline SparseHandles::SparseHandles() {}
+	inline void SparseHandles::ensure(uint32_t capacity)
 	{
-		m_indices.ensure(capacity);
+		m_indices.resize(capacity, UINT32_MAX);
 	}
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::alloc()
+	inline uint32_t SparseHandles::alloc()
 	{
-		const uint32_t count = uint32_t(m_indices.size());
-		m_indices.add();
-		return count;
+		const uint32_t index = uint32_t(m_indices.size());
+		m_indices.emplace_back();
+		return index;
 	}
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::create()
+	inline uint32_t SparseHandles::alloc(uint32_t count)
+	{
+		const uint32_t index = uint32_t(m_indices.size());
+		m_indices.resize(m_indices.size() + count);
+		return index;
+	}
+
+	inline uint32_t SparseHandles::create()
 	{
 		uint32_t handle = this->alloc();
 		this->add(handle);
 		return handle;
 	}
 
-	template <bool Dense>
-	inline void SparseHandles<Dense>::add(uint32_t handle)
+	inline uint32_t SparseHandles::create(uint32_t count)
+	{
+		uint32_t first = this->alloc(count);
+		for(uint32_t handle = first; handle < first + count; ++handle)
+			this->add(handle);
+		return first;
+	}
+
+	inline void SparseHandles::add(uint32_t handle)
 	{
 		const uint32_t index = uint32_t(m_handles.size());
 		m_indices[handle] = index;
 		m_handles.push_back(handle);
 	}
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::remove(uint32_t handle)
+	inline uint32_t SparseHandles::remove(uint32_t handle)
 	{
 		const uint32_t index = m_indices[handle];
 		swap_pop(m_handles, index);
 
 		const uint32_t moved = m_handles[index];
 		m_indices[moved] = index;
-		m_indices.erase(handle);
+		m_indices[handle] = UINT32_MAX;
 		return index;
 	}
 
-	template <bool Dense>
-	inline void SparseHandles<Dense>::clear()
+	inline void SparseHandles::clear()
 	{
-		m_indices.clear();
+		m_indices.resize(m_indices.size(), UINT32_MAX);
 		m_handles.clear();
 	}
 
-	template <bool Dense>
-	inline uint32_t& SparseHandles<Dense>::operator[](uint32_t at) { return m_indices[at]; }
+	inline uint32_t& SparseHandles::operator[](uint32_t at) { return m_indices[at]; }
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::size() const { return uint32_t(m_handles.size()); }
+	inline uint32_t SparseHandles::size() const { return uint32_t(m_handles.size()); }
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::count() const { return uint32_t(m_handles.size()); }
+	inline uint32_t SparseHandles::count() const { return uint32_t(m_handles.size()); }
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::reverse(uint32_t index) const { return m_handles[index]; }
+	inline uint32_t SparseHandles::reverse(uint32_t index) const { return m_handles[index]; }
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::handle(uint32_t index) const { return m_handles[index]; }
+	inline uint32_t SparseHandles::handle(uint32_t index) const { return m_handles[index]; }
 
 	template <class T>
 	inline SparsePool<T>::SparsePool() {}

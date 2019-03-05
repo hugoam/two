@@ -8,6 +8,7 @@ using namespace mud;
 
 void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controller(viewer);
 	TrackballController& controls = ui::trackball_controller(viewer);
@@ -27,26 +28,26 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 		// MATERIALS
 
 #if 0
-		Texture* texture = app.m_gfx_system.textures().file("disturb.jpg");
-		//texture.repeat.set( 20, 10 );
+		Texture* texture = app.m_gfx.textures().file("disturb.jpg");
+		//texture.repeat.set(20, 10);
 		//texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 		//texture.format = THREE.RGBFormat;
 
-		Material& ground_material = app.m_gfx_system.materials().fetch("ground"); //new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
-		Material& material = gfx::pbr_material(app.m_gfx_system, "object", rgba(0xffffff), 0.5f, 1.0f); //new THREE.MeshStandardMaterial( { color: 0xffffff, roughness: 0.5f, metalness: 1.0f } );
+		Material& ground_material = app.m_gfx.materials().fetch("ground"); //new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture });
+		Material& material = gfx::pbr_material(app.m_gfx, "object", rgb(0xffffff), 0.5f, 1.0f); //new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5f, metalness: 1.0f });
 
 		// GROUND
 
-		Model& model = app.m_gfx_system.fetch_symbol(Symbol(), Rect(), DrawMode::PLAIN); //new THREE.Mesh( new THREE.PlaneBufferGeometry( 800, 400, 2, 2 ), groundMaterial );
+		Model& model = app.m_gfx.shape(Rect()); //new THREE.Mesh(new THREE.PlaneBufferGeometry(800, 400, 2, 2), groundMaterial);
 		Node3& node = gfx::nodes(scene) += Node3(vec3(0, -5, 0), quat(-c_pi / 2.f, 0, 0, 1)));
 		gfx::items(scene) += Item(node, model, 0, &ground_material));
 #endif
 
 		// OBJECTS
-		Material& material = gfx::pbr_material(app.m_gfx_system, "object", Colour(1.f));//, 0.5f, 1.0f); //new THREE.MeshStandardMaterial( { color: 0xffffff, roughness: 0.5f, metalness: 1.0f } );
+		Material& material = gfx::pbr_material(app.m_gfx, "object", Colour(1.f));//, 0.5f, 1.0f); //new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5f, metalness: 1.0f });
 
 		//var torus = Torus();
-		Model& torus_model = app.m_gfx_system.fetch_symbol(Symbol(), Torus(1.f, 0.1f), DrawMode::PLAIN); //new THREE.TorusBufferGeometry( 1.5, 0.4, 8, 16 );
+		Model& torus_model = app.m_gfx.shape(Torus(1.f, 0.1f)); //new THREE.TorusBufferGeometry(1.5, 0.4, 8, 16);
 
 		for(int i = 0; i < 5000; i++) {
 
@@ -60,6 +61,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 			uint32_t flags = ItemFlag::Default;// | ItemFlag::NoCull;
 			Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(a, b, 0, 1)));
 			Item& it = gfx::items(scene).add(Item(n, torus_model, flags, &material));
+			UNUSED(it);
 
 			//Gnode& n = gfx::node(root, {}, vec3(x, y, z));
 			//gfx::item(n, torus_model, 0, &material);
@@ -67,19 +69,19 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		// LIGHTS
 
-		float intensity = 2.5;
-		float distance = 100;
-		float decay = 2.0;
+		float intensity = 2.5f;
+		float distance = 100.f;
+		//float decay = 2.0f;
 
-		uint32_t colours[] = { 0xff0040ff, 0x0040ffff, 0x80ff80ff, 0xffaa00ff, 0x00ffaaff, 0xff1100ff };
+		uint32_t colours[] = { 0xff0040, 0x0040ff, 0x80ff80, 0xffaa00, 0x00ffaa, 0xff1100 };
 
-		Sphere sphere = Sphere(2.5f); //THREE.SphereBufferGeometry( 0.25, 16, 8 );
-		Model& sphere_model = app.m_gfx_system.fetch_symbol(Symbol(), sphere, DrawMode::PLAIN);
+		Sphere sphere = Sphere(2.5f); //THREE.SphereBufferGeometry(0.25, 16, 8);
+		Model& sphere_model = app.m_gfx.shape(sphere);
 
 		for(int i = 0; i < 6; ++i)
 		{
-			Colour c = rgba(colours[i]);
-			Material& m = gfx::solid_material(app.m_gfx_system, ("light" + to_string(i)).c_str(), c); //Material({ color: colours[i] }) );
+			Colour c = rgb(colours[i]);
+			Material& m = gfx::solid_material(app.m_gfx, ("light" + to_string(i)).c_str(), c); //Material({ color: colours[i] }));
 			Node3& n = gfx::nodes(scene).add(Node3());
 			Light& l = gfx::lights(scene).add(Light(n, LightType::Point, false));
 			l.m_colour = c;
@@ -94,8 +96,8 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 		}
 
 		//Node3& direct_node = gfx::nodes(scene) += Node3());
-		//Light& direct_light = gfx::lights(scene) += Light(direct_node, LightType::Direct)); //THREE.DirectionalLight( 0xffffff, 0.05 );
-		//dlight.position.set( 0.5f, 1, 0 ).normalize();
+		//Light& direct_light = gfx::lights(scene) += Light(direct_node, LightType::Direct)); //THREE.DirectionalLight(0xffffff, 0.05);
+		//dlight.position.set(0.5f, 1, 0).normalize();
 	}
 
 	Gnode& root = viewer.m_scene.begin();

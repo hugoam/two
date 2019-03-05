@@ -34,14 +34,14 @@ namespace mud
 	template <> Type& type<ParticleItem>() { static Type ty("ParticleItem"); return ty; }
 }
 
-vector<ParticleItem> create_particles(GfxSystem& gfx_system, const vector<string>& names)
+vector<ParticleItem> create_particles(GfxSystem& gfx, const vector<string>& names)
 {
 	vector<ParticleItem> particles_vector;
 
 	size_t index = 0;
 	for(const string& name : names)
 	{
-		Flow* emitter = gfx_system.flows().file(name.c_str());
+		Flow* emitter = gfx.flows().file(name.c_str());
 		particles_vector.push_back({ index++, emitter, nullptr });
 	}
 
@@ -57,7 +57,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& scene = viewer.m_scene.begin();
 
 	static vector<string> particles_names = { "particles_0" };//, "particles_1" }; //, "particles_2" };
-	static vector<ParticleItem> particles_vector = create_particles(app.m_gfx_system, particles_names);
+	static vector<ParticleItem> particles_vector = create_particles(app.m_gfx, particles_names);
 	static ParticleItem* edited = &particles_vector[0];
 
 	float middle = 0.f;//particles_vector.size() * 10.f / 2.f;
@@ -90,7 +90,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(edited)
 	{
 		//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
-		//	particle_edit(*dock, viewer.m_gfx_system, edited->m_call); // "Particle Editor" // identity = edited
+		//	particle_edit(*dock, viewer.m_gfx, edited->m_call); // "Particle Editor" // identity = edited
 	}
 }
 
@@ -105,9 +105,9 @@ int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
 	System::instance().load_modules({ &mud_gfx::m() });
-	add_asset_loader(app.m_gfx_system.flows(), ".ptc");
-	app.m_gfx_system.add_resource_path("examples/06_particles");
-	app.m_gfx_system.init_pipeline(pipeline_minimal);
+	add_asset_loader(app.m_gfx.flows(), ".ptc");
+	app.m_gfx.add_resource_path("examples/06_particles");
+	app.m_gfx.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

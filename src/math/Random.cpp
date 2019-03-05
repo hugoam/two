@@ -10,6 +10,7 @@
 #ifdef MUD_MODULES
 module mud.math;
 #else
+#include <stl/limits.h>
 #include <math/Random.h>
 #endif
 
@@ -32,6 +33,15 @@ namespace mud
 		std::uniform_real_distribution<T> distribution(min, max);
 		return distribution(generator);
 	}
+	
+	template <class T>
+	T randi()
+	{
+		static std::random_device device;
+		static std::mt19937 generator(device());
+		static std::uniform_int_distribution<T> distribution { limits<T>::min(), limits<T>::max() };
+		return distribution(generator);
+	}
 
 	template <class T>
 	T randf()
@@ -47,6 +57,9 @@ namespace mud
 
 	template MUD_MATH_EXPORT float randf(float min, float max);
 	template MUD_MATH_EXPORT double randf<double>(double min, double max);
+
+	template MUD_MATH_EXPORT int randi<int>();
+	template MUD_MATH_EXPORT uint randi<uint>();
 
 	template MUD_MATH_EXPORT int randi<int>(int min, int max);
 	template MUD_MATH_EXPORT uint randi<uint>(uint min, uint max);

@@ -6,13 +6,14 @@
 
 using namespace mud;
 
-//Model& cube(float size)
-void cube(float size)
+Model& cube_model(GfxSystem& gfx, float size)
 {
-	float h = size * 0.5;
+	const float h = size * 0.5f;
 
-	//var geometry = new THREE.BufferGeometry();
-	vector<vec3> positions = {
+	MeshPacker geometry;
+	geometry.m_primitive = PrimitiveType::Lines;
+
+	geometry.m_positions = {
 		vec3(-h, -h, -h), vec3(-h,  h, -h),
 		vec3(-h,  h, -h), vec3( h,  h, -h),
 		vec3( h,  h, -h), vec3( h, -h, -h),
@@ -27,62 +28,81 @@ void cube(float size)
 		vec3( h, -h, -h), vec3( h, -h,  h)
 	};
 
-	//geometry.addAttribute('position', new THREE.Float32BufferAttribute(position, 3));
-
-	//return geometry;
+	return gfx.create_model("cube", geometry);
 }
 
 void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	Camera& camera = viewer.m_camera;
-	camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 200.f;
-	camera.m_eye.z = 150.f;
-
 	Scene& scene = viewer.m_scene;
-	//scene.background = new THREE.Color( 0x111111 );
-	//scene.fog = new THREE.Fog( 0x111111, 150, 200 );
 
-	size_t subdivisions = 6;
-	size_t recursion = 1;
+	static Program& program = app.m_gfx.programs().fetch("line");
 
-	//var points = hilbert3D( new THREE.Vector3( 0, 0, 0 ), 25.0, recursion, 0, 1, 2, 3, 4, 5, 6, 7 );
-	//var spline = new THREE.CatmullRomCurve3( points );
-	/*
-	var samples = spline.getPoints(points.length * subdivisions);
-	var geometrySpline = new THREE.BufferGeometry().setFromPoints(samples);
+	static Node3* node0 = nullptr;
+	static Node3* node1 = nullptr;
 
-	var line = new THREE.Line(geometrySpline, new THREE.LineDashedMaterial({ color: 0xffffff, dashSize : 1, gapSize : 0.5 }));
-	line.computeLineDistances();
+	static bool once = false;
+	if(!once)
+	{
+		once = true;
 
-	objects.push(line);
-	scene.add(line);
+		Camera& camera = viewer.m_camera;
+		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 200.f;
+		camera.m_eye.z = 150.f;
 
-	var geometryCube = cube(50);
+		//scene.background = new THREE.Color(0x111111);
+		//scene.fog = new THREE.Fog(0x111111, 150, 200);
 
-	var lineSegments = new THREE.LineSegments(geometryCube, new THREE.LineDashedMaterial({ color: 0xffaa00, dashSize : 3, gapSize : 1 }));
-	lineSegments.computeLineDistances();
+		size_t subdivisions = 6;
+		int recursion = 1;
 
-	objects.push(lineSegments);
-	scene.add(lineSegments);
+		vector<vec3> points = hilbert3d(vec3(0.f), 25.f, recursion);
+		CurveCatmullRom3 curve = { points };
 
+		vector<vec3> samples = curve.points(points.size() * subdivisions);
 
+		MeshPacker geometry;
+		geometry.m_primitive = PrimitiveType::Lines;
+		geometry.m_positions = samples;
 
-	float time = app.m_gfx_system.m_time;
+		Model& spline = app.m_gfx.create_model("spline", geometry);
 
-	scene.traverse(function(object) {
+		auto dash_material = [&](const Colour& colour, float dash_size, float dash_gap) -> Material&
+		{
+			return app.m_gfx.materials().create("line", [&](Material& m) {
+				m.m_program = &program;
+				m.m_solid.m_colour = colour;
+				m.m_line.m_dashed = true;
+				m.m_line.m_dash_size = dash_size;
+				m.m_line.m_dash_gap = dash_gap;
+				m.m_base.m_shader_color = ShaderColor::Vertex;
+			});
+		};
 
-		if(object.isLine) {
+		Material& mat0 = dash_material(rgb(0xffffff), 1.f, 0.5f);
+		Node3& n0 = gfx::nodes(scene).add(Node3());
+		gfx::items(scene).add(Item(n0, spline, 0U, &mat0));
+		//line.computeLineDistances();
+		node0 = &n0;
 
-			object.rotation.x = 0.25 * time;
-			object.rotation.y = 0.25 * time;
+		Model& cube = cube_model(app.m_gfx, 50.f);
 
-		}
+		Material& mat1 = dash_material(rgb(0xffaa00), 3.f, 1.f);
+		Node3& n1 = gfx::nodes(scene).add(Node3());
+		gfx::items(scene).add(Item(n1, cube, 0U, &mat1));
+		//lineSegments.computeLineDistances();
+		node1 = &n1;
+	}
 
-	});
+	const float time = app.m_gfx.m_time;
 
-	renderer.render(scene, camera);
-	*/
+	const vec3 angles = vec3(0.25f * time, 0.25f * time, 0.f);
+
+	for(Node3* node : { node0, node1 })
+	{
+		node->m_transform = bxTRS(vec3(1.f), quat(angles), vec3(0.f));
+	}
 }

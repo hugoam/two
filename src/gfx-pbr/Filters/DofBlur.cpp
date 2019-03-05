@@ -24,10 +24,10 @@ namespace mud
 {
 	GpuState<DofBlur> GpuState<DofBlur>::me;
 
-	BlockDofBlur::BlockDofBlur(GfxSystem& gfx_system, BlockFilter& filter)
-		: GfxBlock(gfx_system, *this)
+	BlockDofBlur::BlockDofBlur(GfxSystem& gfx, BlockFilter& filter)
+		: GfxBlock(gfx, *this)
 		, m_filter(filter)
-		, m_program(gfx_system.programs().create("filter/dof_blur"))
+		, m_program(gfx.programs().create("filter/dof_blur"))
 	{
 		static cstring options[] = { "DOF_FIRST_PASS" };
 		m_shader_block->m_options = options;

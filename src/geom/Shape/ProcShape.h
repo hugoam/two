@@ -17,13 +17,13 @@ namespace mud
 	export_ struct MUD_GEOM_EXPORT ShapeSize
 	{
 		ShapeSize() : vertex_count(0), index_count(0) {}
-		ShapeSize(int verts, int indices) : vertex_count(verts), index_count(indices) {}
+		ShapeSize(uint32_t verts, uint32_t indices) : vertex_count(verts), index_count(indices) {}
 
 		operator uvec2() { return vec; }
 
 		union {
 			uvec2 vec;
-			struct { int vertex_count; int index_count; };
+			struct { uint vertex_count; uint index_count; };
 		};
 	};
 

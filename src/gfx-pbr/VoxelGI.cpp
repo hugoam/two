@@ -114,7 +114,7 @@ namespace gfx
 		m_dirty = true;
 	}
 
-	void save_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
+	void save_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
 	{
 		uint16_t subdiv = gi_probe.m_subdiv;
 		bgfx::TextureHandle texture = bgfx::createTexture3D(subdiv, subdiv, subdiv, true, source_format, BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK);
@@ -122,16 +122,16 @@ namespace gfx
 		bgfx::frame();
 		bgfx::frame();
 
-		save_bgfx_texture(gfx_system.allocator(), gfx_system.file_writer(), path.c_str(), target_format, texture, source_format, uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv));
+		save_bgfx_texture(gfx.allocator(), gfx.file_writer(), path.c_str(), target_format, texture, source_format, uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv));
 	}
 
-	void load_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, const string& path)
+	void load_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, const string& path)
 	{
-		gi_probe.m_voxels_light_rgba = load_bgfx_texture(gfx_system.allocator(), gfx_system.file_reader(), path.c_str());
+		gi_probe.m_voxels_light_rgba = load_bgfx_texture(gfx.allocator(), gfx.file_reader(), path.c_str());
 	}
 
-	PassGIBake::PassGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockShadow& block_shadow, BlockGIBake& block_gi_bake)
-		: DrawPass(gfx_system, "voxelGI", PassType::VoxelGI)
+	PassGIBake::PassGIBake(GfxSystem& gfx, BlockLight& block_light, BlockShadow& block_shadow, BlockGIBake& block_gi_bake)
+		: DrawPass(gfx, "voxelGI", PassType::VoxelGI)
 		, m_block_light(block_light)
 		, m_block_shadow(block_shadow)
 		, m_block_gi_bake(block_gi_bake)
@@ -166,8 +166,8 @@ namespace gfx
 		}
 	}
 
-	PassGIProbes::PassGIProbes(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake)
-		: RenderPass(gfx_system, "voxelGI", PassType::VoxelGI)
+	PassGIProbes::PassGIProbes(GfxSystem& gfx, BlockLight& block_light, BlockGIBake& block_gi_bake)
+		: RenderPass(gfx, "voxelGI", PassType::VoxelGI)
 		, m_block_light(block_light)
 		, m_block_gi_bake(block_gi_bake)
 	{}
@@ -199,21 +199,21 @@ namespace gfx
 
 					printf("INFO: bake GIProbe done\n");
 
-					//string path = m_gfx_system.m_resource_path + "/" + "gi_probe.dds";
-					//save_gi_probe(m_gfx_system, *gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);
+					//string path = m_gfx.m_resource_path + "/" + "gi_probe.dds";
+					//save_gi_probe(m_gfx, *gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);
 				}
 
 				if(gi_probe->m_mode == GIProbeMode::LoadVoxels)
 				{
-					string path = m_gfx_system.m_resource_path + "/" + "gi_probe.dds";
-					load_gi_probe(m_gfx_system, *gi_probe, path);
+					string path = m_gfx.m_resource_path + "/" + "gi_probe.dds";
+					load_gi_probe(m_gfx, *gi_probe, path);
 				}
 			}
 		}
 	}
 
-	BlockGIBake::BlockGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockShadow& block_shadow, BlockGITrace& block_trace)
-		: DrawBlock(gfx_system, type<BlockGIBake>())
+	BlockGIBake::BlockGIBake(GfxSystem& gfx, BlockLight& block_light, BlockShadow& block_shadow, BlockGITrace& block_trace)
+		: DrawBlock(gfx, type<BlockGIBake>())
 		, m_block_light(block_light)
 		, m_block_shadow(block_shadow)
 		, m_block_trace(block_trace)
@@ -223,10 +223,10 @@ namespace gfx
 	{
 		u_voxelgi.createUniforms();
 
-		m_voxelize = &m_gfx_system.programs().fetch("gi/voxelize");
-		m_direct_light = &m_gfx_system.programs().fetch("gi/direct_light");
-		m_bounce_light = &m_gfx_system.programs().fetch("gi/bounce_light");
-		m_output_light = &m_gfx_system.programs().fetch("gi/output_light");
+		m_voxelize = &m_gfx.programs().fetch("gi/voxelize");
+		m_direct_light = &m_gfx.programs().fetch("gi/direct_light");
+		m_bounce_light = &m_gfx.programs().fetch("gi/bounce_light");
+		m_output_light = &m_gfx.programs().fetch("gi/output_light");
 	}
 
 	void BlockGIBake::voxelize(Render& render, GIProbe& gi_probe)
@@ -239,7 +239,7 @@ namespace gfx
 		Viewport viewport = { camera, render.m_scene, { uvec2(0U), uvec2(uint(gi_probe.m_subdiv)) } };
 		Render voxel_render = { Shading::Voxels, viewport, gi_probe.m_fbo, render.m_frame };
 
-		BlockShadow& block_shadow = *m_gfx_system.m_pipeline->block<BlockShadow>();
+		BlockShadow& block_shadow = *m_gfx.m_pipeline->block<BlockShadow>();
 		ShadowFilterMode pcf_level = block_shadow.m_pcf_level;
 		uint8_t splits = 0;
 		block_shadow.m_pcf_level = PCF_NONE;
@@ -252,7 +252,7 @@ namespace gfx
 		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
 		voxel_render.m_shot->m_lights = render.m_shot->m_lights;
 		cull_items(render.m_scene, planes, voxel_render.m_shot->m_items);
-		m_gfx_system.renderer(Shading::Voxels).subrender(render, voxel_render);
+		m_gfx.renderer(Shading::Voxels).subrender(render, voxel_render);
 
 		if(m_block_light.m_direct_light)
 		{
@@ -364,8 +364,8 @@ namespace gfx
 #endif
 	}
 
-	BlockGITrace::BlockGITrace(GfxSystem& gfx_system)
-		: DrawBlock(gfx_system, type<BlockGITrace>())
+	BlockGITrace::BlockGITrace(GfxSystem& gfx)
+		: DrawBlock(gfx, type<BlockGITrace>())
 	{
 		static cstring options[] = { "GI_CONETRACE" };
 		m_shader_block->m_options = options;

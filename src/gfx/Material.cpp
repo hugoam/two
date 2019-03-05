@@ -48,7 +48,9 @@ namespace mud
 
 	void blend_state(BlendMode blend_mode, uint64_t& bgfx_state)
 	{
-		if(blend_mode == BlendMode::Mix)
+		if(blend_mode == BlendMode::None)
+			;
+		else if(blend_mode == BlendMode::Mix)
 			bgfx_state |= BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_ALPHA, BGFX_STATE_BLEND_INV_SRC_ALPHA);
 		else if(blend_mode == BlendMode::Add)
 			//bgfx_state |= BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_ALPHA, BGFX_STATE_BLEND_ONE);
@@ -67,10 +69,10 @@ namespace mud
 	struct BaseMaterialUniform
 	{
 		BaseMaterialUniform() {}
-		BaseMaterialUniform(GfxSystem& gfx_system)
+		BaseMaterialUniform(GfxSystem& gfx)
 			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
-			UNUSED(gfx_system);
+			UNUSED(gfx);
 #if !MATERIALS_BUFFER
 			GpuState<MaterialBase>::me.init();
 #endif
@@ -96,8 +98,8 @@ namespace mud
 	struct AlphaMaterialUniform
 	{
 		AlphaMaterialUniform() {}
-		AlphaMaterialUniform(GfxSystem& gfx_system)
-			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
+		AlphaMaterialUniform(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
 			, s_alpha(bgfx::createUniform("s_alpha", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
 #if !MATERIALS_BUFFER
@@ -127,8 +129,8 @@ namespace mud
 	struct SolidMaterialUniform
 	{
 		SolidMaterialUniform() {}
-		SolidMaterialUniform(GfxSystem& gfx_system)
-			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
+		SolidMaterialUniform(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
 			, s_color(bgfx::createUniform("s_color", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
 #if !MATERIALS_BUFFER
@@ -159,9 +161,9 @@ namespace mud
 	struct PointMaterialUniform
 	{
 		PointMaterialUniform() {}
-		PointMaterialUniform(GfxSystem& gfx_system)
+		PointMaterialUniform(GfxSystem& gfx)
 		{
-			UNUSED(gfx_system);
+			UNUSED(gfx);
 #if !MATERIALS_BUFFER
 			GpuState<MaterialPoint>::me.init();
 #endif
@@ -183,9 +185,9 @@ namespace mud
 	struct LineMaterialUniform
 	{
 		LineMaterialUniform() {}
-		LineMaterialUniform(GfxSystem& gfx_system)
+		LineMaterialUniform(GfxSystem& gfx)
 		{
-			UNUSED(gfx_system);
+			UNUSED(gfx);
 #if !MATERIALS_BUFFER
 			GpuState<MaterialLine>::me.init();
 #endif
@@ -207,8 +209,8 @@ namespace mud
 	struct FresnelMaterialUniform
 	{
 		FresnelMaterialUniform() {}
-		FresnelMaterialUniform(GfxSystem& gfx_system)
-			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
+		FresnelMaterialUniform(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
 			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
 #if !MATERIALS_BUFFER
@@ -239,10 +241,10 @@ namespace mud
 	struct PbrMaterialUniform
 	{
 		PbrMaterialUniform() {}
-		PbrMaterialUniform(GfxSystem& gfx_system)
-			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
-			, m_black_tex (&gfx_system.default_texture(TextureHint::Black))
-			, m_normal_tex(&gfx_system.default_texture(TextureHint::Normal))
+		PbrMaterialUniform(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
+			, m_black_tex (&gfx.default_texture(TextureHint::Black))
+			, m_normal_tex(&gfx.default_texture(TextureHint::Normal))
 			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
@@ -317,7 +319,7 @@ namespace mud
 
 	struct BlockPbr : public GfxBlock
 	{
-		BlockPbr(GfxSystem& gfx_system);
+		BlockPbr(GfxSystem& gfx);
 
 		virtual void init_block() override {}
 
@@ -429,15 +431,18 @@ namespace mud
 		if(m_base.m_depth_test == DepthTest::Disabled)
 			bgfx_state &= ~BGFX_STATE_DEPTH_TEST_MASK;
 
-		//if(m_base.m_depth_draw_mode == DepthDraw::Enabled)
-		//	bgfx_state |= BGFX_STATE_WRITE_Z;
-		//if(m_base.m_depth_draw_mode == DepthDraw::Disabled)
-		//	bgfx_state &= ~BGFX_STATE_WRITE_Z;
+		if(m_base.m_depth_draw == DepthDraw::Enabled)
+			bgfx_state |= BGFX_STATE_WRITE_Z;
+		if(m_base.m_depth_draw == DepthDraw::Disabled)
+			bgfx_state &= ~BGFX_STATE_WRITE_Z;
 	}
 
 	void Material::submit(const Program& program, bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin) const
 	{
 		this->state(bgfx_state);
+
+		//if(program.m_blocks[MaterialBlock::Point])
+			bgfx_state |= BGFX_STATE_POINT_SIZE(uint(m_point.m_point_size));
 
 #if MATERIALS_BUFFER
 		const BlockMaterial& block = *ms_gfx_system->m_pipeline->block<BlockMaterial>();
@@ -464,8 +469,8 @@ namespace mud
 			encoder.setTexture(uint8_t(TextureSampler::Skeleton), skin->m_texture);
 	}
 
-	BlockMaterial::BlockMaterial(GfxSystem& gfx_system)
-		: GfxBlock(gfx_system, *this)
+	BlockMaterial::BlockMaterial(GfxSystem& gfx)
+		: GfxBlock(gfx, *this)
 	{
 		static cstring options[] = { "DOUBLE_SIDED", "ALPHA_MAP", "ALPHA_TEST", "DASH" }; // @todo move dash to correct place
 		m_shader_block->m_options = options;
@@ -481,7 +486,7 @@ namespace mud
 	{
 		UNUSED(render);
 #if MATERIALS_BUFFER
-		GpuState<Material>::me.pack(m_materials_texture, m_gfx_system.materials().m_vector);
+		GpuState<Material>::me.pack(m_materials_texture, m_gfx.materials().m_vector);
 #endif
 	}
 
@@ -504,8 +509,8 @@ namespace mud
 		s_pbr_material_block.prepare(render_pass);
 	}
 
-	BlockPbr::BlockPbr(GfxSystem& gfx_system)
-		: GfxBlock(gfx_system, *this)
+	BlockPbr::BlockPbr(GfxSystem& gfx)
+		: GfxBlock(gfx, *this)
 	{
 		static cstring options[] = { "NORMAL_MAP", "EMISSIVE", "ANISOTROPY", "AMBIENT_OCCLUSION", "DEPTH_MAPPING", "DEEP_PARALLAX", "LIGHTMAP" };
 		static cstring modes[] = { "DIFFUSE_MODE", "SPECULAR_MODE" };
@@ -515,9 +520,9 @@ namespace mud
 
 	template <> Type& type<mud::BlockPbr>() { static Type ty("BlockPbr"); return ty; }
 
-	GfxBlock& pbr_block(GfxSystem& gfx_system)
+	GfxBlock& pbr_block(GfxSystem& gfx)
 	{
-		static BlockPbr pbr = { gfx_system };
+		static BlockPbr pbr = { gfx };
 		return pbr;
 	}
 }

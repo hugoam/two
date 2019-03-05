@@ -35,6 +35,7 @@ namespace mud
     struct Sphere;
     struct SphereRing;
     struct Spheroid;
+	struct Icosahedron;
     struct Aabb;
     struct Plane;
     struct Plane3;

@@ -46,8 +46,8 @@ namespace mud
 		return config;
 	}
 
-	ImporterOBJ::ImporterOBJ(GfxSystem& gfx_system)
-		: m_gfx_system(gfx_system)
+	ImporterOBJ::ImporterOBJ(GfxSystem& gfx)
+		: m_gfx(gfx)
 	{
 		static auto load_obj_model = [&](Model& model, const string& path)
 		{
@@ -61,21 +61,21 @@ namespace mud
 			this->import_prefab(prefab, path, config);
 		};
 
-		gfx_system.add_importer(ModelFormat::obj, *this);
-		gfx_system.models().add_format(".obj", load_obj_model);
-		gfx_system.prefabs().add_format(".obj", load_obj_prefab);
+		gfx.add_importer(ModelFormat::obj, *this);
+		gfx.models().add_format(".obj", load_obj_model);
+		gfx.prefabs().add_format(".obj", load_obj_prefab);
 	}
 
 	using MaterialMap = map<string, Material*>;
 
-	void import_material_library(GfxSystem& gfx_system, const string& path, MaterialMap& material_map)
+	void import_material_library(GfxSystem& gfx, const string& path, MaterialMap& material_map)
 	{
 		auto tof = [](const string& s) { return float(atof(s.c_str())); };
 		auto tocol = [&](const string tokens[]) { return Colour{ tof(tokens[1]), tof(tokens[2]), tof(tokens[3]), tof(tokens[4]) }; };
 
-		LocatedFile location = gfx_system.locate_file("models/" + path);
+		LocatedFile location = gfx.locate_file("models/" + path);
 		if(!location)
-			location = gfx_system.locate_file("materials/" + path);
+			location = gfx.locate_file("materials/" + path);
 
 		string filename = location.path(false);
 
@@ -113,8 +113,8 @@ namespace mud
 			auto fetch_texture = [&](const string& path) -> Texture*
 			{
 				// @todo replace backslashes with slashes ?
-				if(gfx_system.locate_file("textures/" + path))
-					return gfx_system.textures().file(path.c_str());
+				if(gfx.locate_file("textures/" + path))
+					return gfx.textures().file(path.c_str());
 				else
 					return nullptr;
 			};
@@ -122,7 +122,7 @@ namespace mud
 			if(command == "newmtl")
 			{
 				string name = tokens[1];
-				current = &gfx_system.fetch_material(name.c_str(), "pbr/pbr");
+				current = &gfx.fetch_material(name.c_str(), "pbr/pbr");
 				material_map[name] = current;
 			}
 			else if(command == "Ka")
@@ -179,34 +179,34 @@ namespace mud
 				}
 				else if(command == "map_Kd") // diffuse texture
 				{
-					current->m_pbr.m_albedo.m_texture = fetch_texture(map);
+					current->m_pbr.m_albedo = fetch_texture(map);
 				}
 				else if(command == "map_Ks") // specular texture
 				{
 					//current->m_pbr.m_metallic.m_value = 1.f;
-					current->m_pbr.m_metallic.m_texture = fetch_texture(map);
+					current->m_pbr.m_metallic = fetch_texture(map);
 				}
 				else if(command == "map_Ke") // emissive texture
 				{
-					current->m_pbr.m_emissive.m_texture = fetch_texture(map);
+					current->m_pbr.m_emissive = fetch_texture(map);
 					current->m_pbr.m_emissive.m_value.a = 2.f;
 				}
 				else if(command == "map_Ns") // specular highlight texture
 				{
-					current->m_pbr.m_roughness.m_texture = fetch_texture(map);
+					current->m_pbr.m_roughness = fetch_texture(map);
 				}
 				else if(command == "map_bump" || command == "bump") // bump texture
 				{
-					current->m_pbr.m_normal.m_texture = fetch_texture(map);
+					current->m_pbr.m_normal = fetch_texture(map);
 				}
 				else if(command == "map_Pr") // PBR: roughness texture
 				{
-					current->m_pbr.m_roughness.m_texture = fetch_texture(map);
+					current->m_pbr.m_roughness = fetch_texture(map);
 				}
 				else if(command == "map_Pm") // PBR: metallic texture
 				{
 					//current->m_pbr.m_metallic.m_value = 1.f;
-					current->m_pbr.m_metallic.m_texture = fetch_texture(map);
+					current->m_pbr.m_metallic = fetch_texture(map);
 				}
 			}
 
@@ -261,7 +261,7 @@ namespace mud
 				if(m_shape.vertex_count() == 0 || m_skip)
 					return;
 
-				Model& model = m_import.m_gfx_system.models().create(m_name.c_str());
+				Model& model = m_import.m_gfx.models().create(m_name.c_str());
 				Mesh& mesh = model.add_mesh(m_name, true);
 
 				m_shape.bake(!m_normals, m_generate_tangents && m_uvs);
@@ -400,7 +400,7 @@ namespace mud
 			else if(command == "mtllib")
 			{
 				const string& lib_path = tokens[1];
-				import_material_library(m_gfx_system, lib_path, g.materials);
+				import_material_library(m_gfx, lib_path, g.materials);
 			}
 		});
 
@@ -411,7 +411,7 @@ namespace mud
 
 	void ImporterOBJ::import_model(Model& model, const string& filepath, const ImportConfig& config)
 	{
-		Import state = { m_gfx_system, filepath, config };
+		Import state = { m_gfx, filepath, config };
 
 		this->import(state, filepath, config);
 
@@ -426,11 +426,11 @@ namespace mud
 
 	void ImporterOBJ::import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config)
 	{
-		Import state = { m_gfx_system, filepath, config };
+		Import state = { m_gfx, filepath, config };
 
 		this->import(state, filepath, config);
 
-		import_to_prefab(m_gfx_system, prefab, state, config.m_flags);
+		import_to_prefab(m_gfx, prefab, state, config.m_flags);
 	}
 
 	void ImporterOBJ::repack(const string& filepath, const ImportConfig& config)

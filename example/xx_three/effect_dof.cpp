@@ -6,16 +6,6 @@
 
 using namespace mud;
 
-Texture* load_envmap(const string& path, const string& format)
-{
-	string paths[6] = {
-		path + "px" + format, path + "nx" + format,
-		path + "py" + format, path + "ny" + format,
-		path + "pz" + format, path + "nz" + format
-	};
-	return nullptr; //THREE.CubeTextureLoader().load(urls);
-}
-
 /*
 function onWindowResize() {
 	windowHalfX = window.innerWidth / 2;
@@ -31,14 +21,14 @@ function onWindowResize() {
 
 struct DoFRenderer : public Renderer
 {
-	DoFRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Shaded)
+	DoFRenderer(GfxSystem& gfx, Pipeline& pipeline)
+		: Renderer(gfx, pipeline, Shading::Shaded)
 	{
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassOpaque>(gfx_system);
-		//this->add_pass<PassBokeh>(gfx_system);
-		this->add_pass<PassEffects>(gfx_system);
-		this->add_pass<PassPostProcess>(gfx_system, *pipeline.block<BlockCopy>());
+		this->add_pass<PassClear>(gfx);
+		this->add_pass<PassOpaque>(gfx);
+		//this->add_pass<PassBokeh>(gfx);
+		this->add_pass<PassEffects>(gfx);
+		this->add_pass<PassPostProcess>(gfx, *pipeline.block<BlockCopy>());
 		this->init();
 
 		// var renderPass = new THREE.RenderPass(scene, camera);
@@ -62,6 +52,7 @@ struct DoFRenderer : public Renderer
 
 void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
@@ -94,19 +85,23 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	int nobjects = xgrid * ygrid * zgrid;
 
-	//var geo = new THREE.SphereBufferGeometry(1, 20, 10);
-	static Sphere sphere = {};
-	static Model& geo = app.m_gfx_system.fetch_symbol(Symbol(), sphere, PLAIN);
+	static Model& geo = app.m_gfx.shape(Sphere(1.f));
+
+	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
 	static vector<Material*> materials;
 
-	Texture* texcube = load_envmap("textures/cube/SwedishRoyalCastle/", ".jpg");
+	Texture& texcube = *app.m_gfx.textures().file("SwedishRoyalCastle.cube");
+
 	for(int i = 0; i < nobjects; ++i)
 	{
-		string name = "object" + to_string(i);
-		materials.push_back(&app.m_gfx_system.fetch_material(name.c_str(), "pbr/pbr"));
-		//materials.push_back(&app.m_gfx_system.materials().create(name.c_str()));
-		//materials.push_back(new THREE.MeshBasicMaterial({ color: 0xff1100, envMap : texcube }));
+		const string name = "object" + to_string(i);
+		Material& material = app.m_gfx.materials().create(name, [&](Material& m) {
+			m.m_program = &pbr;
+			m.m_base.m_cull_mode = CullMode::None;
+			m.m_pbr.m_albedo = rgb(0xff1100);
+		});
+		materials.push_back(&material);
 	}
 
 	int count = 0;
@@ -139,16 +134,18 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	//var postprocessing = {};
 
-	double time = 0.0;//Date.now() * 0.00005;
+	const float time = app.m_gfx.m_time;
+
 	Camera& camera = viewer.m_camera;
-	camera.m_eye.x += (mouse.x - camera.m_eye.x) * 0.036;
-	camera.m_eye.y += (-(mouse.y)-camera.m_eye.y) * 0.036;
+	camera.m_eye.x += (mouse.x - camera.m_eye.x) * 0.036f;
+	camera.m_eye.y += (-(mouse.y)-camera.m_eye.y) * 0.036f;
 	//camera.m_target = scene.position;
+
 	if(!single_material)
 		for(int i = 0; i < nobjects; i++)
 		{
-			float h = (360 * (i / nobjects + int(time)) % 360) / 360;
-			materials[i]->m_solid.m_colour = hsl(h, 1, 0.5);
+			float h = fmod(360.f * (float(i) / float(nobjects) + time), 360.f) / 360.f;
+			materials[i]->m_solid.m_colour = hsl(h, 1.f, 0.5f);
 		}
 	
 	//postprocessing.composer.render(0.1);

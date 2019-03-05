@@ -107,9 +107,9 @@ namespace mud
 		size_t m_num_packed = 0;
 
 		void pack_member(size_t size, Member& member);
-		void create_member(GfxSystem& gfx_system, const string& name, Member& member);
+		void create_member(GfxSystem& gfx, const string& name, Member& member);
 		string shader_decl();
-		void create(GfxSystem& gfx_system);
+		void create(GfxSystem& gfx);
 	};
 	
 	template <class T>

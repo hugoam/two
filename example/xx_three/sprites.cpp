@@ -11,6 +11,7 @@
 
 void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
@@ -21,7 +22,7 @@ void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	SceneViewer& overlay = ui::scene_viewer(parent);
 
-	//cameraOrtho = new THREE.OrthographicCamera( - width / 2, width / 2, height / 2, - height / 2, 1, 10 );
+	//cameraOrtho = new THREE.OrthographicCamera(- width / 2, width / 2, height / 2, - height / 2, 1, 10);
 	//cameraOrtho.position.z = 10;
 
 	// create sprites
@@ -29,11 +30,11 @@ void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 	float amount = 200;
 	float radius = 500;
 
-	Texture& sprites0 = *app.m_gfx_system.textures().file("sprite0.png");
+	Texture& sprites0 = *app.m_gfx.textures().file("sprite0.png");
 
-	Material& material = app.m_gfx_system.materials().create("sprite0", [](Material& m) {
+	Material& material = app.m_gfx.materials().create("sprite0", [](Material& m) {
 		//m.m_program = SpriteMaterial;
-		//m.m_sprite.m_color.m_texture = sprites0;
+		//m.m_sprite.m_color = sprites0;
 		}); // new THREE.SpriteMaterial({ map: texture });
 
 	{
@@ -69,18 +70,18 @@ void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 		//updateHUDSprites();
 	}
 
-	Texture& mapB = *app.m_gfx_system.textures().file("sprite1.png");
-	Texture& mapC = *app.m_gfx_system.textures().file("sprite2.png");
+	Texture& mapB = *app.m_gfx.textures().file("sprite1.png");
+	Texture& mapC = *app.m_gfx.textures().file("sprite2.png");
 
 	//group = new THREE.Group();
 
-	Material& materialC = app.m_gfx_system.materials().create("sprite0", [](Material& m) {
+	Material& materialC = app.m_gfx.materials().create("sprite0", [](Material& m) {
 		});
 	//new THREE.SpriteMaterial({ map: mapC, color : 0xffffff, fog : true });
 
-	Material& materialB = app.m_gfx_system.materials().create("sprite0", [](Material& m) {
+	Material& materialB = app.m_gfx.materials().create("sprite0", [](Material& m) {
 		});
-	//new THREE.SpriteMaterial( { map: mapB, color: 0xffffff, fog: true } );
+	//new THREE.SpriteMaterial({ map: mapB, color: 0xffffff, fog: true });
 
 	for(int a = 0; a < amount; a++)
 	{
@@ -103,16 +104,16 @@ void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 			material.m_base.m_uv0_scale = { 2.f, 2.f };
 		}
 
-		//var sprite = new THREE.Sprite( material );
+		//var sprite = new THREE.Sprite(material);
 		//
-		//sprite.position.set( x, y, z );
+		//sprite.position.set(x, y, z);
 		//sprite.position.normalize();
-		//sprite.position.multiplyScalar( radius );
+		//sprite.position.multiplyScalar(radius);
 		//
-		//group.add( sprite );
+		//group.add(sprite);
 	}
 
-	//scene.add( group );
+	//scene.add(group);
 
 
 	auto updateHUDSprites = []() {
@@ -128,14 +129,14 @@ void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	};
 
-	float time = app.m_gfx_system.m_time;
+	float time = app.m_gfx.m_time;
 
 	/*
 	for(int i = 0, l = group.children.length; i < l; i++) {
 
 		var sprite = group.children[i];
 		var material = sprite.material;
-		var scale = Math.sin(time + sprite.position.x * 0.01) * 0.3 + 1.0;
+		var scale = sin(time + sprite.position.x * 0.01) * 0.3 + 1.0;
 
 		var imageWidth = 1;
 		var imageHeight = 1;
@@ -152,7 +153,7 @@ void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		if(material.map != = mapC) {
 
-			material.opacity = Math.sin(time + sprite.position.x * 0.01) * 0.4 + 0.6;
+			material.opacity = sin(time + sprite.position.x * 0.01) * 0.4 + 0.6;
 
 		}
 

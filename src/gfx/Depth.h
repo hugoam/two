@@ -37,8 +37,8 @@ namespace mud
 	export_ class MUD_GFX_EXPORT PassDepth : public DrawPass
 	{
 	public:
-		PassDepth(GfxSystem& gfx_system, cstring name, BlockDepth& block_depth);
-		PassDepth(GfxSystem& gfx_system, BlockDepth& block_depth);
+		PassDepth(GfxSystem& gfx, cstring name, BlockDepth& block_depth);
+		PassDepth(GfxSystem& gfx, BlockDepth& block_depth);
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) override;
 		virtual void queue_draw_element(Render& render, DrawElement& element) override;
@@ -49,7 +49,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT BlockDepth : public DrawBlock
 	{
 	public:
-		BlockDepth(GfxSystem& gfx_system);
+		BlockDepth(GfxSystem& gfx);
 		~BlockDepth();
 
 		virtual void init_block() override;

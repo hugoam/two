@@ -10,14 +10,18 @@
 
 namespace mud
 {
+	template <size_t EcsType, size_t Index>
+	struct TypeBuffer
+	{};
+
 	template <class T>
 	struct TypedBuffer
 	{};
 
 	struct refl_ struct_ MUD_ECS_EXPORT Entity
 	{
-		Entity() {}
-		Entity(uint32_t handle, uint32_t ecs) : m_ecs(ecs), m_handle(handle) {}
+		//Entity() {}
+		//Entity(uint8_t ecs, uint16_t stream, uint32_t handle) : m_ecs(ecs), m_stream(stream), m_handle(handle) {}
 
 		explicit operator bool() const { return m_handle != UINT32_MAX; }
 		operator uint32_t() const { return m_handle; }
@@ -29,7 +33,8 @@ namespace mud
 
 		void swap(Entity& other) { using mud::swap; swap(m_handle, other.m_handle); swap(m_ecs, other.m_ecs); }
 
-		uint32_t m_ecs = UINT32_MAX;
+		uint8_t m_ecs = UINT8_MAX;
+		uint16_t m_stream = UINT16_MAX;
 		uint32_t m_handle = UINT32_MAX;
 	};
 

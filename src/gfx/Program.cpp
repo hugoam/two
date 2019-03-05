@@ -101,20 +101,20 @@ namespace mud
 		"_vs.sc",
 	};
 
-	string shader_path(GfxSystem& gfx_system, const string& name, ShaderType shader_type)
+	string shader_path(GfxSystem& gfx, const string& name, ShaderType shader_type)
 	{
 		string suffix = c_shader_suffixes[shader_type];
-		return gfx_system.m_resource_path + "/shaders/" + name + suffix;
+		return gfx.m_resource_path + "/shaders/" + name + suffix;
 	}
 
 #ifdef MUD_LIVE_SHADER_COMPILER
-	bool compile_shader(GfxSystem& gfx_system, const string& name, const string& suffix, ShaderType shader_type, const string& defines_in, cstring source)
+	bool compile_shader(GfxSystem& gfx, const string& name, const string& suffix, ShaderType shader_type, const string& defines_in, cstring source)
 	{
 		string defines = defines_in;
 		bool is_opengl = bgfx::getRendererType() == bgfx::RendererType::OpenGLES
 					  || bgfx::getRendererType() == bgfx::RendererType::OpenGL;
 
-		string source_path = shader_path(gfx_system, name, shader_type);
+		string source_path = shader_path(gfx, name, shader_type);
 
 		if(source != nullptr)
 		{
@@ -130,15 +130,15 @@ namespace mud
 		static table<ShaderType, cstring> output_suffixes = { "_cs", "_fs", "_gs", "_vs" };
 
 		string output_suffix = output_suffixes[shader_type];
-		string output_path = gfx_system.m_resource_path + "/shaders/compiled/" + name + suffix + output_suffix;
+		string output_path = gfx.m_resource_path + "/shaders/compiled/" + name + suffix + output_suffix;
 
 		create_file_tree(output_path.c_str());
 
 		printf("INFO: Compiling Shader : %s\n", source_path.c_str());
 		printf("INFO: Defines : %s\n", defines.c_str());
 
-		string include = gfx_system.m_resource_path + "/shaders/";
-		string varying_path = gfx_system.m_resource_path + "/shaders/varying.def.sc";
+		string include = gfx.m_resource_path + "/shaders/";
+		string varying_path = gfx.m_resource_path + "/shaders/varying.def.sc";
 
 		enum Target { GLSL, ESSL, HLSL, Metal };
 #if BX_PLATFORM_WINDOWS
@@ -313,7 +313,7 @@ namespace mud
 		return config;
 	}
 
-	void Program::compile(GfxSystem& gfx_system, Version& version, bool compute)
+	void Program::compile(GfxSystem& gfx, Version& version, bool compute)
 	{
 		const ShaderVersion config = shader_version(version);
 
@@ -324,15 +324,15 @@ namespace mud
 #ifdef MUD_LIVE_SHADER_COMPILER
 		if(compute)
 		{
-			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Compute, defines, m_sources[ShaderType::Compute]);
+			compiled &= compile_shader(gfx, m_impl->m_name, suffix, ShaderType::Compute, defines, m_sources[ShaderType::Compute]);
 		}
 		else
 		{
-			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Vertex, defines, m_sources[ShaderType::Vertex]);
-			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Fragment, defines, m_sources[ShaderType::Fragment]);
+			compiled &= compile_shader(gfx, m_impl->m_name, suffix, ShaderType::Vertex, defines, m_sources[ShaderType::Vertex]);
+			compiled &= compile_shader(gfx, m_impl->m_name, suffix, ShaderType::Fragment, defines, m_sources[ShaderType::Fragment]);
 
-			if(file_exists(shader_path(gfx_system, m_impl->m_name, ShaderType::Geometry).c_str()))
-				compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Geometry, defines, m_sources[ShaderType::Geometry]);
+			if(file_exists(shader_path(gfx, m_impl->m_name, ShaderType::Geometry).c_str()))
+				compiled &= compile_shader(gfx, m_impl->m_name, suffix, ShaderType::Geometry, defines, m_sources[ShaderType::Geometry]);
 		}
 #endif
 
@@ -346,20 +346,20 @@ namespace mud
 		}
 
 		printf("INFO: loading program %s with options %s\n", full_name.c_str(), defines.c_str());
-		string compiled_path = gfx_system.m_resource_path + "/shaders/compiled/" + full_name;
-		version.m_program = compute ? load_compute_program(gfx_system.file_reader(), compiled_path)
-									: load_program(gfx_system.file_reader(), compiled_path);
+		string compiled_path = gfx.m_resource_path + "/shaders/compiled/" + full_name;
+		version.m_program = compute ? load_compute_program(gfx.file_reader(), compiled_path)
+									: load_program(gfx.file_reader(), compiled_path);
 		version.m_update = m_update;
 	}
 
-	void Program::update(GfxSystem& gfx_system)
+	void Program::update(GfxSystem& gfx)
 	{
 		for(auto& hash_version : m_impl->m_versions)
 		{
 			Version& version = hash_version.second;
 			if(version.m_update < m_update)
 			{
-				this->compile(gfx_system, version, m_compute);
+				this->compile(gfx, version, m_compute);
 			}
 		}
 	}

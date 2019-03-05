@@ -12,7 +12,6 @@ namespace stl
 	using namespace mud;
 	template class MUD_ECS_EXPORT vector<Buffer*>;
 	template class MUD_ECS_EXPORT vector<EntityStream*>;
-	template class MUD_ECS_EXPORT vector<EntityData>;
 	template class MUD_ECS_EXPORT vector<EntityStream>;
 	template class MUD_ECS_EXPORT vector<unique<Buffer>>;
 }

@@ -62,7 +62,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockLight : public DrawBlock
 	{
 	public:
-		BlockLight(GfxSystem& gfx_system);
+		BlockLight(GfxSystem& gfx);
 
 		virtual void init_block() override;
 

@@ -83,7 +83,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 
 	Gnode& scene = viewer.m_scene.begin();
 
-	Material& material = milky_white(app.m_gfx_system);
+	Material& material = milky_white(app.m_gfx);
 
 	//gfx::radiance(scene, "radiance/rocky_ridge_1k.hdr", BackgroundMode::None);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
@@ -122,7 +122,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 	if(clustered && viewer.m_viewport.m_rect != uvec4(0U) && !camera.m_clusters)
 	{
 		camera.m_clustered = true;
-		camera.m_clusters = make_unique<Froxelizer>(app.m_gfx_system);
+		camera.m_clusters = make_unique<Froxelizer>(app.m_gfx);
 		camera.m_clusters->prepare(viewer.m_viewport, camera.m_projection, camera.m_near, camera.m_far);
 	}
 #endif
@@ -181,7 +181,7 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
-	app.m_gfx_system.init_pipeline(pipeline_pbr);
+	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

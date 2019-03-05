@@ -347,8 +347,8 @@ namespace mud
 		}
 	}
 
-	BlockShadow::BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockLight& block_light)
-		: DrawBlock(gfx_system, type<BlockShadow>())
+	BlockShadow::BlockShadow(GfxSystem& gfx, BlockDepth& block_depth, BlockLight& block_light)
+		: DrawBlock(gfx, type<BlockShadow>())
 		, m_block_depth(block_depth)
 		, m_block_light(block_light)
 	{
@@ -395,7 +395,7 @@ namespace mud
 #if DEBUG_ATLAS
 		if(render.m_target)
 		{
-			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+			BlockCopy& copy = *m_gfx.m_pipeline->block<BlockCopy>();
 			//copy.debug_show_texture(render, m_atlas.m_depth, vec4(0.f), true);
 			//copy.debug_show_texture(render, m_atlas.m_cubemaps[0].m_cubemap, vec4(0.f), true);
 #if SHADOW_ATLAS
@@ -410,7 +410,7 @@ namespace mud
 #if DEBUG_CSM
 		if(render.m_target)
 		{
-			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+			BlockCopy& copy = *m_gfx.m_pipeline->block<BlockCopy>();
 			copy.debug_show_texture(render, m_csm.m_depth, vec4(0.f), true);
 		}
 #endif
@@ -562,7 +562,7 @@ namespace mud
 		m_depth_params.m_depth_normal_bias = light.m_shadow_normal_bias;
 		m_depth_params.m_depth_z_far = light.m_shadow_range;
 
-		Renderer& renderer = m_gfx_system.renderer(Shading::Volume);
+		Renderer& renderer = m_gfx.renderer(Shading::Volume);
 		render.render(renderer);
 	}
 
@@ -696,8 +696,8 @@ namespace mud
 #endif
 	}
 
-	PassShadowmap::PassShadowmap(GfxSystem& gfx_system, BlockShadow& block_shadow)
-		: RenderPass(gfx_system, "shadowmap", PassType::Shadowmap)
+	PassShadowmap::PassShadowmap(GfxSystem& gfx, BlockShadow& block_shadow)
+		: RenderPass(gfx, "shadowmap", PassType::Shadowmap)
 		, m_block_shadow(block_shadow)
 	{}
 
@@ -706,8 +706,8 @@ namespace mud
 		m_block_shadow.render_shadows(render);
 	}
 
-	PassShadow::PassShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockShadow& block_shadow)
-		: PassDepth(gfx_system, "shadow", block_depth)
+	PassShadow::PassShadow(GfxSystem& gfx, BlockDepth& block_depth, BlockShadow& block_shadow)
+		: PassDepth(gfx, "shadow", block_depth)
 		, m_block_depth(block_depth)
 		, m_block_shadow(block_shadow)
 	{}

@@ -30,7 +30,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Light
 	{
 	public:
-		constr_ Light(Node3& node, LightType type = LightType::Point, bool shadows = false);
+		constr_ Light(Node3& node, LightType type = LightType::Point, bool shadows = false, Colour = Colour::White, float energy = 1.f, float range = 1.f);
 		~Light();
 
 		attr_ Node3& m_node;

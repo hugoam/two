@@ -86,6 +86,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ImportConfig>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Item>();
 	export_ template <> MUD_GFX_EXPORT Type& type<mud::Batch>();
+	export_ template <> MUD_GFX_EXPORT Type& type<mud::Direct>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Joint>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Light>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Material>();

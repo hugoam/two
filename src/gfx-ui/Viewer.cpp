@@ -88,7 +88,7 @@ namespace mud
 #ifdef MUD_DEBUG_PICKER_TEXTURE
 		if(m_picker)
 		{
-			BlockCopy& copy = *m_scene->m_gfx_system.m_pipeline->block<BlockCopy>();
+			BlockCopy& copy = *m_scene->m_gfx.m_pipeline->block<BlockCopy>();
 			vec4 source_rect = { vec2(0.f), rect_size(vec4(m_pick_query.m_rect)) };
 			vec4 target_rect = { vec2(0.f), vec2(render.m_target->m_size) * 0.33f };
 			copy.submit_quad(*render.m_target, 251, BGFX_INVALID_HANDLE, m_picker->m_fbo_texture, { source_rect, target_rect, true });
@@ -129,13 +129,13 @@ namespace mud
 		if(m_pickers.size() <= index)
 			m_pickers.resize(index + 1);
 		if(!m_pickers[index])
-			m_pickers[index] = make_unique<Picker>(m_scene->m_gfx_system, *m_context.m_target);
+			m_pickers[index] = make_unique<Picker>(m_scene->m_gfx, *m_context.m_target);
 		return *m_pickers[index];
 	}
 
 	SceneViewer::SceneViewer(Widget* parent, void* identity)
 		: Viewer(parent, identity, m_scene)
-		, m_scene(as<GfxContext>(parent->ui_window().m_context).m_gfx_system)
+		, m_scene(as<GfxContext>(parent->ui_window().m_context).m_gfx)
 	{}
 
 	OrbitController::OrbitController(Viewer& viewer, float yaw, float pitch, float distance) : m_viewer(viewer), m_camera(viewer.m_camera), m_yaw(yaw), m_pitch(pitch), m_distance(distance) {}

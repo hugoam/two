@@ -18,7 +18,7 @@ namespace mud
 {
 	Camera::Camera()
 	{
-		m_eye = vec3(10.f);
+		//m_eye = vec3(10.f);
 		m_far = 300.f;
 	}
 

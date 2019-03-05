@@ -57,5 +57,5 @@ namespace mud
 		static GfxSystem* ms_gfx_system;
 	};
 
-	export_ MUD_GFX_EXPORT Model& model_variant(GfxSystem& gfx_system, Model& original, const string& name, span<string> materials, span<Material*> substitutes);
+	export_ MUD_GFX_EXPORT Model& model_variant(GfxSystem& gfx, Model& original, const string& name, span<string> materials, span<Material*> substitutes);
 }

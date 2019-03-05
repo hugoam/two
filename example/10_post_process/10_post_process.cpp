@@ -21,7 +21,7 @@ void ex_10_post_process(Shell& app, Widget& parent, Dockbar& dockbar)//, Dockbar
 
 	Gnode& scene = viewer.m_scene.begin();
 
-	Material& material = milky_white(app.m_gfx_system);
+	Material& material = milky_white(app.m_gfx);
 
 	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
 	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &material);
@@ -46,7 +46,7 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
-	app.m_gfx_system.init_pipeline(pipeline_pbr);
+	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

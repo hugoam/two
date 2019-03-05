@@ -63,18 +63,18 @@ namespace gfx
 		float m_normal_bias = 0.8f;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void save_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path);
-	export_ MUD_GFX_PBR_EXPORT void load_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, const string& path);
+	export_ MUD_GFX_PBR_EXPORT void save_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path);
+	export_ MUD_GFX_PBR_EXPORT void load_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, const string& path);
 
 	struct VoxelRenderer : public Renderer
 	{
-		VoxelRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		VoxelRenderer(GfxSystem& gfx, Pipeline& pipeline);
 	};
 
 	export_ class MUD_GFX_PBR_EXPORT PassGIBake : public DrawPass
 	{
 	public:
-		PassGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockShadow& block_shadow, BlockGIBake& block_gi_bake);
+		PassGIBake(GfxSystem& gfx, BlockLight& block_light, BlockShadow& block_shadow, BlockGIBake& block_gi_bake);
 
 		BlockLight& m_block_light;
 		BlockShadow& m_block_shadow;
@@ -87,7 +87,7 @@ namespace gfx
 	export_ class MUD_GFX_PBR_EXPORT PassGIProbes : public RenderPass
 	{
 	public:
-		PassGIProbes(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake);
+		PassGIProbes(GfxSystem& gfx, BlockLight& block_light, BlockGIBake& block_gi_bake);
 
 		BlockLight& m_block_light;
 		BlockGIBake& m_block_gi_bake;
@@ -98,7 +98,7 @@ namespace gfx
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGITrace : public DrawBlock
 	{
 	public:
-		BlockGITrace(GfxSystem& gfx_system);
+		BlockGITrace(GfxSystem& gfx);
 
 		virtual void init_block() override;
 
@@ -135,7 +135,7 @@ namespace gfx
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGIBake : public DrawBlock
 	{
 	public:
-		BlockGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockShadow& block_shadow, BlockGITrace& block_trace);
+		BlockGIBake(GfxSystem& gfx, BlockLight& block_light, BlockShadow& block_shadow, BlockGITrace& block_trace);
 
 		BlockLight& m_block_light;
 		BlockShadow& m_block_shadow;

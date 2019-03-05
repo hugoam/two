@@ -69,13 +69,13 @@ namespace mud
 
 	struct LightmapRenderer : public Renderer
 	{
-		LightmapRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		LightmapRenderer(GfxSystem& gfx, Pipeline& pipeline);
 	};
 
 	export_ class MUD_GFX_PBR_EXPORT PassLightmap : public DrawPass
 	{
 	public:
-		PassLightmap(GfxSystem& gfx_system, BlockLightmap& block_lightmap);
+		PassLightmap(GfxSystem& gfx, BlockLightmap& block_lightmap);
 
 		BlockLightmap& m_block_lightmap;
 
@@ -86,7 +86,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockLightmap : public DrawBlock
 	{
 	public:
-		BlockLightmap(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake);
+		BlockLightmap(GfxSystem& gfx, BlockLight& block_light, BlockGIBake& block_gi_bake);
 
 		BlockLight& m_block_light;
 		BlockGIBake& m_block_gi_bake;

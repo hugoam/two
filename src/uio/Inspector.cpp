@@ -241,7 +241,7 @@ namespace mud
 	{
 		Section& self = section(parent, "Inspector", true);
 		if(object.m_type->is<EntityRef>())
-			return inspector(parent, { as_ent(object), 0 });
+			return inspector(parent, { UINT8_MAX, UINT16_MAX, as_ent(object) });
 		else
 			return object_edit_columns(*self.m_body, object);
 	}

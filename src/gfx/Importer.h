@@ -49,13 +49,13 @@ namespace mud
 	export_ class MUD_GFX_EXPORT Import
 	{
 	public:
-		Import(GfxSystem& gfx_system, const string& filepath, const ImportConfig& config);
+		Import(GfxSystem& gfx, const string& filepath, const ImportConfig& config);
 
 		string m_name;
 		string m_file;
 		string m_path;
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 		const ImportConfig& m_config;
 
 		vector<Mesh*> m_meshes;
@@ -79,5 +79,5 @@ namespace mud
 		virtual void repack(const string& filepath, const ImportConfig& config) = 0;
 	};
 
-	export_ MUD_GFX_EXPORT void import_to_prefab(GfxSystem& gfx_system, Prefab& prefab, Import& state, uint32_t flags = 0);
+	export_ MUD_GFX_EXPORT void import_to_prefab(GfxSystem& gfx, Prefab& prefab, Import& state, uint32_t flags = 0);
 }

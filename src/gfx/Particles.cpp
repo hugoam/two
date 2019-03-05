@@ -209,11 +209,11 @@ namespace mud
 		return lhs.dist > rhs.dist ? -1 : 1;
 	}
 
-	ParticleSystem::ParticleSystem(GfxSystem& gfx_system, TPool<Flare>& emitters)
-		: m_gfx_system(gfx_system)
-		, m_block(*gfx_system.m_pipeline->block<BlockParticles>())
+	ParticleSystem::ParticleSystem(GfxSystem& gfx, TPool<Flare>& emitters)
+		: m_gfx(gfx)
+		, m_block(*gfx.m_pipeline->block<BlockParticles>())
 		, m_emitters(emitters)
-		, m_program(gfx_system.programs().fetch("particle").default_version())
+		, m_program(gfx.programs().fetch("particle").default_version())
 	{}
 
 	ParticleSystem::~ParticleSystem()
@@ -285,8 +285,8 @@ namespace mud
 		}
 	}
 
-	BlockParticles::BlockParticles(GfxSystem& gfx_system)
-		: GfxBlock(gfx_system, type<BlockParticles>())
+	BlockParticles::BlockParticles(GfxSystem& gfx)
+		: GfxBlock(gfx, type<BlockParticles>())
 		, m_sprites(construct<SpriteAtlas>(uvec2(SPRITE_TEXTURE_SIZE)))
 	{}
 
@@ -320,8 +320,8 @@ namespace mud
 
 	Sprite* BlockParticles::create_sprite(cstring name, cstring pathname, uvec2 frames)
 	{
-		LocatedFile location = m_gfx_system.locate_file("textures/particles/" + string(pathname));
-		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.allocator(), m_gfx_system.file_reader(), location.path(true).c_str(), bgfx::TextureFormat::BGRA8);
+		LocatedFile location = m_gfx.locate_file("textures/particles/" + string(pathname));
+		bimg::ImageContainer* image = load_bgfx_image(m_gfx.allocator(), m_gfx.file_reader(), location.path(true).c_str(), bgfx::TextureFormat::BGRA8);
 		Sprite* sprite = this->create_sprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
 		bimg::imageFree(image);
 		return sprite;
@@ -344,10 +344,10 @@ namespace mud
 		UNUSED(sprite);
 	}
 
-	PassParticles::PassParticles(GfxSystem& gfx_system)
-		: RenderPass(gfx_system, "particles", {})
+	PassParticles::PassParticles(GfxSystem& gfx)
+		: RenderPass(gfx, "particles", {})
 	{
-		UNUSED(gfx_system);
+		UNUSED(gfx);
 	}
 
 	void PassParticles::submit_render_pass(Render& render)

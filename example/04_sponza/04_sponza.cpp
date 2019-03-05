@@ -24,7 +24,7 @@ using namespace mud;
 
 void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	static ImporterOBJ obj_importer(app.m_gfx_system);
+	static ImporterOBJ obj_importer(app.m_gfx);
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	viewer.m_viewport.comp<Tonemap>().m_mode = TonemapMode::ACES;
@@ -35,7 +35,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	OrbitController& controller = ui::free_orbit_controller(viewer);
 	viewer.take_focus();
 
-	if(app.m_gfx_system.m_frame == 1)
+	if(app.m_gfx.m_frame == 1)
 	{
 		controller.m_yaw = c_pi / 2.f;
 		controller.m_pitch = -c_pi / 16.f;
@@ -44,7 +44,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene.begin();
 
-	Material& material = milky_white(app.m_gfx_system);
+	Material& material = milky_white(app.m_gfx);
 
 #if DIRECT_LIGHT
 	static float azimuth = 0.f;
@@ -73,7 +73,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	config.m_flags = ItemFlag::Static;
 	config.m_transform = bxscale(vec3(0.1f));
 	config.m_optimize_geometry = true;
-	static Prefab& prefab = import_prefab(app.m_gfx_system, ModelFormat::obj, "sponza", config);
+	static Prefab& prefab = import_prefab(app.m_gfx, ModelFormat::obj, "sponza", config);
 
 	//Gnode& sponza_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
 	Gnode& sponza_node = gfx::node(scene, {}, -prefab.m_aabb.m_center);
@@ -83,7 +83,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	GIProbe& probe = gfx::gi_probe(scene, 512, prefab.m_aabb.m_extents);
 	//probe.m_transform = bxtranslation(-model.m_aabb.m_center);
 
-	if(app.m_gfx_system.m_frame == 1)
+	if(app.m_gfx.m_frame == 1)
 	{
 		//probe.m_bounces = 1;
 		probe.m_diffuse = 6.f;
@@ -91,16 +91,16 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 #endif
 
 #if LIGHTMAPS
-	string path = app.m_gfx_system.m_resource_path + "/examples/04_sponza/lightmaps/";
+	string path = app.m_gfx.m_resource_path + "/examples/04_sponza/lightmaps/";
 	LightmapAtlas& lightmap = gfx::lightmap(scene, 4096U, 4.f, path);
 	lightmap.m_capture_transform = bxidentity();
 	lightmap.m_capture_extents = prefab.m_aabb.m_extents;
 #endif
 
 #if DEBUG_CAPTURE
-	if(app.m_gfx_system.m_frame % 100 == 0)
-		app.m_gfx_system.m_capture = true;
-	if(app.m_gfx_system.m_frame % 100 == 1)
+	if(app.m_gfx.m_frame % 100 == 0)
+		app.m_gfx.m_capture = true;
+	if(app.m_gfx.m_frame % 100 == 1)
 		probe.m_dirty = true;
 #endif
 
@@ -108,7 +108,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(rect_size(vec4(viewer.m_viewport.m_rect)) != vec2(0.f) && !viewer.m_camera.m_clusters)
 	{
 		viewer.m_camera.m_clustered = true;
-		viewer.m_camera.m_clusters = make_unique<Froxelizer>(app.m_gfx_system);
+		viewer.m_camera.m_clusters = make_unique<Froxelizer>(app.m_gfx);
 		viewer.m_camera.m_clusters->prepare(viewer.m_viewport, viewer.m_camera.m_projection, viewer.m_camera.m_near, viewer.m_camera.m_far);
 	}
 #endif
@@ -163,8 +163,8 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
-	app.m_gfx_system.add_resource_path("examples/04_sponza");
-	app.m_gfx_system.init_pipeline(pipeline_pbr);
+	app.m_gfx.add_resource_path("examples/04_sponza");
+	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

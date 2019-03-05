@@ -32,7 +32,7 @@ namespace mud
 		m_uniforms.back().m_space -= size;
 	}
 
-	void UniformBlock::create_member(GfxSystem& gfx_system, const string& name, Member& member)
+	void UniformBlock::create_member(GfxSystem& gfx, const string& name, Member& member)
 	{
 		if(member.m_type->is<float>())
 			pack_member(1, member);
@@ -43,13 +43,13 @@ namespace mud
 		else if(member.m_type->is<vec4>() || member.m_type->is<Colour>())
 			m_uniforms.push_back({ "u_" + name, member.m_offset, bgfx::UniformType::Vec4 });
 		else if(member.m_type->is<Texture>())
-			m_samplers.push_back({ "s_" + name, member.m_offset, uint8_t(m_samplers.size()), &gfx_system.default_texture(TextureHint::White), {} });
+			m_samplers.push_back({ "s_" + name, member.m_offset, uint8_t(m_samplers.size()), &gfx.default_texture(TextureHint::White), {} });
 		else if(member.m_type->is<mat4>())
 			m_uniforms.push_back({ "u_" + name, member.m_offset, bgfx::UniformType::Mat4 });
 
 		else if(member.cls().m_members.size() > 0)
 			for(Member& sub_member : member.cls().m_members)
-				create_member(gfx_system, name, sub_member);
+				create_member(gfx, name, sub_member);
 	}
 
 	string UniformBlock::shader_decl()
@@ -65,10 +65,10 @@ namespace mud
 		return "";
 	}
 
-	void UniformBlock::create(GfxSystem& gfx_system)
+	void UniformBlock::create(GfxSystem& gfx)
 	{
 		for(Member& member : cls(m_type).m_members)
-			create_member(gfx_system, member.m_name, member);
+			create_member(gfx, member.m_name, member);
 
 		for(Uniform& uniform : m_uniforms)
 			uniform.create();

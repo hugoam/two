@@ -23,7 +23,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockRadiance : public DrawBlock
 	{
 	public:
-		BlockRadiance(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy);
+		BlockRadiance(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy);
 
 		virtual void init_block() override;
 		virtual void begin_frame(const RenderFrame& frame) override;

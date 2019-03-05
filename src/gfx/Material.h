@@ -23,6 +23,7 @@ namespace mud
 {
 	export_ enum class refl_ BlendMode : unsigned int
 	{
+		None,
 		Mix,
 		Add,
 		Sub,
@@ -77,9 +78,9 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialBase
 	{
-		attr_ BlendMode m_blend_mode = BlendMode::Mix;
+		attr_ BlendMode m_blend_mode = BlendMode::None;
 		attr_ CullMode m_cull_mode = CullMode::Back;
-		attr_ DepthDraw m_depth_draw_mode = DepthDraw::Enabled;
+		attr_ DepthDraw m_depth_draw = DepthDraw::Enabled;
 		attr_ DepthTest m_depth_test = DepthTest::Enabled;
 
 		attr_ gpu_ vec2 m_uv0_scale = { 1.f, 1.f };
@@ -90,6 +91,7 @@ namespace mud
 		attr_ ShaderColor m_shader_color = ShaderColor::Shader;
 
 		attr_ bool m_screen_filter = false;
+		attr_ float m_anisotropy;
 
 		uint32_t m_geometry_filter = (1 << uint(PrimitiveType::Triangles)) | (1 << uint(PrimitiveType::Lines));
 
@@ -112,7 +114,9 @@ namespace mud
 	{
 		MaterialParam() {}
 		MaterialParam(T value, Texture* texture = nullptr, TextureChannel channel = TextureChannel::All) : m_value(value), m_texture(texture), m_channel(channel) {}
+		//MaterialParam(Texture& texture, TextureChannel channel = TextureChannel::All) : m_value(T()), m_texture(texture), m_channel(channel) {}
 		MaterialParam& operator=(const T& value) { m_value = value; return *this; }
+		MaterialParam& operator=(Texture* texture) { m_texture = texture; return *this; }
 		attr_ gpu_ T m_value = {};
 		attr_ Texture* m_texture = nullptr;
 		attr_ TextureChannel m_channel = TextureChannel::All;
@@ -230,6 +234,7 @@ namespace mud
 		attr_ gpu_ MaterialParam<Colour> m_transmission;
 
 		attr_ bool m_deep_parallax = false;
+		attr_ bool m_scene_environment = true;
 
 		attr_ PbrDiffuseMode m_diffuse_mode = PbrDiffuseMode::Burley;
 		attr_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
@@ -240,7 +245,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT BlockMaterial : public GfxBlock
 	{
 	public:
-		BlockMaterial(GfxSystem& gfx_system);
+		BlockMaterial(GfxSystem& gfx);
 
 		virtual void init_block() override;
 
@@ -254,7 +259,7 @@ namespace mud
 		bgfx::TextureHandle m_materials_texture = BGFX_INVALID_HANDLE;
 	};
 
-	export_ GfxBlock& pbr_block(GfxSystem& gfx_system);
+	export_ GfxBlock& pbr_block(GfxSystem& gfx);
 
 	export_ MUD_GFX_EXPORT void load_material(Material& material, Program& program);
 

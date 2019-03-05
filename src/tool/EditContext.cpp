@@ -25,8 +25,8 @@ module mud.tool;
 
 namespace mud
 {
-	EditContext::EditContext(GfxSystem& gfx_system)
-		: m_gfx_system(gfx_system)
+	EditContext::EditContext(GfxSystem& gfx)
+		: m_gfx(gfx)
 		, m_undo_tool(m_tool_context)
 		, m_redo_tool(m_tool_context)
 		, m_work_plane() //vec3(0.f, 10.f, 0.f), Entity::FrontVector, Entity::RightVector)
@@ -132,7 +132,7 @@ namespace mud
 			Ref selected = selection[0];
 			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_value);
 			if(selected.m_type->is<EntityRef>())
-				entity_edit(sheet, { as_ent(selected), 0 });
+				entity_edit(sheet, { UINT8_MAX, UINT16_MAX, as_ent(selected) });
 			else
 				object_edit(sheet, selected);
 		}
@@ -154,7 +154,7 @@ namespace mud
 		//if(Widget* dock = ui::dockitem(*context.m_dockbar, "VisualScript", { 5U }))
 		//	visual_script_edit(self, shell.m_editor.m_script_editor);
 		if(Widget* dock = ui::dockitem(docker, "Gfx", { 6U }))
-			edit_gfx_system(*dock, context.m_gfx_system);
+			edit_gfx_system(*dock, context.m_gfx);
 		if(Widget* dock = ui::dockitem(docker, "Ui", { 7U }))
 			ui_debug(*dock, screen);
 

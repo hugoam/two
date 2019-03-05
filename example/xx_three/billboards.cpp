@@ -12,23 +12,23 @@
 
 void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
 	Camera& camera = viewer.m_camera;
-	camera.m_near = 2.f;
-	camera.m_far = 2000.f;
+	camera.m_near = 2.f; camera.m_far = 2000.f;
 	camera.m_eye.z = 1000.f;
 
 	Scene& scene = viewer.m_scene;
 	//scene.fog = new THREE.FogExp2(0x000000, 0.001);
 
-	static Program& program = app.m_gfx_system.programs().fetch("point");
+	static Program& program = app.m_gfx.programs().fetch("point");
 
-	static Texture& sprite = *app.m_gfx_system.textures().file("sprites/disc.png");
+	static Texture& sprite = *app.m_gfx.textures().file("sprites/disc.png");
 
 	//Material& material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
-	static Material& material = app.m_gfx_system.materials().create("points", [&](Material& m) {
+	static Material& material = app.m_gfx.materials().create("points", [&](Material& m) {
 		m.m_program = &program;
 #if INSTANCING
 		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Triangles));
@@ -36,7 +36,7 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Points));
 #endif
 		m.m_solid.m_colour = hsl(1.f, 0.3f, 0.7f);
-		m.m_solid.m_colour.m_texture = &sprite;
+		m.m_solid.m_colour = &sprite;
 	});
 
 	constexpr size_t num = 10000;
@@ -53,17 +53,10 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		once = true;
 
-		Model& model = app.m_gfx_system.models().create("points");
-		Mesh& mesh = model.add_mesh("points", true);
-
-		MeshPacker geometry;
 #if INSTANCING
-		geometry.m_primitive = PrimitiveType::Triangles;
-
-		geometry.m_positions = { vec3(-1, 1, 0), vec3(-1, -1, 0), vec3(1, -1, 0), vec3(1, 1, 0) };
-		geometry.m_uv0s = { vec2(0, 1), vec2(0, 0), vec2(1, 0), vec2(1, 1) };
-		geometry.m_indices = { 0, 1, 2, 2, 3, 0 };
+		Model& model = *app.m_gfx.models().get("point");
 #else
+		MeshPacker geometry;
 		geometry.m_primitive = PrimitiveType::Points;
 #endif
 
@@ -79,22 +72,22 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 #endif
 		}
 
-		mesh.write(geometry);
-
-		model.add_item(mesh, bxidentity());
-		model.prepare();
+#if !INSTANCING
+		Model& model = app.m_gfx.create_model("points", geometry);
+#endif
 
 		Node3& n = gfx::nodes(scene).add(Node3());
 		Item& it = gfx::items(scene).add(Item(n, model, 0U, &material));
 
 #if INSTANCING
 		batch = &gfx::batches(scene).add(Batch(it));
+		it.m_batch = batch;
 #endif
 	}
 
 	//ui::slider_field(viewer, "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })
 
-	float time = app.m_gfx_system.m_time;
+	float time = app.m_gfx.m_time;
 
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))

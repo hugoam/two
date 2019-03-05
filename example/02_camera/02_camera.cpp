@@ -13,7 +13,7 @@ void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	Material& material = milky_white(app.m_gfx_system);
+	Material& material = milky_white(app.m_gfx);
 
 	Gnode& scene = viewer.m_scene.begin();
 	gfx::direct_light_node(scene);
@@ -31,7 +31,7 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
-	app.m_gfx_system.init_pipeline(pipeline_pbr);
+	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

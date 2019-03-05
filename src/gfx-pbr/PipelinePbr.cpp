@@ -86,44 +86,44 @@ namespace gfx
 #endif
 	}
 
-	void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred)
+	void pipeline_pbr(GfxSystem& gfx, Pipeline& pipeline, bool deferred)
 	{
-		BlockMaterial& material = pipeline.add_block<BlockMaterial>(gfx_system);
+		BlockMaterial& material = pipeline.add_block<BlockMaterial>(gfx);
 		UNUSED(material);
 
-		GfxBlock& pbr = pbr_block(gfx_system);
+		GfxBlock& pbr = pbr_block(gfx);
 
 		// filters
-		BlockFilter& filter = pipeline.add_block<BlockFilter>(gfx_system);
-		BlockCopy& copy = pipeline.add_block<BlockCopy>(gfx_system, filter);
-		BlockBlur& blur = pipeline.add_block<BlockBlur>(gfx_system, filter);
+		BlockFilter& filter = pipeline.add_block<BlockFilter>(gfx);
+		BlockCopy& copy = pipeline.add_block<BlockCopy>(gfx, filter);
+		BlockBlur& blur = pipeline.add_block<BlockBlur>(gfx, filter);
 
 		// pipeline 
-		BlockDepth& depth = pipeline.add_block<BlockDepth>(gfx_system);
-		BlockGeometry& geometry = pipeline.add_block<BlockGeometry>(gfx_system);
-		BlockSky& sky = pipeline.add_block<BlockSky>(gfx_system, filter);
-		BlockRadiance& radiance = pipeline.add_block<BlockRadiance>(gfx_system, filter, copy);
-		BlockLight& light = pipeline.add_block<BlockLight>(gfx_system);
-		BlockShadow& shadow = pipeline.add_block<BlockShadow>(gfx_system, depth, light);
-		BlockReflection& reflection = pipeline.add_block<BlockReflection>(gfx_system);
-		BlockGITrace& gi_trace = pipeline.add_block<BlockGITrace>(gfx_system);
-		BlockGIBake& gi_bake = pipeline.add_block<BlockGIBake>(gfx_system, light, shadow, gi_trace);
-		BlockLightmap& lightmap = pipeline.add_block<BlockLightmap>(gfx_system, light, gi_bake);
-		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx_system);
+		BlockDepth& depth = pipeline.add_block<BlockDepth>(gfx);
+		BlockGeometry& geometry = pipeline.add_block<BlockGeometry>(gfx);
+		BlockSky& sky = pipeline.add_block<BlockSky>(gfx, filter);
+		BlockRadiance& radiance = pipeline.add_block<BlockRadiance>(gfx, filter, copy);
+		BlockLight& light = pipeline.add_block<BlockLight>(gfx);
+		BlockShadow& shadow = pipeline.add_block<BlockShadow>(gfx, depth, light);
+		BlockReflection& reflection = pipeline.add_block<BlockReflection>(gfx);
+		BlockGITrace& gi_trace = pipeline.add_block<BlockGITrace>(gfx);
+		BlockGIBake& gi_bake = pipeline.add_block<BlockGIBake>(gfx, light, shadow, gi_trace);
+		BlockLightmap& lightmap = pipeline.add_block<BlockLightmap>(gfx, light, gi_bake);
+		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx);
 		UNUSED(geometry);
 		UNUSED(particles);
 
 		// mrt
-		//BlockSSAO& ssao = pipeline.add_block<BlockSSAO>(gfx_system, filter, blur);
-		//BlockSSR& ssr = pipeline.add_block<BlockSSR>(gfx_system);
-		//BlockSSS& sss = pipeline.add_block<BlockSSS>(gfx_system);
-		BlockResolve& resolve = pipeline.add_block<BlockResolve>(gfx_system, copy);
+		//BlockSSAO& ssao = pipeline.add_block<BlockSSAO>(gfx, filter, blur);
+		//BlockSSR& ssr = pipeline.add_block<BlockSSR>(gfx);
+		//BlockSSS& sss = pipeline.add_block<BlockSSS>(gfx);
+		BlockResolve& resolve = pipeline.add_block<BlockResolve>(gfx, copy);
 
 		// effects
-		BlockDofBlur& dof_blur = pipeline.add_block<BlockDofBlur>(gfx_system, filter);
-		//BlockExposure& exposure = pipeline.add_block<BlockExposure>(gfx_system);
-		BlockGlow& glow = pipeline.add_block<BlockGlow>(gfx_system, filter, copy, blur);
-		BlockTonemap& tonemap = pipeline.add_block<BlockTonemap>(gfx_system, filter, copy);
+		BlockDofBlur& dof_blur = pipeline.add_block<BlockDofBlur>(gfx, filter);
+		//BlockExposure& exposure = pipeline.add_block<BlockExposure>(gfx);
+		BlockGlow& glow = pipeline.add_block<BlockGlow>(gfx, filter, copy, blur);
+		BlockTonemap& tonemap = pipeline.add_block<BlockTonemap>(gfx, filter, copy);
 
 		vector<GfxBlock*> depth_blocks = { &depth };
 		vector<GfxBlock*> geometry_blocks = {};
@@ -150,167 +150,167 @@ namespace gfx
 
 		auto create_programs = [&]()
 		{
-			Program& solid = gfx_system.programs().create("solid");
+			Program& solid = gfx.programs().create("solid");
 			solid.m_blocks[MaterialBlock::Alpha] = true;
 			solid.m_blocks[MaterialBlock::Solid] = true;
 			solid.register_blocks(depth_blocks);
 
-			Program& normal = gfx_system.programs().create("normal");
+			Program& normal = gfx.programs().create("normal");
 			normal.m_blocks[MaterialBlock::Pbr] = true;
 
-			Program& point = gfx_system.programs().create("point");
+			Program& point = gfx.programs().create("point");
 			point.m_blocks[MaterialBlock::Solid] = true;
 			point.m_blocks[MaterialBlock::Point] = true;
 
-			Program& line = gfx_system.programs().create("line");
+			Program& line = gfx.programs().create("line");
 			line.m_blocks[MaterialBlock::Solid] = true;
 			line.m_blocks[MaterialBlock::Line] = true;
 
-			Program& depth = gfx_system.programs().create("depth");
+			Program& depth = gfx.programs().create("depth");
 			depth.register_blocks(depth_blocks);
 			depth.m_blocks[MaterialBlock::Alpha] = true;
 
-			Program& distance = gfx_system.programs().create("distance");
+			Program& distance = gfx.programs().create("distance");
 			distance.register_blocks(depth_blocks);
 			distance.m_blocks[MaterialBlock::Alpha] = true;
 
-			Program& pbr = gfx_system.programs().create("pbr/pbr");
+			Program& pbr = gfx.programs().create("pbr/pbr");
 			pbr.register_blocks(shading_blocks);
 			pbr.m_blocks[MaterialBlock::Alpha] = true;
 			pbr.m_blocks[MaterialBlock::Pbr] = true;
 
-			Program& geometry = gfx_system.programs().create("pbr/geometry");
+			Program& geometry = gfx.programs().create("pbr/geometry");
 			geometry.register_blocks(geometry_blocks);
 			geometry.m_blocks[MaterialBlock::Alpha] = true;
 			geometry.m_blocks[MaterialBlock::Pbr] = true;
 
-			Program& lights = gfx_system.programs().create("pbr/lights");
+			Program& lights = gfx.programs().create("pbr/lights");
 			lights.register_blocks(shading_blocks);
 
-			Program& fresnel = gfx_system.programs().create("fresnel");
+			Program& fresnel = gfx.programs().create("fresnel");
 			fresnel.m_blocks[MaterialBlock::Alpha] = true;
 			fresnel.m_blocks[MaterialBlock::Fresnel] = true;
 
-			Program& gi_voxelize = gfx_system.programs().create("gi/voxelize");
+			Program& gi_voxelize = gfx.programs().create("gi/voxelize");
 			gi_voxelize.register_blocks(gi_blocks);
 
-			Program& gi_voxel_light = gfx_system.programs().create("gi/direct_light");
+			Program& gi_voxel_light = gfx.programs().create("gi/direct_light");
 			gi_voxel_light.m_compute = true;
 			gi_voxel_light.register_blocks(gi_blocks);
 
-			Program& gi_voxel_bounce = gfx_system.programs().create("gi/bounce_light");
+			Program& gi_voxel_bounce = gfx.programs().create("gi/bounce_light");
 			gi_voxel_bounce.m_compute = true;
 			gi_voxel_bounce.register_blocks(gi_blocks);
 
-			Program& gi_voxel_output = gfx_system.programs().create("gi/output_light");
+			Program& gi_voxel_output = gfx.programs().create("gi/output_light");
 			gi_voxel_output.m_compute = true;
 			gi_voxel_output.register_blocks(gi_blocks);
 
-			Program& lightmap = gfx_system.programs().create("pbr/lightmap");
+			Program& lightmap = gfx.programs().create("pbr/lightmap");
 			lightmap.register_blocks(lightmap_blocks);
 		};
 
 		create_programs();
 
-		static ForwardRenderer forward_renderer = { gfx_system, pipeline };
-		static DeferredRenderer deferred_renderer = { gfx_system, pipeline };
-		static ShadowRenderer shadow_renderer = { gfx_system, pipeline };
-		static VoxelRenderer voxel_renderer = { gfx_system, pipeline };
-		static LightmapRenderer lightmap_renderer = { gfx_system, pipeline };
+		static ForwardRenderer forward_renderer = { gfx, pipeline };
+		static DeferredRenderer deferred_renderer = { gfx, pipeline };
+		static ShadowRenderer shadow_renderer = { gfx, pipeline };
+		static VoxelRenderer voxel_renderer = { gfx, pipeline };
+		static LightmapRenderer lightmap_renderer = { gfx, pipeline };
 
 		if(deferred)
-			gfx_system.set_renderer(Shading::Shaded, deferred_renderer);
+			gfx.set_renderer(Shading::Shaded, deferred_renderer);
 		else
-			gfx_system.set_renderer(Shading::Shaded, forward_renderer);
+			gfx.set_renderer(Shading::Shaded, forward_renderer);
 
-		gfx_system.set_renderer(Shading::Volume, shadow_renderer);
+		gfx.set_renderer(Shading::Volume, shadow_renderer);
 
-		gfx_system.set_renderer(Shading::Voxels, voxel_renderer);
+		gfx.set_renderer(Shading::Voxels, voxel_renderer);
 
-		gfx_system.set_renderer(Shading::Lightmap, lightmap_renderer);
+		gfx.set_renderer(Shading::Lightmap, lightmap_renderer);
 
 		pipeline.m_gather_func = gather_render_pbr;
 
 		g_viewer_ecs->init<Tonemap, BCS, Glow, DofBlur>();
 	}
 
-	ForwardRenderer::ForwardRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Shaded)
+	ForwardRenderer::ForwardRenderer(GfxSystem& gfx, Pipeline& pipeline)
+		: Renderer(gfx, pipeline, Shading::Shaded)
 	{
-		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
-		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
-		this->add_pass<PassClear>(gfx_system);
+		this->add_pass<PassGIProbes>(gfx, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
+		this->add_pass<PassShadowmap>(gfx, *pipeline.block<BlockShadow>());
+		this->add_pass<PassClear>(gfx);
 #if DEPTH_PASS
-		this->add_pass<PassDepth>(gfx_system, *pipeline.block<BlockDepth>());
+		this->add_pass<PassDepth>(gfx, *pipeline.block<BlockDepth>());
 #endif
-		this->add_pass<PassOpaque>(gfx_system);
-		this->add_pass<PassBackground>(gfx_system);
-		this->add_pass<PassParticles>(gfx_system);
-		this->add_pass<PassAlpha>(gfx_system);
-		this->add_pass<PassSolid>(gfx_system);
-		this->add_pass<PassEffects>(gfx_system);
-		this->add_pass<PassPostProcess>(gfx_system, *pipeline.block<BlockCopy>());
-		//this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
+		this->add_pass<PassOpaque>(gfx);
+		this->add_pass<PassBackground>(gfx);
+		this->add_pass<PassParticles>(gfx);
+		this->add_pass<PassAlpha>(gfx);
+		this->add_pass<PassSolid>(gfx);
+		this->add_pass<PassEffects>(gfx);
+		this->add_pass<PassPostProcess>(gfx, *pipeline.block<BlockCopy>());
+		//this->add_pass<PassFlip>(gfx, *pipeline.block<BlockCopy>());
 		this->init();
 	}
 
-	DeferredRenderer::DeferredRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Shaded)
+	DeferredRenderer::DeferredRenderer(GfxSystem& gfx, Pipeline& pipeline)
+		: Renderer(gfx, pipeline, Shading::Shaded)
 	{
-		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
-		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassGeometry>(gfx_system, *pipeline.block<BlockGeometry>());
-		this->add_pass<PassLights>(gfx_system, *pipeline.block<BlockFilter>());
-		this->add_pass<PassBackground>(gfx_system);
-		this->add_pass<PassParticles>(gfx_system);
-		//this->add_pass<PassAlpha>(gfx_system);
-		this->add_pass<PassSolid>(gfx_system);
-		this->add_pass<PassEffects>(gfx_system);
-		this->add_pass<PassPostProcess>(gfx_system, *pipeline.block<BlockCopy>());
-		//this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
+		this->add_pass<PassGIProbes>(gfx, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
+		this->add_pass<PassShadowmap>(gfx, *pipeline.block<BlockShadow>());
+		this->add_pass<PassClear>(gfx);
+		this->add_pass<PassGeometry>(gfx, *pipeline.block<BlockGeometry>());
+		this->add_pass<PassLights>(gfx, *pipeline.block<BlockFilter>());
+		this->add_pass<PassBackground>(gfx);
+		this->add_pass<PassParticles>(gfx);
+		//this->add_pass<PassAlpha>(gfx);
+		this->add_pass<PassSolid>(gfx);
+		this->add_pass<PassEffects>(gfx);
+		this->add_pass<PassPostProcess>(gfx, *pipeline.block<BlockCopy>());
+		//this->add_pass<PassFlip>(gfx, *pipeline.block<BlockCopy>());
 		this->init();
 	}
 
-	ShadowRenderer::ShadowRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Volume)
+	ShadowRenderer::ShadowRenderer(GfxSystem& gfx, Pipeline& pipeline)
+		: Renderer(gfx, pipeline, Shading::Volume)
 	{
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassShadow>(gfx_system, *pipeline.block<BlockDepth>(), *pipeline.block<BlockShadow>());
+		this->add_pass<PassClear>(gfx);
+		this->add_pass<PassShadow>(gfx, *pipeline.block<BlockDepth>(), *pipeline.block<BlockShadow>());
 		this->init();
 	}
 
-	VoxelRenderer::VoxelRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Voxels)
+	VoxelRenderer::VoxelRenderer(GfxSystem& gfx, Pipeline& pipeline)
+		: Renderer(gfx, pipeline, Shading::Voxels)
 	{
-		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassGIBake>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockShadow>(), *pipeline.block<BlockGIBake>());
+		this->add_pass<PassShadowmap>(gfx, *pipeline.block<BlockShadow>());
+		this->add_pass<PassClear>(gfx);
+		this->add_pass<PassGIBake>(gfx, *pipeline.block<BlockLight>(), *pipeline.block<BlockShadow>(), *pipeline.block<BlockGIBake>());
 		this->init();
 	}
 
-	LightmapRenderer::LightmapRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Lightmap)
+	LightmapRenderer::LightmapRenderer(GfxSystem& gfx, Pipeline& pipeline)
+		: Renderer(gfx, pipeline, Shading::Lightmap)
 	{
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassLightmap>(gfx_system, *pipeline.block<BlockLightmap>());
+		this->add_pass<PassClear>(gfx);
+		this->add_pass<PassLightmap>(gfx, *pipeline.block<BlockLightmap>());
 		this->init();
 	}
 
-	ReflectionRenderer::ReflectionRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Volume)
+	ReflectionRenderer::ReflectionRenderer(GfxSystem& gfx, Pipeline& pipeline)
+		: Renderer(gfx, pipeline, Shading::Volume)
 	{
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassOpaque>(gfx_system);
-		this->add_pass<PassBackground>(gfx_system);
-		this->add_pass<PassParticles>(gfx_system);
-		this->add_pass<PassAlpha>(gfx_system);
-		this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
+		this->add_pass<PassClear>(gfx);
+		this->add_pass<PassOpaque>(gfx);
+		this->add_pass<PassBackground>(gfx);
+		this->add_pass<PassParticles>(gfx);
+		this->add_pass<PassAlpha>(gfx);
+		this->add_pass<PassFlip>(gfx, *pipeline.block<BlockCopy>());
 		this->init();
 	}
 
-	PassOpaque::PassOpaque(GfxSystem& gfx_system)
-		: DrawPass(gfx_system, "opaque", PassType::Opaque)
+	PassOpaque::PassOpaque(GfxSystem& gfx)
+		: DrawPass(gfx, "opaque", PassType::Opaque)
 	{}
 
 	void PassOpaque::next_draw_pass(Render& render, Pass& render_pass)
@@ -331,7 +331,7 @@ namespace gfx
 	{
 		if(element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha)
 		{
-			if(element.m_material->m_base.m_depth_draw_mode == DepthDraw::Enabled)
+			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
 			element.m_shader_version.set_option(0, MRT, render.m_is_mrt);
@@ -340,8 +340,8 @@ namespace gfx
 		}
 	}
 
-	PassAlpha::PassAlpha(GfxSystem& gfx_system)
-		: DrawPass(gfx_system, "alpha", PassType::Alpha)
+	PassAlpha::PassAlpha(GfxSystem& gfx)
+		: DrawPass(gfx, "alpha", PassType::Alpha)
 	{}
 
 	void PassAlpha::next_draw_pass(Render& render, Pass& render_pass)
@@ -364,8 +364,8 @@ namespace gfx
 		}
 	}
 
-	PassGeometry::PassGeometry(GfxSystem& gfx_system, BlockGeometry& block_geometry)
-		: DrawPass(gfx_system, "geometry", PassType::Geometry)
+	PassGeometry::PassGeometry(GfxSystem& gfx, BlockGeometry& block_geometry)
+		: DrawPass(gfx, "geometry", PassType::Geometry)
 		, m_block_geometry(block_geometry)
 	{}
 
@@ -383,7 +383,7 @@ namespace gfx
 		UNUSED(render);
 		if(element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha)
 		{
-			if(element.m_material->m_base.m_depth_draw_mode == DepthDraw::Enabled)
+			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
 			element.m_shader_version.set_option(0, DEFERRED, true);
@@ -392,10 +392,10 @@ namespace gfx
 		}
 	}
 
-	PassLights::PassLights(GfxSystem& gfx_system, BlockFilter& filter)
-		: RenderPass(gfx_system, "lights", PassType::Lights)
+	PassLights::PassLights(GfxSystem& gfx, BlockFilter& filter)
+		: RenderPass(gfx, "lights", PassType::Lights)
 		, m_filter(filter)
-		, m_program(&gfx_system.programs().fetch("pbr/lights"))
+		, m_program(&gfx.programs().fetch("pbr/lights"))
 	{
 		//m_program.register_block(*this);
 	}
@@ -431,7 +431,7 @@ namespace gfx
 #if DEBUG_GBUFFERS
 		if(render.m_target)
 		{
-			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+			BlockCopy& copy = *m_gfx.m_pipeline->block<BlockCopy>();
 			vec2 size = vec2(render.m_target->m_size) * 0.25f;
 			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_depth,    vec4(vec2(0.f, size.y * 0.f), size), true);
 			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_normal,   vec4(vec2(0.f, size.y * 1.f), size));
@@ -441,8 +441,8 @@ namespace gfx
 #endif
 	}
 
-	BlockGeometry::BlockGeometry(GfxSystem& gfx_system)
-		: DrawBlock(gfx_system, type<BlockGeometry>())
+	BlockGeometry::BlockGeometry(GfxSystem& gfx)
+		: DrawBlock(gfx, type<BlockGeometry>())
 	{}
 
 	BlockGeometry::~BlockGeometry()
@@ -450,8 +450,8 @@ namespace gfx
 
 	void BlockGeometry::init_block()
 	{
-		m_material = &m_gfx_system.fetch_material("geometry", "pbr/geometry");
-		m_material_twosided = &m_gfx_system.fetch_material("geometry_twosided", "pbr/geometry");
+		m_material = &m_gfx.fetch_material("geometry", "pbr/geometry");
+		m_material_twosided = &m_gfx.fetch_material("geometry_twosided", "pbr/geometry");
 		m_material_twosided->m_base.m_cull_mode = CullMode::None;
 	}
 

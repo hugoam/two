@@ -60,12 +60,12 @@ namespace mud
 		return m_position + m_aabb.bmin() + (vec3(coord) + vec3(0.5f, 0.f, 0.5f)) * m_scale;
 	}
 
-	void WfcBlock::load_models(GfxSystem& gfx_system, bool from_file)
+	void WfcBlock::load_models(GfxSystem& gfx, bool from_file)
 	{
 		for(Tile& tile : m_tileset->m_tiles_flip)
 		{
-			Model* model = from_file ? gfx_system.models().file(m_tileset->m_name + "/" + tile.m_name)
-									 : gfx_system.models().get(tile.m_name.c_str());
+			Model* model = from_file ? gfx.models().file(m_tileset->m_name + "/" + tile.m_name)
+									 : gfx.models().get(tile.m_name.c_str());
 			quat rotation = angle_axis(tile.m_profile * c_pi / 2.f, Y3);
 			m_tile_models.push_back({ model, rotation });
 		}
@@ -161,7 +161,7 @@ namespace mud
 		{
 			float entropy = tileblock.m_tileset->m_num_tiles > 0 ? float(states) / float(tileblock.m_tileset->m_num_tiles) : 1.f;
 			Colour colour = Colour::AlphaGrey * entropy;
-			cubes[states] = &parent.m_scene->m_gfx_system.fetch_symbol(Symbol(colour), Cube(0.5f), OUTLINE);
+			cubes[states] = &parent.m_scene->m_gfx.shape(Cube(0.5f), Symbol(colour), OUTLINE);
 		}
 		return *cubes[states];
 	}
@@ -229,7 +229,7 @@ namespace mud
 			}
 		}
 
-		static Material& alpha_material = parent.m_scene->m_gfx_system.fetch_material("debug_alpha", "solid");
+		static Material& alpha_material = parent.m_scene->m_gfx.fetch_material("debug_alpha", "solid");
 
 		for(auto& model_tiles : visu.m_tiles)
 		{

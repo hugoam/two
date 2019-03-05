@@ -37,8 +37,8 @@ namespace mud
 
 	GpuState<GpuLight> GpuState<GpuLight>::me;
 
-	BlockLight::BlockLight(GfxSystem& gfx_system)
-		: DrawBlock(gfx_system, type<BlockLight>())
+	BlockLight::BlockLight(GfxSystem& gfx)
+		: DrawBlock(gfx, type<BlockLight>())
 	{
 		static cstring options[] = { "FOG", "DIRECT_LIGHT" };
 		m_shader_block->m_options = options;
@@ -303,8 +303,8 @@ namespace mud
 	{
 		uint32_t index = 0; UNUSED(light);// light.m_index];
 
-		GfxSystem& gfx_system = parent.m_scene->m_gfx_system;
-		BlockShadow& block_shadow = *gfx_system.m_pipeline->block<BlockShadow>();
+		GfxSystem& gfx = parent.m_scene->m_gfx;
+		BlockShadow& block_shadow = *gfx.m_pipeline->block<BlockShadow>();
 
 		if(index >= block_shadow.m_shadows.size())
 			return;

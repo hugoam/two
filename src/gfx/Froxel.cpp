@@ -146,8 +146,8 @@ namespace mud
 
 	void froxelize_light(ClusteredFrustum& frustum, FroxelThreadData& froxelThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far);
 
-	Froxelizer::Froxelizer(GfxSystem& gfx_system)
-		: m_gfx_system(gfx_system)
+	Froxelizer::Froxelizer(GfxSystem& gfx)
+		: m_gfx(gfx)
 		, m_impl(construct<Impl>())
 	{
 		UNUSED(RECORD_BUFFER_WIDTH_MASK);
@@ -372,7 +372,7 @@ namespace mud
 		memset(m_impl->m_froxel_sharded_data.data(), 0, m_impl->m_froxel_sharded_data.size() * sizeof(FroxelThreadData));
 
 #ifdef MUD_THREADED
-		JobSystem& js = *m_gfx_system.m_job_system;
+		JobSystem& js = *m_gfx.m_job_system;
 		Job* parent = js.job();
 		for(uint32_t i = 0; i < GROUP_COUNT; i++)
 		{

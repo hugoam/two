@@ -14,7 +14,7 @@ WaveTileset& create_tileset(Shell& app)
 {
 	static WaveTileset tileset;
 
-	LocatedFile location = app.m_gfx_system.locate_file("models/platform/platform", { ".tls" });
+	LocatedFile location = app.m_gfx.locate_file("models/platform/platform", { ".tls" });
 	parse_json_wave_tileset(location.path(true), "", tileset);
 
 	return tileset;
@@ -22,8 +22,8 @@ WaveTileset& create_tileset(Shell& app)
 
 void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	static ImporterOBJ obj_importer(app.m_gfx_system);
-	static ImporterGltf gtlf_importer(app.m_gfx_system);
+	static ImporterOBJ obj_importer(app.m_gfx);
+	static ImporterGltf gtlf_importer(app.m_gfx);
 
 	//static VisualScript& script = create_visual_script(app);
 
@@ -40,7 +40,7 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 	static uvec3 focused = uvec3(UINT32_MAX);
 
 	if(block.m_tile_models.empty())
-		block.load_models(app.m_gfx_system);
+		block.load_models(app.m_gfx);
 
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
@@ -72,8 +72,8 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
-	app.m_gfx_system.add_resource_path("examples/17_wfc");
-	app.m_gfx_system.init_pipeline(pipeline_pbr);
+	app.m_gfx.add_resource_path("examples/17_wfc");
+	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

@@ -21,7 +21,7 @@ namespace mud
 
 	MUD_GFX_EDIT_EXPORT void animation_edit(Widget& parent, Mime& animated);
 
-	MUD_GFX_EDIT_EXPORT void asset_browser(Widget& parent, GfxSystem& gfx_system);
+	MUD_GFX_EDIT_EXPORT void asset_browser(Widget& parent, GfxSystem& gfx);
 
 	MUD_GFX_EDIT_EXPORT void edit_viewer_filters(Widget& parent, Viewer& viewer);
 

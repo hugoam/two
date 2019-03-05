@@ -13,6 +13,7 @@
 module mud.gfx;
 #else
 #include <infra/ToString.h>
+#include <infra/Vector.h>
 #include <math/Vec.hpp>
 #include <geom/Geometry.h>
 #include <geom/Primitive.hpp>
@@ -110,7 +111,7 @@ namespace mud
 		batch.m_vertices.resize(batch.m_vertices.size() + size.vertex_count);
 		batch.m_indices.resize(batch.m_indices.size() + size.index_count);
 
-		MeshAdapter data(Vertex::vertex_format, &batch.m_vertices[vertex_offset], size.vertex_count, &batch.m_indices[index_offset], size.index_count, false);
+		MeshAdapter data(Vertex::vertex_format, { &batch.m_vertices[vertex_offset], size.vertex_count }, { &batch.m_indices[index_offset], size.index_count }, false);
 		data.m_offset = uint32_t(vertex_offset);
 
 		for(const ProcShape& shape : shapes)
@@ -166,13 +167,39 @@ namespace mud
 		encoder.setIndexBuffer(&index_buffer);
 		encoder.setState(draw_mode == OUTLINE ? bgfx_state | BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA : bgfx_state);
 
-		mat4 identity = bxidentity();
+		static const mat4 identity = bxidentity();
 		encoder.setTransform(value_ptr(identity));
 
 		encoder.submit(view, m_material.m_program->default_version());
 	}
 
 	bgfx::VertexDecl ImmediateDraw::ms_vertex_decl;
+
+	Direct::Direct()
+	{}
+
+	Direct::Direct(Node3& node, Material& material)
+		: m_node(&node)
+		, m_material(&material)
+	{}
+
+	void Direct::begin()
+	{
+		m_batches.clear();
+	}
+
+	Direct::Batch& Direct::batch(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
+	{
+		Batch& batch = push(m_batches);
+
+		const bgfx::VertexDecl& decl = vertex_decl(vertex_format);
+		bgfx::allocTransientVertexBuffer(&batch.m_vertices, vertex_count, decl);
+
+		if(index_count)
+			bgfx::allocTransientIndexBuffer(&batch.m_indices, index_count);
+		
+		return batch;
+	}
 
 	struct SymbolIndex::Impl
 	{
@@ -198,15 +225,15 @@ namespace mud
 								  : uint64_t(to_abgr(symbol.m_outline)) | uint64_t(symbol.m_overlay) << 32 | uint64_t(symbol.m_double_sided) << 33;
 	}
 
-	Material& SymbolIndex::symbol_material(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode)
+	Material& SymbolIndex::symbol_material(GfxSystem& gfx, const Symbol& symbol, DrawMode draw_mode)
 	{
 		Colour colour = draw_mode == PLAIN ? symbol.m_fill : symbol.m_outline;
 
 		uint64_t hash = hash_symbol_material(symbol, draw_mode);
 		if(m_impl->m_materials.find(hash) == m_impl->m_materials.end())
 		{
-			Material& m = gfx_system.fetch_material("Symbol" + to_string(hash), "solid");
-			m.m_base.m_depth_draw_mode = DepthDraw::Disabled;
+			Material& m = gfx.fetch_material("Symbol" + to_string(hash), "solid");
+			m.m_base.m_depth_draw = DepthDraw::Disabled;
 			m.m_base.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
 			m.m_base.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
 			m.m_solid.m_colour.m_value = colour;
@@ -295,8 +322,9 @@ namespace mud
 			}
 
 		if(draw_mode == PLAIN)
-			generate_mikkt_tangents({ (ShapeIndex*)gpu_mesh.m_indices, gpu_mesh.m_index_count }, { (ShapeVertex*)gpu_mesh.m_vertices, gpu_mesh.m_vertex_count });
+			generate_mikkt_tangents({ (ShapeIndex*)gpu_mesh.m_indices.data(), gpu_mesh.m_index_count }, { (ShapeVertex*)gpu_mesh.m_vertices.data(), gpu_mesh.m_vertex_count });
 
+		gpu_mesh.m_writer.bound();
 		mesh.upload(gpu_mesh);
 
 		model.add_item(mesh, bxidentity());

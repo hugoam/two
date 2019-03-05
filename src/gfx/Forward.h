@@ -133,6 +133,7 @@ namespace mud
     class Light;
     class Gnode;
 	class Item;
+	class Direct;
 	struct Batch;
     class Viewport;
     struct ManualRender;

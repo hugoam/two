@@ -209,7 +209,7 @@ namespace mud
 		return self;
 	}
 
-	void asset_browser(Widget& parent, GfxSystem& gfx_system, vector<Ref>& selection)
+	void asset_browser(Widget& parent, GfxSystem& gfx, vector<Ref>& selection)
 	{
 		Section& self = section(parent, "Assets");
 
@@ -231,42 +231,42 @@ namespace mud
 		sequence.m_selection = &selection;
 
 		if(materials)
-			for(Material* material : gfx_system.materials().m_vector)
+			for(Material* material : gfx.materials().m_vector)
 				if(!material->m_builtin)
 				{
 					asset_element(sequence, "(material)", material->m_name, Ref(material));
 				}
 
 		if(programs)
-			for(Program* program : gfx_system.programs().m_vector)
+			for(Program* program : gfx.programs().m_vector)
 			{
 				Widget& element = ui::element(sequence, Ref(program));
 				ui::multi_item(element, { "(program)", program->name() });
 			}
 
 		if(models)
-			for(Model* model : gfx_system.models().m_vector)
+			for(Model* model : gfx.models().m_vector)
 			{
 				asset_element(sequence, "(model)", model->m_name, Ref(model));
 			}
 
 		if(particles)
-			for(Flow* particle : gfx_system.flows().m_vector)
+			for(Flow* particle : gfx.flows().m_vector)
 			{
 				asset_element(sequence, "(particles)", particle->m_name, Ref(particle));
 			}
 	}
 
-	void asset_browser(Widget& parent, GfxSystem& gfx_system)
+	void asset_browser(Widget& parent, GfxSystem& gfx)
 	{
 		static vector<Ref> selection = {};
-		asset_browser(parent, gfx_system, selection);
+		asset_browser(parent, gfx, selection);
 	}
 
-	void asset_browser(Widget& parent, GfxSystem& gfx_system, Ref& selected)
+	void asset_browser(Widget& parent, GfxSystem& gfx, Ref& selected)
 	{
 		static vector<Ref> selection = {};
-		asset_browser(parent, gfx_system, selection);
+		asset_browser(parent, gfx, selection);
 		if(selection.size() > 0)
 			selected = selection[0];
 		else
@@ -310,14 +310,14 @@ namespace mud
 	}
 #endif
 
-	void edit_gfx_scenes(Widget& parent, GfxSystem& gfx_system)
+	void edit_gfx_scenes(Widget& parent, GfxSystem& gfx)
 	{
 		Widget& self = ui::layout(parent);
-		UNUSED(gfx_system);
+		UNUSED(gfx);
 		UNUSED(self);
 	}
 
-	void gfx_editor(Widget& parent, GfxSystem& gfx_system)
+	void gfx_editor(Widget& parent, GfxSystem& gfx)
 	{
 		enum Modes { SELECT = 1 << 0 };
 
@@ -329,17 +329,17 @@ namespace mud
 		if(ui::modal_button(sheet, sheet, "Select", SELECT))
 		{
 			Widget& modal = ui::auto_modal(sheet, SELECT, { 800.f, 600.f });
-			asset_browser(*modal.m_body, gfx_system, asset);
+			asset_browser(*modal.m_body, gfx, asset);
 		}
 
 		if(asset)
 		{
 			if(type(asset).is<Flow>())
-				particle_edit(sheet, gfx_system, val<Flow>(asset));
+				particle_edit(sheet, gfx, val<Flow>(asset));
 		}
 	}
 
-	void edit_gfx_system(Widget& parent, GfxSystem& gfx_system)
+	void edit_gfx_system(Widget& parent, GfxSystem& gfx)
 	{
 		Tabber& tabber = ui::tabber(parent);
 
@@ -348,32 +348,32 @@ namespace mud
 
 #if 0
 		if(Widget* textures = ui::tab(tabber, "Textures"))
-			multi_object_edit_container<Texture>(*textures, gfx_system.m_textures);
+			multi_object_edit_container<Texture>(*textures, gfx.m_textures);
 
 		if(Widget* programs = ui::tab(tabber, "Programs"))
-			multi_object_edit_container<Program>(*programs, gfx_system.m_programs);
+			multi_object_edit_container<Program>(*programs, gfx.m_programs);
 
 		if(Widget* materials = ui::tab(tabber, "Materials"))
-			multi_object_edit_container<Material>(*materials, gfx_system.m_materials);
+			multi_object_edit_container<Material>(*materials, gfx.m_materials);
 
 		if(Widget* blocks = ui::tab(tabber, "Blocks"))
-			multi_object_edit_container<GfxBlock>(*blocks, gfx_system.m_pipeline->m_gfx_blocks);
+			multi_object_edit_container<GfxBlock>(*blocks, gfx.m_pipeline->m_gfx_blocks);
 
 #endif
 
 #if 0
 		if(Widget* items = ui::tab(tabber, "Items"))
-			edit_gfx_items(*items, gfx_system);
+			edit_gfx_items(*items, gfx);
 
 		if(Widget* scenes = ui::tab(tabber, "Scenes"))
-			edit_gfx_scenes(*scenes, gfx_system);
+			edit_gfx_scenes(*scenes, gfx);
 #endif
 
 		if(Widget* editor = ui::tab(tabber, "Editor"))
-			gfx_editor(*editor, gfx_system);
+			gfx_editor(*editor, gfx);
 
 		if(Widget* particles = ui::tab(tabber, "Particle Editor"))
-			particle_editor(*particles, gfx_system);
+			particle_editor(*particles, gfx);
 	}
 
 	export_ inline Var construct(Type& type)

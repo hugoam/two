@@ -524,6 +524,12 @@ namespace mud
 	//export_ inline vec3 muln(const mat4& mat, const vec3& n) { return vec3(normalize(mat * vec4(n, 0.f))); }
 	export_ inline vec4 mult(const mat4& mat, const vec4& t) { return vec4(vec3(mat * vec4(vec3(t), 0.f)), t.w); }
 
+	inline quat facing(const vec3& direction)
+	{
+		float angle = atan2(direction.x, direction.z);
+		return { cosf(angle / 2.f), 0.f, sinf(angle / 2.f), 0.f };
+	}
+
 
 #if 0 // not implemented
 	// For float->float16 conversion

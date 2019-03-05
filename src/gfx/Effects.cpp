@@ -16,8 +16,8 @@ module mud.gfx;
 
 namespace mud
 {
-	PassEffects::PassEffects(GfxSystem& gfx_system)
-		: RenderPass(gfx_system, "effects", PassType::Effects)
+	PassEffects::PassEffects(GfxSystem& gfx)
+		: RenderPass(gfx, "effects", PassType::Effects)
 	{}
 
 	void PassEffects::submit_render_pass(Render& render)
@@ -25,8 +25,8 @@ namespace mud
 		UNUSED(render);
 	}
 
-	BlockResolve::BlockResolve(GfxSystem& gfx_system, BlockCopy& copy)
-		: GfxBlock(gfx_system, *this)
+	BlockResolve::BlockResolve(GfxSystem& gfx, BlockCopy& copy)
+		: GfxBlock(gfx, *this)
 		, m_copy(copy)
 	{}
 
@@ -54,8 +54,8 @@ namespace mud
 						   render.m_target->m_ping_pong.last(), render.m_viewport.m_rect);
 	}
 
-	PassPostProcess::PassPostProcess(GfxSystem& gfx_system, BlockCopy& copy)
-		: RenderPass(gfx_system, "post process", PassType::PostProcess)
+	PassPostProcess::PassPostProcess(GfxSystem& gfx, BlockCopy& copy)
+		: RenderPass(gfx, "post process", PassType::PostProcess)
 		, m_copy(copy)
 	{}
 

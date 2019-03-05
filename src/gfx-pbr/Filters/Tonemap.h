@@ -27,10 +27,13 @@ namespace mud
 
 	export_ enum class refl_ TonemapMode : unsigned int
 	{
+		None,
 		Linear,
 		Reinhardt,
 		Filmic,
-		ACES
+		ACES,
+		Cineon,
+		Uncharted2
 	};
 
 	export_ struct refl_ BCS
@@ -54,7 +57,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockTonemap : public GfxBlock
 	{
 	public:
-		BlockTonemap(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy);
+		BlockTonemap(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy);
 
 		virtual void init_block() override;
 

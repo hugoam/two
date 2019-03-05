@@ -18,7 +18,7 @@ module mud.geom;
 
 namespace mud
 {
-	uint16_t circle_subdiv(uint lod) { return uint16_t(6 + 12 * lod); }
+	uint16_t circle_subdiv(uint lod) { return uint16_t(6); } // 6 + 12 * lod); }
 	
 	vec3 flip_point_axis(const vec3& point, SignedAxis axis)
 	{
@@ -39,17 +39,21 @@ namespace mud
 
 		for(uint16_t i = 0; i < subdiv; i++)
 		{
-			vec3 point = flip_point_axis({ radius.x * cos(angle), 0.f, radius.y * sin(angle) }, axis);
+			vec2 xy = vec2(radius.x * cos(angle), radius.y * sin(angle));
+			vec3 point = flip_point_axis({ xy.x, 0.f, xy.y }, axis);
+			vec2 uv = xy / 2.f + 0.5f;
 			writer.position(position + point)
 				  .normal(outward_normals ? point : to_vec3(axis))
-				  .colour(lines ? shape.m_symbol.m_outline : shape.m_symbol.m_fill);
+				  .colour(lines ? shape.m_symbol.m_outline : shape.m_symbol.m_fill)
+				  .uv0(uv);
 			angle += increment;
 		}
 
 		if(!lines)
 			writer.position(position)
 				  .normal(to_vec3(axis))
-				  .colour(lines ? shape.m_symbol.m_outline : shape.m_symbol.m_fill);
+				  .colour(lines ? shape.m_symbol.m_outline : shape.m_symbol.m_fill)
+				  .uv0(vec2(0.5f));
 
 		return subdiv;
 	}
@@ -58,7 +62,7 @@ namespace mud
 	{
 		UNUSED(circle);
 		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
-		return { subdiv, subdiv * 2 };
+		return { subdiv, subdiv * 2U };
 	}
 
 	void draw_shape_lines(const ProcShape& shape, const Circle& circle, MeshAdapter& writer)
@@ -73,7 +77,7 @@ namespace mud
 	{
 		UNUSED(circle);
 		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
-		return { subdiv + 1, subdiv * 3 };
+		return { subdiv + 1U, subdiv * 3U };
 	}
 
 	void draw_shape_triangles(const ProcShape& shape, const Circle& circle, MeshAdapter& writer)
@@ -89,7 +93,7 @@ namespace mud
 	{
 		UNUSED(ellipsis);
 		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
-		return { subdiv, subdiv * 2 };
+		return { subdiv, subdiv * 2U };
 	}
 
 	void draw_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis, MeshAdapter& writer)
@@ -104,7 +108,7 @@ namespace mud
 	{
 		UNUSED(ellipsis);
 		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
-		return { subdiv + 1, subdiv * 3 };
+		return { subdiv + 1U, subdiv * 3U };
 	}
 
 	void draw_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis, MeshAdapter& writer)
@@ -119,7 +123,7 @@ namespace mud
 	{
 		UNUSED(arc);
 		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
-		return { subdiv, (subdiv-1) * 2 };
+		return { subdiv, (subdiv-1U) * 2U };
 	}
 
 	void draw_shape_lines(const ProcShape& shape, const ArcLine& arc, MeshAdapter& writer)
@@ -177,7 +181,7 @@ namespace mud
 		UNUSED(torus);
 		uint16_t sides_subdiv = torus_sides(uint(shape.m_symbol.m_detail)) + 1;
 		uint16_t rings_subdiv = torus_rings(uint(shape.m_symbol.m_detail)) + 1;
-		return { int(sides_subdiv * rings_subdiv), int((sides_subdiv-1) * (rings_subdiv-1) * 6) };
+		return { uint32_t(sides_subdiv * rings_subdiv), uint32_t((sides_subdiv-1U) * (rings_subdiv-1U) * 6U) };
 	}
 
 	void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshAdapter& writer)

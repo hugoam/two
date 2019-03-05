@@ -16,7 +16,7 @@ namespace mud
 {
 	using PassJob = function<void(Render&, const Pass&)>;
 
-	export_ MUD_GFX_EXPORT void pipeline_minimal(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred);
+	export_ MUD_GFX_EXPORT void pipeline_minimal(GfxSystem& gfx, Pipeline& pipeline, bool deferred);
 
 	export_ struct MUD_GFX_EXPORT PassJobs
 	{
@@ -26,7 +26,7 @@ namespace mud
 	export_ class MUD_GFX_EXPORT Pipeline
 	{
 	public:
-		Pipeline(GfxSystem& gfx_system);
+		Pipeline(GfxSystem& gfx);
 		~Pipeline();
 
 		Pipeline(const Pipeline& other) = delete;
@@ -49,7 +49,7 @@ namespace mud
 	export_ class MUD_GFX_EXPORT PassClear : public RenderPass
 	{
 	public:
-		PassClear(GfxSystem& gfx_system);
+		PassClear(GfxSystem& gfx);
 
 		virtual void submit_render_pass(Render& render) final;
 	};
@@ -57,7 +57,7 @@ namespace mud
 	export_ class MUD_GFX_EXPORT PassSolid : public DrawPass
 	{
 	public:
-		PassSolid(GfxSystem& gfx_system);
+		PassSolid(GfxSystem& gfx);
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
@@ -66,7 +66,7 @@ namespace mud
 	export_ class MUD_GFX_EXPORT PassBackground : public RenderPass
 	{
 	public:
-		PassBackground(GfxSystem& gfx_system);
+		PassBackground(GfxSystem& gfx);
 
 		virtual void submit_render_pass(Render& render) final;
 	};
@@ -74,7 +74,7 @@ namespace mud
 	export_ class MUD_GFX_EXPORT PassFlip : public RenderPass
 	{
 	public:
-		PassFlip(GfxSystem& gfx_system, BlockCopy& copy);
+		PassFlip(GfxSystem& gfx, BlockCopy& copy);
 
 		virtual void submit_render_pass(Render& render) final;
 
@@ -83,16 +83,16 @@ namespace mud
 
 	struct MinimalRenderer : public Renderer
 	{
-		MinimalRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		MinimalRenderer(GfxSystem& gfx, Pipeline& pipeline);
 	};
 
 	struct SolidRenderer : public Renderer
 	{
-		SolidRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		SolidRenderer(GfxSystem& gfx, Pipeline& pipeline);
 	};
 
 	struct ClearRenderer : public Renderer
 	{
-		ClearRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		ClearRenderer(GfxSystem& gfx, Pipeline& pipeline);
 	};
 }

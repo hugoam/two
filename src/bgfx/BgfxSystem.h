@@ -40,7 +40,7 @@ namespace mud
 #endif
 	{
 	public:
-		BgfxContext(BgfxSystem& gfx_system, const string& name, uvec2 size, bool fullScreen, bool init);
+		BgfxContext(BgfxSystem& gfx, const string& name, uvec2 size, bool fullScreen, bool init);
 
 		virtual void reset_fb(const uvec2& size) override;
 	};

@@ -75,7 +75,7 @@ namespace mud
 		m_items.reserve(4096);
 	}
 
-	void save_lightmap(GfxSystem& gfx_system, Lightmap& lightmap, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
+	void save_lightmap(GfxSystem& gfx, Lightmap& lightmap, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
 	{
 		uint16_t size = uint16_t(lightmap.m_size);
 		bgfx::TextureHandle blit_texture = bgfx::createTexture2D(size, size, false, 1, source_format, BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK);
@@ -83,12 +83,12 @@ namespace mud
 		bgfx::frame();
 		bgfx::frame();
 
-		save_bgfx_texture(gfx_system.allocator(), gfx_system.file_writer(), path.c_str(), target_format, blit_texture, source_format, uint16_t(lightmap.m_size), uint16_t(lightmap.m_size));
+		save_bgfx_texture(gfx.allocator(), gfx.file_writer(), path.c_str(), target_format, blit_texture, source_format, uint16_t(lightmap.m_size), uint16_t(lightmap.m_size));
 	}
 
-	void load_lightmap(GfxSystem& gfx_system, Lightmap& lightmap, const string& path)
+	void load_lightmap(GfxSystem& gfx, Lightmap& lightmap, const string& path)
 	{
-		lightmap.m_texture = load_bgfx_texture(gfx_system.allocator(), gfx_system.file_reader(), path.c_str());
+		lightmap.m_texture = load_bgfx_texture(gfx.allocator(), gfx.file_reader(), path.c_str());
 
 		for(LightmapItem& item : lightmap.m_items)
 			item.m_lightmap = lightmap.m_texture;
@@ -109,8 +109,8 @@ namespace mud
 	LightmapAtlas::~LightmapAtlas()
 	{}
 
-	PassLightmap::PassLightmap(GfxSystem& gfx_system, BlockLightmap& block_lightmap)
-		: DrawPass(gfx_system, "lightmap", PassType::Lightmap)
+	PassLightmap::PassLightmap(GfxSystem& gfx, BlockLightmap& block_lightmap)
+		: DrawPass(gfx, "lightmap", PassType::Lightmap)
 		, m_block_lightmap(block_lightmap)
 	{}
 
@@ -136,8 +136,8 @@ namespace mud
 		}
 	}
 
-	BlockLightmap::BlockLightmap(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake)
-		: DrawBlock(gfx_system, type<BlockLightmap>())
+	BlockLightmap::BlockLightmap(GfxSystem& gfx, BlockLight& block_light, BlockGIBake& block_gi_bake)
+		: DrawBlock(gfx, type<BlockLightmap>())
 		, m_block_light(block_light)
 		, m_block_gi_bake(block_gi_bake)
 	{}
@@ -146,7 +146,7 @@ namespace mud
 	{
 		u_lightmap.createUniforms();
 
-		m_lightmap = &m_gfx_system.programs().fetch("pbr/lightmap");
+		m_lightmap = &m_gfx.programs().fetch("pbr/lightmap");
 	}
 
 	struct XAtlas
@@ -424,7 +424,7 @@ namespace mud
 		vector<GIProbe*> gi_probes;
 		gather_gi_probes(scene, gi_probes);
 
-		Renderer& renderer = m_gfx_system.renderer(Shading::Lightmap);
+		Renderer& renderer = m_gfx.renderer(Shading::Lightmap);
 
 		size_t i = 0;
 		for(auto& lightmap : atlas.m_layers)
@@ -442,7 +442,7 @@ namespace mud
 #ifndef LIGHTMAP_FORCE_RENDER
 			if(file_exists(cached_path.c_str()))
 			{
-				load_lightmap(m_gfx_system, *lightmap, cached_path);
+				load_lightmap(m_gfx, *lightmap, cached_path);
 				continue;
 			}
 #endif
@@ -450,7 +450,7 @@ namespace mud
 			uint16_t resolution = uint16_t(atlas.m_size);
 			bgfx::FrameBufferHandle fbo = bgfx::createFrameBuffer(resolution, resolution, c_lightmap_format, BGFX_TEXTURE_RT);
 
-			RenderFrame frame = m_gfx_system.render_frame();
+			RenderFrame frame = m_gfx.render_frame();
 
 			Camera camera = { transform, vec2(extents.x * 2.f, extents.y * 2.f), -extents.z, extents.z };
 			Viewport viewport = { camera, scene, { uvec2(0U), uvec2(lightmap->m_size) } };
@@ -465,8 +465,8 @@ namespace mud
 
 			bgfx::frame();
 
-			save_lightmap(m_gfx_system, *lightmap, bgfx::getTexture(fbo), c_lightmap_format, c_lightmap_file_format, cached_path);
-			load_lightmap(m_gfx_system, *lightmap, cached_path);
+			save_lightmap(m_gfx, *lightmap, bgfx::getTexture(fbo), c_lightmap_format, c_lightmap_file_format, cached_path);
+			load_lightmap(m_gfx, *lightmap, cached_path);
 
 			bgfx::destroy(fbo);
 		}

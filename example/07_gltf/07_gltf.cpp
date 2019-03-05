@@ -25,7 +25,7 @@ void debug_normals(Gnode& parent, Mesh& mesh, const mat4& transform, float lengt
 
 void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	static ImporterGltf gltf_importer(app.m_gfx_system);
+	static ImporterGltf gltf_importer(app.m_gfx);
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
@@ -38,7 +38,7 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& model_node = gfx::node(scene);
 	gfx::model(model_node, "DamagedHelmet");
 	
-	//Model& model = *app.m_gfx_system.models().file("DamagedHelmet");
+	//Model& model = *app.m_gfx.models().file("DamagedHelmet");
 	//debug_normals(scene, *model.m_meshes[0], model.m_items[0].m_transform, 0.2f);
 	
 	//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
@@ -55,8 +55,8 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
-	app.m_gfx_system.add_resource_path("examples/07_gltf");
-	app.m_gfx_system.init_pipeline(pipeline_pbr);
+	app.m_gfx.add_resource_path("examples/07_gltf");
+	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif
