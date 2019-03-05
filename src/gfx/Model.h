@@ -45,7 +45,7 @@ namespace mud
 		attr_ float m_radius = 0.f;
 		attr_ vec3 m_origin = vec3(0.f);
 
-		table<PrimitiveType, bool> m_geometry = { 0 };
+		table<PrimitiveType, bool> m_geometry = { { 0 } };
 
 		Rig* m_rig = nullptr;
 

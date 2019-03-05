@@ -7,6 +7,7 @@ module mud.geom;
 #else
 #include <stl/algorithm.h>
 #include <stl/table.h>
+#include <math/Vec.hpp>
 #include <math/Interp.h>
 #include <geom/Voxel.h>
 #include <geom/Primitive.hpp>
@@ -379,7 +380,8 @@ namespace mud
 		const size_t zd = cubes.m_zd;
 		vector<float>& field = cubes.m_field;
 
-		const size_t dist = size_t(min(size, size * sqrt(strength / subtract)));
+		//const size_t dist = size_t(min(size, size * sqrt(strength / subtract)));
+		const size_t dist = size_t(min(size, size * float(sqrt(strength / subtract)))); // clang, why do you hate me
 
 		for(size_t x = 0; x < dist; x++)
 		{
@@ -407,7 +409,8 @@ namespace mud
 		const size_t zd = cubes.m_zd;
 		vector<float>& field = cubes.m_field;
 
-		const size_t dist = size_t(min(size, size * sqrt(strength / subtract)));
+		//const size_t dist = size_t(min(size, size * sqrt(strength / subtract)));
+		const size_t dist = size_t(min(size, size * float(sqrt(strength / subtract)))); // clang, why do you hate me
 
 		for(size_t y = 0; y < dist; y++)
 		{
@@ -437,7 +440,8 @@ namespace mud
 		const size_t zd = cubes.m_zd;
 		vector<float>& field = cubes.m_field;
 
-		const size_t dist = size_t(min(size, size * sqrt(strength / subtract)));
+		//const size_t dist = size_t(min(size, size * sqrt(strength / subtract)));
+		const size_t dist = size_t(min(size, size * float(sqrt(strength / subtract)))); // clang, why do you hate me
 
 		for(size_t z = 0; z < dist; z++)
 		{

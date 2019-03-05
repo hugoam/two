@@ -308,7 +308,7 @@ namespace mud
 	vec3 CurveCatmullRom3::point(float t) const
 	{
 		const vector<vec3>& points = m_points;
-		const size_t l = points.size();
+		const int l = int(points.size());
 
 		const float p = (l - (m_closed ? 0 : 1)) * t;
 		int i = floor(p);
@@ -383,11 +383,11 @@ namespace mud
 		{
 			const float cosa = cos(m_rotation);
 			const float sina = sin(m_rotation);
-			const vec2 t = p - m_a;
+			const vec2 tp = p - m_a;
 
 			// Rotate the point about the center of the ellipse.
-			float x = t.x * cosa - t.y * sina + m_a.x;
-			float y = t.x * sina + t.y * cosa + m_a.y;
+			float x = tp.x * cosa - tp.y * sina + m_a.x;
+			float y = tp.x * sina + tp.y * cosa + m_a.y;
 			p = vec2(x, y);
 		}
 
@@ -436,14 +436,14 @@ namespace mud
 		const size_t last = points.size() - 1;
 		const float p = float(last) * t;
 
-		int i = floor(p);
-		float weight = p - float(i);
+		const size_t i = floor(p);
+		const float weight = p - float(i);
 
-		vec2 p0 = points[i == 0 ? i : i - 1];
-		vec2 p1 = points[i];
-		vec2 p2 = points[i > points.size() - 2 ? last : i + 1];
-		vec2 p3 = points[i > points.size() - 3 ? last : i + 2];
+		const vec2 p0 = points[i == 0 ? i : i - 1];
+		const vec2 p1 = points[i];
+		const vec2 p2 = points[i > points.size() - 2 ? last : i + 1];
+		const vec2 p3 = points[i > points.size() - 3 ? last : i + 2];
 
-		return catmull_rom_three(p0, p1, p2, p3, t);
+		return catmull_rom_three(p0, p1, p2, p3, weight);
 	}
 }
