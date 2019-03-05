@@ -3108,20 +3108,22 @@ ModelItem.prototype["__destroy__"] = ModelItem.prototype.__destroy__ = function(
     _mud_ModelItem__destroy(self);
 };
 // Node3
-function Node3(a0) {
+function Node3(a0, a1, a2) {
     if (a0 === undefined) { this.ptr = _mud_Node3__construct_0(); this.type = Node3; getCache(Node3)[this.ptr] = this; return; }
-    this.ptr = _mud_Node3__construct_1(/*transform*/a0.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this;
+    if (a1 === undefined) { this.ptr = _mud_Node3__construct_1(/*transform*/a0.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this; return; }
+    if (a2 === undefined) { this.ptr = _mud_Node3__construct_2(/*position*/a0.ptr, /*rotation*/a1.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this; return; }
+    this.ptr = _mud_Node3__construct_3(/*position*/a0.ptr, /*rotation*/a1.ptr, /*scale*/a2.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this;
 };
 Node3.prototype = Object.create(WrapperObject.prototype);
 Node3.prototype.constructor = Node3;
 Node3.prototype.__class__ = Node3;
 Node3.__cache__ = {};
 Module['Node3'] = Node3;
-Node3.prototype["transform"] = Node3.prototype.transform = function(a0, a1, a2) {
+Node3.prototype["apply"] = Node3.prototype.apply = function(a0, a1, a2) {
     var self = this.ptr;
-    if (a1 === undefined) { _mud_Node3_transform_1(self, /*position*/a0.ptr); return; }
-    if (a2 === undefined) { _mud_Node3_transform_2(self, /*position*/a0.ptr, /*rotation*/a1.ptr); return; }
-    _mud_Node3_transform_3(self, /*position*/a0.ptr, /*rotation*/a1.ptr, /*scale*/a2.ptr);
+    if (a1 === undefined) { _mud_Node3_apply_1(self, /*position*/a0.ptr); return; }
+    if (a2 === undefined) { _mud_Node3_apply_2(self, /*position*/a0.ptr, /*rotation*/a1.ptr); return; }
+    _mud_Node3_apply_3(self, /*position*/a0.ptr, /*rotation*/a1.ptr, /*scale*/a2.ptr);
 };
 Node3.prototype["derive"] = Node3.prototype.derive = function(a0, a1, a2, a3) {
     var self = this.ptr;

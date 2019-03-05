@@ -216,7 +216,7 @@ void mud_ModelItem__copy_construct(void* ref, void* other) { new(stl::placeholde
 void mud_Node3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Node3(  ); }
 void mud_Node3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Node3( *static_cast<mud::mat4*>(args[0]) ); }
 void mud_Node3__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Node3( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2]) ); }
-void mud_Node3_transform(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Node3*>(object)).transform(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
+void mud_Node3_apply(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Node3*>(object)).apply(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
 void mud_Node3_derive(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Node3*>(object)).derive(*static_cast<mud::Node3*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::quat*>(args[2]), *static_cast<mud::vec3*>(args[3])); }
 void mud_Node3_position(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Node3*>(object)).position(); }
 void mud_Node3_axis(void* object, span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Node3*>(object)).axis(*static_cast<mud::vec3*>(args[0])); }
@@ -2034,8 +2034,8 @@ namespace mud
 		static mud::mat4 transform_default = bxidentity();
 		static mud::quat construct_2_rotation_default = ZeroQuat;
 		static mud::vec3 construct_2_scale_default = vec3(1.f);
-		static mud::quat transform_0_rotation_default = ZeroQuat;
-		static mud::vec3 transform_0_scale_default = vec3(1.f);
+		static mud::quat apply_0_rotation_default = ZeroQuat;
+		static mud::vec3 apply_0_scale_default = vec3(1.f);
 		static mud::quat derive_0_rotation_default = ZeroQuat;
 		static mud::vec3 derive_0_scale_default = vec3(1.f);
 		// constructors
@@ -2052,7 +2052,7 @@ namespace mud
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "transform", Address(), mud_Node3_transform, { { "position", type<mud::vec3>(),  }, { "rotation", type<mud::quat>(), Param::Default, &transform_0_rotation_default }, { "scale", type<mud::vec3>(), Param::Default, &transform_0_scale_default } }, g_qvoid },
+			{ t, "apply", Address(), mud_Node3_apply, { { "position", type<mud::vec3>(),  }, { "rotation", type<mud::quat>(), Param::Default, &apply_0_rotation_default }, { "scale", type<mud::vec3>(), Param::Default, &apply_0_scale_default } }, g_qvoid },
 			{ t, "derive", Address(), mud_Node3_derive, { { "parent", type<mud::Node3>(),  }, { "position", type<mud::vec3>(),  }, { "rotation", type<mud::quat>(), Param::Default, &derive_0_rotation_default }, { "scale", type<mud::vec3>(), Param::Default, &derive_0_scale_default } }, g_qvoid },
 			{ t, "position", Address(), mud_Node3_position, {}, { &type<mud::vec3>(), QualType::None } },
 			{ t, "axis", Address(), mud_Node3_axis, { { "dir", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } },

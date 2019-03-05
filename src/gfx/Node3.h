@@ -48,7 +48,7 @@ namespace mud
 		Ref m_object;
 		//size_t m_last_updated = 0;
 
-		meth_ void transform(const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
+		meth_ void apply(const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
 		meth_ void derive(const Node3& parent, const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
 
 		meth_ vec3 position() const;

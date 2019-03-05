@@ -533,10 +533,11 @@ Capsule.prototype["__destroy__"] = Capsule.prototype.__destroy__ = function() {
     _mud_Capsule__destroy(self);
 };
 // Circle
-function Circle(a0, a1) {
+function Circle(a0, a1, a2) {
     if (a0 === undefined) { this.ptr = _mud_Circle__construct_0(); this.type = Circle; getCache(Circle)[this.ptr] = this; return; }
     if (a1 === undefined) { this.ptr = _mud_Circle__construct_1(/*radius*/a0); this.type = Circle; getCache(Circle)[this.ptr] = this; return; }
-    this.ptr = _mud_Circle__construct_2(/*radius*/a0, /*axis*/a1); this.type = Circle; getCache(Circle)[this.ptr] = this;
+    if (a2 === undefined) { this.ptr = _mud_Circle__construct_2(/*radius*/a0, /*axis*/a1); this.type = Circle; getCache(Circle)[this.ptr] = this; return; }
+    this.ptr = _mud_Circle__construct_3(/*center*/a0.ptr, /*radius*/a1, /*axis*/a2); this.type = Circle; getCache(Circle)[this.ptr] = this;
 };
 Circle.prototype = Object.create(Shape.prototype);
 Circle.prototype.constructor = Circle;
@@ -607,10 +608,11 @@ Cube.prototype["__destroy__"] = Cube.prototype.__destroy__ = function() {
     _mud_Cube__destroy(self);
 };
 // Cylinder
-function Cylinder(a0, a1, a2) {
+function Cylinder(a0, a1, a2, a3) {
     if (a0 === undefined) { this.ptr = _mud_Cylinder__construct_0(); this.type = Cylinder; getCache(Cylinder)[this.ptr] = this; return; }
     if (a2 === undefined) { this.ptr = _mud_Cylinder__construct_2(/*radius*/a0, /*height*/a1); this.type = Cylinder; getCache(Cylinder)[this.ptr] = this; return; }
-    this.ptr = _mud_Cylinder__construct_3(/*radius*/a0, /*height*/a1, /*axis*/a2); this.type = Cylinder; getCache(Cylinder)[this.ptr] = this;
+    if (a3 === undefined) { this.ptr = _mud_Cylinder__construct_3(/*radius*/a0, /*height*/a1, /*axis*/a2); this.type = Cylinder; getCache(Cylinder)[this.ptr] = this; return; }
+    this.ptr = _mud_Cylinder__construct_4(/*center*/a0.ptr, /*radius*/a1, /*height*/a2, /*axis*/a3); this.type = Cylinder; getCache(Cylinder)[this.ptr] = this;
 };
 Cylinder.prototype = Object.create(Shape.prototype);
 Cylinder.prototype.constructor = Cylinder;
@@ -1051,10 +1053,11 @@ Spheroid.prototype["__destroy__"] = Spheroid.prototype.__destroy__ = function() 
     _mud_Spheroid__destroy(self);
 };
 // Torus
-function Torus(a0, a1, a2) {
+function Torus(a0, a1, a2, a3) {
     if (a0 === undefined) { this.ptr = _mud_Torus__construct_0(); this.type = Torus; getCache(Torus)[this.ptr] = this; return; }
     if (a2 === undefined) { this.ptr = _mud_Torus__construct_2(/*radius*/a0, /*solid_radius*/a1); this.type = Torus; getCache(Torus)[this.ptr] = this; return; }
-    this.ptr = _mud_Torus__construct_3(/*radius*/a0, /*solid_radius*/a1, /*axis*/a2); this.type = Torus; getCache(Torus)[this.ptr] = this;
+    if (a3 === undefined) { this.ptr = _mud_Torus__construct_3(/*radius*/a0, /*solid_radius*/a1, /*axis*/a2); this.type = Torus; getCache(Torus)[this.ptr] = this; return; }
+    this.ptr = _mud_Torus__construct_4(/*center*/a0.ptr, /*radius*/a1, /*solid_radius*/a2, /*axis*/a3); this.type = Torus; getCache(Torus)[this.ptr] = this;
 };
 Torus.prototype = Object.create(Shape.prototype);
 Torus.prototype.constructor = Torus;

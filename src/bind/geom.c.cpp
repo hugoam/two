@@ -403,6 +403,9 @@ extern "C" {
 	mud::Circle* DECL mud_Circle__construct_2(float radius, mud::Axis axis) {
 		return new mud::Circle(radius, axis);
 	}
+	mud::Circle* DECL mud_Circle__construct_3(const mud::vec3* center, float radius, mud::Axis axis) {
+		return new mud::Circle(*center, radius, axis);
+	}
 	float DECL mud_Circle__get_radius(mud::Circle* self) {
 		return self->m_radius;
 	}
@@ -465,6 +468,9 @@ extern "C" {
 	}
 	mud::Cylinder* DECL mud_Cylinder__construct_3(float radius, float height, mud::Axis axis) {
 		return new mud::Cylinder(radius, height, axis);
+	}
+	mud::Cylinder* DECL mud_Cylinder__construct_4(const mud::vec3* center, float radius, float height, mud::Axis axis) {
+		return new mud::Cylinder(*center, radius, height, axis);
 	}
 	float DECL mud_Cylinder__get_radius(mud::Cylinder* self) {
 		return self->m_radius;
@@ -820,6 +826,9 @@ extern "C" {
 	}
 	mud::Torus* DECL mud_Torus__construct_3(float radius, float solid_radius, mud::Axis axis) {
 		return new mud::Torus(radius, solid_radius, axis);
+	}
+	mud::Torus* DECL mud_Torus__construct_4(const mud::vec3* center, float radius, float solid_radius, mud::Axis axis) {
+		return new mud::Torus(*center, radius, solid_radius, axis);
 	}
 	float DECL mud_Torus__get_radius(mud::Torus* self) {
 		return self->m_radius;

@@ -105,7 +105,7 @@ namespace mud
 		: Node3(bxTRS(scale, rotation, position))
 	{}
 
-	void Node3::transform(const vec3& position, const quat& rotation, const vec3& scale)
+	void Node3::apply(const vec3& position, const quat& rotation, const vec3& scale)
 	{
 		m_transform = bxTRS(scale, rotation, position);
 	}

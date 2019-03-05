@@ -37,7 +37,7 @@ void xx_lights_point(Shell app, Widget parent, Dockbar dockbar)
 
 		// GROUND
 
-		var model = app.gfx.shape(Rect(), DrawMode::PLAIN); //new THREE.Mesh(new THREE.PlaneBufferGeometry(800, 400, 2, 2), groundMaterial);
+		var model = app.gfx.shape(new two.Rect()); //new THREE.Mesh(new THREE.PlaneBufferGeometry(800, 400, 2, 2), groundMaterial);
 		var node = two.gfx.nodes(scene) += new two.Node3(new two.vec3(0, -5, 0), new two.quat(-Math.PI / 2.0, 0, 0, 1)));
 		two.gfx.items(scene) += new two.Item(node, model, 0, ground_material));
 #endif
@@ -46,7 +46,7 @@ void xx_lights_point(Shell app, Widget parent, Dockbar dockbar)
 		var material = two.gfx.pbr_material(app.gfx, 'object', new two.Colour(1.0));//, 0.5, 1.0); //new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 1.0 });
 
 		//var torus = Torus();
-		var torus_model = app.gfx.shape(Torus(1.0, 0.1), DrawMode::PLAIN); //new THREE.TorusBufferGeometry(1.5, 0.4, 8, 16);
+		var torus_model = app.gfx.shape(new two.Torus(1.0, 0.1)); //new THREE.TorusBufferGeometry(1.5, 0.4, 8, 16);
 
 		for(int i = 0; i < 5000; i++) {
 

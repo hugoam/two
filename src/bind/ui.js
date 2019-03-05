@@ -1824,8 +1824,9 @@ Module['ui']['title_header'] = function(a0, a1) {
 Module['ui']['dummy'] = function(a0, a1) {
     return wrapPointer(_mud_ui_dummy_2(/*parent*/a0.ptr, /*size*/a1.ptr), Widget);
 };
-Module['ui']['popup'] = function(a0, a1) {
-    return wrapPointer(_mud_ui_popup_2(/*parent*/a0.ptr, /*flags*/a1), Widget);
+Module['ui']['popup'] = function(a0, a1, a2) {
+    if (a2 === undefined) { return wrapPointer(_mud_ui_popup_2(/*parent*/a0.ptr, /*flags*/a1), Widget); }
+    return wrapPointer(_mud_ui_popup_3(/*parent*/a0.ptr, /*size*/a1.ptr, /*flags*/a2), Widget);
 };
 Module['ui']['popup_at'] = function(a0, a1, a2) {
     if (a2 === undefined) { return wrapPointer(_mud_ui_popup_at_2(/*parent*/a0.ptr, /*position*/a1.ptr), Widget); }

@@ -691,7 +691,6 @@ namespace mud
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Cube, mud::Shape>() };
 		// defaults
-		static mud::vec3 extents_default = mud::vec3(0.5f);
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Cube__construct_0, {} },
@@ -704,7 +703,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Cube, m_extents), type<mud::vec3>(), "extents", &extents_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Cube, m_extents), type<mud::vec3>(), "extents", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -797,8 +796,6 @@ namespace mud
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Grid2, mud::Shape>() };
 		// defaults
-		static mud::vec2 size_default = vec2(1.f);
-		static mud::vec2 space_default = vec2(0.1f);
 		static mud::vec2 construct_1_space_default = vec2(1.f);
 		// constructors
 		static Constructor constructors[] = {
@@ -811,8 +808,8 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Grid2, m_size), type<mud::vec2>(), "size", &size_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Grid2, m_space), type<mud::vec2>(), "space", &space_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Grid2, m_size), type<mud::vec2>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Grid2, m_space), type<mud::vec2>(), "space", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members

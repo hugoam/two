@@ -1316,6 +1316,9 @@ extern "C" {
 	mud::Widget* DECL mud_ui_popup_2(mud::Widget* parent, mud::ui::PopupFlags flags) {
 		return &mud::ui::popup(*parent, flags);
 	}
+	mud::Widget* DECL mud_ui_popup_3(mud::Widget* parent, const mud::vec2* size, mud::ui::PopupFlags flags) {
+		return &mud::ui::popup(*parent, *size, flags);
+	}
 	mud::Widget* DECL mud_ui_popup_at_2(mud::Widget* parent, const mud::vec2* position) {
 		return &mud::ui::popup_at(*parent, *position);
 	}

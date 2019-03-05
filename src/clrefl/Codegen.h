@@ -1274,7 +1274,12 @@ namespace clgen
 		auto cramfunc = [](Overloads& o, const CLCallable& f)
 		{
 			for(size_t i = f.m_min_args; i <= f.m_params.size(); ++i)
-				o.sigs.insert({ i, &f });
+			{
+				if(o.sigs.find(i) != o.sigs.end())
+					printf("WARNING: can't bind %s%s:%i (can only overload signatures of different lengths)\n", f.m_parent->m_id.c_str(), f.m_name.c_str(), int(i));
+				else
+					o.sigs.insert({ i, &f });
+			}
 		};
 
 		auto first_overload = [&](OverloadMap& overloads, const CLCallable& f) -> Overloads*
@@ -1296,15 +1301,7 @@ namespace clgen
 			if(fo == nullptr) return;
 
 			Overloads& o = *fo;
-			bool clashes = false;
-			//size_t max_args = (*(o.sigs.end()--)).first;
-			for(size_t i = f.m_min_args; i < f.m_params.size(); ++i)
-				if(o.sigs.find(i) != o.sigs.end())
-					clashes = true;
-			if(!clashes)// && f.m_params.size() > max_args)
-				cramfunc(o, f);
-			else
-				printf("WARNING: can't bind %s%s (can only overload signatures of different lengths)\n", f.m_parent->m_id.c_str(), f.m_name.c_str());
+			cramfunc(o, f);
 		};
 
 		auto c_forward_arg = [&](const CLParam& p)

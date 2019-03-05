@@ -1145,14 +1145,14 @@ extern "C" {
 	mud::Light* DECL mud_Light__construct_3(mud::Node3* node, mud::LightType type, bool shadows) {
 		return new mud::Light(*node, type, shadows);
 	}
-	mud::Light* DECL mud_Light__construct_4(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* colour) {
-		return new mud::Light(*node, type, shadows, *colour);
+	mud::Light* DECL mud_Light__construct_4(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* ) {
+		return new mud::Light(*node, type, shadows, *);
 	}
-	mud::Light* DECL mud_Light__construct_5(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* colour, float energy) {
-		return new mud::Light(*node, type, shadows, *colour, energy);
+	mud::Light* DECL mud_Light__construct_5(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* , float energy) {
+		return new mud::Light(*node, type, shadows, *, energy);
 	}
-	mud::Light* DECL mud_Light__construct_6(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* colour, float energy, float range) {
-		return new mud::Light(*node, type, shadows, *colour, energy, range);
+	mud::Light* DECL mud_Light__construct_6(mud::Node3* node, mud::LightType type, bool shadows, mud::Colour* , float energy, float range) {
+		return new mud::Light(*node, type, shadows, *, energy, range);
 	}
 	mud::Node3* DECL mud_Light__get_node(mud::Light* self) {
 		return &self->m_node;
@@ -2033,14 +2033,20 @@ extern "C" {
 	mud::Node3* DECL mud_Node3__construct_1(const mud::mat4* transform) {
 		return new mud::Node3(*transform);
 	}
-	void DECL mud_Node3_transform_1(mud::Node3* self, const mud::vec3* position) {
-		self->transform(*position);
+	mud::Node3* DECL mud_Node3__construct_2(const mud::vec3* position, const mud::quat* rotation) {
+		return new mud::Node3(*position, *rotation);
 	}
-	void DECL mud_Node3_transform_2(mud::Node3* self, const mud::vec3* position, const mud::quat* rotation) {
-		self->transform(*position, *rotation);
+	mud::Node3* DECL mud_Node3__construct_3(const mud::vec3* position, const mud::quat* rotation, const mud::vec3* scale) {
+		return new mud::Node3(*position, *rotation, *scale);
 	}
-	void DECL mud_Node3_transform_3(mud::Node3* self, const mud::vec3* position, const mud::quat* rotation, const mud::vec3* scale) {
-		self->transform(*position, *rotation, *scale);
+	void DECL mud_Node3_apply_1(mud::Node3* self, const mud::vec3* position) {
+		self->apply(*position);
+	}
+	void DECL mud_Node3_apply_2(mud::Node3* self, const mud::vec3* position, const mud::quat* rotation) {
+		self->apply(*position, *rotation);
+	}
+	void DECL mud_Node3_apply_3(mud::Node3* self, const mud::vec3* position, const mud::quat* rotation, const mud::vec3* scale) {
+		self->apply(*position, *rotation, *scale);
 	}
 	void DECL mud_Node3_derive_2(mud::Node3* self, const mud::Node3* parent, const mud::vec3* position) {
 		self->derive(*parent, *position);
