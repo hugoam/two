@@ -4,6 +4,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/map.h>
+#include <math/Vec.hpp>
 #include <gfx/Renderer.h>
 #include <gfx/Frustum.h>
 #include <gfx/Depth.h>

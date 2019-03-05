@@ -4,6 +4,7 @@
 
 #include <xx_three/xx_three.h>
 
+#include <geom/Primitive.hpp>
 #include <stl/vector.hpp>
 
 #include <cstdio>
