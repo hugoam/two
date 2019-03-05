@@ -234,7 +234,7 @@ namespace mud
 		for(auto& model_tiles : visu.m_tiles)
 		{
 			Material* material = focused == uvec3(UINT32_MAX) ? nullptr : &alpha_material;
-			uint32_t flags = ItemFlag::Default | ItemFlag::Static | (dirty ? 0 : uint32_t(ItemFlag::NoUpdate));
+			uint32_t flags = ItemFlag::Default | ItemFlag::Static | ItemFlag::NoCull | (dirty ? 0 : uint32_t(ItemFlag::NoUpdate));
 			Item& item = gfx::item(self, *model_tiles.first, flags, material);
 			gfx::instances(self, item, model_tiles.second);
 		}

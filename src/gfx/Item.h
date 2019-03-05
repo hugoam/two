@@ -52,7 +52,7 @@ namespace mud
 
 		attr_ Item* m_item = nullptr;
 
-		bgfx::InstanceDataBuffer m_buffer = { 0 };
+		bgfx::InstanceDataBuffer m_buffer;
 		vector<bgfx::InstanceDataBuffer> m_buffers;
 
 		meth_ void update_aabb(span<mat4> instances);

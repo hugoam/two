@@ -268,7 +268,7 @@ namespace
 		{
 			vec2 begin = curve.point(i);
 			vec2 end = curve.point(i + 1);
-			vg.path_bezier(begin, begin + vec2(distance, 0.f), end - (distance, 0.f), end, false);
+			vg.path_bezier(begin, begin + vec2(distance, 0.f), end - vec2(distance, 0.f), end, false);
 			vg.stroke(paint);
 		}
 	}

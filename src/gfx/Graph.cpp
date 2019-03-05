@@ -208,6 +208,7 @@ namespace gfx
 		if(!self.m_batch)
 		{
 			self.m_batch = &create<Batch>(*self.m_scene, item);
+			item.m_batch = self.m_batch;
 		}
 		self.m_batch->transforms(transforms);
 		self.m_batch->update_aabb(transforms);
