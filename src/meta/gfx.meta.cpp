@@ -1541,12 +1541,12 @@ namespace mud
 		static float shadow_bias_default = 0.f;
 		static mud::LightType construct_0_type_default = mud::LightType::Point;
 		static bool construct_0_shadows_default = false;
-		static mud::Colour construct_0__default = mud::Colour::White;
+		static mud::Colour construct_0_colour_default = mud::Colour::White;
 		static float construct_0_energy_default = 1.f;
 		static float construct_0_range_default = 1.f;
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Light__construct_0, { { "node", type<mud::Node3>(),  }, { "type", type<mud::LightType>(), Param::Default, &construct_0_type_default }, { "shadows", type<bool>(), Param::Default, &construct_0_shadows_default }, { "", type<mud::Colour>(), Param::Default, &construct_0__default }, { "energy", type<float>(), Param::Default, &construct_0_energy_default }, { "range", type<float>(), Param::Default, &construct_0_range_default } } }
+			{ t, mud_Light__construct_0, { { "node", type<mud::Node3>(),  }, { "type", type<mud::LightType>(), Param::Default, &construct_0_type_default }, { "shadows", type<bool>(), Param::Default, &construct_0_shadows_default }, { "colour", type<mud::Colour>(), Param::Default, &construct_0_colour_default }, { "energy", type<float>(), Param::Default, &construct_0_energy_default }, { "range", type<float>(), Param::Default, &construct_0_range_default } } }
 		};
 		// copy constructor
 		// members

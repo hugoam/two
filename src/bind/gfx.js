@@ -1733,9 +1733,9 @@ function Light(a0, a1, a2, a3, a4, a5) {
     if (a1 === undefined) { this.ptr = _mud_Light__construct_1(/*node*/a0.ptr); this.type = Light; getCache(Light)[this.ptr] = this; return; }
     if (a2 === undefined) { this.ptr = _mud_Light__construct_2(/*node*/a0.ptr, /*type*/a1); this.type = Light; getCache(Light)[this.ptr] = this; return; }
     if (a3 === undefined) { this.ptr = _mud_Light__construct_3(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2); this.type = Light; getCache(Light)[this.ptr] = this; return; }
-    if (a4 === undefined) { this.ptr = _mud_Light__construct_4(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2, /**/a3.ptr); this.type = Light; getCache(Light)[this.ptr] = this; return; }
-    if (a5 === undefined) { this.ptr = _mud_Light__construct_5(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2, /**/a3.ptr, /*energy*/a4); this.type = Light; getCache(Light)[this.ptr] = this; return; }
-    this.ptr = _mud_Light__construct_6(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2, /**/a3.ptr, /*energy*/a4, /*range*/a5); this.type = Light; getCache(Light)[this.ptr] = this;
+    if (a4 === undefined) { this.ptr = _mud_Light__construct_4(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.ptr); this.type = Light; getCache(Light)[this.ptr] = this; return; }
+    if (a5 === undefined) { this.ptr = _mud_Light__construct_5(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.ptr, /*energy*/a4); this.type = Light; getCache(Light)[this.ptr] = this; return; }
+    this.ptr = _mud_Light__construct_6(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.ptr, /*energy*/a4, /*range*/a5); this.type = Light; getCache(Light)[this.ptr] = this;
 };
 Light.prototype = Object.create(WrapperObject.prototype);
 Light.prototype.constructor = Light;
