@@ -87,13 +87,13 @@ void xx_interact_cubes_gpu(Shell& app, Widget& parent, Dockbar& dockbar)
 			};
 
 			paint(geometry, rgb(randi() * 0xffffff));
-			geometry.pack_vertices(MeshAdapter(), bxTRS(s, quat(a), p));
+			//geometry.pack_vertices(MeshAdapter(), bxTRS(s, quat(a), p));
 			//geometriesDrawn.push(geometry);
 
 			//geometry = geometry.clone();
 
 			paint(geometry, rgb(i));
-			geometry.pack_vertices(MeshAdapter(), bxTRS(s, quat(a), p));
+			//geometry.pack_vertices(MeshAdapter(), bxTRS(s, quat(a), p));
 			//geometriesPicking.push(geometry);
 
 			objects[i] = { p, quat(a), s };

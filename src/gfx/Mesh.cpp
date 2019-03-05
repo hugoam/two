@@ -83,6 +83,11 @@ namespace mud
 		return decls[vertex_format];
 	}
 
+	GpuMesh::GpuMesh() {}
+	GpuMesh::GpuMesh(PrimitiveType primitive, uint32_t vertex_count, uint32_t index_count)
+		: m_primitive(primitive), m_vertex_count(vertex_count), m_index_count(index_count)
+	{}
+
 	GpuMesh alloc_mesh(PrimitiveType primitive, uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
 	{
 		GpuMesh gpu_mesh = { primitive, vertex_count, index_count };

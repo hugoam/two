@@ -20,10 +20,8 @@ namespace mud
 {
 	export_ struct refl_ MUD_GFX_EXPORT GpuMesh
 	{
-		GpuMesh() {}
-		GpuMesh(PrimitiveType primitive, uint32_t vertex_count, uint32_t index_count)
-			: m_primitive(primitive), m_vertex_count(vertex_count), m_index_count(index_count)
-		{}
+		GpuMesh();
+		GpuMesh(PrimitiveType primitive, uint32_t vertex_count, uint32_t index_count);
 
 		PrimitiveType m_primitive = PrimitiveType::Triangles;
 		uint32_t m_vertex_format = 0;
