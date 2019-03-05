@@ -17,7 +17,6 @@ void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar)
 	Scene& scene = viewer.m_scene;
 
 	static Program& normal = app.m_gfx.programs().fetch("normal");
-	normal.m_blocks[MaterialBlock::Pbr] = true;
 
 	static Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
 		m.m_program = &normal;

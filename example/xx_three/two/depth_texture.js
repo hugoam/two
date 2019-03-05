@@ -54,7 +54,7 @@ static string fragment_shader()
 
 void xx_depth_texture(Shell app, Widget parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
 
 	//var controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -80,11 +80,11 @@ void xx_depth_texture(Shell app, Widget parent, Dockbar dockbar)
 		//var geometry = new THREE.TorusKnotBufferGeometry(1, 0.3, 128, 64);
 
 		// Setup some geometries
-		Material material = app.gfx.materials().create('material', [](var m) {
+		Material material = app.gfx.materials.create('material', [](var m) {
 			m.solid.colour = Colour::Blue;
 		});
 
-		var count = 50U;
+		var count = 50;
 		var scale = 5.0;
 
 		for(var i = 0; i < count; i++)
@@ -95,8 +95,8 @@ void xx_depth_texture(Shell app, Widget parent, Dockbar dockbar)
 
 			var p = new two.vec3(Math.cos(r) * distscale, Math.sin(r) * distscale, z * scale);
 			var a = new two.vec3(Math.random(), Math.random(), Math.random());
-			var n = two.gfx.nodes(scene).add(new two.Node3(p));
-			two.gfx.items(scene).add(new two.Item(n, geometry, 0U, material));
+			var n = scene.nodes().add(new two.Node3(p));
+			scene.items().add(new two.Item(n, geometry, 0, material));
 		}
 
 		// Create a multi render target with Float buffers

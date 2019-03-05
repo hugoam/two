@@ -18,7 +18,7 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 	var r = 800.0;
 	var r2 = r / 2.0;
 
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;
@@ -43,11 +43,11 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 
 	constexpr uint32_t segments = max_particles * max_particles;
 
-	this.pointprog = app.gfx.programs().fetch('point');
-	this.lineprog = app.gfx.programs().fetch('line');
+	this.pointprog = app.gfx.programs.fetch('point');
+	this.lineprog = app.gfx.programs.fetch('line');
 
 	//var material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
-	this.pointmat = app.gfx.materials().create('point', [](var m) {
+	this.pointmat = app.gfx.materials.create('point', [](var m) {
 		m.program = pointprog;
 		m.base.blend_mode = BlendMode::Add;
 #if INSTANCING
@@ -61,7 +61,7 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 		m.point.point_size = 3.0;
 	});
 
-	this.linemat = app.gfx.materials().create('line', [](var m) {
+	this.linemat = app.gfx.materials.create('line', [](var m) {
 		m.program = lineprog;
 		m.base.geometry_filter = uint32_t(1 << uint(PrimitiveType::Lines));
 		m.base.blend_mode = BlendMode::Add;
@@ -90,7 +90,7 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 		camera.eye.z = 1750.0;
 
 #if INSTANCING
-		var points_model = app.gfx.models().get('point');
+		var points_model = app.gfx.models.get('point');
 #else
 		MeshPacker pointgeom; // = new THREE.BufferGeometry();
 		pointgeom.primitive = PrimitiveType::Points;
@@ -104,34 +104,34 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 			pointgeom.positions.push(p);
 			pointgeom.indices.push(i);
 #endif
-			particles.push({ p, v, 0U });
+			particles.push({ p, v, 0 });
 		}
 
 #if !INSTANCING
 		var model = app.gfx.create_model('particles', geometry, false, dynamic = true);
-		points_mesh->range = { 0U, nuparticles };
+		points_mesh->range = { 0, nuparticles };
 #endif
 
-		var n = two.gfx.nodes(scene).add(new two.Node3());
-		var p = two.gfx.items(scene).add(new two.Item(n, points_model, 0U, pointmat));
+		var n = scene.nodes().add(new two.Node3());
+		var p = scene.items().add(new two.Item(n, points_model, 0, pointmat));
 
 #if INSTANCING
 		points_batch = two.gfx.batches(scene).add(new two.Batch(p));
 		p.batch = points_batch;
 #endif
 
-		var lines_model = app.gfx.models().create('segments');
+		var lines_model = app.gfx.models.create('segments');
 		lines_mesh = lines_model.add_mesh('segments', true);
 
 		GpuMesh gpu_mesh = alloc_mesh(PrimitiveType::Lines, VertexAttribute::Position | VertexAttribute::Colour, segments, segments * 2);
 		gpu_mesh.dynamic = true;
 		lines_mesh->upload(gpu_mesh);
-		lines_mesh->range = { 0U, 0U };
+		lines_mesh->range = { 0, 0 };
 
 		//geometry.computeBoundingnew two.Sphere();
 
-		var n1 = two.gfx.nodes(scene).add(new two.Node3());
-		var lines = two.gfx.items(scene).add(new two.Item(n1, lines_model, 0U, linemat));
+		var n1 = scene.nodes().add(new two.Node3());
+		var lines = scene.items().add(new two.Item(n1, lines_model, 0, linemat));
 	}
 
 	uint32_t numConnected = 0;
@@ -142,7 +142,7 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 #if INSTANCING
 	struct Point { vec4 d0; vec4 d1; };
 	span<float> memory = points_batch->begin(nuparticles, sizeof(Point));
-	span<Point> points = { (Point*)memory.data(), memory.size() * sizeof(float) / sizeof(Point) };
+	span<Point> points = { (Point*)memory.data(), memory.length * sizeof(float) / sizeof(Point) };
 #else
 	GpuMesh gpu_points = points_mesh->begin();
 	GpuMesh gpu_lines = lines_mesh->begin();
@@ -209,7 +209,7 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 	points_mesh->update(gpu_points);
 
 	lines_mesh->update(gpu_lines);
-	lines_mesh->range = { 0U, numConnected * 2U };
+	lines_mesh->range = { 0, numConnected * 2U };
 #endif
 
 	var time = app.gfx.time;

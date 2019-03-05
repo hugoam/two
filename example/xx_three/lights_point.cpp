@@ -47,7 +47,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 		Material& material = gfx::pbr_material(app.m_gfx, "object", Colour(1.f));//, 0.5f, 1.0f); //new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5f, metalness: 1.0f });
 
 		//var torus = Torus();
-		Model& torus_model = app.m_gfx.shape(Torus(1.f, 0.1f)); //new THREE.TorusBufferGeometry(1.5, 0.4, 8, 16);
+		Model& torus_model = app.m_gfx.shape(Torus(1.5f, 0.4f)); //new THREE.TorusBufferGeometry(1.5, 0.4, 8, 16);
 
 		for(int i = 0; i < 5000; i++) {
 
@@ -59,12 +59,10 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 			float b = 3.14f * (0.5f - randf());
 
 			uint32_t flags = ItemFlag::Default;// | ItemFlag::NoCull;
-			Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(a, b, 0, 1)));
+			//Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(a, b, 0, 1)));
+			Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(vec3(a, b, 0.f))));
 			Item& it = gfx::items(scene).add(Item(n, torus_model, flags, &material));
 			UNUSED(it);
-
-			//Gnode& n = gfx::node(root, {}, vec3(x, y, z));
-			//gfx::item(n, torus_model, 0, &material);
 		}
 
 		// LIGHTS
@@ -75,7 +73,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		uint32_t colours[] = { 0xff0040, 0x0040ff, 0x80ff80, 0xffaa00, 0x00ffaa, 0xff1100 };
 
-		Sphere sphere = Sphere(2.5f); //THREE.SphereBufferGeometry(0.25, 16, 8);
+		Sphere sphere = Sphere(0.25f); //THREE.SphereBufferGeometry(0.25, 16, 8);
 		Model& sphere_model = app.m_gfx.shape(sphere);
 
 		for(int i = 0; i < 6; ++i)
@@ -101,20 +99,19 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 	}
 
 	Gnode& root = viewer.m_scene.begin();
-	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
+	//gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
+	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	float coef0[] = { 0.7f, 0.3f, 0.7f, 0.3f, 0.3f, 0.7f };
 	float coef1[] = { 0.3f, 0.7f, 0.5f, 0.5f, 0.5f, 0.5f };
 
-	//var time = Date.now() * 0.00025;
 	float d = 150;
 
-	static float time = 0.f;
-	time += 0.01f;
+	const float time = app.m_gfx.m_time * 0.2f;
 
 	for(int i = 0; i < 6; ++i)
 	{
-		vec2 pos = { sin(time * coef0[i]) * d, cos(time * coef1[i]) * d };
-		lights[i]->m_transform = bxSRT(vec3(1.f), ZeroQuat, vec3(pos.x, 0.f, pos.y));
+		vec2 pos = vec2(sin(time * coef0[i]) * d, cos(time * coef1[i]) * d);
+		lights[i]->apply(vec3(pos.x, 0.f, pos.y));
 	}
 }

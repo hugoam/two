@@ -42,7 +42,7 @@ var model_suzanne(GfxSystem gfx)
 
 void xx_performance(Shell app, Widget parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;
@@ -58,10 +58,10 @@ void xx_performance(Shell app, Widget parent, Dockbar dockbar)
 	struct Object { Node3* node; var position; var angles; var scale; };
 	static vector<Object> objects = {};
 
-	this.normal = app.gfx.programs().fetch('normal');
+	this.normal = app.gfx.programs.fetch('normal');
 	normal.blocks[MaterialBlock::Pbr] = true;
 
-	this.material = app.gfx.materials().create('normal', [](var m) {
+	this.material = app.gfx.materials.create('normal', [](var m) {
 		m.program = normal;
 	});
 
@@ -89,8 +89,8 @@ void xx_performance(Shell app, Widget parent, Dockbar dockbar)
 
 			//var mesh = new THREE.Mesh(geometry, material);
 
-			var n = two.gfx.nodes(scene).add(new two.Node3(position, new two.quat(angles), scale));
-			var it = two.gfx.items(scene).add(new two.Item(n, suzanne, 0U, material));
+			var n = scene.nodes().add(new two.Node3(position, new two.quat(angles), scale));
+			var it = scene.items().add(new two.Item(n, suzanne, 0, material));
 
 			objects.push({ n, position, angles, scale });
 		}
@@ -112,11 +112,11 @@ void xx_performance(Shell app, Widget parent, Dockbar dockbar)
 		o.angles.x += 0.01;
 		o.angles.y += 0.02;
 
-		o.node->transform = bxTRS(o.scale, new two.quat(o.angles), o.position);
+		o.node.apply(o.scale, new two.quat(o.angles), o.position);
 	}
 
 	Gnode root = scene.begin();
 	two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', BackgroundMode::Radiance);
 
-	two.gfx.shape(root, new two.Sphere(), new two.Symbol(), 0U, material);
+	two.gfx.shape(root, new two.Sphere(), new two.Symbol(), 0, material);
 }

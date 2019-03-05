@@ -12,7 +12,7 @@ using namespace mud;
 
 void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;
@@ -20,7 +20,7 @@ void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
 	//var loader = new THREE.FontLoader();
 	//loader.load('fonts/gentilis_regular.typeface.json', function(font) {
 
-	this.pbr = app.gfx.programs().file('pbr/pbr');
+	this.pbr = app.gfx.programs.file('pbr/pbr');
 
 	this.light = nullptr;
 
@@ -42,7 +42,7 @@ void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
 
 		// Materials
 
-		Texture texture = app.gfx.textures().file('planets/moon_1024.jpg');
+		Texture texture = app.gfx.textures.file('planets/moon_1024.jpg');
 		//imgTexture.anisotropy = 16;
 
 		var subdiv = 5;
@@ -61,7 +61,7 @@ void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
 					// basic monochromatic energy preservation
 					Colour diffuse = two.hsl(alpha, 0.5, gamma * 0.5 + 0.1);
 
-					this.material = app.gfx.materials().create('material', [](var m) {
+					this.material = app.gfx.materials.create('material', [](var m) {
 						m.program = pbr;
 						m.pbr.albedo = diffuse;
 						m.pbr.albedo = texture;
@@ -76,8 +76,8 @@ void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
 
 					var p = new two.vec3(alpha, beta, gamma) * 400.0 - 200.0;
 
-					var node = two.gfx.nodes(scene).add(new two.Node3());
-					two.gfx.items(scene).add(new two.Item(node, geometry, 0U, material));
+					var node = scene.nodes().add(new two.Node3());
+					scene.items().add(new two.Item(node, geometry, 0, material));
 				}
 
 
@@ -110,13 +110,13 @@ void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
 		//addLabel('+diffuse', new THREE.Vector3(0, 0, 300));
 
 		var sphere = app.gfx.shape(new two.Sphere(4.0));
-		var l = two.gfx.nodes(scene).add(new two.Node3());
-		var il = two.gfx.items(scene).add(new two.Item(l, sphere, 0U, two.gfx.solid_material(app.gfx, 'light', new two.Colour(1.0))));
-		Light ll = two.gfx.lights(scene).add(Light(l, LightType::Point, false, two.rgba(0xffffff), 2.0, 800.0));
+		var l = scene.nodes().add(new two.Node3());
+		var il = scene.items().add(new two.Item(l, sphere, 0, two.gfx.solid_material(app.gfx, 'light', new two.Colour(1.0))));
+		Light ll = scene.lights().add(Light(l, LightType::Point, false, two.rgba(0xffffff), 2.0, 800.0));
 		light = l;
 
-		var dl = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(-1.0, -1.0, -1.0)))));
-		two.gfx.lights(scene).add(Light(dl, LightType::Direct, false, two.rgba(0xffffff)));
+		var dl = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(-1.0, -1.0, -1.0)))));
+		scene.lights().add(Light(dl, LightType::Direct, false, two.rgba(0xffffff)));
 
 		//renderer.toneMapping = THREE.Uncharted2ToneMapping;
 		//renderer.toneMappingExposure = 0.75;
@@ -130,5 +130,5 @@ void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
 	//camera.lookAt(scene.position);
 
 	var p = new two.vec3(Math.sin(time * 7.0) * 300.0, Math.cos(time * 5.0) * 400.0, Math.cos(time * 3.0) * 300.0);
-	light->transform = bxTRS(new two.vec3(1.0), ZeroQuat, p);
+	light.apply(new two.vec3(1.0), ZeroQuat, p);
 }

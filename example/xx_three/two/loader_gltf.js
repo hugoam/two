@@ -13,7 +13,7 @@ void xx_loader_gltf(Shell app, Widget parent, Dockbar dockbar)
 {
 	static ImporterGltf importer_gltf = { app.gfx };
 
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
 
 	//controls.target.set(0, -0.2, -0.2);
@@ -40,9 +40,9 @@ void xx_loader_gltf(Shell app, Widget parent, Dockbar dockbar)
 		//light.position.set(0, 1, 0);
 		//scene.add(light);
 
-		var model = app.gfx.models().file('DamagedHelmet'); // .gltf');
+		var model = app.gfx.models.file('DamagedHelmet'); // .gltf');
 
-		var n = two.gfx.nodes(scene).add(new two.Node3());
-		var i = two.gfx.items(scene).add(new two.Item(n, model));
+		var n = scene.nodes().add(new two.Node3());
+		var i = scene.items().add(new two.Item(n, model));
 	}
 }

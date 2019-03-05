@@ -11,7 +11,7 @@
 
 void xx_sprites(Shell app, Widget parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	two.ui.orbit_controller(viewer);
 
 	//camera = new THREE.PerspectiveCamera(60, width / height, 1, 2100);
@@ -29,9 +29,9 @@ void xx_sprites(Shell app, Widget parent, Dockbar dockbar)
 	var amount = 200;
 	var radius = 500;
 
-	Texture sprites0 = app.gfx.textures().file('sprite0.png');
+	Texture sprites0 = app.gfx.textures.file('sprite0.png');
 
-	var material = app.gfx.materials().create('sprite0', [](var m) {
+	var material = app.gfx.materials.create('sprite0', [](var m) {
 		//m.program = SpriteMaterial;
 		//m.sprite.color = sprites0;
 		}); // new THREE.SpriteMaterial({ map: texture });
@@ -69,16 +69,16 @@ void xx_sprites(Shell app, Widget parent, Dockbar dockbar)
 		//updateHUDSprites();
 	}
 
-	Texture mapB = app.gfx.textures().file('sprite1.png');
-	Texture mapC = app.gfx.textures().file('sprite2.png');
+	Texture mapB = app.gfx.textures.file('sprite1.png');
+	Texture mapC = app.gfx.textures.file('sprite2.png');
 
 	//group = new THREE.Group();
 
-	var materialC = app.gfx.materials().create('sprite0', [](var m) {
+	var materialC = app.gfx.materials.create('sprite0', [](var m) {
 		});
 	//new THREE.SpriteMaterial({ map: mapC, color : 0xffffff, fog : true });
 
-	var materialB = app.gfx.materials().create('sprite0', [](var m) {
+	var materialB = app.gfx.materials.create('sprite0', [](var m) {
 		});
 	//new THREE.SpriteMaterial({ map: mapB, color: 0xffffff, fog: true });
 

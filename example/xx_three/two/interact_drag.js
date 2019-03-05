@@ -1,79 +1,66 @@
-//#include <mud/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
+var viewer = two.ui.scene_viewer(app.ui.begin());
 
-#include <xx_three/xx_three.h>
+TrackballController controls = two.ui.trackball_controller(viewer);
+controls.staticMoving = true;
+controls.dynamicDampingFactor = 0.3;
 
-#include <stl/vector.hpp>
+var scene = viewer.scene;
 
-using namespace mud;
+static vector<Node3*> objects;
 
-void xx_interact_drag(Shell app, Widget parent, Dockbar dockbar)
+static bool once = false;
+if(!once)
 {
-	var viewer = two.ui.scene_viewer(parent);
+    once = true;
 
-	TrackballController controls = two.ui.trackball_controller(viewer);
-	controls.staticMoving = true;
-	controls.dynamicDampingFactor = 0.3;
+    var camera = viewer.camera;
+    camera.fov = 70.0; camera.near = 1.0; camera.far = 5000.0;
+    camera.eye.z = 1000.0;
 
-	var scene = viewer.scene;
+    //scene.background = new THREE.Color(0xf000);
 
-	static vector<Node3*> objects;
+    //scene.add(new THREE.AmbientLight(0x505050));
 
-	static bool once = false;
-	if(!once)
-	{
-		once = true;
+    //var light = new THREE.SpotLight(0xffffff, 1.5);
+    //light.position.set(0, 500, 2000);
+    //light.angle = PI / 9;
+    //
+    //light.castShadow = true;
+    //light.shadow.camera.near = 1000;
+    //light.shadow.camera.far = 4000;
+    //light.shadow.mapSize.width = 1024;
+    //light.shadow.mapSize.height = 1024;
+    //
+    //scene.add(light);
 
-		var camera = viewer.camera;
-		camera.fov = 70.0; camera.near = 1.0; camera.far = 5000.0;
-		camera.eye.z = 1000.0;
+    var geometry = app.gfx.shape(new two.Cube(20.0));
 
-		//scene.background = new THREE.Color(0xf000);
+    for(var i = 0; i < 200; i++)
+    {
+        var p = new two.vec3(Math.random() * 1000.0 - 500.0, Math.random() * 600.0 - 300.0, Math.random() * 800.0 - 400.0);
+        var a = new two.vec3(Math.random(), Math.random(), Math.random()) * 2 * Math.PI;
+        var s = new two.vec3(Math.random(), Math.random(), Math.random()) * 2.0 + 1.0;
 
-		//scene.add(new THREE.AmbientLight(0x505050));
+        var material = two.gfx.pbr_material(app.gfx, 'material' + to_string(i), rgb(Math.random() * 0xffffff));
+        var n = scene.nodes().add(new two.Node3(p, new two.quat(a), s));
+        scene.items().add(new two.Item(n, geometry, 0, material));
 
-		//var light = new THREE.SpotLight(0xffffff, 1.5);
-		//light.position.set(0, 500, 2000);
-		//light.angle = PI / 9;
-		//
-		//light.castShadow = true;
-		//light.shadow.camera.near = 1000;
-		//light.shadow.camera.far = 4000;
-		//light.shadow.mapSize.width = 1024;
-		//light.shadow.mapSize.height = 1024;
-		//
-		//scene.add(light);
+        objects.push(n);
+    }
 
-		var geometry = app.gfx.shape(new two.Cube(20.0));
+    //renderer.shadowMap.enabled = true;
+    //renderer.shadowMap.type = THREE.PCFShadowMap;
 
-		for(var i = 0; i < 200; i++)
-		{
-			var p = new two.vec3(Math.random() * 1000.0 - 500.0, Math.random() * 600.0 - 300.0, Math.random() * 800.0 - 400.0);
-			var a = new two.vec3(Math.random(), Math.random(), Math.random()) * 2 * Math.PI;
-			var s = new two.vec3(Math.random(), Math.random(), Math.random()) * 2.0 + 1.0;
+    //var dragControls = new THREE.DragControls(objects, camera, renderer.domElement);
+    //dragControls.addEventListener('dragstart', function() {
+    //
+    //	controls.enabled = false;
+    //
+    //});
+    //dragControls.addEventListener('dragend', function() {
+    //
+    //	controls.enabled = true;
+    //
+    //});
 
-			var material = two.gfx.pbr_material(app.gfx, 'material' + to_string(i), rgb(Math.random() * 0xffffff));
-			var n = two.gfx.nodes(scene).add(new two.Node3(p, new two.quat(a), s));
-			two.gfx.items(scene).add(new two.Item(n, geometry, 0U, material));
-
-			objects.push(n);
-		}
-
-		//renderer.shadowMap.enabled = true;
-		//renderer.shadowMap.type = THREE.PCFShadowMap;
-
-		//var dragControls = new THREE.DragControls(objects, camera, renderer.domElement);
-		//dragControls.addEventListener('dragstart', function() {
-		//
-		//	controls.enabled = false;
-		//
-		//});
-		//dragControls.addEventListener('dragend', function() {
-		//
-		//	controls.enabled = true;
-		//
-		//});
-
-	}
 }

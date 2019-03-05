@@ -10,7 +10,7 @@ using namespace mud;
 
 void xx_interact_cubes_gpu(Shell app, Widget parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	TrackballController controls = two.ui.trackball_controller(viewer);
 
 	controls.staticMoving = true;
@@ -28,10 +28,10 @@ void xx_interact_cubes_gpu(Shell app, Widget parent, Dockbar dockbar)
 	//var mouse = new THREE.Vector2();
 	//var offset = new THREE.Vector3(10, 10, 10);
 	
-	this.pbr = app.gfx.programs().file('pbr/pbr');
+	this.pbr = app.gfx.programs.file('pbr/pbr');
 
 	//var defaultMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading : true, vertexColors : THREE.VertexColors, shininess : 0 });
-	this.material = app.gfx.materials().create('material',  [](var m) {
+	this.material = app.gfx.materials.create('material',  [](var m) {
 		m.program = pbr;
 		m.base.shader_color = ShaderColor::Vertex;
 		m.pbr.albedo = rgb(0xffffff);
@@ -56,8 +56,8 @@ void xx_interact_cubes_gpu(Shell app, Widget parent, Dockbar dockbar)
 
 		//scene.add(new THREE.AmbientLight(0x555555));
 
-		var l = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(0.0, 500.0, 2000.0)));
-		Light light = two.gfx.lights(scene).add(Light(l, LightType::Spot, false, rgb(0xffffff), 1.5));
+		var l = scene.nodes().add(new two.Node3(new two.vec3(0.0, 500.0, 2000.0)));
+		Light light = scene.lights().add(Light(l, LightType::Spot, false, rgb(0xffffff), 1.5));
 
 		//var pickingMaterial = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
 
@@ -81,7 +81,7 @@ void xx_interact_cubes_gpu(Shell app, Widget parent, Dockbar dockbar)
 
 			function paint = [](MeshPacker geometry, Colour color)
 			{
-				for(var i = 0; i < geometry.positions.size(); ++i)
+				for(var i = 0; i < geometry.positions.length; ++i)
 					geometry.colours.push(color);
 			};
 

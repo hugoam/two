@@ -50,7 +50,7 @@ string create_shader()
 void xx_shader(Shell app, Widget parent, Dockbar dockbar)
 {
 	UNUSED(app);
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	two.ui.orbit_controller(viewer);
 
 	Gnode scene = viewer.scene.begin();

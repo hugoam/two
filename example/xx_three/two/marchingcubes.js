@@ -203,7 +203,7 @@ void upload_cubes(MarchingCubes cubes, Mesh mesh)
 	Mesh::Direct direct = mesh.direct(vertex_format, vertex_count);
 
 	MeshAdapter writer = { vertex_format, { direct.vertices.data, vertex_count } };
-	for(var i = 0; i < geometry.positions.size(); ++i)
+	for(var i = 0; i < geometry.positions.length; ++i)
 	{
 		writer.position(geometry.positions[i]);
 		writer.normal(geometry.normals[i]);
@@ -214,7 +214,7 @@ void upload_cubes(MarchingCubes cubes, Mesh mesh)
 
 void xx_marching_cubes(Shell app, Widget parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;
@@ -253,22 +253,22 @@ void xx_marching_cubes(Shell app, Widget parent, Dockbar dockbar)
 	constexpr uint32_t resolution = 28;
 
 #if NORMAL
-	this.normal = app.gfx.programs().fetch('normal');
+	this.normal = app.gfx.programs.fetch('normal');
 	normal.blocks[MaterialBlock::Pbr] = true;
 
-	this.material = app.gfx.materials().create('normal', [](var m) {
+	this.material = app.gfx.materials.create('normal', [](var m) {
 		m.program = normal;
 	});
 #else
-	this.pbr = app.gfx.programs().file('pbr/pbr');
+	this.pbr = app.gfx.programs.file('pbr/pbr');
 
-	this.material = app.gfx.materials().create('material', [](var m) {
-		m.program = pbr; m.pbr.albedo = two.rgba(0xaaaaaaff); m.pbr.metallic = 0.0; m.pbr.roughness = 0.66f;
+	this.material = app.gfx.materials.create('material', [](var m) {
+		m.program = pbr; m.pbr.albedo = two.rgba(0xaaaaaaff); m.pbr.metallic = 0.0; m.pbr.roughness = 0.66;
 		//m.base.cull_mode = two.CullMode.None;
 	});
 #endif
 
-	this.reflection = app.gfx.textures().file('SwedishRoyalCastle.cube');
+	this.reflection = app.gfx.textures.file('SwedishRoyalCastle.cube');
 	this.refraction = reflection;
 	//refractionCube.mapping = THREE.CubeRefractionMapping;
 
@@ -292,11 +292,11 @@ void xx_marching_cubes(Shell app, Widget parent, Dockbar dockbar)
 
 		//scene.background = new THREE.Color(0x050505);
 
-		var l0 = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(0.0), new two.quat(facing(new two.vec3(0.5, 0.5, 1.0)))));
-		two.gfx.lights(scene).add(Light(l0, LightType::Direct, false, rgb(0xffffff)));
+		var l0 = scene.nodes().add(new two.Node3(new two.vec3(0.0), new two.quat(facing(new two.vec3(0.5, 0.5, 1.0)))));
+		scene.lights().add(Light(l0, LightType::Direct, false, rgb(0xffffff)));
 		
-		var l1 = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(0.0, 0.0, 100.0)));
-		two.gfx.lights(scene).add(Light(l1, LightType::Point, false, rgb(0xff3300)));
+		var l1 = scene.nodes().add(new two.Node3(new two.vec3(0.0, 0.0, 100.0)));
+		scene.lights().add(Light(l1, LightType::Point, false, rgb(0xff3300)));
 
 		//ambientLight = new THREE.AmbientLight(0x080808);
 		//scene.add(ambientLight);
@@ -304,8 +304,8 @@ void xx_marching_cubes(Shell app, Widget parent, Dockbar dockbar)
 		//materials = generateMaterials();
 		//string current_material = 'shiny';
 
-		var n = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(0.0), ZeroQuat, new two.vec3(700.0)));
-		two.gfx.items(scene).add(new two.Item(n, model, 0U, material));
+		var n = scene.nodes().add(new two.Node3(new two.vec3(0.0), ZeroQuat, new two.vec3(700.0)));
+		scene.items().add(new two.Item(n, model, 0, material));
 
 		// COMPOSER
 
@@ -357,7 +357,7 @@ void xx_marching_cubes(Shell app, Widget parent, Dockbar dockbar)
 	Gnode root = viewer.scene.begin();
 	two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', BackgroundMode::Radiance);
 
-	//two.gfx.shape(root, new two.Sphere(500.0), new two.Symbol(), 0U, material);
+	//two.gfx.shape(root, new two.Sphere(500.0), new two.Symbol(), 0, material);
 
 	//static var h, s, l;
 	//

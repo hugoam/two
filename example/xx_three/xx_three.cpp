@@ -8,7 +8,7 @@ using namespace mud;
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	xx_lights_point(app, parent, dockbar);
+	//xx_lights_point(app, parent, dockbar);
 	//xx_shadow_point(app, parent, dockbar);
 	//xx_shader(app, parent, dockbar);
 	//xx_shader_lava(app, parent, dockbar);

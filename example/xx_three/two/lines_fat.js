@@ -36,7 +36,7 @@ struct Lines // LineSegmentsGeometry
 
 	void compute_distances()
 	{
-		for(var i = 0; i < segments.size(); ++i)
+		for(var i = 0; i < segments.length; ++i)
 		{
 			Segment seg = segments[i];
 			seg.start_distance = i > 0 ? segments[i-1].end_distance : 0.0;
@@ -73,7 +73,7 @@ struct Lines // LineSegmentsGeometry
 
 void xx_lines_fat(Shell app, Widget parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	two.ui.orbit_controller(viewer);
 	//controls.minDistance = 10;
 	//controls.maxDistance = 500;
@@ -83,9 +83,9 @@ void xx_lines_fat(Shell app, Widget parent, Dockbar dockbar)
 	//camera2 = new THREE.PerspectiveCamera(40, 1, 1, 1000);
 	//camera2.position.copy(camera.position);
 	
-	this.program = app.gfx.programs().fetch('line');
+	this.program = app.gfx.programs.fetch('line');
 
-	this.material = app.gfx.materials().create('line', [](var m) {
+	this.material = app.gfx.materials.create('line', [](var m) {
 		m.program = program;
 		m.solid.colour = rgb(0xffffff);
 		m.line.line_width = 5.0;
@@ -110,7 +110,7 @@ void xx_lines_fat(Shell app, Widget parent, Dockbar dockbar)
 		vector<vec3> points = hilbert3d(new two.vec3(0.0), 20.0, 1);
 
 		CurveCatmullRom3 curve = { points };
-		uint32_t divisions = round(12 * points.size());
+		uint32_t divisions = round(12 * points.length);
 		var l = float(divisions);
 
 		for(int i = 0; i < divisions - 1; i++)
@@ -128,8 +128,8 @@ void xx_lines_fat(Shell app, Widget parent, Dockbar dockbar)
 
 		segments = lines.segments;
 
-		var n = two.gfx.nodes(scene).add(new two.Node3());
-		var it = two.gfx.items(scene).add(new two.Item(n, *lines.model, 0U, material));
+		var n = scene.nodes().add(new two.Node3());
+		var it = scene.items().add(new two.Item(n, *lines.model, 0, material));
 		batch = two.gfx.batches(scene).add(new two.Batch(it));
 		it.batch = batch;
 
@@ -158,18 +158,18 @@ void xx_lines_fat(Shell app, Widget parent, Dockbar dockbar)
 
 	Gnode root = scene.begin();
 
-	this.pbr = app.gfx.programs().file('pbr/pbr');
+	this.pbr = app.gfx.programs.file('pbr/pbr');
 
-	this.testmat = app.gfx.materials().create('test', [](var m) {
-		m.program = pbr; m.pbr.albedo = two.rgb(0x888888); m.pbr.metallic = 1.0; m.pbr.roughness = 0.66f;
+	this.testmat = app.gfx.materials.create('test', [](var m) {
+		m.program = pbr; m.pbr.albedo = two.rgb(0x888888); m.pbr.metallic = 1.0; m.pbr.roughness = 0.66;
 	});
 
 	two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', BackgroundMode::Radiance);
 
-	two.gfx.shape(root, new two.Sphere(), new two.Symbol(), 0U, testmat);
+	two.gfx.shape(root, new two.Sphere(), new two.Symbol(), 0, testmat);
 
-	span<float> memory = batch->begin(segments.size(), sizeof(Lines::Segment));
-	memcpy(memory.data(), segments.data(), memory.size() * sizeof(float));
+	span<float> memory = batch->begin(segments.length, sizeof(Lines::Segment));
+	memcpy(memory.data(), segments.data(), memory.length * sizeof(float));
 
 	if(Widget* dock = two.ui.dockitem(dockbar, 'Game', { 1U }))
 	{

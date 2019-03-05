@@ -10,12 +10,12 @@ using namespace mud;
 
 void xx_refraction_balls(Shell app, Widget parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;
 
-	this.refraction = app.gfx.textures().file('Park3Med.jpg.cube');
+	this.refraction = app.gfx.textures.file('Park3Med.jpg.cube');
 
 	static vector<Node3*> spheres;
 
@@ -38,8 +38,8 @@ void xx_refraction_balls(Shell app, Widget parent, Dockbar dockbar)
 		{
 			var p = new two.vec3(Math.random(), Math.random(), Math.random()) * 10000.0 - 5000.0;
 			var s = new two.vec3(Math.random()) * 3.0 + 1.0;
-			var n = two.gfx.nodes(scene).add(new two.Node3(p, ZeroQuat, s));
-			two.gfx.items(scene).add(new two.Item(n, sphere, 0U, material));
+			var n = scene.nodes().add(new two.Node3(p, ZeroQuat, s));
+			scene.items().add(new two.Item(n, sphere, 0, material));
 
 			spheres.push(n);
 		}
@@ -53,10 +53,10 @@ void xx_refraction_balls(Shell app, Widget parent, Dockbar dockbar)
 
 	var timer = app.gfx.time * -0.0001;
 	
-	for(var i = 0; i < spheres.size(); i++)
+	for(var i = 0; i < spheres.length; i++)
 	{
 		var p = new two.vec3(Math.cos(timer + float(i)), Math.sin(timer + float(i) * 1.1), 0.0) * 5000.0;
-		spheres[i]->transform = bxTRS(new two.vec3(1.0), ZeroQuat, p);
+		spheres[i].apply(new two.vec3(1.0), ZeroQuat, p);
 	}
 
 	var camera = viewer.camera;

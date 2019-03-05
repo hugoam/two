@@ -62,7 +62,7 @@ void xx_geosprites(Shell app, Widget parent, Dockbar dockbar)
 {
 	var particleCount = 75000;
 
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;
@@ -73,9 +73,9 @@ void xx_geosprites(Shell app, Widget parent, Dockbar dockbar)
 	static Program program = { 'circles', {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
 	program.blocks[MaterialBlock::Solid] = true;
 
-	this.texture = app.gfx.textures().file('sprites/circle.png');
+	this.texture = app.gfx.textures.file('sprites/circle.png');
 
-	this.material = app.gfx.materials().create('circles', [](var m) {
+	this.material = app.gfx.materials.create('circles', [](var m) {
 		m.program = program;
 		m.base.depth_test = DepthTest::Enabled;
 		m.base.depth_draw = DepthDraw::Enabled;
@@ -111,8 +111,8 @@ void xx_geosprites(Shell app, Widget parent, Dockbar dockbar)
 			instances[i] = { new two.vec3(Math.random(), Math.random(), Math.random()) * 2.0 - 1.0 };
 		}
 
-		var n = two.gfx.nodes(scene).add(new two.Node3());
-		var it = two.gfx.items(scene).add(new two.Item(n, circleGeometry, 0U, material));
+		var n = scene.nodes().add(new two.Node3());
+		var it = scene.items().add(new two.Item(n, circleGeometry, 0, material));
 		node = n;
 
 		batch = two.gfx.batches(scene).add(new two.Batch(it));
@@ -122,8 +122,8 @@ void xx_geosprites(Shell app, Widget parent, Dockbar dockbar)
 	var time = app.gfx.time / 2.0;
 
 	var scale = new two.vec3(500.0);
-	var angles = new two.vec3(time * 0.2f, time * 0.4f, 0.0);
-	node->transform = bxTRS(scale, new two.quat(angles), new two.vec3(0.0));
+	var angles = new two.vec3(time * 0.2, time * 0.4, 0.0);
+	node.apply(scale, new two.quat(angles), new two.vec3(0.0));
 
 #if SORT
 	for(Instance instance : instances)
@@ -135,6 +135,6 @@ void xx_geosprites(Shell app, Widget parent, Dockbar dockbar)
 	quicksort<Instance>(instances, [](Instance a, Instance b) { return a.distance > b.distance; });
 #endif
 
-	span<float> memory = batch->begin(instances.size(), sizeof(Instance));
-	memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));
+	span<float> memory = batch->begin(instances.length, sizeof(Instance));
+	memcpy(memory.data(), instances.data(), memory.length * sizeof(float));
 }

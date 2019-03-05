@@ -55,7 +55,7 @@ void xx_geoselective(Shell app, Widget parent, Dockbar dockbar)
 	var numLat = 100;
 	var numLng = 200;
 
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;
@@ -66,7 +66,7 @@ void xx_geoselective(Shell app, Widget parent, Dockbar dockbar)
 	static Program program = { 'program', {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
 	program.blocks[MaterialBlock::Solid] = true;
 
-	this.material = app.gfx.materials().create('material', [](var m) {
+	this.material = app.gfx.materials.create('material', [](var m) {
 		m.program = program;
 		m.base.geometry_filter = uint32_t(1 << uint(PrimitiveType::Lines)); // @todo this should not be necessary: in the program ?
 	});
@@ -104,7 +104,7 @@ void xx_geoselective(Shell app, Widget parent, Dockbar dockbar)
 					geometry.positions.push(new two.vec3(0.0));
 					geometry.positions.push(point);
 
-					Colour color0 = two.hsl(lat / Math.PI, 1.0, 0.2f);
+					Colour color0 = two.hsl(lat / Math.PI, 1.0, 0.2);
 					geometry.colours.push(color0);
 
 					Colour color1 = two.hsl(lat / Math.PI, 1.0, 0.7);
@@ -113,8 +113,8 @@ void xx_geoselective(Shell app, Widget parent, Dockbar dockbar)
 
 			model = app.gfx.create_model('lines', geometry, false); // , dynamic = true);
 
-			var n = two.gfx.nodes(scene).add(new two.Node3());
-			var it = two.gfx.items(scene).add(new two.Item(n, *model, 0U, material));
+			var n = scene.nodes().add(new two.Node3());
+			var it = scene.items().add(new two.Item(n, *model, 0, material));
 			node = n;
 
 			//updateCount();
@@ -177,5 +177,5 @@ void xx_geoselective(Shell app, Widget parent, Dockbar dockbar)
 	var time = app.gfx.time; // * 0.001;
 
 	var angles = new two.vec3(time * 0.25, time * 0.5, 0.0);
-	node->transform = bxTRS(new two.vec3(1.0), new two.quat(angles), new two.vec3(0.0));
+	node.apply(new two.vec3(1.0), new two.quat(angles), new two.vec3(0.0));
 }

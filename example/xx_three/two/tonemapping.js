@@ -1,5 +1,5 @@
 
-var viewer = two.ui.scene_viewer(parent);
+var viewer = two.ui.scene_viewer(app.ui.begin());
 //two.ui.orbit_controller(viewer);
 
 var scene = viewer.scene;
@@ -16,15 +16,15 @@ struct Params {
 
 static Params params;
 
-this.diffuse = app.gfx.textures().file('brick_diffuse.jpg');
+this.diffuse = app.gfx.textures.file('brick_diffuse.jpg');
 //map.encoding = THREE.sRGBEncoding;
 
-this.bump = app.gfx.textures().file('brick_bump.jpg');
-this.rough = app.gfx.textures().file('brick_roughness.jpg');
+this.bump = app.gfx.textures.file('brick_bump.jpg');
+this.rough = app.gfx.textures.file('brick_roughness.jpg');
 
-this.pbr = app.gfx.programs().file('pbr/pbr');
+this.pbr = app.gfx.programs.file('pbr/pbr');
 
-this.material = app.gfx.materials().create('material');
+this.material = app.gfx.materials.create('material');
 
 var m = this.material;
 m.program = pbr;
@@ -40,7 +40,7 @@ m.base.anisotropy = 4.0; // texture filtering anisotropy
 // premultipliedAlpha : true,
 // transparent : true
 
-this.matfloor = app.gfx.materials().create('floor');
+this.matfloor = app.gfx.materials.create('floor');
 m = this.matfloor;
 m.program = pbr;
 m.pbr.albedo = rgb(0x888888);
@@ -48,7 +48,7 @@ m.pbr.metallic = 0.0;
 m.pbr.roughness = 1.0;
 m.base.cull_mode = two.CullMode.Front;
 
-this.hdrenv = app.gfx.textures().file('pisaHDR.hdr.cube');
+this.hdrenv = app.gfx.textures.file('pisaHDR.hdr.cube');
 
 this.mesh = nullptr;
 
@@ -63,21 +63,21 @@ if(!once)
 
     var geometry = app.gfx.shape(TorusKnot(18.0, 8.0)); // new THREE.TorusKnotBufferGeometry(18, 8, 150, 20);
 
-    var n = two.gfx.nodes(scene).add(new two.Node3());
-    two.gfx.items(scene).add(new two.Item(n, geometry, 0U, material));
+    var n = scene.nodes().add(new two.Node3());
+    scene.items().add(new two.Item(n, geometry, 0, material));
     mesh = n;
 
     var geomfloor = app.gfx.shape(new two.Cube(100.0));
 
-    var nfloor = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(0.0, 50.0, 0.0), new two.quat(new two.vec3(-Math.PI2, 0.0, 0.0))));
-    two.gfx.items(scene).add(new two.Item(n, geomfloor, 0U, matfloor));
+    var nfloor = scene.nodes().add(new two.Node3(new two.vec3(0.0, 50.0, 0.0), new two.quat(new two.vec3(-Math.PI2, 0.0, 0.0))));
+    scene.items().add(new two.Item(n, geomfloor, 0, matfloor));
 
     // Lights
 
     //scene.add(new THREE.HemisphereLight(0x111111, 0x000000));
 
-    var ln = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(50.0, 100.0, 50.0)));
-    Light spot = two.gfx.lights(scene).add(Light(ln, LightType::Spot, true, rgb(0xffffff), 1.0, 300.0));
+    var ln = scene.nodes().add(new two.Node3(new two.vec3(50.0, 100.0, 50.0)));
+    Light spot = scene.lights().add(Light(ln, LightType::Spot, true, rgb(0xffffff), 1.0, 300.0));
     spot.spot_angle = Math.PI / 7.0;
     spot.attenuation = 2.0;
     spot.spot_attenuation = 0.8;
@@ -121,7 +121,7 @@ material.alpha.alpha = params.opacity;
 this.rotation = new two.vec3(0.0);
 rotation.y += 0.005;
 
-mesh->transform = bxTRS(new two.vec3(1.0), new two.quat(rotation), new two.vec3(0.0));
+mesh.apply(new two.vec3(1.0), new two.quat(rotation), new two.vec3(0.0));
 
 //if(params.renderMode == 'Composer') {
 //	composer.render();

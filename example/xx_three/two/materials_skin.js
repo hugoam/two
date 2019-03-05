@@ -26,7 +26,7 @@ void xx_materials_skin(Shell app, Widget parent, Dockbar dockbar)
 {
 	static ImporterGltf importer_gltf = { app.gfx };
 
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;
@@ -47,11 +47,11 @@ void xx_materials_skin(Shell app, Widget parent, Dockbar dockbar)
 
 		//scene.background = new THREE.Color(0x050505);
 
-		var ln0 = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(-1.0, -0.5, -1.0)))));
-		Light l0 = two.gfx.lights(scene).add(Light(ln0, LightType::Direct, false, rgb(0xffeedd), 1.5));
+		var ln0 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(-1.0, -0.5, -1.0)))));
+		Light l0 = scene.lights().add(Light(ln0, LightType::Direct, false, rgb(0xffeedd), 1.5));
 
-		var ln1 = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(1.0, -0.5, 1.0)))));
-		Light l1 = two.gfx.lights(scene).add(Light(ln0, LightType::Direct, false, rgb(0xddddff), 0.5));
+		var ln1 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(1.0, -0.5, 1.0)))));
+		Light l1 = scene.lights().add(Light(ln0, LightType::Direct, false, rgb(0xddddff), 0.5));
 
 		// MATERIALS
 
@@ -91,11 +91,11 @@ void xx_materials_skin(Shell app, Widget parent, Dockbar dockbar)
 		//materialUV.extensions.derivatives = true;
 
 
-		var model = app.gfx.models().file('LeePerrySmith.glb');
+		var model = app.gfx.models.file('LeePerrySmith.glb');
 		//.then(createScene(gltf.scene.children[0].geometry, 100, material);
 
-		var n = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(0.0, -50.0, 0.0), ZeroQuat, new two.vec3(100.0)));
-		//two.gfx.items(scene).add(new two.Item(n, model, 0U, material));
+		var n = scene.nodes().add(new two.Node3(new two.vec3(0.0, -50.0, 0.0), ZeroQuat, new two.vec3(100.0)));
+		//scene.items().add(new two.Item(n, model, 0, material));
 
 		// POSTPROCESSING
 		//var renderModelUV = new THREE.RenderPass(scene, camera, materialUV, new THREE.Color(0x575757));
@@ -176,7 +176,7 @@ void xx_materials_skin(Shell app, Widget parent, Dockbar dockbar)
 	rotation.x += 0.05 * (target.x - rotation.y);
 	rotation.y += 0.05 * (target.y - rotation.y);
 
-	mesh->transform = bxTRS(new two.vec3(100.0), new two.quat(rotation), new two.vec3(0.0, -50.0, 0.0));
+	mesh.apply(new two.vec3(100.0), new two.quat(rotation), new two.vec3(0.0, -50.0, 0.0));
 
 
 	//renderer.clear();

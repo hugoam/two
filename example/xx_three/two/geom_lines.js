@@ -12,15 +12,15 @@ void xx_geolines(Shell app, Widget parent, Dockbar dockbar)
 {
 	var segments = 10000;
 
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;
 
-	//this.program = app.gfx.programs().fetch('line');
-	this.program = app.gfx.programs().fetch('solid');
+	//this.program = app.gfx.programs.fetch('line');
+	this.program = app.gfx.programs.fetch('solid');
 
-	this.material = app.gfx.materials().create('lines', [](var m) {
+	this.material = app.gfx.materials.create('lines', [](var m) {
 		m.program = program;
 		m.base.geometry_filter = uint32_t(1 << uint(PrimitiveType::LineStrip)); // @todo this should not be necessary: in the program ?
 		m.base.shader_color = ShaderColor::Vertex;
@@ -53,13 +53,13 @@ void xx_geolines(Shell app, Widget parent, Dockbar dockbar)
 
 		var model = app.gfx.create_model('lines', geometry);
 
-		var n = two.gfx.nodes(scene).add(new two.Node3());
-		var it = two.gfx.items(scene).add(new two.Item(n, model, 0U, material));
+		var n = scene.nodes().add(new two.Node3());
+		var it = scene.items().add(new two.Item(n, model, 0, material));
 		node = n;
 	}
 
 	var time = app.gfx.time / 2.0; // * 0.001;
 
 	var angles = new two.vec3(time * 0.25, time * 0.5, 0.0);
-	node->transform = bxTRS(new two.vec3(1.0), new two.quat(angles), new two.vec3(0.0));
+	node.apply(new two.vec3(1.0), new two.quat(angles), new two.vec3(0.0));
 }

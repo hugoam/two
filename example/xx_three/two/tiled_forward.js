@@ -165,10 +165,10 @@ void xx_tiled_forward(Shell app, Widget parent, Dockbar dockbar)
 {
 	static ImporterOBJ obj_importer(app.gfx);
 
-	this.solid = app.gfx.programs().file('solid');
-	this.pbr = app.gfx.programs().file('pbr/pbr');
+	this.solid = app.gfx.programs.file('solid');
+	this.pbr = app.gfx.programs.file('pbr/pbr');
 
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	two.ui.orbit_controller(viewer);
 
 	viewer.viewport.comp<Tonemap>().enabled = true;
@@ -189,7 +189,7 @@ void xx_tiled_forward(Shell app, Widget parent, Dockbar dockbar)
 
 #if CLUSTERED
 	var camera = viewer.camera;
-	if(viewer.viewport.rect != unew two.vec4(0U)  !camera.clusters)
+	if(viewer.viewport.rect != unew two.vec4(0)  !camera.clusters)
 	{
 		camera.clustered = true;
 		camera.clusters = make_unique<Froxelizer>(app.gfx);
@@ -217,17 +217,17 @@ void xx_tiled_forward(Shell app, Widget parent, Dockbar dockbar)
 	static vector<ExLight> lights = {};
 
 	scene.env.radiance.colour = Colour::White;
-	scene.env.radiance.energy = 0.066f;
+	scene.env.radiance.energy = 0.066;
 	scene.env.radiance.ambient = 0.33;
 	//scene.add(new THREE.AmbientLight(0xffffff, 0.33));
 
-	function material = [](string name, function init) -> Material* { return app.gfx.materials().create(name, init); };
+	function material = [](string name, function init) -> Material* { return app.gfx.materials.create(name, init); };
 
 	static Material* materials[] = {
-		material('first',  [](var m) { m.program = pbr; m.pbr.albedo = two.rgba(0x888888f); m.pbr.metallic = 1.0; m.pbr.roughness = 0.66f; }),
-		material('second', [](var m) { m.program = pbr; m.pbr.albedo = two.rgba(0x666666ff); m.pbr.metallic = 0.1; m.pbr.roughness = 0.33; }),
-		material('third',  [](var m) { m.program = pbr; m.pbr.albedo = two.rgba(0x777777f); m.pbr.metallic = 0.1; m.pbr.roughness = 0.33; m.pbr.specular_mode = PbrSpecularMode::Phong; }),
-		material('fourth', [](var m) { m.program = pbr; m.pbr.albedo = two.rgba(0x555555f); m.pbr.metallic = 0.1; m.pbr.roughness = 0.33; m.pbr.diffuse_mode = PbrDiffuseMode::Toon; m.pbr.specular_mode = PbrSpecularMode::Toon; }),
+		material('first',  [](var m) { m.program = pbr; m.pbr.albedo = two.rgba(0x888888); m.pbr.metallic = 1.0; m.pbr.roughness = 0.66; }),
+		material('second', [](var m) { m.program = pbr; m.pbr.albedo = two.rgba(0x666666f); m.pbr.metallic = 0.1; m.pbr.roughness = 0.33; }),
+		material('third',  [](var m) { m.program = pbr; m.pbr.albedo = two.rgba(0x777777); m.pbr.metallic = 0.1; m.pbr.roughness = 0.33; m.pbr.specular_mode = PbrSpecularMode::Phong; }),
+		material('fourth', [](var m) { m.program = pbr; m.pbr.albedo = two.rgba(0x555555); m.pbr.metallic = 0.1; m.pbr.roughness = 0.33; m.pbr.diffuse_mode = PbrDiffuseMode::Toon; m.pbr.specular_mode = PbrSpecularMode::Toon; }),
 		//{ type: 'physical', uniforms : { 'diffuse': 0x888888, 'metalness' : 1.0, 'roughness' : 0.66 }, defines : {} },
 		//{ type: 'standard', uniforms : { 'diffuse': 0x666666, 'metalness' : 0.1, 'roughness' : 0.33 }, defines : {} },
 		//{ type: 'phong', uniforms : { 'diffuse': 0x777777, 'shininess' : 20 }, defines : {} },
@@ -239,10 +239,10 @@ void xx_tiled_forward(Shell app, Widget parent, Dockbar dockbar)
 	{
 		once = true;
 
-		var model = app.gfx.models().file('WaltHead');
+		var model = app.gfx.models.file('WaltHead');
 		
 		var sphere = app.gfx.shape(new two.Sphere(0.5));
-		var big_sphere = app.gfx.shape(new two.Sphere(0.5 * 6.66f));
+		var big_sphere = app.gfx.shape(new two.Sphere(0.5 * 6.66));
 
 		var transparent = randi(0, 3);
 		materials[transparent]->alpha.alpha = 0.9;
@@ -258,31 +258,31 @@ void xx_tiled_forward(Shell app, Widget parent, Dockbar dockbar)
 			var position = new two.vec3(Math.sin(i * Math.PI2) * radius, 0.0, Math.cos(i * Math.PI2) * radius);
 			quat rotation = new two.quat(new two.vec3(0.0, i * Math.PI2, 0.0));
 
-			var n = two.gfx.nodes(scene).add(new two.Node3(position, rotation));
+			var n = scene.nodes().add(new two.Node3(position, rotation));
 
-			var m = two.gfx.nodes(scene).add(new two.Node3(n.transform * bxTRS(new two.vec3(1.0), ZeroQuat, new two.vec3(0.0, -37.0, 0.0))));
-			var it = two.gfx.items(scene).add(new two.Item(m, model, 0U, material));
+			var m = scene.nodes().add(new two.Node3(n.transform * bxTRS(new two.vec3(1.0), ZeroQuat, new two.vec3(0.0, -37.0, 0.0))));
+			var it = scene.items().add(new two.Item(m, model, 0, material));
 			UNUSED(it);
 
 			for(var i = 0; i < 8; i++)
 			{
 				Colour color = two.hsl(Math.random(), 1.0, 0.5);
 
-				var ml = app.gfx.materials().create('light' + material->name + to_string(i), [](var m) { 
+				var ml = app.gfx.materials.create('light' + material->name + to_string(i), [](var m) { 
 					m.program = solid; m.solid.colour = color; 
 				});
 
-				var mla = app.gfx.materials().create('lightalpha' + material->name + to_string(i), [](var m) {
+				var mla = app.gfx.materials.create('lightalpha' + material->name + to_string(i), [](var m) {
 					m.program = solid; m.solid.colour = color; m.alpha.alpha = 0.033;
 				});
 
-				var l = two.gfx.nodes(scene).add(new two.Node3());
-				var i0 = two.gfx.items(scene).add(new two.Item(l, sphere, 0U, ml)); // MaterialSolid(color)));
+				var l = scene.nodes().add(new two.Node3());
+				var i0 = scene.items().add(new two.Item(l, sphere, 0, ml)); // MaterialSolid(color)));
 			
-				//var i1 = two.gfx.items(scene).add(new two.Item(l, big_sphere, 0U, ma)); // MaterialSolid(color), MaterialAlpha(0.033));
+				//var i1 = scene.items().add(new two.Item(l, big_sphere, 0, ma)); // MaterialSolid(color), MaterialAlpha(0.033));
 				//l.children[1].scale.set(6.66, 6.66, 6.66);
 
-				Light light = two.gfx.lights(scene).add(Light(l, LightType::Point));
+				Light light = scene.lights().add(Light(l, LightType::Point));
 				light.range = 40.0;
 				light.colour = color;
 
@@ -304,22 +304,22 @@ void xx_tiled_forward(Shell app, Widget parent, Dockbar dockbar)
 		}
 	}
 
-	this.testmat = app.gfx.materials().create('test', [](var m) {
-		m.program = pbr; m.pbr.albedo = two.rgba(0x888888f); m.pbr.metallic = 1.0; m.pbr.roughness = 0.66f;
+	this.testmat = app.gfx.materials.create('test', [](var m) {
+		m.program = pbr; m.pbr.albedo = two.rgba(0x888888); m.pbr.metallic = 1.0; m.pbr.roughness = 0.66;
 	});
 
 	//two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', BackgroundMode::Radiance);
 
-	two.gfx.shape(root, new two.Sphere(), 0U, testmat);
+	two.gfx.shape(root, new two.Sphere(), 0, testmat);
 
 	var time = app.gfx.time;
 
 	for(ExLight l : lights)
 	{
-		var r = 0.8 + 0.2f * Math.sin(l.pr + (0.6f + 0.3 * l.sr) * time);
-		var x = (Math.sin(l.pc + (0.8 + 0.2f * l.sc) * time * l.dir)) * r * radius;
-		var z = (Math.cos(l.pc + (0.8 + 0.2f * l.sc) * time * l.dir)) * r * radius;
-		var y = Math.sin(l.py + (0.8 + 0.2f * l.sy) * time) * r * 32.0;
+		var r = 0.8 + 0.2 * Math.sin(l.pr + (0.6 + 0.3 * l.sr) * time);
+		var x = (Math.sin(l.pc + (0.8 + 0.2 * l.sc) * time * l.dir)) * r * radius;
+		var z = (Math.cos(l.pc + (0.8 + 0.2 * l.sc) * time * l.dir)) * r * radius;
+		var y = Math.sin(l.py + (0.8 + 0.2 * l.sy) * time) * r * 32.0;
 		l.node->transform = l.parent->transform * bxTRS(new two.vec3(1.0), ZeroQuat, new two.vec3(x, y, z));
 	}
 }

@@ -82,7 +82,7 @@ static string fragment_shader()
 
 void xx_shader_lava(Shell app, Widget parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;
@@ -90,8 +90,8 @@ void xx_shader_lava(Shell app, Widget parent, Dockbar dockbar)
 	this.angles = new two.vec3(0.3, 0.0, 0.0);
 	this.node = nullptr;
 
-	this.cloud = app.gfx.textures().file('lava/cloud.png');
-	this.lava = app.gfx.textures().file('lava/lavatile.jpg');
+	this.cloud = app.gfx.textures.file('lava/cloud.png');
+	this.lava = app.gfx.textures.file('lava/lavatile.jpg');
 
 	static btwo.gfx.UniformHandle u_fog_params = btwo.gfx.createUniform('u_fog_params', btwo.gfx.UniformType::Vec4, 1U, btwo.gfx.UniformFreq::View);
 	//static btwo.gfx.UniformHandle u_uv_scale = btwo.gfx.createUniform('u_uv_scale', btwo.gfx.UniformType::Vec4, 1U, btwo.gfx.UniformFreq::View);
@@ -136,7 +136,7 @@ void xx_shader_lava(Shell app, Widget parent, Dockbar dockbar)
 		static Program program = { 'lava', {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
 		program.blocks[MaterialBlock::Solid] = true;
 
-		this.material = app.gfx.materials().create('lava', [](var m) {
+		this.material = app.gfx.materials.create('lava', [](var m) {
 			m.program = program;
 			m.base.uv0_scale = uv_scale;
 		});
@@ -146,8 +146,8 @@ void xx_shader_lava(Shell app, Widget parent, Dockbar dockbar)
 
 		this.model = app.gfx.shape(Torus(size, 0.3));
 
-		node = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(0.0), new two.quat(angles)));
-		var it = two.gfx.items(scene).add(new two.Item(*node, model, 0U, material));
+		node = scene.nodes().add(new two.Node3(new two.vec3(0.0), new two.quat(angles)));
+		var it = scene.items().add(new two.Item(*node, model, 0, material));
 
 		//var renderModel = new THREE.RenderPass(scene, camera);
 		//var effectBloom = new THREE.BloomPass(1.25);

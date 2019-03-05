@@ -1,5 +1,5 @@
 
-var viewer = two.ui.scene_viewer(parent);
+var viewer = two.ui.scene_viewer(app.ui.begin());
 two.ui.orbit_controller(viewer);
 
 var camera = viewer.camera;
@@ -18,11 +18,11 @@ this.batch = nullptr;
 if(typeof this.state == 'undefined') {
     this.state = 1;
     
-    this.program = app.gfx.programs().fetch('point');
+    this.program = app.gfx.programs.fetch('point');
 
-    this.sprite = app.gfx.textures().file('sprites/disc.png');
+    this.sprite = app.gfx.textures.file('sprites/disc.png');
 
-    this.material = app.gfx.materials().create('points');
+    this.material = app.gfx.materials.create('points');
     
     var m = this.material;
     m.program = program;
@@ -33,7 +33,7 @@ if(typeof this.state == 'undefined') {
     m.alpha.alpha_test = 0.5;
     m.alpha.is_alpha = true;
 
-    var model = app.gfx.models().get('point');
+    var model = app.gfx.models.get('point');
 
     this.instances = [];
     
@@ -44,8 +44,8 @@ if(typeof this.state == 'undefined') {
         this.instances[i] = { new two.vec4(pos, 0.0), new two.vec4(scale, new two.vec2(0.0)) };
     }
 
-    var n = two.gfx.nodes(scene).add(new two.Node3());
-    var it = two.gfx.items(scene).add(new two.Item(n, model, 0U, material));
+    var n = scene.nodes().add(new two.Node3());
+    var it = scene.items().add(new two.Item(n, model, 0, material));
 
     this.batch = two.gfx.batches(scene).add(new two.Batch(it));
     it.batch = this.batch;
@@ -69,5 +69,5 @@ viewer.camera.eye.y += (-mouse.y - viewer.camera.eye.y) * 0.05;
 var h = fmod(360.0 * (1.0 + time), 360.0) / 360.0;
 this.material.solid.colour = two.hsl(h, 0.5, 0.5);
 
-span<float> memory = batch->begin(instances.size(), sizeof(Instance));
-memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));
+span<float> memory = batch->begin(instances.length, sizeof(Instance));
+memcpy(memory.data(), instances.data(), memory.length * sizeof(float));

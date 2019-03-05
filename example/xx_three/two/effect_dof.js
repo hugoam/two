@@ -52,7 +52,7 @@ struct DoFRenderer : public Renderer
 
 void xx_effect_dof(Shell app, Widget parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	two.ui.orbit_controller(viewer);
 
 	//camera = new THREE.PerspectiveCamera(70, width / height, 1, 3000);
@@ -90,13 +90,13 @@ void xx_effect_dof(Shell app, Widget parent, Dockbar dockbar)
 
 	static vector<Material*> materials;
 
-	Texture texcube = app.gfx.textures().file('SwedishRoyalCastle.cube');
+	Texture texcube = app.gfx.textures.file('SwedishRoyalCastle.cube');
 
 	for(int i = 0; i < nobjects; ++i)
 	{
 		string name = 'object' + to_string(i);
 		materials.push(app.gfx.fetch_material(name.c_str(), 'pbr/pbr'));
-		//materials.push(app.gfx.materials().create(name.c_str()));
+		//materials.push(app.gfx.materials.create(name.c_str()));
 		//materials.push(new THREE.MeshBasicMaterial({ color: 0xff1100, envMap : texcube }));
 	}
 
@@ -109,7 +109,7 @@ void xx_effect_dof(Shell app, Widget parent, Dockbar dockbar)
 				int y = 200 * (j - ygrid / 2);
 				int z = 200 * (k - zgrid / 2);
 				Gnode n = two.gfx.node(scene, {}, new two.vec3(inew two.vec3(x, y, z)), ZeroQuat, new two.vec3(60.0));
-				two.gfx.item(n, geo, 0U, single_material ? materials[0] : materials[count]);
+				two.gfx.item(n, geo, 0, single_material ? materials[0] : materials[count]);
 				count++;
 			}
 

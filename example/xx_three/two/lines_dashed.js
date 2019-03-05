@@ -33,12 +33,12 @@ var cube_model(GfxSystem gfx, var size)
 
 void xx_lines_dashed(Shell app, Widget parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(parent);
+	var viewer = two.ui.scene_viewer(app.ui.begin());
 	two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;
 
-	this.program = app.gfx.programs().fetch('line');
+	this.program = app.gfx.programs.fetch('line');
 
 	this.node0 = nullptr;
 	this.node1 = nullptr;
@@ -61,7 +61,7 @@ void xx_lines_dashed(Shell app, Widget parent, Dockbar dockbar)
 		vector<vec3> points = hilbert3d(new two.vec3(0.0), 25.0, recursion);
 		CurveCatmullRom3 curve = { points };
 
-		vector<vec3> samples = curve.points(points.size() * subdivisions);
+		vector<vec3> samples = curve.points(points.length * subdivisions);
 
 		MeshPacker geometry;
 		geometry.primitive = PrimitiveType::Lines;
@@ -71,7 +71,7 @@ void xx_lines_dashed(Shell app, Widget parent, Dockbar dockbar)
 
 		function dash_material = [](Colour colour, var dash_size, var dash_gap)
 		{
-			return app.gfx.materials().create('line', [](var m) {
+			return app.gfx.materials.create('line', [](var m) {
 				m.program = program;
 				m.solid.colour = colour;
 				m.line.dashed = true;
@@ -82,16 +82,16 @@ void xx_lines_dashed(Shell app, Widget parent, Dockbar dockbar)
 		};
 
 		var mat0 = dash_material(rgb(0xffffff), 1.0, 0.5);
-		var n0 = two.gfx.nodes(scene).add(new two.Node3());
-		two.gfx.items(scene).add(new two.Item(n0, spline, 0U, mat0));
+		var n0 = scene.nodes().add(new two.Node3());
+		scene.items().add(new two.Item(n0, spline, 0, mat0));
 		//line.computeLineDistances();
 		node0 = n0;
 
 		var cube = cube_model(app.gfx, 50.0);
 
 		var mat1 = dash_material(rgb(0xffaa00), 3.0, 1.0);
-		var n1 = two.gfx.nodes(scene).add(new two.Node3());
-		two.gfx.items(scene).add(new two.Item(n1, cube, 0U, mat1));
+		var n1 = scene.nodes().add(new two.Node3());
+		scene.items().add(new two.Item(n1, cube, 0, mat1));
 		//lineSegments.computeLineDistances();
 		node1 = n1;
 	}
@@ -102,6 +102,6 @@ void xx_lines_dashed(Shell app, Widget parent, Dockbar dockbar)
 
 	for(Node3* node : { node0, node1 })
 	{
-		node->transform = bxTRS(new two.vec3(1.0), new two.quat(angles), new two.vec3(0.0));
+		node.apply(new two.vec3(1.0), new two.quat(angles), new two.vec3(0.0));
 	}
 }
