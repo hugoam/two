@@ -1394,13 +1394,24 @@ GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = fun
     var self = this.ptr;
     return wrapPointer(_mud_GfxSystem_debug_material_0(self), Material);
 };
-GfxSystem.prototype["create_model"] = GfxSystem.prototype.create_model = function(a0, a1, a2, a3) {
+GfxSystem.prototype["create_model"] = GfxSystem.prototype.create_model = function(a0) {
     var self = this.ptr;
     ensureCache.prepare();
-    if (a1 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_1(self, ensureString(/*name*/a0)), Model); }
-    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_2(self, ensureString(/*name*/a0), /*gpu_mesh*/a1), Model); }
-    if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_3(self, ensureString(/*name*/a0), /*gpu_mesh*/a1, /*readback*/a2), Model); }
-    return wrapPointer(_mud_GfxSystem_create_model_4(self, ensureString(/*name*/a0), /*gpu_mesh*/a1, /*readback*/a2, /*optimize*/a3), Model);
+    return wrapPointer(_mud_GfxSystem_create_model_1(self, ensureString(/*name*/a0)), Model);
+};
+GfxSystem.prototype["create_model_geo"] = GfxSystem.prototype.create_model_geo = function(a0, a1, a2, a3) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_geo_2(self, ensureString(/*name*/a0), /*geometry*/a1.ptr), Model); }
+    if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_geo_3(self, ensureString(/*name*/a0), /*geometry*/a1.ptr, /*readback*/a2), Model); }
+    return wrapPointer(_mud_GfxSystem_create_model_geo_4(self, ensureString(/*name*/a0), /*geometry*/a1.ptr, /*readback*/a2, /*optimize*/a3), Model);
+};
+GfxSystem.prototype["create_model_gpu"] = GfxSystem.prototype.create_model_gpu = function(a0, a1, a2, a3) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_gpu_2(self, ensureString(/*name*/a0), /*gpu_mesh*/a1.ptr), Model); }
+    if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_gpu_3(self, ensureString(/*name*/a0), /*gpu_mesh*/a1.ptr, /*readback*/a2), Model); }
+    return wrapPointer(_mud_GfxSystem_create_model_gpu_4(self, ensureString(/*name*/a0), /*gpu_mesh*/a1.ptr, /*readback*/a2, /*optimize*/a3), Model);
 };
 GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(a0, a1, a2) {
     var self = this.ptr;
@@ -1466,6 +1477,19 @@ Module['Gnode'] = Gnode;
 Gnode.prototype["__destroy__"] = Gnode.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Gnode__destroy(self);
+};
+// GpuMesh
+function GpuMesh() {
+    this.ptr = _mud_GpuMesh__construct_0(); this.type = GpuMesh; getCache(GpuMesh)[this.ptr] = this;
+};
+GpuMesh.prototype = Object.create(WrapperObject.prototype);
+GpuMesh.prototype.constructor = GpuMesh;
+GpuMesh.prototype.__class__ = GpuMesh;
+GpuMesh.__cache__ = {};
+Module['GpuMesh'] = GpuMesh;
+GpuMesh.prototype["__destroy__"] = GpuMesh.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_GpuMesh__destroy(self);
 };
 // ImmediateDraw
 function ImmediateDraw() { throw "cannot construct a ImmediateDraw, no constructor in IDL" }
@@ -3099,6 +3123,12 @@ Node3.prototype["transform"] = Node3.prototype.transform = function(a0, a1, a2) 
     if (a2 === undefined) { _mud_Node3_transform_2(self, /*position*/a0.ptr, /*rotation*/a1.ptr); return; }
     _mud_Node3_transform_3(self, /*position*/a0.ptr, /*rotation*/a1.ptr, /*scale*/a2.ptr);
 };
+Node3.prototype["derive"] = Node3.prototype.derive = function(a0, a1, a2, a3) {
+    var self = this.ptr;
+    if (a2 === undefined) { _mud_Node3_derive_2(self, /*parent*/a0.ptr, /*position*/a1.ptr); return; }
+    if (a3 === undefined) { _mud_Node3_derive_3(self, /*parent*/a0.ptr, /*position*/a1.ptr, /*rotation*/a2.ptr); return; }
+    _mud_Node3_derive_4(self, /*parent*/a0.ptr, /*position*/a1.ptr, /*rotation*/a2.ptr, /*scale*/a3.ptr);
+};
 Node3.prototype["position"] = Node3.prototype.position = function() {
     var self = this.ptr;
     return wrapPointer(_mud_Node3_position_0(self), v3_float);
@@ -4103,6 +4133,7 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         GfxContext.__type__ = _mud_GfxContext__type();
         GfxSystem.__type__ = _mud_GfxSystem__type();
         Gnode.__type__ = _mud_Gnode__type();
+        GpuMesh.__type__ = _mud_GpuMesh__type();
         ImmediateDraw.__type__ = _mud_ImmediateDraw__type();
         ImportConfig.__type__ = _mud_ImportConfig__type();
         Item.__type__ = _mud_Item__type();

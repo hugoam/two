@@ -22,6 +22,7 @@ namespace mud
     enum class Interpolation : unsigned int;
     enum class TextureHint : unsigned int;
     enum class ShaderType : unsigned int;
+	enum class ShaderColor : unsigned int;
     enum ShaderOption : unsigned int;
     enum class TextureSampler : unsigned int;
     enum class PassType : unsigned int;
@@ -89,6 +90,8 @@ namespace mud
     struct MaterialBase;
 	struct MaterialAlpha;
     struct MaterialSolid;
+	struct MaterialPoint;
+	struct MaterialLine;
     struct MaterialFresnel;
     struct MaterialPbr;
     struct BlockPbr;

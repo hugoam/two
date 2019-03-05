@@ -386,24 +386,24 @@ namespace mud
 		return model;
 	}
 
-	Model& GfxSystem::create_model(const string& name, const GpuMesh& gpu_mesh, bool readback, bool optimize)
+	Model& GfxSystem::create_model_geo(const string& name, const MeshPacker& geometry, bool readback, bool optimize)
 	{
 		Model& model = this->models().create(name);
 		Mesh& mesh = model.add_mesh(name, readback);
 
-		mesh.upload(gpu_mesh, optimize);
+		mesh.write(geometry, optimize);
 
 		model.add_item(mesh, bxidentity());
 		model.prepare();
 		return model;
 	}
 
-	Model& GfxSystem::create_model(const string& name, const MeshPacker& geometry, bool readback, bool optimize)
+	Model& GfxSystem::create_model_gpu(const string& name, const GpuMesh& gpu_mesh, bool readback, bool optimize)
 	{
 		Model& model = this->models().create(name);
 		Mesh& mesh = model.add_mesh(name, readback);
 
-		mesh.write(geometry, optimize);
+		mesh.upload(gpu_mesh, optimize);
 
 		model.add_item(mesh, bxidentity());
 		model.prepare();

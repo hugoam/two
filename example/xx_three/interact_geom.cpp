@@ -80,7 +80,7 @@ void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 			}
 		}
 
-		Model& model = app.m_gfx.create_model("geometry", geometry);
+		Model& model = app.m_gfx.create_model_geo("geometry", geometry);
 
 		Node3& n = gfx::nodes(scene).add(Node3());
 		Item& it = gfx::items(scene).add(Item(n, model, 0U, &material));

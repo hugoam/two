@@ -28,7 +28,7 @@ Model& cube_model(GfxSystem& gfx, float size)
 		vec3( h, -h, -h), vec3( h, -h,  h)
 	};
 
-	return gfx.create_model("cube", geometry);
+	return gfx.create_model_geo("cube", geometry);
 }
 
 void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar)
@@ -68,7 +68,7 @@ void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar)
 		geometry.m_primitive = PrimitiveType::Lines;
 		geometry.m_positions = samples;
 
-		Model& spline = app.m_gfx.create_model("spline", geometry);
+		Model& spline = app.m_gfx.create_model_geo("spline", geometry);
 
 		auto dash_material = [&](const Colour& colour, float dash_size, float dash_gap) -> Material&
 		{

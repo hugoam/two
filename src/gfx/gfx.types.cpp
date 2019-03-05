@@ -71,6 +71,7 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::GfxContext>() { static Type ty("GfxContext", sizeof(mud::GfxContext)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>() { static Type ty("GfxSystem", sizeof(mud::GfxSystem)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Gnode>() { static Type ty("Gnode", sizeof(mud::Gnode)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::GpuMesh>() { static Type ty("GpuMesh", sizeof(mud::GpuMesh)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ImmediateDraw>() { static Type ty("ImmediateDraw", sizeof(mud::ImmediateDraw)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ImportConfig>() { static Type ty("ImportConfig", sizeof(mud::ImportConfig)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Item>() { static Type ty("Item", sizeof(mud::Item)); return ty; }

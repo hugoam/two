@@ -23,7 +23,7 @@ struct Lines // LineSegmentsGeometry
 		geometry.m_uv0s = { vec2(-1, 2), vec2(1, 2), vec2(-1, 1), vec2(1, 1), vec2(-1, -1), vec2(1, -1), vec2(-1, -2), vec2(1, -2) };
 		geometry.m_indices = { 0, 2, 1, 2, 3, 1, 2, 4, 3, 4, 5, 3, 4, 6, 5, 6, 7, 5 };
 
-		m_model = &gfx.create_model("lines", geometry);
+		m_model = &gfx.create_model_geo("lines", geometry);
 	}
 
 	Model* m_model = nullptr;

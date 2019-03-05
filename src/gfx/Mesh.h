@@ -18,7 +18,7 @@
 
 namespace mud
 {
-	export_ struct MUD_GFX_EXPORT GpuMesh
+	export_ struct refl_ MUD_GFX_EXPORT GpuMesh
 	{
 		GpuMesh() {}
 		GpuMesh(PrimitiveType primitive, uint32_t vertex_count, uint32_t index_count)

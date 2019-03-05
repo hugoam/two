@@ -116,7 +116,7 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar)
 		geometry.m_positions.push_back({     0.f,     0.f, 0.025f });
 		geometry.m_indices = { 0, 1, 2 };
 
-		Model& model = app.m_gfx.create_model("triangle", geometry);
+		Model& model = app.m_gfx.create_model_geo("triangle", geometry);
 
 		//geometry.maxInstancedCount = instances; // set so its initalized for dat.GUI, will be set in first draw otherwise
 		

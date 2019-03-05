@@ -130,8 +130,8 @@ namespace mud
 
 		meth_ Material& debug_material();
 		meth_ Model& create_model(const string& name);
-		meth_ Model& create_model(const string& name, const GpuMesh& gpu_mesh, bool readback = false, bool optimize = false);
-		meth_ Model& create_model(const string& name, const MeshPacker& geometry, bool readback = false, bool optimize = false);
+		meth_ Model& create_model_geo(const string& name, const MeshPacker& geometry, bool readback = false, bool optimize = false);
+		meth_ Model& create_model_gpu(const string& name, const GpuMesh& gpu_mesh, bool readback = false, bool optimize = false);
 		meth_ Material& fetch_material(const string& name, const string& shader, bool builtin = true);
 		meth_ Material& fetch_image256_material(const Image256& image);
 

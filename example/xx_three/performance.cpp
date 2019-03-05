@@ -36,7 +36,7 @@ Model& model_suzanne(GfxSystem& gfx)
 		shape.m_normals.push_back(normal);
 	}
 
-	Model& model = gfx.create_model("suzanne", shape);
+	Model& model = gfx.create_model_geo("suzanne", shape);
 	return model;
 }
 

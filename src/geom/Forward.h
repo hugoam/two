@@ -25,6 +25,7 @@ namespace mud
     struct Triangle;
     struct Circle;
     struct Torus;
+	struct TorusKnot;
     struct Ring;
     struct Ellipsis;
     struct Arc;

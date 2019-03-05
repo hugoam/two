@@ -52,7 +52,7 @@ void xx_geom_lines(Shell& app, Widget& parent, Dockbar& dockbar)
 			geometry.m_colours.push_back(c);
 		}
 
-		Model& model = app.m_gfx.create_model("lines", geometry);
+		Model& model = app.m_gfx.create_model_geo("lines", geometry);
 
 		Node3& n = gfx::nodes(scene).add(Node3());
 		Item& it = gfx::items(scene).add(Item(n, model, 0U, &material));

@@ -84,7 +84,7 @@ void xx_hierarchy2(Shell& app, Widget& parent, Dockbar& dockbar)
 	for(size_t i = 0; i < nodes.size(); ++i)
 	{
 		vec3 rotation = vec3(rx, ry, rz);
-		nodes[i].node->transform(*nodes[i].parent, nodes[i].position, quat(rotation));
+		nodes[i].node->derive(*nodes[i].parent, nodes[i].position, quat(rotation));
 	}
 
 }

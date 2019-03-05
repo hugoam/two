@@ -167,12 +167,14 @@ void mud_GfxSystem_default_pipeline(void* object, span<void*> args, void*& resul
 void mud_GfxSystem_add_resource_path(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::GfxSystem*>(object)).add_resource_path(*static_cast<stl::string*>(args[0]), *static_cast<bool*>(args[1])); }
 void mud_GfxSystem_debug_material(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::GfxSystem*>(object)).debug_material(); }
 void mud_GfxSystem_create_model(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).create_model(*static_cast<stl::string*>(args[0])); }
-void mud_GfxSystem_create_model(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).create_model(*static_cast<stl::string*>(args[0]), *static_cast<const mud::GpuMesh&*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3])); }
-void mud_GfxSystem_create_model(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).create_model(*static_cast<stl::string*>(args[0]), *static_cast<const mud::MeshPacker&*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3])); }
+void mud_GfxSystem_create_model_geo(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).create_model_geo(*static_cast<stl::string*>(args[0]), *static_cast<mud::MeshPacker*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3])); }
+void mud_GfxSystem_create_model_gpu(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).create_model_gpu(*static_cast<stl::string*>(args[0]), *static_cast<mud::GpuMesh*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3])); }
 void mud_GfxSystem_fetch_material(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_material(*static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<bool*>(args[2])); }
 void mud_GfxSystem_fetch_image256_material(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).fetch_image256_material(*static_cast<mud::Image256*>(args[0])); }
 void mud_GfxSystem_shape(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).shape(*static_cast<mud::Shape*>(args[0]), *static_cast<mud::Symbol*>(args[1]), *static_cast<mud::DrawMode*>(args[2])); }
 void mud_GfxSystem_symbol_material(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::GfxSystem*>(object)).symbol_material(*static_cast<mud::Symbol*>(args[0]), *static_cast<mud::DrawMode*>(args[1])); }
+void mud_GpuMesh__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::GpuMesh(  ); }
+void mud_GpuMesh__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::GpuMesh((*static_cast<mud::GpuMesh*>(other))); }
 void mud_ImportConfig__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ImportConfig(  ); }
 void mud_ImportConfig__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ImportConfig((*static_cast<mud::ImportConfig*>(other))); }
 void mud_Item__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Item(  ); }
@@ -215,7 +217,7 @@ void mud_Node3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl
 void mud_Node3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Node3( *static_cast<mud::mat4*>(args[0]) ); }
 void mud_Node3__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Node3( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2]) ); }
 void mud_Node3_transform(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Node3*>(object)).transform(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
-void mud_Node3_transform(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Node3*>(object)).transform(*static_cast<mud::Node3*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::quat*>(args[2]), *static_cast<mud::vec3*>(args[3])); }
+void mud_Node3_derive(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Node3*>(object)).derive(*static_cast<mud::Node3*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::quat*>(args[2]), *static_cast<mud::vec3*>(args[3])); }
 void mud_Node3_position(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Node3*>(object)).position(); }
 void mud_Node3_axis(void* object, span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Node3*>(object)).axis(*static_cast<mud::vec3*>(args[0])); }
 void mud_Node3_direction(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Node3*>(object)).direction(); }
@@ -1330,10 +1332,10 @@ namespace mud
 		// bases
 		// defaults
 		static bool add_resource_path_0_relative_default = true;
-		static bool create_model_0_readback_default = false;
-		static bool create_model_0_optimize_default = false;
-		static bool create_model_0_readback_default = false;
-		static bool create_model_0_optimize_default = false;
+		static bool create_model_geo_0_readback_default = false;
+		static bool create_model_geo_0_optimize_default = false;
+		static bool create_model_gpu_0_readback_default = false;
+		static bool create_model_gpu_0_optimize_default = false;
 		static bool fetch_material_0_builtin_default = true;
 		static mud::Symbol shape_0_symbol_default = {};
 		static mud::DrawMode shape_0_draw_mode_default = PLAIN;
@@ -1357,8 +1359,8 @@ namespace mud
 			{ t, "add_resource_path", Address(), mud_GfxSystem_add_resource_path, { { "path", type<stl::string>(),  }, { "relative", type<bool>(), Param::Default, &add_resource_path_0_relative_default } }, g_qvoid },
 			{ t, "debug_material", Address(), mud_GfxSystem_debug_material, {}, { &type<mud::Material>(), QualType::None } },
 			{ t, "create_model", Address(), mud_GfxSystem_create_model, { { "name", type<stl::string>(),  } }, { &type<mud::Model>(), QualType::None } },
-			{ t, "create_model", Address(), mud_GfxSystem_create_model, { { "name", type<stl::string>(),  }, { "gpu_mesh", type<const mud::GpuMesh&>(),  }, { "readback", type<bool>(), Param::Default, &create_model_0_readback_default }, { "optimize", type<bool>(), Param::Default, &create_model_0_optimize_default } }, { &type<mud::Model>(), QualType::None } },
-			{ t, "create_model", Address(), mud_GfxSystem_create_model, { { "name", type<stl::string>(),  }, { "geometry", type<const mud::MeshPacker&>(),  }, { "readback", type<bool>(), Param::Default, &create_model_0_readback_default }, { "optimize", type<bool>(), Param::Default, &create_model_0_optimize_default } }, { &type<mud::Model>(), QualType::None } },
+			{ t, "create_model_geo", Address(), mud_GfxSystem_create_model_geo, { { "name", type<stl::string>(),  }, { "geometry", type<mud::MeshPacker>(),  }, { "readback", type<bool>(), Param::Default, &create_model_geo_0_readback_default }, { "optimize", type<bool>(), Param::Default, &create_model_geo_0_optimize_default } }, { &type<mud::Model>(), QualType::None } },
+			{ t, "create_model_gpu", Address(), mud_GfxSystem_create_model_gpu, { { "name", type<stl::string>(),  }, { "gpu_mesh", type<mud::GpuMesh>(),  }, { "readback", type<bool>(), Param::Default, &create_model_gpu_0_readback_default }, { "optimize", type<bool>(), Param::Default, &create_model_gpu_0_optimize_default } }, { &type<mud::Model>(), QualType::None } },
 			{ t, "fetch_material", Address(), mud_GfxSystem_fetch_material, { { "name", type<stl::string>(),  }, { "shader", type<stl::string>(),  }, { "builtin", type<bool>(), Param::Default, &fetch_material_0_builtin_default } }, { &type<mud::Material>(), QualType::None } },
 			{ t, "fetch_image256_material", Address(), mud_GfxSystem_fetch_image256_material, { { "image", type<mud::Image256>(),  } }, { &type<mud::Material>(), QualType::None } },
 			{ t, "shape", Address(), mud_GfxSystem_shape, { { "shape", type<mud::Shape>(),  }, { "symbol", type<mud::Symbol>(), Param::Default, &shape_0_symbol_default }, { "draw_mode", type<mud::DrawMode>(), Param::Default, &shape_0_draw_mode_default } }, { &type<mud::Model>(), QualType::None } },
@@ -1379,6 +1381,25 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::GpuMesh
+	{
+		Type& t = type<mud::GpuMesh>();
+		static Meta meta = { t, &namspc({ "mud" }), "GpuMesh", sizeof(mud::GpuMesh), TypeClass::Struct };
+		// bases
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_GpuMesh__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_GpuMesh__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
 	}
 	// mud::ImmediateDraw
 	{
@@ -2015,8 +2036,8 @@ namespace mud
 		static mud::vec3 construct_2_scale_default = vec3(1.f);
 		static mud::quat transform_0_rotation_default = ZeroQuat;
 		static mud::vec3 transform_0_scale_default = vec3(1.f);
-		static mud::quat transform_0_rotation_default = ZeroQuat;
-		static mud::vec3 transform_0_scale_default = vec3(1.f);
+		static mud::quat derive_0_rotation_default = ZeroQuat;
+		static mud::vec3 derive_0_scale_default = vec3(1.f);
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Node3__construct_0, {} },
@@ -2032,7 +2053,7 @@ namespace mud
 		// methods
 		static Method methods[] = {
 			{ t, "transform", Address(), mud_Node3_transform, { { "position", type<mud::vec3>(),  }, { "rotation", type<mud::quat>(), Param::Default, &transform_0_rotation_default }, { "scale", type<mud::vec3>(), Param::Default, &transform_0_scale_default } }, g_qvoid },
-			{ t, "transform", Address(), mud_Node3_transform, { { "parent", type<mud::Node3>(),  }, { "position", type<mud::vec3>(),  }, { "rotation", type<mud::quat>(), Param::Default, &transform_0_rotation_default }, { "scale", type<mud::vec3>(), Param::Default, &transform_0_scale_default } }, g_qvoid },
+			{ t, "derive", Address(), mud_Node3_derive, { { "parent", type<mud::Node3>(),  }, { "position", type<mud::vec3>(),  }, { "rotation", type<mud::quat>(), Param::Default, &derive_0_rotation_default }, { "scale", type<mud::vec3>(), Param::Default, &derive_0_scale_default } }, g_qvoid },
 			{ t, "position", Address(), mud_Node3_position, {}, { &type<mud::vec3>(), QualType::None } },
 			{ t, "axis", Address(), mud_Node3_axis, { { "dir", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } },
 			{ t, "direction", Address(), mud_Node3_direction, {}, { &type<mud::vec3>(), QualType::None } }
@@ -2692,6 +2713,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::GfxContext>());
 		m.m_types.push_back(&type<mud::GfxSystem>());
 		m.m_types.push_back(&type<mud::Gnode>());
+		m.m_types.push_back(&type<mud::GpuMesh>());
 		m.m_types.push_back(&type<mud::ImmediateDraw>());
 		m.m_types.push_back(&type<mud::ImportConfig>());
 		m.m_types.push_back(&type<mud::Interpolation>());

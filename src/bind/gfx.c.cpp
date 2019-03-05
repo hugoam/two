@@ -898,14 +898,23 @@ extern "C" {
 	mud::Model* DECL mud_GfxSystem_create_model_1(mud::GfxSystem* self, const char* name) {
 		return &self->create_model(name);
 	}
-	mud::Model* DECL mud_GfxSystem_create_model_2(mud::GfxSystem* self, const char* name, const const mud::GpuMesh& gpu_mesh) {
-		return &self->create_model(name, gpu_mesh);
+	mud::Model* DECL mud_GfxSystem_create_model_geo_2(mud::GfxSystem* self, const char* name, const mud::MeshPacker* geometry) {
+		return &self->create_model_geo(name, *geometry);
 	}
-	mud::Model* DECL mud_GfxSystem_create_model_3(mud::GfxSystem* self, const char* name, const const mud::GpuMesh& gpu_mesh, bool readback) {
-		return &self->create_model(name, gpu_mesh, readback);
+	mud::Model* DECL mud_GfxSystem_create_model_geo_3(mud::GfxSystem* self, const char* name, const mud::MeshPacker* geometry, bool readback) {
+		return &self->create_model_geo(name, *geometry, readback);
 	}
-	mud::Model* DECL mud_GfxSystem_create_model_4(mud::GfxSystem* self, const char* name, const const mud::GpuMesh& gpu_mesh, bool readback, bool optimize) {
-		return &self->create_model(name, gpu_mesh, readback, optimize);
+	mud::Model* DECL mud_GfxSystem_create_model_geo_4(mud::GfxSystem* self, const char* name, const mud::MeshPacker* geometry, bool readback, bool optimize) {
+		return &self->create_model_geo(name, *geometry, readback, optimize);
+	}
+	mud::Model* DECL mud_GfxSystem_create_model_gpu_2(mud::GfxSystem* self, const char* name, const mud::GpuMesh* gpu_mesh) {
+		return &self->create_model_gpu(name, *gpu_mesh);
+	}
+	mud::Model* DECL mud_GfxSystem_create_model_gpu_3(mud::GfxSystem* self, const char* name, const mud::GpuMesh* gpu_mesh, bool readback) {
+		return &self->create_model_gpu(name, *gpu_mesh, readback);
+	}
+	mud::Model* DECL mud_GfxSystem_create_model_gpu_4(mud::GfxSystem* self, const char* name, const mud::GpuMesh* gpu_mesh, bool readback, bool optimize) {
+		return &self->create_model_gpu(name, *gpu_mesh, readback, optimize);
 	}
 	mud::Material* DECL mud_GfxSystem_fetch_material_2(mud::GfxSystem* self, const char* name, const char* shader) {
 		return &self->fetch_material(name, shader);
@@ -954,6 +963,16 @@ extern "C" {
 		return &mud::type<mud::Gnode>();
 	}
 	void DECL mud_Gnode__destroy(mud::Gnode* self) {
+		delete self;
+	}
+	// GpuMesh
+	mud::Type* DECL mud_GpuMesh__type() {
+		return &mud::type<mud::GpuMesh>();
+	}
+	mud::GpuMesh* DECL mud_GpuMesh__construct_0() {
+		return new mud::GpuMesh();
+	}
+	void DECL mud_GpuMesh__destroy(mud::GpuMesh* self) {
 		delete self;
 	}
 	// ImmediateDraw
@@ -2022,6 +2041,15 @@ extern "C" {
 	}
 	void DECL mud_Node3_transform_3(mud::Node3* self, const mud::vec3* position, const mud::quat* rotation, const mud::vec3* scale) {
 		self->transform(*position, *rotation, *scale);
+	}
+	void DECL mud_Node3_derive_2(mud::Node3* self, const mud::Node3* parent, const mud::vec3* position) {
+		self->derive(*parent, *position);
+	}
+	void DECL mud_Node3_derive_3(mud::Node3* self, const mud::Node3* parent, const mud::vec3* position, const mud::quat* rotation) {
+		self->derive(*parent, *position, *rotation);
+	}
+	void DECL mud_Node3_derive_4(mud::Node3* self, const mud::Node3* parent, const mud::vec3* position, const mud::quat* rotation, const mud::vec3* scale) {
+		self->derive(*parent, *position, *rotation, *scale);
 	}
 	mud::vec3* DECL mud_Node3_position_0(mud::Node3* self) {
 		static mud::vec3 temp;

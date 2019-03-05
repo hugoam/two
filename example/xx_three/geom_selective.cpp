@@ -112,7 +112,7 @@ void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar)
 					geometry.m_colours.push_back(color1);
 				}
 
-			model = &app.m_gfx.create_model("lines", geometry, false); // , dynamic = true);
+			model = &app.m_gfx.create_model_geo("lines", geometry, false); // , dynamic = true);
 
 			Node3& n = gfx::nodes(scene).add(Node3());
 			Item& it = gfx::items(scene).add(Item(n, *model, 0U, &material));
