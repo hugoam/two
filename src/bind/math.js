@@ -1652,6 +1652,9 @@ quat.prototype["__destroy__"] = quat.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_quat__destroy(self);
 };
+Module['rgb'] = function(a0) {
+    return wrapPointer(_mud_rgb_1(/*colour*/a0), Colour);
+};
 Module['rgba'] = function(a0) {
     return wrapPointer(_mud_rgba_1(/*colour*/a0), Colour);
 };

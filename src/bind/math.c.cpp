@@ -1211,6 +1211,10 @@ extern "C" {
 	void DECL mud_quat__destroy(mud::quat* self) {
 		delete self;
 	}
+	mud::Colour* DECL mud_rgb_1(uint32_t colour) {
+		static mud::Colour temp;
+		return (temp = mud::rgb(colour), &temp);
+	}
 	mud::Colour* DECL mud_rgba_1(uint32_t colour) {
 		static mud::Colour temp;
 		return (temp = mud::rgba(colour), &temp);

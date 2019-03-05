@@ -76,6 +76,16 @@ MeshPacker.prototype.constructor = MeshPacker;
 MeshPacker.prototype.__class__ = MeshPacker;
 MeshPacker.__cache__ = {};
 Module['MeshPacker'] = MeshPacker;
+Object.defineProperty(MeshPacker.prototype, "primitive", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MeshPacker__get_primitive(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_MeshPacker__set_primitive(self, value);
+    }
+});
 MeshPacker.prototype["__destroy__"] = MeshPacker.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_MeshPacker__destroy(self);
@@ -749,6 +759,31 @@ Grid3.prototype["__destroy__"] = Grid3.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Grid3__destroy(self);
 };
+// Icosahedron
+function Icosahedron(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_Icosahedron__construct_0(); this.type = Icosahedron; getCache(Icosahedron)[this.ptr] = this; return; }
+    if (a1 === undefined) { this.ptr = _mud_Icosahedron__construct_1(/*radius*/a0); this.type = Icosahedron; getCache(Icosahedron)[this.ptr] = this; return; }
+    this.ptr = _mud_Icosahedron__construct_2(/*center*/a0.ptr, /*radius*/a1); this.type = Icosahedron; getCache(Icosahedron)[this.ptr] = this;
+};
+Icosahedron.prototype = Object.create(Shape.prototype);
+Icosahedron.prototype.constructor = Icosahedron;
+Icosahedron.prototype.__class__ = Icosahedron;
+Icosahedron.__cache__ = {};
+Module['Icosahedron'] = Icosahedron;
+Object.defineProperty(Icosahedron.prototype, "radius", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Icosahedron__get_radius(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Icosahedron__set_radius(self, value);
+    }
+});
+Icosahedron.prototype["__destroy__"] = Icosahedron.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_Icosahedron__destroy(self);
+};
 // Line
 function Line(a0, a1) {
     if (a0 === undefined) { this.ptr = _mud_Line__construct_0(); this.type = Line; getCache(Line)[this.ptr] = this; return; }
@@ -1060,6 +1095,41 @@ Torus.prototype["__destroy__"] = Torus.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Torus__destroy(self);
 };
+// TorusKnot
+function TorusKnot(a0, a1, a2) {
+    if (a0 === undefined) { this.ptr = _mud_TorusKnot__construct_0(); this.type = TorusKnot; getCache(TorusKnot)[this.ptr] = this; return; }
+    if (a2 === undefined) { this.ptr = _mud_TorusKnot__construct_2(/*radius*/a0, /*solid_radius*/a1); this.type = TorusKnot; getCache(TorusKnot)[this.ptr] = this; return; }
+    this.ptr = _mud_TorusKnot__construct_3(/*center*/a0.ptr, /*radius*/a1, /*solid_radius*/a2); this.type = TorusKnot; getCache(TorusKnot)[this.ptr] = this;
+};
+TorusKnot.prototype = Object.create(Shape.prototype);
+TorusKnot.prototype.constructor = TorusKnot;
+TorusKnot.prototype.__class__ = TorusKnot;
+TorusKnot.__cache__ = {};
+Module['TorusKnot'] = TorusKnot;
+Object.defineProperty(TorusKnot.prototype, "radius", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_TorusKnot__get_radius(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_TorusKnot__set_radius(self, value);
+    }
+});
+Object.defineProperty(TorusKnot.prototype, "solid_radius", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_TorusKnot__get_solid_radius(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_TorusKnot__set_solid_radius(self, value);
+    }
+});
+TorusKnot.prototype["__destroy__"] = TorusKnot.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TorusKnot__destroy(self);
+};
 // Triangle
 function Triangle(a0) {
     if (a0 === undefined) { this.ptr = _mud_Triangle__construct_0(); this.type = Triangle; getCache(Triangle)[this.ptr] = this; return; }
@@ -1117,6 +1187,7 @@ Module['to_segment'] = function(a0) {
         Geometry.__type__ = _mud_Geometry__type();
         Grid2.__type__ = _mud_Grid2__type();
         Grid3.__type__ = _mud_Grid3__type();
+        Icosahedron.__type__ = _mud_Icosahedron__type();
         Line.__type__ = _mud_Line__type();
         Points.__type__ = _mud_Points__type();
         Poisson.__type__ = _mud_Poisson__type();
@@ -1128,6 +1199,7 @@ Module['to_segment'] = function(a0) {
         SphereRing.__type__ = _mud_SphereRing__type();
         Spheroid.__type__ = _mud_Spheroid__type();
         Torus.__type__ = _mud_Torus__type();
+        TorusKnot.__type__ = _mud_TorusKnot__type();
         Triangle.__type__ = _mud_Triangle__type();
         // DrawMode
         Module['OUTLINE'] = _mud_DrawMode_OUTLINE();
@@ -1136,11 +1208,11 @@ Module['to_segment'] = function(a0) {
         Module['PrimitiveType'] = Module['PrimitiveType'] || {};
         Module['PrimitiveType']['Points'] = _mud_PrimitiveType_Points();
         Module['PrimitiveType']['Lines'] = _mud_PrimitiveType_Lines();
-        Module['PrimitiveType']['LineLoop'] = _mud_PrimitiveType_LineLoop();
         Module['PrimitiveType']['LineStrip'] = _mud_PrimitiveType_LineStrip();
         Module['PrimitiveType']['Triangles'] = _mud_PrimitiveType_Triangles();
         Module['PrimitiveType']['TriangleStrip'] = _mud_PrimitiveType_TriangleStrip();
         Module['PrimitiveType']['TriangleFan'] = _mud_PrimitiveType_TriangleFan();
+        Module['PrimitiveType']['Count'] = _mud_PrimitiveType_Count();
         // SymbolDetail
         Module['SymbolDetail'] = Module['SymbolDetail'] || {};
         Module['SymbolDetail']['Lowest'] = _mud_SymbolDetail_Lowest();

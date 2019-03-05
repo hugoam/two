@@ -72,6 +72,10 @@ namespace mud
 #include <stl/vector.h>
 namespace stl
 {
+	export_ extern template class refl_ seque_ vector<mud::vec2>;
+	export_ extern template class refl_ seque_ vector<mud::vec4>;
+	export_ extern template class refl_ seque_ vector<mud::ivec4>;
+
 	export_ extern template class refl_ seque_ vector<mud::Circle>;
 }
 #endif

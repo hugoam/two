@@ -603,10 +603,13 @@ Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
         Tonemap.__type__ = _mud_Tonemap__type();
         // TonemapMode
         Module['TonemapMode'] = Module['TonemapMode'] || {};
+        Module['TonemapMode']['None'] = _mud_TonemapMode_None();
         Module['TonemapMode']['Linear'] = _mud_TonemapMode_Linear();
         Module['TonemapMode']['Reinhardt'] = _mud_TonemapMode_Reinhardt();
         Module['TonemapMode']['Filmic'] = _mud_TonemapMode_Filmic();
         Module['TonemapMode']['ACES'] = _mud_TonemapMode_ACES();
+        Module['TonemapMode']['Cineon'] = _mud_TonemapMode_Cineon();
+        Module['TonemapMode']['Uncharted2'] = _mud_TonemapMode_Uncharted2();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

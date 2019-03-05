@@ -67,6 +67,12 @@ extern "C" {
 	mud::MeshPacker* DECL mud_MeshPacker__construct_0() {
 		return new mud::MeshPacker();
 	}
+	mud::PrimitiveType DECL mud_MeshPacker__get_primitive(mud::MeshPacker* self) {
+		return self->m_primitive;
+	}
+	void DECL mud_MeshPacker__set_primitive(mud::MeshPacker* self, mud::PrimitiveType value) {
+		self->m_primitive = value;
+	}
 	void DECL mud_MeshPacker__destroy(mud::MeshPacker* self) {
 		delete self;
 	}
@@ -569,6 +575,28 @@ extern "C" {
 	void DECL mud_Grid3__destroy(mud::Grid3* self) {
 		delete self;
 	}
+	// Icosahedron
+	mud::Type* DECL mud_Icosahedron__type() {
+		return &mud::type<mud::Icosahedron>();
+	}
+	mud::Icosahedron* DECL mud_Icosahedron__construct_0() {
+		return new mud::Icosahedron();
+	}
+	mud::Icosahedron* DECL mud_Icosahedron__construct_1(float radius) {
+		return new mud::Icosahedron(radius);
+	}
+	mud::Icosahedron* DECL mud_Icosahedron__construct_2(const mud::vec3* center, float radius) {
+		return new mud::Icosahedron(*center, radius);
+	}
+	float DECL mud_Icosahedron__get_radius(mud::Icosahedron* self) {
+		return self->m_radius;
+	}
+	void DECL mud_Icosahedron__set_radius(mud::Icosahedron* self, float value) {
+		self->m_radius = value;
+	}
+	void DECL mud_Icosahedron__destroy(mud::Icosahedron* self) {
+		delete self;
+	}
 	// Line
 	mud::Type* DECL mud_Line__type() {
 		return &mud::type<mud::Line>();
@@ -814,6 +842,34 @@ extern "C" {
 	void DECL mud_Torus__destroy(mud::Torus* self) {
 		delete self;
 	}
+	// TorusKnot
+	mud::Type* DECL mud_TorusKnot__type() {
+		return &mud::type<mud::TorusKnot>();
+	}
+	mud::TorusKnot* DECL mud_TorusKnot__construct_0() {
+		return new mud::TorusKnot();
+	}
+	mud::TorusKnot* DECL mud_TorusKnot__construct_2(float radius, float solid_radius) {
+		return new mud::TorusKnot(radius, solid_radius);
+	}
+	mud::TorusKnot* DECL mud_TorusKnot__construct_3(const mud::vec3* center, float radius, float solid_radius) {
+		return new mud::TorusKnot(*center, radius, solid_radius);
+	}
+	float DECL mud_TorusKnot__get_radius(mud::TorusKnot* self) {
+		return self->m_radius;
+	}
+	void DECL mud_TorusKnot__set_radius(mud::TorusKnot* self, float value) {
+		self->m_radius = value;
+	}
+	float DECL mud_TorusKnot__get_solid_radius(mud::TorusKnot* self) {
+		return self->m_solid_radius;
+	}
+	void DECL mud_TorusKnot__set_solid_radius(mud::TorusKnot* self, float value) {
+		self->m_solid_radius = value;
+	}
+	void DECL mud_TorusKnot__destroy(mud::TorusKnot* self) {
+		delete self;
+	}
 	// Triangle
 	mud::Type* DECL mud_Triangle__type() {
 		return &mud::type<mud::Triangle>();
@@ -859,9 +915,6 @@ extern "C" {
 	mud::PrimitiveType DECL mud_PrimitiveType_Lines() {
 		return mud::PrimitiveType::Lines;
 	}
-	mud::PrimitiveType DECL mud_PrimitiveType_LineLoop() {
-		return mud::PrimitiveType::LineLoop;
-	}
 	mud::PrimitiveType DECL mud_PrimitiveType_LineStrip() {
 		return mud::PrimitiveType::LineStrip;
 	}
@@ -873,6 +926,9 @@ extern "C" {
 	}
 	mud::PrimitiveType DECL mud_PrimitiveType_TriangleFan() {
 		return mud::PrimitiveType::TriangleFan;
+	}
+	mud::PrimitiveType DECL mud_PrimitiveType_Count() {
+		return mud::PrimitiveType::Count;
 	}
 	// SymbolDetail
 	mud::SymbolDetail DECL mud_SymbolDetail_Lowest() {

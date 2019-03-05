@@ -391,6 +391,9 @@ extern "C" {
 		return &mud::gfx::lightmap(*parent, resolution, density, save_path);
 	}
 	// TonemapMode
+	mud::TonemapMode DECL mud_TonemapMode_None() {
+		return mud::TonemapMode::None;
+	}
 	mud::TonemapMode DECL mud_TonemapMode_Linear() {
 		return mud::TonemapMode::Linear;
 	}
@@ -402,6 +405,12 @@ extern "C" {
 	}
 	mud::TonemapMode DECL mud_TonemapMode_ACES() {
 		return mud::TonemapMode::ACES;
+	}
+	mud::TonemapMode DECL mud_TonemapMode_Cineon() {
+		return mud::TonemapMode::Cineon;
+	}
+	mud::TonemapMode DECL mud_TonemapMode_Uncharted2() {
+		return mud::TonemapMode::Uncharted2;
 	}
 	
 }

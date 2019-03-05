@@ -46,10 +46,10 @@ Object.defineProperty(Shell.prototype, "job_system", {
         var self = this.ptr;
         return wrapPointer(_mud_Shell__get_job_system(self), JobSystem);
     }});
-Object.defineProperty(Shell.prototype, "gfx_system", {
+Object.defineProperty(Shell.prototype, "gfx", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Shell__get_gfx_system(self), GfxSystem);
+        return wrapPointer(_mud_Shell__get_gfx(self), GfxSystem);
     }});
 Object.defineProperty(Shell.prototype, "editor", {
     get: function() {

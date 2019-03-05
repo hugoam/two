@@ -23,6 +23,9 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::SymbolDetail>();
     
     export_ template <> MUD_GEOM_EXPORT Type& type<stl::vector<mud::Circle>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<stl::vector<mud::ivec4>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<stl::vector<mud::vec2>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<stl::vector<mud::vec4>>();
     
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>();
@@ -47,6 +50,7 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Geometry>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Grid2>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Grid3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Icosahedron>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Line>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Points>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>();
@@ -57,7 +61,7 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Sphere>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::SphereRing>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>();
-	export_ template <> MUD_GEOM_EXPORT Type& type<mud::Icosahedron>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Torus>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::TorusKnot>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>();
 }

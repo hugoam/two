@@ -220,39 +220,6 @@ CircleBrush.prototype["__destroy__"] = CircleBrush.prototype.__destroy__ = funct
     var self = this.ptr;
     _mud_CircleBrush__destroy(self);
 };
-// CopyAction
-function CopyAction() { throw "cannot construct a CopyAction, no constructor in IDL" }
-CopyAction.prototype = Object.create(TranslateAction.prototype);
-CopyAction.prototype.constructor = CopyAction;
-CopyAction.prototype.__class__ = CopyAction;
-CopyAction.__cache__ = {};
-Module['CopyAction'] = CopyAction;
-CopyAction.prototype["__destroy__"] = CopyAction.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_CopyAction__destroy(self);
-};
-// CopyTool
-function CopyTool() { throw "cannot construct a CopyTool, no constructor in IDL" }
-CopyTool.prototype = Object.create(TransformTool.prototype);
-CopyTool.prototype.constructor = CopyTool;
-CopyTool.prototype.__class__ = CopyTool;
-CopyTool.__cache__ = {};
-Module['CopyTool'] = CopyTool;
-CopyTool.prototype["__destroy__"] = CopyTool.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_CopyTool__destroy(self);
-};
-// FrameViewTool
-function FrameViewTool() { throw "cannot construct a FrameViewTool, no constructor in IDL" }
-FrameViewTool.prototype = Object.create(ViewportTool.prototype);
-FrameViewTool.prototype.constructor = FrameViewTool;
-FrameViewTool.prototype.__class__ = FrameViewTool;
-FrameViewTool.__cache__ = {};
-Module['FrameViewTool'] = FrameViewTool;
-FrameViewTool.prototype["__destroy__"] = FrameViewTool.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_FrameViewTool__destroy(self);
-};
 // PlaceBrush
 function PlaceBrush(a0) {
     this.ptr = _mud_PlaceBrush__construct_1(/*context*/a0.ptr); this.type = PlaceBrush; getCache(PlaceBrush)[this.ptr] = this;
@@ -325,28 +292,6 @@ Module['ScaleAction'] = ScaleAction;
 ScaleAction.prototype["__destroy__"] = ScaleAction.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_ScaleAction__destroy(self);
-};
-// ViewportTool
-function ViewportTool() { throw "cannot construct a ViewportTool, no constructor in IDL" }
-ViewportTool.prototype = Object.create(Tool.prototype);
-ViewportTool.prototype.constructor = ViewportTool;
-ViewportTool.prototype.__class__ = ViewportTool;
-ViewportTool.__cache__ = {};
-Module['ViewportTool'] = ViewportTool;
-ViewportTool.prototype["__destroy__"] = ViewportTool.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_ViewportTool__destroy(self);
-};
-// SpatialTool
-function SpatialTool() { throw "cannot construct a SpatialTool, no constructor in IDL" }
-SpatialTool.prototype = Object.create(ViewportTool.prototype);
-SpatialTool.prototype.constructor = SpatialTool;
-SpatialTool.prototype.__class__ = SpatialTool;
-SpatialTool.__cache__ = {};
-Module['SpatialTool'] = SpatialTool;
-SpatialTool.prototype["__destroy__"] = SpatialTool.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_SpatialTool__destroy(self);
 };
 // ScaleTool
 function ScaleTool() { throw "cannot construct a ScaleTool, no constructor in IDL" }
@@ -425,6 +370,61 @@ Module['TranslateAction'] = TranslateAction;
 TranslateAction.prototype["__destroy__"] = TranslateAction.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_TranslateAction__destroy(self);
+};
+// CopyAction
+function CopyAction() { throw "cannot construct a CopyAction, no constructor in IDL" }
+CopyAction.prototype = Object.create(TranslateAction.prototype);
+CopyAction.prototype.constructor = CopyAction;
+CopyAction.prototype.__class__ = CopyAction;
+CopyAction.__cache__ = {};
+Module['CopyAction'] = CopyAction;
+CopyAction.prototype["__destroy__"] = CopyAction.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_CopyAction__destroy(self);
+};
+// CopyTool
+function CopyTool() { throw "cannot construct a CopyTool, no constructor in IDL" }
+CopyTool.prototype = Object.create(TransformTool.prototype);
+CopyTool.prototype.constructor = CopyTool;
+CopyTool.prototype.__class__ = CopyTool;
+CopyTool.__cache__ = {};
+Module['CopyTool'] = CopyTool;
+CopyTool.prototype["__destroy__"] = CopyTool.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_CopyTool__destroy(self);
+};
+// ViewportTool
+function ViewportTool() { throw "cannot construct a ViewportTool, no constructor in IDL" }
+ViewportTool.prototype = Object.create(Tool.prototype);
+ViewportTool.prototype.constructor = ViewportTool;
+ViewportTool.prototype.__class__ = ViewportTool;
+ViewportTool.__cache__ = {};
+Module['ViewportTool'] = ViewportTool;
+ViewportTool.prototype["__destroy__"] = ViewportTool.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_ViewportTool__destroy(self);
+};
+// FrameViewTool
+function FrameViewTool() { throw "cannot construct a FrameViewTool, no constructor in IDL" }
+FrameViewTool.prototype = Object.create(ViewportTool.prototype);
+FrameViewTool.prototype.constructor = FrameViewTool;
+FrameViewTool.prototype.__class__ = FrameViewTool;
+FrameViewTool.__cache__ = {};
+Module['FrameViewTool'] = FrameViewTool;
+FrameViewTool.prototype["__destroy__"] = FrameViewTool.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_FrameViewTool__destroy(self);
+};
+// SpatialTool
+function SpatialTool() { throw "cannot construct a SpatialTool, no constructor in IDL" }
+SpatialTool.prototype = Object.create(ViewportTool.prototype);
+SpatialTool.prototype.constructor = SpatialTool;
+SpatialTool.prototype.__class__ = SpatialTool;
+SpatialTool.__cache__ = {};
+Module['SpatialTool'] = SpatialTool;
+SpatialTool.prototype["__destroy__"] = SpatialTool.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_SpatialTool__destroy(self);
 };
 // TranslateTool
 function TranslateTool() { throw "cannot construct a TranslateTool, no constructor in IDL" }
@@ -514,23 +514,23 @@ WorldSnapOption.prototype["__destroy__"] = WorldSnapOption.prototype.__destroy__
         ToolOption.__type__ = _mud_ToolOption__type();
         Brush.__type__ = _mud_Brush__type();
         CircleBrush.__type__ = _mud_CircleBrush__type();
-        CopyAction.__type__ = _mud_CopyAction__type();
-        CopyTool.__type__ = _mud_CopyTool__type();
-        FrameViewTool.__type__ = _mud_FrameViewTool__type();
         PlaceBrush.__type__ = _mud_PlaceBrush__type();
         PlaneSnapOption.__type__ = _mud_PlaneSnapOption__type();
         RedoTool.__type__ = _mud_RedoTool__type();
         RotateAction.__type__ = _mud_RotateAction__type();
         RotateTool.__type__ = _mud_RotateTool__type();
         ScaleAction.__type__ = _mud_ScaleAction__type();
-        ViewportTool.__type__ = _mud_ViewportTool__type();
-        SpatialTool.__type__ = _mud_SpatialTool__type();
         ScaleTool.__type__ = _mud_ScaleTool__type();
         ScriptedBrush.__type__ = _mud_ScriptedBrush__type();
         TransformAction.__type__ = _mud_TransformAction__type();
         TransformGizmo.__type__ = _mud_TransformGizmo__type();
         TransformTool.__type__ = _mud_TransformTool__type();
         TranslateAction.__type__ = _mud_TranslateAction__type();
+        CopyAction.__type__ = _mud_CopyAction__type();
+        CopyTool.__type__ = _mud_CopyTool__type();
+        ViewportTool.__type__ = _mud_ViewportTool__type();
+        FrameViewTool.__type__ = _mud_FrameViewTool__type();
+        SpatialTool.__type__ = _mud_SpatialTool__type();
         TranslateTool.__type__ = _mud_TranslateTool__type();
         UndoTool.__type__ = _mud_UndoTool__type();
         ViewAction.__type__ = _mud_ViewAction__type();

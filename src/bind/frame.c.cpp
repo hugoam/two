@@ -46,8 +46,8 @@ extern "C" {
 	mud::JobSystem* DECL mud_Shell__get_job_system(mud::Shell* self) {
 		return &self->m_job_system;
 	}
-	mud::GfxSystem* DECL mud_Shell__get_gfx_system(mud::Shell* self) {
-		return &self->m_gfx_system;
+	mud::GfxSystem* DECL mud_Shell__get_gfx(mud::Shell* self) {
+		return &self->m_gfx;
 	}
 	mud::ShellContext* DECL mud_Shell__get_editor(mud::Shell* self) {
 		return &self->m_editor;

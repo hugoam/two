@@ -517,6 +517,30 @@ Background.prototype["__destroy__"] = Background.prototype.__destroy__ = functio
     var self = this.ptr;
     _mud_Background__destroy(self);
 };
+// Batch
+function Batch(a0) {
+    if (a0 === undefined) { this.ptr = _mud_Batch__construct_0(); this.type = Batch; getCache(Batch)[this.ptr] = this; return; }
+    this.ptr = _mud_Batch__construct_1(/*item*/a0.ptr); this.type = Batch; getCache(Batch)[this.ptr] = this;
+};
+Batch.prototype = Object.create(WrapperObject.prototype);
+Batch.prototype.constructor = Batch;
+Batch.prototype.__class__ = Batch;
+Batch.__cache__ = {};
+Module['Batch'] = Batch;
+Object.defineProperty(Batch.prototype, "item", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Batch__get_item(self), Item);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Batch__set_item(self, value.ptr);
+    }
+});
+Batch.prototype["__destroy__"] = Batch.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_Batch__destroy(self);
+};
 // Bone
 function Bone() {
     this.ptr = _mud_Bone__construct_0(); this.type = Bone; getCache(Bone)[this.ptr] = this;
@@ -775,6 +799,40 @@ DepthParams.prototype["__destroy__"] = DepthParams.prototype.__destroy__ = funct
     var self = this.ptr;
     _mud_DepthParams__destroy(self);
 };
+// Direct
+function Direct(a0, a1) {
+    if (a0 === undefined) { this.ptr = _mud_Direct__construct_0(); this.type = Direct; getCache(Direct)[this.ptr] = this; return; }
+    this.ptr = _mud_Direct__construct_2(/*node*/a0.ptr, /*material*/a1.ptr); this.type = Direct; getCache(Direct)[this.ptr] = this;
+};
+Direct.prototype = Object.create(WrapperObject.prototype);
+Direct.prototype.constructor = Direct;
+Direct.prototype.__class__ = Direct;
+Direct.__cache__ = {};
+Module['Direct'] = Direct;
+Object.defineProperty(Direct.prototype, "node", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Direct__get_node(self), Node3);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Direct__set_node(self, value.ptr);
+    }
+});
+Object.defineProperty(Direct.prototype, "material", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Direct__get_material(self), Material);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Direct__set_material(self, value.ptr);
+    }
+});
+Direct.prototype["__destroy__"] = Direct.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_Direct__destroy(self);
+};
 // DistanceParams
 function DistanceParams() {
     this.ptr = _mud_DistanceParams__construct_0(); this.type = DistanceParams; getCache(DistanceParams)[this.ptr] = this;
@@ -882,12 +940,7 @@ Object.defineProperty(Flow.prototype, "shape", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_mud_Flow__get_shape(self), ShapeVar);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Flow__set_shape(self, value.ptr);
-    }
-});
+    }});
 Object.defineProperty(Flow.prototype, "flow", {
     get: function() {
         var self = this.ptr;
@@ -1341,6 +1394,14 @@ GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = fun
     var self = this.ptr;
     return wrapPointer(_mud_GfxSystem_debug_material_0(self), Material);
 };
+GfxSystem.prototype["create_model"] = GfxSystem.prototype.create_model = function(a0, a1, a2, a3) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    if (a1 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_1(self, ensureString(/*name*/a0)), Model); }
+    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_2(self, ensureString(/*name*/a0), /*gpu_mesh*/a1), Model); }
+    if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_3(self, ensureString(/*name*/a0), /*gpu_mesh*/a1, /*readback*/a2), Model); }
+    return wrapPointer(_mud_GfxSystem_create_model_4(self, ensureString(/*name*/a0), /*gpu_mesh*/a1, /*readback*/a2, /*optimize*/a3), Model);
+};
 GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(a0, a1, a2) {
     var self = this.ptr;
     ensureCache.prepare();
@@ -1351,13 +1412,15 @@ GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image
     var self = this.ptr;
     return wrapPointer(_mud_GfxSystem_fetch_image256_material_1(self, /*image*/a0.ptr), Material);
 };
-GfxSystem.prototype["fetch_symbol"] = GfxSystem.prototype.fetch_symbol = function(a0, a1, a2) {
+GfxSystem.prototype["shape"] = GfxSystem.prototype.shape = function(a0, a1, a2) {
     var self = this.ptr;
-    return wrapPointer(_mud_GfxSystem_fetch_symbol_3(self, /*symbol*/a0.ptr, /*shape*/a1.ptr, /*draw_mode*/a2), Model);
+    if (a1 === undefined) { return wrapPointer(_mud_GfxSystem_shape_1(self, /*shape*/a0.ptr), Model); }
+    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_shape_2(self, /*shape*/a0.ptr, /*symbol*/a1.ptr), Model); }
+    return wrapPointer(_mud_GfxSystem_shape_3(self, /*shape*/a0.ptr, /*symbol*/a1.ptr, /*draw_mode*/a2), Model);
 };
-GfxSystem.prototype["fetch_symbol_material"] = GfxSystem.prototype.fetch_symbol_material = function(a0, a1) {
+GfxSystem.prototype["symbol_material"] = GfxSystem.prototype.symbol_material = function(a0, a1) {
     var self = this.ptr;
-    return wrapPointer(_mud_GfxSystem_fetch_symbol_material_2(self, /*symbol*/a0.ptr, /*draw_mode*/a1), Material);
+    return wrapPointer(_mud_GfxSystem_symbol_material_2(self, /*symbol*/a0.ptr, /*draw_mode*/a1), Material);
 };
 Object.defineProperty(GfxSystem.prototype, "textures", {
     get: function() {
@@ -1529,18 +1592,21 @@ ImportConfig.prototype["__destroy__"] = ImportConfig.prototype.__destroy__ = fun
     _mud_ImportConfig__destroy(self);
 };
 // Item
-function Item(a0, a1, a2, a3, a4) {
+function Item(a0, a1, a2, a3) {
     if (a0 === undefined) { this.ptr = _mud_Item__construct_0(); this.type = Item; getCache(Item)[this.ptr] = this; return; }
     if (a2 === undefined) { this.ptr = _mud_Item__construct_2(/*node*/a0.ptr, /*model*/a1.ptr); this.type = Item; getCache(Item)[this.ptr] = this; return; }
     if (a3 === undefined) { this.ptr = _mud_Item__construct_3(/*node*/a0.ptr, /*model*/a1.ptr, /*flags*/a2); this.type = Item; getCache(Item)[this.ptr] = this; return; }
-    if (a4 === undefined) { this.ptr = _mud_Item__construct_4(/*node*/a0.ptr, /*model*/a1.ptr, /*flags*/a2, /*material*/a3.ptr); this.type = Item; getCache(Item)[this.ptr] = this; return; }
-    this.ptr = _mud_Item__construct_5(/*node*/a0.ptr, /*model*/a1.ptr, /*flags*/a2, /*material*/a3.ptr, /*instances*/a4); this.type = Item; getCache(Item)[this.ptr] = this;
+    this.ptr = _mud_Item__construct_4(/*node*/a0.ptr, /*model*/a1.ptr, /*flags*/a2, /*material*/a3.ptr); this.type = Item; getCache(Item)[this.ptr] = this;
 };
 Item.prototype = Object.create(WrapperObject.prototype);
 Item.prototype.constructor = Item;
 Item.prototype.__class__ = Item;
 Item.__cache__ = {};
 Module['Item'] = Item;
+Item.prototype["update_aabb"] = Item.prototype.update_aabb = function() {
+    var self = this.ptr;
+    _mud_Item_update_aabb_0(self);
+};
 Object.defineProperty(Item.prototype, "node", {
     get: function() {
         var self = this.ptr;
@@ -1639,10 +1705,13 @@ Joint.prototype["__destroy__"] = Joint.prototype.__destroy__ = function() {
     _mud_Joint__destroy(self);
 };
 // Light
-function Light(a0, a1, a2) {
+function Light(a0, a1, a2, a3, a4, a5) {
     if (a1 === undefined) { this.ptr = _mud_Light__construct_1(/*node*/a0.ptr); this.type = Light; getCache(Light)[this.ptr] = this; return; }
     if (a2 === undefined) { this.ptr = _mud_Light__construct_2(/*node*/a0.ptr, /*type*/a1); this.type = Light; getCache(Light)[this.ptr] = this; return; }
-    this.ptr = _mud_Light__construct_3(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2); this.type = Light; getCache(Light)[this.ptr] = this;
+    if (a3 === undefined) { this.ptr = _mud_Light__construct_3(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2); this.type = Light; getCache(Light)[this.ptr] = this; return; }
+    if (a4 === undefined) { this.ptr = _mud_Light__construct_4(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2, /**/a3.ptr); this.type = Light; getCache(Light)[this.ptr] = this; return; }
+    if (a5 === undefined) { this.ptr = _mud_Light__construct_5(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2, /**/a3.ptr, /*energy*/a4); this.type = Light; getCache(Light)[this.ptr] = this; return; }
+    this.ptr = _mud_Light__construct_6(/*node*/a0.ptr, /*type*/a1, /*shadows*/a2, /**/a3.ptr, /*energy*/a4, /*range*/a5); this.type = Light; getCache(Light)[this.ptr] = this;
 };
 Light.prototype = Object.create(WrapperObject.prototype);
 Light.prototype.constructor = Light;
@@ -1915,14 +1984,34 @@ Object.defineProperty(Material.prototype, "alpha", {
         _mud_Material__set_alpha(self, value.ptr);
     }
 });
-Object.defineProperty(Material.prototype, "unshaded", {
+Object.defineProperty(Material.prototype, "solid", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Material__get_unshaded(self), MaterialUnshaded);
+        return wrapPointer(_mud_Material__get_solid(self), MaterialSolid);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_Material__set_unshaded(self, value.ptr);
+        _mud_Material__set_solid(self, value.ptr);
+    }
+});
+Object.defineProperty(Material.prototype, "point", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Material__get_point(self), MaterialPoint);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Material__set_point(self, value.ptr);
+    }
+});
+Object.defineProperty(Material.prototype, "line", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_Material__get_line(self), MaterialLine);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Material__set_line(self, value.ptr);
     }
 });
 Object.defineProperty(Material.prototype, "pbr", {
@@ -2031,14 +2120,14 @@ Object.defineProperty(MaterialBase.prototype, "cull_mode", {
         _mud_MaterialBase__set_cull_mode(self, value);
     }
 });
-Object.defineProperty(MaterialBase.prototype, "depth_draw_mode", {
+Object.defineProperty(MaterialBase.prototype, "depth_draw", {
     get: function() {
         var self = this.ptr;
-        return _mud_MaterialBase__get_depth_draw_mode(self);
+        return _mud_MaterialBase__get_depth_draw(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_MaterialBase__set_depth_draw_mode(self, value);
+        _mud_MaterialBase__set_depth_draw(self, value);
     }
 });
 Object.defineProperty(MaterialBase.prototype, "depth_test", {
@@ -2091,6 +2180,16 @@ Object.defineProperty(MaterialBase.prototype, "uv1_offset", {
         _mud_MaterialBase__set_uv1_offset(self, value.ptr);
     }
 });
+Object.defineProperty(MaterialBase.prototype, "shader_color", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MaterialBase__get_shader_color(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_MaterialBase__set_shader_color(self, value);
+    }
+});
 Object.defineProperty(MaterialBase.prototype, "screen_filter", {
     get: function() {
         var self = this.ptr;
@@ -2099,6 +2198,16 @@ Object.defineProperty(MaterialBase.prototype, "screen_filter", {
     set: function(value) {
         var self = this.ptr;
         _mud_MaterialBase__set_screen_filter(self, value);
+    }
+});
+Object.defineProperty(MaterialBase.prototype, "anisotropy", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MaterialBase__get_anisotropy(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_MaterialBase__set_anisotropy(self, value);
     }
 });
 MaterialBase.prototype["__destroy__"] = MaterialBase.prototype.__destroy__ = function() {
@@ -2157,6 +2266,69 @@ Object.defineProperty(MaterialFresnel.prototype, "fresnel_power", {
 MaterialFresnel.prototype["__destroy__"] = MaterialFresnel.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_MaterialFresnel__destroy(self);
+};
+// MaterialLine
+function MaterialLine() {
+    this.ptr = _mud_MaterialLine__construct_0(); this.type = MaterialLine; getCache(MaterialLine)[this.ptr] = this;
+};
+MaterialLine.prototype = Object.create(WrapperObject.prototype);
+MaterialLine.prototype.constructor = MaterialLine;
+MaterialLine.prototype.__class__ = MaterialLine;
+MaterialLine.__cache__ = {};
+Module['MaterialLine'] = MaterialLine;
+Object.defineProperty(MaterialLine.prototype, "line_width", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MaterialLine__get_line_width(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_MaterialLine__set_line_width(self, value);
+    }
+});
+Object.defineProperty(MaterialLine.prototype, "dashed", {
+    get: function() {
+        var self = this.ptr;
+        return !!(_mud_MaterialLine__get_dashed(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_MaterialLine__set_dashed(self, value);
+    }
+});
+Object.defineProperty(MaterialLine.prototype, "dash_scale", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MaterialLine__get_dash_scale(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_MaterialLine__set_dash_scale(self, value);
+    }
+});
+Object.defineProperty(MaterialLine.prototype, "dash_size", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MaterialLine__get_dash_size(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_MaterialLine__set_dash_size(self, value);
+    }
+});
+Object.defineProperty(MaterialLine.prototype, "dash_gap", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MaterialLine__get_dash_gap(self);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_MaterialLine__set_dash_gap(self, value);
+    }
+});
+MaterialLine.prototype["__destroy__"] = MaterialLine.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_MaterialLine__destroy(self);
 };
 // MaterialParam<float>
 function MaterialParam_float() {
@@ -2436,6 +2608,16 @@ Object.defineProperty(MaterialPbr.prototype, "deep_parallax", {
         _mud_MaterialPbr__set_deep_parallax(self, value);
     }
 });
+Object.defineProperty(MaterialPbr.prototype, "scene_environment", {
+    get: function() {
+        var self = this.ptr;
+        return !!(_mud_MaterialPbr__get_scene_environment(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_MaterialPbr__set_scene_environment(self, value);
+    }
+});
 Object.defineProperty(MaterialPbr.prototype, "diffuse_mode", {
     get: function() {
         var self = this.ptr;
@@ -2460,28 +2642,61 @@ MaterialPbr.prototype["__destroy__"] = MaterialPbr.prototype.__destroy__ = funct
     var self = this.ptr;
     _mud_MaterialPbr__destroy(self);
 };
-// MaterialUnshaded
-function MaterialUnshaded() {
-    this.ptr = _mud_MaterialUnshaded__construct_0(); this.type = MaterialUnshaded; getCache(MaterialUnshaded)[this.ptr] = this;
+// MaterialPoint
+function MaterialPoint() {
+    this.ptr = _mud_MaterialPoint__construct_0(); this.type = MaterialPoint; getCache(MaterialPoint)[this.ptr] = this;
 };
-MaterialUnshaded.prototype = Object.create(WrapperObject.prototype);
-MaterialUnshaded.prototype.constructor = MaterialUnshaded;
-MaterialUnshaded.prototype.__class__ = MaterialUnshaded;
-MaterialUnshaded.__cache__ = {};
-Module['MaterialUnshaded'] = MaterialUnshaded;
-Object.defineProperty(MaterialUnshaded.prototype, "colour", {
+MaterialPoint.prototype = Object.create(WrapperObject.prototype);
+MaterialPoint.prototype.constructor = MaterialPoint;
+MaterialPoint.prototype.__class__ = MaterialPoint;
+MaterialPoint.__cache__ = {};
+Module['MaterialPoint'] = MaterialPoint;
+Object.defineProperty(MaterialPoint.prototype, "point_size", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_MaterialUnshaded__get_colour(self), MaterialParam_mud_Colour);
+        return _mud_MaterialPoint__get_point_size(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_MaterialUnshaded__set_colour(self, value.ptr);
+        _mud_MaterialPoint__set_point_size(self, value);
     }
 });
-MaterialUnshaded.prototype["__destroy__"] = MaterialUnshaded.prototype.__destroy__ = function() {
+Object.defineProperty(MaterialPoint.prototype, "project", {
+    get: function() {
+        var self = this.ptr;
+        return !!(_mud_MaterialPoint__get_project(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_MaterialPoint__set_project(self, value);
+    }
+});
+MaterialPoint.prototype["__destroy__"] = MaterialPoint.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_MaterialUnshaded__destroy(self);
+    _mud_MaterialPoint__destroy(self);
+};
+// MaterialSolid
+function MaterialSolid() {
+    this.ptr = _mud_MaterialSolid__construct_0(); this.type = MaterialSolid; getCache(MaterialSolid)[this.ptr] = this;
+};
+MaterialSolid.prototype = Object.create(WrapperObject.prototype);
+MaterialSolid.prototype.constructor = MaterialSolid;
+MaterialSolid.prototype.__class__ = MaterialSolid;
+MaterialSolid.__cache__ = {};
+Module['MaterialSolid'] = MaterialSolid;
+Object.defineProperty(MaterialSolid.prototype, "colour", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_MaterialSolid__get_colour(self), MaterialParam_mud_Colour);
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_MaterialSolid__set_colour(self, value.ptr);
+    }
+});
+MaterialSolid.prototype["__destroy__"] = MaterialSolid.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_MaterialSolid__destroy(self);
 };
 // Mesh
 function Mesh() { throw "cannot construct a Mesh, no constructor in IDL" }
@@ -2510,14 +2725,14 @@ Object.defineProperty(Mesh.prototype, "index", {
         _mud_Mesh__set_index(self, value);
     }
 });
-Object.defineProperty(Mesh.prototype, "draw_mode", {
+Object.defineProperty(Mesh.prototype, "primitive", {
     get: function() {
         var self = this.ptr;
-        return _mud_Mesh__get_draw_mode(self);
+        return _mud_Mesh__get_primitive(self);
     },
     set: function(value) {
         var self = this.ptr;
-        _mud_Mesh__set_draw_mode(self, value);
+        _mud_Mesh__set_primitive(self, value);
     }
 });
 Object.defineProperty(Mesh.prototype, "aabb", {
@@ -2618,6 +2833,26 @@ Object.defineProperty(Mesh.prototype, "material", {
     set: function(value) {
         var self = this.ptr;
         _mud_Mesh__set_material(self, value.ptr);
+    }
+});
+Object.defineProperty(Mesh.prototype, "is_dynamic", {
+    get: function() {
+        var self = this.ptr;
+        return !!(_mud_Mesh__get_is_dynamic(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Mesh__set_is_dynamic(self, value);
+    }
+});
+Object.defineProperty(Mesh.prototype, "is_direct", {
+    get: function() {
+        var self = this.ptr;
+        return !!(_mud_Mesh__get_is_direct(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        _mud_Mesh__set_is_direct(self, value);
     }
 });
 Mesh.prototype["__destroy__"] = Mesh.prototype.__destroy__ = function() {
@@ -2849,17 +3084,33 @@ ModelItem.prototype["__destroy__"] = ModelItem.prototype.__destroy__ = function(
     _mud_ModelItem__destroy(self);
 };
 // Node3
-function Node3(a0, a1, a2) {
+function Node3(a0) {
     if (a0 === undefined) { this.ptr = _mud_Node3__construct_0(); this.type = Node3; getCache(Node3)[this.ptr] = this; return; }
-    if (a1 === undefined) { this.ptr = _mud_Node3__construct_1(/*transform*/a0.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this; return; }
-    if (a2 === undefined) { this.ptr = _mud_Node3__construct_2(/*position*/a0.ptr, /*rotation*/a1.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this; return; }
-    this.ptr = _mud_Node3__construct_3(/*position*/a0.ptr, /*rotation*/a1.ptr, /*scale*/a2.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this;
+    this.ptr = _mud_Node3__construct_1(/*transform*/a0.ptr); this.type = Node3; getCache(Node3)[this.ptr] = this;
 };
 Node3.prototype = Object.create(WrapperObject.prototype);
 Node3.prototype.constructor = Node3;
 Node3.prototype.__class__ = Node3;
 Node3.__cache__ = {};
 Module['Node3'] = Node3;
+Node3.prototype["transform"] = Node3.prototype.transform = function(a0, a1, a2) {
+    var self = this.ptr;
+    if (a1 === undefined) { _mud_Node3_transform_1(self, /*position*/a0.ptr); return; }
+    if (a2 === undefined) { _mud_Node3_transform_2(self, /*position*/a0.ptr, /*rotation*/a1.ptr); return; }
+    _mud_Node3_transform_3(self, /*position*/a0.ptr, /*rotation*/a1.ptr, /*scale*/a2.ptr);
+};
+Node3.prototype["position"] = Node3.prototype.position = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_Node3_position_0(self), v3_float);
+};
+Node3.prototype["axis"] = Node3.prototype.axis = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_Node3_axis_1(self, /*dir*/a0.ptr), v3_float);
+};
+Node3.prototype["direction"] = Node3.prototype.direction = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_Node3_direction_0(self), v3_float);
+};
 Object.defineProperty(Node3.prototype, "index", {
     get: function() {
         var self = this.ptr;
@@ -2878,16 +3129,6 @@ Object.defineProperty(Node3.prototype, "transform", {
     set: function(value) {
         var self = this.ptr;
         _mud_Node3__set_transform(self, value.ptr);
-    }
-});
-Object.defineProperty(Node3.prototype, "visible", {
-    get: function() {
-        var self = this.ptr;
-        return !!(_mud_Node3__get_visible(self));
-    },
-    set: function(value) {
-        var self = this.ptr;
-        _mud_Node3__set_visible(self, value);
     }
 });
 Node3.prototype["__destroy__"] = Node3.prototype.__destroy__ = function() {
@@ -3023,7 +3264,7 @@ Rig.prototype["__destroy__"] = Rig.prototype.__destroy__ = function() {
 };
 // Scene
 function Scene(a0) {
-    this.ptr = _mud_Scene__construct_1(/*gfx_system*/a0.ptr); this.type = Scene; getCache(Scene)[this.ptr] = this;
+    this.ptr = _mud_Scene__construct_1(/*gfx*/a0.ptr); this.type = Scene; getCache(Scene)[this.ptr] = this;
 };
 Scene.prototype = Object.create(WrapperObject.prototype);
 Scene.prototype.constructor = Scene;
@@ -3041,6 +3282,14 @@ Scene.prototype["nodes"] = Scene.prototype.nodes = function() {
 Scene.prototype["items"] = Scene.prototype.items = function() {
     var self = this.ptr;
     return wrapPointer(_mud_Scene_items_0(self), TPool_mud_Item);
+};
+Scene.prototype["batches"] = Scene.prototype.batches = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_Scene_batches_0(self), TPool_mud_Batch);
+};
+Scene.prototype["directs"] = Scene.prototype.directs = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_Scene_directs_0(self), TPool_mud_Direct);
 };
 Scene.prototype["mimes"] = Scene.prototype.mimes = function() {
     var self = this.ptr;
@@ -3184,6 +3433,60 @@ Module['SymbolIndex'] = SymbolIndex;
 SymbolIndex.prototype["__destroy__"] = SymbolIndex.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_SymbolIndex__destroy(self);
+};
+// TPool<mud::Batch>
+function TPool_mud_Batch() { throw "cannot construct a TPool<mud::Batch>, no constructor in IDL" }
+TPool_mud_Batch.prototype = Object.create(WrapperObject.prototype);
+TPool_mud_Batch.prototype.constructor = TPool_mud_Batch;
+TPool_mud_Batch.prototype.__class__ = TPool_mud_Batch;
+TPool_mud_Batch.__cache__ = {};
+Module['TPool_mud_Batch'] = TPool_mud_Batch;
+TPool_mud_Batch.prototype["add"] = TPool_mud_Batch.prototype.add = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Batch_add_1(self, /*value*/a0.ptr), Batch);
+};
+TPool_mud_Batch.prototype["talloc"] = TPool_mud_Batch.prototype.talloc = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Batch_talloc_0(self), Batch);
+};
+TPool_mud_Batch.prototype["tdestroy"] = TPool_mud_Batch.prototype.tdestroy = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Batch_tdestroy_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Batch.prototype["tfree"] = TPool_mud_Batch.prototype.tfree = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Batch_tfree_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Batch.prototype["__destroy__"] = TPool_mud_Batch.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TPool_mud_Batch__destroy(self);
+};
+// TPool<mud::Direct>
+function TPool_mud_Direct() { throw "cannot construct a TPool<mud::Direct>, no constructor in IDL" }
+TPool_mud_Direct.prototype = Object.create(WrapperObject.prototype);
+TPool_mud_Direct.prototype.constructor = TPool_mud_Direct;
+TPool_mud_Direct.prototype.__class__ = TPool_mud_Direct;
+TPool_mud_Direct.__cache__ = {};
+Module['TPool_mud_Direct'] = TPool_mud_Direct;
+TPool_mud_Direct.prototype["add"] = TPool_mud_Direct.prototype.add = function(a0) {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Direct_add_1(self, /*value*/a0.ptr), Direct);
+};
+TPool_mud_Direct.prototype["talloc"] = TPool_mud_Direct.prototype.talloc = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_TPool_mud_Direct_talloc_0(self), Direct);
+};
+TPool_mud_Direct.prototype["tdestroy"] = TPool_mud_Direct.prototype.tdestroy = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Direct_tdestroy_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Direct.prototype["tfree"] = TPool_mud_Direct.prototype.tfree = function(a0) {
+    var self = this.ptr;
+    _mud_TPool_mud_Direct_tfree_1(self, /*object*/a0.ptr);
+};
+TPool_mud_Direct.prototype["__destroy__"] = TPool_mud_Direct.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TPool_mud_Direct__destroy(self);
 };
 // TPool<mud::Flare>
 function TPool_mud_Flare() { throw "cannot construct a TPool<mud::Flare>, no constructor in IDL" }
@@ -3702,12 +4005,6 @@ Module['bxTRS'] = function(a0, a1, a2) {
 Module['gfx']['setup_pipeline_minimal'] = function(a0) {
     _mud_gfx_setup_pipeline_minimal_1(/*gfx*/a0.ptr);
 };
-Module['gfx']['update_item_aabb'] = function(a0) {
-    _mud_gfx_update_item_aabb_1(/*item*/a0.ptr);
-};
-Module['gfx']['update_item_lights'] = function(a0, a1) {
-    _mud_gfx_update_item_lights_2(/*scene*/a0.ptr, /*item*/a1.ptr);
-};
 Module['gfx']['node'] = function(a0, a1, a2, a3, a4) {
     if (a1 === undefined) { return wrapPointer(_mud_gfx_node_1(/*parent*/a0.ptr), Gnode); }
     if (a2 === undefined) { return wrapPointer(_mud_gfx_node_2(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)), Gnode); }
@@ -3715,36 +4012,46 @@ Module['gfx']['node'] = function(a0, a1, a2, a3, a4) {
     if (a4 === undefined) { return wrapPointer(_mud_gfx_node_4(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), /*position*/a2.ptr, /*rotation*/a3.ptr), Gnode); }
     return wrapPointer(_mud_gfx_node_5(/*parent*/a0.ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), /*position*/a2.ptr, /*rotation*/a3.ptr, /*scale*/a4.ptr), Gnode);
 };
-Module['gfx']['shape'] = function(a0, a1, a2, a3, a4, a5) {
+Module['gfx']['shape'] = function(a0, a1, a2, a3, a4) {
     if (a3 === undefined) { return wrapPointer(_mud_gfx_shape_3(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr), Item); }
     if (a4 === undefined) { return wrapPointer(_mud_gfx_shape_4(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr, /*flags*/a3), Item); }
-    if (a5 === undefined) { return wrapPointer(_mud_gfx_shape_5(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr, /*flags*/a3, /*material*/a4.ptr), Item); }
-    return wrapPointer(_mud_gfx_shape_6(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr, /*flags*/a3, /*material*/a4.ptr, /*instances*/a5), Item);
+    return wrapPointer(_mud_gfx_shape_5(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr, /*flags*/a3, /*material*/a4.ptr), Item);
 };
 Module['gfx']['draw'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { _mud_gfx_draw_3(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr); return; }
     _mud_gfx_draw_4(/*parent*/a0.ptr, /*shape*/a1.ptr, /*symbol*/a2.ptr, /*flags*/a3);
 };
-Module['gfx']['sprite'] = function(a0, a1, a2, a3, a4, a5) {
+Module['gfx']['sprite'] = function(a0, a1, a2, a3, a4) {
     if (a3 === undefined) { return wrapPointer(_mud_gfx_sprite_3(/*parent*/a0.ptr, /*image*/a1.ptr, /*size*/a2.ptr), Item); }
     if (a4 === undefined) { return wrapPointer(_mud_gfx_sprite_4(/*parent*/a0.ptr, /*image*/a1.ptr, /*size*/a2.ptr, /*flags*/a3), Item); }
-    if (a5 === undefined) { return wrapPointer(_mud_gfx_sprite_5(/*parent*/a0.ptr, /*image*/a1.ptr, /*size*/a2.ptr, /*flags*/a3, /*material*/a4.ptr), Item); }
-    return wrapPointer(_mud_gfx_sprite_6(/*parent*/a0.ptr, /*image*/a1.ptr, /*size*/a2.ptr, /*flags*/a3, /*material*/a4.ptr, /*instances*/a5), Item);
+    return wrapPointer(_mud_gfx_sprite_5(/*parent*/a0.ptr, /*image*/a1.ptr, /*size*/a2.ptr, /*flags*/a3, /*material*/a4.ptr), Item);
 };
-Module['gfx']['model'] = function(a0, a1, a2, a3, a4) {
+Module['gfx']['item'] = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { return wrapPointer(_mud_gfx_item_2(/*parent*/a0.ptr, /*model*/a1.ptr), Item); }
+    if (a3 === undefined) { return wrapPointer(_mud_gfx_item_3(/*parent*/a0.ptr, /*model*/a1.ptr, /*flags*/a2), Item); }
+    return wrapPointer(_mud_gfx_item_4(/*parent*/a0.ptr, /*model*/a1.ptr, /*flags*/a2, /*material*/a3.ptr), Item);
+};
+Module['gfx']['batch'] = function(a0, a1) {
+    return wrapPointer(_mud_gfx_batch_2(/*parent*/a0.ptr, /*item*/a1.ptr), Batch);
+};
+Module['gfx']['prefab'] = function(a0, a1, a2, a3, a4) {
+    if (a2 === undefined) { _mud_gfx_prefab_2(/*parent*/a0.ptr, /*prefab*/a1.ptr); return; }
+    if (a3 === undefined) { _mud_gfx_prefab_3(/*parent*/a0.ptr, /*prefab*/a1.ptr, /*transform*/a2); return; }
+    if (a4 === undefined) { _mud_gfx_prefab_4(/*parent*/a0.ptr, /*prefab*/a1.ptr, /*transform*/a2, /*flags*/a3); return; }
+    _mud_gfx_prefab_5(/*parent*/a0.ptr, /*prefab*/a1.ptr, /*transform*/a2, /*flags*/a3, /*material*/a4.ptr);
+};
+Module['gfx']['model'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
     if (a2 === undefined) { return wrapPointer(_mud_gfx_model_2(/*parent*/a0.ptr, ensureString(/*name*/a1)), Item); }
     if (a3 === undefined) { return wrapPointer(_mud_gfx_model_3(/*parent*/a0.ptr, ensureString(/*name*/a1), /*flags*/a2), Item); }
-    if (a4 === undefined) { return wrapPointer(_mud_gfx_model_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*flags*/a2, /*material*/a3.ptr), Item); }
-    return wrapPointer(_mud_gfx_model_5(/*parent*/a0.ptr, ensureString(/*name*/a1), /*flags*/a2, /*material*/a3.ptr, /*instances*/a4), Item);
+    return wrapPointer(_mud_gfx_model_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*flags*/a2, /*material*/a3.ptr), Item);
 };
 Module['gfx']['animated'] = function(a0, a1) {
     return wrapPointer(_mud_gfx_animated_2(/*parent*/a0.ptr, /*item*/a1.ptr), Mime);
 };
-Module['gfx']['flows'] = function(a0, a1, a2, a3) {
+Module['gfx']['flows'] = function(a0, a1, a2) {
     if (a2 === undefined) { return wrapPointer(_mud_gfx_flows_2(/*parent*/a0.ptr, /*emitter*/a1.ptr), Flare); }
-    if (a3 === undefined) { return wrapPointer(_mud_gfx_flows_3(/*parent*/a0.ptr, /*emitter*/a1.ptr, /*flags*/a2), Flare); }
-    return wrapPointer(_mud_gfx_flows_4(/*parent*/a0.ptr, /*emitter*/a1.ptr, /*flags*/a2, /*instances*/a3), Flare);
+    return wrapPointer(_mud_gfx_flows_3(/*parent*/a0.ptr, /*emitter*/a1.ptr, /*flags*/a2), Flare);
 };
 Module['gfx']['light'] = function(a0, a1, a2, a3, a4, a5) {
     if (a4 === undefined) { return wrapPointer(_mud_gfx_light_4(/*parent*/a0.ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.ptr), Light); }
@@ -3761,9 +4068,9 @@ Module['gfx']['radiance'] = function(a0, a1, a2) {
 Module['gfx']['direct_light_node'] = function(a0, a1) {
     return wrapPointer(_mud_gfx_direct_light_node_2(/*parent*/a0.ptr, /*direction*/a1.ptr), Light);
 };
-Module['gfx']['unshaded_material'] = function(a0, a1, a2) {
+Module['gfx']['solid_material'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    return wrapPointer(_mud_gfx_unshaded_material_3(/*gfx*/a0.ptr, ensureString(/*name*/a1), /*colour*/a2.ptr), Material);
+    return wrapPointer(_mud_gfx_solid_material_3(/*gfx*/a0.ptr, ensureString(/*name*/a1), /*colour*/a2.ptr), Material);
 };
 Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
@@ -3779,10 +4086,12 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         AnimationPlay.__type__ = _mud_AnimationPlay__type();
         AnimationTrack.__type__ = _mud_AnimationTrack__type();
         Background.__type__ = _mud_Background__type();
+        Batch.__type__ = _mud_Batch__type();
         Bone.__type__ = _mud_Bone__type();
         Camera.__type__ = _mud_Camera__type();
         Culler.__type__ = _mud_Culler__type();
         DepthParams.__type__ = _mud_DepthParams__type();
+        Direct.__type__ = _mud_Direct__type();
         DistanceParams.__type__ = _mud_DistanceParams__type();
         Filter.__type__ = _mud_Filter__type();
         Flow.__type__ = _mud_Flow__type();
@@ -3803,8 +4112,10 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         MaterialAlpha.__type__ = _mud_MaterialAlpha__type();
         MaterialBase.__type__ = _mud_MaterialBase__type();
         MaterialFresnel.__type__ = _mud_MaterialFresnel__type();
+        MaterialLine.__type__ = _mud_MaterialLine__type();
         MaterialPbr.__type__ = _mud_MaterialPbr__type();
-        MaterialUnshaded.__type__ = _mud_MaterialUnshaded__type();
+        MaterialPoint.__type__ = _mud_MaterialPoint__type();
+        MaterialSolid.__type__ = _mud_MaterialSolid__type();
         Mesh.__type__ = _mud_Mesh__type();
         Mime.__type__ = _mud_Mime__type();
         Model.__type__ = _mud_Model__type();
@@ -3850,6 +4161,7 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Module['BackgroundMode']['Custom'] = _mud_BackgroundMode_Custom();
         // BlendMode
         Module['BlendMode'] = Module['BlendMode'] || {};
+        Module['BlendMode']['None'] = _mud_BlendMode_None();
         Module['BlendMode']['Mix'] = _mud_BlendMode_Mix();
         Module['BlendMode']['Add'] = _mud_BlendMode_Add();
         Module['BlendMode']['Sub'] = _mud_BlendMode_Sub();
@@ -3918,7 +4230,9 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Module['MaterialBlock'] = Module['MaterialBlock'] || {};
         Module['MaterialBlock']['Base'] = _mud_MaterialBlock_Base();
         Module['MaterialBlock']['Alpha'] = _mud_MaterialBlock_Alpha();
-        Module['MaterialBlock']['Unshaded'] = _mud_MaterialBlock_Unshaded();
+        Module['MaterialBlock']['Solid'] = _mud_MaterialBlock_Solid();
+        Module['MaterialBlock']['Point'] = _mud_MaterialBlock_Point();
+        Module['MaterialBlock']['Line'] = _mud_MaterialBlock_Line();
         Module['MaterialBlock']['Pbr'] = _mud_MaterialBlock_Pbr();
         Module['MaterialBlock']['Fresnel'] = _mud_MaterialBlock_Fresnel();
         Module['MaterialBlock']['Count'] = _mud_MaterialBlock_Count();
@@ -3960,6 +4274,11 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Module['PbrSpecularMode']['Phong'] = _mud_PbrSpecularMode_Phong();
         Module['PbrSpecularMode']['Toon'] = _mud_PbrSpecularMode_Toon();
         Module['PbrSpecularMode']['Disabled'] = _mud_PbrSpecularMode_Disabled();
+        // ShaderColor
+        Module['ShaderColor'] = Module['ShaderColor'] || {};
+        Module['ShaderColor']['Shader'] = _mud_ShaderColor_Shader();
+        Module['ShaderColor']['Vertex'] = _mud_ShaderColor_Vertex();
+        Module['ShaderColor']['Face'] = _mud_ShaderColor_Face();
         // ShaderType
         Module['ShaderType'] = Module['ShaderType'] || {};
         Module['ShaderType']['Compute'] = _mud_ShaderType_Compute();
@@ -3970,7 +4289,7 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         // Shading
         Module['Shading'] = Module['Shading'] || {};
         Module['Shading']['Wireframe'] = _mud_Shading_Wireframe();
-        Module['Shading']['Unshaded'] = _mud_Shading_Unshaded();
+        Module['Shading']['Solid'] = _mud_Shading_Solid();
         Module['Shading']['Shaded'] = _mud_Shading_Shaded();
         Module['Shading']['Volume'] = _mud_Shading_Volume();
         Module['Shading']['Voxels'] = _mud_Shading_Voxels();

@@ -211,51 +211,6 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, members, {}, {}, };
 	}
-	// mud::CopyAction
-	{
-		Type& t = type<mud::CopyAction>();
-		static Meta meta = { t, &namspc({ "mud" }), "CopyAction", sizeof(mud::CopyAction), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::TranslateAction>() };
-		static size_t bases_offsets[] = { base_offset<mud::CopyAction, mud::TranslateAction>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::CopyTool
-	{
-		Type& t = type<mud::CopyTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "CopyTool", sizeof(mud::CopyTool), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::TransformTool>() };
-		static size_t bases_offsets[] = { base_offset<mud::CopyTool, mud::TransformTool>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::FrameViewTool
-	{
-		Type& t = type<mud::FrameViewTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "FrameViewTool", sizeof(mud::FrameViewTool), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::ViewportTool>() };
-		static size_t bases_offsets[] = { base_offset<mud::FrameViewTool, mud::ViewportTool>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
 	// mud::PlaceBrush
 	{
 		Type& t = type<mud::PlaceBrush>();
@@ -352,36 +307,6 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::ViewportTool
-	{
-		Type& t = type<mud::ViewportTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "ViewportTool", sizeof(mud::ViewportTool), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::Tool>() };
-		static size_t bases_offsets[] = { base_offset<mud::ViewportTool, mud::Tool>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::SpatialTool
-	{
-		Type& t = type<mud::SpatialTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "SpatialTool", sizeof(mud::SpatialTool), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::ViewportTool>() };
-		static size_t bases_offsets[] = { base_offset<mud::SpatialTool, mud::ViewportTool>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
 	// mud::ScaleTool
 	{
 		Type& t = type<mud::ScaleTool>();
@@ -470,6 +395,81 @@ namespace mud
 		// bases
 		static Type* bases[] = { &type<mud::TransformAction>() };
 		static size_t bases_offsets[] = { base_offset<mud::TranslateAction, mud::TransformAction>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::CopyAction
+	{
+		Type& t = type<mud::CopyAction>();
+		static Meta meta = { t, &namspc({ "mud" }), "CopyAction", sizeof(mud::CopyAction), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::TranslateAction>() };
+		static size_t bases_offsets[] = { base_offset<mud::CopyAction, mud::TranslateAction>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::CopyTool
+	{
+		Type& t = type<mud::CopyTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "CopyTool", sizeof(mud::CopyTool), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::TransformTool>() };
+		static size_t bases_offsets[] = { base_offset<mud::CopyTool, mud::TransformTool>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::ViewportTool
+	{
+		Type& t = type<mud::ViewportTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "ViewportTool", sizeof(mud::ViewportTool), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Tool>() };
+		static size_t bases_offsets[] = { base_offset<mud::ViewportTool, mud::Tool>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::FrameViewTool
+	{
+		Type& t = type<mud::FrameViewTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "FrameViewTool", sizeof(mud::FrameViewTool), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::ViewportTool>() };
+		static size_t bases_offsets[] = { base_offset<mud::FrameViewTool, mud::ViewportTool>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::SpatialTool
+	{
+		Type& t = type<mud::SpatialTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "SpatialTool", sizeof(mud::SpatialTool), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::ViewportTool>() };
+		static size_t bases_offsets[] = { base_offset<mud::SpatialTool, mud::ViewportTool>() };
 		// defaults
 		// constructors
 		// copy constructor

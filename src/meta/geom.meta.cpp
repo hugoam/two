@@ -7,7 +7,6 @@ module mud.geom;
 #include <stl/new.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
-#include <type/Any.h>
 #include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
@@ -32,6 +31,21 @@ void* stl_vector_mud_Circle__at(void* vec, size_t i) { return &(*static_cast<stl
 void stl_vector_mud_Circle__push(void* vec) { (*static_cast<stl::vector<mud::Circle>*>(vec)).emplace_back(); }
 void stl_vector_mud_Circle__add(void* vec, void* value) { (*static_cast<stl::vector<mud::Circle>*>(vec)).push_back(*static_cast<mud::Circle*>(value)); }
 void stl_vector_mud_Circle__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Circle>*>(vec)), *static_cast<mud::Circle*>(value)); }
+size_t stl_vector_mud_ivec4__size(void* vec) { return (*static_cast<stl::vector<mud::ivec4>*>(vec)).size(); }
+void* stl_vector_mud_ivec4__at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::ivec4>*>(vec))[i]; }
+void stl_vector_mud_ivec4__push(void* vec) { (*static_cast<stl::vector<mud::ivec4>*>(vec)).emplace_back(); }
+void stl_vector_mud_ivec4__add(void* vec, void* value) { (*static_cast<stl::vector<mud::ivec4>*>(vec)).push_back(*static_cast<mud::ivec4*>(value)); }
+void stl_vector_mud_ivec4__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::ivec4>*>(vec)), *static_cast<mud::ivec4*>(value)); }
+size_t stl_vector_mud_vec2__size(void* vec) { return (*static_cast<stl::vector<mud::vec2>*>(vec)).size(); }
+void* stl_vector_mud_vec2__at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::vec2>*>(vec))[i]; }
+void stl_vector_mud_vec2__push(void* vec) { (*static_cast<stl::vector<mud::vec2>*>(vec)).emplace_back(); }
+void stl_vector_mud_vec2__add(void* vec, void* value) { (*static_cast<stl::vector<mud::vec2>*>(vec)).push_back(*static_cast<mud::vec2*>(value)); }
+void stl_vector_mud_vec2__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::vec2>*>(vec)), *static_cast<mud::vec2*>(value)); }
+size_t stl_vector_mud_vec4__size(void* vec) { return (*static_cast<stl::vector<mud::vec4>*>(vec)).size(); }
+void* stl_vector_mud_vec4__at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::vec4>*>(vec))[i]; }
+void stl_vector_mud_vec4__push(void* vec) { (*static_cast<stl::vector<mud::vec4>*>(vec)).emplace_back(); }
+void stl_vector_mud_vec4__add(void* vec, void* value) { (*static_cast<stl::vector<mud::vec4>*>(vec)).push_back(*static_cast<mud::vec4*>(value)); }
+void stl_vector_mud_vec4__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::vec4>*>(vec)), *static_cast<mud::vec4*>(value)); }
 void mud_Aabb__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Aabb(  ); }
 void mud_Aabb__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Aabb( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]) ); }
 void mud_Aabb__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Aabb((*static_cast<mud::Aabb*>(other))); }
@@ -50,7 +64,6 @@ void mud_Segment__copy_construct(void* ref, void* other) { new(stl::placeholder(
 void* mud_Shape__get_type(void* object) { return &(*static_cast<mud::Shape*>(object)).m_type; }
 void mud_ShapeVar__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ShapeVar(  ); }
 void mud_ShapeVar__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ShapeVar( *static_cast<mud::Shape*>(args[0]) ); }
-void mud_ShapeVar__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ShapeVar((*static_cast<mud::ShapeVar*>(other))); }
 void* mud_ShapeVar__get_shape(void* object) { return &(*static_cast<mud::ShapeVar*>(object)).shape(); }
 void mud_Symbol__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Symbol( *static_cast<mud::Colour*>(args[0]), *static_cast<mud::Colour*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3]), *static_cast<mud::SymbolDetail*>(args[4]) ); }
 void mud_Symbol__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Symbol((*static_cast<mud::Symbol*>(other))); }
@@ -91,6 +104,10 @@ void mud_Grid2__copy_construct(void* ref, void* other) { new(stl::placeholder(),
 void mud_Grid3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Grid3(  ); }
 void mud_Grid3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Grid3( *static_cast<mud::uvec2*>(args[0]), *static_cast<stl::vector<mud::vec3>*>(args[1]) ); }
 void mud_Grid3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Grid3((*static_cast<mud::Grid3*>(other))); }
+void mud_Icosahedron__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Icosahedron(  ); }
+void mud_Icosahedron__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Icosahedron( *static_cast<float*>(args[0]) ); }
+void mud_Icosahedron__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Icosahedron( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]) ); }
+void mud_Icosahedron__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Icosahedron((*static_cast<mud::Icosahedron*>(other))); }
 void mud_Line__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Line(  ); }
 void mud_Line__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Line( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]) ); }
 void mud_Line__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Line((*static_cast<mud::Line*>(other))); }
@@ -129,6 +146,10 @@ void mud_Torus__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl
 void mud_Torus__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Torus( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<mud::Axis*>(args[2]) ); }
 void mud_Torus__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Torus( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<mud::Axis*>(args[3]) ); }
 void mud_Torus__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Torus((*static_cast<mud::Torus*>(other))); }
+void mud_TorusKnot__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::TorusKnot(  ); }
+void mud_TorusKnot__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::TorusKnot( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]) ); }
+void mud_TorusKnot__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::TorusKnot( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]) ); }
+void mud_TorusKnot__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::TorusKnot((*static_cast<mud::TorusKnot*>(other))); }
 void mud_Triangle__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Triangle(  ); }
 void mud_Triangle__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Triangle( *static_cast<mud::vec2*>(args[0]) ); }
 void mud_Triangle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Triangle((*static_cast<mud::Triangle*>(other))); }
@@ -162,10 +183,10 @@ namespace mud
 	{
 		Type& t = type<mud::PrimitiveType>();
 		static Meta meta = { t, &namspc({ "mud" }), "PrimitiveType", sizeof(mud::PrimitiveType), TypeClass::Enum };
-		static cstring ids[] = { "Points", "Lines", "LineStrip", "Triangles", "TriangleStrip", "TriangleFan" };
-		static uint32_t values[] = { 0, 1, 2, 3, 4, 5 };
-		static mud::PrimitiveType vars[] = { mud::PrimitiveType::Points, mud::PrimitiveType::Lines, mud::PrimitiveType::LineStrip, mud::PrimitiveType::Triangles, mud::PrimitiveType::TriangleStrip, mud::PrimitiveType::TriangleFan};
-		static void* refs[] = { &vars[0], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6]};
+		static cstring ids[] = { "Points", "Lines", "LineStrip", "Triangles", "TriangleStrip", "TriangleFan", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6 };
+		static mud::PrimitiveType vars[] = { mud::PrimitiveType::Points, mud::PrimitiveType::Lines, mud::PrimitiveType::LineStrip, mud::PrimitiveType::Triangles, mud::PrimitiveType::TriangleStrip, mud::PrimitiveType::TriangleFan, mud::PrimitiveType::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6]};
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { mud_PrimitiveType__to_string,
 		                           mud_PrimitiveType__to_value };
@@ -196,6 +217,45 @@ namespace mud
 		static Sequence sequence = { stl_vector_mud_Circle__push,
 		                             stl_vector_mud_Circle__add,
 		                             stl_vector_mud_Circle__remove };
+		g_sequence[t.m_id] = &sequence;
+	}
+	{
+		Type& t = type<stl::vector<mud::ivec4>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::ivec4>", sizeof(stl::vector<mud::ivec4>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::ivec4>(),
+		                             stl_vector_mud_ivec4__size,
+		                             stl_vector_mud_ivec4__at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { stl_vector_mud_ivec4__push,
+		                             stl_vector_mud_ivec4__add,
+		                             stl_vector_mud_ivec4__remove };
+		g_sequence[t.m_id] = &sequence;
+	}
+	{
+		Type& t = type<stl::vector<mud::vec2>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::vec2>", sizeof(stl::vector<mud::vec2>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::vec2>(),
+		                             stl_vector_mud_vec2__size,
+		                             stl_vector_mud_vec2__at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { stl_vector_mud_vec2__push,
+		                             stl_vector_mud_vec2__add,
+		                             stl_vector_mud_vec2__remove };
+		g_sequence[t.m_id] = &sequence;
+	}
+	{
+		Type& t = type<stl::vector<mud::vec4>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::vec4>", sizeof(stl::vector<mud::vec4>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::vec4>(),
+		                             stl_vector_mud_vec4__size,
+		                             stl_vector_mud_vec4__at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { stl_vector_mud_vec4__push,
+		                             stl_vector_mud_vec4__add,
+		                             stl_vector_mud_vec4__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	
@@ -262,6 +322,7 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "MeshPacker", sizeof(mud::MeshPacker), TypeClass::Struct };
 		// bases
 		// defaults
+		static mud::PrimitiveType primitive_default = mud::PrimitiveType::Triangles;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_MeshPacker__construct_0, {} }
@@ -271,9 +332,22 @@ namespace mud
 			{ t, mud_MeshPacker__copy_construct }
 		};
 		// members
+		static Member members[] = {
+			{ t, offsetof(mud::MeshPacker, m_primitive), type<mud::PrimitiveType>(), "primitive", &primitive_default, Member::Value, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_positions), type<stl::vector<mud::vec3>>(), "positions", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_normals), type<stl::vector<mud::vec3>>(), "normals", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_colours), type<stl::vector<mud::Colour>>(), "colours", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_tangents), type<stl::vector<mud::vec4>>(), "tangents", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_bitangents), type<stl::vector<mud::vec3>>(), "bitangents", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_uv0s), type<stl::vector<mud::vec2>>(), "uv0s", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_uv1s), type<stl::vector<mud::vec2>>(), "uv1s", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_bones), type<stl::vector<mud::ivec4>>(), "bones", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_weights), type<stl::vector<mud::vec4>>(), "weights", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_indices), type<stl::vector<uint32_t>>(), "indices", nullptr, Member::NonMutable, nullptr }
+		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
 	// mud::Plane
 	{
@@ -398,16 +472,13 @@ namespace mud
 			{ t, mud_ShapeVar__construct_1, { { "shape", type<mud::Shape>(),  } } }
 		};
 		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, mud_ShapeVar__copy_construct }
-		};
 		// members
 		static Member members[] = {
 			{ t, SIZE_MAX, type<mud::Shape>(), "shape", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_ShapeVar__get_shape }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, constructors, {}, members, {}, {}, };
 	}
 	// mud::Symbol
 	{
@@ -450,7 +521,6 @@ namespace mud
 	{
 		Type& t = type<mud::Arc>();
 		static Meta meta = { t, &namspc({ "mud" }), "Arc", sizeof(mud::Arc), TypeClass::Struct };
-		meta.m_empty_var = var(Arc());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Arc, mud::Shape>() };
@@ -481,7 +551,6 @@ namespace mud
 	{
 		Type& t = type<mud::ArcLine>();
 		static Meta meta = { t, &namspc({ "mud" }), "ArcLine", sizeof(mud::ArcLine), TypeClass::Struct };
-		meta.m_empty_var = var(ArcLine());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::ArcLine, mud::Shape>() };
@@ -510,7 +579,6 @@ namespace mud
 	{
 		Type& t = type<mud::Box>();
 		static Meta meta = { t, &namspc({ "mud" }), "Box", sizeof(mud::Box), TypeClass::Struct };
-		meta.m_empty_var = var(Box());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Box, mud::Shape>() };
@@ -532,7 +600,6 @@ namespace mud
 	{
 		Type& t = type<mud::Capsule>();
 		static Meta meta = { t, &namspc({ "mud" }), "Capsule", sizeof(mud::Capsule), TypeClass::Struct };
-		meta.m_empty_var = var(Capsule());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Capsule, mud::Shape>() };
@@ -564,7 +631,6 @@ namespace mud
 	{
 		Type& t = type<mud::Circle>();
 		static Meta meta = { t, &namspc({ "mud" }), "Circle", sizeof(mud::Circle), TypeClass::Struct };
-		meta.m_empty_var = var(Circle());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Circle, mud::Shape>() };
@@ -596,7 +662,6 @@ namespace mud
 	{
 		Type& t = type<mud::ConvexHull>();
 		static Meta meta = { t, &namspc({ "mud" }), "ConvexHull", sizeof(mud::ConvexHull), TypeClass::Struct };
-		meta.m_empty_var = var(ConvexHull());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::ConvexHull, mud::Shape>() };
@@ -622,7 +687,6 @@ namespace mud
 	{
 		Type& t = type<mud::Cube>();
 		static Meta meta = { t, &namspc({ "mud" }), "Cube", sizeof(mud::Cube), TypeClass::Struct };
-		meta.m_empty_var = var(Cube());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Cube, mud::Shape>() };
@@ -650,7 +714,6 @@ namespace mud
 	{
 		Type& t = type<mud::Cylinder>();
 		static Meta meta = { t, &namspc({ "mud" }), "Cylinder", sizeof(mud::Cylinder), TypeClass::Struct };
-		meta.m_empty_var = var(Cylinder());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Cylinder, mud::Shape>() };
@@ -684,7 +747,6 @@ namespace mud
 	{
 		Type& t = type<mud::Ellipsis>();
 		static Meta meta = { t, &namspc({ "mud" }), "Ellipsis", sizeof(mud::Ellipsis), TypeClass::Struct };
-		meta.m_empty_var = var(Ellipsis());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Ellipsis, mud::Shape>() };
@@ -713,7 +775,6 @@ namespace mud
 	{
 		Type& t = type<mud::Geometry>();
 		static Meta meta = { t, &namspc({ "mud" }), "Geometry", sizeof(mud::Geometry), TypeClass::Object };
-		meta.m_empty_var = var(Geometry());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Geometry, mud::Shape>() };
@@ -732,7 +793,6 @@ namespace mud
 	{
 		Type& t = type<mud::Grid2>();
 		static Meta meta = { t, &namspc({ "mud" }), "Grid2", sizeof(mud::Grid2), TypeClass::Struct };
-		meta.m_empty_var = var(Grid2());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Grid2, mud::Shape>() };
@@ -762,7 +822,6 @@ namespace mud
 	{
 		Type& t = type<mud::Grid3>();
 		static Meta meta = { t, &namspc({ "mud" }), "Grid3", sizeof(mud::Grid3), TypeClass::Struct };
-		meta.m_empty_var = var(Grid3());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Grid3, mud::Shape>() };
@@ -786,11 +845,37 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
 	}
+	// mud::Icosahedron
+	{
+		Type& t = type<mud::Icosahedron>();
+		static Meta meta = { t, &namspc({ "mud" }), "Icosahedron", sizeof(mud::Icosahedron), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Shape>() };
+		static size_t bases_offsets[] = { base_offset<mud::Icosahedron, mud::Shape>() };
+		// defaults
+		static float radius_default = 1.f;
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Icosahedron__construct_0, {} },
+			{ t, mud_Icosahedron__construct_1, { { "radius", type<float>(),  } } },
+			{ t, mud_Icosahedron__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  } } }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_Icosahedron__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Icosahedron, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
 	// mud::Line
 	{
 		Type& t = type<mud::Line>();
 		static Meta meta = { t, &namspc({ "mud" }), "Line", sizeof(mud::Line), TypeClass::Struct };
-		meta.m_empty_var = var(Line());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Line, mud::Shape>() };
@@ -817,7 +902,6 @@ namespace mud
 	{
 		Type& t = type<mud::Points>();
 		static Meta meta = { t, &namspc({ "mud" }), "Points", sizeof(mud::Points), TypeClass::Struct };
-		meta.m_empty_var = var(Points());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Points, mud::Shape>() };
@@ -866,7 +950,6 @@ namespace mud
 	{
 		Type& t = type<mud::Polygon>();
 		static Meta meta = { t, &namspc({ "mud" }), "Polygon", sizeof(mud::Polygon), TypeClass::Struct };
-		meta.m_empty_var = var(Polygon());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Polygon, mud::Shape>() };
@@ -889,7 +972,6 @@ namespace mud
 	{
 		Type& t = type<mud::Quad>();
 		static Meta meta = { t, &namspc({ "mud" }), "Quad", sizeof(mud::Quad), TypeClass::Struct };
-		meta.m_empty_var = var(Quad());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Quad, mud::Shape>() };
@@ -912,7 +994,6 @@ namespace mud
 	{
 		Type& t = type<mud::Rect>();
 		static Meta meta = { t, &namspc({ "mud" }), "Rect", sizeof(mud::Rect), TypeClass::Struct };
-		meta.m_empty_var = var(Rect());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Rect, mud::Shape>() };
@@ -940,7 +1021,6 @@ namespace mud
 	{
 		Type& t = type<mud::Ring>();
 		static Meta meta = { t, &namspc({ "mud" }), "Ring", sizeof(mud::Ring), TypeClass::Struct };
-		meta.m_empty_var = var(Ring());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Ring, mud::Shape>() };
@@ -971,7 +1051,6 @@ namespace mud
 	{
 		Type& t = type<mud::Sphere>();
 		static Meta meta = { t, &namspc({ "mud" }), "Sphere", sizeof(mud::Sphere), TypeClass::Struct };
-		meta.m_empty_var = var(Sphere());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Sphere, mud::Shape>() };
@@ -999,7 +1078,6 @@ namespace mud
 	{
 		Type& t = type<mud::SphereRing>();
 		static Meta meta = { t, &namspc({ "mud" }), "SphereRing", sizeof(mud::SphereRing), TypeClass::Struct };
-		meta.m_empty_var = var(SphereRing());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::SphereRing, mud::Shape>() };
@@ -1030,7 +1108,6 @@ namespace mud
 	{
 		Type& t = type<mud::Spheroid>();
 		static Meta meta = { t, &namspc({ "mud" }), "Spheroid", sizeof(mud::Spheroid), TypeClass::Struct };
-		meta.m_empty_var = var(Spheroid());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Spheroid, mud::Shape>() };
@@ -1058,7 +1135,6 @@ namespace mud
 	{
 		Type& t = type<mud::Torus>();
 		static Meta meta = { t, &namspc({ "mud" }), "Torus", sizeof(mud::Torus), TypeClass::Struct };
-		meta.m_empty_var = var(Torus());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Torus, mud::Shape>() };
@@ -1088,11 +1164,39 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
 	}
+	// mud::TorusKnot
+	{
+		Type& t = type<mud::TorusKnot>();
+		static Meta meta = { t, &namspc({ "mud" }), "TorusKnot", sizeof(mud::TorusKnot), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Shape>() };
+		static size_t bases_offsets[] = { base_offset<mud::TorusKnot, mud::Shape>() };
+		// defaults
+		static float radius_default = 1.f;
+		static float solid_radius_default = 1.f;
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_TorusKnot__construct_0, {} },
+			{ t, mud_TorusKnot__construct_1, { { "radius", type<float>(),  }, { "solid_radius", type<float>(),  } } },
+			{ t, mud_TorusKnot__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  }, { "solid_radius", type<float>(),  } } }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_TorusKnot__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::TorusKnot, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
+			{ t, offsetof(mud::TorusKnot, m_solid_radius), type<float>(), "solid_radius", &solid_radius_default, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
 	// mud::Triangle
 	{
 		Type& t = type<mud::Triangle>();
 		static Meta meta = { t, &namspc({ "mud" }), "Triangle", sizeof(mud::Triangle), TypeClass::Struct };
-		meta.m_empty_var = var(Triangle());
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Triangle, mud::Shape>() };
@@ -1137,6 +1241,9 @@ namespace mud
 		m.m_types.push_back(&type<mud::Symbol>());
 		m.m_types.push_back(&type<mud::SymbolDetail>());
 		m.m_types.push_back(&type<stl::vector<mud::Circle>>());
+		m.m_types.push_back(&type<stl::vector<mud::ivec4>>());
+		m.m_types.push_back(&type<stl::vector<mud::vec2>>());
+		m.m_types.push_back(&type<stl::vector<mud::vec4>>());
 		m.m_types.push_back(&type<mud::Arc>());
 		m.m_types.push_back(&type<mud::ArcLine>());
 		m.m_types.push_back(&type<mud::Box>());
@@ -1149,6 +1256,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::Geometry>());
 		m.m_types.push_back(&type<mud::Grid2>());
 		m.m_types.push_back(&type<mud::Grid3>());
+		m.m_types.push_back(&type<mud::Icosahedron>());
 		m.m_types.push_back(&type<mud::Line>());
 		m.m_types.push_back(&type<mud::Points>());
 		m.m_types.push_back(&type<mud::Poisson>());
@@ -1160,6 +1268,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::SphereRing>());
 		m.m_types.push_back(&type<mud::Spheroid>());
 		m.m_types.push_back(&type<mud::Torus>());
+		m.m_types.push_back(&type<mud::TorusKnot>());
 		m.m_types.push_back(&type<mud::Triangle>());
 		{
 			static float distance_default = 1000.f;

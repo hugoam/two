@@ -165,27 +165,6 @@ extern "C" {
 	void DECL mud_CircleBrush__destroy(mud::CircleBrush* self) {
 		delete self;
 	}
-	// CopyAction
-	mud::Type* DECL mud_CopyAction__type() {
-		return &mud::type<mud::CopyAction>();
-	}
-	void DECL mud_CopyAction__destroy(mud::CopyAction* self) {
-		delete self;
-	}
-	// CopyTool
-	mud::Type* DECL mud_CopyTool__type() {
-		return &mud::type<mud::CopyTool>();
-	}
-	void DECL mud_CopyTool__destroy(mud::CopyTool* self) {
-		delete self;
-	}
-	// FrameViewTool
-	mud::Type* DECL mud_FrameViewTool__type() {
-		return &mud::type<mud::FrameViewTool>();
-	}
-	void DECL mud_FrameViewTool__destroy(mud::FrameViewTool* self) {
-		delete self;
-	}
 	// PlaceBrush
 	mud::Type* DECL mud_PlaceBrush__type() {
 		return &mud::type<mud::PlaceBrush>();
@@ -232,20 +211,6 @@ extern "C" {
 		return &mud::type<mud::ScaleAction>();
 	}
 	void DECL mud_ScaleAction__destroy(mud::ScaleAction* self) {
-		delete self;
-	}
-	// ViewportTool
-	mud::Type* DECL mud_ViewportTool__type() {
-		return &mud::type<mud::ViewportTool>();
-	}
-	void DECL mud_ViewportTool__destroy(mud::ViewportTool* self) {
-		delete self;
-	}
-	// SpatialTool
-	mud::Type* DECL mud_SpatialTool__type() {
-		return &mud::type<mud::SpatialTool>();
-	}
-	void DECL mud_SpatialTool__destroy(mud::SpatialTool* self) {
 		delete self;
 	}
 	// ScaleTool
@@ -297,6 +262,41 @@ extern "C" {
 		return &mud::type<mud::TranslateAction>();
 	}
 	void DECL mud_TranslateAction__destroy(mud::TranslateAction* self) {
+		delete self;
+	}
+	// CopyAction
+	mud::Type* DECL mud_CopyAction__type() {
+		return &mud::type<mud::CopyAction>();
+	}
+	void DECL mud_CopyAction__destroy(mud::CopyAction* self) {
+		delete self;
+	}
+	// CopyTool
+	mud::Type* DECL mud_CopyTool__type() {
+		return &mud::type<mud::CopyTool>();
+	}
+	void DECL mud_CopyTool__destroy(mud::CopyTool* self) {
+		delete self;
+	}
+	// ViewportTool
+	mud::Type* DECL mud_ViewportTool__type() {
+		return &mud::type<mud::ViewportTool>();
+	}
+	void DECL mud_ViewportTool__destroy(mud::ViewportTool* self) {
+		delete self;
+	}
+	// FrameViewTool
+	mud::Type* DECL mud_FrameViewTool__type() {
+		return &mud::type<mud::FrameViewTool>();
+	}
+	void DECL mud_FrameViewTool__destroy(mud::FrameViewTool* self) {
+		delete self;
+	}
+	// SpatialTool
+	mud::Type* DECL mud_SpatialTool__type() {
+		return &mud::type<mud::SpatialTool>();
+	}
+	void DECL mud_SpatialTool__destroy(mud::SpatialTool* self) {
 		delete self;
 	}
 	// TranslateTool

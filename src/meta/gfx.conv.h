@@ -70,6 +70,9 @@ namespace mud
 	export_ template <> inline void to_value(const string& str, mud::PbrSpecularMode& val) { val = mud::PbrSpecularMode(enu<mud::PbrSpecularMode>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::PbrSpecularMode& val, string& str) { str = enu<mud::PbrSpecularMode>().name(uint32_t(val)); };
 	
+	export_ template <> inline void to_value(const string& str, mud::ShaderColor& val) { val = mud::ShaderColor(enu<mud::ShaderColor>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::ShaderColor& val, string& str) { str = enu<mud::ShaderColor>().name(uint32_t(val)); };
+	
 	export_ template <> inline void to_value(const string& str, mud::ShaderType& val) { val = mud::ShaderType(enu<mud::ShaderType>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::ShaderType& val, string& str) { str = enu<mud::ShaderType>().name(uint32_t(val)); };
 	
