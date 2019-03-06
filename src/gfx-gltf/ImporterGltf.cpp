@@ -256,7 +256,7 @@ namespace mud
 				if(primitive.indices != -1)
 				{
 					vector<int> indices = unpack_accessor<int>(gltf, primitive.indices, false);
-					packer.m_indices = convert<uint32_t>(indices);
+					packer.m_indices = convert<uint32_t, int>(indices);
 				}
 
 				vector<MeshPacker> morphs;
@@ -459,7 +459,7 @@ namespace mud
 	}
 
 	template <class T>
-	void import_track(const glTFNode& node, glTFInterpolation interpolation, const vector<float>& times, const vector<T>& values, Animation& animation, size_t bone, AnimationTarget target)
+	void import_track(const glTFNode& node, glTFInterpolation interpolation, span<float> times, span<T> values, Animation& animation, size_t bone, AnimationTarget target)
 	{
 		AnimationTrack track = { animation, bone, node.name.c_str(), target };
 
@@ -502,17 +502,17 @@ namespace mud
 			if(channel.target.path == "translation")
 			{
 				vector<vec3> translations = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
-				import_track(node, sampler.interpolation, times, translations, animation, bone_index, AnimationTarget::Position); // member(&Bone::m_position)
+				import_track<vec3>(node, sampler.interpolation, times, translations, animation, bone_index, AnimationTarget::Position); // member(&Bone::m_position)
 			}
 			else if(channel.target.path == "rotation")
 			{
 				vector<quat> rotations = unpack_accessor<quat, 4>(gltf, sampler.output, false);
-				import_track(node, sampler.interpolation, times, rotations, animation, bone_index, AnimationTarget::Rotation); // member(&Bone::m_rotation)
+				import_track<quat>(node, sampler.interpolation, times, rotations, animation, bone_index, AnimationTarget::Rotation); // member(&Bone::m_rotation)
 			}
 			else if(channel.target.path == "scale")
 			{
 				vector<vec3> scales = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
-				import_track(node, sampler.interpolation, times, scales, animation, bone_index, AnimationTarget::Scale); // member(&Bone::m_scale)
+				import_track<vec3>(node, sampler.interpolation, times, scales, animation, bone_index, AnimationTarget::Scale); // member(&Bone::m_scale)
 			}
 			else if(channel.target.path == "weights")
 			{

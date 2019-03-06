@@ -69,7 +69,7 @@ namespace mud
 	MUD_TOOL_EXPORT void brush_options(Widget& parent, Brush& brush);
 	MUD_TOOL_EXPORT void current_brush_edit(Widget& parent, EditContext& context);
 
-	MUD_TOOL_EXPORT void object_editor(Widget& parent, const vector<Ref>& selection);
+	MUD_TOOL_EXPORT void object_editor(Widget& parent, span<Ref> selection);
 
 	MUD_TOOL_EXPORT void tools_transform(Widget& toolbar, EditContext& context);
 	MUD_TOOL_EXPORT void edit_transform(Widget& parent, EditContext& context);

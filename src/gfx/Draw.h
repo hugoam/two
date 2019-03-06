@@ -94,14 +94,14 @@ namespace mud
 	};
 
 	export_ MUD_GFX_EXPORT object<Model> draw_model(cstring name, const ProcShape& shape, bool readback = false);
-	export_ MUD_GFX_EXPORT object<Model> draw_model(cstring name, const vector<ProcShape>& shapes, bool readback = false);
+	export_ MUD_GFX_EXPORT object<Model> draw_model(cstring name, span<ProcShape> shapes, bool readback = false);
 
 	export_ MUD_GFX_EXPORT void draw_model(const ProcShape& shape, Model& model, bool readback = false, Material* material = nullptr);
-	export_ MUD_GFX_EXPORT void draw_model(const vector<ProcShape>& shapes, Model& model, bool readback = false, Material* material = nullptr);
+	export_ MUD_GFX_EXPORT void draw_model(span<ProcShape> shapes, Model& model, bool readback = false, Material* material = nullptr);
 
 	export_ MUD_GFX_EXPORT void draw_mesh(const ProcShape& shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
-	export_ MUD_GFX_EXPORT void draw_mesh(const vector<ProcShape>& shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
+	export_ MUD_GFX_EXPORT void draw_mesh(span<ProcShape> shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
 	
-	export_ MUD_GFX_EXPORT void draw_mesh(const vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
+	export_ MUD_GFX_EXPORT void draw_mesh(span<ProcShape> shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
 
 }

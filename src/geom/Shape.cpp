@@ -122,15 +122,15 @@ namespace mud
 	object<Shape> Icosahedron::clone() const { return oconstruct<Icosahedron>(*this); }
 
 	Points::Points() : Shape(type<Points>()) {}
-	Points::Points(const vector<vec3>& points) : Shape(type<Points>()), m_points(points) {}
+	Points::Points(span<vec3> points) : Shape(type<Points>()), m_points(points.begin(), points.end()) {}
 	object<Shape> Points::clone() const { return oconstruct<Points>(*this); }
 
 	Grid3::Grid3() : Shape(type<Grid3>()) {}
-	Grid3::Grid3(const uvec2& size, const vector<vec3>& points) : Shape(type<Grid3>()), m_size(size), m_points(points) { m_points.resize(size.x * size.y); }
+	Grid3::Grid3(const uvec2& size, span<vec3> points) : Shape(type<Grid3>()), m_size(size), m_points(points.begin(), points.end()) { m_points.resize(size.x * size.y); }
 	object<Shape> Grid3::clone() const { return oconstruct<Grid3>(*this); }
 
 	ConvexHull::ConvexHull() : Shape(type<ConvexHull>()) {}
-	ConvexHull::ConvexHull(const vector<vec3>& vertices) : Shape(type<ConvexHull>()), m_vertices(vertices) {}
+	ConvexHull::ConvexHull(span<vec3> vertices) : Shape(type<ConvexHull>()), m_vertices(vertices.begin(), vertices.end()) {}
 	object<Shape> ConvexHull::clone() const { return oconstruct<ConvexHull>(*this); }
 
 	Aabb aabb(const vec3& min, const vec3& max)
@@ -322,7 +322,7 @@ namespace mud
 		return { x * width, 0.f, y * height };
 	}
 
-	inline vec3 distribute_points(const vector<vec3>& points)
+	inline vec3 distribute_points(span<vec3> points)
 	{
 		uint index = randi(0U, uint(points.size()) - 1U);
 		return points[index];

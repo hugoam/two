@@ -24,12 +24,6 @@ namespace mud
 	export_ template <class T>
 	vector<T> to_vector(const span<T>& span) { return { span.m_pointer, span.m_pointer + span.m_count }; }
 	
-	//export_ template <class T>
-	//inline bool has(const vector<T>& vec, const T& value)
-	//{
-	//	return find(vec.begin(), vec.end(), value) != vec.end();
-	//}
-	
 	export_ template <class T>
 	inline bool has(span<T> vec, const T& value)
 	{
@@ -41,9 +35,26 @@ namespace mud
 	{
 		return find(vec.begin(), vec.end(), value) != vec.end();
 	}
+	
+	export_ template <class T>
+	inline vector<T> slice(span<T> vec, size_t begin, size_t end)
+	{
+		vector<T> result;
+		for(size_t i = begin; i < end; ++i)
+			result.push_back(vec[i]);
+		return result;
+	}
+	
+	export_ template <class T>
+	inline vector<T> prepend(span<T>& vec, const T& value)
+	{
+		vector<T> result(vec.begin(), vec.end());
+		result.insert(vec.begin(), value);
+		return result;
+	}
 
 	export_ template <class T, class U>
-	inline void cast(const vector<T>& source, vector<U>& target)
+	inline void cast(span<T> source, vector<U>& target)
 	{
 		target.reserve(source.size());
 		for(const T& val : source)
@@ -51,7 +62,7 @@ namespace mud
 	}
 
 	export_ template <class U, class T>
-	inline vector<U> convert(const vector<T>& source)
+	inline vector<U> convert(span<T> source)
 	{
 		vector<U> target;
 		cast(source, target);
@@ -59,7 +70,7 @@ namespace mud
 	}
 
 	export_ template <class U, class T, class Op>
-	inline vector<U> convert(const vector<T>& source, Op op)
+	inline vector<U> convert(span<T> source, Op op)
 	{
 		vector<U> result;
 		result.resize(source.size());
@@ -68,7 +79,7 @@ namespace mud
 	}
 
 	template <class U, class T, class F>
-	export_ vector<U> transform(const vector<T>& vec, F func)
+	export_ vector<U> transform(span<T> vec, F func)
 	{
 		vector<U> result;
 		for(const T& value : vec)
@@ -77,7 +88,7 @@ namespace mud
 	}
 
 	template <class V, class T, class U, class F>
-	export_ vector<V> transform(const vector<T>& a, const vector<U>& b, F func)
+	export_ vector<V> transform(span<T> a, span<U> b, F func)
 	{
 		vector<V> result;
 		for(size_t i = 0; i < a.size(); ++i)

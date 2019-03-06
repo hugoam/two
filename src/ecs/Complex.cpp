@@ -21,7 +21,7 @@ namespace mud
 		, m_parts(m_prototype.m_parts.size())
 	{}
 
-	Complex::Complex(uint32_t id, Type& type, const vector<Ref>& parts)
+	Complex::Complex(uint32_t id, Type& type, span<Ref> parts)
 		: Complex(id, type)
 	{
 		this->setup(parts);
@@ -32,7 +32,7 @@ namespace mud
 		unindex(m_type, m_id);
 	}
 
-	void Complex::setup(const vector<Ref>& parts)
+	void Complex::setup(span<Ref> parts)
 	{
 		for(Ref ref : parts)
 			this->add_part(ref);

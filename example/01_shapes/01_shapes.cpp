@@ -6,7 +6,7 @@
 
 using namespace mud;
 
-vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, const vector<ShapeVar>& shapes, bool plain)
+vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, span<ShapeVar> shapes, bool plain)
 {
 	vector<ShapeInstance> shape_items = {};
 	shape_items.resize(size_x * size_y);

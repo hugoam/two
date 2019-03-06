@@ -78,7 +78,7 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Signature
 	{
 	public:
-		Signature(const vector<Param>& params = {}, QualType return_type = g_qvoid);
+		Signature(span<Param> params = {}, QualType return_type = g_qvoid);
 
 		vector<Param> m_params;
 		QualType m_return_type;
@@ -89,7 +89,7 @@ namespace mud
 	{
 	public:
 		Callable();
-		Callable(cstring name, const vector<Param>& params = {}, QualType return_type = g_qvoid);
+		Callable(cstring name, span<Param> params = {}, QualType return_type = g_qvoid);
 		virtual ~Callable() {}
 
 		void setup();
@@ -109,14 +109,14 @@ namespace mud
 
 		//vector<Var> m_args;
 
-		//bool checkArgs(const vector<Var>& args) const; // { for(const Param& param : m_params) if(!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
+		//bool checkArgs(span<Var> args) const; // { for(const Param& param : m_params) if(!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
 	};
 
 	export_ class refl_ MUD_REFL_EXPORT Function final : public Callable
 	{
 	public:
 		Function();
-		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, const vector<Param>& params = {}, QualType return_type = g_qvoid);
+		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, span<Param> params = {}, QualType return_type = g_qvoid);
 
 		virtual void operator()(span<void*> args, void*& result) const;
 
@@ -140,7 +140,7 @@ namespace mud
 	{
 	public:
 		Method();
-		Method(Type& object_type, cstring name, Address address, MethodFunc method, const vector<Param>& params = {}, QualType return_type = g_qvoid);
+		Method(Type& object_type, cstring name, Address address, MethodFunc method, span<Param> params = {}, QualType return_type = g_qvoid);
 
 		virtual void operator()(span<void*> args, void*& result) const;
 
@@ -160,8 +160,8 @@ namespace mud
 	{
 	public:
 		Constructor();
-		Constructor(Type& object_type, ConstructorFunc func, const vector<Param>& params = {});
-		Constructor(Type& object_type, cstring name, ConstructorFunc func, const vector<Param>& params = {});
+		Constructor(Type& object_type, ConstructorFunc func, span<Param> params = {});
+		Constructor(Type& object_type, cstring name, ConstructorFunc func, span<Param> params = {});
 
 		virtual void operator()(span<void*> args, void*& result) const;
 		

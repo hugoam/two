@@ -41,7 +41,7 @@ namespace mud
 	{
 	public:
 		constr_ Points();
-		constr_ Points(const vector<vec3>& points);
+		constr_ Points(span<vec3> points);
 
 		attr_ vector<vec3> m_points;
 
@@ -52,7 +52,7 @@ namespace mud
 	{
 	public:
 		constr_ Grid3();
-		constr_ Grid3(const uvec2& size, const vector<vec3>& points = {});
+		constr_ Grid3(const uvec2& size, span<vec3> points = {});
 
 		attr_ uvec2 m_size;
 		attr_ vector<vec3> m_points;
@@ -64,7 +64,7 @@ namespace mud
 	{
 	public:
 		constr_ ConvexHull();
-		constr_ ConvexHull(const vector<vec3>& vertices);
+		constr_ ConvexHull(span<vec3> vertices);
 
 		attr_ vector<vec3> m_vertices;
 

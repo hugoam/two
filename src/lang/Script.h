@@ -101,7 +101,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ScriptClass
 	{
 	public:
-		constr_ ScriptClass(const string& name, const vector<Type*>& parts);
+		constr_ ScriptClass(const string& name, span<Type*> parts);
 
 		attr_ string m_name;
 		attr_ Type m_class_type;

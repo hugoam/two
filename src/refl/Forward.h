@@ -45,9 +45,12 @@ namespace mud
 }
 
 #ifdef MUD_META_GENERATOR
+#include <stl/span.h>
 #include <stl/vector.h>
 namespace stl
 {
+	export_ extern template class refl_ seque_ span<mud::Type*>;
+
 	export_ extern template class refl_ seque_ vector<mud::Var>;
 	export_ extern template class refl_ seque_ vector<void*>;
 

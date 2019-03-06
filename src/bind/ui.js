@@ -656,6 +656,11 @@ Object.defineProperty(Layout.prototype, "no_grid", {
         _mud_Layout__set_no_grid(self, value);
     }
 });
+Object.defineProperty(Layout.prototype, "table_division", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Layout__get_table_division(self);
+    }});
 Object.defineProperty(Layout.prototype, "updated", {
     get: function() {
         var self = this.ptr;
@@ -1673,6 +1678,10 @@ Module['ui']['item'] = function(a0, a1, a2) {
     if (a2 === undefined) { return wrapPointer(_mud_ui_item_2(/*parent*/a0.ptr, /*style*/a1.ptr), Widget); }
     return wrapPointer(_mud_ui_item_3(/*parent*/a0.ptr, /*style*/a1.ptr, ensureString(/*content*/a2)), Widget);
 };
+Module['ui']['multi_item'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { return wrapPointer(_mud_ui_multi_item_3(/*parent*/a0.ptr, /*style*/a1.ptr, /*elements*/a2.ptr), Widget); }
+    return wrapPointer(_mud_ui_multi_item_4(/*parent*/a0.ptr, /*style*/a1.ptr, /*elements*/a2.ptr, /*element_style*/a3.ptr), Widget);
+};
 Module['ui']['spanner'] = function(a0, a1, a2, a3) {
     return wrapPointer(_mud_ui_spanner_4(/*parent*/a0.ptr, /*style*/a1.ptr, /*dim*/a2, /*span*/a3), Widget);
 };
@@ -1709,9 +1718,20 @@ Module['ui']['toggle'] = function(a0, a1, a2) {
     if (a2 === undefined) { return wrapPointer(_mud_ui_toggle_2(/*parent*/a0.ptr, /*on*/a1), Widget); }
     return wrapPointer(_mud_ui_toggle_3(/*parent*/a0.ptr, /*on*/a1, ensureString(/*content*/a2)), Widget);
 };
+Module['ui']['multi_button'] = function(a0, a1, a2) {
+    if (a2 === undefined) { return wrapPointer(_mud_ui_multi_button_2(/*parent*/a0.ptr, /*elements*/a1.ptr), Widget); }
+    return wrapPointer(_mud_ui_multi_button_3(/*parent*/a0.ptr, /*elements*/a1.ptr, /*element_style*/a2.ptr), Widget);
+};
+Module['ui']['multi_toggle'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { return wrapPointer(_mud_ui_multi_toggle_3(/*parent*/a0.ptr, /*on*/a1, /*elements*/a2.ptr), Widget); }
+    return wrapPointer(_mud_ui_multi_toggle_4(/*parent*/a0.ptr, /*on*/a1, /*elements*/a2.ptr, /*element_style*/a3.ptr), Widget);
+};
 Module['ui']['modal_button'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
     return !!(_mud_ui_modal_button_4(/*screen*/a0.ptr, /*parent*/a1.ptr, ensureString(/*content*/a2), /*mode*/a3));
+};
+Module['ui']['modal_multi_button'] = function(a0, a1, a2, a3) {
+    return !!(_mud_ui_modal_multi_button_4(/*screen*/a0.ptr, /*parent*/a1.ptr, /*elements*/a2.ptr, /*mode*/a3));
 };
 Module['ui']['checkbox'] = function(a0, a1) {
     return wrapPointer(_mud_ui_checkbox_2(/*parent*/a0.ptr, /*on*/a1), Widget);
@@ -1729,10 +1749,24 @@ Module['ui']['radio_choice'] = function(a0, a1, a2) {
     ensureCache.prepare();
     return wrapPointer(_mud_ui_radio_choice_3(/*parent*/a0.ptr, ensureString(/*value*/a1), /*active*/a2), Widget);
 };
+Module['ui']['radio_switch'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { return !!(_mud_ui_radio_switch_3(/*parent*/a0.ptr, /*labels*/a1.ptr, /*value*/a2)); }
+    return !!(_mud_ui_radio_switch_4(/*parent*/a0.ptr, /*labels*/a1.ptr, /*value*/a2, /*dim*/a3));
+};
+Module['ui']['popdown'] = function(a0, a1, a2, a3, a4) {
+    return !!(_mud_ui_popdown_5(/*parent*/a0.ptr, /*choices*/a1.ptr, /*value*/a2, /*position*/a3.ptr, /*flags*/a4));
+};
 Module['ui']['dropdown'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
     if (a4 === undefined) { return wrapPointer(_mud_ui_dropdown_4(/*parent*/a0.ptr, /*style*/a1.ptr, ensureString(/*value*/a2), /*flags*/a3), Widget); }
     return wrapPointer(_mud_ui_dropdown_5(/*parent*/a0.ptr, /*style*/a1.ptr, ensureString(/*value*/a2), /*flags*/a3, /*list_style*/a4.ptr), Widget);
+};
+Module['ui']['dropdown_input'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { return !!(_mud_ui_dropdown_input_3(/*parent*/a0.ptr, /*choices*/a1.ptr, /*value*/a2)); }
+    return !!(_mud_ui_dropdown_input_4(/*parent*/a0.ptr, /*choices*/a1.ptr, /*value*/a2, /*compact*/a3));
+};
+Module['ui']['typedown_input'] = function(a0, a1, a2) {
+    return !!(_mud_ui_typedown_input_3(/*parent*/a0.ptr, /*choices*/a1.ptr, /*value*/a2));
 };
 Module['ui']['menu_choice'] = function(a0, a1) {
     ensureCache.prepare();
@@ -1759,6 +1793,12 @@ Module['ui']['toolbar'] = function(a0, a1) {
 };
 Module['ui']['select_list'] = function(a0) {
     return wrapPointer(_mud_ui_select_list_1(/*parent*/a0.ptr), ScrollSheet);
+};
+Module['ui']['columns'] = function(a0, a1) {
+    return wrapPointer(_mud_ui_columns_2(/*parent*/a0.ptr, /*weights*/a1.ptr), Table);
+};
+Module['ui']['table'] = function(a0, a1, a2) {
+    return wrapPointer(_mud_ui_table_3(/*parent*/a0.ptr, /*columns*/a1.ptr, /*weights*/a2.ptr), Table);
 };
 Module['ui']['table_row'] = function(a0) {
     return wrapPointer(_mud_ui_table_row_1(/*parent*/a0.ptr), Widget);
@@ -1893,10 +1933,34 @@ Module['ui']['color_edit_simple'] = function(a0, a1) {
 Module['ui']['color_toggle_edit'] = function(a0, a1) {
     return !!(_mud_ui_color_toggle_edit_2(/*parent*/a0.ptr, /*value*/a1.ptr));
 };
+Module['ui']['curve_graph'] = function(a0, a1, a2) {
+    if (a2 === undefined) { return !!(_mud_ui_curve_graph_2(/*parent*/a0.ptr, /*values*/a1.ptr)); }
+    return !!(_mud_ui_curve_graph_3(/*parent*/a0.ptr, /*values*/a1.ptr, /*points*/a2.ptr));
+};
+Module['ui']['curve_edit'] = function(a0, a1, a2) {
+    if (a2 === undefined) { return !!(_mud_ui_curve_edit_2(/*parent*/a0.ptr, /*values*/a1.ptr)); }
+    return !!(_mud_ui_curve_edit_3(/*parent*/a0.ptr, /*values*/a1.ptr, /*points*/a2.ptr));
+};
 Module['ui']['flag_field'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
     if (a4 === undefined) { return !!(_mud_ui_flag_field_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2, /*shift*/a3)); }
     return !!(_mud_ui_flag_field_5(/*parent*/a0.ptr, ensureString(/*name*/a1), /*value*/a2, /*shift*/a3, /*reverse*/a4));
+};
+Module['ui']['radio_field'] = function(a0, a1, a2, a3, a4, a5) {
+    ensureCache.prepare();
+    if (a4 === undefined) { return !!(_mud_ui_radio_field_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*choices*/a2.ptr, /*value*/a3)); }
+    if (a5 === undefined) { return !!(_mud_ui_radio_field_5(/*parent*/a0.ptr, ensureString(/*name*/a1), /*choices*/a2.ptr, /*value*/a3, /*dim*/a4)); }
+    return !!(_mud_ui_radio_field_6(/*parent*/a0.ptr, ensureString(/*name*/a1), /*choices*/a2.ptr, /*value*/a3, /*dim*/a4, /*reverse*/a5));
+};
+Module['ui']['dropdown_field'] = function(a0, a1, a2, a3, a4) {
+    ensureCache.prepare();
+    if (a4 === undefined) { return !!(_mud_ui_dropdown_field_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*choices*/a2.ptr, /*value*/a3)); }
+    return !!(_mud_ui_dropdown_field_5(/*parent*/a0.ptr, ensureString(/*name*/a1), /*choices*/a2.ptr, /*value*/a3, /*reverse*/a4));
+};
+Module['ui']['typedown_field'] = function(a0, a1, a2, a3, a4) {
+    ensureCache.prepare();
+    if (a4 === undefined) { return !!(_mud_ui_typedown_field_4(/*parent*/a0.ptr, ensureString(/*name*/a1), /*choices*/a2.ptr, /*value*/a3)); }
+    return !!(_mud_ui_typedown_field_5(/*parent*/a0.ptr, ensureString(/*name*/a1), /*choices*/a2.ptr, /*value*/a3, /*reverse*/a4));
 };
 Module['ui']['color_field'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();

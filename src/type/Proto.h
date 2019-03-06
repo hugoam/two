@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
+#include <stl/span.h>
 #include <type/Type.h>
 #include <type/Forward.h>
 
@@ -21,7 +22,7 @@ namespace mud
 	export_ class refl_ MUD_TYPE_EXPORT Prototype
 	{
 	public:
-		Prototype(Type& type, vector<Type*> parts);
+		Prototype(Type& type, span<Type*> parts);
 
 		Type& m_type;
 		vector<Type*> m_parts;

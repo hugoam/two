@@ -488,6 +488,9 @@ extern "C" {
 	void DECL glTFMesh__set_name(glTFMesh* self, const char* value) {
 		self->name = value;
 	}
+	float* DECL glTFMesh__get_weights(glTFMesh* self) {
+		return self->weights.data();
+	}
 	void DECL glTFMesh__destroy(glTFMesh* self) {
 		delete self;
 	}
@@ -573,6 +576,9 @@ extern "C" {
 	}
 	void DECL glTFNode__set_scale(glTFNode* self, mud::vec3* value) {
 		self->scale = *value;
+	}
+	int* DECL glTFNode__get_children(glTFNode* self) {
+		return self->children.data();
 	}
 	void DECL glTFNode__destroy(glTFNode* self) {
 		delete self;
@@ -742,6 +748,9 @@ extern "C" {
 	void DECL glTFScene__set_name(glTFScene* self, const char* value) {
 		self->name = value;
 	}
+	int* DECL glTFScene__get_nodes(glTFScene* self) {
+		return self->nodes.data();
+	}
 	void DECL glTFScene__destroy(glTFScene* self) {
 		delete self;
 	}
@@ -763,6 +772,9 @@ extern "C" {
 	}
 	void DECL glTFSkin__set_skeleton(glTFSkin* self, int value) {
 		self->skeleton = value;
+	}
+	int* DECL glTFSkin__get_joints(glTFSkin* self) {
+		return self->joints.data();
 	}
 	int DECL glTFSkin__get_inverse_bind_matrices(glTFSkin* self) {
 		return self->inverse_bind_matrices;

@@ -13,6 +13,7 @@ namespace mud
     // Exported types
     template <> MUD_REFL_EXPORT Type& type<mud::TypeClass>() { static Type ty("TypeClass", sizeof(mud::TypeClass)); return ty; }
     
+    template <> MUD_REFL_EXPORT Type& type<stl::span<mud::Type*>>() { static Type ty("span<mud::Type*>", sizeof(stl::span<mud::Type*>)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Alias*>>() { static Type ty("vector<mud::Alias*>", sizeof(stl::vector<mud::Alias*>)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Function*>>() { static Type ty("vector<mud::Function*>", sizeof(stl::vector<mud::Function*>)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Module*>>() { static Type ty("vector<mud::Module*>", sizeof(stl::vector<mud::Module*>)); return ty; }

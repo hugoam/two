@@ -21,7 +21,7 @@ namespace mud
 		bool m_world_snap;
 		Plane m_work_plane;
 
-		virtual void process(Viewer& viewer, const vector<Ref>& selection);
+		virtual void process(Viewer& viewer, span<Ref> selection);
 
 		virtual void begin(const vec3& position) { UNUSED(position); }
 		virtual void update(const vec3& position) = 0;

@@ -27,7 +27,7 @@ namespace mud
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::Interp>();
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::NoiseType>();
     
+    export_ template <> MUD_NOISE_EXPORT Type& type<mud::vector3d<float>>();
     
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise>();
-    export_ template <> MUD_NOISE_EXPORT Type& type<mud::vector3d<float>>();
 }

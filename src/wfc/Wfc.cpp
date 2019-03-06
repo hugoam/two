@@ -20,7 +20,7 @@ module mud.wfc;
 
 namespace mud
 {
-	double calc_sum(const vector<double>& a)
+	double calc_sum(span<double> a)
 	{
 		double sum = 0.0;
 		for(double d : a)
@@ -29,7 +29,7 @@ namespace mud
 	}
 
 	// Pick a random index weighted by a
-	size_t spin_the_bottle(const vector<double>& a, double between_zero_and_one)
+	size_t spin_the_bottle(span<double> a, double between_zero_and_one)
 	{
 		double sum = calc_sum(a);
 

@@ -32,8 +32,11 @@ void mud_Noise_Interp__to_string(void* val, string& str) { str = g_enu[type<mud:
 void mud_Noise_Interp__to_value(const string& str, void* val) { (*static_cast<mud::Noise::Interp*>(val)) = mud::Noise::Interp(g_enu[type<mud::Noise::Interp>().m_id]->value(str.c_str())); }
 void mud_Noise_NoiseType__to_string(void* val, string& str) { str = g_enu[type<mud::Noise::NoiseType>().m_id]->name(uint32_t((*static_cast<mud::Noise::NoiseType*>(val)))); }
 void mud_Noise_NoiseType__to_value(const string& str, void* val) { (*static_cast<mud::Noise::NoiseType*>(val)) = mud::Noise::NoiseType(g_enu[type<mud::Noise::NoiseType>().m_id]->value(str.c_str())); }
-void mud_vector3d_float__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::vector3d<float>(  ); }
-void mud_vector3d_float__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::vector3d<float>((*static_cast<mud::vector3d<float>*>(other))); }
+size_t mud_vector3d_float__size(void* vec) { return (*static_cast<mud::vector3d<float>*>(vec)).size(); }
+void* mud_vector3d_float__at(void* vec, size_t i) { return &(*static_cast<mud::vector3d<float>*>(vec))[i]; }
+void mud_vector3d_float__push(void* vec) { (*static_cast<mud::vector3d<float>*>(vec)).emplace_back(); }
+void mud_vector3d_float__add(void* vec, void* value) { (*static_cast<mud::vector3d<float>*>(vec)).push_back(*static_cast<float*>(value)); }
+void mud_vector3d_float__remove(void* vec, void* value) { vector_remove_any((*static_cast<mud::vector3d<float>*>(vec)), *static_cast<float*>(value)); }
 void mud_noise_2d_0(span<void*> args, void*& result) { (*static_cast<float*>(result)) = mud::noise_2d(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<mud::Noise::NoiseType*>(args[2]), *static_cast<float*>(args[3]), *static_cast<mud::Noise::Interp*>(args[4])); }
 void mud_noise_3d_1(span<void*> args, void*& result) { (*static_cast<float*>(result)) = mud::noise_3d(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<mud::Noise::NoiseType*>(args[3]), *static_cast<float*>(args[4]), *static_cast<mud::Noise::Interp*>(args[5])); }
 void mud_noise_fract_2d_2(span<void*> args, void*& result) { (*static_cast<float*>(result)) = mud::noise_fract_2d(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<mud::Noise::NoiseType*>(args[2]), *static_cast<float*>(args[3]), *static_cast<mud::Noise::Interp*>(args[4]), *static_cast<mud::Noise::FractalType*>(args[5]), *static_cast<int*>(args[6]), *static_cast<float*>(args[7]), *static_cast<float*>(args[8])); }
@@ -112,6 +115,19 @@ namespace mud
 	}
 	
 	// Sequences
+	{
+		Type& t = type<mud::vector3d<float>>();
+		static Meta meta = { t, &namspc({ "mud" }), "vector3d<float>", sizeof(mud::vector3d<float>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<float>(),
+		                             mud_vector3d_float__size,
+		                             mud_vector3d_float__at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { mud_vector3d_float__push,
+		                             mud_vector3d_float__add,
+		                             mud_vector3d_float__remove };
+		g_sequence[t.m_id] = &sequence;
+	}
 	
 	// mud::Noise
 	{
@@ -125,25 +141,6 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
-	}
-	// mud::vector3d<float>
-	{
-		Type& t = type<mud::vector3d<float>>();
-		static Meta meta = { t, &namspc({ "mud" }), "vector3d<float>", sizeof(mud::vector3d<float>), TypeClass::Struct };
-		// bases
-		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_vector3d_float__construct_0, {} }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, mud_vector3d_float__copy_construct }
-		};
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
 	}
 	
 	

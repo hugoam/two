@@ -56,8 +56,7 @@ namespace mud
 		return result;
 	}
 
-	//string join(span<string> strings, string separator)
-	string join(const vector<string>& strings, string separator)
+	string join(span<string> strings, string separator)
 	{
 		if(strings.size() == 0) return "";
 		string result;

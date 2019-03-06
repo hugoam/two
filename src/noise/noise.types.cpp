@@ -17,7 +17,7 @@ namespace mud
     template <> MUD_NOISE_EXPORT Type& type<mud::Noise::Interp>() { static Type ty("Interp", sizeof(mud::Noise::Interp)); return ty; }
     template <> MUD_NOISE_EXPORT Type& type<mud::Noise::NoiseType>() { static Type ty("NoiseType", sizeof(mud::Noise::NoiseType)); return ty; }
     
+    template <> MUD_NOISE_EXPORT Type& type<mud::vector3d<float>>() { static Type ty("vector3d<float>", sizeof(mud::vector3d<float>)); return ty; }
     
     template <> MUD_NOISE_EXPORT Type& type<mud::Noise>() { static Type ty("Noise", sizeof(mud::Noise)); return ty; }
-    template <> MUD_NOISE_EXPORT Type& type<mud::vector3d<float>>() { static Type ty("vector3d<float>", sizeof(mud::vector3d<float>)); return ty; }
 }

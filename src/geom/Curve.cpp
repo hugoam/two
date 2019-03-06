@@ -6,6 +6,7 @@
 module mud.geom;
 #else
 #include <stl/string.h>
+#include <stl/span.h>
 #include <stl/algorithm.h>
 #include <stl/memory.h>
 #include <math/Vec.hpp>
@@ -52,7 +53,7 @@ namespace mud
 	
 	float Curve3Sampler::at_distance(float distance) const
 	{
-		const vector<float>& lengths = m_lengths;
+		span<float> lengths = m_lengths;
 		const size_t il = lengths.size();
 		size_t i = 0;
 

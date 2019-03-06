@@ -119,7 +119,7 @@ namespace mud
 
 		visit_folders(sprite_path.c_str(), visit_folder);
 
-		m_images = convert<object<Image>>(images, [](const Image& image) { return oconstruct<Image>(image); });
+		m_images = convert<object<Image>, Image>(images, [](const Image& image) { return oconstruct<Image>(image); });
 	}
 
 	void UiWindow::load_resources()

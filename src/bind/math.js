@@ -200,6 +200,11 @@ Image256.prototype.constructor = Image256;
 Image256.prototype.__class__ = Image256;
 Image256.__cache__ = {};
 Module['Image256'] = Image256;
+Object.defineProperty(Image256.prototype, "pixels", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Image256__get_pixels(self);
+    }});
 Object.defineProperty(Image256.prototype, "width", {
     get: function() {
         var self = this.ptr;
@@ -534,6 +539,11 @@ ValueCurve_float.prototype.constructor = ValueCurve_float;
 ValueCurve_float.prototype.__class__ = ValueCurve_float;
 ValueCurve_float.__cache__ = {};
 Module['ValueCurve_float'] = ValueCurve_float;
+Object.defineProperty(ValueCurve_float.prototype, "keys", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_ValueCurve_float__get_keys(self);
+    }});
 ValueCurve_float.prototype["__destroy__"] = ValueCurve_float.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_ValueCurve_float__destroy(self);
@@ -548,14 +558,18 @@ ValueCurve_mud_Colour.prototype.constructor = ValueCurve_mud_Colour;
 ValueCurve_mud_Colour.prototype.__class__ = ValueCurve_mud_Colour;
 ValueCurve_mud_Colour.__cache__ = {};
 Module['ValueCurve_mud_Colour'] = ValueCurve_mud_Colour;
+Object.defineProperty(ValueCurve_mud_Colour.prototype, "keys", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_ValueCurve_mud_Colour__get_keys(self);
+    }});
 ValueCurve_mud_Colour.prototype["__destroy__"] = ValueCurve_mud_Colour.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_ValueCurve_mud_Colour__destroy(self);
 };
 // ValueCurve<mud::quat>
-function ValueCurve_mud_quat(a0) {
-    if (a0 === undefined) { this.ptr = _mud_ValueCurve_mud_quat__construct_0(); this.type = ValueCurve_mud_quat; getCache(ValueCurve_mud_quat)[this.ptr] = this; return; }
-    this.ptr = _mud_ValueCurve_mud_quat__construct_1(/*keys*/a0.ptr); this.type = ValueCurve_mud_quat; getCache(ValueCurve_mud_quat)[this.ptr] = this;
+function ValueCurve_mud_quat() {
+    this.ptr = _mud_ValueCurve_mud_quat__construct_0(); this.type = ValueCurve_mud_quat; getCache(ValueCurve_mud_quat)[this.ptr] = this;
 };
 ValueCurve_mud_quat.prototype = Object.create(WrapperObject.prototype);
 ValueCurve_mud_quat.prototype.constructor = ValueCurve_mud_quat;
@@ -576,6 +590,11 @@ ValueCurve_mud_vec3.prototype.constructor = ValueCurve_mud_vec3;
 ValueCurve_mud_vec3.prototype.__class__ = ValueCurve_mud_vec3;
 ValueCurve_mud_vec3.__cache__ = {};
 Module['ValueCurve_mud_vec3'] = ValueCurve_mud_vec3;
+Object.defineProperty(ValueCurve_mud_vec3.prototype, "keys", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_ValueCurve_mud_vec3__get_keys(self);
+    }});
 ValueCurve_mud_vec3.prototype["__destroy__"] = ValueCurve_mud_vec3.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_ValueCurve_mud_vec3__destroy(self);
@@ -590,6 +609,11 @@ ValueCurve_uint32_t.prototype.constructor = ValueCurve_uint32_t;
 ValueCurve_uint32_t.prototype.__class__ = ValueCurve_uint32_t;
 ValueCurve_uint32_t.__cache__ = {};
 Module['ValueCurve_uint32_t'] = ValueCurve_uint32_t;
+Object.defineProperty(ValueCurve_uint32_t.prototype, "keys", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_ValueCurve_uint32_t__get_keys(self);
+    }});
 ValueCurve_uint32_t.prototype["__destroy__"] = ValueCurve_uint32_t.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_ValueCurve_uint32_t__destroy(self);
@@ -1730,8 +1754,14 @@ Module['look_at'] = function(a0, a1, a2) {
     if (a2 === undefined) { return wrapPointer(_mud_look_at_2(/*eye*/a0.ptr, /*target*/a1.ptr), quat); }
     return wrapPointer(_mud_look_at_3(/*eye*/a0.ptr, /*target*/a1.ptr, /*forward*/a2.ptr), quat);
 };
+Module['grid'] = function(a0, a1) {
+    _mud_grid_2(/*size*/a0.ptr, /*output_coords*/a1.ptr);
+};
 Module['grid_center'] = function(a0, a1) {
     return wrapPointer(_mud_grid_center_2(/*coord*/a0.ptr, /*cell_size*/a1.ptr), v3_float);
+};
+Module['index_list'] = function(a0, a1) {
+    _mud_index_list_2(/*size*/a0, /*output_indices*/a1.ptr);
 };
 Module['float2'] = v2_float;
 Module['float3'] = v3_float;

@@ -379,7 +379,7 @@ namespace mud
 	{
 		vector<double> attribs = decode_accessor(gltf, accessor, for_vertex);
 		vector<T> ret;
-		cast(attribs, ret);
+		cast<double, T>(attribs, ret);
 		return ret;
 	}
 
@@ -394,7 +394,7 @@ namespace mud
 	}
 
 	template <class T>
-	int pack_accessor(glTF& gltf, int buffer_index, glTFAccessor& accessor, const vector<T>& values, bool for_vertex)
+	int pack_accessor(glTF& gltf, int buffer_index, glTFAccessor& accessor, span<T> values, bool for_vertex)
 	{
 		vector<double> attribs(values.size());
 		transform(values.begin(), values.end(), attribs.begin(), [](int v) { return static_cast<double>(v); });
@@ -402,16 +402,16 @@ namespace mud
 	}
 
 	template <class T, size_t size>
-	int pack_accessor(glTF& gltf, int buffer_index, glTFAccessor& accessor, const vector<T>& values, bool for_vertex)
+	int pack_accessor(glTF& gltf, int buffer_index, glTFAccessor& accessor, span<T> values, bool for_vertex)
 	{
 		vector<double> attribs(values.size() * size);
-		using U = remove_pointer<decltype(value_ptr(values.front()))>;
-		transform(value_ptr(values.front()), value_ptr(values.back()) + size, attribs.begin(), [](U v) { return static_cast<double>(v); });
+		using U = remove_pointer<decltype(value_ptr(values[0]))>;
+		transform(value_ptr(values[0]), value_ptr(values[values.size() - 1]) + size, attribs.begin(), [](U v) { return static_cast<double>(v); });
 		return encode_accessor(gltf, buffer_index, accessor, attribs, for_vertex);
 	}
 
 	template <class T, size_t size>
-	int pack_accessor_float(glTF& gltf, int buffer_index, const vector<T>& values, bool for_vertex)
+	int pack_accessor_float(glTF& gltf, int buffer_index, span<T> values, bool for_vertex)
 	{
 		static_assert(size > 0 && size <= 4, "incorrect size");
 		glTFAccessor accessor = { 0, 0, glTFComponentType::FLOAT, false, int(values.size()), glTFType(size - 1) };

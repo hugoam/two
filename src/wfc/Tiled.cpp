@@ -22,7 +22,7 @@ using json = json11::Json;
 
 namespace mud
 {
-	void add_tile(Tileset& tileset, const vector<string>& subset_tiles, const string& tile_name, char symmetry, float weight)
+	void add_tile(Tileset& tileset, span<string> subset_tiles, const string& tile_name, char symmetry, float weight)
 	{
 		if(!subset_tiles.empty() && !has(subset_tiles, tile_name))
 			return;

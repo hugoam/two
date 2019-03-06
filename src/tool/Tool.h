@@ -78,7 +78,7 @@ namespace mud
 
 		void commit(object<EditorAction> action);
 
-		virtual bool enabled(const vector<Ref>& selection) { UNUSED(selection); return true; }
+		virtual bool enabled(span<Ref> selection) { UNUSED(selection); return true; }
 
 	protected:
 		Callback m_callback;
@@ -89,7 +89,7 @@ namespace mud
 	public:
 		ViewportTool(ToolContext& context, cstring name, Type& type);
 
-		vector<Transform*> gather_transforms(const vector<Ref>& selection);
+		vector<Transform*> gather_transforms(span<Ref> selection);
 
 		vec3 m_symbol_position;
 	};
@@ -101,7 +101,7 @@ namespace mud
 
 		virtual void paint(Gnode& parent) = 0;
 
-		virtual void process(Viewer& viewer, const vector<Ref>& selection) = 0;
+		virtual void process(Viewer& viewer, span<Ref> selection) = 0;
 	};
 
 	export_ class refl_ MUD_TOOL_EXPORT Gizmo
@@ -149,9 +149,9 @@ namespace mud
 
 		virtual void paint(Gnode& parent) override;
 
-		virtual void process(Viewer& viewer, const vector<Ref>& selection) override;
+		virtual void process(Viewer& viewer, span<Ref> selection) override;
 
-		virtual bool enabled(const vector<Ref>& selection) override;
+		virtual bool enabled(span<Ref> selection) override;
 
 		virtual object<TransformAction> create_action(span<Transform*> targets) = 0;
 		virtual bool test_target(Ref target) { UNUSED(target); return true; }

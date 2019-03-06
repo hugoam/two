@@ -737,6 +737,11 @@ Object.defineProperty(glTFMesh.prototype, "name", {
         _glTFMesh__set_name(self, ensureString(value));
     }
 });
+Object.defineProperty(glTFMesh.prototype, "weights", {
+    get: function() {
+        var self = this.ptr;
+        return _glTFMesh__get_weights(self);
+    }});
 glTFMesh.prototype["__destroy__"] = glTFMesh.prototype.__destroy__ = function() {
     var self = this.ptr;
     _glTFMesh__destroy(self);
@@ -873,6 +878,11 @@ Object.defineProperty(glTFNode.prototype, "scale", {
         _glTFNode__set_scale(self, value.ptr);
     }
 });
+Object.defineProperty(glTFNode.prototype, "children", {
+    get: function() {
+        var self = this.ptr;
+        return _glTFNode__get_children(self);
+    }});
 glTFNode.prototype["__destroy__"] = glTFNode.prototype.__destroy__ = function() {
     var self = this.ptr;
     _glTFNode__destroy(self);
@@ -1131,6 +1141,11 @@ Object.defineProperty(glTFScene.prototype, "name", {
         _glTFScene__set_name(self, ensureString(value));
     }
 });
+Object.defineProperty(glTFScene.prototype, "nodes", {
+    get: function() {
+        var self = this.ptr;
+        return _glTFScene__get_nodes(self);
+    }});
 glTFScene.prototype["__destroy__"] = glTFScene.prototype.__destroy__ = function() {
     var self = this.ptr;
     _glTFScene__destroy(self);
@@ -1164,6 +1179,11 @@ Object.defineProperty(glTFSkin.prototype, "skeleton", {
         _glTFSkin__set_skeleton(self, value);
     }
 });
+Object.defineProperty(glTFSkin.prototype, "joints", {
+    get: function() {
+        var self = this.ptr;
+        return _glTFSkin__get_joints(self);
+    }});
 Object.defineProperty(glTFSkin.prototype, "inverse_bind_matrices", {
     get: function() {
         var self = this.ptr;

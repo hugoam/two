@@ -349,6 +349,16 @@ extern "C" {
 	mud::Batch* DECL mud_Batch__construct_1(mud::Item* item) {
 		return new mud::Batch(*item);
 	}
+	void DECL mud_Batch_update_aabb_1(mud::Batch* self, float* instances, int instances_size) {
+		self->update_aabb({ (mud::mat4*)instances, instances_size / (sizeof(mud::mat4) / sizeof(float)) });
+	}
+	void DECL mud_Batch_transforms_1(mud::Batch* self, float* instances, int instances_size) {
+		self->transforms({ (mud::mat4*)instances, instances_size / (sizeof(mud::mat4) / sizeof(float)) });
+	}
+	stl::span<float>* DECL mud_Batch_begin_2(mud::Batch* self, uint32_t count, uint16_t stride) {
+		static stl::span<float> temp;
+		return (temp = self->begin(count, stride), &temp);
+	}
 	mud::Item* DECL mud_Batch__get_item(mud::Batch* self) {
 		return self->m_item;
 	}
@@ -2742,6 +2752,12 @@ extern "C" {
 	}
 	mud::Batch* DECL mud_gfx_batch_2(mud::Gnode* parent, mud::Item* item) {
 		return &mud::gfx::batch(*parent, *item);
+	}
+	mud::Batch* DECL mud_gfx_instances_2(mud::Gnode* parent, mud::Item* item) {
+		return &mud::gfx::instances(*parent, *item);
+	}
+	mud::Batch* DECL mud_gfx_instances_3(mud::Gnode* parent, mud::Item* item, float* transforms, int transforms_size) {
+		return &mud::gfx::instances(*parent, *item, { (mud::mat4*)transforms, transforms_size / (sizeof(mud::mat4) / sizeof(float)) });
 	}
 	void DECL mud_gfx_prefab_2(mud::Gnode* parent, const mud::Prefab* prefab) {
 		mud::gfx::prefab(*parent, *prefab);

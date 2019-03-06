@@ -14,7 +14,7 @@ using namespace mud;
 
 struct ShapeInstance { ShapeVar shape; Colour colour; Symbol symbol; };
 
-vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, const vector<ShapeVar>& shapes, bool plain = true);
+vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, span<ShapeVar> shapes, bool plain = true);
 
 void shape_grid(Gnode& parent, span2d<ShapeInstance> shape_grid, const Symbol* symbol = nullptr, bool rotate = true, Material* material = nullptr);
 

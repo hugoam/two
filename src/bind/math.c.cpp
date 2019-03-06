@@ -162,6 +162,9 @@ extern "C" {
 	mud::Image256* DECL mud_Image256__construct_3(uint16_t width, uint16_t height, const mud::Palette* palette) {
 		return new mud::Image256(width, height, *palette);
 	}
+	uint* DECL mud_Image256__get_pixels(mud::Image256* self) {
+		return self->m_pixels.data();
+	}
 	uint16_t DECL mud_Image256__get_width(mud::Image256* self) {
 		return self->m_width;
 	}
@@ -197,8 +200,8 @@ extern "C" {
 	mud::Palette* DECL mud_Palette__construct_0() {
 		return new mud::Palette();
 	}
-	mud::Palette* DECL mud_Palette__construct_1(stl::vector<mud::Colour>* colours) {
-		return new mud::Palette(*colours);
+	mud::Palette* DECL mud_Palette__construct_1(float* colours, int colours_size) {
+		return new mud::Palette({ (mud::Colour*)colours, colours_size / (sizeof(mud::Colour) / sizeof(float)) });
 	}
 	mud::Palette* DECL mud_Palette__construct_2(mud::Spectrum spectrum, size_t steps) {
 		return new mud::Palette(spectrum, steps);
@@ -389,8 +392,11 @@ extern "C" {
 	mud::ValueCurve<float>* DECL mud_ValueCurve_float__construct_0() {
 		return new mud::ValueCurve<float>();
 	}
-	mud::ValueCurve<float>* DECL mud_ValueCurve_float__construct_1(stl::vector<float>* keys) {
-		return new mud::ValueCurve<float>(*keys);
+	mud::ValueCurve<float>* DECL mud_ValueCurve_float__construct_1(float* keys, int keys_size) {
+		return new mud::ValueCurve<float>({ (float*)keys, keys_size / (sizeof(float) / sizeof(float)) });
+	}
+	float* DECL mud_ValueCurve_float__get_keys(mud::ValueCurve<float>* self) {
+		return self->m_keys.data();
 	}
 	void DECL mud_ValueCurve_float__destroy(mud::ValueCurve<float>* self) {
 		delete self;
@@ -402,8 +408,11 @@ extern "C" {
 	mud::ValueCurve<mud::Colour>* DECL mud_ValueCurve_mud_Colour__construct_0() {
 		return new mud::ValueCurve<mud::Colour>();
 	}
-	mud::ValueCurve<mud::Colour>* DECL mud_ValueCurve_mud_Colour__construct_1(stl::vector<mud::Colour>* keys) {
-		return new mud::ValueCurve<mud::Colour>(*keys);
+	mud::ValueCurve<mud::Colour>* DECL mud_ValueCurve_mud_Colour__construct_1(float* keys, int keys_size) {
+		return new mud::ValueCurve<mud::Colour>({ (mud::Colour*)keys, keys_size / (sizeof(mud::Colour) / sizeof(float)) });
+	}
+	float* DECL mud_ValueCurve_mud_Colour__get_keys(mud::ValueCurve<mud::Colour>* self) {
+		return self->m_keys.data();
 	}
 	void DECL mud_ValueCurve_mud_Colour__destroy(mud::ValueCurve<mud::Colour>* self) {
 		delete self;
@@ -415,9 +424,6 @@ extern "C" {
 	mud::ValueCurve<mud::quat>* DECL mud_ValueCurve_mud_quat__construct_0() {
 		return new mud::ValueCurve<mud::quat>();
 	}
-	mud::ValueCurve<mud::quat>* DECL mud_ValueCurve_mud_quat__construct_1(stl::vector<mud::quat>* keys) {
-		return new mud::ValueCurve<mud::quat>(*keys);
-	}
 	void DECL mud_ValueCurve_mud_quat__destroy(mud::ValueCurve<mud::quat>* self) {
 		delete self;
 	}
@@ -428,8 +434,11 @@ extern "C" {
 	mud::ValueCurve<mud::vec3>* DECL mud_ValueCurve_mud_vec3__construct_0() {
 		return new mud::ValueCurve<mud::vec3>();
 	}
-	mud::ValueCurve<mud::vec3>* DECL mud_ValueCurve_mud_vec3__construct_1(stl::vector<mud::vec3>* keys) {
-		return new mud::ValueCurve<mud::vec3>(*keys);
+	mud::ValueCurve<mud::vec3>* DECL mud_ValueCurve_mud_vec3__construct_1(float* keys, int keys_size) {
+		return new mud::ValueCurve<mud::vec3>({ (mud::vec3*)keys, keys_size / (sizeof(mud::vec3) / sizeof(float)) });
+	}
+	float* DECL mud_ValueCurve_mud_vec3__get_keys(mud::ValueCurve<mud::vec3>* self) {
+		return self->m_keys.data();
 	}
 	void DECL mud_ValueCurve_mud_vec3__destroy(mud::ValueCurve<mud::vec3>* self) {
 		delete self;
@@ -441,8 +450,11 @@ extern "C" {
 	mud::ValueCurve<uint32_t>* DECL mud_ValueCurve_uint32_t__construct_0() {
 		return new mud::ValueCurve<uint32_t>();
 	}
-	mud::ValueCurve<uint32_t>* DECL mud_ValueCurve_uint32_t__construct_1(stl::vector<uint32_t>* keys) {
-		return new mud::ValueCurve<uint32_t>(*keys);
+	mud::ValueCurve<uint32_t>* DECL mud_ValueCurve_uint32_t__construct_1(uint* keys, int keys_size) {
+		return new mud::ValueCurve<uint32_t>({ (uint32_t*)keys, keys_size / (sizeof(uint32_t) / sizeof(uint)) });
+	}
+	uint* DECL mud_ValueCurve_uint32_t__get_keys(mud::ValueCurve<uint32_t>* self) {
+		return self->m_keys.data();
 	}
 	void DECL mud_ValueCurve_uint32_t__destroy(mud::ValueCurve<uint32_t>* self) {
 		delete self;
@@ -1309,9 +1321,15 @@ extern "C" {
 		static mud::quat temp;
 		return (temp = mud::look_at(*eye, *target, *forward), &temp);
 	}
+	void DECL mud_grid_2(const mud::uvec3* size, uint* output_coords, int output_coords_size) {
+		mud::grid(*size, { (mud::uvec3*)output_coords, output_coords_size / (sizeof(mud::uvec3) / sizeof(uint)) });
+	}
 	mud::vec3* DECL mud_grid_center_2(const mud::uvec3* coord, const mud::vec3* cell_size) {
 		static mud::vec3 temp;
 		return (temp = mud::grid_center(*coord, *cell_size), &temp);
+	}
+	void DECL mud_index_list_2(uint32_t size, uint* output_indices, int output_indices_size) {
+		mud::index_list(size, { (uint32_t*)output_indices, output_indices_size / (sizeof(uint32_t) / sizeof(uint)) });
 	}
 	// Axes
 	mud::Axes DECL mud_Axes_None() {

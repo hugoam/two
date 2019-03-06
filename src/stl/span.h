@@ -22,11 +22,11 @@ namespace stl
 		template <size_t size>
 		span(T(&a)[size]) : m_pointer(a), m_count(size) {}
 		template <class U>
-		span(U& container) : m_pointer(container.data()), m_count(container.size()) {}
+		span(const U& container) : m_pointer(const_cast<T*>(container.data())), m_count(container.size()) {}
 		template <class U>
-		span(U& container, size_t offset) : m_pointer(container.data() + offset), m_count(container.size() - offset) {}
+		span(const U& container, size_t offset) : m_pointer(const_cast<T*>(container.data()) + offset), m_count(container.size() - offset) {}
 		template <class U>
-		span(U& container, size_t offset, size_t count) : m_pointer(container.data() + offset), m_count(count) {}
+		span(const U& container, size_t offset, size_t count) : m_pointer(const_cast<T*>(container.data()) + offset), m_count(count) {}
 
 		size_t size() const { return m_count; }
 		bool empty() const { return m_count == 0; }

@@ -87,6 +87,7 @@ base_ static long long dllong;
 base_ static long double dldouble;
 base_ static float dfloat;
 base_ static double ddouble;
+base_ static const char* dcstring;
 #include <stdint.h>
 #include <stddef.h>
 #endif

@@ -28,7 +28,7 @@ namespace mud
 		StyleSelector& declare(T_Decl decl);
 
 		template <class T_Decl>
-		StyleSelector& decline(const vector<uint32_t>& states, T_Decl decl);
+		StyleSelector& decline(span<uint32_t> states, T_Decl decl);
 
 		vector<Style*> styles;
 	};
@@ -42,7 +42,7 @@ namespace mud
 	}
 
 	template <class T_Decl>
-	StyleSelector& StyleSelector::decline(const vector<uint32_t>& states, T_Decl decl)
+	StyleSelector& StyleSelector::decline(span<uint32_t> states, T_Decl decl)
 	{
 		for(Style* style : styles)
 			for(uint32_t state : states)
@@ -52,7 +52,7 @@ namespace mud
 		return *this;
 	}
 
-	StyleSelector select(const vector<string> styles)
+	StyleSelector select(span<string> styles)
 	{
 		StyleSelector selector;
 		for(const string& name : styles)

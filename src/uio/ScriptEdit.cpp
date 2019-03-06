@@ -89,7 +89,7 @@ namespace mud
 
 	vector<string> meta_words()
 	{
-		vector<string> symbols = convert<string>(System::instance().meta_symbols());
+		vector<string> symbols = convert<string, cstring>(System::instance().meta_symbols());
 		extend(symbols, lua_words());
 		return symbols;
 	}

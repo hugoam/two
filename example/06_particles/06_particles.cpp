@@ -34,7 +34,7 @@ namespace mud
 	template <> Type& type<ParticleItem>() { static Type ty("ParticleItem"); return ty; }
 }
 
-vector<ParticleItem> create_particles(GfxSystem& gfx, const vector<string>& names)
+vector<ParticleItem> create_particles(GfxSystem& gfx, span<string> names)
 {
 	vector<ParticleItem> particles_vector;
 

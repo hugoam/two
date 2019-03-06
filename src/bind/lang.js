@@ -83,10 +83,6 @@ Script.prototype["__destroy__"] = Script.prototype.__destroy__ = function() {
     _mud_Script__destroy(self);
 };
 // ScriptClass
-function ScriptClass(a0, a1) {
-    ensureCache.prepare();
-    this.ptr = _mud_ScriptClass__construct_2(ensureString(/*name*/a0), /*parts*/a1.ptr); this.type = ScriptClass; getCache(ScriptClass)[this.ptr] = this;
-};
 ScriptClass.prototype = Object.create(WrapperObject.prototype);
 ScriptClass.prototype.constructor = ScriptClass;
 ScriptClass.prototype.__class__ = ScriptClass;

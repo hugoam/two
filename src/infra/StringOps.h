@@ -37,8 +37,7 @@ namespace mud
 	export_ MUD_INFRA_EXPORT void split(const string& str, const string& separator, span<string> output);
 	export_ MUD_INFRA_EXPORT vector<string> split(const string& str, const string& separator);
 
-	//export_ MUD_INFRA_EXPORT string join(span<string> strings, string separator);
-	export_ MUD_INFRA_EXPORT string join(const vector<string>& strings, string separator);
+	export_ MUD_INFRA_EXPORT string join(span<string> strings, string separator);
 
 	export_ MUD_INFRA_EXPORT string replace(const string& original, const string& before, const string& after);
 

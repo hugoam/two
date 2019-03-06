@@ -527,6 +527,18 @@ Batch.prototype.constructor = Batch;
 Batch.prototype.__class__ = Batch;
 Batch.__cache__ = {};
 Module['Batch'] = Batch;
+Batch.prototype["update_aabb"] = Batch.prototype.update_aabb = function(a0) {
+    var self = this.ptr;
+    _mud_Batch_update_aabb_1(self, /*instances*/a0.ptr);
+};
+Batch.prototype["transforms"] = Batch.prototype.transforms = function(a0) {
+    var self = this.ptr;
+    _mud_Batch_transforms_1(self, /*instances*/a0.ptr);
+};
+Batch.prototype["begin"] = Batch.prototype.begin = function(a0, a1) {
+    var self = this.ptr;
+    return wrapPointer(_mud_Batch_begin_2(self, /*count*/a0, /*stride*/a1), span_float);
+};
 Object.defineProperty(Batch.prototype, "item", {
     get: function() {
         var self = this.ptr;
@@ -4065,6 +4077,10 @@ Module['gfx']['item'] = function(a0, a1, a2, a3) {
 };
 Module['gfx']['batch'] = function(a0, a1) {
     return wrapPointer(_mud_gfx_batch_2(/*parent*/a0.ptr, /*item*/a1.ptr), Batch);
+};
+Module['gfx']['instances'] = function(a0, a1, a2) {
+    if (a2 === undefined) { return wrapPointer(_mud_gfx_instances_2(/*parent*/a0.ptr, /*item*/a1.ptr), Batch); }
+    return wrapPointer(_mud_gfx_instances_3(/*parent*/a0.ptr, /*item*/a1.ptr, /*transforms*/a2.ptr), Batch);
 };
 Module['gfx']['prefab'] = function(a0, a1, a2, a3, a4) {
     if (a2 === undefined) { _mud_gfx_prefab_2(/*parent*/a0.ptr, /*prefab*/a1.ptr); return; }

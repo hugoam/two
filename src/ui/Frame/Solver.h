@@ -148,8 +148,8 @@ namespace mud
 	public:
 		TableSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 
-		void divide(const vector<float>& spans);
-		void update(const vector<float>& spans);
+		void divide(span<float> spans);
+		void update(span<float> spans);
 
 		virtual FrameSolver& solver(FrameSolver& frame, Axis dim);
 		virtual FrameSolver* grid() { return this; }

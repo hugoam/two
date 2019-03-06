@@ -8,6 +8,7 @@
 module mud.refl;
 #else
 #include <stl/algorithm.h>
+#include <infra/Vector.h>
 #include <type/Types.h>
 #include <refl/Method.h>
 #include <refl/Meta.h>
@@ -38,18 +39,18 @@ namespace mud
 		//	m_flags = static_cast<Flags>(m_flags | Nullable);
 	}
 
-	Signature::Signature(const vector<Param>& params, QualType return_type)
-		: m_params(params)
+	Signature::Signature(span<Param> params, QualType return_type)
+		: m_params(params.begin(), params.end())
 		, m_return_type(return_type)
 	{}
 
 	static uint32_t s_callable_index = 0;
 
 	Callable::Callable() {}
-	Callable::Callable(cstring name, const vector<Param>& params, QualType return_type)
+	Callable::Callable(cstring name, span<Param> params, QualType return_type)
 		: m_index(++s_callable_index)
 		, m_name(name)
-		, m_params(params)
+		, m_params(params.begin(), params.end())
 		, m_return_type(return_type)
 		, m_num_defaults(0)
 	{
@@ -95,7 +96,7 @@ namespace mud
 	}
 
 	Function::Function() {}
-	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, const vector<Param>& params, QualType return_type)
+	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, span<Param> params, QualType return_type)
 		: Callable(name, params, return_type)
 		, m_namespace(location)
 		, m_identity(identity)
@@ -133,10 +134,10 @@ namespace mud
 		}
 		else return {};
 	}
-
+	
 	Method::Method() {}
-	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, const vector<Param>& params, QualType return_type)
-		: Callable(name, merge({ 1, { "self", object_type } }, params), return_type)
+	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, span<Param> params, QualType return_type)
+		: Callable(name, prepend(params, { "self", object_type }), return_type)
 		, m_object_type(&object_type)
 		, m_address(address)
 		, m_call(trigger)
@@ -148,14 +149,14 @@ namespace mud
 	}
 
 	Constructor::Constructor() {}
-	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, const vector<Param>& params)
-		: Callable(object_type.m_name, merge({ 1, { "self", object_type } }, params))
+	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, span<Param> params)
+		: Callable(object_type.m_name, prepend(params, { "self", object_type }))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
-	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, const vector<Param>& params)
-		: Callable(name, merge({ 1, { "self", object_type } }, params))
+	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, span<Param> params)
+		: Callable(name, prepend(params, { "self", object_type }))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
@@ -167,7 +168,7 @@ namespace mud
 
 	CopyConstructor::CopyConstructor() {}
 	CopyConstructor::CopyConstructor(Type& object_type, CopyConstructorFunc constructor)
-		: Callable(object_type.m_name, { 1, { "self", object_type } })
+		: Callable(object_type.m_name, { { "self", object_type } })
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
@@ -179,7 +180,7 @@ namespace mud
 
 	Destructor::Destructor() {}
 	Destructor::Destructor(Type& object_type, DestructorFunc destructor)
-		: Callable(object_type.m_name, { 1, { "self", object_type } })
+		: Callable(object_type.m_name, { { "self", object_type } })
 		, m_object_type(&object_type)
 		, m_call(destructor)
 	{}

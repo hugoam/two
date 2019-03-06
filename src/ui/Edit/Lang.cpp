@@ -120,7 +120,7 @@ namespace mud
 		lang.m_regex_tokens.push_back({ std::regex(token.c_str(), std::regex_constants::optimize), PaletteIndex(index) });
 	}
 
-	string list_regex(const vector<string>& tokens)
+	string list_regex(span<string> tokens)
 	{
 		string r = "[";
 		for(const string& token : tokens)

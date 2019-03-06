@@ -70,9 +70,6 @@ extern "C" {
 	mud::Type* DECL mud_ScriptClass__type() {
 		return &mud::type<mud::ScriptClass>();
 	}
-	mud::ScriptClass* DECL mud_ScriptClass__construct_2(const char* name, const stl::vector<mud::Type*>* parts) {
-		return new mud::ScriptClass(name, *parts);
-	}
 	const char* DECL mud_ScriptClass__get_name(mud::ScriptClass* self) {
 		return self->m_name.c_str();
 	}

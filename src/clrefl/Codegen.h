@@ -7,8 +7,8 @@ namespace mud
 {
 namespace clgen
 {
-	inline vector<string> quote(const vector<string>& strings) { return transform<string>(strings, [](const string& s) { return "\"" + s + "\""; }); }
-	inline string comma(const vector<string>& strings) { return join(strings, ", "); }
+	inline vector<string> quote(span<string> strings) { return transform<string>(strings, [](const string& s) { return "\"" + s + "\""; }); }
+	inline string comma(span<string> strings) { return join(strings, ", "); }
 
 	string replace_any(const string& original, span<string> tokens, string with)
 	{
@@ -85,7 +85,7 @@ namespace clgen
 
 	string cast(const CLQualType& t, string name)
 	{
-		if(t.iscstring()) return "static_cast<const char*>(" + name + ")";
+		if(t.m_type->iscstring()) return "static_cast<const char*>(" + name + ")";
 		return string(t.pointer() ? "" : "*") + "static_cast<" + t.m_type_name + "*>(" + name + ")";
 	}
 
@@ -276,12 +276,12 @@ namespace clgen
 	
 	vector<string> params_types(const CLCallable& f)
 	{
-		return transform<string>(f.m_params, [](const CLParam& p) { return p.m_type.m_spelling; });
+		return transform<string, CLParam>(f.m_params, [](const CLParam& p) { return p.m_type.m_spelling; });
 	}
 
 	string params_def(const CLCallable& f)
 	{
-		vector<string> decls = transform<string>(f.m_params, [&](const CLParam& p) { return param_decl(f, p); });
+		vector<string> decls = transform<string, CLParam>(f.m_params, [&](const CLParam& p) { return param_decl(f, p); });
 		return f.m_params.size() > 0 ? "{ " + comma(decls) + " }" : "{}";
 	}
 
@@ -305,7 +305,7 @@ namespace clgen
 		return return_type(f.m_return_type);
 	}
 
-	string get_args(const vector<CLParam>& params)
+	string get_args(span<CLParam> params)
 	{
 		vector<string> decls = transform<string>(params, [](const CLParam& p) { return param_forward(p, p.m_index); });
 		return comma(decls);
@@ -362,7 +362,7 @@ namespace clgen
 	string getter_body(const CLType& c, const CLMember& m)
 	{
 		if(m.m_method)
-			return "return " + string(m.m_type.iscstring() ? "(void*)" : "") + string(!m.m_type.pointer() ? "&" : "") + cast(c, "object") + "." + m.m_member + "();";
+			return "return " + string(m.m_type.m_type->iscstring() ? "(void*)" : "") + string(!m.m_type.pointer() ? "&" : "") + cast(c, "object") + "." + m.m_member + "();";
 		else //if(m.m_type.reference())
 			return "return &" + cast(c, "object") + "." + m.m_member + ";";
 	}
@@ -719,7 +719,7 @@ namespace clgen
 		auto p = [&](const string& s) {	write_line(t, i, s); };
 		auto s = [&](const string& s) { i--; write_line(t, i, s); i++; };
 
-		auto deps = [&](){ return comma(transform<string>(m.m_dependencies, [](CLModule* d) { return "&" + d->m_id + "::m()"; })); };
+		auto deps = [&](){ return comma(transform<string, CLModule*>(m.m_dependencies, [](CLModule* d) { return "&" + d->m_id + "::m()"; })); };
 
 		auto empty_val_decl = [&](const CLType& t)
 		{
@@ -924,8 +924,8 @@ namespace clgen
 				p("// bases");
 				if(c.m_bases.size() > 0)
 				{
-					p("static Type* bases[] = { " + comma(transform<string>(c.m_bases, [&](CLType* base) { return "&" + type_get(*base); })) + " };");
-					p("static size_t bases_offsets[] = { " + comma(transform<string>(c.m_bases, [&](CLType* base) { return base_offset_get(c, *base); })) + " };");
+					p("static Type* bases[] = { " + comma(transform<string, CLType*>(c.m_bases, [&](CLType* base) { return "&" + type_get(*base); })) + " };");
+					p("static size_t bases_offsets[] = { " + comma(transform<string, CLType*>(c.m_bases, [&](CLType* base) { return base_offset_get(c, *base); })) + " };");
 				}
 				p("// defaults");
 				for(CLMember& a : c.m_members)
@@ -1167,15 +1167,6 @@ namespace clgen
 		return t;
 	}
 
-	export_ template <class T>
-	inline vector<T> vector_slice(const vector<T>& vector, size_t begin, size_t end)
-	{
-		vector<T> result;
-		for(size_t i = begin; i < end; ++i)
-			result.push_back(vector[i]);
-		return result;
-	}
-
 	string js_namespace_path(const CLModule& m, const CLPrimitive& n)
 	{
 		if(n.m_name != "" && n.m_name != m.m_namespace)
@@ -1196,12 +1187,37 @@ namespace clgen
 		// - references to strings
 
 		// not implemented yet
-		vector<string> blacklist = { "vector", "span", "mud::Complex" };
+		vector<string> blacklist = { "mud::Complex" };
 
-		auto blacklist_type = [&](const CLQualType& t) { for(const string& n : blacklist) { if(t.m_spelling.find(n) != string::npos) return true; } if(t.isstring() && t.reference() && !t.isconst()) return true; return false; };
+		auto blacklist_type = [&](const CLQualType& t) { for(const string& n : blacklist) { if(t.m_spelling.find(n) != string::npos) return true; } if(t.m_type->isstring() && t.reference() && !t.isconst()) return true; return false; };
 		auto blacklist_class = [&](const CLClass& c) { for(const string& n : blacklist) { if(c.m_id.find(n) != string::npos) return true; } return false; };
-		auto blacklist_callable = [&](const CLCallable& f) { for(const CLParam& p : f.m_params) if(blacklist_type(p.m_type)) return true; if(blacklist_type(f.m_return_type)) return true; return false; };
-		auto blacklist_member = [&](const CLMember& m) { if(blacklist_type(m.m_type)) return true; return false; };
+
+		auto blacklist_param = [&](const CLQualType& t)
+		{
+			if(t.m_type == nullptr) return false; // constructors
+			if(t.m_type->isvector())
+			{
+				const CLType& elem = reduce_element(*t.m_type);
+				//if(t.value() || !elem.isprimitive())
+				if(!elem.isprimitive())
+					return true;
+			}
+			return blacklist_type(t);
+		};
+
+		auto blacklist_member = [&](const CLMember& m) { return blacklist_param(m.m_type); };
+
+		auto blacklist_callable = [&](const CLCallable& f)
+		{
+			if(f.m_name == "Polygon")
+				int i = 0;
+			for(const CLParam& p : f.m_params)
+				if(blacklist_param(p.m_type))
+					return true;
+			if(blacklist_param(f.m_return_type))
+				return true;
+			return false;
+		};
 
 		string module_js;
 
@@ -1240,31 +1256,21 @@ namespace clgen
 #endif
 
 		auto address = [](const CLQualType& t) -> string {
-			return (!t.isbasetype() && !t.isenum()) && (t.reference() || t.value()) ? "&" : "";
+			return (!t.m_type->isbasetype() && !t.m_type->isenum()) && (t.reference() || t.value()) ? "&" : "";
 		};
 
 		auto value = [](const CLQualType& t) -> string {
-			return (!t.isbasetype() && !t.isenum()) && (t.reference() || t.value()) ? "*" : "";
+			return (!t.m_type->isbasetype() && !t.m_type->isenum()) && (t.reference() || t.value()) ? "*" : "";
 		};
 
 		auto type_to_c = [&](const CLQualType& t, bool non_pointing = false, bool no_array = true) -> string
 		{
-			if(t.isstring()) return "const char*";
-			if(t.isenum()) return t.m_type_name;
-			string name = !t.isbasetype() ? t.m_type_name + (non_pointing ? "" : "*") : t.m_type_name;
-			return (t.isconst() && name != "const char*" ? "const " : "") + name + (!no_array && t.isarray() ? "[]" : "");
+			if(t.m_type->isstring()) return "const char*";
+			if(t.m_type->isenum()) return t.m_type_name;
+			if(t.m_type->isvector()) return reduce_element(*t.m_type).m_id + "*";
+			string name = !t.m_type->isbasetype() ? t.m_type_name + (non_pointing ? "" : "*") : t.m_type_name;
+			return (t.isconst() && name != "const char*" ? "const " : "") + name + (!no_array && t.m_array ? "[]" : "");
 		};
-
-		/*auto type_to_cdec = [&](const CLQualType& raw)
-		{
-			string ret;
-			string name = ret = type_to_c(raw.m_type->m_name, true);
-			if(raw.isconst()) ret = "const " + ret;
-			//if name not in interfaces: return ret
-			if(raw.reference()) return ret + "&";
-			if(raw.value()) return ret;
-			return ret + "*";
-		};*/
 
 		string js_impl_methods;
 
@@ -1276,7 +1282,7 @@ namespace clgen
 			for(size_t i = f.m_min_args; i <= f.m_params.size(); ++i)
 			{
 				if(o.sigs.find(i) != o.sigs.end())
-					printf("WARNING: can't bind %s%s:%i (can only overload signatures of different lengths)\n", f.m_parent->m_id.c_str(), f.m_name.c_str(), int(i));
+					printf("WARNING: can't bind %s%s:%i (can only overload signatures of different lengths)\n", f.m_parent->m_prefix.c_str(), f.m_name.c_str(), int(i));
 				else
 					o.sigs.insert({ i, &f });
 			}
@@ -1304,30 +1310,39 @@ namespace clgen
 			cramfunc(o, f);
 		};
 
-		auto c_forward_arg = [&](const CLParam& p)
+		auto c_forward_arg = [&](const CLQualType& qt, const CLType& t, const string& name)
 		{
-			if(p.m_type.istypedptr())
-				return "{ " + p.m_name + ", *" + p.m_name + "_type" + " }";
+			if(t.istypedptr())
+				return "{ " + name + ", *" + name + "_type" + " }";
+			else if(t.isvector())
+			{
+				const CLType& elem = element_type(t);
+				const CLType& prim = reduce_element(t);
+				const string stride = "(sizeof(" + elem.m_id + ") / sizeof(" + prim.m_id + "))";
+				return "{ (" + elem.m_id + "*)" + name + ", " + name + "_size / " + stride + " }";
+			}
 			else
-				return value(p.m_type) + p.m_name;
+				return value(qt) + name;
 		};
 
 		auto c_forward_args = [&](const CLCallable& f, size_t n)
 		{
-			return transform<string>(0, n, [&](size_t i) { return c_forward_arg(f.m_params[i]); });
+			return transform<string>(0, n, [&](size_t i) { return c_forward_arg(f.m_params[i].m_type, *f.m_params[i].m_type.m_type, f.m_params[i].m_name); });
 		};
 
-		auto c_typed_arg = [&](const CLParam& p)
+		auto c_typed_arg = [&](const CLQualType& qt, const string& name)
 		{
-			if(p.m_type.istypedptr())
-				return "void* " + p.m_name + ", " + "mud::Type* " + p.m_name + "_type";
+			if(qt.m_type->istypedptr())
+				return "void* " + name + ", " + "mud::Type* " + name + "_type";
+			else if(qt.m_type->isvector())
+				return reduce_element(*qt.m_type).m_id + "* " + name + ", " + "int " + name + "_size";
 			else
-				return type_to_c(p.m_type) + " " + p.m_name;
+				return type_to_c(qt) + " " + name;
 		};
 
 		auto c_typed_args = [&](const CLCallable& f, size_t i)
 		{
-			vector<string> args = transform<string>(0, i, [&](size_t i) { return c_typed_arg(f.m_params[i]); });
+			vector<string> args = transform<string>(0, i, [&](size_t i) { return c_typed_arg(f.m_params[i].m_type, f.m_params[i].m_name); });
 			return f.m_kind == CLPrimitiveKind::Method ? merge({ f.m_parent->m_id + "* self" }, args)
 													   : args;
 		};
@@ -1344,18 +1359,25 @@ namespace clgen
 		};
 
 #if MULTI_FUNC
-		auto js_call_convert_arg = [&](const CLQualType& t, const string& a, bool no_array = false)
+		auto js_call_convert_arg = [&](const CLQualType& qt, const CLType& t, const string& a, bool no_array = false)
 		{
 			if(t.iscstring() || t.isstring()) return "ensureString(" + a + ")";
 			else if(t.istypedptr()) return "ensureRef(" + a + "), ensureRefType(" + a + ")";
 			else if(t.isclass()) return a + ".ptr";
-			else if(t.isarray() && !no_array)
+			else if((qt.m_array || t.isvector()) && !no_array)
 			{
-				if(has({ "char", "unsigned char" }, t.m_type->m_name)) return "ensureInt8(" + a + ")";
-				else if(has({ "short", "unsigned short" }, t.m_type->m_name)) return "ensureInt16(" + a + ")";
-				else if(has({ "int", "unsigned int" }, t.m_type->m_name)) return "ensureInt32(" + a + ")";
-				else if(has({ "float" }, t.m_type->m_name)) return "ensureFloat32(" + a + ")";
-				else if(has({ "double" }, t.m_type->m_name)) return "ensureFloat64(" + a + ")";
+				const CLType& elem = element_type(t);
+				const CLType& prim = reduce_element(t);
+				string value;
+
+				if(has({ "char", "unsigned char" }, prim.m_name)) value = "ensureInt8(" + a + ")";
+				else if(has({ "short", "unsigned short" }, prim.m_name)) value = "ensureInt16(" + a + ")";
+				else if(has({ "int", "unsigned int" }, prim.m_name)) value = "ensureInt32(" + a + ")";
+				else if(has({ "float" }, prim.m_name)) value = "ensureFloat32(" + a + ")";
+				else if(has({ "double" }, prim.m_name)) value = "ensureFloat64(" + a + ")";
+
+				if(t.isvector()) return value + ", arraySize(" + a + ")";
+				else return value;
 			}
 			else return a;
 		};
@@ -1369,7 +1391,7 @@ namespace clgen
 		auto js_forward_arg = [&](const CLCallable& f, const CLParam& p, size_t i)
 		{
 			string name = "/*" + p.m_name + "*/" + "a" + to_string(i);
-			return js_call_convert_arg(p.m_type, name);
+			return js_call_convert_arg(p.m_type, *p.m_type.m_type, name);
 		};
 
 		auto js_forward_args = [&](const CLCallable& f, size_t n)
@@ -1384,15 +1406,16 @@ namespace clgen
 			return "_" + name + "(" + comma(js_forward_args(f, n)) + ")";
 		};
 
-		auto js_call_return_wrap = [&](const CLQualType& return_type, const string& call)
+		auto js_call_return_wrap = [&](const CLQualType& qt, const string& call)
 		{
-			if(return_type.isclass())
-				return "return wrapPointer(" + call + ", " + name(*return_type.m_type) + ");";
-			else if(return_type.iscstring() || return_type.isstring())
+			const CLType& t = *qt.m_type;
+			if(t.isclass() && !t.isvector())
+				return "return wrapPointer(" + call + ", " + name(*qt.m_type) + ");";
+			else if(t.iscstring() || t.isstring())
 				return "return Pointer_stringify(" + call + ");";
-			else if(return_type.isboolean())
+			else if(t.isboolean())
 				return "return !!(" + call + ");";
-			else if(!return_type.isvoid())
+			else if(!qt.isvoid())
 				return "return " + call + ";";
 			else
 				return call + ";";
@@ -1436,11 +1459,12 @@ namespace clgen
 		{
 			bool prepare = false;
 			for(const CLParam& p : f.m_params)
-				if(p.m_type.iscstring() || p.m_type.isstring() || p.m_type.isarray())
-					prepare = true;
+			{
+				const CLType& t = *p.m_type.m_type;
+				prepare |= t.iscstring() || t.isstring() || p.m_type.m_array;
+			}
 			if(prepare)
 				jsw("ensureCache.prepare();");
-
 		};
 
 		auto js_check_msg = [](const CLClass& c, const CLCallable& f, const CLParam& p)
@@ -1448,7 +1472,7 @@ namespace clgen
 			return "[CHECK FAILED] " + c.m_name + "::" + f.m_name + "(arg" + to_string(p.m_index) + ":" + p.m_name + "): ";
 		};
 
-		auto js_call_check_arg = [&](const CLQualType& t, const string& a, bool optional)
+		auto js_call_check_arg = [&](const CLType& t, const string& a, bool optional)
 		{
 			string msg = "";// js_check_msg(c, f, p);
 			if(optional) jsw("if (typeof " + a + " !== \"undefined\" && " + a + " !== null) {");
@@ -1501,7 +1525,7 @@ namespace clgen
 			jsw("function(" + string(isarray ? "index, " : "") + "value) {");
 			jsw("var self = this.ptr;");
 #if MULTI_FUNC
-			jsw("_" + id(c, "_set_" + m.m_name) + "(self" + (isarray ? ", index" : "") + ", " + js_call_convert_arg(m.m_type, "value", isarray) + ");");
+			jsw("_" + id(c, "_set_" + m.m_name) + "(self" + (isarray ? ", index" : "") + ", " + js_call_convert_arg(m.m_type, *m.m_type.m_type, "value", isarray) + ");");
 #else
 			js_call_convert_arg(m.m_type, "value", false);
 			jsw("_" + id(c, "_set_" + m.m_name) + "(self" + (isarray ? ", index" : "") + ", value);");
@@ -1560,19 +1584,21 @@ namespace clgen
 				printf("ERROR: unfamiliar operator %s\n", op.c_str());
 		};
 
-		auto c_value_wrap = [&](const CLQualType& type, const string& call, bool ref)
+		auto c_value_wrap = [&](const CLQualType& q, const string& call, bool ref)
 		{
-			if(type.isvoid())
+			if(q.isvoid())
 				cw(call + ";");
-			else if(type.isstring())
+			else if(q.m_type->isstring())
 				cw("return " + call + ".c_str();");
-			else if(type.isbasetype() || type.isenum())
+			else if(q.m_type->isbasetype() || q.m_type->isenum())
 				cw("return " + call + ";");
-			else if(ref || !type.value() || !type.copyable())
-				cw("return " + address(type) + call + ";");
+			else if(q.m_type->isvector())
+				cw("return " + call + ".data();");
+			else if(ref || !q.value() || !q.m_type->copyable())
+				cw("return " + address(q) + call + ";");
 			else
 			{
-				cw("static " + type.m_type_name + " temp;");
+				cw("static " + q.m_type_name + " temp;");
 				cw("return (temp = " + call + ", &temp);");
 			}
 		};
@@ -1632,18 +1658,18 @@ namespace clgen
 
 		auto c_getter = [&](const CLClass& c, const CLMember& m)
 		{
-			cw(type_to_c(m.m_type) + " DECL " + id(c, "_get_" + m.m_name) + "(" + c.m_id + "* self" + (m.m_type.isarray() ? ", unsigned int index" : "") + ") {");
-			c_value_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : "") + (m.m_type.isarray() ? "[index]" : ""), !m.m_method);
+			cw(type_to_c(m.m_type) + " DECL " + id(c, "_get_" + m.m_name) + "(" + c.m_id + "* self" + (m.m_type.m_array ? ", unsigned int index" : "") + ") {");
+			c_value_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : "") + (m.m_type.m_array ? "[index]" : ""), !m.m_method);
 			cw("}");
 		};
 
 		auto c_setter = [&](const CLClass& c, const CLMember& m)
 		{
-			cw("void DECL " + id(c, "_set_" + m.m_name) + "(" + c.m_id + "* self, " + (m.m_type.isarray() ? "unsigned int index, " : "") + type_to_c(m.m_type) + " value"  + ") {");
+			cw("void DECL " + id(c, "_set_" + m.m_name) + "(" + c.m_id + "* self, " + (m.m_type.m_array ? "unsigned int index, " : "") + type_to_c(m.m_type) + " value"  + ") {");
 			if(m.m_setter)
 				cw("self->" + m.m_member + "(" + value(m.m_type) + "value);");
 			else
-				cw("self->" + m.m_member + (m.m_type.isarray() ? "[index]" : "") + " = " + value(m.m_type) + "value;");
+				cw("self->" + m.m_member + (m.m_type.m_array ? "[index]" : "") + " = " + value(m.m_type) + "value;");
 			cw("}");
 		};
 
@@ -1655,10 +1681,10 @@ namespace clgen
 		};
 
 
-/*for name, interface in interfaces.items():
-  js_impl = interface.getExtendedAttribute('JSImplementation')
-  if not js_impl: continue
-  implements[name] = [js_impl[0]]*/
+		/*for name, interface in interfaces.items():
+		  js_impl = interface.getExtendedAttribute('JSImplementation')
+		  if not js_impl: continue
+		  implements[name] = [js_impl[0]]*/
 
 		for(auto& pair : m.m_namespaces)
 		{
@@ -1671,6 +1697,7 @@ namespace clgen
 			if(pc->m_reflect)
 			{
 				if(blacklist_class(*pc)) continue;
+				if(pc->m_sequence) continue;
 
 				CLClass& c = *pc;
 
@@ -1689,6 +1716,9 @@ namespace clgen
 
 				for(CLConstructor& ctor : c.m_constructors)
 				{
+					if(c.m_id == "mud::Polygon")
+						int i = 0;
+					if(blacklist_callable(ctor)) continue;
 					overload(constructors, ctor);
 				}
 
@@ -1723,7 +1753,6 @@ namespace clgen
 				for(CLMember& a : c.m_members)
 				{
 					if(blacklist_member(a)) continue;
-					//if(a.m_type.m_type->m_is_templated) continue;
 
 					c_getter(c, a);
 					if(!a.m_nonmutable)

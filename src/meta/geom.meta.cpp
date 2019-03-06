@@ -26,6 +26,8 @@ void mud_PrimitiveType__to_string(void* val, string& str) { str = g_enu[type<mud
 void mud_PrimitiveType__to_value(const string& str, void* val) { (*static_cast<mud::PrimitiveType*>(val)) = mud::PrimitiveType(g_enu[type<mud::PrimitiveType>().m_id]->value(str.c_str())); }
 void mud_SymbolDetail__to_string(void* val, string& str) { str = g_enu[type<mud::SymbolDetail>().m_id]->name(uint32_t((*static_cast<mud::SymbolDetail*>(val)))); }
 void mud_SymbolDetail__to_value(const string& str, void* val) { (*static_cast<mud::SymbolDetail*>(val)) = mud::SymbolDetail(g_enu[type<mud::SymbolDetail>().m_id]->value(str.c_str())); }
+size_t stl_span_mud_vec3__size(void* vec) { return (*static_cast<stl::span<mud::vec3>*>(vec)).size(); }
+void* stl_span_mud_vec3__at(void* vec, size_t i) { return &(*static_cast<stl::span<mud::vec3>*>(vec))[i]; }
 size_t stl_vector_mud_Circle__size(void* vec) { return (*static_cast<stl::vector<mud::Circle>*>(vec)).size(); }
 void* stl_vector_mud_Circle__at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Circle>*>(vec))[i]; }
 void stl_vector_mud_Circle__push(void* vec) { (*static_cast<stl::vector<mud::Circle>*>(vec)).emplace_back(); }
@@ -84,7 +86,7 @@ void mud_Circle__construct_1(void* ref, span<void*> args) { new(stl::placeholder
 void mud_Circle__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Circle( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]), *static_cast<mud::Axis*>(args[2]) ); }
 void mud_Circle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Circle((*static_cast<mud::Circle*>(other))); }
 void mud_ConvexHull__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ConvexHull(  ); }
-void mud_ConvexHull__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ConvexHull( *static_cast<stl::vector<mud::vec3>*>(args[0]) ); }
+void mud_ConvexHull__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ConvexHull( *static_cast<stl::span<mud::vec3>*>(args[0]) ); }
 void mud_ConvexHull__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ConvexHull((*static_cast<mud::ConvexHull*>(other))); }
 void mud_Cube__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Cube(  ); }
 void mud_Cube__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Cube( *static_cast<mud::vec3*>(args[0]) ); }
@@ -102,7 +104,7 @@ void mud_Grid2__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl
 void mud_Grid2__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Grid2( *static_cast<mud::vec2*>(args[0]), *static_cast<mud::vec2*>(args[1]) ); }
 void mud_Grid2__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Grid2((*static_cast<mud::Grid2*>(other))); }
 void mud_Grid3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Grid3(  ); }
-void mud_Grid3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Grid3( *static_cast<mud::uvec2*>(args[0]), *static_cast<stl::vector<mud::vec3>*>(args[1]) ); }
+void mud_Grid3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Grid3( *static_cast<mud::uvec2*>(args[0]), *static_cast<stl::span<mud::vec3>*>(args[1]) ); }
 void mud_Grid3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Grid3((*static_cast<mud::Grid3*>(other))); }
 void mud_Icosahedron__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Icosahedron(  ); }
 void mud_Icosahedron__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Icosahedron( *static_cast<float*>(args[0]) ); }
@@ -112,7 +114,7 @@ void mud_Line__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl:
 void mud_Line__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Line( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]) ); }
 void mud_Line__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Line((*static_cast<mud::Line*>(other))); }
 void mud_Points__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Points(  ); }
-void mud_Points__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Points( *static_cast<stl::vector<mud::vec3>*>(args[0]) ); }
+void mud_Points__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Points( *static_cast<stl::span<mud::vec3>*>(args[0]) ); }
 void mud_Points__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Points((*static_cast<mud::Points*>(other))); }
 void mud_Poisson__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Poisson( *static_cast<mud::vec2*>(args[0]), *static_cast<float*>(args[1]) ); }
 void mud_Poisson_distribute(void* object, span<void*> args, void*& result) { (*static_cast<stl::vector<mud::vec3>*>(result)) = (*static_cast<mud::Poisson*>(object)).distribute(*static_cast<float*>(args[0])); }
@@ -206,6 +208,15 @@ namespace mud
 	}
 	
 	// Sequences
+	{
+		Type& t = type<stl::span<mud::vec3>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<mud::vec3>", sizeof(stl::span<mud::vec3>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::vec3>(),
+		                             stl_span_mud_vec3__size,
+		                             stl_span_mud_vec3__at};
+		g_iterable[t.m_id] = &iterable;
+	}
 	{
 		Type& t = type<stl::vector<mud::Circle>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Circle>", sizeof(stl::vector<mud::Circle>), TypeClass::Sequence };
@@ -669,7 +680,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_ConvexHull__construct_0, {} },
-			{ t, mud_ConvexHull__construct_1, { { "vertices", type<stl::vector<mud::vec3>>(),  } } }
+			{ t, mud_ConvexHull__construct_1, { { "vertices", type<stl::span<mud::vec3>>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -823,11 +834,11 @@ namespace mud
 		static Type* bases[] = { &type<mud::Shape>() };
 		static size_t bases_offsets[] = { base_offset<mud::Grid3, mud::Shape>() };
 		// defaults
-		static stl::vector<mud::vec3> construct_1_points_default = {};
+		static stl::span<mud::vec3> construct_1_points_default = {};
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Grid3__construct_0, {} },
-			{ t, mud_Grid3__construct_1, { { "size", type<mud::uvec2>(),  }, { "points", type<stl::vector<mud::vec3>>(), Param::Default, &construct_1_points_default } } }
+			{ t, mud_Grid3__construct_1, { { "size", type<mud::uvec2>(),  }, { "points", type<stl::span<mud::vec3>>(), Param::Default, &construct_1_points_default } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -906,7 +917,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Points__construct_0, {} },
-			{ t, mud_Points__construct_1, { { "points", type<stl::vector<mud::vec3>>(),  } } }
+			{ t, mud_Points__construct_1, { { "points", type<stl::span<mud::vec3>>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -1237,6 +1248,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::ShapeVar>());
 		m.m_types.push_back(&type<mud::Symbol>());
 		m.m_types.push_back(&type<mud::SymbolDetail>());
+		m.m_types.push_back(&type<stl::span<mud::vec3>>());
 		m.m_types.push_back(&type<stl::vector<mud::Circle>>());
 		m.m_types.push_back(&type<stl::vector<mud::ivec4>>());
 		m.m_types.push_back(&type<stl::vector<mud::vec2>>());

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
+#include <stl/span.h>
 #include <infra/Generic.h>
 #include <type/Ref.h>
 #include <type/Proto.h>
@@ -16,7 +17,7 @@ namespace mud
 	{
 	public:
 		constr_ Complex(uint32_t id, Type& type);
-		constr_ Complex(uint32_t id, Type& type, const vector<Ref>& parts);
+		constr_ Complex(uint32_t id, Type& type, span<Ref> parts);
 		virtual ~Complex();
 
 		template <class... T_Parts>
@@ -32,7 +33,7 @@ namespace mud
 
 		attr_ vector<Ref> m_parts;
 
-		meth_ void setup(const vector<Ref>& parts);
+		meth_ void setup(span<Ref> parts);
 
 		meth_ void add_part(Ref part) { m_parts[m_prototype.part_index(type(part))] = part; }
 		meth_ bool has_part(Type& type) { return m_prototype.has_part(type); }

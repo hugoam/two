@@ -35,6 +35,16 @@ Module['noise_fract_3d'] = function(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) {
     if (a9 === undefined) { return _mud_noise_fract_3d_9(/*x*/a0, /*y*/a1, /*z*/a2, /*noise_type*/a3, /*frequency*/a4, /*interp*/a5, /*fractal_type*/a6, /*octaves*/a7, /*lacunarity*/a8); }
     return _mud_noise_fract_3d_10(/*x*/a0, /*y*/a1, /*z*/a2, /*noise_type*/a3, /*frequency*/a4, /*interp*/a5, /*fractal_type*/a6, /*octaves*/a7, /*lacunarity*/a8, /*gain*/a9);
 };
+Module['noise_field_2d'] = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { _mud_noise_field_2d_2(/*output_values*/a0.ptr, /*noise_type*/a1); return; }
+    if (a3 === undefined) { _mud_noise_field_2d_3(/*output_values*/a0.ptr, /*noise_type*/a1, /*frequency*/a2); return; }
+    _mud_noise_field_2d_4(/*output_values*/a0.ptr, /*noise_type*/a1, /*frequency*/a2, /*interp*/a3);
+};
+Module['noise_field_3d'] = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { _mud_noise_field_3d_2(/*output_values*/a0.ptr, /*noise_type*/a1); return; }
+    if (a3 === undefined) { _mud_noise_field_3d_3(/*output_values*/a0.ptr, /*noise_type*/a1, /*frequency*/a2); return; }
+    _mud_noise_field_3d_4(/*output_values*/a0.ptr, /*noise_type*/a1, /*frequency*/a2, /*interp*/a3);
+};
 
 (function() {
     function setup() {

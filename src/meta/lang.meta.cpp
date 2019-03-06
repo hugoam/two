@@ -26,7 +26,7 @@ void mud_Language__to_string(void* val, string& str) { str = g_enu[type<mud::Lan
 void mud_Language__to_value(const string& str, void* val) { (*static_cast<mud::Language*>(val)) = mud::Language(g_enu[type<mud::Language>().m_id]->value(str.c_str())); }
 void* mud_Process__get_type(void* object) { return &(*static_cast<mud::Process*>(object)).m_type; }
 void* mud_Script__get_type(void* object) { return &(*static_cast<mud::Script*>(object)).m_type; }
-void mud_ScriptClass__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ScriptClass( *static_cast<stl::string*>(args[0]), *static_cast<stl::vector<mud::Type*>*>(args[1]) ); }
+void mud_ScriptClass__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ScriptClass( *static_cast<stl::string*>(args[0]), *static_cast<stl::span<mud::Type*>*>(args[1]) ); }
 void mud_ScriptError__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ScriptError(  ); }
 void mud_ScriptError__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ScriptError((*static_cast<mud::ScriptError*>(other))); }
 void mud_ProcessCallable__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessCallable( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Callable*>(args[1]) ); }
@@ -133,7 +133,7 @@ namespace mud
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ScriptClass__construct_0, { { "name", type<stl::string>(),  }, { "parts", type<stl::vector<mud::Type*>>(),  } } }
+			{ t, mud_ScriptClass__construct_0, { { "name", type<stl::string>(),  }, { "parts", type<stl::span<mud::Type*>>(),  } } }
 		};
 		// copy constructor
 		// members

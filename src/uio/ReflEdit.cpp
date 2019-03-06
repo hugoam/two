@@ -58,7 +58,7 @@ namespace mud
 
 	MetaStyles& meta_styles() { static MetaStyles styles; return styles; }
 
-	void set_meta_palette(const vector<uint32_t>& palette)
+	void set_meta_palette(span<uint32_t> palette)
 	{
 		meta_styles().label.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Word)]);
 		meta_styles().type.skin().m_text_colour			= rgba(palette[size_t(CodePalette::Identifier)]);

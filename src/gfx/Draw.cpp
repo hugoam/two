@@ -264,7 +264,7 @@ namespace mud
 		return draw_model(id, vector<ProcShape>{ shape }, readback);
 	}
 
-	object<Model> draw_model(cstring id, const vector<ProcShape>& shapes, bool readback)
+	object<Model> draw_model(cstring id, span<ProcShape> shapes, bool readback)
 	{
 		object<Model> model = oconstruct<Model>(id);
 		draw_model(shapes, *model, readback);
@@ -276,7 +276,7 @@ namespace mud
 		draw_model(vector<ProcShape>{ shape }, model, readback, material);
 	}
 
-	void draw_model(const vector<ProcShape>& shapes, Model& model, bool readback, Material* material)
+	void draw_model(span<ProcShape> shapes, Model& model, bool readback, Material* material)
 	{
 		ShapeSize size[2] = { { 0, 0 }, { 0, 0 } };
 		size_t shape_count = 0;
@@ -296,7 +296,7 @@ namespace mud
 		draw_mesh(vector<ProcShape>{ { shape } }, model, draw_mode, readback, material);
 	}
 
-	void draw_mesh(const vector<ProcShape>& shapes, Model& model, DrawMode draw_mode, bool readback, Material* material)
+	void draw_mesh(span<ProcShape> shapes, Model& model, DrawMode draw_mode, bool readback, Material* material)
 	{
 		ShapeSize size = { 0, 0 };
 		size_t shape_count = 0;
@@ -305,7 +305,7 @@ namespace mud
 		draw_mesh(shapes, model, size, draw_mode, readback, material);
 	}
 
-	void draw_mesh(const vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback, Material* material)
+	void draw_mesh(span<ProcShape> shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback, Material* material)
 	{
 		Mesh& mesh = model.add_mesh(model.m_name + to_string(uint(draw_mode)), readback);
 		mesh.m_material = material;

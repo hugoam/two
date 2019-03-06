@@ -283,18 +283,18 @@ namespace mud
 		}
 	}
 
-	bool compare(const vector<cstring>& first, const vector<cstring>& second)
-	{
-		if(first.size() != second.size())
-			return false;
-		for(size_t i = 0; i < first.size(); ++i)
-			if(strcmp(first[i], second[i]) != 0)
-				return false;
-		return true;
-	}
-
 	Namespace& System::get_namespace(vector<cstring> path)
 	{
+		auto compare = [](span<cstring> first, span<cstring> second)
+		{
+			if(first.size() != second.size())
+				return false;
+			for(size_t i = 0; i < first.size(); ++i)
+				if(strcmp(first[i], second[i]) != 0)
+					return false;
+			return true;
+		};
+
 		for(Namespace& location : m_namespaces)
 			if(compare(location.m_path, path))
 			{

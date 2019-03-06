@@ -10,11 +10,39 @@
 
 #include <cctype>
 
+#define RESOLVE_TEMPLATES 1
+
 #define DEBUG_CLANG_ARGS 0
 
 namespace mud
 {
 	using Json = json11::Json;
+
+	const CLType& element_type(const CLType& t)
+	{
+		if(t.m_type_kind == CLTypeKind::Alias)
+			return element_type(*((CLAlias&)t).m_target);
+		if(t.m_type_kind == CLTypeKind::Class)
+		{
+			const CLClass& c = (CLClass&)t;
+			if(c.m_sequence) return *c.m_element_type;
+			else if(c.m_array) return *c.m_array_type;
+		}
+		return t;
+	}
+
+	const CLType& reduce_element(const CLType& t)
+	{
+		if(t.m_type_kind == CLTypeKind::Alias)
+			return reduce_element(*((CLAlias&)t).m_target);
+		if(t.m_type_kind == CLTypeKind::Class)
+		{
+			const CLClass& c = (CLClass&)t;
+			if(c.m_sequence) return reduce_element(*c.m_element_type);
+			else if(c.m_array) return reduce_element(*c.m_array_type);
+		}
+		return t;
+	}
 
 	bool should_visit(CXCursor cursor, CLModule& module)
 	{
@@ -52,6 +80,8 @@ namespace mud
 		// substitute real aliased type only after fixing the spellings, so we see the alias types in reflection/bindings code
 		if(t.m_type->m_type_kind == CLTypeKind::Alias)
 			t.m_type = ((CLAlias*)t.m_type)->m_target;
+		if(t.m_type->m_type_kind == CLTypeKind::Class)
+			t.m_class = (CLClass*)t.m_type;
 
 		return t;
 	}
@@ -111,7 +141,45 @@ namespace mud
 		decl_callable(module, parent, f, cursor);
 	}
 
-	void decl_class(CLModule& module, CLPrimitive& parent, CLClass& c, CXCursor cursor, CXType cxtype)
+	void resolve_templates(CLModule& module, CLClass& c)
+	{
+		printf("Resolve templates for %s\n", c.m_id.c_str());
+
+		if(c.m_name == "vector<mud::Colour>")
+			int i = 0;
+
+		c.m_template = &module.get_class_template(c.m_template_name);
+		if(c.m_template == nullptr)
+		{
+			c.m_reflect = false;
+			printf("ERROR: %s - could not find template type definition\n", c.m_name.c_str());
+			return;
+		}
+
+		for(size_t i = 0; i < c.m_template_types.size(); ++i)
+		{
+			CXType t = clang_Type_getTemplateArgumentAsType(type(c.m_cursor), i);
+			CLType* type = module.find_alias(t, c.m_template_types[i]);
+			if(type == nullptr)
+				type = module.get_type(t);
+			c.m_templated_types.push_back(type);
+			bool pointer = c.m_template_types[i].find("*") != string::npos;
+			c.m_template_types[i] = type->m_id + string(pointer && type->m_type_kind != CLTypeKind::VoidPtr ? "*" : "");
+		}
+
+		c.set_name(c.m_template_name + "<" + clgen::comma(c.m_template_types) + ">");
+
+		if(c.m_sequence)
+		{
+			c.m_element = c.m_template_types[0];
+			c.m_element_type = c.m_templated_types[0];
+			if(c.m_element_type == nullptr)
+				int i = 0;
+
+		}
+	}
+
+	void decl_class(CLModule& module, CLPrimitive& parent, CLClass& c, CXCursor cursor, CXType cxtype, bool sequence)
 	{
 		c.m_cursor = cursor;
 
@@ -120,7 +188,8 @@ namespace mud
 		c.m_struct = has(c.m_annotations, "struct") || cursor.kind == CXCursor_StructDecl;
 		c.m_move_only = has(c.m_annotations, "nocopy");
 		c.m_reflect = has(c.m_annotations, "refl") && should_reflect(cursor, module);
-		c.m_sequence = has(c.m_annotations, "sequ");
+		c.m_array = has(c.m_annotations, "array");
+		c.m_sequence = has(c.m_annotations, "seque");
 		c.m_extern = has(c.m_annotations, "extern");
 
 		c.m_is_template = cursor.kind == CXCursor_ClassTemplate;
@@ -136,6 +205,13 @@ namespace mud
 
 		parent.m_reflect_content |= c.m_reflect;
 		module.m_has_reflected |= c.m_reflect;
+
+		if(c.m_name == "vector<mud::Colour>")
+			int i = 0;
+		if(c.m_sequence && !c.m_is_template && !sequence)
+		{
+			int i = 0;
+		}
 	}
 
 	CLClass& decl_class_type(CLModule& module, CLPrimitive& parent, CXCursor cursor)
@@ -150,7 +226,7 @@ namespace mud
 	{
 		CLClass& c = vector_emplace<CLClass>(module.m_sequences, module, parent, type(cursor));
 		module.register_type(c);
-		decl_class(module, parent, c, cursor, type(cursor));
+		decl_class(module, parent, c, cursor, type(cursor), true);
 		return c;
 	}
 
@@ -277,7 +353,7 @@ namespace mud
 	void parse_function_method(CLModule& module, CLFunction& f)
 	{
 		parse_callable(module, f);
-		CLClass& c = (CLClass&)*f.m_params[0].m_type.m_type;
+		CLClass& c = *f.m_params[0].m_type.m_class;
 		
 		//parse_method(module, c, f.m_cursor);
 
@@ -316,7 +392,7 @@ namespace mud
 		if(!c.m_is_template)
 		{
 			m.m_nonmutable |= m.m_type.reference();
-			m.m_nonmutable |= !m.m_type.pointer() && (m.m_type.isconst() || !m.m_type.copyable());
+			m.m_nonmutable |= !m.m_type.pointer() && (m.m_type.isconst() || !m.m_type.m_type->copyable());
 			m.m_nonmutable |= !m.m_setter && m.m_method;
 		}
 
@@ -387,31 +463,11 @@ namespace mud
 		printf("Parsing %s\n", c.m_id.c_str());
 		CXCursor cursor = c.m_cursor;
 
+#if !RESOLVE_TEMPLATES
 		if(c.m_is_templated)
-		{
-			//c = *c.m_template;
-			c.m_template = &module.get_class_template(c.m_template_name);
-			if(c.m_template == nullptr)
-			{
-				c.m_reflect = false;
-				printf("ERROR: %s - could not find template type definition\n", c.m_name.c_str());
-				return;
-			}
+			resolve_templates(module, c);
+#endif
 
-			for(size_t i = 0; i < c.m_template_types.size(); ++i)
-			{
-				CXType t = clang_Type_getTemplateArgumentAsType(type(c.m_cursor), i);
-				CLType* type = module.find_alias(t, c.m_template_types[i]);
-				if(type == nullptr)
-					type = module.get_type(t);
-				c.m_templated_types.push_back(type);
-				bool pointer = c.m_template_types[i].find("*") != string::npos;
-				c.m_template_types[i] = type->m_id + string(pointer && type->m_type_kind != CLTypeKind::VoidPtr ? "*" : "");
-			}
-
-			c.set_name(c.m_template_name + "<" + clgen::comma(c.m_template_types) + ">");
-		}
-		
 		if(c.m_is_templated && c.m_template) // && is_template_decl(cursor))
 			cursor = c.m_template->m_cursor;
 
@@ -419,9 +475,8 @@ namespace mud
 			parse_class_child(module, c, a);
 		});
 
-		if(has(c.m_annotations, "array"))
+		if(c.m_array)
 		{
-			c.m_array = true;
 			c.m_array_size = c.m_members.size();
 			c.m_array_type = c.m_members[0].m_type.m_type;
 		}
@@ -445,8 +500,6 @@ namespace mud
 	void parse_sequence(CLModule& module, CLClass& c)
 	{
 		parse_class(module, c);
-		c.m_element = c.m_template_types[0];
-		c.m_element_type = c.m_templated_types[0];
 		c.m_name = c.m_template_name + "<" + c.m_element + ">";
 	}
 
@@ -472,7 +525,7 @@ namespace mud
 				CXType cxalias = type(c);
 				CXType cxtarget = canonical(type(c));
 				CLType* target = module.find_type(cxtarget);
-				if(target && parent.m_kind == CLPrimitiveKind::Namespace)
+				if(target && !target->iscstring() && parent.m_kind == CLPrimitiveKind::Namespace)
 				{
 					CLAlias& t = vector_emplace<CLAlias>(module.m_aliases, module, parent, cxalias, cxtarget);
 					printf("aliased %s to %s\n", t.m_id.c_str(), target->m_id.c_str());
@@ -625,20 +678,30 @@ namespace mud
 			CXTranslationUnit tu = this->parse(module);
 			build_classes(cursor(tu), module, module.m_global);
 
+#if RESOLVE_TEMPLATES
+			for(auto& c : module.m_classes)
+				if(c->m_is_templated)
+					resolve_templates(module, *c);
+
+			for(auto& c : module.m_sequences)
+				if(c->m_is_templated)
+					resolve_templates(module, *c);
+#endif
+
 			for(auto& e : module.m_enums)
-				if(e->m_reflect)
+				//if(e->m_reflect)
 					parse_enum(module, *e);
 			for(auto& c : module.m_classes)
-				if(c->m_reflect)
+				//if(c->m_reflect)
 					parse_class(module, *c);
 			for(auto& c : module.m_sequences)
-				if(c->m_reflect)
+				//if(c->m_reflect)
 					parse_sequence(module, *c);
 			for(auto& f : module.m_functions)
-				if(f->m_reflect)
+				//if(f->m_reflect)
 					parse_callable(module, *f);
 			for(auto& f : module.m_methods)
-				if(f->m_reflect)
+				//if(f->m_reflect)
 					parse_function_method(module, *f);
 
 			clang_disposeTranslationUnit(tu);

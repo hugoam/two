@@ -205,7 +205,7 @@ namespace mud
 	void decl_callable(CLModule& module, CLPrimitive& parent, CLCallable& f, CXCursor cursor);
 	void decl_function(CLModule& module, CLPrimitive& parent, CXCursor cursor);
 	void decl_function_template(CLModule& module, CLPrimitive& parent, CXCursor cursor);
-	void decl_class(CLModule& module, CLPrimitive& parent, CLClass& c, CXCursor cursor, CXType cxtype);
+	void decl_class(CLModule& module, CLPrimitive& parent, CLClass& c, CXCursor cursor, CXType cxtype, bool sequence = false);
 	CLClass& decl_class_type(CLModule& module, CLPrimitive& parent, CXCursor cursor);
 	CLClass& decl_class_template(CLModule& module, CLPrimitive& parent, CXCursor cursor);
 
@@ -219,6 +219,9 @@ namespace mud
 	void parse_member(CLModule& module, CLClass& c, CXCursor cursor);
 	void parse_class(CLModule& module, CLClass& c);
 	void parse_sequence(CLModule& module, CLClass& c);
+
+	const CLType& element_type(const CLType& type);
+	const CLType& reduce_element(const CLType& type);
 
 	enum class CLPrimitiveKind
 	{
@@ -323,9 +326,29 @@ namespace mud
 		bool m_move_only = false;
 		bool m_pointer = false;
 
+		bool m_array = false;
+		bool m_sequence = false;
+
 		vector<CLType*> m_bases;
 		vector<CLType*> m_deep_bases;
 		vector<string> m_aliases;
+
+		bool isvoid() const { return m_type_kind == CLTypeKind::Void; }
+		bool isvoidptr() const { return m_type_kind == CLTypeKind::VoidPtr; }
+		bool isboolean() const { return m_type_kind == CLTypeKind::Boolean; }
+		bool isinteger() const { return m_type_kind == CLTypeKind::Integer; }
+		bool isfloat() const { return m_type_kind == CLTypeKind::Float; }
+		bool iscstring() const { return m_type_kind == CLTypeKind::CString; }
+		bool isstring() const { return m_type_kind == CLTypeKind::String; }
+		bool isenum() const { return m_type_kind == CLTypeKind::Enum; }
+		bool isclass() const { return m_type_kind == CLTypeKind::Class; }
+		bool isbasetype() const { return m_type_kind != CLTypeKind::Class && m_type_kind != CLTypeKind::Enum; }
+		bool isprimitive() const { return m_type_kind < CLTypeKind::String; }
+		bool istypedptr() const { return m_id == "mud::Ref"; }
+		bool isvector() const { return m_sequence; }
+		bool isarray() const { return m_array; }
+
+		bool copyable() const { return this->isbasetype() || this->isenum() || m_struct; }
 	};
 
 	class CLAlias : public CLType
@@ -347,6 +370,7 @@ namespace mud
 	struct CLQualType
 	{
 		CLType* m_type = nullptr;
+		CLClass* m_class = nullptr;
 		string m_spelling;
 		string m_type_name;
 		bool m_array = false;
@@ -360,23 +384,8 @@ namespace mud
 		bool value() const { return !this->pointer() && !this->reference(); }
 		bool memvalue() const { return m_type->m_struct && !this->pointer(); }
 		bool nullable() const { return this->pointer() || m_type_name == "mud::Ref"; }
-		bool copyable() const { return this->isbasetype() || this->isenum() || m_type->m_struct; }
 
-		bool isarray() const { return m_array; }
 		bool isvoid() const { return !m_type || m_type->m_type_kind == CLTypeKind::Void; }
-		bool isvoidptr() const { return m_type->m_type_kind == CLTypeKind::VoidPtr; }
-		bool isboolean() const { return m_type->m_type_kind == CLTypeKind::Boolean; }
-		bool isinteger() const { return m_type->m_type_kind == CLTypeKind::Integer; }
-		bool isfloat() const { return m_type->m_type_kind == CLTypeKind::Float; }
-		bool iscstring() const { return m_type->m_type_kind == CLTypeKind::CString; }
-		bool isstring() const { return m_type->m_type_kind == CLTypeKind::String; }
-		bool isenum() const { return m_type->m_type_kind == CLTypeKind::Enum; }
-		bool isclass() const { return m_type->m_type_kind == CLTypeKind::Class; }
-		bool isbasetype() const { return m_type->m_type_kind != CLTypeKind::Class && m_type->m_type_kind != CLTypeKind::Enum; }
-		bool istypedptr() const { return m_type_name == "mud::Ref"; }
-
-		//explicit operator CLType&() { return *m_type; }
-		//explicit operator const CLType&() const { return *m_type; }
 	};
 
 	class CLBaseType : public CLType
@@ -530,12 +539,10 @@ namespace mud
 		vector<CLMethod> m_methods;
 		vector<CLStatic> m_statics;
 
-		bool m_array = false;
 		size_t m_array_size = 0;
 		CLType* m_array_type = nullptr;
 		bool m_extern = false;
 
-		bool m_sequence = false;
 		CLType* m_element_type = nullptr;
 		string m_element = "";
 

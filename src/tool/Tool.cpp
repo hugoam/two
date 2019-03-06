@@ -60,7 +60,7 @@ namespace mud
 		: Tool(context, name, type)
 	{}
 
-	vector<Transform*> ViewportTool::gather_transforms(const vector<Ref>& objects)
+	vector<Transform*> ViewportTool::gather_transforms(span<Ref> objects)
 	{
 		vector<Transform*> transforms;
 		for(Ref object : objects)
@@ -118,7 +118,7 @@ namespace mud
 	TransformTool::~TransformTool()
 	{}
 
-	bool TransformTool::enabled(const vector<Ref>& selection)
+	bool TransformTool::enabled(span<Ref> selection)
 	{
 		for(Ref object : selection)
 			if(this->test_target(object))
@@ -148,7 +148,7 @@ namespace mud
 	void TransformTool::refresh()
 	{}
 
-	void TransformTool::process(Viewer& viewer, const vector<Ref>& targets)
+	void TransformTool::process(Viewer& viewer, span<Ref> targets)
 	{
 		Widget& screen = viewer;//= ui::overlay(viewer);
 

@@ -333,7 +333,7 @@ namespace mud
 
 			if(bounds)
 			{
-				Box light_bounds = Box(aabb(shadow.m_slices[i].m_light_bounds.min, shadow.m_slices[i].m_light_bounds.max));
+				Box light_bounds = Box(Cube(aabb(shadow.m_slices[i].m_light_bounds.min, shadow.m_slices[i].m_light_bounds.max)));
 
 				for(vec3& vertex : light_bounds.m_vertices)
 					vertex = vec3(inverse_light * vec4(vertex, 1.f));

@@ -326,7 +326,7 @@ namespace mud
 		this->divide(layout->m_table_division);
 	}
 
-	void TableSolver::divide(const vector<float>& columns)
+	void TableSolver::divide(span<float> columns)
 	{
 		m_solvers.clear();
 		m_solvers.push_back(construct<RowSolver>(this, &gridOverlayStyle()));
@@ -337,7 +337,7 @@ namespace mud
 		}
 	}
 
-	void TableSolver::update(const vector<float>& columns)
+	void TableSolver::update(span<float> columns)
 	{
 		if(m_solvers.size() != columns.size() + 1)
 			return divide(columns);

@@ -21,6 +21,7 @@ namespace mud
     // Exported types
     export_ template <> MUD_REFL_EXPORT Type& type<mud::TypeClass>();
     
+    export_ template <> MUD_REFL_EXPORT Type& type<stl::span<mud::Type*>>();
     export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Alias*>>();
     export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Function*>>();
     export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Module*>>();

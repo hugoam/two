@@ -30,8 +30,8 @@ extern "C" {
 	mud::Call* DECL mud_Call__construct_0() {
 		return new mud::Call();
 	}
-	mud::Call* DECL mud_Call__construct_2(const mud::Callable* callable, stl::vector<mud::Var>* args) {
-		return new mud::Call(*callable, *args);
+	void** DECL mud_Call__get_vargs(mud::Call* self) {
+		return self->m_vargs.data();
 	}
 	mud::Var* DECL mud_Call__get_result(mud::Call* self) {
 		return &self->m_result;

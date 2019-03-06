@@ -86,6 +86,56 @@ Object.defineProperty(MeshPacker.prototype, "primitive", {
         _mud_MeshPacker__set_primitive(self, value);
     }
 });
+Object.defineProperty(MeshPacker.prototype, "positions", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MeshPacker__get_positions(self);
+    }});
+Object.defineProperty(MeshPacker.prototype, "normals", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MeshPacker__get_normals(self);
+    }});
+Object.defineProperty(MeshPacker.prototype, "colours", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MeshPacker__get_colours(self);
+    }});
+Object.defineProperty(MeshPacker.prototype, "tangents", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MeshPacker__get_tangents(self);
+    }});
+Object.defineProperty(MeshPacker.prototype, "bitangents", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MeshPacker__get_bitangents(self);
+    }});
+Object.defineProperty(MeshPacker.prototype, "uv0s", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MeshPacker__get_uv0s(self);
+    }});
+Object.defineProperty(MeshPacker.prototype, "uv1s", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MeshPacker__get_uv1s(self);
+    }});
+Object.defineProperty(MeshPacker.prototype, "bones", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MeshPacker__get_bones(self);
+    }});
+Object.defineProperty(MeshPacker.prototype, "weights", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MeshPacker__get_weights(self);
+    }});
+Object.defineProperty(MeshPacker.prototype, "indices", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_MeshPacker__get_indices(self);
+    }});
 MeshPacker.prototype["__destroy__"] = MeshPacker.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_MeshPacker__destroy(self);
@@ -578,6 +628,11 @@ ConvexHull.prototype.constructor = ConvexHull;
 ConvexHull.prototype.__class__ = ConvexHull;
 ConvexHull.__cache__ = {};
 Module['ConvexHull'] = ConvexHull;
+Object.defineProperty(ConvexHull.prototype, "vertices", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_ConvexHull__get_vertices(self);
+    }});
 ConvexHull.prototype["__destroy__"] = ConvexHull.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_ConvexHull__destroy(self);
@@ -757,6 +812,11 @@ Object.defineProperty(Grid3.prototype, "size", {
         _mud_Grid3__set_size(self, value.ptr);
     }
 });
+Object.defineProperty(Grid3.prototype, "points", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Grid3__get_points(self);
+    }});
 Grid3.prototype["__destroy__"] = Grid3.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Grid3__destroy(self);
@@ -830,6 +890,11 @@ Points.prototype.constructor = Points;
 Points.prototype.__class__ = Points;
 Points.__cache__ = {};
 Module['Points'] = Points;
+Object.defineProperty(Points.prototype, "points", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Points__get_points(self);
+    }});
 Points.prototype["__destroy__"] = Points.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Points__destroy(self);
@@ -843,6 +908,10 @@ Poisson.prototype.constructor = Poisson;
 Poisson.prototype.__class__ = Poisson;
 Poisson.__cache__ = {};
 Module['Poisson'] = Poisson;
+Poisson.prototype["distribute"] = Poisson.prototype.distribute = function(a0) {
+    var self = this.ptr;
+    return _mud_Poisson_distribute_1(self, /*radius*/a0);
+};
 Poisson.prototype["addPoint"] = Poisson.prototype.addPoint = function(a0, a1) {
     var self = this.ptr;
     return !!(_mud_Poisson_addPoint_2(self, /*radius*/a0, /*point*/a1.ptr));
@@ -1163,6 +1232,9 @@ Module['to_ray'] = function(a0, a1, a2) {
 };
 Module['to_segment'] = function(a0) {
     return wrapPointer(_mud_to_segment_1(/*ray*/a0.ptr), Segment);
+};
+Module['distribute_poisson'] = function(a0, a1) {
+    return _mud_distribute_poisson_2(/*size*/a0.ptr, /*radius*/a1);
 };
 
 (function() {

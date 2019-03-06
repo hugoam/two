@@ -13,15 +13,19 @@ Alias.prototype["__destroy__"] = Alias.prototype.__destroy__ = function() {
     _mud_Alias__destroy(self);
 };
 // Call
-function Call(a0, a1) {
-    if (a0 === undefined) { this.ptr = _mud_Call__construct_0(); this.type = Call; getCache(Call)[this.ptr] = this; return; }
-    this.ptr = _mud_Call__construct_2(/*callable*/a0.ptr, /*args*/a1.ptr); this.type = Call; getCache(Call)[this.ptr] = this;
+function Call() {
+    this.ptr = _mud_Call__construct_0(); this.type = Call; getCache(Call)[this.ptr] = this;
 };
 Call.prototype = Object.create(WrapperObject.prototype);
 Call.prototype.constructor = Call;
 Call.prototype.__class__ = Call;
 Call.__cache__ = {};
 Module['Call'] = Call;
+Object.defineProperty(Call.prototype, "vargs", {
+    get: function() {
+        var self = this.ptr;
+        return _mud_Call__get_vargs(self);
+    }});
 Object.defineProperty(Call.prototype, "result", {
     get: function() {
         var self = this.ptr;

@@ -123,7 +123,7 @@ namespace mud
 		}
 	}
 
-	void object_editor(Widget& parent, const vector<Ref>& selection)
+	void object_editor(Widget& parent, span<Ref> selection)
 	{
 		Widget& self = section(parent, "Inspector");
 
