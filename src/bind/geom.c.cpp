@@ -74,34 +74,34 @@ extern "C" {
 		self->m_primitive = value;
 	}
 	float* DECL mud_MeshPacker__get_positions(mud::MeshPacker* self) {
-		return self->m_positions.data();
+		return (float*)self->m_positions.data();
 	}
 	float* DECL mud_MeshPacker__get_normals(mud::MeshPacker* self) {
-		return self->m_normals.data();
+		return (float*)self->m_normals.data();
 	}
 	float* DECL mud_MeshPacker__get_colours(mud::MeshPacker* self) {
-		return self->m_colours.data();
+		return (float*)self->m_colours.data();
 	}
 	float* DECL mud_MeshPacker__get_tangents(mud::MeshPacker* self) {
-		return self->m_tangents.data();
+		return (float*)self->m_tangents.data();
 	}
 	float* DECL mud_MeshPacker__get_bitangents(mud::MeshPacker* self) {
-		return self->m_bitangents.data();
+		return (float*)self->m_bitangents.data();
 	}
 	float* DECL mud_MeshPacker__get_uv0s(mud::MeshPacker* self) {
-		return self->m_uv0s.data();
+		return (float*)self->m_uv0s.data();
 	}
 	float* DECL mud_MeshPacker__get_uv1s(mud::MeshPacker* self) {
-		return self->m_uv1s.data();
+		return (float*)self->m_uv1s.data();
 	}
 	int* DECL mud_MeshPacker__get_bones(mud::MeshPacker* self) {
-		return self->m_bones.data();
+		return (int*)self->m_bones.data();
 	}
 	float* DECL mud_MeshPacker__get_weights(mud::MeshPacker* self) {
-		return self->m_weights.data();
+		return (float*)self->m_weights.data();
 	}
 	uint* DECL mud_MeshPacker__get_indices(mud::MeshPacker* self) {
-		return self->m_indices.data();
+		return (uint*)self->m_indices.data();
 	}
 	void DECL mud_MeshPacker__destroy(mud::MeshPacker* self) {
 		delete self;
@@ -462,7 +462,7 @@ extern "C" {
 		return new mud::ConvexHull({ (mud::vec3*)vertices, vertices_size / (sizeof(mud::vec3) / sizeof(float)) });
 	}
 	float* DECL mud_ConvexHull__get_vertices(mud::ConvexHull* self) {
-		return self->m_vertices.data();
+		return (float*)self->m_vertices.data();
 	}
 	void DECL mud_ConvexHull__destroy(mud::ConvexHull* self) {
 		delete self;
@@ -612,7 +612,7 @@ extern "C" {
 		self->m_size = *value;
 	}
 	float* DECL mud_Grid3__get_points(mud::Grid3* self) {
-		return self->m_points.data();
+		return (float*)self->m_points.data();
 	}
 	void DECL mud_Grid3__destroy(mud::Grid3* self) {
 		delete self;
@@ -675,7 +675,7 @@ extern "C" {
 		return new mud::Points({ (mud::vec3*)points, points_size / (sizeof(mud::vec3) / sizeof(float)) });
 	}
 	float* DECL mud_Points__get_points(mud::Points* self) {
-		return self->m_points.data();
+		return (float*)self->m_points.data();
 	}
 	void DECL mud_Points__destroy(mud::Points* self) {
 		delete self;
@@ -688,7 +688,7 @@ extern "C" {
 		return new mud::Poisson(*size, maxRadius);
 	}
 	float* DECL mud_Poisson_distribute_1(mud::Poisson* self, float radius) {
-		return self->distribute(radius).data();
+		return (float*)self->distribute(radius).data();
 	}
 	bool DECL mud_Poisson_addPoint_2(mud::Poisson* self, float radius, mud::vec3* point) {
 		return self->addPoint(radius, *point);
@@ -953,7 +953,7 @@ extern "C" {
 		return (temp = mud::to_segment(*ray), &temp);
 	}
 	float* DECL mud_distribute_poisson_2(mud::vec2* size, float radius) {
-		return mud::distribute_poisson(*size, radius).data();
+		return (float*)mud::distribute_poisson(*size, radius).data();
 	}
 	// DrawMode
 	mud::DrawMode DECL mud_DrawMode_OUTLINE() {

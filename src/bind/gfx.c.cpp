@@ -356,7 +356,7 @@ extern "C" {
 		self->transforms({ (mud::mat4*)instances, instances_size / (sizeof(mud::mat4) / sizeof(float)) });
 	}
 	float* DECL mud_Batch_begin_2(mud::Batch* self, uint32_t count, uint16_t stride) {
-		return self->begin(count, stride).data();
+		return (float*)self->begin(count, stride).data();
 	}
 	mud::Item* DECL mud_Batch__get_item(mud::Batch* self) {
 		return self->m_item;

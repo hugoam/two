@@ -433,7 +433,7 @@ extern "C" {
 		self->m_no_grid = value;
 	}
 	float* DECL mud_Layout__get_table_division(mud::Layout* self) {
-		return self->m_table_division.data();
+		return (float*)self->m_table_division.data();
 	}
 	size_t DECL mud_Layout__get_updated(mud::Layout* self) {
 		return self->m_updated;

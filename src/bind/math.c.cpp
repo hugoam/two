@@ -163,7 +163,7 @@ extern "C" {
 		return new mud::Image256(width, height, *palette);
 	}
 	uint* DECL mud_Image256__get_pixels(mud::Image256* self) {
-		return self->m_pixels.data();
+		return (uint*)self->m_pixels.data();
 	}
 	uint16_t DECL mud_Image256__get_width(mud::Image256* self) {
 		return self->m_width;
@@ -396,7 +396,7 @@ extern "C" {
 		return new mud::ValueCurve<float>({ (float*)keys, keys_size / (sizeof(float) / sizeof(float)) });
 	}
 	float* DECL mud_ValueCurve_float__get_keys(mud::ValueCurve<float>* self) {
-		return self->m_keys.data();
+		return (float*)self->m_keys.data();
 	}
 	void DECL mud_ValueCurve_float__destroy(mud::ValueCurve<float>* self) {
 		delete self;
@@ -412,7 +412,7 @@ extern "C" {
 		return new mud::ValueCurve<mud::Colour>({ (mud::Colour*)keys, keys_size / (sizeof(mud::Colour) / sizeof(float)) });
 	}
 	float* DECL mud_ValueCurve_mud_Colour__get_keys(mud::ValueCurve<mud::Colour>* self) {
-		return self->m_keys.data();
+		return (float*)self->m_keys.data();
 	}
 	void DECL mud_ValueCurve_mud_Colour__destroy(mud::ValueCurve<mud::Colour>* self) {
 		delete self;
@@ -438,7 +438,7 @@ extern "C" {
 		return new mud::ValueCurve<mud::vec3>({ (mud::vec3*)keys, keys_size / (sizeof(mud::vec3) / sizeof(float)) });
 	}
 	float* DECL mud_ValueCurve_mud_vec3__get_keys(mud::ValueCurve<mud::vec3>* self) {
-		return self->m_keys.data();
+		return (float*)self->m_keys.data();
 	}
 	void DECL mud_ValueCurve_mud_vec3__destroy(mud::ValueCurve<mud::vec3>* self) {
 		delete self;
@@ -454,7 +454,7 @@ extern "C" {
 		return new mud::ValueCurve<uint32_t>({ (uint32_t*)keys, keys_size / (sizeof(uint32_t) / sizeof(uint)) });
 	}
 	uint* DECL mud_ValueCurve_uint32_t__get_keys(mud::ValueCurve<uint32_t>* self) {
-		return self->m_keys.data();
+		return (uint*)self->m_keys.data();
 	}
 	void DECL mud_ValueCurve_uint32_t__destroy(mud::ValueCurve<uint32_t>* self) {
 		delete self;

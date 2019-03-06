@@ -1593,7 +1593,7 @@ namespace clgen
 			else if(q.m_type->isbasetype() || q.m_type->isenum())
 				cw("return " + call + ";");
 			else if(q.m_type->isvector())
-				cw("return " + call + ".data();");
+				cw("return (" + reduce_element(*q.m_type).m_id + "*)" + call + ".data();");
 			else if(ref || !q.value() || !q.m_type->copyable())
 				cw("return " + address(q) + call + ";");
 			else

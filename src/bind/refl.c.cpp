@@ -31,7 +31,7 @@ extern "C" {
 		return new mud::Call();
 	}
 	void** DECL mud_Call__get_vargs(mud::Call* self) {
-		return self->m_vargs.data();
+		return (void**)self->m_vargs.data();
 	}
 	mud::Var* DECL mud_Call__get_result(mud::Call* self) {
 		return &self->m_result;

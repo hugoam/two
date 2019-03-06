@@ -489,7 +489,7 @@ extern "C" {
 		self->name = value;
 	}
 	float* DECL glTFMesh__get_weights(glTFMesh* self) {
-		return self->weights.data();
+		return (float*)self->weights.data();
 	}
 	void DECL glTFMesh__destroy(glTFMesh* self) {
 		delete self;
@@ -578,7 +578,7 @@ extern "C" {
 		self->scale = *value;
 	}
 	int* DECL glTFNode__get_children(glTFNode* self) {
-		return self->children.data();
+		return (int*)self->children.data();
 	}
 	void DECL glTFNode__destroy(glTFNode* self) {
 		delete self;
@@ -749,7 +749,7 @@ extern "C" {
 		self->name = value;
 	}
 	int* DECL glTFScene__get_nodes(glTFScene* self) {
-		return self->nodes.data();
+		return (int*)self->nodes.data();
 	}
 	void DECL glTFScene__destroy(glTFScene* self) {
 		delete self;
@@ -774,7 +774,7 @@ extern "C" {
 		self->skeleton = value;
 	}
 	int* DECL glTFSkin__get_joints(glTFSkin* self) {
-		return self->joints.data();
+		return (int*)self->joints.data();
 	}
 	int DECL glTFSkin__get_inverse_bind_matrices(glTFSkin* self) {
 		return self->inverse_bind_matrices;
