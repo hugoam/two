@@ -1,0 +1,462 @@
+Submodule 3rdparty/bgfx contains modified content
+Submodule 3rdparty/bx contains modified content
+Submodule 3rdparty/culling contains modified content
+Submodule 3rdparty/tinystl contains untracked content
+Submodule 3rdparty/tinystl contains modified content
+[1mdiff --git a/example/xx_three/shader.cpp b/example/xx_three/shader.cpp[m
+[1mindex 24c80d486..1dd04b1ec 100644[m
+[1m--- a/example/xx_three/shader.cpp[m
+[1m+++ b/example/xx_three/shader.cpp[m
+[36m@@ -55,9 +55,8 @@[m [mvoid xx_shader(Shell& app, Widget& parent, Dockbar& dockbar)[m
+ [m
+ 	Gnode& scene = viewer.m_scene.begin();[m
+ [m
+[31m-	static string source = create_shader();[m
+[31m-[m
+[31m-	static Program program = { "custom_program", {}, { nullptr, source.c_str(), nullptr, nullptr } };[m
+[32m+[m	[32mstatic Program program = { "custom_program" };[m
+[32m+[m	[32mprogram.m_sources[ShaderType::Fragment] = create_shader();[m
+ [m
+ 	auto draw_quad = [](Render& render, const Pass& render_pass)[m
+ 	{[m
+[1mdiff --git a/example/xx_three/shader_lava.cpp b/example/xx_three/shader_lava.cpp[m
+[1mindex 71c7dd3eb..5a633e7e8 100644[m
+[1m--- a/example/xx_three/shader_lava.cpp[m
+[1m+++ b/example/xx_three/shader_lava.cpp[m
+[36m@@ -130,11 +130,10 @@[m [mvoid xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar)[m
+ 		camera.m_fov = 35.f; camera.m_near = 1.f; camera.m_far = 3000.f;[m
+ 		camera.m_eye.z = 4.f;[m
+ [m
+[31m-		static string vertex = vertex_shader();[m
+[31m-		static string fragment = fragment_shader();[m
+[31m-[m
+[31m-		static Program program = { "lava", {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };[m
+[32m+[m		[32mstatic Program program = { "lava" };[m
+ 		program.m_blocks[MaterialBlock::Solid] = true;[m
+[32m+[m		[32mprogram.m_sources[ShaderType::Vertex] = vertex_shader();[m
+[32m+[m		[32mprogram.m_sources[ShaderType::Fragment] = fragment_shader();[m
+ [m
+ 		static Material& material = app.m_gfx.materials().create("lava", [&](Material& m) {[m
+ 			m.m_program = &program;[m
+[1mdiff --git a/example/xx_three/two/shadow_point_im.js b/example/xx_three/two/shadow_point_im.js[m
+[1mindex c8d893eed..58e2cede4 100644[m
+[1m--- a/example/xx_three/two/shadow_point_im.js[m
+[1m+++ b/example/xx_three/two/shadow_point_im.js[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-// shadow_point.js[m
+[32m+[m[32m// shadow_point_im.js[m
+ [m
+ function generateTexture(gfx, width, height, m) {[m
+     [m
+[36m@@ -13,6 +13,7 @@[m [mfunction generateTexture(gfx, width, height, m) {[m
+             else buffer[x + y * width] = 0x00000000;[m
+         }[m
+ [m
+[32m+[m[32m    //texture.upload(2, 2, buffer);[m
+     two.load_texture_rgba(texture, 2, 2, buffer);[m
+     return texture;[m
+ }[m
+[36m@@ -23,76 +24,72 @@[m [mtwo.ui.trackball_controller(viewer);[m
+ [m
+ if(typeof this.state == 'undefined') {[m
+     this.state = 1;[m
+[31m-        [m
+[32m+[m[41m    [m
+     //scene.add(new THREE.AmbientLight(0x111122));[m
+ [m
+[31m-    var pbr = app.gfx.programs.file('pbr/pbr');[m
+[31m-[m
+[31m-    var c = app.gfx.materials.fetch('cube');[m
+[32m+[m[32m    //orbit.eye = new two.vec3(0, 10, 40);[m
+[32m+[m[32m    orbit.position = new two.vec3(0, 10, 0);[m
+[32m+[m[32m    orbit.distance = 40;[m
+[32m+[m[41m    [m
+[32m+[m[32m    var pbr = app.gfx.programs.file("pbr/pbr");[m
+[32m+[m[41m    [m
+[32m+[m[32m    var c = app.gfx.materials.fetch("cube");[m
+     c.program = pbr;[m
+[31m-    c.base.cull_mode = two.CullMode.Front;[m
+[31m-    c.pbr.albedo.value = two.rgba(0xa0adafff);[m
+[31m-    c.pbr.normal.value = -1.0;[m
+[31m-    //	shininess: 10,[m
+[31m-    //	specular: 0x111111,[m
+[32m+[m[32m    c.pbr_block.enabled = true;[m
+[32m+[m[32m    c.pbr_block.albedo.value = two.rgba(0xa0adaf);[m
+[32m+[m[32m//	shininess: 10,[m
+[32m+[m[32m//	specular: 0x111111,[m
+[32m+[m[32m    c.base_block.cull_mode = two.CullMode.Front;[m
+[32m+[m[41m    [m
+     this.cubemat = c;[m
+[31m-[m
+[31m-    var s = app.gfx.materials.fetch('sphere');[m
+[32m+[m[41m    [m
+[32m+[m[32m    var s = app.gfx.materials.fetch("sphere");[m
+     s.program = pbr;[m
+[31m-    s.base.cull_mode = two.CullMode.None;[m
+[31m-    s.base.uv0_scale = new two.vec2(1.0, 3.5);[m
+[31m-    s.alpha.alpha_test = true;[m
+[31m-    s.alpha.alpha.texture = generateTexture(app.gfx, 2, 2, 2);[m
+[31m-    s.pbr.normal = -1.0; // @todo @bug @hack check why gl_FrontFacing in shader inverts normals[m
+[31m-    this.spheremat = s;[m
+[31m-[m
+[31m-    viewer.scene.env.radiance.ambient = 0.2;[m
+[32m+[m[32m    s.pbr_block.enabled = true;[m
+[32m+[m[32m    //s.pbr_block.alpha.texture =[m[41m [m
+[32m+[m[32m    //s.pbr_block.alpha_test = 0.5[m
+[32m+[m[32m    //s.base_block.cull_mode = two.CullMode.None;[m
+[32m+[m
+[32m+[m[32m    this.spheremat = c;[m
+ }[m
+ [m
+[31m-function light_source(parent, color, pos, rot)[m
+[31m-{[m
+[32m+[m[32m//two.gfx.shape(scene, new two.Sphere(), new two.Symbol(), 0, &material);[m
+[32m+[m
+[32m+[m[32mfunction light_source(n, color, pos, rot) {[m
+     var intensity = 1.5;[m
+     var range = 20.0;[m
+[31m-[m
+[31m-    var node = two.gfx.node(parent, null, pos, rot);[m
+[31m-[m
+[31m-    var inner = two.gfx.shape(node, new two.Sphere(0.3), new two.Symbol(color));// * intensity));[m
+[31m-    var outer = two.gfx.shape(node, new two.Sphere(2.0), new two.Symbol(new two.Colour(1.0)), 0, sphere_material);[m
+     [m
+[31m-    var light = two.gfx.light(node, two.LightType.Point, true, color, range, 0.6);// intensity);[m
+[31m-    light.range = range;[m
+[31m-    light.energy = intensity;[m
+[31m-    light.shadow_bias = 0.005;[m
+[32m+[m[32m    color.r = color.r * intensity;[m
+[32m+[m[32m    color.g = color.g * intensity;[m
+[32m+[m[32m    color.b = color.b * intensity;[m
+ [m
+[32m+[m[32m    var node = two.gfx.node(n, null, pos, rot);[m
+[32m+[m[32m    var light = two.gfx.light(node, two.LightType.Point, false, color, range, 0.4);//intensity);[m
+[32m+[m[32m    //light.shadow_bias = -0.005; // reduces self-shadowing on double-sided objects[m
+[32m+[m[41m    [m
+[32m+[m[32m    var inner = two.gfx.shape(node, new two.Sphere(0.3), new two.Symbol(color)); //  * intensity[m
+[32m+[m[32m    var outer = two.gfx.shape(node, new two.Sphere(2.0), new two.Symbol(new two.Colour(1.0)), 0, this.spheremat);[m
+     return node;[m
+ };[m
+ [m
+[31m-function light_pos(time)[m
+[31m-{[m
+[32m+[m[32mfunction pos(time) {[m
+     return new two.vec3(Math.sin(time * 0.6) * 9, Math.sin(time * 0.7) * 9 + 5, Math.sin(time * 0.8) * 9);[m
+[31m-};[m
+[32m+[m[32m}[m
+ [m
+[31m-function light_rot(time)[m
+[31m-{[m
+[32m+[m[32mfunction rot(time) {[m
+     return new two.quat(new two.vec3(time, 0.0, time));[m
+[31m-};[m
+[32m+[m[32m}[m
+ [m
+ var scene = viewer.scene.begin();[m
+ [m
+[31m-two.gfx.radiance(scene, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);[m
+[31m-[m
+[31m-var pos0 = light_pos(time);[m
+[31m-var rot0 = light_rot(time);[m
+[31m-var light0 = light_source(scene, two.rgba(0x0088ff), pos0, rot0);[m
+[32m+[m[32m//two.gfx.sun_light(scene, Math.PI / 4, Math.PI / 4);[m
+[32m+[m[32mtwo.gfx.radiance(scene, "radiance/tiber_1_1k.hdr", two.BackgroundMode.Radiance);[m
+ [m
+[31m-//two.gfx.shape(scene, Cylinder(X3, 0.1, 1.0, Axis::X), new two.Symbol(two.rgb(0xff0000));[m
+[31m-//two.gfx.shape(scene, Cylinder(Y3, 0.1, 1.0, Axis::Y), new two.Symbol(two.rgb(0x00ff00));[m
+[31m-//two.gfx.shape(scene, Cylinder(Z3, 0.1, 1.0, Axis::Z), new two.Symbol(two.rgb(0x0000ff));[m
+[32m+[m[32mvar light0 = light_source(scene, two.rgba(0x0088ff), pos(time), rot(time));[m
+[32m+[m[32mvar light1 = light_source(scene, two.rgba(0xff8888), pos(time + Math.PI), rot(time + Math.PI));[m
+ [m
+[31m-var pos1 = light_pos(time + Math.PI);[m
+[31m-var rot1 = light_rot(time + Math.PI);[m
+[31m-var light1 = light_source(scene, two.rgba(0xff8888), pos1, rot1);[m
+[32m+[m[32mvar box = new two.Cube(new two.vec3(30.0));[m
+ [m
+[31m-var box = new two.Cube(new two.vec3(15.0));[m
+[31m-var node = two.gfx.node(scene);// , Y3 * 10.0);[m
+[31m-two.gfx.shape(node, box, new two.Symbol(), 0, this.cubemat);[m
+[32m+[m[32mvar node = two.gfx.node(scene, null, new two.vec3(0, 10, 0));[m
+[32m+[m[32mtwo.gfx.shape(node, box, new two.Symbol(), 0, this.cubemat);//, new two.Colour(0, 0, 0, 0), false, true));[m
+[32m+[m[32m//mesh.receiveShadow = true;[m
+[1mdiff --git a/src/bind/gfx.c.cpp b/src/bind/gfx.c.cpp[m
+[1mindex fa47543a2..a90e2c651 100644[m
+[1m--- a/src/bind/gfx.c.cpp[m
+[1m+++ b/src/bind/gfx.c.cpp[m
+[36m@@ -2117,7 +2117,10 @@[m [mextern "C" {[m
+ 		return &mud::type<mud::Program>();[m
+ 	}[m
+ 	const char* DECL mud_Program__get_name(mud::Program* self) {[m
+[31m-		return self->name();[m
+[32m+[m		[32mreturn self->m_name.c_str();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_Program__set_name(mud::Program* self, const char* value) {[m
+[32m+[m		[32mself->m_name = value;[m
+ 	}[m
+ 	void DECL mud_Program__destroy(mud::Program* self) {[m
+ 		delete self;[m
+[1mdiff --git a/src/bind/gfx.js b/src/bind/gfx.js[m
+[1mindex 6ff3bf674..048d4f3e0 100644[m
+[1m--- a/src/bind/gfx.js[m
+[1m+++ b/src/bind/gfx.js[m
+[36m@@ -2649,7 +2649,11 @@[m [mModule['Program'] = Program;[m
+ Object.defineProperty(Program.prototype, "name", {[m
+     get: function() {[m
+         return Pointer_stringify(_mud_Program__get_name(this.__ptr));[m
+[31m-    }});[m
+[32m+[m[32m    },[m
+[32m+[m[32m    set: function(value) {[m
+[32m+[m[32m        _mud_Program__set_name(this.__ptr, ensureString(value));[m
+[32m+[m[32m    }[m
+[32m+[m[32m});[m
+ Program.prototype["__destroy"] = Program.prototype.__destroy = function() {[m
+     _mud_Program__destroy(this.__ptr);[m
+ };[m
+[1mdiff --git a/src/bind/gfx.pbr.c.cpp b/src/bind/gfx.pbr.c.cpp[m
+[1mindex 74bcc2c11..f1fd2dde1 100644[m
+[1m--- a/src/bind/gfx.pbr.c.cpp[m
+[1m+++ b/src/bind/gfx.pbr.c.cpp[m
+[36m@@ -49,90 +49,6 @@[m [mextern "C" {[m
+ 	void DECL mud_BCS__destroy(mud::BCS* self) {[m
+ 		delete self;[m
+ 	}[m
+[31m-	// BlockBlur[m
+[31m-	mud::Type* DECL mud_BlockBlur__type() {[m
+[31m-		return &mud::type<mud::BlockBlur>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockBlur__destroy(mud::BlockBlur* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+[31m-	// BlockDofBlur[m
+[31m-	mud::Type* DECL mud_BlockDofBlur__type() {[m
+[31m-		return &mud::type<mud::BlockDofBlur>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockDofBlur__destroy(mud::BlockDofBlur* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+[31m-	// BlockGIBake[m
+[31m-	mud::Type* DECL mud_BlockGIBake__type() {[m
+[31m-		return &mud::type<mud::BlockGIBake>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockGIBake__destroy(mud::BlockGIBake* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+[31m-	// BlockGITrace[m
+[31m-	mud::Type* DECL mud_BlockGITrace__type() {[m
+[31m-		return &mud::type<mud::BlockGITrace>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockGITrace__destroy(mud::BlockGITrace* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+[31m-	// BlockGeometry[m
+[31m-	mud::Type* DECL mud_BlockGeometry__type() {[m
+[31m-		return &mud::type<mud::BlockGeometry>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockGeometry__destroy(mud::BlockGeometry* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+[31m-	// BlockGlow[m
+[31m-	mud::Type* DECL mud_BlockGlow__type() {[m
+[31m-		return &mud::type<mud::BlockGlow>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockGlow__destroy(mud::BlockGlow* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+[31m-	// BlockLight[m
+[31m-	mud::Type* DECL mud_BlockLight__type() {[m
+[31m-		return &mud::type<mud::BlockLight>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockLight__destroy(mud::BlockLight* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+[31m-	// BlockLightmap[m
+[31m-	mud::Type* DECL mud_BlockLightmap__type() {[m
+[31m-		return &mud::type<mud::BlockLightmap>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockLightmap__destroy(mud::BlockLightmap* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+[31m-	// BlockRadiance[m
+[31m-	mud::Type* DECL mud_BlockRadiance__type() {[m
+[31m-		return &mud::type<mud::BlockRadiance>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockRadiance__destroy(mud::BlockRadiance* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+[31m-	// BlockReflection[m
+[31m-	mud::Type* DECL mud_BlockReflection__type() {[m
+[31m-		return &mud::type<mud::BlockReflection>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockReflection__destroy(mud::BlockReflection* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+[31m-	// BlockShadow[m
+[31m-	mud::Type* DECL mud_BlockShadow__type() {[m
+[31m-		return &mud::type<mud::BlockShadow>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockShadow__destroy(mud::BlockShadow* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+[31m-	// BlockTonemap[m
+[31m-	mud::Type* DECL mud_BlockTonemap__type() {[m
+[31m-		return &mud::type<mud::BlockTonemap>();[m
+[31m-	}[m
+[31m-	void DECL mud_BlockTonemap__destroy(mud::BlockTonemap* self) {[m
+[31m-		delete self;[m
+[31m-	}[m
+ 	// CSMShadow[m
+ 	mud::Type* DECL mud_CSMShadow__type() {[m
+ 		return &mud::type<mud::CSMShadow>();[m
+[36m@@ -375,6 +291,90 @@[m [mextern "C" {[m
+ 	void DECL mud_Tonemap__destroy(mud::Tonemap* self) {[m
+ 		delete self;[m
+ 	}[m
+[32m+[m	[32m// BlockBlur[m
+[32m+[m	[32mmud::Type* DECL mud_BlockBlur__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockBlur>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockBlur__destroy(mud::BlockBlur* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+[32m+[m	[32m// BlockDofBlur[m
+[32m+[m	[32mmud::Type* DECL mud_BlockDofBlur__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockDofBlur>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockDofBlur__destroy(mud::BlockDofBlur* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+[32m+[m	[32m// BlockGIBake[m
+[32m+[m	[32mmud::Type* DECL mud_BlockGIBake__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockGIBake>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockGIBake__destroy(mud::BlockGIBake* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+[32m+[m	[32m// BlockGITrace[m
+[32m+[m	[32mmud::Type* DECL mud_BlockGITrace__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockGITrace>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockGITrace__destroy(mud::BlockGITrace* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+[32m+[m	[32m// BlockGeometry[m
+[32m+[m	[32mmud::Type* DECL mud_BlockGeometry__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockGeometry>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockGeometry__destroy(mud::BlockGeometry* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+[32m+[m	[32m// BlockGlow[m
+[32m+[m	[32mmud::Type* DECL mud_BlockGlow__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockGlow>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockGlow__destroy(mud::BlockGlow* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+[32m+[m	[32m// BlockLight[m
+[32m+[m	[32mmud::Type* DECL mud_BlockLight__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockLight>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockLight__destroy(mud::BlockLight* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+[32m+[m	[32m// BlockLightmap[m
+[32m+[m	[32mmud::Type* DECL mud_BlockLightmap__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockLightmap>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockLightmap__destroy(mud::BlockLightmap* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+[32m+[m	[32m// BlockRadiance[m
+[32m+[m	[32mmud::Type* DECL mud_BlockRadiance__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockRadiance>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockRadiance__destroy(mud::BlockRadiance* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+[32m+[m	[32m// BlockReflection[m
+[32m+[m	[32mmud::Type* DECL mud_BlockReflection__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockReflection>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockReflection__destroy(mud::BlockReflection* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+[32m+[m	[32m// BlockShadow[m
+[32m+[m	[32mmud::Type* DECL mud_BlockShadow__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockShadow>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockShadow__destroy(mud::BlockShadow* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+[32m+[m	[32m// BlockTonemap[m
+[32m+[m	[32mmud::Type* DECL mud_BlockTonemap__type() {[m
+[32m+[m		[32mreturn &mud::type<mud::BlockTonemap>();[m
+[32m+[m	[32m}[m
+[32m+[m	[32mvoid DECL mud_BlockTonemap__destroy(mud::BlockTonemap* self) {[m
+[32m+[m		[32mdelete self;[m
+[32m+[m	[32m}[m
+ 	void DECL mud_gfx_setup_pipeline_pbr_1(mud::GfxSystem* gfx) {[m
+ 		mud::gfx::setup_pipeline_pbr(*gfx);[m
+ 	}[m
+[1mdiff --git a/src/bind/gfx.pbr.js b/src/bind/gfx.pbr.js[m
+[1mindex 9a1051462..59683a16b 100644[m
+[1m--- a/src/bind/gfx.pbr.js[m
+[1m+++ b/src/bind/gfx.pbr.js[m
+[36m@@ -43,126 +43,6 @@[m [mObject.defineProperty(BCS.prototype, "saturation", {[m
+ BCS.prototype["__destroy"] = BCS.prototype.__destroy = function() {[m
+     _mud_BCS__destroy(this.__ptr);[m
+ };[m
+[31m-// BlockBlur[m
+[31m-function BlockBlur() { throw "cannot construct a BlockBlur, no constructor in IDL" }[m
+[31m-BlockBlur.prototype = Object.create(WrapperObject.prototype);[m
+[31m-BlockBlur.prototype.constructor = BlockBlur;[m
+[31m-BlockBlur.prototype.__class = BlockBlur;[m
+[31m-BlockBlur.__cache = {};[m
+[31m-Module['BlockBlur'] = BlockBlur;[m
+[31m-BlockBlur.prototype["__destroy"] = BlockBlur.prototype.__destroy = function() {[m
+[31m-    _mud_BlockBlur__destroy(this.__ptr);[m
+[31m-};[m
+[31m-// BlockDofBlur[m
+[31m-function BlockDofBlur() { throw "cannot construct a BlockDofBlur, no constructor in IDL" }[m
+[31m-BlockDofBlur.prototype = Object.create(WrapperObject.prototype);[m
+[31m-BlockDofBlur.prototype.constructor = BlockDofBlur;[m
+[31m-BlockDofBlur.prototype.__class = BlockDofBlur;[m
+[31m-BlockDofBlur.__cache = {};[m
+[31m-Module['BlockDofBlur'] = BlockDofBlur;[m
+[31m-BlockDofBlur.prototype["__destroy"] = BlockDofBlur.prototype.__destroy = function() {[m
+[31m-    _mud_BlockDofBlur__destroy(this.__ptr);[m
+[31m-};[m
+[31m-// BlockGIBake[m
+[31m-function BlockGIBake() { throw "cannot construct a BlockGIBake, no constructor in IDL" }[m
+[31m-BlockGIBake.prototype = Object.create(WrapperObject.prototype);[m
+[31m-BlockGIBake.prototype.constructor = BlockGIBake;[m
+[31m-BlockGIBake.prototype.__class = BlockGIBake;[m
+[31m-BlockGIBake.__cache = {};[m
+[31m-Module['BlockGIBake'] = BlockGIBake;[m
+[31m-BlockGIBake.prototype["__destroy"] = BlockGIBake.prototype.__destroy = function() {[m
+[31m-    _mud_BlockGIBake__destroy(this.__ptr);[m
+[31m-};[m
+[31m-// BlockGITrace[m
+[31m-function BlockGITrace() { throw "cannot construct a BlockGITrace, no constructor in IDL" }[m
+[31m-BlockGITrace.prototype = Object.create(WrapperObject.prototype);[m
+[31m-BlockGITrace.prototype.constructor = BlockGITrace;[m
+[31m-BlockGITrace.prototype.__class = BlockGITrace;[m
+[31m-BlockGITrace.__cache = {};[m
+[31m-Module['BlockGITrace'] = BlockGITrace;[m
+[31m-BlockGITrace.prototype["__destroy"] = BlockGITrace.prototype.__destroy = function() {[m
+[31m-    _mud_BlockGITrace__destroy(this.__ptr);[m
+[31m-};[m
+[31m-// BlockGeometry[m
+[31m-function BlockGeometry() { throw "cannot construct a BlockGeometry, no constructor in IDL" }[m
+[31m-BlockGeometry.prototype = Object.create(WrapperObject.prototype);[m
+[31m-BlockGeometry.prototype.constructor = BlockGeometry;[m
+[31m-BlockGeometry.prototype.__class = BlockGeometry;[m
+[31m-BlockGeometry.__cache = {};[m
+[31m-Module['BlockGeometry'] = BlockGeometry;[m
+[31m-BlockGeometry.prototype["__destroy"] = BlockGeometry.prototype.__destroy = function() {[m
+[31m-    _mud_BlockGeometry__destroy(this.__ptr);[m
+[31m-};[m
+[31m-// BlockGlow[m
+[31m-function BlockGlow() { throw "cannot construct a BlockGlow, no constructor in IDL" }[m
+[31m-BlockGlow.prototype = Object.create(WrapperObject.prototype);[m
+[31

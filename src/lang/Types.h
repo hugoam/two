@@ -26,7 +26,6 @@ namespace mud
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Interpreter>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Pipe>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Process>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Script>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ScriptClass>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ScriptError>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::StreamBranch>();
@@ -43,6 +42,7 @@ namespace mud
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessSetMember>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessValue>();
+    export_ template <> MUD_LANG_EXPORT Type& type<mud::Script>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Stream>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::TextScript>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();

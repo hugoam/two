@@ -1,4 +1,4 @@
-// shadow_point.js
+// shadow_point_im.js
 
 function generateTexture(gfx, width, height, m) {
     
@@ -13,6 +13,7 @@ function generateTexture(gfx, width, height, m) {
             else buffer[x + y * width] = 0x00000000;
         }
 
+    //texture.upload(2, 2, buffer);
     two.load_texture_rgba(texture, 2, 2, buffer);
     return texture;
 }
@@ -23,7 +24,7 @@ two.ui.trackball_controller(viewer);
 
 if(typeof this.state == 'undefined') {
     this.state = 1;
-        
+    
     //scene.add(new THREE.AmbientLight(0x111122));
 
     var pbr = app.gfx.programs.file('pbr/pbr');
@@ -31,10 +32,11 @@ if(typeof this.state == 'undefined') {
     var c = app.gfx.materials.fetch('cube');
     c.program = pbr;
     c.base.cull_mode = two.CullMode.Front;
-    c.pbr.albedo.value = two.rgba(0xa0adafff);
+    c.pbr.albedo.value = two.rgb(0xa0adaf);
     c.pbr.normal.value = -1.0;
-    //	shininess: 10,
-    //	specular: 0x111111,
+    // shininess: 10,
+    // specular: 0x111111,
+
     this.cubemat = c;
 
     var s = app.gfx.materials.fetch('sphere');
@@ -44,55 +46,49 @@ if(typeof this.state == 'undefined') {
     s.alpha.alpha_test = true;
     s.alpha.alpha.texture = generateTexture(app.gfx, 2, 2, 2);
     s.pbr.normal = -1.0; // @todo @bug @hack check why gl_FrontFacing in shader inverts normals
+
     this.spheremat = s;
 
     viewer.scene.env.radiance.ambient = 0.2;
+
+    //orbit.eye = new two.vec3(0, 10, 40);
+    //orbit.position = new two.vec3(0, 10, 0);
+    //orbit.distance = 40;
 }
 
-function light_source(parent, color, pos, rot)
-{
+function light_source(n, color, pos, rot) {
     var intensity = 1.5;
     var range = 20.0;
 
-    var node = two.gfx.node(parent, null, pos, rot);
+    var node = two.gfx.node(n, null, pos, rot);
 
-    var inner = two.gfx.shape(node, new two.Sphere(0.3), new two.Symbol(color));// * intensity));
-    var outer = two.gfx.shape(node, new two.Sphere(2.0), new two.Symbol(new two.Colour(1.0)), 0, sphere_material);
-    
-    var light = two.gfx.light(node, two.LightType.Point, true, color, range, 0.6);// intensity);
-    light.range = range;
+    var inner = two.gfx.shape(node, new two.Sphere(0.3), new two.Symbol(color)); //  * intensity
+    var outer = two.gfx.shape(node, new two.Sphere(2.0), new two.Symbol(new two.Colour(1.0)), 0, this.spheremat);
+
+    var light = two.gfx.light(node, two.LightType.Point, false, color, range, 0.6);
     light.energy = intensity;
-    light.shadow_bias = 0.005;
+    //light.shadow_bias = -0.005; // reduces self-shadowing on double-sided objects
 
     return node;
 };
 
-function light_pos(time)
-{
+function pos(time) {
     return new two.vec3(Math.sin(time * 0.6) * 9, Math.sin(time * 0.7) * 9 + 5, Math.sin(time * 0.8) * 9);
-};
+}
 
-function light_rot(time)
-{
+function rot(time) {
     return new two.quat(new two.vec3(time, 0.0, time));
-};
+}
 
 var scene = viewer.scene.begin();
 
 two.gfx.radiance(scene, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
 
-var pos0 = light_pos(time);
-var rot0 = light_rot(time);
-var light0 = light_source(scene, two.rgba(0x0088ff), pos0, rot0);
+var light0 = light_source(scene, two.rgba(0x0088ff), pos(time), rot(time));
+var light1 = light_source(scene, two.rgba(0xff8888), pos(time + Math.PI), rot(time + Math.PI));
 
-//two.gfx.shape(scene, Cylinder(X3, 0.1, 1.0, Axis::X), new two.Symbol(two.rgb(0xff0000));
-//two.gfx.shape(scene, Cylinder(Y3, 0.1, 1.0, Axis::Y), new two.Symbol(two.rgb(0x00ff00));
-//two.gfx.shape(scene, Cylinder(Z3, 0.1, 1.0, Axis::Z), new two.Symbol(two.rgb(0x0000ff));
+var box = new two.Cube(new two.vec3(30.0));
 
-var pos1 = light_pos(time + Math.PI);
-var rot1 = light_rot(time + Math.PI);
-var light1 = light_source(scene, two.rgba(0xff8888), pos1, rot1);
-
-var box = new two.Cube(new two.vec3(15.0));
-var node = two.gfx.node(scene);// , Y3 * 10.0);
-two.gfx.shape(node, box, new two.Symbol(), 0, this.cubemat);
+var node = two.gfx.node(scene, null, new two.vec3(0, 10, 0));
+two.gfx.shape(node, box, new two.Symbol(), 0, this.cubemat);//, new two.Colour(0, 0, 0, 0), false, true));
+//mesh.receiveShadow = true;

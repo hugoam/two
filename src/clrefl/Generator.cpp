@@ -409,14 +409,14 @@ namespace mud
 
 	void parse_class_child(CLModule& module, CLClass& c, CXCursor cursor)
 	{
-		vector<string> annotations = get_annotations(cursor);
+		const vector<string> annotations = get_annotations(cursor);
 
 		if(cursor.kind == CXCursor_TemplateTypeParameter)
 			c.m_template_types.push_back(spelling(cursor));
 
 		else if(cursor.kind == CXCursor_CXXBaseSpecifier)
 		{
-			string name = spelling(type(cursor));
+			const string name = spelling(type(cursor));
 
 			//if(c.m_is_templated && name.find("<") != string::npos)
 			//	name = c.fix_template(name);
@@ -424,7 +424,7 @@ namespace mud
 			if(!c.m_is_templated && name.find("<") == string::npos)
 			{
 				CLType* base = module.find_type(name);
-				if(base && base->m_reflect)
+				if(base && (base->m_reflect || has(base->m_annotations, "refl")))
 				{
 					c.m_bases.push_back(base);
 					c.m_deep_bases.push_back(base);
@@ -683,20 +683,15 @@ namespace mud
 #endif
 
 			for(auto& e : module.m_enums)
-				//if(e->m_reflect)
-					parse_enum(module, *e);
+				parse_enum(module, *e);
 			for(auto& c : module.m_classes)
-				//if(c->m_reflect)
-					parse_class(module, *c);
+				parse_class(module, *c);
 			for(auto& c : module.m_sequences)
-				//if(c->m_reflect)
-					parse_sequence(module, *c);
+				parse_sequence(module, *c);
 			for(auto& f : module.m_functions)
-				//if(f->m_reflect)
-					parse_callable(module, *f);
+				parse_callable(module, *f);
 			for(auto& f : module.m_methods)
-				//if(f->m_reflect)
-					parse_function_method(module, *f);
+				parse_function_method(module, *f);
 
 			clang_disposeTranslationUnit(tu);
 

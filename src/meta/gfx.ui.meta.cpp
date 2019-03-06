@@ -63,39 +63,6 @@ namespace mud
 	
 	// Sequences
 	
-	// mud::SpaceSheet
-	{
-		Type& t = type<mud::SpaceSheet>();
-		static Meta meta = { t, &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
-		// bases
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
-	}
-	// mud::Viewer
-	{
-		Type& t = type<mud::Viewer>();
-		static Meta meta = { t, &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
-		// bases
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		static Member members[] = {
-			{ t, offsetof(mud::Viewer, m_scene), type<mud::Scene>(), "scene", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::Viewer, m_camera), type<mud::Camera>(), "camera", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::Viewer, m_viewport), type<mud::Viewport>(), "viewport", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::Viewer, m_position), type<mud::vec2>(), "position", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Viewer, m_size), type<mud::vec2>(), "size", nullptr, Member::Value, nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
-	}
 	// mud::ViewerController
 	{
 		Type& t = type<mud::ViewerController>();
@@ -152,6 +119,28 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
+	// mud::Viewer
+	{
+		Type& t = type<mud::Viewer>();
+		static Meta meta = { t, &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Widget>() };
+		static size_t bases_offsets[] = { base_offset<mud::Viewer, mud::Widget>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Viewer, m_scene), type<mud::Scene>(), "scene", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Viewer, m_camera), type<mud::Camera>(), "camera", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Viewer, m_viewport), type<mud::Viewport>(), "viewport", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Viewer, m_position), type<mud::vec2>(), "position", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Viewer, m_size), type<mud::vec2>(), "size", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, members, {}, {}, };
+	}
 	// mud::SceneViewer
 	{
 		Type& t = type<mud::SceneViewer>();
@@ -159,6 +148,21 @@ namespace mud
 		// bases
 		static Type* bases[] = { &type<mud::Viewer>() };
 		static size_t bases_offsets[] = { base_offset<mud::SceneViewer, mud::Viewer>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::SpaceSheet
+	{
+		Type& t = type<mud::SpaceSheet>();
+		static Meta meta = { t, &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Ui>() };
+		static size_t bases_offsets[] = { base_offset<mud::SpaceSheet, mud::Ui>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -185,11 +189,11 @@ namespace mud
 	
 	
 		m.m_types.push_back(&type<mud::ui::OrbitMode>());
-		m.m_types.push_back(&type<mud::SpaceSheet>());
-		m.m_types.push_back(&type<mud::Viewer>());
 		m.m_types.push_back(&type<mud::ViewerController>());
 		m.m_types.push_back(&type<mud::OrbitController>());
 		m.m_types.push_back(&type<mud::FreeOrbitController>());
+		m.m_types.push_back(&type<mud::SpaceSheet>());
+		m.m_types.push_back(&type<mud::Viewer>());
 		m.m_types.push_back(&type<mud::SceneViewer>());
 		m.m_types.push_back(&type<mud::TrackballController>());
 		{

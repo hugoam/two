@@ -108,7 +108,7 @@ namespace mud
 	}
 
 #ifdef MUD_LIVE_SHADER_COMPILER
-	bool compile_shader(GfxSystem& gfx, const string& name, const string& suffix, ShaderType shader_type, const string& defines_in, cstring source)
+	bool compile_shader(GfxSystem& gfx, const string& name, const string& suffix, ShaderType shader_type, const string& defines_in, const string& source)
 	{
 		string defines = defines_in;
 		bool is_opengl = bgfx::getRendererType() == bgfx::RendererType::OpenGLES
@@ -116,7 +116,7 @@ namespace mud
 
 		string source_path = shader_path(gfx, name, shader_type);
 
-		if(source != nullptr)
+		if(source != "")
 		{
 			write_file(source_path.c_str(), source);
 		}
@@ -216,8 +216,6 @@ namespace mud
 
 	struct Program::Impl
 	{
-		string m_name;
-
 		map<uint64_t, Version> m_versions;
 		vector<string> m_option_names;
 		vector<string> m_mode_names;
@@ -245,11 +243,10 @@ namespace mud
 	GfxSystem* Program::ms_gfx_system = nullptr;
 
 	Program::Program(const string& name, bool compute)
-		: m_compute(compute)
+		: m_name(name)
+		, m_compute(compute)
 		, m_impl(make_unique<Impl>())
 	{
-		m_impl->m_name = name;
-
 		GfxBlock& mat = *ms_gfx_system->m_pipeline->block<BlockMaterial>();
 		
 		static cstring options[] = { "SKELETON", "INSTANCING", "BILLBOARD", "QNORMALS", "MRT", "DEFERRED", "CLUSTERED",
@@ -258,15 +255,6 @@ namespace mud
 		this->register_block(mat);
 
 		m_blocks[MaterialBlock::Base] = true;
-	}
-
-	Program::Program(const string& name, span<GfxBlock*> blocks, span<cstring> sources)
-		: Program(name)
-	{
-		this->register_blocks(blocks);
-
-		for(ShaderType shader_type = ShaderType(0); shader_type != ShaderType::Count; shader_type = ShaderType(uint32_t(shader_type) + 1))
-			m_sources[shader_type] = sources[size_t(shader_type)];
 	}
 
 	Program::~Program()
@@ -317,26 +305,26 @@ namespace mud
 	{
 		const ShaderVersion config = shader_version(version);
 
-		string suffix = "_v" + to_string(version.m_version);
-		string defines = program_defines(*m_impl, config);
+		const string suffix = "_v" + to_string(version.m_version);
+		const string defines = program_defines(*m_impl, config);
 
 		bool compiled = true;
 #ifdef MUD_LIVE_SHADER_COMPILER
 		if(compute)
 		{
-			compiled &= compile_shader(gfx, m_impl->m_name, suffix, ShaderType::Compute, defines, m_sources[ShaderType::Compute]);
+			compiled &= compile_shader(gfx, m_name, suffix, ShaderType::Compute, defines, m_sources[ShaderType::Compute]);
 		}
 		else
 		{
-			compiled &= compile_shader(gfx, m_impl->m_name, suffix, ShaderType::Vertex, defines, m_sources[ShaderType::Vertex]);
-			compiled &= compile_shader(gfx, m_impl->m_name, suffix, ShaderType::Fragment, defines, m_sources[ShaderType::Fragment]);
+			compiled &= compile_shader(gfx, m_name, suffix, ShaderType::Vertex, defines, m_sources[ShaderType::Vertex]);
+			compiled &= compile_shader(gfx, m_name, suffix, ShaderType::Fragment, defines, m_sources[ShaderType::Fragment]);
 
-			if(file_exists(shader_path(gfx, m_impl->m_name, ShaderType::Geometry).c_str()))
-				compiled &= compile_shader(gfx, m_impl->m_name, suffix, ShaderType::Geometry, defines, m_sources[ShaderType::Geometry]);
+			if(file_exists(shader_path(gfx, m_name, ShaderType::Geometry).c_str()))
+				compiled &= compile_shader(gfx, m_name, suffix, ShaderType::Geometry, defines, m_sources[ShaderType::Geometry]);
 		}
 #endif
 
-		string full_name = m_impl->m_name + suffix;
+		const string full_name = m_name + suffix;
 
 		if(!compiled)
 		{
@@ -346,7 +334,7 @@ namespace mud
 		}
 
 		printf("INFO: loading program %s with options %s\n", full_name.c_str(), defines.c_str());
-		string compiled_path = gfx.m_resource_path + "/shaders/compiled/" + full_name;
+		const string compiled_path = gfx.m_resource_path + "/shaders/compiled/" + full_name;
 		version.m_program = compute ? load_compute_program(gfx.file_reader(), compiled_path)
 									: load_program(gfx.file_reader(), compiled_path);
 		version.m_update = m_update;
@@ -362,11 +350,6 @@ namespace mud
 				this->compile(gfx, version, m_compute);
 			}
 		}
-	}
-
-	cstring Program::name() const
-	{
-		return m_impl->m_name.c_str();
 	}
 
 	bgfx::ProgramHandle Program::default_version()

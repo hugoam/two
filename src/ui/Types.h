@@ -62,7 +62,6 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::UiWindow>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::User>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Vg>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Align>>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::AutoLayout>>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Pivot>>();
@@ -85,6 +84,7 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::Tabber>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Table>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::TextEdit>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::TreeNode>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Ui>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Window>();

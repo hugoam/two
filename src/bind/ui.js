@@ -922,134 +922,6 @@ Module['Vg'] = Vg;
 Vg.prototype["__destroy"] = Vg.prototype.__destroy = function() {
     _mud_Vg__destroy(this.__ptr);
 };
-// Widget
-function Widget() { throw "cannot construct a Widget, no constructor in IDL" }
-Widget.prototype = Object.create(WrapperObject.prototype);
-Widget.prototype.constructor = Widget;
-Widget.prototype.__class = Widget;
-Widget.__cache = {};
-Module['Widget'] = Widget;
-Widget.prototype["focused"] = Widget.prototype.focused = function() {
-    return !!(_mud_Widget_focused_0(this.__ptr));
-};
-Widget.prototype["hovered"] = Widget.prototype.hovered = function() {
-    return !!(_mud_Widget_hovered_0(this.__ptr));
-};
-Widget.prototype["pressed"] = Widget.prototype.pressed = function() {
-    return !!(_mud_Widget_pressed_0(this.__ptr));
-};
-Widget.prototype["activated"] = Widget.prototype.activated = function() {
-    return !!(_mud_Widget_activated_0(this.__ptr));
-};
-Widget.prototype["selected"] = Widget.prototype.selected = function() {
-    return !!(_mud_Widget_selected_0(this.__ptr));
-};
-Widget.prototype["modal"] = Widget.prototype.modal = function() {
-    return !!(_mud_Widget_modal_0(this.__ptr));
-};
-Widget.prototype["closed"] = Widget.prototype.closed = function() {
-    return !!(_mud_Widget_closed_0(this.__ptr));
-};
-Widget.prototype["ui_window"] = Widget.prototype.ui_window = function() {
-    return wrapPointer(_mud_Widget_ui_window_0(this.__ptr), UiWindow);
-};
-Widget.prototype["ui"] = Widget.prototype.ui = function() {
-    return wrapPointer(_mud_Widget_ui_0(this.__ptr), Ui);
-};
-Widget.prototype["parent_modal"] = Widget.prototype.parent_modal = function() {
-    return wrapPointer(_mud_Widget_parent_modal_0(this.__ptr), Widget);
-};
-Widget.prototype["toggle_state"] = Widget.prototype.toggle_state = function(a0) {
-    _mud_Widget_toggle_state_1(this.__ptr, /*state*/a0);
-};
-Widget.prototype["disable_state"] = Widget.prototype.disable_state = function(a0) {
-    _mud_Widget_disable_state_1(this.__ptr, /*state*/a0);
-};
-Widget.prototype["set_state"] = Widget.prototype.set_state = function(a0, a1) {
-    _mud_Widget_set_state_2(this.__ptr, /*state*/a0, /*enabled*/a1);
-};
-Widget.prototype["enable_state"] = Widget.prototype.enable_state = function(a0) {
-    _mud_Widget_enable_state_1(this.__ptr, /*state*/a0);
-};
-Widget.prototype["clear_focus"] = Widget.prototype.clear_focus = function() {
-    _mud_Widget_clear_focus_0(this.__ptr);
-};
-Widget.prototype["take_focus"] = Widget.prototype.take_focus = function() {
-    _mud_Widget_take_focus_0(this.__ptr);
-};
-Widget.prototype["yield_focus"] = Widget.prototype.yield_focus = function() {
-    _mud_Widget_yield_focus_0(this.__ptr);
-};
-Widget.prototype["take_modal"] = Widget.prototype.take_modal = function(a0) {
-    _mud_Widget_take_modal_1(this.__ptr, /*device_filter*/a0);
-};
-Widget.prototype["yield_modal"] = Widget.prototype.yield_modal = function() {
-    _mud_Widget_yield_modal_0(this.__ptr);
-};
-Widget.prototype["key_event"] = Widget.prototype.key_event = function(a0, a1, a2) {
-    if (a2 === undefined) { return wrapPointer(_mud_Widget_key_event_2(this.__ptr, /*code*/a0, /*event_type*/a1), KeyEvent); }
-    return wrapPointer(_mud_Widget_key_event_3(this.__ptr, /*code*/a0, /*event_type*/a1, /*modifier*/a2), KeyEvent);
-};
-Widget.prototype["key_stroke"] = Widget.prototype.key_stroke = function(a0, a1) {
-    if (a1 === undefined) { return wrapPointer(_mud_Widget_key_stroke_1(this.__ptr, /*code*/a0), KeyEvent); }
-    return wrapPointer(_mud_Widget_key_stroke_2(this.__ptr, /*code*/a0, /*modifier*/a1), KeyEvent);
-};
-Widget.prototype["char_stroke"] = Widget.prototype.char_stroke = function(a0, a1) {
-    if (a1 === undefined) { return wrapPointer(_mud_Widget_char_stroke_1(this.__ptr, /*code*/a0), KeyEvent); }
-    return wrapPointer(_mud_Widget_char_stroke_2(this.__ptr, /*code*/a0, /*modifier*/a1), KeyEvent);
-};
-Widget.prototype["mouse_event"] = Widget.prototype.mouse_event = function(a0, a1, a2, a3) {
-    if (a2 === undefined) { return wrapPointer(_mud_Widget_mouse_event_2(this.__ptr, /*device*/a0, /*event_type*/a1), MouseEvent); }
-    if (a3 === undefined) { return wrapPointer(_mud_Widget_mouse_event_3(this.__ptr, /*device*/a0, /*event_type*/a1, /*modifier*/a2), MouseEvent); }
-    return wrapPointer(_mud_Widget_mouse_event_4(this.__ptr, /*device*/a0, /*event_type*/a1, /*modifier*/a2, /*consume*/a3), MouseEvent);
-};
-Object.defineProperty(Widget.prototype, "frame", {
-    get: function() {
-        return wrapPointer(_mud_Widget__get_frame(this.__ptr), Frame);
-    }});
-Object.defineProperty(Widget.prototype, "state", {
-    get: function() {
-        return _mud_Widget__get_state(this.__ptr);
-    },
-    set: function(value) {
-        _mud_Widget__set_state(this.__ptr, value);
-    }
-});
-Object.defineProperty(Widget.prototype, "switch", {
-    get: function() {
-        return _mud_Widget__get_switch(this.__ptr);
-    },
-    set: function(value) {
-        _mud_Widget__set_switch(this.__ptr, value);
-    }
-});
-Object.defineProperty(Widget.prototype, "index", {
-    get: function() {
-        return _mud_Widget__get_index(this.__ptr);
-    },
-    set: function(value) {
-        _mud_Widget__set_index(this.__ptr, value);
-    }
-});
-Object.defineProperty(Widget.prototype, "open", {
-    get: function() {
-        return !!(_mud_Widget__get_open(this.__ptr));
-    },
-    set: function(value) {
-        _mud_Widget__set_open(this.__ptr, value);
-    }
-});
-Object.defineProperty(Widget.prototype, "body", {
-    get: function() {
-        return wrapPointer(_mud_Widget__get_body(this.__ptr), Widget);
-    },
-    set: function(value) {
-        _mud_Widget__set_body(this.__ptr, value.__ptr);
-    }
-});
-Widget.prototype["__destroy"] = Widget.prototype.__destroy = function() {
-    _mud_Widget__destroy(this.__ptr);
-};
 // v2<mud::Align>
 function v2_mud_Align(a0, a1) {
     if (a0 === undefined) { this.__ptr = _mud_v2_mud_Align__construct_0(); this.__type = v2_mud_Align.__type; getCache(v2_mud_Align)[this.__ptr] = this; return; }
@@ -1369,6 +1241,134 @@ TextEdit.__cache = {};
 Module['TextEdit'] = TextEdit;
 TextEdit.prototype["__destroy"] = TextEdit.prototype.__destroy = function() {
     _mud_TextEdit__destroy(this.__ptr);
+};
+// Widget
+function Widget() { throw "cannot construct a Widget, no constructor in IDL" }
+Widget.prototype = Object.create(ControlNode.prototype);
+Widget.prototype.constructor = Widget;
+Widget.prototype.__class = Widget;
+Widget.__cache = {};
+Module['Widget'] = Widget;
+Widget.prototype["focused"] = Widget.prototype.focused = function() {
+    return !!(_mud_Widget_focused_0(this.__ptr));
+};
+Widget.prototype["hovered"] = Widget.prototype.hovered = function() {
+    return !!(_mud_Widget_hovered_0(this.__ptr));
+};
+Widget.prototype["pressed"] = Widget.prototype.pressed = function() {
+    return !!(_mud_Widget_pressed_0(this.__ptr));
+};
+Widget.prototype["activated"] = Widget.prototype.activated = function() {
+    return !!(_mud_Widget_activated_0(this.__ptr));
+};
+Widget.prototype["selected"] = Widget.prototype.selected = function() {
+    return !!(_mud_Widget_selected_0(this.__ptr));
+};
+Widget.prototype["modal"] = Widget.prototype.modal = function() {
+    return !!(_mud_Widget_modal_0(this.__ptr));
+};
+Widget.prototype["closed"] = Widget.prototype.closed = function() {
+    return !!(_mud_Widget_closed_0(this.__ptr));
+};
+Widget.prototype["ui_window"] = Widget.prototype.ui_window = function() {
+    return wrapPointer(_mud_Widget_ui_window_0(this.__ptr), UiWindow);
+};
+Widget.prototype["ui"] = Widget.prototype.ui = function() {
+    return wrapPointer(_mud_Widget_ui_0(this.__ptr), Ui);
+};
+Widget.prototype["parent_modal"] = Widget.prototype.parent_modal = function() {
+    return wrapPointer(_mud_Widget_parent_modal_0(this.__ptr), Widget);
+};
+Widget.prototype["toggle_state"] = Widget.prototype.toggle_state = function(a0) {
+    _mud_Widget_toggle_state_1(this.__ptr, /*state*/a0);
+};
+Widget.prototype["disable_state"] = Widget.prototype.disable_state = function(a0) {
+    _mud_Widget_disable_state_1(this.__ptr, /*state*/a0);
+};
+Widget.prototype["set_state"] = Widget.prototype.set_state = function(a0, a1) {
+    _mud_Widget_set_state_2(this.__ptr, /*state*/a0, /*enabled*/a1);
+};
+Widget.prototype["enable_state"] = Widget.prototype.enable_state = function(a0) {
+    _mud_Widget_enable_state_1(this.__ptr, /*state*/a0);
+};
+Widget.prototype["clear_focus"] = Widget.prototype.clear_focus = function() {
+    _mud_Widget_clear_focus_0(this.__ptr);
+};
+Widget.prototype["take_focus"] = Widget.prototype.take_focus = function() {
+    _mud_Widget_take_focus_0(this.__ptr);
+};
+Widget.prototype["yield_focus"] = Widget.prototype.yield_focus = function() {
+    _mud_Widget_yield_focus_0(this.__ptr);
+};
+Widget.prototype["take_modal"] = Widget.prototype.take_modal = function(a0) {
+    _mud_Widget_take_modal_1(this.__ptr, /*device_filter*/a0);
+};
+Widget.prototype["yield_modal"] = Widget.prototype.yield_modal = function() {
+    _mud_Widget_yield_modal_0(this.__ptr);
+};
+Widget.prototype["key_event"] = Widget.prototype.key_event = function(a0, a1, a2) {
+    if (a2 === undefined) { return wrapPointer(_mud_Widget_key_event_2(this.__ptr, /*code*/a0, /*event_type*/a1), KeyEvent); }
+    return wrapPointer(_mud_Widget_key_event_3(this.__ptr, /*code*/a0, /*event_type*/a1, /*modifier*/a2), KeyEvent);
+};
+Widget.prototype["key_stroke"] = Widget.prototype.key_stroke = function(a0, a1) {
+    if (a1 === undefined) { return wrapPointer(_mud_Widget_key_stroke_1(this.__ptr, /*code*/a0), KeyEvent); }
+    return wrapPointer(_mud_Widget_key_stroke_2(this.__ptr, /*code*/a0, /*modifier*/a1), KeyEvent);
+};
+Widget.prototype["char_stroke"] = Widget.prototype.char_stroke = function(a0, a1) {
+    if (a1 === undefined) { return wrapPointer(_mud_Widget_char_stroke_1(this.__ptr, /*code*/a0), KeyEvent); }
+    return wrapPointer(_mud_Widget_char_stroke_2(this.__ptr, /*code*/a0, /*modifier*/a1), KeyEvent);
+};
+Widget.prototype["mouse_event"] = Widget.prototype.mouse_event = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { return wrapPointer(_mud_Widget_mouse_event_2(this.__ptr, /*device*/a0, /*event_type*/a1), MouseEvent); }
+    if (a3 === undefined) { return wrapPointer(_mud_Widget_mouse_event_3(this.__ptr, /*device*/a0, /*event_type*/a1, /*modifier*/a2), MouseEvent); }
+    return wrapPointer(_mud_Widget_mouse_event_4(this.__ptr, /*device*/a0, /*event_type*/a1, /*modifier*/a2, /*consume*/a3), MouseEvent);
+};
+Object.defineProperty(Widget.prototype, "frame", {
+    get: function() {
+        return wrapPointer(_mud_Widget__get_frame(this.__ptr), Frame);
+    }});
+Object.defineProperty(Widget.prototype, "state", {
+    get: function() {
+        return _mud_Widget__get_state(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Widget__set_state(this.__ptr, value);
+    }
+});
+Object.defineProperty(Widget.prototype, "switch", {
+    get: function() {
+        return _mud_Widget__get_switch(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Widget__set_switch(this.__ptr, value);
+    }
+});
+Object.defineProperty(Widget.prototype, "index", {
+    get: function() {
+        return _mud_Widget__get_index(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Widget__set_index(this.__ptr, value);
+    }
+});
+Object.defineProperty(Widget.prototype, "open", {
+    get: function() {
+        return !!(_mud_Widget__get_open(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Widget__set_open(this.__ptr, value);
+    }
+});
+Object.defineProperty(Widget.prototype, "body", {
+    get: function() {
+        return wrapPointer(_mud_Widget__get_body(this.__ptr), Widget);
+    },
+    set: function(value) {
+        _mud_Widget__set_body(this.__ptr, value.__ptr);
+    }
+});
+Widget.prototype["__destroy"] = Widget.prototype.__destroy = function() {
+    _mud_Widget__destroy(this.__ptr);
 };
 // TreeNode
 function TreeNode() { throw "cannot construct a TreeNode, no constructor in IDL" }
@@ -1809,7 +1809,6 @@ Module['ColourPalette'] = span_uint32_t;
         UiWindow.__type = _mud_UiWindow__type();
         User.__type = _mud_User__type();
         Vg.__type = _mud_Vg__type();
-        Widget.__type = _mud_Widget__type();
         Canvas.__type = _mud_Canvas__type();
         Dockable.__type = _mud_Dockable__type();
         Docker.__type = _mud_Docker__type();
@@ -1827,6 +1826,7 @@ Module['ColourPalette'] = span_uint32_t;
         Tabber.__type = _mud_Tabber__type();
         Table.__type = _mud_Table__type();
         TextEdit.__type = _mud_TextEdit__type();
+        Widget.__type = _mud_Widget__type();
         TreeNode.__type = _mud_TreeNode__type();
         Ui.__type = _mud_Ui__type();
         Window.__type = _mud_Window__type();

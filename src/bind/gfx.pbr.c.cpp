@@ -49,90 +49,6 @@ extern "C" {
 	void DECL mud_BCS__destroy(mud::BCS* self) {
 		delete self;
 	}
-	// BlockBlur
-	mud::Type* DECL mud_BlockBlur__type() {
-		return &mud::type<mud::BlockBlur>();
-	}
-	void DECL mud_BlockBlur__destroy(mud::BlockBlur* self) {
-		delete self;
-	}
-	// BlockDofBlur
-	mud::Type* DECL mud_BlockDofBlur__type() {
-		return &mud::type<mud::BlockDofBlur>();
-	}
-	void DECL mud_BlockDofBlur__destroy(mud::BlockDofBlur* self) {
-		delete self;
-	}
-	// BlockGIBake
-	mud::Type* DECL mud_BlockGIBake__type() {
-		return &mud::type<mud::BlockGIBake>();
-	}
-	void DECL mud_BlockGIBake__destroy(mud::BlockGIBake* self) {
-		delete self;
-	}
-	// BlockGITrace
-	mud::Type* DECL mud_BlockGITrace__type() {
-		return &mud::type<mud::BlockGITrace>();
-	}
-	void DECL mud_BlockGITrace__destroy(mud::BlockGITrace* self) {
-		delete self;
-	}
-	// BlockGeometry
-	mud::Type* DECL mud_BlockGeometry__type() {
-		return &mud::type<mud::BlockGeometry>();
-	}
-	void DECL mud_BlockGeometry__destroy(mud::BlockGeometry* self) {
-		delete self;
-	}
-	// BlockGlow
-	mud::Type* DECL mud_BlockGlow__type() {
-		return &mud::type<mud::BlockGlow>();
-	}
-	void DECL mud_BlockGlow__destroy(mud::BlockGlow* self) {
-		delete self;
-	}
-	// BlockLight
-	mud::Type* DECL mud_BlockLight__type() {
-		return &mud::type<mud::BlockLight>();
-	}
-	void DECL mud_BlockLight__destroy(mud::BlockLight* self) {
-		delete self;
-	}
-	// BlockLightmap
-	mud::Type* DECL mud_BlockLightmap__type() {
-		return &mud::type<mud::BlockLightmap>();
-	}
-	void DECL mud_BlockLightmap__destroy(mud::BlockLightmap* self) {
-		delete self;
-	}
-	// BlockRadiance
-	mud::Type* DECL mud_BlockRadiance__type() {
-		return &mud::type<mud::BlockRadiance>();
-	}
-	void DECL mud_BlockRadiance__destroy(mud::BlockRadiance* self) {
-		delete self;
-	}
-	// BlockReflection
-	mud::Type* DECL mud_BlockReflection__type() {
-		return &mud::type<mud::BlockReflection>();
-	}
-	void DECL mud_BlockReflection__destroy(mud::BlockReflection* self) {
-		delete self;
-	}
-	// BlockShadow
-	mud::Type* DECL mud_BlockShadow__type() {
-		return &mud::type<mud::BlockShadow>();
-	}
-	void DECL mud_BlockShadow__destroy(mud::BlockShadow* self) {
-		delete self;
-	}
-	// BlockTonemap
-	mud::Type* DECL mud_BlockTonemap__type() {
-		return &mud::type<mud::BlockTonemap>();
-	}
-	void DECL mud_BlockTonemap__destroy(mud::BlockTonemap* self) {
-		delete self;
-	}
 	// CSMShadow
 	mud::Type* DECL mud_CSMShadow__type() {
 		return &mud::type<mud::CSMShadow>();
@@ -373,6 +289,90 @@ extern "C" {
 		self->m_white_point = value;
 	}
 	void DECL mud_Tonemap__destroy(mud::Tonemap* self) {
+		delete self;
+	}
+	// BlockBlur
+	mud::Type* DECL mud_BlockBlur__type() {
+		return &mud::type<mud::BlockBlur>();
+	}
+	void DECL mud_BlockBlur__destroy(mud::BlockBlur* self) {
+		delete self;
+	}
+	// BlockDofBlur
+	mud::Type* DECL mud_BlockDofBlur__type() {
+		return &mud::type<mud::BlockDofBlur>();
+	}
+	void DECL mud_BlockDofBlur__destroy(mud::BlockDofBlur* self) {
+		delete self;
+	}
+	// BlockGIBake
+	mud::Type* DECL mud_BlockGIBake__type() {
+		return &mud::type<mud::BlockGIBake>();
+	}
+	void DECL mud_BlockGIBake__destroy(mud::BlockGIBake* self) {
+		delete self;
+	}
+	// BlockGITrace
+	mud::Type* DECL mud_BlockGITrace__type() {
+		return &mud::type<mud::BlockGITrace>();
+	}
+	void DECL mud_BlockGITrace__destroy(mud::BlockGITrace* self) {
+		delete self;
+	}
+	// BlockGeometry
+	mud::Type* DECL mud_BlockGeometry__type() {
+		return &mud::type<mud::BlockGeometry>();
+	}
+	void DECL mud_BlockGeometry__destroy(mud::BlockGeometry* self) {
+		delete self;
+	}
+	// BlockGlow
+	mud::Type* DECL mud_BlockGlow__type() {
+		return &mud::type<mud::BlockGlow>();
+	}
+	void DECL mud_BlockGlow__destroy(mud::BlockGlow* self) {
+		delete self;
+	}
+	// BlockLight
+	mud::Type* DECL mud_BlockLight__type() {
+		return &mud::type<mud::BlockLight>();
+	}
+	void DECL mud_BlockLight__destroy(mud::BlockLight* self) {
+		delete self;
+	}
+	// BlockLightmap
+	mud::Type* DECL mud_BlockLightmap__type() {
+		return &mud::type<mud::BlockLightmap>();
+	}
+	void DECL mud_BlockLightmap__destroy(mud::BlockLightmap* self) {
+		delete self;
+	}
+	// BlockRadiance
+	mud::Type* DECL mud_BlockRadiance__type() {
+		return &mud::type<mud::BlockRadiance>();
+	}
+	void DECL mud_BlockRadiance__destroy(mud::BlockRadiance* self) {
+		delete self;
+	}
+	// BlockReflection
+	mud::Type* DECL mud_BlockReflection__type() {
+		return &mud::type<mud::BlockReflection>();
+	}
+	void DECL mud_BlockReflection__destroy(mud::BlockReflection* self) {
+		delete self;
+	}
+	// BlockShadow
+	mud::Type* DECL mud_BlockShadow__type() {
+		return &mud::type<mud::BlockShadow>();
+	}
+	void DECL mud_BlockShadow__destroy(mud::BlockShadow* self) {
+		delete self;
+	}
+	// BlockTonemap
+	mud::Type* DECL mud_BlockTonemap__type() {
+		return &mud::type<mud::BlockTonemap>();
+	}
+	void DECL mud_BlockTonemap__destroy(mud::BlockTonemap* self) {
 		delete self;
 	}
 	void DECL mud_gfx_setup_pipeline_pbr_1(mud::GfxSystem* gfx) {

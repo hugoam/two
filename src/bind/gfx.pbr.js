@@ -43,126 +43,6 @@ Object.defineProperty(BCS.prototype, "saturation", {
 BCS.prototype["__destroy"] = BCS.prototype.__destroy = function() {
     _mud_BCS__destroy(this.__ptr);
 };
-// BlockBlur
-function BlockBlur() { throw "cannot construct a BlockBlur, no constructor in IDL" }
-BlockBlur.prototype = Object.create(WrapperObject.prototype);
-BlockBlur.prototype.constructor = BlockBlur;
-BlockBlur.prototype.__class = BlockBlur;
-BlockBlur.__cache = {};
-Module['BlockBlur'] = BlockBlur;
-BlockBlur.prototype["__destroy"] = BlockBlur.prototype.__destroy = function() {
-    _mud_BlockBlur__destroy(this.__ptr);
-};
-// BlockDofBlur
-function BlockDofBlur() { throw "cannot construct a BlockDofBlur, no constructor in IDL" }
-BlockDofBlur.prototype = Object.create(WrapperObject.prototype);
-BlockDofBlur.prototype.constructor = BlockDofBlur;
-BlockDofBlur.prototype.__class = BlockDofBlur;
-BlockDofBlur.__cache = {};
-Module['BlockDofBlur'] = BlockDofBlur;
-BlockDofBlur.prototype["__destroy"] = BlockDofBlur.prototype.__destroy = function() {
-    _mud_BlockDofBlur__destroy(this.__ptr);
-};
-// BlockGIBake
-function BlockGIBake() { throw "cannot construct a BlockGIBake, no constructor in IDL" }
-BlockGIBake.prototype = Object.create(WrapperObject.prototype);
-BlockGIBake.prototype.constructor = BlockGIBake;
-BlockGIBake.prototype.__class = BlockGIBake;
-BlockGIBake.__cache = {};
-Module['BlockGIBake'] = BlockGIBake;
-BlockGIBake.prototype["__destroy"] = BlockGIBake.prototype.__destroy = function() {
-    _mud_BlockGIBake__destroy(this.__ptr);
-};
-// BlockGITrace
-function BlockGITrace() { throw "cannot construct a BlockGITrace, no constructor in IDL" }
-BlockGITrace.prototype = Object.create(WrapperObject.prototype);
-BlockGITrace.prototype.constructor = BlockGITrace;
-BlockGITrace.prototype.__class = BlockGITrace;
-BlockGITrace.__cache = {};
-Module['BlockGITrace'] = BlockGITrace;
-BlockGITrace.prototype["__destroy"] = BlockGITrace.prototype.__destroy = function() {
-    _mud_BlockGITrace__destroy(this.__ptr);
-};
-// BlockGeometry
-function BlockGeometry() { throw "cannot construct a BlockGeometry, no constructor in IDL" }
-BlockGeometry.prototype = Object.create(WrapperObject.prototype);
-BlockGeometry.prototype.constructor = BlockGeometry;
-BlockGeometry.prototype.__class = BlockGeometry;
-BlockGeometry.__cache = {};
-Module['BlockGeometry'] = BlockGeometry;
-BlockGeometry.prototype["__destroy"] = BlockGeometry.prototype.__destroy = function() {
-    _mud_BlockGeometry__destroy(this.__ptr);
-};
-// BlockGlow
-function BlockGlow() { throw "cannot construct a BlockGlow, no constructor in IDL" }
-BlockGlow.prototype = Object.create(WrapperObject.prototype);
-BlockGlow.prototype.constructor = BlockGlow;
-BlockGlow.prototype.__class = BlockGlow;
-BlockGlow.__cache = {};
-Module['BlockGlow'] = BlockGlow;
-BlockGlow.prototype["__destroy"] = BlockGlow.prototype.__destroy = function() {
-    _mud_BlockGlow__destroy(this.__ptr);
-};
-// BlockLight
-function BlockLight() { throw "cannot construct a BlockLight, no constructor in IDL" }
-BlockLight.prototype = Object.create(WrapperObject.prototype);
-BlockLight.prototype.constructor = BlockLight;
-BlockLight.prototype.__class = BlockLight;
-BlockLight.__cache = {};
-Module['BlockLight'] = BlockLight;
-BlockLight.prototype["__destroy"] = BlockLight.prototype.__destroy = function() {
-    _mud_BlockLight__destroy(this.__ptr);
-};
-// BlockLightmap
-function BlockLightmap() { throw "cannot construct a BlockLightmap, no constructor in IDL" }
-BlockLightmap.prototype = Object.create(WrapperObject.prototype);
-BlockLightmap.prototype.constructor = BlockLightmap;
-BlockLightmap.prototype.__class = BlockLightmap;
-BlockLightmap.__cache = {};
-Module['BlockLightmap'] = BlockLightmap;
-BlockLightmap.prototype["__destroy"] = BlockLightmap.prototype.__destroy = function() {
-    _mud_BlockLightmap__destroy(this.__ptr);
-};
-// BlockRadiance
-function BlockRadiance() { throw "cannot construct a BlockRadiance, no constructor in IDL" }
-BlockRadiance.prototype = Object.create(WrapperObject.prototype);
-BlockRadiance.prototype.constructor = BlockRadiance;
-BlockRadiance.prototype.__class = BlockRadiance;
-BlockRadiance.__cache = {};
-Module['BlockRadiance'] = BlockRadiance;
-BlockRadiance.prototype["__destroy"] = BlockRadiance.prototype.__destroy = function() {
-    _mud_BlockRadiance__destroy(this.__ptr);
-};
-// BlockReflection
-function BlockReflection() { throw "cannot construct a BlockReflection, no constructor in IDL" }
-BlockReflection.prototype = Object.create(WrapperObject.prototype);
-BlockReflection.prototype.constructor = BlockReflection;
-BlockReflection.prototype.__class = BlockReflection;
-BlockReflection.__cache = {};
-Module['BlockReflection'] = BlockReflection;
-BlockReflection.prototype["__destroy"] = BlockReflection.prototype.__destroy = function() {
-    _mud_BlockReflection__destroy(this.__ptr);
-};
-// BlockShadow
-function BlockShadow() { throw "cannot construct a BlockShadow, no constructor in IDL" }
-BlockShadow.prototype = Object.create(WrapperObject.prototype);
-BlockShadow.prototype.constructor = BlockShadow;
-BlockShadow.prototype.__class = BlockShadow;
-BlockShadow.__cache = {};
-Module['BlockShadow'] = BlockShadow;
-BlockShadow.prototype["__destroy"] = BlockShadow.prototype.__destroy = function() {
-    _mud_BlockShadow__destroy(this.__ptr);
-};
-// BlockTonemap
-function BlockTonemap() { throw "cannot construct a BlockTonemap, no constructor in IDL" }
-BlockTonemap.prototype = Object.create(WrapperObject.prototype);
-BlockTonemap.prototype.constructor = BlockTonemap;
-BlockTonemap.prototype.__class = BlockTonemap;
-BlockTonemap.__cache = {};
-Module['BlockTonemap'] = BlockTonemap;
-BlockTonemap.prototype["__destroy"] = BlockTonemap.prototype.__destroy = function() {
-    _mud_BlockTonemap__destroy(this.__ptr);
-};
 // CSMShadow
 function CSMShadow() {
     this.__ptr = _mud_CSMShadow__construct_0(); this.__type = CSMShadow.__type; getCache(CSMShadow)[this.__ptr] = this;
@@ -481,6 +361,126 @@ Object.defineProperty(Tonemap.prototype, "white_point", {
 Tonemap.prototype["__destroy"] = Tonemap.prototype.__destroy = function() {
     _mud_Tonemap__destroy(this.__ptr);
 };
+// BlockBlur
+function BlockBlur() { throw "cannot construct a BlockBlur, no constructor in IDL" }
+BlockBlur.prototype = Object.create(GfxBlock.prototype);
+BlockBlur.prototype.constructor = BlockBlur;
+BlockBlur.prototype.__class = BlockBlur;
+BlockBlur.__cache = {};
+Module['BlockBlur'] = BlockBlur;
+BlockBlur.prototype["__destroy"] = BlockBlur.prototype.__destroy = function() {
+    _mud_BlockBlur__destroy(this.__ptr);
+};
+// BlockDofBlur
+function BlockDofBlur() { throw "cannot construct a BlockDofBlur, no constructor in IDL" }
+BlockDofBlur.prototype = Object.create(GfxBlock.prototype);
+BlockDofBlur.prototype.constructor = BlockDofBlur;
+BlockDofBlur.prototype.__class = BlockDofBlur;
+BlockDofBlur.__cache = {};
+Module['BlockDofBlur'] = BlockDofBlur;
+BlockDofBlur.prototype["__destroy"] = BlockDofBlur.prototype.__destroy = function() {
+    _mud_BlockDofBlur__destroy(this.__ptr);
+};
+// BlockGIBake
+function BlockGIBake() { throw "cannot construct a BlockGIBake, no constructor in IDL" }
+BlockGIBake.prototype = Object.create(DrawBlock.prototype);
+BlockGIBake.prototype.constructor = BlockGIBake;
+BlockGIBake.prototype.__class = BlockGIBake;
+BlockGIBake.__cache = {};
+Module['BlockGIBake'] = BlockGIBake;
+BlockGIBake.prototype["__destroy"] = BlockGIBake.prototype.__destroy = function() {
+    _mud_BlockGIBake__destroy(this.__ptr);
+};
+// BlockGITrace
+function BlockGITrace() { throw "cannot construct a BlockGITrace, no constructor in IDL" }
+BlockGITrace.prototype = Object.create(DrawBlock.prototype);
+BlockGITrace.prototype.constructor = BlockGITrace;
+BlockGITrace.prototype.__class = BlockGITrace;
+BlockGITrace.__cache = {};
+Module['BlockGITrace'] = BlockGITrace;
+BlockGITrace.prototype["__destroy"] = BlockGITrace.prototype.__destroy = function() {
+    _mud_BlockGITrace__destroy(this.__ptr);
+};
+// BlockGeometry
+function BlockGeometry() { throw "cannot construct a BlockGeometry, no constructor in IDL" }
+BlockGeometry.prototype = Object.create(DrawBlock.prototype);
+BlockGeometry.prototype.constructor = BlockGeometry;
+BlockGeometry.prototype.__class = BlockGeometry;
+BlockGeometry.__cache = {};
+Module['BlockGeometry'] = BlockGeometry;
+BlockGeometry.prototype["__destroy"] = BlockGeometry.prototype.__destroy = function() {
+    _mud_BlockGeometry__destroy(this.__ptr);
+};
+// BlockGlow
+function BlockGlow() { throw "cannot construct a BlockGlow, no constructor in IDL" }
+BlockGlow.prototype = Object.create(GfxBlock.prototype);
+BlockGlow.prototype.constructor = BlockGlow;
+BlockGlow.prototype.__class = BlockGlow;
+BlockGlow.__cache = {};
+Module['BlockGlow'] = BlockGlow;
+BlockGlow.prototype["__destroy"] = BlockGlow.prototype.__destroy = function() {
+    _mud_BlockGlow__destroy(this.__ptr);
+};
+// BlockLight
+function BlockLight() { throw "cannot construct a BlockLight, no constructor in IDL" }
+BlockLight.prototype = Object.create(DrawBlock.prototype);
+BlockLight.prototype.constructor = BlockLight;
+BlockLight.prototype.__class = BlockLight;
+BlockLight.__cache = {};
+Module['BlockLight'] = BlockLight;
+BlockLight.prototype["__destroy"] = BlockLight.prototype.__destroy = function() {
+    _mud_BlockLight__destroy(this.__ptr);
+};
+// BlockLightmap
+function BlockLightmap() { throw "cannot construct a BlockLightmap, no constructor in IDL" }
+BlockLightmap.prototype = Object.create(DrawBlock.prototype);
+BlockLightmap.prototype.constructor = BlockLightmap;
+BlockLightmap.prototype.__class = BlockLightmap;
+BlockLightmap.__cache = {};
+Module['BlockLightmap'] = BlockLightmap;
+BlockLightmap.prototype["__destroy"] = BlockLightmap.prototype.__destroy = function() {
+    _mud_BlockLightmap__destroy(this.__ptr);
+};
+// BlockRadiance
+function BlockRadiance() { throw "cannot construct a BlockRadiance, no constructor in IDL" }
+BlockRadiance.prototype = Object.create(DrawBlock.prototype);
+BlockRadiance.prototype.constructor = BlockRadiance;
+BlockRadiance.prototype.__class = BlockRadiance;
+BlockRadiance.__cache = {};
+Module['BlockRadiance'] = BlockRadiance;
+BlockRadiance.prototype["__destroy"] = BlockRadiance.prototype.__destroy = function() {
+    _mud_BlockRadiance__destroy(this.__ptr);
+};
+// BlockReflection
+function BlockReflection() { throw "cannot construct a BlockReflection, no constructor in IDL" }
+BlockReflection.prototype = Object.create(DrawBlock.prototype);
+BlockReflection.prototype.constructor = BlockReflection;
+BlockReflection.prototype.__class = BlockReflection;
+BlockReflection.__cache = {};
+Module['BlockReflection'] = BlockReflection;
+BlockReflection.prototype["__destroy"] = BlockReflection.prototype.__destroy = function() {
+    _mud_BlockReflection__destroy(this.__ptr);
+};
+// BlockShadow
+function BlockShadow() { throw "cannot construct a BlockShadow, no constructor in IDL" }
+BlockShadow.prototype = Object.create(DrawBlock.prototype);
+BlockShadow.prototype.constructor = BlockShadow;
+BlockShadow.prototype.__class = BlockShadow;
+BlockShadow.__cache = {};
+Module['BlockShadow'] = BlockShadow;
+BlockShadow.prototype["__destroy"] = BlockShadow.prototype.__destroy = function() {
+    _mud_BlockShadow__destroy(this.__ptr);
+};
+// BlockTonemap
+function BlockTonemap() { throw "cannot construct a BlockTonemap, no constructor in IDL" }
+BlockTonemap.prototype = Object.create(GfxBlock.prototype);
+BlockTonemap.prototype.constructor = BlockTonemap;
+BlockTonemap.prototype.__class = BlockTonemap;
+BlockTonemap.__cache = {};
+Module['BlockTonemap'] = BlockTonemap;
+BlockTonemap.prototype["__destroy"] = BlockTonemap.prototype.__destroy = function() {
+    _mud_BlockTonemap__destroy(this.__ptr);
+};
 Module['gfx']['setup_pipeline_pbr'] = function(a0) {
     _mud_gfx_setup_pipeline_pbr_1(/*gfx*/a0.__ptr);
 };
@@ -497,6 +497,17 @@ Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
 (function() {
     function setup() {
         BCS.__type = _mud_BCS__type();
+        CSMShadow.__type = _mud_CSMShadow__type();
+        DofBlur.__type = _mud_DofBlur__type();
+        DofParams.__type = _mud_DofParams__type();
+        GIProbe.__type = _mud_GIProbe__type();
+        Glow.__type = _mud_Glow__type();
+        LightShadow.__type = _mud_LightShadow__type();
+        Lightmap.__type = _mud_Lightmap__type();
+        LightmapAtlas.__type = _mud_LightmapAtlas__type();
+        LightmapItem.__type = _mud_LightmapItem__type();
+        ReflectionProbe.__type = _mud_ReflectionProbe__type();
+        Tonemap.__type = _mud_Tonemap__type();
         BlockBlur.__type = _mud_BlockBlur__type();
         BlockDofBlur.__type = _mud_BlockDofBlur__type();
         BlockGIBake.__type = _mud_BlockGIBake__type();
@@ -509,17 +520,6 @@ Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
         BlockReflection.__type = _mud_BlockReflection__type();
         BlockShadow.__type = _mud_BlockShadow__type();
         BlockTonemap.__type = _mud_BlockTonemap__type();
-        CSMShadow.__type = _mud_CSMShadow__type();
-        DofBlur.__type = _mud_DofBlur__type();
-        DofParams.__type = _mud_DofParams__type();
-        GIProbe.__type = _mud_GIProbe__type();
-        Glow.__type = _mud_Glow__type();
-        LightShadow.__type = _mud_LightShadow__type();
-        Lightmap.__type = _mud_Lightmap__type();
-        LightmapAtlas.__type = _mud_LightmapAtlas__type();
-        LightmapItem.__type = _mud_LightmapItem__type();
-        ReflectionProbe.__type = _mud_ReflectionProbe__type();
-        Tonemap.__type = _mud_Tonemap__type();
         // TonemapMode
         Module['TonemapMode'] = Module['TonemapMode'] || {};
         Module['TonemapMode']['None'] = _mud_TonemapMode_None();

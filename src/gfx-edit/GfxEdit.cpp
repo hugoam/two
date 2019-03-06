@@ -241,7 +241,7 @@ namespace mud
 			for(Program* program : gfx.programs().m_vector)
 			{
 				Widget& element = ui::element(sequence, Ref(program));
-				ui::multi_item(element, { "(program)", program->name() });
+				ui::multi_item(element, { "(program)", program->m_name.c_str() });
 			}
 
 		if(models)

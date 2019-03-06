@@ -18,44 +18,6 @@
 
 extern "C" {
 	
-	// SpaceSheet
-	mud::Type* DECL mud_SpaceSheet__type() {
-		return &mud::type<mud::SpaceSheet>();
-	}
-	void DECL mud_SpaceSheet__destroy(mud::SpaceSheet* self) {
-		delete self;
-	}
-	// Viewer
-	mud::Type* DECL mud_Viewer__type() {
-		return &mud::type<mud::Viewer>();
-	}
-	mud::Scene* DECL mud_Viewer__get_scene(mud::Viewer* self) {
-		return self->m_scene;
-	}
-	void DECL mud_Viewer__set_scene(mud::Viewer* self, mud::Scene* value) {
-		self->m_scene = value;
-	}
-	mud::Camera* DECL mud_Viewer__get_camera(mud::Viewer* self) {
-		return &self->m_camera;
-	}
-	mud::Viewport* DECL mud_Viewer__get_viewport(mud::Viewer* self) {
-		return &self->m_viewport;
-	}
-	mud::vec2* DECL mud_Viewer__get_position(mud::Viewer* self) {
-		return &self->m_position;
-	}
-	void DECL mud_Viewer__set_position(mud::Viewer* self, mud::vec2* value) {
-		self->m_position = *value;
-	}
-	mud::vec2* DECL mud_Viewer__get_size(mud::Viewer* self) {
-		return &self->m_size;
-	}
-	void DECL mud_Viewer__set_size(mud::Viewer* self, mud::vec2* value) {
-		self->m_size = *value;
-	}
-	void DECL mud_Viewer__destroy(mud::Viewer* self) {
-		delete self;
-	}
 	// ViewerController
 	mud::Type* DECL mud_ViewerController__type() {
 		return &mud::type<mud::ViewerController>();
@@ -107,11 +69,49 @@ extern "C" {
 	void DECL mud_FreeOrbitController__destroy(mud::FreeOrbitController* self) {
 		delete self;
 	}
+	// Viewer
+	mud::Type* DECL mud_Viewer__type() {
+		return &mud::type<mud::Viewer>();
+	}
+	mud::Scene* DECL mud_Viewer__get_scene(mud::Viewer* self) {
+		return self->m_scene;
+	}
+	void DECL mud_Viewer__set_scene(mud::Viewer* self, mud::Scene* value) {
+		self->m_scene = value;
+	}
+	mud::Camera* DECL mud_Viewer__get_camera(mud::Viewer* self) {
+		return &self->m_camera;
+	}
+	mud::Viewport* DECL mud_Viewer__get_viewport(mud::Viewer* self) {
+		return &self->m_viewport;
+	}
+	mud::vec2* DECL mud_Viewer__get_position(mud::Viewer* self) {
+		return &self->m_position;
+	}
+	void DECL mud_Viewer__set_position(mud::Viewer* self, mud::vec2* value) {
+		self->m_position = *value;
+	}
+	mud::vec2* DECL mud_Viewer__get_size(mud::Viewer* self) {
+		return &self->m_size;
+	}
+	void DECL mud_Viewer__set_size(mud::Viewer* self, mud::vec2* value) {
+		self->m_size = *value;
+	}
+	void DECL mud_Viewer__destroy(mud::Viewer* self) {
+		delete self;
+	}
 	// SceneViewer
 	mud::Type* DECL mud_SceneViewer__type() {
 		return &mud::type<mud::SceneViewer>();
 	}
 	void DECL mud_SceneViewer__destroy(mud::SceneViewer* self) {
+		delete self;
+	}
+	// SpaceSheet
+	mud::Type* DECL mud_SpaceSheet__type() {
+		return &mud::type<mud::SpaceSheet>();
+	}
+	void DECL mud_SpaceSheet__destroy(mud::SpaceSheet* self) {
 		delete self;
 	}
 	// TrackballController

@@ -32,44 +32,6 @@ Object.defineProperty(Process.prototype, "type", {
 Process.prototype["__destroy"] = Process.prototype.__destroy = function() {
     _mud_Process__destroy(this.__ptr);
 };
-// Script
-function Script() { throw "cannot construct a Script, no constructor in IDL" }
-Script.prototype = Object.create(WrapperObject.prototype);
-Script.prototype.constructor = Script;
-Script.prototype.__class = Script;
-Script.__cache = {};
-Module['Script'] = Script;
-Object.defineProperty(Script.prototype, "index", {
-    get: function() {
-        return _mud_Script__get_index(this.__ptr);
-    },
-    set: function(value) {
-        _mud_Script__set_index(this.__ptr, value);
-    }
-});
-Object.defineProperty(Script.prototype, "type", {
-    get: function() {
-        return wrapPointer(_mud_Script__get_type(this.__ptr), Type);
-    }});
-Object.defineProperty(Script.prototype, "name", {
-    get: function() {
-        return Pointer_stringify(_mud_Script__get_name(this.__ptr));
-    },
-    set: function(value) {
-        _mud_Script__set_name(this.__ptr, ensureString(value));
-    }
-});
-Object.defineProperty(Script.prototype, "locked", {
-    get: function() {
-        return !!(_mud_Script__get_locked(this.__ptr));
-    },
-    set: function(value) {
-        _mud_Script__set_locked(this.__ptr, value);
-    }
-});
-Script.prototype["__destroy"] = Script.prototype.__destroy = function() {
-    _mud_Script__destroy(this.__ptr);
-};
 // ScriptClass
 ScriptClass.prototype = Object.create(WrapperObject.prototype);
 ScriptClass.prototype.constructor = ScriptClass;
@@ -267,6 +229,44 @@ Module['ProcessValue'] = ProcessValue;
 ProcessValue.prototype["__destroy"] = ProcessValue.prototype.__destroy = function() {
     _mud_ProcessValue__destroy(this.__ptr);
 };
+// Script
+function Script() { throw "cannot construct a Script, no constructor in IDL" }
+Script.prototype = Object.create(Callable.prototype);
+Script.prototype.constructor = Script;
+Script.prototype.__class = Script;
+Script.__cache = {};
+Module['Script'] = Script;
+Object.defineProperty(Script.prototype, "index", {
+    get: function() {
+        return _mud_Script__get_index(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Script__set_index(this.__ptr, value);
+    }
+});
+Object.defineProperty(Script.prototype, "type", {
+    get: function() {
+        return wrapPointer(_mud_Script__get_type(this.__ptr), Type);
+    }});
+Object.defineProperty(Script.prototype, "name", {
+    get: function() {
+        return Pointer_stringify(_mud_Script__get_name(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Script__set_name(this.__ptr, ensureString(value));
+    }
+});
+Object.defineProperty(Script.prototype, "locked", {
+    get: function() {
+        return !!(_mud_Script__get_locked(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Script__set_locked(this.__ptr, value);
+    }
+});
+Script.prototype["__destroy"] = Script.prototype.__destroy = function() {
+    _mud_Script__destroy(this.__ptr);
+};
 // Stream
 function Stream() { throw "cannot construct a Stream, no constructor in IDL" }
 Stream.prototype = Object.create(StreamBranch.prototype);
@@ -345,7 +345,6 @@ WrenInterpreter.prototype["__destroy"] = WrenInterpreter.prototype.__destroy = f
         Interpreter.__type = _mud_Interpreter__type();
         Pipe.__type = _mud_Pipe__type();
         Process.__type = _mud_Process__type();
-        Script.__type = _mud_Script__type();
         ScriptClass.__type = _mud_ScriptClass__type();
         ScriptError.__type = _mud_ScriptError__type();
         StreamBranch.__type = _mud_StreamBranch__type();
@@ -362,6 +361,7 @@ WrenInterpreter.prototype["__destroy"] = WrenInterpreter.prototype.__destroy = f
         ProcessScript.__type = _mud_ProcessScript__type();
         ProcessSetMember.__type = _mud_ProcessSetMember__type();
         ProcessValue.__type = _mud_ProcessValue__type();
+        Script.__type = _mud_Script__type();
         Stream.__type = _mud_Stream__type();
         TextScript.__type = _mud_TextScript__type();
         VisualScript.__type = _mud_VisualScript__type();

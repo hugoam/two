@@ -65,8 +65,7 @@ if(typeof this.state == 'undefined') {
         var inner = scene.items().add(new two.Item(node, sphere0, 0, app.gfx.symbol_material(new two.Symbol(color), two.PLAIN)));// * intensity));
         var outer = scene.items().add(new two.Item(node, sphere1, 0, this.spheremat));
         
-        console.log(two.LightType.Point);
-        var light = scene.lights().add(new two.Light(node, two.LightType.Point, true, color, intensity, range)); //, 0.6));// intensity);
+        var light = scene.lights().add(new two.Light(node, two.LightType.Point, false, color, intensity, range)); //, 0.6));// intensity);
         //light.shadow_bias = 0.005;
         
         this.lights.push(node);

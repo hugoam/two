@@ -25,6 +25,17 @@ namespace mud
     
     
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BCS>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMShadow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofParams>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::GIProbe>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Glow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightShadow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Lightmap>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapAtlas>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapItem>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ReflectionProbe>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Tonemap>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockBlur>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockDofBlur>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGIBake>();
@@ -37,15 +48,4 @@ namespace mud
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockReflection>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockShadow>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockTonemap>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMShadow>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofParams>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::GIProbe>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Glow>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightShadow>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Lightmap>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapAtlas>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapItem>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ReflectionProbe>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Tonemap>();
 }

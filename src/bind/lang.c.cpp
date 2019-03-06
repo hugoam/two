@@ -38,34 +38,6 @@ extern "C" {
 	void DECL mud_Process__destroy(mud::Process* self) {
 		delete self;
 	}
-	// Script
-	mud::Type* DECL mud_Script__type() {
-		return &mud::type<mud::Script>();
-	}
-	uint32_t DECL mud_Script__get_index(mud::Script* self) {
-		return self->m_index;
-	}
-	void DECL mud_Script__set_index(mud::Script* self, uint32_t value) {
-		self->m_index = value;
-	}
-	mud::Type* DECL mud_Script__get_type(mud::Script* self) {
-		return &self->m_type;
-	}
-	const char* DECL mud_Script__get_name(mud::Script* self) {
-		return self->m_name.c_str();
-	}
-	void DECL mud_Script__set_name(mud::Script* self, const char* value) {
-		self->m_name = value;
-	}
-	bool DECL mud_Script__get_locked(mud::Script* self) {
-		return self->m_locked;
-	}
-	void DECL mud_Script__set_locked(mud::Script* self, bool value) {
-		self->m_locked = value;
-	}
-	void DECL mud_Script__destroy(mud::Script* self) {
-		delete self;
-	}
 	// ScriptClass
 	mud::Type* DECL mud_ScriptClass__type() {
 		return &mud::type<mud::ScriptClass>();
@@ -218,6 +190,34 @@ extern "C" {
 		return new mud::ProcessValue(*script, *value);
 	}
 	void DECL mud_ProcessValue__destroy(mud::ProcessValue* self) {
+		delete self;
+	}
+	// Script
+	mud::Type* DECL mud_Script__type() {
+		return &mud::type<mud::Script>();
+	}
+	uint32_t DECL mud_Script__get_index(mud::Script* self) {
+		return self->m_index;
+	}
+	void DECL mud_Script__set_index(mud::Script* self, uint32_t value) {
+		self->m_index = value;
+	}
+	mud::Type* DECL mud_Script__get_type(mud::Script* self) {
+		return &self->m_type;
+	}
+	const char* DECL mud_Script__get_name(mud::Script* self) {
+		return self->m_name.c_str();
+	}
+	void DECL mud_Script__set_name(mud::Script* self, const char* value) {
+		self->m_name = value;
+	}
+	bool DECL mud_Script__get_locked(mud::Script* self) {
+		return self->m_locked;
+	}
+	void DECL mud_Script__set_locked(mud::Script* self, bool value) {
+		self->m_locked = value;
+	}
+	void DECL mud_Script__destroy(mud::Script* self) {
 		delete self;
 	}
 	// Stream

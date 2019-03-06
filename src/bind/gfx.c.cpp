@@ -2117,7 +2117,10 @@ extern "C" {
 		return &mud::type<mud::Program>();
 	}
 	const char* DECL mud_Program__get_name(mud::Program* self) {
-		return self->name();
+		return self->m_name.c_str();
+	}
+	void DECL mud_Program__set_name(mud::Program* self, const char* value) {
+		self->m_name = value;
 	}
 	void DECL mud_Program__destroy(mud::Program* self) {
 		delete self;

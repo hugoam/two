@@ -25,7 +25,6 @@ using namespace mud;
 void mud_Language__to_string(void* val, string& str) { str = g_enu[type<mud::Language>().m_id]->name(uint32_t((*static_cast<mud::Language*>(val)))); }
 void mud_Language__to_value(const string& str, void* val) { (*static_cast<mud::Language*>(val)) = mud::Language(g_enu[type<mud::Language>().m_id]->value(str.c_str())); }
 void* mud_Process__get_type(void* object) { return &(*static_cast<mud::Process*>(object)).m_type; }
-void* mud_Script__get_type(void* object) { return &(*static_cast<mud::Script*>(object)).m_type; }
 void mud_ScriptClass__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ScriptClass( *static_cast<stl::string*>(args[0]), *static_cast<stl::span<mud::Type*>*>(args[1]) ); }
 void mud_ScriptError__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ScriptError(  ); }
 void mud_ScriptError__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ScriptError((*static_cast<mud::ScriptError*>(other))); }
@@ -37,6 +36,7 @@ void mud_ProcessMethod__construct_0(void* ref, span<void*> args) { new(stl::plac
 void mud_ProcessScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessScript( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::VisualScript*>(args[1]) ); }
 void mud_ProcessSetMember__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessSetMember( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Member*>(args[1]) ); }
 void mud_ProcessValue__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessValue( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Var*>(args[1]) ); }
+void* mud_Script__get_type(void* object) { return &(*static_cast<mud::Script*>(object)).m_type; }
 void mud_TextScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::TextScript( *static_cast<stl::string*>(args[0]), *static_cast<mud::Language*>(args[1]), *static_cast<mud::Signature*>(args[2]) ); }
 void mud_VisualScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::VisualScript( *static_cast<stl::string*>(args[0]), *static_cast<mud::Signature*>(args[1]) ); }
 
@@ -101,25 +101,6 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Process__get_type }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
-	}
-	// mud::Script
-	{
-		Type& t = type<mud::Script>();
-		static Meta meta = { t, &namspc({ "mud" }), "Script", sizeof(mud::Script), TypeClass::Object };
-		// bases
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		static Member members[] = {
-			{ t, offsetof(mud::Script, m_index), type<uint32_t>(), "index", nullptr, Member::Value, nullptr },
-			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Script__get_type },
-			{ t, offsetof(mud::Script, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Script, m_locked), type<bool>(), "locked", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -299,8 +280,8 @@ namespace mud
 		Type& t = type<mud::ProcessInput>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessInput", sizeof(mud::ProcessInput), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Process>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessInput, mud::Process>() };
+		static Type* bases[] = { &type<mud::Process>(), &type<mud::Param>() };
+		static size_t bases_offsets[] = { base_offset<mud::ProcessInput, mud::Process>(), base_offset<mud::ProcessInput, mud::Param>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -332,8 +313,8 @@ namespace mud
 		Type& t = type<mud::ProcessOutput>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessOutput", sizeof(mud::ProcessOutput), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Process>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessOutput, mud::Process>() };
+		static Type* bases[] = { &type<mud::Process>(), &type<mud::Param>() };
+		static size_t bases_offsets[] = { base_offset<mud::ProcessOutput, mud::Process>(), base_offset<mud::ProcessOutput, mud::Param>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -395,6 +376,27 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
+	}
+	// mud::Script
+	{
+		Type& t = type<mud::Script>();
+		static Meta meta = { t, &namspc({ "mud" }), "Script", sizeof(mud::Script), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Callable>() };
+		static size_t bases_offsets[] = { base_offset<mud::Script, mud::Callable>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Script, m_index), type<uint32_t>(), "index", nullptr, Member::Value, nullptr },
+			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Script__get_type },
+			{ t, offsetof(mud::Script, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Script, m_locked), type<bool>(), "locked", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, members, {}, {}, };
 	}
 	// mud::Stream
 	{
@@ -475,7 +477,6 @@ namespace mud
 		m.m_types.push_back(&type<mud::Language>());
 		m.m_types.push_back(&type<mud::Pipe>());
 		m.m_types.push_back(&type<mud::Process>());
-		m.m_types.push_back(&type<mud::Script>());
 		m.m_types.push_back(&type<mud::ScriptClass>());
 		m.m_types.push_back(&type<mud::ScriptError>());
 		m.m_types.push_back(&type<mud::StreamBranch>());
@@ -492,6 +493,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::ProcessScript>());
 		m.m_types.push_back(&type<mud::ProcessSetMember>());
 		m.m_types.push_back(&type<mud::ProcessValue>());
+		m.m_types.push_back(&type<mud::Script>());
 		m.m_types.push_back(&type<mud::Stream>());
 		m.m_types.push_back(&type<mud::TextScript>());
 		m.m_types.push_back(&type<mud::VisualScript>());

@@ -2649,7 +2649,11 @@ Module['Program'] = Program;
 Object.defineProperty(Program.prototype, "name", {
     get: function() {
         return Pointer_stringify(_mud_Program__get_name(this.__ptr));
-    }});
+    },
+    set: function(value) {
+        _mud_Program__set_name(this.__ptr, ensureString(value));
+    }
+});
 Program.prototype["__destroy"] = Program.prototype.__destroy = function() {
     _mud_Program__destroy(this.__ptr);
 };

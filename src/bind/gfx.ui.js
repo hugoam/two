@@ -1,56 +1,4 @@
 Module['ui'] = Module['ui'] || {};
-// SpaceSheet
-function SpaceSheet() { throw "cannot construct a SpaceSheet, no constructor in IDL" }
-SpaceSheet.prototype = Object.create(WrapperObject.prototype);
-SpaceSheet.prototype.constructor = SpaceSheet;
-SpaceSheet.prototype.__class = SpaceSheet;
-SpaceSheet.__cache = {};
-Module['SpaceSheet'] = SpaceSheet;
-SpaceSheet.prototype["__destroy"] = SpaceSheet.prototype.__destroy = function() {
-    _mud_SpaceSheet__destroy(this.__ptr);
-};
-// Viewer
-function Viewer() { throw "cannot construct a Viewer, no constructor in IDL" }
-Viewer.prototype = Object.create(WrapperObject.prototype);
-Viewer.prototype.constructor = Viewer;
-Viewer.prototype.__class = Viewer;
-Viewer.__cache = {};
-Module['Viewer'] = Viewer;
-Object.defineProperty(Viewer.prototype, "scene", {
-    get: function() {
-        return wrapPointer(_mud_Viewer__get_scene(this.__ptr), Scene);
-    },
-    set: function(value) {
-        _mud_Viewer__set_scene(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Viewer.prototype, "camera", {
-    get: function() {
-        return wrapPointer(_mud_Viewer__get_camera(this.__ptr), Camera);
-    }});
-Object.defineProperty(Viewer.prototype, "viewport", {
-    get: function() {
-        return wrapPointer(_mud_Viewer__get_viewport(this.__ptr), Viewport);
-    }});
-Object.defineProperty(Viewer.prototype, "position", {
-    get: function() {
-        return wrapPointer(_mud_Viewer__get_position(this.__ptr), v2_float);
-    },
-    set: function(value) {
-        _mud_Viewer__set_position(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Viewer.prototype, "size", {
-    get: function() {
-        return wrapPointer(_mud_Viewer__get_size(this.__ptr), v2_float);
-    },
-    set: function(value) {
-        _mud_Viewer__set_size(this.__ptr, value.__ptr);
-    }
-});
-Viewer.prototype["__destroy"] = Viewer.prototype.__destroy = function() {
-    _mud_Viewer__destroy(this.__ptr);
-};
 // ViewerController
 function ViewerController() { throw "cannot construct a ViewerController, no constructor in IDL" }
 ViewerController.prototype = Object.create(WrapperObject.prototype);
@@ -119,6 +67,48 @@ Module['FreeOrbitController'] = FreeOrbitController;
 FreeOrbitController.prototype["__destroy"] = FreeOrbitController.prototype.__destroy = function() {
     _mud_FreeOrbitController__destroy(this.__ptr);
 };
+// Viewer
+function Viewer() { throw "cannot construct a Viewer, no constructor in IDL" }
+Viewer.prototype = Object.create(Widget.prototype);
+Viewer.prototype.constructor = Viewer;
+Viewer.prototype.__class = Viewer;
+Viewer.__cache = {};
+Module['Viewer'] = Viewer;
+Object.defineProperty(Viewer.prototype, "scene", {
+    get: function() {
+        return wrapPointer(_mud_Viewer__get_scene(this.__ptr), Scene);
+    },
+    set: function(value) {
+        _mud_Viewer__set_scene(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Viewer.prototype, "camera", {
+    get: function() {
+        return wrapPointer(_mud_Viewer__get_camera(this.__ptr), Camera);
+    }});
+Object.defineProperty(Viewer.prototype, "viewport", {
+    get: function() {
+        return wrapPointer(_mud_Viewer__get_viewport(this.__ptr), Viewport);
+    }});
+Object.defineProperty(Viewer.prototype, "position", {
+    get: function() {
+        return wrapPointer(_mud_Viewer__get_position(this.__ptr), v2_float);
+    },
+    set: function(value) {
+        _mud_Viewer__set_position(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Viewer.prototype, "size", {
+    get: function() {
+        return wrapPointer(_mud_Viewer__get_size(this.__ptr), v2_float);
+    },
+    set: function(value) {
+        _mud_Viewer__set_size(this.__ptr, value.__ptr);
+    }
+});
+Viewer.prototype["__destroy"] = Viewer.prototype.__destroy = function() {
+    _mud_Viewer__destroy(this.__ptr);
+};
 // SceneViewer
 function SceneViewer() { throw "cannot construct a SceneViewer, no constructor in IDL" }
 SceneViewer.prototype = Object.create(Viewer.prototype);
@@ -128,6 +118,16 @@ SceneViewer.__cache = {};
 Module['SceneViewer'] = SceneViewer;
 SceneViewer.prototype["__destroy"] = SceneViewer.prototype.__destroy = function() {
     _mud_SceneViewer__destroy(this.__ptr);
+};
+// SpaceSheet
+function SpaceSheet() { throw "cannot construct a SpaceSheet, no constructor in IDL" }
+SpaceSheet.prototype = Object.create(Ui.prototype);
+SpaceSheet.prototype.constructor = SpaceSheet;
+SpaceSheet.prototype.__class = SpaceSheet;
+SpaceSheet.__cache = {};
+Module['SpaceSheet'] = SpaceSheet;
+SpaceSheet.prototype["__destroy"] = SpaceSheet.prototype.__destroy = function() {
+    _mud_SpaceSheet__destroy(this.__ptr);
 };
 // TrackballController
 function TrackballController() { throw "cannot construct a TrackballController, no constructor in IDL" }
@@ -173,12 +173,12 @@ Module['ui']['velocity_controller'] = function(a0, a1, a2, a3) {
 
 (function() {
     function setup() {
-        SpaceSheet.__type = _mud_SpaceSheet__type();
-        Viewer.__type = _mud_Viewer__type();
         ViewerController.__type = _mud_ViewerController__type();
         OrbitController.__type = _mud_OrbitController__type();
         FreeOrbitController.__type = _mud_FreeOrbitController__type();
+        Viewer.__type = _mud_Viewer__type();
         SceneViewer.__type = _mud_SceneViewer__type();
+        SpaceSheet.__type = _mud_SpaceSheet__type();
         TrackballController.__type = _mud_TrackballController__type();
         // OrbitMode
         Module['ui']['OrbitMode'] = Module['ui']['OrbitMode'] || {};

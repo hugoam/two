@@ -729,139 +729,6 @@ extern "C" {
 	void DECL mud_Vg__destroy(mud::Vg* self) {
 		delete self;
 	}
-	// Widget
-	mud::Type* DECL mud_Widget__type() {
-		return &mud::type<mud::Widget>();
-	}
-	bool DECL mud_Widget_focused_0(mud::Widget* self) {
-		return self->focused();
-	}
-	bool DECL mud_Widget_hovered_0(mud::Widget* self) {
-		return self->hovered();
-	}
-	bool DECL mud_Widget_pressed_0(mud::Widget* self) {
-		return self->pressed();
-	}
-	bool DECL mud_Widget_activated_0(mud::Widget* self) {
-		return self->activated();
-	}
-	bool DECL mud_Widget_selected_0(mud::Widget* self) {
-		return self->selected();
-	}
-	bool DECL mud_Widget_modal_0(mud::Widget* self) {
-		return self->modal();
-	}
-	bool DECL mud_Widget_closed_0(mud::Widget* self) {
-		return self->closed();
-	}
-	mud::UiWindow* DECL mud_Widget_ui_window_0(mud::Widget* self) {
-		return &self->ui_window();
-	}
-	mud::Ui* DECL mud_Widget_ui_0(mud::Widget* self) {
-		return &self->ui();
-	}
-	mud::Widget* DECL mud_Widget_parent_modal_0(mud::Widget* self) {
-		return &self->parent_modal();
-	}
-	void DECL mud_Widget_toggle_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->toggle_state(state);
-	}
-	void DECL mud_Widget_disable_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->disable_state(state);
-	}
-	void DECL mud_Widget_set_state_2(mud::Widget* self, mud::WidgetState state, bool enabled) {
-		self->set_state(state, enabled);
-	}
-	void DECL mud_Widget_enable_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->enable_state(state);
-	}
-	void DECL mud_Widget_clear_focus_0(mud::Widget* self) {
-		self->clear_focus();
-	}
-	void DECL mud_Widget_take_focus_0(mud::Widget* self) {
-		self->take_focus();
-	}
-	void DECL mud_Widget_yield_focus_0(mud::Widget* self) {
-		self->yield_focus();
-	}
-	void DECL mud_Widget_take_modal_1(mud::Widget* self, uint32_t device_filter) {
-		self->take_modal(device_filter);
-	}
-	void DECL mud_Widget_yield_modal_0(mud::Widget* self) {
-		self->yield_modal();
-	}
-	mud::KeyEvent* DECL mud_Widget_key_event_2(mud::Widget* self, mud::Key code, mud::EventType event_type) {
-		static mud::KeyEvent temp;
-		return (temp = self->key_event(code, event_type), &temp);
-	}
-	mud::KeyEvent* DECL mud_Widget_key_event_3(mud::Widget* self, mud::Key code, mud::EventType event_type, mud::InputMod modifier) {
-		static mud::KeyEvent temp;
-		return (temp = self->key_event(code, event_type, modifier), &temp);
-	}
-	mud::KeyEvent* DECL mud_Widget_key_stroke_1(mud::Widget* self, mud::Key code) {
-		static mud::KeyEvent temp;
-		return (temp = self->key_stroke(code), &temp);
-	}
-	mud::KeyEvent* DECL mud_Widget_key_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
-		static mud::KeyEvent temp;
-		return (temp = self->key_stroke(code, modifier), &temp);
-	}
-	mud::KeyEvent* DECL mud_Widget_char_stroke_1(mud::Widget* self, mud::Key code) {
-		static mud::KeyEvent temp;
-		return (temp = self->char_stroke(code), &temp);
-	}
-	mud::KeyEvent* DECL mud_Widget_char_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
-		static mud::KeyEvent temp;
-		return (temp = self->char_stroke(code, modifier), &temp);
-	}
-	mud::MouseEvent* DECL mud_Widget_mouse_event_2(mud::Widget* self, mud::DeviceType device, mud::EventType event_type) {
-		static mud::MouseEvent temp;
-		return (temp = self->mouse_event(device, event_type), &temp);
-	}
-	mud::MouseEvent* DECL mud_Widget_mouse_event_3(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier) {
-		static mud::MouseEvent temp;
-		return (temp = self->mouse_event(device, event_type, modifier), &temp);
-	}
-	mud::MouseEvent* DECL mud_Widget_mouse_event_4(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier, bool consume) {
-		static mud::MouseEvent temp;
-		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
-	}
-	mud::Frame* DECL mud_Widget__get_frame(mud::Widget* self) {
-		return &self->m_frame;
-	}
-	mud::WidgetState DECL mud_Widget__get_state(mud::Widget* self) {
-		return self->m_state;
-	}
-	void DECL mud_Widget__set_state(mud::Widget* self, mud::WidgetState value) {
-		self->m_state = value;
-	}
-	uint32_t DECL mud_Widget__get_switch(mud::Widget* self) {
-		return self->m_switch;
-	}
-	void DECL mud_Widget__set_switch(mud::Widget* self, uint32_t value) {
-		self->m_switch = value;
-	}
-	size_t DECL mud_Widget__get_index(mud::Widget* self) {
-		return self->m_index;
-	}
-	void DECL mud_Widget__set_index(mud::Widget* self, size_t value) {
-		self->m_index = value;
-	}
-	bool DECL mud_Widget__get_open(mud::Widget* self) {
-		return self->m_open;
-	}
-	void DECL mud_Widget__set_open(mud::Widget* self, bool value) {
-		self->m_open = value;
-	}
-	mud::Widget* DECL mud_Widget__get_body(mud::Widget* self) {
-		return self->m_body;
-	}
-	void DECL mud_Widget__set_body(mud::Widget* self, mud::Widget* value) {
-		self->m_body = value;
-	}
-	void DECL mud_Widget__destroy(mud::Widget* self) {
-		delete self;
-	}
 	// v2<mud::Align>
 	mud::Type* DECL mud_v2_mud_Align__type() {
 		return &mud::type<mud::v2<mud::Align>>();
@@ -1119,6 +986,139 @@ extern "C" {
 		return &mud::type<mud::TextEdit>();
 	}
 	void DECL mud_TextEdit__destroy(mud::TextEdit* self) {
+		delete self;
+	}
+	// Widget
+	mud::Type* DECL mud_Widget__type() {
+		return &mud::type<mud::Widget>();
+	}
+	bool DECL mud_Widget_focused_0(mud::Widget* self) {
+		return self->focused();
+	}
+	bool DECL mud_Widget_hovered_0(mud::Widget* self) {
+		return self->hovered();
+	}
+	bool DECL mud_Widget_pressed_0(mud::Widget* self) {
+		return self->pressed();
+	}
+	bool DECL mud_Widget_activated_0(mud::Widget* self) {
+		return self->activated();
+	}
+	bool DECL mud_Widget_selected_0(mud::Widget* self) {
+		return self->selected();
+	}
+	bool DECL mud_Widget_modal_0(mud::Widget* self) {
+		return self->modal();
+	}
+	bool DECL mud_Widget_closed_0(mud::Widget* self) {
+		return self->closed();
+	}
+	mud::UiWindow* DECL mud_Widget_ui_window_0(mud::Widget* self) {
+		return &self->ui_window();
+	}
+	mud::Ui* DECL mud_Widget_ui_0(mud::Widget* self) {
+		return &self->ui();
+	}
+	mud::Widget* DECL mud_Widget_parent_modal_0(mud::Widget* self) {
+		return &self->parent_modal();
+	}
+	void DECL mud_Widget_toggle_state_1(mud::Widget* self, mud::WidgetState state) {
+		self->toggle_state(state);
+	}
+	void DECL mud_Widget_disable_state_1(mud::Widget* self, mud::WidgetState state) {
+		self->disable_state(state);
+	}
+	void DECL mud_Widget_set_state_2(mud::Widget* self, mud::WidgetState state, bool enabled) {
+		self->set_state(state, enabled);
+	}
+	void DECL mud_Widget_enable_state_1(mud::Widget* self, mud::WidgetState state) {
+		self->enable_state(state);
+	}
+	void DECL mud_Widget_clear_focus_0(mud::Widget* self) {
+		self->clear_focus();
+	}
+	void DECL mud_Widget_take_focus_0(mud::Widget* self) {
+		self->take_focus();
+	}
+	void DECL mud_Widget_yield_focus_0(mud::Widget* self) {
+		self->yield_focus();
+	}
+	void DECL mud_Widget_take_modal_1(mud::Widget* self, uint32_t device_filter) {
+		self->take_modal(device_filter);
+	}
+	void DECL mud_Widget_yield_modal_0(mud::Widget* self) {
+		self->yield_modal();
+	}
+	mud::KeyEvent* DECL mud_Widget_key_event_2(mud::Widget* self, mud::Key code, mud::EventType event_type) {
+		static mud::KeyEvent temp;
+		return (temp = self->key_event(code, event_type), &temp);
+	}
+	mud::KeyEvent* DECL mud_Widget_key_event_3(mud::Widget* self, mud::Key code, mud::EventType event_type, mud::InputMod modifier) {
+		static mud::KeyEvent temp;
+		return (temp = self->key_event(code, event_type, modifier), &temp);
+	}
+	mud::KeyEvent* DECL mud_Widget_key_stroke_1(mud::Widget* self, mud::Key code) {
+		static mud::KeyEvent temp;
+		return (temp = self->key_stroke(code), &temp);
+	}
+	mud::KeyEvent* DECL mud_Widget_key_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
+		static mud::KeyEvent temp;
+		return (temp = self->key_stroke(code, modifier), &temp);
+	}
+	mud::KeyEvent* DECL mud_Widget_char_stroke_1(mud::Widget* self, mud::Key code) {
+		static mud::KeyEvent temp;
+		return (temp = self->char_stroke(code), &temp);
+	}
+	mud::KeyEvent* DECL mud_Widget_char_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
+		static mud::KeyEvent temp;
+		return (temp = self->char_stroke(code, modifier), &temp);
+	}
+	mud::MouseEvent* DECL mud_Widget_mouse_event_2(mud::Widget* self, mud::DeviceType device, mud::EventType event_type) {
+		static mud::MouseEvent temp;
+		return (temp = self->mouse_event(device, event_type), &temp);
+	}
+	mud::MouseEvent* DECL mud_Widget_mouse_event_3(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier) {
+		static mud::MouseEvent temp;
+		return (temp = self->mouse_event(device, event_type, modifier), &temp);
+	}
+	mud::MouseEvent* DECL mud_Widget_mouse_event_4(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier, bool consume) {
+		static mud::MouseEvent temp;
+		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
+	}
+	mud::Frame* DECL mud_Widget__get_frame(mud::Widget* self) {
+		return &self->m_frame;
+	}
+	mud::WidgetState DECL mud_Widget__get_state(mud::Widget* self) {
+		return self->m_state;
+	}
+	void DECL mud_Widget__set_state(mud::Widget* self, mud::WidgetState value) {
+		self->m_state = value;
+	}
+	uint32_t DECL mud_Widget__get_switch(mud::Widget* self) {
+		return self->m_switch;
+	}
+	void DECL mud_Widget__set_switch(mud::Widget* self, uint32_t value) {
+		self->m_switch = value;
+	}
+	size_t DECL mud_Widget__get_index(mud::Widget* self) {
+		return self->m_index;
+	}
+	void DECL mud_Widget__set_index(mud::Widget* self, size_t value) {
+		self->m_index = value;
+	}
+	bool DECL mud_Widget__get_open(mud::Widget* self) {
+		return self->m_open;
+	}
+	void DECL mud_Widget__set_open(mud::Widget* self, bool value) {
+		self->m_open = value;
+	}
+	mud::Widget* DECL mud_Widget__get_body(mud::Widget* self) {
+		return self->m_body;
+	}
+	void DECL mud_Widget__set_body(mud::Widget* self, mud::Widget* value) {
+		self->m_body = value;
+	}
+	void DECL mud_Widget__destroy(mud::Widget* self) {
 		delete self;
 	}
 	// TreeNode

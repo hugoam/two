@@ -55,9 +55,8 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene.begin();
 
-	static string source = create_shader();
-
-	static Program program = { "custom_program", {}, { nullptr, source.c_str(), nullptr, nullptr } };
+	static Program program = { "custom_program" };
+	program.m_sources[ShaderType::Fragment] = create_shader();
 
 	auto draw_quad = [](Render& render, const Pass& render_pass)
 	{

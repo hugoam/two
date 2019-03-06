@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <stl/decls.h>
+#include <stl/string.h>
 #include <stl/span.h>
 #include <stl/table.h>
 #include <type/Unique.h>
@@ -72,10 +72,9 @@ namespace mud
 
 	public:
 		Program(const string& name, bool compute = false);
-		Program(const string& name, span<GfxBlock*> blocks, span<cstring> sources);
 		~Program();
 
-		attr_ cstring name() const;
+		attr_ string m_name;
 
 		string defines(const ShaderVersion& version) const;
 
@@ -109,7 +108,7 @@ namespace mud
 		ProgramBlock m_shader_blocks[32];
 		uint8_t m_next_option = 0;
 
-		table<ShaderType, cstring> m_sources = {};
+		table<ShaderType, string> m_sources = {};
 		table<MaterialBlock, bool> m_blocks = {};
 
 		bool m_compute = false;

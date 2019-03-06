@@ -93,6 +93,26 @@ void mud_TextSelection__construct_0(void* ref, span<void*> args) { UNUSED(args);
 void mud_TextSelection__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::TextSelection((*static_cast<mud::TextSelection*>(other))); }
 void mud_UiRect__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::UiRect(  ); }
 void mud_UiRect__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::UiRect((*static_cast<mud::UiRect*>(other))); }
+void mud_v2_mud_Align__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<mud::Align>(  ); }
+void mud_v2_mud_Align__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Align>( *static_cast<mud::Align*>(args[0]) ); }
+void mud_v2_mud_Align__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Align>( *static_cast<mud::Align*>(args[0]), *static_cast<mud::Align*>(args[1]) ); }
+void mud_v2_mud_Align__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<mud::Align>((*static_cast<mud::v2<mud::Align>*>(other))); }
+void mud_v2_mud_AutoLayout__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<mud::AutoLayout>(  ); }
+void mud_v2_mud_AutoLayout__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::AutoLayout>( *static_cast<mud::AutoLayout*>(args[0]) ); }
+void mud_v2_mud_AutoLayout__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::AutoLayout>( *static_cast<mud::AutoLayout*>(args[0]), *static_cast<mud::AutoLayout*>(args[1]) ); }
+void mud_v2_mud_AutoLayout__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<mud::AutoLayout>((*static_cast<mud::v2<mud::AutoLayout>*>(other))); }
+void mud_v2_mud_Pivot__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<mud::Pivot>(  ); }
+void mud_v2_mud_Pivot__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Pivot>( *static_cast<mud::Pivot*>(args[0]) ); }
+void mud_v2_mud_Pivot__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Pivot>( *static_cast<mud::Pivot*>(args[0]), *static_cast<mud::Pivot*>(args[1]) ); }
+void mud_v2_mud_Pivot__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<mud::Pivot>((*static_cast<mud::v2<mud::Pivot>*>(other))); }
+void mud_v2_mud_Sizing__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<mud::Sizing>(  ); }
+void mud_v2_mud_Sizing__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Sizing>( *static_cast<mud::Sizing*>(args[0]) ); }
+void mud_v2_mud_Sizing__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Sizing>( *static_cast<mud::Sizing*>(args[0]), *static_cast<mud::Sizing*>(args[1]) ); }
+void mud_v2_mud_Sizing__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<mud::Sizing>((*static_cast<mud::v2<mud::Sizing>*>(other))); }
+void mud_v2_size_t__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<size_t>(  ); }
+void mud_v2_size_t__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<size_t>( *static_cast<size_t*>(args[0]) ); }
+void mud_v2_size_t__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<size_t>( *static_cast<size_t*>(args[0]), *static_cast<size_t*>(args[1]) ); }
+void mud_v2_size_t__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<size_t>((*static_cast<mud::v2<size_t>*>(other))); }
 void mud_Widget_focused(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).focused(); }
 void mud_Widget_hovered(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).hovered(); }
 void mud_Widget_pressed(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Widget*>(object)).pressed(); }
@@ -116,26 +136,6 @@ void mud_Widget_key_event(void* object, span<void*> args, void*& result) { (*sta
 void mud_Widget_key_stroke(void* object, span<void*> args, void*& result) { (*static_cast<mud::KeyEvent*>(result)) = (*static_cast<mud::Widget*>(object)).key_stroke(*static_cast<mud::Key*>(args[0]), *static_cast<mud::InputMod*>(args[1])); }
 void mud_Widget_char_stroke(void* object, span<void*> args, void*& result) { (*static_cast<mud::KeyEvent*>(result)) = (*static_cast<mud::Widget*>(object)).char_stroke(*static_cast<mud::Key*>(args[0]), *static_cast<mud::InputMod*>(args[1])); }
 void mud_Widget_mouse_event(void* object, span<void*> args, void*& result) { (*static_cast<mud::MouseEvent*>(result)) = (*static_cast<mud::Widget*>(object)).mouse_event(*static_cast<mud::DeviceType*>(args[0]), *static_cast<mud::EventType*>(args[1]), *static_cast<mud::InputMod*>(args[2]), *static_cast<bool*>(args[3])); }
-void mud_v2_mud_Align__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<mud::Align>(  ); }
-void mud_v2_mud_Align__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Align>( *static_cast<mud::Align*>(args[0]) ); }
-void mud_v2_mud_Align__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Align>( *static_cast<mud::Align*>(args[0]), *static_cast<mud::Align*>(args[1]) ); }
-void mud_v2_mud_Align__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<mud::Align>((*static_cast<mud::v2<mud::Align>*>(other))); }
-void mud_v2_mud_AutoLayout__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<mud::AutoLayout>(  ); }
-void mud_v2_mud_AutoLayout__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::AutoLayout>( *static_cast<mud::AutoLayout*>(args[0]) ); }
-void mud_v2_mud_AutoLayout__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::AutoLayout>( *static_cast<mud::AutoLayout*>(args[0]), *static_cast<mud::AutoLayout*>(args[1]) ); }
-void mud_v2_mud_AutoLayout__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<mud::AutoLayout>((*static_cast<mud::v2<mud::AutoLayout>*>(other))); }
-void mud_v2_mud_Pivot__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<mud::Pivot>(  ); }
-void mud_v2_mud_Pivot__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Pivot>( *static_cast<mud::Pivot*>(args[0]) ); }
-void mud_v2_mud_Pivot__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Pivot>( *static_cast<mud::Pivot*>(args[0]), *static_cast<mud::Pivot*>(args[1]) ); }
-void mud_v2_mud_Pivot__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<mud::Pivot>((*static_cast<mud::v2<mud::Pivot>*>(other))); }
-void mud_v2_mud_Sizing__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<mud::Sizing>(  ); }
-void mud_v2_mud_Sizing__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Sizing>( *static_cast<mud::Sizing*>(args[0]) ); }
-void mud_v2_mud_Sizing__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Sizing>( *static_cast<mud::Sizing*>(args[0]), *static_cast<mud::Sizing*>(args[1]) ); }
-void mud_v2_mud_Sizing__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<mud::Sizing>((*static_cast<mud::v2<mud::Sizing>*>(other))); }
-void mud_v2_size_t__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<size_t>(  ); }
-void mud_v2_size_t__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<size_t>( *static_cast<size_t*>(args[0]) ); }
-void mud_v2_size_t__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<size_t>( *static_cast<size_t*>(args[0]), *static_cast<size_t*>(args[1]) ); }
-void mud_v2_size_t__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::v2<size_t>((*static_cast<mud::v2<size_t>*>(other))); }
 void mud_Ui_begin(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Ui*>(object)).begin(); }
 void mud_ui_widget_0(span<void*> args, void*& result) { result = &mud::ui::widget(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<mud::Axis*>(args[3]), *static_cast<mud::v2<size_t>*>(args[4])); }
 void mud_ui_item_1(span<void*> args, void*& result) { result = &mud::ui::item(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Style*>(args[1]), static_cast<const char*>(args[2])); }
@@ -1016,62 +1016,6 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
-	// mud::Widget
-	{
-		Type& t = type<mud::Widget>();
-		static Meta meta = { t, &namspc({ "mud" }), "Widget", sizeof(mud::Widget), TypeClass::Object };
-		// bases
-		// defaults
-		static mud::WidgetState state_default = CREATED;
-		static uint32_t switch_default = 0;
-		static size_t index_default = 0;
-		static bool open_default = false;
-		static mud::Widget* body_default = nullptr;
-		static mud::InputMod key_event_0_modifier_default = mud::InputMod::Any;
-		static mud::InputMod key_stroke_0_modifier_default = mud::InputMod::Any;
-		static mud::InputMod char_stroke_0_modifier_default = mud::InputMod::Any;
-		static mud::InputMod mouse_event_0_modifier_default = mud::InputMod::None;
-		static bool mouse_event_0_consume_default = true;
-		// constructors
-		// copy constructor
-		// members
-		static Member members[] = {
-			{ t, offsetof(mud::Widget, m_frame), type<mud::Frame>(), "frame", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::Widget, m_state), type<mud::WidgetState>(), "state", &state_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Widget, m_switch), type<uint32_t>(), "switch", &switch_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Widget, m_index), type<size_t>(), "index", &index_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Widget, m_open), type<bool>(), "open", &open_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Widget, m_body), type<mud::Widget>(), "body", body_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
-		};
-		// methods
-		static Method methods[] = {
-			{ t, "focused", Address(), mud_Widget_focused, {}, { &type<bool>(), QualType::None } },
-			{ t, "hovered", Address(), mud_Widget_hovered, {}, { &type<bool>(), QualType::None } },
-			{ t, "pressed", Address(), mud_Widget_pressed, {}, { &type<bool>(), QualType::None } },
-			{ t, "activated", Address(), mud_Widget_activated, {}, { &type<bool>(), QualType::None } },
-			{ t, "selected", Address(), mud_Widget_selected, {}, { &type<bool>(), QualType::None } },
-			{ t, "modal", Address(), mud_Widget_modal, {}, { &type<bool>(), QualType::None } },
-			{ t, "closed", Address(), mud_Widget_closed, {}, { &type<bool>(), QualType::None } },
-			{ t, "ui_window", Address(), mud_Widget_ui_window, {}, { &type<mud::UiWindow>(), QualType::None } },
-			{ t, "ui", Address(), mud_Widget_ui, {}, { &type<mud::Ui>(), QualType::None } },
-			{ t, "parent_modal", Address(), mud_Widget_parent_modal, {}, { &type<mud::Widget>(), QualType::None } },
-			{ t, "toggle_state", Address(), mud_Widget_toggle_state, { { "state", type<mud::WidgetState>(),  } }, g_qvoid },
-			{ t, "disable_state", Address(), mud_Widget_disable_state, { { "state", type<mud::WidgetState>(),  } }, g_qvoid },
-			{ t, "set_state", Address(), mud_Widget_set_state, { { "state", type<mud::WidgetState>(),  }, { "enabled", type<bool>(),  } }, g_qvoid },
-			{ t, "enable_state", Address(), mud_Widget_enable_state, { { "state", type<mud::WidgetState>(),  } }, g_qvoid },
-			{ t, "clear_focus", Address(), mud_Widget_clear_focus, {}, g_qvoid },
-			{ t, "take_focus", Address(), mud_Widget_take_focus, {}, g_qvoid },
-			{ t, "yield_focus", Address(), mud_Widget_yield_focus, {}, g_qvoid },
-			{ t, "take_modal", Address(), mud_Widget_take_modal, { { "device_filter", type<uint32_t>(),  } }, g_qvoid },
-			{ t, "yield_modal", Address(), mud_Widget_yield_modal, {}, g_qvoid },
-			{ t, "key_event", Address(), mud_Widget_key_event, { { "code", type<mud::Key>(),  }, { "event_type", type<mud::EventType>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &key_event_0_modifier_default } }, { &type<mud::KeyEvent>(), QualType::None } },
-			{ t, "key_stroke", Address(), mud_Widget_key_stroke, { { "code", type<mud::Key>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &key_stroke_0_modifier_default } }, { &type<mud::KeyEvent>(), QualType::None } },
-			{ t, "char_stroke", Address(), mud_Widget_char_stroke, { { "code", type<mud::Key>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &char_stroke_0_modifier_default } }, { &type<mud::KeyEvent>(), QualType::None } },
-			{ t, "mouse_event", Address(), mud_Widget_mouse_event, { { "device", type<mud::DeviceType>(),  }, { "event_type", type<mud::EventType>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &mouse_event_0_modifier_default }, { "consume", type<bool>(), Param::Default, &mouse_event_0_consume_default } }, { &type<mud::MouseEvent>(), QualType::None } }
-		};
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
-	}
 	// mud::v2<mud::Align>
 	{
 		Type& t = type<mud::v2<mud::Align>>();
@@ -1452,6 +1396,64 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
+	// mud::Widget
+	{
+		Type& t = type<mud::Widget>();
+		static Meta meta = { t, &namspc({ "mud" }), "Widget", sizeof(mud::Widget), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::ControlNode>() };
+		static size_t bases_offsets[] = { base_offset<mud::Widget, mud::ControlNode>() };
+		// defaults
+		static mud::WidgetState state_default = CREATED;
+		static uint32_t switch_default = 0;
+		static size_t index_default = 0;
+		static bool open_default = false;
+		static mud::Widget* body_default = nullptr;
+		static mud::InputMod key_event_0_modifier_default = mud::InputMod::Any;
+		static mud::InputMod key_stroke_0_modifier_default = mud::InputMod::Any;
+		static mud::InputMod char_stroke_0_modifier_default = mud::InputMod::Any;
+		static mud::InputMod mouse_event_0_modifier_default = mud::InputMod::None;
+		static bool mouse_event_0_consume_default = true;
+		// constructors
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Widget, m_frame), type<mud::Frame>(), "frame", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Widget, m_state), type<mud::WidgetState>(), "state", &state_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Widget, m_switch), type<uint32_t>(), "switch", &switch_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Widget, m_index), type<size_t>(), "index", &index_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Widget, m_open), type<bool>(), "open", &open_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Widget, m_body), type<mud::Widget>(), "body", body_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+		};
+		// methods
+		static Method methods[] = {
+			{ t, "focused", Address(), mud_Widget_focused, {}, { &type<bool>(), QualType::None } },
+			{ t, "hovered", Address(), mud_Widget_hovered, {}, { &type<bool>(), QualType::None } },
+			{ t, "pressed", Address(), mud_Widget_pressed, {}, { &type<bool>(), QualType::None } },
+			{ t, "activated", Address(), mud_Widget_activated, {}, { &type<bool>(), QualType::None } },
+			{ t, "selected", Address(), mud_Widget_selected, {}, { &type<bool>(), QualType::None } },
+			{ t, "modal", Address(), mud_Widget_modal, {}, { &type<bool>(), QualType::None } },
+			{ t, "closed", Address(), mud_Widget_closed, {}, { &type<bool>(), QualType::None } },
+			{ t, "ui_window", Address(), mud_Widget_ui_window, {}, { &type<mud::UiWindow>(), QualType::None } },
+			{ t, "ui", Address(), mud_Widget_ui, {}, { &type<mud::Ui>(), QualType::None } },
+			{ t, "parent_modal", Address(), mud_Widget_parent_modal, {}, { &type<mud::Widget>(), QualType::None } },
+			{ t, "toggle_state", Address(), mud_Widget_toggle_state, { { "state", type<mud::WidgetState>(),  } }, g_qvoid },
+			{ t, "disable_state", Address(), mud_Widget_disable_state, { { "state", type<mud::WidgetState>(),  } }, g_qvoid },
+			{ t, "set_state", Address(), mud_Widget_set_state, { { "state", type<mud::WidgetState>(),  }, { "enabled", type<bool>(),  } }, g_qvoid },
+			{ t, "enable_state", Address(), mud_Widget_enable_state, { { "state", type<mud::WidgetState>(),  } }, g_qvoid },
+			{ t, "clear_focus", Address(), mud_Widget_clear_focus, {}, g_qvoid },
+			{ t, "take_focus", Address(), mud_Widget_take_focus, {}, g_qvoid },
+			{ t, "yield_focus", Address(), mud_Widget_yield_focus, {}, g_qvoid },
+			{ t, "take_modal", Address(), mud_Widget_take_modal, { { "device_filter", type<uint32_t>(),  } }, g_qvoid },
+			{ t, "yield_modal", Address(), mud_Widget_yield_modal, {}, g_qvoid },
+			{ t, "key_event", Address(), mud_Widget_key_event, { { "code", type<mud::Key>(),  }, { "event_type", type<mud::EventType>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &key_event_0_modifier_default } }, { &type<mud::KeyEvent>(), QualType::None } },
+			{ t, "key_stroke", Address(), mud_Widget_key_stroke, { { "code", type<mud::Key>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &key_stroke_0_modifier_default } }, { &type<mud::KeyEvent>(), QualType::None } },
+			{ t, "char_stroke", Address(), mud_Widget_char_stroke, { { "code", type<mud::Key>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &char_stroke_0_modifier_default } }, { &type<mud::KeyEvent>(), QualType::None } },
+			{ t, "mouse_event", Address(), mud_Widget_mouse_event, { { "device", type<mud::DeviceType>(),  }, { "event_type", type<mud::EventType>(),  }, { "modifier", type<mud::InputMod>(), Param::Default, &mouse_event_0_modifier_default }, { "consume", type<bool>(), Param::Default, &mouse_event_0_consume_default } }, { &type<mud::MouseEvent>(), QualType::None } }
+		};
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, members, methods, {}, };
+	}
 	// mud::TreeNode
 	{
 		Type& t = type<mud::TreeNode>();
@@ -1550,7 +1552,6 @@ namespace mud
 		m.m_types.push_back(&type<mud::UiWindow>());
 		m.m_types.push_back(&type<mud::User>());
 		m.m_types.push_back(&type<mud::Vg>());
-		m.m_types.push_back(&type<mud::Widget>());
 		m.m_types.push_back(&type<mud::WidgetState>());
 		m.m_types.push_back(&type<mud::WindowState>());
 		m.m_types.push_back(&type<stl::span<const char*>>());
@@ -1568,6 +1569,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::Expandbox>());
 		m.m_types.push_back(&type<mud::Frame>());
 		m.m_types.push_back(&type<mud::FrameSolver>());
+		m.m_types.push_back(&type<mud::Widget>());
 		m.m_types.push_back(&type<mud::Node>());
 		m.m_types.push_back(&type<mud::NodePlug>());
 		m.m_types.push_back(&type<mud::RowSolver>());

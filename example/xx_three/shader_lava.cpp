@@ -130,11 +130,10 @@ void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar)
 		camera.m_fov = 35.f; camera.m_near = 1.f; camera.m_far = 3000.f;
 		camera.m_eye.z = 4.f;
 
-		static string vertex = vertex_shader();
-		static string fragment = fragment_shader();
-
-		static Program program = { "lava", {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
+		static Program program = { "lava" };
 		program.m_blocks[MaterialBlock::Solid] = true;
+		program.m_sources[ShaderType::Vertex] = vertex_shader();
+		program.m_sources[ShaderType::Fragment] = fragment_shader();
 
 		static Material& material = app.m_gfx.materials().create("lava", [&](Material& m) {
 			m.m_program = &program;

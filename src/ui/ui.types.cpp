@@ -53,7 +53,6 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::UiWindow>() { static Type ty("UiWindow", sizeof(mud::UiWindow)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::User>() { static Type ty("User", sizeof(mud::User)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Vg>() { static Type ty("Vg", sizeof(mud::Vg)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Widget>() { static Type ty("Widget", sizeof(mud::Widget)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Align>>() { static Type ty("v2<mud::Align>", sizeof(mud::v2<mud::Align>)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::v2<mud::AutoLayout>>() { static Type ty("v2<mud::AutoLayout>", sizeof(mud::v2<mud::AutoLayout>)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Pivot>>() { static Type ty("v2<mud::Pivot>", sizeof(mud::v2<mud::Pivot>)); return ty; }
@@ -76,6 +75,7 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::Tabber>() { static Type ty("Tabber", type<mud::Widget>(), sizeof(mud::Tabber)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Table>() { static Type ty("Table", type<mud::Widget>(), sizeof(mud::Table)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::TextEdit>() { static Type ty("TextEdit", type<mud::Widget>(), sizeof(mud::TextEdit)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Widget>() { static Type ty("Widget", type<mud::ControlNode>(), sizeof(mud::Widget)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::TreeNode>() { static Type ty("TreeNode", type<mud::Widget>(), sizeof(mud::TreeNode)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Ui>() { static Type ty("Ui", type<mud::Widget>(), sizeof(mud::Ui)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Window>() { static Type ty("Window", type<mud::Dockable>(), sizeof(mud::Window)); return ty; }
