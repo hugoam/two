@@ -375,7 +375,7 @@ namespace mud
 		this->divide(layout->m_grid_division);
 	}
 
-	void GridSolver::divide(vector<Space> lines)
+	void GridSolver::divide(span<Space> lines)
 	{
 		m_solvers.clear();
 		for(size_t i = 0; i < lines.size(); ++i)

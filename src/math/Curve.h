@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
+#include <stl/span.h>
 #include <math/Vec.h>
 #include <math/Interp.h>
 #include <math/Forward.h>
@@ -23,7 +24,7 @@ namespace mud
 	struct refl_ struct_ ValueCurve
 	{
 		constr_ ValueCurve();
-		constr_ ValueCurve(vector<T> keys);
+		constr_ ValueCurve(span<T> keys);
 		~ValueCurve();
 
 		T sample_curve(float t);
@@ -51,8 +52,8 @@ namespace mud
 		constr_ ValueTrack(TrackMode mode, ValueCurve<T> curve, ValueCurve<T> min_curve, ValueCurve<T> max_curve);
 		ValueTrack(T value);
 		ValueTrack(T min, T max);
-		ValueTrack(vector<T> values);
-		ValueTrack(vector<T> min_values, vector<T> max_values);
+		ValueTrack(span<T> values);
+		ValueTrack(span<T> min_values, span<T> max_values);
 		~ValueTrack();
 
 		void set_mode(TrackMode mode);

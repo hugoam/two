@@ -17,7 +17,7 @@ namespace mud
 	{
 	public:
 		constr_ Polygon();
-		constr_ Polygon(vector<vec3> vertices);
+		constr_ Polygon(span<vec3> vertices);
 
 		vector<vec3> m_vertices;
 

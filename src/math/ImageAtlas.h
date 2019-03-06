@@ -27,7 +27,7 @@ namespace mud
 		ImageAtlas(uvec2 size);
 		~ImageAtlas();
 
-		vector<unsigned char> generate_atlas(vector<Image*>& images);
+		vector<unsigned char> generate_atlas(span<Image*> images);
 
 		bool place_image(Image& image);
 		void blit_image(Image& image, vector<unsigned char>& data);

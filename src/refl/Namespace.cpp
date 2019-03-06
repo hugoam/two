@@ -24,7 +24,7 @@ namespace mud
 		}
 	}
 
-	Namespace& namspc(vector<cstring> path)
+	Namespace& namspc(span<cstring> path)
 	{
 		return system().get_namespace(path);
 	}

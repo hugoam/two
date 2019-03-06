@@ -135,7 +135,7 @@ namespace mud
 #endif
 	}
 
-	void System::load_modules(vector<Module*> modules)
+	void System::load_modules(span<Module*> modules)
 	{
 		for(Module* m : modules)
 			this->load_module(*m);
@@ -283,7 +283,7 @@ namespace mud
 		}
 	}
 
-	Namespace& System::get_namespace(vector<cstring> path)
+	Namespace& System::get_namespace(span<cstring> path)
 	{
 		auto compare = [](span<cstring> first, span<cstring> second)
 		{
@@ -306,11 +306,11 @@ namespace mud
 
 		if(!path.empty())
 		{
-			name = pop(path);
-			parent = &namspc(path);
+			name = path[path.size() - 1];
+			parent = &namspc({ path.data(), path.size() - 1 });
 		}
 
-		m_namespaces.push_back(Namespace{ name, parent });
+		m_namespaces.push_back({ name, parent });
 		return m_namespaces.back();
 	}
 }

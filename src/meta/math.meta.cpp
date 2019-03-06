@@ -34,6 +34,20 @@ void mud_Spectrum__to_string(void* val, string& str) { str = g_enu[type<mud::Spe
 void mud_Spectrum__to_value(const string& str, void* val) { (*static_cast<mud::Spectrum*>(val)) = mud::Spectrum(g_enu[type<mud::Spectrum>().m_id]->value(str.c_str())); }
 void mud_TrackMode__to_string(void* val, string& str) { str = g_enu[type<mud::TrackMode>().m_id]->name(uint32_t((*static_cast<mud::TrackMode*>(val)))); }
 void mud_TrackMode__to_value(const string& str, void* val) { (*static_cast<mud::TrackMode*>(val)) = mud::TrackMode(g_enu[type<mud::TrackMode>().m_id]->value(str.c_str())); }
+size_t stl_span_float__size(void* vec) { return (*static_cast<stl::span<float>*>(vec)).size(); }
+void* stl_span_float__at(void* vec, size_t i) { return &(*static_cast<stl::span<float>*>(vec))[i]; }
+size_t stl_span_int__size(void* vec) { return (*static_cast<stl::span<int>*>(vec)).size(); }
+void* stl_span_int__at(void* vec, size_t i) { return &(*static_cast<stl::span<int>*>(vec))[i]; }
+size_t stl_span_mud_Colour__size(void* vec) { return (*static_cast<stl::span<mud::Colour>*>(vec)).size(); }
+void* stl_span_mud_Colour__at(void* vec, size_t i) { return &(*static_cast<stl::span<mud::Colour>*>(vec))[i]; }
+size_t stl_span_mud_quat__size(void* vec) { return (*static_cast<stl::span<mud::quat>*>(vec)).size(); }
+void* stl_span_mud_quat__at(void* vec, size_t i) { return &(*static_cast<stl::span<mud::quat>*>(vec))[i]; }
+size_t stl_span_mud_uvec3__size(void* vec) { return (*static_cast<stl::span<mud::uvec3>*>(vec)).size(); }
+void* stl_span_mud_uvec3__at(void* vec, size_t i) { return &(*static_cast<stl::span<mud::uvec3>*>(vec))[i]; }
+size_t stl_span_mud_vec3__size(void* vec) { return (*static_cast<stl::span<mud::vec3>*>(vec)).size(); }
+void* stl_span_mud_vec3__at(void* vec, size_t i) { return &(*static_cast<stl::span<mud::vec3>*>(vec))[i]; }
+size_t stl_span_uint32_t__size(void* vec) { return (*static_cast<stl::span<uint32_t>*>(vec)).size(); }
+void* stl_span_uint32_t__at(void* vec, size_t i) { return &(*static_cast<stl::span<uint32_t>*>(vec))[i]; }
 size_t stl_vector_float__size(void* vec) { return (*static_cast<stl::vector<float>*>(vec)).size(); }
 void* stl_vector_float__at(void* vec, size_t i) { return &(*static_cast<stl::vector<float>*>(vec))[i]; }
 void stl_vector_float__push(void* vec) { (*static_cast<stl::vector<float>*>(vec)).emplace_back(); }
@@ -84,7 +98,7 @@ void mud_Image__copy_construct(void* ref, void* other) { new(stl::placeholder(),
 void mud_Image256__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Image256( *static_cast<uint16_t*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<mud::Palette*>(args[2]) ); }
 void mud_Image256__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Image256((*static_cast<mud::Image256*>(other))); }
 void mud_Palette__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Palette( *static_cast<mud::Spectrum*>(args[0]), *static_cast<size_t*>(args[1]) ); }
-void mud_Palette__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Palette( *static_cast<stl::vector<mud::Colour>*>(args[0]) ); }
+void mud_Palette__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Palette( *static_cast<stl::span<mud::Colour>*>(args[0]) ); }
 void mud_Palette__construct_2(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Palette(  ); }
 void mud_Palette__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Palette((*static_cast<mud::Palette*>(other))); }
 void mud_Range_float__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Range<float>(  ); }
@@ -104,19 +118,19 @@ void mud_TimeSpan__copy_construct(void* ref, void* other) { new(stl::placeholder
 void mud_Transform__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Transform(  ); }
 void mud_Transform__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Transform((*static_cast<mud::Transform*>(other))); }
 void mud_ValueCurve_float__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ValueCurve<float>(  ); }
-void mud_ValueCurve_float__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ValueCurve<float>( *static_cast<stl::vector<float>*>(args[0]) ); }
+void mud_ValueCurve_float__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ValueCurve<float>( *static_cast<stl::span<float>*>(args[0]) ); }
 void mud_ValueCurve_float__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ValueCurve<float>((*static_cast<mud::ValueCurve<float>*>(other))); }
 void mud_ValueCurve_mud_Colour__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ValueCurve<mud::Colour>(  ); }
-void mud_ValueCurve_mud_Colour__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ValueCurve<mud::Colour>( *static_cast<stl::vector<mud::Colour>*>(args[0]) ); }
+void mud_ValueCurve_mud_Colour__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ValueCurve<mud::Colour>( *static_cast<stl::span<mud::Colour>*>(args[0]) ); }
 void mud_ValueCurve_mud_Colour__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ValueCurve<mud::Colour>((*static_cast<mud::ValueCurve<mud::Colour>*>(other))); }
 void mud_ValueCurve_mud_quat__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ValueCurve<mud::quat>(  ); }
-void mud_ValueCurve_mud_quat__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ValueCurve<mud::quat>( *static_cast<stl::vector<mud::quat>*>(args[0]) ); }
+void mud_ValueCurve_mud_quat__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ValueCurve<mud::quat>( *static_cast<stl::span<mud::quat>*>(args[0]) ); }
 void mud_ValueCurve_mud_quat__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ValueCurve<mud::quat>((*static_cast<mud::ValueCurve<mud::quat>*>(other))); }
 void mud_ValueCurve_mud_vec3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ValueCurve<mud::vec3>(  ); }
-void mud_ValueCurve_mud_vec3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ValueCurve<mud::vec3>( *static_cast<stl::vector<mud::vec3>*>(args[0]) ); }
+void mud_ValueCurve_mud_vec3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ValueCurve<mud::vec3>( *static_cast<stl::span<mud::vec3>*>(args[0]) ); }
 void mud_ValueCurve_mud_vec3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ValueCurve<mud::vec3>((*static_cast<mud::ValueCurve<mud::vec3>*>(other))); }
 void mud_ValueCurve_uint32_t__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ValueCurve<uint32_t>(  ); }
-void mud_ValueCurve_uint32_t__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ValueCurve<uint32_t>( *static_cast<stl::vector<uint32_t>*>(args[0]) ); }
+void mud_ValueCurve_uint32_t__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ValueCurve<uint32_t>( *static_cast<stl::span<uint32_t>*>(args[0]) ); }
 void mud_ValueCurve_uint32_t__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ValueCurve<uint32_t>((*static_cast<mud::ValueCurve<uint32_t>*>(other))); }
 void mud_ValueTrack_float__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ValueTrack<float>(  ); }
 void mud_ValueTrack_float__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ValueTrack<float>( *static_cast<mud::TrackMode*>(args[0]), *static_cast<mud::ValueCurve<float>*>(args[1]), *static_cast<mud::ValueCurve<float>*>(args[2]), *static_cast<mud::ValueCurve<float>*>(args[3]) ); }
@@ -323,6 +337,69 @@ namespace mud
 	}
 	
 	// Sequences
+	{
+		Type& t = type<stl::span<float>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<float>", sizeof(stl::span<float>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<float>(),
+		                             stl_span_float__size,
+		                             stl_span_float__at};
+		g_iterable[t.m_id] = &iterable;
+	}
+	{
+		Type& t = type<stl::span<int>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<int>", sizeof(stl::span<int>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<int>(),
+		                             stl_span_int__size,
+		                             stl_span_int__at};
+		g_iterable[t.m_id] = &iterable;
+	}
+	{
+		Type& t = type<stl::span<mud::Colour>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<mud::Colour>", sizeof(stl::span<mud::Colour>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::Colour>(),
+		                             stl_span_mud_Colour__size,
+		                             stl_span_mud_Colour__at};
+		g_iterable[t.m_id] = &iterable;
+	}
+	{
+		Type& t = type<stl::span<mud::quat>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<mud::quat>", sizeof(stl::span<mud::quat>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::quat>(),
+		                             stl_span_mud_quat__size,
+		                             stl_span_mud_quat__at};
+		g_iterable[t.m_id] = &iterable;
+	}
+	{
+		Type& t = type<stl::span<mud::uvec3>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<mud::uvec3>", sizeof(stl::span<mud::uvec3>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::uvec3>(),
+		                             stl_span_mud_uvec3__size,
+		                             stl_span_mud_uvec3__at};
+		g_iterable[t.m_id] = &iterable;
+	}
+	{
+		Type& t = type<stl::span<mud::vec3>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<mud::vec3>", sizeof(stl::span<mud::vec3>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::vec3>(),
+		                             stl_span_mud_vec3__size,
+		                             stl_span_mud_vec3__at};
+		g_iterable[t.m_id] = &iterable;
+	}
+	{
+		Type& t = type<stl::span<uint32_t>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<uint32_t>", sizeof(stl::span<uint32_t>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<uint32_t>(),
+		                             stl_span_uint32_t__size,
+		                             stl_span_uint32_t__at};
+		g_iterable[t.m_id] = &iterable;
+	}
 	{
 		Type& t = type<stl::vector<float>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<float>", sizeof(stl::vector<float>), TypeClass::Sequence };
@@ -606,7 +683,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Palette__construct_0, { { "spectrum", type<mud::Spectrum>(),  }, { "steps", type<size_t>(),  } } },
-			{ t, mud_Palette__construct_1, { { "colours", type<stl::vector<mud::Colour>>(),  } } },
+			{ t, mud_Palette__construct_1, { { "colours", type<stl::span<mud::Colour>>(),  } } },
 			{ t, mud_Palette__construct_2, {} }
 		};
 		// copy constructor
@@ -812,7 +889,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_ValueCurve_float__construct_0, {} },
-			{ t, mud_ValueCurve_float__construct_1, { { "keys", type<stl::vector<float>>(),  } } }
+			{ t, mud_ValueCurve_float__construct_1, { { "keys", type<stl::span<float>>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -835,7 +912,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_ValueCurve_mud_Colour__construct_0, {} },
-			{ t, mud_ValueCurve_mud_Colour__construct_1, { { "keys", type<stl::vector<mud::Colour>>(),  } } }
+			{ t, mud_ValueCurve_mud_Colour__construct_1, { { "keys", type<stl::span<mud::Colour>>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -858,7 +935,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_ValueCurve_mud_quat__construct_0, {} },
-			{ t, mud_ValueCurve_mud_quat__construct_1, { { "keys", type<stl::vector<mud::quat>>(),  } } }
+			{ t, mud_ValueCurve_mud_quat__construct_1, { { "keys", type<stl::span<mud::quat>>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -881,7 +958,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_ValueCurve_mud_vec3__construct_0, {} },
-			{ t, mud_ValueCurve_mud_vec3__construct_1, { { "keys", type<stl::vector<mud::vec3>>(),  } } }
+			{ t, mud_ValueCurve_mud_vec3__construct_1, { { "keys", type<stl::span<mud::vec3>>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -904,7 +981,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_ValueCurve_uint32_t__construct_0, {} },
-			{ t, mud_ValueCurve_uint32_t__construct_1, { { "keys", type<stl::vector<uint32_t>>(),  } } }
+			{ t, mud_ValueCurve_uint32_t__construct_1, { { "keys", type<stl::span<uint32_t>>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -1672,6 +1749,13 @@ namespace mud
 		m.m_types.push_back(&type<mud::ivec4>());
 		m.m_types.push_back(&type<mud::mat3>());
 		m.m_types.push_back(&type<mud::mat4>());
+		m.m_types.push_back(&type<stl::span<float>>());
+		m.m_types.push_back(&type<stl::span<int>>());
+		m.m_types.push_back(&type<stl::span<mud::Colour>>());
+		m.m_types.push_back(&type<stl::span<mud::quat>>());
+		m.m_types.push_back(&type<stl::span<mud::uvec3>>());
+		m.m_types.push_back(&type<stl::span<mud::vec3>>());
+		m.m_types.push_back(&type<stl::span<uint32_t>>());
 		m.m_types.push_back(&type<mud::uint2>());
 		m.m_types.push_back(&type<mud::uint3>());
 		m.m_types.push_back(&type<mud::uint4>());

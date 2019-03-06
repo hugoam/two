@@ -50,8 +50,6 @@ void mud_WindowState__to_string(void* val, string& str) { str = g_enu[type<mud::
 void mud_WindowState__to_value(const string& str, void* val) { (*static_cast<mud::WindowState*>(val)) = mud::WindowState(g_enu[type<mud::WindowState>().m_id]->value(str.c_str())); }
 size_t stl_span_const_char___size(void* vec) { return (*static_cast<stl::span<const char*>*>(vec)).size(); }
 void* stl_span_const_char___at(void* vec, size_t i) { return &(*static_cast<stl::span<const char*>*>(vec))[i]; }
-size_t stl_span_float__size(void* vec) { return (*static_cast<stl::span<float>*>(vec)).size(); }
-void* stl_span_float__at(void* vec, size_t i) { return &(*static_cast<stl::span<float>*>(vec))[i]; }
 size_t stl_vector_mud_Space__size(void* vec) { return (*static_cast<stl::vector<mud::Space>*>(vec)).size(); }
 void* stl_vector_mud_Space__at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Space>*>(vec))[i]; }
 void stl_vector_mud_Space__push(void* vec) { (*static_cast<stl::vector<mud::Space>*>(vec)).emplace_back(); }
@@ -429,15 +427,6 @@ namespace mud
 		static Iterable iterable = { &type<const char*>(),
 		                             stl_span_const_char___size,
 		                             stl_span_const_char___at};
-		g_iterable[t.m_id] = &iterable;
-	}
-	{
-		Type& t = type<stl::span<float>>();
-		static Meta meta = { t, &namspc({ "stl" }), "span<float>", sizeof(stl::span<float>), TypeClass::Sequence };
-		static Class cls = { t };
-		static Iterable iterable = { &type<float>(),
-		                             stl_span_float__size,
-		                             stl_span_float__at};
 		g_iterable[t.m_id] = &iterable;
 	}
 	{
@@ -1517,12 +1506,18 @@ namespace mud
 		static Alias alias = { &t, &namspc({ "mud" }), "PaletteIndex" };
 		m.m_aliases.push_back(&alias);
 	}
+	{
+		Type& t = type<stl::span<uint32_t>>();
+		static Alias alias = { &t, &namspc({ "mud" }), "ColourPalette" };
+		m.m_aliases.push_back(&alias);
+	}
 	
 		m.m_types.push_back(&type<mud::Align>());
 		m.m_types.push_back(&type<mud::AutoLayout>());
 		m.m_types.push_back(&type<mud::CanvasConnect>());
 		m.m_types.push_back(&type<mud::Clip>());
 		m.m_types.push_back(&type<mud::Clipboard>());
+		m.m_types.push_back(&type<mud::ColourPalette>());
 		m.m_types.push_back(&type<mud::Dock>());
 		m.m_types.push_back(&type<mud::Docksystem>());
 		m.m_types.push_back(&type<mud::FlowAxis>());
@@ -1559,7 +1554,6 @@ namespace mud
 		m.m_types.push_back(&type<mud::WidgetState>());
 		m.m_types.push_back(&type<mud::WindowState>());
 		m.m_types.push_back(&type<stl::span<const char*>>());
-		m.m_types.push_back(&type<stl::span<float>>());
 		m.m_types.push_back(&type<mud::v2<mud::Align>>());
 		m.m_types.push_back(&type<mud::v2<mud::AutoLayout>>());
 		m.m_types.push_back(&type<mud::v2<mud::Pivot>>());
@@ -1574,10 +1568,10 @@ namespace mud
 		m.m_types.push_back(&type<mud::Expandbox>());
 		m.m_types.push_back(&type<mud::Frame>());
 		m.m_types.push_back(&type<mud::FrameSolver>());
-		m.m_types.push_back(&type<mud::RowSolver>());
-		m.m_types.push_back(&type<mud::LineSolver>());
 		m.m_types.push_back(&type<mud::Node>());
 		m.m_types.push_back(&type<mud::NodePlug>());
+		m.m_types.push_back(&type<mud::RowSolver>());
+		m.m_types.push_back(&type<mud::LineSolver>());
 		m.m_types.push_back(&type<mud::ScrollSheet>());
 		m.m_types.push_back(&type<mud::ui::Sequence>());
 		m.m_types.push_back(&type<mud::Tabber>());

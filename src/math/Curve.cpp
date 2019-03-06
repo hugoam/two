@@ -15,7 +15,7 @@ namespace mud
 	template <class T>
 	ValueCurve<T>::ValueCurve() {}
 	template <class T>
-	ValueCurve<T>::ValueCurve(vector<T> keys) : m_keys(keys) {}
+	ValueCurve<T>::ValueCurve(span<T> keys) : m_keys(keys.begin(), keys.end()) {}
 	template <class T>
 	ValueCurve<T>::~ValueCurve() {}
 
@@ -44,9 +44,9 @@ namespace mud
 	template <class T>
 	ValueTrack<T>::ValueTrack(T min, T max) : m_mode(TrackMode::ConstantRandom), m_min(min), m_max(max) {}
 	template <class T>
-	ValueTrack<T>::ValueTrack(vector<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
+	ValueTrack<T>::ValueTrack(span<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
 	template <class T>
-	ValueTrack<T>::ValueTrack(vector<T> min_values, vector<T> max_values) : m_mode(TrackMode::CurveRandom), m_min_curve(min_values), m_max_curve(max_values) {}
+	ValueTrack<T>::ValueTrack(span<T> min_values, span<T> max_values) : m_mode(TrackMode::CurveRandom), m_min_curve(min_values), m_max_curve(max_values) {}
 	template <class T>
 	ValueTrack<T>::~ValueTrack() {}
 

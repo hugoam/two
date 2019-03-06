@@ -537,7 +537,7 @@ Batch.prototype["transforms"] = Batch.prototype.transforms = function(a0) {
 };
 Batch.prototype["begin"] = Batch.prototype.begin = function(a0, a1) {
     var self = this.ptr;
-    return wrapPointer(_mud_Batch_begin_2(self, /*count*/a0, /*stride*/a1), span_float);
+    return _mud_Batch_begin_2(self, /*count*/a0, /*stride*/a1);
 };
 Object.defineProperty(Batch.prototype, "item", {
     get: function() {

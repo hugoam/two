@@ -21,8 +21,8 @@ namespace mud
 		: m_colours()
 	{}
 
-	Palette::Palette(vector<Colour> colours)
-		: m_colours(colours)
+	Palette::Palette(span<Colour> colours)
+		: m_colours(colours.begin(), colours.end())
 	{}
 
 	Palette::Palette(Spectrum spectrum, size_t steps)

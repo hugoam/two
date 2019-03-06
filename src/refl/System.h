@@ -31,7 +31,7 @@ namespace mud
 
 		void launch_process(cstring path, cstring args);
 
-		void load_modules(vector<Module*> modules);
+		void load_modules(span<Module*> modules);
 
 		Module* open_module(cstring path);
 		void load_module(Module& m);
@@ -44,7 +44,7 @@ namespace mud
 		void dump_meta_info();
 		void dump_memory_usage();
 
-		Namespace& get_namespace(vector<cstring> path);
+		Namespace& get_namespace(span<cstring> path);
 		Function& function(FunctionPointer pointer);
 
 		Type* find_type(cstring name);

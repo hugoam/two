@@ -205,13 +205,6 @@ namespace mud
 
 		parent.m_reflect_content |= c.m_reflect;
 		module.m_has_reflected |= c.m_reflect;
-
-		if(c.m_name == "vector<mud::Colour>")
-			int i = 0;
-		if(c.m_sequence && !c.m_is_template && !sequence)
-		{
-			int i = 0;
-		}
 	}
 
 	CLClass& decl_class_type(CLModule& module, CLPrimitive& parent, CXCursor cursor)

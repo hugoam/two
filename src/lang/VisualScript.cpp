@@ -314,13 +314,13 @@ namespace mud
 		return *this;
 	}
 
-	Valve* Process::pipe(vector<Valve*> outputParams, Process* flow, vector<StreamModifier> modifiers)
+	Valve* Process::pipe(span<Valve*> outputParams, Process* flow, span<StreamModifier> modifiers)
 	{
 		this->plug(outputParams, flow, modifiers);
 		return m_outputs.size() > 0 ? &this->output() : nullptr;
 	}
 
-	Process& Process::plug(vector<Valve*> outputParams, Process* flow, vector<StreamModifier> modifiers)
+	Process& Process::plug(span<Valve*> outputParams, Process* flow, span<StreamModifier> modifiers)
 	{
 		if(flow)
 			this->flow(flow->out_flow());

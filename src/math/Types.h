@@ -27,6 +27,13 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Spectrum>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::TrackMode>();
     
+    export_ template <> MUD_MATH_EXPORT Type& type<stl::span<float>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<stl::span<int>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<stl::span<mud::Colour>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<stl::span<mud::quat>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<stl::span<mud::uvec3>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<stl::span<mud::vec3>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<stl::span<uint32_t>>();
     export_ template <> MUD_MATH_EXPORT Type& type<stl::vector<float>>();
     export_ template <> MUD_MATH_EXPORT Type& type<stl::vector<int>>();
     export_ template <> MUD_MATH_EXPORT Type& type<stl::vector<mud::Colour>>();

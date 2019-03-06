@@ -273,7 +273,7 @@ namespace mud
 
 	void draw_model(const ProcShape& shape, Model& model, bool readback, Material* material)
 	{
-		draw_model(vector<ProcShape>{ shape }, model, readback, material);
+		draw_model({ shape }, model, readback, material);
 	}
 
 	void draw_model(span<ProcShape> shapes, Model& model, bool readback, Material* material)
@@ -293,7 +293,7 @@ namespace mud
 
 	void draw_mesh(const ProcShape& shape, Model& model, DrawMode draw_mode, bool readback, Material* material)
 	{
-		draw_mesh(vector<ProcShape>{ { shape } }, model, draw_mode, readback, material);
+		draw_mesh({ shape }, model, draw_mode, readback, material);
 	}
 
 	void draw_mesh(span<ProcShape> shapes, Model& model, DrawMode draw_mode, bool readback, Material* material)

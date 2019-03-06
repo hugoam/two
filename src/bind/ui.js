@@ -2044,6 +2044,7 @@ Module['ui']['file_tree'] = function(a0, a1) {
     ensureCache.prepare();
     return wrapPointer(_mud_ui_file_tree_2(/*parent*/a0.ptr, ensureString(/*path*/a1)), Widget);
 };
+Module['ColourPalette'] = span_uint32_t;
 
 (function() {
     function setup() {

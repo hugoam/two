@@ -26,7 +26,6 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::WindowState>() { static Type ty("WindowState", sizeof(mud::WindowState)); return ty; }
     
     template <> MUD_UI_EXPORT Type& type<stl::span<const char*>>() { static Type ty("span<const char*>", sizeof(stl::span<const char*>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<stl::span<float>>() { static Type ty("span<float>", sizeof(stl::span<float>)); return ty; }
     template <> MUD_UI_EXPORT Type& type<stl::vector<mud::Space>>() { static Type ty("vector<mud::Space>", sizeof(stl::vector<mud::Space>)); return ty; }
     
     template <> MUD_UI_EXPORT Type& type<mud::CanvasConnect>() { static Type ty("CanvasConnect", sizeof(mud::CanvasConnect)); return ty; }

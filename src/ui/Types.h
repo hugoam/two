@@ -35,7 +35,6 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::WindowState>();
     
     export_ template <> MUD_UI_EXPORT Type& type<stl::span<const char*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<stl::span<float>>();
     export_ template <> MUD_UI_EXPORT Type& type<stl::vector<mud::Space>>();
     
     export_ template <> MUD_UI_EXPORT Type& type<mud::CanvasConnect>();

@@ -56,12 +56,12 @@ namespace mud
 	ImageAtlas::~ImageAtlas()
 	{}
 
-	vector<unsigned char> ImageAtlas::generate_atlas(vector<Image*>& images)
+	vector<unsigned char> ImageAtlas::generate_atlas(span<Image*> images)
 	{
 		size_t size = m_size.x * m_size.y * 4;
 		vector<unsigned char> data(size, 0);
 
-		m_images = images;
+		m_images = vector<Image*>(images.begin(), images.end());
 
 		// @todo : sort images
 

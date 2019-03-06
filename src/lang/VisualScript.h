@@ -127,8 +127,8 @@ namespace mud
 		Valve& find_master_input();
 
 		Process& flow(Valve& valve);
-		Valve* pipe(vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
-		Process& plug(vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		Valve* pipe(span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
+		Process& plug(span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 		Process& combine_flow(size_t masterInput, size_t secondaryInput);
 
 		void connected(Process& output);
@@ -182,19 +182,19 @@ namespace mud
 		Valve& reference(T&& value);
 		
 		template <class T>
-		Valve* function(T func, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		Valve* function(T func, span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 
 		template <class T>
-		Valve& create(vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		Valve& create(span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 
 		template <class T_Member>
-		Valve& get(T_Member mem, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		Valve& get(T_Member mem, span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 		
 		template <class T_Member>
-		void set(T_Member mem, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		void set(T_Member mem, span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 		
 		template <class T_Method>
-		Valve* method(T_Method meth, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		Valve* method(T_Method meth, span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 	};
 
 	export_ class refl_ MUD_LANG_EXPORT ProcessInput : public Process, public Param

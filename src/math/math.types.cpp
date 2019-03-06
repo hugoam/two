@@ -19,6 +19,13 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::Spectrum>() { static Type ty("Spectrum", sizeof(mud::Spectrum)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::TrackMode>() { static Type ty("TrackMode", sizeof(mud::TrackMode)); return ty; }
     
+    template <> MUD_MATH_EXPORT Type& type<stl::span<float>>() { static Type ty("span<float>", sizeof(stl::span<float>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<int>>() { static Type ty("span<int>", sizeof(stl::span<int>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<mud::Colour>>() { static Type ty("span<mud::Colour>", sizeof(stl::span<mud::Colour>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<mud::quat>>() { static Type ty("span<mud::quat>", sizeof(stl::span<mud::quat>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<mud::uvec3>>() { static Type ty("span<mud::uvec3>", sizeof(stl::span<mud::uvec3>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<mud::vec3>>() { static Type ty("span<mud::vec3>", sizeof(stl::span<mud::vec3>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<uint32_t>>() { static Type ty("span<uint32_t>", sizeof(stl::span<uint32_t>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::vector<float>>() { static Type ty("vector<float>", sizeof(stl::vector<float>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::vector<int>>() { static Type ty("vector<int>", sizeof(stl::vector<int>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::vector<mud::Colour>>() { static Type ty("vector<mud::Colour>", sizeof(stl::vector<mud::Colour>)); return ty; }

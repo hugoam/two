@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
+#include <stl/span.h>
 #include <stl/string.h>
 #include <refl/Forward.h>
 
@@ -24,5 +25,5 @@ namespace mud
 		vector<cstring> m_path;
 	};
 
-	export_ MUD_REFL_EXPORT Namespace& namspc(vector<cstring> path);
+	export_ MUD_REFL_EXPORT Namespace& namspc(span<cstring> path);
 }

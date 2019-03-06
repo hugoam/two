@@ -170,7 +170,7 @@ namespace mud
 	public:
 		GridSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 
-		void divide(vector<Space> spaces);
+		void divide(span<Space> spaces);
 
 		virtual FrameSolver& solver(FrameSolver& frame, Axis dim);
 	};

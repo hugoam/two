@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
+#include <stl/span.h>
 #include <math/Forward.h>
 #include <math/Colour.h>
 
@@ -22,7 +23,7 @@ namespace mud
 	{
 	public:
 		constr_ Palette(Spectrum spectrum, size_t steps);
-		constr_ Palette(vector<Colour> colours);
+		constr_ Palette(span<Colour> colours);
 		constr_ Palette();
 
 		void reset();

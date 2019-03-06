@@ -38,7 +38,7 @@ namespace mud
 	object<Shape> Quad::clone() const { return oconstruct<Quad>(*this); }
 
 	Polygon::Polygon() : Shape(type<Polygon>()) {}
-	Polygon::Polygon(vector<vec3> vertices) : Shape(type<Polygon>()), m_vertices(vertices) {}
+	Polygon::Polygon(span<vec3> vertices) : Shape(type<Polygon>()), m_vertices(vertices.begin(), vertices.end()) {}
 	object<Shape> Polygon::clone() const { return oconstruct<Polygon>(*this); }
 
 	Grid2::Grid2() : Shape(type<Grid2>()) {}

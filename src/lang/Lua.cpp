@@ -802,8 +802,8 @@ namespace mud
 	class LuaContext
 	{
 	public:
-		explicit LuaContext(vector<string> import_namespaces = {})
-			: m_import_namespaces(import_namespaces)
+		explicit LuaContext(span<string> import_namespaces = {})
+			: m_import_namespaces(import_namespaces.begin(), import_namespaces.end())
 		{
 			m_state = luaL_newstate();
 
