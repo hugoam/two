@@ -128,8 +128,9 @@ namespace mud
 namespace stl
 {
 	export_ using cstring = const char*;
-	export_ extern template struct refl_ seque_ span<float>;
-	export_ extern template struct refl_ seque_ span<cstring>;
+	export_ extern template struct refl_ span_ span<float>;
+	export_ extern template struct refl_ span_ span<cstring>;
+
 	//export_ extern template class refl_ seque_ vector<string>;
 	export_ extern template class refl_ seque_ vector<mud::Space>;
 }

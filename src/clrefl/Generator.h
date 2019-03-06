@@ -327,6 +327,7 @@ namespace mud
 		bool m_pointer = false;
 
 		bool m_array = false;
+		bool m_span = false;
 		bool m_sequence = false;
 
 		vector<CLType*> m_bases;
@@ -345,8 +346,10 @@ namespace mud
 		bool isbasetype() const { return m_type_kind != CLTypeKind::Class && m_type_kind != CLTypeKind::Enum; }
 		bool isprimitive() const { return m_type_kind < CLTypeKind::String; }
 		bool istypedptr() const { return m_id == "mud::Ref"; }
-		bool isvector() const { return m_sequence; }
 		bool isarray() const { return m_array; }
+		bool isspan() const { return m_span; }
+		bool issequence() const { return m_sequence; }
+		bool isvector() const { return m_sequence && !m_span; }
 
 		bool copyable() const { return this->isbasetype() || this->isenum() || m_struct; }
 	};

@@ -1754,14 +1754,8 @@ Module['look_at'] = function(a0, a1, a2) {
     if (a2 === undefined) { return wrapPointer(_mud_look_at_2(/*eye*/a0.ptr, /*target*/a1.ptr), quat); }
     return wrapPointer(_mud_look_at_3(/*eye*/a0.ptr, /*target*/a1.ptr, /*forward*/a2.ptr), quat);
 };
-Module['grid'] = function(a0, a1) {
-    _mud_grid_2(/*size*/a0.ptr, /*output_coords*/a1.ptr);
-};
 Module['grid_center'] = function(a0, a1) {
     return wrapPointer(_mud_grid_center_2(/*coord*/a0.ptr, /*cell_size*/a1.ptr), v3_float);
-};
-Module['index_list'] = function(a0, a1) {
-    _mud_index_list_2(/*size*/a0, /*output_indices*/a1.ptr);
 };
 Module['float2'] = v2_float;
 Module['float3'] = v3_float;

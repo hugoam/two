@@ -12,6 +12,7 @@
 #define struct_ // Struct
 #define nocopy_ // Nocopy type
 #define array_	// Array type
+#define span_	// Span type
 #define seque_	// Sequence type
 #define extern_ // Extern type
 #define gpu_    // Gpu type

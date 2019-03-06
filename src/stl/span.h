@@ -11,7 +11,7 @@
 namespace stl
 {
 	export_ template <class T>
-	struct refl_ struct_ seque_ span
+	struct refl_ struct_ span_ span
 	{
 	public:
 		span() : m_pointer(nullptr), m_count(0) {}

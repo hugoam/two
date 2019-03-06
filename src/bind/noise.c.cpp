@@ -75,24 +75,6 @@ extern "C" {
 	float DECL mud_noise_fract_3d_10(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves, float lacunarity, float gain) {
 		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
 	}
-	void DECL mud_noise_field_2d_2(float* output_values, int output_values_size, mud::Noise::NoiseType noise_type) {
-		mud::noise_field_2d({ (float*)output_values, output_values_size / (sizeof(float) / sizeof(float)) }, noise_type);
-	}
-	void DECL mud_noise_field_2d_3(float* output_values, int output_values_size, mud::Noise::NoiseType noise_type, float frequency) {
-		mud::noise_field_2d({ (float*)output_values, output_values_size / (sizeof(float) / sizeof(float)) }, noise_type, frequency);
-	}
-	void DECL mud_noise_field_2d_4(float* output_values, int output_values_size, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
-		mud::noise_field_2d({ (float*)output_values, output_values_size / (sizeof(float) / sizeof(float)) }, noise_type, frequency, interp);
-	}
-	void DECL mud_noise_field_3d_2(float* output_values, int output_values_size, mud::Noise::NoiseType noise_type) {
-		mud::noise_field_3d({ (float*)output_values, output_values_size / (sizeof(float) / sizeof(float)) }, noise_type);
-	}
-	void DECL mud_noise_field_3d_3(float* output_values, int output_values_size, mud::Noise::NoiseType noise_type, float frequency) {
-		mud::noise_field_3d({ (float*)output_values, output_values_size / (sizeof(float) / sizeof(float)) }, noise_type, frequency);
-	}
-	void DECL mud_noise_field_3d_4(float* output_values, int output_values_size, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
-		mud::noise_field_3d({ (float*)output_values, output_values_size / (sizeof(float) / sizeof(float)) }, noise_type, frequency, interp);
-	}
 	// CellularDistanceFunction
 	mud::Noise::CellularDistanceFunction DECL mud_Noise_CellularDistanceFunction_Euclidean() {
 		return mud::Noise::Euclidean;

@@ -178,7 +178,8 @@ namespace mud
 #include <stl/span.h>
 namespace stl
 {
-	export_ extern template struct refl_ seque_ span<mud::mat4>;
+	export_ extern template struct refl_ span_ span<mud::mat4>;
+
 	export_ extern template class refl_ seque_ vector<mud::Animation*>;
 	export_ extern template class refl_ seque_ vector<mud::AnimationPlay>;
 }

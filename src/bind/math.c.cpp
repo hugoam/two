@@ -1321,15 +1321,9 @@ extern "C" {
 		static mud::quat temp;
 		return (temp = mud::look_at(*eye, *target, *forward), &temp);
 	}
-	void DECL mud_grid_2(const mud::uvec3* size, uint* output_coords, int output_coords_size) {
-		mud::grid(*size, { (mud::uvec3*)output_coords, output_coords_size / (sizeof(mud::uvec3) / sizeof(uint)) });
-	}
 	mud::vec3* DECL mud_grid_center_2(const mud::uvec3* coord, const mud::vec3* cell_size) {
 		static mud::vec3 temp;
 		return (temp = mud::grid_center(*coord, *cell_size), &temp);
-	}
-	void DECL mud_index_list_2(uint32_t size, uint* output_indices, int output_indices_size) {
-		mud::index_list(size, { (uint32_t*)output_indices, output_indices_size / (sizeof(uint32_t) / sizeof(uint)) });
 	}
 	// Axes
 	mud::Axes DECL mud_Axes_None() {

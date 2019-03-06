@@ -189,7 +189,8 @@ namespace mud
 		c.m_move_only = has(c.m_annotations, "nocopy");
 		c.m_reflect = has(c.m_annotations, "refl") && should_reflect(cursor, module);
 		c.m_array = has(c.m_annotations, "array");
-		c.m_sequence = has(c.m_annotations, "seque");
+		c.m_span = has(c.m_annotations, "span");
+		c.m_sequence = has(c.m_annotations, "seque") || c.m_span;
 		c.m_extern = has(c.m_annotations, "extern");
 
 		c.m_is_template = cursor.kind == CXCursor_ClassTemplate;
@@ -533,7 +534,7 @@ namespace mud
 					decl_enum(module, parent, c);
 				else if((c.kind == CXCursor_ClassDecl || c.kind == CXCursor_StructDecl))
 				{
-					CLClass& cl = has(annotations, "seque")
+					CLClass& cl = has(annotations, "seque") || has(annotations, "span")
 						? decl_sequence_type(module, parent, c)
 						: decl_class_type(module, parent, c);
 					build_classes(c, module, cl);
@@ -615,7 +616,7 @@ namespace mud
 				//"-DMUD_NO_GLM", // @todo
 			};
 
-			for(string attr : { "base", "refl", "struct", "nocopy", "extern", "gpu", "array", "seque", "comp", "constr", "meth", "func", "attr", "nomut", "graph", "link" })
+			for(string attr : { "base", "refl", "struct", "nocopy", "extern", "gpu", "array", "span", "seque", "comp", "constr", "meth", "func", "attr", "nomut", "graph", "link" })
 				compiler_args.push_back("-D" + attr + "_=__attribute__((annotate(\"" + attr + "\")))");
 
 			for(string dir : module.m_includedirs)

@@ -1192,30 +1192,24 @@ namespace clgen
 		auto blacklist_type = [&](const CLQualType& t) { for(const string& n : blacklist) { if(t.m_spelling.find(n) != string::npos) return true; } if(t.m_type->isstring() && t.reference() && !t.isconst()) return true; return false; };
 		auto blacklist_class = [&](const CLClass& c) { for(const string& n : blacklist) { if(c.m_id.find(n) != string::npos) return true; } return false; };
 
-		auto blacklist_param = [&](const CLQualType& t)
+		auto blacklist_param = [&](const CLQualType& t, bool input)
 		{
 			if(t.m_type == nullptr) return false; // constructors
-			if(t.m_type->isvector())
+			if(t.m_type->isvector() && input) return true;
+			if(t.m_type->issequence())
 			{
 				const CLType& elem = reduce_element(*t.m_type);
-				//if(t.value() || !elem.isprimitive())
-				if(!elem.isprimitive())
-					return true;
+				if(!elem.isprimitive()) return true;
 			}
 			return blacklist_type(t);
 		};
 
-		auto blacklist_member = [&](const CLMember& m) { return blacklist_param(m.m_type); };
+		auto blacklist_member = [&](const CLMember& m) { return blacklist_param(m.m_type, false); };
 
 		auto blacklist_callable = [&](const CLCallable& f)
 		{
-			if(f.m_name == "Polygon")
-				int i = 0;
-			for(const CLParam& p : f.m_params)
-				if(blacklist_param(p.m_type))
-					return true;
-			if(blacklist_param(f.m_return_type))
-				return true;
+			for(const CLParam& p : f.m_params) if(blacklist_param(p.m_type, true)) return true;
+			if(blacklist_param(f.m_return_type, false)) return true;
 			return false;
 		};
 
@@ -1267,7 +1261,7 @@ namespace clgen
 		{
 			if(t.m_type->isstring()) return "const char*";
 			if(t.m_type->isenum()) return t.m_type_name;
-			if(t.m_type->isvector()) return reduce_element(*t.m_type).m_id + "*";
+			if(t.m_type->issequence()) return reduce_element(*t.m_type).m_id + "*";
 			string name = !t.m_type->isbasetype() ? t.m_type_name + (non_pointing ? "" : "*") : t.m_type_name;
 			return (t.isconst() && name != "const char*" ? "const " : "") + name + (!no_array && t.m_array ? "[]" : "");
 		};
@@ -1314,7 +1308,7 @@ namespace clgen
 		{
 			if(t.istypedptr())
 				return "{ " + name + ", *" + name + "_type" + " }";
-			else if(t.isvector())
+			else if(t.isspan())
 			{
 				const CLType& elem = element_type(t);
 				const CLType& prim = reduce_element(t);
@@ -1334,7 +1328,7 @@ namespace clgen
 		{
 			if(qt.m_type->istypedptr())
 				return "void* " + name + ", " + "mud::Type* " + name + "_type";
-			else if(qt.m_type->isvector())
+			else if(qt.m_type->issequence())
 				return reduce_element(*qt.m_type).m_id + "* " + name + ", " + "int " + name + "_size";
 			else
 				return type_to_c(qt) + " " + name;
@@ -1364,7 +1358,7 @@ namespace clgen
 			if(t.iscstring() || t.isstring()) return "ensureString(" + a + ")";
 			else if(t.istypedptr()) return "ensureRef(" + a + "), ensureRefType(" + a + ")";
 			else if(t.isclass()) return a + ".ptr";
-			else if((qt.m_array || t.isvector()) && !no_array)
+			else if((qt.m_array || t.issequence()) && !no_array)
 			{
 				const CLType& elem = element_type(t);
 				const CLType& prim = reduce_element(t);
@@ -1376,7 +1370,7 @@ namespace clgen
 				else if(has({ "float" }, prim.m_name)) value = "ensureFloat32(" + a + ")";
 				else if(has({ "double" }, prim.m_name)) value = "ensureFloat64(" + a + ")";
 
-				if(t.isvector()) return value + ", arraySize(" + a + ")";
+				if(t.issequence()) return value + ", arraySize(" + a + ")";
 				else return value;
 			}
 			else return a;
@@ -1409,7 +1403,7 @@ namespace clgen
 		auto js_call_return_wrap = [&](const CLQualType& qt, const string& call)
 		{
 			const CLType& t = *qt.m_type;
-			if(t.isclass() && !t.isvector())
+			if(t.isclass() && !t.issequence())
 				return "return wrapPointer(" + call + ", " + name(*qt.m_type) + ");";
 			else if(t.iscstring() || t.isstring())
 				return "return Pointer_stringify(" + call + ");";
@@ -1592,7 +1586,7 @@ namespace clgen
 				cw("return " + call + ".c_str();");
 			else if(q.m_type->isbasetype() || q.m_type->isenum())
 				cw("return " + call + ";");
-			else if(q.m_type->isvector())
+			else if(q.m_type->issequence())
 				cw("return (" + reduce_element(*q.m_type).m_id + "*)" + call + ".data();");
 			else if(ref || !q.value() || !q.m_type->copyable())
 				cw("return " + address(q) + call + ";");
