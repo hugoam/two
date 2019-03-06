@@ -183,7 +183,6 @@ void mud_Item_update_aabb(void* object, span<void*> args, void*& result) { UNUSE
 void mud_Joint__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Joint(  ); }
 void mud_Joint__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Joint((*static_cast<mud::Joint*>(other))); }
 void mud_Light__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Light( *static_cast<mud::Node3*>(args[0]), *static_cast<mud::LightType*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<mud::Colour*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5]) ); }
-void* mud_Light__get_node(void* object) { return &(*static_cast<mud::Light*>(object)).m_node; }
 void mud_MaterialAlpha__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MaterialAlpha(  ); }
 void mud_MaterialAlpha__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MaterialAlpha((*static_cast<mud::MaterialAlpha*>(other))); }
 void mud_MaterialBase__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MaterialBase(  ); }
@@ -1340,6 +1339,7 @@ namespace mud
 		static bool fetch_material_0_builtin_default = true;
 		static mud::Symbol shape_0_symbol_default = {};
 		static mud::DrawMode shape_0_draw_mode_default = PLAIN;
+		static mud::DrawMode symbol_material_0_draw_mode_default = PLAIN;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_GfxSystem__construct_0, { { "resource_path", type<stl::string>(),  } } }
@@ -1365,7 +1365,7 @@ namespace mud
 			{ t, "fetch_material", Address(), mud_GfxSystem_fetch_material, { { "name", type<stl::string>(),  }, { "shader", type<stl::string>(),  }, { "builtin", type<bool>(), Param::Default, &fetch_material_0_builtin_default } }, { &type<mud::Material>(), QualType::None } },
 			{ t, "fetch_image256_material", Address(), mud_GfxSystem_fetch_image256_material, { { "image", type<mud::Image256>(),  } }, { &type<mud::Material>(), QualType::None } },
 			{ t, "shape", Address(), mud_GfxSystem_shape, { { "shape", type<mud::Shape>(),  }, { "symbol", type<mud::Symbol>(), Param::Default, &shape_0_symbol_default }, { "draw_mode", type<mud::DrawMode>(), Param::Default, &shape_0_draw_mode_default } }, { &type<mud::Model>(), QualType::None } },
-			{ t, "symbol_material", Address(), mud_GfxSystem_symbol_material, { { "symbol", type<mud::Symbol>(),  }, { "draw_mode", type<mud::DrawMode>(),  } }, { &type<mud::Material>(), QualType::None } }
+			{ t, "symbol_material", Address(), mud_GfxSystem_symbol_material, { { "symbol", type<mud::Symbol>(),  }, { "draw_mode", type<mud::DrawMode>(), Param::Default, &symbol_material_0_draw_mode_default } }, { &type<mud::Material>(), QualType::None } }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
@@ -1522,6 +1522,7 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Light", sizeof(mud::Light), TypeClass::Object };
 		// bases
 		// defaults
+		static mud::Node3* node_default = nullptr;
 		static mud::LightType type_default = mud::LightType::Point;
 		static bool visible_default = true;
 		static mud::Colour colour_default = mud::Colour::White;
@@ -1552,7 +1553,7 @@ namespace mud
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, SIZE_MAX, type<mud::Node3>(), "node", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Light__get_node },
+			{ t, offsetof(mud::Light, m_node), type<mud::Node3>(), "node", node_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Light, m_type), type<mud::LightType>(), "type", &type_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Light, m_visible), type<bool>(), "visible", &visible_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Light, m_colour), type<mud::Colour>(), "colour", &colour_default, Member::Value, nullptr },

@@ -20,9 +20,6 @@ namespace mud
 
 	struct refl_ struct_ MUD_ECS_EXPORT Entity
 	{
-		//Entity() {}
-		//Entity(uint8_t ecs, uint16_t stream, uint32_t handle) : m_ecs(ecs), m_stream(stream), m_handle(handle) {}
-
 		explicit operator bool() const { return m_handle != UINT32_MAX; }
 		operator uint32_t() const { return m_handle; }
 
@@ -31,7 +28,7 @@ namespace mud
 
 		void destroy(); // { if(m_handle != UINT32_MAX) s_ecs[m_ecs]->destroy(m_handle); }
 
-		void swap(Entity& other) { using mud::swap; swap(m_handle, other.m_handle); swap(m_ecs, other.m_ecs); }
+		void swap(Entity& other) { using mud::swap; swap(m_handle, other.m_handle); swap(m_stream, other.m_stream); swap(m_ecs, other.m_ecs); }
 
 		uint8_t m_ecs = UINT8_MAX;
 		uint16_t m_stream = UINT16_MAX;

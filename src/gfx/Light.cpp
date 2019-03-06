@@ -15,7 +15,7 @@ namespace mud
 	static uint32_t s_light_index = 0;
 
 	Light::Light(Node3& node, LightType type, bool shadows, Colour colour, float energy, float range)
-		: m_node(node)
+		: m_node(&node)
 		, m_type(type)
 		, m_colour(colour)
 		, m_range(range)
@@ -29,7 +29,4 @@ namespace mud
 		if(type != LightType::Spot)
 			m_spot_angle = 0.f;
 	}
-
-	Light::~Light()
-	{}
 }

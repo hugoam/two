@@ -1,97 +1,82 @@
 // TileModel
 function TileModel() {
-    this.ptr = _mud_TileModel__construct_0(); this.type = TileModel; getCache(TileModel)[this.ptr] = this;
+    this.__ptr = _mud_TileModel__construct_0(); this.__type = TileModel.__type; getCache(TileModel)[this.__ptr] = this;
 };
 TileModel.prototype = Object.create(WrapperObject.prototype);
 TileModel.prototype.constructor = TileModel;
-TileModel.prototype.__class__ = TileModel;
-TileModel.__cache__ = {};
+TileModel.prototype.__class = TileModel;
+TileModel.__cache = {};
 Module['TileModel'] = TileModel;
-TileModel.prototype["__destroy__"] = TileModel.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_TileModel__destroy(self);
+TileModel.prototype["__destroy"] = TileModel.prototype.__destroy = function() {
+    _mud_TileModel__destroy(this.__ptr);
 };
 // WfcBlock
 function WfcBlock(a0, a1, a2, a3, a4) {
-    if (a0 === undefined) { this.ptr = _mud_WfcBlock__construct_0(); this.type = WfcBlock; getCache(WfcBlock)[this.ptr] = this; return; }
-    if (a4 === undefined) { this.ptr = _mud_WfcBlock__construct_4(/*position*/a0.ptr, /*size*/a1.ptr, /*scale*/a2.ptr, /*tileset*/a3.ptr); this.type = WfcBlock; getCache(WfcBlock)[this.ptr] = this; return; }
-    this.ptr = _mud_WfcBlock__construct_5(/*position*/a0.ptr, /*size*/a1.ptr, /*scale*/a2.ptr, /*tileset*/a3.ptr, /*auto_solve*/a4); this.type = WfcBlock; getCache(WfcBlock)[this.ptr] = this;
+    if (a0 === undefined) { this.__ptr = _mud_WfcBlock__construct_0(); this.__type = WfcBlock.__type; getCache(WfcBlock)[this.__ptr] = this; return; }
+    if (a4 === undefined) { this.__ptr = _mud_WfcBlock__construct_4(/*position*/a0.__ptr, /*size*/a1.__ptr, /*scale*/a2.__ptr, /*tileset*/a3.__ptr); this.__type = WfcBlock.__type; getCache(WfcBlock)[this.__ptr] = this; return; }
+    this.__ptr = _mud_WfcBlock__construct_5(/*position*/a0.__ptr, /*size*/a1.__ptr, /*scale*/a2.__ptr, /*tileset*/a3.__ptr, /*auto_solve*/a4); this.__type = WfcBlock.__type; getCache(WfcBlock)[this.__ptr] = this;
 };
 WfcBlock.prototype = Object.create(WrapperObject.prototype);
 WfcBlock.prototype.constructor = WfcBlock;
-WfcBlock.prototype.__class__ = WfcBlock;
-WfcBlock.__cache__ = {};
+WfcBlock.prototype.__class = WfcBlock;
+WfcBlock.__cache = {};
 Module['WfcBlock'] = WfcBlock;
 WfcBlock.prototype["reset"] = WfcBlock.prototype.reset = function() {
-    var self = this.ptr;
-    _mud_WfcBlock_reset_0(self);
+    _mud_WfcBlock_reset_0(this.__ptr);
 };
 WfcBlock.prototype["observe"] = WfcBlock.prototype.observe = function() {
-    var self = this.ptr;
-    _mud_WfcBlock_observe_0(self);
+    _mud_WfcBlock_observe_0(this.__ptr);
 };
 WfcBlock.prototype["propagate"] = WfcBlock.prototype.propagate = function() {
-    var self = this.ptr;
-    _mud_WfcBlock_propagate_0(self);
+    _mud_WfcBlock_propagate_0(this.__ptr);
 };
 WfcBlock.prototype["solve"] = WfcBlock.prototype.solve = function(a0) {
-    var self = this.ptr;
-    if (a0 === undefined) { _mud_WfcBlock_solve_0(self); return; }
-    _mud_WfcBlock_solve_1(self, /*limit*/a0);
+    if (a0 === undefined) { _mud_WfcBlock_solve_0(this.__ptr); return; }
+    _mud_WfcBlock_solve_1(this.__ptr, /*limit*/a0);
 };
 WfcBlock.prototype["update"] = WfcBlock.prototype.update = function(a0) {
-    var self = this.ptr;
-    _mud_WfcBlock_update_1(self, /*wave*/a0.ptr);
+    _mud_WfcBlock_update_1(this.__ptr, /*wave*/a0.__ptr);
 };
 Object.defineProperty(WfcBlock.prototype, "position", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_WfcBlock__get_position(self), v3_float);
+        return wrapPointer(_mud_WfcBlock__get_position(this.__ptr), v3_float);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_WfcBlock__set_position(self, value.ptr);
+        _mud_WfcBlock__set_position(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "size", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_WfcBlock__get_size(self), v3_uint);
+        return wrapPointer(_mud_WfcBlock__get_size(this.__ptr), v3_uint);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_WfcBlock__set_size(self, value.ptr);
+        _mud_WfcBlock__set_size(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "scale", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_WfcBlock__get_scale(self), v3_float);
+        return wrapPointer(_mud_WfcBlock__get_scale(this.__ptr), v3_float);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_WfcBlock__set_scale(self, value.ptr);
+        _mud_WfcBlock__set_scale(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "aabb", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_WfcBlock__get_aabb(self), Aabb);
+        return wrapPointer(_mud_WfcBlock__get_aabb(this.__ptr), Aabb);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_WfcBlock__set_aabb(self, value.ptr);
+        _mud_WfcBlock__set_aabb(this.__ptr, value.__ptr);
     }
 });
-WfcBlock.prototype["__destroy__"] = WfcBlock.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_WfcBlock__destroy(self);
+WfcBlock.prototype["__destroy"] = WfcBlock.prototype.__destroy = function() {
+    _mud_WfcBlock__destroy(this.__ptr);
 };
 
 (function() {
     function setup() {
-        TileModel.__type__ = _mud_TileModel__type();
-        WfcBlock.__type__ = _mud_WfcBlock__type();
+        TileModel.__type = _mud_TileModel__type();
+        WfcBlock.__type = _mud_WfcBlock__type();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

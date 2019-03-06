@@ -13,7 +13,6 @@ function generateTexture(gfx, width, height, m) {
             else buffer[x + y * width] = 0x00000000;
         }
 
-    //texture.upload(2, 2, buffer);
     two.load_texture_rgba(texture, 2, 2, buffer);
     return texture;
 }
@@ -21,8 +20,6 @@ function generateTexture(gfx, width, height, m) {
 var viewer = two.ui.scene_viewer(app.ui.begin());
 //two.ui.orbit_controller(viewer);
 two.ui.trackball_controller(viewer);
-
-var scene = viewer.scene;
 
 if(typeof this.state == 'undefined') {
     this.state = 1;
@@ -49,41 +46,34 @@ if(typeof this.state == 'undefined') {
     s.pbr.normal = -1.0; // @todo @bug @hack check why gl_FrontFacing in shader inverts normals
     this.spheremat = s;
 
-    var colors = [0x0088ff, 0xff8888];
-    
-    this.lights = [];
-    for(var i = 0; i < 2; ++i) {
-        
-        var color = two.rgb(colors[i]);
-        var intensity = 1.5;
-        var range = 20.0;
-        
-        var sphere0 = app.gfx.shape(new two.Sphere(0.3));
-        var sphere1 = app.gfx.shape(new two.Sphere(2.0));
-        
-        var node = scene.nodes().add(new two.Node3());
-        var inner = scene.items().add(new two.Item(node, sphere0, 0, app.gfx.symbol_material(new two.Symbol(color), two.PLAIN)));// * intensity));
-        var outer = scene.items().add(new two.Item(node, sphere1, 0, this.spheremat));
-        
-        console.log(two.LightType.Point);
-        var light = scene.lights().add(new two.Light(node, two.LightType.Point, true, color, intensity, range)); //, 0.6));// intensity);
-        //light.shadow_bias = 0.005;
-        
-        this.lights.push(node);
-    }
-        
-    var cube = new two.Cube(new two.vec3(15.0));
-    var node = scene.nodes().add(new two.Node3());// , Y3 * 10.0);
-    scene.items().add(new two.Item(node, app.gfx.shape(cube), 0, this.cubemat));
-
     viewer.scene.env.radiance.ambient = 0.2;
 }
 
-function pos(time) {
+function light_source(parent, color, pos, rot)
+{
+    var intensity = 1.5;
+    var range = 20.0;
+
+    var node = two.gfx.node(parent, null, pos, rot);
+
+    var inner = two.gfx.shape(node, new two.Sphere(0.3), new two.Symbol(color));// * intensity));
+    var outer = two.gfx.shape(node, new two.Sphere(2.0), new two.Symbol(new two.Colour(1.0)), 0, sphere_material);
+    
+    var light = two.gfx.light(node, two.LightType.Point, true, color, range, 0.6);// intensity);
+    light.range = range;
+    light.energy = intensity;
+    light.shadow_bias = 0.005;
+
+    return node;
+};
+
+function light_pos(time)
+{
     return new two.vec3(Math.sin(time * 0.6) * 9, Math.sin(time * 0.7) * 9 + 5, Math.sin(time * 0.8) * 9);
 };
 
-function rot(time) {
+function light_rot(time)
+{
     return new two.quat(new two.vec3(time, 0.0, time));
 };
 
@@ -91,8 +81,18 @@ var scene = viewer.scene.begin();
 
 two.gfx.radiance(scene, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
 
-var time0 = time;
-this.lights[0].apply(pos(time), rot(time));
+var pos0 = light_pos(time);
+var rot0 = light_rot(time);
+var light0 = light_source(scene, two.rgba(0x0088ff), pos0, rot0);
 
-var time1 = time + Math.PI;
-this.lights[1].apply(pos(time1), rot(time1));
+//two.gfx.shape(scene, Cylinder(X3, 0.1, 1.0, Axis::X), new two.Symbol(two.rgb(0xff0000));
+//two.gfx.shape(scene, Cylinder(Y3, 0.1, 1.0, Axis::Y), new two.Symbol(two.rgb(0x00ff00));
+//two.gfx.shape(scene, Cylinder(Z3, 0.1, 1.0, Axis::Z), new two.Symbol(two.rgb(0x0000ff));
+
+var pos1 = light_pos(time + Math.PI);
+var rot1 = light_rot(time + Math.PI);
+var light1 = light_source(scene, two.rgba(0xff8888), pos1, rot1);
+
+var box = new two.Cube(new two.vec3(15.0));
+var node = two.gfx.node(scene);// , Y3 * 10.0);
+two.gfx.shape(node, box, new two.Symbol(), 0, this.cubemat);

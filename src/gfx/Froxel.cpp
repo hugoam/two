@@ -346,8 +346,8 @@ namespace mud
 
 		for(uint32_t i = offset; i < lights.size(); i += stride)
 		{
-			vec3 position = mulp(camera.m_transform, lights[i]->m_node.position());
-			vec3 direction = muln(camera.m_transform, lights[i]->m_node.direction());
+			vec3 position = mulp(camera.m_transform, lights[i]->m_node->position());
+			vec3 direction = muln(camera.m_transform, lights[i]->m_node->direction());
 
 			float cos2 = sq(cos(to_radians(lights[i]->m_spot_angle)));
 			float invsin = 1.f / std::sqrt(1.f - cos2);

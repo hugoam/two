@@ -2,12 +2,11 @@
 function Noise() { throw "cannot construct a Noise, no constructor in IDL" }
 Noise.prototype = Object.create(WrapperObject.prototype);
 Noise.prototype.constructor = Noise;
-Noise.prototype.__class__ = Noise;
-Noise.__cache__ = {};
+Noise.prototype.__class = Noise;
+Noise.__cache = {};
 Module['Noise'] = Noise;
-Noise.prototype["__destroy__"] = Noise.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Noise__destroy(self);
+Noise.prototype["__destroy"] = Noise.prototype.__destroy = function() {
+    _mud_Noise__destroy(this.__ptr);
 };
 Module['noise_2d'] = function(a0, a1, a2, a3, a4) {
     if (a3 === undefined) { return _mud_noise_2d_3(/*x*/a0, /*y*/a1, /*noise_type*/a2); }
@@ -38,7 +37,7 @@ Module['noise_fract_3d'] = function(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) {
 
 (function() {
     function setup() {
-        Noise.__type__ = _mud_Noise__type();
+        Noise.__type = _mud_Noise__type();
         // CellularDistanceFunction
         Module['Noise']['Euclidean'] = _mud_Noise_CellularDistanceFunction_Euclidean();
         Module['Noise']['Manhattan'] = _mud_Noise_CellularDistanceFunction_Manhattan();

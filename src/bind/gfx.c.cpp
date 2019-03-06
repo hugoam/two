@@ -943,6 +943,9 @@ extern "C" {
 	mud::Model* DECL mud_GfxSystem_shape_3(mud::GfxSystem* self, const mud::Shape* shape, const mud::Symbol* symbol, mud::DrawMode draw_mode) {
 		return &self->shape(*shape, *symbol, draw_mode);
 	}
+	mud::Material* DECL mud_GfxSystem_symbol_material_1(mud::GfxSystem* self, const mud::Symbol* symbol) {
+		return &self->symbol_material(*symbol);
+	}
 	mud::Material* DECL mud_GfxSystem_symbol_material_2(mud::GfxSystem* self, const mud::Symbol* symbol, mud::DrawMode draw_mode) {
 		return &self->symbol_material(*symbol, draw_mode);
 	}
@@ -1164,7 +1167,10 @@ extern "C" {
 		return new mud::Light(*node, type, shadows, *colour, energy, range);
 	}
 	mud::Node3* DECL mud_Light__get_node(mud::Light* self) {
-		return &self->m_node;
+		return self->m_node;
+	}
+	void DECL mud_Light__set_node(mud::Light* self, mud::Node3* value) {
+		self->m_node = value;
 	}
 	mud::LightType DECL mud_Light__get_type(mud::Light* self) {
 		return self->m_type;

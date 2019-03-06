@@ -46,10 +46,10 @@ namespace mud
 	}
 	
 	export_ template <class T>
-	inline vector<T> prepend(span<T>& vec, const T& value)
+	inline vector<T> prepend(span<T> vec, const T& value)
 	{
 		vector<T> result(vec.begin(), vec.end());
-		result.insert(vec.begin(), value);
+		result.insert(result.begin(), value);
 		return result;
 	}
 

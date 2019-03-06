@@ -313,7 +313,7 @@ namespace mud
 		const vector<EntityStream*> matches = this->match(prototype);
 		for(EntityStream* buffers : matches)
 		{
-			const TBuffer<T>& buffer = buffers->buffer<T>();
+			TBuffer<T>& buffer = buffers->buffer<T>();
 
 			const size_t count = buffer.m_data.size();
 			const size_t size = result.size();
@@ -448,8 +448,8 @@ namespace mud
 
 	template <class T>
 	inline EntityHandle<T>::EntityHandle() {}
-	//template <class T>
-	//inline EntityHandle<T>::EntityHandle(uint32_t handle, uint32_t stream) : ComponentHandle<T>(handle, stream) {}
+	template <class T>
+	inline EntityHandle<T>::EntityHandle(Entity entity) : ComponentHandle<T>(entity) {}
 	template <class T>
 	inline EntityHandle<T>::~EntityHandle() { this->destroy(); }
 

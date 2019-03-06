@@ -3,11 +3,11 @@ function WrapperObject() {
 }
 WrapperObject.prototype = Object.create(WrapperObject.prototype);
 WrapperObject.prototype.constructor = WrapperObject;
-WrapperObject.prototype.__class__ = WrapperObject;
-WrapperObject.__cache__ = {};
+WrapperObject.prototype.__class = WrapperObject;
+WrapperObject.__cache = {};
 Module[WrapperObject] = WrapperObject;
 function getCache(cls) {
-  return (cls || WrapperObject).__cache__;
+  return (cls || WrapperObject).__cache;
 }
 Module['getCache'] = getCache;
 function wrapPointer(ptr, cls) {
@@ -20,27 +20,27 @@ function wrapPointer(ptr, cls) {
 }
 Module['wrapPointer'] = wrapPointer;
 function castObject(obj, cls) {
-  return wrapPointer(obj.ptr, cls);
+  return wrapPointer(obj.__ptr, cls);
 }
 Module['castObject'] = castObject;
 Module['NULL'] = wrapPointer(0);
 function destroy(obj) {
-  if (!obj['__destroy__']) throw 'Error: Cannot destroy object. (Did you create it yourself?)';
-  obj['__destroy__']();
+  if (!obj['__destroy']) throw 'Error: Cannot destroy object. (Did you create it yourself?)';
+  obj['__destroy']();
   // Remove from cache, so the object can be GC'd and refs added onto it released
-  delete getCache(obj.__class__)[obj.ptr];
+  delete getCache(obj.__class)[obj.__ptr];
 }
 Module['destroy'] = destroy;
 function compare(obj1, obj2) {
-  return obj1.ptr === obj2.ptr;
+  return obj1.__ptr === obj2.__ptr;
 }
 Module['compare'] = compare;
 function getPointer(obj) {
-  return obj.ptr;
+  return obj.__ptr;
 }
 Module['getPointer'] = getPointer;
 function getClass(obj) {
-  return obj.__class__;
+  return obj.__class;
 }
 Module['getClass'] = getClass;
 // Converts big (string or array) values into a C-style storage, in temporary space
@@ -113,11 +113,11 @@ function ensureString(value) {
     return value;
 }
 function ensureRef(value) {
-    if (typeof value !== 'undefined' && value !== null) { return value.ptr; }
+    if (typeof value !== 'undefined' && value !== null) { return value.__ptr; }
 	else { return 0; }
 }
 function ensureRefType(value) {
-    if (typeof value !== 'undefined' && value !== null) { return value.type.__type__; }
+    if (typeof value !== 'undefined' && value !== null) { return value.__type; }
 	else { return 0; }
 }
 function ensureInt8(value) {

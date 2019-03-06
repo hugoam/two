@@ -40,6 +40,7 @@ namespace mud
 		attr_ uint16_t m_index;
 
 		vector<ModelItem> m_items;
+		bool m_no_transform = true;
 
 		attr_ Aabb m_aabb = { vec3(0.f), vec3(0.f) };
 		attr_ float m_radius = 0.f;

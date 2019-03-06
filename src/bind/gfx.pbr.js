@@ -1,606 +1,525 @@
 Module['gfx'] = Module['gfx'] || {};
 // BCS
 function BCS() {
-    this.ptr = _mud_BCS__construct_0(); this.type = BCS; getCache(BCS)[this.ptr] = this;
+    this.__ptr = _mud_BCS__construct_0(); this.__type = BCS.__type; getCache(BCS)[this.__ptr] = this;
 };
 BCS.prototype = Object.create(WrapperObject.prototype);
 BCS.prototype.constructor = BCS;
-BCS.prototype.__class__ = BCS;
-BCS.__cache__ = {};
+BCS.prototype.__class = BCS;
+BCS.__cache = {};
 Module['BCS'] = BCS;
 Object.defineProperty(BCS.prototype, "enabled", {
     get: function() {
-        var self = this.ptr;
-        return !!(_mud_BCS__get_enabled(self));
+        return !!(_mud_BCS__get_enabled(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_BCS__set_enabled(self, value);
+        _mud_BCS__set_enabled(this.__ptr, value);
     }
 });
 Object.defineProperty(BCS.prototype, "brightness", {
     get: function() {
-        var self = this.ptr;
-        return _mud_BCS__get_brightness(self);
+        return _mud_BCS__get_brightness(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_BCS__set_brightness(self, value);
+        _mud_BCS__set_brightness(this.__ptr, value);
     }
 });
 Object.defineProperty(BCS.prototype, "contrast", {
     get: function() {
-        var self = this.ptr;
-        return _mud_BCS__get_contrast(self);
+        return _mud_BCS__get_contrast(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_BCS__set_contrast(self, value);
+        _mud_BCS__set_contrast(this.__ptr, value);
     }
 });
 Object.defineProperty(BCS.prototype, "saturation", {
     get: function() {
-        var self = this.ptr;
-        return _mud_BCS__get_saturation(self);
+        return _mud_BCS__get_saturation(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_BCS__set_saturation(self, value);
+        _mud_BCS__set_saturation(this.__ptr, value);
     }
 });
-BCS.prototype["__destroy__"] = BCS.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BCS__destroy(self);
+BCS.prototype["__destroy"] = BCS.prototype.__destroy = function() {
+    _mud_BCS__destroy(this.__ptr);
 };
 // BlockBlur
 function BlockBlur() { throw "cannot construct a BlockBlur, no constructor in IDL" }
 BlockBlur.prototype = Object.create(WrapperObject.prototype);
 BlockBlur.prototype.constructor = BlockBlur;
-BlockBlur.prototype.__class__ = BlockBlur;
-BlockBlur.__cache__ = {};
+BlockBlur.prototype.__class = BlockBlur;
+BlockBlur.__cache = {};
 Module['BlockBlur'] = BlockBlur;
-BlockBlur.prototype["__destroy__"] = BlockBlur.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockBlur__destroy(self);
+BlockBlur.prototype["__destroy"] = BlockBlur.prototype.__destroy = function() {
+    _mud_BlockBlur__destroy(this.__ptr);
 };
 // BlockDofBlur
 function BlockDofBlur() { throw "cannot construct a BlockDofBlur, no constructor in IDL" }
 BlockDofBlur.prototype = Object.create(WrapperObject.prototype);
 BlockDofBlur.prototype.constructor = BlockDofBlur;
-BlockDofBlur.prototype.__class__ = BlockDofBlur;
-BlockDofBlur.__cache__ = {};
+BlockDofBlur.prototype.__class = BlockDofBlur;
+BlockDofBlur.__cache = {};
 Module['BlockDofBlur'] = BlockDofBlur;
-BlockDofBlur.prototype["__destroy__"] = BlockDofBlur.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockDofBlur__destroy(self);
+BlockDofBlur.prototype["__destroy"] = BlockDofBlur.prototype.__destroy = function() {
+    _mud_BlockDofBlur__destroy(this.__ptr);
 };
 // BlockGIBake
 function BlockGIBake() { throw "cannot construct a BlockGIBake, no constructor in IDL" }
 BlockGIBake.prototype = Object.create(WrapperObject.prototype);
 BlockGIBake.prototype.constructor = BlockGIBake;
-BlockGIBake.prototype.__class__ = BlockGIBake;
-BlockGIBake.__cache__ = {};
+BlockGIBake.prototype.__class = BlockGIBake;
+BlockGIBake.__cache = {};
 Module['BlockGIBake'] = BlockGIBake;
-BlockGIBake.prototype["__destroy__"] = BlockGIBake.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockGIBake__destroy(self);
+BlockGIBake.prototype["__destroy"] = BlockGIBake.prototype.__destroy = function() {
+    _mud_BlockGIBake__destroy(this.__ptr);
 };
 // BlockGITrace
 function BlockGITrace() { throw "cannot construct a BlockGITrace, no constructor in IDL" }
 BlockGITrace.prototype = Object.create(WrapperObject.prototype);
 BlockGITrace.prototype.constructor = BlockGITrace;
-BlockGITrace.prototype.__class__ = BlockGITrace;
-BlockGITrace.__cache__ = {};
+BlockGITrace.prototype.__class = BlockGITrace;
+BlockGITrace.__cache = {};
 Module['BlockGITrace'] = BlockGITrace;
-BlockGITrace.prototype["__destroy__"] = BlockGITrace.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockGITrace__destroy(self);
+BlockGITrace.prototype["__destroy"] = BlockGITrace.prototype.__destroy = function() {
+    _mud_BlockGITrace__destroy(this.__ptr);
 };
 // BlockGeometry
 function BlockGeometry() { throw "cannot construct a BlockGeometry, no constructor in IDL" }
 BlockGeometry.prototype = Object.create(WrapperObject.prototype);
 BlockGeometry.prototype.constructor = BlockGeometry;
-BlockGeometry.prototype.__class__ = BlockGeometry;
-BlockGeometry.__cache__ = {};
+BlockGeometry.prototype.__class = BlockGeometry;
+BlockGeometry.__cache = {};
 Module['BlockGeometry'] = BlockGeometry;
-BlockGeometry.prototype["__destroy__"] = BlockGeometry.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockGeometry__destroy(self);
+BlockGeometry.prototype["__destroy"] = BlockGeometry.prototype.__destroy = function() {
+    _mud_BlockGeometry__destroy(this.__ptr);
 };
 // BlockGlow
 function BlockGlow() { throw "cannot construct a BlockGlow, no constructor in IDL" }
 BlockGlow.prototype = Object.create(WrapperObject.prototype);
 BlockGlow.prototype.constructor = BlockGlow;
-BlockGlow.prototype.__class__ = BlockGlow;
-BlockGlow.__cache__ = {};
+BlockGlow.prototype.__class = BlockGlow;
+BlockGlow.__cache = {};
 Module['BlockGlow'] = BlockGlow;
-BlockGlow.prototype["__destroy__"] = BlockGlow.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockGlow__destroy(self);
+BlockGlow.prototype["__destroy"] = BlockGlow.prototype.__destroy = function() {
+    _mud_BlockGlow__destroy(this.__ptr);
 };
 // BlockLight
 function BlockLight() { throw "cannot construct a BlockLight, no constructor in IDL" }
 BlockLight.prototype = Object.create(WrapperObject.prototype);
 BlockLight.prototype.constructor = BlockLight;
-BlockLight.prototype.__class__ = BlockLight;
-BlockLight.__cache__ = {};
+BlockLight.prototype.__class = BlockLight;
+BlockLight.__cache = {};
 Module['BlockLight'] = BlockLight;
-BlockLight.prototype["__destroy__"] = BlockLight.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockLight__destroy(self);
+BlockLight.prototype["__destroy"] = BlockLight.prototype.__destroy = function() {
+    _mud_BlockLight__destroy(this.__ptr);
 };
 // BlockLightmap
 function BlockLightmap() { throw "cannot construct a BlockLightmap, no constructor in IDL" }
 BlockLightmap.prototype = Object.create(WrapperObject.prototype);
 BlockLightmap.prototype.constructor = BlockLightmap;
-BlockLightmap.prototype.__class__ = BlockLightmap;
-BlockLightmap.__cache__ = {};
+BlockLightmap.prototype.__class = BlockLightmap;
+BlockLightmap.__cache = {};
 Module['BlockLightmap'] = BlockLightmap;
-BlockLightmap.prototype["__destroy__"] = BlockLightmap.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockLightmap__destroy(self);
+BlockLightmap.prototype["__destroy"] = BlockLightmap.prototype.__destroy = function() {
+    _mud_BlockLightmap__destroy(this.__ptr);
 };
 // BlockRadiance
 function BlockRadiance() { throw "cannot construct a BlockRadiance, no constructor in IDL" }
 BlockRadiance.prototype = Object.create(WrapperObject.prototype);
 BlockRadiance.prototype.constructor = BlockRadiance;
-BlockRadiance.prototype.__class__ = BlockRadiance;
-BlockRadiance.__cache__ = {};
+BlockRadiance.prototype.__class = BlockRadiance;
+BlockRadiance.__cache = {};
 Module['BlockRadiance'] = BlockRadiance;
-BlockRadiance.prototype["__destroy__"] = BlockRadiance.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockRadiance__destroy(self);
+BlockRadiance.prototype["__destroy"] = BlockRadiance.prototype.__destroy = function() {
+    _mud_BlockRadiance__destroy(this.__ptr);
 };
 // BlockReflection
 function BlockReflection() { throw "cannot construct a BlockReflection, no constructor in IDL" }
 BlockReflection.prototype = Object.create(WrapperObject.prototype);
 BlockReflection.prototype.constructor = BlockReflection;
-BlockReflection.prototype.__class__ = BlockReflection;
-BlockReflection.__cache__ = {};
+BlockReflection.prototype.__class = BlockReflection;
+BlockReflection.__cache = {};
 Module['BlockReflection'] = BlockReflection;
-BlockReflection.prototype["__destroy__"] = BlockReflection.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockReflection__destroy(self);
+BlockReflection.prototype["__destroy"] = BlockReflection.prototype.__destroy = function() {
+    _mud_BlockReflection__destroy(this.__ptr);
 };
 // BlockShadow
 function BlockShadow() { throw "cannot construct a BlockShadow, no constructor in IDL" }
 BlockShadow.prototype = Object.create(WrapperObject.prototype);
 BlockShadow.prototype.constructor = BlockShadow;
-BlockShadow.prototype.__class__ = BlockShadow;
-BlockShadow.__cache__ = {};
+BlockShadow.prototype.__class = BlockShadow;
+BlockShadow.__cache = {};
 Module['BlockShadow'] = BlockShadow;
-BlockShadow.prototype["__destroy__"] = BlockShadow.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockShadow__destroy(self);
+BlockShadow.prototype["__destroy"] = BlockShadow.prototype.__destroy = function() {
+    _mud_BlockShadow__destroy(this.__ptr);
 };
 // BlockTonemap
 function BlockTonemap() { throw "cannot construct a BlockTonemap, no constructor in IDL" }
 BlockTonemap.prototype = Object.create(WrapperObject.prototype);
 BlockTonemap.prototype.constructor = BlockTonemap;
-BlockTonemap.prototype.__class__ = BlockTonemap;
-BlockTonemap.__cache__ = {};
+BlockTonemap.prototype.__class = BlockTonemap;
+BlockTonemap.__cache = {};
 Module['BlockTonemap'] = BlockTonemap;
-BlockTonemap.prototype["__destroy__"] = BlockTonemap.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_BlockTonemap__destroy(self);
+BlockTonemap.prototype["__destroy"] = BlockTonemap.prototype.__destroy = function() {
+    _mud_BlockTonemap__destroy(this.__ptr);
 };
 // CSMShadow
 function CSMShadow() {
-    this.ptr = _mud_CSMShadow__construct_0(); this.type = CSMShadow; getCache(CSMShadow)[this.ptr] = this;
+    this.__ptr = _mud_CSMShadow__construct_0(); this.__type = CSMShadow.__type; getCache(CSMShadow)[this.__ptr] = this;
 };
 CSMShadow.prototype = Object.create(WrapperObject.prototype);
 CSMShadow.prototype.constructor = CSMShadow;
-CSMShadow.prototype.__class__ = CSMShadow;
-CSMShadow.__cache__ = {};
+CSMShadow.prototype.__class = CSMShadow;
+CSMShadow.__cache = {};
 Module['CSMShadow'] = CSMShadow;
-CSMShadow.prototype["__destroy__"] = CSMShadow.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_CSMShadow__destroy(self);
+CSMShadow.prototype["__destroy"] = CSMShadow.prototype.__destroy = function() {
+    _mud_CSMShadow__destroy(this.__ptr);
 };
 // DofBlur
 function DofBlur() {
-    this.ptr = _mud_DofBlur__construct_0(); this.type = DofBlur; getCache(DofBlur)[this.ptr] = this;
+    this.__ptr = _mud_DofBlur__construct_0(); this.__type = DofBlur.__type; getCache(DofBlur)[this.__ptr] = this;
 };
 DofBlur.prototype = Object.create(WrapperObject.prototype);
 DofBlur.prototype.constructor = DofBlur;
-DofBlur.prototype.__class__ = DofBlur;
-DofBlur.__cache__ = {};
+DofBlur.prototype.__class = DofBlur;
+DofBlur.__cache = {};
 Module['DofBlur'] = DofBlur;
 Object.defineProperty(DofBlur.prototype, "enabled", {
     get: function() {
-        var self = this.ptr;
-        return !!(_mud_DofBlur__get_enabled(self));
+        return !!(_mud_DofBlur__get_enabled(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_DofBlur__set_enabled(self, value);
+        _mud_DofBlur__set_enabled(this.__ptr, value);
     }
 });
 Object.defineProperty(DofBlur.prototype, "far", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_DofBlur__get_far(self), DofParams);
+        return wrapPointer(_mud_DofBlur__get_far(this.__ptr), DofParams);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_DofBlur__set_far(self, value.ptr);
+        _mud_DofBlur__set_far(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(DofBlur.prototype, "near", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_DofBlur__get_near(self), DofParams);
+        return wrapPointer(_mud_DofBlur__get_near(this.__ptr), DofParams);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_DofBlur__set_near(self, value.ptr);
+        _mud_DofBlur__set_near(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(DofBlur.prototype, "max_coc_radius", {
     get: function() {
-        var self = this.ptr;
-        return _mud_DofBlur__get_max_coc_radius(self);
+        return _mud_DofBlur__get_max_coc_radius(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_DofBlur__set_max_coc_radius(self, value);
+        _mud_DofBlur__set_max_coc_radius(this.__ptr, value);
     }
 });
-DofBlur.prototype["__destroy__"] = DofBlur.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_DofBlur__destroy(self);
+DofBlur.prototype["__destroy"] = DofBlur.prototype.__destroy = function() {
+    _mud_DofBlur__destroy(this.__ptr);
 };
 // DofParams
 function DofParams() {
-    this.ptr = _mud_DofParams__construct_0(); this.type = DofParams; getCache(DofParams)[this.ptr] = this;
+    this.__ptr = _mud_DofParams__construct_0(); this.__type = DofParams.__type; getCache(DofParams)[this.__ptr] = this;
 };
 DofParams.prototype = Object.create(WrapperObject.prototype);
 DofParams.prototype.constructor = DofParams;
-DofParams.prototype.__class__ = DofParams;
-DofParams.__cache__ = {};
+DofParams.prototype.__class = DofParams;
+DofParams.__cache = {};
 Module['DofParams'] = DofParams;
 Object.defineProperty(DofParams.prototype, "distance", {
     get: function() {
-        var self = this.ptr;
-        return _mud_DofParams__get_distance(self);
+        return _mud_DofParams__get_distance(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_DofParams__set_distance(self, value);
+        _mud_DofParams__set_distance(this.__ptr, value);
     }
 });
 Object.defineProperty(DofParams.prototype, "transition", {
     get: function() {
-        var self = this.ptr;
-        return _mud_DofParams__get_transition(self);
+        return _mud_DofParams__get_transition(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_DofParams__set_transition(self, value);
+        _mud_DofParams__set_transition(this.__ptr, value);
     }
 });
 Object.defineProperty(DofParams.prototype, "radius", {
     get: function() {
-        var self = this.ptr;
-        return _mud_DofParams__get_radius(self);
+        return _mud_DofParams__get_radius(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_DofParams__set_radius(self, value);
+        _mud_DofParams__set_radius(this.__ptr, value);
     }
 });
-DofParams.prototype["__destroy__"] = DofParams.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_DofParams__destroy(self);
+DofParams.prototype["__destroy"] = DofParams.prototype.__destroy = function() {
+    _mud_DofParams__destroy(this.__ptr);
 };
 // GIProbe
 function GIProbe() { throw "cannot construct a GIProbe, no constructor in IDL" }
 GIProbe.prototype = Object.create(WrapperObject.prototype);
 GIProbe.prototype.constructor = GIProbe;
-GIProbe.prototype.__class__ = GIProbe;
-GIProbe.__cache__ = {};
+GIProbe.prototype.__class = GIProbe;
+GIProbe.__cache = {};
 Module['GIProbe'] = GIProbe;
-GIProbe.prototype["__destroy__"] = GIProbe.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_GIProbe__destroy(self);
+GIProbe.prototype["__destroy"] = GIProbe.prototype.__destroy = function() {
+    _mud_GIProbe__destroy(this.__ptr);
 };
 // Glow
 function Glow() {
-    this.ptr = _mud_Glow__construct_0(); this.type = Glow; getCache(Glow)[this.ptr] = this;
+    this.__ptr = _mud_Glow__construct_0(); this.__type = Glow.__type; getCache(Glow)[this.__ptr] = this;
 };
 Glow.prototype = Object.create(WrapperObject.prototype);
 Glow.prototype.constructor = Glow;
-Glow.prototype.__class__ = Glow;
-Glow.__cache__ = {};
+Glow.prototype.__class = Glow;
+Glow.__cache = {};
 Module['Glow'] = Glow;
 Object.defineProperty(Glow.prototype, "enabled", {
     get: function() {
-        var self = this.ptr;
-        return !!(_mud_Glow__get_enabled(self));
+        return !!(_mud_Glow__get_enabled(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Glow__set_enabled(self, value);
+        _mud_Glow__set_enabled(this.__ptr, value);
     }
 });
 Object.defineProperty(Glow.prototype, "levels_1_4", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_Glow__get_levels_1_4(self), v4_float);
+        return wrapPointer(_mud_Glow__get_levels_1_4(this.__ptr), v4_float);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Glow__set_levels_1_4(self, value.ptr);
+        _mud_Glow__set_levels_1_4(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(Glow.prototype, "levels_5_8", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_Glow__get_levels_5_8(self), v4_float);
+        return wrapPointer(_mud_Glow__get_levels_5_8(this.__ptr), v4_float);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Glow__set_levels_5_8(self, value.ptr);
+        _mud_Glow__set_levels_5_8(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(Glow.prototype, "intensity", {
     get: function() {
-        var self = this.ptr;
-        return _mud_Glow__get_intensity(self);
+        return _mud_Glow__get_intensity(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Glow__set_intensity(self, value);
+        _mud_Glow__set_intensity(this.__ptr, value);
     }
 });
 Object.defineProperty(Glow.prototype, "bloom", {
     get: function() {
-        var self = this.ptr;
-        return _mud_Glow__get_bloom(self);
+        return _mud_Glow__get_bloom(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Glow__set_bloom(self, value);
+        _mud_Glow__set_bloom(this.__ptr, value);
     }
 });
 Object.defineProperty(Glow.prototype, "bleed_threshold", {
     get: function() {
-        var self = this.ptr;
-        return _mud_Glow__get_bleed_threshold(self);
+        return _mud_Glow__get_bleed_threshold(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Glow__set_bleed_threshold(self, value);
+        _mud_Glow__set_bleed_threshold(this.__ptr, value);
     }
 });
 Object.defineProperty(Glow.prototype, "bleed_scale", {
     get: function() {
-        var self = this.ptr;
-        return _mud_Glow__get_bleed_scale(self);
+        return _mud_Glow__get_bleed_scale(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Glow__set_bleed_scale(self, value);
+        _mud_Glow__set_bleed_scale(this.__ptr, value);
     }
 });
 Object.defineProperty(Glow.prototype, "bicubic_filter", {
     get: function() {
-        var self = this.ptr;
-        return !!(_mud_Glow__get_bicubic_filter(self));
+        return !!(_mud_Glow__get_bicubic_filter(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Glow__set_bicubic_filter(self, value);
+        _mud_Glow__set_bicubic_filter(this.__ptr, value);
     }
 });
-Glow.prototype["__destroy__"] = Glow.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Glow__destroy(self);
+Glow.prototype["__destroy"] = Glow.prototype.__destroy = function() {
+    _mud_Glow__destroy(this.__ptr);
 };
 // LightShadow
 function LightShadow() {
-    this.ptr = _mud_LightShadow__construct_0(); this.type = LightShadow; getCache(LightShadow)[this.ptr] = this;
+    this.__ptr = _mud_LightShadow__construct_0(); this.__type = LightShadow.__type; getCache(LightShadow)[this.__ptr] = this;
 };
 LightShadow.prototype = Object.create(WrapperObject.prototype);
 LightShadow.prototype.constructor = LightShadow;
-LightShadow.prototype.__class__ = LightShadow;
-LightShadow.__cache__ = {};
+LightShadow.prototype.__class = LightShadow;
+LightShadow.__cache = {};
 Module['LightShadow'] = LightShadow;
-LightShadow.prototype["__destroy__"] = LightShadow.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_LightShadow__destroy(self);
+LightShadow.prototype["__destroy"] = LightShadow.prototype.__destroy = function() {
+    _mud_LightShadow__destroy(this.__ptr);
 };
 // Lightmap
 function Lightmap() { throw "cannot construct a Lightmap, no constructor in IDL" }
 Lightmap.prototype = Object.create(WrapperObject.prototype);
 Lightmap.prototype.constructor = Lightmap;
-Lightmap.prototype.__class__ = Lightmap;
-Lightmap.__cache__ = {};
+Lightmap.prototype.__class = Lightmap;
+Lightmap.__cache = {};
 Module['Lightmap'] = Lightmap;
-Lightmap.prototype["__destroy__"] = Lightmap.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Lightmap__destroy(self);
+Lightmap.prototype["__destroy"] = Lightmap.prototype.__destroy = function() {
+    _mud_Lightmap__destroy(this.__ptr);
 };
 // LightmapAtlas
 function LightmapAtlas() { throw "cannot construct a LightmapAtlas, no constructor in IDL" }
 LightmapAtlas.prototype = Object.create(WrapperObject.prototype);
 LightmapAtlas.prototype.constructor = LightmapAtlas;
-LightmapAtlas.prototype.__class__ = LightmapAtlas;
-LightmapAtlas.__cache__ = {};
+LightmapAtlas.prototype.__class = LightmapAtlas;
+LightmapAtlas.__cache = {};
 Module['LightmapAtlas'] = LightmapAtlas;
-LightmapAtlas.prototype["__destroy__"] = LightmapAtlas.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_LightmapAtlas__destroy(self);
+LightmapAtlas.prototype["__destroy"] = LightmapAtlas.prototype.__destroy = function() {
+    _mud_LightmapAtlas__destroy(this.__ptr);
 };
 // LightmapItem
 function LightmapItem() { throw "cannot construct a LightmapItem, no constructor in IDL" }
 LightmapItem.prototype = Object.create(WrapperObject.prototype);
 LightmapItem.prototype.constructor = LightmapItem;
-LightmapItem.prototype.__class__ = LightmapItem;
-LightmapItem.__cache__ = {};
+LightmapItem.prototype.__class = LightmapItem;
+LightmapItem.__cache = {};
 Module['LightmapItem'] = LightmapItem;
-LightmapItem.prototype["__destroy__"] = LightmapItem.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_LightmapItem__destroy(self);
+LightmapItem.prototype["__destroy"] = LightmapItem.prototype.__destroy = function() {
+    _mud_LightmapItem__destroy(this.__ptr);
 };
 // ReflectionProbe
 function ReflectionProbe() { throw "cannot construct a ReflectionProbe, no constructor in IDL" }
 ReflectionProbe.prototype = Object.create(WrapperObject.prototype);
 ReflectionProbe.prototype.constructor = ReflectionProbe;
-ReflectionProbe.prototype.__class__ = ReflectionProbe;
-ReflectionProbe.__cache__ = {};
+ReflectionProbe.prototype.__class = ReflectionProbe;
+ReflectionProbe.__cache = {};
 Module['ReflectionProbe'] = ReflectionProbe;
 Object.defineProperty(ReflectionProbe.prototype, "node", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ReflectionProbe__get_node(self), Node3);
+        return wrapPointer(_mud_ReflectionProbe__get_node(this.__ptr), Node3);
     }});
 Object.defineProperty(ReflectionProbe.prototype, "visible", {
     get: function() {
-        var self = this.ptr;
-        return !!(_mud_ReflectionProbe__get_visible(self));
+        return !!(_mud_ReflectionProbe__get_visible(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_ReflectionProbe__set_visible(self, value);
+        _mud_ReflectionProbe__set_visible(this.__ptr, value);
     }
 });
 Object.defineProperty(ReflectionProbe.prototype, "intensity", {
     get: function() {
-        var self = this.ptr;
-        return _mud_ReflectionProbe__get_intensity(self);
+        return _mud_ReflectionProbe__get_intensity(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_ReflectionProbe__set_intensity(self, value);
+        _mud_ReflectionProbe__set_intensity(this.__ptr, value);
     }
 });
 Object.defineProperty(ReflectionProbe.prototype, "extents", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_ReflectionProbe__get_extents(self), v3_float);
+        return wrapPointer(_mud_ReflectionProbe__get_extents(this.__ptr), v3_float);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_ReflectionProbe__set_extents(self, value.ptr);
+        _mud_ReflectionProbe__set_extents(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(ReflectionProbe.prototype, "shadows", {
     get: function() {
-        var self = this.ptr;
-        return !!(_mud_ReflectionProbe__get_shadows(self));
+        return !!(_mud_ReflectionProbe__get_shadows(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_ReflectionProbe__set_shadows(self, value);
+        _mud_ReflectionProbe__set_shadows(this.__ptr, value);
     }
 });
 Object.defineProperty(ReflectionProbe.prototype, "dirty", {
     get: function() {
-        var self = this.ptr;
-        return !!(_mud_ReflectionProbe__get_dirty(self));
+        return !!(_mud_ReflectionProbe__get_dirty(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_ReflectionProbe__set_dirty(self, value);
+        _mud_ReflectionProbe__set_dirty(this.__ptr, value);
     }
 });
-ReflectionProbe.prototype["__destroy__"] = ReflectionProbe.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_ReflectionProbe__destroy(self);
+ReflectionProbe.prototype["__destroy"] = ReflectionProbe.prototype.__destroy = function() {
+    _mud_ReflectionProbe__destroy(this.__ptr);
 };
 // Tonemap
 function Tonemap() {
-    this.ptr = _mud_Tonemap__construct_0(); this.type = Tonemap; getCache(Tonemap)[this.ptr] = this;
+    this.__ptr = _mud_Tonemap__construct_0(); this.__type = Tonemap.__type; getCache(Tonemap)[this.__ptr] = this;
 };
 Tonemap.prototype = Object.create(WrapperObject.prototype);
 Tonemap.prototype.constructor = Tonemap;
-Tonemap.prototype.__class__ = Tonemap;
-Tonemap.__cache__ = {};
+Tonemap.prototype.__class = Tonemap;
+Tonemap.__cache = {};
 Module['Tonemap'] = Tonemap;
 Object.defineProperty(Tonemap.prototype, "mode", {
     get: function() {
-        var self = this.ptr;
-        return _mud_Tonemap__get_mode(self);
+        return _mud_Tonemap__get_mode(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Tonemap__set_mode(self, value);
+        _mud_Tonemap__set_mode(this.__ptr, value);
     }
 });
 Object.defineProperty(Tonemap.prototype, "enabled", {
     get: function() {
-        var self = this.ptr;
-        return !!(_mud_Tonemap__get_enabled(self));
+        return !!(_mud_Tonemap__get_enabled(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Tonemap__set_enabled(self, value);
+        _mud_Tonemap__set_enabled(this.__ptr, value);
     }
 });
 Object.defineProperty(Tonemap.prototype, "exposure", {
     get: function() {
-        var self = this.ptr;
-        return _mud_Tonemap__get_exposure(self);
+        return _mud_Tonemap__get_exposure(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Tonemap__set_exposure(self, value);
+        _mud_Tonemap__set_exposure(this.__ptr, value);
     }
 });
 Object.defineProperty(Tonemap.prototype, "white_point", {
     get: function() {
-        var self = this.ptr;
-        return _mud_Tonemap__get_white_point(self);
+        return _mud_Tonemap__get_white_point(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _mud_Tonemap__set_white_point(self, value);
+        _mud_Tonemap__set_white_point(this.__ptr, value);
     }
 });
-Tonemap.prototype["__destroy__"] = Tonemap.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Tonemap__destroy(self);
+Tonemap.prototype["__destroy"] = Tonemap.prototype.__destroy = function() {
+    _mud_Tonemap__destroy(this.__ptr);
 };
 Module['gfx']['setup_pipeline_pbr'] = function(a0) {
-    _mud_gfx_setup_pipeline_pbr_1(/*gfx*/a0.ptr);
+    _mud_gfx_setup_pipeline_pbr_1(/*gfx*/a0.__ptr);
 };
 Module['gfx']['gi_probe'] = function(a0, a1, a2) {
-    return wrapPointer(_mud_gfx_gi_probe_3(/*parent*/a0.ptr, /*subdiv*/a1, /*extents*/a2.ptr), GIProbe);
+    return wrapPointer(_mud_gfx_gi_probe_3(/*parent*/a0.__ptr, /*subdiv*/a1, /*extents*/a2.__ptr), GIProbe);
 };
 Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
-    if (a2 === undefined) { return wrapPointer(_mud_gfx_lightmap_2(/*parent*/a0.ptr, /*resolution*/a1), LightmapAtlas); }
-    if (a3 === undefined) { return wrapPointer(_mud_gfx_lightmap_3(/*parent*/a0.ptr, /*resolution*/a1, /*density*/a2), LightmapAtlas); }
-    return wrapPointer(_mud_gfx_lightmap_4(/*parent*/a0.ptr, /*resolution*/a1, /*density*/a2, ensureString(/*save_path*/a3)), LightmapAtlas);
+    if (a2 === undefined) { return wrapPointer(_mud_gfx_lightmap_2(/*parent*/a0.__ptr, /*resolution*/a1), LightmapAtlas); }
+    if (a3 === undefined) { return wrapPointer(_mud_gfx_lightmap_3(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2), LightmapAtlas); }
+    return wrapPointer(_mud_gfx_lightmap_4(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2, ensureString(/*save_path*/a3)), LightmapAtlas);
 };
 
 (function() {
     function setup() {
-        BCS.__type__ = _mud_BCS__type();
-        BlockBlur.__type__ = _mud_BlockBlur__type();
-        BlockDofBlur.__type__ = _mud_BlockDofBlur__type();
-        BlockGIBake.__type__ = _mud_BlockGIBake__type();
-        BlockGITrace.__type__ = _mud_BlockGITrace__type();
-        BlockGeometry.__type__ = _mud_BlockGeometry__type();
-        BlockGlow.__type__ = _mud_BlockGlow__type();
-        BlockLight.__type__ = _mud_BlockLight__type();
-        BlockLightmap.__type__ = _mud_BlockLightmap__type();
-        BlockRadiance.__type__ = _mud_BlockRadiance__type();
-        BlockReflection.__type__ = _mud_BlockReflection__type();
-        BlockShadow.__type__ = _mud_BlockShadow__type();
-        BlockTonemap.__type__ = _mud_BlockTonemap__type();
-        CSMShadow.__type__ = _mud_CSMShadow__type();
-        DofBlur.__type__ = _mud_DofBlur__type();
-        DofParams.__type__ = _mud_DofParams__type();
-        GIProbe.__type__ = _mud_GIProbe__type();
-        Glow.__type__ = _mud_Glow__type();
-        LightShadow.__type__ = _mud_LightShadow__type();
-        Lightmap.__type__ = _mud_Lightmap__type();
-        LightmapAtlas.__type__ = _mud_LightmapAtlas__type();
-        LightmapItem.__type__ = _mud_LightmapItem__type();
-        ReflectionProbe.__type__ = _mud_ReflectionProbe__type();
-        Tonemap.__type__ = _mud_Tonemap__type();
+        BCS.__type = _mud_BCS__type();
+        BlockBlur.__type = _mud_BlockBlur__type();
+        BlockDofBlur.__type = _mud_BlockDofBlur__type();
+        BlockGIBake.__type = _mud_BlockGIBake__type();
+        BlockGITrace.__type = _mud_BlockGITrace__type();
+        BlockGeometry.__type = _mud_BlockGeometry__type();
+        BlockGlow.__type = _mud_BlockGlow__type();
+        BlockLight.__type = _mud_BlockLight__type();
+        BlockLightmap.__type = _mud_BlockLightmap__type();
+        BlockRadiance.__type = _mud_BlockRadiance__type();
+        BlockReflection.__type = _mud_BlockReflection__type();
+        BlockShadow.__type = _mud_BlockShadow__type();
+        BlockTonemap.__type = _mud_BlockTonemap__type();
+        CSMShadow.__type = _mud_CSMShadow__type();
+        DofBlur.__type = _mud_DofBlur__type();
+        DofParams.__type = _mud_DofParams__type();
+        GIProbe.__type = _mud_GIProbe__type();
+        Glow.__type = _mud_Glow__type();
+        LightShadow.__type = _mud_LightShadow__type();
+        Lightmap.__type = _mud_Lightmap__type();
+        LightmapAtlas.__type = _mud_LightmapAtlas__type();
+        LightmapItem.__type = _mud_LightmapItem__type();
+        ReflectionProbe.__type = _mud_ReflectionProbe__type();
+        Tonemap.__type = _mud_Tonemap__type();
         // TonemapMode
         Module['TonemapMode'] = Module['TonemapMode'] || {};
         Module['TonemapMode']['None'] = _mud_TonemapMode_None();

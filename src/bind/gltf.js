@@ -1,1429 +1,1195 @@
 Module['stl'] = Module['stl'] || {};
 // glTF
 function glTF() {
-    this.ptr = _glTF__construct_0(); this.type = glTF; getCache(glTF)[this.ptr] = this;
+    this.__ptr = _glTF__construct_0(); this.__type = glTF.__type; getCache(glTF)[this.__ptr] = this;
 };
 glTF.prototype = Object.create(WrapperObject.prototype);
 glTF.prototype.constructor = glTF;
-glTF.prototype.__class__ = glTF;
-glTF.__cache__ = {};
+glTF.prototype.__class = glTF;
+glTF.__cache = {};
 Module['glTF'] = glTF;
-glTF.prototype["__destroy__"] = glTF.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTF__destroy(self);
+glTF.prototype["__destroy"] = glTF.prototype.__destroy = function() {
+    _glTF__destroy(this.__ptr);
 };
 // glTFAccessor
 function glTFAccessor() {
-    this.ptr = _glTFAccessor__construct_0(); this.type = glTFAccessor; getCache(glTFAccessor)[this.ptr] = this;
+    this.__ptr = _glTFAccessor__construct_0(); this.__type = glTFAccessor.__type; getCache(glTFAccessor)[this.__ptr] = this;
 };
 glTFAccessor.prototype = Object.create(WrapperObject.prototype);
 glTFAccessor.prototype.constructor = glTFAccessor;
-glTFAccessor.prototype.__class__ = glTFAccessor;
-glTFAccessor.__cache__ = {};
+glTFAccessor.prototype.__class = glTFAccessor;
+glTFAccessor.__cache = {};
 Module['glTFAccessor'] = glTFAccessor;
 Object.defineProperty(glTFAccessor.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFAccessor__get_name(self));
+        return Pointer_stringify(_glTFAccessor__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAccessor__set_name(self, ensureString(value));
+        _glTFAccessor__set_name(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFAccessor.prototype, "buffer_view", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAccessor__get_buffer_view(self);
+        return _glTFAccessor__get_buffer_view(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAccessor__set_buffer_view(self, value);
+        _glTFAccessor__set_buffer_view(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAccessor.prototype, "byte_offset", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAccessor__get_byte_offset(self);
+        return _glTFAccessor__get_byte_offset(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAccessor__set_byte_offset(self, value);
+        _glTFAccessor__set_byte_offset(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAccessor.prototype, "component_type", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAccessor__get_component_type(self);
+        return _glTFAccessor__get_component_type(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAccessor__set_component_type(self, value);
+        _glTFAccessor__set_component_type(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAccessor.prototype, "normalized", {
     get: function() {
-        var self = this.ptr;
-        return !!(_glTFAccessor__get_normalized(self));
+        return !!(_glTFAccessor__get_normalized(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAccessor__set_normalized(self, value);
+        _glTFAccessor__set_normalized(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAccessor.prototype, "count", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAccessor__get_count(self);
+        return _glTFAccessor__get_count(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAccessor__set_count(self, value);
+        _glTFAccessor__set_count(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAccessor.prototype, "type", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAccessor__get_type(self);
+        return _glTFAccessor__get_type(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAccessor__set_type(self, value);
+        _glTFAccessor__set_type(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAccessor.prototype, "sparse", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFAccessor__get_sparse(self), glTFSparse);
+        return wrapPointer(_glTFAccessor__get_sparse(this.__ptr), glTFSparse);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAccessor__set_sparse(self, value.ptr);
+        _glTFAccessor__set_sparse(this.__ptr, value.__ptr);
     }
 });
-glTFAccessor.prototype["__destroy__"] = glTFAccessor.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFAccessor__destroy(self);
+glTFAccessor.prototype["__destroy"] = glTFAccessor.prototype.__destroy = function() {
+    _glTFAccessor__destroy(this.__ptr);
 };
 // glTFAnimation
 function glTFAnimation() {
-    this.ptr = _glTFAnimation__construct_0(); this.type = glTFAnimation; getCache(glTFAnimation)[this.ptr] = this;
+    this.__ptr = _glTFAnimation__construct_0(); this.__type = glTFAnimation.__type; getCache(glTFAnimation)[this.__ptr] = this;
 };
 glTFAnimation.prototype = Object.create(WrapperObject.prototype);
 glTFAnimation.prototype.constructor = glTFAnimation;
-glTFAnimation.prototype.__class__ = glTFAnimation;
-glTFAnimation.__cache__ = {};
+glTFAnimation.prototype.__class = glTFAnimation;
+glTFAnimation.__cache = {};
 Module['glTFAnimation'] = glTFAnimation;
 Object.defineProperty(glTFAnimation.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFAnimation__get_name(self));
+        return Pointer_stringify(_glTFAnimation__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAnimation__set_name(self, ensureString(value));
+        _glTFAnimation__set_name(this.__ptr, ensureString(value));
     }
 });
-glTFAnimation.prototype["__destroy__"] = glTFAnimation.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFAnimation__destroy(self);
+glTFAnimation.prototype["__destroy"] = glTFAnimation.prototype.__destroy = function() {
+    _glTFAnimation__destroy(this.__ptr);
 };
 // glTFAnimationChannel
 function glTFAnimationChannel() {
-    this.ptr = _glTFAnimationChannel__construct_0(); this.type = glTFAnimationChannel; getCache(glTFAnimationChannel)[this.ptr] = this;
+    this.__ptr = _glTFAnimationChannel__construct_0(); this.__type = glTFAnimationChannel.__type; getCache(glTFAnimationChannel)[this.__ptr] = this;
 };
 glTFAnimationChannel.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationChannel.prototype.constructor = glTFAnimationChannel;
-glTFAnimationChannel.prototype.__class__ = glTFAnimationChannel;
-glTFAnimationChannel.__cache__ = {};
+glTFAnimationChannel.prototype.__class = glTFAnimationChannel;
+glTFAnimationChannel.__cache = {};
 Module['glTFAnimationChannel'] = glTFAnimationChannel;
 Object.defineProperty(glTFAnimationChannel.prototype, "sampler", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAnimationChannel__get_sampler(self);
+        return _glTFAnimationChannel__get_sampler(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAnimationChannel__set_sampler(self, value);
+        _glTFAnimationChannel__set_sampler(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAnimationChannel.prototype, "target", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFAnimationChannel__get_target(self), glTFAnimationTarget);
+        return wrapPointer(_glTFAnimationChannel__get_target(this.__ptr), glTFAnimationTarget);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAnimationChannel__set_target(self, value.ptr);
+        _glTFAnimationChannel__set_target(this.__ptr, value.__ptr);
     }
 });
-glTFAnimationChannel.prototype["__destroy__"] = glTFAnimationChannel.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFAnimationChannel__destroy(self);
+glTFAnimationChannel.prototype["__destroy"] = glTFAnimationChannel.prototype.__destroy = function() {
+    _glTFAnimationChannel__destroy(this.__ptr);
 };
 // glTFAnimationSampler
 function glTFAnimationSampler() {
-    this.ptr = _glTFAnimationSampler__construct_0(); this.type = glTFAnimationSampler; getCache(glTFAnimationSampler)[this.ptr] = this;
+    this.__ptr = _glTFAnimationSampler__construct_0(); this.__type = glTFAnimationSampler.__type; getCache(glTFAnimationSampler)[this.__ptr] = this;
 };
 glTFAnimationSampler.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationSampler.prototype.constructor = glTFAnimationSampler;
-glTFAnimationSampler.prototype.__class__ = glTFAnimationSampler;
-glTFAnimationSampler.__cache__ = {};
+glTFAnimationSampler.prototype.__class = glTFAnimationSampler;
+glTFAnimationSampler.__cache = {};
 Module['glTFAnimationSampler'] = glTFAnimationSampler;
 Object.defineProperty(glTFAnimationSampler.prototype, "interpolation", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAnimationSampler__get_interpolation(self);
+        return _glTFAnimationSampler__get_interpolation(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAnimationSampler__set_interpolation(self, value);
+        _glTFAnimationSampler__set_interpolation(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAnimationSampler.prototype, "input", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAnimationSampler__get_input(self);
+        return _glTFAnimationSampler__get_input(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAnimationSampler__set_input(self, value);
+        _glTFAnimationSampler__set_input(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAnimationSampler.prototype, "output", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAnimationSampler__get_output(self);
+        return _glTFAnimationSampler__get_output(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAnimationSampler__set_output(self, value);
+        _glTFAnimationSampler__set_output(this.__ptr, value);
     }
 });
-glTFAnimationSampler.prototype["__destroy__"] = glTFAnimationSampler.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFAnimationSampler__destroy(self);
+glTFAnimationSampler.prototype["__destroy"] = glTFAnimationSampler.prototype.__destroy = function() {
+    _glTFAnimationSampler__destroy(this.__ptr);
 };
 // glTFAnimationTarget
 function glTFAnimationTarget() {
-    this.ptr = _glTFAnimationTarget__construct_0(); this.type = glTFAnimationTarget; getCache(glTFAnimationTarget)[this.ptr] = this;
+    this.__ptr = _glTFAnimationTarget__construct_0(); this.__type = glTFAnimationTarget.__type; getCache(glTFAnimationTarget)[this.__ptr] = this;
 };
 glTFAnimationTarget.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationTarget.prototype.constructor = glTFAnimationTarget;
-glTFAnimationTarget.prototype.__class__ = glTFAnimationTarget;
-glTFAnimationTarget.__cache__ = {};
+glTFAnimationTarget.prototype.__class = glTFAnimationTarget;
+glTFAnimationTarget.__cache = {};
 Module['glTFAnimationTarget'] = glTFAnimationTarget;
 Object.defineProperty(glTFAnimationTarget.prototype, "node", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAnimationTarget__get_node(self);
+        return _glTFAnimationTarget__get_node(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAnimationTarget__set_node(self, value);
+        _glTFAnimationTarget__set_node(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAnimationTarget.prototype, "path", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFAnimationTarget__get_path(self));
+        return Pointer_stringify(_glTFAnimationTarget__get_path(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAnimationTarget__set_path(self, ensureString(value));
+        _glTFAnimationTarget__set_path(this.__ptr, ensureString(value));
     }
 });
-glTFAnimationTarget.prototype["__destroy__"] = glTFAnimationTarget.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFAnimationTarget__destroy(self);
+glTFAnimationTarget.prototype["__destroy"] = glTFAnimationTarget.prototype.__destroy = function() {
+    _glTFAnimationTarget__destroy(this.__ptr);
 };
 // glTFAttributes
 function glTFAttributes() {
-    this.ptr = _glTFAttributes__construct_0(); this.type = glTFAttributes; getCache(glTFAttributes)[this.ptr] = this;
+    this.__ptr = _glTFAttributes__construct_0(); this.__type = glTFAttributes.__type; getCache(glTFAttributes)[this.__ptr] = this;
 };
 glTFAttributes.prototype = Object.create(WrapperObject.prototype);
 glTFAttributes.prototype.constructor = glTFAttributes;
-glTFAttributes.prototype.__class__ = glTFAttributes;
-glTFAttributes.__cache__ = {};
+glTFAttributes.prototype.__class = glTFAttributes;
+glTFAttributes.__cache = {};
 Module['glTFAttributes'] = glTFAttributes;
 Object.defineProperty(glTFAttributes.prototype, "POSITION", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAttributes__get_POSITION(self);
+        return _glTFAttributes__get_POSITION(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAttributes__set_POSITION(self, value);
+        _glTFAttributes__set_POSITION(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAttributes.prototype, "NORMAL", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAttributes__get_NORMAL(self);
+        return _glTFAttributes__get_NORMAL(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAttributes__set_NORMAL(self, value);
+        _glTFAttributes__set_NORMAL(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAttributes.prototype, "TANGENT", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAttributes__get_TANGENT(self);
+        return _glTFAttributes__get_TANGENT(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAttributes__set_TANGENT(self, value);
+        _glTFAttributes__set_TANGENT(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAttributes.prototype, "TEXCOORD_0", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAttributes__get_TEXCOORD_0(self);
+        return _glTFAttributes__get_TEXCOORD_0(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAttributes__set_TEXCOORD_0(self, value);
+        _glTFAttributes__set_TEXCOORD_0(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAttributes.prototype, "TEXCOORD_1", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAttributes__get_TEXCOORD_1(self);
+        return _glTFAttributes__get_TEXCOORD_1(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAttributes__set_TEXCOORD_1(self, value);
+        _glTFAttributes__set_TEXCOORD_1(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAttributes.prototype, "COLOR_0", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAttributes__get_COLOR_0(self);
+        return _glTFAttributes__get_COLOR_0(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAttributes__set_COLOR_0(self, value);
+        _glTFAttributes__set_COLOR_0(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAttributes.prototype, "JOINTS_0", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAttributes__get_JOINTS_0(self);
+        return _glTFAttributes__get_JOINTS_0(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAttributes__set_JOINTS_0(self, value);
+        _glTFAttributes__set_JOINTS_0(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFAttributes.prototype, "WEIGHTS_0", {
     get: function() {
-        var self = this.ptr;
-        return _glTFAttributes__get_WEIGHTS_0(self);
+        return _glTFAttributes__get_WEIGHTS_0(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFAttributes__set_WEIGHTS_0(self, value);
+        _glTFAttributes__set_WEIGHTS_0(this.__ptr, value);
     }
 });
-glTFAttributes.prototype["__destroy__"] = glTFAttributes.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFAttributes__destroy(self);
+glTFAttributes.prototype["__destroy"] = glTFAttributes.prototype.__destroy = function() {
+    _glTFAttributes__destroy(this.__ptr);
 };
 // glTFBuffer
 function glTFBuffer() {
-    this.ptr = _glTFBuffer__construct_0(); this.type = glTFBuffer; getCache(glTFBuffer)[this.ptr] = this;
+    this.__ptr = _glTFBuffer__construct_0(); this.__type = glTFBuffer.__type; getCache(glTFBuffer)[this.__ptr] = this;
 };
 glTFBuffer.prototype = Object.create(WrapperObject.prototype);
 glTFBuffer.prototype.constructor = glTFBuffer;
-glTFBuffer.prototype.__class__ = glTFBuffer;
-glTFBuffer.__cache__ = {};
+glTFBuffer.prototype.__class = glTFBuffer;
+glTFBuffer.__cache = {};
 Module['glTFBuffer'] = glTFBuffer;
 Object.defineProperty(glTFBuffer.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFBuffer__get_name(self));
+        return Pointer_stringify(_glTFBuffer__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFBuffer__set_name(self, ensureString(value));
+        _glTFBuffer__set_name(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFBuffer.prototype, "mime_type", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFBuffer__get_mime_type(self));
+        return Pointer_stringify(_glTFBuffer__get_mime_type(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFBuffer__set_mime_type(self, ensureString(value));
+        _glTFBuffer__set_mime_type(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFBuffer.prototype, "uri", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFBuffer__get_uri(self));
+        return Pointer_stringify(_glTFBuffer__get_uri(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFBuffer__set_uri(self, ensureString(value));
+        _glTFBuffer__set_uri(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFBuffer.prototype, "byte_length", {
     get: function() {
-        var self = this.ptr;
-        return _glTFBuffer__get_byte_length(self);
+        return _glTFBuffer__get_byte_length(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFBuffer__set_byte_length(self, value);
+        _glTFBuffer__set_byte_length(this.__ptr, value);
     }
 });
-glTFBuffer.prototype["__destroy__"] = glTFBuffer.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFBuffer__destroy(self);
+glTFBuffer.prototype["__destroy"] = glTFBuffer.prototype.__destroy = function() {
+    _glTFBuffer__destroy(this.__ptr);
 };
 // glTFBufferView
 function glTFBufferView() {
-    this.ptr = _glTFBufferView__construct_0(); this.type = glTFBufferView; getCache(glTFBufferView)[this.ptr] = this;
+    this.__ptr = _glTFBufferView__construct_0(); this.__type = glTFBufferView.__type; getCache(glTFBufferView)[this.__ptr] = this;
 };
 glTFBufferView.prototype = Object.create(WrapperObject.prototype);
 glTFBufferView.prototype.constructor = glTFBufferView;
-glTFBufferView.prototype.__class__ = glTFBufferView;
-glTFBufferView.__cache__ = {};
+glTFBufferView.prototype.__class = glTFBufferView;
+glTFBufferView.__cache = {};
 Module['glTFBufferView'] = glTFBufferView;
 Object.defineProperty(glTFBufferView.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFBufferView__get_name(self));
+        return Pointer_stringify(_glTFBufferView__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFBufferView__set_name(self, ensureString(value));
+        _glTFBufferView__set_name(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFBufferView.prototype, "buffer", {
     get: function() {
-        var self = this.ptr;
-        return _glTFBufferView__get_buffer(self);
+        return _glTFBufferView__get_buffer(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFBufferView__set_buffer(self, value);
+        _glTFBufferView__set_buffer(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFBufferView.prototype, "byte_offset", {
     get: function() {
-        var self = this.ptr;
-        return _glTFBufferView__get_byte_offset(self);
+        return _glTFBufferView__get_byte_offset(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFBufferView__set_byte_offset(self, value);
+        _glTFBufferView__set_byte_offset(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFBufferView.prototype, "byte_length", {
     get: function() {
-        var self = this.ptr;
-        return _glTFBufferView__get_byte_length(self);
+        return _glTFBufferView__get_byte_length(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFBufferView__set_byte_length(self, value);
+        _glTFBufferView__set_byte_length(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFBufferView.prototype, "byte_stride", {
     get: function() {
-        var self = this.ptr;
-        return _glTFBufferView__get_byte_stride(self);
+        return _glTFBufferView__get_byte_stride(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFBufferView__set_byte_stride(self, value);
+        _glTFBufferView__set_byte_stride(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFBufferView.prototype, "target", {
     get: function() {
-        var self = this.ptr;
-        return _glTFBufferView__get_target(self);
+        return _glTFBufferView__get_target(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFBufferView__set_target(self, value);
+        _glTFBufferView__set_target(this.__ptr, value);
     }
 });
-glTFBufferView.prototype["__destroy__"] = glTFBufferView.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFBufferView__destroy(self);
+glTFBufferView.prototype["__destroy"] = glTFBufferView.prototype.__destroy = function() {
+    _glTFBufferView__destroy(this.__ptr);
 };
 // glTFCamera
 function glTFCamera() {
-    this.ptr = _glTFCamera__construct_0(); this.type = glTFCamera; getCache(glTFCamera)[this.ptr] = this;
+    this.__ptr = _glTFCamera__construct_0(); this.__type = glTFCamera.__type; getCache(glTFCamera)[this.__ptr] = this;
 };
 glTFCamera.prototype = Object.create(WrapperObject.prototype);
 glTFCamera.prototype.constructor = glTFCamera;
-glTFCamera.prototype.__class__ = glTFCamera;
-glTFCamera.__cache__ = {};
+glTFCamera.prototype.__class = glTFCamera;
+glTFCamera.__cache = {};
 Module['glTFCamera'] = glTFCamera;
 Object.defineProperty(glTFCamera.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFCamera__get_name(self));
+        return Pointer_stringify(_glTFCamera__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFCamera__set_name(self, ensureString(value));
+        _glTFCamera__set_name(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFCamera.prototype, "type", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFCamera__get_type(self));
+        return Pointer_stringify(_glTFCamera__get_type(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFCamera__set_type(self, ensureString(value));
+        _glTFCamera__set_type(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFCamera.prototype, "orthographic", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFCamera__get_orthographic(self), glTFOrthographic);
+        return wrapPointer(_glTFCamera__get_orthographic(this.__ptr), glTFOrthographic);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFCamera__set_orthographic(self, value.ptr);
+        _glTFCamera__set_orthographic(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFCamera.prototype, "perspective", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFCamera__get_perspective(self), glTFPerspective);
+        return wrapPointer(_glTFCamera__get_perspective(this.__ptr), glTFPerspective);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFCamera__set_perspective(self, value.ptr);
+        _glTFCamera__set_perspective(this.__ptr, value.__ptr);
     }
 });
-glTFCamera.prototype["__destroy__"] = glTFCamera.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFCamera__destroy(self);
+glTFCamera.prototype["__destroy"] = glTFCamera.prototype.__destroy = function() {
+    _glTFCamera__destroy(this.__ptr);
 };
 // glTFImage
 function glTFImage() {
-    this.ptr = _glTFImage__construct_0(); this.type = glTFImage; getCache(glTFImage)[this.ptr] = this;
+    this.__ptr = _glTFImage__construct_0(); this.__type = glTFImage.__type; getCache(glTFImage)[this.__ptr] = this;
 };
 glTFImage.prototype = Object.create(WrapperObject.prototype);
 glTFImage.prototype.constructor = glTFImage;
-glTFImage.prototype.__class__ = glTFImage;
-glTFImage.__cache__ = {};
+glTFImage.prototype.__class = glTFImage;
+glTFImage.__cache = {};
 Module['glTFImage'] = glTFImage;
 Object.defineProperty(glTFImage.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFImage__get_name(self));
+        return Pointer_stringify(_glTFImage__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFImage__set_name(self, ensureString(value));
+        _glTFImage__set_name(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFImage.prototype, "mime_type", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFImage__get_mime_type(self));
+        return Pointer_stringify(_glTFImage__get_mime_type(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFImage__set_mime_type(self, ensureString(value));
+        _glTFImage__set_mime_type(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFImage.prototype, "uri", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFImage__get_uri(self));
+        return Pointer_stringify(_glTFImage__get_uri(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFImage__set_uri(self, ensureString(value));
+        _glTFImage__set_uri(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFImage.prototype, "buffer_view", {
     get: function() {
-        var self = this.ptr;
-        return _glTFImage__get_buffer_view(self);
+        return _glTFImage__get_buffer_view(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFImage__set_buffer_view(self, value);
+        _glTFImage__set_buffer_view(this.__ptr, value);
     }
 });
-glTFImage.prototype["__destroy__"] = glTFImage.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFImage__destroy(self);
+glTFImage.prototype["__destroy"] = glTFImage.prototype.__destroy = function() {
+    _glTFImage__destroy(this.__ptr);
 };
 // glTFMaterial
 function glTFMaterial() {
-    this.ptr = _glTFMaterial__construct_0(); this.type = glTFMaterial; getCache(glTFMaterial)[this.ptr] = this;
+    this.__ptr = _glTFMaterial__construct_0(); this.__type = glTFMaterial.__type; getCache(glTFMaterial)[this.__ptr] = this;
 };
 glTFMaterial.prototype = Object.create(WrapperObject.prototype);
 glTFMaterial.prototype.constructor = glTFMaterial;
-glTFMaterial.prototype.__class__ = glTFMaterial;
-glTFMaterial.__cache__ = {};
+glTFMaterial.prototype.__class = glTFMaterial;
+glTFMaterial.__cache = {};
 Module['glTFMaterial'] = glTFMaterial;
 Object.defineProperty(glTFMaterial.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFMaterial__get_name(self));
+        return Pointer_stringify(_glTFMaterial__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterial__set_name(self, ensureString(value));
+        _glTFMaterial__set_name(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "normal_texture", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFMaterial__get_normal_texture(self), glTFTextureInfo);
+        return wrapPointer(_glTFMaterial__get_normal_texture(this.__ptr), glTFTextureInfo);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterial__set_normal_texture(self, value.ptr);
+        _glTFMaterial__set_normal_texture(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "occlusion_texture", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFMaterial__get_occlusion_texture(self), glTFTextureInfo);
+        return wrapPointer(_glTFMaterial__get_occlusion_texture(this.__ptr), glTFTextureInfo);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterial__set_occlusion_texture(self, value.ptr);
+        _glTFMaterial__set_occlusion_texture(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "emissive_factor", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFMaterial__get_emissive_factor(self), v3_float);
+        return wrapPointer(_glTFMaterial__get_emissive_factor(this.__ptr), v3_float);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterial__set_emissive_factor(self, value.ptr);
+        _glTFMaterial__set_emissive_factor(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "emissive_texture", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFMaterial__get_emissive_texture(self), glTFTextureInfo);
+        return wrapPointer(_glTFMaterial__get_emissive_texture(this.__ptr), glTFTextureInfo);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterial__set_emissive_texture(self, value.ptr);
+        _glTFMaterial__set_emissive_texture(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "double_sided", {
     get: function() {
-        var self = this.ptr;
-        return !!(_glTFMaterial__get_double_sided(self));
+        return !!(_glTFMaterial__get_double_sided(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterial__set_double_sided(self, value);
+        _glTFMaterial__set_double_sided(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "alpha_mode", {
     get: function() {
-        var self = this.ptr;
-        return _glTFMaterial__get_alpha_mode(self);
+        return _glTFMaterial__get_alpha_mode(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterial__set_alpha_mode(self, value);
+        _glTFMaterial__set_alpha_mode(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "pbr_metallic_roughness", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFMaterial__get_pbr_metallic_roughness(self), glTFMaterialPBR);
+        return wrapPointer(_glTFMaterial__get_pbr_metallic_roughness(this.__ptr), glTFMaterialPBR);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterial__set_pbr_metallic_roughness(self, value.ptr);
+        _glTFMaterial__set_pbr_metallic_roughness(this.__ptr, value.__ptr);
     }
 });
-glTFMaterial.prototype["__destroy__"] = glTFMaterial.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFMaterial__destroy(self);
+glTFMaterial.prototype["__destroy"] = glTFMaterial.prototype.__destroy = function() {
+    _glTFMaterial__destroy(this.__ptr);
 };
 // glTFMaterialPBR
 function glTFMaterialPBR() {
-    this.ptr = _glTFMaterialPBR__construct_0(); this.type = glTFMaterialPBR; getCache(glTFMaterialPBR)[this.ptr] = this;
+    this.__ptr = _glTFMaterialPBR__construct_0(); this.__type = glTFMaterialPBR.__type; getCache(glTFMaterialPBR)[this.__ptr] = this;
 };
 glTFMaterialPBR.prototype = Object.create(WrapperObject.prototype);
 glTFMaterialPBR.prototype.constructor = glTFMaterialPBR;
-glTFMaterialPBR.prototype.__class__ = glTFMaterialPBR;
-glTFMaterialPBR.__cache__ = {};
+glTFMaterialPBR.prototype.__class = glTFMaterialPBR;
+glTFMaterialPBR.__cache = {};
 Module['glTFMaterialPBR'] = glTFMaterialPBR;
 Object.defineProperty(glTFMaterialPBR.prototype, "base_color_factor", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFMaterialPBR__get_base_color_factor(self), v4_float);
+        return wrapPointer(_glTFMaterialPBR__get_base_color_factor(this.__ptr), v4_float);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterialPBR__set_base_color_factor(self, value.ptr);
+        _glTFMaterialPBR__set_base_color_factor(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFMaterialPBR.prototype, "base_color_texture", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFMaterialPBR__get_base_color_texture(self), glTFTextureInfo);
+        return wrapPointer(_glTFMaterialPBR__get_base_color_texture(this.__ptr), glTFTextureInfo);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterialPBR__set_base_color_texture(self, value.ptr);
+        _glTFMaterialPBR__set_base_color_texture(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFMaterialPBR.prototype, "metallic_factor", {
     get: function() {
-        var self = this.ptr;
-        return _glTFMaterialPBR__get_metallic_factor(self);
+        return _glTFMaterialPBR__get_metallic_factor(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterialPBR__set_metallic_factor(self, value);
+        _glTFMaterialPBR__set_metallic_factor(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFMaterialPBR.prototype, "roughness_factor", {
     get: function() {
-        var self = this.ptr;
-        return _glTFMaterialPBR__get_roughness_factor(self);
+        return _glTFMaterialPBR__get_roughness_factor(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterialPBR__set_roughness_factor(self, value);
+        _glTFMaterialPBR__set_roughness_factor(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFMaterialPBR.prototype, "metallic_roughness_texture", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFMaterialPBR__get_metallic_roughness_texture(self), glTFTextureInfo);
+        return wrapPointer(_glTFMaterialPBR__get_metallic_roughness_texture(this.__ptr), glTFTextureInfo);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMaterialPBR__set_metallic_roughness_texture(self, value.ptr);
+        _glTFMaterialPBR__set_metallic_roughness_texture(this.__ptr, value.__ptr);
     }
 });
-glTFMaterialPBR.prototype["__destroy__"] = glTFMaterialPBR.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFMaterialPBR__destroy(self);
+glTFMaterialPBR.prototype["__destroy"] = glTFMaterialPBR.prototype.__destroy = function() {
+    _glTFMaterialPBR__destroy(this.__ptr);
 };
 // glTFMesh
 function glTFMesh() {
-    this.ptr = _glTFMesh__construct_0(); this.type = glTFMesh; getCache(glTFMesh)[this.ptr] = this;
+    this.__ptr = _glTFMesh__construct_0(); this.__type = glTFMesh.__type; getCache(glTFMesh)[this.__ptr] = this;
 };
 glTFMesh.prototype = Object.create(WrapperObject.prototype);
 glTFMesh.prototype.constructor = glTFMesh;
-glTFMesh.prototype.__class__ = glTFMesh;
-glTFMesh.__cache__ = {};
+glTFMesh.prototype.__class = glTFMesh;
+glTFMesh.__cache = {};
 Module['glTFMesh'] = glTFMesh;
 Object.defineProperty(glTFMesh.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFMesh__get_name(self));
+        return Pointer_stringify(_glTFMesh__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMesh__set_name(self, ensureString(value));
+        _glTFMesh__set_name(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFMesh.prototype, "weights", {
     get: function() {
-        var self = this.ptr;
-        return _glTFMesh__get_weights(self);
+        return _glTFMesh__get_weights(this.__ptr);
     }});
-glTFMesh.prototype["__destroy__"] = glTFMesh.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFMesh__destroy(self);
+glTFMesh.prototype["__destroy"] = glTFMesh.prototype.__destroy = function() {
+    _glTFMesh__destroy(this.__ptr);
 };
 // glTFMorphTarget
 function glTFMorphTarget() {
-    this.ptr = _glTFMorphTarget__construct_0(); this.type = glTFMorphTarget; getCache(glTFMorphTarget)[this.ptr] = this;
+    this.__ptr = _glTFMorphTarget__construct_0(); this.__type = glTFMorphTarget.__type; getCache(glTFMorphTarget)[this.__ptr] = this;
 };
 glTFMorphTarget.prototype = Object.create(WrapperObject.prototype);
 glTFMorphTarget.prototype.constructor = glTFMorphTarget;
-glTFMorphTarget.prototype.__class__ = glTFMorphTarget;
-glTFMorphTarget.__cache__ = {};
+glTFMorphTarget.prototype.__class = glTFMorphTarget;
+glTFMorphTarget.__cache = {};
 Module['glTFMorphTarget'] = glTFMorphTarget;
 Object.defineProperty(glTFMorphTarget.prototype, "POSITION", {
     get: function() {
-        var self = this.ptr;
-        return _glTFMorphTarget__get_POSITION(self);
+        return _glTFMorphTarget__get_POSITION(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMorphTarget__set_POSITION(self, value);
+        _glTFMorphTarget__set_POSITION(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFMorphTarget.prototype, "NORMAL", {
     get: function() {
-        var self = this.ptr;
-        return _glTFMorphTarget__get_NORMAL(self);
+        return _glTFMorphTarget__get_NORMAL(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMorphTarget__set_NORMAL(self, value);
+        _glTFMorphTarget__set_NORMAL(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFMorphTarget.prototype, "TANGENT", {
     get: function() {
-        var self = this.ptr;
-        return _glTFMorphTarget__get_TANGENT(self);
+        return _glTFMorphTarget__get_TANGENT(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFMorphTarget__set_TANGENT(self, value);
+        _glTFMorphTarget__set_TANGENT(this.__ptr, value);
     }
 });
-glTFMorphTarget.prototype["__destroy__"] = glTFMorphTarget.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFMorphTarget__destroy(self);
+glTFMorphTarget.prototype["__destroy"] = glTFMorphTarget.prototype.__destroy = function() {
+    _glTFMorphTarget__destroy(this.__ptr);
 };
 // glTFNode
 function glTFNode() {
-    this.ptr = _glTFNode__construct_0(); this.type = glTFNode; getCache(glTFNode)[this.ptr] = this;
+    this.__ptr = _glTFNode__construct_0(); this.__type = glTFNode.__type; getCache(glTFNode)[this.__ptr] = this;
 };
 glTFNode.prototype = Object.create(WrapperObject.prototype);
 glTFNode.prototype.constructor = glTFNode;
-glTFNode.prototype.__class__ = glTFNode;
-glTFNode.__cache__ = {};
+glTFNode.prototype.__class = glTFNode;
+glTFNode.__cache = {};
 Module['glTFNode'] = glTFNode;
 Object.defineProperty(glTFNode.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFNode__get_name(self));
+        return Pointer_stringify(_glTFNode__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFNode__set_name(self, ensureString(value));
+        _glTFNode__set_name(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFNode.prototype, "mesh", {
     get: function() {
-        var self = this.ptr;
-        return _glTFNode__get_mesh(self);
+        return _glTFNode__get_mesh(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFNode__set_mesh(self, value);
+        _glTFNode__set_mesh(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFNode.prototype, "camera", {
     get: function() {
-        var self = this.ptr;
-        return _glTFNode__get_camera(self);
+        return _glTFNode__get_camera(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFNode__set_camera(self, value);
+        _glTFNode__set_camera(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFNode.prototype, "skin", {
     get: function() {
-        var self = this.ptr;
-        return _glTFNode__get_skin(self);
+        return _glTFNode__get_skin(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFNode__set_skin(self, value);
+        _glTFNode__set_skin(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFNode.prototype, "matrix", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFNode__get_matrix(self), mat4);
+        return wrapPointer(_glTFNode__get_matrix(this.__ptr), mat4);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFNode__set_matrix(self, value.ptr);
+        _glTFNode__set_matrix(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFNode.prototype, "translation", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFNode__get_translation(self), v3_float);
+        return wrapPointer(_glTFNode__get_translation(this.__ptr), v3_float);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFNode__set_translation(self, value.ptr);
+        _glTFNode__set_translation(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFNode.prototype, "rotation", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFNode__get_rotation(self), quat);
+        return wrapPointer(_glTFNode__get_rotation(this.__ptr), quat);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFNode__set_rotation(self, value.ptr);
+        _glTFNode__set_rotation(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFNode.prototype, "scale", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFNode__get_scale(self), v3_float);
+        return wrapPointer(_glTFNode__get_scale(this.__ptr), v3_float);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFNode__set_scale(self, value.ptr);
+        _glTFNode__set_scale(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFNode.prototype, "children", {
     get: function() {
-        var self = this.ptr;
-        return _glTFNode__get_children(self);
+        return _glTFNode__get_children(this.__ptr);
     }});
-glTFNode.prototype["__destroy__"] = glTFNode.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFNode__destroy(self);
+glTFNode.prototype["__destroy"] = glTFNode.prototype.__destroy = function() {
+    _glTFNode__destroy(this.__ptr);
 };
 // glTFNodeExtras
 function glTFNodeExtras() {
-    this.ptr = _glTFNodeExtras__construct_0(); this.type = glTFNodeExtras; getCache(glTFNodeExtras)[this.ptr] = this;
+    this.__ptr = _glTFNodeExtras__construct_0(); this.__type = glTFNodeExtras.__type; getCache(glTFNodeExtras)[this.__ptr] = this;
 };
 glTFNodeExtras.prototype = Object.create(WrapperObject.prototype);
 glTFNodeExtras.prototype.constructor = glTFNodeExtras;
-glTFNodeExtras.prototype.__class__ = glTFNodeExtras;
-glTFNodeExtras.__cache__ = {};
+glTFNodeExtras.prototype.__class = glTFNodeExtras;
+glTFNodeExtras.__cache = {};
 Module['glTFNodeExtras'] = glTFNodeExtras;
-glTFNodeExtras.prototype["__destroy__"] = glTFNodeExtras.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFNodeExtras__destroy(self);
+glTFNodeExtras.prototype["__destroy"] = glTFNodeExtras.prototype.__destroy = function() {
+    _glTFNodeExtras__destroy(this.__ptr);
 };
 // glTFOrthographic
 function glTFOrthographic() {
-    this.ptr = _glTFOrthographic__construct_0(); this.type = glTFOrthographic; getCache(glTFOrthographic)[this.ptr] = this;
+    this.__ptr = _glTFOrthographic__construct_0(); this.__type = glTFOrthographic.__type; getCache(glTFOrthographic)[this.__ptr] = this;
 };
 glTFOrthographic.prototype = Object.create(WrapperObject.prototype);
 glTFOrthographic.prototype.constructor = glTFOrthographic;
-glTFOrthographic.prototype.__class__ = glTFOrthographic;
-glTFOrthographic.__cache__ = {};
+glTFOrthographic.prototype.__class = glTFOrthographic;
+glTFOrthographic.__cache = {};
 Module['glTFOrthographic'] = glTFOrthographic;
 Object.defineProperty(glTFOrthographic.prototype, "xmag", {
     get: function() {
-        var self = this.ptr;
-        return _glTFOrthographic__get_xmag(self);
+        return _glTFOrthographic__get_xmag(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFOrthographic__set_xmag(self, value);
+        _glTFOrthographic__set_xmag(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFOrthographic.prototype, "ymag", {
     get: function() {
-        var self = this.ptr;
-        return _glTFOrthographic__get_ymag(self);
+        return _glTFOrthographic__get_ymag(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFOrthographic__set_ymag(self, value);
+        _glTFOrthographic__set_ymag(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFOrthographic.prototype, "zfar", {
     get: function() {
-        var self = this.ptr;
-        return _glTFOrthographic__get_zfar(self);
+        return _glTFOrthographic__get_zfar(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFOrthographic__set_zfar(self, value);
+        _glTFOrthographic__set_zfar(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFOrthographic.prototype, "znear", {
     get: function() {
-        var self = this.ptr;
-        return _glTFOrthographic__get_znear(self);
+        return _glTFOrthographic__get_znear(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFOrthographic__set_znear(self, value);
+        _glTFOrthographic__set_znear(this.__ptr, value);
     }
 });
-glTFOrthographic.prototype["__destroy__"] = glTFOrthographic.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFOrthographic__destroy(self);
+glTFOrthographic.prototype["__destroy"] = glTFOrthographic.prototype.__destroy = function() {
+    _glTFOrthographic__destroy(this.__ptr);
 };
 // glTFPerspective
 function glTFPerspective() {
-    this.ptr = _glTFPerspective__construct_0(); this.type = glTFPerspective; getCache(glTFPerspective)[this.ptr] = this;
+    this.__ptr = _glTFPerspective__construct_0(); this.__type = glTFPerspective.__type; getCache(glTFPerspective)[this.__ptr] = this;
 };
 glTFPerspective.prototype = Object.create(WrapperObject.prototype);
 glTFPerspective.prototype.constructor = glTFPerspective;
-glTFPerspective.prototype.__class__ = glTFPerspective;
-glTFPerspective.__cache__ = {};
+glTFPerspective.prototype.__class = glTFPerspective;
+glTFPerspective.__cache = {};
 Module['glTFPerspective'] = glTFPerspective;
 Object.defineProperty(glTFPerspective.prototype, "yfov", {
     get: function() {
-        var self = this.ptr;
-        return _glTFPerspective__get_yfov(self);
+        return _glTFPerspective__get_yfov(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFPerspective__set_yfov(self, value);
+        _glTFPerspective__set_yfov(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFPerspective.prototype, "zfar", {
     get: function() {
-        var self = this.ptr;
-        return _glTFPerspective__get_zfar(self);
+        return _glTFPerspective__get_zfar(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFPerspective__set_zfar(self, value);
+        _glTFPerspective__set_zfar(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFPerspective.prototype, "znear", {
     get: function() {
-        var self = this.ptr;
-        return _glTFPerspective__get_znear(self);
+        return _glTFPerspective__get_znear(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFPerspective__set_znear(self, value);
+        _glTFPerspective__set_znear(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFPerspective.prototype, "aspect_ratio", {
     get: function() {
-        var self = this.ptr;
-        return _glTFPerspective__get_aspect_ratio(self);
+        return _glTFPerspective__get_aspect_ratio(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFPerspective__set_aspect_ratio(self, value);
+        _glTFPerspective__set_aspect_ratio(this.__ptr, value);
     }
 });
-glTFPerspective.prototype["__destroy__"] = glTFPerspective.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFPerspective__destroy(self);
+glTFPerspective.prototype["__destroy"] = glTFPerspective.prototype.__destroy = function() {
+    _glTFPerspective__destroy(this.__ptr);
 };
 // glTFPrimitive
 function glTFPrimitive() {
-    this.ptr = _glTFPrimitive__construct_0(); this.type = glTFPrimitive; getCache(glTFPrimitive)[this.ptr] = this;
+    this.__ptr = _glTFPrimitive__construct_0(); this.__type = glTFPrimitive.__type; getCache(glTFPrimitive)[this.__ptr] = this;
 };
 glTFPrimitive.prototype = Object.create(WrapperObject.prototype);
 glTFPrimitive.prototype.constructor = glTFPrimitive;
-glTFPrimitive.prototype.__class__ = glTFPrimitive;
-glTFPrimitive.__cache__ = {};
+glTFPrimitive.prototype.__class = glTFPrimitive;
+glTFPrimitive.__cache = {};
 Module['glTFPrimitive'] = glTFPrimitive;
 Object.defineProperty(glTFPrimitive.prototype, "attributes", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFPrimitive__get_attributes(self), glTFAttributes);
+        return wrapPointer(_glTFPrimitive__get_attributes(this.__ptr), glTFAttributes);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFPrimitive__set_attributes(self, value.ptr);
+        _glTFPrimitive__set_attributes(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFPrimitive.prototype, "indices", {
     get: function() {
-        var self = this.ptr;
-        return _glTFPrimitive__get_indices(self);
+        return _glTFPrimitive__get_indices(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFPrimitive__set_indices(self, value);
+        _glTFPrimitive__set_indices(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFPrimitive.prototype, "material", {
     get: function() {
-        var self = this.ptr;
-        return _glTFPrimitive__get_material(self);
+        return _glTFPrimitive__get_material(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFPrimitive__set_material(self, value);
+        _glTFPrimitive__set_material(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFPrimitive.prototype, "mode", {
     get: function() {
-        var self = this.ptr;
-        return _glTFPrimitive__get_mode(self);
+        return _glTFPrimitive__get_mode(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFPrimitive__set_mode(self, value);
+        _glTFPrimitive__set_mode(this.__ptr, value);
     }
 });
-glTFPrimitive.prototype["__destroy__"] = glTFPrimitive.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFPrimitive__destroy(self);
+glTFPrimitive.prototype["__destroy"] = glTFPrimitive.prototype.__destroy = function() {
+    _glTFPrimitive__destroy(this.__ptr);
 };
 // glTFSampler
 function glTFSampler() {
-    this.ptr = _glTFSampler__construct_0(); this.type = glTFSampler; getCache(glTFSampler)[this.ptr] = this;
+    this.__ptr = _glTFSampler__construct_0(); this.__type = glTFSampler.__type; getCache(glTFSampler)[this.__ptr] = this;
 };
 glTFSampler.prototype = Object.create(WrapperObject.prototype);
 glTFSampler.prototype.constructor = glTFSampler;
-glTFSampler.prototype.__class__ = glTFSampler;
-glTFSampler.__cache__ = {};
+glTFSampler.prototype.__class = glTFSampler;
+glTFSampler.__cache = {};
 Module['glTFSampler'] = glTFSampler;
 Object.defineProperty(glTFSampler.prototype, "mag_filter", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSampler__get_mag_filter(self);
+        return _glTFSampler__get_mag_filter(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSampler__set_mag_filter(self, value);
+        _glTFSampler__set_mag_filter(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFSampler.prototype, "min_filter", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSampler__get_min_filter(self);
+        return _glTFSampler__get_min_filter(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSampler__set_min_filter(self, value);
+        _glTFSampler__set_min_filter(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFSampler.prototype, "wrap_s", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSampler__get_wrap_s(self);
+        return _glTFSampler__get_wrap_s(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSampler__set_wrap_s(self, value);
+        _glTFSampler__set_wrap_s(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFSampler.prototype, "wrap_t", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSampler__get_wrap_t(self);
+        return _glTFSampler__get_wrap_t(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSampler__set_wrap_t(self, value);
+        _glTFSampler__set_wrap_t(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFSampler.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFSampler__get_name(self));
+        return Pointer_stringify(_glTFSampler__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSampler__set_name(self, ensureString(value));
+        _glTFSampler__set_name(this.__ptr, ensureString(value));
     }
 });
-glTFSampler.prototype["__destroy__"] = glTFSampler.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFSampler__destroy(self);
+glTFSampler.prototype["__destroy"] = glTFSampler.prototype.__destroy = function() {
+    _glTFSampler__destroy(this.__ptr);
 };
 // glTFScene
 function glTFScene() {
-    this.ptr = _glTFScene__construct_0(); this.type = glTFScene; getCache(glTFScene)[this.ptr] = this;
+    this.__ptr = _glTFScene__construct_0(); this.__type = glTFScene.__type; getCache(glTFScene)[this.__ptr] = this;
 };
 glTFScene.prototype = Object.create(WrapperObject.prototype);
 glTFScene.prototype.constructor = glTFScene;
-glTFScene.prototype.__class__ = glTFScene;
-glTFScene.__cache__ = {};
+glTFScene.prototype.__class = glTFScene;
+glTFScene.__cache = {};
 Module['glTFScene'] = glTFScene;
 Object.defineProperty(glTFScene.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFScene__get_name(self));
+        return Pointer_stringify(_glTFScene__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFScene__set_name(self, ensureString(value));
+        _glTFScene__set_name(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFScene.prototype, "nodes", {
     get: function() {
-        var self = this.ptr;
-        return _glTFScene__get_nodes(self);
+        return _glTFScene__get_nodes(this.__ptr);
     }});
-glTFScene.prototype["__destroy__"] = glTFScene.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFScene__destroy(self);
+glTFScene.prototype["__destroy"] = glTFScene.prototype.__destroy = function() {
+    _glTFScene__destroy(this.__ptr);
 };
 // glTFSkin
 function glTFSkin() {
-    this.ptr = _glTFSkin__construct_0(); this.type = glTFSkin; getCache(glTFSkin)[this.ptr] = this;
+    this.__ptr = _glTFSkin__construct_0(); this.__type = glTFSkin.__type; getCache(glTFSkin)[this.__ptr] = this;
 };
 glTFSkin.prototype = Object.create(WrapperObject.prototype);
 glTFSkin.prototype.constructor = glTFSkin;
-glTFSkin.prototype.__class__ = glTFSkin;
-glTFSkin.__cache__ = {};
+glTFSkin.prototype.__class = glTFSkin;
+glTFSkin.__cache = {};
 Module['glTFSkin'] = glTFSkin;
 Object.defineProperty(glTFSkin.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFSkin__get_name(self));
+        return Pointer_stringify(_glTFSkin__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSkin__set_name(self, ensureString(value));
+        _glTFSkin__set_name(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFSkin.prototype, "skeleton", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSkin__get_skeleton(self);
+        return _glTFSkin__get_skeleton(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSkin__set_skeleton(self, value);
+        _glTFSkin__set_skeleton(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFSkin.prototype, "joints", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSkin__get_joints(self);
+        return _glTFSkin__get_joints(this.__ptr);
     }});
 Object.defineProperty(glTFSkin.prototype, "inverse_bind_matrices", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSkin__get_inverse_bind_matrices(self);
+        return _glTFSkin__get_inverse_bind_matrices(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSkin__set_inverse_bind_matrices(self, value);
+        _glTFSkin__set_inverse_bind_matrices(this.__ptr, value);
     }
 });
-glTFSkin.prototype["__destroy__"] = glTFSkin.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFSkin__destroy(self);
+glTFSkin.prototype["__destroy"] = glTFSkin.prototype.__destroy = function() {
+    _glTFSkin__destroy(this.__ptr);
 };
 // glTFSparse
 function glTFSparse() {
-    this.ptr = _glTFSparse__construct_0(); this.type = glTFSparse; getCache(glTFSparse)[this.ptr] = this;
+    this.__ptr = _glTFSparse__construct_0(); this.__type = glTFSparse.__type; getCache(glTFSparse)[this.__ptr] = this;
 };
 glTFSparse.prototype = Object.create(WrapperObject.prototype);
 glTFSparse.prototype.constructor = glTFSparse;
-glTFSparse.prototype.__class__ = glTFSparse;
-glTFSparse.__cache__ = {};
+glTFSparse.prototype.__class = glTFSparse;
+glTFSparse.__cache = {};
 Module['glTFSparse'] = glTFSparse;
 Object.defineProperty(glTFSparse.prototype, "count", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSparse__get_count(self);
+        return _glTFSparse__get_count(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSparse__set_count(self, value);
+        _glTFSparse__set_count(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFSparse.prototype, "indices", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFSparse__get_indices(self), glTFSparseIndices);
+        return wrapPointer(_glTFSparse__get_indices(this.__ptr), glTFSparseIndices);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSparse__set_indices(self, value.ptr);
+        _glTFSparse__set_indices(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(glTFSparse.prototype, "values", {
     get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFSparse__get_values(self), glTFSparseValues);
+        return wrapPointer(_glTFSparse__get_values(this.__ptr), glTFSparseValues);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSparse__set_values(self, value.ptr);
+        _glTFSparse__set_values(this.__ptr, value.__ptr);
     }
 });
-glTFSparse.prototype["__destroy__"] = glTFSparse.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFSparse__destroy(self);
+glTFSparse.prototype["__destroy"] = glTFSparse.prototype.__destroy = function() {
+    _glTFSparse__destroy(this.__ptr);
 };
 // glTFSparseIndices
 function glTFSparseIndices() {
-    this.ptr = _glTFSparseIndices__construct_0(); this.type = glTFSparseIndices; getCache(glTFSparseIndices)[this.ptr] = this;
+    this.__ptr = _glTFSparseIndices__construct_0(); this.__type = glTFSparseIndices.__type; getCache(glTFSparseIndices)[this.__ptr] = this;
 };
 glTFSparseIndices.prototype = Object.create(WrapperObject.prototype);
 glTFSparseIndices.prototype.constructor = glTFSparseIndices;
-glTFSparseIndices.prototype.__class__ = glTFSparseIndices;
-glTFSparseIndices.__cache__ = {};
+glTFSparseIndices.prototype.__class = glTFSparseIndices;
+glTFSparseIndices.__cache = {};
 Module['glTFSparseIndices'] = glTFSparseIndices;
 Object.defineProperty(glTFSparseIndices.prototype, "buffer_view", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSparseIndices__get_buffer_view(self);
+        return _glTFSparseIndices__get_buffer_view(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSparseIndices__set_buffer_view(self, value);
+        _glTFSparseIndices__set_buffer_view(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFSparseIndices.prototype, "byte_offset", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSparseIndices__get_byte_offset(self);
+        return _glTFSparseIndices__get_byte_offset(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSparseIndices__set_byte_offset(self, value);
+        _glTFSparseIndices__set_byte_offset(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFSparseIndices.prototype, "component_type", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSparseIndices__get_component_type(self);
+        return _glTFSparseIndices__get_component_type(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSparseIndices__set_component_type(self, value);
+        _glTFSparseIndices__set_component_type(this.__ptr, value);
     }
 });
-glTFSparseIndices.prototype["__destroy__"] = glTFSparseIndices.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFSparseIndices__destroy(self);
+glTFSparseIndices.prototype["__destroy"] = glTFSparseIndices.prototype.__destroy = function() {
+    _glTFSparseIndices__destroy(this.__ptr);
 };
 // glTFSparseValues
 function glTFSparseValues() {
-    this.ptr = _glTFSparseValues__construct_0(); this.type = glTFSparseValues; getCache(glTFSparseValues)[this.ptr] = this;
+    this.__ptr = _glTFSparseValues__construct_0(); this.__type = glTFSparseValues.__type; getCache(glTFSparseValues)[this.__ptr] = this;
 };
 glTFSparseValues.prototype = Object.create(WrapperObject.prototype);
 glTFSparseValues.prototype.constructor = glTFSparseValues;
-glTFSparseValues.prototype.__class__ = glTFSparseValues;
-glTFSparseValues.__cache__ = {};
+glTFSparseValues.prototype.__class = glTFSparseValues;
+glTFSparseValues.__cache = {};
 Module['glTFSparseValues'] = glTFSparseValues;
 Object.defineProperty(glTFSparseValues.prototype, "buffer_view", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSparseValues__get_buffer_view(self);
+        return _glTFSparseValues__get_buffer_view(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSparseValues__set_buffer_view(self, value);
+        _glTFSparseValues__set_buffer_view(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFSparseValues.prototype, "byte_offset", {
     get: function() {
-        var self = this.ptr;
-        return _glTFSparseValues__get_byte_offset(self);
+        return _glTFSparseValues__get_byte_offset(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFSparseValues__set_byte_offset(self, value);
+        _glTFSparseValues__set_byte_offset(this.__ptr, value);
     }
 });
-glTFSparseValues.prototype["__destroy__"] = glTFSparseValues.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFSparseValues__destroy(self);
+glTFSparseValues.prototype["__destroy"] = glTFSparseValues.prototype.__destroy = function() {
+    _glTFSparseValues__destroy(this.__ptr);
 };
 // glTFTexture
 function glTFTexture() {
-    this.ptr = _glTFTexture__construct_0(); this.type = glTFTexture; getCache(glTFTexture)[this.ptr] = this;
+    this.__ptr = _glTFTexture__construct_0(); this.__type = glTFTexture.__type; getCache(glTFTexture)[this.__ptr] = this;
 };
 glTFTexture.prototype = Object.create(WrapperObject.prototype);
 glTFTexture.prototype.constructor = glTFTexture;
-glTFTexture.prototype.__class__ = glTFTexture;
-glTFTexture.__cache__ = {};
+glTFTexture.prototype.__class = glTFTexture;
+glTFTexture.__cache = {};
 Module['glTFTexture'] = glTFTexture;
 Object.defineProperty(glTFTexture.prototype, "name", {
     get: function() {
-        var self = this.ptr;
-        return Pointer_stringify(_glTFTexture__get_name(self));
+        return Pointer_stringify(_glTFTexture__get_name(this.__ptr));
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFTexture__set_name(self, ensureString(value));
+        _glTFTexture__set_name(this.__ptr, ensureString(value));
     }
 });
 Object.defineProperty(glTFTexture.prototype, "sampler", {
     get: function() {
-        var self = this.ptr;
-        return _glTFTexture__get_sampler(self);
+        return _glTFTexture__get_sampler(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFTexture__set_sampler(self, value);
+        _glTFTexture__set_sampler(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFTexture.prototype, "source", {
     get: function() {
-        var self = this.ptr;
-        return _glTFTexture__get_source(self);
+        return _glTFTexture__get_source(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFTexture__set_source(self, value);
+        _glTFTexture__set_source(this.__ptr, value);
     }
 });
-glTFTexture.prototype["__destroy__"] = glTFTexture.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFTexture__destroy(self);
+glTFTexture.prototype["__destroy"] = glTFTexture.prototype.__destroy = function() {
+    _glTFTexture__destroy(this.__ptr);
 };
 // glTFTextureInfo
 function glTFTextureInfo() {
-    this.ptr = _glTFTextureInfo__construct_0(); this.type = glTFTextureInfo; getCache(glTFTextureInfo)[this.ptr] = this;
+    this.__ptr = _glTFTextureInfo__construct_0(); this.__type = glTFTextureInfo.__type; getCache(glTFTextureInfo)[this.__ptr] = this;
 };
 glTFTextureInfo.prototype = Object.create(WrapperObject.prototype);
 glTFTextureInfo.prototype.constructor = glTFTextureInfo;
-glTFTextureInfo.prototype.__class__ = glTFTextureInfo;
-glTFTextureInfo.__cache__ = {};
+glTFTextureInfo.prototype.__class = glTFTextureInfo;
+glTFTextureInfo.__cache = {};
 Module['glTFTextureInfo'] = glTFTextureInfo;
 Object.defineProperty(glTFTextureInfo.prototype, "index", {
     get: function() {
-        var self = this.ptr;
-        return _glTFTextureInfo__get_index(self);
+        return _glTFTextureInfo__get_index(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFTextureInfo__set_index(self, value);
+        _glTFTextureInfo__set_index(this.__ptr, value);
     }
 });
 Object.defineProperty(glTFTextureInfo.prototype, "scale", {
     get: function() {
-        var self = this.ptr;
-        return _glTFTextureInfo__get_scale(self);
+        return _glTFTextureInfo__get_scale(this.__ptr);
     },
     set: function(value) {
-        var self = this.ptr;
-        _glTFTextureInfo__set_scale(self, value);
+        _glTFTextureInfo__set_scale(this.__ptr, value);
     }
 });
-glTFTextureInfo.prototype["__destroy__"] = glTFTextureInfo.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _glTFTextureInfo__destroy(self);
+glTFTextureInfo.prototype["__destroy"] = glTFTextureInfo.prototype.__destroy = function() {
+    _glTFTextureInfo__destroy(this.__ptr);
 };
 
 (function() {
     function setup() {
-        glTF.__type__ = _glTF__type();
-        glTFAccessor.__type__ = _glTFAccessor__type();
-        glTFAnimation.__type__ = _glTFAnimation__type();
-        glTFAnimationChannel.__type__ = _glTFAnimationChannel__type();
-        glTFAnimationSampler.__type__ = _glTFAnimationSampler__type();
-        glTFAnimationTarget.__type__ = _glTFAnimationTarget__type();
-        glTFAttributes.__type__ = _glTFAttributes__type();
-        glTFBuffer.__type__ = _glTFBuffer__type();
-        glTFBufferView.__type__ = _glTFBufferView__type();
-        glTFCamera.__type__ = _glTFCamera__type();
-        glTFImage.__type__ = _glTFImage__type();
-        glTFMaterial.__type__ = _glTFMaterial__type();
-        glTFMaterialPBR.__type__ = _glTFMaterialPBR__type();
-        glTFMesh.__type__ = _glTFMesh__type();
-        glTFMorphTarget.__type__ = _glTFMorphTarget__type();
-        glTFNode.__type__ = _glTFNode__type();
-        glTFNodeExtras.__type__ = _glTFNodeExtras__type();
-        glTFOrthographic.__type__ = _glTFOrthographic__type();
-        glTFPerspective.__type__ = _glTFPerspective__type();
-        glTFPrimitive.__type__ = _glTFPrimitive__type();
-        glTFSampler.__type__ = _glTFSampler__type();
-        glTFScene.__type__ = _glTFScene__type();
-        glTFSkin.__type__ = _glTFSkin__type();
-        glTFSparse.__type__ = _glTFSparse__type();
-        glTFSparseIndices.__type__ = _glTFSparseIndices__type();
-        glTFSparseValues.__type__ = _glTFSparseValues__type();
-        glTFTexture.__type__ = _glTFTexture__type();
-        glTFTextureInfo.__type__ = _glTFTextureInfo__type();
+        glTF.__type = _glTF__type();
+        glTFAccessor.__type = _glTFAccessor__type();
+        glTFAnimation.__type = _glTFAnimation__type();
+        glTFAnimationChannel.__type = _glTFAnimationChannel__type();
+        glTFAnimationSampler.__type = _glTFAnimationSampler__type();
+        glTFAnimationTarget.__type = _glTFAnimationTarget__type();
+        glTFAttributes.__type = _glTFAttributes__type();
+        glTFBuffer.__type = _glTFBuffer__type();
+        glTFBufferView.__type = _glTFBufferView__type();
+        glTFCamera.__type = _glTFCamera__type();
+        glTFImage.__type = _glTFImage__type();
+        glTFMaterial.__type = _glTFMaterial__type();
+        glTFMaterialPBR.__type = _glTFMaterialPBR__type();
+        glTFMesh.__type = _glTFMesh__type();
+        glTFMorphTarget.__type = _glTFMorphTarget__type();
+        glTFNode.__type = _glTFNode__type();
+        glTFNodeExtras.__type = _glTFNodeExtras__type();
+        glTFOrthographic.__type = _glTFOrthographic__type();
+        glTFPerspective.__type = _glTFPerspective__type();
+        glTFPrimitive.__type = _glTFPrimitive__type();
+        glTFSampler.__type = _glTFSampler__type();
+        glTFScene.__type = _glTFScene__type();
+        glTFSkin.__type = _glTFSkin__type();
+        glTFSparse.__type = _glTFSparse__type();
+        glTFSparseIndices.__type = _glTFSparseIndices__type();
+        glTFSparseValues.__type = _glTFSparseValues__type();
+        glTFTexture.__type = _glTFTexture__type();
+        glTFTextureInfo.__type = _glTFTextureInfo__type();
         // glTFAlphaMode
         Module['glTFAlphaMode'] = Module['glTFAlphaMode'] || {};
         Module['glTFAlphaMode']['OPAQUE'] = _glTFAlphaMode_OPAQUE();

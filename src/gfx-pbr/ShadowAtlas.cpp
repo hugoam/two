@@ -136,24 +136,25 @@ namespace mud
 
 	uvec4 ShadowAtlas::render_update(Render& render, Light& light)
 	{
-		Plane camera_near_plane = render.m_camera.near_plane();
+		const Plane camera_near_plane = render.m_camera.near_plane();
 
 		vec3 points[2];
 
+		const Node3& node = *light.m_node;
 		if(light.m_type == LightType::Point)
 		{
-			points[0] = light.m_node.position();
-			points[1] = light.m_node.position() + light.m_node.axis(X3) * light.m_range;
+			points[0] = node.position();
+			points[1] = node.position() + node.axis(X3) * light.m_range;
 		}
 		else if(light.m_type == LightType::Spot)
 		{
-			float w = light.m_range * sin(light.m_spot_angle);
-			float d = light.m_range * cos(light.m_spot_angle);
+			const float w = light.m_range * sin(light.m_spot_angle);
+			const float d = light.m_range * cos(light.m_spot_angle);
 
-			vec3 base = light.m_node.position() + light.m_node.direction() * d;
+			const vec3 base = light.m_node->position() + node.direction() * d;
 
 			points[0] = base;
-			points[1] = base + light.m_node.axis(X3) * w;
+			points[1] = base + node.axis(X3) * w;
 		}
 
 		if(!render.m_camera.m_orthographic)
@@ -163,14 +164,14 @@ namespace mud
 				if(distance(camera_near_plane, points[j]) < 0.f)
 					points[j].z = -render.m_camera.m_near; //small hack to keep size constant when hitting the screen
 
-				points[j] = plane_segment_intersection(camera_near_plane, { light.m_node.position(), points[j] });
+				points[j] = plane_segment_intersection(camera_near_plane, { node.position(), points[j] });
 			}
 		}
 
-		vec2 size = frustum_viewport_size(render.m_camera.m_projection);
+		const vec2 size = frustum_viewport_size(render.m_camera.m_projection);
 
-		float screen_diameter = distance(points[0], points[1]) * 2.f;
-		float coverage = screen_diameter / (size.x + size.y);
+		const float screen_diameter = distance(points[0], points[1]) * 2.f;
+		const float coverage = screen_diameter / (size.x + size.y);
 
 		//if(light.m_shadow_dirty) // updated when lights and objects bounds start or stop intersecting, or move
 		//{
@@ -178,7 +179,7 @@ namespace mud
 		//	light.m_shadow_dirty = false;
 		//}
 
-		bool redraw = this->update_light(light, light.m_last_render, coverage, light.m_last_update);
+		const bool redraw = this->update_light(light, light.m_last_render, coverage, light.m_last_update);
 		UNUSED(redraw);
 		return this->light_slot(light).m_rect;
 	}

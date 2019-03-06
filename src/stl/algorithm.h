@@ -280,11 +280,11 @@ namespace stl
 		vec.pop_back();
 	}
 
-	//export_ template <class T>
-	//inline void extend(T& vec, const T& other)
-	//{
-	//	vec.insert(vec.end(), other.begin(), other.end());
-	//}
+	export_ template <class T>
+	inline void extend(T& vec, const T& other)
+	{
+		vec.insert(vec.end(), other.begin(), other.end());
+	}
 	
 	export_ template <class T, class U>
 	inline void extend(T& vec, const U& other)

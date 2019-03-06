@@ -61,10 +61,12 @@ namespace mud
 	}
 
 	Batch::Batch()
+		: m_buffer{}
 	{}
 
 	Batch::Batch(Item& item)
 		: m_item(&item)
+		, m_buffer{}
 	{}
 
 	void Batch::submit(bgfx::Encoder& encoder, const ModelItem& item) const
@@ -95,25 +97,38 @@ namespace mud
 	void Batch::transforms(span<mat4> instances)
 	{
 		const Model& model = *m_item->m_model;
-		m_buffers.resize(model.m_items.size());
-
-		for(const ModelItem& item : model.m_items)
+		if(model.m_no_transform)
 		{
-			bgfx::InstanceDataBuffer& buffer = m_buffers[item.m_index];
+			bgfx::InstanceDataBuffer& buffer = m_buffer;
 			uint32_t num = bgfx::getAvailInstanceDataBuffer(uint32_t(instances.size()), sizeof(mat4));
 			if(num == 0) return;
 			bgfx::allocInstanceDataBuffer(&buffer, num, sizeof(mat4));
 
 			mat4* mat = (mat4*)buffer.data;
+			memcpy(mat, instances.data(), instances.size() * sizeof(mat4));
+		}
+		else
+		{
+			m_buffers.resize(model.m_items.size());
 
-			if(item.m_has_transform)
+			for(const ModelItem& item : model.m_items)
 			{
-				for(uint32_t i = 0; i < buffer.num; ++i)
-					*mat++ = instances[i] * item.m_transform;
-			}
-			else
-			{
-				memcpy(mat, instances.data(), instances.size() * sizeof(mat4));
+				bgfx::InstanceDataBuffer& buffer = m_buffers[item.m_index];
+				uint32_t num = bgfx::getAvailInstanceDataBuffer(uint32_t(instances.size()), sizeof(mat4));
+				if(num == 0) return;
+				bgfx::allocInstanceDataBuffer(&buffer, num, sizeof(mat4));
+
+				mat4* mat = (mat4*)buffer.data;
+
+				if(item.m_has_transform)
+				{
+					for(uint32_t i = 0; i < buffer.num; ++i)
+						*mat++ = instances[i] * item.m_transform;
+				}
+				else
+				{
+					memcpy(mat, instances.data(), instances.size() * sizeof(mat4));
+				}
 			}
 		}
 	}

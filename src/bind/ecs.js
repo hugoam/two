@@ -1,20 +1,19 @@
 // Entity
 function Entity() {
-    this.ptr = _mud_Entity__construct_0(); this.type = Entity; getCache(Entity)[this.ptr] = this;
+    this.__ptr = _mud_Entity__construct_0(); this.__type = Entity.__type; getCache(Entity)[this.__ptr] = this;
 };
 Entity.prototype = Object.create(WrapperObject.prototype);
 Entity.prototype.constructor = Entity;
-Entity.prototype.__class__ = Entity;
-Entity.__cache__ = {};
+Entity.prototype.__class = Entity;
+Entity.__cache = {};
 Module['Entity'] = Entity;
-Entity.prototype["__destroy__"] = Entity.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Entity__destroy(self);
+Entity.prototype["__destroy"] = Entity.prototype.__destroy = function() {
+    _mud_Entity__destroy(this.__ptr);
 };
 
 (function() {
     function setup() {
-        Entity.__type__ = _mud_Entity__type();
+        Entity.__type = _mud_Entity__type();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

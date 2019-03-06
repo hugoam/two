@@ -41,7 +41,7 @@ if(typeof this.state == 'undefined') {
     {
         var pos = new two.vec3(Math.random(), Math.random(), Math.random()) * 2000.0 - 1000.0;
         var scale = new two.vec2(1.0);
-        this.instances[i] = { new two.vec4(pos, 0.0), new two.vec4(scale, new two.vec2(0.0)) };
+        this.instances[i] = { d0: new two.vec4(pos, 0.0), d1: new two.vec4(scale, new two.vec2(0.0)) };
     }
 
     var n = scene.nodes().add(new two.Node3());
@@ -66,7 +66,7 @@ viewer.camera.eye.y += (-mouse.y - viewer.camera.eye.y) * 0.05;
 
 //viewer.camera.target = scene.position;
 
-var h = fmod(360.0 * (1.0 + time), 360.0) / 360.0;
+var h = ((360.0 * (1.0 + time)) % 360.0) / 360.0;
 this.material.solid.colour = two.hsl(h, 0.5, 0.5);
 
 span<float> memory = batch->begin(instances.length, sizeof(Instance));

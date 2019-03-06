@@ -136,7 +136,7 @@ namespace mud
 		meth_ Material& fetch_image256_material(const Image256& image);
 
 		meth_ Model& shape(const Shape& shape, const Symbol& symbol = {}, DrawMode draw_mode = PLAIN);
-		meth_ Material& symbol_material(const Symbol& symbol, DrawMode draw_mode);
+		meth_ Material& symbol_material(const Symbol& symbol, DrawMode draw_mode = PLAIN);
 
 		void create_debug_materials();
 

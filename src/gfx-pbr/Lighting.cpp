@@ -27,6 +27,7 @@ module mud.gfx.pbr;
 #endif
 
 #include <cstring>
+#include <cstdio>
 
 namespace mud
 {
@@ -180,14 +181,17 @@ namespace mud
 		{
 			const Light& light = *lights[index];
 
-			vec3 position = mulp(view, light.m_node.position());
+			vec3 position = mulp(view, light.m_node->position());
 			float range = light.m_range;
 			vec3 energy = to_vec3(to_linear(light.m_colour) * light.m_energy);
 			float specular = light.m_specular;
-			vec3 direction = muln(view, light.m_node.direction());
+			vec3 direction = muln(view, light.m_node->direction());
 			float attenuation = light.m_attenuation;
 			float spot_attenuation = light.m_spot_attenuation;
 			float spot_cutoff = cos(to_radians(light.m_spot_angle));
+
+			printf("light %i type %i pos %f, %f, %f range %f, energy %f, %f, %f, specular %f, direction %f, %f, %f, attenuation %f\n"
+				, int(light.m_index), int(light.m_type), position.x, position.y, position.z, range, energy.x, energy.y, energy.z, specular, direction.x, direction.y, direction.z, attenuation);
 
 			m_gpu_lights.push_back({ position, range, energy, specular, direction, attenuation, spot_attenuation, spot_cutoff });
 

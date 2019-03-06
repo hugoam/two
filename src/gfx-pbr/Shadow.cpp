@@ -180,9 +180,9 @@ namespace mud
 
 	void light_slice_cull(Render& render, Light& light, LightBounds& light_bounds, vector<Item*>& result)
 	{
-		vec3 x = light.m_node.axis(X3);
-		vec3 y = light.m_node.axis(Y3);
-		vec3 z = light.m_node.axis(Z3);
+		vec3 x = light.m_node->axis(X3);
+		vec3 y = light.m_node->axis(Y3);
+		vec3 z = light.m_node->axis(Z3);
 
 		Plane6 light_frustum_planes =
 		{
@@ -284,7 +284,7 @@ namespace mud
 		csm.m_frustum_slices.resize(light.m_shadow_num_splits);
 		split_frustum_slices(render.m_camera, csm.m_frustum_slices, light.m_shadow_num_splits, light.m_shadow_split_distribution);
 
-		mat4 light_transform = bxlookat(-light.m_node.direction(), vec3(0.f));
+		mat4 light_transform = bxlookat(-light.m_node->direction(), vec3(0.f));
 		mat4 light_proj = bxortho(1.0f, -1.0f, 1.0f, -1.0f, -light.m_shadow_range, light.m_shadow_range, 0.0f, bgfx::getCaps()->homogeneousDepth);
 
 		csm.m_slices.clear();
@@ -511,7 +511,7 @@ namespace mud
 					shadow.m_light = &light;
 					shadow.m_rect = { offsets[axis], uvec2(size) };
 
-					const vec3& position = light.m_node.position();
+					const vec3& position = light.m_node->position();
 					shadow.m_transform = bxlookat(position, position + to_vec3(axis), view_up[axis]);
 					shadow.m_projection = projection;
 					//shadow.m_light_bounds = 
@@ -537,13 +537,13 @@ namespace mud
 				shadow.m_rect = m_atlas.render_update(render, light);
 
 				shadow.m_projection = bxproj(light.m_spot_angle * 2.f, 1.f, 0.01f, light.m_range, bgfx::getCaps()->homogeneousDepth);
-				shadow.m_transform = light.m_node.m_transform;
+				shadow.m_transform = light.m_node->m_transform;
 
 				shadow.m_items = render.m_shot->m_items;
 				cull_shadow_render(render, shadow.m_items, shadow.m_projection, shadow.m_transform);
 
 				shadow.m_fbo = m_atlas.m_fbo;
-				shadow.m_shadow_matrix = light.m_node.m_transform;
+				shadow.m_shadow_matrix = light.m_node->m_transform;
 
 				//m_block_light.m_gpu_shadows[index].matrix = m_shadows.size() - 1;
 			}
@@ -554,7 +554,7 @@ namespace mud
 	{
 		m_depth_method = method;
 
-		m_distance_params.m_eye = light.m_node.position();
+		m_distance_params.m_eye = light.m_node->position();
 		m_distance_params.m_near = 0.01f;
 		m_distance_params.m_far = light.m_range;
 

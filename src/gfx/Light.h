@@ -31,10 +31,8 @@ namespace mud
 	{
 	public:
 		constr_ Light(Node3& node, LightType type = LightType::Point, bool shadows = false, Colour colour = Colour::White, float energy = 1.f, float range = 1.f);
-		~Light();
 
-		attr_ Node3& m_node;
-
+		attr_ Node3* m_node = nullptr;
 		attr_ LightType m_type = LightType::Point;
 		attr_ bool m_visible = true;
 		attr_ Colour m_colour = Colour::White;

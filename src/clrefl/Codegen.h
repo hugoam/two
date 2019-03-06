@@ -1357,7 +1357,7 @@ namespace clgen
 		{
 			if(t.iscstring() || t.isstring()) return "ensureString(" + a + ")";
 			else if(t.istypedptr()) return "ensureRef(" + a + "), ensureRefType(" + a + ")";
-			else if(t.isclass() && !t.issequence()) return a + ".ptr";
+			else if(t.isclass() && !t.issequence()) return a + ".__ptr";
 			else if((qt.m_array || t.issequence()) && !no_array)
 			{
 				const CLType& elem = element_type(t);
@@ -1393,7 +1393,7 @@ namespace clgen
 		auto js_forward_args = [&](const CLCallable& f, size_t n)
 		{
 			vector<string> args = transform<string>(0, n, [&](size_t i) { return js_forward_arg(f, f.m_params[i], i); });
-			return f.m_kind == CLPrimitiveKind::Method ? merge({ "self" }, args)
+			return f.m_kind == CLPrimitiveKind::Method ? merge({ "this.__ptr" }, args)
 													   : args;
 		};
 
@@ -1424,9 +1424,9 @@ namespace clgen
 
 		auto js_call_constructor = [&](const CLCallable& f, size_t n)
 		{
-			string call = "this.ptr = " + js_call_inner(f, n, id(*f.m_parent, "_construct_" + to_string(n))) + "; ";
-			call += "this.type = " + name(*f.m_parent) + "; ";
-			call += "getCache(" + name(*f.m_parent) + ")[this.ptr] = this;";
+			string call = "this.__ptr = " + js_call_inner(f, n, id(*f.m_parent, "_construct_" + to_string(n))) + "; ";
+			call += "this.__type = " + name(*f.m_parent) + ".__type; ";
+			call += "getCache(" + name(*f.m_parent) + ")[this.__ptr] = this;";
 			return call;
 		};
 
@@ -1480,9 +1480,9 @@ namespace clgen
 			else if(t.isboolean())
 				jsw("assert(typeof " + a + " === \"boolean\" || (typeof " + a + " === \"number\" && !isNaN(" + a + ")), \"" + msg + "Expecting <boolean>\");");
 			else if(t.iscstring() || t.isstring())
-				jsw("assert(typeof " + a + " === \"string\" || (" + a + " && typeof " + a + " === \"object\" && typeof " + a + ".ptr === \"number\"), \"" + msg + "Expecting <string>\");");
+				jsw("assert(typeof " + a + " === \"string\" || (" + a + " && typeof " + a + " === \"object\" && typeof " + a + ".__ptr === \"number\"), \"" + msg + "Expecting <string>\");");
 			else if(t.isclass())
-				jsw("assert(typeof " + a + " === \"object\" && typeof " + a + ".ptr === \"number\", \"" + msg + "Expecting <pointer>\");");
+				jsw("assert(typeof " + a + " === \"object\" && typeof " + a + ".__ptr === \"number\", \"" + msg + "Expecting <pointer>\");");
 
 			if(optional) jsw("}");
 		};
@@ -1501,8 +1501,6 @@ namespace clgen
 			else if(f.m_kind == CLPrimitiveKind::Function)
 				jsw(js_module_path(m, f) + " = ", true);
 			jsw(js_supress + "function" + (ctor ? " " + name(*f.m_parent) : "") + "(" + comma(js_signature_args(f, max_args)) + ") {");
-			if(f.m_kind == CLPrimitiveKind::Method)
-				jsw("var self = this.ptr;");
 			js_call_prepare(f);
 			js_call(f, o);
 			jsw("};");
@@ -1511,20 +1509,18 @@ namespace clgen
 		auto js_getter = [&](const CLClass& c, const CLMember& m, bool isarray = false)
 		{
 			jsw("function(" + string(isarray ? "index" : "") + ") {");
-			jsw("var self = this.ptr;");
-			jsw(js_call_return_wrap(m.m_type, "_" + id(c, "_get_" + m.m_name) + "(self" + (isarray ? ", index" : "") + ")"));
+			jsw(js_call_return_wrap(m.m_type, "_" + id(c, "_get_" + m.m_name) + "(this.__ptr" + (isarray ? ", index" : "") + ")"));
 			jsw("}", true);
 		};
 
 		auto js_setter = [&](const CLClass& c, const CLMember& m, bool isarray = false)
 		{
 			jsw("function(" + string(isarray ? "index, " : "") + "value) {");
-			jsw("var self = this.ptr;");
 #if MULTI_FUNC
-			jsw("_" + id(c, "_set_" + m.m_name) + "(self" + (isarray ? ", index" : "") + ", " + js_call_convert_arg(m.m_type, *m.m_type.m_type, "value", isarray) + ");");
+			jsw("_" + id(c, "_set_" + m.m_name) + "(this.__ptr" + (isarray ? ", index" : "") + ", " + js_call_convert_arg(m.m_type, *m.m_type.m_type, "value", isarray) + ");");
 #else
 			js_call_convert_arg(m.m_type, "value", false);
-			jsw("_" + id(c, "_set_" + m.m_name) + "(self" + (isarray ? ", index" : "") + ", value);");
+			jsw("_" + id(c, "_set_" + m.m_name) + "(this.__ptr" + (isarray ? ", index" : "") + ", value);");
 #endif
 			jsw("}");
 		};
@@ -1532,8 +1528,7 @@ namespace clgen
 		auto js_destructor = [&](const CLClass& c)
 		{
 			jsw("function() {");
-			jsw("var self = this.ptr;");
-			jsw("_" + id(c, "_destroy") + "(self);");
+			jsw("_" + id(c, "_destroy") + "(this.__ptr);");
 			jsw("};");
 		};
 
@@ -1542,8 +1537,8 @@ namespace clgen
 			string implementing = c.m_bases.size() > 0 ? name(real_type(*c.m_bases[0])) : "WrapperObject"; // = implements[name][0] if implements.get(name) else 'WrapperObject'
 			jsw(name(c) + ".prototype = Object.create(" + implementing + ".prototype);");
 			jsw(name(c) + ".prototype.constructor = " + name(c) + ";");
-			jsw(name(c) + ".prototype.__class__ = " + name(c) + ";");
-			jsw(name(c) + ".__cache__ = {};");
+			jsw(name(c) + ".prototype.__class = " + name(c) + ";");
+			jsw(name(c) + ".__cache = {};");
 			jsw(js_module_path(m, c) + " = " + name(c) + ";");
 		};
 
@@ -1570,12 +1565,11 @@ namespace clgen
 
 		auto c_call_operator = [&](const CLCallable& f, const string& op)
 		{
-			string cast_self = "self";
-			string maybe_deref = value(f.m_params[0].m_type);
+			string deref = value(f.m_params[0].m_type);
 			if(op.find("=") != string::npos)
-				cw("(*" + cast_self + ") " + op + " " + maybe_deref + f.m_params[0].m_name);
+				cw("(*self) " + op + " " + deref + f.m_params[0].m_name);
 			else if(op == "[]")
-				cw("((*" + cast_self + ")[" + maybe_deref + f.m_params[0].m_name + "])");
+				cw("((*self)[" + deref + f.m_params[0].m_name + "])");
 			else
 				printf("ERROR: unfamiliar operator %s\n", op.c_str());
 		};
@@ -1766,11 +1760,10 @@ namespace clgen
 					jsw("});");
 				}
 
-
 				if(true) //not interface.getExtendedAttribute("NoDelete"):
 				{
 					c_destructor(c);
-					jsw(name(c) + ".prototype[\"__destroy__\"] = " + name(c) + ".prototype.__destroy__ = ", true);
+					jsw(name(c) + ".prototype[\"__destroy\"] = " + name(c) + ".prototype.__destroy = ", true);
 					js_destructor(c);
 				}
 				
@@ -1821,7 +1814,7 @@ namespace clgen
 
 					CLClass& c = *pc;
 
-					jsw(replace(c.m_name, "::", "_") + ".__type__ = " + "_" + replace(c.m_id, "::", "_") + "__type();"); // add wrapPointer() ?
+					jsw(replace(c.m_name, "::", "_") + ".__type = " + "_" + replace(c.m_id, "::", "_") + "__type();"); // add wrapPointer() ?
 				}
 
 			//string enum_prefix = "emscripten_enum_";
