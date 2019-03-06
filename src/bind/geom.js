@@ -621,7 +621,7 @@ Circle.prototype["__destroy__"] = Circle.prototype.__destroy__ = function() {
 // ConvexHull
 function ConvexHull(a0) {
     if (a0 === undefined) { this.ptr = _mud_ConvexHull__construct_0(); this.type = ConvexHull; getCache(ConvexHull)[this.ptr] = this; return; }
-    this.ptr = _mud_ConvexHull__construct_1(/*vertices*/a0.ptr); this.type = ConvexHull; getCache(ConvexHull)[this.ptr] = this;
+    this.ptr = _mud_ConvexHull__construct_1(ensureFloat32(/*vertices*/a0), /*vertices*/a0.length); this.type = ConvexHull; getCache(ConvexHull)[this.ptr] = this;
 };
 ConvexHull.prototype = Object.create(Shape.prototype);
 ConvexHull.prototype.constructor = ConvexHull;
@@ -795,7 +795,7 @@ Grid2.prototype["__destroy__"] = Grid2.prototype.__destroy__ = function() {
 function Grid3(a0, a1) {
     if (a0 === undefined) { this.ptr = _mud_Grid3__construct_0(); this.type = Grid3; getCache(Grid3)[this.ptr] = this; return; }
     if (a1 === undefined) { this.ptr = _mud_Grid3__construct_1(/*size*/a0.ptr); this.type = Grid3; getCache(Grid3)[this.ptr] = this; return; }
-    this.ptr = _mud_Grid3__construct_2(/*size*/a0.ptr, /*points*/a1.ptr); this.type = Grid3; getCache(Grid3)[this.ptr] = this;
+    this.ptr = _mud_Grid3__construct_2(/*size*/a0.ptr, ensureFloat32(/*points*/a1), /*points*/a1.length); this.type = Grid3; getCache(Grid3)[this.ptr] = this;
 };
 Grid3.prototype = Object.create(Shape.prototype);
 Grid3.prototype.constructor = Grid3;
@@ -883,7 +883,7 @@ Line.prototype["__destroy__"] = Line.prototype.__destroy__ = function() {
 // Points
 function Points(a0) {
     if (a0 === undefined) { this.ptr = _mud_Points__construct_0(); this.type = Points; getCache(Points)[this.ptr] = this; return; }
-    this.ptr = _mud_Points__construct_1(/*points*/a0.ptr); this.type = Points; getCache(Points)[this.ptr] = this;
+    this.ptr = _mud_Points__construct_1(ensureFloat32(/*points*/a0), /*points*/a0.length); this.type = Points; getCache(Points)[this.ptr] = this;
 };
 Points.prototype = Object.create(Shape.prototype);
 Points.prototype.constructor = Points;
@@ -923,7 +923,7 @@ Poisson.prototype["__destroy__"] = Poisson.prototype.__destroy__ = function() {
 // Polygon
 function Polygon(a0) {
     if (a0 === undefined) { this.ptr = _mud_Polygon__construct_0(); this.type = Polygon; getCache(Polygon)[this.ptr] = this; return; }
-    this.ptr = _mud_Polygon__construct_1(/*vertices*/a0.ptr); this.type = Polygon; getCache(Polygon)[this.ptr] = this;
+    this.ptr = _mud_Polygon__construct_1(ensureFloat32(/*vertices*/a0), /*vertices*/a0.length); this.type = Polygon; getCache(Polygon)[this.ptr] = this;
 };
 Polygon.prototype = Object.create(Shape.prototype);
 Polygon.prototype.constructor = Polygon;

@@ -24,7 +24,7 @@ namespace mud
 		size_t m_size;
 		float m_extent;
 
-		float m_delta = 2.0f / m_size;
+		float m_delta;
 
 		uint32_t m_xd;
 		uint32_t m_yd;

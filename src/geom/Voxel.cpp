@@ -31,7 +31,7 @@ namespace mud
 		m_size = subdiv * subdiv * subdiv;
 		m_extent = m_subdiv / 2.0f;
 
-		m_delta = 2.0f / float(m_subdiv);
+		m_delta = 2.0f / float(subdiv);
 
 		m_xd = 1;
 		m_yd = subdiv;
@@ -112,8 +112,6 @@ namespace mud
 
 	uint8_t MarchingCubes::polygonize(Cache& cache, const vec3& p, size_t q, float isol) const
 	{
-		Cache::Normal* const normal = cache.m_normal.data();
-
 		auto cell = [&](size_t q) -> Cell { return { q, m_field[q] }; };
 		// cache indices
 		const Cell c = cell(q);

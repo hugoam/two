@@ -49,6 +49,7 @@ namespace mud
 		uint32_t& at(uint16_t x, uint16_t y) { return m_pixels[x + y * m_width]; }
 
 		vector<uint8_t> read() const;
+		vector<uint32_t> read32() const;
 		void read(uint8_t* data) const;
 
 		attr_ vector<uint32_t> m_pixels;

@@ -48,6 +48,8 @@ size_t stl_span_mud_vec3__size(void* vec) { return (*static_cast<stl::span<mud::
 void* stl_span_mud_vec3__at(void* vec, size_t i) { return &(*static_cast<stl::span<mud::vec3>*>(vec))[i]; }
 size_t stl_span_uint32_t__size(void* vec) { return (*static_cast<stl::span<uint32_t>*>(vec)).size(); }
 void* stl_span_uint32_t__at(void* vec, size_t i) { return &(*static_cast<stl::span<uint32_t>*>(vec))[i]; }
+size_t stl_span_uint8_t__size(void* vec) { return (*static_cast<stl::span<uint8_t>*>(vec)).size(); }
+void* stl_span_uint8_t__at(void* vec, size_t i) { return &(*static_cast<stl::span<uint8_t>*>(vec))[i]; }
 size_t stl_vector_float__size(void* vec) { return (*static_cast<stl::vector<float>*>(vec)).size(); }
 void* stl_vector_float__at(void* vec, size_t i) { return &(*static_cast<stl::vector<float>*>(vec))[i]; }
 void stl_vector_float__push(void* vec) { (*static_cast<stl::vector<float>*>(vec)).emplace_back(); }
@@ -398,6 +400,15 @@ namespace mud
 		static Iterable iterable = { &type<uint32_t>(),
 		                             stl_span_uint32_t__size,
 		                             stl_span_uint32_t__at};
+		g_iterable[t.m_id] = &iterable;
+	}
+	{
+		Type& t = type<stl::span<uint8_t>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<uint8_t>", sizeof(stl::span<uint8_t>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<uint8_t>(),
+		                             stl_span_uint8_t__size,
+		                             stl_span_uint8_t__at};
 		g_iterable[t.m_id] = &iterable;
 	}
 	{
@@ -1756,6 +1767,7 @@ namespace mud
 		m.m_types.push_back(&type<stl::span<mud::uvec3>>());
 		m.m_types.push_back(&type<stl::span<mud::vec3>>());
 		m.m_types.push_back(&type<stl::span<uint32_t>>());
+		m.m_types.push_back(&type<stl::span<uint8_t>>());
 		m.m_types.push_back(&type<mud::uint2>());
 		m.m_types.push_back(&type<mud::uint3>());
 		m.m_types.push_back(&type<mud::uint4>());

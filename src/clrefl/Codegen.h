@@ -1357,20 +1357,22 @@ namespace clgen
 		{
 			if(t.iscstring() || t.isstring()) return "ensureString(" + a + ")";
 			else if(t.istypedptr()) return "ensureRef(" + a + "), ensureRefType(" + a + ")";
-			else if(t.isclass()) return a + ".ptr";
+			else if(t.isclass() && !t.issequence()) return a + ".ptr";
 			else if((qt.m_array || t.issequence()) && !no_array)
 			{
 				const CLType& elem = element_type(t);
 				const CLType& prim = reduce_element(t);
 				string value;
 
-				if(has({ "char", "unsigned char" }, prim.m_name)) value = "ensureInt8(" + a + ")";
-				else if(has({ "short", "unsigned short" }, prim.m_name)) value = "ensureInt16(" + a + ")";
-				else if(has({ "int", "unsigned int" }, prim.m_name)) value = "ensureInt32(" + a + ")";
+				if(has({ "char", "uchar", "const char*" }, prim.m_name)) value = "ensureInt8(" + a + ")";
+				else if(has({ "short", "ushort" }, prim.m_name)) value = "ensureInt16(" + a + ")";
+				else if(has({ "int", "uint" }, prim.m_name)) value = "ensureInt32(" + a + ")";
 				else if(has({ "float" }, prim.m_name)) value = "ensureFloat32(" + a + ")";
 				else if(has({ "double" }, prim.m_name)) value = "ensureFloat64(" + a + ")";
+				else
+					printf("WARNING: unknown array primitive\n");
 
-				if(t.issequence()) return value + ", arraySize(" + a + ")";
+				if(t.issequence()) return value + ", " + a + ".length";
 				else return value;
 			}
 			else return a;

@@ -2698,6 +2698,9 @@ extern "C" {
 		static mud::mat4 temp;
 		return (temp = mud::bxTRS(*scale, *rot, *trans), &temp);
 	}
+	void DECL mud_load_texture_rgba_4(mud::Texture* texture, uint16_t width, uint16_t height, uint* data, int data_size) {
+		mud::load_texture_rgba(*texture, width, height, { (uint32_t*)data, data_size / (sizeof(uint32_t) / sizeof(uint)) });
+	}
 	void DECL mud_gfx_setup_pipeline_minimal_1(mud::GfxSystem* gfx) {
 		mud::gfx::setup_pipeline_minimal(*gfx);
 	}

@@ -99,6 +99,7 @@ namespace mud
 //#include <math/Vec.h>
 namespace stl
 {
+	export_ extern template class refl_ span_ span<uint8_t>;
 	export_ extern template class refl_ span_ span<int>;
 	export_ extern template class refl_ span_ span<float>;
 	export_ extern template class refl_ span_ span<uint32_t>;

@@ -432,7 +432,7 @@ namespace mud
 		if(!material)
 		{
 			string image_name = "Image256_" + to_string((uintptr_t)&image);
-			auto initializer = [&](Texture& texture) { auto data = image.read(); load_texture_rgba(texture, image.m_width, image.m_height, data); };
+			auto initializer = [&](Texture& texture) { auto data = image.read32(); load_texture_rgba(texture, image.m_width, image.m_height, data); };
 
 			Texture& texture = this->textures().fetch(image_name);
 			initializer(texture);

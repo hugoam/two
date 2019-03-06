@@ -26,6 +26,7 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<stl::span<mud::uvec3>>() { static Type ty("span<mud::uvec3>", sizeof(stl::span<mud::uvec3>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::span<mud::vec3>>() { static Type ty("span<mud::vec3>", sizeof(stl::span<mud::vec3>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::span<uint32_t>>() { static Type ty("span<uint32_t>", sizeof(stl::span<uint32_t>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<uint8_t>>() { static Type ty("span<uint8_t>", sizeof(stl::span<uint8_t>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::vector<float>>() { static Type ty("vector<float>", sizeof(stl::vector<float>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::vector<int>>() { static Type ty("vector<int>", sizeof(stl::vector<int>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::vector<mud::Colour>>() { static Type ty("vector<mud::Colour>", sizeof(stl::vector<mud::Colour>)); return ty; }

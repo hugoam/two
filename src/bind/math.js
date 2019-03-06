@@ -253,7 +253,7 @@ ImageAtlas.prototype["__destroy__"] = ImageAtlas.prototype.__destroy__ = functio
 // Palette
 function Palette(a0, a1) {
     if (a0 === undefined) { this.ptr = _mud_Palette__construct_0(); this.type = Palette; getCache(Palette)[this.ptr] = this; return; }
-    if (a1 === undefined) { this.ptr = _mud_Palette__construct_1(/*colours*/a0.ptr); this.type = Palette; getCache(Palette)[this.ptr] = this; return; }
+    if (a1 === undefined) { this.ptr = _mud_Palette__construct_1(ensureFloat32(/*colours*/a0), /*colours*/a0.length); this.type = Palette; getCache(Palette)[this.ptr] = this; return; }
     this.ptr = _mud_Palette__construct_2(/*spectrum*/a0, /*steps*/a1); this.type = Palette; getCache(Palette)[this.ptr] = this;
 };
 Palette.prototype = Object.create(WrapperObject.prototype);
@@ -532,7 +532,7 @@ Transform.prototype["__destroy__"] = Transform.prototype.__destroy__ = function(
 // ValueCurve<float>
 function ValueCurve_float(a0) {
     if (a0 === undefined) { this.ptr = _mud_ValueCurve_float__construct_0(); this.type = ValueCurve_float; getCache(ValueCurve_float)[this.ptr] = this; return; }
-    this.ptr = _mud_ValueCurve_float__construct_1(/*keys*/a0.ptr); this.type = ValueCurve_float; getCache(ValueCurve_float)[this.ptr] = this;
+    this.ptr = _mud_ValueCurve_float__construct_1(ensureFloat32(/*keys*/a0), /*keys*/a0.length); this.type = ValueCurve_float; getCache(ValueCurve_float)[this.ptr] = this;
 };
 ValueCurve_float.prototype = Object.create(WrapperObject.prototype);
 ValueCurve_float.prototype.constructor = ValueCurve_float;
@@ -551,7 +551,7 @@ ValueCurve_float.prototype["__destroy__"] = ValueCurve_float.prototype.__destroy
 // ValueCurve<mud::Colour>
 function ValueCurve_mud_Colour(a0) {
     if (a0 === undefined) { this.ptr = _mud_ValueCurve_mud_Colour__construct_0(); this.type = ValueCurve_mud_Colour; getCache(ValueCurve_mud_Colour)[this.ptr] = this; return; }
-    this.ptr = _mud_ValueCurve_mud_Colour__construct_1(/*keys*/a0.ptr); this.type = ValueCurve_mud_Colour; getCache(ValueCurve_mud_Colour)[this.ptr] = this;
+    this.ptr = _mud_ValueCurve_mud_Colour__construct_1(ensureFloat32(/*keys*/a0), /*keys*/a0.length); this.type = ValueCurve_mud_Colour; getCache(ValueCurve_mud_Colour)[this.ptr] = this;
 };
 ValueCurve_mud_Colour.prototype = Object.create(WrapperObject.prototype);
 ValueCurve_mud_Colour.prototype.constructor = ValueCurve_mud_Colour;
@@ -583,7 +583,7 @@ ValueCurve_mud_quat.prototype["__destroy__"] = ValueCurve_mud_quat.prototype.__d
 // ValueCurve<mud::vec3>
 function ValueCurve_mud_vec3(a0) {
     if (a0 === undefined) { this.ptr = _mud_ValueCurve_mud_vec3__construct_0(); this.type = ValueCurve_mud_vec3; getCache(ValueCurve_mud_vec3)[this.ptr] = this; return; }
-    this.ptr = _mud_ValueCurve_mud_vec3__construct_1(/*keys*/a0.ptr); this.type = ValueCurve_mud_vec3; getCache(ValueCurve_mud_vec3)[this.ptr] = this;
+    this.ptr = _mud_ValueCurve_mud_vec3__construct_1(ensureFloat32(/*keys*/a0), /*keys*/a0.length); this.type = ValueCurve_mud_vec3; getCache(ValueCurve_mud_vec3)[this.ptr] = this;
 };
 ValueCurve_mud_vec3.prototype = Object.create(WrapperObject.prototype);
 ValueCurve_mud_vec3.prototype.constructor = ValueCurve_mud_vec3;
@@ -602,7 +602,7 @@ ValueCurve_mud_vec3.prototype["__destroy__"] = ValueCurve_mud_vec3.prototype.__d
 // ValueCurve<uint32_t>
 function ValueCurve_uint32_t(a0) {
     if (a0 === undefined) { this.ptr = _mud_ValueCurve_uint32_t__construct_0(); this.type = ValueCurve_uint32_t; getCache(ValueCurve_uint32_t)[this.ptr] = this; return; }
-    this.ptr = _mud_ValueCurve_uint32_t__construct_1(/*keys*/a0.ptr); this.type = ValueCurve_uint32_t; getCache(ValueCurve_uint32_t)[this.ptr] = this;
+    this.ptr = _mud_ValueCurve_uint32_t__construct_1(ensureInt32(/*keys*/a0), /*keys*/a0.length); this.type = ValueCurve_uint32_t; getCache(ValueCurve_uint32_t)[this.ptr] = this;
 };
 ValueCurve_uint32_t.prototype = Object.create(WrapperObject.prototype);
 ValueCurve_uint32_t.prototype.constructor = ValueCurve_uint32_t;

@@ -246,10 +246,11 @@ namespace mud
 		texture.m_texture = bgfx::createTexture2D(width, height, false, 1, bgfx::TextureFormat::RGBA8, GFX_TEXTURE_POINT, &memory);
 	}
 
-	void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data)
+	//void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data)
+	void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint32_t> data)
 	{
-		const bgfx::Memory* memory = bgfx::alloc(uint32_t(sizeof(uint8_t) * data.m_count));
-		memcpy(memory->data, data.m_pointer, data.m_count);
+		const bgfx::Memory* memory = bgfx::alloc(uint32_t(data.m_count * sizeof(uint32_t)));
+		memcpy(memory->data, data.m_pointer, data.m_count * sizeof(uint32_t));
 		load_texture_rgba(texture, width, height, *memory);
 	}
 

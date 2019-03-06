@@ -192,7 +192,7 @@ namespace mud
 			h /= 6.f;
 		}
 
-		return { h, s, l };
+		return { h, s, l, 1.f };
 	}
 
 	ColourHSL to_hsl(const Colour& colour)

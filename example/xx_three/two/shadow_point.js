@@ -59,8 +59,8 @@ function light_source(parent, color, pos, rot)
 
     var node = two.gfx.node(parent, null, pos, rot);
 
-    var inner = two.gfx.shape(node, new two.Sphere(0.3), Symbol::plain(color * intensity));
-    var outer = two.gfx.shape(node, new two.Sphere(2.0), Symbol::plain(Colour::White), 0, sphere_material);
+    var inner = two.gfx.shape(node, new two.Sphere(0.3), new two.Symbol(color));// * intensity));
+    var outer = two.gfx.shape(node, new two.Sphere(2.0), new two.Symbol(new two.Colour(1.0)), 0, sphere_material);
     
     var light = two.gfx.light(node, two.LightType.Point, true, color, range, 0.6);// intensity);
     light.range = range;

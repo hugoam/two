@@ -123,8 +123,15 @@ namespace mud
 
 	vector<uint8_t> Image256::read() const
 	{
-		vector<uint8_t> data(m_width * m_height * 4);
-		this->read(&data[0]);
-		return data;
+		vector<uint8_t> buffer(m_width * m_height * 4);
+		this->read(buffer.data());
+		return buffer;
+	}
+
+	vector<uint32_t> Image256::read32() const
+	{
+		vector<uint32_t> buffer(m_width * m_height);
+		this->read((uint8_t*)buffer.data());
+		return buffer;
 	}
 }

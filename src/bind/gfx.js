@@ -529,11 +529,11 @@ Batch.__cache__ = {};
 Module['Batch'] = Batch;
 Batch.prototype["update_aabb"] = Batch.prototype.update_aabb = function(a0) {
     var self = this.ptr;
-    _mud_Batch_update_aabb_1(self, /*instances*/a0.ptr);
+    _mud_Batch_update_aabb_1(self, ensureFloat32(/*instances*/a0), /*instances*/a0.length);
 };
 Batch.prototype["transforms"] = Batch.prototype.transforms = function(a0) {
     var self = this.ptr;
-    _mud_Batch_transforms_1(self, /*instances*/a0.ptr);
+    _mud_Batch_transforms_1(self, ensureFloat32(/*instances*/a0), /*instances*/a0.length);
 };
 Batch.prototype["begin"] = Batch.prototype.begin = function(a0, a1) {
     var self = this.ptr;
@@ -4046,6 +4046,9 @@ Module['bxortho'] = function(a0, a1, a2, a3, a4, a5, a6, a7) {
 Module['bxTRS'] = function(a0, a1, a2) {
     return wrapPointer(_mud_bxTRS_3(/*scale*/a0.ptr, /*rot*/a1.ptr, /*trans*/a2.ptr), mat4);
 };
+Module['load_texture_rgba'] = function(a0, a1, a2, a3) {
+    _mud_load_texture_rgba_4(/*texture*/a0.ptr, /*width*/a1, /*height*/a2, ensureInt32(/*data*/a3), /*data*/a3.length);
+};
 Module['gfx']['setup_pipeline_minimal'] = function(a0) {
     _mud_gfx_setup_pipeline_minimal_1(/*gfx*/a0.ptr);
 };
@@ -4080,7 +4083,7 @@ Module['gfx']['batch'] = function(a0, a1) {
 };
 Module['gfx']['instances'] = function(a0, a1, a2) {
     if (a2 === undefined) { return wrapPointer(_mud_gfx_instances_2(/*parent*/a0.ptr, /*item*/a1.ptr), Batch); }
-    return wrapPointer(_mud_gfx_instances_3(/*parent*/a0.ptr, /*item*/a1.ptr, /*transforms*/a2.ptr), Batch);
+    return wrapPointer(_mud_gfx_instances_3(/*parent*/a0.ptr, /*item*/a1.ptr, ensureFloat32(/*transforms*/a2), /*transforms*/a2.length), Batch);
 };
 Module['gfx']['prefab'] = function(a0, a1, a2, a3, a4) {
     if (a2 === undefined) { _mud_gfx_prefab_2(/*parent*/a0.ptr, /*prefab*/a1.ptr); return; }
