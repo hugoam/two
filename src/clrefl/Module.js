@@ -15,7 +15,7 @@ function wrapPointer(ptr, cls) {
   var ret = cache[ptr];
   if (ret) return ret;
   ret = Object.create((cls || WrapperObject).prototype);
-  ret.ptr = ptr;
+  ret.__ptr = ptr;
   return cache[ptr] = ret;
 }
 Module['wrapPointer'] = wrapPointer;
