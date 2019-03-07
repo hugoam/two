@@ -48,10 +48,10 @@ void xx_materials_skin(Shell app, var parent, Dockbar dockbar)
 		//scene.background = new THREE.Color(0x050505);
 
 		var ln0 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(-1.0, -0.5, -1.0)))));
-		Light l0 = scene.lights().add(new two.Light(ln0, LightType::Direct, false, rgb(0xffeedd), 1.5));
+		var l0 = scene.lights().add(new two.Light(ln0, two.LightType.Direct, false, rgb(0xffeedd), 1.5));
 
 		var ln1 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(1.0, -0.5, 1.0)))));
-		Light l1 = scene.lights().add(new two.Light(ln0, LightType::Direct, false, rgb(0xddddff), 0.5));
+		var l1 = scene.lights().add(new two.Light(ln0, two.LightType.Direct, false, rgb(0xddddff), 0.5));
 
 		// MATERIALS
 

@@ -112,11 +112,11 @@ void xx_materials_variations(Shell app, var parent, Dockbar dockbar)
 		var sphere = app.gfx.shape(new two.Sphere(4.0));
 		var l = scene.nodes().add(new two.Node3());
 		var il = scene.items().add(new two.Item(l, sphere, 0, two.gfx.solid_material(app.gfx, 'light', new two.Colour(1.0))));
-		Light ll = scene.lights().add(new two.Light(l, LightType::Point, false, two.rgba(0xffffff), 2.0, 800.0));
+		var ll = scene.lights().add(new two.Light(l, two.LightType.Point, false, two.rgba(0xffffff), 2.0, 800.0));
 		light = l;
 
 		var dl = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(-1.0, -1.0, -1.0)))));
-		scene.lights().add(new two.Light(dl, LightType::Direct, false, two.rgba(0xffffff)));
+		scene.lights().add(new two.Light(dl, two.LightType.Direct, false, two.rgba(0xffffff)));
 
 		//renderer.toneMapping = THREE.Uncharted2ToneMapping;
 		//renderer.toneMappingExposure = 0.75;

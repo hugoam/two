@@ -1,5 +1,4 @@
-
-//ImporterOBJ obj_importer(app.gfx);
+// tiled_forward.js
 
 var viewer = two.ui.scene_viewer(app.ui.begin());
 two.ui.orbit_controller(viewer);
@@ -14,6 +13,8 @@ var radius = 75.0;
 if(typeof this.state == 'undefined') {
     this.state = 1;
     
+    this.importerOBJ = new toy.ImporterOBJ(app.gfx);
+
     var scene = viewer.scene;
 
     scene.env.radiance.colour = new two.Colour(1.0);
@@ -78,7 +79,7 @@ if(typeof this.state == 'undefined') {
             ml.program = solid; ml.solid.colour.value = color;
 
             var mla = app.gfx.materials.create('lightalpha' + material.name + i.toString());
-            mla.program = solid; mla.solid.colour.value = color; m.alpha.alpha = 0.033;
+            mla.program = solid; mla.solid.colour.value = color; m.alpha.alpha.value = 0.033;
 
             var l = scene.nodes().add(new two.Node3());
             var i0 = scene.items().add(new two.Item(l, sphere, 0, ml)); // MaterialSolid(color)));
@@ -86,7 +87,7 @@ if(typeof this.state == 'undefined') {
             //var i1 = scene.items().add(new two.Item(l, big_sphere, 0, ma)); // MaterialSolid(color), MaterialAlpha(0.033));
             //l.children[1].scale.set(6.66, 6.66, 6.66);
 
-            var light = scene.lights().add(new two.Light(l, LightType::Point));
+            var light = scene.lights().add(new two.Light(l, two.LightType.Point));
             light.range = 40.0;
             light.colour = color;
 

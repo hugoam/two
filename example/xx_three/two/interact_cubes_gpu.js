@@ -57,7 +57,7 @@ void xx_interact_cubes_gpu(Shell app, var parent, Dockbar dockbar)
 		//scene.add(new THREE.AmbientLight(0x555555));
 
 		var l = scene.nodes().add(new two.Node3(new two.vec3(0.0, 500.0, 2000.0)));
-		Light light = scene.lights().add(new two.Light(l, LightType::Spot, false, rgb(0xffffff), 1.5));
+		var light = scene.lights().add(new two.Light(l, two.LightType.Spot, false, rgb(0xffffff), 1.5));
 
 		//var pickingvar = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
 

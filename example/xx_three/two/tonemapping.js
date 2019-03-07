@@ -75,7 +75,7 @@ if(typeof this.state == 'undefined') {
     //scene.add(new THREE.HemisphereLight(0x111111, 0x000000));
 
     var ln = scene.nodes().add(new two.Node3(new two.vec3(50.0, 100.0, 50.0)));
-    Light spot = scene.lights().add(new two.Light(ln, LightType::Spot, true, rgb(0xffffff), 1.0, 300.0));
+    var spot = scene.lights().add(new two.Light(ln, two.LightType.Spot, true, rgb(0xffffff), 1.0, 300.0));
     spot.spot_angle = Math.PI / 7.0;
     spot.attenuation = 2.0;
     spot.spot_attenuation = 0.8;

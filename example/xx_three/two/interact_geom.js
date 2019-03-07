@@ -46,10 +46,10 @@ void xx_interact_geom(Shell app, var parent, Dockbar dockbar)
 		//scene.add(new THREE.AmbientLight(0x444444));
 
 		var l1 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(new two.vec3(1.0, 1.0, 1.0))));
-		scene.lights().add(new two.Light(l1, LightType::Direct, false, two.rgba(0xffffff), 0.5));
+		scene.lights().add(new two.Light(l1, two.LightType.Direct, false, two.rgba(0xffffff), 0.5));
 
 		var l2 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(new two.vec3(0.0, -1.0, 0.0))));
-		scene.lights().add(new two.Light(l1, LightType::Direct, false, two.rgba(0xffffff), 1.5));
+		scene.lights().add(new two.Light(l1, two.LightType.Direct, false, two.rgba(0xffffff), 1.5));
 
 		MeshPacker geometry;
 

@@ -16,7 +16,7 @@ if(!once)
 
     //scene.background = new THREE.Color(0xf000);
 
-    scene.lights().add(new two.Light(scene.root_node, LightType::Direct, false));
+    scene.lights().add(new two.Light(scene.root_node, two.LightType.Direct, false));
     //var light = new THREE.DirectionalLight(0xffffff, 1);
     //light.position.set(1, 1, 1).normalize();
     //scene.add(light);

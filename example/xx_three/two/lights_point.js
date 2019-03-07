@@ -70,7 +70,7 @@ if(typeof this.state == 'undefined') {
     }
 
     //var direct_node = scene.nodes() += new two.Node3());
-    //Light direct_light = scene.lights() += Light(direct_node, LightType::Direct)); //THREE.DirectionalLight(0xffffff, 0.05);
+    //var direct_light = scene.lights() += Light(direct_node, two.LightType.Direct)); //THREE.DirectionalLight(0xffffff, 0.05);
     //dlight.position.set(0.5, 1, 0).normalize();
 }
 

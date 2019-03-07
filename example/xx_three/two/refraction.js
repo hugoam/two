@@ -38,7 +38,7 @@ void xx_refraction(Shell app, var parent, Dockbar dockbar)
 		var sphere = app.gfx.shape(new two.Sphere(100.0 * 0.05));
 
 		var ln = scene.nodes().add(new two.Node3());
-		scene.lights().add(new two.Light(ln, LightType::Point, false, rgb(0xffffff), 2.0));
+		scene.lights().add(new two.Light(ln, two.LightType.Point, false, rgb(0xffffff), 2.0));
 		scene.items().add(new two.Item(ln, sphere, 0, two.gfx.solid_material(app.gfx, 'light', rgb(0xffffff))));
 		light = ln;
 
