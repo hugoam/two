@@ -14,7 +14,7 @@ namespace mud
     enum DrawMode : unsigned int;
     enum class PrimitiveType : unsigned int;
     enum class SymbolDetail : unsigned short;
-    
+	enum class CatmullType : unsigned int;
     
     class Shape;
     class ShapeVar;
@@ -38,6 +38,17 @@ namespace mud
     struct Spheroid;
 	struct Icosahedron;
     struct Aabb;
+	class Curve2;
+	class Curve3;
+	struct CurveBezierCubic;
+	struct CurveBezierCubic3;
+	struct CurveBezierQuadratic;
+	struct CurveBezierQuadratic3;
+	struct CurveCatmullRom3;
+	struct CurveLine;
+	struct CurveLine3;
+	struct CurveSpline;
+	struct CurveSpline3;
     struct Plane;
     struct Plane3;
     struct Face3;

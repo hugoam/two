@@ -20,6 +20,8 @@ module mud.geom;
 
 using namespace mud;
 
+void mud_CatmullType__to_string(void* val, string& str) { str = g_enu[type<mud::CatmullType>().m_id]->name(uint32_t((*static_cast<mud::CatmullType*>(val)))); }
+void mud_CatmullType__to_value(const string& str, void* val) { (*static_cast<mud::CatmullType*>(val)) = mud::CatmullType(g_enu[type<mud::CatmullType>().m_id]->value(str.c_str())); }
 void mud_DrawMode__to_string(void* val, string& str) { str = g_enu[type<mud::DrawMode>().m_id]->name(uint32_t((*static_cast<mud::DrawMode*>(val)))); }
 void mud_DrawMode__to_value(const string& str, void* val) { (*static_cast<mud::DrawMode*>(val)) = mud::DrawMode(g_enu[type<mud::DrawMode>().m_id]->value(str.c_str())); }
 void mud_PrimitiveType__to_string(void* val, string& str) { str = g_enu[type<mud::PrimitiveType>().m_id]->name(uint32_t((*static_cast<mud::PrimitiveType*>(val)))); }
@@ -49,6 +51,8 @@ void stl_vector_mud_vec4__remove(void* vec, void* value) { vector_remove_any((*s
 void mud_Aabb__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Aabb(  ); }
 void mud_Aabb__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Aabb( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]) ); }
 void mud_Aabb__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Aabb((*static_cast<mud::Aabb*>(other))); }
+void mud_Curve2_point(void* object, span<void*> args, void*& result) { (*static_cast<mud::v2<float>*>(result)) = (*static_cast<mud::Curve2*>(object)).point(*static_cast<float*>(args[0])); }
+void mud_Curve3_point(void* object, span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Curve3*>(object)).point(*static_cast<float*>(args[0])); }
 void mud_Face3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Face3(  ); }
 void mud_Face3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Face3((*static_cast<mud::Face3*>(other))); }
 void mud_MeshPacker__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MeshPacker(  ); }
@@ -90,6 +94,26 @@ void mud_Cube__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl:
 void mud_Cube__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Cube( *static_cast<mud::vec3*>(args[0]) ); }
 void mud_Cube__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Cube( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]) ); }
 void mud_Cube__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Cube((*static_cast<mud::Cube*>(other))); }
+void mud_CurveBezierCubic__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CurveBezierCubic(  ); }
+void mud_CurveBezierCubic__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CurveBezierCubic((*static_cast<mud::CurveBezierCubic*>(other))); }
+void mud_CurveBezierCubic3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CurveBezierCubic3(  ); }
+void mud_CurveBezierCubic3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CurveBezierCubic3((*static_cast<mud::CurveBezierCubic3*>(other))); }
+void mud_CurveBezierQuadratic__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CurveBezierQuadratic(  ); }
+void mud_CurveBezierQuadratic__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CurveBezierQuadratic((*static_cast<mud::CurveBezierQuadratic*>(other))); }
+void mud_CurveBezierQuadratic3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CurveBezierQuadratic3(  ); }
+void mud_CurveBezierQuadratic3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CurveBezierQuadratic3((*static_cast<mud::CurveBezierQuadratic3*>(other))); }
+void mud_CurveCatmullRom3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CurveCatmullRom3(  ); }
+void mud_CurveCatmullRom3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::CurveCatmullRom3( *static_cast<stl::vector<mud::vec3>*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<mud::CatmullType*>(args[2]), *static_cast<float*>(args[3]) ); }
+void mud_CurveCatmullRom3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CurveCatmullRom3((*static_cast<mud::CurveCatmullRom3*>(other))); }
+void mud_CurveCatmullRom3_add_point(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::CurveCatmullRom3*>(object)).add_point(*static_cast<mud::vec3*>(args[0])); }
+void mud_CurveLine__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CurveLine(  ); }
+void mud_CurveLine__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CurveLine((*static_cast<mud::CurveLine*>(other))); }
+void mud_CurveLine3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CurveLine3(  ); }
+void mud_CurveLine3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CurveLine3((*static_cast<mud::CurveLine3*>(other))); }
+void mud_CurveSpline__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CurveSpline(  ); }
+void mud_CurveSpline__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CurveSpline((*static_cast<mud::CurveSpline*>(other))); }
+void mud_CurveSpline3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CurveSpline3(  ); }
+void mud_CurveSpline3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CurveSpline3((*static_cast<mud::CurveSpline3*>(other))); }
 void mud_Cylinder__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Cylinder(  ); }
 void mud_Cylinder__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Cylinder( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<mud::Axis*>(args[2]) ); }
 void mud_Cylinder__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Cylinder( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<mud::Axis*>(args[3]) ); }
@@ -168,6 +192,18 @@ namespace mud
 	// Base Types
 	
 	// Enums
+	{
+		Type& t = type<mud::CatmullType>();
+		static Meta meta = { t, &namspc({ "mud" }), "CatmullType", sizeof(mud::CatmullType), TypeClass::Enum };
+		static cstring ids[] = { "Centripetal", "Chordal", "CatmullRom" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::CatmullType vars[] = { mud::CatmullType::Centripetal, mud::CatmullType::Chordal, mud::CatmullType::CatmullRom};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { t, true, ids, values, refs };
+		static Convert convert = { mud_CatmullType__to_string,
+		                           mud_CatmullType__to_value };
+		g_convert[t.m_id] = &convert;
+	}
 	{
 		Type& t = type<mud::DrawMode>();
 		static Meta meta = { t, &namspc({ "mud" }), "DrawMode", sizeof(mud::DrawMode), TypeClass::Enum };
@@ -283,6 +319,38 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::Curve2
+	{
+		Type& t = type<mud::Curve2>();
+		static Meta meta = { t, &namspc({ "mud" }), "Curve2", sizeof(mud::Curve2), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		static Method methods[] = {
+			{ t, "point", Address(), mud_Curve2_point, { { "t", type<float>(),  } }, { &type<mud::vec2>(), QualType::None } }
+		};
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, methods, {}, };
+	}
+	// mud::Curve3
+	{
+		Type& t = type<mud::Curve3>();
+		static Meta meta = { t, &namspc({ "mud" }), "Curve3", sizeof(mud::Curve3), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		static Method methods[] = {
+			{ t, "point", Address(), mud_Curve3_point, { { "t", type<float>(),  } }, { &type<mud::vec3>(), QualType::None } }
+		};
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, methods, {}, };
 	}
 	// mud::Distribution
 	{
@@ -704,6 +772,248 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::Cube, m_extents), type<mud::vec3>(), "extents", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::CurveBezierCubic
+	{
+		Type& t = type<mud::CurveBezierCubic>();
+		static Meta meta = { t, &namspc({ "mud" }), "CurveBezierCubic", sizeof(mud::CurveBezierCubic), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Curve2>() };
+		static size_t bases_offsets[] = { base_offset<mud::CurveBezierCubic, mud::Curve2>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CurveBezierCubic__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_CurveBezierCubic__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::CurveBezierCubic, v0), type<mud::vec2>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveBezierCubic, v1), type<mud::vec2>(), "v1", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveBezierCubic, v2), type<mud::vec2>(), "v2", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveBezierCubic, v3), type<mud::vec2>(), "v3", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::CurveBezierCubic3
+	{
+		Type& t = type<mud::CurveBezierCubic3>();
+		static Meta meta = { t, &namspc({ "mud" }), "CurveBezierCubic3", sizeof(mud::CurveBezierCubic3), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Curve3>() };
+		static size_t bases_offsets[] = { base_offset<mud::CurveBezierCubic3, mud::Curve3>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CurveBezierCubic3__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_CurveBezierCubic3__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::CurveBezierCubic3, v0), type<mud::vec3>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveBezierCubic3, v1), type<mud::vec3>(), "v1", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveBezierCubic3, v2), type<mud::vec3>(), "v2", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveBezierCubic3, v3), type<mud::vec3>(), "v3", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::CurveBezierQuadratic
+	{
+		Type& t = type<mud::CurveBezierQuadratic>();
+		static Meta meta = { t, &namspc({ "mud" }), "CurveBezierQuadratic", sizeof(mud::CurveBezierQuadratic), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Curve2>() };
+		static size_t bases_offsets[] = { base_offset<mud::CurveBezierQuadratic, mud::Curve2>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CurveBezierQuadratic__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_CurveBezierQuadratic__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::CurveBezierQuadratic, v0), type<mud::vec2>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveBezierQuadratic, v1), type<mud::vec2>(), "v1", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveBezierQuadratic, v2), type<mud::vec2>(), "v2", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::CurveBezierQuadratic3
+	{
+		Type& t = type<mud::CurveBezierQuadratic3>();
+		static Meta meta = { t, &namspc({ "mud" }), "CurveBezierQuadratic3", sizeof(mud::CurveBezierQuadratic3), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Curve3>() };
+		static size_t bases_offsets[] = { base_offset<mud::CurveBezierQuadratic3, mud::Curve3>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CurveBezierQuadratic3__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_CurveBezierQuadratic3__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::CurveBezierQuadratic3, v0), type<mud::vec3>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveBezierQuadratic3, v1), type<mud::vec3>(), "v1", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveBezierQuadratic3, v2), type<mud::vec3>(), "v2", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::CurveCatmullRom3
+	{
+		Type& t = type<mud::CurveCatmullRom3>();
+		static Meta meta = { t, &namspc({ "mud" }), "CurveCatmullRom3", sizeof(mud::CurveCatmullRom3), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Curve3>() };
+		static size_t bases_offsets[] = { base_offset<mud::CurveCatmullRom3, mud::Curve3>() };
+		// defaults
+		static stl::vector<mud::vec3> points_default = {};
+		static bool closed_default = false;
+		static mud::CatmullType curve_type_default = mud::CatmullType::Centripetal;
+		static float tension_default = 0.5f;
+		static bool construct_1_closed_default = false;
+		static mud::CatmullType construct_1_curve_type_default = mud::CatmullType::Centripetal;
+		static float construct_1_tension_default = 0.5f;
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CurveCatmullRom3__construct_0, {} },
+			{ t, mud_CurveCatmullRom3__construct_1, { { "points", type<stl::vector<mud::vec3>>(),  }, { "closed", type<bool>(), Param::Default, &construct_1_closed_default }, { "curve_type", type<mud::CatmullType>(), Param::Default, &construct_1_curve_type_default }, { "tension", type<float>(), Param::Default, &construct_1_tension_default } } }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_CurveCatmullRom3__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::CurveCatmullRom3, m_points), type<stl::vector<mud::vec3>>(), "points", &points_default, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::CurveCatmullRom3, m_closed), type<bool>(), "closed", &closed_default, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveCatmullRom3, m_curve_type), type<mud::CatmullType>(), "curve_type", &curve_type_default, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveCatmullRom3, m_tension), type<float>(), "tension", &tension_default, Member::Value, nullptr }
+		};
+		// methods
+		static Method methods[] = {
+			{ t, "add_point", Address(), mud_CurveCatmullRom3_add_point, { { "point", type<mud::vec3>(),  } }, g_qvoid }
+		};
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, methods, {}, };
+	}
+	// mud::CurveLine
+	{
+		Type& t = type<mud::CurveLine>();
+		static Meta meta = { t, &namspc({ "mud" }), "CurveLine", sizeof(mud::CurveLine), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Curve2>() };
+		static size_t bases_offsets[] = { base_offset<mud::CurveLine, mud::Curve2>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CurveLine__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_CurveLine__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::CurveLine, v0), type<mud::vec2>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveLine, v1), type<mud::vec2>(), "v1", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::CurveLine3
+	{
+		Type& t = type<mud::CurveLine3>();
+		static Meta meta = { t, &namspc({ "mud" }), "CurveLine3", sizeof(mud::CurveLine3), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Curve3>() };
+		static size_t bases_offsets[] = { base_offset<mud::CurveLine3, mud::Curve3>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CurveLine3__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_CurveLine3__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::CurveLine3, v0), type<mud::vec3>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::CurveLine3, v1), type<mud::vec3>(), "v1", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::CurveSpline
+	{
+		Type& t = type<mud::CurveSpline>();
+		static Meta meta = { t, &namspc({ "mud" }), "CurveSpline", sizeof(mud::CurveSpline), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Curve2>() };
+		static size_t bases_offsets[] = { base_offset<mud::CurveSpline, mud::Curve2>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CurveSpline__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_CurveSpline__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::CurveSpline, m_points), type<stl::vector<mud::vec2>>(), "points", nullptr, Member::NonMutable, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::CurveSpline3
+	{
+		Type& t = type<mud::CurveSpline3>();
+		static Meta meta = { t, &namspc({ "mud" }), "CurveSpline3", sizeof(mud::CurveSpline3), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Curve3>() };
+		static size_t bases_offsets[] = { base_offset<mud::CurveSpline3, mud::Curve3>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CurveSpline3__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_CurveSpline3__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::CurveSpline3, m_points), type<stl::vector<mud::vec3>>(), "points", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
@@ -1223,6 +1533,9 @@ namespace mud
 	}
 	
 		m.m_types.push_back(&type<mud::Aabb>());
+		m.m_types.push_back(&type<mud::CatmullType>());
+		m.m_types.push_back(&type<mud::Curve2>());
+		m.m_types.push_back(&type<mud::Curve3>());
 		m.m_types.push_back(&type<mud::Distribution>());
 		m.m_types.push_back(&type<mud::DrawMode>());
 		m.m_types.push_back(&type<mud::Face3>());
@@ -1248,6 +1561,15 @@ namespace mud
 		m.m_types.push_back(&type<mud::Circle>());
 		m.m_types.push_back(&type<mud::ConvexHull>());
 		m.m_types.push_back(&type<mud::Cube>());
+		m.m_types.push_back(&type<mud::CurveBezierCubic>());
+		m.m_types.push_back(&type<mud::CurveBezierCubic3>());
+		m.m_types.push_back(&type<mud::CurveBezierQuadratic>());
+		m.m_types.push_back(&type<mud::CurveBezierQuadratic3>());
+		m.m_types.push_back(&type<mud::CurveCatmullRom3>());
+		m.m_types.push_back(&type<mud::CurveLine>());
+		m.m_types.push_back(&type<mud::CurveLine3>());
+		m.m_types.push_back(&type<mud::CurveSpline>());
+		m.m_types.push_back(&type<mud::CurveSpline3>());
 		m.m_types.push_back(&type<mud::Cylinder>());
 		m.m_types.push_back(&type<mud::Ellipsis>());
 		m.m_types.push_back(&type<mud::Geometry>());

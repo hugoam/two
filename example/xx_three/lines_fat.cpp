@@ -63,10 +63,8 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar)
 			Colour color_start = hsl(float(i+0) / l, 1.f, 0.5f);
 			Colour color_end   = hsl(float(i+1) / l, 1.f, 0.5f);
 
-			lines.m_segments.push_back({ start, 0.f, end, 0.f, color_start, color_end });
+			lines.add(start, end, color_start, color_end);
 		}
-
-		lines.compute_distances();
 
 		segments = lines.m_segments;
 

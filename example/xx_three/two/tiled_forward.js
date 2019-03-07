@@ -25,10 +25,10 @@ if(typeof this.state == 'undefined') {
     this.solid = app.gfx.programs.file('solid');
     this.pbr = app.gfx.programs.file('pbr/pbr');
 
-    var m0 = app.m_gfx.materials().create('m0');
-    var m1 = app.m_gfx.materials().create('m1');
-    var m2 = app.m_gfx.materials().create('m2');
-    var m3 = app.m_gfx.materials().create('m3');
+    var m0 = app.gfx.materials.create('m0');
+    var m1 = app.gfx.materials.create('m1');
+    var m2 = app.gfx.materials.create('m2');
+    var m3 = app.gfx.materials.create('m3');
     
     m0.program = pbr; m0.pbr.albedo.value = two.rgb(0x888888); m0.pbr.metallic.value = 1.0; m0.pbr.roughness.value = 0.66;
     m1.program = pbr; m1.pbr.albedo.value = two.rgb(0x666666); m1.pbr.metallic.value = 0.1; m1.pbr.roughness.value = 0.33;

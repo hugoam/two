@@ -1254,8 +1254,11 @@ extern "C" {
 	mud::Lines* DECL mud_Lines__construct_1(mud::GfxSystem* gfx) {
 		return new mud::Lines(*gfx);
 	}
-	void DECL mud_Lines_compute_distances_0(mud::Lines* self) {
-		self->compute_distances();
+	void DECL mud_Lines_add_4(mud::Lines* self, const mud::vec3* start, const mud::vec3* end, mud::Colour* start_colour, mud::Colour* end_colour) {
+		self->add(*start, *end, *start_colour, *end_colour);
+	}
+	void DECL mud_Lines_setup_0(mud::Lines* self) {
+		self->setup();
 	}
 	void DECL mud_Lines__destroy(mud::Lines* self) {
 		delete self;

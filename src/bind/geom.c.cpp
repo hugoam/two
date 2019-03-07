@@ -43,6 +43,34 @@ extern "C" {
 	void DECL mud_Aabb__destroy(mud::Aabb* self) {
 		delete self;
 	}
+	// Curve2
+	mud::Type* DECL mud_Curve2__type() {
+		return &mud::type<mud::Curve2>();
+	}
+	mud::Curve2* DECL mud_Curve2__construct_0() {
+		return new mud::Curve2();
+	}
+	mud::vec2* DECL mud_Curve2_point_1(mud::Curve2* self, float t) {
+		static mud::vec2 temp;
+		return (temp = self->point(t), &temp);
+	}
+	void DECL mud_Curve2__destroy(mud::Curve2* self) {
+		delete self;
+	}
+	// Curve3
+	mud::Type* DECL mud_Curve3__type() {
+		return &mud::type<mud::Curve3>();
+	}
+	mud::Curve3* DECL mud_Curve3__construct_0() {
+		return new mud::Curve3();
+	}
+	mud::vec3* DECL mud_Curve3_point_1(mud::Curve3* self, float t) {
+		static mud::vec3 temp;
+		return (temp = self->point(t), &temp);
+	}
+	void DECL mud_Curve3__destroy(mud::Curve3* self) {
+		delete self;
+	}
 	// Distribution
 	mud::Type* DECL mud_Distribution__type() {
 		return &mud::type<mud::Distribution>();
@@ -487,6 +515,234 @@ extern "C" {
 		self->m_extents = *value;
 	}
 	void DECL mud_Cube__destroy(mud::Cube* self) {
+		delete self;
+	}
+	// CurveBezierCubic
+	mud::Type* DECL mud_CurveBezierCubic__type() {
+		return &mud::type<mud::CurveBezierCubic>();
+	}
+	mud::CurveBezierCubic* DECL mud_CurveBezierCubic__construct_0() {
+		return new mud::CurveBezierCubic();
+	}
+	mud::vec2* DECL mud_CurveBezierCubic__get_v0(mud::CurveBezierCubic* self) {
+		return &self->v0;
+	}
+	void DECL mud_CurveBezierCubic__set_v0(mud::CurveBezierCubic* self, mud::vec2* value) {
+		self->v0 = *value;
+	}
+	mud::vec2* DECL mud_CurveBezierCubic__get_v1(mud::CurveBezierCubic* self) {
+		return &self->v1;
+	}
+	void DECL mud_CurveBezierCubic__set_v1(mud::CurveBezierCubic* self, mud::vec2* value) {
+		self->v1 = *value;
+	}
+	mud::vec2* DECL mud_CurveBezierCubic__get_v2(mud::CurveBezierCubic* self) {
+		return &self->v2;
+	}
+	void DECL mud_CurveBezierCubic__set_v2(mud::CurveBezierCubic* self, mud::vec2* value) {
+		self->v2 = *value;
+	}
+	mud::vec2* DECL mud_CurveBezierCubic__get_v3(mud::CurveBezierCubic* self) {
+		return &self->v3;
+	}
+	void DECL mud_CurveBezierCubic__set_v3(mud::CurveBezierCubic* self, mud::vec2* value) {
+		self->v3 = *value;
+	}
+	void DECL mud_CurveBezierCubic__destroy(mud::CurveBezierCubic* self) {
+		delete self;
+	}
+	// CurveBezierCubic3
+	mud::Type* DECL mud_CurveBezierCubic3__type() {
+		return &mud::type<mud::CurveBezierCubic3>();
+	}
+	mud::CurveBezierCubic3* DECL mud_CurveBezierCubic3__construct_0() {
+		return new mud::CurveBezierCubic3();
+	}
+	mud::vec3* DECL mud_CurveBezierCubic3__get_v0(mud::CurveBezierCubic3* self) {
+		return &self->v0;
+	}
+	void DECL mud_CurveBezierCubic3__set_v0(mud::CurveBezierCubic3* self, mud::vec3* value) {
+		self->v0 = *value;
+	}
+	mud::vec3* DECL mud_CurveBezierCubic3__get_v1(mud::CurveBezierCubic3* self) {
+		return &self->v1;
+	}
+	void DECL mud_CurveBezierCubic3__set_v1(mud::CurveBezierCubic3* self, mud::vec3* value) {
+		self->v1 = *value;
+	}
+	mud::vec3* DECL mud_CurveBezierCubic3__get_v2(mud::CurveBezierCubic3* self) {
+		return &self->v2;
+	}
+	void DECL mud_CurveBezierCubic3__set_v2(mud::CurveBezierCubic3* self, mud::vec3* value) {
+		self->v2 = *value;
+	}
+	mud::vec3* DECL mud_CurveBezierCubic3__get_v3(mud::CurveBezierCubic3* self) {
+		return &self->v3;
+	}
+	void DECL mud_CurveBezierCubic3__set_v3(mud::CurveBezierCubic3* self, mud::vec3* value) {
+		self->v3 = *value;
+	}
+	void DECL mud_CurveBezierCubic3__destroy(mud::CurveBezierCubic3* self) {
+		delete self;
+	}
+	// CurveBezierQuadratic
+	mud::Type* DECL mud_CurveBezierQuadratic__type() {
+		return &mud::type<mud::CurveBezierQuadratic>();
+	}
+	mud::CurveBezierQuadratic* DECL mud_CurveBezierQuadratic__construct_0() {
+		return new mud::CurveBezierQuadratic();
+	}
+	mud::vec2* DECL mud_CurveBezierQuadratic__get_v0(mud::CurveBezierQuadratic* self) {
+		return &self->v0;
+	}
+	void DECL mud_CurveBezierQuadratic__set_v0(mud::CurveBezierQuadratic* self, mud::vec2* value) {
+		self->v0 = *value;
+	}
+	mud::vec2* DECL mud_CurveBezierQuadratic__get_v1(mud::CurveBezierQuadratic* self) {
+		return &self->v1;
+	}
+	void DECL mud_CurveBezierQuadratic__set_v1(mud::CurveBezierQuadratic* self, mud::vec2* value) {
+		self->v1 = *value;
+	}
+	mud::vec2* DECL mud_CurveBezierQuadratic__get_v2(mud::CurveBezierQuadratic* self) {
+		return &self->v2;
+	}
+	void DECL mud_CurveBezierQuadratic__set_v2(mud::CurveBezierQuadratic* self, mud::vec2* value) {
+		self->v2 = *value;
+	}
+	void DECL mud_CurveBezierQuadratic__destroy(mud::CurveBezierQuadratic* self) {
+		delete self;
+	}
+	// CurveBezierQuadratic3
+	mud::Type* DECL mud_CurveBezierQuadratic3__type() {
+		return &mud::type<mud::CurveBezierQuadratic3>();
+	}
+	mud::CurveBezierQuadratic3* DECL mud_CurveBezierQuadratic3__construct_0() {
+		return new mud::CurveBezierQuadratic3();
+	}
+	mud::vec3* DECL mud_CurveBezierQuadratic3__get_v0(mud::CurveBezierQuadratic3* self) {
+		return &self->v0;
+	}
+	void DECL mud_CurveBezierQuadratic3__set_v0(mud::CurveBezierQuadratic3* self, mud::vec3* value) {
+		self->v0 = *value;
+	}
+	mud::vec3* DECL mud_CurveBezierQuadratic3__get_v1(mud::CurveBezierQuadratic3* self) {
+		return &self->v1;
+	}
+	void DECL mud_CurveBezierQuadratic3__set_v1(mud::CurveBezierQuadratic3* self, mud::vec3* value) {
+		self->v1 = *value;
+	}
+	mud::vec3* DECL mud_CurveBezierQuadratic3__get_v2(mud::CurveBezierQuadratic3* self) {
+		return &self->v2;
+	}
+	void DECL mud_CurveBezierQuadratic3__set_v2(mud::CurveBezierQuadratic3* self, mud::vec3* value) {
+		self->v2 = *value;
+	}
+	void DECL mud_CurveBezierQuadratic3__destroy(mud::CurveBezierQuadratic3* self) {
+		delete self;
+	}
+	// CurveCatmullRom3
+	mud::Type* DECL mud_CurveCatmullRom3__type() {
+		return &mud::type<mud::CurveCatmullRom3>();
+	}
+	mud::CurveCatmullRom3* DECL mud_CurveCatmullRom3__construct_0() {
+		return new mud::CurveCatmullRom3();
+	}
+	void DECL mud_CurveCatmullRom3_add_point_1(mud::CurveCatmullRom3* self, const mud::vec3* point) {
+		self->add_point(*point);
+	}
+	float* DECL mud_CurveCatmullRom3__get_points(mud::CurveCatmullRom3* self) {
+		return (float*)self->m_points.data();
+	}
+	bool DECL mud_CurveCatmullRom3__get_closed(mud::CurveCatmullRom3* self) {
+		return self->m_closed;
+	}
+	void DECL mud_CurveCatmullRom3__set_closed(mud::CurveCatmullRom3* self, bool value) {
+		self->m_closed = value;
+	}
+	mud::CatmullType DECL mud_CurveCatmullRom3__get_curve_type(mud::CurveCatmullRom3* self) {
+		return self->m_curve_type;
+	}
+	void DECL mud_CurveCatmullRom3__set_curve_type(mud::CurveCatmullRom3* self, mud::CatmullType value) {
+		self->m_curve_type = value;
+	}
+	float DECL mud_CurveCatmullRom3__get_tension(mud::CurveCatmullRom3* self) {
+		return self->m_tension;
+	}
+	void DECL mud_CurveCatmullRom3__set_tension(mud::CurveCatmullRom3* self, float value) {
+		self->m_tension = value;
+	}
+	void DECL mud_CurveCatmullRom3__destroy(mud::CurveCatmullRom3* self) {
+		delete self;
+	}
+	// CurveLine
+	mud::Type* DECL mud_CurveLine__type() {
+		return &mud::type<mud::CurveLine>();
+	}
+	mud::CurveLine* DECL mud_CurveLine__construct_0() {
+		return new mud::CurveLine();
+	}
+	mud::vec2* DECL mud_CurveLine__get_v0(mud::CurveLine* self) {
+		return &self->v0;
+	}
+	void DECL mud_CurveLine__set_v0(mud::CurveLine* self, mud::vec2* value) {
+		self->v0 = *value;
+	}
+	mud::vec2* DECL mud_CurveLine__get_v1(mud::CurveLine* self) {
+		return &self->v1;
+	}
+	void DECL mud_CurveLine__set_v1(mud::CurveLine* self, mud::vec2* value) {
+		self->v1 = *value;
+	}
+	void DECL mud_CurveLine__destroy(mud::CurveLine* self) {
+		delete self;
+	}
+	// CurveLine3
+	mud::Type* DECL mud_CurveLine3__type() {
+		return &mud::type<mud::CurveLine3>();
+	}
+	mud::CurveLine3* DECL mud_CurveLine3__construct_0() {
+		return new mud::CurveLine3();
+	}
+	mud::vec3* DECL mud_CurveLine3__get_v0(mud::CurveLine3* self) {
+		return &self->v0;
+	}
+	void DECL mud_CurveLine3__set_v0(mud::CurveLine3* self, mud::vec3* value) {
+		self->v0 = *value;
+	}
+	mud::vec3* DECL mud_CurveLine3__get_v1(mud::CurveLine3* self) {
+		return &self->v1;
+	}
+	void DECL mud_CurveLine3__set_v1(mud::CurveLine3* self, mud::vec3* value) {
+		self->v1 = *value;
+	}
+	void DECL mud_CurveLine3__destroy(mud::CurveLine3* self) {
+		delete self;
+	}
+	// CurveSpline
+	mud::Type* DECL mud_CurveSpline__type() {
+		return &mud::type<mud::CurveSpline>();
+	}
+	mud::CurveSpline* DECL mud_CurveSpline__construct_0() {
+		return new mud::CurveSpline();
+	}
+	float* DECL mud_CurveSpline__get_points(mud::CurveSpline* self) {
+		return (float*)self->m_points.data();
+	}
+	void DECL mud_CurveSpline__destroy(mud::CurveSpline* self) {
+		delete self;
+	}
+	// CurveSpline3
+	mud::Type* DECL mud_CurveSpline3__type() {
+		return &mud::type<mud::CurveSpline3>();
+	}
+	mud::CurveSpline3* DECL mud_CurveSpline3__construct_0() {
+		return new mud::CurveSpline3();
+	}
+	float* DECL mud_CurveSpline3__get_points(mud::CurveSpline3* self) {
+		return (float*)self->m_points.data();
+	}
+	void DECL mud_CurveSpline3__destroy(mud::CurveSpline3* self) {
 		delete self;
 	}
 	// Cylinder
@@ -954,6 +1210,16 @@ extern "C" {
 	}
 	float* DECL mud_distribute_poisson_2(mud::vec2* size, float radius) {
 		return (float*)mud::distribute_poisson(*size, radius).data();
+	}
+	// CatmullType
+	mud::CatmullType DECL mud_CatmullType_Centripetal() {
+		return mud::CatmullType::Centripetal;
+	}
+	mud::CatmullType DECL mud_CatmullType_Chordal() {
+		return mud::CatmullType::Chordal;
+	}
+	mud::CatmullType DECL mud_CatmullType_CatmullRom() {
+		return mud::CatmullType::CatmullRom;
 	}
 	// DrawMode
 	mud::DrawMode DECL mud_DrawMode_OUTLINE() {

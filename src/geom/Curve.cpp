@@ -302,9 +302,17 @@ namespace mud
 		}
 	};
 
-	CurveCatmullRom3::CurveCatmullRom3(const vector<vec3>& points, bool closed, CurveType curveType, float tension)
-		: m_points(points), m_closed(closed), m_curve_type(curveType), m_tension(tension)
+	CurveCatmullRom3::CurveCatmullRom3()
 	{}
+
+	CurveCatmullRom3::CurveCatmullRom3(const vector<vec3>& points, bool closed, CatmullType curve_type, float tension)
+		: m_points(points), m_closed(closed), m_curve_type(curve_type), m_tension(tension)
+	{}
+
+	void CurveCatmullRom3::add_point(const vec3& point)
+	{
+		m_points.push_back(point);
+	}
 
 	vec3 CurveCatmullRom3::point(float t) const
 	{
@@ -336,9 +344,9 @@ namespace mud
 			? points[(i + 2) % l]
 			: points[l - 1] - points[l - 2] + points[l - 1];
 
-		if(m_curve_type == CurveType::Centripetal || m_curve_type == CurveType::Chordal)
+		if(m_curve_type == CatmullType::Centripetal || m_curve_type == CatmullType::Chordal)
 		{
-			float power = m_curve_type == CurveType::Chordal ? 0.5f : 0.25f;
+			float power = m_curve_type == CatmullType::Chordal ? 0.5f : 0.25f;
 			float dt0 = pow(distance2(p0, p1), power);
 			float dt1 = pow(distance2(p1, p2), power);
 			float dt2 = pow(distance2(p2, p3), power);
@@ -351,7 +359,7 @@ namespace mud
 			CatmullRomCoeffs<vec3> catmull = CatmullRomCoeffs<vec3>::non_uniform(p0, p1, p2, p3, dt0, dt1, dt2);
 			return catmull.calc(weight);
 		}
-		else if(m_curve_type == CurveType::CatmullRom || true)
+		else if(m_curve_type == CatmullType::CatmullRom || true)
 		{
 			CatmullRomCoeffs<vec3> catmull = CatmullRomCoeffs<vec3>::uniform(p0, p1, p2, p3, m_tension);
 			return catmull.calc(weight);
@@ -395,7 +403,7 @@ namespace mud
 		return p;
 	}
 
-	vec2 CurveBezierCubic::point(float t)
+	vec2 CurveBezierCubic::point(float t) const
 	{
 		return cubic_bezier(v0, v1, v2, v3, t);
 	}
@@ -405,7 +413,7 @@ namespace mud
 		return cubic_bezier(v0, v1, v2, v3, t);
 	}
 
-	vec2 CurveLine::point(float t)
+	vec2 CurveLine::point(float t) const
 	{
 		if(t == 1.f)
 			return v1;
@@ -421,7 +429,7 @@ namespace mud
 			return v0 + (v1 - v0) * t;
 	}
 
-	vec2 CurveBezierQuadratic::point(float t)
+	vec2 CurveBezierQuadratic::point(float t) const
 	{
 		return quad_bezier(v0, v1, v2, t);
 	}
@@ -431,7 +439,7 @@ namespace mud
 		return quad_bezier(v0, v1, v2, t);
 	}
 
-	vec2 CurveSpline::point(float t)
+	vec2 CurveSpline::point(float t) const
 	{
 		const vector<vec2>& points = m_points;
 		const size_t last = points.size() - 1;

@@ -36,6 +36,36 @@ Object.defineProperty(Aabb.prototype, "empty", {
 Aabb.prototype["__destroy"] = Aabb.prototype.__destroy = function() {
     _mud_Aabb__destroy(this.__ptr);
 };
+// Curve2
+function Curve2() {
+    this.__ptr = _mud_Curve2__construct_0(); this.__type = Curve2.__type; getCache(Curve2)[this.__ptr] = this;
+};
+Curve2.prototype = Object.create(WrapperObject.prototype);
+Curve2.prototype.constructor = Curve2;
+Curve2.prototype.__class = Curve2;
+Curve2.__cache = {};
+Module['Curve2'] = Curve2;
+Curve2.prototype["point"] = Curve2.prototype.point = function(a0) {
+    return wrapPointer(_mud_Curve2_point_1(this.__ptr, /*t*/a0), v2_float);
+};
+Curve2.prototype["__destroy"] = Curve2.prototype.__destroy = function() {
+    _mud_Curve2__destroy(this.__ptr);
+};
+// Curve3
+function Curve3() {
+    this.__ptr = _mud_Curve3__construct_0(); this.__type = Curve3.__type; getCache(Curve3)[this.__ptr] = this;
+};
+Curve3.prototype = Object.create(WrapperObject.prototype);
+Curve3.prototype.constructor = Curve3;
+Curve3.prototype.__class = Curve3;
+Curve3.__cache = {};
+Module['Curve3'] = Curve3;
+Curve3.prototype["point"] = Curve3.prototype.point = function(a0) {
+    return wrapPointer(_mud_Curve3_point_1(this.__ptr, /*t*/a0), v3_float);
+};
+Curve3.prototype["__destroy"] = Curve3.prototype.__destroy = function() {
+    _mud_Curve3__destroy(this.__ptr);
+};
 // Distribution
 function Distribution() { throw "cannot construct a Distribution, no constructor in IDL" }
 Distribution.prototype = Object.create(WrapperObject.prototype);
@@ -561,6 +591,297 @@ Object.defineProperty(Cube.prototype, "extents", {
 Cube.prototype["__destroy"] = Cube.prototype.__destroy = function() {
     _mud_Cube__destroy(this.__ptr);
 };
+// CurveBezierCubic
+function CurveBezierCubic() {
+    this.__ptr = _mud_CurveBezierCubic__construct_0(); this.__type = CurveBezierCubic.__type; getCache(CurveBezierCubic)[this.__ptr] = this;
+};
+CurveBezierCubic.prototype = Object.create(Curve2.prototype);
+CurveBezierCubic.prototype.constructor = CurveBezierCubic;
+CurveBezierCubic.prototype.__class = CurveBezierCubic;
+CurveBezierCubic.__cache = {};
+Module['CurveBezierCubic'] = CurveBezierCubic;
+Object.defineProperty(CurveBezierCubic.prototype, "v0", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierCubic__get_v0(this.__ptr), v2_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierCubic__set_v0(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveBezierCubic.prototype, "v1", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierCubic__get_v1(this.__ptr), v2_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierCubic__set_v1(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveBezierCubic.prototype, "v2", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierCubic__get_v2(this.__ptr), v2_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierCubic__set_v2(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveBezierCubic.prototype, "v3", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierCubic__get_v3(this.__ptr), v2_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierCubic__set_v3(this.__ptr, value.__ptr);
+    }
+});
+CurveBezierCubic.prototype["__destroy"] = CurveBezierCubic.prototype.__destroy = function() {
+    _mud_CurveBezierCubic__destroy(this.__ptr);
+};
+// CurveBezierCubic3
+function CurveBezierCubic3() {
+    this.__ptr = _mud_CurveBezierCubic3__construct_0(); this.__type = CurveBezierCubic3.__type; getCache(CurveBezierCubic3)[this.__ptr] = this;
+};
+CurveBezierCubic3.prototype = Object.create(Curve3.prototype);
+CurveBezierCubic3.prototype.constructor = CurveBezierCubic3;
+CurveBezierCubic3.prototype.__class = CurveBezierCubic3;
+CurveBezierCubic3.__cache = {};
+Module['CurveBezierCubic3'] = CurveBezierCubic3;
+Object.defineProperty(CurveBezierCubic3.prototype, "v0", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierCubic3__get_v0(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierCubic3__set_v0(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveBezierCubic3.prototype, "v1", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierCubic3__get_v1(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierCubic3__set_v1(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveBezierCubic3.prototype, "v2", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierCubic3__get_v2(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierCubic3__set_v2(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveBezierCubic3.prototype, "v3", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierCubic3__get_v3(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierCubic3__set_v3(this.__ptr, value.__ptr);
+    }
+});
+CurveBezierCubic3.prototype["__destroy"] = CurveBezierCubic3.prototype.__destroy = function() {
+    _mud_CurveBezierCubic3__destroy(this.__ptr);
+};
+// CurveBezierQuadratic
+function CurveBezierQuadratic() {
+    this.__ptr = _mud_CurveBezierQuadratic__construct_0(); this.__type = CurveBezierQuadratic.__type; getCache(CurveBezierQuadratic)[this.__ptr] = this;
+};
+CurveBezierQuadratic.prototype = Object.create(Curve2.prototype);
+CurveBezierQuadratic.prototype.constructor = CurveBezierQuadratic;
+CurveBezierQuadratic.prototype.__class = CurveBezierQuadratic;
+CurveBezierQuadratic.__cache = {};
+Module['CurveBezierQuadratic'] = CurveBezierQuadratic;
+Object.defineProperty(CurveBezierQuadratic.prototype, "v0", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierQuadratic__get_v0(this.__ptr), v2_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierQuadratic__set_v0(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveBezierQuadratic.prototype, "v1", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierQuadratic__get_v1(this.__ptr), v2_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierQuadratic__set_v1(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveBezierQuadratic.prototype, "v2", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierQuadratic__get_v2(this.__ptr), v2_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierQuadratic__set_v2(this.__ptr, value.__ptr);
+    }
+});
+CurveBezierQuadratic.prototype["__destroy"] = CurveBezierQuadratic.prototype.__destroy = function() {
+    _mud_CurveBezierQuadratic__destroy(this.__ptr);
+};
+// CurveBezierQuadratic3
+function CurveBezierQuadratic3() {
+    this.__ptr = _mud_CurveBezierQuadratic3__construct_0(); this.__type = CurveBezierQuadratic3.__type; getCache(CurveBezierQuadratic3)[this.__ptr] = this;
+};
+CurveBezierQuadratic3.prototype = Object.create(Curve3.prototype);
+CurveBezierQuadratic3.prototype.constructor = CurveBezierQuadratic3;
+CurveBezierQuadratic3.prototype.__class = CurveBezierQuadratic3;
+CurveBezierQuadratic3.__cache = {};
+Module['CurveBezierQuadratic3'] = CurveBezierQuadratic3;
+Object.defineProperty(CurveBezierQuadratic3.prototype, "v0", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierQuadratic3__get_v0(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierQuadratic3__set_v0(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveBezierQuadratic3.prototype, "v1", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierQuadratic3__get_v1(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierQuadratic3__set_v1(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveBezierQuadratic3.prototype, "v2", {
+    get: function() {
+        return wrapPointer(_mud_CurveBezierQuadratic3__get_v2(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_CurveBezierQuadratic3__set_v2(this.__ptr, value.__ptr);
+    }
+});
+CurveBezierQuadratic3.prototype["__destroy"] = CurveBezierQuadratic3.prototype.__destroy = function() {
+    _mud_CurveBezierQuadratic3__destroy(this.__ptr);
+};
+// CurveCatmullRom3
+function CurveCatmullRom3() {
+    this.__ptr = _mud_CurveCatmullRom3__construct_0(); this.__type = CurveCatmullRom3.__type; getCache(CurveCatmullRom3)[this.__ptr] = this;
+};
+CurveCatmullRom3.prototype = Object.create(Curve3.prototype);
+CurveCatmullRom3.prototype.constructor = CurveCatmullRom3;
+CurveCatmullRom3.prototype.__class = CurveCatmullRom3;
+CurveCatmullRom3.__cache = {};
+Module['CurveCatmullRom3'] = CurveCatmullRom3;
+CurveCatmullRom3.prototype["add_point"] = CurveCatmullRom3.prototype.add_point = function(a0) {
+    _mud_CurveCatmullRom3_add_point_1(this.__ptr, /*point*/a0.__ptr);
+};
+Object.defineProperty(CurveCatmullRom3.prototype, "points", {
+    get: function() {
+        return _mud_CurveCatmullRom3__get_points(this.__ptr);
+    }});
+Object.defineProperty(CurveCatmullRom3.prototype, "closed", {
+    get: function() {
+        return !!(_mud_CurveCatmullRom3__get_closed(this.__ptr));
+    },
+    set: function(value) {
+        _mud_CurveCatmullRom3__set_closed(this.__ptr, value);
+    }
+});
+Object.defineProperty(CurveCatmullRom3.prototype, "curve_type", {
+    get: function() {
+        return _mud_CurveCatmullRom3__get_curve_type(this.__ptr);
+    },
+    set: function(value) {
+        _mud_CurveCatmullRom3__set_curve_type(this.__ptr, value);
+    }
+});
+Object.defineProperty(CurveCatmullRom3.prototype, "tension", {
+    get: function() {
+        return _mud_CurveCatmullRom3__get_tension(this.__ptr);
+    },
+    set: function(value) {
+        _mud_CurveCatmullRom3__set_tension(this.__ptr, value);
+    }
+});
+CurveCatmullRom3.prototype["__destroy"] = CurveCatmullRom3.prototype.__destroy = function() {
+    _mud_CurveCatmullRom3__destroy(this.__ptr);
+};
+// CurveLine
+function CurveLine() {
+    this.__ptr = _mud_CurveLine__construct_0(); this.__type = CurveLine.__type; getCache(CurveLine)[this.__ptr] = this;
+};
+CurveLine.prototype = Object.create(Curve2.prototype);
+CurveLine.prototype.constructor = CurveLine;
+CurveLine.prototype.__class = CurveLine;
+CurveLine.__cache = {};
+Module['CurveLine'] = CurveLine;
+Object.defineProperty(CurveLine.prototype, "v0", {
+    get: function() {
+        return wrapPointer(_mud_CurveLine__get_v0(this.__ptr), v2_float);
+    },
+    set: function(value) {
+        _mud_CurveLine__set_v0(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveLine.prototype, "v1", {
+    get: function() {
+        return wrapPointer(_mud_CurveLine__get_v1(this.__ptr), v2_float);
+    },
+    set: function(value) {
+        _mud_CurveLine__set_v1(this.__ptr, value.__ptr);
+    }
+});
+CurveLine.prototype["__destroy"] = CurveLine.prototype.__destroy = function() {
+    _mud_CurveLine__destroy(this.__ptr);
+};
+// CurveLine3
+function CurveLine3() {
+    this.__ptr = _mud_CurveLine3__construct_0(); this.__type = CurveLine3.__type; getCache(CurveLine3)[this.__ptr] = this;
+};
+CurveLine3.prototype = Object.create(Curve3.prototype);
+CurveLine3.prototype.constructor = CurveLine3;
+CurveLine3.prototype.__class = CurveLine3;
+CurveLine3.__cache = {};
+Module['CurveLine3'] = CurveLine3;
+Object.defineProperty(CurveLine3.prototype, "v0", {
+    get: function() {
+        return wrapPointer(_mud_CurveLine3__get_v0(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_CurveLine3__set_v0(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CurveLine3.prototype, "v1", {
+    get: function() {
+        return wrapPointer(_mud_CurveLine3__get_v1(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_CurveLine3__set_v1(this.__ptr, value.__ptr);
+    }
+});
+CurveLine3.prototype["__destroy"] = CurveLine3.prototype.__destroy = function() {
+    _mud_CurveLine3__destroy(this.__ptr);
+};
+// CurveSpline
+function CurveSpline() {
+    this.__ptr = _mud_CurveSpline__construct_0(); this.__type = CurveSpline.__type; getCache(CurveSpline)[this.__ptr] = this;
+};
+CurveSpline.prototype = Object.create(Curve2.prototype);
+CurveSpline.prototype.constructor = CurveSpline;
+CurveSpline.prototype.__class = CurveSpline;
+CurveSpline.__cache = {};
+Module['CurveSpline'] = CurveSpline;
+Object.defineProperty(CurveSpline.prototype, "points", {
+    get: function() {
+        return _mud_CurveSpline__get_points(this.__ptr);
+    }});
+CurveSpline.prototype["__destroy"] = CurveSpline.prototype.__destroy = function() {
+    _mud_CurveSpline__destroy(this.__ptr);
+};
+// CurveSpline3
+function CurveSpline3() {
+    this.__ptr = _mud_CurveSpline3__construct_0(); this.__type = CurveSpline3.__type; getCache(CurveSpline3)[this.__ptr] = this;
+};
+CurveSpline3.prototype = Object.create(Curve3.prototype);
+CurveSpline3.prototype.constructor = CurveSpline3;
+CurveSpline3.prototype.__class = CurveSpline3;
+CurveSpline3.__cache = {};
+Module['CurveSpline3'] = CurveSpline3;
+Object.defineProperty(CurveSpline3.prototype, "points", {
+    get: function() {
+        return _mud_CurveSpline3__get_points(this.__ptr);
+    }});
+CurveSpline3.prototype["__destroy"] = CurveSpline3.prototype.__destroy = function() {
+    _mud_CurveSpline3__destroy(this.__ptr);
+};
 // Cylinder
 function Cylinder(a0, a1, a2, a3) {
     if (a0 === undefined) { this.__ptr = _mud_Cylinder__construct_0(); this.__type = Cylinder.__type; getCache(Cylinder)[this.__ptr] = this; return; }
@@ -1062,6 +1383,8 @@ Module['distribute_poisson'] = function(a0, a1) {
 (function() {
     function setup() {
         Aabb.__type = _mud_Aabb__type();
+        Curve2.__type = _mud_Curve2__type();
+        Curve3.__type = _mud_Curve3__type();
         Distribution.__type = _mud_Distribution__type();
         Face3.__type = _mud_Face3__type();
         MeshPacker.__type = _mud_MeshPacker__type();
@@ -1079,6 +1402,15 @@ Module['distribute_poisson'] = function(a0, a1) {
         Circle.__type = _mud_Circle__type();
         ConvexHull.__type = _mud_ConvexHull__type();
         Cube.__type = _mud_Cube__type();
+        CurveBezierCubic.__type = _mud_CurveBezierCubic__type();
+        CurveBezierCubic3.__type = _mud_CurveBezierCubic3__type();
+        CurveBezierQuadratic.__type = _mud_CurveBezierQuadratic__type();
+        CurveBezierQuadratic3.__type = _mud_CurveBezierQuadratic3__type();
+        CurveCatmullRom3.__type = _mud_CurveCatmullRom3__type();
+        CurveLine.__type = _mud_CurveLine__type();
+        CurveLine3.__type = _mud_CurveLine3__type();
+        CurveSpline.__type = _mud_CurveSpline__type();
+        CurveSpline3.__type = _mud_CurveSpline3__type();
         Cylinder.__type = _mud_Cylinder__type();
         Ellipsis.__type = _mud_Ellipsis__type();
         Geometry.__type = _mud_Geometry__type();
@@ -1098,6 +1430,11 @@ Module['distribute_poisson'] = function(a0, a1) {
         Torus.__type = _mud_Torus__type();
         TorusKnot.__type = _mud_TorusKnot__type();
         Triangle.__type = _mud_Triangle__type();
+        // CatmullType
+        Module['CatmullType'] = Module['CatmullType'] || {};
+        Module['CatmullType']['Centripetal'] = _mud_CatmullType_Centripetal();
+        Module['CatmullType']['Chordal'] = _mud_CatmullType_Chordal();
+        Module['CatmullType']['CatmullRom'] = _mud_CatmullType_CatmullRom();
         // DrawMode
         Module['OUTLINE'] = _mud_DrawMode_OUTLINE();
         Module['PLAIN'] = _mud_DrawMode_PLAIN();

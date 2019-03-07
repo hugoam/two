@@ -118,7 +118,8 @@ namespace mud
 		Aabb m_aabb;
 		float m_radius;
 
-		meth_ void compute_distances();
+		meth_ void add(const vec3& start, const vec3& end, Colour& start_colour, Colour end_colour);
+		meth_ void setup();
 
 		void update_aabb();
 		void update_sphere();

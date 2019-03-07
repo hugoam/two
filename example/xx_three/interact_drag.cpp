@@ -10,6 +10,7 @@ using namespace mud;
 
 void xx_interact_drag(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 
 	TrackballController& controls = ui::trackball_controller(viewer);

@@ -336,7 +336,14 @@ namespace mud
 		m_model = gfx.models().get("line");
 	}
 
-	void Lines::compute_distances()
+	void Lines::add(const vec3& start, const vec3& end, Colour& start_colour, Colour end_colour)
+	{
+		const float start_distance = m_segments.size() > 0 ? m_segments.back().end_distance : 0.f;
+		const float end_distance = start_distance + distance(start, end);
+		m_segments.push_back({ start, start_distance, end, end_distance, start_colour, end_colour });
+	}
+
+	void Lines::setup()
 	{
 		for(size_t i = 0; i < m_segments.size(); ++i)
 		{

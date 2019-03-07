@@ -18,6 +18,8 @@ using namespace mud;
 // xx_performance_static
 
 // todo:
+// xx_lines_fat
+// xx_lines_dashed
 // xx_tiled_forward(app, parent, dockbar);
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)

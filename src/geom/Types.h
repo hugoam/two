@@ -18,6 +18,7 @@
 namespace mud
 {
     // Exported types
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CatmullType>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::DrawMode>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::PrimitiveType>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::SymbolDetail>();
@@ -28,6 +29,8 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<stl::vector<mud::vec4>>();
     
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Curve2>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Curve3>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Face3>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::MeshPacker>();
@@ -45,6 +48,15 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Circle>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::ConvexHull>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Cube>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierCubic>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierCubic3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierQuadratic>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierQuadratic3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveCatmullRom3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveLine>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveLine3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveSpline>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveSpline3>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Cylinder>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Ellipsis>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Geometry>();

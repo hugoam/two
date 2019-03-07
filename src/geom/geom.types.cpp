@@ -11,6 +11,7 @@ module mud.geom;
 namespace mud
 {
     // Exported types
+    template <> MUD_GEOM_EXPORT Type& type<mud::CatmullType>() { static Type ty("CatmullType", sizeof(mud::CatmullType)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::DrawMode>() { static Type ty("DrawMode", sizeof(mud::DrawMode)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::PrimitiveType>() { static Type ty("PrimitiveType", sizeof(mud::PrimitiveType)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::SymbolDetail>() { static Type ty("SymbolDetail", sizeof(mud::SymbolDetail)); return ty; }
@@ -21,6 +22,8 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<stl::vector<mud::vec4>>() { static Type ty("vector<mud::vec4>", sizeof(stl::vector<mud::vec4>)); return ty; }
     
     template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>() { static Type ty("Aabb", sizeof(mud::Aabb)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::Curve2>() { static Type ty("Curve2", sizeof(mud::Curve2)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::Curve3>() { static Type ty("Curve3", sizeof(mud::Curve3)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>() { static Type ty("Distribution", sizeof(mud::Distribution)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Face3>() { static Type ty("Face3", sizeof(mud::Face3)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::MeshPacker>() { static Type ty("MeshPacker", sizeof(mud::MeshPacker)); return ty; }
@@ -38,6 +41,15 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::Circle>() { static Type ty("Circle", type<mud::Shape>(), sizeof(mud::Circle)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::ConvexHull>() { static Type ty("ConvexHull", type<mud::Shape>(), sizeof(mud::ConvexHull)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Cube>() { static Type ty("Cube", type<mud::Shape>(), sizeof(mud::Cube)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierCubic>() { static Type ty("CurveBezierCubic", type<mud::Curve2>(), sizeof(mud::CurveBezierCubic)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierCubic3>() { static Type ty("CurveBezierCubic3", type<mud::Curve3>(), sizeof(mud::CurveBezierCubic3)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierQuadratic>() { static Type ty("CurveBezierQuadratic", type<mud::Curve2>(), sizeof(mud::CurveBezierQuadratic)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierQuadratic3>() { static Type ty("CurveBezierQuadratic3", type<mud::Curve3>(), sizeof(mud::CurveBezierQuadratic3)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::CurveCatmullRom3>() { static Type ty("CurveCatmullRom3", type<mud::Curve3>(), sizeof(mud::CurveCatmullRom3)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::CurveLine>() { static Type ty("CurveLine", type<mud::Curve2>(), sizeof(mud::CurveLine)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::CurveLine3>() { static Type ty("CurveLine3", type<mud::Curve3>(), sizeof(mud::CurveLine3)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::CurveSpline>() { static Type ty("CurveSpline", type<mud::Curve2>(), sizeof(mud::CurveSpline)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::CurveSpline3>() { static Type ty("CurveSpline3", type<mud::Curve3>(), sizeof(mud::CurveSpline3)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Cylinder>() { static Type ty("Cylinder", type<mud::Shape>(), sizeof(mud::Cylinder)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Ellipsis>() { static Type ty("Ellipsis", type<mud::Shape>(), sizeof(mud::Ellipsis)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Geometry>() { static Type ty("Geometry", type<mud::Shape>(), sizeof(mud::Geometry)); return ty; }

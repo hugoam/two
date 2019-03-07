@@ -1599,8 +1599,11 @@ Lines.prototype.constructor = Lines;
 Lines.prototype.__class = Lines;
 Lines.__cache = {};
 Module['Lines'] = Lines;
-Lines.prototype["compute_distances"] = Lines.prototype.compute_distances = function() {
-    _mud_Lines_compute_distances_0(this.__ptr);
+Lines.prototype["add"] = Lines.prototype.add = function(a0, a1, a2, a3) {
+    _mud_Lines_add_4(this.__ptr, /*start*/a0.__ptr, /*end*/a1.__ptr, /*start_colour*/a2.__ptr, /*end_colour*/a3.__ptr);
+};
+Lines.prototype["setup"] = Lines.prototype.setup = function() {
+    _mud_Lines_setup_0(this.__ptr);
 };
 Lines.prototype["__destroy"] = Lines.prototype.__destroy = function() {
     _mud_Lines__destroy(this.__ptr);

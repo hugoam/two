@@ -11,12 +11,19 @@
 
 namespace mud
 {
-	struct Curve3
+	class refl_ Curve2
 	{
-		float length() const;
+	public:
+		meth_ virtual vec2 point(float t) const = 0;
+	};
 
-		virtual vec3 point(float t) const = 0;
+	class refl_ Curve3
+	{
+	public:
+		meth_ virtual vec3 point(float t) const = 0;
 		//virtual vec2 point(float t) const = 0;
+
+		//meth_ float length() const;
 
 		vec3 tangent(float t) const;
 
@@ -54,14 +61,14 @@ namespace mud
 		bool m_dirty = false;
 	};
 
-	struct CurveSpline
+	struct refl_ CurveSpline : public Curve2
 	{
-		vec2 point(float t);
+		virtual vec2 point(float t) const override;
 
 		attr_ vector<vec2> m_points;
 	};
 
-	struct CurveSpline3 : public Curve3
+	struct refl_ CurveSpline3 : public Curve3
 	{
 		virtual vec3 point(float t) const override;
 
@@ -83,9 +90,9 @@ namespace mud
 	struct CurveArcCurve : public CurveEllipse
 	{};
 
-	struct CurveBezierCubic // : public Curve3
+	struct refl_ CurveBezierCubic : public Curve2
 	{
-		vec2 point(float t);
+		virtual vec2 point(float t) const override;
 
 		attr_ vec2 v0;
 		attr_ vec2 v1;
@@ -93,7 +100,7 @@ namespace mud
 		attr_ vec2 v3;
 	};
 
-	struct CurveBezierCubic3 : public Curve3
+	struct refl_ CurveBezierCubic3 : public Curve3
 	{
 		virtual vec3 point(float t) const override;
 
@@ -103,15 +110,15 @@ namespace mud
 		attr_ vec3 v3;
 	};
 
-	struct CurveLine
+	struct refl_ CurveLine : public Curve2
 	{
-		vec2 point(float t);
+		virtual vec2 point(float t) const override;
 
 		attr_ vec2 v0;
 		attr_ vec2 v1;
 	};
 
-	struct CurveLine3 : public Curve3
+	struct refl_ CurveLine3 : public Curve3
 	{
 		virtual vec3 point(float t) const override;
 
@@ -119,16 +126,16 @@ namespace mud
 		attr_ vec3 v1;
 	};
 
-	struct CurveBezierQuadratic // : public Curve3
+	struct refl_ CurveBezierQuadratic : public Curve2
 	{
-		vec2 point(float t);
+		virtual vec2 point(float t) const override;
 
 		attr_ vec2 v0;
 		attr_ vec2 v1;
 		attr_ vec2 v2;
 	};
 
-	struct CurveBezierQuadratic3 : public Curve3
+	struct refl_ CurveBezierQuadratic3 : public Curve3
 	{
 		virtual vec3 point(float t) const override;
 
@@ -137,22 +144,25 @@ namespace mud
 		attr_ vec3 v2;
 	};
 
-	struct CurveCatmullRom3 : public Curve3
+	enum class refl_ CatmullType : unsigned int
 	{
-		enum class CurveType
-		{
-			Centripetal,
-			Chordal,
-			CatmullRom
-		};
+		Centripetal,
+		Chordal,
+		CatmullRom
+	};
 
-		CurveCatmullRom3(const vector<vec3>& points, bool closed = false, CurveType curveType = CurveType::Centripetal, float tension = 0.5f);
+	struct refl_ CurveCatmullRom3 : public Curve3
+	{
+		constr_ CurveCatmullRom3();
+		constr_ CurveCatmullRom3(const vector<vec3>& points, bool closed = false, CatmullType curve_type = CatmullType::Centripetal, float tension = 0.5f);
 
 		virtual vec3 point(float t) const override;
 
+		meth_ void add_point(const vec3& point);
+
 		attr_ vector<vec3> m_points = {};
 		attr_ bool m_closed = false;
-		attr_ CurveType m_curve_type = CurveType::Centripetal;
+		attr_ CatmullType m_curve_type = CatmullType::Centripetal;
 		attr_ float m_tension = 0.5f;
 	};
 }
