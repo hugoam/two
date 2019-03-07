@@ -4,6 +4,7 @@
 #include <stl/vector.h>
 #include <stl/algorithm.h>
 #include <stl/traits.h>
+#include <infra/Vector.h>
 #include <srlz/Serial.h>
 #include <math/Vec.h>
 #include <math/Vec.hpp>
