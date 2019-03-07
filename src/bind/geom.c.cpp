@@ -47,9 +47,6 @@ extern "C" {
 	mud::Type* DECL mud_Curve2__type() {
 		return &mud::type<mud::Curve2>();
 	}
-	mud::Curve2* DECL mud_Curve2__construct_0() {
-		return new mud::Curve2();
-	}
 	mud::vec2* DECL mud_Curve2_point_1(mud::Curve2* self, float t) {
 		static mud::vec2 temp;
 		return (temp = self->point(t), &temp);
@@ -60,9 +57,6 @@ extern "C" {
 	// Curve3
 	mud::Type* DECL mud_Curve3__type() {
 		return &mud::type<mud::Curve3>();
-	}
-	mud::Curve3* DECL mud_Curve3__construct_0() {
-		return new mud::Curve3();
 	}
 	mud::vec3* DECL mud_Curve3_point_1(mud::Curve3* self, float t) {
 		static mud::vec3 temp;

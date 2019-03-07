@@ -37,9 +37,7 @@ Aabb.prototype["__destroy"] = Aabb.prototype.__destroy = function() {
     _mud_Aabb__destroy(this.__ptr);
 };
 // Curve2
-function Curve2() {
-    this.__ptr = _mud_Curve2__construct_0(); this.__type = Curve2.__type; getCache(Curve2)[this.__ptr] = this;
-};
+function Curve2() { throw "cannot construct a Curve2, no constructor in IDL" }
 Curve2.prototype = Object.create(WrapperObject.prototype);
 Curve2.prototype.constructor = Curve2;
 Curve2.prototype.__class = Curve2;
@@ -52,9 +50,7 @@ Curve2.prototype["__destroy"] = Curve2.prototype.__destroy = function() {
     _mud_Curve2__destroy(this.__ptr);
 };
 // Curve3
-function Curve3() {
-    this.__ptr = _mud_Curve3__construct_0(); this.__type = Curve3.__type; getCache(Curve3)[this.__ptr] = this;
-};
+function Curve3() { throw "cannot construct a Curve3, no constructor in IDL" }
 Curve3.prototype = Object.create(WrapperObject.prototype);
 Curve3.prototype.constructor = Curve3;
 Curve3.prototype.__class = Curve3;
