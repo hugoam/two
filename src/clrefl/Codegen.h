@@ -1189,8 +1189,8 @@ namespace clgen
 		// not implemented yet
 		vector<string> blacklist = { "mud::Complex" };
 
-		auto blacklist_type = [&](const CLQualType& t) { for(const string& n : blacklist) { if(t.m_spelling.find(n) != string::npos) return true; } if(t.m_type->isstring() && t.reference() && !t.isconst()) return true; return false; };
-		auto blacklist_class = [&](const CLClass& c) { for(const string& n : blacklist) { if(c.m_id.find(n) != string::npos) return true; } return false; };
+		auto blacklist_qualtype = [&](const CLQualType& t) { for(const string& n : blacklist) { if(t.m_spelling.find(n) != string::npos) return true; } if(t.m_type->isstring() && t.reference() && !t.isconst()) return true; return false; };
+		auto blacklist_type = [&](const CLType& t) { for(const string& n : blacklist) { if(t.m_id.find(n) != string::npos) return true; } return false; };
 
 		auto blacklist_param = [&](const CLQualType& t, bool input)
 		{
@@ -1201,7 +1201,7 @@ namespace clgen
 				const CLType& elem = reduce_element(*t.m_type);
 				if(!elem.isprimitive()) return true;
 			}
-			return blacklist_type(t);
+			return blacklist_qualtype(t);
 		};
 
 		auto blacklist_member = [&](const CLMember& m) { return blacklist_param(m.m_type, false); };
@@ -1686,7 +1686,7 @@ namespace clgen
 		for(auto& pc : m.m_classes)
 			if(pc->m_reflect)
 			{
-				if(blacklist_class(*pc)) continue;
+				if(blacklist_type(*pc)) continue;
 				if(pc->m_sequence) continue;
 
 				CLClass& c = *pc;
@@ -1797,10 +1797,12 @@ namespace clgen
 			for(auto& pc : m.m_aliases)
 				if(pc->m_reflect)
 				{
+					if(blacklist_type(*pc->m_target)) continue;
+					if(pc->m_target->m_sequence) continue;
+					if(pc->m_target->m_type_kind != CLTypeKind::Class) continue;
+
 					CLAlias& a = *pc;
-					// only bind aliases to classes (not base types)
-					if(a.m_target->m_type_kind == CLTypeKind::Class)
-						jsw(js_module_path(m, a) + " = " + name(*a.m_target) + ";");
+					jsw(js_module_path(m, a) + " = " + name(*a.m_target) + ";");
 				}
 
 			jsw("");
@@ -1810,7 +1812,7 @@ namespace clgen
 			for(auto& pc : m.m_classes)
 				if(pc->m_reflect && !pc->m_is_templated)
 				{
-					if(blacklist_class(*pc)) continue;
+					if(blacklist_type(*pc)) continue;
 
 					CLClass& c = *pc;
 

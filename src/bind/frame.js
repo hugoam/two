@@ -89,7 +89,6 @@ Object.defineProperty(ShellContext.prototype, "dockbar", {
 ShellContext.prototype["__destroy"] = ShellContext.prototype.__destroy = function() {
     _mud_ShellContext__destroy(this.__ptr);
 };
-Module['Selection'] = vector_mud_Ref;
 
 (function() {
     function setup() {
