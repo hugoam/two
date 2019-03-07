@@ -14,7 +14,6 @@
 module mud.bgfx;
 #else
 #include <type/Type.h>
-#include <bgfx/Config.h>
 #include <bgfx/BgfxSystem.h>
 #endif
 

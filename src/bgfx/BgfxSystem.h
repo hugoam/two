@@ -6,7 +6,7 @@
 
 #include <stl/vector.h>
 #include <ctx/Forward.h>
-#include <bgfx/Config.h>
+#include <bgfx/Forward.h>
 
 #ifndef MUD_MODULES
 	#if defined MUD_CONTEXT_GLFW

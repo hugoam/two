@@ -1,3 +1,3 @@
+#include <bgfx/Forward.h>
 #include <bgfx/BgfxSystem.h>
-#include <bgfx/Config.h>
-
+#include <bgfx/Types.h>
