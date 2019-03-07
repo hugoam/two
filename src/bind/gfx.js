@@ -1545,6 +1545,21 @@ Object.defineProperty(Light.prototype, "shadow_bias", {
 Light.prototype["__destroy"] = Light.prototype.__destroy = function() {
     _mud_Light__destroy(this.__ptr);
 };
+// Lines
+function Lines(a0) {
+    this.__ptr = _mud_Lines__construct_1(/*gfx*/a0.__ptr); this.__type = Lines.__type; getCache(Lines)[this.__ptr] = this;
+};
+Lines.prototype = Object.create(WrapperObject.prototype);
+Lines.prototype.constructor = Lines;
+Lines.prototype.__class = Lines;
+Lines.__cache = {};
+Module['Lines'] = Lines;
+Lines.prototype["compute_distances"] = Lines.prototype.compute_distances = function() {
+    _mud_Lines_compute_distances_0(this.__ptr);
+};
+Lines.prototype["__destroy"] = Lines.prototype.__destroy = function() {
+    _mud_Lines__destroy(this.__ptr);
+};
 // Material
 function Material() { throw "cannot construct a Material, no constructor in IDL" }
 Material.prototype = Object.create(WrapperObject.prototype);
@@ -3550,6 +3565,9 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
     if (a4 === undefined) { return wrapPointer(_mud_gfx_pbr_material_4(/*gfx*/a0.__ptr, ensureString(/*name*/a1), /*albedo*/a2.__ptr, /*metallic*/a3), Material); }
     return wrapPointer(_mud_gfx_pbr_material_5(/*gfx*/a0.__ptr, ensureString(/*name*/a1), /*albedo*/a2.__ptr, /*metallic*/a3, /*roughness*/a4), Material);
 };
+Module['gfx']['model_suzanne'] = function(a0) {
+    return wrapPointer(_mud_gfx_model_suzanne_1(/*gfx*/a0.__ptr), Model);
+};
 
 (function() {
     function setup() {
@@ -3580,6 +3598,7 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Item.__type = _mud_Item__type();
         Joint.__type = _mud_Joint__type();
         Light.__type = _mud_Light__type();
+        Lines.__type = _mud_Lines__type();
         Material.__type = _mud_Material__type();
         MaterialAlpha.__type = _mud_MaterialAlpha__type();
         MaterialBase.__type = _mud_MaterialBase__type();

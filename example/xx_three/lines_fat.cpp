@@ -12,65 +12,6 @@
 
 using namespace mud;
 
-struct Lines // LineSegmentsGeometry
-{
-	//var plane = new THREE.BufferGeometry();
-	Lines(GfxSystem& gfx)
-	{
-		MeshPacker geometry;
-
-		geometry.m_positions = { vec3(-1, 2, 0), vec3(1, 2, 0), vec3(-1, 1, 0), vec3(1, 1, 0), vec3(-1, 0, 0), vec3(1, 0, 0), vec3(-1, -1, 0), vec3(1, -1, 0) };
-		geometry.m_uv0s = { vec2(-1, 2), vec2(1, 2), vec2(-1, 1), vec2(1, 1), vec2(-1, -1), vec2(1, -1), vec2(-1, -2), vec2(1, -2) };
-		geometry.m_indices = { 0, 2, 1, 2, 3, 1, 2, 4, 3, 4, 5, 3, 4, 6, 5, 6, 7, 5 };
-
-		m_model = &gfx.create_model_geo("lines", geometry);
-	}
-
-	Model* m_model = nullptr;
-
-	struct Segment { vec3 start; float start_distance; vec3 end; float end_distance; Colour start_colour; Colour end_colour; };
-	vector<Segment> m_segments;
-
-	Aabb m_aabb;
-	float m_radius;
-
-	void compute_distances()
-	{
-		for(size_t i = 0; i < m_segments.size(); ++i)
-		{
-			Segment& seg = m_segments[i];
-			seg.start_distance = i > 0 ? m_segments[i-1].end_distance : 0.f;
-			seg.end_distance = seg.start_distance + distance(seg.start, seg.end);
-		}
-	}
-
-	void update_aabb()
-	{ 
-		m_aabb = {};
-
-		for(Segment& seg : m_segments)
-		{
-			m_aabb.merge(seg.start);
-			m_aabb.merge(seg.end);
-		}
-	}
-
-	void update_sphere()
-	{
-		const vec3 center = m_aabb.m_center;
-		float radius2 = 0.f;
-
-		for(Segment& seg : m_segments)
-		{
-			radius2 = max(radius2, distance2(center, seg.start));
-			radius2 = max(radius2, distance2(center, seg.end));
-		}
-
-		m_radius = sqrt(radius2);
-	}
-};
-
-
 void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);

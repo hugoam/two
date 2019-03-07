@@ -76,6 +76,7 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::Item>() { static Type ty("Item", sizeof(mud::Item)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Joint>() { static Type ty("Joint", sizeof(mud::Joint)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Light>() { static Type ty("Light", sizeof(mud::Light)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Lines>() { static Type ty("Lines", sizeof(mud::Lines)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Material>() { static Type ty("Material", sizeof(mud::Material)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialAlpha>() { static Type ty("MaterialAlpha", sizeof(mud::MaterialAlpha)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialBase>() { static Type ty("MaterialBase", sizeof(mud::MaterialBase)); return ty; }

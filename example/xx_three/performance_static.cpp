@@ -16,114 +16,44 @@ void xx_performance_static(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Scene& scene = viewer.m_scene;
 
-#if 0
-	var container, stats;
+	static Program& normal = app.m_gfx.programs().fetch("normal");
 
-	var camera, scene, renderer;
+	static Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
+		m.m_program = &normal;
+	});
 
-	var mouseX = 0, mouseY = 0;
+	static Model& suzanne = gfx::model_suzanne(app.m_gfx);
 
-	var windowHalfX = window.innerWidth / 2;
-	var windowHalfY = window.innerHeight / 2;
+	static bool once = false;
+	if(!once)
+	{
+		once = true;
 
-	document.addEventListener('mousemove', onDocumentMouseMove, false);
+		Camera& camera = viewer.m_camera;
+		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 10'000.f;
+		camera.m_eye.z = 3'200.f;
 
-	init();
-	animate();
+		//scene.background = new THREE.Color(0xffffff);
 
+		for(size_t i = 0; i < 7700; i++)
+		{
+			vec3 position = vec3(randf(), randf(), randf()) * 10000.f - 5000.f;
+			vec3 angles = vec3(randf() * c_2pi, randf() * c_2pi, 0.f);
+			vec3 scale = vec3(randf() * 50 + 100);
 
-	function init() {
-
-		container = document.createElement('div');
-		document.body.appendChild(container);
-
-		camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
-		camera.position.z = 3200;
-
-		scene = new THREE.Scene();
-		scene.background = new THREE.Color(0xffffff);
-
-		var material = new THREE.MeshNormalMaterial();
-
-		var loader = new THREE.BufferGeometryLoader();
-		loader.load('models/json/suzanne_buffergeometry.json', function(geometry) {
-
-			geometry.computeVertexNormals();
-
-			for(var i = 0; i < 7700; i++) {
-
-				var mesh = new THREE.Mesh(geometry, material);
-
-				mesh.position.x = random() * 10000 - 5000;
-				mesh.position.y = random() * 10000 - 5000;
-				mesh.position.z = random() * 10000 - 5000;
-				mesh.rotation.x = random() * 2 * PI;
-				mesh.rotation.y = random() * 2 * PI;
-				mesh.scale.x = mesh.scale.y = mesh.scale.z = random() * 50 + 100;
-				mesh.matrixAutoUpdate = false;
-				mesh.updateMatrix();
-
-				scene.add(mesh);
-
-			}
-
-		});
-
-		renderer = new THREE.WebGLRenderer();
-		renderer.setPixelRatio(window.devicePixelRatio);
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		//renderer.sortObjects = false;
-
-		container.appendChild(renderer.domElement);
-
-		stats = new Stats();
-		container.appendChild(stats.dom);
-
-		//
-
-		window.addEventListener('resize', onWindowResize, false);
-
+			Node3& n = gfx::nodes(scene).add(Node3(position, quat(angles), scale));
+			Item& it = gfx::items(scene).add(Item(n, suzanne, 0U, &material));
+			UNUSED(it);
+		}
 	}
 
-	function onWindowResize() {
-
-		windowHalfX = window.innerWidth / 2;
-		windowHalfY = window.innerHeight / 2;
-
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-
-		renderer.setSize(window.innerWidth, window.innerHeight);
-
+	static vec2 mouse = vec2(0.f);
+	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
+	{
+		mouse = (event.m_relative - viewer.m_frame.m_size / 2.f) * 10.f;
 	}
 
-	function onDocumentMouseMove(event) {
-
-		mouseX = (event.clientX - windowHalfX) * 10;
-		mouseY = (event.clientY - windowHalfY) * 10;
-
-	}
-
-	//
-
-	function animate() {
-
-		requestAnimationFrame(animate);
-
-		render();
-		stats.update();
-
-	}
-
-	function render() {
-
-		camera.position.x += (mouseX - camera.position.x) * .05;
-		camera.position.y += (-mouseY - camera.position.y) * .05;
-
-		camera.lookAt(scene.position);
-
-		renderer.render(scene, camera);
-
-	}
-#endif
+	Camera& camera = viewer.m_camera;
+	camera.m_eye.x += (mouse.x - camera.m_eye.x) * .05f;
+	camera.m_eye.y += (-mouse.y - camera.m_eye.y) * .05f;
 }

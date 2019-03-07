@@ -16,6 +16,7 @@ void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_performance(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_performance_doublesided(Shell& app, Widget& parent, Dockbar& dockbar);
+void xx_performance_static(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar);

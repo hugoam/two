@@ -10,8 +10,6 @@ using namespace mud;
 
 //	import './js/nodes/THREE.Nodes.js';
 
-Model& model_suzanne(GfxSystem& gfx);
-
 void xx_performance_nodes(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -23,7 +21,7 @@ void xx_performance_nodes(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static vector<Node3*> meshes;
 
-	static Model& geometry = model_suzanne(app.m_gfx);
+	static Model& geometry = gfx::model_suzanne(app.m_gfx);
 
 	static bool once = false;
 	if(!once)

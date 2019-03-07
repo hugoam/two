@@ -90,6 +90,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Item>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Joint>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Light>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Lines>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Material>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialAlpha>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialBase>();

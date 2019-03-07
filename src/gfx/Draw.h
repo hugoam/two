@@ -104,4 +104,23 @@ namespace mud
 	
 	export_ MUD_GFX_EXPORT void draw_mesh(span<ProcShape> shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
 
+
+	export_ class refl_ MUD_GFX_EXPORT Lines
+	{
+	public:
+		constr_ Lines(GfxSystem& gfx);
+
+		Model* m_model = nullptr;
+
+		struct Segment { vec3 start; float start_distance; vec3 end; float end_distance; Colour start_colour; Colour end_colour; };
+		vector<Segment> m_segments;
+
+		Aabb m_aabb;
+		float m_radius;
+
+		meth_ void compute_distances();
+
+		void update_aabb();
+		void update_sphere();
+	};
 }

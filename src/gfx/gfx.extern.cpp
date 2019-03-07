@@ -64,6 +64,7 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<Viewport::RenderTask>;
 	template class MUD_GFX_EXPORT vector<ImmediateDraw::Batch>;
 	template class MUD_GFX_EXPORT vector<ImmediateDraw::Vertex>;
+	template class MUD_GFX_EXPORT vector<Lines::Segment>;
 	template class MUD_GFX_EXPORT vector<Import::Item>;
 	template class MUD_GFX_EXPORT vector<DrawElement>;
 	template class MUD_GFX_EXPORT vector<Frustum>;

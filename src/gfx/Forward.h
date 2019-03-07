@@ -135,6 +135,7 @@ namespace mud
     struct FrustumSlice;
 	struct ClusteredFrustum;
     class Light;
+	class Lines;
     class Gnode;
 	class Item;
 	class Direct;

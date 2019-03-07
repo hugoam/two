@@ -1,128 +1,43 @@
-//#include <mud/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
 
-#include <xx_three/xx_three.h>
+var viewer = two.ui.scene_viewer(app.ui.begin());
+//two.ui.orbit_controller(viewer);
 
-#include <stl/vector.hpp>
+var scene = viewer.scene;
 
-using namespace mud;
+//scene.background = new THREE.Color(0xffffff);
 
-void xx_performance_static(Shell app, Widget parent, Dockbar dockbar)
-{
-	var viewer = two.ui.scene_viewer(app.ui.begin());
-	//two.ui.orbit_controller(viewer);
+var objects = [];
 
-	var scene = viewer.scene;
+if(typeof this.state == 'undefined') {
+    this.state = 1;
 
-#if 0
-	var container, stats;
+    camera.fov = 60.0; camera.near = 1.0; camera.far = 10'000.0;
+    camera.eye.z = 3'200.0;
 
-	var camera, scene, renderer;
+    var normal = app.gfx.programs.fetch('normal');
 
-	var mouseX = 0, mouseY = 0;
+    var material = app.gfx.materials.create('normal');
+    var m = material; m.program = normal;
 
-	var windowHalfX = window.innerWidth / 2;
-	var windowHalfY = window.innerHeight / 2;
+    var suzanne = two.gfx.model_suzanne(app.gfx);
 
-	document.addEventListener('mousemove', onDocumentMouseMove, false);
+    for(var i = 0; i < 7700; i++)
+    {
+        var p = new two.vec3(Math.random() * 10000.0 - 5000.0, Math.random() * 10000.0 - 5000.0, Math.random() * 10000.0 - 5000.0);
+        var a = new two.vec3(Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI, 0.0);
+        var s = new two.vec3(Math.random() * 50 + 100);
 
-	init();
-	animate();
-
-
-	function init() {
-
-		container = document.createElement('div');
-		document.body.appendChild(container);
-
-		camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
-		camera.position.z = 3200;
-
-		scene = new THREE.Scene();
-		scene.background = new THREE.Color(0xffffff);
-
-		var material = new THREE.MeshNormalMaterial();
-
-		var loader = new THREE.BufferGeometryLoader();
-		loader.load('models/json/suzanne_buffergeometry.json', function(geometry) {
-
-			geometry.computeVertexNormals();
-
-			for(var i = 0; i < 7700; i++) {
-
-				var mesh = new THREE.Mesh(geometry, material);
-
-				mesh.position.x = random() * 10000 - 5000;
-				mesh.position.y = random() * 10000 - 5000;
-				mesh.position.z = random() * 10000 - 5000;
-				mesh.rotation.x = random() * 2 * PI;
-				mesh.rotation.y = random() * 2 * PI;
-				mesh.scale.x = mesh.scale.y = mesh.scale.z = random() * 50 + 100;
-				mesh.matrixAutoUpdate = false;
-				mesh.updateMatrix();
-
-				scene.add(mesh);
-
-			}
-
-		});
-
-		renderer = new THREE.WebGLRenderer();
-		renderer.setPixelRatio(window.devicePixelRatio);
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		//renderer.sortObjects = false;
-
-		container.appendChild(renderer.domElement);
-
-		stats = new Stats();
-		container.appendChild(stats.dom);
-
-		//
-
-		window.addEventListener('resize', onWindowResize, false);
-
-	}
-
-	function onWindowResize() {
-
-		windowHalfX = window.innerWidth / 2;
-		windowHalfY = window.innerHeight / 2;
-
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-
-		renderer.setSize(window.innerWidth, window.innerHeight);
-
-	}
-
-	function onDocumentMouseMove(event) {
-
-		mouseX = (event.clientX - windowHalfX) * 10;
-		mouseY = (event.clientY - windowHalfY) * 10;
-
-	}
-
-	//
-
-	function animate() {
-
-		requestAnimationFrame(animate);
-
-		render();
-		stats.update();
-
-	}
-
-	function render() {
-
-		camera.position.x += (mouseX - camera.position.x) * .05;
-		camera.position.y += (-mouseY - camera.position.y) * .05;
-
-		camera.lookAt(scene.position);
-
-		renderer.render(scene, camera);
-
-	}
-#endif
+        var n = scene.nodes().add(new two.Node3(p, new two.quat(a), s));
+        var it = scene.items().add(new two.Item(n, suzanne, 0, material));
+    }
 }
+
+this.mouse = new two.vec2(0.0);
+if(var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
+{
+    mouse = (event.relative - viewer.frame.size / 2.0) * 10.0;
+}
+
+var camera = viewer.camera;
+camera.eye.x += (mouse.x - camera.eye.x) * .05;
+camera.eye.y += (-mouse.y - camera.eye.y) * .05;

@@ -1213,6 +1213,19 @@ extern "C" {
 	void DECL mud_Light__destroy(mud::Light* self) {
 		delete self;
 	}
+	// Lines
+	mud::Type* DECL mud_Lines__type() {
+		return &mud::type<mud::Lines>();
+	}
+	mud::Lines* DECL mud_Lines__construct_1(mud::GfxSystem* gfx) {
+		return new mud::Lines(*gfx);
+	}
+	void DECL mud_Lines_compute_distances_0(mud::Lines* self) {
+		self->compute_distances();
+	}
+	void DECL mud_Lines__destroy(mud::Lines* self) {
+		delete self;
+	}
 	// Material
 	mud::Type* DECL mud_Material__type() {
 		return &mud::type<mud::Material>();
@@ -2915,6 +2928,9 @@ extern "C" {
 	}
 	mud::Material* DECL mud_gfx_pbr_material_5(mud::GfxSystem* gfx, const char* name, const mud::Colour* albedo, float metallic, float roughness) {
 		return &mud::gfx::pbr_material(*gfx, name, *albedo, metallic, roughness);
+	}
+	mud::Model* DECL mud_gfx_model_suzanne_1(mud::GfxSystem* gfx) {
+		return &mud::gfx::model_suzanne(*gfx);
 	}
 	// AnimationTarget
 	mud::AnimationTarget DECL mud_AnimationTarget_Position() {

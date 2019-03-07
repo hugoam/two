@@ -255,7 +255,6 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar)
 
 #if NORMAL
 	static Program& normal = app.m_gfx.programs().fetch("normal");
-	normal.m_blocks[MaterialBlock::Pbr] = true;
 
 	static Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
 		m.m_program = &normal;

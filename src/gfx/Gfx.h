@@ -60,5 +60,7 @@ namespace gfx
 
 	export_ MUD_GFX_EXPORT Material& pbr_material(GfxSystem& gfx, const string& name, const MaterialPbr& pbr_block);
 	export_ MUD_GFX_EXPORT func_ Material& pbr_material(GfxSystem& gfx, const string& name, const Colour& albedo, float metallic = 0.f, float roughness = 1.f);
+
+	export_ MUD_GFX_EXPORT func_ Model& model_suzanne(GfxSystem& gfx);
 }
 }

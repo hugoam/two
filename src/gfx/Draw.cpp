@@ -20,6 +20,7 @@ module mud.gfx;
 #include <geom/Shape/ProcShape.h>
 #include <gfx/Types.h>
 #include <gfx/Draw.h>
+#include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Material.h>
 #include <gfx/Program.h>
@@ -328,5 +329,45 @@ namespace mud
 		mesh.upload(gpu_mesh);
 
 		model.add_item(mesh, bxidentity());
+	}
+
+	Lines::Lines(GfxSystem& gfx)
+	{
+		m_model = gfx.models().get("line");
+	}
+
+	void Lines::compute_distances()
+	{
+		for(size_t i = 0; i < m_segments.size(); ++i)
+		{
+			Segment& seg = m_segments[i];
+			seg.start_distance = i > 0 ? m_segments[i - 1].end_distance : 0.f;
+			seg.end_distance = seg.start_distance + distance(seg.start, seg.end);
+		}
+	}
+
+	void Lines::update_aabb()
+	{
+		m_aabb = {};
+
+		for(Segment& seg : m_segments)
+		{
+			m_aabb.merge(seg.start);
+			m_aabb.merge(seg.end);
+		}
+	}
+
+	void Lines::update_sphere()
+	{
+		const vec3 center = m_aabb.m_center;
+		float radius2 = 0.f;
+
+		for(Segment& seg : m_segments)
+		{
+			radius2 = max(radius2, distance2(center, seg.start));
+			radius2 = max(radius2, distance2(center, seg.end));
+		}
+
+		m_radius = sqrt(radius2);
 	}
 }

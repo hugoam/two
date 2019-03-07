@@ -169,6 +169,8 @@ void mud_Item_update_aabb(void* object, span<void*> args, void*& result) { UNUSE
 void mud_Joint__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Joint(  ); }
 void mud_Joint__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Joint((*static_cast<mud::Joint*>(other))); }
 void mud_Light__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Light( *static_cast<mud::Node3*>(args[0]), *static_cast<mud::LightType*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<mud::Colour*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5]) ); }
+void mud_Lines__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Lines( *static_cast<mud::GfxSystem*>(args[0]) ); }
+void mud_Lines_compute_distances(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Lines*>(object)).compute_distances(); }
 void mud_MaterialAlpha__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MaterialAlpha(  ); }
 void mud_MaterialAlpha__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MaterialAlpha((*static_cast<mud::MaterialAlpha*>(other))); }
 void mud_MaterialBase__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MaterialBase(  ); }
@@ -317,6 +319,7 @@ void mud_gfx_radiance_33(span<void*> args, void*& result) { UNUSED(result);  mud
 void mud_gfx_direct_light_node_34(span<void*> args, void*& result) { result = &mud::gfx::direct_light_node(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
 void mud_gfx_solid_material_35(span<void*> args, void*& result) { result = &mud::gfx::solid_material(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::Colour*>(args[2])); }
 void mud_gfx_pbr_material_36(span<void*> args, void*& result) { result = &mud::gfx::pbr_material(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::Colour*>(args[2]), *static_cast<float*>(args[3]), *static_cast<float*>(args[4])); }
+void mud_gfx_model_suzanne_37(span<void*> args, void*& result) { result = &mud::gfx::model_suzanne(*static_cast<mud::GfxSystem*>(args[0])); }
 
 namespace mud
 {
@@ -1545,6 +1548,25 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, constructors, {}, members, {}, {}, };
+	}
+	// mud::Lines
+	{
+		Type& t = type<mud::Lines>();
+		static Meta meta = { t, &namspc({ "mud" }), "Lines", sizeof(mud::Lines), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Lines__construct_0, { { "gfx", type<mud::GfxSystem>(),  } } }
+		};
+		// copy constructor
+		// members
+		// methods
+		static Method methods[] = {
+			{ t, "compute_distances", Address(), mud_Lines_compute_distances, {}, g_qvoid }
+		};
+		// static members
+		static Class cls = { t, {}, {}, constructors, {}, {}, methods, {}, };
 	}
 	// mud::Material
 	{
@@ -2801,6 +2823,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::Light>());
 		m.m_types.push_back(&type<mud::LightType>());
 		m.m_types.push_back(&type<mud::Lighting>());
+		m.m_types.push_back(&type<mud::Lines>());
 		m.m_types.push_back(&type<mud::MSAA>());
 		m.m_types.push_back(&type<mud::Material>());
 		m.m_types.push_back(&type<mud::MaterialAlpha>());
@@ -3037,6 +3060,10 @@ namespace mud
 			static float metallic_default = 0.f;
 			static float roughness_default = 1.f;
 			static Function f = { &namspc({ "mud", "gfx" }), "pbr_material", nullptr, mud_gfx_pbr_material_36, { { "gfx", type<mud::GfxSystem>(),  }, { "name", type<stl::string>(),  }, { "albedo", type<mud::Colour>(),  }, { "metallic", type<float>(), Param::Default, &metallic_default }, { "roughness", type<float>(), Param::Default, &roughness_default } }, { &type<mud::Material>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "gfx" }), "model_suzanne", nullptr, mud_gfx_model_suzanne_37, { { "gfx", type<mud::GfxSystem>(),  } }, { &type<mud::Model>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 	}
