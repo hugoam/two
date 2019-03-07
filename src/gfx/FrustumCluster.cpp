@@ -69,8 +69,8 @@ namespace mud
 		//  = floor((clip + 1) * ((0.5 * dimension) / froxelsize))
 		//  = floor((clip + 1) * constant
 		//  = floor(clip * constant + constant)
-		const uint xi = clamp(uint(clip.x * m_clip_to_cluster.x + m_clip_to_cluster.x), 0U, uint(m_subdiv_x - 1));
-		const uint yi = clamp(uint(clip.y * m_clip_to_cluster.y + m_clip_to_cluster.y), 0U, uint(m_subdiv_y - 1));
+		const uint xi = uint(clamp(int(clip.x * m_clip_to_cluster.x + m_clip_to_cluster.x), 0, int(m_subdiv_x - 1)));
+		const uint yi = uint(clamp(int(clip.y * m_clip_to_cluster.y + m_clip_to_cluster.y), 0, int(m_subdiv_y - 1)));
 		return { xi, yi };
 	}
 
@@ -82,7 +82,7 @@ namespace mud
 
 		// This whole function is now branch-less.
 
-		uint s = uint((log2(-z) - m_far_log2) * m_linearizer) + m_subdiv_z;
+		int s = int((log2(-z) - m_far_log2) * m_linearizer + m_subdiv_z);
 
 		// there are cases where z can be negative here, e.g.:
 		// - the light is visible, but its center is behind the camera
@@ -91,7 +91,7 @@ namespace mud
 		s = z < 0.f ? s : 0U;
 
 		// clamp between [0, m_subdiv_z)
-		return clamp(s, 0U, uint(m_subdiv_z - 1U));
+		return uint(clamp(s, 0, int(m_subdiv_z - 1U)));
 	}
 
 	Plane to_plane(const vec4& p) { return{ vec3(p), p.w }; }

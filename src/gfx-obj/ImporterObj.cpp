@@ -316,13 +316,18 @@ namespace mud
 
 		unique<MeshWriter> mesh_writer = make_unique<MeshWriter>(config, scene, generate_tangents);
 
+		static string tokens[5];
+		static string faceids[3];
+
 		read_text_file(filename, [&](const string& in)
 		{
 			string line = in;
 			if(line.back() == '\r')
 				line.pop_back();
 
-			string tokens[5];
+			for(size_t i = 0; i < 5; ++i)
+				tokens[i].clear();
+
 			split(line, " ", tokens);
 
 			const string& command = tokens[0];
@@ -381,10 +386,9 @@ namespace mud
 				size_t num_vertices = tokens[4] == "" ? 3 : 4;
 				for(size_t i = 0; i < num_vertices; ++i)
 				{
-					string ids[3];
-					split(tokens[i + 1], "/", { ids, 3 });
+					split(tokens[i + 1], "/", faceids);
 
-					int face[3] = { toi(ids[0]), toi(ids[1]), toi(ids[2]) };
+					int face[3] = { toi(faceids[0]), toi(faceids[1]), toi(faceids[2]) };
 
 					verts[i].m_position = g.vertices[face[POSITION] >= 0 ? face[POSITION] - 1 : face[POSITION] + g.vertices.size()];
 					if(face[TEXCOORD] != 0)
