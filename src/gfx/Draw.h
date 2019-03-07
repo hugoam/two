@@ -112,13 +112,16 @@ namespace mud
 
 		attr_ Model* m_model = nullptr;
 
-		struct Segment { vec3 start; float start_distance; vec3 end; float end_distance; Colour start_colour; Colour end_colour; };
+		struct Segment { vec3 pos0; float dist0; vec3 pos1; float dist1; Colour col0; Colour col1; };
 		vector<Segment> m_segments;
+		bool m_started = false;
 
 		Aabb m_aabb;
 		float m_radius;
 
-		meth_ void add(const vec3& start, const vec3& end, Colour& start_colour, Colour end_colour);
+		meth_ void add(const vec3& start, const vec3& end, const Colour& start_colour, const Colour& end_colour);
+		meth_ void start(const vec3& position, const Colour& colour);
+		meth_ void next(const vec3& position, const Colour& colour);
 		meth_ void setup();
 		meth_ void commit(Batch& batch);
 

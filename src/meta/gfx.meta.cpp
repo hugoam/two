@@ -192,6 +192,8 @@ void mud_Joint__copy_construct(void* ref, void* other) { new(stl::placeholder(),
 void mud_Light__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Light( *static_cast<mud::Node3*>(args[0]), *static_cast<mud::LightType*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<mud::Colour*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5]) ); }
 void mud_Lines__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Lines( *static_cast<mud::GfxSystem*>(args[0]) ); }
 void mud_Lines_add(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Lines*>(object)).add(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::Colour*>(args[2]), *static_cast<mud::Colour*>(args[3])); }
+void mud_Lines_start(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Lines*>(object)).start(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
+void mud_Lines_next(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Lines*>(object)).next(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
 void mud_Lines_setup(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Lines*>(object)).setup(); }
 void mud_Lines_commit(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Lines*>(object)).commit(*static_cast<mud::Batch*>(args[0])); }
 void mud_MaterialAlpha__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MaterialAlpha(  ); }
@@ -1670,6 +1672,8 @@ namespace mud
 		// methods
 		static Method methods[] = {
 			{ t, "add", Address(), mud_Lines_add, { { "start", type<mud::vec3>(),  }, { "end", type<mud::vec3>(),  }, { "start_colour", type<mud::Colour>(),  }, { "end_colour", type<mud::Colour>(),  } }, g_qvoid },
+			{ t, "start", Address(), mud_Lines_start, { { "position", type<mud::vec3>(),  }, { "colour", type<mud::Colour>(),  } }, g_qvoid },
+			{ t, "next", Address(), mud_Lines_next, { { "position", type<mud::vec3>(),  }, { "colour", type<mud::Colour>(),  } }, g_qvoid },
 			{ t, "setup", Address(), mud_Lines_setup, {}, g_qvoid },
 			{ t, "commit", Address(), mud_Lines_commit, { { "batch", type<mud::Batch>(),  } }, g_qvoid }
 		};

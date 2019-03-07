@@ -1618,6 +1618,12 @@ Module['Lines'] = Lines;
 Lines.prototype["add"] = Lines.prototype.add = function(a0, a1, a2, a3) {
     _mud_Lines_add_4(this.__ptr, /*start*/a0.__ptr, /*end*/a1.__ptr, /*start_colour*/a2.__ptr, /*end_colour*/a3.__ptr);
 };
+Lines.prototype["start"] = Lines.prototype.start = function(a0, a1) {
+    _mud_Lines_start_2(this.__ptr, /*position*/a0.__ptr, /*colour*/a1.__ptr);
+};
+Lines.prototype["next"] = Lines.prototype.next = function(a0, a1) {
+    _mud_Lines_next_2(this.__ptr, /*position*/a0.__ptr, /*colour*/a1.__ptr);
+};
 Lines.prototype["setup"] = Lines.prototype.setup = function() {
     _mud_Lines_setup_0(this.__ptr);
 };

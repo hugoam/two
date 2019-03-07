@@ -1266,8 +1266,14 @@ extern "C" {
 	mud::Lines* DECL mud_Lines__construct_1(mud::GfxSystem* gfx) {
 		return new mud::Lines(*gfx);
 	}
-	void DECL mud_Lines_add_4(mud::Lines* self, const mud::vec3* start, const mud::vec3* end, mud::Colour* start_colour, mud::Colour* end_colour) {
+	void DECL mud_Lines_add_4(mud::Lines* self, const mud::vec3* start, const mud::vec3* end, const mud::Colour* start_colour, const mud::Colour* end_colour) {
 		self->add(*start, *end, *start_colour, *end_colour);
+	}
+	void DECL mud_Lines_start_2(mud::Lines* self, const mud::vec3* position, const mud::Colour* colour) {
+		self->start(*position, *colour);
+	}
+	void DECL mud_Lines_next_2(mud::Lines* self, const mud::vec3* position, const mud::Colour* colour) {
+		self->next(*position, *colour);
 	}
 	void DECL mud_Lines_setup_0(mud::Lines* self) {
 		self->setup();

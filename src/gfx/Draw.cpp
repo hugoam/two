@@ -337,11 +337,23 @@ namespace mud
 		m_model = gfx.models().get("line");
 	}
 
-	void Lines::add(const vec3& start, const vec3& end, Colour& start_colour, Colour end_colour)
+	void Lines::add(const vec3& start, const vec3& end, const Colour& start_colour, const Colour& end_colour)
 	{
-		const float start_distance = m_segments.size() > 0 ? m_segments.back().end_distance : 0.f;
+		const float start_distance = m_segments.size() > 0 ? m_segments.back().dist1 : 0.f;
 		const float end_distance = start_distance + distance(start, end);
 		m_segments.push_back({ start, start_distance, end, end_distance, start_colour, end_colour });
+	}
+
+	void Lines::start(const vec3& position, const Colour& colour)
+	{
+		m_segments.push_back({ position, 0.f, position, 0.f, colour, colour });
+	}
+
+	void Lines::next(const vec3& end, const Colour& colour)
+	{
+		const Segment& last = m_segments.back();
+		const float dist = last.dist1 + distance(last.pos1, end);
+		m_segments.push_back({ last.pos1, last.dist1, end, dist, last.col1, colour });
 	}
 
 	void Lines::setup()
@@ -349,8 +361,8 @@ namespace mud
 		for(size_t i = 0; i < m_segments.size(); ++i)
 		{
 			Segment& seg = m_segments[i];
-			seg.start_distance = i > 0 ? m_segments[i - 1].end_distance : 0.f;
-			seg.end_distance = seg.start_distance + distance(seg.start, seg.end);
+			seg.dist0 = i > 0 ? m_segments[i - 1].dist1 : 0.f;
+			seg.dist1 = seg.dist0 + distance(seg.pos0, seg.pos1);
 		}
 	}
 
@@ -366,8 +378,8 @@ namespace mud
 
 		for(Segment& seg : m_segments)
 		{
-			m_aabb.merge(seg.start);
-			m_aabb.merge(seg.end);
+			m_aabb.merge(seg.pos0);
+			m_aabb.merge(seg.pos1);
 		}
 	}
 
@@ -378,8 +390,8 @@ namespace mud
 
 		for(Segment& seg : m_segments)
 		{
-			radius2 = max(radius2, distance2(center, seg.start));
-			radius2 = max(radius2, distance2(center, seg.end));
+			radius2 = max(radius2, distance2(center, seg.pos0));
+			radius2 = max(radius2, distance2(center, seg.pos1));
 		}
 
 		m_radius = sqrt(radius2);
