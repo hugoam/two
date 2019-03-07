@@ -68,8 +68,8 @@ end
 
 if _OPTIONS["jsbind"] then
     if _OPTIONS["as-libs"] then
-        mud_js("xx_js", { mud.frame, mud.gfx.pbr })
-        mud_js("two", { mud.frame, mud.gfx.pbr })
+        mud_js("xx_js", { mud.frame, mud.gfx.pbr, mud.gfx.obj, mud.gfx.gltf })
+        mud_js("two", { mud.frame, mud.gfx.pbr, mud.gfx.obj, mud.gfx.gltf })
     else
         mud_js("xx_js", mud.all)
         mud_js("two", mud.all)
