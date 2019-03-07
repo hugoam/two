@@ -23,6 +23,7 @@ void xx_performance(Shell& app, Widget& parent, Dockbar& dockbar)
 	static vector<Object> objects = {};
 
 	static Program& normal = app.m_gfx.programs().fetch("normal");
+	//static Program& normal = app.m_gfx.programs().fetch("pbr/pbr");
 
 	static Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
 		m.m_program = &normal;

@@ -9,7 +9,7 @@ var vertex_shader = `$input a_position, a_texcoord0
         int material_index = int(u_state_material);
         BaseMaterial basic = read_base_material(material_index);
         
-       v_texcoord0 = vec4((a_texcoord0.xy * basic.uv0_scale) + basic.uv0_offset, 0.0, 0.0);
+        v_texcoord0 = vec4((a_texcoord0.xy * basic.uv0_scale) + basic.uv0_offset, 0.0, 0.0);
         vec4 view = mul(u_modelView, vec4(a_position, 1.0));
         v_position = mul(u_proj, view);
         gl_Position = v_position;
@@ -22,7 +22,7 @@ var fragment_shader = `$input v_position, v_texcoord0
     
     void main()
     {
-        vec2 uv = v_texcoord0.xy;"
+        vec2 uv = v_texcoord0.xy;
         vec2 position = - 1.0 + 2.0 * uv;
     
         vec4 noise = texture2D(s_user0, uv);
@@ -60,7 +60,7 @@ var fragment_shader = `$input v_position, v_texcoord0
     }`;
 
 var viewer = two.ui.scene_viewer(app.ui.begin());
-two.ui.orbit_controller(viewer);
+//two.ui.orbit_controller(viewer);
 
 var scene = viewer.scene;
 
@@ -77,7 +77,7 @@ if(typeof this.state == 'undefined') {
     scene.env.fog.density = fog_density;
     scene.env.fog.colour = fog_color;
 
-    this.program = new two.Program('lava');
+    var program = app.gfx.programs.create('lava'); //new two.Program('lava');
     program.set_block(two.MaterialBlock.Solid);
     program.set_block(two.MaterialBlock.User);
     program.set_source(two.ShaderType.Vertex, vertex_shader);
@@ -86,22 +86,23 @@ if(typeof this.state == 'undefined') {
     var cloud = app.gfx.textures.file('lava/cloud.png');
     var lava = app.gfx.textures.file('lava/lavatile.jpg');
 
-    this.material = app.gfx.materials.create('lava', [](var m) {
-        m.program = program;
-        m.base.uv0_scale = new two.vec2(3.0, 1.0);
-        m.user.attr0.texture = cloud;
-        m.user.attr1.texture = lava;
-    });
+    var material = app.gfx.materials.create('lava');
+    var m = material;
+    m.program = program;
+    m.base.uv0_scale = new two.vec2(3.0, 1.0);
+    m.user.attr0.texture = cloud;
+    m.user.attr1.texture = lava;
+    
     // material.submit = submit;
 
     this.angles = new two.vec3(0.3, 0.0, 0.0);
 
     var size = 0.65;
 
-    this.model = app.gfx.shape(Torus(size, 0.3));
+    this.model = app.gfx.shape(new two.Torus(size, 0.3));
 
     this.node = scene.nodes().add(new two.Node3(new two.vec3(0.0), new two.quat(angles)));
-    var it = scene.items().add(new two.Item(*node, model, 0, material));
+    var it = scene.items().add(new two.Item(node, model, 0, material));
 
     //var renderModel = new THREE.RenderPass(scene, camera);
     //var effectBloom = new THREE.BloomPass(1.25);

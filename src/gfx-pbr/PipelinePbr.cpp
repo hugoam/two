@@ -156,7 +156,8 @@ namespace gfx
 			solid.register_blocks(depth_blocks);
 
 			Program& normal = gfx.programs().create("normal");
-			normal.m_blocks[MaterialBlock::Pbr] = true;
+			normal.m_blocks[MaterialBlock::Solid] = true;
+			//normal.m_blocks[MaterialBlock::Pbr] = true;
 
 			Program& point = gfx.programs().create("point");
 			point.m_blocks[MaterialBlock::Solid] = true;

@@ -268,6 +268,7 @@ namespace mud
 
 	void Program::register_block(const GfxBlock& block)
 	{
+		m_shader_blocks[block.m_index].m_enabled = true;
 		this->register_options(block.m_index, block.m_shader_block->m_options);
 		this->register_modes(block.m_index, block.m_shader_block->m_modes);
 		prepend(m_impl->m_defines, block.m_shader_block->m_defines);
@@ -275,6 +276,7 @@ namespace mud
 
 	void Program::register_options(uint8_t block, span<cstring> options)
 	{
+		m_shader_blocks[block].m_enabled = true;
 		m_shader_blocks[block].m_option_shift = uint8_t(m_impl->m_option_names.size());
 
 		for(size_t i = 0; i < options.size(); ++i)
@@ -283,6 +285,7 @@ namespace mud
 
 	void Program::register_modes(uint8_t block, span<cstring> modes)
 	{
+		m_shader_blocks[block].m_enabled = true;
 		m_shader_blocks[block].m_mode_shift = uint8_t(m_impl->m_mode_names.size());
 
 		for(size_t i = 0; i < modes.size(); ++i)

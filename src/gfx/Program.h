@@ -43,8 +43,9 @@ namespace mud
 	export_ struct ProgramBlock
 	{
 		// maps a block shader option to the program option shift
-		uint8_t m_option_shift;
-		uint8_t m_mode_shift;
+		bool m_enabled = false;
+		uint8_t m_option_shift = 0;
+		uint8_t m_mode_shift = 0;
 	};
 
 	export_ enum class refl_ MaterialBlock : unsigned int
@@ -82,16 +83,6 @@ namespace mud
 
 		string defines(const ShaderVersion& version) const;
 
-		uint8_t block_option_shift(uint8_t block) const
-		{
-			return m_shader_blocks[block].m_option_shift;
-		}
-
-		uint8_t block_mode_shift(uint8_t block) const
-		{
-			return m_shader_blocks[block].m_mode_shift;
-		}
-
 		void reload() { m_update++; }
 
 		void compile(GfxSystem& gfx, Version& version, bool compute = false);
@@ -109,7 +100,7 @@ namespace mud
 		void register_modes(uint8_t block, span<cstring> modes);
 
 		// maps a block index to its shader options span
-		ProgramBlock m_shader_blocks[32];
+		ProgramBlock m_shader_blocks[32] = {};
 		uint8_t m_next_option = 0;
 
 		table<ShaderType, string> m_sources = {};

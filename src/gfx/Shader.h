@@ -8,6 +8,8 @@
 #include <gfx/Program.h>
 #include <stdint.h>
 
+#include <cassert>
+
 namespace mud
 {
 	enum ShaderOption : unsigned int
@@ -45,12 +47,16 @@ namespace mud
 
 		inline void set_option(uint8_t block, uint8_t option, bool active = true)
 		{
-			this->set(m_program->block_option_shift(block) + option, active);
+			assert(m_program->m_shader_blocks[block].m_enabled);
+			const uint8_t block_shift = m_program->m_shader_blocks[block].m_option_shift;
+			this->set(block_shift + option, active);
 		}
 
 		inline void set_mode(uint8_t block, uint8_t mode, uint8_t value)
 		{
-			m_modes[m_program->block_mode_shift(block) + mode] = value;
+			assert(m_program->m_shader_blocks[block].m_enabled);
+			const uint8_t mode_shift = m_program->m_shader_blocks[block].m_option_shift;
+			m_modes[mode_shift + mode] = value;
 		}
 
 		uint32_t hash_modes() const { return (m_modes[0] << 0) + (m_modes[1] << 8) + (m_modes[2] << 16) + (m_modes[3] << 24); }

@@ -8,13 +8,34 @@ using namespace mud;
 
 #define GEOMETRY 1
 
-string create_shader()
+static string vertex_shader()
+{
+	string shader = 
+
+		"$input a_position, a_texcoord0\n"
+		"$output v_texcoord0\n"
+		"\n"
+		"#include <common.sh>\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	int material_index = int(u_state_material);\n"
+		"	BaseMaterial basic = read_base_material(material_index);\n"
+		"	\n"
+		"   v_texcoord0 = vec4((a_texcoord0.xy * basic.uv0_scale) + basic.uv0_offset, 0.0, 0.0);\n"
+		"	gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0));\n"
+		"}\n";
+
+	return shader;
+}
+
+static string fragment_shader()
 {
 	string shader =
 
 		"$input v_texcoord0\n"
 		"\n"
-		"#include \"filter/filter.sh\"\n"
+		"#include <filter/filter.sh>\n"
 		"\n"
 		"void main() {\n"
 		"\n"
@@ -56,10 +77,13 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	ui::orbit_controller(viewer);
 
 	static Program program = { "custom" };
-	program.m_sources[ShaderType::Fragment] = create_shader();
+	program.m_blocks[MaterialBlock::Solid] = true;
+	program.m_sources[ShaderType::Vertex] = vertex_shader();
+	program.m_sources[ShaderType::Fragment] = fragment_shader();
 
 	static Material& material = app.m_gfx.materials().create("custom", [&](Material& m) {
 		m.m_program = &program;
+		m.m_base.m_cull_mode = CullMode::None;
 	});
 
 #if GEOMETRY
