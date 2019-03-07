@@ -27,6 +27,7 @@ module mud.gfx;
 #include <gfx/Node3.h>
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>
+#include <gfx/Item.h>
 #endif
 
 namespace mud
@@ -351,6 +352,12 @@ namespace mud
 			seg.start_distance = i > 0 ? m_segments[i - 1].end_distance : 0.f;
 			seg.end_distance = seg.start_distance + distance(seg.start, seg.end);
 		}
+	}
+
+	void Lines::commit(Batch& batch)
+	{
+		span<float> memory = batch.begin(m_segments.size(), sizeof(Segment));
+		memcpy(memory.data(), m_segments.data(), memory.size() * sizeof(float));
 	}
 
 	void Lines::update_aabb()

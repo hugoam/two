@@ -110,7 +110,7 @@ namespace mud
 	public:
 		constr_ Lines(GfxSystem& gfx);
 
-		Model* m_model = nullptr;
+		attr_ Model* m_model = nullptr;
 
 		struct Segment { vec3 start; float start_distance; vec3 end; float end_distance; Colour start_colour; Colour end_colour; };
 		vector<Segment> m_segments;
@@ -120,6 +120,7 @@ namespace mud
 
 		meth_ void add(const vec3& start, const vec3& end, Colour& start_colour, Colour end_colour);
 		meth_ void setup();
+		meth_ void commit(Batch& batch);
 
 		void update_aabb();
 		void update_sphere();

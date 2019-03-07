@@ -1398,6 +1398,22 @@ Object.defineProperty(Item.prototype, "rig", {
         _mud_Item__set_rig(this.__ptr, value.__ptr);
     }
 });
+Object.defineProperty(Item.prototype, "aabb", {
+    get: function() {
+        return wrapPointer(_mud_Item__get_aabb(this.__ptr), Aabb);
+    },
+    set: function(value) {
+        _mud_Item__set_aabb(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Item.prototype, "batch", {
+    get: function() {
+        return wrapPointer(_mud_Item__get_batch(this.__ptr), Batch);
+    },
+    set: function(value) {
+        _mud_Item__set_batch(this.__ptr, value.__ptr);
+    }
+});
 Item.prototype["__destroy"] = Item.prototype.__destroy = function() {
     _mud_Item__destroy(this.__ptr);
 };
@@ -1605,6 +1621,17 @@ Lines.prototype["add"] = Lines.prototype.add = function(a0, a1, a2, a3) {
 Lines.prototype["setup"] = Lines.prototype.setup = function() {
     _mud_Lines_setup_0(this.__ptr);
 };
+Lines.prototype["commit"] = Lines.prototype.commit = function(a0) {
+    _mud_Lines_commit_1(this.__ptr, /*batch*/a0.__ptr);
+};
+Object.defineProperty(Lines.prototype, "model", {
+    get: function() {
+        return wrapPointer(_mud_Lines__get_model(this.__ptr), Model);
+    },
+    set: function(value) {
+        _mud_Lines__set_model(this.__ptr, value.__ptr);
+    }
+});
 Lines.prototype["__destroy"] = Lines.prototype.__destroy = function() {
     _mud_Lines__destroy(this.__ptr);
 };

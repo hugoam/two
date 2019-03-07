@@ -1089,6 +1089,18 @@ extern "C" {
 	void DECL mud_Item__set_rig(mud::Item* self, mud::Rig* value) {
 		self->m_rig = value;
 	}
+	mud::Aabb* DECL mud_Item__get_aabb(mud::Item* self) {
+		return &self->m_aabb;
+	}
+	void DECL mud_Item__set_aabb(mud::Item* self, mud::Aabb* value) {
+		self->m_aabb = *value;
+	}
+	mud::Batch* DECL mud_Item__get_batch(mud::Item* self) {
+		return self->m_batch;
+	}
+	void DECL mud_Item__set_batch(mud::Item* self, mud::Batch* value) {
+		self->m_batch = value;
+	}
 	void DECL mud_Item__destroy(mud::Item* self) {
 		delete self;
 	}
@@ -1259,6 +1271,15 @@ extern "C" {
 	}
 	void DECL mud_Lines_setup_0(mud::Lines* self) {
 		self->setup();
+	}
+	void DECL mud_Lines_commit_1(mud::Lines* self, mud::Batch* batch) {
+		self->commit(*batch);
+	}
+	mud::Model* DECL mud_Lines__get_model(mud::Lines* self) {
+		return self->m_model;
+	}
+	void DECL mud_Lines__set_model(mud::Lines* self, mud::Model* value) {
+		self->m_model = value;
 	}
 	void DECL mud_Lines__destroy(mud::Lines* self) {
 		delete self;

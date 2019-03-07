@@ -78,8 +78,8 @@ namespace mud
 		attr_ ItemShadow m_shadow = ItemShadow::Default;
 		attr_ Rig* m_rig = nullptr;
 
-		Aabb m_aabb;
-		Batch* m_batch = nullptr;
+		attr_ Aabb m_aabb;
+		attr_ Batch* m_batch = nullptr;
 
 		meth_ void update_aabb();
 
