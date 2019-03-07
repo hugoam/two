@@ -316,8 +316,9 @@ namespace mud
 
 		unique<MeshWriter> mesh_writer = make_unique<MeshWriter>(config, scene, generate_tangents);
 
-		read_text_file(filename, [&](string line)
+		read_text_file(filename, [&](const string& in)
 		{
+			string line = in;
 			if(line.back() == '\r')
 				line.pop_back();
 
