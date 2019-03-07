@@ -74,7 +74,7 @@ void xx_interact_cubes_gpu(Shell& app, Widget& parent, Dockbar& dockbar)
 		for(uint32_t i = 0; i < 5000; i++)
 		{
 			vec3 p = vec3(randf() * 10.f - 5.f, randf() * 6.f - 3.f, randf() * 8.f - 4.f) * 1000.f;
-			vec3 a = vec3(randf(), randf(), randf()) * 2.f * c_pi;
+			vec3 a = vec3(randf(), randf(), randf()) * c_2pi;
 			vec3 s = vec3(randf(), randf(), randf()) * 200.f + 100.f;
 
 			MeshPacker geometry;

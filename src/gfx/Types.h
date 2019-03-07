@@ -98,9 +98,11 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialLine>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<float>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::Colour>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::vec4>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialPbr>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialPoint>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialSolid>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialUser>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Mesh>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Mime>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Model>();

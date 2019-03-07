@@ -125,8 +125,7 @@ namespace mud
 		void upload(const Pass& render_pass, const Zone& zone) const
 		{
 			GpuState<Radiance>::me.upload(render_pass, zone.m_radiance);
-			if(zone.m_fog.m_enabled)
-				GpuState<Fog>::me.upload(render_pass, zone.m_fog);
+			GpuState<Fog>::me.upload(render_pass, zone.m_fog);
 		}
 
 		static GpuState me;

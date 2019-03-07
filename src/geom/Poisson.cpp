@@ -40,7 +40,7 @@ namespace mud
 
 		float rr = m_overlap ? randf(point.radius, distance)
 							 : randf(distance, distance * 2.f);
-		float rt = randf(0.f, float(2.f * c_pi));
+		float rt = randf(0.f, float(c_2pi));
 
 		float x = rr * sin(rt) + point.position.x;
 		float y = rr * cos(rt) + point.position.y;

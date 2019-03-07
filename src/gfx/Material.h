@@ -7,6 +7,7 @@
 #ifndef MUD_MODULES
 #include <stl/string.h>
 #include <stl/table.h>
+#include <stl/function.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
 #include <geom/Primitive.h>
@@ -124,6 +125,15 @@ namespace mud
 
 	export_ extern template struct refl_ MaterialParam<Colour>;
 	export_ extern template struct refl_ MaterialParam<float>;
+	export_ extern template struct refl_ MaterialParam<vec4>;
+
+	export_ struct refl_ MUD_GFX_EXPORT MaterialUser
+	{
+		attr_ MaterialParam<vec4> m_attr0 = { vec4(0.f), nullptr };
+		attr_ MaterialParam<vec4> m_attr1 = { vec4(0.f), nullptr };
+		attr_ MaterialParam<vec4> m_attr2 = { vec4(0.f), nullptr };
+		attr_ MaterialParam<vec4> m_attr3 = { vec4(0.f), nullptr };
+	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialAlpha
 	{
@@ -283,6 +293,10 @@ namespace mud
 		attr_ MaterialLine m_line;
 		attr_ MaterialPbr m_pbr;
 		attr_ MaterialFresnel m_fresnel;
+		attr_ MaterialUser m_user;
+
+		function<void(bgfx::Encoder&)> m_pass;
+		function<void(bgfx::Encoder&)> m_submit;
 
 		void state(uint64_t& bgfx_state) const;
 		ShaderVersion shader_version(const Program& program) const;

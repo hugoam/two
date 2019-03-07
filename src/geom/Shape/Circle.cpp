@@ -34,7 +34,7 @@ namespace mud
 	{
 		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
 
-		float increment = 2 * c_pi / subdiv;
+		float increment = c_2pi / subdiv;
 		float angle = 0.0f;
 
 		for(uint16_t i = 0; i < subdiv; i++)
@@ -194,8 +194,8 @@ namespace mud
 		uint16_t rings_subdiv = rings + 1;
 		uint16_t sides_subdiv = sides + 1;
 
-		float ring_step = c_pi * 2.0f / float(rings);
-		float side_step = c_pi * 2.0f / float(sides);
+		float ring_step = c_2pi / float(rings);
+		float side_step = c_2pi / float(sides);
 
 		for(uint16_t v = 0; v < sides_subdiv; v++)
 			for(uint16_t h = 0; h < rings_subdiv; h++)
@@ -214,7 +214,8 @@ namespace mud
 
 				writer.position(point)
 					  .normal(normal)
-					  .colour(shape.m_symbol.m_fill);
+					  .colour(shape.m_symbol.m_fill)
+					  .uv0(vec2(theta / c_2pi, phi / c_2pi));
 			}
 
 		for(uint16_t v = 0; v < sides; v++)

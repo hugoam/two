@@ -46,11 +46,17 @@ namespace mud
 		Albedo = 0,
 		Alpha = 1,
 		Metallic = 2,
+		User0 = 2,
 		Roughness = 3,
+		User1 = 3,
 		Emissive = 4,
+		User2 = 4,
 		Normal = 5,
+		User3 = 5,
 		AO = 6,
+		User4 = 6,
 		Depth = 7,
+		User5 = 7,
 
 		// Scene
 		Radiance = 10,

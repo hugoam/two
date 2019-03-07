@@ -1359,6 +1359,12 @@ extern "C" {
 	void DECL mud_Material__set_fresnel(mud::Material* self, mud::MaterialFresnel* value) {
 		self->m_fresnel = *value;
 	}
+	mud::MaterialUser* DECL mud_Material__get_user(mud::Material* self) {
+		return &self->m_user;
+	}
+	void DECL mud_Material__set_user(mud::Material* self, mud::MaterialUser* value) {
+		self->m_user = *value;
+	}
 	void DECL mud_Material__destroy(mud::Material* self) {
 		delete self;
 	}
@@ -1602,6 +1608,34 @@ extern "C" {
 	void DECL mud_MaterialParam_mud_Colour__destroy(mud::MaterialParam<mud::Colour>* self) {
 		delete self;
 	}
+	// MaterialParam<mud::vec4>
+	mud::Type* DECL mud_MaterialParam_mud_vec4__type() {
+		return &mud::type<mud::MaterialParam<mud::vec4>>();
+	}
+	mud::MaterialParam<mud::vec4>* DECL mud_MaterialParam_mud_vec4__construct_0() {
+		return new mud::MaterialParam<mud::vec4>();
+	}
+	mud::vec4* DECL mud_MaterialParam_mud_vec4__get_value(mud::MaterialParam<mud::vec4>* self) {
+		return &self->m_value;
+	}
+	void DECL mud_MaterialParam_mud_vec4__set_value(mud::MaterialParam<mud::vec4>* self, mud::vec4* value) {
+		self->m_value = *value;
+	}
+	mud::Texture* DECL mud_MaterialParam_mud_vec4__get_texture(mud::MaterialParam<mud::vec4>* self) {
+		return self->m_texture;
+	}
+	void DECL mud_MaterialParam_mud_vec4__set_texture(mud::MaterialParam<mud::vec4>* self, mud::Texture* value) {
+		self->m_texture = value;
+	}
+	mud::TextureChannel DECL mud_MaterialParam_mud_vec4__get_channel(mud::MaterialParam<mud::vec4>* self) {
+		return self->m_channel;
+	}
+	void DECL mud_MaterialParam_mud_vec4__set_channel(mud::MaterialParam<mud::vec4>* self, mud::TextureChannel value) {
+		self->m_channel = value;
+	}
+	void DECL mud_MaterialParam_mud_vec4__destroy(mud::MaterialParam<mud::vec4>* self) {
+		delete self;
+	}
 	// MaterialPbr
 	mud::Type* DECL mud_MaterialPbr__type() {
 		return &mud::type<mud::MaterialPbr>();
@@ -1783,6 +1817,40 @@ extern "C" {
 		self->m_colour = *value;
 	}
 	void DECL mud_MaterialSolid__destroy(mud::MaterialSolid* self) {
+		delete self;
+	}
+	// MaterialUser
+	mud::Type* DECL mud_MaterialUser__type() {
+		return &mud::type<mud::MaterialUser>();
+	}
+	mud::MaterialUser* DECL mud_MaterialUser__construct_0() {
+		return new mud::MaterialUser();
+	}
+	mud::MaterialParam<mud::vec4>* DECL mud_MaterialUser__get_attr0(mud::MaterialUser* self) {
+		return &self->m_attr0;
+	}
+	void DECL mud_MaterialUser__set_attr0(mud::MaterialUser* self, mud::MaterialParam<mud::vec4>* value) {
+		self->m_attr0 = *value;
+	}
+	mud::MaterialParam<mud::vec4>* DECL mud_MaterialUser__get_attr1(mud::MaterialUser* self) {
+		return &self->m_attr1;
+	}
+	void DECL mud_MaterialUser__set_attr1(mud::MaterialUser* self, mud::MaterialParam<mud::vec4>* value) {
+		self->m_attr1 = *value;
+	}
+	mud::MaterialParam<mud::vec4>* DECL mud_MaterialUser__get_attr2(mud::MaterialUser* self) {
+		return &self->m_attr2;
+	}
+	void DECL mud_MaterialUser__set_attr2(mud::MaterialUser* self, mud::MaterialParam<mud::vec4>* value) {
+		self->m_attr2 = *value;
+	}
+	mud::MaterialParam<mud::vec4>* DECL mud_MaterialUser__get_attr3(mud::MaterialUser* self) {
+		return &self->m_attr3;
+	}
+	void DECL mud_MaterialUser__set_attr3(mud::MaterialUser* self, mud::MaterialParam<mud::vec4>* value) {
+		self->m_attr3 = *value;
+	}
+	void DECL mud_MaterialUser__destroy(mud::MaterialUser* self) {
 		delete self;
 	}
 	// Mesh
@@ -2115,6 +2183,9 @@ extern "C" {
 	// Program
 	mud::Type* DECL mud_Program__type() {
 		return &mud::type<mud::Program>();
+	}
+	void DECL mud_Program_set_source_2(mud::Program* self, mud::ShaderType type, const char* source) {
+		self->set_source(type, source);
 	}
 	const char* DECL mud_Program__get_name(mud::Program* self) {
 		return self->m_name.c_str();
@@ -3022,6 +3093,9 @@ extern "C" {
 	mud::MaterialBlock DECL mud_MaterialBlock_Fresnel() {
 		return mud::MaterialBlock::Fresnel;
 	}
+	mud::MaterialBlock DECL mud_MaterialBlock_User() {
+		return mud::MaterialBlock::User;
+	}
 	mud::MaterialBlock DECL mud_MaterialBlock_Count() {
 		return mud::MaterialBlock::Count;
 	}
@@ -3229,20 +3303,38 @@ extern "C" {
 	mud::TextureSampler DECL mud_TextureSampler_Metallic() {
 		return mud::TextureSampler::Metallic;
 	}
+	mud::TextureSampler DECL mud_TextureSampler_User0() {
+		return mud::TextureSampler::User0;
+	}
 	mud::TextureSampler DECL mud_TextureSampler_Roughness() {
 		return mud::TextureSampler::Roughness;
+	}
+	mud::TextureSampler DECL mud_TextureSampler_User1() {
+		return mud::TextureSampler::User1;
 	}
 	mud::TextureSampler DECL mud_TextureSampler_Emissive() {
 		return mud::TextureSampler::Emissive;
 	}
+	mud::TextureSampler DECL mud_TextureSampler_User2() {
+		return mud::TextureSampler::User2;
+	}
 	mud::TextureSampler DECL mud_TextureSampler_Normal() {
 		return mud::TextureSampler::Normal;
+	}
+	mud::TextureSampler DECL mud_TextureSampler_User3() {
+		return mud::TextureSampler::User3;
 	}
 	mud::TextureSampler DECL mud_TextureSampler_AO() {
 		return mud::TextureSampler::AO;
 	}
+	mud::TextureSampler DECL mud_TextureSampler_User4() {
+		return mud::TextureSampler::User4;
+	}
 	mud::TextureSampler DECL mud_TextureSampler_Depth() {
 		return mud::TextureSampler::Depth;
+	}
+	mud::TextureSampler DECL mud_TextureSampler_User5() {
+		return mud::TextureSampler::User5;
 	}
 	mud::TextureSampler DECL mud_TextureSampler_Radiance() {
 		return mud::TextureSampler::Radiance;

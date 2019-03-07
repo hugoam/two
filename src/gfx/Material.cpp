@@ -238,6 +238,64 @@ namespace mud
 		bgfx::UniformHandle s_fresnel;
 	};
 
+	struct UserMaterialUniform
+	{
+		UserMaterialUniform() {}
+		UserMaterialUniform(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
+			, s_user0(bgfx::createUniform("s_user0", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_user1(bgfx::createUniform("s_user1", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_user2(bgfx::createUniform("s_user2", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_user3(bgfx::createUniform("s_user3", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_user4(bgfx::createUniform("s_user4", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_user5(bgfx::createUniform("s_user5", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+		{
+#if !MATERIALS_BUFFER
+			//GpuState<MaterialUser>::me.init();
+#endif
+		}
+
+		void prepare(const Pass& render_pass) const
+		{
+			uint32_t user0 = uint32_t(TextureSampler::User0);
+			uint32_t user1 = uint32_t(TextureSampler::User1);
+			uint32_t user2 = uint32_t(TextureSampler::User2);
+			uint32_t user3 = uint32_t(TextureSampler::User3);
+			uint32_t user4 = uint32_t(TextureSampler::User4);
+			uint32_t user5 = uint32_t(TextureSampler::User5);
+
+			bgfx::setViewUniform(render_pass.m_index, s_user0, &user0);
+			bgfx::setViewUniform(render_pass.m_index, s_user1, &user1);
+			bgfx::setViewUniform(render_pass.m_index, s_user2, &user2);
+			bgfx::setViewUniform(render_pass.m_index, s_user3, &user3);
+			bgfx::setViewUniform(render_pass.m_index, s_user4, &user4);
+			bgfx::setViewUniform(render_pass.m_index, s_user5, &user5);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialUser& block) const
+		{
+#if !MATERIALS_BUFFER
+			//GpuState<MaterialUser>::me.upload(encoder, block);
+#endif
+
+			if(is_valid(block.m_attr0.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User0), block.m_attr0.m_texture->m_texture);
+			if(is_valid(block.m_attr1.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User1), block.m_attr1.m_texture->m_texture);
+			if(is_valid(block.m_attr2.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User2), block.m_attr2.m_texture->m_texture);
+			if(is_valid(block.m_attr3.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User3), block.m_attr3.m_texture->m_texture);
+			//if(is_valid(block.m_attr4.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User4), block.m_attr4.m_texture->m_texture);
+			//if(is_valid(block.m_attr5.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User5), block.m_attr5.m_texture->m_texture);
+		}
+
+		Texture* m_white_tex;
+
+		bgfx::UniformHandle s_user0;
+		bgfx::UniformHandle s_user1;
+		bgfx::UniformHandle s_user2;
+		bgfx::UniformHandle s_user3;
+		bgfx::UniformHandle s_user4;
+		bgfx::UniformHandle s_user5;
+	};
+
 	struct PbrMaterialUniform
 	{
 		PbrMaterialUniform() {}
@@ -343,6 +401,7 @@ namespace mud
 	static PointMaterialUniform s_point_material_block = {};
 	static FresnelMaterialUniform s_fresnel_material_block = {};
 	static PbrMaterialUniform s_pbr_material_block = {};
+	static UserMaterialUniform s_user_material_block = {};
 
 	Material::Material(const string& name)
 		: m_index(uint16_t(index(type<Material>(), Ref(this))))//++s_material_index)
@@ -358,6 +417,7 @@ namespace mud
 			s_point_material_block = { *ms_gfx_system };
 			s_fresnel_material_block = { *ms_gfx_system };
 			s_pbr_material_block = { *ms_gfx_system };
+			s_user_material_block = { *ms_gfx_system };
 
 			init_blocks = false;
 		}
@@ -464,9 +524,14 @@ namespace mud
 			s_pbr_material_block.upload(encoder, m_pbr);
 		if(program.m_blocks[MaterialBlock::Fresnel])
 			s_fresnel_material_block.upload(encoder, m_fresnel);
+		if(program.m_blocks[MaterialBlock::User])
+			s_user_material_block.upload(encoder, m_user);
 
 		if(skin)
 			encoder.setTexture(uint8_t(TextureSampler::Skeleton), skin->m_texture);
+
+		if(m_submit)
+			m_submit(encoder);
 	}
 
 	BlockMaterial::BlockMaterial(GfxSystem& gfx)
@@ -479,6 +544,7 @@ namespace mud
 	void BlockMaterial::init_block()
 	{
 		u_state = bgfx::createUniform("u_state", bgfx::UniformType::Vec4);
+
 		s_materials = bgfx::createUniform("s_materials", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 	}
 
@@ -507,6 +573,7 @@ namespace mud
 		s_line_material_block.prepare(render_pass);
 		s_fresnel_material_block.prepare(render_pass);
 		s_pbr_material_block.prepare(render_pass);
+		s_user_material_block.prepare(render_pass);
 	}
 
 	BlockPbr::BlockPbr(GfxSystem& gfx)

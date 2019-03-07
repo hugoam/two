@@ -61,11 +61,10 @@ void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Scene& scene = viewer.m_scene;
 
-	static string vertex = vertex_shader();
-	static string fragment = fragment_shader();
-
-	static Program program = { "program", {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
+	static Program program = { "program" };
 	program.m_blocks[MaterialBlock::Solid] = true;
+	program.m_sources[ShaderType::Vertex] = vertex_shader();
+	program.m_sources[ShaderType::Fragment] = fragment_shader();
 
 	static Material& material = app.m_gfx.materials().create("material", [](Material& m) {
 		m.m_program = &program;

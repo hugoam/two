@@ -71,9 +71,9 @@ namespace mud
 
 		for(uint16_t r = 0; r < rings; r++) for(uint16_t s = 0; s < sectors; s++)
 		{
-			float const x = cos(2 * c_pi * s * S) * sin(c_pi * r * R);
+			float const x = cos(c_2pi * s * S) * sin(c_pi * r * R);
 			float const y = sin(-c_pi / 2.f + c_pi * r * R);
-			float const z = sin(2 * c_pi * s * S) * sin(c_pi * r * R);
+			float const z = sin(c_2pi * s * S) * sin(c_pi * r * R);
 
 			writer.position(center + vec3(x, y, z) * radius)
 				  .normal({ x, y, z })

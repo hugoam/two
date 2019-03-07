@@ -154,8 +154,8 @@ namespace mud
 
 		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
 		{
-			m_yaw = fmod(m_yaw - 0.02f * mouse_event.m_delta.x, 2.f * c_pi);
-			m_pitch = fmod(m_pitch - 0.02f * mouse_event.m_delta.y, 2.f * c_pi);
+			m_yaw = fmod(m_yaw - 0.02f * mouse_event.m_delta.x, c_2pi);
+			m_pitch = fmod(m_pitch - 0.02f * mouse_event.m_delta.y, c_2pi);
 		}
 
 		this->update_eye();

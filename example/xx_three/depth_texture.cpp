@@ -90,7 +90,7 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		for(size_t i = 0; i < count; i++)
 		{
-			const float r = randf() * 2.f * c_pi;
+			const float r = randf() * c_2pi;
 			const float z = (randf() * 2.f) - 1.f;
 			const float distscale = sqrt(1.f - z * z) * scale;
 

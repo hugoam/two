@@ -68,11 +68,10 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Scene& scene = viewer.m_scene;
 
-	static string vertex = vertex_shader();
-	static string fragment = fragment_shader();
-
-	static Program program = { "circles", {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
+	static Program program = { "circles" };
 	program.m_blocks[MaterialBlock::Solid] = true;
+	program.m_sources[ShaderType::Vertex] = vertex_shader();
+	program.m_sources[ShaderType::Fragment] = fragment_shader();
 
 	static Texture& texture = *app.m_gfx.textures().file("sprites/circle.png");
 

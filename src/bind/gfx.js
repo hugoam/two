@@ -1712,6 +1712,14 @@ Object.defineProperty(Material.prototype, "fresnel", {
         _mud_Material__set_fresnel(this.__ptr, value.__ptr);
     }
 });
+Object.defineProperty(Material.prototype, "user", {
+    get: function() {
+        return wrapPointer(_mud_Material__get_user(this.__ptr), MaterialUser);
+    },
+    set: function(value) {
+        _mud_Material__set_user(this.__ptr, value.__ptr);
+    }
+});
 Material.prototype["__destroy"] = Material.prototype.__destroy = function() {
     _mud_Material__destroy(this.__ptr);
 };
@@ -2027,6 +2035,42 @@ Object.defineProperty(MaterialParam_mud_Colour.prototype, "channel", {
 MaterialParam_mud_Colour.prototype["__destroy"] = MaterialParam_mud_Colour.prototype.__destroy = function() {
     _mud_MaterialParam_mud_Colour__destroy(this.__ptr);
 };
+// MaterialParam<mud::vec4>
+function MaterialParam_mud_vec4() {
+    this.__ptr = _mud_MaterialParam_mud_vec4__construct_0(); this.__type = MaterialParam_mud_vec4.__type; getCache(MaterialParam_mud_vec4)[this.__ptr] = this;
+};
+MaterialParam_mud_vec4.prototype = Object.create(WrapperObject.prototype);
+MaterialParam_mud_vec4.prototype.constructor = MaterialParam_mud_vec4;
+MaterialParam_mud_vec4.prototype.__class = MaterialParam_mud_vec4;
+MaterialParam_mud_vec4.__cache = {};
+Module['MaterialParam_mud_vec4'] = MaterialParam_mud_vec4;
+Object.defineProperty(MaterialParam_mud_vec4.prototype, "value", {
+    get: function() {
+        return wrapPointer(_mud_MaterialParam_mud_vec4__get_value(this.__ptr), v4_float);
+    },
+    set: function(value) {
+        _mud_MaterialParam_mud_vec4__set_value(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialParam_mud_vec4.prototype, "texture", {
+    get: function() {
+        return wrapPointer(_mud_MaterialParam_mud_vec4__get_texture(this.__ptr), Texture);
+    },
+    set: function(value) {
+        _mud_MaterialParam_mud_vec4__set_texture(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialParam_mud_vec4.prototype, "channel", {
+    get: function() {
+        return _mud_MaterialParam_mud_vec4__get_channel(this.__ptr);
+    },
+    set: function(value) {
+        _mud_MaterialParam_mud_vec4__set_channel(this.__ptr, value);
+    }
+});
+MaterialParam_mud_vec4.prototype["__destroy"] = MaterialParam_mud_vec4.prototype.__destroy = function() {
+    _mud_MaterialParam_mud_vec4__destroy(this.__ptr);
+};
 // MaterialPbr
 function MaterialPbr(a0, a1, a2) {
     if (a0 === undefined) { this.__ptr = _mud_MaterialPbr__construct_0(); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; return; }
@@ -2257,6 +2301,50 @@ Object.defineProperty(MaterialSolid.prototype, "colour", {
 });
 MaterialSolid.prototype["__destroy"] = MaterialSolid.prototype.__destroy = function() {
     _mud_MaterialSolid__destroy(this.__ptr);
+};
+// MaterialUser
+function MaterialUser() {
+    this.__ptr = _mud_MaterialUser__construct_0(); this.__type = MaterialUser.__type; getCache(MaterialUser)[this.__ptr] = this;
+};
+MaterialUser.prototype = Object.create(WrapperObject.prototype);
+MaterialUser.prototype.constructor = MaterialUser;
+MaterialUser.prototype.__class = MaterialUser;
+MaterialUser.__cache = {};
+Module['MaterialUser'] = MaterialUser;
+Object.defineProperty(MaterialUser.prototype, "attr0", {
+    get: function() {
+        return wrapPointer(_mud_MaterialUser__get_attr0(this.__ptr), MaterialParam_mud_vec4);
+    },
+    set: function(value) {
+        _mud_MaterialUser__set_attr0(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialUser.prototype, "attr1", {
+    get: function() {
+        return wrapPointer(_mud_MaterialUser__get_attr1(this.__ptr), MaterialParam_mud_vec4);
+    },
+    set: function(value) {
+        _mud_MaterialUser__set_attr1(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialUser.prototype, "attr2", {
+    get: function() {
+        return wrapPointer(_mud_MaterialUser__get_attr2(this.__ptr), MaterialParam_mud_vec4);
+    },
+    set: function(value) {
+        _mud_MaterialUser__set_attr2(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialUser.prototype, "attr3", {
+    get: function() {
+        return wrapPointer(_mud_MaterialUser__get_attr3(this.__ptr), MaterialParam_mud_vec4);
+    },
+    set: function(value) {
+        _mud_MaterialUser__set_attr3(this.__ptr, value.__ptr);
+    }
+});
+MaterialUser.prototype["__destroy"] = MaterialUser.prototype.__destroy = function() {
+    _mud_MaterialUser__destroy(this.__ptr);
 };
 // Mesh
 function Mesh() { throw "cannot construct a Mesh, no constructor in IDL" }
@@ -2646,6 +2734,10 @@ Program.prototype.constructor = Program;
 Program.prototype.__class = Program;
 Program.__cache = {};
 Module['Program'] = Program;
+Program.prototype["set_source"] = Program.prototype.set_source = function(a0, a1) {
+    ensureCache.prepare();
+    _mud_Program_set_source_2(this.__ptr, /*type*/a0, ensureString(/*source*/a1));
+};
 Object.defineProperty(Program.prototype, "name", {
     get: function() {
         return Pointer_stringify(_mud_Program__get_name(this.__ptr));
@@ -3484,6 +3576,7 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         MaterialPbr.__type = _mud_MaterialPbr__type();
         MaterialPoint.__type = _mud_MaterialPoint__type();
         MaterialSolid.__type = _mud_MaterialSolid__type();
+        MaterialUser.__type = _mud_MaterialUser__type();
         Mesh.__type = _mud_Mesh__type();
         Mime.__type = _mud_Mime__type();
         Model.__type = _mud_Model__type();
@@ -3603,6 +3696,7 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Module['MaterialBlock']['Line'] = _mud_MaterialBlock_Line();
         Module['MaterialBlock']['Pbr'] = _mud_MaterialBlock_Pbr();
         Module['MaterialBlock']['Fresnel'] = _mud_MaterialBlock_Fresnel();
+        Module['MaterialBlock']['User'] = _mud_MaterialBlock_User();
         Module['MaterialBlock']['Count'] = _mud_MaterialBlock_Count();
         // MaterialFlag
         Module['MaterialFlag'] = Module['MaterialFlag'] || {};
@@ -3691,11 +3785,17 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         Module['TextureSampler']['Albedo'] = _mud_TextureSampler_Albedo();
         Module['TextureSampler']['Alpha'] = _mud_TextureSampler_Alpha();
         Module['TextureSampler']['Metallic'] = _mud_TextureSampler_Metallic();
+        Module['TextureSampler']['User0'] = _mud_TextureSampler_User0();
         Module['TextureSampler']['Roughness'] = _mud_TextureSampler_Roughness();
+        Module['TextureSampler']['User1'] = _mud_TextureSampler_User1();
         Module['TextureSampler']['Emissive'] = _mud_TextureSampler_Emissive();
+        Module['TextureSampler']['User2'] = _mud_TextureSampler_User2();
         Module['TextureSampler']['Normal'] = _mud_TextureSampler_Normal();
+        Module['TextureSampler']['User3'] = _mud_TextureSampler_User3();
         Module['TextureSampler']['AO'] = _mud_TextureSampler_AO();
+        Module['TextureSampler']['User4'] = _mud_TextureSampler_User4();
         Module['TextureSampler']['Depth'] = _mud_TextureSampler_Depth();
+        Module['TextureSampler']['User5'] = _mud_TextureSampler_User5();
         Module['TextureSampler']['Radiance'] = _mud_TextureSampler_Radiance();
         Module['TextureSampler']['ShadowAtlas'] = _mud_TextureSampler_ShadowAtlas();
         Module['TextureSampler']['ShadowCSM'] = _mud_TextureSampler_ShadowCSM();

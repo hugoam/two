@@ -239,8 +239,8 @@ namespace mud
 
 		for(int i = 0; i < 6; i++)
 		{
-			float a0 = (float)i / 6.0f * c_pi * 2.0f - aeps;
-			float a1 = (float)(i + 1.0f) / 6.0f * c_pi * 2.0f + aeps;
+			float a0 = (float)i / 6.0f * c_2pi - aeps;
+			float a1 = (float)(i + 1.0f) / 6.0f * c_2pi + aeps;
 			vg::beginPath(m_vg);
 			vg::moveTo(m_vg, center.x + r0 * cosf(a0), center.y + r0 * sinf(a0));
 			vg::lineTo(m_vg, center.x + r0 * cosf(a1), center.y + r0 * sinf(a1));
@@ -252,8 +252,8 @@ namespace mud
 			vg::closePath(m_vg);
 			vec2 a = vec2(cosf(a0), sinf(a0)) * (r0 + r1) * 0.5f + center;
 			vec2 b = vec2(cosf(a1), sinf(a1)) * (r0 + r1) * 0.5f + center;
-			Colour colour_a = to_rgba(Colour{ a0 / (c_pi * 2.f), 1.0f, 0.55f });
-			Colour colour_b = to_rgba(Colour{ a1 / (c_pi * 2.f), 1.0f, 0.55f });
+			Colour colour_a = to_rgba(Colour{ a0 / (c_2pi), 1.0f, 0.55f });
+			Colour colour_b = to_rgba(Colour{ a1 / (c_2pi), 1.0f, 0.55f });
 			vg::GradientHandle paint = vg::createLinearGradient(m_vg, a.x, a.y, b.x, b.y, vgColour(colour_a), vgColour(colour_b));
 			vg::fillPath(m_vg, paint, vg::FillFlags::ConvexAA);
 		}
@@ -263,7 +263,7 @@ namespace mud
 	{
 		UNUSED(s); UNUSED(l);
 		vg::transformTranslate(m_vg, center.x, center.y);
-		vg::transformRotate(m_vg, hue * c_pi * 2);
+		vg::transformRotate(m_vg, hue * c_2pi);
 
 		float r = r0 - 6;
 		vec2 a = vec2(cosf(120.0f / 180.0f * c_pi), sinf(120.0f / 180.0f * c_pi)) * r;

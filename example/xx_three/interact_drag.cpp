@@ -53,7 +53,7 @@ void xx_interact_drag(Shell& app, Widget& parent, Dockbar& dockbar)
 			vec3 a = vec3(randf(), randf(), randf()) * c_2pi;
 			vec3 s = vec3(randf(), randf(), randf()) * 2.f + 1.f;
 
-			Material& material = gfx::pbr_material(app.m_gfx, "material" + to_string(i), rgb(randf() * 0xffffff));
+			Material& material = gfx::pbr_material(app.m_gfx, "material" + to_string(i), rgb(randi<uint32_t>()));
 			Node3& n = gfx::nodes(scene).add(Node3(p, quat(a), s));
 			gfx::items(scene).add(Item(n, geometry, 0U, &material));
 

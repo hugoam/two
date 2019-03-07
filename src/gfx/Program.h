@@ -56,6 +56,7 @@ namespace mud
 		Line,
 		Pbr,
 		Fresnel,
+		User,
 		Count
 	};
 
@@ -75,6 +76,8 @@ namespace mud
 		~Program();
 
 		attr_ string m_name;
+
+		meth_ void set_source(ShaderType type, const string& source);
 
 		string defines(const ShaderVersion& version) const;
 

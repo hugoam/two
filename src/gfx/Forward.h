@@ -94,6 +94,7 @@ namespace mud
 	struct MaterialLine;
     struct MaterialFresnel;
     struct MaterialPbr;
+	struct MaterialUser;
     struct BlockPbr;
     class Material;
 	class BlockMaterial;
