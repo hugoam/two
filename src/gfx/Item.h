@@ -58,6 +58,7 @@ namespace mud
 		meth_ void update_aabb(span<mat4> instances);
 		meth_ void transforms(span<mat4> instances);
 		meth_ span<float> begin(uint32_t count, uint16_t stride);
+		meth_ void commit(uint32_t count, uint16_t stride, span<float> data);
 
 		void submit(bgfx::Encoder& encoder, const ModelItem& item) const;
 	};

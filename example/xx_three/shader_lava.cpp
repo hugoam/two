@@ -158,7 +158,7 @@ void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar)
 	angles.y += 0.0125 * delta;
 	angles.x += 0.05 * delta;
 
-	//node->m_transform = bxSRT(vec3(1.f), quat(angles), vec3(0.f));
+	node->apply(vec3(0.f), quat(angles));
 
 	//renderer.clear();
 	//composer.render(0.01);

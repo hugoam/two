@@ -57,7 +57,7 @@ void xx_refraction_balls(Shell& app, Widget& parent, Dockbar& dockbar)
 	for(size_t i = 0; i < spheres.size(); i++)
 	{
 		vec3 p = vec3(cos(timer + float(i)), sin(timer + float(i) * 1.1f), 0.f) * 5000.f;
-		spheres[i]->m_transform = bxTRS(vec3(1.f), ZeroQuat, p);
+		spheres[i]->apply(p);
 	}
 
 	Camera& camera = viewer.m_camera;

@@ -81,10 +81,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 			Colour c = rgb(colours[i]);
 			Material& m = gfx::solid_material(app.m_gfx, ("light" + to_string(i)).c_str(), c); //Material({ color: colours[i] }));
 			Node3& n = gfx::nodes(scene).add(Node3());
-			Light& l = gfx::lights(scene).add(Light(n, LightType::Point, false));
-			l.m_colour = c;
-			l.m_energy = intensity;
-			l.m_range = distance;
+			Light& l = gfx::lights(scene).add(Light(n, LightType::Point, false, c, intensity, distance));
 			l.m_attenuation = 2.f;
 			//l.decay = decay;
 			Item& it = gfx::items(scene).add(Item(n, sphere_model, ItemFlag::Default, &m));

@@ -103,6 +103,6 @@ void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	for(Node3* node : { node0, node1 })
 	{
-		node->m_transform = bxTRS(vec3(1.f), quat(angles), vec3(0.f));
+		node->apply(vec3(0.f), quat(angles));
 	}
 }

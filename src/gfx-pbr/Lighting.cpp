@@ -27,7 +27,6 @@ module mud.gfx.pbr;
 #endif
 
 #include <cstring>
-#include <cstdio>
 
 namespace mud
 {
@@ -189,9 +188,6 @@ namespace mud
 			float attenuation = light.m_attenuation;
 			float spot_attenuation = light.m_spot_attenuation;
 			float spot_cutoff = cos(to_radians(light.m_spot_angle));
-
-			printf("light %i type %i pos %f, %f, %f range %f, energy %f, %f, %f, specular %f, direction %f, %f, %f, attenuation %f\n"
-				, int(light.m_index), int(light.m_type), position.x, position.y, position.z, range, energy.x, energy.y, energy.z, specular, direction.x, direction.y, direction.z, attenuation);
 
 			m_gpu_lights.push_back({ position, range, energy, specular, direction, attenuation, spot_attenuation, spot_cutoff });
 

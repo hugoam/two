@@ -138,7 +138,7 @@ void xx_tonemapping(Shell& app, Widget& parent, Dockbar& dockbar)
 	static vec3 rotation = vec3(0.f);
 	rotation.y += 0.005f;
 
-	mesh->m_transform = bxTRS(vec3(1.f), quat(rotation), vec3(0.f));
+	mesh->apply(vec3(0.f), quat(rotation));
 
 	//if(params.renderMode == "Composer") {
 	//	composer.render();

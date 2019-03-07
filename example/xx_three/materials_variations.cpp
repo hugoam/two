@@ -131,5 +131,5 @@ void xx_materials_variations(Shell& app, Widget& parent, Dockbar& dockbar)
 	//camera.lookAt(scene.position);
 
 	vec3 p = vec3(sin(time * 7.f) * 300.f, cos(time * 5.f) * 400.f, cos(time * 3.f) * 300.f);
-	light->m_transform = bxTRS(vec3(1.f), ZeroQuat, p);
+	light->apply(p);
 }

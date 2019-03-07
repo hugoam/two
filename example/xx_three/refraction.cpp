@@ -90,5 +90,5 @@ void xx_refraction(Shell& app, Widget& parent, Dockbar& dockbar)
 	//camera.lookAt(scene.position);
 
 	vec3 position = vec3(cos(timer), sin(timer), 0.f) * 1500.f;
-	light->m_transform = bxTRS(vec3(1.f), ZeroQuat, position);
+	light->apply(position);
 }

@@ -1,45 +1,37 @@
 
 var viewer = two.ui.scene_viewer(app.ui.begin());
-//two.ui.orbit_controller(viewer);
-TrackballController controls = two.ui.trackball_controller(viewer);
-controls.dynamicDampingFactor = 0.15;
-
-//controls.keys = [65, 83, 68];
+var controls = two.ui.trackball_controller(viewer);
+//controls.dynamicDampingFactor = 0.15;
+//controls.keys = [ 65, 83, 68 ];
 
 var scene = viewer.scene;
 
-static vector<Node3*> lights;
+//scene.background = new THREE.Color( 0x040306 );
+//scene.fog = new THREE.Fog( 0x040306, 10, 300 );
 
-static bool once = false;
-if(!once)
-{
-    once = true;
+if(typeof this.state == 'undefined') {
 
-    // MATERIALS
-
-#if 0
-    Texture* texture = app.gfx.textures.file('disturb.jpg');
+    this.state = 1;
+    
+    //viewer.camera.eye = new two.vec3(0, 15, 150);
+    
+    var texture = app.gfx.textures.file('disturb.jpg');
     //texture.repeat.set(20, 10);
-    //texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    //texture.0ormat = THREE.RGBFormat;
 
-    var ground_material = app.gfx.materials.fetch('ground'); //new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture });
-    var material = two.gfx.pbr_material(app.gfx, 'object', two.rgba(0xffffff), 0.5, 1.0); //new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 1.0 });
+    var groundmat = app.gfx.materials.fetch('ground'); //new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture });
+    var material = two.gfx.pbr_material(app.gfx, 'object', two.rgb(0xffffff), 0.5, 1.0);
 
     // GROUND
-
-    var model = app.gfx.shape(new two.Rect()); //new THREE.Mesh(new THREE.PlaneBufferGeometry(800, 400, 2, 2), groundMaterial);
-    var node = scene.nodes() += new two.Node3(new two.vec3(0, -5, 0), new two.quat(-Math.PI / 2.0, 0, 0, 1)));
-    scene.items() += new two.Item(node, model, 0, ground_material));
-#endif
+    
+    //var model = app.gfx.shape(new two.Rect(new two.vec2(800.0, 400.0));
+    //var node = scene.nodes().add(new two.Node3(new two.vec3(0, -5, 0), new two.quat(-Math.PI / 2.0, 0, 0, 1)));
+    //scene.items().add(new two.Item(node, model, 0, groundmat));
 
     // OBJECTS
-    var material = two.gfx.pbr_material(app.gfx, 'object', new two.Colour(1.0));//, 0.5, 1.0); //new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 1.0 });
+    
+    var torus = app.gfx.shape(new two.Torus(1.0, 0.1)); //new THREE.TorusBufferGeometry(1.5, 0.4, 8, 16);
 
-    //var torus = Torus();
-    var torus_model = app.gfx.shape(new two.Torus(1.0, 0.1)); //new THREE.TorusBufferGeometry(1.5, 0.4, 8, 16);
-
-    for(int i = 0; i < 5000; i++) {
+    for (var i = 0; i < 5000; i ++) {
 
         var x = 400.0 * (0.5 - Math.random());
         var y = 50.0 * (0.5 - Math.random()) + 25;
@@ -48,12 +40,8 @@ if(!once)
         var a = 3.14 * (0.5 - Math.random());
         var b = 3.14 * (0.5 - Math.random());
 
-        uint32_t flags = ItemFlag::Default;// | ItemFlag::NoCull;
         var n = scene.nodes().add(new two.Node3(new two.vec3(x, y, z), new two.quat(a, b, 0, 1)));
-        var it = scene.items().add(new two.Item(n, torus_model, flags, material));
-
-        //Gnode n = two.gfx.node(root, {}, new two.vec3(x, y, z));
-        //two.gfx.item(n, torus_model, 0, material);
+        var it = scene.items().add(new two.Item(n, torus, 0, material));
     }
 
     // LIGHTS
@@ -62,26 +50,23 @@ if(!once)
     var distance = 100;
     var decay = 2.0;
 
-    uint32_t colours[] = { 0xff0040f, 0x0040fff, 0x80f80f, 0xffaa00f, 0x00faaff, 0xff1100f };
+    var colours = [0xff0040, 0x0040ff, 0x80ff80, 0xffaa00, 0x00ffaa, 0xff1100];
 
-    Sphere sphere = new two.Sphere(2.5); //THREE.SphereBufferGeometry(0.25, 16, 8);
-    var sphere_model = app.gfx.shape(sphere, DrawMode::PLAIN);
+    var sphere = app.gfx.shape(new two.Sphere(2.5));
 
-    for(int i = 0; i < 6; ++i)
+    this.lights = [];
+
+    for(var i = 0; i < 6; ++i)
     {
-        Colour c = two.rgba(colours[i]);
-        var m = two.gfx.solid_material(app.gfx, ('light' + to_string(i)).c_str(), c); //Material({ color: colours[i] }));
+        var c = two.rgba(colours[i]);
+        var m = two.gfx.solid_material(app.gfx, 'light' + i.toString(), c);
         var n = scene.nodes().add(new two.Node3());
-        Light l = scene.lights().add(Light(n, LightType::Point, false));
-        l.colour = c;
-        l.energy = intensity;
-        l.range = distance;
+        var l = scene.lights().add(new two.Light(n, two.LightType.Point, false, c, intensity, distance));
         l.attenuation = 2.0;
         //l.decay = decay;
-        var it = scene.items().add(new two.Item(n, sphere_model, ItemFlag::Default, m));
-        UNUSED(it);
-
-        lights.push(n);
+        var it = scene.items().add(new two.Item(n, sphere, 0, m));
+        
+        this.lights.push(n);
     }
 
     //var direct_node = scene.nodes() += new two.Node3());
@@ -89,20 +74,17 @@ if(!once)
     //dlight.position.set(0.5, 1, 0).normalize();
 }
 
-Gnode root = viewer.scene.begin();
-two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', BackgroundMode::Radiance);
+var root = viewer.scene.begin();
+two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
 
-var coef0[] = { 0.7, 0.3, 0.7, 0.3, 0.3, 0.7 };
-var coef1[] = { 0.3, 0.7, 0.5, 0.5, 0.5, 0.5 };
+var coef0 = [0.7, 0.3, 0.7, 0.3, 0.3, 0.7];
+var coef1 = [0.3, 0.7, 0.5, 0.5, 0.5, 0.5];
 
 //var time = Date.now() * 0.00025;
 var d = 150;
 
-static var time = 0.0;
-time += 0.01;
-
-for(int i = 0; i < 6; ++i)
+for(var i = 0; i < 6; ++i)
 {
-    var pos = { Math.sin(time * coef0[i]) * d, Math.cos(time * coef1[i]) * d };
-    lights[i]->transform = bxSRT(new two.vec3(1.0), ZeroQuat, new two.vec3(pos.x, 0.0, pos.y));
+    var pos = new two.vec3(Math.sin(time * coef0[i]) * d, 0.0, Math.cos(time * coef1[i]) * d);
+    this.lights[i].apply(pos);
 }

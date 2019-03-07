@@ -68,7 +68,7 @@ void xx_performance(Shell& app, Widget& parent, Dockbar& dockbar)
 		o.angles.x += 0.01;
 		o.angles.y += 0.02;
 
-		o.node->m_transform = bxTRS(o.scale, quat(o.angles), o.position);
+		o.node->apply(o.position, quat(o.angles), o.scale);
 	}
 
 	Gnode& root = scene.begin();

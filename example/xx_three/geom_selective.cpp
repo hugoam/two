@@ -178,5 +178,5 @@ void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar)
 	const float time = app.m_gfx.m_time; // * 0.001;
 
 	vec3 angles = vec3(time * 0.25f, time * 0.5f, 0.f);
-	node->m_transform = bxTRS(vec3(1.f), quat(angles), vec3(0.f));
+	node->apply(vec3(0.f), quat(angles));
 }

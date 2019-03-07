@@ -70,5 +70,5 @@ void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	//camera.lookAt(scene.position);
 
-	group->m_transform = bxTRS(vec3(1.f), quat(vec3(rx, ry, rz)), vec3(0.f));
+	group->apply(vec3(0.f), quat(vec3(rx, ry, rz)));
 }

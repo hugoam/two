@@ -112,7 +112,7 @@ void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 	const float time = app.m_gfx.m_time;
 
 	vec3 angles = vec3(time * 0.15f, time * 0.25f, 0.f);
-	node->m_transform = bxTRS(vec3(1.f), quat(angles), vec3(0.f));
+	node->apply(vec3(0.f), quat(angles));
 
 	//raycaster.setFromCamera(mouse, camera);
 	//

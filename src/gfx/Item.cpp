@@ -94,6 +94,12 @@ namespace mud
 		return { (float*)m_buffer.data, num * stride / sizeof(float) };
 	}
 
+	void Batch::commit(uint32_t count, uint16_t stride, span<float> data)
+	{
+		span<float> dest = this->begin(count, stride);
+		memcpy(dest.data(), data.data(), dest.size() * sizeof(float));
+	}
+
 	void Batch::transforms(span<mat4> instances)
 	{
 		const Model& model = *m_item->m_model;

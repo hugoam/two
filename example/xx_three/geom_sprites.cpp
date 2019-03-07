@@ -123,7 +123,7 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	vec3 scale = vec3(500.f);
 	vec3 angles = vec3(time * 0.2f, time * 0.4f, 0.f);
-	node->m_transform = bxTRS(scale, quat(angles), vec3(0.f));
+	node->apply(vec3(0.f), quat(angles), scale);
 
 #if SORT
 	for(Instance& instance : instances)

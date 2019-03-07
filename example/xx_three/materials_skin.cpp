@@ -177,7 +177,7 @@ void xx_materials_skin(Shell& app, Widget& parent, Dockbar& dockbar)
 	rotation.x += 0.05f * (target.x - rotation.y);
 	rotation.y += 0.05f * (target.y - rotation.y);
 
-	mesh->m_transform = bxTRS(vec3(100.f), quat(rotation), vec3(0.f, -50.f, 0.f));
+	mesh->apply(vec3(0.f, -50.f, 0.f), quat(rotation), vec3(100.f));
 
 
 	//renderer.clear();

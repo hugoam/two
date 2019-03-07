@@ -307,6 +307,6 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 		float x = (sin(l.pc + (0.8f + 0.2f * l.sc) * time * l.dir)) * r * radius;
 		float z = (cos(l.pc + (0.8f + 0.2f * l.sc) * time * l.dir)) * r * radius;
 		float y = sin(l.py + (0.8f + 0.2f * l.sy) * time) * r * 32.f;
-		l.node->m_transform = l.parent->m_transform * bxTRS(vec3(1.f), ZeroQuat, vec3(x, y, z));
+		l.node->derive(*l.parent, vec3(x, y, z));
 	}
 }

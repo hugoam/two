@@ -6,6 +6,8 @@
 
 using namespace mud;
 
+#define GEOMETRY 1
+
 string create_shader()
 {
 	string shader =
@@ -53,10 +55,28 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& scene = viewer.m_scene.begin();
-
-	static Program program = { "custom_program" };
+	static Program program = { "custom" };
 	program.m_sources[ShaderType::Fragment] = create_shader();
+
+	static Material& material = app.m_gfx.materials().create("custom", [&](Material& m) {
+		m.m_program = &program;
+	});
+
+#if GEOMETRY
+	static bool once = false;
+	if(!once)
+	{
+		once = true;
+
+		static Model& model = app.m_gfx.shape(Quad(1.f));
+
+		Scene& scene = viewer.m_scene;
+
+		Node3& node = gfx::nodes(scene).add(Node3());
+		Item& it = gfx::items(scene).add(Item(node, model, 0U, &material));
+	}
+#else
+	Gnode& scene = viewer.m_scene.begin();
 
 	auto draw_quad = [](Render& render, const Pass& render_pass)
 	{
@@ -65,34 +85,5 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	};
 
 	gfx::manual_job(scene, PassType::Solid, draw_quad);
-
-
-	//static bool once = false;
-	//if(!once)
-	//{
-	//	once = true;
-	//
-	//	camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-	//
-	//	scene = new THREE.Scene();
-	//
-	//	var geometry = new THREE.PlaneBufferGeometry(2, 2);
-	//
-	//	uniforms = {
-	//		"time": { value: 1.0 }
-	//	};
-	//
-	//	var material = new THREE.ShaderMaterial({
-	//
-	//		uniforms: uniforms,
-	//		vertexShader : document.getElementById('vertexShader').textContent,
-	//		fragmentShader : document.getElementById('fragmentShader').textContent
-	//
-	//		});
-	//
-	//	var mesh = new THREE.Mesh(geometry, material);
-	//	scene.add(mesh);
-	//}
-	//
-	//uniforms["time"].value = timestamp / 1000;
+#endif
 }

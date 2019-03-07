@@ -133,7 +133,7 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar)
 	const float time = app.m_gfx.m_time;;
 
 	const vec3 angles = vec3(0.f, time * 0.1f, 0.f);
-	node->m_transform = bxTRS(vec3(1.f), quat(angles), vec3(0.f));
+	node->apply(vec3(0.f), quat(angles));
 
 	span<float> memory = batch->begin(instances.size(), sizeof(Instance));
 	memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));

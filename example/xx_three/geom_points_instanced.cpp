@@ -70,8 +70,8 @@ void xx_geom_points_instanced(Shell& app, Widget& parent, Dockbar& dockbar)
 	const float time = app.m_gfx.m_time / 2.f;
 
 	vec3 angles = vec3(time * 0.25f, time * 0.5f, 0.f);
-	node->m_transform = bxTRS(vec3(1.f), quat(angles), vec3(0.f));
+	node->apply(vec3(0.f), quat(angles));
 
-	span<float> memory = batch->begin(instances.size(), sizeof(Instance));
-	memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));
+	batch->commit(instances.size(), sizeof(Instance), { (float*)instances.data(), 0U });
+	//batch->commit(instances.size(), sizeof(Instance), { instances.data(), instances.size() / (sizeof(Instance) / sizeof(float)) });
 }

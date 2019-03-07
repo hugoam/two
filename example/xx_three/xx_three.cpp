@@ -17,7 +17,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//xx_performance_doublesided(app, parent, dockbar);
 	//xx_performance_static(app, parent, dockbar);
 	//xx_billboards(app, parent, dockbar);
-	xx_lines_fat(app, parent, dockbar);
+	//xx_lines_fat(app, parent, dockbar);
 	//xx_lines_dashed(app, parent, dockbar);
 	//xx_geom(app, parent, dockbar);
 	//xx_geom_sprites(app, parent, dockbar);
@@ -25,7 +25,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//xx_geom_lines(app, parent, dockbar);
 	//xx_geom_points(app, parent, dockbar);
 	//xx_geom_points_packed(app, parent, dockbar);
-	//xx_geom_points_instanced(app, parent, dockbar);
+	xx_geom_points_instanced(app, parent, dockbar);
 	//xx_geom_rawshader(app, parent, dockbar);
 	//xx_geom_selective(app, parent, dockbar);
 	//xx_interact_cubes(app, parent, dockbar);
