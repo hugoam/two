@@ -78,8 +78,8 @@ if(typeof this.state == 'undefined') {
     scene.env.fog.colour = fog_color;
 
     this.program = new two.Program('lava');
-    //program.m_blocks[MaterialBlock::Solid] = true;
-    //program.m_blocks[MaterialBlock::User] = true;
+    program.set_block(two.MaterialBlock.Solid);
+    program.set_block(two.MaterialBlock.User);
     program.set_source(two.ShaderType.Vertex, vertex_shader);
     program.set_source(two.ShaderType.Fragment, fragment_shader);
         

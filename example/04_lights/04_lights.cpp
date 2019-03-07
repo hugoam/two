@@ -119,12 +119,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 
 #if CLUSTERED
 	Camera& camera = viewer.m_camera;
-	if(clustered && viewer.m_viewport.m_rect != uvec4(0U) && !camera.m_clusters)
-	{
-		camera.m_clustered = true;
-		camera.m_clusters = make_unique<Froxelizer>(app.m_gfx);
-		camera.m_clusters->prepare(viewer.m_viewport, camera.m_projection, camera.m_near, camera.m_far);
-	}
+	camera.set_clustered(app.m_gfx, viewer.m_viewport);
 #endif
 
 #if DEBUG_CLUSTERED

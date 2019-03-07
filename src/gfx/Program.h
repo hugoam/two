@@ -77,6 +77,7 @@ namespace mud
 
 		attr_ string m_name;
 
+		meth_ void set_block(MaterialBlock block, bool enabled = true);
 		meth_ void set_source(ShaderType type, const string& source);
 
 		string defines(const ShaderVersion& version) const;

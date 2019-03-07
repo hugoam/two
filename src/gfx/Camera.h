@@ -57,8 +57,10 @@ namespace mud
 
 		void update();
 
-		void set_look_at(const vec3& eye, const vec3& target);
-		void set_isometric(IsometricAngle angle, const vec3& position);
+		meth_ void set_clustered(GfxSystem& gfx, Viewport& viewport);
+
+		meth_ void set_look_at(const vec3& eye, const vec3& target);
+		meth_ void set_isometric(IsometricAngle angle, const vec3& position);
 
 		Plane near_plane() const;
 		Plane far_plane() const;

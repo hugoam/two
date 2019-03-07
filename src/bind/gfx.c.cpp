@@ -399,6 +399,15 @@ extern "C" {
 	mud::Type* DECL mud_Camera__type() {
 		return &mud::type<mud::Camera>();
 	}
+	void DECL mud_Camera_set_clustered_2(mud::Camera* self, mud::GfxSystem* gfx, mud::Viewport* viewport) {
+		self->set_clustered(*gfx, *viewport);
+	}
+	void DECL mud_Camera_set_look_at_2(mud::Camera* self, const mud::vec3* eye, const mud::vec3* target) {
+		self->set_look_at(*eye, *target);
+	}
+	void DECL mud_Camera_set_isometric_2(mud::Camera* self, mud::IsometricAngle angle, const mud::vec3* position) {
+		self->set_isometric(angle, *position);
+	}
 	mud::vec3* DECL mud_Camera__get_eye(mud::Camera* self) {
 		return &self->m_eye;
 	}
@@ -2098,6 +2107,12 @@ extern "C" {
 	// Program
 	mud::Type* DECL mud_Program__type() {
 		return &mud::type<mud::Program>();
+	}
+	void DECL mud_Program_set_block_1(mud::Program* self, mud::MaterialBlock block) {
+		self->set_block(block);
+	}
+	void DECL mud_Program_set_block_2(mud::Program* self, mud::MaterialBlock block, bool enabled) {
+		self->set_block(block, enabled);
 	}
 	void DECL mud_Program_set_source_2(mud::Program* self, mud::ShaderType type, const char* source) {
 		self->set_source(type, source);

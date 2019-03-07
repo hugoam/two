@@ -289,6 +289,16 @@ namespace mud
 			m_impl->m_mode_names.push_back(modes[i]);
 	}
 
+	void Program::set_block(MaterialBlock type, bool enabled)
+	{
+		m_blocks[type] = enabled;
+	}
+
+	void Program::set_source(ShaderType type, const string& source)
+	{
+		m_sources[type] = source;
+	}
+
 	string Program::defines(const ShaderVersion& version) const
 	{
 		return program_defines(*m_impl, version);

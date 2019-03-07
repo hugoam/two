@@ -9,6 +9,7 @@ module mud.gfx;
 #else
 #include <geom/Geom.hpp>
 #include <gfx/Camera.h>
+#include <gfx/Viewport.h>
 #include <gfx/Froxel.h>
 #endif
 
@@ -81,6 +82,17 @@ namespace mud
 			m_projection = bxproj(m_fov, m_aspect, m_near, m_far, bgfx::getCaps()->homogeneousDepth);
 		else
 			m_projection = bxortho(ortho_rect(m_height, m_aspect), m_near, m_far, 0.0f, bgfx::getCaps()->homogeneousDepth);
+	}
+
+	// @todo move this to viewport ? or are froxels shared between viewports ?
+	void Camera::set_clustered(GfxSystem& gfx, Viewport& viewport)
+	{
+		if(viewport.m_rect != uvec4(0U) && !m_clusters)
+		{
+			m_clustered = true;
+			m_clusters = make_unique<Froxelizer>(gfx);
+			m_clusters->prepare(viewport, m_projection, m_near, m_far);
+		}
 	}
 
 	void Camera::set_look_at(const vec3& eye, const vec3& target)

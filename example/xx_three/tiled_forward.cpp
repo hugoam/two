@@ -189,12 +189,7 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 
 #if CLUSTERED
 	Camera& camera = viewer.m_camera;
-	if(viewer.m_viewport.m_rect != uvec4(0U) && !camera.m_clusters)
-	{
-		camera.m_clustered = true;
-		camera.m_clusters = make_unique<Froxelizer>(app.m_gfx);
-		camera.m_clusters->prepare(viewer.m_viewport, camera.m_projection, camera.m_near, camera.m_far);
-	}
+	camera.set_clustered(app.m_gfx, viewer.m_viewport);
 #endif
 
 	float radius = 75.f;
@@ -303,14 +298,6 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 			}
 		}
 	}
-
-	static Material& testmat = app.m_gfx.materials().create("test", [&](Material& m) {
-		m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x888888); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f;
-	});
-
-	//gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
-
-	gfx::shape(root, Sphere(), Symbol(), 0U, &testmat);
 
 	float time = app.m_gfx.m_time;
 

@@ -501,6 +501,15 @@ Camera.prototype.constructor = Camera;
 Camera.prototype.__class = Camera;
 Camera.__cache = {};
 Module['Camera'] = Camera;
+Camera.prototype["set_clustered"] = Camera.prototype.set_clustered = function(a0, a1) {
+    _mud_Camera_set_clustered_2(this.__ptr, /*gfx*/a0.__ptr, /*viewport*/a1.__ptr);
+};
+Camera.prototype["set_look_at"] = Camera.prototype.set_look_at = function(a0, a1) {
+    _mud_Camera_set_look_at_2(this.__ptr, /*eye*/a0.__ptr, /*target*/a1.__ptr);
+};
+Camera.prototype["set_isometric"] = Camera.prototype.set_isometric = function(a0, a1) {
+    _mud_Camera_set_isometric_2(this.__ptr, /*angle*/a0, /*position*/a1.__ptr);
+};
 Object.defineProperty(Camera.prototype, "eye", {
     get: function() {
         return wrapPointer(_mud_Camera__get_eye(this.__ptr), v3_float);
@@ -2653,6 +2662,10 @@ Program.prototype.constructor = Program;
 Program.prototype.__class = Program;
 Program.__cache = {};
 Module['Program'] = Program;
+Program.prototype["set_block"] = Program.prototype.set_block = function(a0, a1) {
+    if (a1 === undefined) { _mud_Program_set_block_1(this.__ptr, /*block*/a0); return; }
+    _mud_Program_set_block_2(this.__ptr, /*block*/a0, /*enabled*/a1);
+};
 Program.prototype["set_source"] = Program.prototype.set_source = function(a0, a1) {
     ensureCache.prepare();
     _mud_Program_set_source_2(this.__ptr, /*type*/a0, ensureString(/*source*/a1));
