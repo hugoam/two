@@ -157,7 +157,7 @@ namespace mud
 
 	float float_shortest_angle(float angle1, float angle2)
 	{
-		return min((c_2pi) - abs(angle1 - angle2), abs(angle1 - angle2));
+		return min(c_2pi - abs(angle1 - angle2), abs(angle1 - angle2));
 	}
 
 	float trigo_angle(const vec3& vec1, const vec3& vec2)

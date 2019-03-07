@@ -1141,87 +1141,6 @@ Module['GfxContext'] = GfxContext;
 GfxContext.prototype["__destroy"] = GfxContext.prototype.__destroy = function() {
     _mud_GfxContext__destroy(this.__ptr);
 };
-// GfxSystem
-function GfxSystem(a0) {
-    ensureCache.prepare();
-    this.__ptr = _mud_GfxSystem__construct_1(ensureString(/*resource_path*/a0)); this.__type = GfxSystem.__type; getCache(GfxSystem)[this.__ptr] = this;
-};
-GfxSystem.prototype = Object.create(WrapperObject.prototype);
-GfxSystem.prototype.constructor = GfxSystem;
-GfxSystem.prototype.__class = GfxSystem;
-GfxSystem.__cache = {};
-Module['GfxSystem'] = GfxSystem;
-GfxSystem.prototype["default_pipeline"] = GfxSystem.prototype.default_pipeline = function() {
-    _mud_GfxSystem_default_pipeline_0(this.__ptr);
-};
-GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(a0, a1) {
-    ensureCache.prepare();
-    if (a1 === undefined) { _mud_GfxSystem_add_resource_path_1(this.__ptr, ensureString(/*path*/a0)); return; }
-    _mud_GfxSystem_add_resource_path_2(this.__ptr, ensureString(/*path*/a0), /*relative*/a1);
-};
-GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = function() {
-    return wrapPointer(_mud_GfxSystem_debug_material_0(this.__ptr), Material);
-};
-GfxSystem.prototype["create_model"] = GfxSystem.prototype.create_model = function(a0) {
-    ensureCache.prepare();
-    return wrapPointer(_mud_GfxSystem_create_model_1(this.__ptr, ensureString(/*name*/a0)), Model);
-};
-GfxSystem.prototype["create_model_geo"] = GfxSystem.prototype.create_model_geo = function(a0, a1, a2, a3) {
-    ensureCache.prepare();
-    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_geo_2(this.__ptr, ensureString(/*name*/a0), /*geometry*/a1.__ptr), Model); }
-    if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_geo_3(this.__ptr, ensureString(/*name*/a0), /*geometry*/a1.__ptr, /*readback*/a2), Model); }
-    return wrapPointer(_mud_GfxSystem_create_model_geo_4(this.__ptr, ensureString(/*name*/a0), /*geometry*/a1.__ptr, /*readback*/a2, /*optimize*/a3), Model);
-};
-GfxSystem.prototype["create_model_gpu"] = GfxSystem.prototype.create_model_gpu = function(a0, a1, a2, a3) {
-    ensureCache.prepare();
-    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_gpu_2(this.__ptr, ensureString(/*name*/a0), /*gpu_mesh*/a1.__ptr), Model); }
-    if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_gpu_3(this.__ptr, ensureString(/*name*/a0), /*gpu_mesh*/a1.__ptr, /*readback*/a2), Model); }
-    return wrapPointer(_mud_GfxSystem_create_model_gpu_4(this.__ptr, ensureString(/*name*/a0), /*gpu_mesh*/a1.__ptr, /*readback*/a2, /*optimize*/a3), Model);
-};
-GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(a0, a1, a2) {
-    ensureCache.prepare();
-    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_fetch_material_2(this.__ptr, ensureString(/*name*/a0), ensureString(/*shader*/a1)), Material); }
-    return wrapPointer(_mud_GfxSystem_fetch_material_3(this.__ptr, ensureString(/*name*/a0), ensureString(/*shader*/a1), /*builtin*/a2), Material);
-};
-GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image256_material = function(a0) {
-    return wrapPointer(_mud_GfxSystem_fetch_image256_material_1(this.__ptr, /*image*/a0.__ptr), Material);
-};
-GfxSystem.prototype["shape"] = GfxSystem.prototype.shape = function(a0, a1, a2) {
-    if (a1 === undefined) { return wrapPointer(_mud_GfxSystem_shape_1(this.__ptr, /*shape*/a0.__ptr), Model); }
-    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_shape_2(this.__ptr, /*shape*/a0.__ptr, /*symbol*/a1.__ptr), Model); }
-    return wrapPointer(_mud_GfxSystem_shape_3(this.__ptr, /*shape*/a0.__ptr, /*symbol*/a1.__ptr, /*draw_mode*/a2), Model);
-};
-GfxSystem.prototype["symbol_material"] = GfxSystem.prototype.symbol_material = function(a0, a1) {
-    if (a1 === undefined) { return wrapPointer(_mud_GfxSystem_symbol_material_1(this.__ptr, /*symbol*/a0.__ptr), Material); }
-    return wrapPointer(_mud_GfxSystem_symbol_material_2(this.__ptr, /*symbol*/a0.__ptr, /*draw_mode*/a1), Material);
-};
-Object.defineProperty(GfxSystem.prototype, "textures", {
-    get: function() {
-        return wrapPointer(_mud_GfxSystem__get_textures(this.__ptr), AssetStore_mud_Texture);
-    }});
-Object.defineProperty(GfxSystem.prototype, "programs", {
-    get: function() {
-        return wrapPointer(_mud_GfxSystem__get_programs(this.__ptr), AssetStore_mud_Program);
-    }});
-Object.defineProperty(GfxSystem.prototype, "materials", {
-    get: function() {
-        return wrapPointer(_mud_GfxSystem__get_materials(this.__ptr), AssetStore_mud_Material);
-    }});
-Object.defineProperty(GfxSystem.prototype, "models", {
-    get: function() {
-        return wrapPointer(_mud_GfxSystem__get_models(this.__ptr), AssetStore_mud_Model);
-    }});
-Object.defineProperty(GfxSystem.prototype, "flows", {
-    get: function() {
-        return wrapPointer(_mud_GfxSystem__get_flows(this.__ptr), AssetStore_mud_Flow);
-    }});
-Object.defineProperty(GfxSystem.prototype, "prefabs", {
-    get: function() {
-        return wrapPointer(_mud_GfxSystem__get_prefabs(this.__ptr), AssetStore_mud_Prefab);
-    }});
-GfxSystem.prototype["__destroy"] = GfxSystem.prototype.__destroy = function() {
-    _mud_GfxSystem__destroy(this.__ptr);
-};
 // Gnode
 function Gnode() { throw "cannot construct a Gnode, no constructor in IDL" }
 Gnode.prototype = Object.create(WrapperObject.prototype);
@@ -3405,6 +3324,87 @@ Object.defineProperty(Flare.prototype, "node", {
 Flare.prototype["__destroy"] = Flare.prototype.__destroy = function() {
     _mud_Flare__destroy(this.__ptr);
 };
+// GfxSystem
+function GfxSystem(a0) {
+    ensureCache.prepare();
+    this.__ptr = _mud_GfxSystem__construct_1(ensureString(/*resource_path*/a0)); this.__type = GfxSystem.__type; getCache(GfxSystem)[this.__ptr] = this;
+};
+GfxSystem.prototype = Object.create(BgfxSystem.prototype);
+GfxSystem.prototype.constructor = GfxSystem;
+GfxSystem.prototype.__class = GfxSystem;
+GfxSystem.__cache = {};
+Module['GfxSystem'] = GfxSystem;
+GfxSystem.prototype["default_pipeline"] = GfxSystem.prototype.default_pipeline = function() {
+    _mud_GfxSystem_default_pipeline_0(this.__ptr);
+};
+GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(a0, a1) {
+    ensureCache.prepare();
+    if (a1 === undefined) { _mud_GfxSystem_add_resource_path_1(this.__ptr, ensureString(/*path*/a0)); return; }
+    _mud_GfxSystem_add_resource_path_2(this.__ptr, ensureString(/*path*/a0), /*relative*/a1);
+};
+GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = function() {
+    return wrapPointer(_mud_GfxSystem_debug_material_0(this.__ptr), Material);
+};
+GfxSystem.prototype["create_model"] = GfxSystem.prototype.create_model = function(a0) {
+    ensureCache.prepare();
+    return wrapPointer(_mud_GfxSystem_create_model_1(this.__ptr, ensureString(/*name*/a0)), Model);
+};
+GfxSystem.prototype["create_model_geo"] = GfxSystem.prototype.create_model_geo = function(a0, a1, a2, a3) {
+    ensureCache.prepare();
+    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_geo_2(this.__ptr, ensureString(/*name*/a0), /*geometry*/a1.__ptr), Model); }
+    if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_geo_3(this.__ptr, ensureString(/*name*/a0), /*geometry*/a1.__ptr, /*readback*/a2), Model); }
+    return wrapPointer(_mud_GfxSystem_create_model_geo_4(this.__ptr, ensureString(/*name*/a0), /*geometry*/a1.__ptr, /*readback*/a2, /*optimize*/a3), Model);
+};
+GfxSystem.prototype["create_model_gpu"] = GfxSystem.prototype.create_model_gpu = function(a0, a1, a2, a3) {
+    ensureCache.prepare();
+    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_gpu_2(this.__ptr, ensureString(/*name*/a0), /*gpu_mesh*/a1.__ptr), Model); }
+    if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_gpu_3(this.__ptr, ensureString(/*name*/a0), /*gpu_mesh*/a1.__ptr, /*readback*/a2), Model); }
+    return wrapPointer(_mud_GfxSystem_create_model_gpu_4(this.__ptr, ensureString(/*name*/a0), /*gpu_mesh*/a1.__ptr, /*readback*/a2, /*optimize*/a3), Model);
+};
+GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(a0, a1, a2) {
+    ensureCache.prepare();
+    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_fetch_material_2(this.__ptr, ensureString(/*name*/a0), ensureString(/*shader*/a1)), Material); }
+    return wrapPointer(_mud_GfxSystem_fetch_material_3(this.__ptr, ensureString(/*name*/a0), ensureString(/*shader*/a1), /*builtin*/a2), Material);
+};
+GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image256_material = function(a0) {
+    return wrapPointer(_mud_GfxSystem_fetch_image256_material_1(this.__ptr, /*image*/a0.__ptr), Material);
+};
+GfxSystem.prototype["shape"] = GfxSystem.prototype.shape = function(a0, a1, a2) {
+    if (a1 === undefined) { return wrapPointer(_mud_GfxSystem_shape_1(this.__ptr, /*shape*/a0.__ptr), Model); }
+    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_shape_2(this.__ptr, /*shape*/a0.__ptr, /*symbol*/a1.__ptr), Model); }
+    return wrapPointer(_mud_GfxSystem_shape_3(this.__ptr, /*shape*/a0.__ptr, /*symbol*/a1.__ptr, /*draw_mode*/a2), Model);
+};
+GfxSystem.prototype["symbol_material"] = GfxSystem.prototype.symbol_material = function(a0, a1) {
+    if (a1 === undefined) { return wrapPointer(_mud_GfxSystem_symbol_material_1(this.__ptr, /*symbol*/a0.__ptr), Material); }
+    return wrapPointer(_mud_GfxSystem_symbol_material_2(this.__ptr, /*symbol*/a0.__ptr, /*draw_mode*/a1), Material);
+};
+Object.defineProperty(GfxSystem.prototype, "textures", {
+    get: function() {
+        return wrapPointer(_mud_GfxSystem__get_textures(this.__ptr), AssetStore_mud_Texture);
+    }});
+Object.defineProperty(GfxSystem.prototype, "programs", {
+    get: function() {
+        return wrapPointer(_mud_GfxSystem__get_programs(this.__ptr), AssetStore_mud_Program);
+    }});
+Object.defineProperty(GfxSystem.prototype, "materials", {
+    get: function() {
+        return wrapPointer(_mud_GfxSystem__get_materials(this.__ptr), AssetStore_mud_Material);
+    }});
+Object.defineProperty(GfxSystem.prototype, "models", {
+    get: function() {
+        return wrapPointer(_mud_GfxSystem__get_models(this.__ptr), AssetStore_mud_Model);
+    }});
+Object.defineProperty(GfxSystem.prototype, "flows", {
+    get: function() {
+        return wrapPointer(_mud_GfxSystem__get_flows(this.__ptr), AssetStore_mud_Flow);
+    }});
+Object.defineProperty(GfxSystem.prototype, "prefabs", {
+    get: function() {
+        return wrapPointer(_mud_GfxSystem__get_prefabs(this.__ptr), AssetStore_mud_Prefab);
+    }});
+GfxSystem.prototype["__destroy"] = GfxSystem.prototype.__destroy = function() {
+    _mud_GfxSystem__destroy(this.__ptr);
+};
 // RenderTarget
 function RenderTarget() { throw "cannot construct a RenderTarget, no constructor in IDL" }
 RenderTarget.prototype = Object.create(FrameBuffer.prototype);
@@ -3560,7 +3560,6 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         FrustumSlice.__type = _mud_FrustumSlice__type();
         GfxBlock.__type = _mud_GfxBlock__type();
         GfxContext.__type = _mud_GfxContext__type();
-        GfxSystem.__type = _mud_GfxSystem__type();
         Gnode.__type = _mud_Gnode__type();
         GpuMesh.__type = _mud_GpuMesh__type();
         ImmediateDraw.__type = _mud_ImmediateDraw__type();
@@ -3607,6 +3606,7 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
         ClusteredFrustum.__type = _mud_ClusteredFrustum__type();
         DrawBlock.__type = _mud_DrawBlock__type();
         Flare.__type = _mud_Flare__type();
+        GfxSystem.__type = _mud_GfxSystem__type();
         RenderTarget.__type = _mud_RenderTarget__type();
         // AnimationTarget
         Module['AnimationTarget'] = Module['AnimationTarget'] || {};

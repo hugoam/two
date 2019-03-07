@@ -252,8 +252,8 @@ namespace mud
 			vg::closePath(m_vg);
 			vec2 a = vec2(cosf(a0), sinf(a0)) * (r0 + r1) * 0.5f + center;
 			vec2 b = vec2(cosf(a1), sinf(a1)) * (r0 + r1) * 0.5f + center;
-			Colour colour_a = to_rgba(Colour{ a0 / (c_2pi), 1.0f, 0.55f });
-			Colour colour_b = to_rgba(Colour{ a1 / (c_2pi), 1.0f, 0.55f });
+			Colour colour_a = hsl(a0 / c_2pi, 1.0f, 0.55f);
+			Colour colour_b = hsl(a1 / c_2pi, 1.0f, 0.55f);
 			vg::GradientHandle paint = vg::createLinearGradient(m_vg, a.x, a.y, b.x, b.y, vgColour(colour_a), vgColour(colour_b));
 			vg::fillPath(m_vg, paint, vg::FillFlags::ConvexAA);
 		}

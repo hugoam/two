@@ -53,7 +53,7 @@ namespace mud
 		float end();
 	};
 
-	export_ class MUD_BGFX_EXPORT BgfxSystem : public RenderSystem
+	export_ class refl_ MUD_BGFX_EXPORT BgfxSystem : public RenderSystem
 	{
 	public:
 		BgfxSystem(const string& resource_path);
@@ -72,12 +72,12 @@ namespace mud
 	public:
 		bool m_initialized = false;
 
-		uint32_t m_frame = 1;
+		attr_ uint32_t m_frame = 1;
 		double m_start_counter = 0.0;
 
-		float m_time = 0.f;
-		float m_frame_time = 0.f;
-		float m_delta_time = 0.f;
+		attr_ float m_time = 0.f;
+		attr_ float m_frame_time = 0.f;
+		attr_ float m_delta_time = 0.f;
 
 		bool m_capture = false;
 		size_t m_capture_every = 0;

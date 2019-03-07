@@ -69,7 +69,6 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::FrustumSlice>() { static Type ty("FrustumSlice", sizeof(mud::FrustumSlice)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>() { static Type ty("GfxBlock", sizeof(mud::GfxBlock)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::GfxContext>() { static Type ty("GfxContext", sizeof(mud::GfxContext)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>() { static Type ty("GfxSystem", sizeof(mud::GfxSystem)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Gnode>() { static Type ty("Gnode", sizeof(mud::Gnode)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::GpuMesh>() { static Type ty("GpuMesh", sizeof(mud::GpuMesh)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ImmediateDraw>() { static Type ty("ImmediateDraw", sizeof(mud::ImmediateDraw)); return ty; }
@@ -126,5 +125,6 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>() { static Type ty("ClusteredFrustum", type<mud::Frustum>(), sizeof(mud::ClusteredFrustum)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>() { static Type ty("DrawBlock", type<mud::GfxBlock>(), sizeof(mud::DrawBlock)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Flare>() { static Type ty("Flare", type<mud::Flow>(), sizeof(mud::Flare)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>() { static Type ty("GfxSystem", type<mud::BgfxSystem>(), sizeof(mud::GfxSystem)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>() { static Type ty("RenderTarget", type<mud::FrameBuffer>(), sizeof(mud::RenderTarget)); return ty; }
 }

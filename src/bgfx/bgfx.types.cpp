@@ -13,4 +13,5 @@ namespace mud
     // Exported types
     
     
+    template <> MUD_BGFX_EXPORT Type& type<mud::BgfxSystem>() { static Type ty("BgfxSystem", type<mud::RenderSystem>(), sizeof(mud::BgfxSystem)); return ty; }
 }

@@ -885,91 +885,6 @@ extern "C" {
 	void DECL mud_GfxContext__destroy(mud::GfxContext* self) {
 		delete self;
 	}
-	// GfxSystem
-	mud::Type* DECL mud_GfxSystem__type() {
-		return &mud::type<mud::GfxSystem>();
-	}
-	mud::GfxSystem* DECL mud_GfxSystem__construct_1(const char* resource_path) {
-		return new mud::GfxSystem(resource_path);
-	}
-	void DECL mud_GfxSystem_default_pipeline_0(mud::GfxSystem* self) {
-		self->default_pipeline();
-	}
-	void DECL mud_GfxSystem_add_resource_path_1(mud::GfxSystem* self, const char* path) {
-		self->add_resource_path(path);
-	}
-	void DECL mud_GfxSystem_add_resource_path_2(mud::GfxSystem* self, const char* path, bool relative) {
-		self->add_resource_path(path, relative);
-	}
-	mud::Material* DECL mud_GfxSystem_debug_material_0(mud::GfxSystem* self) {
-		return &self->debug_material();
-	}
-	mud::Model* DECL mud_GfxSystem_create_model_1(mud::GfxSystem* self, const char* name) {
-		return &self->create_model(name);
-	}
-	mud::Model* DECL mud_GfxSystem_create_model_geo_2(mud::GfxSystem* self, const char* name, const mud::MeshPacker* geometry) {
-		return &self->create_model_geo(name, *geometry);
-	}
-	mud::Model* DECL mud_GfxSystem_create_model_geo_3(mud::GfxSystem* self, const char* name, const mud::MeshPacker* geometry, bool readback) {
-		return &self->create_model_geo(name, *geometry, readback);
-	}
-	mud::Model* DECL mud_GfxSystem_create_model_geo_4(mud::GfxSystem* self, const char* name, const mud::MeshPacker* geometry, bool readback, bool optimize) {
-		return &self->create_model_geo(name, *geometry, readback, optimize);
-	}
-	mud::Model* DECL mud_GfxSystem_create_model_gpu_2(mud::GfxSystem* self, const char* name, const mud::GpuMesh* gpu_mesh) {
-		return &self->create_model_gpu(name, *gpu_mesh);
-	}
-	mud::Model* DECL mud_GfxSystem_create_model_gpu_3(mud::GfxSystem* self, const char* name, const mud::GpuMesh* gpu_mesh, bool readback) {
-		return &self->create_model_gpu(name, *gpu_mesh, readback);
-	}
-	mud::Model* DECL mud_GfxSystem_create_model_gpu_4(mud::GfxSystem* self, const char* name, const mud::GpuMesh* gpu_mesh, bool readback, bool optimize) {
-		return &self->create_model_gpu(name, *gpu_mesh, readback, optimize);
-	}
-	mud::Material* DECL mud_GfxSystem_fetch_material_2(mud::GfxSystem* self, const char* name, const char* shader) {
-		return &self->fetch_material(name, shader);
-	}
-	mud::Material* DECL mud_GfxSystem_fetch_material_3(mud::GfxSystem* self, const char* name, const char* shader, bool builtin) {
-		return &self->fetch_material(name, shader, builtin);
-	}
-	mud::Material* DECL mud_GfxSystem_fetch_image256_material_1(mud::GfxSystem* self, const mud::Image256* image) {
-		return &self->fetch_image256_material(*image);
-	}
-	mud::Model* DECL mud_GfxSystem_shape_1(mud::GfxSystem* self, const mud::Shape* shape) {
-		return &self->shape(*shape);
-	}
-	mud::Model* DECL mud_GfxSystem_shape_2(mud::GfxSystem* self, const mud::Shape* shape, const mud::Symbol* symbol) {
-		return &self->shape(*shape, *symbol);
-	}
-	mud::Model* DECL mud_GfxSystem_shape_3(mud::GfxSystem* self, const mud::Shape* shape, const mud::Symbol* symbol, mud::DrawMode draw_mode) {
-		return &self->shape(*shape, *symbol, draw_mode);
-	}
-	mud::Material* DECL mud_GfxSystem_symbol_material_1(mud::GfxSystem* self, const mud::Symbol* symbol) {
-		return &self->symbol_material(*symbol);
-	}
-	mud::Material* DECL mud_GfxSystem_symbol_material_2(mud::GfxSystem* self, const mud::Symbol* symbol, mud::DrawMode draw_mode) {
-		return &self->symbol_material(*symbol, draw_mode);
-	}
-	mud::AssetStore<mud::Texture>* DECL mud_GfxSystem__get_textures(mud::GfxSystem* self) {
-		return &self->textures();
-	}
-	mud::AssetStore<mud::Program>* DECL mud_GfxSystem__get_programs(mud::GfxSystem* self) {
-		return &self->programs();
-	}
-	mud::AssetStore<mud::Material>* DECL mud_GfxSystem__get_materials(mud::GfxSystem* self) {
-		return &self->materials();
-	}
-	mud::AssetStore<mud::Model>* DECL mud_GfxSystem__get_models(mud::GfxSystem* self) {
-		return &self->models();
-	}
-	mud::AssetStore<mud::Flow>* DECL mud_GfxSystem__get_flows(mud::GfxSystem* self) {
-		return &self->flows();
-	}
-	mud::AssetStore<mud::Prefab>* DECL mud_GfxSystem__get_prefabs(mud::GfxSystem* self) {
-		return &self->prefabs();
-	}
-	void DECL mud_GfxSystem__destroy(mud::GfxSystem* self) {
-		delete self;
-	}
 	// Gnode
 	mud::Type* DECL mud_Gnode__type() {
 		return &mud::type<mud::Gnode>();
@@ -2710,6 +2625,91 @@ extern "C" {
 		self->m_node = value;
 	}
 	void DECL mud_Flare__destroy(mud::Flare* self) {
+		delete self;
+	}
+	// GfxSystem
+	mud::Type* DECL mud_GfxSystem__type() {
+		return &mud::type<mud::GfxSystem>();
+	}
+	mud::GfxSystem* DECL mud_GfxSystem__construct_1(const char* resource_path) {
+		return new mud::GfxSystem(resource_path);
+	}
+	void DECL mud_GfxSystem_default_pipeline_0(mud::GfxSystem* self) {
+		self->default_pipeline();
+	}
+	void DECL mud_GfxSystem_add_resource_path_1(mud::GfxSystem* self, const char* path) {
+		self->add_resource_path(path);
+	}
+	void DECL mud_GfxSystem_add_resource_path_2(mud::GfxSystem* self, const char* path, bool relative) {
+		self->add_resource_path(path, relative);
+	}
+	mud::Material* DECL mud_GfxSystem_debug_material_0(mud::GfxSystem* self) {
+		return &self->debug_material();
+	}
+	mud::Model* DECL mud_GfxSystem_create_model_1(mud::GfxSystem* self, const char* name) {
+		return &self->create_model(name);
+	}
+	mud::Model* DECL mud_GfxSystem_create_model_geo_2(mud::GfxSystem* self, const char* name, const mud::MeshPacker* geometry) {
+		return &self->create_model_geo(name, *geometry);
+	}
+	mud::Model* DECL mud_GfxSystem_create_model_geo_3(mud::GfxSystem* self, const char* name, const mud::MeshPacker* geometry, bool readback) {
+		return &self->create_model_geo(name, *geometry, readback);
+	}
+	mud::Model* DECL mud_GfxSystem_create_model_geo_4(mud::GfxSystem* self, const char* name, const mud::MeshPacker* geometry, bool readback, bool optimize) {
+		return &self->create_model_geo(name, *geometry, readback, optimize);
+	}
+	mud::Model* DECL mud_GfxSystem_create_model_gpu_2(mud::GfxSystem* self, const char* name, const mud::GpuMesh* gpu_mesh) {
+		return &self->create_model_gpu(name, *gpu_mesh);
+	}
+	mud::Model* DECL mud_GfxSystem_create_model_gpu_3(mud::GfxSystem* self, const char* name, const mud::GpuMesh* gpu_mesh, bool readback) {
+		return &self->create_model_gpu(name, *gpu_mesh, readback);
+	}
+	mud::Model* DECL mud_GfxSystem_create_model_gpu_4(mud::GfxSystem* self, const char* name, const mud::GpuMesh* gpu_mesh, bool readback, bool optimize) {
+		return &self->create_model_gpu(name, *gpu_mesh, readback, optimize);
+	}
+	mud::Material* DECL mud_GfxSystem_fetch_material_2(mud::GfxSystem* self, const char* name, const char* shader) {
+		return &self->fetch_material(name, shader);
+	}
+	mud::Material* DECL mud_GfxSystem_fetch_material_3(mud::GfxSystem* self, const char* name, const char* shader, bool builtin) {
+		return &self->fetch_material(name, shader, builtin);
+	}
+	mud::Material* DECL mud_GfxSystem_fetch_image256_material_1(mud::GfxSystem* self, const mud::Image256* image) {
+		return &self->fetch_image256_material(*image);
+	}
+	mud::Model* DECL mud_GfxSystem_shape_1(mud::GfxSystem* self, const mud::Shape* shape) {
+		return &self->shape(*shape);
+	}
+	mud::Model* DECL mud_GfxSystem_shape_2(mud::GfxSystem* self, const mud::Shape* shape, const mud::Symbol* symbol) {
+		return &self->shape(*shape, *symbol);
+	}
+	mud::Model* DECL mud_GfxSystem_shape_3(mud::GfxSystem* self, const mud::Shape* shape, const mud::Symbol* symbol, mud::DrawMode draw_mode) {
+		return &self->shape(*shape, *symbol, draw_mode);
+	}
+	mud::Material* DECL mud_GfxSystem_symbol_material_1(mud::GfxSystem* self, const mud::Symbol* symbol) {
+		return &self->symbol_material(*symbol);
+	}
+	mud::Material* DECL mud_GfxSystem_symbol_material_2(mud::GfxSystem* self, const mud::Symbol* symbol, mud::DrawMode draw_mode) {
+		return &self->symbol_material(*symbol, draw_mode);
+	}
+	mud::AssetStore<mud::Texture>* DECL mud_GfxSystem__get_textures(mud::GfxSystem* self) {
+		return &self->textures();
+	}
+	mud::AssetStore<mud::Program>* DECL mud_GfxSystem__get_programs(mud::GfxSystem* self) {
+		return &self->programs();
+	}
+	mud::AssetStore<mud::Material>* DECL mud_GfxSystem__get_materials(mud::GfxSystem* self) {
+		return &self->materials();
+	}
+	mud::AssetStore<mud::Model>* DECL mud_GfxSystem__get_models(mud::GfxSystem* self) {
+		return &self->models();
+	}
+	mud::AssetStore<mud::Flow>* DECL mud_GfxSystem__get_flows(mud::GfxSystem* self) {
+		return &self->flows();
+	}
+	mud::AssetStore<mud::Prefab>* DECL mud_GfxSystem__get_prefabs(mud::GfxSystem* self) {
+		return &self->prefabs();
+	}
+	void DECL mud_GfxSystem__destroy(mud::GfxSystem* self) {
 		delete self;
 	}
 	// RenderTarget

@@ -123,7 +123,7 @@ namespace ui
 		vec2 coord = { event.m_relative.x, self.m_frame.m_size.y - event.m_relative.y };
 		vec2 center = self.m_frame.m_size * 0.5f;
 		float angle = oriented_angle_2d(normalize(coord - center), { 1.f, 0.f });
-		hsla.h = angle / (c_2pi);
+		hsla.h = angle / c_2pi;
 	}
 
 	bool color_wheel(Widget& parent, ColourHSL& hsla)

@@ -22,4 +22,5 @@ namespace mud
     // Exported types
     
     
+    export_ template <> MUD_BGFX_EXPORT Type& type<mud::BgfxSystem>();
 }
