@@ -37,6 +37,7 @@ namespace mud
 
 	template struct MaterialParam<Colour>;
 	template struct MaterialParam<float>;
+	template struct MaterialParam<vec4>;
 
 	GpuState<MaterialBase> GpuState<MaterialBase>::me;
 	GpuState<MaterialAlpha> GpuState<MaterialAlpha>::me;

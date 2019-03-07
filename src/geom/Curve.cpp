@@ -455,4 +455,21 @@ namespace mud
 
 		return catmull_rom_three(p0, p1, p2, p3, weight);
 	}
+
+	vec3 CurveSpline3::point(float t) const
+	{
+		const vector<vec3>& points = m_points;
+		const size_t last = points.size() - 1;
+		const float p = float(last) * t;
+
+		const size_t i = floor(p);
+		const float weight = p - float(i);
+
+		const vec3 p0 = points[i == 0 ? i : i - 1];
+		const vec3 p1 = points[i];
+		const vec3 p2 = points[i > points.size() - 2 ? last : i + 1];
+		const vec3 p3 = points[i > points.size() - 3 ? last : i + 2];
+
+		return catmull_rom_three(p0, p1, p2, p3, weight);
+	}
 }
