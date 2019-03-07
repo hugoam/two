@@ -81,10 +81,10 @@ if(typeof this.state == 'undefined') {
     //scene.background = new THREE.Color(0x050505);
 
     var l0 = scene.nodes().add(new two.Node3(new two.vec3(0.0), new two.quat(facing(new two.vec3(0.5, 0.5, 1.0)))));
-    scene.lights().add(new two.Light(l0, two.LightType.Direct, false, rgb(0xffffff)));
+    scene.lights().add(new two.Light(l0, two.LightType.Direct, false, two.rgb(0xffffff)));
     
     var l1 = scene.nodes().add(new two.Node3(new two.vec3(0.0, 0.0, 100.0)));
-    scene.lights().add(new two.Light(l1, two.LightType.Point, false, rgb(0xff3300)));
+    scene.lights().add(new two.Light(l1, two.LightType.Point, false, two.rgb(0xff3300)));
 
     //ambientvar = new THREE.AmbientLight(0x080808);
     //scene.add(ambientLight);

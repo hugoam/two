@@ -30,7 +30,7 @@ void xx_refraction_balls(Shell app, var parent, Dockbar dockbar)
 
 		var sphere = app.gfx.shape(new two.Sphere(100.0));
 
-		var material = two.gfx.pbr_material(app.gfx, 'material', rgb(0xffffff));
+		var material = two.gfx.pbr_material(app.gfx, 'material', two.rgb(0xffffff));
 		material.pbr.refraction = 0.95;
 		//material.envMap.mapping = THREE.CubeRefractionMapping;
 

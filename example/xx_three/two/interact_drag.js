@@ -41,7 +41,7 @@ if(!once)
         var a = new two.vec3(Math.random(), Math.random(), Math.random()) * 2 * Math.PI;
         var s = new two.vec3(Math.random(), Math.random(), Math.random()) * 2.0 + 1.0;
 
-        var material = two.gfx.pbr_material(app.gfx, 'material' + to_string(i), rgb(Math.random() * 0xffffff));
+        var material = two.gfx.pbr_material(app.gfx, 'material' + to_string(i), two.rgb(Math.random() * 0xffffff));
         var n = scene.nodes().add(new two.Node3(p, new two.quat(a), s));
         scene.items().add(new two.Item(n, geometry, 0, material));
 

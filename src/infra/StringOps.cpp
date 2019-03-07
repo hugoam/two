@@ -15,6 +15,7 @@ module mud.infra;
 #endif
 
 #include <cctype>
+#include <cassert>
 
 namespace mud
 {
@@ -28,6 +29,7 @@ namespace mud
 		size_t index = 0;
 		while(next != string::npos && index < output.size())
 		{
+			assert(index < output.size());
 			output[index++].assign(str.data() + start, next - start);
 			start = next + 1;
 			next = str.find(separator, start);

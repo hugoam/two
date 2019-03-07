@@ -81,7 +81,7 @@ void xx_lines_dashed(Shell app, var parent, Dockbar dockbar)
 			});
 		};
 
-		var mat0 = dash_material(rgb(0xffffff), 1.0, 0.5);
+		var mat0 = dash_material(two.rgb(0xffffff), 1.0, 0.5);
 		var n0 = scene.nodes().add(new two.Node3());
 		scene.items().add(new two.Item(n0, spline, 0, mat0));
 		//line.computeLineDistances();
@@ -89,7 +89,7 @@ void xx_lines_dashed(Shell app, var parent, Dockbar dockbar)
 
 		var cube = cube_model(app.gfx, 50.0);
 
-		var mat1 = dash_material(rgb(0xffaa00), 3.0, 1.0);
+		var mat1 = dash_material(two.rgb(0xffaa00), 3.0, 1.0);
 		var n1 = scene.nodes().add(new two.Node3());
 		scene.items().add(new two.Item(n1, cube, 0, mat1));
 		//lineSegments.computeLineDistances();

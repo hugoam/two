@@ -56,7 +56,7 @@ void xx_geom(Shell app, var parent, Dockbar dockbar)
 		m.base.geometry_filter = uint32_t(1 << uint(PrimitiveType::Points));
 #endif
 		m.alpha.is_alpha = true;
-		m.solid.colour = rgb(0xffffff);//two.hsl(1.0, 0.3, 0.7);
+		m.solid.colour = two.rgb(0xffffff);//two.hsl(1.0, 0.3, 0.7);
 		m.point.project = false;
 		m.point.point_size = 3.0;
 	});

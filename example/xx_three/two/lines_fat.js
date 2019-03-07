@@ -14,7 +14,7 @@ this.program = app.gfx.programs.fetch('line');
 
 this.material = app.gfx.materials.create('line'); var m = material;
     m.program = program;
-    m.solid.colour = rgb(0xffffff);
+    m.solid.colour = two.rgb(0xffffff);
     m.line.line_width = 5.0;
     m.line.dashed = true;
     m.base.shader_color = two.ShaderColor.Vertex;

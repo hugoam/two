@@ -62,7 +62,7 @@ namespace mud
 
 		while (low <= high)
 		{
-			i = floor(low + (high - low) / 2); // less likely to overflow, though probably not issue here, JS doesn't really have integers, all numbers are floats
+			i = low + (high - low) / 2;
 
 			float comparison = lengths[i] - distance;
 
@@ -122,7 +122,7 @@ namespace mud
 		float sum = 0.f;
 		for (size_t p = 1; p <= subdiv; p++)
 		{
-			vec3 current = this->point(p / subdiv);
+			vec3 current = this->point(float(p) / float(subdiv));
 			sum += distance(current, last);
 			lengths.push_back(sum);
 			last = current;
@@ -160,7 +160,7 @@ namespace mud
 
 	vec3 Curve3::tangent(float t) const
 	{
-		const float delta = 0.0001;
+		const float delta = 0.0001f;
 		const float t1 = max(t - delta, 0.f);
 		const float t2 = min(t + delta, 1.f);
 
@@ -183,7 +183,7 @@ namespace mud
 		// compute the tangent vectors for each segment on the curve
 		for (size_t i = 0; i <= segments; i ++)
 		{
-			size_t u = i / segments;
+			float u = float(i) / float(segments);
 
 			tangents[i] = sampler.tangent(u);
 			tangents[i] = normalize(tangents[i]);
@@ -319,13 +319,13 @@ namespace mud
 		const vector<vec3>& points = m_points;
 		const int l = int(points.size());
 
-		const float p = (l - (m_closed ? 0 : 1)) * t;
-		int i = floor(p);
-		float weight = p - i;
+		const float p = float(l - (m_closed ? 0 : 1)) * t;
+		int i = int(floor(p));
+		float weight = p - float(i);
 
 		if(m_closed)
 		{
-			i += i > 0 ? 0 : (floor(abs(i) / l) + 1) * l;
+			i += i > 0 ? 0 : (abs(i) / l + 1) * l;
 		}
 		else if(weight == 0 && i == l - 1)
 		{
@@ -445,7 +445,7 @@ namespace mud
 		const size_t last = points.size() - 1;
 		const float p = float(last) * t;
 
-		const size_t i = floor(p);
+		const size_t i = size_t(floor(p));
 		const float weight = p - float(i);
 
 		const vec2 p0 = points[i == 0 ? i : i - 1];
@@ -462,7 +462,7 @@ namespace mud
 		const size_t last = points.size() - 1;
 		const float p = float(last) * t;
 
-		const size_t i = floor(p);
+		const size_t i = size_t(floor(p));
 		const float weight = p - float(i);
 
 		const vec3 p0 = points[i == 0 ? i : i - 1];

@@ -28,7 +28,7 @@ this.material = app.gfx.materials.create('material');
 
 var m = this.material;
 m.program = pbr;
-m.pbr.albedo = rgb(0xffffff);
+m.pbr.albedo = two.rgb(0xffffff);
 m.pbr.albedo = diffuse;
 m.pbr.normal = -0.05;
 m.pbr.normal = bump;
@@ -43,7 +43,7 @@ m.base.anisotropy = 4.0; // texture filtering anisotropy
 this.matfloor = app.gfx.materials.create('floor');
 m = this.matfloor;
 m.program = pbr;
-m.pbr.albedo = rgb(0x888888);
+m.pbr.albedo = two.rgb(0x888888);
 m.pbr.metallic = 0.0;
 m.pbr.roughness = 1.0;
 m.base.cull_mode = two.CullMode.Front;
@@ -75,7 +75,7 @@ if(typeof this.state == 'undefined') {
     //scene.add(new THREE.HemisphereLight(0x111111, 0x000000));
 
     var ln = scene.nodes().add(new two.Node3(new two.vec3(50.0, 100.0, 50.0)));
-    var spot = scene.lights().add(new two.Light(ln, two.LightType.Spot, true, rgb(0xffffff), 1.0, 300.0));
+    var spot = scene.lights().add(new two.Light(ln, two.LightType.Spot, true, two.rgb(0xffffff), 1.0, 300.0));
     spot.spot_angle = Math.PI / 7.0;
     spot.attenuation = 2.0;
     spot.spot_attenuation = 0.8;

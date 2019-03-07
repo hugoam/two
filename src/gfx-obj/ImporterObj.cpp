@@ -322,7 +322,7 @@ namespace mud
 				line.pop_back();
 
 			string tokens[5];
-			split(line.c_str(), " ", tokens);
+			split(line, " ", tokens);
 
 			const string& command = tokens[0];
 

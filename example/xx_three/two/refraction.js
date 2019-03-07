@@ -38,8 +38,8 @@ void xx_refraction(Shell app, var parent, Dockbar dockbar)
 		var sphere = app.gfx.shape(new two.Sphere(100.0 * 0.05));
 
 		var ln = scene.nodes().add(new two.Node3());
-		scene.lights().add(new two.Light(ln, two.LightType.Point, false, rgb(0xffffff), 2.0));
-		scene.items().add(new two.Item(ln, sphere, 0, two.gfx.solid_material(app.gfx, 'light', rgb(0xffffff))));
+		scene.lights().add(new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 2.0));
+		scene.items().add(new two.Item(ln, sphere, 0, two.gfx.solid_material(app.gfx, 'light', two.rgb(0xffffff))));
 		light = ln;
 
 		// material samples
@@ -54,9 +54,9 @@ void xx_refraction(Shell app, var parent, Dockbar dockbar)
 			});
 		};
 
-		var m3 = phong_material('material0', rgb(0xccddff), 0.98, 0.9);
-		var m2 = phong_material('material1', rgb(0xccfffd), 0.985);
-		var m1 = phong_material('material2', rgb(0xffffff), 0.98);
+		var m3 = phong_material('material0', two.rgb(0xccddff), 0.98, 0.9);
+		var m2 = phong_material('material1', two.rgb(0xccfffd), 0.985);
+		var m1 = phong_material('material2', two.rgb(0xffffff), 0.98);
 
 		//var loader = new THREE.PLYLoader();
 		var model = app.gfx.models.file('Lucy100k.ply');

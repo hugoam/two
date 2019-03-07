@@ -20,7 +20,7 @@ void xx_interact_geom(Shell app, var parent, Dockbar dockbar)
 	this.pbr = app.gfx.programs.file('pbr/pbr');
 
 	this.material = app.gfx.materials.create('first',  [](var m) {
-		m.program = pbr; m.pbr.albedo = rgb(0xaaaaaa); m.pbr.metallic = 1.0; m.pbr.roughness = 0.66;
+		m.program = pbr; m.pbr.albedo = two.rgb(0xaaaaaa); m.pbr.metallic = 1.0; m.pbr.roughness = 0.66;
 		m.base.cull_mode = two.CullMode.None; m.base.shader_color = ShaderColor::Vertex;
 	});
 
