@@ -10,7 +10,7 @@ using namespace mud;
 
 //	import './js/nodes/THREE.Nodes.js';
 
-void xx_performance_nodes(Shell app, Widget parent, Dockbar dockbar)
+void xx_performance_nodes(Shell app, var parent, Dockbar dockbar)
 {
 	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);

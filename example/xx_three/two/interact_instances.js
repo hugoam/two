@@ -8,9 +8,9 @@
 
 using namespace mud;
 
-static string vertex_merged()
+var vertex_merged()
 {
-	string shader =
+	var shader =
 
 		'#define SHADER_NAME vertMerged\n'
 		'\n'
@@ -47,9 +47,9 @@ static string vertex_merged()
 	return shader;
 }
 
-static string fragment_merged()
+var fragment_merged()
 {
-	string shader =
+	var shader =
 
 		'#define SHADER_NAME fragMerged\n'
 		'\n'
@@ -81,9 +81,9 @@ static string fragment_merged()
 	return shader;
 }
 
-static string vertex_instanced()
+var vertex_instanced()
 {
-	string shader =
+	var shader =
 
 		'#define SHADER_NAME vertInstanced\n'
 		'\n'
@@ -132,9 +132,9 @@ static string vertex_instanced()
 	return shader;
 }
 
-static string fragment_instanced()
+var fragment_instanced()
 {
-	string shader =
+	var shader =
 
 		'#define SHADER_NAME fragInstanced\n'
 		'\n'
@@ -166,9 +166,9 @@ static string fragment_instanced()
 	return shader;
 }
 
-static string vertex_material()
+var vertex_material()
 {
-	string shader =
+	var shader =
 
 		'#define SHADER_NAME vertMaterial\n'
 		'\n'
@@ -198,9 +198,9 @@ static string vertex_material()
 	return shader;
 }
 
-static string fragment_material()
+var fragment_material()
 {
-	string shader =
+	var shader =
 
 		'#define SHADER_NAME fragMaterial\n'
 		'\n'
@@ -276,7 +276,7 @@ nbsp;nbsp;nbsp;
 nbsp;nbsp;nbsp;
 
 <div style='display:inline-block;'>
-	<span>use override material<br/>(only effects singleMaterial method)</span>
+	<span>use override material<br/>(only effects singlevar method)</span>
 	<br/>
 	<input id='override' type='checkbox' checked/>
 </div>
@@ -312,11 +312,11 @@ nbsp;nbsp;nbsp;
 </div>
 #endif
 
-void xx_interact_instances(Shell app, Widget parent, Dockbar dockbar)
+void xx_interact_instances(Shell app, var parent, Dockbar dockbar)
 {
 #if 0
 		var pickingData, pickingRenderTarget, pickingScene;
-		var useOverrideMaterial = true;
+		var useOverridevar = true;
 		var singleMaterial, singlePickingMaterial;
 		var highlightBox;
 		var materialList = [];
@@ -386,11 +386,11 @@ void xx_interact_instances(Shell app, Widget parent, Dockbar dockbar)
 
 			var overrideElm = document.getElementById('override');
 
-			useOverrideMaterial = overrideElm.checked;
+			useOverridevar = overrideElm.checked;
 
 			overrideElm.addEventListener('click', function () {
 
-				useOverrideMaterial = overrideElm.checked;
+				useOverridevar = overrideElm.checked;
 				initMesh();
 
 			});
@@ -435,8 +435,8 @@ void xx_interact_instances(Shell app, Widget parent, Dockbar dockbar)
 			geometryList = [];
 			objectCount = 0;
 
-			singleMaterial = undefined;
-			singlePickingMaterial = undefined;
+			singlevar = undefined;
+			singlePickingvar = undefined;
 
 		}
 
@@ -531,7 +531,7 @@ void xx_interact_instances(Shell app, Widget parent, Dockbar dockbar)
 				}
 			});
 
-			var pickingMaterial = new THREE.RawShaderMaterial({
+			var pickingvar = new THREE.RawShaderMaterial({
 				vertexShader: '#define PICKING\n' + vert,
 				fragmentShader: '#define PICKING\n' + frag,
 				uniforms: {
@@ -592,7 +592,7 @@ void xx_interact_instances(Shell app, Widget parent, Dockbar dockbar)
 			});
 			materialList.push(material);
 
-			var pickingMaterial = new THREE.RawShaderMaterial({
+			var pickingvar = new THREE.RawShaderMaterial({
 				vertexShader: '#define PICKING\n' + vert,
 				fragmentShader: '#define PICKING\n' + frag,
 				uniforms: {
@@ -606,8 +606,8 @@ void xx_interact_instances(Shell app, Widget parent, Dockbar dockbar)
 			if (useOverrideMaterial) {
 
 				// make globally available
-				singleMaterial = material;
-				singlePickingMaterial = pickingMaterial;
+				singlevar = material;
+				singlePickingvar = pickingMaterial;
 
 			}
 
@@ -711,7 +711,7 @@ void xx_interact_instances(Shell app, Widget parent, Dockbar dockbar)
 			});
 			materialList.push(material);
 
-			var pickingMaterial = new THREE.RawShaderMaterial({
+			var pickingvar = new THREE.RawShaderMaterial({
 				vertexShader: '#define PICKING\n' + vert,
 				fragmentShader: '#define PICKING\n' + frag
 			});
@@ -814,7 +814,7 @@ void xx_interact_instances(Shell app, Widget parent, Dockbar dockbar)
 			});
 			materialList.push(material);
 
-			var pickingMaterial = new THREE.RawShaderMaterial({
+			var pickingvar = new THREE.RawShaderMaterial({
 				vertexShader: '#define PICKING\n' + vert,
 				fragmentShader: '#define PICKING\n' + frag
 			});
@@ -1019,9 +1019,9 @@ void xx_interact_instances(Shell app, Widget parent, Dockbar dockbar)
 
 			if (singlePickingMaterial) {
 
-				scene.overrideMaterial = singlePickingMaterial;
+				scene.overridevar = singlePickingMaterial;
 				renderer.render(scene, camera, pickingRenderTarget);
-				scene.overrideMaterial = null;
+				scene.overridevar = null;
 
 			} else {
 

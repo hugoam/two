@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_geopoints_packed(Shell app, Widget parent, Dockbar dockbar)
+void xx_geopoints_packed(Shell app, var parent, Dockbar dockbar)
 {
 	UNUSED(dockbar);
 	var particles = 500000;
@@ -20,7 +20,7 @@ void xx_geopoints_packed(Shell app, Widget parent, Dockbar dockbar)
 
 	this.program = app.gfx.programs.fetch('solid');
 
-	this.material = app.gfx.materials.create('points', [](var m) {
+	this.material = app.gfx.materials.create('points'); var m = material;
 		m.program = program;
 		m.base.geometry_filter = uint32_t(1 << uint(PrimitiveType::Points)); // @todo this should not be necessary: in the program ?
 		m.base.shader_color = ShaderColor::Vertex;
@@ -29,7 +29,7 @@ void xx_geopoints_packed(Shell app, Widget parent, Dockbar dockbar)
 
 	this.node = nullptr;
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -48,7 +48,7 @@ void xx_geopoints_packed(Shell app, Widget parent, Dockbar dockbar)
 		for(var i = 0; i < particles; i++)
 		{
 			var p = new two.vec3(Math.random(), Math.random(), Math.random()) * s - s2;
-			Colour c = to_colour(p / s + 0.5);
+			var c = to_colour(p / s + 0.5);
 
 			// 12 bytes = float3 position (xyz)
 			// 4 bytes = uint32 color (rgba)

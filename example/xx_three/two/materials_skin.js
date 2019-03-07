@@ -22,9 +22,9 @@ using namespace mud;
 //<script src = 'js/postprocessing/ShaderPass.js'>< / script>
 //<script src = 'js/postprocessing/MaskPass.js'>< / script>
 
-void xx_materials_skin(Shell app, Widget parent, Dockbar dockbar)
+void xx_materials_skin(Shell app, var parent, Dockbar dockbar)
 {
-	static ImporterGltf importer_gltf = { app.gfx };
+	ImporterGltf importer_gltf = { app.gfx };
 
 	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
@@ -36,7 +36,7 @@ void xx_materials_skin(Shell app, Widget parent, Dockbar dockbar)
 	this.mesh = nullptr;
 	this.rotation = new two.vec3(0.0);
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -48,15 +48,15 @@ void xx_materials_skin(Shell app, Widget parent, Dockbar dockbar)
 		//scene.background = new THREE.Color(0x050505);
 
 		var ln0 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(-1.0, -0.5, -1.0)))));
-		Light l0 = scene.lights().add(Light(ln0, LightType::Direct, false, rgb(0xffeedd), 1.5));
+		Light l0 = scene.lights().add(new two.Light(ln0, LightType::Direct, false, rgb(0xffeedd), 1.5));
 
 		var ln1 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(1.0, -0.5, 1.0)))));
-		Light l1 = scene.lights().add(Light(ln0, LightType::Direct, false, rgb(0xddddff), 0.5));
+		Light l1 = scene.lights().add(new two.Light(ln0, LightType::Direct, false, rgb(0xddddff), 0.5));
 
 		// MATERIALS
 
-		Colour diffuse = rgb(0xbbbbbb);
-		Colour specular = rgb(0x555555);
+		var diffuse = rgb(0xbbbbbb);
+		var specular = rgb(0x555555);
 
 		//var shader = THREE.ShaderSkin['skin'];
 

@@ -56,6 +56,10 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::mat4>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Animation*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::AnimationPlay>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Material*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Mesh*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Model*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Texture*>>();
     
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimatedTrack>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Animation>();
@@ -86,6 +90,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Gnode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GpuMesh>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ImmediateDraw>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Import>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ImportConfig>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Item>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Joint>();

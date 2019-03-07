@@ -10,9 +10,9 @@
 
 using namespace mud;
 
-static string vertex_shader()
+var vertex_shader()
 {
-	string shader =
+	var shader =
 
 		'$input a_position, a_color0\n'
 		'$output v_color\n'
@@ -29,9 +29,9 @@ static string vertex_shader()
 	return shader;
 }
 
-static string fragment_shader()
+var fragment_shader()
 {
-	string shader =
+	var shader =
 
 		'$input v_color\n'
 		'\n'
@@ -50,7 +50,7 @@ static string fragment_shader()
 	return shader;
 }
 
-void xx_geoselective(Shell app, Widget parent, Dockbar dockbar)
+void xx_geoselective(Shell app, var parent, Dockbar dockbar)
 {
 	var numLat = 100;
 	var numLng = 200;
@@ -60,21 +60,21 @@ void xx_geoselective(Shell app, Widget parent, Dockbar dockbar)
 
 	var scene = viewer.scene;
 
-	static string vertex = vertex_shader();
-	static string fragment = fragment_shader();
+	var vertex = vertex_shader();
+	var fragment = fragment_shader();
 
-	static Program program = { 'program', {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
+	var program = { 'program', {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
 	program.blocks[MaterialBlock::Solid] = true;
 
-	this.material = app.gfx.materials.create('material', [](var m) {
+	this.material = app.gfx.materials.create('material'); var m = material;
 		m.program = program;
 		m.base.geometry_filter = uint32_t(1 << uint(PrimitiveType::Lines)); // @todo this should not be necessary: in the program ?
 	});
 
-	static Model* model = nullptr;
+	Model* model = nullptr;
 	this.node = nullptr;
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -99,15 +99,15 @@ void xx_geoselective(Shell app, Widget parent, Dockbar dockbar)
 					var lng = (Math.random() * Math.PI) / 50.0 + float(j) / float(numLng) * 2 * Math.PI;
 
 					var index = i * numLng + j;
-					var point = new two.vec3(Math.sin(lat) * Math.cos(lng), Math.cos(lat), Math.sin(lat) * Math.sin(lng)) * radius;
+					var povar = new two.vec3(Math.sin(lat) * Math.cos(lng), Math.cos(lat), Math.sin(lat) * Math.sin(lng)) * radius;
 
 					geometry.positions.push(new two.vec3(0.0));
 					geometry.positions.push(point);
 
-					Colour color0 = two.hsl(lat / Math.PI, 1.0, 0.2);
+					var color0 = two.hsl(lat / Math.PI, 1.0, 0.2);
 					geometry.colours.push(color0);
 
-					Colour color1 = two.hsl(lat / Math.PI, 1.0, 0.7);
+					var color1 = two.hsl(lat / Math.PI, 1.0, 0.7);
 					geometry.colours.push(color1);
 				}
 
@@ -161,7 +161,7 @@ void xx_geoselective(Shell app, Widget parent, Dockbar dockbar)
 
 		for(var i = 0; i < gpu_lines.vertex_count; i += 2)
 		{
-			//Colour col = ;
+			//var col = ;
 			//col.a = 1.0;
 			//gpu_lines.writer.colour()
 			//geometry.attributes.visible.array[i + 0] = 1;

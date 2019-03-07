@@ -10,10 +10,10 @@
 
 using namespace mud;
 
-void xx_geom(Shell app, Widget parent, Dockbar dockbar)
+void xx_geom(Shell app, var parent, Dockbar dockbar)
 {
-	constexpr uint max_particles = 1000;
-	constexpr uint nuparticles = 500;
+	constexpr uvar max_particles = 1000;
+	constexpr uvar nuparticles = 500;
 
 	var r = 800.0;
 	var r2 = r / 2.0;
@@ -29,8 +29,8 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 		bool showLines = true;
 		var minDistance = 150.0;
 		bool limitConnections = false;
-		uint maxConnections = 20;
-		uint nuparticles = 500;
+		uvar maxConnections = 20;
+		uvar nuparticles = 500;
 	};
 	
 	EffectController controller;
@@ -47,7 +47,7 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 	this.lineprog = app.gfx.programs.fetch('line');
 
 	//var material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
-	this.pointmat = app.gfx.materials.create('point', [](var m) {
+	this.pointmat = app.gfx.materials.create('point'); var m = material;
 		m.program = pointprog;
 		m.base.blend_mode = BlendMode::Add;
 #if INSTANCING
@@ -61,7 +61,7 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 		m.point.point_size = 3.0;
 	});
 
-	this.linemat = app.gfx.materials.create('line', [](var m) {
+	this.linemat = app.gfx.materials.create('line'); var m = material;
 		m.program = lineprog;
 		m.base.geometry_filter = uint32_t(1 << uint(PrimitiveType::Lines));
 		m.base.blend_mode = BlendMode::Add;
@@ -70,17 +70,17 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 	});
 
 	struct Particle { var position; var velocity; uint32_t numConnections; };
-	static vector<Particle> particles;
+	vector<Particle> particles;
 
-	static Mesh* points_mesh = nullptr;
-	static Mesh* lines_mesh = nullptr;
+	Mesh* points_mesh = nullptr;
+	Mesh* lines_mesh = nullptr;
 
 #if INSTANCING
 	this.points_batch = nullptr;
 	this.lines_batch = nullptr;
 #endif
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -140,7 +140,7 @@ void xx_geom(Shell app, Widget parent, Dockbar dockbar)
 		particles[i].numConnections = 0;
 
 #if INSTANCING
-	struct Point { vec4 d0; vec4 d1; };
+	struct Povar { vec4 d0; vec4 d1; };
 	span<float> memory = points_batch->begin(nuparticles, sizeof(Point));
 	span<Point> points = { (Point*)memory.data(), memory.length * sizeof(float) / sizeof(Point) };
 #else

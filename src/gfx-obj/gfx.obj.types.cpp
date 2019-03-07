@@ -13,4 +13,5 @@ namespace mud
     // Exported types
     
     
+    template <> MUD_GFX_OBJ_EXPORT Type& type<mud::ImporterOBJ>() { static Type ty("ImporterOBJ", sizeof(mud::ImporterOBJ)); return ty; }
 }

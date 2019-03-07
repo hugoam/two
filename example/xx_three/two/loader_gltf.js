@@ -9,9 +9,9 @@
 
 using namespace mud;
 
-void xx_loader_gltf(Shell app, Widget parent, Dockbar dockbar)
+void xx_loader_gltf(Shell app, var parent, Dockbar dockbar)
 {
-	static ImporterGltf importer_gltf = { app.gfx };
+	ImporterGltf importer_gltf = { app.gfx };
 
 	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
@@ -25,7 +25,7 @@ void xx_loader_gltf(Shell app, Widget parent, Dockbar dockbar)
 	//var loader = new THREE.CubeTextureLoader().setPath('textures/cube/Bridge2/');
 	//var background = loader.load(urls);
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;

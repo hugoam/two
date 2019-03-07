@@ -13,4 +13,5 @@ namespace mud
     // Exported types
     
     
+    template <> MUD_GFX_GLTF_EXPORT Type& type<mud::ImporterGltf>() { static Type ty("ImporterGltf", sizeof(mud::ImporterGltf)); return ty; }
 }

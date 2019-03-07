@@ -1,3 +1,4 @@
+// performance_doublesided.js
 
 var viewer = two.ui.scene_viewer(app.ui.begin());
 //two.ui.orbit_controller(viewer);

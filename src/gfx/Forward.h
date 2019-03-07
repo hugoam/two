@@ -98,6 +98,7 @@ namespace mud
     struct BlockPbr;
     class Material;
 	class BlockMaterial;
+	class Import;
     struct ImportConfig;
 	class Importer;
     struct ModelItem;
@@ -181,6 +182,11 @@ namespace mud
 namespace stl
 {
 	export_ extern template struct refl_ span_ span<mud::mat4>;
+
+	export_ extern template class refl_ seque_ vector<mud::Mesh*>;
+	export_ extern template class refl_ seque_ vector<mud::Model*>;
+	export_ extern template class refl_ seque_ vector<mud::Texture*>;
+	export_ extern template class refl_ seque_ vector<mud::Material*>;
 
 	export_ extern template class refl_ seque_ vector<mud::Animation*>;
 	export_ extern template class refl_ seque_ vector<mud::AnimationPlay>;

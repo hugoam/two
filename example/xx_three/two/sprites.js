@@ -9,7 +9,7 @@
 
 #define CLUSTERED 1
 
-void xx_sprites(Shell app, Widget parent, Dockbar dockbar)
+void xx_sprites(Shell app, var parent, Dockbar dockbar)
 {
 	var viewer = two.ui.scene_viewer(app.ui.begin());
 	two.ui.orbit_controller(viewer);
@@ -31,7 +31,7 @@ void xx_sprites(Shell app, Widget parent, Dockbar dockbar)
 
 	Texture sprites0 = app.gfx.textures.file('sprite0.png');
 
-	var material = app.gfx.materials.create('sprite0', [](var m) {
+	var material = app.gfx.materials.create('sprite0'); var m = material;
 		//m.program = SpriteMaterial;
 		//m.sprite.color = sprites0;
 		}); // new THREE.SpriteMaterial({ map: texture });
@@ -74,15 +74,15 @@ void xx_sprites(Shell app, Widget parent, Dockbar dockbar)
 
 	//group = new THREE.Group();
 
-	var materialC = app.gfx.materials.create('sprite0', [](var m) {
+	var materialC = app.gfx.materials.create('sprite0'); var m = material;
 		});
 	//new THREE.SpriteMaterial({ map: mapC, color : 0xffffff, fog : true });
 
-	var materialB = app.gfx.materials.create('sprite0', [](var m) {
+	var materialB = app.gfx.materials.create('sprite0'); var m = material;
 		});
 	//new THREE.SpriteMaterial({ map: mapB, color: 0xffffff, fog: true });
 
-	for(int a = 0; a < amount; a++)
+	for(var a = 0; a < amount; a++)
 	{
 		var x = Math.random() - 0.5;
 		var y = Math.random() - 0.5;
@@ -131,7 +131,7 @@ void xx_sprites(Shell app, Widget parent, Dockbar dockbar)
 	var time = app.gfx.time;
 
 	/*
-	for(int i = 0, l = group.children.length; i < l; i++) {
+	for(var i = 0, l = group.children.length; i < l; i++) {
 
 		var sprite = group.children[i];
 		var material = sprite.material;

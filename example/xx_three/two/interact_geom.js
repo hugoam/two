@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_interact_geom(Shell app, Widget parent, Dockbar dockbar)
+void xx_interact_geom(Shell app, var parent, Dockbar dockbar)
 {
 	var triangles = 5000;
 
@@ -31,7 +31,7 @@ void xx_interact_geom(Shell app, Widget parent, Dockbar dockbar)
 
 	this.node = nullptr;
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -46,10 +46,10 @@ void xx_interact_geom(Shell app, Widget parent, Dockbar dockbar)
 		//scene.add(new THREE.AmbientLight(0x444444));
 
 		var l1 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(new two.vec3(1.0, 1.0, 1.0))));
-		scene.lights().add(Light(l1, LightType::Direct, false, two.rgba(0xffffff), 0.5));
+		scene.lights().add(new two.Light(l1, LightType::Direct, false, two.rgba(0xffffff), 0.5));
 
 		var l2 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(new two.vec3(0.0, -1.0, 0.0))));
-		scene.lights().add(Light(l1, LightType::Direct, false, two.rgba(0xffffff), 1.5));
+		scene.lights().add(new two.Light(l1, LightType::Direct, false, two.rgba(0xffffff), 1.5));
 
 		MeshPacker geometry;
 
@@ -70,7 +70,7 @@ void xx_interact_geom(Shell app, Widget parent, Dockbar dockbar)
 			var ab = a - b;
 			var normal = normalize(cross(cb, ab));
 
-			Colour colour = to_colour(p / s + 0.5);
+			var colour = to_colour(p / s + 0.5);
 
 			for(var j = 0; j < 3; ++j)
 			{

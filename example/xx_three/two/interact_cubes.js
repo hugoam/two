@@ -7,7 +7,7 @@ var viewer = two.ui.scene_viewer(app.ui.begin());
 var scene = viewer.scene;
 var camera = viewer.camera;
 
-static bool once = false;
+bool once = false;
 if(!once)
 {
     once = true;
@@ -16,7 +16,7 @@ if(!once)
 
     //scene.background = new THREE.Color(0xf000);
 
-    scene.lights().add(Light(scene.root_node, LightType::Direct, false));
+    scene.lights().add(new two.Light(scene.root_node, LightType::Direct, false));
     //var light = new THREE.DirectionalLight(0xffffff, 1);
     //light.position.set(1, 1, 1).normalize();
     //scene.add(light);
@@ -54,7 +54,7 @@ camera.eye.y = radius * Math.sin(to_radians(theta));
 camera.eye.z = radius * Math.cos(to_radians(theta));
 //camera.target = scene.position;
 
-static Item* hovered = nullptr;
+Item* hovered = nullptr;
 
 function hover = [](var item) { item.material->pbr.emissive = two.rgba(0xff0000f); };
 function unhover = [](var item) { item.material->pbr.emissive = two.rgba(0x00000000); };

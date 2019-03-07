@@ -93,6 +93,26 @@ void* stl_vector_mud_AnimationPlay__at(void* vec, size_t i) { return &(*static_c
 void stl_vector_mud_AnimationPlay__push(void* vec) { (*static_cast<stl::vector<mud::AnimationPlay>*>(vec)).emplace_back(); }
 void stl_vector_mud_AnimationPlay__add(void* vec, void* value) { (*static_cast<stl::vector<mud::AnimationPlay>*>(vec)).push_back(*static_cast<mud::AnimationPlay*>(value)); }
 void stl_vector_mud_AnimationPlay__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::AnimationPlay>*>(vec)), *static_cast<mud::AnimationPlay*>(value)); }
+size_t stl_vector_mud_Material___size(void* vec) { return (*static_cast<stl::vector<mud::Material*>*>(vec)).size(); }
+void* stl_vector_mud_Material___at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Material*>*>(vec))[i]; }
+void stl_vector_mud_Material___push(void* vec) { (*static_cast<stl::vector<mud::Material*>*>(vec)).emplace_back(); }
+void stl_vector_mud_Material___add(void* vec, void* value) { (*static_cast<stl::vector<mud::Material*>*>(vec)).push_back(static_cast<mud::Material*>(value)); }
+void stl_vector_mud_Material___remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Material*>*>(vec)), static_cast<mud::Material*>(value)); }
+size_t stl_vector_mud_Mesh___size(void* vec) { return (*static_cast<stl::vector<mud::Mesh*>*>(vec)).size(); }
+void* stl_vector_mud_Mesh___at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Mesh*>*>(vec))[i]; }
+void stl_vector_mud_Mesh___push(void* vec) { (*static_cast<stl::vector<mud::Mesh*>*>(vec)).emplace_back(); }
+void stl_vector_mud_Mesh___add(void* vec, void* value) { (*static_cast<stl::vector<mud::Mesh*>*>(vec)).push_back(static_cast<mud::Mesh*>(value)); }
+void stl_vector_mud_Mesh___remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Mesh*>*>(vec)), static_cast<mud::Mesh*>(value)); }
+size_t stl_vector_mud_Model___size(void* vec) { return (*static_cast<stl::vector<mud::Model*>*>(vec)).size(); }
+void* stl_vector_mud_Model___at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Model*>*>(vec))[i]; }
+void stl_vector_mud_Model___push(void* vec) { (*static_cast<stl::vector<mud::Model*>*>(vec)).emplace_back(); }
+void stl_vector_mud_Model___add(void* vec, void* value) { (*static_cast<stl::vector<mud::Model*>*>(vec)).push_back(static_cast<mud::Model*>(value)); }
+void stl_vector_mud_Model___remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Model*>*>(vec)), static_cast<mud::Model*>(value)); }
+size_t stl_vector_mud_Texture___size(void* vec) { return (*static_cast<stl::vector<mud::Texture*>*>(vec)).size(); }
+void* stl_vector_mud_Texture___at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Texture*>*>(vec))[i]; }
+void stl_vector_mud_Texture___push(void* vec) { (*static_cast<stl::vector<mud::Texture*>*>(vec)).emplace_back(); }
+void stl_vector_mud_Texture___add(void* vec, void* value) { (*static_cast<stl::vector<mud::Texture*>*>(vec)).push_back(static_cast<mud::Texture*>(value)); }
+void stl_vector_mud_Texture___remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Texture*>*>(vec)), static_cast<mud::Texture*>(value)); }
 void mud_AnimatedTrack__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::AnimatedTrack(  ); }
 void mud_AnimatedTrack__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::AnimatedTrack((*static_cast<mud::AnimatedTrack*>(other))); }
 void mud_AnimationPlay__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::AnimationPlay(  ); }
@@ -141,6 +161,7 @@ void mud_Batch__copy_construct(void* ref, void* other) { new(stl::placeholder(),
 void mud_Batch_update_aabb(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Batch*>(object)).update_aabb(*static_cast<stl::span<mud::mat4>*>(args[0])); }
 void mud_Batch_transforms(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Batch*>(object)).transforms(*static_cast<stl::span<mud::mat4>*>(args[0])); }
 void mud_Batch_begin(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<float>*>(result)) = (*static_cast<mud::Batch*>(object)).begin(*static_cast<uint32_t*>(args[0]), *static_cast<uint16_t*>(args[1])); }
+void mud_Batch_commit(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Batch*>(object)).commit(*static_cast<uint32_t*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<stl::span<float>*>(args[2])); }
 void mud_Bone__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Bone(  ); }
 void mud_Bone__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Bone((*static_cast<mud::Bone*>(other))); }
 void mud_Camera_set_clustered(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Camera*>(object)).set_clustered(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Viewport*>(args[1])); }
@@ -691,6 +712,58 @@ namespace mud
 		                             stl_vector_mud_AnimationPlay__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
+	{
+		Type& t = type<stl::vector<mud::Material*>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Material*>", sizeof(stl::vector<mud::Material*>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::Material>(),
+		                             stl_vector_mud_Material___size,
+		                             stl_vector_mud_Material___at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { stl_vector_mud_Material___push,
+		                             stl_vector_mud_Material___add,
+		                             stl_vector_mud_Material___remove };
+		g_sequence[t.m_id] = &sequence;
+	}
+	{
+		Type& t = type<stl::vector<mud::Mesh*>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Mesh*>", sizeof(stl::vector<mud::Mesh*>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::Mesh>(),
+		                             stl_vector_mud_Mesh___size,
+		                             stl_vector_mud_Mesh___at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { stl_vector_mud_Mesh___push,
+		                             stl_vector_mud_Mesh___add,
+		                             stl_vector_mud_Mesh___remove };
+		g_sequence[t.m_id] = &sequence;
+	}
+	{
+		Type& t = type<stl::vector<mud::Model*>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Model*>", sizeof(stl::vector<mud::Model*>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::Model>(),
+		                             stl_vector_mud_Model___size,
+		                             stl_vector_mud_Model___at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { stl_vector_mud_Model___push,
+		                             stl_vector_mud_Model___add,
+		                             stl_vector_mud_Model___remove };
+		g_sequence[t.m_id] = &sequence;
+	}
+	{
+		Type& t = type<stl::vector<mud::Texture*>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Texture*>", sizeof(stl::vector<mud::Texture*>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::Texture>(),
+		                             stl_vector_mud_Texture___size,
+		                             stl_vector_mud_Texture___at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { stl_vector_mud_Texture___push,
+		                             stl_vector_mud_Texture___add,
+		                             stl_vector_mud_Texture___remove };
+		g_sequence[t.m_id] = &sequence;
+	}
 	
 	// mud::AnimatedTrack
 	{
@@ -970,7 +1043,8 @@ namespace mud
 		static Method methods[] = {
 			{ t, "update_aabb", Address(), mud_Batch_update_aabb, { { "instances", type<stl::span<mud::mat4>>(),  } }, g_qvoid },
 			{ t, "transforms", Address(), mud_Batch_transforms, { { "instances", type<stl::span<mud::mat4>>(),  } }, g_qvoid },
-			{ t, "begin", Address(), mud_Batch_begin, { { "count", type<uint32_t>(),  }, { "stride", type<uint16_t>(),  } }, { &type<stl::span<float>>(), QualType::None } }
+			{ t, "begin", Address(), mud_Batch_begin, { { "count", type<uint32_t>(),  }, { "stride", type<uint16_t>(),  } }, { &type<stl::span<float>>(), QualType::None } },
+			{ t, "commit", Address(), mud_Batch_commit, { { "count", type<uint32_t>(),  }, { "stride", type<uint16_t>(),  }, { "data", type<stl::span<float>>(),  } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
@@ -1385,6 +1459,29 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::Import
+	{
+		Type& t = type<mud::Import>();
+		static Meta meta = { t, &namspc({ "mud" }), "Import", sizeof(mud::Import), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Import, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Import, m_file), type<stl::string>(), "file", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Import, m_path), type<stl::string>(), "path", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Import, m_config), type<mud::ImportConfig>(), "config", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Import, m_meshes), type<stl::vector<mud::Mesh*>>(), "meshes", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Import, m_models), type<stl::vector<mud::Model*>>(), "models", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Import, m_images), type<stl::vector<mud::Texture*>>(), "images", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Import, m_materials), type<stl::vector<mud::Material*>>(), "materials", nullptr, Member::NonMutable, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// mud::ImportConfig
 	{
@@ -2814,6 +2911,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::Gnode>());
 		m.m_types.push_back(&type<mud::GpuMesh>());
 		m.m_types.push_back(&type<mud::ImmediateDraw>());
+		m.m_types.push_back(&type<mud::Import>());
 		m.m_types.push_back(&type<mud::ImportConfig>());
 		m.m_types.push_back(&type<mud::Interpolation>());
 		m.m_types.push_back(&type<mud::IsometricAngle>());
@@ -2880,6 +2978,10 @@ namespace mud
 		m.m_types.push_back(&type<stl::span<mud::mat4>>());
 		m.m_types.push_back(&type<stl::vector<mud::Animation*>>());
 		m.m_types.push_back(&type<stl::vector<mud::AnimationPlay>>());
+		m.m_types.push_back(&type<stl::vector<mud::Material*>>());
+		m.m_types.push_back(&type<stl::vector<mud::Mesh*>>());
+		m.m_types.push_back(&type<stl::vector<mud::Model*>>());
+		m.m_types.push_back(&type<stl::vector<mud::Texture*>>());
 		m.m_types.push_back(&type<mud::BlockCopy>());
 		m.m_types.push_back(&type<mud::BlockDepth>());
 		m.m_types.push_back(&type<mud::BlockFilter>());

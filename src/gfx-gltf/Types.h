@@ -26,4 +26,5 @@ namespace mud
     // Exported types
     
     
+    export_ template <> MUD_GFX_GLTF_EXPORT Type& type<mud::ImporterGltf>();
 }

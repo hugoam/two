@@ -1,5 +1,5 @@
 
-//static ImporterOBJ obj_importer(app.gfx);
+//ImporterOBJ obj_importer(app.gfx);
 
 var viewer = two.ui.scene_viewer(app.ui.begin());
 two.ui.orbit_controller(viewer);
@@ -86,7 +86,7 @@ if(typeof this.state == 'undefined') {
             //var i1 = scene.items().add(new two.Item(l, big_sphere, 0, ma)); // MaterialSolid(color), MaterialAlpha(0.033));
             //l.children[1].scale.set(6.66, 6.66, 6.66);
 
-            var light = scene.lights().add(Light(l, LightType::Point));
+            var light = scene.lights().add(new two.Light(l, LightType::Point));
             light.range = 40.0;
             light.colour = color;
 

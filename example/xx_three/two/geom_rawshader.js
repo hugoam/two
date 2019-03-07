@@ -8,9 +8,9 @@
 
 using namespace mud;
 
-static string vertex_shader()
+var vertex_shader()
 {
-	string shader =
+	var shader =
 
 		'$input a_position, a_color0\n'
 		'$output v_position, v_color\n'
@@ -28,9 +28,9 @@ static string vertex_shader()
 	return shader;
 }
 
-static string fragment_shader()
+var fragment_shader()
 {
-	string shader =
+	var shader =
 
 		'$input v_position, v_color\n'
 		'\n'
@@ -47,7 +47,7 @@ static string fragment_shader()
 	return shader;
 }
 
-void xx_georawshader(Shell app, Widget parent, Dockbar dockbar)
+void xx_georawshader(Shell app, var parent, Dockbar dockbar)
 {
 	UNUSED(dockbar);
 	var triangles = 500;
@@ -57,13 +57,13 @@ void xx_georawshader(Shell app, Widget parent, Dockbar dockbar)
 
 	var scene = viewer.scene;
 
-	static string vertex = vertex_shader();
-	static string fragment = fragment_shader();
+	var vertex = vertex_shader();
+	var fragment = fragment_shader();
 
-	static Program program = { 'shader', {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
+	var program = { 'shader', {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
 	program.blocks[MaterialBlock::Solid] = true;
 	
-	this.material = app.gfx.materials.create('material', [](var m) {
+	this.material = app.gfx.materials.create('material'); var m = material;
 		m.program = program;
 		m.base.cull_mode = two.CullMode.None;
 		m.base.blend_mode = BlendMode::Alpha;
@@ -72,7 +72,7 @@ void xx_georawshader(Shell app, Widget parent, Dockbar dockbar)
 
 	this.node = nullptr;
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -88,7 +88,7 @@ void xx_georawshader(Shell app, Widget parent, Dockbar dockbar)
 		for(var i = 0; i < triangles; i++)
 		{
 			var p = new two.vec3(Math.random(), Math.random(), Math.random()) - 0.5;
-			Colour c = new two.Colour(Math.random(), Math.random(), Math.random(), Math.random()); // * 255
+			var c = new two.Colour(Math.random(), Math.random(), Math.random(), Math.random()); // * 255
 			geometry.positions.push(p);
 			geometry.colours.push(c);
 		}

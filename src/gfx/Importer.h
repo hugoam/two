@@ -46,22 +46,22 @@ namespace mud
 		bool filter_material(const string& name) const;
 	};
 
-	export_ class MUD_GFX_EXPORT Import
+	export_ class refl_ MUD_GFX_EXPORT Import
 	{
 	public:
 		Import(GfxSystem& gfx, const string& filepath, const ImportConfig& config);
 
-		string m_name;
-		string m_file;
-		string m_path;
+		attr_ string m_name;
+		attr_ string m_file;
+		attr_ string m_path;
 
 		GfxSystem& m_gfx;
-		const ImportConfig& m_config;
+		attr_ ImportConfig m_config;
 
-		vector<Mesh*> m_meshes;
-		vector<Model*> m_models;
-		vector<Texture*> m_images;
-		vector<Material*> m_materials;
+		attr_ vector<Mesh*> m_meshes;
+		attr_ vector<Model*> m_models;
+		attr_ vector<Texture*> m_images;
+		attr_ vector<Material*> m_materials;
 
 		map<int, Skeleton*> m_skeletons;
 

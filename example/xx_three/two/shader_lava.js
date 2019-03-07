@@ -6,8 +6,8 @@ var vertex_shader = `$input a_position, a_texcoord0
     
     void main()
     {
-        int material_index = int(u_state_material);
-        BaseMaterial basic = read_base_material(material_index);
+        var material_index = int(u_state_material);
+        Basevar basic = read_base_material(material_index);
         
         v_texcoord0 = vec4((a_texcoord0.xy * basic.uv0_scale) + basic.uv0_offset, 0.0, 0.0);
         vec4 view = mul(u_modelView, vec4(a_position, 1.0));

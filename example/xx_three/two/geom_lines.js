@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_geolines(Shell app, Widget parent, Dockbar dockbar)
+void xx_geolines(Shell app, var parent, Dockbar dockbar)
 {
 	var segments = 10000;
 
@@ -20,7 +20,7 @@ void xx_geolines(Shell app, Widget parent, Dockbar dockbar)
 	//this.program = app.gfx.programs.fetch('line');
 	this.program = app.gfx.programs.fetch('solid');
 
-	this.material = app.gfx.materials.create('lines', [](var m) {
+	this.material = app.gfx.materials.create('lines'); var m = material;
 		m.program = program;
 		m.base.geometry_filter = uint32_t(1 << uint(PrimitiveType::LineStrip)); // @todo this should not be necessary: in the program ?
 		m.base.shader_color = ShaderColor::Vertex;
@@ -28,7 +28,7 @@ void xx_geolines(Shell app, Widget parent, Dockbar dockbar)
 
 	this.node = nullptr;
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -45,7 +45,7 @@ void xx_geolines(Shell app, Widget parent, Dockbar dockbar)
 		for(var i = 0; i < segments; i++)
 		{
 			var p = new two.vec3(Math.random(), Math.random(), Math.random()) * r - r / 2.0;
-			Colour c = to_colour(p / r + 0.5);
+			var c = to_colour(p / r + 0.5);
 
 			geometry.positions.push(p);
 			geometry.colours.push(c);

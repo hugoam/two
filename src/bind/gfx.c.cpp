@@ -358,6 +358,9 @@ extern "C" {
 	float* DECL mud_Batch_begin_2(mud::Batch* self, uint32_t count, uint16_t stride) {
 		return (float*)self->begin(count, stride).data();
 	}
+	void DECL mud_Batch_commit_3(mud::Batch* self, uint32_t count, uint16_t stride, float* data, int data_size) {
+		self->commit(count, stride, { (float*)data, data_size / (sizeof(float) / sizeof(float)) });
+	}
 	mud::Item* DECL mud_Batch__get_item(mud::Batch* self) {
 		return self->m_item;
 	}
@@ -916,6 +919,37 @@ extern "C" {
 		return &mud::type<mud::ImmediateDraw>();
 	}
 	void DECL mud_ImmediateDraw__destroy(mud::ImmediateDraw* self) {
+		delete self;
+	}
+	// Import
+	mud::Type* DECL mud_Import__type() {
+		return &mud::type<mud::Import>();
+	}
+	const char* DECL mud_Import__get_name(mud::Import* self) {
+		return self->m_name.c_str();
+	}
+	void DECL mud_Import__set_name(mud::Import* self, const char* value) {
+		self->m_name = value;
+	}
+	const char* DECL mud_Import__get_file(mud::Import* self) {
+		return self->m_file.c_str();
+	}
+	void DECL mud_Import__set_file(mud::Import* self, const char* value) {
+		self->m_file = value;
+	}
+	const char* DECL mud_Import__get_path(mud::Import* self) {
+		return self->m_path.c_str();
+	}
+	void DECL mud_Import__set_path(mud::Import* self, const char* value) {
+		self->m_path = value;
+	}
+	mud::ImportConfig* DECL mud_Import__get_config(mud::Import* self) {
+		return &self->m_config;
+	}
+	void DECL mud_Import__set_config(mud::Import* self, mud::ImportConfig* value) {
+		self->m_config = *value;
+	}
+	void DECL mud_Import__destroy(mud::Import* self) {
 		delete self;
 	}
 	// ImportConfig

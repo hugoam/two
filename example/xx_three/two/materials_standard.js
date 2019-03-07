@@ -9,9 +9,9 @@
 
 using namespace mud;
 
-void xx_materials_standard(Shell app, Widget parent, Dockbar dockbar)
+void xx_materials_standard(Shell app, var parent, Dockbar dockbar)
 {
-	static ImporterOBJ importer_obj = { app.gfx };
+	ImporterOBJ importer_obj = { app.gfx };
 
 	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
@@ -29,7 +29,7 @@ void xx_materials_standard(Shell app, Widget parent, Dockbar dockbar)
 	//renderer.toneMapping = THREE.ReinhardToneMapping;
 	//renderer.toneMappingExposure = 3;
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -51,7 +51,7 @@ void xx_materials_standard(Shell app, Widget parent, Dockbar dockbar)
 		var model = app.gfx.models.file('Cerberus.obj');
 
 		//var material = new THREE.MeshPhongMaterial({ specular: 0x101010, shininess : 100, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.1, side : THREE.DoubleSide });
-		var material = app.gfx.materials.create('material', [](var m) {
+		var material = app.gfx.materials.create('material'); var m = material;
 			m.program = pbr;
 			m.pbr.metallic = 1.0;
 			m.pbr.roughness = 1.0;

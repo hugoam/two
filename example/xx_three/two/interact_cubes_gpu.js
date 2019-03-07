@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_interact_cubes_gpu(Shell app, Widget parent, Dockbar dockbar)
+void xx_interact_cubes_gpu(Shell app, var parent, Dockbar dockbar)
 {
 	var viewer = two.ui.scene_viewer(app.ui.begin());
 	TrackballController controls = two.ui.trackball_controller(viewer);
@@ -30,7 +30,7 @@ void xx_interact_cubes_gpu(Shell app, Widget parent, Dockbar dockbar)
 	
 	this.pbr = app.gfx.programs.file('pbr/pbr');
 
-	//var defaultMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading : true, vertexColors : THREE.VertexColors, shininess : 0 });
+	//var defaultvar = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading : true, vertexColors : THREE.VertexColors, shininess : 0 });
 	this.material = app.gfx.materials.create('material',  [](var m) {
 		m.program = pbr;
 		m.base.shader_color = ShaderColor::Vertex;
@@ -40,7 +40,7 @@ void xx_interact_cubes_gpu(Shell app, Widget parent, Dockbar dockbar)
 		// shininess : 0
 	});
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -57,9 +57,9 @@ void xx_interact_cubes_gpu(Shell app, Widget parent, Dockbar dockbar)
 		//scene.add(new THREE.AmbientLight(0x555555));
 
 		var l = scene.nodes().add(new two.Node3(new two.vec3(0.0, 500.0, 2000.0)));
-		Light light = scene.lights().add(Light(l, LightType::Spot, false, rgb(0xffffff), 1.5));
+		Light light = scene.lights().add(new two.Light(l, LightType::Spot, false, rgb(0xffffff), 1.5));
 
-		//var pickingMaterial = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
+		//var pickingvar = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
 
 		//var geometriesDrawn = [];
 		//var geometriesPicking = [];
@@ -79,7 +79,7 @@ void xx_interact_cubes_gpu(Shell app, Widget parent, Dockbar dockbar)
 			MeshPacker geometry;
 			//var geometry = new THREE.BoxBufferGeometry();
 
-			function paint = [](MeshPacker geometry, Colour color)
+			function pavar = [](MeshPacker geometry, var color)
 			{
 				for(var i = 0; i < geometry.positions.length; ++i)
 					geometry.colours.push(color);

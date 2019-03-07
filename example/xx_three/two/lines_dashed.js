@@ -31,7 +31,7 @@ var cube_model(GfxSystem gfx, var size)
 	return gfx.create_model('cube', geometry);
 }
 
-void xx_lines_dashed(Shell app, Widget parent, Dockbar dockbar)
+void xx_lines_dashed(Shell app, var parent, Dockbar dockbar)
 {
 	var viewer = two.ui.scene_viewer(app.ui.begin());
 	two.ui.orbit_controller(viewer);
@@ -43,7 +43,7 @@ void xx_lines_dashed(Shell app, Widget parent, Dockbar dockbar)
 	this.node0 = nullptr;
 	this.node1 = nullptr;
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -69,9 +69,9 @@ void xx_lines_dashed(Shell app, Widget parent, Dockbar dockbar)
 
 		var spline = app.gfx.create_model('spline', geometry);
 
-		function dash_material = [](Colour colour, var dash_size, var dash_gap)
+		function dash_material = [](var colour, var dash_size, var dash_gap)
 		{
-			return app.gfx.materials.create('line', [](var m) {
+			return app.gfx.materials.create('line'); var m = material;
 				m.program = program;
 				m.solid.colour = colour;
 				m.line.dashed = true;

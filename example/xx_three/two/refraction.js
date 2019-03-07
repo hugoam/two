@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_refraction(Shell app, Widget parent, Dockbar dockbar)
+void xx_refraction(Shell app, var parent, Dockbar dockbar)
 {
 	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
@@ -22,7 +22,7 @@ void xx_refraction(Shell app, Widget parent, Dockbar dockbar)
 
 	this.light = nullptr;
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -38,13 +38,13 @@ void xx_refraction(Shell app, Widget parent, Dockbar dockbar)
 		var sphere = app.gfx.shape(new two.Sphere(100.0 * 0.05));
 
 		var ln = scene.nodes().add(new two.Node3());
-		scene.lights().add(Light(ln, LightType::Point, false, rgb(0xffffff), 2.0));
+		scene.lights().add(new two.Light(ln, LightType::Point, false, rgb(0xffffff), 2.0));
 		scene.items().add(new two.Item(ln, sphere, 0, two.gfx.solid_material(app.gfx, 'light', rgb(0xffffff))));
 		light = ln;
 
 		// material samples
 
-		function phong_material = [](string name, Colour colour, var refraction, var reflectivity = 0.0) -> Material
+		function phong_material = [](var name, var colour, var refraction, var reflectivity = 0.0) -> Material
 		{
 			return app.gfx.materials.create(name, [](var m) {
 				m.program = pbr;

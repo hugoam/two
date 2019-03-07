@@ -9,12 +9,12 @@ struct Params {
     var roughness = 1.0;
     var bumpScale = 1.0;
     var exposure = 3.0;
-    var whitePoint = 5.0;
+    var whitePovar = 5.0;
     //toneMapping : 'Uncharted2',
     //renderMode : 'Renderer'
 };
 
-static Params params;
+Params params;
 
 this.diffuse = app.gfx.textures.file('brick_diffuse.jpg');
 //map.encoding = THREE.sRGBEncoding;
@@ -52,16 +52,14 @@ this.hdrenv = app.gfx.textures.file('pisaHDR.hdr.cube');
 
 this.mesh = nullptr;
 
-static bool once = false;
-if(!once)
-{
-    once = true;
+if(typeof this.state == 'undefined') {
+    this.state = 1;
 
     var camera = viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 2000.0;
     camera.eye = new two.vec3(0.0, 40.0, 40.0 * 3.5);
 
-    var geometry = app.gfx.shape(TorusKnot(18.0, 8.0)); // new THREE.TorusKnotBufferGeometry(18, 8, 150, 20);
+    var geometry = app.gfx.shape(new two.TorusKnot(18.0, 8.0)); // new THREE.TorusKnotBufferGeometry(18, 8, 150, 20);
 
     var n = scene.nodes().add(new two.Node3());
     scene.items().add(new two.Item(n, geometry, 0, material));
@@ -77,7 +75,7 @@ if(!once)
     //scene.add(new THREE.HemisphereLight(0x111111, 0x000000));
 
     var ln = scene.nodes().add(new two.Node3(new two.vec3(50.0, 100.0, 50.0)));
-    Light spot = scene.lights().add(Light(ln, LightType::Spot, true, rgb(0xffffff), 1.0, 300.0));
+    Light spot = scene.lights().add(new two.Light(ln, LightType::Spot, true, rgb(0xffffff), 1.0, 300.0));
     spot.spot_angle = Math.PI / 7.0;
     spot.attenuation = 2.0;
     spot.spot_attenuation = 0.8;
@@ -116,7 +114,7 @@ material.alpha.alpha = params.opacity;
 //}
 
 //renderer.toneMappingExposure = params.exposure;
-//renderer.toneMappingWhitePoint = params.whitePoint;
+//renderer.toneMappingWhitePovar = params.whitePoint;
 
 this.rotation = new two.vec3(0.0);
 rotation.y += 0.005;

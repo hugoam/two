@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_refraction_balls(Shell app, Widget parent, Dockbar dockbar)
+void xx_refraction_balls(Shell app, var parent, Dockbar dockbar)
 {
 	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
@@ -17,9 +17,9 @@ void xx_refraction_balls(Shell app, Widget parent, Dockbar dockbar)
 
 	this.refraction = app.gfx.textures.file('Park3Med.jpg.cube');
 
-	static vector<Node3*> spheres;
+	vector<Node3*> spheres;
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;

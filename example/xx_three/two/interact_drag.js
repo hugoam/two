@@ -6,9 +6,9 @@ controls.dynamicDampingFactor = 0.3;
 
 var scene = viewer.scene;
 
-static vector<Node3*> objects;
+vector<Node3*> objects;
 
-static bool once = false;
+bool once = false;
 if(!once)
 {
     once = true;

@@ -10,7 +10,7 @@
 
 using namespace mud;
 
-void xx_geopoints_instanced(Shell app, Widget parent, Dockbar dockbar)
+void xx_geopoints_instanced(Shell app, var parent, Dockbar dockbar)
 {
 	var particles = 500000;
 
@@ -21,7 +21,7 @@ void xx_geopoints_instanced(Shell app, Widget parent, Dockbar dockbar)
 
 	this.program = app.gfx.programs.fetch('point');
 
-	this.material = app.gfx.materials.create('points', [](var m) {
+	this.material = app.gfx.materials.create('points'); var m = material;
 		m.program = program;
 		m.base.geometry_filter = uint32_t(1 << uint(PrimitiveType::Triangles));
 		m.base.shader_color = ShaderColor::Vertex;
@@ -31,10 +31,10 @@ void xx_geopoints_instanced(Shell app, Widget parent, Dockbar dockbar)
 	this.node = nullptr;
 
 	this.batch = nullptr;
-	struct Instance { var position; var pad0; var scale; var pad1; var pad2; Colour colour; };
-	static vector<Instance> instances = vector<Instance>(particles);
+	struct Instance { var position; var pad0; var scale; var pad1; var pad2; var colour; };
+	vector<Instance> instances = vector<Instance>(particles);
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -51,7 +51,7 @@ void xx_geopoints_instanced(Shell app, Widget parent, Dockbar dockbar)
 		for(var i = 0; i < particles; i++)
 		{
 			var p = new two.vec3(Math.random(), Math.random(), Math.random()) * s - s2;
-			Colour c = to_colour(p / s + 0.5);
+			var c = to_colour(p / s + 0.5);
 
 			instances[i] = { p, 0.0, new two.vec2(15.0), 0.0, 0.0, c };
 		}

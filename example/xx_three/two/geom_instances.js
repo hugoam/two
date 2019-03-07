@@ -10,9 +10,9 @@
 
 using namespace mud;
 
-static string vertex_shader()
+var vertex_shader()
 {
-	string shader =
+	var shader =
 
 		'$input a_position, i_data0, i_data1, i_data2, i_data3\n'
 		'$output v_position, v_color\n'
@@ -41,9 +41,9 @@ static string vertex_shader()
 	return shader;
 }
 
-static string fragment_shader()
+var fragment_shader()
 {
-	string shader =
+	var shader =
 
 		'$input v_position, v_color\n'
 		'\n'
@@ -60,7 +60,7 @@ static string fragment_shader()
 	return shader;
 }
 
-void xx_geoinstances(Shell app, Widget parent, Dockbar dockbar)
+void xx_geoinstances(Shell app, var parent, Dockbar dockbar)
 {
 	var nuinstances = 50000;
 
@@ -69,26 +69,26 @@ void xx_geoinstances(Shell app, Widget parent, Dockbar dockbar)
 
 	var scene = viewer.scene;
 
-	static string vertex = vertex_shader();
-	static string fragment = fragment_shader();
+	var vertex = vertex_shader();
+	var fragment = fragment_shader();
 
-	static Program program = { 'circles', {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
+	var program = { 'circles', {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
 	program.blocks[MaterialBlock::Solid] = true;
 
-	this.material = app.gfx.materials.create('instances', [](var m) {
+	this.material = app.gfx.materials.create('instances'); var m = material;
 		m.program = program;
 		m.base.cull_mode = two.CullMode.None;
 		m.base.blend_mode = BlendMode::Alpha;
 		m.alpha.is_alpha = true;
 	});
 
-	struct Instance { var offset; var pad = 0.0; Colour colour; vec4 orientation_start; vec4 orientation_end; };
-	static vector<Instance> instances(nuinstances);
+	struct Instance { var offset; var pad = 0.0; var colour; vec4 orientation_start; vec4 orientation_end; };
+	vector<Instance> instances(nuinstances);
 
 	this.node = nullptr;
 	this.batch = nullptr;
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -101,7 +101,7 @@ void xx_geoinstances(Shell app, Widget parent, Dockbar dockbar)
 		{
 			var offset = new two.vec3(Math.random(), Math.random(), Math.random()) - 0.5;
 
-			Colour colour = new two.Colour(Math.random(), Math.random(), Math.random(), Math.random());
+			var colour = new two.Colour(Math.random(), Math.random(), Math.random(), Math.random());
 
 			vec4 orientation_start = normalize(new two.vec4(Math.random(), Math.random(), Math.random(), Math.random()) * 2.0 - 1.0);
 			vec4 orientation_end = normalize(new two.vec4(Math.random(), Math.random(), Math.random(), Math.random()) * 2.0 - 1.0);

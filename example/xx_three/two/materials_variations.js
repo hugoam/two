@@ -10,7 +10,7 @@ using namespace mud;
 
 //<script src = 'js/pmrem/PMREMCubeUVPacker.js'>< / script>
 
-void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
+void xx_materials_variations(Shell app, var parent, Dockbar dockbar)
 {
 	var viewer = two.ui.scene_viewer(app.ui.begin());
 	//two.ui.orbit_controller(viewer);
@@ -24,7 +24,7 @@ void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
 
 	this.light = nullptr;
 
-	static bool once = false;
+	bool once = false;
 	if(!once)
 	{
 		once = true;
@@ -59,9 +59,9 @@ void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
 				for(var gamma = 0.0; gamma <= 1.0; gamma += step)
 				{
 					// basic monochromatic energy preservation
-					Colour diffuse = two.hsl(alpha, 0.5, gamma * 0.5 + 0.1);
+					var diffuse = two.hsl(alpha, 0.5, gamma * 0.5 + 0.1);
 
-					this.material = app.gfx.materials.create('material', [](var m) {
+					this.material = app.gfx.materials.create('material'); var m = material;
 						m.program = pbr;
 						m.pbr.albedo = diffuse;
 						m.pbr.albedo = texture;
@@ -93,7 +93,7 @@ void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
 		//
 		//		});
 		//
-		//	var textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+		//	var textvar = new THREE.MeshBasicMaterial({ color: 0xffffff });
 		//	var textMesh = new THREE.Mesh(textGeo, textMaterial);
 		//	textMesh.position.copy(location);
 		//	scene.add(textMesh);
@@ -112,11 +112,11 @@ void xx_materials_variations(Shell app, Widget parent, Dockbar dockbar)
 		var sphere = app.gfx.shape(new two.Sphere(4.0));
 		var l = scene.nodes().add(new two.Node3());
 		var il = scene.items().add(new two.Item(l, sphere, 0, two.gfx.solid_material(app.gfx, 'light', new two.Colour(1.0))));
-		Light ll = scene.lights().add(Light(l, LightType::Point, false, two.rgba(0xffffff), 2.0, 800.0));
+		Light ll = scene.lights().add(new two.Light(l, LightType::Point, false, two.rgba(0xffffff), 2.0, 800.0));
 		light = l;
 
 		var dl = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(normalize(new two.vec3(-1.0, -1.0, -1.0)))));
-		scene.lights().add(Light(dl, LightType::Direct, false, two.rgba(0xffffff)));
+		scene.lights().add(new two.Light(dl, LightType::Direct, false, two.rgba(0xffffff)));
 
 		//renderer.toneMapping = THREE.Uncharted2ToneMapping;
 		//renderer.toneMappingExposure = 0.75;

@@ -447,6 +447,9 @@ Batch.prototype["transforms"] = Batch.prototype.transforms = function(a0) {
 Batch.prototype["begin"] = Batch.prototype.begin = function(a0, a1) {
     return _mud_Batch_begin_2(this.__ptr, /*count*/a0, /*stride*/a1);
 };
+Batch.prototype["commit"] = Batch.prototype.commit = function(a0, a1, a2) {
+    _mud_Batch_commit_3(this.__ptr, /*count*/a0, /*stride*/a1, ensureFloat32(/*data*/a2), /*data*/a2.length);
+};
 Object.defineProperty(Batch.prototype, "item", {
     get: function() {
         return wrapPointer(_mud_Batch__get_item(this.__ptr), Item);
@@ -1181,6 +1184,48 @@ ImmediateDraw.__cache = {};
 Module['ImmediateDraw'] = ImmediateDraw;
 ImmediateDraw.prototype["__destroy"] = ImmediateDraw.prototype.__destroy = function() {
     _mud_ImmediateDraw__destroy(this.__ptr);
+};
+// Import
+function Import() { throw "cannot construct a Import, no constructor in IDL" }
+Import.prototype = Object.create(WrapperObject.prototype);
+Import.prototype.constructor = Import;
+Import.prototype.__class = Import;
+Import.__cache = {};
+Module['Import'] = Import;
+Object.defineProperty(Import.prototype, "name", {
+    get: function() {
+        return Pointer_stringify(_mud_Import__get_name(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Import__set_name(this.__ptr, ensureString(value));
+    }
+});
+Object.defineProperty(Import.prototype, "file", {
+    get: function() {
+        return Pointer_stringify(_mud_Import__get_file(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Import__set_file(this.__ptr, ensureString(value));
+    }
+});
+Object.defineProperty(Import.prototype, "path", {
+    get: function() {
+        return Pointer_stringify(_mud_Import__get_path(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Import__set_path(this.__ptr, ensureString(value));
+    }
+});
+Object.defineProperty(Import.prototype, "config", {
+    get: function() {
+        return wrapPointer(_mud_Import__get_config(this.__ptr), ImportConfig);
+    },
+    set: function(value) {
+        _mud_Import__set_config(this.__ptr, value.__ptr);
+    }
+});
+Import.prototype["__destroy"] = Import.prototype.__destroy = function() {
+    _mud_Import__destroy(this.__ptr);
 };
 // ImportConfig
 function ImportConfig() {
@@ -3594,6 +3639,7 @@ Module['gfx']['model_suzanne'] = function(a0) {
         Gnode.__type = _mud_Gnode__type();
         GpuMesh.__type = _mud_GpuMesh__type();
         ImmediateDraw.__type = _mud_ImmediateDraw__type();
+        Import.__type = _mud_Import__type();
         ImportConfig.__type = _mud_ImportConfig__type();
         Item.__type = _mud_Item__type();
         Joint.__type = _mud_Joint__type();

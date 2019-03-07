@@ -24,4 +24,5 @@ namespace mud
     // Exported types
     
     
+    export_ template <> MUD_GFX_OBJ_EXPORT Type& type<mud::ImporterOBJ>();
 }
