@@ -1,5 +1,5 @@
 
-var vertex_shader = "$input a_position, a_texcoord0
+var vertex_shader = `$input a_position, a_texcoord0
     $output v_position, v_texcoord0
     
     #include <common.sh>
@@ -13,9 +13,9 @@ var vertex_shader = "$input a_position, a_texcoord0
         vec4 view = mul(u_modelView, vec4(a_position, 1.0));
         v_position = mul(u_proj, view);
         gl_Position = v_position;
-    }";
+    }`;
 
-var fragment_shader = "$input v_position, v_texcoord0
+var fragment_shader = `$input v_position, v_texcoord0
     
     #include <common.sh>
     #include <pbr/fog.sh>
@@ -57,7 +57,7 @@ var fragment_shader = "$input v_position, v_texcoord0
         fogFactor = 1.0 - clamp(fogFactor, 0.0, 1.0);
     
         gl_FragColor = mix(color, vec4(vec3(0.0, 0.0, 0.0), color.w), fogFactor);
-    }";
+    }`;
 
 var viewer = two.ui.scene_viewer(app.ui.begin());
 two.ui.orbit_controller(viewer);

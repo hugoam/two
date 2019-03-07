@@ -14,15 +14,19 @@ if _OPTIONS["renderer-bgfx"] then
     --mud_binary("mud_example", mud.examples.all, { mud })
 end
 
-function mud_example(name, deps, exdeps, ismodule)
-
-    uses_example = function()
+function add_example_data(name)
         configuration { "asmjs" }
             linkoptions {
                 "--preload-file ../../../data/examples/" .. name .. "@data/",
             }
         
         configuration {}
+end
+
+function mud_example(name, deps, exdeps, ismodule)
+
+    local uses_example = function()
+        add_example_data(name)
     end
 
     _G[name] = mud_module(nil, "_" .. name, path.join(MUD_DIR, "example"), name, nil, uses_example, false, deps, not ismodule)
@@ -70,6 +74,8 @@ if _OPTIONS["jsbind"] then
         mud_js("xx_js", mud.all)
         mud_js("two", mud.all)
     end
+    project "two"
+        add_example_data("xx_three")
 end
 
 if _OPTIONS["renderer-bgfx"] then

@@ -6,12 +6,20 @@
 
 using namespace mud;
 
+// html ok :
+// xx_lights_point
+// xx_shadow_point (try shadows)
+// xx_hierarchy
+// xx_hierarchy2
+
+// xx_shader_lava
+
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	//xx_lights_point(app, parent, dockbar);
 	//xx_shadow_point(app, parent, dockbar);
 	//xx_shader(app, parent, dockbar);
-	//xx_shader_lava(app, parent, dockbar);
+	xx_shader_lava(app, parent, dockbar);
 	//xx_tiled_forward(app, parent, dockbar);
 	//xx_performance(app, parent, dockbar);
 	//xx_performance_doublesided(app, parent, dockbar);
@@ -25,7 +33,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//xx_geom_lines(app, parent, dockbar);
 	//xx_geom_points(app, parent, dockbar);
 	//xx_geom_points_packed(app, parent, dockbar);
-	xx_geom_points_instanced(app, parent, dockbar);
+	//xx_geom_points_instanced(app, parent, dockbar);
 	//xx_geom_rawshader(app, parent, dockbar);
 	//xx_geom_selective(app, parent, dockbar);
 	//xx_interact_cubes(app, parent, dockbar);
