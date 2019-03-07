@@ -1,3 +1,4 @@
+// performance.js
 
 var viewer = two.ui.scene_viewer(app.ui.begin());
 //two.ui.orbit_controller(viewer);
@@ -11,10 +12,14 @@ var objects = [];
 if(typeof this.state == 'undefined') {
     this.state = 1;
 
-    camera.fov = 60.0; camera.near = 1.0; camera.far = 10'000.0;
-    camera.eye.z = 3'200.0;
+    this.mouse = new two.vec2(0.0);
+
+    var camera = viewer.camera;
+    camera.fov = 60.0; camera.near = 1.0; camera.far = 10000.0;
+    camera.eye.z = 3200.0;
 
     var normal = app.gfx.programs.fetch('normal');
+    //var normal = app.gfx.programs.fetch('pbr/pbr');
 
     var material = app.gfx.materials.create('normal');
     var m = material; m.program = normal;
@@ -27,8 +32,6 @@ if(typeof this.state == 'undefined') {
         var a = new two.vec3(Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI, 0.0);
         var s = new two.vec3(Math.random() * 50 + 100);
 
-        //var mesh = new THREE.Mesh(geometry, material);
-
         var n = scene.nodes().add(new two.Node3(p, new two.quat(a), s));
         var it = scene.items().add(new two.Item(n, suzanne, 0, material));
 
@@ -36,10 +39,11 @@ if(typeof this.state == 'undefined') {
     }
 }
 
-this.mouse = new two.vec2(0.0);
-if(var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
+var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+if(event.valid())
 {
-    mouse = (event.relative - viewer.frame.size / 2.0) * 10.0;
+    this.mouse.x = (event.relative.x - viewer.frame.size.x / 2.0) * 10.0;
+    this.mouse.y = (event.relative.y - viewer.frame.size.y / 2.0) * 10.0;
 }
 
 var camera = viewer.camera;
@@ -52,7 +56,7 @@ for(var i = 0; i < objects.length; ++i)
     o.angles.x += 0.01;
     o.angles.y += 0.02;
 
-    o.node.apply(o.scale, new two.quat(o.angles), o.position);
+    o.node.apply(o.position, new two.quat(o.angles), o.scale);
 }
 
 var root = scene.begin();

@@ -62,7 +62,6 @@ void xx_performance(Shell& app, Widget& parent, Dockbar& dockbar)
 	Camera& camera = viewer.m_camera;
 	camera.m_eye.x += (mouse.x - camera.m_eye.x) * .05f;
 	camera.m_eye.y += (-mouse.y - camera.m_eye.y) * .05f;
-	camera.m_target = vec3(0.f); // scene.position;
 
 	for(Object& o : objects)
 	{

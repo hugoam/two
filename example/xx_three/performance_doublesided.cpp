@@ -62,10 +62,12 @@ void xx_performance_doublesided(Shell& app, Widget& parent, Dockbar& dockbar)
 		}
 	}
 
-	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
+	static vec2 mouse = vec2(0.f);
+	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
-		vec2 coord = mouse_event.m_relative;
-		camera.m_eye.x += (coord.x - camera.m_eye.x) * 0.05f;
-		camera.m_eye.y += (-coord.y - camera.m_eye.y) * 0.05f;
+		mouse = (event.m_relative - viewer.m_frame.m_size / 2.f) * 10.f;
 	}
+
+	camera.m_eye.x += (mouse.x - camera.m_eye.x) * .05f;
+	camera.m_eye.y += (-mouse.y - camera.m_eye.y) * .05f;
 }

@@ -1,3 +1,4 @@
+// performance_static.js
 
 var viewer = two.ui.scene_viewer(app.ui.begin());
 //two.ui.orbit_controller(viewer);
@@ -11,8 +12,11 @@ var objects = [];
 if(typeof this.state == 'undefined') {
     this.state = 1;
 
-    camera.fov = 60.0; camera.near = 1.0; camera.far = 10'000.0;
-    camera.eye.z = 3'200.0;
+    this.mouse = new two.vec2(0.0);
+    
+    var camera = viewer.camera;
+    camera.fov = 60.0; camera.near = 1.0; camera.far = 10000.0;
+    camera.eye.z = 3200.0;
 
     var normal = app.gfx.programs.fetch('normal');
 
@@ -32,10 +36,11 @@ if(typeof this.state == 'undefined') {
     }
 }
 
-this.mouse = new two.vec2(0.0);
-if(var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
+var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+if(event.valid())
 {
-    mouse = (event.relative - viewer.frame.size / 2.0) * 10.0;
+    this.mouse.x = (event.relative.x - viewer.frame.size.x / 2.0) * 10.0;
+    this.mouse.y = (event.relative.y - viewer.frame.size.y / 2.0) * 10.0;
 }
 
 var camera = viewer.camera;

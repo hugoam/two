@@ -8,6 +8,8 @@ var scene = viewer.scene;
 if(typeof this.state == 'undefined') {
     this.state = 1;
 
+    this.mouse = new two.vec2(0.0);
+    
     camera.fov = 50.0; camera.near = 1.0; camera.far = 20000.0;
     camera.eye.z = 3200.0;
 
@@ -27,22 +29,22 @@ if(typeof this.state == 'undefined') {
     //scene.add(new THREE.AmbientLight(0x050505));
 
     var l0 = scene.nodes().add(new two.Node3(new two.vec3(4000.0, 0.0, 0.0)));
-    scene.lights().add(Light(l0, LightType::Point, false, two.rgb(0x0011ff), 1.0, 5500.0));
+    scene.lights().add(new two.Light(l0, two.LightType.Point, false, two.rgb(0x0011ff), 1.0, 5500.0));
 
     var l1 = scene.nodes().add(new two.Node3(new two.vec3(-4000.0, 0.0, 0.0)));
-    scene.lights().add(Light(l1, LightType::Point, false, two.rgb(0xff1100), 1.0, 5500.0));
+    scene.lights().add(new two.Light(l1, two.LightType.Point, false, two.rgb(0xff1100), 1.0, 5500.0));
 
     var l2 = scene.nodes().add(new two.Node3(new two.vec3(0.0)));
-    scene.lights().add(Light(l2, LightType::Point, false, two.rgb(0xffaa00), 2.0, 3000.0));
+    scene.lights().add(new two.Light(l2, two.LightType.Point, false, two.rgb(0xffaa00), 2.0, 3000.0));
 
     var geometry = app.gfx.shape(new two.Sphere());
     //new THREE.SphereBufferGeometry(1, 32, 16, 0, PI);
 
     for(var i = 0; i < 5000; ++i)
     {
-        var p = new two.vec3(Math.random(), Math.random(), Math.random()) * 10000.0 - 5000.0;
-        var a = new two.vec3(Math.random(), Math.random(), 0.0) * 2 * Math.PI;
-        var s = new two.vec3(Math.random()) * 50.0 + 100.0;
+        var p = new two.vec3(Math.random() * 10000.0 - 5000.0, Math.random() * 10000.0 - 5000.0, Math.random() * 10000.0 - 5000.0);
+        var a = new two.vec3(Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI, 0.0);
+        var s = new two.vec3(Math.random() * 50.0 + 100.0);
 
         var n = scene.nodes().add(new two.Node3(p, new two.quat(a), s));
         scene.items().add(new two.Item(n, geometry, 0, material));
@@ -52,8 +54,10 @@ if(typeof this.state == 'undefined') {
 var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid())
 {
-    var coord = event.relative;
-    
-    camera.eye.x += (coord.x - camera.eye.x) * 0.05;
-    camera.eye.y += (-coord.y - camera.eye.y) * 0.05;
+    this.mouse.x = (event.relative.x - viewer.frame.size.x / 2.0) * 10.0;
+    this.mouse.y = (event.relative.y - viewer.frame.size.y / 2.0) * 10.0;
 }
+
+var camera = viewer.camera;
+camera.eye.x += (mouse.x - camera.eye.x) * .05;
+camera.eye.y += (-mouse.y - camera.eye.y) * .05;
