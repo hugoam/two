@@ -23,6 +23,106 @@ module mud.gfx;
 
 namespace mud
 {
+	
+namespace fast {
+
+// fast cos(x), ~8 cycles (vs. 66 cycles on ARM) // can be vectorized // x between -pi and pi
+template<typename T>//, typename = typename enable_if<is_floating_point<T>::value>::type>
+constexpr T cos(T x) noexcept {
+    x *= T(c_invpi / 2);
+    x -= T(0.25) + floor(x + T(0.25));
+    x *= T(16.0) * abs(x) - T(8.0);
+    x += T(0.225) * x * (abs(x) - T(1.0));
+    return x;
+}
+
+// fast sin(x), ~8 cycles (vs. 66 cycles on ARM) // can be vectorized // x between -pi and pi
+template <typename T>//, typename = typename enable_if<is_floating_point<T>::value>::type>
+constexpr T sin(T x) noexcept {
+    return cos<T>(x - T(c_pi2));
+}
+
+constexpr inline float ilog2(float x) noexcept {
+    union {
+        float val;
+        int32_t x;
+    } u = { x };
+    return ((u.x >> 23) & 0xff) - 127;
+}
+
+constexpr inline float log2(float x) noexcept {
+    union {
+        float val;
+        int32_t x;
+    } u = { x };
+    float ilog2 = float(((u.x >> 23) & 0xff) - 128);
+    u.x = (u.x & 0x007fffff) | 0x3f800000;
+    return ilog2 + (-0.34484843f * u.val + 2.02466578f) * u.val - 0.67487759f;
+}
+
+constexpr double pow(double x, unsigned int y) noexcept {
+    return y == 0 ? 1.0 : x * pow(x, y - 1);
+}
+
+constexpr unsigned int factorial(unsigned int x) noexcept {
+    return x == 0 ? 1 : x * factorial(x - 1);
+}
+
+constexpr double exp(double x) noexcept {
+    return 1.0 + x + pow(x, 2) / factorial(2) + pow(x, 3) / factorial(3)
+                   + pow(x, 4) / factorial(4) + pow(x, 5) / factorial(5)
+                   + pow(x, 6) / factorial(6) + pow(x, 7) / factorial(7)
+                   + pow(x, 8) / factorial(8) + pow(x, 9) / factorial(9);
+}
+
+constexpr float exp(float x) noexcept {
+    return float(exp(double(x)));
+}
+
+#if defined(__ARM_NEON) && defined(__aarch64__)
+inline uint8_t  qadd(uint8_t a,  uint8_t b)  noexcept { return vuqaddb_s8(a, b);  }
+inline uint16_t qadd(uint16_t a, uint16_t b) noexcept { return vuqaddh_s16(a, b); }
+inline uint32_t qadd(uint32_t a, uint32_t b) noexcept { return vuqadds_s32(a, b); }
+
+inline uint8_t  qsub(uint8_t a,  uint8_t b)  noexcept { return vqsubb_s8(a, b);  }
+inline uint16_t qsub(uint16_t a, uint16_t b) noexcept { return vqsubh_s16(a, b); }
+inline uint32_t qsub(uint32_t a, uint32_t b) noexcept { return vqsubs_s32(a, b); }
+#else
+template<typename T>/*, typename = typename enable_if<
+        is_same<uint8_t, T>::value ||
+        is_same<uint16_t, T>::value ||
+        is_same<uint32_t, T>::value>::type>*/
+inline T qadd(T a, T b)  noexcept {
+    T r = a + b;
+    return r | -T(r < a);
+}
+
+template<typename T>/*, typename = typename enable_if<
+        is_same<uint8_t, T>::value ||
+        is_same<uint16_t, T>::value ||
+        is_same<uint32_t, T>::value>::type>*/
+inline T qsub(T a,  T b)  noexcept {
+    T r = a - b;
+    return r & -T(r <= a);
+}
+#endif
+
+template<typename T>
+inline T qinc(T a)  noexcept {
+    return qadd(a, T(1));
+}
+
+template<typename T>
+inline T qdec(T a)  noexcept {
+    return qsub(a, T(1));
+}
+
+
+}
+}
+
+namespace mud
+{
 	void compute_frustum_subdiv(ClusteredFrustum& frustum, vec2 clip_size, size_t slices)
 	{
 		using stl::swap;
@@ -82,7 +182,7 @@ namespace mud
 
 		// This whole function is now branch-less.
 
-		int s = int((log2(-z) - m_far_log2) * m_linearizer + m_subdiv_z);
+		int s = int((fast::log2(-z) - m_far_log2) * m_linearizer + m_subdiv_z);
 
 		// there are cases where z can be negative here, e.g.:
 		// - the light is visible, but its center is behind the camera

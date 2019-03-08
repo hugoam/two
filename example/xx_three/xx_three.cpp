@@ -16,11 +16,11 @@ using namespace mud;
 // xx_performance
 // xx_performance_doublesided
 // xx_performance_static
+// xx_lines_fat
 
 // todo:
-// xx_lines_fat
 // xx_lines_dashed
-// xx_tiled_forward(app, parent, dockbar);
+// xx_tiled_forward
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 {
@@ -28,12 +28,12 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//xx_shadow_point(app, parent, dockbar);
 	//xx_shader(app, parent, dockbar);
 	//xx_shader_lava(app, parent, dockbar);
-	//xx_tiled_forward(app, parent, dockbar);
+	xx_tiled_forward(app, parent, dockbar);
 	//xx_performance(app, parent, dockbar);
 	//xx_performance_doublesided(app, parent, dockbar);
 	//xx_performance_static(app, parent, dockbar);
 	//xx_billboards(app, parent, dockbar);
-	xx_lines_fat(app, parent, dockbar);
+	//xx_lines_fat(app, parent, dockbar);
 	//xx_lines_dashed(app, parent, dockbar);
 	//xx_geom(app, parent, dockbar);
 	//xx_geom_sprites(app, parent, dockbar);

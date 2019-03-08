@@ -30,6 +30,7 @@ namespace mud
 #else
 	const float c_pi = M_PI;
 #endif
+	const float c_invpi = 1.f / c_pi;
 	const float c_2pi = c_pi * 2.f;
 	const float c_tau = c_pi * 2.f;
 	const float c_pi2 = c_pi / 2.f;

@@ -7,20 +7,67 @@ two.ui.orbit_controller(viewer);
 
 var scene = viewer.scene;
 
-//camera2 = new THREE.PerspectiveCamera(40, 1, 1, 1000);
-//camera2.position.copy(camera.position);
+function hilbert3d(center, size, iterations, v0, v1, v2, v3, v4, v5, v6, v7) {
 
-this.program = app.gfx.programs.fetch('line');
+    // Default Vars
+    var center = center !== undefined ? center : { x: 0, y: 0, z: 0 },
+        size = size !== undefined ? size : 10,
+        half = size / 2,
+        iterations = iterations !== undefined ? iterations : 1,
+        v0 = v0 !== undefined ? v0 : 0,
+        v1 = v1 !== undefined ? v1 : 1,
+        v2 = v2 !== undefined ? v2 : 2,
+        v3 = v3 !== undefined ? v3 : 3,
+        v4 = v4 !== undefined ? v4 : 4,
+        v5 = v5 !== undefined ? v5 : 5,
+        v6 = v6 !== undefined ? v6 : 6,
+        v7 = v7 !== undefined ? v7 : 7
+    ;
 
-this.material = app.gfx.materials.create('line'); var m = material;
-    m.program = program;
-    m.solid.colour = two.rgb(0xffffff);
-    m.line.line_width = 5.0;
-    m.line.dashed = true;
-    m.base.shader_color = two.ShaderColor.Vertex;
+    var corners = [
+        { x: center.x - half, y: center.y + half, z: center.z - half },
+        { x: center.x - half, y: center.y + half, z: center.z + half },
+        { x: center.x - half, y: center.y - half, z: center.z + half },
+        { x: center.x - half, y: center.y - half, z: center.z - half },
+        { x: center.x + half, y: center.y - half, z: center.z - half },
+        { x: center.x + half, y: center.y - half, z: center.z + half },
+        { x: center.x + half, y: center.y + half, z: center.z + half },
+        { x: center.x + half, y: center.y + half, z: center.z - half }
+    ];
 
-this.batch = nullptr;
-//vector<Lines::Segment> segments;
+    var vec = [
+        corners[v0],
+        corners[v1],
+        corners[v2],
+        corners[v3],
+        corners[v4],
+        corners[v5],
+        corners[v6],
+        corners[v7]
+   ];
+
+    // Recurse iterations
+    if (-- iterations >= 0) {
+
+        var tmp = [];
+
+        Array.prototype.push.apply(tmp, hilbert3d(vec[0], half, iterations, v0, v3, v4, v7, v6, v5, v2, v1));
+        Array.prototype.push.apply(tmp, hilbert3d(vec[1], half, iterations, v0, v7, v6, v1, v2, v5, v4, v3));
+        Array.prototype.push.apply(tmp, hilbert3d(vec[2], half, iterations, v0, v7, v6, v1, v2, v5, v4, v3));
+        Array.prototype.push.apply(tmp, hilbert3d(vec[3], half, iterations, v2, v3, v0, v1, v6, v7, v4, v5));
+        Array.prototype.push.apply(tmp, hilbert3d(vec[4], half, iterations, v2, v3, v0, v1, v6, v7, v4, v5));
+        Array.prototype.push.apply(tmp, hilbert3d(vec[5], half, iterations, v4, v3, v2, v5, v6, v1, v0, v7));
+        Array.prototype.push.apply(tmp, hilbert3d(vec[6], half, iterations, v4, v3, v2, v5, v6, v1, v0, v7));
+        Array.prototype.push.apply(tmp, hilbert3d(vec[7], half, iterations, v6, v5, v2, v1, v0, v3, v4, v7));
+
+        // Return recursive call
+        return tmp;
+
+    }
+
+    // Return complete Hilbert Curve.
+    return vec;
+}
 
 if(typeof this.state == 'undefined') {
     this.state = 1;
@@ -29,71 +76,45 @@ if(typeof this.state == 'undefined') {
     camera.fov = 40.0; camera.near = 1.0; camera.far = 1000.0;
     camera.eye = new two.vec3(-40.0, 0.0, 60.0);
 
-    var lines = new two.Lines(app.gfx);
+    var program = app.gfx.programs.fetch('line');
 
-    //vector<vec3> points = hilbert3d(new two.vec3(0.0), 20.0, 1);
+    var material = app.gfx.materials.create('line'); var m = material;
+        m.program = program;
+        m.solid.colour = two.rgb(0xffffff);
+        m.line.line_width = 5.0;
+        m.line.dashed = true;
+        m.base.shader_color = two.ShaderColor.Vertex;
 
+    this.lines = new two.Lines(app.gfx);
+
+    var points = hilbert3d(new two.vec3(0.0), 20.0, 1);
     var curve = new two.CurveCatmullRom3(points);
-    var divisions = round(12 * points.length);
-    var l = float(divisions);
 
-    for(var i = 0; i < divisions - 1; i++)
+    for(var i = 0; i < points.length; i++)
     {
-        var start = curve.point(float(i+0) / l);
-        var end   = curve.point(float(i+1) / l);
-
-        var color_start = two.hsl(float(i+0) / l, 1.0, 0.5);
-        var color_end   = two.hsl(float(i+1) / l, 1.0, 0.5);
-
-        lines.segments.push({ start, 0.0, end, 0.0, color_start, color_end });
+        var p = points[i];
+        curve.add_point(new two.vec3(p.x, p.y, p.z));
     }
 
-    lines.compute_distances();
-
-    segments = lines.segments;
+    var div = Math.round(12 * points.length);
+    
+    this.lines.start(curve.point(0.0), two.hsl(0.0, 1.0, 0.5));
+    
+    for(var i = 0; i < div; i++)
+    {
+        var p = curve.point(i / div);
+        var c = two.hsl(i / div, 1.0, 0.5);
+        
+        this.lines.next(p, c);
+    }
 
     var n = scene.nodes().add(new two.Node3());
-    var it = scene.items().add(new two.Item(n, *lines.model, 0, material));
-    batch = two.gfx.batches(scene).add(new two.Batch(it));
-    it.batch = batch;
-
-    //line = new THREE.Line2(geometry, matLine);
-    //line.computeLineDistances();
-    //line.scale.set(1, 1, 1);
-    //scene.add(line);
-
-
-    // THREE.Line (BufferGeometry, LineBasicMaterial) - rendered with gl.LINE_STRIP
-
-    /*var geo = new THREE.BufferGeometry();
-    geo.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    geo.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-
-    matLineBasic = new THREE.LineBasicMaterial({ vertexColors: THREE.VertexColors });
-    matLineDashed = new THREE.LineDashedMaterial({ vertexColors: THREE.VertexColors, scale: 2, dashSize: 1, gapSize: 1 });
-
-    line1 = new THREE.Line(geo, matLineBasic);
-    line1.computeLineDistances();
-    line1.visible = false;
-    scene.add(line1);
-
-    initGui();*/
+    var it = scene.items().add(new two.Item(n, this.lines.model, 0, material));
+    this.batch = scene.batches().add(new two.Batch(it));
+    it.batch = this.batch;
 }
 
 var root = scene.begin();
-two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', BackgroundMode::Radiance);
+two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
 
-span<float> memory = batch->begin(segments.length, sizeof(Lines::Segment));
-memcpy(memory.data(), segments.data(), memory.length * sizeof(float));
-
-//if(Widget* dock = two.ui.dockitem(dockbar, 'Game', { 1U }))
-//{
-//    var sheet = two.ui.columns(*dock, { 0.3, 0.7 });
-//
-//    two.ui.slider_field<float>(sheet, 'line width', { material.line.line_width, { 0.0, 20.0, 0.1 } });
-//
-//    two.ui.input_field<bool>(sheet, 'dased', material.line.dashed);
-//    two.ui.slider_field<float>(sheet, 'dash scale', { material.line.dash_scale, { 0.0, 20.0, 0.1 } });
-//    two.ui.slider_field<float>(sheet, 'dash size', { material.line.dash_size,  { 0.0, 20.0, 0.1 } });
-//    two.ui.slider_field<float>(sheet, 'dash gap', { material.line.dash_gap,   { 0.0, 20.0, 0.1 } });
-//}
+this.lines.commit(this.batch);

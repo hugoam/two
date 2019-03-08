@@ -249,9 +249,9 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 		size_t index = 0;
 		for(Material* material : materials)
 		{
-			float i = float(index++);
-			vec3 position = vec3(sin(i * c_pi2) * radius, 0.f, cos(i * c_pi2) * radius);
-			quat rotation = quat(vec3(0.f, i * c_pi2, 0.f));
+			const float i = float(index++);
+			const vec3 position = vec3(sin(i * c_pi2) * radius, 0.f, cos(i * c_pi2) * radius);
+			const quat rotation = quat(vec3(0.f, i * c_pi2, 0.f));
 
 			Node3& n = gfx::nodes(scene).add(Node3(position, rotation));
 
@@ -259,9 +259,10 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 			Item& it = gfx::items(scene).add(Item(m, model, 0U, material));
 			UNUSED(it);
 
+
 			for(size_t i = 0; i < 8; i++)
 			{
-				Colour color = hsl(randf(), 1.0, 0.5f);
+				const Colour color = hsl(randf(), 1.0, 0.5f);
 
 				Material& ml = app.m_gfx.materials().create("light" + material->m_name + to_string(i), [&](Material& m) { 
 					m.m_program = &solid; m.m_solid.m_colour = color; 
