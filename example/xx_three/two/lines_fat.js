@@ -23,31 +23,24 @@ function hilbert3d(center, size, iterations, v0, v1, v2, v3, v4, v5, v6, v7) {
         v6 = v6 !== undefined ? v6 : 6,
         v7 = v7 !== undefined ? v7 : 7
     ;
-
+    
+    var px = center.x + half; var py = center.y + half; var pz = center.z + half;
+    var nx = center.x - half; var ny = center.y - half; var nz = center.z - half;
     var corners = [
-        { x: center.x - half, y: center.y + half, z: center.z - half },
-        { x: center.x - half, y: center.y + half, z: center.z + half },
-        { x: center.x - half, y: center.y - half, z: center.z + half },
-        { x: center.x - half, y: center.y - half, z: center.z - half },
-        { x: center.x + half, y: center.y - half, z: center.z - half },
-        { x: center.x + half, y: center.y - half, z: center.z + half },
-        { x: center.x + half, y: center.y + half, z: center.z + half },
-        { x: center.x + half, y: center.y + half, z: center.z - half }
+        { x: nx, y: py, z: nz },
+        { x: nx, y: py, z: pz },
+        { x: nx, y: ny, z: pz },
+        { x: nx, y: ny, z: nz },
+        { x: px, y: ny, z: nz },
+        { x: px, y: ny, z: pz },
+        { x: px, y: py, z: pz },
+        { x: px, y: py, z: nz }
     ];
 
-    var vec = [
-        corners[v0],
-        corners[v1],
-        corners[v2],
-        corners[v3],
-        corners[v4],
-        corners[v5],
-        corners[v6],
-        corners[v7]
-   ];
+    var vec = [ corners[v0], corners[v1], corners[v2], corners[v3], corners[v4], corners[v5], corners[v6], corners[v7] ];
 
     // Recurse iterations
-    if (-- iterations >= 0) {
+    if (--iterations >= 0) {
 
         var tmp = [];
 
@@ -62,7 +55,6 @@ function hilbert3d(center, size, iterations, v0, v1, v2, v3, v4, v5, v6, v7) {
 
         // Return recursive call
         return tmp;
-
     }
 
     // Return complete Hilbert Curve.

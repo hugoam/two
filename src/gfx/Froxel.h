@@ -28,7 +28,7 @@ namespace mud
 	constexpr uint32_t CONFIG_MAX_LIGHT_COUNT = 256;
 	constexpr uint32_t CONFIG_MAX_LIGHT_INDEX = CONFIG_MAX_LIGHT_COUNT - 1;
 
-	constexpr uint32_t CONFIG_FROXEL_SLICE_COUNT = 16;
+	constexpr uint32_t CONFIG_CLUSTER_SLICE_COUNT = 16;
 
 	//
 	// Light UBO           Froxel Record Buffer     per-froxel light list texture
@@ -60,7 +60,7 @@ namespace mud
 	// the light indices per froxel. The record buffer is limited to 65536 entries, so with
 	// 8192 froxels, we can store 8 lights per froxels assuming they're all used. In practice, some
 	// froxels are not used, so we can store more.
-	static constexpr uint32_t FROXEL_BUFFER_ENTRY_COUNT_MAX = 8192;
+	static constexpr uint32_t CLUSTER_BUFFER_ENTRY_COUNT_MAX = 8192;
 
 	struct LightRecord
 	{

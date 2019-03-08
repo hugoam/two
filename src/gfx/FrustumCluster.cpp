@@ -138,7 +138,7 @@ namespace mud
 
 	void compute_frustum_subdiv_square(ClusteredFrustum& frustum, vec2 clip_size, size_t slices, size_t max_clusters)
 	{
-		// calculate froxel dimension from FROXEL_BUFFER_ENTRY_COUNT_MAX and viewport
+		// calculate froxel dimension from CLUSTER_BUFFER_ENTRY_COUNT_MAX and viewport
 		// - Start from the maximum number of froxels we can use in the x-y plane
 		size_t per_slice = max_clusters / slices;
 		// - compute the number of square froxels we need in width and height, rounded down

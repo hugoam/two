@@ -49,19 +49,19 @@ namespace mud
 	using LightGroupType = uint32_t;
 
 	// The first entry always encodes the type of light, i.e. point/spot
-	using FroxelThreadData = array<LightGroupType, FROXEL_BUFFER_ENTRY_COUNT_MAX + 1>;
+	using FroxelThreadData = array<LightGroupType, CLUSTER_BUFFER_ENTRY_COUNT_MAX + 1>;
 
-	static constexpr bool SUPPORTS_REMAPPED_FROXELS = false;
+	static constexpr bool SUPPORTS_REMAPPED_CLUSTERS = false;
 
-	// The Froxel buffer is set to FROXEL_BUFFER_WIDTH x n
+	// The Froxel buffer is set to CLUSTER_BUFFER_WIDTH x n
 	// With n limited by the supported texture dimension, which is guaranteed to be at least 2048
 	// in all version of GLES.
 
 	// Make sure this matches the same constants in shading_lit.fs
-	constexpr uint32_t FROXEL_BUFFER_WIDTH_SHIFT = 6u;
-	constexpr uint32_t FROXEL_BUFFER_WIDTH = 1u << FROXEL_BUFFER_WIDTH_SHIFT;
-	constexpr uint32_t FROXEL_BUFFER_WIDTH_MASK = FROXEL_BUFFER_WIDTH - 1u;
-	constexpr uint32_t FROXEL_BUFFER_HEIGHT = (FROXEL_BUFFER_ENTRY_COUNT_MAX + FROXEL_BUFFER_WIDTH_MASK) / FROXEL_BUFFER_WIDTH;
+	constexpr uint32_t CLUSTER_BUFFER_WIDTH_SHIFT = 6u;
+	constexpr uint32_t CLUSTER_BUFFER_WIDTH = 1u << CLUSTER_BUFFER_WIDTH_SHIFT;
+	constexpr uint32_t CLUSTER_BUFFER_WIDTH_MASK = CLUSTER_BUFFER_WIDTH - 1u;
+	constexpr uint32_t CLUSTER_BUFFER_HEIGHT = (CLUSTER_BUFFER_ENTRY_COUNT_MAX + CLUSTER_BUFFER_WIDTH_MASK) / CLUSTER_BUFFER_WIDTH;
 
 	constexpr uint32_t RECORD_BUFFER_WIDTH_SHIFT = 5u;
 	constexpr uint32_t RECORD_BUFFER_WIDTH = 1u << RECORD_BUFFER_WIDTH_SHIFT;
@@ -120,7 +120,7 @@ namespace mud
 	struct Froxelizer::Impl
 	{
 		Impl()
-			: m_froxels({ GpuBuffer::ElementType::UINT16, 2 }, FROXEL_BUFFER_WIDTH, FROXEL_BUFFER_HEIGHT)
+			: m_froxels({ GpuBuffer::ElementType::UINT16, 2 }, CLUSTER_BUFFER_WIDTH, CLUSTER_BUFFER_HEIGHT)
 			, m_records({ record_type(), 1 }, RECORD_BUFFER_WIDTH, RECORD_BUFFER_HEIGHT)
 		{
 			m_uniform.createUniforms();
@@ -187,10 +187,10 @@ namespace mud
 		bool uniformsNeedUpdating = this->update(viewport, projection, near, far);
 
 		// froxel buffer (~32 KiB) & record buffer (~64 KiB)
-		m_impl->m_froxels.m_data.resize(FROXEL_BUFFER_ENTRY_COUNT_MAX);
+		m_impl->m_froxels.m_data.resize(CLUSTER_BUFFER_ENTRY_COUNT_MAX);
 		m_impl->m_records.m_data.resize(RECORD_BUFFER_ENTRY_COUNT);
 
-		m_impl->m_light_records.resize(FROXEL_BUFFER_ENTRY_COUNT_MAX);  // light records per froxel (~256 KiB)
+		m_impl->m_light_records.resize(CLUSTER_BUFFER_ENTRY_COUNT_MAX);  // light records per froxel (~256 KiB)
 		m_impl->m_froxel_sharded_data.resize(GROUP_COUNT);				// froxel thread data (~256 KiB)
 
 		return uniformsNeedUpdating;
@@ -204,7 +204,7 @@ namespace mud
 		m_frustum.resize(rect_size(vec4(m_viewport->m_rect)));
 
 		m_params_z = { 0.f, 0.f, -m_frustum.m_linearizer, float(m_frustum.m_subdiv_z) };
-		if(SUPPORTS_REMAPPED_FROXELS)
+		if(SUPPORTS_REMAPPED_CLUSTERS)
 		{
 			m_params_f.x = uint32_t(m_frustum.m_subdiv_z);
 			m_params_f.y = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_z);
@@ -421,7 +421,7 @@ namespace mud
 		}
 
 		// this gets very well vectorized...
-		for(uint32_t j = 1, jc = FROXEL_BUFFER_ENTRY_COUNT_MAX; j < jc; j++)
+		for(uint32_t j = 1, jc = CLUSTER_BUFFER_ENTRY_COUNT_MAX; j < jc; j++)
 		{
 			for(uint32_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
 			{
@@ -436,9 +436,9 @@ namespace mud
 
 		auto remap = [stride = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_y)](uint32_t i) -> uint32_t
 		{
-			if(SUPPORTS_REMAPPED_FROXELS) {
+			if(SUPPORTS_REMAPPED_CLUSTERS) {
 				// TODO: with the non-square froxel change these would be mask ops instead of divide.
-				i = (i % stride) * CONFIG_FROXEL_SLICE_COUNT + (i / stride);
+				i = (i % stride) * CONFIG_CLUSTER_SLICE_COUNT + (i / stride);
 			}
 			return i;
 		};
