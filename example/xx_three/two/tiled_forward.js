@@ -13,7 +13,7 @@ var radius = 75.0;
 if(typeof this.state == 'undefined') {
     this.state = 1;
     
-    this.importerOBJ = new toy.ImporterOBJ(app.gfx);
+    this.importerOBJ = new two.ImporterOBJ(app.gfx);
 
     var scene = viewer.scene;
 
@@ -49,8 +49,8 @@ if(typeof this.state == 'undefined') {
     var sphere = app.gfx.shape(new two.Sphere(0.5));
     var big_sphere = app.gfx.shape(new two.Sphere(0.5 * 6.66));
 
-    var transparent = randi(0, 3);
-    materials[transparent]->alpha.alpha = 0.9;
+    var transparent = Math.round(Math.random() * 3);
+    materials[transparent].alpha.alpha = 0.9;
 
     //transparent : tIndex == = index ? true : false,
     //mtl.uniforms['opacity'].value = tIndex == = index ? 0.9 : 1;
@@ -61,8 +61,8 @@ if(typeof this.state == 'undefined') {
     for(var i = 0; i < materials.length; ++i)
     {
         var material = materials[i];
-        var position = new two.vec3(Math.sin(i * 2 * Math.PI) * radius, 0.0, Math.cos(i 2 * Math.PI) * radius);
-        var rotation = new two.quat(new two.vec3(0.0, i 2 * Math.PI, 0.0));
+        var position = new two.vec3(Math.sin(i * Math.PI / 2) * radius, 0.0, Math.cos(i * Math.PI / 2) * radius);
+        var rotation = new two.quat(new two.vec3(0.0, i * Math.PI / 2, 0.0));
 
         var n = scene.nodes().add(new two.Node3(position, rotation));
 
@@ -71,15 +71,15 @@ if(typeof this.state == 'undefined') {
         
         var it = scene.items().add(new two.Item(m, model, 0, material));
 
-        for(var i = 0; i < 8; i++)
+        for(var j = 0; j < 8; j++)
         {
             var color = two.hsl(Math.random(), 1.0, 0.5);
 
-            var ml = app.gfx.materials.create('light' + material.name + i.toString()); 
+            var ml = app.gfx.materials.create('light' + material.name + j.toString()); 
             ml.program = solid; ml.solid.colour.value = color;
 
-            var mla = app.gfx.materials.create('lightalpha' + material.name + i.toString());
-            mla.program = solid; mla.solid.colour.value = color; m.alpha.alpha.value = 0.033;
+            var mla = app.gfx.materials.create('lightalpha' + material.name + j.toString());
+            mla.program = solid; mla.solid.colour.value = color; mla.alpha.alpha = 0.033;
 
             var l = scene.nodes().add(new two.Node3());
             var i0 = scene.items().add(new two.Item(l, sphere, 0, ml)); // MaterialSolid(color)));
@@ -90,8 +90,8 @@ if(typeof this.state == 'undefined') {
             var light = scene.lights().add(new two.Light(l, two.LightType.Point));
             light.range = 40.0;
             light.colour = color;
-
-            lights.push({
+            
+            var l = {
                 parent: n,
                 node: l,
                 color: color,
@@ -104,7 +104,10 @@ if(typeof this.state == 'undefined') {
                 pr: Math.random() * Math.PI,
                 pc: Math.random() * Math.PI,
                 dir: Math.random() > 0.5 ? 1.0 : -1.0
-            });
+            };
+            
+            lights.push(l);
+        }
     }
 }
 
