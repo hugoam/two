@@ -51,11 +51,6 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Material& pointmat = app.m_gfx.materials().create("point", [&](Material& m) {
 		m.m_program = &pointprog;
 		m.m_base.m_blend_mode = BlendMode::Add;
-#if INSTANCING
-		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Triangles));
-#else
-		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Points));
-#endif
 		m.m_alpha.m_is_alpha = true;
 		m.m_solid.m_colour = rgb(0xffffff);//hsl(1.f, 0.3f, 0.7f);
 		m.m_point.m_project = false;
@@ -64,7 +59,6 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Material& linemat = app.m_gfx.materials().create("line", [&](Material& m) {
 		m.m_program = &lineprog;
-		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Lines));
 		m.m_base.m_blend_mode = BlendMode::Add;
 		m.m_base.m_shader_color = ShaderColor::Vertex;
 		m.m_alpha.m_is_alpha = true;

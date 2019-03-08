@@ -93,6 +93,36 @@ MeshPacker.prototype.constructor = MeshPacker;
 MeshPacker.prototype.__class = MeshPacker;
 MeshPacker.__cache = {};
 Module['MeshPacker'] = MeshPacker;
+MeshPacker.prototype["position"] = MeshPacker.prototype.position = function(a0) {
+    _mud_MeshPacker_position_1(this.__ptr, /*p*/a0.__ptr);
+};
+MeshPacker.prototype["normal"] = MeshPacker.prototype.normal = function(a0) {
+    _mud_MeshPacker_normal_1(this.__ptr, /*n*/a0.__ptr);
+};
+MeshPacker.prototype["colour"] = MeshPacker.prototype.colour = function(a0) {
+    _mud_MeshPacker_colour_1(this.__ptr, /*c*/a0.__ptr);
+};
+MeshPacker.prototype["tangent"] = MeshPacker.prototype.tangent = function(a0) {
+    _mud_MeshPacker_tangent_1(this.__ptr, /*t*/a0.__ptr);
+};
+MeshPacker.prototype["bitangent"] = MeshPacker.prototype.bitangent = function(a0) {
+    _mud_MeshPacker_bitangent_1(this.__ptr, /*b*/a0.__ptr);
+};
+MeshPacker.prototype["uv0"] = MeshPacker.prototype.uv0 = function(a0) {
+    _mud_MeshPacker_uv0_1(this.__ptr, /*uv*/a0.__ptr);
+};
+MeshPacker.prototype["uv1"] = MeshPacker.prototype.uv1 = function(a0) {
+    _mud_MeshPacker_uv1_1(this.__ptr, /*uv*/a0.__ptr);
+};
+MeshPacker.prototype["bones"] = MeshPacker.prototype.bones = function(a0) {
+    _mud_MeshPacker_bones_1(this.__ptr, /*j*/a0.__ptr);
+};
+MeshPacker.prototype["weights"] = MeshPacker.prototype.weights = function(a0) {
+    _mud_MeshPacker_weights_1(this.__ptr, /*w*/a0.__ptr);
+};
+MeshPacker.prototype["index"] = MeshPacker.prototype.index = function(a0) {
+    _mud_MeshPacker_index_1(this.__ptr, /*i*/a0);
+};
 Object.defineProperty(MeshPacker.prototype, "primitive", {
     get: function() {
         return _mud_MeshPacker__get_primitive(this.__ptr);

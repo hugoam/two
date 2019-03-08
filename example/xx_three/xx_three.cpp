@@ -17,10 +17,13 @@ using namespace mud;
 // xx_performance_doublesided
 // xx_performance_static
 // xx_lines_fat
+// xx_tiled_forward (fix clusters)
 
 // todo:
-// xx_lines_dashed
-// xx_tiled_forward
+// xx_geom_lines(app, parent, dockbar);
+// xx_geom_points(app, parent, dockbar);
+// xx_geom_points_packed(app, parent, dockbar);
+// xx_geom_points_instanced(app, parent, dockbar);
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 {
@@ -28,17 +31,17 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//xx_shadow_point(app, parent, dockbar);
 	//xx_shader(app, parent, dockbar);
 	//xx_shader_lava(app, parent, dockbar);
-	xx_tiled_forward(app, parent, dockbar);
+	//xx_tiled_forward(app, parent, dockbar);
 	//xx_performance(app, parent, dockbar);
 	//xx_performance_doublesided(app, parent, dockbar);
 	//xx_performance_static(app, parent, dockbar);
-	//xx_billboards(app, parent, dockbar);
+	    //xx_billboards(app, parent, dockbar);
 	//xx_lines_fat(app, parent, dockbar);
-	//xx_lines_dashed(app, parent, dockbar);
+	    //xx_lines_dashed(app, parent, dockbar);
 	//xx_geom(app, parent, dockbar);
 	//xx_geom_sprites(app, parent, dockbar);
 	//xx_geom_instances(app, parent, dockbar);
-	//xx_geom_lines(app, parent, dockbar);
+	xx_geom_lines(app, parent, dockbar);
 	//xx_geom_points(app, parent, dockbar);
 	//xx_geom_points_packed(app, parent, dockbar);
 	//xx_geom_points_instanced(app, parent, dockbar);

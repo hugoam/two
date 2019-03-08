@@ -57,6 +57,16 @@ void mud_Face3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl
 void mud_Face3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Face3((*static_cast<mud::Face3*>(other))); }
 void mud_MeshPacker__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MeshPacker(  ); }
 void mud_MeshPacker__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MeshPacker((*static_cast<mud::MeshPacker*>(other))); }
+void mud_MeshPacker_position(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).position(*static_cast<mud::vec3*>(args[0])); }
+void mud_MeshPacker_normal(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).normal(*static_cast<mud::vec3*>(args[0])); }
+void mud_MeshPacker_colour(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).colour(*static_cast<mud::Colour*>(args[0])); }
+void mud_MeshPacker_tangent(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).tangent(*static_cast<mud::vec4*>(args[0])); }
+void mud_MeshPacker_bitangent(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).bitangent(*static_cast<mud::vec3*>(args[0])); }
+void mud_MeshPacker_uv0(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).uv0(*static_cast<mud::vec2*>(args[0])); }
+void mud_MeshPacker_uv1(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).uv1(*static_cast<mud::vec2*>(args[0])); }
+void mud_MeshPacker_bones(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).bones(*static_cast<mud::ivec4*>(args[0])); }
+void mud_MeshPacker_weights(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).weights(*static_cast<mud::vec4*>(args[0])); }
+void mud_MeshPacker_index(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).index(*static_cast<uint32_t*>(args[0])); }
 void mud_Plane__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Plane(  ); }
 void mud_Plane__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Plane((*static_cast<mud::Plane*>(other))); }
 void mud_Plane3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Plane3(  ); }
@@ -414,8 +424,20 @@ namespace mud
 			{ t, offsetof(mud::MeshPacker, m_indices), type<stl::vector<uint32_t>>(), "indices", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
+		static Method methods[] = {
+			{ t, "position", Address(), mud_MeshPacker_position, { { "p", type<mud::vec3>(),  } }, g_qvoid },
+			{ t, "normal", Address(), mud_MeshPacker_normal, { { "n", type<mud::vec3>(),  } }, g_qvoid },
+			{ t, "colour", Address(), mud_MeshPacker_colour, { { "c", type<mud::Colour>(),  } }, g_qvoid },
+			{ t, "tangent", Address(), mud_MeshPacker_tangent, { { "t", type<mud::vec4>(),  } }, g_qvoid },
+			{ t, "bitangent", Address(), mud_MeshPacker_bitangent, { { "b", type<mud::vec3>(),  } }, g_qvoid },
+			{ t, "uv0", Address(), mud_MeshPacker_uv0, { { "uv", type<mud::vec2>(),  } }, g_qvoid },
+			{ t, "uv1", Address(), mud_MeshPacker_uv1, { { "uv", type<mud::vec2>(),  } }, g_qvoid },
+			{ t, "bones", Address(), mud_MeshPacker_bones, { { "j", type<mud::ivec4>(),  } }, g_qvoid },
+			{ t, "weights", Address(), mud_MeshPacker_weights, { { "w", type<mud::vec4>(),  } }, g_qvoid },
+			{ t, "index", Address(), mud_MeshPacker_index, { { "i", type<uint32_t>(),  } }, g_qvoid }
+		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
 	}
 	// mud::Plane
 	{

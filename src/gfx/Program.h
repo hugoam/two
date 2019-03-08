@@ -109,6 +109,8 @@ namespace mud
 		bool m_compute = false;
 		uint32_t m_update = 1;
 
+		uint32_t m_primitives = 0;
+
 		struct Impl;
 		unique<Impl> m_impl;
 

@@ -23,7 +23,6 @@ void xx_geom_lines(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Material& material = app.m_gfx.materials().create("lines", [](Material& m) {
 		m.m_program = &program;
-		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::LineStrip)); // @todo this should not be necessary: in the program ?
 		m.m_base.m_shader_color = ShaderColor::Vertex;
 	});
 

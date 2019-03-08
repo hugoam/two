@@ -94,7 +94,7 @@ namespace mud
 		attr_ bool m_screen_filter = false;
 		attr_ float m_anisotropy;
 
-		uint32_t m_geometry_filter = (1 << uint(PrimitiveType::Triangles)) | (1 << uint(PrimitiveType::Lines));
+		uint32_t m_geometry_filter = UINT32_MAX;
 
 #if 0
 		BillboardMode m_billboard_mode;

@@ -30,11 +30,6 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 	//Material& material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
 	static Material& material = app.m_gfx.materials().create("points", [&](Material& m) {
 		m.m_program = &program;
-#if INSTANCING
-		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Triangles));
-#else
-		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Points));
-#endif
 		m.m_solid.m_colour = hsl(1.f, 0.3f, 0.7f);
 		m.m_solid.m_colour = &sprite;
 	});

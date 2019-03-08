@@ -52,6 +52,18 @@ namespace mud
 
 		attr_ vector<uint32_t> m_indices;
 
+		meth_ void position(const vec3& p) { m_positions.push_back(p); }
+		meth_ void normal(const vec3& n) { m_normals.push_back(n); }
+		meth_ void colour(const Colour& c) { m_colours.push_back(c); }
+		meth_ void tangent(const vec4& t) { m_tangents.push_back(t); }
+		meth_ void bitangent(const vec3& b) { m_bitangents.push_back(b); }
+		meth_ void uv0(const vec2& uv) { m_uv0s.push_back(uv); }
+		meth_ void uv1(const vec2& uv) { m_uv1s.push_back(uv); }
+		meth_ void bones(const ivec4& j) { m_bones.push_back(j); }
+		meth_ void weights(const vec4& w) { m_weights.push_back(w); }
+
+		meth_ void index(uint32_t i) { m_indices.push_back(i); }
+
 		bool m_quantize = false;
 
 		void bake(bool normals, bool tangents);

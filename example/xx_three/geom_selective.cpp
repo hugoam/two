@@ -68,7 +68,6 @@ void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Material& material = app.m_gfx.materials().create("material", [](Material& m) {
 		m.m_program = &program;
-		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Lines)); // @todo this should not be necessary: in the program ?
 	});
 
 	static Model* model = nullptr;

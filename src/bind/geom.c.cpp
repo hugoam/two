@@ -89,6 +89,36 @@ extern "C" {
 	mud::MeshPacker* DECL mud_MeshPacker__construct_0() {
 		return new mud::MeshPacker();
 	}
+	void DECL mud_MeshPacker_position_1(mud::MeshPacker* self, const mud::vec3* p) {
+		self->position(*p);
+	}
+	void DECL mud_MeshPacker_normal_1(mud::MeshPacker* self, const mud::vec3* n) {
+		self->normal(*n);
+	}
+	void DECL mud_MeshPacker_colour_1(mud::MeshPacker* self, const mud::Colour* c) {
+		self->colour(*c);
+	}
+	void DECL mud_MeshPacker_tangent_1(mud::MeshPacker* self, const mud::vec4* t) {
+		self->tangent(*t);
+	}
+	void DECL mud_MeshPacker_bitangent_1(mud::MeshPacker* self, const mud::vec3* b) {
+		self->bitangent(*b);
+	}
+	void DECL mud_MeshPacker_uv0_1(mud::MeshPacker* self, const mud::vec2* uv) {
+		self->uv0(*uv);
+	}
+	void DECL mud_MeshPacker_uv1_1(mud::MeshPacker* self, const mud::vec2* uv) {
+		self->uv1(*uv);
+	}
+	void DECL mud_MeshPacker_bones_1(mud::MeshPacker* self, const mud::ivec4* j) {
+		self->bones(*j);
+	}
+	void DECL mud_MeshPacker_weights_1(mud::MeshPacker* self, const mud::vec4* w) {
+		self->weights(*w);
+	}
+	void DECL mud_MeshPacker_index_1(mud::MeshPacker* self, uint32_t i) {
+		self->index(i);
+	}
 	mud::PrimitiveType DECL mud_MeshPacker__get_primitive(mud::MeshPacker* self) {
 		return self->m_primitive;
 	}

@@ -24,7 +24,6 @@ void xx_geom_points_instanced(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Material& material = app.m_gfx.materials().create("points", [&](Material& m) {
 		m.m_program = &program;
-		m.m_base.m_geometry_filter = uint32_t(1 << uint(PrimitiveType::Triangles));
 		m.m_base.m_shader_color = ShaderColor::Vertex;
 		m.m_point.m_point_size = 15.f;
 	});
