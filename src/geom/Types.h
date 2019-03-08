@@ -33,6 +33,8 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Curve3>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Face3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::MarchingCubes>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::MeshAdapter>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::MeshPacker>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Plane>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Plane3>();

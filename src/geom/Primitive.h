@@ -36,21 +36,22 @@ namespace mud
 		enum Enum
 		{
 			Position = 1 << 0,
-			QPosition = 1 << 1,
-			Normal = 1 << 2,
-			QNormal = 1 << 3,
-			Colour = 1 << 4,
-			Tangent = 1 << 5,
-			QTangent = 1 << 6,
-			Bitangent = 1 << 7,
-			TexCoord0 = 1 << 8,
-			QTexCoord0 = 1 << 9,
-			TexCoord1 = 1 << 10,
-			QTexCoord1 = 1 << 11,
-			Joints = 1 << 12,
-			Weights = 1 << 13,
+			Position4 = 1 << 1,
+			QPosition = 1 << 2,
+			Normal = 1 << 3,
+			QNormal = 1 << 4,
+			Colour = 1 << 5,
+			Tangent = 1 << 6,
+			QTangent = 1 << 7,
+			Bitangent = 1 << 8,
+			TexCoord0 = 1 << 9,
+			QTexCoord0 = 1 << 10,
+			TexCoord1 = 1 << 11,
+			QTexCoord1 = 1 << 12,
+			Joints = 1 << 13,
+			Weights = 1 << 14,
 
-			Count = 1 << 14
+			Count = 1 << 15
 		};
 	};
 
@@ -85,7 +86,7 @@ namespace mud
 
 	export_ size_t vertex_offset(uint32_t vertex_format, VertexAttribute::Enum attribute);
 
-	export_ struct MUD_GEOM_EXPORT MeshAdapter
+	export_ struct refl_ MUD_GEOM_EXPORT MeshAdapter
 	{
 		MeshAdapter() {}
 		MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices = {}, bool index32 = false);
@@ -103,6 +104,7 @@ namespace mud
 		struct Pointers
 		{
 			vec3* m_position = nullptr;
+			vec4* m_position4 = nullptr;
 			vec3* m_normal = nullptr;
 			uint32_t* m_colour = nullptr;
 			vec4* m_tangent = nullptr;
@@ -135,7 +137,6 @@ namespace mud
 
 		void rewind();
 		void next();
-		void bound();
 
 		MeshAdapter read() const;
 
@@ -143,6 +144,7 @@ namespace mud
 		inline void next(T*& pointer);
 
 		MeshAdapter& position(const vec3& p);
+		MeshAdapter& position4(const vec4& p);
 		MeshAdapter& normal(const vec3& n);
 		MeshAdapter& colour(const Colour& c);
 		MeshAdapter& tangent(const vec4& t);
@@ -151,6 +153,11 @@ namespace mud
 		MeshAdapter& uv1(const vec2& uv);
 		MeshAdapter& joints(const uint32_t& j);
 		MeshAdapter& weights(const vec4& w);
+
+		// direct functions (faster, no bounds computation)
+		MeshAdapter& dposition(const vec3& p);
+		MeshAdapter& duv0(const vec2& uv);
+		MeshAdapter& duv1(const vec2& uv);
 
 		vec3 position();
 		vec3 normal();

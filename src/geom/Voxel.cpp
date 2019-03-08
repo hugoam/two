@@ -167,9 +167,9 @@ namespace mud
 
 		auto triangle = [&](size_t o1, size_t o2, size_t o3, bool flat = false)
 		{
-			output.position(cache.vert[o1]);
-			output.position(cache.vert[o2]);
-			output.position(cache.vert[o3]);
+			output.dposition(cache.vert[o1]);
+			output.dposition(cache.vert[o2]);
+			output.dposition(cache.vert[o3]);
 
 			if(flat)
 			{
@@ -191,9 +191,9 @@ namespace mud
 
 			if(false) //output.m_has_uvs)
 			{
-				output.uv0(vec2(cache.vert[o1]));
-				output.uv0(vec2(cache.vert[o2]));
-				output.uv0(vec2(cache.vert[o3]));
+				output.duv0(vec2(cache.vert[o1]));
+				output.duv0(vec2(cache.vert[o2]));
+				output.duv0(vec2(cache.vert[o3]));
 			}
 
 			if(false) //output.m_has_colors)
@@ -303,8 +303,10 @@ namespace mud
 		return num_tris;
 	}
 
-	void MarchingCubes::render(MeshAdapter& output, Cache& cache) const
+	void MarchingCubes::direct(MeshAdapter& output) const
 	{
+		this->begin(m_cache);
+
 		const uint32_t subdiv = m_subdiv - 2;
 		for(uint32_t z = 1; z < subdiv; z++)
 			for(uint32_t y = 1; y < subdiv; y++)
@@ -312,20 +314,14 @@ namespace mud
 				{
 					const size_t q = m_zd * z + m_yd * y + x;
 					const vec3 f = (vec3(float(x), float(y), float(z)) - m_extent) / m_extent; //+ 1
-					const uint8_t cubeindex = polygonize(cache, f, q, m_isolation);
-					triangulate(output, cache, cubeindex);
+					const uint8_t cubeindex = polygonize(m_cache, f, q, m_isolation);
+					triangulate(output, m_cache, cubeindex);
 				}
 	}
 
-	void MarchingCubes::render(MeshPacker& output, Cache& cache) const
+	void MarchingCubes::render(MeshPacker& output) const
 	{
-		output.m_positions.reserve(4096);
-		output.m_normals.reserve(4096);
-
-		//if(output.m_has_uvs)
-		output.m_uv0s.reserve(4096);
-		//if(output.m_has_colors)
-		output.m_colours.reserve(4096);
+		this->begin(m_cache);
 
 		const uint32_t subdiv = m_subdiv - 2;
 
@@ -335,12 +331,12 @@ namespace mud
 				{
 					const size_t q = m_zd * z + m_yd * y + x;
 					const vec3 f = (vec3(uvec3(x, y, z)) - m_extent) / m_extent; //+ 1
-					const uint8_t cubeindex = polygonize(cache, f, q, m_isolation);
-					triangulate(output, cache, cubeindex);
+					const uint8_t cubeindex = polygonize(m_cache, f, q, m_isolation);
+					triangulate(output, m_cache, cubeindex);
 				}
 	}
 
-	void add_ball(MarchingCubes& cubes, vec3 ball, float strength, float subtract)
+	void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract)
 	{
 		const float sign = mud::sign(strength);
 		strength = abs(strength);

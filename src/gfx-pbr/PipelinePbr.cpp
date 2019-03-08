@@ -167,7 +167,12 @@ namespace gfx
 			Program& line = gfx.programs().create("line");
 			line.m_blocks[MaterialBlock::Solid] = true;
 			line.m_blocks[MaterialBlock::Line] = true;
-			point.m_primitives = uint32_t(1 << uint(PrimitiveType::Lines) | 1 << uint(PrimitiveType::LineStrip));
+			line.m_primitives = uint32_t(1 << uint(PrimitiveType::Lines) | 1 << uint(PrimitiveType::LineStrip));
+
+			Program& line_fat = gfx.programs().create("line_fat");
+			line_fat.m_blocks[MaterialBlock::Solid] = true;
+			line_fat.m_blocks[MaterialBlock::Line] = true;
+			//line_fat.m_primitives = uint32_t(1 << uint(PrimitiveType::Lines) | 1 << uint(PrimitiveType::LineStrip));
 
 			Program& depth = gfx.programs().create("depth");
 			depth.register_blocks(depth_blocks);

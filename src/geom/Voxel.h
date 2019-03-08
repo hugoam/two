@@ -15,12 +15,12 @@
 namespace mud
 {
 	// port of http://webglsamples.org/blob/blob.html
-	class MarchingCubes
+	export_ class refl_ MUD_GEOM_EXPORT MarchingCubes
 	{
 	public:
-		float m_isolation = 80.f;
+		attr_ float m_isolation = 80.f;
+		attr_ uint32_t m_subdiv = 32;
 
-		uint32_t m_subdiv = 32;
 		size_t m_size;
 		float m_extent;
 
@@ -41,6 +41,8 @@ namespace mud
 			vec3 vert[12];
 			vec3 norm[12];
 		};
+		
+		mutable Cache m_cache;
 
 	public:
 		MarchingCubes(uint32_t resolution);
@@ -51,17 +53,18 @@ namespace mud
 		uint32_t triangulate(MeshAdapter& output, Cache& cache, uint8_t cubeindex) const;
 		uint32_t triangulate(MeshPacker& output, Cache& cache, uint8_t cubeindex) const;
 
-		void reset();
+		meth_ void reset();
 
 		void begin(Cache& cache) const;
-		uint32_t count() const;
-		void render(MeshAdapter& output, Cache& cache) const;
-		void render(MeshPacker& output, Cache& cache) const;
+
+		meth_ uint32_t count() const;
+		meth_ void direct(MeshAdapter& output) const;
+		meth_ void render(MeshPacker& output) const;
 	};
 
-	void add_ball(MarchingCubes& cubes, vec3 ball, float strength, float subtract);
+	MUD_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract);
 
-	void add_planeX(MarchingCubes& cubes, float strength, float subtract);
-	void add_planeY(MarchingCubes& cubes, float strength, float subtract);
-	void add_planeZ(MarchingCubes& cubes, float strength, float subtract);
+	MUD_GEOM_EXPORT func_ void add_planeX(MarchingCubes& cubes, float strength, float subtract);
+	MUD_GEOM_EXPORT func_ void add_planeY(MarchingCubes& cubes, float strength, float subtract);
+	MUD_GEOM_EXPORT func_ void add_planeZ(MarchingCubes& cubes, float strength, float subtract);
 }

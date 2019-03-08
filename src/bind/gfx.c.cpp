@@ -546,20 +546,14 @@ extern "C" {
 	mud::Direct* DECL mud_Direct__construct_0() {
 		return new mud::Direct();
 	}
-	mud::Direct* DECL mud_Direct__construct_2(mud::Node3* node, mud::Material* material) {
-		return new mud::Direct(*node, *material);
+	mud::Direct* DECL mud_Direct__construct_1(mud::Item* item) {
+		return new mud::Direct(*item);
 	}
-	mud::Node3* DECL mud_Direct__get_node(mud::Direct* self) {
-		return self->m_node;
+	mud::Item* DECL mud_Direct__get_item(mud::Direct* self) {
+		return self->m_item;
 	}
-	void DECL mud_Direct__set_node(mud::Direct* self, mud::Node3* value) {
-		self->m_node = value;
-	}
-	mud::Material* DECL mud_Direct__get_material(mud::Direct* self) {
-		return self->m_material;
-	}
-	void DECL mud_Direct__set_material(mud::Direct* self, mud::Material* value) {
-		self->m_material = value;
+	void DECL mud_Direct__set_item(mud::Direct* self, mud::Item* value) {
+		self->m_item = value;
 	}
 	void DECL mud_Direct__destroy(mud::Direct* self) {
 		delete self;
@@ -1263,14 +1257,29 @@ extern "C" {
 	mud::Type* DECL mud_Lines__type() {
 		return &mud::type<mud::Lines>();
 	}
-	mud::Lines* DECL mud_Lines__construct_1(mud::GfxSystem* gfx) {
-		return new mud::Lines(*gfx);
+	mud::Lines* DECL mud_Lines__construct_0() {
+		return new mud::Lines();
+	}
+	mud::Lines* DECL mud_Lines__construct_2(const mud::Curve3* curve, size_t subdiv) {
+		return new mud::Lines(*curve, subdiv);
+	}
+	void DECL mud_Lines_add_2(mud::Lines* self, const mud::vec3* start, const mud::vec3* end) {
+		self->add(*start, *end);
+	}
+	void DECL mud_Lines_add_3(mud::Lines* self, const mud::vec3* start, const mud::vec3* end, const mud::Colour* start_colour) {
+		self->add(*start, *end, *start_colour);
 	}
 	void DECL mud_Lines_add_4(mud::Lines* self, const mud::vec3* start, const mud::vec3* end, const mud::Colour* start_colour, const mud::Colour* end_colour) {
 		self->add(*start, *end, *start_colour, *end_colour);
 	}
+	void DECL mud_Lines_start_1(mud::Lines* self, const mud::vec3* position) {
+		self->start(*position);
+	}
 	void DECL mud_Lines_start_2(mud::Lines* self, const mud::vec3* position, const mud::Colour* colour) {
 		self->start(*position, *colour);
+	}
+	void DECL mud_Lines_next_1(mud::Lines* self, const mud::vec3* position) {
+		self->next(*position);
 	}
 	void DECL mud_Lines_next_2(mud::Lines* self, const mud::vec3* position, const mud::Colour* colour) {
 		self->next(*position, *colour);
@@ -1278,14 +1287,11 @@ extern "C" {
 	void DECL mud_Lines_setup_0(mud::Lines* self) {
 		self->setup();
 	}
+	void DECL mud_Lines_write_1(mud::Lines* self, mud::Mesh* mesh) {
+		self->write(*mesh);
+	}
 	void DECL mud_Lines_commit_1(mud::Lines* self, mud::Batch* batch) {
 		self->commit(*batch);
-	}
-	mud::Model* DECL mud_Lines__get_model(mud::Lines* self) {
-		return self->m_model;
-	}
-	void DECL mud_Lines__set_model(mud::Lines* self, mud::Model* value) {
-		self->m_model = value;
 	}
 	void DECL mud_Lines__destroy(mud::Lines* self) {
 		delete self;

@@ -56,8 +56,6 @@ void xx_geom_points_packed(Shell& app, Widget& parent, Dockbar& dockbar)
 			gpu_mesh.m_writer.colour(c);
 		}
 
-		gpu_mesh.m_writer.bound();
-
 		Model& model = app.m_gfx.create_model_gpu("points", gpu_mesh);
 
 		Node3& n = gfx::nodes(scene).add(Node3());

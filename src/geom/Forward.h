@@ -64,6 +64,7 @@ namespace mud
     struct MeshAdapter;
     class Geometry;
     struct MeshPacker;
+	class MarchingCubes;
     class Distribution;
     class Poisson;
     class RandomShapePoint;

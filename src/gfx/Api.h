@@ -1,5 +1,6 @@
 #include <math/Image256.h>
 #include <geom/Geometry.h>
+#include <geom/Curve.h>
 #include <gfx/Animated.h>
 #include <gfx/Animation.h>
 #include <gfx/Asset.h>

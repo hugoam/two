@@ -84,6 +84,56 @@ Module['Face3'] = Face3;
 Face3.prototype["__destroy"] = Face3.prototype.__destroy = function() {
     _mud_Face3__destroy(this.__ptr);
 };
+// MarchingCubes
+function MarchingCubes() { throw "cannot construct a MarchingCubes, no constructor in IDL" }
+MarchingCubes.prototype = Object.create(WrapperObject.prototype);
+MarchingCubes.prototype.constructor = MarchingCubes;
+MarchingCubes.prototype.__class = MarchingCubes;
+MarchingCubes.__cache = {};
+Module['MarchingCubes'] = MarchingCubes;
+MarchingCubes.prototype["reset"] = MarchingCubes.prototype.reset = function() {
+    _mud_MarchingCubes_reset_0(this.__ptr);
+};
+MarchingCubes.prototype["count"] = MarchingCubes.prototype.count = function() {
+    return _mud_MarchingCubes_count_0(this.__ptr);
+};
+MarchingCubes.prototype["direct"] = MarchingCubes.prototype.direct = function(a0) {
+    _mud_MarchingCubes_direct_1(this.__ptr, /*output*/a0.__ptr);
+};
+MarchingCubes.prototype["render"] = MarchingCubes.prototype.render = function(a0) {
+    _mud_MarchingCubes_render_1(this.__ptr, /*output*/a0.__ptr);
+};
+Object.defineProperty(MarchingCubes.prototype, "isolation", {
+    get: function() {
+        return _mud_MarchingCubes__get_isolation(this.__ptr);
+    },
+    set: function(value) {
+        _mud_MarchingCubes__set_isolation(this.__ptr, value);
+    }
+});
+Object.defineProperty(MarchingCubes.prototype, "subdiv", {
+    get: function() {
+        return _mud_MarchingCubes__get_subdiv(this.__ptr);
+    },
+    set: function(value) {
+        _mud_MarchingCubes__set_subdiv(this.__ptr, value);
+    }
+});
+MarchingCubes.prototype["__destroy"] = MarchingCubes.prototype.__destroy = function() {
+    _mud_MarchingCubes__destroy(this.__ptr);
+};
+// MeshAdapter
+function MeshAdapter() {
+    this.__ptr = _mud_MeshAdapter__construct_0(); this.__type = MeshAdapter.__type; getCache(MeshAdapter)[this.__ptr] = this;
+};
+MeshAdapter.prototype = Object.create(WrapperObject.prototype);
+MeshAdapter.prototype.constructor = MeshAdapter;
+MeshAdapter.prototype.__class = MeshAdapter;
+MeshAdapter.__cache = {};
+Module['MeshAdapter'] = MeshAdapter;
+MeshAdapter.prototype["__destroy"] = MeshAdapter.prototype.__destroy = function() {
+    _mud_MeshAdapter__destroy(this.__ptr);
+};
 // MeshPacker
 function MeshPacker() {
     this.__ptr = _mud_MeshPacker__construct_0(); this.__type = MeshPacker.__type; getCache(MeshPacker)[this.__ptr] = this;
@@ -122,6 +172,21 @@ MeshPacker.prototype["weights"] = MeshPacker.prototype.weights = function(a0) {
 };
 MeshPacker.prototype["index"] = MeshPacker.prototype.index = function(a0) {
     _mud_MeshPacker_index_1(this.__ptr, /*i*/a0);
+};
+MeshPacker.prototype["clear"] = MeshPacker.prototype.clear = function() {
+    _mud_MeshPacker_clear_0(this.__ptr);
+};
+MeshPacker.prototype["pack"] = MeshPacker.prototype.pack = function(a0) {
+    _mud_MeshPacker_pack_1(this.__ptr, /*writer*/a0.__ptr);
+};
+MeshPacker.prototype["xpack"] = MeshPacker.prototype.xpack = function(a0, a1) {
+    _mud_MeshPacker_xpack_2(this.__ptr, /*writer*/a0.__ptr, /*transform*/a1.__ptr);
+};
+MeshPacker.prototype["generate_normals"] = MeshPacker.prototype.generate_normals = function() {
+    _mud_MeshPacker_generate_normals_0(this.__ptr);
+};
+MeshPacker.prototype["generate_tangents"] = MeshPacker.prototype.generate_tangents = function() {
+    _mud_MeshPacker_generate_tangents_0(this.__ptr);
 };
 Object.defineProperty(MeshPacker.prototype, "primitive", {
     get: function() {
@@ -171,6 +236,14 @@ Object.defineProperty(MeshPacker.prototype, "indices", {
     get: function() {
         return _mud_MeshPacker__get_indices(this.__ptr);
     }});
+Object.defineProperty(MeshPacker.prototype, "quantize", {
+    get: function() {
+        return !!(_mud_MeshPacker__get_quantize(this.__ptr));
+    },
+    set: function(value) {
+        _mud_MeshPacker__set_quantize(this.__ptr, value);
+    }
+});
 MeshPacker.prototype["__destroy"] = MeshPacker.prototype.__destroy = function() {
     _mud_MeshPacker__destroy(this.__ptr);
 };
@@ -1405,6 +1478,18 @@ Module['to_segment'] = function(a0) {
 Module['distribute_poisson'] = function(a0, a1) {
     return _mud_distribute_poisson_2(/*size*/a0.__ptr, /*radius*/a1);
 };
+Module['add_ball'] = function(a0, a1, a2, a3) {
+    _mud_add_ball_4(/*cubes*/a0.__ptr, /*ball*/a1.__ptr, /*strength*/a2, /*subtract*/a3);
+};
+Module['add_planeX'] = function(a0, a1, a2) {
+    _mud_add_planeX_3(/*cubes*/a0.__ptr, /*strength*/a1, /*subtract*/a2);
+};
+Module['add_planeY'] = function(a0, a1, a2) {
+    _mud_add_planeY_3(/*cubes*/a0.__ptr, /*strength*/a1, /*subtract*/a2);
+};
+Module['add_planeZ'] = function(a0, a1, a2) {
+    _mud_add_planeZ_3(/*cubes*/a0.__ptr, /*strength*/a1, /*subtract*/a2);
+};
 
 (function() {
     function setup() {
@@ -1413,6 +1498,8 @@ Module['distribute_poisson'] = function(a0, a1) {
         Curve3.__type = _mud_Curve3__type();
         Distribution.__type = _mud_Distribution__type();
         Face3.__type = _mud_Face3__type();
+        MarchingCubes.__type = _mud_MarchingCubes__type();
+        MeshAdapter.__type = _mud_MeshAdapter__type();
         MeshPacker.__type = _mud_MeshPacker__type();
         Plane.__type = _mud_Plane__type();
         Plane3.__type = _mud_Plane3__type();

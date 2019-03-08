@@ -48,7 +48,7 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<ModelItem>;
 	template class MUD_GFX_EXPORT vector<Item>;
 	template class MUD_GFX_EXPORT vector<Direct>;
-	template class MUD_GFX_EXPORT vector<Direct::Batch>;
+	//template class MUD_GFX_EXPORT vector<Direct::Batch>;
 	template class MUD_GFX_EXPORT vector<Node3>;
 	template class MUD_GFX_EXPORT vector<Bone>;
 	template class MUD_GFX_EXPORT vector<Joint>;

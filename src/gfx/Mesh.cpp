@@ -43,6 +43,8 @@ namespace mud
 
 		if((vertex_format & VertexAttribute::Position) != 0)
 			decl.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);
+		if((vertex_format & VertexAttribute::Position4) != 0)
+			decl.add(bgfx::Attrib::Position, 4, bgfx::AttribType::Float);
 		if((vertex_format & VertexAttribute::QPosition) != 0)
 			decl.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Half);
 		if((vertex_format & VertexAttribute::Normal) != 0)
@@ -123,7 +125,6 @@ namespace mud
 		: m_name(name)
 		, m_index(++s_mesh_index)
 		, m_readback(readback)
-		//, m_material(&gfx.debug_material())
 		, m_material(nullptr)
 	{}
 
@@ -225,10 +226,13 @@ namespace mud
 		m_uv0_rect = { gpu_mesh.m_writer.m_uv0_rect.lo, gpu_mesh.m_writer.m_uv0_rect.hi };
 		m_uv1_rect = { gpu_mesh.m_writer.m_uv1_rect.lo, gpu_mesh.m_writer.m_uv1_rect.hi };
 
-		MeshAdapter reader = gpu_mesh.m_writer.read();
-		m_radius = 0.f;
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
-			m_radius = max(m_radius, length(reader.position() - m_aabb.m_center));
+		if((gpu_mesh.m_vertex_format & VertexAttribute::Position) != 0)
+		{
+			MeshAdapter reader = gpu_mesh.m_writer.read();
+			m_radius = 0.f;
+			for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+				m_radius = max(m_radius, length(reader.position() - m_aabb.m_center));
+		}
 
 		m_origin = m_aabb.m_center;
 
@@ -289,9 +293,8 @@ namespace mud
 		m_qnormals = packer.m_quantize;
 
 		GpuMesh gpu_mesh = alloc_mesh(packer.m_primitive, packer.vertex_format(), packer.vertex_count(), packer.index_count());
-		packer.pack_vertices(gpu_mesh.m_writer, bxidentity());
+		packer.pack(gpu_mesh.m_writer);
 		gpu_mesh.m_writer.rewind();
-		gpu_mesh.m_writer.bound();
 		gpu_mesh.m_dynamic = dynamic;
 
 		this->upload(gpu_mesh, optimize);
@@ -323,13 +326,15 @@ namespace mud
 			bgfx::update(m_dynamic.m_indices, 0U, gpu_mesh.m_index_memory);
 	}
 
-	Mesh::Direct& Mesh::direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
+	MeshAdapter& Mesh::direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
 	{
 		const bgfx::VertexDecl& decl = vertex_decl(vertex_format);
 		bgfx::allocTransientVertexBuffer(&m_direct.m_vertices, vertex_count, decl);
 		if(index_count)
 			bgfx::allocTransientIndexBuffer(&m_direct.m_indices, index_count);
-		return m_direct;
+
+		m_direct.m_adapter = { vertex_format, { m_direct.m_vertices.data, vertex_count } };
+		return m_direct.m_adapter;
 	}
 
 	uint64_t Mesh::submit(bgfx::Encoder& encoder) const

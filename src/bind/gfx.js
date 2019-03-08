@@ -683,29 +683,21 @@ DepthParams.prototype["__destroy"] = DepthParams.prototype.__destroy = function(
     _mud_DepthParams__destroy(this.__ptr);
 };
 // Direct
-function Direct(a0, a1) {
+function Direct(a0) {
     if (a0 === undefined) { this.__ptr = _mud_Direct__construct_0(); this.__type = Direct.__type; getCache(Direct)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Direct__construct_2(/*node*/a0.__ptr, /*material*/a1.__ptr); this.__type = Direct.__type; getCache(Direct)[this.__ptr] = this;
+    this.__ptr = _mud_Direct__construct_1(/*item*/a0.__ptr); this.__type = Direct.__type; getCache(Direct)[this.__ptr] = this;
 };
 Direct.prototype = Object.create(WrapperObject.prototype);
 Direct.prototype.constructor = Direct;
 Direct.prototype.__class = Direct;
 Direct.__cache = {};
 Module['Direct'] = Direct;
-Object.defineProperty(Direct.prototype, "node", {
+Object.defineProperty(Direct.prototype, "item", {
     get: function() {
-        return wrapPointer(_mud_Direct__get_node(this.__ptr), Node3);
+        return wrapPointer(_mud_Direct__get_item(this.__ptr), Item);
     },
     set: function(value) {
-        _mud_Direct__set_node(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Direct.prototype, "material", {
-    get: function() {
-        return wrapPointer(_mud_Direct__get_material(this.__ptr), Material);
-    },
-    set: function(value) {
-        _mud_Direct__set_material(this.__ptr, value.__ptr);
+        _mud_Direct__set_item(this.__ptr, value.__ptr);
     }
 });
 Direct.prototype["__destroy"] = Direct.prototype.__destroy = function() {
@@ -1607,8 +1599,9 @@ Light.prototype["__destroy"] = Light.prototype.__destroy = function() {
     _mud_Light__destroy(this.__ptr);
 };
 // Lines
-function Lines(a0) {
-    this.__ptr = _mud_Lines__construct_1(/*gfx*/a0.__ptr); this.__type = Lines.__type; getCache(Lines)[this.__ptr] = this;
+function Lines(a0, a1) {
+    if (a0 === undefined) { this.__ptr = _mud_Lines__construct_0(); this.__type = Lines.__type; getCache(Lines)[this.__ptr] = this; return; }
+    this.__ptr = _mud_Lines__construct_2(/*curve*/a0.__ptr, /*subdiv*/a1); this.__type = Lines.__type; getCache(Lines)[this.__ptr] = this;
 };
 Lines.prototype = Object.create(WrapperObject.prototype);
 Lines.prototype.constructor = Lines;
@@ -1616,28 +1609,27 @@ Lines.prototype.__class = Lines;
 Lines.__cache = {};
 Module['Lines'] = Lines;
 Lines.prototype["add"] = Lines.prototype.add = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { _mud_Lines_add_2(this.__ptr, /*start*/a0.__ptr, /*end*/a1.__ptr); return; }
+    if (a3 === undefined) { _mud_Lines_add_3(this.__ptr, /*start*/a0.__ptr, /*end*/a1.__ptr, /*start_colour*/a2.__ptr); return; }
     _mud_Lines_add_4(this.__ptr, /*start*/a0.__ptr, /*end*/a1.__ptr, /*start_colour*/a2.__ptr, /*end_colour*/a3.__ptr);
 };
 Lines.prototype["start"] = Lines.prototype.start = function(a0, a1) {
+    if (a1 === undefined) { _mud_Lines_start_1(this.__ptr, /*position*/a0.__ptr); return; }
     _mud_Lines_start_2(this.__ptr, /*position*/a0.__ptr, /*colour*/a1.__ptr);
 };
 Lines.prototype["next"] = Lines.prototype.next = function(a0, a1) {
+    if (a1 === undefined) { _mud_Lines_next_1(this.__ptr, /*position*/a0.__ptr); return; }
     _mud_Lines_next_2(this.__ptr, /*position*/a0.__ptr, /*colour*/a1.__ptr);
 };
 Lines.prototype["setup"] = Lines.prototype.setup = function() {
     _mud_Lines_setup_0(this.__ptr);
 };
+Lines.prototype["write"] = Lines.prototype.write = function(a0) {
+    _mud_Lines_write_1(this.__ptr, /*mesh*/a0.__ptr);
+};
 Lines.prototype["commit"] = Lines.prototype.commit = function(a0) {
     _mud_Lines_commit_1(this.__ptr, /*batch*/a0.__ptr);
 };
-Object.defineProperty(Lines.prototype, "model", {
-    get: function() {
-        return wrapPointer(_mud_Lines__get_model(this.__ptr), Model);
-    },
-    set: function(value) {
-        _mud_Lines__set_model(this.__ptr, value.__ptr);
-    }
-});
 Lines.prototype["__destroy"] = Lines.prototype.__destroy = function() {
     _mud_Lines__destroy(this.__ptr);
 };

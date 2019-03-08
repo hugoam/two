@@ -170,7 +170,7 @@ void mud_Camera_set_isometric(void* object, span<void*> args, void*& result) { U
 void mud_DepthParams__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DepthParams(  ); }
 void mud_DepthParams__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::DepthParams((*static_cast<mud::DepthParams*>(other))); }
 void mud_Direct__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Direct(  ); }
-void mud_Direct__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Direct( *static_cast<mud::Node3*>(args[0]), *static_cast<mud::Material*>(args[1]) ); }
+void mud_Direct__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Direct( *static_cast<mud::Item*>(args[0]) ); }
 void mud_DistanceParams__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DistanceParams(  ); }
 void mud_DistanceParams__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::DistanceParams((*static_cast<mud::DistanceParams*>(other))); }
 void mud_Flow__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Flow(  ); }
@@ -190,11 +190,14 @@ void mud_Item_update_aabb(void* object, span<void*> args, void*& result) { UNUSE
 void mud_Joint__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Joint(  ); }
 void mud_Joint__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Joint((*static_cast<mud::Joint*>(other))); }
 void mud_Light__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Light( *static_cast<mud::Node3*>(args[0]), *static_cast<mud::LightType*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<mud::Colour*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5]) ); }
-void mud_Lines__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Lines( *static_cast<mud::GfxSystem*>(args[0]) ); }
+void mud_Lines__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Lines(  ); }
+void mud_Lines__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Lines( *static_cast<stl::vector<mud::vec3>*>(args[0]) ); }
+void mud_Lines__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Lines( *static_cast<mud::Curve3*>(args[0]), *static_cast<size_t*>(args[1]) ); }
 void mud_Lines_add(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Lines*>(object)).add(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::Colour*>(args[2]), *static_cast<mud::Colour*>(args[3])); }
 void mud_Lines_start(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Lines*>(object)).start(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
 void mud_Lines_next(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Lines*>(object)).next(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::Colour*>(args[1])); }
 void mud_Lines_setup(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Lines*>(object)).setup(); }
+void mud_Lines_write(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Lines*>(object)).write(*static_cast<mud::Mesh*>(args[0])); }
 void mud_Lines_commit(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Lines*>(object)).commit(*static_cast<mud::Batch*>(args[0])); }
 void mud_MaterialAlpha__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MaterialAlpha(  ); }
 void mud_MaterialAlpha__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MaterialAlpha((*static_cast<mud::MaterialAlpha*>(other))); }
@@ -1172,18 +1175,16 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Direct", sizeof(mud::Direct), TypeClass::Object };
 		// bases
 		// defaults
-		static mud::Node3* node_default = nullptr;
-		static mud::Material* material_default = nullptr;
+		static mud::Item* item_default = nullptr;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Direct__construct_0, {} },
-			{ t, mud_Direct__construct_1, { { "node", type<mud::Node3>(),  }, { "material", type<mud::Material>(),  } } }
+			{ t, mud_Direct__construct_1, { { "item", type<mud::Item>(),  } } }
 		};
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Direct, m_node), type<mud::Node3>(), "node", node_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::Direct, m_material), type<mud::Material>(), "material", material_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(mud::Direct, m_item), type<mud::Item>(), "item", item_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
 		// static members
@@ -1659,26 +1660,29 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Lines", sizeof(mud::Lines), TypeClass::Object };
 		// bases
 		// defaults
-		static mud::Model* model_default = nullptr;
+		static mud::Colour add_0_start_colour_default = mud::Colour(1.f);
+		static mud::Colour add_0_end_colour_default = mud::Colour(1.f);
+		static mud::Colour start_0_colour_default = mud::Colour(1.f);
+		static mud::Colour next_0_colour_default = mud::Colour(1.f);
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Lines__construct_0, { { "gfx", type<mud::GfxSystem>(),  } } }
+			{ t, mud_Lines__construct_0, {} },
+			{ t, mud_Lines__construct_1, { { "points", type<stl::vector<mud::vec3>>(),  } } },
+			{ t, mud_Lines__construct_2, { { "curve", type<mud::Curve3>(),  }, { "subdiv", type<size_t>(),  } } }
 		};
 		// copy constructor
 		// members
-		static Member members[] = {
-			{ t, offsetof(mud::Lines, m_model), type<mud::Model>(), "model", model_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
-		};
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), mud_Lines_add, { { "start", type<mud::vec3>(),  }, { "end", type<mud::vec3>(),  }, { "start_colour", type<mud::Colour>(),  }, { "end_colour", type<mud::Colour>(),  } }, g_qvoid },
-			{ t, "start", Address(), mud_Lines_start, { { "position", type<mud::vec3>(),  }, { "colour", type<mud::Colour>(),  } }, g_qvoid },
-			{ t, "next", Address(), mud_Lines_next, { { "position", type<mud::vec3>(),  }, { "colour", type<mud::Colour>(),  } }, g_qvoid },
+			{ t, "add", Address(), mud_Lines_add, { { "start", type<mud::vec3>(),  }, { "end", type<mud::vec3>(),  }, { "start_colour", type<mud::Colour>(), Param::Default, &add_0_start_colour_default }, { "end_colour", type<mud::Colour>(), Param::Default, &add_0_end_colour_default } }, g_qvoid },
+			{ t, "start", Address(), mud_Lines_start, { { "position", type<mud::vec3>(),  }, { "colour", type<mud::Colour>(), Param::Default, &start_0_colour_default } }, g_qvoid },
+			{ t, "next", Address(), mud_Lines_next, { { "position", type<mud::vec3>(),  }, { "colour", type<mud::Colour>(), Param::Default, &next_0_colour_default } }, g_qvoid },
 			{ t, "setup", Address(), mud_Lines_setup, {}, g_qvoid },
+			{ t, "write", Address(), mud_Lines_write, { { "mesh", type<mud::Mesh>(),  } }, g_qvoid },
 			{ t, "commit", Address(), mud_Lines_commit, { { "batch", type<mud::Batch>(),  } }, g_qvoid }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, constructors, {}, {}, methods, {}, };
 	}
 	// mud::Material
 	{

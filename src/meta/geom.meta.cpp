@@ -55,6 +55,12 @@ void mud_Curve2_point(void* object, span<void*> args, void*& result) { (*static_
 void mud_Curve3_point(void* object, span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Curve3*>(object)).point(*static_cast<float*>(args[0])); }
 void mud_Face3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Face3(  ); }
 void mud_Face3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Face3((*static_cast<mud::Face3*>(other))); }
+void mud_MarchingCubes_reset(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MarchingCubes*>(object)).reset(); }
+void mud_MarchingCubes_count(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<uint*>(result)) = (*static_cast<mud::MarchingCubes*>(object)).count(); }
+void mud_MarchingCubes_direct(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MarchingCubes*>(object)).direct(*static_cast<mud::MeshAdapter*>(args[0])); }
+void mud_MarchingCubes_render(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MarchingCubes*>(object)).render(*static_cast<mud::MeshPacker*>(args[0])); }
+void mud_MeshAdapter__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MeshAdapter(  ); }
+void mud_MeshAdapter__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MeshAdapter((*static_cast<mud::MeshAdapter*>(other))); }
 void mud_MeshPacker__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MeshPacker(  ); }
 void mud_MeshPacker__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MeshPacker((*static_cast<mud::MeshPacker*>(other))); }
 void mud_MeshPacker_position(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).position(*static_cast<mud::vec3*>(args[0])); }
@@ -67,6 +73,11 @@ void mud_MeshPacker_uv1(void* object, span<void*> args, void*& result) { UNUSED(
 void mud_MeshPacker_bones(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).bones(*static_cast<mud::ivec4*>(args[0])); }
 void mud_MeshPacker_weights(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).weights(*static_cast<mud::vec4*>(args[0])); }
 void mud_MeshPacker_index(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).index(*static_cast<uint32_t*>(args[0])); }
+void mud_MeshPacker_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).clear(); }
+void mud_MeshPacker_pack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).pack(*static_cast<mud::MeshAdapter*>(args[0])); }
+void mud_MeshPacker_xpack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).xpack(*static_cast<mud::MeshAdapter*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
+void mud_MeshPacker_generate_normals(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).generate_normals(); }
+void mud_MeshPacker_generate_tangents(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).generate_tangents(); }
 void mud_Plane__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Plane(  ); }
 void mud_Plane__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Plane((*static_cast<mud::Plane*>(other))); }
 void mud_Plane3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Plane3(  ); }
@@ -192,6 +203,10 @@ void mud_to_segment_1(span<void*> args, void*& result) { (*static_cast<mud::Segm
 void mud_to_ray_2(span<void*> args, void*& result) { (*static_cast<mud::Ray*>(result)) = mud::to_ray(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<float*>(args[2])); }
 void mud_to_segment_3(span<void*> args, void*& result) { (*static_cast<mud::Segment*>(result)) = mud::to_segment(*static_cast<mud::Ray*>(args[0])); }
 void mud_distribute_poisson_4(span<void*> args, void*& result) { (*static_cast<stl::vector<mud::vec3>*>(result)) = mud::distribute_poisson(*static_cast<mud::vec2*>(args[0]), *static_cast<float*>(args[1])); }
+void mud_add_ball_5(span<void*> args, void*& result) { UNUSED(result);  mud::add_ball(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3])); }
+void mud_add_planeX_6(span<void*> args, void*& result) { UNUSED(result);  mud::add_planeX(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
+void mud_add_planeY_7(span<void*> args, void*& result) { UNUSED(result);  mud::add_planeY(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
+void mud_add_planeZ_8(span<void*> args, void*& result) { UNUSED(result);  mud::add_planeZ(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
 
 namespace mud
 {
@@ -394,6 +409,50 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
 	}
+	// mud::MarchingCubes
+	{
+		Type& t = type<mud::MarchingCubes>();
+		static Meta meta = { t, &namspc({ "mud" }), "MarchingCubes", sizeof(mud::MarchingCubes), TypeClass::Object };
+		// bases
+		// defaults
+		static float isolation_default = 80.f;
+		static uint32_t subdiv_default = 32;
+		// constructors
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::MarchingCubes, m_isolation), type<float>(), "isolation", &isolation_default, Member::Value, nullptr },
+			{ t, offsetof(mud::MarchingCubes, m_subdiv), type<uint32_t>(), "subdiv", &subdiv_default, Member::Value, nullptr }
+		};
+		// methods
+		static Method methods[] = {
+			{ t, "reset", Address(), mud_MarchingCubes_reset, {}, g_qvoid },
+			{ t, "count", Address(), mud_MarchingCubes_count, {}, { &type<uint32_t>(), QualType::None } },
+			{ t, "direct", Address(), mud_MarchingCubes_direct, { { "output", type<mud::MeshAdapter>(), Param::Output } }, g_qvoid },
+			{ t, "render", Address(), mud_MarchingCubes_render, { { "output", type<mud::MeshPacker>(), Param::Output } }, g_qvoid }
+		};
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
+	}
+	// mud::MeshAdapter
+	{
+		Type& t = type<mud::MeshAdapter>();
+		static Meta meta = { t, &namspc({ "mud" }), "MeshAdapter", sizeof(mud::MeshAdapter), TypeClass::Struct };
+		// bases
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_MeshAdapter__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_MeshAdapter__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+	}
 	// mud::MeshPacker
 	{
 		Type& t = type<mud::MeshPacker>();
@@ -401,6 +460,7 @@ namespace mud
 		// bases
 		// defaults
 		static mud::PrimitiveType primitive_default = mud::PrimitiveType::Triangles;
+		static bool quantize_default = false;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_MeshPacker__construct_0, {} }
@@ -421,7 +481,8 @@ namespace mud
 			{ t, offsetof(mud::MeshPacker, m_uv1s), type<stl::vector<mud::vec2>>(), "uv1s", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::MeshPacker, m_bones), type<stl::vector<mud::ivec4>>(), "bones", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::MeshPacker, m_weights), type<stl::vector<mud::vec4>>(), "weights", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::MeshPacker, m_indices), type<stl::vector<uint32_t>>(), "indices", nullptr, Member::NonMutable, nullptr }
+			{ t, offsetof(mud::MeshPacker, m_indices), type<stl::vector<uint32_t>>(), "indices", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_quantize), type<bool>(), "quantize", &quantize_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -434,7 +495,12 @@ namespace mud
 			{ t, "uv1", Address(), mud_MeshPacker_uv1, { { "uv", type<mud::vec2>(),  } }, g_qvoid },
 			{ t, "bones", Address(), mud_MeshPacker_bones, { { "j", type<mud::ivec4>(),  } }, g_qvoid },
 			{ t, "weights", Address(), mud_MeshPacker_weights, { { "w", type<mud::vec4>(),  } }, g_qvoid },
-			{ t, "index", Address(), mud_MeshPacker_index, { { "i", type<uint32_t>(),  } }, g_qvoid }
+			{ t, "index", Address(), mud_MeshPacker_index, { { "i", type<uint32_t>(),  } }, g_qvoid },
+			{ t, "clear", Address(), mud_MeshPacker_clear, {}, g_qvoid },
+			{ t, "pack", Address(), mud_MeshPacker_pack, { { "writer", type<mud::MeshAdapter>(),  } }, g_qvoid },
+			{ t, "xpack", Address(), mud_MeshPacker_xpack, { { "writer", type<mud::MeshAdapter>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
+			{ t, "generate_normals", Address(), mud_MeshPacker_generate_normals, {}, g_qvoid },
+			{ t, "generate_tangents", Address(), mud_MeshPacker_generate_tangents, {}, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
@@ -1561,6 +1627,8 @@ namespace mud
 		m.m_types.push_back(&type<mud::Distribution>());
 		m.m_types.push_back(&type<mud::DrawMode>());
 		m.m_types.push_back(&type<mud::Face3>());
+		m.m_types.push_back(&type<mud::MarchingCubes>());
+		m.m_types.push_back(&type<mud::MeshAdapter>());
 		m.m_types.push_back(&type<mud::MeshPacker>());
 		m.m_types.push_back(&type<mud::Plane>());
 		m.m_types.push_back(&type<mud::Plane3>());
@@ -1631,6 +1699,22 @@ namespace mud
 		}
 		{
 			static Function f = { &namspc({ "mud" }), "distribute_poisson", nullptr, mud_distribute_poisson_4, { { "size", type<mud::vec2>(),  }, { "radius", type<float>(),  } }, { &type<stl::vector<mud::vec3>>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "add_ball", nullptr, mud_add_ball_5, { { "cubes", type<mud::MarchingCubes>(),  }, { "ball", type<mud::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "add_planeX", nullptr, mud_add_planeX_6, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "add_planeY", nullptr, mud_add_planeY_7, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "add_planeZ", nullptr, mud_add_planeZ_8, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

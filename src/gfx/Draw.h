@@ -22,21 +22,16 @@ namespace mud
 	{
 	public:
 		constr_ Direct();
-		constr_ Direct(Node3& node, Material& material);
+		constr_ Direct(Item& item);
 
-		struct Batch
-		{
-			bgfx::TransientVertexBuffer m_vertices;
-			bgfx::TransientIndexBuffer m_indices;
-		};
+		//void begin();
+		//Mesh& batch(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0);
 
-		void begin();
-		Batch& batch(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0);
+		//attr_ Mesh m_mesh;
+		//attr_ Model m_model;
+		attr_ Item* m_item = nullptr;
 
-		attr_ Node3* m_node = nullptr;
-		attr_ Material* m_material = nullptr;
-
-		vector<Batch> m_batches;
+		//vector<Mesh> m_batches;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT ImmediateDraw
@@ -108,9 +103,9 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Lines
 	{
 	public:
-		constr_ Lines(GfxSystem& gfx);
-
-		attr_ Model* m_model = nullptr;
+		constr_ Lines();
+		constr_ Lines(const vector<vec3>& points);
+		constr_ Lines(const Curve3& curve, size_t subdiv);
 
 		struct Segment { vec3 pos0; float dist0; vec3 pos1; float dist1; Colour col0; Colour col1; };
 		vector<Segment> m_segments;
@@ -119,10 +114,11 @@ namespace mud
 		Aabb m_aabb;
 		float m_radius;
 
-		meth_ void add(const vec3& start, const vec3& end, const Colour& start_colour, const Colour& end_colour);
-		meth_ void start(const vec3& position, const Colour& colour);
-		meth_ void next(const vec3& position, const Colour& colour);
+		meth_ void add(const vec3& start, const vec3& end, const Colour& start_colour = Colour(1.f), const Colour& end_colour = Colour(1.f));
+		meth_ void start(const vec3& position, const Colour& colour = Colour(1.f));
+		meth_ void next(const vec3& position, const Colour& colour = Colour(1.f));
 		meth_ void setup();
+		meth_ void write(Mesh& mesh);
 		meth_ void commit(Batch& batch);
 
 		void update_aabb();

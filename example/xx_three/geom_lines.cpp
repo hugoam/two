@@ -38,7 +38,7 @@ void xx_geom_lines(Shell& app, Widget& parent, Dockbar& dockbar)
 		camera.m_eye.z = 2750.f;
 
 		MeshPacker geometry;
-		geometry.m_primitive = PrimitiveType::LineStrip;
+		geometry.m_primitive = PrimitiveType::Lines;
 
 		float r = 800.f;
 
@@ -47,8 +47,8 @@ void xx_geom_lines(Shell& app, Widget& parent, Dockbar& dockbar)
 			vec3 p = vec3(randf(), randf(), randf()) * r - r / 2.f;
 			Colour c = to_colour(p / r + 0.5f);
 
-			geometry.m_positions.push_back(p);
-			geometry.m_colours.push_back(c);
+			geometry.position(p);
+			geometry.colour(c);
 		}
 
 		Model& model = app.m_gfx.create_model_geo("lines", geometry);

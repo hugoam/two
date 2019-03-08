@@ -13,6 +13,7 @@ namespace mud
 	inline size_t vertex_attribute_size(VertexAttribute::Enum attribute)
 	{
 		if(attribute == VertexAttribute::Position)			return sizeof(vec3);
+		else if(attribute == VertexAttribute::Position4)	return sizeof(vec4);
 		else if(attribute == VertexAttribute::QPosition)	return sizeof(half3);
 		else if(attribute == VertexAttribute::Normal)		return sizeof(vec3);
 		else if(attribute == VertexAttribute::QNormal)		return sizeof(uint32_t);
@@ -57,6 +58,8 @@ namespace mud
 	{
 		if((vertex_format & VertexAttribute::Position) != 0)
 			m_start.m_position	= (vec3*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Position));
+		if((vertex_format & VertexAttribute::Position4) != 0)
+			m_start.m_position4	= (vec4*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Position4));
 		if((vertex_format & VertexAttribute::Normal) != 0)
 			m_start.m_normal	= (vec3*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Normal));
 		if((vertex_format & VertexAttribute::Colour) != 0)
@@ -91,34 +94,25 @@ namespace mud
 	inline void MeshAdapter::rewind() { m_cursor = m_start; m_vertex = 0; m_offset = 0; m_index = m_indices.m_pointer; }
 	inline void MeshAdapter::next() { m_offset = m_vertex; }
 
-	inline void MeshAdapter::bound()
-	{
-		MeshAdapter reader = *this;
-		reader.rewind();
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
-		{
-			m_aabb.add(reader.position());
-			if(reader.m_cursor.m_uv0)
-				m_uv0_rect.add(reader.uv0());
-			if(reader.m_cursor.m_uv1)
-				m_uv0_rect.add(reader.uv1());
-		}
-	}
-
 	inline MeshAdapter MeshAdapter::read() const { MeshAdapter reader = *this; reader.rewind(); return reader; }
 
 	template <class T>
 	inline void MeshAdapter::next(T*& pointer) { pointer = (T*)((char*)pointer + m_vertex_stride); }
 
-	inline MeshAdapter& MeshAdapter::position(const vec3& p) { *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
+	inline MeshAdapter& MeshAdapter::position(const vec3& p) { m_aabb.add(p); *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
+	inline MeshAdapter& MeshAdapter::position4(const vec4& p) { m_aabb.add(vec3(p)); *m_cursor.m_position4 = p; next(m_cursor.m_position4); ++m_vertex; return *this; }
 	inline MeshAdapter& MeshAdapter::normal(const vec3& n) { if(m_cursor.m_normal) { *m_cursor.m_normal = n; next(m_cursor.m_normal); } return *this; }
 	inline MeshAdapter& MeshAdapter::colour(const Colour& c) { if(m_cursor.m_colour) { *m_cursor.m_colour = to_abgr(c); next(m_cursor.m_colour); } return *this; }
 	inline MeshAdapter& MeshAdapter::tangent(const vec4& t) { if(m_cursor.m_tangent) { *m_cursor.m_tangent = t; next(m_cursor.m_tangent); } return *this; }
 	inline MeshAdapter& MeshAdapter::bitangent(const vec4& b) { if(m_cursor.m_bitangent) { *m_cursor.m_bitangent = vec3(b); next(m_cursor.m_bitangent); } return *this; }
-	inline MeshAdapter& MeshAdapter::uv0(const vec2& uv) { if(m_cursor.m_uv0) { *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
+	inline MeshAdapter& MeshAdapter::uv0(const vec2& uv) { if(m_cursor.m_uv0) { m_uv0_rect.add(uv); *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
 	inline MeshAdapter& MeshAdapter::uv1(const vec2& uv) { if(m_cursor.m_uv1) { m_uv1_rect.add(uv); *m_cursor.m_uv1 = uv; next(m_cursor.m_uv1); } return *this; }
 	inline MeshAdapter& MeshAdapter::joints(const uint32_t& j) { if(m_cursor.m_joints) { *m_cursor.m_joints = j; next(m_cursor.m_joints); } return *this; }
 	inline MeshAdapter& MeshAdapter::weights(const vec4& w) { if(m_cursor.m_weights) { *m_cursor.m_weights = w; next(m_cursor.m_weights); } return *this; }
+
+	inline MeshAdapter& MeshAdapter::dposition(const vec3& p) { *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
+	inline MeshAdapter& MeshAdapter::duv0(const vec2& uv) { if(m_cursor.m_uv0) { *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
+	inline MeshAdapter& MeshAdapter::duv1(const vec2& uv) { if(m_cursor.m_uv1) { *m_cursor.m_uv1 = uv; next(m_cursor.m_uv1); } return *this; }
 
 	inline vec3 MeshAdapter::position() { vec3 value = *m_cursor.m_position; next(m_cursor.m_position); return value; }
 	inline vec3 MeshAdapter::normal() { if(!m_cursor.m_normal) return vec3(0.f); vec3 value = *m_cursor.m_normal; next(m_cursor.m_normal); return value; }

@@ -64,13 +64,16 @@ namespace mud
 
 		meth_ void index(uint32_t i) { m_indices.push_back(i); }
 
-		bool m_quantize = false;
+		attr_ bool m_quantize = false;
+
+		meth_ void clear();
+		meth_ void pack(MeshAdapter& writer) const;
+		meth_ void xpack(MeshAdapter& writer, const mat4& transform) const;
 
 		void bake(bool normals, bool tangents);
 
-		void pack_vertices(MeshAdapter& writer, const mat4& transform) const;
-		void generate_normals();
-		void generate_tangents();
+		meth_ void generate_normals();
+		meth_ void generate_tangents();
 	};
 
 	export_ MUD_GEOM_EXPORT void generate_mikkt_tangents(span<ShapeIndex> indices, span<ShapeVertex> vertices);

@@ -12,7 +12,7 @@
 
 using namespace mud;
 
-#define DIRECT 0
+#define DIRECT 1
 #define NORMAL 1
 
 //<script src = "js/controls/OrbitControls.js">< / script>
@@ -175,8 +175,6 @@ void generateMaterials()
 
 void upload_cubes(MarchingCubes& cubes, Mesh& mesh)
 {
-	static MarchingCubes::Cache cache;
-
 #if DIRECT
 	const uint32_t num_tris = cubes.count();
 	
@@ -185,31 +183,21 @@ void upload_cubes(MarchingCubes& cubes, Mesh& mesh)
 	const uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal;
 	const uint32_t vertex_count = num_tris * 3;
 
-	Mesh::Direct& direct = mesh.direct(vertex_format, vertex_count);
-
-	MeshAdapter output = { vertex_format, { direct.m_vertices.data, vertex_count } };
-	cubes.begin(cache);
-	cubes.render(output, cache);
+	MeshAdapter& direct = mesh.direct(vertex_format, vertex_count);
+	cubes.direct(direct);
 #else
-	MeshPacker geometry;
+	static MeshPacker geometry;
+	geometry.clear();
 
-	cubes.begin(cache);
-	cubes.render(geometry, cache);
+	cubes.render(geometry);
 
 	if(geometry.vertex_count() == 0) return;
 	//uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal | VertexAttribute::TexCoord0;
 	const uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal;
 	const uint32_t vertex_count = geometry.vertex_count();
 
-	Mesh::Direct& direct = mesh.direct(vertex_format, vertex_count);
-
-	MeshAdapter writer = { vertex_format, { direct.m_vertices.data, vertex_count } };
-	for(size_t i = 0; i < geometry.m_positions.size(); ++i)
-	{
-		writer.position(geometry.m_positions[i]);
-		writer.normal(geometry.m_normals[i]);
-		//writer.uv0(uvs[i]);
-	}
+	MeshAdapter& direct = mesh.direct(vertex_format, vertex_count);
+	geometry.pack(direct);
 #endif
 }
 

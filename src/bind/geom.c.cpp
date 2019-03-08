@@ -82,6 +82,47 @@ extern "C" {
 	void DECL mud_Face3__destroy(mud::Face3* self) {
 		delete self;
 	}
+	// MarchingCubes
+	mud::Type* DECL mud_MarchingCubes__type() {
+		return &mud::type<mud::MarchingCubes>();
+	}
+	void DECL mud_MarchingCubes_reset_0(mud::MarchingCubes* self) {
+		self->reset();
+	}
+	uint32_t DECL mud_MarchingCubes_count_0(mud::MarchingCubes* self) {
+		return self->count();
+	}
+	void DECL mud_MarchingCubes_direct_1(mud::MarchingCubes* self, mud::MeshAdapter* output) {
+		self->direct(*output);
+	}
+	void DECL mud_MarchingCubes_render_1(mud::MarchingCubes* self, mud::MeshPacker* output) {
+		self->render(*output);
+	}
+	float DECL mud_MarchingCubes__get_isolation(mud::MarchingCubes* self) {
+		return self->m_isolation;
+	}
+	void DECL mud_MarchingCubes__set_isolation(mud::MarchingCubes* self, float value) {
+		self->m_isolation = value;
+	}
+	uint32_t DECL mud_MarchingCubes__get_subdiv(mud::MarchingCubes* self) {
+		return self->m_subdiv;
+	}
+	void DECL mud_MarchingCubes__set_subdiv(mud::MarchingCubes* self, uint32_t value) {
+		self->m_subdiv = value;
+	}
+	void DECL mud_MarchingCubes__destroy(mud::MarchingCubes* self) {
+		delete self;
+	}
+	// MeshAdapter
+	mud::Type* DECL mud_MeshAdapter__type() {
+		return &mud::type<mud::MeshAdapter>();
+	}
+	mud::MeshAdapter* DECL mud_MeshAdapter__construct_0() {
+		return new mud::MeshAdapter();
+	}
+	void DECL mud_MeshAdapter__destroy(mud::MeshAdapter* self) {
+		delete self;
+	}
 	// MeshPacker
 	mud::Type* DECL mud_MeshPacker__type() {
 		return &mud::type<mud::MeshPacker>();
@@ -119,6 +160,21 @@ extern "C" {
 	void DECL mud_MeshPacker_index_1(mud::MeshPacker* self, uint32_t i) {
 		self->index(i);
 	}
+	void DECL mud_MeshPacker_clear_0(mud::MeshPacker* self) {
+		self->clear();
+	}
+	void DECL mud_MeshPacker_pack_1(mud::MeshPacker* self, mud::MeshAdapter* writer) {
+		self->pack(*writer);
+	}
+	void DECL mud_MeshPacker_xpack_2(mud::MeshPacker* self, mud::MeshAdapter* writer, const mud::mat4* transform) {
+		self->xpack(*writer, *transform);
+	}
+	void DECL mud_MeshPacker_generate_normals_0(mud::MeshPacker* self) {
+		self->generate_normals();
+	}
+	void DECL mud_MeshPacker_generate_tangents_0(mud::MeshPacker* self) {
+		self->generate_tangents();
+	}
 	mud::PrimitiveType DECL mud_MeshPacker__get_primitive(mud::MeshPacker* self) {
 		return self->m_primitive;
 	}
@@ -154,6 +210,12 @@ extern "C" {
 	}
 	uint* DECL mud_MeshPacker__get_indices(mud::MeshPacker* self) {
 		return (uint*)self->m_indices.data();
+	}
+	bool DECL mud_MeshPacker__get_quantize(mud::MeshPacker* self) {
+		return self->m_quantize;
+	}
+	void DECL mud_MeshPacker__set_quantize(mud::MeshPacker* self, bool value) {
+		self->m_quantize = value;
 	}
 	void DECL mud_MeshPacker__destroy(mud::MeshPacker* self) {
 		delete self;
@@ -1234,6 +1296,18 @@ extern "C" {
 	}
 	float* DECL mud_distribute_poisson_2(mud::vec2* size, float radius) {
 		return (float*)mud::distribute_poisson(*size, radius).data();
+	}
+	void DECL mud_add_ball_4(mud::MarchingCubes* cubes, const mud::vec3* ball, float strength, float subtract) {
+		mud::add_ball(*cubes, *ball, strength, subtract);
+	}
+	void DECL mud_add_planeX_3(mud::MarchingCubes* cubes, float strength, float subtract) {
+		mud::add_planeX(*cubes, strength, subtract);
+	}
+	void DECL mud_add_planeY_3(mud::MarchingCubes* cubes, float strength, float subtract) {
+		mud::add_planeY(*cubes, strength, subtract);
+	}
+	void DECL mud_add_planeZ_3(mud::MarchingCubes* cubes, float strength, float subtract) {
+		mud::add_planeZ(*cubes, strength, subtract);
 	}
 	// CatmullType
 	mud::CatmullType DECL mud_CatmullType_Centripetal() {

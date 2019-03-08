@@ -18,12 +18,13 @@ using namespace mud;
 // xx_performance_static
 // xx_lines_fat
 // xx_tiled_forward (fix clusters)
+// xx_geom_lines
 
 // todo:
-// xx_geom_lines(app, parent, dockbar);
-// xx_geom_points(app, parent, dockbar);
-// xx_geom_points_packed(app, parent, dockbar);
-// xx_geom_points_instanced(app, parent, dockbar);
+// xx_geom_points
+// xx_geom_points_packed
+// xx_geom_points_instanced
+// xx_marching_cubes
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 {
@@ -37,24 +38,24 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//xx_performance_static(app, parent, dockbar);
 	    //xx_billboards(app, parent, dockbar);
 	//xx_lines_fat(app, parent, dockbar);
-	    //xx_lines_dashed(app, parent, dockbar);
-	//xx_geom(app, parent, dockbar);
+	//xx_lines_dashed(app, parent, dockbar);
+	    //xx_geom(app, parent, dockbar);
 	//xx_geom_sprites(app, parent, dockbar);
 	//xx_geom_instances(app, parent, dockbar);
-	xx_geom_lines(app, parent, dockbar);
+	//xx_geom_lines(app, parent, dockbar);
 	//xx_geom_points(app, parent, dockbar);
 	//xx_geom_points_packed(app, parent, dockbar);
 	//xx_geom_points_instanced(app, parent, dockbar);
 	//xx_geom_rawshader(app, parent, dockbar);
 	//xx_geom_selective(app, parent, dockbar);
-	//xx_interact_cubes(app, parent, dockbar);
-	//xx_interact_geom(app, parent, dockbar);
-	//xx_marching_cubes(app, parent, dockbar);
+	    //xx_interact_cubes(app, parent, dockbar);
+	    //xx_interact_geom(app, parent, dockbar);
+	xx_marching_cubes(app, parent, dockbar);
 	//xx_hierarchy(app, parent, dockbar);
 	//xx_hierarchy2(app, parent, dockbar);
-	//xx_materials_skin(app, parent, dockbar);
-	//xx_materials_standard(app, parent, dockbar);
-	//xx_materials_variations(app, parent, dockbar);
+	    //xx_materials_skin(app, parent, dockbar);
+	    //xx_materials_standard(app, parent, dockbar);
+	    //xx_materials_variations(app, parent, dockbar);
 }
 
 #ifdef _XX_THREE_EXE

@@ -184,31 +184,46 @@ namespace mud
 			this->generate_tangents();
 	}
 
-	void MeshPacker::pack_vertices(MeshAdapter& writer, const mat4& transform) const
+	void MeshPacker::clear()
 	{
-		auto position = [&](uint32_t i) { return vec3(transform * vec4(m_positions[i], 1.f)); };
-		auto normal = [&](uint32_t i) { return normalize(vec3(transform * vec4(m_normals[i], 0.f))); };
-		auto tangent = [&](uint32_t i) { return vec4(vec3(transform * vec4(vec3(m_tangents[i]), 0.f)), m_tangents[i].w); };
+		m_positions.clear();
+		m_normals.clear();
+		m_colours.clear();
+		m_tangents.clear();
+		m_uv0s.clear();
+		m_uv1s.clear();
+		m_bones.clear();
+		m_weights.clear();
 
-		for(uint32_t i = 0; i < uint32_t(m_positions.size()); ++i)
-		{
-			writer.position(position(i));
-			if(!m_normals.empty())	m_quantize ? writer.qnormal(normal(i)) : writer.normal(normal(i));
-			if(!m_colours.empty())  writer.colour(m_colours[i]);
-			if(!m_tangents.empty()) m_quantize ? writer.qtangent(tangent(i)) : writer.tangent(tangent(i));
-			if(!m_uv0s.empty())     m_quantize ? writer.quv0(m_uv0s[i]) : writer.uv0(m_uv0s[i]);
-			if(!m_uv1s.empty())		m_quantize ? writer.quv1(m_uv1s[i]) : writer.uv1(m_uv1s[i]);
-			if(!m_bones.empty())	writer.joints(joints(m_bones[i]));
-			if(!m_weights.empty())	writer.weights(m_weights[i]);
+		m_indices.clear();
+	}
 
-			//if(m_primitive == PrimitiveType::Triangles && m_indices.empty())
-			//	writer.index(i);
-		}
+	void MeshPacker::pack(MeshAdapter& writer) const
+	{
+		for(const vec3&   p  : m_positions)	 writer.position(p);
+		for(const vec3&   n  : m_normals)	 m_quantize ? writer.qnormal(n) : writer.normal(n);
+		for(const Colour& c  : m_colours)	 writer.colour(c);
+		for(const vec4&   t  : m_tangents)	 m_quantize ? writer.qtangent(t) : writer.tangent(t);
+		for(const vec2&   uv : m_uv0s)		 m_quantize ? writer.quv0(uv) : writer.uv0(uv);
+		for(const vec2&   uv : m_uv1s)		 m_quantize ? writer.quv1(uv) : writer.uv1(uv);
+		for(const ivec4&  b  : m_bones)		 writer.joints(joints(b));
+		for(const vec4&   w  : m_weights)	 writer.weights(w);
 
-		for(uint32_t i = 0; i < m_indices.size(); ++i)
-		{
-			writer.index(m_indices[i]);
-		}
+		for(uint32_t i : m_indices) writer.index(i);
+	}
+
+	void MeshPacker::xpack(MeshAdapter& writer, const mat4& transform) const
+	{
+		for(const vec3&   p  : m_positions)	 writer.position(mulp(transform, p));
+		for(const vec3&   n  : m_normals)	 m_quantize ? writer.qnormal(muln(transform, n)) : writer.normal(muln(transform, n));
+		for(const Colour& c  : m_colours)	 writer.colour(c);
+		for(const vec4&   t  : m_tangents)	 m_quantize ? writer.qtangent(mult(transform, t)) : writer.tangent(mult(transform, t));
+		for(const vec2&   uv : m_uv0s)		 m_quantize ? writer.quv0(uv) : writer.uv0(uv);
+		for(const vec2&   uv : m_uv1s)		 m_quantize ? writer.quv1(uv) : writer.uv1(uv);
+		for(const ivec4&  b  : m_bones)		 writer.joints(joints(b));
+		for(const vec4&   w  : m_weights)	 writer.weights(w);
+
+		for(uint32_t i : m_indices) writer.index(i);
 	}
 
 	void MeshPacker::generate_normals()

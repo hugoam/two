@@ -58,7 +58,6 @@ namespace mud
 		attr_ string m_name;
 		attr_ uint16_t m_index;
 		attr_ PrimitiveType m_primitive = PrimitiveType::Triangles;
-		//attr_ DrawMode m_draw_mode = PLAIN;
 		attr_ Aabb m_aabb = {};
 		attr_ float m_radius = 0.f;
 		attr_ vec3 m_origin = vec3(0.f);
@@ -93,6 +92,7 @@ namespace mud
 		{
 			bgfx::TransientVertexBuffer m_vertices;
 			bgfx::TransientIndexBuffer m_indices;
+			MeshAdapter m_adapter;
 
 		} m_direct;
 
@@ -116,7 +116,7 @@ namespace mud
 		GpuMesh begin();
 		void update(const GpuMesh& gpu_mesh);
 
-		Direct& direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0, bool index32 = false);
+		MeshAdapter& direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0, bool index32 = false);
 
 		uint64_t submit(bgfx::Encoder& encoder) const;
 	};

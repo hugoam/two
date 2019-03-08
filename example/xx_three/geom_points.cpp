@@ -50,8 +50,8 @@ void xx_geom_points(Shell& app, Widget& parent, Dockbar& dockbar)
 			vec3 p = vec3(randf(), randf(), randf()) * s - s2;
 			Colour c = to_colour(p / s + 0.5f);
 
-			geometry.m_positions.push_back(p);
-			geometry.m_colours.push_back(c);
+			geometry.position(p);
+			geometry.colour(c);
 		}
 
 		Model& model = app.m_gfx.create_model_geo("points", geometry);

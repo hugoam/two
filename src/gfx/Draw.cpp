@@ -16,6 +16,7 @@ module mud.gfx;
 #include <infra/Vector.h>
 #include <math/Vec.hpp>
 #include <geom/Geometry.h>
+#include <geom/Curve.h>
 #include <geom/Primitive.hpp>
 #include <geom/Shape/ProcShape.h>
 #include <gfx/Types.h>
@@ -177,31 +178,16 @@ namespace mud
 
 	bgfx::VertexDecl ImmediateDraw::ms_vertex_decl;
 
+	static size_t s_direct_index = 0;
+
 	Direct::Direct()
 	{}
 
-	Direct::Direct(Node3& node, Material& material)
-		: m_node(&node)
-		, m_material(&material)
+	Direct::Direct(Item& item)
+		: m_item(&item)
+		//, m_mesh("direct" + to_string(s_direct_index++))
+		//, m_model("direct" + to_string(s_direct_index++))
 	{}
-
-	void Direct::begin()
-	{
-		m_batches.clear();
-	}
-
-	Direct::Batch& Direct::batch(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
-	{
-		Batch& batch = push(m_batches);
-
-		const bgfx::VertexDecl& decl = vertex_decl(vertex_format);
-		bgfx::allocTransientVertexBuffer(&batch.m_vertices, vertex_count, decl);
-
-		if(index_count)
-			bgfx::allocTransientIndexBuffer(&batch.m_indices, index_count);
-		
-		return batch;
-	}
 
 	struct SymbolIndex::Impl
 	{
@@ -312,30 +298,41 @@ namespace mud
 		Mesh& mesh = model.add_mesh(model.m_name + to_string(uint(draw_mode)), readback);
 		mesh.m_material = material;
 
-		PrimitiveType primitive = draw_mode == PLAIN ? PrimitiveType::Triangles : PrimitiveType::Lines;
+		const PrimitiveType primitive = draw_mode == PLAIN ? PrimitiveType::Triangles : PrimitiveType::Lines;
 		GpuMesh gpu_mesh = alloc_mesh(primitive, ShapeVertex::vertex_format, size.vertex_count, size.index_count);
-		
+
+		MeshAdapter& writer = gpu_mesh.m_writer;
 		for(const ProcShape& shape : shapes)
 			if(shape.m_draw_mode == draw_mode)
 			{
-				draw_mode == OUTLINE ? symbol_draw_lines(shape, gpu_mesh.m_writer)
-									 : symbol_draw_triangles(shape, gpu_mesh.m_writer);
-				gpu_mesh.m_writer.next();
+				draw_mode == OUTLINE ? symbol_draw_lines(shape, writer)
+									 : symbol_draw_triangles(shape, writer);
+				writer.next();
 			}
 
 		if(draw_mode == PLAIN)
 			generate_mikkt_tangents({ (ShapeIndex*)gpu_mesh.m_indices.data(), gpu_mesh.m_index_count }, { (ShapeVertex*)gpu_mesh.m_vertices.data(), gpu_mesh.m_vertex_count });
 
-		gpu_mesh.m_writer.bound();
 		mesh.upload(gpu_mesh);
 
 		model.add_item(mesh, bxidentity());
 	}
 
-	Lines::Lines(GfxSystem& gfx)
+	Lines::Lines()
+	{}
+
+	Lines::Lines(const vector<vec3>& points)
 	{
-		m_model = gfx.models().get("line");
+		this->start(points[0]);
+		for(const vec3& p : points)
+		{
+			this->next(p);
+		}
 	}
+
+	Lines::Lines(const Curve3& curve, size_t subdiv)
+		: Lines(curve.points(subdiv))
+	{}
 
 	void Lines::add(const vec3& start, const vec3& end, const Colour& start_colour, const Colour& end_colour)
 	{
@@ -364,6 +361,24 @@ namespace mud
 			seg.dist0 = i > 0 ? m_segments[i - 1].dist1 : 0.f;
 			seg.dist1 = seg.dist0 + distance(seg.pos0, seg.pos1);
 		}
+	}
+
+	void Lines::write(Mesh& mesh)
+	{
+		const uint32_t vertex_format = VertexAttribute::Position4 | VertexAttribute::Colour;
+		GpuMesh gpu_mesh = alloc_mesh(PrimitiveType::Lines, vertex_format, m_segments.size() * 2, 0U);
+		MeshAdapter& writer = gpu_mesh.m_writer;
+
+		for(const Segment& seg : m_segments)
+		{
+			writer.position4(vec4(seg.pos0, seg.dist0));
+			writer.colour(seg.col0);
+
+			writer.position4(vec4(seg.pos1, seg.dist1));
+			writer.colour(seg.col1);
+		}
+
+		mesh.upload(gpu_mesh);
 	}
 
 	void Lines::commit(Batch& batch)

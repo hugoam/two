@@ -26,6 +26,8 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::Curve3>() { static Type ty("Curve3", sizeof(mud::Curve3)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>() { static Type ty("Distribution", sizeof(mud::Distribution)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Face3>() { static Type ty("Face3", sizeof(mud::Face3)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::MarchingCubes>() { static Type ty("MarchingCubes", sizeof(mud::MarchingCubes)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::MeshAdapter>() { static Type ty("MeshAdapter", sizeof(mud::MeshAdapter)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::MeshPacker>() { static Type ty("MeshPacker", sizeof(mud::MeshPacker)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Plane>() { static Type ty("Plane", sizeof(mud::Plane)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Plane3>() { static Type ty("Plane3", sizeof(mud::Plane3)); return ty; }
