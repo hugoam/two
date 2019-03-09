@@ -317,7 +317,7 @@ namespace gfx
 	Light& direct_light_node(Gnode& parent, const quat& rotation)
 	{
 		Gnode& self = node(parent, {}, vec3(0.f), rotation);
-		Light& l = light(self, LightType::Direct, true, Colour{ 0.8f, 0.8f, 0.7f }, 1.f);
+		Light& l = light(self, LightType::Direct, true, Colour(0.8f, 0.8f, 0.7f), 1.f);
 		l.m_energy = 0.6f;
 		l.m_shadow_flags = CSM_Stabilize;
 		l.m_shadow_bias = 0.1f;

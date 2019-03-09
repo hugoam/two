@@ -20,6 +20,24 @@ module mud.gfx;
 
 namespace mud
 {
+	void queue_depth(GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
+	{
+		static BlockDepth& block_depth = *gfx.m_renderer.block<BlockDepth>();
+
+		if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled
+		&& !element.m_material->m_alpha.m_is_alpha)
+		{
+			const DepthMethod depth_method = block_depth.m_depth_method;
+			const Program& program = depth_method == DepthMethod::Distance ? *block_depth.m_distance_program
+																		   : *block_depth.m_depth_program;
+
+			element.m_program = &program;
+			element.m_shader_version = element.m_material->shader_version(*element.m_program);
+
+			gfx.m_renderer.add_element(render, pass, element);
+		}
+	}
+
 	void pass_depth(GfxSystem& gfx, Render& render, Pass& render_pass, bool submit)
 	{
 		static BlockDepth& block_depth = *gfx.m_renderer.block<BlockDepth>();
@@ -33,28 +51,8 @@ namespace mud
 
 		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
 
-		if(!submit)
-			return;
-
-		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
-		{
-			UNUSED(render);
-
-			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled
-			&& !element.m_material->m_alpha.m_is_alpha)
-			{
-				const DepthMethod depth_method = block_depth.m_depth_method;
-				const Program& program = depth_method == DepthMethod::Distance ? *block_depth.m_distance_program
-																			   : *block_depth.m_depth_program;
-
-				element.m_program = &program;
-				element.m_shader_version = element.m_material->shader_version(*element.m_program);
-
-				gfx.m_renderer.add_element(render, pass, element);
-			}
-		};
-
-		gfx.m_renderer.pass(render, render_pass, queue_draw_element);
+		if(submit)
+			gfx.m_renderer.pass(render, render_pass, queue_depth);
 	}
 
 	void pass_depth(GfxSystem& gfx, Render& render)

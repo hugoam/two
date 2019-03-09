@@ -34,6 +34,7 @@ namespace mud
 		attr_ gpu_ float m_far = 1.f;
 	};
 
+	export_ MUD_GFX_EXPORT void queue_depth(GfxSystem& gfx, Render& render, Pass& pass, DrawElement element);
 	export_ MUD_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render, Pass& render_pass, bool submit = true);
 	export_ MUD_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render);
 

@@ -246,7 +246,7 @@ namespace mud
 		size_t vertex_stride = vertex_size(mesh.m_vertex_format);
 
 		vector<unsigned int> remap(mesh.m_vertex_count);
-		uint32_t index_count = mesh.m_index_count;
+		uint32_t index_count = mesh.m_index_count > 0 ? mesh.m_index_count : mesh.m_vertex_count;
 		size_t vertex_count = meshopt_generateVertexRemap(remap.data(), (T*)mesh.m_indices.data(), index_count, mesh.m_vertices.data(), mesh.m_vertex_count, vertex_stride);
 
 		// we can't allocate a new mesh with different index size because meshoptimizer remap functions don't allow for different types of indices

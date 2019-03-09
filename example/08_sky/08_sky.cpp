@@ -364,7 +364,7 @@ void compute_perez_coeff(float turbidity, float* outPerezCoeff)
 
 void PerezSky::render(Render& render)
 {
-	Pass sky_pass = render.next_pass("sky");
+	Pass sky_pass = render.next_pass("sky", PassType::Background);
 	bgfx::Encoder& encoder = *sky_pass.m_encoder;
 
 	m_time += m_time_scale * render.m_frame.m_delta_time;

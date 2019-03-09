@@ -378,9 +378,9 @@ namespace mud
 
 		m_gfx.m_renderer.block<BlockMaterial>()->submit(render, render_pass);
 
-		for(GfxBlock* block : m_gfx.m_renderer.m_pass_blocks[render_pass.m_pass_type])
-			if(block->m_draw_block)
-				((DrawBlock*)block)->submit(render, render_pass);
+		//for(GfxBlock* block : m_gfx.m_renderer.m_pass_blocks[render_pass.m_pass_type])
+		//	if(block->m_draw_block)
+		//		((DrawBlock*)block)->submit(render, render_pass);
 
 #ifdef MUD_GFX_JOBS
 		auto submit = [&](JobSystem& js, Job* job, size_t start, size_t count)
@@ -401,6 +401,8 @@ namespace mud
 
 	void Renderer::pass(Render& render, Pass& render_pass, Enqueue enqueue, Submit submit)
 	{
+		this->begin_render_pass(render, render_pass.m_pass_type);
+
 		this->clear_draw_elements(render, render_pass);
 
 		for(Item* item : render.m_shot->m_items)

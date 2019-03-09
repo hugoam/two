@@ -6,50 +6,6 @@
 
 using namespace mud;
 
-/*
-function onWindowResize() {
-	windowHalfX = window.innerWidth / 2;
-	windowHalfY = window.innerHeight / 2;
-	width = window.innerWidth;
-	height = window.innerHeight;
-	camera.aspect = width / height;
-	camera.updateProjectionMatrix();
-	renderer.setSize(width, height);
-	postprocessing.composer.setSize(width, height);
-}
-*/
-
-struct DoFRenderer : public Renderer
-{
-	DoFRenderer(GfxSystem& gfx, Pipeline& pipeline)
-		: Renderer(gfx, pipeline, Shading::Shaded)
-	{
-		this->add_pass<PassClear>(gfx);
-		this->add_pass<PassOpaque>(gfx);
-		//this->add_pass<PassBokeh>(gfx);
-		this->add_pass<PassEffects>(gfx);
-		this->add_pass<PassPostProcess>(gfx, *pipeline.block<BlockCopy>());
-		this->init();
-
-		// var renderPass = new THREE.RenderPass(scene, camera);
-		// var bokehPass = new THREE.BokehPass(scene, camera, {
-		//     focus: 1.0,
-		//     aperture : 0.025,
-		//     maxblur : 1.0,
-		//     width : width,
-		//     height : height
-		// });
-		// bokehPass.renderToScreen = true;
-		// var composer = new THREE.EffectComposer(renderer);
-		// composer.addPass(renderPass);
-		// composer.addPass(bokehPass);
-		// postprocessing.composer = composer;
-		// postprocessing.bokeh = bokehPass;
-		// 
-		// renderer.autoClear = false;
-	}
-};
-
 void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(dockbar);
@@ -149,4 +105,15 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 		}
 	
 	//postprocessing.composer.render(0.1);
+
+	auto render = [](GfxSystem& gfx, Render& render)
+	{
+		pass_clear(gfx, render);
+		pass_opaque(gfx, render);
+		//pass_bokeh(gfx, render);
+		pass_effects(gfx, render);
+		pass_post_process(gfx, render);
+	};
+
+	app.m_gfx.set_renderer(Shading::Shaded, render);
 }

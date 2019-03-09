@@ -17,7 +17,7 @@ module mud.gfx;
 
 namespace mud
 {
-	void pass_effects(GfxSystem& gfx, Render& render)
+	void pass_resolve(GfxSystem& gfx, Render& render)
 	{
 		static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
 
@@ -35,7 +35,10 @@ namespace mud
 
 		block_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target_fbo,
 							   render.m_target->m_ping_pong.last(), render.m_viewport.m_rect);
+	}
 
+	void pass_effects(GfxSystem& gfx, Render& render)
+	{
 		// submit ssao
 		// submit ssr
 		// submit sss

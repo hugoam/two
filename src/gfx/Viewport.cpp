@@ -19,8 +19,6 @@ module mud.gfx;
 #include <gfx/Shot.h>
 #endif
 
-//#include <cstdio>
-
 //#define NO_OCCLUSION_CULLING
 
 namespace mud
@@ -46,8 +44,6 @@ namespace mud
 
 	void Viewport::render_pass(const Pass& render_pass)
 	{
-		//printf("render pass rect %i, %i, %i, %i\n", int(m_rect.x), int(m_rect.y), int(m_rect.z), int(m_rect.w));
-
 		bgfx::setViewRect(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(rect_w(m_rect)), uint16_t(rect_h(m_rect)));
 		bgfx::setViewTransform(render_pass.m_index, value_ptr(m_camera->m_transform), value_ptr(m_camera->m_projection));
 		bgfx::setViewFrameBuffer(render_pass.m_index, render_pass.m_fbo);

@@ -35,7 +35,7 @@ module mud.gfx.pbr;
 #include <cstdio>
 
 #define DEBUG_CSM 0
-#define DEBUG_ATLAS 1
+#define DEBUG_ATLAS 0
 
 #define SHADOW_ATLAS 1
 
@@ -250,8 +250,9 @@ namespace mud
 	void update_csm_slice(Render& render, Light& light, const mat4& light_transform, const mat4& light_proj, 
 						  FrustumSlice& slice, CSMShadow& csm, LightShadow& shadow, const uvec4& atlas_rect, uint csm_size)
 	{
+		shadow.m_light = &light;
 		shadow.m_rect = csm_pass_rect(atlas_rect, light, slice.m_index);
-
+		
 		shadow.m_light_bounds = light_slice_bounds(slice.m_frustum, light_transform);
 
 		shadow.m_items = render.m_shot->m_items;
@@ -297,20 +298,13 @@ namespace mud
 			FrustumSlice& slice = csm.m_frustum_slices[i];
 			LightShadow& shadow = csm.m_slices[i];
 			update_csm_slice(render, light, light_transform, light_proj, slice, csm, shadow, atlas_rect, m_csm.m_size.x);
+			shadow.m_fbo = m_csm.m_fbo;
 		}
 	}
 
 	void BlockShadow::render_csm(Render& render, Light& light, CSMShadow& csm)
 	{
-		if(!bgfx::isValid(m_csm.m_fbo))
-			return;
-
-		for(LightShadow& slice : csm.m_slices)
-		{
-			ManualRender shadow_render = { render, Shading::Volume, m_csm.m_fbo, target_rect(slice, m_csm.m_size), slice.m_transform, slice.m_projection };
-			shadow_render.m_sub_render.m_shot->m_items = slice.m_items;
-			this->render(shadow_render, light, slice.m_depth_method, slice.m_bias_scale);
-		}
+		
 	}
 
 	void Shadowmap::create(const uvec2& size, DepthMethod method)
@@ -560,16 +554,6 @@ namespace mud
 
 	void BlockShadow::render_shadows(Render& render)
 	{
-		for(CSMShadow& csm : m_csm_shadows)
-			this->render_csm(render, *csm.m_light, csm);
-
-		for(LightShadow& shadow : m_shadows)
-		{
-			// don't call target_rect(shadow, uvec2(1024U)) because
-			ManualRender shadow_render = { render, Shading::Volume, shadow.m_fbo, shadow.m_rect, shadow.m_transform, shadow.m_projection };
-			shadow_render.m_sub_render.m_shot->m_items = shadow.m_items;
-			this->render(shadow_render, *shadow.m_light, shadow.m_depth_method);
-		}
 	}
 
 	void BlockShadow::commit_shadows(Render& render, const mat4& view)
@@ -577,7 +561,7 @@ namespace mud
 		UNUSED(render);
 		const mat4 inverse_view = inverse(view);
 
-		for(CSMShadow& csm : m_csm_shadows)
+		for(const CSMShadow& csm : m_csm_shadows)
 		{
 			for(uint32_t i = 0; i < csm.m_frustum_slices.size(); ++i)
 			{
@@ -589,7 +573,7 @@ namespace mud
 		m_shadow_matrices.resize(m_shadows.size());
 
 		size_t index = 0;
-		for(LightShadow& shadow : m_shadows)
+		for(const LightShadow& shadow : m_shadows)
 		{
 			m_shadow_matrices[index] = shadow.m_shadow_matrix * inverse_view;
 
@@ -692,6 +676,26 @@ namespace mud
 	{
 		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
 		block_shadow.render_shadows(render);
+
+		for(CSMShadow& csm : block_shadow.m_csm_shadows)
+		{
+			if(!bgfx::isValid(block_shadow.m_csm.m_fbo))
+				continue;
+
+			for(LightShadow& slice : csm.m_slices)
+			{
+				ManualRender shadow_render = { render, Shading::Volume, slice.m_fbo, target_rect(slice, block_shadow.m_csm.m_size), slice.m_transform, slice.m_projection };
+				shadow_render.m_sub_render.m_shot->m_items = slice.m_items;
+				block_shadow.render(shadow_render, *slice.m_light, slice.m_depth_method, slice.m_bias_scale);
+			}
+		}
+
+		for(LightShadow& shadow : block_shadow.m_shadows)
+		{
+			ManualRender shadow_render = { render, Shading::Volume, shadow.m_fbo, shadow.m_rect, shadow.m_transform, shadow.m_projection };
+			shadow_render.m_sub_render.m_shot->m_items = shadow.m_items;
+			block_shadow.render(shadow_render, *shadow.m_light, shadow.m_depth_method);
+		}
 	}
 
 	void pass_shadow(GfxSystem& gfx, Render& render)
@@ -706,7 +710,7 @@ namespace mud
 		block_depth.m_distance_params = block_shadow.m_distance_params;
 
 		block_depth.submit(render, render_pass);
-		block_shadow.submit(render, render_pass);
+		//block_shadow.submit(render, render_pass);
 
 		pass_depth(gfx, render, render_pass, false);
 
@@ -714,7 +718,7 @@ namespace mud
 		{
 			if(element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha)
 			{
-				gfx.m_renderer.add_element(render, pass, element);
+				queue_depth(gfx, render, pass, element);
 			}
 		};
 

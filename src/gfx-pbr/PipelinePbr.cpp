@@ -267,18 +267,18 @@ namespace gfx
 		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
 		static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
 
+		//block_pbr.submit(render, render_pass);
+
+		block_shadow.m_direct_light = block_light.m_direct_light;
+
+		block_shadow.commit_shadows(render, render.m_camera.m_transform);
+
 		block_radiance.submit(render, render_pass);
 		block_light.submit(render, render_pass);
 		block_shadow.submit(render, render_pass);
 		block_gi_trace.submit(render, render_pass);
 		block_reflection.submit(render, render_pass);
 		block_lightmap.submit(render, render_pass);
-		
-		//block_pbr.submit(render, render_pass);
-
-		block_shadow.m_direct_light = block_light.m_direct_light;
-
-		block_shadow.commit_shadows(render, render.m_camera.m_transform);
 	}
 
 	void submit_pbr_element(GfxSystem& gfx, Render& render, const DrawElement& element, Pass& render_pass)
@@ -314,8 +314,9 @@ namespace gfx
 		pass_particles(gfx, render);
 		pass_alpha(gfx, render);
 		pass_solid(gfx, render);
-		pass_effects(gfx, render);
-		pass_post_process(gfx, render);
+		//pass_effects(gfx, render);
+		//pass_resolve(gfx, render);
+		//pass_post_process(gfx, render);
 		//pass_flip(gfx, render);
 	}
 

@@ -98,32 +98,43 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar)
 			gfx::items(scene).add(Item(n, geometry, 0U, &material));
 		}
 
-		// Create a multi render target with Float buffers
-		target = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
-		target.texture.format = THREE.RGBFormat;
-		target.texture.minFilter = THREE.NearestFilter;
-		target.texture.magFilter = THREE.NearestFilter;
-		target.texture.generateMipmaps = false;
-		target.stencilBuffer = false;
-		target.depthBuffer = true;
-		target.depthTexture = new THREE.DepthTexture();
-		target.depthTexture.type = THREE.UnsignedShortType;
+		static BlockFilter& block_filter = *app.m_gfx.m_renderer.block<BlockFilter>();
 
-		 Setup post processing stage
-		postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-		var postMaterial = new THREE.ShaderMaterial({
-			vertexShader: document.querySelector('#post-vert').textContent.trim(),
-			fragmentShader : document.querySelector('#post-frag').textContent.trim(),
-			uniforms : {
-				cameraNear: { value: camera.near },
-				cameraFar : { value: camera.far },
-				tDiffuse : { value: target.texture },
-				tDepth : { value: target.depthTexture }
-			}
-			});
-		var postPlane = new THREE.PlaneBufferGeometry(2, 2);
-		var postQuad = new THREE.Mesh(postPlane, postMaterial);
-		postScene = new THREE.Scene();
-		postScene.add(postQuad);
+		Program& program = app.m_gfx.programs().create("todepth");
+		program.m_sources[ShaderType::Vertex] = vertex_shader();
+		program.m_sources[ShaderType::Fragment] = fragment_shader();
+		// tDiffuse : { value: target.texture },
+		// tDepth : { value: target.depthTexture }
+		
+		auto pass_to_depth = [](GfxSystem& gfx, Render& render)
+		{
+			Pass pass = render.next_pass("todepth", PassType::PostProcess);
+			Program& program = gfx.programs().fetch("todepth");
+			block_filter.submit_quad(*pass.m_target, pass.m_index, program.default_version(), pass.m_viewport->m_rect);
+		};
+
+		auto render = [](GfxSystem& gfx, Render& render)
+		{
+			render.m_is_mrt = false;
+			pass_clear(gfx, render);
+			pass_opaque(gfx, render);
+			pass_resolve(gfx, render);
+			pass_post_process(gfx, render);
+			//pass_to_depth(gfx, render);
+		};
+
+		app.m_gfx.set_renderer(Shading::Shaded, render);
+
+		// Create a multi render target with Float buffers
+		//target = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
+		//target.texture.format = THREE.RGBFormat;
+		//target.texture.minFilter = THREE.NearestFilter;
+		//target.texture.magFilter = THREE.NearestFilter;
+		//target.texture.generateMipmaps = false;
+		//target.stencilBuffer = false;
+		//target.depthBuffer = true;
+		//target.depthTexture = new THREE.DepthTexture();
+		//target.depthTexture.type = THREE.UnsignedShortType;
+		//
 	}
 }
