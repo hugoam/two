@@ -84,7 +84,7 @@ namespace mud
 			m_projection = bxortho(ortho_rect(m_height, m_aspect), m_near, m_far, 0.0f, bgfx::getCaps()->homogeneousDepth);
 	}
 
-	// @todo move this to viewport ? or are froxels shared between viewports ?
+	// @todo move this to viewport ? or are clusters shared between viewports ?
 	void Camera::set_clustered(GfxSystem& gfx, Viewport& viewport)
 	{
 		if(viewport.m_rect != uvec4(0U) && !m_clusters)

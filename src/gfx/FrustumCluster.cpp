@@ -138,22 +138,22 @@ namespace mud
 
 	void compute_frustum_subdiv_square(ClusteredFrustum& frustum, vec2 clip_size, size_t slices, size_t max_clusters)
 	{
-		// calculate froxel dimension from CLUSTER_BUFFER_ENTRY_COUNT_MAX and viewport
-		// - Start from the maximum number of froxels we can use in the x-y plane
+		// calculate cluster dimension from CLUSTER_BUFFER_ENTRY_COUNT_MAX and viewport
+		// - Start from the maximum number of clusters we can use in the x-y plane
 		size_t per_slice = max_clusters / slices;
-		// - compute the number of square froxels we need in width and height, rounded down
-		//   solving: |  froxel_count_x * froxel_count_y == per_slice
-		//            |  froxel_count_x / froxel_count_y == width / height
+		// - compute the number of square clusters we need in width and height, rounded down
+		//   solving: |  cluster_count_x * cluster_count_y == per_slice
+		//            |  cluster_count_x / cluster_count_y == width / height
 		size_t count_x = size_t(sqrt(per_slice * clip_size.x / clip_size.y));
 		size_t count_y = size_t(sqrt(per_slice * clip_size.y / clip_size.x));
-		// - copmute the froxels dimensions, rounded up
+		// - copmute the clusters dimensions, rounded up
 		size_t size_x = (size_t(clip_size.x) + count_x - 1) / count_x;
 		size_t size_y = (size_t(clip_size.y) + count_y - 1) / count_y;
-		// - and since our froxels must be square, only keep the largest dimension
+		// - and since our clusters must be square, only keep the largest dimension
 		size_t size = max(size_x, size_y);
 
-		// Here we recompute the froxel counts which may have changed a little due to the rounding
-		// and the squareness requirement of froxels
+		// Here we recompute the cluster counts which may have changed a little due to the rounding
+		// and the squareness requirement of clusters
 		count_x = (size_t(clip_size.x) + size - 1) / size;
 		count_y = (size_t(clip_size.y) + size - 1) / size;
 
@@ -166,7 +166,7 @@ namespace mud
 	uvec2 ClusteredFrustum::tile_index(const vec2& clip) const
 	{
 		// clip coordinates between [-1, 1], conversion to index between [0, count[
-		//  = floor((clip + 1) * ((0.5 * dimension) / froxelsize))
+		//  = floor((clip + 1) * ((0.5 * dimension) / clustersize))
 		//  = floor((clip + 1) * constant
 		//  = floor(clip * constant + constant)
 		const uint xi = uint(clamp(int(clip.x * m_clip_to_cluster.x + m_clip_to_cluster.x), 0, int(m_subdiv_x - 1)));
@@ -201,16 +201,16 @@ namespace mud
 		assert(x < m_subdiv_x);
 		assert(y < m_subdiv_y);
 		assert(z < m_subdiv_z);
-		Frustum froxel;
-		froxel.m_planes.m_left = to_plane(m_planes_x[x]);
-		froxel.m_planes.m_down = to_plane(m_planes_y[y]);
-		froxel.m_planes.m_near = to_plane({ 0.f, 0.f, 1.f, -m_distances_z[z] });
-		froxel.m_planes.m_right = to_plane(-m_planes_x[x + 1]);
-		froxel.m_planes.m_up = to_plane(-m_planes_y[y + 1]);
-		froxel.m_planes.m_far = to_plane({ 0.f, 0.f, 1.f, -m_distances_z[z + 1] });
-		froxel.m_corners = frustum_corners(froxel.m_planes);
-		froxel.compute();
-		return froxel;
+		Frustum cluster;
+		cluster.m_planes.m_left = to_plane(m_planes_x[x]);
+		cluster.m_planes.m_down = to_plane(m_planes_y[y]);
+		cluster.m_planes.m_near = to_plane({ 0.f, 0.f, 1.f, -m_distances_z[z] });
+		cluster.m_planes.m_right = to_plane(-m_planes_x[x + 1]);
+		cluster.m_planes.m_up = to_plane(-m_planes_y[y + 1]);
+		cluster.m_planes.m_far = to_plane({ 0.f, 0.f, 1.f, -m_distances_z[z + 1] });
+		cluster.m_corners = frustum_corners(cluster.m_planes);
+		cluster.compute();
+		return cluster;
 	}
 
 	void ClusteredFrustum::resize(const vec2& clip_size)
@@ -245,7 +245,7 @@ namespace mud
 	void ClusteredFrustum::recompute(const mat4& projection, const vec2& clip_size)
 	{
 		// clip-space dimensions
-		const vec2 froxel_clip_size = (2.0f * vec2(m_tile_size)) / clip_size;
+		const vec2 cluster_clip_size = (2.0f * vec2(m_tile_size)) / clip_size;
 		const mat4 inv_projection = inverse(projection);
 		
 		auto to_view_space = [](const mat4& inv_projection, vec4 p0, vec4 p1)
@@ -257,7 +257,7 @@ namespace mud
 
 		for(uint16_t i = 0, n = m_subdiv_x; i <= n; ++i)
 		{
-			float x = (i * froxel_clip_size.x) - 1.0f;
+			float x = (i * cluster_clip_size.x) - 1.0f;
 			vec4 p0 = { x, -1, -1, 1 };
 			vec4 p1 = { x,  1, -1, 1 };
 			m_planes_x[i] = to_view_space(inv_projection, p0, p1);
@@ -265,7 +265,7 @@ namespace mud
 
 		for(uint16_t i = 0, n = m_subdiv_y; i <= n; ++i)
 		{
-			float y = (i * froxel_clip_size.y) - 1.0f;
+			float y = (i * cluster_clip_size.y) - 1.0f;
 			vec4 p0 = { -1, y, -1, 1 };
 			vec4 p1 = {  1, y, -1, 1 };
 			m_planes_y[i] = to_view_space(inv_projection, p0, p1);
@@ -287,7 +287,7 @@ namespace mud
 			vec3 minp;
 			vec3 maxp;
 
-			// near/far planes for all froxels at iz
+			// near/far planes for all clusters at iz
 			planes[4] =  vec4(0.f, 0.f, 1.f, m_distances_z[iz + 0]);
 			planes[5] = -vec4(0.f, 0.f, 1.f, m_distances_z[iz + 1]);
 
@@ -299,7 +299,7 @@ namespace mud
 
 			for(uint16_t ix = 0; ix < m_subdiv_x; ++ix)
 			{
-				// left, right planes for all froxels at ix
+				// left, right planes for all clusters at ix
 				planes[0] = m_planes_x[ix];
 				planes[1] = -m_planes_x[ix + 1];
 				minp.x = limits<float>::max();
@@ -319,7 +319,7 @@ namespace mud
 
 			for(uint16_t iy = 0; iy < m_subdiv_y; ++iy)
 			{
-				// bottom, top planes for all froxels at iy
+				// bottom, top planes for all clusters at iy
 				planes[2] = m_planes_y[iy];
 				planes[3] = -m_planes_y[iy + 1];
 				minp.y = limits<float>::max();

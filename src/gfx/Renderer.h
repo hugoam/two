@@ -5,7 +5,9 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/memory.h>
 #include <stl/span.h>
+#include <stl/vector.h>
 #include <math/Vec.h>
 #include <ecs/Entity.h>
 #include <type/Cls.h>
@@ -86,11 +88,12 @@ namespace mud
 		Probes,
 		Clear,
 		Depth,
+		Shadow,
 		Geometry,
 		Lights,
 		Opaque,
 		Background,
-		Flare,
+		Particles,
 		Alpha,
 		Solid,
 		Effects,
@@ -155,6 +158,7 @@ namespace mud
 		uvec4 m_rect = {};
 		uint64_t m_bgfx_state = 0;
 		bgfx::Encoder* m_encoder = nullptr;
+		PassType m_pass_type;
 
 		bool m_use_mrt = false;
 		uint8_t m_index = 0;
@@ -211,7 +215,7 @@ namespace mud
 		uint32_t m_num_vertices = 0;
 		uint32_t m_num_triangles = 0;
 
-		Pass next_pass(cstring name, bool subpass = false);
+		Pass next_pass(cstring name, PassType type, bool subpass = false);
 		Pass composite_pass(cstring name, bgfx::FrameBufferHandle fbo, const uvec4& rect);
 
 		uint8_t picking_pass() { return m_picking_pass_index++; }
@@ -245,7 +249,6 @@ namespace mud
 		virtual void begin_frame(const RenderFrame& frame) { UNUSED(frame); }
 
 		virtual void begin_render(Render& render) = 0;
-		virtual void begin_pass(Render& render) = 0;
 		virtual void submit_pass(Render& render) { UNUSED(render); }
 
 		GfxSystem& m_gfx;
@@ -269,28 +272,10 @@ namespace mud
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const = 0;
 	};
 
-	export_ class MUD_GFX_EXPORT RenderPass
-	{
-	public:
-		RenderPass(GfxSystem& gfx, const char* name, PassType pass_type);
-		virtual ~RenderPass() {}
-
-		virtual void submit_render_pass(Render& render) = 0;
-
-		void blocks_begin_render(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_render(render); }
-		void blocks_begin_pass(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_pass(render); }
-
-		GfxSystem& m_gfx;
-		const char* m_name;
-		PassType m_pass_type;
-		span<GfxBlock*> m_gfx_blocks;
-		span<DrawBlock*> m_draw_blocks;
-	};
-	
 	export_ struct MUD_GFX_EXPORT DrawElement
 	{
 		DrawElement() {}
-		DrawElement(Item& item, const Program& program, const ModelItem& model, const Material& material, const Skin* skin = nullptr);
+		DrawElement(Item& item, const Program& program, const ModelItem& model, const Material& material, const Skin* skin, uint64_t sort_key);
 		Item* m_item = nullptr;
 		const Program* m_program = nullptr;
 		const ModelItem* m_model = nullptr;
@@ -310,56 +295,56 @@ namespace mud
 		span<Light*> m_lights = {};
 	};
 
-	export_ class MUD_GFX_EXPORT DrawPass : public RenderPass
-	{
-	public:
-		DrawPass(GfxSystem& gfx, const char* name, PassType pass_type);
-		~DrawPass();
-
-		void init_blocks();
-
-		void shader_options(Render& render, ShaderVersion& version) const;
-
-		void add_element(Render& render, DrawElement element);
-
-		virtual void submit_render_pass(Render& render) override;
-
-		void gather_draw_elements(Render& render);
-		void submit_draw_elements(bgfx::Encoder& encoder, Render& render, Pass& render_pass, size_t first, size_t count) const;
-
-		virtual uint8_t num_draw_passes(Render& render) { UNUSED(render); return 1; }
-		virtual void next_draw_pass(Render& render, Pass& render_pass) = 0;
-		virtual void queue_draw_element(Render& render, DrawElement& element) = 0;
-
-		struct Impl;
-		unique<Impl> m_impl;
-	};
+	using RenderFunc = void(*)(GfxSystem&, Render&);
 
 	export_ class MUD_GFX_EXPORT Renderer
 	{
 	public:
-		Renderer(GfxSystem& gfx, Pipeline& pipeline, Shading shading);
+		Renderer(GfxSystem& gfx);
 		~Renderer();
 
 		GfxSystem& m_gfx;
-		Pipeline& m_pipeline;
-		Shading m_shading;
 
 		struct Impl;
 		unique<Impl> m_impl;
 
 		void init();
 
-		bool has_block(GfxBlock& gfx_block);
-		void add_block(GfxBlock& gfx_block);
+		void render(Render& render, RenderFunc renderer);
+		void subrender(Render& render, Render& sub, RenderFunc renderer);
 
 		void gather(Render& render);
-		void render(Render& render);
-		void subrender(Render& render, Render& sub);
+		void begin(Render& render);
+		void end(Render& render);
 
-		RenderPass& add_pass(unique<RenderPass> pass);
+		using Enqueue = void(*)(GfxSystem&, Render&, Pass&, DrawElement);
+		using Submit = void(*)(GfxSystem&, Render&, Pass&, const DrawElement&);
 
-		template <class T_Pass, class... Args>
-		T_Pass& add_pass(Args&&... args) { return as<T_Pass>(add_pass(make_unique<T_Pass>(static_cast<Args&&>(args)...))); }
+		void begin_render_pass(Render& render, PassType pass_type);
+		void submit_render_pass(Render& render, Pass& render_pass, Submit submit);
+
+		void shader_options(Render& render, Pass& pass, ShaderVersion& version) const;
+		void add_element(Render& render, Pass& pass, DrawElement element);
+		void clear_draw_elements(Render& render, Pass& pass);
+		void gather_draw_elements(Render& render, Pass& pass);
+		void submit_draw_elements(bgfx::Encoder& encoder, Render& render, Pass& pass, Submit submit, size_t first, size_t count) const;
+		DrawElement draw_element(Item& item, const ModelItem& model_item) const;
+
+		void submit(bgfx::Encoder& encoder, Render& render, Pass& pass, Submit submit, const DrawElement& element) const;
+
+		void pass(Render& render, Pass& pass, Enqueue enqueue, Submit submit = nullptr);
+
+		using GatherFunc = void(*)(Scene&, Render&);
+		GatherFunc m_gather_func;
+
+		template <class T_Block>
+		T_Block* block() { for(auto& block : m_gfx_blocks) if(&(block->m_type) == &type<T_Block>()) return &as<T_Block>(*block); return nullptr; }
+
+		template <class T_Block, class... Args>
+		T_Block& add_block(Args&&... args) { m_gfx_blocks.push_back(make_unique<T_Block>(static_cast<Args&&>(args)...)); return as<T_Block>(*m_gfx_blocks.back()); }
+
+		vector<unique<GfxBlock>> m_gfx_blocks;
+
+		table<PassType, vector<GfxBlock*>> m_pass_blocks;
 	};
 }

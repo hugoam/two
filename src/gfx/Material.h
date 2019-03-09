@@ -215,6 +215,16 @@ namespace mud
 		SPECULAR_MODE,
 	};
 
+	export_ class refl_ MUD_GFX_EXPORT BlockPbr : public GfxBlock
+	{
+	public:
+		BlockPbr(GfxSystem& gfx);
+
+		virtual void init_block() override {}
+
+		virtual void begin_render(Render& render) override { UNUSED(render); }
+	};
+
 	export_ struct refl_ MUD_GFX_EXPORT MaterialPbr
 	{
 		constr_ MaterialPbr() {}
@@ -260,7 +270,6 @@ namespace mud
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
 		virtual void submit(Render& render, const Pass& render_pass);
 
@@ -268,8 +277,6 @@ namespace mud
 		bgfx::UniformHandle s_materials = BGFX_INVALID_HANDLE;
 		bgfx::TextureHandle m_materials_texture = BGFX_INVALID_HANDLE;
 	};
-
-	export_ GfxBlock& pbr_block(GfxSystem& gfx);
 
 	export_ MUD_GFX_EXPORT void load_material(Material& material, Program& program);
 

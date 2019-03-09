@@ -48,11 +48,6 @@ namespace mud
 		//this->set_uniforms(render);
 	}
 
-	void BlockFilter::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	struct GpuTargetRect
 	{
 		attr_ gpu_ vec2 rect_size;
@@ -167,11 +162,6 @@ namespace mud
 	{}
 
 	void BlockCopy::begin_render(Render& render)
-	{
-		UNUSED(render);
-	}
-
-	void BlockCopy::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}

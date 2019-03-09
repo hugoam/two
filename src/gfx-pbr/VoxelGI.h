@@ -66,35 +66,6 @@ namespace gfx
 	export_ MUD_GFX_PBR_EXPORT void save_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path);
 	export_ MUD_GFX_PBR_EXPORT void load_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, const string& path);
 
-	struct VoxelRenderer : public Renderer
-	{
-		VoxelRenderer(GfxSystem& gfx, Pipeline& pipeline);
-	};
-
-	export_ class MUD_GFX_PBR_EXPORT PassGIBake : public DrawPass
-	{
-	public:
-		PassGIBake(GfxSystem& gfx, BlockLight& block_light, BlockShadow& block_shadow, BlockGIBake& block_gi_bake);
-
-		BlockLight& m_block_light;
-		BlockShadow& m_block_shadow;
-		BlockGIBake& m_block_gi_bake;
-
-		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-	};
-
-	export_ class MUD_GFX_PBR_EXPORT PassGIProbes : public RenderPass
-	{
-	public:
-		PassGIProbes(GfxSystem& gfx, BlockLight& block_light, BlockGIBake& block_gi_bake);
-
-		BlockLight& m_block_light;
-		BlockGIBake& m_block_gi_bake;
-
-		virtual void submit_render_pass(Render& render) final;
-	};
-
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGITrace : public DrawBlock
 	{
 	public:
@@ -103,7 +74,6 @@ namespace gfx
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
@@ -144,7 +114,6 @@ namespace gfx
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;

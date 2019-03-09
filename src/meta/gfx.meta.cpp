@@ -2738,21 +2738,6 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::BlockResolve
-	{
-		Type& t = type<mud::BlockResolve>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockResolve", sizeof(mud::BlockResolve), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::GfxBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockResolve, mud::GfxBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
 	// mud::BlockSky
 	{
 		Type& t = type<mud::BlockSky>();
@@ -3006,7 +2991,6 @@ namespace mud
 		m.m_types.push_back(&type<mud::BlockFilter>());
 		m.m_types.push_back(&type<mud::BlockMaterial>());
 		m.m_types.push_back(&type<mud::BlockParticles>());
-		m.m_types.push_back(&type<mud::BlockResolve>());
 		m.m_types.push_back(&type<mud::BlockSky>());
 		m.m_types.push_back(&type<mud::ClusteredFrustum>());
 		m.m_types.push_back(&type<mud::DrawBlock>());

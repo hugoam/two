@@ -43,8 +43,8 @@ namespace mud
 	static_assert(CONFIG_MAX_LIGHT_INDEX <= UINT16_MAX, "can't have more than 65536 lights");
 	using RecordBufferType = std::conditional_t<CONFIG_MAX_LIGHT_INDEX <= UINT8_MAX, uint8_t, uint16_t>;
 
-	// this is chosen so froxelizePointAndSpotLight() vectorizes 4 froxel tests / spotlight
-	// with 256 lights this implies 8 jobs (256 / 32) for froxelization.
+	// this is chosen so clusterizePointAndSpotLight() vectorizes 4 cluster tests / spotlight
+	// with 256 lights this implies 8 jobs (256 / 32) for clusterization.
 
 	using LightGroupType = uint32_t;
 
@@ -73,7 +73,7 @@ namespace mud
 	// number of lights processed by one group (e.g. 32)
 	static constexpr uint32_t LIGHT_PER_GROUP = sizeof(LightGroupType) * 8;
 
-	// number of groups (i.e. jobs) to use for froxelization (e.g. 8)
+	// number of groups (i.e. jobs) to use for clusterization (e.g. 8)
 	static constexpr uint32_t GROUP_COUNT = (CONFIG_MAX_LIGHT_COUNT + LIGHT_PER_GROUP - 1) / LIGHT_PER_GROUP;
 
 
@@ -104,23 +104,23 @@ namespace mud
 			s_light_records  = bgfx::createUniform("s_light_records",  bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 
-			u_froxel_params = bgfx::createUniform("u_froxel_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-			u_froxel_f = bgfx::createUniform("u_froxel_f", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-			u_froxel_z = bgfx::createUniform("u_froxel_z", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_cluster_params = bgfx::createUniform("u_cluster_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_cluster_f = bgfx::createUniform("u_cluster_f", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_cluster_z = bgfx::createUniform("u_cluster_z", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
 
 		bgfx::UniformHandle s_light_records;
 		bgfx::UniformHandle s_light_clusters;
 
-		bgfx::UniformHandle u_froxel_params;
-		bgfx::UniformHandle u_froxel_f;
-		bgfx::UniformHandle u_froxel_z;
+		bgfx::UniformHandle u_cluster_params;
+		bgfx::UniformHandle u_cluster_f;
+		bgfx::UniformHandle u_cluster_z;
 	};
 
 	struct Froxelizer::Impl
 	{
 		Impl()
-			: m_froxels({ GpuBuffer::ElementType::UINT16, 2 }, CLUSTER_BUFFER_WIDTH, CLUSTER_BUFFER_HEIGHT)
+			: m_clusters({ GpuBuffer::ElementType::UINT16, 2 }, CLUSTER_BUFFER_WIDTH, CLUSTER_BUFFER_HEIGHT)
 			, m_records({ record_type(), 1 }, RECORD_BUFFER_WIDTH, RECORD_BUFFER_HEIGHT)
 		{
 			m_uniform.createUniforms();
@@ -135,16 +135,16 @@ namespace mud
 			const bgfx::Memory* m_memory;
 		};
 
-		vector<FroxelThreadData> m_froxel_sharded_data;  // 256 KiB w/ 256 lights
+		vector<FroxelThreadData> m_cluster_sharded_data;  // 256 KiB w/ 256 lights
 		vector<LightRecord> m_light_records;             // 256 KiB w/ 256 lights
 
-		Buffer<FroxelEntry> m_froxels;			//  32 KiB w/ 8192 froxels
+		Buffer<FroxelEntry> m_clusters;			//  32 KiB w/ 8192 clusters
 		Buffer<RecordBufferType> m_records;		//  64 KiB // max 32 KiB  (actual: resolution dependant)
 
 		FroxelUniform m_uniform;
 	};
 
-	void froxelize_light(ClusteredFrustum& frustum, FroxelThreadData& froxelThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far);
+	void clusterize_light(ClusteredFrustum& frustum, FroxelThreadData& clusterThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far);
 
 	Froxelizer::Froxelizer(GfxSystem& gfx)
 		: m_gfx(gfx)
@@ -156,8 +156,8 @@ namespace mud
 	Froxelizer::~Froxelizer()
 	{}
 
-	uint32_t Froxelizer::record(uint32_t cluster) { return m_impl->m_froxels.m_data[cluster].offset; }
-	uint32_t Froxelizer::count(uint32_t record, int type) { return m_impl->m_froxels.m_data[record].count[type]; }
+	uint32_t Froxelizer::record(uint32_t cluster) { return m_impl->m_clusters.m_data[cluster].offset; }
+	uint32_t Froxelizer::count(uint32_t record, int type) { return m_impl->m_clusters.m_data[record].count[type]; }
 	uint32_t Froxelizer::light(uint32_t record) { return m_impl->m_records.m_data[record]; }
 
 	bool Froxelizer::update(const Viewport& viewport, const mat4& projection, float near, float far)
@@ -186,12 +186,12 @@ namespace mud
 	{
 		bool uniformsNeedUpdating = this->update(viewport, projection, near, far);
 
-		// froxel buffer (~32 KiB) & record buffer (~64 KiB)
-		m_impl->m_froxels.m_data.resize(CLUSTER_BUFFER_ENTRY_COUNT_MAX);
+		// cluster buffer (~32 KiB) & record buffer (~64 KiB)
+		m_impl->m_clusters.m_data.resize(CLUSTER_BUFFER_ENTRY_COUNT_MAX);
 		m_impl->m_records.m_data.resize(RECORD_BUFFER_ENTRY_COUNT);
 
-		m_impl->m_light_records.resize(CLUSTER_BUFFER_ENTRY_COUNT_MAX);  // light records per froxel (~256 KiB)
-		m_impl->m_froxel_sharded_data.resize(GROUP_COUNT);				// froxel thread data (~256 KiB)
+		m_impl->m_light_records.resize(CLUSTER_BUFFER_ENTRY_COUNT_MAX);  // light records per cluster (~256 KiB)
+		m_impl->m_cluster_sharded_data.resize(GROUP_COUNT);				// cluster thread data (~256 KiB)
 
 		return uniformsNeedUpdating;
 	}
@@ -255,7 +255,7 @@ namespace mud
 		}
 
 		if(m_debug_clusters.size() > 0)
-			this->compute_froxels();
+			this->compute_clusters();
 	}
 
 	bool Froxelizer::update()
@@ -277,7 +277,7 @@ namespace mud
 		return uniformsNeedUpdating;
 	}
 
-	void Froxelizer::compute_froxels()
+	void Froxelizer::compute_clusters()
 	{	
 		m_debug_clusters.resize(m_frustum.m_cluster_count);
 
@@ -293,11 +293,11 @@ namespace mud
 
 	void Froxelizer::upload()
 	{
-		m_impl->m_froxels.m_memory = bgfx::copy(m_impl->m_froxels.m_data.data(), uint32_t(sizeof(FroxelEntry) * m_impl->m_froxels.m_data.size()));
+		m_impl->m_clusters.m_memory = bgfx::copy(m_impl->m_clusters.m_data.data(), uint32_t(sizeof(FroxelEntry) * m_impl->m_clusters.m_data.size()));
 		m_impl->m_records.m_memory = bgfx::copy(m_impl->m_records.m_data.data(), uint32_t(sizeof(RecordBufferType) * m_impl->m_records.m_data.size()));
 
 		// send data to GPU
-		m_impl->m_froxels.m_buffer.commit(m_impl->m_froxels.m_memory);
+		m_impl->m_clusters.m_buffer.commit(m_impl->m_clusters.m_memory);
 		m_impl->m_records.m_buffer.commit(m_impl->m_records.m_memory);
 	}
 
@@ -319,9 +319,9 @@ namespace mud
 
 		auto submit = [=](vec4 params, vec4 f, vec4 z)
 		{
-			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_froxel_params, &params);
-			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_froxel_f, &f);
-			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_froxel_z, &z);
+			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_cluster_params, &params);
+			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_cluster_f, &f);
+			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_cluster_z, &z);
 		};
 
 		submit(vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_params_f), 0.f), m_params_z);
@@ -330,17 +330,17 @@ namespace mud
 	void Froxelizer::submit(bgfx::Encoder& encoder) const
 	{
 		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_impl->m_records.m_buffer.m_texture);
-		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_impl->m_froxels.m_buffer.m_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_impl->m_clusters.m_buffer.m_texture);
 	}
 
-	void Froxelizer::froxelize_lights(const Camera& camera, span<Light*> lights)
+	void Froxelizer::clusterize_lights(const Camera& camera, span<Light*> lights)
 	{
 		// note: this is called asynchronously
-		froxelize_loop(camera, lights);
-		froxelize_assign_records_compress(uint32_t(lights.size()));
+		clusterize_loop(camera, lights);
+		clusterize_assign_records_compress(uint32_t(lights.size()));
 	}
 
-	void Froxelizer::froxelize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride)
+	void Froxelizer::clusterize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride)
 	{
 		const mat4& projection = m_projection;
 
@@ -358,52 +358,52 @@ namespace mud
 			const uint32_t bit = i / GROUP_COUNT;
 			assert(bit < LIGHT_PER_GROUP);
 
-			FroxelThreadData& threadData = m_impl->m_froxel_sharded_data[group];
+			FroxelThreadData& threadData = m_impl->m_cluster_sharded_data[group];
 			const bool isSpot = light.invSin != std::numeric_limits<float>::infinity();
 			threadData[0] |= isSpot << bit;
-			froxelize_light(m_frustum, threadData, bit, projection, m_near, light, m_light_far);
+			clusterize_light(m_frustum, threadData, bit, projection, m_near, light, m_light_far);
 		}
 	}
 
 #define MUD_THREADED
 
-	void Froxelizer::froxelize_loop(const Camera& camera, span<Light*> lights)
+	void Froxelizer::clusterize_loop(const Camera& camera, span<Light*> lights)
 	{
-		memset(m_impl->m_froxel_sharded_data.data(), 0, m_impl->m_froxel_sharded_data.size() * sizeof(FroxelThreadData));
+		memset(m_impl->m_cluster_sharded_data.data(), 0, m_impl->m_cluster_sharded_data.size() * sizeof(FroxelThreadData));
 
 #ifdef MUD_THREADED
 		JobSystem& js = *m_gfx.m_job_system;
 		Job* parent = js.job();
 		for(uint32_t i = 0; i < GROUP_COUNT; i++)
 		{
-			auto task = [=, &camera](JobSystem&, Job*) { this->froxelize_light_group(camera, lights, i, GROUP_COUNT); };
+			auto task = [=, &camera](JobSystem&, Job*) { this->clusterize_light_group(camera, lights, i, GROUP_COUNT); };
 			js.run(js.job(parent, task));
 		}
 		js.complete(parent);
 #else
 		for(uint32_t i = 0; i < GROUP_COUNT; i++)
-			this->froxelize_light_group(camera, lights, i, GROUP_COUNT);
+			this->clusterize_light_group(camera, lights, i, GROUP_COUNT);
 #endif
 	}
 
-	void Froxelizer::froxelize_assign_records_compress(uint32_t num_lights)
+	void Froxelizer::clusterize_assign_records_compress(uint32_t num_lights)
 	{
 		UNUSED(num_lights);
 
 		auto inspect = [&]()
 		{
 			uint32_t i = 0;
-			for(FroxelEntry& entry : m_impl->m_froxels.m_data)
+			for(FroxelEntry& entry : m_impl->m_clusters.m_data)
 			{
 				if((entry.count[0] > 0 || entry.count[1] > 0) && entry.offset == 0)
-					printf("froxel %i has lights but offset 0\n", int(i));
+					printf("cluster %i has lights but offset 0\n", int(i));
 				i++;
 			}
 		};
 		UNUSED(inspect);
 
-		// convert froxel data from N groups of M bits to LightRecord::Lights, so we can
-		// easily compare adjacent froxels, for compaction. The conversion loops below get
+		// convert cluster data from N groups of M bits to LightRecord::Lights, so we can
+		// easily compare adjacent clusters, for compaction. The conversion loops below get
 		// inlined and vectorized in release builds.
 
 		// keep these two loops separate, it helps the compiler a lot
@@ -414,9 +414,9 @@ namespace mud
 
 		for(uint32_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
 		{
-			container_type b = m_impl->m_froxel_sharded_data[i * r][0];
+			container_type b = m_impl->m_cluster_sharded_data[i * r][0];
 			for(uint32_t k = 0; k < r; k++)
-				b |= (container_type(m_impl->m_froxel_sharded_data[i * r + k][0]) << (LIGHT_PER_GROUP * k));
+				b |= (container_type(m_impl->m_cluster_sharded_data[i * r + k][0]) << (LIGHT_PER_GROUP * k));
 			spot_lights.at(i) = b;
 		}
 
@@ -425,9 +425,9 @@ namespace mud
 		{
 			for(uint32_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
 			{
-				container_type b = m_impl->m_froxel_sharded_data[i * r][j];
+				container_type b = m_impl->m_cluster_sharded_data[i * r][j];
 				for(uint32_t k = 0; k < r; k++)
-					b |= (container_type(m_impl->m_froxel_sharded_data[i * r + k][j]) << (LIGHT_PER_GROUP * k));
+					b |= (container_type(m_impl->m_cluster_sharded_data[i * r + k][j]) << (LIGHT_PER_GROUP * k));
 				m_impl->m_light_records[j - 1].lights.at(i) = b;
 			}
 		}
@@ -437,7 +437,7 @@ namespace mud
 		auto remap = [stride = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_y)](uint32_t i) -> uint32_t
 		{
 			if(SUPPORTS_REMAPPED_CLUSTERS) {
-				// TODO: with the non-square froxel change these would be mask ops instead of divide.
+				// TODO: with the non-square cluster change these would be mask ops instead of divide.
 				i = (i % stride) * CONFIG_CLUSTER_SLICE_COUNT + (i / stride);
 			}
 			return i;
@@ -449,11 +449,11 @@ namespace mud
 			LightRecord b = m_impl->m_light_records[cluster];
 			if(b.lights.none())
 			{
-				m_impl->m_froxels.m_data[remap(cluster++)].u32 = 0;
+				m_impl->m_clusters.m_data[remap(cluster++)].u32 = 0;
 				continue;
 			}
 
-			// We have a limitation of 255 spot + 255 point lights per froxel.
+			// We have a limitation of 255 spot + 255 point lights per cluster.
 			uint8_t point_count = uint8_t(min(255U, uint32_t((b.lights & ~spot_lights).count())));
 			uint8_t spot_count = uint8_t(min(255U, uint32_t((b.lights &  spot_lights).count())));
 
@@ -463,10 +463,10 @@ namespace mud
 
 			if(offset + light_count >= RECORD_BUFFER_ENTRY_COUNT) //[[unlikely]]
 			{
-				// note: instead of dropping froxels we could look for similar records we've already
+				// note: instead of dropping clusters we could look for similar records we've already
 				// filed up.
 				do { // this compiles to memset() when remap() is identity
-					m_impl->m_froxels.m_data[remap(cluster++)].u32 = 0;
+					m_impl->m_clusters.m_data[remap(cluster++)].u32 = 0;
 				} while(cluster < num_clusters);
 				goto out_of_memory;
 			}
@@ -497,7 +497,7 @@ namespace mud
 
 				m_impl->m_records.m_data[i] = (RecordBufferType)ll;
 				// we need to "cancel" the write if we have more than 255 spot or point lights
-				// (this is a limitation of the data type used to store the light counts per froxel)
+				// (this is a limitation of the data type used to store the light counts per cluster)
 				i += (i - s < 255) ? 1 : 0;
 
 //#ifndef USE_STD_BITSET
@@ -510,16 +510,16 @@ namespace mud
 			offset += light_count;
 
 			do {
-				m_impl->m_froxels.m_data[remap(cluster++)].u32 = entry.u32;
+				m_impl->m_clusters.m_data[remap(cluster++)].u32 = entry.u32;
 				if(cluster >= num_clusters) break;
 
 				if(m_impl->m_light_records[cluster].lights != b.lights && cluster >= m_frustum.m_subdiv_x)
 				{
-					// if this froxel record doesn't match the previous one on its left,
-					// we re-try with the record above it, which saves many froxel records
+					// if this cluster record doesn't match the previous one on its left,
+					// we re-try with the record above it, which saves many cluster records
 					// (north of 10% in practice).
 					b = m_impl->m_light_records[cluster - m_frustum.m_subdiv_x];
-					entry.u32 = m_impl->m_froxels.m_data[remap(cluster - m_frustum.m_subdiv_x)].u32;
+					entry.u32 = m_impl->m_clusters.m_data[remap(cluster - m_frustum.m_subdiv_x)].u32;
 				}
 			} while(m_impl->m_light_records[cluster].lights == b.lights);
 
@@ -571,8 +571,8 @@ namespace mud
 	
 	void light_bounds(ClusteredFrustum& frustum, const mat4& projection, float near, const LightParams& light, uvec3& lo, uvec3& hi)
 	{
-		// find a reasonable bounding-box in froxel space for the sphere by projecting
-		// it's (clipped) bounding-box to clip-space and converting to froxel indices.
+		// find a reasonable bounding-box in cluster space for the sphere by projecting
+		// it's (clipped) bounding-box to clip-space and converting to cluster indices.
 		Aabb aabb = { light.position, vec3(light.radius) };
 		const float znear = bx::min(-near, aabb.m_center.z + aabb.m_extents.z); // z values are negative
 		const float zfar = aabb.m_center.z - aabb.m_extents.z;
@@ -599,7 +599,7 @@ namespace mud
 		};
 	}
 
-	void froxelize_light(ClusteredFrustum& frustum, FroxelThreadData& froxelThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far)
+	void clusterize_light(ClusteredFrustum& frustum, FroxelThreadData& clusterThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far)
 	{
 		if(light.position.z + light.radius < -light_far) // [[unlikely]] // z values are negative
 		{
@@ -671,16 +671,16 @@ namespace mud
 							// this loops gets vectorized (on arm64) w/ clang
 							while(bx++ != ex)
 							{
-								// see if this froxel intersects the cone
+								// see if this cluster intersects the cone
 								bool intersect = sphere_cone_intersection(frustum.m_bounding_spheres[fi - 1], light.position, light.axis, light.invSin, light.cosSqr);
-								froxelThread[fi++] |= LightGroupType(intersect) << bit;
+								clusterThread[fi++] |= LightGroupType(intersect) << bit;
 							}
 						}
 						else
 						{
 							// this loops gets vectorized (on arm64) w/ clang
 							while(bx++ != ex)
-								froxelThread[fi++] |= LightGroupType(1) << bit;
+								clusterThread[fi++] |= LightGroupType(1) << bit;
 						}
 					}
 				}

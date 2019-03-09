@@ -65,7 +65,7 @@ namespace mud
 		
 		Culler m_culler;
 
-		void render_pass(cstring name, const Pass& render_pass);
+		void render_pass(const Pass& render_pass);
 
 		void cull(Render& render);
 		void render(Render& render);

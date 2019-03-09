@@ -40,11 +40,6 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockBlur::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	void BlockBlur::blur(Render& render)
 	{
 		static BlurKernel kernel = {

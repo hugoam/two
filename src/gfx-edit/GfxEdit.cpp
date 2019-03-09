@@ -357,7 +357,7 @@ namespace mud
 			multi_object_edit_container<Material>(*materials, gfx.m_materials);
 
 		if(Widget* blocks = ui::tab(tabber, "Blocks"))
-			multi_object_edit_container<GfxBlock>(*blocks, gfx.m_pipeline->m_gfx_blocks);
+			multi_object_edit_container<GfxBlock>(*blocks, gfx.m_renderer.m_gfx_blocks);
 
 #endif
 

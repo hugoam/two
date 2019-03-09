@@ -103,11 +103,6 @@ namespace mud
 #endif
 	}
 
-	void BlockLight::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	void BlockLight::options(Render& render, ShaderVersion& shader_version) const
 	{
 		if(render.m_camera.m_clustered)
@@ -265,7 +260,7 @@ namespace mud
 		Froxelizer& clusters = *camera.m_clusters;
 
 		if(clusters.m_debug_clusters.empty())
-			clusters.compute_froxels();
+			clusters.compute_clusters();
 
 		enum Mode { ClusterIndex, RecordIndex, LightIndex, LightCount };
 		Mode mode = ClusterIndex;
@@ -304,7 +299,7 @@ namespace mud
 		uint32_t index = 0; UNUSED(light);// light.m_index];
 
 		GfxSystem& gfx = parent.m_scene->m_gfx;
-		BlockShadow& block_shadow = *gfx.m_pipeline->block<BlockShadow>();
+		BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
 
 		if(index >= block_shadow.m_shadows.size())
 			return;

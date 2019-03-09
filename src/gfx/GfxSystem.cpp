@@ -95,7 +95,7 @@ namespace mud
 		unique<AssetStore<Prefab>> m_prefabs;
 
 		table<ModelFormat, Importer*> m_importers;
-		table<Shading, Renderer*> m_renderers;
+		table<Shading, RenderFunc> m_renderers;
 
 		Texture* m_white_texture = nullptr;
 		Texture* m_black_texture = nullptr;
@@ -111,7 +111,7 @@ namespace mud
 	GfxSystem::GfxSystem(const string& resource_path)
 		: BgfxSystem(resource_path)
 		, m_impl(make_unique<Impl>())
-		, m_pipeline(make_unique<Pipeline>(*this))
+		, m_renderer(*this)
 	{
 		Program::ms_gfx_system = this;
 		Material::ms_gfx_system = this;
@@ -174,8 +174,6 @@ namespace mud
 		m_impl->m_black_texture = this->textures().file("black.png");
 		m_impl->m_normal_texture = this->textures().file("normal.png");
 
-		m_pipeline = make_unique<Pipeline>(*this);
-
 		// create point mesh
 		{
 			MeshPacker geometry;
@@ -209,21 +207,16 @@ namespace mud
 	void GfxSystem::init_pipeline(PipelineDecl decl)
 	{
 #ifdef MUD_GFX_DEFERRED
-		decl(*this, *m_pipeline, true);
+		decl(*this, m_renderer, true);
 #else
-		decl(*this, *m_pipeline, false);
+		decl(*this, m_renderer, false);
 #endif
 
-		for(auto& block : m_pipeline->m_gfx_blocks)
+		for(auto& block : m_renderer.m_gfx_blocks)
 			block->init_block();
 
-		static ClearRenderer clear_renderer = { *this, *m_pipeline };
-		static SolidRenderer solid_renderer = { *this, *m_pipeline };
-		static MinimalRenderer minimal_renderer = { *this, *m_pipeline };
-		UNUSED(minimal_renderer);
-
-		this->set_renderer(Shading::Solid, solid_renderer);
-		this->set_renderer(Shading::Clear, clear_renderer);
+		this->set_renderer(Shading::Solid, render_solid);
+		this->set_renderer(Shading::Clear, render_clear);
 
 		this->create_debug_materials();
 	}
@@ -234,12 +227,12 @@ namespace mud
 		m_impl->m_resource_paths.push_back(relative ? m_resource_path + "/" + path : path);
 	}
 
-	void GfxSystem::set_renderer(Shading shading, Renderer& renderer)
+	void GfxSystem::set_renderer(Shading shading, const RenderFunc& renderer)
 	{
-		m_impl->m_renderers[shading] = &renderer;
+		m_impl->m_renderers[shading] = renderer;
 	}
 
-	Renderer& GfxSystem::renderer(Shading shading)
+	RenderFunc GfxSystem::renderer(Shading shading)
 	{
 		return *m_impl->m_renderers[shading];
 	}
@@ -263,7 +256,7 @@ namespace mud
 		{
 			ZoneScopedNC("renderers", tracy::Color::Cyan);
 
-			for(auto& block : m_pipeline->m_gfx_blocks)
+			for(auto& block : m_renderer.m_gfx_blocks)
 				block->begin_frame(frame);
 		}
 	}
@@ -290,8 +283,8 @@ namespace mud
 				{
 					ZoneScopedNC("gfx viewport", tracy::Color::Cyan);
 
-					Renderer& renderer = this->renderer(viewport->m_shading);
-					this->render(renderer, *context, *viewport, frame);
+					RenderFunc renderer = this->renderer(viewport->m_shading);
+					this->render(viewport->m_shading, renderer, *context, *viewport, frame);
 				}
 
 #ifdef MUD_GFX_THREADED
@@ -319,10 +312,10 @@ namespace mud
 		return pursue;
 	}
 
-	void GfxSystem::render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame)
+	void GfxSystem::render(Shading shading, RenderFunc renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame)
 	{
-		Render render = { renderer.m_shading, viewport, *context.m_target, frame };
-		renderer.gather(render);
+		Render render = { shading, viewport, *context.m_target, frame };
+		m_renderer.gather(render);
 		render.m_viewport.render(render);
 		render.m_viewport.cull(render);
 
@@ -331,7 +324,7 @@ namespace mud
 #endif
 
 		if(rect_w(viewport.m_rect) != 0 && rect_h(viewport.m_rect) != 0)
-			renderer.render(render);
+			m_renderer.render(render, renderer);
 
 		//copy.debug_show_texture(render, render.m_env->m_radiance.m_texture->m_texture, vec4(0.f), false, false, false, 0);
 		//copy.debug_show_texture(render, render.m_env->m_radiance.m_roughness_array, vec4(0.f), false, false, false, 1);

@@ -13,7 +13,7 @@ static string vertex_shader()
 	string shader = 
 
 		"$input a_position, a_texcoord0\n"
-		"$output v_texcoord0\n"
+		"$output v_uv0\n"
 		"\n"
 		"#include <common.sh>\n"
 		"\n"
@@ -22,7 +22,7 @@ static string vertex_shader()
 		"	int material_index = int(u_state_material);\n"
 		"	BaseMaterial basic = read_base_material(material_index);\n"
 		"	\n"
-		"   v_texcoord0 = vec4((a_texcoord0.xy * basic.uv0_scale) + basic.uv0_offset, 0.0, 0.0);\n"
+		"   v_uv0 = (a_texcoord0 * basic.uv0_scale) + basic.uv0_offset;\n"
 		"	gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0));\n"
 		"}\n";
 
@@ -33,13 +33,13 @@ static string fragment_shader()
 {
 	string shader =
 
-		"$input v_texcoord0\n"
+		"$input v_uv0\n"
 		"\n"
 		"#include <filter/filter.sh>\n"
 		"\n"
 		"void main() {\n"
 		"\n"
-		"	vec2 p = - 1.0 + 2.0 * v_texcoord0.xy;\n"
+		"	vec2 p = - 1.0 + 2.0 * v_uv0;\n"
 		"	float a = u_time * 40.0;\n"
 		"	float d, e, f, g = 1.0 / 40.0 ,h ,i ,r ,q;\n"
 		"\n"
@@ -104,7 +104,7 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	auto draw_quad = [](Render& render, const Pass& render_pass)
 	{
-		BlockFilter& filter = *render.m_scene.m_gfx.m_pipeline->block<BlockFilter>();
+		BlockFilter& filter = *render.m_scene.m_gfx.m_renderer.block<BlockFilter>();
 		filter.submit_quad(*render_pass.m_target, render_pass.m_index, render_pass.m_target->m_fbo, program.default_version(), { render_pass.m_viewport->m_rect });
 	};
 

@@ -19,6 +19,8 @@ module mud.gfx;
 #include <gfx/Shot.h>
 #endif
 
+//#include <cstdio>
+
 //#define NO_OCCLUSION_CULLING
 
 namespace mud
@@ -42,9 +44,10 @@ namespace mud
 	Viewport::~Viewport()
 	{}
 
-	void Viewport::render_pass(cstring name, const Pass& render_pass)
+	void Viewport::render_pass(const Pass& render_pass)
 	{
-		bgfx::setViewName(render_pass.m_index, name);
+		//printf("render pass rect %i, %i, %i, %i\n", int(m_rect.x), int(m_rect.y), int(m_rect.z), int(m_rect.w));
+
 		bgfx::setViewRect(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(rect_w(m_rect)), uint16_t(rect_h(m_rect)));
 		bgfx::setViewTransform(render_pass.m_index, value_ptr(m_camera->m_transform), value_ptr(m_camera->m_projection));
 		bgfx::setViewFrameBuffer(render_pass.m_index, render_pass.m_fbo);
@@ -75,7 +78,7 @@ namespace mud
 		{
 			m_camera->m_clusters->m_dirty |= uint8_t(Froxelizer::Dirty::Viewport) | uint8_t(Froxelizer::Dirty::Projection);
 			m_camera->m_clusters->update(*this, m_camera->m_projection, m_camera->m_near, m_camera->m_far);
-			m_camera->m_clusters->froxelize_lights(*m_camera, render.m_shot->m_lights);
+			m_camera->m_clusters->clusterize_lights(*m_camera, render.m_shot->m_lights);
 			m_camera->m_clusters->upload();
 		}
 

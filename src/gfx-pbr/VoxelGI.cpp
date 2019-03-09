@@ -130,15 +130,18 @@ namespace gfx
 		gi_probe.m_voxels_light_rgba = load_bgfx_texture(gfx.allocator(), gfx.file_reader(), path.c_str());
 	}
 
-	PassGIBake::PassGIBake(GfxSystem& gfx, BlockLight& block_light, BlockShadow& block_shadow, BlockGIBake& block_gi_bake)
-		: DrawPass(gfx, "voxelGI", PassType::VoxelGI)
-		, m_block_light(block_light)
-		, m_block_shadow(block_shadow)
-		, m_block_gi_bake(block_gi_bake)
-	{}
-
-	void PassGIBake::next_draw_pass(Render& render, Pass& render_pass)
+	void pass_voxel_gi(GfxSystem& gfx, Render& render)
 	{
+		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
+		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
+		static BlockGIBake& block_gi_bake = *gfx.m_renderer.block<BlockGIBake>();
+
+		Pass render_pass = render.next_pass("voxelGI", PassType::VoxelGI);
+
+		block_light.submit(render, render_pass);
+		block_shadow.submit(render, render_pass);
+		block_gi_bake.submit(render, render_pass);
+
 		bool conservative = (bgfx::getCaps()->supported & BGFX_CAPS_CONSERVATIVE_RASTER) != 0;
 		if(!conservative)
 			printf("WARNING: rendering GI probe without conservative raster support will produce wrong output\n");
@@ -147,67 +150,65 @@ namespace gfx
 		render_pass.m_bgfx_state = BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA;
 
 #ifndef VOXELGI_COMPUTE_LIGHTS
-		GIProbe& gi_probe = *m_block_gi_bake.m_bake_probe; UNUSED(gi_probe);
+		GIProbe& gi_probe = *block_gi_bake.m_bake_probe; UNUSED(gi_probe);
 		mat4 view = bxidentity();//gi_probe.m_transform * bxscale(1.f / gi_probe.m_extents);
-		m_block_light.setup_lights(render, view);
-		m_block_shadow.commit_shadows(render, view);
+		block_light.setup_lights(render, view);
+		block_shadow.commit_shadows(render, view);
 #endif
-	}
 
-	void PassGIBake::queue_draw_element(Render& render, DrawElement& element)
-	{
-		UNUSED(render);
-		if(element.m_program->m_blocks[MaterialBlock::Pbr])
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
 		{
-			element.m_program = m_block_gi_bake.m_voxelize;
-			element.m_shader_version = element.m_material->shader_version(*element.m_program);
+			UNUSED(render);
+			if(element.m_program->m_blocks[MaterialBlock::Pbr])
+			{
+				element.m_program = block_gi_bake.m_voxelize;
+				element.m_shader_version = element.m_material->shader_version(*element.m_program);
 
-			this->add_element(render, element);
-		}
+				gfx.m_renderer.add_element(render, pass, element);
+			}
+		};
+
+		gfx.m_renderer.pass(render, render_pass, queue_draw_element);
 	}
 
-	PassGIProbes::PassGIProbes(GfxSystem& gfx, BlockLight& block_light, BlockGIBake& block_gi_bake)
-		: RenderPass(gfx, "voxelGI", PassType::VoxelGI)
-		, m_block_light(block_light)
-		, m_block_gi_bake(block_gi_bake)
-	{}
-
-	void PassGIProbes::submit_render_pass(Render& render)
+	void pass_gi_probes(GfxSystem& gfx, Render& render)
 	{
+		static BlockGIBake& block_gi_bake = *gfx.m_renderer.block<BlockGIBake>();
+
 		if(!check_lighting(render.m_lighting, Lighting::VoxelGI))
 			return;
 
 		for(GIProbe* gi_probe : render.m_shot->m_gi_probes)
 		{
-			if(gi_probe->m_enabled && gi_probe->m_dirty)
+			if(!gi_probe->m_enabled || !gi_probe->m_dirty)
+				continue;
+
+			if(gi_probe->m_mode == GIProbeMode::Voxelize)
 			{
-				if(gi_probe->m_mode == GIProbeMode::Voxelize)
+				printf("INFO: bake GIProbe\n");
+
+				block_gi_bake.voxelize(render, *gi_probe);
+				block_gi_bake.output(render, *gi_probe);
+
+				for(int i = 0; i < gi_probe->m_bounces; ++i)
 				{
-					printf("INFO: bake GIProbe\n");
-
-					m_block_gi_bake.voxelize(render, *gi_probe);
-					m_block_gi_bake.output(render, *gi_probe);
-
-					for(int i = 0; i < gi_probe->m_bounces; ++i)
-					{
-						// @todo fix D3D bounce bug
-						m_block_gi_bake.bounce(render, *gi_probe);
-						m_block_gi_bake.output(render, *gi_probe);
-					}
-
-					gi_probe->m_dirty = false;
-
-					printf("INFO: bake GIProbe done\n");
-
-					//string path = m_gfx.m_resource_path + "/" + "gi_probe.dds";
-					//save_gi_probe(m_gfx, *gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);
+					// @todo fix D3D bounce bug
+					block_gi_bake.bounce(render, *gi_probe);
+					block_gi_bake.output(render, *gi_probe);
 				}
 
-				if(gi_probe->m_mode == GIProbeMode::LoadVoxels)
-				{
-					string path = m_gfx.m_resource_path + "/" + "gi_probe.dds";
-					load_gi_probe(m_gfx, *gi_probe, path);
-				}
+				gi_probe->m_dirty = false;
+
+				printf("INFO: bake GIProbe done\n");
+
+				//string path = m_gfx.m_resource_path + "/" + "gi_probe.dds";
+				//save_gi_probe(m_gfx, *gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);
+			}
+
+			if(gi_probe->m_mode == GIProbeMode::LoadVoxels)
+			{
+				string path = gfx.m_resource_path + "/" + "gi_probe.dds";
+				load_gi_probe(gfx, *gi_probe, path);
 			}
 		}
 	}
@@ -239,10 +240,9 @@ namespace gfx
 		Viewport viewport = { camera, render.m_scene, { uvec2(0U), uvec2(uint(gi_probe.m_subdiv)) } };
 		Render voxel_render = { Shading::Voxels, viewport, gi_probe.m_fbo, render.m_frame };
 
-		BlockShadow& block_shadow = *m_gfx.m_pipeline->block<BlockShadow>();
-		ShadowFilterMode pcf_level = block_shadow.m_pcf_level;
+		ShadowFilterMode pcf_level = m_block_shadow.m_pcf_level;
 		uint8_t splits = 0;
-		block_shadow.m_pcf_level = PCF_NONE;
+		m_block_shadow.m_pcf_level = PCF_NONE;
 		if(m_block_light.m_direct_light)
 		{
 			splits = m_block_light.m_direct_light->m_shadow_num_splits;
@@ -252,13 +252,13 @@ namespace gfx
 		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
 		voxel_render.m_shot->m_lights = render.m_shot->m_lights;
 		cull_items(render.m_scene, planes, voxel_render.m_shot->m_items);
-		m_gfx.renderer(Shading::Voxels).subrender(render, voxel_render);
+		m_gfx.m_renderer.subrender(render, voxel_render, m_gfx.renderer(Shading::Voxels));
 
 		if(m_block_light.m_direct_light)
 		{
 			m_block_light.m_direct_light->m_shadow_num_splits = splits;
 		}
-		block_shadow.m_pcf_level = pcf_level;
+		m_block_shadow.m_pcf_level = pcf_level;
 
 		if(m_direct_light_compute)
 			this->compute(render, gi_probe);
@@ -266,7 +266,7 @@ namespace gfx
 
 	void BlockGIBake::compute(Render& render, GIProbe& gi_probe)
 	{
-		Pass render_pass = render.next_pass("gi direct");
+		Pass render_pass = render.next_pass("gi direct", PassType::VoxelGI);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		encoder.setImage(0, u_voxelgi.s_voxels_albedo,  gi_probe.m_voxels_color,   0, bgfx::Access::Read,      bgfx::TextureFormat::R32U);
@@ -291,7 +291,7 @@ namespace gfx
 	
 	void BlockGIBake::bounce(Render& render, GIProbe& gi_probe)
 	{
-		Pass render_pass = render.next_pass("gi bounce");
+		Pass render_pass = render.next_pass("gi bounce", PassType::VoxelGI);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		encoder.setImage(0,   u_voxelgi.s_voxels_normals,    gi_probe.m_voxels_normals,    0, bgfx::Access::Read,  bgfx::TextureFormat::R32U);
@@ -310,7 +310,7 @@ namespace gfx
 
 	void BlockGIBake::output(Render& render, GIProbe& gi_probe)
 	{
-		Pass render_pass = render.next_pass("output light");
+		Pass render_pass = render.next_pass("output light", PassType::VoxelGI);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		encoder.setImage(0, u_voxelgi.s_voxels_light,      gi_probe.m_voxels_light,      0, bgfx::Access::ReadWrite, bgfx::TextureFormat::R32U);
@@ -323,11 +323,6 @@ namespace gfx
 	}
 
 	void BlockGIBake::begin_render(Render& render)
-	{
-		UNUSED(render);
-	}
-
-	void BlockGIBake::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}
@@ -377,11 +372,6 @@ namespace gfx
 	}
 
 	void BlockGITrace::begin_render(Render& render)
-	{
-		UNUSED(render);
-	}
-
-	void BlockGITrace::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}

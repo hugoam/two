@@ -31,7 +31,7 @@ namespace mud
 	constexpr uint32_t CONFIG_CLUSTER_SLICE_COUNT = 16;
 
 	//
-	// Light UBO           Froxel Record Buffer     per-froxel light list texture
+	// Light UBO           Froxel Record Buffer     per-cluster light list texture
 	// {4 x vec4}         R_U8  {index into        RG_U16 {offset, point-count, spot-sount}
 	// (spot/point            light texture}
 	//
@@ -46,20 +46,20 @@ namespace mud
 	//  :    :                     | |                     |    |
 	//  :    :                     +-+                     |    |
 	//  :    :                  65536 max                  +----+
-	//  |....|                                          h = num froxels
+	//  |....|                                          h = num clusters
 	//  |....|
 	//  +----+
 	// 256 lights max
 	//
 
-	// Max number of froxels limited by:
+	// Max number of clusters limited by:
 	// - max texture size [min 2048]
 	// - chosen texture width [64]
 	// - size of CPU-side indices [16 bits]
-	// Also, increasing the number of froxels adds more pressure on the "record buffer" which stores
-	// the light indices per froxel. The record buffer is limited to 65536 entries, so with
-	// 8192 froxels, we can store 8 lights per froxels assuming they're all used. In practice, some
-	// froxels are not used, so we can store more.
+	// Also, increasing the number of clusters adds more pressure on the "record buffer" which stores
+	// the light indices per cluster. The record buffer is limited to 65536 entries, so with
+	// 8192 clusters, we can store 8 lights per clusters assuming they're all used. In practice, some
+	// clusters are not used, so we can store more.
 	static constexpr uint32_t CLUSTER_BUFFER_ENTRY_COUNT_MAX = 8192;
 
 	struct LightRecord
@@ -82,15 +82,15 @@ namespace mud
 		bool update(const Viewport& viewport, const mat4& projection, float near, float far);
 
 		// update Records and Froxels texture with lights data. this is thread-safe.
-		void froxelize_lights(const Camera& camera, span<Light*> lights);
-		void froxelize_loop(const Camera& camera, span<Light*> lights);
+		void clusterize_lights(const Camera& camera, span<Light*> lights);
+		void clusterize_loop(const Camera& camera, span<Light*> lights);
 
-		// send froxel data to GPU
+		// send cluster data to GPU
 		void upload();
 		void submit(const Pass& render_pass) const;
 		void submit(bgfx::Encoder& encoder) const;
 
-		void compute_froxels();
+		void compute_clusters();
 
 		struct FroxelEntry
 		{
@@ -115,9 +115,9 @@ namespace mud
 		uint32_t count(uint32_t cluster, int type = 0);
 		uint32_t light(uint32_t record);
 
-		void froxelize_assign_records_compress(uint32_t num_lights);
+		void clusterize_assign_records_compress(uint32_t num_lights);
 
-		void froxelize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride);
+		void clusterize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride);
 
 		GfxSystem& m_gfx;
 
@@ -138,7 +138,7 @@ namespace mud
 		float m_light_far = 100.f;
 		float m_light_near = 5.f;  // light near (first slice)
 
-		// track if we need to update our internal state before froxelizing
+		// track if we need to update our internal state before clusterizing
 		uint8_t m_dirty = 0;
 		enum class Dirty {
 			None = 0,

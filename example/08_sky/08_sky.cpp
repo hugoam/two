@@ -448,7 +448,7 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(!g_sky.m_initialized)
 		g_sky.init(app.m_gfx);
 
-	//app.m_gfx->m_pipeline->block<BlockTonemap>()->m_enabled = false;
+	//app.m_gfx->m_renderer.block<BlockTonemap>()->m_enabled = false;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//viewer.m_viewport.m_lighting = Lighting::VoxelGI;

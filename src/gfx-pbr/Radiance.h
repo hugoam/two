@@ -29,7 +29,6 @@ namespace mud
 		virtual void begin_frame(const RenderFrame& frame) override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;

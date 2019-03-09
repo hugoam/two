@@ -40,7 +40,6 @@ namespace mud
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 		virtual void submit_pass(Render& render) final;
 
 		void render(Render& render, const DofBlur& blur);

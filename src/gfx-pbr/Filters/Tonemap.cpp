@@ -50,11 +50,6 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockTonemap::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-	
 	void BlockTonemap::submit_pass(Render& render)
 	{
 		if(render.m_filters.comp<Tonemap>().m_enabled)

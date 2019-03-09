@@ -54,15 +54,10 @@ namespace mud
 	{
 		UNUSED(render);
 #ifdef DEBUG_GLOW
-		BlockCopy& copy = *m_gfx.m_pipeline->block<BlockCopy>();
+		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
 		copy.debug_show_texture(render, render.m_target->m_cascade.m_texture, vec4(0.f), false, false, false, 1);
 		copy.debug_show_texture(render, render.m_target->m_ping_pong.last(), vec4(0.f));
 #endif
-	}
-
-	void BlockGlow::begin_pass(Render& render)
-	{
-		UNUSED(render);
 	}
 
 	void BlockGlow::submit_pass(Render& render)

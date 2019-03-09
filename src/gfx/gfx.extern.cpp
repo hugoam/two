@@ -72,7 +72,6 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<Froxelizer::FroxelEntry>;
 	template class MUD_GFX_EXPORT vector<array<uint, 8193>>;
 	template class MUD_GFX_EXPORT vector<unique<Gnode>>;
-	template class MUD_GFX_EXPORT vector<unique<RenderPass>>;
 	template class MUD_GFX_EXPORT vector<unique<GfxBlock>>;
 	template class MUD_GFX_EXPORT vector<unique<Picker>>;
 	template class MUD_GFX_EXPORT unordered_map<int, Skeleton*>;

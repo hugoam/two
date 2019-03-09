@@ -71,11 +71,6 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockReflection::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	void BlockReflection::options(Render& render, ShaderVersion& shader_version) const
 	{
 		UNUSED(render); UNUSED(shader_version);
@@ -155,23 +150,21 @@ namespace mud
 			mat4 transform = probe.m_node.m_transform * bxlookat(vec3(0.f), view_normal[i], view_up[i]);
 			mat4 projection = bxproj(90.f, 1.f, 0.01f, range, bgfx::getCaps()->homogeneousDepth);
 
-			Renderer& renderer = m_gfx.renderer(Shading::Volume);
+			RenderFunc renderer = m_gfx.renderer(Shading::Volume);
 
 			ManualRender probe_render = { render, Shading::Volume,  cubemap.m_fbo[i], uvec4(Rect4), transform, projection };
 			//probe_render.cull();
-			probe_render.render(renderer);
+			probe_render.render(m_gfx.m_renderer, renderer);
 		}
 	}
 
-	PassProbes::PassProbes(GfxSystem& gfx, BlockReflection& block_reflection)
-		: RenderPass(gfx, {}, PassType::Probes)
-		, m_block_reflection(block_reflection)
-	{}
-
-	void PassProbes::submit_render_pass(Render& render)
+	void pass_probes(GfxSystem& gfx, Render& render)
 	{
-		UNUSED(render);
-		m_block_reflection.m_reflection_multiplier = 1.f;
+		static BlockReflection& block_reflection = *gfx.m_renderer.block<BlockReflection>();
+
+		Pass render_pass = render.next_pass("probes", PassType::Probes);
+
+		block_reflection.m_reflection_multiplier = 1.f;
 
 #if 0
 		for(ReflectionProbe* probe : render.m_shot->m_reflection_probes)
@@ -184,6 +177,6 @@ namespace mud
 		}
 #endif
 
-		m_block_reflection.m_reflection_multiplier = 0.f;
+		block_reflection.m_reflection_multiplier = 0.f;
 	}
 }

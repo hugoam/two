@@ -34,17 +34,8 @@ namespace mud
 		attr_ gpu_ float m_far = 1.f;
 	};
 
-	export_ class MUD_GFX_EXPORT PassDepth : public DrawPass
-	{
-	public:
-		PassDepth(GfxSystem& gfx, cstring name, BlockDepth& block_depth);
-		PassDepth(GfxSystem& gfx, BlockDepth& block_depth);
-
-		virtual void next_draw_pass(Render& render, Pass& render_pass) override;
-		virtual void queue_draw_element(Render& render, DrawElement& element) override;
-
-		BlockDepth& m_block_depth;
-	};
+	export_ MUD_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render, Pass& render_pass, bool submit = true);
+	export_ MUD_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render);
 
 	export_ class refl_ MUD_GFX_EXPORT BlockDepth : public DrawBlock
 	{
@@ -55,7 +46,6 @@ namespace mud
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;

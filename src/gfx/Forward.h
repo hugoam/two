@@ -82,10 +82,8 @@ namespace mud
     struct Render;
     class GfxBlock;
     class DrawBlock;
-    class RenderPass;
     struct DrawElement;
 	struct DrawCluster;
-    class DrawPass;
     class Renderer;
     struct MaterialBase;
 	struct MaterialAlpha;
@@ -95,7 +93,7 @@ namespace mud
     struct MaterialFresnel;
     struct MaterialPbr;
 	struct MaterialUser;
-    struct BlockPbr;
+    class BlockPbr;
     class Material;
 	class BlockMaterial;
 	class Import;
@@ -124,7 +122,6 @@ namespace mud
     class BlockDepth;
     class ImmediateDraw;
     class SymbolIndex;
-    class BlockResolve;
     class PassEffects;
     class PassPostProcess;
     struct FilterUniform;
@@ -146,7 +143,6 @@ namespace mud
     struct PickQuery;
     class Picker;
     struct PassJobs;
-    class Pipeline;
     class PassClear;
     class PassSolid;
     class PassBackground;

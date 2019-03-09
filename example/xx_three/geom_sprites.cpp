@@ -17,7 +17,7 @@ static string vertex_shader()
 	string shader =
 
 		"$input a_position, a_texcoord0, i_data0\n"
-		"$output v_texcoord0, v_scale\n"
+		"$output v_uv0, v_scale\n"
 		"\n"
 		"#include <common.sh>\n"
 		"\n"
@@ -30,7 +30,7 @@ static string vertex_shader()
 		"	float size = scale * 10.0 + 10.0;\n"
 		"	vec3 view = mul(u_modelView, vec4(i_position, 1.0)).xyz;\n"
 		"	view += a_position * size;\n"
-		"	v_texcoord0 = vec4(a_texcoord0.xy, 0.0, 0.0);\n"
+		"	v_uv0 = vec4(a_texcoord0, 0.0, 0.0);\n"
 		"	gl_Position = mul(u_proj, vec4(view, 1.0));\n"
 		"\n"
 		"}\n";
@@ -42,14 +42,14 @@ static string fragment_shader()
 {
 	string shader =
 
-		"$input v_texcoord0, v_scale\n"
+		"$input v_uv0, v_scale\n"
 		"\n"
 		"#include <common.sh>\n"
 		"#include <convert.sh>\n"
 		"\n"
 		"void main()\n"
 	    "{\n"
-		"	vec4 color = texture2D(s_color, v_texcoord0.xy);\n"
+		"	vec4 color = texture2D(s_color, v_uv0);\n"
 		"   vec3 hsl = hsl_to_rgb(vec3(v_scale/5.0, 1.0, 0.5));\n"
 		"	gl_FragColor = vec4(color.rgb * hsl.rgb, color.a);\n"
 		"	if (color.a < 0.5) discard;\n"

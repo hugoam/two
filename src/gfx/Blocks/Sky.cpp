@@ -60,7 +60,7 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockSky::begin_pass(Render& render)
+	void BlockSky::submit_pass(Render& render)
 	{
 		if(!render.m_env)
 			return;
@@ -73,7 +73,7 @@ namespace mud
 			if(!bgfx::isValid(render.m_env->m_radiance.m_roughness_array))
 				return;
 
-			Pass sky_pass = render.next_pass("sky");
+			Pass sky_pass = render.next_pass("sky", PassType::Background);
 			bgfx::Encoder& encoder = *sky_pass.m_encoder;
 
 			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, render.m_env->m_radiance.m_roughness_array);

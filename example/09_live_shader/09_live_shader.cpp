@@ -10,7 +10,7 @@ string create_shader()
 {
 	string shader =
 
-		"$input v_texcoord0\n"
+		"$input v_uv0\n"
 		"\n"
 		"#include \"filter/filter.sh\"\n"
 		"\n"
@@ -23,7 +23,7 @@ string create_shader()
 		"\n"
 		"void main() {\n"
 		"    float aspect = 1.0; //u_screen_size.x / u_screen_size.y;\n"
-		"    vec2 uvp = vec2(aspect, 1.0) * (2.0 * v_texcoord0.xy - 1.0);\n"
+		"    vec2 uvp = vec2(aspect, 1.0) * (2.0 * v_uv0 - 1.0);\n"
 		"    float r = length(uvp);\n"
 		"    float t = atan2(uvp.y, uvp.x) / TAU + 0.5;\n"
 		"    float P = 2.00;\n"
@@ -71,7 +71,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	
 	auto draw_quad = [](Render& render, const Pass& render_pass)
 	{
-		BlockFilter& filter = *render.m_scene.m_gfx.m_pipeline->block<BlockFilter>();
+		BlockFilter& filter = *render.m_scene.m_gfx.m_renderer.block<BlockFilter>();
 		filter.submit_quad(*render_pass.m_target, render_pass.m_index, render_pass.m_target->m_fbo, program.default_version(), { render_pass.m_viewport->m_rect });
 	};
 

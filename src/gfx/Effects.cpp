@@ -12,59 +12,47 @@ module mud.gfx;
 #include <gfx/Effects.h>
 #include <gfx/Filter.h>
 #include <gfx/RenderTarget.h>
+#include <gfx/GfxSystem.h>
 #endif
 
 namespace mud
 {
-	PassEffects::PassEffects(GfxSystem& gfx)
-		: RenderPass(gfx, "effects", PassType::Effects)
-	{}
-
-	void PassEffects::submit_render_pass(Render& render)
+	void pass_effects(GfxSystem& gfx, Render& render)
 	{
-		UNUSED(render);
-	}
+		static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
 
-	BlockResolve::BlockResolve(GfxSystem& gfx, BlockCopy& copy)
-		: GfxBlock(gfx, *this)
-		, m_copy(copy)
-	{}
+		// process effects
 
-	void BlockResolve::init_block()
-	{}
-
-	void BlockResolve::begin_render(Render& render)
-	{
-		UNUSED(render);
-	}
-	
-	void BlockResolve::begin_pass(Render& render)
-	{
 		if(!render.m_is_mrt) return;
 		
 		// @todo three passes to resolve ? this is terrible :( but we can't read and write from the same buffer at the same time can we
 		bgfx::FrameBufferHandle target = render.m_target->m_ping_pong.swap();
-		m_copy.submit_quad(*render.m_target, render.composite_pass(), target,
-						   render.m_target->m_diffuse, render.m_viewport.m_rect);
+		block_copy.submit_quad(*render.m_target, render.composite_pass(), target,
+							   render.m_target->m_diffuse, render.m_viewport.m_rect);
 
-		m_copy.submit_quad(*render.m_target, render.composite_pass(), target,
-						   render.m_target->m_specular, render.m_viewport.m_rect, BGFX_STATE_BLEND_ADD);
+		block_copy.submit_quad(*render.m_target, render.composite_pass(), target,
+							   render.m_target->m_specular, render.m_viewport.m_rect, BGFX_STATE_BLEND_ADD);
 
-		m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target_fbo,
-						   render.m_target->m_ping_pong.last(), render.m_viewport.m_rect);
+		block_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target_fbo,
+							   render.m_target->m_ping_pong.last(), render.m_viewport.m_rect);
+
+		// submit ssao
+		// submit ssr
+		// submit sss
 	}
 
-	PassPostProcess::PassPostProcess(GfxSystem& gfx, BlockCopy& copy)
-		: RenderPass(gfx, "post process", PassType::PostProcess)
-		, m_copy(copy)
-	{}
-
-	void PassPostProcess::submit_render_pass(Render& render)
+#if 0
+	void pass_post_process(GfxSystem& gfx, Render& render)
 	{
-		m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(),
-							render.m_target->m_diffuse, render.m_viewport.m_rect);
+		static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
 
-		for(GfxBlock* block : m_gfx_blocks)
-			block->submit_pass(render);
+		block_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(),
+							   render.m_target->m_diffuse, render.m_viewport.m_rect);
+
+		// submit each post process effect
+		// dof
+		// glow
+		// tonemap
 	}
+#endif
 }

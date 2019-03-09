@@ -7,12 +7,14 @@
 #ifndef MUD_MODULES
 #include <stl/vector.h>
 #include <stl/string.h>
+#include <stl/function.h>
 #include <stl/span.h>
 #include <type/Unique.h>
 #endif
 #include <geom/Primitive.h>
 #include <geom/Symbol.h>
 #include <gfx/Forward.h>
+#include <gfx/Renderer.h>
 #ifndef MUD_BGFX_EXPORT
 #define MUD_BGFX_EXPORT MUD_GFX_EXPORT
 #endif
@@ -84,6 +86,8 @@ namespace mud
 		bgfx::Encoder* m_encoders[8] = {};
 		size_t m_num_encoders = 0;
 
+		Renderer m_renderer;
+
 		virtual void begin_frame() final;
 		virtual bool next_frame() final;
 
@@ -91,17 +95,17 @@ namespace mud
 
 		void init(GfxContext& context);
 
-		using PipelineDecl = void(*)(GfxSystem& gfx, Pipeline& pipeline, bool deferred);
+		using PipelineDecl = void(*)(GfxSystem& gfx, Renderer& pipeline, bool deferred);
 		void init_pipeline(PipelineDecl pipeline);
 
 		meth_ void default_pipeline();
 
 		meth_ void add_resource_path(const string& path, bool relative = true);
 
-		void set_renderer(Shading shading, Renderer& renderer);
-		Renderer& renderer(Shading shading);
+		void set_renderer(Shading shading, const RenderFunc& renderer);
+		RenderFunc renderer(Shading shading);
 
-		void render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame);
+		void render(Shading shading, RenderFunc renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame);
 		RenderFrame render_frame();
 
 		GfxContext& context(size_t index = 0);
@@ -143,7 +147,5 @@ namespace mud
 	public:
 		struct Impl;
 		unique<Impl> m_impl;
-
-		unique<Pipeline> m_pipeline;
 	};
 }

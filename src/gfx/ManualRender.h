@@ -15,7 +15,7 @@ namespace mud
 		ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect);
 		ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection, bool ortho = false);
 
-		void render(Renderer& renderer);
+		void render(Renderer& renderer, RenderFunc func);
 
 		Render& m_render;
 		Camera m_camera;

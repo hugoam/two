@@ -109,31 +109,33 @@ namespace mud
 	LightmapAtlas::~LightmapAtlas()
 	{}
 
-	PassLightmap::PassLightmap(GfxSystem& gfx, BlockLightmap& block_lightmap)
-		: DrawPass(gfx, "lightmap", PassType::Lightmap)
-		, m_block_lightmap(block_lightmap)
-	{}
-
-	void PassLightmap::next_draw_pass(Render& render, Pass& render_pass)
+	void pass_lightmap(GfxSystem& gfx, Render& render)
 	{
+		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
+		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
+		static BlockGITrace& block_gi_trace = *gfx.m_renderer.block<BlockGITrace>();
+		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
+
+		Pass render_pass = render.next_pass("lightmap", PassType::Lightmap);
+
 		bool conservative = (bgfx::getCaps()->supported & BGFX_CAPS_CONSERVATIVE_RASTER) != 0;
 		if(!conservative)
 			printf("WARNING: rendering lightmap without conservative raster support will produce visible seams\n");
 
-		UNUSED(render); UNUSED(render_pass);
 		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_MSAA;
-	}
 
-	void PassLightmap::queue_draw_element(Render& render, DrawElement& element)
-	{
-		UNUSED(render);
-		if(element.m_program->m_blocks[MaterialBlock::Pbr])
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
 		{
-			element.m_program = m_block_lightmap.m_lightmap;
-			element.m_shader_version = element.m_material->shader_version(*element.m_program);
+			if(element.m_program->m_blocks[MaterialBlock::Pbr])
+			{
+				element.m_program = block_lightmap.m_lightmap;
+				element.m_shader_version = element.m_material->shader_version(*element.m_program);
 
-			this->add_element(render, element);
-		}
+				gfx.m_renderer.add_element(render, pass, element);
+			}
+		};
+
+		gfx.m_renderer.pass(render, render_pass, queue_draw_element);
 	}
 
 	BlockLightmap::BlockLightmap(GfxSystem& gfx, BlockLight& block_light, BlockGIBake& block_gi_bake)
@@ -424,7 +426,7 @@ namespace mud
 		vector<GIProbe*> gi_probes;
 		gather_gi_probes(scene, gi_probes);
 
-		Renderer& renderer = m_gfx.renderer(Shading::Lightmap);
+		RenderFunc renderer = m_gfx.renderer(Shading::Lightmap);
 
 		size_t i = 0;
 		for(auto& lightmap : atlas.m_layers)
@@ -461,7 +463,7 @@ namespace mud
 				lightmap_render.m_shot->m_items.push_back(items[item.m_item]);
 
 			lightmap_render.m_shot->m_gi_probes = gi_probes;
-			renderer.render(lightmap_render);
+			m_gfx.m_renderer.render(lightmap_render, renderer);
 
 			bgfx::frame();
 
@@ -497,11 +499,6 @@ namespace mud
 			{
 				m_bake_queue.push_back({ &render.m_scene, atlas });
 			}
-	}
-
-	void BlockLightmap::begin_pass(Render& render)
-	{
-		UNUSED(render);
 	}
 
 	void BlockLightmap::options(Render& render, ShaderVersion& shader_version) const

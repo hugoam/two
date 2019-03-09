@@ -162,7 +162,6 @@ namespace mud
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
 		unique<SpriteAtlas> m_sprites;
 		bgfx::TextureHandle m_texture;
@@ -174,11 +173,5 @@ namespace mud
 		void remove_sprite(Sprite& image);
 	};
 
-	export_ class MUD_GFX_EXPORT PassParticles : public RenderPass
-	{
-	public:
-		PassParticles(GfxSystem& gfx);
-
-		virtual void submit_render_pass(Render& render) final;
-	};
+	export_ MUD_GFX_EXPORT void pass_particles(GfxSystem& gfx, Render& render);
 }

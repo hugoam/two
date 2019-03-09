@@ -43,7 +43,8 @@ namespace mud
 		decl.begin();
 			decl.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);
 			decl.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);
-			decl.add(bgfx::Attrib::TexCoord0, 4, bgfx::AttribType::Float);
+			decl.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float);
+			decl.add(bgfx::Attrib::TexCoord1, 2, bgfx::AttribType::Float);
 		decl.end();
 
 		return decl;
@@ -211,7 +212,7 @@ namespace mud
 
 	ParticleSystem::ParticleSystem(GfxSystem& gfx, TPool<Flare>& emitters)
 		: m_gfx(gfx)
-		, m_block(*gfx.m_pipeline->block<BlockParticles>())
+		, m_block(*gfx.m_renderer.block<BlockParticles>())
 		, m_emitters(emitters)
 		, m_program(gfx.programs().fetch("particle").default_version())
 	{}
@@ -313,11 +314,6 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockParticles::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	Sprite* BlockParticles::create_sprite(cstring name, cstring pathname, uvec2 frames)
 	{
 		LocatedFile location = m_gfx.locate_file("textures/particles/" + string(pathname));
@@ -344,15 +340,10 @@ namespace mud
 		UNUSED(sprite);
 	}
 
-	PassParticles::PassParticles(GfxSystem& gfx)
-		: RenderPass(gfx, "particles", {})
+	void pass_particles(GfxSystem& gfx, Render& render)
 	{
 		UNUSED(gfx);
-	}
-
-	void PassParticles::submit_render_pass(Render& render)
-	{
-		Pass particle_pass = render.next_pass("particles");
+		Pass particle_pass = render.next_pass("particles", PassType::Particles);
 		bgfx::Encoder& encoder = *particle_pass.m_encoder;
 
 		render.m_scene.m_particle_system->update(render.m_frame.m_delta_time); // * timeScale

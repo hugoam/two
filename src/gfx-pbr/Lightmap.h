@@ -67,22 +67,6 @@ namespace mud
 		vector<unique<Lightmap>> m_layers;
 	};
 
-	struct LightmapRenderer : public Renderer
-	{
-		LightmapRenderer(GfxSystem& gfx, Pipeline& pipeline);
-	};
-
-	export_ class MUD_GFX_PBR_EXPORT PassLightmap : public DrawPass
-	{
-	public:
-		PassLightmap(GfxSystem& gfx, BlockLightmap& block_lightmap);
-
-		BlockLightmap& m_block_lightmap;
-
-		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-	};
-
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockLightmap : public DrawBlock
 	{
 	public:
@@ -95,7 +79,6 @@ namespace mud
 		virtual void begin_frame(const RenderFrame& frame) override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;

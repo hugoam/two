@@ -48,15 +48,7 @@ namespace mud
 		attr_ bool m_dirty = true;
 	};
 
-	export_ class MUD_GFX_PBR_EXPORT PassProbes : public RenderPass
-	{
-	public:
-		PassProbes(GfxSystem& gfx, BlockReflection& block_reflection);
-
-		BlockReflection& m_block_reflection;
-
-		virtual void submit_render_pass(Render& render) final;
-	};
+	export_ MUD_GFX_PBR_EXPORT void pass_probes(GfxSystem& gfx, Render& render);
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockReflection : public DrawBlock
 	{
@@ -66,7 +58,6 @@ namespace mud
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;

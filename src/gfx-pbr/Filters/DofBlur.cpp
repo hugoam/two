@@ -44,11 +44,6 @@ namespace mud
 		UNUSED(render);
 	}
 	
-	void BlockDofBlur::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-	
 	void BlockDofBlur::submit_pass(Render& render)
 	{
 		if(render.m_filters.comp<DofBlur>().m_enabled)

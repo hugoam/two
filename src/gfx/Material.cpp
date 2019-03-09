@@ -376,16 +376,6 @@ namespace mud
 		//bgfx::UniformHandle s_lightmap;
 	};
 
-	struct BlockPbr : public GfxBlock
-	{
-		BlockPbr(GfxSystem& gfx);
-
-		virtual void init_block() override {}
-
-		virtual void begin_render(Render& render) override { UNUSED(render); }
-		virtual void begin_pass(Render& render) override { UNUSED(render); }
-	};
-
 	GfxSystem* Material::ms_gfx_system = nullptr;
 
 	void load_material(Material& material, Program& program)
@@ -426,8 +416,8 @@ namespace mud
 
 	ShaderVersion Material::shader_version(const Program& program) const
 	{
-		static GfxBlock& pbr = pbr_block(*ms_gfx_system);
-		static GfxBlock& mat = *ms_gfx_system->m_pipeline->block<BlockMaterial>();
+		static GfxBlock& mat = *ms_gfx_system->m_renderer.block<BlockMaterial>();
+		static GfxBlock& pbr = *ms_gfx_system->m_renderer.block<BlockPbr>();
 
 		ShaderVersion version = { &program };
 
@@ -506,7 +496,7 @@ namespace mud
 			bgfx_state |= BGFX_STATE_POINT_SIZE(uint(m_point.m_point_size));
 
 #if MATERIALS_BUFFER
-		const BlockMaterial& block = *ms_gfx_system->m_pipeline->block<BlockMaterial>();
+		const BlockMaterial& block = *ms_gfx_system->m_renderer.block<BlockMaterial>();
 		vec4 state = { 0.f, float(m_index), 0.f, 0.f };
 		encoder.setUniform(block.u_state, &state);
 		encoder.setTexture(uint8_t(TextureSampler::Materials), block.m_materials_texture);
@@ -557,11 +547,6 @@ namespace mud
 #endif
 	}
 
-	void BlockMaterial::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	void BlockMaterial::submit(Render& render, const Pass& render_pass)
 	{
 		uint32_t materials = uint32_t(TextureSampler::Materials);
@@ -584,13 +569,5 @@ namespace mud
 		static cstring modes[] = { "DIFFUSE_MODE", "SPECULAR_MODE" };
 		m_shader_block->m_options = options;
 		m_shader_block->m_modes = modes;
-	}
-
-	template <> Type& type<mud::BlockPbr>() { static Type ty("BlockPbr"); return ty; }
-
-	GfxBlock& pbr_block(GfxSystem& gfx)
-	{
-		static BlockPbr pbr = { gfx };
-		return pbr;
 	}
 }

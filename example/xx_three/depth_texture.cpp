@@ -12,11 +12,14 @@ static string vertex_shader()
 {
 	string shader =
 
-		"varying vec2 vUv;\n"
+		"$input a_position, a_texcoord0\n"
+		"$output v_uv0\n"
+		"\n"
+		"#include <common.sh>\n"
 		"\n"
 		"void main() {\n"
-		"	vUv = uv;\n"
-		"	gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n"
+		"	v_uv0 = a_texcoord0;\n"
+		"	gl_Position = u_modelViewProj * vec4(a_position.xyz, 1.0);\n"
 		"}\n";
 
 	return shader;
@@ -26,27 +29,22 @@ static string fragment_shader()
 {
 	string shader =
 
-		"#include <packing>\n"
+		"$input v_uv0\n"
 		"\n"
-		"varying vec2 vUv;\n"
-		"uniform sampler2D tDiffuse;\n"
-		"uniform sampler2D tDepth;\n"
-		"uniform float cameraNear;\n"
-		"uniform float cameraFar;\n"
-		"\n"
+		"#include <common.sh>\n"
+		"#include <filter/filter.sh>\n"
 		"\n"
 		"float readDepth(sampler2D depthSampler, vec2 coord) {\n"
-		"	float fragCoordZ = texture2D(depthSampler, coord).x;\n"
-		"	float viewZ = perspectiveDepthToViewZ(fragCoordZ, cameraNear, cameraFar);\n"
-		"	return viewZToOrthographicDepth(viewZ, cameraNear, cameraFar);\n"
+		"	float depth = texture2D(depthSampler, coord).x;\n"
+		"	float viewZ = perspectiveDepthToViewZ(depth);\n"
+		"	return viewZToOrthographicDepth(viewZ);\n"
 		"}\n"
 		"\n"
 		"void main() {\n"
 		"	//vec3 diffuse = texture2D(tDiffuse, vUv).rgb;\n"
 		"	float depth = readDepth(tDepth, vUv);\n"
 		"\n"
-		"	gl_FragColor.rgb = 1.0 - vec3(depth);\n"
-		"	gl_FragColor.a = 1.0;\n"
+		"	gl_FragColor = vec4(1.0 - vec3(depth), 1.0);\n"
 		"}\n";
 
 	return shader;
@@ -101,31 +99,31 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar)
 		}
 
 		// Create a multi render target with Float buffers
-		//target = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
-		//target.texture.format = THREE.RGBFormat;
-		//target.texture.minFilter = THREE.NearestFilter;
-		//target.texture.magFilter = THREE.NearestFilter;
-		//target.texture.generateMipmaps = false;
-		//target.stencilBuffer = false;
-		//target.depthBuffer = true;
-		//target.depthTexture = new THREE.DepthTexture();
-		//target.depthTexture.type = THREE.UnsignedShortType;
+		target = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
+		target.texture.format = THREE.RGBFormat;
+		target.texture.minFilter = THREE.NearestFilter;
+		target.texture.magFilter = THREE.NearestFilter;
+		target.texture.generateMipmaps = false;
+		target.stencilBuffer = false;
+		target.depthBuffer = true;
+		target.depthTexture = new THREE.DepthTexture();
+		target.depthTexture.type = THREE.UnsignedShortType;
 
-		// Setup post processing stage
-		//postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-		//var postMaterial = new THREE.ShaderMaterial({
-		//	vertexShader: document.querySelector('#post-vert').textContent.trim(),
-		//	fragmentShader : document.querySelector('#post-frag').textContent.trim(),
-		//	uniforms : {
-		//		cameraNear: { value: camera.near },
-		//		cameraFar : { value: camera.far },
-		//		tDiffuse : { value: target.texture },
-		//		tDepth : { value: target.depthTexture }
-		//	}
-		//	});
-		//var postPlane = new THREE.PlaneBufferGeometry(2, 2);
-		//var postQuad = new THREE.Mesh(postPlane, postMaterial);
-		//postScene = new THREE.Scene();
-		//postScene.add(postQuad);
+		 Setup post processing stage
+		postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+		var postMaterial = new THREE.ShaderMaterial({
+			vertexShader: document.querySelector('#post-vert').textContent.trim(),
+			fragmentShader : document.querySelector('#post-frag').textContent.trim(),
+			uniforms : {
+				cameraNear: { value: camera.near },
+				cameraFar : { value: camera.far },
+				tDiffuse : { value: target.texture },
+				tDepth : { value: target.depthTexture }
+			}
+			});
+		var postPlane = new THREE.PlaneBufferGeometry(2, 2);
+		var postQuad = new THREE.Mesh(postPlane, postMaterial);
+		postScene = new THREE.Scene();
+		postScene.add(postQuad);
 	}
 }

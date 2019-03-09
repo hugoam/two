@@ -11,7 +11,7 @@ static string vertex_shader()
 	string shader =
 
 		"$input a_position, a_texcoord0\n"
-		"$output v_position, v_texcoord0\n"
+		"$output v_position, v_uv0\n"
 		"\n"
 		"#include <common.sh>\n"
 		"\n"
@@ -20,7 +20,7 @@ static string vertex_shader()
 		"	int material_index = int(u_state_material);\n"
 		"	BaseMaterial basic = read_base_material(material_index);\n"
 		"	\n"
-		"   v_texcoord0 = vec4((a_texcoord0.xy * basic.uv0_scale) + basic.uv0_offset, 0.0, 0.0);\n"
+		"   v_uv0 = (a_texcoord0 * basic.uv0_scale) + basic.uv0_offset;\n"
 		"	vec4 view = mul(u_modelView, vec4(a_position, 1.0));\n"
 		"	v_position = mul(u_proj, view);\n"
 		"	gl_Position = v_position;\n"
@@ -33,14 +33,14 @@ static string fragment_shader()
 {
 	string shader =
 
-		"$input v_position, v_texcoord0\n"
+		"$input v_position, v_uv0\n"
 		"\n"
 		"#include <common.sh>\n"
 		"#include <pbr/fog.sh>\n"
 		"\n"
 		"void main()\n"
 		"{\n"
-		"	vec2 uv = v_texcoord0.xy;"
+		"	vec2 uv = v_uv0;\n"
 		"	vec2 position = - 1.0 + 2.0 * uv;\n"
 		"\n"
 		"	vec4 noise = texture2D(s_user0, uv);\n"

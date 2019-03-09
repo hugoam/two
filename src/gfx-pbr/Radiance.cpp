@@ -59,15 +59,10 @@ namespace mud
 #ifdef DEBUG_RADIANCE
 		if(bgfx::isValid(render.m_env->m_radiance.m_roughness_array))
 		{
-			BlockCopy& copy = *m_gfx.m_pipeline->block<BlockCopy>();
+			BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
 			copy.debug_show_texture(render, render.m_env->m_radiance.m_roughness_array, vec4(0.f), false, false, false, 2);
 		}
 #endif
-	}
-
-	void BlockRadiance::begin_pass(Render& render)
-	{
-		UNUSED(render);
 	}
 
 	void BlockRadiance::options(Render& render, ShaderVersion& shader_version) const

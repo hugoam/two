@@ -247,7 +247,7 @@ namespace mud
 		, m_compute(compute)
 		, m_impl(make_unique<Impl>())
 	{
-		GfxBlock& mat = *ms_gfx_system->m_pipeline->block<BlockMaterial>();
+		GfxBlock& mat = *ms_gfx_system->m_renderer.block<BlockMaterial>();
 		
 		static cstring options[] = { "SKELETON", "INSTANCING", "BILLBOARD", "QNORMALS", "MRT", "DEFERRED", "CLUSTERED",
 									 "ZONES_BUFFER", "LIGHTS_BUFFER", "MATERIALS_BUFFER" };

@@ -35,7 +35,7 @@ module mud.gfx.pbr;
 #include <cstdio>
 
 #define DEBUG_CSM 0
-#define DEBUG_ATLAS 0
+#define DEBUG_ATLAS 1
 
 #define SHADOW_ATLAS 1
 
@@ -395,7 +395,7 @@ namespace mud
 #if DEBUG_ATLAS
 		if(render.m_target)
 		{
-			BlockCopy& copy = *m_gfx.m_pipeline->block<BlockCopy>();
+			BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
 			//copy.debug_show_texture(render, m_atlas.m_depth, vec4(0.f), true);
 			//copy.debug_show_texture(render, m_atlas.m_cubemaps[0].m_cubemap, vec4(0.f), true);
 #if SHADOW_ATLAS
@@ -410,18 +410,10 @@ namespace mud
 #if DEBUG_CSM
 		if(render.m_target)
 		{
-			BlockCopy& copy = *m_gfx.m_pipeline->block<BlockCopy>();
+			BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
 			copy.debug_show_texture(render, m_csm.m_depth, vec4(0.f), true);
 		}
 #endif
-	}
-
-	void BlockShadow::begin_pass(Render& render)
-	{
-		UNUSED(render);
-		m_direct_light = m_block_light.m_direct_light;
-
-		this->commit_shadows(render, render.m_camera.m_transform);
 	}
 
 	void BlockShadow::setup_shadows(Render& render)
@@ -452,8 +444,8 @@ namespace mud
 			if(light.m_type == LightType::Direct)
 			{
 				CSMShadow& csm = push(m_csm_shadows);
-
-				this->update_csm(render, light, num_csm, csm, csm_index++);
+				if(m_csm.m_size != uvec2(0U))
+					this->update_csm(render, light, num_csm, csm, csm_index++);
 			}
 			else if(light.m_type == LightType::Point)
 			{
@@ -562,8 +554,8 @@ namespace mud
 		m_depth_params.m_depth_normal_bias = light.m_shadow_normal_bias;
 		m_depth_params.m_depth_z_far = light.m_shadow_range;
 
-		Renderer& renderer = m_gfx.renderer(Shading::Volume);
-		render.render(renderer);
+		RenderFunc renderer = m_gfx.renderer(Shading::Volume);
+		render.render(m_gfx.m_renderer, renderer);
 	}
 
 	void BlockShadow::render_shadows(Render& render)
@@ -696,34 +688,37 @@ namespace mud
 #endif
 	}
 
-	PassShadowmap::PassShadowmap(GfxSystem& gfx, BlockShadow& block_shadow)
-		: RenderPass(gfx, "shadowmap", PassType::Shadowmap)
-		, m_block_shadow(block_shadow)
-	{}
-
-	void PassShadowmap::submit_render_pass(Render& render)
+	void pass_shadowmaps(GfxSystem& gfx, Render& render)
 	{
-		m_block_shadow.render_shadows(render);
+		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
+		block_shadow.render_shadows(render);
 	}
 
-	PassShadow::PassShadow(GfxSystem& gfx, BlockDepth& block_depth, BlockShadow& block_shadow)
-		: PassDepth(gfx, "shadow", block_depth)
-		, m_block_depth(block_depth)
-		, m_block_shadow(block_shadow)
-	{}
-
-	void PassShadow::submit_render_pass(Render& render)
+	void pass_shadow(GfxSystem& gfx, Render& render)
 	{
-		m_block_depth.m_depth_method = m_block_shadow.m_depth_method;
-		m_block_depth.m_depth_params = m_block_shadow.m_depth_params;
-		m_block_depth.m_distance_params = m_block_shadow.m_distance_params;
+		static BlockDepth& block_depth = *gfx.m_renderer.block<BlockDepth>();
+		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
 
-		DrawPass::submit_render_pass(render);
+		Pass render_pass = render.next_pass("shadow", PassType::Shadow);
+
+		block_depth.m_depth_method = block_shadow.m_depth_method;
+		block_depth.m_depth_params = block_shadow.m_depth_params;
+		block_depth.m_distance_params = block_shadow.m_distance_params;
+
+		block_depth.submit(render, render_pass);
+		block_shadow.submit(render, render_pass);
+
+		pass_depth(gfx, render, render_pass, false);
+
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
+		{
+			if(element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha)
+			{
+				gfx.m_renderer.add_element(render, pass, element);
+			}
+		};
+
+		gfx.m_renderer.pass(render, render_pass, queue_draw_element);
 	}
 
-	void PassShadow::queue_draw_element(Render& render, DrawElement& element)
-	{
-		if(element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha)
-			PassDepth::queue_draw_element(render, element);
-	}
 }

@@ -60,7 +60,7 @@ namespace mud
 	{
 		m_format = data_type_to_texture_format(element);
 		m_texture = bgfx::createTexture2D(m_width, m_height, false, 1, m_format);
-		//m_buffer = bgfx::createDynamicVertexBuffer(m_froxels.m_memory, decl);
+		//m_buffer = bgfx::createDynamicVertexBuffer(m_clusters.m_memory, decl);
 	}
 
 	GpuBuffer::~GpuBuffer()

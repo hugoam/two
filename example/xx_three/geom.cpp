@@ -7,6 +7,7 @@
 #include <stl/vector.hpp>
 
 #define INSTANCING 1
+#define DYNAMIC 1
 
 using namespace mud;
 
@@ -62,6 +63,7 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 		m.m_base.m_blend_mode = BlendMode::Add;
 		m.m_base.m_shader_color = ShaderColor::Vertex;
 		m.m_alpha.m_is_alpha = true;
+		m.m_line.m_dashed = true;
 	});
 
 	struct Particle { vec3 position; vec3 velocity; uint32_t numConnections; };
@@ -87,7 +89,7 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 #if INSTANCING
 		Model& points_model = *app.m_gfx.models().get("point");
 #else
-		MeshPacker pointgeom; // = new THREE.BufferGeometry();
+		MeshPacker pointgeom;
 		pointgeom.m_primitive = PrimitiveType::Points;
 #endif
 
@@ -115,18 +117,23 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 		p.m_batch = points_batch;
 #endif
 
-		Model& lines_model = app.m_gfx.models().create("segments");
-		lines_mesh = &lines_model.add_mesh("segments", true);
+#if DYNAMIC
+		Model& lines_model = app.m_gfx.create_model("segments");
+		lines_mesh = lines_model.m_items[0].m_mesh;
 
-		GpuMesh gpu_mesh = alloc_mesh(PrimitiveType::Lines, VertexAttribute::Position | VertexAttribute::Colour, segments, segments * 2);
+		GpuMesh gpu_mesh = alloc_mesh(PrimitiveType::Lines, VertexAttribute::Position4 | VertexAttribute::Colour, segments * 2, 0);
 		gpu_mesh.m_dynamic = true;
 		lines_mesh->upload(gpu_mesh);
 		lines_mesh->m_range = { 0U, 0U };
-
-		//geometry.computeBoundingSphere();
+#else
+		static Model& lines_model = app.m_gfx.create_model("cubes");
+		static Mesh& mesh = *lines_model.m_items[0].m_mesh;
+		mesh.m_is_direct = true;
+		lines_mesh = &mesh;
+#endif
 
 		Node3& n1 = gfx::nodes(scene).add(Node3());
-		Item& lines = gfx::items(scene).add(Item(n1, lines_model, 0U, &linemat));
+		Item& lines = gfx::items(scene).add(Item(n1, lines_model, ItemFlag::Default | ItemFlag::NoCull, &linemat));
 		UNUSED(lines);
 	}
 
@@ -141,7 +148,12 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 	span<Point> points = { (Point*)memory.data(), memory.size() * sizeof(float) / sizeof(Point) };
 #else
 	GpuMesh gpu_points = points_mesh->begin();
+#endif
+
+#if DYNAMIC
 	GpuMesh gpu_lines = lines_mesh->begin();
+#else
+	MeshAdapter& direct = lines_mesh->direct();
 #endif
 
 	for(uint32_t i = 0; i < num_particles; i++)
@@ -184,28 +196,24 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 				other.numConnections++;
 				other.numConnections++;
 
-				//float alpha = 1.f - dist / controller.minDistance;
+				float alpha = 1.f - dist / controller.minDistance;
 
-#if INSTANCING
-#else
-				gpu_lines.m_writer.position(particle.position);
-				gpu_lines.m_writer.position(other.position);
+				gpu_lines.m_writer.position4(vec4(particle.position, 0.f));
+				gpu_lines.m_writer.position4(vec4(other.position, dist));
 				
 				gpu_lines.m_writer.colour(Colour(alpha));
 				gpu_lines.m_writer.colour(Colour(alpha));
-#endif
 
 				numConnected++;
 			}
 		}
 	}
 
-#if INSTANCING
-#else
-	points_mesh->update(gpu_points);
-
 	lines_mesh->update(gpu_lines);
 	lines_mesh->m_range = { 0U, numConnected * 2U };
+
+#if !INSTANCING
+	points_mesh->update(gpu_points);
 #endif
 
 	//const float time = app.m_gfx.m_time;

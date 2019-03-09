@@ -55,7 +55,7 @@ namespace mud
 		inline void set_mode(uint8_t block, uint8_t mode, uint8_t value)
 		{
 			assert(m_program->m_shader_blocks[block].m_enabled);
-			const uint8_t mode_shift = m_program->m_shader_blocks[block].m_option_shift;
+			const uint8_t mode_shift = m_program->m_shader_blocks[block].m_mode_shift;
 			m_modes[mode_shift + mode] = value;
 		}
 

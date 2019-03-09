@@ -62,33 +62,9 @@ namespace mud
 		bgfx::TextureHandle m_depth = BGFX_INVALID_HANDLE;
 	};
 
-	export_ class MUD_GFX_PBR_EXPORT PassShadow : public PassDepth
-	{
-	public:
-		PassShadow(GfxSystem& gfx, BlockDepth& block_depth, BlockShadow& block_shadow);
+	export_ MUD_GFX_PBR_EXPORT void pass_shadowmaps(GfxSystem& gfx, Render& render);
 
-		BlockDepth& m_block_depth;
-		BlockShadow& m_block_shadow;
-
-		virtual void submit_render_pass(Render& render) final;
-
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-	};
-
-	export_ class MUD_GFX_PBR_EXPORT PassShadowmap : public RenderPass
-	{
-	public:
-		PassShadowmap(GfxSystem& gfx, BlockShadow& block_shadow);
-
-		BlockShadow& m_block_shadow;
-
-		virtual void submit_render_pass(Render& render) override;
-	};
-
-	struct ShadowRenderer : public Renderer
-	{
-		ShadowRenderer(GfxSystem& gfx, Pipeline& pipeline);
-	};
+	export_ MUD_GFX_PBR_EXPORT void pass_shadow(GfxSystem& gfx, Render& render);
 
 	export_ struct LightBounds
 	{
@@ -152,7 +128,6 @@ namespace mud
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;

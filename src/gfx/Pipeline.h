@@ -16,83 +16,20 @@ namespace mud
 {
 	using PassJob = function<void(Render&, const Pass&)>;
 
-	export_ MUD_GFX_EXPORT void pipeline_minimal(GfxSystem& gfx, Pipeline& pipeline, bool deferred);
+	export_ MUD_GFX_EXPORT void pipeline_minimal(GfxSystem& gfx, Renderer& pipeline, bool deferred);
 
 	export_ struct MUD_GFX_EXPORT PassJobs
 	{
 		table<PassType, vector<PassJob>> m_jobs;
 	};
 
-	export_ class MUD_GFX_EXPORT Pipeline
-	{
-	public:
-		Pipeline(GfxSystem& gfx);
-		~Pipeline();
+	export_ MUD_GFX_PBR_EXPORT void pass_clear(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT void pass_depth(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT void pass_background(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT void pass_solid(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT void pass_flip(GfxSystem& gfx, Render& render);
 
-		Pipeline(const Pipeline& other) = delete;
-		Pipeline& operator=(const Pipeline& other) = delete;
-
-		using GatherFunc = void(*)(Scene&, Render&);
-		GatherFunc m_gather_func;
-
-		template <class T_Block>
-		T_Block* block() { for(auto& block : m_gfx_blocks) if(&(block->m_type) == &type<T_Block>()) return &as<T_Block>(*block); return nullptr; }
-
-		template <class T_Block, class... Args>
-		T_Block& add_block(Args&&... args) { m_gfx_blocks.push_back(make_unique<T_Block>(static_cast<Args&&>(args)...)); return as<T_Block>(*m_gfx_blocks.back()); }
-
-		vector<unique<GfxBlock>> m_gfx_blocks;
-
-		table<PassType, vector<GfxBlock*>> m_pass_blocks;
-	};
-
-	export_ class MUD_GFX_EXPORT PassClear : public RenderPass
-	{
-	public:
-		PassClear(GfxSystem& gfx);
-
-		virtual void submit_render_pass(Render& render) final;
-	};
-
-	export_ class MUD_GFX_EXPORT PassSolid : public DrawPass
-	{
-	public:
-		PassSolid(GfxSystem& gfx);
-
-		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-	};
-
-	export_ class MUD_GFX_EXPORT PassBackground : public RenderPass
-	{
-	public:
-		PassBackground(GfxSystem& gfx);
-
-		virtual void submit_render_pass(Render& render) final;
-	};
-
-	export_ class MUD_GFX_EXPORT PassFlip : public RenderPass
-	{
-	public:
-		PassFlip(GfxSystem& gfx, BlockCopy& copy);
-
-		virtual void submit_render_pass(Render& render) final;
-
-		BlockCopy& m_copy;
-	};
-
-	struct MinimalRenderer : public Renderer
-	{
-		MinimalRenderer(GfxSystem& gfx, Pipeline& pipeline);
-	};
-
-	struct SolidRenderer : public Renderer
-	{
-		SolidRenderer(GfxSystem& gfx, Pipeline& pipeline);
-	};
-
-	struct ClearRenderer : public Renderer
-	{
-		ClearRenderer(GfxSystem& gfx, Pipeline& pipeline);
-	};
+	export_ MUD_GFX_PBR_EXPORT void render_minimal(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT void render_solid(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT void render_clear(GfxSystem& gfx, Render& render);
 }
