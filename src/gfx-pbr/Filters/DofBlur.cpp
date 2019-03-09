@@ -52,11 +52,11 @@ namespace mud
 
 	void BlockDofBlur::render(Render& render, const DofBlur& blur)
 	{
-		submit_blur_pass(render, blur, true);
-		submit_blur_pass(render, blur, false);//, BGFX_STATE_BLEND_ALPHA);
+		submit_blur_pass(render, *render.m_target, blur, true);
+		submit_blur_pass(render, *render.m_target, blur, false);//, BGFX_STATE_BLEND_ALPHA);
 	}
 
-	void BlockDofBlur::submit_blur_pass(Render& render, const DofBlur& blur, bool first_pass, uint64_t bgfx_state)
+	void BlockDofBlur::submit_blur_pass(Render& render, RenderTarget& target, const DofBlur& blur, bool first_pass, uint64_t bgfx_state)
 	{
 		ShaderVersion shader_version = { &m_program };
 		shader_version.set_option(m_index, DOF_FIRST_PASS, first_pass);
@@ -65,19 +65,19 @@ namespace mud
 
 		if(first_pass)
 		{
-			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
+			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, target.m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
 		}
 		else
 		{
-			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_ping_pong.last(), GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
-			bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, render.m_target->m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
+			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, target.m_ping_pong.last(), GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
+			bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, target.m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
 		}
 
-		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), m_filter.u_uniform.s_source_depth, render.m_target->m_depth);
+		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), m_filter.u_uniform.s_source_depth, target.m_depth);
 
-		bgfx::FrameBufferHandle target = first_pass ? render.m_target->m_ping_pong.swap() : render.m_target->m_post_process.swap();
+		bgfx::FrameBufferHandle fbo = first_pass ? target.m_ping_pong.swap() : target.m_post_process.swap();
 
-		m_filter.submit_quad(*render.m_target, render.composite_pass(),
-							 target, m_program.version(shader_version), render.m_viewport.m_rect, bgfx_state);
+		m_filter.submit_quad(target, render.composite_pass(),
+							 fbo, m_program.version(shader_version), render.m_viewport.m_rect, bgfx_state);
 	}
 }

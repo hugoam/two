@@ -1552,7 +1552,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::Torus, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Torus, m_solid_radius), type<float>(), "solid_radius", &solid_radius_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Torus, m_tube), type<float>(), "solid_radius", &solid_radius_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Torus, m_axis), type<mud::Axis>(), "axis", &axis_default, Member::Value, nullptr }
 		};
 		// methods
@@ -1582,7 +1582,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::TorusKnot, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
-			{ t, offsetof(mud::TorusKnot, m_solid_radius), type<float>(), "solid_radius", &solid_radius_default, Member::Value, nullptr }
+			{ t, offsetof(mud::TorusKnot, m_tube), type<float>(), "solid_radius", &solid_radius_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members

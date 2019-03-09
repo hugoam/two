@@ -497,33 +497,43 @@ namespace gfx
 
 		cluster.m_shader_version.set_option(0, MRT, render.m_is_mrt);
 
-		encoder.setTexture(uint8_t(TextureSampler::Source0), filter.u_uniform.s_source_0, render.m_target->m_gbuffer.m_position);
-		encoder.setTexture(uint8_t(TextureSampler::Source1), filter.u_uniform.s_source_1, render.m_target->m_gbuffer.m_normal);
-		encoder.setTexture(uint8_t(TextureSampler::Source2), filter.u_uniform.s_source_2, render.m_target->m_gbuffer.m_albedo);
-		encoder.setTexture(uint8_t(TextureSampler::Source3), filter.u_uniform.s_source_3, render.m_target->m_gbuffer.m_surface);
+		RenderTarget& target = *render.m_target;
+		RenderTarget::GBuffer& gbuffer = target.m_gbuffer;
 
-		filter.submit_quad(*render.m_target, render_pass.m_index, render.m_target_fbo,
+		encoder.setTexture(uint8_t(TextureSampler::Source0), filter.u_uniform.s_source_0, gbuffer.m_position);
+		encoder.setTexture(uint8_t(TextureSampler::Source1), filter.u_uniform.s_source_1, gbuffer.m_normal);
+		encoder.setTexture(uint8_t(TextureSampler::Source2), filter.u_uniform.s_source_2, gbuffer.m_albedo);
+		encoder.setTexture(uint8_t(TextureSampler::Source3), filter.u_uniform.s_source_3, gbuffer.m_surface);
+
+		filter.submit_quad(target, render_pass.m_index, render.m_target_fbo,
 						   program.version(cluster.m_shader_version), render.m_viewport.m_rect, BGFX_STATE_BLEND_ALPHA);
 
 #if DEBUG_GBUFFERS
-		if(render.m_target)
-		{
-			BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
-			vec2 size = vec2(render.m_target->m_size) * 0.25f;
-			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_depth, vec4(vec2(0.f, size.y * 0.f), size), true);
-			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_normal, vec4(vec2(0.f, size.y * 1.f), size));
-			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_albedo, vec4(vec2(0.f, size.y * 2.f), size));
-			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_surface, vec4(vec2(0.f, size.y * 3.f), size));
-		}
+		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
+		vec2 size = vec2(target.m_size) * 0.25f;
+		copy.debug_show_texture(render, gbuffer.m_depth, vec4(vec2(0.f, size.y * 0.f), size), true);
+		copy.debug_show_texture(render, gbuffer.m_normal, vec4(vec2(0.f, size.y * 1.f), size));
+		copy.debug_show_texture(render, gbuffer.m_albedo, vec4(vec2(0.f, size.y * 2.f), size));
+		copy.debug_show_texture(render, gbuffer.m_surface, vec4(vec2(0.f, size.y * 3.f), size));
 #endif
+	}
+	
+	void pass_pre_post_process(GfxSystem& gfx, Render& render)
+	{
+		static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
+
+		RenderTarget& target = *render.m_target;
+		copy.submit_quad(target, render.composite_pass(), target.m_post_process.swap(),
+						 target.m_diffuse, render.m_viewport.m_rect);
 	}
 
 	void pass_post_process(GfxSystem& gfx, Render& render)
 	{
 		static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
 
-		copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(),
-						 render.m_target->m_diffuse, render.m_viewport.m_rect);
+		RenderTarget& target = *render.m_target;
+		copy.submit_quad(target, render.composite_pass(), target.m_post_process.swap(),
+						 target.m_diffuse, render.m_viewport.m_rect);
 
 		// submit each post process effect
 

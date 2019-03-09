@@ -387,26 +387,20 @@ namespace mud
 		this->setup_shadows(render);
 
 #if DEBUG_ATLAS
-		if(render.m_target)
-		{
-			BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
-			//copy.debug_show_texture(render, m_atlas.m_depth, vec4(0.f), true);
-			//copy.debug_show_texture(render, m_atlas.m_cubemaps[0].m_cubemap, vec4(0.f), true);
+		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
+		//copy.debug_show_texture(render, m_atlas.m_depth, vec4(0.f), true);
+		//copy.debug_show_texture(render, m_atlas.m_cubemaps[0].m_cubemap, vec4(0.f), true);
 #if SHADOW_ATLAS
-			copy.debug_show_texture(render, m_atlas.m_color, vec4(0.f));
+		copy.debug_show_texture(render, m_atlas.m_color, vec4(0.f));
 #else
-			if(m_shadowmaps.size() > 0)
-				copy.debug_show_texture(render, m_shadowmaps[0].texture(), vec4(0.f), m_shadowmaps[0].m_depth_method == DepthMethod::Depth);
+		if(m_shadowmaps.size() > 0)
+			copy.debug_show_texture(render, m_shadowmaps[0].texture(), vec4(0.f), m_shadowmaps[0].m_depth_method == DepthMethod::Depth);
 #endif
-		}
 #endif
 
 #if DEBUG_CSM
-		if(render.m_target)
-		{
-			BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
-			copy.debug_show_texture(render, m_csm.m_depth, vec4(0.f), true);
-		}
+		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
+		copy.debug_show_texture(render, m_csm.m_depth, vec4(0.f), true);
 #endif
 	}
 

@@ -39,7 +39,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	    //xx_billboards(app, parent, dockbar);
 	//xx_lines_fat(app, parent, dockbar);
 	//xx_lines_dashed(app, parent, dockbar);
-	    xx_geom(app, parent, dockbar);
+	//xx_geom(app, parent, dockbar);
 	//xx_geom_sprites(app, parent, dockbar);
 	//xx_geom_instances(app, parent, dockbar);
 	//xx_geom_lines(app, parent, dockbar);
@@ -56,6 +56,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	    //xx_materials_skin(app, parent, dockbar);
 	    //xx_materials_standard(app, parent, dockbar);
 	    //xx_materials_variations(app, parent, dockbar);
+	xx_depth_texture(app, parent, dockbar);
 }
 
 #ifdef _XX_THREE_EXE

@@ -168,6 +168,7 @@ namespace mud
 		static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
 
 		//Pass render_pass = render.next_pass("flip", PassType::Flip);
-		block_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_diffuse, render.m_viewport.m_rect);
+		RenderTarget& target = *render.m_target;
+		block_copy.submit_quad(target, render.composite_pass(), target.m_diffuse, render.m_viewport.m_rect);
 	}
 }

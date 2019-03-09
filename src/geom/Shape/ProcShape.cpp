@@ -100,25 +100,26 @@ namespace mud
 
 	DispatchDrawProcShape::DispatchDrawProcShape()
 	{
-		declare_shape<Line>(*this);
-		declare_shape<ArcLine>(*this);
-		declare_shape<Circle>(*this);
-		declare_shape<Ellipsis>(*this);
-		declare_shape<Grid2>(*this);
-		declare_shape<Grid3>(*this);
-		declare_shape<Quad>(*this);
-		declare_shape<Rect>(*this);
-		declare_shape<Triangle>(*this);
+		decl_shape<Line>(*this);
+		decl_shape<ArcLine>(*this);
+		decl_shape<Circle>(*this);
+		decl_shape<Ellipsis>(*this);
+		decl_shape<Grid2>(*this);
+		decl_shape<Grid3>(*this);
+		decl_shape<Quad>(*this);
+		decl_shape<Rect>(*this);
+		decl_shape<Triangle>(*this);
 
-		declare_shape<Box>(*this);
-		declare_shape<Cube>(*this);
+		decl_shape<Box>(*this);
+		decl_shape<Cube>(*this);
 		//declare_shape<Aabb>(*this);
-		declare_shape<Cylinder>(*this);
-		declare_shape<Sphere>(*this);
-		declare_shape<Torus>(*this);
+		decl_shape<Cylinder>(*this);
+		decl_shape<Sphere>(*this);
+		decl_shape<Torus>(*this);
+		decl_shape_triangles<TorusKnot>(*this);
 
-		declare_shape<Geometry>(*this);
+		decl_shape<Geometry>(*this);
 
-		declare_compound_shape<Spheroid>(*this);
+		decl_compound_shape<Spheroid>(*this);
 	}
 }

@@ -30,6 +30,8 @@ namespace mud
 		Material* m_material_twosided = nullptr;
 	};
 
+	export_ MUD_GFX_PBR_EXPORT void begin_pbr_render(GfxSystem& gfx, Render& render);
+
 	export_ MUD_GFX_PBR_EXPORT void pass_gi_probes(GfxSystem& gfx, Render& render);
 	export_ MUD_GFX_PBR_EXPORT void pass_shadowmaps(GfxSystem& gfx, Render& render);
 	export_ MUD_GFX_PBR_EXPORT void pass_shadow(GfxSystem& gfx, Render& render);

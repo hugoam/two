@@ -52,19 +52,20 @@ namespace mud
 
 	void BlockTonemap::submit_pass(Render& render)
 	{
+		RenderTarget& target = *render.m_target;
 		if(render.m_filters.comp<Tonemap>().m_enabled)
-			this->render(render, render.m_filters.comp<Tonemap>(), render.m_filters.comp<BCS>());
+			this->render(render, target, render.m_filters.comp<Tonemap>(), render.m_filters.comp<BCS>());
 		else
-			m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.last(), render.m_viewport.m_rect);
+			m_copy.submit_quad(target, render.composite_pass(), target.m_post_process.last(), render.m_viewport.m_rect);
 	}
 
-	void BlockTonemap::render(Render& render, Tonemap& tonemap, BCS& bcs)
+	void BlockTonemap::render(Render& render, RenderTarget& target, Tonemap& tonemap, BCS& bcs)
 	{
 		ShaderVersion shader_version = { &m_program };
 
 		shader_version.set_mode(m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_post_process.last());
+		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, target.m_post_process.last());
 
 		if(bgfx::isValid(tonemap.m_color_correction))
 		{
@@ -81,6 +82,6 @@ namespace mud
 			GpuState<BCS>::me.upload(bcs);
 		}
 
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_fbo, m_program.version(shader_version), render.m_viewport.m_rect);
+		m_filter.submit_quad(target, render.composite_pass(), target.m_fbo, m_program.version(shader_version), render.m_viewport.m_rect);
 	}
 }

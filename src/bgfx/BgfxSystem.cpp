@@ -39,7 +39,7 @@ namespace mud
 
 	BgfxSystem::BgfxSystem(const string& resource_path)
 		: RenderSystem(resource_path, true)
-		, m_capture_every(100)
+		//, m_capture_every(100)
 	{
 		printf("INFO: Init Gfx System\n");
 	}

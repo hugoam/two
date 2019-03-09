@@ -106,7 +106,7 @@ namespace mud
 
 		bool m_deferred = false;
 
-		struct
+		struct GBuffer
 		{
 			bgfx::FrameBufferHandle m_fbo;
 

@@ -35,4 +35,7 @@ namespace mud
 
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Torus& torus);
 	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshAdapter& writer);
+
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const TorusKnot& torus);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const TorusKnot& torus, MeshAdapter& writer);
 }

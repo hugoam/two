@@ -105,7 +105,7 @@ namespace mud
 		//bool operator==(const Torus& other) const;
 
 		attr_ float m_radius = 1.f;
-		attr_ float m_solid_radius = 1.f;
+		attr_ float m_tube = 1.f;
 		attr_ Axis m_axis = Axis::X;
 
 		virtual object<Shape> clone() const;
@@ -119,7 +119,7 @@ namespace mud
 		constr_ TorusKnot(const vec3& center, float radius, float solid_radius);
 
 		attr_ float m_radius = 1.f;
-		attr_ float m_solid_radius = 1.f;
+		attr_ float m_tube = 1.f;
 
 		virtual object<Shape> clone() const;
 	};

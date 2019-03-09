@@ -64,7 +64,7 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 		virtual void submit_pass(Render& render) final;
 
-		void render(Render& render, Tonemap& tonemap, BCS& bcs);
+		void render(Render& render, RenderTarget& target, Tonemap& tonemap, BCS& bcs);
 
 		BlockFilter& m_filter;
 		BlockCopy& m_copy;

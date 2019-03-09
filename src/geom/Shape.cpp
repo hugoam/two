@@ -56,14 +56,14 @@ namespace mud
 	object<Shape> Circle::clone() const { return oconstruct<Circle>(*this); }
 
 	Torus::Torus() : Shape(type<Torus>()) {}
-	Torus::Torus(float radius, float solid_radius, Axis axis) : Shape(type<Torus>()), m_radius(radius), m_solid_radius(solid_radius), m_axis(axis) {}
-	Torus::Torus(const vec3& center, float radius, float solid_radius, Axis axis) : Shape(type<Torus>(), center), m_radius(radius), m_solid_radius(solid_radius), m_axis(axis) {}
-	//bool Torus::operator==(const Torus& other) const { return m_radius == other.m_radius && m_solid_radius == other.m_solid_radius && m_axis == other.m_axis && m_center == other.m_center; }
+	Torus::Torus(float radius, float solid_radius, Axis axis) : Shape(type<Torus>()), m_radius(radius), m_tube(solid_radius), m_axis(axis) {}
+	Torus::Torus(const vec3& center, float radius, float solid_radius, Axis axis) : Shape(type<Torus>(), center), m_radius(radius), m_tube(solid_radius), m_axis(axis) {}
+	//bool Torus::operator==(const Torus& other) const { return m_radius == other.m_radius && m_tube == other.m_tube && m_axis == other.m_axis && m_center == other.m_center; }
 	object<Shape> Torus::clone() const { return oconstruct<Torus>(*this); }
 
-	TorusKnot::TorusKnot() : Shape(type<Torus>()) {}
-	TorusKnot::TorusKnot(float radius, float solid_radius) : Shape(type<Torus>()), m_radius(radius), m_solid_radius(solid_radius) {}
-	TorusKnot::TorusKnot(const vec3& center, float radius, float solid_radius) : Shape(type<Torus>(), center), m_radius(radius), m_solid_radius(solid_radius) {}
+	TorusKnot::TorusKnot() : Shape(type<TorusKnot>()) {}
+	TorusKnot::TorusKnot(float radius, float solid_radius) : Shape(type<TorusKnot>()), m_radius(radius), m_tube(solid_radius) {}
+	TorusKnot::TorusKnot(const vec3& center, float radius, float solid_radius) : Shape(type<TorusKnot>(), center), m_radius(radius), m_tube(solid_radius) {}
 	object<Shape> TorusKnot::clone() const { return oconstruct<TorusKnot>(*this); }
 
 	Ring::Ring() : Shape(type<Ring>()) {}

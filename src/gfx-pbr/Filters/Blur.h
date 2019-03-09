@@ -51,9 +51,9 @@ namespace mud
 
 		virtual void begin_render(Render& render) override;
 		
-		void blur(Render& render);
+		void blur(Render& render, RenderTarget& target);
 
-		void gaussian_pass(Render& render, uvec4& rect, uint8_t lod, bool horizontal, const BlurKernel& kernel);
+		void gaussian_pass(Render& render, RenderTarget& target, uvec4& rect, uint8_t lod, bool horizontal, const BlurKernel& kernel);
 
 		BlockFilter& m_filter;
 

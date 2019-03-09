@@ -16,6 +16,8 @@ module mud.geom;
 #include <geom/Geom.h>
 #endif
 
+#include <cassert>
+
 namespace mud
 {
 	uint16_t circle_subdiv(uint lod) { return uint16_t(6); } // 6 + 12 * lod); }
@@ -186,16 +188,16 @@ namespace mud
 
 	void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshAdapter& writer)
 	{
-		SignedAxis axis = to_signed_axis(torus.m_axis, true);
+		const SignedAxis axis = to_signed_axis(torus.m_axis, true);
 
-		uint16_t rings = torus_rings(uint(shape.m_symbol.m_detail));
-		uint16_t sides = torus_sides(uint(shape.m_symbol.m_detail));
+		const uint16_t rings = torus_rings(uint(shape.m_symbol.m_detail));
+		const uint16_t sides = torus_sides(uint(shape.m_symbol.m_detail));
 
-		uint16_t rings_subdiv = rings + 1;
-		uint16_t sides_subdiv = sides + 1;
+		const uint16_t rings_subdiv = rings + 1;
+		const uint16_t sides_subdiv = sides + 1;
 
-		float ring_step = c_2pi / float(rings);
-		float side_step = c_2pi / float(sides);
+		const float ring_step = c_2pi / float(rings);
+		const float side_step = c_2pi / float(sides);
 
 		for(uint16_t v = 0; v < sides_subdiv; v++)
 			for(uint16_t h = 0; h < rings_subdiv; h++)
@@ -203,14 +205,14 @@ namespace mud
 				const float theta = ring_step * h;
 				const float phi = side_step * v;
 
-				const float x = cos(theta) * (torus.m_radius + torus.m_solid_radius * cos(phi));
-				const float y = torus.m_solid_radius * sin(phi);
-				const float z = sin(theta) * (torus.m_radius + torus.m_solid_radius * cos(phi));
+				const float x = cos(theta) * (torus.m_radius + torus.m_tube * cos(phi));
+				const float y = torus.m_tube * sin(phi);
+				const float z = sin(theta) * (torus.m_radius + torus.m_tube * cos(phi));
 
-				vec3 circle = flip_point_axis(vec3(cos(theta), 0.f, sin(theta)) * torus.m_radius, axis);
-				vec3 point = flip_point_axis(vec3(x, y, z), axis);
+				const vec3 circle = flip_point_axis(vec3(cos(theta), 0.f, sin(theta)) * torus.m_radius, axis);
+				const vec3 point = flip_point_axis(vec3(x, y, z), axis);
 
-				vec3 normal = normalize(point - circle);
+				const vec3 normal = normalize(point - circle);
 
 				writer.position(point)
 					  .normal(normal)
@@ -230,5 +232,99 @@ namespace mud
 				writer.tri(lt, rt, lb);
 				writer.tri(rt, rb, lb);
 			}
+	}
+
+	uint16_t torus_tube_subdiv(uint lod) { return uint16_t(64U); }
+	uint16_t torus_radial_subdiv(uint lod) { return uint16_t(8U); }
+
+	ShapeSize size_shape_triangles(const ProcShape& shape, const TorusKnot& torus)
+	{
+		UNUSED(torus);
+		const uint16_t tubular = torus_tube_subdiv(uint(shape.m_symbol.m_detail)) + 1;
+		const uint16_t radial = torus_radial_subdiv(uint(shape.m_symbol.m_detail)) + 1;
+		return { uint32_t(tubular * radial), uint32_t((tubular-1U) * (radial-1U) * 6U) };
+	}
+
+	void draw_shape_triangles(const ProcShape& shape, const TorusKnot& torus, MeshAdapter& writer)
+	{
+		const float radius = torus.m_radius;
+		const float tube = torus.m_tube;
+		const uint16_t tubular = torus_tube_subdiv(uint(shape.m_symbol.m_detail));
+		const uint16_t radial = torus_radial_subdiv(uint(shape.m_symbol.m_detail));
+		const float p = 2.f;
+		const float q = 3.f;
+
+		auto knot_curve = [](float u, float p, float q, float radius) -> vec3
+		{
+			const float cu = cos(u);
+			const float su = sin(u);
+			const float quOverP = q / p * u;
+			const float cs = cos(quOverP);
+
+			const float x = radius * (2.f + cs) * 0.5f * cu;
+			const float y = radius * (2.f + cs) * su * 0.5f;
+			const float z = radius * sin(quOverP) * 0.5f;
+			return vec3(x, y, z);
+		};
+
+		for(uint16_t i = 0; i <= tubular; ++i)
+		{
+			// the radian "u" is used to calculate the position on the torus curve of the current tubular segement
+			const float u = float(i) / float(tubular) * p * c_2pi;
+
+			// now we calculate two points. P1 is our current position on the curve, P2 is a little farther ahead.
+			// these points are used to create a special "coordinate space", which is necessary to calculate the correct vertex positions
+			const vec3 P1 = knot_curve(u, p, q, radius);
+			const vec3 P2 = knot_curve(u + 0.01f, p, q, radius);
+
+			// calculate orthonormal basis
+			const vec3 oT = P2 - P1;
+			const vec3 oN = P2 + P1;
+			const vec3 B = normalize(cross(oT, oN));
+			const vec3 N = normalize(cross(B, oT));
+
+			for(uint16_t j = 0; j <= radial; ++j)
+			{
+				// now calculate the vertices. they are nothing more than an extrusion of the torus curve.
+				// because we extrude a shape in the xy-plane, there is no need to calculate a z-value.
+				const float v = float(j) / float(radial) * c_2pi;
+				const float cx = -tube * cos(v);
+				const float cy = tube * sin(v);
+
+				// now calculate the final vertex position.
+				// first we orient the extrusion with our basis vectos, then we add it to the current position on the curve
+				const float x = P1.x + (cx * N.x + cy * B.x);
+				const float y = P1.y + (cx * N.y + cy * B.y);
+				const float z = P1.z + (cx * N.z + cy * B.z);
+				
+				const vec3 p = vec3(x, y, z);
+				// normal (P1 is always the center/origin of the extrusion, thus we can use it to calculate the normal)
+				const vec3 n = normalize(p - P1);
+				const vec2 uv = vec2(float(i) / float(tubular), float(j) / float(radial));
+
+				vec3* end = (vec3*)((char*)writer.m_vertices.m_pointer) + (writer.m_vertices.size() * writer.m_vertex_stride);
+				assert(writer.m_cursor.m_position < end);
+
+				writer.position(p)
+					  .normal(n)
+					  .colour(shape.m_symbol.m_fill)
+					  .uv0(uv);
+			}
+
+		}
+
+		for(uint16_t j = 1; j <= tubular; j++)
+		{
+			for(uint16_t i = 1; i <= radial; i++)
+			{
+				const uint16_t a = (radial + 1) * (j - 1) + (i - 1);
+				const uint16_t b = (radial + 1) * j + (i - 1);
+				const uint16_t c = (radial + 1) * j + i;
+				const uint16_t d = (radial + 1) * (j - 1) + i;
+
+				writer.tri(a, b, d);
+				writer.tri(b, c, d);
+			}
+		}
 	}
 }

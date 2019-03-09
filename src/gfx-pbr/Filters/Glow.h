@@ -40,9 +40,12 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 		virtual void submit_pass(Render& render) final;
 
-		void glow_bleed(Render& render, Glow& glow);
-		void glow_blur(Render& render, Glow& glow);
-		void glow_merge(Render& render, Glow& glow);
+		void debug_glow(Render& render, RenderTarget& target);
+
+		void glow(Render& render, RenderTarget& target, Glow& glow);
+		void glow_bleed(Render& render, RenderTarget& target, Glow& glow);
+		void glow_blur(Render& render, RenderTarget& target, Glow& glow);
+		void glow_merge(Render& render, RenderTarget& target, Glow& glow);
 
 		void render(Render& render, Glow& glow);
 

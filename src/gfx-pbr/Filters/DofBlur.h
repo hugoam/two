@@ -44,7 +44,7 @@ namespace mud
 
 		void render(Render& render, const DofBlur& blur);
 
-		void submit_blur_pass(Render& render, const DofBlur& blur, bool first, uint64_t bgfx_state = 0);
+		void submit_blur_pass(Render& render, RenderTarget& target, const DofBlur& blur, bool first, uint64_t bgfx_state = 0);
 
 		BlockFilter& m_filter;
 

@@ -54,10 +54,15 @@ namespace mud
 	{
 		UNUSED(render);
 #ifdef DEBUG_GLOW
-		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
-		copy.debug_show_texture(render, render.m_target->m_cascade.m_texture, vec4(0.f), false, false, false, 1);
-		copy.debug_show_texture(render, render.m_target->m_ping_pong.last(), vec4(0.f));
+		this->debug_glow(render, *render.m_target);
 #endif
+	}
+
+	void BlockGlow::debug_glow(Render& render, RenderTarget& target)
+	{
+		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
+		copy.debug_show_texture(render, target.m_cascade.m_texture, vec4(0.f), false, false, false, 1);
+		copy.debug_show_texture(render, target.m_ping_pong.last(), vec4(0.f));
 	}
 
 	void BlockGlow::submit_pass(Render& render)
@@ -68,22 +73,27 @@ namespace mud
 
 	void BlockGlow::render(Render& render, Glow& glow)
 	{
-		this->glow_bleed(render, glow);
-		this->glow_blur(render, glow);
-		this->glow_merge(render, glow);
+		this->glow(render, *render.m_target, glow);
 	}
 
-	void BlockGlow::glow_bleed(Render& render, Glow& glow)
+	void BlockGlow::glow(Render& render, RenderTarget& target, Glow& glow)
 	{
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_diffuse);
+		this->glow_bleed(render, target, glow);
+		this->glow_blur(render, target, glow);
+		this->glow_merge(render, target, glow);
+	}
+
+	void BlockGlow::glow_bleed(Render& render, RenderTarget& target, Glow& glow)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, target.m_diffuse);
 		//bgfx::setUniform(m_blur.u_uniform.u_exposure, &m_tonemap.m_exposure);
 
 		GpuState<Glow>::me.upload(glow);
 
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_ping_pong.swap(), m_bleed_program.default_version(), render.m_viewport.m_rect);
+		m_filter.submit_quad(target, render.composite_pass(), target.m_ping_pong.swap(), m_bleed_program.default_version(), render.m_viewport.m_rect);
 	}
 
-	void BlockGlow::glow_blur(Render& render, Glow& glow)
+	void BlockGlow::glow_blur(Render& render, RenderTarget& target, Glow& glow)
 	{
 		UNUSED(glow);
 		uvec4 rect = render.m_viewport.m_rect;
@@ -101,35 +111,35 @@ namespace mud
 
 		for(uint8_t i = 0; i < (max_level + 1); i++)
 		{
-			m_blur.gaussian_pass(render, rect, i, true, kernel);
-			m_blur.gaussian_pass(render, rect, i, false, kernel);
+			m_blur.gaussian_pass(render, target, rect, i, true, kernel);
+			m_blur.gaussian_pass(render, target, rect, i, false, kernel);
 
 			//bool blit_support = (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0;
 			bool blit_support = false;
 
-			RenderQuad quad = { render.m_target->source_quad(vec4(rect), true), render.m_target->dest_quad_mip(vec4(rect), i + 1, true), true };
+			RenderQuad quad = { target.source_quad(vec4(rect), true), target.dest_quad_mip(vec4(rect), i + 1, true), true };
 			
 			if(blit_support)
 				bgfx::blit(render.composite_pass(),
-						   render.m_target->m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
-						   render.m_target->m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect_w(rect)), uint16_t(rect_h(rect)), 1);
+						   target.m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
+						   target.m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect_w(rect)), uint16_t(rect_h(rect)), 1);
 			else
-				m_copy.submit_quad(*render.m_target->m_cascade.m_mips[i + 1], render.composite_pass(), render.m_target->m_ping_pong.last(), quad);
+				m_copy.submit_quad(*target.m_cascade.m_mips[i + 1], render.composite_pass(), target.m_ping_pong.last(), quad);
 		}
 	}
 
-	void BlockGlow::glow_merge(Render& render, Glow& glow)
+	void BlockGlow::glow_merge(Render& render, RenderTarget& target, Glow& glow)
 	{
 		ShaderVersion shader_version = { &m_merge_program };
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_post_process.last());
+		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, target.m_post_process.last());
 
 		shader_version.set_option(m_index, GLOW_FILTER_BICUBIC, glow.m_bicubic_filter);
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, render.m_target->m_cascade.m_texture);
+		bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, target.m_cascade.m_texture);
 
 		GpuState<Glow>::me.upload(glow);
 
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(), m_merge_program.version(shader_version), render.m_viewport.m_rect);
+		m_filter.submit_quad(target, render.composite_pass(), target.m_post_process.swap(), m_merge_program.version(shader_version), render.m_viewport.m_rect);
 	}
 }
