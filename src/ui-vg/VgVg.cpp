@@ -123,6 +123,7 @@ namespace mud
 
 	void VgVg::begin_frame(const vec4& rect, float pixel_ratio)
 	{
+		bgfx::setViewFrameBuffer(240, BGFX_INVALID_HANDLE);
 		bgfx::setViewRect(240, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect_w(rect)), uint16_t(rect_h(rect)));
 		bgfx::setViewMode(240, bgfx::ViewMode::Sequential);
 		bgfx::setViewName(240, "ui");

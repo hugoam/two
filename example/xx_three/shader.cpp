@@ -23,7 +23,7 @@ static string vertex_shader()
 		"	BaseMaterial basic = read_base_material(material_index);\n"
 		"	\n"
 		"   v_uv0 = (a_texcoord0 * basic.uv0_scale) + basic.uv0_offset;\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0));\n"
+		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"}\n";
 
 	return shader;

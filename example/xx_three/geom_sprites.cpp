@@ -8,9 +8,9 @@
 
 #include <cstring>
 
-#define SORT 0
-
 using namespace mud;
+
+#define GLITCH 0
 
 static string vertex_shader()
 {
@@ -29,8 +29,8 @@ static string vertex_shader()
 		"	v_scale = scale;\n"
 		"	float size = scale * 10.0 + 10.0;\n"
 		"	vec3 view = mul(u_modelView, vec4(i_position, 1.0)).xyz;\n"
-		"	view += a_position * size;\n"
-		"	v_uv0 = vec4(a_texcoord0, 0.0, 0.0);\n"
+		"	view += a_position.xyz * size;\n"
+		"	v_uv0 = a_texcoord0;\n"
 		"	gl_Position = mul(u_proj, vec4(view, 1.0));\n"
 		"\n"
 		"}\n";
@@ -64,7 +64,9 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 	constexpr size_t particleCount = 75000;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+#if GLITCH
+	ui::orbit_controller(viewer);
+#endif
 
 	Scene& scene = viewer.m_scene;
 
@@ -79,7 +81,9 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 		m.m_program = &program;
 		m.m_base.m_depth_test = DepthTest::Enabled;
 		m.m_base.m_depth_draw = DepthDraw::Enabled;
-		//m.m_solid.m_colour = &texture;
+#if !GLITCH
+		m.m_solid.m_colour = &texture;
+#endif
 	});
 
 	struct Instance { vec3 position; float distance; };
@@ -98,8 +102,11 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 		camera.m_eye.z = 1400.f;
 
 		// cool glitch
-		//Model& circle = app.m_gfx.shape(Circle());
+#if GLITCH
+		Model& circle = app.m_gfx.shape(Circle());
+#else
 		Model& circle = app.m_gfx.shape(Circle(1.f, Axis::Z)); // new THREE.CircleBufferGeometry(1, 6);
+#endif
 
 		for(size_t i = 0; i < particleCount; ++i)
 		{

@@ -32,7 +32,7 @@ using namespace mud;
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	//xx_lights_point(app, parent, dockbar);
+	xx_lights_point(app, parent, dockbar);
 	//xx_shadow_point(app, parent, dockbar);
 	//xx_shader(app, parent, dockbar);
 	//xx_shader_lava(app, parent, dockbar);
@@ -44,7 +44,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//xx_lines_fat(app, parent, dockbar);
 	//xx_lines_dashed(app, parent, dockbar);
 	//xx_geom(app, parent, dockbar);
-	xx_geom_sprites(app, parent, dockbar);
+	//xx_geom_sprites(app, parent, dockbar);
 	//xx_geom_instances(app, parent, dockbar);
 	//xx_geom_lines(app, parent, dockbar);
 	//xx_geom_points(app, parent, dockbar);

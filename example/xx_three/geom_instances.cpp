@@ -27,7 +27,7 @@ static string vertex_shader()
 		"void main()\n"
 	    "{\n"
 		"	float t = sin(u_time * 0.2);\n"
-		"	vec3 position = i_offset * max(abs(t * 2.0 + 1.0), 0.5) + a_position;\n"
+		"	vec3 position = i_offset * max(abs(t * 2.0 + 1.0), 0.5) + a_position.xyz;\n"
 		"	vec4 orientation = normalize(mix(i_orientation_start, i_orientation_end, t));\n"
 		"	vec3 vcV = cross(orientation.xyz, position);\n"
 		"	position = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + position);\n"

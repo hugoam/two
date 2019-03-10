@@ -10,6 +10,8 @@
 
 using namespace mud;
 
+#define PAD 0.f
+
 void xx_geom_points_instanced(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(dockbar);
@@ -53,7 +55,7 @@ void xx_geom_points_instanced(Shell& app, Widget& parent, Dockbar& dockbar)
 			vec3 p = vec3(randf(), randf(), randf()) * s - s2;
 			Colour c = to_colour(p / s + 0.5f);
 
-			instances[i] = { p, 0.f, vec2(15.f), 0.f, 0.f, c };
+			instances[i] = { p, PAD, vec2(15.f), PAD, PAD, c };
 		}
 
 		Model& model = *app.m_gfx.models().get("point");

@@ -22,7 +22,7 @@ static string vertex_shader()
 		"void main()\n"
 	    "{\n"
 		"	v_color = a_color0;\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0));\n"
+		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"\n"
 		"}\n";
 

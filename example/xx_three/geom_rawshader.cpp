@@ -19,10 +19,10 @@ static string vertex_shader()
 		"\n"
 		"void main()\n"
 		"{\n"
-		"	v_position = vec4(a_position, 1.0);\n"
+		"	v_position = vec4(a_position.xyz, 1.0);\n"
 		"	v_color = a_color0;\n"
 		"\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0));\n"
+		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"}\n";
 
 	return shader;
