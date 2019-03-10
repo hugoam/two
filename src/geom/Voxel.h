@@ -45,7 +45,7 @@ namespace mud
 		mutable Cache m_cache;
 
 	public:
-		MarchingCubes(uint32_t resolution);
+		constr_ MarchingCubes(uint32_t resolution);
 
 		// immediate render mode simulator
 		uint8_t classify(size_t q, float isol) const;

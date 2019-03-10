@@ -85,7 +85,9 @@ Face3.prototype["__destroy"] = Face3.prototype.__destroy = function() {
     _mud_Face3__destroy(this.__ptr);
 };
 // MarchingCubes
-function MarchingCubes() { throw "cannot construct a MarchingCubes, no constructor in IDL" }
+function MarchingCubes(a0) {
+    this.__ptr = _mud_MarchingCubes__construct_1(/*resolution*/a0); this.__type = MarchingCubes.__type; getCache(MarchingCubes)[this.__ptr] = this;
+};
 MarchingCubes.prototype = Object.create(WrapperObject.prototype);
 MarchingCubes.prototype.constructor = MarchingCubes;
 MarchingCubes.prototype.__class = MarchingCubes;
@@ -181,6 +183,14 @@ Object.defineProperty(MeshAdapter.prototype, "vertex_format", {
         _mud_MeshAdapter__set_vertex_format(this.__ptr, value);
     }
 });
+Object.defineProperty(MeshAdapter.prototype, "index32", {
+    get: function() {
+        return !!(_mud_MeshAdapter__get_index32(this.__ptr));
+    },
+    set: function(value) {
+        _mud_MeshAdapter__set_index32(this.__ptr, value);
+    }
+});
 Object.defineProperty(MeshAdapter.prototype, "vertex_stride", {
     get: function() {
         return _mud_MeshAdapter__get_vertex_stride(this.__ptr);
@@ -195,14 +205,6 @@ Object.defineProperty(MeshAdapter.prototype, "index_stride", {
     },
     set: function(value) {
         _mud_MeshAdapter__set_index_stride(this.__ptr, value);
-    }
-});
-Object.defineProperty(MeshAdapter.prototype, "index32", {
-    get: function() {
-        return !!(_mud_MeshAdapter__get_index32(this.__ptr));
-    },
-    set: function(value) {
-        _mud_MeshAdapter__set_index32(this.__ptr, value);
     }
 });
 MeshAdapter.prototype["__destroy"] = MeshAdapter.prototype.__destroy = function() {

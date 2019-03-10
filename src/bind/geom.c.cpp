@@ -86,6 +86,9 @@ extern "C" {
 	mud::Type* DECL mud_MarchingCubes__type() {
 		return &mud::type<mud::MarchingCubes>();
 	}
+	mud::MarchingCubes* DECL mud_MarchingCubes__construct_1(uint32_t resolution) {
+		return new mud::MarchingCubes(resolution);
+	}
 	void DECL mud_MarchingCubes_reset_0(mud::MarchingCubes* self) {
 		self->reset();
 	}
@@ -168,6 +171,12 @@ extern "C" {
 	void DECL mud_MeshAdapter__set_vertex_format(mud::MeshAdapter* self, uint32_t value) {
 		self->m_vertex_format = value;
 	}
+	bool DECL mud_MeshAdapter__get_index32(mud::MeshAdapter* self) {
+		return self->m_index32;
+	}
+	void DECL mud_MeshAdapter__set_index32(mud::MeshAdapter* self, bool value) {
+		self->m_index32 = value;
+	}
 	uint32_t DECL mud_MeshAdapter__get_vertex_stride(mud::MeshAdapter* self) {
 		return self->m_vertex_stride;
 	}
@@ -179,12 +188,6 @@ extern "C" {
 	}
 	void DECL mud_MeshAdapter__set_index_stride(mud::MeshAdapter* self, uint32_t value) {
 		self->m_index_stride = value;
-	}
-	bool DECL mud_MeshAdapter__get_index32(mud::MeshAdapter* self) {
-		return self->m_index32;
-	}
-	void DECL mud_MeshAdapter__set_index32(mud::MeshAdapter* self, bool value) {
-		self->m_index32 = value;
 	}
 	void DECL mud_MeshAdapter__destroy(mud::MeshAdapter* self) {
 		delete self;

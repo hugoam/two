@@ -55,6 +55,7 @@ void mud_Curve2_point(void* object, span<void*> args, void*& result) { (*static_
 void mud_Curve3_point(void* object, span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Curve3*>(object)).point(*static_cast<float*>(args[0])); }
 void mud_Face3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Face3(  ); }
 void mud_Face3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Face3((*static_cast<mud::Face3*>(other))); }
+void mud_MarchingCubes__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::MarchingCubes( *static_cast<uint32_t*>(args[0]) ); }
 void mud_MarchingCubes_reset(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MarchingCubes*>(object)).reset(); }
 void mud_MarchingCubes_count(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<uint*>(result)) = (*static_cast<mud::MarchingCubes*>(object)).count(); }
 void mud_MarchingCubes_direct(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MarchingCubes*>(object)).direct(*static_cast<mud::MeshAdapter*>(args[0])); }
@@ -433,6 +434,9 @@ namespace mud
 		static float isolation_default = 80.f;
 		static uint32_t subdiv_default = 32;
 		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_MarchingCubes__construct_0, { { "resolution", type<uint32_t>(),  } } }
+		};
 		// copy constructor
 		// members
 		static Member members[] = {
@@ -447,7 +451,7 @@ namespace mud
 			{ t, "render", Address(), mud_MarchingCubes_render, { { "output", type<mud::MeshPacker>(), Param::Output } }, g_qvoid }
 		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
 	// mud::MeshAdapter
 	{
@@ -456,9 +460,9 @@ namespace mud
 		// bases
 		// defaults
 		static uint32_t vertex_format_default = 0;
+		static bool index32_default = false;
 		static uint32_t vertex_stride_default = 0;
 		static uint32_t index_stride_default = 0;
-		static bool index32_default = false;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_MeshAdapter__construct_0, {} }
@@ -470,9 +474,9 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::MeshAdapter, m_vertex_format), type<uint32_t>(), "vertex_format", &vertex_format_default, Member::Value, nullptr },
+			{ t, offsetof(mud::MeshAdapter, m_index32), type<bool>(), "index32", &index32_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MeshAdapter, m_vertex_stride), type<uint32_t>(), "vertex_stride", &vertex_stride_default, Member::Value, nullptr },
-			{ t, offsetof(mud::MeshAdapter, m_index_stride), type<uint32_t>(), "index_stride", &index_stride_default, Member::Value, nullptr },
-			{ t, offsetof(mud::MeshAdapter, m_index32), type<bool>(), "index32", &index32_default, Member::Value, nullptr }
+			{ t, offsetof(mud::MeshAdapter, m_index_stride), type<uint32_t>(), "index_stride", &index_stride_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
