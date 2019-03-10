@@ -115,8 +115,11 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 		Item& it = gfx::items(scene).add(Item(n, circleGeometry, 0U, &material));
 		node = &n;
 
-		batch = &gfx::batches(scene).add(Batch(it));
+		batch = &gfx::batches(scene).add(Batch(it, sizeof(Instance)));
 		it.m_batch = batch;
+
+		span<float> data = { &instances[0].position.x, instances.size() * sizeof(Instance) / sizeof(float) };
+		batch->cache(data);
 	}
 
 	const float time = app.m_gfx.m_time / 2.f;
@@ -124,17 +127,4 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 	vec3 scale = vec3(500.f);
 	vec3 angles = vec3(time * 0.2f, time * 0.4f, 0.f);
 	node->apply(vec3(0.f), quat(angles), scale);
-
-#if SORT
-	for(Instance& instance : instances)
-	{
-		vec3 pos = mulp(node->m_transform, instance.position);
-		instance.distance = distance2(viewer.m_camera.m_eye, pos);
-	}
-	
-	quicksort<Instance>(instances, [](const Instance& a, const Instance& b) { return a.distance > b.distance; });
-#endif
-
-	span<float> memory = batch->begin(instances.size(), sizeof(Instance));
-	memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));
 }

@@ -23,13 +23,13 @@ namespace mud
 		table<PassType, vector<PassJob>> m_jobs;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void pass_clear(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void pass_depth(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void pass_background(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void pass_solid(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void pass_flip(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_EXPORT void pass_clear(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_EXPORT void pass_background(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_EXPORT void pass_solid(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_EXPORT void pass_flip(GfxSystem& gfx, Render& render);
 
-	export_ MUD_GFX_PBR_EXPORT void render_minimal(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void render_solid(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void render_clear(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_EXPORT void render_minimal(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_EXPORT void render_solid(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_EXPORT void render_clear(GfxSystem& gfx, Render& render);
 }
