@@ -62,7 +62,7 @@ void xx_geom_points_instanced(Shell& app, Widget& parent, Dockbar& dockbar)
 		Item& it = gfx::items(scene).add(Item(n, model, 0U, &material));
 		node = &n;
 
-		batch = &gfx::batches(scene).add(Batch(it));
+		batch = &gfx::batches(scene).add(Batch(it, sizeof(Instance)));
 		it.m_batch = batch;
 	}
 
@@ -71,6 +71,5 @@ void xx_geom_points_instanced(Shell& app, Widget& parent, Dockbar& dockbar)
 	vec3 angles = vec3(time * 0.25f, time * 0.5f, 0.f);
 	node->apply(vec3(0.f), quat(angles));
 
-	batch->commit(instances.size(), sizeof(Instance), { (float*)instances.data(), 0U });
-	//batch->commit(instances.size(), sizeof(Instance), { instances.data(), instances.size() / (sizeof(Instance) / sizeof(float)) });
+	batch->commit({ (float*)instances.data(), instances.size() * sizeof(Instance) / sizeof(float) });
 }

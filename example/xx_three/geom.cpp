@@ -8,6 +8,7 @@
 
 #define INSTANCING 1
 #define DYNAMIC 1
+#define PAD 0.f
 
 using namespace mud;
 
@@ -73,6 +74,8 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Mesh* lines_mesh = nullptr;
 
 #if INSTANCING
+	struct Point { vec3 pos; float pad; vec2 scale; float pad1; float pad2; };
+
 	static Batch* points_batch = nullptr;
 	static Batch* lines_batch = nullptr;
 #endif
@@ -113,7 +116,7 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 		Item& p = gfx::items(scene).add(Item(n, points_model, 0U, &pointmat));
 
 #if INSTANCING
-		points_batch = &gfx::batches(scene).add(Batch(p));
+		points_batch = &gfx::batches(scene).add(Batch(p, sizeof(Point)));
 		p.m_batch = points_batch;
 #endif
 
@@ -143,8 +146,7 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 		particles[i].numConnections = 0;
 
 #if INSTANCING
-	struct Point { vec4 d0; vec4 d1; };
-	span<float> memory = points_batch->begin(num_particles, sizeof(Point));
+	span<float> memory = points_batch->begin(num_particles);
 	span<Point> points = { (Point*)memory.data(), memory.size() * sizeof(float) / sizeof(Point) };
 #else
 	GpuMesh gpu_points = points_mesh->begin();
@@ -163,7 +165,7 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 		vec3& position = particle.position;
 		position += particle.velocity;
 #if INSTANCING
-		points[i] = { vec4(position, 0.f), vec4(vec2(1.f), vec2(0.f)) };
+		points[i] = { position, PAD, vec2(1.f), PAD, PAD };
 #else
 		gpu_points.m_writer.position(position);
 		gpu_points.m_writer.index(i);

@@ -123,7 +123,7 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar)
 		Item& it = gfx::items(scene).add(Item(n, model, ItemFlag::Default | ItemFlag::NoCull, &material));
 		node = &n;
 
-		batch = &gfx::batches(scene).add(Batch(it));
+		batch = &gfx::batches(scene).add(Batch(it, sizeof(Instance)));
 		it.m_batch = batch;
 	}
 
@@ -135,6 +135,6 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar)
 	const vec3 angles = vec3(0.f, time * 0.1f, 0.f);
 	node->apply(vec3(0.f), quat(angles));
 
-	span<float> memory = batch->begin(instances.size(), sizeof(Instance));
+	span<float> memory = batch->begin(instances.size());
 	memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));
 }

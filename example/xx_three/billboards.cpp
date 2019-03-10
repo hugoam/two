@@ -56,7 +56,7 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 		Node3& n = gfx::nodes(scene).add(Node3());
 		Item& it = gfx::items(scene).add(Item(n, model, 0U, &material));
 
-		batch = &gfx::batches(scene).add(Batch(it));
+		batch = &gfx::batches(scene).add(Batch(it, sizeof(Instance)));
 		it.m_batch = batch;
 	}
 
@@ -78,6 +78,6 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 	float h = fmod(360.f * (1.f + time), 360.f) / 360.f;
 	material.m_solid.m_colour = hsl(h, 0.5f, 0.5f);
 
-	span<float> memory = batch->begin(instances.size(), sizeof(Instance));
+	span<float> memory = batch->begin(instances.size());
 	memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));
 }

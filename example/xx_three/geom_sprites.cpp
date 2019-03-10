@@ -64,7 +64,7 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 	constexpr size_t particleCount = 75000;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controller(viewer);
+	//ui::orbit_controller(viewer);
 
 	Scene& scene = viewer.m_scene;
 
@@ -98,13 +98,8 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 		camera.m_eye.z = 1400.f;
 
 		// cool glitch
-		Circle circle;
-		//Circle circle = Circle(1.f, Axis::Z);
-		Model& circleGeometry = app.m_gfx.shape(circle); // new THREE.CircleBufferGeometry(1, 6);
-
-		//geometry = new THREE.InstancedBufferGeometry();
-		//geometry.index = circleGeometry.index;
-		//geometry.attributes = circleGeometry.attributes;
+		//Model& circle = app.m_gfx.shape(Circle());
+		Model& circle = app.m_gfx.shape(Circle(1.f, Axis::Z)); // new THREE.CircleBufferGeometry(1, 6);
 
 		for(size_t i = 0; i < particleCount; ++i)
 		{
@@ -112,7 +107,7 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 		}
 
 		Node3& n = gfx::nodes(scene).add(Node3());
-		Item& it = gfx::items(scene).add(Item(n, circleGeometry, 0U, &material));
+		Item& it = gfx::items(scene).add(Item(n, circle, 0U, &material));
 		node = &n;
 
 		batch = &gfx::batches(scene).add(Batch(it, sizeof(Instance)));
