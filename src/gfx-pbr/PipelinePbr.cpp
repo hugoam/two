@@ -320,8 +320,8 @@ namespace gfx
 		pass_alpha(gfx, render);
 		pass_solid(gfx, render);
 		//pass_effects(gfx, render);
-		//pass_resolve(gfx, render);
-		//pass_post_process(gfx, render);
+		pass_resolve(gfx, render);
+		pass_post_process(gfx, render);
 		//pass_flip(gfx, render);
 	}
 
