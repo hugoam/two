@@ -100,6 +100,7 @@ namespace mud
 		uint32_t m_vertex_format = 0;
 		uint32_t m_vertex_stride = 0;
 		uint32_t m_index_stride = 0;
+		bool m_index32 = false;
 
 		struct Pointers
 		{
@@ -135,8 +136,10 @@ namespace mud
 		Bounds<vec2> m_uv0_rect = {};
 		Bounds<vec2> m_uv1_rect = {};
 
-		void rewind();
-		void next();
+		attr_ void rewind();
+		attr_ void copy(MeshAdapter& dest);
+		attr_ void xcopy(MeshAdapter& dest, const mat4& transform);
+		attr_ void next();
 
 		MeshAdapter read() const;
 
@@ -148,7 +151,7 @@ namespace mud
 		MeshAdapter& normal(const vec3& n);
 		MeshAdapter& colour(const Colour& c);
 		MeshAdapter& tangent(const vec4& t);
-		MeshAdapter& bitangent(const vec4& b);
+		MeshAdapter& bitangent(const vec3& b);
 		MeshAdapter& uv0(const vec2& uv);
 		MeshAdapter& uv1(const vec2& uv);
 		MeshAdapter& joints(const uint32_t& j);
@@ -163,8 +166,11 @@ namespace mud
 		vec3 normal();
 		Colour colour();
 		vec4 tangent();
+		vec3 bitangent();
 		vec2 uv0();
 		vec2 uv1();
+		uint32_t joints();
+		vec4 weights();
 		uint16_t index();
 		uint32_t index32();
 

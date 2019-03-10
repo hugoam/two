@@ -460,8 +460,6 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	time += delta * controller.speed * 0.5f;
 
-	upload_cubes(cubes, mesh);
-
 	// marching cubes
 
 	//if(effectController.resolution != = resolution) {
@@ -478,6 +476,8 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar)
 	//}
 
 	add_blobs(cubes, time, controller.numBlobs, controller.floor, controller.wallx, controller.wallz);
+
+	upload_cubes(cubes, mesh);
 
 	// materials
 

@@ -2383,9 +2383,6 @@ Module['Mesh'] = Mesh;
 Mesh.prototype["clear"] = Mesh.prototype.clear = function() {
     _mud_Mesh_clear_0(this.__ptr);
 };
-Mesh.prototype["read"] = Mesh.prototype.read = function(a0, a1) {
-    _mud_Mesh_read_2(this.__ptr, /*writer*/a0.__ptr, /*transform*/a1.__ptr);
-};
 Mesh.prototype["write"] = Mesh.prototype.write = function(a0, a1, a2) {
     if (a1 === undefined) { _mud_Mesh_write_1(this.__ptr, /*packer*/a0.__ptr); return; }
     if (a2 === undefined) { _mud_Mesh_write_2(this.__ptr, /*packer*/a0.__ptr, /*optimize*/a1); return; }
@@ -2521,6 +2518,14 @@ Object.defineProperty(Mesh.prototype, "is_direct", {
     },
     set: function(value) {
         _mud_Mesh__set_is_direct(this.__ptr, value);
+    }
+});
+Object.defineProperty(Mesh.prototype, "cache", {
+    get: function() {
+        return wrapPointer(_mud_Mesh__get_cache(this.__ptr), MeshAdapter);
+    },
+    set: function(value) {
+        _mud_Mesh__set_cache(this.__ptr, value.__ptr);
     }
 });
 Mesh.prototype["__destroy"] = Mesh.prototype.__destroy = function() {

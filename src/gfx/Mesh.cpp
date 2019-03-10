@@ -119,6 +119,43 @@ namespace mud
 		return alloc_mesh(PrimitiveType::Triangles, vertex_format, vertex_count, index_count, vertex_count > UINT16_MAX);
 	}
 
+	template <class T>
+	void optimize_mesh(const GpuMesh& mesh, GpuMesh& optmesh)
+	{
+		size_t vertex_stride = vertex_size(mesh.m_vertex_format);
+
+		vector<unsigned int> remap(mesh.m_vertex_count);
+		uint32_t index_count = mesh.m_index_count > 0 ? mesh.m_index_count : mesh.m_vertex_count;
+		size_t vertex_count = meshopt_generateVertexRemap(remap.data(), (T*)mesh.m_indices.data(), index_count, mesh.m_vertices.data(), mesh.m_vertex_count, vertex_stride);
+
+		// we can't allocate a new mesh with different index size because meshoptimizer remap functions don't allow for different types of indices
+		optmesh = alloc_mesh(mesh.m_primitive, mesh.m_vertex_format, uint32_t(vertex_count), index_count, mesh.m_index32);
+
+		optmesh.m_writer.m_aabb = mesh.m_writer.m_aabb;
+		optmesh.m_writer.m_uv0_rect = mesh.m_writer.m_uv0_rect;
+		optmesh.m_writer.m_uv1_rect = mesh.m_writer.m_uv1_rect;
+
+		meshopt_remapIndexBuffer((T*)optmesh.m_indices.data(), (T*)mesh.m_indices.data(), index_count, remap.data());
+
+		meshopt_remapVertexBuffer(optmesh.m_vertices.data(), mesh.m_vertices.data(), mesh.m_vertex_count, vertex_stride, remap.data());
+
+		meshopt_optimizeVertexCache((T*)optmesh.m_indices.data(), (T*)optmesh.m_indices.data(), index_count, vertex_count);
+
+		meshopt_optimizeOverdraw((T*)optmesh.m_indices.data(), (T*)optmesh.m_indices.data(), index_count, (float*)optmesh.m_vertices.data(), vertex_count, vertex_stride, 1.05f);
+
+		meshopt_optimizeVertexFetch(optmesh.m_vertices.data(), (T*)optmesh.m_indices.data(), index_count, optmesh.m_vertices.data(), vertex_count, vertex_stride);
+
+		//meshopt_simplify(optmesh.m_indices, optmesh.m_indices, index_count, optmesh.m_vertices, vertex_count, vertex_stride);
+	}
+
+	template <class T>
+	GpuMesh optimize_mesh(const GpuMesh& mesh)
+	{
+		GpuMesh optmesh;
+		optimize_mesh<T>(mesh, optmesh);
+		return optmesh;
+	}
+
 	static uint16_t s_mesh_index = 0;
 
 	Mesh::Mesh(const string& name, bool readback)
@@ -147,58 +184,16 @@ namespace mud
 		}
 	}
 
-	void Mesh::read(MeshAdapter& writer, const mat4& transform) const
+	void Mesh::upload(const GpuMesh& gpu_mesh, bool optimize)
 	{
-		MeshAdapter reader = m_cache.read();
-
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+		if(optimize)
 		{
-			writer.position(mulp(transform, reader.position()));
-			if(writer.m_cursor.m_normal)
-				writer.normal(muln(transform, reader.normal()));
-			if(writer.m_cursor.m_uv0)
-				writer.uv0(reader.uv0());
+			if(gpu_mesh.m_index32)
+				return this->upload(optimize_mesh<uint32_t>(gpu_mesh));
+			else
+				return this->upload(optimize_mesh<uint16_t>(gpu_mesh));
 		}
 
-		for(size_t i = 0; i < reader.m_indices.size(); ++i)
-		{
-			uint32_t index = m_index32 ? reader.index32() : reader.index();
-			assert(index <= writer.m_vertices.size());
-			writer.index(index);
-		}
-
-		writer.next();
-	}
-
-	void Mesh::read(MeshPacker& packer, const mat4& transform) const
-	{
-		MeshAdapter reader = m_cache.read();
-
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
-		{
-			packer.m_positions.push_back(mulp(transform, reader.position()));
-			if((m_vertex_format & VertexAttribute::Normal) != 0)
-				packer.m_normals.push_back(muln(transform, reader.normal()));
-			if((m_vertex_format & VertexAttribute::Colour) != 0)
-				packer.m_colours.push_back(reader.colour());
-			if((m_vertex_format & VertexAttribute::Tangent) != 0)
-				packer.m_tangents.push_back(mult(transform, reader.tangent()));
-			if((m_vertex_format & VertexAttribute::TexCoord0) != 0)
-				packer.m_uv0s.push_back(reader.uv0());
-			if((m_vertex_format & VertexAttribute::TexCoord1) != 0)
-				packer.m_uv1s.push_back(reader.uv1());
-			//packer.m_bones.push_back(source.bones());
-			//packer.m_weights.push_back(source.weights());
-		}
-
-		for(size_t i = 0; i < reader.m_indices.size(); ++i)
-		{
-			packer.m_indices.push_back(m_index32 ? reader.index32() : reader.index());
-		}
-	}
-
-	void Mesh::upload(const GpuMesh& gpu_mesh)
-	{
 		this->clear();
 
 		m_primitive = gpu_mesh.m_primitive;
@@ -238,54 +233,6 @@ namespace mud
 
 		if(m_readback)
 			this->cache(gpu_mesh);
-	}
-
-	template <class T>
-	void optimize_mesh(const GpuMesh& mesh, GpuMesh& optmesh)
-	{
-		size_t vertex_stride = vertex_size(mesh.m_vertex_format);
-
-		vector<unsigned int> remap(mesh.m_vertex_count);
-		uint32_t index_count = mesh.m_index_count > 0 ? mesh.m_index_count : mesh.m_vertex_count;
-		size_t vertex_count = meshopt_generateVertexRemap(remap.data(), (T*)mesh.m_indices.data(), index_count, mesh.m_vertices.data(), mesh.m_vertex_count, vertex_stride);
-
-		// we can't allocate a new mesh with different index size because meshoptimizer remap functions don't allow for different types of indices
-		optmesh = alloc_mesh(mesh.m_primitive, mesh.m_vertex_format, uint32_t(vertex_count), index_count, mesh.m_index32);
-
-		optmesh.m_writer.m_aabb = mesh.m_writer.m_aabb;
-		optmesh.m_writer.m_uv0_rect = mesh.m_writer.m_uv0_rect;
-		optmesh.m_writer.m_uv1_rect = mesh.m_writer.m_uv1_rect;
-
-		meshopt_remapIndexBuffer((T*)optmesh.m_indices.data(), (T*)mesh.m_indices.data(), index_count, remap.data());
-
-		meshopt_remapVertexBuffer(optmesh.m_vertices.data(), mesh.m_vertices.data(), mesh.m_vertex_count, vertex_stride, remap.data());
-
-		meshopt_optimizeVertexCache((T*)optmesh.m_indices.data(), (T*)optmesh.m_indices.data(), index_count, vertex_count);
-
-		meshopt_optimizeOverdraw((T*)optmesh.m_indices.data(), (T*)optmesh.m_indices.data(), index_count, (float*)optmesh.m_vertices.data(), vertex_count, vertex_stride, 1.05f);
-
-		meshopt_optimizeVertexFetch(optmesh.m_vertices.data(), (T*)optmesh.m_indices.data(), index_count, optmesh.m_vertices.data(), vertex_count, vertex_stride);
-
-		//meshopt_simplify(optmesh.m_indices, optmesh.m_indices, index_count, optmesh.m_vertices, vertex_count, vertex_stride);
-	}
-
-	void Mesh::upload(const GpuMesh& mesh, bool optimize)
-	{
-		if(!optimize)
-			this->upload(mesh);
-		else
-		{
-			GpuMesh optmesh;
-
-			if(mesh.m_index32)
-				optimize_mesh<uint32_t>(mesh, optmesh);
-			else
-				optimize_mesh<uint16_t>(mesh, optmesh);
-
-			//printf("optimized mesh %s from %i to %i vertices\n", m_name.c_str(), mesh.m_vertex_count, optmesh.m_vertex_count);
-
-			this->upload(optmesh);
-		}
 	}
 
 	void Mesh::write(const MeshPacker& packer, bool optimize, bool dynamic)

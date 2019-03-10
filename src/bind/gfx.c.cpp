@@ -1876,9 +1876,6 @@ extern "C" {
 	void DECL mud_Mesh_clear_0(mud::Mesh* self) {
 		self->clear();
 	}
-	void DECL mud_Mesh_read_2(mud::Mesh* self, mud::MeshAdapter* writer, const mud::mat4* transform) {
-		self->read(*writer, *transform);
-	}
 	void DECL mud_Mesh_write_1(mud::Mesh* self, const mud::MeshPacker* packer) {
 		self->write(*packer);
 	}
@@ -1995,6 +1992,12 @@ extern "C" {
 	}
 	void DECL mud_Mesh__set_is_direct(mud::Mesh* self, bool value) {
 		self->m_is_direct = value;
+	}
+	mud::MeshAdapter* DECL mud_Mesh__get_cache(mud::Mesh* self) {
+		return &self->m_cache;
+	}
+	void DECL mud_Mesh__set_cache(mud::Mesh* self, mud::MeshAdapter* value) {
+		self->m_cache = *value;
 	}
 	void DECL mud_Mesh__destroy(mud::Mesh* self) {
 		delete self;

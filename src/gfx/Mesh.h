@@ -103,14 +103,11 @@ namespace mud
 		vector<uint8_t> m_cached_vertices;
 		vector<uint8_t> m_cached_indices;
 
-		MeshAdapter m_cache;
+		attr_ MeshAdapter m_cache;
 
 		meth_ void clear();
-		meth_ void read(MeshAdapter& writer, const mat4& transform) const;
-		meth_ void read(MeshPacker& packer, const mat4& transform) const;
 		meth_ void write(const MeshPacker& packer, bool optimize = false, bool dynamic = false);
-		meth_ void upload(const GpuMesh& gpu_mesh, bool optimize);
-		meth_ void upload(const GpuMesh& gpu_mesh);
+		meth_ void upload(const GpuMesh& gpu_mesh, bool optimize = false);
 		meth_ void cache(const GpuMesh& gpu_mesh);
 
 		GpuMesh begin();

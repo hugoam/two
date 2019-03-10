@@ -583,7 +583,7 @@ namespace mud
 			Mesh* mesh = gfx.meshes().find([&](Mesh& mesh) { return mesh.m_name == name; });
 			if(!mesh) return;
 			MeshPacker packer;
-			mesh->read(packer, bxidentity());
+			packer.unpack(mesh->m_cache, bxidentity());
 			primitive.attributes = {};
 			export_attributes(gltf, 0, packer, primitive.attributes);
 			primitive.indices = export_indices(gltf, 0, packer); 

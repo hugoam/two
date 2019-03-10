@@ -131,6 +131,22 @@ MeshAdapter.prototype.constructor = MeshAdapter;
 MeshAdapter.prototype.__class = MeshAdapter;
 MeshAdapter.__cache = {};
 Module['MeshAdapter'] = MeshAdapter;
+Object.defineProperty(MeshAdapter.prototype, "rewind", {
+    get: function() {
+        _mud_MeshAdapter__get_rewind(this.__ptr);
+    }});
+Object.defineProperty(MeshAdapter.prototype, "copy", {
+    get: function() {
+        _mud_MeshAdapter__get_copy(this.__ptr);
+    }});
+Object.defineProperty(MeshAdapter.prototype, "xcopy", {
+    get: function() {
+        _mud_MeshAdapter__get_xcopy(this.__ptr);
+    }});
+Object.defineProperty(MeshAdapter.prototype, "next", {
+    get: function() {
+        _mud_MeshAdapter__get_next(this.__ptr);
+    }});
 MeshAdapter.prototype["__destroy"] = MeshAdapter.prototype.__destroy = function() {
     _mud_MeshAdapter__destroy(this.__ptr);
 };
@@ -181,6 +197,9 @@ MeshPacker.prototype["pack"] = MeshPacker.prototype.pack = function(a0) {
 };
 MeshPacker.prototype["xpack"] = MeshPacker.prototype.xpack = function(a0, a1) {
     _mud_MeshPacker_xpack_2(this.__ptr, /*writer*/a0.__ptr, /*transform*/a1.__ptr);
+};
+MeshPacker.prototype["unpack"] = MeshPacker.prototype.unpack = function(a0, a1) {
+    _mud_MeshPacker_unpack_2(this.__ptr, /*reader*/a0.__ptr, /*transform*/a1.__ptr);
 };
 MeshPacker.prototype["generate_normals"] = MeshPacker.prototype.generate_normals = function() {
     _mud_MeshPacker_generate_normals_0(this.__ptr);

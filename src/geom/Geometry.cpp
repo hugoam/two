@@ -226,6 +226,33 @@ namespace mud
 		for(uint32_t i : m_indices) writer.index(i);
 	}
 
+	void MeshPacker::unpack(const MeshAdapter& source, const mat4& transform)
+	{
+		MeshAdapter reader = source.read();
+
+		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+		{
+			m_positions.push_back(mulp(transform, reader.position()));
+			if((reader.m_vertex_format & VertexAttribute::Normal) != 0)
+				m_normals.push_back(muln(transform, reader.normal()));
+			if((reader.m_vertex_format & VertexAttribute::Colour) != 0)
+				m_colours.push_back(reader.colour());
+			if((reader.m_vertex_format & VertexAttribute::Tangent) != 0)
+				m_tangents.push_back(mult(transform, reader.tangent()));
+			if((reader.m_vertex_format & VertexAttribute::TexCoord0) != 0)
+				m_uv0s.push_back(reader.uv0());
+			if((reader.m_vertex_format & VertexAttribute::TexCoord1) != 0)
+				m_uv1s.push_back(reader.uv1());
+			//packer.m_bones.push_back(source.bones());
+			//packer.m_weights.push_back(source.weights());
+		}
+
+		for(size_t i = 0; i < reader.m_indices.size(); ++i)
+		{
+			m_indices.push_back(reader.m_index32 ? reader.index32() : reader.index());
+		}
+	}
+
 	void MeshPacker::generate_normals()
 	{
 #if 0

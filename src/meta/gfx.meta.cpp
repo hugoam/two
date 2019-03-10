@@ -224,11 +224,8 @@ void mud_MaterialSolid__copy_construct(void* ref, void* other) { new(stl::placeh
 void mud_MaterialUser__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MaterialUser(  ); }
 void mud_MaterialUser__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MaterialUser((*static_cast<mud::MaterialUser*>(other))); }
 void mud_Mesh_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Mesh*>(object)).clear(); }
-void mud_Mesh_read(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).read(*static_cast<mud::MeshAdapter*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
-void mud_Mesh_read(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).read(*static_cast<mud::MeshPacker*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
 void mud_Mesh_write(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).write(*static_cast<mud::MeshPacker*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<bool*>(args[2])); }
 void mud_Mesh_upload(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).upload(*static_cast<mud::GpuMesh*>(args[0]), *static_cast<bool*>(args[1])); }
-void mud_Mesh_upload(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).upload(*static_cast<mud::GpuMesh*>(args[0])); }
 void mud_Mesh_cache(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).cache(*static_cast<mud::GpuMesh*>(args[0])); }
 void mud_Mesh_direct(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Mesh*>(object)).direct(*static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<bool*>(args[3])); }
 void mud_Mime_start(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).start(static_cast<const char*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
@@ -2093,6 +2090,7 @@ namespace mud
 		static bool is_direct_default = false;
 		static bool write_0_optimize_default = false;
 		static bool write_0_dynamic_default = false;
+		static bool upload_0_optimize_default = false;
 		static uint32_t direct_0_index_count_default = 0;
 		static bool direct_0_index32_default = false;
 		// constructors
@@ -2113,16 +2111,14 @@ namespace mud
 			{ t, offsetof(mud::Mesh, m_index32), type<bool>(), "index32", &index32_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Mesh, m_material), type<mud::Material>(), "material", material_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Mesh, m_is_dynamic), type<bool>(), "is_dynamic", &is_dynamic_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Mesh, m_is_direct), type<bool>(), "is_direct", &is_direct_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Mesh, m_is_direct), type<bool>(), "is_direct", &is_direct_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Mesh, m_cache), type<mud::MeshAdapter>(), "cache", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
 			{ t, "clear", Address(), mud_Mesh_clear, {}, g_qvoid },
-			{ t, "read", Address(), mud_Mesh_read, { { "writer", type<mud::MeshAdapter>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
-			{ t, "read", Address(), mud_Mesh_read, { { "packer", type<mud::MeshPacker>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
 			{ t, "write", Address(), mud_Mesh_write, { { "packer", type<mud::MeshPacker>(),  }, { "optimize", type<bool>(), Param::Default, &write_0_optimize_default }, { "dynamic", type<bool>(), Param::Default, &write_0_dynamic_default } }, g_qvoid },
-			{ t, "upload", Address(), mud_Mesh_upload, { { "gpu_mesh", type<mud::GpuMesh>(),  }, { "optimize", type<bool>(),  } }, g_qvoid },
-			{ t, "upload", Address(), mud_Mesh_upload, { { "gpu_mesh", type<mud::GpuMesh>(),  } }, g_qvoid },
+			{ t, "upload", Address(), mud_Mesh_upload, { { "gpu_mesh", type<mud::GpuMesh>(),  }, { "optimize", type<bool>(), Param::Default, &upload_0_optimize_default } }, g_qvoid },
 			{ t, "cache", Address(), mud_Mesh_cache, { { "gpu_mesh", type<mud::GpuMesh>(),  } }, g_qvoid },
 			{ t, "direct", Address(), mud_Mesh_direct, { { "vertex_format", type<uint32_t>(),  }, { "vertex_count", type<uint32_t>(),  }, { "index_count", type<uint32_t>(), Param::Default, &direct_0_index_count_default }, { "index32", type<bool>(), Param::Default, &direct_0_index32_default } }, { &type<mud::MeshAdapter>(), QualType::None } }
 		};

@@ -50,7 +50,7 @@ namespace stl
 		span() : m_pointer(nullptr), m_count(0) {}
 		span(void* pointer, size_t count) : m_pointer(pointer), m_count(count) {}
 
-		size_t size() { return m_count; }
+		size_t size() const { return m_count; }
 		bool empty() const { return m_count == 0; }
 		void* data() const { return m_pointer; }
 

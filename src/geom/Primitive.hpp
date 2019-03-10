@@ -8,6 +8,8 @@
 #include <geom/Forward.h>
 #include <geom/Primitive.h>
 
+#include <cassert>
+
 namespace mud
 {
 	inline size_t vertex_attribute_size(VertexAttribute::Enum attribute)
@@ -55,6 +57,7 @@ namespace mud
 	inline MeshAdapter::MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices, bool index32)
 		: m_vertices(vertices), m_indices(indices), m_vertex_format(vertex_format)
 		, m_vertex_stride(vertex_size(vertex_format)), m_index_stride(index32 ? sizeof(uint32_t) : sizeof(uint16_t)), m_index(indices.data())
+		, m_index32(index32)
 	{
 		if((vertex_format & VertexAttribute::Position) != 0)
 			m_start.m_position	= (vec3*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Position));
@@ -94,6 +97,54 @@ namespace mud
 	inline void MeshAdapter::rewind() { m_cursor = m_start; m_vertex = 0; m_offset = 0; m_index = m_indices.m_pointer; }
 	inline void MeshAdapter::next() { m_offset = m_vertex; }
 
+	inline void MeshAdapter::copy(MeshAdapter& dest)
+	{
+		MeshAdapter reader = this->read();
+
+		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+		{
+			dest.position(reader.position());
+			dest.normal(reader.normal());
+			dest.colour(reader.colour());
+			dest.tangent(reader.tangent());
+			dest.uv0(reader.uv0());
+			dest.uv1(reader.uv1());
+			dest.joints(reader.joints());
+			dest.weights(reader.weights());
+		}
+
+		for(size_t i = 0; i < reader.m_indices.size(); ++i)
+		{
+			uint32_t index = reader.m_index32 ? reader.index32() : reader.index();
+			assert(index <= dest.m_vertices.size());
+			dest.index(index);
+		}
+	}
+
+	inline void MeshAdapter::xcopy(MeshAdapter& dest, const mat4& transform)
+	{
+		MeshAdapter reader = this->read();
+
+		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+		{
+			dest.position(mulp(transform, reader.position()));
+			dest.normal(muln(transform, reader.normal()));
+			dest.colour(reader.colour());
+			dest.tangent(mult(transform, reader.tangent()));
+			dest.uv0(reader.uv0());
+			dest.uv1(reader.uv1());
+			dest.joints(reader.joints());
+			dest.weights(reader.weights());
+		}
+
+		for(size_t i = 0; i < reader.m_indices.size(); ++i)
+		{
+			uint32_t index = reader.m_index32 ? reader.index32() : reader.index();
+			assert(index <= dest.m_vertices.size());
+			dest.index(index);
+		}
+	}
+
 	inline MeshAdapter MeshAdapter::read() const { MeshAdapter reader = *this; reader.rewind(); return reader; }
 
 	template <class T>
@@ -104,7 +155,7 @@ namespace mud
 	inline MeshAdapter& MeshAdapter::normal(const vec3& n) { if(m_cursor.m_normal) { *m_cursor.m_normal = n; next(m_cursor.m_normal); } return *this; }
 	inline MeshAdapter& MeshAdapter::colour(const Colour& c) { if(m_cursor.m_colour) { *m_cursor.m_colour = to_abgr(c); next(m_cursor.m_colour); } return *this; }
 	inline MeshAdapter& MeshAdapter::tangent(const vec4& t) { if(m_cursor.m_tangent) { *m_cursor.m_tangent = t; next(m_cursor.m_tangent); } return *this; }
-	inline MeshAdapter& MeshAdapter::bitangent(const vec4& b) { if(m_cursor.m_bitangent) { *m_cursor.m_bitangent = vec3(b); next(m_cursor.m_bitangent); } return *this; }
+	inline MeshAdapter& MeshAdapter::bitangent(const vec3& b) { if(m_cursor.m_bitangent) { *m_cursor.m_bitangent = b; next(m_cursor.m_bitangent); } return *this; }
 	inline MeshAdapter& MeshAdapter::uv0(const vec2& uv) { if(m_cursor.m_uv0) { m_uv0_rect.add(uv); *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
 	inline MeshAdapter& MeshAdapter::uv1(const vec2& uv) { if(m_cursor.m_uv1) { m_uv1_rect.add(uv); *m_cursor.m_uv1 = uv; next(m_cursor.m_uv1); } return *this; }
 	inline MeshAdapter& MeshAdapter::joints(const uint32_t& j) { if(m_cursor.m_joints) { *m_cursor.m_joints = j; next(m_cursor.m_joints); } return *this; }
@@ -120,6 +171,8 @@ namespace mud
 	inline vec4 MeshAdapter::tangent() { if(!m_cursor.m_tangent) return vec4(vec3(0.f), 1.f); vec4 value = *m_cursor.m_tangent; next(m_cursor.m_tangent); return value; }
 	inline vec2 MeshAdapter::uv0() { if(!m_cursor.m_uv0) return vec2(0.f); vec2 value = *m_cursor.m_uv0; next(m_cursor.m_uv0); return value; }
 	inline vec2 MeshAdapter::uv1() { if(!m_cursor.m_uv1) return vec2(0.f); vec2 value = *m_cursor.m_uv1; next(m_cursor.m_uv1); return value; }
+	inline uint32_t MeshAdapter::joints() { if(!m_cursor.m_joints) return uint32_t(0U); uint32_t value = *m_cursor.m_joints; next(m_cursor.m_joints); return value; }
+	inline vec4 MeshAdapter::weights() { if(!m_cursor.m_weights) return vec4(0.f); vec4 value = *m_cursor.m_weights; next(m_cursor.m_weights); return value; }
 	inline uint16_t MeshAdapter::index() { uint16_t value = *(uint16_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
 	inline uint32_t MeshAdapter::index32() { uint32_t value = *(uint32_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
 

@@ -61,6 +61,10 @@ void mud_MarchingCubes_direct(void* object, span<void*> args, void*& result) { U
 void mud_MarchingCubes_render(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MarchingCubes*>(object)).render(*static_cast<mud::MeshPacker*>(args[0])); }
 void mud_MeshAdapter__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MeshAdapter(  ); }
 void mud_MeshAdapter__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MeshAdapter((*static_cast<mud::MeshAdapter*>(other))); }
+void* mud_MeshAdapter__get_rewind(void* object) { return &(*static_cast<mud::MeshAdapter*>(object)).rewind(); }
+void* mud_MeshAdapter__get_copy(void* object) { return &(*static_cast<mud::MeshAdapter*>(object)).copy(); }
+void* mud_MeshAdapter__get_xcopy(void* object) { return &(*static_cast<mud::MeshAdapter*>(object)).xcopy(); }
+void* mud_MeshAdapter__get_next(void* object) { return &(*static_cast<mud::MeshAdapter*>(object)).next(); }
 void mud_MeshPacker__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MeshPacker(  ); }
 void mud_MeshPacker__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MeshPacker((*static_cast<mud::MeshPacker*>(other))); }
 void mud_MeshPacker_position(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).position(*static_cast<mud::vec3*>(args[0])); }
@@ -76,6 +80,7 @@ void mud_MeshPacker_index(void* object, span<void*> args, void*& result) { UNUSE
 void mud_MeshPacker_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).clear(); }
 void mud_MeshPacker_pack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).pack(*static_cast<mud::MeshAdapter*>(args[0])); }
 void mud_MeshPacker_xpack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).xpack(*static_cast<mud::MeshAdapter*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
+void mud_MeshPacker_unpack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).unpack(*static_cast<mud::MeshAdapter*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
 void mud_MeshPacker_generate_normals(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).generate_normals(); }
 void mud_MeshPacker_generate_tangents(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).generate_tangents(); }
 void mud_Plane__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Plane(  ); }
@@ -449,9 +454,15 @@ namespace mud
 			{ t, mud_MeshAdapter__copy_construct }
 		};
 		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<void>(), "rewind", nullptr, Member::Flags(Member::Value|Member::NonMutable), mud_MeshAdapter__get_rewind },
+			{ t, SIZE_MAX, type<void>(), "copy", nullptr, Member::Flags(Member::Value|Member::NonMutable), mud_MeshAdapter__get_copy },
+			{ t, SIZE_MAX, type<void>(), "xcopy", nullptr, Member::Flags(Member::Value|Member::NonMutable), mud_MeshAdapter__get_xcopy },
+			{ t, SIZE_MAX, type<void>(), "next", nullptr, Member::Flags(Member::Value|Member::NonMutable), mud_MeshAdapter__get_next }
+		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
 	// mud::MeshPacker
 	{
@@ -499,6 +510,7 @@ namespace mud
 			{ t, "clear", Address(), mud_MeshPacker_clear, {}, g_qvoid },
 			{ t, "pack", Address(), mud_MeshPacker_pack, { { "writer", type<mud::MeshAdapter>(),  } }, g_qvoid },
 			{ t, "xpack", Address(), mud_MeshPacker_xpack, { { "writer", type<mud::MeshAdapter>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
+			{ t, "unpack", Address(), mud_MeshPacker_unpack, { { "reader", type<mud::MeshAdapter>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
 			{ t, "generate_normals", Address(), mud_MeshPacker_generate_normals, {}, g_qvoid },
 			{ t, "generate_tangents", Address(), mud_MeshPacker_generate_tangents, {}, g_qvoid }
 		};

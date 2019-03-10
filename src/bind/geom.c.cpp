@@ -120,6 +120,18 @@ extern "C" {
 	mud::MeshAdapter* DECL mud_MeshAdapter__construct_0() {
 		return new mud::MeshAdapter();
 	}
+	void DECL mud_MeshAdapter__get_rewind(mud::MeshAdapter* self) {
+		self->rewind();
+	}
+	void DECL mud_MeshAdapter__get_copy(mud::MeshAdapter* self) {
+		self->copy();
+	}
+	void DECL mud_MeshAdapter__get_xcopy(mud::MeshAdapter* self) {
+		self->xcopy();
+	}
+	void DECL mud_MeshAdapter__get_next(mud::MeshAdapter* self) {
+		self->next();
+	}
 	void DECL mud_MeshAdapter__destroy(mud::MeshAdapter* self) {
 		delete self;
 	}
@@ -168,6 +180,9 @@ extern "C" {
 	}
 	void DECL mud_MeshPacker_xpack_2(mud::MeshPacker* self, mud::MeshAdapter* writer, const mud::mat4* transform) {
 		self->xpack(*writer, *transform);
+	}
+	void DECL mud_MeshPacker_unpack_2(mud::MeshPacker* self, const mud::MeshAdapter* reader, const mud::mat4* transform) {
+		self->unpack(*reader, *transform);
 	}
 	void DECL mud_MeshPacker_generate_normals_0(mud::MeshPacker* self) {
 		self->generate_normals();

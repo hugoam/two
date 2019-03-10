@@ -295,7 +295,7 @@ namespace mud
 		for(size_t i = 0; i < model.m_items.size(); ++i)
 		{
 			Mesh& mesh = *model.m_items[i].m_mesh;
-			mesh.read(geometry[i], model.m_items[i].m_transform);
+			geometry[i].unpack(mesh.m_cache, model.m_items[i].m_transform);
 
 			bool skip = false;
 			skip |= mesh.m_primitive != PrimitiveType::Triangles;

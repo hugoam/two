@@ -69,6 +69,7 @@ namespace mud
 		meth_ void clear();
 		meth_ void pack(MeshAdapter& writer) const;
 		meth_ void xpack(MeshAdapter& writer, const mat4& transform) const;
+		meth_ void unpack(const MeshAdapter& reader, const mat4& transform);
 
 		void bake(bool normals, bool tangents);
 
