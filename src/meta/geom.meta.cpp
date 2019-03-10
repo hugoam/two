@@ -61,10 +61,20 @@ void mud_MarchingCubes_direct(void* object, span<void*> args, void*& result) { U
 void mud_MarchingCubes_render(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MarchingCubes*>(object)).render(*static_cast<mud::MeshPacker*>(args[0])); }
 void mud_MeshAdapter__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MeshAdapter(  ); }
 void mud_MeshAdapter__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MeshAdapter((*static_cast<mud::MeshAdapter*>(other))); }
-void* mud_MeshAdapter__get_rewind(void* object) { return &(*static_cast<mud::MeshAdapter*>(object)).rewind(); }
-void* mud_MeshAdapter__get_copy(void* object) { return &(*static_cast<mud::MeshAdapter*>(object)).copy(); }
-void* mud_MeshAdapter__get_xcopy(void* object) { return &(*static_cast<mud::MeshAdapter*>(object)).xcopy(); }
-void* mud_MeshAdapter__get_next(void* object) { return &(*static_cast<mud::MeshAdapter*>(object)).next(); }
+void mud_MeshAdapter_rewind(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshAdapter*>(object)).rewind(); }
+void mud_MeshAdapter_copy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshAdapter*>(object)).copy(*static_cast<mud::MeshAdapter*>(args[0])); }
+void mud_MeshAdapter_xcopy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshAdapter*>(object)).xcopy(*static_cast<mud::MeshAdapter*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
+void mud_MeshAdapter_next(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshAdapter*>(object)).next(); }
+void mud_MeshAdapter_position(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::MeshAdapter*>(object)).position(*static_cast<mud::vec3*>(args[0])); }
+void mud_MeshAdapter_position4(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::MeshAdapter*>(object)).position4(*static_cast<mud::vec4*>(args[0])); }
+void mud_MeshAdapter_normal(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::MeshAdapter*>(object)).normal(*static_cast<mud::vec3*>(args[0])); }
+void mud_MeshAdapter_colour(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::MeshAdapter*>(object)).colour(*static_cast<mud::Colour*>(args[0])); }
+void mud_MeshAdapter_tangent(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::MeshAdapter*>(object)).tangent(*static_cast<mud::vec4*>(args[0])); }
+void mud_MeshAdapter_bitangent(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::MeshAdapter*>(object)).bitangent(*static_cast<mud::vec3*>(args[0])); }
+void mud_MeshAdapter_uv0(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::MeshAdapter*>(object)).uv0(*static_cast<mud::vec2*>(args[0])); }
+void mud_MeshAdapter_uv1(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::MeshAdapter*>(object)).uv1(*static_cast<mud::vec2*>(args[0])); }
+void mud_MeshAdapter_joints(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::MeshAdapter*>(object)).joints(*static_cast<uint32_t*>(args[0])); }
+void mud_MeshAdapter_weights(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::MeshAdapter*>(object)).weights(*static_cast<mud::vec4*>(args[0])); }
 void mud_MeshPacker__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MeshPacker(  ); }
 void mud_MeshPacker__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MeshPacker((*static_cast<mud::MeshPacker*>(other))); }
 void mud_MeshPacker_position(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).position(*static_cast<mud::vec3*>(args[0])); }
@@ -445,6 +455,10 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "MeshAdapter", sizeof(mud::MeshAdapter), TypeClass::Struct };
 		// bases
 		// defaults
+		static uint32_t vertex_format_default = 0;
+		static uint32_t vertex_stride_default = 0;
+		static uint32_t index_stride_default = 0;
+		static bool index32_default = false;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_MeshAdapter__construct_0, {} }
@@ -455,14 +469,30 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, SIZE_MAX, type<void>(), "rewind", nullptr, Member::Flags(Member::Value|Member::NonMutable), mud_MeshAdapter__get_rewind },
-			{ t, SIZE_MAX, type<void>(), "copy", nullptr, Member::Flags(Member::Value|Member::NonMutable), mud_MeshAdapter__get_copy },
-			{ t, SIZE_MAX, type<void>(), "xcopy", nullptr, Member::Flags(Member::Value|Member::NonMutable), mud_MeshAdapter__get_xcopy },
-			{ t, SIZE_MAX, type<void>(), "next", nullptr, Member::Flags(Member::Value|Member::NonMutable), mud_MeshAdapter__get_next }
+			{ t, offsetof(mud::MeshAdapter, m_vertex_format), type<uint32_t>(), "vertex_format", &vertex_format_default, Member::Value, nullptr },
+			{ t, offsetof(mud::MeshAdapter, m_vertex_stride), type<uint32_t>(), "vertex_stride", &vertex_stride_default, Member::Value, nullptr },
+			{ t, offsetof(mud::MeshAdapter, m_index_stride), type<uint32_t>(), "index_stride", &index_stride_default, Member::Value, nullptr },
+			{ t, offsetof(mud::MeshAdapter, m_index32), type<bool>(), "index32", &index32_default, Member::Value, nullptr }
 		};
 		// methods
+		static Method methods[] = {
+			{ t, "rewind", Address(), mud_MeshAdapter_rewind, {}, g_qvoid },
+			{ t, "copy", Address(), mud_MeshAdapter_copy, { { "dest", type<mud::MeshAdapter>(),  } }, g_qvoid },
+			{ t, "xcopy", Address(), mud_MeshAdapter_xcopy, { { "dest", type<mud::MeshAdapter>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
+			{ t, "next", Address(), mud_MeshAdapter_next, {}, g_qvoid },
+			{ t, "position", Address(), mud_MeshAdapter_position, { { "p", type<mud::vec3>(),  } }, { &type<mud::MeshAdapter>(), QualType::None } },
+			{ t, "position4", Address(), mud_MeshAdapter_position4, { { "p", type<mud::vec4>(),  } }, { &type<mud::MeshAdapter>(), QualType::None } },
+			{ t, "normal", Address(), mud_MeshAdapter_normal, { { "n", type<mud::vec3>(),  } }, { &type<mud::MeshAdapter>(), QualType::None } },
+			{ t, "colour", Address(), mud_MeshAdapter_colour, { { "c", type<mud::Colour>(),  } }, { &type<mud::MeshAdapter>(), QualType::None } },
+			{ t, "tangent", Address(), mud_MeshAdapter_tangent, { { "t", type<mud::vec4>(),  } }, { &type<mud::MeshAdapter>(), QualType::None } },
+			{ t, "bitangent", Address(), mud_MeshAdapter_bitangent, { { "b", type<mud::vec3>(),  } }, { &type<mud::MeshAdapter>(), QualType::None } },
+			{ t, "uv0", Address(), mud_MeshAdapter_uv0, { { "uv", type<mud::vec2>(),  } }, { &type<mud::MeshAdapter>(), QualType::None } },
+			{ t, "uv1", Address(), mud_MeshAdapter_uv1, { { "uv", type<mud::vec2>(),  } }, { &type<mud::MeshAdapter>(), QualType::None } },
+			{ t, "joints", Address(), mud_MeshAdapter_joints, { { "j", type<uint32_t>(),  } }, { &type<mud::MeshAdapter>(), QualType::None } },
+			{ t, "weights", Address(), mud_MeshAdapter_weights, { { "w", type<mud::vec4>(),  } }, { &type<mud::MeshAdapter>(), QualType::None } }
+		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
 	}
 	// mud::MeshPacker
 	{

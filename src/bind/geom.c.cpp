@@ -120,17 +120,71 @@ extern "C" {
 	mud::MeshAdapter* DECL mud_MeshAdapter__construct_0() {
 		return new mud::MeshAdapter();
 	}
-	void DECL mud_MeshAdapter__get_rewind(mud::MeshAdapter* self) {
+	void DECL mud_MeshAdapter_rewind_0(mud::MeshAdapter* self) {
 		self->rewind();
 	}
-	void DECL mud_MeshAdapter__get_copy(mud::MeshAdapter* self) {
-		self->copy();
+	void DECL mud_MeshAdapter_copy_1(mud::MeshAdapter* self, mud::MeshAdapter* dest) {
+		self->copy(*dest);
 	}
-	void DECL mud_MeshAdapter__get_xcopy(mud::MeshAdapter* self) {
-		self->xcopy();
+	void DECL mud_MeshAdapter_xcopy_2(mud::MeshAdapter* self, mud::MeshAdapter* dest, const mud::mat4* transform) {
+		self->xcopy(*dest, *transform);
 	}
-	void DECL mud_MeshAdapter__get_next(mud::MeshAdapter* self) {
+	void DECL mud_MeshAdapter_next_0(mud::MeshAdapter* self) {
 		self->next();
+	}
+	mud::MeshAdapter* DECL mud_MeshAdapter_position_1(mud::MeshAdapter* self, const mud::vec3* p) {
+		return &self->position(*p);
+	}
+	mud::MeshAdapter* DECL mud_MeshAdapter_position4_1(mud::MeshAdapter* self, const mud::vec4* p) {
+		return &self->position4(*p);
+	}
+	mud::MeshAdapter* DECL mud_MeshAdapter_normal_1(mud::MeshAdapter* self, const mud::vec3* n) {
+		return &self->normal(*n);
+	}
+	mud::MeshAdapter* DECL mud_MeshAdapter_colour_1(mud::MeshAdapter* self, const mud::Colour* c) {
+		return &self->colour(*c);
+	}
+	mud::MeshAdapter* DECL mud_MeshAdapter_tangent_1(mud::MeshAdapter* self, const mud::vec4* t) {
+		return &self->tangent(*t);
+	}
+	mud::MeshAdapter* DECL mud_MeshAdapter_bitangent_1(mud::MeshAdapter* self, const mud::vec3* b) {
+		return &self->bitangent(*b);
+	}
+	mud::MeshAdapter* DECL mud_MeshAdapter_uv0_1(mud::MeshAdapter* self, const mud::vec2* uv) {
+		return &self->uv0(*uv);
+	}
+	mud::MeshAdapter* DECL mud_MeshAdapter_uv1_1(mud::MeshAdapter* self, const mud::vec2* uv) {
+		return &self->uv1(*uv);
+	}
+	mud::MeshAdapter* DECL mud_MeshAdapter_joints_1(mud::MeshAdapter* self, const uint32_t j) {
+		return &self->joints(j);
+	}
+	mud::MeshAdapter* DECL mud_MeshAdapter_weights_1(mud::MeshAdapter* self, const mud::vec4* w) {
+		return &self->weights(*w);
+	}
+	uint32_t DECL mud_MeshAdapter__get_vertex_format(mud::MeshAdapter* self) {
+		return self->m_vertex_format;
+	}
+	void DECL mud_MeshAdapter__set_vertex_format(mud::MeshAdapter* self, uint32_t value) {
+		self->m_vertex_format = value;
+	}
+	uint32_t DECL mud_MeshAdapter__get_vertex_stride(mud::MeshAdapter* self) {
+		return self->m_vertex_stride;
+	}
+	void DECL mud_MeshAdapter__set_vertex_stride(mud::MeshAdapter* self, uint32_t value) {
+		self->m_vertex_stride = value;
+	}
+	uint32_t DECL mud_MeshAdapter__get_index_stride(mud::MeshAdapter* self) {
+		return self->m_index_stride;
+	}
+	void DECL mud_MeshAdapter__set_index_stride(mud::MeshAdapter* self, uint32_t value) {
+		self->m_index_stride = value;
+	}
+	bool DECL mud_MeshAdapter__get_index32(mud::MeshAdapter* self) {
+		return self->m_index32;
+	}
+	void DECL mud_MeshAdapter__set_index32(mud::MeshAdapter* self, bool value) {
+		self->m_index32 = value;
 	}
 	void DECL mud_MeshAdapter__destroy(mud::MeshAdapter* self) {
 		delete self;

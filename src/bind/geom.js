@@ -131,22 +131,80 @@ MeshAdapter.prototype.constructor = MeshAdapter;
 MeshAdapter.prototype.__class = MeshAdapter;
 MeshAdapter.__cache = {};
 Module['MeshAdapter'] = MeshAdapter;
-Object.defineProperty(MeshAdapter.prototype, "rewind", {
+MeshAdapter.prototype["rewind"] = MeshAdapter.prototype.rewind = function() {
+    _mud_MeshAdapter_rewind_0(this.__ptr);
+};
+MeshAdapter.prototype["copy"] = MeshAdapter.prototype.copy = function(a0) {
+    _mud_MeshAdapter_copy_1(this.__ptr, /*dest*/a0.__ptr);
+};
+MeshAdapter.prototype["xcopy"] = MeshAdapter.prototype.xcopy = function(a0, a1) {
+    _mud_MeshAdapter_xcopy_2(this.__ptr, /*dest*/a0.__ptr, /*transform*/a1.__ptr);
+};
+MeshAdapter.prototype["next"] = MeshAdapter.prototype.next = function() {
+    _mud_MeshAdapter_next_0(this.__ptr);
+};
+MeshAdapter.prototype["position"] = MeshAdapter.prototype.position = function(a0) {
+    return wrapPointer(_mud_MeshAdapter_position_1(this.__ptr, /*p*/a0.__ptr), MeshAdapter);
+};
+MeshAdapter.prototype["position4"] = MeshAdapter.prototype.position4 = function(a0) {
+    return wrapPointer(_mud_MeshAdapter_position4_1(this.__ptr, /*p*/a0.__ptr), MeshAdapter);
+};
+MeshAdapter.prototype["normal"] = MeshAdapter.prototype.normal = function(a0) {
+    return wrapPointer(_mud_MeshAdapter_normal_1(this.__ptr, /*n*/a0.__ptr), MeshAdapter);
+};
+MeshAdapter.prototype["colour"] = MeshAdapter.prototype.colour = function(a0) {
+    return wrapPointer(_mud_MeshAdapter_colour_1(this.__ptr, /*c*/a0.__ptr), MeshAdapter);
+};
+MeshAdapter.prototype["tangent"] = MeshAdapter.prototype.tangent = function(a0) {
+    return wrapPointer(_mud_MeshAdapter_tangent_1(this.__ptr, /*t*/a0.__ptr), MeshAdapter);
+};
+MeshAdapter.prototype["bitangent"] = MeshAdapter.prototype.bitangent = function(a0) {
+    return wrapPointer(_mud_MeshAdapter_bitangent_1(this.__ptr, /*b*/a0.__ptr), MeshAdapter);
+};
+MeshAdapter.prototype["uv0"] = MeshAdapter.prototype.uv0 = function(a0) {
+    return wrapPointer(_mud_MeshAdapter_uv0_1(this.__ptr, /*uv*/a0.__ptr), MeshAdapter);
+};
+MeshAdapter.prototype["uv1"] = MeshAdapter.prototype.uv1 = function(a0) {
+    return wrapPointer(_mud_MeshAdapter_uv1_1(this.__ptr, /*uv*/a0.__ptr), MeshAdapter);
+};
+MeshAdapter.prototype["joints"] = MeshAdapter.prototype.joints = function(a0) {
+    return wrapPointer(_mud_MeshAdapter_joints_1(this.__ptr, /*j*/a0), MeshAdapter);
+};
+MeshAdapter.prototype["weights"] = MeshAdapter.prototype.weights = function(a0) {
+    return wrapPointer(_mud_MeshAdapter_weights_1(this.__ptr, /*w*/a0.__ptr), MeshAdapter);
+};
+Object.defineProperty(MeshAdapter.prototype, "vertex_format", {
     get: function() {
-        _mud_MeshAdapter__get_rewind(this.__ptr);
-    }});
-Object.defineProperty(MeshAdapter.prototype, "copy", {
+        return _mud_MeshAdapter__get_vertex_format(this.__ptr);
+    },
+    set: function(value) {
+        _mud_MeshAdapter__set_vertex_format(this.__ptr, value);
+    }
+});
+Object.defineProperty(MeshAdapter.prototype, "vertex_stride", {
     get: function() {
-        _mud_MeshAdapter__get_copy(this.__ptr);
-    }});
-Object.defineProperty(MeshAdapter.prototype, "xcopy", {
+        return _mud_MeshAdapter__get_vertex_stride(this.__ptr);
+    },
+    set: function(value) {
+        _mud_MeshAdapter__set_vertex_stride(this.__ptr, value);
+    }
+});
+Object.defineProperty(MeshAdapter.prototype, "index_stride", {
     get: function() {
-        _mud_MeshAdapter__get_xcopy(this.__ptr);
-    }});
-Object.defineProperty(MeshAdapter.prototype, "next", {
+        return _mud_MeshAdapter__get_index_stride(this.__ptr);
+    },
+    set: function(value) {
+        _mud_MeshAdapter__set_index_stride(this.__ptr, value);
+    }
+});
+Object.defineProperty(MeshAdapter.prototype, "index32", {
     get: function() {
-        _mud_MeshAdapter__get_next(this.__ptr);
-    }});
+        return !!(_mud_MeshAdapter__get_index32(this.__ptr));
+    },
+    set: function(value) {
+        _mud_MeshAdapter__set_index32(this.__ptr, value);
+    }
+});
 MeshAdapter.prototype["__destroy"] = MeshAdapter.prototype.__destroy = function() {
     _mud_MeshAdapter__destroy(this.__ptr);
 };

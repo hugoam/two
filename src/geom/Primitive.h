@@ -97,10 +97,10 @@ namespace mud
 		//span<void> m_vertices = {};
 		//span<void> m_indices = {};
 
-		uint32_t m_vertex_format = 0;
-		uint32_t m_vertex_stride = 0;
-		uint32_t m_index_stride = 0;
-		bool m_index32 = false;
+		attr_ uint32_t m_vertex_format = 0;
+		attr_ uint32_t m_vertex_stride = 0;
+		attr_ uint32_t m_index_stride = 0;
+		attr_ bool m_index32 = false;
 
 		struct Pointers
 		{
@@ -136,26 +136,26 @@ namespace mud
 		Bounds<vec2> m_uv0_rect = {};
 		Bounds<vec2> m_uv1_rect = {};
 
-		attr_ void rewind();
-		attr_ void copy(MeshAdapter& dest);
-		attr_ void xcopy(MeshAdapter& dest, const mat4& transform);
-		attr_ void next();
+		meth_ void rewind();
+		meth_ void copy(MeshAdapter& dest);
+		meth_ void xcopy(MeshAdapter& dest, const mat4& transform);
+		meth_ void next();
 
 		MeshAdapter read() const;
 
 		template <class T>
 		inline void next(T*& pointer);
 
-		MeshAdapter& position(const vec3& p);
-		MeshAdapter& position4(const vec4& p);
-		MeshAdapter& normal(const vec3& n);
-		MeshAdapter& colour(const Colour& c);
-		MeshAdapter& tangent(const vec4& t);
-		MeshAdapter& bitangent(const vec3& b);
-		MeshAdapter& uv0(const vec2& uv);
-		MeshAdapter& uv1(const vec2& uv);
-		MeshAdapter& joints(const uint32_t& j);
-		MeshAdapter& weights(const vec4& w);
+		meth_ MeshAdapter& position(const vec3& p);
+		meth_ MeshAdapter& position4(const vec4& p);
+		meth_ MeshAdapter& normal(const vec3& n);
+		meth_ MeshAdapter& colour(const Colour& c);
+		meth_ MeshAdapter& tangent(const vec4& t);
+		meth_ MeshAdapter& bitangent(const vec3& b);
+		meth_ MeshAdapter& uv0(const vec2& uv);
+		meth_ MeshAdapter& uv1(const vec2& uv);
+		meth_ MeshAdapter& joints(const uint32_t& j);
+		meth_ MeshAdapter& weights(const vec4& w);
 
 		// direct functions (faster, no bounds computation)
 		MeshAdapter& dposition(const vec3& p);
