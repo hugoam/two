@@ -1535,7 +1535,7 @@ namespace mud
 		static size_t bases_offsets[] = { base_offset<mud::Torus, mud::Shape>() };
 		// defaults
 		static float radius_default = 1.f;
-		static float solid_radius_default = 1.f;
+		static float tube_default = 1.f;
 		static mud::Axis axis_default = mud::Axis::X;
 		static mud::Axis construct_1_axis_default = mud::Axis::Y;
 		static mud::Axis construct_2_axis_default = mud::Axis::Y;
@@ -1552,7 +1552,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::Torus, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Torus, m_tube), type<float>(), "solid_radius", &solid_radius_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Torus, m_tube), type<float>(), "tube", &tube_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Torus, m_axis), type<mud::Axis>(), "axis", &axis_default, Member::Value, nullptr }
 		};
 		// methods
@@ -1568,7 +1568,7 @@ namespace mud
 		static size_t bases_offsets[] = { base_offset<mud::TorusKnot, mud::Shape>() };
 		// defaults
 		static float radius_default = 1.f;
-		static float solid_radius_default = 1.f;
+		static float tube_default = 1.f;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_TorusKnot__construct_0, {} },
@@ -1582,7 +1582,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::TorusKnot, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
-			{ t, offsetof(mud::TorusKnot, m_tube), type<float>(), "solid_radius", &solid_radius_default, Member::Value, nullptr }
+			{ t, offsetof(mud::TorusKnot, m_tube), type<float>(), "tube", &tube_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members

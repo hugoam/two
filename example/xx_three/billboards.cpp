@@ -8,8 +8,6 @@
 
 #include <cstring>
 
-#define INSTANCING 1
-
 void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(dockbar);
@@ -37,47 +35,29 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 	constexpr size_t num = 10000;
 	//constexpr size_t num = 1;
 
-#if INSTANCING
 	static Batch* batch = nullptr;
-	struct Instance { vec4 d0; vec4 d1; };
+	struct Instance { vec3 pos; float pad0; vec2 scale; float pad1; float pad2; };
 	static vector<Instance> instances = vector<Instance>(num);
-#endif
 
 	static bool once = false;
 	if(!once)
 	{
 		once = true;
 
-#if INSTANCING
 		Model& model = *app.m_gfx.models().get("point");
-#else
-		MeshPacker geometry;
-		geometry.m_primitive = PrimitiveType::Points;
-#endif
 
 		for(size_t i = 0; i < num; i++)
 		{
 			vec3 pos = vec3(randf(), randf(), randf()) * 2000.f - 1000.f;
-#if INSTANCING
 			vec2 scale = vec2(1.f);
-			instances[i] = { vec4(pos, 0.f), vec4(scale, vec2(0.f)) };
-#else
-			geometry.m_positions.push_back(pos);
-			geometry.m_indices.push_back(i);
-#endif
+			instances[i] = { pos, 0.f, scale, 0.f, 0.f };
 		}
-
-#if !INSTANCING
-		Model& model = app.m_gfx.create_model("points", geometry);
-#endif
 
 		Node3& n = gfx::nodes(scene).add(Node3());
 		Item& it = gfx::items(scene).add(Item(n, model, 0U, &material));
 
-#if INSTANCING
 		batch = &gfx::batches(scene).add(Batch(it));
 		it.m_batch = batch;
-#endif
 	}
 
 	//ui::slider_field(viewer, "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })
@@ -98,8 +78,6 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 	float h = fmod(360.f * (1.f + time), 360.f) / 360.f;
 	material.m_solid.m_colour = hsl(h, 0.5f, 0.5f);
 
-#if INSTANCING
 	span<float> memory = batch->begin(instances.size(), sizeof(Instance));
 	memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));
-#endif
 }

@@ -172,6 +172,11 @@ namespace gfx
 			pbr.m_blocks[MaterialBlock::Alpha] = true;
 			pbr.m_blocks[MaterialBlock::Pbr] = true;
 
+			Program& basic = gfx.programs().create("pbr/basic");
+			basic.register_blocks(shading_blocks);
+			basic.m_blocks[MaterialBlock::Alpha] = true;
+			basic.m_blocks[MaterialBlock::Pbr] = true;
+
 			Program& geometry = gfx.programs().create("pbr/geometry");
 			geometry.register_blocks(geometry_blocks);
 			geometry.m_blocks[MaterialBlock::Alpha] = true;

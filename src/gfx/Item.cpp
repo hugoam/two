@@ -64,13 +64,17 @@ namespace mud
 		: m_buffer{}
 	{}
 
-	Batch::Batch(Item& item)
+	Batch::Batch(Item& item, uint16_t stride)
 		: m_item(&item)
+		, m_stride(stride)
 		, m_buffer{}
 	{}
 
-	void Batch::submit(bgfx::Encoder& encoder, const ModelItem& item) const
+	void Batch::submit(bgfx::Encoder& encoder, const ModelItem& item) // const
 	{
+		if(m_cache.size() > 0)
+			this->commit(m_cache);
+
 		encoder.setInstanceDataBuffer(&m_buffer);
 		//encoder.setInstanceDataBuffer(&m_buffers[item.m_index]);
 	}
@@ -86,18 +90,25 @@ namespace mud
 		}
 	}
 
-	span<float> Batch::begin(uint32_t count, uint16_t stride)
+	span<float> Batch::begin(uint32_t count)
 	{
-		uint32_t num = bgfx::getAvailInstanceDataBuffer(count, stride);
+		uint32_t num = bgfx::getAvailInstanceDataBuffer(count, m_stride);
 		if(num == 0) return {};
-		bgfx::allocInstanceDataBuffer(&m_buffer, num, stride);
-		return { (float*)m_buffer.data, num * stride / sizeof(float) };
+		bgfx::allocInstanceDataBuffer(&m_buffer, num, m_stride);
+		return { (float*)m_buffer.data, num * m_stride / sizeof(float) };
 	}
 
-	void Batch::commit(uint32_t count, uint16_t stride, span<float> data)
+	void Batch::commit(span<float> data)
 	{
-		span<float> dest = this->begin(count, stride);
+		const uint32_t count = m_cache.size() * sizeof(float) / m_stride;
+		span<float> dest = this->begin(count);
 		memcpy(dest.data(), data.data(), dest.size() * sizeof(float));
+	}
+
+	void Batch::cache(span<float> data)
+	{
+		const uint32_t count = m_cache.size() * sizeof(float) / m_stride;
+		m_cache.assign(data.begin(), data.end());
 	}
 
 	void Batch::transforms(span<mat4> instances)

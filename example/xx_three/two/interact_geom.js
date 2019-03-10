@@ -111,7 +111,7 @@ void xx_interact_geom(Shell app, var parent, Dockbar dockbar)
 	var time = app.gfx.time;
 
 	var angles = new two.vec3(time * 0.15, time * 0.25, 0.0);
-	node.apply(new two.vec3(1.0), new two.quat(angles), new two.vec3(0.0));
+	node.apply(new two.vec3(0.0), new two.quat(angles));
 
 	//raycaster.setFromCamera(mouse, camera);
 	//

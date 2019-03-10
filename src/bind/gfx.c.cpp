@@ -346,8 +346,8 @@ extern "C" {
 	mud::Batch* DECL mud_Batch__construct_0() {
 		return new mud::Batch();
 	}
-	mud::Batch* DECL mud_Batch__construct_1(mud::Item* item) {
-		return new mud::Batch(*item);
+	mud::Batch* DECL mud_Batch__construct_2(mud::Item* item, uint16_t stride) {
+		return new mud::Batch(*item, stride);
 	}
 	void DECL mud_Batch_update_aabb_1(mud::Batch* self, float* instances, int instances_size) {
 		self->update_aabb({ (mud::mat4*)instances, instances_size / (sizeof(mud::mat4) / sizeof(float)) });
@@ -355,17 +355,26 @@ extern "C" {
 	void DECL mud_Batch_transforms_1(mud::Batch* self, float* instances, int instances_size) {
 		self->transforms({ (mud::mat4*)instances, instances_size / (sizeof(mud::mat4) / sizeof(float)) });
 	}
-	float* DECL mud_Batch_begin_2(mud::Batch* self, uint32_t count, uint16_t stride) {
-		return (float*)self->begin(count, stride).data();
+	float* DECL mud_Batch_begin_1(mud::Batch* self, uint32_t count) {
+		return (float*)self->begin(count).data();
 	}
-	void DECL mud_Batch_commit_3(mud::Batch* self, uint32_t count, uint16_t stride, float* data, int data_size) {
-		self->commit(count, stride, { (float*)data, data_size / (sizeof(float) / sizeof(float)) });
+	void DECL mud_Batch_commit_1(mud::Batch* self, float* data, int data_size) {
+		self->commit({ (float*)data, data_size / (sizeof(float) / sizeof(float)) });
+	}
+	void DECL mud_Batch_cache_1(mud::Batch* self, float* data, int data_size) {
+		self->cache({ (float*)data, data_size / (sizeof(float) / sizeof(float)) });
 	}
 	mud::Item* DECL mud_Batch__get_item(mud::Batch* self) {
 		return self->m_item;
 	}
 	void DECL mud_Batch__set_item(mud::Batch* self, mud::Item* value) {
 		self->m_item = value;
+	}
+	uint16_t DECL mud_Batch__get_stride(mud::Batch* self) {
+		return self->m_stride;
+	}
+	void DECL mud_Batch__set_stride(mud::Batch* self, uint16_t value) {
+		self->m_stride = value;
 	}
 	void DECL mud_Batch__destroy(mud::Batch* self) {
 		delete self;
@@ -2678,11 +2687,11 @@ extern "C" {
 	void DECL mud_BlockParticles__destroy(mud::BlockParticles* self) {
 		delete self;
 	}
-	// BlockResolve
-	mud::Type* DECL mud_BlockResolve__type() {
-		return &mud::type<mud::BlockResolve>();
+	// BlockPbr
+	mud::Type* DECL mud_BlockPbr__type() {
+		return &mud::type<mud::BlockPbr>();
 	}
-	void DECL mud_BlockResolve__destroy(mud::BlockResolve* self) {
+	void DECL mud_BlockPbr__destroy(mud::BlockPbr* self) {
 		delete self;
 	}
 	// BlockSky
@@ -2930,8 +2939,8 @@ extern "C" {
 	mud::Item* DECL mud_gfx_item_4(mud::Gnode* parent, const mud::Model* model, uint32_t flags, mud::Material* material) {
 		return &mud::gfx::item(*parent, *model, flags, material);
 	}
-	mud::Batch* DECL mud_gfx_batch_2(mud::Gnode* parent, mud::Item* item) {
-		return &mud::gfx::batch(*parent, *item);
+	mud::Batch* DECL mud_gfx_batch_3(mud::Gnode* parent, mud::Item* item, uint16_t stride) {
+		return &mud::gfx::batch(*parent, *item, stride);
 	}
 	mud::Batch* DECL mud_gfx_instances_2(mud::Gnode* parent, mud::Item* item) {
 		return &mud::gfx::instances(*parent, *item);

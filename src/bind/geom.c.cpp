@@ -1220,11 +1220,11 @@ extern "C" {
 	void DECL mud_Torus__set_radius(mud::Torus* self, float value) {
 		self->m_radius = value;
 	}
-	float DECL mud_Torus__get_solid_radius(mud::Torus* self) {
-		return self->m_solid_radius;
+	float DECL mud_Torus__get_tube(mud::Torus* self) {
+		return self->m_tube;
 	}
-	void DECL mud_Torus__set_solid_radius(mud::Torus* self, float value) {
-		self->m_solid_radius = value;
+	void DECL mud_Torus__set_tube(mud::Torus* self, float value) {
+		self->m_tube = value;
 	}
 	mud::Axis DECL mud_Torus__get_axis(mud::Torus* self) {
 		return self->m_axis;
@@ -1254,11 +1254,11 @@ extern "C" {
 	void DECL mud_TorusKnot__set_radius(mud::TorusKnot* self, float value) {
 		self->m_radius = value;
 	}
-	float DECL mud_TorusKnot__get_solid_radius(mud::TorusKnot* self) {
-		return self->m_solid_radius;
+	float DECL mud_TorusKnot__get_tube(mud::TorusKnot* self) {
+		return self->m_tube;
 	}
-	void DECL mud_TorusKnot__set_solid_radius(mud::TorusKnot* self, float value) {
-		self->m_solid_radius = value;
+	void DECL mud_TorusKnot__set_tube(mud::TorusKnot* self, float value) {
+		self->m_tube = value;
 	}
 	void DECL mud_TorusKnot__destroy(mud::TorusKnot* self) {
 		delete self;

@@ -156,12 +156,13 @@ void mud_AssetStore_mud_Texture_destroy(void* object, span<void*> args, void*& r
 void mud_Background__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Background(  ); }
 void mud_Background__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Background((*static_cast<mud::Background*>(other))); }
 void mud_Batch__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Batch(  ); }
-void mud_Batch__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Batch( *static_cast<mud::Item*>(args[0]) ); }
+void mud_Batch__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Batch( *static_cast<mud::Item*>(args[0]), *static_cast<uint16_t*>(args[1]) ); }
 void mud_Batch__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Batch((*static_cast<mud::Batch*>(other))); }
 void mud_Batch_update_aabb(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Batch*>(object)).update_aabb(*static_cast<stl::span<mud::mat4>*>(args[0])); }
 void mud_Batch_transforms(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Batch*>(object)).transforms(*static_cast<stl::span<mud::mat4>*>(args[0])); }
-void mud_Batch_begin(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<float>*>(result)) = (*static_cast<mud::Batch*>(object)).begin(*static_cast<uint32_t*>(args[0]), *static_cast<uint16_t*>(args[1])); }
-void mud_Batch_commit(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Batch*>(object)).commit(*static_cast<uint32_t*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<stl::span<float>*>(args[2])); }
+void mud_Batch_begin(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<float>*>(result)) = (*static_cast<mud::Batch*>(object)).begin(*static_cast<uint32_t*>(args[0])); }
+void mud_Batch_commit(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Batch*>(object)).commit(*static_cast<stl::span<float>*>(args[0])); }
+void mud_Batch_cache(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Batch*>(object)).cache(*static_cast<stl::span<float>*>(args[0])); }
 void mud_Bone__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Bone(  ); }
 void mud_Bone__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Bone((*static_cast<mud::Bone*>(other))); }
 void mud_Camera_set_clustered(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Camera*>(object)).set_clustered(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Viewport*>(args[1])); }
@@ -335,7 +336,7 @@ void mud_gfx_shape_21(span<void*> args, void*& result) { result = &mud::gfx::sha
 void mud_gfx_draw_22(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::draw(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::Symbol*>(args[2]), *static_cast<uint32_t*>(args[3])); }
 void mud_gfx_sprite_23(span<void*> args, void*& result) { result = &mud::gfx::sprite(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Image256*>(args[1]), *static_cast<mud::vec2*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4])); }
 void mud_gfx_item_24(span<void*> args, void*& result) { result = &mud::gfx::item(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Model*>(args[1]), *static_cast<uint32_t*>(args[2]), static_cast<mud::Material*>(args[3])); }
-void mud_gfx_batch_25(span<void*> args, void*& result) { result = &mud::gfx::batch(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Item*>(args[1])); }
+void mud_gfx_batch_25(span<void*> args, void*& result) { result = &mud::gfx::batch(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Item*>(args[1]), *static_cast<uint16_t*>(args[2])); }
 void mud_gfx_instances_26(span<void*> args, void*& result) { result = &mud::gfx::instances(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Item*>(args[1]), *static_cast<stl::span<mud::mat4>*>(args[2])); }
 void mud_gfx_prefab_27(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::prefab(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Prefab*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4])); }
 void mud_gfx_model_28(span<void*> args, void*& result) { result = mud::gfx::model(*static_cast<mud::Gnode*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<uint32_t*>(args[2]), static_cast<mud::Material*>(args[3])); }
@@ -1036,7 +1037,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Batch__construct_0, {} },
-			{ t, mud_Batch__construct_1, { { "item", type<mud::Item>(),  } } }
+			{ t, mud_Batch__construct_1, { { "item", type<mud::Item>(),  }, { "stride", type<uint16_t>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -1044,14 +1045,16 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Batch, m_item), type<mud::Item>(), "item", item_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(mud::Batch, m_item), type<mud::Item>(), "item", item_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Batch, m_stride), type<uint16_t>(), "stride", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
 			{ t, "update_aabb", Address(), mud_Batch_update_aabb, { { "instances", type<stl::span<mud::mat4>>(),  } }, g_qvoid },
 			{ t, "transforms", Address(), mud_Batch_transforms, { { "instances", type<stl::span<mud::mat4>>(),  } }, g_qvoid },
-			{ t, "begin", Address(), mud_Batch_begin, { { "count", type<uint32_t>(),  }, { "stride", type<uint16_t>(),  } }, { &type<stl::span<float>>(), QualType::None } },
-			{ t, "commit", Address(), mud_Batch_commit, { { "count", type<uint32_t>(),  }, { "stride", type<uint16_t>(),  }, { "data", type<stl::span<float>>(),  } }, g_qvoid }
+			{ t, "begin", Address(), mud_Batch_begin, { { "count", type<uint32_t>(),  } }, { &type<stl::span<float>>(), QualType::None } },
+			{ t, "commit", Address(), mud_Batch_commit, { { "data", type<stl::span<float>>(),  } }, g_qvoid },
+			{ t, "cache", Address(), mud_Batch_cache, { { "data", type<stl::span<float>>(),  } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
@@ -2738,6 +2741,21 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
+	// mud::BlockPbr
+	{
+		Type& t = type<mud::BlockPbr>();
+		static Meta meta = { t, &namspc({ "mud" }), "BlockPbr", sizeof(mud::BlockPbr), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::GfxBlock>() };
+		static size_t bases_offsets[] = { base_offset<mud::BlockPbr, mud::GfxBlock>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
 	// mud::BlockSky
 	{
 		Type& t = type<mud::BlockSky>();
@@ -2991,6 +3009,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::BlockFilter>());
 		m.m_types.push_back(&type<mud::BlockMaterial>());
 		m.m_types.push_back(&type<mud::BlockParticles>());
+		m.m_types.push_back(&type<mud::BlockPbr>());
 		m.m_types.push_back(&type<mud::BlockSky>());
 		m.m_types.push_back(&type<mud::ClusteredFrustum>());
 		m.m_types.push_back(&type<mud::DrawBlock>());
@@ -3109,7 +3128,7 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "batch", nullptr, mud_gfx_batch_25, { { "parent", type<mud::Gnode>(),  }, { "item", type<mud::Item>(),  } }, { &type<mud::Batch>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "batch", nullptr, mud_gfx_batch_25, { { "parent", type<mud::Gnode>(),  }, { "item", type<mud::Item>(),  }, { "stride", type<uint16_t>(),  } }, { &type<mud::Batch>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{

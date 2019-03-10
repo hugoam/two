@@ -192,12 +192,12 @@ namespace gfx
 		return *self.m_item;
 	}
 
-	Batch& batch(Gnode& parent, Item& item)
+	Batch& batch(Gnode& parent, Item& item, uint16_t stride)
 	{
 		Gnode& self = parent.suba<Gnode>();
 		if(!self.m_batch)
 		{
-			self.m_batch = &create<Batch>(*self.m_scene, item);
+			self.m_batch = &create<Batch>(*self.m_scene, item, stride);
 		}
 		return *self.m_batch;
 	}
@@ -207,7 +207,7 @@ namespace gfx
 		Gnode& self = parent.suba<Gnode>();
 		if(!self.m_batch)
 		{
-			self.m_batch = &create<Batch>(*self.m_scene, item);
+			self.m_batch = &create<Batch>(*self.m_scene, item, uint16_t(sizeof(mat4)));
 			item.m_batch = self.m_batch;
 		}
 		self.m_batch->transforms(transforms);

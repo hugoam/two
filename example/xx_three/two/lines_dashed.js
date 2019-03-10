@@ -102,6 +102,6 @@ void xx_lines_dashed(Shell app, var parent, Dockbar dockbar)
 
 	for(Node3* node : { node0, node1 })
 	{
-		node.apply(new two.vec3(1.0), new two.quat(angles), new two.vec3(0.0));
+		node.apply(new two.vec3(0.0), new two.quat(angles));
 	}
 }

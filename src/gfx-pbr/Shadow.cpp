@@ -302,11 +302,6 @@ namespace mud
 		}
 	}
 
-	void BlockShadow::render_csm(Render& render, Light& light, CSMShadow& csm)
-	{
-		
-	}
-
 	void Shadowmap::create(const uvec2& size, DepthMethod method)
 	{
 		*this = {};
@@ -546,10 +541,6 @@ namespace mud
 		render.render(m_gfx.m_renderer, renderer);
 	}
 
-	void BlockShadow::render_shadows(Render& render)
-	{
-	}
-
 	void BlockShadow::commit_shadows(Render& render, const mat4& view)
 	{
 		UNUSED(render);
@@ -669,7 +660,6 @@ namespace mud
 	void pass_shadowmaps(GfxSystem& gfx, Render& render)
 	{
 		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
-		block_shadow.render_shadows(render);
 
 		for(CSMShadow& csm : block_shadow.m_csm_shadows)
 		{

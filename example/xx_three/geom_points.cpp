@@ -60,9 +60,6 @@ void xx_geom_points(Shell& app, Widget& parent, Dockbar& dockbar)
 		Item& it = gfx::items(scene).add(Item(n, model, 0U, &material));
 		UNUSED(it);
 		node = &n;
-
-		//points = new THREE.Points(geometry, material);
-		//scene.add(points);
 	}
 
 	const float time = app.m_gfx.m_time / 2.f;

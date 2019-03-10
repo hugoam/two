@@ -88,8 +88,8 @@ void xx_geom_rawshader(Shell& app, Widget& parent, Dockbar& dockbar)
 		{
 			const vec3 p = vec3(randf(), randf(), randf()) - 0.5f;
 			const Colour c = Colour(randf(), randf(), randf(), randf()); // * 255
-			geometry.m_positions.push_back(p);
-			geometry.m_colours.push_back(c);
+			geometry.position(p);
+			geometry.colour(c);
 		}
 
 		Model& model = app.m_gfx.create_model_geo("model", geometry);

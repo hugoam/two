@@ -19,10 +19,14 @@ using namespace mud;
 // xx_lines_fat
 // xx_tiled_forward (fix clusters)
 // xx_geom_lines
+// xx_geom_rawshader
+// xx_geom_selective
+
+// xx_geom_sprites
+// xx_geom_points_instanced
 
 // todo:
 // xx_geom_points
-// xx_geom_points_packed
 // xx_geom_points_instanced
 // xx_marching_cubes
 
@@ -40,7 +44,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//xx_lines_fat(app, parent, dockbar);
 	//xx_lines_dashed(app, parent, dockbar);
 	//xx_geom(app, parent, dockbar);
-	//xx_geom_sprites(app, parent, dockbar);
+	xx_geom_sprites(app, parent, dockbar);
 	//xx_geom_instances(app, parent, dockbar);
 	//xx_geom_lines(app, parent, dockbar);
 	//xx_geom_points(app, parent, dockbar);
@@ -56,7 +60,8 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	    //xx_materials_skin(app, parent, dockbar);
 	    //xx_materials_standard(app, parent, dockbar);
 	    //xx_materials_variations(app, parent, dockbar);
-	xx_depth_texture(app, parent, dockbar);
+	//xx_depth_texture(app, parent, dockbar);
+	//xx_effect_dof(app, parent, dockbar);
 }
 
 #ifdef _XX_THREE_EXE

@@ -383,7 +383,7 @@ namespace mud
 
 	void Lines::commit(Batch& batch)
 	{
-		span<float> memory = batch.begin(m_segments.size(), sizeof(Segment));
+		span<float> memory = batch.begin(m_segments.size()); // , sizeof(Segment)
 		memcpy(memory.data(), m_segments.data(), memory.size() * sizeof(float));
 	}
 

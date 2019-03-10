@@ -134,12 +134,10 @@ namespace mud
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
 
 		void setup_shadows(Render& render);
-		void render_shadows(Render& render);
 		void commit_shadows(Render& render, const mat4& view);
 		void upload_shadows(Render& render, const Pass& render_pass) const;
 
 		void update_csm(Render& render, Light& light, size_t num_direct, CSMShadow& csm, size_t index);
-		void render_csm(Render& render, Light& light, CSMShadow& csm);
 		void render(ManualRender& render, Light& light, DepthMethod method, float bias_scale = 1.f);
 
 		BlockDepth& m_block_depth;

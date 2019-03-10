@@ -429,9 +429,9 @@ Background.prototype["__destroy"] = Background.prototype.__destroy = function() 
     _mud_Background__destroy(this.__ptr);
 };
 // Batch
-function Batch(a0) {
+function Batch(a0, a1) {
     if (a0 === undefined) { this.__ptr = _mud_Batch__construct_0(); this.__type = Batch.__type; getCache(Batch)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Batch__construct_1(/*item*/a0.__ptr); this.__type = Batch.__type; getCache(Batch)[this.__ptr] = this;
+    this.__ptr = _mud_Batch__construct_2(/*item*/a0.__ptr, /*stride*/a1); this.__type = Batch.__type; getCache(Batch)[this.__ptr] = this;
 };
 Batch.prototype = Object.create(WrapperObject.prototype);
 Batch.prototype.constructor = Batch;
@@ -444,11 +444,14 @@ Batch.prototype["update_aabb"] = Batch.prototype.update_aabb = function(a0) {
 Batch.prototype["transforms"] = Batch.prototype.transforms = function(a0) {
     _mud_Batch_transforms_1(this.__ptr, ensureFloat32(/*instances*/a0), /*instances*/a0.length);
 };
-Batch.prototype["begin"] = Batch.prototype.begin = function(a0, a1) {
-    return _mud_Batch_begin_2(this.__ptr, /*count*/a0, /*stride*/a1);
+Batch.prototype["begin"] = Batch.prototype.begin = function(a0) {
+    return _mud_Batch_begin_1(this.__ptr, /*count*/a0);
 };
-Batch.prototype["commit"] = Batch.prototype.commit = function(a0, a1, a2) {
-    _mud_Batch_commit_3(this.__ptr, /*count*/a0, /*stride*/a1, ensureFloat32(/*data*/a2), /*data*/a2.length);
+Batch.prototype["commit"] = Batch.prototype.commit = function(a0) {
+    _mud_Batch_commit_1(this.__ptr, ensureFloat32(/*data*/a0), /*data*/a0.length);
+};
+Batch.prototype["cache"] = Batch.prototype.cache = function(a0) {
+    _mud_Batch_cache_1(this.__ptr, ensureFloat32(/*data*/a0), /*data*/a0.length);
 };
 Object.defineProperty(Batch.prototype, "item", {
     get: function() {
@@ -456,6 +459,14 @@ Object.defineProperty(Batch.prototype, "item", {
     },
     set: function(value) {
         _mud_Batch__set_item(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Batch.prototype, "stride", {
+    get: function() {
+        return _mud_Batch__get_stride(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Batch__set_stride(this.__ptr, value);
     }
 });
 Batch.prototype["__destroy"] = Batch.prototype.__destroy = function() {
@@ -3363,15 +3374,15 @@ Module['BlockParticles'] = BlockParticles;
 BlockParticles.prototype["__destroy"] = BlockParticles.prototype.__destroy = function() {
     _mud_BlockParticles__destroy(this.__ptr);
 };
-// BlockResolve
-function BlockResolve() { throw "cannot construct a BlockResolve, no constructor in IDL" }
-BlockResolve.prototype = Object.create(GfxBlock.prototype);
-BlockResolve.prototype.constructor = BlockResolve;
-BlockResolve.prototype.__class = BlockResolve;
-BlockResolve.__cache = {};
-Module['BlockResolve'] = BlockResolve;
-BlockResolve.prototype["__destroy"] = BlockResolve.prototype.__destroy = function() {
-    _mud_BlockResolve__destroy(this.__ptr);
+// BlockPbr
+function BlockPbr() { throw "cannot construct a BlockPbr, no constructor in IDL" }
+BlockPbr.prototype = Object.create(GfxBlock.prototype);
+BlockPbr.prototype.constructor = BlockPbr;
+BlockPbr.prototype.__class = BlockPbr;
+BlockPbr.__cache = {};
+Module['BlockPbr'] = BlockPbr;
+BlockPbr.prototype["__destroy"] = BlockPbr.prototype.__destroy = function() {
+    _mud_BlockPbr__destroy(this.__ptr);
 };
 // BlockSky
 function BlockSky() { throw "cannot construct a BlockSky, no constructor in IDL" }
@@ -3587,8 +3598,8 @@ Module['gfx']['item'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { return wrapPointer(_mud_gfx_item_3(/*parent*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2), Item); }
     return wrapPointer(_mud_gfx_item_4(/*parent*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2, /*material*/a3.__ptr), Item);
 };
-Module['gfx']['batch'] = function(a0, a1) {
-    return wrapPointer(_mud_gfx_batch_2(/*parent*/a0.__ptr, /*item*/a1.__ptr), Batch);
+Module['gfx']['batch'] = function(a0, a1, a2) {
+    return wrapPointer(_mud_gfx_batch_3(/*parent*/a0.__ptr, /*item*/a1.__ptr, /*stride*/a2), Batch);
 };
 Module['gfx']['instances'] = function(a0, a1, a2) {
     if (a2 === undefined) { return wrapPointer(_mud_gfx_instances_2(/*parent*/a0.__ptr, /*item*/a1.__ptr), Batch); }
@@ -3707,7 +3718,7 @@ Module['gfx']['model_suzanne'] = function(a0) {
         BlockFilter.__type = _mud_BlockFilter__type();
         BlockMaterial.__type = _mud_BlockMaterial__type();
         BlockParticles.__type = _mud_BlockParticles__type();
-        BlockResolve.__type = _mud_BlockResolve__type();
+        BlockPbr.__type = _mud_BlockPbr__type();
         BlockSky.__type = _mud_BlockSky__type();
         ClusteredFrustum.__type = _mud_ClusteredFrustum__type();
         DrawBlock.__type = _mud_DrawBlock__type();

@@ -134,7 +134,7 @@ void xx_geoinstances(Shell app, var parent, Dockbar dockbar)
 	var time = app.gfx.time;;
 
 	var angles = new two.vec3(0.0, time * 0.1, 0.0);
-	node.apply(new two.vec3(1.0), new two.quat(angles), new two.vec3(0.0));
+	node.apply(new two.vec3(0.0), new two.quat(angles));
 
 	span<float> memory = batch->begin(instances.length, sizeof(Instance));
 	memcpy(memory.data(), instances.data(), memory.length * sizeof(float));

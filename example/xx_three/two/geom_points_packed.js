@@ -69,6 +69,6 @@ void xx_geopoints_packed(Shell app, var parent, Dockbar dockbar)
 	var time = app.gfx.time / 2.0;
 
 	var angles = new two.vec3(time * 0.25, time * 0.5, 0.0);
-	node.apply(new two.vec3(1.0), new two.quat(angles), new two.vec3(0.0));
+	node.apply(new two.vec3(0.0), new two.quat(angles));
 
 }

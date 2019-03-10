@@ -19,7 +19,7 @@ static string vertex_shader()
 		"\n"
 		"void main() {\n"
 		"	v_uv0 = u_source_0_crop.xy + a_texcoord0 * u_source_0_crop.zw;\n"
-		"	gl_Position = u_modelViewProj * vec4(a_position.xyz, 1.0);\n"
+		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"}\n";
 
 	return shader;
@@ -67,16 +67,6 @@ void pass_to_depth(GfxSystem& gfx, Render& render)
 	block_filter.submit_quad(target, pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
 
 	block_copy.submit_quad(target, render.composite_pass(), render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
-};
-
-void render(GfxSystem& gfx, Render& render)
-{
-	begin_pbr_render(gfx, render);
-
-	render.m_is_mrt = false;
-	pass_clear(gfx, render);
-	pass_solid(gfx, render);
-	pass_to_depth(gfx, render);
 };
 
 void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar)
@@ -127,6 +117,16 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar)
 		Program& program = app.m_gfx.programs().create("todepth");
 		program.m_sources[ShaderType::Vertex] = vertex_shader();
 		program.m_sources[ShaderType::Fragment] = fragment_shader();
+
+		auto render = [](GfxSystem& gfx, Render& render)
+		{
+			begin_pbr_render(gfx, render);
+
+			render.m_is_mrt = false;
+			pass_clear(gfx, render);
+			pass_solid(gfx, render);
+			pass_to_depth(gfx, render);
+		};
 
 		app.m_gfx.set_renderer(Shading::Shaded, render);
 	}

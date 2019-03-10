@@ -1398,12 +1398,12 @@ Object.defineProperty(Torus.prototype, "radius", {
         _mud_Torus__set_radius(this.__ptr, value);
     }
 });
-Object.defineProperty(Torus.prototype, "solid_radius", {
+Object.defineProperty(Torus.prototype, "tube", {
     get: function() {
-        return _mud_Torus__get_solid_radius(this.__ptr);
+        return _mud_Torus__get_tube(this.__ptr);
     },
     set: function(value) {
-        _mud_Torus__set_solid_radius(this.__ptr, value);
+        _mud_Torus__set_tube(this.__ptr, value);
     }
 });
 Object.defineProperty(Torus.prototype, "axis", {
@@ -1436,12 +1436,12 @@ Object.defineProperty(TorusKnot.prototype, "radius", {
         _mud_TorusKnot__set_radius(this.__ptr, value);
     }
 });
-Object.defineProperty(TorusKnot.prototype, "solid_radius", {
+Object.defineProperty(TorusKnot.prototype, "tube", {
     get: function() {
-        return _mud_TorusKnot__get_solid_radius(this.__ptr);
+        return _mud_TorusKnot__get_tube(this.__ptr);
     },
     set: function(value) {
-        _mud_TorusKnot__set_solid_radius(this.__ptr, value);
+        _mud_TorusKnot__set_tube(this.__ptr, value);
     }
 });
 TorusKnot.prototype["__destroy"] = TorusKnot.prototype.__destroy = function() {

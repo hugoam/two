@@ -48,19 +48,23 @@ namespace mud
 	export_ struct refl_ MUD_GFX_EXPORT Batch
 	{
 		constr_ Batch();
-		constr_ Batch(Item& item);
+		constr_ Batch(Item& item, uint16_t stride);
 
 		attr_ Item* m_item = nullptr;
+		attr_ uint16_t m_stride;
 
 		bgfx::InstanceDataBuffer m_buffer;
 		vector<bgfx::InstanceDataBuffer> m_buffers;
+		vector<float> m_cache;
 
 		meth_ void update_aabb(span<mat4> instances);
 		meth_ void transforms(span<mat4> instances);
-		meth_ span<float> begin(uint32_t count, uint16_t stride);
-		meth_ void commit(uint32_t count, uint16_t stride, span<float> data);
 
-		void submit(bgfx::Encoder& encoder, const ModelItem& item) const;
+		meth_ span<float> begin(uint32_t count);
+		meth_ void commit(span<float> data);
+		meth_ void cache(span<float> data);
+
+		void submit(bgfx::Encoder& encoder, const ModelItem& item); // const;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT Item
