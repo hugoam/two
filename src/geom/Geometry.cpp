@@ -21,6 +21,8 @@ module mud.geom;
 #include <geom/Primitive.hpp>
 #endif
 
+#include <cassert>
+
 #include <mikktspace.h>
 
 namespace mud
@@ -81,6 +83,68 @@ namespace mud
 		h = (em > (255 << 23)) ? 0x7e00 : h;
 
 		return (unsigned short)(s | h);
+	}
+
+	void MeshAdapter::rewind() { m_cursor = m_start; m_vertex = 0; m_offset = 0; m_index = m_indices.m_pointer; }
+	void MeshAdapter::next() { m_offset = m_vertex; }
+
+	MeshAdapter& MeshAdapter::position(const vec3& p) { m_aabb.add(p); *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
+	MeshAdapter& MeshAdapter::position4(const vec4& p) { m_aabb.add(vec3(p)); *m_cursor.m_position4 = p; next(m_cursor.m_position4); ++m_vertex; return *this; }
+	MeshAdapter& MeshAdapter::normal(const vec3& n) { if(m_cursor.m_normal) { *m_cursor.m_normal = n; next(m_cursor.m_normal); } return *this; }
+	MeshAdapter& MeshAdapter::colour(const Colour& c) { if(m_cursor.m_colour) { *m_cursor.m_colour = to_abgr(c); next(m_cursor.m_colour); } return *this; }
+	MeshAdapter& MeshAdapter::tangent(const vec4& t) { if(m_cursor.m_tangent) { *m_cursor.m_tangent = t; next(m_cursor.m_tangent); } return *this; }
+	MeshAdapter& MeshAdapter::bitangent(const vec3& b) { if(m_cursor.m_bitangent) { *m_cursor.m_bitangent = b; next(m_cursor.m_bitangent); } return *this; }
+	MeshAdapter& MeshAdapter::uv0(const vec2& uv) { if(m_cursor.m_uv0) { m_uv0_rect.add(uv); *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
+	MeshAdapter& MeshAdapter::uv1(const vec2& uv) { if(m_cursor.m_uv1) { m_uv1_rect.add(uv); *m_cursor.m_uv1 = uv; next(m_cursor.m_uv1); } return *this; }
+	MeshAdapter& MeshAdapter::joints(const uint32_t& j) { if(m_cursor.m_joints) { *m_cursor.m_joints = j; next(m_cursor.m_joints); } return *this; }
+	MeshAdapter& MeshAdapter::weights(const vec4& w) { if(m_cursor.m_weights) { *m_cursor.m_weights = w; next(m_cursor.m_weights); } return *this; }
+
+	void MeshAdapter::copy(MeshAdapter& dest)
+	{
+		MeshAdapter reader = this->read();
+
+		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+		{
+			dest.position(reader.position());
+			dest.normal(reader.normal());
+			dest.colour(reader.colour());
+			dest.tangent(reader.tangent());
+			dest.uv0(reader.uv0());
+			dest.uv1(reader.uv1());
+			dest.joints(reader.joints());
+			dest.weights(reader.weights());
+		}
+
+		for(size_t i = 0; i < reader.m_indices.size(); ++i)
+		{
+			uint32_t index = reader.m_index32 ? reader.index32() : reader.index();
+			assert(index <= dest.m_vertices.size());
+			dest.index(index);
+		}
+	}
+
+	void MeshAdapter::xcopy(MeshAdapter& dest, const mat4& transform)
+	{
+		MeshAdapter reader = this->read();
+
+		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+		{
+			dest.position(mulp(transform, reader.position()));
+			dest.normal(muln(transform, reader.normal()));
+			dest.colour(reader.colour());
+			dest.tangent(mult(transform, reader.tangent()));
+			dest.uv0(reader.uv0());
+			dest.uv1(reader.uv1());
+			dest.joints(reader.joints());
+			dest.weights(reader.weights());
+		}
+
+		for(size_t i = 0; i < reader.m_indices.size(); ++i)
+		{
+			uint32_t index = reader.m_index32 ? reader.index32() : reader.index();
+			assert(index <= dest.m_vertices.size());
+			dest.index(index);
+		}
 	}
 
 	MeshAdapter& MeshAdapter::qposition(const vec3& p)

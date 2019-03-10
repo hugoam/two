@@ -94,62 +94,12 @@ namespace mud
 		m_cursor = m_start;
 	}
 
-	inline void MeshAdapter::rewind() { m_cursor = m_start; m_vertex = 0; m_offset = 0; m_index = m_indices.m_pointer; }
-	inline void MeshAdapter::next() { m_offset = m_vertex; }
-
-	inline void MeshAdapter::copy(MeshAdapter& dest)
-	{
-		MeshAdapter reader = this->read();
-
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
-		{
-			dest.position(reader.position());
-			dest.normal(reader.normal());
-			dest.colour(reader.colour());
-			dest.tangent(reader.tangent());
-			dest.uv0(reader.uv0());
-			dest.uv1(reader.uv1());
-			dest.joints(reader.joints());
-			dest.weights(reader.weights());
-		}
-
-		for(size_t i = 0; i < reader.m_indices.size(); ++i)
-		{
-			uint32_t index = reader.m_index32 ? reader.index32() : reader.index();
-			assert(index <= dest.m_vertices.size());
-			dest.index(index);
-		}
-	}
-
-	inline void MeshAdapter::xcopy(MeshAdapter& dest, const mat4& transform)
-	{
-		MeshAdapter reader = this->read();
-
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
-		{
-			dest.position(mulp(transform, reader.position()));
-			dest.normal(muln(transform, reader.normal()));
-			dest.colour(reader.colour());
-			dest.tangent(mult(transform, reader.tangent()));
-			dest.uv0(reader.uv0());
-			dest.uv1(reader.uv1());
-			dest.joints(reader.joints());
-			dest.weights(reader.weights());
-		}
-
-		for(size_t i = 0; i < reader.m_indices.size(); ++i)
-		{
-			uint32_t index = reader.m_index32 ? reader.index32() : reader.index();
-			assert(index <= dest.m_vertices.size());
-			dest.index(index);
-		}
-	}
-
 	inline MeshAdapter MeshAdapter::read() const { MeshAdapter reader = *this; reader.rewind(); return reader; }
 
 	template <class T>
 	inline void MeshAdapter::next(T*& pointer) { pointer = (T*)((char*)pointer + m_vertex_stride); }
 
+#if 0
 	inline MeshAdapter& MeshAdapter::position(const vec3& p) { m_aabb.add(p); *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
 	inline MeshAdapter& MeshAdapter::position4(const vec4& p) { m_aabb.add(vec3(p)); *m_cursor.m_position4 = p; next(m_cursor.m_position4); ++m_vertex; return *this; }
 	inline MeshAdapter& MeshAdapter::normal(const vec3& n) { if(m_cursor.m_normal) { *m_cursor.m_normal = n; next(m_cursor.m_normal); } return *this; }
@@ -160,6 +110,7 @@ namespace mud
 	inline MeshAdapter& MeshAdapter::uv1(const vec2& uv) { if(m_cursor.m_uv1) { m_uv1_rect.add(uv); *m_cursor.m_uv1 = uv; next(m_cursor.m_uv1); } return *this; }
 	inline MeshAdapter& MeshAdapter::joints(const uint32_t& j) { if(m_cursor.m_joints) { *m_cursor.m_joints = j; next(m_cursor.m_joints); } return *this; }
 	inline MeshAdapter& MeshAdapter::weights(const vec4& w) { if(m_cursor.m_weights) { *m_cursor.m_weights = w; next(m_cursor.m_weights); } return *this; }
+#endif
 
 	inline MeshAdapter& MeshAdapter::dposition(const vec3& p) { *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
 	inline MeshAdapter& MeshAdapter::duv0(const vec2& uv) { if(m_cursor.m_uv0) { *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
