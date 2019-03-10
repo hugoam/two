@@ -27,7 +27,6 @@ namespace mud
 		T& operator[](Axis axis);
 		bool operator==(const v2& other) const;
 		bool operator!=(const v2& other) const;
-		explicit operator T();
 		union {
 			struct { attr_ T x; attr_ T y; };
 			T f[2];
@@ -52,8 +51,6 @@ namespace mud
 		T& operator[](Axis axis);
 		bool operator==(const v3& other) const;
 		bool operator!=(const v3& other) const;
-		explicit operator T();
-		explicit operator v2<T>();
 		union {
 			struct { attr_ T x; attr_ T y; attr_ T z; };
 			struct { T r; T g; T b; };
@@ -82,8 +79,6 @@ namespace mud
 		T& operator[](Axis axis);
 		bool operator==(const v4& other) const;
 		bool operator!=(const v4& other) const;
-		explicit operator v2<T>();
-		explicit operator v3<T>();
 		union {
 			struct { attr_ T x; attr_ T y; attr_ T z; attr_ T w; };
 			struct { T r; T g; T b; T a; };

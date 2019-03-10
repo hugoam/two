@@ -350,8 +350,8 @@ namespace mud
 		const vec3 s = ball * size;
 
 		// Don't polygonize in the outer layer because normals aren't well-defined there.
-		const uvec3 lo = max(uvec3(floor(s - radius)), uvec3(1U));
-		const uvec3 hi = min(uvec3(floor(s + radius)), uvec3(cubes.m_subdiv - 1U));
+		const uvec3 lo = uvec3(max(ivec3(floor(s - radius)), ivec3(1)));
+		const uvec3 hi = uvec3(min(ivec3(floor(s + radius)), ivec3(int(cubes.m_subdiv - 1))));
 
 		for(uint32_t z = lo.z; z < hi.z; z++)
 			for(uint32_t y = lo.y; y < hi.y; y++)

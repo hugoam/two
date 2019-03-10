@@ -291,7 +291,7 @@ namespace mud
 		csm.m_slices.clear();
 		csm.m_slices.resize(csm.m_frustum_slices.size());
 
-		uvec4 atlas_rect = csm_rect(uint(m_csm.m_size), num_direct, index);
+		uvec4 atlas_rect = csm_rect(m_csm.m_size.x, num_direct, index);
 
 		for(size_t i = 0; i < csm.m_frustum_slices.size(); ++i)
 		{

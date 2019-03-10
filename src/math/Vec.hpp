@@ -32,8 +32,6 @@ namespace mud
 	inline bool v2<T>::operator==(const v2& other) const { return x == other.x && y == other.y; }
 	template <class T>
 	inline bool v2<T>::operator!=(const v2& other) const { return x != other.x || y != other.y; }
-	template <class T>
-	inline v2<T>::operator T() { return T(x); }
 
 	template <class T>
 	inline v3<T>::v3(v2<T> a, T z) : x(a.x), y(a.y), z(z) {}
@@ -52,10 +50,6 @@ namespace mud
 	inline bool v3<T>::operator==(const v3& other) const { return x == other.x && y == other.y && z == other.z; }
 	template <class T>
 	inline bool v3<T>::operator!=(const v3& other) const { return x != other.x || y != other.y || z != other.z; }
-	template <class T>
-	inline v3<T>::operator T() { return T(x); }
-	template <class T>
-	inline v3<T>::operator v2<T>() { return v2<T>(x, y); }
 
 	template <class T>
 	inline v4<T>::v4(v3<T> a, T w) : x(a.x), y(a.y), z(a.z), w(w) {}
@@ -78,10 +72,6 @@ namespace mud
 	inline bool v4<T>::operator==(const v4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
 	template <class T>
 	inline bool v4<T>::operator!=(const v4& other) const { return x != other.x || y != other.y || z != other.z || w != other.w; }
-	template <class T>
-	inline v4<T>::operator v2<T>() { return v2<T>(x, y); }
-	template <class T>
-	inline v4<T>::operator v3<T>() { return v3<T>(x, y, z); }
 
 	// Experimental swizzling
 	export_ template <class T> inline typename T::type2 xy(const T& v)
