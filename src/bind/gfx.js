@@ -2380,6 +2380,29 @@ Mesh.prototype.constructor = Mesh;
 Mesh.prototype.__class = Mesh;
 Mesh.__cache = {};
 Module['Mesh'] = Mesh;
+Mesh.prototype["clear"] = Mesh.prototype.clear = function() {
+    _mud_Mesh_clear_0(this.__ptr);
+};
+Mesh.prototype["read"] = Mesh.prototype.read = function(a0, a1) {
+    _mud_Mesh_read_2(this.__ptr, /*writer*/a0.__ptr, /*transform*/a1.__ptr);
+};
+Mesh.prototype["write"] = Mesh.prototype.write = function(a0, a1, a2) {
+    if (a1 === undefined) { _mud_Mesh_write_1(this.__ptr, /*packer*/a0.__ptr); return; }
+    if (a2 === undefined) { _mud_Mesh_write_2(this.__ptr, /*packer*/a0.__ptr, /*optimize*/a1); return; }
+    _mud_Mesh_write_3(this.__ptr, /*packer*/a0.__ptr, /*optimize*/a1, /*dynamic*/a2);
+};
+Mesh.prototype["upload"] = Mesh.prototype.upload = function(a0, a1) {
+    if (a1 === undefined) { _mud_Mesh_upload_1(this.__ptr, /*gpu_mesh*/a0.__ptr); return; }
+    _mud_Mesh_upload_2(this.__ptr, /*gpu_mesh*/a0.__ptr, /*optimize*/a1);
+};
+Mesh.prototype["cache"] = Mesh.prototype.cache = function(a0) {
+    _mud_Mesh_cache_1(this.__ptr, /*gpu_mesh*/a0.__ptr);
+};
+Mesh.prototype["direct"] = Mesh.prototype.direct = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { return wrapPointer(_mud_Mesh_direct_2(this.__ptr, /*vertex_format*/a0, /*vertex_count*/a1), MeshAdapter); }
+    if (a3 === undefined) { return wrapPointer(_mud_Mesh_direct_3(this.__ptr, /*vertex_format*/a0, /*vertex_count*/a1, /*index_count*/a2), MeshAdapter); }
+    return wrapPointer(_mud_Mesh_direct_4(this.__ptr, /*vertex_format*/a0, /*vertex_count*/a1, /*index_count*/a2, /*index32*/a3), MeshAdapter);
+};
 Object.defineProperty(Mesh.prototype, "name", {
     get: function() {
         return Pointer_stringify(_mud_Mesh__get_name(this.__ptr));
@@ -2575,6 +2598,27 @@ Model.prototype.constructor = Model;
 Model.prototype.__class = Model;
 Model.__cache = {};
 Module['Model'] = Model;
+Model.prototype["get_mesh"] = Model.prototype.get_mesh = function(a0) {
+    return wrapPointer(_mud_Model_get_mesh_1(this.__ptr, /*index*/a0), Mesh);
+};
+Model.prototype["add_mesh"] = Model.prototype.add_mesh = function(a0, a1) {
+    ensureCache.prepare();
+    if (a1 === undefined) { return wrapPointer(_mud_Model_add_mesh_1(this.__ptr, ensureString(/*name*/a0)), Mesh); }
+    return wrapPointer(_mud_Model_add_mesh_2(this.__ptr, ensureString(/*name*/a0), /*readback*/a1), Mesh);
+};
+Model.prototype["add_rig"] = Model.prototype.add_rig = function(a0) {
+    ensureCache.prepare();
+    return wrapPointer(_mud_Model_add_rig_1(this.__ptr, ensureString(/*name*/a0)), Rig);
+};
+Model.prototype["add_item"] = Model.prototype.add_item = function(a0, a1, a2, a3, a4) {
+    if (a2 === undefined) { return wrapPointer(_mud_Model_add_item_2(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr), ModelItem); }
+    if (a3 === undefined) { return wrapPointer(_mud_Model_add_item_3(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr, /*skin*/a2), ModelItem); }
+    if (a4 === undefined) { return wrapPointer(_mud_Model_add_item_4(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr, /*skin*/a2, /*colour*/a3.__ptr), ModelItem); }
+    return wrapPointer(_mud_Model_add_item_5(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr, /*skin*/a2, /*colour*/a3.__ptr, /*material*/a4.__ptr), ModelItem);
+};
+Model.prototype["prepare"] = Model.prototype.prepare = function() {
+    _mud_Model_prepare_0(this.__ptr);
+};
 Object.defineProperty(Model.prototype, "name", {
     get: function() {
         return Pointer_stringify(_mud_Model__get_name(this.__ptr));

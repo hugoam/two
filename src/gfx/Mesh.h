@@ -105,18 +105,18 @@ namespace mud
 
 		MeshAdapter m_cache;
 
-		void clear();
-		void read(MeshAdapter& writer, const mat4& transform) const;
-		void read(MeshPacker& packer, const mat4& transform) const;
-		void write(const MeshPacker& packer, bool optimize = false, bool dynamic = false);
-		void upload(const GpuMesh& gpu_mesh, bool optimize);
-		void upload(const GpuMesh& gpu_mesh);
-		void cache(const GpuMesh& gpu_mesh);
+		meth_ void clear();
+		meth_ void read(MeshAdapter& writer, const mat4& transform) const;
+		meth_ void read(MeshPacker& packer, const mat4& transform) const;
+		meth_ void write(const MeshPacker& packer, bool optimize = false, bool dynamic = false);
+		meth_ void upload(const GpuMesh& gpu_mesh, bool optimize);
+		meth_ void upload(const GpuMesh& gpu_mesh);
+		meth_ void cache(const GpuMesh& gpu_mesh);
 
 		GpuMesh begin();
 		void update(const GpuMesh& gpu_mesh);
 
-		MeshAdapter& direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0, bool index32 = false);
+		meth_ MeshAdapter& direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0, bool index32 = false);
 
 		uint64_t submit(bgfx::Encoder& encoder) const;
 	};

@@ -1873,6 +1873,39 @@ extern "C" {
 	mud::Type* DECL mud_Mesh__type() {
 		return &mud::type<mud::Mesh>();
 	}
+	void DECL mud_Mesh_clear_0(mud::Mesh* self) {
+		self->clear();
+	}
+	void DECL mud_Mesh_read_2(mud::Mesh* self, mud::MeshAdapter* writer, const mud::mat4* transform) {
+		self->read(*writer, *transform);
+	}
+	void DECL mud_Mesh_write_1(mud::Mesh* self, const mud::MeshPacker* packer) {
+		self->write(*packer);
+	}
+	void DECL mud_Mesh_write_2(mud::Mesh* self, const mud::MeshPacker* packer, bool optimize) {
+		self->write(*packer, optimize);
+	}
+	void DECL mud_Mesh_write_3(mud::Mesh* self, const mud::MeshPacker* packer, bool optimize, bool dynamic) {
+		self->write(*packer, optimize, dynamic);
+	}
+	void DECL mud_Mesh_upload_1(mud::Mesh* self, const mud::GpuMesh* gpu_mesh) {
+		self->upload(*gpu_mesh);
+	}
+	void DECL mud_Mesh_upload_2(mud::Mesh* self, const mud::GpuMesh* gpu_mesh, bool optimize) {
+		self->upload(*gpu_mesh, optimize);
+	}
+	void DECL mud_Mesh_cache_1(mud::Mesh* self, const mud::GpuMesh* gpu_mesh) {
+		self->cache(*gpu_mesh);
+	}
+	mud::MeshAdapter* DECL mud_Mesh_direct_2(mud::Mesh* self, uint32_t vertex_format, uint32_t vertex_count) {
+		return &self->direct(vertex_format, vertex_count);
+	}
+	mud::MeshAdapter* DECL mud_Mesh_direct_3(mud::Mesh* self, uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count) {
+		return &self->direct(vertex_format, vertex_count, index_count);
+	}
+	mud::MeshAdapter* DECL mud_Mesh_direct_4(mud::Mesh* self, uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32) {
+		return &self->direct(vertex_format, vertex_count, index_count, index32);
+	}
 	const char* DECL mud_Mesh__get_name(mud::Mesh* self) {
 		return self->m_name.c_str();
 	}
@@ -2036,6 +2069,33 @@ extern "C" {
 	// Model
 	mud::Type* DECL mud_Model__type() {
 		return &mud::type<mud::Model>();
+	}
+	mud::Mesh* DECL mud_Model_get_mesh_1(mud::Model* self, size_t index) {
+		return &self->get_mesh(index);
+	}
+	mud::Mesh* DECL mud_Model_add_mesh_1(mud::Model* self, const char* name) {
+		return &self->add_mesh(name);
+	}
+	mud::Mesh* DECL mud_Model_add_mesh_2(mud::Model* self, const char* name, bool readback) {
+		return &self->add_mesh(name, readback);
+	}
+	mud::Rig* DECL mud_Model_add_rig_1(mud::Model* self, const char* name) {
+		return &self->add_rig(name);
+	}
+	mud::ModelItem* DECL mud_Model_add_item_2(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform) {
+		return &self->add_item(*mesh, *transform);
+	}
+	mud::ModelItem* DECL mud_Model_add_item_3(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform, int skin) {
+		return &self->add_item(*mesh, *transform, skin);
+	}
+	mud::ModelItem* DECL mud_Model_add_item_4(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform, int skin, const mud::Colour* colour) {
+		return &self->add_item(*mesh, *transform, skin, *colour);
+	}
+	mud::ModelItem* DECL mud_Model_add_item_5(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform, int skin, const mud::Colour* colour, mud::Material* material) {
+		return &self->add_item(*mesh, *transform, skin, *colour, material);
+	}
+	void DECL mud_Model_prepare_0(mud::Model* self) {
+		self->prepare();
 	}
 	const char* DECL mud_Model__get_name(mud::Model* self) {
 		return self->m_name.c_str();

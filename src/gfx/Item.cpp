@@ -100,7 +100,7 @@ namespace mud
 
 	void Batch::commit(span<float> data)
 	{
-		const uint32_t count = m_cache.size() * sizeof(float) / m_stride;
+		const uint32_t count = data.size() * sizeof(float) / m_stride;
 		span<float> dest = this->begin(count);
 		memcpy(dest.data(), data.data(), dest.size() * sizeof(float));
 	}

@@ -50,10 +50,11 @@ namespace mud
 
 		Rig* m_rig = nullptr;
 
-		Mesh& add_mesh(const string& name, bool readback = false);
-		Rig& add_rig(const string& name);
-		ModelItem& add_item(Mesh& mesh, mat4 transform, int skin = -1, Colour colour = Colour::White, Material* material = nullptr);
-		void prepare();
+		meth_ Mesh& get_mesh(size_t index);
+		meth_ Mesh& add_mesh(const string& name, bool readback = false);
+		meth_ Rig& add_rig(const string& name);
+		meth_ ModelItem& add_item(Mesh& mesh, const mat4& transform, int skin = -1, const Colour& colour = Colour::White, Material* material = nullptr);
+		meth_ void prepare();
 
 		static GfxSystem* ms_gfx_system;
 	};

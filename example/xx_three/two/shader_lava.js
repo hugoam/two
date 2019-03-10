@@ -1,6 +1,6 @@
 
 var vertex_shader = `$input a_position, a_texcoord0
-    $output v_position, v_texcoord0
+    $output v_position, v_uv0
     
     #include <common.sh>
     
@@ -9,20 +9,20 @@ var vertex_shader = `$input a_position, a_texcoord0
         var material_index = int(u_state_material);
         Basevar basic = read_base_material(material_index);
         
-        v_texcoord0 = vec4((a_texcoord0.xy * basic.uv0_scale) + basic.uv0_offset, 0.0, 0.0);
+        v_uv0 = vec4((a_texcoord0 * basic.uv0_scale) + basic.uv0_offset, 0.0, 0.0);
         vec4 view = mul(u_modelView, vec4(a_position, 1.0));
         v_position = mul(u_proj, view);
         gl_Position = v_position;
     }`;
 
-var fragment_shader = `$input v_position, v_texcoord0
+var fragment_shader = `$input v_position, v_uv0
     
     #include <common.sh>
     #include <pbr/fog.sh>
     
     void main()
     {
-        vec2 uv = v_texcoord0.xy;
+        vec2 uv = v_uv0;
         vec2 position = - 1.0 + 2.0 * uv;
     
         vec4 noise = texture2D(s_user0, uv);

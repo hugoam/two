@@ -34,6 +34,11 @@ namespace mud
 	Model::~Model()
 	{}
 
+	Mesh& Model::get_mesh(size_t index)
+	{
+		return *m_items[index].m_mesh;
+	}
+
 	Mesh& Model::add_mesh(const string& name, bool readback)
 	{
 		Mesh& mesh = ms_gfx_system->meshes().construct(name, readback);
@@ -47,7 +52,7 @@ namespace mud
 		return *m_rig;
 	}
 
-	ModelItem& Model::add_item(Mesh& mesh, mat4 transform, int skin, Colour colour, Material* material)
+	ModelItem& Model::add_item(Mesh& mesh, const mat4& transform, int skin, const Colour& colour, Material* material)
 	{
 		m_items.push_back({ m_items.size(), &mesh, transform != bxidentity(), transform, skin, colour, material });
 		return m_items.back();

@@ -25,14 +25,29 @@ if(typeof this.state == 'undefined') {
 
     var s = 1000.0; var s2 = s / 2.0; // particles spread in the cube
 
-    var instances = new Float32Buffer(particles * 16);
+    var instances = new Float32Array(particles * 16);
     
+    var f =  0;
     for(var i = 0; i < particles; i++)
     {
-        var p = new two.vec3(Math.random() * s - s2, Math.random() * s - s2, Math.random() * s - s2);
-        var c = new two.Colour(p / s + 0.5, 1.0);
-
-        instances[i] = { p, 0.0, new two.vec2(15.0), 0.0, 0.0, c };
+        var x = Math.random() * s - s2;
+        var y = Math.random() * s - s2;
+        var z = Math.random() * s - s2;
+        
+        instances[f++] = x;
+        instances[f++] = y;
+        instances[f++] = z;
+        instances[f++] = 0.0; // padding
+        
+        instances[f++] = 15.0;
+        instances[f++] = 15.0;
+        instances[f++] = 0.0; // padding
+        instances[f++] = 0.0; // padding
+        
+        instances[f++] = x / s + 0.5;
+        instances[f++] = y / s + 0.5;
+        instances[f++] = z / s + 0.5;
+        instances[f++] = 1.0;
     }
 
     var model = app.gfx.models.get('point');
@@ -41,10 +56,10 @@ if(typeof this.state == 'undefined') {
     var it = scene.items().add(new two.Item(n, model, 0, material));
     this.node = n;
 
-    this.batch = scene.batches().add(new two.Batch(it));
-    it.batch = this.batch;
+    var batch = scene.batches().add(new two.Batch(it, 16 * 4));
+    it.batch = batch;
     
-    this.batch.cache(instances, 16);
+    batch.cache(instances);
 }
 
 //var time = app.gfx.time / 2.0;

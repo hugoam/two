@@ -21,18 +21,18 @@ using namespace mud;
 // xx_geom_lines
 // xx_geom_rawshader
 // xx_geom_selective
-
 // xx_geom_sprites
+
+// ported not ok:
+// xx_geom_points
 // xx_geom_points_instanced
 
 // todo:
-// xx_geom_points
-// xx_geom_points_instanced
 // xx_marching_cubes
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	xx_lights_point(app, parent, dockbar);
+	//xx_lights_point(app, parent, dockbar);
 	//xx_shadow_point(app, parent, dockbar);
 	//xx_shader(app, parent, dockbar);
 	//xx_shader_lava(app, parent, dockbar);
@@ -49,7 +49,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//xx_geom_lines(app, parent, dockbar);
 	//xx_geom_points(app, parent, dockbar);
 	//xx_geom_points_packed(app, parent, dockbar);
-	//xx_geom_points_instanced(app, parent, dockbar);
+	xx_geom_points_instanced(app, parent, dockbar);
 	//xx_geom_rawshader(app, parent, dockbar);
 	//xx_geom_selective(app, parent, dockbar);
 	    //xx_interact_cubes(app, parent, dockbar);

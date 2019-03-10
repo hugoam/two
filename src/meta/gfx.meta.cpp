@@ -223,6 +223,14 @@ void mud_MaterialSolid__construct_0(void* ref, span<void*> args) { UNUSED(args);
 void mud_MaterialSolid__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MaterialSolid((*static_cast<mud::MaterialSolid*>(other))); }
 void mud_MaterialUser__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MaterialUser(  ); }
 void mud_MaterialUser__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MaterialUser((*static_cast<mud::MaterialUser*>(other))); }
+void mud_Mesh_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Mesh*>(object)).clear(); }
+void mud_Mesh_read(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).read(*static_cast<mud::MeshAdapter*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
+void mud_Mesh_read(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).read(*static_cast<mud::MeshPacker*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
+void mud_Mesh_write(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).write(*static_cast<mud::MeshPacker*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<bool*>(args[2])); }
+void mud_Mesh_upload(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).upload(*static_cast<mud::GpuMesh*>(args[0]), *static_cast<bool*>(args[1])); }
+void mud_Mesh_upload(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).upload(*static_cast<mud::GpuMesh*>(args[0])); }
+void mud_Mesh_cache(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).cache(*static_cast<mud::GpuMesh*>(args[0])); }
+void mud_Mesh_direct(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Mesh*>(object)).direct(*static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<bool*>(args[3])); }
 void mud_Mime_start(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).start(static_cast<const char*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
 void mud_Mime_play(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).play(*static_cast<mud::Animation*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
 void mud_Mime_seek(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).seek(*static_cast<float*>(args[0])); }
@@ -231,6 +239,11 @@ void mud_Mime_stop(void* object, span<void*> args, void*& result) { UNUSED(resul
 void mud_Mime_advance(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).advance(*static_cast<float*>(args[0])); }
 void mud_Mime_next_animation(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Mime*>(object)).next_animation(); }
 void mud_Mime_playing(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<stl::string*>(result)) = (*static_cast<mud::Mime*>(object)).playing(); }
+void mud_Model_get_mesh(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Model*>(object)).get_mesh(*static_cast<size_t*>(args[0])); }
+void mud_Model_add_mesh(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Model*>(object)).add_mesh(*static_cast<stl::string*>(args[0]), *static_cast<bool*>(args[1])); }
+void mud_Model_add_rig(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Model*>(object)).add_rig(*static_cast<stl::string*>(args[0])); }
+void mud_Model_add_item(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Model*>(object)).add_item(*static_cast<mud::Mesh*>(args[0]), *static_cast<mud::mat4*>(args[1]), *static_cast<int*>(args[2]), *static_cast<mud::Colour*>(args[3]), static_cast<mud::Material*>(args[4])); }
+void mud_Model_prepare(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Model*>(object)).prepare(); }
 void mud_ModelItem__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ModelItem(  ); }
 void mud_ModelItem__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ModelItem((*static_cast<mud::ModelItem*>(other))); }
 void mud_Node3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Node3(  ); }
@@ -2078,6 +2091,10 @@ namespace mud
 		static mud::Material* material_default = nullptr;
 		static bool is_dynamic_default = false;
 		static bool is_direct_default = false;
+		static bool write_0_optimize_default = false;
+		static bool write_0_dynamic_default = false;
+		static uint32_t direct_0_index_count_default = 0;
+		static bool direct_0_index32_default = false;
 		// constructors
 		// copy constructor
 		// members
@@ -2099,8 +2116,18 @@ namespace mud
 			{ t, offsetof(mud::Mesh, m_is_direct), type<bool>(), "is_direct", &is_direct_default, Member::Value, nullptr }
 		};
 		// methods
+		static Method methods[] = {
+			{ t, "clear", Address(), mud_Mesh_clear, {}, g_qvoid },
+			{ t, "read", Address(), mud_Mesh_read, { { "writer", type<mud::MeshAdapter>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
+			{ t, "read", Address(), mud_Mesh_read, { { "packer", type<mud::MeshPacker>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
+			{ t, "write", Address(), mud_Mesh_write, { { "packer", type<mud::MeshPacker>(),  }, { "optimize", type<bool>(), Param::Default, &write_0_optimize_default }, { "dynamic", type<bool>(), Param::Default, &write_0_dynamic_default } }, g_qvoid },
+			{ t, "upload", Address(), mud_Mesh_upload, { { "gpu_mesh", type<mud::GpuMesh>(),  }, { "optimize", type<bool>(),  } }, g_qvoid },
+			{ t, "upload", Address(), mud_Mesh_upload, { { "gpu_mesh", type<mud::GpuMesh>(),  } }, g_qvoid },
+			{ t, "cache", Address(), mud_Mesh_cache, { { "gpu_mesh", type<mud::GpuMesh>(),  } }, g_qvoid },
+			{ t, "direct", Address(), mud_Mesh_direct, { { "vertex_format", type<uint32_t>(),  }, { "vertex_count", type<uint32_t>(),  }, { "index_count", type<uint32_t>(), Param::Default, &direct_0_index_count_default }, { "index32", type<bool>(), Param::Default, &direct_0_index32_default } }, { &type<mud::MeshAdapter>(), QualType::None } }
+		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
 	}
 	// mud::Mime
 	{
@@ -2149,6 +2176,10 @@ namespace mud
 		// defaults
 		static mud::Aabb aabb_default = {vec3(0.f),vec3(0.f)};
 		static float radius_default = 0.f;
+		static bool add_mesh_0_readback_default = false;
+		static int add_item_0_skin_default = -1;
+		static mud::Colour add_item_0_colour_default = mud::Colour::White;
+		static mud::Material* add_item_0_material_default = nullptr;
 		// constructors
 		// copy constructor
 		// members
@@ -2160,8 +2191,15 @@ namespace mud
 			{ t, offsetof(mud::Model, m_origin), type<mud::vec3>(), "origin", nullptr, Member::Value, nullptr }
 		};
 		// methods
+		static Method methods[] = {
+			{ t, "get_mesh", Address(), mud_Model_get_mesh, { { "index", type<size_t>(),  } }, { &type<mud::Mesh>(), QualType::None } },
+			{ t, "add_mesh", Address(), mud_Model_add_mesh, { { "name", type<stl::string>(),  }, { "readback", type<bool>(), Param::Default, &add_mesh_0_readback_default } }, { &type<mud::Mesh>(), QualType::None } },
+			{ t, "add_rig", Address(), mud_Model_add_rig, { { "name", type<stl::string>(),  } }, { &type<mud::Rig>(), QualType::None } },
+			{ t, "add_item", Address(), mud_Model_add_item, { { "mesh", type<mud::Mesh>(),  }, { "transform", type<mud::mat4>(),  }, { "skin", type<int>(), Param::Default, &add_item_0_skin_default }, { "colour", type<mud::Colour>(), Param::Default, &add_item_0_colour_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &add_item_0_material_default } }, { &type<mud::ModelItem>(), QualType::None } },
+			{ t, "prepare", Address(), mud_Model_prepare, {}, g_qvoid }
+		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
 	}
 	// mud::ModelItem
 	{
