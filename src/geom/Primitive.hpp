@@ -55,9 +55,9 @@ namespace mud
 	}
 
 	inline MeshAdapter::MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices, bool index32)
-		: m_vertices(vertices), m_indices(indices), m_vertex_format(vertex_format)
-		, m_vertex_stride(vertex_size(vertex_format)), m_index_stride(index32 ? sizeof(uint32_t) : sizeof(uint16_t)), m_index(indices.data())
-		, m_index32(index32)
+		: m_vertices(vertices), m_indices(indices), m_vertex_format(vertex_format), m_index32(index32)
+		, m_vertex_stride(vertex_size(vertex_format)), m_index_stride(index32 ? sizeof(uint32_t) : sizeof(uint16_t))
+		, m_index(indices.data())
 	{
 		if((vertex_format & VertexAttribute::Position) != 0)
 			m_start.m_position	= (vec3*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Position));

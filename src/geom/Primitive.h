@@ -98,9 +98,10 @@ namespace mud
 		//span<void> m_indices = {};
 
 		attr_ uint32_t m_vertex_format = 0;
+		attr_ bool m_index32 = false;
+
 		attr_ uint32_t m_vertex_stride = 0;
 		attr_ uint32_t m_index_stride = 0;
-		attr_ bool m_index32 = false;
 
 		struct Pointers
 		{
