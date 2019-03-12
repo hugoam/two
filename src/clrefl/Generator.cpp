@@ -143,10 +143,7 @@ namespace mud
 
 	void resolve_templates(CLModule& module, CLClass& c)
 	{
-		printf("Resolve templates for %s\n", c.m_id.c_str());
-
-		if(c.m_name == "vector<mud::Colour>")
-			int i = 0;
+		//printf("Resolve templates for %s\n", c.m_id.c_str());
 
 		c.m_template = &module.get_class_template(c.m_template_name);
 		if(c.m_template == nullptr)
@@ -173,9 +170,6 @@ namespace mud
 		{
 			c.m_element = c.m_template_types[0];
 			c.m_element_type = c.m_templated_types[0];
-			if(c.m_element_type == nullptr)
-				int i = 0;
-
 		}
 	}
 
@@ -274,6 +268,8 @@ namespace mud
 			{
 				has_default = true;
 				default_value = first_token(c);
+				if(default_value == "")
+					default_value = last_token(cursor);
 			}
 			else if(has({ CXCursor_BinaryOperator, CXCursor_UnaryOperator, CXCursor_CallExpr, CXCursor_DeclRefExpr, CXCursor_UnexposedExpr }, c.kind))
 			{

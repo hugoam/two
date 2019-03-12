@@ -2856,41 +2856,41 @@ extern "C" {
 	mud::Type* DECL mud_BlockFilter__type() {
 		return &mud::type<mud::BlockFilter>();
 	}
-	void DECL mud_BlockFilter_set_source0_1(mud::BlockFilter* self, mud::Texture* texture) {
-		self->set_source0(*texture);
+	void DECL mud_BlockFilter_source0_1(mud::BlockFilter* self, mud::Texture* texture) {
+		self->source0(*texture);
 	}
-	void DECL mud_BlockFilter_set_source0_2(mud::BlockFilter* self, mud::Texture* texture, uint32_t flags) {
-		self->set_source0(*texture, flags);
+	void DECL mud_BlockFilter_source0_2(mud::BlockFilter* self, mud::Texture* texture, uint32_t flags) {
+		self->source0(*texture, flags);
 	}
-	void DECL mud_BlockFilter_set_source1_1(mud::BlockFilter* self, mud::Texture* texture) {
-		self->set_source1(*texture);
+	void DECL mud_BlockFilter_source1_1(mud::BlockFilter* self, mud::Texture* texture) {
+		self->source1(*texture);
 	}
-	void DECL mud_BlockFilter_set_source1_2(mud::BlockFilter* self, mud::Texture* texture, uint32_t flags) {
-		self->set_source1(*texture, flags);
+	void DECL mud_BlockFilter_source1_2(mud::BlockFilter* self, mud::Texture* texture, uint32_t flags) {
+		self->source1(*texture, flags);
 	}
-	void DECL mud_BlockFilter_set_source2_1(mud::BlockFilter* self, mud::Texture* texture) {
-		self->set_source2(*texture);
+	void DECL mud_BlockFilter_source2_1(mud::BlockFilter* self, mud::Texture* texture) {
+		self->source2(*texture);
 	}
-	void DECL mud_BlockFilter_set_source2_2(mud::BlockFilter* self, mud::Texture* texture, uint32_t flags) {
-		self->set_source2(*texture, flags);
+	void DECL mud_BlockFilter_source2_2(mud::BlockFilter* self, mud::Texture* texture, uint32_t flags) {
+		self->source2(*texture, flags);
 	}
-	void DECL mud_BlockFilter_set_source3_1(mud::BlockFilter* self, mud::Texture* texture) {
-		self->set_source3(*texture);
+	void DECL mud_BlockFilter_source3_1(mud::BlockFilter* self, mud::Texture* texture) {
+		self->source3(*texture);
 	}
-	void DECL mud_BlockFilter_set_source3_2(mud::BlockFilter* self, mud::Texture* texture, uint32_t flags) {
-		self->set_source3(*texture, flags);
+	void DECL mud_BlockFilter_source3_2(mud::BlockFilter* self, mud::Texture* texture, uint32_t flags) {
+		self->source3(*texture, flags);
 	}
-	void DECL mud_BlockFilter_set_sourcedepth_1(mud::BlockFilter* self, mud::Texture* texture) {
-		self->set_sourcedepth(*texture);
+	void DECL mud_BlockFilter_sourcedepth_1(mud::BlockFilter* self, mud::Texture* texture) {
+		self->sourcedepth(*texture);
 	}
-	void DECL mud_BlockFilter_set_sourcedepth_2(mud::BlockFilter* self, mud::Texture* texture, uint32_t flags) {
-		self->set_sourcedepth(*texture, flags);
+	void DECL mud_BlockFilter_sourcedepth_2(mud::BlockFilter* self, mud::Texture* texture, uint32_t flags) {
+		self->sourcedepth(*texture, flags);
 	}
-	void DECL mud_BlockFilter_set_uniform_3(mud::BlockFilter* self, uint8_t view, const char* name, const mud::vec4* value) {
-		self->set_uniform(view, name, *value);
+	void DECL mud_BlockFilter_uniform_3(mud::BlockFilter* self, uint8_t view, const char* name, const mud::vec4* value) {
+		self->uniform(view, name, *value);
 	}
-	void DECL mud_BlockFilter_set_uniform_4(mud::BlockFilter* self, uint8_t view, const char* name, const mud::vec4* value, uint16_t num) {
-		self->set_uniform(view, name, value, num);
+	void DECL mud_BlockFilter_uniforms_4(mud::BlockFilter* self, uint8_t view, const char* name, const mud::vec4* value, uint16_t num) {
+		self->uniforms(view, name, value, num);
 	}
 	void DECL mud_BlockFilter__destroy(mud::BlockFilter* self) {
 		delete self;

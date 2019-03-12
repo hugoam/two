@@ -159,6 +159,16 @@ namespace mud
 		clang_tokenize(tu, extent, &tokens, &num_tokens);
 	}
 
+	string last_token(CXCursor cursor)
+	{
+		string result = "";
+		visit_tokens(cursor, [&](CXToken token)
+		{
+			result = spelling(cursor, token);
+		});
+		return result;
+	}
+
 	string first_token(CXCursor cursor)
 	{
 		string result = "";

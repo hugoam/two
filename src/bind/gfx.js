@@ -3556,30 +3556,33 @@ BlockFilter.prototype.constructor = BlockFilter;
 BlockFilter.prototype.__class = BlockFilter;
 BlockFilter.__cache = {};
 Module['BlockFilter'] = BlockFilter;
-BlockFilter.prototype["set_source0"] = BlockFilter.prototype.set_source0 = function(a0, a1) {
-    if (a1 === undefined) { _mud_BlockFilter_set_source0_1(this.__ptr, /*texture*/a0.__ptr); return; }
-    _mud_BlockFilter_set_source0_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
+BlockFilter.prototype["source0"] = BlockFilter.prototype.source0 = function(a0, a1) {
+    if (a1 === undefined) { _mud_BlockFilter_source0_1(this.__ptr, /*texture*/a0.__ptr); return; }
+    _mud_BlockFilter_source0_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
 };
-BlockFilter.prototype["set_source1"] = BlockFilter.prototype.set_source1 = function(a0, a1) {
-    if (a1 === undefined) { _mud_BlockFilter_set_source1_1(this.__ptr, /*texture*/a0.__ptr); return; }
-    _mud_BlockFilter_set_source1_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
+BlockFilter.prototype["source1"] = BlockFilter.prototype.source1 = function(a0, a1) {
+    if (a1 === undefined) { _mud_BlockFilter_source1_1(this.__ptr, /*texture*/a0.__ptr); return; }
+    _mud_BlockFilter_source1_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
 };
-BlockFilter.prototype["set_source2"] = BlockFilter.prototype.set_source2 = function(a0, a1) {
-    if (a1 === undefined) { _mud_BlockFilter_set_source2_1(this.__ptr, /*texture*/a0.__ptr); return; }
-    _mud_BlockFilter_set_source2_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
+BlockFilter.prototype["source2"] = BlockFilter.prototype.source2 = function(a0, a1) {
+    if (a1 === undefined) { _mud_BlockFilter_source2_1(this.__ptr, /*texture*/a0.__ptr); return; }
+    _mud_BlockFilter_source2_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
 };
-BlockFilter.prototype["set_source3"] = BlockFilter.prototype.set_source3 = function(a0, a1) {
-    if (a1 === undefined) { _mud_BlockFilter_set_source3_1(this.__ptr, /*texture*/a0.__ptr); return; }
-    _mud_BlockFilter_set_source3_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
+BlockFilter.prototype["source3"] = BlockFilter.prototype.source3 = function(a0, a1) {
+    if (a1 === undefined) { _mud_BlockFilter_source3_1(this.__ptr, /*texture*/a0.__ptr); return; }
+    _mud_BlockFilter_source3_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
 };
-BlockFilter.prototype["set_sourcedepth"] = BlockFilter.prototype.set_sourcedepth = function(a0, a1) {
-    if (a1 === undefined) { _mud_BlockFilter_set_sourcedepth_1(this.__ptr, /*texture*/a0.__ptr); return; }
-    _mud_BlockFilter_set_sourcedepth_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
+BlockFilter.prototype["sourcedepth"] = BlockFilter.prototype.sourcedepth = function(a0, a1) {
+    if (a1 === undefined) { _mud_BlockFilter_sourcedepth_1(this.__ptr, /*texture*/a0.__ptr); return; }
+    _mud_BlockFilter_sourcedepth_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
 };
-BlockFilter.prototype["set_uniform"] = BlockFilter.prototype.set_uniform = function(a0, a1, a2, a3) {
+BlockFilter.prototype["uniform"] = BlockFilter.prototype.uniform = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (a3 === undefined) { _mud_BlockFilter_set_uniform_3(this.__ptr, /*view*/a0, ensureString(/*name*/a1), /*value*/a2.__ptr); return; }
-    _mud_BlockFilter_set_uniform_4(this.__ptr, /*view*/a0, ensureString(/*name*/a1), /*value*/a2.__ptr, /*num*/a3);
+    _mud_BlockFilter_uniform_3(this.__ptr, /*view*/a0, ensureString(/*name*/a1), /*value*/a2.__ptr);
+};
+BlockFilter.prototype["uniforms"] = BlockFilter.prototype.uniforms = function(a0, a1, a2, a3) {
+    ensureCache.prepare();
+    _mud_BlockFilter_uniforms_4(this.__ptr, /*view*/a0, ensureString(/*name*/a1), /*value*/a2.__ptr, /*num*/a3);
 };
 BlockFilter.prototype["__destroy"] = BlockFilter.prototype.__destroy = function() {
     _mud_BlockFilter__destroy(this.__ptr);

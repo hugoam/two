@@ -2327,7 +2327,7 @@ namespace mud
 	// mud::Render
 	{
 		Type& t = type<mud::Render>();
-		static Meta meta = { t, &namspc({ "mud" }), "Render", sizeof(mud::Render), TypeClass::Struct };
+		static Meta meta = { t, &namspc({ "mud" }), "Render", sizeof(mud::Render), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -2803,21 +2803,21 @@ namespace mud
 		static Type* bases[] = { &type<mud::GfxBlock>() };
 		static size_t bases_offsets[] = { base_offset<mud::BlockFilter, mud::GfxBlock>() };
 		// defaults
-		static uint32_t set_source0_0_flags_default = UINT32_MAX;
-		static uint32_t set_source1_0_flags_default = UINT32_MAX;
-		static uint32_t set_source2_0_flags_default = UINT32_MAX;
-		static uint32_t set_source3_0_flags_default = UINT32_MAX;
-		static uint32_t set_sourcedepth_0_flags_default = UINT32_MAX;
+		static uint32_t source0_0_flags_default = UINT32_MAX;
+		static uint32_t source1_0_flags_default = UINT32_MAX;
+		static uint32_t source2_0_flags_default = UINT32_MAX;
+		static uint32_t source3_0_flags_default = UINT32_MAX;
+		static uint32_t sourcedepth_0_flags_default = UINT32_MAX;
 		// constructors
 		// copy constructor
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "source0", Address(), mud_BlockFilter_source0, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default } }, g_qvoid },
-			{ t, "source1", Address(), mud_BlockFilter_source1, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default } }, g_qvoid },
-			{ t, "source2", Address(), mud_BlockFilter_source2, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default } }, g_qvoid },
-			{ t, "source3", Address(), mud_BlockFilter_source3, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default } }, g_qvoid },
-			{ t, "sourcedepth", Address(), mud_BlockFilter_sourcedepth, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default } }, g_qvoid },
+			{ t, "source0", Address(), mud_BlockFilter_source0, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &source0_0_flags_default } }, g_qvoid },
+			{ t, "source1", Address(), mud_BlockFilter_source1, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &source1_0_flags_default } }, g_qvoid },
+			{ t, "source2", Address(), mud_BlockFilter_source2, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &source2_0_flags_default } }, g_qvoid },
+			{ t, "source3", Address(), mud_BlockFilter_source3, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &source3_0_flags_default } }, g_qvoid },
+			{ t, "sourcedepth", Address(), mud_BlockFilter_sourcedepth, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &sourcedepth_0_flags_default } }, g_qvoid },
 			{ t, "uniform", Address(), mud_BlockFilter_uniform, { { "view", type<uint8_t>(),  }, { "name", type<stl::string>(),  }, { "value", type<mud::vec4>(),  } }, g_qvoid },
 			{ t, "uniforms", Address(), mud_BlockFilter_uniforms, { { "view", type<uint8_t>(),  }, { "name", type<stl::string>(),  }, { "value", type<mud::vec4>(), Param::Nullable }, { "num", type<uint16_t>(),  } }, g_qvoid }
 		};
