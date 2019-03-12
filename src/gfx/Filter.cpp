@@ -28,6 +28,8 @@ namespace mud
 		: GfxBlock(gfx, *this)
 		, m_quad_program(gfx.programs().create("filter/quad"))
 	{
+		gfx.m_filter = this;
+
 		static cstring options[] = {
 			"UNPACK_DEPTH",
 			"SOURCE_DEPTH",
@@ -210,6 +212,8 @@ namespace mud
 		, m_filter(filter)
 		, m_program(gfx.programs().create("filter/copy"))
 	{
+		gfx.m_copy = this;
+
 		m_program.register_block(filter);
 	}
 
