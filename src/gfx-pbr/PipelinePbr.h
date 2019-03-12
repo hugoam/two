@@ -51,9 +51,9 @@ namespace mud
 	export_ MUD_GFX_PBR_EXPORT func_ void render_lightmap(GfxSystem& gfx, Render& render);
 	export_ MUD_GFX_PBR_EXPORT func_ void render_reflection(GfxSystem& gfx, Render& render);
 
-	export_ MUD_GFX_PBR_EXPORT func_ void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes);
-	export_ MUD_GFX_PBR_EXPORT func_ void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases);
-	export_ MUD_GFX_PBR_EXPORT func_ void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes);
+	export_ MUD_GFX_PBR_EXPORT void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes);
+	export_ MUD_GFX_PBR_EXPORT void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases);
+	export_ MUD_GFX_PBR_EXPORT void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes);
 
 	export_ MUD_GFX_PBR_EXPORT func_ void pipeline_pbr(GfxSystem& gfx, Renderer& pipeline, bool deferred = false);
 	

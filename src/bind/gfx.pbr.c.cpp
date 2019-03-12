@@ -423,15 +423,6 @@ extern "C" {
 	void DECL mud_render_reflection_2(mud::GfxSystem* gfx, mud::Render* render) {
 		mud::render_reflection(*gfx, *render);
 	}
-	void DECL mud_gather_gi_probes_2(mud::Scene& scene, stl::vector<mud::GIProbe*, stl::allocator>* gi_probes) {
-		mud::gather_gi_probes(scene, *gi_probes);
-	}
-	void DECL mud_gather_lightmaps_2(mud::Scene& scene, stl::vector<mud::LightmapAtlas*, stl::allocator>* atlases) {
-		mud::gather_lightmaps(scene, *atlases);
-	}
-	void DECL mud_gather_reflection_probes_2(mud::Scene& scene, stl::vector<mud::ReflectionProbe*, stl::allocator>* reflection_probes) {
-		mud::gather_reflection_probes(scene, *reflection_probes);
-	}
 	void DECL mud_pipeline_pbr_2(mud::GfxSystem* gfx, mud::Renderer* pipeline) {
 		mud::pipeline_pbr(*gfx, *pipeline);
 	}

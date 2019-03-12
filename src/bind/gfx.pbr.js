@@ -529,15 +529,6 @@ Module['render_lightmap'] = function(a0, a1) {
 Module['render_reflection'] = function(a0, a1) {
     _mud_render_reflection_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
-Module['gather_gi_probes'] = function(a0, a1) {
-    _mud_gather_gi_probes_2(/*scene*/a0, /*gi_probes*/a1.__ptr);
-};
-Module['gather_lightmaps'] = function(a0, a1) {
-    _mud_gather_lightmaps_2(/*scene*/a0, /*atlases*/a1.__ptr);
-};
-Module['gather_reflection_probes'] = function(a0, a1) {
-    _mud_gather_reflection_probes_2(/*scene*/a0, /*reflection_probes*/a1.__ptr);
-};
 Module['pipeline_pbr'] = function(a0, a1, a2) {
     if (a2 === undefined) { _mud_pipeline_pbr_2(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr); return; }
     _mud_pipeline_pbr_3(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr, /*deferred*/a2);
