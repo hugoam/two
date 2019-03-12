@@ -12,7 +12,7 @@ string create_shader()
 
 		"$input v_uv0\n"
 		"\n"
-		"#include \"filter/filter.sh\"\n"
+		"#include \"filter.sh\"\n"
 		"\n"
 		"#define PI 3.1415926553589793\n"
 		"#define TAU 6.283185307179586\n"
@@ -71,7 +71,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	auto draw_quad = [](Render& render, const Pass& render_pass)
 	{
 		BlockFilter& filter = *render.m_scene.m_gfx.m_renderer.block<BlockFilter>();
-		filter.submit_quad(render_pass.m_index, *render_pass.m_target, program.default_version(), { render_pass.m_viewport->m_rect });
+		filter.quad(render_pass.m_index, *render_pass.m_target, program.default_version(), { render_pass.m_viewport->m_rect });
 	};
 
 	gfx::manual_job(scene, PassType::Solid, draw_quad);

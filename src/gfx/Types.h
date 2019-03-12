@@ -81,7 +81,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DistanceParams>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Flow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Fog>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::FrameBuffer>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Frustum>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::FrustumSlice>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>();
@@ -115,8 +114,10 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Prefab>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Program>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Radiance>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Render>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderFrame>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderQuad>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Renderer>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Rig>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Scene>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Shot>();
@@ -144,6 +145,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Flare>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::FrameBuffer>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
 }

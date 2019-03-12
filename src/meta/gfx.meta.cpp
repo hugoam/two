@@ -255,10 +255,19 @@ void mud_Program_set_block(void* object, span<void*> args, void*& result) { UNUS
 void mud_Program_set_source(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Program*>(object)).set_source(*static_cast<mud::ShaderType*>(args[0]), *static_cast<stl::string*>(args[1])); }
 void mud_Radiance__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Radiance(  ); }
 void mud_Radiance__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Radiance((*static_cast<mud::Radiance*>(other))); }
+void mud_Render__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Render( *static_cast<mud::Shading*>(args[0]), *static_cast<mud::Viewport*>(args[1]), *static_cast<mud::RenderTarget*>(args[2]), *static_cast<mud::RenderFrame*>(args[3]) ); }
+void mud_Render__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Render( *static_cast<mud::Shading*>(args[0]), *static_cast<mud::Viewport*>(args[1]), *static_cast<mud::FrameBuffer*>(args[2]), *static_cast<mud::RenderFrame*>(args[3]) ); }
+void* mud_Render__get_scene(void* object) { return &(*static_cast<mud::Render*>(object)).m_scene; }
+void* mud_Render__get_viewport(void* object) { return &(*static_cast<mud::Render*>(object)).m_viewport; }
+void* mud_Render__get_camera(void* object) { return &(*static_cast<mud::Render*>(object)).m_camera; }
+void* mud_Render__get_frame(void* object) { return &(*static_cast<mud::Render*>(object)).m_frame; }
 void mud_RenderFrame__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::RenderFrame(  ); }
 void mud_RenderFrame__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::RenderFrame((*static_cast<mud::RenderFrame*>(other))); }
 void mud_RenderQuad__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::RenderQuad(  ); }
 void mud_RenderQuad__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::RenderQuad((*static_cast<mud::RenderQuad*>(other))); }
+void mud_Renderer_gather(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Renderer*>(object)).gather(*static_cast<mud::Render*>(args[0])); }
+void mud_Renderer_begin(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Renderer*>(object)).begin(*static_cast<mud::Render*>(args[0])); }
+void mud_Renderer_end(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Renderer*>(object)).end(*static_cast<mud::Render*>(args[0])); }
 void mud_Scene__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Scene( *static_cast<mud::GfxSystem*>(args[0]) ); }
 void mud_Scene_begin(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Scene*>(object)).begin(); }
 void mud_Scene_nodes(void* object, span<void*> args, void*& result) { UNUSED(args); result = &mud::gfx::nodes((*static_cast<mud::Scene*>(object))); }
@@ -298,8 +307,18 @@ void mud_TPool_mud_Node3_add(void* object, span<void*> args, void*& result) { re
 void mud_TPool_mud_Node3_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<mud::TPool<mud::Node3>*>(object)).talloc(); }
 void mud_TPool_mud_Node3_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Node3>*>(object)).tdestroy(*static_cast<mud::Node3*>(args[0])); }
 void mud_TPool_mud_Node3_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Node3>*>(object)).tfree(*static_cast<mud::Node3*>(args[0])); }
+void mud_Texture_valid(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Texture*>(object)).valid(); }
+void mud_Viewport_cull(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Viewport*>(object)).cull(*static_cast<mud::Render*>(args[0])); }
+void mud_Viewport_render(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Viewport*>(object)).render(*static_cast<mud::Render*>(args[0])); }
 void mud_Zone__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Zone(  ); }
 void mud_Zone__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Zone((*static_cast<mud::Zone*>(other))); }
+void mud_BlockFilter_source0(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source0(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void mud_BlockFilter_source1(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source1(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void mud_BlockFilter_source2(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source2(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void mud_BlockFilter_source3(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source3(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void mud_BlockFilter_sourcedepth(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).sourcedepth(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void mud_BlockFilter_uniform(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).uniform(*static_cast<uint8_t*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::vec4*>(args[2])); }
+void mud_BlockFilter_uniforms(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).uniforms(*static_cast<uint8_t*>(args[0]), *static_cast<stl::string*>(args[1]), static_cast<mud::vec4*>(args[2]), *static_cast<uint16_t*>(args[3])); }
 void mud_ClusteredFrustum__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ClusteredFrustum(  ); }
 void mud_ClusteredFrustum__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ClusteredFrustum((*static_cast<mud::ClusteredFrustum*>(other))); }
 void mud_Flare__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Flare(  ); }
@@ -311,6 +330,7 @@ void* mud_GfxSystem__get_materials(void* object) { return &(*static_cast<mud::Gf
 void* mud_GfxSystem__get_models(void* object) { return &(*static_cast<mud::GfxSystem*>(object)).models(); }
 void* mud_GfxSystem__get_flows(void* object) { return &(*static_cast<mud::GfxSystem*>(object)).flows(); }
 void* mud_GfxSystem__get_prefabs(void* object) { return &(*static_cast<mud::GfxSystem*>(object)).prefabs(); }
+void mud_GfxSystem_main_target(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::GfxSystem*>(object)).main_target(); }
 void mud_GfxSystem_default_pipeline(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::GfxSystem*>(object)).default_pipeline(); }
 void mud_GfxSystem_add_resource_path(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::GfxSystem*>(object)).add_resource_path(*static_cast<stl::string*>(args[0]), *static_cast<bool*>(args[1])); }
 void mud_GfxSystem_debug_material(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::GfxSystem*>(object)).debug_material(); }
@@ -339,8 +359,9 @@ void mud_bxortho_14(span<void*> args, void*& result) { (*static_cast<mud::mat4*>
 void mud_bxortho_15(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxortho(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5]), *static_cast<float*>(args[6]), *static_cast<bool*>(args[7])); }
 void mud_bxSRT_16(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxSRT(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
 void mud_bxTRS_17(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxTRS(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
+void mud_load_texture_rgba_18(span<void*> args, void*& result) { UNUSED(result);  mud::load_texture_rgba(*static_cast<mud::Texture*>(args[0]), *static_cast<mud::uvec2*>(args[1]), *static_cast<stl::span<uint32_t>*>(args[2])); }
 void mud_gfx_setup_pipeline_minimal_19(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::setup_pipeline_minimal(*static_cast<mud::GfxSystem*>(args[0])); }
-void mud_gfx_node_20(span<void*> args, void*& result) { result = &mud::gfx::node(*static_cast<mud::Gnode*>(args[0]), Ref(), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::quat*>(args[3]), *static_cast<mud::vec3*>(args[4])); }
+void mud_gfx_node_20(span<void*> args, void*& result) { result = &mud::gfx::node(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Ref*>(args[1]), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::quat*>(args[3]), *static_cast<mud::vec3*>(args[4])); }
 void mud_gfx_shape_21(span<void*> args, void*& result) { result = &mud::gfx::shape(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::Symbol*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4])); }
 void mud_gfx_draw_22(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::draw(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::Symbol*>(args[2]), *static_cast<uint32_t*>(args[3])); }
 void mud_gfx_sprite_23(span<void*> args, void*& result) { result = &mud::gfx::sprite(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Image256*>(args[1]), *static_cast<mud::vec2*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4])); }
@@ -1334,19 +1355,6 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
-	// mud::FrameBuffer
-	{
-		Type& t = type<mud::FrameBuffer>();
-		static Meta meta = { t, &namspc({ "mud" }), "FrameBuffer", sizeof(mud::FrameBuffer), TypeClass::Object };
-		// bases
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
-	}
 	// mud::Frustum
 	{
 		Type& t = type<mud::Frustum>();
@@ -2295,6 +2303,7 @@ namespace mud
 		static float energy_default = 1.0f;
 		static float ambient_default = 1.0f;
 		static mud::Texture* texture_default = nullptr;
+		static mud::Texture* filtered_default = nullptr;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Radiance__construct_0, {} }
@@ -2308,11 +2317,39 @@ namespace mud
 			{ t, offsetof(mud::Radiance, m_colour), type<mud::Colour>(), "colour", &colour_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Radiance, m_energy), type<float>(), "energy", &energy_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Radiance, m_ambient), type<float>(), "ambient", &ambient_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Radiance, m_texture), type<mud::Texture>(), "texture", texture_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(mud::Radiance, m_texture), type<mud::Texture>(), "texture", texture_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Radiance, m_filtered), type<mud::Texture>(), "filtered", filtered_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::Render
+	{
+		Type& t = type<mud::Render>();
+		static Meta meta = { t, &namspc({ "mud" }), "Render", sizeof(mud::Render), TypeClass::Struct };
+		// bases
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Render__construct_0, { { "shading", type<mud::Shading>(),  }, { "viewport", type<mud::Viewport>(),  }, { "target", type<mud::RenderTarget>(),  }, { "frame", type<mud::RenderFrame>(),  } } },
+			{ t, mud_Render__construct_1, { { "shading", type<mud::Shading>(),  }, { "viewport", type<mud::Viewport>(),  }, { "target_fbo", type<mud::FrameBuffer>(),  }, { "frame", type<mud::RenderFrame>(),  } } }
+		};
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Render, m_shading), type<mud::Shading>(), "shading", nullptr, Member::Value, nullptr },
+			{ t, SIZE_MAX, type<mud::Scene>(), "scene", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Render__get_scene },
+			{ t, offsetof(mud::Render, m_target), type<mud::RenderTarget>(), "target", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Render, m_target_fbo), type<mud::FrameBuffer>(), "target_fbo", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, SIZE_MAX, type<mud::Viewport>(), "viewport", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Render__get_viewport },
+			{ t, offsetof(mud::Render, m_rect), type<mud::uvec4>(), "rect", nullptr, Member::Value, nullptr },
+			{ t, SIZE_MAX, type<mud::Camera>(), "camera", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Render__get_camera },
+			{ t, SIZE_MAX, type<mud::RenderFrame>(), "frame", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), mud_Render__get_frame }
+		};
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, {}, members, {}, {}, };
 	}
 	// mud::RenderFrame
 	{
@@ -2320,6 +2357,9 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "RenderFrame", sizeof(mud::RenderFrame), TypeClass::Struct };
 		// bases
 		// defaults
+		static uint32_t nudraw_calls_default = 0;
+		static uint32_t nuvertices_default = 0;
+		static uint32_t nutriangles_default = 0;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_RenderFrame__construct_0, {} }
@@ -2329,9 +2369,18 @@ namespace mud
 			{ t, mud_RenderFrame__copy_construct }
 		};
 		// members
+		static Member members[] = {
+			{ t, offsetof(mud::RenderFrame, m_frame), type<uint32_t>(), "frame", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::RenderFrame, m_time), type<float>(), "time", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::RenderFrame, m_delta_time), type<float>(), "delta_time", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::RenderFrame, m_render_pass), type<uint8_t>(), "render_pass", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::RenderFrame, m_num_draw_calls), type<uint32_t>(), "nudraw_calls", &nudraw_calls_default, Member::Value, nullptr },
+			{ t, offsetof(mud::RenderFrame, m_num_vertices), type<uint32_t>(), "nuvertices", &nuvertices_default, Member::Value, nullptr },
+			{ t, offsetof(mud::RenderFrame, m_num_triangles), type<uint32_t>(), "nutriangles", &nutriangles_default, Member::Value, nullptr }
+		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
 	// mud::RenderQuad
 	{
@@ -2351,6 +2400,24 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+	}
+	// mud::Renderer
+	{
+		Type& t = type<mud::Renderer>();
+		static Meta meta = { t, &namspc({ "mud" }), "Renderer", sizeof(mud::Renderer), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		static Method methods[] = {
+			{ t, "gather", Address(), mud_Renderer_gather, { { "render", type<mud::Render>(),  } }, g_qvoid },
+			{ t, "begin", Address(), mud_Renderer_begin, { { "render", type<mud::Render>(),  } }, g_qvoid },
+			{ t, "end", Address(), mud_Renderer_end, { { "render", type<mud::Render>(),  } }, g_qvoid }
+		};
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, methods, {}, };
 	}
 	// mud::Rig
 	{
@@ -2615,19 +2682,29 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Texture", sizeof(mud::Texture), TypeClass::Object };
 		// bases
 		// defaults
-		static uint16_t width_default = 0;
-		static uint16_t height_default = 0;
+		static uint16_t depth_default = 0;
 		static uint32_t bits_per_pixel_default = 0;
+		static bool is_depth_default = false;
+		static bool is_depth_packed_default = false;
+		static bool is_array_default = false;
 		// constructors
 		// copy constructor
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::Texture, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Texture, m_bits_per_pixel), type<uint32_t>(), "bits_per_pixel", &bits_per_pixel_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Texture, m_size), type<mud::uvec2>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Texture, m_depth), type<uint16_t>(), "depth", &depth_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Texture, m_bits_per_pixel), type<uint32_t>(), "bits_per_pixel", &bits_per_pixel_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Texture, m_is_depth), type<bool>(), "is_depth", &is_depth_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Texture, m_is_depth_packed), type<bool>(), "is_depth_packed", &is_depth_packed_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Texture, m_is_array), type<bool>(), "is_array", &is_array_default, Member::Value, nullptr }
 		};
 		// methods
+		static Method methods[] = {
+			{ t, "valid", Address(), mud_Texture_valid, {}, { &type<bool>(), QualType::None } }
+		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
 	}
 	// mud::Viewport
 	{
@@ -2656,8 +2733,12 @@ namespace mud
 			{ t, offsetof(mud::Viewport, m_lighting), type<mud::Lighting>(), "lighting", &lighting_default, Member::Value, nullptr }
 		};
 		// methods
+		static Method methods[] = {
+			{ t, "cull", Address(), mud_Viewport_cull, { { "render", type<mud::Render>(),  } }, g_qvoid },
+			{ t, "render", Address(), mud_Viewport_render, { { "render", type<mud::Render>(),  } }, g_qvoid }
+		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
 	}
 	// mud::Zone
 	{
@@ -2722,12 +2803,26 @@ namespace mud
 		static Type* bases[] = { &type<mud::GfxBlock>() };
 		static size_t bases_offsets[] = { base_offset<mud::BlockFilter, mud::GfxBlock>() };
 		// defaults
+		static uint32_t set_source0_0_flags_default = UINT32_MAX;
+		static uint32_t set_source1_0_flags_default = UINT32_MAX;
+		static uint32_t set_source2_0_flags_default = UINT32_MAX;
+		static uint32_t set_source3_0_flags_default = UINT32_MAX;
+		static uint32_t set_sourcedepth_0_flags_default = UINT32_MAX;
 		// constructors
 		// copy constructor
 		// members
 		// methods
+		static Method methods[] = {
+			{ t, "source0", Address(), mud_BlockFilter_source0, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default } }, g_qvoid },
+			{ t, "source1", Address(), mud_BlockFilter_source1, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default } }, g_qvoid },
+			{ t, "source2", Address(), mud_BlockFilter_source2, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default } }, g_qvoid },
+			{ t, "source3", Address(), mud_BlockFilter_source3, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default } }, g_qvoid },
+			{ t, "sourcedepth", Address(), mud_BlockFilter_sourcedepth, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default } }, g_qvoid },
+			{ t, "uniform", Address(), mud_BlockFilter_uniform, { { "view", type<uint8_t>(),  }, { "name", type<stl::string>(),  }, { "value", type<mud::vec4>(),  } }, g_qvoid },
+			{ t, "uniforms", Address(), mud_BlockFilter_uniforms, { { "view", type<uint8_t>(),  }, { "name", type<stl::string>(),  }, { "value", type<mud::vec4>(), Param::Nullable }, { "num", type<uint16_t>(),  } }, g_qvoid }
+		};
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, methods, {}, };
 	}
 	// mud::BlockMaterial
 	{
@@ -2850,6 +2945,24 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
 	}
+	// mud::FrameBuffer
+	{
+		Type& t = type<mud::FrameBuffer>();
+		static Meta meta = { t, &namspc({ "mud" }), "FrameBuffer", sizeof(mud::FrameBuffer), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Texture>() };
+		static size_t bases_offsets[] = { base_offset<mud::FrameBuffer, mud::Texture>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::FrameBuffer, m_size), type<mud::uvec2>(), "size", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, members, {}, {}, };
+	}
 	// mud::GfxSystem
 	{
 		Type& t = type<mud::GfxSystem>();
@@ -2874,6 +2987,8 @@ namespace mud
 		// copy constructor
 		// members
 		static Member members[] = {
+			{ t, offsetof(mud::GfxSystem, m_renderer), type<mud::Renderer>(), "renderer", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::GfxSystem, m_render_frame), type<mud::RenderFrame>(), "render_frame", nullptr, Member::Value, nullptr },
 			{ t, SIZE_MAX, type<mud::AssetStore<mud::Texture>>(), "textures", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_GfxSystem__get_textures },
 			{ t, SIZE_MAX, type<mud::AssetStore<mud::Program>>(), "programs", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_GfxSystem__get_programs },
 			{ t, SIZE_MAX, type<mud::AssetStore<mud::Material>>(), "materials", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_GfxSystem__get_materials },
@@ -2883,6 +2998,7 @@ namespace mud
 		};
 		// methods
 		static Method methods[] = {
+			{ t, "main_target", Address(), mud_GfxSystem_main_target, {}, { &type<mud::RenderTarget>(), QualType::None } },
 			{ t, "default_pipeline", Address(), mud_GfxSystem_default_pipeline, {}, g_qvoid },
 			{ t, "add_resource_path", Address(), mud_GfxSystem_add_resource_path, { { "path", type<stl::string>(),  }, { "relative", type<bool>(), Param::Default, &add_resource_path_0_relative_default } }, g_qvoid },
 			{ t, "debug_material", Address(), mud_GfxSystem_debug_material, {}, { &type<mud::Material>(), QualType::None } },
@@ -2942,7 +3058,6 @@ namespace mud
 		m.m_types.push_back(&type<mud::EmitterFlow>());
 		m.m_types.push_back(&type<mud::Flow>());
 		m.m_types.push_back(&type<mud::Fog>());
-		m.m_types.push_back(&type<mud::FrameBuffer>());
 		m.m_types.push_back(&type<mud::Frustum>());
 		m.m_types.push_back(&type<mud::FrustumSlice>());
 		m.m_types.push_back(&type<mud::GfxBlock>());
@@ -2988,8 +3103,10 @@ namespace mud
 		m.m_types.push_back(&type<mud::Prefab>());
 		m.m_types.push_back(&type<mud::Program>());
 		m.m_types.push_back(&type<mud::Radiance>());
+		m.m_types.push_back(&type<mud::Render>());
 		m.m_types.push_back(&type<mud::RenderFrame>());
 		m.m_types.push_back(&type<mud::RenderQuad>());
+		m.m_types.push_back(&type<mud::Renderer>());
 		m.m_types.push_back(&type<mud::Rig>());
 		m.m_types.push_back(&type<mud::Scene>());
 		m.m_types.push_back(&type<mud::ShaderColor>());
@@ -3031,6 +3148,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::ClusteredFrustum>());
 		m.m_types.push_back(&type<mud::DrawBlock>());
 		m.m_types.push_back(&type<mud::Flare>());
+		m.m_types.push_back(&type<mud::FrameBuffer>());
 		m.m_types.push_back(&type<mud::GfxSystem>());
 		m.m_types.push_back(&type<mud::RenderTarget>());
 		{
@@ -3103,6 +3221,10 @@ namespace mud
 		}
 		{
 			static Function f = { &namspc({ "mud" }), "bxTRS", nullptr, mud_bxTRS_17, { { "scale", type<mud::vec3>(),  }, { "rot", type<mud::quat>(),  }, { "trans", type<mud::vec3>(),  } }, { &type<mud::mat4>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "load_texture_rgba", nullptr, mud_load_texture_rgba_18, { { "texture", type<mud::Texture>(),  }, { "size", type<mud::uvec2>(),  }, { "data", type<stl::span<uint32_t>>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{

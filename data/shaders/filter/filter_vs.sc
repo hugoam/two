@@ -1,7 +1,7 @@
 $input a_position, a_texcoord0
 $output v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 
 void main()
 {

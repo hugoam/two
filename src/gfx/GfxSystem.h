@@ -86,7 +86,11 @@ namespace mud
 		bgfx::Encoder* m_encoders[8] = {};
 		size_t m_num_encoders = 0;
 
-		Renderer m_renderer;
+		attr_ Renderer m_renderer;
+
+		attr_ RenderFrame m_render_frame;
+
+		meth_ RenderTarget& main_target();
 
 		virtual void begin_frame() final;
 		virtual bool next_frame() final;
@@ -105,7 +109,7 @@ namespace mud
 		void set_renderer(Shading shading, const RenderFunc& renderer);
 		RenderFunc renderer(Shading shading);
 
-		void render(Shading shading, RenderFunc renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame);
+		void render(Shading shading, RenderFunc renderer, RenderTarget& target, Viewport& viewport);
 		RenderFrame render_frame();
 
 		GfxContext& context(size_t index = 0);

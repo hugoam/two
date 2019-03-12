@@ -15,10 +15,10 @@ static string vertex_shader()
 		"$input a_position, a_texcoord0\n"
 		"$output v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"void main() {\n"
-		"	v_uv0 = u_source_0_crop.xy + a_texcoord0 * u_source_0_crop.zw;\n"
+		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
 		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"}\n";
 
@@ -31,7 +31,7 @@ static string fragment_shader()
 
 		"$input v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"float readDepth(sampler2D depthSampler, vec2 coord)\n"
 		"{\n"
@@ -54,19 +54,19 @@ static string fragment_shader()
 
 void pass_to_depth(GfxSystem& gfx, Render& render)
 {
-	static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& block_filter = *gfx.m_renderer.block<BlockFilter>();
+	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
+	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
 
 	static Program& program = gfx.programs().fetch("todepth");
 
 	Pass pass = render.next_pass("todepth", PassType::PostProcess);
 
-	bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), block_filter.u_uniform.s_source_depth, render.m_target->m_depth);
+	bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), filter.u_uniform.s_source_depth, render.m_target->m_depth);
 
 	RenderTarget& target = *render.m_target;
-	block_filter.submit_quad(pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
+	filter.quad(pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
 
-	block_copy.submit_quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
+	copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
 };
 
 void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar)
@@ -112,7 +112,7 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar)
 			gfx::items(scene).add(Item(n, geometry, 0U, &material));
 		}
 
-		static BlockFilter& block_filter = *app.m_gfx.m_renderer.block<BlockFilter>();
+		static BlockFilter& filter = *app.m_gfx.m_renderer.block<BlockFilter>();
 
 		Program& program = app.m_gfx.programs().create("todepth");
 		program.m_sources[ShaderType::Vertex] = vertex_shader();

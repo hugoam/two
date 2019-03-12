@@ -236,27 +236,6 @@ extern "C" {
 	void DECL mud_ScriptedBrush__destroy(mud::ScriptedBrush* self) {
 		delete self;
 	}
-	// TransformAction
-	mud::Type* DECL mud_TransformAction__type() {
-		return &mud::type<mud::TransformAction>();
-	}
-	void DECL mud_TransformAction__destroy(mud::TransformAction* self) {
-		delete self;
-	}
-	// TransformGizmo
-	mud::Type* DECL mud_TransformGizmo__type() {
-		return &mud::type<mud::TransformGizmo>();
-	}
-	void DECL mud_TransformGizmo__destroy(mud::TransformGizmo* self) {
-		delete self;
-	}
-	// TransformTool
-	mud::Type* DECL mud_TransformTool__type() {
-		return &mud::type<mud::TransformTool>();
-	}
-	void DECL mud_TransformTool__destroy(mud::TransformTool* self) {
-		delete self;
-	}
 	// TranslateAction
 	mud::Type* DECL mud_TranslateAction__type() {
 		return &mud::type<mud::TranslateAction>();
@@ -297,6 +276,27 @@ extern "C" {
 		return &mud::type<mud::SpatialTool>();
 	}
 	void DECL mud_SpatialTool__destroy(mud::SpatialTool* self) {
+		delete self;
+	}
+	// TransformAction
+	mud::Type* DECL mud_TransformAction__type() {
+		return &mud::type<mud::TransformAction>();
+	}
+	void DECL mud_TransformAction__destroy(mud::TransformAction* self) {
+		delete self;
+	}
+	// TransformGizmo
+	mud::Type* DECL mud_TransformGizmo__type() {
+		return &mud::type<mud::TransformGizmo>();
+	}
+	void DECL mud_TransformGizmo__destroy(mud::TransformGizmo* self) {
+		delete self;
+	}
+	// TransformTool
+	mud::Type* DECL mud_TransformTool__type() {
+		return &mud::type<mud::TransformTool>();
+	}
+	void DECL mud_TransformTool__destroy(mud::TransformTool* self) {
 		delete self;
 	}
 	// TranslateTool

@@ -1,6 +1,6 @@
 $input v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 
 float readDepth(sampler2D depthSampler, vec2 coord)
 {

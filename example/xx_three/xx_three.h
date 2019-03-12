@@ -40,5 +40,7 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar);
+void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar);
+void xx_effect_sobel(Shell& app, Widget& parent, Dockbar& dockbar);
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar);

@@ -52,9 +52,10 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	    //xx_materials_standard(app, parent, dockbar);
 	    //xx_materials_variations(app, parent, dockbar);
 	//xx_depth_texture(app, parent, dockbar);
-	//xx_effect_dof(app, parent, dockbar);
+	xx_effect_dof(app, parent, dockbar);
 	//xx_effect_godrays(app, parent, dockbar);
-	xx_effect_glitch(app, parent, dockbar);
+	//xx_effect_glitch(app, parent, dockbar);
+	//xx_effect_sao(app, parent, dockbar);
 }
 
 #ifdef _XX_THREE_EXE
@@ -69,6 +70,7 @@ int main(int argc, char *argv[])
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx.add_resource_path("examples/xx_three");
 	app.m_gfx.init_pipeline(pipeline_pbr);
+	//app.m_gfx.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

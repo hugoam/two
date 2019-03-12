@@ -242,9 +242,14 @@ namespace mud
 		return *m_impl->m_contexts[index];
 	}
 
+	RenderTarget& GfxSystem::main_target()
+	{
+		return *this->context(0).m_target;
+	}
+
 	void GfxSystem::begin_frame()
 	{
-		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
+		m_render_frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 
 		{
 			ZoneScopedNC("programs", tracy::Color::Cyan);
@@ -257,13 +262,8 @@ namespace mud
 			ZoneScopedNC("renderers", tracy::Color::Cyan);
 
 			for(auto& block : m_renderer.m_gfx_blocks)
-				block->begin_frame(frame);
+				block->begin_frame(m_render_frame);
 		}
-	}
-
-	bool GfxSystem::next_frame()
-	{
-		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 
 #ifdef MUD_GFX_THREADED
 		{
@@ -276,7 +276,10 @@ namespace mud
 				m_encoders[i] = bgfx::begin(true);
 		}
 #endif
+	}
 
+	bool GfxSystem::next_frame()
+	{
 		for(GfxContext* context : m_impl->m_contexts)
 			for(Viewport* viewport : context->m_viewports)
 				if(viewport->m_active)
@@ -284,7 +287,7 @@ namespace mud
 					ZoneScopedNC("gfx viewport", tracy::Color::Cyan);
 
 					RenderFunc renderer = this->renderer(viewport->m_shading);
-					this->render(viewport->m_shading, renderer, *context, *viewport, frame);
+					this->render(viewport->m_shading, renderer, *context->m_target, *viewport);
 				}
 
 #ifdef MUD_GFX_THREADED
@@ -312,23 +315,10 @@ namespace mud
 		return pursue;
 	}
 
-	void GfxSystem::render(Shading shading, RenderFunc renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame)
+	void GfxSystem::render(Shading shading, RenderFunc renderer, RenderTarget& target, Viewport& viewport)
 	{
-		Render render = { shading, viewport, *context.m_target, frame };
-		m_renderer.gather(render);
-		render.m_viewport.render(render);
-		render.m_viewport.cull(render);
-
-#ifdef DEBUG_ITEMS
-		scene.debug_items(render);
-#endif
-
-		if(viewport.m_rect.width != 0 && viewport.m_rect.height != 0)
-			m_renderer.render(render, renderer);
-
-		//copy.debug_show_texture(render, render.m_env->m_radiance.m_texture->m_texture, vec4(0.f), false, false, false, 0);
-		//copy.debug_show_texture(render, render.m_env->m_radiance.m_filtered, vec4(0.f), false, false, false, 1);
-		//copy.debug_show_texture(render, bgfx::getTexture(render.m_target->m_effects.last()), vec4(0.f));
+		Render render = { shading, viewport, target, m_render_frame };
+		m_renderer.submit(render, renderer);
 	}
 
 	RenderFrame GfxSystem::render_frame()

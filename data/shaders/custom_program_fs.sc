@@ -1,6 +1,6 @@
 $input v_uv0
 
-#include "filter/filter.sh"
+#include "filter.sh"
 
 #define PI 3.1415926553589793
 #define TAU 6.283185307179586

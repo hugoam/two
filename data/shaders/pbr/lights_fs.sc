@@ -1,6 +1,6 @@
 $input v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 
 #include <pbr/pbr.sh>
 #include <pbr/light.sh>

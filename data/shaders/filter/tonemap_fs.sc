@@ -1,6 +1,6 @@
 $input v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 #include <tonemap.sh>
 
 #define s_source s_source_0

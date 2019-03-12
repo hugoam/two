@@ -152,7 +152,7 @@ namespace mud
 			{
 				bgfx::Attachment attachment = { bgfx::Access::Write, filtered, uint16_t(mips ? level : 0), uint16_t(mips ? 0 : level), BGFX_RESOLVE_NONE };
 				FrameBuffer render_target = { size, bgfx::createFrameBuffer(1, &attachment, false) };
-				m_copy.submit_quad(view_id + 1, render_target, texture);
+				m_copy.quad(view_id + 1, render_target, texture);
 				bgfx::frame();
 			}
 		};
@@ -161,13 +161,14 @@ namespace mud
 
 		for(uint16_t i = 1; i < roughness_levels; i++)
 		{
-			uvec2 size = mips ? uvec2(width >> i, height >> i) : uvec2(width, height);
+			const uvec2 size = mips ? uvec2(width >> i, height >> i) : uvec2(width, height);
 			FrameBuffer copy_target = { size, format, GFX_TEXTURE_POINT };
 
-			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, filtered, GFX_TEXTURE_POINT);
+			m_filter.source0(filtered, GFX_TEXTURE_POINT);
 
-			int source_level = i - 1;
-			bgfx::setUniform(m_filter.u_uniform.u_source_0_level, &source_level);
+			const int source_level = i - 1;
+			const vec4 levels = { float(source_level), 0.f, 0.f, 0.f };
+			bgfx::setUniform(m_filter.u_uniform.u_source_levels, &levels);
 
 			float roughness = i / float(roughness_levels - 1);
 #ifdef MUD_PLATFORM_EMSCRIPTEN
@@ -179,7 +180,7 @@ namespace mud
 			bgfx::setUniform(u_prefilter.u_prefilter_envmap_p0, &prefilter_p0);
 
 			bgfx::ProgramHandle program = m_prefilter_program.default_version();
-			m_filter.submit_quad(view_id, copy_target, program, 0U, true);
+			m_filter.quad(view_id, copy_target, program, 0U, true);
 
 			blit_to_array(copy_target, size, i);
 		}

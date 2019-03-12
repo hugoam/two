@@ -4,7 +4,7 @@ $input v_uv0,
 #include <spherical.sh>
 
 //#define SOURCE_0_ARRAY
-#include <filter/filter.sh>
+#include <filter.sh>
 
 #define s_radiance_source s_source_0
 

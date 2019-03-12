@@ -168,29 +168,31 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT RenderFrame
 	{
-		uint32_t m_frame;
-		float m_time;
-		float m_delta_time;
-		uint8_t m_render_pass;
-		uint32_t m_num_draw_calls = 0;
-		uint32_t m_num_vertices = 0;
-		uint32_t m_num_triangles = 0;
+		attr_ uint32_t m_frame;
+		attr_ float m_time;
+		attr_ float m_delta_time;
+		attr_ uint8_t m_render_pass;
+
+		attr_ uint32_t m_num_draw_calls = 0;
+		attr_ uint32_t m_num_vertices = 0;
+		attr_ uint32_t m_num_triangles = 0;
 	};
 
-	export_ struct MUD_GFX_EXPORT Render
+	export_ class refl_ MUD_GFX_EXPORT Render
 	{
-		Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame);
-		Render(Shading shading, Viewport& viewport, FrameBuffer& target_fbo, RenderFrame& frame);
+	public:
+		constr_ Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame);
+		constr_ Render(Shading shading, Viewport& viewport, FrameBuffer& target_fbo, RenderFrame& frame);
 		~Render();
 
-		Shading m_shading;
-		Scene& m_scene;
-		RenderTarget* m_target;
-		FrameBuffer* m_target_fbo;
-		Viewport& m_viewport;
-		uvec4 m_rect;
-		Camera& m_camera;
-		RenderFrame& m_frame;
+		attr_ Shading m_shading;
+		attr_ Scene& m_scene;
+		attr_ RenderTarget* m_target;
+		attr_ FrameBuffer* m_target_fbo;
+		attr_ Viewport& m_viewport;
+		attr_ uvec4 m_rect;
+		attr_ Camera& m_camera;
+		attr_ RenderFrame& m_frame;
 
 		unique<Frustum> m_frustum;
 
@@ -299,7 +301,7 @@ namespace mud
 
 	using RenderFunc = void(*)(GfxSystem&, Render&);
 
-	export_ class MUD_GFX_EXPORT Renderer
+	export_ class refl_ MUD_GFX_EXPORT Renderer
 	{
 	public:
 		Renderer(GfxSystem& gfx);
@@ -312,12 +314,13 @@ namespace mud
 
 		void init();
 
+		void submit(Render& render, RenderFunc renderer);
 		void render(Render& render, RenderFunc renderer);
 		void subrender(Render& render, Render& sub, RenderFunc renderer);
 
-		void gather(Render& render);
-		void begin(Render& render);
-		void end(Render& render);
+		meth_ void gather(Render& render);
+		meth_ void begin(Render& render);
+		meth_ void end(Render& render);
 
 		using Enqueue = void(*)(GfxSystem&, Render&, Pass&, DrawElement);
 		using Submit = void(*)(GfxSystem&, Render&, Pass&, const DrawElement&);

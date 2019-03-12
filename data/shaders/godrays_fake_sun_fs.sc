@@ -1,6 +1,6 @@
 $input v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 
 uniform vec4 u_godrays_sun_p0;
 #define u_bg_color u_godrays_sun_p0.xyz

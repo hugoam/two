@@ -24,10 +24,10 @@ static string glitch_vertex()
 		"$input a_position, a_texcoord0\n"
 		"$output v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"void main() {\n"
-		"	v_uv0 = u_source_0_crop.xy + a_texcoord0 * u_source_0_crop.zw;\n"
+		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
 		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"}\n";
 
@@ -40,7 +40,7 @@ static string glitch_fragment()
 
 		"$input v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"uniform vec4 u_glitch_p0;\n"
 		"#define u_amount u_glitch_p0.x\n"
@@ -131,8 +131,8 @@ Texture& glitch_heightmap(GfxSystem& gfx, uint size)
 
 void pass_glitch(GfxSystem& gfx, Render& render, Glitch& glitch, uint dt_size = 64)
 {
-	static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& block_filter = *gfx.m_renderer.block<BlockFilter>();
+	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
+	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
 
 	static Program& program = gfx.programs().create("glitch");
 	program.m_sources[ShaderType::Vertex] = glitch_vertex();
@@ -174,21 +174,16 @@ void pass_glitch(GfxSystem& gfx, Render& render, Glitch& glitch, uint dt_size = 
 
 	Pass pass = render.next_pass("glitch", PassType::PostProcess);
 
-	static bgfx::UniformHandle u_glitch_p0 = bgfx::createUniform("u_glitch_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-	static bgfx::UniformHandle u_glitch_p1 = bgfx::createUniform("u_glitch_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+	filter.uniform(pass.m_index, "u_glitch_p0", vec4(amount, angle, glitch.seed, 0.f));
+	filter.uniform(pass.m_index, "u_glitch_p1", vec4(scale, distort));
 
-	vec4 glitch_p0 = { amount, angle, glitch.seed, 0.f };
-	vec4 glitch_p1 = { scale, distort };
-	bgfx::setViewUniform(pass.m_index, u_glitch_p0, &glitch_p0);
-	bgfx::setViewUniform(pass.m_index, u_glitch_p1, &glitch_p1);
-
-	bgfx::setTexture(uint8_t(TextureSampler::Source0), block_filter.u_uniform.s_source_0, render.m_target->m_diffuse);
-	bgfx::setTexture(uint8_t(TextureSampler::Source1), block_filter.u_uniform.s_source_depth, disp);
+	filter.source0(render.m_target->m_diffuse);
+	filter.sourcedepth(disp);
 
 	RenderTarget& target = *render.m_target;
-	block_filter.submit_quad(pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
+	filter.quad(pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
 
-	block_copy.submit_quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
+	copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
 }
 
 void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar)

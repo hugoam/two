@@ -2,7 +2,7 @@ $input a_position, a_texcoord0
 $output v_dir, v_uv0
 
 #include <common.sh>
-#include <filter/filter.sh>
+#include <filter.sh>
 
 uniform mat4 u_skybox_matrix;
 

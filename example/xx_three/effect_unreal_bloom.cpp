@@ -27,10 +27,10 @@ static string luminosity_vertex()
 		"$input a_position, a_texcoord0\n"
 		"$output v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"void main() {\n"
-		"	v_uv0 = u_source_0_crop.xy + a_texcoord0 * u_source_0_crop.zw;\n"
+		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
 		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"}\n";
 
@@ -160,10 +160,10 @@ static string merge_vertex()
 		"$input a_position, a_texcoord0\n"
 		"$output v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"void main() {\n"
-		"	v_uv0 = u_source_0_crop.xy + a_texcoord0 * u_source_0_crop.zw;\n"
+		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
 		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"}\n";
 
@@ -202,14 +202,15 @@ static string merge_fragment()
 
 struct Bloom
 {
-	uvec2 resolution = uvec2(256U);
+	float exposure = 1.f;
 	float strength = 1.f;
 	float radius;
 	float threshold;
 	float levels[5] = { 1.0, 0.8, 0.6, 0.4, 0.2 };
+	uvec2 resolution = uvec2(256U);
 };
 
-void pass_unreal_bloom(GfxSystem& gfx, Render& render)
+void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 {
 	//var bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
 	//bloomPass.renderToScreen = true;
@@ -217,10 +218,10 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render)
 	//bloomPass.strength = params.bloomStrength;
 	//bloomPass.radius = params.bloomRadius;
 
-	static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& block_filter = *gfx.m_renderer.block<BlockFilter>();
+	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
+	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
 
-	auto pass_lum = [](GfxSystem& gfx, Render& render, const Bloom& bloom)
+	auto pass_lum = [](GfxSystem& gfx, Render& render, const Bloom& bloom, FrameBuffer& fbo)
 	{
 		static Program& program = gfx.programs().create("bloom_lum");
 		program.m_sources[ShaderType::Vertex] = luminosity_vertex();
@@ -231,41 +232,35 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render)
 
 		// luminosity high pass material
 
-		static bgfx::UniformHandle u_lum_p0 = bgfx::createUniform("u_glow_lum_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-
 		Pass pass = render.next_pass("bloom_lum", PassType::PostProcess);
 
-		vec4 lum_p0 = { bloom.threshold, 0.01f, 0.f, 0.f };
-		bgfx::setViewUniform(pass.m_index, u_lum_p0, &lum_p0);
+		filter.uniform(pass.m_index, "u_glow_lum_p0", vec4(bloom.threshold, 0.01f, 0.f, 0.f));
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), block_filter.u_uniform.s_source_0, render.m_target->m_diffuse);
+		filter.source0(render.m_target->m_diffuse);
 
-		RenderTarget& target = *render.m_target;
-		block_filter.submit_quad(pass.m_index, fbo, program.default_version(), quad);
+		filter.quad(pass.m_index, fbo, program.default_version());
 	};
 
-	auto pass_blur = [](GfxSystem& gfx, Render& render, const Bloom& bloom, Texture& source, FrameBuffer& dest, const vec2& direction)
+	enum BlurPass { BlurH, BlurV };
+	enum BlurOptions { BLUR_KERNEL_SIZE };
+
+	auto pass_blur = [](GfxSystem& gfx, Render& render, BlurPass d, Texture& source, FrameBuffer& dest, uint8_t kernel_size)
 	{
 		static Program& program = gfx.programs().create("bloom_blur");
 		program.m_sources[ShaderType::Vertex] = blur_vertex();
 		program.m_sources[ShaderType::Fragment] = blur_fragment();
 
-		static bgfx::UniformHandle u_blur_p0 = bgfx::createUniform("u_blur_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-
 		Pass pass = render.next_pass("bloom_blur", PassType::PostProcess);
 
-		// Gaussian Blur Materials
-		//var kernelSizeArray = [3, 5, 7, 9, 11];
-		//
-		//for(var i = 0; i < this.nMips; i++) {
-		//
-		//	this.separableBlurMaterials.push(this.getSeperableBlurMaterial(kernelSizeArray[i]));
-		//}
+		constexpr vec2 dirs[] = { vec2(1.f, 0.f), vec2(0.f, 1.f) };
 
-		vec4 blur_p0 = { direction, vec2(0.f, 0.f) };
-		bgfx::setViewUniform(pass.m_index, u_blur_p0, &blur_p0);
+		filter.uniform(pass.m_index, "u_bloom_blur_p0", vec4(dirs[d], vec2(0.f, 0.f)));
+		filter.source0(source);
 
+		ShaderVersion version = { &program };
+		version.set_mode(0, BLUR_KERNEL_SIZE, kernel_size);
 
+		filter.quad(pass.m_index, dest, program.version(version));
 	};
 
 	auto pass_merge = [](GfxSystem& gfx, Render& render, const Bloom& bloom)//, FrameBuffer& fbo)
@@ -274,28 +269,24 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render)
 		program.m_sources[ShaderType::Vertex] = blur_vertex();
 		program.m_sources[ShaderType::Fragment] = blur_fragment();
 
-		static bgfx::UniformHandle u_glow_p0 = bgfx::createUniform("u_glow_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-		static bgfx::UniformHandle u_glow_levels = bgfx::createUniform("u_glow_levels", bgfx::UniformType::Vec4, 2U, bgfx::UniformFreq::View);
-		static bgfx::UniformHandle u_glow_colors = bgfx::createUniform("u_glow_colors", bgfx::UniformType::Vec4, 5U, bgfx::UniformFreq::View);
-
 		Pass pass = render.next_pass("bloom_merge", PassType::PostProcess);
 
-		vec4 glow_p0 = { bloom.strength, bloom.radius, 0.f, 0.f };
-		vec4 glow_levels[2] = { vec4(1.0f, 0.8f, 0.6f, 0.4f), vec4(0.2f, 0.0f, 0.0f, 0.0f) };
-		Colour glow_tint[5] = { Colour(1.f), Colour(1.f), Colour(1.f), Colour(1.f),  Colour(1.f) };
+		const Colour white = Colour(1.f);
+		const vec4 glow_levels[2] = { vec4(1.0f, 0.8f, 0.6f, 0.4f), vec4(0.2f, 0.0f, 0.0f, 0.0f) };
+		const vec4 glow_tint[5] = { to_vec4(white), to_vec4(white), to_vec4(white), to_vec4(white), to_vec4(white) };
 
-		bgfx::setViewUniform(pass.m_index, u_glow_p0, &glow_p0);
-		bgfx::setViewUniform(pass.m_index, u_glow_levels, glow_levels);
-		bgfx::setViewUniform(pass.m_index, u_glow_colors, glow_tint);
+		filter.uniform(pass.m_index, "u_glow_p0", vec4(bloom.strength, bloom.radius, 0.f, 0.f));
+		filter.uniforms(pass.m_index, "u_glow_levels", glow_levels, 2U);
+		filter.uniforms(pass.m_index, "u_glow_colors", glow_tint, 5U);
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), block_filter.u_uniform.s_source_0, render.m_target->m_diffuse);
-		bgfx::setTexture(uint8_t(TextureSampler::Source1), block_filter.u_uniform.s_source_1, render.m_target->m_swap_cascade.last().m_texture);
+		filter.source0(render.m_target->m_diffuse);
+		filter.source1(render.m_target->m_swap_cascade.last().m_texture);
 
 		RenderTarget& target = *render.m_target;
-		block_filter.submit_quad(pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
+		filter.quad(pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
 
 		// additive blend bloom over target
-		block_copy.submit_quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
+		copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
 	};
 
 	// 1. Extract Bright Areas
@@ -303,18 +294,23 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render)
 
 	// 2. Blur All the mips progressively
 	//SwapCascade& swap = render.m_target->m_swap_cascade;
-	static SwapCascade swap; swap.create(bloom.resolution);
-	Texture& source = render.m_target->m_ping_pong.last();
+	static SwapCascade swap;
+	if(!swap.m_one.m_fbo.valid())
+		swap.create(bloom.resolution, bgfx::TextureFormat::RGBA8);
 
+	Texture* source = &render.m_target->m_ping_pong.last();
+
+	constexpr size_t kernel_sizes[] = { 3, 5, 7, 9, 11 };
+	
 	for(size_t i = 0; i < 5; i++)
 	{
 		Cascade& h = swap.swap();
-		pass_blur(gfx, render, bloom, source, h.m_fbo, vec2(1.f, 0.f));
+		pass_blur(gfx, render, BlurH, *source, h.m_fbo, kernel_sizes[i]);
 
 		Cascade& v = swap.swap();
-		pass_blur(gfx, render, bloom, h.m_texture, v.m_fbo, vec2(0.f, 1.f));
+		pass_blur(gfx, render, BlurV, h.m_texture, v.m_fbo, kernel_sizes[i]);
 
-		source = v.m_texture;
+		source = &v.m_texture;
 	}
 
 	// Composite All the mips
@@ -339,12 +335,7 @@ void xx_effect_unreal_bloom(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Node3* node = nullptr;
 
-	static Bloom bloom = {
-		exposure: 1,
-		bloomStrength : 1.5,
-		bloomThreshold : 0,
-		bloomRadius : 0
-	};
+	static Bloom bloom = { 1.f, 1.5, 0.f, 0.f };
 
 	static bool once = false;
 	if(!once)
@@ -366,7 +357,7 @@ void xx_effect_unreal_bloom(Shell& app, Widget& parent, Dockbar& dockbar)
 
 			pass_clear(gfx, render);
 			pass_opaque(gfx, render);
-			pass_unreal_bloom(gfx, render);
+			pass_unreal_bloom(gfx, render, bloom);
 		};
 
 		app.m_gfx.set_renderer(Shading::Shaded, render);

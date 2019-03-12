@@ -32,13 +32,8 @@ namespace mud
 			s_source_3		= bgfx::createUniform("s_source_3",		bgfx::UniformType::Sampler);
 			s_source_depth	= bgfx::createUniform("s_source_depth",	bgfx::UniformType::Sampler);
 
-			u_source_0_level	 = bgfx::createUniform("u_source_0_level",		bgfx::UniformType::Sampler);
-			u_source_1_level	 = bgfx::createUniform("u_source_1_level",		bgfx::UniformType::Sampler);
-			u_source_2_level	 = bgfx::createUniform("u_source_2_level",		bgfx::UniformType::Sampler);
-			u_source_3_level	 = bgfx::createUniform("u_source_3_level",		bgfx::UniformType::Sampler);
-			u_source_depth_level = bgfx::createUniform("u_source_depth_level",	bgfx::UniformType::Sampler);
-
-			u_source_0_crop		 = bgfx::createUniform("u_source_0_crop",		bgfx::UniformType::Vec4);
+			u_source_levels = bgfx::createUniform("u_source_levels", bgfx::UniformType::Vec4);
+			u_source_crop	= bgfx::createUniform("u_source_crop",	 bgfx::UniformType::Vec4);
 		}
 
 		bgfx::UniformHandle s_source_0;
@@ -47,13 +42,8 @@ namespace mud
 		bgfx::UniformHandle s_source_3;
 		bgfx::UniformHandle s_source_depth;
 
-		bgfx::UniformHandle u_source_0_level;
-		bgfx::UniformHandle u_source_1_level;
-		bgfx::UniformHandle u_source_2_level;
-		bgfx::UniformHandle u_source_3_level;
-		bgfx::UniformHandle u_source_depth_level;
-
-		bgfx::UniformHandle u_source_0_crop;
+		bgfx::UniformHandle u_source_levels;
+		bgfx::UniformHandle u_source_crop;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT BlockFilter : public GfxBlock
@@ -65,18 +55,19 @@ namespace mud
 
 		virtual void begin_render(Render& render) override;
 
-		void submit_quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
-		//void submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
+		void quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
+		//void quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
 
-		void submit_quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
-		void submit_quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, uint64_t flags = 0U, bool render = false);
+		void quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
+		void quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, uint64_t flags = 0U, bool render = false);
 
-		meth_ void set_source0(Texture& texture);
-		meth_ void set_source1(Texture& texture);
-		meth_ void set_source2(Texture& texture);
-		meth_ void set_source3(Texture& texture);
-		meth_ void set_sourcedepth(Texture& texture);
-		meth_ void set_uniform(uint8_t view, const string& name, const vec4& value);
+		meth_ void source0(Texture& texture, uint32_t flags = UINT32_MAX);
+		meth_ void source1(Texture& texture, uint32_t flags = UINT32_MAX);
+		meth_ void source2(Texture& texture, uint32_t flags = UINT32_MAX);
+		meth_ void source3(Texture& texture, uint32_t flags = UINT32_MAX);
+		meth_ void sourcedepth(Texture& texture, uint32_t flags = UINT32_MAX);
+		meth_ void uniform(uint8_t view, const string& name, const vec4& value);
+		meth_ void uniforms(uint8_t view, const string& name, const vec4* value, uint16_t num);
 
 		FilterUniform u_uniform;
 
@@ -94,9 +85,9 @@ namespace mud
 
 		virtual void begin_render(Render& render) override;
 
-		void submit_quad(uint8_t view, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags = 0U);
-		void submit_quad(uint8_t view, FrameBuffer& fbo, Texture& texture, const uvec4& rect, uint64_t flags = 0U);
-		void submit_quad(uint8_t view, FrameBuffer& fbo, Texture& texture, uint64_t flags = 0U);
+		void quad(uint8_t view, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags = 0U);
+		void quad(uint8_t view, FrameBuffer& fbo, Texture& texture, const uvec4& rect, uint64_t flags = 0U);
+		void quad(uint8_t view, FrameBuffer& fbo, Texture& texture, uint64_t flags = 0U);
 
 		void debug_show_texture(Render& render, Texture& texture, const vec4& rect, int level = 0);
 

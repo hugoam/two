@@ -1,6 +1,6 @@
 $input v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 
 void main() {
 	float depth = texture2D(s_source_depth, v_uv0).x;

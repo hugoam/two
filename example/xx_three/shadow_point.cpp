@@ -13,7 +13,7 @@ Texture& generateTexture(GfxSystem& gfx)
 	Texture& texture = gfx.textures().create("half");
 
 	const uvec2 size = uvec2(2U);
-	const bgfx::Memory* memory = bgfx::alloc(size.x * height * 4);
+	const bgfx::Memory* memory = bgfx::alloc(size.x * size.y * 4);
 
 	uint32_t* data = (uint32_t*)memory->data;
 	for(uint16_t x = 0; x < size.x; ++x)
@@ -87,6 +87,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 			Node3& node = gfx::nodes(scene).add(Node3());
 			Item& inner = gfx::items(scene).add(Item(node, sphere0, 0, &app.m_gfx.symbol_material(Symbol(color))));// * intensity));
 			Item& outer = gfx::items(scene).add(Item(node, sphere1, 0, spheremat));
+			UNUSED(inner); UNUSED(outer);
 
 			Light& light = gfx::lights(scene).add(Light(node, LightType::Point, false, color, intensity, range)); //, 0.6));// intensity);
 			light.m_attenuation = 0.6f;
@@ -124,7 +125,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	auto pos = [](float time) -> vec3
 	{
-		return vec3(sin(time * 0.6) * 9, sin(time * 0.7) * 9 + 5, sin(time * 0.8) * 9);
+		return vec3(sin(time * 0.6f) * 9, sin(time * 0.7f) * 9.f + 5.f, sin(time * 0.8f) * 9.f);
 	};
 
 	auto rot = [](float time) -> quat
@@ -132,11 +133,8 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 		return quat(vec3(time, 0.f, time));
 	};
 	
-#if IMMEDIATE
-	Gnode& scene = viewer.m_scene.begin();
-
-	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
-#endif
+	Gnode& root = viewer.m_scene.begin();
+	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
 	static bool moving = true;
 	static float time = 0.f;

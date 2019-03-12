@@ -1,6 +1,6 @@
 $input v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 
 #define s_source_taps s_source_0
 #define s_source_color s_source_1

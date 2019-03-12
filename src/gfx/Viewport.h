@@ -67,8 +67,8 @@ namespace mud
 
 		void render_pass(const Pass& render_pass);
 
-		void cull(Render& render);
-		void render(Render& render);
+		meth_ void cull(Render& render);
+		meth_ void render(Render& render);
 
 		Ray ray(const vec2& pos);
 		vec3 raycast(const Plane& plane, const vec2& pos);

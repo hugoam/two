@@ -1,6 +1,6 @@
 $input v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 
 uniform vec4 u_godrays_combine_p0;
 #define u_intensity u_godrays_combine_p0.x

@@ -160,11 +160,10 @@ Image.prototype["__destroy"] = Image.prototype.__destroy = function() {
     _mud_Image__destroy(this.__ptr);
 };
 // Image256
-function Image256(a0, a1, a2) {
+function Image256(a0, a1) {
     if (a0 === undefined) { this.__ptr = _mud_Image256__construct_0(); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_Image256__construct_1(/*width*/a0); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_Image256__construct_2(/*width*/a0, /*height*/a1); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Image256__construct_3(/*width*/a0, /*height*/a1, /*palette*/a2.__ptr); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this;
+    if (a1 === undefined) { this.__ptr = _mud_Image256__construct_1(/*size*/a0.__ptr); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this; return; }
+    this.__ptr = _mud_Image256__construct_2(/*size*/a0.__ptr, /*palette*/a1.__ptr); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this;
 };
 Image256.prototype = Object.create(WrapperObject.prototype);
 Image256.prototype.constructor = Image256;
@@ -175,20 +174,12 @@ Object.defineProperty(Image256.prototype, "pixels", {
     get: function() {
         return _mud_Image256__get_pixels(this.__ptr);
     }});
-Object.defineProperty(Image256.prototype, "width", {
+Object.defineProperty(Image256.prototype, "size", {
     get: function() {
-        return _mud_Image256__get_width(this.__ptr);
+        return wrapPointer(_mud_Image256__get_size(this.__ptr), v2_uint);
     },
     set: function(value) {
-        _mud_Image256__set_width(this.__ptr, value);
-    }
-});
-Object.defineProperty(Image256.prototype, "height", {
-    get: function() {
-        return _mud_Image256__get_height(this.__ptr);
-    },
-    set: function(value) {
-        _mud_Image256__set_height(this.__ptr, value);
+        _mud_Image256__set_size(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(Image256.prototype, "palette", {

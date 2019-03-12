@@ -1,6 +1,6 @@
 $input v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 
 uniform vec4 u_glitch_p0;
 #define u_amount u_glitch_p0.x

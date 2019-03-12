@@ -85,12 +85,12 @@ namespace mud
 
 	void BlockGlow::glow_bleed(Render& render, RenderTarget& target, Glow& glow)
 	{
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, target.m_diffuse);
+		m_filter.source0(target.m_diffuse);
 		//bgfx::setUniform(m_blur.u_uniform.u_exposure, &m_tonemap.m_exposure);
 
 		GpuState<Glow>::me.upload(glow);
 
-		m_filter.submit_quad(render.composite_pass(), target.m_ping_pong.swap(), m_bleed_program.default_version(), render.m_rect);
+		m_filter.quad(render.composite_pass(), target.m_ping_pong.swap(), m_bleed_program.default_version(), render.m_rect);
 	}
 
 	void BlockGlow::glow_blur(Render& render, RenderTarget& target, Glow& glow)
@@ -124,7 +124,7 @@ namespace mud
 						   target.m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
 						   target.m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect.width), uint16_t(rect.height), 1);
 			else
-				m_copy.submit_quad(render.composite_pass(), *target.m_cascade.m_mips[i + 1], target.m_ping_pong.last(), quad);
+				m_copy.quad(render.composite_pass(), *target.m_cascade.m_mips[i + 1], target.m_ping_pong.last(), quad);
 		}
 	}
 
@@ -132,14 +132,13 @@ namespace mud
 	{
 		ShaderVersion shader_version = { &m_merge_program };
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, target.m_post_process.last());
-
 		shader_version.set_option(m_index, GLOW_FILTER_BICUBIC, glow.m_bicubic_filter);
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, target.m_cascade.m_texture);
+		m_filter.source0(target.m_post_process.last());
+		m_filter.source1(target.m_cascade.m_texture);
 
 		GpuState<Glow>::me.upload(glow);
 
-		m_filter.submit_quad(render.composite_pass(), target.m_post_process.swap(), m_merge_program.version(shader_version), render.m_rect);
+		m_filter.quad(render.composite_pass(), target.m_post_process.swap(), m_merge_program.version(shader_version), render.m_rect);
 	}
 }

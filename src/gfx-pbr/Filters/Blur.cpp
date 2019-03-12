@@ -81,9 +81,9 @@ namespace mud
 		ShaderVersion version = { &m_program };
 		version.set_option(m_index, uint8_t(horizontal ? GAUSSIAN_HORIZONTAL : GAUSSIAN_VERTICAL), true);
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, source);
+		m_filter.source0(source);
 
 		RenderQuad quad = { target.source_quad(vec4(source_rect), true), target.dest_quad(vec4(rect), true), true };
-		m_filter.submit_quad(blur_pass.m_index, fbo, m_program.version(version), quad);
+		m_filter.quad(blur_pass.m_index, fbo, m_program.version(version), quad);
 	}
 }

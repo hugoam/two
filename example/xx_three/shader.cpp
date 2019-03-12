@@ -6,7 +6,7 @@
 
 using namespace mud;
 
-#define GEOMETRY 0
+#define GEOMETRY 1
 
 static string vertex_shader()
 {
@@ -15,14 +15,18 @@ static string vertex_shader()
 		"$input a_position, a_texcoord0\n"
 		"$output v_uv0\n"
 		"\n"
-		"#include <common.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"void main()\n"
 		"{\n"
+#if GEOMETRY
 		"	int material_index = int(u_state_material);\n"
 		"	BaseMaterial basic = read_base_material(material_index);\n"
 		"	\n"
 		"   v_uv0 = (a_texcoord0 * basic.uv0_scale) + basic.uv0_offset;\n"
+#else
+		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
+#endif
 		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"}\n";
 
@@ -35,7 +39,7 @@ static string fragment_shader()
 
 		"$input v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"void main() {\n"
 		"\n"
@@ -81,12 +85,12 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	program.m_sources[ShaderType::Vertex] = vertex_shader();
 	program.m_sources[ShaderType::Fragment] = fragment_shader();
 
+#if GEOMETRY
 	static Material& material = app.m_gfx.materials().create("custom", [&](Material& m) {
 		m.m_program = &program;
 		m.m_base.m_cull_mode = CullMode::None;
 	});
 
-#if GEOMETRY
 	static bool once = false;
 	if(!once)
 	{
@@ -95,7 +99,6 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 		static Model& model = app.m_gfx.shape(Quad(1.f));
 
 		Scene& scene = viewer.m_scene;
-
 		Node3& node = gfx::nodes(scene).add(Node3());
 		Item& it = gfx::items(scene).add(Item(node, model, 0U, &material));
 	}
@@ -105,7 +108,7 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	auto draw_quad = [](Render& render, const Pass& render_pass)
 	{
 		BlockFilter& filter = *render.m_scene.m_gfx.m_renderer.block<BlockFilter>();
-		filter.submit_quad(render_pass.m_index, *render.m_target_fbo, program.default_version(), render_pass.m_viewport->m_rect);
+		filter.quad(render_pass.m_index, *render.m_target_fbo, program.default_version(), render_pass.m_viewport->m_rect);
 	};
 
 	gfx::manual_job(scene, PassType::Solid, draw_quad);

@@ -1,7 +1,7 @@
 $input v_uv0
 
 #include <common.sh>
-#include <filter/filter.sh>
+#include <filter.sh>
 
 void main()
 {

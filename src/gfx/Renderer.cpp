@@ -171,6 +171,25 @@ namespace mud
 	void Renderer::gather(Render& render)
 	{
 		m_gather_func(render.m_scene, render);
+
+		render.m_viewport.render(render);
+		render.m_viewport.cull(render);
+	}
+
+	void Renderer::submit(Render& render, RenderFunc renderer)
+	{
+		this->gather(render);
+
+#ifdef DEBUG_ITEMS
+		scene.debug_items(render);
+#endif
+
+		if(render.m_viewport.m_rect.width != 0 && render.m_viewport.m_rect.height != 0)
+			this->render(render, renderer);
+
+		//copy.debug_show_texture(render, render.m_env->m_radiance.m_texture->m_texture, vec4(0.f), false, false, false, 0);
+		//copy.debug_show_texture(render, render.m_env->m_radiance.m_filtered, vec4(0.f), false, false, false, 1);
+		//copy.debug_show_texture(render, bgfx::getTexture(render.m_target->m_effects.last()), vec4(0.f));
 	}
 
 	void Renderer::render(Render& render, RenderFunc renderer)

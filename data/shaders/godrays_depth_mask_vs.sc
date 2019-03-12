@@ -1,7 +1,7 @@
 $input a_position, a_texcoord0
 $output v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 
 void main() {
 	v_uv0 = u_source_0_crop.xy + a_texcoord0 * u_source_0_crop.zw;

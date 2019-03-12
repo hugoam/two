@@ -61,12 +61,12 @@ namespace mud
 
 	bool Shell::begin_frame()
 	{
+		m_gfx.begin_frame();
 		return m_ui_window->input_frame();
 	}
 
 	bool Shell::end_frame()
 	{
-		m_gfx.begin_frame();
 		m_ui_window->render_frame();
 		return m_gfx.next_frame();
 	}

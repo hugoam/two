@@ -6,6 +6,8 @@
 
 using namespace mud;
 
+#define RENDERER 0
+
 #if 0
 defines: {
 	"DEPTH_PACKING": 1,
@@ -20,10 +22,10 @@ static string bokeh_vertex()
 		"$input a_position, a_texcoord0\n"
 		"$output v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"void main() {\n"
-		"	v_uv0 = u_source_0_crop.xy + a_texcoord0 * u_source_0_crop.zw;\n"
+		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
 		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"}\n";
 
@@ -36,7 +38,7 @@ static string bokeh_fragment()
 
 		"$input v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"uniform vec4 u_bokeh_p0;\n"
 		"#define u_focus u_bokeh_p0.x\n"
@@ -133,8 +135,8 @@ struct Bokeh
 
 void pass_bokeh(GfxSystem& gfx, Render& render, const Bokeh& bokeh)
 {
-	static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& block_filter = *gfx.m_renderer.block<BlockFilter>();
+	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
+	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
 
 	//static Program& program = gfx.programs().create("bokeh");
 	//program.m_sources[ShaderType::Vertex] = bokeh_vertex();
@@ -142,19 +144,16 @@ void pass_bokeh(GfxSystem& gfx, Render& render, const Bokeh& bokeh)
 
 	static Program& program = gfx.programs().fetch("bokeh");
 
-	static bgfx::UniformHandle u_bokeh_p0 = bgfx::createUniform("u_bokeh_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-
 	Pass pass = render.next_pass("bokeh", PassType::PostProcess);
 
-	vec4 bokeh_p0 = { bokeh.focus, bokeh.aperture * 0.00001f, bokeh.maxblur, 0.f };
-	bgfx::setViewUniform(pass.m_index, u_bokeh_p0, &bokeh_p0);
+	filter.uniform(pass.m_index, "u_bokeh_p0", vec4(bokeh.focus, bokeh.aperture * 0.00001f, bokeh.maxblur, 0.f));
+	
+	filter.source0(render.m_target->m_diffuse);
+	filter.sourcedepth(render.m_target->m_depth);
 
-	bgfx::setTexture(uint8_t(TextureSampler::Source0), block_filter.u_uniform.s_source_0, render.m_target->m_diffuse);
-	bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), block_filter.u_uniform.s_source_depth, render.m_target->m_depth);
+	filter.quad(pass.m_index, render.m_target->m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
 
-	block_filter.submit_quad(pass.m_index, render.m_target->m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
-
-	block_copy.submit_quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
+	copy.quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }
 
 void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
@@ -162,6 +161,7 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controller(viewer);
+	viewer.m_viewport.m_active = false;
 
 	Scene& scene = viewer.m_scene;
 
@@ -175,6 +175,15 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 	//struct Parameters { float focus = 500.f; float aperture = 5.f; float maxblur = 1.f; };
 
 	static vector<Material*> materials;
+
+	auto renderer = [](GfxSystem& gfx, Render& render)
+	{
+		begin_pbr_render(gfx, render);
+
+		pass_clear(gfx, render);
+		pass_opaque(gfx, render);
+		pass_bokeh(gfx, render, bokeh);
+	};
 
 	static bool once = false;
 	if(!once)
@@ -220,16 +229,9 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		//postprocessing.composer.render(0.1);
 
-		auto render = [](GfxSystem& gfx, Render& render)
-		{
-			begin_pbr_render(gfx, render);
-
-			pass_clear(gfx, render);
-			pass_opaque(gfx, render);
-			pass_bokeh(gfx, render, bokeh);
-		};
-
+#if RENDERER
 		app.m_gfx.set_renderer(Shading::Shaded, render);
+#endif
 	}
 
 	Gnode& root = viewer.m_scene.begin();
@@ -275,4 +277,12 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 		ui::slider_field<float>(controls, "aperture", { bokeh.aperture, { 0.f, 10.f, 0.1f } });
 		ui::slider_field<float>(controls, "maxblur", { bokeh.maxblur,  { 0.f, 3.f, 0.025f } });
 	}
+
+#if !RENDERER
+	Render render = { Shading::Shaded, viewer.m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
+	app.m_gfx.m_renderer.gather(render);
+	app.m_gfx.m_renderer.begin(render);
+	renderer(app.m_gfx, render);
+	app.m_gfx.m_renderer.end(render);
+#endif
 }

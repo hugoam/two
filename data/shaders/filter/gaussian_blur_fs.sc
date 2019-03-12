@@ -1,6 +1,6 @@
 $input v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 #include <filter/blur.sh>
 
 uniform vec4 u_blur_p0;

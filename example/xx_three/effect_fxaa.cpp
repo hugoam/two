@@ -1131,8 +1131,8 @@ static string fxaa_fragment()
 
 void pass_fxaa(GfxSystem& gfx, Render& render)
 {
-	static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& block_filter = *gfx.m_renderer.block<BlockFilter>();
+	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
+	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
 
 	static Program& program = gfx.programs().fetch("fxaa");
 
@@ -1143,9 +1143,9 @@ void pass_fxaa(GfxSystem& gfx, Render& render)
 	//fxaaPass.material.uniforms['resolution'].value.x = 1 / (window.innerWidth * pixelRatio);
 	//fxaaPass.material.uniforms['resolution'].value.y = 1 / (window.innerHeight * pixelRatio);
 
-	block_filter.submit_quad(pass.m_index, render.m_target->m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
+	filter.quad(pass.m_index, render.m_target->m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
 
-	block_copy.submit_quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
+	copy.quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }
 
 void xx_post_fxaa(Shell& app, Widget& parent, Dockbar& dockbar)

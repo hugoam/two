@@ -65,18 +65,18 @@ namespace mud
 
 		if(first_pass)
 		{
-			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, target.m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
+			m_filter.source0(target.m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
 		}
 		else
 		{
-			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, target.m_ping_pong.last(), GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
-			bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, target.m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
+			m_filter.source0(target.m_ping_pong.last(), GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
+			m_filter.source1(target.m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
 		}
 
 		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), m_filter.u_uniform.s_source_depth, target.m_depth);
 
 		FrameBuffer& fbo = first_pass ? target.m_ping_pong.swap() : target.m_post_process.swap();
 
-		m_filter.submit_quad(render.composite_pass(), fbo, m_program.version(shader_version), render.m_rect, bgfx_state);
+		m_filter.quad(render.composite_pass(), fbo, m_program.version(shader_version), render.m_rect, bgfx_state);
 	}
 }

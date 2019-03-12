@@ -36,10 +36,10 @@ static string filter_vertex()
 		"$input a_position, a_texcoord0\n"
 		"$output v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"void main() {\n"
-		"	v_uv0 = u_source_0_crop.xy + a_texcoord0 * u_source_0_crop.zw;\n"
+		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
 		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"}\n";
 
@@ -57,7 +57,7 @@ static string godrays_mask_fragment()
 
 		"$input v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"void main() {\n"
 		"	float depth = texture2D(s_source_depth, v_uv0).x;\n"
@@ -97,7 +97,7 @@ static string godrays_fragment()
 
 		"$input v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"#define TAPS_PER_PASS 6.0\n"
 		"\n"
@@ -194,7 +194,7 @@ static string godrays_combine_fragment()
 
 		"$input v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"uniform vec4 u_godrays_combine_p0;\n"
 		"#define u_intensity u_godrays_combine_p0.x\n"
@@ -231,7 +231,7 @@ static string godrays_sun_fragment()
 
 		"$input v_uv0\n"
 		"\n"
-		"#include <filter/filter.sh>\n"
+		"#include <filter.sh>\n"
 		"\n"
 		"uniform vec4 u_godrays_sun_p0;\n"
 		"#define u_bg_color u_godrays_sun_p0.xyz\n"
@@ -273,25 +273,18 @@ struct Godrays
 
 void pass_fake_sun(GfxSystem& gfx, Render& render, const Godrays& godrays)
 {
-	static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& block_filter = *gfx.m_renderer.block<BlockFilter>();
+	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
+	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
 
 	static Program& program = gfx.programs().create("godrays_fake_sun");
 	program.m_sources[ShaderType::Vertex] = godrays_sun_vertex();
 	program.m_sources[ShaderType::Fragment] = godrays_sun_fragment();
 
-	static bgfx::UniformHandle u_sun_p0 = bgfx::createUniform("u_godrays_sun_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-	static bgfx::UniformHandle u_sun_p1 = bgfx::createUniform("u_godrays_sun_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-	static bgfx::UniformHandle u_sun_p2 = bgfx::createUniform("u_godrays_sun_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-
 	Pass pass = render.next_pass("godrays_fake_sun", PassType::PostProcess);
 
-	vec4 sun_p0 = { to_vec3(godrays.m_bg_colour), 0.f };
-	vec4 sun_p1 = { to_vec3(godrays.m_sun_colour), 0.f };
-	vec4 sun_p2 = { godrays.m_sun_screen, vec2(0.f) };
-	bgfx::setViewUniform(pass.m_index, u_sun_p0, &sun_p0);
-	bgfx::setViewUniform(pass.m_index, u_sun_p1, &sun_p1);
-	bgfx::setViewUniform(pass.m_index, u_sun_p2, &sun_p2);
+	filter.uniform(pass.m_index, "u_godrays_sun_p0", vec4(to_vec3(godrays.m_bg_colour), 0.f));
+	filter.uniform(pass.m_index, "u_godrays_sun_p1", vec4(to_vec3(godrays.m_sun_colour), 0.f));
+	filter.uniform(pass.m_index, "u_godrays_sun_p2", vec4(godrays.m_sun_screen, vec2(0.f)));
 
 	// Draw sky and sun
 
@@ -303,21 +296,20 @@ void pass_fake_sun(GfxSystem& gfx, Render& render, const Godrays& godrays)
 	// space distance to the sun. Not very efficient, so i make a scissor
 	// rectangle around the suns position to avoid rendering surrounding pixels.
 
-	const float sunsqH = 0.74 * float(render.m_rect.height); // 0.74 depends on extent of sun from shader
+	const float sunsqH = 0.74f * float(render.m_rect.height); // 0.74 depends on extent of sun from shader
 	const float sunsqW = sunsqH; // both depend on height because sun is aspect-corrected
 
 	const vec2 sun = godrays.m_sun_screen * vec2(rect_size(render.m_rect));
 
 	bgfx::setViewScissor(pass.m_index, sun.x - sunsqW / 2.f, sun.y - sunsqH / 2.f, sunsqW, sunsqH);
 
-	RenderTarget& target = *render.m_target;
-	block_filter.submit_quad(pass.m_index, *render.m_target_fbo, program.default_version(), pass.m_viewport->m_rect);
+	filter.quad(pass.m_index, *render.m_target_fbo, program.default_version(), pass.m_viewport->m_rect);
 }
 
 void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 {
-	static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& block_filter = *gfx.m_renderer.block<BlockFilter>();
+	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
+	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
 
 	//// Use a smaller size for some of the god-ray render targets for better performance.
 	constexpr float downscale = 1.0 / 4.0;
@@ -351,10 +343,9 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 		Pass pass = render.next_pass("godrays_depth_mask", PassType::PostProcess);
 
-		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), block_filter.u_uniform.s_source_depth, render.m_target->m_depth);
+		filter.sourcedepth(render.m_target->m_depth);
 
-		RenderTarget& target = *render.m_target;
-		block_filter.submit_quad(pass.m_index, fbo, program.default_version(), pass.m_viewport->m_rect);
+		filter.quad(pass.m_index, fbo, program.default_version(), pass.m_viewport->m_rect);
 	};
 
 	auto pass_blur = [](GfxSystem& gfx, Render& render, const Godrays& godrays, FrameBuffer& fbo, Texture& source, float step_size, RenderQuad quad)
@@ -363,17 +354,12 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 		program.m_sources[ShaderType::Vertex] = godrays_vertex();
 		program.m_sources[ShaderType::Fragment] = godrays_fragment();
 
-		static bgfx::UniformHandle u_godrays_p0 = bgfx::createUniform("u_godrays_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-
 		Pass pass = render.next_pass("godrays", PassType::PostProcess);
 
-		vec4 godrays_p0 = { godrays.m_sun_screen, vec2(step_size, 0.f) };
-		bgfx::setViewUniform(pass.m_index, u_godrays_p0, &godrays_p0);
+		filter.uniform(pass.m_index, "u_godrays_p0", vec4(godrays.m_sun_screen, vec2(step_size, 0.f)));
+		filter.source0(source);
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), block_filter.u_uniform.s_source_0, source);
-
-		RenderTarget& target = *render.m_target;
-		block_filter.submit_quad(pass.m_index, fbo, program.default_version(), quad);
+		filter.quad(pass.m_index, fbo, program.default_version(), quad);
 	};
 
 	auto pass_combine = [](GfxSystem& gfx, Render& render, const Godrays& godrays, Texture& source)
@@ -382,18 +368,14 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 		program.m_sources[ShaderType::Vertex] = godrays_combine_vertex();
 		program.m_sources[ShaderType::Fragment] = godrays_combine_fragment();
 
-		static bgfx::UniformHandle u_combine_p0 = bgfx::createUniform("u_godrays_combine_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-
 		Pass pass = render.next_pass("godrays_combine", PassType::PostProcess);
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), block_filter.u_uniform.s_source_0, render.m_target->m_diffuse);
-		bgfx::setTexture(uint8_t(TextureSampler::Source1), block_filter.u_uniform.s_source_1, source);
+		filter.source0(render.m_target->m_diffuse);
+		filter.source1(source);
 
-		vec4 combine_p0 = {godrays.m_intensity, 0.f, 0.f, 0.f };
-		bgfx::setViewUniform(pass.m_index, u_combine_p0, &combine_p0);
+		filter.uniform(pass.m_index, "u_godrays_combine_p0", vec4(godrays.m_intensity, 0.f, 0.f, 0.f));
 
-		RenderTarget& target = *render.m_target;
-		block_filter.submit_quad(pass.m_index, *render.m_target_fbo, program.default_version(), pass.m_viewport->m_rect);
+		filter.quad(pass.m_index, *render.m_target_fbo, program.default_version(), pass.m_viewport->m_rect);
 	};
 
 	pass_mask_depth(gfx, render, godrays, depth);
@@ -422,21 +404,21 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 	// pass 1 - render into first ping-pong target
 	const RenderQuad quad0 = { depth.source_quad(rect, true), pong.dest_quad(rect4, true), true };
-	pass_blur(gfx, render, godrays, pong, depth.m_texture, step_size(filter_length, taps, 1.0), quad0);
+	pass_blur(gfx, render, godrays, pong, depth, step_size(filter_length, taps, 1.0), quad0);
 
 	// pass 2 - render into second ping-pong target
 	const RenderQuad quad1 = { pong.source_quad(rect4, true), ping.dest_quad(rect4, true), true };
-	pass_blur(gfx, render, godrays, ping, pong.m_texture, step_size(filter_length, taps, 2.0), quad1);
+	pass_blur(gfx, render, godrays, ping, pong, step_size(filter_length, taps, 2.0), quad1);
 
 	// pass 3 - 1st RT
 	const RenderQuad quad2 = { ping.source_quad(rect4, true), pong.dest_quad(rect4, true), true };
-	pass_blur(gfx, render, godrays, pong, ping.m_texture, step_size(filter_length, taps, 3.0), quad2);
+	pass_blur(gfx, render, godrays, pong, ping, step_size(filter_length, taps, 3.0), quad2);
 
 	// final pass - composite god-rays onto colors
-	pass_combine(gfx, render, godrays, pong.m_texture);
+	pass_combine(gfx, render, godrays, pong);
 
-	//block_copy.debug_show_texture(render, depth, vec4(0.f));
-	block_copy.debug_show_texture(render, pong.m_texture, vec4(0.f));
+	//copy.debug_show_texture(render, depth, vec4(0.f));
+	copy.debug_show_texture(render, pong, vec4(0.f));
 }
 
 void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar)

@@ -153,29 +153,20 @@ extern "C" {
 	mud::Image256* DECL mud_Image256__construct_0() {
 		return new mud::Image256();
 	}
-	mud::Image256* DECL mud_Image256__construct_1(uint16_t width) {
-		return new mud::Image256(width);
+	mud::Image256* DECL mud_Image256__construct_1(const mud::uvec2* size) {
+		return new mud::Image256(*size);
 	}
-	mud::Image256* DECL mud_Image256__construct_2(uint16_t width, uint16_t height) {
-		return new mud::Image256(width, height);
-	}
-	mud::Image256* DECL mud_Image256__construct_3(uint16_t width, uint16_t height, const mud::Palette* palette) {
-		return new mud::Image256(width, height, *palette);
+	mud::Image256* DECL mud_Image256__construct_2(const mud::uvec2* size, const mud::Palette* palette) {
+		return new mud::Image256(*size, *palette);
 	}
 	uint* DECL mud_Image256__get_pixels(mud::Image256* self) {
 		return (uint*)self->m_pixels.data();
 	}
-	uint16_t DECL mud_Image256__get_width(mud::Image256* self) {
-		return self->m_width;
+	mud::uvec2* DECL mud_Image256__get_size(mud::Image256* self) {
+		return &self->m_size;
 	}
-	void DECL mud_Image256__set_width(mud::Image256* self, uint16_t value) {
-		self->m_width = value;
-	}
-	uint16_t DECL mud_Image256__get_height(mud::Image256* self) {
-		return self->m_height;
-	}
-	void DECL mud_Image256__set_height(mud::Image256* self, uint16_t value) {
-		self->m_height = value;
+	void DECL mud_Image256__set_size(mud::Image256* self, mud::uvec2* value) {
+		self->m_size = *value;
 	}
 	mud::Palette* DECL mud_Image256__get_palette(mud::Image256* self) {
 		return &self->m_palette;

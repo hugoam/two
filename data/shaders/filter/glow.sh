@@ -1,7 +1,7 @@
 #ifndef MUD_SHADER_GLOW
 #define MUD_SHADER_GLOW
 
-#include <filter/filter.sh>
+#include <filter.sh>
 
 uniform vec4 u_glow_p0;
 #define u_glow_strength        u_glow_p0.x

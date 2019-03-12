@@ -1,6 +1,6 @@
 $input v_uv0
 
-#include <filter/filter.sh>
+#include <filter.sh>
 #include <filter/glow.sh>
 
 #define s_diffuse s_source_0
