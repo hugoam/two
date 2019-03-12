@@ -124,11 +124,11 @@ namespace mud
 	void VgVg::begin_frame(const vec4& rect, float pixel_ratio)
 	{
 		bgfx::setViewFrameBuffer(240, BGFX_INVALID_HANDLE);
-		bgfx::setViewRect(240, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect_w(rect)), uint16_t(rect_h(rect)));
+		bgfx::setViewRect(240, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect.width), uint16_t(rect.height));
 		bgfx::setViewMode(240, bgfx::ViewMode::Sequential);
 		bgfx::setViewName(240, "ui");
 
-		vg::beginFrame(m_vg, uint16_t(rect_w(rect)), uint16_t(rect_h(rect)), pixel_ratio);
+		vg::beginFrame(m_vg, uint16_t(rect.width), uint16_t(rect.height), pixel_ratio);
 	}
 
 	void VgVg::end_frame()
@@ -321,7 +321,7 @@ namespace mud
 		for(size_t i = 0; i < glyphs.size(); ++i)
 		{
 			textRow.m_glyphs[i].m_position = textRow.m_start + i;
-			textRow.m_glyphs[i].m_rect = { glyphs[i].minx, textRow.m_rect.y, glyphs[i].maxx - glyphs[i].minx, rect_h(textRow.m_rect) };
+			textRow.m_glyphs[i].m_rect = { glyphs[i].minx, textRow.m_rect.y, glyphs[i].maxx - glyphs[i].minx, textRow.m_rect.height };
 		}
 	}
 

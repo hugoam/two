@@ -15,17 +15,17 @@ Model& cube_model(GfxSystem& gfx, float size)
 
 	geometry.m_positions = {
 		vec3(-h, -h, -h), vec3(-h,  h, -h),
-		vec3(-h,  h, -h), vec3( h,  h, -h),
-		vec3( h,  h, -h), vec3( h, -h, -h),
-		vec3( h, -h, -h), vec3(-h, -h, -h),
+		vec3(-h,  h, -h), vec3(h,  h, -h),
+		vec3(h,  h, -h), vec3(h, -h, -h),
+		vec3(h, -h, -h), vec3(-h, -h, -h),
 		vec3(-h, -h,  h), vec3(-h,  h,  h),
-		vec3(-h,  h,  h), vec3( h,  h,  h),
-		vec3( h,  h,  h), vec3( h, -h,  h),
-		vec3( h, -h,  h), vec3(-h, -h,  h),
+		vec3(-h,  h,  h), vec3(h,  h,  h),
+		vec3(h,  h,  h), vec3(h, -h,  h),
+		vec3(h, -h,  h), vec3(-h, -h,  h),
 		vec3(-h, -h, -h), vec3(-h, -h,  h),
 		vec3(-h,  h, -h), vec3(-h,  h,  h),
-		vec3( h,  h, -h), vec3( h,  h,  h),
-		vec3( h, -h, -h), vec3( h, -h,  h)
+		vec3(h,  h, -h), vec3(h,  h,  h),
+		vec3(h, -h, -h), vec3(h, -h,  h)
 	};
 
 	for(size_t i = 0; i < geometry.m_positions.size(); ++i)

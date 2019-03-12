@@ -106,7 +106,7 @@ namespace mud
 
 		// @kludge because text_size doesn't report the correct size when there is a space at the end : investigate (vg-renderer, nanovg)
 		if(!row.m_glyphs.empty())
-			row.m_rect = { rect.x, rect.y, row.m_glyphs.back().m_rect.x + rect_w(row.m_glyphs.back().m_rect), line_height(paint) };
+			row.m_rect = { rect.x, rect.y, row.m_glyphs.back().m_rect.x + row.m_glyphs.back().m_rect.width, line_height(paint) };
 	}
 
 	void Vg::break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, vector<TextRow>& textRows)
@@ -459,9 +459,9 @@ namespace mud
 				Colour first = offset_colour(inkstyle.m_background_colour, inkstyle.m_linear_gradient.x);
 				Colour second = offset_colour(inkstyle.m_background_colour, inkstyle.m_linear_gradient.y);
 				if(inkstyle.m_linear_gradient_dim == Axis::X)
-					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x + rect_w(rect), rect.y });
+					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x + rect.width, rect.y });
 				else
-					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x, rect.y + rect_h(rect) });
+					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x, rect.y + rect.height });
 			}
 
 		}

@@ -53,10 +53,12 @@ namespace mud
 	};
 #endif
 
-	inline BufferArray::BufferArray() {}
-	inline BufferArray::BufferArray(Typemap& typemap, uint32_t size)
-		: m_typemap(&typemap)
-		, m_buffer_map(64)
+	inline BufferArray::BufferArray()
+		: m_buffer_map(64)
+	{}
+
+	inline BufferArray::BufferArray(uint32_t size)
+		: m_buffer_map(64)
 	{
 		m_handles.ensure(size);
 	}
@@ -64,11 +66,7 @@ namespace mud
 	template <class T>
 	inline uint32_t BufferArray::type_index()
 	{
-#if 0 //def MUD_ECS_TYPED
-		return m_typemap[type<T>().m_id];
-#else
 		return TypedBuffer<T>::index();
-#endif
 	}
 
 	template <class T>
@@ -156,8 +154,8 @@ namespace mud
 	}
 
 	inline EntityStream::EntityStream() {}
-	inline EntityStream::EntityStream(cstring name, uint16_t index, Typemap& typemap, uint32_t size)
-		: BufferArray(typemap, size)
+	inline EntityStream::EntityStream(cstring name, uint16_t index, uint32_t size)
+		: BufferArray(size)
 		, m_name(name)
 		, m_index(index)
 	{}
@@ -170,7 +168,7 @@ namespace mud
 	}
 
 	inline GridECS::GridECS()
-		: BufferArray(m_typemap)
+		: BufferArray()
 	{}
 
 	inline uint32_t GridECS::create()
@@ -198,11 +196,7 @@ namespace mud
 	template <class T>
 	inline uint32_t ECS::type_index()
 	{
-#if 0 //def MUD_ECS_TYPED
-		return (*m_typemap)[type<T>().m_id];
-#else
 		return TypedBuffer<T>::index();
-#endif
 	}
 
 	template <class T>
@@ -246,7 +240,7 @@ namespace mud
 	{
 		const uint64_t prototype = this->prototype<Types...>();
 		const uint16_t index = uint16_t(m_streams.size());
-		m_streams.push_back({ name, index, m_typemap });
+		m_streams.push_back({ name, index });
 		m_streams.back().init<Types...>(prototype);
 		m_stream_map[prototype] = index;
 	}
@@ -255,10 +249,6 @@ namespace mud
 	template <class T>
 	inline void ECS::register_type()
 	{
-#if 0
-		if(m_typemap[type<T>().m_id] == 0)
-			m_typemap[type<T>().m_id] = ++m_type_index;
-#endif
 	}
 
 	template <class... Types>
@@ -393,7 +383,7 @@ namespace mud
 	inline void tECS<EcsType, NumComponents>::add_stream(uint64_t prototype, const string& name)
 	{
 		const uint16_t index = uint16_t(m_streams.size());
-		m_streams.push_back({ name.c_str(), index, m_typemap });
+		m_streams.push_back({ name.c_str(), index });
 		EntityStream& stream = m_streams.back();
 		stream.m_prototype = prototype;
 		this->init_stream(stream, prototype, index_tuple<NumComponents>());

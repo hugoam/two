@@ -190,15 +190,15 @@ namespace mud
 		return bimg::imageParse(&allocator, data, size, bimg::TextureFormat::Enum(_dstFormat));
 	}
 
-	void save_texture(GfxSystem& gfx, Texture& texture, const string& path)
+	void save_texture(GfxSystem& gfx, Texture& tex, const string& path)
 	{
-		save_bgfx_texture(gfx.allocator(), gfx.file_writer(), path.c_str(), texture.m_format, texture.m_texture, texture.m_format, texture.m_width, texture.m_height);
+		save_bgfx_texture(gfx.allocator(), gfx.file_writer(), path.c_str(), tex.m_format, 
+						  tex.m_tex, tex.m_format, uint16_t(tex.m_size.x), uint16_t(tex.m_size.y));
 	}
 
 	void set_texture_info(Texture& texture, bgfx::TextureInfo& texture_info)
 	{
-		texture.m_width = texture_info.width;
-		texture.m_height = texture_info.height;
+		texture.m_size = uvec2(texture_info.width, texture_info.height);
 		texture.m_format = texture_info.format;
 		texture.m_bits_per_pixel = texture_info.bitsPerPixel;
 	}
@@ -217,7 +217,7 @@ namespace mud
 			for(const string& path : paths)
 			{
 				bgfx::TextureInfo texture_info;
-				texture.m_texture = load_bgfx_texture(gfx.allocator(), gfx.file_reader(), path.c_str(), 0U, &texture_info, true);
+				texture.m_tex = load_bgfx_texture(gfx.allocator(), gfx.file_reader(), path.c_str(), 0U, &texture_info, true);
 				// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 				set_texture_info(texture, texture_info);
 			}
@@ -225,7 +225,7 @@ namespace mud
 		else
 		{
 			bgfx::TextureInfo texture_info;
-			texture.m_texture = load_bgfx_texture(gfx.allocator(), gfx.file_reader(), path.c_str(), 0U, &texture_info, true);
+			texture.m_tex = load_bgfx_texture(gfx.allocator(), gfx.file_reader(), path.c_str(), 0U, &texture_info, true);
 			// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 			set_texture_info(texture, texture_info);
 		}
@@ -234,30 +234,65 @@ namespace mud
 	void load_texture_mem(GfxSystem& gfx, Texture& texture, span<uint8_t> data)
 	{
 		bgfx::TextureInfo texture_info;
-		texture.m_texture = load_bgfx_texture(gfx.allocator(), texture.m_name.c_str(), (void*)data.m_pointer, data.m_count, 0U, &texture_info, true);
+		texture.m_tex = load_bgfx_texture(gfx.allocator(), texture.m_name.c_str(), (void*)data.m_pointer, data.m_count, 0U, &texture_info, true);
 		// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 		set_texture_info(texture, texture_info);
 	}
 
-	void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, const bgfx::Memory& memory)
+	void load_texture_float(Texture& texture, const uvec2& size, const bgfx::Memory& memory, uint8_t num_components)
 	{
-		texture.m_width = width;
-		texture.m_height = height;
-		texture.m_texture = bgfx::createTexture2D(width, height, false, 1, bgfx::TextureFormat::RGBA8, GFX_TEXTURE_POINT, &memory);
+		texture.m_size = size;
+		texture.m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT, &memory);
 	}
 
-	//void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data)
-	void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint32_t> data)
+	void load_texture_rgba(Texture& texture, const uvec2& size, const bgfx::Memory& memory)
+	{
+		texture.m_size = size;
+		texture.m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA8, GFX_TEXTURE_POINT, &memory);
+	}
+
+	//void load_texture_rgba(Texture& texture, const uvec2& size, span<uint8_t> data)
+	void load_texture_rgba(Texture& texture, const uvec2& size, span<uint32_t> data)
 	{
 		const bgfx::Memory* memory = bgfx::alloc(uint32_t(data.m_count * sizeof(uint32_t)));
 		memcpy(memory->data, data.m_pointer, data.m_count * sizeof(uint32_t));
-		load_texture_rgba(texture, width, height, *memory);
+		load_texture_rgba(texture, size, *memory);
 	}
 
 	Texture::Texture(const string& name)
 		: m_name(name)
 	{}
 
-	Texture::~Texture()
+	Texture::Texture(const uvec2& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags)
+		: m_size(size)
+	{
+		m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), mips, 1, format, flags);
+		m_is_depth = format >= bgfx::TextureFormat::D16 && format <= bgfx::TextureFormat::D0S8;
+	}
+
+	Texture::Texture(const uvec2& size, bool mips, int layers, bgfx::TextureFormat::Enum format, uint64_t flags)
+		: m_size(size)
+	{
+		m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), mips, layers, format, flags);
+		m_is_depth = format >= bgfx::TextureFormat::D16 && format <= bgfx::TextureFormat::D0S8;
+		m_is_array = true;
+	}
+
+	Texture::Texture(const uvec3& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags)
+	{
+		m_tex = bgfx::createTexture3D(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), mips, format, flags);
+		m_is_depth = format >= bgfx::TextureFormat::D16 && format <= bgfx::TextureFormat::D0S8;
+	}
+
+	Texture::Texture(bgfx::TextureHandle texture)
+		: m_tex(texture)
 	{}
+
+	Texture::~Texture()
+	{
+		if(bgfx::isValid(m_tex))
+			bgfx::destroy(m_tex);
+	}
+
+	bool Texture::valid() const { return bgfx::isValid(m_tex); }
 }

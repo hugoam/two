@@ -15,9 +15,9 @@ namespace mud
 	{
 	public:
 		LightmapItem() {}
-		LightmapItem(size_t item, bgfx::TextureHandle lightmap, vec4 uv_scale_offset) : m_item(item), m_lightmap(lightmap), m_uv_scale_offset(uv_scale_offset) {}
+		LightmapItem(size_t item, Texture& lightmap, vec4 uv_scale_offset) : m_item(item), m_lightmap(&lightmap), m_uv_scale_offset(uv_scale_offset) {}
 		size_t m_item = SIZE_MAX;
-		bgfx::TextureHandle m_lightmap = BGFX_INVALID_HANDLE;
+		Texture* m_lightmap = nullptr;
 		vec4 m_uv_scale_offset = vec4(1.f, 1.f, 0.f, 0.f);
 	};
 
@@ -38,7 +38,7 @@ namespace mud
 
 		TextureAtlas m_atlas;
 
-		bgfx::TextureHandle m_texture = BGFX_INVALID_HANDLE;
+		Texture m_texture = {};
 
 		vector<LightmapItem> m_items;
 

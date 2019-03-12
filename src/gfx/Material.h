@@ -13,6 +13,7 @@
 #include <geom/Primitive.h>
 #endif
 #include <gfx/Forward.h>
+#include <gfx/Texture.h>
 #include <gfx/Renderer.h>
 
 namespace bgfx
@@ -275,7 +276,7 @@ namespace mud
 
 		bgfx::UniformHandle u_state = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle s_materials = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_materials_texture = BGFX_INVALID_HANDLE;
+		Texture m_materials_texture = {};
 	};
 
 	export_ MUD_GFX_EXPORT void load_material(Material& material, Program& program);

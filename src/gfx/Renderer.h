@@ -88,6 +88,7 @@ namespace mud
 		Probes,
 		Clear,
 		Depth,
+		Normals,
 		Shadow,
 		Geometry,
 		Lights,
@@ -123,7 +124,7 @@ namespace mud
 
 	struct GpuTexture
 	{
-		bgfx::TextureHandle texture;
+		Texture* texture = nullptr;
 		uint16_t width = 1024;
 		uint8_t stride = 4;
 	};
@@ -179,14 +180,15 @@ namespace mud
 	export_ struct MUD_GFX_EXPORT Render
 	{
 		Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame);
-		Render(Shading shading, Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame);
+		Render(Shading shading, Viewport& viewport, FrameBuffer& target_fbo, RenderFrame& frame);
 		~Render();
 
 		Shading m_shading;
 		Scene& m_scene;
 		RenderTarget* m_target;
-		bgfx::FrameBufferHandle m_target_fbo;
+		FrameBuffer* m_target_fbo;
 		Viewport& m_viewport;
+		uvec4 m_rect;
 		Camera& m_camera;
 		RenderFrame& m_frame;
 

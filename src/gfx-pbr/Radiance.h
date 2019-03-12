@@ -51,10 +51,10 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				u_prefilter_envmap_params = bgfx::createUniform("u_prefilter_envmap_params", bgfx::UniformType::Vec4);
+				u_prefilter_envmap_p0 = bgfx::createUniform("u_prefilter_envmap_p0", bgfx::UniformType::Vec4);
 			}
 
-			bgfx::UniformHandle u_prefilter_envmap_params;
+			bgfx::UniformHandle u_prefilter_envmap_p0;
 
 		} u_prefilter;
 
@@ -64,6 +64,6 @@ namespace mud
 		Program& m_prefilter_program;
 
 		vector<Radiance*> m_prefilter_queue;
-		map<uint16_t, uint16_t> m_prefiltered;
+		map<Texture*, Texture*> m_prefiltered;
 	};
 }

@@ -510,8 +510,8 @@ namespace gfx
 		encoder.setTexture(uint8_t(TextureSampler::Source2), filter.u_uniform.s_source_2, gbuffer.m_albedo);
 		encoder.setTexture(uint8_t(TextureSampler::Source3), filter.u_uniform.s_source_3, gbuffer.m_surface);
 
-		filter.submit_quad(target, render_pass.m_index, render.m_target_fbo,
-						   program.version(cluster.m_shader_version), render.m_viewport.m_rect, BGFX_STATE_BLEND_ALPHA);
+		filter.submit_quad(render_pass.m_index, *render.m_target_fbo,
+						   program.version(cluster.m_shader_version), render.m_rect, BGFX_STATE_BLEND_ALPHA);
 
 #if DEBUG_GBUFFERS
 		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
@@ -528,8 +528,7 @@ namespace gfx
 		static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
 
 		RenderTarget& target = *render.m_target;
-		copy.submit_quad(target, render.composite_pass(), target.m_post_process.swap(),
-						 target.m_diffuse, render.m_viewport.m_rect);
+		copy.submit_quad(render.composite_pass(), target.m_post_process.swap(), target.m_diffuse, render.m_rect);
 	}
 
 	void pass_post_process(GfxSystem& gfx, Render& render)
@@ -537,8 +536,7 @@ namespace gfx
 		static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
 
 		RenderTarget& target = *render.m_target;
-		copy.submit_quad(target, render.composite_pass(), target.m_post_process.swap(),
-						 target.m_diffuse, render.m_viewport.m_rect);
+		copy.submit_quad(render.composite_pass(), target.m_post_process.swap(), target.m_diffuse, render.m_rect);
 
 		// submit each post process effect
 

@@ -89,11 +89,6 @@ namespace gfx
 
 	void GIProbe::resize(uint16_t subdiv, const vec3& extents)
 	{
-		if(bgfx::isValid(m_raster))
-		{
-			bgfx::destroy(m_fbo);
-			bgfx::destroy(m_voxels_light_rgba);
-		}
 
 		m_transform = bxidentity();
 		m_subdiv = subdiv;
@@ -101,23 +96,23 @@ namespace gfx
 
 		m_normal_bias = length(extents * 2.f / float(subdiv)) * sqrt(2.f) * 2.f;
 
-		m_raster = bgfx::createTexture2D(subdiv, subdiv, false, 1, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT);
-		m_voxels_color   = bgfx::createTexture3D(subdiv, subdiv, subdiv, false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE);
-		m_voxels_normals = bgfx::createTexture3D(subdiv, subdiv, subdiv, false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE);
-		m_voxels_light   = bgfx::createTexture3D(subdiv, subdiv, subdiv, false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE);
+		m_raster = { uvec2(subdiv, subdiv), false, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT };
+		m_voxels_color   = { uvec3(subdiv, subdiv, subdiv), false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
+		m_voxels_normals = { uvec3(subdiv, subdiv, subdiv), false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
+		m_voxels_light   = { uvec3(subdiv, subdiv, subdiv), false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
 
 		bgfx::TextureHandle textures[4] = { m_raster, m_voxels_color, m_voxels_normals, m_voxels_light };
-		m_fbo = bgfx::createFrameBuffer(4, textures, true);
+		m_fbo = { uvec2(subdiv, subdiv), bgfx::createFrameBuffer(4, textures, false) };
 		
-		m_voxels_light_rgba = bgfx::createTexture3D(subdiv, subdiv, subdiv, true, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT | BGFX_TEXTURE_COMPUTE_WRITE);
+		m_voxels_light_rgba = { uvec3(subdiv, subdiv, subdiv), true, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT | BGFX_TEXTURE_COMPUTE_WRITE };
 
 		m_dirty = true;
 	}
 
 	void save_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
 	{
-		uint16_t subdiv = gi_probe.m_subdiv;
-		bgfx::TextureHandle texture = bgfx::createTexture3D(subdiv, subdiv, subdiv, true, source_format, BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK);
+		const uint16_t subdiv = gi_probe.m_subdiv;
+		Texture texture = { uvec3(subdiv, subdiv, subdiv), true, source_format, BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK };
 		bgfx::blit(0, texture, 0, 0, 0, 0, gi_probe.m_voxels_light_rgba, 0, 0, 0, 0, subdiv, subdiv, subdiv);
 		bgfx::frame();
 		bgfx::frame();
@@ -127,7 +122,8 @@ namespace gfx
 
 	void load_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, const string& path)
 	{
-		gi_probe.m_voxels_light_rgba = load_bgfx_texture(gfx.allocator(), gfx.file_reader(), path.c_str());
+		gi_probe.m_voxels_light_rgba = { "voxels" };
+		load_texture(gfx, gi_probe.m_voxels_light_rgba, path);
 	}
 
 	void pass_voxel_gi(GfxSystem& gfx, Render& render)

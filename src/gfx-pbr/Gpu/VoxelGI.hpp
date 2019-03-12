@@ -18,7 +18,7 @@ namespace mud
 		{
 			u_transform   = bgfx::createUniform("u_gi_probe_transform",    bgfx::UniformType::Mat4, array_size);
 			u_bounds      = bgfx::createUniform("u_gi_probe_bounds4",      bgfx::UniformType::Vec4, array_size);
-			u_params      = bgfx::createUniform("u_gi_probe_params",       bgfx::UniformType::Vec4, array_size);
+			u_p0      = bgfx::createUniform("u_gi_probe_p0",       bgfx::UniformType::Vec4, array_size);
 			u_inv_extents = bgfx::createUniform("u_gi_probe_inv_extents4", bgfx::UniformType::Vec4, array_size);
 			u_cell_size   = bgfx::createUniform("u_gi_probe_cell_size4",   bgfx::UniformType::Vec4, array_size);
 		}
@@ -36,14 +36,14 @@ namespace mud
 
 			encoder.setUniform(u_transform, &transform);
 			encoder.setUniform(u_bounds, &bounds);
-			encoder.setUniform(u_params, &params);
+			encoder.setUniform(u_p0, &params);
 			encoder.setUniform(u_inv_extents, &inv_extents);
 			encoder.setUniform(u_cell_size, &cell_size);
 		}
 
 		bgfx::UniformHandle u_transform;
 		bgfx::UniformHandle u_bounds;
-		bgfx::UniformHandle u_params;
+		bgfx::UniformHandle u_p0;
 		bgfx::UniformHandle u_inv_extents;
 		bgfx::UniformHandle u_cell_size;
 
@@ -58,8 +58,8 @@ namespace mud
 			u_world  = bgfx::createUniform("u_voxelgi_world",  bgfx::UniformType::Mat4);
 			u_normal = bgfx::createUniform("u_voxelgi_normal", bgfx::UniformType::Mat3);
 
-			u_params_0 = bgfx::createUniform("u_voxelgi_params_0", bgfx::UniformType::Vec4);
-			u_params_1 = bgfx::createUniform("u_voxelgi_params_1", bgfx::UniformType::Vec4);
+			u_p0 = bgfx::createUniform("u_voxelgi_p0", bgfx::UniformType::Vec4);
+			u_p1 = bgfx::createUniform("u_voxelgi_p1", bgfx::UniformType::Vec4);
 		}
 
 		void upload(bgfx::Encoder& encoder, GIProbe& gi_probe) const
@@ -70,8 +70,8 @@ namespace mud
 			mat4 voxelgi_world = gi_probe.m_transform;
 			//mat3 voxelgi_normal = {};
 
-			encoder.setUniform(u_params_0, &voxelgi_extents);
-			encoder.setUniform(u_params_1, &voxelgi_subdiv);
+			encoder.setUniform(u_p0, &voxelgi_extents);
+			encoder.setUniform(u_p1, &voxelgi_subdiv);
 
 			encoder.setUniform(u_world, &voxelgi_world);
 			//encoder.setUniform(u_normal, &voxelgi_normal);
@@ -79,8 +79,8 @@ namespace mud
 
 		bgfx::UniformHandle u_world;
 		bgfx::UniformHandle u_normal;
-		bgfx::UniformHandle u_params_0;
-		bgfx::UniformHandle u_params_1;
+		bgfx::UniformHandle u_p0;
+		bgfx::UniformHandle u_p1;
 
 		static GpuState me;
 

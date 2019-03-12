@@ -26,7 +26,7 @@ namespace mud
 	void UniformBlock::pack_member(size_t size, Member& member)
 	{
 		if(m_uniforms.empty() || m_uniforms.back().m_space < size)
-			m_uniforms.push_back({ "u_" + m_name + "_params_" + to_string(m_num_packed++), member.m_offset, bgfx::UniformType::Vec4 });
+			m_uniforms.push_back({ "u_" + m_name + "_p" + to_string(m_num_packed++), member.m_offset, bgfx::UniformType::Vec4 });
 
 		m_uniforms.back().m_fields.push_back({ member.m_name, member.m_offset, size });
 		m_uniforms.back().m_space -= size;

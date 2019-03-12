@@ -44,20 +44,20 @@ namespace mud
 	{
 		RenderUniform() {}
 		RenderUniform(int)
-			: u_render_params(bgfx::createUniform("u_render_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
-			, u_viewport_params(bgfx::createUniform("u_viewport_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
-			, u_camera_params(bgfx::createUniform("u_camera_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
+			: u_render_p0(bgfx::createUniform("u_render_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
+			, u_viewport_p0(bgfx::createUniform("u_viewport_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
+			, u_camera_p0(bgfx::createUniform("u_camera_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
 		{}
 
-		bgfx::UniformHandle u_render_params;
-		bgfx::UniformHandle u_viewport_params;
-		bgfx::UniformHandle u_camera_params;
+		bgfx::UniformHandle u_render_p0;
+		bgfx::UniformHandle u_viewport_p0;
+		bgfx::UniformHandle u_camera_p0;
 	};
 
 	static RenderUniform s_render_uniform;
 
 	Render::Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame)
-		: m_shading(shading), m_scene(*viewport.m_scene), m_target(&target), m_target_fbo(target.m_fbo), m_viewport(viewport)
+		: m_shading(shading), m_scene(*viewport.m_scene), m_target(&target), m_target_fbo(&target), m_viewport(viewport), m_rect(viewport.m_rect)
 		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport), m_lighting(viewport.m_lighting)
 		, m_pass_index(frame.m_render_pass)
 		, m_shot(make_unique<Shot>())
@@ -71,8 +71,8 @@ namespace mud
 		}
 	}
 
-	Render::Render(Shading shading, Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame)
-		: m_shading(shading), m_scene(*viewport.m_scene), m_target(nullptr), m_target_fbo(target_fbo), m_viewport(viewport)
+	Render::Render(Shading shading, Viewport& viewport, FrameBuffer& target_fbo, RenderFrame& frame)
+		: m_shading(shading), m_scene(*viewport.m_scene), m_target(nullptr), m_target_fbo(&target_fbo), m_viewport(viewport), m_rect(viewport.m_rect)
 		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport), m_lighting(viewport.m_lighting)
 		, m_pass_index(frame.m_render_pass)
 		, m_shot(make_unique<Shot>())
@@ -91,9 +91,9 @@ namespace mud
 		Pass render_pass;
 		render_pass.m_target = m_target;
 		render_pass.m_bgfx_state = 0;
-		render_pass.m_fbo = m_target_fbo;
+		render_pass.m_fbo = *m_target_fbo;
 		render_pass.m_viewport = &m_viewport;
-		render_pass.m_rect = m_viewport.m_rect;
+		render_pass.m_rect = m_rect;
 		render_pass.m_use_mrt = m_needs_mrt;
 		render_pass.m_index = m_pass_index++;
 		render_pass.m_sub_pass = m_sub_pass_index++;
@@ -121,17 +121,17 @@ namespace mud
 
 	void Render::set_uniforms(const Pass& render_pass) const
 	{
-		vec4 render_params = { m_frame.m_time, float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
-		bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_render_params, &render_params);
+		vec4 render_p0 = { m_frame.m_time, float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
+		bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_render_p0, &render_p0);
 
 		if(m_target)
 		{
-			vec4 screen_params{ vec2(m_target->m_size), 1.0f / vec2(m_target->m_size) };
-			bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_viewport_params, &screen_params);
+			vec4 screen_p0{ vec2(m_target->m_size), 1.0f / vec2(m_target->m_size) };
+			bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_viewport_p0, &screen_p0);
 		}
 
-		vec4 camera_params{ m_camera.m_near, m_camera.m_far, m_camera.m_fov, m_camera.m_aspect };
-		bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_camera_params, &camera_params);
+		vec4 camera_p0{ m_camera.m_near, m_camera.m_far, m_camera.m_fov, m_camera.m_aspect };
+		bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_camera_p0, &camera_p0);
 	}
 
 	struct DrawList : public vector<DrawElement>
@@ -414,7 +414,7 @@ namespace mud
 		this->submit_render_pass(render, render_pass, submit);
 	}
 
-	ManualRender::ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect)
+	ManualRender::ManualRender(Render& render, Shading shading, FrameBuffer& fbo, const uvec4& viewport_rect)
 		: m_render(render)
 		, m_camera()
 		, m_viewport(m_camera, render.m_scene, viewport_rect)
@@ -423,7 +423,7 @@ namespace mud
 		m_sub_render.m_shot->m_lights = m_render.m_shot->m_lights;
 	}
 
-	ManualRender::ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection, bool ortho)
+	ManualRender::ManualRender(Render& render, Shading shading, FrameBuffer& fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection, bool ortho)
 		: m_render(render)
 		, m_camera(transform, projection, ortho)
 		, m_viewport(m_camera, render.m_scene, viewport_rect)

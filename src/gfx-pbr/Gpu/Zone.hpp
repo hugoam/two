@@ -68,21 +68,21 @@ namespace mud
 	{
 		void init()
 		{
-			u_radiance_color_energy = bgfx::createUniform("u_radiance_color_energy", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-			u_ambient_params = bgfx::createUniform("u_ambient_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_radiance_p0 = bgfx::createUniform("u_radiance_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_ambient_p0 = bgfx::createUniform("u_ambient_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
 
 		void upload(const Pass& render_pass, const Radiance& radiance) const
 		{
-			vec4 radiance_color_energy = { to_vec3(radiance.m_colour), radiance.m_energy };
-			vec4 ambient_params = { radiance.m_ambient, 0.f, 0.f, 0.f };
+			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
+			vec4 ambient_p0 = { radiance.m_ambient, 0.f, 0.f, 0.f };
 
-			bgfx::setViewUniform(render_pass.m_index, u_radiance_color_energy, &radiance_color_energy);
-			bgfx::setViewUniform(render_pass.m_index, u_ambient_params, &ambient_params);
+			bgfx::setViewUniform(render_pass.m_index, u_radiance_p0, &radiance_p0);
+			bgfx::setViewUniform(render_pass.m_index, u_ambient_p0, &ambient_p0);
 		}
 
-		bgfx::UniformHandle u_radiance_color_energy = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_ambient_params = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_radiance_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_ambient_p0 = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
@@ -92,10 +92,10 @@ namespace mud
 	{
 		void init()
 		{
-			u_fog_params_0 = bgfx::createUniform("u_fog_params_0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-			u_fog_params_1 = bgfx::createUniform("u_fog_params_1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-			u_fog_params_2 = bgfx::createUniform("u_fog_params_2", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-			u_fog_params_3 = bgfx::createUniform("u_fog_params_3", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_fog_p0 = bgfx::createUniform("u_fog_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_fog_p1 = bgfx::createUniform("u_fog_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_fog_p2 = bgfx::createUniform("u_fog_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_fog_p3 = bgfx::createUniform("u_fog_p3", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
 
 		void upload(const Pass& render_pass, const Fog& fog) const
@@ -105,16 +105,16 @@ namespace mud
 			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
 			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, 0.f, 0.f };
 
-			bgfx::setViewUniform(render_pass.m_index, u_fog_params_0, &params_0);
-			bgfx::setViewUniform(render_pass.m_index, u_fog_params_1, &params_1);
-			bgfx::setViewUniform(render_pass.m_index, u_fog_params_2, &params_2);
-			bgfx::setViewUniform(render_pass.m_index, u_fog_params_3, &params_3);
+			bgfx::setViewUniform(render_pass.m_index, u_fog_p0, &params_0);
+			bgfx::setViewUniform(render_pass.m_index, u_fog_p1, &params_1);
+			bgfx::setViewUniform(render_pass.m_index, u_fog_p2, &params_2);
+			bgfx::setViewUniform(render_pass.m_index, u_fog_p3, &params_3);
 		}
 
-		bgfx::UniformHandle u_fog_params_0 = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_fog_params_1 = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_fog_params_2 = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_fog_params_3 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_fog_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_fog_p1 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_fog_p2 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_fog_p3 = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
@@ -138,13 +138,13 @@ namespace mud
 
 		void pack(const Radiance& radiance, size_t& offset, GpuTexture& buffer, float* dest)
 		{
-			vec4 radiance_color_energy = { to_vec3(radiance.m_colour), radiance.m_energy };
-			vec4 ambient_params = { radiance.m_ambient, 0.f, 0.f, 0.f };
+			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
+			vec4 ambient_p0 = { radiance.m_ambient, 0.f, 0.f, 0.f };
 
-			memcpy(dest + offset, &radiance_color_energy, sizeof(float) * 4);
+			memcpy(dest + offset, &radiance_p0, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 
-			memcpy(dest + offset, &ambient_params, sizeof(float) * 4);
+			memcpy(dest + offset, &ambient_p0, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 		}
 
@@ -189,16 +189,17 @@ namespace mud
 				GpuState<Fog>::me.me.pack(zone.m_fog, offset, buffer, dest);
 		}
 
-		void pack(bgfx::TextureHandle& texture, span<Zone> zones)
+		void pack(Texture& texture, span<Zone> zones)
 		{
 			GpuTexture buffer = { texture, 1024, 4 };
 
-			uint32_t height = GpuState<Radiance>::me.rows
-						    + GpuState<Fog>::me.rows;
-			uint32_t lines = 1;
+			const uint32_t height = GpuState<Radiance>::me.rows
+								  + GpuState<Fog>::me.rows;
+			const uint32_t lines = 1;
+			const uvec2 size = uvec2(buffer.width, lines * height);
 
-			if(!bgfx::isValid(texture))
-				texture = bgfx::createTexture2D(buffer.width, uint16_t(lines * height), false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
+			if(texture.m_size != size)
+				texture = { size, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
 
 			const bgfx::Memory* memory = bgfx::alloc(buffer.width * lines * height * buffer.stride * sizeof(float));
 

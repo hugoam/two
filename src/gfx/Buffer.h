@@ -7,6 +7,7 @@
 #include <stl/vector.h>
 #include <math/Vec.hpp>
 #include <gfx/Forward.h>
+#include <gfx/Texture.h>
 
 #include <bgfx/bgfx.h>
 
@@ -45,7 +46,7 @@ namespace mud
 		GpuBuffer(GpuBuffer&&) = default;
 		GpuBuffer& operator=(GpuBuffer&&) = default;
 
-		bgfx::TextureHandle m_texture;
+		Texture m_texture;
 		//utils::RangeSet<4> mDirtyRanges;
 		Element m_element;
 		uint32_t m_size = 0;

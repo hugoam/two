@@ -47,7 +47,7 @@ namespace mud
 			{ 0.38774f, 0.24477f, 0.06136f, 0.24477f, 0.06136f }
 		};
 
-		uvec4 rect = render.m_viewport.m_rect;
+		uvec4 rect = render.m_rect;
 
 		for(uint8_t i = 0; i < 4; ++i)//target.m_effects.m_num_mips; i++)
 		{
@@ -58,8 +58,8 @@ namespace mud
 
 	void BlockBlur::gaussian_pass(Render& render, RenderTarget& target, uvec4& rect, uint8_t lod, bool horizontal, const BlurKernel& kernel)
 	{
-		bgfx::TextureHandle source = target.m_ping_pong.last();
-		bgfx::FrameBufferHandle fbo = target.m_ping_pong.swap();
+		Texture& source = target.m_ping_pong.last();
+		FrameBuffer& fbo = target.m_ping_pong.swap();
 
 		uvec4 source_rect = rect;
 		if(horizontal) rect = rect / 2U;
@@ -72,8 +72,8 @@ namespace mud
 		bgfx::touch(clear_pass.m_index);
 
 		Pass blur_pass = render.composite_pass("blur", fbo, rect);
-		vec4 blur_params = { float(lod), 0.f, 0.f, 0.f };
-		bgfx::setUniform(u_uniform.u_blur_params, &blur_params);
+		vec4 blur_p0 = { float(lod), 0.f, 0.f, 0.f };
+		bgfx::setUniform(u_uniform.u_blur_p0, &blur_p0);
 
 		bgfx::setUniform(u_uniform.u_blur_kernel_0_3, horizontal ? &kernel.m_horizontal[0] : &kernel.m_vertical[0]);
 		bgfx::setUniform(u_uniform.u_blur_kernel_4_7, horizontal ? &kernel.m_horizontal[4] : &kernel.m_vertical[4]);
@@ -84,6 +84,6 @@ namespace mud
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, source);
 
 		RenderQuad quad = { target.source_quad(vec4(source_rect), true), target.dest_quad(vec4(rect), true), true };
-		m_filter.submit_quad(target, blur_pass.m_index, fbo, m_program.version(version), quad);
+		m_filter.submit_quad(blur_pass.m_index, fbo, m_program.version(version), quad);
 	}
 }

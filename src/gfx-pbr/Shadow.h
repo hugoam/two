@@ -43,11 +43,11 @@ namespace mud
 
 		uvec2 m_size = uvec2(0U);
 		DepthMethod m_depth_method = DepthMethod::Depth;
-		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_depth = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_color = BGFX_INVALID_HANDLE;
+		FrameBuffer m_fbo;
+		Texture m_depth;
+		Texture m_color;
 
-		bgfx::TextureHandle texture() const { return m_depth_method == DepthMethod::Depth ? m_depth : m_color; }
+		const Texture& texture() const { return m_depth_method == DepthMethod::Depth ? m_depth : m_color; }
 	};
 
 	struct ShadowmapCube
@@ -55,11 +55,11 @@ namespace mud
 		ShadowmapCube() {}
 		~ShadowmapCube() { if(bgfx::isValid(m_depth)) bgfx::destroy(m_depth); }
 
-		void create(uint16_t size);
+		void create(uint32_t size);
 
-		uint16_t m_size = 0U;
-		bgfx::FrameBufferHandle m_fbos[6];
-		bgfx::TextureHandle m_depth = BGFX_INVALID_HANDLE;
+		uint32_t m_size = 0U;
+		FrameBuffer m_fbos[6];
+		Texture m_depth;
 	};
 
 	export_ MUD_GFX_PBR_EXPORT void pass_shadowmaps(GfxSystem& gfx, Render& render);
@@ -87,7 +87,7 @@ namespace mud
 	{
 		Light* m_light = nullptr;
 
-		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
+		FrameBuffer* m_fbo = nullptr;
 		uvec4 m_rect = {};
 		vec4 m_uv_rect = {};
 		
@@ -154,11 +154,11 @@ namespace mud
 			void createUniforms()
 			{
 				s_csm_atlas	 = bgfx::createUniform("s_csm_atlas",  bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
-				u_csm_params = bgfx::createUniform("u_csm_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+				u_csm_p0 = bgfx::createUniform("u_csm_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 			}
 
 			bgfx::UniformHandle s_csm_atlas;
-			bgfx::UniformHandle u_csm_params;
+			bgfx::UniformHandle u_csm_p0;
 
 		} u_direct_shadow;
 
@@ -168,12 +168,12 @@ namespace mud
 			{
 				s_shadow_atlas = bgfx::createUniform("s_shadow_atlas", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 				u_shadow_atlas = bgfx::createUniform("u_shadow_atlas", bgfx::UniformType::Vec4,    1U, bgfx::UniformFreq::View);
-				u_pcf_params   = bgfx::createUniform("u_pcf_params",   bgfx::UniformType::Vec4,    1U, bgfx::UniformFreq::View);
+				u_pcf_p0   = bgfx::createUniform("u_pcf_p0",   bgfx::UniformType::Vec4,    1U, bgfx::UniformFreq::View);
 			}
 
 			bgfx::UniformHandle s_shadow_atlas;
 			bgfx::UniformHandle u_shadow_atlas;
-			bgfx::UniformHandle u_pcf_params;
+			bgfx::UniformHandle u_pcf_p0;
 
 		} u_shadow;
 

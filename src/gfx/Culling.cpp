@@ -234,7 +234,7 @@ namespace mud
 		auto round = [](uint number, uint multiple) { return (number / multiple) * multiple; };
 
 		// these are defines in culling library but not exposed
-		uvec2 size = { round(rect_w(viewport.m_rect), 8), round(rect_h(viewport.m_rect), 4) };
+		uvec2 size = { round(viewport.m_rect.width, 8), round(viewport.m_rect.height, 4) };
 
 		unsigned int width, height;
 		m_moc->GetResolution(width, height);
@@ -249,7 +249,7 @@ namespace mud
 	{
 		if(render.m_shot->m_occluders.empty())
 			return;
-		if(rect_w(render.m_viewport.m_rect) == 0 || rect_h(render.m_viewport.m_rect) == 0)
+		if(render.m_rect.width == 0 || render.m_rect.height == 0)
 			return;
 
 		this->begin(render.m_viewport);
@@ -363,17 +363,17 @@ namespace mud
 	{
 		if(render.m_frame.m_frame % 30 == 0)
 		{
-			uint16_t width = uint16_t(rect_w(render.m_viewport.m_rect));
-			uint16_t height = uint16_t(rect_h(render.m_viewport.m_rect));
+			const uint width = render.m_rect.width;
+			const uint height = render.m_rect.height;
 			m_depth_data.resize(width * height);
 
 			m_moc->ComputePixelDepthBuffer(m_depth_data.data(), false);
 
 			if(!bgfx::isValid(m_depth_texture))
-				m_depth_texture = bgfx::createTexture2D(width, height, false, 1, bgfx::TextureFormat::R32F);
+				m_depth_texture = { uvec2(width, height), false, bgfx::TextureFormat::R32F };
 
 			const bgfx::Memory* memory = bgfx::makeRef(m_depth_data.data(), width * height * sizeof(float));
-			bgfx::updateTexture2D(m_depth_texture, 0, 0, 0, 0, width, height, memory);
+			bgfx::updateTexture2D(m_depth_texture, 0, 0, 0, 0, uint16_t(width), uint16_t(height), memory);
 		}
 
 		BlockCopy& copy = *render.m_scene.m_gfx.m_renderer.block<BlockCopy>();

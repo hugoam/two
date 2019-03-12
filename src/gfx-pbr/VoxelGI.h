@@ -5,6 +5,7 @@
 #ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Light.h>
+#include <gfx/RenderTarget.h>
 #endif
 #include <gfx-pbr/Forward.h>
 
@@ -38,13 +39,13 @@ namespace gfx
 
 		Node3& m_node;
 
-		bgfx::TextureHandle m_raster = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_voxels_color = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_voxels_normals = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_voxels_light = BGFX_INVALID_HANDLE;
-		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
+		Texture m_raster = {};
+		Texture m_voxels_color = {};
+		Texture m_voxels_normals = {};
+		Texture m_voxels_light = {};
+		FrameBuffer m_fbo = {};
 
-		bgfx::TextureHandle m_voxels_light_rgba = BGFX_INVALID_HANDLE;
+		Texture m_voxels_light_rgba = {};
 
 		bool m_enabled = true;
 		mat4 m_transform;

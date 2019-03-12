@@ -89,7 +89,7 @@ namespace mud
 		m_vg = oconstruct<VgNanoBgfx>(m_resource_path.c_str());
 #endif
 		m_gfx.m_vg = &*m_vg;
-		context.m_reset_vg = [](GfxContext& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.idx); };
+		context.m_reset_vg = [](GfxContext& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.m_tex.idx); };
 
 		m_ui_window = make_unique<UiWindow>(*m_context, *m_vg);
 		m_ui = m_ui_window->m_root_sheet.get();

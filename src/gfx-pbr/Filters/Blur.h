@@ -21,12 +21,12 @@ namespace mud
 	{
 		void createUniforms()
 		{
-			u_blur_params = bgfx::createUniform("u_blur_params", bgfx::UniformType::Vec4);
+			u_blur_p0 = bgfx::createUniform("u_blur_p0", bgfx::UniformType::Vec4);
 			u_blur_kernel_0_3 = bgfx::createUniform("u_blur_kernel_0_3", bgfx::UniformType::Vec4);
 			u_blur_kernel_4_7 = bgfx::createUniform("u_blur_kernel_4_7", bgfx::UniformType::Vec4);
 		}
 
-		bgfx::UniformHandle u_blur_params;
+		bgfx::UniformHandle u_blur_p0;
 		bgfx::UniformHandle u_blur_kernel_0_3;
 		bgfx::UniformHandle u_blur_kernel_4_7;
 	};

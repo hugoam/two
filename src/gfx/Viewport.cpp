@@ -44,13 +44,13 @@ namespace mud
 
 	void Viewport::render_pass(const Pass& render_pass)
 	{
-		bgfx::setViewRect(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(rect_w(m_rect)), uint16_t(rect_h(m_rect)));
+		bgfx::setViewRect(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(m_rect.width), uint16_t(m_rect.height));
 		bgfx::setViewTransform(render_pass.m_index, value_ptr(m_camera->m_transform), value_ptr(m_camera->m_projection));
 		bgfx::setViewFrameBuffer(render_pass.m_index, render_pass.m_fbo);
 		bgfx::setViewClear(render_pass.m_index, BGFX_CLEAR_NONE);
 
 		if(m_scissor)
-			bgfx::setViewScissor(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(rect_w(m_rect)), uint16_t(rect_h(m_rect)));
+			bgfx::setViewScissor(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(m_rect.width), uint16_t(m_rect.height));
 
 		bgfx::touch(render_pass.m_index);
 	}
@@ -66,8 +66,8 @@ namespace mud
 
 	void Viewport::render(Render& render)
 	{
-		if(rect_h(m_rect) != 0)
-			m_camera->m_aspect = float(rect_w(m_rect)) / float(rect_h(m_rect));
+		if(m_rect.height != 0)
+			m_camera->m_aspect = float(m_rect.width) / float(m_rect.height);
 		m_camera->update();
 
 		if(m_camera->m_clusters)
@@ -105,8 +105,8 @@ namespace mud
 	Ray Viewport::ray(const vec2& pos)
 	{
 		// coord in NDC
-		float xNDC = (pos.x / float(rect_w(m_rect))) * 2.0f - 1.0f;
-		float yNDC = ((float(rect_h(m_rect)) - pos.y) / float(rect_h(m_rect))) * 2.0f - 1.0f;
+		float xNDC = (pos.x / float(m_rect.width)) * 2.0f - 1.0f;
+		float yNDC = ((float(m_rect.height) - pos.y) / float(m_rect.height)) * 2.0f - 1.0f;
 
 		return m_camera->ray({ xNDC, yNDC });
 	}

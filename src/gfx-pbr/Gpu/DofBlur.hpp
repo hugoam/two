@@ -17,14 +17,14 @@ namespace mud
 	{
 		void init()
 		{
-			u_dof_near_params = bgfx::createUniform("u_dof_near_params", bgfx::UniformType::Vec4);
-			u_dof_far_params = bgfx::createUniform("u_dof_far_params", bgfx::UniformType::Vec4);
-			u_dof_params = bgfx::createUniform("u_dof_params", bgfx::UniformType::Vec4);
+			u_dof_near_p0 = bgfx::createUniform("u_dof_near_p0", bgfx::UniformType::Vec4);
+			u_dof_far_p0 = bgfx::createUniform("u_dof_far_p0", bgfx::UniformType::Vec4);
+			u_dof_p0 = bgfx::createUniform("u_dof_p0", bgfx::UniformType::Vec4);
 		}
 
 		void upload(const DofBlur& dof)
 		{
-			vec4 dof_near_params =
+			vec4 dof_near_p0 =
 			{
 				dof.m_near.m_distance,
 				dof.m_near.m_distance - dof.m_near.m_transition,
@@ -32,7 +32,7 @@ namespace mud
 				1.f / dof.m_near.m_radius,
 			};
 
-			vec4 dof_far_params =
+			vec4 dof_far_p0 =
 			{
 				dof.m_far.m_distance,
 				dof.m_far.m_distance + dof.m_far.m_transition,
@@ -40,16 +40,16 @@ namespace mud
 				0.f
 			};
 
-			vec4 dof_params = { dof.m_max_coc_radius, 0.f, 0.f, 0.f };
+			vec4 dof_p0 = { dof.m_max_coc_radius, 0.f, 0.f, 0.f };
 
-			bgfx::setUniform(u_dof_near_params, &dof_near_params);
-			bgfx::setUniform(u_dof_far_params, &dof_far_params);
-			bgfx::setUniform(u_dof_params, &dof_params);
+			bgfx::setUniform(u_dof_near_p0, &dof_near_p0);
+			bgfx::setUniform(u_dof_far_p0, &dof_far_p0);
+			bgfx::setUniform(u_dof_p0, &dof_p0);
 		}
 
-		bgfx::UniformHandle u_dof_near_params;
-		bgfx::UniformHandle u_dof_far_params;
-		bgfx::UniformHandle u_dof_params;
+		bgfx::UniformHandle u_dof_near_p0;
+		bgfx::UniformHandle u_dof_far_p0;
+		bgfx::UniformHandle u_dof_p0;
 
 		static GpuState me;
 	};

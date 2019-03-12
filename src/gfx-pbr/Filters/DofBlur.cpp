@@ -75,9 +75,8 @@ namespace mud
 
 		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), m_filter.u_uniform.s_source_depth, target.m_depth);
 
-		bgfx::FrameBufferHandle fbo = first_pass ? target.m_ping_pong.swap() : target.m_post_process.swap();
+		FrameBuffer& fbo = first_pass ? target.m_ping_pong.swap() : target.m_post_process.swap();
 
-		m_filter.submit_quad(target, render.composite_pass(),
-							 fbo, m_program.version(shader_version), render.m_viewport.m_rect, bgfx_state);
+		m_filter.submit_quad(render.composite_pass(), fbo, m_program.version(shader_version), render.m_rect, bgfx_state);
 	}
 }

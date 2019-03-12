@@ -12,8 +12,8 @@ namespace mud
 {
 	export_ struct MUD_GFX_EXPORT ManualRender
 	{
-		ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect);
-		ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection, bool ortho = false);
+		ManualRender(Render& render, Shading shading, FrameBuffer& fbo, const uvec4& viewport_rect);
+		ManualRender(Render& render, Shading shading, FrameBuffer& fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection, bool ortho = false);
 
 		void render(Renderer& renderer, RenderFunc func);
 

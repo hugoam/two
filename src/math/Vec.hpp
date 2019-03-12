@@ -376,19 +376,16 @@ namespace mud
 	export_ inline ivec3 to_xz(const ivec2& vec) { return{ vec.x, 0, vec.y }; }
 	export_ inline ivec2 to_xz(const ivec3& vec) { return{ vec.x, vec.z }; }
 
-	export_ inline float& rect_w(vec4& rect) { return rect.z; }
-	export_ inline float& rect_h(vec4& rect) { return rect.w; }
+	export_ template <class T> inline float& width(v4<T>& rect) { return rect.z; }
+	export_ template <class T> inline float& height(v4<T>& rect) { return rect.w; }
 
-	export_ inline float rect_w(const vec4& rect) { return rect.z; }
-	export_ inline float rect_h(const vec4& rect) { return rect.w; }
+	export_ template <class T> inline float width(const v4<T>& rect) { return rect.z; }
+	export_ template <class T> inline float height(const v4<T>& rect) { return rect.w; }
 
-	export_ inline unsigned int& rect_w(uvec4& rect) { return rect.z; }
-	export_ inline unsigned int& rect_h(uvec4& rect) { return rect.w; }
-
-	export_ inline vec2 rect_offset(const vec4& rect) { return { rect.x, rect.y }; }
-	export_ inline vec2 rect_size(const vec4& rect) { return { rect.z, rect.w }; }
-	export_ inline vec2 rect_sum(const vec4& rect) { return vec2(rect.x, rect.y) + vec2(rect.z, rect.w); }
-	export_ inline vec2 rect_center(const vec4& rect) { return rect_offset(rect) + rect_size(rect) * 0.5f; }
+	export_ template <class T> inline v2<T> rect_offset(const v4<T>& rect) { return { rect.x, rect.y }; }
+	export_ template <class T> inline v2<T> rect_size(const v4<T>& rect) { return { rect.z, rect.w }; }
+	export_ template <class T> inline v2<T> rect_sum(const v4<T>& rect) { return v2<T>(rect.x, rect.y) + v2<T>(rect.z, rect.w); }
+	export_ template <class T> inline v2<T> rect_center(const v4<T>& rect) { return rect_offset(rect) + rect_size(rect) / T(2); }
 
 	export_ inline vec3 to_vec3(const Colour& colour) { return { colour.r, colour.g, colour.b }; }
 	export_ inline vec4 to_vec4(const Colour& colour) { return { colour.r, colour.g, colour.b, colour.a }; }

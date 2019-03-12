@@ -28,15 +28,16 @@ namespace mud
 		: m_node(node)
 	{}
 
-	ReflectionCubemap::ReflectionCubemap(uint16_t size)
+	ReflectionCubemap::ReflectionCubemap(uint32_t size)
 		: m_size(size)
 	{
+		const uint64_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT;
 		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
-		if(!bgfx::isTextureValid(0, true, 1, color_format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT))
+		if(!bgfx::isTextureValid(0, true, 1, color_format, flags))
 			color_format = bgfx::TextureFormat::RGB10A2;
 
-		m_cubemap = bgfx::createTextureCube(size, false, 1, color_format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT);
-		m_depth = bgfx::createTexture2D(size, size, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
+		m_cubemap = Texture{ bgfx::createTextureCube(size, false, 1, color_format, flags) };
+		m_depth = { uvec2(size), false, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT };
 
 		for(int i = 0; i < 6; i++)
 		{
@@ -45,7 +46,7 @@ namespace mud
 				{ bgfx::Access::Write, m_depth , 0, 1, BGFX_RESOLVE_AUTO_GEN_MIPS },
 				{ bgfx::Access::Write, m_cubemap, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS }
 			};
-			m_fbo[i] = bgfx::createFrameBuffer(2, attachments, true);
+			m_fbo[i] = { uvec2(size), bgfx::createFrameBuffer(2, attachments, true) };
 		}
 	}
 
@@ -88,8 +89,8 @@ namespace mud
 		UNUSED(render); UNUSED(element);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
-		if(bgfx::isValid(m_atlas.m_color_tex) && m_atlas.m_size > 0)
-			encoder.setTexture(uint8_t(TextureSampler::ReflectionProbe), m_atlas.m_color_tex);
+		if(m_atlas.m_color.valid() && m_atlas.m_size > 0)
+			encoder.setTexture(uint8_t(TextureSampler::ReflectionProbe), m_atlas.m_color);
 
 		//upload_reflection_probes(render, to_array(render.m_shot->m_reflection_probes));
 	}
@@ -140,7 +141,7 @@ namespace mud
 
 		uvec4 atlas_rect = m_atlas.render_update(render, probe);
 
-		ReflectionCubemap& cubemap = find_cubemap(uint16_t(rect_w(atlas_rect)));
+		ReflectionCubemap& cubemap = find_cubemap(uint16_t(atlas_rect.width));
 
 		for(int i = 0; i < 6; ++i)
 		{

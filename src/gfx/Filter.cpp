@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/algorithm.h>
 #include <math/Vec.hpp>
 #include <geom/Primitive.h>
 #include <gfx/Types.h>
@@ -46,6 +47,40 @@ namespace mud
 	{
 		UNUSED(render);
 		//this->set_uniforms(render);
+	}
+
+	void BlockFilter::set_source0(Texture& texture)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::Source0), u_uniform.s_source_0, texture);
+	}
+
+	void BlockFilter::set_source1(Texture& texture)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::Source1), u_uniform.s_source_1, texture);
+	}
+
+	void BlockFilter::set_source2(Texture& texture)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::Source2), u_uniform.s_source_2, texture);
+	}
+
+	void BlockFilter::set_source3(Texture& texture)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::Source3), u_uniform.s_source_3, texture);
+	}
+
+	void BlockFilter::set_sourcedepth(Texture& texture)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), u_uniform.s_source_depth, texture);
+	}
+
+	void BlockFilter::set_uniform(uint8_t view, const string& name, const vec4& value)
+	{
+		//if(!has(m_uniforms, name))			
+		if(m_uniforms.find(name) == m_uniforms.end())
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+
+		bgfx::setViewUniform(view, m_uniforms[name], &value);
 	}
 
 	struct GpuTargetRect
@@ -102,20 +137,23 @@ namespace mud
 		draw_quad({ 1.f, 1.f }, fbo_flip);
 	}
 
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags, bool render)
+	void BlockFilter::submit_quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags, bool render)
 	{
-		if(quad.m_source.z > 1.f || quad.m_source.w > 1.f)
+		if(quad.m_source.width > 1.f || quad.m_source.height > 1.f)
 			printf("WARNING: Source rect expected in relative coordinates\n");
+
+		static mat4 mview = bxidentity();
+		static mat4 proj = bxortho({ 0.f, 1.f, 1.f, 0.f }, 0.f, 1.f, 0.f, bgfx::getCaps()->homogeneousDepth);// false))
 
 #ifdef _DEBUG
 		bgfx::setViewName(view, "quad");
 #endif
 		bgfx::setViewFrameBuffer(view, fbo);
-		bgfx::setViewTransform(view, value_ptr(target.m_screen_view), value_ptr(target.m_screen_proj));
-		bgfx::setViewRect(view, uint16_t(quad.m_dest.x), uint16_t(quad.m_dest.y), uint16_t(rect_w(quad.m_dest)), uint16_t(rect_h(quad.m_dest)));
+		bgfx::setViewTransform(view, value_ptr(mview), value_ptr(proj));
+		bgfx::setViewRect(view, uint16_t(quad.m_dest.x), uint16_t(quad.m_dest.y), uint16_t(quad.m_dest.width), uint16_t(quad.m_dest.height));
 
 		draw_unit_quad(quad.m_fbo_flip);
-		//draw_quad(rect_w(quad.m_dest), rect_h(quad.m_dest));
+		//draw_quad(quad.m_dest.width, quad.m_dest.height);
 
 		bgfx::setUniform(u_uniform.u_source_0_crop, &quad.m_source);
 
@@ -126,28 +164,15 @@ namespace mud
 			bgfx::frame();
 	}
 
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags, bool render)
+	void BlockFilter::submit_quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags, bool render)
 	{
-		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
-		this->submit_quad(target, view, fbo, program, quad, flags, render);
+		this->submit_quad(view, fbo, program, fbo.render_quad(vec4(rect), true), flags, render);
 	}
 
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags, bool render)
+	void BlockFilter::submit_quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, uint64_t flags, bool render)
 	{
-		this->submit_quad(target, view, target.m_fbo, program, quad, flags, render); // BGFX_INVALID_HANDLE
-	}
-
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags, bool render)
-	{
-		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
-		this->submit_quad(target, view, program, quad, flags, render);
-	}
-
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, uint64_t flags, bool render)
-	{
-		vec4 rect = vec4(vec2(0.f), vec2(target.m_size));
-		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
-		this->submit_quad(target, view, program, quad, flags, render);
+		const vec4 rect = vec4(vec2(0.f), vec2(fbo.m_size));
+		this->submit_quad(view, fbo, program, fbo.render_quad(rect, true), flags, render);
 	}
 
 	BlockCopy::BlockCopy(GfxSystem& gfx, BlockFilter& filter)
@@ -166,54 +191,41 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::TextureHandle texture, const RenderQuad& quad, uint64_t flags)
+	void BlockCopy::submit_quad(uint8_t view, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags)
 	{
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, texture, GFX_TEXTURE_CLAMP);
-		m_filter.submit_quad(target, view, fbo, m_program.default_version(), quad, flags);
+		m_filter.submit_quad(view, fbo, m_program.default_version(), quad, flags);
 	}
 
-	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::TextureHandle texture, const uvec4& rect, uint64_t flags)
+	void BlockCopy::submit_quad(uint8_t view, FrameBuffer& fbo, Texture& texture, const uvec4& rect, uint64_t flags)
 	{
-		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
-		this->submit_quad(target, view, fbo, texture, quad, flags);
+		this->submit_quad(view, fbo, texture, fbo.render_quad(vec4(rect), true), flags);
 	}
 
-	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const RenderQuad& quad, uint64_t flags)
+	void BlockCopy::submit_quad(uint8_t view, FrameBuffer& fbo, Texture& texture, uint64_t flags)
 	{
-		this->submit_quad(target, view, target.m_fbo, texture, quad, flags); // BGFX_INVALID_HANDLE
+		vec4 rect = vec4(vec2(0.f), vec2(fbo.m_size));
+		this->submit_quad(view, fbo, texture, fbo.render_quad(rect, true), flags);
 	}
 
-	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const uvec4& rect, uint64_t flags)
-	{
-		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
-		this->submit_quad(target, view, texture, quad, flags);
-	}
-
-	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, uint64_t flags)
-	{
-		vec4 rect = vec4(vec2(0.f), vec2(target.m_size));
-		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
-		this->submit_quad(target, view, texture, quad, flags);
-	}
-
-	void BlockCopy::debug_show_texture(Render& render, bgfx::TextureHandle texture, const vec4& rect, bool is_depth, bool is_depth_packed, bool is_array, int level)
+	void BlockCopy::debug_show_texture(Render& render, Texture& texture, const vec4& rect, int level)
 	{
 		assert(render.m_target);
 		vec4 dest = rect == vec4(0.f) ? vec4(vec2(0.f), vec2(render.m_target->m_size) * 0.25f) : rect;;
 		RenderQuad target_quad = { Rect4, render.m_target->dest_quad(dest, true) };
 
 		ShaderVersion shader_version = { &m_program };
-		if(is_depth)
+		if(texture.m_is_depth)
 			shader_version.set_option(m_filter.m_index, FILTER_SOURCE_DEPTH);
-		if(is_depth_packed)
+		if(texture.m_is_depth_packed)
 			shader_version.set_option(m_filter.m_index, FILTER_UNPACK_DEPTH);
-		if(is_array)
+		if(texture.m_is_array)
 			shader_version.set_option(m_filter.m_index, FILTER_SOURCE_0_ARRAY);
 
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, texture, GFX_TEXTURE_CLAMP);
 		bgfx::setUniform(m_filter.u_uniform.u_source_0_level, &level);
 
 		uint8_t view = render.debug_pass();
-		m_filter.submit_quad(*render.m_target, view, BGFX_INVALID_HANDLE, m_program.version(shader_version), target_quad, 0);
+		m_filter.submit_quad(view, render.m_target->m_backbuffer, m_program.version(shader_version), target_quad, 0);
 	}
 }

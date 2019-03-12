@@ -11,6 +11,8 @@
 #include <geom/Geom.h>
 #endif
 #include <gfx/Forward.h>
+#include <gfx/RenderTarget.h>
+#include <gfx/Texture.h>
 
 #include <bgfx/bgfx.h>
 
@@ -62,10 +64,10 @@ namespace mud
 
 		bgfx::UniformHandle u_picking_id;
 
-		bgfx::FrameBufferHandle m_fbo;
-		bgfx::TextureHandle m_fbo_texture;
+		FrameBuffer m_fbo;
+		Texture m_fbo_texture;
 
-		bgfx::TextureHandle m_readback_texture = BGFX_INVALID_HANDLE;
+		Texture m_readback_texture;
 
 		vector<uint32_t> m_data;
 	};

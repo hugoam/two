@@ -11,6 +11,7 @@
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Graph.h>
+#include <gfx/Texture.h>
 
 #include <bgfx/bgfx.h>
 
@@ -30,7 +31,7 @@ namespace mud
 		attr_ gpu_ float m_energy = 1.0f;
 		attr_ gpu_ float m_ambient = 1.0f;
 		attr_ Texture* m_texture = nullptr;
-		bgfx::TextureHandle m_roughness_array = BGFX_INVALID_HANDLE;
+		attr_ Texture* m_filtered = nullptr;
 		bool m_preprocessed = false;
 	};
 

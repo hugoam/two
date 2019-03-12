@@ -8,7 +8,6 @@
 
 using namespace mud;
 
-void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar);
@@ -38,5 +37,8 @@ void xx_materials_skin(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_materials_standard(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_materials_variations(Shell& app, Widget& parent, Dockbar& dockbar);
 void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar);
+void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar);
+void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar);
+void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar);
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar);

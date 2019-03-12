@@ -78,7 +78,7 @@ namespace mud
 	void save_lightmap(GfxSystem& gfx, Lightmap& lightmap, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
 	{
 		uint16_t size = uint16_t(lightmap.m_size);
-		bgfx::TextureHandle blit_texture = bgfx::createTexture2D(size, size, false, 1, source_format, BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK);
+		Texture blit_texture = { uvec2(size, size), false, source_format, BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK };
 		bgfx::blit(0, blit_texture, 0, 0, 0, 0, texture, 0, 0, 0, 0, size, size, 1);
 		bgfx::frame();
 		bgfx::frame();
@@ -88,16 +88,18 @@ namespace mud
 
 	void load_lightmap(GfxSystem& gfx, Lightmap& lightmap, const string& path)
 	{
-		lightmap.m_texture = load_bgfx_texture(gfx.allocator(), gfx.file_reader(), path.c_str());
+		lightmap.m_texture = { "lightmap" };
+		load_texture(gfx, lightmap.m_texture, path);
 
 		for(LightmapItem& item : lightmap.m_items)
-			item.m_lightmap = lightmap.m_texture;
+			item.m_lightmap = &lightmap.m_texture;
 	}
 
 	void Lightmap::add_item(size_t index, Item& item, bool valid, const vec4& uv_scale_offset)
 	{
-		bgfx::TextureHandle texture = valid ? m_texture : bgfx::TextureHandle(BGFX_INVALID_HANDLE);
-		m_items.push_back({ index, texture, uv_scale_offset });
+		//Texture* texture = valid ? &m_texture : nullptr;
+		if(valid)
+			m_items.push_back({ index, m_texture, uv_scale_offset });
 		item.m_lightmaps.push_back(&m_items.back());
 	}
 
@@ -449,8 +451,8 @@ namespace mud
 			}
 #endif
 
-			uint16_t resolution = uint16_t(atlas.m_size);
-			bgfx::FrameBufferHandle fbo = bgfx::createFrameBuffer(resolution, resolution, c_lightmap_format, BGFX_TEXTURE_RT);
+			uint32_t resolution = uint16_t(atlas.m_size);
+			FrameBuffer fbo = { uvec2(resolution), c_lightmap_format, BGFX_TEXTURE_RT };
 
 			RenderFrame frame = m_gfx.render_frame();
 
@@ -525,11 +527,11 @@ namespace mud
 
 			//encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &binding.m_uv_scale_offset);
 
-			if(bgfx::isValid(binding.m_lightmap))
+			if(binding.m_lightmap && binding.m_lightmap->valid())
 #ifdef LIGHTMAP_PIXELS
-				encoder.setTexture(uint8_t(TextureSampler::Lightmap), binding.m_lightmap, GFX_TEXTURE_POINT);
+				encoder.setTexture(uint8_t(TextureSampler::Lightmap), *binding.m_lightmap, GFX_TEXTURE_POINT);
 #else
-				encoder.setTexture(uint8_t(TextureSampler::Lightmap), binding.m_lightmap);
+				encoder.setTexture(uint8_t(TextureSampler::Lightmap), *binding.m_lightmap);
 #endif
 		}
 		else

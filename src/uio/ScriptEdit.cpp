@@ -109,7 +109,7 @@ namespace mud
 	{
 		if(edit.m_hovered_word != "")
 		{
-			vec2 hover_at = rect_offset(edit.m_hovered_word_rect) + vec2(0.f, rect_h(edit.m_hovered_word_rect));
+			vec2 hover_at = rect_offset(edit.m_hovered_word_rect) + vec2(0.f, edit.m_hovered_word_rect.height);
 
 			//ui::rectangle(edit, edit.m_hovered_word_rect);
 			

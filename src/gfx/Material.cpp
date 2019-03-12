@@ -33,7 +33,7 @@ module mud.gfx;
 
 namespace mud
 {
-	bool is_valid(Texture* texture) { return texture != nullptr && bgfx::isValid(texture->m_texture); };
+	bool is_valid(Texture* texture) { return texture != nullptr && texture->valid(); };
 
 	template struct MaterialParam<Colour>;
 	template struct MaterialParam<float>;
@@ -119,7 +119,7 @@ namespace mud
 #if !MATERIALS_BUFFER
 			GpuState<MaterialAlpha>::me.upload(encoder, block);
 #endif
-			encoder.setTexture(uint8_t(TextureSampler::Alpha), is_valid(block.m_alpha.m_texture) ? block.m_alpha.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Alpha), is_valid(block.m_alpha.m_texture) ? *block.m_alpha.m_texture : *m_white_tex);
 		}
 
 		Texture* m_white_tex;
@@ -151,7 +151,7 @@ namespace mud
 			GpuState<MaterialSolid>::me.upload(encoder, block);
 #endif
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), block.m_colour.m_texture ? block.m_colour.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Color), block.m_colour.m_texture ? *block.m_colour.m_texture : *m_white_tex);
 		}
 
 		Texture* m_white_tex;
@@ -231,7 +231,7 @@ namespace mud
 			//GpuState<MaterialFresnel>::me.upload(encoder, block);
 #endif
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), block.m_value.m_texture ? block.m_value.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Color), block.m_value.m_texture ? *block.m_value.m_texture : *m_white_tex);
 		}
 
 		Texture* m_white_tex;
@@ -279,10 +279,10 @@ namespace mud
 			//GpuState<MaterialUser>::me.upload(encoder, block);
 #endif
 
-			if(is_valid(block.m_attr0.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User0), block.m_attr0.m_texture->m_texture);
-			if(is_valid(block.m_attr1.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User1), block.m_attr1.m_texture->m_texture);
-			if(is_valid(block.m_attr2.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User2), block.m_attr2.m_texture->m_texture);
-			if(is_valid(block.m_attr3.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User3), block.m_attr3.m_texture->m_texture);
+			if(is_valid(block.m_attr0.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User0), *block.m_attr0.m_texture);
+			if(is_valid(block.m_attr1.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User1), *block.m_attr1.m_texture);
+			if(is_valid(block.m_attr2.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User2), *block.m_attr2.m_texture);
+			if(is_valid(block.m_attr3.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User3), *block.m_attr3.m_texture);
 			//if(is_valid(block.m_attr4.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User4), block.m_attr4.m_texture->m_texture);
 			//if(is_valid(block.m_attr5.m_texture)) encoder.setTexture(uint8_t(TextureSampler::User5), block.m_attr5.m_texture->m_texture);
 		}
@@ -343,23 +343,23 @@ namespace mud
 			GpuState<MaterialPbr>::me.upload(encoder, block);
 #endif
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), is_valid(block.m_albedo.m_texture) ? block.m_albedo.m_texture->m_texture : m_white_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::Metallic), is_valid(block.m_metallic.m_texture) ? block.m_metallic.m_texture->m_texture : m_white_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::Roughness), is_valid(block.m_roughness.m_texture) ? block.m_roughness.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Color), is_valid(block.m_albedo.m_texture) ? *block.m_albedo.m_texture : *m_white_tex);
+			encoder.setTexture(uint8_t(TextureSampler::Metallic), is_valid(block.m_metallic.m_texture) ? *block.m_metallic.m_texture : *m_white_tex);
+			encoder.setTexture(uint8_t(TextureSampler::Roughness), is_valid(block.m_roughness.m_texture) ? *block.m_roughness.m_texture : *m_white_tex);
 
 			if(is_valid(block.m_normal.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Normal), block.m_normal.m_texture->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Normal), *block.m_normal.m_texture);
 
 			if(is_valid(block.m_emissive.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Emissive), block.m_emissive.m_texture->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), *block.m_emissive.m_texture);
 			else if(block.m_emissive.m_value.a > 0.f)
-				encoder.setTexture(uint8_t(TextureSampler::Emissive), m_black_tex->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), *m_black_tex);
 
 			if(is_valid(block.m_depth.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Depth), block.m_depth.m_texture->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Depth), *block.m_depth.m_texture);
 			
 			if(is_valid(block.m_ambient_occlusion.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::AO), block.m_ambient_occlusion.m_texture->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::AO), *block.m_ambient_occlusion.m_texture);
 		}
 
 		Texture* m_white_tex;

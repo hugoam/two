@@ -70,22 +70,22 @@ namespace mud
 			return render.m_env->m_background.m_custom_function(render);
 		else if(mode == BackgroundMode::Radiance || mode == BackgroundMode::Panorama)
 		{
-			if(!bgfx::isValid(render.m_env->m_radiance.m_roughness_array))
+			if(render.m_env->m_radiance.m_filtered == nullptr)
 				return;
 
 			Pass sky_pass = render.next_pass("sky", PassType::Background);
 			bgfx::Encoder& encoder = *sky_pass.m_encoder;
 
-			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, render.m_env->m_radiance.m_roughness_array);
+			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, *render.m_env->m_radiance.m_filtered);
 
 			unsigned int level = mode == BackgroundMode::Radiance ? 3 : 0;
-			vec4 skybox_params = { float(level), float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
-			encoder.setUniform(u_skybox.u_skybox_params, &skybox_params);
+			vec4 skybox_p0 = { float(level), float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
+			encoder.setUniform(u_skybox.u_skybox_p0, &skybox_p0);
 
 			mat4 skybox_matrix = bxinverse(render.m_camera.m_transform);
 			encoder.setUniform(u_skybox.u_skybox_matrix, &skybox_matrix);
 
-			m_filter.submit_quad(*render.m_target, sky_pass.m_index, render.m_target_fbo, m_skybox_program.default_version(), render.m_viewport.m_rect, BGFX_STATE_DEPTH_TEST_LEQUAL);
+			m_filter.submit_quad(sky_pass.m_index, *render.m_target_fbo, m_skybox_program.default_version(), render.m_rect, BGFX_STATE_DEPTH_TEST_LEQUAL);
 		}
 	}
 }

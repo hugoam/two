@@ -104,7 +104,7 @@ namespace mud
 			s_light_records  = bgfx::createUniform("s_light_records",  bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 
-			u_cluster_params = bgfx::createUniform("u_cluster_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_cluster_p0 = bgfx::createUniform("u_cluster_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 			u_cluster_f = bgfx::createUniform("u_cluster_f", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 			u_cluster_z = bgfx::createUniform("u_cluster_z", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
@@ -112,7 +112,7 @@ namespace mud
 		bgfx::UniformHandle s_light_records;
 		bgfx::UniformHandle s_light_clusters;
 
-		bgfx::UniformHandle u_cluster_params;
+		bgfx::UniformHandle u_cluster_p0;
 		bgfx::UniformHandle u_cluster_f;
 		bgfx::UniformHandle u_cluster_z;
 	};
@@ -203,18 +203,18 @@ namespace mud
 
 		m_frustum.resize(rect_size(vec4(m_viewport->m_rect)));
 
-		m_params_z = { 0.f, 0.f, -m_frustum.m_linearizer, float(m_frustum.m_subdiv_z) };
+		m_pz = { 0.f, 0.f, -m_frustum.m_linearizer, float(m_frustum.m_subdiv_z) };
 		if(SUPPORTS_REMAPPED_CLUSTERS)
 		{
-			m_params_f.x = uint32_t(m_frustum.m_subdiv_z);
-			m_params_f.y = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_z);
-			m_params_f.z = 1;
+			m_pf.x = uint32_t(m_frustum.m_subdiv_z);
+			m_pf.y = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_z);
+			m_pf.z = 1;
 		}
 		else
 		{
-			m_params_f.x = 1;
-			m_params_f.y = uint32_t(m_frustum.m_subdiv_x);
-			m_params_f.z = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_y);
+			m_pf.x = 1;
+			m_pf.y = uint32_t(m_frustum.m_subdiv_x);
+			m_pf.z = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_y);
 		}
 	}
 
@@ -236,8 +236,8 @@ namespace mud
 			// (win)  fz = -Pz*0.5+0.5 - Pw*0.5/vz
 			// ->  = vz = -Pw / (2*fz + Pz-1)
 			// i = log2(zLightFar*(2*fz + Pz-1) / Pw) / -linearizer + zcount
-			m_params_z[0] = 2.0f * m_light_far / Pw;
-			m_params_z[1] = m_light_far * (Pz - 1.0f) / Pw;
+			m_pz[0] = 2.0f * m_light_far / Pw;
+			m_pz[1] = m_light_far * (Pz - 1.0f) / Pw;
 		}
 		else
 		{
@@ -249,9 +249,9 @@ namespace mud
 			// i = log2(-vz / zLightFar) / linearizer + zcount
 			// i = log2((-2*fz + Pw + 1)/(Pz*zLightFar)) / linearizer + zcount
 
-			m_params_z[0] = -2.0f / (Pz * m_light_far);
-			m_params_z[1] = (1.0f + Pw) / (Pz * m_light_far);
-			m_params_z[2] = m_frustum.m_linearizer;
+			m_pz[0] = -2.0f / (Pz * m_light_far);
+			m_pz[1] = (1.0f + Pw) / (Pz * m_light_far);
+			m_pz[2] = m_frustum.m_linearizer;
 		}
 
 		if(m_debug_clusters.size() > 0)
@@ -319,12 +319,12 @@ namespace mud
 
 		auto submit = [=](vec4 params, vec4 f, vec4 z)
 		{
-			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_cluster_params, &params);
+			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_cluster_p0, &params);
 			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_cluster_f, &f);
 			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_cluster_z, &z);
 		};
 
-		submit(vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_params_f), 0.f), m_params_z);
+		submit(vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_pf), 0.f), m_pz);
 	}
 
 	void Froxelizer::submit(bgfx::Encoder& encoder) const

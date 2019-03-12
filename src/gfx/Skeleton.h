@@ -11,6 +11,7 @@
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
+#include <gfx/Texture.h>
 #include <gfx/Animation.h>
 
 #include <bgfx/bgfx.h>
@@ -76,7 +77,7 @@ namespace mud
 
 		Skeleton* m_skeleton;
 
-		bgfx::TextureHandle m_texture = BGFX_INVALID_HANDLE;
+		Texture m_texture;
 		const bgfx::Memory* m_memory = nullptr;
 		//vector<float> m_texture_data;
 

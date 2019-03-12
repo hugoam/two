@@ -19,9 +19,9 @@ namespace mud
 {
 	Circlifier::Circlifier(Image256& image)
 		: m_image(image)
-		, m_size(image.m_width * image.m_height)
+		, m_size(image.m_size.x * image.m_size.y)
 		, m_last(0)
-		, m_pixircles(image.m_width, image.m_height, 1)
+		, m_pixircles(image.m_size.x, image.m_size.y, 1)
 	{
 		for(size_t i = 0; i < m_size; ++i)
 		{

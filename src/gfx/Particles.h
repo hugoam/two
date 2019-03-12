@@ -164,7 +164,7 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 
 		unique<SpriteAtlas> m_sprites;
-		bgfx::TextureHandle m_texture;
+		Texture m_texture;
 
 		bgfx::UniformHandle s_color;
 

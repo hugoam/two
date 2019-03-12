@@ -36,16 +36,16 @@ namespace mud
 	{
 		void init()
 		{
-			u_exposure_params = bgfx::createUniform("u_exposure_params", bgfx::UniformType::Vec4);
+			u_exposure_p0 = bgfx::createUniform("u_exposure_p0", bgfx::UniformType::Vec4);
 		}
 
 		void upload(const Tonemap& tonemap)
 		{
-			vec4 exposure_params = { tonemap.m_exposure, tonemap.m_white_point, 0.f, 0.f };
-			bgfx::setUniform(u_exposure_params, &exposure_params);
+			vec4 exposure_p0 = { tonemap.m_exposure, tonemap.m_white_point, 0.f, 0.f };
+			bgfx::setUniform(u_exposure_p0, &exposure_p0);
 		}
 
-		bgfx::UniformHandle u_exposure_params;
+		bgfx::UniformHandle u_exposure_p0;
 
 		static GpuState me;
 	};

@@ -6,6 +6,7 @@
 
 #include <stl/vector.h>
 #include <gfx/Forward.h>
+#include <gfx/Texture.h>
 
 #include <bgfx/bgfx.h>
 
@@ -31,6 +32,6 @@ namespace mud
 		void debug(Render& render);
 
 		vector<float> m_depth_data;
-		bgfx::TextureHandle m_depth_texture = BGFX_INVALID_HANDLE;
+		Texture m_depth_texture;
 	};
 }

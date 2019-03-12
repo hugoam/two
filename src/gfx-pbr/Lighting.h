@@ -6,6 +6,7 @@
 #include <stl/vector.h>
 #include <gfx/Renderer.h>
 #include <gfx/Light.h>
+#include <gfx/Texture.h>
 #endif
 #include <gfx-pbr/Forward.h>
 
@@ -105,7 +106,7 @@ namespace mud
 		vector<GpuLight> m_gpu_lights;
 		vector<GpuLightShadow> m_gpu_shadows;
 
-		bgfx::TextureHandle m_zones_texture = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_lights_texture = BGFX_INVALID_HANDLE;
+		Texture m_zones_texture = {};
+		Texture m_lights_texture = {};
 	};
 }

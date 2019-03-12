@@ -195,25 +195,19 @@ namespace mud
 
 	uint32_t Fract::inverse_colour(int x, int y, const Rect& rect, const Pattern& pattern, Image256& image)
 	{
-		float ox = float(x) / float(image.m_width) * rect.m_size.x + rect.m_position.x - 0.5f;
-		float oy = float(y) / float(image.m_height) * rect.m_size.y + rect.m_position.y - 0.5f;
+		const vec2 o = vec2(float(x), float(y)) / vec2(image.m_size) * rect.m_size + rect.m_position - 0.5f;
+		vec2 p = o;
 
-		float px = ox;
-		float py = oy;
+		int num_reflects = this->inverse_point(p.x, p.y);
+		p *= vec2(image.m_size) / rect.m_size;
 
-		int num_reflects = this->inverse_point(px, py);
-
-		px *= image.m_width / rect.m_size.x;
-		py *= image.m_height / rect.m_size.y;
-
-		uint32_t color = pattern.sample(px, py, float(num_reflects));
-
+		uint32_t color = pattern.sample(p.x, p.y, float(num_reflects));
 		return color;
 	}
 
 	void Fract::render(const Rect& rect, const Pattern& pattern, uvec2 resolution, Image256& image)
 	{
-		image.resize(uint16_t(resolution.x), uint16_t(resolution.y));
+		image.resize(resolution);
 
 		image.m_palette = pattern.m_palette;
 

@@ -247,8 +247,8 @@ namespace mud
 	{
 		return
 		{
-			rect_w(rect), 0.f, 0.f, 0.f,
-			0.f, rect_h(rect), 0.f, 0.f,
+			rect.width, 0.f, 0.f, 0.f,
+			0.f, rect.height, 0.f, 0.f,
 			0.f, 0.f, 1.f, 0.f,
 			rect.x, rect.y, 0.f, 1.f
 		};

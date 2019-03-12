@@ -1,0 +1,270 @@
+//#include <mud/frame.h>
+#include <frame/Api.h>
+#include <gfx-pbr/Api.h>
+
+#include <xx_three/xx_three.h>
+
+#include <stl/vector.hpp>
+
+// @author felixturner / http://airtight.cc/
+//
+// RGB Shift Shader
+// Shifts red and blue channels from center in opposite directions
+// Ported from http://kriss.cx/tom/2009/05/rgb-shift/
+// by Tom Butterworth / http://kriss.cx/tom/
+//
+// amount: shift distance (1 is width of input)
+// angle: shift angle in radians
+//
+
+static string glitch_vertex()
+{
+	string shader = 
+
+		"$input a_position, a_texcoord0\n"
+		"$output v_uv0\n"
+		"\n"
+		"#include <filter/filter.sh>\n"
+		"\n"
+		"void main() {\n"
+		"	v_uv0 = u_source_0_crop.xy + a_texcoord0 * u_source_0_crop.zw;\n"
+		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+		"}\n";
+
+	return shader;
+}
+
+static string glitch_fragment()
+{
+	string shader = 
+
+		"$input v_uv0\n"
+		"\n"
+		"#include <filter/filter.sh>\n"
+		"\n"
+		"uniform vec4 u_glitch_p0;\n"
+		"#define u_amount u_glitch_p0.x\n"
+		"#define u_angle u_glitch_p0.y\n"
+		"#define u_seed u_glitch_p0.y\n"
+
+		"uniform vec4 u_glitch_p1;\n"
+		"#define u_scale u_glitch_p1.xy\n"
+		"#define u_distort u_glitch_p1.zw\n"
+		"\n"
+		//"uniform float col_s;\n"
+		"\n"
+		"float rand(vec2 co){\n"
+		"	return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);\n"
+		"}\n"
+		"\n"
+		"void main() {\n"
+		"	const float col_s = 0.5;\n"
+		"	vec2 p = v_uv0;\n"
+		"	float xs = floor(gl_FragCoord.x / 0.5);\n"
+		"	float ys = floor(gl_FragCoord.y / 0.5);\n"
+		"	//based on staffantans glitch shader for unity https://github.com/staffantan/unityglitch \n"
+		"	vec4 normal = texture2D(s_source_1, p * u_seed * u_seed);\n"
+		"	if(p.y < u_distort.x + col_s && p.y > u_distort.x - col_s * u_seed) {\n"
+		"		if(u_scale.x > 0.0) {\n"
+		"			p.y = 1.0 - (p.y + u_distort.y);\n"
+		"		}\n"
+		"		else {\n"
+		"			p.y = u_distort.y;\n"
+		"		}\n"
+		"	}\n"
+		"	if(p.x < u_distort.y + col_s && p.x > u_distort.y - col_s * u_seed) {\n"
+		"		if(u_scale.y > 0.0){\n"
+		"			p.x = u_distort.x;\n"
+		"		}\n"
+		"		else {\n"
+		"			p.x = 1.0 - (p.x + u_distort.x);\n"
+		"		}\n"
+		"	}\n"
+		"	p.x += normal.x * u_scale.x * (u_seed / 5.0);\n"
+		"	p.y += normal.y * u_scale.y * (u_seed / 5.0);\n"
+		"	//base from RGB shift shader\n"
+		"	vec2 offset = u_amount * vec2(cos(u_angle), sin(u_angle));\n"
+		"	vec4 cr = texture2D(s_source_0, p + offset);\n"
+		"	vec4 cga = texture2D(s_source_0, p);\n"
+		"	vec4 cb = texture2D(s_source_0, p - offset);\n"
+		"	gl_FragColor = vec4(cr.r, cga.g, cb.b, cga.a);\n"
+		"	//add noise\n"
+		"	vec4 snow = 200.0 * u_amount * vec4(rand(vec2(xs * u_seed, ys * u_seed * 50.0)) * 0.2);\n"
+		"	gl_FragColor = gl_FragColor + snow;\n"
+		"}";
+
+	return shader;
+};
+
+struct Glitch
+{
+	float seed = randf();
+	int randX = randi(120, 240);
+	bool gowild = false;
+	int bypass = 0;
+	int frame = 0;
+};
+
+Texture& glitch_heightmap(GfxSystem& gfx, uint size)
+{
+	Texture& texture = gfx.textures().create("glitch");
+
+	const bgfx::Memory* memory = bgfx::alloc(size * size * 4 * sizeof(float));
+	//var array = new Float32Array(size * size * 3);
+
+	float* data = (float*)memory->data;
+
+	const size_t count = size * size;
+	for(size_t i = 0; i < count; i++)
+	{
+		float val = randf(0.f, 1.f);
+		data[i * 4 + 0] = val;
+		data[i * 4 + 1] = val;
+		data[i * 4 + 2] = val;
+		data[i * 4 + 3] = 0.f;
+	}
+
+	//load_texture_rgba(texture, size, size, *memory);
+	load_texture_float(texture, uvec2(size), *memory);
+	return texture;
+}
+
+void pass_glitch(GfxSystem& gfx, Render& render, Glitch& glitch, uint dt_size = 64)
+{
+	static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
+	static BlockFilter& block_filter = *gfx.m_renderer.block<BlockFilter>();
+
+	static Program& program = gfx.programs().create("glitch");
+	program.m_sources[ShaderType::Vertex] = glitch_vertex();
+	program.m_sources[ShaderType::Fragment] = glitch_fragment();
+
+	static Texture& disp = glitch_heightmap(gfx, dt_size);
+
+	float amount = 0.f;
+	float angle = 0.f;
+	vec2 scale = vec2(0.f);
+	vec2 distort = vec2(0.f);
+
+	int frame = glitch.frame % glitch.randX;
+	if(frame == 0 || glitch.gowild == true)
+	{
+		amount = randf() / 30.f;
+		angle = randf(-c_pi, c_pi);
+		scale = vec2(randf(-1.f, 1.f), randf(-1.f, 1.f));
+		distort = vec2(randf(0.f, 1.f), randf(0.f, 1.f));
+		glitch.frame = 0;
+		glitch.randX = randi(120, 240);
+
+	}
+	else if(frame < glitch.randX / 5)
+	{
+		amount = randf() / 90.f;
+		angle = randf(-c_pi, c_pi);
+		scale = vec2(randf(-0.3f, 0.3f), randf(-0.3f, 0.3f));
+		distort = vec2(randf(0.f, 1.f), randf(0.f, 1.f));
+
+	}
+	else if(glitch.gowild == false)
+	{
+		glitch.frame++;
+		return;
+	}
+
+	glitch.frame++;
+
+	Pass pass = render.next_pass("glitch", PassType::PostProcess);
+
+	static bgfx::UniformHandle u_glitch_p0 = bgfx::createUniform("u_glitch_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+	static bgfx::UniformHandle u_glitch_p1 = bgfx::createUniform("u_glitch_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+
+	vec4 glitch_p0 = { amount, angle, glitch.seed, 0.f };
+	vec4 glitch_p1 = { scale, distort };
+	bgfx::setViewUniform(pass.m_index, u_glitch_p0, &glitch_p0);
+	bgfx::setViewUniform(pass.m_index, u_glitch_p1, &glitch_p1);
+
+	bgfx::setTexture(uint8_t(TextureSampler::Source0), block_filter.u_uniform.s_source_0, render.m_target->m_diffuse);
+	bgfx::setTexture(uint8_t(TextureSampler::Source1), block_filter.u_uniform.s_source_depth, disp);
+
+	RenderTarget& target = *render.m_target;
+	block_filter.submit_quad(pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
+
+	block_copy.submit_quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
+}
+
+void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar)
+{
+	UNUSED(dockbar);
+	SceneViewer& viewer = ui::scene_viewer(parent);
+	//ui::orbit_controller(viewer);
+
+	Scene& scene = viewer.m_scene;
+
+	static Node3* object = nullptr;
+	struct Node { vec3 p; vec3 a; vec3 s; Node3* n; };
+	static vector<Node> nodes;
+
+	static bool once = false;
+	if(!once)
+	{
+		once = true;
+
+		Camera& camera = viewer.m_camera;
+		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 1000.f;
+		camera.m_eye.z = 400.f;
+
+		//scene.fog = new THREE.Fog(0x000000, 1, 1000);
+
+		Model& geometry = app.m_gfx.shape(Sphere(1.f));
+
+		Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
+
+		Node3& group = gfx::nodes(scene).add(Node3());
+		object = &group;
+
+		for(size_t i = 0; i < 100; i++)
+		{
+			const string name = "object" + to_string(i);
+			Material& material = app.m_gfx.materials().create(name, [&](Material& m) {
+				m.m_program = &pbr;
+				m.m_pbr.m_albedo = rgb(randi<uint32_t>());
+				// flatShading : true
+			});
+			//var material = new THREE.MeshPhongMaterial({ color: 0xffffff * randf(),  });
+
+			const vec3 p = normalize(vec3(randf(), randf(), randf()) - 0.5f) * randf() * 400.f;
+			const vec3 a = vec3(randf(), randf(), randf()) * 2.f;
+			const vec3 s = vec3(randf() * 50.f);
+
+			Node3& n = gfx::nodes(scene).add(Node3(p, quat(a), s));
+			gfx::items(scene).add(Item(n, geometry, 0U, &material));
+			nodes.push_back({ p, a, s, &n });
+		}
+
+		//scene.add(new THREE.AmbientLight(0x222222));
+
+		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), facing(vec3(-1.f, -1.f, -1.f))));
+		Light& light = gfx::lights(scene).add(Light(n, LightType::Direct, false));
+
+		static Glitch glitch = {};
+
+		auto render = [](GfxSystem& gfx, Render& render)
+		{
+			begin_pbr_render(gfx, render);
+
+			pass_clear(gfx, render);
+			pass_opaque(gfx, render);
+			pass_glitch(gfx, render, glitch);
+		};
+
+		app.m_gfx.set_renderer(Shading::Shaded, render);
+	}
+
+	static vec3 angles = vec3(0.f);
+	angles.x += 0.005f;
+	angles.y += 0.01f;
+
+	object->apply(vec3(0.f), quat(angles));
+
+	for(const Node& node : nodes)
+		node.n->derive(*object, node.p, quat(node.a), node.s);
+}

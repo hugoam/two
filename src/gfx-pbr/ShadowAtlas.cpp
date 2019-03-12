@@ -28,13 +28,13 @@ namespace mud
 		: m_size(size)
 		, m_rect_size(size * slices_subdiv.size(), size)
 	{
-		m_depth = bgfx::createTexture2D(m_size * uint16_t(slices_subdiv.size()), m_size, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP);
-		m_color = bgfx::createTexture2D(m_size * uint16_t(slices_subdiv.size()), m_size, false, 1, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP);
+		m_depth = { m_rect_size, false, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
+		m_color = { m_rect_size, false, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
 		bgfx::TextureHandle textures[] = { m_depth, m_color };
-		m_fbo = bgfx::createFrameBuffer(2, textures);
+		m_fbo = { m_rect_size, bgfx::createFrameBuffer(2, textures) };
 
-		//m_depth = bgfx::createTexture2D(m_size, m_size * uint16_t(slices_subdiv.size()), false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP);
-		//m_fbo = bgfx::createFrameBuffer(1, &m_depth);
+		//m_depth = { m_rect_size, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
+		//m_fbo = { m_rect_size, bgfx::createFrameBuffer(1, &m_depth) };
 
 		uint8_t index = 0;
 		for(uint16_t subdiv : slices_subdiv)

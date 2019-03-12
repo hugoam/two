@@ -12,20 +12,18 @@ Texture& generateTexture(GfxSystem& gfx)
 {
 	Texture& texture = gfx.textures().create("half");
 
-	uint16_t width = 2U;
-	uint16_t height = 2U;
-
-	const bgfx::Memory* memory = bgfx::alloc(width * height * 4);
+	const uvec2 size = uvec2(2U);
+	const bgfx::Memory* memory = bgfx::alloc(size.x * height * 4);
 
 	uint32_t* data = (uint32_t*)memory->data;
-	for(uint16_t x = 0; x < width; ++x)
-		for(uint16_t y = 0; y < height; ++y)
+	for(uint16_t x = 0; x < size.x; ++x)
+		for(uint16_t y = 0; y < size.y; ++y)
 		{
-			if(y == 0) data[x + y * width] = 0xffffffff;
-			else data[x + y * width] = 0x00000000;
+			if(y == 0) data[x + y * size.x] = 0xffffffff;
+			else data[x + y * size.x] = 0x00000000;
 		}
 
-	load_texture_rgba(texture, 2U, 2U, *memory);
+	load_texture_rgba(texture, uvec2(2U), *memory);
 	return texture;
 }
 

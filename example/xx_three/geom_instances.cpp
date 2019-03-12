@@ -110,9 +110,9 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		MeshPacker geometry;
 
-		geometry.position(vec3( 0.025f, -0.025f,    0.f));
+		geometry.position(vec3(0.025f, -0.025f,    0.f));
 		geometry.position(vec3(-0.025f,  0.025f,    0.f));
-		geometry.position(vec3(    0.f,     0.f, 0.025f));
+		geometry.position(vec3(  0.f,     0.f, 0.025f));
 		geometry.m_indices = { 0, 1, 2 };
 
 		Model& model = app.m_gfx.create_model_geo("triangle", geometry);

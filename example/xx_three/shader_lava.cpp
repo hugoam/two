@@ -99,7 +99,7 @@ void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Texture& cloud = *app.m_gfx.textures().file("lava/cloud.png");
 	static Texture& lava = *app.m_gfx.textures().file("lava/lavatile.png");
 
-	//static bgfx::UniformHandle u_fog_params = bgfx::createUniform("u_fog_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+	//static bgfx::UniformHandle u_fog_p0 = bgfx::createUniform("u_fog_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 
 	static const float fog_density = 0.45f;
 	static const Colour fog_color = Colour(0.f);
@@ -110,8 +110,8 @@ void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	auto submit = [](bgfx::Encoder& encoder)
 	{
-		//vec4 fog_params = { fog_density, fog_color.r, fog_color.g, fog_color.b };
-		//bgfx::setViewUniform(0, u_fog_params, &fog_params);
+		//vec4 fog_p0 = { fog_density, fog_color.r, fog_color.g, fog_color.b };
+		//bgfx::setViewUniform(0, u_fog_p0, &fog_p0);
 	};
 
 	static Material& material = app.m_gfx.materials().create("lava", [&](Material& m) {

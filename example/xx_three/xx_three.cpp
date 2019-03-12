@@ -7,28 +7,19 @@
 using namespace mud;
 
 // html ok :
-// xx_lights_point
 // xx_shadow_point (try shadows)
-// xx_hierarchy
-// xx_hierarchy2
-// xx_shader
-// xx_shader_lava
-// xx_performance
-// xx_performance_doublesided
-// xx_performance_static
-// xx_lines_fat
 // xx_tiled_forward (fix clusters)
-// xx_geom_lines
-// xx_geom_rawshader
-// xx_geom_selective
-// xx_geom_sprites
 
 // ported not ok:
 // xx_geom_points
 // xx_geom_points_instanced
 
 // todo:
-// xx_marching_cubes
+//xx_depth_texture
+//xx_effect_dof
+//xx_lines_dashed
+//xx_geom
+//xx_geom_instances
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 {
@@ -54,7 +45,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	//xx_geom_selective(app, parent, dockbar);
 	    //xx_interact_cubes(app, parent, dockbar);
 	    //xx_interact_geom(app, parent, dockbar);
-	xx_marching_cubes(app, parent, dockbar);
+	//xx_marching_cubes(app, parent, dockbar);
 	//xx_hierarchy(app, parent, dockbar);
 	//xx_hierarchy2(app, parent, dockbar);
 	    //xx_materials_skin(app, parent, dockbar);
@@ -62,6 +53,8 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	    //xx_materials_variations(app, parent, dockbar);
 	//xx_depth_texture(app, parent, dockbar);
 	//xx_effect_dof(app, parent, dockbar);
+	//xx_effect_godrays(app, parent, dockbar);
+	xx_effect_glitch(app, parent, dockbar);
 }
 
 #ifdef _XX_THREE_EXE

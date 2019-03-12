@@ -84,14 +84,15 @@ namespace mud
 
 	void Skin::update_joints()
 	{
-		int height = int(m_joints.size()) / SKELETON_TEXTURE_SIZE;
+		uint height = uint(m_joints.size()) / SKELETON_TEXTURE_SIZE;
 		if(m_joints.size() % SKELETON_TEXTURE_SIZE)
 			height++;
+		const uvec2 size = uvec2(SKELETON_TEXTURE_SIZE, height * 4);
 
 		if(!bgfx::isValid(m_texture))
-			m_texture = bgfx::createTexture2D(SKELETON_TEXTURE_SIZE, uint16_t(height * 4), false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
+			m_texture = { size, false, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
 		
-		m_memory = bgfx::alloc(SKELETON_TEXTURE_SIZE * height * 4 * 4 * sizeof(float));
+		m_memory = bgfx::alloc(size.x * size.y * 4 * sizeof(float));
 
 		int index = 0;
 		for(Joint& joint : m_joints)

@@ -8,6 +8,8 @@
 #include <stl/vector.h>
 #include <math/Colour.h>
 #include <math/Vec.h>
+#include <gfx/Texture.h>
+#include <gfx/RenderTarget.h>
 #endif
 #include <gfx-pbr/Forward.h>
 
@@ -18,11 +20,11 @@ namespace mud
 	struct ReflectionCubemap
 	{
 		ReflectionCubemap() {}
-		ReflectionCubemap(uint16_t size);
-		bgfx::FrameBufferHandle m_fbo[6];
-		bgfx::TextureHandle m_cubemap;
-		bgfx::TextureHandle m_depth;
-		uint16_t m_size;
+		ReflectionCubemap(uint32_t size);
+		FrameBuffer m_fbo[6];
+		Texture m_cubemap;
+		Texture m_depth;
+		uint32_t m_size;
 	};
 
 	class ReflectionAtlas
@@ -34,7 +36,8 @@ namespace mud
 		uint16_t m_size = 0;
 		uint16_t m_subdiv = 0;
 
-		bgfx::TextureHandle m_color_tex = BGFX_INVALID_HANDLE;
+		FrameBuffer m_fbo[6];
+		Texture m_color;
 
 		vec4 probe_rect(ReflectionProbe& probe);
 		uvec4 render_update(Render& render, ReflectionProbe& probe);
@@ -47,9 +50,6 @@ namespace mud
 			vec4 m_rect;
 			uint64_t m_last_update;
 		};
-
-		bgfx::FrameBufferHandle m_fbo[6];
-		bgfx::TextureHandle m_color;
 
 		vector<Slot> m_slots;
 		vector<Slot*> m_free_slots;

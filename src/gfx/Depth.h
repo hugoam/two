@@ -56,14 +56,14 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				u_depth_params = bgfx::createUniform("u_depth_params", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-				u_distance_params_0 = bgfx::createUniform("u_distance_params_0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-				u_distance_params_1 = bgfx::createUniform("u_distance_params_1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+				u_depth_p0 = bgfx::createUniform("u_depth_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+				u_distance_p0 = bgfx::createUniform("u_distance_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+				u_distance_p1 = bgfx::createUniform("u_distance_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 			}
 
-			bgfx::UniformHandle u_depth_params;
-			bgfx::UniformHandle u_distance_params_0;
-			bgfx::UniformHandle u_distance_params_1;
+			bgfx::UniformHandle u_depth_p0;
+			bgfx::UniformHandle u_distance_p0;
+			bgfx::UniformHandle u_distance_p1;
 
 		} u_depth;
 

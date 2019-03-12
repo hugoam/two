@@ -51,7 +51,7 @@ namespace mud
 		attr_ gpu_ float m_exposure = 1.0f;
 		attr_ gpu_ float m_white_point = 1.0f;
 
-		bgfx::TextureHandle m_color_correction = BGFX_INVALID_HANDLE;
+		Texture* m_color_correction = nullptr;
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockTonemap : public GfxBlock

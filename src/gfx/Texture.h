@@ -41,22 +41,34 @@ namespace mud
 	export_ MUD_GFX_EXPORT void save_texture(GfxSystem& gfx, Texture& texture, const string& path);
 	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx, Texture& texture, const string& path);
 	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx, Texture& texture, span<uint8_t> data);
-	export_ MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, const bgfx::Memory& data);
-	export_ MUD_GFX_EXPORT func_ void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint32_t> data);
+	export_ MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, const uvec2& size, const bgfx::Memory& data);
+	export_ MUD_GFX_EXPORT void load_texture_float(Texture& texture, const uvec2& size, const bgfx::Memory& data, uint8_t num_components = 4);
+	export_ MUD_GFX_EXPORT func_ void load_texture_rgba(Texture& texture, const uvec2& size, span<uint32_t> data);
 	//export_ MUD_GFX_EXPORT func_ void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data);
 
 	export_ class refl_ MUD_GFX_EXPORT Texture
 	{
 	public:
-		Texture(const string& name);
+		Texture(const string& name = "");
+		Texture(const uvec2& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags = 0U);
+		Texture(const uvec2& size, bool mips, int layers, bgfx::TextureFormat::Enum format, uint64_t flags = 0U);
+		Texture(const uvec3& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags = 0U);
+		explicit Texture(bgfx::TextureHandle texture);
 		~Texture();
 
 		attr_ string m_name;
-		attr_ uint16_t m_width = 0;
-		attr_ uint16_t m_height = 0;
+		attr_ uvec2 m_size = uvec2(0U);
+		attr_ uint16_t m_depth = 0;
 		attr_ uint32_t m_bits_per_pixel = 0;
+		attr_ bool m_is_depth = false;
+		attr_ bool m_is_depth_packed = false;
+		attr_ bool m_is_array = false;
 
-		bgfx::TextureHandle m_texture = BGFX_INVALID_HANDLE;
+		meth_ bool valid() const;
+
+		bgfx::TextureHandle m_tex = BGFX_INVALID_HANDLE;
 		bgfx::TextureFormat::Enum m_format;
+
+		operator bgfx::TextureHandle() const { return m_tex; }
 	};
 }

@@ -14,13 +14,11 @@
 
 namespace mud
 {
-	using Typemap = vector<uint32_t>;
-
 	class BufferArray
 	{
 	public:
 		BufferArray();
-		BufferArray(Typemap& typemap, uint32_t size = 0);
+		BufferArray(uint32_t size);
 
 		BufferArray(BufferArray&& other) = default;
 		BufferArray& operator=(BufferArray&& other) = default;
@@ -65,8 +63,6 @@ namespace mud
 		template <class T>
 		T& get(uint32_t handle);
 
-		Typemap* m_typemap = nullptr;
-
 		SparseHandles m_handles;
 
 		vector<unique<Buffer>> m_buffers;
@@ -79,7 +75,7 @@ namespace mud
 	{
 	public:
 		EntityStream();
-		EntityStream(cstring name, uint16_t index, Typemap& typemap, uint32_t size = 0);
+		EntityStream(cstring name, uint16_t index, uint32_t size = 0);
 
 		template <class... Types>
 		void init(uint64_t prototype);
@@ -92,7 +88,6 @@ namespace mud
 	class GridECS : public BufferArray
 	{
 	public:
-		Typemap m_typemap;
 		vector<uint32_t> m_available;
 
 	public:
@@ -107,7 +102,6 @@ namespace mud
 	public:
 		uint8_t m_index = 0;
 		uint32_t m_type_index = 0;
-		Typemap m_typemap;
 
 		vector<EntityStream> m_streams;
 		map<uint64_t, uint16_t> m_stream_map;

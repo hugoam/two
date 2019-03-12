@@ -61,7 +61,7 @@ namespace mud
 	void BlockGlow::debug_glow(Render& render, RenderTarget& target)
 	{
 		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
-		copy.debug_show_texture(render, target.m_cascade.m_texture, vec4(0.f), false, false, false, 1);
+		copy.debug_show_texture(render, target.m_cascade.m_texture, vec4(0.f), 1);
 		copy.debug_show_texture(render, target.m_ping_pong.last(), vec4(0.f));
 	}
 
@@ -90,13 +90,13 @@ namespace mud
 
 		GpuState<Glow>::me.upload(glow);
 
-		m_filter.submit_quad(target, render.composite_pass(), target.m_ping_pong.swap(), m_bleed_program.default_version(), render.m_viewport.m_rect);
+		m_filter.submit_quad(render.composite_pass(), target.m_ping_pong.swap(), m_bleed_program.default_version(), render.m_rect);
 	}
 
 	void BlockGlow::glow_blur(Render& render, RenderTarget& target, Glow& glow)
 	{
 		UNUSED(glow);
-		uvec4 rect = render.m_viewport.m_rect;
+		uvec4 rect = render.m_rect;
 
 		static BlurKernel kernel = {
 			{ 0.174938f, 0.165569f, 0.140367f, 0.106595f, 0.165569f, 0.140367f, 0.106595f },
@@ -122,9 +122,9 @@ namespace mud
 			if(blit_support)
 				bgfx::blit(render.composite_pass(),
 						   target.m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
-						   target.m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect_w(rect)), uint16_t(rect_h(rect)), 1);
+						   target.m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect.width), uint16_t(rect.height), 1);
 			else
-				m_copy.submit_quad(*target.m_cascade.m_mips[i + 1], render.composite_pass(), target.m_ping_pong.last(), quad);
+				m_copy.submit_quad(render.composite_pass(), *target.m_cascade.m_mips[i + 1], target.m_ping_pong.last(), quad);
 		}
 	}
 
@@ -140,6 +140,6 @@ namespace mud
 
 		GpuState<Glow>::me.upload(glow);
 
-		m_filter.submit_quad(target, render.composite_pass(), target.m_post_process.swap(), m_merge_program.version(shader_version), render.m_viewport.m_rect);
+		m_filter.submit_quad(render.composite_pass(), target.m_post_process.swap(), m_merge_program.version(shader_version), render.m_rect);
 	}
 }

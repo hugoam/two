@@ -82,6 +82,7 @@ namespace mud
 		union {
 			struct { attr_ T x; attr_ T y; attr_ T z; attr_ T w; };
 			struct { T r; T g; T b; T a; };
+			struct { T px; T py; T width; T height; };
 			T f[4];
 		};
 	};

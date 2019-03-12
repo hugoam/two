@@ -132,8 +132,8 @@ namespace mud
 
 		// needed for update()
 		const Viewport* m_viewport;
-		vec4 m_params_z = {};
-		uvec3 m_params_f = {};
+		vec4 m_pz = {};
+		uvec3 m_pf = {};
 		float m_near = 0.0f;        // camera near
 		float m_light_far = 100.f;
 		float m_light_near = 5.f;  // light near (first slice)

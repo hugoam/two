@@ -97,7 +97,6 @@ void mud_ColourHSL__construct_0(void* ref, span<void*> args) { UNUSED(args); new
 void mud_ColourHSL__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ColourHSL((*static_cast<mud::ColourHSL*>(other))); }
 void mud_Image__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Image(  ); }
 void mud_Image__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Image((*static_cast<mud::Image*>(other))); }
-void mud_Image256__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Image256( *static_cast<uint16_t*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<mud::Palette*>(args[2]) ); }
 void mud_Image256__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Image256((*static_cast<mud::Image256*>(other))); }
 void mud_Palette__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Palette( *static_cast<mud::Spectrum*>(args[0]), *static_cast<size_t*>(args[1]) ); }
 void mud_Palette__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Palette( *static_cast<stl::span<mud::Colour>*>(args[0]) ); }
@@ -654,9 +653,6 @@ namespace mud
 		static uint16_t construct_0_height_default = 0;
 		static mud::Palette construct_0_palette_default = mud::Palette();
 		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_Image256__construct_0, { { "width", type<uint16_t>(), Param::Default, &construct_0_width_default }, { "height", type<uint16_t>(), Param::Default, &construct_0_height_default }, { "palette", type<mud::Palette>(), Param::Default, &construct_0_palette_default } } }
-		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, mud_Image256__copy_construct }
@@ -664,13 +660,11 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::Image256, m_pixels), type<stl::vector<uint32_t>>(), "pixels", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::Image256, m_width), type<uint16_t>(), "width", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Image256, m_height), type<uint16_t>(), "height", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Image256, m_palette), type<mud::Palette>(), "palette", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, copy_constructor, members, {}, {}, };
 	}
 	// mud::ImageAtlas
 	{

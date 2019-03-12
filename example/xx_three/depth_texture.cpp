@@ -64,9 +64,9 @@ void pass_to_depth(GfxSystem& gfx, Render& render)
 	bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), block_filter.u_uniform.s_source_depth, render.m_target->m_depth);
 
 	RenderTarget& target = *render.m_target;
-	block_filter.submit_quad(target, pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
+	block_filter.submit_quad(pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
 
-	block_copy.submit_quad(target, render.composite_pass(), render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
+	block_copy.submit_quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
 };
 
 void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar)

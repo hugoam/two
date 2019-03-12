@@ -23,8 +23,8 @@ namespace mud
 	{
 		void init()
 		{
-			u_uv0_scale_offset = bgfx::createUniform("u_material_params_0", bgfx::UniformType::Vec4);
-			u_uv1_scale_offset = bgfx::createUniform("u_material_params_1", bgfx::UniformType::Vec4);
+			u_uv0_scale_offset = bgfx::createUniform("u_material_p0", bgfx::UniformType::Vec4);
+			u_uv1_scale_offset = bgfx::createUniform("u_material_p1", bgfx::UniformType::Vec4);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialBase& block) const
@@ -81,16 +81,16 @@ namespace mud
 	{
 		void init()
 		{
-			u_point_params = bgfx::createUniform("u_point_params", bgfx::UniformType::Vec4);
+			u_point_p0 = bgfx::createUniform("u_point_p0", bgfx::UniformType::Vec4);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialPoint& block) const
 		{
 			vec4 params = { block.m_point_size, float(block.m_project), 0.f, 0.f };
-			encoder.setUniform(u_point_params, &params);
+			encoder.setUniform(u_point_p0, &params);
 		}
 
-		bgfx::UniformHandle u_point_params = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_point_p0 = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
@@ -100,16 +100,16 @@ namespace mud
 	{
 		void init()
 		{
-			u_line_params = bgfx::createUniform("u_line_params", bgfx::UniformType::Vec4);
+			u_line_p0 = bgfx::createUniform("u_line_p0", bgfx::UniformType::Vec4);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialLine& block) const
 		{
 			vec4 params = { block.m_line_width, block.m_dash_scale, block.m_dash_size, block.m_dash_gap };
-			encoder.setUniform(u_line_params, &params);
+			encoder.setUniform(u_line_p0, &params);
 		}
 
-		bgfx::UniformHandle u_line_params = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_line_p0 = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
@@ -119,7 +119,7 @@ namespace mud
 	{
 		void init()
 		{
-			u_fresnel_params = bgfx::createUniform("u_fresnel_params", bgfx::UniformType::Vec4);
+			u_fresnel_p0 = bgfx::createUniform("u_fresnel_p0", bgfx::UniformType::Vec4);
 			u_fresnel_value = bgfx::createUniform("u_fresnel_value", bgfx::UniformType::Vec4);
 		}
 
@@ -128,10 +128,10 @@ namespace mud
 			vec4 value = to_vec4(block.m_value.m_value);
 			vec4 params = { block.m_fresnel_bias, block.m_fresnel_scale, block.m_fresnel_power, 1.f };
 			encoder.setUniform(u_fresnel_value, &value);
-			encoder.setUniform(u_fresnel_params, &params);
+			encoder.setUniform(u_fresnel_p0, &params);
 		}
 
-		bgfx::UniformHandle u_fresnel_params = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_fresnel_p0 = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle u_fresnel_value = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
@@ -143,8 +143,8 @@ namespace mud
 		void init()
 		{
 			u_albedo = bgfx::createUniform("u_albedo", bgfx::UniformType::Vec4);
-			u_pbr_params_0 = bgfx::createUniform("u_pbr_params_0", bgfx::UniformType::Vec4);
-			u_pbr_params_1 = bgfx::createUniform("u_pbr_params_1", bgfx::UniformType::Vec4);
+			u_pbr_p0 = bgfx::createUniform("u_pbr_p0", bgfx::UniformType::Vec4);
+			u_pbr_p1 = bgfx::createUniform("u_pbr_p1", bgfx::UniformType::Vec4);
 			u_pbr_channels_0 = bgfx::createUniform("u_pbr_channels_0", bgfx::UniformType::Vec4);
 			u_emissive = bgfx::createUniform("u_emissive", bgfx::UniformType::Vec4);
 		}
@@ -155,24 +155,24 @@ namespace mud
 			encoder.setUniform(u_albedo, &albedo);
 
 			vec4 spec_met_rough = { block.m_specular, block.m_metallic.m_value, block.m_roughness.m_value, block.m_normal.m_value };
-			encoder.setUniform(u_pbr_params_0, &spec_met_rough);
+			encoder.setUniform(u_pbr_p0, &spec_met_rough);
 
 			vec4 emissive = to_vec4(block.m_emissive.m_value);
 			encoder.setUniform(u_emissive, &emissive);
 
-			vec4 pbr_params_1 = { block.m_anisotropy.m_value, block.m_refraction.m_value, block.m_subsurface.m_value, block.m_depth.m_value };
-			encoder.setUniform(u_pbr_params_1, &pbr_params_1);
+			vec4 pbr_p1 = { block.m_anisotropy.m_value, block.m_refraction.m_value, block.m_subsurface.m_value, block.m_depth.m_value };
+			encoder.setUniform(u_pbr_p1, &pbr_p1);
 
 			vec4 pbr_channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), float(block.m_ambient_occlusion.m_channel), 0.f };
 			encoder.setUniform(u_pbr_channels_0, &pbr_channels);
 		}
 
 		bgfx::UniformHandle u_albedo = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_pbr_params_0 = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_pbr_params_1 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_pbr_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_pbr_p1 = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle u_pbr_channels_0 = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle u_emissive = BGFX_INVALID_HANDLE;
-		//bgfx::UniformHandle u_lightmap_params;
+		//bgfx::UniformHandle u_lightmap_p0;
 
 		static GpuState me;
 	};
@@ -330,20 +330,21 @@ namespace mud
 			//GpuState<MaterialFresnel>::me.me.pack(material.m_fresnel, offset, buffer, dest);
 		}
 
-		void pack(bgfx::TextureHandle& texture, span<Material*> materials)
+		void pack(Texture& texture, span<Material*> materials)
 		{
 			GpuTexture buffer = { texture, 1024, 4 };
 
-			uint32_t height = GpuState<MaterialBase>::me.rows
-							+ GpuState<MaterialAlpha>::me.rows
-						    + GpuState<MaterialSolid>::me.rows
-						    + GpuState<MaterialPoint>::me.rows
-						    + GpuState<MaterialLine>::me.rows
-						    + GpuState<MaterialPbr>::me.rows;
-			uint32_t lines = 1;
+			const uint32_t height = GpuState<MaterialBase>::me.rows
+								  + GpuState<MaterialAlpha>::me.rows
+								  + GpuState<MaterialSolid>::me.rows
+								  + GpuState<MaterialPoint>::me.rows
+								  + GpuState<MaterialLine>::me.rows
+								  + GpuState<MaterialPbr>::me.rows;
+			const uint32_t lines = 1;
+			const uvec2 size = uvec2(buffer.width, uint16_t(lines * height));
 
-			if(!bgfx::isValid(texture))
-				texture = bgfx::createTexture2D(buffer.width, uint16_t(lines * height), false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
+			if(!texture.m_size != size)
+				texture = { size, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
 
 			const bgfx::Memory* memory = bgfx::alloc(buffer.width * lines * height * buffer.stride * sizeof(float));
 

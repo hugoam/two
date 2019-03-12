@@ -252,7 +252,6 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
 		m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0xaaaaaa); m.m_pbr.m_metallic = 0.0f; m.m_pbr.m_roughness = 0.66f;
-		//m.m_base.m_cull_mode = CullMode::None;
 	});
 #endif
 

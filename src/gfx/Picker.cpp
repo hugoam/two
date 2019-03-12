@@ -45,16 +45,17 @@ namespace mud
 		uint64_t flags = GFX_TEXTURE_POINT | BGFX_SAMPLER_MIP_POINT | GFX_TEXTURE_CLAMP;
 
 		if((bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0 && (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_READ_BACK) != 0)
-			m_readback_texture = bgfx::createTexture2D(uint16_t(m_size.y), uint16_t(m_size.y), false, 1, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags);
+			m_readback_texture = { m_size, false, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags };
+
+		m_fbo_texture = { m_size, false, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_RT | flags };
 
 		bgfx::TextureHandle rt[2] =
 		{
-			bgfx::createTexture2D(uint16_t(m_size.x), uint16_t(m_size.y), false, 1, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_RT | flags),
+			m_fbo_texture,
 			bgfx::createTexture2D(uint16_t(m_size.x), uint16_t(m_size.y), false, 1, bgfx::TextureFormat::D24S8, 0 | BGFX_TEXTURE_RT | flags)
 		};
 
-		m_fbo = bgfx::createFrameBuffer(BX_COUNTOF(rt), rt, true);
-		m_fbo_texture = bgfx::getTexture(m_fbo);
+		m_fbo = { m_size, bgfx::createFrameBuffer(BX_COUNTOF(rt), rt, true) };
 	}
 
 	Picker::~Picker()
@@ -67,8 +68,8 @@ namespace mud
 	void Picker::pick_point(Viewport& viewport, vec2 position, PickCallback callback, uint32_t mask)
 	{
 		if(m_query) return;
-		Ray ray = viewport.ray(position);
-		float fov = viewport.m_camera->m_fov / m_size.y;// / float(m_target->m_size.y);
+		const Ray ray = viewport.ray(position);
+		const float fov = viewport.m_camera->m_fov / m_size.y;// / float(m_target->m_size.y);
 		m_query = { { uvec2(position), uvec2(1U) }, ray, fov, viewport.m_camera->m_aspect, mask };
 		m_query.m_callback = callback;
 	}
@@ -76,9 +77,9 @@ namespace mud
 	void Picker::pick_rectangle(Viewport& viewport, vec4 rect, MultipickCallback callback, uint32_t mask)
 	{
 		if(m_query) return;
-		Ray ray = viewport.ray(rect_center(rect));
-		float fov = viewport.m_camera->m_fov * rect_h(rect) / m_size.y;
-		float aspect = rect_w(rect) / rect_h(rect);
+		const Ray ray = viewport.ray(rect_center(rect));
+		const float fov = viewport.m_camera->m_fov * rect.height / m_size.y;
+		const float aspect = rect.width / rect.height;
 		m_query = { uvec4(rect), ray, fov, aspect, mask };
 		m_query.m_multi_callback = callback;
 	}
@@ -96,8 +97,8 @@ namespace mud
 		mat4 pickProj = bxproj(query.m_fov, query.m_aspect, 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
 
 		bgfx::setViewName(view, "picking");
-		uint16_t rect_y = bgfx::getCaps()->originBottomLeft ? uint16_t(m_size.y - rect_h(query.m_rect)) : 0;
-		bgfx::setViewRect(view, 0, rect_y, uint16_t(rect_w(query.m_rect)), uint16_t(rect_h(query.m_rect)));
+		uint16_t rect_y = bgfx::getCaps()->originBottomLeft ? uint16_t(m_size.y - query.m_rect.height) : 0;
+		bgfx::setViewRect(view, 0, rect_y, uint16_t(query.m_rect.width), uint16_t(query.m_rect.height));
 		bgfx::setViewTransform(view, value_ptr(pickView), value_ptr(pickProj));
 		
 		//Frustum frustum = { pickProj, pickView, 0.1f, 1000.f, query.m_fov, query.m_aspect };
@@ -151,10 +152,10 @@ namespace mud
 			map<uint32_t, uint32_t> counts; 
 			uint32_t maxAmount = 0;
 
-			//span<uint32_t> data = { m_data.data(), rect_w(query.m_rect) * rect_h(query.m_rect) };
+			//span<uint32_t> data = { m_data.data(), query.m_rect.width * query.m_rect.height };
 			//for(const uint32_t& id : data)
-			for(size_t x = 0; x < rect_w(query.m_rect); ++x)
-				for(size_t y = 0; y < rect_h(query.m_rect); ++y)
+			for(size_t x = 0; x < query.m_rect.width; ++x)
+				for(size_t y = 0; y < query.m_rect.height; ++y)
 				{
 					size_t offset = x + y * m_size.x;
 					const uint32_t& id = m_data[offset];
@@ -184,7 +185,7 @@ namespace mud
 		{
 			if(bgfx::isValid(m_readback_texture))
 			{
-				bgfx::blit(render.picking_pass(), m_readback_texture, 0, 0, m_fbo_texture, 0, 0, uint16_t(rect_w(query.m_rect)), uint16_t(rect_h(query.m_rect)));
+				bgfx::blit(render.picking_pass(), m_readback_texture, 0, 0, m_fbo_texture, 0, 0, uint16_t(query.m_rect.width), uint16_t(query.m_rect.height));
 				query.m_readback_ready = bgfx::readTexture(m_readback_texture, m_data.data());
 			}
 			else

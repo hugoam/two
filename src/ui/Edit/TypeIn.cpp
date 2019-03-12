@@ -145,7 +145,7 @@ namespace mud
 		if(m_num_lines)
 			return line_height() * m_num_lines;
 		else if(!m_text_rows.empty())
-			return m_text_rows.back().m_rect.y + rect_h(m_text_rows.back().m_rect);
+			return m_text_rows.back().m_rect.y + m_text_rows.back().m_rect.height;
 		else
 			return 0.f;
 	}
@@ -154,7 +154,7 @@ namespace mud
 	{
 		float result = 0.f;
 		for(const TextRow& row : m_text_rows)
-			result = max(result, rect_w(row.m_rect));
+			result = max(result, row.m_rect.width);
 		return result;
 	}
 
@@ -186,10 +186,10 @@ namespace mud
 				imarker++;
 			}
 
-			if(pos.y < offset + row.m_rect.y + rect_h(row.m_rect)) // pos.y >= row.m_rect.y && 
+			if(pos.y < offset + row.m_rect.y + row.m_rect.height) // pos.y >= row.m_rect.y && 
 			{
 				for(const TextGlyph& glyph : row.m_glyphs)
-					if(pos.x < glyph.m_rect.x + rect_w(glyph.m_rect) * 0.5f) // pos.x >= glyph.m_rect.x &&
+					if(pos.x < glyph.m_rect.x + glyph.m_rect.width * 0.5f) // pos.x >= glyph.m_rect.x &&
 						return glyph.m_position - start;
 
 				return row.m_end - start;
@@ -206,7 +206,7 @@ namespace mud
 		const TextGlyph& start_glyph = row.m_glyphs[start - row.m_start_index];
 		const TextGlyph& end_glyph = row.m_glyphs[end - row.m_start_index];
 
-		return { start_glyph.m_rect.x, row.m_rect.y, end_glyph.m_rect.x + rect_w(end_glyph.m_rect) - start_glyph.m_rect.x, rect_h(row.m_rect) };
+		return { start_glyph.m_rect.x, row.m_rect.y, end_glyph.m_rect.x + end_glyph.m_rect.width - start_glyph.m_rect.x, row.m_rect.height };
 	}
 
 	vec4 Text::interval_rect(size_t start, size_t end) const
@@ -232,7 +232,7 @@ namespace mud
 		}
 		else
 		{
-			return { vec2(row.m_rect.x + rect_w(row.m_rect), row.m_rect.y), vec2(1.f, line_height()) };
+			return { vec2(row.m_rect.x + row.m_rect.width, row.m_rect.y), vec2(1.f, line_height()) };
 		}
 	}
 
@@ -869,11 +869,11 @@ namespace mud
 		if(text.m_text_rows.empty())
 			return;
 
+		const float line_height = vg.line_height(text.m_text_paint);
+
 		size_t line = 0;
 		size_t imarker = 0;
-
 		vec2 offset = vec2(0.f);
-		float line_height = vg.line_height(text.m_text_paint);
 
 		for(const TextRow& row : text.m_text_rows)
 		{
@@ -883,14 +883,14 @@ namespace mud
 			{
 				if(row.m_glyphs.empty())
 				{
-					vg.draw_rect({ offset + text_offset + rect_offset(row.m_rect), vec2(5.f, rect_h(row.m_rect)) }, palette_paint(palette, Text::Selection));
+					vg.draw_rect({ offset + text_offset + rect_offset(row.m_rect), vec2(5.f, row.m_rect.height) }, palette_paint(palette, Text::Selection));
 					continue;
 				}
 
-				size_t select_start = max(row.m_start_index, size_t(selection.m_start));
-				size_t select_end = min(row.m_end_index, size_t(selection.m_end));
+				const size_t select_start = max(row.m_start_index, size_t(selection.m_start));
+				const size_t select_end = min(row.m_end_index, size_t(selection.m_end));
 
-				vec4 row_rect = text.interval_rect(row, select_start, select_end - 1);
+				const vec4 row_rect = text.interval_rect(row, select_start, select_end - 1);
 				vg.draw_rect({ offset + text_offset + rect_offset(row_rect), rect_size(row_rect) }, palette_paint(palette, Text::Selection));
 			}
 
@@ -942,7 +942,7 @@ namespace mud
 		//else
 		//	vg.draw_background(m_frame, { m_frame.m_position, m_frame.m_size }, {}, {});
 
-		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
+		const vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
 
 		if(this->focused())
 			draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
@@ -979,8 +979,8 @@ namespace mud
 
 		std::match_results<const char*> results;
 
-		size_t begin = line_begin(m_string, from);
-		size_t end = line_end(m_string, to);
+		const size_t begin = line_begin(m_string, from);
+		const size_t end = line_end(m_string, to);
 
 		bool preproc = false;
 
@@ -1030,7 +1030,7 @@ namespace mud
 						preproc = true;
 					}
 
-					Text::ColorSection section = { size_t(match.first - first), size_t(match.second - first), color };
+					const Text::ColorSection section = { size_t(match.first - first), size_t(match.second - first), color };
 					start_section = m_text.m_sections.insert(start_section, section);
 					start_section++;
 
@@ -1046,17 +1046,17 @@ namespace mud
 
 	void TextEdit::scroll_to_cursor(Frame& frame, Frame& content)
 	{
-		vec2 margin = vec2(0.f);
+		const vec2 margin = vec2(0.f);
 
-		vec4 cursor_rect = m_text.cursor_rect(m_selection.m_cursor);
-		vec2 cursor_min = rect_offset(cursor_rect) - margin;
-		vec2 cursor_max = cursor_min + rect_size(cursor_rect) + margin;
+		const vec4 cursor_rect = m_text.cursor_rect(m_selection.m_cursor);
+		const vec2 cursor_min = rect_offset(cursor_rect) - margin;
+		const vec2 cursor_max = cursor_min + rect_size(cursor_rect) + margin;
 
-		vec2 frame_min = -content.m_position;
-		vec2 frame_max = -content.m_position + frame.m_size;
+		const vec2 frame_min = -content.m_position;
+		const vec2 frame_max = -content.m_position + frame.m_size;
 
-		vec2 delta_neg = max(vec2(0.f), frame_min - cursor_min);
-		vec2 delta_pos = min(vec2(0.f), frame_max - cursor_max);
+		const vec2 delta_neg = max(vec2(0.f), frame_min - cursor_min);
+		const vec2 delta_pos = min(vec2(0.f), frame_max - cursor_max);
 
 		content.set_position(content.m_position + delta_neg);
 		content.set_position(content.m_position + delta_pos);
@@ -1112,7 +1112,7 @@ namespace ui
 		self.update();
 		text = self.m_string;
 
-		vec2 size = self.frame_size();
+		const vec2 size = self.frame_size();
 		ui::dummy(self, size);
 
 		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); self.render(vg); };
@@ -1129,12 +1129,12 @@ namespace ui
 
 	void autocomplete_popup(TextEdit& edit, string& text, const string& current_word, size_t cursor, size_t word_start, span<cstring> completions)
 	{
-		vec4 word_rect = edit.m_text.interval_rect(word_start, cursor - 1);
-		vec2 popup_position = edit.m_text_offset + rect_offset(word_rect) + vec2(0.f, rect_h(word_rect));
+		const vec4 word_rect = edit.m_text.interval_rect(word_start, cursor - 1);
+		const vec2 popup_position = edit.m_text_offset + rect_offset(word_rect) + vec2(0.f, word_rect.height);
 
 		static uint32_t current = 0;
 
-		bool selected = ui::popdown(edit, completions, current, popup_position, PopupFlags::None); //auto_complete_style
+		const bool selected = ui::popdown(edit, completions, current, popup_position, PopupFlags::None); //auto_complete_style
 
 		if(edit.key_stroke(Key::Up))
 			current = max(current - 1, uint32_t(0));
@@ -1161,10 +1161,10 @@ namespace ui
 
 		if(vocabulary && edit.m_completing && !edit.has_selection())
 		{
-			size_t cursor = edit.m_selection.m_cursor;
-			size_t begin = word_begin(edit.m_string, cursor - 1);
+			const size_t cursor = edit.m_selection.m_cursor;
+			const size_t begin = word_begin(edit.m_string, cursor - 1);
 
-			string current_word = begin == SIZE_MAX ? "" : edit.m_string.substr(begin, cursor - begin);
+			const string current_word = begin == SIZE_MAX ? "" : edit.m_string.substr(begin, cursor - begin);
 			if(current_word != "")
 			{
 				vector<cstring> completions;

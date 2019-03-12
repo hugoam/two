@@ -85,10 +85,9 @@ namespace mud
 		return 0;
 	}
 
-	Image256::Image256(uint16_t width, uint16_t height, const Palette& palette)
-		: m_pixels(width * height)
-		, m_width(width)
-		, m_height(height)
+	Image256::Image256(const uvec2& size, const Palette& palette)
+		: m_pixels(size.x * size.y)
+		, m_size(size)
 		, m_palette(palette)
 	{}
 
@@ -98,18 +97,17 @@ namespace mud
 		return false;
 	}
 
-	void Image256::resize(uint16_t w, uint16_t h)
+	void Image256::resize(const uvec2& size)
 	{
-		m_width = w;
-		m_height = h;
-		m_pixels.resize(m_width * m_height);
+		m_size = size;
+		m_pixels.resize(size.x * size.y);
 	}
 
 	void Image256::read(uint8_t* data) const
 	{
 		size_t index = 0;
-		for(size_t y = 0; y < m_height; ++y)
-			for(size_t x = 0; x < m_width; ++x, ++index)
+		for(size_t y = 0; y < m_size.y; ++y)
+			for(size_t x = 0; x < m_size.x; ++x, ++index)
 			{
 				size_t colid = m_pixels[index];
 				Colour color = /*colid == 16 ? Colour() :*/ m_palette.m_colours[colid];
@@ -123,14 +121,14 @@ namespace mud
 
 	vector<uint8_t> Image256::read() const
 	{
-		vector<uint8_t> buffer(m_width * m_height * 4);
+		vector<uint8_t> buffer(m_pixels.size() * 4);
 		this->read(buffer.data());
 		return buffer;
 	}
 
 	vector<uint32_t> Image256::read32() const
 	{
-		vector<uint32_t> buffer(m_width * m_height);
+		vector<uint32_t> buffer(m_pixels.size() * 4);
 		this->read((uint8_t*)buffer.data());
 		return buffer;
 	}

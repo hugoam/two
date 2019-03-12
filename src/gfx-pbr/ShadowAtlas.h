@@ -9,6 +9,8 @@
 #include <stl/map.h>
 #include <math/Vec.h>
 #endif
+#include <gfx/Texture.h>
+#include <gfx/RenderTarget.h>
 #include <gfx-pbr/Forward.h>
 
 #include <bgfx/bgfx.h>
@@ -24,9 +26,9 @@ namespace mud
 		uint16_t m_size = 0;
 		uvec2 m_rect_size;
 
-		bgfx::TextureHandle m_color = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_depth = BGFX_INVALID_HANDLE;
-		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
+		Texture m_color;
+		Texture m_depth;
+		FrameBuffer m_fbo;
 
 		struct Slot
 		{
