@@ -102,7 +102,7 @@ namespace mud
 		m_distance_params = {};
 	}
 
-	void BlockDepth::options(Render& render, ShaderVersion& shader_version) const
+	void BlockDepth::options(Render& render, ProgramVersion& shader_version) const
 	{
 		UNUSED(render); UNUSED(shader_version);
 	}

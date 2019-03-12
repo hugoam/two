@@ -76,7 +76,7 @@ namespace mud
     struct ProgramBlock;
     struct ProgramBlockArray;
     class Program;
-    struct ShaderVersion;
+    struct ProgramVersion;
     struct Pass;
     struct RenderFrame;
     class Render;
@@ -151,8 +151,9 @@ namespace mud
     struct SolidRenderer;
     struct ClearRenderer;
     class FrameBuffer;
-    struct SwapBuffer;
-    struct Cascade;
+	class SwapBuffer;
+	class Cascade;
+	class SwapCascade;
     class RenderTarget;
     struct Sun;
     struct Radiance;

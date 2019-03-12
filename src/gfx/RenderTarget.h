@@ -25,11 +25,11 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT RenderQuad
 	{
-		vec4 m_source;
-		vec4 m_dest;
-		bool m_fbo_flip = false;
-		RenderQuad(vec4 crop, vec4 dest, bool fbo_flip = false) : m_source(crop), m_dest(dest), m_fbo_flip(fbo_flip) {}
-		RenderQuad() {}
+		attr_ vec4 m_source;
+		attr_ vec4 m_dest;
+		attr_ bool m_fbo_flip = false;
+		constr_ RenderQuad(vec4 crop, vec4 dest, bool fbo_flip = false) : m_source(crop), m_dest(dest), m_fbo_flip(fbo_flip) {}
+		constr_ RenderQuad() {}
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT FrameBuffer : public Texture
@@ -72,35 +72,37 @@ namespace mud
 		FrameBuffer& operator=(const FrameBuffer& other) = default;
 	};
 
-	export_ struct SwapBuffer
+	export_ class refl_ SwapBuffer
 	{
+	public:
 		void create(uvec2 size, bgfx::TextureFormat::Enum color_format);
 		~SwapBuffer();
-		FrameBuffer& swap() { m_state = !m_state; return m_state ? m_one : m_two; }
-		Texture& last() { return m_state ? m_one : m_two; }
-		FrameBuffer m_one;
-		FrameBuffer m_two;
+		meth_ FrameBuffer& swap() { m_state = !m_state; return m_state ? m_one : m_two; }
+		meth_ Texture& last() { return m_state ? m_one : m_two; }
+		attr_ FrameBuffer m_one;
+		attr_ FrameBuffer m_two;
 		bool m_state = false;
 	};
 
-	export_ struct Cascade
+	export_ class refl_ Cascade
 	{
+	public:
 		void create(uvec2 size, bgfx::TextureFormat::Enum color_format);
 		~Cascade();
-		FrameBuffer m_fbo;
-		Texture m_texture;
-		size_t m_num_mips;
-		unique<FrameBuffer> m_mips[9] = {};
+		attr_ Texture m_texture;
+		attr_ size_t m_num_mips;
+		unique<FrameBuffer> m_fbos[9] = {};
 	};
 
-	export_ struct SwapCascade
+	export_ class refl_ SwapCascade
 	{
+	public:
 		void create(uvec2 size, bgfx::TextureFormat::Enum color_format);
 		~SwapCascade();
-		Cascade& swap() { m_state = !m_state; return m_state ? m_one : m_two; }
-		Cascade& last() { return m_state ? m_one : m_two; }
-		Cascade m_one;
-		Cascade m_two;
+		meth_ Cascade& swap() { m_state = !m_state; return m_state ? m_one : m_two; }
+		meth_ Cascade& last() { return m_state ? m_one : m_two; }
+		attr_ Cascade m_one;
+		attr_ Cascade m_two;
 		bool m_state = false;
 	};
 
@@ -110,26 +112,24 @@ namespace mud
 		RenderTarget(uvec2 size);
 		~RenderTarget();
 
-		MSAA m_msaa = MSAA::Disabled;
+		attr_ MSAA m_msaa = MSAA::Disabled;
 
-		//FrameBuffer m_backbuffer;
+		attr_ bool m_mrt = true;
 
-		bool m_mrt = true;
+		attr_ Texture m_depth;
+		attr_ Texture m_diffuse;
 
-		Texture m_depth;
-		Texture m_diffuse;
+		attr_ Texture m_specular;
+		attr_ Texture m_normal_rough;
+		attr_ Texture m_sss;
 
-		Texture m_specular;
-		Texture m_normal_rough;
-		Texture m_sss;
+		attr_ SwapBuffer m_ping_pong;
+		attr_ SwapBuffer m_post_process;
 
-		SwapBuffer m_ping_pong;
-		SwapBuffer m_post_process;
+		attr_ Cascade m_cascade;
+		attr_ SwapCascade m_swap_cascade;
 
-		Cascade m_cascade;
-		SwapCascade m_swap_cascade;
-
-		bool m_deferred = false;
+		attr_ bool m_deferred = false;
 
 		struct GBuffer
 		{

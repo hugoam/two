@@ -401,7 +401,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 		filter.sourcedepth(render.m_target->m_depth);
 
 		RenderTarget& target = *render.m_target;
-		filter.quad(pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
+		filter.quad(pass.m_index, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
 
 		//this.materialCopy.blending = THREE.CustomBlending;
 		//this.materialCopy.blendSrc = THREE.DstColorFactor;

@@ -72,7 +72,7 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockReflection::options(Render& render, ShaderVersion& shader_version) const
+	void BlockReflection::options(Render& render, ProgramVersion& shader_version) const
 	{
 		UNUSED(render); UNUSED(shader_version);
 	}

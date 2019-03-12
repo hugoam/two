@@ -639,6 +639,28 @@ Object.defineProperty(Camera.prototype, "lod_offsets", {
 Camera.prototype["__destroy"] = Camera.prototype.__destroy = function() {
     _mud_Camera__destroy(this.__ptr);
 };
+// Cascade
+function Cascade() { throw "cannot construct a Cascade, no constructor in IDL" }
+Cascade.prototype = Object.create(WrapperObject.prototype);
+Cascade.prototype.constructor = Cascade;
+Cascade.prototype.__class = Cascade;
+Cascade.__cache = {};
+Module['Cascade'] = Cascade;
+Object.defineProperty(Cascade.prototype, "texture", {
+    get: function() {
+        return wrapPointer(_mud_Cascade__get_texture(this.__ptr), Texture);
+    }});
+Object.defineProperty(Cascade.prototype, "numips", {
+    get: function() {
+        return _mud_Cascade__get_numips(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Cascade__set_numips(this.__ptr, value);
+    }
+});
+Cascade.prototype["__destroy"] = Cascade.prototype.__destroy = function() {
+    _mud_Cascade__destroy(this.__ptr);
+};
 // Culler
 function Culler() { throw "cannot construct a Culler, no constructor in IDL" }
 Culler.prototype = Object.create(WrapperObject.prototype);
@@ -2765,6 +2787,90 @@ Object.defineProperty(Node3.prototype, "transform", {
 Node3.prototype["__destroy"] = Node3.prototype.__destroy = function() {
     _mud_Node3__destroy(this.__ptr);
 };
+// Pass
+function Pass() {
+    this.__ptr = _mud_Pass__construct_0(); this.__type = Pass.__type; getCache(Pass)[this.__ptr] = this;
+};
+Pass.prototype = Object.create(WrapperObject.prototype);
+Pass.prototype.constructor = Pass;
+Pass.prototype.__class = Pass;
+Pass.__cache = {};
+Module['Pass'] = Pass;
+Object.defineProperty(Pass.prototype, "target", {
+    get: function() {
+        return wrapPointer(_mud_Pass__get_target(this.__ptr), RenderTarget);
+    },
+    set: function(value) {
+        _mud_Pass__set_target(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Pass.prototype, "fbo", {
+    get: function() {
+        return wrapPointer(_mud_Pass__get_fbo(this.__ptr), FrameBuffer);
+    },
+    set: function(value) {
+        _mud_Pass__set_fbo(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Pass.prototype, "viewport", {
+    get: function() {
+        return wrapPointer(_mud_Pass__get_viewport(this.__ptr), Viewport);
+    },
+    set: function(value) {
+        _mud_Pass__set_viewport(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Pass.prototype, "rect", {
+    get: function() {
+        return wrapPointer(_mud_Pass__get_rect(this.__ptr), v4_uint);
+    },
+    set: function(value) {
+        _mud_Pass__set_rect(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Pass.prototype, "bgfx_state", {
+    get: function() {
+        return _mud_Pass__get_bgfx_state(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Pass__set_bgfx_state(this.__ptr, value);
+    }
+});
+Object.defineProperty(Pass.prototype, "pass_type", {
+    get: function() {
+        return _mud_Pass__get_pass_type(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Pass__set_pass_type(this.__ptr, value);
+    }
+});
+Object.defineProperty(Pass.prototype, "use_mrt", {
+    get: function() {
+        return !!(_mud_Pass__get_use_mrt(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Pass__set_use_mrt(this.__ptr, value);
+    }
+});
+Object.defineProperty(Pass.prototype, "index", {
+    get: function() {
+        return _mud_Pass__get_index(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Pass__set_index(this.__ptr, value);
+    }
+});
+Object.defineProperty(Pass.prototype, "sub_pass", {
+    get: function() {
+        return _mud_Pass__get_sub_pass(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Pass__set_sub_pass(this.__ptr, value);
+    }
+});
+Pass.prototype["__destroy"] = Pass.prototype.__destroy = function() {
+    _mud_Pass__destroy(this.__ptr);
+};
 // Prefab
 function Prefab() { throw "cannot construct a Prefab, no constructor in IDL" }
 Prefab.prototype = Object.create(WrapperObject.prototype);
@@ -2870,6 +2976,15 @@ Render.prototype.constructor = Render;
 Render.prototype.__class = Render;
 Render.__cache = {};
 Module['Render'] = Render;
+Render.prototype["next_pass"] = Render.prototype.next_pass = function(a0, a1, a2) {
+    ensureCache.prepare();
+    if (a2 === undefined) { return wrapPointer(_mud_Render_next_pass_2(this.__ptr, ensureString(/*name*/a0), /*type*/a1), Pass); }
+    return wrapPointer(_mud_Render_next_pass_3(this.__ptr, ensureString(/*name*/a0), /*type*/a1, /*subpass*/a2), Pass);
+};
+Render.prototype["composite_pass"] = Render.prototype.composite_pass = function(a0, a1, a2) {
+    ensureCache.prepare();
+    return wrapPointer(_mud_Render_composite_pass_3(this.__ptr, ensureString(/*name*/a0), /*fbo*/a1.__ptr, /*rect*/a2.__ptr), Pass);
+};
 Object.defineProperty(Render.prototype, "shading", {
     get: function() {
         return _mud_Render__get_shading(this.__ptr);
@@ -2990,14 +3105,40 @@ RenderFrame.prototype["__destroy"] = RenderFrame.prototype.__destroy = function(
     _mud_RenderFrame__destroy(this.__ptr);
 };
 // RenderQuad
-function RenderQuad() {
-    this.__ptr = _mud_RenderQuad__construct_0(); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this;
+function RenderQuad(a0, a1, a2) {
+    if (a0 === undefined) { this.__ptr = _mud_RenderQuad__construct_0(); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; return; }
+    if (a2 === undefined) { this.__ptr = _mud_RenderQuad__construct_2(/*crop*/a0.__ptr, /*dest*/a1.__ptr); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; return; }
+    this.__ptr = _mud_RenderQuad__construct_3(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this;
 };
 RenderQuad.prototype = Object.create(WrapperObject.prototype);
 RenderQuad.prototype.constructor = RenderQuad;
 RenderQuad.prototype.__class = RenderQuad;
 RenderQuad.__cache = {};
 Module['RenderQuad'] = RenderQuad;
+Object.defineProperty(RenderQuad.prototype, "source", {
+    get: function() {
+        return wrapPointer(_mud_RenderQuad__get_source(this.__ptr), v4_float);
+    },
+    set: function(value) {
+        _mud_RenderQuad__set_source(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(RenderQuad.prototype, "dest", {
+    get: function() {
+        return wrapPointer(_mud_RenderQuad__get_dest(this.__ptr), v4_float);
+    },
+    set: function(value) {
+        _mud_RenderQuad__set_dest(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(RenderQuad.prototype, "fbo_flip", {
+    get: function() {
+        return !!(_mud_RenderQuad__get_fbo_flip(this.__ptr));
+    },
+    set: function(value) {
+        _mud_RenderQuad__set_fbo_flip(this.__ptr, value);
+    }
+});
 RenderQuad.prototype["__destroy"] = RenderQuad.prototype.__destroy = function() {
     _mud_RenderQuad__destroy(this.__ptr);
 };
@@ -3163,6 +3304,54 @@ Object.defineProperty(Sun.prototype, "intensity", {
 });
 Sun.prototype["__destroy"] = Sun.prototype.__destroy = function() {
     _mud_Sun__destroy(this.__ptr);
+};
+// SwapBuffer
+function SwapBuffer() { throw "cannot construct a SwapBuffer, no constructor in IDL" }
+SwapBuffer.prototype = Object.create(WrapperObject.prototype);
+SwapBuffer.prototype.constructor = SwapBuffer;
+SwapBuffer.prototype.__class = SwapBuffer;
+SwapBuffer.__cache = {};
+Module['SwapBuffer'] = SwapBuffer;
+SwapBuffer.prototype["swap"] = SwapBuffer.prototype.swap = function() {
+    return wrapPointer(_mud_SwapBuffer_swap_0(this.__ptr), FrameBuffer);
+};
+SwapBuffer.prototype["last"] = SwapBuffer.prototype.last = function() {
+    return wrapPointer(_mud_SwapBuffer_last_0(this.__ptr), Texture);
+};
+Object.defineProperty(SwapBuffer.prototype, "one", {
+    get: function() {
+        return wrapPointer(_mud_SwapBuffer__get_one(this.__ptr), FrameBuffer);
+    }});
+Object.defineProperty(SwapBuffer.prototype, "two", {
+    get: function() {
+        return wrapPointer(_mud_SwapBuffer__get_two(this.__ptr), FrameBuffer);
+    }});
+SwapBuffer.prototype["__destroy"] = SwapBuffer.prototype.__destroy = function() {
+    _mud_SwapBuffer__destroy(this.__ptr);
+};
+// SwapCascade
+function SwapCascade() { throw "cannot construct a SwapCascade, no constructor in IDL" }
+SwapCascade.prototype = Object.create(WrapperObject.prototype);
+SwapCascade.prototype.constructor = SwapCascade;
+SwapCascade.prototype.__class = SwapCascade;
+SwapCascade.__cache = {};
+Module['SwapCascade'] = SwapCascade;
+SwapCascade.prototype["swap"] = SwapCascade.prototype.swap = function() {
+    return wrapPointer(_mud_SwapCascade_swap_0(this.__ptr), Cascade);
+};
+SwapCascade.prototype["last"] = SwapCascade.prototype.last = function() {
+    return wrapPointer(_mud_SwapCascade_last_0(this.__ptr), Cascade);
+};
+Object.defineProperty(SwapCascade.prototype, "one", {
+    get: function() {
+        return wrapPointer(_mud_SwapCascade__get_one(this.__ptr), Cascade);
+    }});
+Object.defineProperty(SwapCascade.prototype, "two", {
+    get: function() {
+        return wrapPointer(_mud_SwapCascade__get_two(this.__ptr), Cascade);
+    }});
+SwapCascade.prototype["__destroy"] = SwapCascade.prototype.__destroy = function() {
+    _mud_SwapCascade__destroy(this.__ptr);
 };
 // SymbolIndex
 function SymbolIndex() { throw "cannot construct a SymbolIndex, no constructor in IDL" }
@@ -3536,6 +3725,10 @@ BlockCopy.prototype.constructor = BlockCopy;
 BlockCopy.prototype.__class = BlockCopy;
 BlockCopy.__cache = {};
 Module['BlockCopy'] = BlockCopy;
+BlockCopy.prototype["quad"] = BlockCopy.prototype.quad = function(a0, a1, a2, a3, a4) {
+    if (a4 === undefined) { _mud_BlockCopy_quad_4(this.__ptr, /*view*/a0, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*rect*/a3.__ptr); return; }
+    _mud_BlockCopy_quad_5(this.__ptr, /*view*/a0, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4);
+};
 BlockCopy.prototype["__destroy"] = BlockCopy.prototype.__destroy = function() {
     _mud_BlockCopy__destroy(this.__ptr);
 };
@@ -3556,6 +3749,11 @@ BlockFilter.prototype.constructor = BlockFilter;
 BlockFilter.prototype.__class = BlockFilter;
 BlockFilter.__cache = {};
 Module['BlockFilter'] = BlockFilter;
+BlockFilter.prototype["quad"] = BlockFilter.prototype.quad = function(a0, a1, a2, a3, a4, a5) {
+    if (a4 === undefined) { _mud_BlockFilter_quad_4(this.__ptr, /*view*/a0, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr); return; }
+    if (a5 === undefined) { _mud_BlockFilter_quad_5(this.__ptr, /*view*/a0, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4); return; }
+    _mud_BlockFilter_quad_6(this.__ptr, /*view*/a0, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4, /*render*/a5);
+};
 BlockFilter.prototype["source0"] = BlockFilter.prototype.source0 = function(a0, a1) {
     if (a1 === undefined) { _mud_BlockFilter_source0_1(this.__ptr, /*texture*/a0.__ptr); return; }
     _mud_BlockFilter_source0_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
@@ -3748,6 +3946,22 @@ Object.defineProperty(GfxSystem.prototype, "renderer", {
     get: function() {
         return wrapPointer(_mud_GfxSystem__get_renderer(this.__ptr), Renderer);
     }});
+Object.defineProperty(GfxSystem.prototype, "copy", {
+    get: function() {
+        return wrapPointer(_mud_GfxSystem__get_copy(this.__ptr), BlockCopy);
+    },
+    set: function(value) {
+        _mud_GfxSystem__set_copy(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(GfxSystem.prototype, "filter", {
+    get: function() {
+        return wrapPointer(_mud_GfxSystem__get_filter(this.__ptr), BlockFilter);
+    },
+    set: function(value) {
+        _mud_GfxSystem__set_filter(this.__ptr, value.__ptr);
+    }
+});
 Object.defineProperty(GfxSystem.prototype, "render_frame", {
     get: function() {
         return wrapPointer(_mud_GfxSystem__get_render_frame(this.__ptr), RenderFrame);
@@ -3790,6 +4004,66 @@ RenderTarget.prototype.constructor = RenderTarget;
 RenderTarget.prototype.__class = RenderTarget;
 RenderTarget.__cache = {};
 Module['RenderTarget'] = RenderTarget;
+Object.defineProperty(RenderTarget.prototype, "msaa", {
+    get: function() {
+        return _mud_RenderTarget__get_msaa(this.__ptr);
+    },
+    set: function(value) {
+        _mud_RenderTarget__set_msaa(this.__ptr, value);
+    }
+});
+Object.defineProperty(RenderTarget.prototype, "mrt", {
+    get: function() {
+        return !!(_mud_RenderTarget__get_mrt(this.__ptr));
+    },
+    set: function(value) {
+        _mud_RenderTarget__set_mrt(this.__ptr, value);
+    }
+});
+Object.defineProperty(RenderTarget.prototype, "depth", {
+    get: function() {
+        return wrapPointer(_mud_RenderTarget__get_depth(this.__ptr), Texture);
+    }});
+Object.defineProperty(RenderTarget.prototype, "diffuse", {
+    get: function() {
+        return wrapPointer(_mud_RenderTarget__get_diffuse(this.__ptr), Texture);
+    }});
+Object.defineProperty(RenderTarget.prototype, "specular", {
+    get: function() {
+        return wrapPointer(_mud_RenderTarget__get_specular(this.__ptr), Texture);
+    }});
+Object.defineProperty(RenderTarget.prototype, "normal_rough", {
+    get: function() {
+        return wrapPointer(_mud_RenderTarget__get_normal_rough(this.__ptr), Texture);
+    }});
+Object.defineProperty(RenderTarget.prototype, "sss", {
+    get: function() {
+        return wrapPointer(_mud_RenderTarget__get_sss(this.__ptr), Texture);
+    }});
+Object.defineProperty(RenderTarget.prototype, "ping_pong", {
+    get: function() {
+        return wrapPointer(_mud_RenderTarget__get_ping_pong(this.__ptr), SwapBuffer);
+    }});
+Object.defineProperty(RenderTarget.prototype, "post_process", {
+    get: function() {
+        return wrapPointer(_mud_RenderTarget__get_post_process(this.__ptr), SwapBuffer);
+    }});
+Object.defineProperty(RenderTarget.prototype, "cascade", {
+    get: function() {
+        return wrapPointer(_mud_RenderTarget__get_cascade(this.__ptr), Cascade);
+    }});
+Object.defineProperty(RenderTarget.prototype, "swap_cascade", {
+    get: function() {
+        return wrapPointer(_mud_RenderTarget__get_swap_cascade(this.__ptr), SwapCascade);
+    }});
+Object.defineProperty(RenderTarget.prototype, "deferred", {
+    get: function() {
+        return !!(_mud_RenderTarget__get_deferred(this.__ptr));
+    },
+    set: function(value) {
+        _mud_RenderTarget__set_deferred(this.__ptr, value);
+    }
+});
 RenderTarget.prototype["__destroy"] = RenderTarget.prototype.__destroy = function() {
     _mud_RenderTarget__destroy(this.__ptr);
 };
@@ -3929,6 +4203,7 @@ Module['gfx']['model_suzanne'] = function(a0) {
         Batch.__type = _mud_Batch__type();
         Bone.__type = _mud_Bone__type();
         Camera.__type = _mud_Camera__type();
+        Cascade.__type = _mud_Cascade__type();
         Culler.__type = _mud_Culler__type();
         DepthParams.__type = _mud_DepthParams__type();
         Direct.__type = _mud_Direct__type();
@@ -3962,6 +4237,7 @@ Module['gfx']['model_suzanne'] = function(a0) {
         Model.__type = _mud_Model__type();
         ModelItem.__type = _mud_ModelItem__type();
         Node3.__type = _mud_Node3__type();
+        Pass.__type = _mud_Pass__type();
         Prefab.__type = _mud_Prefab__type();
         Program.__type = _mud_Program__type();
         Radiance.__type = _mud_Radiance__type();
@@ -3975,6 +4251,8 @@ Module['gfx']['model_suzanne'] = function(a0) {
         Skeleton.__type = _mud_Skeleton__type();
         Skin.__type = _mud_Skin__type();
         Sun.__type = _mud_Sun__type();
+        SwapBuffer.__type = _mud_SwapBuffer__type();
+        SwapCascade.__type = _mud_SwapCascade__type();
         SymbolIndex.__type = _mud_SymbolIndex__type();
         Texture.__type = _mud_Texture__type();
         Viewport.__type = _mud_Viewport__type();
@@ -4106,6 +4384,27 @@ Module['gfx']['model_suzanne'] = function(a0) {
         Module['Month']['October'] = _mud_Month_October();
         Module['Month']['November'] = _mud_Month_November();
         Module['Month']['December'] = _mud_Month_December();
+        // PassType
+        Module['PassType'] = Module['PassType'] || {};
+        Module['PassType']['VoxelGI'] = _mud_PassType_VoxelGI();
+        Module['PassType']['Lightmap'] = _mud_PassType_Lightmap();
+        Module['PassType']['Shadowmap'] = _mud_PassType_Shadowmap();
+        Module['PassType']['Probes'] = _mud_PassType_Probes();
+        Module['PassType']['Clear'] = _mud_PassType_Clear();
+        Module['PassType']['Depth'] = _mud_PassType_Depth();
+        Module['PassType']['Normals'] = _mud_PassType_Normals();
+        Module['PassType']['Shadow'] = _mud_PassType_Shadow();
+        Module['PassType']['Geometry'] = _mud_PassType_Geometry();
+        Module['PassType']['Lights'] = _mud_PassType_Lights();
+        Module['PassType']['Opaque'] = _mud_PassType_Opaque();
+        Module['PassType']['Background'] = _mud_PassType_Background();
+        Module['PassType']['Particles'] = _mud_PassType_Particles();
+        Module['PassType']['Alpha'] = _mud_PassType_Alpha();
+        Module['PassType']['Solid'] = _mud_PassType_Solid();
+        Module['PassType']['Effects'] = _mud_PassType_Effects();
+        Module['PassType']['PostProcess'] = _mud_PassType_PostProcess();
+        Module['PassType']['Flip'] = _mud_PassType_Flip();
+        Module['PassType']['Count'] = _mud_PassType_Count();
         // PbrDiffuseMode
         Module['PbrDiffuseMode'] = Module['PbrDiffuseMode'] || {};
         Module['PbrDiffuseMode']['Lambert'] = _mud_PbrDiffuseMode_Lambert();

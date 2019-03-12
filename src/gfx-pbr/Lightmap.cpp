@@ -501,7 +501,7 @@ namespace mud
 			}
 	}
 
-	void BlockLightmap::options(Render& render, ShaderVersion& shader_version) const
+	void BlockLightmap::options(Render& render, ProgramVersion& shader_version) const
 	{
 		UNUSED(render); UNUSED(shader_version);
 	}

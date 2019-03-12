@@ -275,7 +275,7 @@ namespace gfx
 		m_block_light.commit_lights(render, render_pass);
 		m_block_shadow.commit_shadows(render, bxidentity());
 
-		ShaderVersion shader_version = { m_direct_light };
+		ProgramVersion shader_version = { m_direct_light };
 		if(m_block_light.m_direct_light)
 			shader_version.set_option(m_block_light.m_index, DIRECT_LIGHT, true);
 
@@ -323,7 +323,7 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGIBake::options(Render& render, ShaderVersion& shader_version) const
+	void BlockGIBake::options(Render& render, ProgramVersion& shader_version) const
 	{
 		UNUSED(render); UNUSED(shader_version);
 	}
@@ -372,7 +372,7 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGITrace::options(Render& render, ShaderVersion& shader_version) const
+	void BlockGITrace::options(Render& render, ProgramVersion& shader_version) const
 	{
 		for(GIProbe* gi_probe : render.m_shot->m_gi_probes)
 			if(gi_probe->m_enabled)

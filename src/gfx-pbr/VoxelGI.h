@@ -76,7 +76,7 @@ namespace gfx
 
 		virtual void begin_render(Render& render) override;
 
-		virtual void options(Render& render, ShaderVersion& shader_version) const override;
+		virtual void options(Render& render, ProgramVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
 
@@ -116,7 +116,7 @@ namespace gfx
 
 		virtual void begin_render(Render& render) override;
 
-		virtual void options(Render& render, ShaderVersion& shader_version) const override;
+		virtual void options(Render& render, ProgramVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
 

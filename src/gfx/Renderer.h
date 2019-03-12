@@ -80,7 +80,7 @@ namespace mud
 		LightRecords = 14, // collides with GIProbe
 	};
 
-	export_ enum class PassType : unsigned int
+	export_ enum class refl_ PassType : unsigned int
 	{
 		VoxelGI,
 		Lightmap,
@@ -151,19 +151,19 @@ namespace mud
 	passes are the unit of renderer work
 	both are orthogonal
 	*/
-	export_ struct MUD_GFX_EXPORT Pass
+	export_ struct refl_ MUD_GFX_EXPORT Pass
 	{
-		RenderTarget* m_target = nullptr;
-		FrameBuffer* m_fbo = nullptr;
-		Viewport* m_viewport = nullptr;
-		uvec4 m_rect = {};
-		uint64_t m_bgfx_state = 0;
+		attr_ RenderTarget* m_target = nullptr;
+		attr_ FrameBuffer* m_fbo = nullptr;
+		attr_ Viewport* m_viewport = nullptr;
+		attr_ uvec4 m_rect = {};
+		attr_ uint64_t m_bgfx_state = 0;
 		bgfx::Encoder* m_encoder = nullptr;
-		PassType m_pass_type;
+		attr_ PassType m_pass_type;
 
-		bool m_use_mrt = false;
-		uint8_t m_index = 0;
-		uint8_t m_sub_pass = 0;
+		attr_ bool m_use_mrt = false;
+		attr_ uint8_t m_index = 0;
+		attr_ uint8_t m_sub_pass = 0;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT RenderFrame
@@ -219,8 +219,8 @@ namespace mud
 		uint32_t m_num_vertices = 0;
 		uint32_t m_num_triangles = 0;
 
-		Pass next_pass(cstring name, PassType type, bool subpass = false);
-		Pass composite_pass(cstring name, FrameBuffer& fbo, const uvec4& rect);
+		meth_ Pass next_pass(cstring name, PassType type, bool subpass = false);
+		meth_ Pass composite_pass(cstring name, FrameBuffer& fbo, const uvec4& rect);
 
 		uint8_t picking_pass() { return m_picking_pass_index++; }
 		uint8_t preprocess_pass() { return m_preprocess_pass_index++; }
@@ -271,7 +271,7 @@ namespace mud
 	public:
 		DrawBlock(GfxSystem& gfx, Type& type) : GfxBlock(gfx, type) { m_draw_block = true; }
 
-		virtual void options(Render& render, ShaderVersion& shader_version) const = 0;
+		virtual void options(Render& render, ProgramVersion& shader_version) const = 0;
 		virtual void submit(Render& render, const Pass& render_pass) const = 0;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const = 0;
 	};
@@ -287,14 +287,14 @@ namespace mud
 		const Skin* m_skin = nullptr;
 
 		uint64_t m_sort_key = 0;
-		ShaderVersion m_shader_version = {};
+		ProgramVersion m_shader_version = {};
 		uint64_t m_bgfx_state = 0;
 		bgfx::ProgramHandle m_bgfx_program = BGFX_INVALID_HANDLE;
 	};
 
 	export_ struct MUD_GFX_EXPORT DrawCluster
 	{
-		ShaderVersion m_shader_version = {};
+		ProgramVersion m_shader_version = {};
 		uint64_t m_bgfx_state = 0;
 		span<Light*> m_lights = {};
 	};
@@ -328,7 +328,7 @@ namespace mud
 		void begin_render_pass(Render& render, PassType pass_type);
 		void submit_render_pass(Render& render, Pass& render_pass, Submit submit);
 
-		void shader_options(Render& render, Pass& pass, ShaderVersion& version) const;
+		void shader_options(Render& render, Pass& pass, ProgramVersion& version) const;
 		void add_element(Render& render, Pass& pass, DrawElement element);
 		void clear_draw_elements(Render& render, Pass& pass);
 		void gather_draw_elements(Render& render, Pass& pass);

@@ -61,15 +61,15 @@ namespace mud
 
 	void BlockTonemap::render(Render& render, RenderTarget& target, Tonemap& tonemap, BCS& bcs)
 	{
-		ShaderVersion shader_version = { &m_program };
+		ProgramVersion program = { &m_program };
 
-		shader_version.set_mode(m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
+		program.set_mode(m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
 
 		m_filter.source0(target.m_post_process.last());
 
 		if(tonemap.m_color_correction)
 		{
-			shader_version.set_option(m_index, COLOR_CORRECTION, true);
+			program.set_option(m_index, COLOR_CORRECTION, true);
 			m_filter.source1(*tonemap.m_color_correction);
 		}
 
@@ -77,11 +77,11 @@ namespace mud
 
 		if(bcs.m_enabled)
 		{
-			shader_version.set_option(m_index, ADJUST_BCS, true);
+			program.set_option(m_index, ADJUST_BCS, true);
 
 			GpuState<BCS>::me.upload(bcs);
 		}
 
-		m_filter.quad(render.composite_pass(), target, m_program.version(shader_version), render.m_rect);
+		m_filter.quad(render.composite_pass(), target, program, render.m_rect);
 	}
 }

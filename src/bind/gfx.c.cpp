@@ -507,6 +507,22 @@ extern "C" {
 	void DECL mud_Camera__destroy(mud::Camera* self) {
 		delete self;
 	}
+	// Cascade
+	mud::Type* DECL mud_Cascade__type() {
+		return &mud::type<mud::Cascade>();
+	}
+	mud::Texture* DECL mud_Cascade__get_texture(mud::Cascade* self) {
+		return &self->m_texture;
+	}
+	size_t DECL mud_Cascade__get_numips(mud::Cascade* self) {
+		return self->m_num_mips;
+	}
+	void DECL mud_Cascade__set_numips(mud::Cascade* self, size_t value) {
+		self->m_num_mips = value;
+	}
+	void DECL mud_Cascade__destroy(mud::Cascade* self) {
+		delete self;
+	}
 	// Culler
 	mud::Type* DECL mud_Culler__type() {
 		return &mud::type<mud::Culler>();
@@ -2232,6 +2248,70 @@ extern "C" {
 	void DECL mud_Node3__destroy(mud::Node3* self) {
 		delete self;
 	}
+	// Pass
+	mud::Type* DECL mud_Pass__type() {
+		return &mud::type<mud::Pass>();
+	}
+	mud::Pass* DECL mud_Pass__construct_0() {
+		return new mud::Pass();
+	}
+	mud::RenderTarget* DECL mud_Pass__get_target(mud::Pass* self) {
+		return self->m_target;
+	}
+	void DECL mud_Pass__set_target(mud::Pass* self, mud::RenderTarget* value) {
+		self->m_target = value;
+	}
+	mud::FrameBuffer* DECL mud_Pass__get_fbo(mud::Pass* self) {
+		return self->m_fbo;
+	}
+	void DECL mud_Pass__set_fbo(mud::Pass* self, mud::FrameBuffer* value) {
+		self->m_fbo = value;
+	}
+	mud::Viewport* DECL mud_Pass__get_viewport(mud::Pass* self) {
+		return self->m_viewport;
+	}
+	void DECL mud_Pass__set_viewport(mud::Pass* self, mud::Viewport* value) {
+		self->m_viewport = value;
+	}
+	mud::uvec4* DECL mud_Pass__get_rect(mud::Pass* self) {
+		return &self->m_rect;
+	}
+	void DECL mud_Pass__set_rect(mud::Pass* self, mud::uvec4* value) {
+		self->m_rect = *value;
+	}
+	uint64_t DECL mud_Pass__get_bgfx_state(mud::Pass* self) {
+		return self->m_bgfx_state;
+	}
+	void DECL mud_Pass__set_bgfx_state(mud::Pass* self, uint64_t value) {
+		self->m_bgfx_state = value;
+	}
+	mud::PassType DECL mud_Pass__get_pass_type(mud::Pass* self) {
+		return self->m_pass_type;
+	}
+	void DECL mud_Pass__set_pass_type(mud::Pass* self, mud::PassType value) {
+		self->m_pass_type = value;
+	}
+	bool DECL mud_Pass__get_use_mrt(mud::Pass* self) {
+		return self->m_use_mrt;
+	}
+	void DECL mud_Pass__set_use_mrt(mud::Pass* self, bool value) {
+		self->m_use_mrt = value;
+	}
+	uint8_t DECL mud_Pass__get_index(mud::Pass* self) {
+		return self->m_index;
+	}
+	void DECL mud_Pass__set_index(mud::Pass* self, uint8_t value) {
+		self->m_index = value;
+	}
+	uint8_t DECL mud_Pass__get_sub_pass(mud::Pass* self) {
+		return self->m_sub_pass;
+	}
+	void DECL mud_Pass__set_sub_pass(mud::Pass* self, uint8_t value) {
+		self->m_sub_pass = value;
+	}
+	void DECL mud_Pass__destroy(mud::Pass* self) {
+		delete self;
+	}
 	// Prefab
 	mud::Type* DECL mud_Prefab__type() {
 		return &mud::type<mud::Prefab>();
@@ -2313,6 +2393,18 @@ extern "C" {
 	}
 	mud::Render* DECL mud_Render__construct_4(mud::Shading shading, mud::Viewport* viewport, mud::RenderTarget* target, mud::RenderFrame* frame) {
 		return new mud::Render(shading, *viewport, *target, *frame);
+	}
+	mud::Pass* DECL mud_Render_next_pass_2(mud::Render* self, const char* name, mud::PassType type) {
+		static mud::Pass temp;
+		return (temp = self->next_pass(name, type), &temp);
+	}
+	mud::Pass* DECL mud_Render_next_pass_3(mud::Render* self, const char* name, mud::PassType type, bool subpass) {
+		static mud::Pass temp;
+		return (temp = self->next_pass(name, type, subpass), &temp);
+	}
+	mud::Pass* DECL mud_Render_composite_pass_3(mud::Render* self, const char* name, mud::FrameBuffer* fbo, const mud::uvec4* rect) {
+		static mud::Pass temp;
+		return (temp = self->composite_pass(name, *fbo, *rect), &temp);
 	}
 	mud::Shading DECL mud_Render__get_shading(mud::Render* self) {
 		return self->m_shading;
@@ -2411,6 +2503,30 @@ extern "C" {
 	}
 	mud::RenderQuad* DECL mud_RenderQuad__construct_0() {
 		return new mud::RenderQuad();
+	}
+	mud::RenderQuad* DECL mud_RenderQuad__construct_2(mud::vec4* crop, mud::vec4* dest) {
+		return new mud::RenderQuad(*crop, *dest);
+	}
+	mud::RenderQuad* DECL mud_RenderQuad__construct_3(mud::vec4* crop, mud::vec4* dest, bool fbo_flip) {
+		return new mud::RenderQuad(*crop, *dest, fbo_flip);
+	}
+	mud::vec4* DECL mud_RenderQuad__get_source(mud::RenderQuad* self) {
+		return &self->m_source;
+	}
+	void DECL mud_RenderQuad__set_source(mud::RenderQuad* self, mud::vec4* value) {
+		self->m_source = *value;
+	}
+	mud::vec4* DECL mud_RenderQuad__get_dest(mud::RenderQuad* self) {
+		return &self->m_dest;
+	}
+	void DECL mud_RenderQuad__set_dest(mud::RenderQuad* self, mud::vec4* value) {
+		self->m_dest = *value;
+	}
+	bool DECL mud_RenderQuad__get_fbo_flip(mud::RenderQuad* self) {
+		return self->m_fbo_flip;
+	}
+	void DECL mud_RenderQuad__set_fbo_flip(mud::RenderQuad* self, bool value) {
+		self->m_fbo_flip = value;
 	}
 	void DECL mud_RenderQuad__destroy(mud::RenderQuad* self) {
 		delete self;
@@ -2543,6 +2659,44 @@ extern "C" {
 		self->m_intensity = value;
 	}
 	void DECL mud_Sun__destroy(mud::Sun* self) {
+		delete self;
+	}
+	// SwapBuffer
+	mud::Type* DECL mud_SwapBuffer__type() {
+		return &mud::type<mud::SwapBuffer>();
+	}
+	mud::FrameBuffer* DECL mud_SwapBuffer_swap_0(mud::SwapBuffer* self) {
+		return &self->swap();
+	}
+	mud::Texture* DECL mud_SwapBuffer_last_0(mud::SwapBuffer* self) {
+		return &self->last();
+	}
+	mud::FrameBuffer* DECL mud_SwapBuffer__get_one(mud::SwapBuffer* self) {
+		return &self->m_one;
+	}
+	mud::FrameBuffer* DECL mud_SwapBuffer__get_two(mud::SwapBuffer* self) {
+		return &self->m_two;
+	}
+	void DECL mud_SwapBuffer__destroy(mud::SwapBuffer* self) {
+		delete self;
+	}
+	// SwapCascade
+	mud::Type* DECL mud_SwapCascade__type() {
+		return &mud::type<mud::SwapCascade>();
+	}
+	mud::Cascade* DECL mud_SwapCascade_swap_0(mud::SwapCascade* self) {
+		return &self->swap();
+	}
+	mud::Cascade* DECL mud_SwapCascade_last_0(mud::SwapCascade* self) {
+		return &self->last();
+	}
+	mud::Cascade* DECL mud_SwapCascade__get_one(mud::SwapCascade* self) {
+		return &self->m_one;
+	}
+	mud::Cascade* DECL mud_SwapCascade__get_two(mud::SwapCascade* self) {
+		return &self->m_two;
+	}
+	void DECL mud_SwapCascade__destroy(mud::SwapCascade* self) {
 		delete self;
 	}
 	// SymbolIndex
@@ -2842,6 +2996,12 @@ extern "C" {
 	mud::Type* DECL mud_BlockCopy__type() {
 		return &mud::type<mud::BlockCopy>();
 	}
+	void DECL mud_BlockCopy_quad_4(mud::BlockCopy* self, uint8_t view, mud::FrameBuffer* fbo, mud::Texture* texture, const mud::uvec4* rect) {
+		self->quad(view, *fbo, *texture, *rect);
+	}
+	void DECL mud_BlockCopy_quad_5(mud::BlockCopy* self, uint8_t view, mud::FrameBuffer* fbo, mud::Texture* texture, const mud::uvec4* rect, uint64_t flags) {
+		self->quad(view, *fbo, *texture, *rect, flags);
+	}
 	void DECL mud_BlockCopy__destroy(mud::BlockCopy* self) {
 		delete self;
 	}
@@ -2855,6 +3015,15 @@ extern "C" {
 	// BlockFilter
 	mud::Type* DECL mud_BlockFilter__type() {
 		return &mud::type<mud::BlockFilter>();
+	}
+	void DECL mud_BlockFilter_quad_4(mud::BlockFilter* self, uint8_t view, mud::FrameBuffer* fbo, mud::Program* program, const mud::uvec4* rect) {
+		self->quad(view, *fbo, *program, *rect);
+	}
+	void DECL mud_BlockFilter_quad_5(mud::BlockFilter* self, uint8_t view, mud::FrameBuffer* fbo, mud::Program* program, const mud::uvec4* rect, uint64_t flags) {
+		self->quad(view, *fbo, *program, *rect, flags);
+	}
+	void DECL mud_BlockFilter_quad_6(mud::BlockFilter* self, uint8_t view, mud::FrameBuffer* fbo, mud::Program* program, const mud::uvec4* rect, uint64_t flags, bool render) {
+		self->quad(view, *fbo, *program, *rect, flags, render);
 	}
 	void DECL mud_BlockFilter_source0_1(mud::BlockFilter* self, mud::Texture* texture) {
 		self->source0(*texture);
@@ -3039,6 +3208,18 @@ extern "C" {
 	mud::Renderer* DECL mud_GfxSystem__get_renderer(mud::GfxSystem* self) {
 		return &self->m_renderer;
 	}
+	mud::BlockCopy* DECL mud_GfxSystem__get_copy(mud::GfxSystem* self) {
+		return self->m_copy;
+	}
+	void DECL mud_GfxSystem__set_copy(mud::GfxSystem* self, mud::BlockCopy* value) {
+		self->m_copy = value;
+	}
+	mud::BlockFilter* DECL mud_GfxSystem__get_filter(mud::GfxSystem* self) {
+		return self->m_filter;
+	}
+	void DECL mud_GfxSystem__set_filter(mud::GfxSystem* self, mud::BlockFilter* value) {
+		self->m_filter = value;
+	}
 	mud::RenderFrame* DECL mud_GfxSystem__get_render_frame(mud::GfxSystem* self) {
 		return &self->m_render_frame;
 	}
@@ -3069,6 +3250,51 @@ extern "C" {
 	// RenderTarget
 	mud::Type* DECL mud_RenderTarget__type() {
 		return &mud::type<mud::RenderTarget>();
+	}
+	mud::MSAA DECL mud_RenderTarget__get_msaa(mud::RenderTarget* self) {
+		return self->m_msaa;
+	}
+	void DECL mud_RenderTarget__set_msaa(mud::RenderTarget* self, mud::MSAA value) {
+		self->m_msaa = value;
+	}
+	bool DECL mud_RenderTarget__get_mrt(mud::RenderTarget* self) {
+		return self->m_mrt;
+	}
+	void DECL mud_RenderTarget__set_mrt(mud::RenderTarget* self, bool value) {
+		self->m_mrt = value;
+	}
+	mud::Texture* DECL mud_RenderTarget__get_depth(mud::RenderTarget* self) {
+		return &self->m_depth;
+	}
+	mud::Texture* DECL mud_RenderTarget__get_diffuse(mud::RenderTarget* self) {
+		return &self->m_diffuse;
+	}
+	mud::Texture* DECL mud_RenderTarget__get_specular(mud::RenderTarget* self) {
+		return &self->m_specular;
+	}
+	mud::Texture* DECL mud_RenderTarget__get_normal_rough(mud::RenderTarget* self) {
+		return &self->m_normal_rough;
+	}
+	mud::Texture* DECL mud_RenderTarget__get_sss(mud::RenderTarget* self) {
+		return &self->m_sss;
+	}
+	mud::SwapBuffer* DECL mud_RenderTarget__get_ping_pong(mud::RenderTarget* self) {
+		return &self->m_ping_pong;
+	}
+	mud::SwapBuffer* DECL mud_RenderTarget__get_post_process(mud::RenderTarget* self) {
+		return &self->m_post_process;
+	}
+	mud::Cascade* DECL mud_RenderTarget__get_cascade(mud::RenderTarget* self) {
+		return &self->m_cascade;
+	}
+	mud::SwapCascade* DECL mud_RenderTarget__get_swap_cascade(mud::RenderTarget* self) {
+		return &self->m_swap_cascade;
+	}
+	bool DECL mud_RenderTarget__get_deferred(mud::RenderTarget* self) {
+		return self->m_deferred;
+	}
+	void DECL mud_RenderTarget__set_deferred(mud::RenderTarget* self, bool value) {
+		self->m_deferred = value;
 	}
 	void DECL mud_RenderTarget__destroy(mud::RenderTarget* self) {
 		delete self;
@@ -3512,6 +3738,64 @@ extern "C" {
 	}
 	mud::Month DECL mud_Month_December() {
 		return mud::Month::December;
+	}
+	// PassType
+	mud::PassType DECL mud_PassType_VoxelGI() {
+		return mud::PassType::VoxelGI;
+	}
+	mud::PassType DECL mud_PassType_Lightmap() {
+		return mud::PassType::Lightmap;
+	}
+	mud::PassType DECL mud_PassType_Shadowmap() {
+		return mud::PassType::Shadowmap;
+	}
+	mud::PassType DECL mud_PassType_Probes() {
+		return mud::PassType::Probes;
+	}
+	mud::PassType DECL mud_PassType_Clear() {
+		return mud::PassType::Clear;
+	}
+	mud::PassType DECL mud_PassType_Depth() {
+		return mud::PassType::Depth;
+	}
+	mud::PassType DECL mud_PassType_Normals() {
+		return mud::PassType::Normals;
+	}
+	mud::PassType DECL mud_PassType_Shadow() {
+		return mud::PassType::Shadow;
+	}
+	mud::PassType DECL mud_PassType_Geometry() {
+		return mud::PassType::Geometry;
+	}
+	mud::PassType DECL mud_PassType_Lights() {
+		return mud::PassType::Lights;
+	}
+	mud::PassType DECL mud_PassType_Opaque() {
+		return mud::PassType::Opaque;
+	}
+	mud::PassType DECL mud_PassType_Background() {
+		return mud::PassType::Background;
+	}
+	mud::PassType DECL mud_PassType_Particles() {
+		return mud::PassType::Particles;
+	}
+	mud::PassType DECL mud_PassType_Alpha() {
+		return mud::PassType::Alpha;
+	}
+	mud::PassType DECL mud_PassType_Solid() {
+		return mud::PassType::Solid;
+	}
+	mud::PassType DECL mud_PassType_Effects() {
+		return mud::PassType::Effects;
+	}
+	mud::PassType DECL mud_PassType_PostProcess() {
+		return mud::PassType::PostProcess;
+	}
+	mud::PassType DECL mud_PassType_Flip() {
+		return mud::PassType::Flip;
+	}
+	mud::PassType DECL mud_PassType_Count() {
+		return mud::PassType::Count;
 	}
 	// PbrDiffuseMode
 	mud::PbrDiffuseMode DECL mud_PbrDiffuseMode_Lambert() {

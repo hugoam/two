@@ -26,14 +26,16 @@ namespace mud
 		BUFFER_MATERIALS,
 	};
 
-	export_ struct MUD_GFX_EXPORT ShaderVersion
+	export_ struct MUD_GFX_EXPORT ProgramVersion
 	{
-		ShaderVersion() {}
-		ShaderVersion(const Program* program) : m_program(program) {}
+		ProgramVersion() {}
+		ProgramVersion(const Program* program) : m_program(program) {}
 
 		const Program* m_program = nullptr;
 		uint32_t m_options = 0;
 		uint8_t m_modes[4] = {};
+
+		bgfx::ProgramHandle fetch() const { return const_cast<Program*>(m_program)->version(*this); }
 
 		void clear() { m_options = 0; }
 

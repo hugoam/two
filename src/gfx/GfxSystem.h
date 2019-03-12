@@ -88,6 +88,9 @@ namespace mud
 
 		attr_ Renderer m_renderer;
 
+		attr_ BlockCopy* m_copy = nullptr;
+		attr_ BlockFilter* m_filter = nullptr;
+
 		attr_ RenderFrame m_render_frame;
 
 		meth_ RenderTarget& main_target();

@@ -414,12 +414,12 @@ namespace mud
 		}
 	}
 
-	ShaderVersion Material::shader_version(const Program& program) const
+	ProgramVersion Material::shader_version(const Program& program) const
 	{
 		static GfxBlock& mat = *ms_gfx_system->m_renderer.block<BlockMaterial>();
 		static GfxBlock& pbr = *ms_gfx_system->m_renderer.block<BlockPbr>();
 
-		ShaderVersion version = { &program };
+		ProgramVersion version = { &program };
 
 		version.set_option(mat.m_index, DOUBLE_SIDED, m_base.m_cull_mode == CullMode::None);
 
@@ -453,9 +453,9 @@ namespace mud
 	}
 
 #if 0
-	ShaderVersion Material::shader_version(const Program& program, const Item& item, const ModelItem& model_item) const
+	ProgramVersion Material::shader_version(const Program& program, const Item& item, const ModelItem& model_item) const
 	{
-		ShaderVersion version = this->shader_version(program);
+		ProgramVersion version = this->shader_version(program);
 		UNUSED(item); UNUSED(model_item);
 		BlockPbr& pbr = pbr_block(*ms_gfx_system);
 

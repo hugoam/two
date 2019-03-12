@@ -81,7 +81,7 @@ namespace mud
 		meth_ void set_block(MaterialBlock block, bool enabled = true);
 		meth_ void set_source(ShaderType type, const string& source);
 
-		string defines(const ShaderVersion& version) const;
+		string defines(const ProgramVersion& version) const;
 
 		void reload() { m_update++; }
 
@@ -90,9 +90,9 @@ namespace mud
 		void update(GfxSystem& gfx);
 
 		bgfx::ProgramHandle default_version();
-		bgfx::ProgramHandle version(const ShaderVersion& config);
+		bgfx::ProgramHandle version(const ProgramVersion& config);
 
-		ShaderVersion shader_version(Version& version);
+		ProgramVersion shader_version(Version& version);
 
 		void register_blocks(span<GfxBlock*> blocks);
 		void register_block(const GfxBlock& block);

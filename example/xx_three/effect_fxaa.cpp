@@ -1143,7 +1143,7 @@ void pass_fxaa(GfxSystem& gfx, Render& render)
 	//fxaaPass.material.uniforms['resolution'].value.x = 1 / (window.innerWidth * pixelRatio);
 	//fxaaPass.material.uniforms['resolution'].value.y = 1 / (window.innerHeight * pixelRatio);
 
-	filter.quad(pass.m_index, render.m_target->m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
+	filter.quad(pass.m_index, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
 
 	copy.quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }

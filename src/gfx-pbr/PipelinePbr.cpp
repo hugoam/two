@@ -244,7 +244,7 @@ namespace gfx
 		block_lightmap.begin_render(render);
 	}
 
-	void pbr_options(GfxSystem& gfx, Render& render, ShaderVersion& version)
+	void pbr_options(GfxSystem& gfx, Render& render, ProgramVersion& version)
 	{
 		static BlockRadiance& block_radiance = *gfx.m_renderer.block<BlockRadiance>();
 		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
@@ -510,8 +510,7 @@ namespace gfx
 		encoder.setTexture(uint8_t(TextureSampler::Source2), filter.u_uniform.s_source_2, gbuffer.m_albedo);
 		encoder.setTexture(uint8_t(TextureSampler::Source3), filter.u_uniform.s_source_3, gbuffer.m_surface);
 
-		filter.quad(render_pass.m_index, *render.m_target_fbo,
-						   program.version(cluster.m_shader_version), render.m_rect, BGFX_STATE_BLEND_ALPHA);
+		filter.quad(render_pass.m_index, *render.m_target_fbo, cluster.m_shader_version, render.m_rect, BGFX_STATE_BLEND_ALPHA);
 
 #if DEBUG_GBUFFERS
 		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
@@ -568,7 +567,7 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGeometry::options(Render& render, ShaderVersion& shader_version) const
+	void BlockGeometry::options(Render& render, ProgramVersion& shader_version) const
 	{
 		UNUSED(render); UNUSED(shader_version);
 	}

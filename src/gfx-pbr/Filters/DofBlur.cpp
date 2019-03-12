@@ -58,8 +58,8 @@ namespace mud
 
 	void BlockDofBlur::submit_blur_pass(Render& render, RenderTarget& target, const DofBlur& blur, bool first_pass, uint64_t bgfx_state)
 	{
-		ShaderVersion shader_version = { &m_program };
-		shader_version.set_option(m_index, DOF_FIRST_PASS, first_pass);
+		ProgramVersion program = { &m_program };
+		program.set_option(m_index, DOF_FIRST_PASS, first_pass);
 
 		GpuState<DofBlur>::me.upload(blur);
 
@@ -77,6 +77,6 @@ namespace mud
 
 		FrameBuffer& fbo = first_pass ? target.m_ping_pong.swap() : target.m_post_process.swap();
 
-		m_filter.quad(render.composite_pass(), fbo, m_program.version(shader_version), render.m_rect, bgfx_state);
+		m_filter.quad(render.composite_pass(), fbo, program, render.m_rect, bgfx_state);
 	}
 }

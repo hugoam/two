@@ -151,7 +151,7 @@ void pass_bokeh(GfxSystem& gfx, Render& render, const Bokeh& bokeh)
 	filter.source0(render.m_target->m_diffuse);
 	filter.sourcedepth(render.m_target->m_depth);
 
-	filter.quad(pass.m_index, render.m_target->m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
+	filter.quad(pass.m_index, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
 
 	copy.quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }

@@ -173,15 +173,36 @@ namespace mud
 			bgfx::frame();
 	}
 
-	void BlockFilter::quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags, bool render)
+	void BlockFilter::quad(uint8_t view, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags, bool render)
 	{
-		this->quad(view, fbo, program, fbo.render_quad(vec4(rect), true), flags, render);
+		this->quad(view, fbo, program.fetch(), quad, flags, render);
 	}
 
-	void BlockFilter::quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, uint64_t flags, bool render)
+	void BlockFilter::quad(uint8_t view, FrameBuffer& fbo, const ProgramVersion& program, const uvec4& rect, uint64_t flags, bool render)
+	{
+		this->quad(view, fbo, program.fetch(), fbo.render_quad(vec4(rect), true), flags, render);
+	}
+
+	void BlockFilter::quad(uint8_t view, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags, bool render)
 	{
 		const vec4 rect = vec4(vec2(0.f), vec2(fbo.m_size));
-		this->quad(view, fbo, program, fbo.render_quad(rect, true), flags, render);
+		this->quad(view, fbo, program.fetch(), fbo.render_quad(rect, true), flags, render);
+	}
+
+	void BlockFilter::quad(uint8_t view, FrameBuffer& fbo, Program& program, const RenderQuad& quad, uint64_t flags, bool render)
+	{
+		this->quad(view, fbo, program.default_version(), quad, flags, render);
+	}
+
+	void BlockFilter::quad(uint8_t view, FrameBuffer& fbo, Program& program, const uvec4& rect, uint64_t flags, bool render)
+	{
+		this->quad(view, fbo, program.default_version(), fbo.render_quad(vec4(rect), true), flags, render);
+	}
+
+	void BlockFilter::quad(uint8_t view, FrameBuffer& fbo, Program& program, uint64_t flags, bool render)
+	{
+		const vec4 rect = vec4(vec2(0.f), vec2(fbo.m_size));
+		this->quad(view, fbo, program.default_version(), fbo.render_quad(rect, true), flags, render);
 	}
 
 	BlockCopy::BlockCopy(GfxSystem& gfx, BlockFilter& filter)
@@ -223,7 +244,7 @@ namespace mud
 		const vec4 dest = rect == vec4(0.f) ? vec4(vec2(0.f), vec2(render.m_target->m_size) * 0.25f) : rect;;
 		const RenderQuad target_quad = { Rect4, render.m_target->dest_quad(dest, true) };
 
-		ShaderVersion shader_version = { &m_program };
+		ProgramVersion shader_version = { &m_program };
 		if(texture.m_is_depth)
 			shader_version.set_option(m_filter.m_index, FILTER_SOURCE_DEPTH);
 		if(texture.m_is_depth_packed)

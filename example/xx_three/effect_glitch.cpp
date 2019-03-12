@@ -181,7 +181,7 @@ void pass_glitch(GfxSystem& gfx, Render& render, Glitch& glitch, uint dt_size = 
 	filter.sourcedepth(disp);
 
 	RenderTarget& target = *render.m_target;
-	filter.quad(pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
+	filter.quad(pass.m_index, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
 
 	copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
 }

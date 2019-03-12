@@ -103,7 +103,7 @@ namespace mud
 #endif
 	}
 
-	void BlockLight::options(Render& render, ShaderVersion& shader_version) const
+	void BlockLight::options(Render& render, ProgramVersion& shader_version) const
 	{
 		if(render.m_camera.m_clustered)
 			shader_version.set_option(0, CLUSTERED, true);

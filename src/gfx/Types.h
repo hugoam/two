@@ -43,6 +43,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialFlag>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelFormat>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Month>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::PassType>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::PbrDiffuseMode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::PbrSpecularMode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ShaderColor>();
@@ -75,6 +76,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Batch>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Bone>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Camera>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Cascade>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Culler>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DepthParams>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Direct>();
@@ -111,6 +113,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Model>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelItem>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Node3>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Pass>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Prefab>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Program>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Radiance>();
@@ -124,6 +127,8 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Skeleton>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Skin>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Sun>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::SwapBuffer>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::SwapCascade>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::SymbolIndex>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Batch>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Direct>>();

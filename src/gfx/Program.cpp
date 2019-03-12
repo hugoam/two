@@ -223,7 +223,7 @@ namespace mud
 		vector<ShaderDefine> m_defines;
 	};
 
-	string program_defines(Program::Impl& program, const ShaderVersion& version)
+	string program_defines(Program::Impl& program, const ProgramVersion& version)
 	{
 		string defines = "";
 
@@ -302,21 +302,21 @@ namespace mud
 		m_sources[type] = source;
 	}
 
-	string Program::defines(const ShaderVersion& version) const
+	string Program::defines(const ProgramVersion& version) const
 	{
 		return program_defines(*m_impl, version);
 	}
 
-	ShaderVersion Program::shader_version(Version& version)
+	ProgramVersion Program::shader_version(Version& version)
 	{
-		ShaderVersion config = { this };
+		ProgramVersion config = { this };
 		memcpy(&config.m_options, &version.m_version, sizeof(uint64_t));
 		return config;
 	}
 
 	void Program::compile(GfxSystem& gfx, Version& version, bool compute)
 	{
-		const ShaderVersion config = shader_version(version);
+		const ProgramVersion config = shader_version(version);
 
 		const string suffix = "_v" + to_string(version.m_version);
 		const string defines = program_defines(*m_impl, config);
@@ -367,12 +367,12 @@ namespace mud
 
 	bgfx::ProgramHandle Program::default_version()
 	{
-		ShaderVersion config;
+		ProgramVersion config;
 		config.m_program = this;
 		return this->version(config);
 	}
 
-	bgfx::ProgramHandle Program::version(const ShaderVersion& config)
+	bgfx::ProgramHandle Program::version(const ProgramVersion& config)
 	{
 		uint64_t version_hash = config.hash();
 

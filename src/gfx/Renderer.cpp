@@ -248,7 +248,7 @@ namespace mud
 		DrawList m_draw_elements;
 	};
 
-	void Renderer::shader_options(Render& render, Pass& pass, ShaderVersion& version) const
+	void Renderer::shader_options(Render& render, Pass& pass, ProgramVersion& version) const
 	{
 		//for(GfxBlock* block : m_gfx.m_renderer.m_pass_blocks[pass.m_pass_type])
 		//	if(block->m_draw_block)

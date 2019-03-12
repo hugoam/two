@@ -307,8 +307,8 @@ namespace mud
 		function<void(bgfx::Encoder&)> m_submit;
 
 		void state(uint64_t& bgfx_state) const;
-		ShaderVersion shader_version(const Program& program) const;
-		//ShaderVersion shader_version(const Program& program, const Item& item, const ModelItem& model_item) const;
+		ProgramVersion shader_version(const Program& program) const;
+		//ProgramVersion shader_version(const Program& program, const Item& item, const ModelItem& model_item) const;
 
 		void submit(const Program& program, bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
 

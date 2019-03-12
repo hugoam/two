@@ -238,7 +238,7 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 
 		filter.source0(render.m_target->m_diffuse);
 
-		filter.quad(pass.m_index, fbo, program.default_version());
+		filter.quad(pass.m_index, fbo, program);
 	};
 
 	enum BlurPass { BlurH, BlurV };
@@ -257,10 +257,10 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 		filter.uniform(pass.m_index, "u_bloom_blur_p0", vec4(dirs[d], vec2(0.f, 0.f)));
 		filter.source0(source);
 
-		ShaderVersion version = { &program };
+		ProgramVersion version = { &program };
 		version.set_mode(0, BLUR_KERNEL_SIZE, kernel_size);
 
-		filter.quad(pass.m_index, dest, program.version(version));
+		filter.quad(pass.m_index, dest, version);
 	};
 
 	auto pass_merge = [](GfxSystem& gfx, Render& render, const Bloom& bloom)//, FrameBuffer& fbo)
@@ -283,7 +283,7 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 		filter.source1(render.m_target->m_swap_cascade.last().m_texture);
 
 		RenderTarget& target = *render.m_target;
-		filter.quad(pass.m_index, target.m_post_process.swap(), program.default_version(), pass.m_viewport->m_rect);
+		filter.quad(pass.m_index, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
 
 		// additive blend bloom over target
 		copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
@@ -295,7 +295,7 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 	// 2. Blur All the mips progressively
 	//SwapCascade& swap = render.m_target->m_swap_cascade;
 	static SwapCascade swap;
-	if(!swap.m_one.m_fbo.valid())
+	if(!swap.m_one.m_texture.valid())
 		swap.create(bloom.resolution, bgfx::TextureFormat::RGBA8);
 
 	Texture* source = &render.m_target->m_ping_pong.last();
@@ -305,10 +305,10 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 	for(size_t i = 0; i < 5; i++)
 	{
 		Cascade& h = swap.swap();
-		pass_blur(gfx, render, BlurH, *source, h.m_fbo, kernel_sizes[i]);
+		pass_blur(gfx, render, BlurH, *source, *h.m_fbos[i], kernel_sizes[i]);
 
 		Cascade& v = swap.swap();
-		pass_blur(gfx, render, BlurV, h.m_texture, v.m_fbo, kernel_sizes[i]);
+		pass_blur(gfx, render, BlurV, h.m_texture, *v.m_fbos[i], kernel_sizes[i]);
 
 		source = &v.m_texture;
 	}

@@ -90,7 +90,7 @@ namespace mud
 
 		GpuState<Glow>::me.upload(glow);
 
-		m_filter.quad(render.composite_pass(), target.m_ping_pong.swap(), m_bleed_program.default_version(), render.m_rect);
+		m_filter.quad(render.composite_pass(), target.m_ping_pong.swap(), m_bleed_program, render.m_rect);
 	}
 
 	void BlockGlow::glow_blur(Render& render, RenderTarget& target, Glow& glow)
@@ -124,21 +124,21 @@ namespace mud
 						   target.m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
 						   target.m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect.width), uint16_t(rect.height), 1);
 			else
-				m_copy.quad(render.composite_pass(), *target.m_cascade.m_mips[i + 1], target.m_ping_pong.last(), quad);
+				m_copy.quad(render.composite_pass(), *target.m_cascade.m_fbos[i + 1], target.m_ping_pong.last(), quad);
 		}
 	}
 
 	void BlockGlow::glow_merge(Render& render, RenderTarget& target, Glow& glow)
 	{
-		ShaderVersion shader_version = { &m_merge_program };
+		ProgramVersion program = { &m_merge_program };
 
-		shader_version.set_option(m_index, GLOW_FILTER_BICUBIC, glow.m_bicubic_filter);
+		program.set_option(m_index, GLOW_FILTER_BICUBIC, glow.m_bicubic_filter);
 
 		m_filter.source0(target.m_post_process.last());
 		m_filter.source1(target.m_cascade.m_texture);
 
 		GpuState<Glow>::me.upload(glow);
 
-		m_filter.quad(render.composite_pass(), target.m_post_process.swap(), m_merge_program.version(shader_version), render.m_rect);
+		m_filter.quad(render.composite_pass(), target.m_post_process.swap(), program, render.m_rect);
 	}
 }

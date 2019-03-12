@@ -64,6 +64,9 @@ namespace mud
 	export_ template <> inline void to_value(const string& str, mud::Month& val) { val = mud::Month(enu<mud::Month>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::Month& val, string& str) { str = enu<mud::Month>().name(uint32_t(val)); };
 	
+	export_ template <> inline void to_value(const string& str, mud::PassType& val) { val = mud::PassType(enu<mud::PassType>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::PassType& val, string& str) { str = enu<mud::PassType>().name(uint32_t(val)); };
+	
 	export_ template <> inline void to_value(const string& str, mud::PbrDiffuseMode& val) { val = mud::PbrDiffuseMode(enu<mud::PbrDiffuseMode>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::PbrDiffuseMode& val, string& str) { str = enu<mud::PbrDiffuseMode>().name(uint32_t(val)); };
 	

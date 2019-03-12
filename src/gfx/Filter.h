@@ -56,10 +56,14 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 
 		void quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
-		//void quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
 
-		void quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
-		void quad(uint8_t view, FrameBuffer& fbo, bgfx::ProgramHandle program, uint64_t flags = 0U, bool render = false);
+		void quad(uint8_t view, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
+		void quad(uint8_t view, FrameBuffer& fbo, const ProgramVersion& program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
+		void quad(uint8_t view, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags = 0U, bool render = false);
+
+		void quad(uint8_t view, FrameBuffer& fbo, Program& program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
+		void quad(uint8_t view, FrameBuffer& fbo, Program& program, uint64_t flags = 0U, bool render = false);
+		meth_ void quad(uint8_t view, FrameBuffer& fbo, Program& program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
 
 		meth_ void source0(Texture& texture, uint32_t flags = UINT32_MAX);
 		meth_ void source1(Texture& texture, uint32_t flags = UINT32_MAX);
@@ -86,8 +90,8 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 
 		void quad(uint8_t view, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags = 0U);
-		void quad(uint8_t view, FrameBuffer& fbo, Texture& texture, const uvec4& rect, uint64_t flags = 0U);
 		void quad(uint8_t view, FrameBuffer& fbo, Texture& texture, uint64_t flags = 0U);
+		meth_ void quad(uint8_t view, FrameBuffer& fbo, Texture& texture, const uvec4& rect, uint64_t flags = 0U);
 
 		void debug_show_texture(Render& render, Texture& texture, const vec4& rect, int level = 0);
 

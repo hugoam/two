@@ -65,7 +65,7 @@ namespace mud
 #endif
 	}
 
-	void BlockRadiance::options(Render& render, ShaderVersion& shader_version) const
+	void BlockRadiance::options(Render& render, ProgramVersion& shader_version) const
 	{
 		Texture* radiance = render.m_env->m_radiance.m_filtered;
 
@@ -179,8 +179,7 @@ namespace mud
 			vec4 prefilter_p0 = { roughness, float(num_samples), 0.f, 0.f };
 			bgfx::setUniform(u_prefilter.u_prefilter_envmap_p0, &prefilter_p0);
 
-			bgfx::ProgramHandle program = m_prefilter_program.default_version();
-			m_filter.quad(view_id, copy_target, program, 0U, true);
+			m_filter.quad(view_id, copy_target, m_prefilter_program, 0U, true);
 
 			blit_to_array(copy_target, size, i);
 		}
