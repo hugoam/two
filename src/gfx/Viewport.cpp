@@ -17,6 +17,7 @@ module mud.gfx;
 #include <gfx/Renderer.h>
 #include <gfx/Froxel.h>
 #include <gfx/Shot.h>
+#include <gfx/RenderTarget.h>
 #endif
 
 //#define NO_OCCLUSION_CULLING
@@ -46,7 +47,7 @@ namespace mud
 	{
 		bgfx::setViewRect(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(m_rect.width), uint16_t(m_rect.height));
 		bgfx::setViewTransform(render_pass.m_index, value_ptr(m_camera->m_transform), value_ptr(m_camera->m_projection));
-		bgfx::setViewFrameBuffer(render_pass.m_index, render_pass.m_fbo);
+		bgfx::setViewFrameBuffer(render_pass.m_index, *render_pass.m_fbo);
 		bgfx::setViewClear(render_pass.m_index, BGFX_CLEAR_NONE);
 
 		if(m_scissor)

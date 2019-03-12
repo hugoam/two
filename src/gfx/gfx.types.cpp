@@ -65,7 +65,6 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::DepthParams>() { static Type ty("DepthParams", sizeof(mud::DepthParams)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Direct>() { static Type ty("Direct", sizeof(mud::Direct)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::DistanceParams>() { static Type ty("DistanceParams", sizeof(mud::DistanceParams)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::Filter>() { static Type ty("Filter", sizeof(mud::Filter)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Flow>() { static Type ty("Flow", sizeof(mud::Flow)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Fog>() { static Type ty("Fog", sizeof(mud::Fog)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::FrameBuffer>() { static Type ty("FrameBuffer", sizeof(mud::FrameBuffer)); return ty; }

@@ -90,7 +90,8 @@ namespace mud
 		const uvec2 size = uvec2(SKELETON_TEXTURE_SIZE, height * 4);
 
 		if(!bgfx::isValid(m_texture))
-			m_texture = { size, false, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
+			m_texture = bgfx::createTexture2D(size.x, size.y, false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
+			//m_texture = { size, false, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
 		
 		m_memory = bgfx::alloc(size.x * size.y * 4 * sizeof(float));
 

@@ -304,7 +304,7 @@ namespace mud
 
 	void Shadowmap::create(const uvec2& size, DepthMethod method)
 	{
-		*this = {};
+		//*this = {};
 		m_size = size;
 		m_depth_method = method;
 
@@ -325,7 +325,7 @@ namespace mud
 		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT))
 			return;
 
-		*this = {};
+		//*this = {};
 		m_size = size;
 		m_depth = Texture{ bgfx::createTextureCube(size, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT) };
 
@@ -385,12 +385,7 @@ namespace mud
 		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
 		//copy.debug_show_texture(render, m_atlas.m_depth, vec4(0.f), true);
 		//copy.debug_show_texture(render, m_atlas.m_cubemaps[0].m_cubemap, vec4(0.f), true);
-#if SHADOW_ATLAS
 		copy.debug_show_texture(render, m_atlas.m_color, vec4(0.f));
-#else
-		if(m_shadowmaps.size() > 0)
-			copy.debug_show_texture(render, m_shadowmaps[0].texture(), vec4(0.f), m_shadowmaps[0].m_depth_method == DepthMethod::Depth);
-#endif
 #endif
 
 #if DEBUG_CSM
@@ -416,9 +411,6 @@ namespace mud
 		m_csm_shadows.clear();
 		m_shadows.clear();
 
-		m_shadowmaps.resize(max(m_shadowmaps.size(), lights.size()));
-		m_shadowmaps_cubes.resize(max(m_shadowmaps.size(), lights.size()));
-
 		for(size_t index = 0; index < lights.size(); ++index)
 		{
 			Light& light = *lights[index];
@@ -435,17 +427,9 @@ namespace mud
 				if(light.m_shadow_index == UINT32_MAX)
 					continue;
 
-#if SHADOW_ATLAS
 				const uvec4 atlas_rect = m_atlas.light_slot(light).m_rect;
 				const uvec2 offset = { atlas_rect.x, atlas_rect.y };
 				const uint size = atlas_rect.width;
-#else
-				uvec2 offset = uvec2(0U);
-				uint size = 512U;
-				Shadowmap& shadowmap = m_shadowmaps[light.m_index];
-				if(shadowmap.m_size == uvec2(0U))
-					shadowmap.create(uvec2(size * 4, size * 2), DepthMethod::Distance);
-#endif
 
 				mat4 projection = bxproj(90.f, 1.f, 0.01f, light.m_range, bgfx::getCaps()->homogeneousDepth);
 
@@ -643,18 +627,11 @@ namespace mud
 			encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), m_csm.m_depth, shadow_flags);
 		}
 
-#if SHADOW_ATLAS
 		if(!m_shadows.empty())
 		{
 			encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), m_atlas.m_color, shadow_flags);
 			//encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), m_atlas.m_depth, shadow_flags);
 		}
-#else
-		if(!m_shadows.empty())
-		{
-			encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), m_shadowmaps[0].texture(), shadow_flags);
-		}
-#endif
 	}
 
 	void pass_shadowmaps(GfxSystem& gfx, Render& render)
@@ -663,7 +640,7 @@ namespace mud
 
 		for(CSMShadow& csm : block_shadow.m_csm_shadows)
 		{
-			if(!bgfx::isValid(block_shadow.m_csm.m_fbo))
+			if(!block_shadow.m_csm.m_fbo.valid())
 				continue;
 
 			for(LightShadow& slice : csm.m_slices)

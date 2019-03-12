@@ -7,6 +7,7 @@
 #ifndef MUD_MODULES
 #include <stl/string.h>
 #include <stl/span.h>
+#include <stl/swap.h>
 #include <math/Vec.h>
 #endif
 #include <gfx/Forward.h>
@@ -56,6 +57,9 @@ namespace mud
 		explicit Texture(bgfx::TextureHandle texture);
 		~Texture();
 
+		Texture(Texture&& other) : Texture(other) { other.m_tex = BGFX_INVALID_HANDLE; }
+		Texture& operator=(Texture&& other) { *this = other; other.m_tex = BGFX_INVALID_HANDLE; return *this; }
+
 		attr_ string m_name;
 		attr_ uvec2 m_size = uvec2(0U);
 		attr_ uint16_t m_depth = 0;
@@ -70,5 +74,9 @@ namespace mud
 		bgfx::TextureFormat::Enum m_format;
 
 		operator bgfx::TextureHandle() const { return m_tex; }
+
+	protected:
+		Texture(const Texture& other) = default;
+		Texture& operator=(const Texture& other) = default;
 	};
 }

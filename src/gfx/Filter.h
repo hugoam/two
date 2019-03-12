@@ -56,16 +56,6 @@ namespace mud
 		bgfx::UniformHandle u_source_0_crop;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Filter
-	{
-	public:
-		virtual ~Filter() {}
-	};
-
-	RenderQuad copy_quad(const FrameBuffer& target, const vec4& rect);
-
-	//RenderQuad copy_quad(const FrameBuffer& source, const FrameBuffer& target, const vec4& source_rect, const vec4& dest_rect);
-	
 	export_ class refl_ MUD_GFX_EXPORT BlockFilter : public GfxBlock
 	{
 	public:

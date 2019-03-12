@@ -133,7 +133,7 @@ namespace mud
 
 		bool blit_support = false; // (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0;
 
-		Texture filtered;
+		Texture& filtered = m_gfx.textures().create(radiance.m_texture->m_name + "_filtered");
 		if(blit_support)
 			filtered = { uvec2(width, height), mips, texture_layers, format, BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP };
 		else
@@ -181,7 +181,7 @@ namespace mud
 			bgfx::ProgramHandle program = m_prefilter_program.default_version();
 			m_filter.submit_quad(view_id, copy_target, program, 0U, true);
 
-			blit_to_array(copy_target.m_texture, size, i);
+			blit_to_array(copy_target, size, i);
 		}
 
 		m_prefiltered[radiance.m_texture] = &filtered;

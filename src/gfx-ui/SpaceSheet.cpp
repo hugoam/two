@@ -32,7 +32,7 @@ namespace mud
 	class SpaceQuad
 	{
 	public:
-		SpaceQuad(Viewport& viewport, size_t width, size_t height, float scale);
+		SpaceQuad(Viewport& viewport, const uvec2& size, float scale);
 
 		Texture m_texture;
 		Material m_material;
@@ -41,21 +41,21 @@ namespace mud
 		Item m_item;
 	};
 
-	SpaceQuad::SpaceQuad(Viewport& viewport, size_t width, size_t height, float scale)
+	SpaceQuad::SpaceQuad(Viewport& viewport, const uvec2& size, float scale)
 		: m_texture("SpaceSheetTexture")
 		, m_material("SpaceSheetMaterial")
 		, m_model("SpaceSheet")
 		, m_item(m_node, m_model, ItemFlag::Ui, &m_material)
 	{
-		load_texture_rgba(m_texture, uint16_t(width), uint16_t(height), span<uint32_t>{});
+		load_texture_rgba(m_texture, size, span<uint32_t>{});
 		m_material.m_program = viewport.m_scene->m_gfx.programs().file("debug");
 		m_material.m_solid.m_colour = &m_texture;
 
 		//m_target = oconstruct<FrameBuffer>(*m_viewport.ui_window().m_renderer, as<Layer>(*m_frame), m_viewport.m_scene, m_viewport.m_camera, gfx, *m_texture);
 
 		Symbol symbol = { Colour::White, Colour::None, true };
-		Quad quad = { vec2 { width * scale, height * scale } };
-		draw_model(ProcShape{ symbol, &quad, PLAIN }, m_model);
+		Quad quad = { vec2(size) * scale };
+		draw_model({ symbol, &quad, PLAIN }, m_model);
 	}
 
 	SpaceSheet::SpaceSheet(Widget& parent, SpaceViewport& viewport)
@@ -88,16 +88,15 @@ namespace mud
 
 	void SpaceSheet::updateSize()
 	{
-		if(m_width == m_frame.m_size.x && m_height == m_frame.m_size.y)
+		if(m_size == m_frame.m_size)
 			return;
 
-		m_width = m_frame.m_size.x;
-		m_height = m_frame.m_size.y;
+		m_size = m_frame.m_size;
 
-		printf("SpaceSheet :: updateSize () %f, %f\n", m_width, m_height);
+		printf("SpaceSheet :: updateSize () %f, %f\n", m_size.x, m_size.y);
 
-		if(m_width > 0.f && m_height > 0.f)
-			m_quad = oconstruct<SpaceQuad>(m_viewer.m_viewport, size_t(m_width), size_t(m_height), m_size_ratio);
+		if(m_size != vec2(0.f))
+			m_quad = oconstruct<SpaceQuad>(m_viewer.m_viewport, uvec2(m_size), m_size_ratio);
 	}
 
 	void SpaceSheet::transformCoordinates(MouseEvent& mouse_event)

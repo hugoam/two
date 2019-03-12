@@ -91,7 +91,7 @@ namespace mud
 		Pass render_pass;
 		render_pass.m_target = m_target;
 		render_pass.m_bgfx_state = 0;
-		render_pass.m_fbo = *m_target_fbo;
+		render_pass.m_fbo = m_target_fbo;
 		render_pass.m_viewport = &m_viewport;
 		render_pass.m_rect = m_rect;
 		render_pass.m_use_mrt = m_needs_mrt;
@@ -111,10 +111,10 @@ namespace mud
 		return render_pass;
 	}
 
-	Pass Render::composite_pass(cstring name, bgfx::FrameBufferHandle fbo, const uvec4& rect)
+	Pass Render::composite_pass(cstring name, FrameBuffer& fbo, const uvec4& rect)
 	{
 		Pass render_pass = this->next_pass(name, PassType::PostProcess);
-		render_pass.m_fbo = fbo;
+		render_pass.m_fbo = &fbo;
 		render_pass.m_rect = rect;
 		return render_pass;
 	}

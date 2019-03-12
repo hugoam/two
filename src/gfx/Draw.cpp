@@ -366,7 +366,7 @@ namespace mud
 	void Lines::write(Mesh& mesh)
 	{
 		const uint32_t vertex_format = VertexAttribute::Position4 | VertexAttribute::Colour;
-		GpuMesh gpu_mesh = alloc_mesh(PrimitiveType::Lines, vertex_format, m_segments.size() * 2, 0U);
+		GpuMesh gpu_mesh = alloc_mesh(PrimitiveType::Lines, vertex_format, uint32_t(m_segments.size() * 2), 0U);
 		MeshAdapter& writer = gpu_mesh.m_writer;
 
 		for(const Segment& seg : m_segments)
@@ -383,7 +383,7 @@ namespace mud
 
 	void Lines::commit(Batch& batch)
 	{
-		span<float> memory = batch.begin(m_segments.size()); // , sizeof(Segment)
+		span<float> memory = batch.begin(uint32_t(m_segments.size())); // , sizeof(Segment)
 		memcpy(memory.data(), m_segments.data(), memory.size() * sizeof(float));
 	}
 

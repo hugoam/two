@@ -226,6 +226,6 @@ namespace mud
 		bgfx::setUniform(m_filter.u_uniform.u_source_0_level, &level);
 
 		uint8_t view = render.debug_pass();
-		m_filter.submit_quad(view, render.m_target->m_backbuffer, m_program.version(shader_version), target_quad, 0);
+		m_filter.submit_quad(view, *render.m_target, m_program.version(shader_version), target_quad, 0);
 	}
 }

@@ -153,7 +153,7 @@ namespace stl {
 	template <class T, class Alloc>
 	inline void vector<T, Alloc>::push_back(T&& t) {
 		this->grow(this->size() + 1);
-		new(placeholder(), this->m_last) T(static_cast<T&&>(t));
+		new(placeholder(), this->m_last) T(move(t));
 		this->m_last++;
 	}
 

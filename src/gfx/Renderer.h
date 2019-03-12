@@ -154,7 +154,7 @@ namespace mud
 	export_ struct MUD_GFX_EXPORT Pass
 	{
 		RenderTarget* m_target = nullptr;
-		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
+		FrameBuffer* m_fbo = nullptr;
 		Viewport* m_viewport = nullptr;
 		uvec4 m_rect = {};
 		uint64_t m_bgfx_state = 0;
@@ -218,7 +218,7 @@ namespace mud
 		uint32_t m_num_triangles = 0;
 
 		Pass next_pass(cstring name, PassType type, bool subpass = false);
-		Pass composite_pass(cstring name, bgfx::FrameBufferHandle fbo, const uvec4& rect);
+		Pass composite_pass(cstring name, FrameBuffer& fbo, const uvec4& rect);
 
 		uint8_t picking_pass() { return m_picking_pass_index++; }
 		uint8_t preprocess_pass() { return m_preprocess_pass_index++; }

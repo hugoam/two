@@ -77,7 +77,8 @@ namespace mud
 
 		Skeleton* m_skeleton;
 
-		Texture m_texture;
+		//Texture m_texture;
+		bgfx::TextureHandle m_texture;
 		const bgfx::Memory* m_memory = nullptr;
 		//vector<float> m_texture_data;
 

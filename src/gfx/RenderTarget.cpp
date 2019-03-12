@@ -40,6 +40,9 @@ namespace mud
 	TypedUniformBlock<RenderBlock> RenderBlock::s_block = { "render" };
 #endif
 
+	FrameBuffer::FrameBuffer()
+	{}
+
 	FrameBuffer::FrameBuffer(const uvec2& size)
 		: m_size(size)
 	{
@@ -55,18 +58,21 @@ namespace mud
 		: FrameBuffer(size)
 	{
 		m_fbo = bgfx::createFrameBuffer(uint16_t(size.x), uint16_t(size.y), format, flags);
+		m_tex = bgfx::getTexture(m_fbo);
 	}
 
 	FrameBuffer::FrameBuffer(const uvec2& size, bgfx::FrameBufferHandle fbo)
 		: FrameBuffer(size)
 	{
 		m_fbo = fbo;
+		//m_tex = bgfx::getTexture(m_fbo);
 	}
 
 	FrameBuffer::FrameBuffer(Texture& texture)
 		: FrameBuffer(texture.m_size)
 	{
 		m_fbo = bgfx::createFrameBuffer(1, &texture.m_tex, true);
+		//m_tex = bgfx::getTexture(m_fbo);
 	}
 
 	FrameBuffer::~FrameBuffer()
@@ -74,6 +80,8 @@ namespace mud
 		if(bgfx::isValid(m_fbo))
 			bgfx::destroy(m_fbo);
 	}
+
+	bool FrameBuffer::valid() const { return bgfx::isValid(m_fbo); }
 
 	void SwapBuffer::create(uvec2 size, bgfx::TextureFormat::Enum color_format)
 	{
@@ -107,12 +115,20 @@ namespace mud
 			bgfx::destroy(m_texture);
 	}
 
+	void SwapCascade::create(uvec2 size, bgfx::TextureFormat::Enum color_format)
+	{
+		m_one.create(size, color_format);
+		m_two.create(size, color_format);
+	}
+	
+	SwapCascade::~SwapCascade()
+	{}
+
 	RenderTarget::RenderTarget(uvec2 size)
 		: FrameBuffer(size)
+		//, m_backbuffer(size)
 		//, m_msaa(MSAA::X16)
 	{
-		m_backbuffer.m_fbo = BGFX_INVALID_HANDLE;
-
 		static const table<MSAA, uint64_t> msaa_flag = { BGFX_TEXTURE_RT, BGFX_TEXTURE_RT_MSAA_X2, BGFX_TEXTURE_RT_MSAA_X4, BGFX_TEXTURE_RT_MSAA_X8, BGFX_TEXTURE_RT_MSAA_X16 };
 		
 		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
@@ -179,7 +195,7 @@ namespace mud
 			m_gbuffer.m_surface		= { size, false, bgfx::TextureFormat::RGBA8, flags };
 
 			bgfx::TextureHandle textures[5] = { m_gbuffer.m_depth, m_gbuffer.m_position, m_gbuffer.m_normal, m_gbuffer.m_albedo, m_gbuffer.m_surface };
-			m_gbuffer.m_fbo = bgfx::createFrameBuffer(5, textures, true);
+			m_gbuffer.m_fbo = { size, bgfx::createFrameBuffer(5, textures, true) };
 		}
 	}
 

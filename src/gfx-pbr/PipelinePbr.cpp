@@ -454,7 +454,7 @@ namespace gfx
 		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
 
 		render_pass.m_bgfx_state = MUD_GFX_STATE_DEFAULT;
-		render_pass.m_fbo = render.m_target->m_gbuffer.m_fbo;
+		render_pass.m_fbo = &render.m_target->m_gbuffer.m_fbo;
 
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
 		{

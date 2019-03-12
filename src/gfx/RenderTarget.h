@@ -32,21 +32,26 @@ namespace mud
 		RenderQuad() {}
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT FrameBuffer
+	export_ class refl_ MUD_GFX_EXPORT FrameBuffer : public Texture
 	{
 	public:
-		FrameBuffer(const uvec2& size = uvec2(0U));
+		FrameBuffer();
+		FrameBuffer(const uvec2& size);
 		FrameBuffer(const uvec2& size, bgfx::TextureFormat::Enum format, uint64_t flags = 0U);
 		FrameBuffer(const uvec2& size, bgfx::FrameBufferHandle fbo);
 		FrameBuffer(Texture& texture);
 		~FrameBuffer();
 
+		FrameBuffer(FrameBuffer&& other) : FrameBuffer(other) { other.m_fbo = BGFX_INVALID_HANDLE; other.m_tex = BGFX_INVALID_HANDLE; }
+		FrameBuffer& operator=(FrameBuffer&& other) { *this = other; other.m_fbo = BGFX_INVALID_HANDLE; other.m_tex = BGFX_INVALID_HANDLE; return *this; }
+
 		attr_ uvec2 m_size;
 
 		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
-		Texture m_texture;
+		
+		bool valid() const;
 
-		operator bgfx::FrameBufferHandle() const;
+		operator bgfx::FrameBufferHandle() const { return m_fbo; }
 
 		vec4 dest_quad(const vec4& rect, bool from_fbo = false) const { return fbo_dest_quad(m_size, rect, from_fbo); }
 		vec4 source_quad(const vec4& rect, bool from_fbo = false) const { return fbo_source_quad(m_size, rect, from_fbo); }
@@ -61,6 +66,10 @@ namespace mud
 
 		vec4 dest_quad_mip(const vec4& rect, int level, bool origin_fbo = false) const { return fbo_dest_quad({ m_size.x >> level, m_size.y >> level }, rect, origin_fbo); }
 		vec4 source_quad_mip(const vec4& rect, int level, bool origin_fbo = false) const { return fbo_source_quad({ m_size.x >> level, m_size.y >> level }, rect, origin_fbo); }
+
+	private:
+		FrameBuffer(const FrameBuffer& other) = default;
+		FrameBuffer& operator=(const FrameBuffer& other) = default;
 	};
 
 	export_ struct SwapBuffer
@@ -68,7 +77,7 @@ namespace mud
 		void create(uvec2 size, bgfx::TextureFormat::Enum color_format);
 		~SwapBuffer();
 		FrameBuffer& swap() { m_state = !m_state; return m_state ? m_one : m_two; }
-		Texture& last() { return m_state ? m_one.m_texture : m_two.m_texture; }
+		Texture& last() { return m_state ? m_one : m_two; }
 		FrameBuffer m_one;
 		FrameBuffer m_two;
 		bool m_state = false;
@@ -103,7 +112,7 @@ namespace mud
 
 		MSAA m_msaa = MSAA::Disabled;
 
-		FrameBuffer m_backbuffer;
+		//FrameBuffer m_backbuffer;
 
 		bool m_mrt = true;
 
@@ -124,7 +133,7 @@ namespace mud
 
 		struct GBuffer
 		{
-			bgfx::FrameBufferHandle m_fbo;
+			FrameBuffer m_fbo;
 
 			Texture m_depth;
 			Texture m_position;

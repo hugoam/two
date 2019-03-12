@@ -91,6 +91,7 @@ namespace stl
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Prefab>>;
 	template class MUD_GFX_EXPORT unordered_map<uint32_t, uint32_t>;
 	template class MUD_GFX_EXPORT unordered_map<uint64_t, Program::Version>;
+	template class MUD_GFX_EXPORT unordered_map<string, bgfx::UniformHandle>;
 
 	template class MUD_GFX_EXPORT vector<bgfx::InstanceDataBuffer>;
 	template class MUD_GFX_EXPORT unordered_map<uint, bgfx::VertexDecl>;

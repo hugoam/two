@@ -31,8 +31,7 @@ namespace mud
 		SpaceViewport& m_viewer;
 		//GfxDynamicTexture& m_texture;
 
-		float m_width;
-		float m_height;
+		vec2 m_size;
 
 		unique<SpaceQuad> m_quad;
 

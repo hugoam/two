@@ -471,8 +471,6 @@ namespace mud
 
 			save_lightmap(m_gfx, *lightmap, bgfx::getTexture(fbo), c_lightmap_format, c_lightmap_file_format, cached_path);
 			load_lightmap(m_gfx, *lightmap, cached_path);
-
-			bgfx::destroy(fbo);
 		}
 
 		printf("INFO: bake lightmaps done\n");

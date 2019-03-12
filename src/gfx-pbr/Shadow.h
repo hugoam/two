@@ -37,7 +37,10 @@ namespace mud
 	struct Shadowmap
 	{
 		Shadowmap() {}
-		~Shadowmap() { if(bgfx::isValid(m_fbo)) bgfx::destroy(m_fbo); }
+		~Shadowmap() {}
+
+		Shadowmap(const Shadowmap& other) = delete;
+		Shadowmap& operator=(const Shadowmap& other) = delete;
 
 		void create(const uvec2& size, DepthMethod method = DepthMethod::Depth);
 
@@ -189,8 +192,6 @@ namespace mud
 		vector<LightShadow> m_shadows;
 
 		Shadowmap m_csm;
-		vector<Shadowmap> m_shadowmaps;
-		vector<ShadowmapCube> m_shadowmaps_cubes;
 
 		mat4 m_csm_matrix[4];
 		vec4 m_csm_splits;

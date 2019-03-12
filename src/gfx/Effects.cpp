@@ -40,7 +40,7 @@ namespace mud
 		// submit sss
 	}
 
-#if 1
+#if 0
 	void pass_post_process(GfxSystem& gfx, Render& render)
 	{
 		static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();

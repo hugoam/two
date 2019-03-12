@@ -79,7 +79,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DepthParams>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Direct>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DistanceParams>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::Filter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Flow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Fog>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::FrameBuffer>();

@@ -59,11 +59,7 @@ namespace mud
 	}
 
 	Picker::~Picker()
-	{
-		bgfx::destroy(m_fbo);
-		if(bgfx::isValid(m_readback_texture))
-			bgfx::destroy(m_readback_texture);
-	}
+	{}
 
 	void Picker::pick_point(Viewport& viewport, vec2 position, PickCallback callback, uint32_t mask)
 	{
