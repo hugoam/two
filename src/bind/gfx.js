@@ -4004,6 +4004,10 @@ RenderTarget.prototype.constructor = RenderTarget;
 RenderTarget.prototype.__class = RenderTarget;
 RenderTarget.__cache = {};
 Module['RenderTarget'] = RenderTarget;
+Object.defineProperty(RenderTarget.prototype, "backbuffer", {
+    get: function() {
+        return wrapPointer(_mud_RenderTarget__get_backbuffer(this.__ptr), FrameBuffer);
+    }});
 Object.defineProperty(RenderTarget.prototype, "msaa", {
     get: function() {
         return _mud_RenderTarget__get_msaa(this.__ptr);

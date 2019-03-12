@@ -3182,6 +3182,7 @@ namespace mud
 		// copy constructor
 		// members
 		static Member members[] = {
+			{ t, offsetof(mud::RenderTarget, m_backbuffer), type<mud::FrameBuffer>(), "backbuffer", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::RenderTarget, m_msaa), type<mud::MSAA>(), "msaa", &msaa_default, Member::Value, nullptr },
 			{ t, offsetof(mud::RenderTarget, m_mrt), type<bool>(), "mrt", &mrt_default, Member::Value, nullptr },
 			{ t, offsetof(mud::RenderTarget, m_depth), type<mud::Texture>(), "depth", nullptr, Member::NonMutable, nullptr },

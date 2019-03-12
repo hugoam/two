@@ -56,7 +56,7 @@ namespace mud
 		if(render.m_filters.comp<Tonemap>().m_enabled)
 			this->render(render, target, render.m_filters.comp<Tonemap>(), render.m_filters.comp<BCS>());
 		else
-			m_copy.quad(render.composite_pass(), target, target.m_post_process.last(), render.m_rect);
+			m_copy.quad(render.composite_pass(), target.m_backbuffer, target.m_post_process.last(), render.m_rect);
 	}
 
 	void BlockTonemap::render(Render& render, RenderTarget& target, Tonemap& tonemap, BCS& bcs)

@@ -3251,6 +3251,9 @@ extern "C" {
 	mud::Type* DECL mud_RenderTarget__type() {
 		return &mud::type<mud::RenderTarget>();
 	}
+	mud::FrameBuffer* DECL mud_RenderTarget__get_backbuffer(mud::RenderTarget* self) {
+		return &self->m_backbuffer;
+	}
 	mud::MSAA DECL mud_RenderTarget__get_msaa(mud::RenderTarget* self) {
 		return self->m_msaa;
 	}

@@ -112,6 +112,8 @@ namespace mud
 		RenderTarget(uvec2 size);
 		~RenderTarget();
 
+		attr_ FrameBuffer m_backbuffer;
+
 		attr_ MSAA m_msaa = MSAA::Disabled;
 
 		attr_ bool m_mrt = true;

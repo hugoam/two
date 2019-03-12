@@ -126,9 +126,11 @@ namespace mud
 
 	RenderTarget::RenderTarget(uvec2 size)
 		: FrameBuffer(size)
-		//, m_backbuffer(size)
+		, m_backbuffer(size)
 		//, m_msaa(MSAA::X16)
 	{
+		m_backbuffer.m_fbo = BGFX_INVALID_HANDLE;
+
 		static const table<MSAA, uint64_t> msaa_flag = { BGFX_TEXTURE_RT, BGFX_TEXTURE_RT_MSAA_X2, BGFX_TEXTURE_RT_MSAA_X4, BGFX_TEXTURE_RT_MSAA_X8, BGFX_TEXTURE_RT_MSAA_X16 };
 		
 		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;

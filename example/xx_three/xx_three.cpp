@@ -23,7 +23,7 @@ using namespace mud;
 
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	//xx_lights_point(app, parent, dockbar);
+	xx_lights_point(app, parent, dockbar);
 	//xx_shadow_point(app, parent, dockbar);
 	//xx_shader(app, parent, dockbar);
 	//xx_shader_lava(app, parent, dockbar);
@@ -52,7 +52,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	    //xx_materials_standard(app, parent, dockbar);
 	    //xx_materials_variations(app, parent, dockbar);
 	//xx_depth_texture(app, parent, dockbar);
-	xx_effect_dof(app, parent, dockbar);
+	//xx_effect_dof(app, parent, dockbar);
 	//xx_effect_godrays(app, parent, dockbar);
 	//xx_effect_glitch(app, parent, dockbar);
 	//xx_effect_sao(app, parent, dockbar);
