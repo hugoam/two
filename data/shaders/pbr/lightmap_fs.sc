@@ -1,4 +1,4 @@
-$input v_view, v_position, v_normal, v_tangent, v_color, v_texcoord0, v_texcoord1, v_binormal
+$input v_view, v_position, v_normal, v_tangent, v_color, v_uv0, v_uv1, v_binormal
 
 #include <encode.sh>
 #include <pbr/pbr.sh>

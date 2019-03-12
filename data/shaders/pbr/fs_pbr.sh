@@ -3,7 +3,8 @@
     material.f0 = mix(dielectric, material.albedo, material.metallic);
     material.albedo = mix(material.albedo, vec3_splat(0.0), material.metallic);
 
-    fragment.NoV = saturate(dot(fragment.normal, fragment.view));
+    fragment.NoV = dot(fragment.normal, fragment.view);
+    fragment.cNoV = max(dot(fragment.normal, fragment.view), 0.0);
     
     // Radiance radiance;
     vec3 specular = vec3_splat(0.0);
@@ -50,7 +51,7 @@
     apply_lights(fragment, material, diffuse, specular);
 #endif
     
-#ifdef DIFFUSE_TOON
+#if DIFFUSE_MODE == DIFFUSE_TOON
     specular *= material.specular * material.metallic * material.albedo * 2.0;
 #else
     specular *= brdf_specular_term(fragment, material);

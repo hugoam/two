@@ -3,21 +3,22 @@
 
 #include <common.sh>
 #include <pbr/pbr.sh>
+#include <gpu/light.sh>
 
-uniform vec4 u_froxel_params;
-uniform vec4 u_froxel_z;
-uniform vec4 u_froxel_f;
-#define u_froxel_inv_dimension u_froxel_params.xy
-#define u_froxel_origin u_froxel_params.zw
+uniform vec4 u_cluster_p0;
+uniform vec4 u_cluster_z;
+uniform vec4 u_cluster_f;
+#define u_cluster_inv_dimension u_cluster_p0.xy
+#define u_cluster_origin u_cluster_p0.zw
 
 SAMPLER2D(s_light_clusters, 13);
 SAMPLER2D(s_light_records, 14);
 //USAMPLER2D(s_light_clusters, 13);
 //USAMPLER2D(s_light_records, 14);
     
-#define FROXEL_BUFFER_WIDTH_SHIFT   6u
-#define FROXEL_BUFFER_WIDTH         (1u << FROXEL_BUFFER_WIDTH_SHIFT)
-#define FROXEL_BUFFER_WIDTH_MASK    (FROXEL_BUFFER_WIDTH - 1u)
+#define CLUSTER_BUFFER_WIDTH_SHIFT  6u
+#define CLUSTER_BUFFER_WIDTH        (1u << CLUSTER_BUFFER_WIDTH_SHIFT)
+#define CLUSTER_BUFFER_WIDTH_MASK   (CLUSTER_BUFFER_WIDTH - 1u)
 
 #define RECORD_BUFFER_WIDTH_SHIFT   5u
 #define RECORD_BUFFER_WIDTH         (1u << RECORD_BUFFER_WIDTH_SHIFT)
@@ -36,22 +37,22 @@ uvec3 fragment_cluster_coord(vec3 frag_coord)
 	frag_coord.y = u_screen_size.y - frag_coord.y;
 #endif
     uvec3 cluster_coord;
-    cluster_coord.xy = uvec2((frag_coord.xy - u_froxel_origin) * u_froxel_inv_dimension);
-    cluster_coord.z = uint(max(0.0, log2(u_froxel_z.x * frag_coord.z + u_froxel_z.y) * u_froxel_z.z + u_froxel_z.w));
+    cluster_coord.xy = uvec2((frag_coord.xy - u_cluster_origin) * u_cluster_inv_dimension);
+    cluster_coord.z = uint(max(0.0, log2(u_cluster_z.x * frag_coord.z + u_cluster_z.y) * u_cluster_z.z + u_cluster_z.w));
     return cluster_coord;
 }
 
 uint fragment_cluster_index(vec3 frag_coord)
 {
     uvec3 cluster_coord = fragment_cluster_coord(frag_coord);
-    return cluster_coord.x * uint(u_froxel_f.x) +
-           cluster_coord.y * uint(u_froxel_f.y) +
-           cluster_coord.z * uint(u_froxel_f.z);
+    return cluster_coord.x * uint(u_cluster_f.x) +
+           cluster_coord.y * uint(u_cluster_f.y) +
+           cluster_coord.z * uint(u_cluster_f.z);
 }
 
 ivec2 cluster_uv(uint cluster_index)
 {
-    return ivec2(cluster_index & FROXEL_BUFFER_WIDTH_MASK, cluster_index >> FROXEL_BUFFER_WIDTH_SHIFT);
+    return ivec2(cluster_index & CLUSTER_BUFFER_WIDTH_MASK, cluster_index >> CLUSTER_BUFFER_WIDTH_SHIFT);
 }
 
 LightCluster get_light_cluster(uint cluster_index)
@@ -70,6 +71,14 @@ LightCluster get_light_cluster(uint cluster_index)
 ivec2 record_uv(uint index)
 {
     return ivec2(index & RECORD_BUFFER_WIDTH_MASK, index >> RECORD_BUFFER_WIDTH_SHIFT);
+}
+
+Light read_cluster_light(uint index)
+{
+    ivec2 uv = record_uv(index);
+    //uint light_index = texelFetch(s_light_records, uv, 0).r;
+    uint light_index = uint(texelFetch(s_light_records, uv, 0).r * 255.0);
+    return read_light(int(light_index));
 }
 
 #endif

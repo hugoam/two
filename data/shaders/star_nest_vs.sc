@@ -1,5 +1,5 @@
 $input a_position, a_color0, a_texcoord0
-$output v_dir, v_wpos, v_color, v_texcoord0
+$output v_dir, v_wpos, v_color, v_uv0
 
 #include <common.sh>
 
@@ -7,9 +7,9 @@ uniform mat4 u_skybox_matrix;
 
 void main()
 {
-	gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0));
+	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));
 	v_color = a_color0;
-	v_texcoord0 = a_texcoord0;
+	v_uv0 = a_texcoord0;
     
     float height = tan(u_fov * 0.5);
     vec2 tex = (2.0 * a_texcoord0 - 1.0) * vec2(u_aspect, height);

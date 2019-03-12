@@ -1,4 +1,4 @@
-$input v_texcoord0
+$input v_uv0
 
 #include "filter/filter.sh"
 
@@ -11,7 +11,7 @@ float spow(float x, float p) {
 
 void main() {
     float aspect = 1.0; //u_screen_size.x / u_screen_size.y;
-    vec2 uvp = vec2(aspect, 1.0) * (2.0 * v_texcoord0.xy - 1.0);
+    vec2 uvp = vec2(aspect, 1.0) * (2.0 * v_uv0 - 1.0);
     float r = length(uvp);
     float t = atan2(uvp.y, uvp.x) / TAU + 0.5;
     float P = 2.00;
@@ -38,5 +38,5 @@ void main() {
         0.0);
 
     c = 1.0 - exp(-1.5 * pow(c, vec3_splat(1.25)));
-    gl_FragData[0] = vec4(c, 1.0);
+    gl_FragData[0] = vec4(c., 1.0);
 }

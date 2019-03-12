@@ -5,20 +5,20 @@
 #include <srgb.sh>
 #include <gpu/material.sh>
 
-uniform vec4 u_render_params;
-#define u_time u_render_params.x
-#define u_origin_bottom_left u_render_params.y
-#define u_point_size u_render_params.zw
+uniform vec4 u_render_p0;
+#define u_time u_render_p0.x
+#define u_origin_bottom_left u_render_p0.y
+#define u_point_size u_render_p0.zw
 
-uniform vec4 u_viewport_params;
-#define u_screen_size u_viewport_params.xy
-#define u_pixel_size u_viewport_params.zw
+uniform vec4 u_viewport_p0;
+#define u_screen_size u_viewport_p0.xy
+#define u_pixel_size u_viewport_p0.zw
 
-uniform vec4 u_camera_params;
-#define u_z_near u_camera_params.x
-#define u_z_far u_camera_params.y
-#define u_fov u_camera_params.z
-#define u_aspect u_camera_params.w
+uniform vec4 u_camera_p0;
+#define u_z_near u_camera_p0.x
+#define u_z_far u_camera_p0.y
+#define u_fov u_camera_p0.z
+#define u_aspect u_camera_p0.w
 
 #ifdef MATERIALS_BUFFER
 uniform vec4 u_state;
@@ -31,6 +31,12 @@ uniform vec4 u_state;
 
 SAMPLER2D(s_color, 0);
 SAMPLER2D(s_alpha, 1);
+SAMPLER2D(s_user0, 2);
+SAMPLER2D(s_user1, 3);
+SAMPLER2D(s_user2, 4);
+SAMPLER2D(s_user3, 5);
+SAMPLER2D(s_user4, 6);
+SAMPLER2D(s_user5, 7);
 
 #if BGFX_SHADER_LANGUAGE_GLSL == 110
 mat4 transpose(in mat4 mat)
@@ -105,13 +111,40 @@ float linear_depth(float depth)
     return 2.0 * u_z_near * u_z_far / (u_z_far + u_z_near - depth * (u_z_far - u_z_near));
 }
 
+float linearize_depth(float depth)
+{
+    float w = depth * ((u_z_far - u_z_near) / (-u_z_far * u_z_near)) + u_z_far / (u_z_far * u_z_near);
+    return -1.0 / w;
+    //return rcp(w);
+}
+
+float viewZToOrthographicDepth(float viewZ)
+{
+    return (viewZ + u_z_near) / (u_z_near - u_z_far);
+}
+
+float orthographicDepthToViewZ(float linearClipZ)
+{
+    return linearClipZ * (u_z_near - u_z_far) - u_z_near;
+}
+
+float viewZToPerspectiveDepth(float viewZ)
+{
+    return ((u_z_near + viewZ) * u_z_far) / ((u_z_far - u_z_near) * viewZ);
+}
+
+float perspectiveDepthToViewZ(float invClipZ)
+{
+    return (u_z_near * u_z_far) / ((u_z_far - u_z_near) * invClipZ - u_z_far);
+}
+
 mat4 mat4_from_vec4(vec4 v0, vec4 v1, vec4 v2, vec4 v3)
 {
     mat4 mat;
-	mat[0] = v0;
-	mat[1] = v1;
-	mat[2] = v2;
-	mat[3] = v3;
+    mat[0] = v0;
+    mat[1] = v1;
+    mat[2] = v2;
+    mat[3] = v3;
 #if BGFX_SHADER_LANGUAGE_HLSL
     return transpose(mat);
 #else
@@ -121,7 +154,7 @@ mat4 mat4_from_vec4(vec4 v0, vec4 v1, vec4 v2, vec4 v3)
 
 float random(vec2 _uv)
 {
-	return fract(sin(dot(_uv.xy, vec2(12.9898, 78.233) ) ) * 43758.5453);
+    return fract(sin(dot(_uv.xy, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 #endif

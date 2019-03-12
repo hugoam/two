@@ -1,4 +1,4 @@
-$input v_position, v_normal, v_color, v_texcoord0
+$input v_position, v_normal, v_color, v_uv0
 
 #include <pbr/pbr.sh>
 #include <pbr/light.sh>
@@ -24,7 +24,7 @@ void main()
     Fragment fragment;
 	fragment.position = position;
 	fragment.normal = normalize(v_normal);
-	fragment.uv = v_texcoord0.xy;
+	fragment.uv = v_uv0;
 	fragment.color = v_color;
     
     int material_index = int(u_state_material);

@@ -1,4 +1,4 @@
-$input v_texcoord0
+$input v_uv0
 
 #include <filter/filter.sh>
 #include <filter/glow.sh>
@@ -9,7 +9,7 @@ uniform float u_exposure;
 
 void main()
 {
-	vec4 color = texture2D(s_diffuse, v_texcoord0.xy);
+	vec4 color = texture2D(s_diffuse, v_uv0);
 	//color *= u_exposure;
 
 	float luminance = max(color.r, max(color.g, color.b));

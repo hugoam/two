@@ -11,8 +11,8 @@
 #ifdef ZONES_BUFFER
 SAMPLER2D(s_zones, 9);
 #else
-uniform vec4 u_radiance_color_energy;
-uniform vec4 u_ambient_params;
+uniform vec4 u_radiance_p0;
+uniform vec4 u_ambient_p0;
 #endif
 
 struct Zone
@@ -27,9 +27,9 @@ Zone read_zone(int index)
     Zone z;
     
 #ifndef ZONES_BUFFER
-    z.radiance_color = u_radiance_color_energy.rgb;
-    z.radiance_energy = u_radiance_color_energy.w;
-    z.ambient = u_ambient_params.x;
+    z.radiance_color = u_radiance_p0.rgb;
+    z.radiance_energy = u_radiance_p0.w;
+    z.ambient = u_ambient_p0.x;
 #else
     int x = int(mod(index, ZONES_TEXTURE_WIDTH));
     

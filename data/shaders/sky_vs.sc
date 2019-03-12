@@ -9,7 +9,7 @@ $output v_color, v_position, v_dir
 
 uniform vec4 u_sun_direction;
 uniform vec4 u_sky_luminance_xyz;
-uniform vec4 u_sky_params; // x - sun size, y - sun bloom, z - exposition
+uniform vec4 u_sky_p0; // x - sun size, y - sun bloom, z - exposition
 uniform vec4 u_perez_coeff[5];
 
 #include <common.sh>
@@ -67,5 +67,5 @@ void main()
 
 	vec3 skyColorXYZ = vec3(Yp.x * Yp.z / Yp.y, Yp.z, (1.0 - Yp.x - Yp.y) * Yp.z / Yp.y);
 
-	v_color.rgb = convertXYZ2RGB(skyColorXYZ * u_sky_params.z);
+	v_color.rgb = convertXYZ2RGB(skyColorXYZ * u_sky_p0.z);
 }

@@ -1,5 +1,5 @@
 $input g_position, g_normal, g_color, g_texcoord0
-$output v_position, v_normal, v_color, v_texcoord0
+$output v_position, v_normal, v_color, v_uv0
 
 #include <bgfx_shader.sh>
 
@@ -13,7 +13,7 @@ void main()
         v_position = vec4(g_position[i], 1.0);
         v_normal = g_normal[i];
         v_color = g_color[i];
-        v_texcoord0 = g_texcoord0[i];
+        v_uv0 = g_texcoord0[i];
         
         if (p.z > p.x && p.z > p.y) {
             gl_Position = vec4(v_position.x, v_position.y, 0.0, 1.0);

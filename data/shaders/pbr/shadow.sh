@@ -20,9 +20,9 @@
 #define SHADOW_SAMPLER 0
 #endif
 
-uniform vec4 u_pcf_params;
-#define u_pcf_offset u_pcf_params.xy
-#define u_pcf_radius u_pcf_params.z
+uniform vec4 u_pcf_p0;
+#define u_pcf_offset u_pcf_p0.xy
+#define u_pcf_radius u_pcf_p0.z
 
 uniform mat4 u_shadow_matrix[MAX_SHADOWS];
 
@@ -33,8 +33,8 @@ uniform vec4 u_shadow_atlas;
 #ifdef CSM_SHADOW
 uniform mat4 u_csm_matrix[4];
 uniform vec4 u_csm_splits;
-uniform vec4 u_csm_params;
-#define u_csm_atlas_pixel_size u_csm_params.xy
+uniform vec4 u_csm_p0;
+#define u_csm_atlas_pixel_size u_csm_p0.xy
 #endif
 
 float texture2DCompare(samplerShadow depth, vec2 uv, float compare)
@@ -200,6 +200,9 @@ float shadow_csm(Light light, Shadow shadow, vec3 frag, float w)
     return saturate(shadowmap);
 }
 #endif
+
+// refs: https://gist.github.com/tschw/da10c43c467ce8afd0c4
+//       https://github.com/mrdoob/three.js/pull/7153
 
 vec2 cubeUV(vec3 v, float texelSizeY)
 {

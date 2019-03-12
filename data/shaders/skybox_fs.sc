@@ -1,12 +1,12 @@
-$input v_dir, v_texcoord0
+$input v_dir, v_uv0
 
 #include <common.sh>
 #include <spherical.sh>
 
 SAMPLER2D(s_skybox_map, 0);
 
-uniform vec4 u_skybox_params;
-#define u_skybox_level u_skybox_params.x
+uniform vec4 u_skybox_p0;
+#define u_skybox_level u_skybox_p0.x
 
 void main()
 {

@@ -1,4 +1,4 @@
-$input v_texcoord0
+$input v_uv0
 
 #include <filter/filter.sh>
 
@@ -15,21 +15,21 @@ CONST(ARRAY_BEGIN(float, kernel, 7)) 1.00 , 1.00 , 0.90 , 0.75 , 0.60 , 0.50 , 0
 CONST(ARRAY_BEGIN(float, kernel, 7)) 0.13425804976814 , 0.12815541114232 , 0.11143948794984 , 0.08822292796029 , 0.06352050813141 , 0.04153263993208 , 0.00000000000000 ARRAY_END();
 #endif
 
-uniform vec4 u_dof_near_params;
-#define u_dof_near_begin u_dof_near_params.x
-#define u_dof_near_end u_dof_near_params.y
-#define u_dof_near_radius u_dof_near_params.z
-#define u_dof_near_inv_radius u_dof_near_params.w
+uniform vec4 u_dof_near_p0;
+#define u_dof_near_begin u_dof_near_p0.x
+#define u_dof_near_end u_dof_near_p0.y
+#define u_dof_near_radius u_dof_near_p0.z
+#define u_dof_near_inv_radius u_dof_near_p0.w
 
-uniform vec4 u_dof_far_params;
-#define u_dof_far_begin u_dof_far_params.x
-#define u_dof_far_end u_dof_far_params.y
-#define u_dof_far_radius u_dof_far_params.z
+uniform vec4 u_dof_far_p0;
+#define u_dof_far_begin u_dof_far_p0.x
+#define u_dof_far_end u_dof_far_p0.y
+#define u_dof_far_radius u_dof_far_p0.z
 
-uniform vec4 u_dof_params;
-#define u_max_coc_pixels u_dof_params.x
-//#define u_dof_focus_plane_z u_dof_params.x
-//#define u_dof_focus_scale u_dof_params.y
+uniform vec4 u_dof_p0;
+#define u_max_coc_pixels u_dof_p0.x
+//#define u_dof_focus_plane_z u_dof_p0.x
+//#define u_dof_focus_scale u_dof_p0.y
 
 bool in_near_field(float radius)
 {
@@ -72,13 +72,13 @@ void main() {
 	vec4 near_color_sum = vec4_splat(0.0);
 	float near_weight_sum = 0.0;
     
-    float norm_radius = coc_radius(v_texcoord0.xy);
+    float norm_radius = coc_radius(v_uv0);
     float radius = norm_radius * u_max_coc_pixels;
     float is_near = float(radius > 0.0);
     
     for (int delta = int(-u_max_coc_pixels); delta <= int(u_max_coc_pixels); ++delta)
     {
-        vec2 tap_coord = v_texcoord0.xy + direction * float(delta) * u_pixel_size;
+        vec2 tap_coord = v_uv0 + direction * float(delta) * u_pixel_size;
 
         vec4 tap_color = texture2DLod(s_source_taps, tap_coord, 0.0);
         float tap_radius = coc_radius(tap_coord) * u_max_coc_pixels;
@@ -108,7 +108,7 @@ void main() {
 #ifdef DOF_FIRST_PASS
 	gl_FragColor = mix(far_color, near_color, near_color.a);
 #else
-	vec4 color = texture2DLod(s_source_color, v_texcoord0.xy, 0.0);
+	vec4 color = texture2DLod(s_source_color, v_uv0, 0.0);
     gl_FragColor = mix(color, far_color, abs(norm_radius)) * (1.0 - near_color.a) + near_color * near_color.a;
     
     //gl_FragColor += vec4(saturate(norm_radius), saturate(-norm_radius), 0.0, 0.0);

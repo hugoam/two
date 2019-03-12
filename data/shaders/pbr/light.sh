@@ -67,14 +67,6 @@ void apply_lights(Fragment fragment, Material material, inout vec3 diffuse, inou
 #ifdef CLUSTERED
 #include "light_cluster.sh"
 
-Light read_cluster_light(uint index)
-{
-    ivec2 uv = record_uv(index);
-    //uint light_index = texelFetch(s_light_records, uv, 0).r;
-    uint light_index = uint(texelFetch(s_light_records, uv, 0).r * 255.0);
-    return read_light(int(light_index));
-}
-
 void apply_cluster_lights(Fragment fragment, Material material, inout vec3 diffuse, inout vec3 specular)
 {
     uint cluster_index = fragment_cluster_index(fragment.coord.xyz);

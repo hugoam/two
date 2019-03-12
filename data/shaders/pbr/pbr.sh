@@ -40,9 +40,9 @@ SAMPLER2D(s_albedo_detail, 11);
 SAMPLER2D(s_normal_detail, 12);
 #endif
 
-uniform vec4 u_lightmap_params;
-#define u_lightmap_offset u_lightmap_params.xy
-#define u_lightmap_factor u_lightmap_params.zw
+uniform vec4 u_lightmap_p0;
+#define u_lightmap_offset u_lightmap_p0.xy
+#define u_lightmap_factor u_lightmap_p0.zw
 
 struct Fragment
 {
@@ -58,6 +58,7 @@ struct Fragment
     vec4 color;
     
     float NoV;
+    float cNoV;
 };
 
 struct Material

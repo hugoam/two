@@ -1,10 +1,10 @@
-$input v_position, v_texcoord0
+$input v_position, v_uv0
 
 #include <common.sh>
 
 void main()
 {
-    vec2 uv = v_texcoord0.xy;
+    vec2 uv = v_uv0;
 #include "fs_alpha.sh"
 #include "fs_alphatest.sh"
 

@@ -19,6 +19,6 @@ void main()
 {
 #include "modelview.sh"
 
-	vec3 vertex = mul(modelView, vec4(a_position, 1.0)).xyz;
+	vec3 vertex = mul(modelView, vec4(a_position.xyz, 1.0)).xyz;
     gl_Position = mul(u_proj, vec4(vertex, 1.0));
 }

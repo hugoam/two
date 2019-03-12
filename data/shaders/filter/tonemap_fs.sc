@@ -1,4 +1,4 @@
-$input v_texcoord0
+$input v_uv0
 
 #include <filter/filter.sh>
 #include <tonemap.sh>
@@ -7,10 +7,10 @@ $input v_texcoord0
 #define s_color_correction s_source_1
 #define s_exposure s_source_2
 
-uniform vec4 u_exposure_params;
-#define u_exposure u_exposure_params.x
-#define u_exposure_white u_exposure_params.y
-#define u_exposure_grey u_exposure_params.z
+uniform vec4 u_exposure_p0;
+#define u_exposure u_exposure_p0.x
+#define u_exposure_white u_exposure_p0.y
+#define u_exposure_grey u_exposure_p0.z
 
 uniform vec4 u_tonemap_bcs;
 #define u_brightness u_tonemap_bcs.x
@@ -21,7 +21,7 @@ void main()
 {
 	ivec2 ifrag_coord = ivec2(gl_FragCoord.xy);
 	//vec3 color = texelFetch(s_source, ifrag_coord, 0).rgb;
-    vec3 color = texture2DLod(s_source, v_texcoord0.xy, 0.0).rgb;
+    vec3 color = texture2DLod(s_source, v_uv0, 0.0).rgb;
     
 #ifdef AUTO_EXPOSURE
 	color /= texelFetch(s_exposure, ivec2(0,0), 0).r / auto_exposure_grey;

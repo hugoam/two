@@ -1,26 +1,27 @@
 #ifndef MUD_SHADER_FOG
 #define MUD_SHADER_FOG
 
- #include "common.sh"
+ #include <common.sh>
+ #include <pbr/pbr.sh>
 
-uniform vec4 u_fog_params_0;
-#define u_fog_density u_fog_params_0.x
-#define u_fog_color u_fog_params_0.yzw
+uniform vec4 u_fog_p0;
+#define u_fog_density u_fog_p0.x
+#define u_fog_color u_fog_p0.yzw
 
-uniform vec4 u_fog_params_1;
-#define u_fog_depth_enabled u_fog_params_1.x
-#define u_fog_depth_begin u_fog_params_1.y
-#define u_fog_depth_curve u_fog_params_1.z
+uniform vec4 u_fog_p1;
+#define u_fog_depth_enabled u_fog_p1.x
+#define u_fog_depth_begin u_fog_p1.y
+#define u_fog_depth_curve u_fog_p1.z
 
-uniform vec4 u_fog_params_2;
-#define u_fog_height_enabled u_fog_params_2.x
-#define u_fog_height_min u_fog_params_2.y
-#define u_fog_height_max u_fog_params_2.z
-#define u_fog_height_curve u_fog_params_2.w
+uniform vec4 u_fog_p2;
+#define u_fog_height_enabled u_fog_p2.x
+#define u_fog_height_min u_fog_p2.y
+#define u_fog_height_max u_fog_p2.z
+#define u_fog_height_curve u_fog_p2.w
 
-uniform vec4 u_fog_params_3;
-#define u_fog_transmit_enabled u_fog_params_3.x
-#define u_fog_transmit_curve u_fog_params_3.y
+uniform vec4 u_fog_p3;
+#define u_fog_transmit_enabled u_fog_p3.x
+#define u_fog_transmit_curve u_fog_p3.y
 
 
 void apply_fog_0(Fragment fragment, inout vec3 color)

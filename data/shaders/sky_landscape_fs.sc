@@ -1,4 +1,4 @@
-$input v_normal, v_texcoord0
+$input v_normal, v_uv0
 
 /*
 * Copyright 2017 Stanislav Pidhorskyi. All rights reserved.
@@ -39,7 +39,7 @@ void main()
 {
 	vec3 normal = normalize(v_normal);
 
-	float occulsion = toLinear(texture2D(s_texLightmap, v_texcoord0).r);
+	float occulsion = toLinear(texture2D(s_texLightmap, v_uv0).r);
 	
 	vec3 skyDirection = vec3(0.0, 0.0, 1.0);
 	

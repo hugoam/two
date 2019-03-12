@@ -1,4 +1,4 @@
-$input v_color, v_texcoord0
+$input v_color, v_uv0
 
 #include <common.sh>
 
@@ -16,13 +16,13 @@ float random(float co)
 
 void main()
 {
-    vec2 coord = v_texcoord0.xy - vec2(0.5,0.5);
-    //float size = v_texcoord0.w;
+    vec2 coord = v_uv0 - vec2(0.5,0.5);
+    //float size = v_uv0.w;
     float ratio = remap(sin(u_time), -1.0, 1.0, 0.5, 1.0);
     float size = 0.4 * ratio;
     
     float r = length(coord);
-    float angle = atan2(coord.y, coord.x) + v_texcoord0.z;
+    float angle = atan2(coord.y, coord.x) + v_uv0.z;
     
     float intensity = remap(sin(5.0 * (angle + u_time * 0.5)), -1.0, 1.0, 0.1, 1.0)
     		  		+ remap(sin(12.0 * (angle)), -1.0, 1.0, 0.1, 0.6);
@@ -42,9 +42,9 @@ void main()
     float gscat = goffset * factor;
     
     vec4 rgba = vec4(power - rscat, power - gscat, power, power);
-    //vec4 rgba = vec4_splat(v_texcoord0.z);
+    //vec4 rgba = vec4_splat(v_uv0.z);
     
 	//rgba.rgb = rgba.rgb * v_color.rgb * rgba.a * v_color.a;
-	//rgba.a   = rgba.a * v_color.a * (1.0f - v_texcoord0.z);
+	//rgba.a   = rgba.a * v_color.a * (1.0f - v_uv0.z);
 	gl_FragColor = rgba;
 }

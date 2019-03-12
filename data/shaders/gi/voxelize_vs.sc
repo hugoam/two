@@ -33,7 +33,7 @@ void main()
 	g_color = a_color0;
 	g_texcoord0 = a_texcoord0;
 
-	g_position = mul(modelView, vec4(a_position, 1.0)).xyz / u_voxelgi_extents;
+	g_position = mul(modelView, vec4(a_position.xyz, 1.0)).xyz / u_voxelgi_extents;
     //g_position = (mul(modelView, vec4(pos, 1.0)).xyz - u_eye_snap) / u_voxelgi_extents;
     g_normal = normalize(mul(normalModelView, vec4(a_normal, 0.0)).xyz);
 

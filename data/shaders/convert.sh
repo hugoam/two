@@ -112,12 +112,28 @@ vec3 hsv_to_rgb(vec3 hsv)
     return mix(rgb_slices.xyz, mix(rgb_slices.zxy, rgb_slices.yzx, is_not_second_slice), is_not_first_slice);    // Make the RGB rotate right depending on final slice index
 }
 
+vec3 hue_to_rgb(float hue)
+{
+    hue = mod(hue, 1.0);
+    float r = abs(hue * 6.0 - 3.0) - 1.0;
+    float g = 2.0 - abs(hue * 6.0 - 2.0);
+    float b = 2.0 - abs(hue * 6.0 - 4.0);
+    return clamp(vec3(r,g,b), 0.0, 1.0);
+}
+
+vec3 hsl_to_rgb(vec3 hsl)
+{
+    vec3 rgb = hue_to_rgb(hsl.x);
+    float C = (1.0 - abs(2.0 * hsl.z - 1.0)) * hsl.y;
+    return (rgb - 0.5) * C + hsl.z;
+}
+
 vec3 adjustHue(vec3 _rgb, float _hue)
 {
-	vec3 yiq = convertRGB2YIQ(_rgb);
-	float angle = _hue + atan2(yiq.z, yiq.y);
-	float len = length(yiq.yz);
-	return convertYIQ2RGB(vec3(yiq.x, len*cos(angle), len*sin(angle) ) );
+    vec3 yiq = convertRGB2YIQ(_rgb);
+    float angle = _hue + atan2(yiq.z, yiq.y);
+    float len = length(yiq.yz);
+    return convertYIQ2RGB(vec3(yiq.x, len*cos(angle), len*sin(angle) ) );
 }
 
 #endif // MUD_SHADER_CONVERT

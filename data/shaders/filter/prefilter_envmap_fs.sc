@@ -1,4 +1,4 @@
-$input v_texcoord0,
+$input v_uv0,
 
 #include <common.sh>
 #include <spherical.sh>
@@ -8,9 +8,9 @@ $input v_texcoord0,
 
 #define s_radiance_source s_source_0
 
-uniform vec4 u_prefilter_envmap_params;
-#define u_roughness u_prefilter_envmap_params.x
-#define u_num_samples u_prefilter_envmap_params.y
+uniform vec4 u_prefilter_envmap_p0;
+#define u_roughness u_prefilter_envmap_p0.x
+#define u_num_samples u_prefilter_envmap_p0.y
 
 // reference : Real Shading in Unreal Engine 4
 // also : https://learnopengl.com/PBR/IBL/Specular-IBL
@@ -80,7 +80,7 @@ vec2 Hammersley(uint i, uint N)
 
 void main()
 {
-	vec3 N = invertedSphericalUV(v_texcoord0.xy);
+	vec3 N = invertedSphericalUV(v_uv0);
     vec3 V = N;
 
 	vec4 color = vec4_splat(0.0);

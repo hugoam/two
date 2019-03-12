@@ -1,5 +1,5 @@
 $input g_position, g_normal, g_color, g_texcoord0
-$output v_position, v_normal, v_color, v_texcoord0
+$output v_position, v_normal, v_color, v_uv0
 
 #include <bgfx_shader.sh>
 
@@ -31,7 +31,7 @@ void main()
         v_position = vec4(g_position[j], 1.0);
         v_normal = g_normal[j];
         v_color = g_color[j];
-        v_texcoord0 = g_texcoord0[j];
+        v_uv0 = g_texcoord0[j];
         
         gl_Position = vec4(projected, 0.0, 1.0);
 

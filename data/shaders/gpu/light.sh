@@ -14,9 +14,9 @@ SAMPLER2D(s_lights, 9);
 uniform vec4 u_light_position_range[MAX_LIGHTS];
 uniform vec4 u_light_energy_specular[MAX_LIGHTS];
 uniform vec4 u_light_direction_attenuation[MAX_LIGHTS];
-uniform vec4 u_light_spot_params[MAX_LIGHTS];
-uniform vec4 u_light_shadow_params[MAX_LIGHTS];
-uniform vec4 u_light_shadowmap_params[MAX_LIGHTS];
+uniform vec4 u_light_spot_p0[MAX_LIGHTS];
+uniform vec4 u_light_shadow_p0[MAX_LIGHTS];
+uniform vec4 u_light_shadowmap_p0[MAX_LIGHTS];
 #endif
 
 struct Shadow
@@ -56,8 +56,8 @@ Light read_light(int index)
     light.specular = u_light_energy_specular[index].w;
     light.direction = u_light_direction_attenuation[index].xyz;
     light.attenuation = u_light_direction_attenuation[index].w;
-    light.spot_attenuation = u_light_spot_params[index].x;
-    light.spot_cutoff = u_light_spot_params[index].y;
+    light.spot_attenuation = u_light_spot_p0[index].x;
+    light.spot_cutoff = u_light_spot_p0[index].y;
     light.spot_inner = light.spot_cutoff; //@todo
 #else
     int x = int(mod(index, LIGHTS_TEXTURE_WIDTH));
@@ -74,9 +74,9 @@ Light read_light(int index)
     light.direction = direction_attenuation.xyz;
     light.attenuation = direction_attenuation.w;
     
-    vec4 spot_params = texelFetch(s_lights, ivec2(x, 3), 0);
-    light.spot_attenuation = spot_params.x;
-    light.spot_cutoff = spot_params.y;
+    vec4 spot_p0 = texelFetch(s_lights, ivec2(x, 3), 0);
+    light.spot_attenuation = spot_p0.x;
+    light.spot_cutoff = spot_p0.y;
     light.spot_inner = light.spot_cutoff; //@todo
 #endif
 
@@ -91,22 +91,22 @@ Shadow read_shadow(int index)
     Shadow shadow;
     
 #ifndef LIGHTS_BUFFER
-    shadow.index = int(u_light_shadow_params[index].x);
-    shadow.bias = u_light_shadow_params[index].y;
-    shadow.radius = u_light_shadow_params[index].z;
-    shadow.atlas_slot = u_light_shadowmap_params[index].xy;
-    shadow.atlas_subdiv = u_light_shadowmap_params[index].zw;
+    shadow.index = int(u_light_shadow_p0[index].x);
+    shadow.bias = u_light_shadow_p0[index].y;
+    shadow.radius = u_light_shadow_p0[index].z;
+    shadow.atlas_slot = u_light_shadowmap_p0[index].xy;
+    shadow.atlas_subdiv = u_light_shadowmap_p0[index].zw;
 #else
     int x = int(mod(index, LIGHTS_TEXTURE_WIDTH));
     
-    vec4 shadow_params = texelFetch(s_lights, ivec2(x, 4), 0);
-    shadow.index = int(shadow_params.x);
-    shadow.bias = shadow_params.y;
-    shadow.radius = shadow_params.z;
+    vec4 shadow_p0 = texelFetch(s_lights, ivec2(x, 4), 0);
+    shadow.index = int(shadow_p0.x);
+    shadow.bias = shadow_p0.y;
+    shadow.radius = shadow_p0.z;
     
-    vec4 shadowmap_params = texelFetch(s_lights, ivec2(x, 5), 0);
-    shadow.atlas_slot = shadowmap_params.xy;
-    shadow.atlas_subdiv = shadowmap_params.zw;
+    vec4 shadowmap_p0 = texelFetch(s_lights, ivec2(x, 5), 0);
+    shadow.atlas_slot = shadowmap_p0.xy;
+    shadow.atlas_subdiv = shadowmap_p0.zw;
 #endif
     
     return shadow;

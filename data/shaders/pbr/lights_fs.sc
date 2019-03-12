@@ -1,4 +1,4 @@
-$input v_texcoord0
+$input v_uv0
 
 #include <filter/filter.sh>
 
@@ -44,21 +44,21 @@ vec3 reconstruct_position(vec2 uv, mat4 inv_view_proj, float device_depth)
 void main()
 {
     // @todo we can get rid of one buffer by reconstructing position from depth
-	//float device_depth = texture2D(s_depth, v_texcoord0).x
-	//vec3 position = reconstruct_position(v_texcoord0.xy, u_view_proj, device_depth);
+	//float device_depth = texture2D(s_depth, v_uv0).x
+	//vec3 position = reconstruct_position(v_uv0, u_view_proj, device_depth);
     
     Fragment fragment;
     fragment.coord = gl_FragCoord;
-    vec4 position = texture2DLod(s_gposition, v_texcoord0.xy, 0.0);
+    vec4 position = texture2DLod(s_gposition, v_uv0, 0.0);
 	fragment.position = position.xyz;
     fragment.coord.z = position.w;
-	fragment.normal = texture2DLod(s_gnormal, v_texcoord0.xy, 0.0).rgb;
+	fragment.normal = texture2DLod(s_gnormal, v_uv0, 0.0).rgb;
 	fragment.view = normalize(-fragment.position);
     fragment.depth = -fragment.position.z;
 
     Material material;
-    vec4 surface = texture2DLod(s_gsurface, v_texcoord0.xy, 0.0).rgba;
-	vec4 colour = texture2DLod(s_galbedo, v_texcoord0.xy, 0.0).rgba;
+    vec4 surface = texture2DLod(s_gsurface, v_uv0, 0.0).rgba;
+	vec4 colour = texture2DLod(s_galbedo, v_uv0, 0.0).rgba;
     material.albedo = colour.rgb;
     material.roughness = surface.x;
 	material.metallic = surface.y;

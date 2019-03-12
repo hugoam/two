@@ -3,15 +3,15 @@
 
 #include <filter/filter.sh>
 
-uniform vec4 u_glow_params_0;
-#define u_glow_strength        u_glow_params_0.x
-#define u_glow_bloom           u_glow_params_0.y
-#define u_glow_bleed_threshold u_glow_params_0.z
-#define u_glow_bleed_scale     u_glow_params_0.w
+uniform vec4 u_glow_p0;
+#define u_glow_strength        u_glow_p0.x
+#define u_glow_bloom           u_glow_p0.y
+#define u_glow_bleed_threshold u_glow_p0.z
+#define u_glow_bleed_scale     u_glow_p0.w
 
-uniform vec4 u_glow_params_1;
-#define u_glow_intensity u_glow_params_1.x
-#define u_glow_texture_size u_glow_params_1.zw
+uniform vec4 u_glow_p1;
+#define u_glow_intensity u_glow_p1.x
+#define u_glow_texture_size u_glow_p1.zw
 
 uniform vec4 u_glow_levels_1_4;
 uniform vec4 u_glow_levels_5_8;
