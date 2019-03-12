@@ -3484,6 +3484,30 @@ extern "C" {
 	mud::Model* DECL mud_gfx_model_suzanne_1(mud::GfxSystem* gfx) {
 		return &mud::gfx::model_suzanne(*gfx);
 	}
+	void DECL mud_pass_clear_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_clear(*gfx, *render);
+	}
+	void DECL mud_pass_depth_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_depth(*gfx, *render);
+	}
+	void DECL mud_pass_background_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_background(*gfx, *render);
+	}
+	void DECL mud_pass_solid_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_solid(*gfx, *render);
+	}
+	void DECL mud_pass_flip_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_flip(*gfx, *render);
+	}
+	void DECL mud_render_minimal_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::render_minimal(*gfx, *render);
+	}
+	void DECL mud_render_solid_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::render_solid(*gfx, *render);
+	}
+	void DECL mud_render_clear_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::render_clear(*gfx, *render);
+	}
 	// AnimationTarget
 	mud::AnimationTarget DECL mud_AnimationTarget_Position() {
 		return mud::AnimationTarget::Position;

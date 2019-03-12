@@ -4192,6 +4192,30 @@ Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
 Module['gfx']['model_suzanne'] = function(a0) {
     return wrapPointer(_mud_gfx_model_suzanne_1(/*gfx*/a0.__ptr), Model);
 };
+Module['pass_clear'] = function(a0, a1) {
+    _mud_pass_clear_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_depth'] = function(a0, a1) {
+    _mud_pass_depth_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_background'] = function(a0, a1) {
+    _mud_pass_background_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_solid'] = function(a0, a1) {
+    _mud_pass_solid_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_flip'] = function(a0, a1) {
+    _mud_pass_flip_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['render_minimal'] = function(a0, a1) {
+    _mud_render_minimal_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['render_solid'] = function(a0, a1) {
+    _mud_render_solid_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['render_clear'] = function(a0, a1) {
+    _mud_render_clear_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
 
 (function() {
     function setup() {

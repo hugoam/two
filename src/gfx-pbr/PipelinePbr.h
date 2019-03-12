@@ -30,32 +30,32 @@ namespace mud
 		Material* m_material_twosided = nullptr;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void begin_pbr_render(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void begin_pbr_render(GfxSystem& gfx, Render& render);
 
-	export_ MUD_GFX_PBR_EXPORT void pass_gi_probes(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void pass_shadowmaps(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void pass_shadow(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void pass_opaque(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void pass_alpha(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_gi_probes(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_shadowmaps(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_shadow(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_opaque(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_alpha(GfxSystem& gfx, Render& render);
 
-	export_ MUD_GFX_PBR_EXPORT void pass_geometry(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void pass_lights(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_geometry(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_lights(GfxSystem& gfx, Render& render);
 
-	export_ MUD_GFX_PBR_EXPORT void pass_voxel_gi(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void pass_lightmap(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_voxel_gi(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_lightmap(GfxSystem& gfx, Render& render);
 
-	export_ MUD_GFX_PBR_EXPORT void render_pbr_forward(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void render_pbr_deferred(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void render_shadow(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void render_voxel(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void render_lightmap(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_PBR_EXPORT void render_reflection(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void render_pbr_forward(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void render_pbr_deferred(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void render_shadow(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void render_voxel(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void render_lightmap(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void render_reflection(GfxSystem& gfx, Render& render);
 
-	export_ MUD_GFX_PBR_EXPORT void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes);
-	export_ MUD_GFX_PBR_EXPORT void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases);
-	export_ MUD_GFX_PBR_EXPORT void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes);
+	export_ MUD_GFX_PBR_EXPORT func_ void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes);
+	export_ MUD_GFX_PBR_EXPORT func_ void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases);
+	export_ MUD_GFX_PBR_EXPORT func_ void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes);
 
-	export_ MUD_GFX_PBR_EXPORT void pipeline_pbr(GfxSystem& gfx, Renderer& pipeline, bool deferred = false);
+	export_ MUD_GFX_PBR_EXPORT func_ void pipeline_pbr(GfxSystem& gfx, Renderer& pipeline, bool deferred = false);
 	
 namespace gfx
 {

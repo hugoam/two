@@ -392,6 +392,14 @@ void mud_gfx_direct_light_node_34(span<void*> args, void*& result) { result = &m
 void mud_gfx_solid_material_35(span<void*> args, void*& result) { result = &mud::gfx::solid_material(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::Colour*>(args[2])); }
 void mud_gfx_pbr_material_36(span<void*> args, void*& result) { result = &mud::gfx::pbr_material(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::Colour*>(args[2]), *static_cast<float*>(args[3]), *static_cast<float*>(args[4])); }
 void mud_gfx_model_suzanne_37(span<void*> args, void*& result) { result = &mud::gfx::model_suzanne(*static_cast<mud::GfxSystem*>(args[0])); }
+void mud_pass_clear_38(span<void*> args, void*& result) { UNUSED(result);  mud::pass_clear(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_pass_depth_39(span<void*> args, void*& result) { UNUSED(result);  mud::pass_depth(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_pass_background_40(span<void*> args, void*& result) { UNUSED(result);  mud::pass_background(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_pass_solid_41(span<void*> args, void*& result) { UNUSED(result);  mud::pass_solid(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_pass_flip_42(span<void*> args, void*& result) { UNUSED(result);  mud::pass_flip(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_render_minimal_43(span<void*> args, void*& result) { UNUSED(result);  mud::render_minimal(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_render_solid_44(span<void*> args, void*& result) { UNUSED(result);  mud::render_solid(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_render_clear_45(span<void*> args, void*& result) { UNUSED(result);  mud::render_clear(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
 
 namespace mud
 {
@@ -3491,6 +3499,38 @@ namespace mud
 		}
 		{
 			static Function f = { &namspc({ "mud", "gfx" }), "model_suzanne", nullptr, mud_gfx_model_suzanne_37, { { "gfx", type<mud::GfxSystem>(),  } }, { &type<mud::Model>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "pass_clear", nullptr, mud_pass_clear_38, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "pass_depth", nullptr, mud_pass_depth_39, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "pass_background", nullptr, mud_pass_background_40, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "pass_solid", nullptr, mud_pass_solid_41, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "pass_flip", nullptr, mud_pass_flip_42, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "render_minimal", nullptr, mud_render_minimal_43, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "render_solid", nullptr, mud_render_solid_44, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "render_clear", nullptr, mud_render_clear_45, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

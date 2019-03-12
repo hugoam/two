@@ -375,6 +375,69 @@ extern "C" {
 	void DECL mud_BlockTonemap__destroy(mud::BlockTonemap* self) {
 		delete self;
 	}
+	void DECL mud_begin_pbr_render_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::begin_pbr_render(*gfx, *render);
+	}
+	void DECL mud_pass_gi_probes_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_gi_probes(*gfx, *render);
+	}
+	void DECL mud_pass_shadowmaps_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_shadowmaps(*gfx, *render);
+	}
+	void DECL mud_pass_shadow_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_shadow(*gfx, *render);
+	}
+	void DECL mud_pass_opaque_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_opaque(*gfx, *render);
+	}
+	void DECL mud_pass_alpha_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_alpha(*gfx, *render);
+	}
+	void DECL mud_pass_geometry_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_geometry(*gfx, *render);
+	}
+	void DECL mud_pass_lights_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_lights(*gfx, *render);
+	}
+	void DECL mud_pass_voxel_gi_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_voxel_gi(*gfx, *render);
+	}
+	void DECL mud_pass_lightmap_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_lightmap(*gfx, *render);
+	}
+	void DECL mud_render_pbr_forward_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::render_pbr_forward(*gfx, *render);
+	}
+	void DECL mud_render_pbr_deferred_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::render_pbr_deferred(*gfx, *render);
+	}
+	void DECL mud_render_shadow_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::render_shadow(*gfx, *render);
+	}
+	void DECL mud_render_voxel_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::render_voxel(*gfx, *render);
+	}
+	void DECL mud_render_lightmap_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::render_lightmap(*gfx, *render);
+	}
+	void DECL mud_render_reflection_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::render_reflection(*gfx, *render);
+	}
+	void DECL mud_gather_gi_probes_2(mud::Scene& scene, stl::vector<mud::GIProbe*, stl::allocator>* gi_probes) {
+		mud::gather_gi_probes(scene, *gi_probes);
+	}
+	void DECL mud_gather_lightmaps_2(mud::Scene& scene, stl::vector<mud::LightmapAtlas*, stl::allocator>* atlases) {
+		mud::gather_lightmaps(scene, *atlases);
+	}
+	void DECL mud_gather_reflection_probes_2(mud::Scene& scene, stl::vector<mud::ReflectionProbe*, stl::allocator>* reflection_probes) {
+		mud::gather_reflection_probes(scene, *reflection_probes);
+	}
+	void DECL mud_pipeline_pbr_2(mud::GfxSystem* gfx, mud::Renderer* pipeline) {
+		mud::pipeline_pbr(*gfx, *pipeline);
+	}
+	void DECL mud_pipeline_pbr_3(mud::GfxSystem* gfx, mud::Renderer* pipeline, bool deferred) {
+		mud::pipeline_pbr(*gfx, *pipeline, deferred);
+	}
 	void DECL mud_gfx_setup_pipeline_pbr_1(mud::GfxSystem* gfx) {
 		mud::gfx::setup_pipeline_pbr(*gfx);
 	}

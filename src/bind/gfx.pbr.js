@@ -481,6 +481,67 @@ Module['BlockTonemap'] = BlockTonemap;
 BlockTonemap.prototype["__destroy"] = BlockTonemap.prototype.__destroy = function() {
     _mud_BlockTonemap__destroy(this.__ptr);
 };
+Module['begin_pbr_render'] = function(a0, a1) {
+    _mud_begin_pbr_render_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_gi_probes'] = function(a0, a1) {
+    _mud_pass_gi_probes_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_shadowmaps'] = function(a0, a1) {
+    _mud_pass_shadowmaps_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_shadow'] = function(a0, a1) {
+    _mud_pass_shadow_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_opaque'] = function(a0, a1) {
+    _mud_pass_opaque_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_alpha'] = function(a0, a1) {
+    _mud_pass_alpha_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_geometry'] = function(a0, a1) {
+    _mud_pass_geometry_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_lights'] = function(a0, a1) {
+    _mud_pass_lights_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_voxel_gi'] = function(a0, a1) {
+    _mud_pass_voxel_gi_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_lightmap'] = function(a0, a1) {
+    _mud_pass_lightmap_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['render_pbr_forward'] = function(a0, a1) {
+    _mud_render_pbr_forward_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['render_pbr_deferred'] = function(a0, a1) {
+    _mud_render_pbr_deferred_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['render_shadow'] = function(a0, a1) {
+    _mud_render_shadow_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['render_voxel'] = function(a0, a1) {
+    _mud_render_voxel_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['render_lightmap'] = function(a0, a1) {
+    _mud_render_lightmap_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['render_reflection'] = function(a0, a1) {
+    _mud_render_reflection_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['gather_gi_probes'] = function(a0, a1) {
+    _mud_gather_gi_probes_2(/*scene*/a0, /*gi_probes*/a1.__ptr);
+};
+Module['gather_lightmaps'] = function(a0, a1) {
+    _mud_gather_lightmaps_2(/*scene*/a0, /*atlases*/a1.__ptr);
+};
+Module['gather_reflection_probes'] = function(a0, a1) {
+    _mud_gather_reflection_probes_2(/*scene*/a0, /*reflection_probes*/a1.__ptr);
+};
+Module['pipeline_pbr'] = function(a0, a1, a2) {
+    if (a2 === undefined) { _mud_pipeline_pbr_2(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr); return; }
+    _mud_pipeline_pbr_3(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr, /*deferred*/a2);
+};
 Module['gfx']['setup_pipeline_pbr'] = function(a0) {
     _mud_gfx_setup_pipeline_pbr_1(/*gfx*/a0.__ptr);
 };
