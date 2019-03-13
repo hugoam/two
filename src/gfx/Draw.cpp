@@ -191,7 +191,7 @@ namespace mud
 
 	struct SymbolIndex::Impl
 	{
-		std::map<uint64_t, Material*> m_materials;
+		std::map<uint64_t, object<Material>> m_materials;
 		std::map<uint64_t, std::map<std::array<char, c_max_shape_size>, object<Model>>> m_symbols;
 	};
 
@@ -220,12 +220,15 @@ namespace mud
 		uint64_t hash = hash_symbol_material(symbol, draw_mode);
 		if(m_impl->m_materials.find(hash) == m_impl->m_materials.end())
 		{
-			Material& m = gfx.fetch_material("Symbol" + to_string(hash), "solid");
+			m_impl->m_materials[hash] = construct<Material>("Symbol" + to_string(hash));
+			Material& m = *m_impl->m_materials[hash];
+
+			m.m_program = &gfx.programs().fetch("solid");
 			m.m_base.m_depth_draw = DepthDraw::Disabled;
 			m.m_base.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
 			m.m_base.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
 			m.m_solid.m_colour.m_value = colour;
-			m_impl->m_materials[hash] = &m;
+			
 		}
 		return *m_impl->m_materials[hash];
 	}

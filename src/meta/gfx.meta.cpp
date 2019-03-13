@@ -125,36 +125,42 @@ void mud_AssetStore_mud_Flow_fetch(void* object, span<void*> args, void*& result
 void mud_AssetStore_mud_Flow_file(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Flow>*>(object)).file(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Flow_file_at(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Flow>*>(object)).file_at(*static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1])); }
 void mud_AssetStore_mud_Flow_destroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::AssetStore<mud::Flow>*>(object)).destroy(*static_cast<stl::string*>(args[0])); }
+void mud_AssetStore_mud_Flow_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::AssetStore<mud::Flow>*>(object)).clear(); }
 void mud_AssetStore_mud_Material_get(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Material>*>(object)).get(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Material_create(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Material>*>(object)).create(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Material_fetch(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Material>*>(object)).fetch(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Material_file(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Material>*>(object)).file(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Material_file_at(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Material>*>(object)).file_at(*static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1])); }
 void mud_AssetStore_mud_Material_destroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::AssetStore<mud::Material>*>(object)).destroy(*static_cast<stl::string*>(args[0])); }
+void mud_AssetStore_mud_Material_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::AssetStore<mud::Material>*>(object)).clear(); }
 void mud_AssetStore_mud_Model_get(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Model>*>(object)).get(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Model_create(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Model>*>(object)).create(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Model_fetch(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Model>*>(object)).fetch(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Model_file(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Model>*>(object)).file(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Model_file_at(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Model>*>(object)).file_at(*static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1])); }
 void mud_AssetStore_mud_Model_destroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::AssetStore<mud::Model>*>(object)).destroy(*static_cast<stl::string*>(args[0])); }
+void mud_AssetStore_mud_Model_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::AssetStore<mud::Model>*>(object)).clear(); }
 void mud_AssetStore_mud_Prefab_get(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Prefab>*>(object)).get(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Prefab_create(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Prefab>*>(object)).create(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Prefab_fetch(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Prefab>*>(object)).fetch(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Prefab_file(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Prefab>*>(object)).file(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Prefab_file_at(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Prefab>*>(object)).file_at(*static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1])); }
 void mud_AssetStore_mud_Prefab_destroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::AssetStore<mud::Prefab>*>(object)).destroy(*static_cast<stl::string*>(args[0])); }
+void mud_AssetStore_mud_Prefab_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::AssetStore<mud::Prefab>*>(object)).clear(); }
 void mud_AssetStore_mud_Program_get(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Program>*>(object)).get(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Program_create(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Program>*>(object)).create(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Program_fetch(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Program>*>(object)).fetch(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Program_file(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Program>*>(object)).file(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Program_file_at(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Program>*>(object)).file_at(*static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1])); }
 void mud_AssetStore_mud_Program_destroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::AssetStore<mud::Program>*>(object)).destroy(*static_cast<stl::string*>(args[0])); }
+void mud_AssetStore_mud_Program_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::AssetStore<mud::Program>*>(object)).clear(); }
 void mud_AssetStore_mud_Texture_get(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Texture>*>(object)).get(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Texture_create(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Texture>*>(object)).create(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Texture_fetch(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Texture>*>(object)).fetch(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Texture_file(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Texture>*>(object)).file(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Texture_file_at(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Texture>*>(object)).file_at(*static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1])); }
 void mud_AssetStore_mud_Texture_destroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::AssetStore<mud::Texture>*>(object)).destroy(*static_cast<stl::string*>(args[0])); }
+void mud_AssetStore_mud_Texture_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::AssetStore<mud::Texture>*>(object)).clear(); }
 void mud_Background__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Background(  ); }
 void mud_Background__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Background((*static_cast<mud::Background*>(other))); }
 void mud_Batch__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Batch(  ); }
@@ -953,7 +959,8 @@ namespace mud
 			{ t, "fetch", Address(), mud_AssetStore_mud_Flow_fetch, { { "name", type<stl::string>(),  } }, { &type<mud::Flow>(), QualType::None } },
 			{ t, "file", Address(), mud_AssetStore_mud_Flow_file, { { "name", type<stl::string>(),  } }, { &type<mud::Flow>(), QualType::None } },
 			{ t, "file_at", Address(), mud_AssetStore_mud_Flow_file_at, { { "path", type<stl::string>(),  }, { "name", type<stl::string>(),  } }, { &type<mud::Flow>(), QualType::None } },
-			{ t, "destroy", Address(), mud_AssetStore_mud_Flow_destroy, { { "name", type<stl::string>(),  } }, g_qvoid }
+			{ t, "destroy", Address(), mud_AssetStore_mud_Flow_destroy, { { "name", type<stl::string>(),  } }, g_qvoid },
+			{ t, "clear", Address(), mud_AssetStore_mud_Flow_clear, {}, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, methods, {}, };
@@ -974,7 +981,8 @@ namespace mud
 			{ t, "fetch", Address(), mud_AssetStore_mud_Material_fetch, { { "name", type<stl::string>(),  } }, { &type<mud::Material>(), QualType::None } },
 			{ t, "file", Address(), mud_AssetStore_mud_Material_file, { { "name", type<stl::string>(),  } }, { &type<mud::Material>(), QualType::None } },
 			{ t, "file_at", Address(), mud_AssetStore_mud_Material_file_at, { { "path", type<stl::string>(),  }, { "name", type<stl::string>(),  } }, { &type<mud::Material>(), QualType::None } },
-			{ t, "destroy", Address(), mud_AssetStore_mud_Material_destroy, { { "name", type<stl::string>(),  } }, g_qvoid }
+			{ t, "destroy", Address(), mud_AssetStore_mud_Material_destroy, { { "name", type<stl::string>(),  } }, g_qvoid },
+			{ t, "clear", Address(), mud_AssetStore_mud_Material_clear, {}, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, methods, {}, };
@@ -995,7 +1003,8 @@ namespace mud
 			{ t, "fetch", Address(), mud_AssetStore_mud_Model_fetch, { { "name", type<stl::string>(),  } }, { &type<mud::Model>(), QualType::None } },
 			{ t, "file", Address(), mud_AssetStore_mud_Model_file, { { "name", type<stl::string>(),  } }, { &type<mud::Model>(), QualType::None } },
 			{ t, "file_at", Address(), mud_AssetStore_mud_Model_file_at, { { "path", type<stl::string>(),  }, { "name", type<stl::string>(),  } }, { &type<mud::Model>(), QualType::None } },
-			{ t, "destroy", Address(), mud_AssetStore_mud_Model_destroy, { { "name", type<stl::string>(),  } }, g_qvoid }
+			{ t, "destroy", Address(), mud_AssetStore_mud_Model_destroy, { { "name", type<stl::string>(),  } }, g_qvoid },
+			{ t, "clear", Address(), mud_AssetStore_mud_Model_clear, {}, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, methods, {}, };
@@ -1016,7 +1025,8 @@ namespace mud
 			{ t, "fetch", Address(), mud_AssetStore_mud_Prefab_fetch, { { "name", type<stl::string>(),  } }, { &type<mud::Prefab>(), QualType::None } },
 			{ t, "file", Address(), mud_AssetStore_mud_Prefab_file, { { "name", type<stl::string>(),  } }, { &type<mud::Prefab>(), QualType::None } },
 			{ t, "file_at", Address(), mud_AssetStore_mud_Prefab_file_at, { { "path", type<stl::string>(),  }, { "name", type<stl::string>(),  } }, { &type<mud::Prefab>(), QualType::None } },
-			{ t, "destroy", Address(), mud_AssetStore_mud_Prefab_destroy, { { "name", type<stl::string>(),  } }, g_qvoid }
+			{ t, "destroy", Address(), mud_AssetStore_mud_Prefab_destroy, { { "name", type<stl::string>(),  } }, g_qvoid },
+			{ t, "clear", Address(), mud_AssetStore_mud_Prefab_clear, {}, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, methods, {}, };
@@ -1037,7 +1047,8 @@ namespace mud
 			{ t, "fetch", Address(), mud_AssetStore_mud_Program_fetch, { { "name", type<stl::string>(),  } }, { &type<mud::Program>(), QualType::None } },
 			{ t, "file", Address(), mud_AssetStore_mud_Program_file, { { "name", type<stl::string>(),  } }, { &type<mud::Program>(), QualType::None } },
 			{ t, "file_at", Address(), mud_AssetStore_mud_Program_file_at, { { "path", type<stl::string>(),  }, { "name", type<stl::string>(),  } }, { &type<mud::Program>(), QualType::None } },
-			{ t, "destroy", Address(), mud_AssetStore_mud_Program_destroy, { { "name", type<stl::string>(),  } }, g_qvoid }
+			{ t, "destroy", Address(), mud_AssetStore_mud_Program_destroy, { { "name", type<stl::string>(),  } }, g_qvoid },
+			{ t, "clear", Address(), mud_AssetStore_mud_Program_clear, {}, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, methods, {}, };
@@ -1058,7 +1069,8 @@ namespace mud
 			{ t, "fetch", Address(), mud_AssetStore_mud_Texture_fetch, { { "name", type<stl::string>(),  } }, { &type<mud::Texture>(), QualType::None } },
 			{ t, "file", Address(), mud_AssetStore_mud_Texture_file, { { "name", type<stl::string>(),  } }, { &type<mud::Texture>(), QualType::None } },
 			{ t, "file_at", Address(), mud_AssetStore_mud_Texture_file_at, { { "path", type<stl::string>(),  }, { "name", type<stl::string>(),  } }, { &type<mud::Texture>(), QualType::None } },
-			{ t, "destroy", Address(), mud_AssetStore_mud_Texture_destroy, { { "name", type<stl::string>(),  } }, g_qvoid }
+			{ t, "destroy", Address(), mud_AssetStore_mud_Texture_destroy, { { "name", type<stl::string>(),  } }, g_qvoid },
+			{ t, "clear", Address(), mud_AssetStore_mud_Texture_clear, {}, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, methods, {}, };

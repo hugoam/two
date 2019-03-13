@@ -314,8 +314,9 @@ namespace mud
 		};
 
 		uint64_t flags = bgfx_primitive[m_primitive];
-		if(m_primitive == PrimitiveType::Lines || m_primitive == PrimitiveType::LineStrip)
-			flags |= BGFX_STATE_LINEAA;
+		// line aa needs blend mode to be alpha, and it looks ugly anyway (and only works in GL)
+		//if(m_primitive == PrimitiveType::Lines || m_primitive == PrimitiveType::LineStrip)
+		//	flags |= BGFX_STATE_LINEAA;
 		return flags;
 	}
 }

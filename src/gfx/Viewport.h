@@ -46,7 +46,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Viewport : public Entt
 	{
 	public:
-		Viewport(Camera& camera, Scene& scene, uvec4 rect = {}, bool scissor = false);
+		Viewport(Camera& camera, Scene& scene, uvec4 rect = uvec4(0U), bool scissor = false);
 		~Viewport();
 
 		attr_ Camera* m_camera;

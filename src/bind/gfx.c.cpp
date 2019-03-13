@@ -183,6 +183,9 @@ extern "C" {
 	void DECL mud_AssetStore_mud_Flow_destroy_1(mud::AssetStore<mud::Flow>* self, const char* name) {
 		self->destroy(name);
 	}
+	void DECL mud_AssetStore_mud_Flow_clear_0(mud::AssetStore<mud::Flow>* self) {
+		self->clear();
+	}
 	void DECL mud_AssetStore_mud_Flow__destroy(mud::AssetStore<mud::Flow>* self) {
 		delete self;
 	}
@@ -207,6 +210,9 @@ extern "C" {
 	}
 	void DECL mud_AssetStore_mud_Material_destroy_1(mud::AssetStore<mud::Material>* self, const char* name) {
 		self->destroy(name);
+	}
+	void DECL mud_AssetStore_mud_Material_clear_0(mud::AssetStore<mud::Material>* self) {
+		self->clear();
 	}
 	void DECL mud_AssetStore_mud_Material__destroy(mud::AssetStore<mud::Material>* self) {
 		delete self;
@@ -233,6 +239,9 @@ extern "C" {
 	void DECL mud_AssetStore_mud_Model_destroy_1(mud::AssetStore<mud::Model>* self, const char* name) {
 		self->destroy(name);
 	}
+	void DECL mud_AssetStore_mud_Model_clear_0(mud::AssetStore<mud::Model>* self) {
+		self->clear();
+	}
 	void DECL mud_AssetStore_mud_Model__destroy(mud::AssetStore<mud::Model>* self) {
 		delete self;
 	}
@@ -257,6 +266,9 @@ extern "C" {
 	}
 	void DECL mud_AssetStore_mud_Prefab_destroy_1(mud::AssetStore<mud::Prefab>* self, const char* name) {
 		self->destroy(name);
+	}
+	void DECL mud_AssetStore_mud_Prefab_clear_0(mud::AssetStore<mud::Prefab>* self) {
+		self->clear();
 	}
 	void DECL mud_AssetStore_mud_Prefab__destroy(mud::AssetStore<mud::Prefab>* self) {
 		delete self;
@@ -283,6 +295,9 @@ extern "C" {
 	void DECL mud_AssetStore_mud_Program_destroy_1(mud::AssetStore<mud::Program>* self, const char* name) {
 		self->destroy(name);
 	}
+	void DECL mud_AssetStore_mud_Program_clear_0(mud::AssetStore<mud::Program>* self) {
+		self->clear();
+	}
 	void DECL mud_AssetStore_mud_Program__destroy(mud::AssetStore<mud::Program>* self) {
 		delete self;
 	}
@@ -307,6 +322,9 @@ extern "C" {
 	}
 	void DECL mud_AssetStore_mud_Texture_destroy_1(mud::AssetStore<mud::Texture>* self, const char* name) {
 		self->destroy(name);
+	}
+	void DECL mud_AssetStore_mud_Texture_clear_0(mud::AssetStore<mud::Texture>* self) {
+		self->clear();
 	}
 	void DECL mud_AssetStore_mud_Texture__destroy(mud::AssetStore<mud::Texture>* self) {
 		delete self;

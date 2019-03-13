@@ -1279,6 +1279,9 @@ Widget.prototype["ui"] = Widget.prototype.ui = function() {
 Widget.prototype["parent_modal"] = Widget.prototype.parent_modal = function() {
     return wrapPointer(_mud_Widget_parent_modal_0(this.__ptr), Widget);
 };
+Widget.prototype["clear"] = Widget.prototype.clear = function() {
+    _mud_Widget_clear_0(this.__ptr);
+};
 Widget.prototype["toggle_state"] = Widget.prototype.toggle_state = function(a0) {
     _mud_Widget_toggle_state_1(this.__ptr, /*state*/a0);
 };

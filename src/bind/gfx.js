@@ -219,6 +219,9 @@ AssetStore_mud_Flow.prototype["destroy"] = AssetStore_mud_Flow.prototype.destroy
     ensureCache.prepare();
     _mud_AssetStore_mud_Flow_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
+AssetStore_mud_Flow.prototype["clear"] = AssetStore_mud_Flow.prototype.clear = function() {
+    _mud_AssetStore_mud_Flow_clear_0(this.__ptr);
+};
 AssetStore_mud_Flow.prototype["__destroy"] = AssetStore_mud_Flow.prototype.__destroy = function() {
     _mud_AssetStore_mud_Flow__destroy(this.__ptr);
 };
@@ -252,6 +255,9 @@ AssetStore_mud_Material.prototype["file_at"] = AssetStore_mud_Material.prototype
 AssetStore_mud_Material.prototype["destroy"] = AssetStore_mud_Material.prototype.destroy = function(a0) {
     ensureCache.prepare();
     _mud_AssetStore_mud_Material_destroy_1(this.__ptr, ensureString(/*name*/a0));
+};
+AssetStore_mud_Material.prototype["clear"] = AssetStore_mud_Material.prototype.clear = function() {
+    _mud_AssetStore_mud_Material_clear_0(this.__ptr);
 };
 AssetStore_mud_Material.prototype["__destroy"] = AssetStore_mud_Material.prototype.__destroy = function() {
     _mud_AssetStore_mud_Material__destroy(this.__ptr);
@@ -287,6 +293,9 @@ AssetStore_mud_Model.prototype["destroy"] = AssetStore_mud_Model.prototype.destr
     ensureCache.prepare();
     _mud_AssetStore_mud_Model_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
+AssetStore_mud_Model.prototype["clear"] = AssetStore_mud_Model.prototype.clear = function() {
+    _mud_AssetStore_mud_Model_clear_0(this.__ptr);
+};
 AssetStore_mud_Model.prototype["__destroy"] = AssetStore_mud_Model.prototype.__destroy = function() {
     _mud_AssetStore_mud_Model__destroy(this.__ptr);
 };
@@ -320,6 +329,9 @@ AssetStore_mud_Prefab.prototype["file_at"] = AssetStore_mud_Prefab.prototype.fil
 AssetStore_mud_Prefab.prototype["destroy"] = AssetStore_mud_Prefab.prototype.destroy = function(a0) {
     ensureCache.prepare();
     _mud_AssetStore_mud_Prefab_destroy_1(this.__ptr, ensureString(/*name*/a0));
+};
+AssetStore_mud_Prefab.prototype["clear"] = AssetStore_mud_Prefab.prototype.clear = function() {
+    _mud_AssetStore_mud_Prefab_clear_0(this.__ptr);
 };
 AssetStore_mud_Prefab.prototype["__destroy"] = AssetStore_mud_Prefab.prototype.__destroy = function() {
     _mud_AssetStore_mud_Prefab__destroy(this.__ptr);
@@ -355,6 +367,9 @@ AssetStore_mud_Program.prototype["destroy"] = AssetStore_mud_Program.prototype.d
     ensureCache.prepare();
     _mud_AssetStore_mud_Program_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
+AssetStore_mud_Program.prototype["clear"] = AssetStore_mud_Program.prototype.clear = function() {
+    _mud_AssetStore_mud_Program_clear_0(this.__ptr);
+};
 AssetStore_mud_Program.prototype["__destroy"] = AssetStore_mud_Program.prototype.__destroy = function() {
     _mud_AssetStore_mud_Program__destroy(this.__ptr);
 };
@@ -388,6 +403,9 @@ AssetStore_mud_Texture.prototype["file_at"] = AssetStore_mud_Texture.prototype.f
 AssetStore_mud_Texture.prototype["destroy"] = AssetStore_mud_Texture.prototype.destroy = function(a0) {
     ensureCache.prepare();
     _mud_AssetStore_mud_Texture_destroy_1(this.__ptr, ensureString(/*name*/a0));
+};
+AssetStore_mud_Texture.prototype["clear"] = AssetStore_mud_Texture.prototype.clear = function() {
+    _mud_AssetStore_mud_Texture_clear_0(this.__ptr);
 };
 AssetStore_mud_Texture.prototype["__destroy"] = AssetStore_mud_Texture.prototype.__destroy = function() {
     _mud_AssetStore_mud_Texture__destroy(this.__ptr);

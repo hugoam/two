@@ -48,6 +48,7 @@ namespace mud
 		meth_ T_Asset* file(const string& name);
 		meth_ T_Asset& file_at(const string& path, const string& name);
 		meth_ void destroy(const string& name);
+		meth_ void clear();
 
 		T_Asset& create(const string& name, const Init& init);
 

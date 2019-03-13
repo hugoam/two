@@ -72,6 +72,7 @@ namespace mud
 
 	export_ enum MaterialShaderOption : unsigned int
 	{
+		VERTEX_COLOR,
 		DOUBLE_SIDED,
 		ALPHA_MAP,
 		ALPHA_TEST,

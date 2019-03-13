@@ -96,10 +96,14 @@ namespace mud
 	inline uint32_t SparseHandles::remove(uint32_t handle)
 	{
 		const uint32_t index = m_indices[handle];
+		const bool back = index == m_handles.size() - 1;
 		swap_pop(m_handles, index);
 
-		const uint32_t moved = m_handles[index];
-		m_indices[moved] = index;
+		//if(!back)
+		{
+			const uint32_t moved = m_handles[index];
+			m_indices[moved] = index;
+		}
 		m_indices[handle] = UINT32_MAX;
 		return index;
 	}

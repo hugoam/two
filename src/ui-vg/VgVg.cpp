@@ -124,6 +124,7 @@ namespace mud
 	void VgVg::begin_frame(const vec4& rect, float pixel_ratio)
 	{
 		bgfx::setViewFrameBuffer(240, BGFX_INVALID_HANDLE);
+		bgfx::setViewClear(240, BGFX_CLEAR_COLOR, 0x000000ff);
 		bgfx::setViewRect(240, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect.width), uint16_t(rect.height));
 		bgfx::setViewMode(240, bgfx::ViewMode::Sequential);
 		bgfx::setViewName(240, "ui");

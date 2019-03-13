@@ -1022,6 +1022,9 @@ extern "C" {
 	mud::Widget* DECL mud_Widget_parent_modal_0(mud::Widget* self) {
 		return &self->parent_modal();
 	}
+	void DECL mud_Widget_clear_0(mud::Widget* self) {
+		self->clear();
+	}
 	void DECL mud_Widget_toggle_state_1(mud::Widget* self, mud::WidgetState state) {
 		self->toggle_state(state);
 	}

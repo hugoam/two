@@ -174,6 +174,7 @@ namespace mud
 	inline uint32_t GridECS::create()
 	{
 		uint32_t handle = m_available.size() > 0 ? pop(m_available) : m_handles.alloc();
+		m_handles.add(handle);
 		this->add();
 		return handle;
 	}

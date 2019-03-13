@@ -123,6 +123,7 @@ void mud_Widget_closed(void* object, span<void*> args, void*& result) { UNUSED(a
 void mud_Widget_ui_window(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Widget*>(object)).ui_window(); }
 void mud_Widget_ui(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Widget*>(object)).ui(); }
 void mud_Widget_parent_modal(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Widget*>(object)).parent_modal(); }
+void mud_Widget_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Widget*>(object)).clear(); }
 void mud_Widget_toggle_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).toggle_state(*static_cast<mud::WidgetState*>(args[0])); }
 void mud_Widget_disable_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).disable_state(*static_cast<mud::WidgetState*>(args[0])); }
 void mud_Widget_set_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Widget*>(object)).set_state(*static_cast<mud::WidgetState*>(args[0]), *static_cast<bool*>(args[1])); }
@@ -1437,6 +1438,7 @@ namespace mud
 			{ t, "ui_window", Address(), mud_Widget_ui_window, {}, { &type<mud::UiWindow>(), QualType::None } },
 			{ t, "ui", Address(), mud_Widget_ui, {}, { &type<mud::Ui>(), QualType::None } },
 			{ t, "parent_modal", Address(), mud_Widget_parent_modal, {}, { &type<mud::Widget>(), QualType::None } },
+			{ t, "clear", Address(), mud_Widget_clear, {}, g_qvoid },
 			{ t, "toggle_state", Address(), mud_Widget_toggle_state, { { "state", type<mud::WidgetState>(),  } }, g_qvoid },
 			{ t, "disable_state", Address(), mud_Widget_disable_state, { { "state", type<mud::WidgetState>(),  } }, g_qvoid },
 			{ t, "set_state", Address(), mud_Widget_set_state, { { "state", type<mud::WidgetState>(),  }, { "enabled", type<bool>(),  } }, g_qvoid },

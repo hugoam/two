@@ -421,6 +421,7 @@ namespace mud
 
 		ProgramVersion version = { &program };
 
+		version.set_option(mat.m_index, VERTEX_COLOR, m_base.m_shader_color == ShaderColor::Vertex);
 		version.set_option(mat.m_index, DOUBLE_SIDED, m_base.m_cull_mode == CullMode::None);
 
 		//version.set_option(mat.m_index, ALPHA, m_alpha.m_is_alpha);
@@ -528,7 +529,8 @@ namespace mud
 	BlockMaterial::BlockMaterial(GfxSystem& gfx)
 		: GfxBlock(gfx, *this)
 	{
-		static cstring options[] = { "DOUBLE_SIDED", "ALPHA_MAP", "ALPHA_TEST", "DASH" }; // @todo move dash to correct place
+		// @todo move dash to correct place
+		static cstring options[] = { "VERTEX_COLOR", "DOUBLE_SIDED", "ALPHA_MAP", "ALPHA_TEST", "DASH" };
 		m_shader_block->m_options = options;
 	}
 

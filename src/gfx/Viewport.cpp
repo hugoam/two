@@ -41,7 +41,9 @@ namespace mud
 	}
 
 	Viewport::~Viewport()
-	{}
+	{
+		s_viewer_ecs.destroy(m_handle);
+	}
 
 	void Viewport::render_pass(const Pass& render_pass)
 	{

@@ -45,6 +45,8 @@ namespace mud
 		meth_ Ui& ui();
 		meth_ Widget& parent_modal();
 
+		meth_ void clear();
+
 		void set_content(cstring content);
 
 		meth_ void toggle_state(WidgetState state);

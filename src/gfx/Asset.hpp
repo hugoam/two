@@ -79,6 +79,13 @@ namespace mud
 	}
 
 	template <class T_Asset>
+	void AssetStore<T_Asset>::clear()
+	{
+		m_vector.clear();
+		m_assets.clear();
+	}
+
+	template <class T_Asset>
 	T_Asset& AssetStore<T_Asset>::fetch(const string& name)
 	{
 		if(m_assets.find(name) == m_assets.end())
