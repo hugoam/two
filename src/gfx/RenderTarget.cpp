@@ -143,6 +143,11 @@ namespace mud
 			m_msaa = MSAA::Disabled;
 
 		const uint64_t flags = msaa_flag[m_msaa];
+		const uint64_t depth_flags = flags;
+
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+		depth_flags |= GFX_TEXTURE_POINT;
+#endif
 
 		m_depth = { size, false, bgfx::TextureFormat::D24S8, flags };
 
@@ -179,9 +184,7 @@ namespace mud
 		m_ping_pong.create(size, color_format);
 		m_post_process.create(size, color_format);
 
-#if !defined MUD_PLATFORM_EMSCRIPTEN || defined MUD_WEBGL2
 		m_cascade.create(size, color_format);
-#endif
 
 #ifdef MUD_GFX_DEFERRED
 		m_deferred = true;
