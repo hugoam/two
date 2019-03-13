@@ -50,7 +50,7 @@ static string fragment_shader()
 	return shader;
 }
 
-void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	constexpr size_t numLat = 100;
@@ -62,25 +62,25 @@ void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar)
 	Scene& scene = viewer.m_scene;
 
 	static Program program = { "program" };
-	program.m_blocks[MaterialBlock::Solid] = true;
-	program.m_sources[ShaderType::Vertex] = vertex_shader();
-	program.m_sources[ShaderType::Fragment] = fragment_shader();
-
-	static Material& material = app.m_gfx.materials().create("material", [](Material& m) {
-		m.m_program = &program;
-	});
+	if(init)
+	{
+		program.m_blocks[MaterialBlock::Solid] = true;
+		program.m_sources[ShaderType::Vertex] = vertex_shader();
+		program.m_sources[ShaderType::Fragment] = fragment_shader();
+	}
 
 	static Model* model = nullptr;
 	static Node3* node = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 45.f; camera.m_near = 0.01f; camera.m_far = 10.f;
 		camera.m_eye.z = 3.5f;
+		
+		Material& material = app.m_gfx.materials().create("material", [](Material& m) {
+			m.m_program = &program;
+		});
 
 		//scene.add(new THREE.AmbientLight(0x444444));
 

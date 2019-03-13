@@ -10,24 +10,19 @@ using namespace mud;
 
 //	import './js/nodes/THREE.Nodes.js';
 
-void xx_performance_nodes(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_perf_nodes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controller(viewer);
 
 	Scene& scene = viewer.m_scene;
 
-	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
+	static Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
 
 	static vector<Node3*> meshes;
 
-	static Model& geometry = gfx::model_suzanne(app.m_gfx);
-
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 10000.f;
 		camera.m_eye.z = 3200.f;
@@ -38,6 +33,8 @@ void xx_performance_nodes(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	auto createScene = [&](int MaterialClass, size_t count = 70)
 	{
+		Model& geometry = gfx::model_suzanne(app.m_gfx);
+
 		for(size_t i = 0; i < meshes.size(); i++)
 		{
 			//meshes[i].material.dispose();
@@ -51,7 +48,7 @@ void xx_performance_nodes(Shell& app, Widget& parent, Dockbar& dockbar)
 		{
 			const Colour colour = rgb(randi() * 0xffffff);
 
-			static Material& material = app.m_gfx.materials().create("material",  [&](Material& m) {
+			Material& material = app.m_gfx.materials().create("material",  [&](Material& m) {
 				m.m_program = &pbr;
 				m.m_pbr.m_albedo = colour;
 			});

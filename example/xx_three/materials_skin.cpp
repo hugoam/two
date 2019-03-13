@@ -22,7 +22,7 @@ using namespace mud;
 //<script src = "js/postprocessing/ShaderPass.js">< / script>
 //<script src = "js/postprocessing/MaskPass.js">< / script>
 
-void xx_materials_skin(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_materials_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	static ImporterGltf importer_gltf = { app.m_gfx };
@@ -37,11 +37,8 @@ void xx_materials_skin(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Node3* mesh = nullptr;
 	static vec3 rotation = vec3(0.f);
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 35.f; camera.m_near = 1.f; camera.m_far = 10000.f;
 		camera.m_eye.z = 900.f;

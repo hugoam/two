@@ -186,7 +186,7 @@ void pass_glitch(GfxSystem& gfx, Render& render, Glitch& glitch, uint dt_size = 
 	copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
 }
 
-void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -198,11 +198,8 @@ void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar)
 	struct Node { vec3 p; vec3 a; vec3 s; Node3* n; };
 	static vector<Node> nodes;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		camera.m_eye.z = 400.f;

@@ -60,7 +60,7 @@ static string fragment_shader()
 	return shader;
 }
 
-void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	constexpr size_t num_instances = 50000;
 
@@ -74,27 +74,24 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar)
 	program.m_sources[ShaderType::Vertex] = vertex_shader();
 	program.m_sources[ShaderType::Fragment] = fragment_shader();
 
-	static Material& material = app.m_gfx.materials().create("instances", [](Material& m) {
-		m.m_program = &program;
-		m.m_base.m_cull_mode = CullMode::None;
-		m.m_base.m_blend_mode = BlendMode::Alpha;
-		m.m_alpha.m_is_alpha = true;
-	});
-
 	struct Instance { vec3 offset; float pad = 0.f; Colour colour; vec4 orientation_start; vec4 orientation_end; };
 	static vector<Instance> instances(num_instances);
 
 	static Node3* node = nullptr;
 	static Batch* batch = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 50.f; camera.m_near = 0.1f; camera.m_far = 10.f;
 		camera.m_eye.z = 2.f;
+		
+		Material& material = app.m_gfx.materials().create("instances", [](Material& m) {
+			m.m_program = &program;
+			m.m_base.m_cull_mode = CullMode::None;
+			m.m_base.m_blend_mode = BlendMode::Alpha;
+			m.m_alpha.m_is_alpha = true;
+		});
 
 		for(size_t i = 0; i < num_instances; ++i)
 		{

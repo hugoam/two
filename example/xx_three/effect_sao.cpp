@@ -438,7 +438,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 	}
 }
 
-void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -450,11 +450,8 @@ void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static SAO sao = {};
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 65.f; camera.m_near = 3.f; camera.m_far = 10.f;
 		camera.m_eye.z = 7.f;

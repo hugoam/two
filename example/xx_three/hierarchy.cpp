@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -18,18 +18,12 @@ void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Program& normal = app.m_gfx.programs().fetch("normal");
 
-	static Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
-		m.m_program = &normal;
-	});
-
 	static Node3* group = nullptr;
-	static vector<Node3> nodes;
+	struct Node { vec3 p; vec3 a; Node3* node; };
+	static vector<Node> nodes;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 10000.f;
 		camera.m_eye.z = 500.f;
@@ -37,11 +31,16 @@ void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar)
 		//scene.background = new THREE.Color(0xffffff);
 		//scene.fog = new THREE.Fog(0xffffff, 1, 10000);
 
+		Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
+			m.m_program = &normal;
+		});
+
 		Model& geometry = app.m_gfx.shape(Cube(50.f));
 
 		Node3& node = gfx::nodes(scene).add(Node3());
 		group = &node;
 
+		nodes.clear();
 		for(size_t i = 0; i < 1000; i++)
 		{
 			vec3 p = vec3(randf(), randf(), randf()) * 2000.f - 1000.f;
@@ -49,6 +48,7 @@ void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar)
 
 			Node3& n = gfx::nodes(scene).add(Node3(p, quat(a)));
 			gfx::items(scene).add(Item(n, geometry, 0U, &material));
+			nodes.push_back({ p, a, &n });
 		}
 	}
 
@@ -71,4 +71,9 @@ void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar)
 	//camera.lookAt(scene.position);
 
 	group->apply(vec3(0.f), quat(vec3(rx, ry, rz)));
+
+	for(Node& n : nodes)
+	{
+		n.node->derive(*group, n.p, quat(n.a));
+	}
 }

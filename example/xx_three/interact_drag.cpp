@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_interact_drag(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_interact_drag(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -21,11 +21,8 @@ void xx_interact_drag(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static vector<Node3*> objects;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 5000.f;
 		camera.m_eye.z = 1000.f;

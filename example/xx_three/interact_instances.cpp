@@ -312,7 +312,7 @@ static string fragment_material()
 </div>
 #endif
 
-void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(app); UNUSED(parent); UNUSED(dockbar);
 #if 0

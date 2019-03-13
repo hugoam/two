@@ -58,10 +58,10 @@ static string fragment_shader()
 	return shader;
 }
 
-void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
-	constexpr size_t particleCount = 75000;
+	constexpr size_t particles = 75000;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 #if GLITCH
@@ -71,35 +71,35 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 	Scene& scene = viewer.m_scene;
 
 	static Program program = { "circles" };
-	program.m_blocks[MaterialBlock::Solid] = true;
-	program.m_sources[ShaderType::Vertex] = vertex_shader();
-	program.m_sources[ShaderType::Fragment] = fragment_shader();
+	if(init)
+	{
+		program.m_blocks[MaterialBlock::Solid] = true;
+		program.m_sources[ShaderType::Vertex] = vertex_shader();
+		program.m_sources[ShaderType::Fragment] = fragment_shader();
+	}
 
 	static Texture& texture = *app.m_gfx.textures().file("sprites/circle.png");
 
-	static Material& material = app.m_gfx.materials().create("circles", [](Material& m) {
-		m.m_program = &program;
-		m.m_base.m_depth_test = DepthTest::Enabled;
-		m.m_base.m_depth_draw = DepthDraw::Enabled;
-#if !GLITCH
-		m.m_solid.m_colour = &texture;
-#endif
-	});
-
 	struct Instance { vec3 position; float distance; };
-	static vector<Instance> instances(particleCount);
+	static vector<Instance> instances(particles);
 
 	static Node3* node = nullptr;
 	static Batch* batch = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 50.f; camera.m_near = 1.f; camera.m_far = 5000.f;
 		camera.m_eye.z = 1400.f;
+		
+		Material& material = app.m_gfx.materials().create("circles", [](Material& m) {
+			m.m_program = &program;
+			m.m_base.m_depth_test = DepthTest::Enabled;
+			m.m_base.m_depth_draw = DepthDraw::Enabled;
+	#if !GLITCH
+			m.m_solid.m_colour = &texture;
+	#endif
+		});
 
 		// cool glitch
 #if GLITCH
@@ -108,7 +108,7 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
 		Model& circle = app.m_gfx.shape(Circle(1.f, Axis::Z)); // new THREE.CircleBufferGeometry(1, 6);
 #endif
 
-		for(size_t i = 0; i < particleCount; ++i)
+		for(size_t i = 0; i < particles; ++i)
 		{
 			instances[i] = { vec3(randf(), randf(), randf()) * 2.f - 1.f };
 		}

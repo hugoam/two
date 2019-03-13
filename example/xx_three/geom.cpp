@@ -12,7 +12,7 @@
 
 using namespace mud;
 
-void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	constexpr uint max_particles = 1000;
@@ -49,24 +49,6 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Program& pointprog = app.m_gfx.programs().fetch("point");
 	static Program& lineprog = app.m_gfx.programs().fetch("line");
 
-	//Material& material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
-	static Material& pointmat = app.m_gfx.materials().create("point", [&](Material& m) {
-		m.m_program = &pointprog;
-		m.m_base.m_blend_mode = BlendMode::Add;
-		m.m_alpha.m_is_alpha = true;
-		m.m_solid.m_colour = rgb(0xffffff);//hsl(1.f, 0.3f, 0.7f);
-		m.m_point.m_project = false;
-		m.m_point.m_point_size = 3.f;
-	});
-
-	static Material& linemat = app.m_gfx.materials().create("line", [&](Material& m) {
-		m.m_program = &lineprog;
-		m.m_base.m_blend_mode = BlendMode::Add;
-		m.m_base.m_shader_color = ShaderColor::Vertex;
-		m.m_alpha.m_is_alpha = true;
-		m.m_line.m_dashed = true;
-	});
-
 	struct Particle { vec3 position; vec3 velocity; uint32_t numConnections; };
 	static vector<Particle> particles;
 
@@ -80,14 +62,29 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Batch* lines_batch = nullptr;
 #endif
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_near = 1.f; camera.m_far = 4000.f;
 		camera.m_eye.z = 1750.f;
+		
+		//Material& material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
+		Material& pointmat = app.m_gfx.materials().create("point", [&](Material& m) {
+			m.m_program = &pointprog;
+			m.m_base.m_blend_mode = BlendMode::Add;
+			m.m_alpha.m_is_alpha = true;
+			m.m_solid.m_colour = rgb(0xffffff);//hsl(1.f, 0.3f, 0.7f);
+			m.m_point.m_project = false;
+			m.m_point.m_point_size = 3.f;
+		});
+
+		Material& linemat = app.m_gfx.materials().create("line", [&](Material& m) {
+			m.m_program = &lineprog;
+			m.m_base.m_blend_mode = BlendMode::Add;
+			m.m_base.m_shader_color = ShaderColor::Vertex;
+			m.m_alpha.m_is_alpha = true;
+			m.m_line.m_dashed = true;
+		});
 
 #if INSTANCING
 		Model& points_model = *app.m_gfx.models().get("point");

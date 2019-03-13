@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_interact_cubes_gpu(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_interact_cubes_gpu(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -31,24 +31,21 @@ void xx_interact_cubes_gpu(Shell& app, Widget& parent, Dockbar& dockbar)
 	
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
-	//var defaultMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading : true, vertexColors : THREE.VertexColors, shininess : 0 });
-	static Material& material = app.m_gfx.materials().create("material",  [&](Material& m) {
-		m.m_program = &pbr;
-		m.m_base.m_shader_color = ShaderColor::Vertex;
-		m.m_pbr.m_albedo = rgb(0xffffff);
-		m.m_pbr.m_roughness = 1.f;
-		// flatShading = true;
-		// shininess : 0
-	});
-
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 10000.f;
 		camera.m_eye.z = 1000.f;
+		
+		//var defaultMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading : true, vertexColors : THREE.VertexColors, shininess : 0 });
+		Material& material = app.m_gfx.materials().create("material",  [&](Material& m) {
+			m.m_program = &pbr;
+			m.m_base.m_shader_color = ShaderColor::Vertex;
+			m.m_pbr.m_albedo = rgb(0xffffff);
+			m.m_pbr.m_roughness = 1.f;
+			// flatShading = true;
+			// shininess : 0
+		});
 
 		//scene.background = new THREE.Color(0xffffff);
 

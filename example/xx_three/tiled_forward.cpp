@@ -161,7 +161,7 @@ var lightBounds = function() {
 
 #endif
 
-void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	static ImporterOBJ obj_importer(app.m_gfx);
 
@@ -173,7 +173,6 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	viewer.m_viewport.comp<Tonemap>().m_enabled = true;
 
-	//var controls = new THREE.OrbitControls(camera, renderer.domElement);
 	//controls.minDistance = 120;
 	//controls.maxDistance = 320;
 
@@ -216,28 +215,25 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar)
 	scene.m_env.m_radiance.m_ambient = 0.33f;
 	//scene.add(new THREE.AmbientLight(0xffffff, 0.33));
 
-	auto create_material = [&](const string& name, auto init) -> Material* { return &app.m_gfx.materials().create(name, init); };
-
-	static Material* materials[] = {
-		create_material("first",  [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x888888); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f; }),
-		create_material("second", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x666666); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; }),
-		create_material("third",  [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x777777); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; m.m_pbr.m_specular_mode = PbrSpecularMode::Phong; }),
-		create_material("fourth", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x555555); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; m.m_pbr.m_diffuse_mode = PbrDiffuseMode::Toon; m.m_pbr.m_specular_mode = PbrSpecularMode::Toon; }),
-		//{ type: 'physical', uniforms : { "diffuse": 0x888888, "metalness" : 1.0, "roughness" : 0.66 }, defines : {} },
-		//{ type: 'standard', uniforms : { "diffuse": 0x666666, "metalness" : 0.1, "roughness" : 0.33 }, defines : {} },
-		//{ type: 'phong', uniforms : { "diffuse": 0x777777, "shininess" : 20 }, defines : {} },
-		//{ type: 'phong', uniforms : { "diffuse": 0x555555, "shininess" : 10 }, defines : { TOON: 1 } }
-	};
-
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Model& model = *app.m_gfx.models().file("WaltHead");
 		
 		Model& sphere = app.m_gfx.shape(Sphere(0.5f));
 		Model& big_sphere = app.m_gfx.shape(Sphere(0.5f * 6.66f));
+
+		auto create_material = [&](const string& name, auto init) -> Material* { return &app.m_gfx.materials().create(name, init); };
+
+		Material* materials[] = {
+			create_material("first",  [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x888888); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f; }),
+			create_material("second", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x666666); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; }),
+			create_material("third",  [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x777777); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; m.m_pbr.m_specular_mode = PbrSpecularMode::Phong; }),
+			create_material("fourth", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x555555); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; m.m_pbr.m_diffuse_mode = PbrDiffuseMode::Toon; m.m_pbr.m_specular_mode = PbrSpecularMode::Toon; }),
+			//{ type: 'physical', uniforms : { "diffuse": 0x888888, "metalness" : 1.0, "roughness" : 0.66 }, defines : {} },
+			//{ type: 'standard', uniforms : { "diffuse": 0x666666, "metalness" : 0.1, "roughness" : 0.33 }, defines : {} },
+			//{ type: 'phong', uniforms : { "diffuse": 0x777777, "shininess" : 20 }, defines : {} },
+			//{ type: 'phong', uniforms : { "diffuse": 0x555555, "shininess" : 10 }, defines : { TOON: 1 } }
+		};
 
 		size_t transparent = randi(0, 3);
 		materials[transparent]->m_alpha.m_alpha = 0.9f;

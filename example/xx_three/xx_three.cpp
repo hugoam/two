@@ -6,6 +6,8 @@
 
 using namespace mud;
 
+#define SIDE_PANEL 1
+
 // html ok :
 // xx_shadow_point (try shadows)
 // xx_tiled_forward (fix clusters)
@@ -21,41 +23,79 @@ using namespace mud;
 //xx_geom
 //xx_geom_instances
 
+using ExampleFunc = void(*)(Shell&, Widget&, Dockbar&, bool);
+struct Example { string name; ExampleFunc func; };
+Example examples[] = 
+{
+	"lights/point",			xx_lights_point,
+	"shadow/point",			xx_shadow_point,
+	"shader",				xx_shader,
+	"shader/lava",			xx_shader_lava,
+	"tiledforward",			xx_tiled_forward,
+	"perf",					xx_perf,
+	"perf/twosided",		xx_perf_twosided,
+	"perf/static",			xx_perf_static,
+	"billboards",			xx_billboards,
+	"lines/fat",			xx_lines_fat,
+	"lines/dashed",			xx_lines_dashed,
+	"geom",					xx_geom,
+	"geom/sprites",			xx_geom_sprites,
+	"geom/instances",		xx_geom_instances,
+	"geom/lines",			xx_geom_lines,
+	"geom/points",			xx_geom_points,
+	"geom/points/instance", xx_geom_points_instanced,
+	"geom/rawshader",		xx_geom_rawshader,
+	"geom/selective",		xx_geom_selective,
+	//"interact/cubes",		xx_interact_cubes,
+	//"interact/cubes",		xx_interact_geom,
+	"marchingcubes",		xx_marching_cubes,
+	"hierarchy",			xx_hierarchy,
+	"hierarchy2",			xx_hierarchy2,
+	"materials/skin",		xx_materials_skin,
+	"materials/standard",	xx_materials_standard,
+	"materials/variations", xx_materials_variations,
+	"depthtexture",			xx_depth_texture,
+	"effect/dof",			xx_effect_dof,
+	"effect/godrays",		xx_effect_godrays,
+	"effect/glitch",		xx_effect_glitch,
+	"effect/sao",			xx_effect_sao,
+};
+
+vector<cstring> example_labels()
+{
+	vector<cstring> vec;
+	for(const Example& ex : examples)
+		vec.push_back(ex.name.c_str());
+	return vec;
+}
+
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	//xx_lights_point(app, parent, dockbar);
-	//xx_shadow_point(app, parent, dockbar);
-	//xx_shader(app, parent, dockbar);
-	//xx_shader_lava(app, parent, dockbar);
-	//xx_tiled_forward(app, parent, dockbar);
-	//xx_performance(app, parent, dockbar);
-	//xx_performance_doublesided(app, parent, dockbar);
-	//xx_performance_static(app, parent, dockbar);
-	    //xx_billboards(app, parent, dockbar);
-	//xx_lines_fat(app, parent, dockbar);
-	//xx_lines_dashed(app, parent, dockbar);
-	//xx_geom(app, parent, dockbar);
-	//xx_geom_sprites(app, parent, dockbar);
-	//xx_geom_instances(app, parent, dockbar);
-	//xx_geom_lines(app, parent, dockbar);
-	//xx_geom_points(app, parent, dockbar);
-	//xx_geom_points_packed(app, parent, dockbar);
-	//xx_geom_points_instanced(app, parent, dockbar);
-	//xx_geom_rawshader(app, parent, dockbar);
-	//xx_geom_selective(app, parent, dockbar);
-	    //xx_interact_cubes(app, parent, dockbar);
-	    //xx_interact_geom(app, parent, dockbar);
-	//xx_marching_cubes(app, parent, dockbar);
-	//xx_hierarchy(app, parent, dockbar);
-	//xx_hierarchy2(app, parent, dockbar);
-	    //xx_materials_skin(app, parent, dockbar);
-	    //xx_materials_standard(app, parent, dockbar);
-	    //xx_materials_variations(app, parent, dockbar);
-	//xx_depth_texture(app, parent, dockbar);
-	xx_effect_dof(app, parent, dockbar);
-	//xx_effect_godrays(app, parent, dockbar);
-	//xx_effect_glitch(app, parent, dockbar);
-	//xx_effect_sao(app, parent, dockbar);
+	static vector<cstring> labels = example_labels();
+	static uint32_t example = 0;
+	static bool init = true;
+
+#if SIDE_PANEL
+	Widget& sheet = ui::board(parent);
+	bool changed = ui::radio_switch(sheet, labels, example, Axis::Y);
+#else
+	Widget& sheet = ui::sheet(parent);
+	bool changed = ui::dropdown_field(sheet, "switch example:", labels, example);
+#endif
+
+	Widget& canvas = ui::sheet(sheet);
+	if(changed)
+	{
+		//app.m_gfx.models().clear();
+		app.m_gfx.materials().clear();
+
+		canvas.clear();
+
+		init = true;
+	}
+
+	examples[example].func(app, canvas, dockbar, init);
+	init = false;
 }
 
 #ifdef _XX_THREE_EXE

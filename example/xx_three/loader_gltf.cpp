@@ -9,7 +9,7 @@
 
 using namespace mud;
 
-void xx_loader_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_loader_gltf(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	static ImporterGltf importer_gltf = { app.m_gfx };
@@ -26,11 +26,8 @@ void xx_loader_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 	//var loader = new THREE.CubeTextureLoader().setPath('textures/cube/Bridge2/');
 	//var background = loader.load(urls);
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 45.f; camera.m_near = 0.25f; camera.m_far = 20.f;
 		camera.m_eye = vec3(-1.8f, 0.9f, 2.7f);

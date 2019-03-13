@@ -12,9 +12,9 @@
 
 using namespace mud;
 
-#define FAT 0
+#define FAT 1
 
-void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
@@ -26,15 +26,10 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar)
 	//camera2 = new THREE.PerspectiveCamera(40, 1, 1, 1000);
 	//camera2.position.copy(camera.position);
 	
-	static Lines lines;
-	static Batch* batch = nullptr;
 	static Material* material = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		camera.m_eye = vec3(-40.f, 0.f, 60.f);
@@ -53,6 +48,7 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		const float l = float(divisions);
 
+		Lines lines;
 		lines.start(curve.point(0.f), hsl(0.f, 1.f, 0.5f));
 
 		for(uint32_t i = 0; i < divisions; i++)
@@ -74,9 +70,14 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar)
 
 			Node3& n = gfx::nodes(scene).add(Node3());
 			Item& it = gfx::items(scene).add(Item(n, model, 0U, material));
-			batch = &gfx::batches(scene).add(Batch(it));
-			it.m_batch = batch;
-			it.m_visible = true;
+			Batch& batch = gfx::batches(scene).add(Batch(it, sizeof(Lines::Segment)));
+			it.m_batch = &batch;
+
+			// this should not be necessary each frame, add cache to the batch ?
+			//lines.commit(*batch);
+			batch.cache({ (float*)lines.m_segments.data(), lines.m_segments.size() * sizeof(Lines::Segment) / sizeof(float) });
+			//span<float> memory = batch.begin(uint32_t(m_segments.size())); // , sizeof(Segment)
+			//memcpy(memory.data(), m_segments.data(), memory.size() * sizeof(float));
 #else
 			// regular line
 
@@ -89,18 +90,12 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar)
 
 			Node3& n = gfx::nodes(scene).add(Node3());
 			Item& it = gfx::items(scene).add(Item(n, model, 0U, material));
-			it.m_visible = true;
 #endif
 
 	}
 
 	Gnode& root = scene.begin();
 	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
-
-#if FAT
-	// this should not be necessary each frame, add cache to the batch ?
-	lines.commit(*batch);
-#endif
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{

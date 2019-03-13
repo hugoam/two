@@ -30,7 +30,7 @@ void pass_sobel(GfxSystem& gfx, Render& render)
 
 }
 
-void xx_effect_sobel(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_effect_sobel(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -40,11 +40,8 @@ void xx_effect_sobel(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Node3* node = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		//var params = {
 		//	enable: true
 		//};

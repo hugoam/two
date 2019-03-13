@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -28,11 +28,8 @@ void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Node3* cube = nullptr;
 	static Node3* torus = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 

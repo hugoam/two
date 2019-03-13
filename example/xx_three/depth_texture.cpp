@@ -46,7 +46,7 @@ static string fragment_shader()
 		"	float depth = readDepth(s_source_depth, v_uv0);\n"
 		//"	float depth = texture2D(s_source_depth, v_uv0).x;\n"
 		"\n"
-		"	gl_FragColor = vec4(1.0 - vec3(depth), 1.0);\n"
+		"	gl_FragColor = vec4(1.0 - vec3_splat(depth), 1.0);\n"
 		"}\n";
 
 	return shader;
@@ -69,7 +69,7 @@ void pass_to_depth(GfxSystem& gfx, Render& render)
 	copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
 };
 
-void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -81,11 +81,12 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Scene& scene = viewer.m_scene;
 
-	static bool once = false;
-	if(!once)
-	{
-		once = true;
+	static Program& program = app.m_gfx.programs().create("todepth");
+	program.m_sources[ShaderType::Vertex] = vertex_shader();
+	program.m_sources[ShaderType::Fragment] = fragment_shader();
 
+	if(init)
+	{
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 70.f; camera.m_near = 0.01f; camera.m_far = 50.f;
 		camera.m_eye.z = 4.f;
@@ -114,16 +115,13 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		static BlockFilter& filter = *app.m_gfx.m_renderer.block<BlockFilter>();
 
-		Program& program = app.m_gfx.programs().create("todepth");
-		program.m_sources[ShaderType::Vertex] = vertex_shader();
-		program.m_sources[ShaderType::Fragment] = fragment_shader();
-
 		auto render = [](GfxSystem& gfx, Render& render)
 		{
 			begin_pbr_render(gfx, render);
 
 			render.m_is_mrt = false;
 			pass_clear(gfx, render);
+			pass_opaque(gfx, render);
 			pass_solid(gfx, render);
 			pass_to_depth(gfx, render);
 		};

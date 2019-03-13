@@ -9,7 +9,7 @@
 
 using namespace mud;
 
-void xx_materials_standard(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_materials_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	static ImporterOBJ importer_obj = { app.m_gfx };
 
@@ -29,11 +29,8 @@ void xx_materials_standard(Shell& app, Widget& parent, Dockbar& dockbar)
 	//renderer.toneMapping = THREE.ReinhardToneMapping;
 	//renderer.toneMappingExposure = 3;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 50.f; camera.m_near = 0.01f; camera.m_far = 1000.f;
 		camera.m_eye.z = 2.f;

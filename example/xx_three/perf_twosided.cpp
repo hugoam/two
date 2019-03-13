@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_performance_doublesided(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -19,19 +19,8 @@ void xx_performance_doublesided(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Texture& reflection = *app.m_gfx.textures().file("SwedishRoyalCastle.cube");
 
-	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
-
-	//var material = new THREE.MeshPhongMaterial({ specular: 0x101010, shininess : 100, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.1, side : THREE.DoubleSide });
-	static Material& material = app.m_gfx.materials().create("material",  [&](Material& m) {
-		m.m_program = &pbr; //m.m_pbr.m_albedo = rgb(0xaaaaaa); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f;
-		m.m_base.m_cull_mode = CullMode::None;
-	});
-
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		camera.m_fov = 50.f; camera.m_near = 1.f; camera.m_far = 20000.f;
 		camera.m_eye.z = 3200.f;
 
@@ -47,6 +36,14 @@ void xx_performance_doublesided(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		Node3& l2 = gfx::nodes(scene).add(Node3(vec3(0.f)));
 		gfx::lights(scene).add(Light(l2, LightType::Point, false, rgb(0xffaa00), 2.f, 3000.f));
+		
+		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
+
+		//var material = new THREE.MeshPhongMaterial({ specular: 0x101010, shininess : 100, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.1, side : THREE.DoubleSide });
+		Material& material = app.m_gfx.materials().create("material",  [&](Material& m) {
+			m.m_program = &pbr; //m.m_pbr.m_albedo = rgb(0xaaaaaa); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f;
+			m.m_base.m_cull_mode = CullMode::None;
+		});
 
 		Model& geometry = app.m_gfx.shape(Sphere());
 		//new THREE.SphereBufferGeometry(1, 32, 16, 0, PI);

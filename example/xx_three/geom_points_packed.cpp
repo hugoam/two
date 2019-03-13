@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_geom_points_packed(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_geom_points_packed(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	constexpr size_t particles = 500000;
@@ -20,22 +20,19 @@ void xx_geom_points_packed(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Program& program = app.m_gfx.programs().fetch("solid");
 
-	static Material& material = app.m_gfx.materials().create("points", [](Material& m) {
-		m.m_program = &program;
-		m.m_base.m_shader_color = ShaderColor::Vertex;
-		m.m_point.m_point_size = 15.f;
-	});
-
 	static Node3* node = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 27.f; camera.m_near = 5.f; camera.m_far = 3500.f;
 		camera.m_eye.z = 2750.f;
+		
+		Material& material = app.m_gfx.materials().create("points", [](Material& m) {
+			m.m_program = &program;
+			m.m_base.m_shader_color = ShaderColor::Vertex;
+			m.m_point.m_point_size = 15.f;
+		});
 
 		//scene.background = new THREE.Color(0x050505);
 		//scene.fog = new THREE.Fog(0x050505, 2000, 3500);

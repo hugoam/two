@@ -6,7 +6,7 @@
 
 using namespace mud;
 
-void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -20,11 +20,8 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static vector<Node3*> lights;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Material& groundmat = app.m_gfx.materials().create("ground", [&](Material& m) {
 			m.m_program = &app.m_gfx.programs().fetch("pbr/pbr");
 			m.m_base.m_uv0_scale = { 20.f, 10.f };
@@ -46,7 +43,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 		//new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5f, metalness: 1.0f });
 
 		//Model& torus = app.m_gfx.shape(Torus(1.5f, 0.4f));
-		Model& torus = app.m_gfx.shape(Torus());
+		Model& torus = app.m_gfx.shape(Torus(1.f, 0.1f));
 
 		for(int i = 0; i < 5000; i++) {
 
@@ -75,6 +72,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar)
 		Sphere sphere = Sphere(0.25f); //THREE.SphereBufferGeometry(0.25, 16, 8);
 		Model& sphere_model = app.m_gfx.shape(sphere);
 
+		lights.clear();
 		for(int i = 0; i < 6; ++i)
 		{
 			Colour c = rgb(colours[i]);

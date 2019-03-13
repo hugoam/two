@@ -1148,7 +1148,7 @@ void pass_fxaa(GfxSystem& gfx, Render& render)
 	copy.quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }
 
-void xx_post_fxaa(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_post_fxaa(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -1156,13 +1156,12 @@ void xx_post_fxaa(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Scene& scene = viewer.m_scene;
 
+	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
+
 	static Node3* node = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 45.f; camera.m_near = 1.f; camera.m_far = 2000.f;
 		camera.m_eye.z = 500.f;
@@ -1184,8 +1183,7 @@ void xx_post_fxaa(Shell& app, Widget& parent, Dockbar& dockbar)
 		Model& geometry = app.m_gfx.shape(Sphere());
 		//Model& geometry = app.m_gfx.shape(Tetrahedron(10.f));
 
-		static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
-		static Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
 			m.m_program = &pbr;
 			m.m_pbr.m_albedo = rgb(0xee0808);
 			// flatShading : true

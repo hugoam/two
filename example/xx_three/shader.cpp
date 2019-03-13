@@ -74,29 +74,29 @@ static string fragment_shader()
 	return shader;
 }
 
-void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar); UNUSED(app);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
 	static Program program = { "custom" };
-	program.m_blocks[MaterialBlock::Solid] = true;
-	program.m_sources[ShaderType::Vertex] = vertex_shader();
-	program.m_sources[ShaderType::Fragment] = fragment_shader();
+	if(init)
+	{
+		program.m_blocks[MaterialBlock::Solid] = true;
+		program.m_sources[ShaderType::Vertex] = vertex_shader();
+		program.m_sources[ShaderType::Fragment] = fragment_shader();
+	}
 
 #if GEOMETRY
-	static Material& material = app.m_gfx.materials().create("custom", [&](Material& m) {
-		m.m_program = &program;
-		m.m_base.m_cull_mode = CullMode::None;
-	});
-
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
+		Material& material = app.m_gfx.materials().create("custom", [&](Material& m) {
+			m.m_program = &program;
+			m.m_base.m_cull_mode = CullMode::None;
+		});
 
-		static Model& model = app.m_gfx.shape(Quad(1.f));
+		Model& model = app.m_gfx.shape(Quad(1.f));
 
 		Scene& scene = viewer.m_scene;
 		Node3& node = gfx::nodes(scene).add(Node3());

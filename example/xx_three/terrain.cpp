@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_terrain(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_terrain(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(app); UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);

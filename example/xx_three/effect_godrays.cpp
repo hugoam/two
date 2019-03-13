@@ -170,8 +170,7 @@ static string godrays_fragment()
 			// When the result is inverted (in the shader 'godrays_combine', this produces
 			// a slight bright spot at the position of the sun, even when it is occluded.
 
-			"gl_FragColor = vec4(col/TAPS_PER_PASS);\n"
-			"gl_FragColor.a = 1.0;\n"
+			"gl_FragColor = vec4(col/TAPS_PER_PASS, 0.0, 0.0, 1.0);\n"
 
 		"}\n";
 
@@ -205,7 +204,8 @@ static string godrays_combine_fragment()
 		// objects black, the god-rays will be white streaks. Therefore value is inverted
 		// before being combined with tColors
 		"\n"
-		"	gl_FragColor = texture2D(s_source_0, v_uv0) + u_intensity * vec4(1.0 - texture2D(s_source_1, v_uv0).r);\n"
+		"	float amount = u_intensity * (1.0 - texture2D(s_source_1, v_uv0).r);\n"
+		"	gl_FragColor = texture2D(s_source_0, v_uv0) + vec4_splat(amount);\n"
 		"	gl_FragColor.a = 1.0;\n"
 		//"	gl_FragColor = texture2D(s_source_0, v_uv0);\n"
 		"\n"
@@ -421,7 +421,7 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 	copy.debug_show_texture(render, pong, vec4(0.f));
 }
 
-void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	static ImporterOBJ obj_importer(app.m_gfx);
@@ -437,11 +437,8 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Node3* node = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 3000.f;
 		camera.m_eye.z = 200.f;

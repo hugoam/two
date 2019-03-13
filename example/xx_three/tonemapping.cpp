@@ -14,7 +14,7 @@ using namespace mud;
 //<script src = "js/postprocessing/ShaderPass.js">< / script>
 //<script src = "js/shaders/CopyShader.js">< / script>
 
-void xx_tonemapping(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_tonemapping(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -42,46 +42,45 @@ void xx_tonemapping(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
-	static Material& material = app.m_gfx.materials().create("material",  [&](Material& m) {
-		m.m_program = &pbr;
-		m.m_pbr.m_albedo = rgb(0xffffff);
-		m.m_pbr.m_albedo = &diffuse;
-		m.m_pbr.m_normal = -0.05f;
-		m.m_pbr.m_normal = &bump;
-		m.m_pbr.m_metallic = 0.9f;
-		m.m_pbr.m_roughness = 0.8f;
-		m.m_pbr.m_roughness = &rough;
-		m.m_base.m_uv0_scale = vec2(9.f, 0.5f);
-		m.m_base.m_anisotropy = 4.f; // texture filtering anisotropy
-		//	premultipliedAlpha : true,
-		//	transparent : true
-	});
-
-	static Material& matfloor = app.m_gfx.materials().create("floor", [&](Material& m) {
-		m.m_program = &pbr;
-		m.m_pbr.m_albedo = rgb(0x888888);
-		m.m_pbr.m_metallic = 0.f;
-		m.m_pbr.m_roughness = 1.f;
-		m.m_base.m_cull_mode = CullMode::Front;
-	});
-
 	static Texture& hdrenv = *app.m_gfx.textures().file("pisaHDR.hdr.cube");
 
+	static Material* material = nullptr;
 	static Node3* mesh = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 2000.f;
 		camera.m_eye = vec3(0.f, 40.f, 40.f * 3.5f);
+		
+		Material& mat = app.m_gfx.materials().create("material",  [&](Material& m) {
+			m.m_program = &pbr;
+			m.m_pbr.m_albedo = rgb(0xffffff);
+			m.m_pbr.m_albedo = &diffuse;
+			m.m_pbr.m_normal = -0.05f;
+			m.m_pbr.m_normal = &bump;
+			m.m_pbr.m_metallic = 0.9f;
+			m.m_pbr.m_roughness = 0.8f;
+			m.m_pbr.m_roughness = &rough;
+			m.m_base.m_uv0_scale = vec2(9.f, 0.5f);
+			m.m_base.m_anisotropy = 4.f; // texture filtering anisotropy
+			//	premultipliedAlpha : true,
+			//	transparent : true
+		});
+		material = &mat;
+
+		Material& matfloor = app.m_gfx.materials().create("floor", [&](Material& m) {
+			m.m_program = &pbr;
+			m.m_pbr.m_albedo = rgb(0x888888);
+			m.m_pbr.m_metallic = 0.f;
+			m.m_pbr.m_roughness = 1.f;
+			m.m_base.m_cull_mode = CullMode::Front;
+		});
 
 		Model& geometry = app.m_gfx.shape(TorusKnot(18.f, 8.f)); // new THREE.TorusKnotBufferGeometry(18, 8, 150, 20);
 
 		Node3& n = gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(n, geometry, 0U, &material));
+		gfx::items(scene).add(Item(n, geometry, 0U, &mat));
 		mesh = &n;
 
 		Model& geomfloor = app.m_gfx.shape(Cube(100.f));
@@ -120,9 +119,9 @@ void xx_tonemapping(Shell& app, Widget& parent, Dockbar& dockbar)
 	//gui.add(params, 'renderMode', ['Renderer', 'Composer']);
 	//gui.open();
 
-	material.m_pbr.m_roughness = params.roughness;
-	material.m_pbr.m_normal = -0.05 * params.bumpScale;
-	material.m_alpha.m_alpha = params.opacity;
+	material->m_pbr.m_roughness = params.roughness;
+	material->m_pbr.m_normal = -0.05 * params.bumpScale;
+	material->m_alpha.m_alpha = params.opacity;
 
 	//if(renderer.toneMapping != toneMappingOptions[params.toneMapping]) {
 	//

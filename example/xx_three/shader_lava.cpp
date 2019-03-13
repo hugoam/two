@@ -80,7 +80,7 @@ static string fragment_shader()
 	return shader;
 }
 
-void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controller(viewer);
@@ -91,10 +91,13 @@ void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Node3* node = nullptr;
 	
 	static Program program = { "lava" };
-	program.m_blocks[MaterialBlock::Solid] = true;
-	program.m_blocks[MaterialBlock::User] = true;
-	program.m_sources[ShaderType::Vertex] = vertex_shader();
-	program.m_sources[ShaderType::Fragment] = fragment_shader();
+	if(init)
+	{
+		program.m_blocks[MaterialBlock::Solid] = true;
+		program.m_blocks[MaterialBlock::User] = true;
+		program.m_sources[ShaderType::Vertex] = vertex_shader();
+		program.m_sources[ShaderType::Fragment] = fragment_shader();
+	}
 
 	static Texture& cloud = *app.m_gfx.textures().file("lava/cloud.png");
 	static Texture& lava = *app.m_gfx.textures().file("lava/lavatile.png");
@@ -114,27 +117,24 @@ void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar)
 		//bgfx::setViewUniform(0, u_fog_p0, &fog_p0);
 	};
 
-	static Material& material = app.m_gfx.materials().create("lava", [&](Material& m) {
-		m.m_program = &program;
-		m.m_base.m_uv0_scale = { 3.f, 1.f };
-		m.m_submit = submit;
-		m.m_user.m_attr0.m_texture = &cloud;
-		m.m_user.m_attr1.m_texture = &lava;
-	});
-
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 35.f; camera.m_near = 1.f; camera.m_far = 3000.f;
 		camera.m_eye.z = 4.f;
+		
+		Material& material = app.m_gfx.materials().create("lava", [&](Material& m) {
+			m.m_program = &program;
+			m.m_base.m_uv0_scale = { 3.f, 1.f };
+			m.m_submit = submit;
+			m.m_user.m_attr0.m_texture = &cloud;
+			m.m_user.m_attr1.m_texture = &lava;
+		});
 
 		const float size = 0.65f;
 
-		static Model& model = app.m_gfx.shape(Torus(size, 0.3f));
-		//static Model& model = app.m_gfx.shape(Sphere(size));
+		Model& model = app.m_gfx.shape(Torus(size, 0.3f));
+		//Model& model = app.m_gfx.shape(Sphere(size));
 
 		node = &gfx::nodes(scene).add(Node3(vec3(0.f), quat(angles)));
 		Item& it = gfx::items(scene).add(Item(*node, model, 0U, &material));

@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	constexpr size_t triangles = 5000;
 
@@ -19,26 +19,23 @@ void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
-	static Material& material = app.m_gfx.materials().create("first",  [&](Material& m) {
-		m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0xaaaaaa); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f;
-		m.m_base.m_shader_color = ShaderColor::Vertex;
-	});
-
-	//var material = new THREE.MeshPhongMaterial({
-	//	color: 0xaaaaaa, specular: 0xffffff, shininess: 250,
-	//	side: THREE.DoubleSide, vertexColors: THREE.VertexColors
-	//});
-
 	static Node3* node = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 27.f; camera.m_near = 1.f; camera.m_far = 3500.f;
 		camera.m_eye.z = 2750.f;
+		
+		Material& material = app.m_gfx.materials().create("first",  [&](Material& m) {
+			m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0xaaaaaa); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f;
+			m.m_base.m_shader_color = ShaderColor::Vertex;
+		});
+
+		//var material = new THREE.MeshPhongMaterial({
+		//	color: 0xaaaaaa, specular: 0xffffff, shininess: 250,
+		//	side: THREE.DoubleSide, vertexColors: THREE.VertexColors
+		//});
 
 		//scene.background = new THREE.Color(0x050505);
 		//scene.fog = new THREE.Fog(0x050505, 2000, 3500);

@@ -34,7 +34,7 @@ Model& cube_model(GfxSystem& gfx, float size)
 	return gfx.create_model_geo("cube", geometry);
 }
 
-void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -47,11 +47,8 @@ void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Node3* node0 = nullptr;
 	static Node3* node1 = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 200.f;
 		camera.m_eye.z = 150.f;

@@ -9,7 +9,7 @@
 
 using namespace mud;
 
-void xx_performance(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_perf(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -22,24 +22,22 @@ void xx_performance(Shell& app, Widget& parent, Dockbar& dockbar)
 	struct Object { Node3* node; vec3 position; vec3 angles; vec3 scale; };
 	static vector<Object> objects = {};
 
-	static Program& normal = app.m_gfx.programs().fetch("normal");
-	//static Program& normal = app.m_gfx.programs().fetch("pbr/pbr");
-
-	static Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
-		m.m_program = &normal;
-	});
-
-	static Model& suzanne = gfx::model_suzanne(app.m_gfx);
-
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_near = 1.f; camera.m_far = 10'000.f; camera.m_fov = 60.f;
 		camera.m_eye.z = 3'200.f;
 
+		Program& normal = app.m_gfx.programs().fetch("normal");
+		//static Program& normal = app.m_gfx.programs().fetch("pbr/pbr");
+
+		Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
+			m.m_program = &normal;
+		});
+
+		Model& suzanne = gfx::model_suzanne(app.m_gfx);
+
+		objects.clear();
 		for(size_t i = 0; i < 5000; i++)
 		{
 			vec3 position = vec3(randf(), randf(), randf()) * 8000.f - 4000.f;
@@ -48,6 +46,7 @@ void xx_performance(Shell& app, Widget& parent, Dockbar& dockbar)
 
 			Node3& n = gfx::nodes(scene).add(Node3(position, quat(angles), scale));
 			Item& it = gfx::items(scene).add(Item(n, suzanne, 0U, &material));
+			UNUSED(it);
 
 			objects.push_back({ &n, position, angles, scale });
 		}
@@ -65,14 +64,12 @@ void xx_performance(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	for(Object& o : objects)
 	{
-		o.angles.x += 0.01;
-		o.angles.y += 0.02;
+		o.angles.x += 0.01f;
+		o.angles.y += 0.02f;
 
 		o.node->apply(o.position, quat(o.angles), o.scale);
 	}
 
 	Gnode& root = scene.begin();
 	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
-
-	gfx::shape(root, Sphere(), Symbol(), 0U, &material);
 }

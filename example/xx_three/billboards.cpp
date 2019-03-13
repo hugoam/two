@@ -8,7 +8,7 @@
 
 #include <cstring>
 
-void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -25,26 +25,26 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Texture& sprite = *app.m_gfx.textures().file("sprites/disc.png");
 
-	//Material& material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
-	static Material& material = app.m_gfx.materials().create("points", [&](Material& m) {
-		m.m_program = &program;
-		m.m_solid.m_colour = hsl(1.f, 0.3f, 0.7f);
-		m.m_solid.m_colour = &sprite;
-	});
-
 	constexpr size_t num = 10000;
 	//constexpr size_t num = 1;
 
 	static Batch* batch = nullptr;
+	static Material* material = nullptr;
+
 	struct Instance { vec3 pos; float pad0; vec2 scale; float pad1; float pad2; };
 	static vector<Instance> instances = vector<Instance>(num);
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Model& model = *app.m_gfx.models().get("point");
+		
+		//Material& material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
+		Material& mat = app.m_gfx.materials().create("points", [&](Material& m) {
+			m.m_program = &program;
+			m.m_solid.m_colour = hsl(1.f, 0.3f, 0.7f);
+			m.m_solid.m_colour = &sprite;
+		});
+		material = &mat;
 
 		for(size_t i = 0; i < num; i++)
 		{
@@ -54,7 +54,7 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 		}
 
 		Node3& n = gfx::nodes(scene).add(Node3());
-		Item& it = gfx::items(scene).add(Item(n, model, 0U, &material));
+		Item& it = gfx::items(scene).add(Item(n, model, 0U, &mat));
 
 		batch = &gfx::batches(scene).add(Batch(it, sizeof(Instance)));
 		it.m_batch = batch;
@@ -76,7 +76,7 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar)
 	//viewer.m_camera.m_target = scene.position;
 
 	float h = fmod(360.f * (1.f + time), 360.f) / 360.f;
-	material.m_solid.m_colour = hsl(h, 0.5f, 0.5f);
+	material->m_solid.m_colour = hsl(h, 0.5f, 0.5f);
 
 	span<float> memory = batch->begin(instances.size());
 	memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));

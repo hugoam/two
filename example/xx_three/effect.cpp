@@ -22,7 +22,7 @@ void pass_rgbshift(GfxSystem& gfx, Render& render)
 	//composer.addPass(effect);
 }
 
-void xx_effect(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_effect(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -31,11 +31,8 @@ void xx_effect(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Node3* node = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		camera.m_eye.z = 400.f;

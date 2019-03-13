@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_interact_cubes(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_interact_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	//vec2 mouse = vec2(0.f); // , INTERSECTED;
@@ -20,11 +20,8 @@ void xx_interact_cubes(Shell& app, Widget& parent, Dockbar& dockbar)
 	Scene& scene = viewer.m_scene;
 	Camera& camera = viewer.m_camera;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 10000.f;
 
 		//scene.background = new THREE.Color(0xf0f0f0);

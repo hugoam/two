@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_hierarchy2(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_hierarchy2(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -18,24 +18,21 @@ void xx_hierarchy2(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Program& normal = app.m_gfx.programs().fetch("normal");
 
-	static Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
-		m.m_program = &normal;
-	});
-
 	struct Node { Node3* parent; Node3* node; vec3 position; };
 	static vector<Node> nodes;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 15000.f;
 		camera.m_eye.z = 500.f;
 
 		scene.m_env.m_background.m_colour = rgb(0xffffff);
 		//scene.background = new THREE.Color(0xffffff);
+
+		Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
+			m.m_program = &normal;
+		});
 
 		Model& geometry = app.m_gfx.shape(Cube(50.f));
 
@@ -46,6 +43,7 @@ void xx_hierarchy2(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		const vec3 offsets[] = { X3 * 100.f, X3 * -100.f, Y3 * -100.f, Y3 * 100.f, Z3 * -100.f, Z3 * 100.f };
 
+		nodes.clear();
 		for(const vec3& offset : offsets)
 		{
 			Node3* parent = &root;
@@ -85,5 +83,4 @@ void xx_hierarchy2(Shell& app, Widget& parent, Dockbar& dockbar)
 		vec3 rotation = vec3(rx, ry, rz);
 		nodes[i].node->derive(*nodes[i].parent, nodes[i].position, quat(rotation));
 	}
-
 }

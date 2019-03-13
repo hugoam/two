@@ -149,7 +149,7 @@ void pass_bokeh(GfxSystem& gfx, Render& render, const Bokeh& bokeh)
 	gfx.m_copy->quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }
 
-void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -162,6 +162,15 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 	constexpr int ygrid = 9;
 	constexpr int zgrid = 14;
 	constexpr int nobjects = xgrid * ygrid * zgrid;
+
+	static Program& basic = app.m_gfx.programs().fetch("pbr/basic");
+
+	static Program& program = app.m_gfx.programs().create("bokeh");
+	if(init)
+	{
+		program.m_sources[ShaderType::Vertex] = bokeh_vertex();
+		program.m_sources[ShaderType::Fragment] = bokeh_fragment();
+	}
 
 	static Bokeh bokeh = { 500.f, 5.f, 1.f };
 
@@ -178,19 +187,15 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 		pass_bokeh(gfx, render, bokeh);
 	};
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 3000.f;
 		camera.m_eye.z = 200.f;
 
-		static Program& basic = app.m_gfx.programs().fetch("pbr/basic");
-
 		Texture& texcube = *app.m_gfx.textures().file("SwedishRoyalCastle.cube");
 
+		materials.clear();
 		for(int i = 0; i < nobjects; ++i)
 		{
 			const string name = "object" + to_string(i);
@@ -202,7 +207,7 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 			materials.push_back(&material);
 		}
 
-		static Model& geometry = app.m_gfx.shape(Sphere(1.f));
+		Model& geometry = app.m_gfx.shape(Sphere(1.f));
 		int count = 0;
 		for(int i = 0; i < xgrid; i++)
 			for(int j = 0; j < ygrid; j++)
@@ -215,10 +220,6 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
 					gfx::items(scene).add(Item(n, geometry, 0U, materials[count]));
 					count++;
 				}
-
-		static Program& program = app.m_gfx.programs().create("bokeh");
-		program.m_sources[ShaderType::Vertex] = bokeh_vertex();
-		program.m_sources[ShaderType::Fragment] = bokeh_fragment();
 
 		//postprocessing.composer.render(0.1);
 

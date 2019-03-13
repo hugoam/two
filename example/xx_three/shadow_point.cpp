@@ -27,7 +27,7 @@ Texture& generateTexture(GfxSystem& gfx)
 	return texture;
 }
 
-void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	constexpr uint32_t colors[] = { 0x0088ff, 0xff8888 };
@@ -49,11 +49,8 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Node3* lights[2] = { nullptr, nullptr };
 #endif
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		//scene.add(new THREE.AmbientLight(0x111122));
 
 		Program* pbr = app.m_gfx.programs().file("pbr/pbr");

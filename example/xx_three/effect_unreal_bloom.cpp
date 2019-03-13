@@ -320,7 +320,7 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 
 //<script src="js/loaders/GLTFLoader.js"></script>
 
-void xx_effect_unreal_bloom(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_effect_unreal_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -337,11 +337,8 @@ void xx_effect_unreal_bloom(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Bloom bloom = { 1.f, 1.5, 0.f, 0.f };
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 100.f;
 		camera.m_eye = vec3(-5.f, 2.5f, -3.5f);

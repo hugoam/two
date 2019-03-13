@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_refraction(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_refraction(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -23,11 +23,8 @@ void xx_refraction(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Node3* light = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 50.f; camera.m_near = 1.f; camera.m_far = 100000.f;
 		camera.m_eye.z = -4000.f;

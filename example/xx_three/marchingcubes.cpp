@@ -201,7 +201,7 @@ void upload_cubes(MarchingCubes& cubes, Mesh& mesh)
 #endif
 }
 
-void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controller(viewer);
@@ -241,41 +241,39 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	constexpr uint32_t resolution = 28;
 
-#if NORMAL
-	static Program& normal = app.m_gfx.programs().fetch("normal");
-
-	static Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
-		m.m_program = &normal;
-	});
-#else
-	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
-
-	static Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
-		m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0xaaaaaa); m.m_pbr.m_metallic = 0.0f; m.m_pbr.m_roughness = 0.66f;
-	});
-#endif
-
-	static Texture& reflection = *app.m_gfx.textures().file("SwedishRoyalCastle.cube");
-	static Texture& refraction = reflection;
-	//refractionCube.mapping = THREE.CubeRefractionMapping;
-
-	//static Material& material = gfx::solid_material(app.m_gfx, "material", hsl(0.3f, 1.f, 0.5f));
-	//material.m_base.m_cull_mode = CullMode::None;
-
 	static MarchingCubes cubes = { resolution };
+	static Mesh* mesh = nullptr;
 
-	static Model& model = app.m_gfx.create_model("cubes");
-	static Mesh& mesh = *model.m_items[0].m_mesh;
-	mesh.m_is_direct = true;
-
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 45.f; camera.m_near = 1.f; camera.m_far = 10000.f;
 		camera.m_eye = vec3(-500.f, 500.f, 1500.f);
+
+#if NORMAL
+		Program& normal = app.m_gfx.programs().fetch("normal");
+
+		Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
+			m.m_program = &normal;
+		});
+#else
+		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
+
+		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+			m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0xaaaaaa); m.m_pbr.m_metallic = 0.0f; m.m_pbr.m_roughness = 0.66f;
+		});
+#endif
+
+		//Texture& reflection = *app.m_gfx.textures().file("SwedishRoyalCastle.cube");
+		//Texture& refraction = reflection;
+		//refractionCube.mapping = THREE.CubeRefractionMapping;
+
+		//Material& material = gfx::solid_material(app.m_gfx, "material", hsl(0.3f, 1.f, 0.5f));
+		//material.m_base.m_cull_mode = CullMode::None;
+
+		Model& model = app.m_gfx.create_model("cubes");
+		mesh = model.m_items[0].m_mesh;
+		mesh->m_is_direct = true;
 
 		//scene.background = new THREE.Color(0x050505);
 
@@ -476,7 +474,7 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	add_blobs(cubes, time, controller.numBlobs, controller.floor, controller.wallx, controller.wallz);
 
-	upload_cubes(cubes, mesh);
+	upload_cubes(cubes, *mesh);
 
 	// materials
 

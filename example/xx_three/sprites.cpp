@@ -9,7 +9,7 @@
 
 #define CLUSTERED 1
 
-void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);

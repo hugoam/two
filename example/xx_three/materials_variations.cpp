@@ -10,7 +10,7 @@ using namespace mud;
 
 //<script src = "js/pmrem/PMREMCubeUVPacker.js">< / script>
 
-void xx_materials_variations(Shell& app, Widget& parent, Dockbar& dockbar)
+void xx_materials_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
@@ -25,11 +25,8 @@ void xx_materials_variations(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Node3* light = nullptr;
 
-	static bool once = false;
-	if(!once)
+	if(init)
 	{
-		once = true;
-
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 2000.f;
 		camera.m_eye = vec3(0.f, 400.f, 400.f * 3.5f);
@@ -62,7 +59,7 @@ void xx_materials_variations(Shell& app, Widget& parent, Dockbar& dockbar)
 					// basic monochromatic energy preservation
 					Colour diffuse = hsl(alpha, 0.5f, gamma * 0.5f + 0.1f);
 
-					static Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+					Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
 						m.m_program = &pbr;
 						m.m_pbr.m_albedo = diffuse;
 						m.m_pbr.m_albedo = &texture;
