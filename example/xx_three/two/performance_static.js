@@ -9,9 +9,7 @@ var scene = viewer.scene;
 
 var objects = [];
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-
+if (init) {
     this.mouse = new two.vec2(0.0);
     
     var camera = viewer.camera;

@@ -18,9 +18,7 @@ var viewer = two.ui.scene_viewer(app.ui.begin());
 
 var scene = viewer.scene;
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-
+if (init) {
     var camera = viewer.camera;
     camera.fov = 45.0; camera.near = 1.0; camera.far = 10000.0;
     camera.eye = new two.vec3(-500.0, 500.0, 1500.0);

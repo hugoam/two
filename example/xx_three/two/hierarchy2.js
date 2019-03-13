@@ -3,9 +3,7 @@
 var viewer = two.ui.scene_viewer(app.ui.begin());
 //two.ui.trackball_controller(viewer);
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-        
+if (init) {
     this.mouse = new two.vec2(0.0);
 
     var camera = viewer.camera;

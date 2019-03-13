@@ -22,9 +22,7 @@ var viewer = two.ui.scene_viewer(app.ui.begin());
 //two.ui.orbit_controller(viewer);
 two.ui.trackball_controller(viewer);
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-    
+if (init) {
     //scene.add(new THREE.AmbientLight(0x111122));
 
     var pbr = app.gfx.programs.file('pbr/pbr');

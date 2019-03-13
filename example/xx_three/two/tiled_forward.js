@@ -10,9 +10,7 @@ camera.set_clustered(app.gfx, viewer.viewport);
 
 var radius = 75.0;
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-    
+if (init) {
     this.importerOBJ = new two.ImporterOBJ(app.gfx);
 
     var scene = viewer.scene;

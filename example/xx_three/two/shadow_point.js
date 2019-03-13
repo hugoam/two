@@ -24,9 +24,7 @@ two.ui.trackball_controller(viewer);
 
 var scene = viewer.scene;
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-        
+if (init) {
     //scene.add(new THREE.AmbientLight(0x111122));
 
     var pbr = app.gfx.programs.file('pbr/pbr');

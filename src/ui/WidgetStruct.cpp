@@ -100,6 +100,11 @@ namespace mud
 		return as<Ui>(this->root()).m_window;
 	}
 
+	void Widget::clear()
+	{
+		m_nodes.clear();
+	}
+
 	void Widget::set_content(cstring content)
 	{
 		string str = content;

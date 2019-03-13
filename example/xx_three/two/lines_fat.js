@@ -61,9 +61,7 @@ function hilbert3d(center, size, iterations, v0, v1, v2, v3, v4, v5, v6, v7) {
     return vec;
 }
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-
+if (init) {
     var camera = viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 1000.0;
     camera.eye = new two.vec3(-40.0, 0.0, 60.0);

@@ -52,9 +52,7 @@ this.hdrenv = app.gfx.textures.file('pisaHDR.hdr.cube');
 
 this.mesh = nullptr;
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-
+if (init) {
     var camera = viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 2000.0;
     camera.eye = new two.vec3(0.0, 40.0, 40.0 * 3.5);

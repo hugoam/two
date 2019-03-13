@@ -34,9 +34,7 @@ var viewer = two.ui.scene_viewer(app.ui.begin());
 
 var scene = viewer.scene;
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-
+if (init) {
     var camera = viewer.camera;
     camera.fov = 45.0; camera.near = 0.01; camera.far = 10.0;
     camera.eye.z = 3.5;

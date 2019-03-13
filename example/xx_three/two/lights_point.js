@@ -9,10 +9,7 @@ var scene = viewer.scene;
 //scene.background = new THREE.Color( 0x040306 );
 //scene.fog = new THREE.Fog( 0x040306, 10, 300 );
 
-if(typeof this.state == 'undefined') {
-
-    this.state = 1;
-    
+if (init) {
     //viewer.camera.eye = new two.vec3(0, 15, 150);
     
     var texture = app.gfx.textures.file('disturb.jpg');

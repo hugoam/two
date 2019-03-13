@@ -6,9 +6,7 @@ var viewer = two.ui.scene_viewer(app.ui.begin());
 var scene = viewer.scene;
 
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-
+if (init) {
     this.mouse = new two.vec2(0.0);
 
     this.group; // = nullptr;

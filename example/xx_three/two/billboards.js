@@ -15,9 +15,7 @@ var num = 10000;
 this.batch = nullptr;
 //struct Instance { vec4 d0; vec4 d1; };
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-    
+if (init) {
     this.program = app.gfx.programs.fetch('point');
 
     this.sprite = app.gfx.textures.file('sprites/disc.png');

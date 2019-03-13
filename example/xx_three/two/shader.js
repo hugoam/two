@@ -51,9 +51,7 @@ var fragment_shader =`$input v_uv0
 var viewer = two.ui.scene_viewer(app.ui.begin());
 two.ui.orbit_controller(viewer);
 
-if(typeof this.state == 'undefined') {
-    this.state = 1;
-
+if (init) {
     var program = app.gfx.programs.create("custom");
     program.set_block(two.MaterialBlock.Solid);
     program.set_source(two.ShaderType.Vertex, vertex_shader);
