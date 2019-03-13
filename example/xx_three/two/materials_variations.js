@@ -12,7 +12,7 @@ using namespace mud;
 
 void xx_materials_variations(Shell app, var parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(app.ui.begin());
+	var viewer = two.ui.scene_viewer(panel);
 	//two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;

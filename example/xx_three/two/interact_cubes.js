@@ -1,7 +1,7 @@
 //var mouse = new two.vec2(0.0); // , INTERSECTED;
 var radius = 100; var theta = 0;
 
-var viewer = two.ui.scene_viewer(app.ui.begin());
+var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controller(viewer);
 
 var scene = viewer.scene;

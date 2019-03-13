@@ -1,5 +1,5 @@
 
-var viewer = two.ui.scene_viewer(app.ui.begin());
+var viewer = two.ui.scene_viewer(panel);
 var controls = two.ui.trackball_controller(viewer);
 //controls.dynamicDampingFactor = 0.15;
 //controls.keys = [ 65, 83, 68 ];

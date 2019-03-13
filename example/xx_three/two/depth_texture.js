@@ -29,7 +29,7 @@ var fragment_shader = `#include <packing>
         gl_FragColor.a = 1.0;
     }`;
 
-var viewer = two.ui.scene_viewer(app.ui.begin());
+var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controller(viewer);
 
 //var controls = new THREE.OrbitControls(camera, renderer.domElement);

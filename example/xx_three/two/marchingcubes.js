@@ -13,7 +13,7 @@ function upload_cubes(cubes, mesh) {
     cubes.direct(direct);
 }
 
-var viewer = two.ui.scene_viewer(app.ui.begin());
+var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controller(viewer);
 
 var scene = viewer.scene;

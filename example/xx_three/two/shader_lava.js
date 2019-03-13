@@ -59,7 +59,7 @@ var fragment_shader = `$input v_position, v_uv0
         gl_FragColor = mix(color, vec4(vec3(0.0, 0.0, 0.0), color.w), fogFactor);
     }`;
 
-var viewer = two.ui.scene_viewer(app.ui.begin());
+var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controller(viewer);
 
 var scene = viewer.scene;

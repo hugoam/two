@@ -11,7 +11,7 @@
 
 void xx_sprites(Shell app, var parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(app.ui.begin());
+	var viewer = two.ui.scene_viewer(panel);
 	two.ui.orbit_controller(viewer);
 
 	//camera = new THREE.PerspectiveCamera(60, width / height, 1, 2100);

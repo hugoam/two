@@ -26,7 +26,7 @@ void xx_materials_skin(Shell app, var parent, Dockbar dockbar)
 {
 	ImporterGltf importer_gltf = { app.gfx };
 
-	var viewer = two.ui.scene_viewer(app.ui.begin());
+	var viewer = two.ui.scene_viewer(panel);
 	//two.ui.orbit_controller(viewer);
 
 	var scene = viewer.scene;

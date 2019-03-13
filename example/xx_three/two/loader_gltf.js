@@ -13,7 +13,7 @@ void xx_loader_gltf(Shell app, var parent, Dockbar dockbar)
 {
 	ImporterGltf importer_gltf = { app.gfx };
 
-	var viewer = two.ui.scene_viewer(app.ui.begin());
+	var viewer = two.ui.scene_viewer(panel);
 	//two.ui.orbit_controller(viewer);
 
 	//controls.target.set(0, -0.2, -0.2);

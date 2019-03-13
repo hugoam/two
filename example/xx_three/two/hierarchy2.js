@@ -1,6 +1,6 @@
 // hierarchy2.js
 
-var viewer = two.ui.scene_viewer(app.ui.begin());
+var viewer = two.ui.scene_viewer(panel);
 //two.ui.trackball_controller(viewer);
 
 if (init) {

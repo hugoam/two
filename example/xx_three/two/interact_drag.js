@@ -1,4 +1,4 @@
-var viewer = two.ui.scene_viewer(app.ui.begin());
+var viewer = two.ui.scene_viewer(panel);
 
 TrackballController controls = two.ui.trackball_controller(viewer);
 controls.staticMoving = true;
