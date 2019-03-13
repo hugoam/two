@@ -73,7 +73,11 @@ namespace mud
 
 	void BlockFilter::sourcedepth(Texture& texture, uint32_t flags)
 	{
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), u_uniform.s_source_depth, texture, flags | GFX_TEXTURE_POINT);
+#else
 		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), u_uniform.s_source_depth, texture, flags);
+#endif
 	}
 
 	void BlockFilter::uniform(uint8_t view, const string& name, const vec4& value)

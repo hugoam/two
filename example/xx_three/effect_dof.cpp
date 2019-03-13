@@ -41,9 +41,9 @@ static string bokeh_fragment()
 		"#include <filter.sh>\n"
 		"\n"
 		"uniform vec4 u_bokeh_p0;\n"
-		"#define u_focus u_bokeh_p0.x\n"
-		"#define u_aperture u_bokeh_p0.y\n" // aperture - bigger values for shallower depth of field
-		"#define u_maxblur u_bokeh_p0.z\n"  // max blur amount
+		"#define u_focus    u_bokeh_p0.x\n"
+		"#define u_aperture u_bokeh_p0.y\n"  // aperture - bigger values for shallower depth of field
+		"#define u_maxblur  u_bokeh_p0.z\n"  // max blur amount
 		"\n"
 		"float getViewZ(float depth) {\n"
 		//"	#if PERSPECTIVE_CAMERA == 1\n"
@@ -72,49 +72,49 @@ static string bokeh_fragment()
 		"vec4 col = vec4_splat(0.0);\n"
 		"\n"
 		"col += texture2D(s_source_0, v_uv0);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.0,   0.4) * aspect) * dofblur);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.15,  0.37) * aspect) * dofblur);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.29,  0.29) * aspect) * dofblur);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.0,   0.4 ) * aspect) * dofblur);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.15,  0.37) * aspect) * dofblur);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.29,  0.29) * aspect) * dofblur);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.37,  0.15) * aspect) * dofblur);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.40,  0.0) * aspect) * dofblur);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.37, -0.15) * aspect) * dofblur);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.29, -0.29) * aspect) * dofblur);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.40,  0.0 ) * aspect) * dofblur);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.37, -0.15) * aspect) * dofblur);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.29, -0.29) * aspect) * dofblur);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.15, -0.37) * aspect) * dofblur);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.0,  -0.4) * aspect) * dofblur);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.0,  -0.4 ) * aspect) * dofblur);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.15,  0.37) * aspect) * dofblur);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.29,  0.29) * aspect) * dofblur);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.37,  0.15) * aspect) * dofblur);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.4,   0.0) * aspect) * dofblur);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.37,  0.15) * aspect) * dofblur);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.4,   0.0 ) * aspect) * dofblur);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.37, -0.15) * aspect) * dofblur);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.29, -0.29) * aspect) * dofblur);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.15, -0.37) * aspect) * dofblur);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.15, -0.37) * aspect) * dofblur);\n"
 		"\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.15,  0.37) * aspect) * dofblur9);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.15,  0.37) * aspect) * dofblur9);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.37,  0.15) * aspect) * dofblur9);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.37, -0.15) * aspect) * dofblur9);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.37, -0.15) * aspect) * dofblur9);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.15, -0.37) * aspect) * dofblur9);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.15,  0.37) * aspect) * dofblur9);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.37,  0.15) * aspect) * dofblur9);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.37,  0.15) * aspect) * dofblur9);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.37, -0.15) * aspect) * dofblur9);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.15, -0.37) * aspect) * dofblur9);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.15, -0.37) * aspect) * dofblur9);\n"
 		"\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.29,  0.29) * aspect) * dofblur7);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.40,  0.0) * aspect) * dofblur7);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.29, -0.29) * aspect) * dofblur7);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.0,  -0.4) * aspect) * dofblur7);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.29,  0.29) * aspect) * dofblur7);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.40,  0.0 ) * aspect) * dofblur7);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.29, -0.29) * aspect) * dofblur7);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.0,  -0.4 ) * aspect) * dofblur7);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.29,  0.29) * aspect) * dofblur7);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.4,   0.0) * aspect) * dofblur7);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.4,   0.0 ) * aspect) * dofblur7);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.29, -0.29) * aspect) * dofblur7);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.0,   0.4) * aspect) * dofblur7);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.0,   0.4 ) * aspect) * dofblur7);\n"
 		"\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.29,  0.29) * aspect) * dofblur4);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.4,   0.0) * aspect) * dofblur4);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.29, -0.29) * aspect) * dofblur4);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.0,  -0.4) * aspect) * dofblur4);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.29,  0.29) * aspect) * dofblur4);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.4,   0.0 ) * aspect) * dofblur4);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.29, -0.29) * aspect) * dofblur4);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.0,  -0.4 ) * aspect) * dofblur4);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.29,  0.29) * aspect) * dofblur4);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.4,   0.0) * aspect) * dofblur4);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.4,   0.0 ) * aspect) * dofblur4);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.29, -0.29) * aspect) * dofblur4);\n"
-		"col += texture2D(s_source_0, v_uv0 + (vec2(0.0,   0.4) * aspect) * dofblur4);\n"
+		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.0,   0.4 ) * aspect) * dofblur4);\n"
 		"\n"
 		"gl_FragColor = vec4(col.rgb / 41.0, 1.0);\n"
 		//"gl_FragColor = vec4(vec3_splat(-viewZ / u_z_far), 1.0);\n"
@@ -135,25 +135,18 @@ struct Bokeh
 
 void pass_bokeh(GfxSystem& gfx, Render& render, const Bokeh& bokeh)
 {
-	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
-
-	//static Program& program = gfx.programs().create("bokeh");
-	//program.m_sources[ShaderType::Vertex] = bokeh_vertex();
-	//program.m_sources[ShaderType::Fragment] = bokeh_fragment();
-
 	static Program& program = gfx.programs().fetch("bokeh");
 
 	Pass pass = render.next_pass("bokeh", PassType::PostProcess);
 
-	filter.uniform(pass.m_index, "u_bokeh_p0", vec4(bokeh.focus, bokeh.aperture * 0.00001f, bokeh.maxblur, 0.f));
-	
-	filter.source0(render.m_target->m_diffuse);
-	filter.sourcedepth(render.m_target->m_depth);
+	gfx.m_filter->uniform(pass.m_index, "u_bokeh_p0", vec4(bokeh.focus, bokeh.aperture * 0.00001f, bokeh.maxblur, 0.f));
 
-	filter.quad(pass.m_index, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
+	gfx.m_filter->source0(render.m_target->m_diffuse);
+	gfx.m_filter->sourcedepth(render.m_target->m_depth);
 
-	copy.quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass.m_index, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
+
+	gfx.m_copy->quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }
 
 void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar)
