@@ -143,13 +143,14 @@ namespace mud
 			m_msaa = MSAA::Disabled;
 
 		const uint64_t flags = msaa_flag[m_msaa];
-		const uint64_t depth_flags = flags;
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
-		depth_flags |= GFX_TEXTURE_POINT;
+		const uint64_t depth_flags = flags | GFX_TEXTURE_POINT;
+#else
+		const uint64_t depth_flags = flags;
 #endif
 
-		m_depth = { size, false, bgfx::TextureFormat::D24S8, flags };
+		m_depth = { size, false, bgfx::TextureFormat::D24S8, depth_flags };
 
 		m_diffuse = { size, false, color_format, flags };
 
@@ -193,7 +194,7 @@ namespace mud
 #endif
 		if(m_deferred)
 		{
-			m_gbuffer.m_depth		= { size, false, bgfx::TextureFormat::D24S8, flags };
+			m_gbuffer.m_depth		= { size, false, bgfx::TextureFormat::D24S8, depth_flags };
 			m_gbuffer.m_position	= { size, false, color_format,				 flags };
 			m_gbuffer.m_normal		= { size, false, color_format,				 flags };
 			m_gbuffer.m_albedo		= { size, false, color_format,				 flags };
