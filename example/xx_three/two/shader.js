@@ -6,17 +6,17 @@ var vertex_shader = `$input a_position, a_texcoord0
     
     void main()
     {
-        var material_index = int(u_state_material);
-        Basevar basic = read_base_material(material_index);
-        
-       v_uv0 = vec4((a_texcoord0 * basic.uv0_scale) + basic.uv0_offset, 0.0, 0.0);
-        gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0));
+        int material_index = int(u_state_material);
+        BaseMaterial basic = read_base_material(material_index);
+
+        v_uv0 = (a_texcoord0 * basic.uv0_scale) + basic.uv0_offset;
+        gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));
     }`;
 
 
 var fragment_shader =`$input v_uv0
     
-    #include <filter/filter.sh>
+    #include <filter.sh>
     
     void main() {
     

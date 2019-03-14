@@ -70,7 +70,7 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	Scene& scene = viewer.m_scene;
 
-	static Program program = { "circles" };
+	static Program program = { "sprites" };
 	if(init)
 	{
 		program.m_blocks[MaterialBlock::Solid] = true;

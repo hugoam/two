@@ -1,3 +1,4 @@
+// lights_point.js
 
 var viewer = two.ui.scene_viewer(panel);
 var controls = two.ui.trackball_controller(viewer);
