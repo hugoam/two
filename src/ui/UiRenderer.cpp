@@ -170,7 +170,6 @@ namespace mud
 		m_debug_batch = 0;
 		static size_t prevBatch = 0;
 
-		printf("render ui\n");
 		m_vg.begin_frame(view, vec4(vec2(0.f), target.m_frame.m_size), pixel_ratio);
 
 #ifdef MUD_UI_DRAW_CACHE
@@ -441,7 +440,6 @@ namespace mud
 		if(frame.icon())
 			this->draw_image(*frame.icon(), content_rect);
 
-		printf("draw frame content %s\n", frame.caption());
 		if(frame.caption())
 			m_vg.draw_text(rect_offset(padded_rect), frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
 	}
