@@ -15,4 +15,6 @@ namespace mud
     
     template <> MUD_ECS_EXPORT Type& type<mud::Complex>() { static Type ty("Complex", sizeof(mud::Complex)); return ty; }
     template <> MUD_ECS_EXPORT Type& type<mud::Entity>() { static Type ty("Entity", sizeof(mud::Entity)); return ty; }
+    template <> MUD_ECS_EXPORT Type& type<mud::Entt>() { static Type ty("Entt", sizeof(mud::Entt)); return ty; }
+    template <> MUD_ECS_EXPORT Type& type<mud::OEntt>() { static Type ty("OEntt", type<mud::Entt>(), sizeof(mud::OEntt)); return ty; }
 }

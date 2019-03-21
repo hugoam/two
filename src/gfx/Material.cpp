@@ -384,7 +384,7 @@ namespace mud
 		material.m_program = &program;
 	}
 
-	//static uint16_t s_material_index = 0;
+	static uint16_t s_material_index = 0;
 
 	static BaseMaterialUniform s_base_material_block = {};
 	static AlphaMaterialUniform s_alpha_material_block = {};
@@ -396,7 +396,7 @@ namespace mud
 	static UserMaterialUniform s_user_material_block = {};
 
 	Material::Material(const string& name)
-		: m_index(uint16_t(index(type<Material>(), Ref(this))))//++s_material_index)
+		: m_index(++s_material_index) // uint16_t(index(type<Material>(), Ref(this))))//
 		, m_name(name)
 	{
 		static bool init_blocks = true;

@@ -16,6 +16,8 @@ namespace mud
 
     class Prototype;
 	struct Entity;
+	struct Entt;
+	class OEntt;
 	class ECS;
 	class GridECS;
 	class Complex;

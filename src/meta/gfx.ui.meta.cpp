@@ -33,11 +33,12 @@ void mud_OrbitController_set_target(void* object, span<void*> args, void*& resul
 void mud_ui_viewer_0(span<void*> args, void*& result) { result = &mud::ui::viewer(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::Scene*>(args[1])); }
 void mud_ui_scene_viewer_1(span<void*> args, void*& result) { result = &mud::ui::scene_viewer(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1])); }
 void mud_ui_trackball_controller_2(span<void*> args, void*& result) { result = &mud::ui::trackball_controller(*static_cast<mud::Viewer*>(args[0])); }
-void mud_ui_orbit_controller_3(span<void*> args, void*& result) { result = &mud::ui::orbit_controller(*static_cast<mud::Viewer*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3])); }
-void mud_ui_free_orbit_controller_4(span<void*> args, void*& result) { result = &mud::ui::free_orbit_controller(*static_cast<mud::Viewer*>(args[0])); }
-void mud_ui_isometric_controller_5(span<void*> args, void*& result) { result = &mud::ui::isometric_controller(*static_cast<mud::Viewer*>(args[0]), *static_cast<bool*>(args[1])); }
-void mud_ui_hybrid_controller_6(span<void*> args, void*& result) { result = &mud::ui::hybrid_controller(*static_cast<mud::Viewer*>(args[0]), *static_cast<mud::ui::OrbitMode*>(args[1]), *static_cast<mud::Transform*>(args[2]), *static_cast<bool*>(args[3]), *static_cast<mud::vec2*>(args[4]), *static_cast<bool*>(args[5])); }
-void mud_ui_velocity_controller_7(span<void*> args, void*& result) { UNUSED(result);  mud::ui::velocity_controller(*static_cast<mud::Viewer*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::vec3*>(args[2]), *static_cast<float*>(args[3])); }
+void mud_ui_orbit_controls_3(span<void*> args, void*& result) { result = &mud::ui::orbit_controls(*static_cast<mud::Viewer*>(args[0])); }
+void mud_ui_orbit_controller_4(span<void*> args, void*& result) { result = &mud::ui::orbit_controller(*static_cast<mud::Viewer*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3])); }
+void mud_ui_free_orbit_controller_5(span<void*> args, void*& result) { result = &mud::ui::free_orbit_controller(*static_cast<mud::Viewer*>(args[0])); }
+void mud_ui_isometric_controller_6(span<void*> args, void*& result) { result = &mud::ui::isometric_controller(*static_cast<mud::Viewer*>(args[0]), *static_cast<bool*>(args[1])); }
+void mud_ui_hybrid_controller_7(span<void*> args, void*& result) { result = &mud::ui::hybrid_controller(*static_cast<mud::Viewer*>(args[0]), *static_cast<mud::ui::OrbitMode*>(args[1]), *static_cast<mud::Transform*>(args[2]), *static_cast<bool*>(args[3]), *static_cast<mud::vec2*>(args[4]), *static_cast<bool*>(args[5])); }
+void mud_ui_velocity_controller_8(span<void*> args, void*& result) { UNUSED(result);  mud::ui::velocity_controller(*static_cast<mud::Viewer*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::vec3*>(args[2]), *static_cast<float*>(args[3])); }
 
 namespace mud
 {
@@ -119,6 +120,21 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
+	// mud::OrbitControls
+	{
+		Type& t = type<mud::OrbitControls>();
+		static Meta meta = { t, &namspc({ "mud" }), "OrbitControls", sizeof(mud::OrbitControls), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::ViewerController>() };
+		static size_t bases_offsets[] = { base_offset<mud::OrbitControls, mud::ViewerController>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
 	// mud::Viewer
 	{
 		Type& t = type<mud::Viewer>();
@@ -192,6 +208,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::ViewerController>());
 		m.m_types.push_back(&type<mud::OrbitController>());
 		m.m_types.push_back(&type<mud::FreeOrbitController>());
+		m.m_types.push_back(&type<mud::OrbitControls>());
 		m.m_types.push_back(&type<mud::SpaceSheet>());
 		m.m_types.push_back(&type<mud::Viewer>());
 		m.m_types.push_back(&type<mud::SceneViewer>());
@@ -210,29 +227,33 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static float yaw_default = c_pi/4.f;
-			static float pitch_default = -c_pi/4.f;
-			static float distance_default = 10.f;
-			static Function f = { &namspc({ "mud", "ui" }), "orbit_controller", nullptr, mud_ui_orbit_controller_3, { { "viewer", type<mud::Viewer>(),  }, { "yaw", type<float>(), Param::Default, &yaw_default }, { "pitch", type<float>(), Param::Default, &pitch_default }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<mud::OrbitController>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "orbit_controls", nullptr, mud_ui_orbit_controls_3, { { "viewer", type<mud::Viewer>(),  } }, { &type<mud::OrbitControls>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "free_orbit_controller", nullptr, mud_ui_free_orbit_controller_4, { { "viewer", type<mud::Viewer>(),  } }, { &type<mud::FreeOrbitController>(), QualType::None } };
+			static float yaw_default = c_pi/4.f;
+			static float pitch_default = -c_pi/4.f;
+			static float distance_default = 10.f;
+			static Function f = { &namspc({ "mud", "ui" }), "orbit_controller", nullptr, mud_ui_orbit_controller_4, { { "viewer", type<mud::Viewer>(),  }, { "yaw", type<float>(), Param::Default, &yaw_default }, { "pitch", type<float>(), Param::Default, &pitch_default }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<mud::OrbitController>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "ui" }), "free_orbit_controller", nullptr, mud_ui_free_orbit_controller_5, { { "viewer", type<mud::Viewer>(),  } }, { &type<mud::FreeOrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool topdown_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "isometric_controller", nullptr, mud_ui_isometric_controller_5, { { "viewer", type<mud::Viewer>(),  }, { "topdown", type<bool>(), Param::Default, &topdown_default } }, { &type<mud::OrbitController>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "isometric_controller", nullptr, mud_ui_isometric_controller_6, { { "viewer", type<mud::Viewer>(),  }, { "topdown", type<bool>(), Param::Default, &topdown_default } }, { &type<mud::OrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool modal_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "hybrid_controller", nullptr, mud_ui_hybrid_controller_6, { { "viewer", type<mud::Viewer>(),  }, { "mode", type<mud::ui::OrbitMode>(),  }, { "entity", type<mud::Transform>(),  }, { "aiming", type<bool>(),  }, { "angles", type<mud::vec2>(),  }, { "modal", type<bool>(), Param::Default, &modal_default } }, { &type<mud::OrbitController>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "hybrid_controller", nullptr, mud_ui_hybrid_controller_7, { { "viewer", type<mud::Viewer>(),  }, { "mode", type<mud::ui::OrbitMode>(),  }, { "entity", type<mud::Transform>(),  }, { "aiming", type<bool>(),  }, { "angles", type<mud::vec2>(),  }, { "modal", type<bool>(), Param::Default, &modal_default } }, { &type<mud::OrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float speed_default = 1.f;
-			static Function f = { &namspc({ "mud", "ui" }), "velocity_controller", nullptr, mud_ui_velocity_controller_7, { { "viewer", type<mud::Viewer>(),  }, { "linear", type<mud::vec3>(),  }, { "angular", type<mud::vec3>(),  }, { "speed", type<float>(), Param::Default, &speed_default } }, g_qvoid };
+			static Function f = { &namspc({ "mud", "ui" }), "velocity_controller", nullptr, mud_ui_velocity_controller_8, { { "viewer", type<mud::Viewer>(),  }, { "linear", type<mud::vec3>(),  }, { "angular", type<mud::vec3>(),  }, { "speed", type<float>(), Param::Default, &speed_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

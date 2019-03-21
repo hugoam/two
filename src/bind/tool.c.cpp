@@ -257,18 +257,32 @@ extern "C" {
 	void DECL mud_CopyTool__destroy(mud::CopyTool* self) {
 		delete self;
 	}
-	// ViewportTool
-	mud::Type* DECL mud_ViewportTool__type() {
-		return &mud::type<mud::ViewportTool>();
-	}
-	void DECL mud_ViewportTool__destroy(mud::ViewportTool* self) {
-		delete self;
-	}
 	// FrameViewTool
 	mud::Type* DECL mud_FrameViewTool__type() {
 		return &mud::type<mud::FrameViewTool>();
 	}
 	void DECL mud_FrameViewTool__destroy(mud::FrameViewTool* self) {
+		delete self;
+	}
+	// TranslateTool
+	mud::Type* DECL mud_TranslateTool__type() {
+		return &mud::type<mud::TranslateTool>();
+	}
+	void DECL mud_TranslateTool__destroy(mud::TranslateTool* self) {
+		delete self;
+	}
+	// ViewAction
+	mud::Type* DECL mud_ViewAction__type() {
+		return &mud::type<mud::ViewAction>();
+	}
+	void DECL mud_ViewAction__destroy(mud::ViewAction* self) {
+		delete self;
+	}
+	// ViewportTool
+	mud::Type* DECL mud_ViewportTool__type() {
+		return &mud::type<mud::ViewportTool>();
+	}
+	void DECL mud_ViewportTool__destroy(mud::ViewportTool* self) {
 		delete self;
 	}
 	// SpatialTool
@@ -299,25 +313,11 @@ extern "C" {
 	void DECL mud_TransformTool__destroy(mud::TransformTool* self) {
 		delete self;
 	}
-	// TranslateTool
-	mud::Type* DECL mud_TranslateTool__type() {
-		return &mud::type<mud::TranslateTool>();
-	}
-	void DECL mud_TranslateTool__destroy(mud::TranslateTool* self) {
-		delete self;
-	}
 	// UndoTool
 	mud::Type* DECL mud_UndoTool__type() {
 		return &mud::type<mud::UndoTool>();
 	}
 	void DECL mud_UndoTool__destroy(mud::UndoTool* self) {
-		delete self;
-	}
-	// ViewAction
-	mud::Type* DECL mud_ViewAction__type() {
-		return &mud::type<mud::ViewAction>();
-	}
-	void DECL mud_ViewAction__destroy(mud::ViewAction* self) {
 		delete self;
 	}
 	// ViewTool

@@ -83,6 +83,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DistanceParams>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Flow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Fog>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::FrameBuffer>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Frustum>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::FrustumSlice>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>();
@@ -138,7 +139,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Mime>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Node3>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Texture>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::Viewport>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Zone>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockCopy>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>();
@@ -150,7 +150,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Flare>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::FrameBuffer>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Viewport>();
 }

@@ -30,6 +30,7 @@ namespace mud
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::ViewerController>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::OrbitController>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::FreeOrbitController>();
+    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::OrbitControls>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::Viewer>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::SceneViewer>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::SpaceSheet>();

@@ -29,6 +29,12 @@ void mud_BCS__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::
 void mud_BCS__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::BCS((*static_cast<mud::BCS*>(other))); }
 void mud_CSMShadow__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CSMShadow(  ); }
 void mud_CSMShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CSMShadow((*static_cast<mud::CSMShadow*>(other))); }
+void mud_CubeCamera__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CubeCamera(  ); }
+void mud_CubeCamera__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::CubeCamera( *static_cast<mud::Scene*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<uint32_t*>(args[3]) ); }
+void mud_CubeCamera_render(void* object, span<void*> args, void*& result) { (*static_cast<mud::Render*>(result)) = (*static_cast<mud::CubeCamera*>(object)).render(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1]), *static_cast<mud::SignedAxis*>(args[2])); }
+void mud_CubeTarget__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CubeTarget(  ); }
+void mud_CubeTarget_create(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::CubeTarget*>(object)).create(*static_cast<uint32_t*>(args[0])); }
+void mud_CubeTarget_side(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::CubeTarget*>(object)).side(*static_cast<size_t*>(args[0])); }
 void mud_DofBlur__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DofBlur(  ); }
 void mud_DofBlur__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::DofBlur((*static_cast<mud::DofBlur*>(other))); }
 void mud_DofParams__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DofParams(  ); }
@@ -134,6 +140,55 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+	}
+	// mud::CubeCamera
+	{
+		Type& t = type<mud::CubeCamera>();
+		static Meta meta = { t, &namspc({ "mud" }), "CubeCamera", sizeof(mud::CubeCamera), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CubeCamera__construct_0, {} },
+			{ t, mud_CubeCamera__construct_1, { { "scene", type<mud::Scene>(),  }, { "near", type<float>(),  }, { "far", type<float>(),  }, { "size", type<uint32_t>(),  } } }
+		};
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::CubeCamera, m_cubemap), type<mud::CubeTarget>(), "cubemap", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::CubeCamera, m_size), type<mud::uvec2>(), "size", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		static Method methods[] = {
+			{ t, "render", Address(), mud_CubeCamera_render, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  }, { "axis", type<mud::SignedAxis>(),  } }, { &type<mud::Render>(), QualType::None } }
+		};
+		// static members
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
+	}
+	// mud::CubeTarget
+	{
+		Type& t = type<mud::CubeTarget>();
+		static Meta meta = { t, &namspc({ "mud" }), "CubeTarget", sizeof(mud::CubeTarget), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CubeTarget__construct_0, {} }
+		};
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::CubeTarget, m_cubemap), type<mud::Texture>(), "cubemap", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::CubeTarget, m_depth), type<mud::Texture>(), "depth", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::CubeTarget, m_size), type<uint32_t>(), "size", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		static Method methods[] = {
+			{ t, "create", Address(), mud_CubeTarget_create, { { "size", type<uint32_t>(),  } }, g_qvoid },
+			{ t, "side", Address(), mud_CubeTarget_side, { { "i", type<size_t>(),  } }, { &type<mud::FrameBuffer>(), QualType::None } }
+		};
+		// static members
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
 	// mud::DofBlur
 	{
@@ -531,6 +586,8 @@ namespace mud
 	
 		m.m_types.push_back(&type<mud::BCS>());
 		m.m_types.push_back(&type<mud::CSMShadow>());
+		m.m_types.push_back(&type<mud::CubeCamera>());
+		m.m_types.push_back(&type<mud::CubeTarget>());
 		m.m_types.push_back(&type<mud::DofBlur>());
 		m.m_types.push_back(&type<mud::DofParams>());
 		m.m_types.push_back(&type<mud::GIProbe>());

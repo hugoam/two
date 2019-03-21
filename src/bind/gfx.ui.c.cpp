@@ -69,6 +69,13 @@ extern "C" {
 	void DECL mud_FreeOrbitController__destroy(mud::FreeOrbitController* self) {
 		delete self;
 	}
+	// OrbitControls
+	mud::Type* DECL mud_OrbitControls__type() {
+		return &mud::type<mud::OrbitControls>();
+	}
+	void DECL mud_OrbitControls__destroy(mud::OrbitControls* self) {
+		delete self;
+	}
 	// Viewer
 	mud::Type* DECL mud_Viewer__type() {
 		return &mud::type<mud::Viewer>();
@@ -132,6 +139,9 @@ extern "C" {
 	}
 	mud::TrackballController* DECL mud_ui_trackball_controller_1(mud::Viewer* viewer) {
 		return &mud::ui::trackball_controller(*viewer);
+	}
+	mud::OrbitControls* DECL mud_ui_orbit_controls_1(mud::Viewer* viewer) {
+		return &mud::ui::orbit_controls(*viewer);
 	}
 	mud::OrbitController* DECL mud_ui_orbit_controller_1(mud::Viewer* viewer) {
 		return &mud::ui::orbit_controller(*viewer);

@@ -191,20 +191,28 @@ Object.defineProperty(MeshAdapter.prototype, "index32", {
         _mud_MeshAdapter__set_index32(this.__ptr, value);
     }
 });
+Object.defineProperty(MeshAdapter.prototype, "vertex_count", {
+    get: function() {
+        return _mud_MeshAdapter__get_vertex_count(this.__ptr);
+    },
+    set: function(value) {
+        _mud_MeshAdapter__set_vertex_count(this.__ptr, value);
+    }
+});
+Object.defineProperty(MeshAdapter.prototype, "index_count", {
+    get: function() {
+        return _mud_MeshAdapter__get_index_count(this.__ptr);
+    },
+    set: function(value) {
+        _mud_MeshAdapter__set_index_count(this.__ptr, value);
+    }
+});
 Object.defineProperty(MeshAdapter.prototype, "vertex_stride", {
     get: function() {
         return _mud_MeshAdapter__get_vertex_stride(this.__ptr);
     },
     set: function(value) {
         _mud_MeshAdapter__set_vertex_stride(this.__ptr, value);
-    }
-});
-Object.defineProperty(MeshAdapter.prototype, "index_stride", {
-    get: function() {
-        return _mud_MeshAdapter__get_index_stride(this.__ptr);
-    },
-    set: function(value) {
-        _mud_MeshAdapter__set_index_stride(this.__ptr, value);
     }
 });
 MeshAdapter.prototype["__destroy"] = MeshAdapter.prototype.__destroy = function() {
@@ -249,6 +257,9 @@ MeshPacker.prototype["weights"] = MeshPacker.prototype.weights = function(a0) {
 MeshPacker.prototype["index"] = MeshPacker.prototype.index = function(a0) {
     _mud_MeshPacker_index_1(this.__ptr, /*i*/a0);
 };
+MeshPacker.prototype["resize"] = MeshPacker.prototype.resize = function(a0, a1, a2) {
+    _mud_MeshPacker_resize_3(this.__ptr, /*vertex_count*/a0, /*index_count*/a1, /*vertex_format*/a2);
+};
 MeshPacker.prototype["clear"] = MeshPacker.prototype.clear = function() {
     _mud_MeshPacker_clear_0(this.__ptr);
 };
@@ -261,11 +272,18 @@ MeshPacker.prototype["xpack"] = MeshPacker.prototype.xpack = function(a0, a1) {
 MeshPacker.prototype["unpack"] = MeshPacker.prototype.unpack = function(a0, a1) {
     _mud_MeshPacker_unpack_2(this.__ptr, /*reader*/a0.__ptr, /*transform*/a1.__ptr);
 };
-MeshPacker.prototype["generate_normals"] = MeshPacker.prototype.generate_normals = function() {
-    _mud_MeshPacker_generate_normals_0(this.__ptr);
+MeshPacker.prototype["gen_normals"] = MeshPacker.prototype.gen_normals = function(a0) {
+    if (a0 === undefined) { _mud_MeshPacker_gen_normals_0(this.__ptr); return; }
+    _mud_MeshPacker_gen_normals_1(this.__ptr, /*area_weighted*/a0);
 };
-MeshPacker.prototype["generate_tangents"] = MeshPacker.prototype.generate_tangents = function() {
-    _mud_MeshPacker_generate_tangents_0(this.__ptr);
+MeshPacker.prototype["gen_flat_normals"] = MeshPacker.prototype.gen_flat_normals = function() {
+    _mud_MeshPacker_gen_flat_normals_0(this.__ptr);
+};
+MeshPacker.prototype["gen_tangents"] = MeshPacker.prototype.gen_tangents = function() {
+    _mud_MeshPacker_gen_tangents_0(this.__ptr);
+};
+MeshPacker.prototype["smooth_normals"] = MeshPacker.prototype.smooth_normals = function() {
+    _mud_MeshPacker_smooth_normals_0(this.__ptr);
 };
 Object.defineProperty(MeshPacker.prototype, "primitive", {
     get: function() {
@@ -286,6 +304,10 @@ Object.defineProperty(MeshPacker.prototype, "normals", {
 Object.defineProperty(MeshPacker.prototype, "colours", {
     get: function() {
         return _mud_MeshPacker__get_colours(this.__ptr);
+    }});
+Object.defineProperty(MeshPacker.prototype, "ucolours", {
+    get: function() {
+        return _mud_MeshPacker__get_ucolours(this.__ptr);
     }});
 Object.defineProperty(MeshPacker.prototype, "tangents", {
     get: function() {
@@ -1197,27 +1219,27 @@ Object.defineProperty(Grid3.prototype, "points", {
 Grid3.prototype["__destroy"] = Grid3.prototype.__destroy = function() {
     _mud_Grid3__destroy(this.__ptr);
 };
-// Icosahedron
-function Icosahedron(a0, a1) {
-    if (a0 === undefined) { this.__ptr = _mud_Icosahedron__construct_0(); this.__type = Icosahedron.__type; getCache(Icosahedron)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_Icosahedron__construct_1(/*radius*/a0); this.__type = Icosahedron.__type; getCache(Icosahedron)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Icosahedron__construct_2(/*center*/a0.__ptr, /*radius*/a1); this.__type = Icosahedron.__type; getCache(Icosahedron)[this.__ptr] = this;
+// Icosaedr
+function Icosaedr(a0, a1) {
+    if (a0 === undefined) { this.__ptr = _mud_Icosaedr__construct_0(); this.__type = Icosaedr.__type; getCache(Icosaedr)[this.__ptr] = this; return; }
+    if (a1 === undefined) { this.__ptr = _mud_Icosaedr__construct_1(/*radius*/a0); this.__type = Icosaedr.__type; getCache(Icosaedr)[this.__ptr] = this; return; }
+    this.__ptr = _mud_Icosaedr__construct_2(/*center*/a0.__ptr, /*radius*/a1); this.__type = Icosaedr.__type; getCache(Icosaedr)[this.__ptr] = this;
 };
-Icosahedron.prototype = Object.create(Shape.prototype);
-Icosahedron.prototype.constructor = Icosahedron;
-Icosahedron.prototype.__class = Icosahedron;
-Icosahedron.__cache = {};
-Module['Icosahedron'] = Icosahedron;
-Object.defineProperty(Icosahedron.prototype, "radius", {
+Icosaedr.prototype = Object.create(Shape.prototype);
+Icosaedr.prototype.constructor = Icosaedr;
+Icosaedr.prototype.__class = Icosaedr;
+Icosaedr.__cache = {};
+Module['Icosaedr'] = Icosaedr;
+Object.defineProperty(Icosaedr.prototype, "radius", {
     get: function() {
-        return _mud_Icosahedron__get_radius(this.__ptr);
+        return _mud_Icosaedr__get_radius(this.__ptr);
     },
     set: function(value) {
-        _mud_Icosahedron__set_radius(this.__ptr, value);
+        _mud_Icosaedr__set_radius(this.__ptr, value);
     }
 });
-Icosahedron.prototype["__destroy"] = Icosahedron.prototype.__destroy = function() {
-    _mud_Icosahedron__destroy(this.__ptr);
+Icosaedr.prototype["__destroy"] = Icosaedr.prototype.__destroy = function() {
+    _mud_Icosaedr__destroy(this.__ptr);
 };
 // Line
 function Line(a0, a1) {
@@ -1457,12 +1479,34 @@ Object.defineProperty(Spheroid.prototype, "radius", {
 Spheroid.prototype["__destroy"] = Spheroid.prototype.__destroy = function() {
     _mud_Spheroid__destroy(this.__ptr);
 };
+// Tetraedr
+function Tetraedr(a0, a1) {
+    if (a0 === undefined) { this.__ptr = _mud_Tetraedr__construct_0(); this.__type = Tetraedr.__type; getCache(Tetraedr)[this.__ptr] = this; return; }
+    if (a1 === undefined) { this.__ptr = _mud_Tetraedr__construct_1(/*radius*/a0); this.__type = Tetraedr.__type; getCache(Tetraedr)[this.__ptr] = this; return; }
+    this.__ptr = _mud_Tetraedr__construct_2(/*center*/a0.__ptr, /*radius*/a1); this.__type = Tetraedr.__type; getCache(Tetraedr)[this.__ptr] = this;
+};
+Tetraedr.prototype = Object.create(Shape.prototype);
+Tetraedr.prototype.constructor = Tetraedr;
+Tetraedr.prototype.__class = Tetraedr;
+Tetraedr.__cache = {};
+Module['Tetraedr'] = Tetraedr;
+Object.defineProperty(Tetraedr.prototype, "radius", {
+    get: function() {
+        return _mud_Tetraedr__get_radius(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Tetraedr__set_radius(this.__ptr, value);
+    }
+});
+Tetraedr.prototype["__destroy"] = Tetraedr.prototype.__destroy = function() {
+    _mud_Tetraedr__destroy(this.__ptr);
+};
 // Torus
 function Torus(a0, a1, a2, a3) {
     if (a0 === undefined) { this.__ptr = _mud_Torus__construct_0(); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_Torus__construct_2(/*radius*/a0, /*solid_radius*/a1); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; return; }
-    if (a3 === undefined) { this.__ptr = _mud_Torus__construct_3(/*radius*/a0, /*solid_radius*/a1, /*axis*/a2); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Torus__construct_4(/*center*/a0.__ptr, /*radius*/a1, /*solid_radius*/a2, /*axis*/a3); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this;
+    if (a2 === undefined) { this.__ptr = _mud_Torus__construct_2(/*radius*/a0, /*tube*/a1); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; return; }
+    if (a3 === undefined) { this.__ptr = _mud_Torus__construct_3(/*radius*/a0, /*tube*/a1, /*axis*/a2); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; return; }
+    this.__ptr = _mud_Torus__construct_4(/*center*/a0.__ptr, /*radius*/a1, /*tube*/a2, /*axis*/a3); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this;
 };
 Torus.prototype = Object.create(Shape.prototype);
 Torus.prototype.constructor = Torus;
@@ -1497,10 +1541,12 @@ Torus.prototype["__destroy"] = Torus.prototype.__destroy = function() {
     _mud_Torus__destroy(this.__ptr);
 };
 // TorusKnot
-function TorusKnot(a0, a1, a2) {
+function TorusKnot(a0, a1, a2, a3, a4) {
     if (a0 === undefined) { this.__ptr = _mud_TorusKnot__construct_0(); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_TorusKnot__construct_2(/*radius*/a0, /*solid_radius*/a1); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; return; }
-    this.__ptr = _mud_TorusKnot__construct_3(/*center*/a0.__ptr, /*radius*/a1, /*solid_radius*/a2); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this;
+    if (a2 === undefined) { this.__ptr = _mud_TorusKnot__construct_2(/*radius*/a0, /*tube*/a1); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; return; }
+    if (a3 === undefined) { this.__ptr = _mud_TorusKnot__construct_3(/*radius*/a0, /*tube*/a1, /*p*/a2); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; return; }
+    if (a4 === undefined) { this.__ptr = _mud_TorusKnot__construct_4(/*radius*/a0, /*tube*/a1, /*p*/a2, /*q*/a3); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; return; }
+    this.__ptr = _mud_TorusKnot__construct_5(/*center*/a0.__ptr, /*radius*/a1, /*tube*/a2, /*p*/a3, /*q*/a4); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this;
 };
 TorusKnot.prototype = Object.create(Shape.prototype);
 TorusKnot.prototype.constructor = TorusKnot;
@@ -1521,6 +1567,22 @@ Object.defineProperty(TorusKnot.prototype, "tube", {
     },
     set: function(value) {
         _mud_TorusKnot__set_tube(this.__ptr, value);
+    }
+});
+Object.defineProperty(TorusKnot.prototype, "p", {
+    get: function() {
+        return _mud_TorusKnot__get_p(this.__ptr);
+    },
+    set: function(value) {
+        _mud_TorusKnot__set_p(this.__ptr, value);
+    }
+});
+Object.defineProperty(TorusKnot.prototype, "q", {
+    get: function() {
+        return _mud_TorusKnot__get_q(this.__ptr);
+    },
+    set: function(value) {
+        _mud_TorusKnot__set_q(this.__ptr, value);
     }
 });
 TorusKnot.prototype["__destroy"] = TorusKnot.prototype.__destroy = function() {
@@ -1608,7 +1670,7 @@ Module['add_planeZ'] = function(a0, a1, a2) {
         Geometry.__type = _mud_Geometry__type();
         Grid2.__type = _mud_Grid2__type();
         Grid3.__type = _mud_Grid3__type();
-        Icosahedron.__type = _mud_Icosahedron__type();
+        Icosaedr.__type = _mud_Icosaedr__type();
         Line.__type = _mud_Line__type();
         Points.__type = _mud_Points__type();
         Poisson.__type = _mud_Poisson__type();
@@ -1619,6 +1681,7 @@ Module['add_planeZ'] = function(a0, a1, a2) {
         Sphere.__type = _mud_Sphere__type();
         SphereRing.__type = _mud_SphereRing__type();
         Spheroid.__type = _mud_Spheroid__type();
+        Tetraedr.__type = _mud_Tetraedr__type();
         Torus.__type = _mud_Torus__type();
         TorusKnot.__type = _mud_TorusKnot__type();
         Triangle.__type = _mud_Triangle__type();

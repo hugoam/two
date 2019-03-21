@@ -59,6 +59,59 @@ extern "C" {
 	void DECL mud_CSMShadow__destroy(mud::CSMShadow* self) {
 		delete self;
 	}
+	// CubeCamera
+	mud::Type* DECL mud_CubeCamera__type() {
+		return &mud::type<mud::CubeCamera>();
+	}
+	mud::CubeCamera* DECL mud_CubeCamera__construct_0() {
+		return new mud::CubeCamera();
+	}
+	mud::CubeCamera* DECL mud_CubeCamera__construct_4(mud::Scene* scene, float near, float far, uint32_t size) {
+		return new mud::CubeCamera(*scene, near, far, size);
+	}
+	mud::Render* DECL mud_CubeCamera_render_3(mud::CubeCamera* self, mud::GfxSystem* gfx, mud::Render* render, mud::SignedAxis axis) {
+		return &self->render(*gfx, *render, axis);
+	}
+	mud::CubeTarget* DECL mud_CubeCamera__get_cubemap(mud::CubeCamera* self) {
+		return &self->m_cubemap;
+	}
+	mud::uvec2* DECL mud_CubeCamera__get_size(mud::CubeCamera* self) {
+		return &self->m_size;
+	}
+	void DECL mud_CubeCamera__set_size(mud::CubeCamera* self, mud::uvec2* value) {
+		self->m_size = *value;
+	}
+	void DECL mud_CubeCamera__destroy(mud::CubeCamera* self) {
+		delete self;
+	}
+	// CubeTarget
+	mud::Type* DECL mud_CubeTarget__type() {
+		return &mud::type<mud::CubeTarget>();
+	}
+	mud::CubeTarget* DECL mud_CubeTarget__construct_0() {
+		return new mud::CubeTarget();
+	}
+	void DECL mud_CubeTarget_create_1(mud::CubeTarget* self, uint32_t size) {
+		self->create(size);
+	}
+	mud::FrameBuffer* DECL mud_CubeTarget_side_1(mud::CubeTarget* self, size_t i) {
+		return &self->side(i);
+	}
+	mud::Texture* DECL mud_CubeTarget__get_cubemap(mud::CubeTarget* self) {
+		return &self->m_cubemap;
+	}
+	mud::Texture* DECL mud_CubeTarget__get_depth(mud::CubeTarget* self) {
+		return &self->m_depth;
+	}
+	uint32_t DECL mud_CubeTarget__get_size(mud::CubeTarget* self) {
+		return self->m_size;
+	}
+	void DECL mud_CubeTarget__set_size(mud::CubeTarget* self, uint32_t value) {
+		self->m_size = value;
+	}
+	void DECL mud_CubeTarget__destroy(mud::CubeTarget* self) {
+		delete self;
+	}
 	// DofBlur
 	mud::Type* DECL mud_DofBlur__type() {
 		return &mud::type<mud::DofBlur>();

@@ -312,16 +312,6 @@ Module['CopyTool'] = CopyTool;
 CopyTool.prototype["__destroy"] = CopyTool.prototype.__destroy = function() {
     _mud_CopyTool__destroy(this.__ptr);
 };
-// ViewportTool
-function ViewportTool() { throw "cannot construct a ViewportTool, no constructor in IDL" }
-ViewportTool.prototype = Object.create(Tool.prototype);
-ViewportTool.prototype.constructor = ViewportTool;
-ViewportTool.prototype.__class = ViewportTool;
-ViewportTool.__cache = {};
-Module['ViewportTool'] = ViewportTool;
-ViewportTool.prototype["__destroy"] = ViewportTool.prototype.__destroy = function() {
-    _mud_ViewportTool__destroy(this.__ptr);
-};
 // FrameViewTool
 function FrameViewTool() { throw "cannot construct a FrameViewTool, no constructor in IDL" }
 FrameViewTool.prototype = Object.create(ViewportTool.prototype);
@@ -331,6 +321,36 @@ FrameViewTool.__cache = {};
 Module['FrameViewTool'] = FrameViewTool;
 FrameViewTool.prototype["__destroy"] = FrameViewTool.prototype.__destroy = function() {
     _mud_FrameViewTool__destroy(this.__ptr);
+};
+// TranslateTool
+function TranslateTool() { throw "cannot construct a TranslateTool, no constructor in IDL" }
+TranslateTool.prototype = Object.create(TransformTool.prototype);
+TranslateTool.prototype.constructor = TranslateTool;
+TranslateTool.prototype.__class = TranslateTool;
+TranslateTool.__cache = {};
+Module['TranslateTool'] = TranslateTool;
+TranslateTool.prototype["__destroy"] = TranslateTool.prototype.__destroy = function() {
+    _mud_TranslateTool__destroy(this.__ptr);
+};
+// ViewAction
+function ViewAction() { throw "cannot construct a ViewAction, no constructor in IDL" }
+ViewAction.prototype = Object.create(EditorAction.prototype);
+ViewAction.prototype.constructor = ViewAction;
+ViewAction.prototype.__class = ViewAction;
+ViewAction.__cache = {};
+Module['ViewAction'] = ViewAction;
+ViewAction.prototype["__destroy"] = ViewAction.prototype.__destroy = function() {
+    _mud_ViewAction__destroy(this.__ptr);
+};
+// ViewportTool
+function ViewportTool() { throw "cannot construct a ViewportTool, no constructor in IDL" }
+ViewportTool.prototype = Object.create(Tool.prototype);
+ViewportTool.prototype.constructor = ViewportTool;
+ViewportTool.prototype.__class = ViewportTool;
+ViewportTool.__cache = {};
+Module['ViewportTool'] = ViewportTool;
+ViewportTool.prototype["__destroy"] = ViewportTool.prototype.__destroy = function() {
+    _mud_ViewportTool__destroy(this.__ptr);
 };
 // SpatialTool
 function SpatialTool() { throw "cannot construct a SpatialTool, no constructor in IDL" }
@@ -372,16 +392,6 @@ Module['TransformTool'] = TransformTool;
 TransformTool.prototype["__destroy"] = TransformTool.prototype.__destroy = function() {
     _mud_TransformTool__destroy(this.__ptr);
 };
-// TranslateTool
-function TranslateTool() { throw "cannot construct a TranslateTool, no constructor in IDL" }
-TranslateTool.prototype = Object.create(TransformTool.prototype);
-TranslateTool.prototype.constructor = TranslateTool;
-TranslateTool.prototype.__class = TranslateTool;
-TranslateTool.__cache = {};
-Module['TranslateTool'] = TranslateTool;
-TranslateTool.prototype["__destroy"] = TranslateTool.prototype.__destroy = function() {
-    _mud_TranslateTool__destroy(this.__ptr);
-};
 // UndoTool
 function UndoTool() { throw "cannot construct a UndoTool, no constructor in IDL" }
 UndoTool.prototype = Object.create(Tool.prototype);
@@ -391,16 +401,6 @@ UndoTool.__cache = {};
 Module['UndoTool'] = UndoTool;
 UndoTool.prototype["__destroy"] = UndoTool.prototype.__destroy = function() {
     _mud_UndoTool__destroy(this.__ptr);
-};
-// ViewAction
-function ViewAction() { throw "cannot construct a ViewAction, no constructor in IDL" }
-ViewAction.prototype = Object.create(EditorAction.prototype);
-ViewAction.prototype.constructor = ViewAction;
-ViewAction.prototype.__class = ViewAction;
-ViewAction.__cache = {};
-Module['ViewAction'] = ViewAction;
-ViewAction.prototype["__destroy"] = ViewAction.prototype.__destroy = function() {
-    _mud_ViewAction__destroy(this.__ptr);
 };
 // ViewTool
 function ViewTool() { throw "cannot construct a ViewTool, no constructor in IDL" }
@@ -464,15 +464,15 @@ WorldSnapOption.prototype["__destroy"] = WorldSnapOption.prototype.__destroy = f
         TranslateAction.__type = _mud_TranslateAction__type();
         CopyAction.__type = _mud_CopyAction__type();
         CopyTool.__type = _mud_CopyTool__type();
-        ViewportTool.__type = _mud_ViewportTool__type();
         FrameViewTool.__type = _mud_FrameViewTool__type();
+        TranslateTool.__type = _mud_TranslateTool__type();
+        ViewAction.__type = _mud_ViewAction__type();
+        ViewportTool.__type = _mud_ViewportTool__type();
         SpatialTool.__type = _mud_SpatialTool__type();
         TransformAction.__type = _mud_TransformAction__type();
         TransformGizmo.__type = _mud_TransformGizmo__type();
         TransformTool.__type = _mud_TransformTool__type();
-        TranslateTool.__type = _mud_TranslateTool__type();
         UndoTool.__type = _mud_UndoTool__type();
-        ViewAction.__type = _mud_ViewAction__type();
         ViewTool.__type = _mud_ViewTool__type();
         WorkPlaneAction.__type = _mud_WorkPlaneAction__type();
         WorkPlaneTool.__type = _mud_WorkPlaneTool__type();

@@ -36,5 +36,6 @@ namespace mud
     class OrbitController;
     class TrackballController;
     class FreeOrbitController;
+	class OrbitControls;
     class SpaceViewport;
 }

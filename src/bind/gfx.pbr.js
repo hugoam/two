@@ -55,6 +55,68 @@ Module['CSMShadow'] = CSMShadow;
 CSMShadow.prototype["__destroy"] = CSMShadow.prototype.__destroy = function() {
     _mud_CSMShadow__destroy(this.__ptr);
 };
+// CubeCamera
+function CubeCamera(a0, a1, a2, a3) {
+    if (a0 === undefined) { this.__ptr = _mud_CubeCamera__construct_0(); this.__type = CubeCamera.__type; getCache(CubeCamera)[this.__ptr] = this; return; }
+    this.__ptr = _mud_CubeCamera__construct_4(/*scene*/a0.__ptr, /*near*/a1, /*far*/a2, /*size*/a3); this.__type = CubeCamera.__type; getCache(CubeCamera)[this.__ptr] = this;
+};
+CubeCamera.prototype = Object.create(WrapperObject.prototype);
+CubeCamera.prototype.constructor = CubeCamera;
+CubeCamera.prototype.__class = CubeCamera;
+CubeCamera.__cache = {};
+Module['CubeCamera'] = CubeCamera;
+CubeCamera.prototype["render"] = CubeCamera.prototype.render = function(a0, a1, a2) {
+    return wrapPointer(_mud_CubeCamera_render_3(this.__ptr, /*gfx*/a0.__ptr, /*render*/a1.__ptr, /*axis*/a2), Render);
+};
+Object.defineProperty(CubeCamera.prototype, "cubemap", {
+    get: function() {
+        return wrapPointer(_mud_CubeCamera__get_cubemap(this.__ptr), CubeTarget);
+    }});
+Object.defineProperty(CubeCamera.prototype, "size", {
+    get: function() {
+        return wrapPointer(_mud_CubeCamera__get_size(this.__ptr), v2_uint);
+    },
+    set: function(value) {
+        _mud_CubeCamera__set_size(this.__ptr, value.__ptr);
+    }
+});
+CubeCamera.prototype["__destroy"] = CubeCamera.prototype.__destroy = function() {
+    _mud_CubeCamera__destroy(this.__ptr);
+};
+// CubeTarget
+function CubeTarget() {
+    this.__ptr = _mud_CubeTarget__construct_0(); this.__type = CubeTarget.__type; getCache(CubeTarget)[this.__ptr] = this;
+};
+CubeTarget.prototype = Object.create(WrapperObject.prototype);
+CubeTarget.prototype.constructor = CubeTarget;
+CubeTarget.prototype.__class = CubeTarget;
+CubeTarget.__cache = {};
+Module['CubeTarget'] = CubeTarget;
+CubeTarget.prototype["create"] = CubeTarget.prototype.create = function(a0) {
+    _mud_CubeTarget_create_1(this.__ptr, /*size*/a0);
+};
+CubeTarget.prototype["side"] = CubeTarget.prototype.side = function(a0) {
+    return wrapPointer(_mud_CubeTarget_side_1(this.__ptr, /*i*/a0), FrameBuffer);
+};
+Object.defineProperty(CubeTarget.prototype, "cubemap", {
+    get: function() {
+        return wrapPointer(_mud_CubeTarget__get_cubemap(this.__ptr), Texture);
+    }});
+Object.defineProperty(CubeTarget.prototype, "depth", {
+    get: function() {
+        return wrapPointer(_mud_CubeTarget__get_depth(this.__ptr), Texture);
+    }});
+Object.defineProperty(CubeTarget.prototype, "size", {
+    get: function() {
+        return _mud_CubeTarget__get_size(this.__ptr);
+    },
+    set: function(value) {
+        _mud_CubeTarget__set_size(this.__ptr, value);
+    }
+});
+CubeTarget.prototype["__destroy"] = CubeTarget.prototype.__destroy = function() {
+    _mud_CubeTarget__destroy(this.__ptr);
+};
 // DofBlur
 function DofBlur() {
     this.__ptr = _mud_DofBlur__construct_0(); this.__type = DofBlur.__type; getCache(DofBlur)[this.__ptr] = this;
@@ -550,6 +612,8 @@ Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
     function setup() {
         BCS.__type = _mud_BCS__type();
         CSMShadow.__type = _mud_CSMShadow__type();
+        CubeCamera.__type = _mud_CubeCamera__type();
+        CubeTarget.__type = _mud_CubeTarget__type();
         DofBlur.__type = _mud_DofBlur__type();
         DofParams.__type = _mud_DofParams__type();
         GIProbe.__type = _mud_GIProbe__type();

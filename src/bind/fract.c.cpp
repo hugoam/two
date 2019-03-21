@@ -43,10 +43,10 @@ extern "C" {
 	void DECL mud_Fract_regen_0(mud::Fract* self) {
 		self->regen();
 	}
-	void DECL mud_Fract_render_4(mud::Fract* self, const mud::Rect* rect, const mud::Pattern* pattern, mud::uvec2* resolution, mud::Image256* output_image) {
+	void DECL mud_Fract_render_4(mud::Fract* self, const mud::Rect* rect, const mud::Pattern* pattern, const mud::uvec2* resolution, mud::Image256* output_image) {
 		self->render(*rect, *pattern, *resolution, *output_image);
 	}
-	void DECL mud_Fract_render_whole_3(mud::Fract* self, const mud::Pattern* pattern, mud::uvec2* resolution, mud::Image256* output_image) {
+	void DECL mud_Fract_render_whole_3(mud::Fract* self, const mud::Pattern* pattern, const mud::uvec2* resolution, mud::Image256* output_image) {
 		self->render_whole(*pattern, *resolution, *output_image);
 	}
 	size_t DECL mud_Fract__get_nutabs(mud::Fract* self) {

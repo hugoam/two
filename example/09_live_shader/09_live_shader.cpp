@@ -71,7 +71,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	auto draw_quad = [](Render& render, const Pass& pass)
 	{
 		BlockFilter& filter = *render.m_scene->m_gfx.m_renderer.block<BlockFilter>();
-		filter.quad(pass.m_index, *pass.m_target, program.default_version(), { pass.m_viewport->m_rect });
+		filter.quad(pass.m_index, *pass.m_target, program, { pass.m_viewport->m_rect });
 	};
 
 	gfx::manual_job(scene, PassType::Solid, draw_quad);

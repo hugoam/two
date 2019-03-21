@@ -7,7 +7,7 @@
 using namespace mud;
 
 #define SIDE_PANEL 1
-#define MULTI_WINDOW 1
+#define MULTI_WINDOW 0
 
 // html ok :
 // xx_shadow_point (try shadows)

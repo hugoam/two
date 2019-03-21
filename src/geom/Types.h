@@ -72,10 +72,10 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Quad>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Rect>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Ring>();
-	export_ template <> MUD_GEOM_EXPORT Type& type<mud::Tetraedr>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Sphere>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::SphereRing>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Tetraedr>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Torus>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::TorusKnot>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>();

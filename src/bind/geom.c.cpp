@@ -177,17 +177,23 @@ extern "C" {
 	void DECL mud_MeshAdapter__set_index32(mud::MeshAdapter* self, bool value) {
 		self->m_index32 = value;
 	}
+	uint32_t DECL mud_MeshAdapter__get_vertex_count(mud::MeshAdapter* self) {
+		return self->m_vertex_count;
+	}
+	void DECL mud_MeshAdapter__set_vertex_count(mud::MeshAdapter* self, uint32_t value) {
+		self->m_vertex_count = value;
+	}
+	uint32_t DECL mud_MeshAdapter__get_index_count(mud::MeshAdapter* self) {
+		return self->m_index_count;
+	}
+	void DECL mud_MeshAdapter__set_index_count(mud::MeshAdapter* self, uint32_t value) {
+		self->m_index_count = value;
+	}
 	uint32_t DECL mud_MeshAdapter__get_vertex_stride(mud::MeshAdapter* self) {
 		return self->m_vertex_stride;
 	}
 	void DECL mud_MeshAdapter__set_vertex_stride(mud::MeshAdapter* self, uint32_t value) {
 		self->m_vertex_stride = value;
-	}
-	uint32_t DECL mud_MeshAdapter__get_index_stride(mud::MeshAdapter* self) {
-		return self->m_index_stride;
-	}
-	void DECL mud_MeshAdapter__set_index_stride(mud::MeshAdapter* self, uint32_t value) {
-		self->m_index_stride = value;
 	}
 	void DECL mud_MeshAdapter__destroy(mud::MeshAdapter* self) {
 		delete self;
@@ -229,6 +235,9 @@ extern "C" {
 	void DECL mud_MeshPacker_index_1(mud::MeshPacker* self, uint32_t i) {
 		self->index(i);
 	}
+	void DECL mud_MeshPacker_resize_3(mud::MeshPacker* self, uint32_t vertex_count, uint32_t index_count, uint32_t vertex_format) {
+		self->resize(vertex_count, index_count, vertex_format);
+	}
 	void DECL mud_MeshPacker_clear_0(mud::MeshPacker* self) {
 		self->clear();
 	}
@@ -241,11 +250,20 @@ extern "C" {
 	void DECL mud_MeshPacker_unpack_2(mud::MeshPacker* self, const mud::MeshAdapter* reader, const mud::mat4* transform) {
 		self->unpack(*reader, *transform);
 	}
-	void DECL mud_MeshPacker_generate_normals_0(mud::MeshPacker* self) {
-		self->generate_normals();
+	void DECL mud_MeshPacker_gen_normals_0(mud::MeshPacker* self) {
+		self->gen_normals();
 	}
-	void DECL mud_MeshPacker_generate_tangents_0(mud::MeshPacker* self) {
-		self->generate_tangents();
+	void DECL mud_MeshPacker_gen_normals_1(mud::MeshPacker* self, bool area_weighted) {
+		self->gen_normals(area_weighted);
+	}
+	void DECL mud_MeshPacker_gen_flat_normals_0(mud::MeshPacker* self) {
+		self->gen_flat_normals();
+	}
+	void DECL mud_MeshPacker_gen_tangents_0(mud::MeshPacker* self) {
+		self->gen_tangents();
+	}
+	void DECL mud_MeshPacker_smooth_normals_0(mud::MeshPacker* self) {
+		self->smooth_normals();
 	}
 	mud::PrimitiveType DECL mud_MeshPacker__get_primitive(mud::MeshPacker* self) {
 		return self->m_primitive;
@@ -261,6 +279,9 @@ extern "C" {
 	}
 	float* DECL mud_MeshPacker__get_colours(mud::MeshPacker* self) {
 		return (float*)self->m_colours.data();
+	}
+	uint* DECL mud_MeshPacker__get_ucolours(mud::MeshPacker* self) {
+		return (uint*)self->m_ucolours.data();
 	}
 	float* DECL mud_MeshPacker__get_tangents(mud::MeshPacker* self) {
 		return (float*)self->m_tangents.data();
@@ -1031,26 +1052,26 @@ extern "C" {
 	void DECL mud_Grid3__destroy(mud::Grid3* self) {
 		delete self;
 	}
-	// Icosahedron
-	mud::Type* DECL mud_Icosahedron__type() {
-		return &mud::type<mud::Icosahedron>();
+	// Icosaedr
+	mud::Type* DECL mud_Icosaedr__type() {
+		return &mud::type<mud::Icosaedr>();
 	}
-	mud::Icosahedron* DECL mud_Icosahedron__construct_0() {
-		return new mud::Icosahedron();
+	mud::Icosaedr* DECL mud_Icosaedr__construct_0() {
+		return new mud::Icosaedr();
 	}
-	mud::Icosahedron* DECL mud_Icosahedron__construct_1(float radius) {
-		return new mud::Icosahedron(radius);
+	mud::Icosaedr* DECL mud_Icosaedr__construct_1(float radius) {
+		return new mud::Icosaedr(radius);
 	}
-	mud::Icosahedron* DECL mud_Icosahedron__construct_2(const mud::vec3* center, float radius) {
-		return new mud::Icosahedron(*center, radius);
+	mud::Icosaedr* DECL mud_Icosaedr__construct_2(const mud::vec3* center, float radius) {
+		return new mud::Icosaedr(*center, radius);
 	}
-	float DECL mud_Icosahedron__get_radius(mud::Icosahedron* self) {
+	float DECL mud_Icosaedr__get_radius(mud::Icosaedr* self) {
 		return self->m_radius;
 	}
-	void DECL mud_Icosahedron__set_radius(mud::Icosahedron* self, float value) {
+	void DECL mud_Icosaedr__set_radius(mud::Icosaedr* self, float value) {
 		self->m_radius = value;
 	}
-	void DECL mud_Icosahedron__destroy(mud::Icosahedron* self) {
+	void DECL mud_Icosaedr__destroy(mud::Icosaedr* self) {
 		delete self;
 	}
 	// Line
@@ -1270,6 +1291,28 @@ extern "C" {
 	void DECL mud_Spheroid__destroy(mud::Spheroid* self) {
 		delete self;
 	}
+	// Tetraedr
+	mud::Type* DECL mud_Tetraedr__type() {
+		return &mud::type<mud::Tetraedr>();
+	}
+	mud::Tetraedr* DECL mud_Tetraedr__construct_0() {
+		return new mud::Tetraedr();
+	}
+	mud::Tetraedr* DECL mud_Tetraedr__construct_1(float radius) {
+		return new mud::Tetraedr(radius);
+	}
+	mud::Tetraedr* DECL mud_Tetraedr__construct_2(const mud::vec3* center, float radius) {
+		return new mud::Tetraedr(*center, radius);
+	}
+	float DECL mud_Tetraedr__get_radius(mud::Tetraedr* self) {
+		return self->m_radius;
+	}
+	void DECL mud_Tetraedr__set_radius(mud::Tetraedr* self, float value) {
+		self->m_radius = value;
+	}
+	void DECL mud_Tetraedr__destroy(mud::Tetraedr* self) {
+		delete self;
+	}
 	// Torus
 	mud::Type* DECL mud_Torus__type() {
 		return &mud::type<mud::Torus>();
@@ -1277,14 +1320,14 @@ extern "C" {
 	mud::Torus* DECL mud_Torus__construct_0() {
 		return new mud::Torus();
 	}
-	mud::Torus* DECL mud_Torus__construct_2(float radius, float solid_radius) {
-		return new mud::Torus(radius, solid_radius);
+	mud::Torus* DECL mud_Torus__construct_2(float radius, float tube) {
+		return new mud::Torus(radius, tube);
 	}
-	mud::Torus* DECL mud_Torus__construct_3(float radius, float solid_radius, mud::Axis axis) {
-		return new mud::Torus(radius, solid_radius, axis);
+	mud::Torus* DECL mud_Torus__construct_3(float radius, float tube, mud::Axis axis) {
+		return new mud::Torus(radius, tube, axis);
 	}
-	mud::Torus* DECL mud_Torus__construct_4(const mud::vec3* center, float radius, float solid_radius, mud::Axis axis) {
-		return new mud::Torus(*center, radius, solid_radius, axis);
+	mud::Torus* DECL mud_Torus__construct_4(const mud::vec3* center, float radius, float tube, mud::Axis axis) {
+		return new mud::Torus(*center, radius, tube, axis);
 	}
 	float DECL mud_Torus__get_radius(mud::Torus* self) {
 		return self->m_radius;
@@ -1314,11 +1357,17 @@ extern "C" {
 	mud::TorusKnot* DECL mud_TorusKnot__construct_0() {
 		return new mud::TorusKnot();
 	}
-	mud::TorusKnot* DECL mud_TorusKnot__construct_2(float radius, float solid_radius) {
-		return new mud::TorusKnot(radius, solid_radius);
+	mud::TorusKnot* DECL mud_TorusKnot__construct_2(float radius, float tube) {
+		return new mud::TorusKnot(radius, tube);
 	}
-	mud::TorusKnot* DECL mud_TorusKnot__construct_3(const mud::vec3* center, float radius, float solid_radius) {
-		return new mud::TorusKnot(*center, radius, solid_radius);
+	mud::TorusKnot* DECL mud_TorusKnot__construct_3(float radius, float tube, float p) {
+		return new mud::TorusKnot(radius, tube, p);
+	}
+	mud::TorusKnot* DECL mud_TorusKnot__construct_4(float radius, float tube, float p, float q) {
+		return new mud::TorusKnot(radius, tube, p, q);
+	}
+	mud::TorusKnot* DECL mud_TorusKnot__construct_5(const mud::vec3* center, float radius, float tube, float p, float q) {
+		return new mud::TorusKnot(*center, radius, tube, p, q);
 	}
 	float DECL mud_TorusKnot__get_radius(mud::TorusKnot* self) {
 		return self->m_radius;
@@ -1331,6 +1380,18 @@ extern "C" {
 	}
 	void DECL mud_TorusKnot__set_tube(mud::TorusKnot* self, float value) {
 		self->m_tube = value;
+	}
+	float DECL mud_TorusKnot__get_p(mud::TorusKnot* self) {
+		return self->m_p;
+	}
+	void DECL mud_TorusKnot__set_p(mud::TorusKnot* self, float value) {
+		self->m_p = value;
+	}
+	float DECL mud_TorusKnot__get_q(mud::TorusKnot* self) {
+		return self->m_q;
+	}
+	void DECL mud_TorusKnot__set_q(mud::TorusKnot* self, float value) {
+		self->m_q = value;
 	}
 	void DECL mud_TorusKnot__destroy(mud::TorusKnot* self) {
 		delete self;

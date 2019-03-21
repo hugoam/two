@@ -57,7 +57,7 @@ namespace mud
 	}
 
 	CubeCamera::CubeCamera(Scene& scene, float near, float far, uint32_t size)
-			: m_size(size)
+		: m_size(size)
 	{
 		m_cubemap.create(size);
 

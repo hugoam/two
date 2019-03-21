@@ -88,12 +88,15 @@ void mud_MeshPacker_uv1(void* object, span<void*> args, void*& result) { UNUSED(
 void mud_MeshPacker_bones(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).bones(*static_cast<mud::ivec4*>(args[0])); }
 void mud_MeshPacker_weights(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).weights(*static_cast<mud::vec4*>(args[0])); }
 void mud_MeshPacker_index(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).index(*static_cast<uint32_t*>(args[0])); }
+void mud_MeshPacker_resize(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).resize(*static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<uint32_t*>(args[2])); }
 void mud_MeshPacker_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).clear(); }
 void mud_MeshPacker_pack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).pack(*static_cast<mud::MeshAdapter*>(args[0])); }
 void mud_MeshPacker_xpack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).xpack(*static_cast<mud::MeshAdapter*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
 void mud_MeshPacker_unpack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).unpack(*static_cast<mud::MeshAdapter*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
-void mud_MeshPacker_gen_normals(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).gen_normals(); }
+void mud_MeshPacker_gen_normals(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).gen_normals(*static_cast<bool*>(args[0])); }
+void mud_MeshPacker_gen_flat_normals(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).gen_flat_normals(); }
 void mud_MeshPacker_gen_tangents(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).gen_tangents(); }
+void mud_MeshPacker_smooth_normals(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).smooth_normals(); }
 void mud_Plane__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Plane(  ); }
 void mud_Plane__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Plane((*static_cast<mud::Plane*>(other))); }
 void mud_Plane3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Plane3(  ); }
@@ -165,10 +168,10 @@ void mud_Grid2__copy_construct(void* ref, void* other) { new(stl::placeholder(),
 void mud_Grid3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Grid3(  ); }
 void mud_Grid3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Grid3( *static_cast<mud::uvec2*>(args[0]), *static_cast<stl::span<mud::vec3>*>(args[1]) ); }
 void mud_Grid3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Grid3((*static_cast<mud::Grid3*>(other))); }
-void mud_Icosahedron__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Icosaedr(  ); }
-void mud_Icosahedron__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Icosaedr( *static_cast<float*>(args[0]) ); }
-void mud_Icosahedron__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Icosaedr( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]) ); }
-void mud_Icosahedron__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Icosaedr((*static_cast<mud::Icosaedr*>(other))); }
+void mud_Icosaedr__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Icosaedr(  ); }
+void mud_Icosaedr__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Icosaedr( *static_cast<float*>(args[0]) ); }
+void mud_Icosaedr__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Icosaedr( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]) ); }
+void mud_Icosaedr__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Icosaedr((*static_cast<mud::Icosaedr*>(other))); }
 void mud_Line__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Line(  ); }
 void mud_Line__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Line( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]) ); }
 void mud_Line__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Line((*static_cast<mud::Line*>(other))); }
@@ -203,13 +206,17 @@ void mud_Spheroid__construct_0(void* ref, span<void*> args) { UNUSED(args); new(
 void mud_Spheroid__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Spheroid( *static_cast<float*>(args[0]) ); }
 void mud_Spheroid__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Spheroid( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]) ); }
 void mud_Spheroid__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Spheroid((*static_cast<mud::Spheroid*>(other))); }
+void mud_Tetraedr__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Tetraedr(  ); }
+void mud_Tetraedr__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Tetraedr( *static_cast<float*>(args[0]) ); }
+void mud_Tetraedr__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Tetraedr( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]) ); }
+void mud_Tetraedr__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Tetraedr((*static_cast<mud::Tetraedr*>(other))); }
 void mud_Torus__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Torus(  ); }
 void mud_Torus__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Torus( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<mud::Axis*>(args[2]) ); }
 void mud_Torus__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Torus( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<mud::Axis*>(args[3]) ); }
 void mud_Torus__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Torus((*static_cast<mud::Torus*>(other))); }
 void mud_TorusKnot__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::TorusKnot(  ); }
-void mud_TorusKnot__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::TorusKnot( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]) ); }
-void mud_TorusKnot__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::TorusKnot( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]) ); }
+void mud_TorusKnot__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::TorusKnot( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]) ); }
+void mud_TorusKnot__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::TorusKnot( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<float*>(args[4]) ); }
 void mud_TorusKnot__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::TorusKnot((*static_cast<mud::TorusKnot*>(other))); }
 void mud_Triangle__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Triangle(  ); }
 void mud_Triangle__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Triangle( *static_cast<mud::vec2*>(args[0]) ); }
@@ -461,8 +468,9 @@ namespace mud
 		// defaults
 		static uint32_t vertex_format_default = 0;
 		static bool index32_default = false;
+		static uint32_t vertex_count_default = 0;
+		static uint32_t index_count_default = 0;
 		static uint32_t vertex_stride_default = 0;
-		static uint32_t index_stride_default = 0;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_MeshAdapter__construct_0, {} }
@@ -475,6 +483,8 @@ namespace mud
 		static Member members[] = {
 			{ t, offsetof(mud::MeshAdapter, m_vertex_format), type<uint32_t>(), "vertex_format", &vertex_format_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MeshAdapter, m_index32), type<bool>(), "index32", &index32_default, Member::Value, nullptr },
+			{ t, offsetof(mud::MeshAdapter, m_vertex_count), type<uint32_t>(), "vertex_count", &vertex_count_default, Member::Value, nullptr },
+			{ t, offsetof(mud::MeshAdapter, m_index_count), type<uint32_t>(), "index_count", &index_count_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MeshAdapter, m_vertex_stride), type<uint32_t>(), "vertex_stride", &vertex_stride_default, Member::Value, nullptr }
 		};
 		// methods
@@ -505,6 +515,7 @@ namespace mud
 		// defaults
 		static mud::PrimitiveType primitive_default = mud::PrimitiveType::Triangles;
 		static bool quantize_default = false;
+		static bool gen_normals_0_area_weighted_default = true;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_MeshPacker__construct_0, {} }
@@ -519,6 +530,7 @@ namespace mud
 			{ t, offsetof(mud::MeshPacker, m_positions), type<stl::vector<mud::vec3>>(), "positions", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::MeshPacker, m_normals), type<stl::vector<mud::vec3>>(), "normals", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::MeshPacker, m_colours), type<stl::vector<mud::Colour>>(), "colours", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::MeshPacker, m_ucolours), type<stl::vector<uint32_t>>(), "ucolours", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::MeshPacker, m_tangents), type<stl::vector<mud::vec4>>(), "tangents", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::MeshPacker, m_bitangents), type<stl::vector<mud::vec3>>(), "bitangents", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::MeshPacker, m_uv0s), type<stl::vector<mud::vec2>>(), "uv0s", nullptr, Member::NonMutable, nullptr },
@@ -540,12 +552,15 @@ namespace mud
 			{ t, "bones", Address(), mud_MeshPacker_bones, { { "j", type<mud::ivec4>(),  } }, g_qvoid },
 			{ t, "weights", Address(), mud_MeshPacker_weights, { { "w", type<mud::vec4>(),  } }, g_qvoid },
 			{ t, "index", Address(), mud_MeshPacker_index, { { "i", type<uint32_t>(),  } }, g_qvoid },
+			{ t, "resize", Address(), mud_MeshPacker_resize, { { "vertex_count", type<uint32_t>(),  }, { "index_count", type<uint32_t>(),  }, { "vertex_format", type<uint32_t>(),  } }, g_qvoid },
 			{ t, "clear", Address(), mud_MeshPacker_clear, {}, g_qvoid },
 			{ t, "pack", Address(), mud_MeshPacker_pack, { { "writer", type<mud::MeshAdapter>(),  } }, g_qvoid },
 			{ t, "xpack", Address(), mud_MeshPacker_xpack, { { "writer", type<mud::MeshAdapter>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
 			{ t, "unpack", Address(), mud_MeshPacker_unpack, { { "reader", type<mud::MeshAdapter>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
-			{ t, "generate_normals", Address(), mud_MeshPacker_gen_normals, {}, g_qvoid },
-			{ t, "generate_tangents", Address(), mud_MeshPacker_gen_tangents, {}, g_qvoid }
+			{ t, "gen_normals", Address(), mud_MeshPacker_gen_normals, { { "area_weighted", type<bool>(), Param::Default, &gen_normals_0_area_weighted_default } }, g_qvoid },
+			{ t, "gen_flat_normals", Address(), mud_MeshPacker_gen_flat_normals, {}, g_qvoid },
+			{ t, "gen_tangents", Address(), mud_MeshPacker_gen_tangents, {}, g_qvoid },
+			{ t, "smooth_normals", Address(), mud_MeshPacker_smooth_normals, {}, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
@@ -1296,13 +1311,13 @@ namespace mud
 		static float radius_default = 1.f;
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Icosahedron__construct_0, {} },
-			{ t, mud_Icosahedron__construct_1, { { "radius", type<float>(),  } } },
-			{ t, mud_Icosahedron__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  } } }
+			{ t, mud_Icosaedr__construct_0, {} },
+			{ t, mud_Icosaedr__construct_1, { { "radius", type<float>(),  } } },
+			{ t, mud_Icosaedr__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_Icosahedron__copy_construct }
+			{ t, mud_Icosaedr__copy_construct }
 		};
 		// members
 		static Member members[] = {
@@ -1571,6 +1586,33 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
 	}
+	// mud::Tetraedr
+	{
+		Type& t = type<mud::Tetraedr>();
+		static Meta meta = { t, &namspc({ "mud" }), "Tetraedr", sizeof(mud::Tetraedr), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::Shape>() };
+		static size_t bases_offsets[] = { base_offset<mud::Tetraedr, mud::Shape>() };
+		// defaults
+		static float radius_default = 1.f;
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Tetraedr__construct_0, {} },
+			{ t, mud_Tetraedr__construct_1, { { "radius", type<float>(),  } } },
+			{ t, mud_Tetraedr__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  } } }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_Tetraedr__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Tetraedr, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
 	// mud::Torus
 	{
 		Type& t = type<mud::Torus>();
@@ -1614,11 +1656,17 @@ namespace mud
 		// defaults
 		static float radius_default = 1.f;
 		static float tube_default = 1.f;
+		static float p_default = 2.f;
+		static float q_default = 3.f;
+		static float construct_1_p_default = 2.f;
+		static float construct_1_q_default = 3.f;
+		static float construct_2_p_default = 2.f;
+		static float construct_2_q_default = 3.f;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_TorusKnot__construct_0, {} },
-			{ t, mud_TorusKnot__construct_1, { { "radius", type<float>(),  }, { "tube", type<float>(),  } } },
-			{ t, mud_TorusKnot__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  }, { "tube", type<float>(),  } } }
+			{ t, mud_TorusKnot__construct_1, { { "radius", type<float>(),  }, { "tube", type<float>(),  }, { "p", type<float>(), Param::Default, &construct_1_p_default }, { "q", type<float>(), Param::Default, &construct_1_q_default } } },
+			{ t, mud_TorusKnot__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  }, { "tube", type<float>(),  }, { "p", type<float>(), Param::Default, &construct_2_p_default }, { "q", type<float>(), Param::Default, &construct_2_q_default } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -1627,7 +1675,9 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::TorusKnot, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
-			{ t, offsetof(mud::TorusKnot, m_tube), type<float>(), "tube", &tube_default, Member::Value, nullptr }
+			{ t, offsetof(mud::TorusKnot, m_tube), type<float>(), "tube", &tube_default, Member::Value, nullptr },
+			{ t, offsetof(mud::TorusKnot, m_p), type<float>(), "p", &p_default, Member::Value, nullptr },
+			{ t, offsetof(mud::TorusKnot, m_q), type<float>(), "q", &q_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1721,6 +1771,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::Sphere>());
 		m.m_types.push_back(&type<mud::SphereRing>());
 		m.m_types.push_back(&type<mud::Spheroid>());
+		m.m_types.push_back(&type<mud::Tetraedr>());
 		m.m_types.push_back(&type<mud::Torus>());
 		m.m_types.push_back(&type<mud::TorusKnot>());
 		m.m_types.push_back(&type<mud::Triangle>());

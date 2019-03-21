@@ -32,6 +32,8 @@ void mud_Complex_part(void* object, span<void*> args, void*& result) { (*static_
 void mud_Complex_try_part(void* object, span<void*> args, void*& result) { (*static_cast<mud::Ref*>(result)) = (*static_cast<mud::Complex*>(object)).try_part(*static_cast<mud::Type*>(args[0])); }
 void mud_Entity__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Entity(  ); }
 void mud_Entity__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Entity((*static_cast<mud::Entity*>(other))); }
+void mud_Entt__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Entt(  ); }
+void mud_Entt__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Entt((*static_cast<mud::Entt*>(other))); }
 
 namespace mud
 {
@@ -94,10 +96,46 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
 	}
+	// mud::Entt
+	{
+		Type& t = type<mud::Entt>();
+		static Meta meta = { t, &namspc({ "mud" }), "Entt", sizeof(mud::Entt), TypeClass::Struct };
+		// bases
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Entt__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_Entt__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+	}
+	// mud::OEntt
+	{
+		Type& t = type<mud::OEntt>();
+		static Meta meta = { t, &namspc({ "mud" }), "OEntt", sizeof(mud::OEntt), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Entt>() };
+		static size_t bases_offsets[] = { base_offset<mud::OEntt, mud::Entt>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
 	
 	
 		m.m_types.push_back(&type<mud::Complex>());
 		m.m_types.push_back(&type<mud::Entity>());
+		m.m_types.push_back(&type<mud::Entt>());
+		m.m_types.push_back(&type<mud::OEntt>());
 	}
 }
 

@@ -66,7 +66,7 @@ namespace mud
 
 		printf("GfxSystem: bgfx::init\n");
 		bgfx::Init params = {};
-		params.type = bgfx::RendererType::OpenGL;
+		//params.type = bgfx::RendererType::OpenGL;
 		//params.type = bgfx::RendererType::Direct3D11;
 		params.resolution.width = uint32_t(context.m_size.x);
 		params.resolution.height = uint32_t(context.m_size.y);
@@ -79,8 +79,8 @@ namespace mud
 		bgfx::setDebug(BGFX_DEBUG_TEXT | BGFX_DEBUG_PROFILER);
 #endif
 
-		//bgfx::setViewRect(0, 0, 0, uint16_t(context.m_fb_size.x), uint16_t(context.m_fb_size.y));
-		//bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
+		bgfx::setViewRect(0, 0, 0, uint16_t(context.m_fb_size.x), uint16_t(context.m_fb_size.y));
+		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
 
 		m_start_counter = double(bx::getHPCounter());
 		m_initialized = true;

@@ -16,4 +16,5 @@
 namespace mud
 {
     class ImporterOBJ;
+	class ImporterPLY;
 }

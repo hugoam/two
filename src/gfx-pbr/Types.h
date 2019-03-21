@@ -26,6 +26,8 @@ namespace mud
     
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BCS>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMShadow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::CubeCamera>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::CubeTarget>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofParams>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::GIProbe>();

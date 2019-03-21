@@ -65,10 +65,10 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::Quad>() { static Type ty("Quad", type<mud::Shape>(), sizeof(mud::Quad)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Rect>() { static Type ty("Rect", type<mud::Shape>(), sizeof(mud::Rect)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Ring>() { static Type ty("Ring", type<mud::Shape>(), sizeof(mud::Ring)); return ty; }
-	template <> MUD_GEOM_EXPORT Type& type<mud::Tetraedr>() { static Type ty("Tetraedr", type<mud::Shape>(), sizeof(mud::Tetraedr)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Sphere>() { static Type ty("Sphere", type<mud::Shape>(), sizeof(mud::Sphere)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::SphereRing>() { static Type ty("SphereRing", type<mud::Shape>(), sizeof(mud::SphereRing)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>() { static Type ty("Spheroid", type<mud::Shape>(), sizeof(mud::Spheroid)); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::Tetraedr>() { static Type ty("Tetraedr", type<mud::Shape>(), sizeof(mud::Tetraedr)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Torus>() { static Type ty("Torus", type<mud::Shape>(), sizeof(mud::Torus)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::TorusKnot>() { static Type ty("TorusKnot", type<mud::Shape>(), sizeof(mud::TorusKnot)); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>() { static Type ty("Triangle", type<mud::Shape>(), sizeof(mud::Triangle)); return ty; }

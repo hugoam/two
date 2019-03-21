@@ -22,11 +22,26 @@ extern "C" {
 	mud::Shell* DECL mud_Shell__construct_2(const char* resource_path, const char* exec_path) {
 		return new mud::Shell(resource_path, exec_path);
 	}
+	mud::Shell* DECL mud_Shell__construct_3(const char* resource_path, const char* exec_path, bool window) {
+		return new mud::Shell(resource_path, exec_path, window);
+	}
+	void DECL mud_Shell_init_0(mud::Shell* self) {
+		self->init();
+	}
+	void DECL mud_Shell_init_1(mud::Shell* self, bool window) {
+		self->init(window);
+	}
+	mud::ShellWindow* DECL mud_Shell_window_2(mud::Shell* self, const char* name, const mud::uvec2* size) {
+		return &self->window(name, *size);
+	}
+	mud::ShellWindow* DECL mud_Shell_window_3(mud::Shell* self, const char* name, const mud::uvec2* size, bool fullscreen) {
+		return &self->window(name, *size, fullscreen);
+	}
 	bool DECL mud_Shell_begin_frame_0(mud::Shell* self) {
 		return self->begin_frame();
 	}
-	bool DECL mud_Shell_end_frame_0(mud::Shell* self) {
-		return self->end_frame();
+	void DECL mud_Shell_end_frame_0(mud::Shell* self) {
+		self->end_frame();
 	}
 	bool DECL mud_Shell_pump_0(mud::Shell* self) {
 		return self->pump();
@@ -55,12 +70,6 @@ extern "C" {
 	void DECL mud_Shell__set_editor(mud::Shell* self, mud::ShellContext* value) {
 		self->m_editor = *value;
 	}
-	mud::Ui* DECL mud_Shell__get_ui(mud::Shell* self) {
-		return self->m_ui;
-	}
-	void DECL mud_Shell__set_ui(mud::Shell* self, mud::Ui* value) {
-		self->m_ui = value;
-	}
 	void DECL mud_Shell__destroy(mud::Shell* self) {
 		delete self;
 	}
@@ -84,6 +93,28 @@ extern "C" {
 		self->m_dockbar = value;
 	}
 	void DECL mud_ShellContext__destroy(mud::ShellContext* self) {
+		delete self;
+	}
+	// ShellWindow
+	mud::Type* DECL mud_ShellWindow__type() {
+		return &mud::type<mud::ShellWindow>();
+	}
+	uint32_t DECL mud_ShellWindow__get_index(mud::ShellWindow* self) {
+		return self->m_index;
+	}
+	void DECL mud_ShellWindow__set_index(mud::ShellWindow* self, uint32_t value) {
+		self->m_index = value;
+	}
+	mud::UiWindow* DECL mud_ShellWindow__get_ui_window(mud::ShellWindow* self) {
+		return &self->m_ui_window;
+	}
+	mud::Ui* DECL mud_ShellWindow__get_ui(mud::ShellWindow* self) {
+		return self->m_ui;
+	}
+	void DECL mud_ShellWindow__set_ui(mud::ShellWindow* self, mud::Ui* value) {
+		self->m_ui = value;
+	}
+	void DECL mud_ShellWindow__destroy(mud::ShellWindow* self) {
 		delete self;
 	}
 	

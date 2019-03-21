@@ -44,8 +44,9 @@ namespace mud
 		T& comp();
 	};
 
-	struct refl_ struct_ MUD_ECS_EXPORT OEntt : public Entt
+	class refl_ MUD_ECS_EXPORT OEntt : public Entt
 	{
+	public:
 		OEntt() {}
 		OEntt(GridECS* ecs, uint32_t handle) : Entt{ ecs, handle } {}
 		~OEntt();

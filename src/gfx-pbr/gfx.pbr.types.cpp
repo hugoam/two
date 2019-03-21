@@ -16,6 +16,8 @@ namespace mud
     
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::BCS>() { static Type ty("BCS", sizeof(mud::BCS)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMShadow>() { static Type ty("CSMShadow", sizeof(mud::CSMShadow)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::CubeCamera>() { static Type ty("CubeCamera", sizeof(mud::CubeCamera)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::CubeTarget>() { static Type ty("CubeTarget", sizeof(mud::CubeTarget)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>() { static Type ty("DofBlur", sizeof(mud::DofBlur)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofParams>() { static Type ty("DofParams", sizeof(mud::DofParams)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::GIProbe>() { static Type ty("GIProbe", sizeof(mud::GIProbe)); return ty; }
