@@ -51,10 +51,9 @@ namespace mud
 	{
 	public:
 		Texture(const string& name = "");
-		Texture(const uvec2& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags = 0U);
+		Texture(const uvec2& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags = 0U, bool cube = false);
 		Texture(const uvec2& size, bool mips, int layers, bgfx::TextureFormat::Enum format, uint64_t flags = 0U);
 		Texture(const uvec3& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags = 0U);
-		explicit Texture(bgfx::TextureHandle texture);
 		~Texture();
 
 		Texture(Texture&& other) : Texture(other) { other.m_tex = BGFX_INVALID_HANDLE; }
@@ -63,10 +62,14 @@ namespace mud
 		attr_ string m_name;
 		attr_ uvec2 m_size = uvec2(0U);
 		attr_ uint16_t m_depth = 0;
+		attr_ uint32_t m_memsize = 0;
 		attr_ uint32_t m_bits_per_pixel = 0;
 		attr_ bool m_is_depth = false;
 		attr_ bool m_is_depth_packed = false;
 		attr_ bool m_is_array = false;
+		attr_ bool m_is_cube = false;
+		attr_ bool m_is_fbo = false;
+		attr_ bool m_mips = false;
 
 		meth_ bool valid() const;
 

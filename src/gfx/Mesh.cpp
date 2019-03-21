@@ -225,7 +225,7 @@ namespace mud
 		{
 			MeshAdapter reader = gpu_mesh.m_writer.read();
 			m_radius = 0.f;
-			for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+			for(size_t i = 0; i < reader.m_vertex_count; ++i)
 				m_radius = max(m_radius, length(reader.position() - m_aabb.m_center));
 		}
 
@@ -273,7 +273,7 @@ namespace mud
 			bgfx::update(m_dynamic.m_indices, 0U, gpu_mesh.m_index_memory);
 	}
 
-	MeshAdapter& Mesh::direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
+	MeshAdapter& Mesh::direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
 	{
 		const bgfx::VertexDecl& decl = vertex_decl(vertex_format);
 		bgfx::allocTransientVertexBuffer(&m_direct.m_vertices, vertex_count, decl);

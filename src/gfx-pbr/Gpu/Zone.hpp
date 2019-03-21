@@ -72,13 +72,13 @@ namespace mud
 			u_ambient_p0 = bgfx::createUniform("u_ambient_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
 
-		void upload(const Pass& render_pass, const Radiance& radiance) const
+		void upload(const Pass& pass, const Radiance& radiance) const
 		{
 			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
 			vec4 ambient_p0 = { radiance.m_ambient, 0.f, 0.f, 0.f };
 
-			bgfx::setViewUniform(render_pass.m_index, u_radiance_p0, &radiance_p0);
-			bgfx::setViewUniform(render_pass.m_index, u_ambient_p0, &ambient_p0);
+			bgfx::setViewUniform(pass.m_index, u_radiance_p0, &radiance_p0);
+			bgfx::setViewUniform(pass.m_index, u_ambient_p0, &ambient_p0);
 		}
 
 		bgfx::UniformHandle u_radiance_p0 = BGFX_INVALID_HANDLE;
@@ -98,17 +98,17 @@ namespace mud
 			u_fog_p3 = bgfx::createUniform("u_fog_p3", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
 
-		void upload(const Pass& render_pass, const Fog& fog) const
+		void upload(const Pass& pass, const Fog& fog) const
 		{
 			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
 			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_curve, 0.f };
 			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
 			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, 0.f, 0.f };
 
-			bgfx::setViewUniform(render_pass.m_index, u_fog_p0, &params_0);
-			bgfx::setViewUniform(render_pass.m_index, u_fog_p1, &params_1);
-			bgfx::setViewUniform(render_pass.m_index, u_fog_p2, &params_2);
-			bgfx::setViewUniform(render_pass.m_index, u_fog_p3, &params_3);
+			bgfx::setViewUniform(pass.m_index, u_fog_p0, &params_0);
+			bgfx::setViewUniform(pass.m_index, u_fog_p1, &params_1);
+			bgfx::setViewUniform(pass.m_index, u_fog_p2, &params_2);
+			bgfx::setViewUniform(pass.m_index, u_fog_p3, &params_3);
 		}
 
 		bgfx::UniformHandle u_fog_p0 = BGFX_INVALID_HANDLE;
@@ -122,10 +122,10 @@ namespace mud
 	template <>
 	struct GpuState<Zone>
 	{
-		void upload(const Pass& render_pass, const Zone& zone) const
+		void upload(const Pass& pass, const Zone& zone) const
 		{
-			GpuState<Radiance>::me.upload(render_pass, zone.m_radiance);
-			GpuState<Fog>::me.upload(render_pass, zone.m_fog);
+			GpuState<Radiance>::me.upload(pass, zone.m_radiance);
+			GpuState<Fog>::me.upload(pass, zone.m_fog);
 		}
 
 		static GpuState me;

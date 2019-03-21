@@ -28,6 +28,7 @@ namespace mud
 	public:
 		Camera();
 		Camera(mat4 transform, mat4 projection, bool ortho = false);
+		Camera(vec3 eye, vec3 at, vec3 up, float fov, float aspect, float near, float far);
 		Camera(mat4 transform, float fov, float aspect, float near, float far);
 		Camera(mat4 transform, vec2 rect, float near, float far);
 		~Camera();
@@ -51,13 +52,10 @@ namespace mud
 		attr_ float m_height = 1.f;
 
 		attr_ bool m_optimize_ends = true;
-		attr_ bool m_clustered = false;
 
 		attr_ vec4 m_lod_offsets = { 0.1f, 0.3f, 0.6f, 0.8f };
 
 		void update();
-
-		meth_ void set_clustered(GfxSystem& gfx, Viewport& viewport);
 
 		meth_ void set_look_at(const vec3& eye, const vec3& target);
 		meth_ void set_isometric(IsometricAngle angle, const vec3& position);
@@ -68,7 +66,5 @@ namespace mud
 		mat4 projection(float near, float far, bool ndc = false);
 
 		Ray ray(const vec2& offset) const;
-
-		unique<Froxelizer> m_clusters;
 	};
 }

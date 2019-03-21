@@ -133,15 +133,14 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 
 		virtual void options(Render& render, ProgramVersion& shader_version) const override;
-		virtual void submit(Render& render, const Pass& render_pass) const override;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
 		void setup_shadows(Render& render);
 		void commit_shadows(Render& render, const mat4& view);
-		void upload_shadows(Render& render, const Pass& render_pass) const;
+		void upload_shadows(Render& render, const Pass& pass) const;
 
 		void update_csm(Render& render, Light& light, size_t num_direct, CSMShadow& csm, size_t index);
-		void render(ManualRender& render, Light& light, DepthMethod method, float bias_scale = 1.f);
 
 		BlockDepth& m_block_depth;
 		BlockLight& m_block_light;

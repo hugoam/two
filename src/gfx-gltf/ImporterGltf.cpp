@@ -83,8 +83,12 @@ namespace mud
 		};
 
 		gfx.add_importer(ModelFormat::gltf, *this);
+
 		gfx.models().add_format(".gltf", load_gltf_model);
 		gfx.prefabs().add_format(".gltf", load_gltf_prefab);
+
+		gfx.models().add_format(".glb", load_gltf_model);
+		gfx.prefabs().add_format(".glb", load_gltf_prefab);
 	}
 
 	static vector<uint8_t> read_base64_uri(const string& uri)
@@ -288,7 +292,7 @@ namespace mud
 					mesh.m_material = state.m_materials[primitive.material];
 
 				if(packer.m_tangents.empty() && !packer.m_uv0s.empty())
-					packer.generate_tangents();
+					packer.gen_tangents();
 				if(packer.m_tangents.empty() && packer.m_uv0s.empty())
 					printf("WARNING: mesh %s imported without tangents (no uvs)\n", name.c_str());
 
@@ -323,6 +327,8 @@ namespace mud
 		//if(gltf_material.pbr_metallic_roughness)
 		{
 			glTFMaterialPBR pbr_material = gltf_material.pbr_metallic_roughness;
+
+			//material.m_base.m_shader_color = ShaderColor::Vertex;
 
 			material.m_pbr.m_albedo.m_value = to_colour(pbr_material.base_color_factor);
 

@@ -14,10 +14,11 @@ namespace mud
 {
 	enum ShaderOption : unsigned int
 	{
-		SKELETON,
 		INSTANCING,
 		BILLBOARD,
+		SKELETON,
 		QNORMALS,
+		VFLIP,
 		MRT,
 		DEFERRED,
 		CLUSTERED,

@@ -15,11 +15,11 @@ namespace mud
 {
 	export_ enum ShaderOptionFilter : unsigned int
 	{
-		FILTER_UNPACK_DEPTH,
-		FILTER_SOURCE_DEPTH,
-		FILTER_SOURCE_0_CUBE,
-		FILTER_SOURCE_0_ARRAY,
-		FILTER_DEBUG_UV,
+		UNPACK_DEPTH,
+		SOURCE_DEPTH,
+		SOURCE_0_CUBE,
+		SOURCE_0_ARRAY,
+		DEBUG_UV,
 	};
 
 	export_ struct FilterUniform
@@ -64,6 +64,8 @@ namespace mud
 		void quad(uint8_t view, FrameBuffer& fbo, Program& program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
 		void quad(uint8_t view, FrameBuffer& fbo, Program& program, uint64_t flags = 0U, bool render = false);
 		meth_ void quad(uint8_t view, FrameBuffer& fbo, Program& program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
+
+		void source0(Texture& texture, ProgramVersion& program, int level = 0, uint32_t flags = UINT32_MAX);
 
 		meth_ void source0(Texture& texture, uint32_t flags = UINT32_MAX);
 		meth_ void source1(Texture& texture, uint32_t flags = UINT32_MAX);

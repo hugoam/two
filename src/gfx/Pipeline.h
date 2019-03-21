@@ -23,7 +23,10 @@ namespace mud
 		table<PassType, vector<PassJob>> m_jobs;
 	};
 
+	export_ MUD_GFX_EXPORT func_ void pass_clear_fbo(GfxSystem& gfx, Render& render, FrameBuffer& fbo, Colour& colour);
+
 	export_ MUD_GFX_EXPORT func_ void pass_clear(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_EXPORT func_ void pass_gclear(GfxSystem& gfx, Render& render);
 	export_ MUD_GFX_EXPORT func_ void pass_depth(GfxSystem& gfx, Render& render);
 	export_ MUD_GFX_EXPORT func_ void pass_background(GfxSystem& gfx, Render& render);
 	export_ MUD_GFX_EXPORT func_ void pass_solid(GfxSystem& gfx, Render& render);

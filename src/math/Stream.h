@@ -13,7 +13,19 @@
 
 namespace mud
 {
-	export_ inline string read(std::istream& stream, size_t length) { string result; result.resize(length); stream.read(&result[0], length); return result; }
+	export_ inline void read(std::istream& stream, size_t length, string& buffer)
+	{
+		buffer.resize(length);
+		stream.read(&buffer[0], length);
+	}
+
+	export_ inline void read(std::istream& stream, size_t length, vector<uchar>& buffer)
+	{
+		buffer.resize(length);
+		stream.read((char*)&buffer[0], length);
+	}
+
+	export_ inline string read(std::istream& stream, size_t length) { string result; read(stream, length, result); return result; }
 
 	export_ template <class T>
 	inline T read(std::istream& stream) { T result; stream >> result; return result; }

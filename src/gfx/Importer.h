@@ -18,6 +18,7 @@ namespace mud
 	export_ enum class refl_ ModelFormat : unsigned int
 	{
 		obj,
+		ply,
 		gltf,
 
 		Count
@@ -40,6 +41,8 @@ namespace mud
 		attr_ bool m_force_reimport = false;
 		attr_ bool m_cache_geometry = false;
 		attr_ bool m_optimize_geometry = false;
+		attr_ bool m_need_normals = true;
+		attr_ bool m_need_uvs = true;
 		attr_ uint32_t m_flags = ItemFlag::None;
 
 		bool filter_element(const string& name) const;

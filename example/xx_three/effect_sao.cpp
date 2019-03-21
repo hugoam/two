@@ -314,19 +314,18 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 	{
 		static Program& program = gfx.programs().fetch("normal");
 
-		Pass render_pass = render.next_pass("normals", PassType::Normals);
-		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_CULL_CW;
-		render_pass.m_fbo = &fbo;
+		Pass pass = render.next_pass("normals", PassType::Normals);
+		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_CULL_CW;
+		pass.m_fbo = &fbo;
 
-		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
 			element.m_program = &program;
 			element.m_shader_version = element.m_material->shader_version(*element.m_program);
-
-			gfx.m_renderer.add_element(render, pass, element);
+			return true;
 		};
 
-		gfx.m_renderer.pass(render, render_pass, queue_draw_element);
+		gfx.m_renderer.pass(render, pass, queue_draw_element);
 	};
 
 	auto pass_sao = [&](GfxSystem& gfx, Render& render, const SAO& sao, FrameBuffer& fbo, Texture& normals)
@@ -345,7 +344,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 		filter.uniform(pass.m_index, "u_sao_p0", vec4(sao.bias, sao.intensity, sao.scale, 0.f));
 		filter.uniform(pass.m_index, "u_sao_p1", vec4(vec2(sao.kernelRadius, sao.minResolution), vec2(resolution)));
 
-		// this.saoMaterial.uniforms['randomSeed'].value = Math.random();
+		// this.saoMaterial.uniforms['randomSeed'].value = random();
 	};
 
 	enum BlurPass { BlurV, BlurH };
@@ -381,7 +380,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 
 		Pass pass = render.next_pass("blur", PassType::PostProcess);
 
-		const float depth_cutoff = sao.blurDepthCutoff * (render.m_camera.m_far - render.m_camera.m_near);
+		const float depth_cutoff = sao.blurDepthCutoff * (render.m_camera->m_far - render.m_camera->m_near);
 		filter.uniform(pass.m_index, "u_sao_blur_p0", vec4(vec2(dest.m_size), vec2(depth_cutoff, 0.f)));
 		filter.uniforms(pass.m_index, "u_sao_blur_samples", samples[d], 8U);
 
@@ -423,13 +422,13 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 
 	// Rendering SAO texture
 	//pass_clear(gfx, render, target.m_fbo, 0xffffff, 1.f);
-	pass_sao(gfx, render, sao, target, normals);
+	pass_sao(gfx, render, sao, target, normals.m_tex);
 
 	// Blurring SAO texture
 	if(sao.blur)
 	{
-		pass_blur(gfx, render, sao, BlurV, target, pong);
-		pass_blur(gfx, render, sao, BlurH, pong, target);
+		pass_blur(gfx, render, sao, BlurV, target.m_tex, pong);
+		pass_blur(gfx, render, sao, BlurH, pong.m_tex, target);
 	}
 
 	if(output == OutputSAO::Default)
@@ -442,7 +441,7 @@ void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 

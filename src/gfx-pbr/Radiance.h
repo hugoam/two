@@ -17,7 +17,7 @@ namespace mud
 	enum ShaderOptionRadiance : unsigned int
 	{
 		RADIANCE_ENVMAP,
-		RADIANCE_ARRAY,
+		RADIANCE_CUBE,
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockRadiance : public DrawBlock
@@ -31,8 +31,8 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 
 		virtual void options(Render& render, ProgramVersion& shader_version) const override;
-		virtual void submit(Render& render, const Pass& render_pass) const override;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
 		void prefilter_radiance(Radiance& radiance);
 
@@ -52,9 +52,11 @@ namespace mud
 			void createUniforms()
 			{
 				u_prefilter_envmap_p0 = bgfx::createUniform("u_prefilter_envmap_p0", bgfx::UniformType::Vec4);
+				u_prefilter_cube = bgfx::createUniform("u_prefilter_cube", bgfx::UniformType::Mat4);
 			}
 
 			bgfx::UniformHandle u_prefilter_envmap_p0;
+			bgfx::UniformHandle u_prefilter_cube;
 
 		} u_prefilter;
 

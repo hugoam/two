@@ -10,7 +10,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 	TrackballController& controls = ui::trackball_controller(viewer);
 	controls.m_dynamicDampingFactor = 0.15f;
 	
@@ -22,10 +22,21 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	if(init)
 	{
+		Camera& camera = viewer.m_camera;
+		camera.m_fov = 50.f; camera.m_near = 1.f; camera.m_far = 300.f;
+		camera.m_eye = vec3(0.f, 15.f, 150.f);
+
+		Texture& hdrenv = *app.m_gfx.textures().file("radiance/tiber_1_1k.hdr");
+		scene.m_env.m_radiance.m_texture = &hdrenv;
+		//scene.m_env.m_background.m_texture = &hdrenv;
+		//scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
+
+
 		Material& groundmat = app.m_gfx.materials().create("ground", [&](Material& m) {
 			m.m_program = &app.m_gfx.programs().fetch("pbr/pbr");
 			m.m_base.m_uv0_scale = { 20.f, 10.f };
 			m.m_pbr.m_albedo = rgb(0xffffff);
+			m.m_pbr.m_albedo = rgb(0x444444);
 			m.m_pbr.m_albedo = app.m_gfx.textures().file("disturb.jpg");
 			// Phong
 		});
@@ -34,7 +45,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		// GROUND
 
 		Model& model = app.m_gfx.shape(Rect(vec2(0.f), vec2(800.f, 400.f)));
-		Node3& node = gfx::nodes(scene).add(Node3(vec3(0, -5, 0), quat(-c_pi / 2.f, 0, 0, 1)));
+		Node3& node = gfx::nodes(scene).add(Node3(vec3(0.f, -5.f, 0.f), quat(vec3(0.f))));
 		gfx::items(scene).add(Item(node, model, 0, &groundmat));
 
 		// OBJECTS
@@ -45,6 +56,7 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//Model& torus = app.m_gfx.shape(Torus(1.5f, 0.4f));
 		Model& torus = app.m_gfx.shape(Torus(1.f, 0.1f));
 
+		//for(int i = 0; i < 1; i++) {
 		for(int i = 0; i < 5000; i++) {
 
 			float x = 400.f * (0.5f - randf());
@@ -91,10 +103,6 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//Light& direct_light = gfx::lights(scene) += Light(direct_node, LightType::Direct)); //THREE.DirectionalLight(0xffffff, 0.05);
 		//dlight.position.set(0.5f, 1, 0).normalize();
 	}
-
-	Gnode& root = viewer.m_scene.begin();
-	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
-	//gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	float coef0[] = { 0.7f, 0.3f, 0.7f, 0.3f, 0.3f, 0.7f };
 	float coef1[] = { 0.3f, 0.7f, 0.5f, 0.5f, 0.5f, 0.5f };

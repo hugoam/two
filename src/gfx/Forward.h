@@ -67,7 +67,7 @@ namespace mud
     struct AnimatedTrack;
     struct AnimationPlay;
     class Mime;
-    class GfxContext;
+    class GfxWindow;
     struct LocatedFile;
     class GfxSystem;
     class Texture;
@@ -139,7 +139,6 @@ namespace mud
 	class Direct;
 	struct Batch;
     class Viewport;
-    struct ManualRender;
     struct PickQuery;
     class Picker;
     struct PassJobs;

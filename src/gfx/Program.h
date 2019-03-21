@@ -8,6 +8,7 @@
 #include <stl/string.h>
 #include <stl/span.h>
 #include <stl/table.h>
+#include <stl/vector.h>
 #include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>
@@ -27,10 +28,34 @@ namespace mud
 		Count
 	};
 
+	export_ enum class refl_ PassType : unsigned int
+	{
+		VoxelGI,
+		Lightmap,
+		Shadowmap,
+		Probes,
+		Clear,
+		Depth,
+		Normals,
+		Shadow,
+		Geometry,
+		Lights,
+		Opaque,
+		Background,
+		Particles,
+		Alpha,
+		Solid,
+		Effects,
+		PostProcess,
+		Flip,
+
+		Count
+	};
+
 	export_ struct MUD_GFX_EXPORT ShaderDefine
 	{
-		cstring m_name;
-		cstring m_value;
+		string m_name;
+		string m_value;
 	};
 
 	export_ struct MUD_GFX_EXPORT ShaderBlock
@@ -79,6 +104,7 @@ namespace mud
 		attr_ string m_name;
 
 		meth_ void set_block(MaterialBlock block, bool enabled = true);
+		meth_ void set_pass(PassType type, bool enabled = true);
 		meth_ void set_source(ShaderType type, const string& source);
 
 		string defines(const ProgramVersion& version) const;
@@ -104,7 +130,13 @@ namespace mud
 		uint8_t m_next_option = 0;
 
 		table<ShaderType, string> m_sources = {};
+		table<PassType, bool> m_passes = {};
 		table<MaterialBlock, bool> m_blocks = {};
+
+		vector<string> m_option_names;
+		vector<string> m_mode_names;
+
+		vector<ShaderDefine> m_defines;
 
 		bool m_compute = false;
 		uint32_t m_update = 1;

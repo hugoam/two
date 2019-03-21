@@ -64,7 +64,7 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Geometry>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Grid2>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Grid3>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Icosahedron>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Icosaedr>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Line>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Points>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>();
@@ -72,6 +72,7 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Quad>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Rect>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Ring>();
+	export_ template <> MUD_GEOM_EXPORT Type& type<mud::Tetraedr>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Sphere>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::SphereRing>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>();

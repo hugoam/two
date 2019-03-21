@@ -8,18 +8,13 @@
 
 using namespace mud;
 
-//<script src = "js/pmrem/PMREMCubeUVPacker.js">< / script>
-
-void xx_materials_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
-
-	//var loader = new THREE.FontLoader();
-	//loader.load('fonts/gentilis_regular.typeface.json', function(font) {
 
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
@@ -31,16 +26,16 @@ void xx_materials_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 2000.f;
 		camera.m_eye = vec3(0.f, 400.f, 400.f * 3.5f);
 
-		//scene.background = textureCube;
+		Texture& hdrenv = *app.m_gfx.textures().file("cube/pisaHDR.hdr.cube");
+		scene.m_env.m_radiance.m_texture = &hdrenv;
+		scene.m_env.m_background.m_texture = &hdrenv;
+		scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
 
 		//scene.add(new THREE.AmbientLight(0x222222));
 
-		//var hdrUrls = genCubeUrls('./textures/cube/pisaHDR/', '.hdr');
-		//var hdrCubeRenderTarget = null;
-
 		// Materials
 
-		Texture& texture = *app.m_gfx.textures().file("planets/moon_1024.jpg");
+		//Texture& texture = *app.m_gfx.textures().file("planets/moon_1024.jpg");
 		//imgTexture.anisotropy = 16;
 
 		const size_t subdiv = 5;
@@ -57,13 +52,14 @@ void xx_materials_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 				for(float gamma = 0.f; gamma <= 1.0f; gamma += step)
 				{
 					// basic monochromatic energy preservation
-					Colour diffuse = hsl(alpha, 0.5f, gamma * 0.5f + 0.1f);
+					const Colour diffuse = hsl(alpha, 0.5f, gamma * 0.5f + 0.1f);
 
-					Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+					const string name = "material" + to_string(index);
+					Material& material = app.m_gfx.materials().create(name, [&](Material& m) {
 						m.m_program = &pbr;
 						m.m_pbr.m_albedo = diffuse;
-						m.m_pbr.m_albedo = &texture;
-						m.m_pbr.m_normal = &texture;
+						//m.m_pbr.m_albedo = &texture;
+						//m.m_pbr.m_normal = &texture;
 						m.m_pbr.m_normal.m_value = 1.f;
 						m.m_pbr.m_metallic = beta;
 						m.m_pbr.m_roughness = 1.f - alpha;
@@ -74,10 +70,12 @@ void xx_materials_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 
 					vec3 p = vec3(alpha, beta, gamma) * 400.f - 200.f;
 
-					Node3& node = gfx::nodes(scene).add(Node3());
+					Node3& node = gfx::nodes(scene).add(Node3(p));
 					gfx::items(scene).add(Item(node, geometry, 0U, &material));
 				}
 
+		//var loader = new THREE.FontLoader();
+		//loader.load('fonts/gentilis_regular.typeface.json', function(font) {
 
 		//function addLabel(name, location) {
 		//
@@ -109,18 +107,22 @@ void xx_materials_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 
 		Model& sphere = app.m_gfx.shape(Sphere(4.f));
 		Node3& l = gfx::nodes(scene).add(Node3());
-		Item& il = gfx::items(scene).add(Item(l, sphere, 0U, &gfx::solid_material(app.m_gfx, "light", Colour(1.f))));
+		//Item& il = gfx::items(scene).add(Item(l, sphere, 0U, &gfx::solid_material(app.m_gfx, "light", Colour(1.f))));
 		Light& ll = gfx::lights(scene).add(Light(l, LightType::Point, false, rgb(0xffffff), 2.f, 800.f));
 		light = &l;
 
 		Node3& dl = gfx::nodes(scene).add(Node3(vec3(0.f), facing(normalize(vec3(-1.f, -1.f, -1.f)))));
 		gfx::lights(scene).add(Light(dl, LightType::Direct, false, rgb(0xffffff)));
 
-		//renderer.toneMapping = THREE.Uncharted2ToneMapping;
-		//renderer.toneMappingExposure = 0.75;
+		Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
+		tonemap.m_enabled = true;
+		tonemap.m_mode = TonemapMode::Reinhardt;
+		tonemap.m_exposure = 3.f;
+		//tonemap.m_mode = TonemapMode::Uncharted2;
+		//tonemap.m_exposure = 0.75f;
 	}
 
-	float time = app.m_gfx.m_time;
+	const float time = app.m_gfx.m_time * 0.1f;
 
 	//camera.position.x = cos(timer) * 800;
 	//camera.position.z = sin(timer) * 800;

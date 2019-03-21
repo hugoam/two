@@ -83,7 +83,7 @@ static string fragment_shader()
 void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 
@@ -127,8 +127,8 @@ void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			m.m_program = &program;
 			m.m_base.m_uv0_scale = { 3.f, 1.f };
 			m.m_submit = submit;
-			m.m_user.m_attr0.m_texture = &cloud;
-			m.m_user.m_attr1.m_texture = &lava;
+			m.m_user.m_tex0 = &cloud;
+			m.m_user.m_tex1 = &lava;
 		});
 
 		const float size = 0.65f;

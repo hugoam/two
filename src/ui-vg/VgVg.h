@@ -29,67 +29,67 @@ namespace mud
 		~VgVg();
 
 		// init
-		virtual void setup_context() final;
-		virtual void release_context() final;
+		virtual void setup_context() override;
+		virtual void release_context() override;
 
 		// setup
-		virtual void load_default_font() final;
-		virtual void load_font(cstring name) final;
-		virtual void load_image_RGBA(Image& image, const unsigned char* data) final;
-		virtual void load_image(Image& image) final;
-		virtual void unload_image(Image& image) final;
-		virtual uint16_t load_texture(uint16_t texture) final;
+		virtual void load_default_font() override;
+		virtual void load_font(cstring name) override;
+		virtual void load_image_RGBA(Image& image, const unsigned char* data) override;
+		virtual void load_image(Image& image) override;
+		virtual void unload_image(Image& image) override;
+		virtual uint16_t load_texture(uint16_t texture) override;
 
 		// rendering
-		virtual void begin_frame(const vec4& rect, float pixel_ratio) final;
-		virtual void end_frame() final;
+		virtual void begin_frame(uint16_t view, const vec4& rect, float pixel_ratio) override;
+		virtual void end_frame(uint16_t view) override;
 
 		// drawing
-		virtual void begin_target() final;
-		virtual void end_target() final;
+		virtual void begin_target() override;
+		virtual void end_target() override;
 
-		virtual void begin_layer(Layer& layer, const vec2& position, float scale) final;
-		virtual void end_layer() final;
+		virtual void begin_layer(Layer& layer, const vec2& position, float scale) override;
+		virtual void end_layer() override;
 
 #ifdef MUD_UI_DRAW_CACHE
-		virtual void begin_cached(Layer& layer) final;
-		virtual void end_cached() final;
+		virtual void begin_cached(Layer& layer) override;
+		virtual void end_cached() override;
 
-		virtual void draw_layer(Layer& layer, const vec2& position, float scale) final;
+		virtual void draw_layer(Layer& layer, const vec2& position, float scale) override;
 #endif
 
-		virtual void begin_update(const vec2& position, float scale) final;
-		virtual void end_update() final;
+		virtual void begin_update(const vec2& position, float scale) override;
+		virtual void end_update() override;
 
-		virtual bool clipped(const vec4& rect) final;
-		virtual void clip(const vec4& rect) final;
-		virtual void unclip() final;
+		virtual bool clipped(const vec4& rect) override;
+		virtual void clip(const vec4& rect) override;
+		virtual void unclip() override;
 
-		virtual void path_line(const vec2& p1, const vec2& p2) final;
-		virtual void path_bezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten = false) final;
-		virtual void path_rect(const vec4& rect, const vec4& corners, float border) final;
-		virtual void path_circle(const vec2& center, float r) final;
+		virtual void path_line(const vec2& p1, const vec2& p2) override;
+		virtual void path_bezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten = false) override;
+		virtual void path_rect(const vec4& rect, const vec4& corners, float border) override;
+		virtual void path_circle(const vec2& center, float r) override;
 
-		virtual void draw_shadow(const vec4& rect, const vec4& corner, const Shadow& shadows) final;
-		//virtual void draw_rect(const vec4& rect, const vec4& corners, const Paint& paint) final;
-		virtual void draw_texture(uint16_t texture, const vec4& rect, const vec4& image_rect) final;
-		virtual void draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint) final;
+		virtual void draw_shadow(const vec4& rect, const vec4& corner, const Shadow& shadows) override;
+		//virtual void draw_rect(const vec4& rect, const vec4& corners, const Paint& paint) override;
+		virtual void draw_texture(uint16_t texture, const vec4& rect, const vec4& image_rect) override;
+		virtual void draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint) override;
 
-		virtual void draw_color_wheel(const vec2& center, float r0, float r1) final;
-		virtual void draw_color_triangle(const vec2& center, float r0, float hue, float s, float l) final;
+		virtual void draw_color_wheel(const vec2& center, float r0, float r1) override;
+		virtual void draw_color_triangle(const vec2& center, float r0, float hue, float s, float l) override;
 
-		virtual void fill(const Gradient& gradient, const vec2& start, const vec2& end) final;
-		virtual void fill(const Paint& paint) final;
-		virtual void stroke(const Paint& paint) final;
+		virtual void fill(const Gradient& gradient, const vec2& start, const vec2& end) override;
+		virtual void fill(const Paint& paint) override;
+		virtual void stroke(const Paint& paint) override;
 
-		virtual void stroke_gradient(const Gradient& paint, float width, const vec2& start, const vec2& end) final;
+		virtual void stroke_gradient(const Gradient& paint, float width, const vec2& start, const vec2& end) override;
 
-		virtual void break_next_row(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row) final;
-		virtual void break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) final;
+		virtual void break_next_row(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row) override;
+		virtual void break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) override;
 
-		virtual float line_height(const TextPaint& paint) final;
-		virtual float text_size(cstring text, size_t len, Axis dim, const TextPaint& paint) final;
-		virtual vec2 text_size(cstring text, size_t len, const TextPaint& paint) final;
+		virtual float line_height(const TextPaint& paint) override;
+		virtual float text_size(cstring text, size_t len, Axis dim, const TextPaint& paint) override;
+		virtual vec2 text_size(cstring text, size_t len, const TextPaint& paint) override;
 
 	private:
 		uint32_t text_align(const TextPaint& paint);

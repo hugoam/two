@@ -26,7 +26,7 @@ namespace stl
 	template class MUD_GFX_PBR_EXPORT vector<ShadowAtlas::Index>;
 	template class MUD_GFX_PBR_EXPORT vector<ShadowAtlas::Slot>;
 	template class MUD_GFX_PBR_EXPORT vector<ShadowAtlas::Slot*>;
-	template class MUD_GFX_PBR_EXPORT vector<ReflectionCubemap>;
+	template class MUD_GFX_PBR_EXPORT vector<CubeTarget>;
 	template class MUD_GFX_PBR_EXPORT vector<ReflectionAtlas::Slot>;
 	template class MUD_GFX_PBR_EXPORT vector<ReflectionAtlas::Slot*>;
 	template class MUD_GFX_PBR_EXPORT vector<CSMShadow>;

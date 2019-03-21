@@ -205,7 +205,7 @@ namespace mud
 		return color;
 	}
 
-	void Fract::render(const Rect& rect, const Pattern& pattern, uvec2 resolution, Image256& image)
+	void Fract::render(const Rect& rect, const Pattern& pattern, const uvec2& resolution, Image256& image)
 	{
 		image.resize(resolution);
 
@@ -219,18 +219,19 @@ namespace mud
 		++m_update;
 	}
 
-	void Fract::render_whole(const Pattern& pattern, uvec2 resolution, Image256& image)
+	void Fract::render_whole(const Pattern& pattern, const uvec2& resolution, Image256& image)
 	{
 		Rect rect(0.f, 0.f, 1.f, 1.f);
 		this->render(rect, pattern, resolution, image);
 	}
 
-	void Fract::render_grid(uvec2 subdiv, const Pattern& pattern, uvec2 resolution, vector<Image256>& images)
+	void Fract::render_grid(const uvec2& subdiv, const Pattern& pattern, const uvec2& resolution, vector<Image256>& images)
 	{
 		for(size_t y = 0; y < subdiv.y; ++y)
 			for(size_t x = 0; x < subdiv.x; ++x)
 			{
-				Rect rect(float(x) / float(subdiv.x), float(y) / float(subdiv.y), 1.f / float(subdiv.x), 1.f / float(subdiv.y));
+				const uvec2 coord = uvec2(x, y);
+				Rect rect(vec2(coord) / vec2(subdiv), vec2(1.f) / vec2(subdiv));
 				images.emplace_back();
 				this->render(rect, pattern, resolution, images.back());
 			}

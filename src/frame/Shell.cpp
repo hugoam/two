@@ -7,6 +7,8 @@
 #include <emscripten/emscripten.h>
 #endif
 
+#include <stl/vector.hpp>
+
 //#define MUD_GFX_DEFERRED
 
 namespace mud
@@ -23,7 +25,51 @@ namespace mud
 	}
 #endif
 
-    Shell::Shell(const string& resource_path, const string& exec_path)
+	unique<Vg> create_vg(GfxSystem& gfx, const string& resource_path)
+	{
+#if defined MUD_VG_VG
+		return construct<VgVg>(resource_path, &gfx.allocator());
+#elif defined MUD_VG_NANOVG
+		return construct<VgNanoBgfx>(m_resource_path);
+#endif
+	}
+
+	ShellWindow::ShellWindow(GfxSystem& gfx, uint32_t index, const string& name, const uvec2& size, bool fullscreen)
+		: GfxWindow(gfx, name, size, fullscreen, index == 0)
+		, m_index(index)
+#if !GLOBAL_VG
+		, m_vg(create_vg(gfx, gfx.m_resource_path))
+#endif
+		, m_ui_window(*this, *m_vg)
+	{
+#if GLOBAL_VG
+		if(index == 0) m_vg->setup_context();
+#else
+		GfxWindow::m_vg = m_vg.get();
+		m_vg->setup_context();
+#endif
+			
+
+		m_reset_vg = [](GfxWindow& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.m_tex.idx); };
+
+		m_ui_window.init();
+		m_ui = m_ui_window.m_ui.get();
+
+		style_minimal(m_ui_window);
+	}
+
+	bool ShellWindow::begin_frame()
+	{
+		return m_ui_window.input_frame();
+	}
+
+	void ShellWindow::end_frame()
+	{
+		bgfx::setViewFrameBuffer(240 + m_index, m_target->m_backbuffer.m_fbo);
+		m_ui_window.render_frame(240 + m_index);
+	}
+
+    Shell::Shell(const string& resource_path, const string& exec_path, bool window)
         : m_exec_path(exec_path)
 		, m_resource_path(resource_path)
 		, m_job_system()
@@ -37,7 +83,7 @@ namespace mud
 		m_gfx.m_job_system = &m_job_system;
 		m_job_system.adopt();
 
-		this->init();
+		this->init(window);
 	}
 
 	Shell::~Shell()
@@ -61,40 +107,47 @@ namespace mud
 
 	bool Shell::begin_frame()
 	{
-		m_gfx.begin_frame();
-		return m_ui_window->input_frame();
+		bool pursue = m_gfx.begin_frame();
+		for(auto& context : m_windows)
+			pursue &= context->begin_frame();
+		return pursue;
 	}
 
-	bool Shell::end_frame()
+	void Shell::end_frame()
 	{
-		m_ui_window->render_frame();
-		return m_gfx.next_frame();
+		m_gfx.render_contexts();
+		for(auto& context : m_windows)
+			context->end_frame();
+		m_gfx.end_frame();
 	}
 
 	bool Shell::pump()
 	{
 		bool pursue = this->begin_frame();
-		if(m_pump) m_pump(*this);
-		pursue &= this->end_frame();
+		if(m_pump)
+		{
+			for(auto& window : m_windows)
+				m_pump(*this, *window);
+		}
+		this->end_frame();
 		return pursue;
 	}
 
-	void Shell::init()
+	void Shell::init(bool window)
 	{
-		m_context = m_gfx.create_context("mud EditorCore", { 1600U, 900U }, false);
-		GfxContext& context = as<GfxContext>(*m_context);
-#if defined MUD_VG_VG
-		m_vg = oconstruct<VgVg>(m_resource_path.c_str(), &m_gfx.allocator());
-#elif defined MUD_VG_NANOVG
-		m_vg = oconstruct<VgNanoBgfx>(m_resource_path.c_str());
+#if GLOBAL_VG
+		m_vg = create_vg(m_gfx, m_resource_path);
 #endif
-		m_gfx.m_vg = &*m_vg;
-		context.m_reset_vg = [](GfxContext& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.m_tex.idx); };
 
-		m_ui_window = make_unique<UiWindow>(*m_context, *m_vg);
-		m_ui = m_ui_window->m_root_sheet.get();
+		if(window)
+			this->window("two", uvec2(1600U, 900U), false);
+	}
 
-		style_minimal(*m_ui_window);
+	ShellWindow& Shell::window(const string& name, const uvec2& size, bool fullscreen)
+	{
+		const uint32_t index = m_windows.size();
+		m_windows.push_back(construct<ShellWindow>(m_gfx, index, "two", uvec2(1600U, 900U), false));
+		return *m_windows.back();
 	}
 
 	void shell_context(Widget& parent, ShellContext& context)

@@ -185,9 +185,9 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 }
 
 #ifdef _05_CHARACTER_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window)
 {
-	shell_context(app.m_ui->begin(), app.m_editor);
+	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_05_character(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 

@@ -11,6 +11,12 @@
 
 namespace mud
 {
+	enum ShaderOptionSkybox : unsigned int
+	{
+		SKYBOX_FBO,
+		SKYBOX_CUBE,
+	};
+
 	export_ enum class refl_ Month : unsigned int
 	{
 		January = 0,

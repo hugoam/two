@@ -15,7 +15,7 @@ void debug_normals(Gnode& parent, Mesh& mesh, const mat4& transform, float lengt
 {
 	MeshAdapter source = mesh.m_cache.read();
 
-	for(size_t i = 0; i < source.m_vertices.size(); ++i)
+	for(size_t i = 0; i < source.m_vertex_count; ++i)
 	{
 		vec3 position = mulp(transform, source.position());
 		vec3 normal = muln(transform, source.normal());
@@ -46,9 +46,9 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 }
 
 #ifdef _07_GLTF_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window)
 {
-	shell_context(app.m_ui->begin(), app.m_editor);
+	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_07_gltf(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 

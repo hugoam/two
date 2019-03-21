@@ -35,12 +35,27 @@ namespace mud
 		uint32_t m_handle = UINT32_MAX;
 	};
 
-	struct Entt
+	struct refl_ struct_ MUD_ECS_EXPORT Entt
 	{
 		GridECS* m_ecs = nullptr;
 		uint32_t m_handle = UINT32_MAX;
 
 		template <class T>
 		T& comp();
+	};
+
+	struct refl_ struct_ MUD_ECS_EXPORT OEntt : public Entt
+	{
+		OEntt() {}
+		OEntt(GridECS* ecs, uint32_t handle) : Entt{ ecs, handle } {}
+		~OEntt();
+
+		OEntt(OEntt&& other) { *this = move(other); }
+		OEntt& operator=(OEntt&& other)
+		{
+			m_ecs = other.m_ecs; m_handle = other.m_handle;
+			other.m_handle = UINT32_MAX;
+			return *this;
+		}
 	};
 }

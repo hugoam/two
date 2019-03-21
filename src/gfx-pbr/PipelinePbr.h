@@ -23,8 +23,8 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 
 		virtual void options(Render& render, ProgramVersion& shader_version) const final;
-		virtual void submit(Render& render, const Pass& render_pass) const final;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const final;
+		virtual void submit(Render& render, const Pass& pass) const final;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const final;
 
 		Material* m_material = nullptr;
 		Material* m_material_twosided = nullptr;

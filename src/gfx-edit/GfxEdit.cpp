@@ -279,7 +279,7 @@ namespace mud
 		Widget& self = ui::sheet(*scroll_sheet.m_body);
 		UNUSED(self); UNUSED(viewer);
 
-		Entt filters = viewer.m_viewport;
+		Entt& filters = viewer.m_viewport;
 		object_edit_expandbox(self, Ref(&filters.comp<DofBlur>()));
 		object_edit_expandbox(self, Ref(&filters.comp<Glow>()));
 		object_edit_expandbox(self, Ref(&filters.comp<BCS>()));

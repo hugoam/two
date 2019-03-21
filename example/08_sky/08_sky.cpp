@@ -63,7 +63,7 @@ export_ struct MUD_GFX_EXPORT ProceduralSky
 {
 	void init(GfxSystem& gfx, ivec2 vertex_count);
 	void shutdown();
-	void submit(Render& render, Pass& render_pass);
+	void submit(Render& render, Pass& pass);
 
 	bgfx::VertexBufferHandle m_vbh;
 	bgfx::IndexBufferHandle m_ibh;
@@ -324,16 +324,16 @@ void ProceduralSky::shutdown()
 	bgfx::destroy(m_program_colorBandingFix);
 }
 
-void ProceduralSky::submit(Render& render, Pass& render_pass)
+void ProceduralSky::submit(Render& render, Pass& pass)
 {
 	UNUSED(render);
-	bgfx::Encoder& encoder = *render_pass.m_encoder;
+	bgfx::Encoder& encoder = *pass.m_encoder;
 
 	encoder.setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LEQUAL);
 	encoder.setIndexBuffer(m_ibh);
 	encoder.setVertexBuffer(0, m_vbh);
 
-	encoder.submit(render_pass.m_index, m_preventBanding ? m_program_colorBandingFix : m_program);
+	encoder.submit(pass.m_index, m_preventBanding ? m_program_colorBandingFix : m_program);
 }
 
 void PerezSky::init(GfxSystem& gfx)
@@ -367,7 +367,7 @@ void PerezSky::render(Render& render)
 	Pass sky_pass = render.next_pass("sky", PassType::Background);
 	bgfx::Encoder& encoder = *sky_pass.m_encoder;
 
-	m_time += m_time_scale * render.m_frame.m_delta_time;
+	m_time += m_time_scale * render.m_frame->m_delta_time;
 	m_time = bx::mod(m_time, 24.0f);
 	m_sun.Update(m_time);
 
@@ -479,9 +479,9 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 }
 
 #ifdef _08_SKY_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window)
 {
-	shell_context(app.m_ui->begin(), app.m_editor);
+	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_08_sky(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 

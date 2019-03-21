@@ -163,14 +163,15 @@ namespace mud
 	UiRenderer::~UiRenderer()
 	{}
 
-	void UiRenderer::render(Layer& target, float pixel_ratio)
+	void UiRenderer::render(Layer& target, uint16_t view, float pixel_ratio)
 	{
 		this->log_FPS();
 
 		m_debug_batch = 0;
 		static size_t prevBatch = 0;
 
-		m_vg.begin_frame({ vec2(0.f), target.m_frame.m_size }, pixel_ratio);
+		printf("render ui\n");
+		m_vg.begin_frame(view, vec4(vec2(0.f), target.m_frame.m_size), pixel_ratio);
 
 #ifdef MUD_UI_DRAW_CACHE
 		target.visit([&](Layer& layer) {
@@ -194,7 +195,7 @@ namespace mud
 			//printf("DEBUG: Render Frame : %i frames redrawn\n", m_debug_batch);
 		}
 
-		m_vg.end_frame();
+		m_vg.end_frame(view);
 	}
 
 	void UiRenderer::render_layer(Layer& layer)
@@ -440,6 +441,7 @@ namespace mud
 		if(frame.icon())
 			this->draw_image(*frame.icon(), content_rect);
 
+		printf("draw frame content %s\n", frame.caption());
 		if(frame.caption())
 			m_vg.draw_text(rect_offset(padded_rect), frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
 	}

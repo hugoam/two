@@ -55,7 +55,7 @@ namespace mud
 
 		Symbol symbol = { Colour::White, Colour::None, true };
 		Quad quad = { vec2(size) * scale };
-		draw_model({ symbol, &quad, PLAIN }, m_model);
+		gen_model({ symbol, &quad, PLAIN }, m_model);
 	}
 
 	SpaceSheet::SpaceSheet(Widget& parent, SpaceViewport& viewport)

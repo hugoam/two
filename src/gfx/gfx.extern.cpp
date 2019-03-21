@@ -40,7 +40,7 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<Renderer*>;
 	template class MUD_GFX_EXPORT vector<GfxBlock*>;
 	template class MUD_GFX_EXPORT vector<DrawBlock*>;
-	template class MUD_GFX_EXPORT vector<GfxContext*>;
+	template class MUD_GFX_EXPORT vector<GfxWindow*>;
 	template class MUD_GFX_EXPORT vector<GfxSystem*>;
 	template class MUD_GFX_EXPORT vector<Vertex>;
 	template class MUD_GFX_EXPORT vector<ShapeVertex>;
@@ -68,7 +68,7 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<Import::Item>;
 	template class MUD_GFX_EXPORT vector<DrawElement>;
 	template class MUD_GFX_EXPORT vector<Frustum>;
-	template class MUD_GFX_EXPORT vector<LightRecord>;
+	//template class MUD_GFX_EXPORT vector<LightRecord>;
 	template class MUD_GFX_EXPORT vector<Froxelizer::FroxelEntry>;
 	template class MUD_GFX_EXPORT vector<array<uint, 8193>>;
 	template class MUD_GFX_EXPORT vector<unique<Gnode>>;

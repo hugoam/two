@@ -12,17 +12,21 @@
 
 using namespace mud;
 
-void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+void xx_geom_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
-	constexpr uint max_particles = 1000;
+	constexpr uint32_t max_particles = 1000;
+	constexpr uint32_t max_segments = 10000;
+	//constexpr uint32_t max_segments = max_particles * max_particles;
+
+
 	constexpr uint num_particles = 500;
 
 	const float r = 800.f;
 	const float r2 = r / 2.f;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controller(viewer);
+	ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 
@@ -43,8 +47,6 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	//helper.material.blending = THREE.AdditiveBlending;
 	//helper.material.transparent = true;
 	//group.add(helper);
-
-	constexpr uint32_t segments = max_particles * max_particles;
 
 	static Program& pointprog = app.m_gfx.programs().fetch("point");
 	static Program& lineprog = app.m_gfx.programs().fetch("line");
@@ -83,7 +85,7 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			m.m_base.m_blend_mode = BlendMode::Add;
 			m.m_base.m_shader_color = ShaderColor::Vertex;
 			m.m_alpha.m_is_alpha = true;
-			m.m_line.m_dashed = true;
+			//m.m_line.m_dashed = true;
 		});
 
 #if INSTANCING
@@ -121,7 +123,7 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Model& lines_model = app.m_gfx.create_model("segments");
 		lines_mesh = lines_model.m_items[0].m_mesh;
 
-		GpuMesh gpu_mesh = alloc_mesh(PrimitiveType::Lines, VertexAttribute::Position4 | VertexAttribute::Colour, segments * 2, 0);
+		GpuMesh gpu_mesh = alloc_mesh(PrimitiveType::Lines, VertexAttribute::Position4 | VertexAttribute::Colour, max_segments * 2, 0);
 		gpu_mesh.m_dynamic = true;
 		lines_mesh->upload(gpu_mesh);
 		lines_mesh->m_range = { 0U, 0U };
@@ -155,12 +157,14 @@ void xx_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	MeshAdapter& direct = lines_mesh->direct();
 #endif
 
+	const float delta = app.m_gfx.m_delta_time;
+
 	for(uint32_t i = 0; i < num_particles; i++)
 	{
 		Particle& particle = particles[i];
 
 		vec3& position = particle.position;
-		position += particle.velocity;
+		position += particle.velocity * delta * 20.f;
 #if INSTANCING
 		points[i] = { position, PAD, vec2(1.f), PAD, PAD };
 #else

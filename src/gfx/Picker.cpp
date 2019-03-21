@@ -48,14 +48,9 @@ namespace mud
 			m_readback_texture = { m_size, false, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags };
 
 		m_fbo_texture = { m_size, false, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_RT | flags };
+		m_fbo_depth = { m_size, false, bgfx::TextureFormat::D24S8, 0 | BGFX_TEXTURE_RT | flags };
 
-		bgfx::TextureHandle rt[2] =
-		{
-			m_fbo_texture,
-			bgfx::createTexture2D(uint16_t(m_size.x), uint16_t(m_size.y), false, 1, bgfx::TextureFormat::D24S8, 0 | BGFX_TEXTURE_RT | flags)
-		};
-
-		m_fbo = { m_size, bgfx::createFrameBuffer(BX_COUNTOF(rt), rt, true) };
+		m_fbo = { m_size, { &m_fbo_texture, &m_fbo_depth } };
 	}
 
 	Picker::~Picker()
@@ -82,7 +77,7 @@ namespace mud
 
 	void Picker::process(Render& render, PickQuery& query)
 	{
-		if(!query || render.m_shot->m_items.empty()) return;
+		if(!query || render.m_shot.m_items.empty()) return;
 
 		uint8_t view = render.picking_pass();
 
@@ -99,9 +94,9 @@ namespace mud
 		
 		//Frustum frustum = { pickProj, pickView, 0.1f, 1000.f, query.m_fov, query.m_aspect };
 
-		for(uint32_t index = 0; index < render.m_shot->m_items.size(); ++index)
+		for(uint32_t index = 0; index < render.m_shot.m_items.size(); ++index)
 		{
-			Item& item = *render.m_shot->m_items[index];
+			Item& item = *render.m_shot.m_items[index];
 
 			//if(!frustum_aabb_intersection(frustum.m_planes, item.m_aabb))
 			//	continue;
@@ -138,7 +133,7 @@ namespace mud
 		}
 
 		// every time the blit to CPU texture is finished, we read the focused item
-		if(query.m_readback_ready <= render.m_frame.m_frame)
+		if(query.m_readback_ready <= render.m_frame->m_frame)
 		{
 			Item* item = nullptr;
 			vector<Item*> items = {};
@@ -156,16 +151,16 @@ namespace mud
 					size_t offset = x + y * m_size.x;
 					const uint32_t& id = m_data[offset];
 
-					if(id == uint32_t(255 << 24) || id >= render.m_shot->m_items.size())
+					if(id == uint32_t(255 << 24) || id >= render.m_shot.m_items.size())
 						continue;
 
-					add(items, render.m_shot->m_items[id]);
+					add(items, render.m_shot.m_items[id]);
 
 					uint32_t count = ++counts[id];
-					if(count > maxAmount && id < render.m_shot->m_items.size())
+					if(count > maxAmount && id < render.m_shot.m_items.size())
 					{
 						maxAmount = count;
-						item = render.m_shot->m_items[id];
+						item = render.m_shot.m_items[id];
 					}
 				}
 

@@ -22,13 +22,13 @@ using namespace mud;
 //<script src = "js/postprocessing/ShaderPass.js">< / script>
 //<script src = "js/postprocessing/MaskPass.js">< / script>
 
-void xx_materials_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	static ImporterGltf importer_gltf = { app.m_gfx };
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 

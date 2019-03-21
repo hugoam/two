@@ -217,13 +217,9 @@ namespace mud
 	struct Program::Impl
 	{
 		map<uint64_t, Version> m_versions;
-		vector<string> m_option_names;
-		vector<string> m_mode_names;
-
-		vector<ShaderDefine> m_defines;
 	};
 
-	string program_defines(Program::Impl& program, const ProgramVersion& version)
+	string program_defines(const Program& program, const ProgramVersion& version)
 	{
 		string defines = "";
 
@@ -249,7 +245,7 @@ namespace mud
 	{
 		GfxBlock& mat = *ms_gfx_system->m_renderer.block<BlockMaterial>();
 		
-		static cstring options[] = { "SKELETON", "INSTANCING", "BILLBOARD", "QNORMALS", "MRT", "DEFERRED", "CLUSTERED",
+		static cstring options[] = { "INSTANCING", "BILLBOARD", "SKELETON", "QNORMALS", "VFLIP", "MRT", "DEFERRED", "CLUSTERED",
 									 "ZONES_BUFFER", "LIGHTS_BUFFER", "MATERIALS_BUFFER" };
 		this->register_options(0, options);
 		this->register_block(mat);
@@ -271,30 +267,36 @@ namespace mud
 		m_shader_blocks[block.m_index].m_enabled = true;
 		this->register_options(block.m_index, block.m_shader_block->m_options);
 		this->register_modes(block.m_index, block.m_shader_block->m_modes);
-		prepend(m_impl->m_defines, block.m_shader_block->m_defines);
+		if(block.m_shader_block->m_defines.size() > 0)
+			prepend(m_defines, block.m_shader_block->m_defines);
 	}
 
 	void Program::register_options(uint8_t block, span<cstring> options)
 	{
 		m_shader_blocks[block].m_enabled = true;
-		m_shader_blocks[block].m_option_shift = uint8_t(m_impl->m_option_names.size());
+		m_shader_blocks[block].m_option_shift = uint8_t(m_option_names.size());
 
 		for(size_t i = 0; i < options.size(); ++i)
-			m_impl->m_option_names.push_back(options[i]);
+			m_option_names.push_back(options[i]);
 	}
 
 	void Program::register_modes(uint8_t block, span<cstring> modes)
 	{
 		m_shader_blocks[block].m_enabled = true;
-		m_shader_blocks[block].m_mode_shift = uint8_t(m_impl->m_mode_names.size());
+		m_shader_blocks[block].m_mode_shift = uint8_t(m_mode_names.size());
 
 		for(size_t i = 0; i < modes.size(); ++i)
-			m_impl->m_mode_names.push_back(modes[i]);
+			m_mode_names.push_back(modes[i]);
 	}
 
 	void Program::set_block(MaterialBlock type, bool enabled)
 	{
 		m_blocks[type] = enabled;
+	}
+
+	void Program::set_pass(PassType type, bool enabled)
+	{
+		m_passes[type] = enabled;
 	}
 
 	void Program::set_source(ShaderType type, const string& source)
@@ -304,7 +306,7 @@ namespace mud
 
 	string Program::defines(const ProgramVersion& version) const
 	{
-		return program_defines(*m_impl, version);
+		return program_defines(*this, version);
 	}
 
 	ProgramVersion Program::shader_version(Version& version)
@@ -319,7 +321,7 @@ namespace mud
 		const ProgramVersion config = shader_version(version);
 
 		const string suffix = "_v" + to_string(version.m_version);
-		const string defines = program_defines(*m_impl, config);
+		const string defines = program_defines(*this, config);
 
 		bool compiled = true;
 #ifdef MUD_LIVE_SHADER_COMPILER

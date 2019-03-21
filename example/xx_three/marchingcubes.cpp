@@ -15,26 +15,16 @@ using namespace mud;
 #define DIRECT 1
 #define NORMAL 1
 
-//<script src = "js/controls/OrbitControls.js">< / script>
-//
 //<script src = "js/shaders/CopyShader.js">< / script>
 //<script src = "js/shaders/FXAAShader.js">< / script>
 //<script src = "js/shaders/HorizontalTiltShiftShader.js">< / script>
 //<script src = "js/shaders/VerticalTiltShiftShader.js">< / script>
-//
-//<script src = "js/postprocessing/EffectComposer.js">< / script>
-//<script src = "js/postprocessing/RenderPass.js">< / script>
+
 //<script src = "js/postprocessing/BloomPass.js">< / script>
-//<script src = "js/postprocessing/ShaderPass.js">< / script>
 //<script src = "js/postprocessing/MaskPass.js">< / script>
 //<script src = "js/postprocessing/SavePass.js">< / script>
-//
-//<script src = "js/MarchingCubes.js">< / script>
+
 //<script src = "js/ShaderToon.js">< / script>
-//
-//<script src = "js/WebGL.js">< / script>
-//<script src = "js/libs/stats.min.js">< / script>
-//<script src = "js/libs/dat.gui.min.js">< / script>
 
 #if 0
 function createShaderMaterial(id, light, ambientLight) {
@@ -204,7 +194,7 @@ void upload_cubes(MarchingCubes& cubes, Mesh& mesh)
 void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 
@@ -264,7 +254,7 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		});
 #endif
 
-		//Texture& reflection = *app.m_gfx.textures().file("SwedishRoyalCastle.cube");
+		//Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
 		//Texture& refraction = reflection;
 		//refractionCube.mapping = THREE.CubeRefractionMapping;
 

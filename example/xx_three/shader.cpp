@@ -78,7 +78,7 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar); UNUSED(app);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controller(viewer);
+	ui::orbit_controls(viewer);
 
 	static Program program = { "custom" };
 	if(init)
@@ -105,10 +105,10 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 #else
 	Gnode& scene = viewer.m_scene.begin();
 
-	auto draw_quad = [](Render& render, const Pass& render_pass)
+	auto draw_quad = [](Render& render, const Pass& pass)
 	{
-		BlockFilter& filter = *render.m_scene.m_gfx.m_renderer.block<BlockFilter>();
-		filter.quad(render_pass.m_index, *render.m_target_fbo, program.default_version(), render_pass.m_viewport->m_rect);
+		BlockFilter& filter = *render.m_scene->m_gfx.m_renderer.block<BlockFilter>();
+		filter.quad(pass.m_index, *render.m_target_fbo, program.default_version(), pass.m_viewport->m_rect);
 	};
 
 	gfx::manual_job(scene, PassType::Solid, draw_quad);

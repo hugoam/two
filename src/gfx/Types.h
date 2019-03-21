@@ -86,7 +86,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Frustum>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::FrustumSlice>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxContext>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxWindow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Gnode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GpuMesh>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ImmediateDraw>();

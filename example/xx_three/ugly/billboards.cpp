@@ -12,7 +12,7 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controller(viewer);
+	ui::orbit_controls(viewer);
 
 	Camera& camera = viewer.m_camera;
 	camera.m_near = 2.f; camera.m_far = 2000.f;

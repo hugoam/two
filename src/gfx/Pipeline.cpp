@@ -15,12 +15,6 @@ module mud.gfx;
 
 namespace mud
 {
-#define MUD_GFX_STATE_DEFAULT 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL \
-								| BGFX_STATE_WRITE_Z | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA
-
-#define MUD_GFX_STATE_DEFAULT_ALPHA 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS \
-									  | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA
-
 	void pipeline_minimal(GfxSystem& gfx, Renderer& pipeline, bool deferred)
 	{
 		UNUSED(deferred);
@@ -107,59 +101,74 @@ namespace mud
 		};
 	};
 
+	void pass_clear_fbo(GfxSystem& gfx, Render& render, FrameBuffer& fbo, Colour& colour)
+	{
+		UNUSED(gfx);
+		Pass pass = render.next_pass("clear", PassType::Clear);
+
+		bgfx::setViewClear(pass.m_index, BGFX_CLEAR_COLOR, to_rgba(colour));
+		bgfx::setViewFrameBuffer(pass.m_index, fbo);
+
+		bgfx::touch(pass.m_index);
+	}
+
 	void pass_clear(GfxSystem& gfx, Render& render)
 	{
 		UNUSED(gfx);
 		static ClearInit init;
 
-		Pass render_pass = render.next_pass("clear", PassType::Clear);
+		Pass pass = render.next_pass("clear", PassType::Clear);
 
-		if(render.m_target && render.m_target->m_mrt) //render_pass.m_use_mrt)
-			bgfx::setViewClear(render_pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, 1.f, 0, s_blank, s_blank, s_blank, s_blank);
+		if(render.m_target && render.m_target->m_mrt) //pass.m_use_mrt)
+			bgfx::setViewClear(pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, 1.f, 0, s_blank, s_blank, s_blank, s_blank);
 		else
-			bgfx::setViewClear(render_pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, to_rgba(render.m_viewport.m_clear_colour), 1.f, 0);
+			bgfx::setViewClear(pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, to_rgba(render.m_viewport->m_clear_colour), 1.f, 0);
 
+		bgfx::touch(pass.m_index);
+	}
+
+	void pass_gclear(GfxSystem& gfx, Render& render)
+	{
+		UNUSED(gfx);
 		if(render.m_target && render.m_target->m_deferred)
 		{
-			Pass gbuffer_pass = render.next_pass("clear gbuffer", PassType::Clear);
-			bgfx::setViewClear(gbuffer_pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, 1.f, 0, s_zero, s_zero, s_zero, s_zero);
-			bgfx::setViewFrameBuffer(gbuffer_pass.m_index, render.m_target->m_gbuffer.m_fbo);
+			Pass pass = render.next_pass("clear gbuffer", PassType::Clear);
+			bgfx::setViewClear(pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, 1.f, 0, s_zero, s_zero, s_zero, s_zero);
+			bgfx::setViewFrameBuffer(pass.m_index, render.m_target->m_gbuffer.m_fbo);
+			bgfx::touch(pass.m_index);
 		}
-
-		bgfx::touch(render_pass.m_index);
 	}
 
 	void pass_solid(GfxSystem& gfx, Render& render)
 	{
 		UNUSED(gfx);
-		Pass render_pass = render.next_pass("solid", PassType::Solid);
+		Pass pass = render.next_pass("solid", PassType::Solid);
 		
-		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL
+		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL
 									 | BGFX_STATE_MSAA | BGFX_STATE_CULL_CW;// | BGFX_STATE_BLEND_ALPHA;
 
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		for(ImmediateDraw* immediate : render.m_shot->m_immediate)
-			immediate->submit(encoder, render_pass.m_index, render_pass.m_bgfx_state);
+		bgfx::Encoder& encoder = *pass.m_encoder;
+		for(ImmediateDraw* immediate : render.m_shot.m_immediate)
+			immediate->submit(encoder, pass.m_index, pass.m_bgfx_state);
 
-		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
 			UNUSED(render);
+			if(!element.m_program->m_blocks[MaterialBlock::Solid] && !element.m_program->m_blocks[MaterialBlock::Fresnel])
+				return false;
 
-			if(element.m_program->m_blocks[MaterialBlock::Solid] || element.m_program->m_blocks[MaterialBlock::Fresnel])
-			{
-				blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);
-				gfx.m_renderer.add_element(render, pass, element);
-			}
+			blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);
+			return true;
 		};
 
-		gfx.m_renderer.pass(render, render_pass, queue_draw_element);
+		gfx.m_renderer.pass(render, pass, queue_draw_element);
 	}
 
 	void pass_background(GfxSystem& gfx, Render& render)
 	{
 		static BlockSky& block_sky = *gfx.m_renderer.block<BlockSky>();
 
-		//Pass render_pass = render.next_pass("background", PassType::Background);
+		//Pass pass = render.next_pass("background", PassType::Background);
 		block_sky.submit_pass(render);
 	}
 

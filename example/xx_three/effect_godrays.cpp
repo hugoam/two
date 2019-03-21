@@ -323,18 +323,6 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 	// targets but the aliasing causes some temporal flickering
 	static FrameBuffer depth = { render.m_target->m_size, bgfx::TextureFormat::R32F, 0U };
 
-	//postprocessing.scene = new THREE.Scene();
-
-	//postprocessing.camera = new THREE.OrthographicCamera(-0.5, 0.5, 0.5, -0.5, -10000, 10000);
-	//postprocessing.camera.position.z = 100;
-
-	//postprocessing.quad = new THREE.Mesh(
-	//	new THREE.PlaneBufferGeometry(1.0, 1.0),
-	//	postprocessing.materialGodraysGenerate
-	//);
-	//postprocessing.quad.position.z = -9900;
-	//postprocessing.scene.add(postprocessing.quad);
-
 	auto pass_mask_depth = [](GfxSystem& gfx, Render& render, const Godrays& godrays, FrameBuffer& fbo)
 	{
 		static Program& program = gfx.programs().create("godrays_depth_mask");
@@ -404,21 +392,21 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 	// pass 1 - render into first ping-pong target
 	const RenderQuad quad0 = { depth.source_quad(rect, true), pong.dest_quad(rect4, true), true };
-	pass_blur(gfx, render, godrays, pong, depth, step_size(filter_length, taps, 1.0), quad0);
+	pass_blur(gfx, render, godrays, pong, depth.m_tex, step_size(filter_length, taps, 1.f), quad0);
 
 	// pass 2 - render into second ping-pong target
 	const RenderQuad quad1 = { pong.source_quad(rect4, true), ping.dest_quad(rect4, true), true };
-	pass_blur(gfx, render, godrays, ping, pong, step_size(filter_length, taps, 2.0), quad1);
+	pass_blur(gfx, render, godrays, ping, pong.m_tex, step_size(filter_length, taps, 2.f), quad1);
 
 	// pass 3 - 1st RT
 	const RenderQuad quad2 = { ping.source_quad(rect4, true), pong.dest_quad(rect4, true), true };
-	pass_blur(gfx, render, godrays, pong, ping, step_size(filter_length, taps, 3.0), quad2);
+	pass_blur(gfx, render, godrays, pong, ping.m_tex, step_size(filter_length, taps, 3.f), quad2);
 
 	// final pass - composite god-rays onto colors
-	pass_combine(gfx, render, godrays, pong);
+	pass_combine(gfx, render, godrays, pong.m_tex);
 
 	//copy.debug_show_texture(render, depth, vec4(0.f));
-	copy.debug_show_texture(render, pong, vec4(0.f));
+	copy.debug_show_texture(render, pong.m_tex, vec4(0.f));
 }
 
 void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
@@ -427,7 +415,7 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	static ImporterOBJ obj_importer(app.m_gfx);
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 
@@ -444,6 +432,8 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_eye.z = 200.f;
 
 		static Program& solid = app.m_gfx.programs().fetch("solid");
+
+		viewer.m_viewport.m_clear_colour = godrays.m_bg_colour;
 
 		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
 			m.m_program = &solid;

@@ -13,7 +13,7 @@ void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	constexpr size_t triangles = 5000;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 

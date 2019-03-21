@@ -71,6 +71,7 @@ namespace mud
 		v4(v3<T> a, T w);
 		v4(T x, v3<T> b);
 		v4(v2<T> a, v2<T> b);
+		v4(v2<T> a, T z, T w);
 		template <class V>
 		explicit v4(V v);
 		T operator[](uint index) const;

@@ -22,7 +22,6 @@
 #include <gfx/Importer.h>
 #include <gfx/Item.h>
 #include <gfx/Light.h>
-#include <gfx/ManualRender.h>
 #include <gfx/Material.h>
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>

@@ -113,6 +113,8 @@ namespace mud
 					;
 				else
 					module.m_cpp += line + "\n";
+
+				return true;
 			};
 
 			read_text_file(module.m_root + "/" + file, read_line);
@@ -140,6 +142,8 @@ namespace mud
 					;
 				else
 					module.m_h += line + "\n";
+
+				return true;
 			};
 
 			read_text_file(module.m_root + "/" + file, read_line);

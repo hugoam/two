@@ -21,6 +21,8 @@ namespace stl
 		span(span<T> other, size_t offset, size_t count) : m_pointer(other.m_pointer + offset), m_count(count) {}
 		template <size_t size>
 		span(T(&a)[size]) : m_pointer(a), m_count(size) {}
+		template <size_t size>
+		span(const T(&a)[size]) : m_pointer(const_cast<T*>(a)), m_count(size) {}
 		template <class U>
 		span(const U& container) : m_pointer(const_cast<T*>(container.data())), m_count(container.size()) {}
 		template <class U>

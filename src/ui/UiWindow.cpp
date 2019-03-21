@@ -32,8 +32,7 @@ namespace mud
 		, m_size(context.m_size)
 		, m_user(user)
 	{
-		this->init();
-		this->resize(context.m_size, context.m_fb_size);
+		//this->init();
 	}
 
 	UiWindow::~UiWindow()
@@ -50,17 +49,18 @@ namespace mud
 		this->init_styles();
 
 		printf("INFO: ui - window init - resource path %s\n", m_resource_path.c_str());
-		m_vg.setup_context();
 
 		this->init_resources();
 		this->load_resources();
 
 		styles().setup(*this);
 
-		m_root_sheet = oconstruct<Ui>(*this);
+		m_ui = oconstruct<Ui>(*this);
 
 		printf("INFO: ui - init input\n");
-		m_context.init_input(m_root_sheet->m_mouse, m_root_sheet->m_keyboard);
+		m_context.init_input(m_ui->m_mouse, m_ui->m_keyboard);
+
+		this->resize(m_context.m_size, m_context.m_fb_size);
 	}
 
 	void UiWindow::init_styles()
@@ -135,7 +135,7 @@ namespace mud
 		m_vg.load_image_RGBA(m_atlas.m_image, atlas.data());
 	}
 
-	Image& UiWindow::create_image(cstring name, uvec2 size, uint8_t* data, bool filtering)
+	Image& UiWindow::create_image(cstring name, const uvec2& size, uint8_t* data, bool filtering)
 	{
 		m_images.push_back(construct<Image>(name, name, size));
 		Image& image = *m_images.back();
@@ -163,7 +163,7 @@ namespace mud
 		printf("INFO: ui window - resize to (%i, %i) - pixel size (%i, %i)\n", int(size.x), int(size.y), int(fb_size.x), int(fb_size.y));
 		m_size = size;
 		m_context.reset_fb(fb_size);
-		m_root_sheet->m_frame.set_size(vec2(fb_size));
+		m_ui->m_frame.set_size(vec2(fb_size));
 	}
 
 	bool UiWindow::input_frame()
@@ -174,24 +174,24 @@ namespace mud
 		if(m_size != m_context.m_size)
 			this->resize(m_context.m_size, m_context.m_fb_size);
 
-		m_root_sheet->input_frame();
+		m_ui->input_frame();
 
-		m_root_sheet->m_frame.relayout();
+		m_ui->m_frame.relayout();
 
 		return pursue;
 	}
 
-	void UiWindow::render_frame()
+	void UiWindow::render_frame(uint16_t view)
 	{
-		//m_root_sheet->render_frame();
+		//m_ui->render_frame();
 
 		if(m_context.m_render_system.m_manual_render)
 		{
-			m_renderer.render(*m_root_sheet->m_frame.m_layer, m_context.m_pixel_ratio);
+			m_renderer.render(*m_ui->m_frame.m_layer, view, m_context.m_pixel_ratio);
 			// add sub layers
 		}
 
-		m_root_sheet->clear_events();
+		m_ui->clear_events();
 	}
 
 	void UiWindow::shutdown()

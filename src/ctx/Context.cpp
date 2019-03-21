@@ -17,7 +17,7 @@ namespace mud
 		, m_manual_render(manual_render)
 	{}
 
-	Context::Context(RenderSystem& render_system, const string& title, uvec2 size, bool full_screen)
+	Context::Context(RenderSystem& render_system, const string& title, const uvec2& size, bool full_screen)
 		: m_render_system(render_system)
 		, m_resource_path(render_system.m_resource_path)
 		, m_title(title)

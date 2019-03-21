@@ -93,7 +93,8 @@ namespace mud
 		{
 			string line = { stdline.data(), stdline.data() + stdline.size() };
 			if(line.back() == '\r') line.pop_back();
-			visit_line(line);
+			if(!visit_line(line))
+				return;
 		}
 	}
 
@@ -112,7 +113,14 @@ namespace mud
 
 	bool file_exists(const string& path)
 	{
-		return std::fstream(path.c_str()).good();
+		//return std::fstream(path.c_str()).good();
+#if defined WIN32
+		struct _stat info;
+		return _stat(path.c_str(), &info) == 0 && (info.st_mode & _S_IFMT) != 0;
+#else 
+		struct stat info;
+		return stat(path.c_str(), &info) == 0 && (info.st_mode & _S_IFMT) != 0;
+#endif
 	}
 
 	bool directory_exists(const string& path)

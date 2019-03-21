@@ -90,43 +90,64 @@ namespace mud
 	{
 		MeshAdapter() {}
 		MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices = {}, bool index32 = false);
-
-		span<void> m_vertices = {};
-		span<void> m_indices = {};
-
-		//span<void> m_vertices = {};
-		//span<void> m_indices = {};
+		MeshAdapter(uint32_t vertex_count, MeshPacker& geom);
 
 		attr_ uint32_t m_vertex_format = 0;
 		attr_ bool m_index32 = false;
 
+		attr_ uint32_t m_vertex_count = 0;
+		attr_ uint32_t m_index_count = 0;
+
 		attr_ uint32_t m_vertex_stride = 0;
-		attr_ uint32_t m_index_stride = 0;
+
+		template <class T>
+		struct Cursor
+		{
+			T* p = nullptr; uint32_t s;
+			inline void init(void* data) { p = (T*)data; s = uint32_t(sizeof(T)); }
+			inline void init(uint32_t vertex_format, VertexAttribute::Enum attr, void* data)
+			{
+				if((vertex_format & attr) != 0) this->init(data);
+			}
+			inline void init(uint32_t vertex_format, VertexAttribute::Enum attr, void* data, uint32_t stride)
+			{
+				if((vertex_format & attr) != 0)
+					p = (T*)((char*)data + vertex_offset(vertex_format, attr));
+				s = stride;
+			}
+			inline void next() { p = (T*)((char*)p + s); }
+			inline void write(const T& val) { *p = val; this->next(); }
+			inline T read() { T val = *p; this->next(); return val; }
+			inline operator bool() { return p != nullptr; }
+		};
 
 		struct Pointers
 		{
-			vec3* m_position = nullptr;
-			vec4* m_position4 = nullptr;
-			vec3* m_normal = nullptr;
-			uint32_t* m_colour = nullptr;
-			vec4* m_tangent = nullptr;
-			vec3* m_bitangent = nullptr;
-			vec2* m_uv0 = nullptr;
-			vec2* m_uv1 = nullptr;
-			uint32_t* m_joints = nullptr;
-			vec4* m_weights = nullptr;
+			Cursor<uint16_t> m_index;
+			Cursor<uint32_t> m_index32;
 
-			half3* m_qposition = nullptr;
-			uint32_t* m_qnormal = nullptr;
-			uint32_t* m_qtangent = nullptr;
-			half2* m_quv0 = nullptr;
-			half2* m_quv1 = nullptr;
+			Cursor<vec3> m_position;
+			Cursor<vec4> m_position4;
+			Cursor<vec3> m_normal;
+			Cursor<uint32_t> m_colour;
+			Cursor<vec4> m_tangent;
+			Cursor<vec3> m_bitangent;
+			Cursor<vec2> m_uv0;
+			Cursor<vec2> m_uv1;
+			Cursor<uint32_t> m_joints;
+			Cursor<vec4> m_weights;
+
+			Cursor<half3> m_qposition;
+			Cursor<uint32_t> m_qnormal;
+			Cursor<uint32_t> m_qtangent;
+			Cursor<half2> m_quv0;
+			Cursor<half2> m_quv1;
 		};
 
 		Pointers m_start;
 		Pointers m_cursor;
 
-		void* m_index = nullptr;
+		//void* m_index = nullptr;
 
 		uint32_t m_vertex = 0;
 		uint32_t m_offset = 0;
@@ -143,9 +164,6 @@ namespace mud
 		meth_ void next();
 
 		MeshAdapter read() const;
-
-		template <class T>
-		inline void next(T*& pointer);
 
 		meth_ MeshAdapter& position(const vec3& p);
 		meth_ MeshAdapter& position4(const vec4& p);

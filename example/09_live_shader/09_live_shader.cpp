@@ -68,10 +68,10 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Program program = { "custom_program" };
 	program.m_sources[ShaderType::Fragment] = create_shader();
 	
-	auto draw_quad = [](Render& render, const Pass& render_pass)
+	auto draw_quad = [](Render& render, const Pass& pass)
 	{
-		BlockFilter& filter = *render.m_scene.m_gfx.m_renderer.block<BlockFilter>();
-		filter.quad(render_pass.m_index, *render_pass.m_target, program.default_version(), { render_pass.m_viewport->m_rect });
+		BlockFilter& filter = *render.m_scene->m_gfx.m_renderer.block<BlockFilter>();
+		filter.quad(pass.m_index, *pass.m_target, program.default_version(), { pass.m_viewport->m_rect });
 	};
 
 	gfx::manual_job(scene, PassType::Solid, draw_quad);
@@ -92,9 +92,9 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 }
 
 #ifdef _09_LIVE_SHADER_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window)
 {
-	shell_context(app.m_ui->begin(), app.m_editor);
+	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_09_live_shader(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 

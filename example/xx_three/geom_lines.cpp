@@ -14,7 +14,7 @@ void xx_geom_lines(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	constexpr size_t segments = 10000;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 

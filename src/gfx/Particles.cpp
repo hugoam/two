@@ -323,7 +323,7 @@ namespace mud
 		return sprite;
 	}
 
-	Sprite* BlockParticles::create_sprite(cstring name, uvec2 size, uvec2 frames, const void* data)
+	Sprite* BlockParticles::create_sprite(cstring name, const uvec2& size, uvec2 frames, const void* data)
 	{
 		Sprite* sprite = m_sprites->add_sprite(name, size, frames);
 		if(sprite)
@@ -346,7 +346,7 @@ namespace mud
 		Pass particle_pass = render.next_pass("particles", PassType::Particles);
 		bgfx::Encoder& encoder = *particle_pass.m_encoder;
 
-		render.m_scene.m_particle_system->update(render.m_frame.m_delta_time); // * timeScale
-		render.m_scene.m_particle_system->render(encoder, particle_pass.m_index, render.m_camera.m_transform, render.m_camera.m_eye);
+		render.m_scene->m_particle_system->update(render.m_frame->m_delta_time); // * timeScale
+		render.m_scene->m_particle_system->render(encoder, particle_pass.m_index, render.m_camera->m_transform, render.m_camera->m_eye);
 	}
 }

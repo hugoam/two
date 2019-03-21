@@ -83,6 +83,8 @@ namespace mud
 	mat4 bxSRT(const vec3& scale, const quat& rot, const vec3& trans) { return bxmul(bxtranslation(trans), bxmul(bxrotation(rot), bxscale(scale))); }
 	mat4 bxTRS(const vec3& scale, const quat& rot, const vec3& trans) { return bxmul(bxscale(scale), bxmul(bxrotation(rot), bxtranslation(trans))); }
 
+	vec3 mat4_position(const mat4& mat) { return vec3(mat[3]); }
+
 	void debug_print_mat(const mat4& mat)
 	{
 		//vec3 scale = { length(vec3(mat[0])), length(vec3{ mat[1] }), length(vec3{ mat[2] }) };
@@ -93,12 +95,12 @@ namespace mud
 	static uint16_t s_node_index = 0;
 
 	Node3::Node3()
-		: m_index(s_node_index++)
+		//: m_index(s_node_index++)
 	{}
 
 	Node3::Node3(const mat4& transform)
-		: m_index(s_node_index++)
-		, m_transform(transform)
+		//: m_index(s_node_index++)
+		: m_transform(transform)
 	{}
 
 	Node3::Node3(const vec3& position, const quat& rotation, const vec3& scale)

@@ -73,9 +73,9 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 }
 
 #ifdef _19_MULTI_VIEWPORT_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window)
 {
-	shell_context(app.m_ui->begin(), app.m_editor);
+	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_19_multi_viewport(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 

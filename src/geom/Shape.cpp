@@ -56,14 +56,14 @@ namespace mud
 	object<Shape> Circle::clone() const { return oconstruct<Circle>(*this); }
 
 	Torus::Torus() : Shape(type<Torus>()) {}
-	Torus::Torus(float radius, float solid_radius, Axis axis) : Shape(type<Torus>()), m_radius(radius), m_tube(solid_radius), m_axis(axis) {}
-	Torus::Torus(const vec3& center, float radius, float solid_radius, Axis axis) : Shape(type<Torus>(), center), m_radius(radius), m_tube(solid_radius), m_axis(axis) {}
+	Torus::Torus(float radius, float tube, Axis axis) : Shape(type<Torus>()), m_radius(radius), m_tube(tube), m_axis(axis) {}
+	Torus::Torus(const vec3& center, float radius, float tube, Axis axis) : Shape(type<Torus>(), center), m_radius(radius), m_tube(tube), m_axis(axis) {}
 	//bool Torus::operator==(const Torus& other) const { return m_radius == other.m_radius && m_tube == other.m_tube && m_axis == other.m_axis && m_center == other.m_center; }
 	object<Shape> Torus::clone() const { return oconstruct<Torus>(*this); }
 
 	TorusKnot::TorusKnot() : Shape(type<TorusKnot>()) {}
-	TorusKnot::TorusKnot(float radius, float solid_radius) : Shape(type<TorusKnot>()), m_radius(radius), m_tube(solid_radius) {}
-	TorusKnot::TorusKnot(const vec3& center, float radius, float solid_radius) : Shape(type<TorusKnot>(), center), m_radius(radius), m_tube(solid_radius) {}
+	TorusKnot::TorusKnot(float radius, float tube, float p, float q) : Shape(type<TorusKnot>()), m_radius(radius), m_tube(tube), m_p(p), m_q(q) {}
+	TorusKnot::TorusKnot(const vec3& center, float radius, float tube, float p, float q) : Shape(type<TorusKnot>(), center), m_radius(radius), m_tube(tube), m_p(p), m_q(q) {}
 	object<Shape> TorusKnot::clone() const { return oconstruct<TorusKnot>(*this); }
 
 	Ring::Ring() : Shape(type<Ring>()) {}
@@ -102,6 +102,11 @@ namespace mud
 	Box::Box() : Shape(type<Box>()), m_vertices() {}
 	object<Shape> Box::clone() const { return oconstruct<Box>(*this); }
 
+	Tetraedr::Tetraedr() : Shape(type<Tetraedr>()) {}
+	Tetraedr::Tetraedr(float radius) : Shape(type<Tetraedr>()), m_radius(radius) {}
+	Tetraedr::Tetraedr(const vec3& center, float radius) : Shape(type<Tetraedr>(), center), m_radius(radius) {}
+	object<Shape> Tetraedr::clone() const { return oconstruct<Tetraedr>(*this); }
+
 	Sphere::Sphere() : Shape(type<Sphere>()) {}
 	Sphere::Sphere(float radius) : Shape(type<Sphere>()), m_radius(radius) {}
 	Sphere::Sphere(const vec3& center, float radius) : Shape(type<Sphere>(), center), m_radius(radius) {}
@@ -116,10 +121,10 @@ namespace mud
 	Spheroid::Spheroid(const vec3& center, float radius) : Shape(type<Spheroid>(), center), m_radius(radius), m_circleX(radius, Axis::X), m_circleY(radius, Axis::Y), m_circleZ(radius, Axis::Z) {}
 	object<Shape> Spheroid::clone() const { return oconstruct<Spheroid>(*this); }
 
-	Icosahedron::Icosahedron() : Shape(type<Icosahedron>()) {}
-	Icosahedron::Icosahedron(float radius) : Shape(type<Icosahedron>()), m_radius(radius) {}
-	Icosahedron::Icosahedron(const vec3& center, float radius) : Shape(type<Icosahedron>(), center), m_radius(radius) {}
-	object<Shape> Icosahedron::clone() const { return oconstruct<Icosahedron>(*this); }
+	Icosaedr::Icosaedr() : Shape(type<Icosaedr>()) {}
+	Icosaedr::Icosaedr(float radius) : Shape(type<Icosaedr>()), m_radius(radius) {}
+	Icosaedr::Icosaedr(const vec3& center, float radius) : Shape(type<Icosaedr>(), center), m_radius(radius) {}
+	object<Shape> Icosaedr::clone() const { return oconstruct<Icosaedr>(*this); }
 
 	Points::Points() : Shape(type<Points>()) {}
 	Points::Points(span<vec3> points) : Shape(type<Points>()), m_points(points.begin(), points.end()) {}

@@ -7,6 +7,7 @@
 using namespace mud;
 
 #define SIDE_PANEL 1
+#define MULTI_WINDOW 1
 
 // html ok :
 // xx_shadow_point (try shadows)
@@ -27,38 +28,50 @@ using ExampleFunc = void(*)(Shell&, Widget&, Dockbar&, bool);
 struct Example { string name; ExampleFunc func; };
 Example examples[] = 
 {
-	"lights/point",			xx_lights_point,
-	"shadow/point",			xx_shadow_point,
-	"shader",				xx_shader,
-	"shader/lava",			xx_shader_lava,
-	"tiledforward",			xx_tiled_forward,
-	"perf",					xx_perf,
-	"perf/twosided",		xx_perf_twosided,
-	"perf/static",			xx_perf_static,
-	"billboards",			xx_billboards,
-	"lines/fat",			xx_lines_fat,
-	"lines/dashed",			xx_lines_dashed,
-	"geom",					xx_geom,
-	"geom/sprites",			xx_geom_sprites,
+	//"billboards",			xx_billboards,
+	"depthtexture",			xx_depth_texture,
+	"geom/dynamic",			xx_geom_dynamic,
 	"geom/instances",		xx_geom_instances,
 	"geom/lines",			xx_geom_lines,
 	"geom/points",			xx_geom_points,
-	"geom/points/instance", xx_geom_points_instanced,
+	//"geom/points/hw",		xx_geom_points_hw,
 	"geom/rawshader",		xx_geom_rawshader,
 	"geom/selective",		xx_geom_selective,
+	"geom/sprites",			xx_geom_sprites,
 	//"interact/cubes",		xx_interact_cubes,
-	//"interact/cubes",		xx_interact_geom,
-	"marchingcubes",		xx_marching_cubes,
+	//"interact/geom",		xx_interact_geom,
 	"hierarchy",			xx_hierarchy,
 	"hierarchy2",			xx_hierarchy2,
-	"materials/skin",		xx_materials_skin,
-	"materials/standard",	xx_materials_standard,
-	"materials/variations", xx_materials_variations,
-	"depthtexture",			xx_depth_texture,
+	"lights/point",			xx_lights_point,
+	"lines/dashed",			xx_lines_dashed,
+	"lines/fat",			xx_lines_fat,
+	"loader/gltf",			xx_loader_gltf,
+	"loader/ply",			xx_loader_ply,
+	"marchingcubes",		xx_marching_cubes,
+	"material/skin",		xx_material_skin,
+	"material/standard",	xx_material_standard,
+	"material/variations",  xx_material_variations,
+	//"material/translucent",	xx_material_translucent,
+	"perf",					xx_perf,
+	//"perf/nodes",			xx_perf_nodes,
+	"perf/static",			xx_perf_static,
+	"perf/twosided",		xx_perf_twosided,
+	"effect",				xx_effect,
+	"effect/bloom",			xx_effect_bloom,
 	"effect/dof",			xx_effect_dof,
-	"effect/godrays",		xx_effect_godrays,
 	"effect/glitch",		xx_effect_glitch,
+	"effect/godrays",		xx_effect_godrays,
 	"effect/sao",			xx_effect_sao,
+	"effect/sobel",			xx_effect_sobel,
+	"post/fxaa",			xx_post_fxaa,
+	"cubemap/dynamic",		xx_cubemap_dynamic,
+	"refraction/mesh",		xx_refraction_mesh,
+	"refraction/balls",		xx_refraction_balls,
+	"shader",				xx_shader,
+	"shader/lava",			xx_shader_lava,
+	"shader/ocean",			xx_shader_ocean,
+	"shadow/point",			xx_shadow_point,
+	"tiledforward",			xx_tiled_forward,
 };
 
 vector<cstring> example_labels()
@@ -69,12 +82,22 @@ vector<cstring> example_labels()
 	return vec;
 }
 
-void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
+uint32_t find_example(const string& name)
+{
+	uint32_t i = 0;
+	for(const Example& ex : examples)
+	{
+		if(ex.name == name)
+			return i;
+		++i;
+	}
+	return 0;
+}
+
+void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar, bool& init, uint32_t& example)
 {
 	static vector<cstring> labels = example_labels();
-	static uint32_t example = 0;
-	static bool init = true;
-
+	
 #if SIDE_PANEL
 	Widget& sheet = ui::board(parent);
 	bool changed = ui::radio_switch(sheet, labels, example, Axis::Y);
@@ -87,7 +110,9 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(changed)
 	{
 		//app.m_gfx.models().clear();
-		app.m_gfx.materials().clear();
+		//app.m_gfx.materials().clear();
+
+		app.m_gfx.set_renderer(Shading::Shaded, render_pbr_forward);
 
 		canvas.clear();
 
@@ -99,18 +124,47 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar)
 }
 
 #ifdef _XX_THREE_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window, bool& init, uint32_t& example)
 {
-	shell_context(app.m_ui->begin(), app.m_editor);
-	ex_xx_three(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	shell_context(window.m_ui->begin(), app.m_editor);
+	ex_xx_three(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar, init, example);
 }
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv), false);
 	app.m_gfx.add_resource_path("examples/xx_three");
+	
+	ShellWindow& w0 = app.window("two", uvec2(1600U, 900U));
+#if MULTI_WINDOW
+	ShellWindow& w1 = app.window("two", uvec2(1600U, 900U));
+#endif
+
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	//app.m_gfx.init_pipeline(pipeline_minimal);
-	app.run(pump);
+
+	//app.run(pump);
+
+	//static uint32_t example = 0;
+	//static uint32_t example = find_example("refraction/mesh");
+	//static uint32_t example = find_example("material/variations");
+	//static uint32_t example = find_example("loader/gltf");
+	//static uint32_t example = find_example("loader/ply");
+	static uint32_t example0 = find_example("hierarchy");
+	static uint32_t example1 = find_example("hierarchy2");
+	static bool init0 = true;
+	static bool init1 = true;
+
+	while(true)
+	{
+		bool pursue = app.begin_frame();
+
+		pump(app, w0, init0, example0);
+#if MULTI_WINDOW
+		pump(app, w1, init1, example1);
+#endif
+		app.end_frame();
+		if(!pursue) break;
+	}
 }
 #endif

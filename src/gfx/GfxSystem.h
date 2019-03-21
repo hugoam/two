@@ -35,20 +35,21 @@ namespace mud
 {
 	class Vg;
 
-	export_ class refl_ MUD_GFX_EXPORT GfxContext : public BgfxContext
+	export_ class refl_ MUD_GFX_EXPORT GfxWindow : public BgfxContext
 	{
 	public:
-		GfxContext(GfxSystem& gfx, const string& name, uvec2 size, bool fullScreen, bool init);
-		~GfxContext();
+		GfxWindow(GfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main = true);
+		~GfxWindow();
 
 		virtual void reset_fb(const uvec2& size) override;
 
 		GfxSystem& m_gfx;
+		Vg* m_vg = nullptr;
 
 		object<RenderTarget> m_target;
 
 		uint16_t m_vg_handle = UINT16_MAX;
-		using ResetVg = uint16_t(*)(GfxContext&, Vg&); ResetVg m_reset_vg;
+		using ResetVg = uint16_t(*)(GfxWindow&, Vg&); ResetVg m_reset_vg;
 
 		vector<Viewport*> m_viewports;
 	};
@@ -81,7 +82,6 @@ namespace mud
 		~GfxSystem();
 
 		JobSystem* m_job_system = nullptr;
-		Vg* m_vg = nullptr;
 
 		bgfx::Encoder* m_encoders[8] = {};
 		size_t m_num_encoders = 0;
@@ -95,12 +95,12 @@ namespace mud
 
 		meth_ RenderTarget& main_target();
 
-		virtual void begin_frame() final;
-		virtual bool next_frame() final;
+		virtual bool begin_frame() final;
+		virtual void end_frame() final;
 
-		virtual object<Context> create_context(const string& name, uvec2 size, bool full_screen) final;
+		void render_contexts();
 
-		void init(GfxContext& context);
+		void init(GfxWindow& context);
 
 		using PipelineDecl = void(*)(GfxSystem& gfx, Renderer& pipeline, bool deferred);
 		void init_pipeline(PipelineDecl pipeline);
@@ -115,7 +115,7 @@ namespace mud
 		void render(Shading shading, RenderFunc renderer, RenderTarget& target, Viewport& viewport);
 		RenderFrame render_frame();
 
-		GfxContext& context(size_t index = 0);
+		GfxWindow& context(size_t index = 0);
 
 		bx::FileReaderI& file_reader();
 		bx::FileWriterI& file_writer();

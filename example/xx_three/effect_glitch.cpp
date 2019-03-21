@@ -131,9 +131,6 @@ Texture& glitch_heightmap(GfxSystem& gfx, uint size)
 
 void pass_glitch(GfxSystem& gfx, Render& render, Glitch& glitch, uint dt_size = 64)
 {
-	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
-
 	static Program& program = gfx.programs().create("glitch");
 	program.m_sources[ShaderType::Vertex] = glitch_vertex();
 	program.m_sources[ShaderType::Fragment] = glitch_fragment();
@@ -174,23 +171,23 @@ void pass_glitch(GfxSystem& gfx, Render& render, Glitch& glitch, uint dt_size = 
 
 	Pass pass = render.next_pass("glitch", PassType::PostProcess);
 
-	filter.uniform(pass.m_index, "u_glitch_p0", vec4(amount, angle, glitch.seed, 0.f));
-	filter.uniform(pass.m_index, "u_glitch_p1", vec4(scale, distort));
+	gfx.m_filter->uniform(pass.m_index, "u_glitch_p0", vec4(amount, angle, glitch.seed, 0.f));
+	gfx.m_filter->uniform(pass.m_index, "u_glitch_p1", vec4(scale, distort));
 
-	filter.source0(render.m_target->m_diffuse);
-	filter.sourcedepth(disp);
+	gfx.m_filter->source0(render.m_target->m_diffuse);
+	gfx.m_filter->sourcedepth(disp);
 
 	RenderTarget& target = *render.m_target;
-	filter.quad(pass.m_index, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass.m_index, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
 
-	copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
+	gfx.m_copy->quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
 }
 
 void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 

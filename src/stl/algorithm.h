@@ -274,6 +274,14 @@ namespace stl
 	}
 
 	export_ template <class T>
+	inline typename T::value_type shift(T& vec)
+	{
+		auto val = move(vec.front());
+		vec.erase(vec.begin(), vec.begin() + 1);
+		return val;
+	}
+
+	export_ template <class T>
 	inline void swap_pop(T& vec, size_t index)
 	{
 		swap(vec[index], vec.back());

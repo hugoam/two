@@ -35,33 +35,31 @@ namespace mud
 		, m_index(viewportIndex++)
 		, m_rect(rect)
 		, m_scissor(scissor)
-		, m_culler(*this)
+		, m_culler(construct<Culler>(*this))
 	{
 		(Entt&)(*this) = { &s_viewer_ecs, s_viewer_ecs.create() };
 	}
 
 	Viewport::~Viewport()
-	{
-		s_viewer_ecs.destroy(m_handle);
-	}
+	{}
 
-	void Viewport::render_pass(const Pass& render_pass)
+	void Viewport::pass(const Pass& pass)
 	{
-		bgfx::setViewRect(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(m_rect.width), uint16_t(m_rect.height));
-		bgfx::setViewTransform(render_pass.m_index, value_ptr(m_camera->m_transform), value_ptr(m_camera->m_projection));
-		bgfx::setViewFrameBuffer(render_pass.m_index, *render_pass.m_fbo);
-		bgfx::setViewClear(render_pass.m_index, BGFX_CLEAR_NONE);
+		bgfx::setViewRect(pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(m_rect.width), uint16_t(m_rect.height));
+		bgfx::setViewTransform(pass.m_index, value_ptr(m_camera->m_transform), value_ptr(m_camera->m_projection));
+		bgfx::setViewFrameBuffer(pass.m_index, *pass.m_fbo);
+		bgfx::setViewClear(pass.m_index, BGFX_CLEAR_NONE);
 
 		if(m_scissor)
-			bgfx::setViewScissor(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(m_rect.width), uint16_t(m_rect.height));
+			bgfx::setViewScissor(pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(m_rect.width), uint16_t(m_rect.height));
 
-		bgfx::touch(render_pass.m_index);
+		bgfx::touch(pass.m_index);
 	}
 
 	void Viewport::cull(Render& render)
 	{
 #ifndef NO_OCCLUSION_CULLING
-		m_culler.render(render);
+		m_culler->render(render);
 #else
 		UNUSED(render);
 #endif
@@ -73,16 +71,27 @@ namespace mud
 			m_camera->m_aspect = float(m_rect.width) / float(m_rect.height);
 		m_camera->update();
 
-		if(m_camera->m_clusters)
+		if(m_clusters)
 		{
-			m_camera->m_clusters->m_dirty |= uint8_t(Froxelizer::Dirty::Viewport) | uint8_t(Froxelizer::Dirty::Projection);
-			m_camera->m_clusters->update(*this, m_camera->m_projection, m_camera->m_near, m_camera->m_far);
-			m_camera->m_clusters->clusterize_lights(*m_camera, render.m_shot->m_lights);
-			m_camera->m_clusters->upload();
+			m_clusters->m_dirty |= uint8_t(Froxelizer::Dirty::Viewport) | uint8_t(Froxelizer::Dirty::Projection);
+			m_clusters->update(*this, m_camera->m_projection, m_camera->m_near, m_camera->m_far);
+			m_clusters->clusterize_lights(*m_camera, render.m_shot.m_lights);
+			m_clusters->upload();
 		}
 
 		for(RenderTask& task : m_tasks)
 			task(render);
+	}
+
+	// @todo move this to viewport ? or are clusters shared between viewports ?
+	void Viewport::set_clustered(GfxSystem& gfx)
+	{
+		if(m_rect != uvec4(0U) && !m_clusters)
+		{
+			m_clustered = true;
+			m_clusters = make_unique<Froxelizer>(gfx);
+			m_clusters->prepare(*this, m_camera->m_projection, m_camera->m_near, m_camera->m_far);
+		}
 	}
 
 	/*void hmdUpdate()

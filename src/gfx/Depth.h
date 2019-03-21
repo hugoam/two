@@ -34,8 +34,8 @@ namespace mud
 		attr_ gpu_ float m_far = 1.f;
 	};
 
-	export_ MUD_GFX_EXPORT void queue_depth(GfxSystem& gfx, Render& render, Pass& pass, DrawElement element);
-	export_ MUD_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render, Pass& render_pass, bool submit = true);
+	export_ MUD_GFX_EXPORT bool queue_depth(GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element);
+	export_ MUD_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render, Pass& pass, bool submit = true);
 	export_ MUD_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render);
 
 	export_ class refl_ MUD_GFX_EXPORT BlockDepth : public DrawBlock
@@ -49,8 +49,8 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 
 		virtual void options(Render& render, ProgramVersion& shader_version) const override;
-		virtual void submit(Render& render, const Pass& render_pass) const override;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
 		struct DepthUniform
 		{

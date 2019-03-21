@@ -78,9 +78,9 @@ void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 }
 
 #ifdef _00_CUBE_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window)
 {
-	shell_context(app.m_ui->begin(), app.m_editor);
+	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_00_cube(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 

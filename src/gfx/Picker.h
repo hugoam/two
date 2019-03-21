@@ -66,6 +66,7 @@ namespace mud
 
 		FrameBuffer m_fbo;
 		Texture m_fbo_texture;
+		Texture m_fbo_depth;
 
 		Texture m_readback_texture;
 

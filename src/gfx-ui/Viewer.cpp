@@ -49,7 +49,7 @@ namespace mud
 	Viewer::Viewer(Widget* parent, void* identity, Scene& scene)
 		: Widget(parent, identity)
 		, m_scene(&scene)
-		, m_context(as<GfxContext>(parent->ui_window().m_context))
+		, m_context(as<GfxWindow>(parent->ui_window().m_context))
 		, m_camera()
 		, m_viewport(m_camera, scene)
 	{
@@ -135,7 +135,7 @@ namespace mud
 
 	SceneViewer::SceneViewer(Widget* parent, void* identity)
 		: Viewer(parent, identity, m_scene)
-		, m_scene(as<GfxContext>(parent->ui_window().m_context).m_gfx)
+		, m_scene(as<GfxWindow>(parent->ui_window().m_context).m_gfx)
 	{}
 
 	OrbitController::OrbitController(Viewer& viewer, float yaw, float pitch, float distance) : m_viewer(viewer), m_camera(viewer.m_camera), m_yaw(yaw), m_pitch(pitch), m_distance(distance) {}
@@ -186,6 +186,537 @@ namespace mud
 	{
 		return normalize(vec) * length;
 	}
+	
+	void make_safe(Polar& p)
+	{
+		float EPS = 0.000001f;
+		p.phi = max(EPS, min(c_pi - EPS, p.phi));
+	}
+
+	Polar to_polar(const vec3& p)
+	{
+		const float radius = sqrt(sq(p.x) + sq(p.y) + sq(p.z));
+
+		if(radius == 0.f)
+			return { 0.f, 0.f, 0.f };
+		else
+		{
+			const float theta = atan2(p.x, p.z);
+			const float phi = acos(clamp(p.y / radius, -1.f, 1.f));
+			return { theta, phi, radius };
+		}
+	}
+
+	vec3 to_vec3(const Polar& p)
+	{
+		const float t = sin(p.phi) * p.radius;
+
+		const float x = t * sin(p.theta);
+		const float y = cos(p.phi) * p.radius;
+		const float z = t * cos(p.theta);
+
+		return vec3(x, y, z);
+	}
+
+	void OrbitControls::process(Viewer& viewer)
+	{
+		Camera& camera = viewer.m_camera;
+		this->update(viewer, camera.m_fov, camera.m_eye, camera.m_target, camera.m_up, camera.m_transform);
+	}
+
+	void OrbitControls::update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
+	{
+		auto getAutoRotationAngle = [&]() -> float { return 2.f * c_pi / 60.f / 60.f * autoRotateSpeed; };
+
+		auto getZoomScale = [&]() -> float { return pow(0.95f, zoomSpeed); };
+
+		auto rotateLeft = [&](float angle) { sphericalDelta.theta -= angle; };
+		auto rotateUp = [&](float angle) { sphericalDelta.phi -= angle; };
+
+		auto panLeft = [&](float distance)
+		{
+			vec3 v = vec3(mat[0]); // get X column of objectMatrix
+			v *= -distance;
+			panOffset += v;
+		};
+
+		auto panUp = [&](float distance)
+		{
+			vec3 v = screenSpacePanning ?
+				vec3(mat[1]) : cross(up, vec3(mat[0])); // get X column of objectMatrix
+			v *= -distance;
+			panOffset += v;
+		};
+
+		// deltaX and deltaY are in pixels; right and down are positive
+		auto pan = [&](const vec2& delta) {
+
+			bool perspective = true;
+			if(perspective) {
+
+				// perspective
+				vec3 offset = eye - target;
+				float targetDistance = length(offset);
+
+				// half of the fov is center to top of screen
+				targetDistance *= tan((fov / 2.f) * c_pi / 180.0);
+
+				// we use only clientHeight here so aspect ratio does not distort speed
+				panLeft(2 * delta.x * targetDistance / widget.m_frame.m_size.y); // , object.matrix);
+				panUp(2 * delta.y * targetDistance / widget.m_frame.m_size.y); // , object.matrix);
+
+			}
+			else {
+
+				// orthographic
+				//panLeft(deltaX * (object.right - object.left) / object.zoom / element.clientWidth, object.matrix);
+				//panUp(deltaY * (object.top - object.bottom) / object.zoom / element.clientHeight, object.matrix);
+
+			}
+		};
+
+#if 1
+		auto dollyIn = [&](float dollyScale) {
+
+			bool perspective = true;
+			if(perspective) {
+				scale /= dollyScale;
+			}
+			else {
+				//object.zoom = max(minZoom, min(maxZoom, object.zoom * dollyScale));
+				//object.updateProjectionMatrix();
+				zoomChanged = true;
+			}
+		};
+
+		auto dollyOut = [&](float dollyScale) {
+
+			bool perspective = true;
+			if(perspective) {
+				scale *= dollyScale;
+			}
+			else {
+				//object.zoom = max(minZoom, min(maxZoom, object.zoom / dollyScale));
+				//object.updateProjectionMatrix();
+				zoomChanged = true;
+			}
+		};
+#endif
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+		{
+			bool mod = event.m_modifiers != InputMod::None;
+			state = mod ? State::Pan : State::Rotate;
+			if(enableRotate && state == State::Rotate)
+				rotateStart = event.m_relative;
+			else if(enablePan && state == State::Pan)
+				panStart = event.m_relative;
+		}
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Pressed))
+		{
+			state = State::Dolly;
+			if(enableZoom)
+				dollyStart = event.m_relative;
+		}
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Pressed))
+		{
+			state = State::Pan;
+			if(enablePan)
+				panStart = event.m_relative;
+		}
+
+		auto handleMouseMoveRotate = [&](const MouseEvent& event) {
+
+			rotateEnd = event.m_relative;
+			rotateDelta = (rotateEnd - rotateStart) * rotateSpeed;
+
+			rotateLeft(2 * c_pi * rotateDelta.x / widget.m_frame.m_size.y); // yes, height
+			rotateUp(2 * c_pi * rotateDelta.y / widget.m_frame.m_size.y);
+
+			rotateStart = rotateEnd;
+		};
+
+		auto handleMouseMoveDolly = [&](const MouseEvent& event) {
+
+			dollyEnd = event.m_relative;
+
+			dollyDelta = dollyEnd - dollyStart;
+
+			if(dollyDelta.y > 0.f)
+				dollyIn(getZoomScale());
+			else if(dollyDelta.y < 0.f)
+				dollyOut(getZoomScale());
+
+			dollyStart = dollyEnd;
+		};
+
+		auto handleMouseMovePan = [&](const MouseEvent& event) {
+
+			panEnd = event.m_relative;
+
+			panDelta = (panEnd - panStart) * panSpeed;
+
+			pan(panDelta);
+
+			panStart = panEnd;
+		};
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::Mouse, EventType::Moved))
+		{
+			if(state == State::Rotate && enableRotate)
+			{
+				handleMouseMoveRotate(event);
+			}
+			else if(state == State::Dolly && enableZoom)
+			{
+				handleMouseMoveDolly(event);
+			}
+			else if(state == State::Pan && enablePan)
+			{
+				handleMouseMovePan(event);
+			}
+		}
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Released))
+			state = State::None;
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Released))
+			state = State::None;
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Released))
+			state = State::None;
+
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		{
+			if(enabled == false || enableZoom == false || (state != State::None && state != State::Rotate)) return;
+
+			//dispatchEvent(startEvent);
+
+			if(event.m_deltaZ < 0.f)
+				dollyOut(getZoomScale());
+			else if(event.m_deltaZ > 0)
+				dollyIn(getZoomScale());
+
+			//dispatchEvent(endEvent);
+		}
+
+			
+		//var offset = vec3(0.f);
+		//
+		//// so camera.up is the orbit axis
+		quat rotation = ZeroQuat;// new THREE.Quaternion().setFromUnitVectors(object.up, new vec3(0, 1, 0));
+		quat invrotation = inverse(rotation); // quat.clone().inverse();
+
+		//var position = object.position;
+
+		vec3 offset = eye - target;
+
+		// rotate offset to "y-axis-is-up" space
+		offset = rotation * offset;
+
+		// angle from z-axis around y-axis
+		spherical = to_polar(offset);
+
+		if(autoRotate && state == State::None)
+			rotateLeft(getAutoRotationAngle());
+
+		spherical.theta += sphericalDelta.theta;
+		spherical.phi += sphericalDelta.phi;
+
+		spherical.theta = max(minAzimuthAngle, min(maxAzimuthAngle, spherical.theta));
+		spherical.phi = max(minPolarAngle, min(maxPolarAngle, spherical.phi));
+
+		make_safe(spherical);
+
+		spherical.radius *= scale;
+
+		// restrict radius to be between desired limits
+		spherical.radius = max(minDistance, min(maxDistance, spherical.radius));
+
+		// move target to panned location
+		target +=  panOffset;
+
+		offset = to_vec3(spherical);
+
+		// rotate offset back to "camera-up-vector-is-up" space
+		offset = invrotation * offset;
+
+		eye = target + offset;
+
+		//object.lookAt(target);
+
+		if(enableDamping == true) {
+
+			sphericalDelta.theta *= (1.f - dampingFactor);
+			sphericalDelta.phi *= (1.f - dampingFactor);
+
+			panOffset *= 1.f - dampingFactor;
+
+		}
+		else {
+
+			sphericalDelta = {};//vec3(0.f);
+
+			panOffset = vec3(0.f);
+
+		}
+
+		scale = 1.f;
+	}
+
+#if 0
+		
+		function handleKeyDown( event ) {
+
+			// console.log( 'handleKeyDown' );
+
+			var needsUpdate = false;
+
+			switch ( event.keyCode ) {
+
+				case keys.UP:
+					pan( 0, keyPanSpeed );
+					needsUpdate = true;
+					break;
+
+				case keys.BOTTOM:
+					pan( 0, - keyPanSpeed );
+					needsUpdate = true;
+					break;
+
+				case keys.LEFT:
+					pan( keyPanSpeed, 0 );
+					needsUpdate = true;
+					break;
+
+				case keys.RIGHT:
+					pan( - keyPanSpeed, 0 );
+					needsUpdate = true;
+					break;
+
+			}
+
+			if ( needsUpdate ) {
+
+				// prevent the browser from scrolling on cursor keys
+				event.preventDefault();
+
+				update();
+
+			}
+
+
+		}
+
+		function handleTouchStartRotate( event ) {
+
+			//console.log( 'handleTouchStartRotate' );
+
+			rotateStart.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY );
+
+		}
+
+		function handleTouchStartDollyPan( event ) {
+
+			//console.log( 'handleTouchStartDollyPan' );
+
+			if ( enableZoom ) {
+
+				var dx = event.touches[ 0 ].pageX - event.touches[ 1 ].pageX;
+				var dy = event.touches[ 0 ].pageY - event.touches[ 1 ].pageY;
+
+				var distance = sqrt( dx * dx + dy * dy );
+
+				dollyStart.set( 0, distance );
+
+			}
+
+			if ( enablePan ) {
+
+				var x = 0.5 * ( event.touches[ 0 ].pageX + event.touches[ 1 ].pageX );
+				var y = 0.5 * ( event.touches[ 0 ].pageY + event.touches[ 1 ].pageY );
+
+				panStart.set( x, y );
+
+			}
+
+		}
+
+		function handleTouchMoveRotate( event ) {
+
+			//console.log( 'handleTouchMoveRotate' );
+
+			rotateEnd.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY );
+
+			rotateDelta.subVectors( rotateEnd, rotateStart ).multiplyScalar( rotateSpeed );
+
+			var element = domElement === document ? domElement.body : domElement;
+
+			rotateLeft( 2 * c_pi * rotateDelta.x / element.clientHeight ); // yes, height
+
+			rotateUp( 2 * c_pi * rotateDelta.y / element.clientHeight );
+
+			rotateStart.copy( rotateEnd );
+
+			update();
+
+		}
+
+		function handleTouchMoveDollyPan( event ) {
+
+			//console.log( 'handleTouchMoveDollyPan' );
+
+			if ( enableZoom ) {
+
+				var dx = event.touches[ 0 ].pageX - event.touches[ 1 ].pageX;
+				var dy = event.touches[ 0 ].pageY - event.touches[ 1 ].pageY;
+
+				var distance = sqrt( dx * dx + dy * dy );
+
+				dollyEnd.set( 0, distance );
+
+				dollyDelta.set( 0, pow( dollyEnd.y / dollyStart.y, zoomSpeed ) );
+
+				dollyIn( dollyDelta.y );
+
+				dollyStart.copy( dollyEnd );
+
+			}
+
+			if ( enablePan ) {
+
+				var x = 0.5 * ( event.touches[ 0 ].pageX + event.touches[ 1 ].pageX );
+				var y = 0.5 * ( event.touches[ 0 ].pageY + event.touches[ 1 ].pageY );
+
+				panEnd.set( x, y );
+
+				panDelta.subVectors( panEnd, panStart ).multiplyScalar( panSpeed );
+
+				pan( panDelta.x, panDelta.y );
+
+				panStart.copy( panEnd );
+
+			}
+
+			update();
+
+		}
+
+		function handleTouchEnd( event ) {
+
+			//console.log( 'handleTouchEnd' );
+
+		}
+
+		function onKeyDown( event ) {
+
+			if ( enabled === false || enableKeys === false || enablePan === false ) return;
+
+			handleKeyDown( event );
+
+		}
+
+		function onTouchStart( event ) {
+
+			if ( enabled === false ) return;
+
+			event.preventDefault();
+
+			switch ( event.touches.length ) {
+
+				case 1:	// one-fingered touch: rotate
+
+					if ( enableRotate === false ) return;
+
+					handleTouchStartRotate( event );
+
+					state = State::TOUCH_ROTATE;
+
+					break;
+
+				case 2:	// two-fingered touch: dolly-pan
+
+					if ( enableZoom === false && enablePan === false ) return;
+
+					handleTouchStartDollyPan( event );
+
+					state = State::TOUCH_DOLLY_PAN;
+
+					break;
+
+				default:
+
+					state = State::None;
+
+			}
+
+			if ( state !== State::None ) {
+
+				dispatchEvent( startEvent );
+
+			}
+
+		}
+
+		function onTouchMove( event ) {
+
+			if ( enabled === false ) return;
+
+			event.preventDefault();
+			event.stopPropagation();
+
+			switch ( event.touches.length ) {
+
+				case 1: // one-fingered touch: rotate
+
+					if ( enableRotate === false ) return;
+					if ( state !== State::TOUCH_ROTATE ) return; // is this needed?
+
+					handleTouchMoveRotate( event );
+
+					break;
+
+				case 2: // two-fingered touch: dolly-pan
+
+					if ( enableZoom === false && enablePan === false ) return;
+					if ( state !== State::TOUCH_DOLLY_PAN ) return; // is this needed?
+
+					handleTouchMoveDollyPan( event );
+
+					break;
+
+				default:
+
+					state = State::None;
+
+			}
+
+		}
+
+		function onTouchEnd( event ) {
+
+			if ( enabled === false ) return;
+
+			handleTouchEnd( event );
+
+			dispatchEvent( endEvent );
+
+			state = State::None;
+
+		}
+
+		function onContextMenu( event ) {
+
+			if ( enabled === false ) return;
+
+			event.preventDefault();
+
+		}
+
+		// force an update at start
+
+		this.update();
+#endif
 
 	TrackballController::TrackballController(Viewer& viewer)
 		: m_target0(viewer.m_camera.m_target)
@@ -205,21 +736,20 @@ namespace mud
 
 	void TrackballController::rotateCamera(vec3& eye, vec3& up)
 	{
-		vec3 moveDirection = { m_moveCurr.x - m_movePrev.x, m_moveCurr.y - m_movePrev.y, 0 };
+		vec3 moveDirection = vec3(m_moveCurr - m_movePrev, 0.f);
 		float angle = length(moveDirection);
 
 		if(angle)
 		{
 			m_to_eye = eye - m_target;
 
-			vec3 eyeDirection = normalize(m_to_eye);
-			vec3 objectUpDirection = normalize(up);
-			vec3 objectSidewaysDirection = normalize(cross(objectUpDirection, eyeDirection));
+			vec3 upward = normalize(up);
+			vec3 sideward = normalize(cross(upward, normalize(m_to_eye)));
 
-			objectUpDirection = set_length(objectUpDirection, m_moveCurr.y - m_movePrev.y);
-			objectSidewaysDirection = set_length(objectSidewaysDirection, m_moveCurr.x - m_movePrev.x);
+			upward *= m_moveCurr.y - m_movePrev.y;
+			sideward *= m_moveCurr.x - m_movePrev.x;
 
-			moveDirection = objectUpDirection + objectSidewaysDirection;
+			moveDirection = upward + sideward;
 
 			vec3 axis = normalize(cross(moveDirection, m_to_eye));
 
@@ -447,7 +977,7 @@ namespace mud
 	/*
 	function touchstart(event) {
 
-		if(m_enabled == = false) return;
+		if(m_enabled == false) return;
 
 		event.preventDefault();
 
@@ -479,7 +1009,7 @@ namespace mud
 
 	function touchmove(event) {
 
-		if(m_enabled == = false) return;
+		if(m_enabled == false) return;
 
 		event.preventDefault();
 		event.stopPropagation();
@@ -507,7 +1037,7 @@ namespace mud
 
 	function touchend(event) {
 
-		if(m_enabled == = false) return;
+		if(m_enabled == false) return;
 
 		switch(event.touches.length) {
 
@@ -604,6 +1134,14 @@ namespace ui
 			viewer.m_controller = make_unique<OrbitController>(viewer, yaw, pitch, distance);
 		viewer.m_controller->process(viewer);
 		return as<OrbitController>(*viewer.m_controller);
+	}
+
+	OrbitControls& orbit_controls(Viewer& viewer)
+	{
+		if(!viewer.m_controller)
+			viewer.m_controller = make_unique<OrbitControls>();
+		viewer.m_controller->process(viewer);
+		return as<OrbitControls>(*viewer.m_controller);
 	}
 
 	TrackballController& trackball_controller(Viewer& viewer)

@@ -8,13 +8,6 @@ using namespace mud;
 
 #define RENDERER 0
 
-#if 0
-defines: {
-	"DEPTH_PACKING": 1,
-	"PERSPECTIVE_CAMERA": 1,
-},
-#endif
-
 static string bokeh_vertex()
 {
 	string shader =
@@ -153,7 +146,7 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 	viewer.m_viewport.m_active = false;
 
 	Scene& scene = viewer.m_scene;
@@ -193,18 +186,15 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 3000.f;
 		camera.m_eye.z = 200.f;
 
-		Texture& texcube = *app.m_gfx.textures().file("SwedishRoyalCastle.cube");
-
 		materials.clear();
 		for(int i = 0; i < nobjects; ++i)
 		{
 			const string name = "object" + to_string(i);
-			Material& material = app.m_gfx.materials().create(name, [&](Material& m) {
-				m.m_program = &basic;
-				m.m_pbr.m_albedo = rgb(0xff1100);
-				//m.m_pbr.m_metallic = 1.f;
-			});
-			materials.push_back(&material);
+			Material& m = app.m_gfx.materials().fetch(name);
+			m.m_program = &basic;
+			m.m_pbr.m_albedo = rgb(0xff1100);
+			//m.m_pbr.m_metallic = 1.f;
+			materials.push_back(&m);
 		}
 
 		Model& geometry = app.m_gfx.shape(Sphere(1.f));
@@ -228,8 +218,12 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 #endif
 	}
 
-	Gnode& root = viewer.m_scene.begin();
-	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
+	//Texture& texpano = *app.m_gfx.textures().file("radiance/tiber_1_1k.hdr");
+	Texture& texcube = *app.m_gfx.textures().file("cube/royal.jpg.cube");
+	//scene.m_env.m_radiance.m_texture = &texpano;
+	scene.m_env.m_radiance.m_texture = &texcube;
+	scene.m_env.m_radiance.m_energy = 1.f;
+	scene.m_env.m_radiance.m_colour = Colour::White;
 
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))

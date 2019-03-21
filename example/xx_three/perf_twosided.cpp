@@ -12,12 +12,12 @@ void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Camera& camera = viewer.m_camera;
 	Scene& scene = viewer.m_scene;
 
-	Texture& reflection = *app.m_gfx.textures().file("SwedishRoyalCastle.cube");
+	Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
 
 	if(init)
 	{
@@ -46,7 +46,7 @@ void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		});
 
 		Model& geometry = app.m_gfx.shape(Sphere());
-		//new THREE.SphereBufferGeometry(1, 32, 16, 0, PI);
+		//new THREE.SphereBufferGeometry(1, 32, 16, 0, c_pi);
 
 		for(size_t i = 0; i < 5000; ++i)
 		{

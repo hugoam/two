@@ -19,7 +19,7 @@ module mud.bgfx;
 
 namespace mud
 {
-	BgfxContext::BgfxContext(BgfxSystem& gfx, const string& name, uvec2 size, bool fullScreen, bool init)
+	BgfxContext::BgfxContext(BgfxSystem& gfx, const string& name, const uvec2& size, bool fullScreen, bool init)
 #if defined MUD_CONTEXT_GLFW
 		: GlfwContext(gfx, name, size, fullScreen, false)
 #elif defined MUD_CONTEXT_WASM
@@ -56,11 +56,6 @@ namespace mud
 		return alloc;
 	}
 
-	object<Context> BgfxSystem::create_context(const string& name, uvec2 size, bool fullScreen)
-	{
-		return oconstruct<BgfxContext>(*this, name, size, fullScreen, !m_initialized);
-	}
-
 	void BgfxSystem::init(BgfxContext& context)
 	{
 		printf("GfxSystem: Native Handle = %p\n", context.m_native_handle);
@@ -84,17 +79,19 @@ namespace mud
 		bgfx::setDebug(BGFX_DEBUG_TEXT | BGFX_DEBUG_PROFILER);
 #endif
 
-		bgfx::setViewRect(0, 0, 0, uint16_t(context.m_fb_size.x), uint16_t(context.m_fb_size.y));
-		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
+		//bgfx::setViewRect(0, 0, 0, uint16_t(context.m_fb_size.x), uint16_t(context.m_fb_size.y));
+		//bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
 
 		m_start_counter = double(bx::getHPCounter());
 		m_initialized = true;
 	}
 
-	void BgfxSystem::begin_frame()
-	{}
+	bool BgfxSystem::begin_frame()
+	{
+		return true;
+	}
 
-	bool BgfxSystem::next_frame()
+	void BgfxSystem::end_frame()
 	{
 #ifdef _DEBUG
 		m_capture |= m_capture_every && (m_frame % m_capture_every) == 0;
@@ -105,7 +102,6 @@ namespace mud
 #endif
 
 		this->advance();
-		return true;
 	}
 
 	void TimerBx::begin()

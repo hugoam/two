@@ -23,12 +23,6 @@ module mud.gfx.pbr;
 
 namespace mud
 {
-#define MUD_GFX_STATE_DEFAULT 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL \
-								| BGFX_STATE_WRITE_Z | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA
-
-#define MUD_GFX_STATE_DEFAULT_ALPHA 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS \
-									  | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA
-
 namespace gfx
 {
 	void setup_pipeline_pbr(GfxSystem& gfx)
@@ -69,17 +63,16 @@ namespace gfx
 
 	void gather_render_pbr(Scene& scene, Render& render)
 	{
-		gather_items(scene, render.m_camera, render.m_shot->m_items);
-		gather_occluders(scene, render.m_camera, render.m_shot->m_occluders);
-		gather_lights(scene, render.m_shot->m_lights);
-		gather_gi_probes(scene, render.m_shot->m_gi_probes);
-		gather_lightmaps(scene, render.m_shot->m_lightmaps);
-		gather_reflection_probes(scene, render.m_shot->m_reflection_probes);
+		gather_items(scene, *render.m_camera, render.m_shot.m_items);
+		gather_occluders(scene, *render.m_camera, render.m_shot.m_occluders);
+		gather_lights(scene, render.m_shot.m_lights);
+		gather_gi_probes(scene, render.m_shot.m_gi_probes);
+		gather_lightmaps(scene, render.m_shot.m_lightmaps);
+		gather_reflection_probes(scene, render.m_shot.m_reflection_probes);
 
-		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, render.m_shot->m_items));
+		render.m_frustum = optimized_frustum(*render.m_camera, render.m_shot.m_items);
 
-		render.m_env = &scene.m_env;
-		render.m_shot->m_immediate = { scene.m_immediate.get() };
+		render.m_shot.m_immediate = { scene.m_immediate.get() };
 
 #if DEBUG_ITEMS
 		scene.debug_items(render);
@@ -262,7 +255,7 @@ namespace gfx
 		block_lightmap.options(render, version);
 	}
 
-	void submit_pbr_pass(GfxSystem& gfx, Render& render, const Pass& render_pass)
+	void submit_pbr_pass(GfxSystem& gfx, Render& render, const Pass& pass)
 	{
 		static BlockRadiance& block_radiance = *gfx.m_renderer.block<BlockRadiance>();
 		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
@@ -272,21 +265,21 @@ namespace gfx
 		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
 		static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
 
-		//block_pbr.submit(render, render_pass);
+		//block_pbr.submit(render, pass);
 
 		block_shadow.m_direct_light = block_light.m_direct_light;
 
-		block_shadow.commit_shadows(render, render.m_camera.m_transform);
+		block_shadow.commit_shadows(render, render.m_camera->m_transform);
 
-		block_radiance.submit(render, render_pass);
-		block_light.submit(render, render_pass);
-		block_shadow.submit(render, render_pass);
-		block_gi_trace.submit(render, render_pass);
-		block_reflection.submit(render, render_pass);
-		block_lightmap.submit(render, render_pass);
+		block_radiance.submit(render, pass);
+		block_light.submit(render, pass);
+		block_shadow.submit(render, pass);
+		block_gi_trace.submit(render, pass);
+		block_reflection.submit(render, pass);
+		block_lightmap.submit(render, pass);
 	}
 
-	void submit_pbr_element(GfxSystem& gfx, Render& render, const DrawElement& element, Pass& render_pass)
+	void submit_pbr_element(GfxSystem& gfx, Render& render, const DrawElement& element, Pass& pass)
 	{
 		static BlockRadiance& block_radiance = *gfx.m_renderer.block<BlockRadiance>();
 		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
@@ -296,12 +289,12 @@ namespace gfx
 		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
 		static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
 
-		block_radiance.submit(render, element, render_pass);
-		block_light.submit(render, element, render_pass);
-		block_shadow.submit(render, element, render_pass);
-		block_gi_trace.submit(render, element, render_pass);
-		block_reflection.submit(render, element, render_pass);
-		block_lightmap.submit(render, element, render_pass);
+		block_radiance.submit(render, element, pass);
+		block_light.submit(render, element, pass);
+		block_shadow.submit(render, element, pass);
+		block_gi_trace.submit(render, element, pass);
+		block_reflection.submit(render, element, pass);
+		block_lightmap.submit(render, element, pass);
 	}
 
 	void render_pbr_forward(GfxSystem& gfx, Render& render)
@@ -379,32 +372,34 @@ namespace gfx
 
 	void pass_opaque(GfxSystem& gfx, Render& render)
 	{
-		Pass render_pass = render.next_pass("opaque", PassType::Opaque);
+		Pass pass = render.next_pass("opaque", PassType::Opaque);
 
-		submit_pbr_pass(gfx, render, render_pass);
+		submit_pbr_pass(gfx, render, pass);
 
-		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
+		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthAscending);
+
+		uint32_t cull = render.m_vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
 
 #if DEPTH_PASS
-		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_EQUAL
-									 | BGFX_STATE_WRITE_Z | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA;
+		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
+									    | BGFX_STATE_DEPTH_TEST_EQUAL | BGFX_STATE_MSAA;
 #else
-		render_pass.m_bgfx_state = MUD_GFX_STATE_DEFAULT;
+		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
+									    | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_MSAA;
 #endif
 
-		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			if(element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha)
-			{
-				if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
-					element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
+			bool pbr = element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha;
+			bool opaque = element.m_program->m_passes[PassType::Opaque];
+			if(!pbr && !opaque) return false;
 
-				element.m_shader_version.set_option(0, MRT, render.m_is_mrt);
+			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
+				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
+			if(pbr)
 				pbr_options(gfx, render, element.m_shader_version);
-
-				gfx.m_renderer.add_element(render, pass, element);
-			}
+			return true;
 		};
 
 		auto submit_element = [](GfxSystem& gfx, Render& render, Pass& pass, const DrawElement& element)
@@ -412,30 +407,30 @@ namespace gfx
 			submit_pbr_element(gfx, render, element, pass);
 		};
 
-		gfx.m_renderer.pass(render, render_pass, queue_draw_element, submit_element);
+		gfx.m_renderer.pass(render, pass, queue_draw_element, submit_element);
 	}
 
 	void pass_alpha(GfxSystem& gfx, Render& render)
 	{
-		Pass render_pass = render.next_pass("alpha", PassType::Alpha);
+		Pass pass = render.next_pass("alpha", PassType::Alpha);
 
-		submit_pbr_pass(gfx, render, render_pass);
+		submit_pbr_pass(gfx, render, pass);
 
-		render_pass.m_bgfx_state = MUD_GFX_STATE_DEFAULT_ALPHA;
+		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS
+									 | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA;
 
-		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthDescending);
+		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthDescending);
 
-		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			UNUSED(render);
-			if(element.m_program->m_blocks[MaterialBlock::Pbr] && element.m_material->m_alpha.m_is_alpha)
-			{
-				blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);
+			if(!element.m_program->m_blocks[MaterialBlock::Pbr] || !element.m_material->m_alpha.m_is_alpha)
+				return false;
 
-				pbr_options(gfx, render, element.m_shader_version);
+			blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);
 
-				gfx.m_renderer.add_element(render, pass, element);
-			}
+			pbr_options(gfx, render, element.m_shader_version);
+
+			return true;
 		};
 
 		auto submit_element = [](GfxSystem& gfx, Render& render, Pass& pass, const DrawElement& element)
@@ -443,31 +438,35 @@ namespace gfx
 			submit_pbr_element(gfx, render, element, pass);
 		};
 
-		gfx.m_renderer.pass(render, render_pass, queue_draw_element, submit_element);
+		gfx.m_renderer.pass(render, pass, queue_draw_element, submit_element);
 	}
 
 	void pass_geometry(GfxSystem& gfx, Render& render)
 	{
 		UNUSED(gfx);
-		Pass render_pass = render.next_pass("geometry", PassType::Geometry);
+		Pass pass = render.next_pass("geometry", PassType::Geometry);
 
-		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
+		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthAscending);
+		
+		uint32_t cull = render.m_vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
 
-		render_pass.m_bgfx_state = MUD_GFX_STATE_DEFAULT;
-		render_pass.m_fbo = &render.m_target->m_gbuffer.m_fbo;
+		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
+									    | BGFX_STATE_DEPTH_TEST_EQUAL | BGFX_STATE_MSAA;
 
-		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
+		pass.m_fbo = &render.m_target->m_gbuffer;
+
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
 			UNUSED(render);
-			if(element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha)
-			{
-				if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
-					element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
+			bool pbr = element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha;
+			bool opaque = element.m_program->m_passes[PassType::Opaque];
+			if(!pbr && !opaque) return false;
 
-				element.m_shader_version.set_option(0, DEFERRED, true);
+			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
+				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
-				gfx.m_renderer.add_element(render, pass, element);
-			}
+			element.m_shader_version.set_option(0, DEFERRED, true);
+			return true;
 		};
 
 		auto submit_element = [](GfxSystem& gfx, Render& render, Pass& pass, const DrawElement& element)
@@ -475,7 +474,7 @@ namespace gfx
 			submit_pbr_element(gfx, render, element, pass);
 		};
 
-		gfx.m_renderer.pass(render, render_pass, queue_draw_element, submit_element);
+		gfx.m_renderer.pass(render, pass, queue_draw_element, submit_element);
 	}
 
 	void pass_lights(GfxSystem& gfx, Render& render)
@@ -483,34 +482,32 @@ namespace gfx
 		static Program& program = gfx.programs().fetch("pbr/lights");
 		static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
 
-		Pass render_pass = render.next_pass("lights", PassType::Lights);
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		render_pass.m_encoder = &encoder;
+		Pass pass = render.next_pass("lights", PassType::Lights);
+		bgfx::Encoder& encoder = *pass.m_encoder;
+		pass.m_encoder = &encoder;
 
-		submit_pbr_pass(gfx, render, render_pass);
+		submit_pbr_pass(gfx, render, pass);
 
 		DrawCluster cluster;
-		cluster.m_lights = render.m_shot->m_lights;
+		cluster.m_lights = render.m_shot.m_lights;
 		cluster.m_shader_version = { &program };
 
 		for(auto& block : gfx.m_renderer.m_gfx_blocks)
 			if(block->m_draw_block)
 			{
 				as<DrawBlock>(*block).options(render, cluster.m_shader_version);
-				as<DrawBlock>(*block).submit(render, render_pass);
+				as<DrawBlock>(*block).submit(render, pass);
 			}
 
-		cluster.m_shader_version.set_option(0, MRT, render.m_is_mrt);
-
 		RenderTarget& target = *render.m_target;
-		RenderTarget::GBuffer& gbuffer = target.m_gbuffer;
+		GBuffer& gbuffer = target.m_gbuffer;
 
 		encoder.setTexture(uint8_t(TextureSampler::Source0), filter.u_uniform.s_source_0, gbuffer.m_position);
 		encoder.setTexture(uint8_t(TextureSampler::Source1), filter.u_uniform.s_source_1, gbuffer.m_normal);
 		encoder.setTexture(uint8_t(TextureSampler::Source2), filter.u_uniform.s_source_2, gbuffer.m_albedo);
 		encoder.setTexture(uint8_t(TextureSampler::Source3), filter.u_uniform.s_source_3, gbuffer.m_surface);
 
-		filter.quad(render_pass.m_index, *render.m_target_fbo, cluster.m_shader_version, render.m_rect, BGFX_STATE_BLEND_ALPHA);
+		filter.quad(pass.m_index, *render.m_target_fbo, cluster.m_shader_version, render.m_rect, BGFX_STATE_BLEND_ALPHA);
 
 #if DEBUG_GBUFFERS
 		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
@@ -572,13 +569,13 @@ namespace gfx
 		UNUSED(render); UNUSED(shader_version);
 	}
 
-	void BlockGeometry::submit(Render& render, const Pass& render_pass) const
+	void BlockGeometry::submit(Render& render, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render); UNUSED(pass);
 	}
 
-	void BlockGeometry::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	void BlockGeometry::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(element); UNUSED(render_pass);
+		UNUSED(render); UNUSED(element); UNUSED(pass);
 	}
 }

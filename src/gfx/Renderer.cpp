@@ -13,7 +13,6 @@ module mud.gfx;
 #include <jobs/JobLoop.hpp>
 #include <gfx/Types.h>
 #include <gfx/Renderer.h>
-#include <gfx/ManualRender.h>
 #include <gfx/Pipeline.h>
 #include <gfx/Draw.h>
 #include <gfx/Shot.h>
@@ -57,12 +56,11 @@ namespace mud
 	static RenderUniform s_render_uniform;
 
 	Render::Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame)
-		: m_shading(shading), m_scene(*viewport.m_scene), m_target(&target), m_target_fbo(&target), m_viewport(viewport), m_rect(viewport.m_rect)
-		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport), m_lighting(viewport.m_lighting)
+		: m_shading(shading), m_scene(viewport.m_scene), m_target(&target), m_target_fbo(&target), m_viewport(&viewport), m_rect(viewport.m_rect)
+		, m_camera(viewport.m_camera), m_frame(&frame), m_env(&viewport.m_scene->m_env)
+		, m_filters(viewport), m_lighting(viewport.m_lighting)
 		, m_pass_index(frame.m_render_pass)
-		, m_shot(make_unique<Shot>())
 	{
-		m_debug_pass_index = 245;
 		static bool init_uniform = true;
 		if(init_uniform)
 		{
@@ -71,14 +69,12 @@ namespace mud
 		}
 	}
 
-	Render::Render(Shading shading, Viewport& viewport, FrameBuffer& target_fbo, RenderFrame& frame)
-		: m_shading(shading), m_scene(*viewport.m_scene), m_target(nullptr), m_target_fbo(&target_fbo), m_viewport(viewport), m_rect(viewport.m_rect)
-		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport), m_lighting(viewport.m_lighting)
+	Render::Render(Shading shading, Viewport& viewport, RenderTarget& target, FrameBuffer& target_fbo, RenderFrame& frame)
+		: m_shading(shading), m_scene(viewport.m_scene), m_target(&target), m_target_fbo(&target_fbo), m_viewport(&viewport), m_rect(viewport.m_rect)
+		, m_camera(viewport.m_camera), m_frame(&frame), m_env(&viewport.m_scene->m_env)
+		, m_filters(viewport), m_lighting(viewport.m_lighting)
 		, m_pass_index(frame.m_render_pass)
-		, m_shot(make_unique<Shot>())
-	{
-		m_debug_pass_index = 245;
-	}
+	{}
 
 	Render::~Render()
 	{}
@@ -88,50 +84,50 @@ namespace mud
 		if(!subpass)
 			m_sub_pass_index = 0;
 
-		Pass render_pass;
-		render_pass.m_target = m_target;
-		render_pass.m_bgfx_state = 0;
-		render_pass.m_fbo = m_target_fbo;
-		render_pass.m_viewport = &m_viewport;
-		render_pass.m_rect = m_rect;
-		render_pass.m_use_mrt = m_needs_mrt;
-		render_pass.m_index = m_pass_index++;
-		render_pass.m_sub_pass = m_sub_pass_index++;
-		render_pass.m_pass_type = type;
+		Pass pass;
+		pass.m_target = m_target;
+		pass.m_bgfx_state = 0;
+		pass.m_fbo = m_target_fbo;
+		pass.m_viewport = m_viewport;
+		pass.m_rect = m_rect;
+		pass.m_use_mrt = m_needs_mrt;
+		pass.m_index = m_pass_index++;
+		pass.m_sub_pass = m_sub_pass_index++;
+		pass.m_pass_type = type;
 
-		render_pass.m_encoder = bgfx::begin();
+		pass.m_encoder = bgfx::begin();
 
-		bgfx::setViewName(render_pass.m_index, name);
+		bgfx::setViewName(pass.m_index, name);
 
 		//printf("INFO: render pass %s\n", name.c_str());
-		m_viewport.render_pass(render_pass);
+		m_viewport->pass(pass);
 
-		this->set_uniforms(render_pass);
+		this->set_uniforms(pass);
 
-		return render_pass;
+		return pass;
 	}
 
 	Pass Render::composite_pass(cstring name, FrameBuffer& fbo, const uvec4& rect)
 	{
-		Pass render_pass = this->next_pass(name, PassType::PostProcess);
-		render_pass.m_fbo = &fbo;
-		render_pass.m_rect = rect;
-		return render_pass;
+		Pass pass = this->next_pass(name, PassType::PostProcess);
+		pass.m_fbo = &fbo;
+		pass.m_rect = rect;
+		return pass;
 	}
 
-	void Render::set_uniforms(const Pass& render_pass) const
+	void Render::set_uniforms(const Pass& pass) const
 	{
-		vec4 render_p0 = { m_frame.m_time, float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
-		bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_render_p0, &render_p0);
+		vec4 render_p0 = { m_frame->m_time, float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
+		bgfx::setViewUniform(pass.m_index, s_render_uniform.u_render_p0, &render_p0);
 
 		if(m_target)
 		{
 			vec4 screen_p0{ vec2(m_target->m_size), 1.0f / vec2(m_target->m_size) };
-			bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_viewport_p0, &screen_p0);
+			bgfx::setViewUniform(pass.m_index, s_render_uniform.u_viewport_p0, &screen_p0);
 		}
 
-		vec4 camera_p0{ m_camera.m_near, m_camera.m_far, m_camera.m_fov, m_camera.m_aspect };
-		bgfx::setViewUniform(render_pass.m_index, s_render_uniform.u_camera_p0, &camera_p0);
+		vec4 camera_p0{ m_camera->m_near, m_camera->m_far, m_camera->m_fov, m_camera->m_aspect };
+		bgfx::setViewUniform(pass.m_index, s_render_uniform.u_camera_p0, &camera_p0);
 	}
 
 	struct DrawList : public vector<DrawElement>
@@ -170,10 +166,10 @@ namespace mud
 
 	void Renderer::gather(Render& render)
 	{
-		m_gather_func(render.m_scene, render);
+		m_gather_func(*render.m_scene, render);
 
-		render.m_viewport.render(render);
-		render.m_viewport.cull(render);
+		render.m_viewport->render(render);
+		render.m_viewport->cull(render);
 	}
 
 	void Renderer::submit(Render& render, RenderFunc renderer)
@@ -184,10 +180,13 @@ namespace mud
 		scene.debug_items(render);
 #endif
 
-		if(render.m_viewport.m_rect.width != 0 && render.m_viewport.m_rect.height != 0)
+		if(render.m_viewport->m_rect.width != 0 && render.m_viewport->m_rect.height != 0)
 			this->render(render, renderer);
 
-		//copy.debug_show_texture(render, render.m_env->m_radiance.m_texture->m_texture, vec4(0.f), false, false, false, 0);
+		//m_gfx.m_copy->debug_show_texture(render, *render.m_env->m_background.m_texture, vec4(0.f), 0);
+		//m_gfx.m_copy->debug_show_texture(render, *render.m_env->m_radiance.m_texture, vec4(0.f), 0);
+		//if(render.m_env->m_radiance.m_filtered)
+		//	m_gfx.m_copy->debug_show_texture(render, *render.m_env->m_radiance.m_filtered, vec4(0.f), 1);
 		//copy.debug_show_texture(render, render.m_env->m_radiance.m_filtered, vec4(0.f), false, false, false, 1);
 		//copy.debug_show_texture(render, bgfx::getTexture(render.m_target->m_effects.last()), vec4(0.f));
 	}
@@ -215,11 +214,11 @@ namespace mud
 
 	void Renderer::end(Render& render)
 	{
-		render.m_frame.m_render_pass = render.m_pass_index;
+		render.m_frame->m_render_pass = render.m_pass_index;
 
-		render.m_frame.m_num_draw_calls += render.m_num_draw_calls;
-		render.m_frame.m_num_vertices += render.m_num_vertices;
-		render.m_frame.m_num_triangles += render.m_num_triangles;
+		render.m_frame->m_num_draw_calls += render.m_num_draw_calls;
+		render.m_frame->m_num_vertices += render.m_num_vertices;
+		render.m_frame->m_num_triangles += render.m_num_triangles;
 	}
 	
 	void Renderer::subrender(Render& render, Render& sub, RenderFunc renderer)
@@ -259,9 +258,12 @@ namespace mud
 		version.set_option(0, BUFFER_MATERIALS, MATERIALS_BUFFER);
 	}
 
-	void Renderer::add_element(Render& render, Pass& pass, DrawElement element)
+	void Renderer::element_options(Render& render, Pass& pass, DrawElement& element)
 	{
 		this->shader_options(render, pass, element.m_shader_version);
+
+		element.m_shader_version.set_option(0, VFLIP, render.m_vflip);
+		element.m_shader_version.set_option(0, MRT, render.m_is_mrt);
 
 		element.m_shader_version.set_option(0, INSTANCING, element.m_item->m_batch != nullptr);
 		element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ItemFlag::Billboard);
@@ -269,7 +271,11 @@ namespace mud
 		element.m_shader_version.set_option(0, QNORMALS, element.m_model->m_mesh->m_qnormals);
 
 		element.m_bgfx_program = const_cast<Program*>(element.m_program)->version(element.m_shader_version);
+	}
 
+	void Renderer::add_element(Render& render, Pass& pass, DrawElement element)
+	{
+		this->element_options(render, pass, element);
 		m_impl->m_draw_list.add_element() = element;
 	}
 
@@ -317,7 +323,7 @@ namespace mud
 
 	void Renderer::gather_draw_elements(Render& render, Pass& pass)
 	{
-		for(Item* item : render.m_shot->m_items)
+		for(Item* item : render.m_shot.m_items)
 			for(const ModelItem& model_item : item->m_model->m_items)
 			{
 				DrawElement element = this->draw_element(*item, model_item);
@@ -347,32 +353,32 @@ namespace mud
 	{
 		//printf("submit_draw_elements %i to %i\n", int(first), int(first + count));
 
-		Pass render_pass = pass;
-		render_pass.m_encoder = &encoder;
+		Pass thread_pass = pass;
+		pass.m_encoder = &encoder;
 
 		for(size_t i = first; i < first + count; ++i)
 		{
 			const DrawElement& element = m_impl->m_draw_list[i];
-			this->submit(encoder, render, render_pass, submit, element);
+			this->submit(encoder, render, thread_pass, submit, element);
 		}
 	}
 
-	void Renderer::submit(bgfx::Encoder& encoder, Render& render, Pass& render_pass, Submit submit, const DrawElement& element) const
+	void Renderer::submit(bgfx::Encoder& encoder, Render& render, Pass& pass, Submit submit, const DrawElement& element) const
 	{
-		//for(GfxBlock* block : m_gfx.m_renderer.m_pass_blocks[render_pass.m_pass_type])
+		//for(GfxBlock* block : m_gfx.m_renderer.m_pass_blocks[pass.m_pass_type])
 		//	if(block->m_draw_block)
-		//		((DrawBlock*)block)->submit(render, element, render_pass);
+		//		((DrawBlock*)block)->submit(render, element, pass);
 
 		if(submit)
-			submit(m_gfx, render, render_pass, element);
+			submit(m_gfx, render, pass, element);
 
-		uint64_t render_state = 0 | render_pass.m_bgfx_state | element.m_bgfx_state;
+		uint64_t render_state = 0 | pass.m_bgfx_state | element.m_bgfx_state;
 		element.m_material->submit(*element.m_program, encoder, render_state, element.m_skin);
 		element.m_item->submit(encoder, render_state, *element.m_model);
 
 		encoder.setState(render_state);
 
-		encoder.submit(render_pass.m_index, element.m_bgfx_program, depth_to_bits(element.m_item->m_depth));
+		encoder.submit(pass.m_index, element.m_bgfx_program, depth_to_bits(element.m_item->m_depth));
 
 		render.m_num_draw_calls += 1;
 		render.m_num_vertices += element.m_model->m_mesh->m_vertex_count;
@@ -384,76 +390,79 @@ namespace mud
 		//this->clear_draw_elements(render);
 		//this->gather_draw_elements(render);
 
-		for(PassJob& job : render.m_scene.m_pass_jobs->m_jobs[pass_type])
+		for(PassJob& job : render.m_scene->m_pass_jobs->m_jobs[pass_type])
 		{
-			Pass render_pass = render.next_pass("job", pass_type); // render_pass.m_name);
-			job(render, render_pass);
+			Pass pass = render.next_pass("job", pass_type); // pass.m_name);
+			job(render, pass);
 		}
 	}
 
-	void Renderer::submit_render_pass(Render& render, Pass& render_pass, Submit submit)
+	void Renderer::submit_render_pass(Render& render, Pass& pass, Submit submit)
 	{
-		render.m_viewport.render_pass(render_pass);
+		render.m_viewport->pass(pass);
 
-		m_gfx.m_renderer.block<BlockMaterial>()->submit(render, render_pass);
+		m_gfx.m_renderer.block<BlockMaterial>()->submit(render, pass);
 
-		//for(GfxBlock* block : m_gfx.m_renderer.m_pass_blocks[render_pass.m_pass_type])
+		//for(GfxBlock* block : m_gfx.m_renderer.m_pass_blocks[pass.m_pass_type])
 		//	if(block->m_draw_block)
-		//		((DrawBlock*)block)->submit(render, render_pass);
+		//		((DrawBlock*)block)->submit(render, pass);
 
 #ifdef MUD_GFX_JOBS
 		auto submit = [&](JobSystem& js, Job* job, size_t start, size_t count)
 		{
 			UNUSED(job);
 			bgfx::Encoder& encoder = *m_gfx.m_encoders[js.thread()];
-			this->submit_draw_elements(encoder, render, render_pass, start, count);
+			this->submit_draw_elements(encoder, render, pass, start, count);
 		};
 
 		JobSystem& js = *m_gfx.m_job_system;
 		Job* job = split_jobs<16>(js, nullptr, 0, uint32_t(m_impl->m_draw_elements.size()), submit);
 		js.complete(job);
 #else
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		this->submit_draw_elements(encoder, render, render_pass, submit, 0, m_impl->m_draw_list.size());
+		bgfx::Encoder& encoder = *pass.m_encoder;
+		this->submit_draw_elements(encoder, render, pass, submit, 0, m_impl->m_draw_list.size());
 #endif
 	}
 
-	void Renderer::pass(Render& render, Pass& render_pass, Enqueue enqueue, Submit submit)
+	void Renderer::pass(Render& render, Pass& pass, Enqueue enqueue, Submit submit, bool sorted)
 	{
-		this->begin_render_pass(render, render_pass.m_pass_type);
+		sorted = true;
+		if(sorted)
+			this->sorted_pass(render, pass, enqueue, submit);
+		else
+			this->direct_pass(render, pass, enqueue, submit);
+	}
 
-		this->clear_draw_elements(render, render_pass);
+	void Renderer::sorted_pass(Render& render, Pass& pass, Enqueue enqueue, Submit submit)
+	{
+		this->begin_render_pass(render, pass.m_pass_type);
 
-		for(Item* item : render.m_shot->m_items)
+		this->clear_draw_elements(render, pass);
+
+		for(Item* item : render.m_shot.m_items)
 			for(const ModelItem& model_item : item->m_model->m_items)
 			{
-				enqueue(m_gfx, render, render_pass, this->draw_element(*item, model_item));
+				DrawElement element = this->draw_element(*item, model_item);
+				if(enqueue(m_gfx, render, pass, element))
+					this->add_element(render, pass, element);
 			}
 
-		this->submit_render_pass(render, render_pass, submit);
+		this->submit_render_pass(render, pass, submit);
 	}
 
-	ManualRender::ManualRender(Render& render, Shading shading, FrameBuffer& fbo, const uvec4& viewport_rect)
-		: m_render(render)
-		, m_camera()
-		, m_viewport(m_camera, render.m_scene, viewport_rect)
-		, m_sub_render(shading, m_viewport, fbo, render.m_frame)
+	void Renderer::direct_pass(Render& render, Pass& pass, Enqueue enqueue, Submit submit)
 	{
-		m_sub_render.m_shot->m_lights = m_render.m_shot->m_lights;
-	}
+		this->begin_render_pass(render, pass.m_pass_type);
 
-	ManualRender::ManualRender(Render& render, Shading shading, FrameBuffer& fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection, bool ortho)
-		: m_render(render)
-		, m_camera(transform, projection, ortho)
-		, m_viewport(m_camera, render.m_scene, viewport_rect)
-		, m_sub_render(shading, m_viewport, fbo, render.m_frame)
-	{
-		m_sub_render.m_shot->m_lights = m_render.m_shot->m_lights;
-	}
-
-	void ManualRender::render(Renderer& renderer, RenderFunc func)
-	{
-		renderer.render(m_sub_render, func);
-		m_render.m_pass_index = m_sub_render.m_pass_index;
+		for(Item* item : render.m_shot.m_items)
+			for(const ModelItem& model_item : item->m_model->m_items)
+			{
+				DrawElement element = this->draw_element(*item, model_item);
+				if(enqueue(m_gfx, render, pass, element))
+				{
+					this->element_options(render, pass, element);
+					this->submit(*pass.m_encoder, render, pass, submit, element);
+				}
+			}
 	}
 }

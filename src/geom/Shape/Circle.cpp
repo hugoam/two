@@ -251,8 +251,8 @@ namespace mud
 		const float tube = torus.m_tube;
 		const uint16_t tubular = torus_tube_subdiv(uint(shape.m_symbol.m_detail));
 		const uint16_t radial = torus_radial_subdiv(uint(shape.m_symbol.m_detail));
-		const float p = 2.f;
-		const float q = 3.f;
+		const float p = torus.m_p;
+		const float q = torus.m_q;
 
 		auto knot_curve = [](float u, float p, float q, float radius) -> vec3
 		{
@@ -301,9 +301,6 @@ namespace mud
 				// normal (P1 is always the center/origin of the extrusion, thus we can use it to calculate the normal)
 				const vec3 n = normalize(p - P1);
 				const vec2 uv = vec2(float(i) / float(tubular), float(j) / float(radial));
-
-				vec3* end = (vec3*)((char*)writer.m_vertices.m_pointer) + (writer.m_vertices.size() * writer.m_vertex_stride);
-				assert(writer.m_cursor.m_position < end);
 
 				writer.position(p)
 					  .normal(n)

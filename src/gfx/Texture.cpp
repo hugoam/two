@@ -200,27 +200,44 @@ namespace mud
 	{
 		texture.m_size = uvec2(texture_info.width, texture_info.height);
 		texture.m_format = texture_info.format;
+		texture.m_memsize = texture_info.storageSize;
 		texture.m_bits_per_pixel = texture_info.bitsPerPixel;
+		texture.m_is_cube = texture_info.cubeMap;
+		texture.m_is_array = texture_info.numLayers > 1;
+		texture.m_mips = texture_info.numMips > 0;
 	}
 
 	void load_texture(GfxSystem& gfx, Texture& texture, const string& path)
 	{
-		if(file_extension(path) == ".cube")
+		if(file_extension(path) == "cube")
 		{
-			const string format = ".jpg";
+			const string name = file_noext(path);
+			const string format = "." + file_extension(name);
+			const string base = file_noext(name);
+
 			const string paths[] = {
-				path + "px" + format, path + "nx" + format,
-				path + "py" + format, path + "ny" + format,
-				path + "pz" + format, path + "nz" + format
+				base + "/" + "px" + format, base + "/" + "nx" + format,
+				base + "/" + "py" + format, base + "/" + "ny" + format,
+				base + "/" + "pz" + format, base + "/" + "nz" + format
 			};
 			
-			for(const string& path : paths)
+			bimg::ImageContainer* sides[6] = {};
+			for(size_t i = 0; i < 6; ++i)
 			{
-				bgfx::TextureInfo texture_info;
-				texture.m_tex = load_bgfx_texture(gfx.allocator(), gfx.file_reader(), path.c_str(), 0U, &texture_info, true);
-				// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
-				set_texture_info(texture, texture_info);
+				uint32_t size;
+				void* data = load_mem(&gfx.file_reader(), &gfx.allocator(), paths[i].c_str(), &size);
+				sides[i] = bimg::imageParse(&gfx.allocator(), data, uint32_t(size));
+				BX_FREE(&gfx.allocator(), data);
 			}
+
+			bimg::ImageContainer* cubemap = bimg::imageCubemapFrom6Sides(&gfx.allocator(), sides, nullptr);
+
+			for(size_t i = 0; i < 6; ++i)
+				bimg::imageFree(sides[i]);
+
+			bgfx::TextureInfo texture_info;
+			texture.m_tex = load_bgfx_image(*cubemap, path.c_str(), 0U, &texture_info);
+			set_texture_info(texture, texture_info);
 		}
 		else
 		{
@@ -263,15 +280,20 @@ namespace mud
 		: m_name(name)
 	{}
 
-	Texture::Texture(const uvec2& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags)
+	Texture::Texture(const uvec2& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags, bool cube)
 		: m_size(size)
+		, m_format(format)
+		, m_is_cube(cube)
 	{
-		m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), mips, 1, format, flags);
+		m_tex = cube
+			? bgfx::createTextureCube(uint16_t(size.x), mips, 1, format, flags)
+			: bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), mips, 1, format, flags);
 		m_is_depth = format >= bgfx::TextureFormat::D16 && format <= bgfx::TextureFormat::D0S8;
 	}
 
 	Texture::Texture(const uvec2& size, bool mips, int layers, bgfx::TextureFormat::Enum format, uint64_t flags)
 		: m_size(size)
+		, m_format(format)
 	{
 		m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), mips, layers, format, flags);
 		m_is_depth = format >= bgfx::TextureFormat::D16 && format <= bgfx::TextureFormat::D0S8;
@@ -279,14 +301,13 @@ namespace mud
 	}
 
 	Texture::Texture(const uvec3& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags)
+		: m_size(size.x, size.y)
+		, m_depth(size.z)
+		, m_format(format)
 	{
 		m_tex = bgfx::createTexture3D(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), mips, format, flags);
 		m_is_depth = format >= bgfx::TextureFormat::D16 && format <= bgfx::TextureFormat::D0S8;
 	}
-
-	Texture::Texture(bgfx::TextureHandle texture)
-		: m_tex(texture)
-	{}
 
 	Texture::~Texture()
 	{

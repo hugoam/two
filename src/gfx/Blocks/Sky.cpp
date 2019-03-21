@@ -48,7 +48,12 @@ namespace mud
 		: GfxBlock(gfx, *this)
 		, m_filter(filter)
 		, m_skybox_program(gfx.programs().create("skybox"))
-	{}
+	{
+		static cstring options[] = { "SKYBOX_FBO", "SKYBOX_CUBE" };
+		m_shader_block->m_options = options;
+
+		m_skybox_program.register_block(*this);
+	}
 
 	void BlockSky::init_block()
 	{
@@ -70,22 +75,32 @@ namespace mud
 			return render.m_env->m_background.m_custom_function(render);
 		else if(mode == BackgroundMode::Radiance || mode == BackgroundMode::Panorama)
 		{
-			if(render.m_env->m_radiance.m_filtered == nullptr)
+			if(mode == BackgroundMode::Radiance && render.m_env->m_radiance.m_filtered == nullptr)
 				return;
 
 			Pass sky_pass = render.next_pass("sky", PassType::Background);
 			bgfx::Encoder& encoder = *sky_pass.m_encoder;
 
-			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, *render.m_env->m_radiance.m_filtered);
+			Texture& texture = mode == BackgroundMode::Radiance
+				? *render.m_env->m_radiance.m_filtered
+				: *render.m_env->m_background.m_texture;
+
+			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, texture);
 
 			unsigned int level = mode == BackgroundMode::Radiance ? 3 : 0;
 			vec4 skybox_p0 = { float(level), float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
 			encoder.setUniform(u_skybox.u_skybox_p0, &skybox_p0);
 
-			mat4 skybox_matrix = bxinverse(render.m_camera.m_transform);
+			mat4 skybox_matrix = bxinverse(render.m_camera->m_transform);
 			encoder.setUniform(u_skybox.u_skybox_matrix, &skybox_matrix);
 
-			m_filter.quad(sky_pass.m_index, *render.m_target_fbo, m_skybox_program, render.m_rect, BGFX_STATE_DEPTH_TEST_LEQUAL);
+			ProgramVersion program = { &m_skybox_program };
+			program.set_option(0, VFLIP, render.m_vflip);
+			program.set_option(m_index, SKYBOX_FBO, texture.m_is_fbo);
+			program.set_option(m_index, SKYBOX_CUBE, texture.m_is_cube);
+
+			RenderQuad quad = render.m_target_fbo->render_quad(vec4(render.m_rect), false);
+			m_filter.quad(sky_pass.m_index, *render.m_target_fbo, program, quad, BGFX_STATE_DEPTH_TEST_LEQUAL);
 		}
 	}
 }

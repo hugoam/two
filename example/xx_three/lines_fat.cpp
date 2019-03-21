@@ -13,11 +13,12 @@
 using namespace mud;
 
 #define FAT 1
+#define CACHE 0
 
 void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controller(viewer);
+	ui::orbit_controls(viewer);
 	//controls.minDistance = 10;
 	//controls.maxDistance = 500;
 
@@ -27,6 +28,11 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	//camera2.position.copy(camera.position);
 	
 	static Material* material = nullptr;
+
+#if !CACHE
+	static Lines lines;
+	static Batch* batch = nullptr;
+#endif
 
 	if(init)
 	{
@@ -48,7 +54,9 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		const float l = float(divisions);
 
+#if CACHE
 		Lines lines;
+#endif
 		lines.start(curve.point(0.f), hsl(0.f, 1.f, 0.5f));
 
 		for(uint32_t i = 0; i < divisions; i++)
@@ -70,14 +78,17 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 			Node3& n = gfx::nodes(scene).add(Node3());
 			Item& it = gfx::items(scene).add(Item(n, model, 0U, material));
+#if !CACHE
+			batch = &gfx::batches(scene).add(Batch(it, sizeof(Lines::Segment)));
+			it.m_batch = batch;
+#else
 			Batch& batch = gfx::batches(scene).add(Batch(it, sizeof(Lines::Segment)));
 			it.m_batch = &batch;
+#endif
 
-			// this should not be necessary each frame, add cache to the batch ?
-			//lines.commit(*batch);
+#if CACHE
 			batch.cache({ (float*)lines.m_segments.data(), lines.m_segments.size() * sizeof(Lines::Segment) / sizeof(float) });
-			//span<float> memory = batch.begin(uint32_t(m_segments.size())); // , sizeof(Segment)
-			//memcpy(memory.data(), m_segments.data(), memory.size() * sizeof(float));
+#endif
 #else
 			// regular line
 
@@ -96,6 +107,11 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	Gnode& root = scene.begin();
 	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
+
+#if !CACHE
+	// this should not be necessary each frame, add cache to the batch ?
+	lines.commit(*batch);
+#endif
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{

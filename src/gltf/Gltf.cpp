@@ -82,13 +82,17 @@ namespace mud
 			}
 	}
 
+	export_ template <class T>
+	inline T bread(std::istream& stream) { T result; stream.read((char*)&result, sizeof(T)); return result; }
+
 	void parse_glb(const string& path, json& json, vector<uint8_t>& buffer)
 	{
 		std::ifstream file = std::ifstream(path.c_str(), std::ios::binary);
 
-		uint32_t magic = read<uint32_t>(file);
-		uint32_t version = read<uint32_t>(file);
-		read<uint32_t>(file); // uint32_t length
+		uint32_t magic = bread<uint32_t>(file);
+		uint32_t version = bread<uint32_t>(file);
+		uint32_t length = bread<uint32_t>(file);
+		UNUSED(length);
 
 		if(magic != 0x46546C67 || version != 2)
 		{
@@ -98,8 +102,8 @@ namespace mud
 
 		while(!file.eof())
 		{
-			uint32_t chunk_length = read<uint32_t>(file);
-			uint32_t chunk_type = read<uint32_t>(file);
+			uint32_t chunk_length = bread<uint32_t>(file);
+			uint32_t chunk_type = bread<uint32_t>(file);
 
 			if(chunk_type == 0x4E4F534A)
 			{
@@ -109,11 +113,11 @@ namespace mud
 			}
 			else if(chunk_type == 0x004E4942)
 			{
-				buffer.reserve(chunk_length);
-#ifndef USE_STL
-#else
-				buffer.insert(buffer.begin(), std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
-#endif
+				read(file, chunk_length, buffer);
+				for(uint8_t b : buffer)
+				{
+					int i = 0;
+				}
 			}
 		}
 	}
@@ -233,6 +237,7 @@ namespace mud
 
 		size_t offset = buffer_view.byte_offset + a.byte_offset;
 		const vector<uint8_t>& buffer = gltf.m_binary_buffers[buffer_view.buffer];
+		//const size_t size = buffer.size();
 
 		for(int i = 0; i < a.count; i++)
 		{
@@ -321,7 +326,8 @@ namespace mud
 	{
 		json data;
 
-		bool glb = ends_with(to_lower(path), ".glb");
+		//bool glb = ends_with(to_lower(path), ".glb");
+		bool glb = file_exists(path + "/" + file + ".glb");
 		if(glb)
 		{
 			vector<uint8_t> buffer;

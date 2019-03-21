@@ -15,6 +15,12 @@ namespace mud
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Box& box);
 	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Box& box, MeshAdapter& writer);
 
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Tetraedr& tetra);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Tetraedr& tetra, MeshAdapter& writer);
+
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Icosaedr& icosa);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Icosaedr& ticosaetra, MeshAdapter& writer);
+
 	// Cube : Box(cube)
 	// Aabb : Box(aabb)
 }

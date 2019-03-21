@@ -178,6 +178,39 @@ namespace mud
 	};
 
 	template <>
+	struct GpuState<MaterialUser>
+	{
+		void init()
+		{
+			u_p0 = bgfx::createUniform("u_user_p0", bgfx::UniformType::Vec4);
+			u_p1 = bgfx::createUniform("u_user_p1", bgfx::UniformType::Vec4);
+			u_p2 = bgfx::createUniform("u_user_p2", bgfx::UniformType::Vec4);
+			u_p3 = bgfx::createUniform("u_user_p3", bgfx::UniformType::Vec4);
+			u_p4 = bgfx::createUniform("u_user_p4", bgfx::UniformType::Vec4);
+			u_p5 = bgfx::createUniform("u_user_p5", bgfx::UniformType::Vec4);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialUser& block) const
+		{
+			encoder.setUniform(u_p0, &block.m_attr0);
+			encoder.setUniform(u_p1, &block.m_attr1);
+			encoder.setUniform(u_p2, &block.m_attr2);
+			encoder.setUniform(u_p3, &block.m_attr3);
+			encoder.setUniform(u_p4, &block.m_attr4);
+			encoder.setUniform(u_p5, &block.m_attr5);
+		}
+
+		bgfx::UniformHandle u_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_p1 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_p2 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_p3 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_p4 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_p5 = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+
+	template <>
 	struct GpuState<Material>
 	{
 		void upload(bgfx::Encoder& encoder, const Material& material) const
@@ -189,6 +222,7 @@ namespace mud
 			GpuState<MaterialLine>::me.upload(encoder, material.m_line);
 			GpuState<MaterialPbr>::me.upload(encoder, material.m_pbr);
 			GpuState<MaterialFresnel>::me.upload(encoder, material.m_fresnel);
+			GpuState<MaterialUser>::me.upload(encoder, material.m_user);
 		}
 
 		static GpuState me;
@@ -315,6 +349,34 @@ namespace mud
 	};
 
 	template <>
+	struct GpuState<MaterialUser>
+	{
+		constexpr static size_t rows = 6;
+
+		void pack(const MaterialUser& block, size_t& offset, const GpuTexture& buffer, float* dest)
+		{
+			memcpy(dest + offset, &block.m_attr0, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &block.m_attr1, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &block.m_attr2, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &block.m_attr3, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &block.m_attr4, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &block.m_attr5, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+	template <>
 	struct GpuState<Material>
 	{
 		void pack(const Material& material, size_t index, const GpuTexture& buffer, float* dest)
@@ -324,15 +386,16 @@ namespace mud
 			GpuState<MaterialBase>::me.me.pack(material.m_base, offset, buffer, dest);
 			GpuState<MaterialAlpha>::me.me.pack(material.m_alpha, offset, buffer, dest);
 			GpuState<MaterialSolid>::me.me.pack(material.m_solid, offset, buffer, dest);
-			GpuState<MaterialPoint>::me.me.pack(material.m_line, offset, buffer, dest);
+			GpuState<MaterialPoint>::me.me.pack(material.m_point, offset, buffer, dest);
 			GpuState<MaterialLine>::me.me.pack(material.m_line, offset, buffer, dest);
 			GpuState<MaterialPbr>::me.me.pack(material.m_pbr, offset, buffer, dest);
 			//GpuState<MaterialFresnel>::me.me.pack(material.m_fresnel, offset, buffer, dest);
+			GpuState<MaterialUser>::me.me.pack(material.m_user, offset, buffer, dest);
 		}
 
 		void pack(Texture& texture, span<Material*> materials)
 		{
-			GpuTexture buffer = { texture, 1024, 4 };
+			GpuTexture buffer = { &texture, 1024, 4 };
 
 			const uint32_t height = GpuState<MaterialBase>::me.rows
 								  + GpuState<MaterialAlpha>::me.rows
@@ -340,11 +403,12 @@ namespace mud
 								  + GpuState<MaterialPoint>::me.rows
 								  + GpuState<MaterialLine>::me.rows
 								  + GpuState<MaterialPbr>::me.rows;
+								  + GpuState<MaterialUser>::me.rows;
 			const uint32_t lines = 1;
 			const uvec2 size = uvec2(buffer.width, uint16_t(lines * height));
 
-			if(!texture.m_size != size)
-				texture = { size, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
+			if(texture.m_size != size)
+				texture = { size, false, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
 
 			const bgfx::Memory* memory = bgfx::alloc(buffer.width * lines * height * buffer.stride * sizeof(float));
 

@@ -33,10 +33,11 @@ namespace mud
     struct Cylinder;
     struct Capsule;
     struct Cube;
+	struct Tetraedr;
     struct Sphere;
     struct SphereRing;
     struct Spheroid;
-	struct Icosahedron;
+	struct Icosaedr;
     struct Aabb;
 	class Curve2;
 	class Curve3;

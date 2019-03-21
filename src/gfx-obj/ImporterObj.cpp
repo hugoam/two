@@ -4,8 +4,6 @@
 
 #include <infra/Cpp20.h>
 
-#include <bgfx/bgfx.h>
-
 #ifdef MUD_MODULES
 module mud.gfx.obj;
 #else
@@ -20,7 +18,6 @@ module mud.gfx.obj;
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>
 #include <gfx/Prefab.h>
-#include <gfx/Draw.h>
 #include <gfx/Node3.h>
 #include <gfx/Texture.h>
 #include <gfx/Asset.h>
@@ -88,7 +85,7 @@ namespace mud
 		{
 			string tokens[5];
 			line = replace(line, "\t", "");
-			split(line.c_str(), " ", tokens);
+			split(line, " ", tokens);
 
 			const string& command = tokens[0];
 
@@ -114,7 +111,7 @@ namespace mud
 			{
 				// @todo replace backslashes with slashes ?
 				if(gfx.locate_file("textures/" + path))
-					return gfx.textures().file(path.c_str());
+					return gfx.textures().file(path);
 				else
 					return nullptr;
 			};
@@ -122,7 +119,7 @@ namespace mud
 			if(command == "newmtl")
 			{
 				string name = tokens[1];
-				current = &gfx.fetch_material(name.c_str(), "pbr/pbr");
+				current = &gfx.fetch_material(name, "pbr/pbr");
 				material_map[name] = current;
 			}
 			else if(command == "Ka")
@@ -217,6 +214,8 @@ namespace mud
 			// "map_Pm" PBR: metallic texture
 			// "map_Ps" PBR: sheen texture
 			// "norm"   PBR: normal map texture
+
+			return true;
 		});
 	}
 
@@ -261,7 +260,7 @@ namespace mud
 				if(m_shape.vertex_count() == 0 || m_skip)
 					return;
 
-				Model& model = m_import.m_gfx.models().create(m_name.c_str());
+				Model& model = m_import.m_gfx.models().create(m_name);
 				Mesh& mesh = model.add_mesh(m_name, true);
 
 				m_shape.bake(!m_normals, m_generate_tangents && m_uvs);
@@ -319,12 +318,8 @@ namespace mud
 		static string tokens[5];
 		static string faceids[3];
 
-		read_text_file(filename, [&](const string& in)
+		read_text_file(filename, [&](const string& line)
 		{
-			string line = in;
-			if(line.back() == '\r')
-				line.pop_back();
-
 			for(size_t i = 0; i < 5; ++i)
 				tokens[i].clear();
 
@@ -340,12 +335,12 @@ namespace mud
 			if(command == "o")
 			{
 				const string& name = tokens[1];
-				scene.m_name = name.c_str();
+				scene.m_name = name;
 			}
 			else if(command == "g")
 			{
 				const string& name = tokens[1];
-				mesh_writer->m_name = name.c_str();
+				mesh_writer->m_name = name;
 				if(config.filter_element(name))
 					mesh_writer->m_skip = true;
 			}
@@ -407,6 +402,8 @@ namespace mud
 				const string& lib_path = tokens[1];
 				import_material_library(m_gfx, lib_path, g.materials);
 			}
+
+			return true;
 		});
 
 		printf("INFO: obj - imported %i vertices in %.2f seconds\n", int(g.vertices.size()), clock.step());

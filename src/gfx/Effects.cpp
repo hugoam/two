@@ -35,6 +35,7 @@ namespace mud
 
 	void pass_effects(GfxSystem& gfx, Render& render)
 	{
+		UNUSED(gfx); UNUSED(render);
 		// submit ssao
 		// submit ssr
 		// submit sss

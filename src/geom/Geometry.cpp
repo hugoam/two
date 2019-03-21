@@ -85,25 +85,44 @@ namespace mud
 		return (unsigned short)(s | h);
 	}
 
-	void MeshAdapter::rewind() { m_cursor = m_start; m_vertex = 0; m_offset = 0; m_index = m_indices.m_pointer; }
+	MeshAdapter::MeshAdapter(uint32_t vertex_count, MeshPacker& geom)
+		: m_vertex_format(geom.vertex_format()), m_index32(true)
+		, m_vertex_stride(vertex_size(geom.vertex_format()))
+		, m_vertex_count(vertex_count)
+	{
+		uint32_t vertex_format = geom.vertex_format();
+
+		m_start.m_position.init(vertex_format, VertexAttribute::Position, geom.m_positions.data());
+		m_start.m_normal.init(vertex_format, VertexAttribute::Normal, geom.m_normals.data());
+		m_start.m_colour.init(vertex_format, VertexAttribute::Colour, geom.m_ucolours.data());
+		m_start.m_tangent.init(vertex_format, VertexAttribute::Tangent, geom.m_tangents.data());
+		m_start.m_uv0.init(vertex_format, VertexAttribute::TexCoord0, geom.m_uv0s.data());
+		m_start.m_uv1.init(vertex_format, VertexAttribute::TexCoord1, geom.m_uv1s.data());
+
+		m_start.m_index32.init(geom.m_indices.data());
+
+		m_cursor = m_start;
+	}
+
+	void MeshAdapter::rewind() { m_cursor = m_start; m_vertex = 0; m_offset = 0; }
 	void MeshAdapter::next() { m_offset = m_vertex; }
 
-	MeshAdapter& MeshAdapter::position(const vec3& p) { m_aabb.add(p); *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
-	MeshAdapter& MeshAdapter::position4(const vec4& p) { m_aabb.add(vec3(p)); *m_cursor.m_position4 = p; next(m_cursor.m_position4); ++m_vertex; return *this; }
-	MeshAdapter& MeshAdapter::normal(const vec3& n) { if(m_cursor.m_normal) { *m_cursor.m_normal = n; next(m_cursor.m_normal); } return *this; }
-	MeshAdapter& MeshAdapter::colour(const Colour& c) { if(m_cursor.m_colour) { *m_cursor.m_colour = to_abgr(c); next(m_cursor.m_colour); } return *this; }
-	MeshAdapter& MeshAdapter::tangent(const vec4& t) { if(m_cursor.m_tangent) { *m_cursor.m_tangent = t; next(m_cursor.m_tangent); } return *this; }
-	MeshAdapter& MeshAdapter::bitangent(const vec3& b) { if(m_cursor.m_bitangent) { *m_cursor.m_bitangent = b; next(m_cursor.m_bitangent); } return *this; }
-	MeshAdapter& MeshAdapter::uv0(const vec2& uv) { if(m_cursor.m_uv0) { m_uv0_rect.add(uv); *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
-	MeshAdapter& MeshAdapter::uv1(const vec2& uv) { if(m_cursor.m_uv1) { m_uv1_rect.add(uv); *m_cursor.m_uv1 = uv; next(m_cursor.m_uv1); } return *this; }
-	MeshAdapter& MeshAdapter::joints(const uint32_t& j) { if(m_cursor.m_joints) { *m_cursor.m_joints = j; next(m_cursor.m_joints); } return *this; }
-	MeshAdapter& MeshAdapter::weights(const vec4& w) { if(m_cursor.m_weights) { *m_cursor.m_weights = w; next(m_cursor.m_weights); } return *this; }
+	MeshAdapter& MeshAdapter::position(const vec3& p) { m_aabb.add(p); m_cursor.m_position.write(p); ++m_vertex; return *this; }
+	MeshAdapter& MeshAdapter::position4(const vec4& p) { m_aabb.add(vec3(p)); m_cursor.m_position4.write(p); ++m_vertex; return *this; }
+	MeshAdapter& MeshAdapter::normal(const vec3& n) { if(m_cursor.m_normal) { m_cursor.m_normal.write(n); } return *this; }
+	MeshAdapter& MeshAdapter::colour(const Colour& c) { if(m_cursor.m_colour) { m_cursor.m_colour.write(to_abgr(c)); } return *this; }
+	MeshAdapter& MeshAdapter::tangent(const vec4& t) { if(m_cursor.m_tangent) { m_cursor.m_tangent.write(t); } return *this; }
+	MeshAdapter& MeshAdapter::bitangent(const vec3& b) { if(m_cursor.m_bitangent) { m_cursor.m_bitangent.write(b); } return *this; }
+	MeshAdapter& MeshAdapter::uv0(const vec2& uv) { if(m_cursor.m_uv0) { m_uv0_rect.add(uv); m_cursor.m_uv0.write(uv); } return *this; }
+	MeshAdapter& MeshAdapter::uv1(const vec2& uv) { if(m_cursor.m_uv1) { m_uv1_rect.add(uv); m_cursor.m_uv1.write(uv); } return *this; }
+	MeshAdapter& MeshAdapter::joints(const uint32_t& j) { if(m_cursor.m_joints) { m_cursor.m_joints.write(j); } return *this; }
+	MeshAdapter& MeshAdapter::weights(const vec4& w) { if(m_cursor.m_weights) { m_cursor.m_weights.write(w); } return *this; }
 
 	void MeshAdapter::copy(MeshAdapter& dest)
 	{
 		MeshAdapter reader = this->read();
 
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+		for(size_t i = 0; i < reader.m_vertex_count; ++i)
 		{
 			dest.position(reader.position());
 			dest.normal(reader.normal());
@@ -115,10 +134,10 @@ namespace mud
 			dest.weights(reader.weights());
 		}
 
-		for(size_t i = 0; i < reader.m_indices.size(); ++i)
+		for(size_t i = 0; i < reader.m_index_count; ++i)
 		{
 			uint32_t index = reader.m_index32 ? reader.index32() : reader.index();
-			assert(index <= dest.m_vertices.size());
+			assert(index <= dest.m_vertex_count);
 			dest.index(index);
 		}
 	}
@@ -127,7 +146,7 @@ namespace mud
 	{
 		MeshAdapter reader = this->read();
 
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+		for(size_t i = 0; i < reader.m_vertex_count; ++i)
 		{
 			dest.position(mulp(transform, reader.position()));
 			dest.normal(muln(transform, reader.normal()));
@@ -139,18 +158,18 @@ namespace mud
 			dest.weights(reader.weights());
 		}
 
-		for(size_t i = 0; i < reader.m_indices.size(); ++i)
+		for(size_t i = 0; i < reader.m_index_count; ++i)
 		{
 			uint32_t index = reader.m_index32 ? reader.index32() : reader.index();
-			assert(index <= dest.m_vertices.size());
+			assert(index <= dest.m_vertex_count);
 			dest.index(index);
 		}
 	}
 
 	MeshAdapter& MeshAdapter::qposition(const vec3& p)
 	{
-		*m_cursor.m_qposition = half3(quantize_half(p.x), quantize_half(p.y), quantize_half(p.z));
-		next(m_cursor.m_qposition);
+		half3 qposition = half3(quantize_half(p.x), quantize_half(p.y), quantize_half(p.z));
+		m_cursor.m_qposition.write(qposition);
 		++m_vertex;
 		return *this;
 	}
@@ -159,12 +178,13 @@ namespace mud
 	{
 		if(m_cursor.m_qnormal)
 		{
-			uint8_t* packed = (uint8_t*)m_cursor.m_qnormal;
+			uint32_t qnormal;
+			uint8_t* packed = (uint8_t*)&qnormal;
 			*packed++ = uint8_t(n.x * 127.0f + 128.0f); // quantize_snorm(n.x, 8)
 			*packed++ = uint8_t(n.y * 127.0f + 128.0f);
 			*packed++ = uint8_t(n.z * 127.0f + 128.0f);
 
-			next(m_cursor.m_qnormal);
+			m_cursor.m_qnormal.write(qnormal);
 		}
 		return *this;
 	}
@@ -173,13 +193,14 @@ namespace mud
 	{
 		if(m_cursor.m_qtangent)
 		{
-			uint8_t* packed = (uint8_t*)m_cursor.m_qtangent;
+			uint32_t qtangent;
+			uint8_t* packed = (uint8_t*)&qtangent;
 			*packed++ = uint8_t(t.x * 127.0f + 128.0f);  // quantize_snorm(t.x, 8)
 			*packed++ = uint8_t(t.y * 127.0f + 128.0f);
 			*packed++ = uint8_t(t.z * 127.0f + 128.0f);
 			*packed++ = uint8_t(t.w * 127.0f + 128.0f);
 
-			next(m_cursor.m_qtangent);
+			m_cursor.m_qtangent.write(qtangent);
 		}
 		return *this;
 	}
@@ -189,8 +210,8 @@ namespace mud
 		if(m_cursor.m_quv0)
 		{
 			m_uv0_rect.add(uv);
-			*m_cursor.m_quv0 = half2(quantize_half(uv.x), quantize_half(uv.y));
-			next(m_cursor.m_quv0);
+			half2 quv = half2(quantize_half(uv.x), quantize_half(uv.y));
+			m_cursor.m_quv0.write(quv);
 		}
 		return *this;
 	}
@@ -200,8 +221,8 @@ namespace mud
 		if(m_cursor.m_quv1)
 		{
 			m_uv1_rect.add(uv);
-			*m_cursor.m_quv1 = half2(quantize_half(uv.x), quantize_half(uv.y));
-			next(m_cursor.m_quv1);
+			half2 quv = half2(quantize_half(uv.x), quantize_half(uv.y));
+			m_cursor.m_quv1.write(quv);
 		}
 		return *this;
 	}
@@ -239,13 +260,24 @@ namespace mud
 
 	void MeshPacker::bake(bool normals, bool tangents)
 	{
-		UNUSED(normals);
+		if(normals && m_normals.empty()) this->gen_normals();
+		if(tangents && m_tangents.empty()) this->gen_tangents();
+	}
 
-		//if(normals)
-		//	this->generate_normals();
+	void MeshPacker::resize(uint32_t vertex_count, uint32_t index_count, uint32_t vertex_format)
+	{
+		m_positions.resize(vertex_count);
+		if((vertex_format & VertexAttribute::Normal)    != 0) m_normals.resize(vertex_count);
+		//if((vertex_format & VertexAttribute::Colour)    != 0) m_colours.resize(vertex_count);
+		// for now this is used exclusively for packing using MeshAdapter, so this doesn't break... yet
+		if((vertex_format & VertexAttribute::Colour)    != 0) m_ucolours.resize(vertex_count);
+		if((vertex_format & VertexAttribute::Tangent)   != 0) m_tangents.resize(vertex_count);
+		if((vertex_format & VertexAttribute::TexCoord0) != 0) m_uv0s.resize(vertex_count);
+		if((vertex_format & VertexAttribute::TexCoord1) != 0) m_uv1s.resize(vertex_count);
+		if((vertex_format & VertexAttribute::Joints)    != 0) m_bones.resize(vertex_count);
+		if((vertex_format & VertexAttribute::Weights)   != 0) m_weights.resize(vertex_count);
 
-		if(tangents)
-			this->generate_tangents();
+		m_indices.resize(index_count);
 	}
 
 	void MeshPacker::clear()
@@ -294,7 +326,7 @@ namespace mud
 	{
 		MeshAdapter reader = source.read();
 
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+		for(size_t i = 0; i < reader.m_vertex_count; ++i)
 		{
 			m_positions.push_back(mulp(transform, reader.position()));
 			if((reader.m_vertex_format & VertexAttribute::Normal) != 0)
@@ -311,13 +343,63 @@ namespace mud
 			//packer.m_weights.push_back(source.weights());
 		}
 
-		for(size_t i = 0; i < reader.m_indices.size(); ++i)
+		for(size_t i = 0; i < reader.m_index_count; ++i)
 		{
 			m_indices.push_back(reader.m_index32 ? reader.index32() : reader.index());
 		}
 	}
 
-	void MeshPacker::generate_normals()
+	void MeshPacker::gen_flat_normals()
+	{
+		const vector<vec3>& positions = m_positions;
+
+		for(size_t i = 0; i < m_indices.size(); i += 3)
+		{
+			const uint32_t a = m_indices[i+0];
+			const uint32_t b = m_indices[i+1];
+			const uint32_t c = m_indices[i+2];
+
+			const vec3 cb = positions[c] - positions[b];
+			const vec3 ab = positions[a] - positions[b];
+			const vec3 normal = normalize(cross(cb, ab));
+
+			m_normals[a] = m_normals[b] = m_normals[c] = normal;
+		}
+	}
+
+	void MeshPacker::gen_normals(bool area_weighted)
+	{
+		vector<vec3> normals = vector<vec3>(m_positions.size(), vec3(0.f));
+
+		// vertex normals weighted by triangle areas
+		// http://www.iquilezles.org/www/articles/normals/normals.htm
+
+		const vector<vec3>& positions = m_positions;
+
+		for(size_t i = 0; i < m_indices.size(); i += 3)
+		{
+			const uint32_t a = m_indices[i+0];
+			const uint32_t b = m_indices[i+1];
+			const uint32_t c = m_indices[i+2];
+
+			const vec3 cb = positions[c] - positions[b];
+			const vec3 ab = positions[a] - positions[b];
+			const vec3 normal = area_weighted
+				? cross(cb, ab)
+				: normalize(cross(cb, ab));
+
+			normals[a] += normal;
+			normals[b] += normal;
+			normals[c] += normal;
+		}
+		
+		for(vec3& n : normals)
+			n = normalize(n);
+
+		m_normals = normals;
+	}
+
+	void MeshPacker::smooth_normals()
 	{
 #if 0
 		map<vec3, vec3> smooth_normals;
@@ -415,7 +497,7 @@ namespace mud
 														  : face * 3 + vert;
 	}
 
-	void MeshPacker::generate_tangents()
+	void MeshPacker::gen_tangents()
 	{
 		using Context = SMikkTSpaceContext;
 

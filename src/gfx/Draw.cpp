@@ -33,21 +33,19 @@ module mud.gfx;
 
 namespace mud
 {
-	void shapes_size(span<const ProcShape> shapes, DrawMode draw_mode, ShapeSize& size, size_t& count)
+	ShapeSize shapes_size(span<ProcShape> shapes, DrawMode draw_mode)
 	{
+		ShapeSize size = { 0U, 0U };
+
 		for(const ProcShape& shape : shapes)
 			if(shape.m_draw_mode == draw_mode)
 			{
-				size.vec += draw_mode == PLAIN ? symbol_triangle_size(shape).vec
-											   : symbol_line_size(shape).vec;
-				count++;
+				size.vec += draw_mode == PLAIN
+					? symbol_triangle_size(shape).vec
+					: symbol_line_size(shape).vec;
 			}
-	}
 
-	void shapes_size(span<const ProcShape> shapes, span<ShapeSize> size, size_t& count)
-	{
-		shapes_size(shapes, PLAIN, size[PLAIN], count);
-		shapes_size(shapes, OUTLINE, size[OUTLINE], count);
+		return size;
 	}
 
 	ImmediateDraw::ImmediateDraw(Material& material)
@@ -88,19 +86,15 @@ namespace mud
 
 	void ImmediateDraw::draw(const mat4& transform, span<ProcShape> shapes)
 	{
-		ShapeSize size[2] = { { 0, 0 }, { 0, 0 } };
-		size_t shape_count = 0;
-
-		shapes_size(shapes, { size, 2 }, shape_count);
-
-		if(size[PLAIN].vertex_count)
-			this->draw(transform, shapes, size[PLAIN], PLAIN);
-		if(size[OUTLINE].vertex_count)
-			this->draw(transform, shapes, size[OUTLINE], OUTLINE);
+		this->draw(transform, shapes, PLAIN);
+		this->draw(transform, shapes, OUTLINE);
 	}
 
-	void ImmediateDraw::draw(const mat4& transform, span<ProcShape> shapes, ShapeSize size, DrawMode draw_mode)
+	void ImmediateDraw::draw(const mat4& transform, span<ProcShape> shapes, DrawMode draw_mode)
 	{
+		ShapeSize size = shapes_size(shapes, draw_mode);
+		if(size.vertex_count == 0) return;
+
 		Batch* batch = this->batch(draw_mode, size.vertex_count);
 		if(batch)
 			this->draw(*batch, transform, shapes, size, draw_mode);
@@ -244,60 +238,46 @@ namespace mud
 		{
 			//printf("INFO: created indexed Shape %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
 			string name = "Shape:" + string(shape.m_type.m_name);
-			shapes[shape_mem] = draw_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode }, true);
+			shapes[shape_mem] = gen_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode }, true);
 		}
 
 		return *shapes[shape_mem];
 	}
 
-	object<Model> draw_model(cstring id, const ProcShape& shape, bool readback)
+	object<Model> gen_model(cstring id, const ProcShape& shape, bool readback)
 	{
-		return draw_model(id, vector<ProcShape>{ shape }, readback);
+		return gen_model(id, vector<ProcShape>{ shape }, readback);
 	}
 
-	object<Model> draw_model(cstring id, span<ProcShape> shapes, bool readback)
+	object<Model> gen_model(cstring id, span<ProcShape> shapes, bool readback)
 	{
 		object<Model> model = oconstruct<Model>(id);
-		draw_model(shapes, *model, readback);
+		gen_model(shapes, *model, readback);
 		return model;
 	}
 
-	void draw_model(const ProcShape& shape, Model& model, bool readback, Material* material)
+	void gen_model(const ProcShape& shape, Model& model, bool readback, Material* material)
 	{
-		draw_model(span<ProcShape>{ shape }, model, readback, material);
+		gen_model(span<ProcShape>{ shape }, model, readback, material);
 	}
 
-	void draw_model(span<ProcShape> shapes, Model& model, bool readback, Material* material)
+	void gen_model(span<ProcShape> shapes, Model& model, bool readback, Material* material)
 	{
-		ShapeSize size[2] = { { 0, 0 }, { 0, 0 } };
-		size_t shape_count = 0;
-
-		shapes_size(shapes, { size, 2 }, shape_count);
-
-		if(size[PLAIN].vertex_count)
-			draw_mesh(shapes, model, size[PLAIN], PLAIN, readback, material);
-		if(size[OUTLINE].vertex_count)
-			draw_mesh(shapes, model, size[OUTLINE], OUTLINE, readback, material);
-
+		gen_mesh(shapes, model, PLAIN, readback, material);
+		gen_mesh(shapes, model, OUTLINE, readback, material);
 		model.prepare();
 	}
 
-	void draw_mesh(const ProcShape& shape, Model& model, DrawMode draw_mode, bool readback, Material* material)
+	void gen_mesh(const ProcShape& shape, Model& model, DrawMode draw_mode, bool readback, Material* material)
 	{
-		draw_mesh(span<ProcShape>{ shape }, model, draw_mode, readback, material);
+		gen_mesh(span<ProcShape>{ shape }, model, draw_mode, readback, material);
 	}
 
-	void draw_mesh(span<ProcShape> shapes, Model& model, DrawMode draw_mode, bool readback, Material* material)
+	void gen_mesh(span<ProcShape> shapes, Model& model, DrawMode draw_mode, bool readback, Material* material)
 	{
-		ShapeSize size = { 0, 0 };
-		size_t shape_count = 0;
+		ShapeSize size = shapes_size(shapes, draw_mode);
+		if(size.vertex_count == 0) return;
 
-		shapes_size(shapes, draw_mode, size, shape_count);
-		draw_mesh(shapes, model, size, draw_mode, readback, material);
-	}
-
-	void draw_mesh(span<ProcShape> shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback, Material* material)
-	{
 		Mesh& mesh = model.add_mesh(model.m_name + to_string(uint(draw_mode)), readback);
 		mesh.m_material = material;
 
@@ -319,6 +299,29 @@ namespace mud
 		mesh.upload(gpu_mesh);
 
 		model.add_item(mesh, bxidentity());
+	}
+
+	void gen_geom(const ProcShape& shape, MeshPacker& geom, DrawMode draw_mode)
+	{
+		gen_geom(span<ProcShape>{ shape }, geom, draw_mode);
+	}
+
+	void gen_geom(span<ProcShape> shapes, MeshPacker& geom, DrawMode draw_mode)
+	{
+		ShapeSize size = shapes_size(shapes, draw_mode);
+		if(size.vertex_count == 0) return;
+
+		geom.resize(size.vertex_count, size.index_count, ShapeVertex::vertex_format);
+
+		MeshAdapter writer = MeshAdapter(size.vertex_count, geom);
+		for(const ProcShape& shape : shapes)
+			if(shape.m_draw_mode == draw_mode)
+			{
+				draw_mode == OUTLINE
+					? symbol_draw_lines(shape, writer)
+					: symbol_draw_triangles(shape, writer);
+				writer.next();
+			}
 	}
 
 	Lines::Lines()

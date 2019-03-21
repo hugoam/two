@@ -9,25 +9,26 @@
 
 using namespace mud;
 
-void xx_materials_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	static ImporterOBJ importer_obj = { app.m_gfx };
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
-	static Texture& hdrenv = *app.m_gfx.textures().file("pisaHDR.cube");
-	//static Texture& prefiltered = // automatic
+	static Texture& hdrenv = *app.m_gfx.textures().file("cube/pisaHDR.hdr.cube");
+	scene.m_env.m_radiance.m_texture = &hdrenv;
+	scene.m_env.m_background.m_texture = &hdrenv;
+	scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
 
-	//material.envMap = hdrCubeRenderTarget.texture;
-	//material.needsUpdate = true; // is this needed?
-
-	//renderer.toneMapping = THREE.ReinhardToneMapping;
-	//renderer.toneMappingExposure = 3;
+	Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
+	tonemap.m_enabled = true;
+	tonemap.m_mode = TonemapMode::Reinhardt;
+	tonemap.m_exposure = 3.f;
 
 	if(init)
 	{
@@ -41,11 +42,11 @@ void xx_materials_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 
 		//Material& material = new THREE.MeshStandardMaterial();
 
-		Texture& albedo = *app.m_gfx.textures().file("Cerberus_A.jpg");
-		Texture& metrough = *app.m_gfx.textures().file("Cerberus_RM.jpg");
-		Texture& normal = *app.m_gfx.textures().file("Cerberus_N.jpg");
+		Texture& albedo = *app.m_gfx.textures().file("cerberus/Cerberus_A.jpg");
+		Texture& metrough = *app.m_gfx.textures().file("cerberus/Cerberus_RM.jpg");
+		Texture& normal = *app.m_gfx.textures().file("cerberus/Cerberus_N.jpg");
 
-		Model& model = *app.m_gfx.models().file("Cerberus.obj");
+		Model& model = *app.m_gfx.models().file("Cerberus");
 
 		//var material = new THREE.MeshPhongMaterial({ specular: 0x101010, shininess : 100, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.1, side : THREE.DoubleSide });
 		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
@@ -58,8 +59,9 @@ void xx_materials_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 			m.m_pbr.m_normal = &normal;
 		});
 
-		vec3 angles = vec3(-0.45f, -c_pi2, 0.f);
-		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), quat(angles)));
+		const vec3 position = vec3(-0.45f, 0.f, 0.f);
+		const vec3 angles = vec3(0.f, -c_pi2, 0.f);
+		Node3& n = gfx::nodes(scene).add(Node3(position, quat(angles)));
 		gfx::items(scene).add(Item(n, model, 0U, &material));
 	}
 }

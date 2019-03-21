@@ -213,9 +213,9 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 }
 
 #ifdef _13_LIVE_UI_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window)
 {
-	shell_context(app.m_ui->begin(), app.m_editor);
+	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_13_live_ui(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 

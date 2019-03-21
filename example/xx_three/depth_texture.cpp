@@ -73,11 +73,13 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controller(viewer);
+	OrbitControls& controls = ui::orbit_controls(viewer);
+	//TrackballController& controls = ui::trackball_controller(viewer);
+	//controls.m_dynamicDampingFactor = 0.05f;
 
-	//controls.enableDamping = true;
-	//controls.dampingFactor = 0.25;
-	//controls.rotateSpeed = 0.35;
+	controls.enableDamping = true;
+	controls.dampingFactor = 0.1f;
+	controls.rotateSpeed = 0.35f;
 
 	Scene& scene = viewer.m_scene;
 

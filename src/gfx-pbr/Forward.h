@@ -33,7 +33,8 @@ namespace mud
     struct ForwardRenderer;
 	struct DeferredRenderer;
     class BlockRadiance;
-    struct ReflectionCubemap;
+    class CubeTarget;
+	class CubeCamera;
     class ReflectionAtlas;
     class ReflectionProbe;
 	class PassGeometry;

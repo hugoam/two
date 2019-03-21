@@ -15,7 +15,7 @@ void xx_interact_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	float radius = 100; float theta = 0;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 	Camera& camera = viewer.m_camera;

@@ -33,7 +33,7 @@ void xx_interact_drag(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		//var light = new THREE.SpotLight(0xffffff, 1.5);
 		//light.position.set(0, 500, 2000);
-		//light.angle = PI / 9;
+		//light.angle = c_pi / 9;
 		//
 		//light.castShadow = true;
 		//light.shadow.camera.near = 1000;

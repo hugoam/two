@@ -43,6 +43,7 @@ namespace mud
 		attr_ vector<vec3> m_positions;		// Position
 		attr_ vector<vec3> m_normals;		// Normal
 		attr_ vector<Colour> m_colours;		// Colour
+		attr_ vector<uint32_t> m_ucolours;	// Colour
 		attr_ vector<vec4> m_tangents;		// Tangent
 		attr_ vector<vec3> m_bitangents;	// Bitangent
 		attr_ vector<vec2> m_uv0s;			// Texture Coordinates 0
@@ -66,6 +67,7 @@ namespace mud
 
 		attr_ bool m_quantize = false;
 
+		meth_ void resize(uint32_t vertex_count, uint32_t index_count, uint32_t vertex_format);
 		meth_ void clear();
 		meth_ void pack(MeshAdapter& writer) const;
 		meth_ void xpack(MeshAdapter& writer, const mat4& transform) const;
@@ -73,8 +75,11 @@ namespace mud
 
 		void bake(bool normals, bool tangents);
 
-		meth_ void generate_normals();
-		meth_ void generate_tangents();
+		meth_ void gen_normals(bool area_weighted = true);
+		meth_ void gen_flat_normals();
+		meth_ void gen_tangents();
+
+		meth_ void smooth_normals();
 	};
 
 	export_ MUD_GEOM_EXPORT void generate_mikkt_tangents(span<ShapeIndex> indices, span<ShapeVertex> vertices);

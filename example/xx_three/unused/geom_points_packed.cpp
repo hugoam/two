@@ -14,7 +14,7 @@ void xx_geom_points_packed(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 	constexpr size_t particles = 500000;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 

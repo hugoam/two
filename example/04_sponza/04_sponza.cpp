@@ -105,7 +105,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 #endif
 
 #if CLUSTERED
-	viewer.m_camera.set_clustered(app.m_gfx, viewer.m_viewport);
+	viewer.m_viewport.set_clustered(app.m_gfx);
 #endif
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
@@ -149,9 +149,9 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 }
 
 #ifdef _04_SPONZA_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window)
 {
-	shell_context(app.m_ui->begin(), app.m_editor);
+	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_04_sponza(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 

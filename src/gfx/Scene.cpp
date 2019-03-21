@@ -80,7 +80,7 @@ namespace mud
 		mat4 identity = bxidentity();
 		bool debug = render.m_target != nullptr;
 		if(debug)
-			for(Item* item : render.m_shot->m_items)
+			for(Item* item : render.m_shot.m_items)
 			{
 				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
 				Cube cube = Cube(item->m_aabb);
@@ -165,14 +165,13 @@ namespace mud
 
 	void gather_render(Scene& scene, Render& render)
 	{
-		gather_items(scene, render.m_camera, render.m_shot->m_items);
-		gather_occluders(scene, render.m_camera, render.m_shot->m_occluders);
-		gather_lights(scene, render.m_shot->m_lights);
+		gather_items(scene, *render.m_camera, render.m_shot.m_items);
+		gather_occluders(scene, *render.m_camera, render.m_shot.m_occluders);
+		gather_lights(scene, render.m_shot.m_lights);
 
-		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, render.m_shot->m_items));
+		render.m_frustum = optimized_frustum(*render.m_camera, render.m_shot.m_items);
 
-		render.m_env = &scene.m_env;
-		render.m_shot->m_immediate = { scene.m_immediate.get() };
+		render.m_shot.m_immediate = { scene.m_immediate.get() };
 
 #if DEBUG_ITEMS
 		scene.debug_items(render);

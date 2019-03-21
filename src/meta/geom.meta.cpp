@@ -92,8 +92,8 @@ void mud_MeshPacker_clear(void* object, span<void*> args, void*& result) { UNUSE
 void mud_MeshPacker_pack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).pack(*static_cast<mud::MeshAdapter*>(args[0])); }
 void mud_MeshPacker_xpack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).xpack(*static_cast<mud::MeshAdapter*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
 void mud_MeshPacker_unpack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::MeshPacker*>(object)).unpack(*static_cast<mud::MeshAdapter*>(args[0]), *static_cast<mud::mat4*>(args[1])); }
-void mud_MeshPacker_generate_normals(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).generate_normals(); }
-void mud_MeshPacker_generate_tangents(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).generate_tangents(); }
+void mud_MeshPacker_gen_normals(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).gen_normals(); }
+void mud_MeshPacker_gen_tangents(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::MeshPacker*>(object)).gen_tangents(); }
 void mud_Plane__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Plane(  ); }
 void mud_Plane__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Plane((*static_cast<mud::Plane*>(other))); }
 void mud_Plane3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Plane3(  ); }
@@ -165,10 +165,10 @@ void mud_Grid2__copy_construct(void* ref, void* other) { new(stl::placeholder(),
 void mud_Grid3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Grid3(  ); }
 void mud_Grid3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Grid3( *static_cast<mud::uvec2*>(args[0]), *static_cast<stl::span<mud::vec3>*>(args[1]) ); }
 void mud_Grid3__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Grid3((*static_cast<mud::Grid3*>(other))); }
-void mud_Icosahedron__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Icosahedron(  ); }
-void mud_Icosahedron__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Icosahedron( *static_cast<float*>(args[0]) ); }
-void mud_Icosahedron__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Icosahedron( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]) ); }
-void mud_Icosahedron__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Icosahedron((*static_cast<mud::Icosahedron*>(other))); }
+void mud_Icosahedron__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Icosaedr(  ); }
+void mud_Icosahedron__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Icosaedr( *static_cast<float*>(args[0]) ); }
+void mud_Icosahedron__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Icosaedr( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]) ); }
+void mud_Icosahedron__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Icosaedr((*static_cast<mud::Icosaedr*>(other))); }
 void mud_Line__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Line(  ); }
 void mud_Line__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Line( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]) ); }
 void mud_Line__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Line((*static_cast<mud::Line*>(other))); }
@@ -475,8 +475,7 @@ namespace mud
 		static Member members[] = {
 			{ t, offsetof(mud::MeshAdapter, m_vertex_format), type<uint32_t>(), "vertex_format", &vertex_format_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MeshAdapter, m_index32), type<bool>(), "index32", &index32_default, Member::Value, nullptr },
-			{ t, offsetof(mud::MeshAdapter, m_vertex_stride), type<uint32_t>(), "vertex_stride", &vertex_stride_default, Member::Value, nullptr },
-			{ t, offsetof(mud::MeshAdapter, m_index_stride), type<uint32_t>(), "index_stride", &index_stride_default, Member::Value, nullptr }
+			{ t, offsetof(mud::MeshAdapter, m_vertex_stride), type<uint32_t>(), "vertex_stride", &vertex_stride_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -545,8 +544,8 @@ namespace mud
 			{ t, "pack", Address(), mud_MeshPacker_pack, { { "writer", type<mud::MeshAdapter>(),  } }, g_qvoid },
 			{ t, "xpack", Address(), mud_MeshPacker_xpack, { { "writer", type<mud::MeshAdapter>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
 			{ t, "unpack", Address(), mud_MeshPacker_unpack, { { "reader", type<mud::MeshAdapter>(),  }, { "transform", type<mud::mat4>(),  } }, g_qvoid },
-			{ t, "generate_normals", Address(), mud_MeshPacker_generate_normals, {}, g_qvoid },
-			{ t, "generate_tangents", Address(), mud_MeshPacker_generate_tangents, {}, g_qvoid }
+			{ t, "generate_normals", Address(), mud_MeshPacker_gen_normals, {}, g_qvoid },
+			{ t, "generate_tangents", Address(), mud_MeshPacker_gen_tangents, {}, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
@@ -1286,13 +1285,13 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
 	}
-	// mud::Icosahedron
+	// mud::Icosaedr
 	{
-		Type& t = type<mud::Icosahedron>();
-		static Meta meta = { t, &namspc({ "mud" }), "Icosahedron", sizeof(mud::Icosahedron), TypeClass::Struct };
+		Type& t = type<mud::Icosaedr>();
+		static Meta meta = { t, &namspc({ "mud" }), "Icosaedr", sizeof(mud::Icosaedr), TypeClass::Struct };
 		// bases
 		static Type* bases[] = { &type<mud::Shape>() };
-		static size_t bases_offsets[] = { base_offset<mud::Icosahedron, mud::Shape>() };
+		static size_t bases_offsets[] = { base_offset<mud::Icosaedr, mud::Shape>() };
 		// defaults
 		static float radius_default = 1.f;
 		// constructors
@@ -1307,7 +1306,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Icosahedron, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Icosaedr, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1588,8 +1587,8 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Torus__construct_0, {} },
-			{ t, mud_Torus__construct_1, { { "radius", type<float>(),  }, { "solid_radius", type<float>(),  }, { "axis", type<mud::Axis>(), Param::Default, &construct_1_axis_default } } },
-			{ t, mud_Torus__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  }, { "solid_radius", type<float>(),  }, { "axis", type<mud::Axis>(), Param::Default, &construct_2_axis_default } } }
+			{ t, mud_Torus__construct_1, { { "radius", type<float>(),  }, { "tube", type<float>(),  }, { "axis", type<mud::Axis>(), Param::Default, &construct_1_axis_default } } },
+			{ t, mud_Torus__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  }, { "tube", type<float>(),  }, { "axis", type<mud::Axis>(), Param::Default, &construct_2_axis_default } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -1618,8 +1617,8 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_TorusKnot__construct_0, {} },
-			{ t, mud_TorusKnot__construct_1, { { "radius", type<float>(),  }, { "solid_radius", type<float>(),  } } },
-			{ t, mud_TorusKnot__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  }, { "solid_radius", type<float>(),  } } }
+			{ t, mud_TorusKnot__construct_1, { { "radius", type<float>(),  }, { "tube", type<float>(),  } } },
+			{ t, mud_TorusKnot__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  }, { "tube", type<float>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -1711,7 +1710,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::Geometry>());
 		m.m_types.push_back(&type<mud::Grid2>());
 		m.m_types.push_back(&type<mud::Grid3>());
-		m.m_types.push_back(&type<mud::Icosahedron>());
+		m.m_types.push_back(&type<mud::Icosaedr>());
 		m.m_types.push_back(&type<mud::Line>());
 		m.m_types.push_back(&type<mud::Points>());
 		m.m_types.push_back(&type<mud::Poisson>());

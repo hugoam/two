@@ -44,40 +44,15 @@ module mud.gfx;
 #include <Tracy.hpp>
 
 //#define MUD_GFX_THREADED
+#define POLL_AT_END 0
 
 namespace mud
 {
-	GfxContext::GfxContext(GfxSystem& gfx, const string& name, uvec2 size, bool fullScreen, bool init)
-		: BgfxContext(gfx, name, size, fullScreen, false)
-		, m_gfx(gfx)
-		, m_target()
-	{
-		if(init)
-			gfx.init(*this);
-		m_target = oconstruct<RenderTarget>(size);
-	}
-
-	GfxContext::~GfxContext()
-	{}
-
-	void GfxContext::reset_fb(const uvec2& size)
-	{
-		bgfx::reset(uint16_t(size.x), uint16_t(size.y), BGFX_RESET_NONE);
-		if(size.x == 0 || size.y == 0)
-			m_target = nullptr;
-		else
-		{
-			if(!m_target || size != m_target->m_size)
-				m_target = oconstruct<RenderTarget>(size);
-		}
-		m_vg_handle = m_reset_vg(*this, *m_gfx.m_vg);
-	}
-
 	struct GfxSystem::Impl
 	{
 		vector<string> m_resource_paths;
 
-		vector<GfxContext*> m_contexts;
+		vector<GfxWindow*> m_contexts;
 		vector<Scene*> m_scenes;
 
 		bx::FileReader m_file_reader;
@@ -107,6 +82,33 @@ namespace mud
 		vector<bgfx::Encoder*> m_encoders;
 #endif
 	};
+
+	GfxWindow::GfxWindow(GfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main)
+		: BgfxContext(gfx, name, size, fullscreen, false)
+		, m_gfx(gfx)
+		, m_target()
+	{
+		if(!gfx.m_initialized)
+			gfx.init(*this);
+		m_target = oconstruct<RenderTarget>(size, main ? nullptr : m_native_handle);
+		gfx.m_impl->m_contexts.push_back(this);
+	}
+
+	GfxWindow::~GfxWindow()
+	{}
+
+	void GfxWindow::reset_fb(const uvec2& size)
+	{
+		bgfx::reset(uint16_t(size.x), uint16_t(size.y), BGFX_RESET_NONE);
+		if(size.x == 0 || size.y == 0)
+			m_target = nullptr;
+		else
+		{
+			if(!m_target || size != m_target->m_size)
+				m_target = oconstruct<RenderTarget>(size);
+		}
+		m_vg_handle = m_reset_vg(*this, *m_vg);
+	}
 
 	GfxSystem::GfxSystem(const string& resource_path)
 		: BgfxSystem(resource_path)
@@ -147,14 +149,7 @@ namespace mud
 		return m_impl->m_importers[format];
 	}
 
-	object<Context> GfxSystem::create_context(const string& name, uvec2 size, bool fullScreen)
-	{
-		object<GfxContext> context = oconstruct<GfxContext>(*this, name, size, fullScreen, !m_initialized);
-		m_impl->m_contexts.push_back(context.get());
-		return move(context);
-	}
-
-	void GfxSystem::init(GfxContext& context)
+	void GfxSystem::init(GfxWindow& context)
 	{
 		BgfxSystem::init(context);
 
@@ -237,7 +232,7 @@ namespace mud
 		return *m_impl->m_renderers[shading];
 	}
 
-	GfxContext& GfxSystem::context(size_t index)
+	GfxWindow& GfxSystem::context(size_t index)
 	{
 		return *m_impl->m_contexts[index];
 	}
@@ -247,7 +242,7 @@ namespace mud
 		return *this->context(0).m_target;
 	}
 
-	void GfxSystem::begin_frame()
+	bool GfxSystem::begin_frame()
 	{
 		m_render_frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 
@@ -265,6 +260,16 @@ namespace mud
 				block->begin_frame(m_render_frame);
 		}
 
+		bool pursue = true;
+#if !POLL_AT_END
+		{
+			ZoneScopedNC("gfx contexts", tracy::Color::Cyan);
+		
+			for(GfxWindow* context : m_impl->m_contexts)
+				pursue &= context->next_frame();
+		}
+#endif
+
 #ifdef MUD_GFX_THREADED
 		{
 			ZoneScopedNC("gfx begin", tracy::Color::Cyan);
@@ -276,11 +281,13 @@ namespace mud
 				m_encoders[i] = bgfx::begin(true);
 		}
 #endif
+
+		return pursue;
 	}
 
-	bool GfxSystem::next_frame()
+	void GfxSystem::render_contexts()
 	{
-		for(GfxContext* context : m_impl->m_contexts)
+		for(GfxWindow* context : m_impl->m_contexts)
 			for(Viewport* viewport : context->m_viewports)
 				if(viewport->m_active)
 				{
@@ -289,7 +296,10 @@ namespace mud
 					RenderFunc renderer = this->renderer(viewport->m_shading);
 					this->render(viewport->m_shading, renderer, *context->m_target, *viewport);
 				}
+	}
 
+	void GfxSystem::end_frame()
+	{
 #ifdef MUD_GFX_THREADED
 		{
 			ZoneScopedNC("gfx end", tracy::Color::Cyan);
@@ -299,20 +309,20 @@ namespace mud
 		}
 #endif
 
+#if POLL_AT_END
 		bool pursue = true;
 		{
 			ZoneScopedNC("gfx contexts", tracy::Color::Cyan);
-
-			for(GfxContext* context : m_impl->m_contexts)
+		
+			for(GfxWindow* context : m_impl->m_contexts)
 				pursue &= context->next_frame();
 		}
+#endif
 
 		{
 			ZoneScopedNC("gfx frame", tracy::Color::Cyan);
-			BgfxSystem::next_frame();
+			BgfxSystem::end_frame();
 		}
-
-		return pursue;
 	}
 
 	void GfxSystem::render(Shading shading, RenderFunc renderer, RenderTarget& target, Viewport& viewport)
@@ -460,19 +470,19 @@ namespace gfx
 
 		for(uint3 face : faces)
 		{
-			vec3 v0 = vec3(points[face[0]]);
-			vec3 v1 = vec3(points[face[1]]);
-			vec3 v2 = vec3(points[face[2]]);
+			const vec3 v0 = vec3(points[face[0]]);
+			const vec3 v1 = vec3(points[face[1]]);
+			const vec3 v2 = vec3(points[face[2]]);
 
-			vec3 normal = Plane(v0, v1, v2).m_normal;
+			const vec3 normal = Plane(v0, v1, v2).m_normal;
 
-			shape.m_positions.push_back(v0);
-			shape.m_positions.push_back(v1);
-			shape.m_positions.push_back(v2);
+			shape.position(v0);
+			shape.position(v1);
+			shape.position(v2);
 
-			shape.m_normals.push_back(normal);
-			shape.m_normals.push_back(normal);
-			shape.m_normals.push_back(normal);
+			shape.normal(normal);
+			shape.normal(normal);
+			shape.normal(normal);
 		}
 
 		Model& model = gfx.create_model_geo("suzanne", shape);

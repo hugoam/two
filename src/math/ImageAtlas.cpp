@@ -37,7 +37,7 @@ namespace mud
 
 	struct StbRectPack
 	{
-		StbRectPack(uvec2 size, size_t num_nodes)
+		StbRectPack(const uvec2& size, size_t num_nodes)
 			: m_nodes(num_nodes)
 		{
 			stbrp_init_target(&m_context, size.x, size.y, m_nodes.data(), int(num_nodes));
@@ -179,7 +179,7 @@ namespace mud
 		return m_sprites[0];
 	}
 
-	Sprite* SpriteAtlas::add_sprite(cstring name, uvec2 size, uvec2 frames)
+	Sprite* SpriteAtlas::add_sprite(cstring name, const uvec2& size, uvec2 frames)
 	{
 		if(m_sprites.size() >= m_rect_pack->m_nodes.size())
 			return nullptr;

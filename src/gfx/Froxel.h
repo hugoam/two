@@ -7,7 +7,6 @@
 #ifndef MUD_MODULES
 #include <stl/vector.h>
 #include <stl/span.h>
-#include <stl/bitset.h>
 #include <geom/Geom.h>
 #endif
 #include <gfx/Forward.h>
@@ -62,16 +61,6 @@ namespace mud
 	// clusters are not used, so we can store more.
 	static constexpr uint32_t CLUSTER_BUFFER_ENTRY_COUNT_MAX = 8192;
 
-	struct LightRecord
-	{
-#ifndef USE_STD_BITSET
-		using Lights = bitset<uint64_t, (CONFIG_MAX_LIGHT_COUNT + 63) / 64>;
-#else
-		using Lights = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
-#endif
-		Lights lights;
-	};
-
 	class MUD_GFX_EXPORT Froxelizer
 	{
 	public:
@@ -87,7 +76,7 @@ namespace mud
 
 		// send cluster data to GPU
 		void upload();
-		void submit(const Pass& render_pass) const;
+		void submit(const Pass& pass) const;
 		void submit(bgfx::Encoder& encoder) const;
 
 		void compute_clusters();

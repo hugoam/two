@@ -1,23 +1,26 @@
 //#include <mud/frame.h>
 #include <frame/Api.h>
+#include <srlz/Serial.h>
 #include <gfx-pbr/Api.h>
+#include <gfx-obj/Api.h>
 
 #include <xx_three/xx_three.h>
 
 #include <stl/vector.hpp>
 
+#include <cstdio>
+
 using namespace mud;
 
-void xx_refraction(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+void xx_refraction_mesh(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
+	static ImporterPLY ply_importer(app.m_gfx);
+
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
-
-	static Texture& refraction = *app.m_gfx.textures().file("Park3Med.jpg.cube");
-	//textureCube.mapping = THREE.CubeRefractionMapping;
 
 	Scene& scene = viewer.m_scene;
 
@@ -29,7 +32,10 @@ void xx_refraction(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 50.f; camera.m_near = 1.f; camera.m_far = 100000.f;
 		camera.m_eye.z = -4000.f;
 
+		Texture& refraction = *app.m_gfx.textures().file("cube/park.jpg.cube");
 		scene.m_env.m_radiance.m_texture = &refraction;
+		scene.m_env.m_background.m_texture = &refraction;
+		scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
 
 		//var ambient = new THREE.AmbientLight(0xffffff);
 
@@ -47,6 +53,9 @@ void xx_refraction(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			return app.m_gfx.materials().create(name, [&](Material& m) {
 				m.m_program = &pbr;
 				m.m_pbr.m_specular_mode = PbrSpecularMode::Phong;
+				m.m_pbr.m_albedo = rgb(0xffffff);
+				m.m_pbr.m_metallic = 1.f;
+				m.m_pbr.m_roughness = 0.f;
 				m.m_pbr.m_refraction = refraction;
 				//m.m_pbr.m_reflectivity = reflectivity;
 			});
@@ -56,9 +65,7 @@ void xx_refraction(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Material& m2 = phong_material("material1", rgb(0xccfffd), 0.985f);
 		Material& m1 = phong_material("material2", rgb(0xffffff), 0.98f);
 
-		//var loader = new THREE.PLYLoader();
-		Model& model = *app.m_gfx.models().file("Lucy100k.ply");
-		//geometry.computeVertexNormals();
+		Model& model = *app.m_gfx.models().file("Lucy100k"); // .ply
 
 		const float s = 1.5f;
 

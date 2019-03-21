@@ -63,9 +63,9 @@ void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar)
 }
 
 #ifdef _01_SHAPES_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window)
 {
-	shell_context(app.m_ui->begin(), app.m_editor);
+	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_01_shapes(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 

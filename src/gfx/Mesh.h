@@ -113,7 +113,7 @@ namespace mud
 		GpuMesh begin();
 		void update(const GpuMesh& gpu_mesh);
 
-		meth_ MeshAdapter& direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0, bool index32 = false);
+		meth_ MeshAdapter& direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0);
 
 		uint64_t submit(bgfx::Encoder& encoder) const;
 	};

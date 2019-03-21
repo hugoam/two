@@ -21,11 +21,9 @@ namespace mud
 		RenderSystem(const string& resource_path, bool manual_render);
 		virtual ~RenderSystem() {}
 
-		virtual void begin_frame() = 0;
-		virtual bool next_frame() = 0;
+		virtual bool begin_frame() = 0;
+		virtual void end_frame() = 0;
 
-		virtual object<Context> create_context(const string& name, uvec2 size, bool fullScreen) = 0;
-		
 		const string m_resource_path;
 		const bool m_manual_render;
 	};
@@ -33,7 +31,7 @@ namespace mud
 	export_ class refl_ MUD_CTX_EXPORT Context
 	{
 	public:
-		Context(RenderSystem& render_system, const string& title, uvec2 size, bool full_screen = false);
+		Context(RenderSystem& render_system, const string& title, const uvec2& size, bool full_screen = false);
 		virtual ~Context();
 
 		RenderSystem& m_render_system;

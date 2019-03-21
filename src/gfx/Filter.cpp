@@ -51,6 +51,19 @@ namespace mud
 		//this->set_uniforms(render);
 	}
 
+	void BlockFilter::source0(Texture& texture, ProgramVersion& program, int level, uint32_t flags)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::Source0), u_uniform.s_source_0, texture, flags);
+
+		const vec4 levels = { float(level), 0.f, 0.f, 0.f };
+		bgfx::setUniform(u_uniform.u_source_levels, &levels);
+
+		program.set_option(m_index, SOURCE_DEPTH, texture.m_is_depth);
+		program.set_option(m_index, UNPACK_DEPTH, texture.m_is_depth_packed);
+		program.set_option(m_index, SOURCE_0_ARRAY, texture.m_is_array);
+		program.set_option(m_index, SOURCE_0_CUBE, texture.m_is_cube);
+	}
+
 	void BlockFilter::source0(Texture& texture, uint32_t flags)
 	{
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), u_uniform.s_source_0, texture, flags);
@@ -227,8 +240,9 @@ namespace mud
 
 	void BlockCopy::quad(uint8_t view, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags)
 	{
-		m_filter.source0(texture, GFX_TEXTURE_CLAMP);
-		m_filter.quad(view, fbo, m_program.default_version(), quad, flags);
+		ProgramVersion program = { &m_program };
+		m_filter.source0(texture, program, GFX_TEXTURE_CLAMP);
+		m_filter.quad(view, fbo, program, quad, flags);
 	}
 
 	void BlockCopy::quad(uint8_t view, FrameBuffer& fbo, Texture& texture, const uvec4& rect, uint64_t flags)
@@ -245,23 +259,13 @@ namespace mud
 	void BlockCopy::debug_show_texture(Render& render, Texture& texture, const vec4& rect, int level)
 	{
 		assert(render.m_target);
-		const vec4 dest = rect == vec4(0.f) ? vec4(vec2(0.f), vec2(render.m_target->m_size) * 0.25f) : rect;;
+		const vec4 dest = rect == vec4(0.f) ? vec4(vec2(0.f), vec2(render.m_target->m_size) * 0.25f) : rect;
 		const RenderQuad target_quad = { Rect4, render.m_target->dest_quad(dest, true) };
 
-		ProgramVersion shader_version = { &m_program };
-		if(texture.m_is_depth)
-			shader_version.set_option(m_filter.m_index, FILTER_SOURCE_DEPTH);
-		if(texture.m_is_depth_packed)
-			shader_version.set_option(m_filter.m_index, FILTER_UNPACK_DEPTH);
-		if(texture.m_is_array)
-			shader_version.set_option(m_filter.m_index, FILTER_SOURCE_0_ARRAY);
-
-		m_filter.source0(texture, GFX_TEXTURE_CLAMP);
-
-		const vec4 levels = { float(level), 0.f, 0.f, 0.f };
-		bgfx::setUniform(m_filter.u_uniform.u_source_levels, &levels);
+		ProgramVersion program = { &m_program };
+		m_filter.source0(texture, program, level, GFX_TEXTURE_CLAMP);
 
 		const uint8_t view = render.debug_pass();
-		m_filter.quad(view, *render.m_target, m_program.version(shader_version), target_quad, 0);
+		m_filter.quad(view, render.m_target->m_backbuffer, program, target_quad, 0);
 	}
 }

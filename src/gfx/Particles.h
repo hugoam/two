@@ -169,7 +169,7 @@ namespace mud
 		bgfx::UniformHandle s_color;
 
 		Sprite* create_sprite(cstring name, cstring path, uvec2 frames = uvec2(0U));
-		Sprite* create_sprite(cstring name, uvec2 size, uvec2 frames, const void* data);
+		Sprite* create_sprite(cstring name, const uvec2& size, uvec2 frames, const void* data);
 		void remove_sprite(Sprite& image);
 	};
 

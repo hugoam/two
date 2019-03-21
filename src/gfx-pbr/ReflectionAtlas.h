@@ -9,6 +9,7 @@
 #include <math/Colour.h>
 #include <math/Vec.h>
 #include <gfx/Texture.h>
+#include <gfx/Camera.h>
 #include <gfx/RenderTarget.h>
 #endif
 #include <gfx-pbr/Forward.h>
@@ -17,17 +18,37 @@
 
 namespace mud
 {
-	struct ReflectionCubemap
+	export_ class refl_ MUD_GFX_PBR_EXPORT CubeTarget
 	{
-		ReflectionCubemap() {}
-		ReflectionCubemap(uint32_t size);
-		FrameBuffer m_fbo[6];
-		Texture m_cubemap;
-		Texture m_depth;
-		uint32_t m_size;
+	public:
+		constr_ CubeTarget() {}
+		meth_ void create(uint32_t size);
+		meth_ FrameBuffer& side(size_t i) { return m_fbos[i]; }
+		FrameBuffer m_fbos[6]; // @todo reflect array members
+		attr_ Texture m_cubemap;
+		attr_ Texture m_depth;
+		attr_ uint32_t m_size;
 	};
 
-	class ReflectionAtlas
+	export_ class refl_ MUD_GFX_PBR_EXPORT CubeCamera
+	{
+	public:
+		constr_ CubeCamera() {}
+		constr_ CubeCamera(Scene& scene, float near, float far, uint32_t size);
+
+		Camera m_cameras[6];
+		Viewport m_viewports[6];
+
+		attr_ CubeTarget m_cubemap;
+		attr_ uvec2 m_size;
+
+		meth_ Render render(GfxSystem& gfx, Render& render, SignedAxis axis);
+
+		void render(GfxSystem& gfx, Render& render, RenderFunc renderer);
+		void clear(GfxSystem& gfx, Render& render, Colour color, float depth, uint8_t stencil);
+	};
+
+	export_ class MUD_GFX_PBR_EXPORT ReflectionAtlas
 	{
 	public:
 		ReflectionAtlas(uint16_t size, uint16_t subdiv);

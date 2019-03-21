@@ -28,6 +28,8 @@ module mud.gfx.pbr;
 
 #include <cstring>
 
+#include <cstdio>
+
 namespace mud
 {
 	GpuState<Radiance> GpuState<Radiance>::me;
@@ -43,12 +45,9 @@ namespace mud
 		static cstring options[] = { "FOG", "DIRECT_LIGHT" };
 		m_shader_block->m_options = options;
 
-		static string max_lights = to_string(c_max_forward_lights);
-		static string max_shadows = to_string(c_max_shadows);
-
 		static ShaderDefine defines[] = {
-			{ "MAX_LIGHTS", max_lights.c_str()  },
-			{ "MAX_SHADOWS", max_shadows.c_str() },
+			{ "MAX_LIGHTS", to_string(c_max_forward_lights)  },
+			{ "MAX_SHADOWS", to_string(c_max_shadows) },
 		};
 		m_shader_block->m_defines = defines;
 	}
@@ -76,7 +75,7 @@ namespace mud
 		UNUSED(render);
 
 		m_direct_lights.clear();
-		for(Light* light : render.m_shot->m_lights)
+		for(Light* light : render.m_shot.m_lights)
 			if(light->m_type == LightType::Direct)
 			{
 				m_direct_lights.push_back(light);
@@ -84,7 +83,7 @@ namespace mud
 
 		m_direct_light = m_direct_lights.empty() ? nullptr : m_direct_lights[m_direct_light_index];
 
-		this->setup_lights(render, render.m_camera.m_transform);
+		this->setup_lights(render, render.m_camera->m_transform);
 		this->upload_lights(render);
 		this->upload_zones(render);
 
@@ -97,7 +96,7 @@ namespace mud
 			m_direct_light = m_direct_lights[m_direct_light_index++];
 
 		if(m_direct_light_index > 0)
-			render_pass.m_bgfx_state |= BGFX_STATE_BLEND_ADD;
+			pass.m_bgfx_state |= BGFX_STATE_BLEND_ADD;
 
 		request.num_passes = m_direct_lights.empty() ? 1 : m_direct_lights.size();
 #endif
@@ -105,7 +104,7 @@ namespace mud
 
 	void BlockLight::options(Render& render, ProgramVersion& shader_version) const
 	{
-		if(render.m_camera.m_clustered)
+		if(render.m_viewport->m_clustered)
 			shader_version.set_option(0, CLUSTERED, true);
 
 		if(render.m_env && render.m_env->m_fog.m_enabled)
@@ -117,52 +116,52 @@ namespace mud
 			shader_version.set_option(m_index, DIRECT_LIGHT, true);
 	}
 
-	void BlockLight::submit(Render& render, const Pass& render_pass) const
+	void BlockLight::submit(Render& render, const Pass& pass) const
 	{
 		UNUSED(render);
 #if !ZONES_LIGHTS_BUFFER
-		GpuState<ZoneLights>::me.upload(render_pass.m_index, m_zones[0]);
+		GpuState<ZoneLights>::me.upload(pass.m_index, m_zones[0]);
 #endif
 
 #if !ZONES_BUFFER
-		GpuState<Zone>::me.upload(render_pass, render.m_scene.m_env);
+		GpuState<Zone>::me.upload(pass, render.m_scene->m_env);
 #endif
 
 #if !LIGHTS_BUFFER
-		GpuState<GpuLight>::me.upload(render_pass, const_cast<vector<GpuLight>&>(m_gpu_lights), const_cast<vector<GpuLightShadow>&>(m_gpu_shadows));
+		GpuState<GpuLight>::me.upload(pass, const_cast<vector<GpuLight>&>(m_gpu_lights), const_cast<vector<GpuLightShadow>&>(m_gpu_shadows));
 #endif
 
 #if ZONES_BUFFER
 		uint32_t zones = uint32_t(TextureSampler::Zones);
-		bgfx::setViewUniform(render_pass.m_index, u_shot.s_zones, &zones);
+		bgfx::setViewUniform(pass.m_index, u_shot.s_zones, &zones);
 #endif
 
 #if LIGHTS_BUFFER
 		uint32_t lights = uint32_t(TextureSampler::Lights);
-		bgfx::setViewUniform(render_pass.m_index, u_shot.s_lights, &lights);
+		bgfx::setViewUniform(pass.m_index, u_shot.s_lights, &lights);
 #endif
 
-		if(render.m_camera.m_clustered)
-			render.m_camera.m_clusters->submit(render_pass);
+		if(render.m_viewport->m_clustered)
+			render.m_viewport->m_clusters->submit(pass);
 	}
 
-	void BlockLight::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	void BlockLight::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
 		UNUSED(element);
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		bgfx::Encoder& encoder = *pass.m_encoder;
 
-		if(render.m_camera.m_clustered)
-			render.m_camera.m_clusters->submit(encoder);
+		if(render.m_viewport->m_clustered)
+			render.m_viewport->m_clusters->submit(encoder);
 
-		this->commit_zones(render, render_pass); //render, render_pass, render.m_env);
-		this->commit_lights(render, render_pass);
+		this->commit_zones(render, pass); //render, pass, render.m_env);
+		this->commit_lights(render, pass);
 
 		// set to not render if not first direct pass, depending on cull
 	}
 
 	void BlockLight::setup_lights(Render& render, const mat4& view)
 	{
-		span<Light*> lights = render.m_shot->m_lights;
+		span<Light*> lights = render.m_shot.m_lights;
 		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
 
 		ZoneLights& zone = m_zones[0];
@@ -183,6 +182,10 @@ namespace mud
 			float attenuation = light.m_attenuation;
 			float spot_attenuation = light.m_spot_attenuation;
 			float spot_cutoff = cos(to_radians(light.m_spot_angle));
+
+			vec3 d = light.m_node->direction();
+			//printf("light dir %f, %f, %f\n", d.x, d.y, d.z);
+			//printf("light dir %f, %f, %f\n", direction.x, direction.y, direction.z);
 
 			m_gpu_lights.push_back({ position, range, energy, specular, direction, attenuation, spot_attenuation, spot_cutoff });
 
@@ -219,27 +222,27 @@ namespace mud
 	void BlockLight::upload_zones(Render& render)
 	{
 #if ZONES_BUFFER
-		span<Zone> zones = { &render.m_scene.m_env, 1 };
+		span<Zone> zones = { &render.m_scene->m_env, 1 };
 		GpuState<Zone>::me.pack(m_zones_texture, zones);
 #else
 		UNUSED(render);
 #endif
 	}
 
-	void BlockLight::commit_lights(Render& render, const Pass& render_pass) const
+	void BlockLight::commit_lights(Render& render, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render); UNUSED(pass);
 #if LIGHTS_BUFFER
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		bgfx::Encoder& encoder = *pass.m_encoder;
 		encoder.setTexture(uint8_t(TextureSampler::Lights), m_lights_texture);
 #endif
 	}
 
-	void BlockLight::commit_zones(Render& render, const Pass& render_pass) const
+	void BlockLight::commit_zones(Render& render, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render); UNUSED(pass);
 #if ZONES_BUFFER
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		bgfx::Encoder& encoder = *pass.m_encoder;
 		encoder.setTexture(uint8_t(TextureSampler::Zones), m_zones_texture);
 #endif
 		//GpuState<ZoneLights>::me.upload(encoder, m_zones[0]);
@@ -254,10 +257,10 @@ namespace mud
 #include <geom/Symbol.h>
 namespace mud
 {
-	void debug_draw_light_clusters(Gnode& parent, Camera& camera)
+	void debug_draw_light_clusters(Gnode& parent, Viewport& viewport, Camera& camera)
 	{
-		if(!camera.m_clustered) return;
-		Froxelizer& clusters = *camera.m_clusters;
+		if(!viewport.m_clustered) return;
+		Froxelizer& clusters = *viewport.m_clusters;
 
 		if(clusters.m_debug_clusters.empty())
 			clusters.compute_clusters();

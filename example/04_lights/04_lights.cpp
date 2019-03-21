@@ -119,7 +119,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 
 #if CLUSTERED
 	Camera& camera = viewer.m_camera;
-	camera.set_clustered(app.m_gfx, viewer.m_viewport);
+	viewer.m_viewport.set_clustered(app.m_gfx);
 #endif
 
 #if DEBUG_CLUSTERED
@@ -163,10 +163,10 @@ void ex_04_lights(Shell& app, Widget& parent)
 }
 
 #ifdef _04_LIGHTS_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window)
 {
 #if DOCKBAR
-	shell_context(app.m_ui->begin(), app.m_editor);
+	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_04_lights(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 #else
 	ex_04_lights(app, app.m_ui->begin());

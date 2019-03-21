@@ -65,7 +65,7 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 #if GLITCH
-	ui::orbit_controller(viewer);
+	ui::orbit_controls(viewer);
 #endif
 
 	Scene& scene = viewer.m_scene;

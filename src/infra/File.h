@@ -25,7 +25,7 @@ namespace mud
 	export_ MUD_INFRA_EXPORT vector<uint8_t> read_binary_file(const string& path);
 	export_ MUD_INFRA_EXPORT string read_text_file(const string& path);
 
-	export_ using LineVisitor = function<void(const string&)>;
+	export_ using LineVisitor = function<bool(const string&)>;
 	export_ MUD_INFRA_EXPORT void read_text_file(const string& path, LineVisitor visit_line);
 
 	export_ MUD_INFRA_EXPORT void write_file(const string& path, const string& content);
@@ -58,6 +58,17 @@ namespace mud
 	{
 		string directory = file_directory(path);
 		return path.substr(directory.size() + 1);
+	}
+
+	inline string file_label(const string& path)
+	{
+		string directory = file_directory(path);
+		return path.substr(directory.size() + 1, path.rfind(".") + 1);
+	}
+
+	inline string file_noext(const string& path)
+	{
+		return path.substr(0, path.rfind("."));
 	}
 
 	inline string file_extension(const string& path)

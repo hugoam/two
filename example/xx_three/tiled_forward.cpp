@@ -81,7 +81,7 @@ function resizeTiles() {
 // Generate the light bitmasks and store them in the tile texture
 function tileLights(renderer, scene, camera) {
 
-	if(!camera.projectionMatrix) return;
+	if(!camera.u_proj) return;
 
 	var d = State.tileTexture.value.image.data;
 	var ld = State.lightTexture.value.image.data;
@@ -169,7 +169,7 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controller(viewer);
+	ui::orbit_controls(viewer);
 
 	viewer.m_viewport.comp<Tonemap>().m_enabled = true;
 
@@ -188,7 +188,7 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 #if CLUSTERED
 	Camera& camera = viewer.m_camera;
-	camera.set_clustered(app.m_gfx, viewer.m_viewport);
+	viewer.m_viewport.set_clustered(app.m_gfx);
 #endif
 
 	float radius = 75.f;

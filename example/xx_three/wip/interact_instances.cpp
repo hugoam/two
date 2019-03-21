@@ -16,8 +16,8 @@ static string vertex_merged()
 		"\n"
 		"precision highp float;\n"
 		"\n"
-		"uniform mat4 modelViewMatrix;\n"
-		"uniform mat4 projectionMatrix;\n"
+		"uniform mat4 u_modelView;\n"
+		"uniform mat4 u_proj;\n"
 		"\n"
 		"attribute vec3 position;\n"
 		"#ifdef PICKING\n"
@@ -31,7 +31,7 @@ static string vertex_merged()
 		"\n"
 		"void main()	{\n"
 		"\n"
-		"	vec3 positionEye = (modelViewMatrix * vec4(position, 1.0)).xyz;\n"
+		"	vec3 positionEye = mul(u_modelView, vec4(a_position.xyz, 1.0)).xyz;\n"
 		"\n"
 		"	#ifdef PICKING\n"
 		"		vColor = pickingColor;\n"
@@ -40,7 +40,7 @@ static string vertex_merged()
 		"		vPosition = positionEye;\n"
 		"	#endif\n"
 		"\n"
-		"	gl_Position = projectionMatrix * vec4(positionEye, 1.0);\n"
+		"	gl_Position = u_proj * vec4(positionEye, 1.0);\n"
 		"\n"
 		"}\n";
 
@@ -89,8 +89,8 @@ static string vertex_instanced()
 		"\n"
 		"precision highp float;\n"
 		"\n"
-		"uniform mat4 modelViewMatrix;\n"
-		"uniform mat4 projectionMatrix;\n"
+		"uniform mat4 u_modelView;\n"
+		"uniform mat4 u_proj;\n"
 		"\n"
 		"attribute vec3 position;\n"
 		"attribute vec3 mcol0;\n"
@@ -116,7 +116,7 @@ static string vertex_instanced()
 		"		vec4(mcol3, 1)\n"
 		"	);\n"
 		"\n"
-		"	vec3 positionEye = (modelViewMatrix * matrix * vec4(position, 1.0)).xyz;\n"
+		"	vec3 positionEye = (mul(u_modelView, matrix * vec4(a_position.xyz, 1.0)).xyz;\n"
 		"\n"
 		"	#ifdef PICKING\n"
 		"		vColor = pickingColor;\n"
@@ -125,7 +125,7 @@ static string vertex_instanced()
 		"		vPosition = positionEye;\n"
 		"	#endif\n"
 		"\n"
-		"	gl_Position = projectionMatrix * vec4(positionEye, 1.0);\n"
+		"	gl_Position = u_proj * vec4(positionEye, 1.0);\n"
 		"\n"
 		"}\n";
 
@@ -174,8 +174,8 @@ static string vertex_material()
 		"\n"
 		"precision highp float;\n"
 		"\n"
-		"uniform mat4 modelViewMatrix;\n"
-		"uniform mat4 projectionMatrix;\n"
+		"uniform mat4 u_modelView;\n"
+		"uniform mat4 u_proj;\n"
 		"\n"
 		"attribute vec3 position;\n"
 		"\n"
@@ -185,13 +185,13 @@ static string vertex_material()
 		"\n"
 		"void main()	{\n"
 		"\n"
-		"	vec3 positionEye = (modelViewMatrix * vec4(position, 1.0)).xyz;\n"
+		"	vec3 positionEye = mul(u_modelView, vec4(a_position.xyz, 1.0)).xyz;\n"
 		"\n"
 		"	#ifndef PICKING\n"
 		"		vPosition = positionEye;\n"
 		"	#endif\n"
 		"\n"
-		"	gl_Position = projectionMatrix * vec4(positionEye, 1.0);\n"
+		"	gl_Position = u_proj * vec4(positionEye, 1.0);\n"
 		"\n"
 		"}\n";
 
@@ -454,9 +454,9 @@ void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 				position.y = random() * 40 - 20;
 				position.z = random() * 40 - 20;
 
-				rotation.x = random() * 2 * PI;
-				rotation.y = random() * 2 * PI;
-				rotation.z = random() * 2 * PI;
+				rotation.x = random() * 2 * c_pi;
+				rotation.y = random() * 2 * c_pi;
+				rotation.z = random() * 2 * c_pi;
 
 				quaternion.setFromEuler(rotation, false);
 
@@ -546,7 +546,7 @@ void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 
 			var matrix = new THREE.Matrix4();
 
-			for (var i = 0; i < instanceCount; i ++) {
+			for(var i = 0; i < instanceCount; i ++) {
 
 				var object = new THREE.Mesh(geo, material);
 				objectCount ++;
@@ -659,7 +659,7 @@ void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 
 			}
 
-			for (var i = 0; i < instanceCount; i ++) {
+			for(var i = 0; i < instanceCount; i ++) {
 
 				var object = new THREE.Mesh(geo, material);
 				objectCount ++;
@@ -732,7 +732,7 @@ void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 			var vertex = new THREE.Vector3();
 			var matrix = new THREE.Matrix4();
 
-			for (var i = 0, ul = instanceCount; i < ul; i ++) {
+			for(var i = 0, ul = instanceCount; i < ul; i ++) {
 
 				var offset = i * posLen;
 
@@ -743,7 +743,7 @@ void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 				pickingData[i + 1] = object;
 				vertices.set(pos.array, offset);
 
-				for (var k = 0, l = offset; k < posLen; k += 3, l += 3) {
+				for(var k = 0, l = offset; k < posLen; k += 3, l += 3) {
 
 					vertex.fromArray(vertices.array, l);
 					vertex.applyMatrix4(matrix);
@@ -764,10 +764,10 @@ void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 				return random();
 
 			};
-			for (var i = 0, ul = instanceCount; i < ul; i ++) {
+			for(var i = 0, ul = instanceCount; i < ul; i ++) {
 
 				var r = randCol(), g = randCol(), b = randCol();
-				for (var j = i * colCount, jl = (i + 1) * colCount; j < jl; j ++) {
+				for(var j = i * colCount, jl = (i + 1) * colCount; j < jl; j ++) {
 
 					colors.setXYZ(j, r, g, b);
 
@@ -780,10 +780,10 @@ void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 			var pickingColors = new THREE.BufferAttribute(
 				new Float32Array(instanceCount * colCount * 3), 3
 			);
-			for (var i = 0, ul = instanceCount; i < ul; i ++) {
+			for(var i = 0, ul = instanceCount; i < ul; i ++) {
 
 				col.setHex(i + 1);
-				for (var j = i * colCount, jl = (i + 1) * colCount; j < jl; j ++) {
+				for(var j = i * colCount, jl = (i + 1) * colCount; j < jl; j ++) {
 
 					pickingColors.setXYZ(j, col.r, col.g, col.b);
 
@@ -846,7 +846,7 @@ void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 			);
 			var matrix = new THREE.Matrix4();
 			var me = matrix.elements;
-			for (var i = 0, ul = mcol0.count; i < ul; i ++) {
+			for(var i = 0, ul = mcol0.count; i < ul; i ++) {
 
 				randomizeMatrix(matrix);
 				var object = new THREE.Object3D();
@@ -874,7 +874,7 @@ void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 			var colors = new THREE.InstancedBufferAttribute(
 				new Float32Array(instanceCount * 3), 3
 			);
-			for (var i = 0, ul = colors.count; i < ul; i ++) {
+			for(var i = 0, ul = colors.count; i < ul; i ++) {
 
 				colors.setXYZ(i, randCol(), randCol(), randCol());
 
@@ -885,7 +885,7 @@ void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 			var pickingColors = new THREE.InstancedBufferAttribute(
 				new Float32Array(instanceCount * 3), 3
 			);
-			for (var i = 0, ul = pickingColors.count; i < ul; i ++) {
+			for(var i = 0, ul = pickingColors.count; i < ul; i ++) {
 
 				col.setHex(i + 1);
 				pickingColors.setXYZ(i, col.r, col.g, col.b);

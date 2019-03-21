@@ -99,8 +99,8 @@ namespace mud
 	{
 	public:
 		constr_ Torus();
-		constr_ Torus(float radius, float solid_radius, Axis axis = Axis::Y);
-		constr_ Torus(const vec3& center, float radius, float solid_radius, Axis axis = Axis::Y);
+		constr_ Torus(float radius, float tube, Axis axis = Axis::Y);
+		constr_ Torus(const vec3& center, float radius, float tube, Axis axis = Axis::Y);
 
 		//bool operator==(const Torus& other) const;
 
@@ -115,11 +115,13 @@ namespace mud
 	{
 	public:
 		constr_ TorusKnot();
-		constr_ TorusKnot(float radius, float solid_radius);
-		constr_ TorusKnot(const vec3& center, float radius, float solid_radius);
+		constr_ TorusKnot(float radius, float tube, float p = 2.f, float q = 3.f);
+		constr_ TorusKnot(const vec3& center, float radius, float tube, float p = 2.f, float q = 3.f);
 
 		attr_ float m_radius = 1.f;
 		attr_ float m_tube = 1.f;
+		attr_ float m_p = 2.f;
+		attr_ float m_q = 3.f;
 
 		virtual object<Shape> clone() const;
 	};
@@ -217,6 +219,18 @@ namespace mud
 		virtual object<Shape> clone() const;
 	};
 
+	export_ struct refl_ MUD_GEOM_EXPORT Tetraedr : public Shape
+	{
+	public:
+		constr_ Tetraedr();
+		constr_ Tetraedr(float radius);
+		constr_ Tetraedr(const vec3& center, float radius);
+
+		attr_ float m_radius = 1.f;
+
+		virtual object<Shape> clone() const;
+	};
+
 	export_ struct refl_ MUD_GEOM_EXPORT Sphere final : public Shape
 	{
 	public:
@@ -258,12 +272,12 @@ namespace mud
 		virtual object<Shape> clone() const;
 	};
 
-	export_ struct refl_ MUD_GEOM_EXPORT Icosahedron final : public Shape
+	export_ struct refl_ MUD_GEOM_EXPORT Icosaedr final : public Shape
 	{
 	public:
-		constr_ Icosahedron();
-		constr_ Icosahedron(float radius);
-		constr_ Icosahedron(const vec3& center, float radius);
+		constr_ Icosaedr();
+		constr_ Icosaedr(float radius);
+		constr_ Icosaedr(const vec3& center, float radius);
 
 		attr_ float m_radius = 1.f;
 

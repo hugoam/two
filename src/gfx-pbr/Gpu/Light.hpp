@@ -26,10 +26,10 @@ namespace mud
 			u_csm_splits = bgfx::createUniform("u_csm_splits", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
 
-		void upload(const Pass& render_pass, span<mat4> matrices, const vec4& splits)
+		void upload(const Pass& pass, span<mat4> matrices, const vec4& splits)
 		{
-			bgfx::setViewUniform(render_pass.m_index, u_csm_matrix, matrices.m_pointer, 4U);
-			bgfx::setViewUniform(render_pass.m_index, u_csm_splits, &splits);
+			bgfx::setViewUniform(pass.m_index, u_csm_matrix, matrices.m_pointer, 4U);
+			bgfx::setViewUniform(pass.m_index, u_csm_splits, &splits);
 		}
 
 		bgfx::UniformHandle u_csm_matrix;
@@ -46,9 +46,9 @@ namespace mud
 			u_shadow_matrix = bgfx::createUniform("u_shadow_matrix", bgfx::UniformType::Mat4, c_max_shadows, bgfx::UniformFreq::View);
 		}
 
-		void upload(const Pass& render_pass, span<mat4> matrices)
+		void upload(const Pass& pass, span<mat4> matrices)
 		{
-			bgfx::setViewUniform(render_pass.m_index, u_shadow_matrix, matrices.m_pointer, uint16_t(matrices.size()));
+			bgfx::setViewUniform(pass.m_index, u_shadow_matrix, matrices.m_pointer, uint16_t(matrices.size()));
 		}
 
 		bgfx::UniformHandle u_shadow_matrix;
@@ -70,7 +70,7 @@ namespace mud
 			u_light_shadowmap_p0		= bgfx::createUniform("u_light_shadowmap_p0",		bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
 		}
 
-		void upload(const Pass& render_pass, span<GpuLight> lights, span<GpuLightShadow> shadows) const
+		void upload(const Pass& pass, span<GpuLight> lights, span<GpuLightShadow> shadows) const
 		{
 			vec4 position_range[c_max_forward_lights];
 			vec4 energy_specular[c_max_forward_lights];
@@ -96,12 +96,12 @@ namespace mud
 				shadowmap_p0[i] = { s.atlas_slot, s.atlas_subdiv };
 			}
 
-			bgfx::setViewUniform(render_pass.m_index, u_light_position_range,			&position_range,		uint16_t(lights.size()));
-			bgfx::setViewUniform(render_pass.m_index, u_light_energy_specular,			&energy_specular,		uint16_t(lights.size()));
-			bgfx::setViewUniform(render_pass.m_index, u_light_direction_attenuation,	&direction_attenuation,	uint16_t(lights.size()));
-			bgfx::setViewUniform(render_pass.m_index, u_light_spot_p0,				&spot_p0,			uint16_t(lights.size()));
-			bgfx::setViewUniform(render_pass.m_index, u_light_shadow_p0,			&shadow_p0,			uint16_t(lights.size()));
-			bgfx::setViewUniform(render_pass.m_index, u_light_shadowmap_p0,			&shadowmap_p0,		uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_position_range,			&position_range,		uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_energy_specular,			&energy_specular,		uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_direction_attenuation,	&direction_attenuation,	uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_spot_p0,				&spot_p0,			uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_shadow_p0,			&shadow_p0,			uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_shadowmap_p0,			&shadowmap_p0,		uint16_t(lights.size()));
 		}
 
 		bgfx::UniformHandle u_light_position_range;

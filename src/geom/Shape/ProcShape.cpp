@@ -118,6 +118,10 @@ namespace mud
 		decl_shape<Torus>(*this);
 		decl_shape_triangles<TorusKnot>(*this);
 
+		// polyhedrons
+		decl_shape_triangles<Tetraedr>(*this);
+		decl_shape_triangles<Icosaedr>(*this);
+
 		decl_shape<Geometry>(*this);
 
 		decl_compound_shape<Spheroid>(*this);

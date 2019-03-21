@@ -44,7 +44,7 @@ namespace mud
 		~Viewer();
 
 		attr_ Scene* m_scene;
-		GfxContext& m_context;
+		GfxWindow& m_context;
 
 		attr_ Camera m_camera;
 		attr_ Viewport m_viewport;
@@ -165,9 +165,111 @@ namespace mud
 
 		void reset(vec3& eye, vec3& target, vec3& up);
 
-		void process(Viewer& viewer);
+		virtual void process(Viewer& viewer) override;
 		void update(Widget& widget, vec3& eye, vec3& target, vec3& up);
 
+	};
+
+	// This set of controls performs orbiting, dollying (zooming), and panning.
+	// Unlike TrackballControls, it maintains the "up" direction object.up (+Y by default).
+	//
+	//    Orbit - left mouse / touch: one-finger move
+	//    Zoom - middle mouse, or mousewheel / touch: two-finger spread or squish
+	//    Pan - right mouse, or left mouse + ctrl/meta/shiftKey, or arrow keys / touch: two-finger move
+
+	struct Polar { float theta; float phi; float radius; };
+
+	export_ class refl_ MUD_GFX_UI_EXPORT OrbitControls : public ViewerController
+	{
+	public:
+		// Set to false to disable this control
+		bool enabled = true;
+
+		// "target" sets the location of focus, where the object orbits around
+		//vec3 target = vec3(0.f);
+
+		// How far you can dolly in and out ( PerspectiveCamera only )
+		float minDistance = 0;
+		float maxDistance = FLT_MAX; // Infinity;
+
+		// How far you can zoom in and out ( OrthographicCamera only )
+		float minZoom = 0;
+		float maxZoom = FLT_MAX; // Infinity;
+
+		// How far you can orbit vertically, upper and lower limits.
+		// Range is 0 to c_pi radians.
+		float minPolarAngle = 0; // radians
+		float maxPolarAngle = c_pi; // radians
+
+		// How far you can orbit horizontally, upper and lower limits.
+		// If set, must be a sub-interval of the interval [ - c_pi, c_pi ].
+		float minAzimuthAngle = -FLT_MAX; // -Infinity; // radians
+		float maxAzimuthAngle = FLT_MAX; // Infinity; // radians
+
+		// Set to true to enable damping (inertia)
+		// If damping is enabled, you must call controls.update() in your animation loop
+		bool enableDamping = false;
+		float dampingFactor = 0.25;
+
+		// This option actually enables dollying in and out; left as "zoom" for backwards compatibility.
+		// Set to false to disable zooming
+		bool enableZoom = true;
+		float zoomSpeed = 1.0;
+
+		// Set to false to disable rotating
+		bool enableRotate = true;
+		float rotateSpeed = 1.0;
+
+		// Set to false to disable panning
+		bool enablePan = true;
+		float panSpeed = 1.0;
+		bool screenSpacePanning = false; // if true, pan in screen-space
+		float keyPanSpeed = 7.0;	// pixels moved per arrow key push
+
+		// Set to true to automatically rotate around the target
+		// If auto-rotate is enabled, you must call controls.update() in your animation loop
+		bool autoRotate = false;
+		float autoRotateSpeed = 2.0; // 30 seconds per round when fps is 60
+
+		// Set to false to disable use of the keys
+		bool enableKeys = true;
+
+		// The four arrow keys
+		//this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };
+
+		// Mouse buttons
+		//this.mouseButtons = { LEFT: THREE.MOUSE.LEFT, MIDDLE: THREE.MOUSE.MIDDLE, RIGHT: THREE.MOUSE.RIGHT };
+
+		virtual void process(Viewer& viewer) override;
+
+		void update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
+
+	private:
+		enum class State { None = -1, Rotate = 0, Dolly = 1, Pan = 2, TouchRotate = 3, TouchDollyPan = 4 };
+
+		State state = State::None;
+
+		float EPS = 0.000001f;
+
+		// current position in spherical coordinates
+		Polar spherical = {};
+		Polar sphericalDelta = {};
+
+		float scale = 1.f;
+		vec3 panOffset = vec3(0.f);
+		bool zoomChanged = false;
+
+		vec2 rotateStart = vec2(0.f);
+		vec2 rotateEnd = vec2(0.f);
+		vec2 rotateDelta = vec2(0.f);
+
+		vec2 panStart = vec2(0.f);
+		vec2 panEnd = vec2(0.f);
+		vec2 panDelta = vec2(0.f);
+
+		vec2 dollyStart = vec2(0.f);
+		vec2 dollyEnd = vec2(0.f);
+		vec2 dollyDelta = vec2(0.f);
 	};
 
 	export_ class refl_ MUD_GFX_UI_EXPORT FreeOrbitController : public OrbitController
@@ -194,6 +296,7 @@ namespace ui
 	};
 
 	export_ MUD_GFX_UI_EXPORT func_ TrackballController& trackball_controller(Viewer& viewer);
+	export_ MUD_GFX_UI_EXPORT func_ OrbitControls& orbit_controls(Viewer& viewer);
 	export_ MUD_GFX_UI_EXPORT func_ OrbitController& orbit_controller(Viewer& viewer, float yaw = c_pi / 4.f, float pitch = -c_pi / 4.f, float distance = 10.f);
 	export_ MUD_GFX_UI_EXPORT func_ FreeOrbitController& free_orbit_controller(Viewer& viewer);
 	export_ MUD_GFX_UI_EXPORT func_ OrbitController& isometric_controller(Viewer& viewer, bool topdown = false);

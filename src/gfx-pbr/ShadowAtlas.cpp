@@ -30,8 +30,7 @@ namespace mud
 	{
 		m_depth = { m_rect_size, false, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
 		m_color = { m_rect_size, false, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
-		bgfx::TextureHandle textures[] = { m_depth, m_color };
-		m_fbo = { m_rect_size, bgfx::createFrameBuffer(2, textures) };
+		m_fbo = { m_rect_size, { &m_depth, &m_color } };
 
 		//m_depth = { m_rect_size, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
 		//m_fbo = { m_rect_size, bgfx::createFrameBuffer(1, &m_depth) };
@@ -136,7 +135,7 @@ namespace mud
 
 	uvec4 ShadowAtlas::render_update(Render& render, Light& light)
 	{
-		const Plane camera_near_plane = render.m_camera.near_plane();
+		const Plane camera_near_plane = render.m_camera->near_plane();
 
 		vec3 points[2];
 
@@ -157,18 +156,18 @@ namespace mud
 			points[1] = base + node.axis(X3) * w;
 		}
 
-		if(!render.m_camera.m_orthographic)
+		if(!render.m_camera->m_orthographic)
 		{
 			for(int j = 0; j < 2; j++)
 			{
 				if(distance(camera_near_plane, points[j]) < 0.f)
-					points[j].z = -render.m_camera.m_near; //small hack to keep size constant when hitting the screen
+					points[j].z = -render.m_camera->m_near; //small hack to keep size constant when hitting the screen
 
 				points[j] = plane_segment_intersection(camera_near_plane, { node.position(), points[j] });
 			}
 		}
 
-		const vec2 size = frustum_viewport_size(render.m_camera.m_projection);
+		const vec2 size = frustum_viewport_size(render.m_camera->m_projection);
 
 		const float screen_diameter = distance(points[0], points[1]) * 2.f;
 		const float coverage = screen_diameter / (size.x + size.y);

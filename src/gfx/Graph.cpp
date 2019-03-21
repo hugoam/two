@@ -344,9 +344,18 @@ namespace gfx
 		return direct_light_node(parent, quat(vec3(-c_pi / 4.f, -c_pi / 4.f, 0.f)));
 	}
 
-	void radiance(Gnode& parent, const string& texture, BackgroundMode background)
+	void radiance(Scene& scene, const string& file, BackgroundMode background)
 	{
-		parent.m_scene->m_env.m_radiance.m_texture = parent.m_scene->m_gfx.textures().file(texture.c_str());
+		scene.m_env.m_radiance.m_texture = scene.m_gfx.textures().file(file.c_str());
+		scene.m_env.m_background.m_mode = background;
+	}
+
+	void radiance(Gnode& parent, const string& file, BackgroundMode background)
+	{
+		Texture& texture = *parent.m_scene->m_gfx.textures().file(file.c_str());
+		parent.m_scene->m_env.m_radiance.m_texture = &texture;
+		if(background == BackgroundMode::Panorama)
+			parent.m_scene->m_env.m_background.m_texture = &texture;
 		parent.m_scene->m_env.m_background.m_mode = background;
 	}
 

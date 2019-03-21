@@ -12,7 +12,7 @@ void xx_terrain(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(app); UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 
@@ -43,7 +43,7 @@ void xx_terrain(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.position.y = data[worldHalfWidth + worldHalfDepth * worldWidth] * 10 + 500;
 
 		var geometry = new THREE.PlaneBufferGeometry(7500, 7500, worldWidth - 1, worldDepth - 1);
-		geometry.rotateX(-PI / 2);
+		geometry.rotateX(-c_pi / 2);
 
 		var vertices = geometry.attributes.position.array;
 

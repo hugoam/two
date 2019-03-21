@@ -8,6 +8,8 @@
 #include <ecs/ECS.h>
 #include <pool/SparsePool.hpp>
 
+//#include <cstdio>
+
 namespace mud
 {
 	template <class F, typename... Types>
@@ -174,6 +176,7 @@ namespace mud
 	inline uint32_t GridECS::create()
 	{
 		uint32_t handle = m_available.size() > 0 ? pop(m_available) : m_handles.alloc();
+		//printf("ecs created handle %i\n", int(handle));
 		m_handles.add(handle);
 		this->add();
 		return handle;
@@ -181,12 +184,19 @@ namespace mud
 
 	inline void GridECS::destroy(uint32_t handle)
 	{
+		//printf("ecs destroy handle %i\n", int(handle));
 		this->remove(handle);
 		m_available.push_back(handle);
 	}
 
 	template <class T>
 	inline T& Entt::comp() { return m_ecs->get<T>(m_handle); }
+
+	inline OEntt::~OEntt()
+	{
+		if(m_handle != UINT32_MAX)
+			m_ecs->destroy(m_handle);
+	}
 
 	inline ECS::ECS(int capacity)
 	{

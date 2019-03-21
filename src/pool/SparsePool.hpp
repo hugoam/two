@@ -99,7 +99,7 @@ namespace mud
 		const bool back = index == m_handles.size() - 1;
 		swap_pop(m_handles, index);
 
-		//if(!back)
+		if(!back)
 		{
 			const uint32_t moved = m_handles[index];
 			m_indices[moved] = index;

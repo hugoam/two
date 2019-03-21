@@ -10,11 +10,13 @@
 module mud.gfx.pbr;
 #else
 #include <stl/algorithm.h>
+#include <math/Axes.h>
 #include <math/Vec.hpp>
 #include <gfx/Shot.h>
-#include <gfx/RenderTarget.h>
-#include <gfx/ManualRender.h>
+#include <gfx/Camera.h>
+#include <gfx/Viewport.h>
 #include <gfx/Scene.h>
+#include <gfx/RenderTarget.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/ReflectionProbe.h>
@@ -28,16 +30,20 @@ namespace mud
 		: m_node(node)
 	{}
 
-	ReflectionCubemap::ReflectionCubemap(uint32_t size)
-		: m_size(size)
+	void CubeTarget::create(uint32_t size)
 	{
+		m_size = size;
+
 		const uint64_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT;
 		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
 		if(!bgfx::isTextureValid(0, true, 1, color_format, flags))
 			color_format = bgfx::TextureFormat::RGB10A2;
 
-		m_cubemap = Texture{ bgfx::createTextureCube(size, false, 1, color_format, flags) };
+		m_cubemap = { uvec2(size), false, color_format, flags, true };
 		m_depth = { uvec2(size), false, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT };
+
+		m_cubemap.m_is_fbo = true;
+		m_depth.m_is_fbo = true;
 
 		for(int i = 0; i < 6; i++)
 		{
@@ -46,7 +52,64 @@ namespace mud
 				{ bgfx::Access::Write, m_depth , 0, 1, BGFX_RESOLVE_AUTO_GEN_MIPS },
 				{ bgfx::Access::Write, m_cubemap, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS }
 			};
-			m_fbo[i] = { uvec2(size), bgfx::createFrameBuffer(2, attachments, true) };
+			m_fbos[i] = { uvec2(size), m_cubemap, attachments };
+		}
+	}
+
+	CubeCamera::CubeCamera(Scene& scene, float near, float far, uint32_t size)
+			: m_size(size)
+	{
+		m_cubemap.create(size);
+
+		// up stays up for all sides of the cube except when looking down (where it's forward aka -Z) or up (back aka Z)
+		const table<SignedAxis, vec3> up = { { Y3, Y3, -Z3, Z3, Y3, Y3 } };
+		// cubemaps are stored in left-handed space, so we need to flip X with -X both when rendering and when sampling cubemaps
+		const table<SignedAxis, vec3> dir = { { -X3, X3, Y3, -Y3, Z3, -Z3 } };
+
+		const float fov = 90.f; const float aspect = 1.f;
+
+		for(SignedAxis axis : c_signed_axes)
+		{
+			size_t i = size_t(axis);
+			m_cameras[i] = Camera(vec3(0.f), dir[axis], up[axis], fov, aspect, near, far);
+			m_viewports[i] = Viewport(m_cameras[i], scene, uvec4(uvec2(0U), m_size));
+		}
+	}
+
+	Render CubeCamera::render(GfxSystem& gfx, Render& render, SignedAxis axis)
+	{
+		Render probe_render = { Shading::Shaded, m_viewports[size_t(axis)], *render.m_target, m_cubemap.m_fbos[size_t(axis)], *render.m_frame };
+		probe_render.m_vflip = bgfx::getCaps()->originBottomLeft;
+
+		//probe_render.m_shot.m_lights = render.m_shot.m_lights;
+		//probe_render.m_shot.m_items = render.m_shot.m_items;
+
+		return probe_render;
+	}
+
+	void CubeCamera::render(GfxSystem& gfx, Render& render, RenderFunc renderer)
+	{
+		//var generateMipmaps = renderTarget.texture.generateMipmaps;
+
+		//renderTarget.texture.generateMipmaps = false;
+
+		for(SignedAxis axis : c_signed_axes)
+		{
+			//if(axis == SignedAxis(5))
+			//	renderTarget.texture.generateMipmaps = generateMipmaps;
+
+			Render probe_render = this->render(gfx, render, axis);
+			gfx.m_renderer.gather(probe_render);
+			gfx.m_renderer.subrender(render, probe_render, renderer);
+		}
+	}
+
+	void CubeCamera::clear(GfxSystem& gfx, Render& render, Colour color, float depth, uint8_t stencil)
+	{
+		for(SignedAxis axis : c_signed_axes)
+		{
+			//renderer.setRenderTarget(renderTarget, i);
+			//renderer.clear(color, depth, stencil);
 		}
 	}
 
@@ -77,28 +140,28 @@ namespace mud
 		UNUSED(render); UNUSED(shader_version);
 	}
 
-	void BlockReflection::submit(Render& render, const Pass& render_pass) const
+	void BlockReflection::submit(Render& render, const Pass& pass) const
 	{
 		UNUSED(render);
 		//uint32_t stage = uint32_t(TextureSampler::ReflectionProbe);
-		//bgfx::setViewUniform(render_pass.m_index, u_uniform.s_atlas, &stage);
+		//bgfx::setViewUniform(pass.m_index, u_uniform.s_atlas, &stage);
 	}
 
-	void BlockReflection::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	void BlockReflection::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
 		UNUSED(render); UNUSED(element);
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		if(m_atlas.m_color.valid() && m_atlas.m_size > 0)
 			encoder.setTexture(uint8_t(TextureSampler::ReflectionProbe), m_atlas.m_color);
 
-		//upload_reflection_probes(render, to_array(render.m_shot->m_reflection_probes));
+		//upload_reflection_probes(render, to_array(render.m_shot.m_reflection_probes));
 	}
 
-	void BlockReflection::upload_reflection_probes(Render& render, Pass& render_pass, span<ReflectionProbe*> probes)
+	void BlockReflection::upload_reflection_probes(Render& render, Pass& pass, span<ReflectionProbe*> probes)
 	{
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		mat4 view_matrix = inverse(render.m_camera.m_transform);
+		bgfx::Encoder& encoder = *pass.m_encoder;
+		mat4 view_matrix = inverse(render.m_camera->m_transform);
 
 		ReflectionProbeArray<16> probe_array;
 
@@ -126,9 +189,9 @@ namespace mud
 		encoder.setUniform(u_uniform.u_indices, probe_array.indices, probe_count);
 	}
 
-	ReflectionCubemap& BlockReflection::find_cubemap(uint16_t size)
+	CubeTarget& BlockReflection::find_cubemap(uint16_t size)
 	{
-		for(ReflectionCubemap& cubemap : m_cubemaps)
+		for(CubeTarget& cubemap : m_cubemaps)
 			if(cubemap.m_size > size * 2)
 				return cubemap;
 		return m_cubemaps[0];
@@ -141,21 +204,21 @@ namespace mud
 
 		uvec4 atlas_rect = m_atlas.render_update(render, probe);
 
-		ReflectionCubemap& cubemap = find_cubemap(uint16_t(atlas_rect.width));
+		CubeTarget& cubemap = find_cubemap(uint16_t(atlas_rect.width));
 
 		for(int i = 0; i < 6; ++i)
 		{
-			vec3 edge = view_normal[i] * probe.m_extents;
-			float range = abs(dot(view_normal[i], edge));
+			const vec3 edge = view_normal[i] * probe.m_extents;
+			const float range = abs(dot(view_normal[i], edge));
 
-			mat4 transform = probe.m_node.m_transform * bxlookat(vec3(0.f), view_normal[i], view_up[i]);
-			mat4 projection = bxproj(90.f, 1.f, 0.01f, range, bgfx::getCaps()->homogeneousDepth);
+			const mat4 transform = probe.m_node.m_transform * bxlookat(vec3(0.f), view_normal[i], view_up[i]);
+			const mat4 projection = bxproj(90.f, 1.f, 0.01f, range, bgfx::getCaps()->homogeneousDepth);
 
-			RenderFunc renderer = m_gfx.renderer(Shading::Volume);
-
-			ManualRender probe_render = { render, Shading::Volume,  cubemap.m_fbo[i], uvec4(Rect4), transform, projection };
+			Camera camera = Camera(transform, projection);
+			Viewport viewport = Viewport(camera, *render.m_scene, uvec4(Rect4));
+			Render probe_render = { Shading::Volume, viewport, *render.m_target, cubemap.m_fbos[i], *render.m_frame };
 			//probe_render.cull();
-			probe_render.render(m_gfx.m_renderer, renderer);
+			m_gfx.m_renderer.subrender(render, probe_render, m_gfx.renderer(Shading::Shaded));
 		}
 	}
 
@@ -163,12 +226,12 @@ namespace mud
 	{
 		static BlockReflection& block_reflection = *gfx.m_renderer.block<BlockReflection>();
 
-		Pass render_pass = render.next_pass("probes", PassType::Probes);
+		Pass pass = render.next_pass("probes", PassType::Probes);
 
 		block_reflection.m_reflection_multiplier = 1.f;
 
 #if 0
-		for(ReflectionProbe* probe : render.m_shot->m_reflection_probes)
+		for(ReflectionProbe* probe : render.m_shot.m_reflection_probes)
 		{
 			if(!probe->m_dirty)
 				continue;

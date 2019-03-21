@@ -67,7 +67,7 @@ namespace mud
 			16									// m_MaxCommandListDepth
 		};
 
-		m_vg = vg::createContext(240, m_allocator, &config);
+		m_vg = vg::createContext(m_allocator, &config);
 	}
 
 	void VgVg::release_context()
@@ -121,20 +121,23 @@ namespace mud
 		return vgimage.idx;
 	}
 
-	void VgVg::begin_frame(const vec4& rect, float pixel_ratio)
+	void VgVg::begin_frame(uint16_t view, const vec4& rect, float pixel_ratio)
 	{
-		bgfx::setViewFrameBuffer(240, BGFX_INVALID_HANDLE);
-		bgfx::setViewClear(240, BGFX_CLEAR_COLOR, 0x000000ff);
-		bgfx::setViewRect(240, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect.width), uint16_t(rect.height));
-		bgfx::setViewMode(240, bgfx::ViewMode::Sequential);
-		bgfx::setViewName(240, "ui");
+#ifndef MU_PLATFORM_EMSCRIPTEN
+		// @todo investigate why this causes black screen in wasm
+		//bgfx::setViewClear(view, BGFX_CLEAR_COLOR, 0x000000ff);
+		bgfx::setViewClear(view, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
+#endif
+		bgfx::setViewRect(view, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect.width), uint16_t(rect.height));
+		bgfx::setViewMode(view, bgfx::ViewMode::Sequential);
+		bgfx::setViewName(view, "ui");
 
 		vg::beginFrame(m_vg, uint16_t(rect.width), uint16_t(rect.height), pixel_ratio);
 	}
 
-	void VgVg::end_frame()
+	void VgVg::end_frame(uint16_t view)
 	{
-		vg::endFrame(m_vg);
+		vg::endFrame(m_vg, view);
 	}
 
 	bool VgVg::clipped(const vec4& rect)

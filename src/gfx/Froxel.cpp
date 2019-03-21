@@ -9,6 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/bitset.h>
 #include <stl/swap.h>
 #include <stl/span.h>
 #include <stl/array.h>
@@ -36,6 +37,8 @@ typedef SSIZE_T ssize_t;
 #endif
 
 //#define USE_STD_BITSET
+
+#include <stl/vector.hpp>
 
 namespace mud
 {
@@ -86,6 +89,16 @@ namespace mud
 	// clustered shading refs
 	// http://www.humus.name/Articles/PracticalClusteredShading.pdf
 	// http://www.cse.chalmers.se/~uffe/clustered_shading_preprint.pdf
+
+	struct LightRecord
+	{
+#ifndef USE_STD_BITSET
+		using Lights = bitset<uint64_t, (CONFIG_MAX_LIGHT_COUNT + 63) / 64>;
+#else
+		using Lights = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
+#endif
+		Lights lights;
+	};
 
 	struct LightParams
 	{
@@ -309,19 +322,19 @@ namespace mud
 		attr_ gpu_ vec4 params_z;
 	};
 
-	void Froxelizer::submit(const Pass& render_pass) const
+	void Froxelizer::submit(const Pass& pass) const
 	{
 		uint32_t records = uint32_t(TextureSampler::LightRecords);
 		uint32_t clusters = uint32_t(TextureSampler::Clusters);
 
-		bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.s_light_records, &records);
-		bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.s_light_clusters, &clusters);
+		bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.s_light_records, &records);
+		bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.s_light_clusters, &clusters);
 
 		auto submit = [=](vec4 params, vec4 f, vec4 z)
 		{
-			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_cluster_p0, &params);
-			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_cluster_f, &f);
-			bgfx::setViewUniform(render_pass.m_index, m_impl->m_uniform.u_cluster_z, &z);
+			bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.u_cluster_p0, &params);
+			bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.u_cluster_f, &f);
+			bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.u_cluster_z, &z);
 		};
 
 		submit(vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_pf), 0.f), m_pz);

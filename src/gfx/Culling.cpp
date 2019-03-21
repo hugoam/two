@@ -56,7 +56,7 @@ namespace mud
 		rect.m_vertices[1] = mulp(mat, vec3(hi.x * nw, lo.y * nh, -near));
 		rect.m_vertices[2] = mulp(mat, vec3(lo.x * nw, lo.y * nh, -near));
 		rect.m_vertices[3] = mulp(mat, vec3(lo.x * nw, hi.y * nh, -near));
-		render.m_shot->m_immediate[0]->shape(identity, { Symbol::wire(colour, true), &rect, OUTLINE });
+		render.m_shot.m_immediate[0]->shape(identity, { Symbol::wire(colour, true), &rect, OUTLINE });
 	}
 
 	// ref: https://github.com/erich666/jgt-code
@@ -247,12 +247,12 @@ namespace mud
 
 	void Culler::render(Render& render)
 	{
-		if(render.m_shot->m_occluders.empty())
+		if(render.m_shot.m_occluders.empty())
 			return;
 		if(render.m_rect.width == 0 || render.m_rect.height == 0)
 			return;
 
-		this->begin(render.m_viewport);
+		this->begin(*render.m_viewport);
 		this->rasterize(render);
 		this->cull(render);
 		//this->debug(render);
@@ -261,20 +261,20 @@ namespace mud
 		mat4 identity = bxidentity();
 		bool debug = render.m_target != nullptr;
 		if(debug)
-			for(Item* item : render.m_shot->m_items)
+			for(Item* item : render.m_shot.m_items)
 				if((item->m_flags & ItemFlag::Occluder) == 0)
 				{
 					Colour colour = { 1.f, 1.f, 0.f, 0.15f };
-					render.m_shot->m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+					render.m_shot.m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
 				}
 #endif
 	}
 
 	void Culler::rasterize(Render& render)
 	{
-		const mat4 world_to_clip = render.m_camera.m_projection * render.m_camera.m_transform;
+		const mat4 world_to_clip = render.m_camera->m_projection * render.m_camera->m_transform;
 
-		for(Item* item : render.m_shot->m_occluders)
+		for(Item* item : render.m_shot.m_occluders)
 		{
 			const mat4 model_to_clip = world_to_clip * item->m_node->m_transform;
 
@@ -309,33 +309,33 @@ namespace mud
 	void Culler::cull(Render& render)
 	{
 		static const mat4 identity = bxidentity();
-		const mat4 world_to_clip = render.m_camera.m_projection * render.m_camera.m_transform;
-		const mat4 camera_to_world = inverse(render.m_camera.m_transform);
+		const mat4 world_to_clip = render.m_camera->m_projection * render.m_camera->m_transform;
+		const mat4 camera_to_world = inverse(render.m_camera->m_transform);
 
-		vector<Item*> items = render.m_shot->m_items;
-		render.m_shot->m_items.clear();
+		vector<Item*> items = render.m_shot.m_items;
+		render.m_shot.m_items.clear();
 
-		Plane near = render.m_camera.near_plane();
+		Plane near = render.m_camera->near_plane();
 
 		vector<Item*> culled;
 		for(Item* item : items)
 		{
 			if((item->m_flags & ItemFlag::Occluder) != 0)
 			{
-				render.m_shot->m_items.push_back(item);
+				render.m_shot.m_items.push_back(item);
 				continue;
 			}
 
 #ifdef ITEM_TO_CLIP
 			mat4 item_to_clip = world_to_clip * item->m_node->m_transform;
-			DepthRect bounds = project_aabb_strict(render.m_camera, item_to_clip, item->m_model->m_aabb);
+			DepthRect bounds = project_aabb_strict(*render.m_camera, item_to_clip, item->m_model->m_aabb);
 #else
-			DepthRect bounds = project_aabb_strict(render.m_camera, world_to_clip, item->m_aabb);
+			DepthRect bounds = project_aabb_strict(*render.m_camera, world_to_clip, item->m_aabb);
 #endif
 
 			MaskedOcclusionCulling::CullingResult result = m_moc->TestRect(bounds.lo.x, bounds.lo.y, bounds.hi.x, bounds.hi.y, bounds.depth);
 			if(result == MaskedOcclusionCulling::VISIBLE)
-				render.m_shot->m_items.push_back(item);
+				render.m_shot.m_items.push_back(item);
 			else
 				culled.push_back(item);
 
@@ -354,14 +354,14 @@ namespace mud
 			for(Item* item : culled)
 			{
 				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
-				render.m_shot->m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+				render.m_shot.m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
 			}
 #endif
 	}
 
 	void Culler::debug(Render& render)
 	{
-		if(render.m_frame.m_frame % 30 == 0)
+		if(render.m_frame->m_frame % 30 == 0)
 		{
 			const uint width = render.m_rect.width;
 			const uint height = render.m_rect.height;
@@ -376,7 +376,7 @@ namespace mud
 			bgfx::updateTexture2D(m_depth_texture, 0, 0, 0, 0, uint16_t(width), uint16_t(height), memory);
 		}
 
-		BlockCopy& copy = *render.m_scene.m_gfx.m_renderer.block<BlockCopy>();
+		BlockCopy& copy = *render.m_scene->m_gfx.m_renderer.block<BlockCopy>();
 		copy.debug_show_texture(render, m_depth_texture, vec4(0.f));
 	}
 #endif

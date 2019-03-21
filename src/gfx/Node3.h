@@ -40,9 +40,10 @@ namespace mud
 		constr_ Node3(const mat4& transform);
 		constr_ Node3(const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
 
-		attr_ uint16_t m_index = 0;
+		//attr_ uint16_t m_index = 0;
 
 		attr_ mat4 m_transform = bxidentity();
+		//attr_ Node3* m_parent = nullptr;
 		//attr_ bool m_visible = true;
 
 		Ref m_object;

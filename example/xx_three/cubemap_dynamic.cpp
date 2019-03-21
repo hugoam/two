@@ -4,105 +4,101 @@
 
 #include <xx_three/xx_three.h>
 
+#include <infra/Vector.h>
 #include <stl/vector.hpp>
 
 using namespace mud;
+
+#define SPHERE 1
 
 void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
+	viewer.m_viewport.m_active = false;
 
 	Scene& scene = viewer.m_scene;
 
-	size_t count = 0;
+	static size_t count = 0;
 
-	float lon = 0.f; float lat = 0.f;
-	float phi = 0.f; float theta = 0.f;
+	static float lon = 0.f; static float lat = 0.f;
+	static float phi = 0.f; static float theta = 0.f;
 
-	Texture& texture = *app.m_gfx.textures().file("2294472375_24a3b8ef46_o.jpg");
-	UNUSED(texture);
+	static Texture& texture = *app.m_gfx.textures().file("cabin.jpg");
+	//static Texture& texture = *app.m_gfx.textures().file("cube/cabin.png.cube");
 
-	static Node3* sphere = nullptr;
+	static Program& basic = app.m_gfx.programs().fetch("pbr/basic");
+
+	static Item* isphere = nullptr;
 	static Node3* cube = nullptr;
 	static Node3* torus = nullptr;
+
+	static unique<CubeCamera> cube0;
+	static unique<CubeCamera> cube1;
 
 	if(init)
 	{
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 1000.f;
+		//camera.m_fov = 120.f;
 
-		//var options = {
-		//	resolution: 1024,
-		//
-		//	generateMipmaps : true,
-		//	minFilter : THREE.LinearMipMapLinearFilter,
-		//	magFilter : THREE.LinearFilter
-		//};
-		//
-		//scene.background = new THREE.CubemapGenerator(renderer).fromEquirectangular(texture, options);
+		cube0 = construct<CubeCamera>(scene, 1.f, 1000.f, 256U);
+		cube1 = construct<CubeCamera>(scene, 1.f, 1000.f, 256U);
 
-		//cubeCamera1 = new THREE.CubeCamera(1, 1000, 256);
-		//cubeCamera1.renderTarget.texture.generateMipmaps = true;
-		//cubeCamera1.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
-		//scene.add(cubeCamera1);
-		//
-		//cubeCamera2 = new THREE.CubeCamera(1, 1000, 256);
-		//cubeCamera2.renderTarget.texture.generateMipmaps = true;
-		//cubeCamera2.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
-		//scene.add(cubeCamera2);
+		//cube0 = gfx::probes(scene).add(Probe(1.f, 1000.f, 256U));
+		//cube1 = gfx::probes(scene).add(Probe(1.f, 1000.f, 256U));
 
-		//material = new THREE.MeshBasicMaterial({
-		//	envMap: cubeCamera2.renderTarget.texture
-		//});
+		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+			m.m_program = &basic;
+			m.m_pbr.m_albedo = rgb(0xffffff);
+			//m.m_pbr.m_metallic = 1.f;
+		});
 
-		sphere = &gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(*sphere, app.m_gfx.shape(Icosahedron(20.f))));
+#if SPHERE
+		Node3& sphere = gfx::nodes(scene).add(Node3());
+		//isphere = &gfx::items(scene).add(Item(sphere, app.m_gfx.shape(Icosaedr(20.f))));
+		isphere = &gfx::items(scene).add(Item(sphere, app.m_gfx.shape(Sphere(20.f)), 0U, &material));
+#endif
 
 		cube = &gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(*cube, app.m_gfx.shape(Cube(20.f))));
-
+		gfx::items(scene).add(Item(*cube, app.m_gfx.shape(Cube(10.f)), 0U, &material));
+		
 		torus = &gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(*torus, app.m_gfx.shape(TorusKnot(10.f, 5.f))));
+		gfx::items(scene).add(Item(*torus, app.m_gfx.shape(TorusKnot(10.f, 5.f)), 0U, &material));
 	}
 
-	//function onDocumentMouseDown(event) {
-	//
-	//	event.preventDefault();
-	//
-	//	onPointerDownPointerX = event.clientX;
-	//	onPointerDownPointerY = event.clientY;
-	//
-	//	onPointerDownLon = lon;
-	//	onPointerDownLat = lat;
-	//
-	//	document.addEventListener('mousemove', onDocumentMouseMove, false);
-	//	document.addEventListener('mouseup', onDocumentMouseUp, false);
-	//
-	//}
+	static vec2 presscoord = vec2(0.f);
+	static float presslat = 0.f; static float presslon = 0.f;
+	static bool pressed = false;
+	if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+	{
+		presscoord = event.m_relative;
+		presslon = lon;
+		presslat = lat;
+		pressed = true;
+	}
 
-	//function onDocumentMouseMove(event) {
-	//
-	//	lon = (event.clientX - onPointerDownPointerX) * 0.1 + onPointerDownLon;
-	//	lat = (event.clientY - onPointerDownPointerY) * 0.1 + onPointerDownLat;
-	//
-	//}
+	if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Released))
+		pressed = false;
 
+	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
+	{
+		if(pressed)
+		{
+			lon = (event.m_relative.x - presscoord.x) * 0.1f + presslon;
+			lat = (event.m_relative.y - presscoord.y) * 0.1f + presslat;
+		}
+	}
 
-	//function onDocumentMouseWheel(event) {
-	//
-	//	var fov = camera.fov + event.deltaY * 0.05;
-	//
-	//	camera.fov = THREE.clamp(fov, 10, 75);
-	//
-	//	camera.updateProjectionMatrix();
-	//
-	//}
+	if(MouseEvent event = viewer.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+	{
+		viewer.m_camera.m_fov = clamp(viewer.m_camera.m_fov + event.m_deltaZ * 0.5f, 10.f, 75.f);
+	}
 
 	const float time = app.m_gfx.m_time;
 
-	lon += 0.15f;
+	//lon += 0.15f;
 
 	lat = max(-85.f, min(85.f, lat));
 	phi = to_radians(90.f - lat);
@@ -113,11 +109,13 @@ void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	auto trigo3 = [](const vec3& a) { return vec3(cos(a.x), sin(a.y), sin(a.z)); };
 
-	vec3 cubep = trigo3(vec3(time * 0.001f)) * 30.f;
+	vec3 cubep = trigo3(vec3(time)) * 30.f;
 	cubea += vec3(0.02f, 0.03f, 0.f);
+	cube->apply(cubep, quat(cubea));
 
-	vec3 torusp = trigo3(vec3(time * 0.001f + 10.f)) * 30.f;
+	vec3 torusp = trigo3(vec3(time + 10.f)) * 30.f;
 	torusa += vec3(0.02f, 0.03f, 0.f);
+	torus->apply(torusp, quat(torusa));
 
 	Camera& camera = viewer.m_camera;
 	camera.m_eye.x = 100.f * sin(phi) * cos(theta);
@@ -126,20 +124,57 @@ void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	//camera.lookAt(scene.position);
 
-	//sphere.visible = false;
+	//static Texture& tiber = *app.m_gfx.textures().file("radiance/tiber_1_1k.hdr");
+	//scene.m_env.m_radiance.m_texture = &tiber;
+	scene.m_env.m_radiance.m_texture = &texture;
+	scene.m_env.m_radiance.m_energy = 1.f;
+	scene.m_env.m_radiance.m_filter = false;
+	scene.m_env.m_background.m_texture = &texture;
+	scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
+
+	Gnode& root = scene.begin();
+	gfx::shape(root, Cylinder(X3 * 30.f, 1.f, 30.f, Axis::X), Symbol::plain(Colour::Red));
+	gfx::shape(root, Cylinder(Y3 * 30.f, 1.f, 30.f, Axis::Y), Symbol::plain(Colour::Green));
+	gfx::shape(root, Cylinder(Z3 * 30.f, 1.f, 30.f, Axis::Z), Symbol::plain(Colour::Blue));
+
+	Render render = { Shading::Shaded, viewer.m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
+	app.m_gfx.m_renderer.gather(render);
+	app.m_gfx.m_renderer.begin(render);
+
+	begin_pbr_render(app.m_gfx, render);
 
 	// pingpong
 
-	//if(count % 2 == 0) {
-	//	material.envMap = cubeCamera1.renderTarget.texture;
-	//	cubeCamera2.update(renderer, scene);
-	//}
-	//else {
-	//	material.envMap = cubeCamera2.renderTarget.texture;
-	//	cubeCamera1.update(renderer, scene);
-	//}
+	scene.m_env.m_background.m_texture = &texture;
+
+	auto renderer = [](GfxSystem& gfx, Render& render)
+	{
+		pass_clear(gfx, render);
+		pass_opaque(gfx, render);
+		pass_background(gfx, render);
+	};
+
+	// @todo shouldn't be necessary because faces outward, but somehow it gets rendered by the probe :(
+	isphere->m_visible = false;
+
+	if(count % 2 == 0) {
+		scene.m_env.m_radiance.m_texture = &cube0->m_cubemap.m_cubemap;
+		cube1->render(app.m_gfx, render, renderer);
+	}
+	else {
+		scene.m_env.m_radiance.m_texture = &cube1->m_cubemap.m_cubemap;
+		cube0->render(app.m_gfx, render, renderer);
+	}
+
+	isphere->m_visible = true;
+
+	pass_clear(app.m_gfx, render);
+	pass_opaque(app.m_gfx, render);
+
+	//scene.m_env.m_background.m_texture = &cube0.m_cubemap.m_cubemap;
+	pass_background(app.m_gfx, render);
+
+	app.m_gfx.m_renderer.end(render);
 
 	count++;
-
-	//sphere.visible = true;
 }

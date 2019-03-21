@@ -66,7 +66,7 @@ namespace mud
 
 		void shape(const mat4& transform, const ProcShape& shape);
 		void draw(const mat4& transform, span<ProcShape> shapes);
-		void draw(const mat4& transform, span<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
+		void draw(const mat4& transform, span<ProcShape> shapes, DrawMode draw_mode);
 
 		void draw(Batch& batch, const mat4& transform, span<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
 
@@ -88,16 +88,17 @@ namespace mud
 		unique<Impl> m_impl;
 	};
 
-	export_ MUD_GFX_EXPORT object<Model> draw_model(cstring name, const ProcShape& shape, bool readback = false);
-	export_ MUD_GFX_EXPORT object<Model> draw_model(cstring name, span<ProcShape> shapes, bool readback = false);
+	export_ MUD_GFX_EXPORT object<Model> gen_model(cstring name, const ProcShape& shape, bool readback = false);
+	export_ MUD_GFX_EXPORT object<Model> gen_model(cstring name, span<ProcShape> shapes, bool readback = false);
 
-	export_ MUD_GFX_EXPORT void draw_model(const ProcShape& shape, Model& model, bool readback = false, Material* material = nullptr);
-	export_ MUD_GFX_EXPORT void draw_model(span<ProcShape> shapes, Model& model, bool readback = false, Material* material = nullptr);
+	export_ MUD_GFX_EXPORT void gen_model(const ProcShape& shape, Model& model, bool readback = false, Material* material = nullptr);
+	export_ MUD_GFX_EXPORT void gen_model(span<ProcShape> shapes, Model& model, bool readback = false, Material* material = nullptr);
 
-	export_ MUD_GFX_EXPORT void draw_mesh(const ProcShape& shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
-	export_ MUD_GFX_EXPORT void draw_mesh(span<ProcShape> shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
-	
-	export_ MUD_GFX_EXPORT void draw_mesh(span<ProcShape> shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
+	export_ MUD_GFX_EXPORT void gen_mesh(const ProcShape& shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
+	export_ MUD_GFX_EXPORT void gen_mesh(span<ProcShape> shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
+
+	export_ MUD_GFX_EXPORT void gen_geom(const ProcShape& shapes, MeshPacker& model, DrawMode draw_mode);
+	export_ MUD_GFX_EXPORT void gen_geom(span<ProcShape> shapes, MeshPacker& model, DrawMode draw_mode);
 
 
 	export_ class refl_ MUD_GFX_EXPORT Lines

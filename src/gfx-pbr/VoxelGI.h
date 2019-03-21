@@ -77,10 +77,10 @@ namespace gfx
 		virtual void begin_render(Render& render) override;
 
 		virtual void options(Render& render, ProgramVersion& shader_version) const override;
-		virtual void submit(Render& render, const Pass& render_pass) const override;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
-		void upload_gi_probes(Render& render, const Pass& render_pass) const;
+		void upload_gi_probes(Render& render, const Pass& pass) const;
 
 		struct GIProbeUniform
 		{
@@ -117,8 +117,8 @@ namespace gfx
 		virtual void begin_render(Render& render) override;
 
 		virtual void options(Render& render, ProgramVersion& shader_version) const override;
-		virtual void submit(Render& render, const Pass& render_pass) const override;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
 		void voxelize(Render& render, GIProbe& gi_probe);
 		void compute(Render& render, GIProbe& gi_probe);

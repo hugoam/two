@@ -34,8 +34,8 @@ static string vertex_shader()
 		"\n"
 		"	v_color = i_color;\n"
 		"\n"
-		"   v_position = vec4(position, 1.0);\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(position, 1.0));\n"
+		"   v_position = vec4(a_position.xyz, 1.0);\n"
+		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
 		"}\n";
 
 	return shader;
@@ -65,7 +65,7 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	constexpr size_t num_instances = 50000;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 
@@ -109,7 +109,7 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		geometry.position(vec3(0.025f, -0.025f,    0.f));
 		geometry.position(vec3(-0.025f,  0.025f,    0.f));
-		geometry.position(vec3(  0.f,     0.f, 0.025f));
+		geometry.position(vec3(0.f,     0.f, 0.025f));
 		geometry.m_indices = { 0, 1, 2 };
 
 		Model& model = app.m_gfx.create_model_geo("triangle", geometry);

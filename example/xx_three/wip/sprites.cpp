@@ -13,7 +13,7 @@ void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controller(viewer);
+	ui::orbit_controls(viewer);
 
 	//camera = new THREE.PerspectiveCamera(60, width / height, 1, 2100);
 	//camera.position.z = 1500;
@@ -35,7 +35,7 @@ void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	Material& material = app.m_gfx.materials().create("sprite0", [](Material& m) {
 		//m.m_program = SpriteMaterial;
 		//m.m_sprite.m_color = sprites0;
-		}); // new THREE.SpriteMaterial({ map: texture });
+	}); // new THREE.SpriteMaterial({ map: texture });
 
 	{
 		//

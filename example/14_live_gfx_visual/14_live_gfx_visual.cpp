@@ -95,9 +95,9 @@ void ex_14_live_gfx_visual(Shell& app, Widget& parent, Dockbar& dockbar)
 }
 
 #ifdef _14_LIVE_GFX_VISUAL_EXE
-void pump(Shell& app)
+void pump(Shell& app, ShellWindow& window)
 {
-	shell_context(app.m_ui->begin(), app.m_editor);
+	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_14_live_gfx_visual(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 

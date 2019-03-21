@@ -13,5 +13,6 @@
 namespace mud
 {
 	struct ShellContext;
+	class ShellWindow;
     class Shell;
 }

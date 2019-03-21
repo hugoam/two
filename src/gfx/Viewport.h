@@ -13,6 +13,7 @@
 #include <gfx/Forward.h>
 #include <gfx/Renderer.h>
 #include <gfx/Culling.h>
+#include <gfx/Froxel.h>
 
 namespace mud
 {
@@ -43,11 +44,15 @@ namespace mud
 
 	export_ extern MUD_GFX_EXPORT GridECS* g_viewer_ecs;
 
-	export_ class refl_ MUD_GFX_EXPORT Viewport : public Entt
+	export_ class refl_ MUD_GFX_EXPORT Viewport : public OEntt
 	{
 	public:
+		Viewport() {}
 		Viewport(Camera& camera, Scene& scene, uvec4 rect = uvec4(0U), bool scissor = false);
 		~Viewport();
+
+		Viewport(Viewport&& other) = default;
+		Viewport& operator=(Viewport&& other) = default;
 
 		attr_ Camera* m_camera;
 		attr_ Scene* m_scene;
@@ -59,16 +64,21 @@ namespace mud
 		attr_ Colour m_clear_colour = Colour::Black;
 		attr_ Shading m_shading = Shading::Shaded;
 		attr_ Lighting m_lighting = Lighting::Clustered;
+		attr_ bool m_clustered = false;
 
 		using RenderTask = function<void(Render&)>;
 		vector<RenderTask> m_tasks;
 		
-		Culler m_culler;
+		unique<Culler> m_culler;
 
-		void render_pass(const Pass& render_pass);
+		unique<Froxelizer> m_clusters;
+
+		void pass(const Pass& pass);
 
 		meth_ void cull(Render& render);
 		meth_ void render(Render& render);
+
+		meth_ void set_clustered(GfxSystem& gfx);
 
 		Ray ray(const vec2& pos);
 		vec3 raycast(const Plane& plane, const vec2& pos);

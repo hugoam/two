@@ -76,7 +76,7 @@ namespace mud
 		SpriteAtlas(uvec2 size);
 
 		const Sprite& find_sprite(cstring name) const;
-		Sprite* add_sprite(cstring name, uvec2 size, uvec2 frames = uvec2(0U));
+		Sprite* add_sprite(cstring name, const uvec2& size, uvec2 frames = uvec2(0U));
 
 		vec4 sprite_uv(const Sprite& sprite, uint32_t frame) const;
 		vec4 sprite_uv(const Sprite& sprite, float t) const;

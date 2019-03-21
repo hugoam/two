@@ -35,7 +35,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	constexpr float range = 20.0f;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 	ui::trackball_controller(viewer);
 
 #if !IMMEDIATE

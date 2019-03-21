@@ -55,49 +55,39 @@ namespace mud
 	}
 
 	inline MeshAdapter::MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices, bool index32)
-		: m_vertices(vertices), m_indices(indices), m_vertex_format(vertex_format), m_index32(index32)
-		, m_vertex_stride(vertex_size(vertex_format)), m_index_stride(index32 ? sizeof(uint32_t) : sizeof(uint16_t))
-		, m_index(indices.data())
+		: m_vertex_format(vertex_format), m_index32(index32)
+		, m_vertex_count(uint32_t(vertices.size()))
+		, m_index_count(uint32_t(indices.size()))
+		, m_vertex_stride(vertex_size(vertex_format))
 	{
-		if((vertex_format & VertexAttribute::Position) != 0)
-			m_start.m_position	= (vec3*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Position));
-		if((vertex_format & VertexAttribute::Position4) != 0)
-			m_start.m_position4	= (vec4*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Position4));
-		if((vertex_format & VertexAttribute::Normal) != 0)
-			m_start.m_normal	= (vec3*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Normal));
-		if((vertex_format & VertexAttribute::Colour) != 0)
-			m_start.m_colour	= (uint32_t*)	((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Colour));
-		if((vertex_format & VertexAttribute::Tangent) != 0)
-			m_start.m_tangent	= (vec4*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Tangent));
-		if((vertex_format & VertexAttribute::Bitangent) != 0)
-			m_start.m_bitangent	= (vec3*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Bitangent));
-		if((vertex_format & VertexAttribute::TexCoord0) != 0)
-			m_start.m_uv0		= (vec2*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::TexCoord0));
-		if((vertex_format & VertexAttribute::TexCoord1) != 0)
-			m_start.m_uv1		= (vec2*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::TexCoord1));
-		if((vertex_format & VertexAttribute::Joints) != 0)
-			m_start.m_joints	= (uint32_t*)	((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Joints));
-		if((vertex_format & VertexAttribute::Weights) != 0)
-			m_start.m_weights	= (vec4*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::Weights));
-			
-		if((vertex_format & VertexAttribute::QPosition) != 0)
-			m_start.m_qposition	= (half3*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::QPosition));
-		if((vertex_format & VertexAttribute::QNormal) != 0)
-			m_start.m_qnormal	= (uint32_t*)	((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::QNormal));
-		if((vertex_format & VertexAttribute::QTangent) != 0)
-			m_start.m_qtangent	= (uint32_t*)	((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::QTangent));
-		if((vertex_format & VertexAttribute::QTexCoord0) != 0)
-			m_start.m_quv0		= (half2*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::QTexCoord0));
-		if((vertex_format & VertexAttribute::QTexCoord1) != 0)
-			m_start.m_quv1		= (half2*)		((char*)vertices.data() + vertex_offset(vertex_format, VertexAttribute::QTexCoord1));
+		uint32_t stride = vertex_size(vertex_format);
+
+		m_start.m_position .init(vertex_format, VertexAttribute::Position,  vertices.data(), stride);
+		m_start.m_position4.init(vertex_format, VertexAttribute::Position4, vertices.data(), stride);
+		m_start.m_normal   .init(vertex_format, VertexAttribute::Normal,    vertices.data(), stride);
+		m_start.m_colour   .init(vertex_format, VertexAttribute::Colour,    vertices.data(), stride);
+		m_start.m_tangent  .init(vertex_format, VertexAttribute::Tangent,   vertices.data(), stride);
+		m_start.m_bitangent.init(vertex_format, VertexAttribute::Bitangent, vertices.data(), stride);
+		m_start.m_uv0	   .init(vertex_format, VertexAttribute::TexCoord0, vertices.data(), stride);
+		m_start.m_uv1      .init(vertex_format, VertexAttribute::TexCoord1, vertices.data(), stride);
+		m_start.m_joints   .init(vertex_format, VertexAttribute::Joints,    vertices.data(), stride);
+		m_start.m_weights  .init(vertex_format, VertexAttribute::Weights,   vertices.data(), stride);
+		
+		m_start.m_qposition.init(vertex_format, VertexAttribute::QPosition,  vertices.data(), stride);
+		m_start.m_qnormal  .init(vertex_format, VertexAttribute::QNormal,    vertices.data(), stride);
+		m_start.m_qtangent .init(vertex_format, VertexAttribute::QTangent,   vertices.data(), stride);
+		m_start.m_quv0     .init(vertex_format, VertexAttribute::QTexCoord0, vertices.data(), stride);
+		m_start.m_quv1     .init(vertex_format, VertexAttribute::QTexCoord1, vertices.data(), stride);
+
+		if(index32)
+			m_start.m_index32.init(indices.data());
+		else
+			m_start.m_index.init(indices.data());
 
 		m_cursor = m_start;
 	}
 
 	inline MeshAdapter MeshAdapter::read() const { MeshAdapter reader = *this; reader.rewind(); return reader; }
-
-	template <class T>
-	inline void MeshAdapter::next(T*& pointer) { pointer = (T*)((char*)pointer + m_vertex_stride); }
 
 #if 0
 	inline MeshAdapter& MeshAdapter::position(const vec3& p) { m_aabb.add(p); *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
@@ -112,22 +102,22 @@ namespace mud
 	inline MeshAdapter& MeshAdapter::weights(const vec4& w) { if(m_cursor.m_weights) { *m_cursor.m_weights = w; next(m_cursor.m_weights); } return *this; }
 #endif
 
-	inline MeshAdapter& MeshAdapter::dposition(const vec3& p) { *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
-	inline MeshAdapter& MeshAdapter::duv0(const vec2& uv) { if(m_cursor.m_uv0) { *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
-	inline MeshAdapter& MeshAdapter::duv1(const vec2& uv) { if(m_cursor.m_uv1) { *m_cursor.m_uv1 = uv; next(m_cursor.m_uv1); } return *this; }
+	inline MeshAdapter& MeshAdapter::dposition(const vec3& p) { m_cursor.m_position.write(p); ++m_vertex; return *this; }
+	inline MeshAdapter& MeshAdapter::duv0(const vec2& uv) { if(m_cursor.m_uv0) { m_cursor.m_uv0.write(uv); } return *this; }
+	inline MeshAdapter& MeshAdapter::duv1(const vec2& uv) { if(m_cursor.m_uv1) { m_cursor.m_uv1.write(uv); } return *this; }
 
-	inline vec3 MeshAdapter::position() { vec3 value = *m_cursor.m_position; next(m_cursor.m_position); return value; }
-	inline vec3 MeshAdapter::normal() { if(!m_cursor.m_normal) return vec3(0.f); vec3 value = *m_cursor.m_normal; next(m_cursor.m_normal); return value; }
-	inline Colour MeshAdapter::colour() { if(!m_cursor.m_colour) return Colour::None; Colour value = abgr(*m_cursor.m_colour); next(m_cursor.m_colour); return value; }
-	inline vec4 MeshAdapter::tangent() { if(!m_cursor.m_tangent) return vec4(vec3(0.f), 1.f); vec4 value = *m_cursor.m_tangent; next(m_cursor.m_tangent); return value; }
-	inline vec2 MeshAdapter::uv0() { if(!m_cursor.m_uv0) return vec2(0.f); vec2 value = *m_cursor.m_uv0; next(m_cursor.m_uv0); return value; }
-	inline vec2 MeshAdapter::uv1() { if(!m_cursor.m_uv1) return vec2(0.f); vec2 value = *m_cursor.m_uv1; next(m_cursor.m_uv1); return value; }
-	inline uint32_t MeshAdapter::joints() { if(!m_cursor.m_joints) return uint32_t(0U); uint32_t value = *m_cursor.m_joints; next(m_cursor.m_joints); return value; }
-	inline vec4 MeshAdapter::weights() { if(!m_cursor.m_weights) return vec4(0.f); vec4 value = *m_cursor.m_weights; next(m_cursor.m_weights); return value; }
-	inline uint16_t MeshAdapter::index() { uint16_t value = *(uint16_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
-	inline uint32_t MeshAdapter::index32() { uint32_t value = *(uint32_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
+	inline vec3 MeshAdapter::position() { return m_cursor.m_position.read(); }
+	inline vec3 MeshAdapter::normal() { if(!m_cursor.m_normal) return vec3(0.f); return m_cursor.m_normal.read(); }
+	inline Colour MeshAdapter::colour() { if(!m_cursor.m_colour) return Colour::None; return abgr(m_cursor.m_colour.read()); }
+	inline vec4 MeshAdapter::tangent() { if(!m_cursor.m_tangent) return vec4(vec3(0.f), 1.f); return m_cursor.m_tangent.read(); }
+	inline vec2 MeshAdapter::uv0() { if(!m_cursor.m_uv0) return vec2(0.f); return m_cursor.m_uv0.read(); }
+	inline vec2 MeshAdapter::uv1() { if(!m_cursor.m_uv1) return vec2(0.f); return m_cursor.m_uv1.read(); }
+	inline uint32_t MeshAdapter::joints() { if(!m_cursor.m_joints) return uint32_t(0U); return m_cursor.m_joints.read(); }
+	inline vec4 MeshAdapter::weights() { if(!m_cursor.m_weights) return vec4(0.f); return m_cursor.m_weights.read(); }
+	inline uint16_t MeshAdapter::index() { return m_cursor.m_index.read(); }
+	inline uint32_t MeshAdapter::index32() { return m_cursor.m_index32.read(); }
 
-	inline void MeshAdapter::index(uint32_t i) { uint32_t index = i + m_offset; memcpy(m_index, &index, m_index_stride); m_index = ((char*)m_index + m_index_stride); }
+	inline void MeshAdapter::index(uint32_t i) { uint32_t index = i + m_offset; m_index32 ? m_cursor.m_index32.write(index) : m_cursor.m_index.write(uint16_t(index)); }
 	inline void MeshAdapter::line(uint32_t a, uint32_t b) { index(a); index(b); }
 	inline void MeshAdapter::tri(uint32_t a, uint32_t b, uint32_t c) { index(a); index(b); index(c); }
 	inline void MeshAdapter::quad(uint32_t a, uint32_t b, uint32_t c, uint32_t d) { tri(a, b, c); tri(c, d, a); }

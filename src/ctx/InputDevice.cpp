@@ -199,14 +199,14 @@ namespace mud
 		m_mouse.dispatch_secondary(MouseEvent(m_deviceType, EventType::DragStarted, mouse_event), m_pressed, m_pressed_event.m_pos);
 
 		this->drag(mouse_event);
-		//m_root_sheet.m_cursor.lock();
+		//m_ui.m_cursor.lock();
 		m_dragging = true;
 	}
 
 	void MouseButton::drag_end(MouseEvent& mouse_event)
 	{
 		m_dragging = false;
-		//m_root_sheet.m_cursor.unlock();
+		//m_ui.m_cursor.unlock();
 		this->drag(mouse_event);
 
 		MouseEvent& drop = m_mouse.dispatch_event(MouseEvent(m_deviceType, EventType::Dropped, mouse_event.m_pos, m_pressed_event.m_modifiers));

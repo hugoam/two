@@ -44,7 +44,7 @@ namespace mud
 		attr_ vec2 atlas_subdiv;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Camera& camera);
+	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Viewport& viewport, Camera& camera);
 	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums = true, bool bounds = true);
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
@@ -70,8 +70,8 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 
 		virtual void options(Render& render, ProgramVersion& shader_version) const final;
-		virtual void submit(Render& render, const Pass& render_pass) const final;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const final;
+		virtual void submit(Render& render, const Pass& pass) const final;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const final;
 
 		void setup_lights(Render& render, const mat4& view);
 		void setup_zones(Render& render);
@@ -79,8 +79,8 @@ namespace mud
 		void upload_lights(Render& render);
 		void upload_zones(Render& render);
 
-		void commit_zones(Render& render, const Pass& render_pass) const;
-		void commit_lights(Render& render, const Pass& render_pass) const;
+		void commit_zones(Render& render, const Pass& pass) const;
+		void commit_lights(Render& render, const Pass& pass) const;
 
 		uint16_t m_direct_light_index = 0;
 		Light* m_direct_light = nullptr;

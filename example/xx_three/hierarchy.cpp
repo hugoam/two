@@ -6,13 +6,15 @@
 
 #include <stl/vector.hpp>
 
+#include <cstdio>
+
 using namespace mud;
 
 void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controller(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 
@@ -31,7 +33,7 @@ void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//scene.background = new THREE.Color(0xffffff);
 		//scene.fog = new THREE.Fog(0xffffff, 1, 10000);
 
-		Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
+		Material& material = app.m_gfx.materials().create("hierarchy", [&](Material& m) {
 			m.m_program = &normal;
 		});
 

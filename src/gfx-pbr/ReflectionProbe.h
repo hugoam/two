@@ -60,13 +60,13 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 
 		virtual void options(Render& render, ProgramVersion& shader_version) const override;
-		virtual void submit(Render& render, const Pass& render_pass) const override;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
-		void upload_reflection_probes(Render& render, Pass& render_pass, span<ReflectionProbe*> probes);
+		void upload_reflection_probes(Render& render, Pass& pass, span<ReflectionProbe*> probes);
 		void render_reflection_probe(Render& render, ReflectionProbe& reflection_probe);
 
-		ReflectionCubemap& find_cubemap(uint16_t size);
+		CubeTarget& find_cubemap(uint16_t size);
 
 		struct ReflectionUniform
 		{
@@ -105,7 +105,7 @@ namespace mud
 
 		ReflectionUniform u_uniform;
 
-		vector<ReflectionCubemap> m_cubemaps;
+		vector<CubeTarget> m_cubemaps;
 
 		ReflectionAtlas m_atlas;
 

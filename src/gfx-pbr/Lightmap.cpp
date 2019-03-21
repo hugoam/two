@@ -18,10 +18,10 @@ module mud.gfx.pbr;
 #include <geom/Geometry.h>
 #include <pool/ObjectPool.hpp>
 #include <gfx/Item.h>
-#include <gfx/ManualRender.h>
 #include <gfx/Shot.h>
 #include <gfx/Graph.h>
 #include <gfx/Scene.h>
+#include <gfx/Camera.h>
 #include <gfx/Assets.h>
 #include <gfx/Mesh.h>
 #include <gfx/GfxSystem.h>
@@ -118,26 +118,25 @@ namespace mud
 		static BlockGITrace& block_gi_trace = *gfx.m_renderer.block<BlockGITrace>();
 		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
 
-		Pass render_pass = render.next_pass("lightmap", PassType::Lightmap);
+		Pass pass = render.next_pass("lightmap", PassType::Lightmap);
 
 		bool conservative = (bgfx::getCaps()->supported & BGFX_CAPS_CONSERVATIVE_RASTER) != 0;
 		if(!conservative)
 			printf("WARNING: rendering lightmap without conservative raster support will produce visible seams\n");
 
-		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_MSAA;
+		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_MSAA;
 
-		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			if(element.m_program->m_blocks[MaterialBlock::Pbr])
-			{
-				element.m_program = block_lightmap.m_lightmap;
-				element.m_shader_version = element.m_material->shader_version(*element.m_program);
+			if(!element.m_program->m_blocks[MaterialBlock::Pbr])
+				return false;
 
-				gfx.m_renderer.add_element(render, pass, element);
-			}
+			element.m_program = block_lightmap.m_lightmap;
+			element.m_shader_version = element.m_material->shader_version(*element.m_program);
+			return true;
 		};
 
-		gfx.m_renderer.pass(render, render_pass, queue_draw_element);
+		gfx.m_renderer.pass(render, pass, queue_draw_element);
 	}
 
 	BlockLightmap::BlockLightmap(GfxSystem& gfx, BlockLight& block_light, BlockGIBake& block_gi_bake)
@@ -455,16 +454,17 @@ namespace mud
 			FrameBuffer fbo = { uvec2(resolution), c_lightmap_format, BGFX_TEXTURE_RT };
 
 			RenderFrame frame = m_gfx.render_frame();
+			RenderTarget& target = m_gfx.main_target();
 
 			Camera camera = { transform, vec2(extents.x * 2.f, extents.y * 2.f), -extents.z, extents.z };
 			Viewport viewport = { camera, scene, { uvec2(0U), uvec2(lightmap->m_size) } };
-			Render lightmap_render = { Shading::Lightmap, viewport, fbo, frame };
+			Render lightmap_render = { Shading::Lightmap, viewport, target, fbo, frame };
 			viewport.m_clear_colour = Colour::None;
 
 			for(LightmapItem& item : lightmap->m_items)
-				lightmap_render.m_shot->m_items.push_back(items[item.m_item]);
+				lightmap_render.m_shot.m_items.push_back(items[item.m_item]);
 
-			lightmap_render.m_shot->m_gi_probes = gi_probes;
+			lightmap_render.m_shot.m_gi_probes = gi_probes;
 			m_gfx.m_renderer.render(lightmap_render, renderer);
 
 			bgfx::frame();
@@ -494,10 +494,10 @@ namespace mud
 			return;
 
 		UNUSED(render);
-		for(LightmapAtlas* atlas : render.m_shot->m_lightmaps)
+		for(LightmapAtlas* atlas : render.m_shot.m_lightmaps)
 			if(atlas->m_dirty)
 			{
-				m_bake_queue.push_back({ &render.m_scene, atlas });
+				m_bake_queue.push_back({ render.m_scene, atlas });
 			}
 	}
 
@@ -506,18 +506,18 @@ namespace mud
 		UNUSED(render); UNUSED(shader_version);
 	}
 
-	void BlockLightmap::submit(Render& render, const Pass& render_pass) const
+	void BlockLightmap::submit(Render& render, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render); UNUSED(pass);
 		//uint32_t lightmap = uint32_t(TextureSampler::Lightmap);
-		//bgfx::setViewUniform(render_pass.m_index, u_lightmap.s_lightmap, &lightmap);
+		//bgfx::setViewUniform(pass.m_index, u_lightmap.s_lightmap, &lightmap);
 	}
 
-	void BlockLightmap::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	void BlockLightmap::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
 		UNUSED(render);
 
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		if(element.m_item->m_lightmaps.size() > 0)
 		{

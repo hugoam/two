@@ -33,6 +33,7 @@ namespace mud
 		attr_ Texture* m_texture = nullptr;
 		attr_ Texture* m_filtered = nullptr;
 		bool m_preprocessed = false;
+		bool m_filter = true;
 	};
 
 	export_ enum class refl_ BackgroundMode : unsigned int
@@ -48,6 +49,7 @@ namespace mud
 		attr_ BackgroundMode m_mode = BackgroundMode::None;
 		attr_ Colour m_colour = Colour::Black;
 		attr_ Program* m_custom_program = nullptr;
+		attr_ Texture* m_texture = nullptr;
 		using CustomRender = void(*)(Render&); CustomRender m_custom_function;
 	};
 
@@ -94,6 +96,7 @@ namespace mud
 
 		unique<ObjectPool> m_pool;
 
+		attr_ uint32_t m_index;
 		attr_ Gnode m_graph;
 		attr_ Node3 m_root_node;
 		attr_ Zone m_env;

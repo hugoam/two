@@ -131,10 +131,17 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialUser
 	{
-		attr_ MaterialParam<vec4> m_attr0 = { vec4(0.f), nullptr };
-		attr_ MaterialParam<vec4> m_attr1 = { vec4(0.f), nullptr };
-		attr_ MaterialParam<vec4> m_attr2 = { vec4(0.f), nullptr };
-		attr_ MaterialParam<vec4> m_attr3 = { vec4(0.f), nullptr };
+		attr_ Texture* m_tex0 = nullptr;
+		attr_ Texture* m_tex1 = nullptr;
+		attr_ Texture* m_tex2 = nullptr;
+		attr_ Texture* m_tex3 = nullptr;
+
+		attr_ vec4 m_attr0 = vec4(0.f);
+		attr_ vec4 m_attr1 = vec4(0.f);
+		attr_ vec4 m_attr2 = vec4(0.f);
+		attr_ vec4 m_attr3 = vec4(0.f);
+		attr_ vec4 m_attr4 = vec4(0.f);
+		attr_ vec4 m_attr5 = vec4(0.f);
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialAlpha
@@ -204,6 +211,7 @@ namespace mud
 	{
 		NORMAL_MAP,
 		EMISSIVE,
+		REFRACTION,
 		ANISOTROPY,
 		AMBIENT_OCCLUSION,
 		DEPTH_MAPPING,
@@ -273,7 +281,7 @@ namespace mud
 
 		virtual void begin_render(Render& render) override;
 
-		virtual void submit(Render& render, const Pass& render_pass);
+		virtual void submit(Render& render, const Pass& pass);
 
 		bgfx::UniformHandle u_state = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle s_materials = BGFX_INVALID_HANDLE;

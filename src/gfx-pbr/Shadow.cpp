@@ -15,10 +15,10 @@ module mud.gfx.pbr;
 #include <math/Axes.h>
 #include <geom/Geom.hpp>
 #include <geom/Intersect.h>
-#include <gfx/ManualRender.h>
 #include <gfx/Item.h>
 #include <gfx/Shot.h>
 #include <gfx/Frustum.h>
+#include <gfx/Camera.h>
 #include <gfx/Model.h>
 #include <gfx/Program.h>
 #include <gfx/Filter.h>
@@ -130,7 +130,7 @@ namespace mud
 	void cull_shadow_render(Render& render, vector<Item*>& result, const Plane6& planes)
 	{
 		auto filter = [](Item& item) { return item.m_visible && item.m_model->m_geometry[PrimitiveType::Triangles] && (item.m_flags & ItemFlag::Shadows) != 0; };
-		result = filter_cull(render.m_scene, filter);
+		result = filter_cull(*render.m_scene, filter);
 		//result = frustum_cull(items, planes, filter);
 
 		for(Item* item : result)
@@ -255,7 +255,7 @@ namespace mud
 		
 		shadow.m_light_bounds = light_slice_bounds(slice.m_frustum, light_transform);
 
-		shadow.m_items = render.m_shot->m_items;
+		shadow.m_items = render.m_shot.m_items;
 		light_slice_cull(render, light, shadow.m_light_bounds, shadow.m_items);
 
 		const float texture_size = float(shadow.m_rect.width);
@@ -283,7 +283,7 @@ namespace mud
 	{
 		csm.m_light = &light;
 		csm.m_frustum_slices.resize(light.m_shadow_num_splits);
-		split_frustum_slices(render.m_camera, csm.m_frustum_slices, light.m_shadow_num_splits, light.m_shadow_split_distribution);
+		split_frustum_slices(*render.m_camera, csm.m_frustum_slices, light.m_shadow_num_splits, light.m_shadow_split_distribution);
 
 		mat4 light_transform = bxlookat(-light.m_node->direction(), vec3(0.f));
 		mat4 light_proj = bxortho(1.0f, -1.0f, 1.0f, -1.0f, -light.m_shadow_range, light.m_shadow_range, 0.0f, bgfx::getCaps()->homogeneousDepth);
@@ -322,17 +322,17 @@ namespace mud
 
 	void ShadowmapCube::create(uint32_t size)
 	{
-		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT))
+		const uint64_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT;
+		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::D24S8, flags))
 			return;
 
-		//*this = {};
 		m_size = size;
-		m_depth = Texture{ bgfx::createTextureCube(size, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT) };
+		m_depth = { uvec2(size), false, bgfx::TextureFormat::D24S8, flags, true };
 
 		for(int i = 0; i < 6; i++)
 		{
-			bgfx::Attachment attachment = { bgfx::Access::Write, m_depth, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS };
-			m_fbos[i] = { uvec2(size), bgfx::createFrameBuffer(1, &attachment, true) };
+			bgfx::Attachment attach = { bgfx::Access::Write, m_depth, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS };
+			m_fbos[i] = { uvec2(size), m_depth, { attach } };
 		}
 	}
 
@@ -369,7 +369,7 @@ namespace mud
 				m_csm.create(uvec2(csm_size));
 		}
 
-		for(Light* light : render.m_shot->m_lights)
+		for(Light* light : render.m_shot.m_lights)
 			if(light->m_shadows && light->m_type != LightType::Direct)
 			{
 				if(m_atlas.m_size == 0)
@@ -397,7 +397,7 @@ namespace mud
 	void BlockShadow::setup_shadows(Render& render)
 	{
 		size_t num_csm = 0;
-		for(Light* light : render.m_shot->m_lights)
+		for(Light* light : render.m_shot.m_lights)
 			if(light->m_shadows && light->m_type == LightType::Direct)
 			{
 				num_csm++;
@@ -405,7 +405,7 @@ namespace mud
 
 		size_t csm_index = 0;
 
-		span<Light*> lights = render.m_shot->m_lights;
+		span<Light*> lights = render.m_shot.m_lights;
 		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
 
 		m_csm_shadows.clear();
@@ -475,7 +475,7 @@ namespace mud
 					shadow.m_projection = projection;
 					//shadow.m_light_bounds = 
 
-					shadow.m_items = render.m_shot->m_items;
+					shadow.m_items = render.m_shot.m_items;
 					cull_shadow_render(render, shadow.m_items, shadow.m_projection, shadow.m_transform);
 
 #if SHADOW_ATLAS
@@ -498,7 +498,7 @@ namespace mud
 				shadow.m_projection = bxproj(light.m_spot_angle * 2.f, 1.f, 0.01f, light.m_range, bgfx::getCaps()->homogeneousDepth);
 				shadow.m_transform = light.m_node->m_transform;
 
-				shadow.m_items = render.m_shot->m_items;
+				shadow.m_items = render.m_shot.m_items;
 				cull_shadow_render(render, shadow.m_items, shadow.m_projection, shadow.m_transform);
 
 				shadow.m_fbo = &m_atlas.m_fbo;
@@ -507,22 +507,6 @@ namespace mud
 				//m_block_light.m_gpu_shadows[index].matrix = m_shadows.size() - 1;
 			}
 		}
-	}
-
-	void BlockShadow::render(ManualRender& render, Light& light, DepthMethod method, float bias_scale)
-	{
-		m_depth_method = method;
-
-		m_distance_params.m_eye = light.m_node->position();
-		m_distance_params.m_near = 0.01f;
-		m_distance_params.m_far = light.m_range;
-
-		m_depth_params.m_depth_bias = light.m_shadow_bias * bias_scale;
-		m_depth_params.m_depth_normal_bias = light.m_shadow_normal_bias;
-		m_depth_params.m_depth_z_far = light.m_shadow_range;
-
-		RenderFunc renderer = m_gfx.renderer(Shading::Volume);
-		render.render(m_gfx.m_renderer, renderer);
 	}
 
 	void BlockShadow::commit_shadows(Render& render, const mat4& view)
@@ -554,11 +538,11 @@ namespace mud
 		m_block_light.upload_lights(render);
 	}
 
-	void BlockShadow::upload_shadows(Render& render, const Pass& render_pass) const
+	void BlockShadow::upload_shadows(Render& render, const Pass& pass) const
 	{
 		UNUSED(render);
-		GpuState<GpuCSM>::me.upload(render_pass, const_cast<BlockShadow*>(this)->m_csm_matrix, m_csm_splits);
-		GpuState<GpuShadow>::me.upload(render_pass, const_cast<BlockShadow*>(this)->m_shadow_matrices);
+		GpuState<GpuCSM>::me.upload(pass, const_cast<BlockShadow*>(this)->m_csm_matrix, m_csm_splits);
+		GpuState<GpuShadow>::me.upload(pass, const_cast<BlockShadow*>(this)->m_shadow_matrices);
 	}
 
 	void BlockShadow::options(Render& render, ProgramVersion& shader_version) const
@@ -578,17 +562,17 @@ namespace mud
 		}
 	}
 
-	void BlockShadow::submit(Render& render, const Pass& render_pass) const
+	void BlockShadow::submit(Render& render, const Pass& pass) const
 	{
 		UNUSED(render);
 
-		this->upload_shadows(render, render_pass);
+		this->upload_shadows(render, pass);
 
 		uint32_t shadow_csm = uint32_t(TextureSampler::ShadowCSM);
-		bgfx::setViewUniform(render_pass.m_index, u_direct_shadow.s_csm_atlas, &shadow_csm);
+		bgfx::setViewUniform(pass.m_index, u_direct_shadow.s_csm_atlas, &shadow_csm);
 
 		uint32_t shadow_atlas = uint32_t(TextureSampler::ShadowAtlas);
-		bgfx::setViewUniform(render_pass.m_index, u_shadow.s_shadow_atlas, &shadow_atlas);
+		bgfx::setViewUniform(pass.m_index, u_shadow.s_shadow_atlas, &shadow_atlas);
 
 		Light* light = m_direct_light;
 		bool direct = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;
@@ -596,28 +580,28 @@ namespace mud
 		if(direct && light->m_shadows)
 		{
 			vec4 csm_p0 = { 1.f / vec2(m_csm.m_size), vec2(0.f) };
-			bgfx::setViewUniform(render_pass.m_index, u_direct_shadow.u_csm_p0, &csm_p0);
+			bgfx::setViewUniform(pass.m_index, u_direct_shadow.u_csm_p0, &csm_p0);
 
 			vec2 pcf_offset = { 1.f, 1.f };
 			vec4 pcf_p0 = { pcf_offset, vec2(0.f) };
-			bgfx::setViewUniform(render_pass.m_index, u_shadow.u_pcf_p0, &pcf_p0);
+			bgfx::setViewUniform(pass.m_index, u_shadow.u_pcf_p0, &pcf_p0);
 		}
 
 		if(!m_shadows.empty())
 		{
 			vec4 atlas_p0 = { vec2(m_atlas.m_rect_size), vec2(1.f) / float(m_atlas.m_size) };
-			bgfx::setViewUniform(render_pass.m_index, u_shadow.u_shadow_atlas, &atlas_p0);
+			bgfx::setViewUniform(pass.m_index, u_shadow.u_shadow_atlas, &atlas_p0);
 		}
 	}
 
-	void BlockShadow::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	void BlockShadow::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(element); UNUSED(render_pass);
+		UNUSED(render); UNUSED(element); UNUSED(pass);
 
 		Light* light = m_direct_light;
 		bool direct = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;
 
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		bool shadow_sampler = false; // m_pcf_level != PCF_HARD
 		uint32_t shadow_flags = shadow_sampler ? BGFX_SAMPLER_COMPARE_LESS : GFX_TEXTURE_POINT;
@@ -638,24 +622,46 @@ namespace mud
 	{
 		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
 
+		auto setup_block = [&](Light& light, DepthMethod depth_method, float bias_scale = 1.f)
+		{
+			block_shadow.m_depth_method = depth_method;
+
+			block_shadow.m_distance_params.m_eye = light.m_node->position();
+			block_shadow.m_distance_params.m_near = 0.01f;
+			block_shadow.m_distance_params.m_far = light.m_range;
+
+			block_shadow.m_depth_params.m_depth_bias = light.m_shadow_bias * bias_scale;
+			block_shadow.m_depth_params.m_depth_normal_bias = light.m_shadow_normal_bias;
+			block_shadow.m_depth_params.m_depth_z_far = light.m_shadow_range;
+		};
+
+		auto render_shadow = [&](LightShadow& shadow, uvec4 rect)
+		{
+			Camera camera = Camera(shadow.m_transform, shadow.m_projection);
+			Viewport viewport = Viewport(camera, *render.m_scene, target_rect(shadow, block_shadow.m_csm.m_size));
+
+			Render shadow_render = { Shading::Volume, viewport, *render.m_target, *shadow.m_fbo, *render.m_frame };
+			shadow_render.m_shot.m_lights = render.m_shot.m_lights;
+			shadow_render.m_shot.m_items = shadow.m_items;
+
+			setup_block(*shadow.m_light, shadow.m_depth_method, shadow.m_bias_scale);
+
+			RenderFunc renderer = gfx.renderer(Shading::Volume);
+			gfx.m_renderer.subrender(render, shadow_render, gfx.renderer(Shading::Volume));
+		};
+
 		for(CSMShadow& csm : block_shadow.m_csm_shadows)
 		{
 			if(!block_shadow.m_csm.m_fbo.valid())
 				continue;
 
 			for(LightShadow& slice : csm.m_slices)
-			{
-				ManualRender shadow_render = { render, Shading::Volume, *slice.m_fbo, target_rect(slice, block_shadow.m_csm.m_size), slice.m_transform, slice.m_projection };
-				shadow_render.m_sub_render.m_shot->m_items = slice.m_items;
-				block_shadow.render(shadow_render, *slice.m_light, slice.m_depth_method, slice.m_bias_scale);
-			}
+				render_shadow(slice, target_rect(slice, block_shadow.m_csm.m_size));
 		}
 
 		for(LightShadow& shadow : block_shadow.m_shadows)
 		{
-			ManualRender shadow_render = { render, Shading::Volume, *shadow.m_fbo, shadow.m_rect, shadow.m_transform, shadow.m_projection };
-			shadow_render.m_sub_render.m_shot->m_items = shadow.m_items;
-			block_shadow.render(shadow_render, *shadow.m_light, shadow.m_depth_method);
+			render_shadow(shadow, shadow.m_rect);
 		}
 	}
 
@@ -664,26 +670,26 @@ namespace mud
 		static BlockDepth& block_depth = *gfx.m_renderer.block<BlockDepth>();
 		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
 
-		Pass render_pass = render.next_pass("shadow", PassType::Shadow);
+		Pass pass = render.next_pass("shadow", PassType::Shadow);
 
 		block_depth.m_depth_method = block_shadow.m_depth_method;
 		block_depth.m_depth_params = block_shadow.m_depth_params;
 		block_depth.m_distance_params = block_shadow.m_distance_params;
 
-		block_depth.submit(render, render_pass);
-		//block_shadow.submit(render, render_pass);
+		block_depth.submit(render, pass);
+		//block_shadow.submit(render, pass);
 
-		pass_depth(gfx, render, render_pass, false);
+		pass_depth(gfx, render, pass, false);
 
-		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement element)
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			if(element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha)
-			{
-				queue_depth(gfx, render, pass, element);
-			}
+			if(!element.m_program->m_blocks[MaterialBlock::Pbr] || element.m_material->m_alpha.m_is_alpha)
+				return false;
+			
+			return queue_depth(gfx, render, pass, element);
 		};
 
-		gfx.m_renderer.pass(render, render_pass, queue_draw_element);
+		gfx.m_renderer.pass(render, pass, queue_draw_element);
 	}
 
 }
