@@ -119,7 +119,7 @@ namespace mud
 		return _stat(path.c_str(), &info) == 0 && (info.st_mode & _S_IFMT) != 0;
 #else 
 		struct stat info;
-		return stat(path.c_str(), &info) == 0 && (info.st_mode & _S_IFMT) != 0;
+		return stat(path.c_str(), &info) == 0 && (info.st_mode & S_IFMT) != 0;
 #endif
 	}
 
