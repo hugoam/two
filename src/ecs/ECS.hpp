@@ -192,12 +192,6 @@ namespace mud
 	template <class T>
 	inline T& Entt::comp() { return m_ecs->get<T>(m_handle); }
 
-	inline OEntt::~OEntt()
-	{
-		if(m_handle != UINT32_MAX)
-			m_ecs->destroy(m_handle);
-	}
-
 	inline ECS::ECS(int capacity)
 	{
 		UNUSED(capacity);

@@ -146,7 +146,8 @@ namespace mud
 #elif BX_PLATFORM_LINUX
 		Target target = GLSL; UNUSED(is_opengl);
 #elif BX_PLATFORM_EMSCRIPTEN
-		Target target = ESSL; UNUSED(is_opengl);
+		//Target target = ESSL; UNUSED(is_opengl);
+		Target target = GLSL; UNUSED(is_opengl);
 #elif BX_PLATFORM_OSX
 		Target target = is_opengl ? GLSL : Metal;
 #endif
@@ -170,9 +171,7 @@ namespace mud
 		//if(debug)
 			//args.push_back("--debug");
 
-#ifndef MUD_PLATFORM_EMSCRIPTEN
 		args.push_back("-O3");
-#endif
 
 		if(target == GLSL)
 		{
