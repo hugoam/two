@@ -31,7 +31,7 @@ namespace mud
 	export_ class refl_ MUD_CTX_EXPORT Context
 	{
 	public:
-		Context(RenderSystem& render_system, const string& title, const uvec2& size, bool full_screen = false);
+		Context(RenderSystem& render_system, const string& title, const uvec2& size, bool fullscreen = false, bool main = true);
 		virtual ~Context();
 
 		RenderSystem& m_render_system;
@@ -40,7 +40,8 @@ namespace mud
 		attr_ string m_title;
 		attr_ uvec2 m_size;
 		attr_ uvec2 m_fb_size;
-		attr_ bool m_full_screen;
+		attr_ bool m_fullscreen;
+		attr_ bool m_is_main;
 
 		attr_ float m_pixel_ratio;
 

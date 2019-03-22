@@ -22,7 +22,7 @@ namespace mud
 	export_ class refl_ MUD_CTX_GLFW_EXPORT GlfwContext : public Context
 	{
 	public:
-		GlfwContext(RenderSystem& render_system, const string& name, const uvec2& size, bool full_screen, bool auto_swap = true);
+		GlfwContext(RenderSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main = true, bool autoswap = true);
 		~GlfwContext();
 
 		void init_context();

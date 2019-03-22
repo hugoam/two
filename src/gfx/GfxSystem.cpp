@@ -84,7 +84,7 @@ namespace mud
 	};
 
 	GfxWindow::GfxWindow(GfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main)
-		: BgfxContext(gfx, name, size, fullscreen, false)
+		: BgfxContext(gfx, name, size, fullscreen, main, false)
 		, m_gfx(gfx)
 		, m_target()
 	{

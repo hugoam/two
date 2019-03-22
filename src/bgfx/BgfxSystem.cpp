@@ -19,16 +19,16 @@ module mud.bgfx;
 
 namespace mud
 {
-	BgfxContext::BgfxContext(BgfxSystem& gfx, const string& name, const uvec2& size, bool fullScreen, bool init)
+	BgfxContext::BgfxContext(BgfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main, bool init)
 #if defined MUD_CONTEXT_GLFW
-		: GlfwContext(gfx, name, size, fullScreen, false)
+		: GlfwContext(gfx, name, size, fullscreen, main, false)
 #elif defined MUD_CONTEXT_WASM
-		: EmContext(gfx, name, size, fullScreen)
+		: EmContext(gfx, name, size, fullscreen, main)
 #elif defined MUD_CONTEXT_WINDOWS
-		: WinContext(gfx, name, size, fullScreen)
+		: WinContext(gfx, name, size, fullscreen, main)
 #endif
 	{
-		if(init)
+		if(main && init)
 			gfx.init(*this);
 	}
 
