@@ -1584,6 +1584,11 @@ namespace clgen
 				cw("return " + call + ";");
 			else if(q.m_type->issequence())
 				cw("return (" + reduce_element(*q.m_type).m_id + "*)" + call + ".data();");
+			else if(!ref && q.value() && !q.m_type->copyable())
+			{
+				printf("WARNING: cbind - %s - binding return by-value of non-struct type is not supported\n", call.c_str());
+				cw(call + ";");
+			}
 			else if(ref || !q.value() || !q.m_type->copyable())
 				cw("return " + address(q) + call + ";");
 			else
