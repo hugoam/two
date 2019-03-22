@@ -146,7 +146,7 @@ namespace mud
 	ShellWindow& Shell::window(const string& name, const uvec2& size, bool fullscreen)
 	{
 		const uint32_t index = m_windows.size();
-		m_windows.push_back(construct<ShellWindow>(m_gfx, index, "two", uvec2(1600U, 900U), false));
+		m_windows.push_back(construct<ShellWindow>(m_gfx, index, name, uvec2(1600U, 900U), false));
 		return *m_windows.back();
 	}
 
