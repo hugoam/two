@@ -265,8 +265,10 @@ void mud_Program_set_pass(void* object, span<void*> args, void*& result) { UNUSE
 void mud_Program_set_source(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Program*>(object)).set_source(*static_cast<mud::ShaderType*>(args[0]), *static_cast<stl::string*>(args[1])); }
 void mud_Radiance__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Radiance(  ); }
 void mud_Radiance__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Radiance((*static_cast<mud::Radiance*>(other))); }
-void mud_Render__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Render( *static_cast<mud::Shading*>(args[0]), *static_cast<mud::Viewport*>(args[1]), *static_cast<mud::RenderTarget*>(args[2]), *static_cast<mud::RenderFrame*>(args[3]) ); }
-void mud_Render__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Render( *static_cast<mud::Shading*>(args[0]), *static_cast<mud::Viewport*>(args[1]), *static_cast<mud::RenderTarget*>(args[2]), *static_cast<mud::FrameBuffer*>(args[3]), *static_cast<mud::RenderFrame*>(args[4]) ); }
+void mud_Render__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Render(  ); }
+void mud_Render__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Render( *static_cast<mud::Shading*>(args[0]), *static_cast<mud::Viewport*>(args[1]), *static_cast<mud::RenderTarget*>(args[2]), *static_cast<mud::RenderFrame*>(args[3]) ); }
+void mud_Render__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Render( *static_cast<mud::Shading*>(args[0]), *static_cast<mud::Viewport*>(args[1]), *static_cast<mud::RenderTarget*>(args[2]), *static_cast<mud::FrameBuffer*>(args[3]), *static_cast<mud::RenderFrame*>(args[4]) ); }
+void mud_Render__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Render((*static_cast<mud::Render*>(other))); }
 void mud_Render_next_pass(void* object, span<void*> args, void*& result) { (*static_cast<mud::Pass*>(result)) = (*static_cast<mud::Render*>(object)).next_pass(static_cast<const char*>(args[0]), *static_cast<mud::PassType*>(args[1]), *static_cast<bool*>(args[2])); }
 void mud_Render_composite_pass(void* object, span<void*> args, void*& result) { (*static_cast<mud::Pass*>(result)) = (*static_cast<mud::Render*>(object)).composite_pass(static_cast<const char*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::uvec4*>(args[2])); }
 void mud_RenderFrame__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::RenderFrame(  ); }
@@ -2451,16 +2453,20 @@ namespace mud
 	// mud::Render
 	{
 		Type& t = type<mud::Render>();
-		static Meta meta = { t, &namspc({ "mud" }), "Render", sizeof(mud::Render), TypeClass::Object };
+		static Meta meta = { t, &namspc({ "mud" }), "Render", sizeof(mud::Render), TypeClass::Struct };
 		// bases
 		// defaults
 		static bool next_pass_0_subpass_default = false;
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Render__construct_0, { { "shading", type<mud::Shading>(),  }, { "viewport", type<mud::Viewport>(),  }, { "target", type<mud::RenderTarget>(),  }, { "frame", type<mud::RenderFrame>(),  } } },
-			{ t, mud_Render__construct_1, { { "shading", type<mud::Shading>(),  }, { "viewport", type<mud::Viewport>(),  }, { "target", type<mud::RenderTarget>(),  }, { "target_fbo", type<mud::FrameBuffer>(),  }, { "frame", type<mud::RenderFrame>(),  } } }
+			{ t, mud_Render__construct_0, {} },
+			{ t, mud_Render__construct_1, { { "shading", type<mud::Shading>(),  }, { "viewport", type<mud::Viewport>(),  }, { "target", type<mud::RenderTarget>(),  }, { "frame", type<mud::RenderFrame>(),  } } },
+			{ t, mud_Render__construct_2, { { "shading", type<mud::Shading>(),  }, { "viewport", type<mud::Viewport>(),  }, { "target", type<mud::RenderTarget>(),  }, { "target_fbo", type<mud::FrameBuffer>(),  }, { "frame", type<mud::RenderFrame>(),  } } }
 		};
 		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_Render__copy_construct }
+		};
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::Render, m_shading), type<mud::Shading>(), "shading", nullptr, Member::Value, nullptr },
@@ -2478,7 +2484,7 @@ namespace mud
 			{ t, "composite_pass", Address(), mud_Render_composite_pass, { { "name", type<const char*>(), Param::Nullable }, { "fbo", type<mud::FrameBuffer>(),  }, { "rect", type<mud::uvec4>(),  } }, { &type<mud::Pass>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
 	}
 	// mud::RenderFrame
 	{

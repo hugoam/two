@@ -79,7 +79,7 @@ namespace mud
     struct ProgramVersion;
     struct Pass;
     struct RenderFrame;
-    class Render;
+    struct Render;
     class GfxBlock;
     class DrawBlock;
     struct DrawElement;

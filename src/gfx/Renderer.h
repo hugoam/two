@@ -158,9 +158,9 @@ namespace mud
 
 	using RenderFunc = void(*)(GfxSystem&, Render&);
 
-	export_ class refl_ MUD_GFX_EXPORT Render
+	export_ struct refl_ MUD_GFX_EXPORT Render
 	{
-	public:
+		constr_ Render() {}
 		constr_ Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame);
 		constr_ Render(Shading shading, Viewport& viewport, RenderTarget& target, FrameBuffer& target_fbo, RenderFrame& frame);
 		~Render();

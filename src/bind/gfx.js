@@ -3065,6 +3065,7 @@ Radiance.prototype["__destroy"] = Radiance.prototype.__destroy = function() {
 };
 // Render
 function Render(a0, a1, a2, a3, a4) {
+    if (a0 === undefined) { this.__ptr = _mud_Render__construct_0(); this.__type = Render.__type; getCache(Render)[this.__ptr] = this; return; }
     if (a4 === undefined) { this.__ptr = _mud_Render__construct_4(/*shading*/a0, /*viewport*/a1.__ptr, /*target*/a2.__ptr, /*frame*/a3.__ptr); this.__type = Render.__type; getCache(Render)[this.__ptr] = this; return; }
     this.__ptr = _mud_Render__construct_5(/*shading*/a0, /*viewport*/a1.__ptr, /*target*/a2.__ptr, /*target_fbo*/a3.__ptr, /*frame*/a4.__ptr); this.__type = Render.__type; getCache(Render)[this.__ptr] = this;
 };

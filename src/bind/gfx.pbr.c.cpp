@@ -70,7 +70,8 @@ extern "C" {
 		return new mud::CubeCamera(*scene, near, far, size);
 	}
 	mud::Render* DECL mud_CubeCamera_render_3(mud::CubeCamera* self, mud::GfxSystem* gfx, mud::Render* render, mud::SignedAxis axis) {
-		return &self->render(*gfx, *render, axis);
+		static mud::Render temp;
+		return (temp = self->render(*gfx, *render, axis), &temp);
 	}
 	mud::CubeTarget* DECL mud_CubeCamera__get_cubemap(mud::CubeCamera* self) {
 		return &self->m_cubemap;

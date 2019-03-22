@@ -2467,6 +2467,9 @@ extern "C" {
 	mud::Type* DECL mud_Render__type() {
 		return &mud::type<mud::Render>();
 	}
+	mud::Render* DECL mud_Render__construct_0() {
+		return new mud::Render();
+	}
 	mud::Render* DECL mud_Render__construct_4(mud::Shading shading, mud::Viewport* viewport, mud::RenderTarget* target, mud::RenderFrame* frame) {
 		return new mud::Render(shading, *viewport, *target, *frame);
 	}
