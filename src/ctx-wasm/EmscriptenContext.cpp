@@ -19,6 +19,29 @@ namespace mud
 {
 	using string = string;
 
+	static void log_error(EMSCRIPTEN_RESULT result)
+	{
+		string message;
+		if(result == EMSCRIPTEN_RESULT_DEFERRED)
+			message = "The requested operation cannot be completed now for web security reasons, and has been deferred for completion in the next event handler.";
+		else if(result == EMSCRIPTEN_RESULT_NOT_SUPPORTED)
+			message = "The given operation is not supported by this browser or the target element.This value will be returned at the time the callback is registered if the operation is not supported.";
+		else if(result == EMSCRIPTEN_RESULT_FAILED_NOT_DEFERRED)
+			message = "The requested operation could not be completed now for web security reasons.It failed because the user requested the operation not be deferred.";
+		else if(result == EMSCRIPTEN_RESULT_INVALID_TARGET)
+			message = "The operation failed because the specified target element is invalid.";
+		else if(result == EMSCRIPTEN_RESULT_UNKNOWN_TARGET)
+			message = "The operation failed because the specified target element was not found.";
+		else if(result == EMSCRIPTEN_RESULT_INVALID_PARAM)
+			message = "The operation failed because an invalid parameter was passed to the function.";
+		else if(result == EMSCRIPTEN_RESULT_FAILED)
+			message = "Generic failure result message, returned if no specific result is available.";
+		else if(result == EMSCRIPTEN_RESULT_NO_DATA)
+			message = "The operation failed because no data is currently available.";
+
+		printf("ERROR: html5 - %s\n", message.c_str());
+	}
+
 	MouseButtonCode convert_html5_mouse_button(unsigned short button)
 	{
 		if(button == 0) return LEFT_BUTTON;
@@ -148,21 +171,28 @@ namespace mud
 		else return translate(convert_html5_key(string));
 	}
 
-	EmContext::EmContext(RenderSystem& render_system, const string& name, uvec2 size, bool full_screen)
-		: Context(render_system, name, size, full_screen)
+	EmContext::EmContext(RenderSystem& render_system, const string& name, uvec2 size, bool fullscreen, bool main)
+		: Context(render_system, name, size, fullscreen)
 	{
 #ifdef MUD_RENDERER_BGFX
-		// bgfx creates the context itself
-		double canvas_width, canvas_height;
-		emscripten_get_element_css_size("#canvas", &canvas_width, &canvas_height);
-		emscripten_set_canvas_element_size("#canvas", int(canvas_width), int(canvas_height));
-
-		m_size = { uint(canvas_width), uint(canvas_height) };
-		m_fb_size = m_size;
-
+		const bool create = !main;
 #else
-		this->init_context();
+		const bool create = false;
 #endif
+		if(!create)
+		{
+			// bgfx creates the context itself
+			double canvas_width, canvas_height;
+			emscripten_get_element_css_size("#canvas", &canvas_width, &canvas_height);
+			emscripten_set_canvas_element_size("#canvas", int(canvas_width), int(canvas_height));
+
+			m_size = { uint(canvas_width), uint(canvas_height) };
+			m_fb_size = m_size;
+		}
+		else
+		{
+			this->create_context(name);
+		}
 
 		emscripten_set_resize_callback(0, this, true, [](int, const EmscriptenUiEvent* event, void* w) { UNUSED(event); static_cast<EmContext*>(w)->resize(); return EM_BOOL(true); });
 
@@ -184,7 +214,7 @@ namespace mud
 
 	}
 
-	void EmContext::init_context()
+	void EmContext::create_context(const string& name)
 	{
 		EmscriptenWebGLContextAttributes attrs;
 		emscripten_webgl_init_context_attributes(&attrs);
@@ -199,9 +229,19 @@ namespace mud
 		attrs.minorVersion = 0;
 		attrs.enableExtensionsByDefault = 1;
 
-		m_window = emscripten_webgl_create_context("#canvas", &attrs);
+		const string id = name;//"#" + name;
+		
+		printf("DEBUG: create webgl context on canvas %s\n", id.c_str());
+		auto context = emscripten_webgl_create_context(id.c_str(), &attrs);
+		if(context == 0 || context < 0)
+		{
+			log_error((EMSCRIPTEN_RESULT)context);
+			return;
+		}
 
-		emscripten_set_canvas_element_size("#canvas", m_size.x, m_size.y);
+		m_window = context;
+
+		emscripten_set_canvas_element_size(id.c_str(), m_size.x, m_size.y);
 		emscripten_webgl_make_context_current(m_window);
 	}
 
