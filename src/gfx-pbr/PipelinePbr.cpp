@@ -382,10 +382,10 @@ namespace gfx
 
 #if DEPTH_PASS
 		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
-									    | BGFX_STATE_DEPTH_TEST_EQUAL | BGFX_STATE_MSAA;
+								 | BGFX_STATE_DEPTH_TEST_EQUAL | BGFX_STATE_MSAA;
 #else
 		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
-									    | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_MSAA;
+								 | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_MSAA;
 #endif
 
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)

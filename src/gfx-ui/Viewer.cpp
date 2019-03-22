@@ -393,9 +393,9 @@ namespace mud
 			//dispatchEvent(startEvent);
 
 			if(event.m_deltaZ < 0.f)
-				dollyOut(getZoomScale());
+				dollyOut(getZoomScale() * abs(event.m_deltaZ));
 			else if(event.m_deltaZ > 0)
-				dollyIn(getZoomScale());
+				dollyIn(getZoomScale() * abs(event.m_deltaZ));
 
 			//dispatchEvent(endEvent);
 		}
