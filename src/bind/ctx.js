@@ -45,12 +45,20 @@ Object.defineProperty(Context.prototype, "fb_size", {
         _mud_Context__set_fb_size(this.__ptr, value.__ptr);
     }
 });
-Object.defineProperty(Context.prototype, "full_screen", {
+Object.defineProperty(Context.prototype, "fullscreen", {
     get: function() {
-        return !!(_mud_Context__get_full_screen(this.__ptr));
+        return !!(_mud_Context__get_fullscreen(this.__ptr));
     },
     set: function(value) {
-        _mud_Context__set_full_screen(this.__ptr, value);
+        _mud_Context__set_fullscreen(this.__ptr, value);
+    }
+});
+Object.defineProperty(Context.prototype, "is_main", {
+    get: function() {
+        return !!(_mud_Context__get_is_main(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Context__set_is_main(this.__ptr, value);
     }
 });
 Object.defineProperty(Context.prototype, "pixel_ratio", {

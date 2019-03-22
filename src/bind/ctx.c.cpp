@@ -50,11 +50,17 @@ extern "C" {
 	void DECL mud_Context__set_fb_size(mud::Context* self, mud::uvec2* value) {
 		self->m_fb_size = *value;
 	}
-	bool DECL mud_Context__get_full_screen(mud::Context* self) {
-		return self->m_full_screen;
+	bool DECL mud_Context__get_fullscreen(mud::Context* self) {
+		return self->m_fullscreen;
 	}
-	void DECL mud_Context__set_full_screen(mud::Context* self, bool value) {
-		self->m_full_screen = value;
+	void DECL mud_Context__set_fullscreen(mud::Context* self, bool value) {
+		self->m_fullscreen = value;
+	}
+	bool DECL mud_Context__get_is_main(mud::Context* self) {
+		return self->m_is_main;
+	}
+	void DECL mud_Context__set_is_main(mud::Context* self, bool value) {
+		self->m_is_main = value;
 	}
 	float DECL mud_Context__get_pixel_ratio(mud::Context* self) {
 		return self->m_pixel_ratio;

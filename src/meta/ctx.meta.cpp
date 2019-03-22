@@ -134,6 +134,7 @@ namespace mud
 			{ t, offsetof(mud::Context, m_size), type<mud::uvec2>(), "size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_fb_size), type<mud::uvec2>(), "fb_size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_fullscreen), type<bool>(), "fullscreen", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_is_main), type<bool>(), "is_main", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_pixel_ratio), type<float>(), "pixel_ratio", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_active), type<bool>(), "active", &active_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_shutdown), type<bool>(), "shutdown", &shutdown_default, Member::Value, nullptr },
