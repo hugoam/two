@@ -69,6 +69,8 @@ namespace mud
 		, tooltip("Tooltip", decal, [](Layout& l) { l.m_space = Preset::Unit; l.m_zorder = -2; })
 		, rectangle("Rectangle", decal, [](Layout& l) { l.m_space = Preset::Block; l.m_zorder = -3; },
 										[](InkStyle& l) { l.m_border_width = vec4(1.f); l.m_border_colour = Colour::White; l.m_background_colour = Colour::AlphaGrey; })
+		
+		, viewport("Viewport", wedge, [](Layout& l) { l.m_space = Preset::Sheet; l.m_opacity = Opacity::Opaque; })
 
 		, type_in("TypeIn", wrap_control, [](Layout& l) { l.m_opacity = Opacity::Opaque; })
 		, text_edit("TextEdit", type_in, [](Layout& l) { l.m_space = Preset::Layout; })

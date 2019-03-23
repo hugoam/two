@@ -75,6 +75,14 @@ namespace ui
 		return self;
 	}
 
+	Widget& viewport(Widget& parent, const vec4& rect)
+	{
+		Widget& self = widget(parent, styles().viewport).layer();
+		self.m_frame.set_position(rect_offset(rect));
+		self.m_frame.set_size(rect_size(rect));
+		return self;
+	}
+
 	Widget& cursor(Widget& parent, const vec2& position, Style& style, bool locked)
 	{
 		UNUSED(locked);

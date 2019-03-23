@@ -19,7 +19,7 @@ namespace mud
 		Style div; Style row; Style stack; Style sheet; Style flex; Style list; Style header; Style board; Style layout;
 		Style screen; Style decal; Style overlay; Style gridsheet; Style sequence; Style element;
 		Style label; Style title; Style message; Style text; Style button; Style wrap_button; Style multi_button; Style toggle; Style checkbox;
-		Style dummy; Style tooltip; Style rectangle; Style type_in; Style text_edit; Style type_zone; Style caret; Style image; Style image_stretch;
+		Style dummy; Style tooltip; Style rectangle; Style viewport; Style type_in; Style text_edit; Style type_zone; Style caret; Style image; Style image_stretch;
 		Style radio_switch; Style radio_switch_h; Style radio_choice; Style radio_choice_item;
 		Style slider; Style slider_knob; Style slider_display; Style fill_bar; Style number_input;
 		Style slider_input; Style field_input; Style curve_graph; Style curve_input; Style input_bool; Style input_string; Style input_color;

@@ -33,5 +33,6 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Widget& cursor(Widget& parent, const vec2& position, Widget& hovered, bool locked = false);
 
 	export_ MUD_UI_EXPORT func_ Widget& rectangle(Widget& parent, const vec4& rect);
+	export_ MUD_UI_EXPORT func_ Widget& viewport(Widget& parent, const vec4& rect);
 }
 }
