@@ -1638,6 +1638,9 @@ Module['ui']['cursor'] = function(a0, a1, a2, a3) {
 Module['ui']['rectangle'] = function(a0, a1) {
     return wrapPointer(_mud_ui_rectangle_2(/*parent*/a0.__ptr, /*rect*/a1.__ptr), Widget);
 };
+Module['ui']['viewport'] = function(a0, a1) {
+    return wrapPointer(_mud_ui_viewport_2(/*parent*/a0.__ptr, /*rect*/a1.__ptr), Widget);
+};
 Module['ui']['dockspace'] = function(a0, a1) {
     return wrapPointer(_mud_ui_dockspace_2(/*parent*/a0.__ptr, /*docksystem*/a1.__ptr), Dockspace);
 };

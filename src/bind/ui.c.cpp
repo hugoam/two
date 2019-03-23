@@ -1412,6 +1412,9 @@ extern "C" {
 	mud::Widget* DECL mud_ui_rectangle_2(mud::Widget* parent, const mud::vec4* rect) {
 		return &mud::ui::rectangle(*parent, *rect);
 	}
+	mud::Widget* DECL mud_ui_viewport_2(mud::Widget* parent, const mud::vec4* rect) {
+		return &mud::ui::viewport(*parent, *rect);
+	}
 	mud::Dockspace* DECL mud_ui_dockspace_2(mud::Widget* parent, mud::Docksystem* docksystem) {
 		return &mud::ui::dockspace(*parent, *docksystem);
 	}
@@ -1455,10 +1458,10 @@ extern "C" {
 		return mud::ui::curve_graph(*parent, { (float*)values, values_size / (sizeof(float) / sizeof(float)) }, { (float*)points, points_size / (sizeof(float) / sizeof(float)) });
 	}
 	bool DECL mud_ui_curve_edit_2(mud::Widget* parent, float* values, int values_size) {
-		return false; //mud::ui::curve_edit(*parent, { (float*)values, values_size / (sizeof(float) / sizeof(float)) });
+		return mud::ui::curve_edit(*parent, { (float*)values, values_size / (sizeof(float) / sizeof(float)) });
 	}
 	bool DECL mud_ui_curve_edit_3(mud::Widget* parent, float* values, int values_size, float* points, int points_size) {
-		return false; //mud::ui::curve_edit(*parent, { (float*)values, values_size / (sizeof(float) / sizeof(float)) }, { (float*)points, points_size / (sizeof(float) / sizeof(float)) });
+		return mud::ui::curve_edit(*parent, { (float*)values, values_size / (sizeof(float) / sizeof(float)) }, { (float*)points, points_size / (sizeof(float) / sizeof(float)) });
 	}
 	bool DECL mud_ui_flag_field_4(mud::Widget* parent, const char* name, uint32_t value, uint8_t shift) {
 		return mud::ui::flag_field(*parent, name, value, shift);
@@ -1557,7 +1560,7 @@ extern "C" {
 		return &mud::ui::scroll_sequence(*parent);
 	}
 	bool DECL mud_ui_select_logic_3(mud::Widget* element, void* object, mud::Type* object_type, void* selection, mud::Type* selection_type) {
-		return false; //mud::ui::select_logic(*element, { object, *object_type }, { selection, *selection_type });
+		return mud::ui::select_logic(*element, { object, *object_type }, { selection, *selection_type });
 	}
 	mud::Widget* DECL mud_ui_element_2(mud::Widget* parent, void* object, mud::Type* object_type) {
 		return &mud::ui::element(*parent, { object, *object_type });
