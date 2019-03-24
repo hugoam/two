@@ -36,10 +36,10 @@ namespace mud
 
 	ShellWindow::ShellWindow(GfxSystem& gfx, uint32_t index, const string& name, const uvec2& size, bool fullscreen)
 		: GfxWindow(gfx, name, size, fullscreen, index == 0)
-		, m_index(index)
 #if !GLOBAL_VG
 		, m_vg(create_vg(gfx, gfx.m_resource_path))
 #endif
+		, m_index(index)
 		, m_ui_window(*this, *m_vg)
 	{
 #if GLOBAL_VG
@@ -148,7 +148,7 @@ namespace mud
 	ShellWindow& Shell::window(const string& name, const uvec2& size, bool fullscreen)
 	{
 		const uint32_t index = m_windows.size();
-		m_windows.push_back(construct<ShellWindow>(m_gfx, index, name, uvec2(1600U, 900U), false));
+		m_windows.push_back(construct<ShellWindow>(m_gfx, index, name, size, fullscreen));
 		return *m_windows.back();
 	}
 
