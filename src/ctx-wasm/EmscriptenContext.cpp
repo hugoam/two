@@ -251,11 +251,14 @@ namespace mud
 		m_keyboard = &keyboard;
 	}
 
-	bool EmContext::next_frame()
+	bool EmContext::begin_frame()
 	{
 		// polling is actually done when yielding control to Emscripten in the main loop (which I find a bit lousy design since it's implicit)
 		return true;
 	}
+
+	void EmContext::end_frame()
+	{}
 
 	void EmContext::lock_mouse(bool locked)
 	{
