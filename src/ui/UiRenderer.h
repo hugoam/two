@@ -7,6 +7,7 @@
 #ifndef MUD_MODULES
 #include <type/Unique.h>
 #include <math/Timer.h>
+#include <math/Colour.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Frame/Caption.h>
@@ -34,7 +35,7 @@ namespace mud
 		virtual uint16_t load_texture(uint16_t texture) = 0;
 
 		// rendering
-		virtual void begin_frame(uint16_t view, const vec4& rect, float pixel_ratio = 1.f) = 0;
+		virtual void begin_frame(uint16_t view, const vec4& rect, float pixel_ratio = 1.f, const Colour& colour = Colour(0.f)) = 0;
 		virtual void end_frame(uint16_t view) = 0;
 
 		// drawing
@@ -108,7 +109,7 @@ namespace mud
 		UiRenderer(Vg& vg);
 		virtual ~UiRenderer();
 
-		void render(Layer& layer, uint16_t view, float pixel_ratio);// = 1.f);
+		void render(Layer& layer, uint16_t view, float pixel_ratio, const Colour& colour = Colour(0.f));// = 1.f);
 
 		// drawing implementation
 		void render_layer(Layer& layer);

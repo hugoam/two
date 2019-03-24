@@ -168,9 +168,6 @@ namespace mud
 
 	bool UiWindow::input_frame()
 	{
-		//bool pursue = !m_shutdown;
-		//pursue &= m_context.begin_frame(); // @BUG this is called TWICE !!
-
 		if(m_size != m_context.m_size)
 			this->resize(m_context.m_size, m_context.m_fb_size);
 
@@ -187,7 +184,7 @@ namespace mud
 
 		if(m_context.m_render_system.m_manual_render)
 		{
-			m_renderer.render(*m_ui->m_frame.m_layer, view, m_context.m_pixel_ratio);
+			m_renderer.render(*m_ui->m_frame.m_layer, view, m_context.m_pixel_ratio, m_context.m_colour);
 			// add sub layers
 		}
 

@@ -41,7 +41,7 @@ namespace mud
 		virtual uint16_t load_texture(uint16_t texture) override;
 
 		// rendering
-		virtual void begin_frame(uint16_t view, const vec4& rect, float pixel_ratio) override;
+		virtual void begin_frame(uint16_t view, const vec4& rect, float pixel_ratio, const Colour& colour = Colour(0.f)) override;
 		virtual void end_frame(uint16_t view) override;
 
 		// drawing

@@ -163,14 +163,14 @@ namespace mud
 	UiRenderer::~UiRenderer()
 	{}
 
-	void UiRenderer::render(Layer& target, uint16_t view, float pixel_ratio)
+	void UiRenderer::render(Layer& target, uint16_t view, float pixel_ratio, const Colour& colour)
 	{
 		this->log_FPS();
 
 		m_debug_batch = 0;
 		static size_t prevBatch = 0;
 
-		m_vg.begin_frame(view, vec4(vec2(0.f), target.m_frame.m_size), pixel_ratio);
+		m_vg.begin_frame(view, vec4(vec2(0.f), target.m_frame.m_size), pixel_ratio, colour);
 
 #ifdef MUD_UI_DRAW_CACHE
 		target.visit([&](Layer& layer) {

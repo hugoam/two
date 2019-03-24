@@ -8,7 +8,7 @@ using namespace mud;
 
 #define SIDE_PANEL 1
 #define MULTI_WINDOW 0
-#define MULTI_VIEWPORT 0
+#define MULTI_VIEWPORT 1
 
 // html ok :
 // xx_shadow_point (try shadows)
@@ -155,6 +155,8 @@ int main(int argc, char *argv[])
 	static uint32_t example1 = find_example("hierarchy2");
 	static bool init0 = true;
 	static bool init1 = true;
+
+	w0.m_colour = Colour(1.f);
 
 	while(true)
 	{
