@@ -74,14 +74,12 @@ namespace mud
 		pass_clear(gfx, render);
 		pass_particles(gfx, render);
 		pass_solid(gfx, render);
-		pass_flip(gfx, render);
 	}
 
 	void render_solid(GfxSystem& gfx, Render& render)
 	{
 		pass_clear(gfx, render);
 		pass_solid(gfx, render);
-		pass_flip(gfx, render);
 	}
 
 	void render_clear(GfxSystem& gfx, Render& render)

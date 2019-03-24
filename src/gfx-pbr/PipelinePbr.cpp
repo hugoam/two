@@ -315,7 +315,6 @@ namespace gfx
 		//pass_effects(gfx, render);
 		pass_resolve(gfx, render);
 		pass_post_process(gfx, render);
-		//pass_flip(gfx, render);
 	}
 
 	void render_pbr_deferred(GfxSystem& gfx, Render& render)
@@ -331,7 +330,6 @@ namespace gfx
 		pass_particles(gfx, render);
 		//pass_alpha(gfx, render);
 		pass_solid(gfx, render);
-		//pass_flip(gfx, render);
 	}
 
 	void render_shadow(GfxSystem& gfx, Render& render)
@@ -367,7 +365,6 @@ namespace gfx
 		pass_background(gfx, render);
 		pass_particles(gfx, render);
 		pass_alpha(gfx, render);
-		pass_flip(gfx, render);
 	}
 
 	void pass_opaque(GfxSystem& gfx, Render& render)
