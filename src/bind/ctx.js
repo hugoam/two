@@ -11,8 +11,14 @@ Context.prototype["reset_fb"] = Context.prototype.reset_fb = function(a0) {
 Context.prototype["init_input"] = Context.prototype.init_input = function(a0, a1) {
     _mud_Context_init_input_2(this.__ptr, /*mouse*/a0.__ptr, /*keyboard*/a1.__ptr);
 };
-Context.prototype["next_frame"] = Context.prototype.next_frame = function() {
-    return !!(_mud_Context_next_frame_0(this.__ptr));
+Context.prototype["begin_frame"] = Context.prototype.begin_frame = function() {
+    return !!(_mud_Context_begin_frame_0(this.__ptr));
+};
+Context.prototype["render_frame"] = Context.prototype.render_frame = function() {
+    _mud_Context_render_frame_0(this.__ptr);
+};
+Context.prototype["end_frame"] = Context.prototype.end_frame = function() {
+    _mud_Context_end_frame_0(this.__ptr);
 };
 Context.prototype["lock_mouse"] = Context.prototype.lock_mouse = function(a0) {
     _mud_Context_lock_mouse_1(this.__ptr, /*locked*/a0);
@@ -99,6 +105,14 @@ Object.defineProperty(Context.prototype, "mouse_lock", {
     },
     set: function(value) {
         _mud_Context__set_mouse_lock(this.__ptr, value);
+    }
+});
+Object.defineProperty(Context.prototype, "colour", {
+    get: function() {
+        return wrapPointer(_mud_Context__get_colour(this.__ptr), Colour);
+    },
+    set: function(value) {
+        _mud_Context__set_colour(this.__ptr, value.__ptr);
     }
 });
 Context.prototype["__destroy"] = Context.prototype.__destroy = function() {

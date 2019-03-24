@@ -23,8 +23,14 @@ extern "C" {
 	void DECL mud_Context_init_input_2(mud::Context* self, mud::Mouse* mouse, mud::Keyboard* keyboard) {
 		self->init_input(*mouse, *keyboard);
 	}
-	bool DECL mud_Context_next_frame_0(mud::Context* self) {
-		return self->next_frame();
+	bool DECL mud_Context_begin_frame_0(mud::Context* self) {
+		return self->begin_frame();
+	}
+	void DECL mud_Context_render_frame_0(mud::Context* self) {
+		self->render_frame();
+	}
+	void DECL mud_Context_end_frame_0(mud::Context* self) {
+		self->end_frame();
 	}
 	void DECL mud_Context_lock_mouse_1(mud::Context* self, bool locked) {
 		self->lock_mouse(locked);
@@ -91,6 +97,12 @@ extern "C" {
 	}
 	void DECL mud_Context__set_mouse_lock(mud::Context* self, bool value) {
 		self->m_mouse_lock = value;
+	}
+	mud::Colour* DECL mud_Context__get_colour(mud::Context* self) {
+		return &self->m_colour;
+	}
+	void DECL mud_Context__set_colour(mud::Context* self, mud::Colour* value) {
+		self->m_colour = *value;
 	}
 	void DECL mud_Context__destroy(mud::Context* self) {
 		delete self;
