@@ -261,14 +261,12 @@ namespace mud
 		}
 
 		bool pursue = true;
-#if !POLL_AT_END
 		{
-			ZoneScopedNC("gfx contexts", tracy::Color::Cyan);
+			ZoneScopedNC("gfx contexts begin", tracy::Color::Cyan);
 		
 			for(GfxWindow* context : m_impl->m_contexts)
-				pursue &= context->next_frame();
+				pursue &= context->begin_frame();
 		}
-#endif
 
 #ifdef MUD_GFX_THREADED
 		{
@@ -300,6 +298,13 @@ namespace mud
 
 	void GfxSystem::end_frame()
 	{
+		{
+			ZoneScopedNC("gfx contexts render", tracy::Color::Cyan);
+
+			for(GfxWindow* context : m_impl->m_contexts)
+				context->render_frame();
+		}
+
 #ifdef MUD_GFX_THREADED
 		{
 			ZoneScopedNC("gfx end", tracy::Color::Cyan);
@@ -309,15 +314,12 @@ namespace mud
 		}
 #endif
 
-#if POLL_AT_END
-		bool pursue = true;
 		{
-			ZoneScopedNC("gfx contexts", tracy::Color::Cyan);
+			ZoneScopedNC("gfx contexts end", tracy::Color::Cyan);
 		
 			for(GfxWindow* context : m_impl->m_contexts)
-				pursue &= context->next_frame();
+				context->end_frame();
 		}
-#endif
 
 		{
 			ZoneScopedNC("gfx frame", tracy::Color::Cyan);

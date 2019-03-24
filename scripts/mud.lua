@@ -302,6 +302,8 @@ mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR,    "snd",      mud_snd,
 
 if _OPTIONS["context-glfw"] then
     dofile(path.join(MUD_DIR, "scripts/mud_ctx_glfw.lua"))
+elseif _OPTIONS["context-native"] then
+    dofile(path.join(MUD_DIR, "scripts/mud_ctx_native.lua"))
 elseif _OPTIONS["context-wasm"] then
     dofile(path.join(MUD_DIR, "scripts/mud_ctx_wasm.lua"))
 end

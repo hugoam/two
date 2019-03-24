@@ -168,8 +168,8 @@ namespace mud
 
 	bool UiWindow::input_frame()
 	{
-		bool pursue = !m_shutdown;
-		pursue &= m_context.next_frame();
+		//bool pursue = !m_shutdown;
+		//pursue &= m_context.begin_frame(); // @BUG this is called TWICE !!
 
 		if(m_size != m_context.m_size)
 			this->resize(m_context.m_size, m_context.m_fb_size);
@@ -178,7 +178,7 @@ namespace mud
 
 		m_ui->m_frame.relayout();
 
-		return pursue;
+		return !m_shutdown;
 	}
 
 	void UiWindow::render_frame(uint16_t view)

@@ -42,6 +42,8 @@ namespace mud
 	public:
 		BgfxContext(BgfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main, bool init = true);
 
+		virtual void render_frame() override;
+
 		virtual void reset_fb(const uvec2& size) override;
 	};
 

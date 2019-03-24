@@ -32,6 +32,13 @@ namespace mud
 			gfx.init(*this);
 	}
 
+	void BgfxContext::render_frame()
+	{
+		// @todo this won't do for multiple contexts
+		bgfx::setViewRect(0, 0, 0, uint16_t(m_fb_size.x), uint16_t(m_fb_size.y));
+		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, to_rgba(m_colour), 1.0f, 0);
+	}
+
 	void BgfxContext::reset_fb(const uvec2& size)
 	{
 		bgfx::reset(uint16_t(size.x), uint16_t(size.y), BGFX_RESET_NONE);
@@ -78,9 +85,6 @@ namespace mud
 #ifdef _DEBUG
 		bgfx::setDebug(BGFX_DEBUG_TEXT | BGFX_DEBUG_PROFILER);
 #endif
-
-		bgfx::setViewRect(0, 0, 0, uint16_t(context.m_fb_size.x), uint16_t(context.m_fb_size.y));
-		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
 
 		m_start_counter = double(bx::getHPCounter());
 		m_initialized = true;

@@ -24,11 +24,12 @@ namespace mud
 		EmContext(RenderSystem& renderSystem, const string& name, uvec2 size, bool fullscreen, bool main);
 
 		void create_context(const string& name);
-		virtual void init_input(Mouse& mouse, Keyboard& keyboard) final;
+		virtual void init_input(Mouse& mouse, Keyboard& keyboard) override;
 
-		virtual bool next_frame() final;
+		virtual bool begin_frame() override;
+		virtual void end_frame() override;
 
-		virtual void lock_mouse(bool locked) final;
+		virtual void lock_mouse(bool locked) override;
 
 		void resize();
 

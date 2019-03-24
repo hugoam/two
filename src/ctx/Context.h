@@ -8,6 +8,7 @@
 #include <stl/string.h>
 #include <type/Unique.h>
 #include <math/Vec.h>
+#include <math/Colour.h>
 #endif
 #include <ctx/Forward.h>
 
@@ -55,10 +56,14 @@ namespace mud
 		attr_ vec2 m_cursor;
 		attr_ bool m_mouse_lock = false;
 
+		attr_ Colour m_colour = Colour(0.f);
+
 		meth_ virtual void reset_fb(const uvec2& size) = 0;
 		meth_ virtual void init_input(Mouse& mouse, Keyboard& keyboard) = 0;
 
-		meth_ virtual bool next_frame() = 0;
+		meth_ virtual bool begin_frame() = 0;
+		meth_ virtual void render_frame() = 0;
+		meth_ virtual void end_frame() = 0;
 
 		meth_ virtual void lock_mouse(bool locked) = 0;
 	};

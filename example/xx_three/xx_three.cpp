@@ -8,6 +8,7 @@ using namespace mud;
 
 #define SIDE_PANEL 1
 #define MULTI_WINDOW 0
+#define MULTI_VIEWPORT 0
 
 // html ok :
 // xx_shadow_point (try shadows)
@@ -159,10 +160,23 @@ int main(int argc, char *argv[])
 	{
 		bool pursue = app.begin_frame();
 
+#if MULTI_VIEWPORT
+		shell_context(w0.m_ui->begin(), app.m_editor);
+
+		Widget& screen = *app.m_editor.m_screen;
+		//Widget& panel0 = ui::sheet(screen);
+		//Widget& panel1 = ui::sheet(screen);
+		Widget& panel0 = ui::viewport(screen, vec4(0.f, 150.f, 600.f, 750.f));
+		Widget& panel1 = ui::viewport(screen, vec4(600.f, 150.f, 600.f, 750.f));
+		ex_xx_three(app, panel0, *app.m_editor.m_dockbar, init0, example0);
+		ex_xx_three(app, panel1, *app.m_editor.m_dockbar, init1, example1);
+#else
 		pump(app, w0, init0, example0);
 #if MULTI_WINDOW
 		pump(app, w1, init1, example1);
 #endif
+#endif
+
 		app.end_frame();
 		if(!pursue) break;
 	}

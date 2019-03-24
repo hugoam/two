@@ -33,7 +33,6 @@ void mud_MouseButtonCode__to_string(void* val, string& str) { str = g_enu[type<m
 void mud_MouseButtonCode__to_value(const string& str, void* val) { (*static_cast<mud::MouseButtonCode*>(val)) = mud::MouseButtonCode(g_enu[type<mud::MouseButtonCode>().m_id]->value(str.c_str())); }
 void mud_Context_reset_fb(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).reset_fb(*static_cast<mud::uvec2*>(args[0])); }
 void mud_Context_init_input(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).init_input(*static_cast<mud::Mouse*>(args[0]), *static_cast<mud::Keyboard*>(args[1])); }
-void mud_Context_next_frame(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Context*>(object)).next_frame(); }
 void mud_Context_lock_mouse(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).lock_mouse(*static_cast<bool*>(args[0])); }
 void mud_InputEvent__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::InputEvent(  ); }
 void mud_InputEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::InputEvent((*static_cast<mud::InputEvent*>(other))); }
@@ -145,7 +144,6 @@ namespace mud
 		static Method methods[] = {
 			{ t, "reset_fb", Address(), mud_Context_reset_fb, { { "size", type<mud::uvec2>(),  } }, g_qvoid },
 			{ t, "init_input", Address(), mud_Context_init_input, { { "mouse", type<mud::Mouse>(),  }, { "keyboard", type<mud::Keyboard>(),  } }, g_qvoid },
-			{ t, "next_frame", Address(), mud_Context_next_frame, {}, { &type<bool>(), QualType::None } },
 			{ t, "lock_mouse", Address(), mud_Context_lock_mouse, { { "locked", type<bool>(),  } }, g_qvoid }
 		};
 		// static members

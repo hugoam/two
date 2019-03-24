@@ -40,8 +40,9 @@ namespace mud
 		attr_ UiWindow m_ui_window;
 		attr_ Ui* m_ui = nullptr;
 
-		bool begin_frame();
-		void end_frame();
+		virtual bool begin_frame() override;
+		virtual void render_frame() override;
+		//virtual void end_frame() override;
 	};
 
 	class refl_ Shell

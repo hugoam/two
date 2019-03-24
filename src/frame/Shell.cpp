@@ -60,11 +60,13 @@ namespace mud
 
 	bool ShellWindow::begin_frame()
 	{
+		GfxWindow::begin_frame();
 		return m_ui_window.input_frame();
 	}
 
-	void ShellWindow::end_frame()
+	void ShellWindow::render_frame()
 	{
+		GfxWindow::render_frame();
 		bgfx::setViewFrameBuffer(240 + m_index, m_target->m_backbuffer.m_fbo);
 		m_ui_window.render_frame(240 + m_index);
 	}
@@ -108,16 +110,16 @@ namespace mud
 	bool Shell::begin_frame()
 	{
 		bool pursue = m_gfx.begin_frame();
-		for(auto& context : m_windows)
-			pursue &= context->begin_frame();
+		//for(auto& context : m_windows)
+		//	pursue &= context->begin_frame();
 		return pursue;
 	}
 
 	void Shell::end_frame()
 	{
 		m_gfx.render_contexts();
-		for(auto& context : m_windows)
-			context->end_frame();
+		//for(auto& context : m_windows)
+		//	context->end_frame();
 		m_gfx.end_frame();
 	}
 

@@ -42,7 +42,7 @@ function mud_defines()
     configuration { "context-native" }
         defines { "MUD_CONTEXT_NATIVE" }
         
-    configuration { "windows and context-native" }
+    configuration { "windows", "context-native" }
         defines { "MUD_CONTEXT_WINDOWS" }
         
     configuration { "context-ogre" }

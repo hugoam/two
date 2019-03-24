@@ -259,16 +259,19 @@ namespace mud
 			glfwSetInputMode(m_gl_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
-	bool GlfwContext::next_frame()
+	bool GlfwContext::begin_frame()
 	{
 		this->update_size();
 
 		glfwPollEvents();
 
+		return !glfwWindowShouldClose(m_gl_window);
+	}
+
+	void GlfwContext::end_frame()
+	{
 		if(m_auto_swap)
 			glfwSwapBuffers(m_gl_window);
-
-		return !glfwWindowShouldClose(m_gl_window);
 	}
 
 	void GlfwContext::update_size()

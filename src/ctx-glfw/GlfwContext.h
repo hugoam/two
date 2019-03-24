@@ -26,11 +26,12 @@ namespace mud
 		~GlfwContext();
 
 		void init_context();
-		virtual void init_input(Mouse& mouse, Keyboard& keyboard) final;
+		virtual void init_input(Mouse& mouse, Keyboard& keyboard) override;
 
-		virtual bool next_frame() final;
+		virtual bool begin_frame() override;
+		virtual void end_frame() override;
 
-		virtual void lock_mouse(bool locked) final;
+		virtual void lock_mouse(bool locked) override;
 
 		void inject_mouse_move(double x, double y);
 		void inject_mouse_button(int button, int action, int mods);
