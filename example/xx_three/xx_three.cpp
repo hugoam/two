@@ -137,14 +137,10 @@ int main(int argc, char *argv[])
 	app.m_gfx.add_resource_path("examples/xx_three");
 	
 	ShellWindow& w0 = app.window("two", uvec2(1600U, 900U));
-#if MULTI_WINDOW
-	ShellWindow& w1 = app.window("two", uvec2(1600U, 900U));
-#endif
+	w0.m_colour = Colour(1.f);
 
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	//app.m_gfx.init_pipeline(pipeline_minimal);
-
-	//app.run(pump);
 
 	//static uint32_t example = 0;
 	//static uint32_t example = find_example("refraction/mesh");
@@ -152,11 +148,16 @@ int main(int argc, char *argv[])
 	//static uint32_t example = find_example("loader/gltf");
 	//static uint32_t example = find_example("loader/ply");
 	static uint32_t example0 = find_example("hierarchy");
-	static uint32_t example1 = find_example("hierarchy2");
 	static bool init0 = true;
+
+#if !MULTI_VIEWPORT && !MULTI_WINDOW
+	app.run([](Shell& app, ShellWindow& win) { pump(app, win, init0, example0); });
+#else
+	ShellWindow& w1 = app.window("two", uvec2(1600U, 900U));
+
+	static uint32_t example1 = find_example("hierarchy2");
 	static bool init1 = true;
 
-	w0.m_colour = Colour(1.f);
 
 	while(true)
 	{
@@ -182,5 +183,6 @@ int main(int argc, char *argv[])
 		app.end_frame();
 		if(!pursue) break;
 	}
+#endif
 }
 #endif
