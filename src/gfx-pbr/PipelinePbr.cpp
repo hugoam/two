@@ -227,7 +227,7 @@ namespace gfx
 		static BlockGITrace& block_gi_trace = *gfx.m_renderer.block<BlockGITrace>();
 		static BlockReflection& block_reflection = *gfx.m_renderer.block<BlockReflection>();
 		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
-		static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
+		//static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
 
 		block_radiance.begin_render(render);
 		block_light.begin_render(render);
@@ -245,7 +245,7 @@ namespace gfx
 		static BlockGITrace& block_gi_trace = *gfx.m_renderer.block<BlockGITrace>();
 		static BlockReflection& block_reflection = *gfx.m_renderer.block<BlockReflection>();
 		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
-		static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
+		//static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
 
 		block_radiance.options(render, version);
 		block_light.options(render, version);
@@ -263,7 +263,7 @@ namespace gfx
 		static BlockGITrace& block_gi_trace = *gfx.m_renderer.block<BlockGITrace>();
 		static BlockReflection& block_reflection = *gfx.m_renderer.block<BlockReflection>();
 		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
-		static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
+		//static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
 
 		//block_pbr.submit(render, pass);
 
@@ -287,7 +287,7 @@ namespace gfx
 		static BlockGITrace& block_gi_trace = *gfx.m_renderer.block<BlockGITrace>();
 		static BlockReflection& block_reflection = *gfx.m_renderer.block<BlockReflection>();
 		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
-		static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
+		//static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
 
 		block_radiance.submit(render, element, pass);
 		block_light.submit(render, element, pass);
