@@ -123,11 +123,7 @@ namespace mud
 
 	void VgVg::begin_frame(uint16_t view, const vec4& rect, float pixel_ratio, const Colour& colour)
 	{
-#ifndef MUD_PLATFORM_EMSCRIPTEN
-		// @todo investigate why this causes black screen in wasm
-		//bgfx::setViewClear(view, BGFX_CLEAR_COLOR, to_rgba(colour));
 		bgfx::setViewClear(view, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, to_rgba(colour), 1.0f, 0);
-#endif
 		bgfx::setViewRect(view, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect.width), uint16_t(rect.height));
 		bgfx::setViewMode(view, bgfx::ViewMode::Sequential);
 		bgfx::setViewName(view, "ui");

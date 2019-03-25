@@ -6,7 +6,6 @@
 
 #include <xx_three/xx_three.h>
 
-
 // This Bloom Pass is inspired by the bloom pass of the Unreal Engine. It creates a mip map chain of bloom textures and blur them
 // with different radii. Because of the weigted combination of mips, and since larger blurs are done on higher mips, this bloom
 // is better in quality and performance.
