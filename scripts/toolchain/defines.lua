@@ -66,7 +66,7 @@ function mud_binary_config()
     
     configuration { "asmjs" }
         linkoptions {
-            "--memory-init-file 1",
+            --"--memory-init-file 1",
             --"--llvm-lto 3",
         }
         
@@ -84,8 +84,13 @@ function mud_binary_config()
         
         linkoptions {
             --"-s ALLOW_MEMORY_GROWTH=1",
+            --"-s SAFE_HEAP=1",
             "-s TOTAL_MEMORY=512MB",
             "-s ALIASING_FUNCTION_POINTERS=0",
+        }
+        
+        defines {
+            "MUD_RESOURCE_PATH=\"/data/\"",
         }
         
     configuration { "asmjs", "webgl2" }
