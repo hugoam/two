@@ -41,10 +41,10 @@ namespace mud
 		attr_ string m_title;
 		attr_ uvec2 m_size;
 		attr_ uvec2 m_fb_size;
-		attr_ bool m_fullscreen;
-		attr_ bool m_is_main;
+		attr_ bool m_fullscreen = false;
+		attr_ bool m_is_main = true;
 
-		attr_ float m_pixel_ratio;
+		attr_ float m_pixel_ratio = 1.f;
 
 		size_t m_handle = 0;
 		void* m_native_handle = nullptr;
