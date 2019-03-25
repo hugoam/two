@@ -375,7 +375,7 @@ namespace gfx
 
 		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthAscending);
 
-		uint32_t cull = render.m_vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
+		uint64_t cull = render.m_vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
 
 #if DEPTH_PASS
 		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
@@ -387,6 +387,7 @@ namespace gfx
 
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
+			UNUSED(pass);
 			bool pbr = element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha;
 			bool opaque = element.m_program->m_passes[PassType::Opaque];
 			if(!pbr && !opaque) return false;
@@ -414,12 +415,13 @@ namespace gfx
 		submit_pbr_pass(gfx, render, pass);
 
 		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS
-									 | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA;
+							  | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA;
 
 		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthDescending);
 
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
+			UNUSED(pass);
 			if(!element.m_program->m_blocks[MaterialBlock::Pbr] || !element.m_material->m_alpha.m_is_alpha)
 				return false;
 
@@ -445,16 +447,16 @@ namespace gfx
 
 		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthAscending);
 		
-		uint32_t cull = render.m_vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
+		uint64_t cull = render.m_vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
 
 		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
-									    | BGFX_STATE_DEPTH_TEST_EQUAL | BGFX_STATE_MSAA;
+								 | BGFX_STATE_DEPTH_TEST_EQUAL | BGFX_STATE_MSAA;
 
 		pass.m_fbo = &render.m_target->m_gbuffer;
 
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			UNUSED(render);
+			UNUSED(render); UNUSED(pass);
 			bool pbr = element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha;
 			bool opaque = element.m_program->m_passes[PassType::Opaque];
 			if(!pbr && !opaque) return false;
