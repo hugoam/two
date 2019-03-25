@@ -13,6 +13,8 @@
 #include <emscripten/html5.h>
 
 #include <cassert>
+#include <cstdio>
+
 #include <stl/string.h>
 
 namespace mud
@@ -191,7 +193,8 @@ namespace mud
 		}
 		else
 		{
-			this->create_context(name);
+			m_native_handle = (void*)m_title.c_str();
+			//this->create_context(name);
 		}
 
 		emscripten_set_resize_callback(0, this, true, [](int, const EmscriptenUiEvent* event, void* w) { UNUSED(event); static_cast<EmContext*>(w)->resize(); return EM_BOOL(true); });
