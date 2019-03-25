@@ -1,6 +1,7 @@
 //#include <mud/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
+#include <ecs/ECS.hpp>
 
 #include <xx_three/xx_three.h>
 

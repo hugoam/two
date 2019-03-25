@@ -2,8 +2,10 @@
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-gltf/Api.h>
+#include <ecs/ECS.hpp>
 
 #include <xx_three/xx_three.h>
+
 
 // This Bloom Pass is inspired by the bloom pass of the Unreal Engine. It creates a mip map chain of bloom textures and blur them
 // with different radii. Because of the weigted combination of mips, and since larger blurs are done on higher mips, this bloom
