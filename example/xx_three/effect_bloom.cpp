@@ -62,7 +62,7 @@ static string luminosity_fragment()
 
 			"gl_FragColor = mix(outputColor, texel, alpha);\n"
 
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -115,7 +115,7 @@ static string blur_fragment()
 		"	gl_FragColor = vec4(diffuseSum / weightSum, 1.0);\n"
 		//"	gl_FragColor = vec4(hsl_to_rgb(vec3(u_source_0_level / 5.0, 1.0, 0.5)), 1.0);\n"
 		//"	gl_FragColor = vec4(vec3_splat(float(u_source_0_level) / 5.0), 1.0);\n"
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -157,7 +157,7 @@ static string merge_fragment()
 		"									  lerpBloomFactor(u_glow_levels[0].w) * u_glow_colors[3] * texture2DLod(s_source_0, v_uv0, 4.0) + \n"
 		"									  lerpBloomFactor(u_glow_levels[1].x) * u_glow_colors[4] * texture2DLod(s_source_0, v_uv0, 5.0));\n"
 		//"	gl_FragColor = texture2DLod(s_source_0, v_uv0, 0.0);"
-		"}";
+		"}\n";
 	return shader;
 }
 
@@ -181,9 +181,6 @@ struct Bloom
 
 void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 {
-	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
-
 	auto pass_lum = [](GfxSystem& gfx, Render& render, const Bloom& bloom, FrameBuffer& fbo)
 	{
 		static Program& program = highpass_program(gfx);
@@ -195,11 +192,11 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 
 		Pass pass = render.next_pass("bloom_lum", PassType::PostProcess);
 
-		filter.uniform(pass.m_index, "u_glow_lum_p0", vec4(bloom.threshold, 0.01f, 0.f, 0.f));
+		gfx.m_filter->uniform(pass, "u_glow_lum_p0", vec4(bloom.threshold, 0.01f, 0.f, 0.f));
 
-		filter.source0(render.m_target->m_diffuse);
+		gfx.m_filter->source0(render.m_target->m_diffuse);
 
-		filter.quad(pass.m_index, fbo, program);
+		gfx.m_filter->quad(pass, fbo, program);
 	};
 
 	enum BlurPass { BlurH, BlurV };
@@ -213,14 +210,14 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 
 		constexpr vec2 dirs[] = { vec2(1.f, 0.f), vec2(0.f, 1.f) };
 
-		filter.uniform(pass.m_index, "u_glow_blur_p0", vec4(dirs[d], 0.f, 0.f));
+		gfx.m_filter->uniform(pass, "u_glow_blur_p0", vec4(dirs[d], 0.f, 0.f));
 
 		ProgramVersion version = { &program };
-		filter.source0(source, version, level);
+		gfx.m_filter->source0(source, version, level);
 
 		version.set_mode(0, KERNEL_SIZE, kernel_size);
 
-		filter.quad(pass.m_index, dest, version);
+		gfx.m_filter->quad(pass, dest, version);
 	};
 
 	auto pass_merge = [](GfxSystem& gfx, Render& render, const Bloom& bloom, Texture& source)
@@ -233,19 +230,19 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 		const vec4 glow_levels[2] = { vec4(1.0f, 0.8f, 0.6f, 0.4f), vec4(0.2f, 0.0f, 0.0f, 0.0f) };
 		const vec4 glow_tint[5] = { to_vec4(white), to_vec4(white), to_vec4(white), to_vec4(white), to_vec4(white) };
 
-		filter.uniform(pass.m_index, "u_glow_merge_p0", vec4(bloom.strength, bloom.radius, 0.f, 0.f));
-		filter.uniforms(pass.m_index, "u_glow_levels", glow_levels, 2U);
-		filter.uniforms(pass.m_index, "u_glow_colors", glow_tint, 5U);
+		gfx.m_filter->uniform(pass, "u_glow_merge_p0", vec4(bloom.strength, bloom.radius, 0.f, 0.f));
+		gfx.m_filter->uniforms(pass, "u_glow_levels", glow_levels, 2U);
+		gfx.m_filter->uniforms(pass, "u_glow_colors", glow_tint, 5U);
 
 		//filter.source0(render.m_target->m_diffuse);
-		filter.source0(source);
+		gfx.m_filter->source0(source);
 
 		RenderTarget& target = *render.m_target;
-		filter.quad(pass.m_index, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
+		gfx.m_filter->quad(pass, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
 
 		// additive blend bloom over target
 		//copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
-		copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect, BGFX_STATE_BLEND_ADD);
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect, BGFX_STATE_BLEND_ADD);
 	};
 
 	// 1. Extract bright areas

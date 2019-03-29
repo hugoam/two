@@ -74,6 +74,7 @@ namespace mud
 	{
 		VERTEX_COLOR,
 		DOUBLE_SIDED,
+		FLAT_SHADED,
 		ALPHA_MAP,
 		ALPHA_TEST,
 		DASH,
@@ -92,6 +93,7 @@ namespace mud
 		attr_ gpu_ vec2 m_uv1_offset = { 0.f, 0.f };
 
 		attr_ ShaderColor m_shader_color = ShaderColor::Shader;
+		attr_ bool m_flat_shaded = false;
 
 		attr_ bool m_screen_filter = false;
 		attr_ float m_anisotropy;
@@ -135,6 +137,8 @@ namespace mud
 		attr_ Texture* m_tex1 = nullptr;
 		attr_ Texture* m_tex2 = nullptr;
 		attr_ Texture* m_tex3 = nullptr;
+		attr_ Texture* m_tex4 = nullptr;
+		attr_ Texture* m_tex5 = nullptr;
 
 		attr_ vec4 m_attr0 = vec4(0.f);
 		attr_ vec4 m_attr1 = vec4(0.f);
@@ -234,6 +238,20 @@ namespace mud
 
 		virtual void begin_render(Render& render) override { UNUSED(render); }
 	};
+	
+	export_ struct refl_ MUD_GFX_EXPORT MaterialLit
+	{
+		attr_ gpu_ MaterialParam<Colour> m_emissive = { rgba(0x00000000), nullptr };
+		attr_ gpu_ float m_emissive_energy = 0.f;
+
+		attr_ gpu_ MaterialParam<float> m_normal = { 1.f, nullptr };
+		attr_ gpu_ MaterialParam<float> m_bump = { 1.f, nullptr };
+		attr_ gpu_ MaterialParam<float> m_displace = { 1.f, nullptr };
+		attr_ gpu_ float m_displace_bias = 0.f;
+
+		attr_ gpu_ MaterialParam<float> m_occlusion;
+		attr_ gpu_ MaterialParam<float> m_lightmap;
+	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialPbr
 	{
@@ -247,9 +265,6 @@ namespace mud
 		attr_ gpu_ float m_specular = 0.5f;
 		attr_ gpu_ MaterialParam<float> m_metallic = { 0.f, nullptr, TextureChannel::Red };
 		attr_ gpu_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Red };
-		attr_ gpu_ MaterialParam<float> m_normal = { 1.f, nullptr };
-		attr_ gpu_ MaterialParam<Colour> m_emissive = { Colour::None, nullptr };
-		attr_ gpu_ float m_emissive_energy = 0.f;
 
 		// advanced
 		attr_ gpu_ MaterialParam<float> m_rim;
@@ -260,7 +275,6 @@ namespace mud
 		attr_ gpu_ MaterialParam<float> m_subsurface;
 		attr_ gpu_ MaterialParam<float> m_refraction;
 		attr_ gpu_ MaterialParam<float> m_depth = { -0.02f, nullptr };
-		attr_ gpu_ MaterialParam<float> m_ambient_occlusion;
 		attr_ gpu_ MaterialParam<Colour> m_transmission;
 
 		attr_ bool m_deep_parallax = false;
@@ -270,6 +284,18 @@ namespace mud
 		attr_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
 
 		table<MaterialFlag, bool> m_flags;
+	};
+
+	export_ struct refl_ MUD_GFX_EXPORT MaterialPhong
+	{
+		attr_ gpu_ MaterialParam<Colour> m_diffuse = { rgb(0xffffff), nullptr };
+		attr_ gpu_ MaterialParam<Colour> m_specular = { rgb(0x111111), nullptr };
+		attr_ gpu_ MaterialParam<float> m_shininess = { 1.f, nullptr };
+
+		attr_ gpu_ MaterialParam<float> m_reflectivity = { 1.f, nullptr };
+		attr_ gpu_ MaterialParam<float> m_refraction = { 0.98f, nullptr };
+
+		attr_ bool m_toon = false;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT BlockMaterial : public GfxBlock
@@ -308,7 +334,9 @@ namespace mud
 		attr_ MaterialSolid m_solid;
 		attr_ MaterialPoint m_point;
 		attr_ MaterialLine m_line;
+		attr_ MaterialLit m_lit;
 		attr_ MaterialPbr m_pbr;
+		attr_ MaterialPhong m_phong;
 		attr_ MaterialFresnel m_fresnel;
 		attr_ MaterialUser m_user;
 

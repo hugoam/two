@@ -105,10 +105,9 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 #else
 	Gnode& scene = viewer.m_scene.begin();
 
-	auto draw_quad = [](Render& render, const Pass& pass)
+	auto draw_quad = [](GfxSystem& gfx, Render& render, const Pass& pass)
 	{
-		BlockFilter& filter = *render.m_scene->m_gfx.m_renderer.block<BlockFilter>();
-		filter.quad(pass.m_index, *render.m_target_fbo, program.default_version(), pass.m_viewport->m_rect);
+		gfx.m_filter->quad(pass, *render.m_target_fbo, program.default_version(), pass.m_viewport->m_rect);
 	};
 
 	gfx::manual_job(scene, PassType::Solid, draw_quad);

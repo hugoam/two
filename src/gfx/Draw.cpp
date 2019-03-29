@@ -198,7 +198,8 @@ namespace mud
 
 	uint64_t hash_symbol(const Symbol& symbol, DrawMode draw_mode)
 	{
-		return uint64_t(symbol.m_detail) | uint64_t(draw_mode << 16);
+		uint32_t subdiv = uint16_t(symbol.m_subdiv.x) | uint16_t(symbol.m_subdiv.y) << 16;
+		return uint64_t(symbol.m_detail) | uint64_t(draw_mode << 16) | uint64_t(subdiv) << 32ULL;
 	}
 
 	uint64_t hash_symbol_material(const Symbol& symbol, DrawMode draw_mode)

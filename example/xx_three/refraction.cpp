@@ -61,9 +61,9 @@ void xx_refraction_mesh(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			});
 		};
 
-		Material& m3 = phong_material("material0", rgb(0xccddff), 0.98f, 0.9f);
-		Material& m2 = phong_material("material1", rgb(0xccfffd), 0.985f);
-		Material& m1 = phong_material("material2", rgb(0xffffff), 0.98f);
+		Material& m3 = phong_material("refraction0", rgb(0xccddff), 0.98f, 0.9f);
+		Material& m2 = phong_material("refraction1", rgb(0xccfffd), 0.985f);
+		Material& m1 = phong_material("refraction2", rgb(0xffffff), 0.98f);
 
 		Model& model = *app.m_gfx.models().file("Lucy100k"); // .ply
 

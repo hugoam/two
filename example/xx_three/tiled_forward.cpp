@@ -166,8 +166,10 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	static ImporterOBJ obj_importer(app.m_gfx);
 
-	static Program& solid = *app.m_gfx.programs().file("solid");
-	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
+	static Program& solid = app.m_gfx.programs().fetch("solid");
+	static Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
+	static Program& phong = app.m_gfx.programs().fetch("pbr/phong");
+	static Program& physical = app.m_gfx.programs().fetch("pbr/physical");
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controls(viewer);
@@ -228,8 +230,8 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Material* materials[] = {
 			create_material("first",  [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x888888); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f; }),
 			create_material("second", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x666666); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; }),
-			create_material("third",  [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x777777); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; m.m_pbr.m_specular_mode = PbrSpecularMode::Phong; }),
-			create_material("fourth", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x555555); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; m.m_pbr.m_diffuse_mode = PbrDiffuseMode::Toon; m.m_pbr.m_specular_mode = PbrSpecularMode::Toon; }),
+			create_material("third",  [&](Material& m) { m.m_program = &phong; m.m_phong.m_diffuse = rgb(0x777777); m.m_phong.m_shininess = 20.f; }),
+			create_material("fourth", [&](Material& m) { m.m_program = &phong; m.m_phong.m_diffuse = rgb(0x555555); m.m_phong.m_shininess = 10.f; m.m_phong.m_toon = true; }),
 			//{ type: 'physical', uniforms : { "diffuse": 0x888888, "metalness" : 1.0, "roughness" : 0.66 }, defines : {} },
 			//{ type: 'standard', uniforms : { "diffuse": 0x666666, "metalness" : 0.1, "roughness" : 0.33 }, defines : {} },
 			//{ type: 'phong', uniforms : { "diffuse": 0x777777, "shininess" : 20 }, defines : {} },

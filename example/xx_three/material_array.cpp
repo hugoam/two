@@ -55,13 +55,13 @@ void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool i
 					// basic monochromatic energy preservation
 					const Colour diffuse = hsl(alpha, 0.5f, gamma * 0.5f + 0.1f);
 
-					const string name = "material" + to_string(index);
+					const string name = "variation" + to_string(index);
 					Material& material = app.m_gfx.materials().create(name, [&](Material& m) {
 						m.m_program = &pbr;
 						m.m_pbr.m_albedo = diffuse;
 						//m.m_pbr.m_albedo = &texture;
 						//m.m_pbr.m_normal = &texture;
-						m.m_pbr.m_normal.m_value = 1.f;
+						m.m_lit.m_normal.m_value = 1.f;
 						m.m_pbr.m_metallic = beta;
 						m.m_pbr.m_roughness = 1.f - alpha;
 						m.m_pbr.m_scene_environment = index % 2 == 0 ? false : true;
@@ -76,7 +76,7 @@ void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool i
 				}
 
 		//var loader = new THREE.FontLoader();
-		//loader.load('fonts/gentilis_regular.typeface.json', function(font) {
+		//loader.load('fonts/gentilis_regular.typeface.Json', function(font) {
 
 		//function addLabel(name, location) {
 		//

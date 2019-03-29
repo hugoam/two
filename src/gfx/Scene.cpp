@@ -152,11 +152,13 @@ namespace mud
 
 	void gather_lights(Scene& scene, vector<Light*>& lights)
 	{
+		uint32_t index = 0;
 		//lights.reserve(m_pool->pool<Light>().size());
 		scene.m_pool->pool<Light>().iterate([&](Light& light)
 		{
 			if(light.m_visible)
 			{
+				light.m_index = index++;
 				light.m_shot_index = lights.size();
 				lights.push_back(&light);
 			}

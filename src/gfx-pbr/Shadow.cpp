@@ -352,7 +352,6 @@ namespace mud
 
 	void BlockShadow::init_block()
 	{
-		u_direct_shadow.createUniforms();
 		u_shadow.createUniforms();
 
 		GpuState<GpuCSM>::me.init();
@@ -382,15 +381,13 @@ namespace mud
 		this->setup_shadows(render);
 
 #if DEBUG_ATLAS
-		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
-		//copy.debug_show_texture(render, m_atlas.m_depth, vec4(0.f), true);
-		//copy.debug_show_texture(render, m_atlas.m_cubemaps[0].m_cubemap, vec4(0.f), true);
-		copy.debug_show_texture(render, m_atlas.m_color, vec4(0.f));
+		//m_gfx.m_copy->debug_show_texture(render, m_atlas.m_depth, vec4(0.f), true);
+		//m_gfx.m_copy->debug_show_texture(render, m_atlas.m_cubemaps[0].m_cubemap, vec4(0.f), true);
+		m_gfx.m_copy->debug_show_texture(render, m_atlas.m_color, vec4(0.f));
 #endif
 
 #if DEBUG_CSM
-		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
-		copy.debug_show_texture(render, m_csm.m_depth, vec4(0.f), true);
+		m_gfx.m_copy->debug_show_texture(render, m_csm.m_depth, vec4(0.f), true);
 #endif
 	}
 
@@ -568,10 +565,7 @@ namespace mud
 
 		this->upload_shadows(render, pass);
 
-		uint32_t shadow_csm = uint32_t(TextureSampler::ShadowCSM);
-		bgfx::setViewUniform(pass.m_index, u_direct_shadow.s_csm_atlas, &shadow_csm);
-
-		uint32_t shadow_atlas = uint32_t(TextureSampler::ShadowAtlas);
+		uint32_t shadow_atlas = uint32_t(TextureSampler::Shadow);
 		bgfx::setViewUniform(pass.m_index, u_shadow.s_shadow_atlas, &shadow_atlas);
 
 		Light* light = m_direct_light;
@@ -580,7 +574,7 @@ namespace mud
 		if(direct && light->m_shadows)
 		{
 			vec4 csm_p0 = { 1.f / vec2(m_csm.m_size), vec2(0.f) };
-			bgfx::setViewUniform(pass.m_index, u_direct_shadow.u_csm_p0, &csm_p0);
+			bgfx::setViewUniform(pass.m_index, u_shadow.u_csm_p0, &csm_p0);
 
 			vec2 pcf_offset = { 1.f, 1.f };
 			vec4 pcf_p0 = { pcf_offset, vec2(0.f) };
@@ -606,14 +600,15 @@ namespace mud
 		bool shadow_sampler = false; // m_pcf_level != PCF_HARD
 		uint32_t shadow_flags = shadow_sampler ? BGFX_SAMPLER_COMPARE_LESS : GFX_TEXTURE_POINT;
 
+		// @todo store csm shadow in the shadow atlas
 		if(direct && light->m_shadows)
 		{
-			encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), m_csm.m_depth, shadow_flags);
+			encoder.setTexture(uint8_t(TextureSampler::Shadow), m_csm.m_depth, shadow_flags);
 		}
 
 		if(!m_shadows.empty())
 		{
-			encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), m_atlas.m_color, shadow_flags);
+			encoder.setTexture(uint8_t(TextureSampler::Shadow), m_atlas.m_color, shadow_flags);
 			//encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), m_atlas.m_depth, shadow_flags);
 		}
 	}
@@ -683,7 +678,7 @@ namespace mud
 
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			if(!element.m_program->m_blocks[MaterialBlock::Pbr] || element.m_material->m_alpha.m_is_alpha)
+			if(!element.m_program->m_blocks[MaterialBlock::Lit] || element.m_material->m_alpha.m_is_alpha)
 				return false;
 			
 			return queue_depth(gfx, render, pass, element);

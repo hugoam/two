@@ -196,8 +196,8 @@ void mud_Ring__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl:
 void mud_Ring__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Ring( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]) ); }
 void mud_Ring__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Ring((*static_cast<mud::Ring*>(other))); }
 void mud_Sphere__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Sphere(  ); }
-void mud_Sphere__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Sphere( *static_cast<float*>(args[0]) ); }
-void mud_Sphere__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Sphere( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]) ); }
+void mud_Sphere__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Sphere( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]) ); }
+void mud_Sphere__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Sphere( *static_cast<mud::vec3*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]) ); }
 void mud_Sphere__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Sphere((*static_cast<mud::Sphere*>(other))); }
 void mud_SphereRing__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::SphereRing(  ); }
 void mud_SphereRing__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::SphereRing( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]) ); }
@@ -705,14 +705,13 @@ namespace mud
 		static const char* image_default = nullptr;
 		static mud::Image256* image256_default = nullptr;
 		static const char* program_default = nullptr;
-		static mud::Colour construct_0_fill_default = mud::Colour::White;
-		static mud::Colour construct_0_outline_default = mud::Colour::None;
+		static mud::Colour construct_0_outline_default = mud::Colour(0.f,0.f);
 		static bool construct_0_overlay_default = false;
 		static bool construct_0_double_sided_default = false;
 		static mud::SymbolDetail construct_0_detail_default = mud::SymbolDetail::Medium;
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Symbol__construct_0, { { "fill", type<mud::Colour>(), Param::Default, &construct_0_fill_default }, { "outline", type<mud::Colour>(), Param::Default, &construct_0_outline_default }, { "overlay", type<bool>(), Param::Default, &construct_0_overlay_default }, { "double_sided", type<bool>(), Param::Default, &construct_0_double_sided_default }, { "detail", type<mud::SymbolDetail>(), Param::Default, &construct_0_detail_default } } }
+			{ t, mud_Symbol__construct_0, { { "fill", type<mud::Colour>(),  }, { "outline", type<mud::Colour>(), Param::Default, &construct_0_outline_default }, { "overlay", type<bool>(), Param::Default, &construct_0_overlay_default }, { "double_sided", type<bool>(), Param::Default, &construct_0_double_sided_default }, { "detail", type<mud::SymbolDetail>(), Param::Default, &construct_0_detail_default } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -725,6 +724,7 @@ namespace mud
 			{ t, offsetof(mud::Symbol, m_overlay), type<bool>(), "overlay", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Symbol, m_double_sided), type<bool>(), "double_sided", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Symbol, m_detail), type<mud::SymbolDetail>(), "detail", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Symbol, m_subdiv), type<mud::uvec2>(), "subdiv", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Symbol, m_image), type<const char*>(), "image", image_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Symbol, m_image256), type<mud::Image256>(), "image256", image256_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Symbol, m_program), type<const char*>(), "program", program_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
@@ -1511,11 +1511,17 @@ namespace mud
 		static size_t bases_offsets[] = { base_offset<mud::Sphere, mud::Shape>() };
 		// defaults
 		static float radius_default = 1.f;
+		static float start_default = 0.f;
+		static float end_default = c_2pi;
+		static float construct_1_start_default = 0.f;
+		static float construct_1_end_default = c_2pi;
+		static float construct_2_start_default = 0.f;
+		static float construct_2_end_default = c_2pi;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Sphere__construct_0, {} },
-			{ t, mud_Sphere__construct_1, { { "radius", type<float>(),  } } },
-			{ t, mud_Sphere__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  } } }
+			{ t, mud_Sphere__construct_1, { { "radius", type<float>(),  }, { "start", type<float>(), Param::Default, &construct_1_start_default }, { "end", type<float>(), Param::Default, &construct_1_end_default } } },
+			{ t, mud_Sphere__construct_2, { { "center", type<mud::vec3>(),  }, { "radius", type<float>(),  }, { "start", type<float>(), Param::Default, &construct_2_start_default }, { "end", type<float>(), Param::Default, &construct_2_end_default } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -1523,7 +1529,9 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Sphere, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Sphere, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Sphere, m_start), type<float>(), "start", &start_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Sphere, m_end), type<float>(), "end", &end_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members

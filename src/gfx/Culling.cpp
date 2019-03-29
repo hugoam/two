@@ -376,8 +376,7 @@ namespace mud
 			bgfx::updateTexture2D(m_depth_texture, 0, 0, 0, 0, uint16_t(width), uint16_t(height), memory);
 		}
 
-		BlockCopy& copy = *render.m_scene->m_gfx.m_renderer.block<BlockCopy>();
-		copy.debug_show_texture(render, m_depth_texture, vec4(0.f));
+		render.m_scene->m_gfx.m_copy->debug_show_texture(render, m_depth_texture, vec4(0.f));
 	}
 #endif
 }

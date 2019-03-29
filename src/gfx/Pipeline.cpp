@@ -54,6 +54,7 @@ namespace mud
 			Program& pbr = gfx.programs().create("pbr/pbr");
 			//pbr.register_blocks(pipeline.m_pass_blocks[PassType::Opaque]);
 			pbr.m_blocks[MaterialBlock::Alpha] = true;
+			pbr.m_blocks[MaterialBlock::Lit] = true;
 			pbr.m_blocks[MaterialBlock::Pbr] = true;
 
 			Program& fresnel = gfx.programs().create("fresnel");
@@ -143,7 +144,7 @@ namespace mud
 		Pass pass = render.next_pass("solid", PassType::Solid);
 		
 		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL
-									 | BGFX_STATE_MSAA | BGFX_STATE_CULL_CW;// | BGFX_STATE_BLEND_ALPHA;
+							  | BGFX_STATE_MSAA | BGFX_STATE_CULL_CW;// | BGFX_STATE_BLEND_ALPHA;
 
 		bgfx::Encoder& encoder = *pass.m_encoder;
 		for(ImmediateDraw* immediate : render.m_shot.m_immediate)
@@ -172,9 +173,7 @@ namespace mud
 
 	void pass_flip(GfxSystem& gfx, Render& render)
 	{
-		static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
-
 		Pass pass = render.next_pass("flip", PassType::Flip);
-		block_copy.quad(pass.m_index, render.m_target->m_backbuffer, render.m_target->m_diffuse, render.m_rect);
+		gfx.m_copy->quad(pass, render.m_target->m_backbuffer, render.m_target->m_diffuse, render.m_rect);
 	}
 }

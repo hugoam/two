@@ -17,16 +17,20 @@ void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	Camera& camera = viewer.m_camera;
 	Scene& scene = viewer.m_scene;
 
-	Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
 
 	if(init)
 	{
 		camera.m_fov = 50.f; camera.m_near = 1.f; camera.m_far = 20000.f;
 		camera.m_eye.z = 3200.f;
 
-		//scene.background = new THREE.Color(0x050505);
+		viewer.m_viewport.m_clear_colour = rgb(0x050505);
 
+		//scene.m_env.m_radiance.m_colour = rgb(0x050505);
 		//scene.add(new THREE.AmbientLight(0x050505));
+		
+		Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
+		scene.m_env.m_radiance.m_texture = &reflection;
+
 
 		Node3& l0 = gfx::nodes(scene).add(Node3(vec3(4000.f, 0.f, 0.f)));
 		gfx::lights(scene).add(Light(l0, LightType::Point, false, rgb(0x0011ff), 1.f, 5500.f));
@@ -40,12 +44,14 @@ void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
 		//var material = new THREE.MeshPhongMaterial({ specular: 0x101010, shininess : 100, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.1, side : THREE.DoubleSide });
-		Material& material = app.m_gfx.materials().create("material",  [&](Material& m) {
+		Material& material = app.m_gfx.materials().create("twosided",  [&](Material& m) {
 			m.m_program = &pbr; //m.m_pbr.m_albedo = rgb(0xaaaaaa); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f;
 			m.m_base.m_cull_mode = CullMode::None;
+			m.m_pbr.m_roughness = 0.f;
 		});
 
-		Model& geometry = app.m_gfx.shape(Sphere());
+		Model& geometry = app.m_gfx.shape(Sphere(1.f, 0.f, c_pi));
+		//Model& geometry = app.m_gfx.shape(SphereRing(1.f, 0.f, c_pi));
 		//new THREE.SphereBufferGeometry(1, 32, 16, 0, c_pi);
 
 		for(size_t i = 0; i < 5000; ++i)

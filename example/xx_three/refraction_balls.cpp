@@ -34,7 +34,7 @@ void xx_refraction_balls(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 
 		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
-		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+		Material& material = app.m_gfx.materials().create("balls", [&](Material& m) {
 			m.m_program = &pbr;
 			m.m_pbr.m_albedo = rgb(0xffffff);
 			m.m_pbr.m_metallic = 1.f;

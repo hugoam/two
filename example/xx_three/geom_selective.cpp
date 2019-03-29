@@ -78,7 +78,7 @@ void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 45.f; camera.m_near = 0.01f; camera.m_far = 10.f;
 		camera.m_eye.z = 3.5f;
 		
-		Material& material = app.m_gfx.materials().create("material", [](Material& m) {
+		Material& material = app.m_gfx.materials().create("selective", [](Material& m) {
 			m.m_program = &program;
 		});
 
@@ -110,7 +110,7 @@ void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 					geometry.m_colours.push_back(color1);
 				}
 
-			model = &app.m_gfx.create_model_geo("lines", geometry, false); // , dynamic = true);
+			model = &app.m_gfx.create_model_geo("selective", geometry, false); // , dynamic = true);
 
 			Node3& n = gfx::nodes(scene).add(Node3());
 			Item& it = gfx::items(scene).add(Item(n, *model, 0U, &material));

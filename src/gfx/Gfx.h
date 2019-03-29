@@ -46,8 +46,8 @@ namespace gfx
 	export_ MUD_GFX_EXPORT func_ Light& sun_light(Gnode& parent, float azimuth, float elevation);
 	export_ MUD_GFX_EXPORT func_ void radiance(Gnode& parent, const string& texture, BackgroundMode background);
 
-	using ManualJob = void(*)(Render&, const Pass&);
-	using CustomSky = void(*)(Render&);
+	using ManualJob = void(*)(GfxSystem&, Render&, const Pass&);
+	using CustomSky = void(*)(GfxSystem&, Render&);
 
 	export_ MUD_GFX_EXPORT void manual_job(Gnode& parent, PassType pass, ManualJob job);
 	export_ MUD_GFX_EXPORT void custom_sky(Gnode& parent, CustomSky func);

@@ -50,7 +50,7 @@ namespace mud
 		attr_ Colour m_colour = Colour::Black;
 		attr_ Program* m_custom_program = nullptr;
 		attr_ Texture* m_texture = nullptr;
-		using CustomRender = void(*)(Render&); CustomRender m_custom_function;
+		using CustomRender = void(*)(GfxSystem&, Render&); CustomRender m_custom_function;
 	};
 
 	export_ struct refl_ Fog

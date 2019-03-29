@@ -44,7 +44,7 @@ namespace mud
 
 		uvec4 render_update(Render& render, Light& light);
 		bool update_light(Light& light, uint64_t render, float coverage, uint64_t light_version);
-		void remove_light(Light& light);
+		void remove_light(Light& light, bool block = false);
 
 		struct Slice
 		{

@@ -1778,12 +1778,28 @@ Object.defineProperty(Material.prototype, "line", {
         _mud_Material__set_line(this.__ptr, value.__ptr);
     }
 });
+Object.defineProperty(Material.prototype, "lit", {
+    get: function() {
+        return wrapPointer(_mud_Material__get_lit(this.__ptr), MaterialLit);
+    },
+    set: function(value) {
+        _mud_Material__set_lit(this.__ptr, value.__ptr);
+    }
+});
 Object.defineProperty(Material.prototype, "pbr", {
     get: function() {
         return wrapPointer(_mud_Material__get_pbr(this.__ptr), MaterialPbr);
     },
     set: function(value) {
         _mud_Material__set_pbr(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Material.prototype, "phong", {
+    get: function() {
+        return wrapPointer(_mud_Material__get_phong(this.__ptr), MaterialPhong);
+    },
+    set: function(value) {
+        _mud_Material__set_phong(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(Material.prototype, "fresnel", {
@@ -1930,6 +1946,14 @@ Object.defineProperty(MaterialBase.prototype, "shader_color", {
         _mud_MaterialBase__set_shader_color(this.__ptr, value);
     }
 });
+Object.defineProperty(MaterialBase.prototype, "flat_shaded", {
+    get: function() {
+        return !!(_mud_MaterialBase__get_flat_shaded(this.__ptr));
+    },
+    set: function(value) {
+        _mud_MaterialBase__set_flat_shaded(this.__ptr, value);
+    }
+});
 Object.defineProperty(MaterialBase.prototype, "screen_filter", {
     get: function() {
         return !!(_mud_MaterialBase__get_screen_filter(this.__ptr));
@@ -2044,6 +2068,82 @@ Object.defineProperty(MaterialLine.prototype, "dash_gap", {
 });
 MaterialLine.prototype["__destroy"] = MaterialLine.prototype.__destroy = function() {
     _mud_MaterialLine__destroy(this.__ptr);
+};
+// MaterialLit
+function MaterialLit() {
+    this.__ptr = _mud_MaterialLit__construct_0(); this.__type = MaterialLit.__type; getCache(MaterialLit)[this.__ptr] = this;
+};
+MaterialLit.prototype = Object.create(WrapperObject.prototype);
+MaterialLit.prototype.constructor = MaterialLit;
+MaterialLit.prototype.__class = MaterialLit;
+MaterialLit.__cache = {};
+Module['MaterialLit'] = MaterialLit;
+Object.defineProperty(MaterialLit.prototype, "emissive", {
+    get: function() {
+        return wrapPointer(_mud_MaterialLit__get_emissive(this.__ptr), MaterialParam_mud_Colour);
+    },
+    set: function(value) {
+        _mud_MaterialLit__set_emissive(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialLit.prototype, "emissive_energy", {
+    get: function() {
+        return _mud_MaterialLit__get_emissive_energy(this.__ptr);
+    },
+    set: function(value) {
+        _mud_MaterialLit__set_emissive_energy(this.__ptr, value);
+    }
+});
+Object.defineProperty(MaterialLit.prototype, "normal", {
+    get: function() {
+        return wrapPointer(_mud_MaterialLit__get_normal(this.__ptr), MaterialParam_float);
+    },
+    set: function(value) {
+        _mud_MaterialLit__set_normal(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialLit.prototype, "bump", {
+    get: function() {
+        return wrapPointer(_mud_MaterialLit__get_bump(this.__ptr), MaterialParam_float);
+    },
+    set: function(value) {
+        _mud_MaterialLit__set_bump(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialLit.prototype, "displace", {
+    get: function() {
+        return wrapPointer(_mud_MaterialLit__get_displace(this.__ptr), MaterialParam_float);
+    },
+    set: function(value) {
+        _mud_MaterialLit__set_displace(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialLit.prototype, "displace_bias", {
+    get: function() {
+        return _mud_MaterialLit__get_displace_bias(this.__ptr);
+    },
+    set: function(value) {
+        _mud_MaterialLit__set_displace_bias(this.__ptr, value);
+    }
+});
+Object.defineProperty(MaterialLit.prototype, "occlusion", {
+    get: function() {
+        return wrapPointer(_mud_MaterialLit__get_occlusion(this.__ptr), MaterialParam_float);
+    },
+    set: function(value) {
+        _mud_MaterialLit__set_occlusion(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialLit.prototype, "lightmap", {
+    get: function() {
+        return wrapPointer(_mud_MaterialLit__get_lightmap(this.__ptr), MaterialParam_float);
+    },
+    set: function(value) {
+        _mud_MaterialLit__set_lightmap(this.__ptr, value.__ptr);
+    }
+});
+MaterialLit.prototype["__destroy"] = MaterialLit.prototype.__destroy = function() {
+    _mud_MaterialLit__destroy(this.__ptr);
 };
 // MaterialParam<float>
 function MaterialParam_float() {
@@ -2197,30 +2297,6 @@ Object.defineProperty(MaterialPbr.prototype, "roughness", {
         _mud_MaterialPbr__set_roughness(this.__ptr, value.__ptr);
     }
 });
-Object.defineProperty(MaterialPbr.prototype, "normal", {
-    get: function() {
-        return wrapPointer(_mud_MaterialPbr__get_normal(this.__ptr), MaterialParam_float);
-    },
-    set: function(value) {
-        _mud_MaterialPbr__set_normal(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(MaterialPbr.prototype, "emissive", {
-    get: function() {
-        return wrapPointer(_mud_MaterialPbr__get_emissive(this.__ptr), MaterialParam_mud_Colour);
-    },
-    set: function(value) {
-        _mud_MaterialPbr__set_emissive(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(MaterialPbr.prototype, "emissive_energy", {
-    get: function() {
-        return _mud_MaterialPbr__get_emissive_energy(this.__ptr);
-    },
-    set: function(value) {
-        _mud_MaterialPbr__set_emissive_energy(this.__ptr, value);
-    }
-});
 Object.defineProperty(MaterialPbr.prototype, "rim", {
     get: function() {
         return wrapPointer(_mud_MaterialPbr__get_rim(this.__ptr), MaterialParam_float);
@@ -2285,14 +2361,6 @@ Object.defineProperty(MaterialPbr.prototype, "depth", {
         _mud_MaterialPbr__set_depth(this.__ptr, value.__ptr);
     }
 });
-Object.defineProperty(MaterialPbr.prototype, "ambient_occlusion", {
-    get: function() {
-        return wrapPointer(_mud_MaterialPbr__get_ambient_occlusion(this.__ptr), MaterialParam_float);
-    },
-    set: function(value) {
-        _mud_MaterialPbr__set_ambient_occlusion(this.__ptr, value.__ptr);
-    }
-});
 Object.defineProperty(MaterialPbr.prototype, "transmission", {
     get: function() {
         return wrapPointer(_mud_MaterialPbr__get_transmission(this.__ptr), MaterialParam_mud_Colour);
@@ -2335,6 +2403,66 @@ Object.defineProperty(MaterialPbr.prototype, "specular_mode", {
 });
 MaterialPbr.prototype["__destroy"] = MaterialPbr.prototype.__destroy = function() {
     _mud_MaterialPbr__destroy(this.__ptr);
+};
+// MaterialPhong
+function MaterialPhong() {
+    this.__ptr = _mud_MaterialPhong__construct_0(); this.__type = MaterialPhong.__type; getCache(MaterialPhong)[this.__ptr] = this;
+};
+MaterialPhong.prototype = Object.create(WrapperObject.prototype);
+MaterialPhong.prototype.constructor = MaterialPhong;
+MaterialPhong.prototype.__class = MaterialPhong;
+MaterialPhong.__cache = {};
+Module['MaterialPhong'] = MaterialPhong;
+Object.defineProperty(MaterialPhong.prototype, "diffuse", {
+    get: function() {
+        return wrapPointer(_mud_MaterialPhong__get_diffuse(this.__ptr), MaterialParam_mud_Colour);
+    },
+    set: function(value) {
+        _mud_MaterialPhong__set_diffuse(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialPhong.prototype, "specular", {
+    get: function() {
+        return wrapPointer(_mud_MaterialPhong__get_specular(this.__ptr), MaterialParam_mud_Colour);
+    },
+    set: function(value) {
+        _mud_MaterialPhong__set_specular(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialPhong.prototype, "shininess", {
+    get: function() {
+        return wrapPointer(_mud_MaterialPhong__get_shininess(this.__ptr), MaterialParam_float);
+    },
+    set: function(value) {
+        _mud_MaterialPhong__set_shininess(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialPhong.prototype, "reflectivity", {
+    get: function() {
+        return wrapPointer(_mud_MaterialPhong__get_reflectivity(this.__ptr), MaterialParam_float);
+    },
+    set: function(value) {
+        _mud_MaterialPhong__set_reflectivity(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialPhong.prototype, "refraction", {
+    get: function() {
+        return wrapPointer(_mud_MaterialPhong__get_refraction(this.__ptr), MaterialParam_float);
+    },
+    set: function(value) {
+        _mud_MaterialPhong__set_refraction(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialPhong.prototype, "toon", {
+    get: function() {
+        return !!(_mud_MaterialPhong__get_toon(this.__ptr));
+    },
+    set: function(value) {
+        _mud_MaterialPhong__set_toon(this.__ptr, value);
+    }
+});
+MaterialPhong.prototype["__destroy"] = MaterialPhong.prototype.__destroy = function() {
+    _mud_MaterialPhong__destroy(this.__ptr);
 };
 // MaterialPoint
 function MaterialPoint() {
@@ -2423,6 +2551,22 @@ Object.defineProperty(MaterialUser.prototype, "tex3", {
     },
     set: function(value) {
         _mud_MaterialUser__set_tex3(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialUser.prototype, "tex4", {
+    get: function() {
+        return wrapPointer(_mud_MaterialUser__get_tex4(this.__ptr), Texture);
+    },
+    set: function(value) {
+        _mud_MaterialUser__set_tex4(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(MaterialUser.prototype, "tex5", {
+    get: function() {
+        return wrapPointer(_mud_MaterialUser__get_tex5(this.__ptr), Texture);
+    },
+    set: function(value) {
+        _mud_MaterialUser__set_tex5(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(MaterialUser.prototype, "attr0", {
@@ -2888,6 +3032,14 @@ Pass.prototype.constructor = Pass;
 Pass.prototype.__class = Pass;
 Pass.__cache = {};
 Module['Pass'] = Pass;
+Object.defineProperty(Pass.prototype, "name", {
+    get: function() {
+        return Pointer_stringify(_mud_Pass__get_name(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Pass__set_name(this.__ptr, ensureString(value));
+    }
+});
 Object.defineProperty(Pass.prototype, "target", {
     get: function() {
         return wrapPointer(_mud_Pass__get_target(this.__ptr), RenderTarget);
@@ -3792,8 +3944,8 @@ BlockCopy.prototype.__class = BlockCopy;
 BlockCopy.__cache = {};
 Module['BlockCopy'] = BlockCopy;
 BlockCopy.prototype["quad"] = BlockCopy.prototype.quad = function(a0, a1, a2, a3, a4) {
-    if (a4 === undefined) { _mud_BlockCopy_quad_4(this.__ptr, /*view*/a0, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*rect*/a3.__ptr); return; }
-    _mud_BlockCopy_quad_5(this.__ptr, /*view*/a0, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4);
+    if (a4 === undefined) { _mud_BlockCopy_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*rect*/a3.__ptr); return; }
+    _mud_BlockCopy_quad_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4);
 };
 BlockCopy.prototype["__destroy"] = BlockCopy.prototype.__destroy = function() {
     _mud_BlockCopy__destroy(this.__ptr);
@@ -3816,9 +3968,9 @@ BlockFilter.prototype.__class = BlockFilter;
 BlockFilter.__cache = {};
 Module['BlockFilter'] = BlockFilter;
 BlockFilter.prototype["quad"] = BlockFilter.prototype.quad = function(a0, a1, a2, a3, a4, a5) {
-    if (a4 === undefined) { _mud_BlockFilter_quad_4(this.__ptr, /*view*/a0, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr); return; }
-    if (a5 === undefined) { _mud_BlockFilter_quad_5(this.__ptr, /*view*/a0, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4); return; }
-    _mud_BlockFilter_quad_6(this.__ptr, /*view*/a0, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4, /*render*/a5);
+    if (a4 === undefined) { _mud_BlockFilter_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr); return; }
+    if (a5 === undefined) { _mud_BlockFilter_quad_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4); return; }
+    _mud_BlockFilter_quad_6(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4, /*render*/a5);
 };
 BlockFilter.prototype["source0"] = BlockFilter.prototype.source0 = function(a0, a1) {
     if (a1 === undefined) { _mud_BlockFilter_source0_1(this.__ptr, /*texture*/a0.__ptr); return; }
@@ -3842,11 +3994,11 @@ BlockFilter.prototype["sourcedepth"] = BlockFilter.prototype.sourcedepth = funct
 };
 BlockFilter.prototype["uniform"] = BlockFilter.prototype.uniform = function(a0, a1, a2) {
     ensureCache.prepare();
-    _mud_BlockFilter_uniform_3(this.__ptr, /*view*/a0, ensureString(/*name*/a1), /*value*/a2.__ptr);
+    _mud_BlockFilter_uniform_3(this.__ptr, /*pass*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr);
 };
 BlockFilter.prototype["uniforms"] = BlockFilter.prototype.uniforms = function(a0, a1, a2, a3) {
     ensureCache.prepare();
-    _mud_BlockFilter_uniforms_4(this.__ptr, /*view*/a0, ensureString(/*name*/a1), /*value*/a2.__ptr, /*num*/a3);
+    _mud_BlockFilter_uniforms_4(this.__ptr, /*pass*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr, /*num*/a3);
 };
 BlockFilter.prototype["__destroy"] = BlockFilter.prototype.__destroy = function() {
     _mud_BlockFilter__destroy(this.__ptr);
@@ -4410,7 +4562,9 @@ Module['render_clear'] = function(a0, a1) {
         MaterialBase.__type = _mud_MaterialBase__type();
         MaterialFresnel.__type = _mud_MaterialFresnel__type();
         MaterialLine.__type = _mud_MaterialLine__type();
+        MaterialLit.__type = _mud_MaterialLit__type();
         MaterialPbr.__type = _mud_MaterialPbr__type();
+        MaterialPhong.__type = _mud_MaterialPhong__type();
         MaterialPoint.__type = _mud_MaterialPoint__type();
         MaterialSolid.__type = _mud_MaterialSolid__type();
         MaterialUser.__type = _mud_MaterialUser__type();
@@ -4537,7 +4691,9 @@ Module['render_clear'] = function(a0, a1) {
         Module['MaterialBlock']['Solid'] = _mud_MaterialBlock_Solid();
         Module['MaterialBlock']['Point'] = _mud_MaterialBlock_Point();
         Module['MaterialBlock']['Line'] = _mud_MaterialBlock_Line();
+        Module['MaterialBlock']['Lit'] = _mud_MaterialBlock_Lit();
         Module['MaterialBlock']['Pbr'] = _mud_MaterialBlock_Pbr();
+        Module['MaterialBlock']['Phong'] = _mud_MaterialBlock_Phong();
         Module['MaterialBlock']['Fresnel'] = _mud_MaterialBlock_Fresnel();
         Module['MaterialBlock']['User'] = _mud_MaterialBlock_User();
         Module['MaterialBlock']['Count'] = _mud_MaterialBlock_Count();
@@ -4648,22 +4804,24 @@ Module['render_clear'] = function(a0, a1) {
         Module['TextureSampler']['SourceDepth'] = _mud_TextureSampler_SourceDepth();
         Module['TextureSampler']['Color'] = _mud_TextureSampler_Color();
         Module['TextureSampler']['Albedo'] = _mud_TextureSampler_Albedo();
+        Module['TextureSampler']['Diffuse'] = _mud_TextureSampler_Diffuse();
         Module['TextureSampler']['Alpha'] = _mud_TextureSampler_Alpha();
         Module['TextureSampler']['Metallic'] = _mud_TextureSampler_Metallic();
-        Module['TextureSampler']['User0'] = _mud_TextureSampler_User0();
+        Module['TextureSampler']['Specular'] = _mud_TextureSampler_Specular();
         Module['TextureSampler']['Roughness'] = _mud_TextureSampler_Roughness();
-        Module['TextureSampler']['User1'] = _mud_TextureSampler_User1();
+        Module['TextureSampler']['Shininess'] = _mud_TextureSampler_Shininess();
         Module['TextureSampler']['Emissive'] = _mud_TextureSampler_Emissive();
-        Module['TextureSampler']['User2'] = _mud_TextureSampler_User2();
         Module['TextureSampler']['Normal'] = _mud_TextureSampler_Normal();
-        Module['TextureSampler']['User3'] = _mud_TextureSampler_User3();
         Module['TextureSampler']['AO'] = _mud_TextureSampler_AO();
-        Module['TextureSampler']['User4'] = _mud_TextureSampler_User4();
         Module['TextureSampler']['Depth'] = _mud_TextureSampler_Depth();
+        Module['TextureSampler']['User0'] = _mud_TextureSampler_User0();
+        Module['TextureSampler']['User1'] = _mud_TextureSampler_User1();
+        Module['TextureSampler']['User2'] = _mud_TextureSampler_User2();
+        Module['TextureSampler']['User3'] = _mud_TextureSampler_User3();
+        Module['TextureSampler']['User4'] = _mud_TextureSampler_User4();
         Module['TextureSampler']['User5'] = _mud_TextureSampler_User5();
         Module['TextureSampler']['Radiance'] = _mud_TextureSampler_Radiance();
-        Module['TextureSampler']['ShadowAtlas'] = _mud_TextureSampler_ShadowAtlas();
-        Module['TextureSampler']['ShadowCSM'] = _mud_TextureSampler_ShadowCSM();
+        Module['TextureSampler']['Shadow'] = _mud_TextureSampler_Shadow();
         Module['TextureSampler']['Lightmap'] = _mud_TextureSampler_Lightmap();
         Module['TextureSampler']['ReflectionProbe'] = _mud_TextureSampler_ReflectionProbe();
         Module['TextureSampler']['GIProbe'] = _mud_TextureSampler_GIProbe();

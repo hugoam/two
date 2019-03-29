@@ -48,7 +48,7 @@ void xx_perf_nodes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		{
 			const Colour colour = rgb(randi() * 0xffffff);
 
-			Material& material = app.m_gfx.materials().create("material",  [&](Material& m) {
+			Material& material = app.m_gfx.materials().create("nodes",  [&](Material& m) {
 				m.m_program = &pbr;
 				m.m_pbr.m_albedo = colour;
 			});

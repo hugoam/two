@@ -6,6 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <math/Axis.h>
+#include <math/Math.h>
 #endif
 #include <geom/Forward.h>
 #include <geom/Shape.h>
@@ -235,10 +236,12 @@ namespace mud
 	{
 	public:
 		constr_ Sphere();
-		constr_ Sphere(float radius);
-		constr_ Sphere(const vec3& center, float radius);
+		constr_ Sphere(float radius, float start = 0.f, float end = c_2pi);
+		constr_ Sphere(const vec3& center, float radius, float start = 0.f, float end = c_2pi);
 
 		attr_ float m_radius = 1.f;
+		attr_ float m_start = 0.f;
+		attr_ float m_end = c_2pi;
 
 		virtual object<Shape> clone() const;
 	};

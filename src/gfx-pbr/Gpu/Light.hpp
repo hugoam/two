@@ -99,9 +99,9 @@ namespace mud
 			bgfx::setViewUniform(pass.m_index, u_light_position_range,			&position_range,		uint16_t(lights.size()));
 			bgfx::setViewUniform(pass.m_index, u_light_energy_specular,			&energy_specular,		uint16_t(lights.size()));
 			bgfx::setViewUniform(pass.m_index, u_light_direction_attenuation,	&direction_attenuation,	uint16_t(lights.size()));
-			bgfx::setViewUniform(pass.m_index, u_light_spot_p0,				&spot_p0,			uint16_t(lights.size()));
-			bgfx::setViewUniform(pass.m_index, u_light_shadow_p0,			&shadow_p0,			uint16_t(lights.size()));
-			bgfx::setViewUniform(pass.m_index, u_light_shadowmap_p0,			&shadowmap_p0,		uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_spot_p0,					&spot_p0,				uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_shadow_p0,				&shadow_p0,				uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_shadowmap_p0,			&shadowmap_p0,			uint16_t(lights.size()));
 		}
 
 		bgfx::UniformHandle u_light_position_range;
@@ -144,17 +144,16 @@ namespace mud
 
 		void pack(Texture& texture, span<GpuLight> lights, span<GpuLightShadow> shadows)
 		{
-			GpuTexture buffer = { texture, 1024, 4 };
+			GpuTexture buffer = { &texture, 1024, 4 };
 
 			const size_t height = 6;
 			const size_t lines = 1;
 			const uvec2 size = uvec2(buffer.width, uint16_t(lines * height));
 
-			if(!texture.m_size != size)
-				texture = { size, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
+			if(texture.m_size != size)
+				texture = { size, false, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
 
-			const uint32_t size = uint32_t(buffer.width * lines * height);
-			const bgfx::Memory* memory = bgfx::alloc(uint32_t(size * buffer.stride * sizeof(float)));
+			const bgfx::Memory* memory = bgfx::alloc(uint32_t(size.x * size.y * buffer.stride * sizeof(float)));
 
 			for(size_t index = 0; index < lights.size(); ++index)
 			{

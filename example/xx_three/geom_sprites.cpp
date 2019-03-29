@@ -50,7 +50,7 @@ static string fragment_shader()
 		"void main()\n"
 	    "{\n"
 		"	vec4 color = texture2D(s_color, v_uv0);\n"
-		"   vec3 hsl = hsl_to_rgb(vec3(v_scale/5.0, 1.0, 0.5));\n"
+		"   vec3 hsl = hsl_to_rgb(vec3(v_scale / 5.0, 1.0, 0.5));\n"
 		"	gl_FragColor = vec4(color.rgb * hsl.rgb, color.a);\n"
 		"	if (color.a < 0.5) discard;\n"
 		"}\n";
@@ -70,7 +70,7 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	Scene& scene = viewer.m_scene;
 
-	static Program program = { "sprites" };
+	static Program& program = app.m_gfx.programs().create("sprites");
 	if(init)
 	{
 		program.m_blocks[MaterialBlock::Solid] = true;
@@ -92,7 +92,7 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 50.f; camera.m_near = 1.f; camera.m_far = 5000.f;
 		camera.m_eye.z = 1400.f;
 		
-		Material& material = app.m_gfx.materials().create("circles", [](Material& m) {
+		Material& material = app.m_gfx.materials().create("sprites", [](Material& m) {
 			m.m_program = &program;
 			m.m_base.m_depth_test = DepthTest::Enabled;
 			m.m_base.m_depth_draw = DepthDraw::Enabled;
@@ -102,10 +102,11 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		});
 
 		// cool glitch
+		Symbol symbol; symbol.m_subdiv = uvec2(6U);
 #if GLITCH
-		Model& circle = app.m_gfx.shape(Circle());
+		Model& circle = app.m_gfx.shape(Circle(), symbol);
 #else
-		Model& circle = app.m_gfx.shape(Circle(1.f, Axis::Z)); // new THREE.CircleBufferGeometry(1, 6);
+		Model& circle = app.m_gfx.shape(Circle(1.f, Axis::Z), symbol);
 #endif
 
 		for(size_t i = 0; i < particles; ++i)

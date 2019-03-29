@@ -124,6 +124,9 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Context", sizeof(mud::Context), TypeClass::Object };
 		// bases
 		// defaults
+		static bool fullscreen_default = false;
+		static bool is_main_default = true;
+		static float pixel_ratio_default = 1.f;
 		static bool active_default = true;
 		static bool shutdown_default = false;
 		static bool mouse_lock_default = false;
@@ -135,9 +138,9 @@ namespace mud
 			{ t, offsetof(mud::Context, m_title), type<stl::string>(), "title", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_size), type<mud::uvec2>(), "size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_fb_size), type<mud::uvec2>(), "fb_size", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_fullscreen), type<bool>(), "fullscreen", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_is_main), type<bool>(), "is_main", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_pixel_ratio), type<float>(), "pixel_ratio", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_fullscreen), type<bool>(), "fullscreen", &fullscreen_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_is_main), type<bool>(), "is_main", &is_main_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_pixel_ratio), type<float>(), "pixel_ratio", &pixel_ratio_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_active), type<bool>(), "active", &active_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_shutdown), type<bool>(), "shutdown", &shutdown_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_cursor), type<mud::vec2>(), "cursor", nullptr, Member::Value, nullptr },

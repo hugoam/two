@@ -34,11 +34,11 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//scene.background = new THREE.Color(  );
 		//scene.fog = new THREE.Fog( 0x72645b, 2, 15 );
 
-		auto add_light = [&](vec3 d, Colour color, float intensity)
+		auto add_light = [&](vec3 d, Colour color, float intensity, bool shadows)
 		{
-			//Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), facing(d)));
-			Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), quat(d * c_pi2)));
-			Light& l = gfx::lights(scene).add(Light(n, LightType::Direct, true, color, intensity));
+			Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(normalize(d))));
+			//Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), quat(d * c_pi2)));
+			Light& l = gfx::lights(scene).add(Light(n, LightType::Direct, shadows, color, intensity));
 			//l.m_shadow_range = 4.f;
 
 			l.m_shadow_flags = CSM_Stabilize;
@@ -80,11 +80,11 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			gfx::items(scene).add(Item(n, model, 0, &material));
 		}
 
-		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+		Material& material = app.m_gfx.materials().create("ply", [&](Material& m) {
 			m.m_program = &pbr;
+			m.m_base.m_flat_shaded = true;
 			m.m_pbr.m_albedo = rgb(0x0055ff);
 			m.m_pbr.m_roughness = 0.f;
-			// flatShading: true
 		});
 
 		// PLY file
@@ -107,8 +107,8 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		//scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
 
-		add_light(normalize(vec3(-1.f, -1.f, -1.f)), rgb(0xffffff), 1.35f);
-		add_light(normalize(vec3(-0.5f, -1.f, 1.f)), rgb(0xffaa00), 1.f);
+		//add_light(normalize(vec3(-1.f, -1.f, -1.f)), rgb(0xffffff), 1.35f, true);
+		add_light(normalize(vec3(-0.5f, -1.f, 1.f)), rgb(0xffaa00), 1.f, false);
 	}
 
 

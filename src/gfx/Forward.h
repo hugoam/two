@@ -90,8 +90,10 @@ namespace mud
     struct MaterialSolid;
 	struct MaterialPoint;
 	struct MaterialLine;
+	struct MaterialLit;
     struct MaterialFresnel;
     struct MaterialPbr;
+	struct MaterialPhong;
 	struct MaterialUser;
     class BlockPbr;
     class Material;

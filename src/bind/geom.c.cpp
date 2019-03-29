@@ -449,9 +449,6 @@ extern "C" {
 	mud::Type* DECL mud_Symbol__type() {
 		return &mud::type<mud::Symbol>();
 	}
-	mud::Symbol* DECL mud_Symbol__construct_0() {
-		return new mud::Symbol();
-	}
 	mud::Symbol* DECL mud_Symbol__construct_1(mud::Colour* fill) {
 		return new mud::Symbol(*fill);
 	}
@@ -496,6 +493,12 @@ extern "C" {
 	}
 	void DECL mud_Symbol__set_detail(mud::Symbol* self, mud::SymbolDetail value) {
 		self->m_detail = value;
+	}
+	mud::uvec2* DECL mud_Symbol__get_subdiv(mud::Symbol* self) {
+		return &self->m_subdiv;
+	}
+	void DECL mud_Symbol__set_subdiv(mud::Symbol* self, mud::uvec2* value) {
+		self->m_subdiv = *value;
 	}
 	const char* DECL mud_Symbol__get_image(mud::Symbol* self) {
 		return self->m_image;
@@ -1226,14 +1229,32 @@ extern "C" {
 	mud::Sphere* DECL mud_Sphere__construct_1(float radius) {
 		return new mud::Sphere(radius);
 	}
-	mud::Sphere* DECL mud_Sphere__construct_2(const mud::vec3* center, float radius) {
-		return new mud::Sphere(*center, radius);
+	mud::Sphere* DECL mud_Sphere__construct_2(float radius, float start) {
+		return new mud::Sphere(radius, start);
+	}
+	mud::Sphere* DECL mud_Sphere__construct_3(float radius, float start, float end) {
+		return new mud::Sphere(radius, start, end);
+	}
+	mud::Sphere* DECL mud_Sphere__construct_4(const mud::vec3* center, float radius, float start, float end) {
+		return new mud::Sphere(*center, radius, start, end);
 	}
 	float DECL mud_Sphere__get_radius(mud::Sphere* self) {
 		return self->m_radius;
 	}
 	void DECL mud_Sphere__set_radius(mud::Sphere* self, float value) {
 		self->m_radius = value;
+	}
+	float DECL mud_Sphere__get_start(mud::Sphere* self) {
+		return self->m_start;
+	}
+	void DECL mud_Sphere__set_start(mud::Sphere* self, float value) {
+		self->m_start = value;
+	}
+	float DECL mud_Sphere__get_end(mud::Sphere* self) {
+		return self->m_end;
+	}
+	void DECL mud_Sphere__set_end(mud::Sphere* self, float value) {
+		self->m_end = value;
 	}
 	void DECL mud_Sphere__destroy(mud::Sphere* self) {
 		delete self;

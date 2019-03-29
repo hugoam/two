@@ -171,7 +171,7 @@ public:
 	Material* m_material;
 
 	Water() {}
-	Water(GfxSystem& gfx, Scene& scene, Model& geometry, uvec2 resolution = uvec2(512U))
+	void create(GfxSystem& gfx, Scene& scene, Model& geometry, uvec2 resolution = uvec2(512U))
 	{
 		static Program& program = gfx.programs().create("water");
 		program.set_pass(PassType::Opaque);
@@ -190,7 +190,7 @@ public:
 
 		m_fbo = { resolution, bgfx::TextureFormat::RGBA8 };
 		
-		material.m_submit = [&](bgfx::Encoder& encoder) { this->submit(encoder); };
+		material.m_submit = [this](bgfx::Encoder& encoder) { this->submit(encoder); };
 	}
 
 	void submit(bgfx::Encoder& encoder)
@@ -233,7 +233,7 @@ public:
 		vec3 target = -reflect(mirror - lookat, normal) + mirror;
 		vec3 up = reflect(muln(rotation, Y3), normal);
 
-		Camera camera = Camera(eye, target, up, sourcecam.m_fov, sourcecam.m_aspect, sourcecam.m_near, sourcecam.m_far); ;
+		Camera camera = Camera(eye, target, up, sourcecam.m_fov, sourcecam.m_aspect, sourcecam.m_near, sourcecam.m_far);
 
 		static mat4 bias = bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, false);
 		//m_mirror = bias * camera.m_projection * inverse(camera.m_transform);
@@ -358,7 +358,7 @@ static string sky_vertex()
 		// mie coefficients
 		"	v_betaM = totalMie(u_turbidity) * u_mieCoefficient;\n"
 
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -466,7 +466,7 @@ static string sky_fragment()
 		"	gl_FragColor = vec4(retColor, 1.0);\n"
 		//"	gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);\n"
 
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -475,7 +475,7 @@ class Sky
 {
 public:
 	Sky() {}
-	Sky(GfxSystem& gfx, Scene& scene)
+	void create(GfxSystem& gfx, Scene& scene)
 	{
 		static Program& program = gfx.programs().create("sky");
 		program.set_pass(PassType::Opaque);
@@ -575,7 +575,7 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Texture& normals = *app.m_gfx.textures().file("waternormals.jpg");
 		
 #if WATER
-		water = Water(app.m_gfx, scene, plane, app.m_gfx.main_target().m_size / 4U);
+		water.create(app.m_gfx, scene, plane, app.m_gfx.main_target().m_size / 4U);
 		water.normals = &normals;
 		water.alpha = 1.f;
 		water.sunDirection = sun->direction();
@@ -588,7 +588,7 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		// Skybox
 
-		sky = Sky(app.m_gfx, scene);
+		sky.create(app.m_gfx, scene);
 		sky.m_node->apply(vec3(0.f), ZeroQuat, vec3(10000.f));
 		sky.m_turbidity = 10.f;
 		sky.m_rayleigh = 2.f;
@@ -616,12 +616,12 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Model& ico = app.m_gfx.shape(Sphere(20.f));
 #endif
 
-		Material& material = app.m_gfx.materials().create("material", [](Material& m) {
+		Material& material = app.m_gfx.materials().create("ocean", [](Material& m) {
 			m.m_program = &pbr;
+			m.m_base.m_flat_shaded = true;
 			m.m_base.m_cull_mode = CullMode::None;
 			m.m_base.m_shader_color = ShaderColor::Vertex;
 			m.m_pbr.m_roughness = 0.f;
-			//flatShading: true,
 			//envMap: cubeCamera.renderTarget.texture,
 		});
 

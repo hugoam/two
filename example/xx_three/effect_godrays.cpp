@@ -5,6 +5,8 @@
 
 #include <xx_three/xx_three.h>
 
+#include <cstdio>
+
 //<script src="js/loaders/OBJLoader.js"></script>
 //<script src="js/ShaderGodRays.js"></script>
 
@@ -65,7 +67,7 @@ static string godrays_mask_fragment()
 		"	depth = clamp(depth, 0.0, 1.0);\n"
 		"	gl_FragColor = vec4(1.0 - depth, 0.0, 0.0, 0.0);\n"
 		//"	gl_FragColor = vec4(1.0) - texture2D(s_source_0, v_uv0);\n"
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -209,7 +211,7 @@ static string godrays_combine_fragment()
 		"	gl_FragColor.a = 1.0;\n"
 		//"	gl_FragColor = texture2D(s_source_0, v_uv0);\n"
 		"\n"
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -253,8 +255,7 @@ static string godrays_sun_fragment()
 		"\n"
 		"	gl_FragColor.xyz = mix(u_sun_color, u_bg_color, 1.0 - prop);\n"
 		"	gl_FragColor.w = 1.0;\n"
-		"	gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -273,24 +274,17 @@ struct Godrays
 
 void pass_fake_sun(GfxSystem& gfx, Render& render, const Godrays& godrays)
 {
-	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
-
 	static Program& program = gfx.programs().create("godrays_fake_sun");
 	program.m_sources[ShaderType::Vertex] = godrays_sun_vertex();
 	program.m_sources[ShaderType::Fragment] = godrays_sun_fragment();
 
 	Pass pass = render.next_pass("godrays_fake_sun", PassType::PostProcess);
 
-	filter.uniform(pass.m_index, "u_godrays_sun_p0", vec4(to_vec3(godrays.m_bg_colour), 0.f));
-	filter.uniform(pass.m_index, "u_godrays_sun_p1", vec4(to_vec3(godrays.m_sun_colour), 0.f));
-	filter.uniform(pass.m_index, "u_godrays_sun_p2", vec4(godrays.m_sun_screen, vec2(0.f)));
+	gfx.m_filter->uniform(pass, "u_godrays_sun_p0", vec4(to_vec3(godrays.m_bg_colour), 0.f));
+	gfx.m_filter->uniform(pass, "u_godrays_sun_p1", vec4(to_vec3(godrays.m_sun_colour), 0.f));
+	gfx.m_filter->uniform(pass, "u_godrays_sun_p2", vec4(godrays.m_sun_screen, vec2(0.f)));
 
 	// Draw sky and sun
-
-	// Clear colors and depths, will clear to sky color
-	//renderer.setRenderTarget(postprocessing.rtTextureColors);
-	//renderer.clear(true, true, false);
 
 	// Sun render. Runs a shader that gives a brightness based on the screen
 	// space distance to the sun. Not very efficient, so i make a scissor
@@ -299,18 +293,16 @@ void pass_fake_sun(GfxSystem& gfx, Render& render, const Godrays& godrays)
 	const float sunsqH = 0.74f * float(render.m_rect.height); // 0.74 depends on extent of sun from shader
 	const float sunsqW = sunsqH; // both depend on height because sun is aspect-corrected
 
-	const vec2 sun = godrays.m_sun_screen * vec2(rect_size(render.m_rect));
+	const vec2 sun = vec2(rect_offset(render.m_rect)) + godrays.m_sun_screen * vec2(rect_size(render.m_rect));
 
-	bgfx::setViewScissor(pass.m_index, sun.x - sunsqW / 2.f, sun.y - sunsqH / 2.f, sunsqW, sunsqH);
+	// @todo fix this
+	//bgfx::setViewScissor(pass.m_index, sun.x - sunsqW / 2.f, sun.y - sunsqH / 2.f, sunsqW, sunsqH);
 
-	filter.quad(pass.m_index, *render.m_target_fbo, program, pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass, *render.m_target_fbo, program, pass.m_viewport->m_rect);
 }
 
 void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 {
-	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
-
 	//// Use a smaller size for some of the god-ray render targets for better performance.
 	constexpr float downscale = 1.0 / 4.0;
 	const uvec2 size = rect_size(render.m_rect) / 4U;
@@ -331,9 +323,9 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 		Pass pass = render.next_pass("godrays_depth_mask", PassType::PostProcess);
 
-		filter.sourcedepth(render.m_target->m_depth);
+		gfx.m_filter->sourcedepth(render.m_target->m_depth);
 
-		filter.quad(pass.m_index, fbo, program, pass.m_viewport->m_rect);
+		gfx.m_filter->quad(pass, fbo, program, pass.m_viewport->m_rect);
 	};
 
 	auto pass_blur = [](GfxSystem& gfx, Render& render, const Godrays& godrays, FrameBuffer& fbo, Texture& source, float step_size, RenderQuad quad)
@@ -344,10 +336,10 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 		Pass pass = render.next_pass("godrays", PassType::PostProcess);
 
-		filter.uniform(pass.m_index, "u_godrays_p0", vec4(godrays.m_sun_screen, vec2(step_size, 0.f)));
-		filter.source0(source);
+		gfx.m_filter->uniform(pass, "u_godrays_p0", vec4(godrays.m_sun_screen, vec2(step_size, 0.f)));
+		gfx.m_filter->source0(source, GFX_TEXTURE_CLAMP);
 
-		filter.quad(pass.m_index, fbo, program, quad);
+		gfx.m_filter->quad(pass, fbo, program, quad);
 	};
 
 	auto pass_combine = [](GfxSystem& gfx, Render& render, const Godrays& godrays, Texture& source)
@@ -358,12 +350,14 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 		Pass pass = render.next_pass("godrays_combine", PassType::PostProcess);
 
-		filter.source0(render.m_target->m_diffuse);
-		filter.source1(source);
+		gfx.m_filter->source0(render.m_target->m_diffuse);
+		gfx.m_filter->source1(source);
 
-		filter.uniform(pass.m_index, "u_godrays_combine_p0", vec4(godrays.m_intensity, 0.f, 0.f, 0.f));
+		gfx.m_filter->uniform(pass, "u_godrays_combine_p0", vec4(godrays.m_intensity, 0.f, 0.f, 0.f));
 
-		filter.quad(pass.m_index, *render.m_target_fbo, program, pass.m_viewport->m_rect);
+		gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
+
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 	};
 
 	pass_mask_depth(gfx, render, godrays, depth);
@@ -406,7 +400,7 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 	pass_combine(gfx, render, godrays, pong.m_tex);
 
 	//copy.debug_show_texture(render, depth, vec4(0.f));
-	copy.debug_show_texture(render, pong.m_tex, vec4(0.f));
+	//gfx.m_copy->debug_show_texture(render, pong.m_tex, vec4(0.f));
 }
 
 void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
@@ -435,7 +429,7 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		viewer.m_viewport.m_clear_colour = godrays.m_bg_colour;
 
-		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+		Material& material = app.m_gfx.materials().create("godrays", [&](Material& m) {
 			m.m_program = &solid;
 			m.m_base.m_depth_draw = DepthDraw::Enabled;
 			m.m_solid.m_colour = rgb(0x000000);
@@ -453,12 +447,14 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		gfx::items(scene).add(Item(nsphere, sphere, 0U, &material));
 		node = &nsphere;
 
+		viewer.m_viewport.m_clear_colour = godrays.m_bg_colour;
+
 		auto render = [](GfxSystem& gfx, Render& render)
 		{
 			begin_pbr_render(gfx, render);
 
 			pass_clear(gfx, render);
-			//pass_fake_sun(gfx, render, godrays);
+			pass_fake_sun(gfx, render, godrays);
 			//pass_opaque(gfx, render);
 			pass_background(gfx, render);
 			pass_solid(gfx, render);
@@ -470,8 +466,8 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		app.m_gfx.set_renderer(Shading::Shaded, render);
 	}
 
-	Gnode& root = viewer.m_scene.begin();
-	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
+	//Gnode& root = viewer.m_scene.begin();
+	//gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
@@ -489,12 +485,16 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	position.x = orbit_radius * cos(time);
 	position.z = orbit_radius * sin(time) - 100.f;
 
-	node->apply(position);
+	node->apply(position, ZeroQuat, vec3(20.f));
 
 	// Find the screenspace position of the sun
 	const mat4 viewproj = camera.m_projection * camera.m_transform;
-	vec3 sun = mulp(viewproj, godrays.m_sun_position);
-	sun = (sun + 1.f) / 2.f;
+	vec4 sun_clip = viewproj * vec4(godrays.m_sun_position, 1.f);
+	vec3 sun_ndc = vec3(sun_clip) / sun_clip.w;
+	vec3 sun = (sun_ndc + 1.f) / 2.f;
+	if(!app.m_gfx.m_flip_y)
+		sun.y = 1.f - sun.y;
 
+	//printf("sun %f, %f\n", sun.x, sun.y);
 	godrays.m_sun_screen = vec2(sun.x, sun.y);
 }

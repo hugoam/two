@@ -90,7 +90,7 @@ namespace mud
 		if(abs(d - (1.0f)) < 0.000001f)
 			return ZeroQuat;
 
-		vec3 axis = normalize(cross(-Z3, direction));
+		vec3 axis = normalize(cross(forward, direction));
 		return axis_angle(axis, acos(d));
 	}
 

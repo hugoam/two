@@ -60,20 +60,28 @@ namespace mud
 			writer.tri(face[0], face[1], face[2]);
 	}
 
-	uint16_t sphere_rings(uint lod) { return uint16_t(6 + 6 * lod); }
-	uint16_t sphere_sectors(uint lod) { return uint16_t(6 + 6 * lod); }
+	uvec2 sphere_subdiv(uint lod) { return uvec2(uint(6 + 6 * lod)); }
 
-	void sphere_vertices(const vec3& center, float radius, uint16_t rings, uint16_t sectors, const Colour& colour, MeshAdapter& writer)
+	uvec2 sphere_subdiv(const Symbol& symbol)
 	{
-		float const R = 1.f / (float)(rings - 1);
-		float const S = 1.f / (float)(sectors - 1);
+		return symbol.m_subdiv != uvec2(0U)
+			? symbol.m_subdiv + uvec2(1U)
+			: sphere_subdiv(uint(symbol.m_detail));
+	}
+
+	void sphere_vertices(MeshAdapter& writer, const vec3& center, float radius, uvec2 subdiv, const Colour& colour,
+						 float phi = 0.f, float arcphi = c_2pi, float theta = 0.f, float arctheta = c_pi)
+	{
+		float const R = 1.f / (float)(subdiv.x - 1);
+		float const S = 1.f / (float)(subdiv.y - 1);
 		float repeat = 1.f;
 
-		for(uint16_t r = 0; r < rings; r++) for(uint16_t s = 0; s < sectors; s++)
+		for(uint16_t r = 0; r < subdiv.x; r++)
+		for(uint16_t s = 0; s < subdiv.y; s++)
 		{
-			float const x = cos(c_2pi * s * S) * sin(c_pi * r * R);
-			float const y = sin(-c_pi / 2.f + c_pi * r * R);
-			float const z = sin(c_2pi * s * S) * sin(c_pi * r * R);
+			float const x = cos(phi + arcphi * s * S) * sin(theta + arctheta * r * R);
+			float const y = sin(-c_pi2 + theta + arctheta * r * R);
+			float const z = sin(phi + arcphi * s * S) * sin(theta + arctheta * r * R);
 
 			writer.position(center + vec3(x, y, z) * radius)
 				  .normal({ x, y, z })
@@ -85,50 +93,48 @@ namespace mud
 	ShapeSize size_sphere_lines(const ProcShape& shape, const Sphere& sphere)
 	{
 		UNUSED(shape); UNUSED(sphere);
-		uint16_t rings = sphere_rings(uint(shape.m_symbol.m_detail));
-		uint16_t sectors = sphere_sectors(uint(shape.m_symbol.m_detail));
+		const uvec2 subdiv = sphere_subdiv(shape.m_symbol);
 
-		return { uint32_t(rings * sectors), uint32_t((rings-1U) * (sectors-1U) * 4U) };
+		return { subdiv.x * subdiv.y, uint32_t((subdiv.x-1U) * (subdiv.y-1U) * 4U) };
 	}
 
 	void draw_sphere_lines(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
 	{
-		uint16_t rings = sphere_rings(uint(shape.m_symbol.m_detail));
-		uint16_t sectors = sphere_sectors(uint(shape.m_symbol.m_detail));
+		const uvec2 subdiv = sphere_subdiv(shape.m_symbol);
 
-		sphere_vertices(sphere.m_center, sphere.m_radius, rings, sectors, shape.m_symbol.m_outline, writer);
+		sphere_vertices(writer, sphere.m_center, sphere.m_radius, subdiv, shape.m_symbol.m_outline, sphere.m_start, sphere.m_end);
 
-		for(uint16_t r = 0; r < rings - 1; r++) for(uint16_t s = 0; s < sectors - 1; s++)
+		for(uint16_t r = 0; r < subdiv.x - 1; r++)
+		for(uint16_t s = 0; s < subdiv.y - 1; s++)
 		{
-			writer.line(r * sectors + (s + 1),
-					    r * sectors + s);
-			writer.line((r + 1) * sectors + (s + 1),
-					    r * sectors + (s + 1));
+			writer.line(r * subdiv.y + (s + 1),
+					    r * subdiv.y + s);
+			writer.line((r + 1) * subdiv.y + (s + 1),
+					    r * subdiv.y + (s + 1));
 		}
 	}
 
 	ShapeSize size_sphere_triangles(const ProcShape& shape, const Sphere& sphere)
 	{
 		UNUSED(shape); UNUSED(sphere);
-		uint16_t rings = sphere_rings(uint(shape.m_symbol.m_detail));
-		uint16_t sectors = sphere_sectors(uint(shape.m_symbol.m_detail));
+		const uvec2 subdiv = sphere_subdiv(shape.m_symbol);
 
-		return { uint32_t(rings * sectors), uint32_t((rings-1U) * (sectors-1U) * 6U) };
+		return { uint32_t(subdiv.x * subdiv.y), uint32_t((subdiv.x-1U) * (subdiv.y-1U) * 6U) };
 	}
 
 	void draw_sphere_triangles(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
 	{
-		uint16_t rings = sphere_rings(uint(shape.m_symbol.m_detail));
-		uint16_t sectors = sphere_sectors(uint(shape.m_symbol.m_detail));
+		const uvec2 subdiv = sphere_subdiv(shape.m_symbol);
 
-		sphere_vertices(sphere.m_center, sphere.m_radius, rings, sectors, shape.m_symbol.m_fill, writer);
+		sphere_vertices(writer, sphere.m_center, sphere.m_radius, subdiv, shape.m_symbol.m_outline, sphere.m_start, sphere.m_end);
 
-		for(uint16_t r = 0; r < rings - 1; r++) for(uint16_t s = 0; s < sectors - 1; s++)
+		for(uint16_t r = 0; r < subdiv.x - 1; r++)
+		for(uint16_t s = 0; s < subdiv.y - 1; s++)
 		{
-			writer.quad((r + 1) * sectors + s,
-					    (r + 1) * sectors + (s + 1),
-					    r * sectors + (s + 1),
-					    r * sectors + s);
+			writer.quad((r + 1) * subdiv.y + s,
+					    (r + 1) * subdiv.y + (s + 1),
+					    r * subdiv.y + (s + 1),
+					    r * subdiv.y + s);
 		}
 	}
 

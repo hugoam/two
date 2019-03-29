@@ -37,7 +37,7 @@ void xx_interact_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		for(size_t i = 0; i < 2000; i++)
 		{
 			// new THREE.MeshLambertMaterial({ color: random() * 0xffffff })
-			Material& material = app.m_gfx.fetch_material("material" + to_string(i), "pbr/pbr");
+			Material& material = app.m_gfx.fetch_material("cubes" + to_string(i), "pbr/pbr");
 			material.m_pbr.m_albedo = hsl(randf(), 0.7f, 0.5f);
 
 			const vec3 pos = vec3(randf(), randf(), randf()) * 800.f - 400.f;
@@ -67,8 +67,8 @@ void xx_interact_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	static Item* hovered = nullptr;
 
-	auto hover = [](Item& item) { item.m_material->m_pbr.m_emissive = rgba(0xff0000ff); };
-	auto unhover = [](Item& item) { item.m_material->m_pbr.m_emissive = rgba(0x00000000); };
+	auto hover = [](Item& item) { item.m_material->m_lit.m_emissive = rgba(0xff0000ff); };
+	auto unhover = [](Item& item) { item.m_material->m_lit.m_emissive = rgba(0x00000000); };
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{

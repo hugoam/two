@@ -386,7 +386,10 @@ namespace mud
 	{
 		printf("INFO: gltf - loading scene %s\n", scene.m_file.c_str());
 
-		Model& model = scene.m_gfx.models().create(scene.m_name);
+		Model& model = scene.m_models.size() > 0
+			? *scene.m_models[0]
+			: m_gfx.models().create(scene.m_name);
+
 		Mesh& mesh = model.add_mesh(scene.m_name, true);
 
 		MeshPacker geometry;
@@ -413,6 +416,8 @@ namespace mud
 	void ImporterPLY::import_model(Model& model, const string& filepath, const ImportConfig& config)
 	{
 		Import state = { m_gfx, filepath, config };
+		state.m_name = file_name(filepath);
+		state.m_models.push_back(&model);
 
 		this->import(state, filepath, config);
 

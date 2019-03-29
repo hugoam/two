@@ -1,8 +1,12 @@
 //#include <mud/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
+#include <gfx-obj/Api.h>
+#include <srlz/Serial.h>
 
 #include <xx_three/xx_three.h>
+
+#include <stl/array.h>
 
 using namespace mud;
 
@@ -14,394 +18,236 @@ using namespace mud;
 // 			https://colinbarrebrisebois.com/2011/03/07/gdc-2011-approximating-translucency-for-a-fast-cheap-and-convincing-subsurface-scattering-look/
 // ------------------------------------------------------------------------------------------ */
 
-#if 0
-THREE.TranslucentShader = function TranslucentShader() {
-
-	this.uniforms = THREE.UniformsUtils.merge([
-
-		THREE.UniformsLib["common"],
-			THREE.UniformsLib["lights"],
-
-		{
-			"color":  { value: new THREE.Color(0xffffff) },
-			"diffuse" : { value: new THREE.Color(0xffffff) },
-			"specular" : { value: new THREE.Color(0xffffff) },
-			"emissive" : { value: new THREE.Color(0x000000) },
-			"opacity" : { value: 1 },
-			"shininess" : { value: 1 },
-
-			"thicknessMap" : { value: null },
-			"thicknessColor" : { value: new THREE.Color(0xffffff) },
-			"thicknessDistortion" : { value: 0.1 },
-			"thicknessAmbient" : { value: 0.0 },
-			"thicknessAttenuation" : { value: 0.1 },
-			"thicknessPower" : { value: 2.0 },
-			"thicknessScale" : { value: 10.0 }
-		}
-
-	]);
-
+struct Phong
+{
+	attr_ Colour m_color = rgb(0xffffff);
+	attr_ Colour m_diffuse = rgb(0xffffff);
+	attr_ Colour m_specular = rgb(0xffffff);
+	attr_ Colour m_emissive = rgb(0x000000);
+	attr_ float m_opacity = 1.f;
+	attr_ float m_shininess = 1.f;
 };
-#endif
+
+struct Subsurface
+{
+	attr_ Texture* m_texture;
+	attr_ Colour m_color = rgb(0xffffff);
+	attr_ float m_distortion = 0.1f;
+	attr_ float m_ambient = 0.0f;
+	attr_ float m_attenuation = 0.1f;
+	attr_ float m_power = 2.0f;
+	attr_ float m_scale = 10.f;
+};
 
 static string translucent_fragment()
 {
 	string shader =
 		
-		"#define USE_MAP\n"
-		"#define PHONG\n"
-		"#define TRANSLUCENT\n"
-		"#include <common>\n"
-		"#include <bsdfs>\n"
-		"#include <uv_pars_fragment>\n"
-		"#include <map_pars_fragment>\n"
-		"#include <lights_phong_pars_fragment>\n"
+		"$input v_view, v_position, v_normal, v_tangent, v_color, v_uv0, v_uv1, v_binormal\n"
 
-		"varying vec3 vColor;\n"
-
-		"uniform vec3 diffuse;\n"
-		"uniform vec3 specular;\n"
-		"uniform vec3 emissive;\n"
-		"uniform float opacity;\n"
-		"uniform float shininess;\n"
+		"#include <encode.sh>\n"
+		"#include <pbr/pbr.sh>\n"
+		"#include <pbr/light.sh>\n"
+		//"#define BRDF_TRANSLUCENT_BLINN_PHONG\n"
+		"#include <pbr/light_brdf_three.sh>\n"
+		"#include <pbr/radiance.sh>\n"
 
 		// Translucency
-		"uniform sampler2D thicknessMap;\n"
-		"uniform float thicknessPower;\n"
-		"uniform float thicknessScale;\n"
-		"uniform float thicknessDistortion;\n"
-		"uniform float thicknessAmbient;\n"
-		"uniform float thicknessAttenuation;\n"
-		"uniform vec3 thicknessColor;\n"
+		//"SAMPLER2D(s_thickness, 7);\n"
+		"#define s_thickness s_user5\n"
+		"uniform vec4 u_scatter_p0;\n"
+		"uniform vec4 u_scatter_p1;\n"
+		"#define u_thicknessPower u_scatter_p0.x\n"
+		"#define u_thicknessScale u_scatter_p0.y\n"
+		"#define u_thicknessDistortion u_scatter_p0.z\n"
+		"#define u_thicknessAmbient u_scatter_p0.w\n"
+		"#define u_thicknessAttenuation u_scatter_p1.x\n"
+		"#define u_thicknessColor u_scatter_p1.yzw\n"
 
-		//THREE.ShaderChunk["lights_pars_begin"],
+		"void direct_scatter(vec3 energy, vec3 l, Fragment fragment, PhongMaterial material, inout vec3 diffuse, inout vec3 specular)\n"
+		"{\n"
+		"   direct_blinn_phong(energy, l, fragment, material, diffuse, specular);\n"
 
-		"void RE_Direct_Scattering(IncidentLight directLight, vec2 uv, GeometricContext geometry, inout ReflectedLight reflectedLight) {\n"
-		"	vec3 thickness = thicknessColor * texture2D(thicknessMap, uv).r;\n"
-		"	vec3 scatteringHalf = normalize(directLight.direction + (geometry.normal * thicknessDistortion));\n"
-		"	float scatteringDot = pow(saturate(dot(geometry.viewDir, -scatteringHalf)), thicknessPower) * thicknessScale;\n"
-		"	vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * thickness;\n"
-		"	reflectedLight.directDiffuse += scatteringIllu * thicknessAttenuation * directLight.color;\n"
+		"	vec3 thickness = u_thicknessColor * texture2D(s_thickness, fragment.uv).r;\n"
+		"	vec3 scatteringHalf = normalize(l + (fragment.normal * u_thicknessDistortion));\n"
+		"	float scatteringDot = pow(saturate(dot(fragment.view, -scatteringHalf)), u_thicknessPower) * u_thicknessScale;\n"
+		"	vec3 scatteringIllu = (scatteringDot + u_thicknessAmbient) * thickness;\n"
+		
+		"	diffuse += scatteringIllu * u_thicknessAttenuation * energy;\n"
 		"}\n"
 
-		"void main() {\n"
+		"#define direct_brdf direct_scatter\n"
 
-		"	vec3 normal = normalize(vNormal);\n"
+		"void main()\n"
+		"{\n"
+		"#include <pbr/fs_fragment.sh>\n"
+		"\n"
+		"#include <pbr/fs_phong_material.sh>\n"
+		"\n"
+		"#include <pbr/fs_phong.sh>\n"
+		"#include <pbr/fs_out_pbr.sh>\n"
+		"gl_FragColor = LinearToGamma(gl_FragColor, 2.0);\n"
+		//"gl_FragColor = vec4(texture2D(s_thickness, fragment.uv).rgb, 1.0);\n"
+		"}\n";
 
-		"	vec3 viewerDirection = normalize(vViewPosition);\n"
+		//"	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + reflectedLight.directSpecular + reflectedLight.indirectSpecular + totalEmissiveRadiance;\n"
+		//"	gl_FragColor = vec4(outgoingLight, diffuseColor.a);\n"
+		// TODO, this should be pre-multiplied to allow for bright highlights on very transparent objects
+		
+	return shader;
+}
 
-		"	vec4 diffuseColor = vec4(diffuse, opacity);\n"
-		"	ReflectedLight reflectedLight = ReflectedLight(vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0));\n"
+string translucent_vertex()
+{
+	string shader =
 
-			//THREE.ShaderChunk["map_fragment"],
-			//THREE.ShaderChunk["color_fragment"],
-			//THREE.ShaderChunk["specularmap_fragment"],
-
-		"	vec3 totalEmissiveRadiance = emissive;\n"
-
-			//THREE.ShaderChunk["lights_phong_fragment"],
-
-		// Doing lights fragment begin.
-		"	GeometricContext geometry;\n"
-		"	geometry.position = - vViewPosition;\n"
-		"	geometry.normal = normal;\n"
-		"	geometry.viewDir = normalize(vViewPosition);\n"
-
-		"	IncidentLight directLight;\n"
-
-		"	#if (NUM_POINT_LIGHTS > 0) && defined(RE_Direct)\n"
-
-		"		PointLight pointLight;\n"
-
-		"		#pragma unroll_loop\n"
-		"		for (int i = 0; i < NUM_POINT_LIGHTS; i ++) {\n"
-		"		 	pointLight = pointLights[i];\n"
-		"		 	getPointDirectLightIrradiance(pointLight, geometry, directLight);\n"
-
-		"			#ifdef USE_SHADOWMAP\n"
-		"			directLight.color *= all(bvec2(pointLight.shadow, directLight.visible)) ? getPointShadow(pointShadowMap[i], pointLight.shadowMapSize, pointLight.shadowBias, pointLight.shadowRadius, vPointShadowCoord[i], pointLight.shadowCameraNear, pointLight.shadowCameraFar) : 1.0;\n"
-		"			#endif\n"
-
-		"			RE_Direct(directLight, geometry, material, reflectedLight);\n"
-
-		"			#if defined(TRANSLUCENT) && defined(USE_MAP)\n"
-		"			RE_Direct_Scattering(directLight, v_uv0, geometry, reflectedLight);\n"
-		"			#endif\n"
-		"		}\n"
-
-		"		#endif\n"
-
-		"	#if (NUM_DIR_LIGHTS > 0) && defined(RE_Direct)\n"
-
-		"		DirectionalLight directionalLight;\n"
-
-		"		#pragma unroll_loop\n"
-		"		for (int i = 0; i < NUM_DIR_LIGHTS; i ++) {\n"
-		"			directionalLight = directionalLights[i];\n"
-		"			getDirectionalDirectLightIrradiance(directionalLight, geometry, directLight);\n"
-
-		"			#ifdef USE_SHADOWMAP\n"
-		"			directLight.color *= all(bvec2(directionalLight.shadow, directLight.visible)) ? getShadow(directionalShadowMap[i], directionalLight.shadowMapSize, directionalLight.shadowBias, directionalLight.shadowRadius, vDirectionalShadowCoord[i]) : 1.0;\n"
-		"			#endif\n"
-
-		"			RE_Direct(directLight, geometry, material, reflectedLight);\n"
-
-		"			#if defined(TRANSLUCENT) && defined(USE_MAP)\n"
-		"			RE_Direct_Scattering(directLight, v_uv0, geometry, reflectedLight);\n"
-		"			#endif\n"
-		"		}\n"
-
-		"	#endif\n"
-
-		"	#if defined(RE_IndirectDiffuse)\n"
-
-		"		vec3 irradiance = getAmbientLightIrradiance(ambientLightColor);\n"
-
-		"		#if (NUM_HEMI_LIGHTS > 0)\n"
-
-		"			#pragma unroll_loop\n"
-		"			for (int i = 0; i < NUM_HEMI_LIGHTS; i ++) {\n"
-
-		"				irradiance += getHemisphereLightIrradiance(hemisphereLights[i], geometry);\n"
-
-		"			}\n"
-
-		"		#endif\n"
-
-		"	#endif\n"
-
-		"	#if defined(RE_IndirectSpecular)\n"
-
-		"		vec3 radiance = vec3(0.0);\n"
-		"		vec3 clearCoatRadiance = vec3(0.0);\n"
-
-		"	#endif\n"
-			//THREE.ShaderChunk["lights_fragment_end"],
-
-		"	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + reflectedLight.directSpecular + reflectedLight.indirectSpecular + totalEmissiveRadiance;\n"
-		"	gl_FragColor = vec4(outgoingLight, diffuseColor.a);\n"	// TODO, this should be pre-multiplied to allow for bright highlights on very transparent objects
-
-			//THREE.ShaderChunk["encodings_fragment"],
-
-		"}";
+		"#include <geometry_vs.sc>\n";
+		//"	vNormal = normalize(u_normalModelViewProj * normal);\n"
 
 	return shader;
 }
 
-string sss_vertex()
+Program& translucent_program(GfxSystem& gfx)
 {
-	string shader =
+	static Program& pbr = gfx.programs().fetch("pbr/pbr");
 
-		"varying vec3 vNormal;\n"
-		"varying vec2 v_uv0;\n"
+	static Program& program = gfx.programs().create("translucent");
+	program.register_blocks(pbr.m_registered_blocks);
+	program.set_block(MaterialBlock::Lit);
+	program.set_block(MaterialBlock::Phong);
+	program.set_source(ShaderType::Vertex, translucent_vertex());
+	program.set_source(ShaderType::Fragment, translucent_fragment());
 
-		"varying vec3 vViewPosition;\n"
-
-		//THREE.ShaderChunk["common"],
-
-		"void main() {\n"
-
-		"	vec4 worldPosition = u_model * vec4(a_position.xyz, 1.0);\n"
-
-		"	vec4 mvPosition = mul(u_modelView, vec4(a_position.xyz, 1.0));\n"
-
-		"	vViewPosition = -mvPosition.xyz;\n"
-
-		//"	vNormal = normalize(normalMatrix * normal);\n"
-		"	vNormal = normalize(u_normalModelViewProj * normal);\n"
-
-		"	v_uv0 = uv;\n"
-
-		"	gl_Position = u_proj * mvPosition;\n"
-
-		"}\n";
-
-	return shader;
+	return program;
 }
 
 //<script src="js/loaders/FBXLoader.js"></script>
 
 void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
-#if 0
+	static ImporterOBJ obj_importer = { app.m_gfx };
+
+	UNUSED(dockbar);
+	SceneViewer& viewer = ui::scene_viewer(parent);
+	ui::orbit_controls(viewer);
+	//ui::orbit_controller(viewer);
+
+	Scene& scene = viewer.m_scene;
+
+	static Phong phong;
+	static Subsurface thickness;
+
+	static Node3* node = nullptr;
+	static const vec3 scale = vec3(1.f);
+	//static const vec3 scale = vec3(0.01f);
+
 	if(init)
 	{
-		container = document.createElement('div');
-		document.body.appendChild(container);
+		Camera& camera = viewer.m_camera;
+		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 5000.f;
+		camera.m_eye = vec3(0.f, 300.f, 400.f * 4.f);
 
-		camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 5000);
-		camera.position.set(0.0, 300, 400 * 4);
-
-		scene = new THREE.Scene();
+		Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
+		tonemap.m_enabled = true;
 
 		// Lights
 
-		scene.add(new THREE.AmbientLight(0x888888));
+		scene.m_env.m_radiance.m_colour = rgb(0x888888);
+		scene.m_env.m_radiance.m_energy = 1.f;
+		scene.m_env.m_radiance.m_ambient = 1.f;
 
-		var directionalLight = new THREE.DirectionalLight(0xffffff, 0.03);
-		directionalLight.position.set(0.0, 0.5, 0.5).normalize();
-		scene.add(directionalLight);
+		Node3& dn = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(normalize(vec3(0.f, -0.5f, -0.5f)))));
+		Light& dl = gfx::lights(scene).add(Light(dn, LightType::Direct, false, rgb(0xffffff), 0.03f));
 
-		var pointLight1 = new THREE.Mesh(new THREE.SphereBufferGeometry(4, 8, 8), new THREE.MeshBasicMaterial({ color: 0x888888 }));
-		pointLight1.add(new THREE.PointLight(0x888888, 7.0, 300));
-		scene.add(pointLight1);
-		pointLight1.position.x = 0;
-		pointLight1.position.y = -50;
-		pointLight1.position.z = 350;
+		Node3& pn0 = gfx::nodes(scene).add(Node3(vec3(0.f, -50.f, 350.f)));
+		Light& pl0 = gfx::lights(scene).add(Light(pn0, LightType::Point, false, rgb(0x888888), 7.f, 300.f));
+		gfx::items(scene).add(Item(pn0, app.m_gfx.shape(Sphere(4.f)), 0U, &gfx::solid_material(app.m_gfx, "l0", rgb(0x888888))));
 
-		var pointLight2 = new THREE.Mesh(new THREE.SphereBufferGeometry(4, 8, 8), new THREE.MeshBasicMaterial({ color: 0x888800 }));
-		pointLight2.add(new THREE.PointLight(0x888800, 1.0, 500));
-		scene.add(pointLight2);
-		pointLight2.position.x = -100;
-		pointLight2.position.y = 20;
-		pointLight2.position.z = -260;
+		Node3& pn1 = gfx::nodes(scene).add(Node3(vec3(-100.f, 20.f, -260.f)));
+		Light& pl1 = gfx::lights(scene).add(Light(pn1, LightType::Point, false, rgb(0x888800), 1.f, 500.f));
+		gfx::items(scene).add(Item(pn1, app.m_gfx.shape(Sphere(4.f)), 0U, &gfx::solid_material(app.m_gfx, "l1", rgb(0x888800))));
 
-		renderer = new THREE.WebGLRenderer({ antialias: true });
-		renderer.setPixelRatio(window.devicePixelRatio);
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		container.appendChild(renderer.domElement);
 
-		renderer.gammaInput = true;
-		renderer.gammaOutput = true;
+		Texture& white = *app.m_gfx.textures().file("white.jpg");
+		Texture& texture = *app.m_gfx.textures().file("bunny_thickness.jpg");
 
+		//var shader = new THREE.TranslucentShader();
+		//var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
 		//
+		//uniforms["map"].value = imgTexture;
 
-		stats = new Stats();
-		container.appendChild(stats.dom);
+		phong.m_diffuse = Colour(1.0f, 0.2f, 0.2f);
+		phong.m_shininess = 500.f;
 
-		var controls = new THREE.OrbitControls(camera, container);
+		thickness.m_texture = &texture;
+		thickness.m_color = Colour(0.5f, 0.3f, 0.0f);
+		thickness.m_distortion = 0.1f;
+		thickness.m_ambient = 0.4f;
+		thickness.m_attenuation = 0.8f;
+		thickness.m_power = 2.0f;
+		thickness.m_scale = 16.0f;
 
-		window.addEventListener('resize', onWindowResize, false);
+		static Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
 
-		initMaterial();
-	}
+		static Program& program = translucent_program(app.m_gfx);
 
-	function initMaterial() {
+		static bgfx::UniformHandle s_thickness = bgfx::createUniform("s_thickness", bgfx::UniformType::Sampler);
+		static bgfx::UniformHandle u_scatter_p0 = bgfx::createUniform("u_scatter_p0", bgfx::UniformType::Vec4);
+		static bgfx::UniformHandle u_scatter_p1 = bgfx::createUniform("u_scatter_p1", bgfx::UniformType::Vec4);
 
-		var loader = new THREE.TextureLoader();
-		var imgTexture = loader.load('models/fbx/white.jpg');
-		var thicknessTexture = loader.load('models/fbx/bunny_thickness.jpg');
-		imgTexture.wrapS = imgTexture.wrapT = THREE.RepeatWrapping;
+		Material& material = app.m_gfx.materials().create("translucent", [](Material& m) {
+			//m.m_program = &pbr;
+			m.m_program = &program;
+			// @todo fix obj normals which are fucked up somehow, flat normals as temporary kludge
+			//m.m_base.m_flat_shaded = true;
+			m.m_pbr.m_albedo = Colour(1.0f, 0.2f, 0.2f);
+			m.m_phong.m_diffuse = Colour(1.0f, 0.2f, 0.2f);
+			m.m_phong.m_shininess = 500.f;
+		});
 
-		var shader = new THREE.TranslucentShader();
-		var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
-
-		uniforms['map'].value = imgTexture;
-
-		uniforms['diffuse'].value = new THREE.Vector3(1.0, 0.2, 0.2);
-		uniforms['shininess'].value = 500;
-
-		uniforms['thicknessMap'].value = thicknessTexture;
-		uniforms['thicknessColor'].value = new THREE.Vector3(0.5, 0.3, 0.0);
-		uniforms['thicknessDistortion'].value = 0.1;
-		uniforms['thicknessAmbient'].value = 0.4;
-		uniforms['thicknessAttenuation'].value = 0.8;
-		uniforms['thicknessPower'].value = 2.0;
-		uniforms['thicknessScale'].value = 16.0;
-
-		var material = new THREE.ShaderMaterial({
-			uniforms: uniforms,
-			vertexShader : shader.vertexShader,
-			fragmentShader : shader.fragmentShader,
-			lights : true
-			});
-		material.extensions.derivatives = true;
+		material.m_submit = [&](bgfx::Encoder& encoder)
+		{
+			encoder.setTexture(uint8_t(TextureSampler::User5), s_thickness, *thickness.m_texture);
+			vec4 p0 = { thickness.m_power, thickness.m_scale, thickness.m_distortion, thickness.m_ambient };
+			vec4 p1 = { thickness.m_attenuation, to_vec3(thickness.m_color) };
+			encoder.setUniform(u_scatter_p0, &p0);
+			encoder.setUniform(u_scatter_p1, &p1);
+		};
 
 		// LOADER
 
-		var loader = new THREE.FBXLoader();
-		loader.load('models/fbx/stanford-bunny.fbx', function(object) {
+		//Model& bunny = *app.m_gfx.models().file("stanford-bunny");
+		Model& bunny = *app.m_gfx.models().file("bunny");
+		//Model& bunny = *app.m_gfx.models().file("stanford-bunny.fbx");
 
-			model = object.children[0];
-			model.position.set(0, 0, 10);
-			model.scale.setScalar(1);
-			model.material = material;
-			scene.add(model);
-
-		});
-
-		initGUI(uniforms);
-
+		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, 0.f, 10.f), ZeroQuat, scale));
+		Item& it = gfx::items(scene).add(Item(n, bunny, 0U, &material));
+		node = &n;
 	}
 
-	function initGUI(uniforms) {
 
-		var gui = new dat.GUI();
+	//Gnode& root = scene.begin();
+	//gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
-		var ThicknessControls = function() {
+	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	{
+		Widget& sheet = ui::sheet(*dock);
 
-			this.distoration = uniforms['thicknessDistortion'].value;
-			this.ambient = uniforms['thicknessAmbient'].value;
-			this.attenuation = uniforms['thicknessAttenuation'].value;
-			this.power = uniforms['thicknessPower'].value;
-			this.scale = uniforms['thicknessScale'].value;
-
+		auto panel = [&](const string& name) -> Widget&
+		{
+			Widget& s = ui::expandbox(sheet, name.c_str());
+			return ui::columns(s, { 0.3f, 0.7f });
 		};
 
-		var thicknessControls = new ThicknessControls();
-		var thicknessFolder = gui.addFolder('Thickness Control');
+		Widget& a = panel("Thickness Control");
 
-		thicknessFolder.add(thicknessControls, 'distoration').min(0.01).max(1).step(0.01).onChange(function() {
-
-			uniforms['thicknessDistortion'].value = thicknessControls.distoration;
-
-		});
-
-		thicknessFolder.add(thicknessControls, 'ambient').min(0.01).max(5.0).step(0.05).onChange(function() {
-
-			uniforms['thicknessAmbient'].value = thicknessControls.ambient;
-
-		});
-
-		thicknessFolder.add(thicknessControls, 'attenuation').min(0.01).max(5.0).step(0.05).onChange(function() {
-
-			uniforms['thicknessAttenuation'].value = thicknessControls.attenuation;
-
-		});
-
-		thicknessFolder.add(thicknessControls, 'power').min(0.01).max(16.0).step(0.1).onChange(function() {
-
-			uniforms['thicknessPower'].value = thicknessControls.power;
-
-		});
-
-		thicknessFolder.add(thicknessControls, 'scale').min(0.01).max(50.0).step(0.1).onChange(function() {
-
-			uniforms['thicknessScale'].value = thicknessControls.scale;
-
-		});
-
-		thicknessFolder.open();
-
+		ui::slider_field<float>(a, "distortion", { thickness.m_distortion,  { 0.01f, 1.f, 0.01f } });
+		ui::slider_field<float>(a, "ambient", { thickness.m_ambient,     { 0.01f, 5.f, 0.05f } });
+		ui::slider_field<float>(a, "attenuation", { thickness.m_attenuation, { 0.01f, 5.f, 0.05f } });
+		ui::slider_field<float>(a, "power", { thickness.m_power,       { 0.01f, 16.f, 0.1f } });
+		ui::slider_field<float>(a, "scale", { thickness.m_scale,       { 0.01f, 50.f, 0.1f } });
 	}
 
-	function onWindowResize() {
-
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-
-		renderer.setSize(window.innerWidth, window.innerHeight);
-
-	}
-
-	//
-
-	function animate() {
-
-		requestAnimationFrame(animate);
-
-		render();
-
-		stats.update();
-
-	}
-
-	function render() {
-
-		if(model) model.rotation.y = performance.now() / 5000;
-
-		renderer.render(scene, camera);
-
-	}
-#endif
+	const float y = app.m_gfx.m_time / 5.f;
+	node->apply(vec3(0.f, 0.f, 10.f), quat(vec3(0.f, y, 0.f)), scale);
 }

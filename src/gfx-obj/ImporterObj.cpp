@@ -139,8 +139,8 @@ namespace mud
 			else if(command == "Ke")
 			{
 				Colour emissive = tocol(tokens);
-				current->m_pbr.m_emissive.m_value = emissive;
-				current->m_pbr.m_emissive.m_value.a = length(to_vec3(emissive));
+				current->m_lit.m_emissive.m_value = emissive;
+				current->m_lit.m_emissive.m_value.a = length(to_vec3(emissive));
 			}
 			else if(command == "Ns")
 			{
@@ -185,8 +185,8 @@ namespace mud
 				}
 				else if(command == "map_Ke") // emissive texture
 				{
-					current->m_pbr.m_emissive = fetch_texture(map);
-					current->m_pbr.m_emissive.m_value.a = 2.f;
+					current->m_lit.m_emissive = fetch_texture(map);
+					current->m_lit.m_emissive.m_value.a = 2.f;
 				}
 				else if(command == "map_Ns") // specular highlight texture
 				{
@@ -194,7 +194,7 @@ namespace mud
 				}
 				else if(command == "map_bump" || command == "bump") // bump texture
 				{
-					current->m_pbr.m_normal = fetch_texture(map);
+					current->m_lit.m_normal = fetch_texture(map);
 				}
 				else if(command == "map_Pr") // PBR: roughness texture
 				{
@@ -230,6 +230,7 @@ namespace mud
 		clock.step();
 
 		bool generate_tangents = true;
+		bool as_model = scene.m_models.size() > 0;
 
 		struct Geometry
 		{
@@ -248,19 +249,20 @@ namespace mud
 
 		struct MeshWriter
 		{
-			MeshWriter(const ImportConfig& config, Import& import, bool generate_tangents)
+			MeshWriter(const ImportConfig& config, Import& import, bool as_model, bool generate_tangents)
 				: m_config(config)
 				, m_import(import)
 				, m_name(import.m_name)
+				, m_as_model(as_model)
 				, m_generate_tangents(generate_tangents)
 			{}
 
-			~MeshWriter()
+			void next()
 			{
 				if(m_shape.vertex_count() == 0 || m_skip)
 					return;
 
-				Model& model = m_import.m_gfx.models().create(m_name);
+				Model& model = m_as_model ? *m_import.m_models[0] : m_import.m_gfx.models().create(m_name);
 				Mesh& mesh = model.add_mesh(m_name, true);
 
 				m_shape.bake(!m_normals, m_generate_tangents && m_uvs);
@@ -298,6 +300,7 @@ namespace mud
 			string m_name;
 			Material* m_material = nullptr;
 			MeshPacker m_shape;
+			bool m_as_model;
 			bool m_generate_tangents;
 			bool m_normals = true;
 			bool m_uvs = true;
@@ -313,7 +316,7 @@ namespace mud
 			return;
 		}
 
-		unique<MeshWriter> mesh_writer = make_unique<MeshWriter>(config, scene, generate_tangents);
+		MeshWriter mesh_writer = { config, scene, as_model, generate_tangents };
 
 		static string tokens[5];
 		static string faceids[3];
@@ -329,8 +332,7 @@ namespace mud
 
 			if(command == "o" || command == "g")
 			{
-				mesh_writer = nullptr;
-				mesh_writer = make_unique<MeshWriter>(config, scene, generate_tangents);
+				mesh_writer.next();
 			}
 			if(command == "o")
 			{
@@ -340,21 +342,21 @@ namespace mud
 			else if(command == "g")
 			{
 				const string& name = tokens[1];
-				mesh_writer->m_name = name;
+				mesh_writer.m_name = name;
 				if(config.filter_element(name))
-					mesh_writer->m_skip = true;
+					mesh_writer.m_skip = true;
 			}
 			else if(command == "usemtl")
 			{
 				const string& material = tokens[1];
-				mesh_writer->m_material = g.materials[material];
+				mesh_writer.m_material = g.materials[material];
 				if(config.filter_material(material))
-					mesh_writer->m_skip = true;
+					mesh_writer.m_skip = true;
 			}
 			else if(command == "s") //smoothing
 			{
 				const string& value = tokens[1];
-				mesh_writer->m_smoothing_group = value == "off" ? 0
+				mesh_writer.m_smoothing_group = value == "off" ? 0
 																: toi(value);
 			}
 			else if(command == "v")
@@ -392,10 +394,10 @@ namespace mud
 						verts[i].m_normal = g.normals[face[NORMAL] >= 0 ? face[NORMAL] - 1 : face[NORMAL] + g.normals.size()];
 				}
 
-				mesh_writer->face(verts, 0, 1, 2);
+				mesh_writer.face(verts, 0, 1, 2);
 
 				if(!tokens[4].empty())
-					mesh_writer->face(verts, 0, 2, 3);
+					mesh_writer.face(verts, 0, 2, 3);
 			}
 			else if(command == "mtllib")
 			{
@@ -406,14 +408,15 @@ namespace mud
 			return true;
 		});
 
+		mesh_writer.next();
+
 		printf("INFO: obj - imported %i vertices in %.2f seconds\n", int(g.vertices.size()), clock.step());
-		
-		mesh_writer = nullptr;
 	}
 
 	void ImporterOBJ::import_model(Model& model, const string& filepath, const ImportConfig& config)
 	{
 		Import state = { m_gfx, filepath, config };
+		state.m_models.push_back(&model);
 
 		this->import(state, filepath, config);
 

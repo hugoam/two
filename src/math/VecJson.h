@@ -19,13 +19,13 @@ namespace glm
 
 namespace mud
 {
-	export_ MUD_MATH_EXPORT void from_json(const json& j, vec3& vec);
-	export_ MUD_MATH_EXPORT void from_json(const json& j, quat& quat);
-	export_ MUD_MATH_EXPORT void from_json(const json& j, mat4& mat);
+	export_ MUD_MATH_EXPORT void from_json(const Json& j, vec3& vec);
+	export_ MUD_MATH_EXPORT void from_json(const Json& j, quat& quat);
+	export_ MUD_MATH_EXPORT void from_json(const Json& j, mat4& mat);
 }
 
 namespace mud
 {
-	export_ MUD_MATH_EXPORT void from_json(const json& j, Colour& col);
-	export_ MUD_MATH_EXPORT void to_json(const Colour& col, json& json);
+	export_ MUD_MATH_EXPORT void from_json(const Json& j, Colour& col);
+	export_ MUD_MATH_EXPORT void to_json(const Colour& col, Json& Json);
 }

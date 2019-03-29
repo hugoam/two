@@ -85,6 +85,7 @@ namespace mud
 			m_sub_pass_index = 0;
 
 		Pass pass;
+		pass.m_name = name;
 		pass.m_target = m_target;
 		pass.m_bgfx_state = 0;
 		pass.m_fbo = m_target_fbo;
@@ -105,6 +106,11 @@ namespace mud
 		this->set_uniforms(pass);
 
 		return pass;
+	}
+
+	Pass Render::composite_pass(cstring name)
+	{
+		return this->next_pass(name, PassType::PostProcess);
 	}
 
 	Pass Render::composite_pass(cstring name, FrameBuffer& fbo, const uvec4& rect)
@@ -393,7 +399,7 @@ namespace mud
 		for(PassJob& job : render.m_scene->m_pass_jobs->m_jobs[pass_type])
 		{
 			Pass pass = render.next_pass("job", pass_type); // pass.m_name);
-			job(render, pass);
+			job(m_gfx, render, pass);
 		}
 	}
 

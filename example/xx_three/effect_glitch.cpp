@@ -89,17 +89,19 @@ static string glitch_fragment()
 		"	vec4 cb = texture2D(s_source_0, p - offset);\n"
 		"	gl_FragColor = vec4(cr.r, cga.g, cb.b, cga.a);\n"
 		"	//add noise\n"
-		"	vec4 snow = 200.0 * u_amount * vec4(rand(vec2(xs * u_seed, ys * u_seed * 50.0)) * 0.2);\n"
+		"	vec4 snow = 200.0 * u_amount * vec4_splat(rand(vec2(xs * u_seed, ys * u_seed * 50.0)) * 0.2);\n"
 		"	gl_FragColor = gl_FragColor + snow;\n"
-		"}";
+		"}\n";
 
 	return shader;
 };
 
+constexpr int speed = 2;
+
 struct Glitch
 {
 	float seed = randf();
-	int randX = randi(120, 240);
+	int randX = randi(120, 240) * speed;
 	bool gowild = false;
 	int bypass = 0;
 	int frame = 0;
@@ -150,7 +152,7 @@ void pass_glitch(GfxSystem& gfx, Render& render, Glitch& glitch, uint dt_size = 
 		scale = vec2(randf(-1.f, 1.f), randf(-1.f, 1.f));
 		distort = vec2(randf(0.f, 1.f), randf(0.f, 1.f));
 		glitch.frame = 0;
-		glitch.randX = randi(120, 240);
+		glitch.randX = randi(120, 240) * speed;
 
 	}
 	else if(frame < glitch.randX / 5)
@@ -171,16 +173,16 @@ void pass_glitch(GfxSystem& gfx, Render& render, Glitch& glitch, uint dt_size = 
 
 	Pass pass = render.next_pass("glitch", PassType::PostProcess);
 
-	gfx.m_filter->uniform(pass.m_index, "u_glitch_p0", vec4(amount, angle, glitch.seed, 0.f));
-	gfx.m_filter->uniform(pass.m_index, "u_glitch_p1", vec4(scale, distort));
+	gfx.m_filter->uniform(pass, "u_glitch_p0", vec4(amount, angle, glitch.seed, 0.f));
+	gfx.m_filter->uniform(pass, "u_glitch_p1", vec4(scale, distort));
 
 	gfx.m_filter->source0(render.m_target->m_diffuse);
 	gfx.m_filter->sourcedepth(disp);
 
 	RenderTarget& target = *render.m_target;
-	gfx.m_filter->quad(pass.m_index, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
 
-	gfx.m_copy->quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
+	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
 }
 
 void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
@@ -203,7 +205,9 @@ void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		//scene.fog = new THREE.Fog(0x000000, 1, 1000);
 
-		Model& geometry = app.m_gfx.shape(Sphere(1.f));
+		Symbol symbol; symbol.m_subdiv = uvec2(4U);
+		Model& geometry = app.m_gfx.shape(Sphere(1.f), symbol);
+		//Model& geometry = app.m_gfx.shape(Sphere(1.f));
 
 		Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
 
@@ -215,8 +219,8 @@ void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			const string name = "object" + to_string(i);
 			Material& material = app.m_gfx.materials().create(name, [&](Material& m) {
 				m.m_program = &pbr;
+				m.m_base.m_flat_shaded = true;
 				m.m_pbr.m_albedo = rgb(randi<uint32_t>());
-				// flatShading : true
 			});
 			//var material = new THREE.MeshPhongMaterial({ color: 0xffffff * randf(),  });
 
@@ -248,9 +252,11 @@ void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		app.m_gfx.set_renderer(Shading::Shaded, render);
 	}
 
+	const float delta = app.m_gfx.m_frame_time;
+
 	static vec3 angles = vec3(0.f);
-	angles.x += 0.005f;
-	angles.y += 0.01f;
+	angles.x += 0.2f * delta;
+	angles.y += 0.4f * delta;
 
 	object->apply(vec3(0.f), quat(angles));
 

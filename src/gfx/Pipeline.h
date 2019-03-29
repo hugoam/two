@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	using PassJob = function<void(Render&, const Pass&)>;
+	using PassJob = function<void(GfxSystem&, Render&, const Pass&)>;
 
 	export_ MUD_GFX_EXPORT void pipeline_minimal(GfxSystem& gfx, Renderer& pipeline, bool deferred);
 

@@ -19,18 +19,16 @@ namespace mud
 {
 	void pass_resolve(GfxSystem& gfx, Render& render)
 	{
-		static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
-
 		// process effects
 
 		if(!render.m_is_mrt) return;
 		
 		// @todo three passes to resolve ? this is terrible :( but we can't read and write from the same buffer at the same time can we
 		FrameBuffer& fbo = render.m_target->m_ping_pong.swap();
-		block_copy.quad(render.composite_pass(), fbo, render.m_target->m_diffuse, render.m_rect);
-		block_copy.quad(render.composite_pass(), fbo, render.m_target->m_specular, render.m_rect, BGFX_STATE_BLEND_ADD);
+		gfx.m_copy->quad(render.composite_pass("resolve diffuse"), fbo, render.m_target->m_diffuse, render.m_rect);
+		gfx.m_copy->quad(render.composite_pass("resolve specular"), fbo, render.m_target->m_specular, render.m_rect, BGFX_STATE_BLEND_ADD);
 
-		block_copy.quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_ping_pong.last(), render.m_rect);
+		gfx.m_copy->quad(render.composite_pass("resolve"), *render.m_target_fbo, render.m_target->m_ping_pong.last(), render.m_rect);
 	}
 
 	void pass_effects(GfxSystem& gfx, Render& render)
@@ -44,10 +42,8 @@ namespace mud
 #if 0
 	void pass_post_process(GfxSystem& gfx, Render& render)
 	{
-		static BlockCopy& block_copy = *gfx.m_renderer.block<BlockCopy>();
-
-		block_copy.quad(render.composite_pass(), render.m_target->m_post_process.swap(),
-							   render.m_target->m_diffuse, render.m_rect);
+		gfx.m_copy->quad(render.composite_pass(), render.m_target->m_post_process.swap(),
+						 render.m_target->m_diffuse, render.m_rect);
 
 		// submit each post process effect
 		// dof

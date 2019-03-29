@@ -486,9 +486,9 @@
 							library[lensflare2.uuid] = lensflare2;
 							library[decalNormal.uuid] = decalNormal;
 
-							var json = nodepost.toJSON();
+							var Json = nodepost.toJSON();
 
-							nodepost.output = new THREE.NodeMaterialLoader(null, library).parse(json).value;
+							nodepost.output = new THREE.NodeMaterialLoader(null, library).parse(Json).value;
 						*/
 
 			}

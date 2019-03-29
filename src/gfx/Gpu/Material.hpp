@@ -15,6 +15,8 @@ module mud.gfx;
 
 #include <cstring>
 
+#define PAD 0.f
+
 namespace mud
 {
 #if !MATERIALS_BUFFER
@@ -86,7 +88,7 @@ namespace mud
 
 		void upload(bgfx::Encoder& encoder, const MaterialPoint& block) const
 		{
-			vec4 params = { block.m_point_size, float(block.m_project), 0.f, 0.f };
+			vec4 params = { block.m_point_size, float(block.m_project), PAD, PAD };
 			encoder.setUniform(u_point_p0, &params);
 		}
 
@@ -138,6 +140,30 @@ namespace mud
 	};
 
 	template <>
+	struct GpuState<MaterialLit>
+	{
+		void init()
+		{
+			u_lit_p0 = bgfx::createUniform("u_lit_p0", bgfx::UniformType::Vec4);
+			u_emissive = bgfx::createUniform("u_emissive", bgfx::UniformType::Vec4);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialLit& block) const
+		{
+			vec4 p0 = { block.m_normal.m_value, PAD, PAD, PAD };
+			encoder.setUniform(u_lit_p0, &p0);
+
+			vec4 emissive = to_vec4(block.m_emissive.m_value);
+			encoder.setUniform(u_emissive, &emissive);
+		}
+
+		bgfx::UniformHandle u_lit_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_emissive = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+
+	template <>
 	struct GpuState<MaterialPbr>
 	{
 		void init()
@@ -154,16 +180,14 @@ namespace mud
 			vec4 albedo = { to_vec3(block.m_albedo.m_value), 1.f }; //block.m_alpha.m_value };
 			encoder.setUniform(u_albedo, &albedo);
 
-			vec4 spec_met_rough = { block.m_specular, block.m_metallic.m_value, block.m_roughness.m_value, block.m_normal.m_value };
-			encoder.setUniform(u_pbr_p0, &spec_met_rough);
-
-			vec4 emissive = to_vec4(block.m_emissive.m_value);
-			encoder.setUniform(u_emissive, &emissive);
+			vec4 pbr_p0 = { block.m_specular, block.m_metallic.m_value, block.m_roughness.m_value, PAD };
+			encoder.setUniform(u_pbr_p0, &pbr_p0);
 
 			vec4 pbr_p1 = { block.m_anisotropy.m_value, block.m_refraction.m_value, block.m_subsurface.m_value, block.m_depth.m_value };
 			encoder.setUniform(u_pbr_p1, &pbr_p1);
 
-			vec4 pbr_channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), float(block.m_ambient_occlusion.m_channel), 0.f };
+			//vec4 pbr_channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), float(block.m_occlusion.m_channel), PAD };
+			vec4 pbr_channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), PAD, PAD };
 			encoder.setUniform(u_pbr_channels_0, &pbr_channels);
 		}
 
@@ -173,6 +197,35 @@ namespace mud
 		bgfx::UniformHandle u_pbr_channels_0 = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle u_emissive = BGFX_INVALID_HANDLE;
 		//bgfx::UniformHandle u_lightmap_p0;
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<MaterialPhong>
+	{
+		void init()
+		{
+			u_diffuse = bgfx::createUniform("u_diffuse", bgfx::UniformType::Vec4);
+			u_specular = bgfx::createUniform("u_specular", bgfx::UniformType::Vec4);
+			u_phong_p0 = bgfx::createUniform("u_phong_p0", bgfx::UniformType::Vec4);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialPhong& block) const
+		{
+			vec4 diffuse = { to_vec3(block.m_diffuse.m_value), 1.f };
+			encoder.setUniform(u_diffuse, &diffuse);
+
+			vec4 specular = { to_vec3(block.m_specular.m_value), 1.f };
+			encoder.setUniform(u_specular, &specular);
+
+			vec4 p0 = { block.m_shininess.m_value, block.m_reflectivity.m_value, block.m_refraction.m_value, PAD };
+			encoder.setUniform(u_phong_p0, &p0);
+		}
+
+		bgfx::UniformHandle u_diffuse = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_specular = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_phong_p0 = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
@@ -220,7 +273,9 @@ namespace mud
 			GpuState<MaterialSolid>::me.upload(encoder, material.m_solid);
 			GpuState<MaterialPoint>::me.upload(encoder, material.m_point);
 			GpuState<MaterialLine>::me.upload(encoder, material.m_line);
+			GpuState<MaterialLit>::me.upload(encoder, material.m_lit);
 			GpuState<MaterialPbr>::me.upload(encoder, material.m_pbr);
+			GpuState<MaterialPhong>::me.upload(encoder, material.m_phong);
 			GpuState<MaterialFresnel>::me.upload(encoder, material.m_fresnel);
 			GpuState<MaterialUser>::me.upload(encoder, material.m_user);
 		}
@@ -256,7 +311,7 @@ namespace mud
 
 		void pack(const MaterialAlpha& block, size_t& offset, const GpuTexture& buffer, float* dest)
 		{
-			vec4 alpha = { block.m_alpha.m_value, 0.f, 0.f, 0.f };
+			vec4 alpha = { block.m_alpha.m_value, PAD, PAD, PAD };
 
 			memcpy(dest + offset, &alpha, sizeof(float) * 1);
 			offset += buffer.width * buffer.stride;
@@ -288,7 +343,7 @@ namespace mud
 
 		void pack(const MaterialPoint& block, size_t& offset, const GpuTexture& buffer, float* dest)
 		{
-			vec4 params = { block.m_point_size, float(block.m_project), 0.f, 0.f };
+			vec4 params = { block.m_point_size, float(block.m_project), PAD, PAD };
 
 			memcpy(dest + offset, &params, sizeof(float) * 2);
 			offset += buffer.width * buffer.stride;
@@ -314,17 +369,37 @@ namespace mud
 	};
 
 	template <>
+	struct GpuState<MaterialLit>
+	{
+		constexpr static size_t rows = 2;
+
+		void pack(const MaterialLit& block, size_t& offset, const GpuTexture& buffer, float* dest)
+		{
+			vec4 p0 = { block.m_normal.m_value, PAD, PAD, PAD };
+			vec4 emissive = { to_vec3(block.m_emissive.m_value), block.m_emissive.m_value.a };
+
+			memcpy(dest + offset, &p0, sizeof(float) * 1);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &emissive, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+
+	template <>
 	struct GpuState<MaterialPbr>
 	{
 		constexpr static size_t rows = 5;
 
 		void pack(const MaterialPbr& block, size_t& offset, const GpuTexture& buffer, float* dest)
 		{
-			vec4 albedo = { to_vec3(block.m_albedo.m_value), 0.f };
-			vec4 spec_met_rough = { block.m_specular, block.m_metallic.m_value, block.m_roughness.m_value, block.m_normal.m_value };
-			vec4 emissive = { to_vec3(block.m_emissive.m_value), block.m_emissive.m_value.a };
-			vec4 channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), 0.f, 0.f };
-			vec4 params = { block.m_anisotropy.m_value, block.m_refraction.m_value, block.m_subsurface.m_value, block.m_depth.m_value };
+			vec4 albedo = { to_vec3(block.m_albedo.m_value), PAD };
+			vec4 spec_met_rough = { block.m_specular, block.m_metallic.m_value, block.m_roughness.m_value, PAD };
+			vec4 channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), PAD, PAD };
+			vec4 params1 = { block.m_anisotropy.m_value, block.m_refraction.m_value, block.m_subsurface.m_value, block.m_depth.m_value };
+			vec4 params2 = { block.m_rim.m_value, block.m_rim_tint, block.m_clearcoat.m_value, block.m_clearcoat_gloss };
 
 			memcpy(dest + offset, &albedo, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
@@ -332,17 +407,38 @@ namespace mud
 			memcpy(dest + offset, &spec_met_rough, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 
-			memcpy(dest + offset, &emissive, sizeof(float) * 4);
-			offset += buffer.width * buffer.stride;
-
 			memcpy(dest + offset, &channels, sizeof(float) * 2);
 			offset += buffer.width * buffer.stride;
 
-			memcpy(dest + offset, &params, sizeof(float) * 4);
+			memcpy(dest + offset, &params1, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 
-			//memcpy(dest + offset, &gp.rim, sizeof(float) * 4);
-			//offset += buffer.width * buffer.stride;
+			memcpy(dest + offset, &params2, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<MaterialPhong>
+	{
+		constexpr static size_t rows = 3;
+
+		void pack(const MaterialPhong& block, size_t& offset, const GpuTexture& buffer, float* dest)
+		{
+			vec4 diffuse = { to_vec3(block.m_diffuse.m_value), PAD };
+			vec4 specular = { to_vec3(block.m_specular.m_value), PAD };
+			vec4 p0 = { block.m_shininess.m_value, block.m_reflectivity.m_value, block.m_refraction.m_value, PAD };
+
+			memcpy(dest + offset, &diffuse, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &specular, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &p0, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
 		}
 
 		static GpuState me;
@@ -383,14 +479,16 @@ namespace mud
 		{
 			size_t offset = index * buffer.stride;// + (index % texture_size) * height;
 
-			GpuState<MaterialBase>::me.me.pack(material.m_base, offset, buffer, dest);
-			GpuState<MaterialAlpha>::me.me.pack(material.m_alpha, offset, buffer, dest);
-			GpuState<MaterialSolid>::me.me.pack(material.m_solid, offset, buffer, dest);
-			GpuState<MaterialPoint>::me.me.pack(material.m_point, offset, buffer, dest);
-			GpuState<MaterialLine>::me.me.pack(material.m_line, offset, buffer, dest);
-			GpuState<MaterialPbr>::me.me.pack(material.m_pbr, offset, buffer, dest);
-			//GpuState<MaterialFresnel>::me.me.pack(material.m_fresnel, offset, buffer, dest);
-			GpuState<MaterialUser>::me.me.pack(material.m_user, offset, buffer, dest);
+			GpuState<MaterialBase>::me.pack(material.m_base, offset, buffer, dest);
+			GpuState<MaterialAlpha>::me.pack(material.m_alpha, offset, buffer, dest);
+			GpuState<MaterialSolid>::me.pack(material.m_solid, offset, buffer, dest);
+			GpuState<MaterialPoint>::me.pack(material.m_point, offset, buffer, dest);
+			GpuState<MaterialLine>::me.pack(material.m_line, offset, buffer, dest);
+			GpuState<MaterialLit>::me.pack(material.m_lit, offset, buffer, dest);
+			GpuState<MaterialPbr>::me.pack(material.m_pbr, offset, buffer, dest);
+			GpuState<MaterialPhong>::me.pack(material.m_phong, offset, buffer, dest);
+			//GpuState<MaterialFresnel>::me.pack(material.m_fresnel, offset, buffer, dest);
+			GpuState<MaterialUser>::me.pack(material.m_user, offset, buffer, dest);
 		}
 
 		void pack(Texture& texture, span<Material*> materials)
@@ -402,7 +500,9 @@ namespace mud
 								  + GpuState<MaterialSolid>::me.rows
 								  + GpuState<MaterialPoint>::me.rows
 								  + GpuState<MaterialLine>::me.rows
-								  + GpuState<MaterialPbr>::me.rows;
+								  + GpuState<MaterialLit>::me.rows
+								  + GpuState<MaterialPbr>::me.rows
+								  + GpuState<MaterialPhong>::me.rows
 								  + GpuState<MaterialUser>::me.rows;
 			const uint32_t lines = 1;
 			const uvec2 size = uvec2(buffer.width, uint16_t(lines * height));
@@ -410,7 +510,7 @@ namespace mud
 			if(texture.m_size != size)
 				texture = { size, false, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
 
-			const bgfx::Memory* memory = bgfx::alloc(buffer.width * lines * height * buffer.stride * sizeof(float));
+			const bgfx::Memory* memory = bgfx::alloc(size.x * size.y * buffer.stride * sizeof(float));
 
 			for(size_t index = 0; index < materials.size(); ++index)
 			{

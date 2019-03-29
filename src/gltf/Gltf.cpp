@@ -13,7 +13,7 @@
 module mud.gltf;
 #else
 #include <json11.hpp>
-using json = json11::Json;
+using Json = json11::Json;
 
 #include <type/DispatchDecl.h>
 #include <stl/algorithm.h>
@@ -36,7 +36,7 @@ using json = json11::Json;
 
 namespace mud
 {
-	inline void from_json(const json& j, PrimitiveType& mat)
+	inline void from_json(const Json& j, PrimitiveType& mat)
 	{
 		mat = static_cast<PrimitiveType>(j.int_value());
 	}
@@ -47,17 +47,17 @@ namespace mud
 	FromJson gltf_unpacker()
 	{
 		FromJson unpacker;
-		dispatch_branch<mat4>(unpacker, +[](mat4& result, const json& json) { from_json(json, result); });
-		dispatch_branch<quat>(unpacker, +[](quat& result, const json& json) { from_json(json, result); });
+		dispatch_branch<mat4>(unpacker, +[](mat4& result, const Json& Json) { from_json(Json, result); });
+		dispatch_branch<quat>(unpacker, +[](quat& result, const Json& Json) { from_json(Json, result); });
 		return unpacker;
 	}
 
 	ToJson gltf_packer()
 	{
 		ToJson packer;
-		dispatch_branch<glTFType>         (packer, +[](glTFType&          value, json& json_value) { json_value = to_string(Ref(&value)); });
-		dispatch_branch<glTFInterpolation>(packer, +[](glTFInterpolation& value, json& json_value) { json_value = to_string(Ref(&value)); });
-		dispatch_branch<glTFAlphaMode>    (packer, +[](glTFAlphaMode&     value, json& json_value) { json_value = to_string(Ref(&value)); });
+		dispatch_branch<glTFType>         (packer, +[](glTFType&          value, Json& json_value) { json_value = to_string(Ref(&value)); });
+		dispatch_branch<glTFInterpolation>(packer, +[](glTFInterpolation& value, Json& json_value) { json_value = to_string(Ref(&value)); });
+		dispatch_branch<glTFAlphaMode>    (packer, +[](glTFAlphaMode&     value, Json& json_value) { json_value = to_string(Ref(&value)); });
 		return packer;
 	}
 
@@ -85,7 +85,7 @@ namespace mud
 	export_ template <class T>
 	inline T bread(std::istream& stream) { T result; stream.read((char*)&result, sizeof(T)); return result; }
 
-	void parse_glb(const string& path, json& json, vector<uint8_t>& buffer)
+	void parse_glb(const string& path, Json& Json, vector<uint8_t>& buffer)
 	{
 		std::ifstream file = std::ifstream(path.c_str(), std::ios::binary);
 
@@ -109,7 +109,7 @@ namespace mud
 			{
 				std::string errors;
 				string json_string = read(file, chunk_length);
-				json = json::parse(json_string.c_str(), errors);
+				Json = Json::parse(json_string.c_str(), errors);
 			}
 			else if(chunk_type == 0x004E4942)
 			{
@@ -324,7 +324,7 @@ namespace mud
 
 	void unpack_gltf(const string& path, const string& file, glTF& gltf)
 	{
-		json data;
+		Json data;
 
 		//bool glb = ends_with(to_lower(path), ".glb");
 		bool glb = file_exists(path + "/" + file + ".glb");
@@ -339,7 +339,7 @@ namespace mud
 			parse_json_file(path + "/" + file + ".gltf", data);
 		}
 
-		json asset = data["asset"];
+		Json asset = data["asset"];
 		string version = asset["version"].string_value().c_str();
 
 		static FromJson unpacker = gltf_unpacker();

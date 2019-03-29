@@ -163,16 +163,25 @@ namespace gfx
 			Program& pbr = gfx.programs().create("pbr/pbr");
 			pbr.register_blocks(shading_blocks);
 			pbr.m_blocks[MaterialBlock::Alpha] = true;
+			pbr.m_blocks[MaterialBlock::Lit] = true;
 			pbr.m_blocks[MaterialBlock::Pbr] = true;
+
+			Program& phong = gfx.programs().create("pbr/phong");
+			phong.register_blocks(shading_blocks);
+			phong.m_blocks[MaterialBlock::Alpha] = true;
+			phong.m_blocks[MaterialBlock::Lit] = true;
+			phong.m_blocks[MaterialBlock::Phong] = true;
 
 			Program& basic = gfx.programs().create("pbr/basic");
 			basic.register_blocks(shading_blocks);
 			basic.m_blocks[MaterialBlock::Alpha] = true;
+			basic.m_blocks[MaterialBlock::Lit] = true;
 			basic.m_blocks[MaterialBlock::Pbr] = true;
 
 			Program& geometry = gfx.programs().create("pbr/geometry");
 			geometry.register_blocks(geometry_blocks);
 			geometry.m_blocks[MaterialBlock::Alpha] = true;
+			geometry.m_blocks[MaterialBlock::Lit] = true;
 			geometry.m_blocks[MaterialBlock::Pbr] = true;
 
 			Program& lights = gfx.programs().create("pbr/lights");
@@ -313,8 +322,8 @@ namespace gfx
 		pass_alpha(gfx, render);
 		pass_solid(gfx, render);
 		//pass_effects(gfx, render);
-		pass_resolve(gfx, render);
-		pass_post_process(gfx, render);
+		//pass_resolve(gfx, render);
+		//pass_post_process(gfx, render);
 	}
 
 	void render_pbr_deferred(GfxSystem& gfx, Render& render)
@@ -388,14 +397,14 @@ namespace gfx
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
 			UNUSED(pass);
-			bool pbr = element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha;
+			bool lit = element.m_program->m_blocks[MaterialBlock::Lit] && !element.m_material->m_alpha.m_is_alpha;
 			bool opaque = element.m_program->m_passes[PassType::Opaque];
-			if(!pbr && !opaque) return false;
+			if(!lit && !opaque) return false;
 
 			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
-			if(pbr)
+			if(lit)
 				pbr_options(gfx, render, element.m_shader_version);
 			return true;
 		};
@@ -457,9 +466,9 @@ namespace gfx
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
 			UNUSED(render); UNUSED(pass);
-			bool pbr = element.m_program->m_blocks[MaterialBlock::Pbr] && !element.m_material->m_alpha.m_is_alpha;
+			bool lit = element.m_program->m_blocks[MaterialBlock::Lit] && !element.m_material->m_alpha.m_is_alpha;
 			bool opaque = element.m_program->m_passes[PassType::Opaque];
-			if(!pbr && !opaque) return false;
+			if(!lit && !opaque) return false;
 
 			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
@@ -479,7 +488,6 @@ namespace gfx
 	void pass_lights(GfxSystem& gfx, Render& render)
 	{
 		static Program& program = gfx.programs().fetch("pbr/lights");
-		static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
 
 		Pass pass = render.next_pass("lights", PassType::Lights);
 		bgfx::Encoder& encoder = *pass.m_encoder;
@@ -501,37 +509,32 @@ namespace gfx
 		RenderTarget& target = *render.m_target;
 		GBuffer& gbuffer = target.m_gbuffer;
 
-		encoder.setTexture(uint8_t(TextureSampler::Source0), filter.u_uniform.s_source_0, gbuffer.m_position);
-		encoder.setTexture(uint8_t(TextureSampler::Source1), filter.u_uniform.s_source_1, gbuffer.m_normal);
-		encoder.setTexture(uint8_t(TextureSampler::Source2), filter.u_uniform.s_source_2, gbuffer.m_albedo);
-		encoder.setTexture(uint8_t(TextureSampler::Source3), filter.u_uniform.s_source_3, gbuffer.m_surface);
+		gfx.m_filter->source0(gbuffer.m_position);
+		gfx.m_filter->source1(gbuffer.m_normal);
+		gfx.m_filter->source2(gbuffer.m_albedo);
+		gfx.m_filter->source3(gbuffer.m_surface);
 
-		filter.quad(pass.m_index, *render.m_target_fbo, cluster.m_shader_version, render.m_rect, BGFX_STATE_BLEND_ALPHA);
+		gfx.m_filter->quad(pass, *render.m_target_fbo, cluster.m_shader_version, render.m_rect, BGFX_STATE_BLEND_ALPHA);
 
 #if DEBUG_GBUFFERS
-		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
 		vec2 size = vec2(target.m_size) * 0.25f;
-		copy.debug_show_texture(render, gbuffer.m_depth, vec4(vec2(0.f, size.y * 0.f), size), true);
-		copy.debug_show_texture(render, gbuffer.m_normal, vec4(vec2(0.f, size.y * 1.f), size));
-		copy.debug_show_texture(render, gbuffer.m_albedo, vec4(vec2(0.f, size.y * 2.f), size));
-		copy.debug_show_texture(render, gbuffer.m_surface, vec4(vec2(0.f, size.y * 3.f), size));
+		m_gfx.m_copy->debug_show_texture(render, gbuffer.m_depth, vec4(vec2(0.f, size.y * 0.f), size), true);
+		m_gfx.m_copy->debug_show_texture(render, gbuffer.m_normal, vec4(vec2(0.f, size.y * 1.f), size));
+		m_gfx.m_copy->debug_show_texture(render, gbuffer.m_albedo, vec4(vec2(0.f, size.y * 2.f), size));
+		m_gfx.m_copy->debug_show_texture(render, gbuffer.m_surface, vec4(vec2(0.f, size.y * 3.f), size));
 #endif
 	}
 	
 	void pass_pre_post_process(GfxSystem& gfx, Render& render)
 	{
-		static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
-
 		RenderTarget& target = *render.m_target;
-		copy.quad(render.composite_pass(), target.m_post_process.swap(), target.m_diffuse, render.m_rect);
+		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post_process.swap(), target.m_diffuse, render.m_rect);
 	}
 
 	void pass_post_process(GfxSystem& gfx, Render& render)
 	{
-		static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
-
 		RenderTarget& target = *render.m_target;
-		copy.quad(render.composite_pass(), target.m_post_process.swap(), target.m_diffuse, render.m_rect);
+		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post_process.swap(), target.m_diffuse, render.m_rect);
 
 		// submit each post process effect
 

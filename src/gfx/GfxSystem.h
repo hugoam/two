@@ -91,6 +91,8 @@ namespace mud
 		attr_ BlockCopy* m_copy = nullptr;
 		attr_ BlockFilter* m_filter = nullptr;
 
+		attr_ bool m_flip_y = false;
+
 		attr_ RenderFrame m_render_frame;
 
 		meth_ RenderTarget& main_target();

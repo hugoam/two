@@ -53,8 +53,8 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Material& material = gfx::pbr_material(app.m_gfx, "object", rgb(0xffffff), 0.5f, 1.0f);
 		//new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5f, metalness: 1.0f });
 
-		//Model& torus = app.m_gfx.shape(Torus(1.5f, 0.4f));
-		Model& torus = app.m_gfx.shape(Torus(1.f, 0.1f));
+		Model& torus = app.m_gfx.shape(Torus(1.5f, 0.4f));
+		//Model& torus = app.m_gfx.shape(Torus(1.f, 0.1f));
 
 		//for(int i = 0; i < 1; i++) {
 		for(int i = 0; i < 5000; i++) {
@@ -67,8 +67,8 @@ void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			float b = 3.14f * (0.5f - randf());
 
 			uint32_t flags = ItemFlag::Default;// | ItemFlag::NoCull;
-			Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(a, b, 0, 1)));
-			//Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(vec3(a, b, 0.f))));
+			//Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(a, b, 0, 1)));
+			Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(vec3(a, b, 0.f))));
 			Item& it = gfx::items(scene).add(Item(n, torus, flags, &material));
 			UNUSED(it);
 		}

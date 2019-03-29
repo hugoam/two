@@ -184,9 +184,9 @@ namespace mud
 	{
 		void pack(const Zone& zone, size_t offset, GpuTexture& buffer, float* dest)
 		{
-			GpuState<Radiance>::me.me.pack(zone.m_radiance, offset, buffer, dest);
+			GpuState<Radiance>::me.pack(zone.m_radiance, offset, buffer, dest);
 			if(zone.m_fog.m_enabled)
-				GpuState<Fog>::me.me.pack(zone.m_fog, offset, buffer, dest);
+				GpuState<Fog>::me.pack(zone.m_fog, offset, buffer, dest);
 		}
 
 		void pack(Texture& texture, span<Zone> zones)

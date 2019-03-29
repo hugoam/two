@@ -88,10 +88,12 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialBase>() { static Type ty("MaterialBase", sizeof(mud::MaterialBase)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialFresnel>() { static Type ty("MaterialFresnel", sizeof(mud::MaterialFresnel)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialLine>() { static Type ty("MaterialLine", sizeof(mud::MaterialLine)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialLit>() { static Type ty("MaterialLit", sizeof(mud::MaterialLit)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<float>>() { static Type ty("MaterialParam<float>", sizeof(mud::MaterialParam<float>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::Colour>>() { static Type ty("MaterialParam<mud::Colour>", sizeof(mud::MaterialParam<mud::Colour>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::vec4>>() { static Type ty("MaterialParam<mud::vec4>", sizeof(mud::MaterialParam<mud::vec4>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialPbr>() { static Type ty("MaterialPbr", sizeof(mud::MaterialPbr)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialPhong>() { static Type ty("MaterialPhong", sizeof(mud::MaterialPhong)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialPoint>() { static Type ty("MaterialPoint", sizeof(mud::MaterialPoint)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialSolid>() { static Type ty("MaterialSolid", sizeof(mud::MaterialSolid)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialUser>() { static Type ty("MaterialUser", sizeof(mud::MaterialUser)); return ty; }

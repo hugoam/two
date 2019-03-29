@@ -9,14 +9,20 @@
 
 using namespace mud;
 
+Material& phong_white(GfxSystem& gfx, const string& name)
+{
+	Material& mat = gfx.fetch_material(name.c_str(), "pbr/phong");
+	mat.m_phong.m_diffuse.m_value = Colour::White;
+	mat.m_phong.m_shininess.m_value = 100.f;
+	return mat;
+}
+
 Material& milky_white(GfxSystem& gfx, const string& name)
 {
 	Material& mat = gfx.fetch_material(name.c_str(), "pbr/pbr");
-	MaterialPbr& pbr = mat.m_pbr;
-	pbr.m_albedo.m_value = Colour::White;
-	pbr.m_metallic.m_value = 0.4f;
-	pbr.m_roughness.m_value = 0.35f;
-	//mat.m_pbr.m_roughness.m_value = 0.8f;
+	mat.m_pbr.m_albedo.m_value = Colour::White;
+	mat.m_pbr.m_metallic.m_value = 0.4f;
+	mat.m_pbr.m_roughness.m_value = 0.35f;
 	return mat;
 }
 
@@ -33,20 +39,19 @@ Material& mirror(GfxSystem& gfx)
 Material& material(GfxSystem& gfx, const string& name)
 {
 	Material& mat = gfx.fetch_material(name.c_str(), "pbr/pbr");
-	MaterialPbr& pbr = mat.m_pbr;
 
-	pbr.m_albedo = gfx.textures().file(name + "/" + name + "_col.jpg");
-	pbr.m_normal = gfx.textures().file(name + "/" + name + "_nrm.jpg");
-	pbr.m_roughness = gfx.textures().file(name + "/" + name + "_rgh.jpg");
+	mat.m_pbr.m_albedo = gfx.textures().file(name + "/" + name + "_col.jpg");
+	mat.m_lit.m_normal = gfx.textures().file(name + "/" + name + "_nrm.jpg");
+	mat.m_pbr.m_roughness = gfx.textures().file(name + "/" + name + "_rgh.jpg");
 
 	if(Texture* ao = gfx.textures().file(name + "/" + name + "_AO.jpg"))
-		pbr.m_ambient_occlusion = ao;
+		mat.m_lit.m_occlusion = ao;
 	if(Texture* depth = gfx.textures().file(name + "/" + name + "_disp.jpg"))
-		pbr.m_depth = depth;
+		mat.m_pbr.m_depth = depth;
 	if(Texture* met = gfx.textures().file(name + "/" + name + "_met.jpg"))
 	{
-		pbr.m_metallic = met;
-		pbr.m_metallic.m_value = 1.f;
+		mat.m_pbr.m_metallic = met;
+		mat.m_pbr.m_metallic.m_value = 1.f;
 	}
 
 	return mat;

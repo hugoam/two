@@ -153,6 +153,8 @@ namespace mud
 	{
 		BgfxSystem::init(context);
 
+		m_flip_y = bgfx::getCaps()->originBottomLeft;
+
 		m_impl->m_meshes = make_unique<TPool<Mesh>>();
 		m_impl->m_rigs = make_unique<TPool<Rig>>();
 		m_impl->m_animations = make_unique<TPool<Animation>>();

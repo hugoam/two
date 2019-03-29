@@ -21,7 +21,7 @@ module mud.gfx;
 namespace mud
 {
 	Import::Import(GfxSystem& gfx, const string& filepath, const ImportConfig& config)
-		: m_gfx(gfx),m_config(config)
+		: m_gfx(gfx), m_config(config)
 	{
 		m_path = file_directory(filepath);
 		m_file = file_name(filepath);

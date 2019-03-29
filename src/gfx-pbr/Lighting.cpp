@@ -176,7 +176,8 @@ namespace mud
 
 			vec3 position = mulp(view, light.m_node->position());
 			float range = light.m_range;
-			vec3 energy = to_vec3(to_linear(light.m_colour) * light.m_energy);
+			vec3 energy = to_vec3(light.m_colour * light.m_energy);
+			vec3 energy2 = to_vec3(to_linear(light.m_colour) * light.m_energy);
 			float specular = light.m_specular;
 			vec3 direction = muln(view, light.m_node->direction());
 			float attenuation = light.m_attenuation;

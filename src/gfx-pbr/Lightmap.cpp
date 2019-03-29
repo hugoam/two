@@ -128,7 +128,7 @@ namespace mud
 
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			if(!element.m_program->m_blocks[MaterialBlock::Pbr])
+			if(!element.m_program->m_blocks[MaterialBlock::Lit])
 				return false;
 
 			element.m_program = block_lightmap.m_lightmap;

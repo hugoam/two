@@ -56,7 +56,7 @@ void xx_effect_sobel(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
 
 		//var material = new THREE.MeshPhongMaterial({ color: 0xffff00 });
-		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+		Material& material = app.m_gfx.materials().create("sobel", [&](Material& m) {
 			m.m_program = &pbr;
 			m.m_pbr.m_albedo = rgb(0xffff00);
 			});

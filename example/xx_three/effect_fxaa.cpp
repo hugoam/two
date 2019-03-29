@@ -430,25 +430,22 @@ static string fxaa_fragment()
 		"\n"
 		"    // TODO avoid querying texture twice for same texel\n"
 		"    gl_FragColor.a = texture2D(s_diffuse, v_uv0).a;\n"
-		"}";
+		"}\n";
 
 	return shader;
 }
 
 void pass_fxaa(GfxSystem& gfx, Render& render)
 {
-	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
-
 	static Program& program = gfx.programs().fetch("fxaa");
 
 	Pass pass = render.next_pass("bokeh", PassType::PostProcess);
 
-	filter.source0(render.m_target->m_diffuse);
+	gfx.m_filter->source0(render.m_target->m_diffuse);
 
-	filter.quad(pass.m_index, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
 
-	copy.quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
+	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }
 
 void xx_post_fxaa(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
@@ -496,10 +493,10 @@ void xx_post_fxaa(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//Model& geometry = app.m_gfx.shape(Sphere(10.f));
 		Model& geometry = app.m_gfx.shape(Tetraedr(10.f));
 
-		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+		Material& material = app.m_gfx.materials().create("fxaa", [&](Material& m) {
 			m.m_program = &pbr;
+			m.m_base.m_flat_shaded = true;
 			m.m_pbr.m_albedo = rgb(0xee0808);
-			// flatShading : true
 		});
 
 		nodes.clear();

@@ -49,13 +49,13 @@ static string dotscreen_fragment()
 		"\n"
 		"#define s_diffuse s_source_0\n"
 		"\n"
-		"float pattern() {\n"
+		"float pattern(vec2 uv) {\n"
 			"float s = sin(u_angle), c = cos(u_angle);\n"
 
-			"vec2 tex = v_uv0 * u_size - u_center;\n"
-			"vec2 point = vec2(c * tex.x - s * tex.y, s * tex.x + c * tex.y) * u_scale;\n"
+			"vec2 tex = uv * u_size - u_center;\n"
+			"vec2 p = vec2(c * tex.x - s * tex.y, s * tex.x + c * tex.y) * u_scale;\n"
 
-			"return (sin(point.x) * sin(point.y)) * 4.0;\n"
+			"return (sin(p.x) * sin(p.y)) * 4.0;\n"
 		"}\n"
 
 		"void main() {\n"
@@ -64,9 +64,9 @@ static string dotscreen_fragment()
 
 			"float average = (color.r + color.g + color.b) / 3.0;\n"
 
-			"gl_FragColor = vec4(vec3(average * 10.0 - 5.0 + pattern()), color.a);\n"
+			"gl_FragColor = vec4(vec3_splat(average * 10.0 - 5.0 + pattern(v_uv0)), color.a);\n"
 
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -123,7 +123,7 @@ static string rgbshift_fragment()
 			"vec4 cb = texture2D(s_diffuse, v_uv0 - offset);\n"
 			"gl_FragColor = vec4(cr.r, cga.g, cb.b, cga.a);\n"
 
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -150,12 +150,12 @@ void pass_dotscreen(GfxSystem& gfx, Render& render, DotScreen& p)
 
 	Pass pass = render.next_pass("dotscreen", PassType::PostProcess);
 
-	gfx.m_filter->uniform(pass.m_index, "u_dotscreen_p0", vec4(p.center, p.angle, p.scale));
-	gfx.m_filter->uniform(pass.m_index, "u_dotscreen_p1", vec4(p.size, 0.f, 0.f));
+	gfx.m_filter->uniform(pass, "u_dotscreen_p0", vec4(p.center, p.angle, p.scale));
+	gfx.m_filter->uniform(pass, "u_dotscreen_p1", vec4(p.size, 0.f, 0.f));
 
 	gfx.m_filter->source0(render.m_target->m_diffuse);
 
-	gfx.m_filter->quad(pass.m_index, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
 
 	//gfx.m_copy->quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }
@@ -168,14 +168,14 @@ void pass_rgbshift(GfxSystem& gfx, Render& render, RgbShift& p)
 
 	Pass pass = render.next_pass("rgbshift", PassType::PostProcess);
 
-	gfx.m_filter->uniform(pass.m_index, "u_rgbshift_p0", vec4(p.amount, p.angle, 0.f, 0.f));
+	gfx.m_filter->uniform(pass, "u_rgbshift_p0", vec4(p.amount, p.angle, 0.f, 0.f));
 
 	//gfx.m_filter->source0(render.m_target->m_diffuse);
 	gfx.m_filter->source0(render.m_target->m_post_process.last());
 
-	gfx.m_filter->quad(pass.m_index, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
 
-	gfx.m_copy->quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
+	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }
 
 void xx_effect(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
@@ -206,14 +206,15 @@ void xx_effect(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Node3& object = gfx::nodes(scene).add(Node3());
 		node = &object;
 
-		Model& geometry = app.m_gfx.shape(Sphere(1.f));
+		Symbol symbol; symbol.m_subdiv = uvec2(4U);
+		Model& geometry = app.m_gfx.shape(Sphere(1.f), symbol);
 
 		Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
 
-		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+		Material& material = app.m_gfx.materials().create("effect", [&](Material& m) {
 			m.m_program = &pbr;
+			m.m_base.m_flat_shaded = true;
 			m.m_pbr.m_albedo = rgb(0xffffff);
-			// flatShading : true
 		});
 
 		nodes.clear();

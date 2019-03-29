@@ -44,7 +44,9 @@ namespace mud
 	GpuState<MaterialSolid> GpuState<MaterialSolid>::me;
 	GpuState<MaterialPoint> GpuState<MaterialPoint>::me;
 	GpuState<MaterialLine> GpuState<MaterialLine>::me;
+	GpuState<MaterialLit> GpuState<MaterialLit>::me;
 	GpuState<MaterialPbr> GpuState<MaterialPbr>::me;
+	GpuState<MaterialPhong> GpuState<MaterialPhong>::me;
 	GpuState<MaterialUser> GpuState<MaterialUser>::me;
 	GpuState<Material> GpuState<Material>::me;
 
@@ -68,10 +70,10 @@ namespace mud
 			bgfx_state |= BGFX_STATE_BLEND_ALPHA;
 	}
 
-	struct BaseMaterialUniform
+	struct MaterialBlockBase
 	{
-		BaseMaterialUniform() {}
-		BaseMaterialUniform(GfxSystem& gfx)
+		MaterialBlockBase() {}
+		MaterialBlockBase(GfxSystem& gfx)
 			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
 			UNUSED(gfx);
@@ -97,10 +99,10 @@ namespace mud
 		bgfx::UniformHandle s_skeleton;
 	};
 
-	struct AlphaMaterialUniform
+	struct MaterialBlockAlpha
 	{
-		AlphaMaterialUniform() {}
-		AlphaMaterialUniform(GfxSystem& gfx)
+		MaterialBlockAlpha() {}
+		MaterialBlockAlpha(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
 			, s_alpha(bgfx::createUniform("s_alpha", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
@@ -128,10 +130,10 @@ namespace mud
 		bgfx::UniformHandle s_alpha;
 	};
 
-	struct SolidMaterialUniform
+	struct MaterialBlockSolid
 	{
-		SolidMaterialUniform() {}
-		SolidMaterialUniform(GfxSystem& gfx)
+		MaterialBlockSolid() {}
+		MaterialBlockSolid(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
 			, s_color(bgfx::createUniform("s_color", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
@@ -160,10 +162,10 @@ namespace mud
 		bgfx::UniformHandle s_color;
 	};
 
-	struct PointMaterialUniform
+	struct MaterialBlockPoint
 	{
-		PointMaterialUniform() {}
-		PointMaterialUniform(GfxSystem& gfx)
+		MaterialBlockPoint() {}
+		MaterialBlockPoint(GfxSystem& gfx)
 		{
 			UNUSED(gfx);
 #if !MATERIALS_BUFFER
@@ -184,10 +186,10 @@ namespace mud
 		}
 	};
 
-	struct LineMaterialUniform
+	struct MaterialBlockLine
 	{
-		LineMaterialUniform() {}
-		LineMaterialUniform(GfxSystem& gfx)
+		MaterialBlockLine() {}
+		MaterialBlockLine(GfxSystem& gfx)
 		{
 			UNUSED(gfx);
 #if !MATERIALS_BUFFER
@@ -208,10 +210,10 @@ namespace mud
 		}
 	};
 
-	struct FresnelMaterialUniform
+	struct MaterialBlockFresnel
 	{
-		FresnelMaterialUniform() {}
-		FresnelMaterialUniform(GfxSystem& gfx)
+		MaterialBlockFresnel() {}
+		MaterialBlockFresnel(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
 			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
@@ -240,10 +242,10 @@ namespace mud
 		bgfx::UniformHandle s_fresnel;
 	};
 
-	struct UserMaterialUniform
+	struct MaterialBlockUser
 	{
-		UserMaterialUniform() {}
-		UserMaterialUniform(GfxSystem& gfx)
+		MaterialBlockUser() {}
+		MaterialBlockUser(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
 			, s_user0(bgfx::createUniform("s_user0", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 			, s_user1(bgfx::createUniform("s_user1", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
@@ -284,8 +286,8 @@ namespace mud
 			if(is_valid(block.m_tex1)) encoder.setTexture(uint8_t(TextureSampler::User1), *block.m_tex1);
 			if(is_valid(block.m_tex2)) encoder.setTexture(uint8_t(TextureSampler::User2), *block.m_tex2);
 			if(is_valid(block.m_tex3)) encoder.setTexture(uint8_t(TextureSampler::User3), *block.m_tex3);
-			//if(is_valid(block.m_tex4)) encoder.setTexture(uint8_t(TextureSampler::User4), *block.m_tex4);
-			//if(is_valid(block.m_tex5)) encoder.setTexture(uint8_t(TextureSampler::User5), *block.m_tex5);
+			if(is_valid(block.m_tex4)) encoder.setTexture(uint8_t(TextureSampler::User4), *block.m_tex4);
+			if(is_valid(block.m_tex5)) encoder.setTexture(uint8_t(TextureSampler::User5), *block.m_tex5);
 		}
 
 		Texture* m_white_tex;
@@ -297,21 +299,74 @@ namespace mud
 		bgfx::UniformHandle s_user4;
 		bgfx::UniformHandle s_user5;
 	};
-
-	struct PbrMaterialUniform
+	
+	struct MaterialBlockLit
 	{
-		PbrMaterialUniform() {}
-		PbrMaterialUniform(GfxSystem& gfx)
+		MaterialBlockLit() {}
+		MaterialBlockLit(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
+			, m_black_tex (&gfx.default_texture(TextureHint::Black))
+			, m_normal_tex(&gfx.default_texture(TextureHint::Normal))
+			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialLit>::me.init();
+#endif
+		}
+
+		void prepare(const Pass& pass) const
+		{
+			uint32_t normal    = uint32_t(TextureSampler::Normal);
+			uint32_t emissive  = uint32_t(TextureSampler::Emissive);
+			uint32_t ao        = uint32_t(TextureSampler::AO);
+
+			bgfx::setViewUniform(pass.m_index, s_normal, &normal);
+			bgfx::setViewUniform(pass.m_index, s_emissive, &emissive);
+			bgfx::setViewUniform(pass.m_index, s_occlusion, &ao);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialLit& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialLit>::me.upload(encoder, block);
+#endif
+
+			if(is_valid(block.m_normal.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Normal), *block.m_normal.m_texture);
+
+			if(is_valid(block.m_emissive.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), *block.m_emissive.m_texture);
+			else if(block.m_emissive.m_value.a > 0.f)
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), *m_black_tex);
+
+			if(is_valid(block.m_occlusion.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::AO), *block.m_occlusion.m_texture);
+		}
+
+		Texture* m_white_tex;
+		Texture* m_black_tex;
+		Texture* m_normal_tex;
+
+		bgfx::UniformHandle s_emissive;
+		bgfx::UniformHandle s_normal;
+		bgfx::UniformHandle s_occlusion;
+		//bgfx::UniformHandle s_lightmap;
+	};
+
+	struct MaterialBlockPbr
+	{
+		MaterialBlockPbr() {}
+		MaterialBlockPbr(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
 			, m_black_tex (&gfx.default_texture(TextureHint::Black))
 			, m_normal_tex(&gfx.default_texture(TextureHint::Normal))
 			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_ambient_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
 #if !MATERIALS_BUFFER
@@ -324,18 +379,12 @@ namespace mud
 			uint32_t albedo    = uint32_t(TextureSampler::Color);
 			uint32_t metallic  = uint32_t(TextureSampler::Metallic);
 			uint32_t roughness = uint32_t(TextureSampler::Roughness);
-			uint32_t normal    = uint32_t(TextureSampler::Normal);
-			uint32_t emissive  = uint32_t(TextureSampler::Emissive);
 			uint32_t depth     = uint32_t(TextureSampler::Depth);
-			uint32_t ao        = uint32_t(TextureSampler::AO);
 
 			bgfx::setViewUniform(pass.m_index, s_albedo, &albedo);
 			bgfx::setViewUniform(pass.m_index, s_metallic, &metallic);
 			bgfx::setViewUniform(pass.m_index, s_roughness, &roughness);
-			bgfx::setViewUniform(pass.m_index, s_normal, &normal);
-			bgfx::setViewUniform(pass.m_index, s_emissive, &emissive);
 			bgfx::setViewUniform(pass.m_index, s_depth, &depth);
-			bgfx::setViewUniform(pass.m_index, s_ambient_occlusion, &ao);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialPbr& block) const
@@ -348,19 +397,8 @@ namespace mud
 			encoder.setTexture(uint8_t(TextureSampler::Metallic), is_valid(block.m_metallic.m_texture) ? *block.m_metallic.m_texture : *m_white_tex);
 			encoder.setTexture(uint8_t(TextureSampler::Roughness), is_valid(block.m_roughness.m_texture) ? *block.m_roughness.m_texture : *m_white_tex);
 
-			if(is_valid(block.m_normal.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Normal), *block.m_normal.m_texture);
-
-			if(is_valid(block.m_emissive.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Emissive), *block.m_emissive.m_texture);
-			else if(block.m_emissive.m_value.a > 0.f)
-				encoder.setTexture(uint8_t(TextureSampler::Emissive), *m_black_tex);
-
 			if(is_valid(block.m_depth.m_texture))
 				encoder.setTexture(uint8_t(TextureSampler::Depth), *block.m_depth.m_texture);
-			
-			if(is_valid(block.m_ambient_occlusion.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::AO), *block.m_ambient_occlusion.m_texture);
 		}
 
 		Texture* m_white_tex;
@@ -370,11 +408,53 @@ namespace mud
 		bgfx::UniformHandle s_albedo;
 		bgfx::UniformHandle s_metallic;
 		bgfx::UniformHandle s_roughness;
-		bgfx::UniformHandle s_emissive;
-		bgfx::UniformHandle s_normal;
 		bgfx::UniformHandle s_depth;
-		bgfx::UniformHandle s_ambient_occlusion;
 		//bgfx::UniformHandle s_lightmap;
+	};
+
+
+	struct MaterialBlockPhong
+	{
+		MaterialBlockPhong() {}
+		MaterialBlockPhong(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
+			, s_diffuse(bgfx::createUniform("s_diffuse", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_specular(bgfx::createUniform("s_specular", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_shininess(bgfx::createUniform("s_shininess", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialPhong>::me.init();
+#endif
+		}
+
+		void prepare(const Pass& pass) const
+		{
+			uint32_t diffuse = uint32_t(TextureSampler::Diffuse);
+			uint32_t specular = uint32_t(TextureSampler::Specular);
+			uint32_t shininess = uint32_t(TextureSampler::Shininess);
+
+			bgfx::setViewUniform(pass.m_index, s_diffuse, &diffuse);
+			bgfx::setViewUniform(pass.m_index, s_specular, &specular);
+			bgfx::setViewUniform(pass.m_index, s_shininess, &shininess);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialPhong& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialPhong>::me.upload(encoder, block);
+#endif
+
+			encoder.setTexture(uint8_t(TextureSampler::Diffuse), is_valid(block.m_diffuse.m_texture) ? *block.m_diffuse.m_texture : *m_white_tex);
+			encoder.setTexture(uint8_t(TextureSampler::Specular), is_valid(block.m_specular.m_texture) ? *block.m_specular.m_texture : *m_white_tex);
+			encoder.setTexture(uint8_t(TextureSampler::Shininess), is_valid(block.m_shininess.m_texture) ? *block.m_shininess.m_texture : *m_white_tex);
+		}
+
+		Texture* m_white_tex;
+
+		bgfx::UniformHandle s_diffuse;
+		bgfx::UniformHandle s_specular;
+		bgfx::UniformHandle s_shininess;
 	};
 
 	GfxSystem* Material::ms_gfx_system = nullptr;
@@ -386,17 +466,19 @@ namespace mud
 
 	static uint16_t s_material_index = 0;
 
-	static BaseMaterialUniform s_base_material_block = {};
-	static AlphaMaterialUniform s_alpha_material_block = {};
-	static SolidMaterialUniform s_solid_material_block = {};
-	static LineMaterialUniform s_line_material_block = {};
-	static PointMaterialUniform s_point_material_block = {};
-	static FresnelMaterialUniform s_fresnel_material_block = {};
-	static PbrMaterialUniform s_pbr_material_block = {};
-	static UserMaterialUniform s_user_material_block = {};
+	static MaterialBlockBase s_base_material_block = {};
+	static MaterialBlockAlpha s_alpha_material_block = {};
+	static MaterialBlockSolid s_solid_material_block = {};
+	static MaterialBlockLine s_line_material_block = {};
+	static MaterialBlockPoint s_point_material_block = {};
+	static MaterialBlockFresnel s_fresnel_material_block = {};
+	static MaterialBlockLit s_lit_material_block = {};
+	static MaterialBlockPbr s_pbr_material_block = {};
+	static MaterialBlockPhong s_phong_material_block = {};
+	static MaterialBlockUser s_user_material_block = {};
 
 	Material::Material(const string& name)
-		: m_index(++s_material_index) // uint16_t(index(type<Material>(), Ref(this))))//
+		: m_index(s_material_index++) // uint16_t(index(type<Material>(), Ref(this))))//
 		, m_name(name)
 	{
 		static bool init_blocks = true;
@@ -408,7 +490,9 @@ namespace mud
 			s_line_material_block = { *ms_gfx_system };
 			s_point_material_block = { *ms_gfx_system };
 			s_fresnel_material_block = { *ms_gfx_system };
+			s_lit_material_block = { *ms_gfx_system };
 			s_pbr_material_block = { *ms_gfx_system };
+			s_phong_material_block = { *ms_gfx_system };
 			s_user_material_block = { *ms_gfx_system };
 
 			init_blocks = false;
@@ -424,6 +508,7 @@ namespace mud
 
 		version.set_option(mat.m_index, VERTEX_COLOR, m_base.m_shader_color == ShaderColor::Vertex);
 		version.set_option(mat.m_index, DOUBLE_SIDED, m_base.m_cull_mode == CullMode::None);
+		version.set_option(mat.m_index, FLAT_SHADED, m_base.m_flat_shaded);
 
 		//version.set_option(mat.m_index, ALPHA, m_alpha.m_is_alpha);
 		version.set_option(mat.m_index, ALPHA_TEST, m_alpha.m_alpha_test);
@@ -438,18 +523,27 @@ namespace mud
 			version.set_option(mat.m_index, DASH, m_line.m_dashed);
 		}
 
+		if(program.m_blocks[MaterialBlock::Lit])
+		{
+			version.set_option(pbr.m_index, NORMAL_MAP, is_valid(m_lit.m_normal.m_texture));
+			version.set_option(pbr.m_index, EMISSIVE, is_valid(m_lit.m_emissive.m_texture) || m_lit.m_emissive.m_value.a > 0.f);
+			version.set_option(pbr.m_index, AMBIENT_OCCLUSION, is_valid(m_lit.m_occlusion.m_texture));
+		}
+
 		if(program.m_blocks[MaterialBlock::Pbr])
 		{
 			version.set_mode(pbr.m_index, DIFFUSE_MODE, uint8_t(PbrDiffuseMode::Lambert));
 			//version.set_mode(pbr.m_index, DIFFUSE_MODE, uint8_t(m_pbr.m_diffuse_mode));
 			version.set_mode(pbr.m_index, SPECULAR_MODE, uint8_t(m_pbr.m_specular_mode));
 
-			version.set_option(pbr.m_index, NORMAL_MAP, is_valid(m_pbr.m_normal.m_texture));
-			version.set_option(pbr.m_index, EMISSIVE, is_valid(m_pbr.m_emissive.m_texture) || m_pbr.m_emissive.m_value.a > 0.f);
 			version.set_option(pbr.m_index, REFRACTION, m_pbr.m_refraction.m_value != 0.f);
-			version.set_option(pbr.m_index, AMBIENT_OCCLUSION, is_valid(m_pbr.m_ambient_occlusion.m_texture));
 			version.set_option(pbr.m_index, DEPTH_MAPPING, is_valid(m_pbr.m_depth.m_texture));
 			version.set_option(pbr.m_index, DEEP_PARALLAX, m_pbr.m_deep_parallax);
+		}
+
+		if(program.m_blocks[MaterialBlock::Phong])
+		{
+			//version.set_mode(pbr.m_index, TOON, uint8_t(m_phong.m_toon));
 		}
 
 		return version;
@@ -503,7 +597,7 @@ namespace mud
 		const BlockMaterial& block = *ms_gfx_system->m_renderer.block<BlockMaterial>();
 		vec4 state = { 0.f, float(m_index), 0.f, 0.f };
 		encoder.setUniform(block.u_state, &state);
-		encoder.setTexture(uint8_t(TextureSampler::Materials), block.m_materials_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Materials), block.s_materials, block.m_materials_texture, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
 #endif
 
 		s_base_material_block.upload(encoder, m_base);
@@ -515,8 +609,12 @@ namespace mud
 			s_point_material_block.upload(encoder, m_point);
 		if(program.m_blocks[MaterialBlock::Line])
 			s_line_material_block.upload(encoder, m_line);
+		if(program.m_blocks[MaterialBlock::Lit])
+			s_lit_material_block.upload(encoder, m_lit);
 		if(program.m_blocks[MaterialBlock::Pbr])
 			s_pbr_material_block.upload(encoder, m_pbr);
+		if(program.m_blocks[MaterialBlock::Phong])
+			s_phong_material_block.upload(encoder, m_phong);
 		if(program.m_blocks[MaterialBlock::Fresnel])
 			s_fresnel_material_block.upload(encoder, m_fresnel);
 		if(program.m_blocks[MaterialBlock::User])
@@ -533,7 +631,7 @@ namespace mud
 		: GfxBlock(gfx, *this)
 	{
 		// @todo move dash to correct place
-		static cstring options[] = { "VERTEX_COLOR", "DOUBLE_SIDED", "ALPHA_MAP", "ALPHA_TEST", "DASH" };
+		static cstring options[] = { "VERTEX_COLOR", "DOUBLE_SIDED", "FLAT_SHADED", "ALPHA_MAP", "ALPHA_TEST", "DASH" };
 		m_shader_block->m_options = options;
 	}
 
@@ -563,7 +661,9 @@ namespace mud
 		s_point_material_block.prepare(pass);
 		s_line_material_block.prepare(pass);
 		s_fresnel_material_block.prepare(pass);
+		s_lit_material_block.prepare(pass);
 		s_pbr_material_block.prepare(pass);
+		s_phong_material_block.prepare(pass);
 		s_user_material_block.prepare(pass);
 	}
 

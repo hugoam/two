@@ -9,6 +9,7 @@
 
 using namespace mud;
 
+Material& phong_white(GfxSystem& gfx, const string& name = "milky_white");
 Material& milky_white(GfxSystem& gfx, const string& name = "milky_white");
 Material& mirror(GfxSystem& gfx);
 Material& fabric_08(GfxSystem& gfx);

@@ -105,9 +105,6 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	}
 
-	Gnode& root = scene.begin();
-	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
-
 #if !CACHE
 	// this should not be necessary each frame, add cache to the batch ?
 	lines.commit(*batch);

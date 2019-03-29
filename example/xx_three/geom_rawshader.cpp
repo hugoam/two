@@ -72,7 +72,7 @@ void xx_geom_rawshader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		//scene.background = new THREE.Color(0x101010);
 		
-		Material& material = app.m_gfx.materials().create("material", [](Material& m) {
+		Material& material = app.m_gfx.materials().create("rawshader", [](Material& m) {
 			m.m_program = &program;
 			m.m_base.m_cull_mode = CullMode::None;
 			m.m_base.m_blend_mode = BlendMode::Alpha;

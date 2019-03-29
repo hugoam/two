@@ -108,8 +108,8 @@ namespace mud
 	object<Shape> Tetraedr::clone() const { return oconstruct<Tetraedr>(*this); }
 
 	Sphere::Sphere() : Shape(type<Sphere>()) {}
-	Sphere::Sphere(float radius) : Shape(type<Sphere>()), m_radius(radius) {}
-	Sphere::Sphere(const vec3& center, float radius) : Shape(type<Sphere>(), center), m_radius(radius) {}
+	Sphere::Sphere(float radius, float start, float end) : Shape(type<Sphere>()), m_radius(radius), m_start(start), m_end(end) {}
+	Sphere::Sphere(const vec3& center, float radius, float start, float end) : Shape(type<Sphere>(), center), m_radius(radius), m_start(start), m_end(end) {}
 	object<Shape> Sphere::clone() const { return oconstruct<Sphere>(*this); }
 
 	SphereRing::SphereRing() : Shape(type<SphereRing>()) {}

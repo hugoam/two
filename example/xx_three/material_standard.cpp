@@ -50,14 +50,14 @@ void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 		Model& model = *app.m_gfx.models().file("Cerberus");
 
 		//var material = new THREE.MeshPhongMaterial({ specular: 0x101010, shininess : 100, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.1, side : THREE.DoubleSide });
-		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
+		Material& material = app.m_gfx.materials().create("standard", [&](Material& m) {
 			m.m_program = &pbr;
 			m.m_pbr.m_metallic = 1.f;
 			m.m_pbr.m_roughness = 1.f;
 			m.m_pbr.m_albedo = &albedo;
 			m.m_pbr.m_metallic = &metrough;
 			m.m_pbr.m_roughness = &metrough;
-			m.m_pbr.m_normal = &normal;
+			m.m_lit.m_normal = &normal;
 		});
 
 		const vec3 position = vec3(-0.45f, 0.f, 0.f);

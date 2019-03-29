@@ -38,7 +38,7 @@ namespace mud
 		attr_ Colour m_colour = Colour::White;
 		attr_ float m_range = 1.f;
 		attr_ float m_energy = 1.f;
-		attr_ float m_specular = 0.5f;
+		attr_ float m_specular = 1.f;
 		attr_ float m_attenuation = 0.5f;
 		attr_ bool m_shadows = false;
 		attr_ float m_shadow_range = 100.f;

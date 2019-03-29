@@ -49,13 +49,15 @@ Example examples[] =
 	{ "loader/gltf",			xx_loader_gltf },
 	{ "loader/ply",				xx_loader_ply },
 	{ "marchingcubes",			xx_marching_cubes },
+	{ "material/cubemap",		xx_material_cubemap },
+	{ "material/displace",		xx_material_displace },
 	{ "material/skin",			xx_material_skin },
 	{ "material/standard",		xx_material_standard },
 	{ "material/variations",	xx_material_variations },
-	//{ "material/translucent",	xx_material_translucent },
+	{ "material/translucent",	xx_material_translucent },
 	{ "perf",					xx_perf },
 	//{ "perf/nodes",			xx_perf_nodes },
-	{ "perf/static",			xx_perf_static },
+	//{ "perf/static",			xx_perf_static },
 	{ "perf/twosided",			xx_perf_twosided },
 	{ "effect",					xx_effect },
 	{ "effect/bloom",			xx_effect_bloom },
@@ -137,7 +139,6 @@ int main(int argc, char *argv[])
 	app.m_gfx.add_resource_path("examples/xx_three");
 	
 	ShellWindow& w0 = app.window("two", uvec2(1600U, 900U));
-	w0.m_colour = Colour(1.f);
 
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	//app.m_gfx.init_pipeline(pipeline_minimal);
@@ -147,7 +148,10 @@ int main(int argc, char *argv[])
 	//static uint32_t example = find_example("material/variations");
 	//static uint32_t example = find_example("loader/gltf");
 	//static uint32_t example = find_example("loader/ply");
-	static uint32_t example0 = find_example("hierarchy");
+	//static uint32_t example0 = find_example("hierarchy");
+	//static uint32_t example0 = find_example("shader/ocean");
+	//static uint32_t example0 = find_example("material/translucent");
+	static uint32_t example0 = find_example("material/skin");
 	static bool init0 = true;
 
 #if !MULTI_VIEWPORT && !MULTI_WINDOW

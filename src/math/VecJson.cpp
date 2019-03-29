@@ -16,19 +16,19 @@ module mud.math;
 
 namespace mud
 {
-	inline float jfloat(const json& j) { return float(j.number_value()); }
+	inline float jfloat(const Json& j) { return float(j.number_value()); }
 
-	void from_json(const json& j, vec3& vec)
+	void from_json(const Json& j, vec3& vec)
 	{
 		vec = vec3(jfloat(j[0]), jfloat(j[1]), jfloat(j[2]));
 	}
 
-	void from_json(const json& j, quat& q)
+	void from_json(const Json& j, quat& q)
 	{
 		q = quat(jfloat(j[0]), jfloat(j[1]), jfloat(j[2]), jfloat(j[3]));
 	}
 
-	void from_json(const json& j, mat4& mat)
+	void from_json(const Json& j, mat4& mat)
 	{
 		mat = mat4(
 			vec4(jfloat(j[0]),  jfloat(j[1]),  jfloat(j[2]),  jfloat(j[3])),
@@ -41,14 +41,14 @@ namespace mud
 
 namespace mud
 {
-	void from_json(const json& j, Colour& col)
+	void from_json(const Json& j, Colour& col)
 	{
 		col = Colour(float(j[0].number_value()), float(j[1].number_value()), float(j[2].number_value()), float(j[3].number_value()));
 	}
 
-	void to_json(const Colour& col, json& j)
+	void to_json(const Colour& col, Json& j)
 	{
-		std::vector<json> values;
+		std::vector<Json> values;
 		values = { col.r, col.g, col.b, col.a };
 		j = values;
 	}

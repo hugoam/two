@@ -24,7 +24,7 @@
 
 #define ZONES_BUFFER 0
 #define MATERIALS_BUFFER 0
-#define LIGHTS_BUFFER 0
+#define LIGHTS_BUFFER 1
 
 #define ZONES_LIGHTS_BUFFER 0
 
@@ -48,26 +48,31 @@ namespace mud
 		// Material
 		Color = 0,
 		Albedo = 0,
+		Diffuse = 0,
 		Alpha = 1,
 		Metallic = 2,
-		User0 = 2,
+		Specular = 2,
 		Roughness = 3,
-		User1 = 3,
+		Shininess = 3,
 		Emissive = 4,
-		User2 = 4,
 		Normal = 5,
-		User3 = 5,
 		AO = 6,
-		User4 = 6,
 		Depth = 7,
+
+		// User
+		// probably the least likely to collide with a user defined material
+		User0 = 12,
+		User1 = 13,
+		User2 = 14,
+		User3 = 15,
+		User4 = 6,
 		User5 = 7,
 
 		// Scene
 		Radiance = 10,
-		ShadowAtlas = 11,
-		ShadowCSM = 12,
-		Lightmap = 13,
-		ReflectionProbe = 14,
+		Shadow = 11,
+		Lightmap = 12,
+		ReflectionProbe = 13,
 		GIProbe = 14,
 
 		// Model
@@ -131,6 +136,7 @@ namespace mud
 	*/
 	export_ struct refl_ MUD_GFX_EXPORT Pass
 	{
+		attr_ string m_name;
 		attr_ RenderTarget* m_target = nullptr;
 		attr_ FrameBuffer* m_fbo = nullptr;
 		attr_ Viewport* m_viewport = nullptr;
@@ -204,10 +210,10 @@ namespace mud
 
 		meth_ Pass next_pass(cstring name, PassType type, bool subpass = false);
 		meth_ Pass composite_pass(cstring name, FrameBuffer& fbo, const uvec4& rect);
+		Pass composite_pass(cstring name);
 
 		uint8_t picking_pass() { return m_picking_pass_index++; }
 		uint8_t preprocess_pass() { return m_preprocess_pass_index++; }
-		uint8_t composite_pass() { return m_pass_index++; }
 		uint8_t debug_pass() { return m_debug_pass_index++; }
 
 		void set_uniforms(const Pass& pass) const;

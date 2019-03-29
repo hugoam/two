@@ -56,7 +56,7 @@ namespace mud
 		if(render.m_filters.comp<Tonemap>().m_enabled)
 			this->render(render, target, render.m_filters.comp<Tonemap>(), render.m_filters.comp<BCS>());
 		else
-			m_copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), render.m_rect);
+			m_copy.quad(render.composite_pass("tonemap blit"), *render.m_target_fbo, target.m_post_process.last(), render.m_rect);
 	}
 
 	void BlockTonemap::render(Render& render, RenderTarget& target, Tonemap& tonemap, BCS& bcs)
@@ -82,6 +82,7 @@ namespace mud
 			GpuState<BCS>::me.upload(bcs);
 		}
 
-		m_filter.quad(render.composite_pass(), target, program, render.m_rect);
+		const Pass pass = render.composite_pass("tonemap");
+		m_filter.quad(pass, target, program, render.m_rect);
 	}
 }

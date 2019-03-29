@@ -62,27 +62,26 @@ namespace mud
 #ifdef DEBUG_RADIANCE
 		if(bgfx::isValid(render.m_env->m_radiance.m_filtered))
 		{
-			BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
-			copy.debug_show_texture(render, render.m_env->m_radiance.m_filtered, vec4(0.f), false, false, false, 2);
+			m_gfx.m_copy->debug_show_texture(render, render.m_env->m_radiance.m_filtered, vec4(0.f), false, false, false, 2);
 		}
 #endif
 	}
 
-	Texture* radiancemap(Render& render)
+	Texture* radiancemap(Radiance& radiance)
 	{
-		Texture* filtered = render.m_env->m_radiance.m_filtered;
-		Texture* radiance = render.m_env->m_radiance.m_texture;
+		Texture* const filtered = radiance.m_filtered;
+		Texture* const reflection = radiance.m_texture;
 		if(filtered && filtered->valid())
 			return filtered;
-		else if(radiance && radiance->valid())
-			return radiance;
+		else if(reflection && reflection->valid() && !radiance.m_filter)
+			return reflection;
 		else
 			return nullptr;
 	}
 
 	void BlockRadiance::options(Render& render, ProgramVersion& shader_version) const
 	{
-		Texture* radiance = radiancemap(render);
+		Texture* radiance = radiancemap(render.m_env->m_radiance);
 
 		if(radiance)
 			shader_version.set_option(m_index, RADIANCE_ENVMAP);
@@ -101,9 +100,8 @@ namespace mud
 	{
 		UNUSED(element);
 		bgfx::Encoder& encoder = *pass.m_encoder;
-		Texture* radiance = radiancemap(render);
 
-		if(radiance)
+		if(Texture* radiance = radiancemap(render.m_env->m_radiance))
 			encoder.setTexture(uint8_t(TextureSampler::Radiance), *radiance);
 	}
 
@@ -143,14 +141,14 @@ namespace mud
 		Texture& filtered = m_gfx.textures().create(radiance.m_texture->m_name + "_filtered");
 		filtered = { size, true, format, flags, cube };
 
-		const uint8_t view_id = Render::s_preprocess_pass_id; //render.preprocess_pass();
+		//const uint8_t view_id = Render::s_preprocess_pass_id; //render.preprocess_pass();
 
 		auto blit_level = [&](Texture& source, const uvec2& size, int level, int face = 0)
 		{
 			const uvec2 level_size = uvec2(size.x >> level, size.y >> level);
 			bgfx::Attachment attach = { bgfx::Access::Write, filtered, uint16_t(level), uint16_t(face), BGFX_RESOLVE_NONE };
 			FrameBuffer render_target = { level_size, filtered, { attach } }; // @todo fix ownership
-			m_copy.quad(view_id + 1, render_target, source);
+			m_copy.quad(Pass(), render_target, source);
 			bgfx::frame();
 		};
 
@@ -187,7 +185,7 @@ namespace mud
 					bgfx::setUniform(u_prefilter.u_prefilter_cube, &cubemat);
 				}
 
-				m_filter.quad(view_id, target, program, 0U, true);
+				m_filter.quad(Pass(), target, program, 0U, true);
 
 				blit_level(target.m_tex, size, i, face);
 			}

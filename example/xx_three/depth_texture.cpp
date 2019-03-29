@@ -54,19 +54,17 @@ static string fragment_shader()
 
 void pass_to_depth(GfxSystem& gfx, Render& render)
 {
-	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
-
 	static Program& program = gfx.programs().fetch("todepth");
+
+	RenderTarget& target = *render.m_target;
 
 	Pass pass = render.next_pass("todepth", PassType::PostProcess);
 
-	bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), filter.u_uniform.s_source_depth, render.m_target->m_depth);
+	gfx.m_filter->sourcedepth(render.m_target->m_depth);
 
-	RenderTarget& target = *render.m_target;
-	filter.quad(pass.m_index, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
 
-	copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
+	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
 };
 
 void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
@@ -114,8 +112,6 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			Node3& n = gfx::nodes(scene).add(Node3(p, quat(a)));
 			gfx::items(scene).add(Item(n, geometry, 0U, &material));
 		}
-
-		static BlockFilter& filter = *app.m_gfx.m_renderer.block<BlockFilter>();
 
 		auto render = [](GfxSystem& gfx, Render& render)
 		{

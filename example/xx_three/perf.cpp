@@ -69,7 +69,4 @@ void xx_perf(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		o.node->apply(o.position, quat(o.angles), o.scale);
 	}
-
-	Gnode& root = scene.begin();
-	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 }

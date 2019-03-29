@@ -20,8 +20,15 @@ module mud.geom;
 
 namespace mud
 {
-	uint16_t circle_subdiv(uint lod) { return uint16_t(6); } // 6 + 12 * lod); }
-	
+	uint16_t circle_subdiv(uint lod) { return uint16_t(6 + 12 * lod); }
+
+	uint16_t circle_subdiv(const Symbol& symbol)
+	{
+		return symbol.m_subdiv == uvec2(0U)
+			? circle_subdiv(uint(symbol.m_detail))
+			: symbol.m_subdiv.x;
+	}
+
 	vec3 flip_point_axis(const vec3& point, SignedAxis axis)
 	{
 		if(axis == SignedAxis::PlusX || axis == SignedAxis::MinusX)
@@ -34,7 +41,7 @@ namespace mud
 
 	uint16_t circle_vertices(const ProcShape& shape, const vec3& position, vec2 radius, SignedAxis axis, bool lines, MeshAdapter& writer, bool outward_normals)
 	{
-		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
+		uint16_t subdiv = circle_subdiv(shape.m_symbol);
 
 		float increment = c_2pi / subdiv;
 		float angle = 0.0f;
@@ -63,7 +70,7 @@ namespace mud
 	ShapeSize size_shape_lines(const ProcShape& shape, const Circle& circle)
 	{
 		UNUSED(circle);
-		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
+		uint16_t subdiv = circle_subdiv(shape.m_symbol);
 		return { subdiv, subdiv * 2U };
 	}
 
@@ -78,7 +85,7 @@ namespace mud
 	ShapeSize size_shape_triangles(const ProcShape& shape, const Circle& circle)
 	{
 		UNUSED(circle);
-		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
+		uint16_t subdiv = circle_subdiv(shape.m_symbol);
 		return { subdiv + 1U, subdiv * 3U };
 	}
 
@@ -94,7 +101,7 @@ namespace mud
 	ShapeSize size_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis)
 	{
 		UNUSED(ellipsis);
-		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
+		uint16_t subdiv = circle_subdiv(shape.m_symbol);
 		return { subdiv, subdiv * 2U };
 	}
 
@@ -109,7 +116,7 @@ namespace mud
 	ShapeSize size_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis)
 	{
 		UNUSED(ellipsis);
-		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
+		uint16_t subdiv = circle_subdiv(shape.m_symbol);
 		return { subdiv + 1U, subdiv * 3U };
 	}
 
@@ -124,13 +131,13 @@ namespace mud
 	ShapeSize size_shape_lines(const ProcShape& shape, const ArcLine& arc)
 	{
 		UNUSED(arc);
-		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
+		uint16_t subdiv = circle_subdiv(shape.m_symbol);
 		return { subdiv, (subdiv-1U) * 2U };
 	}
 
 	void draw_shape_lines(const ProcShape& shape, const ArcLine& arc, MeshAdapter& writer)
 	{
-		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
+		uint16_t subdiv = circle_subdiv(shape.m_symbol);
 
 		vec3 center = circumcenter(arc.m_start, arc.m_middle, arc.m_end);
 		vec3 D = arc.m_start - center;

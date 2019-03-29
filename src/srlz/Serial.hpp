@@ -12,7 +12,7 @@
 namespace mud
 {
 	export_ template <class T>
-	T unpackt(const json& data)
+	T unpackt(const Json& data)
 	{
 		Var value = unpack(type<T>(), data);
 		return val<T>(value);

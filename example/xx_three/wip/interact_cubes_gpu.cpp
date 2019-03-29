@@ -38,8 +38,9 @@ void xx_interact_cubes_gpu(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 		camera.m_eye.z = 1000.f;
 		
 		//var defaultMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading : true, vertexColors : THREE.VertexColors, shininess : 0 });
-		Material& material = app.m_gfx.materials().create("material",  [&](Material& m) {
+		Material& material = app.m_gfx.materials().create("cubes",  [&](Material& m) {
 			m.m_program = &pbr;
+			m.m_base.m_flat_shaded = true;
 			m.m_base.m_shader_color = ShaderColor::Vertex;
 			m.m_pbr.m_albedo = rgb(0xffffff);
 			m.m_pbr.m_roughness = 1.f;

@@ -33,6 +33,8 @@ void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_hierarchy2(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
+void xx_material_cubemap(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
+void xx_material_displace(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool init);

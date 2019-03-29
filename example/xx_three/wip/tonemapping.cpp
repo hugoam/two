@@ -53,12 +53,12 @@ void xx_tonemapping(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 2000.f;
 		camera.m_eye = vec3(0.f, 40.f, 40.f * 3.5f);
 		
-		Material& mat = app.m_gfx.materials().create("material",  [&](Material& m) {
+		Material& mat = app.m_gfx.materials().create("tonemapping",  [&](Material& m) {
 			m.m_program = &pbr;
 			m.m_pbr.m_albedo = rgb(0xffffff);
 			m.m_pbr.m_albedo = &diffuse;
-			m.m_pbr.m_normal = -0.05f;
-			m.m_pbr.m_normal = &bump;
+			m.m_lit.m_normal = -0.05f;
+			m.m_lit.m_normal = &bump;
 			m.m_pbr.m_metallic = 0.9f;
 			m.m_pbr.m_roughness = 0.8f;
 			m.m_pbr.m_roughness = &rough;
@@ -120,7 +120,7 @@ void xx_tonemapping(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	//gui.open();
 
 	material->m_pbr.m_roughness = params.roughness;
-	material->m_pbr.m_normal = -0.05 * params.bumpScale;
+	material->m_lit.m_normal = -0.05 * params.bumpScale;
 	material->m_alpha.m_alpha = params.opacity;
 
 	//if(renderer.toneMapping != toneMappingOptions[params.toneMapping]) {

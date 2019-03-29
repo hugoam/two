@@ -80,7 +80,9 @@ namespace mud
 		Solid,
 		Point,
 		Line,
+		Lit,
 		Pbr,
+		Phong,
 		Fresnel,
 		User,
 		Count
@@ -128,6 +130,7 @@ namespace mud
 		// maps a block index to its shader options span
 		ProgramBlock m_shader_blocks[32] = {};
 		uint8_t m_next_option = 0;
+		vector<GfxBlock*> m_registered_blocks;
 
 		table<ShaderType, string> m_sources = {};
 		table<PassType, bool> m_passes = {};

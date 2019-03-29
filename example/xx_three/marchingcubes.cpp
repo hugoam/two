@@ -15,153 +15,480 @@ using namespace mud;
 #define DIRECT 1
 #define NORMAL 1
 
-//<script src = "js/shaders/CopyShader.js">< / script>
-//<script src = "js/shaders/FXAAShader.js">< / script>
-//<script src = "js/shaders/HorizontalTiltShiftShader.js">< / script>
-//<script src = "js/shaders/VerticalTiltShiftShader.js">< / script>
-
-//<script src = "js/postprocessing/BloomPass.js">< / script>
-//<script src = "js/postprocessing/MaskPass.js">< / script>
-//<script src = "js/postprocessing/SavePass.js">< / script>
-
-//<script src = "js/ShaderToon.js">< / script>
+/**
+ * @author mrdoob / http://mrdoob.com/
+ * @author alteredq / http://alteredqualia.com/
+ *
+ * ShaderToon currently contains:
+ *
+ *	toon1
+ *	toon2
+ *	hatching
+ *	dotted
+ */
 
 #if 0
-function createShaderMaterial(id, light, ambientLight) {
+uniforms: {
 
-	var shader = THREE.ShaderToon[id];
+	"uDirLightPos": { value: new THREE.Vector3() },
+	"uDirLightColor": { value: new THREE.Color( 0xeeeeee ) },
 
-	var u = THREE.UniformsUtils.clone(shader.uniforms);
+	"uAmbientLightColor": { value: new THREE.Color( 0x050505 ) },
 
-	var vs = shader.vertexShader;
-	var fs = shader.fragmentShader;
+	"uBaseColor": { value: new THREE.Color( 0xffffff ) }
 
-	var material = new THREE.ShaderMaterial({ uniforms: u, vertexShader : vs, fragmentShader : fs });
+},
+#endif
 
-	material.uniforms["uDirLightPos"].value = light.position;
-	material.uniforms["uDirLightColor"].value = light.color;
+static string toon1_vertex()
+{
+	string shader = 
 
-	material.uniforms["uAmbientLightColor"].value = ambientLight.color;
+		"varying vec3 vNormal;\n"
+		"varying vec3 vRefract;\n"
 
-	return material;
+		"void main() {\n"
 
+			"vec4 worldPosition = modelMatrix * vec4( position, 1.0 );\n"
+			"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n"
+			"vec3 worldNormal = normalize ( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );\n"
+
+			"vNormal = normalize( normalMatrix * normal );\n"
+
+			"vec3 I = worldPosition.xyz - cameraPosition;\n"
+			"vRefract = refract( normalize( I ), worldNormal, 1.02 );\n"
+
+			"gl_Position = projectionMatrix * mvPosition;\n"
+
+		"}\n";
+
+	return shader;
+}
+static string toon1_fragment()
+{
+	string shader =
+
+		"uniform vec3 uBaseColor;\n"
+
+		"uniform vec3 uDirLightPos;\n"
+		"uniform vec3 uDirLightColor;\n"
+
+		"uniform vec3 uAmbientLightColor;\n"
+
+		"varying vec3 vNormal;\n"
+
+		"varying vec3 vRefract;\n"
+
+		"void main() {\n"
+
+			"float directionalLightWeighting = max( dot( normalize( vNormal ), uDirLightPos ), 0.0);\n"
+			"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
+
+			"float intensity = smoothstep( - 0.5, 1.0, pow( length(lightWeighting), 20.0 ) );\n"
+			"intensity += length(lightWeighting) * 0.2;\n"
+
+			"float cameraWeighting = dot( normalize( vNormal ), vRefract );\n"
+			"intensity += pow( 1.0 - length( cameraWeighting ), 6.0 );\n"
+			"intensity = intensity * 0.2 + 0.3;\n"
+
+			"if ( intensity < 0.50 ) {\n"
+
+				"gl_FragColor = vec4( 2.0 * intensity * uBaseColor, 1.0 );\n"
+
+			"} else {\n"
+
+				"gl_FragColor = vec4( 1.0 - 2.0 * ( 1.0 - intensity ) * ( 1.0 - uBaseColor ), 1.0 );\n"
+
+			"}\n"
+
+		"}\n";
+
+	return shader;
 }
 
-void generateMaterials()
+static Program& toon1_program(GfxSystem& gfx)
 {
+	static Program& program = gfx.programs().create("toon1");
+	program.set_source(ShaderType::Vertex, toon1_vertex());
+	program.set_source(ShaderType::Fragment, toon1_fragment());
+	return program;
+}
+
+#if 0
+uniforms: {
+
+	"uDirLightPos": { value: new THREE.Vector3() },
+	"uDirLightColor": { value: new THREE.Color( 0xeeeeee ) },
+
+	"uAmbientLightColor": { value: new THREE.Color( 0x050505 ) },
+
+	"uBaseColor": { value: new THREE.Color( 0xeeeeee ) },
+	"uLineColor1": { value: new THREE.Color( 0x808080 ) },
+	"uLineColor2": { value: new THREE.Color( 0x000000 ) },
+	"uLineColor3": { value: new THREE.Color( 0x000000 ) },
+	"uLineColor4": { value: new THREE.Color( 0x000000 ) }
+
+},
+#endif
+
+static string toon2_vertex()
+{
+	string shader =
+
+			"varying vec3 vNormal;\n"
+
+			"void main() {\n"
+
+				"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
+				"vNormal = normalize( normalMatrix * normal );\n"
+
+			"}\n";
+
+	return shader;
+}
+
+static string toon2_fragment()
+{
+	string shader =
+
+		"uniform vec3 uBaseColor;\n"
+		"uniform vec3 uLineColor1;\n"
+		"uniform vec3 uLineColor2;\n"
+		"uniform vec3 uLineColor3;\n"
+		"uniform vec3 uLineColor4;\n"
+
+		"uniform vec3 uDirLightPos;\n"
+		"uniform vec3 uDirLightColor;\n"
+
+		"uniform vec3 uAmbientLightColor;\n"
+
+		"varying vec3 vNormal;\n"
+
+		"void main() {\n"
+
+			"float camera = max( dot( normalize( vNormal ), vec3( 0.0, 0.0, 1.0 ) ), 0.4);\n"
+			"float light = max( dot( normalize( vNormal ), uDirLightPos ), 0.0);\n"
+
+			"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
+
+			"if ( length(uAmbientLightColor + uDirLightColor * light) < 1.00 ) {\n"
+
+				"gl_FragColor *= vec4( uLineColor1, 1.0 );\n"
+
+			"}\n"
+
+			"if ( length(uAmbientLightColor + uDirLightColor * camera) < 0.50 ) {\n"
+
+				"gl_FragColor *= vec4( uLineColor2, 1.0 );\n"
+
+			"}\n"
+
+		"}\n";
+
+	return shader;
+}
+
+static Program& toon2_program(GfxSystem& gfx)
+{
+	static Program& program = gfx.programs().create("toon2");
+	program.set_source(ShaderType::Vertex, toon2_vertex());
+	program.set_source(ShaderType::Fragment, toon2_fragment());
+	return program;
+}
+
+#if 0
+"uDirLightPos":	{ value: new THREE.Vector3() },
+"uDirLightColor": { value: new THREE.Color( 0xeeeeee ) },
+
+"uAmbientLightColor": { value: new THREE.Color( 0x050505 ) },
+
+"uBaseColor":  { value: new THREE.Color( 0xffffff ) },
+"uLineColor1": { value: new THREE.Color( 0x000000 ) },
+"uLineColor2": { value: new THREE.Color( 0x000000 ) },
+"uLineColor3": { value: new THREE.Color( 0x000000 ) },
+"uLineColor4": { value: new THREE.Color( 0x000000 ) }
+#endif
+
+static string hatching_vertex()
+{
+	string shader =
+
+		"varying vec3 vNormal;\n"
+
+		"void main() {\n"
+
+			"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
+			"vNormal = normalize( normalMatrix * normal );\n"
+
+		"}\n";
+
+	return shader;
+}
+
+static string hatching_fragment()
+{
+	string shader =
+
+		"uniform vec3 uBaseColor;\n"
+		"uniform vec3 uLineColor1;\n"
+		"uniform vec3 uLineColor2;\n"
+		"uniform vec3 uLineColor3;\n"
+		"uniform vec3 uLineColor4;\n"
+
+		"uniform vec3 uDirLightPos;\n"
+		"uniform vec3 uDirLightColor;\n"
+
+		"uniform vec3 uAmbientLightColor;\n"
+
+		"varying vec3 vNormal;\n"
+
+		"void main() {\n"
+
+			"float directionalLightWeighting = max( dot( normalize(vNormal), uDirLightPos ), 0.0);\n"
+			"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
+
+			"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
+
+			"if ( length(lightWeighting) < 1.00 ) {\n"
+
+				"if ( mod(gl_FragCoord.x + gl_FragCoord.y, 10.0) == 0.0) {\n"
+
+					"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
+
+				"}\n"
+
+			"}\n"
+
+			"if ( length(lightWeighting) < 0.75 ) {\n"
+
+				"if (mod(gl_FragCoord.x - gl_FragCoord.y, 10.0) == 0.0) {\n"
+
+					"gl_FragColor = vec4( uLineColor2, 1.0 );\n"
+
+				"}\n"
+			"}\n"
+
+			"if ( length(lightWeighting) < 0.50 ) {\n"
+
+				"if (mod(gl_FragCoord.x + gl_FragCoord.y - 5.0, 10.0) == 0.0) {\n"
+
+					"gl_FragColor = vec4( uLineColor3, 1.0 );\n"
+
+				"}\n"
+			"}\n"
+
+			"if ( length(lightWeighting) < 0.3465 ) {\n"
+
+				"if (mod(gl_FragCoord.x - gl_FragCoord.y - 5.0, 10.0) == 0.0) {\n"
+
+					"gl_FragColor = vec4( uLineColor4, 1.0 );\n"
+
+				"}\n"
+			"}\n"
+
+		"}\n";
+
+	return shader;
+}
+
+static Program& hatching_program(GfxSystem& gfx)
+{
+	static Program& program = gfx.programs().create("hatching");
+	program.set_source(ShaderType::Vertex, hatching_vertex());
+	program.set_source(ShaderType::Fragment, hatching_fragment());
+	return program;
+}
+
+#if 0
+	"uDirLightPos":	{ value: new THREE.Vector3() },
+	"uDirLightColor": { value: new THREE.Color( 0xeeeeee ) },
+
+	"uAmbientLightColor": { value: new THREE.Color( 0x050505 ) },
+
+	"uBaseColor":  { value: new THREE.Color( 0xffffff ) },
+	"uLineColor1": { value: new THREE.Color( 0x000000 ) }
+#endif
+
+static string dotted_vertex()
+{
+	string shader =
+
+		"varying vec3 vNormal;\n"
+
+		"void main() {\n"
+
+			"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
+			"vNormal = normalize( normalMatrix * normal );\n"
+
+		"}\n";
+
+	return shader;
+}
+
+static string dotted_fragment()
+{
+	string shader =
+
+		"uniform vec3 uBaseColor;\n"
+		"uniform vec3 uLineColor1;\n"
+		"uniform vec3 uLineColor2;\n"
+		"uniform vec3 uLineColor3;\n"
+		"uniform vec3 uLineColor4;\n"
+
+		"uniform vec3 uDirLightPos;\n"
+		"uniform vec3 uDirLightColor;\n"
+
+		"uniform vec3 uAmbientLightColor;\n"
+
+		"varying vec3 vNormal;\n"
+
+		"void main() {\n"
+
+			"float directionalLightWeighting = max( dot( normalize(vNormal), uDirLightPos ), 0.0);\n"
+			"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
+
+			"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
+
+			"if ( length(lightWeighting) < 1.00 ) {\n"
+
+				"if ( ( mod(gl_FragCoord.x, 4.001) + mod(gl_FragCoord.y, 4.0) ) > 6.00 ) {\n"
+
+					"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
+
+				"}\n"
+
+			"}\n"
+
+			"if ( length(lightWeighting) < 0.50 ) {\n"
+
+				"if ( ( mod(gl_FragCoord.x + 2.0, 4.001) + mod(gl_FragCoord.y + 2.0, 4.0) ) > 6.00 ) {\n"
+
+					"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
+
+				"}\n"
+
+			"}\n"
+
+		"}\n";
+	
+	return shader;
+}
+
+static Program& dotted_program(GfxSystem& gfx)
+{
+	static Program& program = gfx.programs().create("dotted");
+	program.set_source(ShaderType::Vertex, dotted_vertex());
+	program.set_source(ShaderType::Fragment, dotted_fragment());
+	return program;
+}
+
+//function createShaderMaterial(id, light, ambientLight) {
+//
+//	material.uniforms["uDirLightPos"].value = light.position;
+//	material.uniforms["uDirLightColor"].value = light.color;
+//
+//	material.uniforms["uAmbientLightColor"].value = ambientLight.color;
+//
+//}
+
+struct DottedMaterial
+{
+	Colour m_base_color;
+	Colour m_line_color1;
+};
+
+struct HatchingMaterial
+{
+	Colour m_base_color;
+	Colour m_line_color1;
+	Colour m_line_color2;
+	Colour m_line_color3;
+	Colour m_line_color4;
+};
+
+vector<Material*> gen_materials(GfxSystem& gfx, const string& prefix)
+{
+	Material& normal = gfx.materials().create(prefix + "normal", [&](Material& m) { m.m_program = &gfx.programs().fetch("normal"); });
+
 	// toons
 
-	var toonMaterial1 = createShaderMaterial("toon1", light, ambientLight),
-		toonMaterial2 = createShaderMaterial("toon2", light, ambientLight),
-		hatchingMaterial = createShaderMaterial("hatching", light, ambientLight),
-		hatchingMaterial2 = createShaderMaterial("hatching", light, ambientLight),
-		dottedMaterial = createShaderMaterial("dotted", light, ambientLight),
-		dottedMaterial2 = createShaderMaterial("dotted", light, ambientLight);
+	Material& toon1 = gfx.materials().create(prefix + "toon1", [&](Material& m) { m.m_program = &toon1_program(gfx); });
+	// h : 0.2, s : 1, l : 0.75
 
-	hatchingMaterial2.uniforms["uBaseColor"].value.setRGB(0, 0, 0);
-	hatchingMaterial2.uniforms["uLineColor1"].value.setHSL(0, 0.8, 0.5);
-	hatchingMaterial2.uniforms["uLineColor2"].value.setHSL(0, 0.8, 0.5);
-	hatchingMaterial2.uniforms["uLineColor3"].value.setHSL(0, 0.8, 0.5);
-	hatchingMaterial2.uniforms["uLineColor4"].value.setHSL(0.1, 0.8, 0.5);
+	Material& toon2 = gfx.materials().create(prefix + "toon2", [&](Material& m) { m.m_program = &toon2_program(gfx); });
+	// h : 0.4, s : 1, l : 0.75
 
-	dottedMaterial2.uniforms["uBaseColor"].value.setRGB(0, 0, 0);
-	dottedMaterial2.uniforms["uLineColor1"].value.setHSL(0.05, 1.0, 0.5);
+	Material& hatching1 = gfx.materials().create(prefix + "hatching", [&](Material& m) { m.m_program = &hatching_program(gfx); });
+	// h : 0.2, s : 1, l : 0.9
 
-	var texture = new THREE.TextureLoader().load("textures/UV_Grid_Sm.jpg");
-	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+	Material& hatching2 = gfx.materials().create(prefix + "hatching2", [&](Material& m) { m.m_program = &hatching_program(gfx); });
+	// h : 0.0, s : 0.8, l : 0.5
 
-	var materials = {
+	Material& dotted1 = gfx.materials().create(prefix + "dotted", [&](Material& m) { m.m_program = &dotted_program(gfx); });
+	// h : 0.2, s : 1, l : 0.9
 
-		"chrome":
-	{
-		m: new THREE.MeshLambertMaterial({ color: 0xffffff, envMap : reflectionCube }),
-		h : 0, s : 0, l : 1
-	},
+	Material& dotted2 = gfx.materials().create(prefix + "dotted2", [&](Material& m) { m.m_program = &dotted_program(gfx); });
+	// h : 0.1, s : 1, l : 0.5
 
-		"liquid":
-	{
-		m: new THREE.MeshLambertMaterial({ color: 0xffffff, envMap : refractionCube, refractionRatio : 0.85 }),
-		h : 0, s : 0, l : 1
-	},
+	HatchingMaterial h2;
+	h2.m_base_color = Colour(0.f);
+	h2.m_line_color1 = hsl(0.f, 0.8f, 0.5f);
+	h2.m_line_color2 = hsl(0.f, 0.8f, 0.5f);
+	h2.m_line_color3 = hsl(0.f, 0.8f, 0.5f);
+	h2.m_line_color4 = hsl(0.1f, 0.8f, 0.5f);
 
-		"shiny":
-	{
-		m: new THREE.MeshStandardMaterial({ color: 0x550000, envMap : reflectionCube, roughness : 0.1, metalness : 1.0 }),
-		h : 0, s : 0.8, l : 0.2
-	},
+	DottedMaterial d2;
+	d2.m_base_color = Colour(0.f);
+	d2.m_line_color1 = hsl(0.05f, 1.0f, 0.5f);
 
-		"matte":
-	{
-		m: new THREE.MeshPhongMaterial({ color: 0x000000, specular : 0x111111, shininess : 1 }),
-		h : 0, s : 0, l : 1
-	},
+	Texture& texture = *gfx.textures().file("UV_Grid_Sm.jpg");
+	//texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
-		"flat":
-	{
-		m: new THREE.MeshLambertMaterial({ color: 0x000000, flatShading : true }),
-		h : 0, s : 0, l : 1
-	},
+	Program& pbr = *gfx.programs().file("pbr/pbr");
 
-		"textured":
-	{
-		m: new THREE.MeshPhongMaterial({ color: 0xffffff, specular : 0x111111, shininess : 1, map : texture }),
-		h : 0, s : 0, l : 1
-	},
+	//new THREE.MeshLambertMaterial({ color: 0xffffff, envMap : reflectionCube });
+	Material& chrome = gfx.materials().create("chrome", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_metallic = 1.f; });
+	// h : 0, s : 0, l : 1
 
-		"colors":
-	{
-		m: new THREE.MeshPhongMaterial({ color: 0xffffff, specular : 0xffffff, shininess : 2, vertexColors : THREE.VertexColors }),
-		h : 0, s : 0, l : 1
-	},
+	// new THREE.MeshLambertMaterial({ color: 0xffffff, envMap : refractionCube, refractionRatio : 0.85 })
+	Material& liquid = gfx.materials().create("liquid", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_metallic = 1.f; m.m_pbr.m_refraction = 0.85f; });
+	// h : 0, s : 0, l : 1
 
-		"plastic":
-	{
-		m: new THREE.MeshPhongMaterial({ color: 0x000000, specular : 0x888888, shininess : 250 }),
-		h : 0.6, s : 0.8, l : 0.1
-	},
+	// new THREE.MeshStandardMaterial({ color: 0x550000, envMap : reflectionCube, roughness : 0.1, metalness : 1.0 })
+	Material& shiny = gfx.materials().create("shiny", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_roughness = 0.1f; m.m_pbr.m_metallic = 1.f; });
+	// h : 0, s : 0.8, l : 0.2
 
-		"toon1":
-	{
-		m: toonMaterial1,
-		h : 0.2, s : 1, l : 0.75
-	},
+	// new THREE.MeshPhongMaterial({ color: 0x000000, specular : 0x111111, shininess : 1 })
+	Material& matte = gfx.materials().create("matte", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_roughness = 1.f; });
+	// h : 0, s : 0, l : 1
+	
+	// new THREE.MeshLambertMaterial({ color: 0x000000, flatShading : true })
+	Material& flat = gfx.materials().create("flat", [&](Material& m) { m.m_program = &pbr; m.m_base.m_flat_shaded = true; });
+	// h : 0, s : 0, l : 1
+	
+	// new THREE.MeshPhongMaterial({ color: 0xffffff, specular : 0x111111, shininess : 1, map : texture })
+	Material& textured = gfx.materials().create("textured", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = &texture; });
+	// h : 0, s : 0, l : 1	
+	
+	// new THREE.MeshPhongMaterial({ color: 0xffffff, specular : 0xffffff, shininess : 2, vertexColors : THREE.VertexColors })
+	Material& colors = gfx.materials().create("colors", [&](Material& m) { m.m_program = &pbr; m.m_base.m_shader_color = ShaderColor::Vertex; m.m_pbr.m_roughness = 0.9f; });
+	// h : 0, s : 0, l : 1	
 
-		"toon2":
-	{
-		m: toonMaterial2,
-		h : 0.4, s : 1, l : 0.75
-	},
+	// new THREE.MeshPhongMaterial({ color: 0x000000, specular : 0x888888, shininess : 250 })
+	Material& plastic = gfx.materials().create("plastic", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x000000); m.m_pbr.m_roughness = 0.f; });
+	// h : 0.6, s : 0.8, l : 0.1
 
-		"hatching":
-	{
-		m: hatchingMaterial,
-		h : 0.2, s : 1, l : 0.9
-	},
-
-		"hatching2":
-	{
-		m: hatchingMaterial2,
-		h : 0.0, s : 0.8, l : 0.5
-	},
-
-		"dotted":
-	{
-		m: dottedMaterial,
-		h : 0.2, s : 1, l : 0.9
-	},
-
-		"dotted2":
-	{
-		m: dottedMaterial2,
-		h : 0.1, s : 1, l : 0.5
-	}
-
-	};
-
+	vector<Material*> materials = { &chrome, &liquid, &shiny, &matte, &flat, &textured, &colors, &plastic, &toon1, &toon2, &hatching1, &hatching2, &dotted1, &dotted2 };
 	return materials;
-
 }
-#endif
+
+vector<cstring> material_labels(span<Material*> materials)
+{
+	vector<cstring> vec;
+	for(Material* m : materials)
+		vec.push_back(m->m_name.c_str());
+	return vec;
+}
 
 void upload_cubes(MarchingCubes& cubes, Mesh& mesh)
 {
@@ -203,8 +530,8 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Material* material = nullptr;
 
 		float speed = 1.f;
-		size_t numBlobs = 10;
-		size_t resolution = 28;
+		uint32_t numBlobs = 10;
+		uint32_t resolution = 28;
 		float isolation = 80.f;
 
 		bool floor = true;
@@ -222,17 +549,17 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		float lx = 0.5f;
 		float ly = 0.5f;
 		float lz = 1.0f;
-
-		bool postprocessing = false;
 	};
 
 	static Controller controller = {};
-	//controller.material = ;
+	static vector<Material*> materials;
+	static Material* material = nullptr;
 
 	constexpr uint32_t resolution = 28;
 
 	static MarchingCubes cubes = { resolution };
 	static Mesh* mesh = nullptr;
+	static Item* item = nullptr;
 
 	if(init)
 	{
@@ -240,26 +567,9 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 45.f; camera.m_near = 1.f; camera.m_far = 10000.f;
 		camera.m_eye = vec3(-500.f, 500.f, 1500.f);
 
-#if NORMAL
-		Program& normal = app.m_gfx.programs().fetch("normal");
-
-		Material& material = app.m_gfx.materials().create("normal", [&](Material& m) {
-			m.m_program = &normal;
-		});
-#else
-		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
-
-		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
-			m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0xaaaaaa); m.m_pbr.m_metallic = 0.0f; m.m_pbr.m_roughness = 0.66f;
-		});
-#endif
-
-		//Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
-		//Texture& refraction = reflection;
-		//refractionCube.mapping = THREE.CubeRefractionMapping;
-
-		//Material& material = gfx::solid_material(app.m_gfx, "material", hsl(0.3f, 1.f, 0.5f));
-		//material.m_base.m_cull_mode = CullMode::None;
+		Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
+		scene.m_env.m_radiance.m_energy = 1.f;
+		scene.m_env.m_radiance.m_texture = &reflection;
 
 		Model& model = app.m_gfx.create_model("cubes");
 		mesh = model.m_items[0].m_mesh;
@@ -276,63 +586,14 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//ambientLight = new THREE.AmbientLight(0x080808);
 		//scene.add(ambientLight);
 
-		//materials = generateMaterials();
-		//string current_material = "shiny";
+		materials = gen_materials(app.m_gfx, "marching");
+		material = materials[0];
+		//material = "shiny";
 
 		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), ZeroQuat, vec3(700.f)));
-		gfx::items(scene).add(Item(n, model, 0U, &material));
-
-		// COMPOSER
-
-		//renderer.autoClear = false;
-		//
-		//var renderTargetParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBuffer: false };
-		//var renderTarget = new THREE.WebGLRenderTarget(SCREEN_WIDTH, SCREEN_HEIGHT, renderTargetParameters);
-		//
-		//effectFXAA = new THREE.ShaderPass(THREE.FXAAShader);
-		//
-		//hblur = new THREE.ShaderPass(THREE.HorizontalTiltShiftShader);
-		//vblur = new THREE.ShaderPass(THREE.VerticalTiltShiftShader);
-		//
-		//var bluriness = 8;
-		//
-		//hblur.uniforms['h'].value = bluriness / SCREEN_WIDTH;
-		//vblur.uniforms['v'].value = bluriness / SCREEN_HEIGHT;
-		//
-		//hblur.uniforms['r'].value = vblur.uniforms['r'].value = 0.5;
-		//
-		//effectFXAA.uniforms['resolution'].value.set(1 / SCREEN_WIDTH, 1 / SCREEN_HEIGHT);
-		//
-		//var renderModel = new THREE.RenderPass(scene, camera);
-		//
-		//vblur.renderToScreen = true;
-		////effectFXAA.renderToScreen = true;
-		//
-		//composer = new THREE.EffectComposer(renderer, renderTarget);
-		//
-		//composer.addPass(renderModel);
-		//
-		//composer.addPass(effectFXAA);
-		//
-		//composer.addPass(hblur);
-		//composer.addPass(vblur);
-
-		//function onWindowResize() {
-		//
-		//	hblur.uniforms['h'].value = 4 / SCREEN_WIDTH;
-		//	vblur.uniforms['v'].value = 4 / SCREEN_HEIGHT;
-		//
-		//	effectFXAA.uniforms['resolution'].value.set(1 / SCREEN_WIDTH, 1 / SCREEN_HEIGHT);
-		//
-		//}
-
-		//
+		Item& it = gfx::items(scene).add(Item(n, model, 0U, material));
+		item = &it;
 	}
-
-	Gnode& root = viewer.m_scene.begin();
-	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
-
-	//gfx::shape(root, Sphere(500.f), Symbol(), 0U, &material);
 
 	//static float h, s, l;
 	//
@@ -355,64 +616,63 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	{
 		Widget& sheet = ui::sheet(*dock);
 
-		// material (type)
-
-		//h = gui.addFolder("Materials");
-		//
-		//for(var m in materials) {
-		//
-		//	effectController[m] = createHandler(m);
-		//	h.add(effectController, m).name(m);
-		//
-		//}
-
-		// material (color)
-
 		auto panel = [&](const string& name) -> Widget&
 		{
 			Widget& s = ui::expandbox(sheet, name.c_str());
 			return ui::columns(s, { 0.3f, 0.7f });
 		};
 
-		Widget& a = panel("Material color");
+		// material (type)
 
-		ui::slider_field<float>(a, "hue",        { controller.hue,        { 0.f, 1.f, 0.025f } });
-		ui::slider_field<float>(a, "saturation", { controller.saturation, { 0.f, 1.f, 0.025f } });
-		ui::slider_field<float>(a, "lightness",  { controller.lightness,  { 0.f, 1.f, 0.025f } });
+		Widget& a = panel("Material");
+
+		static vector<cstring> labels = material_labels(materials);
+		static uint32_t material_index = 0;
+		//bool changed = ui::radio_switch(sheet, labels, material_index, Axis::Y);
+		bool changed = ui::dropdown_field(sheet, "material", labels, material_index);
+		if(changed)
+		{
+			material = materials[material_index];
+			item->m_material = material;
+		}
+
+		// material (color)
+
+
+		Widget& b = panel("Material color");
+
+		ui::slider_field<float>(b, "hue",        { controller.hue,        { 0.f, 1.f, 0.025f } });
+		ui::slider_field<float>(b, "saturation", { controller.saturation, { 0.f, 1.f, 0.025f } });
+		ui::slider_field<float>(b, "lightness",  { controller.lightness,  { 0.f, 1.f, 0.025f } });
 
 		// light (point)
 
-		Widget& b = panel("Point light color");
+		Widget& c = panel("Point light color");
 
-		ui::slider_field<float>(b, "hue",        { controller.lhue,        { 0.f, 1.f, 0.025f } });
-		ui::slider_field<float>(b, "saturation", { controller.lsaturation, { 0.f, 1.f, 0.025f } });
-		ui::slider_field<float>(b, "lightness",  { controller.llightness,  { 0.f, 1.f, 0.025f } });
+		ui::slider_field<float>(c, "hue",        { controller.lhue,        { 0.f, 1.f, 0.025f } });
+		ui::slider_field<float>(c, "saturation", { controller.lsaturation, { 0.f, 1.f, 0.025f } });
+		ui::slider_field<float>(c, "lightness",  { controller.llightness,  { 0.f, 1.f, 0.025f } });
 
 		// light (directional)
 
-		Widget& c = panel("Directional light orientation");
+		Widget& d = panel("Directional light orientation");
 
-		ui::slider_field<float>(c, "x", { controller.lx, { -1.f, 1.f, 0.025f } });
-		ui::slider_field<float>(c, "y", { controller.ly, { -1.f, 1.f, 0.025f } });
-		ui::slider_field<float>(c, "z", { controller.lz, { -1.f, 1.f, 0.025f } });
+		ui::slider_field<float>(d, "x", { controller.lx, { -1.f, 1.f, 0.025f } });
+		ui::slider_field<float>(d, "y", { controller.ly, { -1.f, 1.f, 0.025f } });
+		ui::slider_field<float>(d, "z", { controller.lz, { -1.f, 1.f, 0.025f } });
 
 		// simulation
 
-		Widget& d = panel("Simulation");
+		Widget& e = panel("Simulation");
 
-		ui::slider_field<float>(d, "speed",       { controller.speed,      { 0.1f, 8.0f, 0.05f } });
-		ui::slider_field<size_t>(d, "numBlobs",   { controller.numBlobs,   { 1, 50, 1 } });
-		ui::slider_field<size_t>(d, "resolution", { controller.resolution, { 14, 100, 1 } });
-		ui::slider_field<float>(d, "isolation",   { controller.isolation,  { 10.f, 300.f, 1.f } });
+		ui::slider_field<float>(e,    "speed",      { controller.speed,      { 0.1f, 8.0f, 0.05f } });
+		ui::slider_field<uint32_t>(e, "numBlobs",   { controller.numBlobs,   { 1, 50, 1 } });
+		ui::slider_field<uint32_t>(e, "resolution", { controller.resolution, { 14, 100, 1 } });
+		ui::slider_field<float>(e,    "isolation",  { controller.isolation,  { 10.f, 300.f, 1.f } });
 
-		ui::input_field<bool>(d, "floor", controller.floor);
-		ui::input_field<bool>(d, "wallx", controller.wallx);
-		ui::input_field<bool>(d, "wallz", controller.wallz);
-
-		// rendering
-
-		Widget& e = panel("Rendering");
-		ui::input_field<bool>(e, "postprocessing", controller.postprocessing);
+		ui::input_field<bool>(e, "floor", controller.floor);
+		ui::input_field<bool>(e, "wallx", controller.wallx);
+		ui::input_field<bool>(e, "wallz", controller.wallz);
 	}
 
 	// this controls content of marching cubes voxel field
@@ -449,18 +709,10 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	// marching cubes
 
-	//if(effectController.resolution != = resolution) {
-	//
-	//	resolution = effectController.resolution;
-	//	effect.init(floor(resolution));
-	//
-	//}
-	//
-	//if(effectController.isolation != = effect.isolation) {
-	//
-	//	effect.isolation = effectController.isolation;
-	//
-	//}
+	if(controller.resolution != cubes.m_subdiv)
+		cubes = { controller.resolution };
+
+	cubes.m_isolation = controller.isolation;
 
 	add_blobs(cubes, time, controller.numBlobs, controller.floor, controller.wallx, controller.wallz);
 
@@ -504,18 +756,4 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	//light.position.normalize();
 	//
 	//pointLight.color.setHSL(effectController.lhue, effectController.lsaturation, effectController.llightness);
-
-	// render
-
-	//if(effectController.postprocessing) {
-	//
-	//	composer.render(delta);
-	//
-	//}
-	//else {
-	//
-	//	renderer.clear();
-	//	renderer.render(scene, camera);
-	//
-	//}
 }

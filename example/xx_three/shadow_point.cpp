@@ -51,26 +51,38 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	if(init)
 	{
+		Camera& camera = viewer.m_camera;
+		camera.m_fov = 45.f; camera.m_near = 1.f; camera.m_far = 1000.f;
+		camera.m_eye = vec3(0.f, 10.f, 40.f);
+
 		//scene.add(new THREE.AmbientLight(0x111122));
 
-		Program* pbr = app.m_gfx.programs().file("pbr/pbr");
+		// tonemapping is enabled by default in three
+		//Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
+		//tonemap.m_enabled = true;
+
+		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
+		Program& phong = *app.m_gfx.programs().file("pbr/phong");
 
 		Material& c = app.m_gfx.materials().fetch("cube");
-		c.m_program = pbr;
+		//c.m_program = &pbr;
+		c.m_program = &phong;
 		c.m_base.m_cull_mode = CullMode::Front;
-		c.m_pbr = MaterialPbr(rgb(0xa0adaf));
-		c.m_pbr.m_normal = -1.f;
-		//	shininess: 10,
-		//	specular: 0x111111,
+		c.m_pbr.m_albedo = rgb(0xa0adaf);
+		c.m_lit.m_normal = -1.f;
+		c.m_phong.m_diffuse = rgb(0xa0adaf);
+		c.m_phong.m_specular = rgb(0x111111);
+		c.m_phong.m_shininess = 10.f;
 		cubemat = &c;
 
 		Material& s = app.m_gfx.materials().fetch("sphere");
-		s.m_program = pbr;
+		//s.m_program = &pbr;
+		s.m_program = &phong;
 		s.m_base.m_cull_mode = CullMode::None;
 		s.m_base.m_uv0_scale = { 1.f, 3.5f };
 		s.m_alpha.m_alpha_test = true;
 		s.m_alpha.m_alpha = &generateTexture(app.m_gfx);
-		s.m_pbr.m_normal = -1.f; // @todo @bug @hack check why gl_FrontFacing in shader inverts normals
+		s.m_lit.m_normal = -1.f; // @todo @bug @hack check why gl_FrontFacing in shader inverts normals
 		spheremat = &s;
 
 #if !IMMEDIATE
@@ -86,8 +98,8 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			Item& outer = gfx::items(scene).add(Item(node, sphere1, 0, spheremat));
 			UNUSED(inner); UNUSED(outer);
 
-			Light& light = gfx::lights(scene).add(Light(node, LightType::Point, false, color, intensity, range)); //, 0.6));// intensity);
-			light.m_attenuation = 0.6f;
+			Light& light = gfx::lights(scene).add(Light(node, LightType::Point, true, color, intensity, range)); //, 0.6));// intensity);
+			//light.m_attenuation = 0.6f;
 			//light.shadow_bias = 0.005;
 
 			lights[i] = &node;
@@ -97,7 +109,8 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		gfx::items(scene).add(Item(node, app.m_gfx.shape(Cube(vec3(15.f))), 0, cubemat));
 #endif
 
-		viewer.m_scene.m_env.m_radiance.m_ambient = 0.2f;
+		viewer.m_scene.m_env.m_radiance.m_colour = rgb(0x111122);
+		viewer.m_scene.m_env.m_radiance.m_ambient = 0.1f;
 	}
 
 #if IMMEDIATE
@@ -130,9 +143,6 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		return quat(vec3(time, 0.f, time));
 	};
 	
-	Gnode& root = viewer.m_scene.begin();
-	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
-
 	static bool moving = true;
 	static float time = 0.f;
 	if(moving)
@@ -146,7 +156,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	Gnode& light1 = light_source(scene, rgb(0xff8888), pos(time + c_pi), rot(time + c_pi));
 #else
 	lights[0]->apply(pos(time), rot(time));
-	lights[1]->apply(pos(time + c_pi), rot(time + c_pi));
+	lights[1]->apply(pos(time + 10000.f), rot(time + 10000.f));
 #endif
 
 #if IMMEDIATE

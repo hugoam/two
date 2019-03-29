@@ -517,7 +517,6 @@ ShapeVar.prototype["__destroy"] = ShapeVar.prototype.__destroy = function() {
 };
 // Symbol
 function Symbol(a0, a1, a2, a3, a4) {
-    if (a0 === undefined) { this.__ptr = _mud_Symbol__construct_0(); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; return; }
     if (a1 === undefined) { this.__ptr = _mud_Symbol__construct_1(/*fill*/a0.__ptr); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; return; }
     if (a2 === undefined) { this.__ptr = _mud_Symbol__construct_2(/*fill*/a0.__ptr, /*outline*/a1.__ptr); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; return; }
     if (a3 === undefined) { this.__ptr = _mud_Symbol__construct_3(/*fill*/a0.__ptr, /*outline*/a1.__ptr, /*overlay*/a2); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; return; }
@@ -567,6 +566,14 @@ Object.defineProperty(Symbol.prototype, "detail", {
     },
     set: function(value) {
         _mud_Symbol__set_detail(this.__ptr, value);
+    }
+});
+Object.defineProperty(Symbol.prototype, "subdiv", {
+    get: function() {
+        return wrapPointer(_mud_Symbol__get_subdiv(this.__ptr), v2_uint);
+    },
+    set: function(value) {
+        _mud_Symbol__set_subdiv(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(Symbol.prototype, "image", {
@@ -1399,10 +1406,12 @@ Ring.prototype["__destroy"] = Ring.prototype.__destroy = function() {
     _mud_Ring__destroy(this.__ptr);
 };
 // Sphere
-function Sphere(a0, a1) {
+function Sphere(a0, a1, a2, a3) {
     if (a0 === undefined) { this.__ptr = _mud_Sphere__construct_0(); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; return; }
     if (a1 === undefined) { this.__ptr = _mud_Sphere__construct_1(/*radius*/a0); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Sphere__construct_2(/*center*/a0.__ptr, /*radius*/a1); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this;
+    if (a2 === undefined) { this.__ptr = _mud_Sphere__construct_2(/*radius*/a0, /*start*/a1); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; return; }
+    if (a3 === undefined) { this.__ptr = _mud_Sphere__construct_3(/*radius*/a0, /*start*/a1, /*end*/a2); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; return; }
+    this.__ptr = _mud_Sphere__construct_4(/*center*/a0.__ptr, /*radius*/a1, /*start*/a2, /*end*/a3); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this;
 };
 Sphere.prototype = Object.create(Shape.prototype);
 Sphere.prototype.constructor = Sphere;
@@ -1415,6 +1424,22 @@ Object.defineProperty(Sphere.prototype, "radius", {
     },
     set: function(value) {
         _mud_Sphere__set_radius(this.__ptr, value);
+    }
+});
+Object.defineProperty(Sphere.prototype, "start", {
+    get: function() {
+        return _mud_Sphere__get_start(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Sphere__set_start(this.__ptr, value);
+    }
+});
+Object.defineProperty(Sphere.prototype, "end", {
+    get: function() {
+        return _mud_Sphere__get_end(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Sphere__set_end(this.__ptr, value);
     }
 });
 Sphere.prototype["__destroy"] = Sphere.prototype.__destroy = function() {

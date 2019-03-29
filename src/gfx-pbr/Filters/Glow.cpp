@@ -60,9 +60,8 @@ namespace mud
 
 	void BlockGlow::debug_glow(Render& render, RenderTarget& target)
 	{
-		BlockCopy& copy = *m_gfx.m_renderer.block<BlockCopy>();
-		copy.debug_show_texture(render, target.m_cascade.m_texture, vec4(0.f), 1);
-		copy.debug_show_texture(render, target.m_ping_pong.last(), vec4(0.f));
+		m_gfx.m_copy->debug_show_texture(render, target.m_cascade.m_texture, vec4(0.f), 1);
+		m_gfx.m_copy->debug_show_texture(render, target.m_ping_pong.last(), vec4(0.f));
 	}
 
 	void BlockGlow::submit_pass(Render& render)
@@ -90,7 +89,8 @@ namespace mud
 
 		GpuState<Glow>::me.upload(glow);
 
-		m_filter.quad(render.composite_pass(), target.m_ping_pong.swap(), m_bleed_program, render.m_rect);
+		Pass pass = render.composite_pass("glow bleed");
+		m_filter.quad(pass, target.m_ping_pong.swap(), m_bleed_program, render.m_rect);
 	}
 
 	void BlockGlow::glow_blur(Render& render, RenderTarget& target, Glow& glow)
@@ -118,13 +118,14 @@ namespace mud
 			bool blit_support = false;
 
 			RenderQuad quad = { target.source_quad(vec4(rect), true), target.dest_quad_mip(vec4(rect), i + 1, true), true };
-			
+
+			Pass pass = render.composite_pass("glow blit");
 			if(blit_support)
-				bgfx::blit(render.composite_pass(),
+				bgfx::blit(pass.m_index,
 						   target.m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
 						   target.m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect.width), uint16_t(rect.height), 1);
 			else
-				m_copy.quad(render.composite_pass(), *target.m_cascade.m_fbos[i + 1], target.m_ping_pong.last(), quad);
+				m_copy.quad(pass, *target.m_cascade.m_fbos[i + 1], target.m_ping_pong.last(), quad);
 		}
 	}
 
@@ -139,6 +140,7 @@ namespace mud
 
 		GpuState<Glow>::me.upload(glow);
 
-		m_filter.quad(render.composite_pass(), target.m_post_process.swap(), program, render.m_rect);
+		Pass pass = render.composite_pass("glow merge");
+		m_filter.quad(pass, target.m_post_process.swap(), program, render.m_rect);
 	}
 }

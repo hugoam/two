@@ -473,7 +473,7 @@ void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 			clean();
 
 			// make instances
-			loader.load('models/json/suzanne_buffergeometry.json', function (geo) {
+			loader.load('models/Json/suzanne_buffergeometry.Json', function (geo) {
 
 				geo = geo.toNonIndexed();
 				geo.computeBoundingBox();

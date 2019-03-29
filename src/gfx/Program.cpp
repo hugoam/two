@@ -176,8 +176,8 @@ namespace mud
 		if(target == GLSL)
 		{
 			push_arg("--platform", "linux");
-			push_arg("--profile", "120");
-			//push_arg("--profile", "130");
+			//push_arg("--profile", "120");
+			push_arg("--profile", "130");
 			//push_arg("--profile", "430");
 		}
 		else if(target == ESSL)
@@ -230,7 +230,7 @@ namespace mud
 			defines += program.m_mode_names[mode] + "=" + to_string(version.m_modes[mode]) + ";";
 
 		for(const ShaderDefine& define : program.m_defines)
-			defines += string(define.m_name) + "=" + define.m_value + ";";
+			defines += string(define.m_name) + (define.m_value.empty() ? "" : "=" + define.m_value) + ";";
 
 		return defines;
 	}
@@ -258,7 +258,10 @@ namespace mud
 	void Program::register_blocks(span<GfxBlock*> blocks)
 	{
 		for(GfxBlock* block : blocks)
+		{
 			this->register_block(*block);
+			m_registered_blocks.push_back(block);
+		}
 	}
 
 	void Program::register_block(const GfxBlock& block)

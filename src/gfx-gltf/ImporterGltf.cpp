@@ -353,14 +353,14 @@ namespace mud
 
 		if(gltf_material.normal_texture.index != -1)
 		{
-			material.m_pbr.m_normal = get_texture(gltf, state, gltf_material.normal_texture.index);
-			material.m_pbr.m_normal.m_value = gltf_material.normal_texture.scale;
+			material.m_lit.m_normal = get_texture(gltf, state, gltf_material.normal_texture.index);
+			material.m_lit.m_normal.m_value = gltf_material.normal_texture.scale;
 		}
 
 		if(gltf_material.occlusion_texture.index != -1)
 		{
-			material.m_pbr.m_ambient_occlusion = get_texture(gltf, state, gltf_material.occlusion_texture.index);
-			material.m_pbr.m_ambient_occlusion.m_channel = TextureChannel::Red;
+			material.m_lit.m_occlusion = get_texture(gltf, state, gltf_material.occlusion_texture.index);
+			material.m_lit.m_occlusion.m_channel = TextureChannel::Red;
 		}
 
 		vec3 emissive = gltf_material.emissive_factor;
@@ -368,13 +368,13 @@ namespace mud
 		emissive *= vec3(gltf_material.pbr_metallic_roughness.base_color_factor);
 #endif
 		float emissive_factor = (emissive.r + emissive.g + emissive.b) / 3.f;
-		material.m_pbr.m_emissive.m_value = to_colour(vec4(emissive / emissive_factor, emissive_factor));
+		material.m_lit.m_emissive.m_value = to_colour(vec4(emissive / emissive_factor, emissive_factor));
 
 		if(gltf_material.emissive_texture.index != -1)
 		{
-			material.m_pbr.m_emissive = get_texture(gltf, state, gltf_material.emissive_texture.index);
-			material.m_pbr.m_emissive.m_value = Colour::Black;
-			material.m_pbr.m_emissive.m_value.a = emissive_factor;
+			material.m_lit.m_emissive = get_texture(gltf, state, gltf_material.emissive_texture.index);
+			material.m_lit.m_emissive.m_value = Colour::Black;
+			material.m_lit.m_emissive.m_value.a = emissive_factor;
 		}
 
 		if(gltf_material.double_sided)

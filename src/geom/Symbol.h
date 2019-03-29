@@ -25,12 +25,12 @@ namespace mud
 	export_ struct refl_ MUD_GEOM_EXPORT Symbol
 	{
 	public:
-		constr_ Symbol(Colour fill = Colour::White, Colour outline = Colour::None, bool overlay = false, bool double_sided = false, SymbolDetail detail = SymbolDetail::Medium);
+		constr_ Symbol(Colour fill = Colour(1.f), Colour outline = Colour(0.f, 0.f), bool overlay = false, bool double_sided = false, SymbolDetail detail = SymbolDetail::Medium);
 		Symbol(cstring image, float alpha = 1.f);
 		Symbol(const Image256& image256, float alpha = 1.f);
 
-		constr_ static Symbol plain(Colour colour, bool overlay = false) { return Symbol(colour, Colour::None, overlay); }
-		constr_ static Symbol wire(Colour colour, bool overlay = false) { return Symbol(Colour::None, colour, overlay); }
+		constr_ static Symbol plain(Colour colour, bool overlay = false) { return Symbol(colour, Colour(0.f, 0.f), overlay); }
+		constr_ static Symbol wire(Colour colour, bool overlay = false) { return Symbol(Colour(0.f, 0.f), colour, overlay); }
 
 		bool operator==(const Symbol& other) const;
 
@@ -39,6 +39,7 @@ namespace mud
 		attr_ bool m_overlay;
 		attr_ bool m_double_sided;
 		attr_ SymbolDetail m_detail;
+		attr_ uvec2 m_subdiv = uvec2(0U);
 
 		attr_ cstring m_image = nullptr;
 		attr_ Image256* m_image256 = nullptr;

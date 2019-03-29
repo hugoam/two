@@ -113,7 +113,7 @@ static string bokeh_fragment()
 		//"gl_FragColor = vec4(vec3_splat(-viewZ / u_z_far), 1.0);\n"
 		//"gl_FragColor = vec4(vec3_splat(1.0 + viewZ / u_z_far), 1.0);\n"
 		"\n"
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -132,14 +132,14 @@ void pass_bokeh(GfxSystem& gfx, Render& render, const Bokeh& bokeh)
 
 	Pass pass = render.next_pass("bokeh", PassType::PostProcess);
 
-	gfx.m_filter->uniform(pass.m_index, "u_bokeh_p0", vec4(bokeh.focus, bokeh.aperture * 0.00001f, bokeh.maxblur, 0.f));
+	gfx.m_filter->uniform(pass, "u_bokeh_p0", vec4(bokeh.focus, bokeh.aperture * 0.00001f, bokeh.maxblur, 0.f));
 
 	gfx.m_filter->source0(render.m_target->m_diffuse);
 	gfx.m_filter->sourcedepth(render.m_target->m_depth);
 
-	gfx.m_filter->quad(pass.m_index, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
 
-	gfx.m_copy->quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
+	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }
 
 void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)

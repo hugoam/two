@@ -162,7 +162,7 @@ static string sao_fragment()
 
 		"	gl_FragColor = getDefaultColor(v_uv0);\n"
 		"	gl_FragColor.xyz *=  1.0 - ambientOcclusion;\n"
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -266,7 +266,7 @@ static string depth_blur_fragment()
 		"	}\n"
 
 		"	gl_FragColor = diffuseSum / weightSum;\n"
-		"}";
+		"}\n";
 
 	return shader;
 }
@@ -303,9 +303,6 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 {
 	OutputSAO output = OutputSAO::Default;
 
-	static BlockCopy& copy = *gfx.m_renderer.block<BlockCopy>();
-	static BlockFilter& filter = *gfx.m_renderer.block<BlockFilter>();
-
 	static FrameBuffer target = FrameBuffer(resolution, bgfx::TextureFormat::RGBA8);
 	static FrameBuffer pong = FrameBuffer(resolution, bgfx::TextureFormat::RGBA8);
 	static FrameBuffer normals = FrameBuffer(resolution, bgfx::TextureFormat::RGBA8, BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIN_POINT);
@@ -338,11 +335,11 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 
 		//this.saoMaterial.extensions.derivatives = true;
 
-		filter.source0(normals);
-		filter.sourcedepth(render.m_target->m_depth);
+		gfx.m_filter->source0(normals);
+		gfx.m_filter->sourcedepth(render.m_target->m_depth);
 
-		filter.uniform(pass.m_index, "u_sao_p0", vec4(sao.bias, sao.intensity, sao.scale, 0.f));
-		filter.uniform(pass.m_index, "u_sao_p1", vec4(vec2(sao.kernelRadius, sao.minResolution), vec2(resolution)));
+		gfx.m_filter->uniform(pass, "u_sao_p0", vec4(sao.bias, sao.intensity, sao.scale, 0.f));
+		gfx.m_filter->uniform(pass, "u_sao_p1", vec4(vec2(sao.kernelRadius, sao.minResolution), vec2(resolution)));
 
 		// this.saoMaterial.uniforms['randomSeed'].value = random();
 	};
@@ -381,26 +378,26 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 		Pass pass = render.next_pass("blur", PassType::PostProcess);
 
 		const float depth_cutoff = sao.blurDepthCutoff * (render.m_camera->m_far - render.m_camera->m_near);
-		filter.uniform(pass.m_index, "u_sao_blur_p0", vec4(vec2(dest.m_size), vec2(depth_cutoff, 0.f)));
-		filter.uniforms(pass.m_index, "u_sao_blur_samples", samples[d], 8U);
+		gfx.m_filter->uniform(pass, "u_sao_blur_p0", vec4(vec2(dest.m_size), vec2(depth_cutoff, 0.f)));
+		gfx.m_filter->uniforms(pass, "u_sao_blur_samples", samples[d], 8U);
 
-		filter.source0(source);
-		filter.sourcedepth(render.m_target->m_depth);
+		gfx.m_filter->source0(source);
+		gfx.m_filter->sourcedepth(render.m_target->m_depth);
 	};
 
 	auto pass_merge = [](GfxSystem& gfx, Render& render, const SAO& sao)
 	{
 		static Program& program = gfx.programs().fetch("sao");
 
-		//static bgfx::UniformHandle u_bokeh_p0 = bgfx::createUniform("u_sao_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-
 		Pass pass = render.next_pass("sao", PassType::PostProcess);
 
-		filter.source0(render.m_target->m_diffuse);
-		filter.sourcedepth(render.m_target->m_depth);
+		gfx.m_filter->uniform(pass, "u_sao_p0", vec4());
+
+		gfx.m_filter->source0(render.m_target->m_diffuse);
+		gfx.m_filter->sourcedepth(render.m_target->m_depth);
 
 		RenderTarget& target = *render.m_target;
-		filter.quad(pass.m_index, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
+		gfx.m_filter->quad(pass, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
 
 		//this.materialCopy.blending = THREE.CustomBlending;
 		//this.materialCopy.blendSrc = THREE.DstColorFactor;
@@ -410,7 +407,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 		//this.materialCopy.blendDstAlpha = THREE.ZeroFactor;
 		//this.materialCopy.blendEquationAlpha = THREE.AddEquation;
 
-		copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
 	};
 
 	//if (this.params.output === 1)

@@ -16,7 +16,7 @@ module mud.wfc;
 #endif
 
 #include <json11.hpp>
-using json = json11::Json;
+using Json = json11::Json;
 
 
 namespace mud

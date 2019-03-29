@@ -93,10 +93,15 @@ namespace mud
 			}
 	}
 
-	void ShadowAtlas::remove_light(Light& light)
+	void ShadowAtlas::remove_light(Light& light, bool block)
 	{
+		Slice& slice = this->light_slice(light);
 		Slot& slot = this->light_slot(light);
 		slot.m_light = nullptr;
+		if(block)
+			slice.m_free_blocks.push_back(&slot);
+		else
+			slice.m_free_slots.push_back(&slot);
 	}
 
 	bool ShadowAtlas::update_light(Light& light, uint64_t render, float coverage, uint64_t light_version)
@@ -109,14 +114,15 @@ namespace mud
 		{
 			Slice& slice = this->light_slice(light);
 			if(slice.m_slot_size > target_size) return false;
+			this->remove_light(light, true);
 		}
 
 		//printf("looking for a shadow atlas slot of size %i\n", int(target_size));
 
 		for(Slice& slice : m_slices)
 		{
-			if(slice.m_slot_size <= target_size)
-				continue;
+			//if(slice.m_slot_size <= target_size)
+			//	continue;
 
 			if(light.m_type == LightType::Point && !slice.m_free_blocks.empty())
 			{

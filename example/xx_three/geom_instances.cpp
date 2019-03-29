@@ -19,8 +19,8 @@ static string vertex_shader()
 		"\n"
 		"#define i_offset i_data0.xyz\n"
 		"#define i_color i_data1\n"
-		"#define i_orientation_start i_data2\n"
-		"#define i_orientation_end i_data3\n"
+		"#define i_rotation_start i_data2\n"
+		"#define i_rotation_end i_data3\n"
 		"\n"
 		"#include <common.sh>\n"
 		"\n"
@@ -28,14 +28,14 @@ static string vertex_shader()
 	    "{\n"
 		"	float t = sin(u_time * 0.2);\n"
 		"	vec3 position = i_offset * max(abs(t * 2.0 + 1.0), 0.5) + a_position.xyz;\n"
-		"	vec4 orientation = normalize(mix(i_orientation_start, i_orientation_end, t));\n"
-		"	vec3 vcV = cross(orientation.xyz, position);\n"
-		"	position = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + position);\n"
+		"	vec4 rotation = normalize(mix(i_rotation_start, i_rotation_end, t));\n"
+		"	vec3 vcV = cross(rotation.xyz, position);\n"
+		"	position = vcV * (2.0 * rotation.w) + (cross(rotation.xyz, vcV) * 2.0 + position);\n"
 		"\n"
 		"	v_color = i_color;\n"
 		"\n"
-		"   v_position = vec4(a_position.xyz, 1.0);\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+		"   v_position = vec4(position, 1.0);\n"
+		"	gl_Position = mul(u_modelViewProj, vec4(position, 1.0));\n"
 		"}\n";
 
 	return shader;
@@ -69,12 +69,15 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	Scene& scene = viewer.m_scene;
 
-	static Program program = { "circles" };
-	program.m_blocks[MaterialBlock::Solid] = true;
-	program.m_sources[ShaderType::Vertex] = vertex_shader();
-	program.m_sources[ShaderType::Fragment] = fragment_shader();
+	static Program& program = app.m_gfx.programs().create("instances"); 
+	if(init)
+	{
+		program.m_blocks[MaterialBlock::Solid] = true;
+		program.m_sources[ShaderType::Vertex] = vertex_shader();
+		program.m_sources[ShaderType::Fragment] = fragment_shader();
+	}
 
-	struct Instance { vec3 offset; float pad = 0.f; Colour colour; vec4 orientation_start; vec4 orientation_end; };
+	struct Instance { vec3 offset; float pad = 0.f; Colour colour; vec4 rotation0; vec4 rotation1; };
 	static vector<Instance> instances(num_instances);
 
 	static Node3* node = nullptr;
@@ -95,21 +98,21 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		for(size_t i = 0; i < num_instances; ++i)
 		{
-			vec3 offset = vec3(randf(), randf(), randf()) - 0.5f;
+			const vec3 offset = vec3(randf(), randf(), randf()) - 0.5f;
 
-			Colour colour = Colour(randf(), randf(), randf(), randf());
+			const Colour colour = Colour(randf(), randf(), randf(), randf());
 
-			vec4 orientation_start = normalize(vec4(randf(), randf(), randf(), randf()) * 2.f - 1.f);
-			vec4 orientation_end = normalize(vec4(randf(), randf(), randf(), randf()) * 2.f - 1.f);
+			const vec4 rotation0 = normalize(vec4(randf(), randf(), randf(), randf()) * 2.f - 1.f);
+			const vec4 rotation1 = normalize(vec4(randf(), randf(), randf(), randf()) * 2.f - 1.f);
 
-			instances.push_back({ offset, 0.f, colour, orientation_start, orientation_end });
+			instances[i] = { offset, 0.f, colour, rotation0, rotation1 };
 		}
 
 		MeshPacker geometry;
 
-		geometry.position(vec3(0.025f, -0.025f,    0.f));
+		geometry.position(vec3( 0.025f, -0.025f,    0.f));
 		geometry.position(vec3(-0.025f,  0.025f,    0.f));
-		geometry.position(vec3(0.f,     0.f, 0.025f));
+		geometry.position(vec3( 0.f,     0.f,    0.025f));
 		geometry.m_indices = { 0, 1, 2 };
 
 		Model& model = app.m_gfx.create_model_geo("triangle", geometry);
@@ -122,6 +125,8 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		batch = &gfx::batches(scene).add(Batch(it, sizeof(Instance)));
 		it.m_batch = batch;
+
+		batch->cache({ (float*)instances.data(), instances.size() * sizeof(Instance) / sizeof(float) });
 	}
 
 	//var gui = new dat.GUI({ width: 350 });
@@ -132,6 +137,6 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	const vec3 angles = vec3(0.f, time * 0.1f, 0.f);
 	node->apply(vec3(0.f), quat(angles));
 
-	span<float> memory = batch->begin(instances.size());
-	memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));
+	//span<float> memory = batch->begin(instances.size());
+	//memcpy(memory.data(), instances.data(), memory.size() * sizeof(float));
 }
