@@ -21,6 +21,7 @@ using namespace mud;
 // xx_geom_instances (color doesn't work)
 // xx_material_translucent (obj model fucked up)
 // xx_material_variations (light)
+// xx_cubemap_dynamic
 
 // todo js:
 // xx_geom_dynamic
@@ -31,7 +32,6 @@ using namespace mud;
 // xx_effect_glitch
 // xx_effect_godrays
 // xx_post_fxaa
-// xx_cubemap_dynamic
 // xx_shader_ocean
 
 // todo:

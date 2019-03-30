@@ -482,10 +482,10 @@ void xx_post_fxaa(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//var hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
 		//hemiLight.position.set(0, 1000, 0);
 		//scene.add(hemiLight);
-		//
-		//var dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-		//dirLight.position.set(-3000, 1000, -1000);
-		//scene.add(dirLight);
+
+		quat dir = look_dir(vec3(-3.f, 1.f, -1.f)); // -3000, 1000, -1000
+		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), dir));
+		Light& light = gfx::lights(scene).add(Light(n, LightType::Direct, false, rgb(0xffffff), 0.8));
 
 		Node3& group = gfx::nodes(scene).add(Node3());
 		node = &group;
@@ -522,9 +522,6 @@ void xx_post_fxaa(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		app.m_gfx.set_renderer(Shading::Shaded, render);
 	}
-
-	Gnode& root = viewer.m_scene.begin();
-	gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	// viewport 0 : use fxaa render
 	// viewport 1 : use normal render
