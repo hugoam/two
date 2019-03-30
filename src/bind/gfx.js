@@ -3104,14 +3104,6 @@ Object.defineProperty(Pass.prototype, "index", {
         _mud_Pass__set_index(this.__ptr, value);
     }
 });
-Object.defineProperty(Pass.prototype, "sub_pass", {
-    get: function() {
-        return _mud_Pass__get_sub_pass(this.__ptr);
-    },
-    set: function(value) {
-        _mud_Pass__set_sub_pass(this.__ptr, value);
-    }
-});
 Pass.prototype["__destroy"] = Pass.prototype.__destroy = function() {
     _mud_Pass__destroy(this.__ptr);
 };
@@ -3229,10 +3221,9 @@ Render.prototype.constructor = Render;
 Render.prototype.__class = Render;
 Render.__cache = {};
 Module['Render'] = Render;
-Render.prototype["next_pass"] = Render.prototype.next_pass = function(a0, a1, a2) {
+Render.prototype["next_pass"] = Render.prototype.next_pass = function(a0, a1) {
     ensureCache.prepare();
-    if (a2 === undefined) { return wrapPointer(_mud_Render_next_pass_2(this.__ptr, ensureString(/*name*/a0), /*type*/a1), Pass); }
-    return wrapPointer(_mud_Render_next_pass_3(this.__ptr, ensureString(/*name*/a0), /*type*/a1, /*subpass*/a2), Pass);
+    return wrapPointer(_mud_Render_next_pass_2(this.__ptr, ensureString(/*name*/a0), /*type*/a1), Pass);
 };
 Render.prototype["composite_pass"] = Render.prototype.composite_pass = function(a0, a1, a2) {
     ensureCache.prepare();
@@ -3300,6 +3291,14 @@ Object.defineProperty(Render.prototype, "frame", {
     },
     set: function(value) {
         _mud_Render__set_frame(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Render.prototype, "pass_index", {
+    get: function() {
+        return _mud_Render__get_pass_index(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Render__set_pass_index(this.__ptr, value);
     }
 });
 Render.prototype["__destroy"] = Render.prototype.__destroy = function() {

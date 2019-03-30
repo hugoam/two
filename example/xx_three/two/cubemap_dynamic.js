@@ -1,198 +1,167 @@
+// cubemap_dynamic.js
 
 var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(viewer);
+//two.ui.orbit_controls(viewer);
+viewer.viewport.active = false;
 
 var scene = viewer.scene;
 
-#if 0
-var camera, scene, renderer;
-var cube, sphere, torus, material, backgroundMesh;
+if(init)
+{
+    this.count = 0;
 
-var count = 0, cubeCamera1, cubeCamera2;
+    this.lon = 0.0; this.lat = 0.0;
+    this.phi = 0.0; this.theta = 0.0;
 
-var onPointerDownPointerX, onPointerDownPointerY, onPointerDownLon, onPointerDownLat;
+    var camera = viewer.camera;
+    camera.fov = 60.0; camera.near = 1.0; camera.far = 1000.0;
+    //camera.fov = 120.0;
 
-var lon = 0, lat = 0;
-var phi = 0, theta = 0;
+    this.envmap = app.gfx.textures.file('cabin.jpg');
+    //this.envmap = app.gfx.textures.file('cube/cabin.png.cube');
 
-var textureLoader = new THREE.TextureLoader();
+    scene.env.radiance.texture = this.envmap;
+    scene.env.radiance.energy = 1.0;
+    scene.env.radiance.filter = false;
+    scene.env.background.texture = this.envmap;
+    scene.env.background.mode = two.BackgroundMode.Panorama;
 
-textureLoader.load('textures/2294472375_24a3b8ef46_o.jpg', function(texture) {
+    this.cube0 = new two.CubeCamera(scene, 1.0, 1000.0, 256);
+    this.cube1 = new two.CubeCamera(scene, 1.0, 1000.0, 256);
 
-    texture.mapping = THREE.UVMapping;
+    var basic = app.gfx.programs.fetch('pbr/basic');
 
-    init(texture);
-    animate();
+    var material = app.gfx.materials.create('material'); var m = material;
+        m.program = basic;
+        m.pbr.albedo.value = two.rgb(0xffffff);
+        //m.pbr.metallic = 1.0;
 
-});
+    var sphere = scene.nodes().add(new two.Node3());
+    //isphere = scene.items().add(new two.Item(sphere, app.gfx.shape(new two.Icosaedr(20.0))));
+    this.isphere = scene.items().add(new two.Item(sphere, app.gfx.shape(new two.Sphere(20.0)), 0, material));
 
-function init(texture) {
-
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    scene = new THREE.Scene();
-
-    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-
-    // background
-
-    var options = {
-        resolution: 1024,
-
-        generateMipmaps : true,
-        minFilter : THREE.LinearMipMapLinearFilter,
-        magFilter : THREE.LinearFilter
-    };
-
-    scene.background = new THREE.CubemapGenerator(renderer).0romEquirectangular(texture, options);
-
-    //
-
-    cubeCamera1 = new THREE.CubeCamera(1, 1000, 256);
-    cubeCamera1.renderTarget.texture.generateMipmaps = true;
-    cubeCamera1.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
-    scene.add(cubeCamera1);
-
-    cubeCamera2 = new THREE.CubeCamera(1, 1000, 256);
-    cubeCamera2.renderTarget.texture.generateMipmaps = true;
-    cubeCamera2.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
-    scene.add(cubeCamera2);
-
-    document.body.appendChild(renderer.domElement);
-
-    //
-
-    material = new THREE.MeshBasicMaterial({
-        envMap: cubeCamera2.renderTarget.texture
-        });
-
-    sphere = new THREE.Mesh(new THREE.IcosahedronBufferGeometry(20, 3), material);
-    scene.add(sphere);
-
-    cube = new THREE.Mesh(new THREE.BoxBufferGeometry(20, 20, 20), material);
-    scene.add(cube);
-
-    torus = new THREE.Mesh(new THREE.TorusKnotBufferGeometry(10, 5, 100, 25), material);
-    scene.add(torus);
-
-    //
-
-    document.addEventListener('mousedown', onDocumentMouseDown, false);
-    document.addEventListener('wheel', onDocumentMouseWheel, false);
-
-    window.addEventListener('resize', onWindowResized, false);
-
+    this.cube = scene.nodes().add(new two.Node3());
+    scene.items().add(new two.Item(cube, app.gfx.shape(new two.Cube(10.0)), 0, material));
+    
+    this.torus = scene.nodes().add(new two.Node3());
+    scene.items().add(new two.Item(torus, app.gfx.shape(new two.TorusKnot(10.0, 5.0)), 0, material));
+    
+    this.cubea = new two.vec3(0.0);
+    this.torusa = new two.vec3(0.0);
+    
+    this.presslat = 0.0; this.presslon = 0.0;
+    this.pressed = false;
+    this.pressX = 0.0;
+    this.pressY = 0.0;
 }
 
-function onWindowResized() {
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-}
-
-function onDocumentMouseDown(event) {
-
-    event.preventDefault();
-
-    onPointerDownPointerX = event.clientX;
-    onPointerDownPointerY = event.clientY;
-
-    onPointerDownLon = lon;
-    onPointerDownLat = lat;
-
-    document.addEventListener('mousemove', onDocumentMouseMove, false);
-    document.addEventListener('mouseup', onDocumentMouseUp, false);
-
-}
-
-function onDocumentMouseMove(event) {
-
-    lon = (event.clientX - onPointerDownPointerX) * 0.1 + onPointerDownLon;
-    lat = (event.clientY - onPointerDownPointerY) * 0.1 + onPointerDownLat;
-
-}
-
-function onDocumentMouseUp() {
-
-    document.removeEventListener('mousemove', onDocumentMouseMove, false);
-    document.removeEventListener('mouseup', onDocumentMouseUp, false);
-
-}
-
-function onDocumentMouseWheel(event) {
-
-    var fov = camera.fov + event.deltaY * 0.05;
-
-    camera.fov = THREE.clamp(fov, 10, 75);
-
-    camera.updateProjectionMatrix();
-
-}
-
-function animate() {
-
-    requestAnimationFrame(animate);
-    render();
-
-}
-
-function render() {
-
-    var time = Date.now();
-
-    lon += .15;
-
-    lat = max(-85, min(85, lat));
-    phi = THREE.degToRad(90 - lat);
-    theta = THREE.degToRad(lon);
-
-    cube.position.x = Math.cos(time * 0.001) * 30;
-    cube.position.y = Math.sin(time * 0.001) * 30;
-    cube.position.z = Math.sin(time * 0.001) * 30;
-
-    cube.rotation.x += 0.02;
-    cube.rotation.y += 0.03;
-
-    torus.position.x = Math.cos(time * 0.001 + 10) * 30;
-    torus.position.y = Math.sin(time * 0.001 + 10) * 30;
-    torus.position.z = Math.sin(time * 0.001 + 10) * 30;
-
-    torus.rotation.x += 0.02;
-    torus.rotation.y += 0.03;
-
-    camera.position.x = 100 * Math.sin(phi) * Math.cos(theta);
-    camera.position.y = 100 * Math.cos(phi);
-    camera.position.z = 100 * Math.sin(phi) * Math.sin(theta);
-
-    camera.lookAt(scene.position);
-
-    sphere.visible = false;
-
-    // pingpong
-
-    if(count % 2 == 0) {
-
-        material.envMap = cubeCamera1.renderTarget.texture;
-        cubeCamera2.update(renderer, scene);
-
+{
+    var event = viewer.mouse_event(two.DeviceType.MouseLeft, two.EventType.Pressed);
+    if(event.valid())
+    {
+        this.pressX = event.relative.x; this.pressY = event.relative.y;
+        this.presslon = this.lon;
+        this.presslat = this.lat;
+        this.pressed = true;
     }
-    else {
-
-        material.envMap = cubeCamera2.renderTarget.texture;
-        cubeCamera1.update(renderer, scene);
-
-    }
-
-    count++;
-
-    sphere.visible = true;
-
-    renderer.render(scene, camera);
-
 }
-#endif
+
+{
+    var event = viewer.mouse_event(two.DeviceType.MouseLeft, two.EventType.Released);
+    if(event.valid())
+        this.pressed = false;
+}
+
+{
+    var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+    if(event.valid() && this.pressed)
+    {
+        this.lon = (event.relative.x - this.pressX) * 0.1 + this.presslon;
+        this.lat = (event.relative.y - this.pressY) * 0.1 + this.presslat;
+    }
+}
+
+{
+    var event = viewer.mouse_event(two.DeviceType.MouseMiddle, two.EventType.Moved)
+    if(event.valid())
+    {
+        viewer.camera.fov = Math.min(Math.max(viewer.camera.fov + event.deltaZ, 10.0), 75.0);
+    }
+}
+
+this.lon += 0.15;
+
+function toRadians(degrees) {
+  return degrees * Math.PI / 180;
+}
+
+this.lat = Math.max(-85.0, Math.min(85.0, this.lat));
+this.phi = toRadians(90.0 - this.lat);
+this.theta = toRadians(this.lon);
+
+function trigo3(a, f) { return new two.vec3(Math.cos(a) * f, Math.sin(a) * f, Math.sin(a) * f); };
+
+var cubep = trigo3(time, 30.0);
+this.cubea.x += 0.02; this.cubea.y += 0.03;
+this.cube.apply(cubep, new two.quat(this.cubea));
+
+var torusp = trigo3(time + 10.0, 30.0);
+this.torusa.x += 0.02; this.cubea.y += 0.03;
+this.torus.apply(torusp, new two.quat(this.torusa));
+
+var camera = viewer.camera;
+camera.eye.x = 100.0 * Math.sin(this.phi) * Math.cos(this.theta);
+camera.eye.y = 100.0 * Math.cos(this.phi);
+camera.eye.z = 100.0 * Math.sin(this.phi) * Math.sin(this.theta);
+
+scene.env.radiance.texture = this.envmap;
+scene.env.background.texture = this.envmap;
+
+var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+app.gfx.renderer.gather(render);
+app.gfx.renderer.begin(render);
+
+two.begin_pbr_render(app.gfx, render);
+
+function render_probe(gfx, render, probe) {
+    
+    for(var axis = 0; axis < 6; ++axis) {
+        
+        var probe_render = probe.render(gfx, render, axis);
+        gfx.renderer.gather(probe_render);
+        gfx.renderer.begin(probe_render);
+        
+        two.pass_clear(gfx, render);
+        two.pass_opaque(gfx, render);
+        two.pass_background(gfx, render);
+        
+        gfx.renderer.end(probe_render);
+        render.pass_index = probe_render.pass_index;
+    }
+}
+
+// @todo shouldn't be necessary because faces outward, but somehow it gets rendered by the probe :(
+this.isphere.visible = false;
+
+// pingpong
+
+if(this.count % 2 === 0) {
+    scene.env.radiance.texture = this.cube0.cubemap.cubemap;
+    render_probe(app.gfx, render, this.cube1);
+}
+else {
+    scene.env.radiance.texture = this.cube1.cubemap.cubemap;
+    render_probe(app.gfx, render, this.cube0);
+}
+
+this.isphere.visible = true;
+
+two.pass_clear(app.gfx, render);
+two.pass_opaque(app.gfx, render);
+
+//scene.env.background.texture = cube0.cubemap.cubemap;
+two.pass_background(app.gfx, render);
+
+app.gfx.renderer.end(render);
+
+this.count++;

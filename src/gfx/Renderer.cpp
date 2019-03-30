@@ -79,11 +79,8 @@ namespace mud
 	Render::~Render()
 	{}
 
-	Pass Render::next_pass(cstring name, PassType type, bool subpass)
+	Pass Render::next_pass(cstring name, PassType type)
 	{
-		if(!subpass)
-			m_sub_pass_index = 0;
-
 		Pass pass;
 		pass.m_name = name;
 		pass.m_target = m_target;
@@ -93,7 +90,6 @@ namespace mud
 		pass.m_rect = m_rect;
 		pass.m_use_mrt = m_needs_mrt;
 		pass.m_index = m_pass_index++;
-		pass.m_sub_pass = m_sub_pass_index++;
 		pass.m_pass_type = type;
 
 		pass.m_encoder = bgfx::begin();

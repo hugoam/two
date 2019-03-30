@@ -43,6 +43,11 @@ void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		//camera.m_fov = 120.f;
 
+		scene.m_env.m_radiance.m_energy = 1.f;
+		scene.m_env.m_radiance.m_filter = false;
+		scene.m_env.m_background.m_texture = &texture;
+		scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
+
 		cube0 = construct<CubeCamera>(scene, 1.f, 1000.f, 256U);
 		cube1 = construct<CubeCamera>(scene, 1.f, 1000.f, 256U);
 
@@ -98,7 +103,7 @@ void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	const float time = app.m_gfx.m_time;
 
-	//lon += 0.15f;
+	lon += 0.15f;
 
 	lat = max(-85.f, min(85.f, lat));
 	phi = to_radians(90.f - lat);
@@ -127,10 +132,6 @@ void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	//static Texture& tiber = *app.m_gfx.textures().file("radiance/tiber_1_1k.hdr");
 	//scene.m_env.m_radiance.m_texture = &tiber;
 	scene.m_env.m_radiance.m_texture = &texture;
-	scene.m_env.m_radiance.m_energy = 1.f;
-	scene.m_env.m_radiance.m_filter = false;
-	scene.m_env.m_background.m_texture = &texture;
-	scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
 
 	Gnode& root = scene.begin();
 	gfx::shape(root, Cylinder(X3 * 30.f, 1.f, 30.f, Axis::X), Symbol::plain(Colour::Red));

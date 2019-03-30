@@ -274,7 +274,7 @@ void mud_Render__construct_0(void* ref, span<void*> args) { UNUSED(args); new(st
 void mud_Render__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Render( *static_cast<mud::Shading*>(args[0]), *static_cast<mud::Viewport*>(args[1]), *static_cast<mud::RenderTarget*>(args[2]), *static_cast<mud::RenderFrame*>(args[3]) ); }
 void mud_Render__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Render( *static_cast<mud::Shading*>(args[0]), *static_cast<mud::Viewport*>(args[1]), *static_cast<mud::RenderTarget*>(args[2]), *static_cast<mud::FrameBuffer*>(args[3]), *static_cast<mud::RenderFrame*>(args[4]) ); }
 void mud_Render__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Render((*static_cast<mud::Render*>(other))); }
-void mud_Render_next_pass(void* object, span<void*> args, void*& result) { (*static_cast<mud::Pass*>(result)) = (*static_cast<mud::Render*>(object)).next_pass(static_cast<const char*>(args[0]), *static_cast<mud::PassType*>(args[1]), *static_cast<bool*>(args[2])); }
+void mud_Render_next_pass(void* object, span<void*> args, void*& result) { (*static_cast<mud::Pass*>(result)) = (*static_cast<mud::Render*>(object)).next_pass(static_cast<const char*>(args[0]), *static_cast<mud::PassType*>(args[1])); }
 void mud_Render_composite_pass(void* object, span<void*> args, void*& result) { (*static_cast<mud::Pass*>(result)) = (*static_cast<mud::Render*>(object)).composite_pass(static_cast<const char*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::uvec4*>(args[2])); }
 void mud_RenderFrame__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::RenderFrame(  ); }
 void mud_RenderFrame__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::RenderFrame((*static_cast<mud::RenderFrame*>(other))); }
@@ -2429,7 +2429,6 @@ namespace mud
 		static uint64_t bgfx_state_default = 0;
 		static bool use_mrt_default = false;
 		static uint8_t index_default = 0;
-		static uint8_t sub_pass_default = 0;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Pass__construct_0, {} }
@@ -2448,8 +2447,7 @@ namespace mud
 			{ t, offsetof(mud::Pass, m_bgfx_state), type<uint64_t>(), "bgfx_state", &bgfx_state_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Pass, m_pass_type), type<mud::PassType>(), "pass_type", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Pass, m_use_mrt), type<bool>(), "use_mrt", &use_mrt_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Pass, m_index), type<uint8_t>(), "index", &index_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Pass, m_sub_pass), type<uint8_t>(), "sub_pass", &sub_pass_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Pass, m_index), type<uint8_t>(), "index", &index_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -2532,7 +2530,7 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Render", sizeof(mud::Render), TypeClass::Struct };
 		// bases
 		// defaults
-		static bool next_pass_0_subpass_default = false;
+		static uint8_t pass_index_default = s_render_pass_id;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Render__construct_0, {} },
@@ -2552,11 +2550,12 @@ namespace mud
 			{ t, offsetof(mud::Render, m_viewport), type<mud::Viewport>(), "viewport", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Render, m_rect), type<mud::uvec4>(), "rect", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Render, m_camera), type<mud::Camera>(), "camera", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::Render, m_frame), type<mud::RenderFrame>(), "frame", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(mud::Render, m_frame), type<mud::RenderFrame>(), "frame", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Render, m_pass_index), type<uint8_t>(), "pass_index", &pass_index_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "next_pass", Address(), mud_Render_next_pass, { { "name", type<const char*>(), Param::Nullable }, { "type", type<mud::PassType>(),  }, { "subpass", type<bool>(), Param::Default, &next_pass_0_subpass_default } }, { &type<mud::Pass>(), QualType::None } },
+			{ t, "next_pass", Address(), mud_Render_next_pass, { { "name", type<const char*>(), Param::Nullable }, { "type", type<mud::PassType>(),  } }, { &type<mud::Pass>(), QualType::None } },
 			{ t, "composite_pass", Address(), mud_Render_composite_pass, { { "name", type<const char*>(), Param::Nullable }, { "fbo", type<mud::FrameBuffer>(),  }, { "rect", type<mud::uvec4>(),  } }, { &type<mud::Pass>(), QualType::None } }
 		};
 		// static members

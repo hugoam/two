@@ -2489,12 +2489,6 @@ extern "C" {
 	void DECL mud_Pass__set_index(mud::Pass* self, uint8_t value) {
 		self->m_index = value;
 	}
-	uint8_t DECL mud_Pass__get_sub_pass(mud::Pass* self) {
-		return self->m_sub_pass;
-	}
-	void DECL mud_Pass__set_sub_pass(mud::Pass* self, uint8_t value) {
-		self->m_sub_pass = value;
-	}
 	void DECL mud_Pass__destroy(mud::Pass* self) {
 		delete self;
 	}
@@ -2599,10 +2593,6 @@ extern "C" {
 		static mud::Pass temp;
 		return (temp = self->next_pass(name, type), &temp);
 	}
-	mud::Pass* DECL mud_Render_next_pass_3(mud::Render* self, const char* name, mud::PassType type, bool subpass) {
-		static mud::Pass temp;
-		return (temp = self->next_pass(name, type, subpass), &temp);
-	}
 	mud::Pass* DECL mud_Render_composite_pass_3(mud::Render* self, const char* name, mud::FrameBuffer* fbo, const mud::uvec4* rect) {
 		static mud::Pass temp;
 		return (temp = self->composite_pass(name, *fbo, *rect), &temp);
@@ -2654,6 +2644,12 @@ extern "C" {
 	}
 	void DECL mud_Render__set_frame(mud::Render* self, mud::RenderFrame* value) {
 		self->m_frame = value;
+	}
+	uint8_t DECL mud_Render__get_pass_index(mud::Render* self) {
+		return self->m_pass_index;
+	}
+	void DECL mud_Render__set_pass_index(mud::Render* self, uint8_t value) {
+		self->m_pass_index = value;
 	}
 	void DECL mud_Render__destroy(mud::Render* self) {
 		delete self;

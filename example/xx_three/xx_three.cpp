@@ -19,14 +19,13 @@ using namespace mud;
 // xx_lines_dashed (no colour)
 // xx_lines_fat (width doesn't work)
 // xx_geom_instances (color doesn't work)
+// xx_material_translucent (obj model fucked up)
+// xx_material_variations (light)
 
 // todo js:
 // xx_geom_dynamic
 // xx_loader_ply
 // xx_material_skin
-// xx_material_standard
-// xx_material_variations
-// xx_material_translucent
 // xx_effect
 // xx_effect_bloom
 // xx_effect_glitch

@@ -147,7 +147,6 @@ namespace mud
 
 		attr_ bool m_use_mrt = false;
 		attr_ uint8_t m_index = 0;
-		attr_ uint8_t m_sub_pass = 0;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT RenderFrame
@@ -196,10 +195,10 @@ namespace mud
 		//ShadowAtlas* m_shadow_atlas = nullptr;
 		//ReflectionAtlas* m_reflection_atlas = nullptr;
 
+		attr_ uint8_t m_pass_index = s_render_pass_id;
+
 		uint8_t m_picking_pass_index = s_picking_pass_id;
 		uint8_t m_preprocess_pass_index = s_preprocess_pass_id;
-		uint8_t m_pass_index = s_render_pass_id;
-		uint8_t m_sub_pass_index = 0;
 		uint8_t m_debug_pass_index = s_debug_pass_id;
 
 		Shot m_shot;
@@ -208,7 +207,7 @@ namespace mud
 		uint32_t m_num_vertices = 0;
 		uint32_t m_num_triangles = 0;
 
-		meth_ Pass next_pass(cstring name, PassType type, bool subpass = false);
+		meth_ Pass next_pass(cstring name, PassType type);
 		meth_ Pass composite_pass(cstring name, FrameBuffer& fbo, const uvec4& rect);
 		Pass composite_pass(cstring name);
 
