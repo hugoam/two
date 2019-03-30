@@ -148,6 +148,11 @@ namespace mud
 		return *m_windows.back();
 	}
 
+	ShellWindow& Shell::main_window()
+	{
+		return *m_windows[0];
+	}
+
 	void shell_context(Widget& parent, ShellContext& context)
 	{
 #if 0
