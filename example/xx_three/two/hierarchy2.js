@@ -14,7 +14,7 @@ if (init) {
     scene.env.background.colour = two.rgb(0xffffff);
 
     var normal = app.gfx.programs.fetch('normal');
-    var material = app.gfx.materials.create('normal');
+    var material = app.gfx.materials.create('hierarchy2');
     var m = material;
     m.program = normal;
     

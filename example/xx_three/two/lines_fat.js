@@ -1,12 +1,5 @@
 // lines_fat.js
 
-var viewer = two.ui.scene_viewer(panel);
-two.ui.orbit_controller(viewer);
-//controls.minDistance = 10;
-//controls.maxDistance = 500;
-
-var scene = viewer.scene;
-
 function hilbert3d(center, size, iterations, v0, v1, v2, v3, v4, v5, v6, v7) {
 
     // Default Vars
@@ -61,24 +54,31 @@ function hilbert3d(center, size, iterations, v0, v1, v2, v3, v4, v5, v6, v7) {
     return vec;
 }
 
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
+//controls.minDistance = 10;
+//controls.maxDistance = 500;
+
+var scene = viewer.scene;
+
 if (init) {
     var camera = viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 1000.0;
     camera.eye = new two.vec3(-40.0, 0.0, 60.0);
 
-    var program = app.gfx.programs.fetch('line');
+    var program = app.gfx.programs.fetch('line_fat');
 
-    var material = app.gfx.materials.create('line'); var m = material;
+    var material = app.gfx.materials.create('lines_fat'); var m = material;
         m.program = program;
         m.solid.colour = two.rgb(0xffffff);
         m.line.line_width = 5.0;
-        m.line.dashed = true;
+        //m.line.dashed = true;
         m.base.shader_color = two.ShaderColor.Vertex;
 
-    this.lines = new two.Lines(app.gfx);
+    this.lines = new two.Lines();
 
     var points = hilbert3d(new two.vec3(0.0), 20.0, 1);
-    var curve = new two.CurveCatmullRom3(points);
+    var curve = new two.CurveCatmullRom3(); //points);
 
     for(var i = 0; i < points.length; i++)
     {
@@ -98,13 +98,14 @@ if (init) {
         this.lines.next(p, c);
     }
 
+    var model = app.gfx.models.fetch('line');
+    
     var n = scene.nodes().add(new two.Node3());
-    var it = scene.items().add(new two.Item(n, this.lines.model, 0, material));
-    this.batch = scene.batches().add(new two.Batch(it));
+    var it = scene.items().add(new two.Item(n, model, 0, material));
+    this.batch = scene.batches().add(new two.Batch(it, 4 * 4 * 4));
     it.batch = this.batch;
+    
+    //this.lines.cache(this.batch);
 }
-
-var root = scene.begin();
-two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
 
 this.lines.commit(this.batch);

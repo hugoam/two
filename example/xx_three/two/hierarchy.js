@@ -14,7 +14,7 @@ if (init) {
 
     var normal = app.gfx.programs.fetch('normal');
 
-    var material = app.gfx.materials.create('normal');
+    var material = app.gfx.materials.create('hierarchy');
     var m = material;
     m.program = normal;
 

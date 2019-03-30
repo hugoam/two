@@ -57,7 +57,4 @@ for(var i = 0; i < objects.length; ++i)
     o.node.apply(o.position, new two.quat(o.angles), o.scale);
 }
 
-var root = scene.begin();
-two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
-
 //two.gfx.shape(root, new two.Sphere(), new two.Symbol(), 0, material);

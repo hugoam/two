@@ -1,141 +1,117 @@
-//#include <mud/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
+// geom_instances.js
 
-#include <xx_three/xx_three.h>
+var vertex_shader = `$input a_position, i_data0, i_data1, i_data2, i_data3
+    $output v_position, v_color
+    
+    #define i_offset i_data0.xyz
+    #define i_color i_data1
+    #define i_rotation_start i_data2
+    #define i_rotation_end i_data3
+    
+    #include <common.sh>
+    
+    void main()
+    {
+    	float t = sin(u_time * 0.2);
+    	vec3 position = i_offset * max(abs(t * 2.0 + 1.0), 0.5) + a_position.xyz;
+    	vec4 rotation = normalize(mix(i_rotation_start, i_rotation_end, t));
+    	vec3 vcV = cross(rotation.xyz, position);
+    	position = vcV * (2.0 * rotation.w) + (cross(rotation.xyz, vcV) * 2.0 + position);
+    
+    	v_color = i_color;
+    
+        v_position = vec4(position, 1.0);
+    	gl_Position = mul(u_modelViewProj, vec4(position, 1.0));
+    }`;
 
-#include <stl/vector.hpp>
+var fragment_shader = `$input v_position, v_color
+    
+    #include <common.sh>
+    
+    void main()
+    {
+    	vec4 color = vec4(v_color);
+    	color.r += sin(v_position.x * 10.0 + u_time) * 0.5;
+    
+    	gl_FragColor = color;
+    	//gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+    }`;
 
-#include <cstring>
+var num_instances = 50000;
 
-using namespace mud;
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(viewer);
 
-var vertex_shader()
-{
-	var shader =
+var scene = viewer.scene;
 
-		'$input a_position, i_data0, i_data1, i_data2, i_data3\n'
-		'$output v_position, v_color\n'
-		'\n'
-		'#define i_offset i_data0.xyz\n'
-		'#define i_color i_data1\n'
-		'#define i_orientation_start i_data2\n'
-		'#define i_orientation_end i_data3\n'
-		'\n'
-		'#include <common.sh>\n'
-		'\n'
-		'void main()\n'
-	    '{\n'
-		'	var t = Math.sin(u_time * 0.2);\n'
-		'	var position = i_offset * max(abs(t * 2.0 + 1.0), 0.5) + a_position;\n'
-		'	vec4 orientation = normalize(mix(i_orientation_start, i_orientation_end, t));\n'
-		'	var vcV = cross(orientation.xyz, position);\n'
-		'	position = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + position);\n'
-		'\n'
-		'	v_color = i_color;\n'
-		'\n'
-		'   v_position = new two.vec4(position, 1.0);\n'
-		'	gl_Position = mul(u_modelViewProj, new two.vec4(position, 1.0));\n'
-		'}\n';
+if (init) {
+    var camera = viewer.camera;
+    camera.fov = 50.0; camera.near = 0.1; camera.far = 10.0;
+    camera.eye.z = 2.0;
 
-	return shader;
+    var program = app.gfx.programs.create('instances');
+    program.set_source(two.ShaderType.Vertex, vertex_shader);
+    program.set_source(two.ShaderType.Fragment, fragment_shader);
+    program.set_block(two.MaterialBlock.Solid);
+
+    var material = app.gfx.materials.create('instances'); var m = material;
+        m.program = program;
+        m.base.cull_mode = two.CullMode.None;
+        m.base.blend_mode = two.BlendMode.Alpha;
+        m.alpha.is_alpha = true;
+
+    var instances = new Float32Array(num_instances * 16);
+
+    var j = 0;
+    for(var i = 0; i < num_instances; ++i)
+    {
+        // position
+        instances[j++] = Math.random() - 0.5;
+        instances[j++] = Math.random() - 0.5;
+        instances[j++] = Math.random() - 0.5;
+        instances[j++] = 0.0;
+        
+        // colour
+        instances[j++] = Math.random();
+        instances[j++] = Math.random();
+        instances[j++] = Math.random();
+        instances[j++] = Math.random();
+
+        // rotation0
+        instances[j++] = Math.random() * 2.0 - 1.0;
+        instances[j++] = Math.random() * 2.0 - 1.0;
+        instances[j++] = Math.random() * 2.0 - 1.0;
+        instances[j++] = Math.random() * 2.0 - 1.0;
+
+        // rotation1
+        instances[j++] = Math.random() * 2.0 - 1.0;
+        instances[j++] = Math.random() * 2.0 - 1.0;
+        instances[j++] = Math.random() * 2.0 - 1.0;
+        instances[j++] = Math.random() * 2.0 - 1.0;
+    }
+
+    var geometry = new two.MeshPacker();
+
+    geometry.position(new two.vec3(  0.025, -0.025,    0.0));
+    geometry.position(new two.vec3( -0.025,  0.025,    0.0));
+    geometry.position(new two.vec3(    0.0,    0.0,  0.025));
+    geometry.index(0); geometry.index(1); geometry.index(2);
+
+    var model = app.gfx.create_model_geo('triangle', geometry);
+
+    var n = scene.nodes().add(new two.Node3());
+    //var it = scene.items().add(new two.Item(n, model, two.ItemFlag.Default | two.ItemFlag.NoCull, material));
+    var it = scene.items().add(new two.Item(n, model, 7683 | 256, material));
+    this.node = n;
+
+    var batch = scene.batches().add(new two.Batch(it, 4 * 4 * 4));
+    it.batch = batch;
+    
+    batch.cache(instances);
 }
 
-var fragment_shader()
-{
-	var shader =
+var angles = new two.vec3(0.0, time * 0.1, 0.0);
+this.node.apply(new two.vec3(0.0), new two.quat(angles));
 
-		'$input v_position, v_color\n'
-		'\n'
-		'#include <common.sh>\n'
-		'\n'
-		'void main()\n'
-	    '{\n'
-		'	vec4 color = new two.vec4(v_color);\n'
-		'	color.r += Math.sin(v_position.x * 10.0 + u_time) * 0.5;\n'
-		'\n'
-		'	gl_FragColor = color;\n'
-		'}\n';
+//this.batch.commit(instances);
 
-	return shader;
-}
-
-void xx_geoinstances(Shell app, var parent, Dockbar dockbar)
-{
-	var nuinstances = 50000;
-
-	var viewer = two.ui.scene_viewer(panel);
-	//two.ui.orbit_controller(viewer);
-
-	var scene = viewer.scene;
-
-	var vertex = vertex_shader();
-	var fragment = fragment_shader();
-
-	var program = { 'circles', {}, { nullptr, fragment.c_str(), nullptr, vertex.c_str() } };
-	program.blocks[MaterialBlock::Solid] = true;
-
-	this.material = app.gfx.materials.create('instances'); var m = material;
-		m.program = program;
-		m.base.cull_mode = two.CullMode.None;
-		m.base.blend_mode = BlendMode::Alpha;
-		m.alpha.is_alpha = true;
-	});
-
-	struct Instance { var offset; var pad = 0.0; var colour; vec4 orientation_start; vec4 orientation_end; };
-	vector<Instance> instances(nuinstances);
-
-	this.node = nullptr;
-	this.batch = nullptr;
-
-	bool once = false;
-	if(!once)
-	{
-		once = true;
-
-		var camera = viewer.camera;
-		camera.fov = 50.0; camera.near = 0.1; camera.far = 10.0;
-		camera.eye.z = 2.0;
-
-		for(var i = 0; i < nuinstances; ++i)
-		{
-			var offset = new two.vec3(Math.random(), Math.random(), Math.random()) - 0.5;
-
-			var colour = new two.Colour(Math.random(), Math.random(), Math.random(), Math.random());
-
-			vec4 orientation_start = normalize(new two.vec4(Math.random(), Math.random(), Math.random(), Math.random()) * 2.0 - 1.0);
-			vec4 orientation_end = normalize(new two.vec4(Math.random(), Math.random(), Math.random(), Math.random()) * 2.0 - 1.0);
-
-			instances.push({ offset, 0.0, colour, orientation_start, orientation_end });
-		}
-
-		MeshPacker geometry;
-
-		geometry.positions.push({  0.025, -0.025,    0.0 });
-		geometry.positions.push({ -0.025,  0.025,    0.0 });
-		geometry.positions.push({     0.0,     0.0, 0.025 });
-		geometry.indices = { 0, 1, 2 };
-
-		var model = app.gfx.create_model('triangle', geometry);
-
-		//geometry.maxInstancedCount = instances; // set so its initalized for dat.GUI, will be set in first draw otherwise
-		
-		var n = scene.nodes().add(new two.Node3());
-		var it = scene.items().add(new two.Item(n, model, ItemFlag::Default | ItemFlag::NoCull, material));
-		node = n;
-
-		batch = two.gfx.batches(scene).add(new two.Batch(it));
-		it.batch = batch;
-	}
-
-	//var gui = new dat.GUI({ width: 350 });
-	//gui.add(geometry, 'maxInstancedCount', 0, instances);
-
-	var time = app.gfx.time;;
-
-	var angles = new two.vec3(0.0, time * 0.1, 0.0);
-	node.apply(new two.vec3(0.0), new two.quat(angles));
-
-	span<float> memory = batch->begin(instances.length, sizeof(Instance));
-	memcpy(memory.data(), instances.data(), memory.length * sizeof(float));
-}

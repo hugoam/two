@@ -17,7 +17,7 @@
 //#include <fract/Api.h>
 
 #if defined MUD_RENDERER_BGFX
-#include <bgfx/Config.h>
+#include <bgfx/Forward.h>
 #if !defined MUD_NO_GFX
 #include <gfx/Api.h>
 #include <gfx-pbr/Api.h>

@@ -8,7 +8,7 @@
 
 using namespace mud;
 
-void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
+void xx_light_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar, bool init);

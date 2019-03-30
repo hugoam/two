@@ -110,16 +110,12 @@ namespace mud
 	bool Shell::begin_frame()
 	{
 		bool pursue = m_gfx.begin_frame();
-		//for(auto& context : m_windows)
-		//	pursue &= context->begin_frame();
 		return pursue;
 	}
 
 	void Shell::end_frame()
 	{
 		m_gfx.render_contexts();
-		//for(auto& context : m_windows)
-		//	context->end_frame();
 		m_gfx.end_frame();
 	}
 

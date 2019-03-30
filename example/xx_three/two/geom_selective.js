@@ -39,12 +39,12 @@ if (init) {
     camera.fov = 45.0; camera.near = 0.01; camera.far = 10.0;
     camera.eye.z = 3.5;
 
-    var program = app.gfx.programs.create('program');
+    var program = app.gfx.programs.create('selective');
     program.set_block(two.MaterialBlock.Solid);
     program.set_source(two.ShaderType.Vertex, vertex_shader);
     program.set_source(two.ShaderType.Fragment, fragment_shader);
     
-    this.material = app.gfx.materials.create('material'); var m = material;
+    var material = app.gfx.materials.create('selective'); var m = material;
         m.program = program;
     
     //scene.add(new THREE.AmbientLight(0x444444));
@@ -71,7 +71,7 @@ if (init) {
             geometry.colour(color1);
         }
 
-    this.model = app.gfx.create_model_geo('lines', geometry, false); // , dynamic = true);
+    var model = app.gfx.create_model_geo('selective', geometry, false); // , dynamic = true);
 
     var n = scene.nodes().add(new two.Node3());
     var it = scene.items().add(new two.Item(n, model, 0, material));

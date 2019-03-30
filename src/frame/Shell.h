@@ -61,6 +61,8 @@ namespace mud
 
 		meth_ bool pump();
 
+		meth_ ShellWindow& main_window();
+
 	public:
 		attr_ string m_exec_path;
 		attr_ string m_resource_path;

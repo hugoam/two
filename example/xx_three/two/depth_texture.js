@@ -1,41 +1,59 @@
+// depth_texture.js
 
-var vertex_shader = `varying var vUv;
+var vertex_shader = `$input a_position, a_texcoord0
+    $output v_uv0
+    
+    #include <filter.sh>
     
     void main() {
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * new two.vec4(position, 1.0);
+    	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;
+    	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));
     }`;
 
-var fragment_shader = `#include <packing>
+var fragment_shader = `$input v_uv0
     
-    varying var vUv;
-    uniform sampler2D tDiffuse;
-    uniform sampler2D tDepth;
-    uniform var cameraNear;
-    uniform var cameraFar;
+    #include <filter.sh>
     
-    
-    var readDepth(sampler2D depthSampler, var coord) {
-        var fragCoordZ = texture2D(depthSampler, coord).x;
-        var viewZ = perspectiveDepthToViewZ(fragCoordZ, cameraNear, cameraFar);
-        return viewZToOrthographicDepth(viewZ, cameraNear, cameraFar);
+    float readDepth(sampler2D depthSampler, vec2 coord)
+    {
+    	float depth = texture2D(depthSampler, coord).x;
+    	float viewZ = perspectiveDepthToViewZ(depth);
+    	return viewZToOrthographicDepth(viewZ);
+    //	return linearize_depth(depth);
     }
     
     void main() {
-        //var diffuse = texture2D(tDiffuse, vUv).rgb;
-        var depth = readDepth(tDepth, vUv);
+    //	vec3 diffuse = texture2D(s_source_0, v_uv0).rgb;
+    	float depth = readDepth(s_source_depth, v_uv0);
+    //	float depth = texture2D(s_source_depth, v_uv0).x;
     
-        gl_FragColor.rgb = 1.0 - new two.vec3(depth);
-        gl_FragColor.a = 1.0;
+    	gl_FragColor = vec4(1.0 - vec3_splat(depth), 1.0);
     }`;
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(viewer);
+    
+function pass_todepth(gfx, render) {
+    
+    var program = gfx.programs.fetch('todepth');
 
-//var controls = new THREE.OrbitControls(camera, renderer.domElement);
-//controls.enableDamping = true;
+    var target = render.target;
+
+    var pass = render.next_pass('todepth', two.PassType.PostProcess);
+
+    gfx.filter.sourcedepth(render.target.depth);
+
+    gfx.filter.quad(pass, target.post_process.swap(), program, pass.viewport.rect);
+
+    var flip = render.next_pass('flip', two.PassType.PostProcess);
+    gfx.copy.quad(flip, render.target_fbo, target.post_process.last(), pass.viewport.rect);
+}
+
+
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
 //controls.dampingFactor = 0.25;
 //controls.rotateSpeed = 0.35;
+
+viewer.viewport.active = false;
 
 var scene = viewer.scene;
 
@@ -44,56 +62,43 @@ if (init) {
     camera.fov = 70.0; camera.near = 0.01; camera.far = 50.0;
     camera.eye.z = 4.0;
 
-    //var diffuse = new THREE.TextureLoader().load('textures/brick_diffuse.jpg');
-    //diffuse.wrapS = diffuse.wrapT = THREE.RepeatWrapping;
+    var geometry = app.gfx.shape(new two.TorusKnot(1.0, 0.3));
 
-    var geometry = app.gfx.shape(new two.TorusKnot());
-    //var geometry = new THREE.TorusKnotBufferGeometry(1, 0.3, 128, 64);
-
-    // Setup some geometries
+    var program = app.gfx.programs.create('todepth');
+    program.set_source(two.ShaderType.Vertex, vertex_shader);
+    program.set_source(two.ShaderType.Fragment, fragment_shader);
+    
     var material = app.gfx.materials.create('material'); var m = material;
-    m.solid.colour = two.Colour.Blue;
-
+    m.program = app.gfx.programs.fetch('solid');
+    m.solid.colour = new two.Colour(0.0, 0.0, 1.0); //two.Colour.Blue;
+    
     var count = 50;
     var scale = 5.0;
-
+    
     for(var i = 0; i < count; i++)
     {
         var r = Math.random() * 2.0 * Math.PI;
         var z = (Math.random() * 2.0) - 1.0;
         var distscale = Math.sqrt(1.0 - z * z) * scale;
-
+    
         var p = new two.vec3(Math.cos(r) * distscale, Math.sin(r) * distscale, z * scale);
         var a = new two.vec3(Math.random(), Math.random(), Math.random());
-        var n = scene.nodes().add(new two.Node3(p));
+        var n = scene.nodes().add(new two.Node3(p, new two.quat(a)));
         scene.items().add(new two.Item(n, geometry, 0, material));
     }
-
-    // Create a multi render target with Float buffers
-    //target = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
-    //target.texture.0ormat = THREE.RGBFormat;
-    //target.texture.minFilter = THREE.NearestFilter;
-    //target.texture.magFilter = THREE.NearestFilter;
-    //target.texture.generateMipmaps = false;
-    //target.stencilBuffer = false;
-    //target.depthBuffer = true;
-    //target.depthTexture = new THREE.DepthTexture();
-    //target.depthTexture.type = THREE.UnsignedShortType;
-
-    // Setup post processing stage
-    //postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    //var postvar = new THREE.ShaderMaterial({
-    //	vertexShader: document.querySelector('#post-vert').textContent.trim(),
-    //	fragmentShader : document.querySelector('#post-frag').textContent.trim(),
-    //	uniforms : {
-    //		cameraNear: { value: camera.near },
-    //		cameraFar : { value: camera.far },
-    //		tDiffuse : { value: target.texture },
-    //		tDepth : { value: target.depthTexture }
-    //	}
-    //	});
-    //var postPlane = new THREE.PlaneBufferGeometry(2, 2);
-    //var postQuad = new THREE.Mesh(postPlane, postMaterial);
-    //postScene = new THREE.Scene();
-    //postScene.add(postQuad);
 }
+
+function renderer(gfx, render) {
+
+    two.begin_pbr_render(gfx, render);
+
+    two.pass_clear(gfx, render);
+    two.pass_solid(gfx, render);
+    pass_todepth(gfx, render);
+}
+
+var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+app.gfx.renderer.gather(render);
+app.gfx.renderer.begin(render);
+renderer(app.gfx, render);
+app.gfx.renderer.end(render);

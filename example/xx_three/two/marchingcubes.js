@@ -74,9 +74,6 @@ if (init) {
 
 }
 
-var root = viewer.scene.begin();
-two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
-
 function add_blobs(cubes, time, numblobs, floor, wallx, wallz) {
     cubes.reset();
 

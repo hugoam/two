@@ -14,30 +14,32 @@ if (init) {
 
     var pbr = app.gfx.programs.file('pbr/pbr');
 
-    var reflection = app.gfx.textures.file('SwedishRoyalCastle.cube');
-    //scene.env.radiance. = reflection;
+    var reflection = app.gfx.textures.file('cube/royal.jpg.cube');
+    scene.env.radiance.texture = reflection;
 
     //var material = new THREE.MeshPhongMaterial({ specular: 0x101010, shininess : 100, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.1, side : THREE.DoubleSide });
-    var material = app.gfx.materials.create('material');
+    var material = app.gfx.materials.create('twosided');
     var m = material;
     m.program = pbr;
     m.base.cull_mode = two.CullMode.None;
+    m.pbr.roughness.value = 0.0;
 
     //scene.background = new THREE.Color(0x050505);
 
     //scene.add(new THREE.AmbientLight(0x050505));
 
-    var l0 = scene.nodes().add(new two.Node3(new two.vec3(4000.0, 0.0, 0.0)));
+    var zeroq = new two.quat(new two.vec3(0.0));
+    
+    var l0 = scene.nodes().add(new two.Node3(new two.vec3(4000.0, 0.0, 0.0), zeroq));
     scene.lights().add(new two.Light(l0, two.LightType.Point, false, two.rgb(0x0011ff), 1.0, 5500.0));
 
-    var l1 = scene.nodes().add(new two.Node3(new two.vec3(-4000.0, 0.0, 0.0)));
+    var l1 = scene.nodes().add(new two.Node3(new two.vec3(-4000.0, 0.0, 0.0), zeroq));
     scene.lights().add(new two.Light(l1, two.LightType.Point, false, two.rgb(0xff1100), 1.0, 5500.0));
 
-    var l2 = scene.nodes().add(new two.Node3(new two.vec3(0.0)));
+    var l2 = scene.nodes().add(new two.Node3(new two.vec3(0.0), zeroq));
     scene.lights().add(new two.Light(l2, two.LightType.Point, false, two.rgb(0xffaa00), 2.0, 3000.0));
 
-    var geometry = app.gfx.shape(new two.Sphere());
-    //new THREE.SphereBufferGeometry(1, 32, 16, 0, PI);
+    var geometry = app.gfx.shape(new two.Sphere(1.0, 0.0, Math.PI));
 
     for(var i = 0; i < 5000; ++i)
     {

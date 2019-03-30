@@ -99,15 +99,15 @@ function pass_bokeh(gfx, render, bokeh) {
 
     var pass = render.next_pass('bokeh', two.PassType.PostProcess);
 
-    filter.uniform(pass.index, 'u_bokeh_p0', new two.vec4(bokeh.focus, bokeh.aperture * 0.00001, bokeh.maxblur, 0.0));
+    filter.uniform(pass, 'u_bokeh_p0', new two.vec4(bokeh.focus, bokeh.aperture * 0.00001, bokeh.maxblur, 0.0));
 
     filter.source0(render.target.diffuse);
     filter.sourcedepth(render.target.depth);
 
-    filter.quad(pass.index, render.target.post_process.swap(), program, pass.viewport.rect);
+    filter.quad(pass, render.target.post_process.swap(), program, pass.viewport.rect);
 
-	var merge = render.next_pass('merge', two.PassType.PostProcess);
-    copy.quad(merge.index, render.target_fbo, render.target.post_process.last(), pass.viewport.rect);
+    var flip = render.next_pass('flip', two.PassType.PostProcess);
+    copy.quad(flip, render.target_fbo, render.target.post_process.last(), pass.viewport.rect);
 }
 
 var enabled = true;
@@ -133,8 +133,7 @@ function renderer(gfx, render) {
     two.pass_clear(gfx, render);
     two.pass_opaque(gfx, render);
     pass_bokeh(gfx, render, bokeh);
-    two.pass_flip(gfx, render);
-};
+}
 
 if (init) {
     this.mouse = new two.vec2(0.0);
@@ -175,7 +174,7 @@ if (init) {
                 var y = 200 * (j - ygrid / 2);
                 var z = 200 * (k - zgrid / 2);
                 var n = scene.nodes().add(new two.Node3(new two.vec3(x, y, z), new two.quat(new two.vec3(0.0)), new two.vec3(60.0)));
-                scene.items().add(new two.Item(n, geometry, 0, materials[count]));
+                scene.items().add(new two.Item(n, geometry, 0, this.materials[count]));
                 count++;
             }
 
@@ -183,9 +182,6 @@ if (init) {
     program.set_source(two.ShaderType.Vertex, bokeh_vertex);
     program.set_source(two.ShaderType.Fragment, bokeh_fragment);
 }
-
-var root = viewer.scene.begin();
-two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.None);
 
 var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid())
@@ -203,7 +199,7 @@ camera.eye.y += (-(this.mouse.y) - camera.eye.y) * 0.036;
 
 for(var i = 0; i < this.nobjects; i++)
 {
-    var h = (360.0 * (i / nobjects + time * 0.1) % 360.0) / 360.0;
+    var h = (360.0 * (i / this.nobjects + time * 0.1) % 360.0) / 360.0;
     this.materials[i].solid.colour.value = two.hsl(h, 1.0, 0.5);
     this.materials[i].pbr.albedo.value = two.hsl(h, 1.0, 0.5);
 }

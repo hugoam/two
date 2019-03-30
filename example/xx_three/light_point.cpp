@@ -6,7 +6,7 @@
 
 using namespace mud;
 
-void xx_lights_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+void xx_light_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);

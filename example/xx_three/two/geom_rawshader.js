@@ -37,12 +37,12 @@ if (init) {
     camera.fov = 50.0; camera.near = 1.0; camera.far = 10.0;
     camera.eye.z = 2.0;
 
-    var program = app.gfx.programs.create('shader');
+    var program = app.gfx.programs.create('rawshader');
     program.set_block(two.MaterialBlock.Solid);
     program.set_source(two.ShaderType.Vertex, vertex_shader);
     program.set_source(two.ShaderType.Fragment, fragment_shader);
     
-    var material = app.gfx.materials.create('material'); var m = material;
+    var material = app.gfx.materials.create('rawshader'); var m = material;
         m.program = program;
         m.base.cull_mode = two.CullMode.None;
         m.base.blend_mode = two.BlendMode.Alpha;
