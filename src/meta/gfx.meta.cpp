@@ -267,6 +267,7 @@ void mud_Pass__copy_construct(void* ref, void* other) { new(stl::placeholder(), 
 void mud_Program_set_block(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Program*>(object)).set_block(*static_cast<mud::MaterialBlock*>(args[0]), *static_cast<bool*>(args[1])); }
 void mud_Program_set_pass(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Program*>(object)).set_pass(*static_cast<mud::PassType*>(args[0]), *static_cast<bool*>(args[1])); }
 void mud_Program_set_source(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Program*>(object)).set_source(*static_cast<mud::ShaderType*>(args[0]), *static_cast<stl::string*>(args[1])); }
+void mud_Program_register_blocks(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Program*>(object)).register_blocks(*static_cast<mud::Program*>(args[0])); }
 void mud_Radiance__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Radiance(  ); }
 void mud_Radiance__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Radiance((*static_cast<mud::Radiance*>(other))); }
 void mud_Render__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Render(  ); }
@@ -2488,7 +2489,8 @@ namespace mud
 		static Method methods[] = {
 			{ t, "set_block", Address(), mud_Program_set_block, { { "block", type<mud::MaterialBlock>(),  }, { "enabled", type<bool>(), Param::Default, &set_block_0_enabled_default } }, g_qvoid },
 			{ t, "set_pass", Address(), mud_Program_set_pass, { { "type", type<mud::PassType>(),  }, { "enabled", type<bool>(), Param::Default, &set_pass_0_enabled_default } }, g_qvoid },
-			{ t, "set_source", Address(), mud_Program_set_source, { { "type", type<mud::ShaderType>(),  }, { "source", type<stl::string>(),  } }, g_qvoid }
+			{ t, "set_source", Address(), mud_Program_set_source, { { "type", type<mud::ShaderType>(),  }, { "source", type<stl::string>(),  } }, g_qvoid },
+			{ t, "register_blocks", Address(), mud_Program_register_blocks, { { "program", type<mud::Program>(),  } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
@@ -3196,6 +3198,7 @@ namespace mud
 		// defaults
 		static mud::BlockCopy* copy_default = nullptr;
 		static mud::BlockFilter* filter_default = nullptr;
+		static bool flip_y_default = false;
 		static bool add_resource_path_0_relative_default = true;
 		static bool create_model_geo_0_readback_default = false;
 		static bool create_model_geo_0_optimize_default = false;
@@ -3215,6 +3218,7 @@ namespace mud
 			{ t, offsetof(mud::GfxSystem, m_renderer), type<mud::Renderer>(), "renderer", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::GfxSystem, m_copy), type<mud::BlockCopy>(), "copy", copy_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::GfxSystem, m_filter), type<mud::BlockFilter>(), "filter", filter_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::GfxSystem, m_flip_y), type<bool>(), "flip_y", &flip_y_default, Member::Value, nullptr },
 			{ t, offsetof(mud::GfxSystem, m_render_frame), type<mud::RenderFrame>(), "render_frame", nullptr, Member::Value, nullptr },
 			{ t, SIZE_MAX, type<mud::AssetStore<mud::Texture>>(), "textures", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_GfxSystem__get_textures },
 			{ t, SIZE_MAX, type<mud::AssetStore<mud::Program>>(), "programs", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_GfxSystem__get_programs },

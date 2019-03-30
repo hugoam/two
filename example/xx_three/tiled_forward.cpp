@@ -213,7 +213,6 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	static vector<ExLight> lights = {};
 
-	scene.m_env.m_radiance.m_colour = Colour::White;
 	scene.m_env.m_radiance.m_energy = 0.066f;
 	scene.m_env.m_radiance.m_ambient = 0.33f;
 	//scene.add(new THREE.AmbientLight(0xffffff, 0.33));

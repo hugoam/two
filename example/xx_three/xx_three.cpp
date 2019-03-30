@@ -15,15 +15,33 @@ using namespace mud;
 // xx_tiled_forward (fix clusters)
 
 // ported not ok:
-// xx_geom_points
-// xx_geom_points_instanced
+// xx_geom_points_hw (doesn't work)
+// xx_lines_dashed (no colour)
+// xx_lines_fat (width doesn't work)
+// xx_geom_instances (color doesn't work)
+
+// todo js:
+// xx_geom_dynamic
+// xx_loader_ply
+// xx_material_skin
+// xx_material_standard
+// xx_material_variations
+// xx_material_translucent
+// xx_effect
+// xx_effect_bloom
+// xx_effect_glitch
+// xx_effect_godrays
+// xx_post_fxaa
+// xx_cubemap_dynamic
+// xx_shader_ocean
 
 // todo:
-//xx_depth_texture
-//xx_effect_dof
-//xx_lines_dashed
-//xx_geom
-//xx_geom_instances
+// xx_material_cubemap
+// xx_material_displace
+// xx_effect_sao
+// xx_effect_sobel
+// xx_effect_rgb_halftone
+// xx_light_hemisphere
 
 using ExampleFunc = void(*)(Shell&, Widget&, Dockbar&, bool);
 struct Example { string name; ExampleFunc func; };

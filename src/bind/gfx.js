@@ -3152,6 +3152,9 @@ Program.prototype["set_source"] = Program.prototype.set_source = function(a0, a1
     ensureCache.prepare();
     _mud_Program_set_source_2(this.__ptr, /*type*/a0, ensureString(/*source*/a1));
 };
+Program.prototype["register_blocks"] = Program.prototype.register_blocks = function(a0) {
+    _mud_Program_register_blocks_1(this.__ptr, /*program*/a0.__ptr);
+};
 Object.defineProperty(Program.prototype, "name", {
     get: function() {
         return Pointer_stringify(_mud_Program__get_name(this.__ptr));
@@ -4160,6 +4163,14 @@ Object.defineProperty(GfxSystem.prototype, "filter", {
     },
     set: function(value) {
         _mud_GfxSystem__set_filter(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(GfxSystem.prototype, "flip_y", {
+    get: function() {
+        return !!(_mud_GfxSystem__get_flip_y(this.__ptr));
+    },
+    set: function(value) {
+        _mud_GfxSystem__set_flip_y(this.__ptr, value);
     }
 });
 Object.defineProperty(GfxSystem.prototype, "render_frame", {

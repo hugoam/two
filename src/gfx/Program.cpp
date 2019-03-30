@@ -255,6 +255,11 @@ namespace mud
 	Program::~Program()
 	{}
 
+	void Program::register_blocks(const Program& program)
+	{
+		this->register_blocks(program.m_registered_blocks);
+	}
+
 	void Program::register_blocks(span<GfxBlock*> blocks)
 	{
 		for(GfxBlock* block : blocks)

@@ -156,8 +156,6 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	constexpr int zgrid = 14;
 	constexpr int nobjects = xgrid * ygrid * zgrid;
 
-	static Program& basic = app.m_gfx.programs().fetch("pbr/basic");
-
 	static Program& program = app.m_gfx.programs().create("bokeh");
 	if(init)
 	{
@@ -185,6 +183,14 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 3000.f;
 		camera.m_eye.z = 200.f;
+
+		Program& basic = app.m_gfx.programs().fetch("pbr/basic");
+
+		//Texture& texpano = *app.m_gfx.textures().file("radiance/tiber_1_1k.hdr");
+		Texture& texcube = *app.m_gfx.textures().file("cube/royal.jpg.cube");
+		//scene.m_env.m_radiance.m_texture = &texpano;
+		scene.m_env.m_radiance.m_texture = &texcube;
+		scene.m_env.m_radiance.m_energy = 1.f;
 
 		materials.clear();
 		for(int i = 0; i < nobjects; ++i)
@@ -217,13 +223,6 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		app.m_gfx.set_renderer(Shading::Shaded, render);
 #endif
 	}
-
-	//Texture& texpano = *app.m_gfx.textures().file("radiance/tiber_1_1k.hdr");
-	Texture& texcube = *app.m_gfx.textures().file("cube/royal.jpg.cube");
-	//scene.m_env.m_radiance.m_texture = &texpano;
-	scene.m_env.m_radiance.m_texture = &texcube;
-	scene.m_env.m_radiance.m_energy = 1.f;
-	scene.m_env.m_radiance.m_colour = Colour::White;
 
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))

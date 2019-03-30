@@ -2530,6 +2530,9 @@ extern "C" {
 	void DECL mud_Program_set_source_2(mud::Program* self, mud::ShaderType type, const char* source) {
 		self->set_source(type, source);
 	}
+	void DECL mud_Program_register_blocks_1(mud::Program* self, const mud::Program* program) {
+		self->register_blocks(*program);
+	}
 	const char* DECL mud_Program__get_name(mud::Program* self) {
 		return self->m_name.c_str();
 	}
@@ -3379,6 +3382,12 @@ extern "C" {
 	}
 	void DECL mud_GfxSystem__set_filter(mud::GfxSystem* self, mud::BlockFilter* value) {
 		self->m_filter = value;
+	}
+	bool DECL mud_GfxSystem__get_flip_y(mud::GfxSystem* self) {
+		return self->m_flip_y;
+	}
+	void DECL mud_GfxSystem__set_flip_y(mud::GfxSystem* self, bool value) {
+		self->m_flip_y = value;
 	}
 	mud::RenderFrame* DECL mud_GfxSystem__get_render_frame(mud::GfxSystem* self) {
 		return &self->m_render_frame;

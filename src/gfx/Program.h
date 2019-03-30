@@ -122,6 +122,8 @@ namespace mud
 
 		ProgramVersion shader_version(Version& version);
 
+		meth_ void register_blocks(const Program& program);
+
 		void register_blocks(span<GfxBlock*> blocks);
 		void register_block(const GfxBlock& block);
 		void register_options(uint8_t block, span<cstring> options);

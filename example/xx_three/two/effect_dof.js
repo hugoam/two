@@ -143,8 +143,11 @@ if (init) {
     camera.eye.z = 200.0;
 
     var basic = app.gfx.programs.fetch('pbr/basic');
-
-    var texcube = app.gfx.textures.file('SwedishRoyalCastle.cube');
+    
+    var texcube = app.gfx.textures.file('radiance/tiber_1_1k.hdr');
+    //var texcube = app.gfx.textures.file('cube/royal.jpg.cube');
+    scene.env.radiance.texture = texcube;
+    //scene.env.radiance.energy = 1.0;
 
     var xgrid = 14;
     var ygrid = 9;

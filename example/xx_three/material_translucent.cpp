@@ -54,9 +54,9 @@ static string translucent_fragment()
 
 		// Translucency
 		//"SAMPLER2D(s_thickness, 7);\n"
-		"#define s_thickness s_user5\n"
-		"uniform vec4 u_scatter_p0;\n"
-		"uniform vec4 u_scatter_p1;\n"
+		"#define s_thickness s_user0\n"
+		"#define u_scatter_p0 u_user_p0\n"
+		"#define u_scatter_p1 u_user_p1\n"
 		"#define u_thicknessPower u_scatter_p0.x\n"
 		"#define u_thicknessScale u_scatter_p0.y\n"
 		"#define u_thicknessDistortion u_scatter_p0.z\n"
@@ -115,6 +115,7 @@ Program& translucent_program(GfxSystem& gfx)
 	program.register_blocks(pbr.m_registered_blocks);
 	program.set_block(MaterialBlock::Lit);
 	program.set_block(MaterialBlock::Phong);
+	program.set_block(MaterialBlock::User);
 	program.set_source(ShaderType::Vertex, translucent_vertex());
 	program.set_source(ShaderType::Fragment, translucent_fragment());
 
@@ -167,14 +168,8 @@ void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 		Light& pl1 = gfx::lights(scene).add(Light(pn1, LightType::Point, false, rgb(0x888800), 1.f, 500.f));
 		gfx::items(scene).add(Item(pn1, app.m_gfx.shape(Sphere(4.f)), 0U, &gfx::solid_material(app.m_gfx, "l1", rgb(0x888800))));
 
-
 		Texture& white = *app.m_gfx.textures().file("white.jpg");
 		Texture& texture = *app.m_gfx.textures().file("bunny_thickness.jpg");
-
-		//var shader = new THREE.TranslucentShader();
-		//var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
-		//
-		//uniforms["map"].value = imgTexture;
 
 		phong.m_diffuse = Colour(1.0f, 0.2f, 0.2f);
 		phong.m_shininess = 500.f;
@@ -191,10 +186,6 @@ void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 
 		static Program& program = translucent_program(app.m_gfx);
 
-		static bgfx::UniformHandle s_thickness = bgfx::createUniform("s_thickness", bgfx::UniformType::Sampler);
-		static bgfx::UniformHandle u_scatter_p0 = bgfx::createUniform("u_scatter_p0", bgfx::UniformType::Vec4);
-		static bgfx::UniformHandle u_scatter_p1 = bgfx::createUniform("u_scatter_p1", bgfx::UniformType::Vec4);
-
 		Material& material = app.m_gfx.materials().create("translucent", [](Material& m) {
 			//m.m_program = &pbr;
 			m.m_program = &program;
@@ -203,18 +194,10 @@ void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 			m.m_pbr.m_albedo = Colour(1.0f, 0.2f, 0.2f);
 			m.m_phong.m_diffuse = Colour(1.0f, 0.2f, 0.2f);
 			m.m_phong.m_shininess = 500.f;
+			m.m_user.m_tex0 = thickness.m_texture;
+			m.m_user.m_attr0 = { thickness.m_power, thickness.m_scale, thickness.m_distortion, thickness.m_ambient };
+			m.m_user.m_attr1 = { thickness.m_attenuation, to_vec3(thickness.m_color) };
 		});
-
-		material.m_submit = [&](bgfx::Encoder& encoder)
-		{
-			encoder.setTexture(uint8_t(TextureSampler::User5), s_thickness, *thickness.m_texture);
-			vec4 p0 = { thickness.m_power, thickness.m_scale, thickness.m_distortion, thickness.m_ambient };
-			vec4 p1 = { thickness.m_attenuation, to_vec3(thickness.m_color) };
-			encoder.setUniform(u_scatter_p0, &p0);
-			encoder.setUniform(u_scatter_p1, &p1);
-		};
-
-		// LOADER
 
 		//Model& bunny = *app.m_gfx.models().file("stanford-bunny");
 		Model& bunny = *app.m_gfx.models().file("bunny");
@@ -224,10 +207,6 @@ void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 		Item& it = gfx::items(scene).add(Item(n, bunny, 0U, &material));
 		node = &n;
 	}
-
-
-	//Gnode& root = scene.begin();
-	//gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{

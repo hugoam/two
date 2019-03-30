@@ -32,7 +32,6 @@ void xx_material_cubemap(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 		Texture& envmap = *app.m_gfx.textures().file("cube/royal.jpg.cube");
 		scene.m_env.m_radiance.m_texture = &envmap;
 		scene.m_env.m_radiance.m_energy = 1.f;
-		scene.m_env.m_radiance.m_colour = Colour::White;
 		//scene.background = envmap;
 
 		//lights

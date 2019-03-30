@@ -28,6 +28,9 @@ Shell.prototype["end_frame"] = Shell.prototype.end_frame = function() {
 Shell.prototype["pump"] = Shell.prototype.pump = function() {
     return !!(_mud_Shell_pump_0(this.__ptr));
 };
+Shell.prototype["main_window"] = Shell.prototype.main_window = function() {
+    return wrapPointer(_mud_Shell_main_window_0(this.__ptr), ShellWindow);
+};
 Object.defineProperty(Shell.prototype, "exec_path", {
     get: function() {
         return Pointer_stringify(_mud_Shell__get_exec_path(this.__ptr));
