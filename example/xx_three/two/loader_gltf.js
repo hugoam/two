@@ -1,48 +1,30 @@
-//#include <mud/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-#include <gfx-gltf/Api.h>
+// loader_gltf.js
 
-#include <xx_three/xx_three.h>
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
 
-#include <stl/vector.hpp>
+var camera = viewer.camera;
+var scene = viewer.scene;
 
-using namespace mud;
+if(init) {
+    this.importerGltf = new two.ImporterGltf(app.gfx);
 
-void xx_loader_gltf(Shell app, var parent, Dockbar dockbar)
-{
-	ImporterGltf importer_gltf = { app.gfx };
+    camera.fov = 45.0; camera.near = 0.25; camera.far = 20.0;
+    camera.eye = new two.vec3(-1.8, 0.9, 2.7);
+    camera.target = new two.vec3(0.0, -0.2, -0.2);
 
-	var viewer = two.ui.scene_viewer(panel);
-	//two.ui.orbit_controller(viewer);
+    var texture = app.gfx.textures.file('cube/bridge.jpg.cube');
+    scene.env.radiance.texture = texture;
+    scene.env.radiance.energy = 1.0;
+    scene.env.background.texture = texture;
+    scene.env.background.mode = two.BackgroundMode.Panorama;
 
-	//controls.target.set(0, -0.2, -0.2);
-	//controls.update();
+    //light = new THREE.HemisphereLight(0xbbbbff, 0x444422);
+    //light.position.set(0, 1, 0);
+    //scene.add(light);
 
-	var scene = viewer.scene;
+    var model = app.gfx.models.file('DamagedHelmet'); // .gltf');
 
-	//var urls = ['posx.jpg', 'negx.jpg', 'posy.jpg', 'negy.jpg', 'posz.jpg', 'negz.jpg'];
-	//var loader = new THREE.CubeTextureLoader().setPath('textures/cube/Bridge2/');
-	//var background = loader.load(urls);
-
-	bool once = false;
-	if(!once)
-	{
-		once = true;
-
-		var camera = viewer.camera;
-		camera.fov = 45.0; camera.near = 0.25; camera.far = 20.0;
-		camera.eye = new two.vec3(-1.8, 0.9, 2.7);
-
-		//scene.background = background;
-
-		//light = new THREE.HemisphereLight(0xbbbbff, 0x444422);
-		//light.position.set(0, 1, 0);
-		//scene.add(light);
-
-		var model = app.gfx.models.file('DamagedHelmet'); // .gltf');
-
-		var n = scene.nodes().add(new two.Node3());
-		var i = scene.items().add(new two.Item(n, model));
-	}
+    var n = scene.nodes().add(new two.Node3());
+    var i = scene.items().add(new two.Item(n, model));
 }

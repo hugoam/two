@@ -17,10 +17,6 @@ void xx_loader_gltf(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controls(viewer);
 
-	viewer.m_camera.m_target = vec3(0.f, -0.2f, -0.2f);
-	//controls.target.set(0, -0.2, -0.2);
-	//controls.update();
-
 	Scene& scene = viewer.m_scene;
 
 	if(init)
@@ -28,11 +24,11 @@ void xx_loader_gltf(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 45.f; camera.m_near = 0.25f; camera.m_far = 20.f;
 		camera.m_eye = vec3(-1.8f, 0.9f, 2.7f);
-
+		camera.m_target = vec3(0.f, -0.2f, -0.2f);
+		
 		Texture& texture = *app.m_gfx.textures().file("cube/bridge.jpg.cube");
 		scene.m_env.m_radiance.m_texture = &texture;
 		scene.m_env.m_radiance.m_energy = 1.f;
-		scene.m_env.m_radiance.m_colour = Colour(1.f);
 		scene.m_env.m_background.m_texture = &texture;
 		scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
 

@@ -1,67 +1,64 @@
-//#include <mud/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
+// refraction_balls.js
 
-#include <xx_three/xx_three.h>
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(viewer);
 
-#include <stl/vector.hpp>
+var camera = viewer.camera;
+var scene = viewer.scene;
 
-using namespace mud;
+var zeroq = new two.quat(new two.vec3(0.0));
 
-void xx_refraction_balls(Shell app, var parent, Dockbar dockbar)
-{
-	var viewer = two.ui.scene_viewer(panel);
-	//two.ui.orbit_controller(viewer);
+if(init) {
+    this.mouse = new two.vec2(0.0);
+    
+    camera.fov = 60.0; camera.near = 1.0; camera.far = 100000.0;
+    camera.eye.z = 3200.0;
 
-	var scene = viewer.scene;
+    var refraction = app.gfx.textures.file('cube/park.jpg.cube');
+    scene.env.radiance.texture = refraction;
+    scene.env.background.texture = refraction;
+    scene.env.background.mode = two.BackgroundMode.Panorama;
 
-	this.refraction = app.gfx.textures.file('Park3Med.jpg.cube');
+    var sphere = app.gfx.shape(new two.Sphere(100.0));
 
-	vector<Node3*> spheres;
+    var pbr = app.gfx.programs.file('pbr/pbr');
 
-	bool once = false;
-	if(!once)
-	{
-		once = true;
+    var material = app.gfx.materials.create('balls'); var m = material;
+        m.program = pbr;
+        m.pbr.albedo.value = two.rgb(0xffffff);
+        m.pbr.metallic.value = 1.0;
+        m.pbr.roughness.value = 0.0;
+        m.pbr.refraction.value = 0.95;
+    
+    this.spheres = [];
+    for(var i = 0; i < 500; i++) {
+        
+        var p = new two.vec3(Math.random() * 10000.0 - 5000.0, Math.random() * 10000.0 - 5000.0, Math.random() * 10000.0 - 5000.0);
+        var s = new two.vec3(Math.random() * 3.0 + 1.0);
+        var n = scene.nodes().add(new two.Node3(p, zeroq, s));
+        scene.items().add(new two.Item(n, sphere, 0, material));
 
-		var camera = viewer.camera;
-		camera.fov = 60.0; camera.near = 1.0; camera.far = 100000.0;
-		camera.eye.z = 3200.0;
-
-		var sphere = app.gfx.shape(new two.Sphere(100.0));
-
-		var material = two.gfx.pbr_material(app.gfx, 'material', two.rgb(0xffffff));
-		material.pbr.refraction = 0.95;
-		//material.envMap.mapping = THREE.CubeRefractionMapping;
-
-		for(var i = 0; i < 500; i++)
-		{
-			var p = new two.vec3(Math.random(), Math.random(), Math.random()) * 10000.0 - 5000.0;
-			var s = new two.vec3(Math.random()) * 3.0 + 1.0;
-			var n = scene.nodes().add(new two.Node3(p, ZeroQuat, s));
-			scene.items().add(new two.Item(n, sphere, 0, material));
-
-			spheres.push(n);
-		}
-	}
-
-	this.mouse = new two.vec2(0.0);
-	if(var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
-	{
-		mouse = (event.relative - viewer.frame.size / 2.0) * 10.0;
-	}//
-
-	var timer = app.gfx.time * -0.0001;
-	
-	for(var i = 0; i < spheres.length; i++)
-	{
-		var p = new two.vec3(Math.cos(timer + float(i)), Math.sin(timer + float(i) * 1.1), 0.0) * 5000.0;
-		spheres[i].apply(new two.vec3(1.0), ZeroQuat, p);
-	}
-
-	var camera = viewer.camera;
-	camera.eye.x += (mouse.x - camera.eye.x) * .05;
-	camera.eye.y += (-mouse.y - camera.eye.y) * .05;
-
-	//camera.lookAt(scene.position);
+        spheres.push({ p: p, s: s, node: n });
+    }
 }
+
+var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+if(event.valid())
+{
+    this.mouse.x = (event.relative.x - viewer.frame.size.x / 2.0) * 10.0;
+    this.mouse.y = (event.relative.y - viewer.frame.size.y / 2.0) * 10.0;
+}
+
+//var timer = app.gfx.time * -0.0001;
+
+for(var i = 0; i < spheres.length; i++) {
+    
+    var p = spheres[i].p;
+    p.x = Math.cos(time * -0.01 + i) * 5000.0;
+    p.y = Math.sin(time * -0.01 + i * 1.1) * 5000.0;
+    spheres[i].node.apply(p, zeroq, spheres[i].s);
+}
+
+var camera = viewer.camera;
+camera.eye.x += (mouse.x - camera.eye.x) * .05;
+camera.eye.y += (-mouse.y - camera.eye.y) * .05;

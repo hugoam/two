@@ -53,7 +53,7 @@ void xx_refraction_mesh(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			return app.m_gfx.materials().create(name, [&](Material& m) {
 				m.m_program = &pbr;
 				m.m_pbr.m_specular_mode = PbrSpecularMode::Phong;
-				m.m_pbr.m_albedo = rgb(0xffffff);
+				m.m_pbr.m_albedo = colour;
 				m.m_pbr.m_metallic = 1.f;
 				m.m_pbr.m_roughness = 0.f;
 				m.m_pbr.m_refraction = refraction;
