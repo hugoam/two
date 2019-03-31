@@ -30,11 +30,10 @@ namespace mud
 		, m_copy(copy)
 		, m_prefilter_program(gfx.programs().create("filter/prefilter_envmap"))
 	{
-		static cstring options[] = { "RADIANCE_ENVMAP", "RADIANCE_CUBE" };
-		m_shader_block->m_options = options;
+		m_shader_block.m_options = { "RADIANCE_ENVMAP", "RADIANCE_CUBE" };
 
-		m_prefilter_program.register_block(filter);
-		m_prefilter_program.register_block(*this);
+		m_prefilter_program.register_block(filter.m_shader_block);
+		m_prefilter_program.register_block(this->m_shader_block);
 	}
 
 	void BlockRadiance::init_block()
@@ -161,7 +160,7 @@ namespace mud
 
 			for(uint16_t face = 0; face < num_faces; ++face)
 			{
-				ProgramVersion program = { &m_prefilter_program };
+				ProgramVersion program = { m_prefilter_program };
 
 				const int source_level = i == 0 ? 0 : i - 1;
 				Texture& source = i == 0 ? *radiance.m_texture : filtered;

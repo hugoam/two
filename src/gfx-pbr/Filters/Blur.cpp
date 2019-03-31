@@ -25,9 +25,8 @@ namespace mud
 		, m_filter(filter)
 		, m_program(gfx.programs().create("filter/gaussian_blur"))
 	{
-		static cstring options[] = { "GAUSSIAN_HORIZONTAL", "GAUSSIAN_VERTICAL" };
-		m_shader_block->m_options = options;
-		m_program.register_block(*this);
+		m_shader_block.m_options = { "GAUSSIAN_HORIZONTAL", "GAUSSIAN_VERTICAL" };
+		m_program.register_block(this->m_shader_block);
 	}
 
 	void BlockBlur::init_block()
@@ -78,12 +77,12 @@ namespace mud
 		bgfx::setUniform(u_uniform.u_blur_kernel_0_3, horizontal ? &kernel.m_horizontal[0] : &kernel.m_vertical[0]);
 		bgfx::setUniform(u_uniform.u_blur_kernel_4_7, horizontal ? &kernel.m_horizontal[4] : &kernel.m_vertical[4]);
 
-		ProgramVersion version = { &m_program };
-		version.set_option(m_index, uint8_t(horizontal ? GAUSSIAN_HORIZONTAL : GAUSSIAN_VERTICAL), true);
+		ProgramVersion program = { m_program };
+		program.set_option(m_index, uint8_t(horizontal ? GAUSSIAN_HORIZONTAL : GAUSSIAN_VERTICAL), true);
 
 		m_filter.source0(source);
 
 		RenderQuad quad = m_filter.render_quad(target, vec4(source_rect), target, vec4(rect), true);
-		m_filter.quad(blur_pass, fbo, m_program.version(version), quad);
+		m_filter.submit(blur_pass, fbo, program, quad);
 	}
 }

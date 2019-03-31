@@ -31,12 +31,10 @@ namespace mud
 		, m_copy(copy)
 		, m_program(gfx.programs().create("filter/tonemap"))
 	{
-		static cstring options[] = { "ADJUST_BCS", "COLOR_CORRECTION" };
-		static cstring modes[] = { "TONEMAP_MODE" };
-		m_shader_block->m_options = options;
-		m_shader_block->m_modes = modes;
+		m_shader_block.m_options = { "ADJUST_BCS", "COLOR_CORRECTION" };
+		m_shader_block.m_modes = { "TONEMAP_MODE" };
 
-		m_program.register_block(*this);
+		m_program.register_block(this->m_shader_block);
 	}
 
 	void BlockTonemap::init_block()
@@ -61,7 +59,7 @@ namespace mud
 
 	void BlockTonemap::render(Render& render, RenderTarget& target, Tonemap& tonemap, BCS& bcs)
 	{
-		ProgramVersion program = { &m_program };
+		ProgramVersion program = { m_program };
 
 		program.set_mode(m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
 

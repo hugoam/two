@@ -272,7 +272,7 @@ namespace gfx
 		m_block_light.commit_lights(render, pass);
 		m_block_shadow.commit_shadows(render, bxidentity());
 
-		ProgramVersion shader_version = { m_direct_light };
+		ProgramVersion shader_version = { *m_direct_light };
 		if(m_block_light.m_direct_light)
 			shader_version.set_option(m_block_light.m_index, DIRECT_LIGHT, true);
 
@@ -355,8 +355,7 @@ namespace gfx
 	BlockGITrace::BlockGITrace(GfxSystem& gfx)
 		: DrawBlock(gfx, type<BlockGITrace>())
 	{
-		static cstring options[] = { "GI_CONETRACE" };
-		m_shader_block->m_options = options;
+		m_shader_block.m_options = { "GI_CONETRACE" };
 	}
 
 	void BlockGITrace::init_block()

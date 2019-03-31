@@ -38,11 +38,10 @@ namespace mud
 		, m_bleed_program(gfx.programs().create("filter/glow_bleed"))
 		, m_merge_program(gfx.programs().create("filter/glow"))
 	{
-		static cstring options[] = { "GLOW_FILTER_BICUBIC" };
-		m_shader_block->m_options = options;
+		m_shader_block.m_options = { "GLOW_FILTER_BICUBIC" };
 
-		m_blur.m_program.register_block(*this);
-		m_merge_program.register_block(*this);
+		m_blur.m_program.register_block(this->m_shader_block);
+		m_merge_program.register_block(this->m_shader_block);
 	}
 
 	void BlockGlow::init_block()
@@ -131,7 +130,7 @@ namespace mud
 
 	void BlockGlow::glow_merge(Render& render, RenderTarget& target, Glow& glow)
 	{
-		ProgramVersion program = { &m_merge_program };
+		ProgramVersion program = { m_merge_program };
 
 		program.set_option(m_index, GLOW_FILTER_BICUBIC, glow.m_bicubic_filter);
 

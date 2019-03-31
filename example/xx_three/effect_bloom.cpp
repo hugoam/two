@@ -125,7 +125,7 @@ static Program& blur_program(GfxSystem& gfx)
 	static Program& program = gfx.programs().create("bloom_blur");
 	program.set_source(ShaderType::Vertex, filter_vertex());
 	program.set_source(ShaderType::Fragment, blur_fragment());
-	program.register_block(*gfx.m_filter);
+	program.register_block(gfx.m_filter->m_shader_block);
 	program.register_modes(0, { "KERNEL_RADIUS" });
 	return program;
 }
@@ -212,7 +212,7 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 
 		gfx.m_filter->uniform(pass, "u_glow_blur_p0", vec4(dirs[d], 0.f, 0.f));
 
-		ProgramVersion version = { &program };
+		ProgramVersion version = { program };
 		gfx.m_filter->source0(source, version, level);
 
 		version.set_mode(0, KERNEL_SIZE, kernel_size);

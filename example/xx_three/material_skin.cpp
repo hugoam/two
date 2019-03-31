@@ -633,7 +633,7 @@ void pass_bloom(GfxSystem& gfx, Render& render, Texture& source, FrameBuffer& fb
 	}
 	//printf("\n");
 
-	ProgramVersion program = { &convolution };
+	ProgramVersion program = { convolution };
 	program.set_mode(0, KERNEL_SIZE, min(num_values, kernel_size));
 
 	auto blur_pass = [&](GfxSystem& gfx, Render& render, FrameBuffer& target, Texture& source, const ProgramVersion& program, const vec2& increment)

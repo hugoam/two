@@ -692,7 +692,7 @@ namespace mud
 		{
 			if(!type.m_is_template)
 			{
-				printf("Type %s\n", type.m_id.c_str());
+				//printf("Type %s\n", type.m_id.c_str());
 				m_types.push_back(&type);
 			}
 		}

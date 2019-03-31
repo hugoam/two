@@ -118,7 +118,7 @@ namespace mud
 			{
 				Material& material = model_item.m_mesh->m_material ? *model_item.m_mesh->m_material : *item.m_material;
 
-				ProgramVersion shader_version = { &m_program };
+				ProgramVersion shader_version = { m_program };
 				shader_version.set_option(0, BILLBOARD, item.m_flags & ItemFlag::Billboard);
 
 				uint64_t render_state = BGFX_STATE_DEFAULT;

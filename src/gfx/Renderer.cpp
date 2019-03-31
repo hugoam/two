@@ -231,8 +231,10 @@ namespace mud
 
 	GfxBlock::GfxBlock(GfxSystem& gfx, Type& type)
 		: m_gfx(gfx), m_type(type), m_index(++s_block_index)
-		, m_shader_block(make_unique<ShaderBlock>())
-	{}
+		, m_shader_block()
+	{
+		m_shader_block.m_index = m_index;
+	}
 
 	GfxBlock::~GfxBlock()
 	{}

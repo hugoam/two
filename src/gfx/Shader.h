@@ -27,10 +27,10 @@ namespace mud
 		BUFFER_MATERIALS,
 	};
 
-	export_ struct MUD_GFX_EXPORT ProgramVersion
+	export_ struct refl_ MUD_GFX_EXPORT ProgramVersion
 	{
-		ProgramVersion() {}
-		ProgramVersion(const Program* program) : m_program(program) {}
+		constr_ ProgramVersion() {}
+		constr_ ProgramVersion(const Program& program) : m_program(&program) {}
 
 		const Program* m_program = nullptr;
 		uint32_t m_options = 0;
@@ -38,7 +38,7 @@ namespace mud
 
 		bgfx::ProgramHandle fetch() const { return const_cast<Program*>(m_program)->version(*this); }
 
-		void clear() { m_options = 0; }
+		meth_ void clear() { m_options = 0; }
 
 		inline void set(uint8_t option, bool active = true)
 		{
@@ -48,14 +48,14 @@ namespace mud
 				m_options &= ~(1 << option);
 		}
 
-		inline void set_option(uint8_t block, uint8_t option, bool active = true)
+		meth_ inline void set_option(uint8_t block, uint8_t option, bool active = true)
 		{
 			assert(m_program->m_shader_blocks[block].m_enabled);
 			const uint8_t block_shift = m_program->m_shader_blocks[block].m_option_shift;
 			this->set(block_shift + option, active);
 		}
 
-		inline void set_mode(uint8_t block, uint8_t mode, uint8_t value)
+		meth_ inline void set_mode(uint8_t block, uint8_t mode, uint8_t value)
 		{
 			assert(m_program->m_shader_blocks[block].m_enabled);
 			const uint8_t mode_shift = m_program->m_shader_blocks[block].m_mode_shift;
@@ -63,6 +63,6 @@ namespace mud
 		}
 
 		uint32_t hash_modes() const { return (m_modes[0] << 0) + (m_modes[1] << 8) + (m_modes[2] << 16) + (m_modes[3] << 24); }
-		uint64_t hash() const {	return uint64_t(m_options) + (uint64_t(hash_modes()) << 32); }
+		meth_ uint64_t hash() const {	return uint64_t(m_options) + (uint64_t(hash_modes()) << 32); }
 	};
 }

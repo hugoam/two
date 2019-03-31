@@ -41,6 +41,7 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::TextureHint>() { static Type ty("TextureHint", sizeof(mud::TextureHint)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::TextureSampler>() { static Type ty("TextureSampler", sizeof(mud::TextureSampler)); return ty; }
     
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Texture*>>() { static Type ty("span<mud::Texture*>", sizeof(stl::span<mud::Texture*>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::span<mud::mat4>>() { static Type ty("span<mud::mat4>", sizeof(stl::span<mud::mat4>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Animation*>>() { static Type ty("vector<mud::Animation*>", sizeof(stl::vector<mud::Animation*>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::AnimationPlay>>() { static Type ty("vector<mud::AnimationPlay>", sizeof(stl::vector<mud::AnimationPlay>)); return ty; }
@@ -106,6 +107,8 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::Pass>() { static Type ty("Pass", sizeof(mud::Pass)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Prefab>() { static Type ty("Prefab", sizeof(mud::Prefab)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Program>() { static Type ty("Program", sizeof(mud::Program)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ProgramBlock>() { static Type ty("ProgramBlock", sizeof(mud::ProgramBlock)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ProgramVersion>() { static Type ty("ProgramVersion", sizeof(mud::ProgramVersion)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Radiance>() { static Type ty("Radiance", sizeof(mud::Radiance)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Render>() { static Type ty("Render", sizeof(mud::Render)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::RenderFrame>() { static Type ty("RenderFrame", sizeof(mud::RenderFrame)); return ty; }
@@ -113,6 +116,8 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::Renderer>() { static Type ty("Renderer", sizeof(mud::Renderer)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Rig>() { static Type ty("Rig", sizeof(mud::Rig)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Scene>() { static Type ty("Scene", sizeof(mud::Scene)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ShaderBlock>() { static Type ty("ShaderBlock", sizeof(mud::ShaderBlock)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ShaderDefine>() { static Type ty("ShaderDefine", sizeof(mud::ShaderDefine)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Shot>() { static Type ty("Shot", sizeof(mud::Shot)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Skeleton>() { static Type ty("Skeleton", sizeof(mud::Skeleton)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Skin>() { static Type ty("Skin", sizeof(mud::Skin)); return ty; }

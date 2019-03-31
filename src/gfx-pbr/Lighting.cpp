@@ -42,14 +42,12 @@ namespace mud
 	BlockLight::BlockLight(GfxSystem& gfx)
 		: DrawBlock(gfx, type<BlockLight>())
 	{
-		static cstring options[] = { "FOG", "DIRECT_LIGHT" };
-		m_shader_block->m_options = options;
+		m_shader_block.m_options = { "FOG", "DIRECT_LIGHT" };
 
-		static ShaderDefine defines[] = {
+		m_shader_block.m_defines = {
 			{ "MAX_LIGHTS", to_string(c_max_forward_lights)  },
 			{ "MAX_SHADOWS", to_string(c_max_shadows) },
 		};
-		m_shader_block->m_defines = defines;
 	}
 
 	void BlockLight::init_block()

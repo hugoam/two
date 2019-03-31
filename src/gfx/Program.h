@@ -52,25 +52,30 @@ namespace mud
 		Count
 	};
 
-	export_ struct MUD_GFX_EXPORT ShaderDefine
+	export_ struct refl_ MUD_GFX_EXPORT ShaderDefine
 	{
-		string m_name;
-		string m_value;
+		attr_ string m_name;
+		attr_ string m_value;
 	};
 
-	export_ struct MUD_GFX_EXPORT ShaderBlock
+	export_ struct refl_ MUD_GFX_EXPORT ShaderBlock
 	{
-		span<cstring> m_options;
-		span<cstring> m_modes;
-		span<ShaderDefine> m_defines;
+		attr_ uint32_t m_index;
+		attr_ vector<string> m_options;
+		attr_ vector<string> m_modes;
+		vector<ShaderDefine> m_defines;
+
+		meth_ void add_option(const string& name) { m_options.push_back(name); }
+		meth_ void add_mode(const string& name) { m_modes.push_back(name); }
+		meth_ void add_define(const string& name, const string& value) { m_defines.push_back({ name, value }); }
 	};
 
-	export_ struct ProgramBlock
+	export_ struct refl_ MUD_GFX_EXPORT ProgramBlock
 	{
 		// maps a block shader option to the program option shift
-		bool m_enabled = false;
-		uint8_t m_option_shift = 0;
-		uint8_t m_mode_shift = 0;
+		attr_ bool m_enabled = false;
+		attr_ uint8_t m_option_shift = 0;
+		attr_ uint8_t m_mode_shift = 0;
 	};
 
 	export_ enum class refl_ MaterialBlock : unsigned int
@@ -124,10 +129,11 @@ namespace mud
 
 		meth_ void register_blocks(const Program& program);
 
+		meth_ void register_block(const ShaderBlock& block);
+
 		void register_blocks(span<GfxBlock*> blocks);
-		void register_block(const GfxBlock& block);
-		void register_options(uint8_t block, span<cstring> options);
-		void register_modes(uint8_t block, span<cstring> modes);
+		void register_options(uint8_t block, span<string> options);
+		void register_modes(uint8_t block, span<string> modes);
 
 		// maps a block index to its shader options span
 		ProgramBlock m_shader_blocks[32] = {};

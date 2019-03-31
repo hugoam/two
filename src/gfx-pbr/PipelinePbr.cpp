@@ -497,7 +497,7 @@ namespace gfx
 
 		DrawCluster cluster;
 		cluster.m_lights = render.m_shot.m_lights;
-		cluster.m_shader_version = { &program };
+		cluster.m_shader_version = { program };
 
 		for(auto& block : gfx.m_renderer.m_gfx_blocks)
 			if(block->m_draw_block)

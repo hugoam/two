@@ -29,9 +29,8 @@ namespace mud
 		, m_filter(filter)
 		, m_program(gfx.programs().create("filter/dof_blur"))
 	{
-		static cstring options[] = { "DOF_FIRST_PASS" };
-		m_shader_block->m_options = options;
-		m_program.register_block(*this);
+		m_shader_block.m_options = { "DOF_FIRST_PASS" };
+		m_program.register_block(this->m_shader_block);
 	}
 
 	void BlockDofBlur::init_block()
@@ -58,7 +57,7 @@ namespace mud
 
 	void BlockDofBlur::submit_blur_pass(Render& render, RenderTarget& target, const DofBlur& blur, bool first_pass, uint64_t bgfx_state)
 	{
-		ProgramVersion program = { &m_program };
+		ProgramVersion program = { m_program };
 		program.set_option(m_index, DOF_FIRST_PASS, first_pass);
 
 		GpuState<DofBlur>::me.upload(blur);

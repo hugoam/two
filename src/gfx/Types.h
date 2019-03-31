@@ -55,6 +55,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::TextureHint>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::TextureSampler>();
     
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Texture*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::mat4>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Animation*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::AnimationPlay>>();
@@ -120,6 +121,8 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Pass>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Prefab>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Program>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::ProgramBlock>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::ProgramVersion>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Radiance>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Render>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderFrame>();
@@ -127,6 +130,8 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Renderer>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Rig>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Scene>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::ShaderBlock>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::ShaderDefine>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Shot>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Skeleton>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Skin>();

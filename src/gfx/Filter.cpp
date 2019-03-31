@@ -30,14 +30,13 @@ namespace mud
 	{
 		gfx.m_filter = this;
 
-		static cstring options[] = {
+		m_shader_block.m_options = {
 			"UNPACK_DEPTH",
 			"SOURCE_DEPTH",
 			"SOURCE_0_CUBE",
 			"SOURCE_0_ARRAY",
 			"FILTER_DEBUG_UV"
 		};
-		m_shader_block->m_options = options;
 	}
 
 	void BlockFilter::init_block()
@@ -166,7 +165,7 @@ namespace mud
 		draw_quad({ 1.f, 1.f }, fbo_flip);
 	}
 
-	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags, bool render)
+	void BlockFilter::submit(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags, bool render)
 	{
 		if(quad.m_source.width > 1.f || quad.m_source.height > 1.f)
 			printf("WARNING: Source rect expected in relative coordinates (%f, %f, %f, %f)\n", 
@@ -188,42 +187,37 @@ namespace mud
 		bgfx::setUniform(u_uniform.u_source_crop, &quad.m_source);
 
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_CULL_CW | flags);
-		bgfx::submit(pass.m_index, program);
+		bgfx::submit(pass.m_index, program.fetch());
 
 		if(render)
 			bgfx::frame();
 	}
 
-	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags, bool render)
-	{
-		this->quad(pass, fbo, program.fetch(), quad, flags, render);
-	}
-
 	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const uvec4& rect, uint64_t flags, bool render)
 	{
-		this->quad(pass, fbo, program.fetch(), fbo.render_quad(vec4(rect), true), flags, render);
+		this->submit(pass, fbo, program, fbo.render_quad(vec4(rect), true), flags, render);
 	}
 
 	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags, bool render)
 	{
 		const vec4 rect = vec4(vec2(0.f), vec2(fbo.m_size));
-		this->quad(pass, fbo, program.fetch(), fbo.render_quad(rect, true), flags, render);
+		this->submit(pass, fbo, program, fbo.render_quad(rect, true), flags, render);
 	}
 
 	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, Program& program, const RenderQuad& quad, uint64_t flags, bool render)
 	{
-		this->quad(pass, fbo, program.default_version(), quad, flags, render);
+		this->submit(pass, fbo, { program }, quad, flags, render);
 	}
 
 	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, Program& program, const uvec4& rect, uint64_t flags, bool render)
 	{
-		this->quad(pass, fbo, program.default_version(), fbo.render_quad(vec4(rect), true), flags, render);
+		this->submit(pass, fbo, { program }, fbo.render_quad(vec4(rect), true), flags, render);
 	}
 
 	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, Program& program, uint64_t flags, bool render)
 	{
 		const vec4 rect = vec4(vec2(0.f), vec2(fbo.m_size));
-		this->quad(pass, fbo, program.default_version(), fbo.render_quad(rect, true), flags, render);
+		this->submit(pass, fbo, { program }, fbo.render_quad(rect, true), flags, render);
 	}
 
 	BlockCopy::BlockCopy(GfxSystem& gfx, BlockFilter& filter)
@@ -233,7 +227,7 @@ namespace mud
 	{
 		gfx.m_copy = this;
 
-		m_program.register_block(filter);
+		m_program.register_block(filter.m_shader_block);
 	}
 
 	void BlockCopy::init_block()
@@ -246,9 +240,9 @@ namespace mud
 
 	void BlockCopy::quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags)
 	{
-		ProgramVersion program = { &m_program };
+		ProgramVersion program = { m_program };
 		m_filter.source0(texture, program, GFX_TEXTURE_CLAMP);
-		m_filter.quad(pass, fbo, program, quad, flags);
+		m_filter.submit(pass, fbo, program, quad, flags);
 	}
 
 	void BlockCopy::quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, const uvec4& rect, uint64_t flags)
@@ -268,10 +262,10 @@ namespace mud
 		const vec4 dest = rect == vec4(0.f) ? vec4(vec2(0.f), vec2(render.m_target->m_size) * 0.25f) : rect;
 		const RenderQuad target_quad = { Rect4, render.m_target->dest_quad(dest, true) };
 
-		ProgramVersion program = { &m_program };
+		ProgramVersion program = { m_program };
 		m_filter.source0(texture, program, level, GFX_TEXTURE_CLAMP);
 
 		Pass pass; pass.m_index = render.debug_pass();
-		m_filter.quad(pass, render.m_target->m_backbuffer, program, target_quad, 0);
+		m_filter.submit(pass, render.m_target->m_backbuffer, program, target_quad, 0);
 	}
 }

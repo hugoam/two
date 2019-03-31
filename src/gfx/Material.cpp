@@ -504,7 +504,7 @@ namespace mud
 		static GfxBlock& mat = *ms_gfx_system->m_renderer.block<BlockMaterial>();
 		static GfxBlock& pbr = *ms_gfx_system->m_renderer.block<BlockPbr>();
 
-		ProgramVersion version = { &program };
+		ProgramVersion version = { program };
 
 		version.set_option(mat.m_index, VERTEX_COLOR, m_base.m_shader_color == ShaderColor::Vertex);
 		version.set_option(mat.m_index, DOUBLE_SIDED, m_base.m_cull_mode == CullMode::None);
@@ -631,8 +631,7 @@ namespace mud
 		: GfxBlock(gfx, *this)
 	{
 		// @todo move dash to correct place
-		static cstring options[] = { "VERTEX_COLOR", "DOUBLE_SIDED", "FLAT_SHADED", "ALPHA_MAP", "ALPHA_TEST", "DASH" };
-		m_shader_block->m_options = options;
+		m_shader_block.m_options = { "VERTEX_COLOR", "DOUBLE_SIDED", "FLAT_SHADED", "ALPHA_MAP", "ALPHA_TEST", "DASH" };
 	}
 
 	void BlockMaterial::init_block()
@@ -670,9 +669,7 @@ namespace mud
 	BlockPbr::BlockPbr(GfxSystem& gfx)
 		: GfxBlock(gfx, *this)
 	{
-		static cstring options[] = { "NORMAL_MAP", "EMISSIVE", "REFRACTION", "ANISOTROPY", "AMBIENT_OCCLUSION", "DEPTH_MAPPING", "DEEP_PARALLAX", "LIGHTMAP" };
-		static cstring modes[] = { "DIFFUSE_MODE", "SPECULAR_MODE" };
-		m_shader_block->m_options = options;
-		m_shader_block->m_modes = modes;
+		m_shader_block.m_options = { "NORMAL_MAP", "EMISSIVE", "REFRACTION", "ANISOTROPY", "AMBIENT_OCCLUSION", "DEPTH_MAPPING", "DEEP_PARALLAX", "LIGHTMAP" };
+		m_shader_block.m_modes = { "DIFFUSE_MODE", "SPECULAR_MODE" };
 	}
 }

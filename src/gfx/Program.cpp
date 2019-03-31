@@ -244,10 +244,10 @@ namespace mud
 	{
 		GfxBlock& mat = *ms_gfx_system->m_renderer.block<BlockMaterial>();
 		
-		static cstring options[] = { "INSTANCING", "BILLBOARD", "SKELETON", "QNORMALS", "VFLIP", "MRT", "DEFERRED", "CLUSTERED",
+		static string options[] = { "INSTANCING", "BILLBOARD", "SKELETON", "QNORMALS", "VFLIP", "MRT", "DEFERRED", "CLUSTERED",
 									 "ZONES_BUFFER", "LIGHTS_BUFFER", "MATERIALS_BUFFER" };
 		this->register_options(0, options);
-		this->register_block(mat);
+		this->register_block(mat.m_shader_block);
 
 		m_blocks[MaterialBlock::Base] = true;
 	}
@@ -264,21 +264,21 @@ namespace mud
 	{
 		for(GfxBlock* block : blocks)
 		{
-			this->register_block(*block);
+			this->register_block(block->m_shader_block);
 			m_registered_blocks.push_back(block);
 		}
 	}
 
-	void Program::register_block(const GfxBlock& block)
+	void Program::register_block(const ShaderBlock& block)
 	{
 		m_shader_blocks[block.m_index].m_enabled = true;
-		this->register_options(block.m_index, block.m_shader_block->m_options);
-		this->register_modes(block.m_index, block.m_shader_block->m_modes);
-		if(block.m_shader_block->m_defines.size() > 0)
-			prepend(m_defines, block.m_shader_block->m_defines);
+		this->register_options(block.m_index, block.m_options);
+		this->register_modes(block.m_index, block.m_modes);
+		if(block.m_defines.size() > 0)
+			prepend(m_defines, block.m_defines);
 	}
 
-	void Program::register_options(uint8_t block, span<cstring> options)
+	void Program::register_options(uint8_t block, span<string> options)
 	{
 		m_shader_blocks[block].m_enabled = true;
 		m_shader_blocks[block].m_option_shift = uint8_t(m_option_names.size());
@@ -287,7 +287,7 @@ namespace mud
 			m_option_names.push_back(options[i]);
 	}
 
-	void Program::register_modes(uint8_t block, span<cstring> modes)
+	void Program::register_modes(uint8_t block, span<string> modes)
 	{
 		m_shader_blocks[block].m_enabled = true;
 		m_shader_blocks[block].m_mode_shift = uint8_t(m_mode_names.size());
@@ -318,7 +318,7 @@ namespace mud
 
 	ProgramVersion Program::shader_version(Version& version)
 	{
-		ProgramVersion config = { this };
+		ProgramVersion config = { *this };
 		memcpy(&config.m_options, &version.m_version, sizeof(uint64_t));
 		return config;
 	}
@@ -376,8 +376,7 @@ namespace mud
 
 	bgfx::ProgramHandle Program::default_version()
 	{
-		ProgramVersion config;
-		config.m_program = this;
+		ProgramVersion config = { *this };
 		return this->version(config);
 	}
 

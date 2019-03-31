@@ -302,7 +302,7 @@ namespace mud
 
 	void parse_callable(CLModule& module, CLCallable& f)
 	{
-		printf("Parsing %s\n", f.m_name.c_str());
+		//printf("Parsing %s\n", f.m_name.c_str());
 		f.m_return_type = qual_type(module, *f.m_parent, result_type(f.m_cursor), !f.m_is_template);
 
 		visit_children(f.m_cursor, [&](CXCursor a)
@@ -450,7 +450,7 @@ namespace mud
 
 	void parse_class(CLModule& module, CLClass& c)
 	{
-		printf("Parsing %s\n", c.m_id.c_str());
+		//printf("Parsing %s\n", c.m_id.c_str());
 		CXCursor cursor = c.m_cursor;
 
 #if !RESOLVE_TEMPLATES
@@ -518,7 +518,7 @@ namespace mud
 				if(target && !target->iscstring() && parent.m_kind == CLPrimitiveKind::Namespace)
 				{
 					CLAlias& t = vector_emplace<CLAlias>(module.m_aliases, module, parent, cxalias, cxtarget);
-					printf("aliased %s to %s\n", t.m_id.c_str(), target->m_id.c_str());
+					//printf("aliased %s to %s\n", t.m_id.c_str(), target->m_id.c_str());
 					t.m_target = target;
 					t.m_reflect = should_reflect(c, module);
 					module.register_type(t);

@@ -75,7 +75,7 @@ namespace mud
 		meth_ vec4 dest_quad(const vec4& rect, bool from_fbo = false) const { return this->dest_quad(m_size, rect, from_fbo); }
 		meth_ vec4 source_quad(const vec4& rect, bool from_fbo = false) const { return this->source_quad(m_size, rect, from_fbo); }
 
-		RenderQuad render_quad(const vec4& rect, bool fbo_flip = true, bool from_fbo = false) const
+		meth_ RenderQuad render_quad(const vec4& rect, bool fbo_flip = true, bool from_fbo = false) const
 		{
 			return { this->source_quad(rect, from_fbo), this->dest_quad(rect, from_fbo), fbo_flip };
 		}

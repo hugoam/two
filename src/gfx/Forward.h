@@ -182,6 +182,8 @@ namespace stl
 {
 	export_ extern template struct refl_ span_ span<mud::mat4>;
 
+	export_ extern template class refl_ span_ span<mud::Texture*>;
+
 	export_ extern template class refl_ seque_ vector<mud::Mesh*>;
 	export_ extern template class refl_ seque_ vector<mud::Model*>;
 	export_ extern template class refl_ seque_ vector<mud::Texture*>;

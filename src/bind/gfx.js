@@ -1099,6 +1099,11 @@ FrameBuffer.prototype["source_quad"] = FrameBuffer.prototype.source_quad = funct
     if (a1 === undefined) { return wrapPointer(_mud_FrameBuffer_source_quad_1(this.__ptr, /*rect*/a0.__ptr), v4_float); }
     return wrapPointer(_mud_FrameBuffer_source_quad_2(this.__ptr, /*rect*/a0.__ptr, /*from_fbo*/a1), v4_float);
 };
+FrameBuffer.prototype["render_quad"] = FrameBuffer.prototype.render_quad = function(a0, a1, a2) {
+    if (a1 === undefined) { return wrapPointer(_mud_FrameBuffer_render_quad_1(this.__ptr, /*rect*/a0.__ptr), RenderQuad); }
+    if (a2 === undefined) { return wrapPointer(_mud_FrameBuffer_render_quad_2(this.__ptr, /*rect*/a0.__ptr, /*fbo_flip*/a1), RenderQuad); }
+    return wrapPointer(_mud_FrameBuffer_render_quad_3(this.__ptr, /*rect*/a0.__ptr, /*fbo_flip*/a1, /*from_fbo*/a2), RenderQuad);
+};
 Object.defineProperty(FrameBuffer.prototype, "size", {
     get: function() {
         return wrapPointer(_mud_FrameBuffer__get_size(this.__ptr), v2_uint);
@@ -3168,6 +3173,9 @@ Program.prototype["set_source"] = Program.prototype.set_source = function(a0, a1
 Program.prototype["register_blocks"] = Program.prototype.register_blocks = function(a0) {
     _mud_Program_register_blocks_1(this.__ptr, /*program*/a0.__ptr);
 };
+Program.prototype["register_block"] = Program.prototype.register_block = function(a0) {
+    _mud_Program_register_block_1(this.__ptr, /*block*/a0.__ptr);
+};
 Object.defineProperty(Program.prototype, "name", {
     get: function() {
         return Pointer_stringify(_mud_Program__get_name(this.__ptr));
@@ -3178,6 +3186,68 @@ Object.defineProperty(Program.prototype, "name", {
 });
 Program.prototype["__destroy"] = Program.prototype.__destroy = function() {
     _mud_Program__destroy(this.__ptr);
+};
+// ProgramBlock
+function ProgramBlock() {
+    this.__ptr = _mud_ProgramBlock__construct_0(); this.__type = ProgramBlock.__type; getCache(ProgramBlock)[this.__ptr] = this;
+};
+ProgramBlock.prototype = Object.create(WrapperObject.prototype);
+ProgramBlock.prototype.constructor = ProgramBlock;
+ProgramBlock.prototype.__class = ProgramBlock;
+ProgramBlock.__cache = {};
+Module['ProgramBlock'] = ProgramBlock;
+Object.defineProperty(ProgramBlock.prototype, "enabled", {
+    get: function() {
+        return !!(_mud_ProgramBlock__get_enabled(this.__ptr));
+    },
+    set: function(value) {
+        _mud_ProgramBlock__set_enabled(this.__ptr, value);
+    }
+});
+Object.defineProperty(ProgramBlock.prototype, "option_shift", {
+    get: function() {
+        return _mud_ProgramBlock__get_option_shift(this.__ptr);
+    },
+    set: function(value) {
+        _mud_ProgramBlock__set_option_shift(this.__ptr, value);
+    }
+});
+Object.defineProperty(ProgramBlock.prototype, "mode_shift", {
+    get: function() {
+        return _mud_ProgramBlock__get_mode_shift(this.__ptr);
+    },
+    set: function(value) {
+        _mud_ProgramBlock__set_mode_shift(this.__ptr, value);
+    }
+});
+ProgramBlock.prototype["__destroy"] = ProgramBlock.prototype.__destroy = function() {
+    _mud_ProgramBlock__destroy(this.__ptr);
+};
+// ProgramVersion
+function ProgramVersion(a0) {
+    if (a0 === undefined) { this.__ptr = _mud_ProgramVersion__construct_0(); this.__type = ProgramVersion.__type; getCache(ProgramVersion)[this.__ptr] = this; return; }
+    this.__ptr = _mud_ProgramVersion__construct_1(/*program*/a0.__ptr); this.__type = ProgramVersion.__type; getCache(ProgramVersion)[this.__ptr] = this;
+};
+ProgramVersion.prototype = Object.create(WrapperObject.prototype);
+ProgramVersion.prototype.constructor = ProgramVersion;
+ProgramVersion.prototype.__class = ProgramVersion;
+ProgramVersion.__cache = {};
+Module['ProgramVersion'] = ProgramVersion;
+ProgramVersion.prototype["clear"] = ProgramVersion.prototype.clear = function() {
+    _mud_ProgramVersion_clear_0(this.__ptr);
+};
+ProgramVersion.prototype["set_option"] = ProgramVersion.prototype.set_option = function(a0, a1, a2) {
+    if (a2 === undefined) { _mud_ProgramVersion_set_option_2(this.__ptr, /*block*/a0, /*option*/a1); return; }
+    _mud_ProgramVersion_set_option_3(this.__ptr, /*block*/a0, /*option*/a1, /*active*/a2);
+};
+ProgramVersion.prototype["set_mode"] = ProgramVersion.prototype.set_mode = function(a0, a1, a2) {
+    _mud_ProgramVersion_set_mode_3(this.__ptr, /*block*/a0, /*mode*/a1, /*value*/a2);
+};
+ProgramVersion.prototype["hash"] = ProgramVersion.prototype.hash = function() {
+    return _mud_ProgramVersion_hash_0(this.__ptr);
+};
+ProgramVersion.prototype["__destroy"] = ProgramVersion.prototype.__destroy = function() {
+    _mud_ProgramVersion__destroy(this.__ptr);
 };
 // Radiance
 function Radiance() {
@@ -3527,6 +3597,66 @@ Object.defineProperty(Scene.prototype, "user", {
 });
 Scene.prototype["__destroy"] = Scene.prototype.__destroy = function() {
     _mud_Scene__destroy(this.__ptr);
+};
+// ShaderBlock
+function ShaderBlock() {
+    this.__ptr = _mud_ShaderBlock__construct_0(); this.__type = ShaderBlock.__type; getCache(ShaderBlock)[this.__ptr] = this;
+};
+ShaderBlock.prototype = Object.create(WrapperObject.prototype);
+ShaderBlock.prototype.constructor = ShaderBlock;
+ShaderBlock.prototype.__class = ShaderBlock;
+ShaderBlock.__cache = {};
+Module['ShaderBlock'] = ShaderBlock;
+ShaderBlock.prototype["add_option"] = ShaderBlock.prototype.add_option = function(a0) {
+    ensureCache.prepare();
+    _mud_ShaderBlock_add_option_1(this.__ptr, ensureString(/*name*/a0));
+};
+ShaderBlock.prototype["add_mode"] = ShaderBlock.prototype.add_mode = function(a0) {
+    ensureCache.prepare();
+    _mud_ShaderBlock_add_mode_1(this.__ptr, ensureString(/*name*/a0));
+};
+ShaderBlock.prototype["add_define"] = ShaderBlock.prototype.add_define = function(a0, a1) {
+    ensureCache.prepare();
+    _mud_ShaderBlock_add_define_2(this.__ptr, ensureString(/*name*/a0), ensureString(/*value*/a1));
+};
+Object.defineProperty(ShaderBlock.prototype, "index", {
+    get: function() {
+        return _mud_ShaderBlock__get_index(this.__ptr);
+    },
+    set: function(value) {
+        _mud_ShaderBlock__set_index(this.__ptr, value);
+    }
+});
+ShaderBlock.prototype["__destroy"] = ShaderBlock.prototype.__destroy = function() {
+    _mud_ShaderBlock__destroy(this.__ptr);
+};
+// ShaderDefine
+function ShaderDefine() {
+    this.__ptr = _mud_ShaderDefine__construct_0(); this.__type = ShaderDefine.__type; getCache(ShaderDefine)[this.__ptr] = this;
+};
+ShaderDefine.prototype = Object.create(WrapperObject.prototype);
+ShaderDefine.prototype.constructor = ShaderDefine;
+ShaderDefine.prototype.__class = ShaderDefine;
+ShaderDefine.__cache = {};
+Module['ShaderDefine'] = ShaderDefine;
+Object.defineProperty(ShaderDefine.prototype, "name", {
+    get: function() {
+        return Pointer_stringify(_mud_ShaderDefine__get_name(this.__ptr));
+    },
+    set: function(value) {
+        _mud_ShaderDefine__set_name(this.__ptr, ensureString(value));
+    }
+});
+Object.defineProperty(ShaderDefine.prototype, "value", {
+    get: function() {
+        return Pointer_stringify(_mud_ShaderDefine__get_value(this.__ptr));
+    },
+    set: function(value) {
+        _mud_ShaderDefine__set_value(this.__ptr, ensureString(value));
+    }
+});
+ShaderDefine.prototype["__destroy"] = ShaderDefine.prototype.__destroy = function() {
+    _mud_ShaderDefine__destroy(this.__ptr);
 };
 // Shot
 function Shot() { throw "cannot construct a Shot, no constructor in IDL" }
@@ -4004,6 +4134,11 @@ BlockFilter.prototype.constructor = BlockFilter;
 BlockFilter.prototype.__class = BlockFilter;
 BlockFilter.__cache = {};
 Module['BlockFilter'] = BlockFilter;
+BlockFilter.prototype["submit"] = BlockFilter.prototype.submit = function(a0, a1, a2, a3, a4, a5) {
+    if (a4 === undefined) { _mud_BlockFilter_submit_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*quad*/a3.__ptr); return; }
+    if (a5 === undefined) { _mud_BlockFilter_submit_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*quad*/a3.__ptr, /*flags*/a4); return; }
+    _mud_BlockFilter_submit_6(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*quad*/a3.__ptr, /*flags*/a4, /*render*/a5);
+};
 BlockFilter.prototype["quad"] = BlockFilter.prototype.quad = function(a0, a1, a2, a3, a4, a5) {
     if (a4 === undefined) { _mud_BlockFilter_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr); return; }
     if (a5 === undefined) { _mud_BlockFilter_quad_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4); return; }
@@ -4627,6 +4762,8 @@ Module['render_clear'] = function(a0, a1) {
         Pass.__type = _mud_Pass__type();
         Prefab.__type = _mud_Prefab__type();
         Program.__type = _mud_Program__type();
+        ProgramBlock.__type = _mud_ProgramBlock__type();
+        ProgramVersion.__type = _mud_ProgramVersion__type();
         Radiance.__type = _mud_Radiance__type();
         Render.__type = _mud_Render__type();
         RenderFrame.__type = _mud_RenderFrame__type();
@@ -4634,6 +4771,8 @@ Module['render_clear'] = function(a0, a1) {
         Renderer.__type = _mud_Renderer__type();
         Rig.__type = _mud_Rig__type();
         Scene.__type = _mud_Scene__type();
+        ShaderBlock.__type = _mud_ShaderBlock__type();
+        ShaderDefine.__type = _mud_ShaderDefine__type();
         Shot.__type = _mud_Shot__type();
         Skeleton.__type = _mud_Skeleton__type();
         Skin.__type = _mud_Skin__type();

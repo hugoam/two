@@ -881,6 +881,18 @@ extern "C" {
 		static mud::vec4 temp;
 		return (temp = self->source_quad(*rect, from_fbo), &temp);
 	}
+	mud::RenderQuad* DECL mud_FrameBuffer_render_quad_1(mud::FrameBuffer* self, const mud::vec4* rect) {
+		static mud::RenderQuad temp;
+		return (temp = self->render_quad(*rect), &temp);
+	}
+	mud::RenderQuad* DECL mud_FrameBuffer_render_quad_2(mud::FrameBuffer* self, const mud::vec4* rect, bool fbo_flip) {
+		static mud::RenderQuad temp;
+		return (temp = self->render_quad(*rect, fbo_flip), &temp);
+	}
+	mud::RenderQuad* DECL mud_FrameBuffer_render_quad_3(mud::FrameBuffer* self, const mud::vec4* rect, bool fbo_flip, bool from_fbo) {
+		static mud::RenderQuad temp;
+		return (temp = self->render_quad(*rect, fbo_flip, from_fbo), &temp);
+	}
 	mud::uvec2* DECL mud_FrameBuffer__get_size(mud::FrameBuffer* self) {
 		return &self->m_size;
 	}
@@ -2563,6 +2575,9 @@ extern "C" {
 	void DECL mud_Program_register_blocks_1(mud::Program* self, const mud::Program* program) {
 		self->register_blocks(*program);
 	}
+	void DECL mud_Program_register_block_1(mud::Program* self, const mud::ShaderBlock* block) {
+		self->register_block(*block);
+	}
 	const char* DECL mud_Program__get_name(mud::Program* self) {
 		return self->m_name.c_str();
 	}
@@ -2570,6 +2585,62 @@ extern "C" {
 		self->m_name = value;
 	}
 	void DECL mud_Program__destroy(mud::Program* self) {
+		delete self;
+	}
+	// ProgramBlock
+	mud::Type* DECL mud_ProgramBlock__type() {
+		return &mud::type<mud::ProgramBlock>();
+	}
+	mud::ProgramBlock* DECL mud_ProgramBlock__construct_0() {
+		return new mud::ProgramBlock();
+	}
+	bool DECL mud_ProgramBlock__get_enabled(mud::ProgramBlock* self) {
+		return self->m_enabled;
+	}
+	void DECL mud_ProgramBlock__set_enabled(mud::ProgramBlock* self, bool value) {
+		self->m_enabled = value;
+	}
+	uint8_t DECL mud_ProgramBlock__get_option_shift(mud::ProgramBlock* self) {
+		return self->m_option_shift;
+	}
+	void DECL mud_ProgramBlock__set_option_shift(mud::ProgramBlock* self, uint8_t value) {
+		self->m_option_shift = value;
+	}
+	uint8_t DECL mud_ProgramBlock__get_mode_shift(mud::ProgramBlock* self) {
+		return self->m_mode_shift;
+	}
+	void DECL mud_ProgramBlock__set_mode_shift(mud::ProgramBlock* self, uint8_t value) {
+		self->m_mode_shift = value;
+	}
+	void DECL mud_ProgramBlock__destroy(mud::ProgramBlock* self) {
+		delete self;
+	}
+	// ProgramVersion
+	mud::Type* DECL mud_ProgramVersion__type() {
+		return &mud::type<mud::ProgramVersion>();
+	}
+	mud::ProgramVersion* DECL mud_ProgramVersion__construct_0() {
+		return new mud::ProgramVersion();
+	}
+	mud::ProgramVersion* DECL mud_ProgramVersion__construct_1(const mud::Program* program) {
+		return new mud::ProgramVersion(*program);
+	}
+	void DECL mud_ProgramVersion_clear_0(mud::ProgramVersion* self) {
+		self->clear();
+	}
+	void DECL mud_ProgramVersion_set_option_2(mud::ProgramVersion* self, uint8_t block, uint8_t option) {
+		self->set_option(block, option);
+	}
+	void DECL mud_ProgramVersion_set_option_3(mud::ProgramVersion* self, uint8_t block, uint8_t option, bool active) {
+		self->set_option(block, option, active);
+	}
+	void DECL mud_ProgramVersion_set_mode_3(mud::ProgramVersion* self, uint8_t block, uint8_t mode, uint8_t value) {
+		self->set_mode(block, mode, value);
+	}
+	uint64_t DECL mud_ProgramVersion_hash_0(mud::ProgramVersion* self) {
+		return self->hash();
+	}
+	void DECL mud_ProgramVersion__destroy(mud::ProgramVersion* self) {
 		delete self;
 	}
 	// Radiance
@@ -2855,6 +2926,53 @@ extern "C" {
 		self->m_user = *value;
 	}
 	void DECL mud_Scene__destroy(mud::Scene* self) {
+		delete self;
+	}
+	// ShaderBlock
+	mud::Type* DECL mud_ShaderBlock__type() {
+		return &mud::type<mud::ShaderBlock>();
+	}
+	mud::ShaderBlock* DECL mud_ShaderBlock__construct_0() {
+		return new mud::ShaderBlock();
+	}
+	void DECL mud_ShaderBlock_add_option_1(mud::ShaderBlock* self, const char* name) {
+		self->add_option(name);
+	}
+	void DECL mud_ShaderBlock_add_mode_1(mud::ShaderBlock* self, const char* name) {
+		self->add_mode(name);
+	}
+	void DECL mud_ShaderBlock_add_define_2(mud::ShaderBlock* self, const char* name, const char* value) {
+		self->add_define(name, value);
+	}
+	uint32_t DECL mud_ShaderBlock__get_index(mud::ShaderBlock* self) {
+		return self->m_index;
+	}
+	void DECL mud_ShaderBlock__set_index(mud::ShaderBlock* self, uint32_t value) {
+		self->m_index = value;
+	}
+	void DECL mud_ShaderBlock__destroy(mud::ShaderBlock* self) {
+		delete self;
+	}
+	// ShaderDefine
+	mud::Type* DECL mud_ShaderDefine__type() {
+		return &mud::type<mud::ShaderDefine>();
+	}
+	mud::ShaderDefine* DECL mud_ShaderDefine__construct_0() {
+		return new mud::ShaderDefine();
+	}
+	const char* DECL mud_ShaderDefine__get_name(mud::ShaderDefine* self) {
+		return self->m_name.c_str();
+	}
+	void DECL mud_ShaderDefine__set_name(mud::ShaderDefine* self, const char* value) {
+		self->m_name = value;
+	}
+	const char* DECL mud_ShaderDefine__get_value(mud::ShaderDefine* self) {
+		return self->m_value.c_str();
+	}
+	void DECL mud_ShaderDefine__set_value(mud::ShaderDefine* self, const char* value) {
+		self->m_value = value;
+	}
+	void DECL mud_ShaderDefine__destroy(mud::ShaderDefine* self) {
 		delete self;
 	}
 	// Shot
@@ -3244,6 +3362,15 @@ extern "C" {
 	// BlockFilter
 	mud::Type* DECL mud_BlockFilter__type() {
 		return &mud::type<mud::BlockFilter>();
+	}
+	void DECL mud_BlockFilter_submit_4(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, const mud::ProgramVersion* program, const mud::RenderQuad* quad) {
+		self->submit(*pass, *fbo, *program, *quad);
+	}
+	void DECL mud_BlockFilter_submit_5(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, const mud::ProgramVersion* program, const mud::RenderQuad* quad, uint64_t flags) {
+		self->submit(*pass, *fbo, *program, *quad, flags);
+	}
+	void DECL mud_BlockFilter_submit_6(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, const mud::ProgramVersion* program, const mud::RenderQuad* quad, uint64_t flags, bool render) {
+		self->submit(*pass, *fbo, *program, *quad, flags, render);
 	}
 	void DECL mud_BlockFilter_quad_4(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Program* program, const mud::uvec4* rect) {
 		self->quad(*pass, *fbo, *program, *rect);

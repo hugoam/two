@@ -49,10 +49,9 @@ namespace mud
 		, m_filter(filter)
 		, m_skybox_program(gfx.programs().create("skybox"))
 	{
-		static cstring options[] = { "SKYBOX_FBO", "SKYBOX_CUBE" };
-		m_shader_block->m_options = options;
+		m_shader_block.m_options = { "SKYBOX_FBO", "SKYBOX_CUBE" };
 
-		m_skybox_program.register_block(*this);
+		m_skybox_program.register_block(m_shader_block);
 	}
 
 	void BlockSky::init_block()
@@ -94,13 +93,13 @@ namespace mud
 			mat4 skybox_matrix = bxinverse(render.m_camera->m_transform);
 			encoder.setUniform(u_skybox.u_skybox_matrix, &skybox_matrix);
 
-			ProgramVersion program = { &m_skybox_program };
+			ProgramVersion program = { m_skybox_program };
 			program.set_option(0, VFLIP, render.m_vflip);
 			program.set_option(m_index, SKYBOX_FBO, texture.m_is_fbo);
 			program.set_option(m_index, SKYBOX_CUBE, texture.m_is_cube);
 
 			RenderQuad quad = render.m_target_fbo->render_quad(vec4(render.m_rect), false);
-			m_filter.quad(sky_pass, *render.m_target_fbo, program, quad, BGFX_STATE_DEPTH_TEST_LEQUAL);
+			m_filter.submit(sky_pass, *render.m_target_fbo, program, quad, BGFX_STATE_DEPTH_TEST_LEQUAL);
 		}
 	}
 }

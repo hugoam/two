@@ -341,10 +341,8 @@ namespace mud
 		, m_block_depth(block_depth)
 		, m_block_light(block_light)
 	{
-		static cstring options[] = { "CSM_SHADOW" };
-		static cstring modes[] = { "PCF_LEVEL", "CSM_NUM_CASCADES" };
-		m_shader_block->m_options = options;
-		m_shader_block->m_modes = modes;
+		m_shader_block.m_options = { "CSM_SHADOW" };
+		m_shader_block.m_modes = { "PCF_LEVEL", "CSM_NUM_CASCADES" };
 
 		//m_pcf_level = PCF_HARD;
 		m_pcf_level = PCF_NONE;
