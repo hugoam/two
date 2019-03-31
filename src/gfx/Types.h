@@ -51,6 +51,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Shading>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ShadowFlags>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::TextureChannel>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::TextureFormat>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::TextureHint>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::TextureSampler>();
     

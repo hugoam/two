@@ -310,12 +310,12 @@ namespace mud
 
 		if(method == DepthMethod::Depth)
 		{
-			m_depth = { size, false, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
+			m_depth = { size, false, TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
 			m_fbo = { m_depth };
 		}
 		else if(method == DepthMethod::Distance)
 		{
-			m_color = { size, false, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
+			m_color = { size, false, TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
 			m_fbo = { m_color };
 		}
 	}
@@ -327,7 +327,7 @@ namespace mud
 			return;
 
 		m_size = size;
-		m_depth = { uvec2(size), false, bgfx::TextureFormat::D24S8, flags, true };
+		m_depth = { uvec2(size), false, TextureFormat::D24S8, flags, true };
 
 		for(int i = 0; i < 6; i++)
 		{

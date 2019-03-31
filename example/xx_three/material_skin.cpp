@@ -595,7 +595,7 @@ static string beckmann_fragment()
 
 Texture& render_beckmann(GfxSystem& gfx, uvec2 size)
 {
-	static FrameBuffer fbo = { size, bgfx::TextureFormat::RGBA8 };
+	static FrameBuffer fbo = { size, TextureFormat::RGBA8 };
 
 	static Program& beckmann = gfx.programs().create("beckmann");
 	beckmann.set_source(ShaderType::Vertex, beckmann_vertex());
@@ -611,8 +611,8 @@ Texture& render_beckmann(GfxSystem& gfx, uvec2 size)
 
 void pass_bloom(GfxSystem& gfx, Render& render, Texture& source, FrameBuffer& fbo, bool clear = true, float strength = 1.f, uint32_t kernel_size = 25, float sigma = 4.f, uint32_t resolution = 256)
 {
-	static FrameBuffer targetX = { uvec2(resolution), bgfx::TextureFormat::RGBA8 };
-	static FrameBuffer targetY = { uvec2(resolution), bgfx::TextureFormat::RGBA8 };
+	static FrameBuffer targetX = { uvec2(resolution), TextureFormat::RGBA8 };
+	static FrameBuffer targetY = { uvec2(resolution), TextureFormat::RGBA8 };
 
 	constexpr vec2 blurX = vec2(0.001953125f, 0.0f);
 	constexpr vec2 blurY = vec2(0.0f, 0.001953125f);
@@ -689,10 +689,10 @@ void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	static Material* material = nullptr;
 	static Material* material_uv = nullptr;
 
-	static FrameBuffer uv = { uvec2(512U), bgfx::TextureFormat::RGBA8 };
-	static FrameBuffer blur1 = { uvec2(512U), bgfx::TextureFormat::RGBA8 };
-	static FrameBuffer blur2 = { uvec2(512U), bgfx::TextureFormat::RGBA8 };
-	static FrameBuffer blur3 = { uvec2(512U), bgfx::TextureFormat::RGBA8 };
+	static FrameBuffer uv = { uvec2(512U), TextureFormat::RGBA8 };
+	static FrameBuffer blur1 = { uvec2(512U), TextureFormat::RGBA8 };
+	static FrameBuffer blur2 = { uvec2(512U), TextureFormat::RGBA8 };
+	static FrameBuffer blur3 = { uvec2(512U), TextureFormat::RGBA8 };
 
 	if(init)
 	{

@@ -192,14 +192,15 @@ namespace mud
 
 	void save_texture(GfxSystem& gfx, Texture& tex, const string& path)
 	{
-		save_bgfx_texture(gfx.allocator(), gfx.file_writer(), path.c_str(), tex.m_format, 
-						  tex.m_tex, tex.m_format, uint16_t(tex.m_size.x), uint16_t(tex.m_size.y));
+		bgfx::TextureFormat::Enum bformat = bgfx::TextureFormat::Enum(tex.m_format);
+		save_bgfx_texture(gfx.allocator(), gfx.file_writer(), path.c_str(), bformat, 
+						  tex.m_tex, bformat, uint16_t(tex.m_size.x), uint16_t(tex.m_size.y));
 	}
 
 	void set_texture_info(Texture& texture, bgfx::TextureInfo& texture_info)
 	{
 		texture.m_size = uvec2(texture_info.width, texture_info.height);
-		texture.m_format = texture_info.format;
+		texture.m_format = TextureFormat(texture_info.format);
 		texture.m_memsize = texture_info.storageSize;
 		texture.m_bits_per_pixel = texture_info.bitsPerPixel;
 		texture.m_is_cube = texture_info.cubeMap;
@@ -287,33 +288,36 @@ namespace mud
 		: m_name(name)
 	{}
 
-	Texture::Texture(const uvec2& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags, bool cube)
+	Texture::Texture(const uvec2& size, bool mips, TextureFormat format, uint64_t flags, bool cube)
 		: m_size(size)
 		, m_format(format)
 		, m_is_cube(cube)
 	{
+		bgfx::TextureFormat::Enum bformat = bgfx::TextureFormat::Enum(format);
 		m_tex = cube
-			? bgfx::createTextureCube(uint16_t(size.x), mips, 1, format, flags)
-			: bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), mips, 1, format, flags);
-		m_is_depth = format >= bgfx::TextureFormat::D16 && format <= bgfx::TextureFormat::D0S8;
+			? bgfx::createTextureCube(uint16_t(size.x), mips, 1, bformat, flags)
+			: bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), mips, 1, bformat, flags);
+		m_is_depth = bformat >= bgfx::TextureFormat::D16 && bformat <= bgfx::TextureFormat::D0S8;
 	}
 
-	Texture::Texture(const uvec2& size, bool mips, int layers, bgfx::TextureFormat::Enum format, uint64_t flags)
+	Texture::Texture(const uvec2& size, bool mips, int layers, TextureFormat format, uint64_t flags)
 		: m_size(size)
 		, m_format(format)
 	{
-		m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), mips, layers, format, flags);
-		m_is_depth = format >= bgfx::TextureFormat::D16 && format <= bgfx::TextureFormat::D0S8;
+		bgfx::TextureFormat::Enum bformat = bgfx::TextureFormat::Enum(format);
+		m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), mips, layers, bformat, flags);
+		m_is_depth = bformat >= bgfx::TextureFormat::D16 && bformat <= bgfx::TextureFormat::D0S8;
 		m_is_array = true;
 	}
 
-	Texture::Texture(const uvec3& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags)
+	Texture::Texture(const uvec3& size, bool mips, TextureFormat format, uint64_t flags)
 		: m_size(size.x, size.y)
 		, m_depth(size.z)
 		, m_format(format)
 	{
-		m_tex = bgfx::createTexture3D(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), mips, format, flags);
-		m_is_depth = format >= bgfx::TextureFormat::D16 && format <= bgfx::TextureFormat::D0S8;
+		bgfx::TextureFormat::Enum bformat = bgfx::TextureFormat::Enum(format);
+		m_tex = bgfx::createTexture3D(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), mips, bformat, flags);
+		m_is_depth = bformat >= bgfx::TextureFormat::D16 && bformat <= bgfx::TextureFormat::D0S8;
 	}
 
 	Texture::~Texture()

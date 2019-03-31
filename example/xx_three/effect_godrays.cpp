@@ -308,12 +308,12 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 	const uvec2 size = rect_size(render.m_rect) / 4U;
 
 	// The ping-pong render targets can use an adjusted resolution to minimize cost
-	static FrameBuffer ping = { render.m_target->m_size / 4U, bgfx::TextureFormat::R32F, 0U };
-	static FrameBuffer pong = { render.m_target->m_size / 4U, bgfx::TextureFormat::R32F, 0U };
+	static FrameBuffer ping = { render.m_target->m_size / 4U, TextureFormat::R32F, 0U };
+	static FrameBuffer pong = { render.m_target->m_size / 4U, TextureFormat::R32F, 0U };
 	
 	// I would have this quarter size and use it as one of the ping-pong render
 	// targets but the aliasing causes some temporal flickering
-	static FrameBuffer depth = { render.m_target->m_size, bgfx::TextureFormat::R32F, 0U };
+	static FrameBuffer depth = { render.m_target->m_size, TextureFormat::R32F, 0U };
 
 	auto pass_mask_depth = [](GfxSystem& gfx, Render& render, const Godrays& godrays, FrameBuffer& fbo)
 	{

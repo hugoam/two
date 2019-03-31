@@ -50,14 +50,14 @@ namespace mud
 namespace mud
 {
 #ifdef LIGHTMAP_HDR
-	static const bgfx::TextureFormat::Enum c_lightmap_format = bgfx::TextureFormat::RGBA16F;
+	static const TextureFormat c_lightmap_format = TextureFormat::RGBA16F;
 #ifdef LIGHTMAP_COMPRESS
 	static const bgfx::TextureFormat::Enum c_lightmap_file_format = bgfx::TextureFormat::BC6H;
 #else
 	static const bgfx::TextureFormat::Enum c_lightmap_file_format = bgfx::TextureFormat::RGBA16F;
 #endif
 #else
-	static const bgfx::TextureFormat::Enum c_lightmap_format = bgfx::TextureFormat::RGBA8;
+	static const TextureFormat c_lightmap_format = TextureFormat::RGBA8;
 #ifdef LIGHTMAP_COMPRESS
 	static const bgfx::TextureFormat::Enum c_lightmap_file_format = bgfx::TextureFormat::BC3;
 #else
@@ -78,7 +78,7 @@ namespace mud
 	void save_lightmap(GfxSystem& gfx, Lightmap& lightmap, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
 	{
 		uint16_t size = uint16_t(lightmap.m_size);
-		Texture blit_texture = { uvec2(size, size), false, source_format, BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK };
+		Texture blit_texture = { uvec2(size, size), false, TextureFormat(source_format), BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK };
 		bgfx::blit(0, blit_texture, 0, 0, 0, 0, texture, 0, 0, 0, 0, size, size, 1);
 		bgfx::frame();
 		bgfx::frame();
@@ -469,7 +469,7 @@ namespace mud
 
 			bgfx::frame();
 
-			save_lightmap(m_gfx, *lightmap, bgfx::getTexture(fbo), c_lightmap_format, c_lightmap_file_format, cached_path);
+			save_lightmap(m_gfx, *lightmap, bgfx::getTexture(fbo), bgfx::TextureFormat::Enum(c_lightmap_format), c_lightmap_file_format, cached_path);
 			load_lightmap(m_gfx, *lightmap, cached_path);
 		}
 

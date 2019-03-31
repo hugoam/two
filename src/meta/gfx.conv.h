@@ -88,6 +88,9 @@ namespace mud
 	export_ template <> inline void to_value(const string& str, mud::TextureChannel& val) { val = mud::TextureChannel(enu<mud::TextureChannel>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::TextureChannel& val, string& str) { str = enu<mud::TextureChannel>().name(uint32_t(val)); };
 	
+	export_ template <> inline void to_value(const string& str, mud::TextureFormat& val) { val = mud::TextureFormat(enu<mud::TextureFormat>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::TextureFormat& val, string& str) { str = enu<mud::TextureFormat>().name(uint32_t(val)); };
+	
 	export_ template <> inline void to_value(const string& str, mud::TextureHint& val) { val = mud::TextureHint(enu<mud::TextureHint>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::TextureHint& val, string& str) { str = enu<mud::TextureHint>().name(uint32_t(val)); };
 	

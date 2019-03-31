@@ -79,6 +79,8 @@ void mud_ShadowFlags__to_string(void* val, string& str) { str = g_enu[type<mud::
 void mud_ShadowFlags__to_value(const string& str, void* val) { (*static_cast<mud::ShadowFlags*>(val)) = mud::ShadowFlags(g_enu[type<mud::ShadowFlags>().m_id]->value(str.c_str())); }
 void mud_TextureChannel__to_string(void* val, string& str) { str = g_enu[type<mud::TextureChannel>().m_id]->name(uint32_t((*static_cast<mud::TextureChannel*>(val)))); }
 void mud_TextureChannel__to_value(const string& str, void* val) { (*static_cast<mud::TextureChannel*>(val)) = mud::TextureChannel(g_enu[type<mud::TextureChannel>().m_id]->value(str.c_str())); }
+void mud_TextureFormat__to_string(void* val, string& str) { str = g_enu[type<mud::TextureFormat>().m_id]->name(uint32_t((*static_cast<mud::TextureFormat*>(val)))); }
+void mud_TextureFormat__to_value(const string& str, void* val) { (*static_cast<mud::TextureFormat*>(val)) = mud::TextureFormat(g_enu[type<mud::TextureFormat>().m_id]->value(str.c_str())); }
 void mud_TextureHint__to_string(void* val, string& str) { str = g_enu[type<mud::TextureHint>().m_id]->name(uint32_t((*static_cast<mud::TextureHint*>(val)))); }
 void mud_TextureHint__to_value(const string& str, void* val) { (*static_cast<mud::TextureHint*>(val)) = mud::TextureHint(g_enu[type<mud::TextureHint>().m_id]->value(str.c_str())); }
 void mud_TextureSampler__to_string(void* val, string& str) { str = g_enu[type<mud::TextureSampler>().m_id]->name(uint32_t((*static_cast<mud::TextureSampler*>(val)))); }
@@ -185,6 +187,12 @@ void mud_Flow__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl:
 void mud_Flow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Flow((*static_cast<mud::Flow*>(other))); }
 void mud_Fog__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Fog(  ); }
 void mud_Fog__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Fog((*static_cast<mud::Fog*>(other))); }
+void mud_FrameBuffer__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::FrameBuffer(  ); }
+void mud_FrameBuffer__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::FrameBuffer( *static_cast<mud::uvec2*>(args[0]), *static_cast<mud::TextureFormat*>(args[1]), *static_cast<uint64_t*>(args[2]) ); }
+void mud_FrameBuffer__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::FrameBuffer( *static_cast<mud::uvec2*>(args[0]), *static_cast<stl::span<mud::Texture*>*>(args[1]) ); }
+void mud_FrameBuffer_valid(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::FrameBuffer*>(object)).valid(); }
+void mud_FrameBuffer_dest_quad(void* object, span<void*> args, void*& result) { (*static_cast<mud::v4<float>*>(result)) = (*static_cast<mud::FrameBuffer*>(object)).dest_quad(*static_cast<mud::vec4*>(args[0]), *static_cast<bool*>(args[1])); }
+void mud_FrameBuffer_source_quad(void* object, span<void*> args, void*& result) { (*static_cast<mud::v4<float>*>(result)) = (*static_cast<mud::FrameBuffer*>(object)).source_quad(*static_cast<mud::vec4*>(args[0]), *static_cast<bool*>(args[1])); }
 void mud_FrustumSlice__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::FrustumSlice(  ); }
 void mud_FrustumSlice__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::FrustumSlice((*static_cast<mud::FrustumSlice*>(other))); }
 void* mud_GfxBlock__get_type(void* object) { return &(*static_cast<mud::GfxBlock*>(object)).m_type; }
@@ -327,6 +335,8 @@ void mud_TPool_mud_Node3_add(void* object, span<void*> args, void*& result) { re
 void mud_TPool_mud_Node3_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<mud::TPool<mud::Node3>*>(object)).talloc(); }
 void mud_TPool_mud_Node3_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Node3>*>(object)).tdestroy(*static_cast<mud::Node3*>(args[0])); }
 void mud_TPool_mud_Node3_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::TPool<mud::Node3>*>(object)).tfree(*static_cast<mud::Node3*>(args[0])); }
+void mud_Texture__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Texture( *static_cast<stl::string*>(args[0]) ); }
+void mud_Texture__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Texture( *static_cast<mud::uvec2*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<mud::TextureFormat*>(args[2]), *static_cast<uint64_t*>(args[3]), *static_cast<bool*>(args[4]) ); }
 void mud_Texture_valid(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Texture*>(object)).valid(); }
 void mud_Zone__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Zone(  ); }
 void mud_Zone__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Zone((*static_cast<mud::Zone*>(other))); }
@@ -733,6 +743,18 @@ namespace mud
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { mud_TextureChannel__to_string,
 		                           mud_TextureChannel__to_value };
+		g_convert[t.m_id] = &convert;
+	}
+	{
+		Type& t = type<mud::TextureFormat>();
+		static Meta meta = { t, &namspc({ "mud" }), "TextureFormat", sizeof(mud::TextureFormat), TypeClass::Enum };
+		static cstring ids[] = { "R8", "R16F", "R32U", "R32F", "RG8", "RG16F", "RG32F", "RGB8", "BGRA8", "RGBA8", "RGB10A2", "RGBA16F", "RGBA32F", "D16", "D24", "D24S8", "D32", "Count" };
+		static uint32_t values[] = { 29, 36, 39, 40, 41, 48, 52, 53, 58, 59, 74, 66, 70, 77, 78, 79, 80, 81 };
+		static mud::TextureFormat vars[] = { mud::TextureFormat::R8, mud::TextureFormat::R16F, mud::TextureFormat::R32U, mud::TextureFormat::R32F, mud::TextureFormat::RG8, mud::TextureFormat::RG16F, mud::TextureFormat::RG32F, mud::TextureFormat::RGB8, mud::TextureFormat::BGRA8, mud::TextureFormat::RGBA8, mud::TextureFormat::RGB10A2, mud::TextureFormat::RGBA16F, mud::TextureFormat::RGBA32F, mud::TextureFormat::D16, mud::TextureFormat::D24, mud::TextureFormat::D24S8, mud::TextureFormat::D32, mud::TextureFormat::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10], &vars[11], &vars[12], &vars[13], &vars[14], &vars[15], &vars[16], &vars[17]};
+		static Enum enu = { t, true, ids, values, refs };
+		static Convert convert = { mud_TextureFormat__to_string,
+		                           mud_TextureFormat__to_value };
 		g_convert[t.m_id] = &convert;
 	}
 	{
@@ -1429,7 +1451,15 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "FrameBuffer", sizeof(mud::FrameBuffer), TypeClass::Object };
 		// bases
 		// defaults
+		static uint64_t construct_1_flags_default = 0U;
+		static bool dest_quad_0_from_fbo_default = false;
+		static bool source_quad_0_from_fbo_default = false;
 		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_FrameBuffer__construct_0, {} },
+			{ t, mud_FrameBuffer__construct_1, { { "size", type<mud::uvec2>(),  }, { "format", type<mud::TextureFormat>(),  }, { "flags", type<uint64_t>(), Param::Default, &construct_1_flags_default } } },
+			{ t, mud_FrameBuffer__construct_2, { { "size", type<mud::uvec2>(),  }, { "textures", type<stl::span<mud::Texture*>>(),  } } }
+		};
 		// copy constructor
 		// members
 		static Member members[] = {
@@ -1437,8 +1467,13 @@ namespace mud
 			{ t, offsetof(mud::FrameBuffer, m_tex), type<mud::Texture>(), "tex", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
+		static Method methods[] = {
+			{ t, "valid", Address(), mud_FrameBuffer_valid, {}, { &type<bool>(), QualType::None } },
+			{ t, "dest_quad", Address(), mud_FrameBuffer_dest_quad, { { "rect", type<mud::vec4>(),  }, { "from_fbo", type<bool>(), Param::Default, &dest_quad_0_from_fbo_default } }, { &type<mud::vec4>(), QualType::None } },
+			{ t, "source_quad", Address(), mud_FrameBuffer_source_quad, { { "rect", type<mud::vec4>(),  }, { "from_fbo", type<bool>(), Param::Default, &source_quad_0_from_fbo_default } }, { &type<mud::vec4>(), QualType::None } }
+		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
 	// mud::Frustum
 	{
@@ -2531,7 +2566,7 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Render", sizeof(mud::Render), TypeClass::Struct };
 		// bases
 		// defaults
-		static uint8_t pass_index_default = s_render_pass_id;
+		static uint8_t pass_index_default = mud::Render::s_render_pass_id;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Render__construct_0, {} },
@@ -2953,11 +2988,19 @@ namespace mud
 		static bool is_cube_default = false;
 		static bool is_fbo_default = false;
 		static bool mips_default = false;
+		static stl::string construct_0_name_default = "";
+		static uint64_t construct_1_flags_default = 0U;
+		static bool construct_1_cube_default = false;
 		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Texture__construct_0, { { "name", type<stl::string>(), Param::Default, &construct_0_name_default } } },
+			{ t, mud_Texture__construct_1, { { "size", type<mud::uvec2>(),  }, { "mips", type<bool>(),  }, { "format", type<mud::TextureFormat>(),  }, { "flags", type<uint64_t>(), Param::Default, &construct_1_flags_default }, { "cube", type<bool>(), Param::Default, &construct_1_cube_default } } }
+		};
 		// copy constructor
 		// members
 		static Member members[] = {
 			{ t, offsetof(mud::Texture, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Texture, m_format), type<mud::TextureFormat>(), "format", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Texture, m_size), type<mud::uvec2>(), "size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Texture, m_depth), type<uint16_t>(), "depth", &depth_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Texture, m_memsize), type<uint32_t>(), "memsize", &memsize_default, Member::Value, nullptr },
@@ -2974,7 +3017,7 @@ namespace mud
 			{ t, "valid", Address(), mud_Texture_valid, {}, { &type<bool>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
 	// mud::Zone
 	{
@@ -3423,6 +3466,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::TPool<mud::Node3>>());
 		m.m_types.push_back(&type<mud::Texture>());
 		m.m_types.push_back(&type<mud::TextureChannel>());
+		m.m_types.push_back(&type<mud::TextureFormat>());
 		m.m_types.push_back(&type<mud::TextureHint>());
 		m.m_types.push_back(&type<mud::TextureSampler>());
 		m.m_types.push_back(&type<mud::Zone>());

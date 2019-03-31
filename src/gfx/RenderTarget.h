@@ -33,11 +33,11 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT FrameBuffer
 	{
 	public:
-		FrameBuffer();
+		constr_ FrameBuffer();
+		constr_ FrameBuffer(const uvec2& size, TextureFormat format, uint64_t flags = 0U);
+		constr_ FrameBuffer(const uvec2& size, span<Texture*> textures);
 		FrameBuffer(const uvec2& size, void* window = nullptr);
-		FrameBuffer(const uvec2& size, bgfx::TextureFormat::Enum format, uint64_t flags = 0U);
 		FrameBuffer(const uvec2& size, Texture& texture, span<bgfx::Attachment> attach);
-		FrameBuffer(const uvec2& size, span<Texture*> textures);
 		FrameBuffer(Texture& texture);
 		~FrameBuffer();
 
@@ -50,7 +50,7 @@ namespace mud
 		Texture* m_attach[6] = {};
 		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
 		
-		bool valid() const;
+		meth_ bool valid() const;
 
 		//Texture& tex(size_t i) { return *m_attach[i]; }
 
@@ -72,8 +72,8 @@ namespace mud
 			return crop;
 		}
 
-		vec4 dest_quad(const vec4& rect, bool from_fbo = false) const { return this->dest_quad(m_size, rect, from_fbo); }
-		vec4 source_quad(const vec4& rect, bool from_fbo = false) const { return this->source_quad(m_size, rect, from_fbo); }
+		meth_ vec4 dest_quad(const vec4& rect, bool from_fbo = false) const { return this->dest_quad(m_size, rect, from_fbo); }
+		meth_ vec4 source_quad(const vec4& rect, bool from_fbo = false) const { return this->source_quad(m_size, rect, from_fbo); }
 
 		RenderQuad render_quad(const vec4& rect, bool fbo_flip = true, bool from_fbo = false) const
 		{
@@ -94,7 +94,7 @@ namespace mud
 	export_ class refl_ SwapBuffer
 	{
 	public:
-		void create(const uvec2& size, bgfx::TextureFormat::Enum color_format);
+		void create(const uvec2& size, TextureFormat color_format);
 		~SwapBuffer();
 		meth_ FrameBuffer& swap() { m_state = !m_state; return m_state ? m_one : m_two; }
 		meth_ Texture& last() { return m_state ? m_one.m_tex : m_two.m_tex; }
@@ -106,7 +106,7 @@ namespace mud
 	export_ class refl_ Cascade
 	{
 	public:
-		void create(const uvec2& size, bgfx::TextureFormat::Enum color_format);
+		void create(const uvec2& size, TextureFormat color_format);
 		~Cascade();
 		attr_ Texture m_texture;
 		attr_ size_t m_num_mips;
@@ -116,7 +116,7 @@ namespace mud
 	export_ class refl_ SwapCascade
 	{
 	public:
-		void create(const uvec2& size, bgfx::TextureFormat::Enum color_format);
+		void create(const uvec2& size, TextureFormat color_format);
 		~SwapCascade();
 		meth_ Cascade& swap() { m_state = !m_state; return m_state ? m_one : m_two; }
 		meth_ Cascade& last() { return m_state ? m_one : m_two; }
@@ -127,7 +127,7 @@ namespace mud
 
 	export_ struct MUD_GFX_EXPORT GBuffer : public FrameBuffer
 	{
-		void create(const uvec2& size, bgfx::TextureFormat::Enum color_format, uint64_t flags, uint64_t depth_flags);
+		void create(const uvec2& size, TextureFormat color_format, uint64_t flags, uint64_t depth_flags);
 
 		Texture m_depth;
 		Texture m_position;

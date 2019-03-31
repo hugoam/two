@@ -370,7 +370,7 @@ namespace mud
 			m_moc->ComputePixelDepthBuffer(m_depth_data.data(), false);
 
 			if(!bgfx::isValid(m_depth_texture))
-				m_depth_texture = { uvec2(width, height), false, bgfx::TextureFormat::R32F };
+				m_depth_texture = { uvec2(width, height), false, TextureFormat::R32F };
 
 			const bgfx::Memory* memory = bgfx::makeRef(m_depth_data.data(), width * height * sizeof(float));
 			bgfx::updateTexture2D(m_depth_texture, 0, 0, 0, 0, uint16_t(width), uint16_t(height), memory);

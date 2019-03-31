@@ -45,10 +45,10 @@ namespace mud
 		uint64_t flags = GFX_TEXTURE_POINT | BGFX_SAMPLER_MIP_POINT | GFX_TEXTURE_CLAMP;
 
 		if((bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0 && (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_READ_BACK) != 0)
-			m_readback_texture = { m_size, false, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags };
+			m_readback_texture = { m_size, false, TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags };
 
-		m_fbo_texture = { m_size, false, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_RT | flags };
-		m_fbo_depth = { m_size, false, bgfx::TextureFormat::D24S8, 0 | BGFX_TEXTURE_RT | flags };
+		m_fbo_texture = { m_size, false, TextureFormat::RGBA8, 0 | BGFX_TEXTURE_RT | flags };
+		m_fbo_depth = { m_size, false, TextureFormat::D24S8, 0 | BGFX_TEXTURE_RT | flags };
 
 		m_fbo = { m_size, { &m_fbo_texture, &m_fbo_depth } };
 	}

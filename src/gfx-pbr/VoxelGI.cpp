@@ -95,14 +95,14 @@ namespace gfx
 
 		m_normal_bias = length(extents * 2.f / float(subdiv)) * sqrt(2.f) * 2.f;
 
-		m_raster = { uvec2(uint(subdiv)), false, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT };
-		m_voxels_color   = { uvec3(uint(subdiv)), false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
-		m_voxels_normals = { uvec3(uint(subdiv)), false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
-		m_voxels_light   = { uvec3(uint(subdiv)), false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
+		m_raster = { uvec2(uint(subdiv)), false, TextureFormat::RGBA8, BGFX_TEXTURE_RT };
+		m_voxels_color   = { uvec3(uint(subdiv)), false, TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
+		m_voxels_normals = { uvec3(uint(subdiv)), false, TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
+		m_voxels_light   = { uvec3(uint(subdiv)), false, TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
 
 		m_fbo = { uvec2(subdiv, subdiv), { &m_raster, &m_voxels_color, &m_voxels_normals, &m_voxels_light } };
 		
-		m_voxels_light_rgba = { uvec3(uint(subdiv)), true, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT | BGFX_TEXTURE_COMPUTE_WRITE };
+		m_voxels_light_rgba = { uvec3(uint(subdiv)), true, TextureFormat::RGBA16F, BGFX_TEXTURE_RT | BGFX_TEXTURE_COMPUTE_WRITE };
 
 		m_dirty = true;
 	}
@@ -110,7 +110,7 @@ namespace gfx
 	void save_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
 	{
 		const uint16_t subdiv = gi_probe.m_subdiv;
-		Texture texture = { uvec3(subdiv, subdiv, subdiv), true, source_format, BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK };
+		Texture texture = { uvec3(subdiv, subdiv, subdiv), true, TextureFormat(source_format), BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK };
 		bgfx::blit(0, texture, 0, 0, 0, 0, gi_probe.m_voxels_light_rgba, 0, 0, 0, 0, subdiv, subdiv, subdiv);
 		bgfx::frame();
 		bgfx::frame();

@@ -41,7 +41,7 @@ namespace mud
 #endif
 	}
 
-	FrameBuffer::FrameBuffer(const uvec2& size, bgfx::TextureFormat::Enum format, uint64_t flags)
+	FrameBuffer::FrameBuffer(const uvec2& size, TextureFormat format, uint64_t flags)
 		: FrameBuffer(size)
 	{
 		m_tex = { size, false, format, flags | BGFX_TEXTURE_RT };
@@ -95,7 +95,7 @@ namespace mud
 
 	bool FrameBuffer::valid() const { return bgfx::isValid(m_fbo); }
 
-	void SwapBuffer::create(const uvec2& size, bgfx::TextureFormat::Enum color_format)
+	void SwapBuffer::create(const uvec2& size, TextureFormat color_format)
 	{
 		m_one = { size, color_format, GFX_TEXTURE_CLAMP };// | GFX_TEXTURE_POINT);
 		m_two = { size, color_format, GFX_TEXTURE_CLAMP };// | GFX_TEXTURE_POINT);
@@ -104,12 +104,12 @@ namespace mud
 	SwapBuffer::~SwapBuffer()
 	{}
 
-	void Cascade::create(const uvec2& size, bgfx::TextureFormat::Enum color_format)
+	void Cascade::create(const uvec2& size, TextureFormat color_format)
 	{
 		//const uint64_t flags = BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP;
 		const uint64_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP;
 
-		if(!bgfx::isTextureValid(1, false, 1, color_format, flags))
+		if(!bgfx::isTextureValid(1, false, 1, bgfx::TextureFormat::Enum(color_format), flags))
 			return;
 
 		m_texture = { size, true, color_format, flags };
@@ -128,7 +128,7 @@ namespace mud
 			bgfx::destroy(m_texture);
 	}
 
-	void SwapCascade::create(const uvec2& size, bgfx::TextureFormat::Enum color_format)
+	void SwapCascade::create(const uvec2& size, TextureFormat color_format)
 	{
 		m_one.create(size, color_format);
 		m_two.create(size, color_format);
@@ -144,13 +144,13 @@ namespace mud
 	{
 		static const table<MSAA, uint64_t> msaa_flag = { BGFX_TEXTURE_RT, BGFX_TEXTURE_RT_MSAA_X2, BGFX_TEXTURE_RT_MSAA_X4, BGFX_TEXTURE_RT_MSAA_X8, BGFX_TEXTURE_RT_MSAA_X16 };
 		
-		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
+		TextureFormat color_format = TextureFormat::RGBA16F;
 
-		if(!bgfx::isTextureValid(0, false, 1, color_format, 0))
-			color_format = bgfx::TextureFormat::RGB10A2;
-		if(!bgfx::isTextureValid(0, false, 1, color_format, 0))
-			color_format = bgfx::TextureFormat::RGBA8;
-		if(!bgfx::isTextureValid(0, false, 1, color_format, msaa_flag[m_msaa]))
+		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::Enum(color_format), 0))
+			color_format = TextureFormat::RGB10A2;
+		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::Enum(color_format), 0))
+			color_format = TextureFormat::RGBA8;
+		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::Enum(color_format), msaa_flag[m_msaa]))
 			m_msaa = MSAA::Disabled;
 
 		const uint64_t flags = msaa_flag[m_msaa];
@@ -161,7 +161,7 @@ namespace mud
 		const uint64_t depth_flags = flags;
 #endif
 
-		m_depth = { size, false, bgfx::TextureFormat::D24S8, depth_flags };
+		m_depth = { size, false, TextureFormat::D24S8, depth_flags };
 
 		m_diffuse = { size, false, color_format, flags };
 
@@ -180,7 +180,7 @@ namespace mud
 		{
 			m_specular = { size, false, color_format, flags };
 
-			m_normal_rough = { size, false, bgfx::TextureFormat::RGBA8, flags };
+			m_normal_rough = { size, false, TextureFormat::RGBA8, flags };
 
 			//m_sss = { size, bgfx::TextureFormat::R8, render_target_flags };
 
@@ -210,13 +210,13 @@ namespace mud
 	RenderTarget::~RenderTarget()
 	{}
 
-	void GBuffer::create(const uvec2& size, bgfx::TextureFormat::Enum color_format, uint64_t flags, uint64_t depth_flags)
+	void GBuffer::create(const uvec2& size, TextureFormat color_format, uint64_t flags, uint64_t depth_flags)
 	{
-		m_depth    = { size, false, bgfx::TextureFormat::D24S8, depth_flags };
-		m_position = { size, false, color_format,				flags };
-		m_normal   = { size, false, color_format,				flags };
-		m_albedo   = { size, false, color_format,				flags };
-		m_surface  = { size, false, bgfx::TextureFormat::RGBA8, flags };
+		m_depth    = { size, false, TextureFormat::D24S8, depth_flags };
+		m_position = { size, false, color_format,		  flags };
+		m_normal   = { size, false, color_format,		  flags };
+		m_albedo   = { size, false, color_format,		  flags };
+		m_surface  = { size, false, TextureFormat::RGBA8, flags };
 
 		(FrameBuffer&)*this = { size, { &m_depth, &m_position, &m_normal, &m_albedo, &m_surface } };
 	}

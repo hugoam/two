@@ -28,8 +28,8 @@ namespace mud
 		: m_size(size)
 		, m_rect_size(size * slices_subdiv.size(), size)
 	{
-		m_depth = { m_rect_size, false, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
-		m_color = { m_rect_size, false, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
+		m_depth = { m_rect_size, false, TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
+		m_color = { m_rect_size, false, TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
 		m_fbo = { m_rect_size, { &m_depth, &m_color } };
 
 		//m_depth = { m_rect_size, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };

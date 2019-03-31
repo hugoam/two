@@ -36,9 +36,9 @@ namespace mud
 		using TF = bgfx::TextureFormat;
 		static const TF::Enum formats[8][4] =
 		{
-			{ TF::R8,   TF::RG8U,   TF::RGB8U,   TF::RGBA8U },
+			{ TF::R8,    TF::RG8U,   TF::RGB8U,   TF::RGBA8U },
 			{ TF::R8I,   TF::RG8I,   TF::RGB8I,   TF::RGBA8I },
-			{ TF::R16,  TF::RG16,  TF::Unknown, TF::RGBA16U },
+			{ TF::R16,   TF::RG16,   TF::Unknown, TF::RGBA16U },
 			{ TF::R16I,  TF::RG16I,  TF::Unknown, TF::RGBA16I },
 			{ TF::R32U,  TF::RG32U,  TF::Unknown, TF::RGBA32U },
 			{ TF::R32I,  TF::RG32I,  TF::Unknown, TF::RGBA32I },
@@ -59,7 +59,7 @@ namespace mud
 		, m_row_size(uint16_t(data_type_to_size(element) * row_size))
 	{
 		m_format = data_type_to_texture_format(element);
-		m_texture = { uvec2(m_width, m_height), false, m_format };
+		m_texture = { uvec2(m_width, m_height), false, TextureFormat(m_format) };
 		//m_buffer = bgfx::createDynamicVertexBuffer(m_clusters.m_memory, decl);
 	}
 

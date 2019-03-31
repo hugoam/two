@@ -37,6 +37,7 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::Shading>() { static Type ty("Shading", sizeof(mud::Shading)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ShadowFlags>() { static Type ty("ShadowFlags", sizeof(mud::ShadowFlags)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::TextureChannel>() { static Type ty("TextureChannel", sizeof(mud::TextureChannel)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::TextureFormat>() { static Type ty("TextureFormat", sizeof(mud::TextureFormat)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::TextureHint>() { static Type ty("TextureHint", sizeof(mud::TextureHint)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::TextureSampler>() { static Type ty("TextureSampler", sizeof(mud::TextureSampler)); return ty; }
     

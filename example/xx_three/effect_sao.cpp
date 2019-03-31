@@ -303,9 +303,9 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 {
 	OutputSAO output = OutputSAO::Default;
 
-	static FrameBuffer target = FrameBuffer(resolution, bgfx::TextureFormat::RGBA8);
-	static FrameBuffer pong = FrameBuffer(resolution, bgfx::TextureFormat::RGBA8);
-	static FrameBuffer normals = FrameBuffer(resolution, bgfx::TextureFormat::RGBA8, BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIN_POINT);
+	static FrameBuffer target = { resolution, TextureFormat::RGBA8 };
+	static FrameBuffer pong = { resolution, TextureFormat::RGBA8 };
+	static FrameBuffer normals = { resolution, TextureFormat::RGBA8, BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIN_POINT };
 
 	auto pass_normal = [](GfxSystem& gfx, Render& render, FrameBuffer& fbo)
 	{

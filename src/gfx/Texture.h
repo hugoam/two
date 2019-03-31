@@ -47,20 +47,45 @@ namespace mud
 	export_ MUD_GFX_EXPORT func_ void load_texture_rgba(Texture& texture, const uvec2& size, span<uint32_t> data);
 	export_ MUD_GFX_EXPORT func_ void load_texture_float(Texture& texture, const uvec2& size, span<float> data);
 	//export_ MUD_GFX_EXPORT func_ void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data);
+	
+	export_ enum class refl_ TextureFormat : unsigned int
+	{
+		R8      = bgfx::TextureFormat::R8,
+		R16F    = bgfx::TextureFormat::R16F,
+		R32U	= bgfx::TextureFormat::R32U,
+		R32F    = bgfx::TextureFormat::R32F,
+		RG8     = bgfx::TextureFormat::RG8,
+		RG16F   = bgfx::TextureFormat::RG16F,
+		RG32F   = bgfx::TextureFormat::RG32F,
+		RGB8    = bgfx::TextureFormat::RGB8,
+		BGRA8   = bgfx::TextureFormat::BGRA8,
+		RGBA8   = bgfx::TextureFormat::RGBA8,
+		RGB10A2 = bgfx::TextureFormat::RGB10A2,
+		RGBA16F = bgfx::TextureFormat::RGBA16F,
+		RGBA32F = bgfx::TextureFormat::RGBA32F,
+
+		D16     = bgfx::TextureFormat::D16,
+		D24     = bgfx::TextureFormat::D24,
+		D24S8   = bgfx::TextureFormat::D24S8,
+		D32     = bgfx::TextureFormat::D32,
+
+		Count
+	};
 
 	export_ class refl_ MUD_GFX_EXPORT Texture
 	{
 	public:
-		Texture(const string& name = "");
-		Texture(const uvec2& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags = 0U, bool cube = false);
-		Texture(const uvec2& size, bool mips, int layers, bgfx::TextureFormat::Enum format, uint64_t flags = 0U);
-		Texture(const uvec3& size, bool mips, bgfx::TextureFormat::Enum format, uint64_t flags = 0U);
+		constr_ Texture(const string& name = "");
+		constr_ Texture(const uvec2& size, bool mips, TextureFormat format, uint64_t flags = 0U, bool cube = false);
+		Texture(const uvec2& size, bool mips, int layers, TextureFormat format, uint64_t flags = 0U);
+		Texture(const uvec3& size, bool mips, TextureFormat format, uint64_t flags = 0U);
 		~Texture();
 
 		Texture(Texture&& other) : Texture(other) { other.m_tex = BGFX_INVALID_HANDLE; }
 		Texture& operator=(Texture&& other) { *this = other; other.m_tex = BGFX_INVALID_HANDLE; return *this; }
 
 		attr_ string m_name;
+		attr_ TextureFormat m_format;
 		attr_ uvec2 m_size = uvec2(0U);
 		attr_ uint16_t m_depth = 0;
 		attr_ uint32_t m_memsize = 0;
@@ -75,7 +100,6 @@ namespace mud
 		meth_ bool valid() const;
 
 		bgfx::TextureHandle m_tex = BGFX_INVALID_HANDLE;
-		bgfx::TextureFormat::Enum m_format;
 
 		operator bgfx::TextureHandle() const { return m_tex; }
 

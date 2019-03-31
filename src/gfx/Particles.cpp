@@ -300,7 +300,7 @@ namespace mud
 	void BlockParticles::init_block()
 	{
 		s_color = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
-		m_texture = { uvec2(SPRITE_TEXTURE_SIZE), false, bgfx::TextureFormat::BGRA8 };
+		m_texture = { uvec2(SPRITE_TEXTURE_SIZE), false, TextureFormat::BGRA8 };
 
 		this->create_sprite("particle.ktx", "particle.ktx");
 		//this->create_sprite("flames.png", "flames_b.png", { 2, 2 });

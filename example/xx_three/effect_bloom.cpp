@@ -254,7 +254,7 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 	//SwapCascade& swap = render.m_target->m_swap_cascade;
 	static SwapCascade swap;
 	if(!swap.m_one.m_texture.valid())
-		swap.create(bloom.resolution, bgfx::TextureFormat::RGBA8);
+		swap.create(bloom.resolution, TextureFormat::RGBA8);
 		//swap.create(bloom.resolution, bgfx::TextureFormat::RGBA16F);
 
 	Texture* source = &render.m_target->m_ping_pong.last();

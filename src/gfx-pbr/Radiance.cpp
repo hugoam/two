@@ -128,11 +128,11 @@ namespace mud
 		const uint64_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP;
 
 		//bgfx::TextureFormat::Enum format = bgfx::TextureFormat::RGBA16F;
-		bgfx::TextureFormat::Enum format = radiance.m_texture->m_format;
-		if(!bgfx::isTextureValid(1, cube, 1, format, flags))
-			format = bgfx::TextureFormat::RGB10A2;
+		TextureFormat format = radiance.m_texture->m_format;
+		if(!bgfx::isTextureValid(1, cube, 1, bgfx::TextureFormat::Enum(format), flags))
+			format = TextureFormat::RGB10A2;
 
-		if(!bgfx::isTextureValid(1, cube, 1, format, flags))
+		if(!bgfx::isTextureValid(1, cube, 1, bgfx::TextureFormat::Enum(format), flags))
 		{
 			printf("WARNING: could not prefilter env map roughness levels\n");
 			return;

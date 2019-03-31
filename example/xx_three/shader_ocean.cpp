@@ -188,7 +188,7 @@ public:
 		m_item = &gfx::items(scene).add(Item(*m_node, geometry, 0U, &material));
 		//THREE.Mesh.call(this, geometry);
 
-		m_fbo = { resolution, bgfx::TextureFormat::RGBA8 };
+		m_fbo = { resolution, TextureFormat::RGBA8 };
 		
 		material.m_submit = [this](bgfx::Encoder& encoder) { this->submit(encoder); };
 	}

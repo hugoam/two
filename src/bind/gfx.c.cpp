@@ -845,6 +845,34 @@ extern "C" {
 	mud::Type* DECL mud_FrameBuffer__type() {
 		return &mud::type<mud::FrameBuffer>();
 	}
+	mud::FrameBuffer* DECL mud_FrameBuffer__construct_0() {
+		return new mud::FrameBuffer();
+	}
+	mud::FrameBuffer* DECL mud_FrameBuffer__construct_2(const mud::uvec2* size, mud::TextureFormat format) {
+		return new mud::FrameBuffer(*size, format);
+	}
+	mud::FrameBuffer* DECL mud_FrameBuffer__construct_3(const mud::uvec2* size, mud::TextureFormat format, uint64_t flags) {
+		return new mud::FrameBuffer(*size, format, flags);
+	}
+	bool DECL mud_FrameBuffer_valid_0(mud::FrameBuffer* self) {
+		return self->valid();
+	}
+	mud::vec4* DECL mud_FrameBuffer_dest_quad_1(mud::FrameBuffer* self, const mud::vec4* rect) {
+		static mud::vec4 temp;
+		return (temp = self->dest_quad(*rect), &temp);
+	}
+	mud::vec4* DECL mud_FrameBuffer_dest_quad_2(mud::FrameBuffer* self, const mud::vec4* rect, bool from_fbo) {
+		static mud::vec4 temp;
+		return (temp = self->dest_quad(*rect, from_fbo), &temp);
+	}
+	mud::vec4* DECL mud_FrameBuffer_source_quad_1(mud::FrameBuffer* self, const mud::vec4* rect) {
+		static mud::vec4 temp;
+		return (temp = self->source_quad(*rect), &temp);
+	}
+	mud::vec4* DECL mud_FrameBuffer_source_quad_2(mud::FrameBuffer* self, const mud::vec4* rect, bool from_fbo) {
+		static mud::vec4 temp;
+		return (temp = self->source_quad(*rect, from_fbo), &temp);
+	}
 	mud::uvec2* DECL mud_FrameBuffer__get_size(mud::FrameBuffer* self) {
 		return &self->m_size;
 	}
@@ -3058,6 +3086,21 @@ extern "C" {
 	mud::Type* DECL mud_Texture__type() {
 		return &mud::type<mud::Texture>();
 	}
+	mud::Texture* DECL mud_Texture__construct_0() {
+		return new mud::Texture();
+	}
+	mud::Texture* DECL mud_Texture__construct_1(const char* name) {
+		return new mud::Texture(name);
+	}
+	mud::Texture* DECL mud_Texture__construct_3(const mud::uvec2* size, bool mips, mud::TextureFormat format) {
+		return new mud::Texture(*size, mips, format);
+	}
+	mud::Texture* DECL mud_Texture__construct_4(const mud::uvec2* size, bool mips, mud::TextureFormat format, uint64_t flags) {
+		return new mud::Texture(*size, mips, format, flags);
+	}
+	mud::Texture* DECL mud_Texture__construct_5(const mud::uvec2* size, bool mips, mud::TextureFormat format, uint64_t flags, bool cube) {
+		return new mud::Texture(*size, mips, format, flags, cube);
+	}
 	bool DECL mud_Texture_valid_0(mud::Texture* self) {
 		return self->valid();
 	}
@@ -3066,6 +3109,12 @@ extern "C" {
 	}
 	void DECL mud_Texture__set_name(mud::Texture* self, const char* value) {
 		self->m_name = value;
+	}
+	mud::TextureFormat DECL mud_Texture__get_format(mud::Texture* self) {
+		return self->m_format;
+	}
+	void DECL mud_Texture__set_format(mud::Texture* self, mud::TextureFormat value) {
+		self->m_format = value;
 	}
 	mud::uvec2* DECL mud_Texture__get_size(mud::Texture* self) {
 		return &self->m_size;
@@ -4191,6 +4240,61 @@ extern "C" {
 	}
 	mud::TextureChannel DECL mud_TextureChannel_All() {
 		return mud::TextureChannel::All;
+	}
+	// TextureFormat
+	mud::TextureFormat DECL mud_TextureFormat_R8() {
+		return mud::TextureFormat::R8;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_R16F() {
+		return mud::TextureFormat::R16F;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_R32U() {
+		return mud::TextureFormat::R32U;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_R32F() {
+		return mud::TextureFormat::R32F;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_RG8() {
+		return mud::TextureFormat::RG8;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_RG16F() {
+		return mud::TextureFormat::RG16F;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_RG32F() {
+		return mud::TextureFormat::RG32F;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_RGB8() {
+		return mud::TextureFormat::RGB8;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_BGRA8() {
+		return mud::TextureFormat::BGRA8;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_RGBA8() {
+		return mud::TextureFormat::RGBA8;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_RGB10A2() {
+		return mud::TextureFormat::RGB10A2;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_RGBA16F() {
+		return mud::TextureFormat::RGBA16F;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_RGBA32F() {
+		return mud::TextureFormat::RGBA32F;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_D16() {
+		return mud::TextureFormat::D16;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_D24() {
+		return mud::TextureFormat::D24;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_D24S8() {
+		return mud::TextureFormat::D24S8;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_D32() {
+		return mud::TextureFormat::D32;
+	}
+	mud::TextureFormat DECL mud_TextureFormat_Count() {
+		return mud::TextureFormat::Count;
 	}
 	// TextureHint
 	mud::TextureHint DECL mud_TextureHint_Black() {

@@ -32,6 +32,7 @@ namespace mud
     enum class DepthTest : unsigned int;
 	enum class DepthMethod : unsigned int;
     enum class MaterialFlag : unsigned int;
+	enum class TextureFormat : unsigned int;
     enum class TextureChannel : unsigned int;
 	enum class MaterialBlock : unsigned int;
 	enum class Lighting : unsigned int;

@@ -1072,12 +1072,27 @@ Fog.prototype["__destroy"] = Fog.prototype.__destroy = function() {
     _mud_Fog__destroy(this.__ptr);
 };
 // FrameBuffer
-function FrameBuffer() { throw "cannot construct a FrameBuffer, no constructor in IDL" }
+function FrameBuffer(a0, a1, a2) {
+    if (a0 === undefined) { this.__ptr = _mud_FrameBuffer__construct_0(); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this; return; }
+    if (a2 === undefined) { this.__ptr = _mud_FrameBuffer__construct_2(/*size*/a0.__ptr, /*format*/a1); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this; return; }
+    this.__ptr = _mud_FrameBuffer__construct_3(/*size*/a0.__ptr, /*format*/a1, /*flags*/a2); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this;
+};
 FrameBuffer.prototype = Object.create(WrapperObject.prototype);
 FrameBuffer.prototype.constructor = FrameBuffer;
 FrameBuffer.prototype.__class = FrameBuffer;
 FrameBuffer.__cache = {};
 Module['FrameBuffer'] = FrameBuffer;
+FrameBuffer.prototype["valid"] = FrameBuffer.prototype.valid = function() {
+    return !!(_mud_FrameBuffer_valid_0(this.__ptr));
+};
+FrameBuffer.prototype["dest_quad"] = FrameBuffer.prototype.dest_quad = function(a0, a1) {
+    if (a1 === undefined) { return wrapPointer(_mud_FrameBuffer_dest_quad_1(this.__ptr, /*rect*/a0.__ptr), v4_float); }
+    return wrapPointer(_mud_FrameBuffer_dest_quad_2(this.__ptr, /*rect*/a0.__ptr, /*from_fbo*/a1), v4_float);
+};
+FrameBuffer.prototype["source_quad"] = FrameBuffer.prototype.source_quad = function(a0, a1) {
+    if (a1 === undefined) { return wrapPointer(_mud_FrameBuffer_source_quad_1(this.__ptr, /*rect*/a0.__ptr), v4_float); }
+    return wrapPointer(_mud_FrameBuffer_source_quad_2(this.__ptr, /*rect*/a0.__ptr, /*from_fbo*/a1), v4_float);
+};
 Object.defineProperty(FrameBuffer.prototype, "size", {
     get: function() {
         return wrapPointer(_mud_FrameBuffer__get_size(this.__ptr), v2_uint);
@@ -3794,7 +3809,13 @@ TPool_mud_Node3.prototype["__destroy"] = TPool_mud_Node3.prototype.__destroy = f
     _mud_TPool_mud_Node3__destroy(this.__ptr);
 };
 // Texture
-function Texture() { throw "cannot construct a Texture, no constructor in IDL" }
+function Texture(a0, a1, a2, a3, a4) {
+    if (a0 === undefined) { this.__ptr = _mud_Texture__construct_0(); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; return; }
+    if (a1 === undefined) { this.__ptr = _mud_Texture__construct_1(ensureString(/*name*/a0)); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; return; }
+    if (a3 === undefined) { this.__ptr = _mud_Texture__construct_3(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; return; }
+    if (a4 === undefined) { this.__ptr = _mud_Texture__construct_4(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2, /*flags*/a3); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; return; }
+    this.__ptr = _mud_Texture__construct_5(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2, /*flags*/a3, /*cube*/a4); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this;
+};
 Texture.prototype = Object.create(WrapperObject.prototype);
 Texture.prototype.constructor = Texture;
 Texture.prototype.__class = Texture;
@@ -3809,6 +3830,14 @@ Object.defineProperty(Texture.prototype, "name", {
     },
     set: function(value) {
         _mud_Texture__set_name(this.__ptr, ensureString(value));
+    }
+});
+Object.defineProperty(Texture.prototype, "format", {
+    get: function() {
+        return _mud_Texture__get_format(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Texture__set_format(this.__ptr, value);
     }
 });
 Object.defineProperty(Texture.prototype, "size", {
@@ -4803,6 +4832,26 @@ Module['render_clear'] = function(a0, a1) {
         Module['TextureChannel']['Blue'] = _mud_TextureChannel_Blue();
         Module['TextureChannel']['Alpha'] = _mud_TextureChannel_Alpha();
         Module['TextureChannel']['All'] = _mud_TextureChannel_All();
+        // TextureFormat
+        Module['TextureFormat'] = Module['TextureFormat'] || {};
+        Module['TextureFormat']['R8'] = _mud_TextureFormat_R8();
+        Module['TextureFormat']['R16F'] = _mud_TextureFormat_R16F();
+        Module['TextureFormat']['R32U'] = _mud_TextureFormat_R32U();
+        Module['TextureFormat']['R32F'] = _mud_TextureFormat_R32F();
+        Module['TextureFormat']['RG8'] = _mud_TextureFormat_RG8();
+        Module['TextureFormat']['RG16F'] = _mud_TextureFormat_RG16F();
+        Module['TextureFormat']['RG32F'] = _mud_TextureFormat_RG32F();
+        Module['TextureFormat']['RGB8'] = _mud_TextureFormat_RGB8();
+        Module['TextureFormat']['BGRA8'] = _mud_TextureFormat_BGRA8();
+        Module['TextureFormat']['RGBA8'] = _mud_TextureFormat_RGBA8();
+        Module['TextureFormat']['RGB10A2'] = _mud_TextureFormat_RGB10A2();
+        Module['TextureFormat']['RGBA16F'] = _mud_TextureFormat_RGBA16F();
+        Module['TextureFormat']['RGBA32F'] = _mud_TextureFormat_RGBA32F();
+        Module['TextureFormat']['D16'] = _mud_TextureFormat_D16();
+        Module['TextureFormat']['D24'] = _mud_TextureFormat_D24();
+        Module['TextureFormat']['D24S8'] = _mud_TextureFormat_D24S8();
+        Module['TextureFormat']['D32'] = _mud_TextureFormat_D32();
+        Module['TextureFormat']['Count'] = _mud_TextureFormat_Count();
         // TextureHint
         Module['TextureHint'] = Module['TextureHint'] || {};
         Module['TextureHint']['Black'] = _mud_TextureHint_Black();
