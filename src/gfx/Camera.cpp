@@ -125,4 +125,12 @@ namespace mud
 
 		return { start, end, normalize(end - start), 1.f / normalize(end - start) };
 	}
+
+	vec3 Camera::project(const vec3& point) const
+	{
+		const mat4 viewproj = m_projection * m_transform;
+		vec4 clip = viewproj * vec4(point, 1.f);
+		vec3 ndc = vec3(clip) / clip.w;
+		return ndc;
+	}
 }

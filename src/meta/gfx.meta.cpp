@@ -177,6 +177,8 @@ void mud_Bone__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl:
 void mud_Bone__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Bone((*static_cast<mud::Bone*>(other))); }
 void mud_Camera_set_look_at(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Camera*>(object)).set_look_at(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
 void mud_Camera_set_isometric(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Camera*>(object)).set_isometric(*static_cast<mud::IsometricAngle*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
+void mud_Camera_ray(void* object, span<void*> args, void*& result) { (*static_cast<mud::Ray*>(result)) = (*static_cast<mud::Camera*>(object)).ray(*static_cast<mud::vec2*>(args[0])); }
+void mud_Camera_project(void* object, span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Camera*>(object)).project(*static_cast<mud::vec3*>(args[0])); }
 void mud_DepthParams__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DepthParams(  ); }
 void mud_DepthParams__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::DepthParams((*static_cast<mud::DepthParams*>(other))); }
 void mud_Direct__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Direct(  ); }
@@ -1227,7 +1229,9 @@ namespace mud
 		// methods
 		static Method methods[] = {
 			{ t, "set_look_at", Address(), mud_Camera_set_look_at, { { "eye", type<mud::vec3>(),  }, { "target", type<mud::vec3>(),  } }, g_qvoid },
-			{ t, "set_isometric", Address(), mud_Camera_set_isometric, { { "angle", type<mud::IsometricAngle>(),  }, { "position", type<mud::vec3>(),  } }, g_qvoid }
+			{ t, "set_isometric", Address(), mud_Camera_set_isometric, { { "angle", type<mud::IsometricAngle>(),  }, { "position", type<mud::vec3>(),  } }, g_qvoid },
+			{ t, "ray", Address(), mud_Camera_ray, { { "offset", type<mud::vec2>(),  } }, { &type<mud::Ray>(), QualType::None } },
+			{ t, "project", Address(), mud_Camera_project, { { "point", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };

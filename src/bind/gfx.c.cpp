@@ -441,6 +441,14 @@ extern "C" {
 	void DECL mud_Camera_set_isometric_2(mud::Camera* self, mud::IsometricAngle angle, const mud::vec3* position) {
 		self->set_isometric(angle, *position);
 	}
+	mud::Ray* DECL mud_Camera_ray_1(mud::Camera* self, const mud::vec2* offset) {
+		static mud::Ray temp;
+		return (temp = self->ray(*offset), &temp);
+	}
+	mud::vec3* DECL mud_Camera_project_1(mud::Camera* self, const mud::vec3* point) {
+		static mud::vec3 temp;
+		return (temp = self->project(*point), &temp);
+	}
 	mud::vec3* DECL mud_Camera__get_eye(mud::Camera* self) {
 		return &self->m_eye;
 	}

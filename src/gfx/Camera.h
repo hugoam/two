@@ -65,6 +65,8 @@ namespace mud
 
 		mat4 projection(float near, float far, bool ndc = false);
 
-		Ray ray(const vec2& offset) const;
+		meth_ Ray ray(const vec2& offset) const;
+
+		meth_ vec3 project(const vec3& point) const;
 	};
 }

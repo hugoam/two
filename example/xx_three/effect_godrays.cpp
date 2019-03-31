@@ -482,9 +482,7 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	node->apply(position, ZeroQuat, vec3(20.f));
 
 	// Find the screenspace position of the sun
-	const mat4 viewproj = camera.m_projection * camera.m_transform;
-	vec4 sun_clip = viewproj * vec4(godrays.m_sun_position, 1.f);
-	vec3 sun_ndc = vec3(sun_clip) / sun_clip.w;
+	vec3 sun_ndc = camera.project(godrays.m_sun_position);
 	vec3 sun = (sun_ndc + 1.f) / 2.f;
 	if(!app.m_gfx.m_flip_y)
 		sun.y = 1.f - sun.y;

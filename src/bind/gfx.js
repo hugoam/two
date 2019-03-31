@@ -547,6 +547,12 @@ Camera.prototype["set_look_at"] = Camera.prototype.set_look_at = function(a0, a1
 Camera.prototype["set_isometric"] = Camera.prototype.set_isometric = function(a0, a1) {
     _mud_Camera_set_isometric_2(this.__ptr, /*angle*/a0, /*position*/a1.__ptr);
 };
+Camera.prototype["ray"] = Camera.prototype.ray = function(a0) {
+    return wrapPointer(_mud_Camera_ray_1(this.__ptr, /*offset*/a0.__ptr), Ray);
+};
+Camera.prototype["project"] = Camera.prototype.project = function(a0) {
+    return wrapPointer(_mud_Camera_project_1(this.__ptr, /*point*/a0.__ptr), v3_float);
+};
 Object.defineProperty(Camera.prototype, "eye", {
     get: function() {
         return wrapPointer(_mud_Camera__get_eye(this.__ptr), v3_float);
