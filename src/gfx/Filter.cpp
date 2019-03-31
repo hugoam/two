@@ -169,7 +169,8 @@ namespace mud
 	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags, bool render)
 	{
 		if(quad.m_source.width > 1.f || quad.m_source.height > 1.f)
-			printf("WARNING: Source rect expected in relative coordinates\n");
+			printf("WARNING: Source rect expected in relative coordinates (%f, %f, %f, %f)\n", 
+				   quad.m_source.x, quad.m_source.y, quad.m_source.width, quad.m_source.height);
 
 		static mat4 mview = bxidentity();
 		static mat4 proj = bxortho({ 0.f, 1.f, 1.f, 0.f }, 0.f, 1.f, 0.f, bgfx::getCaps()->homogeneousDepth);// false))
