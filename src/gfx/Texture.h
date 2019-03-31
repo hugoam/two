@@ -45,6 +45,7 @@ namespace mud
 	export_ MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, const uvec2& size, const bgfx::Memory& data);
 	export_ MUD_GFX_EXPORT void load_texture_float(Texture& texture, const uvec2& size, const bgfx::Memory& data, uint8_t num_components = 4);
 	export_ MUD_GFX_EXPORT func_ void load_texture_rgba(Texture& texture, const uvec2& size, span<uint32_t> data);
+	export_ MUD_GFX_EXPORT func_ void load_texture_float(Texture& texture, const uvec2& size, span<float> data);
 	//export_ MUD_GFX_EXPORT func_ void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data);
 
 	export_ class refl_ MUD_GFX_EXPORT Texture

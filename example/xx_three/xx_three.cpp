@@ -27,11 +27,9 @@ using namespace mud;
 // xx_geom_dynamic
 // xx_loader_ply
 // xx_material_skin
-// xx_effect
 // xx_effect_bloom
 // xx_effect_glitch
 // xx_effect_godrays
-// xx_post_fxaa
 // xx_shader_ocean
 
 // todo:

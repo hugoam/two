@@ -276,6 +276,13 @@ namespace mud
 		load_texture_rgba(texture, size, *memory);
 	}
 
+	void load_texture_float(Texture& texture, const uvec2& size, span<float> data)
+	{
+		const bgfx::Memory* memory = bgfx::alloc(uint32_t(data.m_count * sizeof(uint32_t)));
+		memcpy(memory->data, data.m_pointer, data.m_count * sizeof(uint32_t));
+		load_texture_float(texture, size, *memory);
+	}
+
 	Texture::Texture(const string& name)
 		: m_name(name)
 	{}

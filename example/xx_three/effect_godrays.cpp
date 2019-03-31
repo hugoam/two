@@ -456,18 +456,12 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			pass_clear(gfx, render);
 			pass_fake_sun(gfx, render, godrays);
 			//pass_opaque(gfx, render);
-			pass_background(gfx, render);
 			pass_solid(gfx, render);
-			//renderer.render(scene, camera, postprocessing.rtTextureColors);
-			//renderer.render(scene, camera, postprocessing.rtTextureDepth, true);
 			pass_godrays(gfx, render, godrays);
 		};
 
 		app.m_gfx.set_renderer(Shading::Shaded, render);
 	}
-
-	//Gnode& root = viewer.m_scene.begin();
-	//gfx::radiance(root, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))

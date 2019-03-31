@@ -298,8 +298,6 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	Scene& scene = viewer.m_scene;
 
-	static Node3* node = nullptr;
-
 	static Bloom bloom = { 1.f, 1.5, 0.f, 0.f };
 	//bloom.exposure = 1.f;
 	//bloom.strength = 1.5f;

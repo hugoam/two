@@ -4422,6 +4422,9 @@ Module['bxTRS'] = function(a0, a1, a2) {
 Module['load_texture_rgba'] = function(a0, a1, a2) {
     _mud_load_texture_rgba_3(/*texture*/a0.__ptr, /*size*/a1.__ptr, ensureInt32(/*data*/a2), /*data*/a2.length);
 };
+Module['load_texture_float'] = function(a0, a1, a2) {
+    _mud_load_texture_float_3(/*texture*/a0.__ptr, /*size*/a1.__ptr, ensureFloat32(/*data*/a2), /*data*/a2.length);
+};
 Module['gfx']['setup_pipeline_minimal'] = function(a0) {
     _mud_gfx_setup_pipeline_minimal_1(/*gfx*/a0.__ptr);
 };

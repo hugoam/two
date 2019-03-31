@@ -3605,6 +3605,9 @@ extern "C" {
 	void DECL mud_load_texture_rgba_3(mud::Texture* texture, const mud::uvec2* size, uint* data, int data_size) {
 		mud::load_texture_rgba(*texture, *size, { (uint32_t*)data, data_size / (sizeof(uint32_t) / sizeof(uint)) });
 	}
+	void DECL mud_load_texture_float_3(mud::Texture* texture, const mud::uvec2* size, float* data, int data_size) {
+		mud::load_texture_float(*texture, *size, { (float*)data, data_size / (sizeof(float) / sizeof(float)) });
+	}
 	void DECL mud_gfx_setup_pipeline_minimal_1(mud::GfxSystem* gfx) {
 		mud::gfx::setup_pipeline_minimal(*gfx);
 	}
