@@ -385,15 +385,15 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 	const vec4 rect4 = rect / 4.f;
 
 	// pass 1 - render into first ping-pong target
-	const RenderQuad quad0 = { depth.source_quad(rect, true), pong.dest_quad(rect4, true), true };
+	const RenderQuad quad0 = gfx.m_filter->render_quad(depth, rect, pong, rect4, true);
 	pass_blur(gfx, render, godrays, pong, depth.m_tex, step_size(filter_length, taps, 1.f), quad0);
 
 	// pass 2 - render into second ping-pong target
-	const RenderQuad quad1 = { pong.source_quad(rect4, true), ping.dest_quad(rect4, true), true };
+	const RenderQuad quad1 = gfx.m_filter->render_quad(pong, rect4, ping, rect4, true);
 	pass_blur(gfx, render, godrays, ping, pong.m_tex, step_size(filter_length, taps, 2.f), quad1);
 
 	// pass 3 - 1st RT
-	const RenderQuad quad2 = { ping.source_quad(rect4, true), pong.dest_quad(rect4, true), true };
+	const RenderQuad quad2 = gfx.m_filter->render_quad(ping, rect4, pong, rect4, true);
 	pass_blur(gfx, render, godrays, pong, ping.m_tex, step_size(filter_length, taps, 3.f), quad2);
 
 	// final pass - composite god-rays onto colors

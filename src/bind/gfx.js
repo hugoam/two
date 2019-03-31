@@ -4009,6 +4009,9 @@ BlockFilter.prototype["quad"] = BlockFilter.prototype.quad = function(a0, a1, a2
     if (a5 === undefined) { _mud_BlockFilter_quad_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4); return; }
     _mud_BlockFilter_quad_6(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4, /*render*/a5);
 };
+BlockFilter.prototype["render_quad"] = BlockFilter.prototype.render_quad = function(a0, a1, a2, a3, a4) {
+    return wrapPointer(_mud_BlockFilter_render_quad_5(this.__ptr, /*source*/a0.__ptr, /*source_rect*/a1.__ptr, /*dest*/a2.__ptr, /*dest_rect*/a3.__ptr, /*fbo_flip*/a4), RenderQuad);
+};
 BlockFilter.prototype["source0"] = BlockFilter.prototype.source0 = function(a0, a1) {
     if (a1 === undefined) { _mud_BlockFilter_source0_1(this.__ptr, /*texture*/a0.__ptr); return; }
     _mud_BlockFilter_source0_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);

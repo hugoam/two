@@ -51,6 +51,11 @@ namespace mud
 		//this->set_uniforms(render);
 	}
 
+	RenderQuad BlockFilter::render_quad(FrameBuffer& source, const vec4& source_rect, FrameBuffer& dest, const vec4& dest_rect, bool fbo_flip)
+	{
+		return { source.source_quad(source_rect, true), dest.dest_quad(dest_rect, true), fbo_flip };
+	}
+
 	void BlockFilter::source0(Texture& texture, ProgramVersion& program, int level, uint32_t flags)
 	{
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), u_uniform.s_source_0, texture, flags);

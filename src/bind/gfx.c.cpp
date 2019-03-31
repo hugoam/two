@@ -3254,6 +3254,10 @@ extern "C" {
 	void DECL mud_BlockFilter_quad_6(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Program* program, const mud::uvec4* rect, uint64_t flags, bool render) {
 		self->quad(*pass, *fbo, *program, *rect, flags, render);
 	}
+	mud::RenderQuad* DECL mud_BlockFilter_render_quad_5(mud::BlockFilter* self, mud::FrameBuffer* source, const mud::vec4* source_rect, mud::FrameBuffer* dest, const mud::vec4* dest_rect, bool fbo_flip) {
+		static mud::RenderQuad temp;
+		return (temp = self->render_quad(*source, *source_rect, *dest, *dest_rect, fbo_flip), &temp);
+	}
 	void DECL mud_BlockFilter_source0_1(mud::BlockFilter* self, mud::Texture* texture) {
 		self->source0(*texture);
 	}
