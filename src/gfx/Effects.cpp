@@ -25,10 +25,10 @@ namespace mud
 		
 		// @todo three passes to resolve ? this is terrible :( but we can't read and write from the same buffer at the same time can we
 		FrameBuffer& fbo = render.m_target->m_ping_pong.swap();
-		gfx.m_copy->quad(render.composite_pass("resolve diffuse"), fbo, render.m_target->m_diffuse, render.m_rect);
-		gfx.m_copy->quad(render.composite_pass("resolve specular"), fbo, render.m_target->m_specular, render.m_rect, BGFX_STATE_BLEND_ADD);
+		gfx.m_copy->quad(render.composite_pass("resolve diffuse"), fbo, render.m_target->m_diffuse);
+		gfx.m_copy->quad(render.composite_pass("resolve specular"), fbo, render.m_target->m_specular, BGFX_STATE_BLEND_ADD);
 
-		gfx.m_copy->quad(render.composite_pass("resolve"), *render.m_target_fbo, render.m_target->m_ping_pong.last(), render.m_rect);
+		gfx.m_copy->quad(render.composite_pass("resolve"), *render.m_target_fbo, render.m_target->m_ping_pong.last());
 	}
 
 	void pass_effects(GfxSystem& gfx, Render& render)

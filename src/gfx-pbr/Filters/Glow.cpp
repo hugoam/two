@@ -89,7 +89,7 @@ namespace mud
 		GpuState<Glow>::me.upload(glow);
 
 		Pass pass = render.composite_pass("glow bleed");
-		m_filter.quad(pass, target.m_ping_pong.swap(), m_bleed_program, render.m_rect);
+		m_filter.quad(pass, target.m_ping_pong.swap(), m_bleed_program);
 	}
 
 	void BlockGlow::glow_blur(Render& render, RenderTarget& target, Glow& glow)
@@ -124,7 +124,7 @@ namespace mud
 						   target.m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
 						   target.m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect.width), uint16_t(rect.height), 1);
 			else
-				m_copy.quad(pass, *target.m_cascade.m_fbos[i + 1], target.m_ping_pong.last(), quad);
+				m_copy.submit(pass, *target.m_cascade.m_fbos[i + 1], target.m_ping_pong.last(), quad);
 		}
 	}
 
@@ -140,6 +140,6 @@ namespace mud
 		GpuState<Glow>::me.upload(glow);
 
 		Pass pass = render.composite_pass("glow merge");
-		m_filter.quad(pass, target.m_post_process.swap(), program, render.m_rect);
+		m_filter.quad(pass, target.m_post_process.swap(), program);
 	}
 }

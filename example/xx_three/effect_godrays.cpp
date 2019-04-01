@@ -298,7 +298,7 @@ void pass_fake_sun(GfxSystem& gfx, Render& render, const Godrays& godrays)
 	// @todo fix this
 	//bgfx::setViewScissor(pass.m_index, sun.x - sunsqW / 2.f, sun.y - sunsqH / 2.f, sunsqW, sunsqH);
 
-	gfx.m_filter->quad(pass, *render.m_target_fbo, program, pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass, *render.m_target_fbo, program);
 }
 
 void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
@@ -325,7 +325,7 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 		gfx.m_filter->sourcedepth(render.m_target->m_depth);
 
-		gfx.m_filter->quad(pass, fbo, program, pass.m_viewport->m_rect);
+		gfx.m_filter->quad(pass, fbo, program);
 	};
 
 	auto pass_blur = [](GfxSystem& gfx, Render& render, const Godrays& godrays, FrameBuffer& fbo, Texture& source, float step_size, RenderQuad quad)
@@ -355,9 +355,9 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 		gfx.m_filter->uniform(pass, "u_godrays_combine_p0", vec4(godrays.m_intensity, 0.f, 0.f, 0.f));
 
-		gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
+		gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program);
 
-		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post_process.last());
 	};
 
 	pass_mask_depth(gfx, render, godrays, depth);

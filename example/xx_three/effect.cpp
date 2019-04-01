@@ -155,7 +155,7 @@ void pass_dotscreen(GfxSystem& gfx, Render& render, DotScreen& p)
 
 	gfx.m_filter->source0(render.m_target->m_diffuse);
 
-	gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program);
 
 	//gfx.m_copy->quad(render.composite_pass(), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
 }
@@ -173,9 +173,9 @@ void pass_rgbshift(GfxSystem& gfx, Render& render, RgbShift& p)
 	//gfx.m_filter->source0(render.m_target->m_diffuse);
 	gfx.m_filter->source0(render.m_target->m_post_process.last());
 
-	gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program, pass.m_viewport->m_rect);
+	gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program);
 
-	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post_process.last(), pass.m_viewport->m_rect);
+	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post_process.last());
 }
 
 void xx_effect(Shell& app, Widget& parent, Dockbar& dockbar, bool init)

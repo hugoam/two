@@ -102,6 +102,14 @@ namespace mud
 		bgfx::setViewUniform(pass.m_index, m_uniforms[name], &value);
 	}
 
+	void BlockFilter::uniforms(const Pass& pass, const string& name, span<float> values)
+	{
+		if(m_uniforms.find(name) == m_uniforms.end())
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, values.size() / 4, bgfx::UniformFreq::View);
+
+		bgfx::setViewUniform(pass.m_index, m_uniforms[name], values.data(), values.size() / 4);
+	}
+
 	void BlockFilter::uniforms(const Pass& pass, const string& name, const vec4* value, uint16_t num)
 	{
 		//if(!has(m_uniforms, name))			
@@ -194,31 +202,14 @@ namespace mud
 			bgfx::frame();
 	}
 
-	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const uvec4& rect, uint64_t flags, bool render)
-	{
-		this->submit(pass, fbo, program, fbo.render_quad(vec4(rect), true), flags, render);
-	}
+	//void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const uvec4& rect, uint64_t flags, bool render)
+	//{
+	//	this->submit(pass, fbo, program, fbo.render_quad(vec4(rect), true), flags, render);
+	//}
 
 	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags, bool render)
 	{
-		const vec4 rect = vec4(vec2(0.f), vec2(fbo.m_size));
-		this->submit(pass, fbo, program, fbo.render_quad(rect, true), flags, render);
-	}
-
-	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, Program& program, const RenderQuad& quad, uint64_t flags, bool render)
-	{
-		this->submit(pass, fbo, { program }, quad, flags, render);
-	}
-
-	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, Program& program, const uvec4& rect, uint64_t flags, bool render)
-	{
-		this->submit(pass, fbo, { program }, fbo.render_quad(vec4(rect), true), flags, render);
-	}
-
-	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, Program& program, uint64_t flags, bool render)
-	{
-		const vec4 rect = vec4(vec2(0.f), vec2(fbo.m_size));
-		this->submit(pass, fbo, { program }, fbo.render_quad(rect, true), flags, render);
+		this->submit(pass, fbo, program, fbo.render_quad(vec4(pass.m_rect), true), flags, render);
 	}
 
 	BlockCopy::BlockCopy(GfxSystem& gfx, BlockFilter& filter)
@@ -239,22 +230,21 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockCopy::quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags)
+	void BlockCopy::submit(const Pass& pass, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags)
 	{
 		ProgramVersion program = { m_program };
 		m_filter.source0(texture, program, GFX_TEXTURE_CLAMP);
 		m_filter.submit(pass, fbo, program, quad, flags);
 	}
 
-	void BlockCopy::quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, const uvec4& rect, uint64_t flags)
-	{
-		this->quad(pass, fbo, texture, fbo.render_quad(vec4(rect), true), flags);
-	}
+	//void BlockCopy::quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, const uvec4& rect, uint64_t flags)
+	//{
+	//	this->quad(pass, fbo, texture, fbo.render_quad(vec4(rect), true), flags);
+	//}
 
 	void BlockCopy::quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, uint64_t flags)
 	{
-		vec4 rect = vec4(vec2(0.f), vec2(fbo.m_size));
-		this->quad(pass, fbo, texture, fbo.render_quad(rect, true), flags);
+		this->submit(pass, fbo, texture, fbo.render_quad(vec4(pass.m_rect), true), flags);
 	}
 
 	void BlockCopy::debug_show_texture(Render& render, Texture& texture, const vec4& rect, int level)

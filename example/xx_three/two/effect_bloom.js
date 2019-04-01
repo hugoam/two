@@ -99,69 +99,69 @@ function pass_unreal_bloom(gfx, render, bloom) {
     
 	function pass_lum(gfx, render, bloom, fbo) {
         
-		var program = highpass_program(gfx);
+		var program = gfx.programs.fetch('bloom_lum');
 
 		// create color only once here, reuse it later inside the render function
 		var clearColor = new two.Colour(0.0);
 
 		// luminosity high pass material
 
-		var pass = render.next_pass('bloolum', two.PassType.PostProcess);
+		var pass = render.next_pass('bloom_lum', two.PassType.PostProcess);
 
 		gfx.filter.uniform(pass, 'u_glow_lup0', new two.vec4(bloom.threshold, 0.01, 0.0, 0.0));
 
 		gfx.filter.source0(render.target.diffuse);
 
 		gfx.filter.quad(pass, fbo, program);
-	};
+	}
 
-	//enum BlurPass { BlurH, BlurV };
-	//enum BlurOptions { KERNEL_SIZE };
+	var BlurH = 0; var BlurV = 1;
+	var KERNEL_SIZE = 0;
 
 	function pass_blur(gfx, render, d, source, level, dest, kernel_size) {
-        
-		var program = blur_program(gfx);
 
-		var pass = render.next_pass('blooblur', two.PassType.PostProcess);
+		var program = gfx.programs.fetch('bloom_blur');
+
+		var pass = render.next_pass('bloom_blur', two.PassType.PostProcess);
 
 		var dirs = [ new two.vec2(1.0, 0.0), new two.vec2(0.0, 1.0) ];
 
 		gfx.filter.uniform(pass, 'u_glow_blur_p0', new two.vec4(dirs[d].x, dirs[d].y, 0.0, 0.0));
 
-        // @todo
 		var version = new two.ProgramVersion(program);
 		gfx.filter.source0(source, version, level);
 
-        // @todo
 		version.set_mode(0, KERNEL_SIZE, kernel_size);
 
+        // @todo (this is the one taking a ProgramVersion)
 		gfx.filter.quad(pass, dest, version);
-	};
+	}
 
-	function pass_merge(gfx, render, bloom, source)
-	{
-		var program = merge_program(gfx);
+	function pass_merge(gfx, render, bloom, source) {
+        
+		var program = gfx.programs.fetch('bloom_merge');
 
 		var pass = render.next_pass('bloom_merge', two.PassType.PostProcess);
 
 		var white = new two.vec4(1.0);
-		var glow_levels = [ new two.vec4(1.0, 0.8, 0.6f, 0.4), new two.vec4(0.2, 0.0, 0.0, 0.0) ];
-		var glow_tint = [ white, white, white, white, white ];
+		var glow_levels = new Float32Array([1.0, 0.8, 0.6f, 0.4, 0.2, 0.0, 0.0, 0.0]);
+		//var glow_tint = [ white, white, white, white, white ];
 
 		gfx.filter.uniform(pass, 'u_glow_merge_p0', new two.vec4(bloom.strength, bloom.radius, 0.0, 0.0));
-		gfx.filter.uniforms(pass, 'u_glow_levels', glow_levels, 2);
-		gfx.filter.uniforms(pass, 'u_glow_colors', glow_tint, 5);
+        // @todo
+		gfx.filter.uniforms(pass, 'u_glow_levels', glow_levels);
+		//gfx.filter.uniforms(pass, 'u_glow_colors', glow_tint, 5);
 
-		//filter.source0(render.target.diffuse);
 		gfx.filter.source0(source);
 
 		var target = render.target;
-		gfx.filter.quad(pass, target.post_process.swap(), program, pass.viewport.rect);
+		gfx.filter.quad(pass, target.post_process.swap(), program);
 
 		// additive blend bloom over target
         var merge = render.next_pass('flip', two.PassType.PostProcess);
-		//copy.quad(merge, render.target_fbo, target.post_process.last(), pass.viewport.rect);
-		gfx.copy.quad(merge, render.target_fbo, target.post_process.last(), pass.viewport.rect, BGFX_STATE_BLEND_ADD);
+		//gfx.copy.quad(merge, render.target_fbo, target.post_process.last());
+		//gfx.copy.quad(merge, render.target_fbo, target.post_process.last(), pass.viewport.rect, BGFX_STATE_BLEND_ADD);
+		gfx.copy.quad(merge, render.target_fbo, target.post_process.last(), pass.viewport.rect, 35790848);
 	};
 
 	// 1. Extract bright areas
@@ -171,10 +171,11 @@ function pass_unreal_bloom(gfx, render, bloom) {
 
 	// 2. Blur all the mips progressively
 	//SwapCascade swap = render.target.swap_cascade;
-	var swap = new two.SwapCascade();
-	if(!swap.one.texture.valid())
-		swap.create(bloom.resolution, btwo.gfx.TextureFormat::RGBA8);
-		//swap.create(bloom.resolution, btwo.gfx.TextureFormat::RGBA16F);
+	if(this.swap === undefined) {
+        this.swap = new two.SwapCascade();
+		this.swap.create(bloom.resolution, two.TextureFormat.RGBA8);
+		//swap.create(bloom.resolution, two.TextureFormat.RGBA16F);
+    }
 
 	var source = render.target.ping_pong.last();
 
@@ -182,17 +183,17 @@ function pass_unreal_bloom(gfx, render, bloom) {
 
 	for(var i = 1; i < 6; i++) {
         
-		var h = swap.swap();
+		var h = this.swap.swap();
 		pass_blur(gfx, render, BlurH, source, i - 1, h.fbos[i], kernel_sizes[i]);
 
-		var v = swap.swap();
+		var v = this.swap.swap();
 		pass_blur(gfx, render, BlurV, h.texture, i, v.fbos[i], kernel_sizes[i]);
 
 		source = v.texture;
 	}
 
-	//copy.debug_show_texture(render, swap.last().texture, vec4(0.0), 3);
-	//copy.debug_show_texture(render, *source, vec4(0.0));
+	//gfx.copy.debug_show_texture(render, this.swap.last().texture, vec4(0.0), 3);
+	//gfx.copy.debug_show_texture(render, *source, vec4(0.0));
 
 	// Composite all the mips
 	pass_merge(gfx, render, bloom, source);
@@ -203,6 +204,7 @@ two.ui.orbit_controls(viewer);
 //controls.maxPolarAngle = c_pi * 0.5;
 //controls.minDistance = 1;
 //controls.maxDistance = 10;
+viewer.viewport.active = false;
 
 //Tonemap tonemap = viewer.viewport.comp<Tonemap>();
 //tonemap.enabled = true;
@@ -211,15 +213,15 @@ two.ui.orbit_controls(viewer);
 
 var scene = viewer.scene;
 
-var bloom = { exposure: 1.0, strength: 1.5, radius: 0.0, threshold: 0.0 };
-bloom.resolution = app.gfx.main_target().size;
-
 if(init) {
-    //ImporterGltf gltf_importer(app.gfx);
+    this.importerGltf = new two.ImporterGltf(app.gfx);
 
     var camera = viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 100.0;
     camera.eye = vec3(-5.f, 2.5, -3.5);
+
+    this.bloom = { exposure: 1.0, strength: 1.5, radius: 0.0, threshold: 0.0 };
+    this.bloom.resolution = app.gfx.main_target().size;
 
     scene.env.radiance.colour = two.rgb(0x404040);
     scene.env.radiance.energy = 1.0;
@@ -230,11 +232,16 @@ if(init) {
     highpass.set_source(two.ShaderType.Vertex, filter_vertex);
     highpass.set_source(two.ShaderType.Fragment, luminosity_fragment);
 
+    var blur_block = new two.ShaderBlock();
+    blur_block.index = 0;
+    blur_block.add_mode('KERNEL_RADIUS');
+    
     var blur = gfx.programs.create('bloom_blur');
     blur.set_source(two.ShaderType.Vertex, filter_vertex);
     blur.set_source(two.ShaderType.Fragment, blur_fragment);
-    blur.register_block(gfx.filter);
-    blur.register_modes(0, { 'KERNEL_RADIUS' });
+    blur.register_block(gfx.filter.shader_block);
+    blur.register_block(blur_block);
+    //blur.register_modes(0, { 'KERNEL_RADIUS' });
 
     var merge = gfx.programs.create('bloom_merge');
     program.set_source(two.ShaderType.Vertex, filter_vertex);
@@ -273,7 +280,7 @@ if(init) {
 //}
 
 
-function renderer(gfx, render) {
+function renderer(gfx, render, bloom) {
     
     two.begin_pbr_render(gfx, render);
 
@@ -284,8 +291,13 @@ function renderer(gfx, render) {
     two.pass_post_process(gfx, render);
 }
 
-app.gfx.set_renderer(Shading::Shaded, render);
+var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+app.gfx.renderer.gather(render);
+app.gfx.renderer.begin(render);
 
+renderer(app.gfx, render, this.bloom);
+
+app.gfx.renderer.end(render);
 
 //const float delta = clock.getDelta();
 

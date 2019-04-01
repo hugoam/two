@@ -174,6 +174,6 @@ namespace mud
 	void pass_flip(GfxSystem& gfx, Render& render)
 	{
 		Pass pass = render.next_pass("flip", PassType::Flip);
-		gfx.m_copy->quad(pass, render.m_target->m_backbuffer, render.m_target->m_diffuse, render.m_rect);
+		gfx.m_copy->quad(pass, render.m_target->m_backbuffer, render.m_target->m_diffuse);
 	}
 }

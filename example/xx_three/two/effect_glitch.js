@@ -38,7 +38,7 @@ var glitch_fragment = `$input v_uv0
     	float ys = floor(gl_FragCoord.y / 0.5);
     	//based on staffantans glitch shader for unity https://github.com/staffantan/unityglitch 
     	vec4 normal = texture2D(s_source_1, p * u_seed * u_seed);
-    	if(p.y < u_distort.x + col_s  p.y > u_distort.x - col_s * u_seed) {
+    	if(p.y < u_distort.x + col_s && p.y > u_distort.x - col_s * u_seed) {
     		if(u_scale.x > 0.0) {
     			p.y = 1.0 - (p.y + u_distort.y);
     		}
@@ -46,7 +46,7 @@ var glitch_fragment = `$input v_uv0
     			p.y = u_distort.y;
     		}
     	}
-    	if(p.x < u_distort.y + col_s  p.x > u_distort.y - col_s * u_seed) {
+    	if(p.x < u_distort.y + col_s && p.x > u_distort.y - col_s * u_seed) {
     		if(u_scale.y > 0.0){
     			p.x = u_distort.x;
     		}
@@ -77,7 +77,7 @@ function glitch_heightmap(gfx, size) {
 	var count = size * size;
 	for(var i = 0; i < count; i++) {
         
-		float val = Math.random();
+		var val = Math.random();
 		array[i * 4 + 0] = val;
 		array[i * 4 + 1] = val;
 		array[i * 4 + 2] = val;
@@ -135,6 +135,8 @@ function pass_glitch(gfx, render, glitch, dt_size) {
 
 	glitch.frame++;
 
+    var program = app.gfx.programs.fetch('glitch');
+    
 	var pass = render.next_pass('glitch', two.PassType.PostProcess);
 
 	gfx.filter.uniform(pass, 'u_glitch_p0', new two.vec4(amount, angle, glitch.seed, 0.0));
@@ -144,14 +146,15 @@ function pass_glitch(gfx, render, glitch, dt_size) {
 	gfx.filter.sourcedepth(disp);
 
 	var target = render.target;
-	gfx.filter.quad(pass, target.post_process.swap(), program, pass.viewport.rect);
+	gfx.filter.quad(pass, target.post_process.swap(), program);
 
 	var flip = render.next_pass('flip', two.PassType.PostProcess);
-	gfx.copy.quad(flip, render.target_fbo, target.post_process.last(), pass.viewport.rect);
+	gfx.copy.quad(flip, render.target_fbo, target.post_process.last());
 }
 
 var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controls(viewer);
+viewer.viewport.active = false;
 
 var scene = viewer.scene;
 
@@ -162,7 +165,7 @@ if(init) {
 
     //scene.fog = new THREE.Fog(0x000000, 1, 1000);
 
-    var glitch = gfx.programs.create('glitch');
+    var glitch = app.gfx.programs.create('glitch');
     glitch.set_source(two.ShaderType.Vertex, glitch_vertex);
     glitch.set_source(two.ShaderType.Fragment, glitch_fragment);
 
@@ -176,13 +179,12 @@ if(init) {
     this.object = group;
 
     this.nodes = [];
-    for(size_t i = 0; i < 100; i++)
-    {
-        const string name = 'object' + to_string(i);
+    for(var i = 0; i < 100; i++) {
+        var name = 'object' + i.toString();
         var material = app.gfx.materials.create(name); var m = material;
             m.program = pbr;
             m.base.flat_shaded = true;
-            m.pbr.albedo.value = two.rgb(randi<uint32_t>());
+            m.pbr.albedo.value = two.rgb(Math.random() * 0xffffff);
         
         //var material = new THREE.MeshPhongMaterial({ color: 0xffffff * Math.random(),  });
 
@@ -202,7 +204,7 @@ if(init) {
     var n = scene.nodes().add(new two.Node3(new two.vec3(0.0), dir));
     var light = scene.lights().add(new two.Light(n, two.LightType.Direct, false));
 
-    this.glitch = { seed: Math.random(), randX: , gowild: false, bypass: 0, frame:0 };
+    this.glitch = { seed: Math.random(), randX: randInt(120, 240) * speed, gowild: false, bypass: 0, frame:0 };
 	//int randX = randi(120, 240) * speed;
     
     this.angles = new two.vec3(0.0);
@@ -217,7 +219,7 @@ this.object.apply(new two.vec3(0.0), new two.quat(this.angles));
 
 for(var i = 0; i < this.nodes.length; ++i) {
     var node = this.nodes[i];
-    node.n.derive(*object, node.p, new two.quat(node.a), node.s);
+    node.n.derive(this.object, node.p, new two.quat(node.a), node.s);
 }
 
 function renderer(gfx, render, glitch) {

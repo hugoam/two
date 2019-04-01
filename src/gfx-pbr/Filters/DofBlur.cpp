@@ -77,6 +77,6 @@ namespace mud
 		FrameBuffer& fbo = first_pass ? target.m_ping_pong.swap() : target.m_post_process.swap();
 
 		Pass pass = render.composite_pass("dof blur");
-		m_filter.quad(pass, fbo, program, render.m_rect, bgfx_state);
+		m_filter.quad(pass, fbo, program, bgfx_state);
 	}
 }

@@ -90,9 +90,9 @@ function pass_dotscreen(gfx, render, p) {
 
 	gfx.filter.source0(render.target.diffuse);
 
-	gfx.filter.quad(pass, render.target.post_process.swap(), program, pass.viewport.rect);
+	gfx.filter.quad(pass, render.target.post_process.swap(), program);
 
-	//gfx.copy.quad(render.composite_pass(), render.target_fbo, render.target.post_process.last(), pass.viewport.rect);
+	//gfx.copy.quad(render.composite_pass(), render.target_fbo, render.target.post_process.last());
 }
 
 function pass_rgbshift(gfx, render, p) {
@@ -106,10 +106,10 @@ function pass_rgbshift(gfx, render, p) {
 	//gfx.filter.source0(render.target.diffuse);
 	gfx.filter.source0(render.target.post_process.last());
 
-	gfx.filter.quad(pass, render.target.post_process.swap(), program, pass.viewport.rect);
+	gfx.filter.quad(pass, render.target.post_process.swap(), program);
 
 	var flip = render.next_pass('flip', two.PassType.PostProcess);
-	gfx.copy.quad(flip, render.target_fbo, render.target.post_process.last(), pass.viewport.rect);
+	gfx.copy.quad(flip, render.target_fbo, render.target.post_process.last());
 }
 
 var viewer = two.ui.scene_viewer(panel);

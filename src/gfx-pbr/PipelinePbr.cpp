@@ -514,7 +514,7 @@ namespace gfx
 		gfx.m_filter->source2(gbuffer.m_albedo);
 		gfx.m_filter->source3(gbuffer.m_surface);
 
-		gfx.m_filter->quad(pass, *render.m_target_fbo, cluster.m_shader_version, render.m_rect, BGFX_STATE_BLEND_ALPHA);
+		gfx.m_filter->quad(pass, *render.m_target_fbo, cluster.m_shader_version, BGFX_STATE_BLEND_ALPHA);
 
 #if DEBUG_GBUFFERS
 		vec2 size = vec2(target.m_size) * 0.25f;
@@ -528,13 +528,13 @@ namespace gfx
 	void pass_pre_post_process(GfxSystem& gfx, Render& render)
 	{
 		RenderTarget& target = *render.m_target;
-		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post_process.swap(), target.m_diffuse, render.m_rect);
+		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post_process.swap(), target.m_diffuse);
 	}
 
 	void pass_post_process(GfxSystem& gfx, Render& render)
 	{
 		RenderTarget& target = *render.m_target;
-		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post_process.swap(), target.m_diffuse, render.m_rect);
+		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post_process.swap(), target.m_diffuse);
 
 		// submit each post process effect
 

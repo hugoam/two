@@ -397,7 +397,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 		gfx.m_filter->sourcedepth(render.m_target->m_depth);
 
 		RenderTarget& target = *render.m_target;
-		gfx.m_filter->quad(pass, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
+		gfx.m_filter->quad(pass, target.m_post_process.swap(), program);
 
 		//this.materialCopy.blending = THREE.CustomBlending;
 		//this.materialCopy.blendSrc = THREE.DstColorFactor;
@@ -407,7 +407,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 		//this.materialCopy.blendDstAlpha = THREE.ZeroFactor;
 		//this.materialCopy.blendEquationAlpha = THREE.AddEquation;
 
-		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post_process.last());
 	};
 
 	//if (this.params.output === 1)

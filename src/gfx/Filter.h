@@ -56,13 +56,7 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 
 		meth_ void submit(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
-
-		void quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
-		void quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags = 0U, bool render = false);
-
-		void quad(const Pass& pass, FrameBuffer& fbo, Program& program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
-		void quad(const Pass& pass, FrameBuffer& fbo, Program& program, uint64_t flags = 0U, bool render = false);
-		meth_ void quad(const Pass& pass, FrameBuffer& fbo, Program& program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
+		meth_ void quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags = 0U, bool render = false);
 
 		meth_ RenderQuad render_quad(FrameBuffer& source, const vec4& source_rect, FrameBuffer& dest, const vec4& dest_rect, bool fbo_flip);
 
@@ -73,8 +67,10 @@ namespace mud
 		meth_ void source2(Texture& texture, uint32_t flags = UINT32_MAX);
 		meth_ void source3(Texture& texture, uint32_t flags = UINT32_MAX);
 		meth_ void sourcedepth(Texture& texture, uint32_t flags = UINT32_MAX);
+
 		meth_ void uniform(const Pass& pass, const string& name, const vec4& value);
-		meth_ void uniforms(const Pass& pass, const string& name, const vec4* value, uint16_t num);
+		meth_ void uniforms(const Pass& pass, const string& name, span<float> values);
+		void uniforms(const Pass& pass, const string& name, const vec4* value, uint16_t num);
 
 		FilterUniform u_uniform;
 
@@ -92,9 +88,8 @@ namespace mud
 
 		virtual void begin_render(Render& render) override;
 
-		void quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags = 0U);
-		void quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, uint64_t flags = 0U);
-		meth_ void quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, const uvec4& rect, uint64_t flags = 0U);
+		meth_ void submit(const Pass& pass, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags = 0U);
+		meth_ void quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, uint64_t flags = 0U);
 
 		void debug_show_texture(Render& render, Texture& texture, const vec4& rect, int level = 0);
 

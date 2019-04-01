@@ -93,21 +93,19 @@ var bokeh_fragment = `$input v_uv0
 
 function pass_bokeh(gfx, render, bokeh) {
 
-    var filter = gfx.filter;
-    var copy = gfx.copy;
     var program = gfx.programs.fetch('bokeh');
 
     var pass = render.next_pass('bokeh', two.PassType.PostProcess);
 
-    filter.uniform(pass, 'u_bokeh_p0', new two.vec4(bokeh.focus, bokeh.aperture * 0.00001, bokeh.maxblur, 0.0));
+    gfx.filter.uniform(pass, 'u_bokeh_p0', new two.vec4(bokeh.focus, bokeh.aperture * 0.00001, bokeh.maxblur, 0.0));
 
-    filter.source0(render.target.diffuse);
-    filter.sourcedepth(render.target.depth);
+    gfx.filter.source0(render.target.diffuse);
+    gfx.filter.sourcedepth(render.target.depth);
 
-    filter.quad(pass, render.target.post_process.swap(), program, pass.viewport.rect);
+    gfx.filter.quad(pass, render.target.post_process.swap(), program);
 
     var flip = render.next_pass('flip', two.PassType.PostProcess);
-    copy.quad(flip, render.target_fbo, render.target.post_process.last(), pass.viewport.rect);
+    gfx.copy.quad(flip, render.target_fbo, render.target.post_process.last());
 }
 
 var enabled = true;
@@ -212,9 +210,9 @@ for(var i = 0; i < this.nobjects; i++)
 //	var sheet = two.ui.sheet(*dock);
 //
 //	var controls = two.ui.stack(sheet);
-//	two.ui.slider_field_float(controls, 'focus',    { bokeh.focus,    { 10.f, 3000.f, 10.f } });
-//	two.ui.slider_field_float(controls, 'aperture', { bokeh.aperture, { 0.f, 10.f, 0.1f } });
-//	two.ui.slider_field_float(controls, 'maxblur',  { bokeh.maxblur,  { 0.f, 3.f, 0.025f } });
+//	two.ui.slider_field_float(controls, 'focus',    { bokeh.focus,    { 10.0, 3000.0, 10.0 } });
+//	two.ui.slider_field_float(controls, 'aperture', { bokeh.aperture, { 0.0, 10.0, 0.1 } });
+//	two.ui.slider_field_float(controls, 'maxblur',  { bokeh.maxblur,  { 0.0, 3.f, 0.025 } });
 //}
 
 if (enabled) {

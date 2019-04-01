@@ -175,7 +175,7 @@ function pass_fake_sun(gfx, render, godrays) {
 	// @todo fix this
 	//btwo.gfx.setViewScissor(pass.index, sun.x - sunsqW / 2.0, sun.y - sunsqH / 2.0, sunsqW, sunsqH);
 
-	gfx.filter.quad(pass, render.target_fbo, program, pass.viewport.rect);
+	gfx.filter.quad(pass, render.target_fbo, program);
 }
 
 function pass_godrays(gfx, render, godrays) {
@@ -200,7 +200,7 @@ function pass_godrays(gfx, render, godrays) {
 
 		gfx.filter.sourcedepth(render.target.depth);
 
-		gfx.filter.quad(pass, fbo, program, pass.viewport.rect);
+		gfx.filter.quad(pass, fbo, program);
 	}
 
 	function pass_blur(gfx, render, godrays, fbo, source, step_size, quad) {
@@ -226,10 +226,10 @@ function pass_godrays(gfx, render, godrays) {
 
 		gfx.filter.uniform(pass, 'u_godrays_combine_p0', new two.vec4(godrays.intensity, 0.0, 0.0, 0.0));
 
-		gfx.filter.quad(pass, render.target.post_process.swap(), program, pass.viewport.rect);
+		gfx.filter.quad(pass, render.target.post_process.swap(), program);
 
         var flip = render.next_pass('flip', two.PassType.PostProcess);
-		gfx.copy.quad(flip, render.target_fbo, render.target.post_process.last(), pass.viewport.rect);
+		gfx.copy.quad(flip, render.target_fbo, render.target.post_process.last());
 	}
 
 	pass_mask_depth(gfx, render, godrays, this.depth);

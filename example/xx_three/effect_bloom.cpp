@@ -238,11 +238,11 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 		gfx.m_filter->source0(source);
 
 		RenderTarget& target = *render.m_target;
-		gfx.m_filter->quad(pass, target.m_post_process.swap(), program, pass.m_viewport->m_rect);
+		gfx.m_filter->quad(pass, target.m_post_process.swap(), program);
 
 		// additive blend bloom over target
 		//copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
-		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect, BGFX_STATE_BLEND_ADD);
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post_process.last(), BGFX_STATE_BLEND_ADD);
 	};
 
 	// 1. Extract bright areas

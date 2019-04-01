@@ -245,7 +245,7 @@ namespace mud
 		attr_ Type& m_type;
 		attr_ uint8_t m_index;
 
-		ShaderBlock m_shader_block;
+		attr_ ShaderBlock m_shader_block;
 
 		bool m_draw_block = false;
 
