@@ -339,7 +339,7 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 		gfx.m_filter->uniform(pass, "u_godrays_p0", vec4(godrays.m_sun_screen, vec2(step_size, 0.f)));
 		gfx.m_filter->source0(source, GFX_TEXTURE_CLAMP);
 
-		gfx.m_filter->quad(pass, fbo, program, quad);
+		gfx.m_filter->submit(pass, fbo, ProgramVersion(program), quad);
 	};
 
 	auto pass_combine = [](GfxSystem& gfx, Render& render, const Godrays& godrays, Texture& source)
@@ -433,7 +433,6 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			m.m_program = &solid;
 			m.m_base.m_depth_draw = DepthDraw::Enabled;
 			m.m_solid.m_colour = rgb(0x000000);
-			//m.m_solid.m_colour = rgb(0xffffff);
 		});
 
 		Model& model = *app.m_gfx.models().file("tree"); // tree.obj

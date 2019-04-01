@@ -167,12 +167,13 @@ namespace mud
 
 	void BlockFilter::submit(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags, bool render)
 	{
-		if(quad.m_source.width > 1.f || quad.m_source.height > 1.f)
+		constexpr float margin = 0.01f; // @kludge because float precision issues from JS bindings triggers the warning
+		if(quad.m_source.width > 1.f + margin || quad.m_source.height > 1.f + margin)
 			printf("WARNING: Source rect expected in relative coordinates (%f, %f, %f, %f)\n", 
 				   quad.m_source.x, quad.m_source.y, quad.m_source.width, quad.m_source.height);
 
 		static mat4 mview = bxidentity();
-		static mat4 proj = bxortho({ 0.f, 1.f, 1.f, 0.f }, 0.f, 1.f, 0.f, bgfx::getCaps()->homogeneousDepth);// false))
+		static mat4 proj = bxortho(vec4(0.f, 1.f, 1.f, 0.f), 0.f, 1.f, 0.f, bgfx::getCaps()->homogeneousDepth);// false))
 
 #ifdef _DEBUG
 		bgfx::setViewName(pass.m_index, pass.m_name.c_str());

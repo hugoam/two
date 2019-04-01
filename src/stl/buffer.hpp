@@ -137,7 +137,7 @@ namespace stl {
 	template <class T, class Alloc, size_t Pad>
 	inline buf<T, Alloc, Pad>::~buf() {
 		destroy_urange(this->m_first, this->m_last);
-		Alloc::static_deallocate(this->m_first, this->capacity());
+		Alloc::static_deallocate(this->m_first, this->capacity() + Pad);
 	}
 
 	template <class T, class Alloc, size_t Pad>
@@ -224,7 +224,7 @@ namespace stl {
 
 	template <class T, class Alloc, size_t Pad>
 	inline void buffer<T, Alloc, Pad>::grow(size_t size, bool dealloc) {
-		if(size > this->capacity())
+		if(size + Pad > this->capacity())
 			this->realloc((size * 3) / 2, dealloc);
 	}
 

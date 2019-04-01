@@ -224,7 +224,7 @@ namespace mud
 		auto tof = [](const string& s) { return float(atof(s.c_str())); };
 		auto toi = [](const string& s) { return atoi(s.c_str()); };
 
-		printf("INFO: gltf - loading scene %s\n", scene.m_file.c_str());
+		printf("INFO: obj - loading scene %s\n", scene.m_file.c_str());
 
 		Clock clock;
 		clock.step();
@@ -276,8 +276,8 @@ namespace mud
 
 				m_import.m_items.push_back({ bxidentity(), &model, -1 });
 
-				//printf("INFO: ImporterOBJ imported mesh %s material %s with %u vertices and %u faces\n", 
-				//	   m_mesh.m_name.c_str(), m_mesh.m_material->m_name.c_str(), m_shape.m_positions.size(), m_shape.m_indices.size() / 3);
+				//printf("INFO: obj - imported mesh %s with %u vertices and %u faces\n", 
+				//	   mesh.m_name.c_str(), m_shape.m_positions.size(), m_shape.m_indices.size() / 3);
 			}
 
 			inline void face(ShapeVertex* face, size_t a, size_t b, size_t c)

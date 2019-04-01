@@ -31,6 +31,7 @@ namespace mud
 	{
 		constr_ ProgramVersion() {}
 		constr_ ProgramVersion(const Program& program) : m_program(&program) {}
+		//constr_ explicit ProgramVersion(const Program& program) : m_program(&program) {}
 
 		const Program* m_program = nullptr;
 		uint32_t m_options = 0;
