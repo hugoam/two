@@ -540,6 +540,9 @@ extern "C" {
 	void DECL mud_Cascade_create_2(mud::Cascade* self, const mud::uvec2* size, mud::TextureFormat color_format) {
 		self->create(*size, color_format);
 	}
+	mud::FrameBuffer* DECL mud_Cascade_level_1(mud::Cascade* self, uint8_t index) {
+		return &self->level(index);
+	}
 	mud::Texture* DECL mud_Cascade__get_texture(mud::Cascade* self) {
 		return &self->m_texture;
 	}

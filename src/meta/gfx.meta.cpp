@@ -183,6 +183,7 @@ void mud_Camera_ray(void* object, span<void*> args, void*& result) { (*static_ca
 void mud_Camera_project(void* object, span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Camera*>(object)).project(*static_cast<mud::vec3*>(args[0])); }
 void mud_Cascade__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Cascade(  ); }
 void mud_Cascade_create(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Cascade*>(object)).create(*static_cast<mud::uvec2*>(args[0]), *static_cast<mud::TextureFormat*>(args[1])); }
+void mud_Cascade_level(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Cascade*>(object)).level(*static_cast<uint8_t*>(args[0])); }
 void mud_DepthParams__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DepthParams(  ); }
 void mud_DepthParams__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::DepthParams((*static_cast<mud::DepthParams*>(other))); }
 void mud_Direct__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Direct(  ); }
@@ -1289,7 +1290,8 @@ namespace mud
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "create", Address(), mud_Cascade_create, { { "size", type<mud::uvec2>(),  }, { "color_format", type<mud::TextureFormat>(),  } }, g_qvoid }
+			{ t, "create", Address(), mud_Cascade_create, { { "size", type<mud::uvec2>(),  }, { "color_format", type<mud::TextureFormat>(),  } }, g_qvoid },
+			{ t, "level", Address(), mud_Cascade_level, { { "index", type<uint8_t>(),  } }, { &type<mud::FrameBuffer>(), QualType::None } }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };

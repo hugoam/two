@@ -672,6 +672,9 @@ Module['Cascade'] = Cascade;
 Cascade.prototype["create"] = Cascade.prototype.create = function(a0, a1) {
     _mud_Cascade_create_2(this.__ptr, /*size*/a0.__ptr, /*color_format*/a1);
 };
+Cascade.prototype["level"] = Cascade.prototype.level = function(a0) {
+    return wrapPointer(_mud_Cascade_level_1(this.__ptr, /*index*/a0), FrameBuffer);
+};
 Object.defineProperty(Cascade.prototype, "texture", {
     get: function() {
         return wrapPointer(_mud_Cascade__get_texture(this.__ptr), Texture);

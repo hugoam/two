@@ -89,6 +89,9 @@ namespace mud
 		attr_ Texture m_texture;
 		attr_ size_t m_num_mips;
 		unique<FrameBuffer> m_fbos[9] = {};
+
+		// @todo expose array members to reflection and get rid of this
+		meth_ FrameBuffer& level(uint8_t index) { return *m_fbos[index]; }
 	};
 
 	export_ class refl_ SwapCascade
