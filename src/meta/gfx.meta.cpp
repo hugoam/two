@@ -181,6 +181,8 @@ void mud_Camera_set_look_at(void* object, span<void*> args, void*& result) { UNU
 void mud_Camera_set_isometric(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Camera*>(object)).set_isometric(*static_cast<mud::IsometricAngle*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
 void mud_Camera_ray(void* object, span<void*> args, void*& result) { (*static_cast<mud::Ray*>(result)) = (*static_cast<mud::Camera*>(object)).ray(*static_cast<mud::vec2*>(args[0])); }
 void mud_Camera_project(void* object, span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Camera*>(object)).project(*static_cast<mud::vec3*>(args[0])); }
+void mud_Cascade__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Cascade(  ); }
+void mud_Cascade_create(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Cascade*>(object)).create(*static_cast<mud::uvec2*>(args[0]), *static_cast<mud::TextureFormat*>(args[1])); }
 void mud_DepthParams__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::DepthParams(  ); }
 void mud_DepthParams__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::DepthParams((*static_cast<mud::DepthParams*>(other))); }
 void mud_Direct__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Direct(  ); }
@@ -323,8 +325,12 @@ void mud_ShaderDefine__construct_0(void* ref, span<void*> args) { UNUSED(args); 
 void mud_ShaderDefine__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ShaderDefine((*static_cast<mud::ShaderDefine*>(other))); }
 void mud_Sun__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Sun(  ); }
 void mud_Sun__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Sun((*static_cast<mud::Sun*>(other))); }
+void mud_SwapBuffer__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::SwapBuffer(  ); }
+void mud_SwapBuffer_create(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::SwapBuffer*>(object)).create(*static_cast<mud::uvec2*>(args[0]), *static_cast<mud::TextureFormat*>(args[1])); }
 void mud_SwapBuffer_swap(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::SwapBuffer*>(object)).swap(); }
 void mud_SwapBuffer_last(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::SwapBuffer*>(object)).last(); }
+void mud_SwapCascade__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::SwapCascade(  ); }
+void mud_SwapCascade_create(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::SwapCascade*>(object)).create(*static_cast<mud::uvec2*>(args[0]), *static_cast<mud::TextureFormat*>(args[1])); }
 void mud_SwapCascade_swap(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::SwapCascade*>(object)).swap(); }
 void mud_SwapCascade_last(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::SwapCascade*>(object)).last(); }
 void mud_TPool_mud_Batch_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::TPool<mud::Batch>*>(object)).add(*static_cast<mud::Batch*>(args[0])); }
@@ -1272,6 +1278,9 @@ namespace mud
 		// bases
 		// defaults
 		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Cascade__construct_0, {} }
+		};
 		// copy constructor
 		// members
 		static Member members[] = {
@@ -1279,8 +1288,11 @@ namespace mud
 			{ t, offsetof(mud::Cascade, m_num_mips), type<size_t>(), "numips", nullptr, Member::Value, nullptr }
 		};
 		// methods
+		static Method methods[] = {
+			{ t, "create", Address(), mud_Cascade_create, { { "size", type<mud::uvec2>(),  }, { "color_format", type<mud::TextureFormat>(),  } }, g_qvoid }
+		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
 	// mud::Culler
 	{
@@ -2936,6 +2948,9 @@ namespace mud
 		// bases
 		// defaults
 		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_SwapBuffer__construct_0, {} }
+		};
 		// copy constructor
 		// members
 		static Member members[] = {
@@ -2944,11 +2959,12 @@ namespace mud
 		};
 		// methods
 		static Method methods[] = {
+			{ t, "create", Address(), mud_SwapBuffer_create, { { "size", type<mud::uvec2>(),  }, { "color_format", type<mud::TextureFormat>(),  } }, g_qvoid },
 			{ t, "swap", Address(), mud_SwapBuffer_swap, {}, { &type<mud::FrameBuffer>(), QualType::None } },
 			{ t, "last", Address(), mud_SwapBuffer_last, {}, { &type<mud::Texture>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
 	// mud::SwapCascade
 	{
@@ -2957,6 +2973,9 @@ namespace mud
 		// bases
 		// defaults
 		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_SwapCascade__construct_0, {} }
+		};
 		// copy constructor
 		// members
 		static Member members[] = {
@@ -2965,11 +2984,12 @@ namespace mud
 		};
 		// methods
 		static Method methods[] = {
+			{ t, "create", Address(), mud_SwapCascade_create, { { "size", type<mud::uvec2>(),  }, { "color_format", type<mud::TextureFormat>(),  } }, g_qvoid },
 			{ t, "swap", Address(), mud_SwapCascade_swap, {}, { &type<mud::Cascade>(), QualType::None } },
 			{ t, "last", Address(), mud_SwapCascade_last, {}, { &type<mud::Cascade>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
 	// mud::SymbolIndex
 	{

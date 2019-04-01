@@ -70,7 +70,8 @@ namespace mud
 	export_ class refl_ SwapBuffer
 	{
 	public:
-		void create(const uvec2& size, TextureFormat color_format);
+		constr_ SwapBuffer() {}
+		meth_ void create(const uvec2& size, TextureFormat color_format);
 		~SwapBuffer();
 		meth_ FrameBuffer& swap() { m_state = !m_state; return m_state ? m_one : m_two; }
 		meth_ Texture& last() { return m_state ? m_one.m_tex : m_two.m_tex; }
@@ -82,7 +83,8 @@ namespace mud
 	export_ class refl_ Cascade
 	{
 	public:
-		void create(const uvec2& size, TextureFormat color_format);
+		constr_ Cascade() {}
+		meth_ void create(const uvec2& size, TextureFormat color_format);
 		~Cascade();
 		attr_ Texture m_texture;
 		attr_ size_t m_num_mips;
@@ -92,7 +94,8 @@ namespace mud
 	export_ class refl_ SwapCascade
 	{
 	public:
-		void create(const uvec2& size, TextureFormat color_format);
+		constr_ SwapCascade() {}
+		meth_ void create(const uvec2& size, TextureFormat color_format);
 		~SwapCascade();
 		meth_ Cascade& swap() { m_state = !m_state; return m_state ? m_one : m_two; }
 		meth_ Cascade& last() { return m_state ? m_one : m_two; }

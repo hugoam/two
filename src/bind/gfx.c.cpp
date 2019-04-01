@@ -534,6 +534,12 @@ extern "C" {
 	mud::Type* DECL mud_Cascade__type() {
 		return &mud::type<mud::Cascade>();
 	}
+	mud::Cascade* DECL mud_Cascade__construct_0() {
+		return new mud::Cascade();
+	}
+	void DECL mud_Cascade_create_2(mud::Cascade* self, const mud::uvec2* size, mud::TextureFormat color_format) {
+		self->create(*size, color_format);
+	}
 	mud::Texture* DECL mud_Cascade__get_texture(mud::Cascade* self) {
 		return &self->m_texture;
 	}
@@ -3024,6 +3030,12 @@ extern "C" {
 	mud::Type* DECL mud_SwapBuffer__type() {
 		return &mud::type<mud::SwapBuffer>();
 	}
+	mud::SwapBuffer* DECL mud_SwapBuffer__construct_0() {
+		return new mud::SwapBuffer();
+	}
+	void DECL mud_SwapBuffer_create_2(mud::SwapBuffer* self, const mud::uvec2* size, mud::TextureFormat color_format) {
+		self->create(*size, color_format);
+	}
 	mud::FrameBuffer* DECL mud_SwapBuffer_swap_0(mud::SwapBuffer* self) {
 		return &self->swap();
 	}
@@ -3042,6 +3054,12 @@ extern "C" {
 	// SwapCascade
 	mud::Type* DECL mud_SwapCascade__type() {
 		return &mud::type<mud::SwapCascade>();
+	}
+	mud::SwapCascade* DECL mud_SwapCascade__construct_0() {
+		return new mud::SwapCascade();
+	}
+	void DECL mud_SwapCascade_create_2(mud::SwapCascade* self, const mud::uvec2* size, mud::TextureFormat color_format) {
+		self->create(*size, color_format);
 	}
 	mud::Cascade* DECL mud_SwapCascade_swap_0(mud::SwapCascade* self) {
 		return &self->swap();

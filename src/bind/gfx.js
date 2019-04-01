@@ -661,12 +661,17 @@ Camera.prototype["__destroy"] = Camera.prototype.__destroy = function() {
     _mud_Camera__destroy(this.__ptr);
 };
 // Cascade
-function Cascade() { throw "cannot construct a Cascade, no constructor in IDL" }
+function Cascade() {
+    this.__ptr = _mud_Cascade__construct_0(); this.__type = Cascade.__type; getCache(Cascade)[this.__ptr] = this;
+};
 Cascade.prototype = Object.create(WrapperObject.prototype);
 Cascade.prototype.constructor = Cascade;
 Cascade.prototype.__class = Cascade;
 Cascade.__cache = {};
 Module['Cascade'] = Cascade;
+Cascade.prototype["create"] = Cascade.prototype.create = function(a0, a1) {
+    _mud_Cascade_create_2(this.__ptr, /*size*/a0.__ptr, /*color_format*/a1);
+};
 Object.defineProperty(Cascade.prototype, "texture", {
     get: function() {
         return wrapPointer(_mud_Cascade__get_texture(this.__ptr), Texture);
@@ -3738,12 +3743,17 @@ Sun.prototype["__destroy"] = Sun.prototype.__destroy = function() {
     _mud_Sun__destroy(this.__ptr);
 };
 // SwapBuffer
-function SwapBuffer() { throw "cannot construct a SwapBuffer, no constructor in IDL" }
+function SwapBuffer() {
+    this.__ptr = _mud_SwapBuffer__construct_0(); this.__type = SwapBuffer.__type; getCache(SwapBuffer)[this.__ptr] = this;
+};
 SwapBuffer.prototype = Object.create(WrapperObject.prototype);
 SwapBuffer.prototype.constructor = SwapBuffer;
 SwapBuffer.prototype.__class = SwapBuffer;
 SwapBuffer.__cache = {};
 Module['SwapBuffer'] = SwapBuffer;
+SwapBuffer.prototype["create"] = SwapBuffer.prototype.create = function(a0, a1) {
+    _mud_SwapBuffer_create_2(this.__ptr, /*size*/a0.__ptr, /*color_format*/a1);
+};
 SwapBuffer.prototype["swap"] = SwapBuffer.prototype.swap = function() {
     return wrapPointer(_mud_SwapBuffer_swap_0(this.__ptr), FrameBuffer);
 };
@@ -3762,12 +3772,17 @@ SwapBuffer.prototype["__destroy"] = SwapBuffer.prototype.__destroy = function() 
     _mud_SwapBuffer__destroy(this.__ptr);
 };
 // SwapCascade
-function SwapCascade() { throw "cannot construct a SwapCascade, no constructor in IDL" }
+function SwapCascade() {
+    this.__ptr = _mud_SwapCascade__construct_0(); this.__type = SwapCascade.__type; getCache(SwapCascade)[this.__ptr] = this;
+};
 SwapCascade.prototype = Object.create(WrapperObject.prototype);
 SwapCascade.prototype.constructor = SwapCascade;
 SwapCascade.prototype.__class = SwapCascade;
 SwapCascade.__cache = {};
 Module['SwapCascade'] = SwapCascade;
+SwapCascade.prototype["create"] = SwapCascade.prototype.create = function(a0, a1) {
+    _mud_SwapCascade_create_2(this.__ptr, /*size*/a0.__ptr, /*color_format*/a1);
+};
 SwapCascade.prototype["swap"] = SwapCascade.prototype.swap = function() {
     return wrapPointer(_mud_SwapCascade_swap_0(this.__ptr), Cascade);
 };
