@@ -4141,6 +4141,10 @@ BlockCopy.prototype["quad"] = BlockCopy.prototype.quad = function(a0, a1, a2, a3
     if (a3 === undefined) { _mud_BlockCopy_quad_3(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr); return; }
     _mud_BlockCopy_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*flags*/a3);
 };
+BlockCopy.prototype["debug_show_texture"] = BlockCopy.prototype.debug_show_texture = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { _mud_BlockCopy_debug_show_texture_3(this.__ptr, /*render*/a0.__ptr, /*texture*/a1.__ptr, /*rect*/a2.__ptr); return; }
+    _mud_BlockCopy_debug_show_texture_4(this.__ptr, /*render*/a0.__ptr, /*texture*/a1.__ptr, /*rect*/a2.__ptr, /*level*/a3);
+};
 BlockCopy.prototype["__destroy"] = BlockCopy.prototype.__destroy = function() {
     _mud_BlockCopy__destroy(this.__ptr);
 };

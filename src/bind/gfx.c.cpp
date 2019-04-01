@@ -3366,6 +3366,12 @@ extern "C" {
 	void DECL mud_BlockCopy_quad_4(mud::BlockCopy* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Texture* texture, uint64_t flags) {
 		self->quad(*pass, *fbo, *texture, flags);
 	}
+	void DECL mud_BlockCopy_debug_show_texture_3(mud::BlockCopy* self, mud::Render* render, mud::Texture* texture, const mud::vec4* rect) {
+		self->debug_show_texture(*render, *texture, *rect);
+	}
+	void DECL mud_BlockCopy_debug_show_texture_4(mud::BlockCopy* self, mud::Render* render, mud::Texture* texture, const mud::vec4* rect, int level) {
+		self->debug_show_texture(*render, *texture, *rect, level);
+	}
 	void DECL mud_BlockCopy__destroy(mud::BlockCopy* self) {
 		delete self;
 	}

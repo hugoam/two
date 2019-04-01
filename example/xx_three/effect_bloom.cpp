@@ -185,10 +185,7 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 	{
 		static Program& program = highpass_program(gfx);
 
-		// create color only once here, reuse it later inside the render function
-		Colour clearColor = Colour(0.f);
-
-		// luminosity high pass material
+		// luminosity high pass
 
 		Pass pass = render.next_pass("bloom_lum", PassType::PostProcess);
 
@@ -259,7 +256,7 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 
 	Texture* source = &render.m_target->m_ping_pong.last();
 
-	constexpr size_t kernel_sizes[] = { 3, 5, 7, 9, 11 };
+	constexpr size_t kernel_sizes[] = { 0, 3, 5, 7, 9, 11 };
 
 	for(size_t i = 1; i < 6; i++)
 	{
@@ -272,8 +269,8 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 		source = &v.m_texture;
 	}
 
-	//copy.debug_show_texture(render, swap.last().m_texture, vec4(0.f), 3);
-	//copy.debug_show_texture(render, *source, vec4(0.f));
+	//gfx.m_copy->debug_show_texture(render, swap.last().m_texture, vec4(0.f), 3);
+	//gfx.m_copy->debug_show_texture(render, *source, vec4(0.f));
 
 	// Composite all the mips
 	pass_merge(gfx, render, bloom, *source);

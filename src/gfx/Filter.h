@@ -89,7 +89,7 @@ namespace mud
 		meth_ void submit(const Pass& pass, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags = 0U);
 		meth_ void quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, uint64_t flags = 0U);
 
-		void debug_show_texture(Render& render, Texture& texture, const vec4& rect, int level = 0);
+		meth_ void debug_show_texture(Render& render, Texture& texture, const vec4& rect, int level = 0);
 
 		BlockFilter& m_filter;
 
