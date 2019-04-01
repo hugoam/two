@@ -457,7 +457,7 @@ namespace mud
 			RenderTarget& target = m_gfx.main_target();
 
 			Camera camera = { transform, vec2(extents.x * 2.f, extents.y * 2.f), -extents.z, extents.z };
-			Viewport viewport = { camera, scene, { uvec2(0U), uvec2(lightmap->m_size) } };
+			Viewport viewport = { camera, scene, Rect4 };
 			Render lightmap_render = { Shading::Lightmap, viewport, target, fbo, frame };
 			viewport.m_clear_colour = Colour::None;
 

@@ -865,34 +865,6 @@ extern "C" {
 	bool DECL mud_FrameBuffer_valid_0(mud::FrameBuffer* self) {
 		return self->valid();
 	}
-	mud::vec4* DECL mud_FrameBuffer_dest_quad_1(mud::FrameBuffer* self, const mud::vec4* rect) {
-		static mud::vec4 temp;
-		return (temp = self->dest_quad(*rect), &temp);
-	}
-	mud::vec4* DECL mud_FrameBuffer_dest_quad_2(mud::FrameBuffer* self, const mud::vec4* rect, bool from_fbo) {
-		static mud::vec4 temp;
-		return (temp = self->dest_quad(*rect, from_fbo), &temp);
-	}
-	mud::vec4* DECL mud_FrameBuffer_source_quad_1(mud::FrameBuffer* self, const mud::vec4* rect) {
-		static mud::vec4 temp;
-		return (temp = self->source_quad(*rect), &temp);
-	}
-	mud::vec4* DECL mud_FrameBuffer_source_quad_2(mud::FrameBuffer* self, const mud::vec4* rect, bool from_fbo) {
-		static mud::vec4 temp;
-		return (temp = self->source_quad(*rect, from_fbo), &temp);
-	}
-	mud::RenderQuad* DECL mud_FrameBuffer_render_quad_1(mud::FrameBuffer* self, const mud::vec4* rect) {
-		static mud::RenderQuad temp;
-		return (temp = self->render_quad(*rect), &temp);
-	}
-	mud::RenderQuad* DECL mud_FrameBuffer_render_quad_2(mud::FrameBuffer* self, const mud::vec4* rect, bool fbo_flip) {
-		static mud::RenderQuad temp;
-		return (temp = self->render_quad(*rect, fbo_flip), &temp);
-	}
-	mud::RenderQuad* DECL mud_FrameBuffer_render_quad_3(mud::FrameBuffer* self, const mud::vec4* rect, bool fbo_flip, bool from_fbo) {
-		static mud::RenderQuad temp;
-		return (temp = self->render_quad(*rect, fbo_flip, from_fbo), &temp);
-	}
 	mud::uvec2* DECL mud_FrameBuffer__get_size(mud::FrameBuffer* self) {
 		return &self->m_size;
 	}
@@ -970,6 +942,12 @@ extern "C" {
 	}
 	void DECL mud_GfxBlock__set_index(mud::GfxBlock* self, uint8_t value) {
 		self->m_index = value;
+	}
+	mud::ShaderBlock* DECL mud_GfxBlock__get_shader_block(mud::GfxBlock* self) {
+		return &self->m_shader_block;
+	}
+	void DECL mud_GfxBlock__set_shader_block(mud::GfxBlock* self, mud::ShaderBlock* value) {
+		self->m_shader_block = *value;
 	}
 	void DECL mud_GfxBlock__destroy(mud::GfxBlock* self) {
 		delete self;
@@ -2507,10 +2485,10 @@ extern "C" {
 	void DECL mud_Pass__set_viewport(mud::Pass* self, mud::Viewport* value) {
 		self->m_viewport = value;
 	}
-	mud::uvec4* DECL mud_Pass__get_rect(mud::Pass* self) {
+	mud::vec4* DECL mud_Pass__get_rect(mud::Pass* self) {
 		return &self->m_rect;
 	}
-	void DECL mud_Pass__set_rect(mud::Pass* self, mud::uvec4* value) {
+	void DECL mud_Pass__set_rect(mud::Pass* self, mud::vec4* value) {
 		self->m_rect = *value;
 	}
 	uint64_t DECL mud_Pass__get_bgfx_state(mud::Pass* self) {
@@ -2700,7 +2678,7 @@ extern "C" {
 		static mud::Pass temp;
 		return (temp = self->next_pass(name, type), &temp);
 	}
-	mud::Pass* DECL mud_Render_composite_pass_3(mud::Render* self, const char* name, mud::FrameBuffer* fbo, const mud::uvec4* rect) {
+	mud::Pass* DECL mud_Render_composite_pass_3(mud::Render* self, const char* name, mud::FrameBuffer* fbo, const mud::vec4* rect) {
 		static mud::Pass temp;
 		return (temp = self->composite_pass(name, *fbo, *rect), &temp);
 	}
@@ -2734,10 +2712,10 @@ extern "C" {
 	void DECL mud_Render__set_viewport(mud::Render* self, mud::Viewport* value) {
 		self->m_viewport = value;
 	}
-	mud::uvec4* DECL mud_Render__get_rect(mud::Render* self) {
+	mud::vec4* DECL mud_Render__get_rect(mud::Render* self) {
 		return &self->m_rect;
 	}
-	void DECL mud_Render__set_rect(mud::Render* self, mud::uvec4* value) {
+	void DECL mud_Render__set_rect(mud::Render* self, mud::vec4* value) {
 		self->m_rect = *value;
 	}
 	mud::Camera* DECL mud_Render__get_camera(mud::Render* self) {
@@ -2820,11 +2798,17 @@ extern "C" {
 	mud::RenderQuad* DECL mud_RenderQuad__construct_0() {
 		return new mud::RenderQuad();
 	}
-	mud::RenderQuad* DECL mud_RenderQuad__construct_2(mud::vec4* crop, mud::vec4* dest) {
+	mud::RenderQuad* DECL mud_RenderQuad__construct_1(const mud::vec4* rect) {
+		return new mud::RenderQuad(*rect);
+	}
+	mud::RenderQuad* DECL mud_RenderQuad__construct_2(const mud::vec4* crop, const mud::vec4* dest) {
 		return new mud::RenderQuad(*crop, *dest);
 	}
-	mud::RenderQuad* DECL mud_RenderQuad__construct_3(mud::vec4* crop, mud::vec4* dest, bool fbo_flip) {
+	mud::RenderQuad* DECL mud_RenderQuad__construct_3(const mud::vec4* crop, const mud::vec4* dest, bool fbo_flip) {
 		return new mud::RenderQuad(*crop, *dest, fbo_flip);
+	}
+	mud::RenderQuad* DECL mud_RenderQuad__construct_4(const mud::vec4* crop, const mud::vec4* dest, bool fbo_flip, bool relative) {
+		return new mud::RenderQuad(*crop, *dest, fbo_flip, relative);
 	}
 	mud::vec4* DECL mud_RenderQuad__get_source(mud::RenderQuad* self) {
 		return &self->m_source;
@@ -2843,6 +2827,12 @@ extern "C" {
 	}
 	void DECL mud_RenderQuad__set_fbo_flip(mud::RenderQuad* self, bool value) {
 		self->m_fbo_flip = value;
+	}
+	bool DECL mud_RenderQuad__get_relative(mud::RenderQuad* self) {
+		return self->m_relative;
+	}
+	void DECL mud_RenderQuad__set_relative(mud::RenderQuad* self, bool value) {
+		self->m_relative = value;
 	}
 	void DECL mud_RenderQuad__destroy(mud::RenderQuad* self) {
 		delete self;
@@ -3343,11 +3333,17 @@ extern "C" {
 	mud::Type* DECL mud_BlockCopy__type() {
 		return &mud::type<mud::BlockCopy>();
 	}
-	void DECL mud_BlockCopy_quad_4(mud::BlockCopy* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Texture* texture, const mud::uvec4* rect) {
-		self->quad(*pass, *fbo, *texture, *rect);
+	void DECL mud_BlockCopy_submit_4(mud::BlockCopy* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Texture* texture, const mud::RenderQuad* quad) {
+		self->submit(*pass, *fbo, *texture, *quad);
 	}
-	void DECL mud_BlockCopy_quad_5(mud::BlockCopy* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Texture* texture, const mud::uvec4* rect, uint64_t flags) {
-		self->quad(*pass, *fbo, *texture, *rect, flags);
+	void DECL mud_BlockCopy_submit_5(mud::BlockCopy* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Texture* texture, const mud::RenderQuad* quad, uint64_t flags) {
+		self->submit(*pass, *fbo, *texture, *quad, flags);
+	}
+	void DECL mud_BlockCopy_quad_3(mud::BlockCopy* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Texture* texture) {
+		self->quad(*pass, *fbo, *texture);
+	}
+	void DECL mud_BlockCopy_quad_4(mud::BlockCopy* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Texture* texture, uint64_t flags) {
+		self->quad(*pass, *fbo, *texture, flags);
 	}
 	void DECL mud_BlockCopy__destroy(mud::BlockCopy* self) {
 		delete self;
@@ -3372,18 +3368,14 @@ extern "C" {
 	void DECL mud_BlockFilter_submit_6(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, const mud::ProgramVersion* program, const mud::RenderQuad* quad, uint64_t flags, bool render) {
 		self->submit(*pass, *fbo, *program, *quad, flags, render);
 	}
-	void DECL mud_BlockFilter_quad_4(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Program* program, const mud::uvec4* rect) {
-		self->quad(*pass, *fbo, *program, *rect);
+	void DECL mud_BlockFilter_quad_3(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, const mud::ProgramVersion* program) {
+		self->quad(*pass, *fbo, *program);
 	}
-	void DECL mud_BlockFilter_quad_5(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Program* program, const mud::uvec4* rect, uint64_t flags) {
-		self->quad(*pass, *fbo, *program, *rect, flags);
+	void DECL mud_BlockFilter_quad_4(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, const mud::ProgramVersion* program, uint64_t flags) {
+		self->quad(*pass, *fbo, *program, flags);
 	}
-	void DECL mud_BlockFilter_quad_6(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, mud::Program* program, const mud::uvec4* rect, uint64_t flags, bool render) {
-		self->quad(*pass, *fbo, *program, *rect, flags, render);
-	}
-	mud::RenderQuad* DECL mud_BlockFilter_render_quad_5(mud::BlockFilter* self, mud::FrameBuffer* source, const mud::vec4* source_rect, mud::FrameBuffer* dest, const mud::vec4* dest_rect, bool fbo_flip) {
-		static mud::RenderQuad temp;
-		return (temp = self->render_quad(*source, *source_rect, *dest, *dest_rect, fbo_flip), &temp);
+	void DECL mud_BlockFilter_quad_5(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, const mud::ProgramVersion* program, uint64_t flags, bool render) {
+		self->quad(*pass, *fbo, *program, flags, render);
 	}
 	void DECL mud_BlockFilter_source0_1(mud::BlockFilter* self, mud::Texture* texture) {
 		self->source0(*texture);
@@ -3418,8 +3410,8 @@ extern "C" {
 	void DECL mud_BlockFilter_uniform_3(mud::BlockFilter* self, const mud::Pass* pass, const char* name, const mud::vec4* value) {
 		self->uniform(*pass, name, *value);
 	}
-	void DECL mud_BlockFilter_uniforms_4(mud::BlockFilter* self, const mud::Pass* pass, const char* name, const mud::vec4* value, uint16_t num) {
-		self->uniforms(*pass, name, value, num);
+	void DECL mud_BlockFilter_uniforms_3(mud::BlockFilter* self, const mud::Pass* pass, const char* name, float* values, int values_size) {
+		self->uniforms(*pass, name, { (float*)values, values_size / (sizeof(float) / sizeof(float)) });
 	}
 	void DECL mud_BlockFilter__destroy(mud::BlockFilter* self) {
 		delete self;
@@ -3637,8 +3629,8 @@ extern "C" {
 	mud::SwapBuffer* DECL mud_RenderTarget__get_ping_pong(mud::RenderTarget* self) {
 		return &self->m_ping_pong;
 	}
-	mud::SwapBuffer* DECL mud_RenderTarget__get_post_process(mud::RenderTarget* self) {
-		return &self->m_post_process;
+	mud::SwapBuffer* DECL mud_RenderTarget__get_post(mud::RenderTarget* self) {
+		return &self->m_post;
 	}
 	mud::Cascade* DECL mud_RenderTarget__get_cascade(mud::RenderTarget* self) {
 		return &self->m_cascade;
@@ -3692,10 +3684,10 @@ extern "C" {
 	void DECL mud_Viewport__set_active(mud::Viewport* self, bool value) {
 		self->m_active = value;
 	}
-	mud::uvec4* DECL mud_Viewport__get_rect(mud::Viewport* self) {
+	mud::vec4* DECL mud_Viewport__get_rect(mud::Viewport* self) {
 		return &self->m_rect;
 	}
-	void DECL mud_Viewport__set_rect(mud::Viewport* self, mud::uvec4* value) {
+	void DECL mud_Viewport__set_rect(mud::Viewport* self, mud::vec4* value) {
 		self->m_rect = *value;
 	}
 	bool DECL mud_Viewport__get_scissor(mud::Viewport* self) {

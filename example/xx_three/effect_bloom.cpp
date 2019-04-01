@@ -202,7 +202,7 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 	enum BlurPass { BlurH, BlurV };
 	enum BlurOptions { KERNEL_SIZE };
 
-	auto pass_blur = [](GfxSystem& gfx, Render& render, BlurPass d, Texture& source, int level, FrameBuffer& dest, uint8_t kernel_size)
+	auto pass_blur = [](GfxSystem& gfx, Render& render, BlurPass d, Texture& source, int source_level, FrameBuffer& dest, uint8_t kernel_size)
 	{
 		static Program& program = blur_program(gfx);
 
@@ -213,7 +213,7 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 		gfx.m_filter->uniform(pass, "u_glow_blur_p0", vec4(dirs[d], 0.f, 0.f));
 
 		ProgramVersion version = { program };
-		gfx.m_filter->source0(source, version, level);
+		gfx.m_filter->source0(source, version, source_level);
 
 		version.set_mode(0, KERNEL_SIZE, kernel_size);
 
@@ -226,23 +226,23 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 
 		Pass pass = render.next_pass("bloom_merge", PassType::PostProcess);
 
-		const Colour white = Colour(1.f);
-		const vec4 glow_levels[2] = { vec4(1.0f, 0.8f, 0.6f, 0.4f), vec4(0.2f, 0.0f, 0.0f, 0.0f) };
-		const vec4 glow_tint[5] = { to_vec4(white), to_vec4(white), to_vec4(white), to_vec4(white), to_vec4(white) };
+		static const vec4 white = to_vec4(Colour(1.f));
+		static const float glow_levels[5] = { 1.0f, 0.8f, 0.6f, 0.4f, 0.2f };
+		static const vec4 glow_tint[5] = { white, white, white, white };
 
 		gfx.m_filter->uniform(pass, "u_glow_merge_p0", vec4(bloom.strength, bloom.radius, 0.f, 0.f));
-		gfx.m_filter->uniforms(pass, "u_glow_levels", glow_levels, 2U);
-		gfx.m_filter->uniforms(pass, "u_glow_colors", glow_tint, 5U);
+		gfx.m_filter->uniforms(pass, "u_glow_levels", glow_levels);
+		gfx.m_filter->uniforms4(pass, "u_glow_colors", glow_tint);
 
 		//filter.source0(render.m_target->m_diffuse);
 		gfx.m_filter->source0(source);
 
 		RenderTarget& target = *render.m_target;
-		gfx.m_filter->quad(pass, target.m_post_process.swap(), program);
+		gfx.m_filter->quad(pass, target.m_post.swap(), program);
 
 		// additive blend bloom over target
-		//copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post_process.last(), pass.m_viewport->m_rect);
-		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post_process.last(), BGFX_STATE_BLEND_ADD);
+		//copy.quad(render.composite_pass(), *render.m_target_fbo, target.m_post.last(), pass.m_viewport->m_rect);
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post.last(), BGFX_STATE_BLEND_ADD);
 	};
 
 	// 1. Extract bright areas

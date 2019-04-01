@@ -230,7 +230,7 @@ namespace gfx
 		vec3 extents = gi_probe.m_extents;
 		
 		Camera camera = { gi_probe.m_transform, vec2(extents.x * 2.f, extents.y * 2.f), -extents.z, extents.z };
-		Viewport viewport = { camera, *render.m_scene, { uvec2(0U), uvec2(uint(gi_probe.m_subdiv)) } };
+		Viewport viewport = { camera, *render.m_scene, Rect4 };
 		Render voxel_render = { Shading::Voxels, viewport, *render.m_target, gi_probe.m_fbo, *render.m_frame };
 
 		ShadowFilterMode pcf_level = m_block_shadow.m_pcf_level;

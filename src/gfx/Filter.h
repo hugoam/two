@@ -58,8 +58,6 @@ namespace mud
 		meth_ void submit(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
 		meth_ void quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags = 0U, bool render = false);
 
-		meth_ RenderQuad render_quad(FrameBuffer& source, const vec4& source_rect, FrameBuffer& dest, const vec4& dest_rect, bool fbo_flip);
-
 		void source0(Texture& texture, ProgramVersion& program, int level = 0, uint32_t flags = UINT32_MAX);
 
 		meth_ void source0(Texture& texture, uint32_t flags = UINT32_MAX);
@@ -70,7 +68,7 @@ namespace mud
 
 		meth_ void uniform(const Pass& pass, const string& name, const vec4& value);
 		meth_ void uniforms(const Pass& pass, const string& name, span<float> values);
-		void uniforms(const Pass& pass, const string& name, const vec4* value, uint16_t num);
+		void uniforms4(const Pass& pass, const string& name, span<vec4> values);
 
 		FilterUniform u_uniform;
 

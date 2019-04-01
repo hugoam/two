@@ -53,7 +53,7 @@ namespace mud
 		
 		void blur(Render& render, RenderTarget& target);
 
-		void gaussian_pass(Render& render, RenderTarget& target, uvec4& rect, uint8_t lod, bool horizontal, const BlurKernel& kernel);
+		void gaussian_pass(Render& render, RenderTarget& target, const vec4& rect, uint8_t lod, bool horizontal, const BlurKernel& kernel);
 
 		BlockFilter& m_filter;
 

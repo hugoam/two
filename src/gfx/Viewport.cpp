@@ -29,7 +29,7 @@ namespace mud
 
 	static uint16_t viewportIndex = 1;
 
-	Viewport::Viewport(Camera& camera, Scene& scene, uvec4 rect, bool scissor)
+	Viewport::Viewport(Camera& camera, Scene& scene, const vec4& rect, bool scissor)
 		: m_camera(&camera)
 		, m_scene(&scene)
 		, m_index(viewportIndex++)
@@ -45,13 +45,16 @@ namespace mud
 
 	void Viewport::pass(const Pass& pass)
 	{
-		bgfx::setViewRect(pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(m_rect.width), uint16_t(m_rect.height));
+		const FrameBuffer& fbo = *pass.m_fbo;
+		const ushort4 rect = ushort4(m_rect * vec2(fbo.m_size));
+
+		bgfx::setViewRect(pass.m_index, rect.x, rect.y, rect.width, rect.height);
 		bgfx::setViewTransform(pass.m_index, value_ptr(m_camera->m_transform), value_ptr(m_camera->m_projection));
 		bgfx::setViewFrameBuffer(pass.m_index, *pass.m_fbo);
 		bgfx::setViewClear(pass.m_index, BGFX_CLEAR_NONE);
 
 		if(m_scissor)
-			bgfx::setViewScissor(pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(m_rect.width), uint16_t(m_rect.height));
+			bgfx::setViewScissor(pass.m_index, rect.x, rect.y, rect.width, rect.height);
 
 		bgfx::touch(pass.m_index);
 	}
@@ -67,8 +70,12 @@ namespace mud
 
 	void Viewport::render(Render& render)
 	{
-		if(m_rect.height != 0)
-			m_camera->m_aspect = float(m_rect.width) / float(m_rect.height);
+		if(m_rect.height != 0.f)
+		{
+			const vec2 size = rect_size(m_rect) * vec2(render.m_target->m_size);
+			m_camera->m_aspect = size.x / size.y;
+		}
+
 		m_camera->update();
 
 		if(m_clusters)
@@ -86,7 +93,7 @@ namespace mud
 	// @todo move this to viewport ? or are clusters shared between viewports ?
 	void Viewport::set_clustered(GfxSystem& gfx)
 	{
-		if(m_rect != uvec4(0U) && !m_clusters)
+		if(m_rect != vec4(0.f) && !m_clusters)
 		{
 			m_clustered = true;
 			m_clusters = make_unique<Froxelizer>(gfx);

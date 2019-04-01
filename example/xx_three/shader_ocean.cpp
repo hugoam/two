@@ -246,7 +246,7 @@ public:
 
 		m_item->m_visible = false;
 
-		Viewport viewport = Viewport(camera, *render.m_scene, uvec4(uvec2(0U), m_fbo.m_size));
+		Viewport viewport = Viewport(camera, *render.m_scene, Rect4);
 		Render subrender = { Shading::Shaded, viewport, *render.m_target, m_fbo, gfx.m_render_frame };
 
 		gfx.m_renderer.gather(subrender);

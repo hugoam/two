@@ -102,10 +102,10 @@ function pass_bokeh(gfx, render, bokeh) {
     gfx.filter.source0(render.target.diffuse);
     gfx.filter.sourcedepth(render.target.depth);
 
-    gfx.filter.quad(pass, render.target.post_process.swap(), program);
+    gfx.filter.quad(pass, render.target.post.swap(), program);
 
     var flip = render.next_pass('flip', two.PassType.PostProcess);
-    gfx.copy.quad(flip, render.target_fbo, render.target.post_process.last());
+    gfx.copy.quad(flip, render.target_fbo, render.target.post.last());
 }
 
 var enabled = true;

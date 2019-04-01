@@ -379,7 +379,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 
 		const float depth_cutoff = sao.blurDepthCutoff * (render.m_camera->m_far - render.m_camera->m_near);
 		gfx.m_filter->uniform(pass, "u_sao_blur_p0", vec4(vec2(dest.m_size), vec2(depth_cutoff, 0.f)));
-		gfx.m_filter->uniforms(pass, "u_sao_blur_samples", samples[d], 8U);
+		gfx.m_filter->uniforms4(pass, "u_sao_blur_samples", samples[d]);
 
 		gfx.m_filter->source0(source);
 		gfx.m_filter->sourcedepth(render.m_target->m_depth);
@@ -397,7 +397,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 		gfx.m_filter->sourcedepth(render.m_target->m_depth);
 
 		RenderTarget& target = *render.m_target;
-		gfx.m_filter->quad(pass, target.m_post_process.swap(), program);
+		gfx.m_filter->quad(pass, target.m_post.swap(), program);
 
 		//this.materialCopy.blending = THREE.CustomBlending;
 		//this.materialCopy.blendSrc = THREE.DstColorFactor;
@@ -407,7 +407,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 		//this.materialCopy.blendDstAlpha = THREE.ZeroFactor;
 		//this.materialCopy.blendEquationAlpha = THREE.AddEquation;
 
-		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post_process.last());
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post.last());
 	};
 
 	//if (this.params.output === 1)

@@ -303,10 +303,7 @@ void pass_fake_sun(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 {
-	//// Use a smaller size for some of the god-ray render targets for better performance.
-	constexpr float downscale = 1.0 / 4.0;
-	const uvec2 size = rect_size(render.m_rect) / 4U;
-
+	// Use a smaller size for some of the god-ray render targets for better performance.
 	// The ping-pong render targets can use an adjusted resolution to minimize cost
 	static FrameBuffer ping = { render.m_target->m_size / 4U, TextureFormat::R32F, 0U };
 	static FrameBuffer pong = { render.m_target->m_size / 4U, TextureFormat::R32F, 0U };
@@ -328,7 +325,7 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 		gfx.m_filter->quad(pass, fbo, program);
 	};
 
-	auto pass_blur = [](GfxSystem& gfx, Render& render, const Godrays& godrays, FrameBuffer& fbo, Texture& source, float step_size, RenderQuad quad)
+	auto pass_blur = [](GfxSystem& gfx, Render& render, const Godrays& godrays, FrameBuffer& fbo, Texture& source, float step_size)
 	{
 		static Program& program = gfx.programs().create("godrays_generate");
 		program.m_sources[ShaderType::Vertex] = godrays_vertex();
@@ -339,7 +336,7 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 		gfx.m_filter->uniform(pass, "u_godrays_p0", vec4(godrays.m_sun_screen, vec2(step_size, 0.f)));
 		gfx.m_filter->source0(source, GFX_TEXTURE_CLAMP);
 
-		gfx.m_filter->submit(pass, fbo, ProgramVersion(program), quad);
+		gfx.m_filter->quad(pass, fbo, ProgramVersion(program));
 	};
 
 	auto pass_combine = [](GfxSystem& gfx, Render& render, const Godrays& godrays, Texture& source)
@@ -355,9 +352,9 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 		gfx.m_filter->uniform(pass, "u_godrays_combine_p0", vec4(godrays.m_intensity, 0.f, 0.f, 0.f));
 
-		gfx.m_filter->quad(pass, render.m_target->m_post_process.swap(), program);
+		gfx.m_filter->quad(pass, render.m_target->m_post.swap(), program);
 
-		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post_process.last());
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post.last());
 	};
 
 	pass_mask_depth(gfx, render, godrays, depth);
@@ -381,20 +378,14 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 		return filter_length * pow(taps, -pass);
 	};
 
-	const vec4 rect = vec4(render.m_rect);
-	const vec4 rect4 = rect / 4.f;
-
 	// pass 1 - render into first ping-pong target
-	const RenderQuad quad0 = gfx.m_filter->render_quad(depth, rect, pong, rect4, true);
-	pass_blur(gfx, render, godrays, pong, depth.m_tex, step_size(filter_length, taps, 1.f), quad0);
+	pass_blur(gfx, render, godrays, pong, depth.m_tex, step_size(filter_length, taps, 1.f));
 
 	// pass 2 - render into second ping-pong target
-	const RenderQuad quad1 = gfx.m_filter->render_quad(pong, rect4, ping, rect4, true);
-	pass_blur(gfx, render, godrays, ping, pong.m_tex, step_size(filter_length, taps, 2.f), quad1);
+	pass_blur(gfx, render, godrays, ping, pong.m_tex, step_size(filter_length, taps, 2.f));
 
 	// pass 3 - 1st RT
-	const RenderQuad quad2 = gfx.m_filter->render_quad(ping, rect4, pong, rect4, true);
-	pass_blur(gfx, render, godrays, pong, ping.m_tex, step_size(filter_length, taps, 3.f), quad2);
+	pass_blur(gfx, render, godrays, pong, ping.m_tex, step_size(filter_length, taps, 3.f));
 
 	// final pass - composite god-rays onto colors
 	pass_combine(gfx, render, godrays, pong.m_tex);

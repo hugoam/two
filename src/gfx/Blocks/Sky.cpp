@@ -77,8 +77,8 @@ namespace mud
 			if(mode == BackgroundMode::Radiance && render.m_env->m_radiance.m_filtered == nullptr)
 				return;
 
-			Pass sky_pass = render.next_pass("sky", PassType::Background);
-			bgfx::Encoder& encoder = *sky_pass.m_encoder;
+			Pass pass = render.next_pass("sky", PassType::Background);
+			bgfx::Encoder& encoder = *pass.m_encoder;
 
 			Texture& texture = mode == BackgroundMode::Radiance
 				? *render.m_env->m_radiance.m_filtered
@@ -98,8 +98,8 @@ namespace mud
 			program.set_option(m_index, SKYBOX_FBO, texture.m_is_fbo);
 			program.set_option(m_index, SKYBOX_CUBE, texture.m_is_cube);
 
-			RenderQuad quad = render.m_target_fbo->render_quad(vec4(render.m_rect), false);
-			m_filter.submit(sky_pass, *render.m_target_fbo, program, quad, BGFX_STATE_DEPTH_TEST_LEQUAL);
+			const RenderQuad quad = RenderQuad(pass.m_rect, false);
+			m_filter.submit(pass, *render.m_target_fbo, program, quad, BGFX_STATE_DEPTH_TEST_LEQUAL);
 		}
 	}
 }

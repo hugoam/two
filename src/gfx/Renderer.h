@@ -140,7 +140,7 @@ namespace mud
 		attr_ RenderTarget* m_target = nullptr;
 		attr_ FrameBuffer* m_fbo = nullptr;
 		attr_ Viewport* m_viewport = nullptr;
-		attr_ uvec4 m_rect = {};
+		attr_ vec4 m_rect = vec4(0.f);
 		attr_ uint64_t m_bgfx_state = 0;
 		bgfx::Encoder* m_encoder = nullptr;
 		attr_ PassType m_pass_type;
@@ -175,7 +175,7 @@ namespace mud
 		attr_ RenderTarget* m_target;
 		attr_ FrameBuffer* m_target_fbo;
 		attr_ Viewport* m_viewport;
-		attr_ uvec4 m_rect;
+		attr_ vec4 m_rect;
 		attr_ Camera* m_camera;
 		attr_ RenderFrame* m_frame;
 
@@ -208,7 +208,7 @@ namespace mud
 		uint32_t m_num_triangles = 0;
 
 		meth_ Pass next_pass(cstring name, PassType type);
-		meth_ Pass composite_pass(cstring name, FrameBuffer& fbo, const uvec4& rect);
+		meth_ Pass composite_pass(cstring name, FrameBuffer& fbo, const vec4& rect);
 		Pass composite_pass(cstring name);
 
 		uint8_t picking_pass() { return m_picking_pass_index++; }

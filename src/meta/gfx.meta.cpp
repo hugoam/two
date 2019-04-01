@@ -195,9 +195,6 @@ void mud_FrameBuffer__construct_0(void* ref, span<void*> args) { UNUSED(args); n
 void mud_FrameBuffer__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::FrameBuffer( *static_cast<mud::uvec2*>(args[0]), *static_cast<mud::TextureFormat*>(args[1]), *static_cast<uint64_t*>(args[2]) ); }
 void mud_FrameBuffer__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::FrameBuffer( *static_cast<mud::uvec2*>(args[0]), *static_cast<stl::span<mud::Texture*>*>(args[1]) ); }
 void mud_FrameBuffer_valid(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::FrameBuffer*>(object)).valid(); }
-void mud_FrameBuffer_dest_quad(void* object, span<void*> args, void*& result) { (*static_cast<mud::v4<float>*>(result)) = (*static_cast<mud::FrameBuffer*>(object)).dest_quad(*static_cast<mud::vec4*>(args[0]), *static_cast<bool*>(args[1])); }
-void mud_FrameBuffer_source_quad(void* object, span<void*> args, void*& result) { (*static_cast<mud::v4<float>*>(result)) = (*static_cast<mud::FrameBuffer*>(object)).source_quad(*static_cast<mud::vec4*>(args[0]), *static_cast<bool*>(args[1])); }
-void mud_FrameBuffer_render_quad(void* object, span<void*> args, void*& result) { (*static_cast<mud::RenderQuad*>(result)) = (*static_cast<mud::FrameBuffer*>(object)).render_quad(*static_cast<mud::vec4*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<bool*>(args[2])); }
 void mud_FrustumSlice__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::FrustumSlice(  ); }
 void mud_FrustumSlice__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::FrustumSlice((*static_cast<mud::FrustumSlice*>(other))); }
 void* mud_GfxBlock__get_type(void* object) { return &(*static_cast<mud::GfxBlock*>(object)).m_type; }
@@ -298,11 +295,12 @@ void mud_Render__construct_1(void* ref, span<void*> args) { new(stl::placeholder
 void mud_Render__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Render( *static_cast<mud::Shading*>(args[0]), *static_cast<mud::Viewport*>(args[1]), *static_cast<mud::RenderTarget*>(args[2]), *static_cast<mud::FrameBuffer*>(args[3]), *static_cast<mud::RenderFrame*>(args[4]) ); }
 void mud_Render__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Render((*static_cast<mud::Render*>(other))); }
 void mud_Render_next_pass(void* object, span<void*> args, void*& result) { (*static_cast<mud::Pass*>(result)) = (*static_cast<mud::Render*>(object)).next_pass(static_cast<const char*>(args[0]), *static_cast<mud::PassType*>(args[1])); }
-void mud_Render_composite_pass(void* object, span<void*> args, void*& result) { (*static_cast<mud::Pass*>(result)) = (*static_cast<mud::Render*>(object)).composite_pass(static_cast<const char*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::uvec4*>(args[2])); }
+void mud_Render_composite_pass(void* object, span<void*> args, void*& result) { (*static_cast<mud::Pass*>(result)) = (*static_cast<mud::Render*>(object)).composite_pass(static_cast<const char*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::vec4*>(args[2])); }
 void mud_RenderFrame__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::RenderFrame(  ); }
 void mud_RenderFrame__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::RenderFrame((*static_cast<mud::RenderFrame*>(other))); }
-void mud_RenderQuad__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::RenderQuad( *static_cast<mud::vec4*>(args[0]), *static_cast<mud::vec4*>(args[1]), *static_cast<bool*>(args[2]) ); }
-void mud_RenderQuad__construct_1(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::RenderQuad(  ); }
+void mud_RenderQuad__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::RenderQuad(  ); }
+void mud_RenderQuad__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::RenderQuad( *static_cast<mud::vec4*>(args[0]), *static_cast<mud::vec4*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3]) ); }
+void mud_RenderQuad__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::RenderQuad( *static_cast<mud::vec4*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<bool*>(args[2]) ); }
 void mud_RenderQuad__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::RenderQuad((*static_cast<mud::RenderQuad*>(other))); }
 void mud_Renderer_gather(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Renderer*>(object)).gather(*static_cast<mud::Render*>(args[0])); }
 void mud_Renderer_begin(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Renderer*>(object)).begin(*static_cast<mud::Render*>(args[0])); }
@@ -362,17 +360,17 @@ void mud_Texture__construct_1(void* ref, span<void*> args) { new(stl::placeholde
 void mud_Texture_valid(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Texture*>(object)).valid(); }
 void mud_Zone__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Zone(  ); }
 void mud_Zone__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Zone((*static_cast<mud::Zone*>(other))); }
-//void mud_BlockCopy_quad(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockCopy*>(object)).quad(*static_cast<mud::Pass*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::Texture*>(args[2]), *static_cast<mud::uvec4*>(args[3]), *static_cast<uint64_t*>(args[4])); }
+void mud_BlockCopy_submit(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockCopy*>(object)).submit(*static_cast<mud::Pass*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::Texture*>(args[2]), *static_cast<mud::RenderQuad*>(args[3]), *static_cast<uint64_t*>(args[4])); }
+void mud_BlockCopy_quad(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockCopy*>(object)).quad(*static_cast<mud::Pass*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::Texture*>(args[2]), *static_cast<uint64_t*>(args[3])); }
 void mud_BlockFilter_submit(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).submit(*static_cast<mud::Pass*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::ProgramVersion*>(args[2]), *static_cast<mud::RenderQuad*>(args[3]), *static_cast<uint64_t*>(args[4]), *static_cast<bool*>(args[5])); }
-//void mud_BlockFilter_quad(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).quad(*static_cast<mud::Pass*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::Program*>(args[2]), *static_cast<mud::uvec4*>(args[3]), *static_cast<uint64_t*>(args[4]), *static_cast<bool*>(args[5])); }
-void mud_BlockFilter_render_quad(void* object, span<void*> args, void*& result) { (*static_cast<mud::RenderQuad*>(result)) = (*static_cast<mud::BlockFilter*>(object)).render_quad(*static_cast<mud::FrameBuffer*>(args[0]), *static_cast<mud::vec4*>(args[1]), *static_cast<mud::FrameBuffer*>(args[2]), *static_cast<mud::vec4*>(args[3]), *static_cast<bool*>(args[4])); }
+void mud_BlockFilter_quad(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).quad(*static_cast<mud::Pass*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::ProgramVersion*>(args[2]), *static_cast<uint64_t*>(args[3]), *static_cast<bool*>(args[4])); }
 void mud_BlockFilter_source0(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source0(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
 void mud_BlockFilter_source1(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source1(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
 void mud_BlockFilter_source2(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source2(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
 void mud_BlockFilter_source3(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source3(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
 void mud_BlockFilter_sourcedepth(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).sourcedepth(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
 void mud_BlockFilter_uniform(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).uniform(*static_cast<mud::Pass*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::vec4*>(args[2])); }
-void mud_BlockFilter_uniforms(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).uniforms(*static_cast<mud::Pass*>(args[0]), *static_cast<stl::string*>(args[1]), static_cast<mud::vec4*>(args[2]), *static_cast<uint16_t*>(args[3])); }
+void mud_BlockFilter_uniforms(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).uniforms(*static_cast<mud::Pass*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<stl::span<float>*>(args[2])); }
 void mud_ClusteredFrustum__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ClusteredFrustum(  ); }
 void mud_ClusteredFrustum__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ClusteredFrustum((*static_cast<mud::ClusteredFrustum*>(other))); }
 void mud_Flare__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Flare(  ); }
@@ -1487,10 +1485,6 @@ namespace mud
 		// bases
 		// defaults
 		static uint64_t construct_1_flags_default = 0U;
-		static bool dest_quad_0_from_fbo_default = false;
-		static bool source_quad_0_from_fbo_default = false;
-		static bool render_quad_0_fbo_flip_default = true;
-		static bool render_quad_0_from_fbo_default = false;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_FrameBuffer__construct_0, {} },
@@ -1505,10 +1499,7 @@ namespace mud
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "valid", Address(), mud_FrameBuffer_valid, {}, { &type<bool>(), QualType::None } },
-			{ t, "dest_quad", Address(), mud_FrameBuffer_dest_quad, { { "rect", type<mud::vec4>(),  }, { "from_fbo", type<bool>(), Param::Default, &dest_quad_0_from_fbo_default } }, { &type<mud::vec4>(), QualType::None } },
-			{ t, "source_quad", Address(), mud_FrameBuffer_source_quad, { { "rect", type<mud::vec4>(),  }, { "from_fbo", type<bool>(), Param::Default, &source_quad_0_from_fbo_default } }, { &type<mud::vec4>(), QualType::None } },
-			{ t, "render_quad", Address(), mud_FrameBuffer_render_quad, { { "rect", type<mud::vec4>(),  }, { "fbo_flip", type<bool>(), Param::Default, &render_quad_0_fbo_flip_default }, { "from_fbo", type<bool>(), Param::Default, &render_quad_0_from_fbo_default } }, { &type<mud::RenderQuad>(), QualType::None } }
+			{ t, "valid", Address(), mud_FrameBuffer_valid, {}, { &type<bool>(), QualType::None } }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
@@ -1566,7 +1557,8 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_GfxBlock__get_type },
-			{ t, offsetof(mud::GfxBlock, m_index), type<uint8_t>(), "index", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::GfxBlock, m_index), type<uint8_t>(), "index", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::GfxBlock, m_shader_block), type<mud::ShaderBlock>(), "shader_block", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -2499,7 +2491,6 @@ namespace mud
 		static mud::RenderTarget* target_default = nullptr;
 		static mud::FrameBuffer* fbo_default = nullptr;
 		static mud::Viewport* viewport_default = nullptr;
-		static mud::uvec4 rect_default = {};
 		static uint64_t bgfx_state_default = 0;
 		static bool use_mrt_default = false;
 		static uint8_t index_default = 0;
@@ -2517,7 +2508,7 @@ namespace mud
 			{ t, offsetof(mud::Pass, m_target), type<mud::RenderTarget>(), "target", target_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Pass, m_fbo), type<mud::FrameBuffer>(), "fbo", fbo_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Pass, m_viewport), type<mud::Viewport>(), "viewport", viewport_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::Pass, m_rect), type<mud::uvec4>(), "rect", &rect_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Pass, m_rect), type<mud::vec4>(), "rect", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Pass, m_bgfx_state), type<uint64_t>(), "bgfx_state", &bgfx_state_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Pass, m_pass_type), type<mud::PassType>(), "pass_type", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Pass, m_use_mrt), type<bool>(), "use_mrt", &use_mrt_default, Member::Value, nullptr },
@@ -2677,7 +2668,7 @@ namespace mud
 			{ t, offsetof(mud::Render, m_target), type<mud::RenderTarget>(), "target", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Render, m_target_fbo), type<mud::FrameBuffer>(), "target_fbo", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Render, m_viewport), type<mud::Viewport>(), "viewport", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::Render, m_rect), type<mud::uvec4>(), "rect", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Render, m_rect), type<mud::vec4>(), "rect", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Render, m_camera), type<mud::Camera>(), "camera", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Render, m_frame), type<mud::RenderFrame>(), "frame", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Render, m_pass_index), type<uint8_t>(), "pass_index", &pass_index_default, Member::Value, nullptr }
@@ -2685,7 +2676,7 @@ namespace mud
 		// methods
 		static Method methods[] = {
 			{ t, "next_pass", Address(), mud_Render_next_pass, { { "name", type<const char*>(), Param::Nullable }, { "type", type<mud::PassType>(),  } }, { &type<mud::Pass>(), QualType::None } },
-			{ t, "composite_pass", Address(), mud_Render_composite_pass, { { "name", type<const char*>(), Param::Nullable }, { "fbo", type<mud::FrameBuffer>(),  }, { "rect", type<mud::uvec4>(),  } }, { &type<mud::Pass>(), QualType::None } }
+			{ t, "composite_pass", Address(), mud_Render_composite_pass, { { "name", type<const char*>(), Param::Nullable }, { "fbo", type<mud::FrameBuffer>(),  }, { "rect", type<mud::vec4>(),  } }, { &type<mud::Pass>(), QualType::None } }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
@@ -2727,12 +2718,19 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "RenderQuad", sizeof(mud::RenderQuad), TypeClass::Struct };
 		// bases
 		// defaults
+		static mud::vec4 source_default = vec4(vec2(0.f),vec2(1.f));
+		static mud::vec4 dest_default = vec4(vec2(0.f),vec2(1.f));
 		static bool fbo_flip_default = false;
-		static bool construct_0_fbo_flip_default = false;
+		static bool relative_default = true;
+		static bool construct_1_fbo_flip_default = false;
+		static bool construct_1_relative_default = true;
+		static bool construct_2_fbo_flip_default = false;
+		static bool construct_2_relative_default = true;
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_RenderQuad__construct_0, { { "crop", type<mud::vec4>(),  }, { "dest", type<mud::vec4>(),  }, { "fbo_flip", type<bool>(), Param::Default, &construct_0_fbo_flip_default } } },
-			{ t, mud_RenderQuad__construct_1, {} }
+			{ t, mud_RenderQuad__construct_0, {} },
+			{ t, mud_RenderQuad__construct_1, { { "crop", type<mud::vec4>(),  }, { "dest", type<mud::vec4>(),  }, { "fbo_flip", type<bool>(), Param::Default, &construct_1_fbo_flip_default }, { "relative", type<bool>(), Param::Default, &construct_1_relative_default } } },
+			{ t, mud_RenderQuad__construct_2, { { "rect", type<mud::vec4>(),  }, { "fbo_flip", type<bool>(), Param::Default, &construct_2_fbo_flip_default }, { "relative", type<bool>(), Param::Default, &construct_2_relative_default } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -2740,9 +2738,10 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::RenderQuad, m_source), type<mud::vec4>(), "source", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::RenderQuad, m_dest), type<mud::vec4>(), "dest", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::RenderQuad, m_fbo_flip), type<bool>(), "fbo_flip", &fbo_flip_default, Member::Value, nullptr }
+			{ t, offsetof(mud::RenderQuad, m_source), type<mud::vec4>(), "source", &source_default, Member::Value, nullptr },
+			{ t, offsetof(mud::RenderQuad, m_dest), type<mud::vec4>(), "dest", &dest_default, Member::Value, nullptr },
+			{ t, offsetof(mud::RenderQuad, m_fbo_flip), type<bool>(), "fbo_flip", &fbo_flip_default, Member::Value, nullptr },
+			{ t, offsetof(mud::RenderQuad, m_relative), type<bool>(), "relative", &relative_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -3197,13 +3196,18 @@ namespace mud
 		static Type* bases[] = { &type<mud::GfxBlock>() };
 		static size_t bases_offsets[] = { base_offset<mud::BlockCopy, mud::GfxBlock>() };
 		// defaults
+		static uint64_t submit_0_flags_default = 0U;
 		static uint64_t quad_0_flags_default = 0U;
 		// constructors
 		// copy constructor
 		// members
 		// methods
+		static Method methods[] = {
+			{ t, "submit", Address(), mud_BlockCopy_submit, { { "pass", type<mud::Pass>(),  }, { "fbo", type<mud::FrameBuffer>(),  }, { "texture", type<mud::Texture>(),  }, { "quad", type<mud::RenderQuad>(),  }, { "flags", type<uint64_t>(), Param::Default, &submit_0_flags_default } }, g_qvoid },
+			{ t, "quad", Address(), mud_BlockCopy_quad, { { "pass", type<mud::Pass>(),  }, { "fbo", type<mud::FrameBuffer>(),  }, { "texture", type<mud::Texture>(),  }, { "flags", type<uint64_t>(), Param::Default, &quad_0_flags_default } }, g_qvoid }
+		};
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, methods, {}, };
 	}
 	// mud::BlockDepth
 	{
@@ -3243,15 +3247,14 @@ namespace mud
 		// methods
 		static Method methods[] = {
 			{ t, "submit", Address(), mud_BlockFilter_submit, { { "pass", type<mud::Pass>(),  }, { "fbo", type<mud::FrameBuffer>(),  }, { "program", type<mud::ProgramVersion>(),  }, { "quad", type<mud::RenderQuad>(),  }, { "flags", type<uint64_t>(), Param::Default, &submit_0_flags_default }, { "render", type<bool>(), Param::Default, &submit_0_render_default } }, g_qvoid },
-			//{ t, "quad", Address(), mud_BlockFilter_quad, { { "pass", type<mud::Pass>(),  }, { "fbo", type<mud::FrameBuffer>(),  }, { "program", type<mud::Program>(),  }, { "rect", type<mud::uvec4>(),  }, { "flags", type<uint64_t>(), Param::Default, &quad_0_flags_default }, { "render", type<bool>(), Param::Default, &quad_0_render_default } }, g_qvoid },
-			{ t, "render_quad", Address(), mud_BlockFilter_render_quad, { { "source", type<mud::FrameBuffer>(),  }, { "source_rect", type<mud::vec4>(),  }, { "dest", type<mud::FrameBuffer>(),  }, { "dest_rect", type<mud::vec4>(),  }, { "fbo_flip", type<bool>(),  } }, { &type<mud::RenderQuad>(), QualType::None } },
+			{ t, "quad", Address(), mud_BlockFilter_quad, { { "pass", type<mud::Pass>(),  }, { "fbo", type<mud::FrameBuffer>(),  }, { "program", type<mud::ProgramVersion>(),  }, { "flags", type<uint64_t>(), Param::Default, &quad_0_flags_default }, { "render", type<bool>(), Param::Default, &quad_0_render_default } }, g_qvoid },
 			{ t, "source0", Address(), mud_BlockFilter_source0, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &source0_0_flags_default } }, g_qvoid },
 			{ t, "source1", Address(), mud_BlockFilter_source1, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &source1_0_flags_default } }, g_qvoid },
 			{ t, "source2", Address(), mud_BlockFilter_source2, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &source2_0_flags_default } }, g_qvoid },
 			{ t, "source3", Address(), mud_BlockFilter_source3, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &source3_0_flags_default } }, g_qvoid },
 			{ t, "sourcedepth", Address(), mud_BlockFilter_sourcedepth, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &sourcedepth_0_flags_default } }, g_qvoid },
 			{ t, "uniform", Address(), mud_BlockFilter_uniform, { { "pass", type<mud::Pass>(),  }, { "name", type<stl::string>(),  }, { "value", type<mud::vec4>(),  } }, g_qvoid },
-			{ t, "uniforms", Address(), mud_BlockFilter_uniforms, { { "pass", type<mud::Pass>(),  }, { "name", type<stl::string>(),  }, { "value", type<mud::vec4>(), Param::Nullable }, { "num", type<uint16_t>(),  } }, g_qvoid }
+			{ t, "uniforms", Address(), mud_BlockFilter_uniforms, { { "pass", type<mud::Pass>(),  }, { "name", type<stl::string>(),  }, { "values", type<stl::span<float>>(),  } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, methods, {}, };
@@ -3457,7 +3460,7 @@ namespace mud
 			{ t, offsetof(mud::RenderTarget, m_normal_rough), type<mud::Texture>(), "normal_rough", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::RenderTarget, m_sss), type<mud::Texture>(), "sss", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::RenderTarget, m_ping_pong), type<mud::SwapBuffer>(), "ping_pong", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::RenderTarget, m_post_process), type<mud::SwapBuffer>(), "post_process", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::RenderTarget, m_post), type<mud::SwapBuffer>(), "post", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::RenderTarget, m_cascade), type<mud::Cascade>(), "cascade", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::RenderTarget, m_swap_cascade), type<mud::SwapCascade>(), "swap_cascade", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::RenderTarget, m_deferred), type<bool>(), "deferred", &deferred_default, Member::Value, nullptr }
@@ -3489,7 +3492,7 @@ namespace mud
 			{ t, offsetof(mud::Viewport, m_scene), type<mud::Scene>(), "scene", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Viewport, m_index), type<uint16_t>(), "index", &index_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Viewport, m_active), type<bool>(), "active", &active_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Viewport, m_rect), type<mud::uvec4>(), "rect", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Viewport, m_rect), type<mud::vec4>(), "rect", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Viewport, m_scissor), type<bool>(), "scissor", &scissor_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Viewport, m_clear_colour), type<mud::Colour>(), "clear_colour", &clear_colour_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Viewport, m_shading), type<mud::Shading>(), "shading", &shading_default, Member::Value, nullptr },

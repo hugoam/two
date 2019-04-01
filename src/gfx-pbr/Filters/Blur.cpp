@@ -46,29 +46,17 @@ namespace mud
 			{ 0.38774f, 0.24477f, 0.06136f, 0.24477f, 0.06136f }
 		};
 
-		uvec4 rect = render.m_rect;
-
 		for(uint8_t i = 0; i < 4; ++i)//target.m_effects.m_num_mips; i++)
 		{
-			gaussian_pass(render, target, rect, i, true, kernel);
-			gaussian_pass(render, target, rect, i, false, kernel);
+			gaussian_pass(render, target, render.m_rect, i, true, kernel);
+			gaussian_pass(render, target, render.m_rect, i, false, kernel);
 		}
 	}
 
-	void BlockBlur::gaussian_pass(Render& render, RenderTarget& target, uvec4& rect, uint8_t lod, bool horizontal, const BlurKernel& kernel)
+	void BlockBlur::gaussian_pass(Render& render, RenderTarget& target, const vec4& rect, uint8_t lod, bool horizontal, const BlurKernel& kernel)
 	{
 		Texture& source = target.m_ping_pong.last();
 		FrameBuffer& fbo = target.m_ping_pong.swap();
-
-		uvec4 source_rect = rect;
-		if(horizontal) rect = rect / 2U;
-
-		// @todo: optimize this, I can't think of another way right now than to have a clear pass for EVERY blur level :/
-		Pass clear_pass = render.composite_pass("blur", fbo, uvec4(uvec2(0U), render.m_target->m_size));
-		bgfx::setViewRect(clear_pass.m_index, 0, 0, uint16_t(render.m_target->m_size.x), uint16_t(render.m_target->m_size.y));
-		bgfx::setViewClear(clear_pass.m_index, BGFX_CLEAR_COLOR);
-		bgfx::setViewFrameBuffer(clear_pass.m_index, fbo);
-		bgfx::touch(clear_pass.m_index);
 
 		Pass blur_pass = render.composite_pass("blur", fbo, rect);
 		vec4 blur_p0 = { float(lod), 0.f, 0.f, 0.f };
@@ -82,7 +70,6 @@ namespace mud
 
 		m_filter.source0(source);
 
-		RenderQuad quad = m_filter.render_quad(target, vec4(source_rect), target, vec4(rect), true);
-		m_filter.submit(blur_pass, fbo, program, quad);
+		m_filter.submit(blur_pass, fbo, program, RenderQuad(rect, true));
 	}
 }

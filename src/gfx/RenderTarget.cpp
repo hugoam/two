@@ -194,7 +194,7 @@ namespace mud
 		}
 
 		m_ping_pong.create(size, color_format);
-		m_post_process.create(size, color_format);
+		m_post.create(size, color_format);
 
 		m_cascade.create(size, color_format);
 

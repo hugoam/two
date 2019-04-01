@@ -1091,19 +1091,6 @@ Module['FrameBuffer'] = FrameBuffer;
 FrameBuffer.prototype["valid"] = FrameBuffer.prototype.valid = function() {
     return !!(_mud_FrameBuffer_valid_0(this.__ptr));
 };
-FrameBuffer.prototype["dest_quad"] = FrameBuffer.prototype.dest_quad = function(a0, a1) {
-    if (a1 === undefined) { return wrapPointer(_mud_FrameBuffer_dest_quad_1(this.__ptr, /*rect*/a0.__ptr), v4_float); }
-    return wrapPointer(_mud_FrameBuffer_dest_quad_2(this.__ptr, /*rect*/a0.__ptr, /*from_fbo*/a1), v4_float);
-};
-FrameBuffer.prototype["source_quad"] = FrameBuffer.prototype.source_quad = function(a0, a1) {
-    if (a1 === undefined) { return wrapPointer(_mud_FrameBuffer_source_quad_1(this.__ptr, /*rect*/a0.__ptr), v4_float); }
-    return wrapPointer(_mud_FrameBuffer_source_quad_2(this.__ptr, /*rect*/a0.__ptr, /*from_fbo*/a1), v4_float);
-};
-FrameBuffer.prototype["render_quad"] = FrameBuffer.prototype.render_quad = function(a0, a1, a2) {
-    if (a1 === undefined) { return wrapPointer(_mud_FrameBuffer_render_quad_1(this.__ptr, /*rect*/a0.__ptr), RenderQuad); }
-    if (a2 === undefined) { return wrapPointer(_mud_FrameBuffer_render_quad_2(this.__ptr, /*rect*/a0.__ptr, /*fbo_flip*/a1), RenderQuad); }
-    return wrapPointer(_mud_FrameBuffer_render_quad_3(this.__ptr, /*rect*/a0.__ptr, /*fbo_flip*/a1, /*from_fbo*/a2), RenderQuad);
-};
 Object.defineProperty(FrameBuffer.prototype, "size", {
     get: function() {
         return wrapPointer(_mud_FrameBuffer__get_size(this.__ptr), v2_uint);
@@ -1206,6 +1193,14 @@ Object.defineProperty(GfxBlock.prototype, "index", {
     },
     set: function(value) {
         _mud_GfxBlock__set_index(this.__ptr, value);
+    }
+});
+Object.defineProperty(GfxBlock.prototype, "shader_block", {
+    get: function() {
+        return wrapPointer(_mud_GfxBlock__get_shader_block(this.__ptr), ShaderBlock);
+    },
+    set: function(value) {
+        _mud_GfxBlock__set_shader_block(this.__ptr, value.__ptr);
     }
 });
 GfxBlock.prototype["__destroy"] = GfxBlock.prototype.__destroy = function() {
@@ -3092,7 +3087,7 @@ Object.defineProperty(Pass.prototype, "viewport", {
 });
 Object.defineProperty(Pass.prototype, "rect", {
     get: function() {
-        return wrapPointer(_mud_Pass__get_rect(this.__ptr), v4_uint);
+        return wrapPointer(_mud_Pass__get_rect(this.__ptr), v4_float);
     },
     set: function(value) {
         _mud_Pass__set_rect(this.__ptr, value.__ptr);
@@ -3362,7 +3357,7 @@ Object.defineProperty(Render.prototype, "viewport", {
 });
 Object.defineProperty(Render.prototype, "rect", {
     get: function() {
-        return wrapPointer(_mud_Render__get_rect(this.__ptr), v4_uint);
+        return wrapPointer(_mud_Render__get_rect(this.__ptr), v4_float);
     },
     set: function(value) {
         _mud_Render__set_rect(this.__ptr, value.__ptr);
@@ -3464,10 +3459,12 @@ RenderFrame.prototype["__destroy"] = RenderFrame.prototype.__destroy = function(
     _mud_RenderFrame__destroy(this.__ptr);
 };
 // RenderQuad
-function RenderQuad(a0, a1, a2) {
+function RenderQuad(a0, a1, a2, a3) {
     if (a0 === undefined) { this.__ptr = _mud_RenderQuad__construct_0(); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; return; }
+    if (a1 === undefined) { this.__ptr = _mud_RenderQuad__construct_1(/*rect*/a0.__ptr); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; return; }
     if (a2 === undefined) { this.__ptr = _mud_RenderQuad__construct_2(/*crop*/a0.__ptr, /*dest*/a1.__ptr); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; return; }
-    this.__ptr = _mud_RenderQuad__construct_3(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this;
+    if (a3 === undefined) { this.__ptr = _mud_RenderQuad__construct_3(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; return; }
+    this.__ptr = _mud_RenderQuad__construct_4(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2, /*relative*/a3); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this;
 };
 RenderQuad.prototype = Object.create(WrapperObject.prototype);
 RenderQuad.prototype.constructor = RenderQuad;
@@ -3496,6 +3493,14 @@ Object.defineProperty(RenderQuad.prototype, "fbo_flip", {
     },
     set: function(value) {
         _mud_RenderQuad__set_fbo_flip(this.__ptr, value);
+    }
+});
+Object.defineProperty(RenderQuad.prototype, "relative", {
+    get: function() {
+        return !!(_mud_RenderQuad__get_relative(this.__ptr));
+    },
+    set: function(value) {
+        _mud_RenderQuad__set_relative(this.__ptr, value);
     }
 });
 RenderQuad.prototype["__destroy"] = RenderQuad.prototype.__destroy = function() {
@@ -4110,9 +4115,13 @@ BlockCopy.prototype.constructor = BlockCopy;
 BlockCopy.prototype.__class = BlockCopy;
 BlockCopy.__cache = {};
 Module['BlockCopy'] = BlockCopy;
-BlockCopy.prototype["quad"] = BlockCopy.prototype.quad = function(a0, a1, a2, a3, a4) {
-    if (a4 === undefined) { _mud_BlockCopy_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*rect*/a3.__ptr); return; }
-    _mud_BlockCopy_quad_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4);
+BlockCopy.prototype["submit"] = BlockCopy.prototype.submit = function(a0, a1, a2, a3, a4) {
+    if (a4 === undefined) { _mud_BlockCopy_submit_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*quad*/a3.__ptr); return; }
+    _mud_BlockCopy_submit_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*quad*/a3.__ptr, /*flags*/a4);
+};
+BlockCopy.prototype["quad"] = BlockCopy.prototype.quad = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { _mud_BlockCopy_quad_3(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr); return; }
+    _mud_BlockCopy_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*flags*/a3);
 };
 BlockCopy.prototype["__destroy"] = BlockCopy.prototype.__destroy = function() {
     _mud_BlockCopy__destroy(this.__ptr);
@@ -4139,13 +4148,10 @@ BlockFilter.prototype["submit"] = BlockFilter.prototype.submit = function(a0, a1
     if (a5 === undefined) { _mud_BlockFilter_submit_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*quad*/a3.__ptr, /*flags*/a4); return; }
     _mud_BlockFilter_submit_6(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*quad*/a3.__ptr, /*flags*/a4, /*render*/a5);
 };
-BlockFilter.prototype["quad"] = BlockFilter.prototype.quad = function(a0, a1, a2, a3, a4, a5) {
-    if (a4 === undefined) { _mud_BlockFilter_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr); return; }
-    if (a5 === undefined) { _mud_BlockFilter_quad_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4); return; }
-    _mud_BlockFilter_quad_6(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*rect*/a3.__ptr, /*flags*/a4, /*render*/a5);
-};
-BlockFilter.prototype["render_quad"] = BlockFilter.prototype.render_quad = function(a0, a1, a2, a3, a4) {
-    return wrapPointer(_mud_BlockFilter_render_quad_5(this.__ptr, /*source*/a0.__ptr, /*source_rect*/a1.__ptr, /*dest*/a2.__ptr, /*dest_rect*/a3.__ptr, /*fbo_flip*/a4), RenderQuad);
+BlockFilter.prototype["quad"] = BlockFilter.prototype.quad = function(a0, a1, a2, a3, a4) {
+    if (a3 === undefined) { _mud_BlockFilter_quad_3(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr); return; }
+    if (a4 === undefined) { _mud_BlockFilter_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*flags*/a3); return; }
+    _mud_BlockFilter_quad_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*flags*/a3, /*render*/a4);
 };
 BlockFilter.prototype["source0"] = BlockFilter.prototype.source0 = function(a0, a1) {
     if (a1 === undefined) { _mud_BlockFilter_source0_1(this.__ptr, /*texture*/a0.__ptr); return; }
@@ -4171,9 +4177,9 @@ BlockFilter.prototype["uniform"] = BlockFilter.prototype.uniform = function(a0, 
     ensureCache.prepare();
     _mud_BlockFilter_uniform_3(this.__ptr, /*pass*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr);
 };
-BlockFilter.prototype["uniforms"] = BlockFilter.prototype.uniforms = function(a0, a1, a2, a3) {
+BlockFilter.prototype["uniforms"] = BlockFilter.prototype.uniforms = function(a0, a1, a2) {
     ensureCache.prepare();
-    _mud_BlockFilter_uniforms_4(this.__ptr, /*pass*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr, /*num*/a3);
+    _mud_BlockFilter_uniforms_3(this.__ptr, /*pass*/a0.__ptr, ensureString(/*name*/a1), ensureFloat32(/*values*/a2), /*values*/a2.length);
 };
 BlockFilter.prototype["__destroy"] = BlockFilter.prototype.__destroy = function() {
     _mud_BlockFilter__destroy(this.__ptr);
@@ -4431,9 +4437,9 @@ Object.defineProperty(RenderTarget.prototype, "ping_pong", {
     get: function() {
         return wrapPointer(_mud_RenderTarget__get_ping_pong(this.__ptr), SwapBuffer);
     }});
-Object.defineProperty(RenderTarget.prototype, "post_process", {
+Object.defineProperty(RenderTarget.prototype, "post", {
     get: function() {
-        return wrapPointer(_mud_RenderTarget__get_post_process(this.__ptr), SwapBuffer);
+        return wrapPointer(_mud_RenderTarget__get_post(this.__ptr), SwapBuffer);
     }});
 Object.defineProperty(RenderTarget.prototype, "cascade", {
     get: function() {
@@ -4504,7 +4510,7 @@ Object.defineProperty(Viewport.prototype, "active", {
 });
 Object.defineProperty(Viewport.prototype, "rect", {
     get: function() {
-        return wrapPointer(_mud_Viewport__get_rect(this.__ptr), v4_uint);
+        return wrapPointer(_mud_Viewport__get_rect(this.__ptr), v4_float);
     },
     set: function(value) {
         _mud_Viewport__set_rect(this.__ptr, value.__ptr);

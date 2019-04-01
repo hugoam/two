@@ -98,23 +98,25 @@ namespace mud
 	void Viewer::blit(Vg& vg)
 	{
 		vg.begin_target();
-		vec4 image_rect = { vec2(0.f), vec2(m_context.m_target->m_size) };
+		const vec2 target_size = vec2(m_context.m_size);
+		vec4 image_rect = { vec2(0.f), target_size };
 		if(bgfx::getCaps()->originBottomLeft)
 			image_rect.w = -image_rect.w;
-		vg.draw_texture(m_context.m_vg_handle, { vec4(m_viewport.m_rect) }, image_rect);
+		vg.draw_texture(m_context.m_vg_handle, m_viewport.m_rect * target_size, image_rect);
 		vg.end_target();
 	}
 
-	vec4 Viewer::query_size()
+	vec4 Viewer::query_rect()
 	{
 		m_position = m_frame.absolute_position();
 		m_size = m_frame.m_size * m_frame.absolute_scale();
-		return { m_position, m_size };
+		const vec4 absolute = vec4(m_position, m_size);
+		return absolute / vec2(m_context.m_size);
 	}
 
     void Viewer::resize()
     {
-		m_viewport.m_rect = uvec4(this->query_size());
+		m_viewport.m_rect = this->query_rect();
     }
 
 	Ray Viewer::mouse_ray()
@@ -1063,7 +1065,7 @@ namespace ui
 	{
 		Viewer& viewer = parent.subi<Viewer, Scene&>(&type<Viewer>(), scene);
 		viewer.m_scene = viewer.m_viewport.m_scene = &scene;;
-		viewer.m_viewport.m_rect = uvec4(viewer.query_size());
+		viewer.resize();
 		//if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 		//	viewer.take_focus();
 		return viewer;
@@ -1081,7 +1083,7 @@ namespace ui
 	SceneViewer& scene_viewer(Widget& parent, const vec2& size)
 	{
 		SceneViewer& self = parent.subi<SceneViewer>(&type<SceneViewer>());
-		self.m_viewport.m_rect = uvec4(self.query_size());
+		self.resize();
 		if(self.once() && size != vec2(0.f))
 		{
 			self.m_frame.m_content = size;

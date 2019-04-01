@@ -42,7 +42,7 @@ namespace mud
 #if 0
 	void pass_post_process(GfxSystem& gfx, Render& render)
 	{
-		gfx.m_copy->quad(render.composite_pass(), render.m_target->m_post_process.swap(),
+		gfx.m_copy->quad(render.composite_pass(), render.m_target->m_post.swap(),
 						 render.m_target->m_diffuse, render.m_rect);
 
 		// submit each post process effect

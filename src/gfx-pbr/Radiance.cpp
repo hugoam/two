@@ -147,7 +147,7 @@ namespace mud
 			const uvec2 level_size = uvec2(size.x >> level, size.y >> level);
 			bgfx::Attachment attach = { bgfx::Access::Write, filtered, uint16_t(level), uint16_t(face), BGFX_RESOLVE_NONE };
 			FrameBuffer render_target = { level_size, filtered, { attach } }; // @todo fix ownership
-			m_copy.quad(Pass(), render_target, source);
+			m_copy.submit(Pass(), render_target, source, RenderQuad());
 			bgfx::frame();
 		};
 
@@ -184,7 +184,7 @@ namespace mud
 					bgfx::setUniform(u_prefilter.u_prefilter_cube, &cubemat);
 				}
 
-				m_filter.quad(Pass(), target, program, 0U, true);
+				m_filter.submit(Pass(), target, program, RenderQuad(), 0U, true);
 
 				blit_level(target.m_tex, size, i, face);
 			}

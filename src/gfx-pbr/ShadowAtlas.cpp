@@ -24,21 +24,22 @@ module mud.gfx.pbr;
 
 namespace mud
 {
-	ShadowAtlas::ShadowAtlas(uint16_t size, vector<uint16_t> slices_subdiv)
-		: m_size(size)
-		, m_rect_size(size * slices_subdiv.size(), size)
+	ShadowAtlas::ShadowAtlas(uint16_t size, vector<uint16_t> subdivs)
+		: m_side(size)
+		, m_size(size * subdivs.size(), size)
 	{
-		m_depth = { m_rect_size, false, TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
-		m_color = { m_rect_size, false, TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
-		m_fbo = { m_rect_size, { &m_depth, &m_color } };
+		m_depth = { m_size, false, TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
+		m_color = { m_size, false, TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
+		m_fbo = { m_size, { &m_depth, &m_color } };
 
 		//m_depth = { m_rect_size, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
 		//m_fbo = { m_rect_size, bgfx::createFrameBuffer(1, &m_depth) };
 
+		const float fraction = 1.f / float(subdivs.size());
 		uint8_t index = 0;
-		for(uint16_t subdiv : slices_subdiv)
+		for(uint16_t subdiv : subdivs)
 		{
-			m_slices.push_back({ index, m_size, subdiv, uvec4(index * m_size, 0, m_size, m_size) });
+			m_slices.push_back({ index, m_side, subdiv, vec4(index * fraction, 0.f, fraction, 1.f) });
 			index++;
 		}
 	}
@@ -58,21 +59,21 @@ namespace mud
 		return m_slices[cast.index.slice];
 	}
 
-	ShadowAtlas::Slice::Slice(uint8_t index, uint16_t size, uint16_t subdiv, uvec4 rect)
+	ShadowAtlas::Slice::Slice(uint8_t index, uint16_t size, uint16_t subdiv, const vec4& rect)
 		: m_index(index)
-		, m_size(size)
+		//, m_size(size)
 		, m_subdiv(subdiv)
 		, m_rect(rect)
 		, m_slot_size(size / subdiv)
 	{
-		const uint32_t slot_size = size / subdiv;
+		const float fraction = 1.f / float(subdiv);
 
 		uint16_t i = 0;
 		for(uint16_t y = 0; y < subdiv; ++y)
 			for(uint16_t x = 0; x < subdiv; ++x)
 			{
-				uvec4 slot_rect = { rect.x + x * slot_size, rect.y + y * slot_size,
-									slot_size, slot_size };
+				vec4 slot_rect = { rect.x + x * fraction, rect.y + y * fraction,
+								   fraction, fraction };
 
 				m_slots.push_back({ i++, nullptr, slot_rect });
 			}
@@ -108,7 +109,7 @@ namespace mud
 	{
 		UNUSED(render); UNUSED(light_version);
 		uint16_t biggest = m_slices[0].m_slot_size;
-		uint16_t target_size = min(biggest, uint16_t(pow2_round_up(uint(m_size * coverage))));
+		uint16_t target_size = min(biggest, uint16_t(pow2_round_up(uint(m_side * coverage))));
 
 		if(light.m_shadow_index != UINT32_MAX)
 		{
@@ -139,7 +140,7 @@ namespace mud
 		return false;
 	}
 
-	uvec4 ShadowAtlas::render_update(Render& render, Light& light)
+	vec4 ShadowAtlas::render_update(Render& render, Light& light)
 	{
 		const Plane camera_near_plane = render.m_camera->near_plane();
 

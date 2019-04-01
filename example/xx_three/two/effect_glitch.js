@@ -146,10 +146,10 @@ function pass_glitch(gfx, render, glitch, dt_size) {
 	gfx.filter.sourcedepth(disp);
 
 	var target = render.target;
-	gfx.filter.quad(pass, target.post_process.swap(), program);
+	gfx.filter.quad(pass, target.post.swap(), program);
 
 	var flip = render.next_pass('flip', two.PassType.PostProcess);
-	gfx.copy.quad(flip, render.target_fbo, target.post_process.last());
+	gfx.copy.quad(flip, render.target_fbo, target.post.last());
 }
 
 var viewer = two.ui.scene_viewer(panel);

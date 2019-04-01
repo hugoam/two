@@ -48,7 +48,7 @@ namespace mud
 	{
 	public:
 		Viewport() {}
-		Viewport(Camera& camera, Scene& scene, uvec4 rect = uvec4(0U), bool scissor = false);
+		Viewport(Camera& camera, Scene& scene, const vec4& rect = vec4(0.f), bool scissor = false);
 		~Viewport();
 
 		Viewport(Viewport&& other) = default;
@@ -59,7 +59,7 @@ namespace mud
 
 		attr_ uint16_t m_index = 0;
 		attr_ bool m_active = true;
-		attr_ uvec4 m_rect = uvec4(0U);
+		attr_ vec4 m_rect = vec4(0.f);
 		attr_ bool m_scissor = false;
 		attr_ Colour m_clear_colour = Colour::Black;
 		attr_ Shading m_shading = Shading::Shaded;

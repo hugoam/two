@@ -37,8 +37,6 @@ module mud.gfx.pbr;
 #define DEBUG_CSM 0
 #define DEBUG_ATLAS 0
 
-#define SHADOW_ATLAS 1
-
 namespace mud
 {
 	GpuState<GpuCSM> GpuState<GpuCSM>::me;
@@ -49,52 +47,29 @@ namespace mud
 		return std::floor(value / step + 0.5f) * step;
 	}
 
-	uvec4 target_rect(const LightShadow& shadow, const uvec2& shadowmap_size)
+	vec4 target_rect(const LightShadow& shadow)
 	{
-		uvec4 viewport_rect = shadow.m_rect;
+		vec4 rect = shadow.m_rect;
 		if(bgfx::getCaps()->originBottomLeft)
-			viewport_rect.y = shadowmap_size.y - viewport_rect.y - viewport_rect.height;
-		return viewport_rect;
+			rect.y = 1.f - rect.y - rect.height;
+		return rect;
 	}
 
-	uvec4 csm_rect(uint size, size_t num_direct, size_t index)
+	vec4 csm_pass_rect(const vec4& atlas_rect, Light& light, size_t pass)
 	{
-		uvec4 light_rect;
-
-		if(num_direct == 1)
-		{
-			light_rect = { 0U, 0U, size, size };
-		}
-		else if(num_direct == 2)
-		{
-			light_rect = { 0U, 0U, size, size / 2 };
-			light_rect.x += index == 1 ? light_rect.width : 0;
-		}
-		else
-		{
-			light_rect = { 0U, 0U, size / 2, size / 2 };
-			light_rect.x += index & 1 ? light_rect.width : 0;
-			light_rect.y += index / 2 ? light_rect.height : 0;
-		}
-
-		return light_rect;
-	}
-
-	uvec4 csm_pass_rect(const uvec4& atlas_rect, Light& light, size_t pass)
-	{
-		uvec4 pass_rect = atlas_rect;
+		vec4 pass_rect = atlas_rect;
 
 		if(light.m_shadow_num_splits == 4)
 		{
-			pass_rect.width /= 2;
-			pass_rect.height /= 2;
-			pass_rect.x += pass % 2 == 0 ? 0 : pass_rect.width;
-			pass_rect.y += pass < 2 ? 0 : pass_rect.height;
+			pass_rect.width /= 2.f;
+			pass_rect.height /= 2.f;
+			pass_rect.x += pass % 2 == 0 ? 0.f : pass_rect.width;
+			pass_rect.y += pass < 2 ? 0.f : pass_rect.height;
 		}
 		else if(light.m_shadow_num_splits == 2)
 		{
-			pass_rect.height /= 2;
-			pass_rect.y += pass == 0 ? 0 : pass_rect.height;
+			pass_rect.height /= 2.f;
+			pass_rect.y += pass == 0 ? 0.f : pass_rect.height;
 		}
 
 		return pass_rect;
@@ -248,7 +223,7 @@ namespace mud
 	}
 	
 	void update_csm_slice(Render& render, Light& light, const mat4& light_transform, const mat4& light_proj, 
-						  FrustumSlice& slice, CSMShadow& csm, LightShadow& shadow, const uvec4& atlas_rect, uint csm_size)
+						  FrustumSlice& slice, CSMShadow& csm, LightShadow& shadow, const vec4& atlas_rect, uint csm_size)
 	{
 		shadow.m_light = &light;
 		shadow.m_rect = csm_pass_rect(atlas_rect, light, slice.m_index);
@@ -266,12 +241,10 @@ namespace mud
 			stabilize_light_bounds(slice, shadow.m_light_bounds, texture_size);
 		}
 
-		shadow.m_uv_rect = vec4(shadow.m_rect) / float(csm_size);
-
 		shadow.m_projection = crop_shrink_light_proj(light, shadow.m_light_bounds, light_proj, float(csm_size));
 		shadow.m_transform = light_transform;
 
-		mat4 crop_matrix = rect_mat(shadow.m_uv_rect) * bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, bgfx::getCaps()->homogeneousDepth);
+		mat4 crop_matrix = rect_mat(shadow.m_rect) * bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, bgfx::getCaps()->homogeneousDepth);
 		shadow.m_shadow_matrix = crop_matrix * shadow.m_projection * shadow.m_transform;
 
 		shadow.m_bias_scale = slice.m_index == 0 ? 1.f : slice.m_frustum.m_radius / csm.m_frustum_slices[0].m_frustum.m_radius;
@@ -285,13 +258,13 @@ namespace mud
 		csm.m_frustum_slices.resize(light.m_shadow_num_splits);
 		split_frustum_slices(*render.m_camera, csm.m_frustum_slices, light.m_shadow_num_splits, light.m_shadow_split_distribution);
 
-		mat4 light_transform = bxlookat(-light.m_node->direction(), vec3(0.f));
-		mat4 light_proj = bxortho(1.0f, -1.0f, 1.0f, -1.0f, -light.m_shadow_range, light.m_shadow_range, 0.0f, bgfx::getCaps()->homogeneousDepth);
+		const mat4 light_transform = bxlookat(-light.m_node->direction(), vec3(0.f));
+		const mat4 light_proj = bxortho(1.0f, -1.0f, 1.0f, -1.0f, -light.m_shadow_range, light.m_shadow_range, 0.0f, bgfx::getCaps()->homogeneousDepth);
 
 		csm.m_slices.clear();
 		csm.m_slices.resize(csm.m_frustum_slices.size());
 
-		uvec4 atlas_rect = csm_rect(m_csm.m_size.x, num_direct, index);
+		const vec4 atlas_rect = m_atlas.light_slot(light).m_rect;
 
 		for(size_t i = 0; i < csm.m_frustum_slices.size(); ++i)
 		{
@@ -369,7 +342,7 @@ namespace mud
 		for(Light* light : render.m_shot.m_lights)
 			if(light->m_shadows && light->m_type != LightType::Direct)
 			{
-				if(m_atlas.m_size == 0)
+				if(m_atlas.m_side == 0)
 					//m_atlas = { 1024U, { 4U } };
 					m_atlas = { 1024U, { 2U, 4U, 8U, 16U } };
 
@@ -422,9 +395,9 @@ namespace mud
 				if(light.m_shadow_index == UINT32_MAX)
 					continue;
 
-				const uvec4 atlas_rect = m_atlas.light_slot(light).m_rect;
-				const uvec2 offset = { atlas_rect.x, atlas_rect.y };
-				const uint size = atlas_rect.width;
+				const vec4 atlas_rect = m_atlas.light_slot(light).m_rect;
+				const vec2 offset = { atlas_rect.x, atlas_rect.y };
+				const float size = atlas_rect.width;
 
 				mat4 projection = bxproj(90.f, 1.f, 0.01f, light.m_range, bgfx::getCaps()->homogeneousDepth);
 
@@ -433,25 +406,20 @@ namespace mud
 				//  xzXZ
 				//   y Y
 
-				const table<SignedAxis, uvec2> offsets =
+				const table<SignedAxis, vec2> offsets =
 				{
-					offset + uvec2(size * 2, 0   ), // positive X
-					offset + uvec2(0,		 0   ), // negative X
-					offset + uvec2(size * 3, size), // positive Y
-					offset + uvec2(size,     size), // negative Y
-					offset + uvec2(size * 3, 0   ), // positive Z
-					offset + uvec2(size,	 0   ), // negative Z
+					offset + vec2(2.f, 0.f), // positive X
+					offset + vec2(0.f, 0.f), // negative X
+					offset + vec2(3.f, 1.f), // positive Y
+					offset + vec2(1.f, 1.f), // negative Y
+					offset + vec2(3.f, 0.f), // positive Z
+					offset + vec2(1.f, 0.f), // negative Z
 				};
 
-#if SHADOW_ATLAS
 				ShadowAtlas::Slice& slice = m_atlas.light_slice(light);
 				float per_slice = float(slice.m_subdiv);
-				vec2 atlas_slot = vec2(offset) / vec2(m_atlas.m_rect_size);
+				vec2 atlas_slot = vec2(offset) / vec2(m_atlas.m_size);
 				vec2 atlas_subdiv = vec2(1.f / (per_slice * m_atlas.m_slices.size()), 1.f / per_slice);
-#else
-				vec2 atlas_slot = vec2(0.f);
-				vec2 atlas_subdiv = vec2(1.f);
-#endif
 
 				m_block_light.m_gpu_shadows[index].atlas_slot = atlas_slot;
 				m_block_light.m_gpu_shadows[index].atlas_subdiv = atlas_subdiv;
@@ -463,7 +431,7 @@ namespace mud
 
 					LightShadow& shadow = push(m_shadows);
 					shadow.m_light = &light;
-					shadow.m_rect = { offsets[axis], uvec2(size) };
+					shadow.m_rect = { offsets[axis], vec2(size) };
 
 					const vec3& position = light.m_node->position();
 					shadow.m_transform = bxlookat(position, position + to_vec3(axis), view_up[axis]);
@@ -473,11 +441,7 @@ namespace mud
 					shadow.m_items = render.m_shot.m_items;
 					cull_shadow_render(render, shadow.m_items, shadow.m_projection, shadow.m_transform);
 
-#if SHADOW_ATLAS
 					shadow.m_fbo = &m_atlas.m_fbo;
-#else
-					shadow.m_fbo = &shadowmap.m_fbo;
-#endif
 
 					shadow.m_shadow_matrix = bxtranslation(-position);
 					shadow.m_depth_method = DepthMethod::Distance;
@@ -581,7 +545,7 @@ namespace mud
 
 		if(!m_shadows.empty())
 		{
-			vec4 atlas_p0 = { vec2(m_atlas.m_rect_size), vec2(1.f) / float(m_atlas.m_size) };
+			vec4 atlas_p0 = { vec2(m_atlas.m_size), vec2(1.f) / float(m_atlas.m_side) };
 			bgfx::setViewUniform(pass.m_index, u_shadow.u_shadow_atlas, &atlas_p0);
 		}
 	}
@@ -628,10 +592,10 @@ namespace mud
 			block_shadow.m_depth_params.m_depth_z_far = light.m_shadow_range;
 		};
 
-		auto render_shadow = [&](LightShadow& shadow, uvec4 rect)
+		auto render_shadow = [&](LightShadow& shadow, const vec4& rect)
 		{
 			Camera camera = Camera(shadow.m_transform, shadow.m_projection);
-			Viewport viewport = Viewport(camera, *render.m_scene, target_rect(shadow, block_shadow.m_csm.m_size));
+			Viewport viewport = Viewport(camera, *render.m_scene, target_rect(shadow));
 
 			Render shadow_render = { Shading::Volume, viewport, *render.m_target, *shadow.m_fbo, *render.m_frame };
 			shadow_render.m_shot.m_lights = render.m_shot.m_lights;
@@ -649,7 +613,7 @@ namespace mud
 				continue;
 
 			for(LightShadow& slice : csm.m_slices)
-				render_shadow(slice, target_rect(slice, block_shadow.m_csm.m_size));
+				render_shadow(slice, target_rect(slice));
 		}
 
 		for(LightShadow& shadow : block_shadow.m_shadows)

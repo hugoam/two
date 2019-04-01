@@ -155,13 +155,13 @@ function pass_unreal_bloom(gfx, render, bloom) {
 		gfx.filter.source0(source);
 
 		var target = render.target;
-		gfx.filter.quad(pass, target.post_process.swap(), program);
+		gfx.filter.quad(pass, target.post.swap(), program);
 
 		// additive blend bloom over target
         var merge = render.next_pass('flip', two.PassType.PostProcess);
-		//gfx.copy.quad(merge, render.target_fbo, target.post_process.last());
-		//gfx.copy.quad(merge, render.target_fbo, target.post_process.last(), pass.viewport.rect, BGFX_STATE_BLEND_ADD);
-		gfx.copy.quad(merge, render.target_fbo, target.post_process.last(), pass.viewport.rect, 35790848);
+		//gfx.copy.quad(merge, render.target_fbo, target.post.last());
+		//gfx.copy.quad(merge, render.target_fbo, target.post.last(), pass.viewport.rect, BGFX_STATE_BLEND_ADD);
+		gfx.copy.quad(merge, render.target_fbo, target.post.last(), pass.viewport.rect, 35790848);
 	};
 
 	// 1. Extract bright areas
@@ -288,7 +288,7 @@ function renderer(gfx, render, bloom) {
     two.pass_opaque(gfx, render);
     pass_unreal_bloom(gfx, render, bloom);
 
-    two.pass_post_process(gfx, render);
+    two.pass_post(gfx, render);
 }
 
 var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);

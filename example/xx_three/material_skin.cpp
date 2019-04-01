@@ -640,11 +640,12 @@ void pass_bloom(GfxSystem& gfx, Render& render, Texture& source, FrameBuffer& fb
 	{
 		Pass pass = render.next_pass("bloom_blur", PassType::PostProcess);
 
-		gfx.m_filter->uniforms(pass, "u_kernel", kernel, max_kernel);
+		gfx.m_filter->uniforms4(pass, "u_kernel", kernel);
 
 		gfx.m_filter->uniform(pass, "u_bloom_blur_p0", vec4(increment, PAD, PAD));
 		gfx.m_filter->source0(source);
 		//renderer.clear();
+
 		gfx.m_filter->quad(pass, target, program);
 	};
 
@@ -786,7 +787,7 @@ void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	app.m_gfx.m_renderer.gather(render);
 	app.m_gfx.m_renderer.begin(render);
 
-	Viewport viewport = Viewport(*render.m_camera, *render.m_scene, uvec4(uvec2(0U), uvec2(512U)));
+	Viewport viewport = Viewport(*render.m_camera, *render.m_scene, Rect4);
 	Render subrender = Render(Shading::Shaded, viewport, *render.m_target, uv, app.m_gfx.m_render_frame);
 	subrender.m_shot = render.m_shot;
 

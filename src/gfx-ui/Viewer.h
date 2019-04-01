@@ -63,7 +63,7 @@ namespace mud
 		void blit(Vg& vg);
 
 		void resize();
-		vec4 query_size();
+		vec4 query_rect();
 
 		Ray mouse_ray();
 

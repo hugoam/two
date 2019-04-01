@@ -528,13 +528,13 @@ namespace gfx
 	void pass_pre_post_process(GfxSystem& gfx, Render& render)
 	{
 		RenderTarget& target = *render.m_target;
-		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post_process.swap(), target.m_diffuse);
+		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post.swap(), target.m_diffuse);
 	}
 
 	void pass_post_process(GfxSystem& gfx, Render& render)
 	{
 		RenderTarget& target = *render.m_target;
-		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post_process.swap(), target.m_diffuse);
+		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post.swap(), target.m_diffuse);
 
 		// submit each post process effect
 

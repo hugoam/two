@@ -72,7 +72,7 @@ namespace mud
 		{
 			size_t i = size_t(axis);
 			m_cameras[i] = Camera(vec3(0.f), dir[axis], up[axis], fov, aspect, near, far);
-			m_viewports[i] = Viewport(m_cameras[i], scene, uvec4(uvec2(0U), m_size));
+			m_viewports[i] = Viewport(m_cameras[i], scene, Rect4);
 		}
 	}
 
@@ -215,7 +215,7 @@ namespace mud
 			const mat4 projection = bxproj(90.f, 1.f, 0.01f, range, bgfx::getCaps()->homogeneousDepth);
 
 			Camera camera = Camera(transform, projection);
-			Viewport viewport = Viewport(camera, *render.m_scene, uvec4(Rect4));
+			Viewport viewport = Viewport(camera, *render.m_scene, Rect4);
 			Render probe_render = { Shading::Volume, viewport, *render.m_target, cubemap.m_fbos[i], *render.m_frame };
 			//probe_render.cull();
 			m_gfx.m_renderer.subrender(render, probe_render, m_gfx.renderer(Shading::Shaded));

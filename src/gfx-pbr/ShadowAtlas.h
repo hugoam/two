@@ -23,8 +23,8 @@ namespace mud
 		ShadowAtlas() {}
 		ShadowAtlas(uint16_t size, vector<uint16_t> slices_subdiv);
 
-		uint16_t m_size = 0;
-		uvec2 m_rect_size;
+		uint16_t m_side = 0;
+		uvec2 m_size;
 
 		Texture m_color;
 		Texture m_depth;
@@ -34,7 +34,7 @@ namespace mud
 		{
 			uint16_t m_index;
 			Light* m_light;
-			uvec4 m_rect;
+			vec4 m_rect;
 		};
 
 		struct Slice;
@@ -42,17 +42,17 @@ namespace mud
 		Slice& light_slice(Light& light);
 		Slot& light_slot(Light& light);
 
-		uvec4 render_update(Render& render, Light& light);
+		vec4 render_update(Render& render, Light& light);
 		bool update_light(Light& light, uint64_t render, float coverage, uint64_t light_version);
 		void remove_light(Light& light, bool block = false);
 
 		struct Slice
 		{
 			Slice() {}
-			Slice(uint8_t index, uint16_t size, uint16_t subdiv, uvec4 rect);
+			Slice(uint8_t index, uint16_t size, uint16_t subdiv, const vec4& rect);
 
 			uint8_t m_index;
-			uint16_t m_size;
+			//uint16_t m_size;
 			uint16_t m_subdiv;
 			uvec4 m_rect;
 

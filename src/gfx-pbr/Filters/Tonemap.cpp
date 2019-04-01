@@ -54,7 +54,7 @@ namespace mud
 		if(render.m_filters.comp<Tonemap>().m_enabled)
 			this->render(render, target, render.m_filters.comp<Tonemap>(), render.m_filters.comp<BCS>());
 		else
-			m_copy.quad(render.composite_pass("tonemap blit"), *render.m_target_fbo, target.m_post_process.last());
+			m_copy.quad(render.composite_pass("tonemap blit"), *render.m_target_fbo, target.m_post.last());
 	}
 
 	void BlockTonemap::render(Render& render, RenderTarget& target, Tonemap& tonemap, BCS& bcs)
@@ -63,7 +63,7 @@ namespace mud
 
 		program.set_mode(m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
 
-		m_filter.source0(target.m_post_process.last());
+		m_filter.source0(target.m_post.last());
 
 		if(tonemap.m_color_correction)
 		{

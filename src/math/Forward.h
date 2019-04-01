@@ -36,6 +36,11 @@ namespace mud
 
 	using half2 = v2<ushort>;
 	using half3 = v3<ushort>;
+	using half4 = v4<ushort>;
+
+	using ushort2 = v2<ushort>;
+	using ushort3 = v3<ushort>;
+	using ushort4 = v4<ushort>;
 
 	using float2 = v2<float>;
 	using float3 = v3<float>;

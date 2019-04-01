@@ -109,7 +109,7 @@ namespace mud
 		return this->next_pass(name, PassType::PostProcess);
 	}
 
-	Pass Render::composite_pass(cstring name, FrameBuffer& fbo, const uvec4& rect)
+	Pass Render::composite_pass(cstring name, FrameBuffer& fbo, const vec4& rect)
 	{
 		Pass pass = this->next_pass(name, PassType::PostProcess);
 		pass.m_fbo = &fbo;

@@ -74,7 +74,7 @@ namespace mud
 
 		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), m_filter.u_uniform.s_source_depth, target.m_depth);
 
-		FrameBuffer& fbo = first_pass ? target.m_ping_pong.swap() : target.m_post_process.swap();
+		FrameBuffer& fbo = first_pass ? target.m_ping_pong.swap() : target.m_post.swap();
 
 		Pass pass = render.composite_pass("dof blur");
 		m_filter.quad(pass, fbo, program, bgfx_state);

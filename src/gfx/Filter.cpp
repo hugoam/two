@@ -50,11 +50,6 @@ namespace mud
 		//this->set_uniforms(render);
 	}
 
-	RenderQuad BlockFilter::render_quad(FrameBuffer& source, const vec4& source_rect, FrameBuffer& dest, const vec4& dest_rect, bool fbo_flip)
-	{
-		return { source.source_quad(source_rect, true), dest.dest_quad(dest_rect, true), fbo_flip };
-	}
-
 	void BlockFilter::source0(Texture& texture, ProgramVersion& program, int level, uint32_t flags)
 	{
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), u_uniform.s_source_0, texture, flags);
@@ -110,13 +105,13 @@ namespace mud
 		bgfx::setViewUniform(pass.m_index, m_uniforms[name], values.data(), values.size() / 4);
 	}
 
-	void BlockFilter::uniforms(const Pass& pass, const string& name, const vec4* value, uint16_t num)
+	void BlockFilter::uniforms4(const Pass& pass, const string& name, span<vec4> values)
 	{
 		//if(!has(m_uniforms, name))			
 		if(m_uniforms.find(name) == m_uniforms.end())
-			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, num, bgfx::UniformFreq::View);
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, values.size(), bgfx::UniformFreq::View);
 
-		bgfx::setViewUniform(pass.m_index, m_uniforms[name], value, num);
+		bgfx::setViewUniform(pass.m_index, m_uniforms[name], values.data(), values.size());
 	}
 
 	struct GpuTargetRect
@@ -175,10 +170,16 @@ namespace mud
 
 	void BlockFilter::submit(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags, bool render)
 	{
-		constexpr float margin = 0.01f; // @kludge because float precision issues from JS bindings triggers the warning
-		if(quad.m_source.width > 1.f + margin || quad.m_source.height > 1.f + margin)
-			printf("WARNING: Source rect expected in relative coordinates (%f, %f, %f, %f)\n", 
-				   quad.m_source.x, quad.m_source.y, quad.m_source.width, quad.m_source.height);
+		ushort4 rect = ushort4(quad.m_dest * vec2(fbo.m_size));
+		if(quad.m_relative && bgfx::getCaps()->originBottomLeft)
+			rect.y = fbo.m_size.y - rect.y - rect.height;
+
+		vec4 crop = quad.m_source;
+		if(!quad.m_relative && bgfx::getCaps()->originBottomLeft)
+			crop.y = 1.f - crop.y - crop.height;
+
+		//printf("filter quad (%i, %i), (%i, %i) - source (%.2f, %.2f), (%.2f, %.2f)\n", 
+		//	   rect.x, rect.y, rect.width, rect.height, crop.x, crop.y, crop.width, crop.height);
 
 		static mat4 mview = bxidentity();
 		static mat4 proj = bxortho(vec4(0.f, 1.f, 1.f, 0.f), 0.f, 1.f, 0.f, bgfx::getCaps()->homogeneousDepth);// false))
@@ -188,7 +189,7 @@ namespace mud
 #endif
 		bgfx::setViewFrameBuffer(pass.m_index, fbo);
 		bgfx::setViewTransform(pass.m_index, value_ptr(mview), value_ptr(proj));
-		bgfx::setViewRect(pass.m_index, uint16_t(quad.m_dest.x), uint16_t(quad.m_dest.y), uint16_t(quad.m_dest.width), uint16_t(quad.m_dest.height));
+		bgfx::setViewRect(pass.m_index, rect.x, rect.y, rect.width, rect.height);
 
 		draw_unit_quad(quad.m_fbo_flip);
 		//draw_quad(quad.m_dest.width, quad.m_dest.height);
@@ -202,14 +203,9 @@ namespace mud
 			bgfx::frame();
 	}
 
-	//void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const uvec4& rect, uint64_t flags, bool render)
-	//{
-	//	this->submit(pass, fbo, program, fbo.render_quad(vec4(rect), true), flags, render);
-	//}
-
 	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags, bool render)
 	{
-		this->submit(pass, fbo, program, fbo.render_quad(vec4(pass.m_rect), true), flags, render);
+		this->submit(pass, fbo, program, RenderQuad(pass.m_rect, true), flags, render);
 	}
 
 	BlockCopy::BlockCopy(GfxSystem& gfx, BlockFilter& filter)
@@ -237,21 +233,16 @@ namespace mud
 		m_filter.submit(pass, fbo, program, quad, flags);
 	}
 
-	//void BlockCopy::quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, const uvec4& rect, uint64_t flags)
-	//{
-	//	this->quad(pass, fbo, texture, fbo.render_quad(vec4(rect), true), flags);
-	//}
-
 	void BlockCopy::quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, uint64_t flags)
 	{
-		this->submit(pass, fbo, texture, fbo.render_quad(vec4(pass.m_rect), true), flags);
+		this->submit(pass, fbo, texture, RenderQuad(pass.m_rect, true), flags);
 	}
 
 	void BlockCopy::debug_show_texture(Render& render, Texture& texture, const vec4& rect, int level)
 	{
 		assert(render.m_target);
-		const vec4 dest = rect == vec4(0.f) ? vec4(vec2(0.f), vec2(render.m_target->m_size) * 0.25f) : rect;
-		const RenderQuad target_quad = { Rect4, render.m_target->dest_quad(dest, true) };
+		const vec4 dest = rect == vec4(0.f) ? vec4(vec2(0.f), vec2(0.25f)) : rect;
+		const RenderQuad target_quad = { Rect4, dest };
 
 		ProgramVersion program = { m_program };
 		m_filter.source0(texture, program, level, GFX_TEXTURE_CLAMP);

@@ -95,7 +95,6 @@ namespace mud
 	void BlockGlow::glow_blur(Render& render, RenderTarget& target, Glow& glow)
 	{
 		UNUSED(glow);
-		uvec4 rect = render.m_rect;
 
 		static BlurKernel kernel = {
 			{ 0.174938f, 0.165569f, 0.140367f, 0.106595f, 0.165569f, 0.140367f, 0.106595f },
@@ -110,20 +109,20 @@ namespace mud
 
 		for(uint8_t i = 0; i < (max_level + 1); i++)
 		{
-			m_blur.gaussian_pass(render, target, rect, i, true, kernel);
-			m_blur.gaussian_pass(render, target, rect, i, false, kernel);
+			m_blur.gaussian_pass(render, target, render.m_rect, i, true, kernel);
+			m_blur.gaussian_pass(render, target, render.m_rect, i, false, kernel);
 
 			//bool blit_support = (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0;
 			bool blit_support = false;
 
-			RenderQuad quad = { target.source_quad(vec4(rect), true), target.dest_quad_mip(vec4(rect), i + 1, true), true };
+			RenderQuad quad = { render.m_rect, render.m_rect, true };
 
 			Pass pass = render.composite_pass("glow blit");
-			if(blit_support)
-				bgfx::blit(pass.m_index,
-						   target.m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
-						   target.m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect.width), uint16_t(rect.height), 1);
-			else
+			//if(blit_support)
+			//	bgfx::blit(pass.m_index,
+			//			   target.m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
+			//			   target.m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect.width), uint16_t(rect.height), 1);
+			//else
 				m_copy.submit(pass, *target.m_cascade.m_fbos[i + 1], target.m_ping_pong.last(), quad);
 		}
 	}
@@ -134,12 +133,12 @@ namespace mud
 
 		program.set_option(m_index, GLOW_FILTER_BICUBIC, glow.m_bicubic_filter);
 
-		m_filter.source0(target.m_post_process.last());
+		m_filter.source0(target.m_post.last());
 		m_filter.source1(target.m_cascade.m_texture);
 
 		GpuState<Glow>::me.upload(glow);
 
 		Pass pass = render.composite_pass("glow merge");
-		m_filter.quad(pass, target.m_post_process.swap(), program);
+		m_filter.quad(pass, target.m_post.swap(), program);
 	}
 }

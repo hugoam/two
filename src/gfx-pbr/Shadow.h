@@ -91,8 +91,7 @@ namespace mud
 		Light* m_light = nullptr;
 
 		FrameBuffer* m_fbo = nullptr;
-		uvec4 m_rect = {};
-		vec4 m_uv_rect = {};
+		vec4 m_rect = {};
 		
 		mat4 m_projection = {};
 		mat4 m_transform = {};
