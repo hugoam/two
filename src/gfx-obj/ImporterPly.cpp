@@ -281,6 +281,7 @@ namespace mud
 
 		Buffer buffer;
 
+		const size_t num_elements = header.elements.size();
 		Element element = header.elements[0];
 		size_t section = 0;
 		size_t count = 0;
@@ -298,7 +299,11 @@ namespace mud
 				return true;
 
 			if(count >= element.count)
-				element = header.elements[section++];
+			{
+				assert(header.elements.size() > section);
+				element = header.elements[++section];
+				count = 0;
+			}
 
 			const vector<string> tokens = split(line, " ");
 			size_t token = 0;
