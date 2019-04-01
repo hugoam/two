@@ -31,7 +31,6 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		scene.m_env.m_background.m_colour = rgb(0x72645b);
 		scene.m_env.m_radiance.m_colour = rgb(0x72645b);
 		scene.m_env.m_radiance.m_energy = 1.f;
-		//scene.background = new THREE.Color(  );
 		//scene.fog = new THREE.Fog( 0x72645b, 2, 15 );
 
 		auto add_light = [&](vec3 d, Colour color, float intensity, bool shadows)
@@ -48,18 +47,6 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 #else
 			l.m_shadow_num_splits = 4;
 #endif
-
-			//var d = 1;
-			//directionalLight.shadow.camera.left = -d;
-			//directionalLight.shadow.camera.right = d;
-			//directionalLight.shadow.camera.top = d;
-			//directionalLight.shadow.camera.bottom = -d;
-			//
-			//directionalLight.shadow.camera.near = 1;
-			//directionalLight.shadow.camera.far = 4;
-			//
-			//directionalLight.shadow.mapSize.width = 1024;
-			//directionalLight.shadow.mapSize.height = 1024;
 
 			//directionalLight.shadow.bias = -0.001;
 		};

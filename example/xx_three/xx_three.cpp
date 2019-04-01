@@ -21,7 +21,6 @@ using namespace mud;
 // xx_geom_instances (color doesn't work)
 // xx_material_variations (light)
 // xx_cubemap_dynamic
-// xx_effect_bloom (black screen)
 
 // todo js:
 // xx_geom_dynamic

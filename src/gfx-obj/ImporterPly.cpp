@@ -300,21 +300,22 @@ namespace mud
 			if(count >= element.count)
 				element = header.elements[section++];
 
-			vector<string> tokens = split(line, " ");
+			const vector<string> tokens = split(line, " ");
+			size_t token = 0;
 
 			vector<double> values;
 			for(Property& prop : element.properties)
 			{
 				if(prop.type == "list")
 				{
-					size_t n = to_value<size_t>(shift(tokens));
+					size_t n = to_value<size_t>(tokens[token++]);
 					values.push_back(double(n));
 					for(size_t j = 0; j < n; j++)
-						values.push_back(to_value<double>(shift(tokens)));
+						values.push_back(to_value<double>(tokens[token++]));
 				}
 				else
 				{
-					values.push_back(to_value<double>(shift(tokens)));
+					values.push_back(to_value<double>(tokens[token++]));
 				}
 			}
 
