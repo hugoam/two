@@ -159,28 +159,28 @@ var godrays_sun_fragment = `$input v_uv0
     }`;
 
 function pass_fake_sun(gfx, render, godrays) {
-    
-    var program = gfx.programs.fetch('godrays_fake_sun')
-	var pass = render.next_pass('godrays_fake_sun', two.PassType.PostProcess);
 
-	gfx.filter.uniform(pass, 'u_godrays_sun_p0', new two.vec4(godrays.bg_colour.r, godrays.bg_colour.g, godrays.bg_colour.b, 0.0));
-	gfx.filter.uniform(pass, 'u_godrays_sun_p1', new two.vec4(godrays.sun_colour.r, godrays.sun_colour.g, godrays.sun_colour.b, 0.0));
-	gfx.filter.uniform(pass, 'u_godrays_sun_p2', new two.vec4(godrays.sun_screen.x, godrays.sun_screen.y, 0.0, 0.0));
+    var program = new two.ProgramVersion(gfx.programs.fetch('godrays_fake_sun'));
+    var pass = render.next_pass('godrays_fake_sun', two.PassType.PostProcess);
 
-	var sunsqH = 0.74 * render.rect.height; // 0.74 depends on extent of sun from shader
-	var sunsqW = sunsqH; // both depend on height because sun is aspect-corrected
+    gfx.filter.uniform(pass, 'u_godrays_sun_p0', new two.vec4(godrays.bg_colour.r, godrays.bg_colour.g, godrays.bg_colour.b, 0.0));
+    gfx.filter.uniform(pass, 'u_godrays_sun_p1', new two.vec4(godrays.sun_colour.r, godrays.sun_colour.g, godrays.sun_colour.b, 0.0));
+    gfx.filter.uniform(pass, 'u_godrays_sun_p2', new two.vec4(godrays.sun_screen.x, godrays.sun_screen.y, 0.0, 0.0));
 
-	//var sun = new two.vec2(rect_offset(render.rect)) + godrays.sun_screen * vec2(rect_size(render.rect));
+    var sunsqH = 0.74 * render.rect.height; // 0.74 depends on extent of sun from shader
+    var sunsqW = sunsqH; // both depend on height because sun is aspect-corrected
 
-	// @todo fix this
-	//btwo.gfx.setViewScissor(pass.index, sun.x - sunsqW / 2.0, sun.y - sunsqH / 2.0, sunsqW, sunsqH);
+    //var sun = new two.vec2(rect_offset(render.rect)) + godrays.sun_screen * vec2(rect_size(render.rect));
 
-	gfx.filter.quad(pass, render.target_fbo, program);
+    // @todo fix this
+    //btwo.gfx.setViewScissor(pass.index, sun.x - sunsqW / 2.0, sun.y - sunsqH / 2.0, sunsqW, sunsqH);
+
+    gfx.filter.quad(pass, render.target_fbo, program);
 }
 
 function pass_godrays(gfx, render, godrays) {
 
-	var size4 = new two.uvec2(render.target.size.x / 4, render.target.size.y / 4);
+    var size4 = new two.uvec2(render.target.size.x / 4, render.target.size.y / 4);
 
     if(this.ping === undefined) {
         // The ping-pong render targets can use an adjusted resolution to minimize cost
@@ -191,88 +191,81 @@ function pass_godrays(gfx, render, godrays) {
         // targets but the aliasing causes some temporal flickering
         this.depth = new two.FrameBuffer(render.target.size, two.TextureFormat.R32F, 0);
     }
-    
-	function pass_mask_depth(gfx, render, godrays, fbo) {
-        
-		var program = gfx.programs.fetch('godrays_depth_mask');
 
-		var pass = render.next_pass('godrays_depth_mask', two.PassType.PostProcess);
+    function pass_mask_depth(gfx, render, godrays, fbo) {
 
-		gfx.filter.sourcedepth(render.target.depth);
+        var program = new two.ProgramVersion(gfx.programs.fetch('godrays_depth_mask'));
 
-		gfx.filter.quad(pass, fbo, program);
-	}
+        var pass = render.next_pass('godrays_depth_mask', two.PassType.PostProcess);
 
-	function pass_blur(gfx, render, godrays, fbo, source, step_size, quad) {
-        
-		var program = gfx.programs.fetch('godrays_generate');
+        gfx.filter.sourcedepth(render.target.depth);
 
-		var pass = render.next_pass('godrays', two.PassType.PostProcess);
+        gfx.filter.quad(pass, fbo, program);
+    }
 
-		gfx.filter.uniform(pass, 'u_godrays_p0', new two.vec4(godrays.sun_screen.x, godrays.sun_screen.y, step_size, 0.0));
-		gfx.filter.source0(source, 10); //GFX_TEXTURE_CLAMP // @todo
+    function pass_blur(gfx, render, godrays, fbo, source, step_size) {
 
-		gfx.filter.submit(pass, fbo, new two.ProgramVersion(program), quad);
-	}
+        var program = new two.ProgramVersion(gfx.programs.fetch('godrays_generate'));
 
-	function pass_combine(gfx, render, godrays, source) {
-        
-		var program = gfx.programs.fetch('godrays_combine');
+        var pass = render.next_pass('godrays', two.PassType.PostProcess);
 
-		var pass = render.next_pass('godrays_combine', two.PassType.PostProcess);
+        gfx.filter.uniform(pass, 'u_godrays_p0', new two.vec4(godrays.sun_screen.x, godrays.sun_screen.y, step_size, 0.0));
+        gfx.filter.source0(source, 10); //GFX_TEXTURE_CLAMP // @todo
 
-		gfx.filter.source0(render.target.diffuse);
-		gfx.filter.source1(source);
+        gfx.filter.quad(pass, fbo, program);
+    }
 
-		gfx.filter.uniform(pass, 'u_godrays_combine_p0', new two.vec4(godrays.intensity, 0.0, 0.0, 0.0));
+    function pass_combine(gfx, render, godrays, source) {
 
-		gfx.filter.quad(pass, render.target.post.swap(), program);
+        var program = new two.ProgramVersion(gfx.programs.fetch('godrays_combine'));
+
+        var pass = render.next_pass('godrays_combine', two.PassType.PostProcess);
+
+        gfx.filter.source0(render.target.diffuse);
+        gfx.filter.source1(source);
+
+        gfx.filter.uniform(pass, 'u_godrays_combine_p0', new two.vec4(godrays.intensity, 0.0, 0.0, 0.0));
+
+        gfx.filter.quad(pass, render.target.post.swap(), program);
 
         var flip = render.next_pass('flip', two.PassType.PostProcess);
-		gfx.copy.quad(flip, render.target_fbo, render.target.post.last());
-	}
+        gfx.copy.quad(flip, render.target_fbo, render.target.post.last());
+    }
 
-	pass_mask_depth(gfx, render, godrays, this.depth);
+    pass_mask_depth(gfx, render, godrays, this.depth);
 
-	// Render god-rays
+    // Render god-rays
 
-	// Maximum length of god-rays (in texture space [0,1]X[0,1])
-	var filter_length = 1.0;
-	//var filter_length = 0.5;
+    // Maximum length of god-rays (in texture space [0,1]X[0,1])
+    var filter_length = 1.0;
+    //var filter_length = 0.5;
 
-	// Samples taken by filter
-	var taps = 6.0;
+    // Samples taken by filter
+    var taps = 6.0;
 
-	// Pass order could equivalently be 3,2,1 (instead of 1,2,3), which
-	// would start with a small filter support and grow to large. however
-	// the large-to-small order produces less objectionable aliasing artifacts that
-	// appear as a glimmer along the length of the beams
+    // Pass order could equivalently be 3,2,1 (instead of 1,2,3), which
+    // would start with a small filter support and grow to large. however
+    // the large-to-small order produces less objectionable aliasing artifacts that
+    // appear as a glimmer along the length of the beams
 
-	function step_size(filter_length, taps, pass) {
-		return filter_length * Math.pow(taps, -pass);
-	}
-    
-	var rect = new two.vec4(render.rect.x, render.rect.y, render.rect.z, render.rect.w);
-	var rect4 = new two.vec4(render.rect.x / 4, render.rect.y / 4, render.rect.z / 4, render.rect.w / 4);
-	//var rect4 = rect / 4.0;
+    function step_size(filter_length, taps, pass) {
+        return filter_length * Math.pow(taps, -pass);
+    }
 
-	// pass 1 - render into first ping-pong target
-	var quad0 = gfx.filter.render_quad(this.depth, rect, this.pong, rect4, true);
-	pass_blur(gfx, render, godrays, this.pong, this.depth.tex, step_size(filter_length, taps, 1.0), quad0);
+    // pass 1 - render into first ping-pong target
+    pass_blur(gfx, render, godrays, this.pong, this.depth.tex, step_size(filter_length, taps, 1.0));
 
-	// pass 2 - render into second ping-pong target
-	var quad1 = gfx.filter.render_quad(this.pong, rect4, this.ping, rect4, true);
-	pass_blur(gfx, render, godrays, this.ping, this.pong.tex, step_size(filter_length, taps, 2.0), quad1);
+    // pass 2 - render into second ping-pong target
+    pass_blur(gfx, render, godrays, this.ping, this.pong.tex, step_size(filter_length, taps, 2.0));
 
-	// pass 3 - 1st RT
-	var quad2 = gfx.filter.render_quad(this.ping, rect4, this.pong, rect4, true);
-	pass_blur(gfx, render, godrays, this.pong, this.ping.tex, step_size(filter_length, taps, 3.0), quad2);
+    // pass 3 - 1st RT
+    pass_blur(gfx, render, godrays, this.pong, this.ping.tex, step_size(filter_length, taps, 3.0));
 
-	// final pass - composite god-rays onto colors
-	pass_combine(gfx, render, godrays, this.pong.tex);
+    // final pass - composite god-rays onto colors
+    pass_combine(gfx, render, godrays, this.pong.tex);
 
-	//copy.debug_show_texture(render, depth, vec4(0.0));
-	//gfx.copy.debug_show_texture(render, pong.tex, vec4(0.0));
+    //copy.debug_show_texture(render, depth, vec4(0.0));
+    //gfx.copy.debug_show_texture(render, pong.tex, vec4(0.0));
 }
 
 var viewer = two.ui.scene_viewer(panel);

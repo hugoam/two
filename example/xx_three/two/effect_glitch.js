@@ -100,56 +100,56 @@ function randInt(min, max) {
 }
 
 function pass_glitch(gfx, render, glitch, dt_size) {
-    
+
     //dt_size = 64;
-	var disp = glitch_heightmap(gfx, dt_size);
+    var disp = glitch_heightmap(gfx, dt_size);
 
-	var amount = 0.0;
-	var angle = 0.0;
-	var scale = new two.vec2(0.0);
-	var distort = new two.vec2(0.0);
-    
-	var frame = glitch.frame % glitch.randX;
-	if(frame == 0 || glitch.gowild == true)
-	{
-		amount = Math.random() / 30.0;
-		angle = randFloat(-Math.PI, Math.PI);
-		scale = new two.vec2(randFloat(-1, 1), randFloat(-1, 1));
-		distort = new two.vec2(randFloat(0, 1), randFloat(0, 1));
-		glitch.frame = 0;
-		glitch.randX = randInt(120, 240) * speed;
+    var amount = 0.0;
+    var angle = 0.0;
+    var scale = new two.vec2(0.0);
+    var distort = new two.vec2(0.0);
 
-	}
-	else if(frame < glitch.randX / 5)
-	{
-		amount = Math.random() / 90.0;
-		angle = randFloat(-Math.PI, Math.PI);
-		scale = new two.vec2(randFloat(-0.3, 0.3), randFloat(-0.3, 0.3));
-		distort = new two.vec2(randFloat(0, 1), randFloat(0, 1));
-	}
-	else if(glitch.gowild == false)
-	{
-		glitch.frame++;
-		return;
-	}
+    var frame = glitch.frame % glitch.randX;
+    if(frame == 0 || glitch.gowild == true)
+    {
+        amount = Math.random() / 30.0;
+        angle = randFloat(-Math.PI, Math.PI);
+        scale = new two.vec2(randFloat(-1, 1), randFloat(-1, 1));
+        distort = new two.vec2(randFloat(0, 1), randFloat(0, 1));
+        glitch.frame = 0;
+        glitch.randX = randInt(120, 240) * speed;
 
-	glitch.frame++;
+    }
+    else if(frame < glitch.randX / 5)
+    {
+        amount = Math.random() / 90.0;
+        angle = randFloat(-Math.PI, Math.PI);
+        scale = new two.vec2(randFloat(-0.3, 0.3), randFloat(-0.3, 0.3));
+        distort = new two.vec2(randFloat(0, 1), randFloat(0, 1));
+    }
+    else if(glitch.gowild == false)
+    {
+        glitch.frame++;
+        return;
+    }
 
-    var program = app.gfx.programs.fetch('glitch');
-    
-	var pass = render.next_pass('glitch', two.PassType.PostProcess);
+    glitch.frame++;
 
-	gfx.filter.uniform(pass, 'u_glitch_p0', new two.vec4(amount, angle, glitch.seed, 0.0));
-	gfx.filter.uniform(pass, 'u_glitch_p1', new two.vec4(scale.x, scale.y, distort.x, distort.y));
+    var program = new two.ProgramVersion(app.gfx.programs.fetch('glitch'));
 
-	gfx.filter.source0(render.target.diffuse);
-	gfx.filter.sourcedepth(disp);
+    var pass = render.next_pass('glitch', two.PassType.PostProcess);
 
-	var target = render.target;
-	gfx.filter.quad(pass, target.post.swap(), program);
+    gfx.filter.uniform(pass, 'u_glitch_p0', new two.vec4(amount, angle, glitch.seed, 0.0));
+    gfx.filter.uniform(pass, 'u_glitch_p1', new two.vec4(scale.x, scale.y, distort.x, distort.y));
 
-	var flip = render.next_pass('flip', two.PassType.PostProcess);
-	gfx.copy.quad(flip, render.target_fbo, target.post.last());
+    gfx.filter.source0(render.target.diffuse);
+    gfx.filter.sourcedepth(disp);
+
+    var target = render.target;
+    gfx.filter.quad(pass, target.post.swap(), program);
+
+    var flip = render.next_pass('flip', two.PassType.PostProcess);
+    gfx.copy.quad(flip, render.target_fbo, target.post.last());
 }
 
 var viewer = two.ui.scene_viewer(panel);

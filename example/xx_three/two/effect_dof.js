@@ -93,7 +93,7 @@ var bokeh_fragment = `$input v_uv0
 
 function pass_bokeh(gfx, render, bokeh) {
 
-    var program = gfx.programs.fetch('bokeh');
+    var program = new two.ProgramVersion(gfx.programs.fetch('bokeh'));
 
     var pass = render.next_pass('bokeh', two.PassType.PostProcess);
 
