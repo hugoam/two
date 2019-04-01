@@ -19,7 +19,6 @@ using namespace mud;
 // xx_lines_dashed (no colour)
 // xx_lines_fat (width doesn't work)
 // xx_geom_instances (color doesn't work)
-// xx_material_translucent (obj model fucked up)
 // xx_material_variations (light)
 // xx_cubemap_dynamic
 
