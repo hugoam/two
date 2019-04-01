@@ -201,7 +201,8 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 
 	auto pass_blur = [](GfxSystem& gfx, Render& render, BlurPass d, Texture& source, int source_level, FrameBuffer& dest, uint8_t kernel_size)
 	{
-		static Program& program = blur_program(gfx);
+		static Program& program_blur = blur_program(gfx);
+		ProgramVersion program = { program_blur };
 
 		Pass pass = render.next_pass("bloom_blur", PassType::PostProcess);
 
@@ -209,12 +210,11 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 
 		gfx.m_filter->uniform(pass, "u_glow_blur_p0", vec4(dirs[d], 0.f, 0.f));
 
-		ProgramVersion version = { program };
-		gfx.m_filter->source0(source, version, source_level);
+		gfx.m_filter->source0p(source, program, source_level);
 
-		version.set_mode(0, KERNEL_SIZE, kernel_size);
+		program.set_mode(0, KERNEL_SIZE, kernel_size);
 
-		gfx.m_filter->quad(pass, dest, version);
+		gfx.m_filter->quad(pass, dest, program);
 	};
 
 	auto pass_merge = [](GfxSystem& gfx, Render& render, const Bloom& bloom, Texture& source)

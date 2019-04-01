@@ -50,7 +50,7 @@ namespace mud
 		//this->set_uniforms(render);
 	}
 
-	void BlockFilter::source0(Texture& texture, ProgramVersion& program, int level, uint32_t flags)
+	void BlockFilter::source0p(Texture& texture, ProgramVersion& program, int level, uint32_t flags)
 	{
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), u_uniform.s_source_0, texture, flags);
 
@@ -229,7 +229,7 @@ namespace mud
 	void BlockCopy::submit(const Pass& pass, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags)
 	{
 		ProgramVersion program = { m_program };
-		m_filter.source0(texture, program, GFX_TEXTURE_CLAMP);
+		m_filter.source0p(texture, program, GFX_TEXTURE_CLAMP);
 		m_filter.submit(pass, fbo, program, quad, flags);
 	}
 
@@ -245,7 +245,7 @@ namespace mud
 		const RenderQuad target_quad = { Rect4, dest };
 
 		ProgramVersion program = { m_program };
-		m_filter.source0(texture, program, level, GFX_TEXTURE_CLAMP);
+		m_filter.source0p(texture, program, level, GFX_TEXTURE_CLAMP);
 
 		Pass pass; pass.m_index = render.debug_pass();
 		m_filter.submit(pass, render.m_target->m_backbuffer, program, target_quad, 0);

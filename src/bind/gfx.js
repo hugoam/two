@@ -4175,6 +4175,11 @@ BlockFilter.prototype["quad"] = BlockFilter.prototype.quad = function(a0, a1, a2
     if (a4 === undefined) { _mud_BlockFilter_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*flags*/a3); return; }
     _mud_BlockFilter_quad_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*flags*/a3, /*render*/a4);
 };
+BlockFilter.prototype["source0p"] = BlockFilter.prototype.source0p = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { _mud_BlockFilter_source0p_2(this.__ptr, /*texture*/a0.__ptr, /*program*/a1.__ptr); return; }
+    if (a3 === undefined) { _mud_BlockFilter_source0p_3(this.__ptr, /*texture*/a0.__ptr, /*program*/a1.__ptr, /*level*/a2); return; }
+    _mud_BlockFilter_source0p_4(this.__ptr, /*texture*/a0.__ptr, /*program*/a1.__ptr, /*level*/a2, /*flags*/a3);
+};
 BlockFilter.prototype["source0"] = BlockFilter.prototype.source0 = function(a0, a1) {
     if (a1 === undefined) { _mud_BlockFilter_source0_1(this.__ptr, /*texture*/a0.__ptr); return; }
     _mud_BlockFilter_source0_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);

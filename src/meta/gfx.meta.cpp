@@ -372,6 +372,7 @@ void mud_BlockCopy_quad(void* object, span<void*> args, void*& result) { UNUSED(
 void mud_BlockCopy_debug_show_texture(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockCopy*>(object)).debug_show_texture(*static_cast<mud::Render*>(args[0]), *static_cast<mud::Texture*>(args[1]), *static_cast<mud::vec4*>(args[2]), *static_cast<int*>(args[3])); }
 void mud_BlockFilter_submit(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).submit(*static_cast<mud::Pass*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::ProgramVersion*>(args[2]), *static_cast<mud::RenderQuad*>(args[3]), *static_cast<uint64_t*>(args[4]), *static_cast<bool*>(args[5])); }
 void mud_BlockFilter_quad(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).quad(*static_cast<mud::Pass*>(args[0]), *static_cast<mud::FrameBuffer*>(args[1]), *static_cast<mud::ProgramVersion*>(args[2]), *static_cast<uint64_t*>(args[3]), *static_cast<bool*>(args[4])); }
+void mud_BlockFilter_source0p(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source0p(*static_cast<mud::Texture*>(args[0]), *static_cast<mud::ProgramVersion*>(args[1]), *static_cast<int*>(args[2]), *static_cast<uint32_t*>(args[3])); }
 void mud_BlockFilter_source0(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source0(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
 void mud_BlockFilter_source1(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source1(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
 void mud_BlockFilter_source2(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::BlockFilter*>(object)).source2(*static_cast<mud::Texture*>(args[0]), *static_cast<uint32_t*>(args[1])); }
@@ -3261,6 +3262,8 @@ namespace mud
 		static bool submit_0_render_default = false;
 		static uint64_t quad_0_flags_default = 0U;
 		static bool quad_0_render_default = false;
+		static int source0p_0_level_default = 0;
+		static uint32_t source0p_0_flags_default = UINT32_MAX;
 		static uint32_t source0_0_flags_default = UINT32_MAX;
 		static uint32_t source1_0_flags_default = UINT32_MAX;
 		static uint32_t source2_0_flags_default = UINT32_MAX;
@@ -3273,6 +3276,7 @@ namespace mud
 		static Method methods[] = {
 			{ t, "submit", Address(), mud_BlockFilter_submit, { { "pass", type<mud::Pass>(),  }, { "fbo", type<mud::FrameBuffer>(),  }, { "program", type<mud::ProgramVersion>(),  }, { "quad", type<mud::RenderQuad>(),  }, { "flags", type<uint64_t>(), Param::Default, &submit_0_flags_default }, { "render", type<bool>(), Param::Default, &submit_0_render_default } }, g_qvoid },
 			{ t, "quad", Address(), mud_BlockFilter_quad, { { "pass", type<mud::Pass>(),  }, { "fbo", type<mud::FrameBuffer>(),  }, { "program", type<mud::ProgramVersion>(),  }, { "flags", type<uint64_t>(), Param::Default, &quad_0_flags_default }, { "render", type<bool>(), Param::Default, &quad_0_render_default } }, g_qvoid },
+			{ t, "source0p", Address(), mud_BlockFilter_source0p, { { "texture", type<mud::Texture>(),  }, { "program", type<mud::ProgramVersion>(),  }, { "level", type<int>(), Param::Default, &source0p_0_level_default }, { "flags", type<uint32_t>(), Param::Default, &source0p_0_flags_default } }, g_qvoid },
 			{ t, "source0", Address(), mud_BlockFilter_source0, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &source0_0_flags_default } }, g_qvoid },
 			{ t, "source1", Address(), mud_BlockFilter_source1, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &source1_0_flags_default } }, g_qvoid },
 			{ t, "source2", Address(), mud_BlockFilter_source2, { { "texture", type<mud::Texture>(),  }, { "flags", type<uint32_t>(), Param::Default, &source2_0_flags_default } }, g_qvoid },

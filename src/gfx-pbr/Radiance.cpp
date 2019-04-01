@@ -164,7 +164,7 @@ namespace mud
 
 				const int source_level = i == 0 ? 0 : i - 1;
 				Texture& source = i == 0 ? *radiance.m_texture : filtered;
-				m_filter.source0(source, program, source_level, GFX_TEXTURE_POINT);
+				m_filter.source0p(source, program, source_level, GFX_TEXTURE_POINT);
 
 				float roughness = i / float(roughness_levels - 1);
 #ifdef MUD_PLATFORM_EMSCRIPTEN

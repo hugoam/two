@@ -58,7 +58,7 @@ namespace mud
 		meth_ void submit(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
 		meth_ void quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags = 0U, bool render = false);
 
-		void source0(Texture& texture, ProgramVersion& program, int level = 0, uint32_t flags = UINT32_MAX);
+		meth_ void source0p(Texture& texture, ProgramVersion& program, int level = 0, uint32_t flags = UINT32_MAX);
 
 		meth_ void source0(Texture& texture, uint32_t flags = UINT32_MAX);
 		meth_ void source1(Texture& texture, uint32_t flags = UINT32_MAX);
