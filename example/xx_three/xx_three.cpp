@@ -14,17 +14,18 @@ using namespace mud;
 // xx_shadow_point (try shadows)
 // xx_tiled_forward (fix clusters)
 
-// ported not ok:
-// xx_geom_points_hw (doesn't work)
+// fix known:
 // xx_lines_dashed (no colour)
 // xx_lines_fat (width doesn't work)
+
+// ported not ok:
+// xx_geom_points_hw (doesn't work)
 // xx_geom_instances (color doesn't work)
 // xx_material_variations (light)
 // xx_cubemap_dynamic
 
 // todo js:
 // xx_geom_dynamic
-// xx_loader_ply
 // xx_material_skin
 // xx_shader_ocean
 

@@ -4,34 +4,37 @@
 
 #include <xx_three/xx_three.h>
 
+#include <stl/array.h>
+
 using namespace mud;
 
 Model& cube_model(GfxSystem& gfx, float size)
 {
 	const float h = size * 0.5f;
 
-	MeshPacker geometry;
-	geometry.m_primitive = PrimitiveType::Lines;
+	Lines lines;
 
-	geometry.m_positions = {
+	const vec3 positions[] = {
 		vec3(-h, -h, -h), vec3(-h,  h, -h),
-		vec3(-h,  h, -h), vec3(h,  h, -h),
-		vec3(h,  h, -h), vec3(h, -h, -h),
-		vec3(h, -h, -h), vec3(-h, -h, -h),
+		vec3(-h,  h, -h), vec3( h,  h, -h),
+		vec3( h,  h, -h), vec3( h, -h, -h),
+		vec3( h, -h, -h), vec3(-h, -h, -h),
 		vec3(-h, -h,  h), vec3(-h,  h,  h),
-		vec3(-h,  h,  h), vec3(h,  h,  h),
-		vec3(h,  h,  h), vec3(h, -h,  h),
-		vec3(h, -h,  h), vec3(-h, -h,  h),
+		vec3(-h,  h,  h), vec3( h,  h,  h),
+		vec3( h,  h,  h), vec3( h, -h,  h),
+		vec3( h, -h,  h), vec3(-h, -h,  h),
 		vec3(-h, -h, -h), vec3(-h, -h,  h),
-		vec3(-h,  h, -h), vec3(-h,  h,  h),
-		vec3(h,  h, -h), vec3(h,  h,  h),
-		vec3(h, -h, -h), vec3(h, -h,  h)
+		vec3(-h,  h,  h), vec3(-h,  h, -h),
+		vec3( h,  h, -h), vec3( h,  h,  h),
+		vec3( h, -h,  h), vec3( h, -h, -h),
 	};
 
-	for(size_t i = 0; i < geometry.m_positions.size(); ++i)
-		geometry.m_colours.push_back(rgb(0xffffff));
+	for(size_t i = 0; i < array_size(positions); i += 2)
+		lines.add(positions[i+0], positions[i+1]);
 
-	return gfx.create_model_geo("cube", geometry);
+	Model& model = gfx.create_model("cube");
+	lines.write(model.get_mesh(0));
+	return model;
 }
 
 void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
