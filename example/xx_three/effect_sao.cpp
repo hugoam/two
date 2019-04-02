@@ -407,7 +407,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 		//this.materialCopy.blendDstAlpha = THREE.ZeroFactor;
 		//this.materialCopy.blendEquationAlpha = THREE.AddEquation;
 
-		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post.last());
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, target.m_post.last());
 	};
 
 	//if (this.params.output === 1)

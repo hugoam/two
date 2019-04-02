@@ -99,7 +99,7 @@ namespace mud
 			program.set_option(m_index, SKYBOX_CUBE, texture.m_is_cube);
 
 			const RenderQuad quad = RenderQuad(pass.m_rect, false);
-			m_filter.submit(pass, *render.m_target_fbo, program, quad, BGFX_STATE_DEPTH_TEST_LEQUAL);
+			m_filter.submit(pass, *render.m_fbo, program, quad, BGFX_STATE_DEPTH_TEST_LEQUAL);
 		}
 	}
 }

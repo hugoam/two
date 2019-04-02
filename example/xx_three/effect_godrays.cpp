@@ -298,7 +298,7 @@ void pass_fake_sun(GfxSystem& gfx, Render& render, const Godrays& godrays)
 	// @todo fix this
 	//bgfx::setViewScissor(pass.m_index, sun.x - sunsqW / 2.f, sun.y - sunsqH / 2.f, sunsqW, sunsqH);
 
-	gfx.m_filter->quad(pass, *render.m_target_fbo, program);
+	gfx.m_filter->quad(pass, *render.m_fbo, program);
 }
 
 void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
@@ -354,7 +354,7 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 		gfx.m_filter->quad(pass, render.m_target->m_post.swap(), program);
 
-		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post.last());
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, render.m_target->m_post.last());
 	};
 
 	pass_mask_depth(gfx, render, godrays, depth);

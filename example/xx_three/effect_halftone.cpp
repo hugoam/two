@@ -313,7 +313,7 @@ void pass_halftone(GfxSystem& gfx, Render& render, Halftone& halftone) // render
 
 	gfx.m_filter->quad(pass, render.m_target->m_post.swap(), program);
 
-	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, render.m_target->m_post.last());
+	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, render.m_target->m_post.last());
 }
 
 static string basic_vertex()

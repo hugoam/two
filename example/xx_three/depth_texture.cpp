@@ -64,7 +64,7 @@ void pass_to_depth(GfxSystem& gfx, Render& render)
 
 	gfx.m_filter->quad(pass, target.m_post.swap(), program);
 
-	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post.last());
+	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, target.m_post.last());
 };
 
 void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init)

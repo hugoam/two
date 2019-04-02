@@ -502,7 +502,7 @@ namespace gfx
 		gfx.m_filter->source2(gbuffer.m_albedo);
 		gfx.m_filter->source3(gbuffer.m_surface);
 
-		gfx.m_filter->quad(pass, *render.m_target_fbo, cluster.m_shader_version, BGFX_STATE_BLEND_ALPHA);
+		gfx.m_filter->quad(pass, *render.m_fbo, cluster.m_shader_version, BGFX_STATE_BLEND_ALPHA);
 
 #if DEBUG_GBUFFERS
 		vec2 size = vec2(target.m_size) * 0.25f;

@@ -107,7 +107,7 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	auto draw_quad = [](GfxSystem& gfx, Render& render, const Pass& pass)
 	{
-		gfx.m_filter->quad(pass, *render.m_target_fbo, program.default_version(), pass.m_viewport->m_rect);
+		gfx.m_filter->quad(pass, *render.m_fbo, program.default_version(), pass.m_viewport->m_rect);
 	};
 
 	gfx::manual_job(scene, PassType::Solid, draw_quad);

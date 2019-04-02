@@ -56,7 +56,7 @@ namespace mud
 	static RenderUniform s_render_uniform;
 
 	Render::Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame)
-		: m_shading(shading), m_scene(viewport.m_scene), m_target(&target), m_target_fbo(&target), m_viewport(&viewport), m_rect(viewport.m_rect)
+		: m_shading(shading), m_scene(viewport.m_scene), m_target(&target), m_fbo(&target), m_viewport(&viewport), m_rect(viewport.m_rect)
 		, m_camera(viewport.m_camera), m_frame(&frame), m_env(&viewport.m_scene->m_env)
 		, m_filters(viewport), m_lighting(viewport.m_lighting)
 		, m_pass_index(frame.m_render_pass)
@@ -70,7 +70,7 @@ namespace mud
 	}
 
 	Render::Render(Shading shading, Viewport& viewport, RenderTarget& target, FrameBuffer& target_fbo, RenderFrame& frame)
-		: m_shading(shading), m_scene(viewport.m_scene), m_target(&target), m_target_fbo(&target_fbo), m_viewport(&viewport), m_rect(viewport.m_rect)
+		: m_shading(shading), m_scene(viewport.m_scene), m_target(&target), m_fbo(&target_fbo), m_viewport(&viewport), m_rect(viewport.m_rect)
 		, m_camera(viewport.m_camera), m_frame(&frame), m_env(&viewport.m_scene->m_env)
 		, m_filters(viewport), m_lighting(viewport.m_lighting)
 		, m_pass_index(frame.m_render_pass)
@@ -85,7 +85,7 @@ namespace mud
 		pass.m_name = name;
 		pass.m_target = m_target;
 		pass.m_bgfx_state = 0;
-		pass.m_fbo = m_target_fbo;
+		pass.m_fbo = m_fbo;
 		pass.m_viewport = m_viewport;
 		pass.m_rect = m_rect;
 		pass.m_use_mrt = m_needs_mrt;
@@ -202,8 +202,6 @@ namespace mud
 
 	void Renderer::begin(Render& render)
 	{
-		//render.m_needs_depth_prepass = true;
-
 		this->block<BlockMaterial>()->begin_render(render);
 
 		//for(const auto& block : m_gfx_blocks)

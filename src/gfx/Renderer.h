@@ -173,7 +173,7 @@ namespace mud
 		attr_ Shading m_shading;
 		attr_ Scene* m_scene;
 		attr_ RenderTarget* m_target;
-		attr_ FrameBuffer* m_target_fbo;
+		attr_ FrameBuffer* m_fbo;
 		attr_ Viewport* m_viewport;
 		attr_ vec4 m_rect;
 		attr_ Camera* m_camera;
@@ -190,7 +190,6 @@ namespace mud
 		bool m_vflip = false;
 		bool m_needs_mrt = false;
 		bool m_is_mrt = false;
-		bool m_needs_depth_prepass = false;
 
 		//ShadowAtlas* m_shadow_atlas = nullptr;
 		//ReflectionAtlas* m_reflection_atlas = nullptr;
@@ -198,7 +197,6 @@ namespace mud
 		attr_ uint8_t m_pass_index = s_render_pass_id;
 
 		uint8_t m_picking_pass_index = s_picking_pass_id;
-		uint8_t m_preprocess_pass_index = s_preprocess_pass_id;
 		uint8_t m_debug_pass_index = s_debug_pass_id;
 
 		Shot m_shot;
@@ -212,18 +210,13 @@ namespace mud
 		Pass composite_pass(cstring name);
 
 		uint8_t picking_pass() { return m_picking_pass_index++; }
-		uint8_t preprocess_pass() { return m_preprocess_pass_index++; }
 		uint8_t debug_pass() { return m_debug_pass_index++; }
 
 		void set_uniforms(const Pass& pass) const;
 
 		static const uint8_t s_picking_pass_id = 1;
-		static const uint8_t s_preprocess_pass_id = 20;
-		static const uint8_t s_shadow_atlas_pass_id = 50;
-		static const uint8_t s_reflection_probe_pass_id = 70;
 		static const uint8_t s_render_pass_id = 100;
 		static const uint8_t s_debug_pass_id = 245;
-		static const uint8_t s_ui_pass_id = 255;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT GfxBlock

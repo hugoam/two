@@ -182,7 +182,7 @@ void pass_glitch(GfxSystem& gfx, Render& render, Glitch& glitch, uint dt_size = 
 	RenderTarget& target = *render.m_target;
 	gfx.m_filter->quad(pass, target.m_post.swap(), program);
 
-	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_target_fbo, target.m_post.last());
+	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, target.m_post.last());
 }
 
 void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init)

@@ -34,7 +34,7 @@ module mud.gfx.pbr;
 
 #include <cstdio>
 
-#define DEBUG_ATLAS 0
+#define DEBUG_ATLAS 1
 
 namespace mud
 {
@@ -344,8 +344,8 @@ namespace mud
 		this->setup_shadows(render);
 
 #if DEBUG_ATLAS
-		//m_gfx.m_copy->debug_show_texture(render, m_atlas.m_depth, vec4(0.f));
-		m_gfx.m_copy->debug_show_texture(render, m_atlas.m_color, vec4(0.f));
+		m_gfx.m_copy->debug_show_texture(render, m_atlas.m_depth, vec4(0.f));
+		//m_gfx.m_copy->debug_show_texture(render, m_atlas.m_color, vec4(0.f));
 #endif
 	}
 

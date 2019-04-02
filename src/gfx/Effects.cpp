@@ -28,7 +28,7 @@ namespace mud
 		gfx.m_copy->quad(render.composite_pass("resolve diffuse"), fbo, render.m_target->m_diffuse);
 		gfx.m_copy->quad(render.composite_pass("resolve specular"), fbo, render.m_target->m_specular, BGFX_STATE_BLEND_ADD);
 
-		gfx.m_copy->quad(render.composite_pass("resolve"), *render.m_target_fbo, render.m_target->m_ping_pong.last());
+		gfx.m_copy->quad(render.composite_pass("resolve"), *render.m_fbo, render.m_target->m_ping_pong.last());
 	}
 
 	void pass_effects(GfxSystem& gfx, Render& render)
