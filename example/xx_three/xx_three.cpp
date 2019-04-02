@@ -15,7 +15,6 @@ using namespace mud;
 // xx_tiled_forward (fix clusters)
 
 // fix known:
-// xx_lines_dashed (no colour)
 // xx_lines_fat (width doesn't work)
 
 // ported not ok:
@@ -164,7 +163,8 @@ int main(int argc, char *argv[])
 	//static uint32_t example0 = find_example("hierarchy");
 	//static uint32_t example0 = find_example("shader/ocean");
 	//static uint32_t example0 = find_example("material/translucent");
-	static uint32_t example0 = find_example("material/skin");
+	//static uint32_t example0 = find_example("material/skin");
+	static uint32_t example0 = find_example("shadow/point");
 	static bool init0 = true;
 
 #if !MULTI_VIEWPORT && !MULTI_WINDOW

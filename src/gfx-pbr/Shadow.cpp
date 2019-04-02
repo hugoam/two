@@ -35,7 +35,7 @@ module mud.gfx.pbr;
 #include <cstdio>
 
 #define DEBUG_CSM 0
-#define DEBUG_ATLAS 0
+#define DEBUG_ATLAS 1
 
 namespace mud
 {
@@ -395,11 +395,12 @@ namespace mud
 				if(light.m_shadow_index == UINT32_MAX)
 					continue;
 
-				const vec4 atlas_rect = m_atlas.light_slot(light).m_rect;
-				const vec2 offset = { atlas_rect.x, atlas_rect.y };
-				const float size = atlas_rect.width;
+				const ShadowAtlas::Slot& slot = m_atlas.light_slot(light);
+				const vec4 atlas_rect = slot.m_rect;
+				const vec2 slot_coord = { atlas_rect.x, atlas_rect.y };
+				const vec2 slot_size = { atlas_rect.width, atlas_rect.height };
 
-				mat4 projection = bxproj(90.f, 1.f, 0.01f, light.m_range, bgfx::getCaps()->homogeneousDepth);
+				const mat4 projection = bxproj(90.f, 1.f, 0.01f, light.m_range, bgfx::getCaps()->homogeneousDepth);
 
 				// These viewports map a cube-map onto a 2D texture with the
 				// following orientation:
@@ -408,21 +409,16 @@ namespace mud
 
 				const table<SignedAxis, vec2> offsets =
 				{
-					offset + vec2(2.f, 0.f), // positive X
-					offset + vec2(0.f, 0.f), // negative X
-					offset + vec2(3.f, 1.f), // positive Y
-					offset + vec2(1.f, 1.f), // negative Y
-					offset + vec2(3.f, 0.f), // positive Z
-					offset + vec2(1.f, 0.f), // negative Z
+					slot_coord + vec2(2.f, 0.f) * slot_size, // positive X
+					slot_coord + vec2(0.f, 0.f) * slot_size, // negative X
+					slot_coord + vec2(3.f, 1.f) * slot_size, // positive Y
+					slot_coord + vec2(1.f, 1.f) * slot_size, // negative Y
+					slot_coord + vec2(3.f, 0.f) * slot_size, // positive Z
+					slot_coord + vec2(1.f, 0.f) * slot_size, // negative Z
 				};
 
-				ShadowAtlas::Slice& slice = m_atlas.light_slice(light);
-				float per_slice = float(slice.m_subdiv);
-				vec2 atlas_slot = vec2(offset) / vec2(m_atlas.m_size);
-				vec2 atlas_subdiv = vec2(1.f / (per_slice * m_atlas.m_slices.size()), 1.f / per_slice);
-
-				m_block_light.m_gpu_shadows[index].atlas_slot = atlas_slot;
-				m_block_light.m_gpu_shadows[index].atlas_subdiv = atlas_subdiv;
+				m_block_light.m_gpu_shadows[index].atlas_slot = slot_coord;
+				m_block_light.m_gpu_shadows[index].atlas_subdiv = slot_size;
 
 				for(SignedAxis axis : c_signed_axes)
 				{
@@ -431,7 +427,8 @@ namespace mud
 
 					LightShadow& shadow = push(m_shadows);
 					shadow.m_light = &light;
-					shadow.m_rect = { offsets[axis], vec2(size) };
+					shadow.m_rect = { offsets[axis], slot_size };
+					shadow.m_far = light.m_range;
 
 					const vec3& position = light.m_node->position();
 					shadow.m_transform = bxlookat(position, position + to_vec3(axis), view_up[axis]);
@@ -490,6 +487,7 @@ namespace mud
 			m_shadow_matrices[index] = shadow.m_shadow_matrix * inverse_view;
 
 			m_block_light.m_gpu_shadows[shadow.m_light->m_index].matrix = float(index);
+			m_block_light.m_gpu_shadows[shadow.m_light->m_index].range = shadow.m_far;
 
 			index++;
 		}

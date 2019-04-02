@@ -82,7 +82,7 @@ namespace mud
 
 			for(size_t i = 0; i < lights.size(); ++i)
 			{
-				GpuLight& l = lights[i];
+				const GpuLight& l = lights[i];
 				position_range[i] = { l.position, l.range };
 				energy_specular[i] = { l.energy, l.specular };
 				direction_attenuation[i] = { l.direction, l.attenuation };
@@ -91,8 +91,8 @@ namespace mud
 
 			for(size_t i = 0; i < lights.size(); ++i)
 			{
-				GpuLightShadow& s = shadows[i];
-				shadow_p0[i] = { s.matrix, s.bias, s.radius, 0.f };
+				const GpuLightShadow& s = shadows[i];
+				shadow_p0[i] = { s.matrix, s.bias, s.radius, s.range };
 				shadowmap_p0[i] = { s.atlas_slot, s.atlas_subdiv };
 			}
 
@@ -135,7 +135,7 @@ namespace mud
 			memcpy(dest + offset, &gpu_light.spot_attenuation, sizeof(float) * 2);
 			offset += buffer.width * buffer.stride;
 
-			memcpy(dest + offset, &gpu_shadow.matrix, sizeof(float) * 3);
+			memcpy(dest + offset, &gpu_shadow.matrix, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 
 			memcpy(dest + offset, &gpu_shadow.atlas_slot, sizeof(float) * 4);

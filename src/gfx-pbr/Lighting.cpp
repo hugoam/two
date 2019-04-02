@@ -164,6 +164,7 @@ namespace mud
 
 		ZoneLights& zone = m_zones[0];
 		zone.m_light_counts = vec4(0.f);
+		zone.m_shadow_counts = vec4(0.f);
 
 		m_gpu_lights.clear();
 		m_gpu_shadows.clear();
@@ -200,10 +201,17 @@ namespace mud
 			float matrix = c_max_shadows;
 			float bias = light.m_shadow_bias;
 			float radius = 1.f;
+			float range = 100.f;
 			vec2 atlas_offset = vec2(0.f);
 			vec2 atlas_scale = vec2(0.f);
 
-			m_gpu_shadows.push_back({ matrix, bias, radius, atlas_offset, atlas_scale });
+			m_gpu_shadows.push_back({ matrix, bias, radius, range, atlas_offset, atlas_scale });
+
+			if(light.m_shadows)
+			{
+				float& shadow_type_count = zone.m_shadow_counts[size_t(light.m_type)];
+				shadow_type_count++;
+			}
 		}
 
 		m_light_count = uint16_t(lights.m_count);

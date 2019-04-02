@@ -66,14 +66,14 @@ namespace mud
 		, m_rect(rect)
 		, m_slot_size(size / subdiv)
 	{
-		const float fraction = 1.f / float(subdiv);
+		const vec2 slot_size = vec2(rect.width, rect.height) / float(subdiv);
 
 		uint16_t i = 0;
 		for(uint16_t y = 0; y < subdiv; ++y)
 			for(uint16_t x = 0; x < subdiv; ++x)
 			{
-				vec4 slot_rect = { rect.x + x * fraction, rect.y + y * fraction,
-								   fraction, fraction };
+				vec4 slot_rect = { rect.x + x * slot_size.x, rect.y + y * slot_size.y,
+								   slot_size.x, slot_size.y };
 
 				m_slots.push_back({ i++, nullptr, slot_rect });
 			}

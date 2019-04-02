@@ -93,6 +93,8 @@ namespace mud
 		FrameBuffer* m_fbo = nullptr;
 		vec4 m_rect = {};
 		
+		float m_near = 0.f;
+		float m_far = 100.f;
 		mat4 m_projection = {};
 		mat4 m_transform = {};
 

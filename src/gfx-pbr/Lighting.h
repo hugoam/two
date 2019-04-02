@@ -40,6 +40,7 @@ namespace mud
 		attr_ float matrix;
 		attr_ float bias;
 		attr_ float radius;
+		attr_ float range;
 		attr_ vec2 atlas_slot;
 		attr_ vec2 atlas_subdiv;
 	};
@@ -57,6 +58,7 @@ namespace mud
 	{
 		vec4 m_light_indices[c_max_forward_lights];
 		vec4 m_light_counts;
+		vec4 m_shadow_counts;
 		uint16_t m_light_count;
 	};
 

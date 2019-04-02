@@ -119,7 +119,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 
 #if CLUSTERED
 	Camera& camera = viewer.m_camera;
-	viewer.m_viewport.set_clustered(app.m_gfx);
+	//viewer.m_viewport.set_clustered(app.m_gfx);
 #endif
 
 #if DEBUG_CLUSTERED

@@ -26,17 +26,20 @@ namespace mud
 		{
 			u_light_indices = bgfx::createUniform("u_light_indices", bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
 			u_light_counts = bgfx::createUniform("u_light_counts", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_shadow_counts = bgfx::createUniform("u_shadow_counts", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
 
 		void upload(uint16_t view, const ZoneLights& lights) const
 		{
 			bgfx::setViewUniform(view, u_light_counts, &lights.m_light_counts);
+			bgfx::setViewUniform(view, u_shadow_counts, &lights.m_shadow_counts);
 			if(lights.m_light_count > 0U)
 				bgfx::setViewUniform(view, u_light_indices, lights.m_light_indices, lights.m_light_count);
 		}
 
 		bgfx::UniformHandle u_light_indices = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle u_light_counts = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_shadow_counts = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
