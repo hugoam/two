@@ -34,7 +34,7 @@ module mud.gfx.pbr;
 
 #include <cstdio>
 
-#define DEBUG_ATLAS 1
+#define DEBUG_ATLAS 0
 
 namespace mud
 {
@@ -293,7 +293,7 @@ namespace mud
 
 	void ShadowmapCube::create(uint32_t size)
 	{
-		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP_UVW | TEXTURE_DEPTH;
+		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP3 | TEXTURE_DEPTH;
 		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::D24S8, flags))
 			return;
 

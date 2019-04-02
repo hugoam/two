@@ -14,6 +14,7 @@ using namespace mud;
 // xx_effect_sao
 // make togamma optional / expose tonemapping
 // make atlas work for both direct and point/spot
+// handle vertex color correctly in Gltf importer
 // xx_material_skin (fix inverted uv issue)
 // add fog
 // morph targets

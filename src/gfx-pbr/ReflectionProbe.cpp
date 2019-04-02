@@ -34,7 +34,7 @@ namespace mud
 	{
 		m_size = size;
 
-		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP_UVW | TEXTURE_POINT;
+		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP3 | TEXTURE_POINT;
 		TextureFormat color_format = TextureFormat::RGBA16F;
 		if(!bgfx::isTextureValid(0, true, 1, bgfx::TextureFormat::Enum(color_format), flags))
 			color_format = TextureFormat::RGB10A2;

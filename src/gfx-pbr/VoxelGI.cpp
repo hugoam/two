@@ -395,7 +395,7 @@ namespace gfx
 		{
 			if(gi_probe->m_enabled)
 			{
-				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, gi_probe->m_voxels_light_rgba, TEXTURE_CLAMP_UVW);
+				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, gi_probe->m_voxels_light_rgba, TEXTURE_CLAMP3);
 
 				GpuState<GIProbe>::me.upload(encoder, *gi_probe, render.m_camera->m_transform);
 			}

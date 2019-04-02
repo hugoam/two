@@ -272,7 +272,7 @@ namespace mud
 				{
 					morphs.push_back(packer);
 
-					MeshPacker& morph_shape = morphs.back();
+					MeshPacker& morph_shape = push(morphs);
 					morph_shape.m_indices = {};
 
 					if(morph_target.POSITION != -1)
@@ -287,8 +287,6 @@ namespace mud
 						for(size_t i = 0; i < packer.m_tangents.size(); ++i)
 							morph_shape.m_tangents[i] = { tangents[i], packer.m_tangents[i].w };
 					}
-
-					morphs.push_back(morph_shape);
 				}
 
 				if(primitive.material != -1)
