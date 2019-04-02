@@ -58,8 +58,7 @@ function cube_model(gfx, size) {
 
     var h = size * 0.5;
 
-    var geometry = new two.MeshPacker();
-    geometry.primitive = two.PrimitiveType.Lines;
+    var lines = new two.Lines();
 
     var positions = [
         new two.vec3(-h, -h, -h), new two.vec3(-h,  h, -h),
@@ -71,16 +70,19 @@ function cube_model(gfx, size) {
         new two.vec3( h,  h,  h), new two.vec3( h, -h,  h),
         new two.vec3( h, -h,  h), new two.vec3(-h, -h,  h),
         new two.vec3(-h, -h, -h), new two.vec3(-h, -h,  h),
-        new two.vec3(-h,  h, -h), new two.vec3(-h,  h,  h),
+        new two.vec3(-h,  h,  h), new two.vec3(-h,  h, -h), 
         new two.vec3( h,  h, -h), new two.vec3( h,  h,  h),
-        new two.vec3( h, -h, -h), new two.vec3( h, -h,  h)
+        new two.vec3( h, -h,  h), new two.vec3( h, -h, -h)
     ];
 
-    for(var i = 0; i < positions.length; ++i) {
-        geometry.position(positions[i]);
+    for(var i = 0; i < positions.length; i += 2) {
+        lines.add(positions[i+0], positions[i+1]);
     }
-    
-    return gfx.create_model_geo('cube', geometry);
+
+    var model = gfx.create_model('cube');
+    lines.write(model.get_mesh(0));
+
+    return model;
 }
 
 var viewer = two.ui.scene_viewer(panel);
@@ -95,49 +97,44 @@ if(init) {
     //scene.background = new THREE.Color(0x111111);
     //scene.fog = new THREE.Fog(0x111111, 150, 200);
 
-    var subdivisions = 6;
+    var subdiv = 6;
     var recursion = 1;
 
     var points = hilbert3d(new two.vec3(0.0), 25.0, recursion);
     var curve = new two.CurveCatmullRom3(); //points);
 
-    for(var i = 0; i < points.length; i++)
-    {
+    for(var i = 0; i < points.length; i++) {
         var p = points[i];
         curve.add_point(new two.vec3(p.x, p.y, p.z));
     }
     
-    var geometry = new two.MeshPacker();
-    geometry.primitive = two.PrimitiveType.Lines;
-    
-    var div = points.length * subdivisions;
-    for(var i = 0; i < div; i++) {
-        var p = curve.point(i / div);
-        geometry.position(p);
-    }
-    
-    var spline = app.gfx.create_model_geo('spline', geometry);
-    
+    var div = points.length * subdiv;
+    var lines = new two.Lines(curve, div);
+
+    var spline = app.gfx.create_model('spline');
+    lines.write(spline.get_mesh(0));
+
     var program = app.gfx.programs.fetch('line');
-    
-    function dash_material(colour, dash_size, dash_gap) {
-        var material = app.gfx.materials.create('line'); var m = material;
+
+    function dash_material(name, colour, dash_size, dash_gap) {
+        var material = app.gfx.materials.create(name); var m = material;
             m.program = program;
-            m.solid.colour = colour;
+            m.solid.colour.value = colour;
             m.line.dashed = true;
             m.line.dash_size = dash_size;
             m.line.dash_gap = dash_gap;
             m.base.shader_color = two.ShaderColor.Vertex;
-    };
+        return m;
+    }
     
-    var mat0 = dash_material(two.rgb(0xffffff), 1.0, 0.5);
+    var mat0 = dash_material('line0', two.rgb(0xffffff), 1.0, 0.5);
     var n0 = scene.nodes().add(new two.Node3());
     scene.items().add(new two.Item(n0, spline, 0, mat0));
     this.node0 = n0;
     
     var cube = cube_model(app.gfx, 50.0);
     
-    var mat1 = dash_material(two.rgb(0xffaa00), 3.0, 1.0);
+    var mat1 = dash_material('line1', two.rgb(0xffaa00), 3.0, 1.0);
     var n1 = scene.nodes().add(new two.Node3());
     scene.items().add(new two.Item(n1, cube, 0, mat1));
     this.node1 = n1;

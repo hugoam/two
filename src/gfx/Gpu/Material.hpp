@@ -109,8 +109,8 @@ namespace mud
 
 		void upload(bgfx::Encoder& encoder, const MaterialLine& block) const
 		{
-			vec4 p0 = { block.m_line_width, block.m_dash_size, block.m_dash_gap, PAD };
-			vec4 p1 = { block.m_dash_scale, PAD, PAD, PAD };
+			vec4 p0 = { block.m_line_width, block.m_dash_scale, PAD, PAD };
+			vec4 p1 = { block.m_dash_size, block.m_dash_gap, PAD, PAD };
 			encoder.setUniform(u_line_p0, &p0);
 			encoder.setUniform(u_line_p1, &p1);
 		}
