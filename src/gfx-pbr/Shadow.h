@@ -107,11 +107,9 @@ namespace mud
 	};
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
-	constexpr size_t c_max_shadows = 4;
-	constexpr size_t c_max_csm = 1;
+	constexpr size_t c_max_shadows = 8;
 #else
 	constexpr size_t c_max_shadows = 32;
-	constexpr size_t c_max_csm = 4;
 #endif
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockShadow : public DrawBlock
