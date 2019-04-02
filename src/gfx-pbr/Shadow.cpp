@@ -461,6 +461,7 @@ namespace mud
 
 				m_shadow_matrices[index] = slice.m_shadow_matrix * inverse_view;
 
+				gpu.num_slices = slice.m_light->m_shadow_num_splits;
 				gpu.matrices[i] = float(index);
 				gpu.splits[i] = slice.m_frustum.m_far;
 

@@ -12,6 +12,7 @@ using namespace mud;
 
 // todo:
 // xx_effect_sao
+// make togamma optional / expose tonemapping
 // make atlas work for both direct and point/spot
 // xx_material_skin (fix inverted uv issue)
 // add fog
@@ -153,15 +154,13 @@ int main(int argc, char *argv[])
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	//app.m_gfx.init_pipeline(pipeline_minimal);
 
-	//static uint32_t example = 0;
-	//static uint32_t example = find_example("refraction/mesh");
-	//static uint32_t example = find_example("material/variations");
+	//static uint32_t example0 = 0;
+	static uint32_t example0 = find_example("refraction/mesh");
+	//static uint32_t example0 = find_example("material/variations");
 	//static uint32_t example0 = find_example("shader/ocean");
 	//static uint32_t example0 = find_example("material/skin");
-	//static uint32_t example0 = find_example("loader/ply");
 	//static uint32_t example0 = find_example("light/hemisphere");
 	//static uint32_t example0 = find_example("shadow/point");
-	static uint32_t example0 = find_example("effect/halftone");
 	static bool init0 = true;
 
 #if !MULTI_VIEWPORT && !MULTI_WINDOW

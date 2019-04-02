@@ -15,6 +15,8 @@
 
 #include <cstring>
 
+#define PAD 0.f
+
 namespace mud
 {
 	template <>
@@ -49,6 +51,7 @@ namespace mud
 			u_light_shadowmap_p0			= bgfx::createUniform("u_light_shadowmap_p0",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
 			u_light_csm_p0					= bgfx::createUniform("u_light_csm_p0",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
 			u_light_csm_p1					= bgfx::createUniform("u_light_csm_p1",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_csm_p2					= bgfx::createUniform("u_light_csm_p2",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
 		}
 
 		void upload(const Pass& pass, span<GpuLight> lights) const
@@ -61,20 +64,26 @@ namespace mud
 			vec4 shadowmap_p0[c_max_forward_lights];
 			vec4 csm_p0[c_max_forward_lights];
 			vec4 csm_p1[c_max_forward_lights];
+			vec4 csm_p2[c_max_forward_lights];
 			//mat4 shadow_matrix[c_max_forward_lights];
 
 			for(size_t i = 0; i < lights.size(); ++i)
 			{
 				const GpuLight& l = lights[i];
 				const GpuShadow& s = l.shadow;
+				const GpuCSMShadow& csm = l.csm;
 
 				position_range[i] = { l.position, l.range };
 				energy_specular[i] = { l.energy, l.specular };
 				direction_attenuation[i] = { l.direction, l.attenuation };
-				spot_p0[i] = { l.spot_attenuation, l.spot_cutoff, 0.f, 0.f };
+				spot_p0[i] = { l.spot_attenuation, l.spot_cutoff, PAD, PAD };
 
 				shadow_p0[i] = { s.matrix, s.bias, s.radius, s.range };
 				shadowmap_p0[i] = { s.atlas_slot, s.atlas_subdiv };
+
+				csm_p0[i] = { csm.num_slices, PAD, PAD, PAD };
+				csm_p1[i] = csm.matrices;
+				csm_p2[i] = csm.splits;
 			}
 
 			bgfx::setViewUniform(pass.m_index, u_light_position_range,			&position_range,		uint16_t(lights.size()));
@@ -85,6 +94,7 @@ namespace mud
 			bgfx::setViewUniform(pass.m_index, u_light_shadowmap_p0,			&shadowmap_p0,			uint16_t(lights.size()));
 			bgfx::setViewUniform(pass.m_index, u_light_csm_p0,					&csm_p0,				uint16_t(lights.size()));
 			bgfx::setViewUniform(pass.m_index, u_light_csm_p1,					&csm_p1,				uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_csm_p2,					&csm_p2,				uint16_t(lights.size()));
 		}
 
 		bgfx::UniformHandle u_light_position_range;
@@ -95,6 +105,7 @@ namespace mud
 		bgfx::UniformHandle u_light_shadowmap_p0;
 		bgfx::UniformHandle u_light_csm_p0;
 		bgfx::UniformHandle u_light_csm_p1;
+		bgfx::UniformHandle u_light_csm_p2;
 
 		static GpuState me;
 	};
@@ -126,6 +137,9 @@ namespace mud
 			memcpy(dest + offset, &gpu_light.shadow.atlas_slot, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 
+			memcpy(dest + offset, &gpu_light.csm.num_slices, sizeof(float) * 1);
+			offset += buffer.width * buffer.stride;
+
 			memcpy(dest + offset, &gpu_light.csm.matrices, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 
@@ -137,7 +151,7 @@ namespace mud
 		{
 			GpuTexture buffer = { &texture, 1024, 4 };
 
-			const size_t height = 8;
+			const size_t height = 9;
 			const size_t lines = 1;
 			const uvec2 size = uvec2(buffer.width, uint16_t(lines * height));
 
@@ -159,3 +173,5 @@ namespace mud
 	};
 #endif
 }
+
+#undef PAD

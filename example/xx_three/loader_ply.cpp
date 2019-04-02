@@ -32,12 +32,11 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		auto add_light = [&](vec3 d, Colour color, float intensity, bool shadows)
 		{
-			Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(normalize(d))));
-			//Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), quat(d * c_pi2)));
+			const quat r = look_dir(normalize(d));
+			Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), r));
 			Light& l = gfx::lights(scene).add(Light(n, LightType::Direct, shadows, color, intensity));
 			//l.m_shadow_range = 4.f;
-
-			//directionalLight.shadow.bias = -0.001;
+			//l.shadow.bias = -0.001;
 		};
 
 		// Ground

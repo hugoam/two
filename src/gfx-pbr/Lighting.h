@@ -36,6 +36,7 @@ namespace mud
 
 	struct gpu_ GpuCSMShadow
 	{
+		attr_ float num_slices;
 		attr_ vec4 splits;
 		attr_ vec4 matrices;
 	};

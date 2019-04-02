@@ -131,7 +131,7 @@ namespace mud
 #endif
 
 #if !LIGHTS_BUFFER
-		GpuState<GpuLight>::me.upload(pass, const_cast<vector<GpuLight>&>(m_gpu_lights), const_cast<vector<GpuLightShadow>&>(m_gpu_shadows));
+		GpuState<GpuLight>::me.upload(pass, const_cast<vector<GpuLight>&>(m_gpu_lights));
 #endif
 
 #if ZONES_BUFFER
