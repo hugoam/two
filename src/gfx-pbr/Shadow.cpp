@@ -353,7 +353,7 @@ namespace mud
 	{
 		span<Light*> lights = render.m_shot.m_lights;
 		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
-
+		
 		m_csm_shadows.clear();
 		m_shadows.clear();
 

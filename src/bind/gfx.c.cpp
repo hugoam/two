@@ -2709,11 +2709,11 @@ extern "C" {
 	void DECL mud_Render__set_target(mud::Render* self, mud::RenderTarget* value) {
 		self->m_target = value;
 	}
-	mud::FrameBuffer* DECL mud_Render__get_target_fbo(mud::Render* self) {
-		return self->m_target_fbo;
+	mud::FrameBuffer* DECL mud_Render__get_fbo(mud::Render* self) {
+		return self->m_fbo;
 	}
-	void DECL mud_Render__set_target_fbo(mud::Render* self, mud::FrameBuffer* value) {
-		self->m_target_fbo = value;
+	void DECL mud_Render__set_fbo(mud::Render* self, mud::FrameBuffer* value) {
+		self->m_fbo = value;
 	}
 	mud::Viewport* DECL mud_Render__get_viewport(mud::Render* self) {
 		return self->m_viewport;

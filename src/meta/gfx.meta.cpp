@@ -2684,7 +2684,7 @@ namespace mud
 			{ t, offsetof(mud::Render, m_shading), type<mud::Shading>(), "shading", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Render, m_scene), type<mud::Scene>(), "scene", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Render, m_target), type<mud::RenderTarget>(), "target", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::Render, m_fbo), type<mud::FrameBuffer>(), "target_fbo", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Render, m_fbo), type<mud::FrameBuffer>(), "fbo", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Render, m_viewport), type<mud::Viewport>(), "viewport", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Render, m_rect), type<mud::vec4>(), "rect", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Render, m_camera), type<mud::Camera>(), "camera", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },

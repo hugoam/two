@@ -39,13 +39,12 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			//l.shadow.bias = -0.001;
 		};
 
-		// Ground
-
-		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 		Program& three = *app.m_gfx.programs().file("pbr/three");
 		Program& phong = *app.m_gfx.programs().file("pbr/phong");
 
-		Material& groundmat = app.m_gfx.materials().create("ground", [&](Material& m) {
+		// ground
+
+		Material& groundmat = app.m_gfx.materials().create("plyground", [&](Material& m) {
 			m.m_program = &phong;
 			m.m_phong.m_diffuse = rgb(0x999999);
 			m.m_phong.m_specular = rgb(0x101010);
@@ -64,7 +63,7 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			m.m_pbr.m_metallic = 0.5f;
 		});
 
-		// PLY file
+		// PLY models
 
 		Model& dolphin = *app.m_gfx.models().file("dolphins"); // .ply
 		Model& lucy = *app.m_gfx.models().file("Lucy100k"); // .ply
@@ -75,8 +74,7 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Node3& n1 = gfx::nodes(scene).add(Node3(vec3(-0.2f, -0.02f, -0.2f), quat(vec3(0.f)), vec3(0.0006f)));
 		gfx::items(scene).add(Item(n1, lucy, 0, &material));
 	
-
-		// Lights
+		// lights
 
 		scene.m_env.m_skylight = { true, 1.f, -Y3, vec3(0.f), rgb(0x443333), rgb(0x111122) };
 
@@ -84,12 +82,9 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		add_light(normalize(vec3(-0.5f, -1.f, 1.f)), rgb(0xffaa00), 1.f, true);
 	}
 
-
 	const float timer = app.m_gfx.m_time * 0.5f;
 
 	Camera& camera = viewer.m_camera;
 	camera.m_eye.x = sin(timer) * 2.5f;
 	camera.m_eye.z = cos(timer) * 2.5f;
-
-	//camera.lookAt(cameraTarget);
 }

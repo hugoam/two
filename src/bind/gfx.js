@@ -3347,12 +3347,12 @@ Object.defineProperty(Render.prototype, "target", {
         _mud_Render__set_target(this.__ptr, value.__ptr);
     }
 });
-Object.defineProperty(Render.prototype, "target_fbo", {
+Object.defineProperty(Render.prototype, "fbo", {
     get: function() {
-        return wrapPointer(_mud_Render__get_target_fbo(this.__ptr), FrameBuffer);
+        return wrapPointer(_mud_Render__get_fbo(this.__ptr), FrameBuffer);
     },
     set: function(value) {
-        _mud_Render__set_target_fbo(this.__ptr, value.__ptr);
+        _mud_Render__set_fbo(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(Render.prototype, "viewport", {
