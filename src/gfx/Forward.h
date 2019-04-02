@@ -159,6 +159,7 @@ namespace mud
     class RenderTarget;
     struct Sun;
     struct Radiance;
+	struct Skylight;
     struct Background;
     struct Fog;
     struct Zone;

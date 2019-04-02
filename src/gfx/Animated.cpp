@@ -36,7 +36,7 @@ namespace mud
 		item.m_rig = &m_rig;
 	}
 
-	void Mime::start(cstring name, bool loop, float blend, float speed, bool transient)
+	void Mime::start(const string& name, bool loop, float blend, float speed, bool transient)
 	{
 		for(Animation* animation : m_rig.m_skeleton.m_animations)
 			if(animation->m_name == name)

@@ -57,7 +57,10 @@ namespace mud
 	T_Asset& AssetStore<T_Asset>::create(const string& name)
 	{
 		if(m_assets.find(name) != m_assets.end())
+		{
 			printf("WARNING: creating asset %s of already existing name: previous asset deleted\n", name.c_str());
+			remove(m_vector, &*m_assets[name]);
+		}
 		m_assets[name] = make_unique<T_Asset>(name);
 		m_vector.push_back(&*m_assets[name]);
 		return *m_assets[name];

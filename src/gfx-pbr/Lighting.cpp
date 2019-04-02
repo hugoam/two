@@ -33,6 +33,7 @@ module mud.gfx.pbr;
 namespace mud
 {
 	GpuState<Radiance> GpuState<Radiance>::me;
+	GpuState<Skylight> GpuState<Skylight>::me;
 	GpuState<Fog> GpuState<Fog>::me;
 	GpuState<Zone> GpuState<Zone>::me;
 	GpuState<ZoneLights> GpuState<ZoneLights>::me;
@@ -42,7 +43,7 @@ namespace mud
 	BlockLight::BlockLight(GfxSystem& gfx)
 		: DrawBlock(gfx, type<BlockLight>())
 	{
-		m_shader_block.m_options = { "FOG", "DIRECT_LIGHT" };
+		m_shader_block.m_options = { "SKY_LIGHT", "DIRECT_LIGHT", "FOG" };
 
 		m_shader_block.m_defines = {
 			{ "MAX_LIGHTS", to_string(c_max_forward_lights)  },
@@ -56,6 +57,7 @@ namespace mud
 
 #if !ZONES_BUFFER
 		GpuState<Radiance>::me.init();
+		GpuState<Skylight>::me.init();
 		GpuState<Fog>::me.init();
 #endif
 
@@ -104,6 +106,9 @@ namespace mud
 	{
 		if(render.m_viewport->m_clustered)
 			shader_version.set_option(0, CLUSTERED, true);
+
+		if(render.m_env && render.m_env->m_skylight.m_enabled)
+			shader_version.set_option(m_index, SKY_LIGHT, true);
 
 		if(render.m_env && render.m_env->m_fog.m_enabled)
 			shader_version.set_option(m_index, FOG, true);
@@ -159,6 +164,9 @@ namespace mud
 
 	void BlockLight::setup_lights(Render& render, const mat4& view)
 	{
+		const vec3 skylight = muln(view, normalize(render.m_env->m_skylight.m_position));
+		render.m_env->m_skylight.m_direction = skylight;
+
 		span<Light*> lights = render.m_shot.m_lights;
 		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
 

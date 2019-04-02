@@ -9,6 +9,7 @@
 using namespace mud;
 
 void xx_light_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
+void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
@@ -42,6 +43,7 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_effect(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
+void xx_effect_halftone(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_effect_sobel(Shell& app, Widget& parent, Dockbar& dockbar, bool init);

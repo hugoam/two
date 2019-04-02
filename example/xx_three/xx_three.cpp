@@ -11,14 +11,11 @@ using namespace mud;
 #define MULTI_VIEWPORT 0
 
 // todo:
-// hemisphere light
-// xx_light_hemisphere
-// xx_loader_ply (make it look correct)
 // xx_effect_sao
-// xx_effect_sobel
-// xx_effect_rgb_halftone
 // make atlas work for both direct and point/spot
 // xx_material_skin (fix inverted uv issue)
+// add fog
+// morph targets
 
 // ported not ok:
 // xx_geom_points_hw (doesn't work)
@@ -35,10 +32,6 @@ using namespace mud;
 // todo:
 // xx_material_cubemap
 // xx_material_displace
-// xx_effect_sao
-// xx_effect_sobel
-// xx_effect_rgb_halftone
-// xx_light_hemisphere
 
 using ExampleFunc = void(*)(Shell&, Widget&, Dockbar&, bool);
 struct Example { string name; ExampleFunc func; };
@@ -58,8 +51,8 @@ Example examples[] =
 	//{ "interact/geom",		xx_interact_geom },
 	{ "hierarchy",				xx_hierarchy },
 	{ "hierarchy2",				xx_hierarchy2 },
-	//{ "lights/hemisphere",		xx_light_hemisphere },
-	{ "lights/point",			xx_light_point },
+	{ "light/hemisphere",		xx_light_hemisphere },
+	{ "light/point",			xx_light_point },
 	{ "lines/dashed",			xx_lines_dashed },
 	{ "lines/fat",				xx_lines_fat },
 	{ "loader/gltf",			xx_loader_gltf },
@@ -80,6 +73,7 @@ Example examples[] =
 	{ "effect/dof",				xx_effect_dof },
 	{ "effect/glitch",			xx_effect_glitch },
 	{ "effect/godrays",			xx_effect_godrays },
+	{ "effect/halftone",		xx_effect_halftone },
 	{ "effect/sao",				xx_effect_sao },
 	{ "effect/sobel",			xx_effect_sobel },
 	{ "post/fxaa",				xx_post_fxaa },
@@ -165,7 +159,9 @@ int main(int argc, char *argv[])
 	//static uint32_t example0 = find_example("shader/ocean");
 	//static uint32_t example0 = find_example("material/skin");
 	//static uint32_t example0 = find_example("loader/ply");
-	static uint32_t example0 = find_example("shadow/point");
+	//static uint32_t example0 = find_example("light/hemisphere");
+	//static uint32_t example0 = find_example("shadow/point");
+	static uint32_t example0 = find_example("effect/halftone");
 	static bool init0 = true;
 
 #if !MULTI_VIEWPORT && !MULTI_WINDOW

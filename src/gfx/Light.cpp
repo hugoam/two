@@ -30,5 +30,16 @@ namespace mud
 
 		if(type != LightType::Spot)
 			m_spot_angle = 0.f;
+
+		if(type == LightType::Direct)
+		{
+			m_shadow_flags = CSM_Stabilize;
+			m_shadow_bias = 0.1f;
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+			m_shadow_num_splits = 2;
+#else
+			m_shadow_num_splits = 4;
+#endif
+		}
 	}
 }

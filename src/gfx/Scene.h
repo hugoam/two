@@ -53,6 +53,16 @@ namespace mud
 		using CustomRender = void(*)(GfxSystem&, Render&); CustomRender m_custom_function;
 	};
 
+	export_ struct refl_ Skylight
+	{
+		attr_ bool m_enabled = false;
+		attr_ float m_intensity;
+		attr_ vec3 m_position;
+		attr_ gpu_ vec3 m_direction;
+		attr_ gpu_ Colour m_color;
+		attr_ gpu_ Colour m_ground;
+	};
+
 	export_ struct refl_ Fog
 	{
 		attr_ bool m_enabled = false;
@@ -77,6 +87,7 @@ namespace mud
 		attr_ Background m_background;
 		attr_ Radiance m_radiance;
 		attr_ Sun m_sun;
+		attr_ Skylight m_skylight;
 		attr_ Fog m_fog;
 	};
 

@@ -121,6 +121,7 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::Shot>() { static Type ty("Shot", sizeof(mud::Shot)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Skeleton>() { static Type ty("Skeleton", sizeof(mud::Skeleton)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Skin>() { static Type ty("Skin", sizeof(mud::Skin)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Skylight>() { static Type ty("Skylight", sizeof(mud::Skylight)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Sun>() { static Type ty("Sun", sizeof(mud::Sun)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::SwapBuffer>() { static Type ty("SwapBuffer", sizeof(mud::SwapBuffer)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::SwapCascade>() { static Type ty("SwapCascade", sizeof(mud::SwapCascade)); return ty; }

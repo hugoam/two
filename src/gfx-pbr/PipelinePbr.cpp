@@ -172,6 +172,12 @@ namespace gfx
 			phong.m_blocks[MaterialBlock::Lit] = true;
 			phong.m_blocks[MaterialBlock::Phong] = true;
 
+			Program& three = gfx.programs().create("pbr/three");
+			three.register_blocks(shading_blocks);
+			three.m_blocks[MaterialBlock::Alpha] = true;
+			three.m_blocks[MaterialBlock::Lit] = true;
+			three.m_blocks[MaterialBlock::Pbr] = true;
+
 			Program& basic = gfx.programs().create("pbr/basic");
 			basic.register_blocks(shading_blocks);
 			basic.m_blocks[MaterialBlock::Alpha] = true;
@@ -228,82 +234,64 @@ namespace gfx
 		g_viewer_ecs->init<Tonemap, BCS, Glow, DofBlur>();
 	}
 
+	struct PbrBlocks
+	{
+		BlockRadiance& radiance;
+		BlockLight& light;
+		BlockShadow& shadow;
+		BlockGITrace& gi_trace;
+		BlockReflection& reflection;
+		BlockLightmap& lightmap;
+	};
+
+	span<DrawBlock*> pbr_blocks(GfxSystem& gfx)
+	{
+		static DrawBlock* blocks[] = {
+			gfx.m_renderer.block<BlockRadiance>(),
+			gfx.m_renderer.block<BlockLight>(),
+			gfx.m_renderer.block<BlockShadow>(),
+			gfx.m_renderer.block<BlockGITrace>(),
+			gfx.m_renderer.block<BlockReflection>(),
+			gfx.m_renderer.block<BlockLightmap>(),
+			//*gfx.m_renderer.block<BlockPbr>()
+		};
+		return blocks;
+	}
+
 	void begin_pbr_render(GfxSystem& gfx, Render& render)
 	{
-		static BlockRadiance& block_radiance = *gfx.m_renderer.block<BlockRadiance>();
-		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
-		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
-		static BlockGITrace& block_gi_trace = *gfx.m_renderer.block<BlockGITrace>();
-		static BlockReflection& block_reflection = *gfx.m_renderer.block<BlockReflection>();
-		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
-		//static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
-
-		block_radiance.begin_render(render);
-		block_light.begin_render(render);
-		block_shadow.begin_render(render);
-		block_gi_trace.begin_render(render);
-		block_reflection.begin_render(render);
-		block_lightmap.begin_render(render);
+		static span<DrawBlock*> blocks = pbr_blocks(gfx);
+		for(DrawBlock* block : blocks)
+			block->begin_render(render);
 	}
 
 	void pbr_options(GfxSystem& gfx, Render& render, ProgramVersion& version)
 	{
-		static BlockRadiance& block_radiance = *gfx.m_renderer.block<BlockRadiance>();
-		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
-		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
-		static BlockGITrace& block_gi_trace = *gfx.m_renderer.block<BlockGITrace>();
-		static BlockReflection& block_reflection = *gfx.m_renderer.block<BlockReflection>();
-		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
-		//static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
-
-		block_radiance.options(render, version);
-		block_light.options(render, version);
-		block_shadow.options(render, version);
-		block_gi_trace.options(render, version);
-		block_reflection.options(render, version);
-		block_lightmap.options(render, version);
+		static span<DrawBlock*> blocks = pbr_blocks(gfx);
+		for(DrawBlock* block : blocks)
+			block->options(render, version);
 	}
 
 	void submit_pbr_pass(GfxSystem& gfx, Render& render, const Pass& pass)
 	{
-		static BlockRadiance& block_radiance = *gfx.m_renderer.block<BlockRadiance>();
 		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
 		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
-		static BlockGITrace& block_gi_trace = *gfx.m_renderer.block<BlockGITrace>();
-		static BlockReflection& block_reflection = *gfx.m_renderer.block<BlockReflection>();
-		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
-		//static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
-
-		//block_pbr.submit(render, pass);
 
 		block_shadow.m_direct_light = block_light.m_direct_light;
-
 		block_shadow.commit_shadows(render, render.m_camera->m_transform);
 
-		block_radiance.submit(render, pass);
-		block_light.submit(render, pass);
-		block_shadow.submit(render, pass);
-		block_gi_trace.submit(render, pass);
-		block_reflection.submit(render, pass);
-		block_lightmap.submit(render, pass);
+		static span<DrawBlock*> blocks = pbr_blocks(gfx);
+		for(DrawBlock* block : blocks)
+			block->submit(render, pass);
+
+		//block_pbr.submit(render, pass);
 	}
 
 	void submit_pbr_element(GfxSystem& gfx, Render& render, const DrawElement& element, Pass& pass)
 	{
-		static BlockRadiance& block_radiance = *gfx.m_renderer.block<BlockRadiance>();
-		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
-		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
-		static BlockGITrace& block_gi_trace = *gfx.m_renderer.block<BlockGITrace>();
-		static BlockReflection& block_reflection = *gfx.m_renderer.block<BlockReflection>();
-		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
-		//static BlockPbr& block_pbr = *gfx.m_renderer.block<BlockPbr>();
-
-		block_radiance.submit(render, element, pass);
-		block_light.submit(render, element, pass);
-		block_shadow.submit(render, element, pass);
-		block_gi_trace.submit(render, element, pass);
-		block_reflection.submit(render, element, pass);
-		block_lightmap.submit(render, element, pass);
+		static span<DrawBlock*> blocks = pbr_blocks(gfx);
+		for(DrawBlock* block : blocks)
+			block->submit(render, element, pass);
 	}
 
 	void render_pbr_forward(GfxSystem& gfx, Render& render)

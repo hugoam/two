@@ -18,9 +18,6 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	Scene& scene = viewer.m_scene;
 
-	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
-	static Program& phong = *app.m_gfx.programs().file("pbr/phong");
-
 	if(init)
 	{
 		Camera& camera = viewer.m_camera;
@@ -30,8 +27,7 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		viewer.m_viewport.m_clear_colour = rgb(0x72645b);
 		scene.m_env.m_background.m_colour = rgb(0x72645b);
-		scene.m_env.m_radiance.m_colour = rgb(0x72645b);
-		scene.m_env.m_radiance.m_energy = 1.f;
+		scene.m_env.m_radiance.m_ambient = 0.f;
 		//scene.fog = new THREE.Fog( 0x72645b, 2, 15 );
 
 		auto add_light = [&](vec3 d, Colour color, float intensity, bool shadows)
@@ -41,34 +37,32 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			Light& l = gfx::lights(scene).add(Light(n, LightType::Direct, shadows, color, intensity));
 			//l.m_shadow_range = 4.f;
 
-			l.m_shadow_flags = CSM_Stabilize;
-			l.m_shadow_bias = 0.1f;
-#ifdef MUD_PLATFORM_EMSCRIPTEN
-			l.m_shadow_num_splits = 2;
-#else
-			l.m_shadow_num_splits = 4;
-#endif
-
 			//directionalLight.shadow.bias = -0.001;
 		};
 
 		// Ground
 
-		Material& ground = app.m_gfx.materials().create("ground", [&](Material& m) {
+		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
+		Program& three = *app.m_gfx.programs().file("pbr/three");
+		Program& phong = *app.m_gfx.programs().file("pbr/phong");
+
+		Material& groundmat = app.m_gfx.materials().create("ground", [&](Material& m) {
 			m.m_program = &phong;
 			m.m_phong.m_diffuse = rgb(0x999999);
 			m.m_phong.m_specular = rgb(0x101010);
 		});
 
-		Model& model = app.m_gfx.shape(Rect(vec2(0.f), vec2(40.f)));
+		Model& ground = app.m_gfx.shape(Rect(vec2(0.f), vec2(40.f)));
 		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, -0.5f, 0.f)));
-		gfx::items(scene).add(Item(n, model, 0, &ground));
+		gfx::items(scene).add(Item(n, ground, 0, &groundmat));
 
 		Material& material = app.m_gfx.materials().create("ply", [&](Material& m) {
-			m.m_program = &pbr;
+			m.m_program = &three;
 			m.m_base.m_flat_shaded = true;
 			m.m_pbr.m_albedo = rgb(0x0055ff);
-			m.m_pbr.m_roughness = 0.f;
+			// those are defaults in three.js standard material
+			m.m_pbr.m_roughness = 0.5f;
+			m.m_pbr.m_metallic = 0.5f;
 		});
 
 		// PLY file
@@ -85,7 +79,7 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		// Lights
 
-		//scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
+		scene.m_env.m_skylight = { true, 1.f, -Y3, vec3(0.f), rgb(0x443333), rgb(0x111122) };
 
 		add_light(normalize(vec3(-1.f, -1.f, -1.f)), rgb(0xffffff), 1.35f, true);
 		add_light(normalize(vec3(-0.5f, -1.f, 1.f)), rgb(0xffaa00), 1.f, true);

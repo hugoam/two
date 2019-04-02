@@ -353,6 +353,8 @@ namespace mud
 	{
 		const vector<vec3>& positions = m_positions;
 
+		m_normals.resize(positions.size());
+
 		for(size_t i = 0; i < m_indices.size(); i += 3)
 		{
 			const uint32_t a = m_indices[i+0];

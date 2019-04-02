@@ -249,7 +249,7 @@ namespace mud
 		slice.m_frustum_slice = slice;
 	}
 
-	void BlockShadow::update_csm(Render& render, Light& light, size_t num_direct, CSMShadow& csm, size_t index)
+	void BlockShadow::update_csm(Render& render, Light& light, CSMShadow& csm)
 	{
 		csm.m_light = &light;
 		csm.m_slices.resize(light.m_shadow_num_splits);
@@ -335,8 +335,8 @@ namespace mud
 			{
 				if(m_atlas.m_side == 0)
 					//m_atlas = { 1024U, { 4U } };
-					//m_atlas = { 1024U, { 1U, 1U } };
-					m_atlas = { 1024U, { 2U, 4U, 8U, 16U } };
+					m_atlas = { 1024U, { 1U, 1U } };
+					//m_atlas = { 1024U, { 2U, 4U, 8U, 16U } };
 
 				m_atlas.render_update(render, *light);
 			}
@@ -351,15 +351,6 @@ namespace mud
 
 	void BlockShadow::setup_shadows(Render& render)
 	{
-		size_t num_csm = 0;
-		for(Light* light : render.m_shot.m_lights)
-			if(light->m_shadows && light->m_type == LightType::Direct)
-			{
-				num_csm++;
-			}
-
-		size_t csm_index = 0;
-
 		span<Light*> lights = render.m_shot.m_lights;
 		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
 
@@ -375,7 +366,7 @@ namespace mud
 			{
 				CSMShadow& csm = push(m_csm_shadows);
 				if(m_atlas.m_size != uvec2(0U))
-					this->update_csm(render, light, num_csm, csm, csm_index++);
+					this->update_csm(render, light, csm);
 			}
 			else if(light.m_type == LightType::Point)
 			{

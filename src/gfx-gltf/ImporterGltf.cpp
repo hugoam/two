@@ -197,8 +197,11 @@ namespace mud
 		{
 			if(gltf.m_accessors[attributes.COLOR_0].type == glTFType::VEC4)
 				mesh.m_colours = unpack_accessor<Colour, 4>(gltf, attributes.COLOR_0, true);
-			//else if(gltf.accessors[attributes.COLOR_0].type == glTFType::VEC3)
-			//	mesh.m_colours = unpack_accessor<Colour, 4>(gltf, attributes.COLOR_0, true);
+			else if(gltf.m_accessors[attributes.COLOR_0].type == glTFType::VEC3)
+			{
+				vector<vec3> colours = unpack_accessor<vec3, 3>(gltf, attributes.COLOR_0, true);
+				mesh.m_colours = convert<Colour, vec3>(colours, [](const vec3& v) { return to_colour(v); });
+			}
 		}
 		if(attributes.JOINTS_0 != -1)
 			mesh.m_bones = unpack_accessor<ivec4, 4>(gltf, attributes.JOINTS_0, true);
@@ -291,7 +294,7 @@ namespace mud
 				if(primitive.material != -1)
 					mesh.m_material = state.m_materials[primitive.material];
 
-				if(packer.m_tangents.empty() && !packer.m_uv0s.empty())
+				if(packer.m_tangents.empty() && !packer.m_normals.empty() && !packer.m_uv0s.empty())
 					packer.gen_tangents();
 				if(packer.m_tangents.empty() && packer.m_uv0s.empty())
 					printf("WARNING: mesh %s imported without tangents (no uvs)\n", name.c_str());
@@ -328,7 +331,8 @@ namespace mud
 		{
 			glTFMaterialPBR pbr_material = gltf_material.pbr_metallic_roughness;
 
-			//material.m_base.m_shader_color = ShaderColor::Vertex;
+			material.m_base.m_shader_color = ShaderColor::Vertex;
+			material.m_base.m_flat_shaded = true;
 
 			material.m_pbr.m_albedo.m_value = to_colour(pbr_material.base_color_factor);
 

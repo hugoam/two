@@ -46,6 +46,8 @@ void mud_LightShadow__copy_construct(void* ref, void* other) { new(stl::placehol
 void* mud_ReflectionProbe__get_node(void* object) { return &(*static_cast<mud::ReflectionProbe*>(object)).m_node; }
 void mud_Tonemap__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Tonemap(  ); }
 void mud_Tonemap__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Tonemap((*static_cast<mud::Tonemap*>(other))); }
+void mud_CSMSlice__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CSMSlice(  ); }
+void mud_CSMSlice__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CSMSlice((*static_cast<mud::CSMSlice*>(other))); }
 void mud_begin_pbr_render_0(span<void*> args, void*& result) { UNUSED(result);  mud::begin_pbr_render(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
 void mud_pass_gi_probes_1(span<void*> args, void*& result) { UNUSED(result);  mud::pass_gi_probes(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
 void mud_pass_shadowmaps_2(span<void*> args, void*& result) { UNUSED(result);  mud::pass_shadowmaps(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
@@ -582,6 +584,27 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
+	// mud::CSMSlice
+	{
+		Type& t = type<mud::CSMSlice>();
+		static Meta meta = { t, &namspc({ "mud" }), "CSMSlice", sizeof(mud::CSMSlice), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::LightShadow>(), &type<mud::FrustumSlice>() };
+		static size_t bases_offsets[] = { base_offset<mud::CSMSlice, mud::LightShadow>(), base_offset<mud::CSMSlice, mud::FrustumSlice>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_CSMSlice__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_CSMSlice__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, {}, {}, {}, };
+	}
 	
 	
 		m.m_types.push_back(&type<mud::BCS>());
@@ -611,6 +634,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::BlockReflection>());
 		m.m_types.push_back(&type<mud::BlockShadow>());
 		m.m_types.push_back(&type<mud::BlockTonemap>());
+		m.m_types.push_back(&type<mud::CSMSlice>());
 		{
 			static Function f = { &namspc({ "mud" }), "begin_pbr_render", nullptr, mud_begin_pbr_render_0, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);

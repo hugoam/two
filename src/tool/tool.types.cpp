@@ -36,13 +36,13 @@ namespace mud
     template <> MUD_TOOL_EXPORT Type& type<mud::FrameViewTool>() { static Type ty("FrameViewTool", type<mud::ViewportTool>(), sizeof(mud::FrameViewTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::TranslateTool>() { static Type ty("TranslateTool", type<mud::TransformTool>(), sizeof(mud::TranslateTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::ViewAction>() { static Type ty("ViewAction", type<mud::EditorAction>(), sizeof(mud::ViewAction)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::ViewTool>() { static Type ty("ViewTool", type<mud::ViewportTool>(), sizeof(mud::ViewTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::ViewportTool>() { static Type ty("ViewportTool", type<mud::Tool>(), sizeof(mud::ViewportTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::SpatialTool>() { static Type ty("SpatialTool", type<mud::ViewportTool>(), sizeof(mud::SpatialTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::TransformAction>() { static Type ty("TransformAction", type<mud::EditorAction>(), sizeof(mud::TransformAction)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::TransformGizmo>() { static Type ty("TransformGizmo", type<mud::Gizmo>(), sizeof(mud::TransformGizmo)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::TransformTool>() { static Type ty("TransformTool", type<mud::SpatialTool>(), sizeof(mud::TransformTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::UndoTool>() { static Type ty("UndoTool", type<mud::Tool>(), sizeof(mud::UndoTool)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::ViewTool>() { static Type ty("ViewTool", type<mud::ViewportTool>(), sizeof(mud::ViewTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::WorkPlaneAction>() { static Type ty("WorkPlaneAction", type<mud::EditorAction>(), sizeof(mud::WorkPlaneAction)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::WorkPlaneTool>() { static Type ty("WorkPlaneTool", type<mud::Tool>(), sizeof(mud::WorkPlaneTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::WorldSnapOption>() { static Type ty("WorldSnapOption", type<mud::ToolOption>(), sizeof(mud::WorldSnapOption)); return ty; }

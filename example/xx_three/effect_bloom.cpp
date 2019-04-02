@@ -75,12 +75,9 @@ static Program& highpass_program(GfxSystem& gfx)
 	return program;
 }
 
-/**
- * @author spidersharma / http://eduperiment.com/
- *
- * Inspired from Unreal Engine
- * https://docs.unrealengine.com/latest/INT/Engine/Rendering/PostProcessEffects/Bloom/
- */
+// @author spidersharma / http://eduperiment.com/
+// Inspired from Unreal Engine
+// https://docs.unrealengine.com/latest/INT/Engine/Rendering/PostProcessEffects/Bloom/
 
 static string blur_fragment()
 {

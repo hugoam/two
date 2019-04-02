@@ -40,4 +40,5 @@ namespace mud
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockReflection>() { static Type ty("BlockReflection", type<mud::DrawBlock>(), sizeof(mud::BlockReflection)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockShadow>() { static Type ty("BlockShadow", type<mud::DrawBlock>(), sizeof(mud::BlockShadow)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockTonemap>() { static Type ty("BlockTonemap", type<mud::GfxBlock>(), sizeof(mud::BlockTonemap)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMSlice>() { static Type ty("CSMSlice", type<mud::LightShadow>(), sizeof(mud::CSMSlice)); return ty; }
 }

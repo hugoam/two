@@ -530,3 +530,5 @@ namespace mud
 	};
 #endif
 }
+
+#undef PAD

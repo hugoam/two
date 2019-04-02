@@ -27,5 +27,5 @@ namespace mud
 namespace mud
 {
 	export_ MUD_MATH_EXPORT void from_json(const Json& j, Colour& col);
-	export_ MUD_MATH_EXPORT void to_json(const Colour& col, Json& Json);
+	export_ MUD_MATH_EXPORT void to_json(const Colour& col, Json& json);
 }

@@ -437,7 +437,7 @@
 
 							var Json = nodepass.toJSON();
 
-							nodepass.input = new THREE.NodeMaterialLoader(null, library).parse(Json).value;
+							nodepass.input = new THREE.NodeMaterialLoader(null, library).parse(json).value;
 						*/
 
 			}

@@ -319,13 +319,6 @@ namespace gfx
 		Gnode& self = node(parent, {}, vec3(0.f), rotation);
 		Light& l = light(self, LightType::Direct, true, Colour(0.8f, 0.8f, 0.7f), 1.f);
 		l.m_energy = 0.6f;
-		l.m_shadow_flags = CSM_Stabilize;
-		l.m_shadow_bias = 0.1f;
-#ifdef MUD_PLATFORM_EMSCRIPTEN
-		l.m_shadow_num_splits = 2;
-#else
-		l.m_shadow_num_splits = 4;
-#endif
 		return l;
 	}
 

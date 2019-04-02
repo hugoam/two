@@ -50,4 +50,5 @@ namespace mud
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockReflection>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockShadow>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockTonemap>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMSlice>();
 }

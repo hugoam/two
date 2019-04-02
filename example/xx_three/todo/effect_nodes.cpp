@@ -488,7 +488,7 @@
 
 							var Json = nodepost.toJSON();
 
-							nodepost.output = new THREE.NodeMaterialLoader(null, library).parse(Json).value;
+							nodepost.output = new THREE.NodeMaterialLoader(null, library).parse(json).value;
 						*/
 
 			}

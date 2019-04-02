@@ -244,11 +244,25 @@ namespace mud
 	uint16_t torus_tube_subdiv(uint lod) { return uint16_t(64U); }
 	uint16_t torus_radial_subdiv(uint lod) { return uint16_t(8U); }
 
+	uint16_t torus_tube_subdiv(const Symbol& symbol)
+	{
+		return symbol.m_subdiv == uvec2(0U)
+			? torus_tube_subdiv(uint(symbol.m_detail))
+			: symbol.m_subdiv.x;
+	}
+
+	uint16_t torus_radial_subdiv(const Symbol& symbol)
+	{
+		return symbol.m_subdiv == uvec2(0U)
+			? torus_radial_subdiv(uint(symbol.m_detail))
+			: symbol.m_subdiv.y;
+	}
+
 	ShapeSize size_shape_triangles(const ProcShape& shape, const TorusKnot& torus)
 	{
 		UNUSED(torus);
-		const uint16_t tubular = torus_tube_subdiv(uint(shape.m_symbol.m_detail)) + 1;
-		const uint16_t radial = torus_radial_subdiv(uint(shape.m_symbol.m_detail)) + 1;
+		const uint16_t tubular = torus_tube_subdiv(shape.m_symbol) + 1;
+		const uint16_t radial = torus_radial_subdiv(shape.m_symbol) + 1;
 		return { uint32_t(tubular * radial), uint32_t((tubular-1U) * (radial-1U) * 6U) };
 	}
 
@@ -256,8 +270,8 @@ namespace mud
 	{
 		const float radius = torus.m_radius;
 		const float tube = torus.m_tube;
-		const uint16_t tubular = torus_tube_subdiv(uint(shape.m_symbol.m_detail));
-		const uint16_t radial = torus_radial_subdiv(uint(shape.m_symbol.m_detail));
+		const uint16_t tubular = torus_tube_subdiv(shape.m_symbol);
+		const uint16_t radial = torus_radial_subdiv(shape.m_symbol);
 		const float p = torus.m_p;
 		const float q = torus.m_q;
 

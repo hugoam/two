@@ -433,6 +433,21 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
+	// mud::ViewTool
+	{
+		Type& t = type<mud::ViewTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "ViewTool", sizeof(mud::ViewTool), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::ViewportTool>() };
+		static size_t bases_offsets[] = { base_offset<mud::ViewTool, mud::ViewportTool>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
 	// mud::ViewportTool
 	{
 		Type& t = type<mud::ViewportTool>();
@@ -515,21 +530,6 @@ namespace mud
 		// bases
 		static Type* bases[] = { &type<mud::Tool>() };
 		static size_t bases_offsets[] = { base_offset<mud::UndoTool, mud::Tool>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::ViewTool
-	{
-		Type& t = type<mud::ViewTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "ViewTool", sizeof(mud::ViewTool), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::ViewportTool>() };
-		static size_t bases_offsets[] = { base_offset<mud::ViewTool, mud::ViewportTool>() };
 		// defaults
 		// constructors
 		// copy constructor

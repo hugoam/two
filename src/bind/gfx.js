@@ -3701,6 +3701,66 @@ Module['Skin'] = Skin;
 Skin.prototype["__destroy"] = Skin.prototype.__destroy = function() {
     _mud_Skin__destroy(this.__ptr);
 };
+// Skylight
+function Skylight() {
+    this.__ptr = _mud_Skylight__construct_0(); this.__type = Skylight.__type; getCache(Skylight)[this.__ptr] = this;
+};
+Skylight.prototype = Object.create(WrapperObject.prototype);
+Skylight.prototype.constructor = Skylight;
+Skylight.prototype.__class = Skylight;
+Skylight.__cache = {};
+Module['Skylight'] = Skylight;
+Object.defineProperty(Skylight.prototype, "enabled", {
+    get: function() {
+        return !!(_mud_Skylight__get_enabled(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Skylight__set_enabled(this.__ptr, value);
+    }
+});
+Object.defineProperty(Skylight.prototype, "intensity", {
+    get: function() {
+        return _mud_Skylight__get_intensity(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Skylight__set_intensity(this.__ptr, value);
+    }
+});
+Object.defineProperty(Skylight.prototype, "position", {
+    get: function() {
+        return wrapPointer(_mud_Skylight__get_position(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_Skylight__set_position(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Skylight.prototype, "direction", {
+    get: function() {
+        return wrapPointer(_mud_Skylight__get_direction(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_Skylight__set_direction(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Skylight.prototype, "color", {
+    get: function() {
+        return wrapPointer(_mud_Skylight__get_color(this.__ptr), Colour);
+    },
+    set: function(value) {
+        _mud_Skylight__set_color(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Skylight.prototype, "ground", {
+    get: function() {
+        return wrapPointer(_mud_Skylight__get_ground(this.__ptr), Colour);
+    },
+    set: function(value) {
+        _mud_Skylight__set_ground(this.__ptr, value.__ptr);
+    }
+});
+Skylight.prototype["__destroy"] = Skylight.prototype.__destroy = function() {
+    _mud_Skylight__destroy(this.__ptr);
+};
 // Sun
 function Sun() {
     this.__ptr = _mud_Sun__construct_0(); this.__type = Sun.__type; getCache(Sun)[this.__ptr] = this;
@@ -4113,6 +4173,14 @@ Object.defineProperty(Zone.prototype, "sun", {
     },
     set: function(value) {
         _mud_Zone__set_sun(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Zone.prototype, "skylight", {
+    get: function() {
+        return wrapPointer(_mud_Zone__get_skylight(this.__ptr), Skylight);
+    },
+    set: function(value) {
+        _mud_Zone__set_skylight(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(Zone.prototype, "fog", {
@@ -4809,6 +4877,7 @@ Module['render_clear'] = function(a0, a1) {
         Shot.__type = _mud_Shot__type();
         Skeleton.__type = _mud_Skeleton__type();
         Skin.__type = _mud_Skin__type();
+        Skylight.__type = _mud_Skylight__type();
         Sun.__type = _mud_Sun__type();
         SwapBuffer.__type = _mud_SwapBuffer__type();
         SwapCascade.__type = _mud_SwapCascade__type();

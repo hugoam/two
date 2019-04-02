@@ -543,6 +543,18 @@ Module['BlockTonemap'] = BlockTonemap;
 BlockTonemap.prototype["__destroy"] = BlockTonemap.prototype.__destroy = function() {
     _mud_BlockTonemap__destroy(this.__ptr);
 };
+// CSMSlice
+function CSMSlice() {
+    this.__ptr = _mud_CSMSlice__construct_0(); this.__type = CSMSlice.__type; getCache(CSMSlice)[this.__ptr] = this;
+};
+CSMSlice.prototype = Object.create(LightShadow.prototype);
+CSMSlice.prototype.constructor = CSMSlice;
+CSMSlice.prototype.__class = CSMSlice;
+CSMSlice.__cache = {};
+Module['CSMSlice'] = CSMSlice;
+CSMSlice.prototype["__destroy"] = CSMSlice.prototype.__destroy = function() {
+    _mud_CSMSlice__destroy(this.__ptr);
+};
 Module['begin_pbr_render'] = function(a0, a1) {
     _mud_begin_pbr_render_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
@@ -636,6 +648,7 @@ Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
         BlockReflection.__type = _mud_BlockReflection__type();
         BlockShadow.__type = _mud_BlockShadow__type();
         BlockTonemap.__type = _mud_BlockTonemap__type();
+        CSMSlice.__type = _mud_CSMSlice__type();
         // TonemapMode
         Module['TonemapMode'] = Module['TonemapMode'] || {};
         Module['TonemapMode']['None'] = _mud_TonemapMode_None();

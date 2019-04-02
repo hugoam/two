@@ -34,6 +34,8 @@ using Json = json11::Json;
 #include <gltf/Types.h>
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
 	inline void from_json(const Json& j, PrimitiveType& mat)
@@ -47,8 +49,8 @@ namespace mud
 	FromJson gltf_unpacker()
 	{
 		FromJson unpacker;
-		dispatch_branch<mat4>(unpacker, +[](mat4& result, const Json& Json) { from_json(Json, result); });
-		dispatch_branch<quat>(unpacker, +[](quat& result, const Json& Json) { from_json(Json, result); });
+		dispatch_branch<mat4>(unpacker, +[](mat4& result, const Json& json) { from_json(json, result); });
+		dispatch_branch<quat>(unpacker, +[](quat& result, const Json& json) { from_json(json, result); });
 		return unpacker;
 	}
 
@@ -85,7 +87,7 @@ namespace mud
 	export_ template <class T>
 	inline T bread(std::istream& stream) { T result; stream.read((char*)&result, sizeof(T)); return result; }
 
-	void parse_glb(const string& path, Json& Json, vector<uint8_t>& buffer)
+	void parse_glb(const string& path, Json& json, vector<uint8_t>& buffer)
 	{
 		std::ifstream file = std::ifstream(path.c_str(), std::ios::binary);
 
@@ -108,8 +110,9 @@ namespace mud
 			if(chunk_type == 0x4E4F534A)
 			{
 				std::string errors;
-				string json_string = read(file, chunk_length);
-				Json = Json::parse(json_string.c_str(), errors);
+				string strjson = read(file, chunk_length);
+				//printf("DEBUG: gltf .glb json contents: %s\n", strjson.c_str());
+				json = Json::parse(strjson.c_str(), errors);
 			}
 			else if(chunk_type == 0x004E4942)
 			{

@@ -252,7 +252,7 @@ void mud_Mesh_write(void* object, span<void*> args, void*& result) { UNUSED(resu
 void mud_Mesh_upload(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).upload(*static_cast<mud::GpuMesh*>(args[0]), *static_cast<bool*>(args[1])); }
 void mud_Mesh_cache(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).cache(*static_cast<mud::GpuMesh*>(args[0])); }
 void mud_Mesh_direct(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Mesh*>(object)).direct(*static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<uint32_t*>(args[2])); }
-void mud_Mime_start(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).start(static_cast<const char*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
+void mud_Mime_start(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).start(*static_cast<stl::string*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
 void mud_Mime_play(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).play(*static_cast<mud::Animation*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
 void mud_Mime_seek(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).seek(*static_cast<float*>(args[0])); }
 void mud_Mime_pause(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Mime*>(object)).pause(); }
@@ -324,6 +324,8 @@ void mud_ShaderBlock_add_mode(void* object, span<void*> args, void*& result) { U
 void mud_ShaderBlock_add_define(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::ShaderBlock*>(object)).add_define(*static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1])); }
 void mud_ShaderDefine__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ShaderDefine(  ); }
 void mud_ShaderDefine__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ShaderDefine((*static_cast<mud::ShaderDefine*>(other))); }
+void mud_Skylight__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Skylight(  ); }
+void mud_Skylight__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Skylight((*static_cast<mud::Skylight*>(other))); }
 void mud_Sun__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Sun(  ); }
 void mud_Sun__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Sun((*static_cast<mud::Sun*>(other))); }
 void mud_SwapBuffer__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::SwapBuffer(  ); }
@@ -2390,7 +2392,7 @@ namespace mud
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "start", Address(), mud_Mime_start, { { "animation", type<const char*>(), Param::Nullable }, { "loop", type<bool>(),  }, { "blend", type<float>(), Param::Default, &start_0_blend_default }, { "speed", type<float>(), Param::Default, &start_0_speed_default }, { "transient", type<bool>(), Param::Default, &start_0_transient_default } }, g_qvoid },
+			{ t, "start", Address(), mud_Mime_start, { { "animation", type<stl::string>(),  }, { "loop", type<bool>(),  }, { "blend", type<float>(), Param::Default, &start_0_blend_default }, { "speed", type<float>(), Param::Default, &start_0_speed_default }, { "transient", type<bool>(), Param::Default, &start_0_transient_default } }, g_qvoid },
 			{ t, "play", Address(), mud_Mime_play, { { "animation", type<mud::Animation>(),  }, { "loop", type<bool>(),  }, { "blend", type<float>(), Param::Default, &play_0_blend_default }, { "speed", type<float>(), Param::Default, &play_0_speed_default }, { "transient", type<bool>(), Param::Default, &play_0_transient_default } }, g_qvoid },
 			{ t, "seek", Address(), mud_Mime_seek, { { "time", type<float>(),  } }, g_qvoid },
 			{ t, "pause", Address(), mud_Mime_pause, {}, g_qvoid },
@@ -2918,6 +2920,34 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
+	// mud::Skylight
+	{
+		Type& t = type<mud::Skylight>();
+		static Meta meta = { t, &namspc({ "mud" }), "Skylight", sizeof(mud::Skylight), TypeClass::Struct };
+		// bases
+		// defaults
+		static bool enabled_default = false;
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Skylight__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_Skylight__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Skylight, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Skylight, m_intensity), type<float>(), "intensity", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Skylight, m_position), type<mud::vec3>(), "position", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Skylight, m_direction), type<mud::vec3>(), "direction", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Skylight, m_color), type<mud::Colour>(), "color", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Skylight, m_ground), type<mud::Colour>(), "ground", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+	}
 	// mud::Sun
 	{
 		Type& t = type<mud::Sun>();
@@ -3206,6 +3236,7 @@ namespace mud
 			{ t, offsetof(mud::Zone, m_background), type<mud::Background>(), "background", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Zone, m_radiance), type<mud::Radiance>(), "radiance", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Zone, m_sun), type<mud::Sun>(), "sun", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Zone, m_skylight), type<mud::Skylight>(), "skylight", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Zone, m_fog), type<mud::Fog>(), "fog", nullptr, Member::Value, nullptr }
 		};
 		// methods
@@ -3635,6 +3666,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::Shot>());
 		m.m_types.push_back(&type<mud::Skeleton>());
 		m.m_types.push_back(&type<mud::Skin>());
+		m.m_types.push_back(&type<mud::Skylight>());
 		m.m_types.push_back(&type<mud::Sun>());
 		m.m_types.push_back(&type<mud::SwapBuffer>());
 		m.m_types.push_back(&type<mud::SwapCascade>());
@@ -3661,14 +3693,14 @@ namespace mud
 		m.m_types.push_back(&type<stl::vector<mud::Model*>>());
 		m.m_types.push_back(&type<stl::vector<mud::Texture*>>());
 		m.m_types.push_back(&type<mud::BlockCopy>());
-		m.m_types.push_back(&type<mud::BlockSky>());
-		m.m_types.push_back(&type<mud::DrawBlock>());
 		m.m_types.push_back(&type<mud::BlockDepth>());
 		m.m_types.push_back(&type<mud::BlockFilter>());
 		m.m_types.push_back(&type<mud::BlockMaterial>());
 		m.m_types.push_back(&type<mud::BlockParticles>());
 		m.m_types.push_back(&type<mud::BlockPbr>());
+		m.m_types.push_back(&type<mud::BlockSky>());
 		m.m_types.push_back(&type<mud::ClusteredFrustum>());
+		m.m_types.push_back(&type<mud::DrawBlock>());
 		m.m_types.push_back(&type<mud::Flare>());
 		m.m_types.push_back(&type<mud::GfxSystem>());
 		m.m_types.push_back(&type<mud::RenderTarget>());

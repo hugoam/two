@@ -14,8 +14,9 @@ namespace mud
 {
 	enum ShaderOptionLight : unsigned int
 	{
+		SKY_LIGHT,
+		DIRECT_LIGHT,
 		FOG,
-		DIRECT_LIGHT
 	};
 
 	struct gpu_ GpuBone

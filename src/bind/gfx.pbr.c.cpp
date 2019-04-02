@@ -429,6 +429,16 @@ extern "C" {
 	void DECL mud_BlockTonemap__destroy(mud::BlockTonemap* self) {
 		delete self;
 	}
+	// CSMSlice
+	mud::Type* DECL mud_CSMSlice__type() {
+		return &mud::type<mud::CSMSlice>();
+	}
+	mud::CSMSlice* DECL mud_CSMSlice__construct_0() {
+		return new mud::CSMSlice();
+	}
+	void DECL mud_CSMSlice__destroy(mud::CSMSlice* self) {
+		delete self;
+	}
 	void DECL mud_begin_pbr_render_2(mud::GfxSystem* gfx, mud::Render* render) {
 		mud::begin_pbr_render(*gfx, *render);
 	}

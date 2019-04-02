@@ -278,6 +278,13 @@ extern "C" {
 	void DECL mud_ViewAction__destroy(mud::ViewAction* self) {
 		delete self;
 	}
+	// ViewTool
+	mud::Type* DECL mud_ViewTool__type() {
+		return &mud::type<mud::ViewTool>();
+	}
+	void DECL mud_ViewTool__destroy(mud::ViewTool* self) {
+		delete self;
+	}
 	// ViewportTool
 	mud::Type* DECL mud_ViewportTool__type() {
 		return &mud::type<mud::ViewportTool>();
@@ -318,13 +325,6 @@ extern "C" {
 		return &mud::type<mud::UndoTool>();
 	}
 	void DECL mud_UndoTool__destroy(mud::UndoTool* self) {
-		delete self;
-	}
-	// ViewTool
-	mud::Type* DECL mud_ViewTool__type() {
-		return &mud::type<mud::ViewTool>();
-	}
-	void DECL mud_ViewTool__destroy(mud::ViewTool* self) {
 		delete self;
 	}
 	// WorkPlaneAction

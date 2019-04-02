@@ -342,6 +342,16 @@ Module['ViewAction'] = ViewAction;
 ViewAction.prototype["__destroy"] = ViewAction.prototype.__destroy = function() {
     _mud_ViewAction__destroy(this.__ptr);
 };
+// ViewTool
+function ViewTool() { throw "cannot construct a ViewTool, no constructor in IDL" }
+ViewTool.prototype = Object.create(ViewportTool.prototype);
+ViewTool.prototype.constructor = ViewTool;
+ViewTool.prototype.__class = ViewTool;
+ViewTool.__cache = {};
+Module['ViewTool'] = ViewTool;
+ViewTool.prototype["__destroy"] = ViewTool.prototype.__destroy = function() {
+    _mud_ViewTool__destroy(this.__ptr);
+};
 // ViewportTool
 function ViewportTool() { throw "cannot construct a ViewportTool, no constructor in IDL" }
 ViewportTool.prototype = Object.create(Tool.prototype);
@@ -402,16 +412,6 @@ Module['UndoTool'] = UndoTool;
 UndoTool.prototype["__destroy"] = UndoTool.prototype.__destroy = function() {
     _mud_UndoTool__destroy(this.__ptr);
 };
-// ViewTool
-function ViewTool() { throw "cannot construct a ViewTool, no constructor in IDL" }
-ViewTool.prototype = Object.create(ViewportTool.prototype);
-ViewTool.prototype.constructor = ViewTool;
-ViewTool.prototype.__class = ViewTool;
-ViewTool.__cache = {};
-Module['ViewTool'] = ViewTool;
-ViewTool.prototype["__destroy"] = ViewTool.prototype.__destroy = function() {
-    _mud_ViewTool__destroy(this.__ptr);
-};
 // WorkPlaneAction
 function WorkPlaneAction() { throw "cannot construct a WorkPlaneAction, no constructor in IDL" }
 WorkPlaneAction.prototype = Object.create(EditorAction.prototype);
@@ -467,13 +467,13 @@ WorldSnapOption.prototype["__destroy"] = WorldSnapOption.prototype.__destroy = f
         FrameViewTool.__type = _mud_FrameViewTool__type();
         TranslateTool.__type = _mud_TranslateTool__type();
         ViewAction.__type = _mud_ViewAction__type();
+        ViewTool.__type = _mud_ViewTool__type();
         ViewportTool.__type = _mud_ViewportTool__type();
         SpatialTool.__type = _mud_SpatialTool__type();
         TransformAction.__type = _mud_TransformAction__type();
         TransformGizmo.__type = _mud_TransformGizmo__type();
         TransformTool.__type = _mud_TransformTool__type();
         UndoTool.__type = _mud_UndoTool__type();
-        ViewTool.__type = _mud_ViewTool__type();
         WorkPlaneAction.__type = _mud_WorkPlaneAction__type();
         WorkPlaneTool.__type = _mud_WorkPlaneTool__type();
         WorldSnapOption.__type = _mud_WorldSnapOption__type();

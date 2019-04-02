@@ -16,6 +16,8 @@ module mud.gfx.pbr;
 
 #include <cstring>
 
+#define PAD 1.f
+
 namespace mud
 {
 #if !ZONES_LIGHTS_BUFFER
@@ -78,7 +80,7 @@ namespace mud
 		void upload(const Pass& pass, const Radiance& radiance) const
 		{
 			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
-			vec4 ambient_p0 = { radiance.m_ambient, 0.f, 0.f, 0.f };
+			vec4 ambient_p0 = { radiance.m_ambient, PAD, PAD, PAD };
 
 			bgfx::setViewUniform(pass.m_index, u_radiance_p0, &radiance_p0);
 			bgfx::setViewUniform(pass.m_index, u_ambient_p0, &ambient_p0);
@@ -86,6 +88,34 @@ namespace mud
 
 		bgfx::UniformHandle u_radiance_p0 = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle u_ambient_p0 = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<Skylight>
+	{
+		void init()
+		{
+			u_skylight_p0 = bgfx::createUniform("u_skylight_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_skylight_p1 = bgfx::createUniform("u_skylight_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_skylight_p2 = bgfx::createUniform("u_skylight_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+		}
+
+		void upload(const Pass& pass, const Skylight& skylight) const
+		{
+			vec4 skylight_p0 = { normalize(skylight.m_direction), PAD };
+			vec4 skylight_p1 = { to_vec3(skylight.m_color) * skylight.m_intensity, PAD };
+			vec4 skylight_p2 = { to_vec3(skylight.m_ground) * skylight.m_intensity, PAD };
+
+			bgfx::setViewUniform(pass.m_index, u_skylight_p0, &skylight_p0);
+			bgfx::setViewUniform(pass.m_index, u_skylight_p1, &skylight_p1);
+			bgfx::setViewUniform(pass.m_index, u_skylight_p2, &skylight_p2);
+		}
+
+		bgfx::UniformHandle u_skylight_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_skylight_p1 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_skylight_p2 = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
@@ -104,9 +134,9 @@ namespace mud
 		void upload(const Pass& pass, const Fog& fog) const
 		{
 			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
-			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_curve, 0.f };
+			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_curve, PAD };
 			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
-			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, 0.f, 0.f };
+			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, PAD, PAD };
 
 			bgfx::setViewUniform(pass.m_index, u_fog_p0, &params_0);
 			bgfx::setViewUniform(pass.m_index, u_fog_p1, &params_1);
@@ -128,6 +158,7 @@ namespace mud
 		void upload(const Pass& pass, const Zone& zone) const
 		{
 			GpuState<Radiance>::me.upload(pass, zone.m_radiance);
+			GpuState<Skylight>::me.upload(pass, zone.m_skylight);
 			GpuState<Fog>::me.upload(pass, zone.m_fog);
 		}
 
@@ -142,12 +173,36 @@ namespace mud
 		void pack(const Radiance& radiance, size_t& offset, GpuTexture& buffer, float* dest)
 		{
 			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
-			vec4 ambient_p0 = { radiance.m_ambient, 0.f, 0.f, 0.f };
+			vec4 ambient_p0 = { radiance.m_ambient, PAD, PAD, PAD };
 
 			memcpy(dest + offset, &radiance_p0, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 
 			memcpy(dest + offset, &ambient_p0, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<Skylight>
+	{
+		constexpr static size_t rows = 3;
+
+		void pack(const Skylight& skylight, size_t& offset, GpuTexture& buffer, float* dest)
+		{
+			vec4 skylight_p0 = { normalize(skylight.m_direction), PAD };
+			vec4 skylight_p1 = { to_vec3(skylight.m_color) * skylight.m_intensity, PAD };
+			vec4 skylight_p2 = { to_vec3(skylight.m_ground) * skylight.m_intensity, PAD };
+
+			memcpy(dest + offset, &skylight_p0, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &skylight_p1, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &skylight_p2, sizeof(float) * 3);
 			offset += buffer.width * buffer.stride;
 		}
 
@@ -162,9 +217,9 @@ namespace mud
 		void pack(const Fog& fog, size_t& offset, GpuTexture& buffer, float* dest)
 		{
 			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
-			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_curve, 0.f };
+			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_curve, PAD };
 			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
-			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, 0.f, 0.f };
+			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, PAD, PAD };
 
 			memcpy(dest + offset, &params_0, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
@@ -197,6 +252,7 @@ namespace mud
 			GpuTexture buffer = { texture, 1024, 4 };
 
 			const uint32_t height = GpuState<Radiance>::me.rows
+								  + GpuState<Skylight>::me.rows;
 								  + GpuState<Fog>::me.rows;
 			const uint32_t lines = 1;
 			const uvec2 size = uvec2(buffer.width, lines * height);
@@ -218,3 +274,5 @@ namespace mud
 	};
 #endif
 }
+
+#undef PAD

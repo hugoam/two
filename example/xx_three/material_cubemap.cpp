@@ -18,8 +18,8 @@ void xx_material_cubemap(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 	OrbitControls& controls = ui::orbit_controls(viewer);
 	//controls.enableZoom = false;
 	//controls.enablePan = false;
-	//controls.minPolarAngle = Math.PI / 4;
-	//controls.maxPolarAngle = Math.PI / 1.5;
+	//controls.minPolarAngle = c_pi / 4;
+	//controls.maxPolarAngle = c_pi / 1.5;
 
 	Scene& scene = viewer.m_scene;
 
@@ -34,17 +34,24 @@ void xx_material_cubemap(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 		scene.m_env.m_radiance.m_energy = 1.f;
 		//scene.background = envmap;
 
+		scene.m_env.m_radiance.m_ambient = 1.f;
+		scene.m_env.m_radiance.m_colour = rgb(0xffffff);
+
 		//lights
-		//var ambient = new THREE.AmbientLight(0xffffff);
-		//scene.add(ambient);
-		//
-		//pointLight = new THREE.PointLight(0xffffff, 2);
-		//scene.add(pointLight);
+
+		Node3& ln = gfx::nodes(scene).add(Node3());
+		Light& l = gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 2.f, 0.f));
+		//light = &ln;
 
 		//materials
-		Material& material3 = app.m_gfx.materials().create("material"); //new THREE.MeshLambertMaterial({ color: 0xff6600, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.3 });
-		Material& material2 = app.m_gfx.materials().create("material"); //new THREE.MeshLambertMaterial({ color: 0xffee00, envMap : refractionCube, refractionRatio : 0.95 });
-		Material& material1 = app.m_gfx.materials().create("material"); //new THREE.MeshLambertMaterial({ color: 0xffffff, envMap : reflectionCube });
+		Material& material3 = app.m_gfx.materials().create("material");
+		//new THREE.MeshLambertMaterial({ color: 0xff6600, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.3 });
+
+		Material& material2 = app.m_gfx.materials().create("material");
+		//new THREE.MeshLambertMaterial({ color: 0xffee00, envMap : refractionCube, refractionRatio : 0.95 });
+
+		Material& material1 = app.m_gfx.materials().create("material");
+		//new THREE.MeshLambertMaterial({ color: 0xffffff, envMap : reflectionCube });
 
 		Model& model = *app.m_gfx.models().file("WaltHead");
 

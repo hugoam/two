@@ -2995,6 +2995,52 @@ extern "C" {
 	void DECL mud_Skin__destroy(mud::Skin* self) {
 		delete self;
 	}
+	// Skylight
+	mud::Type* DECL mud_Skylight__type() {
+		return &mud::type<mud::Skylight>();
+	}
+	mud::Skylight* DECL mud_Skylight__construct_0() {
+		return new mud::Skylight();
+	}
+	bool DECL mud_Skylight__get_enabled(mud::Skylight* self) {
+		return self->m_enabled;
+	}
+	void DECL mud_Skylight__set_enabled(mud::Skylight* self, bool value) {
+		self->m_enabled = value;
+	}
+	float DECL mud_Skylight__get_intensity(mud::Skylight* self) {
+		return self->m_intensity;
+	}
+	void DECL mud_Skylight__set_intensity(mud::Skylight* self, float value) {
+		self->m_intensity = value;
+	}
+	mud::vec3* DECL mud_Skylight__get_position(mud::Skylight* self) {
+		return &self->m_position;
+	}
+	void DECL mud_Skylight__set_position(mud::Skylight* self, mud::vec3* value) {
+		self->m_position = *value;
+	}
+	mud::vec3* DECL mud_Skylight__get_direction(mud::Skylight* self) {
+		return &self->m_direction;
+	}
+	void DECL mud_Skylight__set_direction(mud::Skylight* self, mud::vec3* value) {
+		self->m_direction = *value;
+	}
+	mud::Colour* DECL mud_Skylight__get_color(mud::Skylight* self) {
+		return &self->m_color;
+	}
+	void DECL mud_Skylight__set_color(mud::Skylight* self, mud::Colour* value) {
+		self->m_color = *value;
+	}
+	mud::Colour* DECL mud_Skylight__get_ground(mud::Skylight* self) {
+		return &self->m_ground;
+	}
+	void DECL mud_Skylight__set_ground(mud::Skylight* self, mud::Colour* value) {
+		self->m_ground = *value;
+	}
+	void DECL mud_Skylight__destroy(mud::Skylight* self) {
+		delete self;
+	}
 	// Sun
 	mud::Type* DECL mud_Sun__type() {
 		return &mud::type<mud::Sun>();
@@ -3340,6 +3386,12 @@ extern "C" {
 	}
 	void DECL mud_Zone__set_sun(mud::Zone* self, mud::Sun* value) {
 		self->m_sun = *value;
+	}
+	mud::Skylight* DECL mud_Zone__get_skylight(mud::Zone* self) {
+		return &self->m_skylight;
+	}
+	void DECL mud_Zone__set_skylight(mud::Zone* self, mud::Skylight* value) {
+		self->m_skylight = *value;
 	}
 	mud::Fog* DECL mud_Zone__get_fog(mud::Zone* self) {
 		return &self->m_fog;

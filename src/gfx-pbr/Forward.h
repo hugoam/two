@@ -46,6 +46,7 @@ namespace mud
     struct ShadowmapCube;
     class ShadowAtlas;
     struct CSMShadow;
+	struct CSMSlice;
     class PassShadow;
     class PassShadowmap;
     struct ShadowRenderer;

@@ -56,13 +56,13 @@ namespace mud
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::FrameViewTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::TranslateTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::ViewAction>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ViewTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::ViewportTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::SpatialTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformAction>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformGizmo>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::UndoTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ViewTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::WorkPlaneAction>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::WorkPlaneTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::WorldSnapOption>();

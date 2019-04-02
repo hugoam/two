@@ -135,6 +135,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Shot>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Skeleton>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Skin>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Skylight>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Sun>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::SwapBuffer>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::SwapCascade>();

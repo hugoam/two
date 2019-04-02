@@ -131,7 +131,7 @@ namespace mud
 		void commit_shadows(Render& render, const mat4& view);
 		void upload_shadows(Render& render, const Pass& pass) const;
 
-		void update_csm(Render& render, Light& light, size_t num_direct, CSMShadow& csm, size_t index);
+		void update_csm(Render& render, Light& light, CSMShadow& csm);
 
 		BlockDepth& m_block_depth;
 		BlockLight& m_block_light;
