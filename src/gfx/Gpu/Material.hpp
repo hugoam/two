@@ -102,16 +102,21 @@ namespace mud
 	{
 		void init()
 		{
+			// @kludge those are split only as a workaround for precision mismatch between frag and vertex shaders in bgfx
 			u_line_p0 = bgfx::createUniform("u_line_p0", bgfx::UniformType::Vec4);
+			u_line_p1 = bgfx::createUniform("u_line_p1", bgfx::UniformType::Vec4);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialLine& block) const
 		{
-			vec4 params = { block.m_line_width, block.m_dash_scale, block.m_dash_size, block.m_dash_gap };
-			encoder.setUniform(u_line_p0, &params);
+			vec4 p0 = { block.m_line_width, block.m_dash_size, block.m_dash_gap, PAD };
+			vec4 p1 = { block.m_dash_scale, PAD, PAD, PAD };
+			encoder.setUniform(u_line_p0, &p0);
+			encoder.setUniform(u_line_p1, &p1);
 		}
 
 		bgfx::UniformHandle u_line_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_line_p1 = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
