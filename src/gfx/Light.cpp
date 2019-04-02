@@ -38,7 +38,7 @@ namespace mud
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 			m_shadow_num_splits = 2;
 #else
-			m_shadow_num_splits = 4;
+			m_shadow_num_splits = 2;
 #endif
 		}
 	}

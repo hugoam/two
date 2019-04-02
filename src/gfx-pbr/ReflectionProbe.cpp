@@ -34,13 +34,13 @@ namespace mud
 	{
 		m_size = size;
 
-		const uint64_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT;
+		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP_UVW | TEXTURE_POINT;
 		TextureFormat color_format = TextureFormat::RGBA16F;
 		if(!bgfx::isTextureValid(0, true, 1, bgfx::TextureFormat::Enum(color_format), flags))
 			color_format = TextureFormat::RGB10A2;
 
 		m_cubemap = { uvec2(size), false, color_format, flags, true };
-		m_depth = { uvec2(size), false, TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT };
+		m_depth = { uvec2(size), false, TextureFormat::D24S8, BGFX_TEXTURE_RT | TEXTURE_CLAMP | TEXTURE_DEPTH };
 
 		m_cubemap.m_is_fbo = true;
 		m_depth.m_is_fbo = true;

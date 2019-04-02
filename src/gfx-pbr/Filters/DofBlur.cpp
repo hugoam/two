@@ -64,12 +64,12 @@ namespace mud
 
 		if(first_pass)
 		{
-			m_filter.source0(target.m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
+			m_filter.source0(target.m_diffuse, TEXTURE_CLAMP | TEXTURE_POINT);
 		}
 		else
 		{
-			m_filter.source0(target.m_ping_pong.last(), GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
-			m_filter.source1(target.m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
+			m_filter.source0(target.m_ping_pong.last(), TEXTURE_CLAMP | TEXTURE_POINT);
+			m_filter.source1(target.m_diffuse, TEXTURE_CLAMP | TEXTURE_POINT);
 		}
 
 		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), m_filter.u_uniform.s_source_depth, target.m_depth);

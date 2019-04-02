@@ -124,7 +124,7 @@ namespace mud
 			? radiance.m_texture->m_size
 			: m_gfx.main_target().m_size;
 
-		const uint64_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP;
+		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP;
 
 		//bgfx::TextureFormat::Enum format = bgfx::TextureFormat::RGBA16F;
 		TextureFormat format = radiance.m_texture->m_format;
@@ -156,7 +156,7 @@ namespace mud
 		for(uint16_t i = 0; i < roughness_levels; i++)
 		{
 			const uvec2 level_size = uvec2(size.x >> i, size.y >> i);
-			FrameBuffer target = { level_size, format, GFX_TEXTURE_POINT };
+			FrameBuffer target = { level_size, format, TEXTURE_POINT };
 
 			for(uint16_t face = 0; face < num_faces; ++face)
 			{
@@ -164,7 +164,7 @@ namespace mud
 
 				const int source_level = i == 0 ? 0 : i - 1;
 				Texture& source = i == 0 ? *radiance.m_texture : filtered;
-				m_filter.source0p(source, program, source_level, GFX_TEXTURE_POINT);
+				m_filter.source0p(source, program, source_level, TEXTURE_POINT);
 
 				float roughness = i / float(roughness_levels - 1);
 #ifdef MUD_PLATFORM_EMSCRIPTEN

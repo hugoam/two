@@ -42,7 +42,7 @@ namespace mud
 	{
 		u_picking_id = bgfx::createUniform("u_picking_id", bgfx::UniformType::Vec4);
 		
-		uint64_t flags = GFX_TEXTURE_POINT | BGFX_SAMPLER_MIP_POINT | GFX_TEXTURE_CLAMP;
+		uint64_t flags = TEXTURE_POINT | BGFX_SAMPLER_MIP_POINT | TEXTURE_CLAMP;
 
 		if((bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0 && (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_READ_BACK) != 0)
 			m_readback_texture = { m_size, false, TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags };

@@ -258,7 +258,7 @@ namespace mud
 			const uvec2 size = uvec2(buffer.width, lines * height);
 
 			if(texture.m_size != size)
-				texture = { size, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
+				texture = { size, bgfx::TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
 
 			const bgfx::Memory* memory = bgfx::alloc(buffer.width * lines * height * buffer.stride * sizeof(float));
 

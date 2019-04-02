@@ -25,10 +25,10 @@ namespace mud
 #if 0 // @todo: crashes in D3D11
 		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
 
-		if(!bgfx::isTextureValid(0, true, 1, color_format, GFX_TEXTURE_CLAMP))
+		if(!bgfx::isTextureValid(0, true, 1, color_format, TEXTURE_CLAMP))
 			color_format = bgfx::TextureFormat::RGB10A2;
 
-		m_color = bgfx::createTextureCube(size, true, 1, color_format, GFX_TEXTURE_CLAMP);
+		m_color = bgfx::createTextureCube(size, true, 1, color_format, TEXTURE_CLAMP);
 
 		for(int i = 0; i < 6; i++)
 		{

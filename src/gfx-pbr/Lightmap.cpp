@@ -527,7 +527,7 @@ namespace mud
 
 			if(binding.m_lightmap && binding.m_lightmap->valid())
 #ifdef LIGHTMAP_PIXELS
-				encoder.setTexture(uint8_t(TextureSampler::Lightmap), *binding.m_lightmap, GFX_TEXTURE_POINT);
+				encoder.setTexture(uint8_t(TextureSampler::Lightmap), *binding.m_lightmap, TEXTURE_POINT);
 #else
 				encoder.setTexture(uint8_t(TextureSampler::Lightmap), *binding.m_lightmap);
 #endif

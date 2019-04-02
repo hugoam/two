@@ -28,12 +28,9 @@ namespace mud
 		: m_side(size)
 		, m_size(size * subdivs.size(), size)
 	{
-		m_depth = { m_size, false, TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
-		m_color = { m_size, false, TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
+		m_depth = { m_size, false, TextureFormat::D24S8, BGFX_TEXTURE_RT | TEXTURE_CLAMP | TEXTURE_DEPTH };
+		m_color = { m_size, false, TextureFormat::RGBA8, BGFX_TEXTURE_RT | TEXTURE_CLAMP };
 		m_fbo = { m_size, { &m_depth, &m_color } };
-
-		//m_depth = { m_rect_size, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP };
-		//m_fbo = { m_rect_size, bgfx::createFrameBuffer(1, &m_depth) };
 
 		const float fraction = 1.f / float(subdivs.size());
 		uint8_t index = 0;

@@ -310,8 +310,8 @@ namespace gfx
 		pass_alpha(gfx, render);
 		pass_solid(gfx, render);
 		//pass_effects(gfx, render);
-		//pass_resolve(gfx, render);
-		//pass_post_process(gfx, render);
+		pass_resolve(gfx, render);
+		pass_post_process(gfx, render);
 	}
 
 	void render_pbr_deferred(GfxSystem& gfx, Render& render)

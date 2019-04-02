@@ -281,19 +281,19 @@ namespace mud
 
 		if(method == DepthMethod::Depth)
 		{
-			m_depth = { size, false, TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
+			m_depth = { size, false, TextureFormat::D24S8, BGFX_TEXTURE_RT | TEXTURE_CLAMP | TEXTURE_DEPTH };
 			m_fbo = { m_depth };
 		}
 		else if(method == DepthMethod::Distance)
 		{
-			m_color = { size, false, TextureFormat::RGBA8, BGFX_TEXTURE_RT | GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP };
+			m_color = { size, false, TextureFormat::RGBA8, BGFX_TEXTURE_RT | TEXTURE_CLAMP | TEXTURE_POINT };
 			m_fbo = { m_color };
 		}
 	}
 
 	void ShadowmapCube::create(uint32_t size)
 	{
-		const uint64_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT;
+		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP_UVW | TEXTURE_DEPTH;
 		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::D24S8, flags))
 			return;
 
@@ -544,7 +544,7 @@ namespace mud
 		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		bool shadow_sampler = false; // m_pcf_level != PCF_HARD
-		uint32_t shadow_flags = shadow_sampler ? BGFX_SAMPLER_COMPARE_LESS : GFX_TEXTURE_POINT;
+		uint32_t shadow_flags = shadow_sampler ? BGFX_SAMPLER_COMPARE_LESS : TEXTURE_POINT;
 
 		// @todo for now normal shadows and direct shadows are incompatible because we use color for the former and depth for the latter
 		// we should be able to switch the distance shader to write to the depth buffer

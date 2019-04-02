@@ -109,7 +109,7 @@ namespace mud
 
 	export_ struct MUD_GFX_EXPORT GBuffer : public FrameBuffer
 	{
-		void create(const uvec2& size, TextureFormat color_format, uint64_t flags, uint64_t depth_flags);
+		void create(const uvec2& size, TextureFormat color_format, uint64_t flags);
 
 		Texture m_depth;
 		Texture m_position;

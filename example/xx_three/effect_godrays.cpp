@@ -334,7 +334,7 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 		Pass pass = render.next_pass("godrays", PassType::PostProcess);
 
 		gfx.m_filter->uniform(pass, "u_godrays_p0", vec4(godrays.m_sun_screen, vec2(step_size, 0.f)));
-		gfx.m_filter->source0(source, GFX_TEXTURE_CLAMP);
+		gfx.m_filter->source0(source, TEXTURE_CLAMP);
 
 		gfx.m_filter->quad(pass, fbo, ProgramVersion(program));
 	};

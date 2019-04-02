@@ -260,13 +260,13 @@ namespace mud
 	void load_texture_float(Texture& texture, const uvec2& size, const bgfx::Memory& memory, uint8_t num_components)
 	{
 		texture.m_size = size;
-		texture.m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT, &memory);
+		texture.m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA32F, TEXTURE_POINT, &memory);
 	}
 
 	void load_texture_rgba(Texture& texture, const uvec2& size, const bgfx::Memory& memory)
 	{
 		texture.m_size = size;
-		texture.m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA8, GFX_TEXTURE_POINT, &memory);
+		texture.m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA8, TEXTURE_POINT, &memory);
 	}
 
 	//void load_texture_rgba(Texture& texture, const uvec2& size, span<uint8_t> data)

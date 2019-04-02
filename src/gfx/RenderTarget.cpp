@@ -97,8 +97,8 @@ namespace mud
 
 	void SwapBuffer::create(const uvec2& size, TextureFormat color_format)
 	{
-		m_one = { size, color_format, GFX_TEXTURE_CLAMP };// | GFX_TEXTURE_POINT);
-		m_two = { size, color_format, GFX_TEXTURE_CLAMP };// | GFX_TEXTURE_POINT);
+		m_one = { size, color_format, TEXTURE_CLAMP };// | TEXTURE_POINT);
+		m_two = { size, color_format, TEXTURE_CLAMP };// | TEXTURE_POINT);
 	}
 
 	SwapBuffer::~SwapBuffer()
@@ -106,8 +106,8 @@ namespace mud
 
 	void Cascade::create(const uvec2& size, TextureFormat color_format)
 	{
-		//const uint64_t flags = BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP;
-		const uint64_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP;
+		//const uint64_t flags = BGFX_TEXTURE_BLIT_DST | TEXTURE_CLAMP;
+		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP;
 
 		if(!bgfx::isTextureValid(1, false, 1, bgfx::TextureFormat::Enum(color_format), flags))
 			return;
@@ -155,13 +155,7 @@ namespace mud
 
 		const uint64_t flags = msaa_flag[m_msaa];
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
-		const uint64_t depth_flags = flags | GFX_TEXTURE_POINT;
-#else
-		const uint64_t depth_flags = flags;
-#endif
-
-		m_depth = { size, false, TextureFormat::D24S8, depth_flags };
+		m_depth = { size, false, TextureFormat::D24S8, flags | TEXTURE_DEPTH };
 
 		m_diffuse = { size, false, color_format, flags };
 
@@ -204,15 +198,15 @@ namespace mud
 		m_deferred = false;
 #endif
 		if(m_deferred)
-			m_gbuffer.create(size, color_format, flags, depth_flags);
+			m_gbuffer.create(size, color_format, flags);
 	}
 
 	RenderTarget::~RenderTarget()
 	{}
 
-	void GBuffer::create(const uvec2& size, TextureFormat color_format, uint64_t flags, uint64_t depth_flags)
+	void GBuffer::create(const uvec2& size, TextureFormat color_format, uint64_t flags)
 	{
-		m_depth    = { size, false, TextureFormat::D24S8, depth_flags };
+		m_depth    = { size, false, TextureFormat::D24S8, flags | TEXTURE_DEPTH };
 		m_position = { size, false, color_format,		  flags };
 		m_normal   = { size, false, color_format,		  flags };
 		m_albedo   = { size, false, color_format,		  flags };
