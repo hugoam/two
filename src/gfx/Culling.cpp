@@ -234,7 +234,7 @@ namespace mud
 		auto round = [](uint number, uint multiple) { return (number / multiple) * multiple; };
 
 		// these are defines in culling library but not exposed
-		uvec2 size = { round(viewport.m_rect.width, 8), round(viewport.m_rect.height, 4) };
+		uvec2 size = { round(viewport.m_rect.width, 8U), round(viewport.m_rect.height, 4U) };
 
 		unsigned int width, height;
 		m_moc->GetResolution(width, height);
@@ -363,8 +363,8 @@ namespace mud
 	{
 		if(render.m_frame->m_frame % 30 == 0)
 		{
-			const uint width = render.m_rect.width;
-			const uint height = render.m_rect.height;
+			const uint width = uint(render.m_rect.width * render.m_target->m_size.x);
+			const uint height = uint(render.m_rect.height * render.m_target->m_size.y);
 			m_depth_data.resize(width * height);
 
 			m_moc->ComputePixelDepthBuffer(m_depth_data.data(), false);

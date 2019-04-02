@@ -10,17 +10,21 @@ using namespace mud;
 #define MULTI_WINDOW 0
 #define MULTI_VIEWPORT 0
 
-// html ok :
-// xx_shadow_point (try shadows)
-// xx_tiled_forward (fix clusters)
-
-// fix known:
-// xx_lines_fat (width doesn't work)
+// todo:
+// hemisphere light
+// xx_light_hemisphere
+// xx_loader_ply (make it look correct)
+// xx_effect_sao
+// xx_effect_sobel
+// xx_effect_rgb_halftone
+// make atlas work for both direct and point/spot
+// xx_material_skin (fix inverted uv issue)
 
 // ported not ok:
 // xx_geom_points_hw (doesn't work)
 // xx_geom_instances (color doesn't work)
 // xx_material_variations (light)
+// xx_tiled_forward (fix clusters)
 // xx_cubemap_dynamic
 
 // todo js:
@@ -158,12 +162,9 @@ int main(int argc, char *argv[])
 	//static uint32_t example = 0;
 	//static uint32_t example = find_example("refraction/mesh");
 	//static uint32_t example = find_example("material/variations");
-	//static uint32_t example = find_example("loader/gltf");
-	//static uint32_t example = find_example("loader/ply");
-	//static uint32_t example0 = find_example("hierarchy");
 	//static uint32_t example0 = find_example("shader/ocean");
-	//static uint32_t example0 = find_example("material/translucent");
 	//static uint32_t example0 = find_example("material/skin");
+	//static uint32_t example0 = find_example("loader/ply");
 	static uint32_t example0 = find_example("shadow/point");
 	static bool init0 = true;
 

@@ -34,12 +34,10 @@ module mud.gfx.pbr;
 
 #include <cstdio>
 
-#define DEBUG_CSM 0
-#define DEBUG_ATLAS 1
+#define DEBUG_ATLAS 0
 
 namespace mud
 {
-	GpuState<GpuCSM> GpuState<GpuCSM>::me;
 	GpuState<GpuShadow> GpuState<GpuShadow>::me;
 
 	float snap_step(float value, float step)
@@ -223,55 +221,55 @@ namespace mud
 	}
 	
 	void update_csm_slice(Render& render, Light& light, const mat4& light_transform, const mat4& light_proj, 
-						  FrustumSlice& slice, CSMShadow& csm, LightShadow& shadow, const vec4& atlas_rect, uint csm_size)
+						  CSMSlice& slice, CSMShadow& csm, const vec4& atlas_rect, uint csm_size)
 	{
-		shadow.m_light = &light;
-		shadow.m_rect = csm_pass_rect(atlas_rect, light, slice.m_index);
+		slice.m_light = &light;
+		slice.m_rect = csm_pass_rect(atlas_rect, light, slice.m_index);
 		
-		shadow.m_light_bounds = light_slice_bounds(slice.m_frustum, light_transform);
+		slice.m_light_bounds = light_slice_bounds(slice.m_frustum, light_transform);
 
-		shadow.m_items = render.m_shot.m_items;
-		light_slice_cull(render, light, shadow.m_light_bounds, shadow.m_items);
-
-		const float texture_size = float(shadow.m_rect.width);
+		slice.m_items = render.m_shot.m_items;
+		light_slice_cull(render, light, slice.m_light_bounds, slice.m_items);
 
 		if(false)//light.m_shadow_flags == CSM_Stabilize)
 		{
-			light_slice_sphere_bounds(slice, light_transform, shadow.m_light_bounds, texture_size);
-			stabilize_light_bounds(slice, shadow.m_light_bounds, texture_size);
+			const float texture_size = float(slice.m_rect.width);
+			light_slice_sphere_bounds(slice, light_transform, slice.m_light_bounds, texture_size);
+			stabilize_light_bounds(slice, slice.m_light_bounds, texture_size);
 		}
 
-		shadow.m_projection = crop_shrink_light_proj(light, shadow.m_light_bounds, light_proj, float(csm_size));
-		shadow.m_transform = light_transform;
+		slice.m_projection = crop_shrink_light_proj(light, slice.m_light_bounds, light_proj, float(csm_size));
+		slice.m_transform = light_transform;
 
-		mat4 crop_matrix = rect_mat(shadow.m_rect) * bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, bgfx::getCaps()->homogeneousDepth);
-		shadow.m_shadow_matrix = crop_matrix * shadow.m_projection * shadow.m_transform;
+		mat4 crop_matrix = rect_mat(slice.m_rect) * bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, bgfx::getCaps()->homogeneousDepth);
+		slice.m_shadow_matrix = crop_matrix * slice.m_projection * slice.m_transform;
 
-		shadow.m_bias_scale = slice.m_index == 0 ? 1.f : slice.m_frustum.m_radius / csm.m_frustum_slices[0].m_frustum.m_radius;
+		slice.m_bias_scale = slice.m_index == 0 ? 1.f : slice.m_frustum.m_radius / csm.m_slices[0].m_frustum.m_radius;
 
-		shadow.m_frustum_slice = slice;
+		slice.m_frustum_slice = slice;
 	}
 
 	void BlockShadow::update_csm(Render& render, Light& light, size_t num_direct, CSMShadow& csm, size_t index)
 	{
 		csm.m_light = &light;
-		csm.m_frustum_slices.resize(light.m_shadow_num_splits);
-		split_frustum_slices(*render.m_camera, csm.m_frustum_slices, light.m_shadow_num_splits, light.m_shadow_split_distribution);
+		csm.m_slices.resize(light.m_shadow_num_splits);
+
+		vector<FrustumSlice*> slices;
+		for(CSMSlice& slice : csm.m_slices)
+			slices.push_back(&slice);
+
+		split_frustum_slices(*render.m_camera, slices, light.m_shadow_num_splits, light.m_shadow_split_distribution);
 
 		const mat4 light_transform = bxlookat(-light.m_node->direction(), vec3(0.f));
 		const mat4 light_proj = bxortho(1.0f, -1.0f, 1.0f, -1.0f, -light.m_shadow_range, light.m_shadow_range, 0.0f, bgfx::getCaps()->homogeneousDepth);
 
-		csm.m_slices.clear();
-		csm.m_slices.resize(csm.m_frustum_slices.size());
+		const ShadowAtlas::Slot& slot = m_atlas.light_slot(light);
 
-		const vec4 atlas_rect = m_atlas.light_slot(light).m_rect;
-
-		for(size_t i = 0; i < csm.m_frustum_slices.size(); ++i)
+		for(size_t i = 0; i < csm.m_slices.size(); ++i)
 		{
-			FrustumSlice& slice = csm.m_frustum_slices[i];
-			LightShadow& shadow = csm.m_slices[i];
-			update_csm_slice(render, light, light_transform, light_proj, slice, csm, shadow, atlas_rect, m_csm.m_size.x);
-			shadow.m_fbo = &m_csm.m_fbo;
+			CSMSlice& slice = csm.m_slices[i];
+			update_csm_slice(render, light, light_transform, light_proj, slice, csm, slot.m_rect, slot.m_trect.width);
+			slice.m_fbo = &m_atlas.m_fbo;
 		}
 	}
 
@@ -315,7 +313,7 @@ namespace mud
 		, m_block_light(block_light)
 	{
 		m_shader_block.m_options = { "CSM_SHADOW" };
-		m_shader_block.m_modes = { "PCF_LEVEL", "CSM_NUM_CASCADES" };
+		m_shader_block.m_modes = { "PCF_LEVEL" };
 
 		//m_pcf_level = PCF_HARD;
 		m_pcf_level = PCF_NONE;
@@ -325,25 +323,19 @@ namespace mud
 	{
 		u_shadow.createUniforms();
 
-		GpuState<GpuCSM>::me.init();
 		GpuState<GpuShadow>::me.init();
 	}
 
 	void BlockShadow::begin_render(Render& render)
 	{
 		UNUSED(render);
-		if(m_direct_light && m_direct_light->m_shadows)
-		{
-			constexpr uint csm_size = 4096;
-			if(m_csm.m_size.x != csm_size)
-				m_csm.create(uvec2(csm_size));
-		}
 
 		for(Light* light : render.m_shot.m_lights)
-			if(light->m_shadows && light->m_type != LightType::Direct)
+			if(light->m_shadows)
 			{
 				if(m_atlas.m_side == 0)
 					//m_atlas = { 1024U, { 4U } };
+					//m_atlas = { 1024U, { 1U, 1U } };
 					m_atlas = { 1024U, { 2U, 4U, 8U, 16U } };
 
 				m_atlas.render_update(render, *light);
@@ -352,13 +344,8 @@ namespace mud
 		this->setup_shadows(render);
 
 #if DEBUG_ATLAS
-		//m_gfx.m_copy->debug_show_texture(render, m_atlas.m_depth, vec4(0.f), true);
-		//m_gfx.m_copy->debug_show_texture(render, m_atlas.m_cubemaps[0].m_cubemap, vec4(0.f), true);
+		//m_gfx.m_copy->debug_show_texture(render, m_atlas.m_depth, vec4(0.f));
 		m_gfx.m_copy->debug_show_texture(render, m_atlas.m_color, vec4(0.f));
-#endif
-
-#if DEBUG_CSM
-		m_gfx.m_copy->debug_show_texture(render, m_csm.m_depth, vec4(0.f), true);
 #endif
 	}
 
@@ -387,7 +374,7 @@ namespace mud
 			if(light.m_type == LightType::Direct)
 			{
 				CSMShadow& csm = push(m_csm_shadows);
-				if(m_csm.m_size != uvec2(0U))
+				if(m_atlas.m_size != uvec2(0U))
 					this->update_csm(render, light, num_csm, csm, csm_index++);
 			}
 			else if(light.m_type == LightType::Point)
@@ -417,8 +404,8 @@ namespace mud
 					slot_coord + vec2(1.f, 0.f) * slot_size, // negative Z
 				};
 
-				m_block_light.m_gpu_shadows[index].atlas_slot = slot_coord;
-				m_block_light.m_gpu_shadows[index].atlas_subdiv = slot_size;
+				m_block_light.m_gpu_lights[index].shadow.atlas_slot = slot_coord;
+				m_block_light.m_gpu_lights[index].shadow.atlas_subdiv = slot_size;
 
 				for(SignedAxis axis : c_signed_axes)
 				{
@@ -470,24 +457,36 @@ namespace mud
 		UNUSED(render);
 		const mat4 inverse_view = inverse(view);
 
+		size_t index = 0;
+
+		m_shadow_matrices.resize(m_csm_shadows.size() * 4 + m_shadows.size());
+
 		for(const CSMShadow& csm : m_csm_shadows)
 		{
-			for(uint32_t i = 0; i < csm.m_frustum_slices.size(); ++i)
+			size_t i = 0;
+			for(const CSMSlice& slice : csm.m_slices)
 			{
-				m_csm_splits[i] = csm.m_frustum_slices[i].m_frustum.m_far;
-				m_csm_matrix[i] = csm.m_slices[i].m_shadow_matrix * inverse_view;
+				GpuCSMShadow& gpu = m_block_light.m_gpu_lights[slice.m_light->m_index].csm;
+
+				m_shadow_matrices[index] = slice.m_shadow_matrix * inverse_view;
+
+				gpu.matrices[i] = float(index);
+				gpu.splits[i] = slice.m_frustum.m_far;
+
+				index++; i++;
 			}
 		}
 
-		m_shadow_matrices.resize(m_shadows.size());
-
-		size_t index = 0;
 		for(const LightShadow& shadow : m_shadows)
 		{
+			GpuShadow& gpu = m_block_light.m_gpu_lights[shadow.m_light->m_index].shadow;
+
 			m_shadow_matrices[index] = shadow.m_shadow_matrix * inverse_view;
 
-			m_block_light.m_gpu_shadows[shadow.m_light->m_index].matrix = float(index);
-			m_block_light.m_gpu_shadows[shadow.m_light->m_index].range = shadow.m_far;
+			gpu.matrix = float(index);
+			gpu.bias = shadow.m_light->m_shadow_bias;
+			gpu.radius = 1.f;
+			gpu.range = shadow.m_far;
 
 			index++;
 		}
@@ -498,7 +497,6 @@ namespace mud
 	void BlockShadow::upload_shadows(Render& render, const Pass& pass) const
 	{
 		UNUSED(render);
-		GpuState<GpuCSM>::me.upload(pass, const_cast<BlockShadow*>(this)->m_csm_matrix, m_csm_splits);
 		GpuState<GpuShadow>::me.upload(pass, const_cast<BlockShadow*>(this)->m_shadow_matrices);
 	}
 
@@ -515,7 +513,6 @@ namespace mud
 		{
 			shader_version.set_option(m_index, CSM_SHADOW);
 			//shader_version.set_option(m_index, CSM_BLEND, light->m_shadow_blend_splits);
-			shader_version.set_mode(m_index, CSM_NUM_CASCADES, light->m_shadow_num_splits);
 		}
 	}
 
@@ -533,7 +530,7 @@ namespace mud
 
 		if(direct && light->m_shadows)
 		{
-			vec4 csm_p0 = { 1.f / vec2(m_csm.m_size), vec2(0.f) };
+			vec4 csm_p0 = { 1.f / vec2(m_atlas.m_size), vec2(0.f) };
 			bgfx::setViewUniform(pass.m_index, u_shadow.u_csm_p0, &csm_p0);
 
 			vec2 pcf_offset = { 1.f, 1.f };
@@ -552,24 +549,21 @@ namespace mud
 	{
 		UNUSED(render); UNUSED(element); UNUSED(pass);
 
-		Light* light = m_direct_light;
-		bool direct = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;
-
 		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		bool shadow_sampler = false; // m_pcf_level != PCF_HARD
 		uint32_t shadow_flags = shadow_sampler ? BGFX_SAMPLER_COMPARE_LESS : GFX_TEXTURE_POINT;
 
-		// @todo store csm shadow in the shadow atlas
-		if(direct && light->m_shadows)
-		{
-			encoder.setTexture(uint8_t(TextureSampler::Shadow), m_csm.m_depth, shadow_flags);
-		}
-
+		// @todo for now normal shadows and direct shadows are incompatible because we use color for the former and depth for the latter
+		// we should be able to switch the distance shader to write to the depth buffer
 		if(!m_shadows.empty())
 		{
 			encoder.setTexture(uint8_t(TextureSampler::Shadow), m_atlas.m_color, shadow_flags);
-			//encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), m_atlas.m_depth, shadow_flags);
+		}
+
+		if(!m_csm_shadows.empty())
+		{
+			encoder.setTexture(uint8_t(TextureSampler::Shadow), m_atlas.m_depth, shadow_flags);
 		}
 	}
 
@@ -593,7 +587,7 @@ namespace mud
 		auto render_shadow = [&](LightShadow& shadow, const vec4& rect)
 		{
 			Camera camera = Camera(shadow.m_transform, shadow.m_projection);
-			Viewport viewport = Viewport(camera, *render.m_scene, target_rect(shadow));
+			Viewport viewport = Viewport(camera, *render.m_scene, rect);
 
 			Render shadow_render = { Shading::Volume, viewport, *render.m_target, *shadow.m_fbo, *render.m_frame };
 			shadow_render.m_shot.m_lights = render.m_shot.m_lights;
@@ -607,7 +601,7 @@ namespace mud
 
 		for(CSMShadow& csm : block_shadow.m_csm_shadows)
 		{
-			if(!block_shadow.m_csm.m_fbo.valid())
+			if(!block_shadow.m_atlas.m_fbo.valid())
 				continue;
 
 			for(LightShadow& slice : csm.m_slices)

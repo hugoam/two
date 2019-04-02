@@ -209,7 +209,7 @@ namespace mud
 		return Frustum{ camera.m_transform, camera.m_fov, camera.m_aspect, near, far };
 	}
 
-	void split_frustum_slices(Camera& camera, span<FrustumSlice> slices, uint8_t num_splits, float near, float far, float split_distribution)
+	void split_frustum_slices(Camera& camera, span<FrustumSlice*> slices, uint8_t num_splits, float near, float far, float split_distribution)
 	{
 		const float ratio = far / near;
 
@@ -218,7 +218,7 @@ namespace mud
 			float si = float(int8_t(i * 2 + 1)) / float(num_splits * 2);
 
 			const float split = split_distribution * (near * powf(ratio, si)) + (1 - split_distribution) * (near + (far - near) * si);
-			const float slice_near = i == 0 ? near : slices[i - 1].m_frustum.m_far * 1.005f;
+			const float slice_near = i == 0 ? near : slices[i - 1]->m_frustum.m_far * 1.005f;
 			const float slice_far = i == num_splits - 1 ? far : split;
 
 			Frustum frustum;
@@ -232,11 +232,11 @@ namespace mud
 				frustum = { camera.m_transform, camera.m_fov, camera.m_aspect, slice_near, slice_far };
 			}
 
-			slices[i] = { i, frustum };
+			*slices[i] = { i, frustum };
 		}
 	}
 
-	void split_frustum_slices(Camera& camera, span<FrustumSlice> slices, uint8_t num_splits, float split_distribution)
+	void split_frustum_slices(Camera& camera, span<FrustumSlice*> slices, uint8_t num_splits, float split_distribution)
 	{
 		split_frustum_slices(camera, slices, num_splits, camera.m_near, camera.m_far, split_distribution);
 	}

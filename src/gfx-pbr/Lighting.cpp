@@ -167,7 +167,6 @@ namespace mud
 		zone.m_shadow_counts = vec4(0.f);
 
 		m_gpu_lights.clear();
-		m_gpu_shadows.clear();
 
 		for(size_t index = 0; index < lights.size(); ++index)
 		{
@@ -192,20 +191,6 @@ namespace mud
 			float& light_type_count = zone.m_light_counts[size_t(light.m_type)];
 			zone.m_light_indices[size_t(light_type_count)][size_t(light.m_type)] = float(index);
 			light_type_count++;
-		}
-
-		for(size_t index = 0; index < lights.size(); ++index)
-		{
-			const Light& light = *lights[index];
-
-			float matrix = c_max_shadows;
-			float bias = light.m_shadow_bias;
-			float radius = 1.f;
-			float range = 100.f;
-			vec2 atlas_offset = vec2(0.f);
-			vec2 atlas_scale = vec2(0.f);
-
-			m_gpu_shadows.push_back({ matrix, bias, radius, range, atlas_offset, atlas_scale });
 
 			if(light.m_shadows)
 			{
@@ -222,7 +207,7 @@ namespace mud
 	{
 		UNUSED(render);
 #if LIGHTS_BUFFER
-		GpuState<GpuLight>::me.pack(m_lights_texture, m_gpu_lights, m_gpu_shadows);
+		GpuState<GpuLight>::me.pack(m_lights_texture, m_gpu_lights);
 #endif
 	}
 
@@ -329,7 +314,7 @@ namespace mud
 
 			if(frustums)
 			{
-				Frustum& frustum = shadow.m_frustum_slices[i].m_frustum;
+				Frustum& frustum = shadow.m_slices[i].m_frustum;
 				draw(parent, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(Colour::White));
 				if(false)
 					draw(parent, Sphere(frustum.m_center, frustum.m_radius), Symbol::wire(Colour::DarkGrey));

@@ -35,6 +35,7 @@ namespace mud
 			uint16_t m_index;
 			Light* m_light;
 			vec4 m_rect;
+			uvec4 m_trect;
 		};
 
 		struct Slice;

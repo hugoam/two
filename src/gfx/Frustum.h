@@ -65,5 +65,5 @@ namespace mud
 		Frustum m_frustum;
 	};
 
-	export_ MUD_GFX_EXPORT void split_frustum_slices(Camera& camera, span<FrustumSlice> slices, uint8_t num_splits, float split_distribution);
+	export_ MUD_GFX_EXPORT void split_frustum_slices(Camera& camera, span<FrustumSlice*> slices, uint8_t num_splits, float split_distribution);
 }

@@ -23,6 +23,22 @@ namespace mud
 		attr_ mat4 matrix;
 	};
 
+	struct gpu_ GpuShadow
+	{
+		attr_ float matrix;
+		attr_ float bias;
+		attr_ float radius;
+		attr_ float range;
+		attr_ vec2 atlas_slot;
+		attr_ vec2 atlas_subdiv;
+	};
+
+	struct gpu_ GpuCSMShadow
+	{
+		attr_ vec4 splits;
+		attr_ vec4 matrices;
+	};
+
 	struct gpu_ GpuLight
 	{
 		attr_ vec3 position;
@@ -33,16 +49,9 @@ namespace mud
 		attr_ float attenuation;
 		attr_ float spot_attenuation;
 		attr_ float spot_cutoff;
-	};
 
-	struct gpu_ GpuLightShadow
-	{
-		attr_ float matrix;
-		attr_ float bias;
-		attr_ float radius;
-		attr_ float range;
-		attr_ vec2 atlas_slot;
-		attr_ vec2 atlas_subdiv;
+		attr_ GpuShadow shadow;
+		attr_ GpuCSMShadow csm;
 	};
 
 	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Viewport& viewport, Camera& camera);
@@ -106,7 +115,6 @@ namespace mud
 		ZoneLights m_zones[1];
 
 		vector<GpuLight> m_gpu_lights;
-		vector<GpuLightShadow> m_gpu_shadows;
 
 		Texture m_zones_texture = {};
 		Texture m_lights_texture = {};

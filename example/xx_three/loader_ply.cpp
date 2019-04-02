@@ -19,6 +19,7 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	Scene& scene = viewer.m_scene;
 
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
+	static Program& phong = *app.m_gfx.programs().file("pbr/phong");
 
 	if(init)
 	{
@@ -53,19 +54,15 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		// Ground
 
-		{
-			Material& material = app.m_gfx.materials().create("ground", [&](Material& m) {
-				m.m_program = &pbr;
-				m.m_pbr.m_albedo = rgb(0x999999);
-				m.m_pbr.m_roughness = 0.f;
-				//m.m_pbr.m_specular = rgb(0x101010);
-				// Phong
-			});
+		Material& ground = app.m_gfx.materials().create("ground", [&](Material& m) {
+			m.m_program = &phong;
+			m.m_phong.m_diffuse = rgb(0x999999);
+			m.m_phong.m_specular = rgb(0x101010);
+		});
 
-			Model& model = app.m_gfx.shape(Rect(vec2(0.f), vec2(40.f)));
-			Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, -0.5f, 0.f)));
-			gfx::items(scene).add(Item(n, model, 0, &material));
-		}
+		Model& model = app.m_gfx.shape(Rect(vec2(0.f), vec2(40.f)));
+		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, -0.5f, 0.f)));
+		gfx::items(scene).add(Item(n, model, 0, &ground));
 
 		Material& material = app.m_gfx.materials().create("ply", [&](Material& m) {
 			m.m_program = &pbr;
@@ -76,26 +73,22 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		// PLY file
 
-		{
-			Model& dolphin = *app.m_gfx.models().file("dolphins"); // .ply
+		Model& dolphin = *app.m_gfx.models().file("dolphins"); // .ply
+		Model& lucy = *app.m_gfx.models().file("Lucy100k"); // .ply
 			
-			Node3& n = gfx::nodes(scene).add(Node3(vec3(-0.2f, 0.f, 0.3f), quat(vec3(-c_pi2, 0.f, 0.f)), vec3(0.001f)));
-			gfx::items(scene).add(Item(n, dolphin, 0, &material));
-		}
+		Node3& n0 = gfx::nodes(scene).add(Node3(vec3(-0.2f, 0.f, 0.3f), quat(vec3(-c_pi2, 0.f, 0.f)), vec3(0.001f)));
+		gfx::items(scene).add(Item(n0, dolphin, 0, &material));
 
-		{
-			Model& lucy = *app.m_gfx.models().file("Lucy100k"); // .ply
-
-			Node3& n = gfx::nodes(scene).add(Node3(vec3(-0.2f, 0.02f, -0.2f), quat(vec3(0.f)), vec3(0.0006f)));
-			gfx::items(scene).add(Item(n, lucy, 0, &material));
-		}
+		Node3& n1 = gfx::nodes(scene).add(Node3(vec3(-0.2f, -0.02f, -0.2f), quat(vec3(0.f)), vec3(0.0006f)));
+		gfx::items(scene).add(Item(n1, lucy, 0, &material));
+	
 
 		// Lights
 
 		//scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
 
-		//add_light(normalize(vec3(-1.f, -1.f, -1.f)), rgb(0xffffff), 1.35f, true);
-		add_light(normalize(vec3(-0.5f, -1.f, 1.f)), rgb(0xffaa00), 1.f, false);
+		add_light(normalize(vec3(-1.f, -1.f, -1.f)), rgb(0xffffff), 1.35f, true);
+		add_light(normalize(vec3(-0.5f, -1.f, 1.f)), rgb(0xffaa00), 1.f, true);
 	}
 
 

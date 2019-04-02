@@ -74,8 +74,9 @@ namespace mud
 			{
 				vec4 slot_rect = { rect.x + x * slot_size.x, rect.y + y * slot_size.y,
 								   slot_size.x, slot_size.y };
+				uvec4 slot_trect = uvec4(slot_rect * float(size));
 
-				m_slots.push_back({ i++, nullptr, slot_rect });
+				m_slots.push_back({ i++, nullptr, slot_rect, slot_trect });
 			}
 
 		// @todo change to highwater + free list under waterline
@@ -142,6 +143,17 @@ namespace mud
 
 	vec4 ShadowAtlas::render_update(Render& render, Light& light)
 	{
+		if(light.m_type == LightType::Direct)
+		{
+			Slice& slice = m_slices[light.m_index];
+			Slot& slot = slice.m_slots[0];
+			slot.m_light = &light;
+			union { Index index; uint32_t i; } cast;
+			cast.index = { slice.m_index, slot.m_index };
+			light.m_shadow_index = cast.i;
+			return slot.m_rect;
+		}
+
 		const Plane camera_near_plane = render.m_camera->near_plane();
 
 		vec3 points[2];

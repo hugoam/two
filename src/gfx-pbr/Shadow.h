@@ -23,7 +23,6 @@ namespace mud
 	enum ShaderModeShadow : unsigned int
 	{
 		PCF_LEVEL,
-		CSM_NUM_CASCADES,
 	};
 
 	enum ShadowFilterMode : unsigned int
@@ -75,17 +74,6 @@ namespace mud
 		vec3 max = { -9000.0f, -9000.0f, -9000.0f };
 	};
 
-	struct gpu_ GpuCSM
-	{
-		mat4 matrix[4];
-		vec4 splits;
-	};
-
-	struct gpu_ GpuShadow
-	{
-		mat4 matrix;
-	};
-
 	export_ struct refl_ MUD_GFX_PBR_EXPORT LightShadow
 	{
 		Light* m_light = nullptr;
@@ -108,12 +96,14 @@ namespace mud
 		vector<Item*> m_items;
 	};
 
+	export_ struct refl_ MUD_GFX_PBR_EXPORT CSMSlice : public LightShadow, public FrustumSlice
+	{};
+
 	export_ struct refl_ MUD_GFX_PBR_EXPORT CSMShadow
 	{
 		Light* m_light;
 
-		vector<FrustumSlice> m_frustum_slices;
-		vector<LightShadow> m_slices;
+		vector<CSMSlice> m_slices;
 	};
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
@@ -179,11 +169,6 @@ namespace mud
 
 		vector<CSMShadow> m_csm_shadows;
 		vector<LightShadow> m_shadows;
-
-		Shadowmap m_csm;
-
-		mat4 m_csm_matrix[4];
-		vec4 m_csm_splits;
 
 		vector<mat4> m_shadow_matrices;
 	};
