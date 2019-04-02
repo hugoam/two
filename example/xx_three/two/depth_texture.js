@@ -44,7 +44,7 @@ function pass_todepth(gfx, render) {
     gfx.filter.quad(pass, target.post.swap(), program);
 
     var flip = render.next_pass('flip', two.PassType.PostProcess);
-    gfx.copy.quad(flip, render.target_fbo, target.post.last());
+    gfx.copy.quad(flip, render.fbo, target.post.last());
 }
 
 

@@ -175,7 +175,7 @@ function pass_fake_sun(gfx, render, godrays) {
     // @todo fix this
     //btwo.gfx.setViewScissor(pass.index, sun.x - sunsqW / 2.0, sun.y - sunsqH / 2.0, sunsqW, sunsqH);
 
-    gfx.filter.quad(pass, render.target_fbo, program);
+    gfx.filter.quad(pass, render.fbo, program);
 }
 
 function pass_godrays(gfx, render, godrays) {
@@ -229,7 +229,7 @@ function pass_godrays(gfx, render, godrays) {
         gfx.filter.quad(pass, render.target.post.swap(), program);
 
         var flip = render.next_pass('flip', two.PassType.PostProcess);
-        gfx.copy.quad(flip, render.target_fbo, render.target.post.last());
+        gfx.copy.quad(flip, render.fbo, render.target.post.last());
     }
 
     pass_mask_depth(gfx, render, godrays, this.depth);

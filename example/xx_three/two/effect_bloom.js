@@ -152,9 +152,9 @@ function pass_unreal_bloom(gfx, render, bloom) {
 
         // additive blend bloom over target
         var merge = render.next_pass('flip', two.PassType.PostProcess);
-        //gfx.copy.quad(merge, render.target_fbo, target.post.last());
-        //gfx.copy.quad(merge, render.target_fbo, target.post.last(), pass.viewport.rect, BGFX_STATE_BLEND_ADD);
-        gfx.copy.quad(merge, render.target_fbo, target.post.last(), pass.viewport.rect, 35790848);
+        //gfx.copy.quad(merge, render.fbo, target.post.last());
+        //gfx.copy.quad(merge, render.fbo, target.post.last(), pass.viewport.rect, BGFX_STATE_BLEND_ADD);
+        gfx.copy.quad(merge, render.fbo, target.post.last(), pass.viewport.rect, 35790848);
     }
 
     // 1. Extract bright areas

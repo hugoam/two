@@ -426,7 +426,7 @@ function pass_fxaa(gfx, render) {
 	gfx.filter.quad(pass, render.target.post.swap(), program);
 
     var flip = render.next_pass('flip', two.PassType.PostProcess);
-	gfx.copy.quad(flip, render.target_fbo, render.target.post.last());
+	gfx.copy.quad(flip, render.fbo, render.target.post.last());
 }
 
 var viewer = two.ui.scene_viewer(panel);
