@@ -2642,6 +2642,7 @@ namespace mud
 		static float ambient_default = 1.0f;
 		static mud::Texture* texture_default = nullptr;
 		static mud::Texture* filtered_default = nullptr;
+		static bool filter_default = true;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Radiance__construct_0, {} }
@@ -2656,7 +2657,8 @@ namespace mud
 			{ t, offsetof(mud::Radiance, m_energy), type<float>(), "energy", &energy_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Radiance, m_ambient), type<float>(), "ambient", &ambient_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Radiance, m_texture), type<mud::Texture>(), "texture", texture_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::Radiance, m_filtered), type<mud::Texture>(), "filtered", filtered_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(mud::Radiance, m_filtered), type<mud::Texture>(), "filtered", filtered_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Radiance, m_filter), type<bool>(), "filter", &filter_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members

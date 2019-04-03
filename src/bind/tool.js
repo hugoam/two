@@ -105,7 +105,7 @@ Object.defineProperty(Tool.prototype, "context", {
     }});
 Object.defineProperty(Tool.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Tool__get_name(this.__ptr));
+        return UTF8ToString(_mud_Tool__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Tool__set_name(this.__ptr, ensureString(value));

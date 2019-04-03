@@ -23,7 +23,7 @@ Clipboard.__cache = {};
 Module['Clipboard'] = Clipboard;
 Object.defineProperty(Clipboard.prototype, "text", {
     get: function() {
-        return Pointer_stringify(_mud_Clipboard__get_text(this.__ptr));
+        return UTF8ToString(_mud_Clipboard__get_text(this.__ptr));
     },
     set: function(value) {
         _mud_Clipboard__set_text(this.__ptr, ensureString(value));
@@ -183,7 +183,7 @@ InkStyle.__cache = {};
 Module['InkStyle'] = InkStyle;
 Object.defineProperty(InkStyle.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_InkStyle__get_name(this.__ptr));
+        return UTF8ToString(_mud_InkStyle__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_InkStyle__set_name(this.__ptr, ensureString(value));
@@ -231,7 +231,7 @@ Object.defineProperty(InkStyle.prototype, "text_colour", {
 });
 Object.defineProperty(InkStyle.prototype, "text_font", {
     get: function() {
-        return Pointer_stringify(_mud_InkStyle__get_text_font(this.__ptr));
+        return UTF8ToString(_mud_InkStyle__get_text_font(this.__ptr));
     },
     set: function(value) {
         _mud_InkStyle__set_text_font(this.__ptr, ensureString(value));
@@ -415,7 +415,7 @@ Layout.__cache = {};
 Module['Layout'] = Layout;
 Object.defineProperty(Layout.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Layout__get_name(this.__ptr));
+        return UTF8ToString(_mud_Layout__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Layout__set_name(this.__ptr, ensureString(value));
@@ -711,7 +711,7 @@ Object.defineProperty(Style.prototype, "base", {
 });
 Object.defineProperty(Style.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Style__get_name(this.__ptr));
+        return UTF8ToString(_mud_Style__get_name(this.__ptr));
     }});
 Object.defineProperty(Style.prototype, "layout", {
     get: function() {
@@ -779,7 +779,7 @@ TextPaint.__cache = {};
 Module['TextPaint'] = TextPaint;
 Object.defineProperty(TextPaint.prototype, "font", {
     get: function() {
-        return Pointer_stringify(_mud_TextPaint__get_font(this.__ptr));
+        return UTF8ToString(_mud_TextPaint__get_font(this.__ptr));
     },
     set: function(value) {
         _mud_TextPaint__set_font(this.__ptr, ensureString(value));

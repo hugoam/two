@@ -25,11 +25,11 @@ Context.prototype["lock_mouse"] = Context.prototype.lock_mouse = function(a0) {
 };
 Object.defineProperty(Context.prototype, "resource_path", {
     get: function() {
-        return Pointer_stringify(_mud_Context__get_resource_path(this.__ptr));
+        return UTF8ToString(_mud_Context__get_resource_path(this.__ptr));
     }});
 Object.defineProperty(Context.prototype, "title", {
     get: function() {
-        return Pointer_stringify(_mud_Context__get_title(this.__ptr));
+        return UTF8ToString(_mud_Context__get_title(this.__ptr));
     },
     set: function(value) {
         _mud_Context__set_title(this.__ptr, ensureString(value));

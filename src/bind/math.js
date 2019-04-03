@@ -142,7 +142,7 @@ Image.__cache = {};
 Module['Image'] = Image;
 Object.defineProperty(Image.prototype, "d_name", {
     get: function() {
-        return Pointer_stringify(_mud_Image__get_d_name(this.__ptr));
+        return UTF8ToString(_mud_Image__get_d_name(this.__ptr));
     },
     set: function(value) {
         _mud_Image__set_d_name(this.__ptr, ensureString(value));
@@ -150,7 +150,7 @@ Object.defineProperty(Image.prototype, "d_name", {
 });
 Object.defineProperty(Image.prototype, "d_path", {
     get: function() {
-        return Pointer_stringify(_mud_Image__get_d_path(this.__ptr));
+        return UTF8ToString(_mud_Image__get_d_path(this.__ptr));
     },
     set: function(value) {
         _mud_Image__set_d_path(this.__ptr, ensureString(value));

@@ -33,7 +33,7 @@ Shell.prototype["main_window"] = Shell.prototype.main_window = function() {
 };
 Object.defineProperty(Shell.prototype, "exec_path", {
     get: function() {
-        return Pointer_stringify(_mud_Shell__get_exec_path(this.__ptr));
+        return UTF8ToString(_mud_Shell__get_exec_path(this.__ptr));
     },
     set: function(value) {
         _mud_Shell__set_exec_path(this.__ptr, ensureString(value));
@@ -41,7 +41,7 @@ Object.defineProperty(Shell.prototype, "exec_path", {
 });
 Object.defineProperty(Shell.prototype, "resource_path", {
     get: function() {
-        return Pointer_stringify(_mud_Shell__get_resource_path(this.__ptr));
+        return UTF8ToString(_mud_Shell__get_resource_path(this.__ptr));
     },
     set: function(value) {
         _mud_Shell__set_resource_path(this.__ptr, ensureString(value));

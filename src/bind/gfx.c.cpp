@@ -2667,6 +2667,12 @@ extern "C" {
 	void DECL mud_Radiance__set_filtered(mud::Radiance* self, mud::Texture* value) {
 		self->m_filtered = value;
 	}
+	bool DECL mud_Radiance__get_filter(mud::Radiance* self) {
+		return self->m_filter;
+	}
+	void DECL mud_Radiance__set_filter(mud::Radiance* self, bool value) {
+		self->m_filter = value;
+	}
 	void DECL mud_Radiance__destroy(mud::Radiance* self) {
 		delete self;
 	}

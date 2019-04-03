@@ -134,7 +134,7 @@ Module.__cache = {};
 Module['Module'] = Module;
 Object.defineProperty(Module.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Module__get_name(this.__ptr));
+        return UTF8ToString(_mud_Module__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Module__set_name(this.__ptr, ensureString(value));
@@ -142,7 +142,7 @@ Object.defineProperty(Module.prototype, "name", {
 });
 Object.defineProperty(Module.prototype, "path", {
     get: function() {
-        return Pointer_stringify(_mud_Module__get_path(this.__ptr));
+        return UTF8ToString(_mud_Module__get_path(this.__ptr));
     },
     set: function(value) {
         _mud_Module__set_path(this.__ptr, ensureString(value));
@@ -188,7 +188,7 @@ Object.defineProperty(Operator.prototype, "type", {
 });
 Object.defineProperty(Operator.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Operator__get_name(this.__ptr));
+        return UTF8ToString(_mud_Operator__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Operator__set_name(this.__ptr, ensureString(value));
@@ -196,7 +196,7 @@ Object.defineProperty(Operator.prototype, "name", {
 });
 Object.defineProperty(Operator.prototype, "sign", {
     get: function() {
-        return Pointer_stringify(_mud_Operator__get_sign(this.__ptr));
+        return UTF8ToString(_mud_Operator__get_sign(this.__ptr));
     },
     set: function(value) {
         _mud_Operator__set_sign(this.__ptr, ensureString(value));

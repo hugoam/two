@@ -578,7 +578,7 @@ Object.defineProperty(Symbol.prototype, "subdiv", {
 });
 Object.defineProperty(Symbol.prototype, "image", {
     get: function() {
-        return Pointer_stringify(_mud_Symbol__get_image(this.__ptr));
+        return UTF8ToString(_mud_Symbol__get_image(this.__ptr));
     },
     set: function(value) {
         _mud_Symbol__set_image(this.__ptr, ensureString(value));
@@ -594,7 +594,7 @@ Object.defineProperty(Symbol.prototype, "image256", {
 });
 Object.defineProperty(Symbol.prototype, "program", {
     get: function() {
-        return Pointer_stringify(_mud_Symbol__get_program(this.__ptr));
+        return UTF8ToString(_mud_Symbol__get_program(this.__ptr));
     },
     set: function(value) {
         _mud_Symbol__set_program(this.__ptr, ensureString(value));

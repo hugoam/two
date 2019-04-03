@@ -17,7 +17,7 @@ Object.defineProperty(Tile.prototype, "index", {
 });
 Object.defineProperty(Tile.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Tile__get_name(this.__ptr));
+        return UTF8ToString(_mud_Tile__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Tile__set_name(this.__ptr, ensureString(value));
@@ -61,7 +61,7 @@ Tileset.__cache = {};
 Module['Tileset'] = Tileset;
 Object.defineProperty(Tileset.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Tileset__get_name(this.__ptr));
+        return UTF8ToString(_mud_Tileset__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Tileset__set_name(this.__ptr, ensureString(value));

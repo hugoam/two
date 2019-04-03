@@ -21,7 +21,7 @@ Animation.__cache = {};
 Module['Animation'] = Animation;
 Object.defineProperty(Animation.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Animation__get_name(this.__ptr));
+        return UTF8ToString(_mud_Animation__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Animation__set_name(this.__ptr, ensureString(value));
@@ -147,7 +147,7 @@ Object.defineProperty(AnimationTrack.prototype, "node", {
 });
 Object.defineProperty(AnimationTrack.prototype, "node_name", {
     get: function() {
-        return Pointer_stringify(_mud_AnimationTrack__get_node_name(this.__ptr));
+        return UTF8ToString(_mud_AnimationTrack__get_node_name(this.__ptr));
     },
     set: function(value) {
         _mud_AnimationTrack__set_node_name(this.__ptr, ensureString(value));
@@ -812,7 +812,7 @@ Flow.__cache = {};
 Module['Flow'] = Flow;
 Object.defineProperty(Flow.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Flow__get_name(this.__ptr));
+        return UTF8ToString(_mud_Flow__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Flow__set_name(this.__ptr, ensureString(value));
@@ -968,7 +968,7 @@ Object.defineProperty(Flow.prototype, "sprite_frame", {
 });
 Object.defineProperty(Flow.prototype, "sprite_name", {
     get: function() {
-        return Pointer_stringify(_mud_Flow__get_sprite_name(this.__ptr));
+        return UTF8ToString(_mud_Flow__get_sprite_name(this.__ptr));
     },
     set: function(value) {
         _mud_Flow__set_sprite_name(this.__ptr, ensureString(value));
@@ -1265,7 +1265,7 @@ Import.__cache = {};
 Module['Import'] = Import;
 Object.defineProperty(Import.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Import__get_name(this.__ptr));
+        return UTF8ToString(_mud_Import__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Import__set_name(this.__ptr, ensureString(value));
@@ -1273,7 +1273,7 @@ Object.defineProperty(Import.prototype, "name", {
 });
 Object.defineProperty(Import.prototype, "file", {
     get: function() {
-        return Pointer_stringify(_mud_Import__get_file(this.__ptr));
+        return UTF8ToString(_mud_Import__get_file(this.__ptr));
     },
     set: function(value) {
         _mud_Import__set_file(this.__ptr, ensureString(value));
@@ -1281,7 +1281,7 @@ Object.defineProperty(Import.prototype, "file", {
 });
 Object.defineProperty(Import.prototype, "path", {
     get: function() {
-        return Pointer_stringify(_mud_Import__get_path(this.__ptr));
+        return UTF8ToString(_mud_Import__get_path(this.__ptr));
     },
     set: function(value) {
         _mud_Import__set_path(this.__ptr, ensureString(value));
@@ -1349,7 +1349,7 @@ Object.defineProperty(ImportConfig.prototype, "transform", {
 });
 Object.defineProperty(ImportConfig.prototype, "suffix", {
     get: function() {
-        return Pointer_stringify(_mud_ImportConfig__get_suffix(this.__ptr));
+        return UTF8ToString(_mud_ImportConfig__get_suffix(this.__ptr));
     },
     set: function(value) {
         _mud_ImportConfig__set_suffix(this.__ptr, ensureString(value));
@@ -1745,7 +1745,7 @@ Object.defineProperty(Material.prototype, "index", {
 });
 Object.defineProperty(Material.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Material__get_name(this.__ptr));
+        return UTF8ToString(_mud_Material__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Material__set_name(this.__ptr, ensureString(value));
@@ -2677,7 +2677,7 @@ Mesh.prototype["direct"] = Mesh.prototype.direct = function(a0, a1, a2) {
 };
 Object.defineProperty(Mesh.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Mesh__get_name(this.__ptr));
+        return UTF8ToString(_mud_Mesh__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Mesh__set_name(this.__ptr, ensureString(value));
@@ -2842,7 +2842,7 @@ Mime.prototype["next_animation"] = Mime.prototype.next_animation = function() {
     _mud_Mime_next_animation_0(this.__ptr);
 };
 Mime.prototype["playing"] = Mime.prototype.playing = function() {
-    return Pointer_stringify(_mud_Mime_playing_0(this.__ptr));
+    return UTF8ToString(_mud_Mime_playing_0(this.__ptr));
 };
 Object.defineProperty(Mime.prototype, "active", {
     get: function() {
@@ -2901,7 +2901,7 @@ Model.prototype["prepare"] = Model.prototype.prepare = function() {
 };
 Object.defineProperty(Model.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Model__get_name(this.__ptr));
+        return UTF8ToString(_mud_Model__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Model__set_name(this.__ptr, ensureString(value));
@@ -3063,7 +3063,7 @@ Pass.__cache = {};
 Module['Pass'] = Pass;
 Object.defineProperty(Pass.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Pass__get_name(this.__ptr));
+        return UTF8ToString(_mud_Pass__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Pass__set_name(this.__ptr, ensureString(value));
@@ -3145,7 +3145,7 @@ Prefab.__cache = {};
 Module['Prefab'] = Prefab;
 Object.defineProperty(Prefab.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Prefab__get_name(this.__ptr));
+        return UTF8ToString(_mud_Prefab__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Prefab__set_name(this.__ptr, ensureString(value));
@@ -3181,7 +3181,7 @@ Program.prototype["register_block"] = Program.prototype.register_block = functio
 };
 Object.defineProperty(Program.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Program__get_name(this.__ptr));
+        return UTF8ToString(_mud_Program__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Program__set_name(this.__ptr, ensureString(value));
@@ -3299,6 +3299,14 @@ Object.defineProperty(Radiance.prototype, "filtered", {
     },
     set: function(value) {
         _mud_Radiance__set_filtered(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Radiance.prototype, "filter", {
+    get: function() {
+        return !!(_mud_Radiance__get_filter(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Radiance__set_filter(this.__ptr, value);
     }
 });
 Radiance.prototype["__destroy"] = Radiance.prototype.__destroy = function() {
@@ -3654,7 +3662,7 @@ ShaderDefine.__cache = {};
 Module['ShaderDefine'] = ShaderDefine;
 Object.defineProperty(ShaderDefine.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_ShaderDefine__get_name(this.__ptr));
+        return UTF8ToString(_mud_ShaderDefine__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_ShaderDefine__set_name(this.__ptr, ensureString(value));
@@ -3662,7 +3670,7 @@ Object.defineProperty(ShaderDefine.prototype, "name", {
 });
 Object.defineProperty(ShaderDefine.prototype, "value", {
     get: function() {
-        return Pointer_stringify(_mud_ShaderDefine__get_value(this.__ptr));
+        return UTF8ToString(_mud_ShaderDefine__get_value(this.__ptr));
     },
     set: function(value) {
         _mud_ShaderDefine__set_value(this.__ptr, ensureString(value));
@@ -4045,7 +4053,7 @@ Texture.prototype["valid"] = Texture.prototype.valid = function() {
 };
 Object.defineProperty(Texture.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Texture__get_name(this.__ptr));
+        return UTF8ToString(_mud_Texture__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Texture__set_name(this.__ptr, ensureString(value));

@@ -32,8 +32,8 @@ namespace mud
 		attr_ gpu_ float m_ambient = 1.0f;
 		attr_ Texture* m_texture = nullptr;
 		attr_ Texture* m_filtered = nullptr;
+		attr_ bool m_filter = true;
 		bool m_preprocessed = false;
-		bool m_filter = true;
 	};
 
 	export_ enum class refl_ BackgroundMode : unsigned int

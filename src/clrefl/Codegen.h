@@ -1408,7 +1408,8 @@ namespace clgen
 			if(t.isclass() && !t.issequence())
 				return "return wrapPointer(" + call + ", " + name(*qt.m_type) + ");";
 			else if(t.iscstring() || t.isstring())
-				return "return Pointer_stringify(" + call + ");";
+				//return "return Pointer_stringify(" + call + ");";
+				return "return UTF8ToString(" + call + ");";
 			else if(t.isboolean())
 				return "return !!(" + call + ");";
 			else if(!qt.isvoid())

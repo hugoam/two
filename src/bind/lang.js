@@ -40,7 +40,7 @@ ScriptClass.__cache = {};
 Module['ScriptClass'] = ScriptClass;
 Object.defineProperty(ScriptClass.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_ScriptClass__get_name(this.__ptr));
+        return UTF8ToString(_mud_ScriptClass__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_ScriptClass__set_name(this.__ptr, ensureString(value));
@@ -250,7 +250,7 @@ Object.defineProperty(Script.prototype, "type", {
     }});
 Object.defineProperty(Script.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Script__get_name(this.__ptr));
+        return UTF8ToString(_mud_Script__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Script__set_name(this.__ptr, ensureString(value));
@@ -298,7 +298,7 @@ Object.defineProperty(TextScript.prototype, "language", {
 });
 Object.defineProperty(TextScript.prototype, "script", {
     get: function() {
-        return Pointer_stringify(_mud_TextScript__get_script(this.__ptr));
+        return UTF8ToString(_mud_TextScript__get_script(this.__ptr));
     },
     set: function(value) {
         _mud_TextScript__set_script(this.__ptr, ensureString(value));

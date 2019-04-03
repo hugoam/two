@@ -86,7 +86,7 @@ Object.defineProperty(Type.prototype, "id", {
 });
 Object.defineProperty(Type.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_mud_Type__get_name(this.__ptr));
+        return UTF8ToString(_mud_Type__get_name(this.__ptr));
     },
     set: function(value) {
         _mud_Type__set_name(this.__ptr, ensureString(value));

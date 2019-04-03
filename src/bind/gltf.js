@@ -22,7 +22,7 @@ glTFAccessor.__cache = {};
 Module['glTFAccessor'] = glTFAccessor;
 Object.defineProperty(glTFAccessor.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFAccessor__get_name(this.__ptr));
+        return UTF8ToString(_glTFAccessor__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFAccessor__set_name(this.__ptr, ensureString(value));
@@ -98,7 +98,7 @@ glTFAnimation.__cache = {};
 Module['glTFAnimation'] = glTFAnimation;
 Object.defineProperty(glTFAnimation.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFAnimation__get_name(this.__ptr));
+        return UTF8ToString(_glTFAnimation__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFAnimation__set_name(this.__ptr, ensureString(value));
@@ -190,7 +190,7 @@ Object.defineProperty(glTFAnimationTarget.prototype, "node", {
 });
 Object.defineProperty(glTFAnimationTarget.prototype, "path", {
     get: function() {
-        return Pointer_stringify(_glTFAnimationTarget__get_path(this.__ptr));
+        return UTF8ToString(_glTFAnimationTarget__get_path(this.__ptr));
     },
     set: function(value) {
         _glTFAnimationTarget__set_path(this.__ptr, ensureString(value));
@@ -286,7 +286,7 @@ glTFBuffer.__cache = {};
 Module['glTFBuffer'] = glTFBuffer;
 Object.defineProperty(glTFBuffer.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFBuffer__get_name(this.__ptr));
+        return UTF8ToString(_glTFBuffer__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFBuffer__set_name(this.__ptr, ensureString(value));
@@ -294,7 +294,7 @@ Object.defineProperty(glTFBuffer.prototype, "name", {
 });
 Object.defineProperty(glTFBuffer.prototype, "mime_type", {
     get: function() {
-        return Pointer_stringify(_glTFBuffer__get_mime_type(this.__ptr));
+        return UTF8ToString(_glTFBuffer__get_mime_type(this.__ptr));
     },
     set: function(value) {
         _glTFBuffer__set_mime_type(this.__ptr, ensureString(value));
@@ -302,7 +302,7 @@ Object.defineProperty(glTFBuffer.prototype, "mime_type", {
 });
 Object.defineProperty(glTFBuffer.prototype, "uri", {
     get: function() {
-        return Pointer_stringify(_glTFBuffer__get_uri(this.__ptr));
+        return UTF8ToString(_glTFBuffer__get_uri(this.__ptr));
     },
     set: function(value) {
         _glTFBuffer__set_uri(this.__ptr, ensureString(value));
@@ -330,7 +330,7 @@ glTFBufferView.__cache = {};
 Module['glTFBufferView'] = glTFBufferView;
 Object.defineProperty(glTFBufferView.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFBufferView__get_name(this.__ptr));
+        return UTF8ToString(_glTFBufferView__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFBufferView__set_name(this.__ptr, ensureString(value));
@@ -390,7 +390,7 @@ glTFCamera.__cache = {};
 Module['glTFCamera'] = glTFCamera;
 Object.defineProperty(glTFCamera.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFCamera__get_name(this.__ptr));
+        return UTF8ToString(_glTFCamera__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFCamera__set_name(this.__ptr, ensureString(value));
@@ -398,7 +398,7 @@ Object.defineProperty(glTFCamera.prototype, "name", {
 });
 Object.defineProperty(glTFCamera.prototype, "type", {
     get: function() {
-        return Pointer_stringify(_glTFCamera__get_type(this.__ptr));
+        return UTF8ToString(_glTFCamera__get_type(this.__ptr));
     },
     set: function(value) {
         _glTFCamera__set_type(this.__ptr, ensureString(value));
@@ -434,7 +434,7 @@ glTFImage.__cache = {};
 Module['glTFImage'] = glTFImage;
 Object.defineProperty(glTFImage.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFImage__get_name(this.__ptr));
+        return UTF8ToString(_glTFImage__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFImage__set_name(this.__ptr, ensureString(value));
@@ -442,7 +442,7 @@ Object.defineProperty(glTFImage.prototype, "name", {
 });
 Object.defineProperty(glTFImage.prototype, "mime_type", {
     get: function() {
-        return Pointer_stringify(_glTFImage__get_mime_type(this.__ptr));
+        return UTF8ToString(_glTFImage__get_mime_type(this.__ptr));
     },
     set: function(value) {
         _glTFImage__set_mime_type(this.__ptr, ensureString(value));
@@ -450,7 +450,7 @@ Object.defineProperty(glTFImage.prototype, "mime_type", {
 });
 Object.defineProperty(glTFImage.prototype, "uri", {
     get: function() {
-        return Pointer_stringify(_glTFImage__get_uri(this.__ptr));
+        return UTF8ToString(_glTFImage__get_uri(this.__ptr));
     },
     set: function(value) {
         _glTFImage__set_uri(this.__ptr, ensureString(value));
@@ -478,7 +478,7 @@ glTFMaterial.__cache = {};
 Module['glTFMaterial'] = glTFMaterial;
 Object.defineProperty(glTFMaterial.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFMaterial__get_name(this.__ptr));
+        return UTF8ToString(_glTFMaterial__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFMaterial__set_name(this.__ptr, ensureString(value));
@@ -606,7 +606,7 @@ glTFMesh.__cache = {};
 Module['glTFMesh'] = glTFMesh;
 Object.defineProperty(glTFMesh.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFMesh__get_name(this.__ptr));
+        return UTF8ToString(_glTFMesh__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFMesh__set_name(this.__ptr, ensureString(value));
@@ -666,7 +666,7 @@ glTFNode.__cache = {};
 Module['glTFNode'] = glTFNode;
 Object.defineProperty(glTFNode.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFNode__get_name(this.__ptr));
+        return UTF8ToString(_glTFNode__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFNode__set_name(this.__ptr, ensureString(value));
@@ -922,7 +922,7 @@ Object.defineProperty(glTFSampler.prototype, "wrap_t", {
 });
 Object.defineProperty(glTFSampler.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFSampler__get_name(this.__ptr));
+        return UTF8ToString(_glTFSampler__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFSampler__set_name(this.__ptr, ensureString(value));
@@ -942,7 +942,7 @@ glTFScene.__cache = {};
 Module['glTFScene'] = glTFScene;
 Object.defineProperty(glTFScene.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFScene__get_name(this.__ptr));
+        return UTF8ToString(_glTFScene__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFScene__set_name(this.__ptr, ensureString(value));
@@ -966,7 +966,7 @@ glTFSkin.__cache = {};
 Module['glTFSkin'] = glTFSkin;
 Object.defineProperty(glTFSkin.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFSkin__get_name(this.__ptr));
+        return UTF8ToString(_glTFSkin__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFSkin__set_name(this.__ptr, ensureString(value));
@@ -1106,7 +1106,7 @@ glTFTexture.__cache = {};
 Module['glTFTexture'] = glTFTexture;
 Object.defineProperty(glTFTexture.prototype, "name", {
     get: function() {
-        return Pointer_stringify(_glTFTexture__get_name(this.__ptr));
+        return UTF8ToString(_glTFTexture__get_name(this.__ptr));
     },
     set: function(value) {
         _glTFTexture__set_name(this.__ptr, ensureString(value));
