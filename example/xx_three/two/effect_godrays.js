@@ -321,7 +321,7 @@ if(init) {
     var material = app.gfx.materials.create('godrays'); var m = material;
         m.program = solid;
         m.base.depth_draw = two.DepthDraw.Enabled;
-        m.solid.colour = two.rgb(0x000000);
+        m.solid.colour.value = two.rgb(0x000000);
 
     var model = app.gfx.models.file('tree'); // tree.obj
     // @todo

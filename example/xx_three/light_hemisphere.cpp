@@ -80,8 +80,9 @@ void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 
 		const bool shadows = true;
 		const vec3 dir = vec3(-1.f, 1.75f, 1.f) * 30.f;
+		const quat q = look_dir(-normalize(dir));
 
-		Node3& nl = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(-normalize(dir))));
+		Node3& nl = gfx::nodes(scene).add(Node3(vec3(0.f), q));
 		Light& l = gfx::lights(scene).add(Light(nl, LightType::Direct, shadows, hsl(0.1f, 1.f, 0.95f), 1.f));
 
 		// shadow.camera.extent = 50;

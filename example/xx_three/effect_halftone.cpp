@@ -19,8 +19,6 @@ struct Halftone
 	float m_radius = 4.f;
 	vec3 m_rotate = vec3(c_pi / 12.f) * vec3(1.f, 2.f, 3.f);
 	float m_scatter = 0.f;
-	float m_width = 1.f;
-	float m_height = 1.f;
 	float m_blending = 1.f;
 	bool m_grayscale = false;
 	bool m_disable = false;

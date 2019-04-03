@@ -70,7 +70,7 @@ if (init) {
     
     var material = app.gfx.materials.create('material'); var m = material;
     m.program = app.gfx.programs.fetch('solid');
-    m.solid.colour = new two.Colour(0.0, 0.0, 1.0); //two.Colour.Blue;
+    m.solid.colour.value = new two.Colour(0.0, 0.0, 1.0); //two.Colour.Blue;
     
     var count = 50;
     var scale = 5.0;

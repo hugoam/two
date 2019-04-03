@@ -17,14 +17,14 @@ var skydome_fragment = `$input v_world
     #include <common.sh>
 
     #define u_top_color u_user_p0.xyz
-    #define u_bottocolor u_user_p1.xyz
+    #define u_bottom_color u_user_p1.xyz
     #define u_offset u_user_p2.x
     #define u_exponent u_user_p2.y
 
     void main()
     {
         float h = normalize(v_world + u_offset).y;
-        gl_FragColor = vec4(mix(u_bottocolor, u_top_color, max(pow(max(h, 0.0), u_exponent), 0.0)), 1.0);
+        gl_FragColor = vec4(mix(u_bottom_color, u_top_color, max(pow(max(h, 0.0), u_exponent), 0.0)), 1.0);
     }`;
 
 var viewer = two.ui.scene_viewer(panel);
@@ -48,13 +48,20 @@ if(init) {
     // LIGHTS
 
     var skylight = two.hsl(0.6, 1.0, 0.6);
-    scene.env.skylight = new two.Skylight(true, 0.6, new two.vec3(0.0, 50.0, 0.0), new two.vec3(0.0), skylight, two.hsl(0.095, 1.0, 0.75) };
+    skylight = new two.Colour(skylight.r, skylight.g, skylight.b);
+    
+    //scene.env.skylight = new two.Skylight(true, 0.6, new two.vec3(0.0, 50.0, 0.0), new two.vec3(0.0), skylight, two.hsl(0.095, 1.0, 0.75));
+    scene.env.skylight.enabled = true;
+    scene.env.skylight.intensity = 0.6;
+    scene.env.skylight.position = new two.vec3(0.0, 50.0, 0.0);
+    scene.env.skylight.color = skylight;
+    scene.env.skylight.ground = two.hsl(0.095, 1.0, 0.75);
 
-    var shadows = true;
-    var dir = new two.vec3(1.0 * 30.0, -1.75 * 30.0, -1.0 * 30.0);
+    //var dir = new two.vec3(1.0 * 30.0, -1.75 * 30.0, -1.0 * 30.0);
+    var r = new two.quat(-0.458, -0.261, 0.0, 0.850);
 
-    var nl = two.gfx.nodes(scene).add(new two.Node3(new two.vec3(0.0), two.look_dir(dir)));
-    var l = two.gfx.lights(scene).add(new two.Light(nl, two.LightType.Direct, shadows, two.hsl(0.1, 1.0, 0.95), 1.0));
+    var nl = scene.nodes().add(new two.Node3(new two.vec3(0.0), r)); //two.look_dir(dir)));
+    var l = scene.lights().add(new two.Light(nl, two.LightType.Direct, true, two.hsl(0.1, 1.0, 0.95), 1.0));
 
     // shadow.camera.extent = 50;
     l.shadow_range = 3500.0;

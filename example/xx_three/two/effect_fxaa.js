@@ -417,7 +417,7 @@ var fxaa_fragment = `$input v_uv0
 
 function pass_fxaa(gfx, render) {
     
-	var program = gfx.programs.fetch('fxaa');
+	var program = new two.ProgramVersion(gfx.programs.fetch('fxaa'));
 
 	var pass = render.next_pass('bokeh', two.PassType.PostProcess);
 

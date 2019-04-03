@@ -91,7 +91,8 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 70.f; camera.m_near = 0.01f; camera.m_far = 50.f;
 		camera.m_eye.z = 4.f;
 
-		Model& geometry = app.m_gfx.shape(TorusKnot(1.f, 0.3f));
+		Symbol symbol; symbol.m_subdiv = uvec2(128, 64);
+		Model& geometry = app.m_gfx.shape(TorusKnot(1.f, 0.3f), symbol);
 
 		Material& material = app.m_gfx.materials().create("material", [&](Material& m) {
 			m.m_program = &app.m_gfx.programs().fetch("solid");

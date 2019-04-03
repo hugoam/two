@@ -1,3 +1,4 @@
+// shader_lava.js
 
 var vertex_shader = `$input a_position, a_texcoord0
     $output v_position, v_uv0
@@ -88,8 +89,8 @@ if (init) {
     var m = material;
     m.program = program;
     m.base.uv0_scale = new two.vec2(3.0, 1.0);
-    m.user.attr0.texture = cloud;
-    m.user.attr1.texture = lava;
+    m.user.tex0 = cloud;
+    m.user.tex1 = lava;
     
     // material.submit = submit;
 
@@ -114,7 +115,7 @@ if (init) {
     //composer.addPass(effectFilm);
 }
 
-var delta = 5.0 * app.gfx.frame_time;
+var delta = 0.05; //5.0 * app.gfx.frame_time;
 
 //uniforms['time'].value += 0.2 * delta;
 

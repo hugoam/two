@@ -81,35 +81,33 @@ var rgbshift_fragment =  `$input v_uv0
 
 function pass_dotscreen(gfx, render, p) {
     
-    var program = app.gfx.programs.fetch('dotscreen');
-    
-	var pass = render.next_pass('dotscreen', two.PassType.PostProcess);
+    var program = new two.ProgramVersion(app.gfx.programs.fetch('dotscreen'));
 
-	gfx.filter.uniform(pass, 'u_dotscreen_p0', new two.vec4(p.center.x, p.center.y, p.angle, p.scale));
-	gfx.filter.uniform(pass, 'u_dotscreen_p1', new two.vec4(p.size.x, p.size.y, 0.0, 0.0));
+    var pass = render.next_pass('dotscreen', two.PassType.PostProcess);
 
-	gfx.filter.source0(render.target.diffuse);
+    gfx.filter.uniform(pass, 'u_dotscreen_p0', new two.vec4(p.center.x, p.center.y, p.angle, p.scale));
+    gfx.filter.uniform(pass, 'u_dotscreen_p1', new two.vec4(p.size.x, p.size.y, 0.0, 0.0));
 
-	gfx.filter.quad(pass, render.target.post.swap(), program);
+    gfx.filter.source0(render.target.diffuse);
 
-	//gfx.copy.quad(render.composite_pass(), render.fbo, render.target.post.last());
+    gfx.filter.quad(pass, render.target.post.swap(), program);
 }
 
 function pass_rgbshift(gfx, render, p) {
-	
-    var program = app.gfx.programs.fetch('rgbshift');
-    
-	var pass = render.next_pass('rgbshift', two.PassType.PostProcess);
 
-	gfx.filter.uniform(pass, 'u_rgbshift_p0', new two.vec4(p.amount, p.angle, 0.0, 0.0));
+    var program = new two.ProgramVersion(app.gfx.programs.fetch('rgbshift'));
 
-	//gfx.filter.source0(render.target.diffuse);
-	gfx.filter.source0(render.target.post.last());
+    var pass = render.next_pass('rgbshift', two.PassType.PostProcess);
 
-	gfx.filter.quad(pass, render.target.post.swap(), program);
+    gfx.filter.uniform(pass, 'u_rgbshift_p0', new two.vec4(p.amount, p.angle, 0.0, 0.0));
 
-	var flip = render.next_pass('flip', two.PassType.PostProcess);
-	gfx.copy.quad(flip, render.fbo, render.target.post.last());
+    //gfx.filter.source0(render.target.diffuse);
+    gfx.filter.source0(render.target.post.last());
+
+    gfx.filter.quad(pass, render.target.post.swap(), program);
+
+    var flip = render.next_pass('flip', two.PassType.PostProcess);
+    gfx.copy.quad(flip, render.fbo, render.target.post.last());
 }
 
 var viewer = two.ui.scene_viewer(panel);

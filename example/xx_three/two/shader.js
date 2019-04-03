@@ -1,3 +1,4 @@
+// shader.js
 
 var vertex_shader = `$input a_position, a_texcoord0
     $output v_uv0
@@ -52,12 +53,12 @@ var viewer = two.ui.scene_viewer(panel);
 two.ui.orbit_controller(viewer);
 
 if (init) {
-    var program = app.gfx.programs.create("custom");
+    var program = app.gfx.programs.create('custom');
     program.set_block(two.MaterialBlock.Solid);
     program.set_source(two.ShaderType.Vertex, vertex_shader);
     program.set_source(two.ShaderType.Fragment, fragment_shader);
 
-    var material = app.gfx.materials.create("custom");
+    var material = app.gfx.materials.create('custom');
     var m = material;
     m.program = program;
     m.base.cull_mode = two.CullMode.None;

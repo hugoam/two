@@ -13,8 +13,6 @@ if(init) {
     camera.eye = new two.vec3(3.0, 0.15, 3.0);
     camera.target = new two.vec3(0.0, -0.1, 0.0);
 
-    var pbr = app.gfx.programs.fetch('pbr/pbr');
-
     var bg = two.rgb(0x72645b);
     bg = new two.Colour(bg.r, bg.g, bg.b);
     
@@ -26,40 +24,36 @@ if(init) {
     
     var zeroq = new two.quat(new two.vec3(0.0));
 
-    function add_light(scene, d, color, intensity, shadows) {
+    function add_light(scene, r, color, intensity, shadows) {
 
-        var dir = two.look_dir(new two.vec3(0.0, -0.5, -0.5));
-        var n = scene.nodes().add(new two.Node3(new two.vec3(0.0), two.look_dir(d)));
-        //var l = scene.lights().add(new two.Light(n, two.LightType.Direct, shadows, two.rgb(0xffaa00), intensity));
+        var n = scene.nodes().add(new two.Node3(new two.vec3(0.0), r));
         var l = scene.lights().add(new two.Light(n, two.LightType.Direct, shadows, color, intensity));
         //l.shadow_range = 4.0;
-
-        //l.shadow_flags = two.CSM_Stabilize;
-        //l.shadow_bias = 0.1;
-        //l.shadow_num_splits = 2;
-        //directionalLight.shadow.bias = -0.001;
+        //l.shadow.bias = -0.001;
     }
+
+    var pbr = app.gfx.programs.fetch('pbr/pbr');
+    var three = app.gfx.programs.fetch('pbr/three');
+    var phong = app.gfx.programs.fetch('pbr/phong');
 
     // Ground
 
-    {
-        var material = app.gfx.materials.create('ground'); var m = material;
-            m.program = pbr;
-            m.pbr.albedo.value = two.rgb(0x999999);
-            m.pbr.roughness.value = 0.0;
-            //m.pbr.specular = two.rgb(0x101010);
-            // Phong
+    var groundmat = app.gfx.materials.create('ground'); var m = groundmat;
+        m.program = phong;
+        m.phong.diffuse.value = two.rgb(0x999999);
+        m.phong.specular.value = two.rgb(0x101010);
+        // Phong
 
-        var model = app.gfx.shape(new two.Rect(new two.vec2(0.0), new two.vec2(40.0)));
-        var n = scene.nodes().add(new two.Node3(new two.vec3(0.0, -0.5, 0.0), zeroq));
-        scene.items().add(new two.Item(n, model, 0, material));
-    }
+    var ground = app.gfx.shape(new two.Rect(new two.vec2(0.0), new two.vec2(40.0)));
+    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0, -0.5, 0.0), zeroq));
+    scene.items().add(new two.Item(n, ground, 0, groundmat));
 
-    var material = app.gfx.materials.create('ply'); var m = material;
-        m.program = pbr;
+    var material = app.gfx.materials.create('ply'); m = material;
+        m.program = three;
         m.base.flat_shaded = true;
         m.pbr.albedo.value = two.rgb(0x0055ff);
-        m.pbr.roughness.value = 0.0;
+        m.pbr.roughness.value = 0.5;
+        m.pbr.metallic.value = 0.5;
 
     // PLY file
 
@@ -70,15 +64,28 @@ if(init) {
 
     var lucy = app.gfx.models.file('Lucy100k'); // .ply
 
-    var nlucy = scene.nodes().add(new two.Node3(new two.vec3(-0.2, 0.02, -0.2), zeroq, new two.vec3(0.0006)));
+    var nlucy = scene.nodes().add(new two.Node3(new two.vec3(-0.2, -0.02, -0.2), zeroq, new two.vec3(0.0006)));
     scene.items().add(new two.Item(nlucy, lucy, 0, material));
 
     // Lights
 
     //scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
 
+    var skylight = scene.env.skylight;
+    skylight.enabled = true;
+    skylight.intensity = 1.0;
+    skylight.position = new two.vec3(0.0, 1.0, 0.0);
+    skylight.color = two.rgb(0x443333);
+    skylight.ground = two.rgb(0x111122);
+
+    //add_light(scene, new two.quat(-0.325, 0.325, 0.0, 0.888), two.rgb(0xffffff), 1.35, false);
+    //add_light(scene, new two.quat(-0.816, 0.408, 0.0, 0.408), two.rgb(0xffaa00), 1.0, false);
+    
+    add_light(scene, new two.quat(-0.325, 0.325, 0.0, 0.888), two.rgb(0xffffff), 1.35, true);
+    add_light(scene, new two.quat(-0.816, 0.408, 0.0, 0.408), two.rgb(0xffaa00), 1.0, true);
+    
     //add_light(scene, new two.vec3(-1.0, -1.0, -1.0), two.rgb(0xffffff), 1.35, true);
-    add_light(scene, new two.vec3(-0.5, -1.0, 1.0), two.rgb(0xffaa00), 1.0, false);
+    //add_light(scene, new two.vec3(-0.5, -1.0, 1.0), two.rgb(0xffaa00), 1.0, true);
 }
 
 var timer = app.gfx.time * 0.5;
