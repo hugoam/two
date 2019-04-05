@@ -585,6 +585,15 @@ Module['pass_voxel_gi'] = function(a0, a1) {
 Module['pass_lightmap'] = function(a0, a1) {
     _mud_pass_lightmap_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
+Module['pass_begin_post'] = function(a0, a1) {
+    _mud_pass_begin_post_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_post_auto'] = function(a0, a1) {
+    _mud_pass_post_auto_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
+};
+Module['pass_post_effects'] = function(a0, a1, a2, a3, a4, a5) {
+    _mud_pass_post_effects_6(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*dof*/a2.__ptr, /*glow*/a3.__ptr, /*tonemap*/a4.__ptr, /*bcs*/a5.__ptr);
+};
 Module['render_pbr_forward'] = function(a0, a1) {
     _mud_render_pbr_forward_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
@@ -619,6 +628,15 @@ Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { return wrapPointer(_mud_gfx_lightmap_3(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2), LightmapAtlas); }
     return wrapPointer(_mud_gfx_lightmap_4(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2, ensureString(/*save_path*/a3)), LightmapAtlas);
 };
+Module['pass_dofblur'] = function(a0, a1, a2) {
+    _mud_pass_dofblur_3(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*blur*/a2.__ptr);
+};
+Module['pass_glow'] = function(a0, a1, a2) {
+    _mud_pass_glow_3(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*glow*/a2.__ptr);
+};
+Module['pass_tonemap'] = function(a0, a1, a2, a3) {
+    _mud_pass_tonemap_4(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*tonemap*/a2.__ptr, /*bcs*/a3.__ptr);
+};
 
 (function() {
     function setup() {
@@ -651,7 +669,6 @@ Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
         CSMSlice.__type = _mud_CSMSlice__type();
         // TonemapMode
         Module['TonemapMode'] = Module['TonemapMode'] || {};
-        Module['TonemapMode']['None'] = _mud_TonemapMode_None();
         Module['TonemapMode']['Linear'] = _mud_TonemapMode_Linear();
         Module['TonemapMode']['Reinhardt'] = _mud_TonemapMode_Reinhardt();
         Module['TonemapMode']['Filmic'] = _mud_TonemapMode_Filmic();

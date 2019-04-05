@@ -469,6 +469,15 @@ extern "C" {
 	void DECL mud_pass_lightmap_2(mud::GfxSystem* gfx, mud::Render* render) {
 		mud::pass_lightmap(*gfx, *render);
 	}
+	void DECL mud_pass_begin_post_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_begin_post(*gfx, *render);
+	}
+	void DECL mud_pass_post_auto_2(mud::GfxSystem* gfx, mud::Render* render) {
+		mud::pass_post_auto(*gfx, *render);
+	}
+	void DECL mud_pass_post_effects_6(mud::GfxSystem* gfx, mud::Render* render, mud::DofBlur* dof, mud::Glow* glow, mud::Tonemap* tonemap, mud::BCS* bcs) {
+		mud::pass_post_effects(*gfx, *render, *dof, *glow, *tonemap, *bcs);
+	}
 	void DECL mud_render_pbr_forward_2(mud::GfxSystem* gfx, mud::Render* render) {
 		mud::render_pbr_forward(*gfx, *render);
 	}
@@ -508,10 +517,16 @@ extern "C" {
 	mud::LightmapAtlas* DECL mud_gfx_lightmap_4(mud::Gnode* parent, uint32_t resolution, float density, const char* save_path) {
 		return &mud::gfx::lightmap(*parent, resolution, density, save_path);
 	}
-	// TonemapMode
-	mud::TonemapMode DECL mud_TonemapMode_None() {
-		return mud::TonemapMode::None;
+	void DECL mud_pass_dofblur_3(mud::GfxSystem* gfx, mud::Render* render, const mud::DofBlur* blur) {
+		mud::pass_dofblur(*gfx, *render, *blur);
 	}
+	void DECL mud_pass_glow_3(mud::GfxSystem* gfx, mud::Render* render, mud::Glow* glow) {
+		mud::pass_glow(*gfx, *render, *glow);
+	}
+	void DECL mud_pass_tonemap_4(mud::GfxSystem* gfx, mud::Render* render, mud::Tonemap* tonemap, mud::BCS* bcs) {
+		mud::pass_tonemap(*gfx, *render, *tonemap, *bcs);
+	}
+	// TonemapMode
 	mud::TonemapMode DECL mud_TonemapMode_Linear() {
 		return mud::TonemapMode::Linear;
 	}

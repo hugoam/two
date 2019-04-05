@@ -813,6 +813,12 @@ extern "C" {
 	void DECL mud_Fog__set_depth_begin(mud::Fog* self, float value) {
 		self->m_depth_begin = value;
 	}
+	float DECL mud_Fog__get_depth_end(mud::Fog* self) {
+		return self->m_depth_end;
+	}
+	void DECL mud_Fog__set_depth_end(mud::Fog* self, float value) {
+		self->m_depth_end = value;
+	}
 	float DECL mud_Fog__get_depth_curve(mud::Fog* self) {
 		return self->m_depth_curve;
 	}
@@ -937,28 +943,6 @@ extern "C" {
 		return new mud::FrustumSlice();
 	}
 	void DECL mud_FrustumSlice__destroy(mud::FrustumSlice* self) {
-		delete self;
-	}
-	// GfxBlock
-	mud::Type* DECL mud_GfxBlock__type() {
-		return &mud::type<mud::GfxBlock>();
-	}
-	mud::Type* DECL mud_GfxBlock__get_type(mud::GfxBlock* self) {
-		return &self->m_type;
-	}
-	uint8_t DECL mud_GfxBlock__get_index(mud::GfxBlock* self) {
-		return self->m_index;
-	}
-	void DECL mud_GfxBlock__set_index(mud::GfxBlock* self, uint8_t value) {
-		self->m_index = value;
-	}
-	mud::ShaderBlock* DECL mud_GfxBlock__get_shader_block(mud::GfxBlock* self) {
-		return &self->m_shader_block;
-	}
-	void DECL mud_GfxBlock__set_shader_block(mud::GfxBlock* self, mud::ShaderBlock* value) {
-		self->m_shader_block = *value;
-	}
-	void DECL mud_GfxBlock__destroy(mud::GfxBlock* self) {
 		delete self;
 	}
 	// GfxWindow
@@ -1966,6 +1950,12 @@ extern "C" {
 	void DECL mud_MaterialPhong__set_refraction(mud::MaterialPhong* self, mud::MaterialParam<float>* value) {
 		self->m_refraction = *value;
 	}
+	mud::PhongEnvBlendMode DECL mud_MaterialPhong__get_env_blend(mud::MaterialPhong* self) {
+		return self->m_env_blend;
+	}
+	void DECL mud_MaterialPhong__set_env_blend(mud::MaterialPhong* self, mud::PhongEnvBlendMode value) {
+		self->m_env_blend = value;
+	}
 	bool DECL mud_MaterialPhong__get_toon(mud::MaterialPhong* self) {
 		return self->m_toon;
 	}
@@ -2110,6 +2100,9 @@ extern "C" {
 	}
 	void DECL mud_Mesh_write_3(mud::Mesh* self, const mud::MeshPacker* packer, bool optimize, bool dynamic) {
 		self->write(*packer, optimize, dynamic);
+	}
+	void DECL mud_Mesh_morph_1(mud::Mesh* self, const mud::MeshPacker* packer) {
+		self->morph(*packer);
 	}
 	void DECL mud_Mesh_upload_1(mud::Mesh* self, const mud::GpuMesh* gpu_mesh) {
 		self->upload(*gpu_mesh);
@@ -2308,16 +2301,16 @@ extern "C" {
 	mud::Rig* DECL mud_Model_add_rig_1(mud::Model* self, const char* name) {
 		return &self->add_rig(name);
 	}
-	mud::ModelItem* DECL mud_Model_add_item_2(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform) {
+	mud::ModelElem* DECL mud_Model_add_item_2(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform) {
 		return &self->add_item(*mesh, *transform);
 	}
-	mud::ModelItem* DECL mud_Model_add_item_3(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform, int skin) {
+	mud::ModelElem* DECL mud_Model_add_item_3(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform, int skin) {
 		return &self->add_item(*mesh, *transform, skin);
 	}
-	mud::ModelItem* DECL mud_Model_add_item_4(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform, int skin, const mud::Colour* colour) {
+	mud::ModelElem* DECL mud_Model_add_item_4(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform, int skin, const mud::Colour* colour) {
 		return &self->add_item(*mesh, *transform, skin, *colour);
 	}
-	mud::ModelItem* DECL mud_Model_add_item_5(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform, int skin, const mud::Colour* colour, mud::Material* material) {
+	mud::ModelElem* DECL mud_Model_add_item_5(mud::Model* self, mud::Mesh* mesh, const mud::mat4* transform, int skin, const mud::Colour* colour, mud::Material* material) {
 		return &self->add_item(*mesh, *transform, skin, *colour, material);
 	}
 	void DECL mud_Model_prepare_0(mud::Model* self) {
@@ -2356,56 +2349,56 @@ extern "C" {
 	void DECL mud_Model__destroy(mud::Model* self) {
 		delete self;
 	}
-	// ModelItem
-	mud::Type* DECL mud_ModelItem__type() {
-		return &mud::type<mud::ModelItem>();
+	// ModelElem
+	mud::Type* DECL mud_ModelElem__type() {
+		return &mud::type<mud::ModelElem>();
 	}
-	mud::ModelItem* DECL mud_ModelItem__construct_0() {
-		return new mud::ModelItem();
+	mud::ModelElem* DECL mud_ModelElem__construct_0() {
+		return new mud::ModelElem();
 	}
-	size_t DECL mud_ModelItem__get_index(mud::ModelItem* self) {
+	size_t DECL mud_ModelElem__get_index(mud::ModelElem* self) {
 		return self->m_index;
 	}
-	void DECL mud_ModelItem__set_index(mud::ModelItem* self, size_t value) {
+	void DECL mud_ModelElem__set_index(mud::ModelElem* self, size_t value) {
 		self->m_index = value;
 	}
-	mud::Mesh* DECL mud_ModelItem__get_mesh(mud::ModelItem* self) {
+	mud::Mesh* DECL mud_ModelElem__get_mesh(mud::ModelElem* self) {
 		return self->m_mesh;
 	}
-	void DECL mud_ModelItem__set_mesh(mud::ModelItem* self, mud::Mesh* value) {
+	void DECL mud_ModelElem__set_mesh(mud::ModelElem* self, mud::Mesh* value) {
 		self->m_mesh = value;
 	}
-	bool DECL mud_ModelItem__get_has_transform(mud::ModelItem* self) {
+	bool DECL mud_ModelElem__get_has_transform(mud::ModelElem* self) {
 		return self->m_has_transform;
 	}
-	void DECL mud_ModelItem__set_has_transform(mud::ModelItem* self, bool value) {
+	void DECL mud_ModelElem__set_has_transform(mud::ModelElem* self, bool value) {
 		self->m_has_transform = value;
 	}
-	mud::mat4* DECL mud_ModelItem__get_transform(mud::ModelItem* self) {
+	mud::mat4* DECL mud_ModelElem__get_transform(mud::ModelElem* self) {
 		return &self->m_transform;
 	}
-	void DECL mud_ModelItem__set_transform(mud::ModelItem* self, mud::mat4* value) {
+	void DECL mud_ModelElem__set_transform(mud::ModelElem* self, mud::mat4* value) {
 		self->m_transform = *value;
 	}
-	int DECL mud_ModelItem__get_skin(mud::ModelItem* self) {
+	int DECL mud_ModelElem__get_skin(mud::ModelElem* self) {
 		return self->m_skin;
 	}
-	void DECL mud_ModelItem__set_skin(mud::ModelItem* self, int value) {
+	void DECL mud_ModelElem__set_skin(mud::ModelElem* self, int value) {
 		self->m_skin = value;
 	}
-	mud::Colour* DECL mud_ModelItem__get_colour(mud::ModelItem* self) {
+	mud::Colour* DECL mud_ModelElem__get_colour(mud::ModelElem* self) {
 		return &self->m_colour;
 	}
-	void DECL mud_ModelItem__set_colour(mud::ModelItem* self, mud::Colour* value) {
+	void DECL mud_ModelElem__set_colour(mud::ModelElem* self, mud::Colour* value) {
 		self->m_colour = *value;
 	}
-	mud::Material* DECL mud_ModelItem__get_material(mud::ModelItem* self) {
+	mud::Material* DECL mud_ModelElem__get_material(mud::ModelElem* self) {
 		return self->m_material;
 	}
-	void DECL mud_ModelItem__set_material(mud::ModelItem* self, mud::Material* value) {
+	void DECL mud_ModelElem__set_material(mud::ModelElem* self, mud::Material* value) {
 		self->m_material = value;
 	}
-	void DECL mud_ModelItem__destroy(mud::ModelItem* self) {
+	void DECL mud_ModelElem__destroy(mud::ModelElem* self) {
 		delete self;
 	}
 	// Node3
@@ -2600,6 +2593,40 @@ extern "C" {
 		self->m_mode_shift = value;
 	}
 	void DECL mud_ProgramBlock__destroy(mud::ProgramBlock* self) {
+		delete self;
+	}
+	// ProgramMode
+	mud::Type* DECL mud_ProgramMode__type() {
+		return &mud::type<mud::ProgramMode>();
+	}
+	mud::ProgramMode* DECL mud_ProgramMode__construct_0() {
+		return new mud::ProgramMode();
+	}
+	const char* DECL mud_ProgramMode__get_name(mud::ProgramMode* self) {
+		return self->name.c_str();
+	}
+	void DECL mud_ProgramMode__set_name(mud::ProgramMode* self, const char* value) {
+		self->name = value;
+	}
+	uint32_t DECL mud_ProgramMode__get_size(mud::ProgramMode* self) {
+		return self->size;
+	}
+	void DECL mud_ProgramMode__set_size(mud::ProgramMode* self, uint32_t value) {
+		self->size = value;
+	}
+	uint32_t DECL mud_ProgramMode__get_shift(mud::ProgramMode* self) {
+		return self->shift;
+	}
+	void DECL mud_ProgramMode__set_shift(mud::ProgramMode* self, uint32_t value) {
+		self->shift = value;
+	}
+	uint32_t DECL mud_ProgramMode__get_mask(mud::ProgramMode* self) {
+		return self->mask;
+	}
+	void DECL mud_ProgramMode__set_mask(mud::ProgramMode* self, uint32_t value) {
+		self->mask = value;
+	}
+	void DECL mud_ProgramMode__destroy(mud::ProgramMode* self) {
 		delete self;
 	}
 	// ProgramVersion
@@ -2949,10 +2976,10 @@ extern "C" {
 	void DECL mud_ShaderBlock_add_define_2(mud::ShaderBlock* self, const char* name, const char* value) {
 		self->add_define(name, value);
 	}
-	uint32_t DECL mud_ShaderBlock__get_index(mud::ShaderBlock* self) {
+	uint8_t DECL mud_ShaderBlock__get_index(mud::ShaderBlock* self) {
 		return self->m_index;
 	}
-	void DECL mud_ShaderBlock__set_index(mud::ShaderBlock* self, uint32_t value) {
+	void DECL mud_ShaderBlock__set_index(mud::ShaderBlock* self, uint8_t value) {
 		self->m_index = value;
 	}
 	void DECL mud_ShaderBlock__destroy(mud::ShaderBlock* self) {
@@ -3093,6 +3120,9 @@ extern "C" {
 	}
 	mud::FrameBuffer* DECL mud_SwapBuffer_swap_0(mud::SwapBuffer* self) {
 		return &self->swap();
+	}
+	mud::FrameBuffer* DECL mud_SwapBuffer_current_0(mud::SwapBuffer* self) {
+		return &self->current();
 	}
 	mud::Texture* DECL mud_SwapBuffer_last_0(mud::SwapBuffer* self) {
 		return &self->last();
@@ -3462,6 +3492,9 @@ extern "C" {
 	void DECL mud_BlockFilter_quad_5(mud::BlockFilter* self, const mud::Pass* pass, mud::FrameBuffer* fbo, const mud::ProgramVersion* program, uint64_t flags, bool render) {
 		self->quad(*pass, *fbo, *program, flags, render);
 	}
+	void DECL mud_BlockFilter_multiply_1(mud::BlockFilter* self, float mul) {
+		self->multiply(mul);
+	}
 	void DECL mud_BlockFilter_source0p_2(mud::BlockFilter* self, mud::Texture* texture, mud::ProgramVersion* program) {
 		self->source0p(*texture, *program);
 	}
@@ -3524,13 +3557,6 @@ extern "C" {
 	void DECL mud_BlockParticles__destroy(mud::BlockParticles* self) {
 		delete self;
 	}
-	// BlockPbr
-	mud::Type* DECL mud_BlockPbr__type() {
-		return &mud::type<mud::BlockPbr>();
-	}
-	void DECL mud_BlockPbr__destroy(mud::BlockPbr* self) {
-		delete self;
-	}
 	// BlockSky
 	mud::Type* DECL mud_BlockSky__type() {
 		return &mud::type<mud::BlockSky>();
@@ -3546,6 +3572,16 @@ extern "C" {
 		return new mud::ClusteredFrustum();
 	}
 	void DECL mud_ClusteredFrustum__destroy(mud::ClusteredFrustum* self) {
+		delete self;
+	}
+	// GfxBlock
+	mud::Type* DECL mud_GfxBlock__type() {
+		return &mud::type<mud::GfxBlock>();
+	}
+	mud::Type* DECL mud_GfxBlock__get_type(mud::GfxBlock* self) {
+		return &self->m_type;
+	}
+	void DECL mud_GfxBlock__destroy(mud::GfxBlock* self) {
 		delete self;
 	}
 	// DrawBlock
@@ -3772,11 +3808,11 @@ extern "C" {
 	void DECL mud_Viewport__set_index(mud::Viewport* self, uint16_t value) {
 		self->m_index = value;
 	}
-	bool DECL mud_Viewport__get_active(mud::Viewport* self) {
-		return self->m_active;
+	bool DECL mud_Viewport__get_autorender(mud::Viewport* self) {
+		return self->m_autorender;
 	}
-	void DECL mud_Viewport__set_active(mud::Viewport* self, bool value) {
-		self->m_active = value;
+	void DECL mud_Viewport__set_autorender(mud::Viewport* self, bool value) {
+		self->m_autorender = value;
 	}
 	mud::vec4* DECL mud_Viewport__get_rect(mud::Viewport* self) {
 		return &self->m_rect;
@@ -3813,6 +3849,12 @@ extern "C" {
 	}
 	void DECL mud_Viewport__set_clustered(mud::Viewport* self, bool value) {
 		self->m_clustered = value;
+	}
+	bool DECL mud_Viewport__get_to_gamma(mud::Viewport* self) {
+		return self->m_to_gamma;
+	}
+	void DECL mud_Viewport__set_to_gamma(mud::Viewport* self, bool value) {
+		self->m_to_gamma = value;
 	}
 	void DECL mud_Viewport__destroy(mud::Viewport* self) {
 		delete self;
@@ -4005,8 +4047,11 @@ extern "C" {
 	mud::Model* DECL mud_gfx_model_suzanne_1(mud::GfxSystem* gfx) {
 		return &mud::gfx::model_suzanne(*gfx);
 	}
-	void DECL mud_pass_clear_fbo_4(mud::GfxSystem* gfx, mud::Render* render, mud::FrameBuffer* fbo, mud::Colour* colour) {
+	void DECL mud_pass_clear_fbo_4(mud::GfxSystem* gfx, mud::Render* render, mud::FrameBuffer* fbo, const mud::Colour* colour) {
 		mud::pass_clear_fbo(*gfx, *render, *fbo, *colour);
+	}
+	void DECL mud_pass_clear_fbo_5(mud::GfxSystem* gfx, mud::Render* render, mud::FrameBuffer* fbo, const mud::Colour* colour, float depth) {
+		mud::pass_clear_fbo(*gfx, *render, *fbo, *colour, depth);
 	}
 	void DECL mud_pass_clear_2(mud::GfxSystem* gfx, mud::Render* render) {
 		mud::pass_clear(*gfx, *render);
@@ -4044,6 +4089,9 @@ extern "C" {
 	}
 	mud::AnimationTarget DECL mud_AnimationTarget_Scale() {
 		return mud::AnimationTarget::Scale;
+	}
+	mud::AnimationTarget DECL mud_AnimationTarget_Weights() {
+		return mud::AnimationTarget::Weights;
 	}
 	mud::AnimationTarget DECL mud_AnimationTarget_Count() {
 		return mud::AnimationTarget::Count;
@@ -4389,6 +4437,16 @@ extern "C" {
 	mud::PbrSpecularMode DECL mud_PbrSpecularMode_Disabled() {
 		return mud::PbrSpecularMode::Disabled;
 	}
+	// PhongEnvBlendMode
+	mud::PhongEnvBlendMode DECL mud_PhongEnvBlendMode_Mul() {
+		return mud::PhongEnvBlendMode::Mul;
+	}
+	mud::PhongEnvBlendMode DECL mud_PhongEnvBlendMode_Mix() {
+		return mud::PhongEnvBlendMode::Mix;
+	}
+	mud::PhongEnvBlendMode DECL mud_PhongEnvBlendMode_Add() {
+		return mud::PhongEnvBlendMode::Add;
+	}
 	// ShaderColor
 	mud::ShaderColor DECL mud_ShaderColor_Shader() {
 		return mud::ShaderColor::Shader;
@@ -4579,6 +4637,9 @@ extern "C" {
 	}
 	mud::TextureSampler DECL mud_TextureSampler_AO() {
 		return mud::TextureSampler::AO;
+	}
+	mud::TextureSampler DECL mud_TextureSampler_Displace() {
+		return mud::TextureSampler::Displace;
 	}
 	mud::TextureSampler DECL mud_TextureSampler_Depth() {
 		return mud::TextureSampler::Depth;

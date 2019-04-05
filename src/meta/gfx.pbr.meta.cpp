@@ -58,18 +58,24 @@ void mud_pass_geometry_6(span<void*> args, void*& result) { UNUSED(result);  mud
 void mud_pass_lights_7(span<void*> args, void*& result) { UNUSED(result);  mud::pass_lights(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
 void mud_pass_voxel_gi_8(span<void*> args, void*& result) { UNUSED(result);  mud::pass_voxel_gi(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
 void mud_pass_lightmap_9(span<void*> args, void*& result) { UNUSED(result);  mud::pass_lightmap(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
-void mud_render_pbr_forward_10(span<void*> args, void*& result) { UNUSED(result);  mud::render_pbr_forward(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
-void mud_render_pbr_deferred_11(span<void*> args, void*& result) { UNUSED(result);  mud::render_pbr_deferred(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
-void mud_render_shadow_12(span<void*> args, void*& result) { UNUSED(result);  mud::render_shadow(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
-void mud_render_voxel_13(span<void*> args, void*& result) { UNUSED(result);  mud::render_voxel(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
-void mud_render_lightmap_14(span<void*> args, void*& result) { UNUSED(result);  mud::render_lightmap(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
-void mud_render_reflection_15(span<void*> args, void*& result) { UNUSED(result);  mud::render_reflection(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
-void mud_pipeline_pbr_16(span<void*> args, void*& result) { UNUSED(result);  mud::pipeline_pbr(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Renderer*>(args[1]), *static_cast<bool*>(args[2])); }
-void mud_gfx_setup_pipeline_pbr_17(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::setup_pipeline_pbr(*static_cast<mud::GfxSystem*>(args[0])); }
-void mud_pass_shadowmaps_18(span<void*> args, void*& result) { UNUSED(result);  mud::pass_shadowmaps(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
-void mud_pass_shadow_19(span<void*> args, void*& result) { UNUSED(result);  mud::pass_shadow(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
-void mud_gfx_gi_probe_20(span<void*> args, void*& result) { result = &mud::gfx::gi_probe(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
-void mud_gfx_lightmap_21(span<void*> args, void*& result) { result = &mud::gfx::lightmap(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<float*>(args[2]), *static_cast<stl::string*>(args[3])); }
+void mud_pass_begin_post_10(span<void*> args, void*& result) { UNUSED(result);  mud::pass_begin_post(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_pass_post_auto_11(span<void*> args, void*& result) { UNUSED(result);  mud::pass_post_auto(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_pass_post_effects_12(span<void*> args, void*& result) { UNUSED(result);  mud::pass_post_effects(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1]), *static_cast<mud::DofBlur*>(args[2]), *static_cast<mud::Glow*>(args[3]), *static_cast<mud::Tonemap*>(args[4]), *static_cast<mud::BCS*>(args[5])); }
+void mud_render_pbr_forward_13(span<void*> args, void*& result) { UNUSED(result);  mud::render_pbr_forward(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_render_pbr_deferred_14(span<void*> args, void*& result) { UNUSED(result);  mud::render_pbr_deferred(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_render_shadow_15(span<void*> args, void*& result) { UNUSED(result);  mud::render_shadow(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_render_voxel_16(span<void*> args, void*& result) { UNUSED(result);  mud::render_voxel(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_render_lightmap_17(span<void*> args, void*& result) { UNUSED(result);  mud::render_lightmap(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_render_reflection_18(span<void*> args, void*& result) { UNUSED(result);  mud::render_reflection(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_pipeline_pbr_19(span<void*> args, void*& result) { UNUSED(result);  mud::pipeline_pbr(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Renderer*>(args[1]), *static_cast<bool*>(args[2])); }
+void mud_gfx_setup_pipeline_pbr_20(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::setup_pipeline_pbr(*static_cast<mud::GfxSystem*>(args[0])); }
+void mud_pass_shadowmaps_21(span<void*> args, void*& result) { UNUSED(result);  mud::pass_shadowmaps(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_pass_shadow_22(span<void*> args, void*& result) { UNUSED(result);  mud::pass_shadow(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1])); }
+void mud_gfx_gi_probe_23(span<void*> args, void*& result) { result = &mud::gfx::gi_probe(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
+void mud_gfx_lightmap_24(span<void*> args, void*& result) { result = &mud::gfx::lightmap(*static_cast<mud::Gnode*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<float*>(args[2]), *static_cast<stl::string*>(args[3])); }
+void mud_pass_dofblur_25(span<void*> args, void*& result) { UNUSED(result);  mud::pass_dofblur(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1]), *static_cast<mud::DofBlur*>(args[2])); }
+void mud_pass_glow_26(span<void*> args, void*& result) { UNUSED(result);  mud::pass_glow(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1]), *static_cast<mud::Glow*>(args[2])); }
+void mud_pass_tonemap_27(span<void*> args, void*& result) { UNUSED(result);  mud::pass_tonemap(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<mud::Render*>(args[1]), *static_cast<mud::Tonemap*>(args[2]), *static_cast<mud::BCS*>(args[3])); }
 
 namespace mud
 {
@@ -86,7 +92,7 @@ namespace mud
 		static cstring ids[] = { "Linear", "Reinhardt", "Filmic", "ACES", "Cineon", "Uncharted2" };
 		static uint32_t values[] = { 0, 1, 2, 3, 4, 5 };
 		static mud::TonemapMode vars[] = { mud::TonemapMode::Linear, mud::TonemapMode::Reinhardt, mud::TonemapMode::Filmic, mud::TonemapMode::ACES, mud::TonemapMode::Cineon, mud::TonemapMode::Uncharted2};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5] };
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5]};
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { mud_TonemapMode__to_string,
 		                           mud_TonemapMode__to_value };
@@ -676,54 +682,78 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "render_pbr_forward", nullptr, mud_render_pbr_forward_10, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "pass_begin_post", nullptr, mud_pass_begin_post_10, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "render_pbr_deferred", nullptr, mud_render_pbr_deferred_11, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "pass_post_auto", nullptr, mud_pass_post_auto_11, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "render_shadow", nullptr, mud_render_shadow_12, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "pass_post_effects", nullptr, mud_pass_post_effects_12, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  }, { "dof", type<mud::DofBlur>(),  }, { "glow", type<mud::Glow>(),  }, { "tonemap", type<mud::Tonemap>(),  }, { "bcs", type<mud::BCS>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "render_voxel", nullptr, mud_render_voxel_13, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "render_pbr_forward", nullptr, mud_render_pbr_forward_13, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "render_lightmap", nullptr, mud_render_lightmap_14, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "render_pbr_deferred", nullptr, mud_render_pbr_deferred_14, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "render_reflection", nullptr, mud_render_reflection_15, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "render_shadow", nullptr, mud_render_shadow_15, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "render_voxel", nullptr, mud_render_voxel_16, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "render_lightmap", nullptr, mud_render_lightmap_17, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "render_reflection", nullptr, mud_render_reflection_18, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool deferred_default = false;
-			static Function f = { &namspc({ "mud" }), "pipeline_pbr", nullptr, mud_pipeline_pbr_16, { { "gfx", type<mud::GfxSystem>(),  }, { "pipeline", type<mud::Renderer>(),  }, { "deferred", type<bool>(), Param::Default, &deferred_default } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "pipeline_pbr", nullptr, mud_pipeline_pbr_19, { { "gfx", type<mud::GfxSystem>(),  }, { "pipeline", type<mud::Renderer>(),  }, { "deferred", type<bool>(), Param::Default, &deferred_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "setup_pipeline_pbr", nullptr, mud_gfx_setup_pipeline_pbr_17, { { "gfx", type<mud::GfxSystem>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud", "gfx" }), "setup_pipeline_pbr", nullptr, mud_gfx_setup_pipeline_pbr_20, { { "gfx", type<mud::GfxSystem>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "pass_shadowmaps", nullptr, mud_pass_shadowmaps_18, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "pass_shadowmaps", nullptr, mud_pass_shadowmaps_21, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "pass_shadow", nullptr, mud_pass_shadow_19, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "pass_shadow", nullptr, mud_pass_shadow_22, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "gfx" }), "gi_probe", nullptr, mud_gfx_gi_probe_20, { { "parent", type<mud::Gnode>(),  }, { "subdiv", type<uint16_t>(),  }, { "extents", type<mud::vec3>(),  } }, { &type<mud::GIProbe>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "gi_probe", nullptr, mud_gfx_gi_probe_23, { { "parent", type<mud::Gnode>(),  }, { "subdiv", type<uint16_t>(),  }, { "extents", type<mud::vec3>(),  } }, { &type<mud::GIProbe>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float density_default = 8.f;
 			static stl::string save_path_default = "";
-			static Function f = { &namspc({ "mud", "gfx" }), "lightmap", nullptr, mud_gfx_lightmap_21, { { "parent", type<mud::Gnode>(),  }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<mud::LightmapAtlas>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "lightmap", nullptr, mud_gfx_lightmap_24, { { "parent", type<mud::Gnode>(),  }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<mud::LightmapAtlas>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "pass_dofblur", nullptr, mud_pass_dofblur_25, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  }, { "blur", type<mud::DofBlur>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "pass_glow", nullptr, mud_pass_glow_26, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  }, { "glow", type<mud::Glow>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "pass_tonemap", nullptr, mud_pass_tonemap_27, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  }, { "tonemap", type<mud::Tonemap>(),  }, { "bcs", type<mud::BCS>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

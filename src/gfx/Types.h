@@ -46,6 +46,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::PassType>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::PbrDiffuseMode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::PbrSpecularMode>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::PhongEnvBlendMode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ShaderColor>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ShaderType>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Shading>();
@@ -88,7 +89,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::FrameBuffer>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Frustum>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::FrustumSlice>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxWindow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Gnode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GpuMesh>();
@@ -122,6 +122,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Prefab>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Program>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ProgramBlock>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::ProgramMode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ProgramVersion>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Radiance>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Render>();
@@ -156,6 +157,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Flare>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>();
