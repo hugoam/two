@@ -306,13 +306,8 @@ namespace mud
 		m_shader_blocks[block].m_enabled = true;
 		m_shader_blocks[block].m_option_shift = uint8_t(m_options.size());
 
-		printf("registering %s block %i shift %i\n", m_name.c_str(), int(block), int(m_options.size()));
 		for(size_t i = 0; i < options.size(); ++i)
-		{
 			m_options.push_back(options[i]);
-			printf("%i %s\n", int(m_options.size()), options[i].c_str());
-
-		}
 	}
 
 	void Program::register_modes(uint8_t block, span<string> modes)
