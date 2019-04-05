@@ -219,7 +219,12 @@ namespace gfx
 
 		pipeline.m_gather_func = gather_render_pbr;
 
+		// this (and below) seems to cause a memory corruption in emscripten
+		//construct<TBuffer<Tonemap>>(type<Tonemap>());
+
+#ifndef MUD_PLATFORM_EMSCRIPTEN
 		g_viewer_ecs->init<Tonemap, BCS, Glow, DofBlur>();
+#endif
 	}
 
 	struct PbrBlocks

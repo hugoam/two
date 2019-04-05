@@ -11,6 +11,7 @@ using namespace mud;
 #define MULTI_VIEWPORT 0
 
 // todo:
+// fix obj loader / sponza blows up
 // xx_material_skin (fix inverted uv issue)
 // blur offset bug
 
@@ -150,8 +151,9 @@ int main(int argc, char *argv[])
 
 	//static uint32_t example0 = 0;
 	//static uint32_t example0 = find_example("shader/ocean");
-	static uint32_t example0 = find_example("material/skin");
+	//static uint32_t example0 = find_example("material/skin");
 	//static uint32_t example0 = find_example("effect/sao");
+	static uint32_t example0 = find_example("cubemap/dynamic");
 	static bool init0 = true;
 
 #if !MULTI_VIEWPORT && !MULTI_WINDOW

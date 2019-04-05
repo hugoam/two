@@ -496,6 +496,8 @@ namespace mud
 		: m_index(s_material_index++) // uint16_t(index(type<Material>(), Ref(this))))//
 		, m_name(name)
 	{
+		m_pbr.m_diffuse_mode = PbrDiffuseMode::Lambert;
+
 		static bool init_blocks = true;
 		if(init_blocks)
 		{

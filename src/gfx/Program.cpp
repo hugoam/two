@@ -294,6 +294,7 @@ namespace mud
 
 	void Program::register_block(const ShaderBlock& block)
 	{
+		assert(block.m_index < 32);
 		m_shader_blocks[block.m_index].m_enabled = true;
 		this->register_options(block.m_index, block.m_options);
 		this->register_modes(block.m_index, block.m_modes);
@@ -303,6 +304,7 @@ namespace mud
 
 	void Program::register_options(uint8_t block, span<string> options)
 	{
+		assert(block < 32);
 		m_shader_blocks[block].m_enabled = true;
 		m_shader_blocks[block].m_option_shift = uint8_t(m_options.size());
 
@@ -312,12 +314,14 @@ namespace mud
 
 	void Program::register_modes(uint8_t block, span<string> modes)
 	{
+		assert(block < 32);
 		m_shader_blocks[block].m_enabled = true;
 		m_shader_blocks[block].m_mode_shift = uint8_t(m_modes.size());
 
 		for(size_t i = 0; i < modes.size(); ++i)
 			m_modes.push_back(modes[i]);
 	}
+
 	void Program::set_pass(PassType type, bool enabled)
 	{
 		m_passes[type] = enabled;

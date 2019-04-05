@@ -9,6 +9,7 @@
 #include <pool/SparsePool.hpp>
 
 //#include <cstdio>
+#include <cassert>
 
 namespace mud
 {
@@ -79,6 +80,7 @@ namespace mud
 #else
 		m_buffers.push_back(construct<TBuffer<T>>());
 #endif
+		assert(this->type_index<T>() < m_buffer_map.size());
 		m_buffer_map[this->type_index<T>()] = &(*m_buffers.back());
 	}
 

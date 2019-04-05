@@ -475,7 +475,7 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, true, &material);
 
-	gfx::custom_sky(scene, [](Render& render) { g_sky.render(render); });
+	gfx::custom_sky(scene, [](GfxSystem& gfx, Render& render) { g_sky.render(render); });
 }
 
 #ifdef _08_SKY_EXE

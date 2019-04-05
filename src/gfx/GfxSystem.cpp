@@ -323,10 +323,16 @@ namespace mud
 				context->end_frame();
 		}
 
+		for(Program* program : m_impl->m_programs->m_vector)
+			program->update(*this);
+
 		{
 			ZoneScopedNC("gfx frame", tracy::Color::Cyan);
 			BgfxSystem::end_frame();
 		}
+
+		for(Program* program : m_impl->m_programs->m_vector)
+			program->update(*this);
 	}
 
 	void GfxSystem::render(Shading shading, RenderFunc renderer, RenderTarget& target, Viewport& viewport)
