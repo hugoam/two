@@ -2222,6 +2222,12 @@ extern "C" {
 	mud::Type* DECL mud_Mime__type() {
 		return &mud::type<mud::Mime>();
 	}
+	mud::Mime* DECL mud_Mime__construct_1(mud::Node3* node) {
+		return new mud::Mime(*node);
+	}
+	mud::Mime* DECL mud_Mime__construct_2(mud::Node3* node, mud::Item* item) {
+		return new mud::Mime(*node, *item);
+	}
 	void DECL mud_Mime_start_2(mud::Mime* self, const char* animation, bool loop) {
 		self->start(animation, loop);
 	}

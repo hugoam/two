@@ -2796,7 +2796,10 @@ Mesh.prototype["__destroy"] = Mesh.prototype.__destroy = function() {
     _mud_Mesh__destroy(this.__ptr);
 };
 // Mime
-function Mime() { throw "cannot construct a Mime, no constructor in IDL" }
+function Mime(a0, a1) {
+    if (a1 === undefined) { this.__ptr = _mud_Mime__construct_1(/*node*/a0.__ptr); this.__type = Mime.__type; getCache(Mime)[this.__ptr] = this; return; }
+    this.__ptr = _mud_Mime__construct_2(/*node*/a0.__ptr, /*item*/a1.__ptr); this.__type = Mime.__type; getCache(Mime)[this.__ptr] = this;
+};
 Mime.prototype = Object.create(WrapperObject.prototype);
 Mime.prototype.constructor = Mime;
 Mime.prototype.__class = Mime;

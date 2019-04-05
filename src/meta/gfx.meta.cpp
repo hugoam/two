@@ -254,6 +254,8 @@ void mud_Mesh_morph(void* object, span<void*> args, void*& result) { UNUSED(resu
 void mud_Mesh_upload(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).upload(*static_cast<mud::GpuMesh*>(args[0]), *static_cast<bool*>(args[1])); }
 void mud_Mesh_cache(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).cache(*static_cast<mud::GpuMesh*>(args[0])); }
 void mud_Mesh_direct(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Mesh*>(object)).direct(*static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<uint32_t*>(args[2])); }
+void mud_Mime__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Mime( *static_cast<mud::Node3*>(args[0]) ); }
+void mud_Mime__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Mime( *static_cast<mud::Node3*>(args[0]), *static_cast<mud::Item*>(args[1]) ); }
 void mud_Mime_start(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).start(*static_cast<stl::string*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
 void mud_Mime_play(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).play(*static_cast<mud::Animation*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
 void mud_Mime_seek(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).seek(*static_cast<float*>(args[0])); }
@@ -2389,6 +2391,10 @@ namespace mud
 		static float play_0_speed_default = 1.f;
 		static bool play_0_transient_default = false;
 		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Mime__construct_0, { { "node", type<mud::Node3>(),  } } },
+			{ t, mud_Mime__construct_1, { { "node", type<mud::Node3>(),  }, { "item", type<mud::Item>(),  } } }
+		};
 		// copy constructor
 		// members
 		static Member members[] = {
@@ -2411,7 +2417,7 @@ namespace mud
 			{ t, "playing", Address(), mud_Mime_playing, {}, { &type<stl::string>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
 	// mud::Model
 	{
