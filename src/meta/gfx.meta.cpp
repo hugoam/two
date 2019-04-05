@@ -2701,7 +2701,7 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Render", sizeof(mud::Render), TypeClass::Struct };
 		// bases
 		// defaults
-		static uint8_t pass_index_default = s_render_pass_id;
+		static uint8_t pass_index_default = mud::Render::s_render_pass_id;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Render__construct_0, {} },

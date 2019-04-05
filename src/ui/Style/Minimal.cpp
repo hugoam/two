@@ -304,7 +304,7 @@ namespace mud
 
 		select({  "Tooltip", "Popdown", "DropdownList", "MenuList", "SubMenuList"  })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-			i.m_background_colour = { 0.098f, 0.802f };
+			i.m_background_colour = Colour(0.098f, 0.802f);
 			i.m_text_colour = clearGreyText;
 		});
 

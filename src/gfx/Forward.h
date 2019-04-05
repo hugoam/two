@@ -38,6 +38,7 @@ namespace mud
 	enum class Lighting : unsigned int;
     enum class PbrDiffuseMode : unsigned int;
     enum class PbrSpecularMode : unsigned int;
+	enum class PhongEnvBlendMode : unsigned int;
     enum PbrShaderOption : unsigned int;
     enum class ModelFormat : unsigned int;
     enum class EmitterFlow : unsigned int;
@@ -74,8 +75,8 @@ namespace mud
     class Texture;
     struct ShaderDefine;
     struct ShaderBlock;
+	struct ProgramMode;
     struct ProgramBlock;
-    struct ProgramBlockArray;
     class Program;
     struct ProgramVersion;
     struct Pass;
