@@ -15,7 +15,6 @@ namespace mud
 	enum ShaderOptionLight : unsigned int
 	{
 		SKY_LIGHT,
-		DIRECT_LIGHT,
 		FOG,
 	};
 
@@ -82,7 +81,7 @@ namespace mud
 
 		virtual void begin_render(Render& render) override;
 
-		virtual void options(Render& render, ProgramVersion& shader_version) const final;
+		virtual void options(Render& render, ProgramVersion& program) const final;
 		virtual void submit(Render& render, const Pass& pass) const final;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const final;
 

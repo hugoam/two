@@ -24,7 +24,7 @@ namespace mud
 {
 	//static uint16_t s_model_index = 0;
 
-	GfxSystem* Model::ms_gfx_system = nullptr;
+	GfxSystem* Model::ms_gfx = nullptr;
 
 	Model::Model(const string& name)
 		: m_name(name)
@@ -41,18 +41,18 @@ namespace mud
 
 	Mesh& Model::add_mesh(const string& name, bool readback)
 	{
-		Mesh& mesh = ms_gfx_system->meshes().construct(name, readback);
+		Mesh& mesh = ms_gfx->meshes().construct(name, readback);
 		return mesh;
 	}
 
 	Rig& Model::add_rig(const string& name)
 	{
 		UNUSED(name);
-		m_rig = &ms_gfx_system->rigs().construct();
+		m_rig = &ms_gfx->rigs().construct();
 		return *m_rig;
 	}
 
-	ModelItem& Model::add_item(Mesh& mesh, const mat4& transform, int skin, const Colour& colour, Material* material)
+	ModelElem& Model::add_item(Mesh& mesh, const mat4& transform, int skin, const Colour& colour, Material* material)
 	{
 		m_items.push_back({ m_items.size(), &mesh, transform != bxidentity(), transform, skin, colour, material });
 		return m_items.back();
@@ -63,7 +63,7 @@ namespace mud
 		m_aabb = {};
 		m_radius = 0.f;
 
-		for(const ModelItem& item: m_items)
+		for(const ModelElem& item: m_items)
 		{
 			m_geometry[item.m_mesh->m_primitive] = true;
 			m_aabb.merge(transform_aabb(item.m_mesh->m_aabb, item.m_transform));
@@ -79,7 +79,7 @@ namespace mud
 		Model& variant = gfx.models().create(name);
 		variant = original;
 
-		for(ModelItem& item : variant.m_items)
+		for(ModelElem& item : variant.m_items)
 			for(size_t i = 0; i < materials.size(); ++i)
 			{
 				if(item.m_mesh->m_material->m_name == materials[i])

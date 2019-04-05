@@ -265,8 +265,8 @@ void mud_Model_add_mesh(void* object, span<void*> args, void*& result) { result 
 void mud_Model_add_rig(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Model*>(object)).add_rig(*static_cast<stl::string*>(args[0])); }
 void mud_Model_add_item(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Model*>(object)).add_item(*static_cast<mud::Mesh*>(args[0]), *static_cast<mud::mat4*>(args[1]), *static_cast<int*>(args[2]), *static_cast<mud::Colour*>(args[3]), static_cast<mud::Material*>(args[4])); }
 void mud_Model_prepare(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Model*>(object)).prepare(); }
-void mud_ModelItem__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ModelItem(  ); }
-void mud_ModelItem__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ModelItem((*static_cast<mud::ModelItem*>(other))); }
+void mud_ModelElem__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ModelElem(  ); }
+void mud_ModelElem__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ModelElem((*static_cast<mud::ModelElem*>(other))); }
 void mud_Node3__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Node3(  ); }
 void mud_Node3__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Node3( *static_cast<mud::mat4*>(args[0]) ); }
 void mud_Node3__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Node3( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2]) ); }
@@ -1484,6 +1484,7 @@ namespace mud
 			{ t, offsetof(mud::Fog, m_colour), type<mud::Colour>(), "colour", &colour_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Fog, m_depth), type<bool>(), "depth", &depth_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Fog, m_depth_begin), type<float>(), "depth_begin", &depth_begin_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Fog, m_depth_end), type<float>(), "depth_end", &depth_begin_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Fog, m_depth_curve), type<float>(), "depth_curve", &depth_curve_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Fog, m_height), type<bool>(), "height", &height_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Fog, m_height_min), type<float>(), "height_min", &height_min_default, Member::Value, nullptr },
@@ -1575,8 +1576,7 @@ namespace mud
 		// members
 		static Member members[] = {
 			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_GfxBlock__get_type },
-			{ t, offsetof(mud::GfxBlock, m_index), type<uint8_t>(), "index", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::GfxBlock, m_shader_block), type<mud::ShaderBlock>(), "shader_block", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::GfxBlock, m_index), type<uint8_t>(), "index", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -2431,35 +2431,35 @@ namespace mud
 			{ t, "get_mesh", Address(), mud_Model_get_mesh, { { "index", type<size_t>(),  } }, { &type<mud::Mesh>(), QualType::None } },
 			{ t, "add_mesh", Address(), mud_Model_add_mesh, { { "name", type<stl::string>(),  }, { "readback", type<bool>(), Param::Default, &add_mesh_0_readback_default } }, { &type<mud::Mesh>(), QualType::None } },
 			{ t, "add_rig", Address(), mud_Model_add_rig, { { "name", type<stl::string>(),  } }, { &type<mud::Rig>(), QualType::None } },
-			{ t, "add_item", Address(), mud_Model_add_item, { { "mesh", type<mud::Mesh>(),  }, { "transform", type<mud::mat4>(),  }, { "skin", type<int>(), Param::Default, &add_item_0_skin_default }, { "colour", type<mud::Colour>(), Param::Default, &add_item_0_colour_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &add_item_0_material_default } }, { &type<mud::ModelItem>(), QualType::None } },
+			{ t, "add_item", Address(), mud_Model_add_item, { { "mesh", type<mud::Mesh>(),  }, { "transform", type<mud::mat4>(),  }, { "skin", type<int>(), Param::Default, &add_item_0_skin_default }, { "colour", type<mud::Colour>(), Param::Default, &add_item_0_colour_default }, { "material", type<mud::Material>(), Param::Flags(Param::Nullable|Param::Default), &add_item_0_material_default } }, { &type<mud::ModelElem>(), QualType::None } },
 			{ t, "prepare", Address(), mud_Model_prepare, {}, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
 	}
-	// mud::ModelItem
+	// mud::ModelElem
 	{
-		Type& t = type<mud::ModelItem>();
-		static Meta meta = { t, &namspc({ "mud" }), "ModelItem", sizeof(mud::ModelItem), TypeClass::Struct };
+		Type& t = type<mud::ModelElem>();
+		static Meta meta = { t, &namspc({ "mud" }), "ModelElem", sizeof(mud::ModelElem), TypeClass::Struct };
 		// bases
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ModelItem__construct_0, {} }
+			{ t, mud_ModelElem__construct_0, {} }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_ModelItem__copy_construct }
+			{ t, mud_ModelElem__copy_construct }
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::ModelItem, m_index), type<size_t>(), "index", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::ModelItem, m_mesh), type<mud::Mesh>(), "mesh", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::ModelItem, m_has_transform), type<bool>(), "has_transform", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::ModelItem, m_transform), type<mud::mat4>(), "transform", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::ModelItem, m_skin), type<int>(), "skin", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::ModelItem, m_colour), type<mud::Colour>(), "colour", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::ModelItem, m_material), type<mud::Material>(), "material", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(mud::ModelElem, m_index), type<size_t>(), "index", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::ModelElem, m_mesh), type<mud::Mesh>(), "mesh", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::ModelElem, m_has_transform), type<bool>(), "has_transform", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::ModelElem, m_transform), type<mud::mat4>(), "transform", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::ModelElem, m_skin), type<int>(), "skin", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::ModelElem, m_colour), type<mud::Colour>(), "colour", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::ModelElem, m_material), type<mud::Material>(), "material", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
 		// static members
@@ -3351,21 +3351,6 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::BlockPbr
-	{
-		Type& t = type<mud::BlockPbr>();
-		static Meta meta = { t, &namspc({ "mud" }), "BlockPbr", sizeof(mud::BlockPbr), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::GfxBlock>() };
-		static size_t bases_offsets[] = { base_offset<mud::BlockPbr, mud::GfxBlock>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
 	// mud::BlockSky
 	{
 		Type& t = type<mud::BlockSky>();
@@ -3553,7 +3538,7 @@ namespace mud
 			{ t, offsetof(mud::Viewport, m_camera), type<mud::Camera>(), "camera", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Viewport, m_scene), type<mud::Scene>(), "scene", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Viewport, m_index), type<uint16_t>(), "index", &index_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Viewport, m_active), type<bool>(), "active", &active_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Viewport, m_autorender), type<bool>(), "autorender", &active_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Viewport, m_rect), type<mud::vec4>(), "rect", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Viewport, m_scissor), type<bool>(), "scissor", &scissor_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Viewport, m_clear_colour), type<mud::Colour>(), "clear_colour", &clear_colour_default, Member::Value, nullptr },
@@ -3641,7 +3626,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::Mime>());
 		m.m_types.push_back(&type<mud::Model>());
 		m.m_types.push_back(&type<mud::ModelFormat>());
-		m.m_types.push_back(&type<mud::ModelItem>());
+		m.m_types.push_back(&type<mud::ModelElem>());
 		m.m_types.push_back(&type<mud::Month>());
 		m.m_types.push_back(&type<mud::Node3>());
 		m.m_types.push_back(&type<mud::Pass>());
@@ -3699,7 +3684,6 @@ namespace mud
 		m.m_types.push_back(&type<mud::BlockFilter>());
 		m.m_types.push_back(&type<mud::BlockMaterial>());
 		m.m_types.push_back(&type<mud::BlockParticles>());
-		m.m_types.push_back(&type<mud::BlockPbr>());
 		m.m_types.push_back(&type<mud::BlockSky>());
 		m.m_types.push_back(&type<mud::ClusteredFrustum>());
 		m.m_types.push_back(&type<mud::DrawBlock>());

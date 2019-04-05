@@ -40,77 +40,68 @@ uniforms: {
 },
 #endif
 
-static string toon1_vertex()
-{
-	string shader = 
+static string toon1_vertex =
 
-		"varying vec3 vNormal;\n"
-		"varying vec3 vRefract;\n"
+	"varying vec3 vNormal;\n"
+	"varying vec3 vRefract;\n"
 
-		"void main() {\n"
+	"void main() {\n"
 
-			"vec4 worldPosition = modelMatrix * vec4( position, 1.0 );\n"
-			"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n"
-			"vec3 worldNormal = normalize ( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );\n"
+		"vec4 worldPosition = modelMatrix * vec4( position, 1.0 );\n"
+		"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n"
+		"vec3 worldNormal = normalize ( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );\n"
 
-			"vNormal = normalize( normalMatrix * normal );\n"
+		"vNormal = normalize( normalMatrix * normal );\n"
 
-			"vec3 I = worldPosition.xyz - cameraPosition;\n"
-			"vRefract = refract( normalize( I ), worldNormal, 1.02 );\n"
+		"vec3 I = worldPosition.xyz - cameraPosition;\n"
+		"vRefract = refract( normalize( I ), worldNormal, 1.02 );\n"
 
-			"gl_Position = projectionMatrix * mvPosition;\n"
+		"gl_Position = projectionMatrix * mvPosition;\n"
 
-		"}\n";
+	"}\n";
 
-	return shader;
-}
-static string toon1_fragment()
-{
-	string shader =
+static string toon1_fragment =
 
-		"uniform vec3 uBaseColor;\n"
+	"uniform vec3 uBaseColor;\n"
 
-		"uniform vec3 uDirLightPos;\n"
-		"uniform vec3 uDirLightColor;\n"
+	"uniform vec3 uDirLightPos;\n"
+	"uniform vec3 uDirLightColor;\n"
 
-		"uniform vec3 uAmbientLightColor;\n"
+	"uniform vec3 uAmbientLightColor;\n"
 
-		"varying vec3 vNormal;\n"
+	"varying vec3 vNormal;\n"
 
-		"varying vec3 vRefract;\n"
+	"varying vec3 vRefract;\n"
 
-		"void main() {\n"
+	"void main() {\n"
 
-			"float directionalLightWeighting = max( dot( normalize( vNormal ), uDirLightPos ), 0.0);\n"
-			"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
+		"float directionalLightWeighting = max( dot( normalize( vNormal ), uDirLightPos ), 0.0);\n"
+		"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
 
-			"float intensity = smoothstep( - 0.5, 1.0, pow( length(lightWeighting), 20.0 ) );\n"
-			"intensity += length(lightWeighting) * 0.2;\n"
+		"float intensity = smoothstep( - 0.5, 1.0, pow( length(lightWeighting), 20.0 ) );\n"
+		"intensity += length(lightWeighting) * 0.2;\n"
 
-			"float cameraWeighting = dot( normalize( vNormal ), vRefract );\n"
-			"intensity += pow( 1.0 - length( cameraWeighting ), 6.0 );\n"
-			"intensity = intensity * 0.2 + 0.3;\n"
+		"float cameraWeighting = dot( normalize( vNormal ), vRefract );\n"
+		"intensity += pow( 1.0 - length( cameraWeighting ), 6.0 );\n"
+		"intensity = intensity * 0.2 + 0.3;\n"
 
-			"if ( intensity < 0.50 ) {\n"
+		"if ( intensity < 0.50 ) {\n"
 
-				"gl_FragColor = vec4( 2.0 * intensity * uBaseColor, 1.0 );\n"
+			"gl_FragColor = vec4( 2.0 * intensity * uBaseColor, 1.0 );\n"
 
-			"} else {\n"
+		"} else {\n"
 
-				"gl_FragColor = vec4( 1.0 - 2.0 * ( 1.0 - intensity ) * ( 1.0 - uBaseColor ), 1.0 );\n"
+			"gl_FragColor = vec4( 1.0 - 2.0 * ( 1.0 - intensity ) * ( 1.0 - uBaseColor ), 1.0 );\n"
 
-			"}\n"
+		"}\n"
 
-		"}\n";
-
-	return shader;
-}
+	"}\n";
 
 static Program& toon1_program(GfxSystem& gfx)
 {
 	static Program& program = gfx.programs().create("toon1");
-	program.set_source(ShaderType::Vertex, toon1_vertex());
-	program.set_source(ShaderType::Fragment, toon1_fragment());
+	program.set_source(ShaderType::Vertex, toon1_vertex);
+	program.set_source(ShaderType::Fragment, toon1_fragment);
 	return program;
 }
 
@@ -131,68 +122,58 @@ uniforms: {
 },
 #endif
 
-static string toon2_vertex()
-{
-	string shader =
+static string toon2_vertex =
 
-			"varying vec3 vNormal;\n"
+	"varying vec3 vNormal;\n"
 
-			"void main() {\n"
+	"void main() {\n"
 
-				"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
-				"vNormal = normalize( normalMatrix * normal );\n"
+		"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
+		"vNormal = normalize( normalMatrix * normal );\n"
 
-			"}\n";
+	"}\n";
 
-	return shader;
-}
+static string toon2_fragment =
 
-static string toon2_fragment()
-{
-	string shader =
+	"uniform vec3 uBaseColor;\n"
+	"uniform vec3 uLineColor1;\n"
+	"uniform vec3 uLineColor2;\n"
+	"uniform vec3 uLineColor3;\n"
+	"uniform vec3 uLineColor4;\n"
 
-		"uniform vec3 uBaseColor;\n"
-		"uniform vec3 uLineColor1;\n"
-		"uniform vec3 uLineColor2;\n"
-		"uniform vec3 uLineColor3;\n"
-		"uniform vec3 uLineColor4;\n"
+	"uniform vec3 uDirLightPos;\n"
+	"uniform vec3 uDirLightColor;\n"
 
-		"uniform vec3 uDirLightPos;\n"
-		"uniform vec3 uDirLightColor;\n"
+	"uniform vec3 uAmbientLightColor;\n"
 
-		"uniform vec3 uAmbientLightColor;\n"
+	"varying vec3 vNormal;\n"
 
-		"varying vec3 vNormal;\n"
+	"void main() {\n"
 
-		"void main() {\n"
+		"float camera = max( dot( normalize( vNormal ), vec3( 0.0, 0.0, 1.0 ) ), 0.4);\n"
+		"float light = max( dot( normalize( vNormal ), uDirLightPos ), 0.0);\n"
 
-			"float camera = max( dot( normalize( vNormal ), vec3( 0.0, 0.0, 1.0 ) ), 0.4);\n"
-			"float light = max( dot( normalize( vNormal ), uDirLightPos ), 0.0);\n"
+		"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
 
-			"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
+		"if ( length(uAmbientLightColor + uDirLightColor * light) < 1.00 ) {\n"
 
-			"if ( length(uAmbientLightColor + uDirLightColor * light) < 1.00 ) {\n"
+			"gl_FragColor *= vec4( uLineColor1, 1.0 );\n"
 
-				"gl_FragColor *= vec4( uLineColor1, 1.0 );\n"
+		"}\n"
 
-			"}\n"
+		"if ( length(uAmbientLightColor + uDirLightColor * camera) < 0.50 ) {\n"
 
-			"if ( length(uAmbientLightColor + uDirLightColor * camera) < 0.50 ) {\n"
+			"gl_FragColor *= vec4( uLineColor2, 1.0 );\n"
 
-				"gl_FragColor *= vec4( uLineColor2, 1.0 );\n"
+		"}\n"
 
-			"}\n"
-
-		"}\n";
-
-	return shader;
-}
+	"}\n";
 
 static Program& toon2_program(GfxSystem& gfx)
 {
 	static Program& program = gfx.programs().create("toon2");
-	program.set_source(ShaderType::Vertex, toon2_vertex());
-	program.set_source(ShaderType::Fragment, toon2_fragment());
+	program.set_source(ShaderType::Vertex, toon2_vertex);
+	program.set_source(ShaderType::Fragment, toon2_fragment);
 	return program;
 }
 
@@ -209,93 +190,83 @@ static Program& toon2_program(GfxSystem& gfx)
 "uLineColor4": { value: new THREE.Color( 0x000000 ) }
 #endif
 
-static string hatching_vertex()
-{
-	string shader =
+static string hatching_vertex =
 
-		"varying vec3 vNormal;\n"
+	"varying vec3 vNormal;\n"
 
-		"void main() {\n"
+	"void main() {\n"
 
-			"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
-			"vNormal = normalize( normalMatrix * normal );\n"
+		"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
+		"vNormal = normalize( normalMatrix * normal );\n"
 
-		"}\n";
+	"}\n";
 
-	return shader;
-}
+static string hatching_fragment =
 
-static string hatching_fragment()
-{
-	string shader =
+	"uniform vec3 uBaseColor;\n"
+	"uniform vec3 uLineColor1;\n"
+	"uniform vec3 uLineColor2;\n"
+	"uniform vec3 uLineColor3;\n"
+	"uniform vec3 uLineColor4;\n"
 
-		"uniform vec3 uBaseColor;\n"
-		"uniform vec3 uLineColor1;\n"
-		"uniform vec3 uLineColor2;\n"
-		"uniform vec3 uLineColor3;\n"
-		"uniform vec3 uLineColor4;\n"
+	"uniform vec3 uDirLightPos;\n"
+	"uniform vec3 uDirLightColor;\n"
 
-		"uniform vec3 uDirLightPos;\n"
-		"uniform vec3 uDirLightColor;\n"
+	"uniform vec3 uAmbientLightColor;\n"
 
-		"uniform vec3 uAmbientLightColor;\n"
+	"varying vec3 vNormal;\n"
 
-		"varying vec3 vNormal;\n"
+	"void main() {\n"
 
-		"void main() {\n"
+		"float directionalLightWeighting = max( dot( normalize(vNormal), uDirLightPos ), 0.0);\n"
+		"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
 
-			"float directionalLightWeighting = max( dot( normalize(vNormal), uDirLightPos ), 0.0);\n"
-			"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
+		"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
 
-			"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
+		"if ( length(lightWeighting) < 1.00 ) {\n"
 
-			"if ( length(lightWeighting) < 1.00 ) {\n"
+			"if ( mod(gl_FragCoord.x + gl_FragCoord.y, 10.0) == 0.0) {\n"
 
-				"if ( mod(gl_FragCoord.x + gl_FragCoord.y, 10.0) == 0.0) {\n"
-
-					"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
-
-				"}\n"
+				"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
 
 			"}\n"
 
-			"if ( length(lightWeighting) < 0.75 ) {\n"
+		"}\n"
 
-				"if (mod(gl_FragCoord.x - gl_FragCoord.y, 10.0) == 0.0) {\n"
+		"if ( length(lightWeighting) < 0.75 ) {\n"
 
-					"gl_FragColor = vec4( uLineColor2, 1.0 );\n"
+			"if (mod(gl_FragCoord.x - gl_FragCoord.y, 10.0) == 0.0) {\n"
 
-				"}\n"
+				"gl_FragColor = vec4( uLineColor2, 1.0 );\n"
+
 			"}\n"
+		"}\n"
 
-			"if ( length(lightWeighting) < 0.50 ) {\n"
+		"if ( length(lightWeighting) < 0.50 ) {\n"
 
-				"if (mod(gl_FragCoord.x + gl_FragCoord.y - 5.0, 10.0) == 0.0) {\n"
+			"if (mod(gl_FragCoord.x + gl_FragCoord.y - 5.0, 10.0) == 0.0) {\n"
 
-					"gl_FragColor = vec4( uLineColor3, 1.0 );\n"
+				"gl_FragColor = vec4( uLineColor3, 1.0 );\n"
 
-				"}\n"
 			"}\n"
+		"}\n"
 
-			"if ( length(lightWeighting) < 0.3465 ) {\n"
+		"if ( length(lightWeighting) < 0.3465 ) {\n"
 
-				"if (mod(gl_FragCoord.x - gl_FragCoord.y - 5.0, 10.0) == 0.0) {\n"
+			"if (mod(gl_FragCoord.x - gl_FragCoord.y - 5.0, 10.0) == 0.0) {\n"
 
-					"gl_FragColor = vec4( uLineColor4, 1.0 );\n"
+				"gl_FragColor = vec4( uLineColor4, 1.0 );\n"
 
-				"}\n"
 			"}\n"
+		"}\n"
 
-		"}\n";
-
-	return shader;
-}
+	"}\n";
 
 static Program& hatching_program(GfxSystem& gfx)
 {
 	static Program& program = gfx.programs().create("hatching");
-	program.set_source(ShaderType::Vertex, hatching_vertex());
-	program.set_source(ShaderType::Fragment, hatching_fragment());
+	program.set_source(ShaderType::Vertex, hatching_vertex);
+	program.set_source(ShaderType::Fragment, hatching_fragment);
 	return program;
 }
 
@@ -309,76 +280,66 @@ static Program& hatching_program(GfxSystem& gfx)
 	"uLineColor1": { value: new THREE.Color( 0x000000 ) }
 #endif
 
-static string dotted_vertex()
-{
-	string shader =
+static string dotted_vertex =
 
-		"varying vec3 vNormal;\n"
+	"varying vec3 vNormal;\n"
 
-		"void main() {\n"
+	"void main() {\n"
 
-			"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
-			"vNormal = normalize( normalMatrix * normal );\n"
+		"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
+		"vNormal = normalize( normalMatrix * normal );\n"
 
-		"}\n";
+	"}\n";
 
-	return shader;
-}
+static string dotted_fragment =
 
-static string dotted_fragment()
-{
-	string shader =
+	"uniform vec3 uBaseColor;\n"
+	"uniform vec3 uLineColor1;\n"
+	"uniform vec3 uLineColor2;\n"
+	"uniform vec3 uLineColor3;\n"
+	"uniform vec3 uLineColor4;\n"
 
-		"uniform vec3 uBaseColor;\n"
-		"uniform vec3 uLineColor1;\n"
-		"uniform vec3 uLineColor2;\n"
-		"uniform vec3 uLineColor3;\n"
-		"uniform vec3 uLineColor4;\n"
+	"uniform vec3 uDirLightPos;\n"
+	"uniform vec3 uDirLightColor;\n"
 
-		"uniform vec3 uDirLightPos;\n"
-		"uniform vec3 uDirLightColor;\n"
+	"uniform vec3 uAmbientLightColor;\n"
 
-		"uniform vec3 uAmbientLightColor;\n"
+	"varying vec3 vNormal;\n"
 
-		"varying vec3 vNormal;\n"
+	"void main() {\n"
 
-		"void main() {\n"
+		"float directionalLightWeighting = max( dot( normalize(vNormal), uDirLightPos ), 0.0);\n"
+		"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
 
-			"float directionalLightWeighting = max( dot( normalize(vNormal), uDirLightPos ), 0.0);\n"
-			"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
+		"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
 
-			"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
+		"if ( length(lightWeighting) < 1.00 ) {\n"
 
-			"if ( length(lightWeighting) < 1.00 ) {\n"
+			"if ( ( mod(gl_FragCoord.x, 4.001) + mod(gl_FragCoord.y, 4.0) ) > 6.00 ) {\n"
 
-				"if ( ( mod(gl_FragCoord.x, 4.001) + mod(gl_FragCoord.y, 4.0) ) > 6.00 ) {\n"
-
-					"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
-
-				"}\n"
+				"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
 
 			"}\n"
 
-			"if ( length(lightWeighting) < 0.50 ) {\n"
+		"}\n"
 
-				"if ( ( mod(gl_FragCoord.x + 2.0, 4.001) + mod(gl_FragCoord.y + 2.0, 4.0) ) > 6.00 ) {\n"
+		"if ( length(lightWeighting) < 0.50 ) {\n"
 
-					"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
+			"if ( ( mod(gl_FragCoord.x + 2.0, 4.001) + mod(gl_FragCoord.y + 2.0, 4.0) ) > 6.00 ) {\n"
 
-				"}\n"
+				"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
 
 			"}\n"
 
-		"}\n";
-	
-	return shader;
-}
+		"}\n"
+
+	"}\n";
 
 static Program& dotted_program(GfxSystem& gfx)
 {
 	static Program& program = gfx.programs().create("dotted");
-	program.set_source(ShaderType::Vertex, dotted_vertex());
-	program.set_source(ShaderType::Fragment, dotted_fragment());
+	program.set_source(ShaderType::Vertex, dotted_vertex);
+	program.set_source(ShaderType::Fragment, dotted_fragment);
 	return program;
 }
 
@@ -445,6 +406,7 @@ vector<Material*> gen_materials(GfxSystem& gfx, const string& prefix)
 	//texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
 	Program& pbr = *gfx.programs().file("pbr/pbr");
+	Program& phong = *gfx.programs().file("pbr/phong");
 
 	//new THREE.MeshLambertMaterial({ color: 0xffffff, envMap : reflectionCube });
 	Material& chrome = gfx.materials().create("chrome", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_metallic = 1.f; });
@@ -454,28 +416,35 @@ vector<Material*> gen_materials(GfxSystem& gfx, const string& prefix)
 	Material& liquid = gfx.materials().create("liquid", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_metallic = 1.f; m.m_pbr.m_refraction = 0.85f; });
 	// h : 0, s : 0, l : 1
 
-	// new THREE.MeshStandardMaterial({ color: 0x550000, envMap : reflectionCube, roughness : 0.1, metalness : 1.0 })
-	Material& shiny = gfx.materials().create("shiny", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_roughness = 0.1f; m.m_pbr.m_metallic = 1.f; });
+	Material& shiny = gfx.materials().create("shiny", [&](Material& m) {
+		m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x550000); m.m_pbr.m_roughness = 0.1f; m.m_pbr.m_metallic = 1.f;
+	});
 	// h : 0, s : 0.8, l : 0.2
 
-	// new THREE.MeshPhongMaterial({ color: 0x000000, specular : 0x111111, shininess : 1 })
-	Material& matte = gfx.materials().create("matte", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_roughness = 1.f; });
+	Material& matte = gfx.materials().create("matte", [&](Material& m) {
+		m.m_program = &phong; m.m_phong.m_diffuse = rgb(0x000000); m.m_phong.m_specular = rgb(0x111111); m.m_phong.m_shininess = 1.f;
+	});
 	// h : 0, s : 0, l : 1
 	
 	// new THREE.MeshLambertMaterial({ color: 0x000000, flatShading : true })
 	Material& flat = gfx.materials().create("flat", [&](Material& m) { m.m_program = &pbr; m.m_base.m_flat_shaded = true; });
 	// h : 0, s : 0, l : 1
 	
-	// new THREE.MeshPhongMaterial({ color: 0xffffff, specular : 0x111111, shininess : 1, map : texture })
-	Material& textured = gfx.materials().create("textured", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = &texture; });
+	Material& textured = gfx.materials().create("textured", [&](Material& m) {
+		m.m_program = &phong; m.m_phong.m_diffuse = rgb(0xffffff); m.m_phong.m_diffuse.m_texture = &texture; 
+		m.m_phong.m_specular = rgb(0x111111); m.m_phong.m_shininess = 1.f;
+	});
 	// h : 0, s : 0, l : 1	
 	
-	// new THREE.MeshPhongMaterial({ color: 0xffffff, specular : 0xffffff, shininess : 2, vertexColors : THREE.VertexColors })
-	Material& colors = gfx.materials().create("colors", [&](Material& m) { m.m_program = &pbr; m.m_base.m_shader_color = ShaderColor::Vertex; m.m_pbr.m_roughness = 0.9f; });
+	Material& colors = gfx.materials().create("colors", [&](Material& m) { 
+		m.m_program = &phong; m.m_phong.m_diffuse = rgb(0xffffff); m.m_phong.m_specular = rgb(0xffffff); m.m_phong.m_shininess = 2.f;
+		m.m_base.m_shader_color = ShaderColor::Vertex;
+	});
 	// h : 0, s : 0, l : 1	
 
-	// new THREE.MeshPhongMaterial({ color: 0x000000, specular : 0x888888, shininess : 250 })
-	Material& plastic = gfx.materials().create("plastic", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x000000); m.m_pbr.m_roughness = 0.f; });
+	Material& plastic = gfx.materials().create("plastic", [&](Material& m) { 
+		m.m_program = &phong; m.m_phong.m_diffuse = rgb(0x000000); m.m_phong.m_specular = rgb(0x888888); m.m_phong.m_shininess = 250.f;
+	});
 	// h : 0.6, s : 0.8, l : 0.1
 
 	vector<Material*> materials = { &chrome, &liquid, &shiny, &matte, &flat, &textured, &colors, &plastic, &toon1, &toon2, &hatching1, &hatching2, &dotted1, &dotted2 };
@@ -568,7 +537,6 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_eye = vec3(-500.f, 500.f, 1500.f);
 
 		Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
-		scene.m_env.m_radiance.m_energy = 1.f;
 		scene.m_env.m_radiance.m_texture = &reflection;
 
 		Model& model = app.m_gfx.create_model("cubes");

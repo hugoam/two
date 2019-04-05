@@ -15,9 +15,12 @@ module mud.gfx;
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>
 #include <gfx/Node3.h>
+#include <gfx/Skeleton.h>
 #endif
 
 #include <cstring>
+
+#include <cstdio>
 
 namespace mud
 {
@@ -44,8 +47,24 @@ namespace mud
 			m_aabb = transform_aabb(m_model->m_aabb, m_node->m_transform);
 	}
 
-	void Item::submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const ModelItem& item) const
+	void Item::submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const ModelElem& item) const
 	{
+		if(m_rig && m_rig->m_weights.size() > 0)
+		{
+			float weights[4] = {};
+
+			for(size_t i = 0; i < 4; ++i)
+			{
+				Rig::MorphWeight& w = m_rig->m_weights[i];
+				weights[i] = w.weight;
+				if(w.weight != 0.f)
+					item.m_mesh->submit_morph(encoder, i, w.index);
+			}
+
+			static bgfx::UniformHandle u_morph_weights = bgfx::createUniform("u_morph_weights", bgfx::UniformType::Vec4);
+			encoder.setUniform(u_morph_weights, weights);
+		}
+
 		bgfx_state |= item.m_mesh->submit(encoder);
 
 		if(!item.m_has_transform)
@@ -70,7 +89,7 @@ namespace mud
 		, m_buffer{}
 	{}
 
-	void Batch::submit(bgfx::Encoder& encoder, const ModelItem& item) // const
+	void Batch::submit(bgfx::Encoder& encoder, const ModelElem& item) // const
 	{
 		if(m_cache.size() > 0)
 			this->commit(m_cache);
@@ -128,7 +147,7 @@ namespace mud
 		{
 			m_buffers.resize(model.m_items.size());
 
-			for(const ModelItem& item : model.m_items)
+			for(const ModelElem& item : model.m_items)
 			{
 				bgfx::InstanceDataBuffer& buffer = m_buffers[item.m_index];
 				uint32_t num = bgfx::getAvailInstanceDataBuffer(uint32_t(instances.size()), sizeof(mat4));

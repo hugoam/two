@@ -218,53 +218,76 @@ namespace mud
 		map<uint64_t, Version> m_versions;
 	};
 
-	string program_defines(const Program& program, const ProgramVersion& version)
+	GfxSystem* Program::ms_gfx = nullptr;
+
+	static uint8_t s_block_index = 1;
+
+	ShaderBlock::ShaderBlock()
+		: m_index(s_block_index++)
+	{}
+
+	ShaderBlock::ShaderBlock(span<cstring> options, span<cstring> modes)
+		: m_index(s_block_index++)
 	{
-		string defines = "";
-
-		for(size_t option = 0; option < 32; ++option)
-			if(version.m_options & uint32_t(1 << option))
-				defines += program.m_option_names[option] + ";";
-
-		for(size_t mode = 0; mode < program.m_mode_names.size(); ++mode)
-			defines += program.m_mode_names[mode] + "=" + to_string(version.m_modes[mode]) + ";";
-
-		for(const ShaderDefine& define : program.m_defines)
-			defines += string(define.m_name) + (define.m_value.empty() ? "" : "=" + define.m_value) + ";";
-
-		return defines;
+		for(cstring option : options)
+			m_options.push_back(option);
+		for(cstring mode : modes)
+			m_modes.push_back(mode);
 	}
-
-	GfxSystem* Program::ms_gfx_system = nullptr;
 
 	Program::Program(const string& name, bool compute)
 		: m_name(name)
 		, m_compute(compute)
 		, m_impl(make_unique<Impl>())
 	{
-		GfxBlock& mat = *ms_gfx_system->m_renderer.block<BlockMaterial>();
-		
-		static string options[] = { "INSTANCING", "BILLBOARD", "SKELETON", "QNORMALS", "VFLIP", "MRT", "DEFERRED", "CLUSTERED",
-									 "ZONES_BUFFER", "LIGHTS_BUFFER", "MATERIALS_BUFFER" };
+		static string options[] = { "INSTANCING", "BILLBOARD", "SKELETON", "MORPHTARGET", "QNORMALS", "VFLIP", "MRT", "DEFERRED", "CLUSTERED",
+									"ZONES_BUFFER", "LIGHTS_BUFFER", "MATERIALS_BUFFER" };
 		this->register_options(0, options);
-		this->register_block(mat.m_shader_block);
 
-		m_blocks[MaterialBlock::Base] = true;
+		this->set_block(MaterialBlock::Base);
 	}
 
 	Program::~Program()
 	{}
+
+	void Program::set_block(MaterialBlock type, bool enabled)
+	{
+		static table<MaterialBlock, ShaderBlock*> shader_blocks =
+		{ {
+			&MaterialBase::s_block,
+			&MaterialAlpha::s_block,
+			&MaterialSolid::s_block,
+			&MaterialPoint::s_block,
+			&MaterialLine::s_block,
+			&MaterialLit::s_block,
+			&MaterialPbr::s_block,
+			&MaterialPhong::s_block,
+			&MaterialFresnel::s_block,
+			&MaterialUser::s_block,
+		} };
+
+		m_blocks[type] = enabled;
+		this->register_block(*shader_blocks[type]);
+	}
+
+	void Program::set_blocks(span<MaterialBlock> blocks)
+	{
+		for(MaterialBlock type : blocks)
+		{
+			this->set_block(type);
+		}
+	}
 
 	void Program::register_blocks(const Program& program)
 	{
 		this->register_blocks(program.m_registered_blocks);
 	}
 
-	void Program::register_blocks(span<GfxBlock*> blocks)
+	void Program::register_blocks(span<ShaderBlock*> blocks)
 	{
-		for(GfxBlock* block : blocks)
+		for(ShaderBlock* block : blocks)
 		{
-			this->register_block(block->m_shader_block);
+			this->register_block(*block);
 			m_registered_blocks.push_back(block);
 		}
 	}
@@ -281,26 +304,25 @@ namespace mud
 	void Program::register_options(uint8_t block, span<string> options)
 	{
 		m_shader_blocks[block].m_enabled = true;
-		m_shader_blocks[block].m_option_shift = uint8_t(m_option_names.size());
+		m_shader_blocks[block].m_option_shift = uint8_t(m_options.size());
 
+		printf("registering %s block %i shift %i\n", m_name.c_str(), int(block), int(m_options.size()));
 		for(size_t i = 0; i < options.size(); ++i)
-			m_option_names.push_back(options[i]);
+		{
+			m_options.push_back(options[i]);
+			printf("%i %s\n", int(m_options.size()), options[i].c_str());
+
+		}
 	}
 
 	void Program::register_modes(uint8_t block, span<string> modes)
 	{
 		m_shader_blocks[block].m_enabled = true;
-		m_shader_blocks[block].m_mode_shift = uint8_t(m_mode_names.size());
+		m_shader_blocks[block].m_mode_shift = uint8_t(m_modes.size());
 
 		for(size_t i = 0; i < modes.size(); ++i)
-			m_mode_names.push_back(modes[i]);
+			m_modes.push_back(modes[i]);
 	}
-
-	void Program::set_block(MaterialBlock type, bool enabled)
-	{
-		m_blocks[type] = enabled;
-	}
-
 	void Program::set_pass(PassType type, bool enabled)
 	{
 		m_passes[type] = enabled;
@@ -313,10 +335,22 @@ namespace mud
 
 	string Program::defines(const ProgramVersion& version) const
 	{
-		return program_defines(*this, version);
+		string defines = "";
+
+		for(size_t option = 0; option < 32; ++option)
+			if(version.m_options & uint32_t(1 << option))
+				defines += m_options[option] + ";";
+
+		for(size_t mode = 0; mode < m_modes.size(); ++mode)
+			defines += m_modes[mode] + "=" + to_string(version.m_modes[mode]) + ";";
+
+		for(const ShaderDefine& define : m_defines)
+			defines += string(define.m_name) + (define.m_value.empty() ? "" : "=" + define.m_value) + ";";
+
+		return defines;
 	}
 
-	ProgramVersion Program::shader_version(Version& version)
+	ProgramVersion Program::program(Version& version)
 	{
 		ProgramVersion config = { *this };
 		memcpy(&config.m_options, &version.m_version, sizeof(uint64_t));
@@ -325,10 +359,10 @@ namespace mud
 
 	void Program::compile(GfxSystem& gfx, Version& version, bool compute)
 	{
-		const ProgramVersion config = shader_version(version);
+		const ProgramVersion config = this->program(version);
 
 		const string suffix = "_v" + to_string(version.m_version);
-		const string defines = program_defines(*this, config);
+		const string defines = this->defines(config);
 
 		bool compiled = true;
 #ifdef MUD_LIVE_SHADER_COMPILER
@@ -388,7 +422,7 @@ namespace mud
 		if(version.m_update < m_update)
 		{
 			version.m_version = version_hash;
-			this->compile(*ms_gfx_system, version, m_compute);
+			this->compile(*ms_gfx, version, m_compute);
 		}
 
 		return version.m_program;

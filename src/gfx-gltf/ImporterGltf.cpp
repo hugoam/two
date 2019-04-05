@@ -266,31 +266,34 @@ namespace mud
 					packer.m_indices = convert<uint32_t, int>(indices);
 				}
 
-				vector<MeshPacker> morphs;
-
 				for(const glTFMorphTarget& morph_target : primitive.targets)
 				{
-					morphs.push_back(packer);
-
-					MeshPacker& morph_shape = push(morphs);
-					morph_shape.m_indices = {};
+					MeshPacker morph;
+					
+					auto test = gltf.m_accessors[morph_target.POSITION].type;
 
 					if(morph_target.POSITION != -1)
-						morph_shape.m_positions = unpack_accessor<vec3, 3>(gltf, morph_target.POSITION, true);
+						morph.m_positions = unpack_accessor<vec3, 3>(gltf, morph_target.POSITION, true);
 					if(morph_target.NORMAL != -1)
-						morph_shape.m_normals = unpack_accessor<vec3, 3>(gltf, morph_target.NORMAL, true);
+						morph.m_normals = unpack_accessor<vec3, 3>(gltf, morph_target.NORMAL, true);
 					if(morph_target.TANGENT != -1)
 					{
 						vector<vec3> tangents = unpack_accessor<vec3, 3>(gltf, morph_target.TANGENT, true);
-						morph_shape.m_tangents.resize(tangents.size());
+						morph.m_tangents.resize(tangents.size());
 
 						for(size_t i = 0; i < packer.m_tangents.size(); ++i)
-							morph_shape.m_tangents[i] = { tangents[i], packer.m_tangents[i].w };
+							morph.m_tangents[i] = { tangents[i], packer.m_tangents[i].w };
 					}
+
+					mesh.morph(morph);
 				}
 
 				if(primitive.material != -1)
 					mesh.m_material = state.m_materials[primitive.material];
+
+				// @todo add external control for this behavior (normals/flat normals etc...)
+				if(packer.m_normals.empty())
+					packer.gen_normals();
 
 				if(packer.m_tangents.empty() && !packer.m_normals.empty() && !packer.m_uv0s.empty())
 					packer.gen_tangents();
@@ -330,7 +333,7 @@ namespace mud
 			glTFMaterialPBR pbr_material = gltf_material.pbr_metallic_roughness;
 
 			material.m_base.m_shader_color = ShaderColor::Vertex;
-			material.m_base.m_flat_shaded = true;
+			//material.m_base.m_flat_shaded = true;
 
 			material.m_pbr.m_albedo.m_value = to_colour(pbr_material.base_color_factor);
 
@@ -509,25 +512,33 @@ namespace mud
 
 			if(channel.target.path == "translation")
 			{
-				vector<vec3> translations = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
-				import_track<vec3>(node, sampler.interpolation, times, translations, animation, bone_index, AnimationTarget::Position); // member(&Bone::m_position)
+				const vector<vec3> translations = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
+				import_track<vec3>(node, sampler.interpolation, times, translations, animation, bone_index, AnimationTarget::Position);
 			}
 			else if(channel.target.path == "rotation")
 			{
-				vector<quat> rotations = unpack_accessor<quat, 4>(gltf, sampler.output, false);
-				import_track<quat>(node, sampler.interpolation, times, rotations, animation, bone_index, AnimationTarget::Rotation); // member(&Bone::m_rotation)
+				const vector<quat> rotations = unpack_accessor<quat, 4>(gltf, sampler.output, false);
+				import_track<quat>(node, sampler.interpolation, times, rotations, animation, bone_index, AnimationTarget::Rotation);
 			}
 			else if(channel.target.path == "scale")
 			{
-				vector<vec3> scales = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
-				import_track<vec3>(node, sampler.interpolation, times, scales, animation, bone_index, AnimationTarget::Scale); // member(&Bone::m_scale)
+				const vector<vec3> scales = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
+				import_track<vec3>(node, sampler.interpolation, times, scales, animation, bone_index, AnimationTarget::Scale);
 			}
 			else if(channel.target.path == "weights")
 			{
-				vector<float> weights = unpack_accessor<float>(gltf, sampler.output, false);
-				size_t track_key_size = gltf.m_meshes[node.mesh].weights.size();
-				// mud doesn't implement morph targets so far :/ this 
-				UNUSED(weights); UNUSED(track_key_size);
+				const vector<float> weights = unpack_accessor<float>(gltf, sampler.output, false);
+				const size_t key_size = gltf.m_meshes[node.mesh].weights.size();
+
+				vector<vector<float>> track;
+				for(size_t i = 0; i < weights.size(); i += key_size)
+				{
+					vector<float>& key = push(track);
+					for(size_t n = 0; n < key_size; ++n)
+						key.push_back(weights[i + n]);
+				}
+
+				import_track<vector<float>>(node, sampler.interpolation, times, track, animation, bone_index, AnimationTarget::Weights);
 			}
 		}
 	}
@@ -624,8 +635,8 @@ namespace mud
 
 		for(const Import::Item& item : state.m_items)
 		{
-			for(const ModelItem& model_item : item.model->m_items)
-				model.add_item(*model_item.m_mesh, item.transform, item.skin);
+			for(const ModelElem& elem : item.model->m_items)
+				model.add_item(*elem.m_mesh, item.transform, item.skin);
 		}
 
 		model.prepare();

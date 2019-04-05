@@ -128,11 +128,11 @@ namespace mud
 
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			if(!element.m_program->m_blocks[MaterialBlock::Lit])
+			const Program& program = *element.m_program.m_program;
+			if(!program.m_blocks[MaterialBlock::Lit])
 				return false;
 
-			element.m_program = block_lightmap.m_lightmap;
-			element.m_shader_version = element.m_material->shader_version(*element.m_program);
+			element.set_program(*block_lightmap.m_lightmap);
 			return true;
 		};
 
@@ -393,9 +393,9 @@ namespace mud
 			uvec4 rect = { pack.image->d_coord, unwrap.size };
 
 			Lightmap& lightmap = *pack.lightmap;
-			for(ModelItem& model_item : model.m_items)
+			for(ModelElem& elem : model.m_items)
 			{
-				if(!unwrap.success[model_item.m_index])
+				if(!unwrap.success[elem.m_index])
 				{
 					lightmap.add_item(i, *items[i], false, vec4(0.f));
 					continue;
@@ -501,9 +501,9 @@ namespace mud
 			}
 	}
 
-	void BlockLightmap::options(Render& render, ProgramVersion& shader_version) const
+	void BlockLightmap::options(Render& render, ProgramVersion& program) const
 	{
-		UNUSED(render); UNUSED(shader_version);
+		UNUSED(render); UNUSED(program);
 	}
 
 	void BlockLightmap::submit(Render& render, const Pass& pass) const
@@ -521,7 +521,7 @@ namespace mud
 
 		if(element.m_item->m_lightmaps.size() > 0)
 		{
-			LightmapItem& binding = *element.m_item->m_lightmaps[element.m_model->m_index];
+			LightmapItem& binding = *element.m_item->m_lightmaps[element.m_elem->m_index];
 
 			//encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &binding.m_uv_scale_offset);
 

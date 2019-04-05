@@ -38,6 +38,7 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<Viewport*>;
 	template class MUD_GFX_EXPORT vector<Importer*>;
 	template class MUD_GFX_EXPORT vector<Renderer*>;
+	template class MUD_GFX_EXPORT vector<ShaderBlock*>;
 	template class MUD_GFX_EXPORT vector<GfxBlock*>;
 	template class MUD_GFX_EXPORT vector<DrawBlock*>;
 	template class MUD_GFX_EXPORT vector<GfxWindow*>;
@@ -45,7 +46,7 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<Vertex>;
 	template class MUD_GFX_EXPORT vector<ShapeVertex>;
 	template class MUD_GFX_EXPORT vector<Tri>;
-	template class MUD_GFX_EXPORT vector<ModelItem>;
+	template class MUD_GFX_EXPORT vector<ModelElem>;
 	template class MUD_GFX_EXPORT vector<Item>;
 	template class MUD_GFX_EXPORT vector<Direct>;
 	//template class MUD_GFX_EXPORT vector<Direct::Batch>;
@@ -55,6 +56,8 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<Skin>;
 	template class MUD_GFX_EXPORT vector<ShaderDefine>;
 	template class MUD_GFX_EXPORT vector<PassJob>;
+	template class MUD_GFX_EXPORT vector<Mesh::Morph>;
+	template class MUD_GFX_EXPORT vector<Rig::MorphWeight>;
 	template class MUD_GFX_EXPORT vector<AnimationTrack>;
 	template class MUD_GFX_EXPORT vector<AnimationTrack::Key>;
 	template class MUD_GFX_EXPORT vector<AnimationPlay>;
@@ -74,6 +77,7 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<unique<Gnode>>;
 	template class MUD_GFX_EXPORT vector<unique<GfxBlock>>;
 	template class MUD_GFX_EXPORT vector<unique<Picker>>;
+	template class MUD_GFX_EXPORT vector<vector<float>>;
 	template class MUD_GFX_EXPORT unordered_map<int, Skeleton*>;
 	template class MUD_GFX_EXPORT unordered_map<string, Material*>;
 	template class MUD_GFX_EXPORT unordered_set<Model*>;

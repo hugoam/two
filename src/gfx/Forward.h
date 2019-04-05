@@ -96,13 +96,12 @@ namespace mud
     struct MaterialPbr;
 	struct MaterialPhong;
 	struct MaterialUser;
-    class BlockPbr;
     class Material;
 	class BlockMaterial;
 	class Import;
     struct ImportConfig;
 	class Importer;
-    struct ModelItem;
+    struct ModelElem;
     class Model;
     struct GpuMesh;
     class Mesh;

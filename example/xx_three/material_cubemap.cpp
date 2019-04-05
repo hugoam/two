@@ -31,8 +31,9 @@ void xx_material_cubemap(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 
 		Texture& envmap = *app.m_gfx.textures().file("cube/royal.jpg.cube");
 		scene.m_env.m_radiance.m_texture = &envmap;
-		scene.m_env.m_radiance.m_energy = 1.f;
-		//scene.background = envmap;
+		scene.m_env.m_radiance.m_filter = false;
+		scene.m_env.m_background.m_texture = &envmap;
+		scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
 
 		scene.m_env.m_radiance.m_ambient = 1.f;
 		scene.m_env.m_radiance.m_colour = rgb(0xffffff);
@@ -43,15 +44,29 @@ void xx_material_cubemap(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 		Light& l = gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 2.f, 0.f));
 		//light = &ln;
 
-		//materials
-		Material& material3 = app.m_gfx.materials().create("material");
-		//new THREE.MeshLambertMaterial({ color: 0xff6600, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.3 });
+		Program& phong = *app.m_gfx.programs().file("pbr/phong");
+		Program& lambert = *app.m_gfx.programs().file("pbr/lambert");
+		Program& program = lambert;
 
-		Material& material2 = app.m_gfx.materials().create("material");
-		//new THREE.MeshLambertMaterial({ color: 0xffee00, envMap : refractionCube, refractionRatio : 0.95 });
+		// materials
 
-		Material& material1 = app.m_gfx.materials().create("material");
-		//new THREE.MeshLambertMaterial({ color: 0xffffff, envMap : reflectionCube });
+		Material& material3 = app.m_gfx.materials().create("material3", [&](Material& m) {
+			m.m_program = &program;
+			m.m_phong.m_diffuse = rgb(0xff6600);
+			m.m_phong.m_reflectivity = 0.3f;
+			m.m_phong.m_env_blend = PhongEnvBlendMode::Mix;
+		});
+
+		Material& material2 = app.m_gfx.materials().create("material2", [&](Material& m) {
+			m.m_program = &program;
+			m.m_phong.m_diffuse = rgb(0xffee00);
+			m.m_phong.m_refraction = 0.95f;
+		});
+
+		Material& material1 = app.m_gfx.materials().create("material1", [&](Material& m) {
+			m.m_program = &program;
+			m.m_phong.m_diffuse = rgb(0xffffff);
+		});
 
 		Model& model = *app.m_gfx.models().file("WaltHead");
 

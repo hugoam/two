@@ -34,32 +34,26 @@ namespace mud
 		UNUSED(sky);
 		UNUSED(particles);
 
-		vector<GfxBlock*> depth_blocks =  { &depth };
+		vector<ShaderBlock*> depth_blocks =  { &depth };
 
 		auto create_programs = [&]()
 		{
 			Program& solid = gfx.programs().create("solid");
-			//solid.register_blocks(pipeline.m_pass_blocks[PassType::Solid]);
-			solid.m_blocks[MaterialBlock::Alpha] = true;
-			solid.m_blocks[MaterialBlock::Solid] = true;
+			solid.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Solid });
 
 			Program& depth = gfx.programs().create("depth");
 			depth.register_blocks(depth_blocks);
-			depth.m_blocks[MaterialBlock::Alpha] = true;
+			solid.set_blocks({ MaterialBlock::Alpha });
 
 			Program& distance = gfx.programs().create("distance");
 			distance.register_blocks(depth_blocks);
-			distance.m_blocks[MaterialBlock::Alpha] = true;
+			solid.set_blocks({ MaterialBlock::Alpha });
 
 			Program& pbr = gfx.programs().create("pbr/pbr");
-			//pbr.register_blocks(pipeline.m_pass_blocks[PassType::Opaque]);
-			pbr.m_blocks[MaterialBlock::Alpha] = true;
-			pbr.m_blocks[MaterialBlock::Lit] = true;
-			pbr.m_blocks[MaterialBlock::Pbr] = true;
+			solid.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
 
 			Program& fresnel = gfx.programs().create("fresnel");
-			fresnel.m_blocks[MaterialBlock::Alpha] = true;
-			fresnel.m_blocks[MaterialBlock::Fresnel] = true;
+			solid.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Fresnel });
 		};
 
 		create_programs();
@@ -100,12 +94,13 @@ namespace mud
 		};
 	};
 
-	void pass_clear_fbo(GfxSystem& gfx, Render& render, FrameBuffer& fbo, Colour& colour)
+	void pass_clear_fbo(GfxSystem& gfx, Render& render, FrameBuffer& fbo, const Colour& colour, float depth)
 	{
 		UNUSED(gfx);
 		Pass pass = render.next_pass("clear", PassType::Clear);
 
-		bgfx::setViewClear(pass.m_index, BGFX_CLEAR_COLOR, to_rgba(colour));
+		bgfx::setViewRect(pass.m_index, 0, 0, uint16_t(fbo.m_size.x), uint16_t(fbo.m_size.y));
+		bgfx::setViewClear(pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, to_rgba(colour), depth);
 		bgfx::setViewFrameBuffer(pass.m_index, fbo);
 
 		bgfx::touch(pass.m_index);
@@ -153,7 +148,8 @@ namespace mud
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
 			UNUSED(render);
-			if(!element.m_program->m_blocks[MaterialBlock::Solid] && !element.m_program->m_blocks[MaterialBlock::Fresnel])
+			const Program& program = *element.m_program.m_program;
+			if(!program.m_blocks[MaterialBlock::Solid] && !program.m_blocks[MaterialBlock::Fresnel])
 				return false;
 
 			blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);

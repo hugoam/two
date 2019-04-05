@@ -173,16 +173,16 @@ namespace mud
 	uint32_t Froxelizer::count(uint32_t record, int type) { return m_impl->m_clusters.m_data[record].count[type]; }
 	uint32_t Froxelizer::light(uint32_t record) { return m_impl->m_records.m_data[record]; }
 
-	bool Froxelizer::update(const Viewport& viewport, const mat4& projection, float near, float far)
+	bool Froxelizer::update(const uvec4& rect, const mat4& projection, float near, float far)
 	{
-		if(m_viewport != &viewport || m_viewport->m_rect != viewport.m_rect) //[[unlikely]]
+		if(m_viewport != rect) //[[unlikely]]
 			m_dirty |= uint8_t(Dirty::Viewport);
 		if(m_projection != projection) //[[unlikely]]
 			m_dirty |= uint8_t(Dirty::Projection);
 
 		//if(all(less(abs(m_projection), vec3(EPSILON))))
 
-		m_viewport = &viewport;
+		m_viewport = rect;
 		m_projection = projection;
 		m_near = near;
 		m_light_far = far;
@@ -195,18 +195,14 @@ namespace mud
 		return uniformsNeedUpdating;
 	}
 
-	bool Froxelizer::prepare(const Viewport& viewport, const mat4& projection, float near, float far)
+	void Froxelizer::setup()
 	{
-		bool uniformsNeedUpdating = this->update(viewport, projection, near, far);
-
 		// cluster buffer (~32 KiB) & record buffer (~64 KiB)
 		m_impl->m_clusters.m_data.resize(CLUSTER_BUFFER_ENTRY_COUNT_MAX);
 		m_impl->m_records.m_data.resize(RECORD_BUFFER_ENTRY_COUNT);
 
 		m_impl->m_light_records.resize(CLUSTER_BUFFER_ENTRY_COUNT_MAX);  // light records per cluster (~256 KiB)
 		m_impl->m_cluster_sharded_data.resize(GROUP_COUNT);				// cluster thread data (~256 KiB)
-
-		return uniformsNeedUpdating;
 	}
 
 	void Froxelizer::update_viewport()
@@ -214,7 +210,7 @@ namespace mud
 		m_frustum.m_near = m_light_near;
 		m_frustum.m_far = m_light_far;
 
-		m_frustum.resize(rect_size(vec4(m_viewport->m_rect)));
+		m_frustum.resize(rect_size(vec4(m_viewport)));
 
 		m_pz = { 0.f, 0.f, -m_frustum.m_linearizer, float(m_frustum.m_subdiv_z) };
 		if(SUPPORTS_REMAPPED_CLUSTERS)
@@ -233,7 +229,7 @@ namespace mud
 
 	void Froxelizer::update_projection()
 	{
-		m_frustum.recompute(m_projection, rect_size(vec4(m_viewport->m_rect)));
+		m_frustum.recompute(m_projection, rect_size(vec4(m_viewport)));
 
 		//    linearizer = log2(zLightFar / zLightNear) / (zcount - 1)
 		//    vz = -exp2((i - zcount) * linearizer) * zLightFar
@@ -337,7 +333,7 @@ namespace mud
 			bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.u_cluster_z, &z);
 		};
 
-		submit(vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_pf), 0.f), m_pz);
+		submit(vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport))), vec4(vec3(m_pf), 0.f), m_pz);
 	}
 
 	void Froxelizer::submit(bgfx::Encoder& encoder) const

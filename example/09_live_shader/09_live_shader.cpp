@@ -66,7 +66,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& scene = viewer.m_scene.begin();
 
 	static Program program = { "custom_program" };
-	program.m_sources[ShaderType::Fragment] = create_shader();
+	program.m_sources[ShaderType::Fragment, create_shader();
 	
 	auto draw_quad = [](GfxSystem& gfx, Render& render, const Pass& pass)
 	{

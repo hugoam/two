@@ -30,28 +30,14 @@ namespace mud
 		attr_ gpu_ bool m_bicubic_filter = false;
 	};
 
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_glow(GfxSystem& gfx, Render& render, Glow& glow);
+
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGlow : public GfxBlock
 	{
 	public:
 		BlockGlow(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur);
 
 		virtual void init_block() override;
-
-		virtual void begin_render(Render& render) override;
-		virtual void submit_pass(Render& render) final;
-
-		void debug_glow(Render& render, RenderTarget& target);
-
-		void glow(Render& render, RenderTarget& target, Glow& glow);
-		void glow_bleed(Render& render, RenderTarget& target, Glow& glow);
-		void glow_blur(Render& render, RenderTarget& target, Glow& glow);
-		void glow_merge(Render& render, RenderTarget& target, Glow& glow);
-
-		void render(Render& render, Glow& glow);
-
-		BlockFilter& m_filter;
-		BlockCopy& m_copy;
-		BlockBlur& m_blur;
 
 		Program& m_bleed_program;
 		Program& m_merge_program;

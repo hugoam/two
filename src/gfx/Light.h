@@ -27,6 +27,8 @@ namespace mud
 		CSM_BlendSplits = 1 << 2
 	};
 
+	export_ struct AtlasIndex { uint8_t slice = UINT8_MAX; uint16_t slot = UINT16_MAX; };
+
 	export_ class refl_ MUD_GFX_EXPORT Light
 	{
 	public:
@@ -61,6 +63,6 @@ namespace mud
 		size_t m_shot_index = 0;
 
 		uint32_t m_index = 0;
-		uint32_t m_shadow_index = UINT32_MAX;
+		AtlasIndex m_shadow_index = {};
 	};
 }

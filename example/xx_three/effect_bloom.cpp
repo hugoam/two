@@ -17,61 +17,50 @@ struct HighPass
 	// float defaultOpacity = 0.f;
 };
 
-static string filter_vertex()
-{
-	string shader =
+static string filter_vertex =
 
-		"$input a_position, a_texcoord0\n"
-		"$output v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"void main() {\n"
-		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
-		"}\n";
+	"$input a_position, a_texcoord0\n"
+	"$output v_uv0\n"
 
-	return shader;
-}
+	"#include <filter.sh>\n"
+
+	"void main() {\n"
+	"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
+	"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+	"}\n";
 	
-static string luminosity_fragment()
-{
-	string shader =
+static string luminosity_fragment =
 
-		"$input v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"uniform vec4 u_glow_lum_p0;\n"
-		"#define u_threshold u_glow_lum_p0.x\n"
-		"#define u_smooth_width u_glow_lum_p0.y\n"
-		"\n"
-		//"uniform vec3 defaultColor;\n"
-		//"uniform float defaultOpacity;\n"
-		"\n"
-		"void main() {\n"
+	"$input v_uv0\n"
 
-			"vec4 texel = texture2D(s_source_0, v_uv0);\n"
+	"#include <filter.sh>\n"
 
-			"vec3 luma = vec3(0.299, 0.587, 0.114);\n"
-			"float v = dot(texel.xyz, luma);\n"
+	"uniform vec4 u_glow_lum_p0;\n"
+	"#define u_threshold    u_glow_lum_p0.x\n"
+	"#define u_smooth_width u_glow_lum_p0.y\n"
 
-			"vec4 outputColor = vec4(0.0, 0.0, 0.0, 0.0);\n" //vec4(defaultColor.rgb, defaultOpacity);\n"
+	//"uniform vec3 defaultColor;\n"
+	//"uniform float defaultOpacity;\n"
+	
+	"void main() {\n"
 
-			"float alpha = smoothstep(u_threshold, u_threshold + u_smooth_width, v);\n"
+		"vec4 texel = texture2D(s_source_0, v_uv0);\n"
 
-			"gl_FragColor = mix(outputColor, texel, alpha);\n"
+		"vec3 luma = vec3(0.299, 0.587, 0.114);\n"
+		"float v = dot(texel.xyz, luma);\n"
 
-		"}\n";
+		"vec4 outputColor = vec4_splat(0.0);\n" //vec4(defaultColor.rgb, defaultOpacity);\n"
 
-	return shader;
-}
+		"float alpha = smoothstep(u_threshold, u_threshold + u_smooth_width, v);\n"
+
+		"gl_FragColor = mix(outputColor, texel, alpha);\n"
+	"}\n";
 
 static Program& highpass_program(GfxSystem& gfx)
 {
 	static Program& program = gfx.programs().create("bloom_lum");
-	program.set_source(ShaderType::Vertex, filter_vertex());
-	program.set_source(ShaderType::Fragment, luminosity_fragment());
+	program.set_source(ShaderType::Vertex, filter_vertex);
+	program.set_source(ShaderType::Fragment, luminosity_fragment);
 	return program;
 }
 
@@ -79,90 +68,84 @@ static Program& highpass_program(GfxSystem& gfx)
 // Inspired from Unreal Engine
 // https://docs.unrealengine.com/latest/INT/Engine/Rendering/PostProcessEffects/Bloom/
 
-static string blur_fragment()
-{
-	string shader =
+static string blur_fragment =
 
-		"$input v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"#include <convert.sh>\n"
-		"\n"
-		"#define SIGMA KERNEL_RADIUS\n"
-		"\n"
-		"uniform vec4 u_glow_blur_p0;\n"
-		"#define u_direction u_glow_blur_p0.xy\n"
-		"\n"
-		"float gaussianPdf(in float x, in float sigma) {\n"
-		"	return 0.39894 * exp(-0.5 * x * x/(sigma * sigma)) / sigma;\n"
-		"}\n"
-		"void main() {\n"
-		"	float fSigma = float(SIGMA);\n"
-		"	float weightSum = gaussianPdf(0.0, fSigma);\n"
-		"	vec3 diffuseSum = texture2DLod(s_source_0, v_uv0, float(u_source_0_level)).rgb * weightSum;\n"
-		"	for(int i = 1; i < KERNEL_RADIUS; i++) {\n"
-		"		float x = float(i);\n"
-		"		float w = gaussianPdf(x, fSigma);\n"
-		"		vec2 uvOffset = u_direction * u_pixel_size * x;\n"
-		"		vec3 sample1 = texture2DLod(s_source_0, v_uv0 + uvOffset, float(u_source_0_level)).rgb;\n"
-		"		vec3 sample2 = texture2DLod(s_source_0, v_uv0 - uvOffset, float(u_source_0_level)).rgb;\n"
-		"		diffuseSum += (sample1 + sample2) * w;\n"
-		"		weightSum += 2.0 * w;\n"
-		"	}\n"
-		"	gl_FragColor = vec4(diffuseSum / weightSum, 1.0);\n"
-		//"	gl_FragColor = vec4(hsl_to_rgb(vec3(u_source_0_level / 5.0, 1.0, 0.5)), 1.0);\n"
-		//"	gl_FragColor = vec4(vec3_splat(float(u_source_0_level) / 5.0), 1.0);\n"
-		"}\n";
+	"$input v_uv0\n"
 
-	return shader;
-}
+	"#include <filter.sh>\n"
+	"#include <convert.sh>\n"
+
+	"#define SIGMA KERNEL_RADIUS\n"
+
+	"uniform vec4 u_glow_blur_p0;\n"
+	"#define u_direction u_glow_blur_p0.xy\n"
+
+	"float gaussianPdf(in float x, in float sigma) {\n"
+	"	return 0.39894 * exp(-0.5 * x * x/(sigma * sigma)) / sigma;\n"
+	"}\n"
+
+	"void main() {\n"
+	"	float fSigma = float(SIGMA);\n"
+	"	float weightSum = gaussianPdf(0.0, fSigma);\n"
+	"	vec3 diffuseSum = texture2DLod(s_source_0, v_uv0, float(u_source_0_level)).rgb * weightSum;\n"
+
+	"	for(int i = 1; i < KERNEL_RADIUS; i++) {\n"
+	"		float x = float(i);\n"
+	"		float w = gaussianPdf(x, fSigma);\n"
+	"		vec2 uvOffset = u_direction * u_pixel_size * x;\n"
+	"		vec3 sample1 = texture2DLod(s_source_0, v_uv0 + uvOffset, float(u_source_0_level)).rgb;\n"
+	"		vec3 sample2 = texture2DLod(s_source_0, v_uv0 - uvOffset, float(u_source_0_level)).rgb;\n"
+	"		diffuseSum += (sample1 + sample2) * w;\n"
+	"		weightSum += 2.0 * w;\n"
+	"	}\n"
+
+	"	gl_FragColor = vec4(diffuseSum / weightSum, 1.0);\n"
+	//"	gl_FragColor = vec4(hsl_to_rgb(vec3(u_source_0_level / 5.0, 1.0, 0.5)), 1.0);\n"
+	//"	gl_FragColor = vec4(vec3_splat(float(u_source_0_level) / 5.0), 1.0);\n"
+	"}\n";
 
 static Program& blur_program(GfxSystem& gfx)
 {
 	static Program& program = gfx.programs().create("bloom_blur");
-	program.set_source(ShaderType::Vertex, filter_vertex());
-	program.set_source(ShaderType::Fragment, blur_fragment());
-	program.register_block(gfx.m_filter->m_shader_block);
+	program.set_source(ShaderType::Vertex, filter_vertex);
+	program.set_source(ShaderType::Fragment, blur_fragment);
+	program.register_block(*gfx.m_filter);
 	program.register_modes(0, { "KERNEL_RADIUS" });
 	return program;
 }
 
-static string merge_fragment()
-{
-	string shader =
+static string merge_fragment =
 
-		"$input v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"uniform vec4 u_glow_merge_p0;\n"
-		"#define u_glow_strength u_glow_merge_p0.x\n"
-		"#define u_glow_radius u_glow_merge_p0.y\n"
-		"\n"
-		"uniform vec4 u_glow_levels[2];\n"
-		"uniform vec4 u_glow_colors[5];\n"
-		"\n"
-		"float lerpBloomFactor(float factor) { \n"
-		"	float mirrorFactor = 1.2 - factor;\n"
-		"	return mix(factor, mirrorFactor, u_glow_radius);\n"
-		"}\n"
-		"\n"
-		"void main() {\n"
-		"	gl_FragColor = u_glow_strength * (lerpBloomFactor(u_glow_levels[0].x) * u_glow_colors[0] * texture2DLod(s_source_0, v_uv0, 1.0) + \n"
-		"									  lerpBloomFactor(u_glow_levels[0].y) * u_glow_colors[1] * texture2DLod(s_source_0, v_uv0, 2.0) + \n"
-		"									  lerpBloomFactor(u_glow_levels[0].z) * u_glow_colors[2] * texture2DLod(s_source_0, v_uv0, 3.0) + \n"
-		"									  lerpBloomFactor(u_glow_levels[0].w) * u_glow_colors[3] * texture2DLod(s_source_0, v_uv0, 4.0) + \n"
-		"									  lerpBloomFactor(u_glow_levels[1].x) * u_glow_colors[4] * texture2DLod(s_source_0, v_uv0, 5.0));\n"
-		//"	gl_FragColor = texture2DLod(s_source_0, v_uv0, 0.0);"
-		"}\n";
-	return shader;
-}
+	"$input v_uv0\n"
+
+	"#include <filter.sh>\n"
+
+	"uniform vec4 u_glow_merge_p0;\n"
+	"#define u_glow_strength u_glow_merge_p0.x\n"
+	"#define u_glow_radius u_glow_merge_p0.y\n"
+
+	"uniform vec4 u_glow_levels[2];\n"
+	"uniform vec4 u_glow_colors[5];\n"
+
+	"float bloomFactor(float factor) { \n"
+	"	float mirrorFactor = 1.2 - factor;\n"
+	"	return mix(factor, mirrorFactor, u_glow_radius);\n"
+	"}\n"
+
+	"void main() {\n"
+	"	gl_FragColor = u_glow_strength * (bloomFactor(u_glow_levels[0].x) * u_glow_colors[0] * texture2DLod(s_source_0, v_uv0, 1.0) + \n"
+	"									  bloomFactor(u_glow_levels[0].y) * u_glow_colors[1] * texture2DLod(s_source_0, v_uv0, 2.0) + \n"
+	"									  bloomFactor(u_glow_levels[0].z) * u_glow_colors[2] * texture2DLod(s_source_0, v_uv0, 3.0) + \n"
+	"									  bloomFactor(u_glow_levels[0].w) * u_glow_colors[3] * texture2DLod(s_source_0, v_uv0, 4.0) + \n"
+	"									  bloomFactor(u_glow_levels[1].x) * u_glow_colors[4] * texture2DLod(s_source_0, v_uv0, 5.0));\n"
+	//"	gl_FragColor = texture2DLod(s_source_0, v_uv0, 0.0);"
+	"}\n";
 
 static Program& merge_program(GfxSystem& gfx)
 {
 	static Program& program = gfx.programs().create("bloom_merge");
-	program.set_source(ShaderType::Vertex, filter_vertex());
-	program.set_source(ShaderType::Fragment, merge_fragment());
+	program.set_source(ShaderType::Vertex, filter_vertex);
+	program.set_source(ShaderType::Fragment, merge_fragment);
 	return program;
 }
 
@@ -285,10 +268,11 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	//controls.minDistance = 1;
 	//controls.maxDistance = 10;
 
-	Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
-	//tonemap.m_enabled = true;
+	static Tonemap tonemap;
 	tonemap.m_mode = TonemapMode::Reinhardt;
 	//tonemap.m_exposure = 3.f;
+
+	static BCS bcs;
 
 	Scene& scene = viewer.m_scene;
 
@@ -307,8 +291,6 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_eye = vec3(-5.f, 2.5f, -3.5f);
 
 		scene.m_env.m_radiance.m_colour = rgb(0x404040);
-		scene.m_env.m_radiance.m_energy = 1.f;
-		scene.m_env.m_radiance.m_ambient = 1.f;
 		//scene.add(new THREE.AmbientLight(0x404040));
 
 		Node3& ln = gfx::nodes(scene).add(Node3());
@@ -322,7 +304,7 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			pass_opaque(gfx, render);
 			pass_unreal_bloom(gfx, render, bloom);
 
-			pass_post_process(gfx, render);
+			pass_tonemap(gfx, render, tonemap, bcs);
 		};
 
 		app.m_gfx.set_renderer(Shading::Shaded, render);

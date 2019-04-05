@@ -153,11 +153,11 @@ namespace gfx
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
 			UNUSED(render);
-			if(!element.m_program->m_blocks[MaterialBlock::Lit])
+			const Program& program = *element.m_program.m_program;
+			if(!program.m_blocks[MaterialBlock::Lit])
 				return false;
 
-			element.m_program = block_gi_bake.m_voxelize;
-			element.m_shader_version = element.m_material->shader_version(*element.m_program);
+			element.set_program(*block_gi_bake.m_voxelize);
 			return true;
 		};
 
@@ -272,14 +272,11 @@ namespace gfx
 		m_block_light.commit_lights(render, pass);
 		m_block_shadow.commit_shadows(render, bxidentity());
 
-		ProgramVersion shader_version = { *m_direct_light };
-		if(m_block_light.m_direct_light)
-			shader_version.set_option(m_block_light.m_index, DIRECT_LIGHT, true);
+		ProgramVersion program = { *m_direct_light };
 
 		uint16_t subdiv = gi_probe.m_subdiv;
-		bgfx::ProgramHandle program = m_direct_light->version(shader_version);
-		if(bgfx::isValid(program))
-			encoder.dispatch(pass.m_index, program, subdiv / 64, subdiv, subdiv);
+		if(bgfx::isValid(m_direct_light->version(program)))
+			encoder.dispatch(pass.m_index, m_direct_light->version(program), subdiv / 64, subdiv, subdiv);
 	}
 	
 	void BlockGIBake::bounce(Render& render, GIProbe& gi_probe)
@@ -320,9 +317,9 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGIBake::options(Render& render, ProgramVersion& shader_version) const
+	void BlockGIBake::options(Render& render, ProgramVersion& program) const
 	{
-		UNUSED(render); UNUSED(shader_version);
+		UNUSED(render); UNUSED(program);
 	}
 
 	void BlockGIBake::submit(Render& render, const Pass& pass) const
@@ -355,7 +352,7 @@ namespace gfx
 	BlockGITrace::BlockGITrace(GfxSystem& gfx)
 		: DrawBlock(gfx, type<BlockGITrace>())
 	{
-		m_shader_block.m_options = { "GI_CONETRACE" };
+		m_options = { "GI_CONETRACE" };
 	}
 
 	void BlockGITrace::init_block()
@@ -368,12 +365,12 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGITrace::options(Render& render, ProgramVersion& shader_version) const
+	void BlockGITrace::options(Render& render, ProgramVersion& program) const
 	{
 		for(GIProbe* gi_probe : render.m_shot.m_gi_probes)
 			if(gi_probe->m_enabled)
 			{
-				shader_version.set_option(m_index, GI_CONETRACE, true);
+				program.set_option(m_index, GI_CONETRACE, true);
 			}
 	}
 

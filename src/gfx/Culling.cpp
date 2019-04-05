@@ -278,9 +278,9 @@ namespace mud
 		{
 			const mat4 model_to_clip = world_to_clip * item->m_node->m_transform;
 
-			for(ModelItem& model_item : item->m_model->m_items)
+			for(ModelElem& elem : item->m_model->m_items)
 			{
-				Mesh& mesh = *model_item.m_mesh;
+				Mesh& mesh = *elem.m_mesh;
 
 				if(mesh.m_primitive < PrimitiveType::Triangles)
 					continue;

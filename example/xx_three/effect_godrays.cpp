@@ -31,234 +31,195 @@
  */
 
 
-static string filter_vertex()
-{
-	string shader =
+static string filter_vertex =
 
-		"$input a_position, a_texcoord0\n"
-		"$output v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"void main() {\n"
-		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
-		"}\n";
+	"$input a_position, a_texcoord0\n"
+	"$output v_uv0\n"
+		
+	"#include <filter.sh>\n"
+		
+	"void main() {\n"
+	"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
+	"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+	"}\n";
 
-	return shader;
-}
+static string godrays_mask_vertex =
+	filter_vertex;
 
-static string godrays_mask_vertex()
-{
-	return filter_vertex();
-}
+static string godrays_mask_fragment =
 
-static string godrays_mask_fragment()
-{
-	string shader =
+	"$input v_uv0\n"
+		
+	"#include <filter.sh>\n"
+		
+	"void main() {\n"
+	"	float depth = texture2D(s_source_depth, v_uv0).x;\n"
+	"	depth = -perspectiveDepthToViewZ(depth) / u_z_far;\n"
+	"	depth = clamp(depth, 0.0, 1.0);\n"
+	"	gl_FragColor = vec4(1.0 - depth, 0.0, 0.0, 0.0);\n"
+	//"	gl_FragColor = vec4(1.0) - texture2D(s_source_0, v_uv0);\n"
+	"}\n";
 
-		"$input v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"void main() {\n"
-		"	float depth = texture2D(s_source_depth, v_uv0).x;\n"
-		"	depth = -perspectiveDepthToViewZ(depth) / u_z_far;\n"
-		"	depth = clamp(depth, 0.0, 1.0);\n"
-		"	gl_FragColor = vec4(1.0 - depth, 0.0, 0.0, 0.0);\n"
-		//"	gl_FragColor = vec4(1.0) - texture2D(s_source_0, v_uv0);\n"
-		"}\n";
+// The god-ray generation shader.
+//
+// First pass:
+//
+// The depth map is blurred along radial lines towards the "sun". The
+// output is written to a temporary render target (I used a 1/4 sized
+// target).
+//
+// Pass two & three:
+//
+// The results of the previous pass are re-blurred, each time with a
+// decreased distance between samples.
+//
 
-	return shader;
-}
+static string godrays_vertex =
+	filter_vertex;
 
+static string godrays_fragment =
 
-	/**
-	 * The god-ray generation shader.
-	 *
-	 * First pass:
-	 *
-	 * The depth map is blurred along radial lines towards the "sun". The
-	 * output is written to a temporary render target (I used a 1/4 sized
-	 * target).
-	 *
-	 * Pass two & three:
-	 *
-	 * The results of the previous pass are re-blurred, each time with a
-	 * decreased distance between samples.
-	 */
+	"$input v_uv0\n"
+		
+	"#include <filter.sh>\n"
+		
+	"#define TAPS_PER_PASS 6.0\n"
+		
+	"uniform vec4 u_godrays_p0;\n"
+	"#define u_sun u_godrays_p0.xy\n"
+	"#define u_step_size u_godrays_p0.z\n"
+		
+	"void main() {\n"
 
-static string godrays_vertex()
-{
-	return filter_vertex();
-}
+		// delta from current pixel to "sun" position
+		"vec2 delta = u_sun - v_uv0;\n"
+		"float dist = length(delta);\n"
 
-static string godrays_fragment()
-{
-	string shader =
+		// Step vector (uv space)
+		"vec2 stepv = u_step_size * delta / dist;\n"
 
-		"$input v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"#define TAPS_PER_PASS 6.0\n"
-		"\n"
-		"uniform vec4 u_godrays_p0;\n"
-		"#define u_sun u_godrays_p0.xy\n"
-		"#define u_step_size u_godrays_p0.z\n"
-		"\n"
-		"void main() {\n"
+		// Number of iterations between pixel and sun
+		"float iters = dist / u_step_size;\n"
 
-			// delta from current pixel to "sun" position
-			"vec2 delta = u_sun - v_uv0;\n"
-			"float dist = length(delta);\n"
+		"vec2 uv = v_uv0;\n"
+		"float col = 0.0;\n"
 
-			// Step vector (uv space)
-			"vec2 stepv = u_step_size * delta / dist;\n"
+		// This breaks ANGLE in Chrome 22
+		//	- see http://code.google.com/p/chromium/issues/detail?id=153105
 
-			// Number of iterations between pixel and sun
-			"float iters = dist / u_step_size;\n"
+		/*
+		// Unrolling didnt do much on my hardware (ATI Mobility Radeon 3450),
+		// so i've just left the loop
 
-			"vec2 uv = v_uv0;\n"
-			"float col = 0.0;\n"
+		"for (float i = 0.0; i < TAPS_PER_PASS; i += 1.0) {\n"
 
-			// This breaks ANGLE in Chrome 22
-			//	- see http://code.google.com/p/chromium/issues/detail?id=153105
+			// Accumulate samples, making sure we dont walk past the light source.
 
-			/*
-			// Unrolling didnt do much on my hardware (ATI Mobility Radeon 3450),
-			// so i've just left the loop
+			// The check for uv.y < 1 would not be necessary with "border" UV wrap
+			// mode, with a black border color. I don't think this is currently
+			// exposed by three.js. As a result there might be artifacts when the
+			// sun is to the left, right or bottom of screen as these cases are
+			// not specifically handled.
 
-			"for (float i = 0.0; i < TAPS_PER_PASS; i += 1.0) {\n"
-
-				// Accumulate samples, making sure we dont walk past the light source.
-
-				// The check for uv.y < 1 would not be necessary with "border" UV wrap
-				// mode, with a black border color. I don't think this is currently
-				// exposed by three.js. As a result there might be artifacts when the
-				// sun is to the left, right or bottom of screen as these cases are
-				// not specifically handled.
-
-				"col += (i <= iters && uv.y < 1.0 ? texture2D(s_source_0, uv).r : 0.0);\n"
-				"uv += stepv;\n"
-
-			"}\n"
-			*/
-
-			// Unrolling loop manually makes it work in ANGLE
-
-			"if (0.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
+			"col += (i <= iters && uv.y < 1.0 ? texture2D(s_source_0, uv).r : 0.0);\n"
 			"uv += stepv;\n"
 
-			"if (1.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
-			"uv += stepv;\n"
+		"}\n"
+		*/
 
-			"if (2.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
-			"uv += stepv;\n"
+		// Unrolling loop manually makes it work in ANGLE
 
-			"if (3.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
-			"uv += stepv;\n"
+		"if (0.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
+		"uv += stepv;\n"
 
-			"if (4.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
-			"uv += stepv;\n"
+		"if (1.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
+		"uv += stepv;\n"
 
-			"if (5.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
-			"uv += stepv;\n"
+		"if (2.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
+		"uv += stepv;\n"
 
-			// Should technically be dividing by 'iters', but 'TAPS_PER_PASS' smooths out
-			// objectionable artifacts, in particular near the sun position. The side
-			// effect is that the result is darker than it should be around the sun, as
-			// TAPS_PER_PASS is greater than the number of samples actually accumulated.
-			// When the result is inverted (in the shader 'godrays_combine', this produces
-			// a slight bright spot at the position of the sun, even when it is occluded.
+		"if (3.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
+		"uv += stepv;\n"
 
-			"gl_FragColor = vec4(col/TAPS_PER_PASS, 0.0, 0.0, 1.0);\n"
+		"if (4.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
+		"uv += stepv;\n"
 
-		"}\n";
+		"if (5.0 <= iters && uv.y < 1.0) col += texture2D(s_source_0, uv).r;\n"
+		"uv += stepv;\n"
 
-	return shader;
-}
+		// Should technically be dividing by 'iters', but 'TAPS_PER_PASS' smooths out
+		// objectionable artifacts, in particular near the sun position. The side
+		// effect is that the result is darker than it should be around the sun, as
+		// TAPS_PER_PASS is greater than the number of samples actually accumulated.
+		// When the result is inverted (in the shader 'godrays_combine', this produces
+		// a slight bright spot at the position of the sun, even when it is occluded.
 
-	/**
-	 * Additively applies god rays from texture tGodRays to a background (tColors).
-	 * fGodRayIntensity attenuates the god rays.
-	 */
+		"gl_FragColor = vec4(col/TAPS_PER_PASS, 0.0, 0.0, 1.0);\n"
 
-static string godrays_combine_vertex()
-{
-	return filter_vertex();
-}
+	"}\n";
 
-static string godrays_combine_fragment()
-{
-	string shader =
+// Additively applies god rays from texture tGodRays to a background (tColors).
+// fGodRayIntensity attenuates the god rays.
 
-		"$input v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"uniform vec4 u_godrays_combine_p0;\n"
-		"#define u_intensity u_godrays_combine_p0.x\n"
-		"\n"
-		"void main() {\n"
-		"\n"
-		// Since THREE.MeshDepthMaterial renders foreground objects white and background
-		// objects black, the god-rays will be white streaks. Therefore value is inverted
-		// before being combined with tColors
-		"\n"
-		"	float amount = u_intensity * (1.0 - texture2D(s_source_1, v_uv0).r);\n"
-		"	gl_FragColor = texture2D(s_source_0, v_uv0) + vec4_splat(amount);\n"
-		"	gl_FragColor.a = 1.0;\n"
-		//"	gl_FragColor = texture2D(s_source_0, v_uv0);\n"
-		"\n"
-		"}\n";
+static string godrays_combine_vertex =
+	filter_vertex;
 
-	return shader;
-}
+static string godrays_combine_fragment =
+
+	"$input v_uv0\n"
+		
+	"#include <filter.sh>\n"
+		
+	"uniform vec4 u_godrays_combine_p0;\n"
+	"#define u_intensity u_godrays_combine_p0.x\n"
+		
+	"void main() {\n"
+		
+	// Since THREE.MeshDepthMaterial renders foreground objects white and background
+	// objects black, the god-rays will be white streaks. Therefore value is inverted
+	// before being combined with tColors
+		
+	"	float amount = u_intensity * (1.0 - texture2D(s_source_1, v_uv0).r);\n"
+	"	gl_FragColor = texture2D(s_source_0, v_uv0) + vec4_splat(amount);\n"
+	"	gl_FragColor.a = 1.0;\n"
+	//"	gl_FragColor = texture2D(s_source_0, v_uv0);\n"
+		
+	"}\n";
 
 
-	/**
-	 * A dodgy sun/sky shader. Makes a bright spot at the sun location. Would be
-	 * cheaper/faster/simpler to implement this as a simple sun sprite.
-	 */
+// A dodgy sun/sky shader. Makes a bright spot at the sun location. Would be
+// cheaper/faster/simpler to implement this as a simple sun sprite.
 
-static string godrays_sun_vertex()
-{
-	return filter_vertex();
-}
+static string godrays_sun_vertex =
+	filter_vertex;
 
-static string godrays_sun_fragment()
-{
-	string shader =
+static string godrays_sun_fragment =
 
-		"$input v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"uniform vec4 u_godrays_sun_p0;\n"
-		"#define u_bg_color u_godrays_sun_p0.xyz\n"
-		"\n"
-		"uniform vec4 u_godrays_sun_p1;\n"
-		"#define u_sun_color u_godrays_sun_p1.xyz\n"
-		"\n"
-		"uniform vec4 u_godrays_sun_p2;\n"
-		"#define u_sun_xy u_godrays_sun_p2.xy\n"
-		"\n"
-		"void main() {\n"
-		"\n"
-		"	vec2 diff = v_uv0 - u_sun_xy;\n"
-		// Correct for aspect ratio
-		"	diff.x *= u_aspect;\n"
-		"\n"
-		"	float prop = clamp(length(diff) / 0.5, 0.0, 1.0);\n"
-		"	prop = 0.35 * pow(1.0 - prop, 3.0);\n"
-		"\n"
-		"	gl_FragColor.xyz = mix(u_sun_color, u_bg_color, 1.0 - prop);\n"
-		"	gl_FragColor.w = 1.0;\n"
-		"}\n";
-
-	return shader;
-}
+	"$input v_uv0\n"
+		
+	"#include <filter.sh>\n"
+		
+	"uniform vec4 u_godrays_sun_p0;\n"
+	"#define u_bg_color u_godrays_sun_p0.xyz\n"
+		
+	"uniform vec4 u_godrays_sun_p1;\n"
+	"#define u_sun_color u_godrays_sun_p1.xyz\n"
+		
+	"uniform vec4 u_godrays_sun_p2;\n"
+	"#define u_sun_xy u_godrays_sun_p2.xy\n"
+		
+	"void main() {\n"
+		
+	"	vec2 diff = v_uv0 - u_sun_xy;\n"
+	// Correct for aspect ratio
+	"	diff.x *= u_aspect;\n"
+		
+	"	float prop = clamp(length(diff) / 0.5, 0.0, 1.0);\n"
+	"	prop = 0.35 * pow(1.0 - prop, 3.0);\n"
+		
+	"	gl_FragColor.xyz = mix(u_sun_color, u_bg_color, 1.0 - prop);\n"
+	"	gl_FragColor.w = 1.0;\n"
+	"}\n";
 
 struct Godrays
 {
@@ -274,9 +235,7 @@ struct Godrays
 
 void pass_fake_sun(GfxSystem& gfx, Render& render, const Godrays& godrays)
 {
-	static Program& program = gfx.programs().create("godrays_fake_sun");
-	program.m_sources[ShaderType::Vertex] = godrays_sun_vertex();
-	program.m_sources[ShaderType::Fragment] = godrays_sun_fragment();
+	static Program& program = gfx.programs().fetch("godrays_fake_sun");
 
 	Pass pass = render.next_pass("godrays_fake_sun", PassType::PostProcess);
 
@@ -314,9 +273,7 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 	auto pass_mask_depth = [](GfxSystem& gfx, Render& render, const Godrays& godrays, FrameBuffer& fbo)
 	{
-		static Program& program = gfx.programs().create("godrays_depth_mask");
-		program.m_sources[ShaderType::Vertex] = godrays_mask_vertex();
-		program.m_sources[ShaderType::Fragment] = godrays_mask_fragment();
+		static Program& program = gfx.programs().fetch("godrays_depth_mask");
 
 		Pass pass = render.next_pass("godrays_depth_mask", PassType::PostProcess);
 
@@ -327,9 +284,7 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 	auto pass_blur = [](GfxSystem& gfx, Render& render, const Godrays& godrays, FrameBuffer& fbo, Texture& source, float step_size)
 	{
-		static Program& program = gfx.programs().create("godrays_generate");
-		program.m_sources[ShaderType::Vertex] = godrays_vertex();
-		program.m_sources[ShaderType::Fragment] = godrays_fragment();
+		static Program& program = gfx.programs().fetch("godrays_generate");
 
 		Pass pass = render.next_pass("godrays", PassType::PostProcess);
 
@@ -341,9 +296,7 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 
 	auto pass_combine = [](GfxSystem& gfx, Render& render, const Godrays& godrays, Texture& source)
 	{
-		static Program& program = gfx.programs().create("godrays_combine");
-		program.m_sources[ShaderType::Vertex] = godrays_combine_vertex();
-		program.m_sources[ShaderType::Fragment] = godrays_combine_fragment();
+		static Program& program = gfx.programs().fetch("godrays_combine");
 
 		Pass pass = render.next_pass("godrays_combine", PassType::PostProcess);
 
@@ -415,6 +368,22 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 3000.f;
 		camera.m_eye.z = 200.f;
+
+		static Program& depth_mask = app.m_gfx.programs().create("godrays_depth_mask");
+		depth_mask.set_source(ShaderType::Vertex, godrays_mask_vertex);
+		depth_mask.set_source(ShaderType::Fragment, godrays_mask_fragment);
+
+		static Program& fake_sun = app.m_gfx.programs().create("godrays_fake_sun");
+		fake_sun.set_source(ShaderType::Vertex, godrays_sun_vertex);
+		fake_sun.set_source(ShaderType::Fragment, godrays_sun_fragment);
+
+		static Program& combine = app.m_gfx.programs().create("godrays_combine");
+		combine.set_source(ShaderType::Vertex, godrays_combine_vertex);
+		combine.set_source(ShaderType::Fragment, godrays_combine_fragment);
+
+		static Program& generate = app.m_gfx.programs().create("godrays_generate");
+		generate.set_source(ShaderType::Vertex, godrays_vertex);
+		generate.set_source(ShaderType::Fragment, godrays_fragment);
 
 		static Program& solid = app.m_gfx.programs().fetch("solid");
 

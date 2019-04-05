@@ -64,6 +64,7 @@ namespace mud
 		Emissive = 4,
 		Normal = 5,
 		AO = 6,
+		Displace = 7,
 		Depth = 7,
 
 		// User
@@ -226,7 +227,7 @@ namespace mud
 		static const uint8_t s_debug_pass_id = 245;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT GfxBlock
+	export_ class refl_ MUD_GFX_EXPORT GfxBlock : public ShaderBlock
 	{
 	public:
 		GfxBlock(GfxSystem& gfx, Type& type);
@@ -238,18 +239,13 @@ namespace mud
 		virtual void init_block() = 0;
 		virtual void begin_frame(const RenderFrame& frame) { UNUSED(frame); }
 
-		virtual void begin_render(Render& render) = 0;
+		virtual void begin_render(Render& render) { UNUSED(render); }
 		virtual void submit_pass(Render& render) { UNUSED(render); }
 
 		GfxSystem& m_gfx;
 		attr_ Type& m_type;
-		attr_ uint8_t m_index;
-
-		attr_ ShaderBlock m_shader_block;
 
 		bool m_draw_block = false;
-
-		static uint8_t s_block_index;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT DrawBlock : public GfxBlock
@@ -257,7 +253,7 @@ namespace mud
 	public:
 		DrawBlock(GfxSystem& gfx, Type& type) : GfxBlock(gfx, type) { m_draw_block = true; }
 
-		virtual void options(Render& render, ProgramVersion& shader_version) const = 0;
+		virtual void options(Render& render, ProgramVersion& program) const { UNUSED(render); UNUSED(program); }
 		virtual void submit(Render& render, const Pass& pass) const = 0;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const = 0;
 	};
@@ -265,17 +261,19 @@ namespace mud
 	export_ struct MUD_GFX_EXPORT DrawElement
 	{
 		DrawElement() {}
-		DrawElement(Item& item, const Program& program, const ModelItem& model, const Material& material, const Skin* skin, uint64_t sort_key);
+		DrawElement(Item& item, const Program& program, const ModelElem& model, const Material& material, const Skin* skin, uint64_t sort_key);
+
 		Item* m_item = nullptr;
-		const Program* m_program = nullptr;
-		const ModelItem* m_model = nullptr;
+		const ModelElem* m_elem = nullptr;
 		const Material* m_material = nullptr;
 		const Skin* m_skin = nullptr;
 
 		uint64_t m_sort_key = 0;
-		ProgramVersion m_shader_version = {};
+		ProgramVersion m_program = {};
 		uint64_t m_bgfx_state = 0;
 		bgfx::ProgramHandle m_bgfx_program = BGFX_INVALID_HANDLE;
+
+		void set_program(const Program& program);
 	};
 
 	export_ struct MUD_GFX_EXPORT DrawCluster
@@ -318,7 +316,7 @@ namespace mud
 		void clear_draw_elements(Render& render, Pass& pass);
 		void gather_draw_elements(Render& render, Pass& pass);
 		void submit_draw_elements(bgfx::Encoder& encoder, Render& render, Pass& pass, Submit submit, size_t first, size_t count) const;
-		DrawElement draw_element(Item& item, const ModelItem& model_item) const;
+		DrawElement draw_element(Item& item, const ModelElem& elem) const;
 
 		void submit(bgfx::Encoder& encoder, Render& render, Pass& pass, Submit submit, const DrawElement& element) const;
 

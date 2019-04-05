@@ -1,56 +1,3 @@
-
-
-#if 0
-
-"#ifdef VERTEX_TEXTURES",
-
-	"uniform sampler2D tDisplacement;",
-	"uniform float uDisplacementScale;",
-	"uniform float uDisplacementBias;",
-
-"#endif",
-
-"varying vec3 vNormal;",
-"varying vec2 v_uv0;",
-
-"varying vec3 vViewPosition;",
-
-THREE.ShaderChunk[ "common" ],
-THREE.ShaderChunk[ "fog_pars_vertex" ],
-
-"void main() {",
-
-	"vec4 worldPosition = modelMatrix * vec4( position, 1.0 );",
-
-	"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
-
-	"vViewPosition = -mvPosition.xyz;",
-
-	"vNormal = normalize( normalMatrix * normal );",
-
-	"v_uv0 = uv;",
-
-	// displacement mapping
-
-	"#ifdef VERTEX_TEXTURES",
-
-		"vec3 dv = texture2D( tDisplacement, uv ).xyz;",
-		"float df = uDisplacementScale * dv.x + uDisplacementBias;",
-		"vec4 displacedPosition = vec4( vNormal.xyz * df, 0.0 ) + mvPosition;",
-		"gl_Position = projectionMatrix * displacedPosition;",
-
-	"#else",
-
-		"gl_Position = projectionMatrix * mvPosition;",
-
-	"#endif",
-
-	THREE.ShaderChunk[ "fog_vertex" ],
-
-"}",
-
-#endif
-
 //#include <mud/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
@@ -70,146 +17,94 @@ void xx_material_displace(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 
 	Scene& scene = viewer.m_scene;
 
-	//var settings = {
-	//	metalness: 1.0,
-	//	roughness: 0.4,
-	//	ambientIntensity: 0.2,
-	//	aoMapIntensity: 1.0,
-	//	envMapIntensity: 1.0,
-	//	displacementScale: 2.436143, // from original model
-	//	normalScale: 1.0
-	//};
+	constexpr int height = 500; // of camera frustum
 
-	int height = 500; // of camera frustum
+	static float r = 0.0;
 
-	float r = 0.0;
+	static Material* material = nullptr;
+	static Node3* light = nullptr;
 
 	if(init)
 	{
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 10000.f;
-		camera.m_eye = vec3(-5.f, 2.5f, -3.5f);
+		camera.m_eye.z = 1500.f;
 
-		//renderer.gammaInput = true;
-		//renderer.gammaOutput = true;
+		viewer.m_viewport.m_to_gamma = true;
 
 		//var aspect = window.innerWidth / window.innerHeight;
 		//camera = new THREE.OrthographicCamera(-height * aspect, height * aspect, height, -height, 1, 10000);
 		//camera.position.z = 1500;
 		//scene.add(camera);
 
-#if 0
+		scene.m_env.m_radiance.m_ambient = 0.2f;
+		scene.m_env.m_radiance.m_colour = rgb(0xffffff);
+
 		// lights
 
-		ambientLight = new THREE.AmbientLight(0xffffff, settings.ambientIntensity);
-		scene.add(ambientLight);
+		Node3& ln0 = gfx::nodes(scene).add(Node3(vec3(0.f, 0.f, 2500.f)));
+		gfx::lights(scene).add(Light(ln0, LightType::Point, false, rgb(0xff0000), 0.5f, 0.f));
+		light = &ln0;
 
-		pointLight = new THREE.PointLight(0xff0000, 0.5);
-		pointLight.position.z = 2500;
-		scene.add(pointLight);
+		Node3& ln1 = gfx::nodes(scene).add(Node3(vec3(0.f)));
+		gfx::lights(scene).add(Light(ln1, LightType::Point, false, rgb(0xff6666), 1.f, 0.f));
 
-		var pointLight2 = new THREE.PointLight(0xff6666, 1);
-		camera.add(pointLight2);
+		Node3& ln2 = gfx::nodes(scene).add(Node3(vec3(-1000.f, 0.f, 1000.f)));
+		gfx::lights(scene).add(Light(ln2, LightType::Point, false, rgb(0x0000ff), 1.f, 0.f));
 
-		var pointLight3 = new THREE.PointLight(0x0000ff, 0.5);
-		pointLight3.position.x = -1000;
-		pointLight3.position.z = 1000;
-		scene.add(pointLight3);
+		Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
+		scene.m_env.m_radiance.m_texture = &reflection;
+		
+		Program& three = *app.m_gfx.programs().file("pbr/three");
 
-		// env map
-
-		var path = "textures/cube/SwedishRoyalCastle/";
-		var format = '.jpg';
-		var urls = [
-			path + 'px' + format, path + 'nx' + format,
-				path + 'py' + format, path + 'ny' + format,
-				path + 'pz' + format, path + 'nz' + format
-		];
-
-		var reflectionCube = new THREE.CubeTextureLoader().load(urls);
-
-		// textures
-
-		var textureLoader = new THREE.TextureLoader();
-		var normalMap = textureLoader.load("models/obj/ninja/normal.jpg");
-		var aoMap = textureLoader.load("models/obj/ninja/ao.jpg");
-		var displacementMap = textureLoader.load("models/obj/ninja/displacement.jpg");
-
-		// material
-
-		material = new THREE.MeshStandardMaterial({
-
-			color: 0x888888,
-			roughness : settings.roughness,
-			metalness : settings.metalness,
-
-			normalMap : normalMap,
-			normalScale : new THREE.Vector2(1, -1), // why does the normal map require negation in this case?
-
-			aoMap : aoMap,
-			aoMapIntensity : 1,
-
-			displacementMap : displacementMap,
-			displacementScale : settings.displacementScale,
-			displacementBias : -0.428408, // from original model
-
-			envMap : reflectionCube,
-			envMapIntensity : settings.envMapIntensity,
-
-			side : THREE.DoubleSide
-
-			});
-
-		//
-
-		var loader = new THREE.OBJLoader();
-		loader.load("models/obj/ninja/ninjaHead_Low.obj", function(group) {
-
-			var geometry = group.children[0].geometry;
-			geometry.attributes.uv2 = geometry.attributes.uv;
-			geometry.center();
-
-			mesh = new THREE.Mesh(geometry, material);
-			mesh.scale.multiplyScalar(25);
-			scene.add(mesh);
-
+		Material& mat = app.m_gfx.materials().create("ninja",  [&](Material& m) {
+			m.m_program = &three;
+			m.m_base.m_cull_mode = CullMode::None;
+			m.m_pbr.m_albedo = rgb(0x888888);
+			m.m_pbr.m_metallic = 1.f;
+			m.m_pbr.m_roughness = 0.4f;
+			m.m_lit.m_normal = app.m_gfx.textures().file("ninja/normal.jpg");
+			m.m_lit.m_occlusion = app.m_gfx.textures().file("ninja/ao.jpg");
+			m.m_lit.m_displace = app.m_gfx.textures().file("ninja/displacement.jpg");
+			m.m_lit.m_displace = 2.436143; // from original model
+			m.m_lit.m_displace_bias = -0.428408f;
+			// normalScale: vec2(1, -1), // why does the normal map require negation in this case?
 		});
-#endif
+
+		// float envMapIntensity = 1.0;
+
+		material = &mat;
+
+		Model& model = *app.m_gfx.models().file("ninjaHead_Low"); // .obj");
+		//geometry.attributes.uv2 = geometry.attributes.uv;
+		//geometry.center();
+
+		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, -175.f, 0.f) * 25.f, ZeroQuat, vec3(25.f)));
+		gfx::items(scene).add(Item(n, model, 0U, &mat));
 	}
 
-	//var gui = new dat.GUI();
-	////var gui = gui.addFolder( "Material" );
-	//gui.add( settings, "metalness" ).min( 0 ).max( 1 ).onChange( function ( value ) {
-	//	material.metalness = value;
-	//} );
-	//
-	//gui.add( settings, "roughness" ).min( 0 ).max( 1 ).onChange( function ( value ) {
-	//	material.roughness = value;
-	//} );
-	//
-	//gui.add( settings, "aoMapIntensity" ).min( 0 ).max( 1 ).onChange( function ( value ) {
-	//	material.aoMapIntensity = value;
-	//} );
-	//
-	//gui.add( settings, "ambientIntensity" ).min( 0 ).max( 1 ).onChange( function ( value ) {
-	//	ambientLight.intensity = value;
-	//} );
-	//
-	//gui.add( settings, "envMapIntensity" ).min( 0 ).max( 3 ).onChange( function ( value ) {
-	//	material.envMapIntensity = value;
-	//} );
-	//
-	//gui.add( settings, "displacementScale" ).min( 0 ).max( 3.0 ).onChange( function ( value ) {
-	//	material.displacementScale = value;
-	//} );
-	//
-	//gui.add( settings, "normalScale" ).min( - 1 ).max( 1 ).onChange( function ( value ) {
-	//	material.normalScale.set( 1, - 1 ).multiplyScalar( value );
-	//} );
+	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	{
+		Widget& sheet = ui::sheet(*dock);
 
+		auto panel = [&](const string& name) -> Widget&
+		{
+			Widget& s = ui::expandbox(sheet, name.c_str());
+			return ui::columns(s, { 0.3f, 0.7f });
+		};
 
-	//pointLight.position.x = 2500 * Math.cos( r );
-	//pointLight.position.z = 2500 * Math.sin( r );
-	//
-	//r += 0.01;
+		Widget& a = panel("Material");
+
+		ui::slider_field<float>(a, "metalness",    { material->m_pbr.m_metallic.m_value,  { 0.f, 1.f, 0.01f } });
+		ui::slider_field<float>(a, "roughness",    { material->m_pbr.m_roughness.m_value, { 0.f, 1.f, 0.01f } });
+		ui::slider_field<float>(a, "occlusion",    { material->m_lit.m_occlusion.m_value, { 0.f, 1.f, 0.01f } });
+		ui::slider_field<float>(a, "ambient",      { scene.m_env.m_radiance.m_ambient,    { 0.f, 1.f, 0.01f } });
+		ui::slider_field<float>(a, "displacement", { material->m_lit.m_displace.m_value,  { 0.f, 5.f, 0.01f } });
+		ui::slider_field<float>(a, "normal scale", { material->m_lit.m_normal.m_value,    { -1.f, 1.f, 0.01f } });
+		// envMapIntensity
+	}
+
+	light->apply(vec3(2500.f * cos(r), 2500.f * sin(r), 0.f));
+
+	r += 0.01;
 }

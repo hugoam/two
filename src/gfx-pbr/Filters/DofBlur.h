@@ -32,19 +32,14 @@ namespace mud
 		attr_ gpu_ float m_max_coc_radius = 8.f;
 	};
 
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_dofblur(GfxSystem& gfx, Render& render, const DofBlur& blur);
+
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockDofBlur : public GfxBlock
 	{
 	public:
 		BlockDofBlur(GfxSystem& gfx, BlockFilter& filter);
 
 		virtual void init_block() override;
-
-		virtual void begin_render(Render& render) override;
-		virtual void submit_pass(Render& render) final;
-
-		void render(Render& render, const DofBlur& blur);
-
-		void submit_blur_pass(Render& render, RenderTarget& target, const DofBlur& blur, bool first, uint64_t bgfx_state = 0);
 
 		BlockFilter& m_filter;
 

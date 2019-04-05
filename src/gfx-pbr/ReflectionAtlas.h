@@ -69,7 +69,7 @@ namespace mud
 			ReflectionProbe* m_probe;
 			uvec4 m_urect;
 			vec4 m_rect;
-			uint64_t m_last_update;
+			uint32_t m_last_update;
 		};
 
 		vector<Slot> m_slots;

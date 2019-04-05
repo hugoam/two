@@ -30,8 +30,8 @@ void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 10000.f;
 		camera.m_eye.z = 500.f;
 
-		//scene.background = new THREE.Color(0xffffff);
-		//scene.fog = new THREE.Fog(0xffffff, 1, 10000);
+		viewer.m_viewport.m_clear_colour = rgb(0xffffff);
+		scene.m_env.m_fog = { true, 1.f, rgb(0xffffff), true, 1.f, 10000.f };
 
 		Material& material = app.m_gfx.materials().create("hierarchy", [&](Material& m) {
 			m.m_program = &normal;

@@ -49,9 +49,9 @@ namespace mud
 		, m_filter(filter)
 		, m_skybox_program(gfx.programs().create("skybox"))
 	{
-		m_shader_block.m_options = { "SKYBOX_FBO", "SKYBOX_CUBE" };
+		m_options = { "SKYBOX_FBO", "SKYBOX_CUBE" };
 
-		m_skybox_program.register_block(m_shader_block);
+		m_skybox_program.register_block(*this);
 	}
 
 	void BlockSky::init_block()

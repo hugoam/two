@@ -18,7 +18,7 @@ namespace mud
 	export_ struct refl_ array_  MUD_MATH_EXPORT Colour
 	{
 		constr_ Colour();
-		constr_ Colour(float v, float a = 1.f);
+		constr_ explicit Colour(float v, float a = 1.f);
 		constr_ Colour(float r, float g, float b, float a = 1.f);
 
 		constr_ static Colour hsl(float h, float s, float l);

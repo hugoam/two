@@ -10,13 +10,14 @@
 using namespace mud;
 
 #define SPHERE 1
+#define AXES 0
 
 void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controls(viewer);
-	viewer.m_viewport.m_active = false;
+	viewer.m_viewport.m_autorender = false;
 
 	Scene& scene = viewer.m_scene;
 
@@ -43,7 +44,7 @@ void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		//camera.m_fov = 120.f;
 
-		scene.m_env.m_radiance.m_energy = 1.f;
+		// @todo why if this is turned off we get a black render ?
 		scene.m_env.m_radiance.m_filter = false;
 		scene.m_env.m_background.m_texture = &texture;
 		scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
@@ -133,10 +134,12 @@ void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	//scene.m_env.m_radiance.m_texture = &tiber;
 	scene.m_env.m_radiance.m_texture = &texture;
 
+#if AXES
 	Gnode& root = scene.begin();
 	gfx::shape(root, Cylinder(X3 * 30.f, 1.f, 30.f, Axis::X), Symbol::plain(Colour::Red));
 	gfx::shape(root, Cylinder(Y3 * 30.f, 1.f, 30.f, Axis::Y), Symbol::plain(Colour::Green));
 	gfx::shape(root, Cylinder(Z3 * 30.f, 1.f, 30.f, Axis::Z), Symbol::plain(Colour::Blue));
+#endif
 
 	Render render = { Shading::Shaded, viewer.m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
 	app.m_gfx.m_renderer.gather(render);
@@ -171,9 +174,10 @@ void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	pass_clear(app.m_gfx, render);
 	pass_opaque(app.m_gfx, render);
-
-	//scene.m_env.m_background.m_texture = &cube0.m_cubemap.m_cubemap;
 	pass_background(app.m_gfx, render);
+	pass_solid(app.m_gfx, render);
+
+	//app.m_gfx.m_copy->debug_show_texture(render, cube1->m_cubemap.m_cubemap, vec4(0.f));
 
 	app.m_gfx.m_renderer.end(render);
 

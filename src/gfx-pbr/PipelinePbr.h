@@ -22,7 +22,7 @@ namespace mud
 
 		virtual void begin_render(Render& render) override;
 
-		virtual void options(Render& render, ProgramVersion& shader_version) const final;
+		virtual void options(Render& render, ProgramVersion& program) const final;
 		virtual void submit(Render& render, const Pass& pass) const final;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const final;
 
@@ -43,6 +43,10 @@ namespace mud
 
 	export_ MUD_GFX_PBR_EXPORT func_ void pass_voxel_gi(GfxSystem& gfx, Render& render);
 	export_ MUD_GFX_PBR_EXPORT func_ void pass_lightmap(GfxSystem& gfx, Render& render);
+
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_begin_post(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_post_auto(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_post_effects(GfxSystem& gfx, Render& render, DofBlur& dof, Glow& glow, Tonemap& tonemap, BCS& bcs);
 
 	export_ MUD_GFX_PBR_EXPORT func_ void render_pbr_forward(GfxSystem& gfx, Render& render);
 	export_ MUD_GFX_PBR_EXPORT func_ void render_pbr_deferred(GfxSystem& gfx, Render& render);

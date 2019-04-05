@@ -60,6 +60,8 @@ namespace mud
 	template <class T>
 	inline v4<T>::v4(v2<T> a, T z, T w) : x(a.x), y(a.y), z(z), w(w) {}
 	template <class T>
+	inline v4<T>::v4(T x, T y, v2<T> b) : x(x), y(y), z(b.x), w(b.y) {}
+	template <class T>
 	template <class V>
 	inline v4<T>::v4(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)), w(T(v.w)) {}
 	template <class T>
@@ -284,6 +286,10 @@ namespace mud
 	template <class T> inline v2<T> ceil(const v2<T>& v) { return v2<T>(ceil(v.x), ceil(v.y)); }
 	template <class T> inline v3<T> ceil(const v3<T>& v) { return v3<T>(ceil(v.x), ceil(v.y), ceil(v.z)); }
 	template <class T> inline v4<T> ceil(const v4<T>& v) { return v4<T>(ceil(v.x), ceil(v.y), ceil(v.z), ceil(v.w)); }
+
+	template <class T> inline v2<T> pow(const v2<T>& a, const v2<T>& b) { return v2<T>(pow(a.x, b.x), pow(a.y, b.y)); }
+	template <class T> inline v3<T> pow(const v3<T>& a, const v3<T>& b) { return v3<T>(pow(a.x, b.x), pow(a.y, b.y), pow(a.z, b.z)); }
+	template <class T> inline v4<T> pow(const v4<T>& a, const v4<T>& b) { return v4<T>(pow(a.x, b.x), pow(a.y, b.y), pow(a.z, b.z), pow(a.w, b.w)); }
 
 	template <class T> inline v2<T> cos(const v2<T>& v) { return v2<T>(cos(v.x), cos(v.y)); }
 	template <class T> inline v3<T> cos(const v3<T>& v) { return v3<T>(cos(v.x), cos(v.y), cos(v.z)); }

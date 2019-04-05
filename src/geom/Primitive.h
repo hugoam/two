@@ -50,8 +50,16 @@ namespace mud
 			QTexCoord1 = 1 << 12,
 			Joints = 1 << 13,
 			Weights = 1 << 14,
+			MorphPosition0 = 1 << 15,
+			MorphPosition1 = 1 << 16,
+			MorphPosition2 = 1 << 17,
+			MorphPosition3 = 1 << 18,
+			MorphNormal0 = 1 << 19,
+			MorphNormal1 = 1 << 20,
+			MorphNormal2 = 1 << 21,
+			MorphNormal3 = 1 << 22,
 
-			Count = 1 << 15
+			Count = 1 << 17
 		};
 	};
 

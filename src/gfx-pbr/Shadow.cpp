@@ -312,8 +312,8 @@ namespace mud
 		, m_block_depth(block_depth)
 		, m_block_light(block_light)
 	{
-		m_shader_block.m_options = { "CSM_SHADOW" };
-		m_shader_block.m_modes = { "PCF_LEVEL" };
+		m_options = { "CSM_SHADOW" };
+		m_modes = { "PCF_LEVEL" };
 
 		//m_pcf_level = PCF_HARD;
 		m_pcf_level = PCF_NONE;
@@ -326,6 +326,11 @@ namespace mud
 		GpuState<GpuShadow>::me.init();
 	}
 
+	void BlockShadow::begin_frame(const RenderFrame& frame)
+	{
+		m_atlas.begin_frame(frame);
+	}
+
 	void BlockShadow::begin_render(Render& render)
 	{
 		UNUSED(render);
@@ -334,9 +339,7 @@ namespace mud
 			if(light->m_shadows)
 			{
 				if(m_atlas.m_side == 0)
-					//m_atlas = { 1024U, { 4U } };
-					m_atlas = { 1024U, { 1U, 1U } };
-					//m_atlas = { 1024U, { 2U, 4U, 8U, 16U } };
+					m_atlas = { 1024U, 4U };
 
 				m_atlas.render_update(render, *light);
 			}
@@ -370,7 +373,7 @@ namespace mud
 			}
 			else if(light.m_type == LightType::Point)
 			{
-				if(light.m_shadow_index == UINT32_MAX)
+				if(light.m_shadow_index.slice == UINT8_MAX)
 					continue;
 
 				const ShadowAtlas::Slot& slot = m_atlas.light_slot(light);
@@ -492,19 +495,19 @@ namespace mud
 		GpuState<GpuShadow>::me.upload(pass, const_cast<BlockShadow*>(this)->m_shadow_matrices);
 	}
 
-	void BlockShadow::options(Render& render, ProgramVersion& shader_version) const
+	void BlockShadow::options(Render& render, ProgramVersion& program) const
 	{
 		UNUSED(render);
 
 		Light* light = m_direct_light;
 		bool direct = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;
 
-		shader_version.set_mode(m_index, PCF_LEVEL, uint8_t(m_pcf_level));
+		program.set_mode(m_index, PCF_LEVEL, uint8_t(m_pcf_level));
 
 		if(direct && light->m_shadows)
 		{
-			shader_version.set_option(m_index, CSM_SHADOW);
-			//shader_version.set_option(m_index, CSM_BLEND, light->m_shadow_blend_splits);
+			program.set_option(m_index, CSM_SHADOW);
+			//program.set_option(m_index, CSM_BLEND, light->m_shadow_blend_splits);
 		}
 	}
 
@@ -624,7 +627,8 @@ namespace mud
 
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			if(!element.m_program->m_blocks[MaterialBlock::Lit] || element.m_material->m_alpha.m_is_alpha)
+			const Program& program = *element.m_program.m_program;
+			if(!program.m_blocks[MaterialBlock::Lit] || element.m_material->m_alpha.m_is_alpha)
 				return false;
 			
 			return queue_depth(gfx, render, pass, element);

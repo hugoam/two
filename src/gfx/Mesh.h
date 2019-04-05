@@ -75,6 +75,13 @@ namespace mud
 		bgfx::VertexBufferHandle m_vertices = BGFX_INVALID_HANDLE;
 		bgfx::IndexBufferHandle m_indices = BGFX_INVALID_HANDLE;
 
+		struct Morph
+		{
+			bgfx::VertexBufferHandle m_vertices = BGFX_INVALID_HANDLE;
+		};
+
+		vector<Morph> m_morphs;
+
 		attr_ bool m_is_dynamic = false;
 		attr_ bool m_is_direct = false;
 
@@ -107,6 +114,7 @@ namespace mud
 
 		meth_ void clear();
 		meth_ void write(const MeshPacker& packer, bool optimize = false, bool dynamic = false);
+		meth_ void morph(const MeshPacker& packer);
 		meth_ void upload(const GpuMesh& gpu_mesh, bool optimize = false);
 		meth_ void cache(const GpuMesh& gpu_mesh);
 
@@ -116,5 +124,7 @@ namespace mud
 		meth_ MeshAdapter& direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0);
 
 		uint64_t submit(bgfx::Encoder& encoder) const;
+
+		void submit_morph(bgfx::Encoder& encoder, size_t index, size_t morph) const;
 	};
 }

@@ -13,12 +13,12 @@ static string vertex_merged()
 	string shader =
 
 		"#define SHADER_NAME vertMerged\n"
-		"\n"
+		
 		"precision highp float;\n"
-		"\n"
+		
 		"uniform mat4 u_modelView;\n"
 		"uniform mat4 u_proj;\n"
-		"\n"
+		
 		"attribute vec3 position;\n"
 		"#ifdef PICKING\n"
 		"	attribute vec3 pickingColor;\n"
@@ -26,22 +26,22 @@ static string vertex_merged()
 		"	attribute vec3 color;\n"
 		"	varying vec3 vPosition;\n"
 		"#endif\n"
-		"\n"
+		
 		"varying vec3 vColor;\n"
-		"\n"
+		
 		"void main()	{\n"
-		"\n"
+		
 		"	vec3 positionEye = mul(u_modelView, vec4(a_position.xyz, 1.0)).xyz;\n"
-		"\n"
+		
 		"	#ifdef PICKING\n"
 		"		vColor = pickingColor;\n"
 		"	#else\n"
 		"		vColor = color;\n"
 		"		vPosition = positionEye;\n"
 		"	#endif\n"
-		"\n"
+		
 		"	gl_Position = u_proj * vec4(positionEye, 1.0);\n"
-		"\n"
+		
 		"}\n";
 
 	return shader;
@@ -52,19 +52,19 @@ static string fragment_merged()
 	string shader =
 
 		"#define SHADER_NAME fragMerged\n"
-		"\n"
+		
 		"#extension GL_OES_standard_derivatives : enable\n"
-		"\n"
+		
 		"precision highp float;\n"
-		"\n"
+		
 		"varying vec3 vColor;\n"
-		"\n"
+		
 		"#ifndef PICKING\n"
 		"	varying vec3 vPosition;\n"
 		"#endif\n"
-		"\n"
+		
 		"void main()	{\n"
-		"\n"
+		
 		"	#ifdef PICKING\n"
 		"		gl_FragColor = vec4(vColor, 1.0);\n"
 		"	#else\n"
@@ -72,10 +72,10 @@ static string fragment_merged()
 		"		vec3 fdy = dFdy(vPosition);\n"
 		"		vec3 normal = normalize(cross(fdx, fdy));\n"
 		"		float diffuse = dot(normal, vec3(0.0, 0.0, 1.0));\n"
-		"\n"
+		
 		"		gl_FragColor = vec4(diffuse * vColor, 1.0);\n"
 		"	#endif\n"
-		"\n"
+		
 		"}\n";
 
 	return shader;
@@ -86,47 +86,47 @@ static string vertex_instanced()
 	string shader =
 
 		"#define SHADER_NAME vertInstanced\n"
-		"\n"
+		
 		"precision highp float;\n"
-		"\n"
+		
 		"uniform mat4 u_modelView;\n"
 		"uniform mat4 u_proj;\n"
-		"\n"
+		
 		"attribute vec3 position;\n"
 		"attribute vec3 mcol0;\n"
 		"attribute vec3 mcol1;\n"
 		"attribute vec3 mcol2;\n"
 		"attribute vec3 mcol3;\n"
-		"\n"
+		
 		"#ifdef PICKING\n"
 		"	attribute vec3 pickingColor;\n"
 		"#else\n"
 		"	attribute vec3 color;\n"
 		"	varying vec3 vPosition;\n"
 		"#endif\n"
-		"\n"
+		
 		"varying vec3 vColor;\n"
-		"\n"
+		
 		"void main()	{\n"
-		"\n"
+		
 		"	mat4 matrix = mat4(\n"
 		"		vec4(mcol0, 0),\n"
 		"		vec4(mcol1, 0),\n"
 		"		vec4(mcol2, 0),\n"
 		"		vec4(mcol3, 1)\n"
 		"	);\n"
-		"\n"
+		
 		"	vec3 positionEye = (mul(u_modelView, matrix * vec4(a_position.xyz, 1.0)).xyz;\n"
-		"\n"
+		
 		"	#ifdef PICKING\n"
 		"		vColor = pickingColor;\n"
 		"	#else\n"
 		"		vColor = color;\n"
 		"		vPosition = positionEye;\n"
 		"	#endif\n"
-		"\n"
+		
 		"	gl_Position = u_proj * vec4(positionEye, 1.0);\n"
-		"\n"
+		
 		"}\n";
 
 	return shader;
@@ -137,19 +137,19 @@ static string fragment_instanced()
 	string shader =
 
 		"#define SHADER_NAME fragInstanced\n"
-		"\n"
+		
 		"#extension GL_OES_standard_derivatives : enable\n"
-		"\n"
+		
 		"precision highp float;\n"
-		"\n"
+		
 		"varying vec3 vColor;\n"
-		"\n"
+		
 		"#ifndef PICKING\n"
 		"	varying vec3 vPosition;\n"
 		"#endif\n"
-		"\n"
+		
 		"void main()	{\n"
-		"\n"
+		
 		"	#ifdef PICKING\n"
 		"		gl_FragColor = vec4(vColor, 1.0);\n"
 		"	#else\n"
@@ -157,10 +157,10 @@ static string fragment_instanced()
 		"		vec3 fdy = dFdy(vPosition);\n"
 		"		vec3 normal = normalize(cross(fdx, fdy));\n"
 		"		float diffuse = dot(normal, vec3(0.0, 0.0, 1.0));\n"
-		"\n"
+		
 		"		gl_FragColor = vec4(diffuse * vColor, 1.0);\n"
 		"	#endif\n"
-		"\n"
+		
 		"}\n";
 
 	return shader;
@@ -171,28 +171,28 @@ static string vertex_material()
 	string shader =
 
 		"#define SHADER_NAME vertMaterial\n"
-		"\n"
+		
 		"precision highp float;\n"
-		"\n"
+		
 		"uniform mat4 u_modelView;\n"
 		"uniform mat4 u_proj;\n"
-		"\n"
+		
 		"attribute vec3 position;\n"
-		"\n"
+		
 		"#ifndef PICKING\n"
 		"	varying vec3 vPosition;\n"
 		"#endif\n"
-		"\n"
+		
 		"void main()	{\n"
-		"\n"
+		
 		"	vec3 positionEye = mul(u_modelView, vec4(a_position.xyz, 1.0)).xyz;\n"
-		"\n"
+		
 		"	#ifndef PICKING\n"
 		"		vPosition = positionEye;\n"
 		"	#endif\n"
-		"\n"
+		
 		"	gl_Position = u_proj * vec4(positionEye, 1.0);\n"
-		"\n"
+		
 		"}\n";
 
 	return shader;
@@ -203,20 +203,20 @@ static string fragment_material()
 	string shader =
 
 		"#define SHADER_NAME fragMaterial\n"
-		"\n"
+		
 		"#extension GL_OES_standard_derivatives : enable\n"
-		"\n"
+		
 		"precision highp float;\n"
-		"\n"
+		
 		"#ifdef PICKING\n"
 		"	uniform vec3 pickingColor;\n"
 		"#else\n"
 		"	uniform vec3 color;\n"
 		"	varying vec3 vPosition;\n"
 		"#endif\n"
-		"\n"
+		
 		"void main()	{\n"
-		"\n"
+		
 		"	#ifdef PICKING\n"
 		"		gl_FragColor = vec4(pickingColor, 1.0);\n"
 		"	#else\n"
@@ -224,10 +224,10 @@ static string fragment_material()
 		"		vec3 fdy = dFdy(vPosition);\n"
 		"		vec3 normal = normalize(cross(fdx, fdy));\n"
 		"		float diffuse = dot(normal, vec3(0.0, 0.0, 1.0));\n"
-		"\n"
+		
 		"		gl_FragColor = vec4(diffuse * color, 1.0);\n"
 		"	#endif\n"
-		"\n"
+		
 		"}\n";
 
 	return shader;

@@ -97,5 +97,10 @@ namespace mud
 
 		Skeleton m_skeleton;
 		vector<Skin> m_skins;
+
+		vector<float> m_morphs;
+
+		struct MorphWeight { uint32_t index; float weight; };
+		vector<MorphWeight> m_weights;
 	};
 }

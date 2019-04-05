@@ -7,10 +7,15 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <infra/Sort.h>
 #include <math/Vec.hpp>
 #include <gfx/Skeleton.h>
 #include <gfx/Renderer.h>
 #endif
+
+#include <algorithm>
+
+#include <cstdio>
 
 #define SKELETON_TEXTURE_SIZE 256
 
@@ -144,6 +149,20 @@ namespace mud
 
 		for(Skin& skin : m_skins)
 			skin.update_joints();
+
+		if(m_morphs.size() > 0)
+		{
+			m_weights.resize(m_morphs.size());
+
+			for(uint32_t i = 0; i < m_morphs.size(); ++i)
+			{
+				m_weights[i] = { i, m_morphs[i] };
+			}
+
+			std::sort(m_weights.begin(), m_weights.end(), [](const MorphWeight& a, const MorphWeight& b) { return a.weight > b.weight; });
+			// @todo fix that shit quicksort we implemented :D
+			// quicksort(span<MorphWeight>(m_weights), [](const MorphWeight& a, const MorphWeight& b) { return a.weight < b.weight; });
+		}
 	}
 }
 

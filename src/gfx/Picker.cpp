@@ -114,19 +114,19 @@ namespace mud
 			if(item.m_model->m_items.empty())
 				encoder.touch(view);
 
-			for(const ModelItem& model_item : item.m_model->m_items)
+			for(const ModelElem& elem : item.m_model->m_items)
 			{
-				Material& material = model_item.m_mesh->m_material ? *model_item.m_mesh->m_material : *item.m_material;
+				Material& material = elem.m_mesh->m_material ? *elem.m_mesh->m_material : *item.m_material;
 
-				ProgramVersion shader_version = { m_program };
-				shader_version.set_option(0, BILLBOARD, item.m_flags & ItemFlag::Billboard);
+				ProgramVersion program = { m_program };
+				program.set_option(0, BILLBOARD, item.m_flags & ItemFlag::Billboard);
 
 				uint64_t render_state = BGFX_STATE_DEFAULT;
 				material.state(render_state);
-				item.submit(encoder, render_state, model_item);
+				item.submit(encoder, render_state, elem);
 
 				encoder.setState(render_state);
-				encoder.submit(view, m_program.version(shader_version));
+				encoder.submit(view, m_program.version(program));
 			}
 
 			bgfx::end(&encoder);

@@ -137,21 +137,21 @@ namespace mud
 	{
 		layout_minimal(ui_window);
 
-		Colour white = { 1.f };
-		Colour black = { 0.f };
-		Colour transparent = { 0.f, 0.f };
-		Colour clearGreyText = { 0.627f };
-		Colour grey600 = { 0.600f };
-		Colour grey400 = { 0.400f };
-		Colour grey312 = { 0.312f };
-		Colour grey248 = { 0.248f };
-		Colour grey204 = { 0.204f };
-		Colour grey176 = { 0.176f };
-		Colour grey145 = { 0.145f };
-		Colour grey117 = { 0.117f };
-		Colour grey86  = { 0.086f };
-		Colour grey69  = { 0.069f };
-		Colour grey52  = { 0.052f };
+		Colour white = Colour(1.f);
+		Colour black = Colour(0.f);
+		Colour transparent = Colour(0.f, 0.f);
+		Colour clearGreyText = Colour(0.627f);
+		Colour grey600 = Colour(0.600f);
+		Colour grey400 = Colour(0.400f);
+		Colour grey312 = Colour(0.312f);
+		Colour grey248 = Colour(0.248f);
+		Colour grey204 = Colour(0.204f);
+		Colour grey176 = Colour(0.176f);
+		Colour grey145 = Colour(0.145f);
+		Colour grey117 = Colour(0.117f);
+		Colour grey86  = Colour(0.086f);
+		Colour grey69  = Colour(0.069f);
+		Colour grey52  = Colour(0.052f);
 		Colour activeBlue = { 0.145f, 0.5f, 1.f, 1.f };
 
 		select({ "Label", "Title", "Message", "Tooltip", "TextEdit", "TypeLabel", "TypeZone", "SliderDisplay", "RadioChoiceItem" })

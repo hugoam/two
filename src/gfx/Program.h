@@ -60,7 +60,10 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT ShaderBlock
 	{
-		attr_ uint32_t m_index;
+		constr_ ShaderBlock();
+		ShaderBlock(span<cstring> options, span<cstring> modes);
+
+		attr_ uint8_t m_index;
 		attr_ vector<string> m_options;
 		attr_ vector<string> m_modes;
 		vector<ShaderDefine> m_defines;
@@ -68,6 +71,14 @@ namespace mud
 		meth_ void add_option(const string& name) { m_options.push_back(name); }
 		meth_ void add_mode(const string& name) { m_modes.push_back(name); }
 		meth_ void add_define(const string& name, const string& value) { m_defines.push_back({ name, value }); }
+	};
+
+	export_ struct refl_ MUD_GFX_EXPORT ProgramMode
+	{
+		attr_ string name;
+		attr_ uint32_t size;
+		attr_ uint32_t shift;
+		attr_ uint32_t mask;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT ProgramBlock
@@ -125,27 +136,28 @@ namespace mud
 		bgfx::ProgramHandle default_version();
 		bgfx::ProgramHandle version(const ProgramVersion& config);
 
-		ProgramVersion shader_version(Version& version);
+		ProgramVersion program(Version& version);
 
 		meth_ void register_blocks(const Program& program);
 
 		meth_ void register_block(const ShaderBlock& block);
 
-		void register_blocks(span<GfxBlock*> blocks);
+		void set_blocks(span<MaterialBlock> blocks);
+		void register_blocks(span<ShaderBlock*> blocks);
 		void register_options(uint8_t block, span<string> options);
 		void register_modes(uint8_t block, span<string> modes);
 
 		// maps a block index to its shader options span
 		ProgramBlock m_shader_blocks[32] = {};
 		uint8_t m_next_option = 0;
-		vector<GfxBlock*> m_registered_blocks;
+		vector<ShaderBlock*> m_registered_blocks;
 
+		table<MaterialBlock, bool> m_blocks = {};
 		table<ShaderType, string> m_sources = {};
 		table<PassType, bool> m_passes = {};
-		table<MaterialBlock, bool> m_blocks = {};
 
-		vector<string> m_option_names;
-		vector<string> m_mode_names;
+		vector<string> m_options;
+		vector<string> m_modes;
 
 		vector<ShaderDefine> m_defines;
 
@@ -154,9 +166,10 @@ namespace mud
 
 		uint32_t m_primitives = 0;
 
+		static GfxSystem* ms_gfx;
+
+	private:
 		struct Impl;
 		unique<Impl> m_impl;
-
-		static GfxSystem* ms_gfx_system;
 	};
 }

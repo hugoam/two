@@ -339,7 +339,7 @@ namespace mud
 		}
 	}
 
-	void edit_gfx_system(Widget& parent, GfxSystem& gfx)
+	void edit_gfx(Widget& parent, GfxSystem& gfx)
 	{
 		Tabber& tabber = ui::tabber(parent);
 

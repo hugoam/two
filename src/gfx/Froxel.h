@@ -67,8 +67,8 @@ namespace mud
 		Froxelizer(GfxSystem& gfx);
 		~Froxelizer();
 
-		bool prepare(const Viewport& viewport, const mat4& projection, float near, float far);
-		bool update(const Viewport& viewport, const mat4& projection, float near, float far);
+		void setup();
+		bool update(const uvec4& rect, const mat4& projection, float near, float far);
 
 		// update Records and Froxels texture with lights data. this is thread-safe.
 		void clusterize_lights(const Camera& camera, span<Light*> lights);
@@ -120,7 +120,7 @@ namespace mud
 		mat4 m_projection;
 
 		// needed for update()
-		const Viewport* m_viewport;
+		uvec4 m_viewport;
 		vec4 m_pz = {};
 		uvec3 m_pf = {};
 		float m_near = 0.0f;        // camera near

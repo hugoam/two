@@ -12,89 +12,75 @@
 // Shifts red and blue channels from center in opposite directions
 // Ported from http://kriss.cx/tom/2009/05/rgb-shift/
 // by Tom Butterworth / http://kriss.cx/tom/
-//
-// amount: shift distance (1 is width of input)
-// angle: shift angle in radians
-//
 
-static string glitch_vertex()
-{
-	string shader = 
+static string glitch_vertex =
 
-		"$input a_position, a_texcoord0\n"
-		"$output v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"void main() {\n"
-		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
-		"}\n";
+	"$input a_position, a_texcoord0\n"
+	"$output v_uv0\n"
+		
+	"#include <filter.sh>\n"
+		
+	"void main() {\n"
+	"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
+	"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+	"}\n";
 
-	return shader;
-}
+static string glitch_fragment =
 
-static string glitch_fragment()
-{
-	string shader = 
+	"$input v_uv0\n"
+		
+	"#include <filter.sh>\n"
+		
+	"uniform vec4 u_glitch_p0;\n"
+	"#define u_amount u_glitch_p0.x\n"
+	"#define u_angle u_glitch_p0.y\n"
+	"#define u_seed u_glitch_p0.y\n"
 
-		"$input v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"uniform vec4 u_glitch_p0;\n"
-		"#define u_amount u_glitch_p0.x\n"
-		"#define u_angle u_glitch_p0.y\n"
-		"#define u_seed u_glitch_p0.y\n"
-
-		"uniform vec4 u_glitch_p1;\n"
-		"#define u_scale u_glitch_p1.xy\n"
-		"#define u_distort u_glitch_p1.zw\n"
-		"\n"
-		//"uniform float col_s;\n"
-		"\n"
-		"float rand(vec2 co){\n"
-		"	return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);\n"
-		"}\n"
-		"\n"
-		"void main() {\n"
-		"	const float col_s = 0.5;\n"
-		"	vec2 p = v_uv0;\n"
-		"	float xs = floor(gl_FragCoord.x / 0.5);\n"
-		"	float ys = floor(gl_FragCoord.y / 0.5);\n"
-		"	//based on staffantans glitch shader for unity https://github.com/staffantan/unityglitch \n"
-		"	vec4 normal = texture2D(s_source_1, p * u_seed * u_seed);\n"
-		"	if(p.y < u_distort.x + col_s && p.y > u_distort.x - col_s * u_seed) {\n"
-		"		if(u_scale.x > 0.0) {\n"
-		"			p.y = 1.0 - (p.y + u_distort.y);\n"
-		"		}\n"
-		"		else {\n"
-		"			p.y = u_distort.y;\n"
-		"		}\n"
-		"	}\n"
-		"	if(p.x < u_distort.y + col_s && p.x > u_distort.y - col_s * u_seed) {\n"
-		"		if(u_scale.y > 0.0){\n"
-		"			p.x = u_distort.x;\n"
-		"		}\n"
-		"		else {\n"
-		"			p.x = 1.0 - (p.x + u_distort.x);\n"
-		"		}\n"
-		"	}\n"
-		"	p.x += normal.x * u_scale.x * (u_seed / 5.0);\n"
-		"	p.y += normal.y * u_scale.y * (u_seed / 5.0);\n"
-		"	//base from RGB shift shader\n"
-		"	vec2 offset = u_amount * vec2(cos(u_angle), sin(u_angle));\n"
-		"	vec4 cr = texture2D(s_source_0, p + offset);\n"
-		"	vec4 cga = texture2D(s_source_0, p);\n"
-		"	vec4 cb = texture2D(s_source_0, p - offset);\n"
-		"	gl_FragColor = vec4(cr.r, cga.g, cb.b, cga.a);\n"
-		"	//add noise\n"
-		"	vec4 snow = 200.0 * u_amount * vec4_splat(rand(vec2(xs * u_seed, ys * u_seed * 50.0)) * 0.2);\n"
-		"	gl_FragColor = gl_FragColor + snow;\n"
-		"}\n";
-
-	return shader;
-};
+	"uniform vec4 u_glitch_p1;\n"
+	"#define u_scale u_glitch_p1.xy\n"
+	"#define u_distort u_glitch_p1.zw\n"
+		
+	//"uniform float col_s;\n"
+		
+	"float rand2(vec2 co){\n"
+	"	return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);\n"
+	"}\n"
+		
+	"void main() {\n"
+	"	const float col_s = 0.5;\n"
+	"	vec2 p = v_uv0;\n"
+	"	float xs = floor(gl_FragCoord.x / 0.5);\n"
+	"	float ys = floor(gl_FragCoord.y / 0.5);\n"
+	"	//based on staffantans glitch shader for unity https://github.com/staffantan/unityglitch \n"
+	"	vec4 normal = texture2D(s_source_1, p * u_seed * u_seed);\n"
+	"	if(p.y < u_distort.x + col_s && p.y > u_distort.x - col_s * u_seed) {\n"
+	"		if(u_scale.x > 0.0) {\n"
+	"			p.y = 1.0 - (p.y + u_distort.y);\n"
+	"		}\n"
+	"		else {\n"
+	"			p.y = u_distort.y;\n"
+	"		}\n"
+	"	}\n"
+	"	if(p.x < u_distort.y + col_s && p.x > u_distort.y - col_s * u_seed) {\n"
+	"		if(u_scale.y > 0.0){\n"
+	"			p.x = u_distort.x;\n"
+	"		}\n"
+	"		else {\n"
+	"			p.x = 1.0 - (p.x + u_distort.x);\n"
+	"		}\n"
+	"	}\n"
+	"	p.x += normal.x * u_scale.x * (u_seed / 5.0);\n"
+	"	p.y += normal.y * u_scale.y * (u_seed / 5.0);\n"
+	"	//base from RGB shift shader\n"
+	"	vec2 offset = u_amount * vec2(cos(u_angle), sin(u_angle));\n"
+	"	vec4 cr = texture2D(s_source_0, p + offset);\n"
+	"	vec4 cga = texture2D(s_source_0, p);\n"
+	"	vec4 cb = texture2D(s_source_0, p - offset);\n"
+	"	gl_FragColor = vec4(cr.r, cga.g, cb.b, cga.a);\n"
+	"	//add noise\n"
+	"	vec4 snow = 200.0 * u_amount * vec4_splat(rand2(vec2(xs * u_seed, ys * u_seed * 50.0)) * 0.2);\n"
+	"	gl_FragColor = gl_FragColor + snow;\n"
+	"}\n";
 
 constexpr int speed = 2;
 
@@ -134,8 +120,8 @@ Texture& glitch_heightmap(GfxSystem& gfx, uint size)
 void pass_glitch(GfxSystem& gfx, Render& render, Glitch& glitch, uint dt_size = 64)
 {
 	static Program& program = gfx.programs().create("glitch");
-	program.m_sources[ShaderType::Vertex] = glitch_vertex();
-	program.m_sources[ShaderType::Fragment] = glitch_fragment();
+	program.set_source(ShaderType::Vertex, glitch_vertex);
+	program.set_source(ShaderType::Fragment, glitch_fragment);
 
 	static Texture& disp = glitch_heightmap(gfx, dt_size);
 
@@ -203,13 +189,15 @@ void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		camera.m_eye.z = 400.f;
 
-		//scene.fog = new THREE.Fog(0x000000, 1, 1000);
+		scene.m_env.m_radiance.m_colour = rgb(0x222222);
+		scene.m_env.m_radiance.m_ambient = 1.f;
+
+		scene.m_env.m_fog = { true, 1.f, rgb(0x000000), true, 1.f, 1000.f };
 
 		Symbol symbol; symbol.m_subdiv = uvec2(4U);
 		Model& geometry = app.m_gfx.shape(Sphere(1.f), symbol);
-		//Model& geometry = app.m_gfx.shape(Sphere(1.f));
 
-		Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
+		Program& phong = app.m_gfx.programs().fetch("pbr/phong");
 
 		Node3& group = gfx::nodes(scene).add(Node3());
 		object = &group;
@@ -218,11 +206,10 @@ void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		{
 			const string name = "object" + to_string(i);
 			Material& material = app.m_gfx.materials().create(name, [&](Material& m) {
-				m.m_program = &pbr;
+				m.m_program = &phong;
 				m.m_base.m_flat_shaded = true;
-				m.m_pbr.m_albedo = rgb(randi<uint32_t>());
+				m.m_phong.m_diffuse = rgb(randi<uint32_t>());
 			});
-			//var material = new THREE.MeshPhongMaterial({ color: 0xffffff * randf(),  });
 
 			const vec3 p = normalize(vec3(randf(), randf(), randf()) - 0.5f) * randf() * 400.f;
 			const vec3 a = vec3(randf(), randf(), randf()) * 2.f;
@@ -232,8 +219,6 @@ void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			gfx::items(scene).add(Item(n, geometry, 0U, &material));
 			nodes.push_back({ p, a, s, &n });
 		}
-
-		//scene.add(new THREE.AmbientLight(0x222222));
 
 		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), facing(vec3(-1.f, -1.f, -1.f))));
 		Light& light = gfx::lights(scene).add(Light(n, LightType::Direct, false));

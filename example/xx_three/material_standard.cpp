@@ -49,7 +49,6 @@ void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 
 		Model& model = *app.m_gfx.models().file("Cerberus");
 
-		//var material = new THREE.MeshPhongMaterial({ specular: 0x101010, shininess : 100, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.1, side : THREE.DoubleSide });
 		Material& material = app.m_gfx.materials().create("standard", [&](Material& m) {
 			m.m_program = &pbr;
 			m.m_pbr.m_metallic = 1.f;

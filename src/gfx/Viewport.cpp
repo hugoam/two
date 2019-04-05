@@ -55,8 +55,6 @@ namespace mud
 
 		if(m_scissor)
 			bgfx::setViewScissor(pass.m_index, rect.x, rect.y, rect.width, rect.height);
-
-		bgfx::touch(pass.m_index);
 	}
 
 	void Viewport::cull(Render& render)
@@ -72,7 +70,7 @@ namespace mud
 	{
 		if(m_rect.height != 0.f)
 		{
-			const vec2 size = rect_size(m_rect) * vec2(render.m_target->m_size);
+			const vec2 size = rect_size(m_rect) * vec2(render.m_fbo->m_size);
 			m_camera->m_aspect = size.x / size.y;
 		}
 
@@ -80,8 +78,9 @@ namespace mud
 
 		if(m_clusters)
 		{
+			const uvec4 rect = uvec4(m_rect * vec2(render.m_fbo->m_size));
 			m_clusters->m_dirty |= uint8_t(Froxelizer::Dirty::Viewport) | uint8_t(Froxelizer::Dirty::Projection);
-			m_clusters->update(*this, m_camera->m_projection, m_camera->m_near, m_camera->m_far);
+			m_clusters->update(rect, m_camera->m_projection, m_camera->m_near, m_camera->m_far);
 			m_clusters->clusterize_lights(*m_camera, render.m_shot.m_lights);
 			m_clusters->upload();
 		}
@@ -90,14 +89,13 @@ namespace mud
 			task(render);
 	}
 
-	// @todo move this to viewport ? or are clusters shared between viewports ?
 	void Viewport::set_clustered(GfxSystem& gfx)
 	{
-		if(m_rect != vec4(0.f) && !m_clusters)
+		if(m_rect.width != 0.f && m_rect.height != 0.f && !m_clusters)
 		{
 			m_clustered = true;
 			m_clusters = make_unique<Froxelizer>(gfx);
-			m_clusters->prepare(*this, m_camera->m_projection, m_camera->m_near, m_camera->m_far);
+			m_clusters->setup();
 		}
 	}
 

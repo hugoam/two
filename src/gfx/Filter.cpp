@@ -22,6 +22,8 @@ module mud.gfx;
 #include <cstdio>
 #include <cassert>
 
+#define DEBUG_CROP 0
+
 namespace mud
 {
 	BlockFilter::BlockFilter(GfxSystem& gfx)
@@ -30,7 +32,7 @@ namespace mud
 	{
 		gfx.m_filter = this;
 
-		m_shader_block.m_options = {
+		m_options = {
 			"UNPACK_DEPTH",
 			"SOURCE_DEPTH",
 			"SOURCE_0_CUBE",
@@ -48,6 +50,11 @@ namespace mud
 	{
 		UNUSED(render);
 		//this->set_uniforms(render);
+	}
+
+	void BlockFilter::multiply(float mul)
+	{
+		m_multiply = mul;
 	}
 
 	void BlockFilter::source0p(Texture& texture, ProgramVersion& program, int level, uint32_t flags)
@@ -86,6 +93,15 @@ namespace mud
 	void BlockFilter::sourcedepth(Texture& texture, uint32_t flags)
 	{
 		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), u_uniform.s_source_depth, texture, flags);
+	}
+
+	void BlockFilter::uniform(const Pass& pass, const string& name, const mat4& value)
+	{
+		//if(!has(m_uniforms, name))			
+		if(m_uniforms.find(name) == m_uniforms.end())
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Mat4, 1U, bgfx::UniformFreq::View);
+
+		bgfx::setViewUniform(pass.m_index, m_uniforms[name], &value);
 	}
 
 	void BlockFilter::uniform(const Pass& pass, const string& name, const vec4& value)
@@ -172,14 +188,19 @@ namespace mud
 	{
 		ushort4 rect = ushort4(quad.m_dest * vec2(fbo.m_size));
 		if(quad.m_relative && bgfx::getCaps()->originBottomLeft)
-			rect.y = fbo.m_size.y - rect.y - rect.height;
+			rect.y = ushort(fbo.m_size.y) - rect.y - rect.height;
 
 		vec4 crop = quad.m_source;
 		if(!quad.m_relative && bgfx::getCaps()->originBottomLeft)
 			crop.y = 1.f - crop.y - crop.height;
 
-		//printf("filter quad (%i, %i), (%i, %i) - source (%.2f, %.2f), (%.2f, %.2f)\n", 
-		//	   rect.x, rect.y, rect.width, rect.height, crop.x, crop.y, crop.width, crop.height);
+#if DEBUG_CROP
+		vec4 frect = vec4(rect) / vec2(fbo.m_size);
+		printf("%s quad (%.2f, %.2f), (%.2f, %.2f) - source (%.2f, %.2f), (%.2f, %.2f)\n", pass.m_name.c_str(),
+			   frect.x, frect.y, frect.width, frect.height, crop.x, crop.y, crop.width, crop.height);
+#endif
+		//printf("%s  quad (%i, %i), (%i, %i) - source (%.2f, %.2f), (%.2f, %.2f)\n", pass.m_name.c_str(),
+		//	   frect.x, rect.y, rect.width, rect.height, crop.x, crop.y, crop.width, crop.height);
 
 		static mat4 mview = bxidentity();
 		static mat4 proj = bxortho(vec4(0.f, 1.f, 1.f, 0.f), 0.f, 1.f, 0.f, bgfx::getCaps()->homogeneousDepth);// false))
@@ -196,11 +217,16 @@ namespace mud
 
 		bgfx::setUniform(u_uniform.u_source_crop, &quad.m_source);
 
+		const vec4 p0 = { m_multiply, 0.f, 0.f, 0.f };
+		bgfx::setUniform(u_uniform.u_filter_p0, &p0);
+
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_CULL_CW | flags);
 		bgfx::submit(pass.m_index, program.fetch());
 
 		if(render)
 			bgfx::frame();
+
+		m_multiply = 1.f;
 	}
 
 	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags, bool render)
@@ -215,7 +241,7 @@ namespace mud
 	{
 		gfx.m_copy = this;
 
-		m_program.register_block(filter.m_shader_block);
+		m_program.register_block(filter);
 	}
 
 	void BlockCopy::init_block()

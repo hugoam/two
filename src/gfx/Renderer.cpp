@@ -37,8 +37,6 @@ module mud.gfx;
 
 namespace mud
 {
-	uint8_t GfxBlock::s_block_index = 0;
-
 	struct RenderUniform
 	{
 		RenderUniform() {}
@@ -124,11 +122,11 @@ namespace mud
 
 		if(m_target)
 		{
-			vec4 screen_p0{ vec2(m_target->m_size), 1.0f / vec2(m_target->m_size) };
+			vec4 screen_p0 = { vec2(m_target->m_size), 1.0f / vec2(m_target->m_size) };
 			bgfx::setViewUniform(pass.m_index, s_render_uniform.u_viewport_p0, &screen_p0);
 		}
 
-		vec4 camera_p0{ m_camera->m_near, m_camera->m_far, m_camera->m_fov, m_camera->m_aspect };
+		vec4 camera_p0 = { m_camera->m_near, m_camera->m_far, m_camera->m_fov, m_camera->m_aspect };
 		bgfx::setViewUniform(pass.m_index, s_render_uniform.u_camera_p0, &camera_p0);
 	}
 
@@ -228,21 +226,24 @@ namespace mud
 	}
 
 	GfxBlock::GfxBlock(GfxSystem& gfx, Type& type)
-		: m_gfx(gfx), m_type(type), m_index(++s_block_index)
-		, m_shader_block()
-	{
-		m_shader_block.m_index = m_index;
-	}
+		: ShaderBlock()
+		, m_gfx(gfx), m_type(type)
+	{}
 
 	GfxBlock::~GfxBlock()
 	{}
 
-	DrawElement::DrawElement(Item& item, const Program& program, const ModelItem& model, const Material& material, const Skin* skin, uint64_t sort_key)
-		: m_item(&item), m_program(&program), m_model(&model), m_material(&material), m_skin(skin)
+	DrawElement::DrawElement(Item& item, const Program& program, const ModelElem& elem, const Material& material, const Skin* skin, uint64_t sort_key)
+		: m_item(&item), m_elem(&elem), m_material(&material), m_skin(skin)
 		, m_sort_key(sort_key)
-		//, m_shader_version(material.shader_version(program, item, model))
-		, m_shader_version(material.shader_version(program))
-	{}
+	{
+		this->set_program(program);
+	}
+
+	void DrawElement::set_program(const Program& program)
+	{
+		m_program = m_material->program(program, *m_item, *m_elem);
+	}
 
 	struct DrawPass
 	{
@@ -262,17 +263,19 @@ namespace mud
 
 	void Renderer::element_options(Render& render, Pass& pass, DrawElement& element)
 	{
-		this->shader_options(render, pass, element.m_shader_version);
+		this->shader_options(render, pass, element.m_program);
 
-		element.m_shader_version.set_option(0, VFLIP, render.m_vflip);
-		element.m_shader_version.set_option(0, MRT, render.m_is_mrt);
+		element.m_program.set_option(0, VFLIP, render.m_vflip);
+		element.m_program.set_option(0, MRT, render.m_is_mrt);
 
-		element.m_shader_version.set_option(0, INSTANCING, element.m_item->m_batch != nullptr);
-		element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ItemFlag::Billboard);
-		element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
-		element.m_shader_version.set_option(0, QNORMALS, element.m_model->m_mesh->m_qnormals);
+		element.m_program.set_option(0, INSTANCING, element.m_item->m_batch != nullptr);
+		element.m_program.set_option(0, BILLBOARD, element.m_item->m_flags & ItemFlag::Billboard);
+		element.m_program.set_option(0, SKELETON, element.m_skin != nullptr);
+		element.m_program.set_option(0, MORPHTARGET, element.m_item->m_rig && !element.m_item->m_rig->m_morphs.empty());
+		element.m_program.set_option(0, QNORMALS, element.m_elem->m_mesh->m_qnormals);
 
-		element.m_bgfx_program = const_cast<Program*>(element.m_program)->version(element.m_shader_version);
+		Program& program = *const_cast<Program*>(element.m_program.m_program);
+		element.m_bgfx_program = program.version(element.m_program);
 	}
 
 	void Renderer::add_element(Render& render, Pass& pass, DrawElement element)
@@ -287,34 +290,34 @@ namespace mud
 		return (mask & filter) == 0;
 	}
 
-	inline Material& item_material(const Item& item, const ModelItem& model_item, Material& fallback)
+	inline Material& item_material(const Item& item, const ModelElem& elem, Material& fallback)
 	{
 		if(item.m_material)
 			return *item.m_material;
-		else if(model_item.m_material)
-			return *model_item.m_material;
-		else if(model_item.m_mesh->m_material)
-			return *model_item.m_mesh->m_material;
+		else if(elem.m_material)
+			return *elem.m_material;
+		else if(elem.m_mesh->m_material)
+			return *elem.m_mesh->m_material;
 		else
 			return fallback;
 	}
 
-	DrawElement Renderer::draw_element(Item& item, const ModelItem& model_item) const
+	DrawElement Renderer::draw_element(Item& item, const ModelElem& elem) const
 	{
 		static Material& fallback_material = m_gfx.debug_material();
 
-		const Material& material = item_material(item, model_item, fallback_material);
+		const Material& material = item_material(item, elem, fallback_material);
 		const Program& program = *material.m_program;
 
-		//if(mask_primitive(material.m_base.m_geometry_filter, model_item.m_mesh->m_primitive))
+		//if(mask_primitive(material.m_base.m_geometry_filter, elem.m_mesh->m_primitive))
 		//	continue;
 
-		const Skin* skin = (model_item.m_skin > -1 && item.m_rig) ? &item.m_rig->m_skins[model_item.m_skin] : nullptr;
+		const Skin* skin = (elem.m_skin > -1 && item.m_rig) ? &item.m_rig->m_skins[elem.m_skin] : nullptr;
 
 		const uint64_t sort_key = uint64_t(material.m_index) << 0
-								| uint64_t(model_item.m_mesh->m_index) << 16;
+								| uint64_t(elem.m_mesh->m_index) << 16;
 
-		return { item, program, model_item, material, skin, sort_key };
+		return { item, program, elem, material, skin, sort_key };
 	}
 
 	void Renderer::clear_draw_elements(Render& render, Pass& pass)
@@ -326,9 +329,9 @@ namespace mud
 	void Renderer::gather_draw_elements(Render& render, Pass& pass)
 	{
 		for(Item* item : render.m_shot.m_items)
-			for(const ModelItem& model_item : item->m_model->m_items)
+			for(const ModelElem& elem : item->m_model->m_items)
 			{
-				DrawElement element = this->draw_element(*item, model_item);
+				DrawElement element = this->draw_element(*item, elem);
 				this->add_element(render, pass, element);
 			}
 	}
@@ -375,16 +378,16 @@ namespace mud
 			submit(m_gfx, render, pass, element);
 
 		uint64_t render_state = 0 | pass.m_bgfx_state | element.m_bgfx_state;
-		element.m_material->submit(*element.m_program, encoder, render_state, element.m_skin);
-		element.m_item->submit(encoder, render_state, *element.m_model);
+		element.m_material->submit(*element.m_program.m_program, encoder, render_state, element.m_skin);
+		element.m_item->submit(encoder, render_state, *element.m_elem);
 
 		encoder.setState(render_state);
 
 		encoder.submit(pass.m_index, element.m_bgfx_program, depth_to_bits(element.m_item->m_depth));
 
 		render.m_num_draw_calls += 1;
-		render.m_num_vertices += element.m_model->m_mesh->m_vertex_count;
-		render.m_num_triangles += element.m_model->m_mesh->m_index_count / 3;
+		render.m_num_vertices += element.m_elem->m_mesh->m_vertex_count;
+		render.m_num_triangles += element.m_elem->m_mesh->m_index_count / 3;
 	}
 
 	void Renderer::begin_render_pass(Render& render, PassType pass_type)
@@ -442,9 +445,9 @@ namespace mud
 		this->clear_draw_elements(render, pass);
 
 		for(Item* item : render.m_shot.m_items)
-			for(const ModelItem& model_item : item->m_model->m_items)
+			for(const ModelElem& elem : item->m_model->m_items)
 			{
-				DrawElement element = this->draw_element(*item, model_item);
+				DrawElement element = this->draw_element(*item, elem);
 				if(enqueue(m_gfx, render, pass, element))
 					this->add_element(render, pass, element);
 			}
@@ -457,9 +460,9 @@ namespace mud
 		this->begin_render_pass(render, pass.m_pass_type);
 
 		for(Item* item : render.m_shot.m_items)
-			for(const ModelItem& model_item : item->m_model->m_items)
+			for(const ModelElem& elem : item->m_model->m_items)
 			{
-				DrawElement element = this->draw_element(*item, model_item);
+				DrawElement element = this->draw_element(*item, elem);
 				if(enqueue(m_gfx, render, pass, element))
 				{
 					this->element_options(render, pass, element);

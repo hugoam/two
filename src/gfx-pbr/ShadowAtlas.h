@@ -21,7 +21,7 @@ namespace mud
 	{
 	public:
 		ShadowAtlas() {}
-		ShadowAtlas(uint16_t size, vector<uint16_t> slices_subdiv);
+		ShadowAtlas(uint16_t size, uint8_t num_slices);
 
 		uint16_t m_side = 0;
 		uvec2 m_size;
@@ -30,12 +30,21 @@ namespace mud
 		Texture m_depth;
 		FrameBuffer m_fbo;
 
+		struct Block;
+
 		struct Slot
 		{
 			uint16_t m_index;
-			Light* m_light;
+			Light* m_light = nullptr;
 			vec4 m_rect;
 			uvec4 m_trect;
+			uint32_t m_frame = 0;
+			uint16_t m_block = UINT16_MAX;
+		};
+
+		struct Block
+		{
+			uint32_t m_slots[8];
 		};
 
 		struct Slice;
@@ -43,29 +52,34 @@ namespace mud
 		Slice& light_slice(Light& light);
 		Slot& light_slot(Light& light);
 
+		void begin_frame(const RenderFrame& frame);
+		void subdiv(Slice& slice, uint16_t subdiv);
+		
+		Slot& alloc(Slice& slice, bool block6 = false);
+		void yield(Slice& slice, uint32_t index);
+
 		vec4 render_update(Render& render, Light& light);
-		bool update_light(Light& light, uint64_t render, float coverage, uint64_t light_version);
+		bool update_light(Light& light, uint32_t render, float coverage, uint32_t light_version);
 		void remove_light(Light& light, bool block = false);
 
 		struct Slice
 		{
 			Slice() {}
-			Slice(uint8_t index, uint16_t size, uint16_t subdiv, const vec4& rect);
+			Slice(uint8_t index, const uvec2& size, const vec4& rect);
 
 			uint8_t m_index;
-			//uint16_t m_size;
-			uint16_t m_subdiv;
-			uvec4 m_rect;
+			uvec2 m_size;
+			vec4 m_rect;
 
-			uint16_t m_slot_size;
+			uint16_t m_subdiv = 0;
+			uvec2 m_slot_size;
 			vector<Slot> m_slots;
+			vector<Block> m_blocks;
 
-			vector<Slot*> m_free_slots;
-			vector<Slot*> m_free_blocks;
+			vector<uint32_t> m_free_slots;
+			vector<uint32_t> m_free_blocks;
 		};
 
 		vector<Slice> m_slices;
-
-		struct Index { uint8_t slice; uint16_t slot; };
 	};
 }

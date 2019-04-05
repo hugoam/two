@@ -17,6 +17,7 @@ namespace mud
 		INSTANCING,
 		BILLBOARD,
 		SKELETON,
+		MORPHTARGET,
 		QNORMALS,
 		VFLIP,
 		MRT,
@@ -43,10 +44,9 @@ namespace mud
 
 		inline void set(uint8_t option, bool active = true)
 		{
-			if(active)
-				m_options |= (1 << option);
-			else
-				m_options &= ~(1 << option);
+			assert(option < 32);
+			if(active) m_options |= (1 << option);
+			else       m_options &= ~(1 << option);
 		}
 
 		meth_ inline void set_option(uint8_t block, uint8_t option, bool active = true)

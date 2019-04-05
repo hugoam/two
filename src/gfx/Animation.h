@@ -19,6 +19,7 @@ namespace mud
 		Position,
 		Rotation,
 		Scale,
+		Weights,
 		Count
 	};
 
@@ -39,7 +40,8 @@ namespace mud
 
 	struct Value
 	{
-		char m_value[16];
+		//char mem[16];
+		char mem[32]; // need to be able to store vector<float>
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT AnimationTrack
@@ -48,11 +50,17 @@ namespace mud
 		struct Key
 		{
 			Key() {}
-			template <class T>
-			Key(float time, const T& value, float transition = 1.f) : m_time(time), m_value(), m_transition(transition) {  *(T*)m_value.m_value = value; }
 			float m_time;
 			Value m_value;
 			float m_transition = 1.f;
+
+			template <class T>
+			Key(float time, const T& value, float transition = 1.f)
+				: m_time(time), m_value(), m_transition(transition)
+			{
+				static_assert(sizeof(T) <= sizeof(Value));
+				new (m_value.mem) T(value);
+			}
 		};
 
 		AnimationTrack();

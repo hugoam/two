@@ -17,7 +17,7 @@ namespace mud
 	{
 		const AnimationTrack* m_track;
 		// this used to be generic Ref, but until we actually need a generic animation system, switched to explicit type
-		Bone* m_target; // node or bone
+		Bone* m_bone; // node or bone
 		AnimationCursor m_cursor;
 		Value m_value;
 	};
@@ -25,7 +25,7 @@ namespace mud
 	export_ struct refl_ MUD_GFX_EXPORT AnimationPlay
 	{
 		AnimationPlay() {}
-		AnimationPlay(const Animation& animation, bool loop, float speed, bool transient, Skeleton* skeleton = nullptr);
+		AnimationPlay(const Animation& animation, bool loop, float speed, bool transient, Rig& rig);
 
 		void step(float delta, float speed);
 		void update(float time, float delta, float interp);
@@ -40,6 +40,7 @@ namespace mud
 		attr_ float m_cursor = 0.f;
 		attr_ bool m_ended = false;
 
+		Rig* m_rig = nullptr;
 		vector<AnimatedTrack> m_tracks;
 	};
 

@@ -392,7 +392,8 @@ namespace mud
 	{
 		printf("INFO: gltf - loading scene %s\n", scene.m_file.c_str());
 
-		Model& model = scene.m_models.size() > 0
+		bool as_model = scene.m_models.size() > 0;
+		Model& model = as_model
 			? *scene.m_models[0]
 			: m_gfx.models().create(scene.m_name);
 
@@ -414,9 +415,12 @@ namespace mud
 
 		model.add_item(mesh, bxidentity());
 		model.prepare();
-		scene.m_models.push_back(&model);
-
-		scene.m_items.push_back({ bxidentity(), &model, -1 });
+		
+		if(!as_model)
+		{
+			scene.m_models.push_back(&model);
+			scene.m_items.push_back({ bxidentity(), &model, -1 });
+		}
 	}
 
 	void ImporterPLY::import_model(Model& model, const string& filepath, const ImportConfig& config)
@@ -426,14 +430,6 @@ namespace mud
 		state.m_models.push_back(&model);
 
 		this->import(state, filepath, config);
-
-		for(const Import::Item& item : state.m_items)
-		{
-			for(const ModelItem& model_item : item.model->m_items)
-				model.add_item(*model_item.m_mesh, item.transform, item.skin);
-		}
-
-		model.prepare();
 	}
 
 	void ImporterPLY::import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config)

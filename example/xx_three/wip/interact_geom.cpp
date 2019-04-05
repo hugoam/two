@@ -37,8 +37,8 @@ void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//	side: THREE.DoubleSide, vertexColors: THREE.VertexColors
 		//});
 
-		//scene.background = new THREE.Color(0x050505);
-		//scene.fog = new THREE.Fog(0x050505, 2000, 3500);
+		viewer.m_viewport.m_clear_colour = rgb(0x050505);
+		scene.m_env.m_fog = { true, 1.f, rgb(0x050505), true, 2000.f, 3500.f };
 
 		//scene.add(new THREE.AmbientLight(0x444444));
 

@@ -32,9 +32,7 @@ namespace mud
 		const Program& program = depth_method == DepthMethod::Distance ? *block_depth.m_distance_program
 																	   : *block_depth.m_depth_program;
 
-		element.m_program = &program;
-		element.m_shader_version = element.m_material->shader_version(*element.m_program);
-
+		element.set_program(program);
 		return true;
 	}
 
@@ -63,8 +61,7 @@ namespace mud
 
 		auto queue_draw_element = [&](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			element.m_program = &program;
-			element.m_shader_version = element.m_material->shader_version(*element.m_program);
+			element.set_program(program);
 			return true;
 		};
 
@@ -101,9 +98,9 @@ namespace mud
 		m_distance_params = {};
 	}
 
-	void BlockDepth::options(Render& render, ProgramVersion& shader_version) const
+	void BlockDepth::options(Render& render, ProgramVersion& program) const
 	{
-		UNUSED(render); UNUSED(shader_version);
+		UNUSED(render); UNUSED(program);
 	}
 
 	void BlockDepth::submit(Render& render, const Pass& pass) const

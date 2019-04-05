@@ -30,10 +30,10 @@ namespace mud
 		, m_copy(copy)
 		, m_prefilter_program(gfx.programs().create("filter/prefilter_envmap"))
 	{
-		m_shader_block.m_options = { "RADIANCE_ENVMAP", "RADIANCE_CUBE" };
+		m_options = { "RADIANCE_ENVMAP", "RADIANCE_CUBE" };
 
-		m_prefilter_program.register_block(filter.m_shader_block);
-		m_prefilter_program.register_block(this->m_shader_block);
+		m_prefilter_program.register_block(filter);
+		m_prefilter_program.register_block(*this);
 	}
 
 	void BlockRadiance::init_block()
@@ -78,14 +78,14 @@ namespace mud
 			return nullptr;
 	}
 
-	void BlockRadiance::options(Render& render, ProgramVersion& shader_version) const
+	void BlockRadiance::options(Render& render, ProgramVersion& program) const
 	{
 		Texture* radiance = radiancemap(render.m_env->m_radiance);
 
 		if(radiance)
-			shader_version.set_option(m_index, RADIANCE_ENVMAP);
+			program.set_option(m_index, RADIANCE_ENVMAP);
 		if(radiance && radiance->m_is_cube)
-			shader_version.set_option(m_index, RADIANCE_CUBE);
+			program.set_option(m_index, RADIANCE_CUBE);
 	}
 
 	void BlockRadiance::submit(Render& render, const Pass& pass) const

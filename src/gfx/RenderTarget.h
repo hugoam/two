@@ -74,6 +74,7 @@ namespace mud
 		meth_ void create(const uvec2& size, TextureFormat color_format);
 		~SwapBuffer();
 		meth_ FrameBuffer& swap() { m_state = !m_state; return m_state ? m_one : m_two; }
+		meth_ FrameBuffer& current() { return m_state ? m_one : m_two; }
 		meth_ Texture& last() { return m_state ? m_one.m_tex : m_two.m_tex; }
 		attr_ FrameBuffer m_one;
 		attr_ FrameBuffer m_two;

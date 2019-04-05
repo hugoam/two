@@ -71,7 +71,7 @@ namespace mud
 			decl.add(bgfx::Attrib::Indices, 4, bgfx::AttribType::Uint8, normalize_indices);
 		if((vertex_format & VertexAttribute::Weights) != 0)
 			decl.add(bgfx::Attrib::Weight, 4, bgfx::AttribType::Float);
-
+		
 		decl.end();
 
 		return decl;
@@ -247,6 +247,18 @@ namespace mud
 		this->upload(gpu_mesh, optimize);
 	}
 
+	void Mesh::morph(const MeshPacker& packer)
+	{
+		const uint32_t vertex_format = VertexAttribute::Position 
+			| (!packer.m_normals.empty() ? VertexAttribute::Normal : 0);
+
+		GpuMesh gpu_mesh = alloc_mesh(packer.m_primitive, vertex_format, packer.vertex_count(), packer.index_count());
+		packer.pack(gpu_mesh.m_writer);
+
+		Morph& morph = push(m_morphs);
+		morph.m_vertices = bgfx::createVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl(gpu_mesh.m_vertex_format));
+	}
+
 	void Mesh::cache(const GpuMesh& gpu_mesh)
 	{
 		m_cached_vertices.resize(gpu_mesh.m_vertex_memory->size);
@@ -282,6 +294,37 @@ namespace mud
 
 		m_direct.m_adapter = { vertex_format, { m_direct.m_vertices.data, vertex_count } };
 		return m_direct.m_adapter;
+	}
+
+	void Mesh::submit_morph(bgfx::Encoder& encoder, size_t index, size_t morph) const
+	{
+		static auto morph_decl = [](VertexAttribute::Enum attrib, bgfx::Attrib::Enum battrib)
+		{
+			UNUSED(attrib);
+			bgfx::VertexDecl decl;
+			decl.begin();
+			decl.add(battrib, 3, bgfx::AttribType::Float);
+			decl.end();
+			return bgfx::findVertexDecl(decl);
+		};
+
+		static bgfx::VertexDeclHandle morph_decls[4] =
+		{
+			morph_decl(VertexAttribute::MorphPosition0, bgfx::Attrib::TexCoord2),
+			morph_decl(VertexAttribute::MorphPosition1, bgfx::Attrib::TexCoord3),
+			morph_decl(VertexAttribute::MorphPosition2, bgfx::Attrib::TexCoord4),
+			morph_decl(VertexAttribute::MorphPosition3, bgfx::Attrib::TexCoord5),
+		};
+
+		static bgfx::VertexDeclHandle normal_decls[4] =
+		{
+			morph_decl(VertexAttribute::MorphNormal0, bgfx::Attrib::TexCoord6),
+			morph_decl(VertexAttribute::MorphNormal1, bgfx::Attrib::TexCoord7),
+			morph_decl(VertexAttribute::MorphNormal2, bgfx::Attrib::Color1),
+			morph_decl(VertexAttribute::MorphNormal3, bgfx::Attrib::Color2),
+		};
+
+		encoder.setVertexBuffer(1 + index, m_morphs[morph].m_vertices, morph_decls[index]);
 	}
 
 	uint64_t Mesh::submit(bgfx::Encoder& encoder) const

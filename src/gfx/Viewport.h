@@ -58,13 +58,14 @@ namespace mud
 		attr_ Scene* m_scene;
 
 		attr_ uint16_t m_index = 0;
-		attr_ bool m_active = true;
+		attr_ bool m_autorender = true;
 		attr_ vec4 m_rect = vec4(0.f);
 		attr_ bool m_scissor = false;
 		attr_ Colour m_clear_colour = Colour::Black;
 		attr_ Shading m_shading = Shading::Shaded;
 		attr_ Lighting m_lighting = Lighting::Clustered;
 		attr_ bool m_clustered = false;
+		attr_ bool m_to_gamma = false;
 
 		using RenderTask = function<void(Render&)>;
 		vector<RenderTask> m_tasks;

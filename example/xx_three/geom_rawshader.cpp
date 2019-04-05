@@ -8,44 +8,34 @@
 
 using namespace mud;
 
-static string vertex_shader()
-{
-	string shader =
+static string vertex_shader =
 
-		"$input a_position, a_color0\n"
-		"$output v_position, v_color\n"
-		"\n"
-		"#include <common.sh>\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	v_position = vec4(a_position.xyz, 1.0);\n"
-		"	v_color = a_color0;\n"
-		"\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
-		"}\n";
+	"$input a_position, a_color0\n"
+	"$output v_position, v_color\n"
+		
+	"#include <common.sh>\n"
+		
+	"void main()\n"
+	"{\n"
+	"	v_position = vec4(a_position.xyz, 1.0);\n"
+	"	v_color = a_color0;\n"
+		
+	"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+	"}\n";
 
-	return shader;
-}
+static string fragment_shader =
 
-static string fragment_shader()
-{
-	string shader =
-
-		"$input v_position, v_color\n"
-		"\n"
-		"#include <common.sh>\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	vec4 color = vec4(v_color);\n"
-		"	color.r += sin(v_position.x * 10.0 + u_time) * 0.5;\n"
-		"\n"
-		"	gl_FragColor = color;\n"
-		"}\n";
-
-	return shader;
-}
+	"$input v_position, v_color\n"
+		
+	"#include <common.sh>\n"
+		
+	"void main()\n"
+	"{\n"
+	"	vec4 color = vec4(v_color);\n"
+	"	color.r += sin(v_position.x * 10.0 + u_time) * 0.5;\n"
+		
+	"	gl_FragColor = color;\n"
+	"}\n";
 
 void xx_geom_rawshader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
@@ -57,10 +47,10 @@ void xx_geom_rawshader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	Scene& scene = viewer.m_scene;
 
-	static Program program = { "shader" };
-	program.m_blocks[MaterialBlock::Solid] = true;
-	program.m_sources[ShaderType::Vertex] = vertex_shader();
-	program.m_sources[ShaderType::Fragment] = fragment_shader();
+	static Program& program = app.m_gfx.programs().create("rawshader");
+	program.set_block(MaterialBlock::Solid);
+	program.set_source(ShaderType::Vertex, vertex_shader);
+	program.set_source(ShaderType::Fragment, fragment_shader);
 	
 	static Node3* node = nullptr;
 

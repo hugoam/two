@@ -7,46 +7,37 @@
 
 using namespace mud;
 
-static string skydome_vertex()
-{
-	string shader =
+static string skydome_vertex =
 
-		"$input a_position, a_texcoord0\n"
-		"$output v_world\n"
-		"\n"
-		"#include <common.sh>\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	vec4 world = mul(u_model[0], vec4(a_position.xyz, 1.0));\n"
-		"	v_world = world.xyz;\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
-		"}\n";
+	"$input a_position, a_texcoord0\n"
+	"$output v_world\n"
+		
+	"#include <common.sh>\n"
+		
+	"void main()\n"
+	"{\n"
+	"	vec4 world = mul(u_model[0], vec4(a_position.xyz, 1.0));\n"
+	"	v_world = world.xyz;\n"
+	"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+	"}\n";
 
-	return shader;
-}
+static string skydome_fragment =
 
-static string skydome_fragment()
-{
-	string shader =
+	"$input v_world\n"
 
-		"$input v_world\n"
+	"#include <common.sh>\n"
 
-		"#include <common.sh>\n"
+	"#define u_top_color u_user_p0.xyz\n"
+	"#define u_bottom_color u_user_p1.xyz\n"
+	"#define u_offset u_user_p2.x\n"
+	"#define u_exponent u_user_p2.y\n"
 
-		"#define u_top_color u_user_p0.xyz\n"
-		"#define u_bottom_color u_user_p1.xyz\n"
-		"#define u_offset u_user_p2.x\n"
-		"#define u_exponent u_user_p2.y\n"
-
-		"void main()\n"
-		"{\n"
-		"	float h = normalize(v_world + u_offset).y;\n"
-		"	gl_FragColor = vec4(mix(u_bottom_color, u_top_color, max(pow(max(h, 0.0), u_exponent), 0.0)), 1.0);\n"
-		"}\n";
-
-	return shader;
-}
+	"void main()\n"
+	"{\n"
+	"	float h = normalize(v_world + u_offset).y;\n"
+	"	gl_FragColor = vec4(mix(u_bottom_color, u_top_color, max(pow(max(h, 0.0), u_exponent), 0.0)), 1.0);\n"
+	"	gl_FragColor = vec4(pow(gl_FragColor.rgb, vec3_splat(2.0)), 1.0);\n"
+	"}\n";
 
 void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
@@ -54,7 +45,7 @@ void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controls(viewer);
+	//ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 
@@ -64,15 +55,23 @@ void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 		camera.m_fov = 30.f; camera.m_near = 1.f; camera.m_far = 5000.f;
 		camera.m_eye = vec3(0.f, 0.f, 250.f);
 
-		viewer.m_viewport.m_clear_colour = hsl(0.6f, 0.f, 1.f);
-		scene.m_env.m_background.m_colour = hsl(0.6f, 0.f, 1.f);
+		Colour colour = hsl(0.6f, 0.f, 1.f);
+
+		viewer.m_viewport.m_to_gamma = true;
+		viewer.m_viewport.m_clear_colour = colour;
+
+		scene.m_env.m_background.m_colour = colour;
 		scene.m_env.m_radiance.m_ambient = 0.f;
 
-		//scene.fog = new THREE.Fog( scene.background, 1, 5000 );
+		scene.m_env.m_fog.m_enabled = true;
+		scene.m_env.m_fog.m_colour = colour;
+		scene.m_env.m_fog.m_depth_begin = 1.f;
+		scene.m_env.m_fog.m_depth_end = 5000.f;
 
 		// LIGHTS
 
 		Colour skylight = hsl(0.6f, 1.f, 0.6f);
+
 		scene.m_env.m_skylight = { true, 0.6f, vec3(0.f, 50.f, 0.f), vec3(0.f), skylight, hsl(0.095f, 1.f, 0.75f) };
 
 		//hemiLightHelper = new THREE.HemisphereLightHelper( hemiLight, 10 );
@@ -115,8 +114,8 @@ void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 		Program& skydome = app.m_gfx.programs().create("skydome");
 		skydome.set_block(MaterialBlock::Solid);
 		skydome.set_block(MaterialBlock::User);
-		skydome.set_source(ShaderType::Vertex, skydome_vertex());
-		skydome.set_source(ShaderType::Fragment, skydome_fragment());
+		skydome.set_source(ShaderType::Vertex, skydome_vertex);
+		skydome.set_source(ShaderType::Fragment, skydome_fragment);
 
 		struct Skydome
 		{
@@ -145,17 +144,20 @@ void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 
 		// MODEL
 
+		Program& three = *app.m_gfx.programs().file("pbr/three");
+
 		Model& model = *app.m_gfx.models().file("Flamingo"); // .glb
-		
-		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, -1.f, 0.f), quat(vec3(0.f, -1.f, 0.f)), vec3(0.35f)));
+
+		model.get_mesh(0).m_material->m_base.m_flat_shaded = true;
+		model.get_mesh(0).m_material->m_program = &three;
+
+		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, 15.f, 0.f), quat(vec3(0.f, -1.f, 0.f)), vec3(0.35f)));
 		Item& it = gfx::items(scene).add(Item(n, model));
 		Mime& mi = gfx::mimes(scene).add(Mime(n));
 		mi.add_item(it);
 
 		string anim = mi.m_rig.m_skeleton.m_animations[0]->m_name;
-		mi.start(anim, true);
-		//mixer.clipAction( gltf.animations[ 0 ] ).setDuration( 1 ).play();
-		//mixers.push( mixer );
+		mi.start(anim, true, 0.f, 1.2f);
 	}
 
 	scene.update();
@@ -171,11 +173,5 @@ void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 	//			dirLightHeper.visible = ! dirLightHeper.visible;
 	//			break;
 	//	}
-	//}
-
-	//var delta = clock.getDelta();
-	//
-	//for ( var i = 0; i < mixers.length; i ++ ) {
-	//	mixers[ i ].update( delta );
 	//}
 }

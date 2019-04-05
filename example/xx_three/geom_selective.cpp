@@ -10,45 +10,35 @@
 
 using namespace mud;
 
-static string vertex_shader()
-{
-	string shader =
+static string vertex_shader =
 
-		"$input a_position, a_color0\n"
-		"$output v_color\n"
-		"\n"
-		"#include <common.sh>\n"
-		"\n"
-		"void main()\n"
-	    "{\n"
-		"	v_color = a_color0;\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
-		"\n"
-		"}\n";
+	"$input a_position, a_color0\n"
+	"$output v_color\n"
+		
+	"#include <common.sh>\n"
+		
+	"void main()\n"
+	"{\n"
+	"	v_color = a_color0;\n"
+	"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+		
+	"}\n";
 
-	return shader;
-}
+static string fragment_shader =
 
-static string fragment_shader()
-{
-	string shader =
-
-		"$input v_color\n"
-		"\n"
-		"#include <common.sh>\n"
-		"\n"
-		"void main()\n"
-	    "{\n"
-		"	if (v_color.a > 0.0) {\n"
-		"		gl_FragColor = vec4(v_color.rgb, 1.0);\n"
-		"	} else {\n"
-		"		discard;\n"
-		"	}\n"
-		"\n"
-		"}\n";
-
-	return shader;
-}
+	"$input v_color\n"
+		
+	"#include <common.sh>\n"
+		
+	"void main()\n"
+	"{\n"
+	"	if (v_color.a > 0.0) {\n"
+	"		gl_FragColor = vec4(v_color.rgb, 1.0);\n"
+	"	} else {\n"
+	"		discard;\n"
+	"	}\n"
+		
+	"}\n";
 
 void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
@@ -64,9 +54,9 @@ void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	static Program program = { "program" };
 	if(init)
 	{
-		program.m_blocks[MaterialBlock::Solid] = true;
-		program.m_sources[ShaderType::Vertex] = vertex_shader();
-		program.m_sources[ShaderType::Fragment] = fragment_shader();
+		program.set_block(MaterialBlock::Solid);
+		program.set_source(ShaderType::Vertex, vertex_shader);
+		program.set_source(ShaderType::Fragment, fragment_shader);
 	}
 
 	static Model* model = nullptr;

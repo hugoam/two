@@ -26,17 +26,17 @@ void xx_loader_gltf(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_eye = vec3(-1.8f, 0.9f, 2.7f);
 		camera.m_target = vec3(0.f, -0.2f, -0.2f);
 		
+		viewer.m_viewport.m_to_gamma = true;
+
 		Texture& texture = *app.m_gfx.textures().file("cube/bridge.jpg.cube");
 		scene.m_env.m_radiance.m_texture = &texture;
-		scene.m_env.m_radiance.m_energy = 1.f;
 		scene.m_env.m_background.m_texture = &texture;
 		scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
 
-		//light = new THREE.HemisphereLight(0xbbbbff, 0x444422);
-		//light.position.set(0, 1, 0);
-		//scene.add(light);
+		Program& three = app.m_gfx.programs().fetch("pbr/three");
 
 		Model& model = *app.m_gfx.models().file("DamagedHelmet"); // .gltf");
+		//model.get_mesh(0).m_material->m_program = &three;
 
 		Node3& n = gfx::nodes(scene).add(Node3());
 		Item& i = gfx::items(scene).add(Item(n, model));

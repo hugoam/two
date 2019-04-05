@@ -36,8 +36,8 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controls(viewer);
-	ui::trackball_controller(viewer);
-
+	TrackballController& control = ui::trackball_controller(viewer);
+	
 #if !IMMEDIATE
 	Scene& scene = viewer.m_scene;
 #endif
@@ -55,11 +55,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 45.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		camera.m_eye = vec3(0.f, 10.f, 40.f);
 
-		//scene.add(new THREE.AmbientLight(0x111122));
-
-		// tonemapping is enabled by default in three
-		//Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
-		//tonemap.m_enabled = true;
+		control.m_target = vec3(0.f, 10.f, 0.f);
 
 		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 		Program& phong = *app.m_gfx.programs().file("pbr/phong");
@@ -94,7 +90,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			Model& sphere1 = app.m_gfx.shape(Sphere(2.0f));
 
 			Node3& node = gfx::nodes(scene).add(Node3());
-			Item& inner = gfx::items(scene).add(Item(node, sphere0, 0, &app.m_gfx.symbol_material(Symbol(color))));// * intensity));
+			Item& inner = gfx::items(scene).add(Item(node, sphere0, 0, &app.m_gfx.symbol_material(Symbol(color * intensity))));
 			Item& outer = gfx::items(scene).add(Item(node, sphere1, 0, spheremat));
 			UNUSED(inner); UNUSED(outer);
 
@@ -105,12 +101,12 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			lights[i] = &node;
 		}
 
-		Node3& node = gfx::nodes(scene).add(Node3());// , Y3 * 10.0);
+		Node3& node = gfx::nodes(scene).add(Node3(vec3(0.f, 10.f, 0.f)));
 		gfx::items(scene).add(Item(node, app.m_gfx.shape(Cube(vec3(15.f))), 0, cubemat));
 #endif
 
-		viewer.m_scene.m_env.m_radiance.m_colour = rgb(0x111122);
-		viewer.m_scene.m_env.m_radiance.m_ambient = 0.1f;
+		scene.m_env.m_radiance.m_colour = rgb(0x111122);
+		scene.m_env.m_radiance.m_ambient = 1.f;
 	}
 
 #if IMMEDIATE

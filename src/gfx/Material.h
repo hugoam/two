@@ -70,39 +70,17 @@ namespace mud
 		Face
 	};
 
-	export_ enum MaterialShaderOption : unsigned int
+	export_ enum ShaderOptionBase : unsigned int
 	{
 		VERTEX_COLOR,
 		DOUBLE_SIDED,
 		FLAT_SHADED,
-		ALPHA_MAP,
-		ALPHA_TEST,
-		DASH,
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialBase
+	export_ enum ShaderOptionAlpha : unsigned int
 	{
-		attr_ BlendMode m_blend_mode = BlendMode::None;
-		attr_ CullMode m_cull_mode = CullMode::Back;
-		attr_ DepthDraw m_depth_draw = DepthDraw::Enabled;
-		attr_ DepthTest m_depth_test = DepthTest::Enabled;
-
-		attr_ gpu_ vec2 m_uv0_scale = { 1.f, 1.f };
-		attr_ gpu_ vec2 m_uv0_offset = { 0.f, 0.f };
-		attr_ gpu_ vec2 m_uv1_scale = { 1.f, 1.f };
-		attr_ gpu_ vec2 m_uv1_offset = { 0.f, 0.f };
-
-		attr_ ShaderColor m_shader_color = ShaderColor::Shader;
-		attr_ bool m_flat_shaded = false;
-
-		attr_ bool m_screen_filter = false;
-		attr_ float m_anisotropy;
-
-		uint32_t m_geometry_filter = UINT32_MAX;
-
-#if 0
-		BillboardMode m_billboard_mode;
-#endif		
+		ALPHA_MAP,
+		ALPHA_TEST,
 	};
 
 	export_ enum class refl_ TextureChannel : unsigned int
@@ -131,6 +109,33 @@ namespace mud
 	export_ extern template struct refl_ MaterialParam<float>;
 	export_ extern template struct refl_ MaterialParam<vec4>;
 
+	export_ struct refl_ MUD_GFX_EXPORT MaterialBase
+	{
+		attr_ BlendMode m_blend_mode = BlendMode::None;
+		attr_ CullMode m_cull_mode = CullMode::Back;
+		attr_ DepthDraw m_depth_draw = DepthDraw::Enabled;
+		attr_ DepthTest m_depth_test = DepthTest::Enabled;
+
+		attr_ gpu_ vec2 m_uv0_scale = { 1.f, 1.f };
+		attr_ gpu_ vec2 m_uv0_offset = { 0.f, 0.f };
+		attr_ gpu_ vec2 m_uv1_scale = { 1.f, 1.f };
+		attr_ gpu_ vec2 m_uv1_offset = { 0.f, 0.f };
+
+		attr_ ShaderColor m_shader_color = ShaderColor::Shader;
+		attr_ bool m_flat_shaded = false;
+
+		attr_ bool m_screen_filter = false;
+		attr_ float m_anisotropy;
+
+		uint32_t m_geometry_filter = UINT32_MAX;
+
+#if 0
+		BillboardMode m_billboard_mode;
+#endif
+		
+		static ShaderBlock s_block;
+	};
+
 	export_ struct refl_ MUD_GFX_EXPORT MaterialUser
 	{
 		attr_ Texture* m_tex0 = nullptr;
@@ -146,6 +151,8 @@ namespace mud
 		attr_ vec4 m_attr3 = vec4(0.f);
 		attr_ vec4 m_attr4 = vec4(0.f);
 		attr_ vec4 m_attr5 = vec4(0.f);
+
+		static ShaderBlock s_block;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialAlpha
@@ -155,22 +162,28 @@ namespace mud
 
 		attr_ bool m_alpha_test = false;
 		attr_ bool m_is_alpha = false;
+
+		static ShaderBlock s_block;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialSolid
 	{
 		attr_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
+
+		static ShaderBlock s_block;
 	};
 
-	enum LineShaderOption : unsigned int
+	export_ enum ShaderOptionLine : unsigned int
 	{
-		//DASH,
+		DASH,
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialPoint
 	{
 		attr_ gpu_ float m_point_size = 1.f;
 		attr_ gpu_ bool m_project = false;
+
+		static ShaderBlock s_block;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialLine
@@ -182,6 +195,8 @@ namespace mud
 		attr_ gpu_ float m_dash_size = 1.f;
 		attr_ gpu_ float m_dash_gap = 1.f;
 		// resolution
+
+		static ShaderBlock s_block;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialFresnel
@@ -191,6 +206,8 @@ namespace mud
 		attr_ gpu_ float m_fresnel_scale = 1.f;
 		attr_ gpu_ float m_fresnel_bias = 0.01f;
 		attr_ gpu_ float m_fresnel_power = 5.f;
+
+		static ShaderBlock s_block;
 	};
 
 	export_ enum class refl_ PbrDiffuseMode : unsigned int
@@ -211,34 +228,40 @@ namespace mud
 		Disabled,
 	};
 
-	enum PbrShaderOption : unsigned int
+	export_ enum ShaderOptionLit : unsigned int
 	{
 		NORMAL_MAP,
 		EMISSIVE,
-		REFRACTION,
-		ANISOTROPY,
 		AMBIENT_OCCLUSION,
-		DEPTH_MAPPING,
-		DEEP_PARALLAX,
-		LIGHTMAP
+		LIGHTMAP,
+		DISPLACEMENT
 	};
 
-	enum PbrShaderMode : unsigned int
+	export_ enum ShaderOptionPbr : unsigned int
+	{
+		//REFRACTION,
+		//ANISOTROPY,
+		DEPTH_MAPPING,
+		DEEP_PARALLAX,
+	};
+
+	export_ enum ShaderModePbr : unsigned int
 	{
 		DIFFUSE_MODE,
 		SPECULAR_MODE,
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT BlockPbr : public GfxBlock
+	export_ enum ShaderOptionPhong : unsigned int
 	{
-	public:
-		BlockPbr(GfxSystem& gfx);
-
-		virtual void init_block() override {}
-
-		virtual void begin_render(Render& render) override { UNUSED(render); }
+		REFRACTION,
+		TOON,
 	};
-	
+
+	export_ enum ShaderModePhong : unsigned int
+	{
+		ENV_BLEND,
+	};
+
 	export_ struct refl_ MUD_GFX_EXPORT MaterialLit
 	{
 		attr_ gpu_ MaterialParam<Colour> m_emissive = { rgba(0x00000000), nullptr };
@@ -251,6 +274,8 @@ namespace mud
 
 		attr_ gpu_ MaterialParam<float> m_occlusion;
 		attr_ gpu_ MaterialParam<float> m_lightmap;
+
+		static ShaderBlock s_block;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialPbr
@@ -284,18 +309,31 @@ namespace mud
 		attr_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
 
 		table<MaterialFlag, bool> m_flags;
+
+		static ShaderBlock s_block;
+	};
+
+	export_ enum class refl_ PhongEnvBlendMode : unsigned int
+	{
+		Mul,
+		Mix,
+		Add,
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT MaterialPhong
 	{
 		attr_ gpu_ MaterialParam<Colour> m_diffuse = { rgb(0xffffff), nullptr };
 		attr_ gpu_ MaterialParam<Colour> m_specular = { rgb(0x111111), nullptr };
-		attr_ gpu_ MaterialParam<float> m_shininess = { 1.f, nullptr };
+		attr_ gpu_ MaterialParam<float> m_shininess = { 30.f, nullptr };
 
 		attr_ gpu_ MaterialParam<float> m_reflectivity = { 1.f, nullptr };
-		attr_ gpu_ MaterialParam<float> m_refraction = { 0.98f, nullptr };
+		attr_ gpu_ MaterialParam<float> m_refraction = { 0.f, nullptr }; // 0.98f if active
+
+		attr_ PhongEnvBlendMode m_env_blend = PhongEnvBlendMode::Mul;
 
 		attr_ bool m_toon = false;
+
+		static ShaderBlock s_block;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT BlockMaterial : public GfxBlock
@@ -344,11 +382,11 @@ namespace mud
 		function<void(bgfx::Encoder&)> m_submit;
 
 		void state(uint64_t& bgfx_state) const;
-		ProgramVersion shader_version(const Program& program) const;
-		//ProgramVersion shader_version(const Program& program, const Item& item, const ModelItem& model_item) const;
+		ProgramVersion program(const Program& program) const;
+		ProgramVersion program(const Program& program, const Item& item, const ModelElem& elem) const;
 
 		void submit(const Program& program, bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
 
-		static GfxSystem* ms_gfx_system;
+		static GfxSystem* ms_gfx;
 	};
 }

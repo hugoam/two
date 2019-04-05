@@ -166,35 +166,20 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	static ImporterOBJ obj_importer(app.m_gfx);
 
-	static Program& solid = app.m_gfx.programs().fetch("solid");
-	static Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
-	static Program& phong = app.m_gfx.programs().fetch("pbr/phong");
-	static Program& physical = app.m_gfx.programs().fetch("pbr/physical");
-
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controls(viewer);
-
-	viewer.m_viewport.comp<Tonemap>().m_enabled = true;
-
 	//controls.minDistance = 120;
 	//controls.maxDistance = 320;
 
-	//renderer.toneMapping = THREE.LinearToneMapping;
-
 	//var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(), 0.8, 0.6, 0.8);
 	//bloom.renderToScreen = true;
-
-	//var camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 2000);
-	//camera.position.set(0.0, 0.0, 240.0);
-
-	//scene.background = new THREE.Color(0x111111);
 
 #if CLUSTERED
 	Camera& camera = viewer.m_camera;
 	viewer.m_viewport.set_clustered(app.m_gfx);
 #endif
 
-	float radius = 75.f;
+	constexpr float radius = 75.f;
 
 	Scene& scene = viewer.m_scene;
 	Gnode& root = viewer.m_scene.begin();
@@ -213,12 +198,20 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	static vector<ExLight> lights = {};
 
-	scene.m_env.m_radiance.m_energy = 0.066f;
-	scene.m_env.m_radiance.m_ambient = 0.33f;
-	//scene.add(new THREE.AmbientLight(0xffffff, 0.33));
-
 	if(init)
 	{
+		Camera& camera = viewer.m_camera;
+		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 2000.f;
+		camera.m_eye = vec3(0.f, 0.f, 240.f);
+
+		Zone& env = scene.m_env;
+		env.m_radiance.m_energy = 0.066f;
+		env.m_radiance.m_ambient = 0.33f;
+		env.m_radiance.m_colour = rgb(0xffffff);
+
+		env.m_background.m_colour = rgb(0x111111);
+		viewer.m_viewport.m_clear_colour = rgb(0x111111);
+
 		Model& model = *app.m_gfx.models().file("WaltHead");
 		
 		Model& sphere = app.m_gfx.shape(Sphere(0.5f));
@@ -226,15 +219,16 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		auto create_material = [&](const string& name, auto init) -> Material* { return &app.m_gfx.materials().create(name, init); };
 
+		Program& solid = app.m_gfx.programs().fetch("solid");
+		Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
+		Program& phong = app.m_gfx.programs().fetch("pbr/phong");
+		Program& three = app.m_gfx.programs().fetch("pbr/three");
+
 		Material* materials[] = {
-			create_material("first",  [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x888888); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f; }),
-			create_material("second", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x666666); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; }),
+			create_material("first",  [&](Material& m) { m.m_program = &three; m.m_pbr.m_albedo = rgb(0x888888); m.m_pbr.m_metallic = 1.0f; m.m_pbr.m_roughness = 0.66f; }),
+			create_material("second", [&](Material& m) { m.m_program = &three; m.m_pbr.m_albedo = rgb(0x666666); m.m_pbr.m_metallic = 0.1f; m.m_pbr.m_roughness = 0.33f; }),
 			create_material("third",  [&](Material& m) { m.m_program = &phong; m.m_phong.m_diffuse = rgb(0x777777); m.m_phong.m_shininess = 20.f; }),
 			create_material("fourth", [&](Material& m) { m.m_program = &phong; m.m_phong.m_diffuse = rgb(0x555555); m.m_phong.m_shininess = 10.f; m.m_phong.m_toon = true; }),
-			//{ type: 'physical', uniforms : { "diffuse": 0x888888, "metalness" : 1.0, "roughness" : 0.66 }, defines : {} },
-			//{ type: 'standard', uniforms : { "diffuse": 0x666666, "metalness" : 0.1, "roughness" : 0.33 }, defines : {} },
-			//{ type: 'phong', uniforms : { "diffuse": 0x777777, "shininess" : 20 }, defines : {} },
-			//{ type: 'phong', uniforms : { "diffuse": 0x555555, "shininess" : 10 }, defines : { TOON: 1 } }
 		};
 
 		size_t transparent = randi(0, 3);
@@ -276,9 +270,8 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 				//Item& i1 = gfx::items(scene).add(Item(l, big_sphere, 0U, &ma)); // MaterialSolid(color), MaterialAlpha(0.033f));
 				//l.children[1].scale.set(6.66, 6.66, 6.66);
 
-				Light& light = gfx::lights(scene).add(Light(l, LightType::Point));
-				light.m_range = 40.f;
-				light.m_colour = color;
+				Light& light = gfx::lights(scene).add(Light(l, LightType::Point, false, color, 1.f, radius));
+				light.m_attenuation = 1.f;
 
 				lights.push_back({
 					&n,

@@ -82,7 +82,6 @@ namespace gfx
 	void pipeline_pbr(GfxSystem& gfx, Renderer& pipeline, bool deferred)
 	{
 		BlockMaterial& material = pipeline.add_block<BlockMaterial>(gfx);
-		BlockPbr& pbr = pipeline.add_block<BlockPbr>(gfx);
 		UNUSED(material);
 
 		// filters
@@ -120,82 +119,71 @@ namespace gfx
 		UNUSED(glow);
 		UNUSED(tonemap);
 
-		vector<GfxBlock*> depth_blocks = { &depth };
-		vector<GfxBlock*> geometry_blocks = {};
-		vector<GfxBlock*> shading_blocks = { &radiance, &light, &shadow, &gi_trace, &reflection, &lightmap, &pbr };
-		vector<GfxBlock*> gi_blocks = { &light, &shadow, &gi_bake };
-		vector<GfxBlock*> lightmap_blocks = { &light, &shadow, &gi_trace, &lightmap };
+		vector<ShaderBlock*> depth_blocks = { &depth };
+		vector<ShaderBlock*> geometry_blocks = {};
+		vector<ShaderBlock*> shading_blocks = { &radiance, &light, &shadow, &gi_trace, &reflection, &lightmap };
+		vector<ShaderBlock*> gi_blocks = { &light, &shadow, &gi_bake };
+		vector<ShaderBlock*> lightmap_blocks = { &light, &shadow, &gi_trace, &lightmap };
 
 		auto create_programs = [&]()
 		{
 			Program& solid = gfx.programs().create("solid");
-			solid.m_blocks[MaterialBlock::Alpha] = true;
-			solid.m_blocks[MaterialBlock::Solid] = true;
+			solid.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Solid });
 			solid.register_blocks(depth_blocks);
 
 			Program& normal = gfx.programs().create("normal");
-			normal.m_blocks[MaterialBlock::Solid] = true;
+			normal.set_blocks({ MaterialBlock::Solid });
 			//normal.m_blocks[MaterialBlock::Pbr] = true;
 
 			Program& point = gfx.programs().create("point");
-			point.m_blocks[MaterialBlock::Solid] = true;
-			point.m_blocks[MaterialBlock::Point] = true;
+			point.set_blocks({ MaterialBlock::Solid, MaterialBlock::Point });
 			point.m_primitives = uint32_t(1 << uint(PrimitiveType::Points));
 
 			Program& line = gfx.programs().create("line");
-			line.m_blocks[MaterialBlock::Solid] = true;
-			line.m_blocks[MaterialBlock::Line] = true;
+			line.set_blocks({ MaterialBlock::Solid, MaterialBlock::Line });
 			line.m_primitives = uint32_t(1 << uint(PrimitiveType::Lines) | 1 << uint(PrimitiveType::LineStrip));
 
 			Program& line_fat = gfx.programs().create("line_fat");
-			line_fat.m_blocks[MaterialBlock::Solid] = true;
-			line_fat.m_blocks[MaterialBlock::Line] = true;
+			line_fat.set_blocks({ MaterialBlock::Solid, MaterialBlock::Line });
 			//line_fat.m_primitives = uint32_t(1 << uint(PrimitiveType::Lines) | 1 << uint(PrimitiveType::LineStrip));
 
 			Program& depth = gfx.programs().create("depth");
 			depth.register_blocks(depth_blocks);
-			depth.m_blocks[MaterialBlock::Alpha] = true;
+			depth.set_blocks({ MaterialBlock::Alpha });
 
 			Program& distance = gfx.programs().create("distance");
 			distance.register_blocks(depth_blocks);
-			distance.m_blocks[MaterialBlock::Alpha] = true;
+			distance.set_blocks({ MaterialBlock::Alpha });
 
 			Program& pbr = gfx.programs().create("pbr/pbr");
 			pbr.register_blocks(shading_blocks);
-			pbr.m_blocks[MaterialBlock::Alpha] = true;
-			pbr.m_blocks[MaterialBlock::Lit] = true;
-			pbr.m_blocks[MaterialBlock::Pbr] = true;
+			pbr.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
+
+			Program& lambert = gfx.programs().create("pbr/lambert");
+			lambert.register_blocks(shading_blocks);
+			lambert.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Phong });
 
 			Program& phong = gfx.programs().create("pbr/phong");
 			phong.register_blocks(shading_blocks);
-			phong.m_blocks[MaterialBlock::Alpha] = true;
-			phong.m_blocks[MaterialBlock::Lit] = true;
-			phong.m_blocks[MaterialBlock::Phong] = true;
+			phong.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Phong });
 
 			Program& three = gfx.programs().create("pbr/three");
 			three.register_blocks(shading_blocks);
-			three.m_blocks[MaterialBlock::Alpha] = true;
-			three.m_blocks[MaterialBlock::Lit] = true;
-			three.m_blocks[MaterialBlock::Pbr] = true;
+			three.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
 
 			Program& basic = gfx.programs().create("pbr/basic");
 			basic.register_blocks(shading_blocks);
-			basic.m_blocks[MaterialBlock::Alpha] = true;
-			basic.m_blocks[MaterialBlock::Lit] = true;
-			basic.m_blocks[MaterialBlock::Pbr] = true;
+			basic.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
 
 			Program& geometry = gfx.programs().create("pbr/geometry");
 			geometry.register_blocks(geometry_blocks);
-			geometry.m_blocks[MaterialBlock::Alpha] = true;
-			geometry.m_blocks[MaterialBlock::Lit] = true;
-			geometry.m_blocks[MaterialBlock::Pbr] = true;
+			geometry.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
 
 			Program& lights = gfx.programs().create("pbr/lights");
 			lights.register_blocks(shading_blocks);
 
 			Program& fresnel = gfx.programs().create("fresnel");
-			fresnel.m_blocks[MaterialBlock::Alpha] = true;
-			fresnel.m_blocks[MaterialBlock::Fresnel] = true;
+			geometry.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Fresnel });
 
 			Program& gi_voxelize = gfx.programs().create("gi/voxelize");
 			gi_voxelize.register_blocks(gi_blocks);
@@ -252,8 +240,7 @@ namespace gfx
 			gfx.m_renderer.block<BlockShadow>(),
 			gfx.m_renderer.block<BlockGITrace>(),
 			gfx.m_renderer.block<BlockReflection>(),
-			gfx.m_renderer.block<BlockLightmap>(),
-			//*gfx.m_renderer.block<BlockPbr>()
+			gfx.m_renderer.block<BlockLightmap>()
 		};
 		return blocks;
 	}
@@ -310,8 +297,8 @@ namespace gfx
 		pass_alpha(gfx, render);
 		pass_solid(gfx, render);
 		//pass_effects(gfx, render);
-		pass_resolve(gfx, render);
-		pass_post_process(gfx, render);
+		//pass_resolve(gfx, render);
+		pass_post_auto(gfx, render);
 	}
 
 	void render_pbr_deferred(GfxSystem& gfx, Render& render)
@@ -385,15 +372,16 @@ namespace gfx
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
 			UNUSED(pass);
-			bool lit = element.m_program->m_blocks[MaterialBlock::Lit] && !element.m_material->m_alpha.m_is_alpha;
-			bool opaque = element.m_program->m_passes[PassType::Opaque];
+			const Program& program = *element.m_program.m_program;
+			bool lit = program.m_blocks[MaterialBlock::Lit] && !element.m_material->m_alpha.m_is_alpha;
+			bool opaque = program.m_passes[PassType::Opaque];
 			if(!lit && !opaque) return false;
 
 			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
 			if(lit)
-				pbr_options(gfx, render, element.m_shader_version);
+				pbr_options(gfx, render, element.m_program);
 			return true;
 		};
 
@@ -419,12 +407,13 @@ namespace gfx
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
 			UNUSED(pass);
-			if(!element.m_program->m_blocks[MaterialBlock::Pbr] || !element.m_material->m_alpha.m_is_alpha)
+			const Program& program = *element.m_program.m_program;
+			if(!program.m_blocks[MaterialBlock::Pbr] || !element.m_material->m_alpha.m_is_alpha)
 				return false;
 
 			blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);
 
-			pbr_options(gfx, render, element.m_shader_version);
+			pbr_options(gfx, render, element.m_program);
 
 			return true;
 		};
@@ -454,14 +443,15 @@ namespace gfx
 		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
 			UNUSED(render); UNUSED(pass);
-			bool lit = element.m_program->m_blocks[MaterialBlock::Lit] && !element.m_material->m_alpha.m_is_alpha;
-			bool opaque = element.m_program->m_passes[PassType::Opaque];
+			const Program& program = *element.m_program.m_program;
+			bool lit = program.m_blocks[MaterialBlock::Lit] && !element.m_material->m_alpha.m_is_alpha;
+			bool opaque = program.m_passes[PassType::Opaque];
 			if(!lit && !opaque) return false;
 
 			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
-			element.m_shader_version.set_option(0, DEFERRED, true);
+			element.m_program.set_option(0, DEFERRED, true);
 			return true;
 		};
 
@@ -512,27 +502,32 @@ namespace gfx
 		m_gfx.m_copy->debug_show_texture(render, gbuffer.m_surface, vec4(vec2(0.f, size.y * 3.f), size));
 #endif
 	}
-	
-	void pass_pre_post_process(GfxSystem& gfx, Render& render)
+
+	void pass_begin_post(GfxSystem& gfx, Render& render)
 	{
-		RenderTarget& target = *render.m_target;
-		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post.swap(), target.m_diffuse);
+		gfx.m_copy->quad(render.composite_pass("post begin"), render.m_target->m_post.swap(), render.m_target->m_diffuse);
+	}
+	
+	void pass_post_auto(GfxSystem& gfx, Render& render)
+	{
+		Entt filters = render.m_filters;
+		pass_post_effects(gfx, render, filters.comp<DofBlur>(), filters.comp<Glow>(), filters.comp<Tonemap>(), filters.comp<BCS>());
 	}
 
-	void pass_post_process(GfxSystem& gfx, Render& render)
+	void pass_post_effects(GfxSystem& gfx, Render& render, DofBlur& dof, Glow& glow, Tonemap& tonemap, BCS& bcs)
 	{
-		RenderTarget& target = *render.m_target;
-		gfx.m_copy->quad(render.composite_pass("post process begin"), target.m_post.swap(), target.m_diffuse);
+		pass_begin_post(gfx, render);
 
-		// submit each post process effect
+		if(dof.m_enabled)
+			pass_dofblur(gfx, render, dof);
 
-		static BlockDofBlur& dof_blur = *gfx.m_renderer.block<BlockDofBlur>();
-		static BlockGlow& glow = *gfx.m_renderer.block<BlockGlow>();
-		static BlockTonemap& tonemap = *gfx.m_renderer.block<BlockTonemap>();
+		if(glow.m_enabled)
+			pass_glow(gfx, render, glow);
 
-		dof_blur.submit_pass(render);
-		glow.submit_pass(render);
-		tonemap.submit_pass(render);
+		if(tonemap.m_enabled || render.m_viewport->m_to_gamma)
+			pass_tonemap(gfx, render, tonemap, bcs);
+		else
+			pass_flip(gfx, render);
 	}
 
 	BlockGeometry::BlockGeometry(GfxSystem& gfx)
@@ -554,9 +549,9 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGeometry::options(Render& render, ProgramVersion& shader_version) const
+	void BlockGeometry::options(Render& render, ProgramVersion& program) const
 	{
-		UNUSED(render); UNUSED(shader_version);
+		UNUSED(render); UNUSED(program);
 	}
 
 	void BlockGeometry::submit(Render& render, const Pass& pass) const

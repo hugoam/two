@@ -58,7 +58,7 @@ namespace mud
 		return degrees / 180.f * c_pi;
 	}
 
-	export_ inline unsigned int pow2_round_up(unsigned int x)
+	export_ inline unsigned int next_pow2(unsigned int x)
 	{
 		--x;
 		x |= x >> 1;

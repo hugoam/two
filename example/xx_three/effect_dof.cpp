@@ -8,62 +8,55 @@ using namespace mud;
 
 #define RENDERER 0
 
-static string bokeh_vertex()
-{
-	string shader =
+static string bokeh_vertex =
 
-		"$input a_position, a_texcoord0\n"
-		"$output v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"void main() {\n"
-		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
-		"}\n";
+	"$input a_position, a_texcoord0\n"
+	"$output v_uv0\n"
 
-	return shader;
-}
+	"#include <filter.sh>\n"
 
-static string bokeh_fragment()
-{
-	string shader =
+	"void main() {\n"
+	"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
+	"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+	"}\n";
 
-		"$input v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"uniform vec4 u_bokeh_p0;\n"
-		"#define u_focus    u_bokeh_p0.x\n"
-		"#define u_aperture u_bokeh_p0.y\n"  // aperture - bigger values for shallower depth of field
-		"#define u_maxblur  u_bokeh_p0.z\n"  // max blur amount
-		"\n"
-		"float getViewZ(float depth) {\n"
-		//"	#if PERSPECTIVE_CAMERA == 1\n"
-		"	return perspectiveDepthToViewZ(depth);\n"
-		//"	#else\n"
-		//"	return orthographicDepthToViewZ(depth);\n"
-		//"	#endif\n"
-		"}\n"
-		"\n"
-		"\n"
-		"void main() {\n"
-		"\n"
+static string bokeh_fragment =
+
+	"$input v_uv0\n"
+		
+	"#include <filter.sh>\n"
+		
+	"uniform vec4 u_bokeh_p0;\n"
+	"#define u_focus    u_bokeh_p0.x\n"
+	"#define u_aperture u_bokeh_p0.y\n"  // aperture - bigger values for shallower depth of field
+	"#define u_maxblur  u_bokeh_p0.z\n"  // max blur amount
+		
+	"float getViewZ(float depth) {\n"
+	//"	#if PERSPECTIVE_CAMERA == 1\n"
+	"	return perspectiveDepthToViewZ(depth);\n"
+	//"	#else\n"
+	//"	return orthographicDepthToViewZ(depth);\n"
+	//"	#endif\n"
+	"}\n"
+		
+		
+	"void main() {\n"
+		
 		"vec2 aspect = vec2(1.0, u_aspect);\n"
-		"\n"
+		
 		"float depth = texture2D(s_source_depth, v_uv0).x;\n"
 		"float viewZ = getViewZ(depth);\n"
-		"\n"
+		
 		"float factor = (u_focus + viewZ);\n"  // viewZ is <= 0, so this is a difference equation
-		"\n"
+		
 		"vec2 dofblur = vec2_splat(clamp(factor * u_aperture, -u_maxblur, u_maxblur));\n"
-		"\n"
+		
 		"vec2 dofblur9 = dofblur * 0.9;\n"
 		"vec2 dofblur7 = dofblur * 0.7;\n"
 		"vec2 dofblur4 = dofblur * 0.4;\n"
-		"\n"
+		
 		"vec4 col = vec4_splat(0.0);\n"
-		"\n"
+		
 		"col += texture2D(s_source_0, v_uv0);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.0,   0.4 ) * aspect) * dofblur);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.15,  0.37) * aspect) * dofblur);\n"
@@ -81,7 +74,7 @@ static string bokeh_fragment()
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.37, -0.15) * aspect) * dofblur);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.29, -0.29) * aspect) * dofblur);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.15, -0.37) * aspect) * dofblur);\n"
-		"\n"
+		
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.15,  0.37) * aspect) * dofblur9);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.37,  0.15) * aspect) * dofblur9);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.37, -0.15) * aspect) * dofblur9);\n"
@@ -90,7 +83,7 @@ static string bokeh_fragment()
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.37,  0.15) * aspect) * dofblur9);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.37, -0.15) * aspect) * dofblur9);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.15, -0.37) * aspect) * dofblur9);\n"
-		"\n"
+		
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.29,  0.29) * aspect) * dofblur7);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.40,  0.0 ) * aspect) * dofblur7);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.29, -0.29) * aspect) * dofblur7);\n"
@@ -99,7 +92,7 @@ static string bokeh_fragment()
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.4,   0.0 ) * aspect) * dofblur7);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.29, -0.29) * aspect) * dofblur7);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.0,   0.4 ) * aspect) * dofblur7);\n"
-		"\n"
+		
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.29,  0.29) * aspect) * dofblur4);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.4,   0.0 ) * aspect) * dofblur4);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.29, -0.29) * aspect) * dofblur4);\n"
@@ -108,15 +101,12 @@ static string bokeh_fragment()
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.4,   0.0 ) * aspect) * dofblur4);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2(-0.29, -0.29) * aspect) * dofblur4);\n"
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.0,   0.4 ) * aspect) * dofblur4);\n"
-		"\n"
+		
 		"gl_FragColor = vec4(col.rgb / 41.0, 1.0);\n"
 		//"gl_FragColor = vec4(vec3_splat(-viewZ / u_z_far), 1.0);\n"
 		//"gl_FragColor = vec4(vec3_splat(1.0 + viewZ / u_z_far), 1.0);\n"
-		"\n"
-		"}\n";
-
-	return shader;
-}
+		
+	"}\n";
 
 struct Bokeh
 {
@@ -147,7 +137,7 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controls(viewer);
-	viewer.m_viewport.m_active = false;
+	viewer.m_viewport.m_autorender = false;
 
 	Scene& scene = viewer.m_scene;
 
@@ -159,8 +149,8 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	static Program& program = app.m_gfx.programs().create("bokeh");
 	if(init)
 	{
-		program.m_sources[ShaderType::Vertex] = bokeh_vertex();
-		program.m_sources[ShaderType::Fragment] = bokeh_fragment();
+		program.set_source(ShaderType::Vertex, bokeh_vertex);
+		program.set_source(ShaderType::Fragment, bokeh_fragment);
 	}
 
 	static Bokeh bokeh = { 500.f, 5.f, 1.f };
@@ -190,7 +180,6 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Texture& texcube = *app.m_gfx.textures().file("cube/royal.jpg.cube");
 		//scene.m_env.m_radiance.m_texture = &texpano;
 		scene.m_env.m_radiance.m_texture = &texcube;
-		scene.m_env.m_radiance.m_energy = 1.f;
 
 		materials.clear();
 		for(int i = 0; i < nobjects; ++i)

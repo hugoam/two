@@ -12,51 +12,41 @@ using namespace mud;
 
 #define GLITCH 0
 
-static string vertex_shader()
-{
-	string shader =
+static string vertex_shader =
 
-		"$input a_position, a_texcoord0, i_data0\n"
-		"$output v_uv0, v_scale\n"
-		"\n"
-		"#include <common.sh>\n"
-		"\n"
-		"void main()\n"
-	    "{\n"
-		"   vec3 i_position = i_data0.xyz;"
-		"	vec3 timexyz = i_position + vec3_splat(u_time / 2.0);\n"
-		"	float scale =  sin(timexyz.x * 2.1) + sin(timexyz.y * 3.2) + sin(timexyz.z * 4.3);\n"
-		"	v_scale = scale;\n"
-		"	float size = scale * 10.0 + 10.0;\n"
-		"	vec3 view = mul(u_modelView, vec4(i_position, 1.0)).xyz;\n"
-		"	view += a_position.xyz * size;\n"
-		"	v_uv0 = a_texcoord0;\n"
-		"	gl_Position = mul(u_proj, vec4(view, 1.0));\n"
-		"\n"
-		"}\n";
+	"$input a_position, a_texcoord0, i_data0\n"
+	"$output v_uv0, v_scale\n"
+		
+	"#include <common.sh>\n"
+		
+	"void main()\n"
+	"{\n"
+	"   vec3 i_position = i_data0.xyz;"
+	"	vec3 timexyz = i_position + vec3_splat(u_time / 2.0);\n"
+	"	float scale =  sin(timexyz.x * 2.1) + sin(timexyz.y * 3.2) + sin(timexyz.z * 4.3);\n"
+	"	v_scale = scale;\n"
+	"	float size = scale * 10.0 + 10.0;\n"
+	"	vec3 view = mul(u_modelView, vec4(i_position, 1.0)).xyz;\n"
+	"	view += a_position.xyz * size;\n"
+	"	v_uv0 = a_texcoord0;\n"
+	"	gl_Position = mul(u_proj, vec4(view, 1.0));\n"
+		
+	"}\n";
 
-	return shader;
-}
+static string fragment_shader =
 
-static string fragment_shader()
-{
-	string shader =
-
-		"$input v_uv0, v_scale\n"
-		"\n"
-		"#include <common.sh>\n"
-		"#include <convert.sh>\n"
-		"\n"
-		"void main()\n"
-	    "{\n"
-		"	vec4 color = texture2D(s_color, v_uv0);\n"
-		"   vec3 hsl = hsl_to_rgb(vec3(v_scale / 5.0, 1.0, 0.5));\n"
-		"	gl_FragColor = vec4(color.rgb * hsl.rgb, color.a);\n"
-		"	if (color.a < 0.5) discard;\n"
-		"}\n";
-
-	return shader;
-}
+	"$input v_uv0, v_scale\n"
+		
+	"#include <common.sh>\n"
+	"#include <convert.sh>\n"
+		
+	"void main()\n"
+	"{\n"
+	"	vec4 color = texture2D(s_color, v_uv0);\n"
+	"   vec3 hsl = hsl_to_rgb(vec3(v_scale / 5.0, 1.0, 0.5));\n"
+	"	gl_FragColor = vec4(color.rgb * hsl.rgb, color.a);\n"
+	"	if (color.a < 0.5) discard;\n"
+	"}\n";
 
 void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
@@ -73,9 +63,9 @@ void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	static Program& program = app.m_gfx.programs().create("sprites");
 	if(init)
 	{
-		program.m_blocks[MaterialBlock::Solid] = true;
-		program.m_sources[ShaderType::Vertex] = vertex_shader();
-		program.m_sources[ShaderType::Fragment] = fragment_shader();
+		program.set_block(MaterialBlock::Solid);
+		program.set_source(ShaderType::Vertex, vertex_shader);
+		program.set_source(ShaderType::Fragment, fragment_shader);
 	}
 
 	static Texture& texture = *app.m_gfx.textures().file("sprites/circle.png");

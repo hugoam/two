@@ -19,7 +19,7 @@
 
 namespace mud
 {
-	export_ struct refl_ ModelItem
+	export_ struct refl_ ModelElem
 	{
 		attr_ size_t m_index;
 		attr_ Mesh* m_mesh;
@@ -39,7 +39,7 @@ namespace mud
 		attr_ string m_name;
 		attr_ uint16_t m_index;
 
-		vector<ModelItem> m_items;
+		vector<ModelElem> m_items;
 		bool m_no_transform = true;
 
 		attr_ Aabb m_aabb = { vec3(0.f), vec3(0.f) };
@@ -53,10 +53,10 @@ namespace mud
 		meth_ Mesh& get_mesh(size_t index);
 		meth_ Mesh& add_mesh(const string& name, bool readback = false);
 		meth_ Rig& add_rig(const string& name);
-		meth_ ModelItem& add_item(Mesh& mesh, const mat4& transform, int skin = -1, const Colour& colour = Colour::White, Material* material = nullptr);
+		meth_ ModelElem& add_item(Mesh& mesh, const mat4& transform, int skin = -1, const Colour& colour = Colour::White, Material* material = nullptr);
 		meth_ void prepare();
 
-		static GfxSystem* ms_gfx_system;
+		static GfxSystem* ms_gfx;
 	};
 
 	export_ MUD_GFX_EXPORT Model& model_variant(GfxSystem& gfx, Model& original, const string& name, span<string> materials, span<Material*> substitutes);

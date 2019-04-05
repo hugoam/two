@@ -16,14 +16,14 @@ static string vertex_shader()
 
 		"$input a_position, i_data0, i_data1, i_data2, i_data3\n"
 		"$output v_position, v_color\n"
-		"\n"
+		
 		"#define i_offset i_data0.xyz\n"
 		"#define i_color i_data1\n"
 		"#define i_rotation_start i_data2\n"
 		"#define i_rotation_end i_data3\n"
-		"\n"
+		
 		"#include <common.sh>\n"
-		"\n"
+		
 		"void main()\n"
 	    "{\n"
 		"	float t = sin(u_time * 0.2);\n"
@@ -31,9 +31,9 @@ static string vertex_shader()
 		"	vec4 rotation = normalize(mix(i_rotation_start, i_rotation_end, t));\n"
 		"	vec3 vcV = cross(rotation.xyz, position);\n"
 		"	position = vcV * (2.0 * rotation.w) + (cross(rotation.xyz, vcV) * 2.0 + position);\n"
-		"\n"
+		
 		"	v_color = i_color;\n"
-		"\n"
+		
 		"   v_position = vec4(position, 1.0);\n"
 		"	gl_Position = mul(u_modelViewProj, vec4(position, 1.0));\n"
 		"}\n";
@@ -46,14 +46,14 @@ static string fragment_shader()
 	string shader =
 
 		"$input v_position, v_color\n"
-		"\n"
+		
 		"#include <common.sh>\n"
-		"\n"
+		
 		"void main()\n"
 	    "{\n"
 		"	vec4 color = vec4(v_color);\n"
 		"	color.r += sin(v_position.x * 10.0 + u_time) * 0.5;\n"
-		"\n"
+		
 		"	gl_FragColor = color;\n"
 		"}\n";
 
@@ -72,9 +72,9 @@ void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	static Program& program = app.m_gfx.programs().create("instances"); 
 	if(init)
 	{
-		program.m_blocks[MaterialBlock::Solid] = true;
-		program.m_sources[ShaderType::Vertex] = vertex_shader();
-		program.m_sources[ShaderType::Fragment] = fragment_shader();
+		program.set_block(MaterialBlock::Solid);
+		program.set_source(ShaderType::Vertex, vertex_shader());
+		program.set_source(ShaderType::Fragment, fragment_shader());
 	}
 
 	struct Instance { vec3 offset; float pad = 0.f; Colour colour; vec4 rotation0; vec4 rotation1; };

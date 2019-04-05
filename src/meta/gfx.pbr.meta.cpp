@@ -83,10 +83,10 @@ namespace mud
 	{
 		Type& t = type<mud::TonemapMode>();
 		static Meta meta = { t, &namspc({ "mud" }), "TonemapMode", sizeof(mud::TonemapMode), TypeClass::Enum };
-		static cstring ids[] = { "None", "Linear", "Reinhardt", "Filmic", "ACES", "Cineon", "Uncharted2" };
-		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6 };
-		static mud::TonemapMode vars[] = { mud::TonemapMode::None, mud::TonemapMode::Linear, mud::TonemapMode::Reinhardt, mud::TonemapMode::Filmic, mud::TonemapMode::ACES, mud::TonemapMode::Cineon, mud::TonemapMode::Uncharted2};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6]};
+		static cstring ids[] = { "Linear", "Reinhardt", "Filmic", "ACES", "Cineon", "Uncharted2" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5 };
+		static mud::TonemapMode vars[] = { mud::TonemapMode::Linear, mud::TonemapMode::Reinhardt, mud::TonemapMode::Filmic, mud::TonemapMode::ACES, mud::TonemapMode::Cineon, mud::TonemapMode::Uncharted2};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5] };
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { mud_TonemapMode__to_string,
 		                           mud_TonemapMode__to_value };

@@ -116,7 +116,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Mesh>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Mime>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Model>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelItem>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelElem>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Node3>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Pass>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Prefab>();
@@ -154,7 +154,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockFilter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockMaterial>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockPbr>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();

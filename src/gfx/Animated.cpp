@@ -57,7 +57,7 @@ namespace mud
 				playing.m_fadeout = blend;
 		}
 
-		m_playing.push_back({ animation, loop, speed, transient, &m_rig.m_skeleton });
+		m_playing.push_back({ animation, loop, speed, transient, m_rig });
 		m_active = true;
 	}
 
@@ -101,20 +101,21 @@ namespace mud
 		}
 	}
 
-	AnimationPlay::AnimationPlay(const Animation& animation, bool loop, float speed, bool transient, Skeleton* skeleton)
+	AnimationPlay::AnimationPlay(const Animation& animation, bool loop, float speed, bool transient, Rig& rig)
 		: m_animation(&animation)
 		, m_loop(loop)
 		, m_speed(speed)
 		, m_transient(transient)
+		, m_rig(&rig)
 	{
 		m_tracks.reserve(animation.tracks.size());
 
 		for(const AnimationTrack& track : animation.tracks)
 		{
 			Bone* target = nullptr;
-			if(skeleton && skeleton->m_bones.size() > track.m_node)
-				target = &skeleton->m_bones[track.m_node];
-			if(!target)
+			if(rig.m_skeleton.m_bones.size() > track.m_node)
+				target = &rig.m_skeleton.m_bones[track.m_node];
+			if(!target && track.m_target != AnimationTarget::Weights)
 			{
 				//printf("WARNING: No bone found for animation %s track %s with target %s\n", animation.m_name.c_str(), "", track.m_node_name.c_str());
 				continue;
@@ -195,14 +196,23 @@ namespace mud
 		UNUSED(time); UNUSED(interp);
 		for(AnimatedTrack& track : m_tracks)
 		{
-			auto apply = [](Bone& bone, AnimationTarget target, const Value& value)
+			auto apply = [](Rig& rig, Bone& bone, AnimationTarget target, const Value& value)
 			{
 				if(target == AnimationTarget::Position)
-					bone.m_position = *(vec3*)value.m_value;
+					bone.m_position = *(vec3*)value.mem;
 				else if(target == AnimationTarget::Rotation)
-					bone.m_rotation = *(quat*)value.m_value;
-				if(target == AnimationTarget::Scale)
-					bone.m_scale = *(vec3*)value.m_value;
+					bone.m_rotation = *(quat*)value.mem;
+				else if(target == AnimationTarget::Scale)
+					bone.m_scale = *(vec3*)value.mem;
+				else if(target == AnimationTarget::Weights)
+				{
+					vector<float>& weights = *(vector<float>*)value.mem;
+					rig.m_morphs.resize(weights.size());
+					for(size_t i = 0; i < weights.size(); ++i)
+					{
+						rig.m_morphs[i] = weights[i];
+					}
+				}
 			};
 
 			if(track.m_track->m_interpolation > Interpolation::Nearest)
@@ -218,12 +228,12 @@ namespace mud
 				*/
 
 				//printf("Animation value for track %s = %s\n", track.m_track->m_node_name.c_str(), to_string(track.m_value).c_str());
-				apply(*track.m_target, track.m_track->m_target, track.m_value);
+				apply(*m_rig, *track.m_bone, track.m_track->m_target, track.m_value);
 			}
 			else
 			{
 				track.m_value = track.m_track->value(track.m_cursor, delta > 0.f);
-				apply(*track.m_target, track.m_track->m_target, track.m_value);
+				apply(*m_rig, *track.m_bone, track.m_track->m_target, track.m_value);
 			}
 		}
 	}

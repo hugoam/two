@@ -61,9 +61,9 @@ namespace mud
 
 		for(Model* model : models)
 		{
-			for(ModelItem& model_item : model->m_items)
+			for(ModelElem& elem : model->m_items)
 			{
-				gfx.meshes().destroy(Ref(model_item.m_mesh));
+				gfx.meshes().destroy(Ref(elem.m_mesh));
 			}
 
 			gfx.models().destroy(model->m_name);

@@ -11,29 +11,22 @@ using namespace mud;
 #define MULTI_VIEWPORT 0
 
 // todo:
-// xx_effect_sao
-// make togamma optional / expose tonemapping
-// make atlas work for both direct and point/spot
-// handle vertex color correctly in Gltf importer
 // xx_material_skin (fix inverted uv issue)
-// add fog
-// morph targets
+// blur offset bug
+
+// small:
+// ocean direct light bug
+// specular reflections are almost absent in xx_perf_twosided
 
 // ported not ok:
 // xx_geom_points_hw (doesn't work)
 // xx_geom_instances (color doesn't work)
-// xx_material_variations (light)
 // xx_tiled_forward (fix clusters)
-// xx_cubemap_dynamic
 
 // todo js:
 // xx_geom_dynamic
 // xx_material_skin
 // xx_shader_ocean
-
-// todo:
-// xx_material_cubemap
-// xx_material_displace
 
 using ExampleFunc = void(*)(Shell&, Widget&, Dockbar&, bool);
 struct Example { string name; ExampleFunc func; };
@@ -156,12 +149,9 @@ int main(int argc, char *argv[])
 	//app.m_gfx.init_pipeline(pipeline_minimal);
 
 	//static uint32_t example0 = 0;
-	static uint32_t example0 = find_example("refraction/mesh");
-	//static uint32_t example0 = find_example("material/variations");
 	//static uint32_t example0 = find_example("shader/ocean");
-	//static uint32_t example0 = find_example("material/skin");
-	//static uint32_t example0 = find_example("light/hemisphere");
-	//static uint32_t example0 = find_example("shadow/point");
+	static uint32_t example0 = find_example("material/skin");
+	//static uint32_t example0 = find_example("effect/sao");
 	static bool init0 = true;
 
 #if !MULTI_VIEWPORT && !MULTI_WINDOW

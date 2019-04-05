@@ -135,9 +135,9 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockReflection::options(Render& render, ProgramVersion& shader_version) const
+	void BlockReflection::options(Render& render, ProgramVersion& program) const
 	{
-		UNUSED(render); UNUSED(shader_version);
+		UNUSED(render); UNUSED(program);
 	}
 
 	void BlockReflection::submit(Render& render, const Pass& pass) const
@@ -173,7 +173,7 @@ namespace mud
 
 			probe_array.extents_intensity[probe_count] = { probe->m_extents, probe->m_intensity };
 
-			Colour ambient_linear = to_linear(render.m_env->m_radiance.m_ambient) * render.m_env->m_radiance.m_energy;
+			Colour ambient_linear = to_linear(render.m_env->m_radiance.m_colour) * render.m_env->m_radiance.m_ambient;
 			probe_array.ambient[probe_count] = { to_vec3(ambient_linear), 0.f };
 
 			probe_array.atlas_rect[probe_count] = { m_atlas.probe_rect(*probe) };

@@ -150,6 +150,7 @@ namespace mud
 		void init()
 		{
 			u_lit_p0 = bgfx::createUniform("u_lit_p0", bgfx::UniformType::Vec4);
+			u_lit_p1 = bgfx::createUniform("u_lit_p1", bgfx::UniformType::Vec4);
 			u_emissive = bgfx::createUniform("u_emissive", bgfx::UniformType::Vec4);
 		}
 
@@ -160,9 +161,13 @@ namespace mud
 
 			vec4 emissive = to_vec4(block.m_emissive.m_value);
 			encoder.setUniform(u_emissive, &emissive);
+
+			vec4 p1 = { block.m_displace.m_value, block.m_displace_bias, PAD, PAD };
+			encoder.setUniform(u_lit_p1, &p1);
 		}
 
 		bgfx::UniformHandle u_lit_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_lit_p1 = BGFX_INVALID_HANDLE;
 		bgfx::UniformHandle u_emissive = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
@@ -376,17 +381,21 @@ namespace mud
 	template <>
 	struct GpuState<MaterialLit>
 	{
-		constexpr static size_t rows = 2;
+		constexpr static size_t rows = 3;
 
 		void pack(const MaterialLit& block, size_t& offset, const GpuTexture& buffer, float* dest)
 		{
 			vec4 p0 = { block.m_normal.m_value, PAD, PAD, PAD };
 			vec4 emissive = { to_vec3(block.m_emissive.m_value), block.m_emissive.m_value.a };
+			vec4 p1 = { block.m_displace.m_value, block.m_displace_bias, PAD, PAD };
 
 			memcpy(dest + offset, &p0, sizeof(float) * 1);
 			offset += buffer.width * buffer.stride;
 
 			memcpy(dest + offset, &emissive, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &p1, sizeof(float) * 2);
 			offset += buffer.width * buffer.stride;
 		}
 

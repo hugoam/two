@@ -10,6 +10,4 @@ namespace mud
 {
 	export_ MUD_GFX_EXPORT void pass_resolve(GfxSystem& gfx, Render& render);
 	export_ MUD_GFX_EXPORT void pass_effects(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_EXPORT void pass_pre_post_process(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_EXPORT void pass_post_process(GfxSystem& gfx, Render& render);
 }

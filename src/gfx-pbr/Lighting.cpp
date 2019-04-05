@@ -43,9 +43,9 @@ namespace mud
 	BlockLight::BlockLight(GfxSystem& gfx)
 		: DrawBlock(gfx, type<BlockLight>())
 	{
-		m_shader_block.m_options = { "SKY_LIGHT", "DIRECT_LIGHT", "FOG" };
+		m_options = { "SKY_LIGHT", "FOG" };
 
-		m_shader_block.m_defines = {
+		m_defines = {
 			{ "MAX_LIGHTS", to_string(c_max_forward_lights)  },
 			{ "MAX_SHADOWS", to_string(c_max_shadows) },
 		};
@@ -102,21 +102,16 @@ namespace mud
 #endif
 	}
 
-	void BlockLight::options(Render& render, ProgramVersion& shader_version) const
+	void BlockLight::options(Render& render, ProgramVersion& program) const
 	{
 		if(render.m_viewport->m_clustered)
-			shader_version.set_option(0, CLUSTERED, true);
+			program.set_option(0, CLUSTERED, true);
 
 		if(render.m_env && render.m_env->m_skylight.m_enabled)
-			shader_version.set_option(m_index, SKY_LIGHT, true);
+			program.set_option(m_index, SKY_LIGHT, true);
 
 		if(render.m_env && render.m_env->m_fog.m_enabled)
-			shader_version.set_option(m_index, FOG, true);
-
-		bool cull = !m_direct_light || false; // !(element.m_item->m_layer_mask & m_direct_light->m_layers);
-
-		if(!cull)
-			shader_version.set_option(m_index, DIRECT_LIGHT, true);
+			program.set_option(m_index, FOG, true);
 	}
 
 	void BlockLight::submit(Render& render, const Pass& pass) const

@@ -419,14 +419,6 @@ namespace mud
 		state.m_models.push_back(&model);
 
 		this->import(state, filepath, config);
-
-		for(const Import::Item& item : state.m_items)
-		{
-			for(const ModelItem& model_item : item.model->m_items)
-				model.add_item(*model_item.m_mesh, item.transform, item.skin);
-		}
-
-		model.prepare();
 	}
 
 	void ImporterOBJ::import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config)

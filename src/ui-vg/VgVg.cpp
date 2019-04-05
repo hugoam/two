@@ -276,7 +276,7 @@ namespace mud
 		vg::lineTo(m_vg, b.x, b.y);
 		vg::closePath(m_vg);
 
-		Colour colour = to_rgba(Colour{ hue, 1.0f, 0.5f });
+		Colour colour = hsl(hue, 1.0f, 0.5f);
 		vg::GradientHandle paint1 = vg::createLinearGradient(m_vg, r, 0, a.x, a.y, vgColour(colour), vg::Colors::White);
 		vg::fillPath(m_vg, paint1, vg::FillFlags::ConvexAA);
 		vg::GradientHandle paint2 = vg::createLinearGradient(m_vg, (r + a.x) * 0.5f, (0 + a.y) * 0.5f, b.x, b.y, vg::Colors::Transparent, vg::Colors::Black);

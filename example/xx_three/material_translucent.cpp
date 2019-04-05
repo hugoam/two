@@ -39,73 +39,62 @@ struct Subsurface
 	attr_ float m_scale = 10.f;
 };
 
-static string translucent_fragment()
-{
-	string shader =
+static string translucent_fragment =
 		
-		"$input v_view, v_position, v_normal, v_tangent, v_color, v_uv0, v_uv1, v_binormal\n"
+	"$input v_view, v_position, v_normal, v_tangent, v_color, v_uv0, v_uv1, v_binormal\n"
 
-		"#include <encode.sh>\n"
-		"#include <pbr/pbr.sh>\n"
-		"#include <pbr/light.sh>\n"
-		//"#define BRDF_TRANSLUCENT_BLINN_PHONG\n"
-		"#include <pbr/light_brdf_three.sh>\n"
-		"#include <pbr/radiance.sh>\n"
+	"#include <encode.sh>\n"
+	"#include <pbr/pbr.sh>\n"
+	"#include <pbr/light.sh>\n"
+	//"#define BRDF_TRANSLUCENT_BLINN_PHONG\n"
+	"#include <pbr/light_brdf_three.sh>\n"
+	"#include <pbr/radiance.sh>\n"
 
-		// Translucency
-		//"SAMPLER2D(s_thickness, 7);\n"
-		"#define s_thickness s_user0\n"
-		"#define u_scatter_p0 u_user_p0\n"
-		"#define u_scatter_p1 u_user_p1\n"
-		"#define u_thicknessPower u_scatter_p0.x\n"
-		"#define u_thicknessScale u_scatter_p0.y\n"
-		"#define u_thicknessDistortion u_scatter_p0.z\n"
-		"#define u_thicknessAmbient u_scatter_p0.w\n"
-		"#define u_thicknessAttenuation u_scatter_p1.x\n"
-		"#define u_thicknessColor u_scatter_p1.yzw\n"
+	// Translucency
+	//"SAMPLER2D(s_thickness, 7);\n"
+	"#define s_thickness s_user0\n"
+	"#define u_scatter_p0 u_user_p0\n"
+	"#define u_scatter_p1 u_user_p1\n"
+	"#define u_thicknessPower u_scatter_p0.x\n"
+	"#define u_thicknessScale u_scatter_p0.y\n"
+	"#define u_thicknessDistortion u_scatter_p0.z\n"
+	"#define u_thicknessAmbient u_scatter_p0.w\n"
+	"#define u_thicknessAttenuation u_scatter_p1.x\n"
+	"#define u_thicknessColor u_scatter_p1.yzw\n"
 
-		"void direct_scatter(vec3 energy, vec3 l, Fragment fragment, PhongMaterial material, inout vec3 diffuse, inout vec3 specular)\n"
-		"{\n"
-		"   direct_blinn_phong(energy, l, fragment, material, diffuse, specular);\n"
+	"void direct_scatter(vec3 energy, vec3 l, Fragment fragment, PhongMaterial material, inout vec3 diffuse, inout vec3 specular)\n"
+	"{\n"
+	"   direct_blinn_phong(energy, l, fragment, material, diffuse, specular);\n"
 
-		"	vec3 thickness = u_thicknessColor * texture2D(s_thickness, fragment.uv).r;\n"
-		"	vec3 scatteringHalf = normalize(l + (fragment.normal * u_thicknessDistortion));\n"
-		"	float scatteringDot = pow(saturate(dot(fragment.view, -scatteringHalf)), u_thicknessPower) * u_thicknessScale;\n"
-		"	vec3 scatteringIllu = (scatteringDot + u_thicknessAmbient) * thickness;\n"
+	"	vec3 thickness = u_thicknessColor * texture2D(s_thickness, fragment.uv).r;\n"
+	"	vec3 scatteringHalf = normalize(l + (fragment.normal * u_thicknessDistortion));\n"
+	"	float scatteringDot = pow(saturate(dot(fragment.view, -scatteringHalf)), u_thicknessPower) * u_thicknessScale;\n"
+	"	vec3 scatteringIllu = (scatteringDot + u_thicknessAmbient) * thickness;\n"
 		
-		"	diffuse += scatteringIllu * u_thicknessAttenuation * energy;\n"
-		"}\n"
+	"	diffuse += scatteringIllu * u_thicknessAttenuation * energy;\n"
+	"}\n"
 
-		"#define direct_brdf direct_scatter\n"
+	"#define direct_brdf direct_scatter\n"
 
-		"void main()\n"
-		"{\n"
-		"#include <pbr/fs_fragment.sh>\n"
-		"\n"
-		"#include <pbr/fs_phong_material.sh>\n"
-		"\n"
-		"#include <pbr/fs_phong.sh>\n"
-		"#include <pbr/fs_out_pbr.sh>\n"
-		"gl_FragColor = LinearToGamma(gl_FragColor, 2.0);\n"
-		//"gl_FragColor = vec4(texture2D(s_thickness, fragment.uv).rgb, 1.0);\n"
-		"}\n";
-
-		//"	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + reflectedLight.directSpecular + reflectedLight.indirectSpecular + totalEmissiveRadiance;\n"
-		//"	gl_FragColor = vec4(outgoingLight, diffuseColor.a);\n"
-		// TODO, this should be pre-multiplied to allow for bright highlights on very transparent objects
+	"void main()\n"
+	"{\n"
+	"#include <pbr/fs_fragment.sh>\n"
 		
-	return shader;
-}
+	"#include <pbr/fs_phong_material.sh>\n"
+		
+	"#include <pbr/fs_phong.sh>\n"
+	"#include <pbr/fs_out_pbr.sh>\n"
+	//"gl_FragColor = vec4(texture2D(s_thickness, fragment.uv).rgb, 1.0);\n"
+	"}\n";
 
-string translucent_vertex()
-{
-	string shader =
+	//"	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + reflectedLight.directSpecular + reflectedLight.indirectSpecular + totalEmissiveRadiance;\n"
+	//"	gl_FragColor = vec4(outgoingLight, diffuseColor.a);\n"
+	// TODO, this should be pre-multiplied to allow for bright highlights on very transparent objects
 
-		"#include <geometry_vs.sc>\n";
-		//"	vNormal = normalize(u_normalModelViewProj * normal);\n"
+string translucent_vertex =
 
-	return shader;
-}
+	"#include <geometry_vs.sc>\n";
+	//"	vNormal = normalize(u_normalModelViewProj * normal);\n"
 
 Program& translucent_program(GfxSystem& gfx)
 {
@@ -116,8 +105,8 @@ Program& translucent_program(GfxSystem& gfx)
 	program.set_block(MaterialBlock::Lit);
 	program.set_block(MaterialBlock::Phong);
 	program.set_block(MaterialBlock::User);
-	program.set_source(ShaderType::Vertex, translucent_vertex());
-	program.set_source(ShaderType::Fragment, translucent_fragment());
+	program.set_source(ShaderType::Vertex, translucent_vertex);
+	program.set_source(ShaderType::Fragment, translucent_fragment);
 
 	return program;
 }
@@ -131,7 +120,6 @@ void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controls(viewer);
-	//ui::orbit_controller(viewer);
 
 	Scene& scene = viewer.m_scene;
 
@@ -147,15 +135,13 @@ void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 		Camera& camera = viewer.m_camera;
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 5000.f;
 		camera.m_eye = vec3(0.f, 300.f, 400.f * 4.f);
+		camera.m_eye *= 0.7f; // we are less zoomed in that in three.js somehow ?
 
-		Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
-		tonemap.m_enabled = true;
+		viewer.m_viewport.m_to_gamma = true;
 
 		// Lights
 
 		scene.m_env.m_radiance.m_colour = rgb(0x888888);
-		scene.m_env.m_radiance.m_energy = 1.f;
-		scene.m_env.m_radiance.m_ambient = 1.f;
 
 		Node3& dn = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(normalize(vec3(0.f, -0.5f, -0.5f)))));
 		Light& dl = gfx::lights(scene).add(Light(dn, LightType::Direct, false, rgb(0xffffff), 0.03f));

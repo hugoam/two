@@ -15,10 +15,7 @@ void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controls(viewer);
 
-	//camera = new THREE.PerspectiveCamera(60, width / height, 1, 2100);
-	//camera.position.z = 1500;
-
-	//scene.fog = new THREE.Fog(0x000000, 1500, 2100);
+	Scene& scene = viewer.m_scene;
 
 	SceneViewer& overlay = ui::scene_viewer(parent);
 
@@ -37,7 +34,15 @@ void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//m.m_sprite.m_color = sprites0;
 	}); // new THREE.SpriteMaterial({ map: texture });
 
+	if(init)
 	{
+		Camera& camera = viewer.m_camera;
+		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 2100.f;
+		camera.m_eye.z = 1500.f;
+
+		scene.m_env.m_radiance.m_ambient = 0.f;
+		scene.m_env.m_fog = { true, 1.f, rgb(0x000000), true, 1500.f, 2100.f };
+
 		//
 		//var width = material.map.image.width;
 		//var height = material.map.image.height;

@@ -27,7 +27,6 @@ namespace mud
 
 	export_ enum class refl_ TonemapMode : unsigned int
 	{
-		None,
 		Linear,
 		Reinhardt,
 		Filmic,
@@ -54,6 +53,8 @@ namespace mud
 		Texture* m_color_correction = nullptr;
 	};
 
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_tonemap(GfxSystem& gfx, Render& render, Tonemap& tonemap, BCS& bcs);
+
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockTonemap : public GfxBlock
 	{
 	public:
@@ -61,14 +62,8 @@ namespace mud
 
 		virtual void init_block() override;
 
-		virtual void begin_render(Render& render) override;
-		virtual void submit_pass(Render& render) final;
-
-		void render(Render& render, RenderTarget& target, Tonemap& tonemap, BCS& bcs);
-
-		BlockFilter& m_filter;
-		BlockCopy& m_copy;
-
 		Program& m_program;
 	};
+
+
 }

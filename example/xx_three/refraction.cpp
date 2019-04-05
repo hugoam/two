@@ -20,8 +20,6 @@ void xx_refraction_mesh(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controls(viewer);
 
-	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
-
 	Scene& scene = viewer.m_scene;
 
 	static Node3* light = nullptr;
@@ -32,32 +30,36 @@ void xx_refraction_mesh(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 50.f; camera.m_near = 1.f; camera.m_far = 100000.f;
 		camera.m_eye.z = -4000.f;
 
-		Texture& refraction = *app.m_gfx.textures().file("cube/park.jpg.cube");
-		scene.m_env.m_radiance.m_texture = &refraction;
-		scene.m_env.m_background.m_texture = &refraction;
-		scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
+		Zone& env = scene.m_env;
 
+		Texture& refraction = *app.m_gfx.textures().file("cube/park.jpg.cube");
+		env.m_radiance.m_texture = &refraction;
+		env.m_radiance.m_filter = false;
+		env.m_background.m_texture = &refraction;
+		env.m_background.m_mode = BackgroundMode::Panorama;
+
+		env.m_radiance.m_ambient = 1.f;
 		//var ambient = new THREE.AmbientLight(0xffffff);
 
 		Model& sphere = app.m_gfx.shape(Sphere(100.f * 0.05f));
 
 		Node3& ln = gfx::nodes(scene).add(Node3());
-		gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 2.f));
+		gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 2.f, 0.f));
 		gfx::items(scene).add(Item(ln, sphere, 0U, &gfx::solid_material(app.m_gfx, "light", rgb(0xffffff))));
 		light = &ln;
 
 		// material samples
 
-		auto phong_material = [&](const string& name, Colour colour, float refraction, float reflectivity = 0.f) -> Material&
+		//static Program& phong = *app.m_gfx.programs().file("pbr/phong");
+		static Program& phong = *app.m_gfx.programs().file("pbr/lambert");
+
+		auto phong_material = [&](const string& name, Colour colour, float refraction, float reflectivity = 1.f) -> Material&
 		{
 			return app.m_gfx.materials().create(name, [&](Material& m) {
-				m.m_program = &pbr;
-				m.m_pbr.m_specular_mode = PbrSpecularMode::Phong;
-				m.m_pbr.m_albedo = colour;
-				m.m_pbr.m_metallic = 1.f;
-				m.m_pbr.m_roughness = 0.f;
-				m.m_pbr.m_refraction = refraction;
-				//m.m_pbr.m_reflectivity = reflectivity;
+				m.m_program = &phong;
+				m.m_phong.m_diffuse = colour;
+				m.m_phong.m_refraction = refraction;
+				m.m_phong.m_reflectivity = reflectivity;
 			});
 		};
 
@@ -85,7 +87,7 @@ void xx_refraction_mesh(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		mouse = (event.m_relative - viewer.m_frame.m_size / 2.f) * 4.f;
 	}
 	
-	float timer = app.m_gfx.m_time * -0.0002;
+	float timer = app.m_gfx.m_time * -0.2;
 
 	Camera& camera = viewer.m_camera;
 	camera.m_eye.x += (mouse.x - camera.m_eye.x) * .05f;

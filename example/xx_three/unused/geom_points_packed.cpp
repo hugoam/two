@@ -34,8 +34,8 @@ void xx_geom_points_packed(Shell& app, Widget& parent, Dockbar& dockbar, bool in
 			m.m_point.m_point_size = 15.f;
 		});
 
-		//scene.background = new THREE.Color(0x050505);
-		//scene.fog = new THREE.Fog(0x050505, 2000, 3500);
+		viewer.m_viewport.m_clear_colour = rgb(0x050505);
+		scene.m_env.m_fog = { true, 1.f, rgb(0x050505), true, 2000.f, 3500.f };
 
 		GpuMesh gpu_mesh = alloc_mesh(PrimitiveType::Points, VertexAttribute::Position | VertexAttribute::Colour, particles, 0);
 		

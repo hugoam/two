@@ -13,8 +13,7 @@ function generateTexture(gfx, width, height, m) {
             else buffer[x + y * width] = 0x00000000;
         }
 
-    //texture.upload(2, 2, buffer);
-    two.load_texture_rgba(texture, 2, 2, buffer);
+    two.load_texture_rgba(texture, new two.uvec2(width, height), buffer);
     return texture;
 }
 
@@ -32,8 +31,8 @@ if (init) {
     var c = app.gfx.materials.fetch('cube');
     c.program = pbr;
     c.base.cull_mode = two.CullMode.Front;
+    c.lit.normal.value = -1.0;
     c.pbr.albedo.value = two.rgba(0xa0adafff);
-    c.pbr.normal.value = -1.0;
     //	shininess: 10,
     //	specular: 0x111111,
     this.cubemat = c;
@@ -44,7 +43,7 @@ if (init) {
     s.base.uv0_scale = new two.vec2(1.0, 3.5);
     s.alpha.alpha_test = true;
     s.alpha.alpha.texture = generateTexture(app.gfx, 2, 2, 2);
-    s.pbr.normal = -1.0; // @todo @bug @hack check why gl_FrontFacing in shader inverts normals
+    s.lit.normal = -1.0; // @todo @bug @hack check why gl_FrontFacing in shader inverts normals
     this.spheremat = s;
 
     var colors = [0x0088ff, 0xff8888];
@@ -73,7 +72,8 @@ if (init) {
     var node = scene.nodes().add(new two.Node3());// , Y3 * 10.0);
     scene.items().add(new two.Item(node, app.gfx.shape(cube), 0, this.cubemat));
 
-    viewer.scene.env.radiance.ambient = 0.2;
+    scene.env.radiance.colour = two.rgb(0x111122);
+    scene.env.radiance.ambient = 0.1;
 }
 
 function pos(time) {
@@ -84,12 +84,8 @@ function rot(time) {
     return new two.quat(new two.vec3(time, 0.0, time));
 };
 
-var scene = viewer.scene.begin();
-
-two.gfx.radiance(scene, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
-
 var time0 = time;
 this.lights[0].apply(pos(time), rot(time));
 
-var time1 = time + Math.PI;
+var time1 = time + 10000;
 this.lights[1].apply(pos(time1), rot(time1));

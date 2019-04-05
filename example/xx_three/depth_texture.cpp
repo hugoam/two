@@ -8,49 +8,39 @@
 
 using namespace mud;
 
-static string vertex_shader()
-{
-	string shader =
+static string vertex_shader =
 
-		"$input a_position, a_texcoord0\n"
-		"$output v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"void main() {\n"
-		"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
-		"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
-		"}\n";
+	"$input a_position, a_texcoord0\n"
+	"$output v_uv0\n"
+		
+	"#include <filter.sh>\n"
+		
+	"void main() {\n"
+	"	v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;\n"
+	"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+	"}\n";
 
-	return shader;
-}
+static string fragment_shader =
 
-static string fragment_shader()
-{
-	string shader =
-
-		"$input v_uv0\n"
-		"\n"
-		"#include <filter.sh>\n"
-		"\n"
-		"float readDepth(sampler2D depthSampler, vec2 coord)\n"
-		"{\n"
-		"	float depth = texture2D(depthSampler, coord).x;\n"
-		"	float viewZ = perspectiveDepthToViewZ(depth);\n"
-		"	return viewZToOrthographicDepth(viewZ);\n"
-		//"	return linearize_depth(depth);\n"
-		"}\n"
-		"\n"
-		"void main() {\n"
-		//"	vec3 diffuse = texture2D(s_source_0, v_uv0).rgb;\n"
-		"	float depth = readDepth(s_source_depth, v_uv0);\n"
-		//"	float depth = texture2D(s_source_depth, v_uv0).x;\n"
-		"\n"
-		"	gl_FragColor = vec4(1.0 - vec3_splat(depth), 1.0);\n"
-		"}\n";
-
-	return shader;
-}
+	"$input v_uv0\n"
+		
+	"#include <filter.sh>\n"
+		
+	"float readDepth(sampler2D depthSampler, vec2 coord)\n"
+	"{\n"
+	"	float depth = texture2D(depthSampler, coord).x;\n"
+	"	float viewZ = perspectiveDepthToViewZ(depth);\n"
+	"	return viewZToOrthographicDepth(viewZ);\n"
+	//"	return linearize_depth(depth);\n"
+	"}\n"
+		
+	"void main() {\n"
+	//"	vec3 diffuse = texture2D(s_source_0, v_uv0).rgb;\n"
+	"	float depth = readDepth(s_source_depth, v_uv0);\n"
+	//"	float depth = texture2D(s_source_depth, v_uv0).x;\n"
+		
+	"	gl_FragColor = vec4(1.0 - vec3_splat(depth), 1.0);\n"
+	"}\n";
 
 void pass_to_depth(GfxSystem& gfx, Render& render)
 {
@@ -76,14 +66,17 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	//controls.m_dynamicDampingFactor = 0.05f;
 
 	controls.enableDamping = true;
-	controls.dampingFactor = 0.1f;
+	controls.dampingFactor = 0.15f;
 	controls.rotateSpeed = 0.35f;
 
 	Scene& scene = viewer.m_scene;
 
 	static Program& program = app.m_gfx.programs().create("todepth");
-	program.m_sources[ShaderType::Vertex] = vertex_shader();
-	program.m_sources[ShaderType::Fragment] = fragment_shader();
+	if(init)
+	{
+		program.set_source(ShaderType::Vertex, vertex_shader);
+		program.set_source(ShaderType::Fragment, fragment_shader);
+	}
 
 	if(init)
 	{

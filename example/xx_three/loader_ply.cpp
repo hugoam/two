@@ -9,6 +9,8 @@
 
 using namespace mud;
 
+#define CUSTOM_RENDER 0
+
 void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	static ImporterPLY importer_ply = { app.m_gfx };
@@ -25,10 +27,18 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_eye = vec3(3.f, 0.15f, 3.f);
 		camera.m_target = vec3(0.f, -0.1f, 0.f);
 
-		viewer.m_viewport.m_clear_colour = rgb(0x72645b);
-		scene.m_env.m_background.m_colour = rgb(0x72645b);
+		viewer.m_viewport.m_to_gamma = true;
+
+		Colour colour = to_colour(pow(to_vec3(rgb(0x72645b)), vec3(2.f)));
+
+		viewer.m_viewport.m_clear_colour = colour;
+		scene.m_env.m_background.m_colour = colour;
 		scene.m_env.m_radiance.m_ambient = 0.f;
-		//scene.fog = new THREE.Fog( 0x72645b, 2, 15 );
+
+		scene.m_env.m_fog.m_enabled = true;
+		scene.m_env.m_fog.m_colour = colour;
+		scene.m_env.m_fog.m_depth_begin = 2.f;
+		scene.m_env.m_fog.m_depth_end = 15.f;
 
 		auto add_light = [&](vec3 d, Colour color, float intensity, bool shadows)
 		{

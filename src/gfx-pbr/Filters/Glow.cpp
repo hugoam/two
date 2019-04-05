@@ -9,7 +9,6 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <ecs/ECS.hpp>
 #include <math/Vec.hpp>
 #include <gfx/RenderTarget.h>
 #include <gfx/Filter.h>
@@ -17,7 +16,6 @@ module mud.gfx.pbr;
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
-#include <gfx-pbr/Handles.h>
 #include <gfx-pbr/Filters/Glow.h>
 #include <gfx-pbr/Filters/Blur.h>
 #include <gfx-pbr/Filters/Tonemap.h>
@@ -32,16 +30,13 @@ namespace mud
 
 	BlockGlow::BlockGlow(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur)
 		: GfxBlock(gfx, *this)
-		, m_filter(filter)
-		, m_copy(copy)
-		, m_blur(blur)
 		, m_bleed_program(gfx.programs().create("filter/glow_bleed"))
 		, m_merge_program(gfx.programs().create("filter/glow"))
 	{
-		m_shader_block.m_options = { "GLOW_FILTER_BICUBIC" };
+		m_options = { "GLOW_FILTER_BICUBIC" };
 
-		m_blur.m_program.register_block(this->m_shader_block);
-		m_merge_program.register_block(this->m_shader_block);
+		blur.m_program.register_block(*this);
+		m_merge_program.register_block(*this);
 	}
 
 	void BlockGlow::init_block()
@@ -49,50 +44,25 @@ namespace mud
 		GpuState<Glow>::me.init();
 	}
 
-	void BlockGlow::begin_render(Render& render)
+
+	void debug_glow(GfxSystem& gfx, Render& render, RenderTarget& target)
 	{
-		UNUSED(render);
-#ifdef DEBUG_GLOW
-		this->debug_glow(render, *render.m_target);
-#endif
+		gfx.m_copy->debug_show_texture(render, target.m_cascade.m_texture, vec4(0.f), 1);
+		gfx.m_copy->debug_show_texture(render, target.m_ping_pong.last(), vec4(0.f));
 	}
 
-	void BlockGlow::debug_glow(Render& render, RenderTarget& target)
+	void glow_bleed(GfxSystem& gfx, Render& render, BlockGlow& block, Glow& glow)
 	{
-		m_gfx.m_copy->debug_show_texture(render, target.m_cascade.m_texture, vec4(0.f), 1);
-		m_gfx.m_copy->debug_show_texture(render, target.m_ping_pong.last(), vec4(0.f));
-	}
-
-	void BlockGlow::submit_pass(Render& render)
-	{
-		if(render.m_filters.comp<Glow>().m_enabled)
-			this->render(render, render.m_filters.comp<Glow>());
-	}
-
-	void BlockGlow::render(Render& render, Glow& glow)
-	{
-		this->glow(render, *render.m_target, glow);
-	}
-
-	void BlockGlow::glow(Render& render, RenderTarget& target, Glow& glow)
-	{
-		this->glow_bleed(render, target, glow);
-		this->glow_blur(render, target, glow);
-		this->glow_merge(render, target, glow);
-	}
-
-	void BlockGlow::glow_bleed(Render& render, RenderTarget& target, Glow& glow)
-	{
-		m_filter.source0(target.m_diffuse);
+		gfx.m_filter->source0(render.m_target->m_diffuse);
 		//bgfx::setUniform(m_blur.u_uniform.u_exposure, &m_tonemap.m_exposure);
 
 		GpuState<Glow>::me.upload(glow);
 
 		Pass pass = render.composite_pass("glow bleed");
-		m_filter.quad(pass, target.m_ping_pong.swap(), m_bleed_program);
+		gfx.m_filter->quad(pass, render.m_target->m_ping_pong.swap(), block.m_bleed_program);
 	}
 
-	void BlockGlow::glow_blur(Render& render, RenderTarget& target, Glow& glow)
+	void glow_blur(GfxSystem& gfx, Render& render, BlockBlur& blur, Glow& glow)
 	{
 		UNUSED(glow);
 
@@ -109,8 +79,8 @@ namespace mud
 
 		for(uint8_t i = 0; i < (max_level + 1); i++)
 		{
-			m_blur.gaussian_pass(render, target, render.m_rect, i, true, kernel);
-			m_blur.gaussian_pass(render, target, render.m_rect, i, false, kernel);
+			blur.gaussian_pass(render, *render.m_target, render.m_rect, i, true, kernel);
+			blur.gaussian_pass(render, *render.m_target, render.m_rect, i, false, kernel);
 
 			//bool blit_support = (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0;
 			bool blit_support = false;
@@ -123,22 +93,32 @@ namespace mud
 			//			   target.m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
 			//			   target.m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect.width), uint16_t(rect.height), 1);
 			//else
-				m_copy.submit(pass, *target.m_cascade.m_fbos[i + 1], target.m_ping_pong.last(), quad);
+			gfx.m_copy->submit(pass, *render.m_target->m_cascade.m_fbos[i + 1], render.m_target->m_ping_pong.last(), quad);
 		}
 	}
 
-	void BlockGlow::glow_merge(Render& render, RenderTarget& target, Glow& glow)
+	void glow_merge(GfxSystem& gfx, Render& render, BlockGlow& block, Glow& glow)
 	{
-		ProgramVersion program = { m_merge_program };
+		ProgramVersion program = { block.m_merge_program };
 
-		program.set_option(m_index, GLOW_FILTER_BICUBIC, glow.m_bicubic_filter);
+		program.set_option(block.m_index, GLOW_FILTER_BICUBIC, glow.m_bicubic_filter);
 
-		m_filter.source0(target.m_post.last());
-		m_filter.source1(target.m_cascade.m_texture);
+		gfx.m_filter->source0(render.m_target->m_post.last());
+		gfx.m_filter->source1(render.m_target->m_cascade.m_texture);
 
 		GpuState<Glow>::me.upload(glow);
 
 		Pass pass = render.composite_pass("glow merge");
-		m_filter.quad(pass, target.m_post.swap(), program);
+		gfx.m_filter->quad(pass, render.m_target->m_post.swap(), program);
+	}
+
+	void pass_glow(GfxSystem& gfx, Render& render, Glow& glow)
+	{
+		static BlockGlow& block = *gfx.m_renderer.block<BlockGlow>();
+		static BlockBlur& blur = *gfx.m_renderer.block<BlockBlur>();
+
+		glow_bleed(gfx, render, block, glow);
+		glow_blur(gfx, render, blur, glow);
+		glow_merge(gfx, render, block, glow);
 	}
 }

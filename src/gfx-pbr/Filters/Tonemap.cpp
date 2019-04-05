@@ -9,13 +9,11 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <ecs/ECS.hpp>
 #include <gfx/RenderTarget.h>
 #include <gfx/Filter.h>
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
-#include <gfx-pbr/Handles.h>
 #include <gfx-pbr/Filters/Tonemap.h>
 #include <gfx-pbr/Gpu/Tonemap.hpp>
 #endif
@@ -27,14 +25,12 @@ namespace mud
 
 	BlockTonemap::BlockTonemap(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy)
 		: GfxBlock(gfx, *this)
-		, m_filter(filter)
-		, m_copy(copy)
 		, m_program(gfx.programs().create("filter/tonemap"))
 	{
-		m_shader_block.m_options = { "ADJUST_BCS", "COLOR_CORRECTION" };
-		m_shader_block.m_modes = { "TONEMAP_MODE" };
+		m_options = { "ADJUST_BCS", "COLOR_CORRECTION" };
+		m_modes = { "TONEMAP_MODE" };
 
-		m_program.register_block(this->m_shader_block);
+		m_program.register_block(*this);
 	}
 
 	void BlockTonemap::init_block()
@@ -43,44 +39,32 @@ namespace mud
 		GpuState<Tonemap>::me.init();
 	}
 
-	void BlockTonemap::begin_render(Render& render)
+	void pass_tonemap(GfxSystem& gfx, Render& render, Tonemap& tonemap, BCS& bcs)
 	{
-		UNUSED(render);
-	}
+		static BlockTonemap& block = *gfx.m_renderer.block<BlockTonemap>();
 
-	void BlockTonemap::submit_pass(Render& render)
-	{
-		RenderTarget& target = *render.m_target;
-		if(render.m_filters.comp<Tonemap>().m_enabled)
-			this->render(render, target, render.m_filters.comp<Tonemap>(), render.m_filters.comp<BCS>());
-		else
-			m_copy.quad(render.composite_pass("tonemap blit"), *render.m_fbo, target.m_post.last());
-	}
+		ProgramVersion program = { block.m_program };
 
-	void BlockTonemap::render(Render& render, RenderTarget& target, Tonemap& tonemap, BCS& bcs)
-	{
-		ProgramVersion program = { m_program };
+		program.set_mode(block.m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
 
-		program.set_mode(m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
-
-		m_filter.source0(target.m_post.last());
+		gfx.m_filter->source0(render.m_target->m_post.last());
 
 		if(tonemap.m_color_correction)
 		{
-			program.set_option(m_index, COLOR_CORRECTION, true);
-			m_filter.source1(*tonemap.m_color_correction);
+			program.set_option(block.m_index, COLOR_CORRECTION, true);
+			gfx.m_filter->source1(*tonemap.m_color_correction);
 		}
 
 		GpuState<Tonemap>::me.upload(tonemap);
 
 		if(bcs.m_enabled)
 		{
-			program.set_option(m_index, ADJUST_BCS, true);
+			program.set_option(block.m_index, ADJUST_BCS, true);
 
 			GpuState<BCS>::me.upload(bcs);
 		}
 
 		const Pass pass = render.composite_pass("tonemap");
-		m_filter.quad(pass, target, program);
+		gfx.m_filter->quad(pass, *render.m_fbo, program);
 	}
 }

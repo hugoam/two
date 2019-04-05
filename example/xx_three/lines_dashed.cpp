@@ -56,8 +56,8 @@ void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 200.f;
 		camera.m_eye.z = 150.f;
 
-		//scene.background = new THREE.Color(0x111111);
-		//scene.fog = new THREE.Fog(0x111111, 150, 200);
+		viewer.m_viewport.m_clear_colour = rgb(0x111111);
+		scene.m_env.m_fog = { true, 1.f, rgb(0x111111), true, 150.f, 200.f };
 
 		constexpr size_t subdiv = 6;
 		constexpr int recursion = 1;

@@ -126,9 +126,9 @@ namespace mud
 		Key m_keys[3] = { Key::A, Key::S, Key::D };
 		//m_keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
 
-	private:
 		vec3 m_target = vec3(0.f);
 
+	private:
 		vec3 m_lastEye = vec3(0.f);
 
 		State m_state = State::None;

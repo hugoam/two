@@ -27,7 +27,7 @@ namespace mud
 
 	export_ struct refl_ Radiance
 	{
-		attr_ gpu_ Colour m_colour = Colour::Black;
+		attr_ gpu_ Colour m_colour = Colour::White;
 		attr_ gpu_ float m_energy = 1.0f;
 		attr_ gpu_ float m_ambient = 1.0f;
 		attr_ Texture* m_texture = nullptr;
@@ -56,8 +56,8 @@ namespace mud
 	export_ struct refl_ Skylight
 	{
 		attr_ bool m_enabled = false;
-		attr_ float m_intensity;
-		attr_ vec3 m_position;
+		attr_ float m_intensity = 1.f;
+		attr_ vec3 m_position = vec3(0.f, 1.f, 0.f);
 		attr_ gpu_ vec3 m_direction;
 		attr_ gpu_ Colour m_color;
 		attr_ gpu_ Colour m_ground;
@@ -71,6 +71,7 @@ namespace mud
 
 		attr_ gpu_ bool m_depth = false;
 		attr_ gpu_ float m_depth_begin = 0.f;
+		attr_ gpu_ float m_depth_end = 0.f;
 		attr_ gpu_ float m_depth_curve = 1.f;
 
 		attr_ gpu_ bool m_height = false;

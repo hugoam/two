@@ -115,9 +115,9 @@ namespace mud
 		, m_impl(make_unique<Impl>())
 		, m_renderer(*this)
 	{
-		Program::ms_gfx_system = this;
-		Material::ms_gfx_system = this;
-		Model::ms_gfx_system = this;
+		Program::ms_gfx = this;
+		Material::ms_gfx = this;
+		Model::ms_gfx = this;
 
 		this->add_resource_path(resource_path, false);
 	}
@@ -289,7 +289,7 @@ namespace mud
 	{
 		for(GfxWindow* context : m_impl->m_contexts)
 			for(Viewport* viewport : context->m_viewports)
-				if(viewport->m_active)
+				if(viewport->m_autorender)
 				{
 					ZoneScopedNC("gfx viewport", tracy::Color::Cyan);
 

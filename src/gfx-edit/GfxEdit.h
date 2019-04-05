@@ -26,7 +26,7 @@ namespace mud
 	MUD_GFX_EDIT_EXPORT void edit_viewer_filters(Widget& parent, Viewer& viewer);
 
 	MUD_GFX_EDIT_EXPORT void panel_gfx_stats(Widget& parent);
-	MUD_GFX_EDIT_EXPORT void edit_gfx_system(Widget& parent, GfxSystem& system);
+	MUD_GFX_EDIT_EXPORT void edit_gfx(Widget& parent, GfxSystem& system);
 	
 	MUD_GFX_EDIT_EXPORT void gfx_editor(Widget& parent, GfxSystem& system);
 

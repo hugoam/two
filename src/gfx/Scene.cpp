@@ -39,10 +39,6 @@ namespace mud
 		, m_pass_jobs(oconstruct<PassJobs>())
 		, m_graph(*this)
 	{
-		m_env.m_radiance.m_colour = Colour::White;//{ 0.35f, 0.33f, 0.3f, 1.f };
-		m_env.m_radiance.m_energy = 0.3f;
-		m_env.m_radiance.m_ambient = 0.7f;
-
 		m_pool = oconstruct<ObjectPool>();
 		m_pool->create_pool<Flare>(1024);
 

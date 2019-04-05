@@ -64,7 +64,7 @@ namespace mud
 		meth_ void commit(span<float> data);
 		meth_ void cache(span<float> data);
 
-		void submit(bgfx::Encoder& encoder, const ModelItem& item); // const;
+		void submit(bgfx::Encoder& encoder, const ModelElem& item); // const;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT Item
@@ -87,7 +87,7 @@ namespace mud
 
 		meth_ void update_aabb();
 
-		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const ModelItem& item) const;
+		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const ModelElem& item) const;
 
 		vector<LightmapItem*> m_lightmaps;
 

@@ -262,7 +262,7 @@
 							"	vec3 intensity = vec3(luminance(rgb));",
 							"	return mix(intensity, rgb, adjustment);",
 							"}"
-						].join("\n"), [THREE.LuminanceNode.Nodes.luminance]);
+						].join(), [THREE.LuminanceNode.Nodes.luminance]);
 
 						var saturation = new THREE.FunctionCallNode(satrgb);
 						saturation.inputs.rgb = screen;

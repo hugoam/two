@@ -31,6 +31,8 @@ namespace mud
 			s_source_2		= bgfx::createUniform("s_source_2",		bgfx::UniformType::Sampler);
 			s_source_3		= bgfx::createUniform("s_source_3",		bgfx::UniformType::Sampler);
 			s_source_depth	= bgfx::createUniform("s_source_depth",	bgfx::UniformType::Sampler);
+			
+			u_filter_p0		= bgfx::createUniform("u_filter_p0",	bgfx::UniformType::Vec4);
 
 			u_source_levels = bgfx::createUniform("u_source_levels", bgfx::UniformType::Vec4);
 			u_source_crop	= bgfx::createUniform("u_source_crop",	 bgfx::UniformType::Vec4);
@@ -41,6 +43,8 @@ namespace mud
 		bgfx::UniformHandle s_source_2;
 		bgfx::UniformHandle s_source_3;
 		bgfx::UniformHandle s_source_depth;
+
+		bgfx::UniformHandle u_filter_p0;
 
 		bgfx::UniformHandle u_source_levels;
 		bgfx::UniformHandle u_source_crop;
@@ -58,6 +62,8 @@ namespace mud
 		meth_ void submit(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
 		meth_ void quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags = 0U, bool render = false);
 
+		meth_ void multiply(float mul);
+
 		meth_ void source0p(Texture& texture, ProgramVersion& program, int level = 0, uint32_t flags = UINT32_MAX);
 
 		meth_ void source0(Texture& texture, uint32_t flags = UINT32_MAX);
@@ -66,6 +72,7 @@ namespace mud
 		meth_ void source3(Texture& texture, uint32_t flags = UINT32_MAX);
 		meth_ void sourcedepth(Texture& texture, uint32_t flags = UINT32_MAX);
 
+		void uniform(const Pass& pass, const string& name, const mat4& value);
 		meth_ void uniform(const Pass& pass, const string& name, const vec4& value);
 		meth_ void uniforms(const Pass& pass, const string& name, span<float> values);
 		void uniforms4(const Pass& pass, const string& name, span<vec4> values);
@@ -75,6 +82,8 @@ namespace mud
 		map<string, bgfx::UniformHandle> m_uniforms;
 
 		Program& m_quad_program;
+
+		float m_multiply = 1.f;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT BlockCopy : public GfxBlock

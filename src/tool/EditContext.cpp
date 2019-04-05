@@ -154,7 +154,7 @@ namespace mud
 		//if(Widget* dock = ui::dockitem(*context.m_dockbar, "VisualScript", { 5U }))
 		//	visual_script_edit(self, shell.m_editor.m_script_editor);
 		if(Widget* dock = ui::dockitem(docker, "Gfx", { 6U }))
-			edit_gfx_system(*dock, context.m_gfx);
+			edit_gfx(*dock, context.m_gfx);
 		if(Widget* dock = ui::dockitem(docker, "Ui", { 7U }))
 			ui_debug(*dock, screen);
 

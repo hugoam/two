@@ -134,7 +134,7 @@ namespace mud
 		void upload(const Pass& pass, const Fog& fog) const
 		{
 			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
-			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_curve, PAD };
+			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_end, fog.m_depth_curve };
 			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
 			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, PAD, PAD };
 
@@ -217,7 +217,7 @@ namespace mud
 		void pack(const Fog& fog, size_t& offset, GpuTexture& buffer, float* dest)
 		{
 			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
-			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_curve, PAD };
+			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_end, fog.m_depth_curve };
 			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
 			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, PAD, PAD };
 
