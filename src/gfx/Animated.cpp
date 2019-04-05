@@ -27,6 +27,12 @@ namespace mud
 		: m_node(node)
 	{}
 
+	Mime::Mime(Node3& node, Item& item)
+		: m_node(node)
+	{
+		this->add_item(item);
+	}
+
 	Mime::~Mime()
 	{}
 

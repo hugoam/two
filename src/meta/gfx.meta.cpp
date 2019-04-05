@@ -261,6 +261,7 @@ void mud_Mime_pause(void* object, span<void*> args, void*& result) { UNUSED(resu
 void mud_Mime_stop(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Mime*>(object)).stop(); }
 void mud_Mime_advance(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).advance(*static_cast<float*>(args[0])); }
 void mud_Mime_next_animation(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Mime*>(object)).next_animation(); }
+void mud_Mime_add_item(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).add_item(*static_cast<mud::Item*>(args[0])); }
 void mud_Mime_playing(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<stl::string*>(result)) = (*static_cast<mud::Mime*>(object)).playing(); }
 void mud_Model_get_mesh(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Model*>(object)).get_mesh(*static_cast<size_t*>(args[0])); }
 void mud_Model_add_mesh(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Model*>(object)).add_mesh(*static_cast<stl::string*>(args[0]), *static_cast<bool*>(args[1])); }
@@ -314,6 +315,7 @@ void mud_Renderer_begin(void* object, span<void*> args, void*& result) { UNUSED(
 void mud_Renderer_end(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Renderer*>(object)).end(*static_cast<mud::Render*>(args[0])); }
 void mud_Scene__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Scene( *static_cast<mud::GfxSystem*>(args[0]) ); }
 void mud_Scene_begin(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Scene*>(object)).begin(); }
+void mud_Scene_update(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Scene*>(object)).update(); }
 void mud_Scene_nodes(void* object, span<void*> args, void*& result) { UNUSED(args); result = &mud::gfx::nodes((*static_cast<mud::Scene*>(object))); }
 void mud_Scene_items(void* object, span<void*> args, void*& result) { UNUSED(args); result = &mud::gfx::items((*static_cast<mud::Scene*>(object))); }
 void mud_Scene_batches(void* object, span<void*> args, void*& result) { UNUSED(args); result = &mud::gfx::batches((*static_cast<mud::Scene*>(object))); }
@@ -2405,6 +2407,7 @@ namespace mud
 			{ t, "stop", Address(), mud_Mime_stop, {}, g_qvoid },
 			{ t, "advance", Address(), mud_Mime_advance, { { "time", type<float>(),  } }, g_qvoid },
 			{ t, "next_animation", Address(), mud_Mime_next_animation, {}, g_qvoid },
+			{ t, "add_item", Address(), mud_Mime_add_item, { { "item", type<mud::Item>(),  } }, g_qvoid },
 			{ t, "playing", Address(), mud_Mime_playing, {}, { &type<stl::string>(), QualType::None } }
 		};
 		// static members
@@ -2851,6 +2854,7 @@ namespace mud
 		// methods
 		static Method methods[] = {
 			{ t, "begin", Address(), mud_Scene_begin, {}, { &type<mud::Gnode>(), QualType::None } },
+			{ t, "update", Address(), mud_Scene_update, {}, g_qvoid },
 			{ t, "nodes", Address(), mud_Scene_nodes, {}, { &type<mud::TPool<mud::Node3>>(), QualType::None } },
 			{ t, "items", Address(), mud_Scene_items, {}, { &type<mud::TPool<mud::Item>>(), QualType::None } },
 			{ t, "batches", Address(), mud_Scene_batches, {}, { &type<mud::TPool<mud::Batch>>(), QualType::None } },

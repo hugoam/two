@@ -2830,6 +2830,9 @@ Mime.prototype["advance"] = Mime.prototype.advance = function(a0) {
 Mime.prototype["next_animation"] = Mime.prototype.next_animation = function() {
     _mud_Mime_next_animation_0(this.__ptr);
 };
+Mime.prototype["add_item"] = Mime.prototype.add_item = function(a0) {
+    _mud_Mime_add_item_1(this.__ptr, /*item*/a0.__ptr);
+};
 Mime.prototype["playing"] = Mime.prototype.playing = function() {
     return UTF8ToString(_mud_Mime_playing_0(this.__ptr));
 };
@@ -3595,6 +3598,9 @@ Scene.__cache = {};
 Module['Scene'] = Scene;
 Scene.prototype["begin"] = Scene.prototype.begin = function() {
     return wrapPointer(_mud_Scene_begin_0(this.__ptr), Gnode);
+};
+Scene.prototype["update"] = Scene.prototype.update = function() {
+    _mud_Scene_update_0(this.__ptr);
 };
 Scene.prototype["nodes"] = Scene.prototype.nodes = function() {
     return wrapPointer(_mud_Scene_nodes_0(this.__ptr), TPool_mud_Node3);

@@ -2261,6 +2261,9 @@ extern "C" {
 	void DECL mud_Mime_next_animation_0(mud::Mime* self) {
 		self->next_animation();
 	}
+	void DECL mud_Mime_add_item_1(mud::Mime* self, mud::Item* item) {
+		self->add_item(*item);
+	}
 	const char* DECL mud_Mime_playing_0(mud::Mime* self) {
 		return self->playing().c_str();
 	}
@@ -2911,6 +2914,9 @@ extern "C" {
 	}
 	mud::Gnode* DECL mud_Scene_begin_0(mud::Scene* self) {
 		return &self->begin();
+	}
+	void DECL mud_Scene_update_0(mud::Scene* self) {
+		self->update();
 	}
 	mud::TPool<mud::Node3>* DECL mud_Scene_nodes_0(mud::Scene* self) {
 		return &mud::gfx::nodes(*self);

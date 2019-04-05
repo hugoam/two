@@ -47,7 +47,8 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Mime
 	{
 	public:
-		Mime(Node3& node);
+		constr_ Mime(Node3& node);
+		constr_ Mime(Node3& node, Item& item);
 		~Mime();
 
 		Node3& m_node;
@@ -69,7 +70,7 @@ namespace mud
 		meth_ void advance(float time);
 		meth_ void next_animation();
 		
-		void add_item(Item& item);
+		meth_ void add_item(Item& item);
 
 		meth_ string playing() { return m_playing.empty() ? "" : m_playing.back().m_animation->m_name; }
 	};

@@ -115,7 +115,7 @@ namespace mud
 		attr_ Ref m_user;
 
 		meth_ Gnode& begin();
-		void update();
+		meth_ void update();
 
 		void debug_items(Render& render);
 
