@@ -59,7 +59,7 @@ namespace mud
 				: m_time(time), m_value(), m_transition(transition)
 			{
 				static_assert(sizeof(T) <= sizeof(Value));
-				new (m_value.mem) T(value);
+				new (stl::placeholder(), m_value.mem) T(value);
 			}
 		};
 
