@@ -13,15 +13,15 @@ if(init) {
     camera.eye = new two.vec3(-1.8, 0.9, 2.7);
     camera.target = new two.vec3(0.0, -0.2, -0.2);
 
+    viewer.viewport.to_gamma = true;
+    
     var texture = app.gfx.textures.file('cube/bridge.jpg.cube');
-    scene.env.radiance.texture = texture;
-    scene.env.radiance.energy = 1.0;
-    scene.env.background.texture = texture;
-    scene.env.background.mode = two.BackgroundMode.Panorama;
-
-    //light = new THREE.HemisphereLight(0xbbbbff, 0x444422);
-    //light.position.set(0, 1, 0);
-    //scene.add(light);
+    
+    var env = scene.env;
+    env.radiance.texture = texture;
+    env.radiance.ambient = 1.0;
+    env.background.texture = texture;
+    env.background.mode = two.BackgroundMode.Panorama;
 
     var model = app.gfx.models.file('DamagedHelmet'); // .gltf');
 

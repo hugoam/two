@@ -20,7 +20,6 @@ var halftone_fragment = `$input v_uv0
 
     #define SQRT2_MINUS_ONE 0.41421356
     #define SQRT2_HALF_MINUS_ONE 0.20710678
-    #define PI2 6.28318531
 
     #define SHAPE_DOT 1
     #define SHAPE_ELLIPSE 2
@@ -61,7 +60,7 @@ var halftone_fragment = `$input v_uv0
         return sqrt(x * x + y * y);
     }
 
-    float rand(vec2 seed){
+    float rand2(vec2 seed){
         // get pseudo-random number
         return fract(sin(dot(seed.xy, vec2(12.9898, 78.233))) * 43758.5453);
     }
@@ -111,7 +110,7 @@ var halftone_fragment = `$input v_uv0
     vec4 getSample(vec2 uv) {
         // multi-sampled point
         vec4 tex = texture2D(s_source_0, uv * u_pixel_size);
-        float base = rand(vec2(floor(uv.x), floor(uv.y))) * PI2;
+        float base = rand2(vec2(floor(uv.x), floor(uv.y))) * PI2;
         float step = PI2 / float(samples);
         float dist = u_radius * 0.66;
 
@@ -187,7 +186,7 @@ var halftone_fragment = `$input v_uv0
         if (u_scatter != 0.0) {
 
             float off_mag = u_scatter * threshold * 0.5;
-            float off_angle = rand(vec2(floor(c.p1.x), floor(c.p1.y))) * PI2;
+            float off_angle = rand2(vec2(floor(c.p1.x), floor(c.p1.y))) * PI2;
             c.p1.x += cos(off_angle) * off_mag;
             c.p1.y += sin(off_angle) * off_mag;
         }
@@ -317,7 +316,7 @@ HalftoneBlend.Darker = 5;
 
 var viewer = two.ui.scene_viewer(panel);
 two.ui.orbit_controls(viewer);
-viewer.viewport.active = false;
+viewer.viewport.autorender = false;
 
 var rotationSpeed = Math.PI / 64.0;
 
@@ -341,6 +340,7 @@ if(init) {
 
     viewer.viewport.clear_colour = two.rgb(0x444444);
     scene.env.background.colour = two.rgb(0x444444);
+    scene.env.radiance.ambient = 0.0;
 
     var program = app.gfx.programs.create('halftone');
     program.set_source(two.ShaderType.Vertex, halftone_vertex);
@@ -350,11 +350,14 @@ if(init) {
     var cube = app.gfx.shape(new two.Cube(new two.vec3(1.0)));
 
     var group = scene.nodes().add(new two.Node3());
+    this.node = group;
 
-    var ln = scene.nodes().add(new two.Node3(new two.vec3(0.0, 2.0, 0.0)));
+    var zeroq = new two.quat(new two.vec3(0.0));
+    
+    var ln = scene.nodes().add(new two.Node3(new two.vec3(0.0, 2.0, 0.0), zeroq));
     var l = scene.lights().add(new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 1.0, 50.0)); // 2
 
-    var fn = scene.nodes().add(new two.Node3(new two.vec3(0.0, -10.0, 0.0)));
+    var fn = scene.nodes().add(new two.Node3(new two.vec3(0.0, -10.0, 0.0), zeroq));
     var g = scene.items().add(new two.Item(fn, quad)); // new THREE.MeshPhongMaterial({}));
     
     var basic = app.gfx.programs.create('halftonebasic');
@@ -365,6 +368,7 @@ if(init) {
     var mat = app.gfx.materials.create('halftonebasic'); var m = mat;
         m.program = basic;
 
+    this.nodes = [];
     for (var i = 0; i < 50; ++i) {
         
         // fill scene with coloured cubes
@@ -373,36 +377,22 @@ if(init) {
 
         var n = scene.nodes().add(new two.Node3(p, new two.quat(a)));
         var g = scene.items().add(new two.Item(n, cube, 0, mat));
+        this.nodes.push({ p: p, r: new two.quat(a), node: n });
     }
+    
+    this.angles = new two.vec3(0.0);
 }
 
-//if(var dock = two.ui.dockitem(dockbar, 'Game', { 1U }))
-//{
-//    var sheet = two.ui.sheet(dock);
-//
-//    vec3 rotate = halftone.rotate / (c_pi / 180.0);
-//
-//    var controls = two.ui.stack(sheet);
-//
-//    two.ui.dropdown_field(controls, 'shape', { 'None', 'Dot', 'Ellipse', 'Line', 'Square' }, (uint32_t&)halftone.shape);
-//
-//    two.ui.slider_field<float>(controls, 'radius',   { halftone.radius, { 1.0, 25.0, 0.1f } });
-//    two.ui.slider_field<float>(controls, 'rotateR',  { rotate.r, { 0.0, 90.0, 0.1f } });
-//    two.ui.slider_field<float>(controls, 'rotateG',  { rotate.g, { 0.0, 90.0, 0.1f } });
-//    two.ui.slider_field<float>(controls, 'rotateB',  { rotate.b, { 0.0, 90.0, 0.1f } });
-//    two.ui.slider_field<float>(controls, 'scatter',  { halftone.scatter, { 0.0, 1.0, 0.01f } });
-//    two.ui.input_field<bool>  (controls, 'grayscale', halftone.grayscale);
-//
-//    two.ui.slider_field<float>(controls, 'blending', { halftone.blending, { 0.0, 1.0, 0.01f } });
-//    two.ui.dropdown_field(controls, 'blend mode', { 'None', 'Linear', 'Multiply', 'Add', 'Lighter', 'Darker' }, (uint32_t&)halftone.blend_mode);
-//
-//    two.ui.input_field<bool>  (controls, 'disable', halftone.disable);
-//
-//    halftone.rotate = rotate * (c_pi / 180.0);
-//}
 
-//var delta = clock.getDelta();
-//group.rotation.y += delta * rotationSpeed;
+var delta = app.gfx.frame_time;
+this.angles.y += delta * rotationSpeed;
+
+this.node.apply(new two.vec3(0.0), new two.quat(this.angles));
+
+for(var i = 0; i < this.nodes.length; ++i) {
+    var n = this.nodes[i];
+    n.node.derive(this.node, n.p, n.r);
+}
 
 function renderer(gfx, render, halftone) {
     

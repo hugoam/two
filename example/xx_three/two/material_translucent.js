@@ -128,7 +128,7 @@ if(init) {
 //{
 //    var sheet = two.ui.sheet(*dock);
 //
-//    auto panel = [](const string name) -> Widget
+//    auto panel = [](const string name) . Widget
 //    {
 //        var s = two.ui.expandbox(sheet, name.c_str());
 //        return two.ui.columns(s, { 0.3, 0.7f });

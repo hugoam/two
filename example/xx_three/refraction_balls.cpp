@@ -26,10 +26,12 @@ void xx_refraction_balls(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 		camera.m_eye.z = 3200.f;
 
 		Texture& refraction = *app.m_gfx.textures().file("cube/park.jpg.cube");
-		scene.m_env.m_radiance.m_texture = &refraction;
-		scene.m_env.m_radiance.m_filter = false;
-		scene.m_env.m_background.m_texture = &refraction;
-		scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
+
+		Zone& env = scene.m_env;
+		env.m_radiance.m_texture = &refraction;
+		env.m_radiance.m_filter = false;
+		env.m_background.m_texture = &refraction;
+		env.m_background.m_mode = BackgroundMode::Panorama;
 
 		Model& sphere = app.m_gfx.shape(Sphere(100.f));
 

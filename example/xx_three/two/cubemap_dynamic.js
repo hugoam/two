@@ -2,12 +2,11 @@
 
 var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controls(viewer);
-viewer.viewport.active = false;
+viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
 
-if(init)
-{
+if(init) {
     this.count = 0;
 
     this.lon = 0.0; this.lat = 0.0;
@@ -28,7 +27,9 @@ if(init)
 
     this.cube0 = new two.CubeCamera(scene, 1.0, 1000.0, 256);
     this.cube1 = new two.CubeCamera(scene, 1.0, 1000.0, 256);
-
+    this.cubemap0 = this.cube0.cubemap.cubemap;
+    this.cubemap1 = this.cube1.cubemap.cubemap;
+    
     var basic = app.gfx.programs.fetch('pbr/basic');
 
     var material = app.gfx.materials.create('material'); var m = material;
@@ -41,10 +42,10 @@ if(init)
     this.isphere = scene.items().add(new two.Item(sphere, app.gfx.shape(new two.Sphere(20.0)), 0, material));
 
     this.cube = scene.nodes().add(new two.Node3());
-    scene.items().add(new two.Item(cube, app.gfx.shape(new two.Cube(10.0)), 0, material));
+    scene.items().add(new two.Item(this.cube, app.gfx.shape(new two.Cube(new two.vec3(10.0))), 0, material));
     
     this.torus = scene.nodes().add(new two.Node3());
-    scene.items().add(new two.Item(torus, app.gfx.shape(new two.TorusKnot(10.0, 5.0)), 0, material));
+    scene.items().add(new two.Item(this.torus, app.gfx.shape(new two.TorusKnot(10.0, 5.0)), 0, material));
     
     this.cubea = new two.vec3(0.0);
     this.torusa = new two.vec3(0.0);
@@ -55,44 +56,36 @@ if(init)
     this.pressY = 0.0;
 }
 
+var event = viewer.mouse_event(two.DeviceType.MouseLeft, two.EventType.Pressed);
+if(event.valid())
 {
-    var event = viewer.mouse_event(two.DeviceType.MouseLeft, two.EventType.Pressed);
-    if(event.valid())
-    {
-        this.pressX = event.relative.x; this.pressY = event.relative.y;
-        this.presslon = this.lon;
-        this.presslat = this.lat;
-        this.pressed = true;
-    }
+    this.pressX = event.relative.x; this.pressY = event.relative.y;
+    this.presslon = this.lon;
+    this.presslat = this.lat;
+    this.pressed = true;
 }
 
+event = viewer.mouse_event(two.DeviceType.MouseLeft, two.EventType.Released);
+if(event.valid())
+    this.pressed = false;
+
+event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+if(event.valid() && this.pressed)
 {
-    var event = viewer.mouse_event(two.DeviceType.MouseLeft, two.EventType.Released);
-    if(event.valid())
-        this.pressed = false;
+    this.lon = (event.relative.x - this.pressX) * 0.1 + this.presslon;
+    this.lat = (event.relative.y - this.pressY) * 0.1 + this.presslat;
 }
 
+event = viewer.mouse_event(two.DeviceType.MouseMiddle, two.EventType.Moved)
+if(event.valid())
 {
-    var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
-    if(event.valid() && this.pressed)
-    {
-        this.lon = (event.relative.x - this.pressX) * 0.1 + this.presslon;
-        this.lat = (event.relative.y - this.pressY) * 0.1 + this.presslat;
-    }
-}
-
-{
-    var event = viewer.mouse_event(two.DeviceType.MouseMiddle, two.EventType.Moved)
-    if(event.valid())
-    {
-        viewer.camera.fov = Math.min(Math.max(viewer.camera.fov + event.deltaZ, 10.0), 75.0);
-    }
+    viewer.camera.fov = Math.min(Math.max(viewer.camera.fov + event.deltaZ, 10.0), 75.0);
 }
 
 this.lon += 0.15;
 
 function toRadians(degrees) {
-  return degrees * Math.PI / 180;
+    return degrees * Math.PI / 180;
 }
 
 this.lat = Math.max(-85.0, Math.min(85.0, this.lat));
@@ -124,16 +117,16 @@ app.gfx.renderer.begin(render);
 two.begin_pbr_render(app.gfx, render);
 
 function render_probe(gfx, render, probe) {
-    
+
     for(var axis = 0; axis < 6; ++axis) {
-        
+
         var probe_render = probe.render(gfx, render, axis);
         gfx.renderer.gather(probe_render);
         gfx.renderer.begin(probe_render);
         
-        two.pass_clear(gfx, render);
-        two.pass_opaque(gfx, render);
-        two.pass_background(gfx, render);
+        two.pass_clear(gfx, probe_render);
+        two.pass_opaque(gfx, probe_render);
+        two.pass_background(gfx, probe_render);
         
         gfx.renderer.end(probe_render);
         render.pass_index = probe_render.pass_index;
@@ -146,11 +139,11 @@ this.isphere.visible = false;
 // pingpong
 
 if(this.count % 2 === 0) {
-    scene.env.radiance.texture = this.cube0.cubemap.cubemap;
+    scene.env.radiance.texture = this.cubemap0;
     render_probe(app.gfx, render, this.cube1);
 }
 else {
-    scene.env.radiance.texture = this.cube1.cubemap.cubemap;
+    scene.env.radiance.texture = this.cubemap1;
     render_probe(app.gfx, render, this.cube0);
 }
 
@@ -158,8 +151,6 @@ this.isphere.visible = true;
 
 two.pass_clear(app.gfx, render);
 two.pass_opaque(app.gfx, render);
-
-//scene.env.background.texture = cube0.cubemap.cubemap;
 two.pass_background(app.gfx, render);
 
 app.gfx.renderer.end(render);

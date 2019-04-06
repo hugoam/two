@@ -14,40 +14,40 @@ if(init) {
     camera.fov = 50.0; camera.near = 1.0; camera.far = 100000.0;
     camera.eye.z = -4000.0;
 
-	var pbr = app.gfx.programs.fetch('pbr/pbr');
-
     var refraction = app.gfx.textures.file('cube/park.jpg.cube');
-    scene.env.radiance.texture = refraction;
-    scene.env.background.texture = refraction;
-    scene.env.background.mode = two.BackgroundMode.Panorama;
+    
+    var env = scene.env;
+    env.radiance.texture = refraction;
+    env.radiance.filter = false;
+    env.background.texture = refraction;
+    env.background.mode = two.BackgroundMode.Panorama;
 
-	//var ambient = new THREE.AmbientLight(0xffffff);
+    env.radiance.ambient = 1.0;
 
     var sphere = app.gfx.shape(new two.Sphere(100.0 * 0.05));
 
     var ln = scene.nodes().add(new two.Node3());
-    scene.lights().add(new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 2.0));
+    scene.lights().add(new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 2.0, 0.0));
     scene.items().add(new two.Item(ln, sphere, 0, two.gfx.solid_material(app.gfx, 'light', two.rgb(0xffffff))));
     this.light = ln;
 
     // material samples
 
+	var phong = app.gfx.programs.fetch('pbr/lambert');
+
     function phong_material(name, colour, refraction, reflectivity) {
         
         var m = app.gfx.materials.create(name);
-            m.program = pbr;
-            m.pbr.specular_mode = two.PbrSpecularMode.Phong;
-            m.pbr.albedo.value = colour;
-            m.pbr.metallic.value = 1.0;
-            m.pbr.roughness.value = 0.0;
-            m.pbr.refraction.value = refraction;
-            //m.pbr.reflectivity = reflectivity;
+            m.program = phong;
+            m.phong.diffuse.value = colour;
+            m.phong.refraction.value = refraction;
+            m.phong.reflectivity.value = reflectivity;
         return m;
     };
 
     var m3 = phong_material('refraction0', two.rgb(0xccddff), 0.98, 0.9);
-    var m2 = phong_material('refraction1', two.rgb(0xccfffd), 0.985);
-    var m1 = phong_material('refraction2', two.rgb(0xffffff), 0.98);
+    var m2 = phong_material('refraction1', two.rgb(0xccfffd), 0.985, 1.0);
+    var m1 = phong_material('refraction2', two.rgb(0xffffff), 0.98, 1.0);
 
     var model = app.gfx.models.file('Lucy100k');
 

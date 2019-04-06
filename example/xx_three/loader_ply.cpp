@@ -29,16 +29,19 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		viewer.m_viewport.m_to_gamma = true;
 
+		//Colour colour = to_linear(rgb(0x72645b));
 		Colour colour = to_colour(pow(to_vec3(rgb(0x72645b)), vec3(2.f)));
 
 		viewer.m_viewport.m_clear_colour = colour;
-		scene.m_env.m_background.m_colour = colour;
-		scene.m_env.m_radiance.m_ambient = 0.f;
 
-		scene.m_env.m_fog.m_enabled = true;
-		scene.m_env.m_fog.m_colour = colour;
-		scene.m_env.m_fog.m_depth_begin = 2.f;
-		scene.m_env.m_fog.m_depth_end = 15.f;
+		Zone& env = scene.m_env;
+		env.m_background.m_colour = colour;
+		env.m_radiance.m_ambient = 0.f;
+
+		env.m_fog.m_enabled = true;
+		env.m_fog.m_colour = colour;
+		env.m_fog.m_depth_begin = 2.f;
+		env.m_fog.m_depth_end = 15.f;
 
 		auto add_light = [&](vec3 d, Colour color, float intensity, bool shadows)
 		{

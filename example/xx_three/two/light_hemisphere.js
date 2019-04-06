@@ -25,6 +25,7 @@ var skydome_fragment = `$input v_world
     {
         float h = normalize(v_world + u_offset).y;
         gl_FragColor = vec4(mix(u_bottom_color, u_top_color, max(pow(max(h, 0.0), u_exponent), 0.0)), 1.0);
+        gl_FragColor = vec4(pow(gl_FragColor.rgb, vec3_splat(2.0)), 1.0);
     }`;
 
 var viewer = two.ui.scene_viewer(panel);
@@ -39,11 +40,19 @@ if(init) {
     camera.fov = 30.0; camera.near = 1.0; camera.far = 5000.0;
     camera.eye = new two.vec3(0.0, 0.0, 250.0);
 
-    viewer.viewport.clear_colour = two.hsl(0.6, 0.0, 1.0);
-    scene.env.background.colour = two.hsl(0.6, 0.0, 1.0);
-    scene.env.radiance.ambient = 0.0;
+    var colour = two.hsl(0.6, 0.0, 1.0);
+    
+    viewer.viewport.to_gamma = true;
+    viewer.viewport.clear_colour = colour;
+    
+    var env = scene.env;
+    env.background.colour = colour;
+    env.radiance.ambient = 0.0;
 
-    //scene.fog = new THREE.Fog( scene.background, 1, 5000 );
+    env.fog.enabled = true;
+    env.fog.colour = colour;
+    env.fog.depth_begin = 1.0;
+    env.fog.depth_end = 5000.0;
 
     // LIGHTS
 
@@ -116,9 +125,14 @@ if(init) {
     // MODEL
 
     var model = app.gfx.models.file('Flamingo'); // .glb
+    model.get_mesh(0).material.base.flat_shaded = true;
     
-    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0, -1.0, 0.0), new two.quat(new two.vec3(0.0, -1.0, 0.0)), new two.vec3(0.35)));
+    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0, 15.0, 0.0), new two.quat(new two.vec3(0.0, -1.0, 0.0)), new two.vec3(0.35)));
     var it = scene.items().add(new two.Item(n, model));
+    var mi = scene.mimes().add(new two.Mime(n));
+    mi.add_item(it);
+
+    mi.start('flamingo_flyA_', true, 0.0, 1.2);
 }
 
-//scene.update();
+scene.update();

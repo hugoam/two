@@ -111,7 +111,7 @@ function pass_rgbshift(gfx, render, p) {
 }
 
 var viewer = two.ui.scene_viewer(panel);
-viewer.viewport.active = false;
+viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
 
@@ -131,7 +131,15 @@ if(init) {
     this.dotscreen = { size: new two.vec2(256.0), center: new two.vec2(0.5), angle: 1.57, scale: 4.0 };
     this.rgbshift = { amount: 0.0015, angle: 0.0 };
 
-    //scene.fog = new THREE.Fog(0x000000, 1, 1000);
+    var env = scene.env;
+    
+    env.radiance.ambient = 1.0;
+    env.radiance.colour = two.rgb(0x222222);
+
+    env.fog.enabled = true;
+    env.fog.colour = two.rgb(0x000000);
+    env.fog.depth_begin = 1.0;
+    env.fog.depth_end = 1000.0;
 
     var object = scene.nodes().add(new two.Node3());
     this.node = object;
@@ -162,7 +170,7 @@ if(init) {
     
     //scene.add(new THREE.AmbientLight(0x222222));
 
-    var dir = two.look_dir(new two.vec3(1.0));
+    var dir = two.look_dir(new two.vec3(-1.0));
     var ln = scene.nodes().add(new two.Node3(new two.vec3(0.0), dir));
     var l = scene.lights().add(new two.Light(ln, two.LightType.Direct, false, two.rgb(0xffffff)));
 

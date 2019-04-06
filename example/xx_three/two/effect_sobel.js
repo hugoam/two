@@ -128,7 +128,7 @@ function pass_sobel(gfx, render) {
 
 var viewer = two.ui.scene_viewer(panel);
 two.ui.orbit_controls(viewer);
-viewer.viewport.active = false;
+viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
 var camera = viewer.camera;

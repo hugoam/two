@@ -24,26 +24,35 @@ two.ui.trackball_controller(viewer);
 var scene = viewer.scene;
 
 if (init) {
-    //scene.add(new THREE.AmbientLight(0x111122));
+    
+    var camera = viewer.camera;
+    camera.fov = 45.0; camera.near = 1.0; camera.far = 1000.0;
+    camera.eye = new two.vec3(0.0, 10.0, 40.0);
 
-    var pbr = app.gfx.programs.file('pbr/pbr');
+    //control.target = new two.vec3(0.0, 10.0, 0.0);
+        
+	var env = scene.env;
+    env.radiance.colour = two.rgb(0x111122);
+    env.radiance.ambient = 1.0;
+
+    var phong = app.gfx.programs.file('pbr/phong');
 
     var c = app.gfx.materials.fetch('cube');
-    c.program = pbr;
+    c.program = phong;
     c.base.cull_mode = two.CullMode.Front;
     c.lit.normal.value = -1.0;
-    c.pbr.albedo.value = two.rgba(0xa0adafff);
-    //	shininess: 10,
-    //	specular: 0x111111,
+    c.phong.diffuse.value = two.rgb(0xa0adaf);
+    c.phong.specular.value = two.rgb(0x111111);
+    c.phong.shininess.value = 10.0;
     this.cubemat = c;
 
     var s = app.gfx.materials.fetch('sphere');
-    s.program = pbr;
+    s.program = phong;
     s.base.cull_mode = two.CullMode.None;
     s.base.uv0_scale = new two.vec2(1.0, 3.5);
     s.alpha.alpha_test = true;
     s.alpha.alpha.texture = generateTexture(app.gfx, 2, 2, 2);
-    s.lit.normal = -1.0; // @todo @bug @hack check why gl_FrontFacing in shader inverts normals
+    s.lit.normal.value = -1.0; // @todo @bug @hack check why gl_FrontFacing in shader inverts normals
     this.spheremat = s;
 
     var colors = [0x0088ff, 0xff8888];
@@ -62,18 +71,16 @@ if (init) {
         var inner = scene.items().add(new two.Item(node, sphere0, 0, app.gfx.symbol_material(new two.Symbol(color), two.PLAIN)));// * intensity));
         var outer = scene.items().add(new two.Item(node, sphere1, 0, this.spheremat));
         
-        var light = scene.lights().add(new two.Light(node, two.LightType.Point, false, color, intensity, range)); //, 0.6));// intensity);
+        var light = scene.lights().add(new two.Light(node, two.LightType.Point, true, color, intensity, range)); //, 0.6));// intensity);
         //light.shadow_bias = 0.005;
         
         this.lights.push(node);
     }
         
+    var zeroq = new two.quat(new two.vec3(0.0));
     var cube = new two.Cube(new two.vec3(15.0));
-    var node = scene.nodes().add(new two.Node3());// , Y3 * 10.0);
+    var node = scene.nodes().add(new two.Node3(new two.vec3(0.0, 10.0, 0.0), zeroq));
     scene.items().add(new two.Item(node, app.gfx.shape(cube), 0, this.cubemat));
-
-    scene.env.radiance.colour = two.rgb(0x111122);
-    scene.env.radiance.ambient = 0.1;
 }
 
 function pos(time) {
@@ -84,8 +91,8 @@ function rot(time) {
     return new two.quat(new two.vec3(time, 0.0, time));
 };
 
-var time0 = time;
-this.lights[0].apply(pos(time), rot(time));
+var time0 = time * 2.0;
+this.lights[0].apply(pos(time0), rot(time0));
 
-var time1 = time + 10000;
+var time1 = time * 2.0+ 10000;
 this.lights[1].apply(pos(time1), rot(time1));

@@ -6,17 +6,6 @@ two.ui.trackball_controller(viewer);
 
 var scene = viewer.scene;
 
-var pbr = app.gfx.programs.file('pbr/pbr');
-
-var hdrenv = app.gfx.textures.file('cube/pisaHDR.hdr.cube');
-scene.env.radiance.texture = hdrenv;
-scene.env.background.texture = hdrenv;
-scene.env.background.mode = two.BackgroundMode.Panorama;
-
-//Tonemap tonemap = viewer.viewport.comp<Tonemap>();
-//tonemap.enabled = true;
-//tonemap.mode = two.TonemapMode.Reinhardt;
-//tonemap.exposure = 3.0;
 
 if(init) {
     this.importerOBJ = new two.ImporterOBJ(app.gfx);
@@ -25,6 +14,20 @@ if(init) {
     camera.fov = 50.0; camera.near = 0.01; camera.far = 1000.0;
     camera.eye.z = 2.0;
 
+    var hdrenv = app.gfx.textures.file('cube/pisaHDR.hdr.cube');
+    
+    var env = scene.env;
+    env.radiance.texture = hdrenv;
+    env.background.texture = hdrenv;
+    env.background.mode = two.BackgroundMode.Panorama;
+
+    viewer.viewport.to_gamma = true;
+    
+    //this.tonemap = new two.Tonemap();
+    //this.tonemap.enabled = true;
+    //this.tonemap.mode = two.TonemapMode.Reinhardt;
+    //this.tonemap.exposure = 3.0;
+    
     //scene.add(new THREE.HemisphereLight(0x443333, 0x222233, 4));
 
     var albedo = app.gfx.textures.file('cerberus/Cerberus_A.jpg');
@@ -32,6 +35,8 @@ if(init) {
     var normal = app.gfx.textures.file('cerberus/Cerberus_N.jpg');
 
     var model = app.gfx.models.file('Cerberus');
+
+    var pbr = app.gfx.programs.file('pbr/pbr');
 
     var material = app.gfx.materials.create('standard'); var m = material;
         m.program = pbr;

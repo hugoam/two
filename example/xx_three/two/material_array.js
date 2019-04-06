@@ -11,10 +11,21 @@ if(init) {
     camera.eye = new two.vec3(0.0, 400.0, 400.0 * 3.5);
 
     var hdrenv = app.gfx.textures.file('cube/pisaHDR.hdr.cube');
-    scene.env.radiance.texture = hdrenv;
-    scene.env.background.texture = hdrenv;
-    scene.env.background.mode = two.BackgroundMode.Panorama;
+    
+    var env = scene.env;
+    env.radiance.texture = hdrenv;
+    env.background.texture = hdrenv;
+    env.background.mode = two.BackgroundMode.Panorama;
 
+    viewer.viewport.to_gamma = true;
+    
+    //this.tonemap = new two.Tonemap();
+    //this.tonemap.enabled = true;
+    //this.tonemap.mode = two.TonemapMode.Reinhardt;
+    //this.tonemap.exposure = 3.0;
+    //this.tonemap.mode = two.TonemapMode.Uncharted2;
+    //this.tonemap.exposure = 0.75;
+    
     //scene.add(new THREE.AmbientLight(0x222222));
 
     // Materials
@@ -70,19 +81,12 @@ if(init) {
     var dir = two.look_dir(new two.vec3(-1.0, -1.0, -1.0))
     var dl = scene.nodes().add(new two.Node3(new two.vec3(0.0), dir));
     scene.lights().add(new two.Light(dl, two.LightType.Direct, false, two.rgb(0xffffff)));
-
-    //Tonemap tonemap = viewer.viewport.comp<Tonemap>();
-    //tonemap.enabled = true;
-    //tonemap.mode = TonemapMode::Reinhardt;
-    //tonemap.exposure = 3.f;
-    //tonemap.mode = TonemapMode::Uncharted2;
-    //tonemap.exposure = 0.75;
 }
 
-//var time = app.gfx.time * 0.1;
+var timer = time * 0.1;
 
 //camera.position.x = cos(timer) * 800;
 //camera.position.z = sin(timer) * 800;
 
-var p = new two.vec3(Math.sin(time * 7.0) * 300.0, Math.cos(time * 5.0) * 400.0, Math.cos(time * 3.0) * 300.0);
+var p = new two.vec3(Math.sin(timer * 7.0) * 300.0, Math.cos(timer * 5.0) * 400.0, Math.cos(timer * 3.0) * 300.0);
 this.light.apply(p);

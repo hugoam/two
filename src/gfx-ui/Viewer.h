@@ -109,24 +109,24 @@ namespace mud
 
 		bool m_enabled = true;
 
-		float m_rotateSpeed = 1.0f;
-		float m_zoomSpeed = 1.2f;
-		float m_panSpeed = 0.3f; // 0.8f
+		attr_ float m_rotateSpeed = 1.0f;
+		attr_ float m_zoomSpeed = 1.2f;
+		attr_ float m_panSpeed = 0.3f; // 0.8f
 
 		bool m_noRotate = false;
 		bool m_noZoom = false;
 		bool m_noPan = false;
 
-		bool m_staticMoving = false;
-		float m_dynamicDampingFactor = 0.2f;
+		attr_ bool m_staticMoving = false;
+		attr_ float m_dynamicDampingFactor = 0.2f;
 
-		float m_minDistance = 0.f;
-		float m_maxDistance = FLT_MAX;// Infinity;
+		attr_ float m_minDistance = 0.f;
+		attr_ float m_maxDistance = FLT_MAX;// Infinity;
 
 		Key m_keys[3] = { Key::A, Key::S, Key::D };
 		//m_keys = [65 /*A*/, 83 /*S*/, 68 /*D*/];
 
-		vec3 m_target = vec3(0.f);
+		attr_ vec3 m_target = vec3(0.f);
 
 	private:
 		vec3 m_lastEye = vec3(0.f);

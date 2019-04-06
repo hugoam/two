@@ -113,7 +113,7 @@ var enabled = true;
 var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controller(viewer);
 if (enabled) {
-    viewer.viewport.active = false;
+    viewer.viewport.autorender = false;
 }
 
 var scene = viewer.scene;
@@ -124,15 +124,6 @@ var bokeh = {
     maxblur : 1.0
 };
 
-function renderer(gfx, render) {
-    
-    two.begin_pbr_render(gfx, render);
-
-    two.pass_clear(gfx, render);
-    two.pass_opaque(gfx, render);
-    pass_bokeh(gfx, render, bokeh);
-}
-
 if (init) {
     this.mouse = new two.vec2(0.0);
 
@@ -142,8 +133,8 @@ if (init) {
 
     var basic = app.gfx.programs.fetch('pbr/basic');
     
-    var texcube = app.gfx.textures.file('radiance/tiber_1_1k.hdr');
-    //var texcube = app.gfx.textures.file('cube/royal.jpg.cube');
+    //var texcube = app.gfx.textures.file('radiance/tiber_1_1k.hdr');
+    var texcube = app.gfx.textures.file('cube/royal.jpg.cube');
     scene.env.radiance.texture = texcube;
     //scene.env.radiance.energy = 1.0;
 
@@ -215,7 +206,17 @@ for(var i = 0; i < this.nobjects; i++)
 //	two.ui.slider_field_float(controls, 'maxblur',  { bokeh.maxblur,  { 0.0, 3.f, 0.025 } });
 //}
 
+function renderer(gfx, render) {
+    
+    two.begin_pbr_render(gfx, render);
+
+    two.pass_clear(gfx, render);
+    two.pass_opaque(gfx, render);
+    pass_bokeh(gfx, render, bokeh);
+}
+
 if (enabled) {
+    
     var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
     app.gfx.renderer.gather(render);
     app.gfx.renderer.begin(render);

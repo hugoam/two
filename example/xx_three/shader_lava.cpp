@@ -173,6 +173,7 @@ static string lava_fragment =
 	"	gl_FragColor = mix(source, vec4(vec3(0.0, 0.0, 0.0), source.w), fogFactor);\n"
 	"}\n";
 
+
 void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {
 	SceneViewer& viewer = ui::scene_viewer(parent);

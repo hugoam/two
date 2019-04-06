@@ -15,20 +15,20 @@ if(init) {
     camera.eye.z = 3200.0;
 
     var refraction = app.gfx.textures.file('cube/park.jpg.cube');
-    scene.env.radiance.texture = refraction;
-    scene.env.background.texture = refraction;
-    scene.env.background.mode = two.BackgroundMode.Panorama;
+    
+    var env = scene.env;
+    env.radiance.texture = refraction;
+    env.radiance.filter = false;
+    env.background.texture = refraction;
+    env.background.mode = two.BackgroundMode.Panorama;
 
     var sphere = app.gfx.shape(new two.Sphere(100.0));
 
-    var pbr = app.gfx.programs.file('pbr/pbr');
+    var phong = app.gfx.programs.file('pbr/phong');
 
     var material = app.gfx.materials.create('balls'); var m = material;
-        m.program = pbr;
-        m.pbr.albedo.value = two.rgb(0xffffff);
-        m.pbr.metallic.value = 1.0;
-        m.pbr.roughness.value = 0.0;
-        m.pbr.refraction.value = 0.95;
+        m.program = phong;
+        m.phong.refraction.value = 0.95;
     
     this.spheres = [];
     for(var i = 0; i < 500; i++) {

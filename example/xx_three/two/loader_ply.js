@@ -13,14 +13,20 @@ if(init) {
     camera.eye = new two.vec3(3.0, 0.15, 3.0);
     camera.target = new two.vec3(0.0, -0.1, 0.0);
 
-    var bg = two.rgb(0x72645b);
+    var bg = two.to_linear(two.rgb(0x72645b));
     bg = new two.Colour(bg.r, bg.g, bg.b);
     
+    viewer.viewport.to_gamma = true;
     viewer.viewport.clear_colour = bg;
-    scene.env.background.colour = bg;
-    scene.env.radiance.colour = bg;
-    scene.env.radiance.energy = 1.0;
-    //scene.fog = new THREE.Fog( 0x72645b, 2, 15 );
+    
+    var env = scene.env;
+    env.background.colour = bg;
+    env.radiance.ambient = 0.0;
+    
+    env.fog.enabled = true;
+    env.fog.colour = bg;
+    env.fog.depth_begin = 2.0;
+    env.fog.depth_end = 15.0;
     
     var zeroq = new two.quat(new two.vec3(0.0));
 
@@ -32,7 +38,6 @@ if(init) {
         //l.shadow.bias = -0.001;
     }
 
-    var pbr = app.gfx.programs.fetch('pbr/pbr');
     var three = app.gfx.programs.fetch('pbr/three');
     var phong = app.gfx.programs.fetch('pbr/phong');
 
@@ -69,8 +74,6 @@ if(init) {
 
     // Lights
 
-    //scene.add( new THREE.HemisphereLight( 0x443333, 0x111122 ) );
-
     var skylight = scene.env.skylight;
     skylight.enabled = true;
     skylight.intensity = 1.0;
@@ -78,9 +81,6 @@ if(init) {
     skylight.color = two.rgb(0x443333);
     skylight.ground = two.rgb(0x111122);
 
-    //add_light(scene, new two.quat(-0.325, 0.325, 0.0, 0.888), two.rgb(0xffffff), 1.35, false);
-    //add_light(scene, new two.quat(-0.816, 0.408, 0.0, 0.408), two.rgb(0xffaa00), 1.0, false);
-    
     add_light(scene, new two.quat(-0.325, 0.325, 0.0, 0.888), two.rgb(0xffffff), 1.35, true);
     add_light(scene, new two.quat(-0.816, 0.408, 0.0, 0.408), two.rgb(0xffaa00), 1.0, true);
     

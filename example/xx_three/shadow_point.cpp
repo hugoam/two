@@ -57,7 +57,10 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		control.m_target = vec3(0.f, 10.f, 0.f);
 
-		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
+		Zone& env = scene.m_env;
+		env.m_radiance.m_colour = rgb(0x111122);
+		env.m_radiance.m_ambient = 1.f;
+
 		Program& phong = *app.m_gfx.programs().file("pbr/phong");
 
 		Material& c = app.m_gfx.materials().fetch("cube");
@@ -104,9 +107,6 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Node3& node = gfx::nodes(scene).add(Node3(vec3(0.f, 10.f, 0.f)));
 		gfx::items(scene).add(Item(node, app.m_gfx.shape(Cube(vec3(15.f))), 0, cubemat));
 #endif
-
-		scene.m_env.m_radiance.m_colour = rgb(0x111122);
-		scene.m_env.m_radiance.m_ambient = 1.f;
 	}
 
 #if IMMEDIATE

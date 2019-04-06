@@ -27,7 +27,7 @@ var glitch_fragment = `$input v_uv0
     
     //uniform float col_s;
     
-    float rand(vec2 co){
+    float rand2(vec2 co){
     	return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
     }
     
@@ -63,7 +63,7 @@ var glitch_fragment = `$input v_uv0
     	vec4 cb = texture2D(s_source_0, p - offset);
     	gl_FragColor = vec4(cr.r, cga.g, cb.b, cga.a);
     	//add noise
-    	vec4 snow = 200.0 * u_amount * vec4_splat(rand(vec2(xs * u_seed, ys * u_seed * 50.0)) * 0.2);
+    	vec4 snow = 200.0 * u_amount * vec4_splat(rand2(vec2(xs * u_seed, ys * u_seed * 50.0)) * 0.2);
     	gl_FragColor = gl_FragColor + snow;
     }`;
 
@@ -154,7 +154,7 @@ function pass_glitch(gfx, render, glitch, dt_size) {
 
 var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controls(viewer);
-viewer.viewport.active = false;
+viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
 
@@ -163,7 +163,15 @@ if(init) {
     camera.fov = 70.0; camera.near = 1.0; camera.far = 1000.0;
     camera.eye.z = 400.0;
 
-    //scene.fog = new THREE.Fog(0x000000, 1, 1000);
+    var env = scene.env;
+    
+    env.radiance.ambient = 1.0;
+    env.radiance.colour = two.rgb(0x222222);
+
+    env.fog.enabled = true;
+    env.fog.colour = two.rgb(0x000000);
+    env.fog.depth_begin = 1.0;
+    env.fog.depth_end = 1000.0;
 
     var glitch = app.gfx.programs.create('glitch');
     glitch.set_source(two.ShaderType.Vertex, glitch_vertex);
@@ -171,9 +179,8 @@ if(init) {
 
     var symbol = new two.Symbol(new two.Colour(1.0)); symbol.subdiv = new two.uvec2(4);
     var geometry = app.gfx.shape(new two.Sphere(1.0), symbol);
-    //var geometry = app.gfx.shape(Sphere(1.0));
 
-    var pbr = app.gfx.programs.fetch('pbr/pbr');
+    var phong = app.gfx.programs.fetch('pbr/phong');
 
     var group = scene.nodes().add(new two.Node3());
     this.object = group;
@@ -182,9 +189,9 @@ if(init) {
     for(var i = 0; i < 100; i++) {
         var name = 'object' + i.toString();
         var material = app.gfx.materials.create(name); var m = material;
-            m.program = pbr;
+            m.program = phong;
             m.base.flat_shaded = true;
-            m.pbr.albedo.value = two.rgb(Math.random() * 0xffffff);
+            m.phong.diffuse.value = two.rgb(Math.random() * 0xffffff);
         
         //var material = new THREE.MeshPhongMaterial({ color: 0xffffff * Math.random(),  });
 
@@ -198,9 +205,7 @@ if(init) {
         this.nodes.push({ p: p, a: a, s: s, n: n });
     }
 
-    //scene.add(new THREE.AmbientLight(0x222222));
-
-    var dir = two.look_dir(new two.vec3(-1.0, -1.0, -1.0));
+    var dir = two.look_dir(new two.vec3(-1.0));
     var n = scene.nodes().add(new two.Node3(new two.vec3(0.0), dir));
     var light = scene.lights().add(new two.Light(n, two.LightType.Direct, false));
 
