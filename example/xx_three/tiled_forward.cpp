@@ -11,10 +11,8 @@
 static string lights_input = 
 
 R"'(
-//uniform vec4 u_tiles;
 //SAMPLER2D(s_tiles, 7);
 //SAMPLER2D(s_lights, 8);
-#define u_tiles u_user_p0
 #define s_tiles s_user0
 #define s_lights s_user1
 )'";
@@ -128,7 +126,6 @@ struct Tiled
 	size_t rows = 0;
 	size_t cols = 0;
 
-	vec4 params;
 	Texture tiles;
 	Texture lights;
 };
@@ -141,13 +138,11 @@ void resize_tiles(GfxSystem& gfx, Render& render, Tiled& state)
 	state.cols = ceil(rect.width / 32);
 	state.rows = ceil(rect.height / 32);
 
-	vec4 tiled_p0 = vec4(vec2(state.size), vec2(0.5f) / vec2(float(state.cols), float(state.rows)));
-	state.params = tiled_p0;
 	state.tiles = { uvec2(state.cols, state.rows), false, TextureFormat::RGBA8 };
 }
 
 // Generate the light bitmasks and store them in the tile texture
-void pack_lights(GfxSystem& gfx, Render& render, Tiled& state, span<ExLight> lights) //renderer, scene, camera) {
+void pack_lights(GfxSystem& gfx, Render& render, Tiled& state, span<ExLight> lights)
 {
 	vector<uint8_t> d = vector<uint8_t>(state.cols * state.rows * 4);
 	vector<float> ld = vector<float>(32 * 2 * 4);
@@ -185,7 +180,7 @@ void pack_lights(GfxSystem& gfx, Render& render, Tiled& state, span<ExLight> lig
 
 		ivec4 bs = lightBounds(camera, vector, light.radius);
 
-		vector = mulp(camera.m_transform, vector);
+		vector = mulp(camera.m_view, vector);
 
 		assert(32 * 4 + 4 * index + 3 < ld.size());
 
@@ -249,7 +244,6 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		{
 			m->m_user.m_tex0 = &state.tiles;
 			m->m_user.m_tex1 = &state.lights;
-			m->m_user.m_attr0 = state.params;
 			//mtl.uniforms["opacity"].value = tIndex == = index ? 0.9 : 1;
 		}
 	};

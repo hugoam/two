@@ -550,6 +550,9 @@ Camera.prototype["set_isometric"] = Camera.prototype.set_isometric = function(a0
 Camera.prototype["ray"] = Camera.prototype.ray = function(a0) {
     return wrapPointer(_mud_Camera_ray_1(this.__ptr, /*offset*/a0.__ptr), Ray);
 };
+Camera.prototype["transform"] = Camera.prototype.transform = function(a0) {
+    return wrapPointer(_mud_Camera_transform_1(this.__ptr, /*point*/a0.__ptr), v3_float);
+};
 Camera.prototype["project"] = Camera.prototype.project = function(a0) {
     return wrapPointer(_mud_Camera_project_1(this.__ptr, /*point*/a0.__ptr), v3_float);
 };
@@ -577,20 +580,20 @@ Object.defineProperty(Camera.prototype, "up", {
         _mud_Camera__set_up(this.__ptr, value.__ptr);
     }
 });
-Object.defineProperty(Camera.prototype, "transform", {
+Object.defineProperty(Camera.prototype, "view", {
     get: function() {
-        return wrapPointer(_mud_Camera__get_transform(this.__ptr), mat4);
+        return wrapPointer(_mud_Camera__get_view(this.__ptr), mat4);
     },
     set: function(value) {
-        _mud_Camera__set_transform(this.__ptr, value.__ptr);
+        _mud_Camera__set_view(this.__ptr, value.__ptr);
     }
 });
-Object.defineProperty(Camera.prototype, "projection", {
+Object.defineProperty(Camera.prototype, "proj", {
     get: function() {
-        return wrapPointer(_mud_Camera__get_projection(this.__ptr), mat4);
+        return wrapPointer(_mud_Camera__get_proj(this.__ptr), mat4);
     },
     set: function(value) {
-        _mud_Camera__set_projection(this.__ptr, value.__ptr);
+        _mud_Camera__set_proj(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(Camera.prototype, "fov", {

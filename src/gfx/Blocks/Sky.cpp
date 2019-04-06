@@ -90,7 +90,7 @@ namespace mud
 			vec4 skybox_p0 = { float(level), float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
 			encoder.setUniform(u_skybox.u_skybox_p0, &skybox_p0);
 
-			mat4 skybox_matrix = bxinverse(render.m_camera->m_transform);
+			mat4 skybox_matrix = bxinverse(render.m_camera->m_view);
 			encoder.setUniform(u_skybox.u_skybox_matrix, &skybox_matrix);
 
 			ProgramVersion program = { m_skybox_program };

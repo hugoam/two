@@ -188,7 +188,7 @@ namespace mud
 	Frustum optimized_frustum(Camera& camera, span<Item*> items)
 	{
 		if(!camera.m_optimize_ends)
-			return Frustum{ camera.m_transform, camera.m_fov, camera.m_aspect, camera.m_near, camera.m_far };
+			return Frustum{ camera.m_view, camera.m_fov, camera.m_aspect, camera.m_near, camera.m_far };
 
 		Plane near_plane = camera.near_plane();
 
@@ -206,7 +206,7 @@ namespace mud
 		float near = max(camera.m_near, z_min);
 		float far = min(camera.m_far, z_max);
 
-		return Frustum{ camera.m_transform, camera.m_fov, camera.m_aspect, near, far };
+		return Frustum{ camera.m_view, camera.m_fov, camera.m_aspect, near, far };
 	}
 
 	void split_frustum_slices(Camera& camera, span<FrustumSlice*> slices, uint8_t num_splits, float near, float far, float split_distribution)
@@ -225,11 +225,11 @@ namespace mud
 			if(camera.m_orthographic)
 			{
 				vec2 rect = { camera.m_height * camera.m_aspect, camera.m_height };
-				frustum = { camera.m_transform, rect, slice_near, slice_far };
+				frustum = { camera.m_view, rect, slice_near, slice_far };
 			}
 			else
 			{
-				frustum = { camera.m_transform, camera.m_fov, camera.m_aspect, slice_near, slice_far };
+				frustum = { camera.m_view, camera.m_fov, camera.m_aspect, slice_near, slice_far };
 			}
 
 			*slices[i] = { i, frustum };

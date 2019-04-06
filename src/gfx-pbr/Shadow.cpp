@@ -238,11 +238,11 @@ namespace mud
 			stabilize_light_bounds(slice, slice.m_light_bounds, texture_size);
 		}
 
-		slice.m_projection = crop_shrink_light_proj(light, slice.m_light_bounds, light_proj, float(csm_size));
+		slice.m_proj = crop_shrink_light_proj(light, slice.m_light_bounds, light_proj, float(csm_size));
 		slice.m_transform = light_transform;
 
 		mat4 crop_matrix = rect_mat(slice.m_rect) * bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, bgfx::getCaps()->homogeneousDepth);
-		slice.m_shadow_matrix = crop_matrix * slice.m_projection * slice.m_transform;
+		slice.m_shadow_matrix = crop_matrix * slice.m_proj * slice.m_transform;
 
 		slice.m_bias_scale = slice.m_index == 0 ? 1.f : slice.m_frustum.m_radius / csm.m_slices[0].m_frustum.m_radius;
 
@@ -413,11 +413,11 @@ namespace mud
 
 					const vec3& position = light.m_node->position();
 					shadow.m_transform = bxlookat(position, position + to_vec3(axis), view_up[axis]);
-					shadow.m_projection = projection;
+					shadow.m_proj = projection;
 					//shadow.m_light_bounds = 
 
 					shadow.m_items = render.m_shot.m_items;
-					cull_shadow_render(render, shadow.m_items, shadow.m_projection, shadow.m_transform);
+					cull_shadow_render(render, shadow.m_items, shadow.m_proj, shadow.m_transform);
 
 					shadow.m_fbo = &m_atlas.m_fbo;
 
@@ -432,11 +432,11 @@ namespace mud
 				shadow.m_light = &light;
 				shadow.m_rect = m_atlas.render_update(render, light);
 
-				shadow.m_projection = bxproj(light.m_spot_angle * 2.f, 1.f, 0.01f, light.m_range, bgfx::getCaps()->homogeneousDepth);
+				shadow.m_proj = bxproj(light.m_spot_angle * 2.f, 1.f, 0.01f, light.m_range, bgfx::getCaps()->homogeneousDepth);
 				shadow.m_transform = light.m_node->m_transform;
 
 				shadow.m_items = render.m_shot.m_items;
-				cull_shadow_render(render, shadow.m_items, shadow.m_projection, shadow.m_transform);
+				cull_shadow_render(render, shadow.m_items, shadow.m_proj, shadow.m_transform);
 
 				shadow.m_fbo = &m_atlas.m_fbo;
 				shadow.m_shadow_matrix = light.m_node->m_transform;
@@ -581,7 +581,7 @@ namespace mud
 
 		auto render_shadow = [&](LightShadow& shadow, const vec4& rect)
 		{
-			Camera camera = Camera(shadow.m_transform, shadow.m_projection);
+			Camera camera = Camera(shadow.m_transform, shadow.m_proj);
 			Viewport viewport = Viewport(camera, *render.m_scene, rect);
 
 			Render shadow_render = { Shading::Volume, viewport, *render.m_target, *shadow.m_fbo, *render.m_frame };

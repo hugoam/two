@@ -83,7 +83,7 @@ namespace mud
 		
 		float m_near = 0.f;
 		float m_far = 100.f;
-		mat4 m_projection = {};
+		mat4 m_proj = {};
 		mat4 m_transform = {};
 
 		mat4 m_shadow_matrix = {};

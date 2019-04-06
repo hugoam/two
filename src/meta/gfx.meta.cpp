@@ -182,6 +182,7 @@ void mud_Bone__copy_construct(void* ref, void* other) { new(stl::placeholder(), 
 void mud_Camera_set_look_at(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Camera*>(object)).set_look_at(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
 void mud_Camera_set_isometric(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Camera*>(object)).set_isometric(*static_cast<mud::IsometricAngle*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
 void mud_Camera_ray(void* object, span<void*> args, void*& result) { (*static_cast<mud::Ray*>(result)) = (*static_cast<mud::Camera*>(object)).ray(*static_cast<mud::vec2*>(args[0])); }
+void mud_Camera_transform(void* object, span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Camera*>(object)).transform(*static_cast<mud::vec3*>(args[0])); }
 void mud_Camera_project(void* object, span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = (*static_cast<mud::Camera*>(object)).project(*static_cast<mud::vec3*>(args[0])); }
 void mud_Cascade__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Cascade(  ); }
 void mud_Cascade_create(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Cascade*>(object)).create(*static_cast<mud::uvec2*>(args[0]), *static_cast<mud::TextureFormat*>(args[1])); }
@@ -1278,8 +1279,8 @@ namespace mud
 			{ t, offsetof(mud::Camera, m_eye), type<mud::vec3>(), "eye", &eye_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Camera, m_target), type<mud::vec3>(), "target", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Camera, m_up), type<mud::vec3>(), "up", &up_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Camera, m_transform), type<mud::mat4>(), "transform", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Camera, m_projection), type<mud::mat4>(), "projection", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Camera, m_view), type<mud::mat4>(), "view", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Camera, m_proj), type<mud::mat4>(), "proj", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Camera, m_fov), type<float>(), "fov", &fov_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Camera, m_aspect), type<float>(), "aspect", &aspect_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Camera, m_near), type<float>(), "near", &near_default, Member::Value, nullptr },
@@ -1294,6 +1295,7 @@ namespace mud
 			{ t, "set_look_at", Address(), mud_Camera_set_look_at, { { "eye", type<mud::vec3>(),  }, { "target", type<mud::vec3>(),  } }, g_qvoid },
 			{ t, "set_isometric", Address(), mud_Camera_set_isometric, { { "angle", type<mud::IsometricAngle>(),  }, { "position", type<mud::vec3>(),  } }, g_qvoid },
 			{ t, "ray", Address(), mud_Camera_ray, { { "offset", type<mud::vec2>(),  } }, { &type<mud::Ray>(), QualType::None } },
+			{ t, "transform", Address(), mud_Camera_transform, { { "point", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } },
 			{ t, "project", Address(), mud_Camera_project, { { "point", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } }
 		};
 		// static members

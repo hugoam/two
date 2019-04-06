@@ -49,7 +49,7 @@ namespace mud
 		const ushort4 rect = ushort4(m_rect * vec2(fbo.m_size));
 
 		bgfx::setViewRect(pass.m_index, rect.x, rect.y, rect.width, rect.height);
-		bgfx::setViewTransform(pass.m_index, value_ptr(m_camera->m_transform), value_ptr(m_camera->m_projection));
+		bgfx::setViewTransform(pass.m_index, value_ptr(m_camera->m_view), value_ptr(m_camera->m_proj));
 		bgfx::setViewFrameBuffer(pass.m_index, *pass.m_fbo);
 		bgfx::setViewClear(pass.m_index, BGFX_CLEAR_NONE);
 
@@ -80,7 +80,7 @@ namespace mud
 		{
 			const uvec4 rect = uvec4(m_rect * vec2(render.m_fbo->m_size));
 			m_clusters->m_dirty |= uint8_t(Froxelizer::Dirty::Viewport) | uint8_t(Froxelizer::Dirty::Projection);
-			m_clusters->update(rect, m_camera->m_projection, m_camera->m_near, m_camera->m_far);
+			m_clusters->update(rect, m_camera->m_proj, m_camera->m_near, m_camera->m_far);
 			m_clusters->clusterize_lights(*m_camera, render.m_shot.m_lights);
 			m_clusters->upload();
 		}

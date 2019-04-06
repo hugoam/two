@@ -117,7 +117,7 @@ namespace mud
 		struct Impl;
 		unique<Impl> m_impl;
 
-		mat4 m_projection;
+		mat4 m_proj;
 
 		// needed for update()
 		uvec4 m_viewport;

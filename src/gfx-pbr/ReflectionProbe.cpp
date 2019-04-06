@@ -161,7 +161,7 @@ namespace mud
 	void BlockReflection::upload_reflection_probes(Render& render, Pass& pass, span<ReflectionProbe*> probes)
 	{
 		bgfx::Encoder& encoder = *pass.m_encoder;
-		mat4 view_matrix = inverse(render.m_camera->m_transform);
+		mat4 view_matrix = inverse(render.m_camera->m_view);
 
 		ReflectionProbeArray<16> probe_array;
 

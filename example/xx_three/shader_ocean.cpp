@@ -217,7 +217,7 @@ public:
 
 		auto reflect = [](const vec3& i, const vec3& n) -> vec3 { return i - 2.f * dot(n, i) * n; };
 
-		rotation = ::rotation(inverse(sourcecam.m_transform));
+		rotation = ::rotation(inverse(sourcecam.m_view));
 		vec3 eye = -reflect(dir, normal) + mirror;
 		vec3 lookat = muln(rotation, -Z3) + sourcecam.m_eye;
 		vec3 target = -reflect(mirror - lookat, normal) + mirror;
@@ -226,13 +226,13 @@ public:
 		Camera camera = Camera(eye, target, up, sourcecam.m_fov, sourcecam.m_aspect, sourcecam.m_near, sourcecam.m_far);
 
 		static mat4 bias = bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, false);
-		//m_mirror = bias * camera.m_projection * inverse(camera.m_transform);
-		m_mirror = bias * camera.m_projection * camera.m_transform;
+		//m_mirror = bias * camera.m_proj * inverse(camera.m_view);
+		m_mirror = bias * camera.m_proj * camera.m_view;
 
-		//m_mirror = inverse(camera.m_transform) * camera.m_projection * bias;
-		//m_mirror = camera.m_transform * camera.m_projection * bias;
+		//m_mirror = inverse(camera.m_view) * camera.m_proj * bias;
+		//m_mirror = camera.m_view * camera.m_proj * bias;
 
-		m_eye = vec3(inverse(sourcecam.m_transform)[3]); // mat4_position(camera.matrixWorld);
+		m_eye = vec3(inverse(sourcecam.m_view)[3]); // mat4_position(camera.matrixWorld);
 
 		m_item->m_visible = false;
 
@@ -244,11 +244,11 @@ public:
 		// Now update projection matrix with new clip plane, implementing code from: http://www.terathon.com/code/oblique.html
 		// Paper explaining this technique: http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
 		Plane plane = Plane(mirror, normal);
-		plane = camera.m_transform * plane;
+		plane = camera.m_view * plane;
 
 		vec4 clipPlane = vec4(plane.m_normal.x, plane.m_normal.y, plane.m_normal.z, plane.m_distance);
 
-		mat4& proj = camera.m_projection;
+		mat4& proj = camera.m_proj;
 
 		if(true)
 		{

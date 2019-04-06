@@ -258,7 +258,7 @@ namespace mud
 			}
 		}
 
-		const vec2 size = frustum_viewport_size(render.m_camera->m_projection);
+		const vec2 size = frustum_viewport_size(render.m_camera->m_proj);
 
 		const float diameter = distance(points[0], points[1]) * 2.f;
 		const float coverage = diameter / (size.x + size.y);

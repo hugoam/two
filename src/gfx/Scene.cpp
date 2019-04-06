@@ -100,7 +100,7 @@ namespace mud
 
 	void gather_items(Scene& scene, const Camera& camera, vector<Item*>& items)
 	{
-		const Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
+		const Plane6 planes = frustum_planes(camera.m_proj, camera.m_view);
 
 		const Plane near_plane = camera.near_plane();
 
@@ -133,7 +133,7 @@ namespace mud
 
 	void gather_occluders(Scene& scene, const Camera& camera, vector<Item*>& occluders)
 	{
-		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
+		Plane6 planes = frustum_planes(camera.m_proj, camera.m_view);
 
 		//occluders.reserve(m_pool->pool<Item>().size());
 		scene.m_pool->pool<Item>().iterate([&](Item& item)

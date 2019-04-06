@@ -283,7 +283,7 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 		gfx.m_filter->uniform(pass, "u_sao_p0", vec4(sao.scale, sao.intensity, sao.bias, seed));
 		gfx.m_filter->uniform(pass, "u_sao_p1", vec4(sao.kernelRadius, sao.minResolution, vec2(resolution)));
 
-		gfx.m_filter->uniform(pass, "u_sao_invproj", inverse(render.m_camera->m_projection));
+		gfx.m_filter->uniform(pass, "u_sao_invproj", inverse(render.m_camera->m_proj));
 
 		gfx.m_filter->quad(pass, fbo, program);
 	};

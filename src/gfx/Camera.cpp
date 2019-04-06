@@ -24,14 +24,14 @@ namespace mud
 	}
 
 	Camera::Camera(mat4 transform, mat4 projection, bool ortho)
-		: m_transform(transform)
-		, m_projection(projection)
+		: m_view(transform)
+		, m_proj(projection)
 		, m_orthographic(ortho)
 	{}
 
 	Camera::Camera(mat4 transform, float fov, float aspect, float near, float far)
-		: m_transform(transform)
-		, m_projection(bxproj(fov, aspect, near, far, bgfx::getCaps()->homogeneousDepth))
+		: m_view(transform)
+		, m_proj(bxproj(fov, aspect, near, far, bgfx::getCaps()->homogeneousDepth))
 		, m_fov(fov)
 		, m_aspect(aspect)
 		, m_near(near)
@@ -42,8 +42,8 @@ namespace mud
 		: m_eye(eye)
 		, m_target(at)
 		, m_up(up)
-		, m_transform(bxlookat(m_eye, m_target, m_up))
-		, m_projection(bxproj(fov, aspect, near, far, bgfx::getCaps()->homogeneousDepth))
+		, m_view(bxlookat(m_eye, m_target, m_up))
+		, m_proj(bxproj(fov, aspect, near, far, bgfx::getCaps()->homogeneousDepth))
 		, m_fov(fov)
 		, m_aspect(aspect)
 		, m_near(near)
@@ -51,8 +51,8 @@ namespace mud
 	{}
 
 	Camera::Camera(mat4 transform, vec2 rect, float near, float far)
-		: m_transform(transform)
-		, m_projection(bxortho(-rect.x / 2.f, rect.x / 2.f, -rect.y / 2.f, rect.y / 2.f, near, far, 0.0f, bgfx::getCaps()->homogeneousDepth))
+		: m_view(transform)
+		, m_proj(bxortho(-rect.x / 2.f, rect.x / 2.f, -rect.y / 2.f, rect.y / 2.f, near, far, 0.0f, bgfx::getCaps()->homogeneousDepth))
 		, m_aspect(rect.x / rect.y)
 		, m_near(near)
 		, m_far(far)
@@ -88,12 +88,12 @@ namespace mud
 
 	void Camera::update()
 	{
-		m_transform = bxlookat(m_eye, m_target, m_up);
+		m_view = bxlookat(m_eye, m_target, m_up);
 
 		if(!m_orthographic)
-			m_projection = bxproj(m_fov, m_aspect, m_near, m_far, bgfx::getCaps()->homogeneousDepth);
+			m_proj = bxproj(m_fov, m_aspect, m_near, m_far, bgfx::getCaps()->homogeneousDepth);
 		else
-			m_projection = bxortho(ortho_rect(m_height, m_aspect), m_near, m_far, 0.0f, bgfx::getCaps()->homogeneousDepth);
+			m_proj = bxortho(ortho_rect(m_height, m_aspect), m_near, m_far, 0.0f, bgfx::getCaps()->homogeneousDepth);
 	}
 
 	void Camera::set_look_at(const vec3& eye, const vec3& target)
@@ -118,19 +118,24 @@ namespace mud
 
 	Ray Camera::ray(const vec2& offset) const
 	{
-		mat4 invViewProj = inverse(bxmul(m_transform, m_projection));
+		const mat4 inv_viewproj = inverse(m_proj * m_view);
 
-		vec3 start = bxmulh(invViewProj, { offset.x, offset.y, 0.0f });
-		vec3 end = bxmulh(invViewProj, { offset.x, offset.y, 1.0f });
+		const vec3 start = bxmulh(inv_viewproj, vec3(offset.x, offset.y, 0.0f));
+		const vec3 end = bxmulh(inv_viewproj, vec3(offset.x, offset.y, 1.0f));
 
 		return { start, end, normalize(end - start), 1.f / normalize(end - start) };
 	}
 
+	vec3 Camera::transform(const vec3& point) const
+	{
+		return mulp(m_view, point);
+	}
+
 	vec3 Camera::project(const vec3& point) const
 	{
-		const mat4 viewproj = m_projection * m_transform;
-		vec4 clip = viewproj * vec4(point, 1.f);
-		vec3 ndc = vec3(clip) / clip.w;
+		const mat4 viewproj = m_proj * m_view;
+		const vec4 clip = viewproj * vec4(point, 1.f);
+		const vec3 ndc = vec3(clip) / clip.w;
 		return ndc;
 	}
 }

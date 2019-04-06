@@ -37,8 +37,8 @@ namespace mud
 		attr_ vec3 m_target = vec3(0.f);
 		attr_ vec3 m_up = Y3;
 
-		attr_ mat4 m_transform;
-		attr_ mat4 m_projection;
+		attr_ mat4 m_view;
+		attr_ mat4 m_proj;
 
 #if defined MUD_UNIFORM_BLOCKS
 		attr_ FrustumBlock m_frustum;
@@ -67,6 +67,7 @@ namespace mud
 
 		meth_ Ray ray(const vec2& offset) const;
 
+		meth_ vec3 transform(const vec3& point) const;
 		meth_ vec3 project(const vec3& point) const;
 	};
 }

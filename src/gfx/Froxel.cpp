@@ -177,13 +177,13 @@ namespace mud
 	{
 		if(m_viewport != rect) //[[unlikely]]
 			m_dirty |= uint8_t(Dirty::Viewport);
-		if(m_projection != projection) //[[unlikely]]
+		if(m_proj != projection) //[[unlikely]]
 			m_dirty |= uint8_t(Dirty::Projection);
 
-		//if(all(less(abs(m_projection), vec3(EPSILON))))
+		//if(all(less(abs(m_proj), vec3(EPSILON))))
 
 		m_viewport = rect;
-		m_projection = projection;
+		m_proj = projection;
 		m_near = near;
 		m_light_far = far;
 
@@ -229,15 +229,15 @@ namespace mud
 
 	void Froxelizer::update_projection()
 	{
-		m_frustum.recompute(m_projection, rect_size(vec4(m_viewport)));
+		m_frustum.recompute(m_proj, rect_size(vec4(m_viewport)));
 
 		//    linearizer = log2(zLightFar / zLightNear) / (zcount - 1)
 		//    vz = -exp2((i - zcount) * linearizer) * zLightFar
 		// => i = log2(zLightFar / -vz) / -linearizer + zcount
 		
-		float Pz = m_projection[2][2];
-		float Pw = m_projection[3][2];
-		if(m_projection[2][3] != 0)
+		float Pz = m_proj[2][2];
+		float Pw = m_proj[3][2];
+		if(m_proj[2][3] != 0)
 		{
 			// perspective projection
 			// (clip) cz = Pz*vz+Pw, cw=-vz
@@ -351,12 +351,12 @@ namespace mud
 
 	void Froxelizer::clusterize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride)
 	{
-		const mat4& projection = m_projection;
+		const mat4& projection = m_proj;
 
 		for(uint32_t i = offset; i < lights.size(); i += stride)
 		{
-			vec3 position = mulp(camera.m_transform, lights[i]->m_node->position());
-			vec3 direction = muln(camera.m_transform, lights[i]->m_node->direction());
+			vec3 position = mulp(camera.m_view, lights[i]->m_node->position());
+			vec3 direction = muln(camera.m_view, lights[i]->m_node->direction());
 
 			float cos2 = sq(cos(to_radians(lights[i]->m_spot_angle)));
 			float invsin = 1.f / std::sqrt(1.f - cos2);

@@ -222,7 +222,7 @@ namespace mud
 	void OrbitControls::process(Viewer& viewer)
 	{
 		Camera& camera = viewer.m_camera;
-		this->update(viewer, camera.m_fov, camera.m_eye, camera.m_target, camera.m_up, camera.m_transform);
+		this->update(viewer, camera.m_fov, camera.m_eye, camera.m_target, camera.m_up, camera.m_view);
 	}
 
 	void OrbitControls::update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)

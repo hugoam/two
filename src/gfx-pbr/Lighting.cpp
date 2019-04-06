@@ -83,7 +83,7 @@ namespace mud
 
 		m_direct_light = m_direct_lights.empty() ? nullptr : m_direct_lights[m_direct_light_index];
 
-		this->setup_lights(render, render.m_camera->m_transform);
+		this->setup_lights(render, render.m_camera->m_view);
 		this->upload_lights(render);
 		this->upload_zones(render);
 

@@ -445,6 +445,10 @@ extern "C" {
 		static mud::Ray temp;
 		return (temp = self->ray(*offset), &temp);
 	}
+	mud::vec3* DECL mud_Camera_transform_1(mud::Camera* self, const mud::vec3* point) {
+		static mud::vec3 temp;
+		return (temp = self->transform(*point), &temp);
+	}
 	mud::vec3* DECL mud_Camera_project_1(mud::Camera* self, const mud::vec3* point) {
 		static mud::vec3 temp;
 		return (temp = self->project(*point), &temp);
@@ -467,17 +471,17 @@ extern "C" {
 	void DECL mud_Camera__set_up(mud::Camera* self, mud::vec3* value) {
 		self->m_up = *value;
 	}
-	mud::mat4* DECL mud_Camera__get_transform(mud::Camera* self) {
-		return &self->m_transform;
+	mud::mat4* DECL mud_Camera__get_view(mud::Camera* self) {
+		return &self->m_view;
 	}
-	void DECL mud_Camera__set_transform(mud::Camera* self, mud::mat4* value) {
-		self->m_transform = *value;
+	void DECL mud_Camera__set_view(mud::Camera* self, mud::mat4* value) {
+		self->m_view = *value;
 	}
-	mud::mat4* DECL mud_Camera__get_projection(mud::Camera* self) {
-		return &self->m_projection;
+	mud::mat4* DECL mud_Camera__get_proj(mud::Camera* self) {
+		return &self->m_proj;
 	}
-	void DECL mud_Camera__set_projection(mud::Camera* self, mud::mat4* value) {
-		self->m_projection = *value;
+	void DECL mud_Camera__set_proj(mud::Camera* self, mud::mat4* value) {
+		self->m_proj = *value;
 	}
 	float DECL mud_Camera__get_fov(mud::Camera* self) {
 		return self->m_fov;

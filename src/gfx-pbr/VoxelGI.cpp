@@ -242,7 +242,7 @@ namespace gfx
 			m_block_light.m_direct_light->m_shadow_num_splits = 1;
 		}
 
-		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
+		Plane6 planes = frustum_planes(camera.m_proj, camera.m_view);
 		voxel_render.m_shot.m_lights = render.m_shot.m_lights;
 		cull_items(*render.m_scene, planes, voxel_render.m_shot.m_items);
 		m_gfx.m_renderer.subrender(render, voxel_render, m_gfx.renderer(Shading::Voxels));
@@ -394,7 +394,7 @@ namespace gfx
 			{
 				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, gi_probe->m_voxels_light_rgba, TEXTURE_CLAMP3);
 
-				GpuState<GIProbe>::me.upload(encoder, *gi_probe, render.m_camera->m_transform);
+				GpuState<GIProbe>::me.upload(encoder, *gi_probe, render.m_camera->m_view);
 			}
 
 			return;
