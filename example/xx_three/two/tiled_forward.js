@@ -3,44 +3,42 @@
 var viewer = two.ui.scene_viewer(panel);
 two.ui.orbit_controller(viewer);
 
-//viewer.viewport.comp<Tonemap>().enabled = true;
-
-var camera = viewer.camera;
-camera.set_clustered(app.gfx, viewer.viewport);
-
 var radius = 75.0;
 
 if (init) {
     this.importerOBJ = new two.ImporterOBJ(app.gfx);
 
+    var camera = viewer.camera;
+    camera.fov = 40.0; camera.near = 1.0; camera.far = 2000.0;
+    camera.eye = new two.vec3(0.0, 0.0, 240.0);
+    
+    var viewport = viewer.viewport;
+    //viewport.set_clustered(app.gfx);
+
     var scene = viewer.scene;
 
-    scene.env.radiance.colour = new two.Colour(1.0);
-    scene.env.radiance.energy = 0.066;
-    scene.env.radiance.ambient = 0.33;
-    //scene.add(new THREE.AmbientLight(0xffffff, 0.33));
+    var env = scene.env;
+    env.radiance.colour = two.rgb(0xffffff);
+    env.radiance.ambient = 0.33;
 
+    env.background.colour = two.rgb(0x111111);
+    viewer.viewport.clear_colour = two.rgb(0x111111);
+    
     this.solid = app.gfx.programs.file('solid');
-    this.pbr = app.gfx.programs.file('pbr/pbr');
+    this.phong = app.gfx.programs.file('pbr/phong');
+    this.three = app.gfx.programs.file('pbr/three');
 
     var m0 = app.gfx.materials.create('m0');
     var m1 = app.gfx.materials.create('m1');
     var m2 = app.gfx.materials.create('m2');
     var m3 = app.gfx.materials.create('m3');
     
-    m0.program = pbr; m0.pbr.albedo.value = two.rgb(0x888888); m0.pbr.metallic.value = 1.0; m0.pbr.roughness.value = 0.66;
-    m1.program = pbr; m1.pbr.albedo.value = two.rgb(0x666666); m1.pbr.metallic.value = 0.1; m1.pbr.roughness.value = 0.33;
-    m2.program = pbr; m2.pbr.albedo.value = two.rgb(0x777777); m2.pbr.metallic.value = 0.1; m2.pbr.roughness.value = 0.33;
-    m3.program = pbr; m3.pbr.albedo.value = two.rgb(0x555555); m3.pbr.metallic.value = 0.1; m3.pbr.roughness.value = 0.33;
-    
-    m2.pbr.specular_mode = two.PbrSpecularMode.Phong;
-    m3.pbr.diffuse_mode = two.PbrDiffuseMode.Toon; m3.pbr.specular_mode = two.PbrSpecularMode.Toon;
+    m0.program = three; m0.pbr.albedo.value = two.rgb(0x888888); m0.pbr.metallic.value = 1.0; m0.pbr.roughness.value = 0.66;
+    m1.program = three; m1.pbr.albedo.value = two.rgb(0x666666); m1.pbr.metallic.value = 0.1; m1.pbr.roughness.value = 0.33;
+    m2.program = phong; m2.phong.diffuse.value = two.rgb(0x777777); m2.phong.shininess.value = 20;
+    m3.program = phong; m3.phong.diffuse.value = two.rgb(0x555555); m3.phong.shininess.value = 10; m3.phong.toon = true;
     
     var materials = [m0, m1, m2, m3];
-    //{ type: 'physical', uniforms : { 'diffuse': 0x888888, 'metalness' : 1.0, 'roughness' : 0.66 }, defines : {} },
-    //{ type: 'standard', uniforms : { 'diffuse': 0x666666, 'metalness' : 0.1, 'roughness' : 0.33 }, defines : {} },
-    //{ type: 'phong', uniforms : { 'diffuse': 0x777777, 'shininess' : 20 }, defines : {} },
-    //{ type: 'phong', uniforms : { 'diffuse': 0x555555, 'shininess' : 10 }, defines : { TOON: 1 } }
 
     var model = app.gfx.models.file('WaltHead');
     
@@ -85,9 +83,7 @@ if (init) {
             //var i1 = scene.items().add(new two.Item(l, big_sphere, 0, ma)); // MaterialSolid(color), MaterialAlpha(0.033));
             //l.children[1].scale.set(6.66, 6.66, 6.66);
 
-            var light = scene.lights().add(new two.Light(l, two.LightType.Point));
-            light.range = 40.0;
-            light.colour = color;
+            var light = scene.lights().add(new two.Light(l, two.LightType.Point, false, color, 1.0, radius));
             
             var l = {
                 parent: n,

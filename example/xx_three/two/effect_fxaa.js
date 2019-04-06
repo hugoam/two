@@ -431,7 +431,7 @@ function pass_fxaa(gfx, render) {
 
 var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controls(viewer);
-viewer.viewport.active = false;
+viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
 
@@ -449,12 +449,19 @@ if(init)
     camera.eye.z = 500.0;
 
     viewer.viewport.clear_colour = new two.Colour(1.0);
-    //scene.background = new THREE.Color(0xffffff);
-    //scene.fog = new THREE.Fog(0xcccccc, 100, 1500);
 
-    //var hemivar = new THREE.HemisphereLight(0xffffff, 0x444444);
-    //hemiLight.position.set(0, 1000, 0);
-    //scene.add(hemiLight);
+    var env = scene.env;
+    env.radiance.ambient = 0.0;
+    env.fog.enabled = true;
+    env.fog.colour = two.rgb(0xcccccc);
+    env.fog.depth_begin = 100.0;
+    env.fog.depth_end = 1500.0;
+    
+    env.skylight.enabled = true;
+    env.skylight.intensity = 1.0 / Math.PI;
+    env.skylight.position = new two.vec3(0.0, 1000.0, 0.0);
+    env.skylight.colour = two.rgb(0xffffff);
+    env.skylight.ground = two.rgb(0x444444);
 
     var dir = two.look_dir(new two.vec3(-3.0, 1.0, -1.0)); // -3000, 1000, -1000
     var n = scene.nodes().add(new two.Node3(new two.vec3(0.0), dir));
@@ -466,10 +473,10 @@ if(init)
     //var geometry = app.gfx.shape(new two.Sphere(10.0));
     var geometry = app.gfx.shape(new two.Tetraedr(10.0));
 
-    var pbr = app.gfx.programs.file('pbr/pbr');
+    var three = app.gfx.programs.file('pbr/three');
 
     var material = app.gfx.materials.create('fxaa'); var m = material;
-        m.program = pbr;
+        m.program = three;
         m.base.flat_shaded = true;
         m.pbr.albedo.value = two.rgb(0xee0808);
 

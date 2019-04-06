@@ -182,7 +182,6 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	constexpr float radius = 75.f;
 
 	Scene& scene = viewer.m_scene;
-	Gnode& root = viewer.m_scene.begin();
 
 	struct ExLight
 	{
@@ -205,9 +204,8 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_eye = vec3(0.f, 0.f, 240.f);
 
 		Zone& env = scene.m_env;
-		env.m_radiance.m_energy = 0.066f;
-		env.m_radiance.m_ambient = 0.33f;
 		env.m_radiance.m_colour = rgb(0xffffff);
+		env.m_radiance.m_ambient = 0.33f;
 
 		env.m_background.m_colour = rgb(0x111111);
 		viewer.m_viewport.m_clear_colour = rgb(0x111111);
@@ -220,7 +218,6 @@ void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		auto create_material = [&](const string& name, auto init) -> Material* { return &app.m_gfx.materials().create(name, init); };
 
 		Program& solid = app.m_gfx.programs().fetch("solid");
-		Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
 		Program& phong = app.m_gfx.programs().fetch("pbr/phong");
 		Program& three = app.m_gfx.programs().fetch("pbr/three");
 

@@ -10,6 +10,9 @@ using namespace mud;
 #define MULTI_WINDOW 0
 #define MULTI_VIEWPORT 0
 
+// todo js:
+// xx_shadow_point random crash (in atlas probably)
+
 // todo:
 // fix obj loader / sponza blows up
 // xx_material_skin (fix inverted uv issue)
