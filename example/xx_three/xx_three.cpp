@@ -11,16 +11,24 @@ using namespace mud;
 #define MULTI_VIEWPORT 0
 
 // todo js:
+// xx_material_cubemap
 // xx_shadow_point random crash (in atlas probably)
+// xx_perf_twosided
 
 // todo:
 // fix obj loader / sponza blows up
 // xx_material_skin (fix inverted uv issue)
-// blur offset bug
+// xx_effect_bloom blur offset bug
+// xx_effect_sao gl corrupt pixels bug
+// geom_lines aren't connected
+// xx_marchingcubes fix materials
+// xx_material_displace normal webgl bug
+// xx_shader_lava no post processing + no bloom
 
 // small:
 // ocean direct light bug
 // specular reflections are almost absent in xx_perf_twosided
+// xx_material_standard no tonemapping in JS
 
 // ported not ok:
 // xx_geom_points_hw (doesn't work)
@@ -84,6 +92,7 @@ Example examples[] =
 	{ "shader/ocean",			xx_shader_ocean },
 	{ "shadow/point",			xx_shadow_point },
 	{ "tiledforward",			xx_tiled_forward },
+	{ "clustered",				xx_clustered },
 };
 
 vector<cstring> example_labels()
@@ -156,7 +165,8 @@ int main(int argc, char *argv[])
 	//static uint32_t example0 = find_example("shader/ocean");
 	//static uint32_t example0 = find_example("material/skin");
 	//static uint32_t example0 = find_example("effect/sao");
-	static uint32_t example0 = find_example("cubemap/dynamic");
+	//static uint32_t example0 = find_example("cubemap/dynamic");
+	static uint32_t example0 = find_example("tiledforward");
 	static bool init0 = true;
 
 #if !MULTI_VIEWPORT && !MULTI_WINDOW

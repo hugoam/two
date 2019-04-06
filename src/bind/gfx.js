@@ -4096,6 +4096,14 @@ Module['Texture'] = Texture;
 Texture.prototype["valid"] = Texture.prototype.valid = function() {
     return !!(_mud_Texture_valid_0(this.__ptr));
 };
+Texture.prototype["load_rgba"] = Texture.prototype.load_rgba = function(a0, a1, a2) {
+    if (a2 === undefined) { _mud_Texture_load_rgba_2(this.__ptr, /*size*/a0.__ptr, ensureInt32(/*data*/a1), /*data*/a1.length); return; }
+    _mud_Texture_load_rgba_3(this.__ptr, /*size*/a0.__ptr, ensureInt32(/*data*/a1), /*data*/a1.length, /*ref*/a2);
+};
+Texture.prototype["load_float"] = Texture.prototype.load_float = function(a0, a1, a2) {
+    if (a2 === undefined) { _mud_Texture_load_float_2(this.__ptr, /*size*/a0.__ptr, ensureFloat32(/*data*/a1), /*data*/a1.length); return; }
+    _mud_Texture_load_float_3(this.__ptr, /*size*/a0.__ptr, ensureFloat32(/*data*/a1), /*data*/a1.length, /*ref*/a2);
+};
 Object.defineProperty(Texture.prototype, "name", {
     get: function() {
         return UTF8ToString(_mud_Texture__get_name(this.__ptr));
@@ -4760,12 +4768,6 @@ Module['bxortho'] = function(a0, a1, a2, a3, a4, a5, a6, a7) {
 };
 Module['bxTRS'] = function(a0, a1, a2) {
     return wrapPointer(_mud_bxTRS_3(/*scale*/a0.__ptr, /*rot*/a1.__ptr, /*trans*/a2.__ptr), mat4);
-};
-Module['load_texture_rgba'] = function(a0, a1, a2) {
-    _mud_load_texture_rgba_3(/*texture*/a0.__ptr, /*size*/a1.__ptr, ensureInt32(/*data*/a2), /*data*/a2.length);
-};
-Module['load_texture_float'] = function(a0, a1, a2) {
-    _mud_load_texture_float_3(/*texture*/a0.__ptr, /*size*/a1.__ptr, ensureFloat32(/*data*/a2), /*data*/a2.length);
 };
 Module['gfx']['setup_pipeline_minimal'] = function(a0) {
     _mud_gfx_setup_pipeline_minimal_1(/*gfx*/a0.__ptr);

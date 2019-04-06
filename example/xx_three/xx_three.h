@@ -13,6 +13,7 @@ void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
+void xx_clustered(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_perf(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init);

@@ -23,7 +23,7 @@ Texture& generateTexture(GfxSystem& gfx)
 			else data[x + y * size.x] = 0x00000000;
 		}
 
-	load_texture_rgba(texture, uvec2(2U), *memory);
+	texture.load_rgba(uvec2(2U), *memory);
 	return texture;
 }
 
@@ -67,7 +67,6 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//c.m_program = &pbr;
 		c.m_program = &phong;
 		c.m_base.m_cull_mode = CullMode::Front;
-		c.m_pbr.m_albedo = rgb(0xa0adaf);
 		c.m_lit.m_normal = -1.f;
 		c.m_phong.m_diffuse = rgb(0xa0adaf);
 		c.m_phong.m_specular = rgb(0x111111);

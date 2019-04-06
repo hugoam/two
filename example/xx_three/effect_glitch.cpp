@@ -112,8 +112,7 @@ Texture& glitch_heightmap(GfxSystem& gfx, uint size)
 		data[i * 4 + 3] = 0.f;
 	}
 
-	//load_texture_rgba(texture, size, size, *memory);
-	load_texture_float(texture, uvec2(size), *memory);
+	texture.load_float(uvec2(size), *memory);
 	return texture;
 }
 

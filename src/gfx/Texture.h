@@ -42,12 +42,7 @@ namespace mud
 	export_ MUD_GFX_EXPORT void save_texture(GfxSystem& gfx, Texture& texture, const string& path);
 	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx, Texture& texture, const string& path);
 	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx, Texture& texture, span<uint8_t> data);
-	export_ MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, const uvec2& size, const bgfx::Memory& data);
-	export_ MUD_GFX_EXPORT void load_texture_float(Texture& texture, const uvec2& size, const bgfx::Memory& data, uint8_t num_components = 4);
-	export_ MUD_GFX_EXPORT func_ void load_texture_rgba(Texture& texture, const uvec2& size, span<uint32_t> data);
-	export_ MUD_GFX_EXPORT func_ void load_texture_float(Texture& texture, const uvec2& size, span<float> data);
-	//export_ MUD_GFX_EXPORT func_ void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data);
-	
+
 	export_ enum class refl_ TextureFormat : unsigned int
 	{
 		R8      = bgfx::TextureFormat::R8,
@@ -82,7 +77,7 @@ namespace mud
 		~Texture();
 
 		Texture(Texture&& other) : Texture(other) { other.m_tex = BGFX_INVALID_HANDLE; }
-		Texture& operator=(Texture&& other) { *this = other; other.m_tex = BGFX_INVALID_HANDLE; return *this; }
+		Texture& operator=(Texture&& other) { bgfx::TextureHandle tex = m_tex; *this = other; other.m_tex = tex; return *this; }
 
 		attr_ string m_name;
 		attr_ TextureFormat m_format;
@@ -98,6 +93,12 @@ namespace mud
 		attr_ bool m_mips = false;
 
 		meth_ bool valid() const;
+
+		void load_rgba(const uvec2& size, const bgfx::Memory& data);
+		void load_float(const uvec2& size, const bgfx::Memory& data, uint8_t num_components = 4);
+
+		meth_ void load_rgba(const uvec2& size, span<uint32_t> data, bool ref = false);
+		meth_ void load_float(const uvec2& size, span<float> data, bool ref = false);
 
 		bgfx::TextureHandle m_tex = BGFX_INVALID_HANDLE;
 

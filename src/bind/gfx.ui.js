@@ -146,6 +146,70 @@ TrackballController.prototype.constructor = TrackballController;
 TrackballController.prototype.__class = TrackballController;
 TrackballController.__cache = {};
 Module['TrackballController'] = TrackballController;
+Object.defineProperty(TrackballController.prototype, "rotateSpeed", {
+    get: function() {
+        return _mud_TrackballController__get_rotateSpeed(this.__ptr);
+    },
+    set: function(value) {
+        _mud_TrackballController__set_rotateSpeed(this.__ptr, value);
+    }
+});
+Object.defineProperty(TrackballController.prototype, "zoomSpeed", {
+    get: function() {
+        return _mud_TrackballController__get_zoomSpeed(this.__ptr);
+    },
+    set: function(value) {
+        _mud_TrackballController__set_zoomSpeed(this.__ptr, value);
+    }
+});
+Object.defineProperty(TrackballController.prototype, "panSpeed", {
+    get: function() {
+        return _mud_TrackballController__get_panSpeed(this.__ptr);
+    },
+    set: function(value) {
+        _mud_TrackballController__set_panSpeed(this.__ptr, value);
+    }
+});
+Object.defineProperty(TrackballController.prototype, "staticMoving", {
+    get: function() {
+        return !!(_mud_TrackballController__get_staticMoving(this.__ptr));
+    },
+    set: function(value) {
+        _mud_TrackballController__set_staticMoving(this.__ptr, value);
+    }
+});
+Object.defineProperty(TrackballController.prototype, "dynamicDampingFactor", {
+    get: function() {
+        return _mud_TrackballController__get_dynamicDampingFactor(this.__ptr);
+    },
+    set: function(value) {
+        _mud_TrackballController__set_dynamicDampingFactor(this.__ptr, value);
+    }
+});
+Object.defineProperty(TrackballController.prototype, "minDistance", {
+    get: function() {
+        return _mud_TrackballController__get_minDistance(this.__ptr);
+    },
+    set: function(value) {
+        _mud_TrackballController__set_minDistance(this.__ptr, value);
+    }
+});
+Object.defineProperty(TrackballController.prototype, "maxDistance", {
+    get: function() {
+        return _mud_TrackballController__get_maxDistance(this.__ptr);
+    },
+    set: function(value) {
+        _mud_TrackballController__set_maxDistance(this.__ptr, value);
+    }
+});
+Object.defineProperty(TrackballController.prototype, "target", {
+    get: function() {
+        return wrapPointer(_mud_TrackballController__get_target(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_TrackballController__set_target(this.__ptr, value.__ptr);
+    }
+});
 TrackballController.prototype["__destroy"] = TrackballController.prototype.__destroy = function() {
     _mud_TrackballController__destroy(this.__ptr);
 };

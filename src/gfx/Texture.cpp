@@ -257,33 +257,6 @@ namespace mud
 		set_texture_info(texture, texture_info);
 	}
 
-	void load_texture_float(Texture& texture, const uvec2& size, const bgfx::Memory& memory, uint8_t num_components)
-	{
-		texture.m_size = size;
-		texture.m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA32F, TEXTURE_POINT, &memory);
-	}
-
-	void load_texture_rgba(Texture& texture, const uvec2& size, const bgfx::Memory& memory)
-	{
-		texture.m_size = size;
-		texture.m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA8, TEXTURE_POINT, &memory);
-	}
-
-	//void load_texture_rgba(Texture& texture, const uvec2& size, span<uint8_t> data)
-	void load_texture_rgba(Texture& texture, const uvec2& size, span<uint32_t> data)
-	{
-		const bgfx::Memory* memory = bgfx::alloc(uint32_t(data.m_count * sizeof(uint32_t)));
-		memcpy(memory->data, data.m_pointer, data.m_count * sizeof(uint32_t));
-		load_texture_rgba(texture, size, *memory);
-	}
-
-	void load_texture_float(Texture& texture, const uvec2& size, span<float> data)
-	{
-		const bgfx::Memory* memory = bgfx::alloc(uint32_t(data.m_count * sizeof(uint32_t)));
-		memcpy(memory->data, data.m_pointer, data.m_count * sizeof(uint32_t));
-		load_texture_float(texture, size, *memory);
-	}
-
 	Texture::Texture(const string& name)
 		: m_name(name)
 	{}
@@ -327,4 +300,50 @@ namespace mud
 	}
 
 	bool Texture::valid() const { return bgfx::isValid(m_tex); }
+
+	void Texture::load_float(const uvec2& size, const bgfx::Memory& memory, uint8_t num_components)
+	{
+		if(m_size == size)
+		{
+			bgfx::updateTexture2D(m_tex, 0, 0, 0, 0, uint16_t(size.x), uint16_t(size.y), &memory);
+		}
+		else
+		{
+			m_size = size;
+			m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA32F, TEXTURE_POINT, &memory);
+		}
+	}
+
+	void Texture::load_rgba(const uvec2& size, const bgfx::Memory& memory)
+	{
+		if(m_size == size)
+		{
+			bgfx::updateTexture2D(m_tex, 0, 0, 0, 0, uint16_t(size.x), uint16_t(size.y), &memory);
+		}
+		else
+		{
+			m_size = size;
+			m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA8, TEXTURE_POINT, &memory);
+		}
+	}
+
+	void Texture::load_rgba(const uvec2& size, span<uint32_t> data, bool ref)
+	{
+		const bgfx::Memory* memory = ref
+			? bgfx::makeRef(data.data(), data.size())
+			: bgfx::alloc(uint32_t(data.m_count * sizeof(uint32_t)));
+		if(!ref)
+			memcpy(memory->data, data.m_pointer, data.m_count * sizeof(uint32_t));
+		this->load_rgba(size, *memory);
+	}
+
+	void Texture::load_float(const uvec2& size, span<float> data, bool ref)
+	{
+		const bgfx::Memory* memory = ref
+			? bgfx::makeRef(data.data(), data.size())
+			: bgfx::alloc(uint32_t(data.m_count * sizeof(float)));
+		if(!ref)
+			memcpy(memory->data, data.m_pointer, data.m_count * sizeof(float));
+		this->load_float(size, *memory);
+	}
 }

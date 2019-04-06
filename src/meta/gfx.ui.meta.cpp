@@ -195,12 +195,28 @@ namespace mud
 		static Type* bases[] = { &type<mud::ViewerController>() };
 		static size_t bases_offsets[] = { base_offset<mud::TrackballController, mud::ViewerController>() };
 		// defaults
+		static float rotateSpeed_default = 1.0f;
+		static float zoomSpeed_default = 1.2f;
+		static float panSpeed_default = 0.3f;
+		static bool staticMoving_default = false;
+		static float dynamicDampingFactor_default = 0.2f;
+		static float minDistance_default = 0.f;
 		// constructors
 		// copy constructor
 		// members
+		static Member members[] = {
+			{ t, offsetof(mud::TrackballController, m_rotateSpeed), type<float>(), "rotateSpeed", &rotateSpeed_default, Member::Value, nullptr },
+			{ t, offsetof(mud::TrackballController, m_zoomSpeed), type<float>(), "zoomSpeed", &zoomSpeed_default, Member::Value, nullptr },
+			{ t, offsetof(mud::TrackballController, m_panSpeed), type<float>(), "panSpeed", &panSpeed_default, Member::Value, nullptr },
+			{ t, offsetof(mud::TrackballController, m_staticMoving), type<bool>(), "staticMoving", &staticMoving_default, Member::Value, nullptr },
+			{ t, offsetof(mud::TrackballController, m_dynamicDampingFactor), type<float>(), "dynamicDampingFactor", &dynamicDampingFactor_default, Member::Value, nullptr },
+			{ t, offsetof(mud::TrackballController, m_minDistance), type<float>(), "minDistance", &minDistance_default, Member::Value, nullptr },
+			{ t, offsetof(mud::TrackballController, m_maxDistance), type<float>(), "maxDistance", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::TrackballController, m_target), type<mud::vec3>(), "target", nullptr, Member::Value, nullptr }
+		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, members, {}, {}, };
 	}
 	
 	

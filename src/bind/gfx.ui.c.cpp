@@ -125,6 +125,54 @@ extern "C" {
 	mud::Type* DECL mud_TrackballController__type() {
 		return &mud::type<mud::TrackballController>();
 	}
+	float DECL mud_TrackballController__get_rotateSpeed(mud::TrackballController* self) {
+		return self->m_rotateSpeed;
+	}
+	void DECL mud_TrackballController__set_rotateSpeed(mud::TrackballController* self, float value) {
+		self->m_rotateSpeed = value;
+	}
+	float DECL mud_TrackballController__get_zoomSpeed(mud::TrackballController* self) {
+		return self->m_zoomSpeed;
+	}
+	void DECL mud_TrackballController__set_zoomSpeed(mud::TrackballController* self, float value) {
+		self->m_zoomSpeed = value;
+	}
+	float DECL mud_TrackballController__get_panSpeed(mud::TrackballController* self) {
+		return self->m_panSpeed;
+	}
+	void DECL mud_TrackballController__set_panSpeed(mud::TrackballController* self, float value) {
+		self->m_panSpeed = value;
+	}
+	bool DECL mud_TrackballController__get_staticMoving(mud::TrackballController* self) {
+		return self->m_staticMoving;
+	}
+	void DECL mud_TrackballController__set_staticMoving(mud::TrackballController* self, bool value) {
+		self->m_staticMoving = value;
+	}
+	float DECL mud_TrackballController__get_dynamicDampingFactor(mud::TrackballController* self) {
+		return self->m_dynamicDampingFactor;
+	}
+	void DECL mud_TrackballController__set_dynamicDampingFactor(mud::TrackballController* self, float value) {
+		self->m_dynamicDampingFactor = value;
+	}
+	float DECL mud_TrackballController__get_minDistance(mud::TrackballController* self) {
+		return self->m_minDistance;
+	}
+	void DECL mud_TrackballController__set_minDistance(mud::TrackballController* self, float value) {
+		self->m_minDistance = value;
+	}
+	float DECL mud_TrackballController__get_maxDistance(mud::TrackballController* self) {
+		return self->m_maxDistance;
+	}
+	void DECL mud_TrackballController__set_maxDistance(mud::TrackballController* self, float value) {
+		self->m_maxDistance = value;
+	}
+	mud::vec3* DECL mud_TrackballController__get_target(mud::TrackballController* self) {
+		return &self->m_target;
+	}
+	void DECL mud_TrackballController__set_target(mud::TrackballController* self, mud::vec3* value) {
+		self->m_target = *value;
+	}
 	void DECL mud_TrackballController__destroy(mud::TrackballController* self) {
 		delete self;
 	}

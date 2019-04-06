@@ -3335,6 +3335,18 @@ extern "C" {
 	bool DECL mud_Texture_valid_0(mud::Texture* self) {
 		return self->valid();
 	}
+	void DECL mud_Texture_load_rgba_2(mud::Texture* self, const mud::uvec2* size, uint* data, int data_size) {
+		self->load_rgba(*size, { (uint32_t*)data, data_size / (sizeof(uint32_t) / sizeof(uint)) });
+	}
+	void DECL mud_Texture_load_rgba_3(mud::Texture* self, const mud::uvec2* size, uint* data, int data_size, bool ref) {
+		self->load_rgba(*size, { (uint32_t*)data, data_size / (sizeof(uint32_t) / sizeof(uint)) }, ref);
+	}
+	void DECL mud_Texture_load_float_2(mud::Texture* self, const mud::uvec2* size, float* data, int data_size) {
+		self->load_float(*size, { (float*)data, data_size / (sizeof(float) / sizeof(float)) });
+	}
+	void DECL mud_Texture_load_float_3(mud::Texture* self, const mud::uvec2* size, float* data, int data_size, bool ref) {
+		self->load_float(*size, { (float*)data, data_size / (sizeof(float) / sizeof(float)) }, ref);
+	}
 	const char* DECL mud_Texture__get_name(mud::Texture* self) {
 		return self->m_name.c_str();
 	}
@@ -3929,12 +3941,6 @@ extern "C" {
 	mud::mat4* DECL mud_bxTRS_3(const mud::vec3* scale, const mud::quat* rot, const mud::vec3* trans) {
 		static mud::mat4 temp;
 		return (temp = mud::bxTRS(*scale, *rot, *trans), &temp);
-	}
-	void DECL mud_load_texture_rgba_3(mud::Texture* texture, const mud::uvec2* size, uint* data, int data_size) {
-		mud::load_texture_rgba(*texture, *size, { (uint32_t*)data, data_size / (sizeof(uint32_t) / sizeof(uint)) });
-	}
-	void DECL mud_load_texture_float_3(mud::Texture* texture, const mud::uvec2* size, float* data, int data_size) {
-		mud::load_texture_float(*texture, *size, { (float*)data, data_size / (sizeof(float) / sizeof(float)) });
 	}
 	void DECL mud_gfx_setup_pipeline_minimal_1(mud::GfxSystem* gfx) {
 		mud::gfx::setup_pipeline_minimal(*gfx);
