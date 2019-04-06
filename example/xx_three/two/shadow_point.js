@@ -13,7 +13,7 @@ function generateTexture(gfx, width, height, m) {
             else buffer[x + y * width] = 0x00000000;
         }
 
-    two.load_texture_rgba(texture, new two.uvec2(width, height), buffer);
+    texture.load_rgba(new two.uvec2(width, height), buffer);
     return texture;
 }
 

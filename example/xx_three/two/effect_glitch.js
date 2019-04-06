@@ -84,8 +84,8 @@ function glitch_heightmap(gfx, size) {
 		array[i * 4 + 3] = 0.0;
 	}
 
-	//load_texture_rgba(texture, size, size, *memory);
-	two.load_texture_float(texture, new two.uvec2(size), array);
+	//texture.load_rgba(new two.uvec2(size), array);
+	texture.load_float(new two.uvec2(size), array);
 	return texture;
 }
 
