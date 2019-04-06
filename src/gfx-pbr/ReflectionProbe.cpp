@@ -79,7 +79,7 @@ namespace mud
 	Render CubeCamera::render(GfxSystem& gfx, Render& render, SignedAxis axis)
 	{
 		Render probe_render = { Shading::Shaded, m_viewports[size_t(axis)], *render.m_target, m_cubemap.m_fbos[size_t(axis)], *render.m_frame };
-		probe_render.m_vflip = bgfx::getCaps()->originBottomLeft;
+		probe_render.m_vflip = true;
 
 		//probe_render.m_shot.m_lights = render.m_shot.m_lights;
 		//probe_render.m_shot.m_items = render.m_shot.m_items;

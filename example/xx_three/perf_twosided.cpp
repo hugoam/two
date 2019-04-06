@@ -29,10 +29,11 @@ void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		viewer.m_viewport.m_clear_colour = ungamma(rgb(0x050505));
 
 		Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
-		scene.m_env.m_radiance.m_texture = &reflection;
-		scene.m_env.m_radiance.m_filter = false;
 
-		scene.m_env.m_radiance.m_colour = rgb(0x050505);
+		Zone& env = scene.m_env;
+		env.m_radiance.m_texture = &reflection;
+		env.m_radiance.m_filter = false;
+		env.m_radiance.m_colour = rgb(0x050505);
 
 		Node3& l0 = gfx::nodes(scene).add(Node3(vec3(4000.f, 0.f, 0.f)));
 		gfx::lights(scene).add(Light(l0, LightType::Point, false, rgb(0x0011ff), 1.f, 5500.f));

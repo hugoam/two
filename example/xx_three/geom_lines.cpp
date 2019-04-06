@@ -35,7 +35,7 @@ void xx_geom_lines(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		});
 
 		MeshPacker geometry;
-		geometry.m_primitive = PrimitiveType::Lines;
+		geometry.m_primitive = PrimitiveType::LineStrip;
 
 		float r = 800.f;
 

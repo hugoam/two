@@ -364,7 +364,8 @@ namespace gfx
 
 		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthAscending);
 
-		uint64_t cull = render.m_vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
+		const bool vflip = render.m_vflip && bgfx::getCaps()->originBottomLeft;
+		const uint64_t cull = vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
 
 #if DEPTH_PASS
 		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
@@ -437,8 +438,9 @@ namespace gfx
 		Pass pass = render.next_pass("geometry", PassType::Geometry);
 
 		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthAscending);
-		
-		uint64_t cull = render.m_vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
+
+		const bool vflip = render.m_vflip && bgfx::getCaps()->originBottomLeft;
+		const uint64_t cull = vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
 
 		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
 								 | BGFX_STATE_DEPTH_TEST_EQUAL | BGFX_STATE_MSAA;

@@ -1,4 +1,4 @@
-// performance_doublesided.js
+// perf_twosided.js
 
 var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controller(viewer);
@@ -12,21 +12,16 @@ if (init) {
     camera.fov = 50.0; camera.near = 1.0; camera.far = 20000.0;
     camera.eye.z = 3200.0;
 
-    var pbr = app.gfx.programs.file('pbr/pbr');
+    viewer.viewport.to_gamma = true;
+
+    //viewer.viewport.clear_colour = ungamma(rgb(0x050505));
 
     var reflection = app.gfx.textures.file('cube/royal.jpg.cube');
-    scene.env.radiance.texture = reflection;
 
-    //var material = new THREE.MeshPhongMaterial({ specular: 0x101010, shininess : 100, envMap : reflectionCube, combine : THREE.MixOperation, reflectivity : 0.1, side : THREE.DoubleSide });
-    var material = app.gfx.materials.create('twosided');
-    var m = material;
-    m.program = pbr;
-    m.base.cull_mode = two.CullMode.None;
-    m.pbr.roughness.value = 0.0;
-
-    //scene.background = new THREE.Color(0x050505);
-
-    //scene.add(new THREE.AmbientLight(0x050505));
+    var env = scene.env;
+    env.radiance.texture = reflection;
+    env.radiance.filter = false;
+    env.radiance.colour = two.rgb(0x050505);
 
     var zeroq = new two.quat(new two.vec3(0.0));
     
@@ -39,6 +34,16 @@ if (init) {
     var l2 = scene.nodes().add(new two.Node3(new two.vec3(0.0), zeroq));
     scene.lights().add(new two.Light(l2, two.LightType.Point, false, two.rgb(0xffaa00), 2.0, 3000.0));
 
+    var phong = app.gfx.programs.file('pbr/phong');
+
+    var material = app.gfx.materials.create('twosided'); var m = material;
+        m.program = phong;
+        m.base.cull_mode = two.CullMode.None;
+        m.phong.specular.value = two.rgb(0x101010);
+        m.phong.shininess.value = 100.0;
+        m.phong.reflectivity.value = 0.1;
+        m.phong.env_blend = two.PhongEnvBlendMode.Mix;
+    
     var geometry = app.gfx.shape(new two.Sphere(1.0, 0.0, Math.PI));
 
     for(var i = 0; i < 5000; ++i)

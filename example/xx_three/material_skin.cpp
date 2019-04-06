@@ -558,6 +558,7 @@ void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	Viewport viewport = Viewport(*render.m_camera, *render.m_scene, Rect4);
 	Render subrender = Render(Shading::Shaded, viewport, *render.m_target, uv, app.m_gfx.m_render_frame);
 	subrender.m_shot = render.m_shot;
+	subrender.m_vflip = true;
 
 	item->m_material = material_uv;
 	//var renderModelUV = new THREE.RenderPass(scene, camera, materialUV, new THREE.Color(0x575757));

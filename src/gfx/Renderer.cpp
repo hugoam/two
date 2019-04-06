@@ -265,7 +265,7 @@ namespace mud
 	{
 		this->shader_options(render, pass, element.m_program);
 
-		element.m_program.set_option(0, VFLIP, render.m_vflip);
+		element.m_program.set_option(0, VFLIP, render.m_vflip && bgfx::getCaps()->originBottomLeft);
 		element.m_program.set_option(0, MRT, render.m_is_mrt);
 
 		element.m_program.set_option(0, INSTANCING, element.m_item->m_batch != nullptr);

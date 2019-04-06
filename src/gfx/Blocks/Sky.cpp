@@ -94,7 +94,7 @@ namespace mud
 			encoder.setUniform(u_skybox.u_skybox_matrix, &skybox_matrix);
 
 			ProgramVersion program = { m_skybox_program };
-			program.set_option(0, VFLIP, render.m_vflip);
+			program.set_option(0, VFLIP, render.m_vflip && bgfx::getCaps()->originBottomLeft);
 			program.set_option(m_index, SKYBOX_FBO, texture.m_is_fbo);
 			program.set_option(m_index, SKYBOX_CUBE, texture.m_is_cube);
 

@@ -37,6 +37,7 @@ namespace mud
 		uint32_t vertex_format() const;
 		uint32_t vertex_count() const { return uint32_t(m_positions.size()); }
 		uint32_t index_count() const { return uint32_t(m_indices.size()); }
+		uint32_t face_count() const { return m_indices.empty() ? this->vertex_count() / 3 : this->index_count() / 3; }
 
 		attr_ PrimitiveType m_primitive = PrimitiveType::Triangles;
 

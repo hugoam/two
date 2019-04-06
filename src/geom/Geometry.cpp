@@ -492,29 +492,31 @@ namespace mud
 			printf("WARNING: Couldn't generate mikktspace tangents\n");
 	}
 
-	inline MeshPacker& mikkt_packer(const SMikkTSpaceContext* context) { return *static_cast<MeshPacker*>(context->m_pUserData); }
-	inline size_t mikkt_index(const SMikkTSpaceContext* context, int face, int vert)
-	{
-		return mikkt_packer(context).m_indices.size() > 0 ? mikkt_packer(context).m_indices[face * 3 + vert]
-														  : face * 3 + vert;
-	}
-
 	void MeshPacker::gen_tangents()
 	{
 		using Context = SMikkTSpaceContext;
 
 		m_tangents.resize(m_positions.size());
 
+		static auto p = [](const SMikkTSpaceContext* context) -> MeshPacker& { return *static_cast<MeshPacker*>(context->m_pUserData); };
+		static auto index = [](const SMikkTSpaceContext* context, int face, int vert)
+		{
+			MeshPacker& pp = p(context);
+			return pp.m_indices.size() > 0
+				? pp.m_indices[face * 3 + vert]
+				: face * 3 + vert;
+		};
+
 		SMikkTSpaceInterface intf = {};
-		intf.m_getNumFaces = [](const Context* c) -> int { return int(mikkt_packer(c).index_count()) / 3; };
+		intf.m_getNumFaces = [](const Context* c) -> int { return int(p(c).face_count()); };
 		intf.m_getNumVerticesOfFace = [](const Context* c, const int face) -> int { UNUSED(c); UNUSED(face); return 3; };
-		intf.m_getPosition = [](const Context* c, float pos[], const int face, const int vert) { vec_to_array(mikkt_packer(c).m_positions[mikkt_index(c, face, vert)], pos); };
-		intf.m_getNormal = [](const Context* c, float norm[], const int face, const int vert) { vec_to_array(mikkt_packer(c).m_normals[mikkt_index(c, face, vert)], norm); };
-		intf.m_getTexCoord = [](const Context* c, float uv[], const int face, const int vert) { vec_to_array(mikkt_packer(c).m_uv0s[mikkt_index(c, face, vert)], uv); };
+		intf.m_getPosition = [](const Context* c, float pos[], const int face, const int vert) { vec_to_array(p(c).m_positions[index(c, face, vert)], pos); };
+		intf.m_getNormal = [](const Context* c, float norm[], const int face, const int vert) { vec_to_array(p(c).m_normals[index(c, face, vert)], norm); };
+		intf.m_getTexCoord = [](const Context* c, float uv[], const int face, const int vert) { vec_to_array(p(c).m_uv0s[index(c, face, vert)], uv); };
 		
 		intf.m_setTSpaceBasic = [](const SMikkTSpaceContext * c, const float tangent[], const float sign, const int face, const int vert)
 		{
-			mikkt_packer(c).m_tangents[mikkt_index(c, face, vert)] = { tangent[0], tangent[1], tangent[2], sign };
+			p(c).m_tangents[index(c, face, vert)] = { tangent[0], tangent[1], tangent[2], sign };
 		};
 
 		SMikkTSpaceContext context;

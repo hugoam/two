@@ -6,6 +6,8 @@
 
 #include <stl/vector.hpp>
 
+#define GL_CORRUPTION_BUG 0
+
 static string sao_vertex =
 
 	"$input a_position, a_texcoord0\n"
@@ -340,7 +342,11 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 	| BGFX_STATE_BLEND_EQUATION(BGFX_STATE_BLEND_EQUATION_ADD)                          \
 	)
 
+#if GL_CORRUPTION_BUG
 		FrameBuffer& fbo = render.m_target->m_post.swap();
+#else
+		FrameBuffer& fbo = *render.m_fbo;
+#endif
 		gfx.m_copy->quad(pass, fbo, render.m_target->m_diffuse);
 		//gfx.m_copy->quad(pass, fbo, source, BGFX_STATE_BLEND_ADD);
 		gfx.m_copy->quad(pass, fbo, source, BLEND_OP);
@@ -382,10 +388,15 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 			gfx.m_copy->quad(pass, render.m_target->m_post.swap(), render.m_target->m_depth);
 		else if(sao.output == OutputSAO::Beauty)
 			gfx.m_copy->quad(pass, render.m_target->m_post.swap(), render.m_target->m_diffuse);
+
+#if !GL_CORRUPTION_BUG
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, render.m_target->m_post.last());
+#endif
 	}
 
-
+#if GL_CORRUPTION_BUG
 	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, render.m_target->m_post.last());
+#endif
 }
 
 void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar, bool init)

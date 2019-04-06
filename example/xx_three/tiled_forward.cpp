@@ -144,7 +144,7 @@ void resize_tiles(GfxSystem& gfx, Render& render, Tiled& state)
 // Generate the light bitmasks and store them in the tile texture
 void pack_lights(GfxSystem& gfx, Render& render, Tiled& state, span<ExLight> lights)
 {
-	vector<uint8_t> d = vector<uint8_t>(state.cols * state.rows * 4);
+	vector<uint32_t> d = vector<uint32_t>(state.cols * state.rows);
 	vector<float> ld = vector<float>(32 * 2 * 4);
 
 	const vec4 rect = render.m_rect * vec2(render.m_fbo->m_size);
@@ -199,22 +199,23 @@ void pack_lights(GfxSystem& gfx, Render& render, Tiled& state, span<ExLight> lig
 		if(bs[2] < 0) bs[2] = 0;
 		if(bs[3] > rect.height) bs[3] = rect.height;
 
-		uint i4 = index / 8;
-		uint i8 = 7 - (index % 8);
+		const uint32_t i4 = index / 8;
+		const uint32_t i8 = 7 - (index % 8);
+		const size_t shift = i4 * 8 + i8;
 
 		const size_t maxsize = d.size();
 		for(size_t i = bs[2] / 32; i < bs[3] / 32 + 1; i++)
 			for(size_t j = bs[0] / 32; j < bs[1] / 32 + 1; j++)
 			{
-				const size_t index = (state.cols * i + j) * 4 + i4;
+				const size_t index = (state.cols * i + j);
 				assert(index < d.size());
-				d[index] |= 1 << i8;
+				d[index] |= 1 << shift;
 			}
 
 		index++;
 	}
 
-	state.tiles.load_rgba(state.tiles.m_size, { (uint32_t*)d.data(), d.size() / 4 });
+	state.tiles.load_rgba(state.tiles.m_size, d);
 	state.lights.load_float(state.lights.m_size, ld);
 }
 

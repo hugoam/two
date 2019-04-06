@@ -59,7 +59,7 @@ namespace mud
 	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums = true, bool bounds = true);
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
-	constexpr size_t c_max_forward_lights = 8;
+	constexpr size_t c_max_forward_lights = 32;
 #else
 	constexpr size_t c_max_forward_lights = 64;
 #endif
