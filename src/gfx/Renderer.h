@@ -253,7 +253,7 @@ namespace mud
 	public:
 		DrawBlock(GfxSystem& gfx, Type& type) : GfxBlock(gfx, type) { m_draw_block = true; }
 
-		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const { UNUSED(render); UNUSED(program); }
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const { UNUSED(render); UNUSED(element); UNUSED(program); }
 		virtual void submit(Render& render, const Pass& pass) const = 0;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const = 0;
 	};
