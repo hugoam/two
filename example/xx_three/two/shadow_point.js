@@ -19,7 +19,7 @@ function generateTexture(gfx, width, height, m) {
 
 var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controller(viewer);
-two.ui.trackball_controller(viewer);
+var control = two.ui.trackball_controller(viewer);
 
 var scene = viewer.scene;
 
@@ -29,11 +29,10 @@ if (init) {
     camera.fov = 45.0; camera.near = 1.0; camera.far = 1000.0;
     camera.eye = new two.vec3(0.0, 10.0, 40.0);
 
-    //control.target = new two.vec3(0.0, 10.0, 0.0);
+    control.target = new two.vec3(0.0, 10.0, 0.0);
         
 	var env = scene.env;
-    env.radiance.colour = two.rgb(0x111122);
-    env.radiance.ambient = 1.0;
+    env.radiance.ambient = two.rgb(0x111122);
 
     var phong = app.gfx.programs.file('pbr/phong');
 

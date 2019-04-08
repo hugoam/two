@@ -22,8 +22,13 @@ var viewer = two.ui.scene_viewer(panel);
 two.ui.trackball_controller(viewer);
 
 if (init) {
-    //scene.add(new THREE.AmbientLight(0x111122));
+    var camera = viewer.camera;
+    camera.fov = 45.0; camera.near = 1.0; camera.far = 1000.0;
+    camera.eye = new two.vec3(0.0, 10.0, 40.0);
 
+    var env = scene.env;
+    env.radiance.ambient = two.rgb(0x111122);
+    
     var pbr = app.gfx.programs.file('pbr/pbr');
 
     var c = app.gfx.materials.fetch('cube');

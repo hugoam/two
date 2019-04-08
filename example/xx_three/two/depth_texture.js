@@ -33,7 +33,7 @@ var fragment_shader = `$input v_uv0
     
 function pass_todepth(gfx, render) {
     
-    var program = gfx.programs.fetch('todepth');
+    var program = new two.ProgramVersion(gfx.programs.fetch('todepth'));
 
     var target = render.target;
 
@@ -53,7 +53,7 @@ two.ui.orbit_controls(viewer);
 //controls.dampingFactor = 0.25;
 //controls.rotateSpeed = 0.35;
 
-viewer.viewport.active = false;
+viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
 
@@ -68,7 +68,7 @@ if (init) {
     program.set_source(two.ShaderType.Vertex, vertex_shader);
     program.set_source(two.ShaderType.Fragment, fragment_shader);
     
-    var material = app.gfx.materials.create('material'); var m = material;
+    var material = app.gfx.materials.create('depthtexture'); var m = material;
     m.program = app.gfx.programs.fetch('solid');
     m.solid.colour.value = new two.Colour(0.0, 0.0, 1.0); //two.Colour.Blue;
     

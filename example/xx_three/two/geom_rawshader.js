@@ -1,3 +1,4 @@
+// geom_rawshader.js
 
 var vertex_shader = `$input a_position, a_color0
 		$output v_position, v_color

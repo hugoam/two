@@ -216,10 +216,8 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 		gfx.m_filter->source0(render.m_target->m_diffuse);
 		gfx.m_filter->source1(source);
 
-		// additive blend bloom over target
 		gfx.m_filter->quad(pass, render.m_target->m_post.swap(), program);
 
-		//gfx.m_copy->quad(render.composite_pass("copy"), *render.m_fbo, fbo.m_tex, BGFX_STATE_BLEND_ADD);
 		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, render.m_target->m_post.last());
 	};
 

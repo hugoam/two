@@ -165,8 +165,7 @@ if(init) {
 
     var env = scene.env;
     
-    env.radiance.ambient = 1.0;
-    env.radiance.colour = two.rgb(0x222222);
+    env.radiance.ambient = two.rgb(0x222222);
 
     env.fog.enabled = true;
     env.fog.colour = two.rgb(0x000000);

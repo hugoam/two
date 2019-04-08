@@ -159,8 +159,7 @@ if(init) {
     var n = scene.nodes().add(new two.Node3());
     scene.items().add(new two.Item(n, geometry, 0, material));
 
-    scene.env.radiance.ambient = 0.4;
-    scene.env.radiance.colour = two.rgb(0xcccccc);
+    scene.env.radiance.ambient = two.rgb(0xcccccc); //0.4;
     
     var ln = scene.nodes().add(new two.Node3());
     var l = scene.lights().add(new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 0.8, 0.0));

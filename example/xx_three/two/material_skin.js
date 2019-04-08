@@ -661,7 +661,7 @@ function pass_bloom(gfx, render, source, fbo, clear = true, strength = 1.0, kern
 
 var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controls(viewer);
-viewer.viewport.active = false;
+viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
 

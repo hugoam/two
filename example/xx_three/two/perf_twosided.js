@@ -14,7 +14,7 @@ if (init) {
 
     viewer.viewport.to_gamma = true;
 
-    //viewer.viewport.clear_colour = ungamma(rgb(0x050505));
+    viewer.viewport.clear_colour = two.to_linear(two.rgb(0x050505));
 
     var reflection = app.gfx.textures.file('cube/royal.jpg.cube');
 

@@ -33,6 +33,8 @@ void xx_refraction_balls(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 		env.m_background.m_texture = &refraction;
 		env.m_background.m_mode = BackgroundMode::Panorama;
 
+		env.m_radiance.m_ambient = Colour(1.f);
+
 		Model& sphere = app.m_gfx.shape(Sphere(100.f));
 
 		Program& phong = *app.m_gfx.programs().file("pbr/phong");

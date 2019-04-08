@@ -31,10 +31,11 @@ var fragment_shader = `$input v_position, v_color
     void main()
     {
     	vec4 color = vec4(v_color);
-    	color.r += sin(v_position.x * 10.0 + u_time) * 0.5;
+        // @todo u_time doesn't work because of precision mismatch between vertex and fragment
+    	//color.r += sin(v_position.x * 10.0 + u_time) * 0.5;
+    	color.r += sin(v_position.x * 10.0) * 0.5;
     
     	gl_FragColor = color;
-    	//gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
     }`;
 
 var num_instances = 50000;

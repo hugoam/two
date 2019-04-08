@@ -38,7 +38,7 @@ void xx_refraction_mesh(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		env.m_background.m_texture = &refraction;
 		env.m_background.m_mode = BackgroundMode::Panorama;
 
-		//env.m_radiance.m_ambient = 1.f;
+		env.m_radiance.m_ambient = Colour(1.f);
 
 		Model& sphere = app.m_gfx.shape(Sphere(100.f * 0.05f));
 

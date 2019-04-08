@@ -35,9 +35,7 @@ void xx_material_cubemap(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 		scene.m_env.m_background.m_texture = &envmap;
 		scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
 
-		//scene.m_env.m_radiance.m_ambient = 1.f;
-		//scene.m_env.m_radiance.m_ambient = rgb(0xffffff);
-		scene.m_env.m_radiance.m_colour = rgb(0xffffff);
+		scene.m_env.m_radiance.m_ambient = rgb(0xffffff);
 
 		//lights
 

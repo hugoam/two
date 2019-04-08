@@ -24,8 +24,7 @@ if(init) {
     env.background.texture = envmap;
     env.background.mode = two.BackgroundMode.Panorama;
 
-    env.radiance.ambient = 1.0;
-    env.radiance.colour = two.rgb(0xffffff);
+    env.radiance.ambient = two.rgb(0xffffff);
 
     //lights
 

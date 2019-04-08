@@ -22,7 +22,7 @@ if (init) {
     camera.fov = 60.0; camera.near = 1.0; camera.far = 10000.0;
     camera.eye.z = 500.0;
 
-    var scene = viewer.scene;
+    viewer.viewport.clear_colour = two.rgb(0xffffff);
     scene.env.background.colour = two.rgb(0xffffff);
     //scene.fog = new THREE.Fog(0xffffff, 1, 10000);
 

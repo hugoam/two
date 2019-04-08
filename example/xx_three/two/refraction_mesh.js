@@ -22,7 +22,7 @@ if(init) {
     env.background.texture = refraction;
     env.background.mode = two.BackgroundMode.Panorama;
 
-    env.radiance.ambient = 1.0;
+    env.radiance.ambient = two.rgb(0xffffff);
 
     var sphere = app.gfx.shape(new two.Sphere(100.0 * 0.05));
 

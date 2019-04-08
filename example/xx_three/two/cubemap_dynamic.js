@@ -32,7 +32,7 @@ if(init) {
     
     var basic = app.gfx.programs.fetch('pbr/basic');
 
-    var material = app.gfx.materials.create('material'); var m = material;
+    var material = app.gfx.materials.create('cubemapdynamic'); var m = material;
         m.program = basic;
         m.pbr.albedo.value = two.rgb(0xffffff);
         //m.pbr.metallic = 1.0;

@@ -32,7 +32,6 @@ var luminosity_fragment = `$input v_uv0
         float alpha = smoothstep(u_threshold, u_threshold + u_smooth_width, v);
 
         gl_FragColor = mix(outputColor, texel, alpha);
-
     }`;
 
 // @author spidersharma / http://eduperiment.com/
@@ -46,18 +45,20 @@ var blur_fragment = `$input v_uv0
     
     uniform vec4 u_glow_blur_p0;
     #define u_direction u_glow_blur_p0.xy
+    #define u_level_size u_glow_blur_p0.zw
     
     float gaussianPdf(in float x, in float sigma) {
         return 0.39894 * exp(-0.5 * x * x/(sigma * sigma)) / sigma;
     }
     void main() {
+        vec2 invSize = 1.0 / u_level_size;
         float fSigma = float(SIGMA);
         float weightSum = gaussianPdf(0.0, fSigma);
         vec3 diffuseSum = texture2DLod(s_source_0, v_uv0, float(u_source_0_level)).rgb * weightSum;
         for(int i = 1; i < KERNEL_RADIUS; i++) {
             float x = float(i);
             float w = gaussianPdf(x, fSigma);
-            vec2 uvOffset = u_direction * u_pixel_size * x;
+            vec2 uvOffset = u_direction * invSize * x;
             vec3 sample1 = texture2DLod(s_source_0, v_uv0 + uvOffset, float(u_source_0_level)).rgb;
             vec3 sample2 = texture2DLod(s_source_0, v_uv0 - uvOffset, float(u_source_0_level)).rgb;
             diffuseSum += (sample1 + sample2) * w;
@@ -86,12 +87,12 @@ var merge_fragment = `$input v_uv0
     }
     
     void main() {
-        gl_FragColor = u_glow_strength * (lerpBloomFactor(u_glow_levels[0].x) * texture2DLod(s_source_0, v_uv0, 1.0) + 
-                                          lerpBloomFactor(u_glow_levels[0].y) * texture2DLod(s_source_0, v_uv0, 2.0) + 
-                                          lerpBloomFactor(u_glow_levels[0].z) * texture2DLod(s_source_0, v_uv0, 3.0) + 
-                                          lerpBloomFactor(u_glow_levels[0].w) * texture2DLod(s_source_0, v_uv0, 4.0) + 
-                                          lerpBloomFactor(u_glow_levels[1].x) * texture2DLod(s_source_0, v_uv0, 5.0));
-    //	gl_FragColor = texture2DLod(s_source_0, v_uv0, 0.0);
+        vec4 bloom = u_glow_strength * (lerpBloomFactor(u_glow_levels[0].x) * texture2DLod(s_source_1, v_uv0, 1.0) + 
+                                        lerpBloomFactor(u_glow_levels[0].y) * texture2DLod(s_source_1, v_uv0, 2.0) + 
+                                        lerpBloomFactor(u_glow_levels[0].z) * texture2DLod(s_source_1, v_uv0, 3.0) + 
+                                        lerpBloomFactor(u_glow_levels[0].w) * texture2DLod(s_source_1, v_uv0, 4.0) + 
+                                        lerpBloomFactor(u_glow_levels[1].x) * texture2DLod(s_source_1, v_uv0, 5.0));
+        gl_FragColor = texture2DLod(s_source_0, v_uv0, 0.0) + bloom;
     }`;
 
 
@@ -122,7 +123,7 @@ function pass_unreal_bloom(gfx, render, bloom) {
 
         var dirs = [ new two.vec2(1.0, 0.0), new two.vec2(0.0, 1.0) ];
 
-        gfx.filter.uniform(pass, 'u_glow_blur_p0', new two.vec4(dirs[d].x, dirs[d].y, 0.0, 0.0));
+        gfx.filter.uniform(pass, 'u_glow_blur_p0', new two.vec4(dirs[d].x, dirs[d].y, dest.size.x, dest.size.y));
 
         gfx.filter.source0p(source, program, level);
 
@@ -143,18 +144,14 @@ function pass_unreal_bloom(gfx, render, bloom) {
 
         gfx.filter.uniform(pass, 'u_glow_merge_p0', new two.vec4(bloom.strength, bloom.radius, 0.0, 0.0));
         gfx.filter.uniforms(pass, 'u_glow_levels', glow_levels);
-        //gfx.filter.uniforms(pass, 'u_glow_colors', glow_tint, 5);
 
-        gfx.filter.source0(source);
+        gfx.filter.source0(render.target.diffuse);
+        gfx.filter.source1(source);
 
-        var target = render.target;
-        gfx.filter.quad(pass, target.post.swap(), program);
+        gfx.filter.quad(pass, render.target.post.swap(), program);
 
-        // additive blend bloom over target
-        var merge = render.next_pass('flip', two.PassType.PostProcess);
-        //gfx.copy.quad(merge, render.fbo, target.post.last());
-        //gfx.copy.quad(merge, render.fbo, target.post.last(), pass.viewport.rect, BGFX_STATE_BLEND_ADD);
-        gfx.copy.quad(merge, render.fbo, target.post.last(), pass.viewport.rect, 35790848);
+        var flip = render.next_pass('flip', two.PassType.PostProcess);
+        gfx.copy.quad(flip, render.fbo, render.target.post.last());
     }
 
     // 1. Extract bright areas
@@ -195,12 +192,7 @@ two.ui.orbit_controls(viewer);
 //controls.maxPolarAngle = c_pi * 0.5;
 //controls.minDistance = 1;
 //controls.maxDistance = 10;
-viewer.viewport.active = false;
-
-//Tonemap tonemap = viewer.viewport.comp<Tonemap>();
-//tonemap.enabled = true;
-//tonemap.mode = two.TonemapMode.Reinhardt;
-//tonemap.exposure = 3.f;
+viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
 
@@ -211,13 +203,17 @@ if(init) {
     camera.fov = 40.0; camera.near = 1.0; camera.far = 100.0;
     camera.eye = new two.vec3(-5.0, 2.5, -3.5);
 
+    this.tonemap = new two.Tonemap();
+    this.tonemap.enabled = true;
+    this.tonemap.mode = two.TonemapMode.Reinhardt;
+    this.tonemap.exposure = 5.0;
+
+    this.bcs = new two.BCS();
+    
     this.bloom = { exposure: 1.0, strength: 1.5, radius: 0.0, threshold: 0.0 };
     this.bloom.resolution = app.gfx.main_target().size;
 
-    scene.env.radiance.colour = two.rgb(0x404040);
-    scene.env.radiance.energy = 1.0;
-    scene.env.radiance.ambient = 1.0;
-    //scene.add(new THREE.AmbientLight(0x404040));
+    scene.env.radiance.ambient = two.rgb(0x404040);
 
     var highpass = app.gfx.programs.create('bloom_lum');
     highpass.set_source(two.ShaderType.Vertex, filter_vertex);
@@ -230,7 +226,7 @@ if(init) {
     var blur = app.gfx.programs.create('bloom_blur');
     blur.set_source(two.ShaderType.Vertex, filter_vertex);
     blur.set_source(two.ShaderType.Fragment, blur_fragment);
-    blur.register_block(app.gfx.filter.shader_block);
+    //blur.register_block(app.gfx.filter);
     blur.register_block(blur_block);
     //blur.register_modes(0, { 'KERNEL_RADIUS' });
 
@@ -271,22 +267,25 @@ if(init) {
 //}
 
 
-function renderer(gfx, render, bloom) {
+function renderer(gfx, render, tonemap, bcs, bloom) {
     
     two.begin_pbr_render(gfx, render);
 
     two.pass_clear(gfx, render);
     two.pass_opaque(gfx, render);
+    
+    two.pass_begin_post(gfx, render);
+    two.pass_tonemap(gfx, render, tonemap, bcs);
+    
     pass_unreal_bloom(gfx, render, bloom);
-
-    //two.pass_post_process(gfx, render);
+    two.pass_flip(gfx, render);
 }
 
 var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 
-renderer(app.gfx, render, this.bloom);
+renderer(app.gfx, render, this.tonemap, this.bcs, this.bloom);
 
 app.gfx.renderer.end(render);
 

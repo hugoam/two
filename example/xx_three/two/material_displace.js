@@ -24,8 +24,7 @@ if(init) {
     
     var env = scene.env;
     env.radiance.texture = reflection;
-    env.radiance.ambient = 0.2;
-    env.radiance.colour = two.rgb(0xffffff);
+    env.radiance.ambient = new two.Colour(0.2);
 
     // lights
 

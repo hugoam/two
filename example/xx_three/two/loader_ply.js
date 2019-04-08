@@ -21,7 +21,6 @@ if(init) {
     
     var env = scene.env;
     env.background.colour = bg;
-    env.radiance.ambient = 0.0;
     
     env.fog.enabled = true;
     env.fog.colour = bg;

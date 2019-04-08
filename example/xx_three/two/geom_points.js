@@ -1,3 +1,4 @@
+// geom_points.js
 
 var particles = 500000;
 

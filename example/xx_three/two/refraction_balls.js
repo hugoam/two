@@ -22,6 +22,8 @@ if(init) {
     env.background.texture = refraction;
     env.background.mode = two.BackgroundMode.Panorama;
 
+    env.radiance.ambient = new two.Colour(1.0);
+
     var sphere = app.gfx.shape(new two.Sphere(100.0));
 
     var phong = app.gfx.programs.file('pbr/phong');

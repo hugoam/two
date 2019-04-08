@@ -59,16 +59,14 @@ if(init) {
 
     var camera = viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 5000.0;
-    camera.eye = new two.vec3(0.0, 300.0, 400.0 * 4.0);
+    camera.eye = new two.vec3(0.0, 300.0 * 0.75, 400.0 * 4.0 * 0.75);
 
     //Tonemap tonemap = viewer.viewport.comp<Tonemap>();
     //tonemap.enabled = true;
 
     // Lights
 
-    scene.env.radiance.colour = two.rgb(0x888888);
-    scene.env.radiance.energy = 1.0;
-    scene.env.radiance.ambient = 1.0;
+    scene.env.radiance.ambient = two.rgb(0x888888);
 
     //var dir = two.look_dir(normalize(new two.vec3(0.0, -0.5, -0.5)));
     var dir = two.look_dir(new two.vec3(0.0, -0.5, -0.5));

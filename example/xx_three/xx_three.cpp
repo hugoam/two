@@ -12,12 +12,11 @@ using namespace mud;
 
 // todo js:
 // xx_shadow_point random crash (in atlas probably)
-// update xx_marchingcubes
-// update xx_effect_bloom
 
 // todo:
-// xx_shader_lava JS no post processing + no bloom
 // xx_effect_bloom no transparent grey surfaces
+// xx_effect_bloom node animations
+// xx_shader_lava JS no post processing + no bloom
 
 // small:
 // ocean direct light bug

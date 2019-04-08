@@ -108,25 +108,23 @@ function pass_bokeh(gfx, render, bokeh) {
     gfx.copy.quad(flip, render.fbo, render.target.post.last());
 }
 
-var enabled = true;
-
 var viewer = two.ui.scene_viewer(panel);
 //two.ui.orbit_controller(viewer);
-if (enabled) {
-    viewer.viewport.autorender = false;
-}
+viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
 
-var bokeh = {
-    focus : 500.0,
-    aperture : 5.0,
-    maxblur : 1.0
-};
 
 if (init) {
     this.mouse = new two.vec2(0.0);
-
+    
+    this.bokeh = {
+        enabled: true,
+        focus: 500.0,
+        aperture: 5.0,
+        maxblur: 1.0
+    };
+    
     var camera = viewer.camera;
     camera.fov = 70.0; camera.near = 1.0; camera.far = 3000.0;
     camera.eye.z = 200.0;
@@ -206,20 +204,19 @@ for(var i = 0; i < this.nobjects; i++)
 //	two.ui.slider_field_float(controls, 'maxblur',  { bokeh.maxblur,  { 0.0, 3.f, 0.025 } });
 //}
 
-function renderer(gfx, render) {
+function renderer(gfx, render, bokeh) {
     
     two.begin_pbr_render(gfx, render);
 
     two.pass_clear(gfx, render);
     two.pass_opaque(gfx, render);
-    pass_bokeh(gfx, render, bokeh);
+    if (bokeh.enabled) {
+        pass_bokeh(gfx, render, bokeh);
+    }
 }
 
-if (enabled) {
-    
-    var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
-    app.gfx.renderer.gather(render);
-    app.gfx.renderer.begin(render);
-    renderer(app.gfx, render);
-    app.gfx.renderer.end(render);
-}
+var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+app.gfx.renderer.gather(render);
+app.gfx.renderer.begin(render);
+renderer(app.gfx, render, this.bokeh);
+app.gfx.renderer.end(render);

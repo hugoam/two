@@ -340,7 +340,6 @@ if(init) {
 
     viewer.viewport.clear_colour = two.rgb(0x444444);
     scene.env.background.colour = two.rgb(0x444444);
-    scene.env.radiance.ambient = 0.0;
 
     var program = app.gfx.programs.create('halftone');
     program.set_source(two.ShaderType.Vertex, halftone_vertex);

@@ -451,7 +451,6 @@ if(init)
     viewer.viewport.clear_colour = new two.Colour(1.0);
 
     var env = scene.env;
-    env.radiance.ambient = 0.0;
     env.fog.enabled = true;
     env.fog.colour = two.rgb(0xcccccc);
     env.fog.depth_begin = 100.0;

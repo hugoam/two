@@ -22,8 +22,7 @@ if (init) {
     var scene = viewer.scene;
 
     var env = scene.env;
-    env.radiance.colour = two.rgb(0xffffff);
-    env.radiance.ambient = 0.33;
+    env.radiance.ambient = new two.Colour(0.33);
 
     env.background.colour = two.rgb(0x111111);
     viewport.clear_colour = two.rgb(0x111111);

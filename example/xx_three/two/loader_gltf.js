@@ -19,7 +19,6 @@ if(init) {
     
     var env = scene.env;
     env.radiance.texture = texture;
-    env.radiance.ambient = 1.0;
     env.background.texture = texture;
     env.background.mode = two.BackgroundMode.Panorama;
 
