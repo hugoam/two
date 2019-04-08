@@ -40,6 +40,8 @@ void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 		env.m_background.m_texture = &hdrenv;
 		env.m_background.m_mode = BackgroundMode::Panorama;
 
+		env.m_radiance.m_ambient = rgb(0xffffff);
+
 		//env.m_skylight.m_enabled = true;
 		env.m_skylight.m_color = rgb(0x443333);
 		env.m_skylight.m_ground = rgb(0x222233);
@@ -52,9 +54,10 @@ void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 		Model& model = *app.m_gfx.models().file("Cerberus");
 
 		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
+		Program& three = *app.m_gfx.programs().file("pbr/three");
 
 		Material& material = app.m_gfx.materials().create("standard", [&](Material& m) {
-			m.m_program = &pbr;
+			m.m_program = &three;
 			m.m_pbr.m_metallic = 1.f;
 			m.m_pbr.m_roughness = 1.f;
 			m.m_pbr.m_albedo = &albedo;

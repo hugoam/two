@@ -291,7 +291,7 @@ namespace mud
 		attr_ gpu_ MaterialParam<Colour> m_albedo = { Colour::White, nullptr };
 		attr_ gpu_ float m_specular = 0.5f;
 		attr_ gpu_ MaterialParam<float> m_metallic = { 0.f, nullptr, TextureChannel::Red };
-		attr_ gpu_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Red };
+		attr_ gpu_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Green };
 
 		// advanced
 		attr_ gpu_ MaterialParam<float> m_rim;

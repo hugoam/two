@@ -1,3 +1,4 @@
+// effect_bloom.js
 
 var filter_vertex = `$input a_position, a_texcoord0
     $output v_uv0

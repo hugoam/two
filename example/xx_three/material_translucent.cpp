@@ -139,7 +139,7 @@ void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 
 		// Lights
 
-		scene.m_env.m_radiance.m_colour = rgb(0x888888);
+		scene.m_env.m_radiance.m_ambient = rgb(0x888888);
 
 		Node3& dn = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(normalize(vec3(0.f, -0.5f, -0.5f)))));
 		Light& dl = gfx::lights(scene).add(Light(dn, LightType::Direct, false, rgb(0xffffff), 0.03f));
