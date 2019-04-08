@@ -226,10 +226,11 @@ void mud_to_segment_1(span<void*> args, void*& result) { (*static_cast<mud::Segm
 void mud_to_ray_2(span<void*> args, void*& result) { (*static_cast<mud::Ray*>(result)) = mud::to_ray(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<float*>(args[2])); }
 void mud_to_segment_3(span<void*> args, void*& result) { (*static_cast<mud::Segment*>(result)) = mud::to_segment(*static_cast<mud::Ray*>(args[0])); }
 void mud_distribute_poisson_4(span<void*> args, void*& result) { (*static_cast<stl::vector<mud::vec3>*>(result)) = mud::distribute_poisson(*static_cast<mud::vec2*>(args[0]), *static_cast<float*>(args[1])); }
-void mud_add_ball_5(span<void*> args, void*& result) { UNUSED(result);  mud::add_ball(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3])); }
-void mud_add_planeX_6(span<void*> args, void*& result) { UNUSED(result);  mud::add_planeX(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
-void mud_add_planeY_7(span<void*> args, void*& result) { UNUSED(result);  mud::add_planeY(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
-void mud_add_planeZ_8(span<void*> args, void*& result) { UNUSED(result);  mud::add_planeZ(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
+void mud_add_ball_5(span<void*> args, void*& result) { UNUSED(result);  mud::add_ball(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<mud::Colour*>(args[4])); }
+void mud_add_ball_6(span<void*> args, void*& result) { UNUSED(result);  mud::add_ball(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3])); }
+void mud_add_planeX_7(span<void*> args, void*& result) { UNUSED(result);  mud::add_planeX(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
+void mud_add_planeY_8(span<void*> args, void*& result) { UNUSED(result);  mud::add_planeY(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
+void mud_add_planeZ_9(span<void*> args, void*& result) { UNUSED(result);  mud::add_planeZ(*static_cast<mud::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
 
 namespace mud
 {
@@ -1806,19 +1807,23 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "add_ball", nullptr, mud_add_ball_5, { { "cubes", type<mud::MarchingCubes>(),  }, { "ball", type<mud::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "add_ball", nullptr, mud_add_ball_5, { { "cubes", type<mud::MarchingCubes>(),  }, { "ball", type<mud::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  }, { "colour", type<mud::Colour>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "add_planeX", nullptr, mud_add_planeX_6, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "add_ball", nullptr, mud_add_ball_6, { { "cubes", type<mud::MarchingCubes>(),  }, { "ball", type<mud::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "add_planeY", nullptr, mud_add_planeY_7, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "add_planeX", nullptr, mud_add_planeX_7, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "add_planeZ", nullptr, mud_add_planeZ_8, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "add_planeY", nullptr, mud_add_planeY_8, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "add_planeZ", nullptr, mud_add_planeZ_9, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

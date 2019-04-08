@@ -1236,6 +1236,12 @@ extern "C" {
 	uint32_t DECL mud_to_abgr_1(const mud::Colour* colour) {
 		return mud::to_abgr(*colour);
 	}
+	uint32_t DECL mud_to_abgr_3(float r, float g, float b) {
+		return mud::to_abgr(r, g, b);
+	}
+	uint32_t DECL mud_to_abgr_4(float r, float g, float b, float a) {
+		return mud::to_abgr(r, g, b, a);
+	}
 	mud::Colour* DECL mud_to_linear_1(const mud::Colour* colour) {
 		static mud::Colour temp;
 		return (temp = mud::to_linear(*colour), &temp);

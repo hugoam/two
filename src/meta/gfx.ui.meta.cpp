@@ -247,8 +247,8 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static float yaw_default = c_pi/4.f;
-			static float pitch_default = -c_pi/4.f;
+			static float yaw_default = c_pi4;
+			static float pitch_default = -c_pi4;
 			static float distance_default = 10.f;
 			static Function f = { &namspc({ "mud", "ui" }), "orbit_controller", nullptr, mud_ui_orbit_controller_4, { { "viewer", type<mud::Viewer>(),  }, { "yaw", type<float>(), Param::Default, &yaw_default }, { "pitch", type<float>(), Param::Default, &pitch_default }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<mud::OrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);

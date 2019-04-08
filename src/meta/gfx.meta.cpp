@@ -2049,6 +2049,7 @@ namespace mud
 		static mud::MaterialParam<float> bump_default = {1.f,nullptr};
 		static mud::MaterialParam<float> displace_default = {1.f,nullptr};
 		static float displace_bias_default = 0.f;
+		static bool no_envmap_default = false;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_MaterialLit__construct_0, {} }
@@ -2066,7 +2067,8 @@ namespace mud
 			{ t, offsetof(mud::MaterialLit, m_displace), type<mud::MaterialParam<float>>(), "displace", &displace_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialLit, m_displace_bias), type<float>(), "displace_bias", &displace_bias_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialLit, m_occlusion), type<mud::MaterialParam<float>>(), "occlusion", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::MaterialLit, m_lightmap), type<mud::MaterialParam<float>>(), "lightmap", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::MaterialLit, m_lightmap), type<mud::MaterialParam<float>>(), "lightmap", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::MaterialLit, m_no_envmap), type<bool>(), "no_envmap", &no_envmap_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -2162,7 +2164,6 @@ namespace mud
 		static mud::MaterialParam<float> roughness_default = {1.f,nullptr,TextureChannel::Red};
 		static mud::MaterialParam<float> depth_default = {-0.02f,nullptr};
 		static bool deep_parallax_default = false;
-		static bool scene_environment_default = true;
 		static mud::PbrDiffuseMode diffuse_mode_default = mud::PbrDiffuseMode::Burley;
 		static mud::PbrSpecularMode specular_mode_default = mud::PbrSpecularMode::SchlickGGX;
 		static float construct_1_metallic_default = 0.f;
@@ -2680,7 +2681,7 @@ namespace mud
 		// defaults
 		static mud::Colour colour_default = mud::Colour::White;
 		static float energy_default = 1.0f;
-		static float ambient_default = 1.0f;
+		static mud::Colour ambient_default = mud::Colour::Black;
 		static mud::Texture* texture_default = nullptr;
 		static mud::Texture* filtered_default = nullptr;
 		static bool filter_default = true;
@@ -2696,7 +2697,7 @@ namespace mud
 		static Member members[] = {
 			{ t, offsetof(mud::Radiance, m_colour), type<mud::Colour>(), "colour", &colour_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Radiance, m_energy), type<float>(), "energy", &energy_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Radiance, m_ambient), type<float>(), "ambient", &ambient_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Radiance, m_ambient), type<mud::Colour>(), "ambient", &ambient_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Radiance, m_texture), type<mud::Texture>(), "texture", texture_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Radiance, m_filtered), type<mud::Texture>(), "filtered", filtered_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(mud::Radiance, m_filter), type<bool>(), "filter", &filter_default, Member::Value, nullptr }

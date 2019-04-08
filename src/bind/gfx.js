@@ -2152,6 +2152,14 @@ Object.defineProperty(MaterialLit.prototype, "lightmap", {
         _mud_MaterialLit__set_lightmap(this.__ptr, value.__ptr);
     }
 });
+Object.defineProperty(MaterialLit.prototype, "no_envmap", {
+    get: function() {
+        return !!(_mud_MaterialLit__get_no_envmap(this.__ptr));
+    },
+    set: function(value) {
+        _mud_MaterialLit__set_no_envmap(this.__ptr, value);
+    }
+});
 MaterialLit.prototype["__destroy"] = MaterialLit.prototype.__destroy = function() {
     _mud_MaterialLit__destroy(this.__ptr);
 };
@@ -2385,14 +2393,6 @@ Object.defineProperty(MaterialPbr.prototype, "deep_parallax", {
     },
     set: function(value) {
         _mud_MaterialPbr__set_deep_parallax(this.__ptr, value);
-    }
-});
-Object.defineProperty(MaterialPbr.prototype, "scene_environment", {
-    get: function() {
-        return !!(_mud_MaterialPbr__get_scene_environment(this.__ptr));
-    },
-    set: function(value) {
-        _mud_MaterialPbr__set_scene_environment(this.__ptr, value);
     }
 });
 Object.defineProperty(MaterialPbr.prototype, "diffuse_mode", {
@@ -3321,10 +3321,10 @@ Object.defineProperty(Radiance.prototype, "energy", {
 });
 Object.defineProperty(Radiance.prototype, "ambient", {
     get: function() {
-        return _mud_Radiance__get_ambient(this.__ptr);
+        return wrapPointer(_mud_Radiance__get_ambient(this.__ptr), Colour);
     },
     set: function(value) {
-        _mud_Radiance__set_ambient(this.__ptr, value);
+        _mud_Radiance__set_ambient(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(Radiance.prototype, "texture", {

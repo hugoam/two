@@ -1709,6 +1709,12 @@ extern "C" {
 	void DECL mud_MaterialLit__set_lightmap(mud::MaterialLit* self, mud::MaterialParam<float>* value) {
 		self->m_lightmap = *value;
 	}
+	bool DECL mud_MaterialLit__get_no_envmap(mud::MaterialLit* self) {
+		return self->m_no_envmap;
+	}
+	void DECL mud_MaterialLit__set_no_envmap(mud::MaterialLit* self, bool value) {
+		self->m_no_envmap = value;
+	}
 	void DECL mud_MaterialLit__destroy(mud::MaterialLit* self) {
 		delete self;
 	}
@@ -1895,12 +1901,6 @@ extern "C" {
 	}
 	void DECL mud_MaterialPbr__set_deep_parallax(mud::MaterialPbr* self, bool value) {
 		self->m_deep_parallax = value;
-	}
-	bool DECL mud_MaterialPbr__get_scene_environment(mud::MaterialPbr* self) {
-		return self->m_scene_environment;
-	}
-	void DECL mud_MaterialPbr__set_scene_environment(mud::MaterialPbr* self, bool value) {
-		self->m_scene_environment = value;
 	}
 	mud::PbrDiffuseMode DECL mud_MaterialPbr__get_diffuse_mode(mud::MaterialPbr* self) {
 		return self->m_diffuse_mode;
@@ -2689,11 +2689,11 @@ extern "C" {
 	void DECL mud_Radiance__set_energy(mud::Radiance* self, float value) {
 		self->m_energy = value;
 	}
-	float DECL mud_Radiance__get_ambient(mud::Radiance* self) {
-		return self->m_ambient;
+	mud::Colour* DECL mud_Radiance__get_ambient(mud::Radiance* self) {
+		return &self->m_ambient;
 	}
-	void DECL mud_Radiance__set_ambient(mud::Radiance* self, float value) {
-		self->m_ambient = value;
+	void DECL mud_Radiance__set_ambient(mud::Radiance* self, mud::Colour* value) {
+		self->m_ambient = *value;
 	}
 	mud::Texture* DECL mud_Radiance__get_texture(mud::Radiance* self) {
 		return self->m_texture;

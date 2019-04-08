@@ -1644,8 +1644,9 @@ Module['to_segment'] = function(a0) {
 Module['distribute_poisson'] = function(a0, a1) {
     return _mud_distribute_poisson_2(/*size*/a0.__ptr, /*radius*/a1);
 };
-Module['add_ball'] = function(a0, a1, a2, a3) {
-    _mud_add_ball_4(/*cubes*/a0.__ptr, /*ball*/a1.__ptr, /*strength*/a2, /*subtract*/a3);
+Module['add_ball'] = function(a0, a1, a2, a3, a4) {
+    if (a4 === undefined) { _mud_add_ball_4(/*cubes*/a0.__ptr, /*ball*/a1.__ptr, /*strength*/a2, /*subtract*/a3); return; }
+    _mud_add_ball_5(/*cubes*/a0.__ptr, /*ball*/a1.__ptr, /*strength*/a2, /*subtract*/a3, /*colour*/a4.__ptr);
 };
 Module['add_planeX'] = function(a0, a1, a2) {
     _mud_add_planeX_3(/*cubes*/a0.__ptr, /*strength*/a1, /*subtract*/a2);

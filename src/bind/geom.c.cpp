@@ -1454,6 +1454,9 @@ extern "C" {
 	void DECL mud_add_ball_4(mud::MarchingCubes* cubes, const mud::vec3* ball, float strength, float subtract) {
 		mud::add_ball(*cubes, *ball, strength, subtract);
 	}
+	void DECL mud_add_ball_5(mud::MarchingCubes* cubes, const mud::vec3* ball, float strength, float subtract, const mud::Colour* colour) {
+		mud::add_ball(*cubes, *ball, strength, subtract, *colour);
+	}
 	void DECL mud_add_planeX_3(mud::MarchingCubes* cubes, float strength, float subtract) {
 		mud::add_planeX(*cubes, strength, subtract);
 	}

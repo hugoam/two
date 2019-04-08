@@ -1425,8 +1425,10 @@ Module['hsl'] = function(a0, a1, a2) {
 Module['to_rgba'] = function(a0) {
     return _mud_to_rgba_1(/*colour*/a0.__ptr);
 };
-Module['to_abgr'] = function(a0) {
-    return _mud_to_abgr_1(/*colour*/a0.__ptr);
+Module['to_abgr'] = function(a0, a1, a2, a3) {
+    if (a1 === undefined) { return _mud_to_abgr_1(/*colour*/a0.__ptr); }
+    if (a3 === undefined) { return _mud_to_abgr_3(/*r*/a0, /*g*/a1, /*b*/a2); }
+    return _mud_to_abgr_4(/*r*/a0, /*g*/a1, /*b*/a2, /*a*/a3);
 };
 Module['to_linear'] = function(a0) {
     return wrapPointer(_mud_to_linear_1(/*colour*/a0.__ptr), Colour);
