@@ -70,7 +70,7 @@ namespace mud
 	{
 		if(m_rect.height != 0.f)
 		{
-			const vec2 size = rect_size(m_rect) * vec2(render.m_fbo->m_size);
+			const vec2 size = m_rect.size * vec2(render.m_fbo->m_size);
 			m_camera->m_aspect = size.x / size.y;
 		}
 

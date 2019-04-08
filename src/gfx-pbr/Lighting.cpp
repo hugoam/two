@@ -102,7 +102,7 @@ namespace mud
 #endif
 	}
 
-	void BlockLight::options(Render& render, ProgramVersion& program) const
+	void BlockLight::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
 		if(render.m_viewport->m_clustered)
 			program.set_option(0, CLUSTERED, true);

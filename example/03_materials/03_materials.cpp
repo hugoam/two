@@ -177,6 +177,8 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	OrbitController& controller = ui::orbit_controller(viewer);
 	UNUSED(controller);
 
+	viewer.m_viewport.m_to_gamma = true;
+
 	Gnode& scene = viewer.m_scene.begin();
 
 	Gnode& ground_node = gfx::node(scene, {}, -Y3);
@@ -214,7 +216,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
 
 		ui::label(sheet, "Zone :");
-		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_env.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
+		ui::color_field(sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
 
 		if(edited)
 			object_edit(*dock, Ref(edited)); // "Particle Editor" // identity = edited

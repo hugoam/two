@@ -188,8 +188,7 @@ void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		camera.m_eye.z = 400.f;
 
-		scene.m_env.m_radiance.m_colour = rgb(0x222222);
-		scene.m_env.m_radiance.m_ambient = 1.f;
+		scene.m_env.m_radiance.m_ambient = rgb(0x222222);
 
 		scene.m_env.m_fog = { true, 1.f, rgb(0x000000), true, 1.f, 1000.f };
 

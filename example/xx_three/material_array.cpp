@@ -62,9 +62,9 @@ void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool i
 						//m.m_pbr.m_albedo = &texture;
 						//m.m_pbr.m_normal = &texture;
 						m.m_lit.m_normal.m_value = 1.f;
+						m.m_lit.m_no_envmap = index % 2 == 0 ? true : false;
 						m.m_pbr.m_metallic = beta;
 						m.m_pbr.m_roughness = 1.f - alpha;
-						m.m_pbr.m_scene_environment = index % 2 == 0 ? false : true;
 					});
 
 					index++;

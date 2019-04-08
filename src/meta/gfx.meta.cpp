@@ -2192,7 +2192,6 @@ namespace mud
 			{ t, offsetof(mud::MaterialPbr, m_depth), type<mud::MaterialParam<float>>(), "depth", &depth_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialPbr, m_transmission), type<mud::MaterialParam<mud::Colour>>(), "transmission", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialPbr, m_deep_parallax), type<bool>(), "deep_parallax", &deep_parallax_default, Member::Value, nullptr },
-			{ t, offsetof(mud::MaterialPbr, m_scene_environment), type<bool>(), "scene_environment", &scene_environment_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialPbr, m_diffuse_mode), type<mud::PbrDiffuseMode>(), "diffuse_mode", &diffuse_mode_default, Member::Value, nullptr },
 			{ t, offsetof(mud::MaterialPbr, m_specular_mode), type<mud::PbrSpecularMode>(), "specular_mode", &specular_mode_default, Member::Value, nullptr }
 		};

@@ -88,7 +88,7 @@ namespace mud
 #ifdef MUD_DEBUG_PICKER_TEXTURE
 		if(m_picker)
 		{
-			vec4 source_rect = { vec2(0.f), rect_size(vec4(m_pick_query.m_rect)) };
+			vec4 source_rect = { vec2(0.f), vec2(m_pick_query.m_rect.size) };
 			vec4 target_rect = { vec2(0.f), vec2(render.m_target->m_size) * 0.33f };
 			m_gfx.m_copy->quad(*render.m_target, 251, BGFX_INVALID_HANDLE, m_picker->m_fbo_texture, { source_rect, target_rect, true });
 		}
@@ -1199,13 +1199,13 @@ namespace ui
 
 		if(topdown)
 		{
-			orbit.m_yaw = c_pi / 2.f;
-			orbit.m_pitch = -c_pi / 2.f;
+			orbit.m_yaw = c_pi2;
+			orbit.m_pitch = -c_pi2;
 		}
 		else
 		{
-			orbit.m_yaw = c_pi / 4.f;
-			orbit.m_pitch = -c_pi / 4.f;
+			orbit.m_yaw = c_pi4;
+			orbit.m_pitch = -c_pi4;
 		}
 
 		orbit.update_eye();
@@ -1258,7 +1258,7 @@ namespace ui
 			{
 				entity.m_rotation = rotate(entity.m_rotation, Y3, angle.x);
 				angles.y += angle.y;
-				angles.y = min(c_pi / 2.f - 0.01f, max(-c_pi / 2.f + 0.01f, angles.y));
+				angles.y = min(c_pi2 - 0.01f, max(-c_pi2 + 0.01f, angles.y));
 			}
 		}
 
@@ -1270,7 +1270,7 @@ namespace ui
 
 		if(mode == Mode::PseudoIsometric)
 		{
-			orbit.m_pitch = -c_pi / 4.f;
+			orbit.m_pitch = -c_pi4;
 			orbit.update_eye();
 		}
 

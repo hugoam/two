@@ -12,14 +12,12 @@ using namespace mud;
 
 // todo js:
 // xx_shadow_point random crash (in atlas probably)
+// update xx_marchingcubes
+// update xx_effect_bloom
 
 // todo:
-// fix obj loader / sponza blows up
-// xx_effect_bloom blur offset bug
-// xx_effect_sao gl corrupt pixels bug
-// xx_marchingcubes fix materials
-// xx_material_displace normal webgl bug
 // xx_shader_lava JS no post processing + no bloom
+// xx_effect_bloom no transparent grey surfaces
 
 // small:
 // ocean direct light bug
@@ -28,7 +26,6 @@ using namespace mud;
 
 // ported not ok:
 // xx_geom_points_hw (doesn't work)
-// xx_geom_instances (color doesn't work)
 // xx_tiled_forward (fix clusters)
 
 // todo js:
@@ -159,9 +156,7 @@ int main(int argc, char *argv[])
 
 	//static uint32_t example0 = 0;
 	//static uint32_t example0 = find_example("shader/ocean");
-	//static uint32_t example0 = find_example("cubemap/dynamic");
-	//static uint32_t example0 = find_example("effect/sao");
-	static uint32_t example0 = find_example("material/displace");
+	static uint32_t example0 = find_example("marchingcubes");
 	static bool init0 = true;
 
 #if !MULTI_VIEWPORT && !MULTI_WINDOW

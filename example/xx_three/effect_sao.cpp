@@ -334,7 +334,6 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 
 	auto pass_merge = [](GfxSystem& gfx, Render& render, const SAO& sao, Texture& source)
 	{
-		Pass pass = render.next_pass("sao_merge", PassType::PostProcess);
 
 #define BLEND_OP (0                                                                     \
 	| BGFX_STATE_BLEND_FUNC_SEPARATE(BGFX_STATE_BLEND_DST_COLOR, BGFX_STATE_BLEND_ZERO, \
@@ -344,11 +343,13 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 
 #if GL_CORRUPTION_BUG
 		FrameBuffer& fbo = render.m_target->m_post.swap();
+
+		Pass blit = render.next_pass("blit", PassType::PostProcess);
+		gfx.m_copy->quad(blit, fbo, render.m_target->m_diffuse);
 #else
 		FrameBuffer& fbo = *render.m_fbo;
 #endif
-		gfx.m_copy->quad(pass, fbo, render.m_target->m_diffuse);
-		//gfx.m_copy->quad(pass, fbo, source, BGFX_STATE_BLEND_ADD);
+		Pass pass = render.next_pass("sao merge", PassType::PostProcess);
 		gfx.m_copy->quad(pass, fbo, source, BLEND_OP);
 	};
 
@@ -452,9 +453,7 @@ void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Node3& l2 = gfx::nodes(scene).add(Node3(vec3(70.f, -70.f, 70.f)));
 		gfx::lights(scene).add(Light(l2, LightType::Point, false, rgb(0xddddff), 0.8f, 0.f));
 
-		scene.m_env.m_radiance.m_ambient = 0.f;
-		//scene.m_env.m_radiance.m_ambient = 0.05f;
-		//scene.m_env.m_radiance.m_colour = rgb(0xffffff);
+		scene.m_env.m_radiance.m_ambient = rgb(0xffffff) * 0.05f;
 
 		Symbol symbol; symbol.m_subdiv = uvec2(48, 24);
 		Model& geometry = app.m_gfx.shape(Sphere(3.f), symbol);

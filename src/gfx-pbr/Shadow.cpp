@@ -495,7 +495,7 @@ namespace mud
 		GpuState<GpuShadow>::me.upload(pass, const_cast<BlockShadow*>(this)->m_shadow_matrices);
 	}
 
-	void BlockShadow::options(Render& render, ProgramVersion& program) const
+	void BlockShadow::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
 		UNUSED(render);
 

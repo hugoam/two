@@ -40,7 +40,6 @@ void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 2100.f;
 		camera.m_eye.z = 1500.f;
 
-		scene.m_env.m_radiance.m_ambient = 0.f;
 		scene.m_env.m_fog = { true, 1.f, rgb(0x000000), true, 1500.f, 2100.f };
 
 		//

@@ -58,8 +58,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		control.m_target = vec3(0.f, 10.f, 0.f);
 
 		Zone& env = scene.m_env;
-		env.m_radiance.m_colour = rgb(0x111122);
-		env.m_radiance.m_ambient = 1.f;
+		env.m_radiance.m_ambient = rgb(0x111122);
 
 		Program& phong = *app.m_gfx.programs().file("pbr/phong");
 
@@ -144,7 +143,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		time = app.m_gfx.m_time;
 
 	// vec3 pos = vec3(0.f, 10.f, 0.f);
-	// quat rot = quat(vec3(0.f, c_pi / 2.f + c_pi / 4.f, c_pi / 2.f + c_pi / 4.f));
+	// quat rot = quat(vec3(0.f, c_pi2 + c_pi4, c_pi2 + c_pi4));
 
 #if IMMEDIATE
 	Gnode& light0 = light_source(scene, rgb(0x0088ff), pos(time), rot(time));

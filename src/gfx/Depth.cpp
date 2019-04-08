@@ -98,7 +98,7 @@ namespace mud
 		m_distance_params = {};
 	}
 
-	void BlockDepth::options(Render& render, ProgramVersion& program) const
+	void BlockDepth::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
 		UNUSED(render); UNUSED(program);
 	}

@@ -85,6 +85,7 @@ namespace mud
 			struct { attr_ T x; attr_ T y; attr_ T z; attr_ T w; };
 			struct { T r; T g; T b; T a; };
 			struct { T px; T py; T width; T height; };
+			struct { v2<T> pos; v2<T> size; };
 			T f[4];
 		};
 	};

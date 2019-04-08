@@ -317,7 +317,7 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGIBake::options(Render& render, ProgramVersion& program) const
+	void BlockGIBake::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
 		UNUSED(render); UNUSED(program);
 	}
@@ -365,7 +365,7 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGITrace::options(Render& render, ProgramVersion& program) const
+	void BlockGITrace::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
 		for(GIProbe* gi_probe : render.m_shot.m_gi_probes)
 			if(gi_probe->m_enabled)

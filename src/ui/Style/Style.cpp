@@ -40,8 +40,8 @@ namespace mud
 		this->stretch_coords(vec2(0.f), vec2(image.d_size), span<vec4>{ coords, Count });
 		for(size_t s = 0; s < Count; ++s)
 		{
-			this->d_images[s].d_coord = this->d_image->d_coord + uvec2(rect_offset(coords[s]));
-			this->d_images[s].d_size = uvec2(rect_size(coords[s]));
+			this->d_images[s].d_coord = this->d_image->d_coord + uvec2(coords[s].pos);
+			this->d_images[s].d_size = uvec2(coords[s].size);
 		}
 	}
 

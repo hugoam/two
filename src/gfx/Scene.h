@@ -29,7 +29,7 @@ namespace mud
 	{
 		attr_ gpu_ Colour m_colour = Colour::White;
 		attr_ gpu_ float m_energy = 1.0f;
-		attr_ gpu_ float m_ambient = 1.0f;
+		attr_ gpu_ Colour m_ambient = Colour::Black;
 		attr_ Texture* m_texture = nullptr;
 		attr_ Texture* m_filtered = nullptr;
 		attr_ bool m_filter = true;

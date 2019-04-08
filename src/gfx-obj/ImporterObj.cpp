@@ -28,6 +28,8 @@ module mud.gfx.obj;
 
 #include <cstdio>
 
+#define DEBUG_MESHES 0
+
 namespace mud
 {
 	static ImportConfig load_model_config(const string& path, const string& model_name)
@@ -276,8 +278,12 @@ namespace mud
 
 				m_import.m_items.push_back({ bxidentity(), &model, -1 });
 
-				//printf("INFO: obj - imported mesh %s with %u vertices and %u faces\n", 
-				//	   mesh.m_name.c_str(), m_shape.m_positions.size(), m_shape.m_indices.size() / 3);
+#if DEBUG_MESHES
+				printf("INFO: obj - imported mesh %s with %u vertices and %u faces\n", 
+					   mesh.m_name.c_str(), m_shape.m_positions.size(), m_shape.m_indices.size() / 3);
+#endif
+
+				m_shape = {};
 			}
 
 			inline void face(ShapeVertex* face, size_t a, size_t b, size_t c)

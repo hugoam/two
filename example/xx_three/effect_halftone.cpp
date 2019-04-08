@@ -357,7 +357,6 @@ void xx_effect_halftone(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		viewer.m_viewport.m_clear_colour = rgb(0x444444);
 		scene.m_env.m_background.m_colour = rgb(0x444444);
-		scene.m_env.m_radiance.m_ambient = 0.f;
 
 		Program& program = app.m_gfx.programs().create("halftone");
 		program.set_source(ShaderType::Vertex, halftone_vertex);

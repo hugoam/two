@@ -159,7 +159,7 @@
 
 							hue.value = val;
 
-						}, false, 0, c_pi * 2);
+						}, false, 0, c_2pi);
 
 						addGui('saturation', sataturation.value, function (val) {
 

@@ -16,8 +16,9 @@ namespace mud
 {
 	enum TonemapShaderOption : unsigned int
 	{
+		TO_GAMMA,
 		ADJUST_BCS,
-		COLOR_CORRECTION,
+		COLOR_LUT,
 	};
 
 	enum TonemapShaderMode : unsigned int
@@ -50,7 +51,7 @@ namespace mud
 		attr_ gpu_ float m_exposure = 1.0f;
 		attr_ gpu_ float m_white_point = 1.0f;
 
-		Texture* m_color_correction = nullptr;
+		Texture* m_color_lut = nullptr;
 	};
 
 	export_ MUD_GFX_PBR_EXPORT func_ void pass_tonemap(GfxSystem& gfx, Render& render, Tonemap& tonemap, BCS& bcs);

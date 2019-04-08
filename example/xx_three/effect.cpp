@@ -186,8 +186,7 @@ void xx_effect(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		dotscreen.set_source(ShaderType::Vertex, dotscreen_vertex);
 		dotscreen.set_source(ShaderType::Fragment, dotscreen_fragment);
 
-		scene.m_env.m_radiance.m_ambient = 1.f;
-		scene.m_env.m_radiance.m_colour = rgb(0x222222);
+		scene.m_env.m_radiance.m_ambient = rgb(0x222222);
 
 		scene.m_env.m_fog = { true, 1.f, rgb(0x000000), true, 1.f, 1000.f };
 

@@ -80,7 +80,7 @@ namespace mud
 		void upload(const Pass& pass, const Radiance& radiance) const
 		{
 			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
-			vec4 ambient_p0 = { radiance.m_ambient, PAD, PAD, PAD };
+			vec4 ambient_p0 = { to_vec3(radiance.m_ambient), PAD };
 
 			bgfx::setViewUniform(pass.m_index, u_radiance_p0, &radiance_p0);
 			bgfx::setViewUniform(pass.m_index, u_ambient_p0, &ambient_p0);
@@ -173,12 +173,12 @@ namespace mud
 		void pack(const Radiance& radiance, size_t& offset, GpuTexture& buffer, float* dest)
 		{
 			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
-			vec4 ambient_p0 = { radiance.m_ambient, PAD, PAD, PAD };
+			vec4 ambient_p0 = { to_vec3(radiance.m_ambient), PAD };
 
 			memcpy(dest + offset, &radiance_p0, sizeof(float) * 4);
 			offset += buffer.width * buffer.stride;
 
-			memcpy(dest + offset, &ambient_p0, sizeof(float) * 4);
+			memcpy(dest + offset, &ambient_p0, sizeof(float) * 3);
 			offset += buffer.width * buffer.stride;
 		}
 

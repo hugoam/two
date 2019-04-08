@@ -320,7 +320,7 @@ namespace mud
 		auto count_digits = [](int number) { int digits = 0; do { number /= 10; digits++; } while (number != 0); return digits; };
 		int digits = count_digits(int(m_text.m_text_rows.size()));
 
-		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
+		vec2 padding = floor(m_frame.d_inkstyle->m_padding.pos);
 		if(m_editor)
 			m_text_offset = padding + vec2(m_text.line_height() * float(digits) * 0.7f, 0.f);
 		else
@@ -673,7 +673,7 @@ namespace mud
 			if(m_hovered_word != "")
 			{
 				m_hovered_word_rect = m_text.interval_rect(word_begin(m_string, index), word_end(m_string, index));
-				m_hovered_word_rect = { rect_offset(m_hovered_word_rect) + m_text_offset, rect_size(m_hovered_word_rect) };
+				m_hovered_word_rect = { m_hovered_word_rect.pos + m_text_offset, m_hovered_word_rect.size };
 			}
 
 			this->ui().m_cursor_style = &ui::cursor_styles().caret;
@@ -816,7 +816,7 @@ namespace mud
 	void draw_text(Vg& vg, const vec2& padding, const Text& text)
 	{
 		for(const TextRow& row : text.m_text_rows)
-			vg.draw_text(padding + rect_offset(row.m_rect), row.m_start, row.m_end, text.m_text_paint);
+			vg.draw_text(padding + row.m_rect.pos, row.m_start, row.m_end, text.m_text_paint);
 	}
 
 	void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette)
@@ -836,13 +836,13 @@ namespace mud
 				isection++;
 
 			snprintf(line_number, 16, "%6d", int(++line));
-			vg.draw_text(padding + offset + rect_offset(row.m_rect), line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
+			vg.draw_text(padding + offset + row.m_rect.pos, line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
 
 			while(isection < text.m_sections.size() && text.m_sections[isection].m_start < row.m_end_index)
 			{
 				const Text::ColorSection& section = text.m_sections[isection];
 
-				vec2 position = offset + text_offset + rect_offset(row.m_glyphs[section.m_start - row.m_start_index].m_rect);
+				vec2 position = offset + text_offset + row.m_glyphs[section.m_start - row.m_start_index].m_rect.pos;
 				const char* front = &text.m_text.front();
 				vg.draw_text(floor(position) + vec2(0.f, 0.5f), front + section.m_start, front + section.m_end, palette_text_paint(text, palette, section.m_colour));
 
@@ -852,7 +852,7 @@ namespace mud
 			if(imarker < text.m_markers.size() && text.m_markers[imarker].m_line == line)
 			{
 				vec4 rect = { offset + padding + vec2(0.f, row.m_rect.y + line_height), vec2(frame.m_size.x, text.line_height()) };
-				vec2 position = offset + text_offset + rect_offset(row.m_rect) + line_height;
+				vec2 position = offset + text_offset + row.m_rect.pos + line_height;
 
 				vg.draw_rect(rect, palette_paint(palette, text.m_markers[imarker].m_highlight));
 				vg.draw_text(floor(position) + vec2(0.f, 2.5f), text.m_markers[imarker].m_message.c_str(), nullptr, palette_text_paint(text, palette, text.m_markers[imarker].m_colour));
@@ -883,7 +883,7 @@ namespace mud
 			{
 				if(row.m_glyphs.empty())
 				{
-					vg.draw_rect({ offset + text_offset + rect_offset(row.m_rect), vec2(5.f, row.m_rect.height) }, palette_paint(palette, Text::Selection));
+					vg.draw_rect({ offset + text_offset + row.m_rect.pos, vec2(5.f, row.m_rect.height) }, palette_paint(palette, Text::Selection));
 					continue;
 				}
 
@@ -891,7 +891,7 @@ namespace mud
 				const size_t select_end = min(row.m_end_index, size_t(selection.m_end));
 
 				const vec4 row_rect = text.interval_rect(row, select_start, select_end - 1);
-				vg.draw_rect({ offset + text_offset + rect_offset(row_rect), rect_size(row_rect) }, palette_paint(palette, Text::Selection));
+				vg.draw_rect({ offset + text_offset + row_rect.pos, row_rect.size }, palette_paint(palette, Text::Selection));
 			}
 
 			if(selection.m_cursor >= row.m_start_index && selection.m_cursor <= row.m_end_index)
@@ -920,7 +920,7 @@ namespace mud
 						cursor_rect.x -= 1.f;
 						cursor_rect.z = 1.f;
 					}
-					vg.draw_rect({ offset + text_offset + rect_offset(cursor_rect), rect_size(cursor_rect) }, palette_paint(palette, Text::Cursor));
+					vg.draw_rect({ offset + text_offset + cursor_rect.pos, cursor_rect.size }, palette_paint(palette, Text::Cursor));
 				}
 			}
 
@@ -942,7 +942,7 @@ namespace mud
 		//else
 		//	vg.draw_background(m_frame, { m_frame.m_position, m_frame.m_size }, {}, {});
 
-		const vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
+		const vec2 padding = floor(m_frame.d_inkstyle->m_padding.pos);
 
 		if(this->focused())
 			draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
@@ -1049,8 +1049,8 @@ namespace mud
 		const vec2 margin = vec2(0.f);
 
 		const vec4 cursor_rect = m_text.cursor_rect(m_selection.m_cursor);
-		const vec2 cursor_min = rect_offset(cursor_rect) - margin;
-		const vec2 cursor_max = cursor_min + rect_size(cursor_rect) + margin;
+		const vec2 cursor_min = cursor_rect.pos - margin;
+		const vec2 cursor_max = cursor_min + cursor_rect.size + margin;
 
 		const vec2 frame_min = -content.m_position;
 		const vec2 frame_max = -content.m_position + frame.m_size;
@@ -1130,7 +1130,7 @@ namespace ui
 	void autocomplete_popup(TextEdit& edit, string& text, const string& current_word, size_t cursor, size_t word_start, span<cstring> completions)
 	{
 		const vec4 word_rect = edit.m_text.interval_rect(word_start, cursor - 1);
-		const vec2 popup_position = edit.m_text_offset + rect_offset(word_rect) + vec2(0.f, word_rect.height);
+		const vec2 popup_position = edit.m_text_offset + word_rect.pos + vec2(0.f, word_rect.height);
 
 		static uint32_t current = 0;
 

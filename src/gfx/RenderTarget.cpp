@@ -153,6 +153,8 @@ namespace mud
 		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::Enum(color_format), msaa_flag[m_msaa]))
 			m_msaa = MSAA::Disabled;
 
+		//color_format = TextureFormat::RGBA8;
+
 		const uint64_t flags = msaa_flag[m_msaa];
 
 		m_depth = { size, false, TextureFormat::D24S8, flags | TEXTURE_DEPTH };

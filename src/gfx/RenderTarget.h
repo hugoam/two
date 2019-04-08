@@ -27,12 +27,13 @@ namespace mud
 		attr_ vec4 m_dest = vec4(vec2(0.f), vec2(1.f));
 		attr_ bool m_fbo_flip = false;
 		attr_ bool m_relative = true;
+		bool m_blit = false;
 		constr_ RenderQuad() {}
 		constr_ RenderQuad(const vec4& crop, const vec4& dest, bool fbo_flip = false, bool relative = true)
 			: m_source(crop), m_dest(dest), m_fbo_flip(fbo_flip), m_relative(relative)
 		{}
 		constr_ RenderQuad(const vec4& rect, bool fbo_flip = false, bool relative = true)
-			: m_source(rect), m_dest(rect), m_fbo_flip(fbo_flip), m_relative(relative)
+			: m_source(rect), m_dest(rect), m_fbo_flip(fbo_flip), m_relative(relative), m_blit(true)
 		{}
 	};
 

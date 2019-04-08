@@ -22,8 +22,6 @@ module mud.gfx;
 #include <cstdio>
 #include <cassert>
 
-#define DEBUG_CROP 0
-
 namespace mud
 {
 	BlockFilter::BlockFilter(GfxSystem& gfx)
@@ -186,22 +184,19 @@ namespace mud
 
 	void BlockFilter::submit(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags, bool render)
 	{
-		ushort4 rect = ushort4(quad.m_dest * vec2(fbo.m_size));
+		const ushort2 pos = ushort2(floor(quad.m_dest.pos * vec2(fbo.m_size)));
+		const ushort2 size = ushort2(ceil((quad.m_dest.pos + quad.m_dest.size) * vec2(fbo.m_size))) - pos;
+
+		ushort4 rect = ushort4(pos, size);
 		if(quad.m_relative && bgfx::getCaps()->originBottomLeft)
 			rect.y = ushort(fbo.m_size.y) - rect.y - rect.height;
 
 		vec4 crop = quad.m_source;
+		if(quad.m_blit)
+			crop = vec4(rect) / vec2(fbo.m_size);
 		if(!quad.m_relative && bgfx::getCaps()->originBottomLeft)
 			crop.y = 1.f - crop.y - crop.height;
-
-#if DEBUG_CROP
-		vec4 frect = vec4(rect) / vec2(fbo.m_size);
-		printf("%s quad (%.2f, %.2f), (%.2f, %.2f) - source (%.2f, %.2f), (%.2f, %.2f)\n", pass.m_name.c_str(),
-			   frect.x, frect.y, frect.width, frect.height, crop.x, crop.y, crop.width, crop.height);
-#endif
-		//printf("%s  quad (%i, %i), (%i, %i) - source (%.2f, %.2f), (%.2f, %.2f)\n", pass.m_name.c_str(),
-		//	   frect.x, rect.y, rect.width, rect.height, crop.x, crop.y, crop.width, crop.height);
-
+		
 		static mat4 mview = bxidentity();
 		static mat4 proj = bxortho(vec4(0.f, 1.f, 1.f, 0.f), 0.f, 1.f, 0.f, bgfx::getCaps()->homogeneousDepth);// false))
 
@@ -215,7 +210,7 @@ namespace mud
 		draw_unit_quad(quad.m_fbo_flip);
 		//draw_quad(quad.m_dest.width, quad.m_dest.height);
 
-		bgfx::setUniform(u_uniform.u_source_crop, &quad.m_source);
+		bgfx::setUniform(u_uniform.u_source_crop, &crop);
 
 		const vec4 p0 = { m_multiply, 0.f, 0.f, 0.f };
 		bgfx::setUniform(u_uniform.u_filter_p0, &p0);

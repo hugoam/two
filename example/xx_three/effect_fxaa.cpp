@@ -468,7 +468,6 @@ void xx_post_fxaa(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//scene.background = new THREE.Color(0xffffff);
 
 		Zone& env = scene.m_env;
-		env.m_radiance.m_ambient = 0.f;
 		env.m_fog = { true, 1.f, rgb(0xcccccc), true, 100.f, 1500.f };
 		env.m_skylight = { true, 1.f / c_pi, vec3(0.f, 1000.f, 0.f), vec3(0.f), rgb(0x444444), rgb(0xffffff) };
 

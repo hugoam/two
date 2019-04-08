@@ -181,7 +181,7 @@ namespace mud
 	{
 		vg::beginPath(m_vg);
 
-		vec4 path_rect = { rect_offset(rect) + border * 0.5f, rect_size(rect) - border };
+		vec4 path_rect = { rect.pos + border * 0.5f, rect.size - border };
 		if(corners == vec4(0.f))
 			vg::rect(m_vg, RECT_FLOATS(path_rect));
 		else
@@ -196,8 +196,8 @@ namespace mud
 
 	void VgVg::draw_shadow(const vec4& rect, const vec4& corners, const Shadow& shadow)
 	{
-		vec4 shadow_rect = { rect_offset(rect) + shadow.d_pos - shadow.d_radius, rect_size(rect) + shadow.d_radius * 2.f };
-		vec4 gradient_rect = { rect_offset(rect) + shadow.d_pos - shadow.d_spread, rect_size(rect) + shadow.d_spread * 2.f };
+		vec4 shadow_rect = { rect.pos + shadow.d_pos - shadow.d_radius, rect.size + shadow.d_radius * 2.f };
+		vec4 gradient_rect = { rect.pos + shadow.d_pos - shadow.d_spread, rect.size + shadow.d_spread * 2.f };
 		vg::GradientHandle shadowPaint = vg::createBoxGradient(m_vg, RECT_FLOATS(gradient_rect), corners[0] + shadow.d_spread, shadow.d_blur, vgColour(shadow.d_colour), vg::Colors::Transparent);
 		vg::beginPath(m_vg);
 		vg::rect(m_vg, RECT_FLOATS(shadow_rect));

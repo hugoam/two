@@ -296,7 +296,7 @@ namespace mud
 
 	void UiRenderer::draw_frame(const Frame& frame, const vec4& rect)
 	{
-		vec2 padded_pos = floor(rect_offset(frame.d_inkstyle->m_padding));
+		vec2 padded_pos = floor(frame.d_inkstyle->m_padding.pos);
 		vec2 padded_size = floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding));
 
 		vec2 content = frame.m_content;
@@ -363,7 +363,7 @@ namespace mud
 		if(!image_skin.null())
 		{
 			float margin = image_skin.m_margin * 2.f;
-			vec4 skin_rect = { rect_offset(rect), rect_size(rect) + margin };
+			vec4 skin_rect = { rect.pos, rect.size + margin };
 
 			if(image_skin.d_stretch == Axis::X)
 				skin_rect = { rect.x, content_rect.y + margin, rect.z + margin, image_skin.d_size.y };
@@ -371,7 +371,7 @@ namespace mud
 				skin_rect = { content_rect.x + image_skin.m_margin, rect.y, image_skin.d_size.x, rect.w + margin };
 
 			vec4 sections[ImageSkin::Count];
-			image_skin.stretch_coords(rect_offset(skin_rect), rect_size(skin_rect), { sections, ImageSkin::Count });
+			image_skin.stretch_coords(skin_rect.pos, skin_rect.size, { sections, ImageSkin::Count });
 
 			for(int s = 0; s < ImageSkin::Count; ++s)
 				this->draw_skin_image(frame, s, sections[s]);
@@ -388,7 +388,7 @@ namespace mud
 	{
 		if(image.d_atlas)
 		{
-			vec4 image_rect = { rect_offset(rect) - vec2(image.d_coord), vec2(image.d_atlas->m_image.d_size) };
+			vec4 image_rect = { rect.pos - vec2(image.d_coord), vec2(image.d_atlas->m_image.d_size) };
 			m_vg.draw_texture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
 		}
 		else
@@ -401,12 +401,12 @@ namespace mud
 	{
 		if(image.d_atlas)
 		{
-			vec4 image_rect = { rect_offset(rect) - vec2(image.d_coord) * stretch, vec2(image.d_atlas->m_image.d_size) * stretch };
+			vec4 image_rect = { rect.pos - vec2(image.d_coord) * stretch, vec2(image.d_atlas->m_image.d_size) * stretch };
 			m_vg.draw_texture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
 		}
 		else
 		{
-			vec4 image_rect = { rect_offset(rect), vec2(image.d_size) * stretch };
+			vec4 image_rect = { rect.pos, vec2(image.d_size) * stretch };
 			m_vg.draw_texture(uint16_t(image.d_handle), rect, image_rect);
 		}
 	}
@@ -417,7 +417,7 @@ namespace mud
 		rect.x = rect.x - imageSkin.m_margin;
 		rect.y = rect.y - imageSkin.m_margin;
 
-		vec2 divided = rect_size(rect) / imageSkin.d_fill_size;
+		vec2 divided = rect.size / imageSkin.d_fill_size;
 		vec2 ratio = { 1.f, 1.f };
 
 		if(section == ImageSkin::Top || section == ImageSkin::Bottom || section == ImageSkin::Fill)
@@ -441,7 +441,7 @@ namespace mud
 			this->draw_image(*frame.icon(), content_rect);
 
 		if(frame.caption())
-			m_vg.draw_text(rect_offset(padded_rect), frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
+			m_vg.draw_text(padded_rect.pos, frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
 	}
 
 	void UiRenderer::draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle)

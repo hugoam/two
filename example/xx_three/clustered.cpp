@@ -52,8 +52,7 @@ void xx_clustered(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_eye = vec3(0.f, 0.f, 240.f);
 
 		Zone& env = scene.m_env;
-		env.m_radiance.m_colour = rgb(0xffffff);
-		env.m_radiance.m_ambient = 0.33f;
+		env.m_radiance.m_ambient = rgb(0xffffff) * 0.33f;
 
 		env.m_background.m_colour = rgb(0x111111);
 		viewer.m_viewport.m_clear_colour = rgb(0x111111);

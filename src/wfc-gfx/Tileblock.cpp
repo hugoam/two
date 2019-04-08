@@ -66,7 +66,7 @@ namespace mud
 		{
 			Model* model = from_file ? gfx.models().file(m_tileset->m_name + "/" + tile.m_name)
 									 : gfx.models().get(tile.m_name.c_str());
-			quat rotation = angle_axis(tile.m_profile * c_pi / 2.f, Y3);
+			quat rotation = angle_axis(tile.m_profile * c_pi2, Y3);
 			m_tile_models.push_back({ model, rotation });
 		}
 	}
@@ -344,7 +344,7 @@ namespace mud
 			for(Tile& tile : tileset.m_tiles_flip)
 			{
 				TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
-				state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi / 4.f, Y3), vec3(1.f) });
+				state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi4, Y3), vec3(1.f) });
 				if(tile_model.m_model && state.m_item_radius == 0.f)
 					state.m_item_radius = tile_model.m_model->m_radius;
 			}
@@ -362,7 +362,7 @@ namespace mud
 				{
 					Tile& tile = tileblock.m_tileset->m_tiles_flip[t];
 					TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
-					state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi / 4.f, Y3), vec3(1.f) });
+					state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi4, Y3), vec3(1.f) });
 					if(tile_model.m_model && state.m_item_radius == 0.f)
 						state.m_item_radius = tile_model.m_model->m_radius;
 				}

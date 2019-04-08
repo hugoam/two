@@ -117,10 +117,6 @@ namespace mud
 			else if(chunk_type == 0x004E4942)
 			{
 				read(file, chunk_length, buffer);
-				for(uint8_t b : buffer)
-				{
-					int i = 0;
-				}
 			}
 		}
 	}

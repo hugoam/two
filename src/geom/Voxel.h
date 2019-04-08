@@ -33,6 +33,8 @@ namespace mud
 		vector<float> m_field;
 		//vector<uint8_t> m_class;
 
+		vector<vec3> m_colour;
+
 		struct Cache
 		{
 			struct Normal { vec3 n; bool set = false; };
@@ -40,6 +42,7 @@ namespace mud
 
 			vec3 vert[12];
 			vec3 norm[12];
+			vec3 color[12];
 		};
 		
 		mutable Cache m_cache;
@@ -62,6 +65,7 @@ namespace mud
 		meth_ void render(MeshPacker& output) const;
 	};
 
+	MUD_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract, const Colour& colour);
 	MUD_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract);
 
 	MUD_GEOM_EXPORT func_ void add_planeX(MarchingCubes& cubes, float strength, float subtract);

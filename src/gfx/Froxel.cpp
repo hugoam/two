@@ -210,7 +210,7 @@ namespace mud
 		m_frustum.m_near = m_light_near;
 		m_frustum.m_far = m_light_far;
 
-		m_frustum.resize(rect_size(vec4(m_viewport)));
+		m_frustum.resize(vec2(m_viewport.size));
 
 		m_pz = { 0.f, 0.f, -m_frustum.m_linearizer, float(m_frustum.m_subdiv_z) };
 		if(SUPPORTS_REMAPPED_CLUSTERS)
@@ -229,7 +229,7 @@ namespace mud
 
 	void Froxelizer::update_projection()
 	{
-		m_frustum.recompute(m_proj, rect_size(vec4(m_viewport)));
+		m_frustum.recompute(m_proj, vec2(m_viewport.size));
 
 		//    linearizer = log2(zLightFar / zLightNear) / (zcount - 1)
 		//    vz = -exp2((i - zcount) * linearizer) * zLightFar
@@ -333,7 +333,7 @@ namespace mud
 			bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.u_cluster_z, &z);
 		};
 
-		submit(vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport))), vec4(vec3(m_pf), 0.f), m_pz);
+		submit(vec4(m_frustum.m_inv_tile_size, vec2(m_viewport.pos)), vec4(vec3(m_pf), 0.f), m_pz);
 	}
 
 	void Froxelizer::submit(bgfx::Encoder& encoder) const

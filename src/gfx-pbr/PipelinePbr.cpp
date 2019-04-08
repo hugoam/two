@@ -257,11 +257,11 @@ namespace gfx
 			block->begin_render(render);
 	}
 
-	void pbr_options(GfxSystem& gfx, Render& render, ProgramVersion& version)
+	void pbr_options(GfxSystem& gfx, Render& render, DrawElement& element)
 	{
 		static span<DrawBlock*> blocks = pbr_blocks(gfx);
 		for(DrawBlock* block : blocks)
-			block->options(render, version);
+			block->options(render, element, element.m_program);
 	}
 
 	void submit_pbr_pass(GfxSystem& gfx, Render& render, const Pass& pass)
@@ -387,7 +387,7 @@ namespace gfx
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
 			if(lit)
-				pbr_options(gfx, render, element.m_program);
+				pbr_options(gfx, render, element);
 			return true;
 		};
 
@@ -419,7 +419,7 @@ namespace gfx
 
 			blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);
 
-			pbr_options(gfx, render, element.m_program);
+			pbr_options(gfx, render, element);
 
 			return true;
 		};
@@ -487,7 +487,7 @@ namespace gfx
 		for(auto& block : gfx.m_renderer.m_gfx_blocks)
 			if(block->m_draw_block)
 			{
-				as<DrawBlock>(*block).options(render, cluster.m_shader_version);
+				//as<DrawBlock>(*block).options(render, cluster.m_shader_version);
 				as<DrawBlock>(*block).submit(render, pass);
 			}
 
@@ -556,7 +556,7 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGeometry::options(Render& render, ProgramVersion& program) const
+	void BlockGeometry::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
 		UNUSED(render); UNUSED(program);
 	}

@@ -177,8 +177,7 @@ void xx_effect_sobel(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Node3& n = gfx::nodes(scene).add(Node3());
 		gfx::items(scene).add(Item(n, geometry, 0U, &material));
 
-		scene.m_env.m_radiance.m_ambient = 0.4f;
-		scene.m_env.m_radiance.m_colour = rgb(0xcccccc);
+		scene.m_env.m_radiance.m_ambient = rgb(0xcccccc) * 0.4f;
 		
 		Node3& ln = gfx::nodes(scene).add(Node3());
 		gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 0.8f, 0.f));

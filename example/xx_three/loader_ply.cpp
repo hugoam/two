@@ -36,7 +36,6 @@ void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		Zone& env = scene.m_env;
 		env.m_background.m_colour = colour;
-		env.m_radiance.m_ambient = 0.f;
 
 		env.m_fog.m_enabled = true;
 		env.m_fog.m_colour = colour;

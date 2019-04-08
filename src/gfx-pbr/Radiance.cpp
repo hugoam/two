@@ -12,6 +12,7 @@ module mud.gfx.pbr;
 #include <stl/algorithm.h>
 #include <gfx/Scene.h>
 #include <gfx/Texture.h>
+#include <gfx/Material.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
@@ -78,13 +79,14 @@ namespace mud
 			return nullptr;
 	}
 
-	void BlockRadiance::options(Render& render, ProgramVersion& program) const
+	void BlockRadiance::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
+		const bool enable = !element.m_material->m_lit.m_no_envmap;
 		Texture* radiance = radiancemap(render.m_env->m_radiance);
 
-		if(radiance)
+		if(enable && radiance)
 			program.set_option(m_index, RADIANCE_ENVMAP);
-		if(radiance && radiance->m_is_cube)
+		if(enable && radiance && radiance->m_is_cube)
 			program.set_option(m_index, RADIANCE_CUBE);
 	}
 

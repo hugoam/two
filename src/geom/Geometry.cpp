@@ -111,6 +111,7 @@ namespace mud
 	MeshAdapter& MeshAdapter::position4(const vec4& p) { m_aabb.add(vec3(p)); m_cursor.m_position4.write(p); ++m_vertex; return *this; }
 	MeshAdapter& MeshAdapter::normal(const vec3& n) { if(m_cursor.m_normal) { m_cursor.m_normal.write(n); } return *this; }
 	MeshAdapter& MeshAdapter::colour(const Colour& c) { if(m_cursor.m_colour) { m_cursor.m_colour.write(to_abgr(c)); } return *this; }
+	MeshAdapter& MeshAdapter::colour(const vec3& c) { if(m_cursor.m_colour) { m_cursor.m_colour.write(to_abgr(c.r, c.g, c.b)); } return *this; }
 	MeshAdapter& MeshAdapter::tangent(const vec4& t) { if(m_cursor.m_tangent) { m_cursor.m_tangent.write(t); } return *this; }
 	MeshAdapter& MeshAdapter::bitangent(const vec3& b) { if(m_cursor.m_bitangent) { m_cursor.m_bitangent.write(b); } return *this; }
 	MeshAdapter& MeshAdapter::uv0(const vec2& uv) { if(m_cursor.m_uv0) { m_uv0_rect.add(uv); m_cursor.m_uv0.write(uv); } return *this; }

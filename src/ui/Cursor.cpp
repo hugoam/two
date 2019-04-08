@@ -70,16 +70,16 @@ namespace ui
 	Widget& rectangle(Widget& parent, const vec4& rect)
 	{
 		Widget& self = widget(parent, styles().rectangle).layer();
-		self.m_frame.set_position(rect_offset(rect));
-		self.m_frame.set_size(rect_size(rect));
+		self.m_frame.set_position(rect.pos);
+		self.m_frame.set_size(rect.size);
 		return self;
 	}
 
 	Widget& viewport(Widget& parent, const vec4& rect)
 	{
 		Widget& self = widget(parent, styles().viewport).layer();
-		self.m_frame.set_position(rect_offset(rect));
-		self.m_frame.set_size(rect_size(rect));
+		self.m_frame.set_position(rect.pos);
+		self.m_frame.set_size(rect.size);
 		return self;
 	}
 

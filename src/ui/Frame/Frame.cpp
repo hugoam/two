@@ -247,7 +247,7 @@ namespace mud
 
 	vec4 Frame::content_rect() const
 	{
-		return { floor(rect_offset(d_inkstyle->m_margin)),
+		return { floor(d_inkstyle->m_margin.pos),
 				 floor(m_size - rect_sum(d_inkstyle->m_margin)) };
 	}
 

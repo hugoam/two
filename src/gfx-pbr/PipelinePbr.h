@@ -22,7 +22,7 @@ namespace mud
 
 		virtual void begin_render(Render& render) override;
 
-		virtual void options(Render& render, ProgramVersion& program) const final;
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const final;
 		virtual void submit(Render& render, const Pass& pass) const final;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const final;
 

@@ -61,7 +61,6 @@ void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 		viewer.m_viewport.m_clear_colour = colour;
 
 		scene.m_env.m_background.m_colour = colour;
-		scene.m_env.m_radiance.m_ambient = 0.f;
 
 		scene.m_env.m_fog.m_enabled = true;
 		scene.m_env.m_fog.m_colour = colour;

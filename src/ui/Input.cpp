@@ -290,7 +290,7 @@ namespace
 		const float highest = 1.f;
 
 		Widget& self = widget(parent, styles().curve_graph);
-		Curve curve = { rect_size(self.m_frame.content_rect()), lowest, highest, values, points };
+		Curve curve = { self.m_frame.content_rect().size, lowest, highest, values, points };
 		
 		static size_t hovered = SIZE_MAX;
 		static size_t dragged = SIZE_MAX;
@@ -314,7 +314,7 @@ namespace
 		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(frame); UNUSED(rect);
-			Curve curve = { rect_size(rect), 0.f, 1.f, values, points };
+			Curve curve = { rect.size, 0.f, 1.f, values, points };
 			vg.draw_rect(rect, { Colour::DarkGrey });
 			draw_curve(Colour::NeonGreen, curve, hovered, vg);
 			draw_points(Colour::NeonGreen, curve, hovered, vg);

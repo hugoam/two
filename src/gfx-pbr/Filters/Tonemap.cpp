@@ -27,7 +27,7 @@ namespace mud
 		: GfxBlock(gfx, *this)
 		, m_program(gfx.programs().create("filter/tonemap"))
 	{
-		m_options = { "ADJUST_BCS", "COLOR_CORRECTION" };
+		m_options = { "TO_GAMMA", "ADJUST_BCS", "COLOR_LUT" };
 		m_modes = { "TONEMAP_MODE" };
 
 		m_program.register_block(*this);
@@ -46,13 +46,14 @@ namespace mud
 		ProgramVersion program = { block.m_program };
 
 		program.set_mode(block.m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
+		program.set_option(block.m_index, TO_GAMMA, render.m_viewport->m_to_gamma);
 
 		gfx.m_filter->source0(render.m_target->m_post.last());
 
-		if(tonemap.m_color_correction)
+		if(tonemap.m_color_lut)
 		{
-			program.set_option(block.m_index, COLOR_CORRECTION, true);
-			gfx.m_filter->source1(*tonemap.m_color_correction);
+			program.set_option(block.m_index, COLOR_LUT, true);
+			gfx.m_filter->source1(*tonemap.m_color_lut);
 		}
 
 		GpuState<Tonemap>::me.upload(tonemap);

@@ -15,21 +15,10 @@ void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 	static ImporterOBJ importer_obj = { app.m_gfx };
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controls(viewer);
+	//ui::orbit_controls(viewer);
+	ui::trackball_controller(viewer);
 
 	Scene& scene = viewer.m_scene;
-
-	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
-
-	static Texture& hdrenv = *app.m_gfx.textures().file("cube/pisaHDR.hdr.cube");
-	scene.m_env.m_radiance.m_texture = &hdrenv;
-	scene.m_env.m_background.m_texture = &hdrenv;
-	scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
-
-	Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
-	tonemap.m_enabled = true;
-	tonemap.m_mode = TonemapMode::Reinhardt;
-	tonemap.m_exposure = 3.f;
 
 	if(init)
 	{
@@ -37,17 +26,32 @@ void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 		camera.m_fov = 50.f; camera.m_near = 0.01f; camera.m_far = 1000.f;
 		camera.m_eye.z = 2.f;
 
-		//controls = new THREE.TrackballControls(camera, renderer.domElement);
+		viewer.m_viewport.m_to_gamma = true;
 
-		//scene.add(new THREE.HemisphereLight(0x443333, 0x222233, 4));
+		Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
+		tonemap.m_enabled = true;
+		tonemap.m_mode = TonemapMode::Reinhardt;
+		tonemap.m_exposure = 3.f;
 
-		//Material& material = new THREE.MeshStandardMaterial();
+		Zone& env = scene.m_env;
+
+		Texture& hdrenv = *app.m_gfx.textures().file("cube/pisaHDR.hdr.cube");
+		env.m_radiance.m_texture = &hdrenv;
+		env.m_background.m_texture = &hdrenv;
+		env.m_background.m_mode = BackgroundMode::Panorama;
+
+		//env.m_skylight.m_enabled = true;
+		env.m_skylight.m_color = rgb(0x443333);
+		env.m_skylight.m_ground = rgb(0x222233);
+		env.m_skylight.m_intensity = 4.f;
 
 		Texture& albedo = *app.m_gfx.textures().file("cerberus/Cerberus_A.jpg");
 		Texture& metrough = *app.m_gfx.textures().file("cerberus/Cerberus_RM.jpg");
 		Texture& normal = *app.m_gfx.textures().file("cerberus/Cerberus_N.jpg");
 
 		Model& model = *app.m_gfx.models().file("Cerberus");
+
+		Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
 		Material& material = app.m_gfx.materials().create("standard", [&](Material& m) {
 			m.m_program = &pbr;

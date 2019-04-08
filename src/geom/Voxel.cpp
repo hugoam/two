@@ -38,6 +38,7 @@ namespace mud
 		m_zd = subdiv * subdiv;
 
 		m_field.resize(m_size);
+		m_colour.resize(m_size);
 	}
 	
 	uint8_t MarchingCubes::classify(size_t q, float isol) const
@@ -82,7 +83,7 @@ namespace mud
 	struct Cell { size_t q; float f; };
 
 	template <Axis axis, bool flat>
-	inline void calc_side(MarchingCubes::Cache& cache, const MarchingCubes& cubes, int bits, int mask, int i, float isol, float x, float y, float z, const Cell& a, const Cell& b)
+	inline void calc_side(MarchingCubes::Cache& cache, const MarchingCubes& cubes, int bits, int mask, int i, float isol, const vec3& p, const Cell& a, const Cell& b)
 	{
 		if(bits & mask)
 		{
@@ -97,16 +98,18 @@ namespace mud
 			const float mu = (isol - a.f) / (b.f - a.f);
 
 			if constexpr(axis == Axis::X)
-				cache.vert[i] = vec3(x + mu * cubes.m_delta, y, z);
+				cache.vert[i] = vec3(p.x + mu * cubes.m_delta, p.y, p.z);
 			else if constexpr(axis == Axis::Y)
-				cache.vert[i] = vec3(x, y + mu * cubes.m_delta, z);
+				cache.vert[i] = vec3(p.x, p.y + mu * cubes.m_delta, p.z);
 			else if constexpr(axis == Axis::Z)
-				cache.vert[i] = vec3(x, y, z + mu * cubes.m_delta);
+				cache.vert[i] = vec3(p.x, p.y, p.z + mu * cubes.m_delta);
 
 #if !FLAT_BLEND
 			if constexpr(!flat)
 #endif
 				cache.norm[i] = lerp(cache.m_normal[a.q].n, cache.m_normal[b.q].n, mu);
+
+			cache.color[i] = lerp(cubes.m_colour[a.q], cubes.m_colour[b.q], mu);
 		}
 	};
 
@@ -145,18 +148,18 @@ namespace mud
 		// top of the cube
 
 		// top of the cube
-		calc_side<Axis::X, FLAT>(cache, *this, bits, 1,    0,  isol, p.x,  p.y,  p.z,  c,   cx);
-		calc_side<Axis::Y, FLAT>(cache, *this, bits, 2,    1,  isol, pp.x, p.y,  p.z,  cx,  cxy);
-		calc_side<Axis::X, FLAT>(cache, *this, bits, 4,    2,  isol, p.x,  pp.y, p.z,  cy,  cxy);
-		calc_side<Axis::Y, FLAT>(cache, *this, bits, 8,    3,  isol, p.x,  p.y,  p.z,  c,   cy);
-		calc_side<Axis::X, FLAT>(cache, *this, bits, 16,   4,  isol, p.x,  p.y,  pp.z, cz,  cxz);
-		calc_side<Axis::Y, FLAT>(cache, *this, bits, 32,   5,  isol, pp.x, p.y,  pp.z, cxz, cxyz);
-		calc_side<Axis::X, FLAT>(cache, *this, bits, 64,   6,  isol, p.x,  pp.y, pp.z, cyz, cxyz);
-		calc_side<Axis::Y, FLAT>(cache, *this, bits, 128,  7,  isol, p.x,  p.y,  pp.z, cz,  cyz);
-		calc_side<Axis::Z, FLAT>(cache, *this, bits, 256,  8,  isol, p.x,  p.y,  p.z,  c,   cz);
-		calc_side<Axis::Z, FLAT>(cache, *this, bits, 512,  9,  isol, pp.x, p.y,  p.z,  cx,  cxz);
-		calc_side<Axis::Z, FLAT>(cache, *this, bits, 1024, 10, isol, pp.x, pp.y, p.z,  cxy, cxyz);
-		calc_side<Axis::Z, FLAT>(cache, *this, bits, 2048, 11, isol, p.x,  pp.y, p.z,  cy,  cyz);
+		calc_side<Axis::X, FLAT>(cache, *this, bits, 1,    0,  isol, vec3(p.x,  p.y,  p.z ), c,   cx);
+		calc_side<Axis::Y, FLAT>(cache, *this, bits, 2,    1,  isol, vec3(pp.x, p.y,  p.z ), cx,  cxy);
+		calc_side<Axis::X, FLAT>(cache, *this, bits, 4,    2,  isol, vec3(p.x,  pp.y, p.z ), cy,  cxy);
+		calc_side<Axis::Y, FLAT>(cache, *this, bits, 8,    3,  isol, vec3(p.x,  p.y,  p.z ), c,   cy);
+		calc_side<Axis::X, FLAT>(cache, *this, bits, 16,   4,  isol, vec3(p.x,  p.y,  pp.z), cz,  cxz);
+		calc_side<Axis::Y, FLAT>(cache, *this, bits, 32,   5,  isol, vec3(pp.x, p.y,  pp.z), cxz, cxyz);
+		calc_side<Axis::X, FLAT>(cache, *this, bits, 64,   6,  isol, vec3(p.x,  pp.y, pp.z), cyz, cxyz);
+		calc_side<Axis::Y, FLAT>(cache, *this, bits, 128,  7,  isol, vec3(p.x,  p.y,  pp.z), cz,  cyz);
+		calc_side<Axis::Z, FLAT>(cache, *this, bits, 256,  8,  isol, vec3(p.x,  p.y,  p.z ), c,   cz);
+		calc_side<Axis::Z, FLAT>(cache, *this, bits, 512,  9,  isol, vec3(pp.x, p.y,  p.z ), cx,  cxz);
+		calc_side<Axis::Z, FLAT>(cache, *this, bits, 1024, 10, isol, vec3(pp.x, pp.y, p.z ), cxy, cxyz);
+		calc_side<Axis::Z, FLAT>(cache, *this, bits, 2048, 11, isol, vec3(p.x,  pp.y, p.z ), cy,  cyz);
 
 		return cubeindex;
 	}
@@ -189,18 +192,18 @@ namespace mud
 				output.normal(cache.norm[o3]);
 			}
 
-			if(false) //output.m_has_uvs)
+			if((output.m_vertex_format & VertexAttribute::TexCoord0) != 0)
 			{
 				output.duv0(vec2(cache.vert[o1]));
 				output.duv0(vec2(cache.vert[o2]));
 				output.duv0(vec2(cache.vert[o3]));
 			}
 
-			if(false) //output.m_has_colors)
+			if((output.m_vertex_format & VertexAttribute::Colour) != 0)
 			{
-				output.colour(to_colour(cache.vert[o1]));
-				output.colour(to_colour(cache.vert[o2]));
-				output.colour(to_colour(cache.vert[o3]));
+				output.colour(cache.color[o1]);
+				output.colour(cache.color[o2]);
+				output.colour(cache.color[o3]);
 			}
 		};
 
@@ -252,9 +255,9 @@ namespace mud
 			
 			if(false) //output.m_has_colors)
 			{
-				output.m_colours.push_back(to_colour(cache.vert[o1]));
-				output.m_colours.push_back(to_colour(cache.vert[o2]));
-				output.m_colours.push_back(to_colour(cache.vert[o3]));
+				output.m_colours.push_back(to_colour(cache.color[o1]));
+				output.m_colours.push_back(to_colour(cache.color[o2]));
+				output.m_colours.push_back(to_colour(cache.color[o3]));
 			}
 		};
 
@@ -272,7 +275,10 @@ namespace mud
 	void MarchingCubes::reset()
 	{
 		for(size_t i = 0; i < m_size; i++)
+		{
 			m_field[i] = 0.f;
+			m_colour[i] = vec3(0.f);
+		}
 	}
 
 	void MarchingCubes::begin(Cache& cache) const
@@ -336,7 +342,7 @@ namespace mud
 				}
 	}
 
-	void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract)
+	void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract, const Colour& colour)
 	{
 		const float sign = mud::sign(strength);
 		strength = abs(strength);
@@ -357,13 +363,27 @@ namespace mud
 			for(uint32_t y = lo.y; y < hi.y; y++)
 				for(uint32_t x = lo.x; x < hi.x; x++)
 				{
-					size_t offset = cubes.m_zd * z + cubes.m_yd * y + x;
+					const size_t offset = cubes.m_zd * z + cubes.m_yd * y + x;
 
-					vec3 f = vec3(uvec3(x, y, z)) / size - ball;
+					const vec3 p = vec3(uvec3(x, y, z));
+					const vec3 f = p / size - ball;
 
-					float val = strength / (0.000001f + sq(f.x) + sq(f.y) + sq(f.z)) - subtract;
-					if(val > 0.f) cubes.m_field[offset] += val * sign;
+					const float val = strength / (0.000001f + sq(f.x) + sq(f.y) + sq(f.z)) - subtract;
+					if(val > 0.f)
+					{
+						cubes.m_field[offset] += val * sign;
+						
+						// optimization - http://www.geisswerks.com/ryan/BLOBS/blobs.html
+						const float r = sqrt(sq(p.x - s.x) + sq(p.y - s.y) + sq(p.z - s.z)) / radius;
+						const float contrib = 1.f - r * r * r * (r * (r * 6.f - 15.f ) + 10.f );
+						cubes.m_colour[offset] += to_vec3(colour) * contrib;
+					}
 				}
+	}
+
+	void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract)
+	{
+		add_ball(cubes, ball, strength, subtract, Colour(ball.x, ball.y, ball.z));
 	}
 
 	void add_planeX(MarchingCubes& cubes, float strength, float subtract)

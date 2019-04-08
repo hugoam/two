@@ -79,12 +79,14 @@ static string blur_fragment =
 
 	"uniform vec4 u_glow_blur_p0;\n"
 	"#define u_direction u_glow_blur_p0.xy\n"
+	"#define u_level_size u_glow_blur_p0.zw\n"
 
-	"float gaussianPdf(in float x, in float sigma) {\n"
-	"	return 0.39894 * exp(-0.5 * x * x/(sigma * sigma)) / sigma;\n"
+	"float gaussianPdf(float x, float sigma) {\n"
+	"	return 0.39894 * exp(-0.5 * x * x / (sigma * sigma)) / sigma;\n"
 	"}\n"
 
 	"void main() {\n"
+	"	vec2 invSize = 1.0 / u_level_size;\n"
 	"	float fSigma = float(SIGMA);\n"
 	"	float weightSum = gaussianPdf(0.0, fSigma);\n"
 	"	vec3 diffuseSum = texture2DLod(s_source_0, v_uv0, float(u_source_0_level)).rgb * weightSum;\n"
@@ -92,7 +94,7 @@ static string blur_fragment =
 	"	for(int i = 1; i < KERNEL_RADIUS; i++) {\n"
 	"		float x = float(i);\n"
 	"		float w = gaussianPdf(x, fSigma);\n"
-	"		vec2 uvOffset = u_direction * u_pixel_size * x;\n"
+	"		vec2 uvOffset = u_direction * invSize * x;\n"
 	"		vec3 sample1 = texture2DLod(s_source_0, v_uv0 + uvOffset, float(u_source_0_level)).rgb;\n"
 	"		vec3 sample2 = texture2DLod(s_source_0, v_uv0 - uvOffset, float(u_source_0_level)).rgb;\n"
 	"		diffuseSum += (sample1 + sample2) * w;\n"
@@ -133,12 +135,12 @@ static string merge_fragment =
 	"}\n"
 
 	"void main() {\n"
-	"	gl_FragColor = u_glow_strength * (bloomFactor(u_glow_levels[0].x) * u_glow_colors[0] * texture2DLod(s_source_0, v_uv0, 1.0) + \n"
-	"									  bloomFactor(u_glow_levels[0].y) * u_glow_colors[1] * texture2DLod(s_source_0, v_uv0, 2.0) + \n"
-	"									  bloomFactor(u_glow_levels[0].z) * u_glow_colors[2] * texture2DLod(s_source_0, v_uv0, 3.0) + \n"
-	"									  bloomFactor(u_glow_levels[0].w) * u_glow_colors[3] * texture2DLod(s_source_0, v_uv0, 4.0) + \n"
-	"									  bloomFactor(u_glow_levels[1].x) * u_glow_colors[4] * texture2DLod(s_source_0, v_uv0, 5.0));\n"
-	//"	gl_FragColor = texture2DLod(s_source_0, v_uv0, 0.0);"
+	"	vec4 bloom = u_glow_strength * (bloomFactor(u_glow_levels[0].x) * u_glow_colors[0] * texture2DLod(s_source_1, v_uv0, 1.0) + \n"
+	"									bloomFactor(u_glow_levels[0].y) * u_glow_colors[1] * texture2DLod(s_source_1, v_uv0, 2.0) + \n"
+	"									bloomFactor(u_glow_levels[0].z) * u_glow_colors[2] * texture2DLod(s_source_1, v_uv0, 3.0) + \n"
+	"									bloomFactor(u_glow_levels[0].w) * u_glow_colors[3] * texture2DLod(s_source_1, v_uv0, 4.0) + \n"
+	"									bloomFactor(u_glow_levels[1].x) * u_glow_colors[4] * texture2DLod(s_source_1, v_uv0, 5.0));\n"
+	"	gl_FragColor = texture2DLod(s_source_0, v_uv0, 0.0) + bloom;"
 	"}\n";
 
 static Program& merge_program(GfxSystem& gfx)
@@ -188,7 +190,7 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 
 		constexpr vec2 dirs[] = { vec2(1.f, 0.f), vec2(0.f, 1.f) };
 
-		gfx.m_filter->uniform(pass, "u_glow_blur_p0", vec4(dirs[d], 0.f, 0.f));
+		gfx.m_filter->uniform(pass, "u_glow_blur_p0", vec4(dirs[d], vec2(dest.m_size)));
 
 		gfx.m_filter->source0p(source, program, source_level);
 
@@ -211,19 +213,18 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 		gfx.m_filter->uniforms(pass, "u_glow_levels", glow_levels);
 		gfx.m_filter->uniforms4(pass, "u_glow_colors", glow_tint);
 
-		//filter.source0(render.m_target->m_diffuse);
-		gfx.m_filter->source0(source);
-
-		RenderTarget& target = *render.m_target;
-		gfx.m_filter->quad(pass, target.m_post.swap(), program);
+		gfx.m_filter->source0(render.m_target->m_diffuse);
+		gfx.m_filter->source1(source);
 
 		// additive blend bloom over target
-		//copy.quad(render.composite_pass(), *render.m_fbo, target.m_post.last(), pass.m_viewport->m_rect);
-		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, target.m_post.last(), BGFX_STATE_BLEND_ADD);
+		gfx.m_filter->quad(pass, render.m_target->m_post.swap(), program);
+
+		//gfx.m_copy->quad(render.composite_pass("copy"), *render.m_fbo, fbo.m_tex, BGFX_STATE_BLEND_ADD);
+		gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, render.m_target->m_post.last());
 	};
 
 	// 1. Extract bright areas
-	pass_lum(gfx, render, bloom, render.m_target->m_ping_pong.swap());
+	pass_lum(gfx, render, bloom, render.m_target->m_post.swap());
 
 	//copy.debug_show_texture(render, render.m_target->m_ping_pong.last(), vec4(0.f));
 
@@ -231,10 +232,10 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 	//SwapCascade& swap = render.m_target->m_swap_cascade;
 	static SwapCascade swap;
 	if(!swap.m_one.m_texture.valid())
-		swap.create(bloom.resolution, TextureFormat::RGBA8);
-		//swap.create(bloom.resolution, bgfx::TextureFormat::RGBA16F);
+		//swap.create(bloom.resolution, TextureFormat::RGBA8);
+		swap.create(bloom.resolution, TextureFormat::RGBA16F);
 
-	Texture* source = &render.m_target->m_ping_pong.last();
+	Texture* source = &render.m_target->m_post.last();
 
 	constexpr size_t kernel_sizes[] = { 0, 3, 5, 7, 9, 11 };
 
@@ -277,10 +278,10 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	Scene& scene = viewer.m_scene;
 
 	static Bloom bloom = { 1.f, 1.5, 0.f, 0.f };
-	//bloom.exposure = 1.f;
-	//bloom.strength = 1.5f;
-	//bloom.threshold = 0.f;
-	//bloom.radius = 0.f;
+	bloom.exposure = 1.f;
+	bloom.strength = 1.5f;
+	bloom.threshold = 0.f;
+	bloom.radius = 0.f;
 
 	bloom.resolution = app.m_gfx.main_target().m_size;
 
@@ -290,11 +291,11 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 100.f;
 		camera.m_eye = vec3(-5.f, 2.5f, -3.5f);
 
-		scene.m_env.m_radiance.m_colour = rgb(0x404040);
-		//scene.add(new THREE.AmbientLight(0x404040));
+		Zone& env = scene.m_env;
+		env.m_radiance.m_colour = rgb(0x404040);
 
 		Node3& ln = gfx::nodes(scene).add(Node3());
-		gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 1.f));
+		gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 1.f, 0.f));
 
 		auto render = [](GfxSystem& gfx, Render& render)
 		{
@@ -302,9 +303,12 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 			pass_clear(gfx, render);
 			pass_opaque(gfx, render);
-			pass_unreal_bloom(gfx, render, bloom);
 
+			pass_begin_post(gfx, render);
 			pass_tonemap(gfx, render, tonemap, bcs);
+
+			pass_unreal_bloom(gfx, render, bloom);
+			pass_flip(gfx, render);
 		};
 
 		app.m_gfx.set_renderer(Shading::Shaded, render);
@@ -312,21 +316,26 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Model& model = *app.m_gfx.models().file("PrimaryIonDrive"); // .glb
 
 		Node3& n = gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(n, model));
+		Item& it = gfx::items(scene).add(Item(n, model));
+		Mime& mi = gfx::mimes(scene).add(Mime(n));
+		mi.add_item(it);
+
+		string anim = mi.m_rig.m_skeleton.m_animations[0]->m_name;
+		mi.start(anim, true, 0.f, 1.f);
 
 		// Mesh contains self-intersecting semi-transparent faces, which display
 		// z-fighting unless depthWrite is disabled.
 		//var core = model.getObjectByName('geo1_HoloFillDark_0');
 		//core.material.depthWrite = false;
-
-		//mixer = new THREE.AnimationMixer(model);
-		//var clip = gltf.animations[0];
-		//mixer.clipAction(clip.optimize()).play();
 	}
+
+	scene.update();
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Widget& sheet = ui::sheet(*dock);
+
+		float exposure = pow(tonemap.m_exposure, 1.0 / 4.0);
 
 		Widget& controls = ui::stack(sheet);
 		ui::slider_field<float>(controls, "threshold", { bloom.threshold, { 0.f, 1.f, 0.01f } });
@@ -334,8 +343,9 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		ui::slider_field<float>(controls, "radius",    { bloom.radius,    { 0.f, 1.f, 0.01f } });
 
 
-		ui::slider_field<float>(controls, "exposure", { tonemap.m_exposure, { 0.1f, 2.f, 0.01f } });
-		// exposure = pow(value, 4.0)
+		ui::slider_field<float>(controls, "exposure", { exposure, { 0.1f, 2.f, 0.01f } });
+
+		tonemap.m_exposure = pow(exposure, 4.0);
 	}
 
 	//const float delta = clock.getDelta();

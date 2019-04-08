@@ -49,37 +49,34 @@ namespace mud
 		return mud::hsl(h, s, l);
 	}
 
-	Colour clamp_colour(const Colour& colour)
-	{
-#ifdef MUD_PLATFORM_EMSCRIPTEN
-		Colour clamped = colour;
-		for(size_t i = 0; i < 4; ++i)
-			clamped[i] = clamp(colour[i], 0.f, 1.f);
-		return clamped;
-#else
-		return colour;
-#endif
-	}
-
 	uint32_t to_rgba(const Colour& colour)
 	{
-		Colour col = clamp_colour(colour);
 		uint32_t rgba = 0;
-		rgba |= uint8_t(col.r * 255.f) << 24;
-		rgba |= uint8_t(col.g * 255.f) << 16;
-		rgba |= uint8_t(col.b * 255.f) << 8;
-		rgba |= uint8_t(col.a * 255.f);
+		rgba |= uint8_t(clamp(colour.r, 0.f, 1.f) * 255.f) << 24;
+		rgba |= uint8_t(clamp(colour.g, 0.f, 1.f) * 255.f) << 16;
+		rgba |= uint8_t(clamp(colour.b, 0.f, 1.f) * 255.f) << 8;
+		rgba |= uint8_t(clamp(colour.a, 0.f, 1.f) * 255.f);
+		return rgba;
+	}
+
+	uint32_t to_abgr(float r, float g, float b, float a)
+	{
+		//Colour col = clamp_colour(colour);
+		uint32_t rgba = 0;
+		rgba |= uint8_t(clamp(r, 0.f, 1.f) * 255.f);
+		rgba |= uint8_t(clamp(g, 0.f, 1.f) * 255.f) << 8;
+		rgba |= uint8_t(clamp(b, 0.f, 1.f) * 255.f) << 16;
+		rgba |= uint8_t(clamp(a, 0.f, 1.f) * 255.f) << 24;
 		return rgba;
 	}
 
 	uint32_t to_abgr(const Colour& colour)
 	{
-		Colour col = clamp_colour(colour);
 		uint32_t rgba = 0;
-		rgba |= uint8_t(col.r * 255.f);
-		rgba |= uint8_t(col.g * 255.f) << 8;
-		rgba |= uint8_t(col.b * 255.f) << 16;
-		rgba |= uint8_t(col.a * 255.f) << 24;
+		rgba |= uint8_t(clamp(colour.r, 0.f, 1.f) * 255.f);
+		rgba |= uint8_t(clamp(colour.g, 0.f, 1.f) * 255.f) << 8;
+		rgba |= uint8_t(clamp(colour.b, 0.f, 1.f) * 255.f) << 16;
+		rgba |= uint8_t(clamp(colour.a, 0.f, 1.f) * 255.f) << 24;
 		return rgba;
 	}
 	

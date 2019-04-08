@@ -287,6 +287,10 @@ namespace mud
 
 	MeshAdapter& Mesh::direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
 	{
+		m_vertex_format = vertex_format;
+		m_vertex_count = vertex_count;
+		m_index_count = index_count;
+
 		const bgfx::VertexDecl& decl = vertex_decl(vertex_format);
 		bgfx::allocTransientVertexBuffer(&m_direct.m_vertices, vertex_count, decl);
 		if(index_count)

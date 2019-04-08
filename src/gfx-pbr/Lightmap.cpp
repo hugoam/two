@@ -402,7 +402,7 @@ namespace mud
 				}
 
 				vec2 scale = vec2(1.f / float(lightmaps.m_size));
-				vec2 offset = rect_offset(vec4(rect)) / float(lightmaps.m_size);
+				vec2 offset = vec2(rect.pos) / float(lightmaps.m_size);
 				lightmap.add_item(i, *items[i], true, vec4(scale, offset));
 			}
 		}
@@ -501,7 +501,7 @@ namespace mud
 			}
 	}
 
-	void BlockLightmap::options(Render& render, ProgramVersion& program) const
+	void BlockLightmap::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
 		UNUSED(render); UNUSED(program);
 	}

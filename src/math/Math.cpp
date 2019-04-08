@@ -83,20 +83,21 @@ namespace mud
 
 	quat look_dir(const vec3& direction, const vec3& forward)
 	{
-		float d = dot(forward, direction);
+		const vec3 dir = normalize(direction);
+		const float d = dot(forward, dir);
 
 		if(abs(d - (-1.0f)) < 0.000001f)
 			return axis_angle(Y3, c_pi);
 		if(abs(d - (1.0f)) < 0.000001f)
 			return ZeroQuat;
 
-		vec3 axis = normalize(cross(forward, direction));
+		const vec3 axis = normalize(cross(forward, dir));
 		return axis_angle(axis, acos(d));
 	}
 
 	quat look_at(const vec3& source, const vec3& dest, const vec3& forward)
 	{
-		vec3 direction = normalize(dest - source);
+		const vec3 direction = normalize(dest - source);
 		return look_dir(direction, forward);
 	}
 

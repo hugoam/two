@@ -27,17 +27,25 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	static ImporterOBJ obj_importer(app.m_gfx);
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	viewer.m_viewport.comp<Tonemap>().m_mode = TonemapMode::ACES;
-	viewer.m_viewport.comp<Tonemap>().m_mode = TonemapMode::Filmic;
-	viewer.m_viewport.comp<Tonemap>().m_mode = TonemapMode::Reinhardt;
+	Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
+
+	tonemap.m_enabled = true;
+	tonemap.m_mode = TonemapMode::ACES;
+	tonemap.m_mode = TonemapMode::Filmic;
+	tonemap.m_mode = TonemapMode::Reinhardt;
+
 	viewer.m_viewport.m_lighting = Lighting::VoxelGI;
+
+	viewer.m_viewport.m_to_gamma = true;
+
+	viewer.m_scene.m_env.m_radiance.m_ambient = Colour(0.1f);
 
 	OrbitController& controller = ui::free_orbit_controller(viewer);
 	viewer.take_focus();
 
 	if(app.m_gfx.m_frame == 1)
 	{
-		controller.m_yaw = c_pi / 2.f;
+		controller.m_yaw = c_pi2;
 		controller.m_pitch = -c_pi / 16.f;
 		controller.m_distance = 80.f;
 	}
@@ -48,11 +56,11 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 
 #if DIRECT_LIGHT
 	static float azimuth = 0.f;
-	static float altitude = c_pi / 2.f - 0.01f - 0.1f;
+	static float altitude = c_pi2 - 0.01f - 0.1f;
 
 	Light& direct_light = gfx::direct_light_node(scene, sun_rotation(azimuth, altitude));
 	direct_light.m_energy = 2.f;
-	direct_light.m_shadow_range = 150.f; // @todo why does needs to be double ? extents of this model are only ~70 in Y axis
+	direct_light.m_shadow_range = 150.f; // @todo why does need to be doubled ? extents of this model are only ~70 in Y axis
 #endif
 
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
@@ -113,7 +121,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
 
 		ui::label(sheet, "Zone :");
-		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_env.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
+		ui::color_field(sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
 
 #if POSTPROCESS
 		ui::label(sheet, "Post process :");
@@ -132,7 +140,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		ui::label(sheet, "Sun :");
 		ui::slider_field<float>(sheet, "Azimuth", { azimuth, { 0.f, c_pi, 0.01f } });
-		ui::slider_field<float>(sheet, "Altitude", { altitude, { 0.f, c_pi / 2.f, 0.01f } });
+		ui::slider_field<float>(sheet, "Altitude", { altitude, { 0.f, c_pi2, 0.01f } });
 #endif
 
 #if GI_PROBE

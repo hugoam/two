@@ -48,7 +48,7 @@ void light_grid(Gnode& parent, span2d<LightInstance> light_grid, bool moving, Li
 
 			float height = moving ? sinf(g_time + float(y + x) * 0.21f) * 5.f : 5.f;
 
-			Gnode& light_node = gfx::node(parent, {}, center + vec3(x * spacing, height, y * spacing), angle_axis(c_pi / 2.f, X3));
+			Gnode& light_node = gfx::node(parent, {}, center + vec3(x * spacing, height, y * spacing), angle_axis(c_pi2, X3));
 			Light& light = gfx::light(light_node, light_type, false, light_item.colour, range, attenuation);
 			if(light_type == LightType::Spot)
 			{
@@ -143,7 +143,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
 
 		ui::label(sheet, "Zone :");
-		ui::number_field<float>(sheet, "Ambient", { viewer.m_scene.m_env.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
+		ui::color_field(sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
 
 		ui::label(sheet, "Lights :");
 

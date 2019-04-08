@@ -252,7 +252,7 @@ void pass_fake_sun(GfxSystem& gfx, Render& render, const Godrays& godrays)
 	const float sunsqH = 0.74f * float(render.m_rect.height); // 0.74 depends on extent of sun from shader
 	const float sunsqW = sunsqH; // both depend on height because sun is aspect-corrected
 
-	const vec2 sun = vec2(rect_offset(render.m_rect)) + godrays.m_sun_screen * vec2(rect_size(render.m_rect));
+	const vec2 sun = vec2(render.m_rect.pos) + godrays.m_sun_screen * vec2(render.m_rect.size);
 
 	// @todo fix this
 	//bgfx::setViewScissor(pass.m_index, sun.x - sunsqW / 2.f, sun.y - sunsqH / 2.f, sunsqW, sunsqH);

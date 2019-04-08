@@ -37,8 +37,12 @@ void xx_material_displace(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 		//camera.position.z = 1500;
 		//scene.add(camera);
 
-		scene.m_env.m_radiance.m_ambient = 0.2f;
-		scene.m_env.m_radiance.m_colour = rgb(0xffffff);
+		Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
+
+		Zone& env = scene.m_env;
+		env.m_radiance.m_texture = &reflection;
+		env.m_radiance.m_ambient = rgb(0xffffff) * 0.2f;
+		env.m_radiance.m_colour = rgb(0xffffff);
 
 		// lights
 
@@ -52,9 +56,6 @@ void xx_material_displace(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 		Node3& ln2 = gfx::nodes(scene).add(Node3(vec3(-1000.f, 0.f, 1000.f)));
 		gfx::lights(scene).add(Light(ln2, LightType::Point, false, rgb(0x0000ff), 1.f, 0.f));
 
-		Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
-		scene.m_env.m_radiance.m_texture = &reflection;
-		
 		Program& three = *app.m_gfx.programs().file("pbr/three");
 
 		Material& mat = app.m_gfx.materials().create("ninja",  [&](Material& m) {
@@ -98,9 +99,11 @@ void xx_material_displace(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 		ui::slider_field<float>(a, "metalness",    { material->m_pbr.m_metallic.m_value,  { 0.f, 1.f, 0.01f } });
 		ui::slider_field<float>(a, "roughness",    { material->m_pbr.m_roughness.m_value, { 0.f, 1.f, 0.01f } });
 		ui::slider_field<float>(a, "occlusion",    { material->m_lit.m_occlusion.m_value, { 0.f, 1.f, 0.01f } });
-		ui::slider_field<float>(a, "ambient",      { scene.m_env.m_radiance.m_ambient,    { 0.f, 1.f, 0.01f } });
 		ui::slider_field<float>(a, "displacement", { material->m_lit.m_displace.m_value,  { 0.f, 5.f, 0.01f } });
 		ui::slider_field<float>(a, "normal scale", { material->m_lit.m_normal.m_value,    { -1.f, 1.f, 0.01f } });
+
+		ui::color_field(a, "ambient", scene.m_env.m_radiance.m_ambient);
+
 		// envMapIntensity
 	}
 

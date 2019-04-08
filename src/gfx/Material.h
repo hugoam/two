@@ -275,6 +275,8 @@ namespace mud
 		attr_ gpu_ MaterialParam<float> m_occlusion;
 		attr_ gpu_ MaterialParam<float> m_lightmap;
 
+		attr_ bool m_no_envmap = false;
+
 		static ShaderBlock s_block;
 	};
 
@@ -303,7 +305,6 @@ namespace mud
 		attr_ gpu_ MaterialParam<Colour> m_transmission;
 
 		attr_ bool m_deep_parallax = false;
-		attr_ bool m_scene_environment = true;
 
 		attr_ PbrDiffuseMode m_diffuse_mode = PbrDiffuseMode::Burley;
 		attr_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;

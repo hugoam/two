@@ -184,6 +184,8 @@ namespace mud
 		meth_ MeshAdapter& joints(const uint32_t& j);
 		meth_ MeshAdapter& weights(const vec4& w);
 
+		MeshAdapter& colour(const vec3& c);
+
 		// direct functions (faster, no bounds computation)
 		MeshAdapter& dposition(const vec3& p);
 		MeshAdapter& duv0(const vec2& uv);

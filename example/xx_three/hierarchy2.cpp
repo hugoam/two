@@ -30,7 +30,7 @@ void xx_hierarchy2(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_eye.z = 500.f;
 
 		scene.m_env.m_background.m_colour = rgb(0xffffff);
-		//scene.background = new THREE.Color(0xffffff);
+		viewer.m_viewport.m_clear_colour = rgb(0xffffff);
 
 		Material& material = app.m_gfx.materials().create("hierarchy2", [&](Material& m) {
 			m.m_program = &normal;

@@ -72,8 +72,8 @@ namespace mud
 		slice.m_subdiv = subdiv;
 		slice.m_slot_size = m_size / uvec2(uint(subdiv));
 
-		const vec2 slot_size = vec2(rect_size(slice.m_rect)) / float(subdiv);
-		const vec2 coord = rect_offset(slice.m_rect);
+		const vec2 slot_size = vec2(slice.m_rect.size) / float(subdiv);
+		const vec2 coord = slice.m_rect.pos;
 
 		slice.m_slots.clear();
 		slice.m_free_slots.clear();

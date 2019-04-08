@@ -15,86 +15,76 @@ using namespace mud;
 #define DIRECT 1
 #define NORMAL 1
 
-/**
- * @author mrdoob / http://mrdoob.com/
- * @author alteredq / http://alteredqualia.com/
- *
- * ShaderToon currently contains:
- *
- *	toon1
- *	toon2
- *	hatching
- *	dotted
- */
+// @author mrdoob / http://mrdoob.com/
+// @author alteredq / http://alteredqualia.com/
 
-#if 0
-uniforms: {
+static string normal_vertex =
 
-	"uDirLightPos": { value: new THREE.Vector3() },
-	"uDirLightColor": { value: new THREE.Color( 0xeeeeee ) },
+	"$input a_position, a_normal\n"
+	"$output v_normal\n"
 
-	"uAmbientLightColor": { value: new THREE.Color( 0x050505 ) },
+	"#include <common.sh>\n"
 
-	"uBaseColor": { value: new THREE.Color( 0xffffff ) }
-
-},
-#endif
+	"void main()\n"
+	"{\n"
+		"gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+		"v_normal = normalize(mul(u_modelView, vec4(a_normal, 0.0)).xyz);\n"
+		//"v_normal = normalize(normalMatrix * a_normal);\n"
+	"}\n";
 
 static string toon1_vertex =
 
-	"varying vec3 vNormal;\n"
-	"varying vec3 vRefract;\n"
+	"$input a_position, a_normal\n"
+	"$output v_normal, v_refract\n"
 
-	"void main() {\n"
+	"void main()\n"
+	"{\n"
+		"vec4 world = mul(u_model[0], vec4(a_position.xyz, 1.0));\n"
+		"vec4 view = mul(u_modelView, vec4(a_position.xyz, 1.0));\n"
+		"vec3 worldNormal = normalize(mul(u_model[0], vec4(a_normal, 0.0));\n"
 
-		"vec4 worldPosition = modelMatrix * vec4( position, 1.0 );\n"
-		"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n"
-		"vec3 worldNormal = normalize ( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );\n"
+		"v_normal = normalize(mul(u_modelView, vec4(a_normal, 0.0)));\n"
 
-		"vNormal = normalize( normalMatrix * normal );\n"
+		"vec3 I = world.xyz - cameraPosition;\n"
+		"v_refract = refract(normalize(I), worldNormal, 1.02);\n"
 
-		"vec3 I = worldPosition.xyz - cameraPosition;\n"
-		"vRefract = refract( normalize( I ), worldNormal, 1.02 );\n"
-
-		"gl_Position = projectionMatrix * mvPosition;\n"
-
+		"gl_Position = mul(u_proj, view);\n"
 	"}\n";
 
 static string toon1_fragment =
 
-	"uniform vec3 uBaseColor;\n"
+	"$input v_normal, v_refract\n"
 
-	"uniform vec3 uDirLightPos;\n"
-	"uniform vec3 uDirLightColor;\n"
+	"#include <common.sh>\n"
 
-	"uniform vec3 uAmbientLightColor;\n"
+	"#define u_toon_color1 u_user_p0.xyz\n"
+	"#define u_toon_color2 u_user_p0.xyz\n"
 
-	"varying vec3 vNormal;\n"
+	"#define u_light_dir u_user_p1.xyz\n"
+	"#define u_light_color u_user_p2.xyz\n"
 
-	"varying vec3 vRefract;\n"
+	"#define u_ambient u_user_p3.xyz\n"
 
-	"void main() {\n"
+	"void main()\n"
+	"{\n"
+		"int material_index = int(u_state_material);\n"
+		"SolidMaterial solid = read_solid_material(material_index);\n"
 
-		"float directionalLightWeighting = max( dot( normalize( vNormal ), uDirLightPos ), 0.0);\n"
-		"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
+		"float directionalLightWeighting = max(dot(normalize(v_normal), -u_light_dir), 0.0);\n"
+		"vec3 lightWeighting = u_ambient + u_light_color * directionalLightWeighting;\n"
 
-		"float intensity = smoothstep( - 0.5, 1.0, pow( length(lightWeighting), 20.0 ) );\n"
+		"float intensity = smoothstep(- 0.5, 1.0, pow(length(lightWeighting), 20.0));\n"
 		"intensity += length(lightWeighting) * 0.2;\n"
 
-		"float cameraWeighting = dot( normalize( vNormal ), vRefract );\n"
-		"intensity += pow( 1.0 - length( cameraWeighting ), 6.0 );\n"
+		"float cameraWeighting = dot(normalize(v_normal), v_refract);\n"
+		"intensity += pow(1.0 - length(cameraWeighting), 6.0);\n"
 		"intensity = intensity * 0.2 + 0.3;\n"
 
-		"if ( intensity < 0.50 ) {\n"
-
-			"gl_FragColor = vec4( 2.0 * intensity * uBaseColor, 1.0 );\n"
-
+		"if (intensity < 0.50) {\n"
+			"gl_FragColor = vec4(2.0 * intensity * solid.color.rgb, 1.0);\n"
 		"} else {\n"
-
-			"gl_FragColor = vec4( 1.0 - 2.0 * ( 1.0 - intensity ) * ( 1.0 - uBaseColor ), 1.0 );\n"
-
+			"gl_FragColor = vec4(1.0 - 2.0 * (1.0 - intensity) * (1.0 - solid.color.rgb), 1.0);\n"
 		"}\n"
-
 	"}\n";
 
 static Program& toon1_program(GfxSystem& gfx)
@@ -105,68 +95,40 @@ static Program& toon1_program(GfxSystem& gfx)
 	return program;
 }
 
-#if 0
-uniforms: {
-
-	"uDirLightPos": { value: new THREE.Vector3() },
-	"uDirLightColor": { value: new THREE.Color( 0xeeeeee ) },
-
-	"uAmbientLightColor": { value: new THREE.Color( 0x050505 ) },
-
-	"uBaseColor": { value: new THREE.Color( 0xeeeeee ) },
-	"uLineColor1": { value: new THREE.Color( 0x808080 ) },
-	"uLineColor2": { value: new THREE.Color( 0x000000 ) },
-	"uLineColor3": { value: new THREE.Color( 0x000000 ) },
-	"uLineColor4": { value: new THREE.Color( 0x000000 ) }
-
-},
-#endif
-
 static string toon2_vertex =
-
-	"varying vec3 vNormal;\n"
-
-	"void main() {\n"
-
-		"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
-		"vNormal = normalize( normalMatrix * normal );\n"
-
-	"}\n";
+	normal_vertex;
 
 static string toon2_fragment =
 
-	"uniform vec3 uBaseColor;\n"
-	"uniform vec3 uLineColor1;\n"
-	"uniform vec3 uLineColor2;\n"
-	"uniform vec3 uLineColor3;\n"
-	"uniform vec3 uLineColor4;\n"
+	"$input v_normal\n"
 
-	"uniform vec3 uDirLightPos;\n"
-	"uniform vec3 uDirLightColor;\n"
+	"#include <common.sh>\n"
 
-	"uniform vec3 uAmbientLightColor;\n"
+	"#define u_toon_color1 u_user_p0.xyz\n"
+	"#define u_toon_color2 u_user_p0.xyz\n"
 
-	"varying vec3 vNormal;\n"
+	"#define u_light_dir u_user_p1.xyz\n"
+	"#define u_light_color u_user_p2.xyz\n"
 
-	"void main() {\n"
+	"#define u_ambient u_user_p3.xyz\n"
 
-		"float camera = max( dot( normalize( vNormal ), vec3( 0.0, 0.0, 1.0 ) ), 0.4);\n"
-		"float light = max( dot( normalize( vNormal ), uDirLightPos ), 0.0);\n"
+	"void main()\n"
+	"{\n"
+		"int material_index = int(u_state_material);\n"
+		"SolidMaterial solid = read_solid_material(material_index);\n"
 
-		"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
+		"float camera = max(dot(normalize(v_normal), vec3(0.0, 0.0, 1.0)), 0.4);\n"
+		"float light = max(dot(normalize(v_normal), -u_light_dir), 0.0);\n"
 
-		"if ( length(uAmbientLightColor + uDirLightColor * light) < 1.00 ) {\n"
+		"gl_FragColor = vec4(solid.color.rgb, 1.0);\n"
 
-			"gl_FragColor *= vec4( uLineColor1, 1.0 );\n"
-
+		"if (length(u_ambient + u_light_color * light) < 1.00) {\n"
+			"gl_FragColor *= vec4(u_toon_color1, 1.0);\n" // uLineColor1
 		"}\n"
 
-		"if ( length(uAmbientLightColor + uDirLightColor * camera) < 0.50 ) {\n"
-
-			"gl_FragColor *= vec4( uLineColor2, 1.0 );\n"
-
+		"if (length(u_ambient + u_light_color * camera) < 0.50) {\n"
+			"gl_FragColor *= vec4(u_toon_color1, 1.0);\n" // uLineColor2
 		"}\n"
-
 	"}\n";
 
 static Program& toon2_program(GfxSystem& gfx)
@@ -177,89 +139,55 @@ static Program& toon2_program(GfxSystem& gfx)
 	return program;
 }
 
-#if 0
-"uDirLightPos":	{ value: new THREE.Vector3() },
-"uDirLightColor": { value: new THREE.Color( 0xeeeeee ) },
-
-"uAmbientLightColor": { value: new THREE.Color( 0x050505 ) },
-
-"uBaseColor":  { value: new THREE.Color( 0xffffff ) },
-"uLineColor1": { value: new THREE.Color( 0x000000 ) },
-"uLineColor2": { value: new THREE.Color( 0x000000 ) },
-"uLineColor3": { value: new THREE.Color( 0x000000 ) },
-"uLineColor4": { value: new THREE.Color( 0x000000 ) }
-#endif
-
 static string hatching_vertex =
-
-	"varying vec3 vNormal;\n"
-
-	"void main() {\n"
-
-		"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
-		"vNormal = normalize( normalMatrix * normal );\n"
-
-	"}\n";
+	normal_vertex;
 
 static string hatching_fragment =
 
-	"uniform vec3 uBaseColor;\n"
-	"uniform vec3 uLineColor1;\n"
-	"uniform vec3 uLineColor2;\n"
-	"uniform vec3 uLineColor3;\n"
-	"uniform vec3 uLineColor4;\n"
+	"$input v_normal\n"
 
-	"uniform vec3 uDirLightPos;\n"
-	"uniform vec3 uDirLightColor;\n"
+	"#include <common.sh>\n"
 
-	"uniform vec3 uAmbientLightColor;\n"
+	"#define u_hatch_color u_user_p0.xyz\n"
 
-	"varying vec3 vNormal;\n"
+	"#define u_light_dir u_user_p1.xyz\n"
+	"#define u_light_color u_user_p2.xyz\n"
 
-	"void main() {\n"
+	"#define u_ambient u_user_p3.xyz\n"
 
-		"float directionalLightWeighting = max( dot( normalize(vNormal), uDirLightPos ), 0.0);\n"
-		"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
+	"void main()\n"
+	"{\n"
+		"int material_index = int(u_state_material);\n"
+		"SolidMaterial solid = read_solid_material(material_index);\n"
 
-		"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
+		"float directionalLightWeighting = max(dot(normalize(v_normal), -u_light_dir), 0.0);\n"
+		"vec3 lightWeighting = u_ambient + u_light_color * directionalLightWeighting;\n"
 
-		"if ( length(lightWeighting) < 1.00 ) {\n"
+		"gl_FragColor = vec4(solid.color.rgb, 1.0);\n"
 
-			"if ( mod(gl_FragCoord.x + gl_FragCoord.y, 10.0) == 0.0) {\n"
-
-				"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
-
+		"if (length(lightWeighting) < 1.00) {\n"
+			"if (mod(gl_FragCoord.x + gl_FragCoord.y, 10.0) == 0.0) {\n"
+				"gl_FragColor = vec4(u_hatch_color, 1.0);\n" // uLineColor1
 			"}\n"
-
 		"}\n"
 
-		"if ( length(lightWeighting) < 0.75 ) {\n"
-
+		"if (length(lightWeighting) < 0.75) {\n"
 			"if (mod(gl_FragCoord.x - gl_FragCoord.y, 10.0) == 0.0) {\n"
-
-				"gl_FragColor = vec4( uLineColor2, 1.0 );\n"
-
+				"gl_FragColor = vec4(u_hatch_color, 1.0);\n" // uLineColor2
 			"}\n"
 		"}\n"
 
-		"if ( length(lightWeighting) < 0.50 ) {\n"
-
+		"if (length(lightWeighting) < 0.50) {\n"
 			"if (mod(gl_FragCoord.x + gl_FragCoord.y - 5.0, 10.0) == 0.0) {\n"
-
-				"gl_FragColor = vec4( uLineColor3, 1.0 );\n"
-
+				"gl_FragColor = vec4(u_hatch_color, 1.0);\n" // uLineColor3
 			"}\n"
 		"}\n"
 
-		"if ( length(lightWeighting) < 0.3465 ) {\n"
-
+		"if (length(lightWeighting) < 0.3465) {\n"
 			"if (mod(gl_FragCoord.x - gl_FragCoord.y - 5.0, 10.0) == 0.0) {\n"
-
-				"gl_FragColor = vec4( uLineColor4, 1.0 );\n"
-
+				"gl_FragColor = vec4(u_hatch_color, 1.0);\n" // uLineColor4
 			"}\n"
 		"}\n"
-
 	"}\n";
 
 static Program& hatching_program(GfxSystem& gfx)
@@ -270,69 +198,43 @@ static Program& hatching_program(GfxSystem& gfx)
 	return program;
 }
 
-#if 0
-	"uDirLightPos":	{ value: new THREE.Vector3() },
-	"uDirLightColor": { value: new THREE.Color( 0xeeeeee ) },
-
-	"uAmbientLightColor": { value: new THREE.Color( 0x050505 ) },
-
-	"uBaseColor":  { value: new THREE.Color( 0xffffff ) },
-	"uLineColor1": { value: new THREE.Color( 0x000000 ) }
-#endif
-
 static string dotted_vertex =
-
-	"varying vec3 vNormal;\n"
-
-	"void main() {\n"
-
-		"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n"
-		"vNormal = normalize( normalMatrix * normal );\n"
-
-	"}\n";
+	normal_vertex;
 
 static string dotted_fragment =
 
-	"uniform vec3 uBaseColor;\n"
-	"uniform vec3 uLineColor1;\n"
-	"uniform vec3 uLineColor2;\n"
-	"uniform vec3 uLineColor3;\n"
-	"uniform vec3 uLineColor4;\n"
+	"$input v_normal\n"
 
-	"uniform vec3 uDirLightPos;\n"
-	"uniform vec3 uDirLightColor;\n"
+	"#include <common.sh>\n"
 
-	"uniform vec3 uAmbientLightColor;\n"
+	"#define u_dot_color u_user_p0.xyz\n"
 
-	"varying vec3 vNormal;\n"
+	"#define u_light_dir u_user_p1.xyz\n"
+	"#define u_light_color u_user_p2.xyz\n"
 
-	"void main() {\n"
+	"#define u_ambient u_user_p3.xyz\n"
 
-		"float directionalLightWeighting = max( dot( normalize(vNormal), uDirLightPos ), 0.0);\n"
-		"vec3 lightWeighting = uAmbientLightColor + uDirLightColor * directionalLightWeighting;\n"
+	"void main()\n"
+	"{\n"
+		"int material_index = int(u_state_material);\n"
+		"SolidMaterial solid = read_solid_material(material_index);\n"
 
-		"gl_FragColor = vec4( uBaseColor, 1.0 );\n"
+		"float directionalLightWeighting = max(dot(normalize(v_normal), -u_light_dir), 0.0);\n"
+		"vec3 lightWeighting = u_ambient + u_light_color * directionalLightWeighting;\n"
 
-		"if ( length(lightWeighting) < 1.00 ) {\n"
+		"gl_FragColor = vec4(solid.color.rgb, 1.0);\n"
 
-			"if ( ( mod(gl_FragCoord.x, 4.001) + mod(gl_FragCoord.y, 4.0) ) > 6.00 ) {\n"
-
-				"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
-
+		"if (length(lightWeighting) < 1.00) {\n"
+			"if ((mod(gl_FragCoord.x, 4.001) + mod(gl_FragCoord.y, 4.0)) > 6.00) {\n"
+				"gl_FragColor = vec4(u_dot_color, 1.0);\n"
 			"}\n"
-
 		"}\n"
 
-		"if ( length(lightWeighting) < 0.50 ) {\n"
-
-			"if ( ( mod(gl_FragCoord.x + 2.0, 4.001) + mod(gl_FragCoord.y + 2.0, 4.0) ) > 6.00 ) {\n"
-
-				"gl_FragColor = vec4( uLineColor1, 1.0 );\n"
-
+		"if (length(lightWeighting) < 0.50) {\n"
+			"if ((mod(gl_FragCoord.x + 2.0, 4.001) + mod(gl_FragCoord.y + 2.0, 4.0)) > 6.00) {\n"
+				"gl_FragColor = vec4(u_dot_color, 1.0);\n"
 			"}\n"
-
 		"}\n"
-
 	"}\n";
 
 static Program& dotted_program(GfxSystem& gfx)
@@ -340,133 +242,111 @@ static Program& dotted_program(GfxSystem& gfx)
 	static Program& program = gfx.programs().create("dotted");
 	program.set_source(ShaderType::Vertex, dotted_vertex);
 	program.set_source(ShaderType::Fragment, dotted_fragment);
+	program.set_blocks({ MaterialBlock::Solid, MaterialBlock::User });
 	return program;
 }
 
-//function createShaderMaterial(id, light, ambientLight) {
-//
-//	material.uniforms["uDirLightPos"].value = light.position;
-//	material.uniforms["uDirLightColor"].value = light.color;
-//
-//	material.uniforms["uAmbientLightColor"].value = ambientLight.color;
-//
-//}
+struct ExMaterial { string name; Material* material; ColourHSL color; };
 
-struct DottedMaterial
+vector<ExMaterial> gen_materials(GfxSystem& gfx, const string& prefix)
 {
-	Colour m_base_color;
-	Colour m_line_color1;
-};
+	vector<ExMaterial> materials;
 
-struct HatchingMaterial
-{
-	Colour m_base_color;
-	Colour m_line_color1;
-	Colour m_line_color2;
-	Colour m_line_color3;
-	Colour m_line_color4;
-};
+	auto add = [&](const string& name, auto init)
+	{
+		materials.push_back({ name, &gfx.materials().create(prefix + name), {} });
+		ExMaterial& m = materials.back();
+		init(*m.material, m.color);
+	};
 
-vector<Material*> gen_materials(GfxSystem& gfx, const string& prefix)
-{
-	Material& normal = gfx.materials().create(prefix + "normal", [&](Material& m) { m.m_program = &gfx.programs().fetch("normal"); });
-
+	add("normal", [&](Material& m, ColourHSL& hsl) { m.m_program = &gfx.programs().fetch("normal"); });
+	
 	// toons
 
-	Material& toon1 = gfx.materials().create(prefix + "toon1", [&](Material& m) { m.m_program = &toon1_program(gfx); });
-	// h : 0.2, s : 1, l : 0.75
+	add("toon1", [&](Material& m, ColourHSL& hsl) { m.m_program = &toon1_program(gfx); hsl = { 0.2f, 1.f, 0.75f }; });
 
-	Material& toon2 = gfx.materials().create(prefix + "toon2", [&](Material& m) { m.m_program = &toon2_program(gfx); });
-	// h : 0.4, s : 1, l : 0.75
+	add("toon2", [&](Material& m, ColourHSL& hsl) { m.m_program = &toon2_program(gfx); hsl = { 0.4f, 1.f, 0.75f }; });
 
-	Material& hatching1 = gfx.materials().create(prefix + "hatching", [&](Material& m) { m.m_program = &hatching_program(gfx); });
-	// h : 0.2, s : 1, l : 0.9
+	add("hatching", [&](Material& m, ColourHSL& hsl) {
+		m.m_program = &hatching_program(gfx);
+		hsl = { 0.2f, 1.f, 0.9f };
+	});
 
-	Material& hatching2 = gfx.materials().create(prefix + "hatching2", [&](Material& m) { m.m_program = &hatching_program(gfx); });
-	// h : 0.0, s : 0.8, l : 0.5
-
-	Material& dotted1 = gfx.materials().create(prefix + "dotted", [&](Material& m) { m.m_program = &dotted_program(gfx); });
-	// h : 0.2, s : 1, l : 0.9
-
-	Material& dotted2 = gfx.materials().create(prefix + "dotted2", [&](Material& m) { m.m_program = &dotted_program(gfx); });
-	// h : 0.1, s : 1, l : 0.5
-
-	HatchingMaterial h2;
-	h2.m_base_color = Colour(0.f);
-	h2.m_line_color1 = hsl(0.f, 0.8f, 0.5f);
-	h2.m_line_color2 = hsl(0.f, 0.8f, 0.5f);
-	h2.m_line_color3 = hsl(0.f, 0.8f, 0.5f);
-	h2.m_line_color4 = hsl(0.1f, 0.8f, 0.5f);
-
-	DottedMaterial d2;
-	d2.m_base_color = Colour(0.f);
-	d2.m_line_color1 = hsl(0.05f, 1.0f, 0.5f);
+	add("dotted", [&](Material& m, ColourHSL& hsl) {
+		m.m_program = &dotted_program(gfx); m.m_user.m_attr0 = vec4(to_vec3(rgb(0x000000)), 0.f);
+		hsl = { 0.2f, 1.f, 0.9f };
+	});
 
 	Texture& texture = *gfx.textures().file("UV_Grid_Sm.jpg");
-	//texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
-	Program& pbr = *gfx.programs().file("pbr/pbr");
-	Program& phong = *gfx.programs().file("pbr/phong");
+	Program& pbr = gfx.programs().fetch("pbr/pbr");
+	Program& lambert = gfx.programs().fetch("pbr/lambert");
+	Program& phong = gfx.programs().fetch("pbr/phong");
 
-	//new THREE.MeshLambertMaterial({ color: 0xffffff, envMap : reflectionCube });
-	Material& chrome = gfx.materials().create("chrome", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_metallic = 1.f; });
-	// h : 0, s : 0, l : 1
-
-	// new THREE.MeshLambertMaterial({ color: 0xffffff, envMap : refractionCube, refractionRatio : 0.85 })
-	Material& liquid = gfx.materials().create("liquid", [&](Material& m) { m.m_program = &pbr; m.m_pbr.m_metallic = 1.f; m.m_pbr.m_refraction = 0.85f; });
-	// h : 0, s : 0, l : 1
-
-	Material& shiny = gfx.materials().create("shiny", [&](Material& m) {
+	add("chrome", [&](Material& m, ColourHSL& hsl) { m.m_program = &lambert; hsl = { 0.f, 0.f, 1.f }; });
+	
+	add("liquid", [&](Material& m, ColourHSL& hsl) { m.m_program = &lambert; m.m_phong.m_refraction = 0.85f;  hsl = { 0.f, 0.f, 1.f }; });
+	
+	add("shiny", [&](Material& m, ColourHSL& hsl) {
 		m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x550000); m.m_pbr.m_roughness = 0.1f; m.m_pbr.m_metallic = 1.f;
+		hsl = { 0.f, 0.8f, 0.2f };
 	});
-	// h : 0, s : 0.8, l : 0.2
 
-	Material& matte = gfx.materials().create("matte", [&](Material& m) {
-		m.m_program = &phong; m.m_phong.m_diffuse = rgb(0x000000); m.m_phong.m_specular = rgb(0x111111); m.m_phong.m_shininess = 1.f;
+	add("matte", [&](Material& m, ColourHSL& hsl) {
+		m.m_program = &phong; m.m_phong.m_specular = rgb(0x111111); m.m_phong.m_shininess = 1.f; m.m_lit.m_no_envmap = true;
+		hsl = { 0.f, 0.f, 1.f };
 	});
-	// h : 0, s : 0, l : 1
-	
-	// new THREE.MeshLambertMaterial({ color: 0x000000, flatShading : true })
-	Material& flat = gfx.materials().create("flat", [&](Material& m) { m.m_program = &pbr; m.m_base.m_flat_shaded = true; });
-	// h : 0, s : 0, l : 1
-	
-	Material& textured = gfx.materials().create("textured", [&](Material& m) {
-		m.m_program = &phong; m.m_phong.m_diffuse = rgb(0xffffff); m.m_phong.m_diffuse.m_texture = &texture; 
+
+	add("flat", [&](Material& m, ColourHSL& hsl) {
+		m.m_program = &phong; m.m_base.m_flat_shaded = true; m.m_lit.m_no_envmap = true;
+		hsl = { 0.f, 0.f, 1.f };
+	});
+
+	add("textured", [&](Material& m, ColourHSL& hsl) {
+		m.m_program = &phong; m.m_phong.m_diffuse.m_texture = &texture; 
 		m.m_phong.m_specular = rgb(0x111111); m.m_phong.m_shininess = 1.f;
+		hsl = { 0.f, 0.f, 1.f };
 	});
-	// h : 0, s : 0, l : 1	
+
+	add("colors", [&](Material& m, ColourHSL& hsl) {
+		m.m_program = &phong; m.m_phong.m_specular = rgb(0xffffff); m.m_phong.m_shininess = 2.f;
+		m.m_base.m_shader_color = ShaderColor::Vertex; m.m_lit.m_no_envmap = true;
+		hsl = { 0.f, 0.f, 1.f };
+	});
+
+	add("multiColors", [&](Material& m, ColourHSL& hsl) {
+		m.m_program = &phong; m.m_phong.m_shininess = 2.f;
+		m.m_base.m_shader_color = ShaderColor::Vertex; m.m_lit.m_no_envmap = true;
+		hsl = { 0.f, 0.f, 1.f };
+	});
+
+	add("plastic", [&](Material& m, ColourHSL& hsl) {
+		m.m_program = &phong; m.m_phong.m_specular = rgb(0x888888); m.m_phong.m_shininess = 250.f;
+		m.m_lit.m_no_envmap = true;
+		hsl = { 0.6f, 0.8f, 0.1f };
+	});
 	
-	Material& colors = gfx.materials().create("colors", [&](Material& m) { 
-		m.m_program = &phong; m.m_phong.m_diffuse = rgb(0xffffff); m.m_phong.m_specular = rgb(0xffffff); m.m_phong.m_shininess = 2.f;
-		m.m_base.m_shader_color = ShaderColor::Vertex;
-	});
-	// h : 0, s : 0, l : 1	
-
-	Material& plastic = gfx.materials().create("plastic", [&](Material& m) { 
-		m.m_program = &phong; m.m_phong.m_diffuse = rgb(0x000000); m.m_phong.m_specular = rgb(0x888888); m.m_phong.m_shininess = 250.f;
-	});
-	// h : 0.6, s : 0.8, l : 0.1
-
-	vector<Material*> materials = { &chrome, &liquid, &shiny, &matte, &flat, &textured, &colors, &plastic, &toon1, &toon2, &hatching1, &hatching2, &dotted1, &dotted2 };
 	return materials;
 }
 
-vector<cstring> material_labels(span<Material*> materials)
+vector<cstring> material_labels(span<ExMaterial> materials)
 {
 	vector<cstring> vec;
-	for(Material* m : materials)
-		vec.push_back(m->m_name.c_str());
+	for(ExMaterial& m : materials)
+		vec.push_back(m.name.c_str());
 	return vec;
 }
 
-void upload_cubes(MarchingCubes& cubes, Mesh& mesh)
+void upload_cubes(MarchingCubes& cubes, Mesh& mesh, bool colors, bool uvs)
 {
+	const uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal
+		| (colors ? VertexAttribute::Colour : 0)
+		| (uvs ? VertexAttribute::TexCoord0 : 0);
+
 #if DIRECT
 	const uint32_t num_tris = cubes.count();
 	
 	if(num_tris == 0) return;
-	//uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal | VertexAttribute::TexCoord0;
-	const uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal;
 	const uint32_t vertex_count = num_tris * 3;
 
 	MeshAdapter& direct = mesh.direct(vertex_format, vertex_count);
@@ -478,8 +358,6 @@ void upload_cubes(MarchingCubes& cubes, Mesh& mesh)
 	cubes.render(geometry);
 
 	if(geometry.vertex_count() == 0) return;
-	//uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal | VertexAttribute::TexCoord0;
-	const uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal;
 	const uint32_t vertex_count = geometry.vertex_count();
 
 	MeshAdapter& direct = mesh.direct(vertex_format, vertex_count);
@@ -507,10 +385,6 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		bool wallx = false;
 		bool wallz = false;
 
-		float hue = 0.f;
-		float saturation = 0.8f;
-		float lightness = 0.1f;
-
 		float lhue = 0.f;
 		float lsaturation = 0.8f;
 		float llightness = 0.1f;
@@ -521,14 +395,16 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	};
 
 	static Controller controller = {};
-	static vector<Material*> materials;
-	static Material* material = nullptr;
+	static vector<ExMaterial> materials;
+	static ExMaterial* current = nullptr;
 
 	constexpr uint32_t resolution = 28;
 
 	static MarchingCubes cubes = { resolution };
 	static Mesh* mesh = nullptr;
 	static Item* item = nullptr;
+	static Node3* nlight = nullptr;
+	static Light* light = nullptr;
 
 	if(init)
 	{
@@ -536,49 +412,40 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 45.f; camera.m_near = 1.f; camera.m_far = 10000.f;
 		camera.m_eye = vec3(-500.f, 500.f, 1500.f);
 
-		Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
-		scene.m_env.m_radiance.m_texture = &reflection;
 
 		Model& model = app.m_gfx.create_model("cubes");
 		mesh = model.m_items[0].m_mesh;
 		mesh->m_is_direct = true;
 
-		//scene.background = new THREE.Color(0x050505);
+		Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
 
-		Node3& l0 = gfx::nodes(scene).add(Node3(vec3(0.f), quat(facing(vec3(0.5f, 0.5f, 1.f)))));
-		gfx::lights(scene).add(Light(l0, LightType::Direct, false, rgb(0xffffff)));
-		
+		viewer.m_viewport.m_to_gamma = true;
+		viewer.m_viewport.m_clear_colour = to_linear(rgb(0x050505));
+
+		Zone& env = scene.m_env;
+		env.m_background.m_colour = rgb(0x050505);
+		env.m_radiance.m_texture = &reflection;
+		//env.m_radiance.m_filter = false;
+		env.m_radiance.m_ambient = rgb(0x080808);
+
+		vec3 t = look_dir(-normalize(vec3(0.5f, 0.5f, 1.f))) * -Z3;
+
+		Node3& l0 = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(-vec3(0.5f, 0.5f, 1.f))));
+		Light& l = gfx::lights(scene).add(Light(l0, LightType::Direct, false, rgb(0xffffff)));
+		nlight = &l0;
+		light = &l;
+
 		Node3& l1 = gfx::nodes(scene).add(Node3(vec3(0.f, 0.f, 100.f)));
-		gfx::lights(scene).add(Light(l1, LightType::Point, false, rgb(0xff3300)));
-
-		//ambientLight = new THREE.AmbientLight(0x080808);
-		//scene.add(ambientLight);
+		gfx::lights(scene).add(Light(l1, LightType::Point, false, rgb(0xff3300), 1.f, 0.f));
 
 		materials = gen_materials(app.m_gfx, "marching");
-		material = materials[0];
+		current = &materials[0];
 		//material = "shiny";
 
 		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), ZeroQuat, vec3(700.f)));
-		Item& it = gfx::items(scene).add(Item(n, model, 0U, material));
+		Item& it = gfx::items(scene).add(Item(n, model, 0U, current->material));
 		item = &it;
 	}
-
-	//static float h, s, l;
-	//
-	//auto set_material = []()
-	//{
-	//	current_material = id;
-	//
-	//	var mat = materials[id];
-	//	effect.material = mat.m;
-	//
-	//	h = mat.h;
-	//	s = mat.s;
-	//	l = mat.l;
-	//
-	//	//effect.enableUvs = (current_material == "textured") ? true : false;
-	//	//effect.enableColors = (current_material == "colors") ? true : false;
-	//};
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
@@ -596,22 +463,21 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		static vector<cstring> labels = material_labels(materials);
 		static uint32_t material_index = 0;
-		//bool changed = ui::radio_switch(sheet, labels, material_index, Axis::Y);
-		bool changed = ui::dropdown_field(sheet, "material", labels, material_index);
+		bool changed = ui::radio_switch(sheet, labels, material_index, Axis::Y);
+		//bool changed = ui::dropdown_field(sheet, "material", labels, material_index);
 		if(changed)
 		{
-			material = materials[material_index];
-			item->m_material = material;
+			current = &materials[material_index];
+			item->m_material = current->material;
 		}
 
 		// material (color)
 
-
 		Widget& b = panel("Material color");
 
-		ui::slider_field<float>(b, "hue",        { controller.hue,        { 0.f, 1.f, 0.025f } });
-		ui::slider_field<float>(b, "saturation", { controller.saturation, { 0.f, 1.f, 0.025f } });
-		ui::slider_field<float>(b, "lightness",  { controller.lightness,  { 0.f, 1.f, 0.025f } });
+		ui::slider_field<float>(b, "hue",        { current->color.h, { 0.f, 1.f, 0.025f } });
+		ui::slider_field<float>(b, "saturation", { current->color.s, { 0.f, 1.f, 0.025f } });
+		ui::slider_field<float>(b, "lightness",  { current->color.l, { 0.f, 1.f, 0.025f } });
 
 		// light (point)
 
@@ -653,6 +519,9 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		// fill the field with some metaballs
 
+		static const Colour rainbow[] = 
+			{ rgb(0xff0000), rgb(0xff7f00), rgb(0xffff00), rgb(0x00ff00), rgb(0x0000ff), rgb(0x4b0082), rgb(0x9400d3) };
+
 		float subtract = 12.f;
 		float strength = 1.2f / ((sqrt(numblobs) - 1.f) / 4.f + 1.f);
 
@@ -663,7 +532,10 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			float bally = abs(cos(fi + 1.12f * time * cos(1.22f + 0.1424f * fi))) * 0.77f; // dip into the floor
 			float ballz = cos(fi + 1.32f * time * 0.1f * sin((0.92f + 0.53f * fi))) * 0.27f + 0.5f;
 
-			add_ball(object, vec3(ballx, bally, ballz), strength, subtract);
+			if(current->name == "multiColors")
+				add_ball(object, vec3(ballx, bally, ballz), strength, subtract, rainbow[i % 7]);
+			else
+				add_ball(object, vec3(ballx, bally, ballz), strength, subtract);
 		}
 
 		if(floor) add_planeY(object, 2, 12);
@@ -684,9 +556,20 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	add_blobs(cubes, time, controller.numBlobs, controller.floor, controller.wallx, controller.wallz);
 
-	upload_cubes(cubes, *mesh);
+	const bool need_colors = current->material->m_base.m_shader_color == ShaderColor::Vertex;
+	const bool need_uvs = false;
+	upload_cubes(cubes, *mesh, need_colors, need_uvs);
 
 	// materials
+
+	current->material->m_solid.m_colour = hsl(current->color);
+	current->material->m_pbr.m_albedo = hsl(current->color);
+	current->material->m_phong.m_diffuse = hsl(current->color);
+	
+	current->material->m_user.m_attr1 = vec4(nlight->direction(), 0.f);
+	current->material->m_user.m_attr2 = vec4(to_vec3(light->m_colour) * light->m_energy, 0.f);
+
+	current->material->m_user.m_attr3 = vec4(to_vec3(scene.m_env.m_radiance.m_ambient), 0.f);
 
 	//if(effect.material instanceof THREE.ShaderMaterial) {
 	//
