@@ -1,16 +1,190 @@
 Module['stl'] = Module['stl'] || {};
 Module['gfx'] = Module['gfx'] || {};
-// AnimatedTrack
-function AnimatedTrack() {
-    this.__ptr = _mud_AnimatedTrack__construct_0(); this.__type = AnimatedTrack.__type; getCache(AnimatedTrack)[this.__ptr] = this;
+// AnimNode
+function AnimNode() {
+    this.__ptr = _mud_AnimNode__construct_0(); this.__type = AnimNode.__type; getCache(AnimNode)[this.__ptr] = this;
 };
-AnimatedTrack.prototype = Object.create(WrapperObject.prototype);
-AnimatedTrack.prototype.constructor = AnimatedTrack;
-AnimatedTrack.prototype.__class = AnimatedTrack;
-AnimatedTrack.__cache = {};
-Module['AnimatedTrack'] = AnimatedTrack;
-AnimatedTrack.prototype["__destroy"] = AnimatedTrack.prototype.__destroy = function() {
-    _mud_AnimatedTrack__destroy(this.__ptr);
+AnimNode.prototype = Object.create(WrapperObject.prototype);
+AnimNode.prototype.constructor = AnimNode;
+AnimNode.prototype.__class = AnimNode;
+AnimNode.__cache = {};
+Module['AnimNode'] = AnimNode;
+Object.defineProperty(AnimNode.prototype, "position", {
+    get: function() {
+        return wrapPointer(_mud_AnimNode__get_position(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_AnimNode__set_position(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(AnimNode.prototype, "rotation", {
+    get: function() {
+        return wrapPointer(_mud_AnimNode__get_rotation(this.__ptr), quat);
+    },
+    set: function(value) {
+        _mud_AnimNode__set_rotation(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(AnimNode.prototype, "scale", {
+    get: function() {
+        return wrapPointer(_mud_AnimNode__get_scale(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        _mud_AnimNode__set_scale(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(AnimNode.prototype, "transform", {
+    get: function() {
+        return wrapPointer(_mud_AnimNode__get_transform(this.__ptr), mat4);
+    },
+    set: function(value) {
+        _mud_AnimNode__set_transform(this.__ptr, value.__ptr);
+    }
+});
+AnimNode.prototype["__destroy"] = AnimNode.prototype.__destroy = function() {
+    _mud_AnimNode__destroy(this.__ptr);
+};
+// AnimPlay
+function AnimPlay() {
+    this.__ptr = _mud_AnimPlay__construct_0(); this.__type = AnimPlay.__type; getCache(AnimPlay)[this.__ptr] = this;
+};
+AnimPlay.prototype = Object.create(WrapperObject.prototype);
+AnimPlay.prototype.constructor = AnimPlay;
+AnimPlay.prototype.__class = AnimPlay;
+AnimPlay.__cache = {};
+Module['AnimPlay'] = AnimPlay;
+Object.defineProperty(AnimPlay.prototype, "animation", {
+    get: function() {
+        return wrapPointer(_mud_AnimPlay__get_animation(this.__ptr), Animation);
+    },
+    set: function(value) {
+        _mud_AnimPlay__set_animation(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(AnimPlay.prototype, "loop", {
+    get: function() {
+        return !!(_mud_AnimPlay__get_loop(this.__ptr));
+    },
+    set: function(value) {
+        _mud_AnimPlay__set_loop(this.__ptr, value);
+    }
+});
+Object.defineProperty(AnimPlay.prototype, "speed", {
+    get: function() {
+        return _mud_AnimPlay__get_speed(this.__ptr);
+    },
+    set: function(value) {
+        _mud_AnimPlay__set_speed(this.__ptr, value);
+    }
+});
+Object.defineProperty(AnimPlay.prototype, "transient", {
+    get: function() {
+        return !!(_mud_AnimPlay__get_transient(this.__ptr));
+    },
+    set: function(value) {
+        _mud_AnimPlay__set_transient(this.__ptr, value);
+    }
+});
+Object.defineProperty(AnimPlay.prototype, "fadeout", {
+    get: function() {
+        return _mud_AnimPlay__get_fadeout(this.__ptr);
+    },
+    set: function(value) {
+        _mud_AnimPlay__set_fadeout(this.__ptr, value);
+    }
+});
+Object.defineProperty(AnimPlay.prototype, "fadeout_left", {
+    get: function() {
+        return _mud_AnimPlay__get_fadeout_left(this.__ptr);
+    },
+    set: function(value) {
+        _mud_AnimPlay__set_fadeout_left(this.__ptr, value);
+    }
+});
+Object.defineProperty(AnimPlay.prototype, "cursor", {
+    get: function() {
+        return _mud_AnimPlay__get_cursor(this.__ptr);
+    },
+    set: function(value) {
+        _mud_AnimPlay__set_cursor(this.__ptr, value);
+    }
+});
+Object.defineProperty(AnimPlay.prototype, "ended", {
+    get: function() {
+        return !!(_mud_AnimPlay__get_ended(this.__ptr));
+    },
+    set: function(value) {
+        _mud_AnimPlay__set_ended(this.__ptr, value);
+    }
+});
+AnimPlay.prototype["__destroy"] = AnimPlay.prototype.__destroy = function() {
+    _mud_AnimPlay__destroy(this.__ptr);
+};
+// AnimTrack
+function AnimTrack() { throw "cannot construct a AnimTrack, no constructor in IDL" }
+AnimTrack.prototype = Object.create(WrapperObject.prototype);
+AnimTrack.prototype.constructor = AnimTrack;
+AnimTrack.prototype.__class = AnimTrack;
+AnimTrack.__cache = {};
+Module['AnimTrack'] = AnimTrack;
+Object.defineProperty(AnimTrack.prototype, "animation", {
+    get: function() {
+        return wrapPointer(_mud_AnimTrack__get_animation(this.__ptr), Animation);
+    },
+    set: function(value) {
+        _mud_AnimTrack__set_animation(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(AnimTrack.prototype, "node", {
+    get: function() {
+        return _mud_AnimTrack__get_node(this.__ptr);
+    },
+    set: function(value) {
+        _mud_AnimTrack__set_node(this.__ptr, value);
+    }
+});
+Object.defineProperty(AnimTrack.prototype, "node_name", {
+    get: function() {
+        return UTF8ToString(_mud_AnimTrack__get_node_name(this.__ptr));
+    },
+    set: function(value) {
+        _mud_AnimTrack__set_node_name(this.__ptr, ensureString(value));
+    }
+});
+Object.defineProperty(AnimTrack.prototype, "target", {
+    get: function() {
+        return _mud_AnimTrack__get_target(this.__ptr);
+    },
+    set: function(value) {
+        _mud_AnimTrack__set_target(this.__ptr, value);
+    }
+});
+Object.defineProperty(AnimTrack.prototype, "value_type", {
+    get: function() {
+        return wrapPointer(_mud_AnimTrack__get_value_type(this.__ptr), Type);
+    },
+    set: function(value) {
+        _mud_AnimTrack__set_value_type(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(AnimTrack.prototype, "length", {
+    get: function() {
+        return _mud_AnimTrack__get_length(this.__ptr);
+    },
+    set: function(value) {
+        _mud_AnimTrack__set_length(this.__ptr, value);
+    }
+});
+Object.defineProperty(AnimTrack.prototype, "interpolation", {
+    get: function() {
+        return _mud_AnimTrack__get_interpolation(this.__ptr);
+    },
+    set: function(value) {
+        _mud_AnimTrack__set_interpolation(this.__ptr, value);
+    }
+});
+AnimTrack.prototype["__destroy"] = AnimTrack.prototype.__destroy = function() {
+    _mud_AnimTrack__destroy(this.__ptr);
 };
 // Animation
 function Animation() { throw "cannot construct a Animation, no constructor in IDL" }
@@ -45,148 +219,6 @@ Object.defineProperty(Animation.prototype, "step", {
 });
 Animation.prototype["__destroy"] = Animation.prototype.__destroy = function() {
     _mud_Animation__destroy(this.__ptr);
-};
-// AnimationPlay
-function AnimationPlay() {
-    this.__ptr = _mud_AnimationPlay__construct_0(); this.__type = AnimationPlay.__type; getCache(AnimationPlay)[this.__ptr] = this;
-};
-AnimationPlay.prototype = Object.create(WrapperObject.prototype);
-AnimationPlay.prototype.constructor = AnimationPlay;
-AnimationPlay.prototype.__class = AnimationPlay;
-AnimationPlay.__cache = {};
-Module['AnimationPlay'] = AnimationPlay;
-Object.defineProperty(AnimationPlay.prototype, "animation", {
-    get: function() {
-        return wrapPointer(_mud_AnimationPlay__get_animation(this.__ptr), Animation);
-    },
-    set: function(value) {
-        _mud_AnimationPlay__set_animation(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(AnimationPlay.prototype, "loop", {
-    get: function() {
-        return !!(_mud_AnimationPlay__get_loop(this.__ptr));
-    },
-    set: function(value) {
-        _mud_AnimationPlay__set_loop(this.__ptr, value);
-    }
-});
-Object.defineProperty(AnimationPlay.prototype, "speed", {
-    get: function() {
-        return _mud_AnimationPlay__get_speed(this.__ptr);
-    },
-    set: function(value) {
-        _mud_AnimationPlay__set_speed(this.__ptr, value);
-    }
-});
-Object.defineProperty(AnimationPlay.prototype, "transient", {
-    get: function() {
-        return !!(_mud_AnimationPlay__get_transient(this.__ptr));
-    },
-    set: function(value) {
-        _mud_AnimationPlay__set_transient(this.__ptr, value);
-    }
-});
-Object.defineProperty(AnimationPlay.prototype, "fadeout", {
-    get: function() {
-        return _mud_AnimationPlay__get_fadeout(this.__ptr);
-    },
-    set: function(value) {
-        _mud_AnimationPlay__set_fadeout(this.__ptr, value);
-    }
-});
-Object.defineProperty(AnimationPlay.prototype, "fadeout_left", {
-    get: function() {
-        return _mud_AnimationPlay__get_fadeout_left(this.__ptr);
-    },
-    set: function(value) {
-        _mud_AnimationPlay__set_fadeout_left(this.__ptr, value);
-    }
-});
-Object.defineProperty(AnimationPlay.prototype, "cursor", {
-    get: function() {
-        return _mud_AnimationPlay__get_cursor(this.__ptr);
-    },
-    set: function(value) {
-        _mud_AnimationPlay__set_cursor(this.__ptr, value);
-    }
-});
-Object.defineProperty(AnimationPlay.prototype, "ended", {
-    get: function() {
-        return !!(_mud_AnimationPlay__get_ended(this.__ptr));
-    },
-    set: function(value) {
-        _mud_AnimationPlay__set_ended(this.__ptr, value);
-    }
-});
-AnimationPlay.prototype["__destroy"] = AnimationPlay.prototype.__destroy = function() {
-    _mud_AnimationPlay__destroy(this.__ptr);
-};
-// AnimationTrack
-function AnimationTrack() { throw "cannot construct a AnimationTrack, no constructor in IDL" }
-AnimationTrack.prototype = Object.create(WrapperObject.prototype);
-AnimationTrack.prototype.constructor = AnimationTrack;
-AnimationTrack.prototype.__class = AnimationTrack;
-AnimationTrack.__cache = {};
-Module['AnimationTrack'] = AnimationTrack;
-Object.defineProperty(AnimationTrack.prototype, "animation", {
-    get: function() {
-        return wrapPointer(_mud_AnimationTrack__get_animation(this.__ptr), Animation);
-    },
-    set: function(value) {
-        _mud_AnimationTrack__set_animation(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(AnimationTrack.prototype, "node", {
-    get: function() {
-        return _mud_AnimationTrack__get_node(this.__ptr);
-    },
-    set: function(value) {
-        _mud_AnimationTrack__set_node(this.__ptr, value);
-    }
-});
-Object.defineProperty(AnimationTrack.prototype, "node_name", {
-    get: function() {
-        return UTF8ToString(_mud_AnimationTrack__get_node_name(this.__ptr));
-    },
-    set: function(value) {
-        _mud_AnimationTrack__set_node_name(this.__ptr, ensureString(value));
-    }
-});
-Object.defineProperty(AnimationTrack.prototype, "target", {
-    get: function() {
-        return _mud_AnimationTrack__get_target(this.__ptr);
-    },
-    set: function(value) {
-        _mud_AnimationTrack__set_target(this.__ptr, value);
-    }
-});
-Object.defineProperty(AnimationTrack.prototype, "value_type", {
-    get: function() {
-        return wrapPointer(_mud_AnimationTrack__get_value_type(this.__ptr), Type);
-    },
-    set: function(value) {
-        _mud_AnimationTrack__set_value_type(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(AnimationTrack.prototype, "length", {
-    get: function() {
-        return _mud_AnimationTrack__get_length(this.__ptr);
-    },
-    set: function(value) {
-        _mud_AnimationTrack__set_length(this.__ptr, value);
-    }
-});
-Object.defineProperty(AnimationTrack.prototype, "interpolation", {
-    get: function() {
-        return _mud_AnimationTrack__get_interpolation(this.__ptr);
-    },
-    set: function(value) {
-        _mud_AnimationTrack__set_interpolation(this.__ptr, value);
-    }
-});
-AnimationTrack.prototype["__destroy"] = AnimationTrack.prototype.__destroy = function() {
-    _mud_AnimationTrack__destroy(this.__ptr);
 };
 // AssetStore<mud::Flow>
 function AssetStore_mud_Flow() { throw "cannot construct a AssetStore<mud::Flow>, no constructor in IDL" }
@@ -498,42 +530,6 @@ Object.defineProperty(Batch.prototype, "stride", {
 Batch.prototype["__destroy"] = Batch.prototype.__destroy = function() {
     _mud_Batch__destroy(this.__ptr);
 };
-// Bone
-function Bone() {
-    this.__ptr = _mud_Bone__construct_0(); this.__type = Bone.__type; getCache(Bone)[this.__ptr] = this;
-};
-Bone.prototype = Object.create(WrapperObject.prototype);
-Bone.prototype.constructor = Bone;
-Bone.prototype.__class = Bone;
-Bone.__cache = {};
-Module['Bone'] = Bone;
-Object.defineProperty(Bone.prototype, "position", {
-    get: function() {
-        return wrapPointer(_mud_Bone__get_position(this.__ptr), v3_float);
-    },
-    set: function(value) {
-        _mud_Bone__set_position(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Bone.prototype, "rotation", {
-    get: function() {
-        return wrapPointer(_mud_Bone__get_rotation(this.__ptr), quat);
-    },
-    set: function(value) {
-        _mud_Bone__set_rotation(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Bone.prototype, "scale", {
-    get: function() {
-        return wrapPointer(_mud_Bone__get_scale(this.__ptr), v3_float);
-    },
-    set: function(value) {
-        _mud_Bone__set_scale(this.__ptr, value.__ptr);
-    }
-});
-Bone.prototype["__destroy"] = Bone.prototype.__destroy = function() {
-    _mud_Bone__destroy(this.__ptr);
-};
 // Camera
 function Camera() { throw "cannot construct a Camera, no constructor in IDL" }
 Camera.prototype = Object.create(WrapperObject.prototype);
@@ -642,6 +638,14 @@ Object.defineProperty(Camera.prototype, "height", {
     },
     set: function(value) {
         _mud_Camera__set_height(this.__ptr, value);
+    }
+});
+Object.defineProperty(Camera.prototype, "no_update", {
+    get: function() {
+        return !!(_mud_Camera__get_no_update(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Camera__set_no_update(this.__ptr, value);
     }
 });
 Object.defineProperty(Camera.prototype, "optimize_ends", {
@@ -2799,9 +2803,8 @@ Mesh.prototype["__destroy"] = Mesh.prototype.__destroy = function() {
     _mud_Mesh__destroy(this.__ptr);
 };
 // Mime
-function Mime(a0, a1) {
-    if (a1 === undefined) { this.__ptr = _mud_Mime__construct_1(/*node*/a0.__ptr); this.__type = Mime.__type; getCache(Mime)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Mime__construct_2(/*node*/a0.__ptr, /*item*/a1.__ptr); this.__type = Mime.__type; getCache(Mime)[this.__ptr] = this;
+function Mime() {
+    this.__ptr = _mud_Mime__construct_0(); this.__type = Mime.__type; getCache(Mime)[this.__ptr] = this;
 };
 Mime.prototype = Object.create(WrapperObject.prototype);
 Mime.prototype.constructor = Mime;
@@ -2868,6 +2871,38 @@ Object.defineProperty(Mime.prototype, "default_blend_time", {
 });
 Mime.prototype["__destroy"] = Mime.prototype.__destroy = function() {
     _mud_Mime__destroy(this.__ptr);
+};
+// MirrorCamera
+function MirrorCamera() {
+    this.__ptr = _mud_MirrorCamera__construct_0(); this.__type = MirrorCamera.__type; getCache(MirrorCamera)[this.__ptr] = this;
+};
+MirrorCamera.prototype = Object.create(WrapperObject.prototype);
+MirrorCamera.prototype.constructor = MirrorCamera;
+MirrorCamera.prototype.__class = MirrorCamera;
+MirrorCamera.__cache = {};
+Module['MirrorCamera'] = MirrorCamera;
+Object.defineProperty(MirrorCamera.prototype, "visible", {
+    get: function() {
+        return !!(_mud_MirrorCamera__get_visible(this.__ptr));
+    },
+    set: function(value) {
+        _mud_MirrorCamera__set_visible(this.__ptr, value);
+    }
+});
+Object.defineProperty(MirrorCamera.prototype, "camera", {
+    get: function() {
+        return wrapPointer(_mud_MirrorCamera__get_camera(this.__ptr), Camera);
+    }});
+Object.defineProperty(MirrorCamera.prototype, "mirror", {
+    get: function() {
+        return wrapPointer(_mud_MirrorCamera__get_mirror(this.__ptr), mat4);
+    },
+    set: function(value) {
+        _mud_MirrorCamera__set_mirror(this.__ptr, value.__ptr);
+    }
+});
+MirrorCamera.prototype["__destroy"] = MirrorCamera.prototype.__destroy = function() {
+    _mud_MirrorCamera__destroy(this.__ptr);
 };
 // Model
 function Model() { throw "cannot construct a Model, no constructor in IDL" }
@@ -3011,7 +3046,7 @@ ModelElem.prototype["__destroy"] = ModelElem.prototype.__destroy = function() {
 // Node3
 function Node3(a0, a1, a2) {
     if (a0 === undefined) { this.__ptr = _mud_Node3__construct_0(); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_Node3__construct_1(/*transform*/a0.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; return; }
+    if (a1 === undefined) { this.__ptr = _mud_Node3__construct_1(/*position*/a0.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; return; }
     if (a2 === undefined) { this.__ptr = _mud_Node3__construct_2(/*position*/a0.__ptr, /*rotation*/a1.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; return; }
     this.__ptr = _mud_Node3__construct_3(/*position*/a0.__ptr, /*rotation*/a1.__ptr, /*scale*/a2.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this;
 };
@@ -3039,6 +3074,14 @@ Node3.prototype["axis"] = Node3.prototype.axis = function(a0) {
 Node3.prototype["direction"] = Node3.prototype.direction = function() {
     return wrapPointer(_mud_Node3_direction_0(this.__ptr), v3_float);
 };
+Object.defineProperty(Node3.prototype, "parent", {
+    get: function() {
+        return _mud_Node3__get_parent(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Node3__set_parent(this.__ptr, value);
+    }
+});
 Object.defineProperty(Node3.prototype, "transform", {
     get: function() {
         return wrapPointer(_mud_Node3__get_transform(this.__ptr), mat4);
@@ -3141,6 +3184,10 @@ Prefab.prototype.constructor = Prefab;
 Prefab.prototype.__class = Prefab;
 Prefab.__cache = {};
 Module['Prefab'] = Prefab;
+Prefab.prototype["add"] = Prefab.prototype.add = function(a0, a1) {
+    if (a1 === undefined) { _mud_Prefab_add_1(this.__ptr, /*scene*/a0.__ptr); return; }
+    _mud_Prefab_add_2(this.__ptr, /*scene*/a0.__ptr, /*mime*/a1.__ptr);
+};
 Object.defineProperty(Prefab.prototype, "name", {
     get: function() {
         return UTF8ToString(_mud_Prefab__get_name(this.__ptr));
@@ -4772,6 +4819,10 @@ Module['bxortho'] = function(a0, a1, a2, a3, a4, a5, a6, a7) {
 Module['bxTRS'] = function(a0, a1, a2) {
     return wrapPointer(_mud_bxTRS_3(/*scale*/a0.__ptr, /*rot*/a1.__ptr, /*trans*/a2.__ptr), mat4);
 };
+Module['mirror_camera'] = function(a0, a1, a2) {
+    if (a2 === undefined) { return wrapPointer(_mud_mirror_camera_2(/*sourcecam*/a0.__ptr, /*node*/a1.__ptr), MirrorCamera); }
+    return wrapPointer(_mud_mirror_camera_3(/*sourcecam*/a0.__ptr, /*node*/a1.__ptr, /*clipBias*/a2), MirrorCamera);
+};
 Module['gfx']['setup_pipeline_minimal'] = function(a0) {
     _mud_gfx_setup_pipeline_minimal_1(/*gfx*/a0.__ptr);
 };
@@ -4889,13 +4940,12 @@ Module['render_clear'] = function(a0, a1) {
 
 (function() {
     function setup() {
-        AnimatedTrack.__type = _mud_AnimatedTrack__type();
+        AnimNode.__type = _mud_AnimNode__type();
+        AnimPlay.__type = _mud_AnimPlay__type();
+        AnimTrack.__type = _mud_AnimTrack__type();
         Animation.__type = _mud_Animation__type();
-        AnimationPlay.__type = _mud_AnimationPlay__type();
-        AnimationTrack.__type = _mud_AnimationTrack__type();
         Background.__type = _mud_Background__type();
         Batch.__type = _mud_Batch__type();
-        Bone.__type = _mud_Bone__type();
         Camera.__type = _mud_Camera__type();
         Cascade.__type = _mud_Cascade__type();
         Culler.__type = _mud_Culler__type();
@@ -4930,6 +4980,7 @@ Module['render_clear'] = function(a0, a1) {
         MaterialUser.__type = _mud_MaterialUser__type();
         Mesh.__type = _mud_Mesh__type();
         Mime.__type = _mud_Mime__type();
+        MirrorCamera.__type = _mud_MirrorCamera__type();
         Model.__type = _mud_Model__type();
         ModelElem.__type = _mud_ModelElem__type();
         Node3.__type = _mud_Node3__type();
@@ -4971,13 +5022,13 @@ Module['render_clear'] = function(a0, a1) {
         GfxSystem.__type = _mud_GfxSystem__type();
         RenderTarget.__type = _mud_RenderTarget__type();
         Viewport.__type = _mud_Viewport__type();
-        // AnimationTarget
-        Module['AnimationTarget'] = Module['AnimationTarget'] || {};
-        Module['AnimationTarget']['Position'] = _mud_AnimationTarget_Position();
-        Module['AnimationTarget']['Rotation'] = _mud_AnimationTarget_Rotation();
-        Module['AnimationTarget']['Scale'] = _mud_AnimationTarget_Scale();
-        Module['AnimationTarget']['Weights'] = _mud_AnimationTarget_Weights();
-        Module['AnimationTarget']['Count'] = _mud_AnimationTarget_Count();
+        // AnimTarget
+        Module['AnimTarget'] = Module['AnimTarget'] || {};
+        Module['AnimTarget']['Position'] = _mud_AnimTarget_Position();
+        Module['AnimTarget']['Rotation'] = _mud_AnimTarget_Rotation();
+        Module['AnimTarget']['Scale'] = _mud_AnimTarget_Scale();
+        Module['AnimTarget']['Weights'] = _mud_AnimTarget_Weights();
+        Module['AnimTarget']['Count'] = _mud_AnimTarget_Count();
         // BackgroundMode
         Module['BackgroundMode'] = Module['BackgroundMode'] || {};
         Module['BackgroundMode']['None'] = _mud_BackgroundMode_None();

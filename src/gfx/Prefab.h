@@ -51,6 +51,8 @@ namespace mud
 		attr_ PrefabNode m_node;
 #endif
 
+		meth_ void add(Scene& scene, Mime* mime = nullptr);
+
 		vector<Node3> m_nodes;
 		struct Elem { uint32_t node; Item item; };
 		vector<Elem> m_items;

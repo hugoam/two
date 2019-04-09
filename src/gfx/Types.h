@@ -56,18 +56,26 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::TextureHint>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::TextureSampler>();
     
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Batch>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Direct>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Flare>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Item>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Light>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Mime>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Node3>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Texture*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::mat4>>();
-    export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Animation*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::AnimPlay>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Animation*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Material*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Mesh*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Model*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Texture*>>();
     
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::Animation>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimNode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimPlay>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimTrack>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Animation>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Flow>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Material>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Model>>();
@@ -113,6 +121,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialUser>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Mesh>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Mime>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::MirrorCamera>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Model>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelElem>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Node3>();

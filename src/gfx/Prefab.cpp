@@ -12,6 +12,7 @@ module mud.gfx;
 #include <pool/Pool.h>
 #include <gfx/Types.h>
 #include <gfx/Prefab.h>
+#include <gfx/Animated.h>
 #include <gfx/Gfx.h>
 #include <gfx/Assets.h>
 #include <gfx/Importer.h>
@@ -44,6 +45,19 @@ namespace mud
 	Prefab::Prefab(const string& name)
 		: m_name(name)
 	{}
+
+	void Prefab::add(Scene& scene, Mime* mime)
+	{
+		span<Node3> nodes = gfx::nodes(scene).addvec(m_nodes);
+
+		for(Elem& elem : m_items)
+		{
+			Item& it = gfx::items(scene).add(Item(nodes[elem.node], *elem.item.m_model, elem.item.m_flags));
+		}
+
+		if(mime)
+			mime->add_nodes(nodes);
+	}
 
 	Prefab& import_prefab(GfxSystem& gfx, ModelFormat format, const string& name, const ImportConfig& config)
 	{

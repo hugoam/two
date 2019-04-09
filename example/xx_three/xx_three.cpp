@@ -18,7 +18,6 @@ using namespace mud;
 // xx_shader_ocean
 
 // todo:
-// xx_effect_bloom node animations
 // fix shadow filtering
 
 // small:

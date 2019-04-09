@@ -630,6 +630,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::TonemapMode>());
 		m.m_types.push_back(&type<mud::BlockBlur>());
 		m.m_types.push_back(&type<mud::BlockDofBlur>());
+		m.m_types.push_back(&type<mud::BlockTonemap>());
 		m.m_types.push_back(&type<mud::BlockGIBake>());
 		m.m_types.push_back(&type<mud::BlockGITrace>());
 		m.m_types.push_back(&type<mud::BlockGeometry>());
@@ -639,7 +640,6 @@ namespace mud
 		m.m_types.push_back(&type<mud::BlockRadiance>());
 		m.m_types.push_back(&type<mud::BlockReflection>());
 		m.m_types.push_back(&type<mud::BlockShadow>());
-		m.m_types.push_back(&type<mud::BlockTonemap>());
 		m.m_types.push_back(&type<mud::CSMSlice>());
 		{
 			static Function f = { &namspc({ "mud" }), "begin_pbr_render", nullptr, mud_begin_pbr_render_0, { { "gfx", type<mud::GfxSystem>(),  }, { "render", type<mud::Render>(),  } }, g_qvoid };

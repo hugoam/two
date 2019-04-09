@@ -42,18 +42,26 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::TextureHint>() { static Type ty("TextureHint", sizeof(mud::TextureHint)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::TextureSampler>() { static Type ty("TextureSampler", sizeof(mud::TextureSampler)); return ty; }
     
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Batch>>() { static Type ty("span<mud::Batch>", sizeof(stl::span<mud::Batch>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Direct>>() { static Type ty("span<mud::Direct>", sizeof(stl::span<mud::Direct>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Flare>>() { static Type ty("span<mud::Flare>", sizeof(stl::span<mud::Flare>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Item>>() { static Type ty("span<mud::Item>", sizeof(stl::span<mud::Item>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Light>>() { static Type ty("span<mud::Light>", sizeof(stl::span<mud::Light>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Mime>>() { static Type ty("span<mud::Mime>", sizeof(stl::span<mud::Mime>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Node3>>() { static Type ty("span<mud::Node3>", sizeof(stl::span<mud::Node3>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Texture*>>() { static Type ty("span<mud::Texture*>", sizeof(stl::span<mud::Texture*>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::span<mud::mat4>>() { static Type ty("span<mud::mat4>", sizeof(stl::span<mud::mat4>)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Animation*>>() { static Type ty("vector<mud::Animation*>", sizeof(stl::vector<mud::Animation*>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::AnimPlay>>() { static Type ty("vector<mud::AnimPlay>", sizeof(stl::vector<mud::AnimPlay>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Animation*>>() { static Type ty("vector<mud::Animation*>", sizeof(stl::vector<mud::Animation*>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Material*>>() { static Type ty("vector<mud::Material*>", sizeof(stl::vector<mud::Material*>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Mesh*>>() { static Type ty("vector<mud::Mesh*>", sizeof(stl::vector<mud::Mesh*>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Model*>>() { static Type ty("vector<mud::Model*>", sizeof(stl::vector<mud::Model*>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Texture*>>() { static Type ty("vector<mud::Texture*>", sizeof(stl::vector<mud::Texture*>)); return ty; }
     
-    template <> MUD_GFX_EXPORT Type& type<mud::Animation>() { static Type ty("Animation", sizeof(mud::Animation)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AnimNode>() { static Type ty("AnimNode", sizeof(mud::AnimNode)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AnimPlay>() { static Type ty("AnimPlay", sizeof(mud::AnimPlay)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AnimTrack>() { static Type ty("AnimTrack", sizeof(mud::AnimTrack)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Animation>() { static Type ty("Animation", sizeof(mud::Animation)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Flow>>() { static Type ty("AssetStore<mud::Flow>", sizeof(mud::AssetStore<mud::Flow>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Material>>() { static Type ty("AssetStore<mud::Material>", sizeof(mud::AssetStore<mud::Material>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Model>>() { static Type ty("AssetStore<mud::Model>", sizeof(mud::AssetStore<mud::Model>)); return ty; }
@@ -99,6 +107,7 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialUser>() { static Type ty("MaterialUser", sizeof(mud::MaterialUser)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Mesh>() { static Type ty("Mesh", sizeof(mud::Mesh)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Mime>() { static Type ty("Mime", sizeof(mud::Mime)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MirrorCamera>() { static Type ty("MirrorCamera", sizeof(mud::MirrorCamera)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Model>() { static Type ty("Model", sizeof(mud::Model)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ModelElem>() { static Type ty("ModelElem", sizeof(mud::ModelElem)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Node3>() { static Type ty("Node3", sizeof(mud::Node3)); return ty; }

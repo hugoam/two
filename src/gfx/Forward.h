@@ -56,8 +56,10 @@ namespace mud
     
     template <class T> class AssetStore;
     template <class T> struct MaterialParam;
-    
-    struct AnimCursor;
+
+	struct AnimNode;
+	struct AnimCursor;
+	struct AnimPlay;
     class AnimTrack;
     class Animation;
     class Node3;
@@ -65,9 +67,8 @@ namespace mud
     struct Joint;
     class Skin;
     class Rig;
-    struct AnimatedTrack;
-    struct AnimPlay;
     class Mime;
+	struct MirrorCamera;
     class GfxWindow;
     struct LocatedFile;
     class GfxSystem;
@@ -182,7 +183,15 @@ namespace stl
 {
 	export_ extern template struct refl_ span_ span<mud::mat4>;
 
-	export_ extern template class refl_ span_ span<mud::Texture*>;
+	export_ extern template struct refl_ span_ span<mud::Node3>;
+	export_ extern template struct refl_ span_ span<mud::Item>;
+	export_ extern template struct refl_ span_ span<mud::Batch>;
+	export_ extern template struct refl_ span_ span<mud::Direct>;
+	export_ extern template struct refl_ span_ span<mud::Mime>;
+	export_ extern template struct refl_ span_ span<mud::Light>;
+	export_ extern template struct refl_ span_ span<mud::Flare>;
+
+	export_ extern template struct refl_ span_ span<mud::Texture*>;
 
 	export_ extern template class refl_ seque_ vector<mud::Mesh*>;
 	export_ extern template class refl_ seque_ vector<mud::Model*>;

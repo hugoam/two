@@ -49,7 +49,7 @@ namespace mud
 #include <stl/vector.h>
 namespace stl
 {
-	export_ extern template class refl_ span_ span<mud::Type*>;
+	export_ extern template struct refl_ span_ span<mud::Type*>;
 
 	export_ extern template class refl_ seque_ vector<mud::Var>;
 	export_ extern template class refl_ seque_ vector<void*>;

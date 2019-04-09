@@ -19,14 +19,145 @@
 
 extern "C" {
 	
-	// AnimatedTrack
-	mud::Type* DECL mud_AnimatedTrack__type() {
-		return &mud::type<mud::AnimatedTrack>();
+	// AnimNode
+	mud::Type* DECL mud_AnimNode__type() {
+		return &mud::type<mud::AnimNode>();
 	}
-	mud::AnimatedTrack* DECL mud_AnimatedTrack__construct_0() {
-		return new mud::AnimatedTrack();
+	mud::AnimNode* DECL mud_AnimNode__construct_0() {
+		return new mud::AnimNode();
 	}
-	void DECL mud_AnimatedTrack__destroy(mud::AnimatedTrack* self) {
+	mud::vec3* DECL mud_AnimNode__get_position(mud::AnimNode* self) {
+		return &self->m_position;
+	}
+	void DECL mud_AnimNode__set_position(mud::AnimNode* self, mud::vec3* value) {
+		self->m_position = *value;
+	}
+	mud::quat* DECL mud_AnimNode__get_rotation(mud::AnimNode* self) {
+		return &self->m_rotation;
+	}
+	void DECL mud_AnimNode__set_rotation(mud::AnimNode* self, mud::quat* value) {
+		self->m_rotation = *value;
+	}
+	mud::vec3* DECL mud_AnimNode__get_scale(mud::AnimNode* self) {
+		return &self->m_scale;
+	}
+	void DECL mud_AnimNode__set_scale(mud::AnimNode* self, mud::vec3* value) {
+		self->m_scale = *value;
+	}
+	mud::mat4* DECL mud_AnimNode__get_transform(mud::AnimNode* self) {
+		return &self->m_transform;
+	}
+	void DECL mud_AnimNode__set_transform(mud::AnimNode* self, mud::mat4* value) {
+		self->m_transform = *value;
+	}
+	void DECL mud_AnimNode__destroy(mud::AnimNode* self) {
+		delete self;
+	}
+	// AnimPlay
+	mud::Type* DECL mud_AnimPlay__type() {
+		return &mud::type<mud::AnimPlay>();
+	}
+	mud::AnimPlay* DECL mud_AnimPlay__construct_0() {
+		return new mud::AnimPlay();
+	}
+	const mud::Animation* DECL mud_AnimPlay__get_animation(mud::AnimPlay* self) {
+		return self->m_animation;
+	}
+	void DECL mud_AnimPlay__set_animation(mud::AnimPlay* self, const mud::Animation* value) {
+		self->m_animation = value;
+	}
+	bool DECL mud_AnimPlay__get_loop(mud::AnimPlay* self) {
+		return self->m_loop;
+	}
+	void DECL mud_AnimPlay__set_loop(mud::AnimPlay* self, bool value) {
+		self->m_loop = value;
+	}
+	float DECL mud_AnimPlay__get_speed(mud::AnimPlay* self) {
+		return self->m_speed;
+	}
+	void DECL mud_AnimPlay__set_speed(mud::AnimPlay* self, float value) {
+		self->m_speed = value;
+	}
+	bool DECL mud_AnimPlay__get_transient(mud::AnimPlay* self) {
+		return self->m_transient;
+	}
+	void DECL mud_AnimPlay__set_transient(mud::AnimPlay* self, bool value) {
+		self->m_transient = value;
+	}
+	float DECL mud_AnimPlay__get_fadeout(mud::AnimPlay* self) {
+		return self->m_fadeout;
+	}
+	void DECL mud_AnimPlay__set_fadeout(mud::AnimPlay* self, float value) {
+		self->m_fadeout = value;
+	}
+	float DECL mud_AnimPlay__get_fadeout_left(mud::AnimPlay* self) {
+		return self->m_fadeout_left;
+	}
+	void DECL mud_AnimPlay__set_fadeout_left(mud::AnimPlay* self, float value) {
+		self->m_fadeout_left = value;
+	}
+	float DECL mud_AnimPlay__get_cursor(mud::AnimPlay* self) {
+		return self->m_cursor;
+	}
+	void DECL mud_AnimPlay__set_cursor(mud::AnimPlay* self, float value) {
+		self->m_cursor = value;
+	}
+	bool DECL mud_AnimPlay__get_ended(mud::AnimPlay* self) {
+		return self->m_ended;
+	}
+	void DECL mud_AnimPlay__set_ended(mud::AnimPlay* self, bool value) {
+		self->m_ended = value;
+	}
+	void DECL mud_AnimPlay__destroy(mud::AnimPlay* self) {
+		delete self;
+	}
+	// AnimTrack
+	mud::Type* DECL mud_AnimTrack__type() {
+		return &mud::type<mud::AnimTrack>();
+	}
+	mud::Animation* DECL mud_AnimTrack__get_animation(mud::AnimTrack* self) {
+		return self->m_animation;
+	}
+	void DECL mud_AnimTrack__set_animation(mud::AnimTrack* self, mud::Animation* value) {
+		self->m_animation = value;
+	}
+	size_t DECL mud_AnimTrack__get_node(mud::AnimTrack* self) {
+		return self->m_node;
+	}
+	void DECL mud_AnimTrack__set_node(mud::AnimTrack* self, size_t value) {
+		self->m_node = value;
+	}
+	const char* DECL mud_AnimTrack__get_node_name(mud::AnimTrack* self) {
+		return self->m_node_name.c_str();
+	}
+	void DECL mud_AnimTrack__set_node_name(mud::AnimTrack* self, const char* value) {
+		self->m_node_name = value;
+	}
+	mud::AnimTarget DECL mud_AnimTrack__get_target(mud::AnimTrack* self) {
+		return self->m_target;
+	}
+	void DECL mud_AnimTrack__set_target(mud::AnimTrack* self, mud::AnimTarget value) {
+		self->m_target = value;
+	}
+	mud::Type* DECL mud_AnimTrack__get_value_type(mud::AnimTrack* self) {
+		return self->m_value_type;
+	}
+	void DECL mud_AnimTrack__set_value_type(mud::AnimTrack* self, mud::Type* value) {
+		self->m_value_type = value;
+	}
+	float DECL mud_AnimTrack__get_length(mud::AnimTrack* self) {
+		return self->m_length;
+	}
+	void DECL mud_AnimTrack__set_length(mud::AnimTrack* self, float value) {
+		self->m_length = value;
+	}
+	mud::Interpolation DECL mud_AnimTrack__get_interpolation(mud::AnimTrack* self) {
+		return self->m_interpolation;
+	}
+	void DECL mud_AnimTrack__set_interpolation(mud::AnimTrack* self, mud::Interpolation value) {
+		self->m_interpolation = value;
+	}
+	void DECL mud_AnimTrack__destroy(mud::AnimTrack* self) {
 		delete self;
 	}
 	// Animation
@@ -52,113 +183,6 @@ extern "C" {
 		self->m_step = value;
 	}
 	void DECL mud_Animation__destroy(mud::Animation* self) {
-		delete self;
-	}
-	// AnimationPlay
-	mud::Type* DECL mud_AnimationPlay__type() {
-		return &mud::type<mud::AnimationPlay>();
-	}
-	mud::AnimationPlay* DECL mud_AnimationPlay__construct_0() {
-		return new mud::AnimationPlay();
-	}
-	const mud::Animation* DECL mud_AnimationPlay__get_animation(mud::AnimationPlay* self) {
-		return self->m_animation;
-	}
-	void DECL mud_AnimationPlay__set_animation(mud::AnimationPlay* self, const mud::Animation* value) {
-		self->m_animation = value;
-	}
-	bool DECL mud_AnimationPlay__get_loop(mud::AnimationPlay* self) {
-		return self->m_loop;
-	}
-	void DECL mud_AnimationPlay__set_loop(mud::AnimationPlay* self, bool value) {
-		self->m_loop = value;
-	}
-	float DECL mud_AnimationPlay__get_speed(mud::AnimationPlay* self) {
-		return self->m_speed;
-	}
-	void DECL mud_AnimationPlay__set_speed(mud::AnimationPlay* self, float value) {
-		self->m_speed = value;
-	}
-	bool DECL mud_AnimationPlay__get_transient(mud::AnimationPlay* self) {
-		return self->m_transient;
-	}
-	void DECL mud_AnimationPlay__set_transient(mud::AnimationPlay* self, bool value) {
-		self->m_transient = value;
-	}
-	float DECL mud_AnimationPlay__get_fadeout(mud::AnimationPlay* self) {
-		return self->m_fadeout;
-	}
-	void DECL mud_AnimationPlay__set_fadeout(mud::AnimationPlay* self, float value) {
-		self->m_fadeout = value;
-	}
-	float DECL mud_AnimationPlay__get_fadeout_left(mud::AnimationPlay* self) {
-		return self->m_fadeout_left;
-	}
-	void DECL mud_AnimationPlay__set_fadeout_left(mud::AnimationPlay* self, float value) {
-		self->m_fadeout_left = value;
-	}
-	float DECL mud_AnimationPlay__get_cursor(mud::AnimationPlay* self) {
-		return self->m_cursor;
-	}
-	void DECL mud_AnimationPlay__set_cursor(mud::AnimationPlay* self, float value) {
-		self->m_cursor = value;
-	}
-	bool DECL mud_AnimationPlay__get_ended(mud::AnimationPlay* self) {
-		return self->m_ended;
-	}
-	void DECL mud_AnimationPlay__set_ended(mud::AnimationPlay* self, bool value) {
-		self->m_ended = value;
-	}
-	void DECL mud_AnimationPlay__destroy(mud::AnimationPlay* self) {
-		delete self;
-	}
-	// AnimationTrack
-	mud::Type* DECL mud_AnimationTrack__type() {
-		return &mud::type<mud::AnimationTrack>();
-	}
-	mud::Animation* DECL mud_AnimationTrack__get_animation(mud::AnimationTrack* self) {
-		return self->m_animation;
-	}
-	void DECL mud_AnimationTrack__set_animation(mud::AnimationTrack* self, mud::Animation* value) {
-		self->m_animation = value;
-	}
-	size_t DECL mud_AnimationTrack__get_node(mud::AnimationTrack* self) {
-		return self->m_node;
-	}
-	void DECL mud_AnimationTrack__set_node(mud::AnimationTrack* self, size_t value) {
-		self->m_node = value;
-	}
-	const char* DECL mud_AnimationTrack__get_node_name(mud::AnimationTrack* self) {
-		return self->m_node_name.c_str();
-	}
-	void DECL mud_AnimationTrack__set_node_name(mud::AnimationTrack* self, const char* value) {
-		self->m_node_name = value;
-	}
-	mud::AnimationTarget DECL mud_AnimationTrack__get_target(mud::AnimationTrack* self) {
-		return self->m_target;
-	}
-	void DECL mud_AnimationTrack__set_target(mud::AnimationTrack* self, mud::AnimationTarget value) {
-		self->m_target = value;
-	}
-	mud::Type* DECL mud_AnimationTrack__get_value_type(mud::AnimationTrack* self) {
-		return self->m_value_type;
-	}
-	void DECL mud_AnimationTrack__set_value_type(mud::AnimationTrack* self, mud::Type* value) {
-		self->m_value_type = value;
-	}
-	float DECL mud_AnimationTrack__get_length(mud::AnimationTrack* self) {
-		return self->m_length;
-	}
-	void DECL mud_AnimationTrack__set_length(mud::AnimationTrack* self, float value) {
-		self->m_length = value;
-	}
-	mud::Interpolation DECL mud_AnimationTrack__get_interpolation(mud::AnimationTrack* self) {
-		return self->m_interpolation;
-	}
-	void DECL mud_AnimationTrack__set_interpolation(mud::AnimationTrack* self, mud::Interpolation value) {
-		self->m_interpolation = value;
-	}
-	void DECL mud_AnimationTrack__destroy(mud::AnimationTrack* self) {
 		delete self;
 	}
 	// AssetStore<mud::Flow>
@@ -403,34 +427,6 @@ extern "C" {
 	void DECL mud_Batch__destroy(mud::Batch* self) {
 		delete self;
 	}
-	// Bone
-	mud::Type* DECL mud_Bone__type() {
-		return &mud::type<mud::Bone>();
-	}
-	mud::Bone* DECL mud_Bone__construct_0() {
-		return new mud::Bone();
-	}
-	mud::vec3* DECL mud_Bone__get_position(mud::Bone* self) {
-		return &self->m_position;
-	}
-	void DECL mud_Bone__set_position(mud::Bone* self, mud::vec3* value) {
-		self->m_position = *value;
-	}
-	mud::quat* DECL mud_Bone__get_rotation(mud::Bone* self) {
-		return &self->m_rotation;
-	}
-	void DECL mud_Bone__set_rotation(mud::Bone* self, mud::quat* value) {
-		self->m_rotation = *value;
-	}
-	mud::vec3* DECL mud_Bone__get_scale(mud::Bone* self) {
-		return &self->m_scale;
-	}
-	void DECL mud_Bone__set_scale(mud::Bone* self, mud::vec3* value) {
-		self->m_scale = *value;
-	}
-	void DECL mud_Bone__destroy(mud::Bone* self) {
-		delete self;
-	}
 	// Camera
 	mud::Type* DECL mud_Camera__type() {
 		return &mud::type<mud::Camera>();
@@ -518,6 +514,12 @@ extern "C" {
 	}
 	void DECL mud_Camera__set_height(mud::Camera* self, float value) {
 		self->m_height = value;
+	}
+	bool DECL mud_Camera__get_no_update(mud::Camera* self) {
+		return self->m_no_update;
+	}
+	void DECL mud_Camera__set_no_update(mud::Camera* self, bool value) {
+		self->m_no_update = value;
 	}
 	bool DECL mud_Camera__get_optimize_ends(mud::Camera* self) {
 		return self->m_optimize_ends;
@@ -2226,11 +2228,8 @@ extern "C" {
 	mud::Type* DECL mud_Mime__type() {
 		return &mud::type<mud::Mime>();
 	}
-	mud::Mime* DECL mud_Mime__construct_1(mud::Node3* node) {
-		return new mud::Mime(*node);
-	}
-	mud::Mime* DECL mud_Mime__construct_2(mud::Node3* node, mud::Item* item) {
-		return new mud::Mime(*node, *item);
+	mud::Mime* DECL mud_Mime__construct_0() {
+		return new mud::Mime();
 	}
 	void DECL mud_Mime_start_2(mud::Mime* self, const char* animation, bool loop) {
 		self->start(animation, loop);
@@ -2296,6 +2295,31 @@ extern "C" {
 		self->m_default_blend_time = value;
 	}
 	void DECL mud_Mime__destroy(mud::Mime* self) {
+		delete self;
+	}
+	// MirrorCamera
+	mud::Type* DECL mud_MirrorCamera__type() {
+		return &mud::type<mud::MirrorCamera>();
+	}
+	mud::MirrorCamera* DECL mud_MirrorCamera__construct_0() {
+		return new mud::MirrorCamera();
+	}
+	bool DECL mud_MirrorCamera__get_visible(mud::MirrorCamera* self) {
+		return self->m_visible;
+	}
+	void DECL mud_MirrorCamera__set_visible(mud::MirrorCamera* self, bool value) {
+		self->m_visible = value;
+	}
+	mud::Camera* DECL mud_MirrorCamera__get_camera(mud::MirrorCamera* self) {
+		return &self->m_camera;
+	}
+	mud::mat4* DECL mud_MirrorCamera__get_mirror(mud::MirrorCamera* self) {
+		return &self->m_mirror;
+	}
+	void DECL mud_MirrorCamera__set_mirror(mud::MirrorCamera* self, mud::mat4* value) {
+		self->m_mirror = *value;
+	}
+	void DECL mud_MirrorCamera__destroy(mud::MirrorCamera* self) {
 		delete self;
 	}
 	// Model
@@ -2421,8 +2445,8 @@ extern "C" {
 	mud::Node3* DECL mud_Node3__construct_0() {
 		return new mud::Node3();
 	}
-	mud::Node3* DECL mud_Node3__construct_1(const mud::mat4* transform) {
-		return new mud::Node3(*transform);
+	mud::Node3* DECL mud_Node3__construct_1(const mud::vec3* position) {
+		return new mud::Node3(*position);
 	}
 	mud::Node3* DECL mud_Node3__construct_2(const mud::vec3* position, const mud::quat* rotation) {
 		return new mud::Node3(*position, *rotation);
@@ -2459,6 +2483,12 @@ extern "C" {
 	mud::vec3* DECL mud_Node3_direction_0(mud::Node3* self) {
 		static mud::vec3 temp;
 		return (temp = self->direction(), &temp);
+	}
+	uint32_t DECL mud_Node3__get_parent(mud::Node3* self) {
+		return self->m_parent;
+	}
+	void DECL mud_Node3__set_parent(mud::Node3* self, uint32_t value) {
+		self->m_parent = value;
 	}
 	mud::mat4* DECL mud_Node3__get_transform(mud::Node3* self) {
 		return &self->m_transform;
@@ -2536,6 +2566,12 @@ extern "C" {
 	// Prefab
 	mud::Type* DECL mud_Prefab__type() {
 		return &mud::type<mud::Prefab>();
+	}
+	void DECL mud_Prefab_add_1(mud::Prefab* self, mud::Scene* scene) {
+		self->add(*scene);
+	}
+	void DECL mud_Prefab_add_2(mud::Prefab* self, mud::Scene* scene, mud::Mime* mime) {
+		self->add(*scene, mime);
 	}
 	const char* DECL mud_Prefab__get_name(mud::Prefab* self) {
 		return self->m_name.c_str();
@@ -3946,6 +3982,14 @@ extern "C" {
 		static mud::mat4 temp;
 		return (temp = mud::bxTRS(*scale, *rot, *trans), &temp);
 	}
+	mud::MirrorCamera* DECL mud_mirror_camera_2(const mud::Camera* sourcecam, mud::Node3* node) {
+		static mud::MirrorCamera temp;
+		return (temp = mud::mirror_camera(*sourcecam, *node), &temp);
+	}
+	mud::MirrorCamera* DECL mud_mirror_camera_3(const mud::Camera* sourcecam, mud::Node3* node, float clipBias) {
+		static mud::MirrorCamera temp;
+		return (temp = mud::mirror_camera(*sourcecam, *node, clipBias), &temp);
+	}
 	void DECL mud_gfx_setup_pipeline_minimal_1(mud::GfxSystem* gfx) {
 		mud::gfx::setup_pipeline_minimal(*gfx);
 	}
@@ -4102,21 +4146,21 @@ extern "C" {
 	void DECL mud_render_clear_2(mud::GfxSystem* gfx, mud::Render* render) {
 		mud::render_clear(*gfx, *render);
 	}
-	// AnimationTarget
-	mud::AnimationTarget DECL mud_AnimationTarget_Position() {
-		return mud::AnimationTarget::Position;
+	// AnimTarget
+	mud::AnimTarget DECL mud_AnimTarget_Position() {
+		return mud::AnimTarget::Position;
 	}
-	mud::AnimationTarget DECL mud_AnimationTarget_Rotation() {
-		return mud::AnimationTarget::Rotation;
+	mud::AnimTarget DECL mud_AnimTarget_Rotation() {
+		return mud::AnimTarget::Rotation;
 	}
-	mud::AnimationTarget DECL mud_AnimationTarget_Scale() {
-		return mud::AnimationTarget::Scale;
+	mud::AnimTarget DECL mud_AnimTarget_Scale() {
+		return mud::AnimTarget::Scale;
 	}
-	mud::AnimationTarget DECL mud_AnimationTarget_Weights() {
-		return mud::AnimationTarget::Weights;
+	mud::AnimTarget DECL mud_AnimTarget_Weights() {
+		return mud::AnimTarget::Weights;
 	}
-	mud::AnimationTarget DECL mud_AnimationTarget_Count() {
-		return mud::AnimationTarget::Count;
+	mud::AnimTarget DECL mud_AnimTarget_Count() {
+		return mud::AnimTarget::Count;
 	}
 	// BackgroundMode
 	mud::BackgroundMode DECL mud_BackgroundMode_None() {

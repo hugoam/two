@@ -319,17 +319,8 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 #if PREFAB
 		Prefab& prefab = *app.m_gfx.prefabs().file("PrimaryIonDrive");
 
-		const size_t num_nodes = prefab.m_items.size();
-
-		span<Node3> nodes = gfx::nodes(scene).addvec(prefab.m_nodes);
-
-		for(Prefab::Elem& elem : prefab.m_items)
-		{
-			Item& it = gfx::items(scene).add(Item(nodes[elem.node], *elem.item.m_model, elem.item.m_flags));
-		}
-
 		Mime& mi = gfx::mimes(scene).add(Mime());
-		mi.add_nodes(nodes);
+		prefab.add(scene, &mi);
 
 		Animation& anim = *prefab.m_anims[0];
 		mi.play(anim, true, 0.f, 1.f);
