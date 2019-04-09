@@ -322,8 +322,9 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Mime& mi = gfx::mimes(scene).add(Mime());
 		prefab.add(scene, &mi);
 
-		Animation& anim = *prefab.m_anims[0];
-		mi.play(anim, true, 0.f, 1.f);
+		//Animation& anim = *prefab.m_anims[0];
+		//mi.play(anim, true, 0.f, 1.f);
+		mi.start("Main", true, 0.f, 1.f);
 #else
 		Model& model = *app.m_gfx.models().file("PrimaryIonDrive"); // .glb
 

@@ -416,10 +416,10 @@ namespace mud
 			vec4 params1 = { block.m_anisotropy.m_value, block.m_refraction.m_value, block.m_subsurface.m_value, block.m_depth.m_value };
 			vec4 params2 = { block.m_rim.m_value, block.m_rim_tint, block.m_clearcoat.m_value, block.m_clearcoat_gloss };
 
-			memcpy(dest + offset, &albedo, sizeof(float) * 4);
+			memcpy(dest + offset, &albedo, sizeof(float) * 3);
 			offset += buffer.width * buffer.stride;
 
-			memcpy(dest + offset, &spec_met_rough, sizeof(float) * 4);
+			memcpy(dest + offset, &spec_met_rough, sizeof(float) * 3);
 			offset += buffer.width * buffer.stride;
 
 			memcpy(dest + offset, &channels, sizeof(float) * 2);
@@ -452,7 +452,7 @@ namespace mud
 			memcpy(dest + offset, &specular, sizeof(float) * 3);
 			offset += buffer.width * buffer.stride;
 
-			memcpy(dest + offset, &p0, sizeof(float) * 4);
+			memcpy(dest + offset, &p0, sizeof(float) * 3);
 			offset += buffer.width * buffer.stride;
 		}
 
@@ -523,7 +523,7 @@ namespace mud
 			const uvec2 size = uvec2(buffer.width, uint16_t(lines * height));
 
 			if(texture.m_size != size)
-				texture = { size, false, bgfx::TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
+				texture = { size, false, TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
 
 			const bgfx::Memory* memory = bgfx::alloc(size.x * size.y * buffer.stride * sizeof(float));
 
