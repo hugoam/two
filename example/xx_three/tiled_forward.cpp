@@ -78,7 +78,7 @@ static string tiled_phong_fragment =
 	"{\n"
 	"#include <pbr/fs_fragment.sh>\n"
 	"#include <pbr/fs_phong_material.sh>\n"
-		"PhongMaterial material = matphong;"
+		"PhongMaterial material = matphong;\n"
 	"#include <pbr/fs_phong.sh>\n"
 	+ lights_fragment + "\n" +
 	"#include <pbr/fs_out_pbr.sh>\n"
