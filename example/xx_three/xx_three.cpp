@@ -11,7 +11,6 @@ using namespace mud;
 #define MULTI_VIEWPORT 0
 
 // todo js:
-// xx_shader_lava no post processing + no bloom
 // xx_shadow_point random crash (in atlas probably)
 // xx_material_skin
 // xx_shader_ocean

@@ -53,7 +53,8 @@ void xx_light_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			m.m_pbr.m_roughness = 0.5f;
 		});
 
-		Model& torus = app.m_gfx.shape(Torus(1.5f, 0.4f));
+		Symbol symbol; symbol.m_subdiv = uvec2(8, 16);
+		Model& torus = app.m_gfx.shape(Torus(1.5f, 0.4f), symbol);
 		//Model& torus = app.m_gfx.shape(Torus(1.f, 0.1f));
 
 		for(int i = 0; i < 5000; i++) {

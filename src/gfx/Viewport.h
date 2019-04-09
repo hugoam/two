@@ -47,8 +47,8 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Viewport : public OEntt
 	{
 	public:
-		Viewport() {}
-		Viewport(Camera& camera, Scene& scene, const vec4& rect = vec4(0.f), bool scissor = false);
+		constr_ Viewport() {}
+		constr_ Viewport(Camera& camera, Scene& scene, const vec4& rect = vec4(0.f), bool scissor = false);
 		~Viewport();
 
 		Viewport(Viewport&& other) = default;

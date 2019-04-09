@@ -189,15 +189,15 @@ namespace mud
 
 		RenderFunc m_renderer;
 
-		Frustum m_frustum;
+		attr_ Frustum m_frustum;
 
-		Zone* m_env = nullptr;
+		attr_ Zone* m_env = nullptr;
 		Entt m_filters;
 
-		Lighting m_lighting = Lighting::None;
-		bool m_vflip = false;
-		bool m_needs_mrt = false;
-		bool m_is_mrt = false;
+		attr_ Lighting m_lighting = Lighting::None;
+		attr_ bool m_vflip = false;
+		attr_ bool m_needs_mrt = false;
+		attr_ bool m_is_mrt = false;
 
 		//ShadowAtlas* m_shadow_atlas = nullptr;
 		//ReflectionAtlas* m_reflection_atlas = nullptr;
@@ -212,6 +212,8 @@ namespace mud
 		uint32_t m_num_draw_calls = 0;
 		uint32_t m_num_vertices = 0;
 		uint32_t m_num_triangles = 0;
+
+		meth_ void subrender(const Render& render);
 
 		meth_ Pass next_pass(cstring name, PassType type);
 		meth_ Pass composite_pass(cstring name, FrameBuffer& fbo, const vec4& rect);

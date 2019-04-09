@@ -171,8 +171,22 @@ namespace mud
 		UNUSED(shape); UNUSED(arc); UNUSED(writer);
 	}
 
-	uint16_t torus_sides(uint lod) { return uint16_t(4 + 2 * lod); }
-	uint16_t torus_rings(uint lod) { return uint16_t(8 + 4 * lod); }
+	uint16_t torus_sides(uint lod) { return uint16_t(6 + 6 * lod); }
+	uint16_t torus_rings(uint lod) { return uint16_t(6 + 6 * lod); }
+
+	uint16_t torus_sides(const Symbol& symbol)
+	{
+		return symbol.m_subdiv == uvec2(0U)
+			? torus_sides(uint(symbol.m_detail))
+			: symbol.m_subdiv.x;
+	}
+
+	uint16_t torus_rings(const Symbol& symbol)
+	{
+		return symbol.m_subdiv == uvec2(0U)
+			? torus_rings(uint(symbol.m_detail))
+			: symbol.m_subdiv.y;
+	}
 
 	ShapeSize size_shape_lines(const ProcShape& shape, const Torus& torus)
 	{
@@ -188,8 +202,8 @@ namespace mud
 	ShapeSize size_shape_triangles(const ProcShape& shape, const Torus& torus)
 	{
 		UNUSED(torus);
-		uint16_t sides_subdiv = torus_sides(uint(shape.m_symbol.m_detail)) + 1;
-		uint16_t rings_subdiv = torus_rings(uint(shape.m_symbol.m_detail)) + 1;
+		uint16_t sides_subdiv = torus_sides(shape.m_symbol) + 1;
+		uint16_t rings_subdiv = torus_rings(shape.m_symbol) + 1;
 		return { uint32_t(sides_subdiv * rings_subdiv), uint32_t((sides_subdiv-1U) * (rings_subdiv-1U) * 6U) };
 	}
 
@@ -197,8 +211,8 @@ namespace mud
 	{
 		const SignedAxis axis = to_signed_axis(torus.m_axis, true);
 
-		const uint16_t rings = torus_rings(uint(shape.m_symbol.m_detail));
-		const uint16_t sides = torus_sides(uint(shape.m_symbol.m_detail));
+		const uint16_t rings = torus_rings(shape.m_symbol);
+		const uint16_t sides = torus_sides(shape.m_symbol);
 
 		const uint16_t rings_subdiv = rings + 1;
 		const uint16_t sides_subdiv = sides + 1;

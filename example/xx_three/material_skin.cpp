@@ -485,13 +485,13 @@ void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		program.set_blocks({ MaterialBlock::Lit, MaterialBlock::Phong, MaterialBlock::User });
 		program.set_source(ShaderType::Vertex, skin_vertex);
 		program.set_source(ShaderType::Fragment, skin_fragment);
-		program.register_blocks(pbr.m_registered_blocks);
+		program.register_blocks(pbr);
 
 		Program& program_uv = app.m_gfx.programs().create("skin_uv");
 		program_uv.set_blocks({ MaterialBlock::Lit, MaterialBlock::Phong, MaterialBlock::User });
 		program_uv.set_source(ShaderType::Vertex, skin_vertex_uv);
 		program_uv.set_source(ShaderType::Fragment, skin_fragment);
-		program_uv.register_blocks(pbr.m_registered_blocks);
+		program_uv.register_blocks(pbr);
 
 		program_uv.m_defines.push_back({ "PASS_DIFFUSE", "" });
 

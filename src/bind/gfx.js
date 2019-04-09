@@ -3412,6 +3412,9 @@ Render.prototype.constructor = Render;
 Render.prototype.__class = Render;
 Render.__cache = {};
 Module['Render'] = Render;
+Render.prototype["subrender"] = Render.prototype.subrender = function(a0) {
+    _mud_Render_subrender_1(this.__ptr, /*render*/a0.__ptr);
+};
 Render.prototype["next_pass"] = Render.prototype.next_pass = function(a0, a1) {
     ensureCache.prepare();
     return wrapPointer(_mud_Render_next_pass_2(this.__ptr, ensureString(/*name*/a0), /*type*/a1), Pass);
@@ -3482,6 +3485,50 @@ Object.defineProperty(Render.prototype, "frame", {
     },
     set: function(value) {
         _mud_Render__set_frame(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Render.prototype, "frustum", {
+    get: function() {
+        return wrapPointer(_mud_Render__get_frustum(this.__ptr), Frustum);
+    }});
+Object.defineProperty(Render.prototype, "env", {
+    get: function() {
+        return wrapPointer(_mud_Render__get_env(this.__ptr), Zone);
+    },
+    set: function(value) {
+        _mud_Render__set_env(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Render.prototype, "lighting", {
+    get: function() {
+        return _mud_Render__get_lighting(this.__ptr);
+    },
+    set: function(value) {
+        _mud_Render__set_lighting(this.__ptr, value);
+    }
+});
+Object.defineProperty(Render.prototype, "vflip", {
+    get: function() {
+        return !!(_mud_Render__get_vflip(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Render__set_vflip(this.__ptr, value);
+    }
+});
+Object.defineProperty(Render.prototype, "needs_mrt", {
+    get: function() {
+        return !!(_mud_Render__get_needs_mrt(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Render__set_needs_mrt(this.__ptr, value);
+    }
+});
+Object.defineProperty(Render.prototype, "is_mrt", {
+    get: function() {
+        return !!(_mud_Render__get_is_mrt(this.__ptr));
+    },
+    set: function(value) {
+        _mud_Render__set_is_mrt(this.__ptr, value);
     }
 });
 Object.defineProperty(Render.prototype, "pass_index", {
@@ -4674,7 +4721,12 @@ RenderTarget.prototype["__destroy"] = RenderTarget.prototype.__destroy = functio
     _mud_RenderTarget__destroy(this.__ptr);
 };
 // Viewport
-function Viewport() { throw "cannot construct a Viewport, no constructor in IDL" }
+function Viewport(a0, a1, a2, a3) {
+    if (a0 === undefined) { this.__ptr = _mud_Viewport__construct_0(); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; return; }
+    if (a2 === undefined) { this.__ptr = _mud_Viewport__construct_2(/*camera*/a0.__ptr, /*scene*/a1.__ptr); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; return; }
+    if (a3 === undefined) { this.__ptr = _mud_Viewport__construct_3(/*camera*/a0.__ptr, /*scene*/a1.__ptr, /*rect*/a2.__ptr); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; return; }
+    this.__ptr = _mud_Viewport__construct_4(/*camera*/a0.__ptr, /*scene*/a1.__ptr, /*rect*/a2.__ptr, /*scissor*/a3); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this;
+};
 Viewport.prototype = Object.create(OEntt.prototype);
 Viewport.prototype.constructor = Viewport;
 Viewport.prototype.__class = Viewport;

@@ -77,6 +77,11 @@ namespace mud
 	Render::~Render()
 	{}
 
+	void Render::subrender(const Render& render)
+	{
+		m_shot = render.m_shot;
+	}
+
 	Pass Render::next_pass(cstring name, PassType type)
 	{
 		Pass pass;

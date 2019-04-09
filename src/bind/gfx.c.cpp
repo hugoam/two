@@ -2765,6 +2765,9 @@ extern "C" {
 	mud::Render* DECL mud_Render__construct_5(mud::Shading shading, mud::Viewport* viewport, mud::RenderTarget* target, mud::FrameBuffer* target_fbo, mud::RenderFrame* frame) {
 		return new mud::Render(shading, *viewport, *target, *target_fbo, *frame);
 	}
+	void DECL mud_Render_subrender_1(mud::Render* self, const mud::Render* render) {
+		self->subrender(*render);
+	}
 	mud::Pass* DECL mud_Render_next_pass_2(mud::Render* self, const char* name, mud::PassType type) {
 		static mud::Pass temp;
 		return (temp = self->next_pass(name, type), &temp);
@@ -2820,6 +2823,39 @@ extern "C" {
 	}
 	void DECL mud_Render__set_frame(mud::Render* self, mud::RenderFrame* value) {
 		self->m_frame = value;
+	}
+	mud::Frustum* DECL mud_Render__get_frustum(mud::Render* self) {
+		return &self->m_frustum;
+	}
+	mud::Zone* DECL mud_Render__get_env(mud::Render* self) {
+		return self->m_env;
+	}
+	void DECL mud_Render__set_env(mud::Render* self, mud::Zone* value) {
+		self->m_env = value;
+	}
+	mud::Lighting DECL mud_Render__get_lighting(mud::Render* self) {
+		return self->m_lighting;
+	}
+	void DECL mud_Render__set_lighting(mud::Render* self, mud::Lighting value) {
+		self->m_lighting = value;
+	}
+	bool DECL mud_Render__get_vflip(mud::Render* self) {
+		return self->m_vflip;
+	}
+	void DECL mud_Render__set_vflip(mud::Render* self, bool value) {
+		self->m_vflip = value;
+	}
+	bool DECL mud_Render__get_needs_mrt(mud::Render* self) {
+		return self->m_needs_mrt;
+	}
+	void DECL mud_Render__set_needs_mrt(mud::Render* self, bool value) {
+		self->m_needs_mrt = value;
+	}
+	bool DECL mud_Render__get_is_mrt(mud::Render* self) {
+		return self->m_is_mrt;
+	}
+	void DECL mud_Render__set_is_mrt(mud::Render* self, bool value) {
+		self->m_is_mrt = value;
 	}
 	uint8_t DECL mud_Render__get_pass_index(mud::Render* self) {
 		return self->m_pass_index;
@@ -3844,6 +3880,18 @@ extern "C" {
 	// Viewport
 	mud::Type* DECL mud_Viewport__type() {
 		return &mud::type<mud::Viewport>();
+	}
+	mud::Viewport* DECL mud_Viewport__construct_0() {
+		return new mud::Viewport();
+	}
+	mud::Viewport* DECL mud_Viewport__construct_2(mud::Camera* camera, mud::Scene* scene) {
+		return new mud::Viewport(*camera, *scene);
+	}
+	mud::Viewport* DECL mud_Viewport__construct_3(mud::Camera* camera, mud::Scene* scene, const mud::vec4* rect) {
+		return new mud::Viewport(*camera, *scene, *rect);
+	}
+	mud::Viewport* DECL mud_Viewport__construct_4(mud::Camera* camera, mud::Scene* scene, const mud::vec4* rect, bool scissor) {
+		return new mud::Viewport(*camera, *scene, *rect, scissor);
 	}
 	void DECL mud_Viewport_cull_1(mud::Viewport* self, mud::Render* render) {
 		self->cull(*render);
