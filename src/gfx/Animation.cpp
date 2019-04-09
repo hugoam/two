@@ -24,9 +24,9 @@ module mud.gfx;
 
 namespace mud
 {
-	static table<AnimationTarget, Type*> s_target_types = { &type<vec3>(), &type<quat>(), &type<vec3>(), &type<vector<float>>() };
+	static table<AnimTarget, Type*> s_target_types = { &type<vec3>(), &type<quat>(), &type<vec3>(), &type<vector<float>>() };
 
-	static table<AnimationTarget, Value(*)()> s_empty_value =
+	static table<AnimTarget, Value(*)()> s_empty_value =
 	{
 		[]() { Value val; new (val.mem) vec3(); return val; },
 		[]() { Value val; new (val.mem) quat(); return val; },
@@ -38,18 +38,18 @@ namespace mud
 		: m_name(name)
 	{}
 	
-	AnimationTrack::AnimationTrack() {}
-	AnimationTrack::AnimationTrack(Animation& animation, size_t node, cstring node_name, AnimationTarget target)
+	AnimTrack::AnimTrack() {}
+	AnimTrack::AnimTrack(Animation& animation, size_t node, cstring node_name, AnimTarget target)
 		: m_animation(&animation), m_node(node), m_node_name(node_name), m_target(target), m_value_type(s_target_types[target])
 	{}
 
-	void AnimationTrack::insert_key(float time, const Value& value, float transition)
+	void AnimTrack::insert_key(float time, const Value& value, float transition)
 	{
 		size_t position = key_before(time);
 		m_keys.insert(m_keys.begin() + position + 1, Key{ time, value, transition });
 	}
 
-	size_t AnimationTrack::key_after(float time) const
+	size_t AnimTrack::key_after(float time) const
 	{
 		assert(m_keys.size() > 0);
 		auto predicate = [](float lhs, const Key& rhs) { return lhs < rhs.m_time; };
@@ -57,12 +57,12 @@ namespace mud
 		return result - m_keys.begin();
 	}
 
-	size_t AnimationTrack::key_before(float time) const
+	size_t AnimTrack::key_before(float time) const
 	{
 		return key_after(time) - 1;
 	}
 
-	Value AnimationTrack::sample(AnimationCursor& cursor) const
+	Value AnimTrack::sample(AnimCursor& cursor) const
 	{
 		assert(m_keys.size() > 0);
 
@@ -100,7 +100,7 @@ namespace mud
 		}
 	}
 
-	Value AnimationTrack::value(AnimationCursor& cursor, bool forward) const
+	Value AnimTrack::value(AnimCursor& cursor, bool forward) const
 	{
 		size_t key = forward ? cursor.m_next : cursor.m_prev;
 		return m_keys[key].m_value;

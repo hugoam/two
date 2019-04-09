@@ -56,8 +56,8 @@ namespace mud
 	void destroy_prefab(GfxSystem& gfx, Prefab& prefab)
 	{
 		set<Model*> models;
-		for(Item& item : prefab.m_items)
-			models.insert(item.m_model);
+		for(Prefab::Elem& elem : prefab.m_items)
+			models.insert(elem.item.m_model);
 
 		for(Model* model : models)
 		{

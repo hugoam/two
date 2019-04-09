@@ -51,6 +51,8 @@ namespace mud
 		attr_ bool m_orthographic = false;
 		attr_ float m_height = 1.f;
 
+		attr_ bool m_no_update = false;
+
 		attr_ bool m_optimize_ends = true;
 
 		attr_ vec4 m_lod_offsets = { 0.1f, 0.3f, 0.6f, 0.8f };
@@ -70,4 +72,13 @@ namespace mud
 		meth_ vec3 transform(const vec3& point) const;
 		meth_ vec3 project(const vec3& point) const;
 	};
+
+	struct refl_ MirrorCamera
+	{
+		attr_ bool m_visible = false;
+		attr_ Camera m_camera;
+		attr_ mat4 m_mirror;
+	};
+
+	MUD_GFX_EXPORT func_ MirrorCamera mirror_camera(const Camera& sourcecam, Node3& node, float clipBias = 0.f);
 }

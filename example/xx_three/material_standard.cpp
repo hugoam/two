@@ -34,12 +34,12 @@ void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 		tonemap.m_exposure = 3.f;
 
 		Zone& env = scene.m_env;
-
+		
 		Texture& hdrenv = *app.m_gfx.textures().file("cube/pisaHDR.hdr.cube");
 		env.m_radiance.m_texture = &hdrenv;
 		env.m_background.m_texture = &hdrenv;
 		env.m_background.m_mode = BackgroundMode::Panorama;
-
+		
 		env.m_radiance.m_ambient = rgb(0xffffff);
 
 		//env.m_skylight.m_enabled = true;

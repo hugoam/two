@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	export_ enum class refl_ AnimationTarget : unsigned int
+	export_ enum class refl_ AnimTarget : unsigned int
 	{
 		Position,
 		Rotation,
@@ -30,9 +30,9 @@ namespace mud
 		Cubic
 	};
 
-	export_ struct MUD_GFX_EXPORT AnimationCursor
+	export_ struct MUD_GFX_EXPORT AnimCursor
 	{
-		AnimationCursor() {}
+		AnimCursor() {}
 		float m_time = 0.f;
 		size_t m_prev = 0;
 		size_t m_next = 1;
@@ -44,7 +44,7 @@ namespace mud
 		char mem[32]; // need to be able to store vector<float>
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT AnimationTrack
+	export_ class refl_ MUD_GFX_EXPORT AnimTrack
 	{
 	public:
 		struct Key
@@ -63,13 +63,13 @@ namespace mud
 			}
 		};
 
-		AnimationTrack();
-		AnimationTrack(Animation& animation, size_t node, cstring node_name, AnimationTarget target);
+		AnimTrack();
+		AnimTrack(Animation& animation, size_t node, cstring node_name, AnimTarget target);
 
 		attr_ Animation* m_animation;
 		attr_ size_t m_node;
 		attr_ string m_node_name;
-		attr_ AnimationTarget m_target;
+		attr_ AnimTarget m_target;
 		attr_ Type* m_value_type = nullptr;
 
 		attr_ float m_length = 0.f;
@@ -80,8 +80,8 @@ namespace mud
 		void insert_key(float time, const Value& value, float transition = 1.f);
 		size_t key_after(float time) const;
 		size_t key_before(float time) const;
-		Value sample(AnimationCursor& cursor) const;
-		Value value(AnimationCursor& cursor, bool forward) const;
+		Value sample(AnimCursor& cursor) const;
+		Value value(AnimCursor& cursor, bool forward) const;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT Animation
@@ -89,7 +89,7 @@ namespace mud
 	public:
 		explicit Animation(cstring name);
 
-		vector<AnimationTrack> tracks;
+		vector<AnimTrack> tracks;
 
 		attr_ string m_name;
 		attr_ float m_length = 1.f;

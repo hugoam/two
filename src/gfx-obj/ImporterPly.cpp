@@ -419,7 +419,8 @@ namespace mud
 		if(!as_model)
 		{
 			scene.m_models.push_back(&model);
-			scene.m_items.push_back({ bxidentity(), &model, -1 });
+			scene.m_nodes.push_back(bxidentity());;
+			scene.m_items.push_back({ 0, &model, -1 });
 		}
 	}
 

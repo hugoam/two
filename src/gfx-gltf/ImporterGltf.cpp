@@ -225,8 +225,13 @@ namespace mud
 			if(config.m_suffix != "")
 				model_name += ":" + config.m_suffix;
 
-			if(state.m_gfx.models().get(model_name.c_str()) && !config.m_force_reimport)
+			Model* existing = state.m_gfx.models().get(model_name.c_str());
+			if(existing && !config.m_force_reimport)
+			{
+				state.m_models.push_back(existing);
 				continue;
+			}
+
 			Model& model = state.m_gfx.models().create(model_name.c_str());
 
 			size_t primindex = 0;
@@ -382,11 +387,17 @@ namespace mud
 			material.m_lit.m_emissive.m_value.a = emissive_factor;
 		}
 
-		if(gltf_material.double_sided)
-			material.m_base.m_cull_mode = CullMode::None;
+		//if(gltf_material.double_sided)
+		//	material.m_base.m_cull_mode = CullMode::None;
 
 		if(gltf_material.alpha_mode != glTFAlphaMode::OPAQUE)
+		{
 			material.m_alpha.m_is_alpha = true;
+			material.m_alpha.m_alpha = material.m_pbr.m_albedo.m_value.a;
+		}
+
+		if(gltf_material.alpha_mode == glTFAlphaMode::BLEND)
+			material.m_base.m_blend_mode = BlendMode::Alpha;
 	}
 
 	void import_materials(const glTF& gltf, Import& state)
@@ -417,14 +428,14 @@ namespace mud
 			}
 	}
 
-	void create_bone(const glTF& gltf, const glTFNode& node, Skeleton& skeleton, int parent)
+	void create_bone(const glTF& gltf, const glTFNode& node, Skeleton& skeleton, uint32_t parent)
 	{
-		//printf("INFO:      - adding bone %s\n", node.name.c_str());
-		Bone& bone = skeleton.add_bone(node.name.c_str(), parent);
+		//printf("INFO:      - adding bone %s index %i\n", node.name.c_str(), skeleton.m_bones.size());
+		uint32_t bone = skeleton.add_bone(node.name.c_str(), parent);
 
 		for(int child : node.children)
 			if(gltf.m_nodes[child].is_joint)
-				create_bone(gltf, gltf.m_nodes[child], skeleton, bone.m_index);
+				create_bone(gltf, gltf.m_nodes[child], skeleton, bone);
 	}
 
 	void create_skeleton(const glTF& gltf, Import& state, Model& model, int node, int num_bones)
@@ -435,7 +446,7 @@ namespace mud
 		model.m_rig->m_skeleton = { skeleton_node.name.c_str(), num_bones };
 		state.m_skeletons[node] = &model.m_rig->m_skeleton;
 
-		create_bone(gltf, skeleton_node, model.m_rig->m_skeleton, -1);
+		create_bone(gltf, skeleton_node, model.m_rig->m_skeleton, UINT32_MAX);
 	}
 
 	void import_skeletons(glTF& gltf, Import& state, Model& model)
@@ -470,9 +481,9 @@ namespace mud
 	}
 
 	template <class T>
-	void import_track(const glTFNode& node, glTFInterpolation interpolation, span<float> times, span<T> values, Animation& animation, size_t bone, AnimationTarget target)
+	void import_track(glTFInterpolation interpolation, const string& name, span<float> times, span<T> values, Animation& animation, size_t node, AnimTarget target)
 	{
-		AnimationTrack track = { animation, bone, node.name.c_str(), target };
+		AnimTrack track = { animation, node, name.c_str(), target };
 
 		track.m_interpolation = interpolation == glTFInterpolation::STEP ? Interpolation::Nearest
 																		 : Interpolation::Linear;
@@ -482,12 +493,12 @@ namespace mud
 		animation.tracks.push_back(track);
 	}
 
-	void import_animation(const glTF& gltf, Import& state, size_t index, Skeleton& skeleton)
+	void import_animation(const glTF& gltf, Import& state, size_t index, Rig* rig = nullptr)
 	{
 		const glTFAnimation& gltf_anim = gltf.m_animations[index];
 
 		Animation& animation = state.m_gfx.animations().construct(gltf_anim.name.c_str());
-		skeleton.m_animations.push_back(&animation);
+		state.m_animations.push_back(&animation);
 
 		animation.m_length = 0.f;
 
@@ -498,8 +509,16 @@ namespace mud
 			const glTFAnimationSampler& sampler = gltf_anim.samplers[channel.sampler];
 			const glTFNode& node = gltf.m_nodes[channel.target.node];
 
-			Bone* bone = skeleton.find_bone(node.name.c_str());
-			size_t bone_index = bone ? bone->m_index : SIZE_MAX;
+			size_t node_index = SIZE_MAX;
+			if(node.is_joint)
+			{
+				uint32_t bone = rig->m_skeleton.bone_index(node.name.c_str());
+				node_index = bone != UINT32_MAX ? bone : SIZE_MAX;
+			}
+			else
+			{
+				node_index = channel.target.node;
+			}
 
 			vector<float> times = unpack_accessor<float>(gltf, sampler.input, false);
 
@@ -513,17 +532,17 @@ namespace mud
 			if(channel.target.path == "translation")
 			{
 				const vector<vec3> translations = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
-				import_track<vec3>(node, sampler.interpolation, times, translations, animation, bone_index, AnimationTarget::Position);
+				import_track<vec3>(sampler.interpolation, node.name, times, translations, animation, node_index, AnimTarget::Position);
 			}
 			else if(channel.target.path == "rotation")
 			{
 				const vector<quat> rotations = unpack_accessor<quat, 4>(gltf, sampler.output, false);
-				import_track<quat>(node, sampler.interpolation, times, rotations, animation, bone_index, AnimationTarget::Rotation);
+				import_track<quat>(sampler.interpolation, node.name, times, rotations, animation, node_index, AnimTarget::Rotation);
 			}
 			else if(channel.target.path == "scale")
 			{
 				const vector<vec3> scales = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
-				import_track<vec3>(node, sampler.interpolation, times, scales, animation, bone_index, AnimationTarget::Scale);
+				import_track<vec3>(sampler.interpolation, node.name, times, scales, animation, node_index, AnimTarget::Scale);
 			}
 			else if(channel.target.path == "weights")
 			{
@@ -538,7 +557,7 @@ namespace mud
 						key.push_back(weights[i + n]);
 				}
 
-				import_track<vector<float>>(node, sampler.interpolation, times, track, animation, bone_index, AnimationTarget::Weights);
+				import_track<vector<float>>(sampler.interpolation, node.name, times, track, animation, node_index, AnimTarget::Weights);
 			}
 		}
 	}
@@ -549,9 +568,12 @@ namespace mud
 		rig.m_skins.reserve(gltf.m_skins.size());
 
 		import_skeletons(gltf, state, model);
+	}
 
+	void import_animations(glTF& gltf, Import& state, Rig* rig = nullptr)
+	{
 		for(size_t i = 0; i < gltf.m_animations.size(); i++)
-			import_animation(gltf, state, int(i), rig.m_skeleton);
+			import_animation(gltf, state, int(i), rig);
 	}
 
 	mat4 derive_transform(const glTF& gltf, const glTFNode& node)
@@ -565,18 +587,27 @@ namespace mud
 
 	void import_items(const glTF& gltf, Import& state, const ImportConfig& config)
 	{
+		state.m_nodes.reserve(gltf.m_nodes.size());
+		
+		uint32_t i = 0;
 		for(const glTFNode& node : gltf.m_nodes)
 		{
 			if(config.filter_element(node.name))
 				continue;
 
+			const mat4 transform = config.m_transform * derive_transform(gltf, node);
+			state.m_nodes.push_back(Node3(transform, node.parent));
+			Node3& n = state.m_nodes.back();
+
 			if(node.mesh > -1)
 			{
 				Model* model = state.m_models[node.mesh];
-				if(!model) continue;
-				mat4 node_transform = config.m_transform * derive_transform(gltf, node);
-				state.m_items.push_back({ node_transform, model, node.skin });
+				if(!model) { i++; continue; }
+				const size_t item = state.m_items.size();
+				state.m_items.push_back({ i, model, node.skin });
 			}
+
+			i++;
 
 			//if(node.camera)
 			//	;
@@ -632,12 +663,17 @@ namespace mud
 
 		import_gltf(gltf, state, config);
 		import_rig(gltf, state, model);
+		import_animations(gltf, state, model.m_rig);
 
 		for(const Import::Item& item : state.m_items)
 		{
+			const Node3& node = state.m_nodes[item.node];
 			for(const ModelElem& elem : item.model->m_items)
-				model.add_item(*elem.m_mesh, item.transform, item.skin);
+				model.add_item(*elem.m_mesh, node.m_transform, item.skin);
 		}
+
+		for(Animation* anim : state.m_animations)
+			model.m_anims.push_back(anim);
 
 		model.prepare();
 	}
@@ -652,6 +688,7 @@ namespace mud
 		unpack_gltf(state.m_path, state.m_file, gltf);
 
 		import_gltf(gltf, state, config);
+		import_animations(gltf, state);
 		import_to_prefab(m_gfx, prefab, state, config.m_flags);
 	}
 

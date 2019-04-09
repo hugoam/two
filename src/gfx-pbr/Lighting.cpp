@@ -175,19 +175,15 @@ namespace mud
 		{
 			const Light& light = *lights[index];
 
-			vec3 position = mulp(view, light.m_node->position());
-			float range = light.m_range;
-			vec3 energy = to_vec3(light.m_colour * light.m_energy);
-			vec3 energy2 = to_vec3(to_linear(light.m_colour) * light.m_energy);
-			float specular = light.m_specular;
-			vec3 direction = muln(view, light.m_node->direction());
-			float attenuation = light.m_attenuation;
-			float spot_attenuation = light.m_spot_attenuation;
-			float spot_cutoff = cos(to_radians(light.m_spot_angle));
-
-			vec3 d = light.m_node->direction();
-			//printf("light dir %f, %f, %f\n", d.x, d.y, d.z);
-			//printf("light dir %f, %f, %f\n", direction.x, direction.y, direction.z);
+			const vec3 position = mulp(view, light.m_node->position());
+			const float range = light.m_range;
+			const vec3 energy = to_vec3(light.m_colour * light.m_energy);
+			const vec3 energy2 = to_vec3(to_linear(light.m_colour) * light.m_energy);
+			const float specular = light.m_specular;
+			const vec3 direction = muln(view, light.m_node->direction());
+			const float attenuation = light.m_attenuation;
+			const float spot_attenuation = light.m_spot_attenuation;
+			const float spot_cutoff = cos(to_radians(light.m_spot_angle));
 
 			m_gpu_lights.push_back({ position, range, energy, specular, direction, attenuation, spot_attenuation, spot_cutoff });
 

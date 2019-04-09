@@ -88,6 +88,8 @@ namespace mud
 
 	void Camera::update()
 	{
+		if(m_no_update) return;
+
 		m_view = bxlookat(m_eye, m_target, m_up);
 
 		if(!m_orthographic)
@@ -137,5 +139,56 @@ namespace mud
 		const vec4 clip = viewproj * vec4(point, 1.f);
 		const vec3 ndc = vec3(clip) / clip.w;
 		return ndc;
+	}
+
+	MirrorCamera mirror_camera(const Camera& sourcecam, Node3& node, float clipBias)
+	{
+		mat4 rotatemat = rotation(node.m_transform);
+		vec3 position = vec3(node.m_transform[3]);
+		//vec3 normal = muln(m_node->m_transform, Z3);
+		vec3 normal = muln(rotatemat, Y3);
+		vec3 dir = position - sourcecam.m_eye;
+
+		// Avoid rendering when mirror is facing away
+		if(dot(dir, normal) > 0)
+			return {};
+
+		rotatemat = rotation(inverse(sourcecam.m_view));
+		vec3 eye = -reflect(dir, normal) + position;
+		vec3 lookat = muln(rotatemat, -Z3) + sourcecam.m_eye;
+		vec3 target = -reflect(position - lookat, normal) + position;
+		vec3 up = reflect(muln(rotatemat, Y3), normal);
+
+		Camera camera = Camera(eye, target, up, sourcecam.m_fov, sourcecam.m_aspect, sourcecam.m_near, sourcecam.m_far);
+		camera.m_no_update = true;
+
+		static mat4 bias = bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, false);
+		mat4 mirror = bias * camera.m_proj * camera.m_view;
+
+		// Now update projection matrix with new clip plane, implementing code from: http://www.terathon.com/code/oblique.html
+		// Paper explaining this technique: http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
+		Plane plane = Plane(position, normal);
+		plane = camera.m_view * plane;
+
+		vec4 clipPlane = vec4(plane.m_normal.x, plane.m_normal.y, plane.m_normal.z, plane.m_distance);
+
+		mat4& proj = camera.m_proj;
+
+		vec4 q;
+		q.x = (sign(clipPlane.x) + proj.f[8]) / proj.f[0];
+		q.y = (sign(clipPlane.y) + proj.f[9]) / proj.f[5];
+		q.z = -1.0f;
+		q.w = (1.0f + proj.f[10]) / proj.f[14];
+
+		// Calculate the scaled plane vector
+		clipPlane *= 2.f / dot(clipPlane, q);
+
+		// Replacing the third row of the projection matrix
+		proj.f[2] = clipPlane.x;
+		proj.f[6] = clipPlane.y;
+		proj.f[10] = clipPlane.z + 1.0f - clipBias;
+		proj.f[14] = clipPlane.w;
+
+		return { true, camera, mirror };
 	}
 }

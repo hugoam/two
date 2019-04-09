@@ -30,29 +30,26 @@ namespace mud
 		m_bones.reserve(num_bones);
 	}
 
-	void Skeleton::update_bones()
+	uint32_t Skeleton::add_bone(cstring name, uint32_t parent)
 	{
-		for(Bone& bone : m_bones)
-		{
-			if(bone.m_parent > -1)
-				bone.m_pose = m_bones[bone.m_parent].m_pose * bone.m_pose_local;
-			else
-				bone.m_pose = bone.m_pose_local;
-		}
+		const uint32_t index = uint32_t(m_bones.size());
+		m_names.push_back(name);
+		m_bones.push_back(Node3(mat4(), parent));
+		return index;
 	}
 
-	Bone& Skeleton::add_bone(cstring name, int parent)
-	{		
-		m_bones.push_back({ name, int(m_bones.size()), parent });
-		return m_bones.back();
+	uint32_t Skeleton::bone_index(cstring name) const
+	{
+		for(size_t i = 0; i < m_names.size(); i++)
+			if(m_names[i] == name)
+				return i;
+		return UINT32_MAX;
 	}
 
-	Bone* Skeleton::find_bone(cstring name)
+	Node3* Skeleton::find_bone(cstring name)
 	{
-		for(size_t i = 0; i < m_bones.size(); i++)
-			if(m_bones[i].m_name == name)
-				return &m_bones[i];
-		return nullptr;
+		uint32_t index = this->bone_index(name);
+		return index != UINT32_MAX ? &m_bones[index] : nullptr;
 	}
 
 	Skin::Skin() {}
@@ -75,16 +72,8 @@ namespace mud
 
 	void Skin::add_joint(cstring bone, const mat4& inverse_bind)
 	{
-		Joint joint = { size_t(m_skeleton->find_bone(bone)->m_index), inverse_bind, mat4{} };
+		Joint joint = { m_skeleton->bone_index(bone), inverse_bind, mat4() };
 		m_joints.push_back(joint);
-	}
-
-	Joint* Skin::find_bone_joint(cstring name)
-	{
-		for(Joint& joint : m_joints)
-			if(m_skeleton->m_bones[joint.m_bone].m_name == name)
-				return &joint;
-		return nullptr;
 	}
 
 	void Skin::update_joints()
@@ -103,7 +92,7 @@ namespace mud
 		int index = 0;
 		for(Joint& joint : m_joints)
 		{
-			joint.m_joint = m_skeleton->m_bones[joint.m_bone].m_pose * joint.m_inverse_bind;
+			joint.m_joint = m_skeleton->m_bones[joint.m_bone].m_transform * joint.m_inverse_bind;
 
 			float* texture = (float*)m_memory->data;
 			//float* texture = m_texture_data.data();
@@ -145,8 +134,6 @@ namespace mud
 
 	void Rig::update_rig()
 	{
-		m_skeleton.update_bones();
-
 		for(Skin& skin : m_skins)
 			skin.update_joints();
 
@@ -173,14 +160,14 @@ namespace mud
 #include <geom/Symbol.h>
 namespace mud
 {
-	mat4 fix_bone_pose(Bone& bone)
+	mat4 fix_bone_pose(Node3& bone)
 	{
-		return bxrotation(angle_axis(-c_pi * 0.5f, X3)) * bxscale(vec3(0.009999999776482582f)) * bone.m_pose;
+		return bxrotation(angle_axis(-c_pi * 0.5f, X3)) * bxscale(vec3(0.009999999776482582f)) * bone.m_transform;
 	}
 
 	void debug_draw_skeleton(Gnode& parent, const vec3& position, const quat& rotation, Rig& rig)
 	{
-		for(Bone& bone : rig.m_skeleton.m_bones)
+		for(Node3& bone : rig.m_skeleton.m_bones)
 		{
 			mat4 pose = bxrotation(rotation) * fix_bone_pose(bone);
 			Gnode& node = gfx::node(parent, {}, position + vec3(pose * vec4(vec3(0.f), 1.f)));

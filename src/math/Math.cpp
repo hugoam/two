@@ -157,24 +157,21 @@ namespace mud
 		return axis;
 	}
 
-	float float_shortest_angle(float angle1, float angle2)
+	float shortest_angle(float a, float b)
 	{
-		return min(c_2pi - abs(angle1 - angle2), abs(angle1 - angle2));
+		return min(c_2pi - abs(a - b), abs(a - b));
 	}
 
-	float trigo_angle(const vec3& vec1, const vec3& vec2)
+	float trigo_angle(const vec3& a, const vec3& b)
 	{
-		float angle = shortest_angle(vec1, vec2);
-		
-		if(angle < 0)
-			angle += c_2pi;
-
+		float angle = shortest_angle(a, b);
+		if(angle < 0) angle += c_2pi;
 		return angle;
 	}
 
-	float shortest_angle(const vec3& vec1, const vec3& vec2)
+	float shortest_angle(const vec3& a, const vec3& b)
 	{
-		return oriented_angle(vec1, vec2, Y3);
+		return oriented_angle(a, b, Y3);
 	}
 
 #if 0

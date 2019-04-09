@@ -33,7 +33,7 @@ void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Zone& env = scene.m_env;
 		env.m_radiance.m_texture = &reflection;
 		env.m_radiance.m_filter = false;
-		env.m_radiance.m_colour = rgb(0x050505);
+		env.m_radiance.m_ambient = rgb(0x050505);
 
 		Node3& l0 = gfx::nodes(scene).add(Node3(vec3(4000.f, 0.f, 0.f)));
 		gfx::lights(scene).add(Light(l0, LightType::Point, false, rgb(0x0011ff), 1.f, 5500.f));

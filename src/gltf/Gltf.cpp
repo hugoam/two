@@ -111,7 +111,7 @@ namespace mud
 			{
 				std::string errors;
 				string strjson = read(file, chunk_length);
-				//printf("DEBUG: gltf .glb json contents: %s\n", strjson.c_str());
+				printf("DEBUG: gltf .glb json contents: %s\n", strjson.c_str());
 				json = Json::parse(strjson.c_str(), errors);
 			}
 			else if(chunk_type == 0x004E4942)

@@ -69,17 +69,25 @@ namespace mud
 
 		prefab.m_aabb = {};
 
+		for(const Node3& node : state.m_nodes)
+		{
+			prefab.m_nodes.push_back({ node });
+		}
+
 		for(Import::Item& item : state.m_items)
 		{
 			Model& model = *item.model;
-			prefab.m_nodes.push_back({ item.transform });
-			prefab.m_items.push_back({ prefab.m_nodes.back(), model, ItemFlag::Default | flags });
+			Node3& node = prefab.m_nodes[item.node];
+			prefab.m_items.push_back({ item.node, Item(node, model, ItemFlag::Default | flags) });
+
+			prefab.m_aabb.merge(transform_aabb(model.m_aabb, node.m_transform));
 
 			// special hack for occluders
 			if(model.m_items[0].m_mesh->m_material && model.m_items[0].m_mesh->m_material->m_name == "occluder")
-				prefab.m_items.back().m_flags = ItemFlag::Occluder;
-
-			prefab.m_aabb.merge(transform_aabb(model.m_aabb, item.transform));
+				prefab.m_items.back().item.m_flags = ItemFlag::Occluder;
 		}
+
+		for(Animation* anim : state.m_animations)
+			prefab.m_anims.push_back(anim);
 	}
 }

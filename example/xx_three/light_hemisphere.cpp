@@ -152,11 +152,12 @@ void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 
 		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, 15.f, 0.f), quat(vec3(0.f, -1.f, 0.f)), vec3(0.35f)));
 		Item& it = gfx::items(scene).add(Item(n, model));
-		Mime& mi = gfx::mimes(scene).add(Mime(n));
+		Mime& mi = gfx::mimes(scene).add(Mime());
 		mi.add_item(it);
 
-		string anim = mi.m_rig.m_skeleton.m_animations[0]->m_name;
-		mi.start(anim, true, 0.f, 1.2f);
+		//Animation& anim = *mi.m_anims[0];
+		//mi.play(anim, true, 0.f, 1.2f);
+		mi.start("flamingo_flyA_", true, 0.f, 1.2f);
 	}
 
 	scene.update();

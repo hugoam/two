@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <stl/span.h>
 #include <type/Unique.h>
 #include <type/Ref.h>
 #include <pool/Forward.h>
@@ -31,11 +32,12 @@ namespace mud
 	class refl_ TPool : public Pool
 	{
 	public:
-		TPool(size_t size = 12);
+		TPool(size_t size = 64);
 		~TPool();
 
 		//meth_ T& add(T&& value);
 		meth_ T& add(const T& value);
+		meth_ span<T> addvec(span<T> values);
 
 		meth_ T* talloc();
 		meth_ void tdestroy(T& object);

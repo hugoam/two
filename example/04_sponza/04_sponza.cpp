@@ -48,6 +48,9 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 		controller.m_yaw = c_pi2;
 		controller.m_pitch = -c_pi / 16.f;
 		controller.m_distance = 80.f;
+
+		BlockShadow& shadow = *app.m_gfx.m_renderer.block<BlockShadow>();
+		shadow.m_atlas = ShadowAtlas(4096U, 1U);
 	}
 
 	Gnode& scene = viewer.m_scene.begin();

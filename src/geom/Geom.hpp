@@ -22,6 +22,16 @@ namespace mud
 		return p - plane.m_normal * distance(plane, p);
 	}	// Implementation
 
+	inline Plane operator*(const mat4& mat, const Plane& p)
+	{
+		//const mat4 normalmat = transpose(inverse(mat));
+		const vec3 point = p.m_normal * -p.m_distance;
+		const vec3 refpoint = mulp(mat, point);
+		const vec3 normal = muln(mat, p.m_normal);
+		const float d = dot(-refpoint, normal);
+		return { normal, d };
+	}
+
 	inline Plane::Plane(const vec3& normal, float distance)
 		: m_normal(normal), m_distance(distance)
 	{}

@@ -177,7 +177,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	OrbitController& controller = ui::orbit_controller(viewer);
 	UNUSED(controller);
 
-	viewer.m_viewport.m_to_gamma = true;
+	//viewer.m_viewport.m_to_gamma = true;
 
 	Gnode& scene = viewer.m_scene.begin();
 

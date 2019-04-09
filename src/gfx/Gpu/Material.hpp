@@ -51,7 +51,8 @@ namespace mud
 
 		void upload(bgfx::Encoder& encoder, const MaterialAlpha& block) const
 		{
-			encoder.setUniform(u_alpha, &block.m_alpha);
+			vec4 alpha = { block.m_alpha.m_value, PAD, PAD, PAD };
+			encoder.setUniform(u_alpha, &alpha);
 		}
 
 		bgfx::UniformHandle u_alpha = BGFX_INVALID_HANDLE;

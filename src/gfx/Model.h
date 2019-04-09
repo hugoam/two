@@ -50,6 +50,8 @@ namespace mud
 
 		Rig* m_rig = nullptr;
 
+		vector<Animation*> m_anims;
+
 		meth_ Mesh& get_mesh(size_t index);
 		meth_ Mesh& add_mesh(const string& name, bool readback = false);
 		meth_ Rig& add_rig(const string& name);

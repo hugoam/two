@@ -52,9 +52,12 @@ namespace mud
 #endif
 
 		vector<Node3> m_nodes;
-		vector<Item> m_items;
+		struct Elem { uint32_t node; Item item; };
+		vector<Elem> m_items;
 
 		Aabb m_aabb;
+
+		vector<Animation*> m_anims;
 	};
 
 	export_ MUD_GFX_EXPORT Prefab& import_prefab(GfxSystem& gfx, ModelFormat format, const string& name, const ImportConfig& config);

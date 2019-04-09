@@ -276,7 +276,8 @@ namespace mud
 				model.prepare();
 				m_import.m_models.push_back(&model);
 
-				m_import.m_items.push_back({ bxidentity(), &model, -1 });
+				m_import.m_nodes.push_back(bxidentity());
+				m_import.m_items.push_back({ 0, &model, -1 });
 
 #if DEBUG_MESHES
 				printf("INFO: obj - imported mesh %s with %u vertices and %u faces\n", 

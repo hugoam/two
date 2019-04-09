@@ -62,7 +62,7 @@ namespace mud
 
 		static vector<cstring> animations;
 		animations.clear();
-		for(Animation* animation : animated.m_rig.m_skeleton.m_animations)
+		for(Animation* animation : animated.m_anims)
 			animations.push_back(animation->m_name.c_str());
 
 		static uint32_t animation = 0;
@@ -71,13 +71,13 @@ namespace mud
 
 		if(!animated.m_playing.empty())
 		{
-			AnimationPlay& play = animated.m_playing.back();
+			AnimPlay& play = animated.m_playing.back();
 			ui::slider_field<float>(table, "speed", { play.m_speed, { -5.f, 5.f, 0.01f } });
 			ui::slider_field<float>(table, "timeline", { play.m_cursor, { 0.f, play.m_animation->m_length, 0.01f } });
 		}
 
 		Table& playing = ui::table(self, { "Animation", "Time" }, { 0.6f, 0.4f });
-		for(AnimationPlay& play : animated.m_playing)
+		for(AnimPlay& play : animated.m_playing)
 		{
 			Widget& row = ui::table_row(playing);
 			ui::label(row, play.m_animation->m_name.c_str());

@@ -6,6 +6,10 @@
 
 #include <xx_three/xx_three.h>
 
+#include <cstdio>
+
+#define PREFAB 1
+
 // This Bloom Pass is inspired by the bloom pass of the Unreal Engine. It creates a mip map chain of bloom textures and blur them
 // with different radii. Because of the weigted combination of mips, and since larger blurs are done on higher mips, this bloom
 // is better in quality and performance.
@@ -86,22 +90,22 @@ static string blur_fragment =
 	"}\n"
 
 	"void main() {\n"
-	"	vec2 invSize = 1.0 / u_level_size;\n"
-	"	float fSigma = float(SIGMA);\n"
-	"	float weightSum = gaussianPdf(0.0, fSigma);\n"
-	"	vec3 diffuseSum = texture2DLod(s_source_0, v_uv0, float(u_source_0_level)).rgb * weightSum;\n"
+		"vec2 invSize = 1.0 / u_level_size;\n"
+		"float fSigma = float(SIGMA);\n"
+		"float weightSum = gaussianPdf(0.0, fSigma);\n"
+		"vec3 diffuseSum = texture2DLod(s_source_0, v_uv0, float(u_source_0_level)).rgb * weightSum;\n"
 
-	"	for(int i = 1; i < KERNEL_RADIUS; i++) {\n"
-	"		float x = float(i);\n"
-	"		float w = gaussianPdf(x, fSigma);\n"
-	"		vec2 uvOffset = u_direction * invSize * x;\n"
-	"		vec3 sample1 = texture2DLod(s_source_0, v_uv0 + uvOffset, float(u_source_0_level)).rgb;\n"
-	"		vec3 sample2 = texture2DLod(s_source_0, v_uv0 - uvOffset, float(u_source_0_level)).rgb;\n"
-	"		diffuseSum += (sample1 + sample2) * w;\n"
-	"		weightSum += 2.0 * w;\n"
-	"	}\n"
+		"for(int i = 1; i < KERNEL_RADIUS; i++) {\n"
+			"float x = float(i);\n"
+			"float w = gaussianPdf(x, fSigma);\n"
+			"vec2 uvOffset = u_direction * invSize * x;\n"
+			"vec3 sample1 = texture2DLod(s_source_0, v_uv0 + uvOffset, float(u_source_0_level)).rgb;\n"
+			"vec3 sample2 = texture2DLod(s_source_0, v_uv0 - uvOffset, float(u_source_0_level)).rgb;\n"
+			"diffuseSum += (sample1 + sample2) * w;\n"
+			"weightSum += 2.0 * w;\n"
+		"}\n"
 
-	"	gl_FragColor = vec4(diffuseSum / weightSum, 1.0);\n"
+		"gl_FragColor = vec4(diffuseSum / weightSum, 1.0);\n"
 	//"	gl_FragColor = vec4(hsl_to_rgb(vec3(u_source_0_level / 5.0, 1.0, 0.5)), 1.0);\n"
 	//"	gl_FragColor = vec4(vec3_splat(float(u_source_0_level) / 5.0), 1.0);\n"
 	"}\n";
@@ -290,7 +294,7 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_eye = vec3(-5.f, 2.5f, -3.5f);
 
 		Zone& env = scene.m_env;
-		env.m_radiance.m_colour = rgb(0x404040);
+		env.m_radiance.m_ambient = rgb(0x404040);
 
 		Node3& ln = gfx::nodes(scene).add(Node3());
 		gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 1.f, 0.f));
@@ -301,6 +305,7 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 			pass_clear(gfx, render);
 			pass_opaque(gfx, render);
+			pass_alpha(gfx, render);
 
 			pass_begin_post(gfx, render);
 			pass_tonemap(gfx, render, tonemap, bcs);
@@ -311,20 +316,31 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		app.m_gfx.set_renderer(Shading::Shaded, render);
 
+#if PREFAB
+		Prefab& prefab = *app.m_gfx.prefabs().file("PrimaryIonDrive");
+
+		const size_t num_nodes = prefab.m_items.size();
+
+		span<Node3> nodes = gfx::nodes(scene).addvec(prefab.m_nodes);
+
+		for(Prefab::Elem& elem : prefab.m_items)
+		{
+			Item& it = gfx::items(scene).add(Item(nodes[elem.node], *elem.item.m_model, elem.item.m_flags));
+		}
+
+		Mime& mi = gfx::mimes(scene).add(Mime());
+		mi.add_nodes(nodes);
+
+		Animation& anim = *prefab.m_anims[0];
+		mi.play(anim, true, 0.f, 1.f);
+#else
 		Model& model = *app.m_gfx.models().file("PrimaryIonDrive"); // .glb
 
 		Node3& n = gfx::nodes(scene).add(Node3());
 		Item& it = gfx::items(scene).add(Item(n, model));
-		Mime& mi = gfx::mimes(scene).add(Mime(n));
-		mi.add_item(it);
+#endif
 
-		string anim = mi.m_rig.m_skeleton.m_animations[0]->m_name;
-		mi.start(anim, true, 0.f, 1.f);
-
-		// Mesh contains self-intersecting semi-transparent faces, which display
-		// z-fighting unless depthWrite is disabled.
-		//var core = model.getObjectByName('geo1_HoloFillDark_0');
-		//core.material.depthWrite = false;
+		// disable depth write for 'geo1_HoloFillDark_0'
 	}
 
 	scene.update();

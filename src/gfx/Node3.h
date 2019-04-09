@@ -37,17 +37,13 @@ namespace mud
 	{
 	public:
 		constr_ Node3();
-		constr_ Node3(const mat4& transform);
 		constr_ Node3(const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
+		Node3(const mat4& transform, uint32_t parent = UINT32_MAX);
 
-		//attr_ uint16_t m_index = 0;
-
+		attr_ uint32_t m_parent = UINT32_MAX;
 		attr_ mat4 m_transform = bxidentity();
-		//attr_ Node3* m_parent = nullptr;
-		//attr_ bool m_visible = true;
 
 		Ref m_object;
-		//size_t m_last_updated = 0;
 
 		meth_ void apply(const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
 		meth_ void derive(const Node3& parent, const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));

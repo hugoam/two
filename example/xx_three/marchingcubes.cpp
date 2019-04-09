@@ -439,8 +439,7 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		gfx::lights(scene).add(Light(l1, LightType::Point, false, rgb(0xff3300), 1.f, 0.f));
 
 		materials = gen_materials(app.m_gfx, "marching");
-		current = &materials[0];
-		//material = "shiny";
+		current = &materials[7];
 
 		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), ZeroQuat, vec3(700.f)));
 		Item& it = gfx::items(scene).add(Item(n, model, 0U, current->material));
@@ -570,6 +569,8 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	current->material->m_user.m_attr2 = vec4(to_vec3(light->m_colour) * light->m_energy, 0.f);
 
 	current->material->m_user.m_attr3 = vec4(to_vec3(scene.m_env.m_radiance.m_ambient), 0.f);
+
+	viewer.m_viewport.m_to_gamma = current->name != "normal";
 
 	//if(effect.material instanceof THREE.ShaderMaterial) {
 	//

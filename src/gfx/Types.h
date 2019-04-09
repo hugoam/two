@@ -25,7 +25,7 @@
 namespace mud
 {
     // Exported types
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimationTarget>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimTarget>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BackgroundMode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlendMode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::CullMode>();
@@ -59,16 +59,15 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Texture*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::span<mud::mat4>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Animation*>>();
-    export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::AnimationPlay>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::AnimPlay>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Material*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Mesh*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Model*>>();
     export_ template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Texture*>>();
     
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimatedTrack>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Animation>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimationPlay>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimationTrack>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimPlay>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimTrack>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Flow>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Material>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Model>>();
@@ -77,7 +76,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Texture>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Background>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Batch>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::Bone>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Camera>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Cascade>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Culler>();

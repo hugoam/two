@@ -485,6 +485,8 @@ namespace mud
 	export_ MUD_MATH_EXPORT mat4 operator*(const mat4& m0, const mat4& m1);
 	export_ MUD_MATH_EXPORT float4 operator*(const mat4& m, const float4& v);
 
+	export_ inline vec3 reflect(const vec3& i, const vec3& n) { return i - 2.f * dot(n, i) * n; };
+
 	export_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
 	export_ inline vec3 rotate(const vec3& v, const vec3& axis, float angle) { return angle_axis(angle, axis) * v; }
 
@@ -493,9 +495,9 @@ namespace mud
 
 	export_ MUD_MATH_EXPORT Axis nearest_axis(const vec3& direction);
 
-	export_ MUD_MATH_EXPORT float float_shortest_angle(float angle1, float angle2);
-	export_ MUD_MATH_EXPORT float trigo_angle(const vec3& vec1, const vec3& vec2);
-	export_ MUD_MATH_EXPORT float shortest_angle(const vec3& vec1, const vec3& vec2);
+	export_ MUD_MATH_EXPORT float shortest_angle(float a, float b);
+	export_ MUD_MATH_EXPORT float trigo_angle(const vec3& a, const vec3& b);
+	export_ MUD_MATH_EXPORT float shortest_angle(const vec3& a, const vec3& b);
 
 	export_ MUD_MATH_EXPORT void orthonormalize(const mat4& transform, vec3& x, vec3& y, vec3& z);
 	export_ MUD_MATH_EXPORT mat4 orthonormalize(const mat4& transform);
@@ -515,6 +517,13 @@ namespace mud
 	{
 		float angle = atan2(direction.x, direction.z);
 		return { cosf(angle / 2.f), 0.f, sinf(angle / 2.f), 0.f };
+	}
+
+	inline mat4 rotation(const mat4& mat)
+	{
+		mat4 result = mat;
+		result[3] = vec4(0.f, 0.f, 0.f, 1.f);
+		return result;
 	}
 
 

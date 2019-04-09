@@ -79,6 +79,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::free_orbit_controller(viewer);
 
+	//viewer.m_viewport.m_to_gamma = true;
 	//viewer.m_viewport.comp<Tonemap>().m_enabled = true;
 
 	Gnode& scene = viewer.m_scene.begin();

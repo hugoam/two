@@ -292,6 +292,9 @@ namespace gfx
 
 		pass_gi_probes(gfx, render);
 		pass_shadowmaps(gfx, render);
+
+		//begin_pbr_render(gfx, render);
+
 		pass_clear(gfx, render);
 #if DEPTH_PASS
 		pass_depth(gfx, render);
@@ -417,7 +420,7 @@ namespace gfx
 			if(!program.m_blocks[MaterialBlock::Pbr] || !element.m_material->m_alpha.m_is_alpha)
 				return false;
 
-			blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);
+			//blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);
 
 			pbr_options(gfx, render, element);
 

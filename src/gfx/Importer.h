@@ -65,10 +65,13 @@ namespace mud
 		attr_ vector<Model*> m_models;
 		attr_ vector<Texture*> m_images;
 		attr_ vector<Material*> m_materials;
+		attr_ vector<Animation*> m_animations;
 
 		map<int, Skeleton*> m_skeletons;
 
-		struct Item { mat4 transform; Model* model; int skin; };
+		vector<Node3> m_nodes;
+
+		struct Item { uint32_t node; Model* model; int skin; };
 		vector<Item> m_items;
 	};
 

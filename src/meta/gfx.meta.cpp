@@ -27,8 +27,8 @@ module mud.gfx;
 
 using namespace mud;
 
-void mud_AnimationTarget__to_string(void* val, string& str) { str = g_enu[type<mud::AnimationTarget>().m_id]->name(uint32_t((*static_cast<mud::AnimationTarget*>(val)))); }
-void mud_AnimationTarget__to_value(const string& str, void* val) { (*static_cast<mud::AnimationTarget*>(val)) = mud::AnimationTarget(g_enu[type<mud::AnimationTarget>().m_id]->value(str.c_str())); }
+void mud_AnimationTarget__to_string(void* val, string& str) { str = g_enu[type<mud::AnimTarget>().m_id]->name(uint32_t((*static_cast<mud::AnimTarget*>(val)))); }
+void mud_AnimationTarget__to_value(const string& str, void* val) { (*static_cast<mud::AnimTarget*>(val)) = mud::AnimTarget(g_enu[type<mud::AnimTarget>().m_id]->value(str.c_str())); }
 void mud_BackgroundMode__to_string(void* val, string& str) { str = g_enu[type<mud::BackgroundMode>().m_id]->name(uint32_t((*static_cast<mud::BackgroundMode*>(val)))); }
 void mud_BackgroundMode__to_value(const string& str, void* val) { (*static_cast<mud::BackgroundMode*>(val)) = mud::BackgroundMode(g_enu[type<mud::BackgroundMode>().m_id]->value(str.c_str())); }
 void mud_BlendMode__to_string(void* val, string& str) { str = g_enu[type<mud::BlendMode>().m_id]->name(uint32_t((*static_cast<mud::BlendMode*>(val)))); }
@@ -96,11 +96,11 @@ void* stl_vector_mud_Animation___at(void* vec, size_t i) { return &(*static_cast
 void stl_vector_mud_Animation___push(void* vec) { (*static_cast<stl::vector<mud::Animation*>*>(vec)).emplace_back(); }
 void stl_vector_mud_Animation___add(void* vec, void* value) { (*static_cast<stl::vector<mud::Animation*>*>(vec)).push_back(static_cast<mud::Animation*>(value)); }
 void stl_vector_mud_Animation___remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Animation*>*>(vec)), static_cast<mud::Animation*>(value)); }
-size_t stl_vector_mud_AnimationPlay__size(void* vec) { return (*static_cast<stl::vector<mud::AnimationPlay>*>(vec)).size(); }
-void* stl_vector_mud_AnimationPlay__at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::AnimationPlay>*>(vec))[i]; }
-void stl_vector_mud_AnimationPlay__push(void* vec) { (*static_cast<stl::vector<mud::AnimationPlay>*>(vec)).emplace_back(); }
-void stl_vector_mud_AnimationPlay__add(void* vec, void* value) { (*static_cast<stl::vector<mud::AnimationPlay>*>(vec)).push_back(*static_cast<mud::AnimationPlay*>(value)); }
-void stl_vector_mud_AnimationPlay__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::AnimationPlay>*>(vec)), *static_cast<mud::AnimationPlay*>(value)); }
+size_t stl_vector_mud_AnimationPlay__size(void* vec) { return (*static_cast<stl::vector<mud::AnimPlay>*>(vec)).size(); }
+void* stl_vector_mud_AnimationPlay__at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::AnimPlay>*>(vec))[i]; }
+void stl_vector_mud_AnimationPlay__push(void* vec) { (*static_cast<stl::vector<mud::AnimPlay>*>(vec)).emplace_back(); }
+void stl_vector_mud_AnimationPlay__add(void* vec, void* value) { (*static_cast<stl::vector<mud::AnimPlay>*>(vec)).push_back(*static_cast<mud::AnimPlay*>(value)); }
+void stl_vector_mud_AnimationPlay__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::AnimPlay>*>(vec)), *static_cast<mud::AnimPlay*>(value)); }
 size_t stl_vector_mud_Material___size(void* vec) { return (*static_cast<stl::vector<mud::Material*>*>(vec)).size(); }
 void* stl_vector_mud_Material___at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Material*>*>(vec))[i]; }
 void stl_vector_mud_Material___push(void* vec) { (*static_cast<stl::vector<mud::Material*>*>(vec)).emplace_back(); }
@@ -121,10 +121,8 @@ void* stl_vector_mud_Texture___at(void* vec, size_t i) { return &(*static_cast<s
 void stl_vector_mud_Texture___push(void* vec) { (*static_cast<stl::vector<mud::Texture*>*>(vec)).emplace_back(); }
 void stl_vector_mud_Texture___add(void* vec, void* value) { (*static_cast<stl::vector<mud::Texture*>*>(vec)).push_back(static_cast<mud::Texture*>(value)); }
 void stl_vector_mud_Texture___remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Texture*>*>(vec)), static_cast<mud::Texture*>(value)); }
-void mud_AnimatedTrack__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::AnimatedTrack(  ); }
-void mud_AnimatedTrack__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::AnimatedTrack((*static_cast<mud::AnimatedTrack*>(other))); }
-void mud_AnimationPlay__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::AnimationPlay(  ); }
-void mud_AnimationPlay__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::AnimationPlay((*static_cast<mud::AnimationPlay*>(other))); }
+void mud_AnimationPlay__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::AnimPlay(  ); }
+void mud_AnimationPlay__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::AnimPlay((*static_cast<mud::AnimPlay*>(other))); }
 void mud_AssetStore_mud_Flow_get(void* object, span<void*> args, void*& result) { result = (*static_cast<mud::AssetStore<mud::Flow>*>(object)).get(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Flow_create(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Flow>*>(object)).create(*static_cast<stl::string*>(args[0])); }
 void mud_AssetStore_mud_Flow_fetch(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::AssetStore<mud::Flow>*>(object)).fetch(*static_cast<stl::string*>(args[0])); }
@@ -177,8 +175,8 @@ void mud_Batch_transforms(void* object, span<void*> args, void*& result) { UNUSE
 void mud_Batch_begin(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<float>*>(result)) = (*static_cast<mud::Batch*>(object)).begin(*static_cast<uint32_t*>(args[0])); }
 void mud_Batch_commit(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Batch*>(object)).commit(*static_cast<stl::span<float>*>(args[0])); }
 void mud_Batch_cache(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Batch*>(object)).cache(*static_cast<stl::span<float>*>(args[0])); }
-void mud_Bone__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Bone(  ); }
-void mud_Bone__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Bone((*static_cast<mud::Bone*>(other))); }
+void mud_Bone__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Node3(  ); }
+void mud_Bone__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Node3((*static_cast<mud::Node3*>(other))); }
 void mud_Camera_set_look_at(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Camera*>(object)).set_look_at(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
 void mud_Camera_set_isometric(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Camera*>(object)).set_isometric(*static_cast<mud::IsometricAngle*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
 void mud_Camera_ray(void* object, span<void*> args, void*& result) { (*static_cast<mud::Ray*>(result)) = (*static_cast<mud::Camera*>(object)).ray(*static_cast<mud::vec2*>(args[0])); }
@@ -255,8 +253,7 @@ void mud_Mesh_morph(void* object, span<void*> args, void*& result) { UNUSED(resu
 void mud_Mesh_upload(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).upload(*static_cast<mud::GpuMesh*>(args[0]), *static_cast<bool*>(args[1])); }
 void mud_Mesh_cache(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).cache(*static_cast<mud::GpuMesh*>(args[0])); }
 void mud_Mesh_direct(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Mesh*>(object)).direct(*static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<uint32_t*>(args[2])); }
-void mud_Mime__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Mime( *static_cast<mud::Node3*>(args[0]) ); }
-void mud_Mime__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Mime( *static_cast<mud::Node3*>(args[0]), *static_cast<mud::Item*>(args[1]) ); }
+void mud_Mime__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Mime(); }
 void mud_Mime_start(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).start(*static_cast<stl::string*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
 void mud_Mime_play(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).play(*static_cast<mud::Animation*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
 void mud_Mime_seek(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mime*>(object)).seek(*static_cast<float*>(args[0])); }
@@ -479,11 +476,11 @@ namespace mud
 	
 	// Enums
 	{
-		Type& t = type<mud::AnimationTarget>();
-		static Meta meta = { t, &namspc({ "mud" }), "AnimationTarget", sizeof(mud::AnimationTarget), TypeClass::Enum };
+		Type& t = type<mud::AnimTarget>();
+		static Meta meta = { t, &namspc({ "mud" }), "AnimTarget", sizeof(mud::AnimTarget), TypeClass::Enum };
 		static cstring ids[] = { "Position", "Rotation", "Scale", "Weights", "Count" };
 		static uint32_t values[] = { 0, 1, 2, 3, 4 };
-		static mud::AnimationTarget vars[] = { mud::AnimationTarget::Position, mud::AnimationTarget::Rotation, mud::AnimationTarget::Scale, mud::AnimationTarget::Weights, mud::AnimationTarget::Count};
+		static mud::AnimTarget vars[] = { mud::AnimTarget::Position, mud::AnimTarget::Rotation, mud::AnimTarget::Scale, mud::AnimTarget::Weights, mud::AnimTarget::Count};
 		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { mud_AnimationTarget__to_string,
@@ -872,10 +869,10 @@ namespace mud
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<stl::vector<mud::AnimationPlay>>();
-		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::AnimationPlay>", sizeof(stl::vector<mud::AnimationPlay>), TypeClass::Sequence };
+		Type& t = type<stl::vector<mud::AnimPlay>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::AnimPlay>", sizeof(stl::vector<mud::AnimPlay>), TypeClass::Sequence };
 		static Class cls = { t };
-		static Iterable iterable = { &type<mud::AnimationPlay>(),
+		static Iterable iterable = { &type<mud::AnimPlay>(),
 		                             stl_vector_mud_AnimationPlay__size,
 		                             stl_vector_mud_AnimationPlay__at};
 		g_iterable[t.m_id] = &iterable;
@@ -937,25 +934,6 @@ namespace mud
 		g_sequence[t.m_id] = &sequence;
 	}
 	
-	// mud::AnimatedTrack
-	{
-		Type& t = type<mud::AnimatedTrack>();
-		static Meta meta = { t, &namspc({ "mud" }), "AnimatedTrack", sizeof(mud::AnimatedTrack), TypeClass::Struct };
-		// bases
-		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_AnimatedTrack__construct_0, {} }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, mud_AnimatedTrack__copy_construct }
-		};
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
-	}
 	// mud::Animation
 	{
 		Type& t = type<mud::Animation>();
@@ -976,10 +954,10 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
 	}
-	// mud::AnimationPlay
+	// mud::AnimPlay
 	{
-		Type& t = type<mud::AnimationPlay>();
-		static Meta meta = { t, &namspc({ "mud" }), "AnimationPlay", sizeof(mud::AnimationPlay), TypeClass::Struct };
+		Type& t = type<mud::AnimPlay>();
+		static Meta meta = { t, &namspc({ "mud" }), "AnimPlay", sizeof(mud::AnimPlay), TypeClass::Struct };
 		// bases
 		// defaults
 		static const mud::Animation* animation_default = nullptr;
@@ -1000,23 +978,23 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::AnimationPlay, m_animation), type<mud::Animation>(), "animation", animation_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::AnimationPlay, m_loop), type<bool>(), "loop", &loop_default, Member::Value, nullptr },
-			{ t, offsetof(mud::AnimationPlay, m_speed), type<float>(), "speed", &speed_default, Member::Value, nullptr },
-			{ t, offsetof(mud::AnimationPlay, m_transient), type<bool>(), "transient", &transient_default, Member::Value, nullptr },
-			{ t, offsetof(mud::AnimationPlay, m_fadeout), type<float>(), "fadeout", &fadeout_default, Member::Value, nullptr },
-			{ t, offsetof(mud::AnimationPlay, m_fadeout_left), type<float>(), "fadeout_left", &fadeout_left_default, Member::Value, nullptr },
-			{ t, offsetof(mud::AnimationPlay, m_cursor), type<float>(), "cursor", &cursor_default, Member::Value, nullptr },
-			{ t, offsetof(mud::AnimationPlay, m_ended), type<bool>(), "ended", &ended_default, Member::Value, nullptr }
+			{ t, offsetof(mud::AnimPlay, m_animation), type<mud::Animation>(), "animation", animation_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::AnimPlay, m_loop), type<bool>(), "loop", &loop_default, Member::Value, nullptr },
+			{ t, offsetof(mud::AnimPlay, m_speed), type<float>(), "speed", &speed_default, Member::Value, nullptr },
+			{ t, offsetof(mud::AnimPlay, m_transient), type<bool>(), "transient", &transient_default, Member::Value, nullptr },
+			{ t, offsetof(mud::AnimPlay, m_fadeout), type<float>(), "fadeout", &fadeout_default, Member::Value, nullptr },
+			{ t, offsetof(mud::AnimPlay, m_fadeout_left), type<float>(), "fadeout_left", &fadeout_left_default, Member::Value, nullptr },
+			{ t, offsetof(mud::AnimPlay, m_cursor), type<float>(), "cursor", &cursor_default, Member::Value, nullptr },
+			{ t, offsetof(mud::AnimPlay, m_ended), type<bool>(), "ended", &ended_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
-	// mud::AnimationTrack
+	// mud::AnimTrack
 	{
-		Type& t = type<mud::AnimationTrack>();
-		static Meta meta = { t, &namspc({ "mud" }), "AnimationTrack", sizeof(mud::AnimationTrack), TypeClass::Object };
+		Type& t = type<mud::AnimTrack>();
+		static Meta meta = { t, &namspc({ "mud" }), "AnimTrack", sizeof(mud::AnimTrack), TypeClass::Object };
 		// bases
 		// defaults
 		static mud::Type* value_type_default = nullptr;
@@ -1026,13 +1004,13 @@ namespace mud
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::AnimationTrack, m_animation), type<mud::Animation>(), "animation", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::AnimationTrack, m_node), type<size_t>(), "node", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::AnimationTrack, m_node_name), type<stl::string>(), "node_name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::AnimationTrack, m_target), type<mud::AnimationTarget>(), "target", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::AnimationTrack, m_value_type), type<mud::Type>(), "value_type", value_type_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::AnimationTrack, m_length), type<float>(), "length", &length_default, Member::Value, nullptr },
-			{ t, offsetof(mud::AnimationTrack, m_interpolation), type<mud::Interpolation>(), "interpolation", &interpolation_default, Member::Value, nullptr }
+			{ t, offsetof(mud::AnimTrack, m_animation), type<mud::Animation>(), "animation", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::AnimTrack, m_node), type<size_t>(), "node", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::AnimTrack, m_node_name), type<stl::string>(), "node_name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::AnimTrack, m_target), type<mud::AnimTarget>(), "target", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::AnimTrack, m_value_type), type<mud::Type>(), "value_type", value_type_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::AnimTrack, m_length), type<float>(), "length", &length_default, Member::Value, nullptr },
+			{ t, offsetof(mud::AnimTrack, m_interpolation), type<mud::Interpolation>(), "interpolation", &interpolation_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1230,31 +1208,6 @@ namespace mud
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
-	}
-	// mud::Bone
-	{
-		Type& t = type<mud::Bone>();
-		static Meta meta = { t, &namspc({ "mud" }), "Bone", sizeof(mud::Bone), TypeClass::Struct };
-		// bases
-		// defaults
-		static mud::quat rotation_default = ZeroQuat;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_Bone__construct_0, {} }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, mud_Bone__copy_construct }
-		};
-		// members
-		static Member members[] = {
-			{ t, offsetof(mud::Bone, m_position), type<mud::vec3>(), "position", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Bone, m_rotation), type<mud::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Bone, m_scale), type<mud::vec3>(), "scale", nullptr, Member::Value, nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
 	// mud::Camera
 	{
@@ -2394,13 +2347,12 @@ namespace mud
 		static bool play_0_transient_default = false;
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Mime__construct_0, { { "node", type<mud::Node3>(),  } } },
-			{ t, mud_Mime__construct_1, { { "node", type<mud::Node3>(),  }, { "item", type<mud::Item>(),  } } }
+			{ t, mud_Mime__construct_0, { { "node", type<mud::Node3>(),  } } }
 		};
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Mime, m_playing), type<stl::vector<mud::AnimationPlay>>(), "playing", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::Mime, m_playing), type<stl::vector<mud::AnimPlay>>(), "playing", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::Mime, m_queue), type<stl::vector<mud::Animation*>>(), "queue", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(mud::Mime, m_active), type<bool>(), "active", &active_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Mime, m_speed_scale), type<float>(), "speed_scale", &speed_scale_default, Member::Value, nullptr },
@@ -3628,11 +3580,10 @@ namespace mud
 	}
 	
 	
-		m.m_types.push_back(&type<mud::AnimatedTrack>());
 		m.m_types.push_back(&type<mud::Animation>());
-		m.m_types.push_back(&type<mud::AnimationPlay>());
-		m.m_types.push_back(&type<mud::AnimationTarget>());
-		m.m_types.push_back(&type<mud::AnimationTrack>());
+		m.m_types.push_back(&type<mud::AnimPlay>());
+		m.m_types.push_back(&type<mud::AnimTarget>());
+		m.m_types.push_back(&type<mud::AnimTrack>());
 		m.m_types.push_back(&type<mud::AssetStore<mud::Flow>>());
 		m.m_types.push_back(&type<mud::AssetStore<mud::Material>>());
 		m.m_types.push_back(&type<mud::AssetStore<mud::Model>>());
@@ -3643,7 +3594,6 @@ namespace mud
 		m.m_types.push_back(&type<mud::BackgroundMode>());
 		m.m_types.push_back(&type<mud::Batch>());
 		m.m_types.push_back(&type<mud::BlendMode>());
-		m.m_types.push_back(&type<mud::Bone>());
 		m.m_types.push_back(&type<mud::Camera>());
 		m.m_types.push_back(&type<mud::Cascade>());
 		m.m_types.push_back(&type<mud::CullMode>());
@@ -3746,7 +3696,7 @@ namespace mud
 		m.m_types.push_back(&type<stl::span<mud::Texture*>>());
 		m.m_types.push_back(&type<stl::span<mud::mat4>>());
 		m.m_types.push_back(&type<stl::vector<mud::Animation*>>());
-		m.m_types.push_back(&type<stl::vector<mud::AnimationPlay>>());
+		m.m_types.push_back(&type<stl::vector<mud::AnimPlay>>());
 		m.m_types.push_back(&type<stl::vector<mud::Material*>>());
 		m.m_types.push_back(&type<stl::vector<mud::Mesh*>>());
 		m.m_types.push_back(&type<stl::vector<mud::Model*>>());

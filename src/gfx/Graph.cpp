@@ -219,12 +219,13 @@ namespace gfx
 	{
 		Gnode& self = parent.suba<Gnode>();
 		
-		for(size_t i = 0; i < prefab.m_items.size(); ++i)
+		for(const Prefab::Elem& elem : prefab.m_items)
 		{
-			mat4 tr = transform ? parent.m_attach->m_transform * prefab.m_nodes[i].m_transform
-								: prefab.m_nodes[i].m_transform;
+			const Node3& n = prefab.m_nodes[elem.node];
+			mat4 tr = transform ? parent.m_attach->m_transform * n.m_transform
+								: n.m_transform;
 			Gnode& no = node(self, {}, tr);
-			Item& it = item(no, *prefab.m_items[i].m_model, prefab.m_items[i].m_flags | flags, material);
+			Item& it = item(no, *elem.item.m_model, elem.item.m_flags | flags, material);
 			//it = prefab.m_items[i];
 			//shape(self, Cube(i.m_aabb.m_center, vec3(0.1f)), Symbol::wire(Colour::Red, true));
 			//shape(self, submodel->m_aabb, Symbol::wire(Colour::White));
@@ -282,7 +283,7 @@ namespace gfx
 		Gnode& self = parent.suba();
 		if(!self.m_animated)
 		{
-			self.m_animated = &create<Mime>(*self.m_scene, *self.m_attach);
+			self.m_animated = &create<Mime>(*self.m_scene);
 			self.m_animated->add_item(item);
 		}
 		return *self.m_animated;
@@ -346,10 +347,13 @@ namespace gfx
 	void radiance(Gnode& parent, const string& file, BackgroundMode background)
 	{
 		Texture& texture = *parent.m_scene->m_gfx.textures().file(file.c_str());
-		parent.m_scene->m_env.m_radiance.m_texture = &texture;
+		Zone& env = parent.m_scene->m_env;
+		env.m_radiance.m_texture = &texture;
+		env.m_radiance.m_ambient = Colour(0.7f);
+		env.m_radiance.m_energy = 0.3f;
 		if(background == BackgroundMode::Panorama)
-			parent.m_scene->m_env.m_background.m_texture = &texture;
-		parent.m_scene->m_env.m_background.m_mode = background;
+			env.m_background.m_texture = &texture;
+		env.m_background.m_mode = background;
 	}
 
 	void custom_sky(Gnode& parent, CustomSky renderer)

@@ -17,6 +17,7 @@ namespace mud
 		~VecPool();
 
 		T* alloc();
+		span<T> alloc(size_t count);
 		void destroy(T* object);
 		void free(T* object);
 
@@ -26,11 +27,12 @@ namespace mud
 
 	public:
 		size_t m_size;
-		vector<T*> m_available;
+		vector<T*> m_recycled;
 		vector<T*> m_objects;
-		void* m_chunk;
-		T* m_memory;
+		void* m_memory;
+		T* m_first;
 		T* m_last;
+		T* m_end;
 
 		unique<VecPool<T>> m_next;
 

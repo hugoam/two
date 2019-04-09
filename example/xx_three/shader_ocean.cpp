@@ -6,8 +6,11 @@
 
 using namespace mud;
 
+#define DEFAULT_RENDER 0
+
 #define WATER 1
 #define COLOURS 1
+#define PROBE 1
 
 string water_vertex =
 
@@ -119,7 +122,6 @@ struct WaterParams
 	float alpha = 1.0f;
 	float time = 0.0f;
 	Texture* normals = nullptr;
-	//var normalSampler = options.waterNormals != = undefined ? options.waterNormals : null;
 	vec3 sunDirection = vec3(0.70707f, 0.70707f, 0.0f);
 	Colour sunColor = rgb(0xffffff); // rgb(0x7f7f7f);
 	Colour waterColor = rgb(0x7f7f7f); // rgb(0x555555);
@@ -129,23 +131,6 @@ struct WaterParams
 	//var side = options.side != = undefined ? options.side : THREE.FrontSide;
 	bool fog = false;
 };
-
-inline Plane operator*(const mat4& mat, const Plane& p)
-{
-	const mat4 normalmat = transpose(inverse(mat));
-	const vec3 point = p.m_normal * -p.m_distance;
-	const vec3 refpoint = mulp(mat, point);
-	const vec3 normal = muln(mat, p.m_normal);
-	const float d = dot(-refpoint, normal);
-	return { normal, d };
-}
-
-mat4 rotation(const mat4& mat)
-{
-	mat4 result = mat;
-	result[3] = vec4(0.f, 0.f, 0.f, 1.f);
-	return result;
-}
 
 class Water : public WaterParams
 {
@@ -202,77 +187,36 @@ public:
 		material.m_user.m_attr4 = { to_vec3(waterColor), 0.f };
 	}
 
-	void pass_mirror(GfxSystem& gfx, Render& render) //(renderer, scene, camera) {
+	void pass_mirror(GfxSystem& gfx, Render& render)
 	{
 		const Camera& sourcecam = *render.m_camera;
 
-		mat4 rotation = ::rotation(m_node->m_transform);
-		vec3 mirror = vec3(m_node->m_transform[3]);
-		//vec3 normal = muln(m_node->m_transform, Z3);
-		vec3 normal = muln(rotation, Y3);
-		vec3 dir = mirror - sourcecam.m_eye;
+		MirrorCamera mirror = mirror_camera(sourcecam, *m_node);
+		if(!mirror.m_visible) return;
 
-		// Avoid rendering when mirror is facing away
-		if (dot(dir, normal) > 0) return;
-
-		auto reflect = [](const vec3& i, const vec3& n) -> vec3 { return i - 2.f * dot(n, i) * n; };
-
-		rotation = ::rotation(inverse(sourcecam.m_view));
-		vec3 eye = -reflect(dir, normal) + mirror;
-		vec3 lookat = muln(rotation, -Z3) + sourcecam.m_eye;
-		vec3 target = -reflect(mirror - lookat, normal) + mirror;
-		vec3 up = reflect(muln(rotation, Y3), normal);
-
-		Camera camera = Camera(eye, target, up, sourcecam.m_fov, sourcecam.m_aspect, sourcecam.m_near, sourcecam.m_far);
-
-		static mat4 bias = bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, false);
-		//m_mirror = bias * camera.m_proj * inverse(camera.m_view);
-		m_mirror = bias * camera.m_proj * camera.m_view;
-
-		//m_mirror = inverse(camera.m_view) * camera.m_proj * bias;
-		//m_mirror = camera.m_view * camera.m_proj * bias;
-
-		m_eye = vec3(inverse(sourcecam.m_view)[3]); // mat4_position(camera.matrixWorld);
+		m_mirror = mirror.m_mirror;
+		m_eye = sourcecam.m_eye;
 
 		m_item->m_visible = false;
 
-		Viewport viewport = Viewport(camera, *render.m_scene, Rect4);
+		Viewport viewport = Viewport(mirror.m_camera, *render.m_scene, Rect4);
 		Render subrender = { Shading::Shaded, viewport, *render.m_target, m_fbo, gfx.m_render_frame };
 
-		gfx.m_renderer.gather(subrender);
-
-		// Now update projection matrix with new clip plane, implementing code from: http://www.terathon.com/code/oblique.html
-		// Paper explaining this technique: http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
-		Plane plane = Plane(mirror, normal);
-		plane = camera.m_view * plane;
-
-		vec4 clipPlane = vec4(plane.m_normal.x, plane.m_normal.y, plane.m_normal.z, plane.m_distance);
-
-		mat4& proj = camera.m_proj;
-
-		if(true)
+		auto renderer = [](GfxSystem& gfx, Render& render)
 		{
-			vec4 q;
-			q.x = (sign(clipPlane.x) + proj.f[8]) / proj.f[0];
-			q.y = (sign(clipPlane.y) + proj.f[9]) / proj.f[5];
-			q.z = -1.0f;
-			q.w = (1.0f + proj.f[10]) / proj.f[14];
+			pass_clear(gfx, render);
+			pass_opaque(gfx, render);
+			pass_background(gfx, render);
+			pass_alpha(gfx, render);
+		};
 
-			// Calculate the scaled plane vector
-			clipPlane *= 2.f / dot(clipPlane, q);
-
-			// Replacing the third row of the projection matrix
-			proj.f[2] = clipPlane.x;
-			proj.f[6] = clipPlane.y;
-			proj.f[10] = clipPlane.z + 1.0f - clipBias;
-			proj.f[14] = clipPlane.w;
-		}
-
+		gfx.m_renderer.gather(subrender);
+		//gfx.m_renderer.subrender(render, subrender, renderer);
 		gfx.m_renderer.subrender(render, subrender, render_pbr_forward);
 
 		m_item->m_visible = true;
 
-		//gfx.m_copy->debug_show_texture(render, m_fbo, vec4(0.f));
+		//gfx.m_copy->debug_show_texture(render, m_fbo.m_tex, vec4(0.f));
 	}
 };
 
@@ -504,7 +448,9 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controls(viewer);
 	ui::orbit_controls(viewer);
+#if !DEFAULT_RENDER
 	viewer.m_viewport.m_autorender = false;
+#endif
 
 	Scene& scene = viewer.m_scene;
 
@@ -514,8 +460,6 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	//controls.minDistance = 40.0;
 	//controls.maxDistance = 200.0;
 	//camera.lookAt(controls.target);
-
-	static Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
 
 	static Node3* sphere = nullptr;
 	static Node3* sun = nullptr;
@@ -528,7 +472,9 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	struct Parameters { float distance = 400.f; float inclination = 0.49f; float azimuth = 0.205f; };
 	Parameters params;
 
+#if PROBE
 	static unique<CubeCamera> probe;
+#endif
 
 	if(init)
 	{
@@ -538,15 +484,14 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		// Sun
 
-		vec3 light;
 		Node3& ln = gfx::nodes(scene).add(Node3());
 		Light& l = gfx::lights(scene).add(Light(ln, LightType::Direct, false, rgb(0xffffff), 0.8f));
 		sun = &ln;
 
 		// Probe
+#if PROBE
 		probe = construct<CubeCamera>(scene, 1.f, 20000.f, 256U);
-		//cubeCamera.renderTarget.texture.generateMipmaps = true;
-		//cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+#endif
 
 		// Water
 
@@ -564,8 +509,6 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		water.distortionScale = 3.7f;
 #endif
 
-		//water.rotation.x = -c_pi / 2;
-
 		// Skybox
 
 		sky.create(app.m_gfx, scene);
@@ -580,8 +523,6 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Icosaedr shape = Icosaedr(20.f);
 		gen_geom({ Symbol(), &shape, PLAIN }, geo, PLAIN);
 
-		//var count = geometry.attributes.position.count;
-
 		for(size_t i = 0; i < geo.m_positions.size(); i += 3)
 		{
 			Colour color = rgb(randi<uint32_t>());
@@ -592,14 +533,15 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		Model& ico = app.m_gfx.create_model_geo("ico", geo);
 #else
-		//Model& ico = app.m_gfx.shape(Icosaedr(20.f));
-		Model& ico = app.m_gfx.shape(Sphere(20.f));
+		Model& ico = app.m_gfx.shape(Icosaedr(20.f));
 #endif
 
-		Material& material = app.m_gfx.materials().create("ocean", [](Material& m) {
+		Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
+
+		Material& material = app.m_gfx.materials().create("ocean", [&](Material& m) {
 			m.m_program = &pbr;
 			m.m_base.m_flat_shaded = true;
-			m.m_base.m_cull_mode = CullMode::None;
+			//m.m_base.m_cull_mode = CullMode::None;
 			m.m_base.m_shader_color = ShaderColor::Vertex;
 			m.m_pbr.m_roughness = 0.f;
 			//envMap: cubeCamera.renderTarget.texture,
@@ -617,7 +559,7 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		float phi = c_2pi * (params.azimuth - 0.5f);
 	
 		vec3 dir = params.distance * vec3(cos(phi), sin(phi) * sin(theta), sin(phi) * cos(theta));
-		sun->apply(vec3(0.f), facing(dir));
+		sun->apply(vec3(0.f), look_dir(-dir));
 
 		sky.m_sun_position = dir;
 		sky.update(*sky.m_material);
@@ -660,16 +602,18 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	//water.material.uniforms["time"].value += 1.0 / 60.0;
 
+#if !DEFAULT_RENDER
 	Render render = { Shading::Shaded, viewer.m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
 	app.m_gfx.m_renderer.gather(render);
 	app.m_gfx.m_renderer.begin(render);
-
-	begin_pbr_render(app.m_gfx, render);
 
 #if WATER
 	water.pass_mirror(app.m_gfx, render);
 #endif
 
+	begin_pbr_render(app.m_gfx, render);
+
+#if PROBE
 	auto renderer = [](GfxSystem& gfx, Render& render)
 	{
 		pass_clear(gfx, render);
@@ -679,10 +623,12 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	probe->render(app.m_gfx, render, renderer);
 	scene.m_env.m_radiance.m_texture = &probe->m_cubemap.m_cubemap;
+#endif
 
 	pass_clear(app.m_gfx, render);
 	pass_opaque(app.m_gfx, render);
 	pass_background(app.m_gfx, render);
 
 	app.m_gfx.m_renderer.end(render);
+#endif
 }

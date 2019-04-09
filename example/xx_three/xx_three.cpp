@@ -11,15 +11,17 @@ using namespace mud;
 #define MULTI_VIEWPORT 0
 
 // todo js:
+// fix editor input (in EmContext ?)
+// xx_shader_lava no post processing + no bloom
 // xx_shadow_point random crash (in atlas probably)
+// xx_material_skin
+// xx_shader_ocean
 
 // todo:
-// xx_effect_bloom no transparent grey surfaces
 // xx_effect_bloom node animations
-// xx_shader_lava JS no post processing + no bloom
+// fix shadow filtering
 
 // small:
-// ocean direct light bug
 // specular reflections are almost absent in xx_perf_twosided
 // xx_material_standard no tonemapping in JS
 
@@ -29,8 +31,6 @@ using namespace mud;
 
 // todo js:
 // xx_geom_dynamic
-// xx_material_skin
-// xx_shader_ocean
 
 using ExampleFunc = void(*)(Shell&, Widget&, Dockbar&, bool);
 struct Example { string name; ExampleFunc func; };
@@ -154,8 +154,7 @@ int main(int argc, char *argv[])
 	//app.m_gfx.init_pipeline(pipeline_minimal);
 
 	//static uint32_t example0 = 0;
-	//static uint32_t example0 = find_example("shader/ocean");
-	static uint32_t example0 = find_example("marchingcubes");
+	static uint32_t example0 = find_example("effect/bloom");
 	static bool init0 = true;
 
 #if !MULTI_VIEWPORT && !MULTI_WINDOW

@@ -18,7 +18,7 @@
 
 namespace mud
 {
-	enum class AnimationTarget : unsigned int;
+	enum class AnimTarget : unsigned int;
     enum class Interpolation : unsigned int;
     enum class TextureHint : unsigned int;
     enum class ShaderType : unsigned int;
@@ -57,17 +57,16 @@ namespace mud
     template <class T> class AssetStore;
     template <class T> struct MaterialParam;
     
-    struct AnimationCursor;
-    class AnimationTrack;
+    struct AnimCursor;
+    class AnimTrack;
     class Animation;
     class Node3;
-    struct Bone;
     class Skeleton;
     struct Joint;
     class Skin;
     class Rig;
     struct AnimatedTrack;
-    struct AnimationPlay;
+    struct AnimPlay;
     class Mime;
     class GfxWindow;
     struct LocatedFile;
@@ -191,6 +190,6 @@ namespace stl
 	export_ extern template class refl_ seque_ vector<mud::Material*>;
 
 	export_ extern template class refl_ seque_ vector<mud::Animation*>;
-	export_ extern template class refl_ seque_ vector<mud::AnimationPlay>;
+	export_ extern template class refl_ seque_ vector<mud::AnimPlay>;
 }
 #endif

@@ -23,15 +23,8 @@ module mud.gfx;
 
 namespace mud
 {
-	Mime::Mime(Node3& node)
-		: m_node(node)
+	Mime::Mime()
 	{}
-
-	Mime::Mime(Node3& node, Item& item)
-		: m_node(node)
-	{
-		this->add_item(item);
-	}
 
 	Mime::~Mime()
 	{}
@@ -40,11 +33,22 @@ namespace mud
 	{
 		m_rig = *item.m_model->m_rig;
 		item.m_rig = &m_rig;
+
+		m_targets = m_rig.m_skeleton.m_bones;
+		m_nodes.resize(m_rig.m_skeleton.m_bones.size());
+
+		m_anims = item.m_model->m_anims;
+	}
+
+	void Mime::add_nodes(span<Node3> nodes)
+	{
+		m_targets = nodes;
+		m_nodes.resize(nodes.size());
 	}
 
 	void Mime::start(const string& name, bool loop, float blend, float speed, bool transient)
 	{
-		for(Animation* animation : m_rig.m_skeleton.m_animations)
+		for(Animation* animation : m_anims)
 			if(animation->m_name == name)
 			{
 				this->play(*animation, loop, blend, speed, transient);
@@ -54,7 +58,7 @@ namespace mud
 
 	void Mime::play(const Animation& animation, bool loop, float blend, float speed, bool transient)
 	{
-		for(AnimationPlay& playing : m_playing)
+		for(AnimPlay& playing : m_playing)
 		{
 			playing.m_transient = true;
 			if(blend == 0.f)
@@ -63,7 +67,7 @@ namespace mud
 				playing.m_fadeout = blend;
 		}
 
-		m_playing.push_back({ animation, loop, speed, transient, m_rig });
+		m_playing.push_back({ animation, loop, speed, transient, m_nodes, &m_rig });
 		m_active = true;
 	}
 
@@ -87,53 +91,64 @@ namespace mud
 		if(m_playing.size() > 2)
 			printf("WARNING: Mime playing more than 2 animations at the same time\n");
 
-		for(AnimationPlay& play : m_playing)
+		for(AnimPlay& play : m_playing)
 			play.step(delta, m_speed_scale);
 
-		remove_if(m_playing, [](AnimationPlay& play) { return play.m_transient && play.m_ended; });
+		remove_if(m_playing, [](AnimPlay& play) { return play.m_transient && play.m_ended; });
 
-		for(Bone& bone : m_rig.m_skeleton.m_bones)
-			bone.m_pose_local = bxTRS(bone.m_scale, bone.m_rotation, bone.m_position);
+		for(AnimNode& node : m_nodes)
+		{
+			node.m_transform = bxTRS(node.m_scale, node.m_rotation, node.m_position);
+		}
+
+		for(size_t i = 0; i < m_nodes.size(); ++i)
+		{
+			Node3& node = m_targets[i];
+			node.m_transform = node.m_parent != UINT32_MAX
+				? m_targets[node.m_parent].m_transform * m_nodes[i].m_transform
+				: m_nodes[i].m_transform;
+		}
 
 		m_rig.update_rig();
 	}
 
 	void Mime::seek(float time)
 	{
-		for(AnimationPlay& play : m_playing)
+		for(AnimPlay& play : m_playing)
 		{
 			play.m_cursor = time;
 			play.update(time, 0.f, 1.f);
 		}
 	}
 
-	AnimationPlay::AnimationPlay(const Animation& animation, bool loop, float speed, bool transient, Rig& rig)
+	AnimPlay::AnimPlay(const Animation& animation, bool loop, float speed, bool transient, span<AnimNode> nodes, Rig* rig)
 		: m_animation(&animation)
 		, m_loop(loop)
 		, m_speed(speed)
 		, m_transient(transient)
-		, m_rig(&rig)
+		, m_nodes(nodes)
+		, m_rig(rig)
 	{
 		m_tracks.reserve(animation.tracks.size());
 
-		for(const AnimationTrack& track : animation.tracks)
+		for(const AnimTrack& track : animation.tracks)
 		{
-			Bone* target = nullptr;
-			if(rig.m_skeleton.m_bones.size() > track.m_node)
-				target = &rig.m_skeleton.m_bones[track.m_node];
-			if(!target && track.m_target != AnimationTarget::Weights)
+			AnimNode* target = nullptr;
+			if(nodes.size() > track.m_node)
+				target = &nodes[track.m_node];
+			if(!target && track.m_target != AnimTarget::Weights)
 			{
-				//printf("WARNING: No bone found for animation %s track %s with target %s\n", animation.m_name.c_str(), "", track.m_node_name.c_str());
+				printf("WARNING: No bone found for animation %s track %s with target %i %s\n", animation.m_name.c_str(), "", track.m_node, track.m_node_name.c_str());
 				continue;
 			}
 
-			AnimatedTrack playtrack = { &track, target, {}, track.m_keys[0].m_value };
+			Track playtrack = { &track, target, {}, track.m_keys[0].m_value };
 
 			m_tracks.push_back(playtrack);
 		}
 	}
 
-	void AnimationPlay::step(float timestep, float speed)
+	void AnimPlay::step(float timestep, float speed)
 	{
 		float delta = timestep * m_speed * speed;
 		float next_pos = m_cursor + delta;
@@ -168,9 +183,9 @@ namespace mud
 				m_ended = true;
 		}
 
-		for(AnimatedTrack& track : m_tracks)
+		for(AnimPlay::Track& track : m_tracks)
 		{
-			AnimationCursor& c = track.m_cursor;
+			AnimCursor& c = track.m_cursor;
 			c.m_time = m_cursor;
 
 			if(m_ended)
@@ -197,20 +212,20 @@ namespace mud
 		this->update(m_cursor, delta, blend);
 	}
 
-	void AnimationPlay::update(float time, float delta, float interp)
+	void AnimPlay::update(float time, float delta, float interp)
 	{
 		UNUSED(time); UNUSED(interp);
-		for(AnimatedTrack& track : m_tracks)
+		for(AnimPlay::Track& track : m_tracks)
 		{
-			auto apply = [](Rig& rig, Bone& bone, AnimationTarget target, const Value& value)
+			auto apply = [](Rig& rig, AnimNode& bone, AnimTarget target, const Value& value)
 			{
-				if(target == AnimationTarget::Position)
+				if(target == AnimTarget::Position)
 					bone.m_position = *(vec3*)value.mem;
-				else if(target == AnimationTarget::Rotation)
+				else if(target == AnimTarget::Rotation)
 					bone.m_rotation = *(quat*)value.mem;
-				else if(target == AnimationTarget::Scale)
+				else if(target == AnimTarget::Scale)
 					bone.m_scale = *(vec3*)value.mem;
-				else if(target == AnimationTarget::Weights)
+				else if(target == AnimTarget::Weights)
 				{
 					vector<float>& weights = *(vector<float>*)value.mem;
 					rig.m_morphs.resize(weights.size());
@@ -234,12 +249,12 @@ namespace mud
 				*/
 
 				//printf("Animation value for track %s = %s\n", track.m_track->m_node_name.c_str(), to_string(track.m_value).c_str());
-				apply(*m_rig, *track.m_bone, track.m_track->m_target, track.m_value);
+				apply(*m_rig, *track.m_node, track.m_track->m_target, track.m_value);
 			}
 			else
 			{
 				track.m_value = track.m_track->value(track.m_cursor, delta > 0.f);
-				apply(*m_rig, *track.m_bone, track.m_track->m_target, track.m_value);
+				apply(*m_rig, *track.m_node, track.m_track->m_target, track.m_value);
 			}
 		}
 	}

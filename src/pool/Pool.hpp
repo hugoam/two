@@ -27,6 +27,15 @@ namespace mud
 	}
 
 	template <class T>
+	inline span<T> TPool<T>::addvec(span<T> values)
+	{
+		span<T> objects = m_vec_pool->alloc(values.size());
+		for(size_t i = 0; i < values.size(); ++i)
+			new (stl::placeholder(), &objects[i]) T(values[i]);
+		return objects;
+	}
+
+	template <class T>
 	inline T* TPool<T>::talloc() { return m_vec_pool->alloc(); }
 	template <class T>
 	inline void TPool<T>::tdestroy(T& object) { m_vec_pool->destroy(&object); }

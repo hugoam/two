@@ -88,19 +88,18 @@ namespace mud
 	void debug_print_mat(const mat4& mat)
 	{
 		//vec3 scale = { length(vec3(mat[0])), length(vec3{ mat[1] }), length(vec3{ mat[2] }) };
-		printf("pos %.1f, %.1f, %.1f ", mat[3].x, mat[3].y, mat[3].z);
+		printf("pos %.1f, %.1f, %.1f \n", mat[3].x, mat[3].y, mat[3].z);
 		//printf("orientation %f, %f, %f, %f\n", m_rotation.x, bone.m_rotation.y, bone.m_rotation.z, bone.m_rotation.w);)
 	}
 
 	static uint16_t s_node_index = 0;
 
 	Node3::Node3()
-		//: m_index(s_node_index++)
 	{}
 
-	Node3::Node3(const mat4& transform)
-		//: m_index(s_node_index++)
+	Node3::Node3(const mat4& transform, uint32_t parent)
 		: m_transform(transform)
+		, m_parent(parent)
 	{}
 
 	Node3::Node3(const vec3& position, const quat& rotation, const vec3& scale)

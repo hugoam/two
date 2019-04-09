@@ -18,28 +18,9 @@
 
 namespace mud
 {
-	MUD_GFX_EXPORT mat4 fix_bone_pose(Bone& bone);
+	MUD_GFX_EXPORT mat4 fix_bone_pose(Node3& bone);
 
 	MUD_GFX_EXPORT void debug_draw_skeleton(Gnode& parent, const quat& position, const quat& rotation, Rig& rig);
-
-	export_ struct refl_ MUD_GFX_EXPORT Bone
-	{
-		Bone() {}
-		Bone(cstring name, int index, int parent = -1) : m_name(name), m_index(index), m_parent(parent) {}
-
-		string m_name = "";
-		int m_index = 0;
-		int m_parent = -1;
-
-		attr_ vec3 m_position = vec3(0.f);
-		attr_ quat m_rotation = ZeroQuat;
-		attr_ vec3 m_scale = vec3(1.f);
-
-		mat4 m_pose_local;
-		mat4 m_pose;
-
-		vector<Node3*> m_attached_nodes;
-	};
 
 	export_ class refl_ MUD_GFX_EXPORT Skeleton
 	{
@@ -47,13 +28,13 @@ namespace mud
 		Skeleton();
 		Skeleton(cstring name, int num_bones);
 
-		Bone& add_bone(cstring name, int parent = -1);
-		Bone* find_bone(cstring name);
-		void update_bones();
+		uint32_t add_bone(cstring name, uint32_t parent = UINT32_MAX);
+		uint32_t bone_index(cstring name) const;
+		Node3* find_bone(cstring name);
 
 		cstring m_name;
-		vector<Bone> m_bones;
-		vector<Animation*> m_animations;
+		vector<string> m_names;
+		vector<Node3> m_bones;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT Joint
@@ -72,7 +53,6 @@ namespace mud
 		~Skin();
 
 		void add_joint(cstring bone, const mat4& inverse_bind);
-		Joint* find_bone_joint(cstring name);
 		void update_joints();
 
 		Skeleton* m_skeleton;
