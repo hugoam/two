@@ -56,7 +56,10 @@ namespace mud
 		}
 
 		if(mime)
+		{
 			mime->add_nodes(nodes);
+			mime->m_anims = m_anims;
+		}
 	}
 
 	Prefab& import_prefab(GfxSystem& gfx, ModelFormat format, const string& name, const ImportConfig& config)

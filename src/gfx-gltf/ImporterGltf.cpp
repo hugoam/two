@@ -394,6 +394,7 @@ namespace mud
 		{
 			material.m_alpha.m_is_alpha = true;
 			material.m_alpha.m_alpha = material.m_pbr.m_albedo.m_value.a;
+			material.m_base.m_depth_draw = DepthDraw::Disabled;
 		}
 
 		if(gltf_material.alpha_mode == glTFAlphaMode::BLEND)
