@@ -267,10 +267,10 @@ static string sky_vertex =
 
 	"void main() {\n"
 
-		"int material_index = int(u_state_material);\n"
+		"int material_index = int(u_state_material_vertex);\n"
 		"UserMaterial mat = read_user_material(material_index);\n"
 
-		"vec3 sunposition    = mat.p0.xyz;\n"
+		"vec3 sunposition     = mat.p0.xyz;\n"
 		"float turbidity      = mat.p1.x;\n"
 		"float rayleigh       = mat.p1.y;\n"
 		"float mieCoefficient = mat.p2.x;\n"

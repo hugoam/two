@@ -614,6 +614,7 @@ namespace mud
 		const BlockMaterial& block = *ms_gfx->m_renderer.block<BlockMaterial>();
 		vec4 state = { 0.f, float(m_index), 0.f, 0.f };
 		encoder.setUniform(block.u_state, &state);
+		encoder.setUniform(block.u_state_vertex, &state);
 		encoder.setTexture(uint8_t(TextureSampler::Materials), block.s_materials, block.m_materials_texture, TEXTURE_POINT | TEXTURE_CLAMP);
 #endif
 
@@ -651,6 +652,7 @@ namespace mud
 	void BlockMaterial::init_block()
 	{
 		u_state = bgfx::createUniform("u_state", bgfx::UniformType::Vec4);
+		u_state_vertex = bgfx::createUniform("u_state_vertex", bgfx::UniformType::Vec4);
 
 		s_materials = bgfx::createUniform("s_materials", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 	}

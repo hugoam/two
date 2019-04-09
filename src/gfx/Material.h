@@ -348,7 +348,10 @@ namespace mud
 
 		virtual void submit(Render& render, const Pass& pass);
 
+		// only reason for this split hack is bgfx/webgl precision mismatch issue
 		bgfx::UniformHandle u_state = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_state_vertex = BGFX_INVALID_HANDLE;
+
 		bgfx::UniformHandle s_materials = BGFX_INVALID_HANDLE;
 		Texture m_materials_texture = {};
 	};

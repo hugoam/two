@@ -11,13 +11,13 @@ using namespace mud;
 #define MULTI_VIEWPORT 0
 
 // todo js:
-// fix editor input (in EmContext ?)
 // xx_shader_lava no post processing + no bloom
 // xx_shadow_point random crash (in atlas probably)
 // xx_material_skin
 // xx_shader_ocean
 
 // todo:
+// xx_material_standard albedo/pbr issue
 // fix shadow filtering
 
 // small:
@@ -69,7 +69,7 @@ Example examples[] =
 	{ "effect",					xx_effect },
 	{ "effect/bloom",			xx_effect_bloom },
 	{ "effect/dof",				xx_effect_dof },
-	{ "effect/glitch",			xx_effect_glitch },
+	//{ "effect/glitch",			xx_effect_glitch },
 	{ "effect/godrays",			xx_effect_godrays },
 	{ "effect/halftone",		xx_effect_halftone },
 	{ "effect/sao",				xx_effect_sao },

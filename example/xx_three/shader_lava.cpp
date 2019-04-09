@@ -116,7 +116,7 @@ static string lava_vertex =
 
 	"void main()\n"
 	"{\n"
-	"	int material_index = int(u_state_material);\n"
+	"	int material_index = int(u_state_material_vertex);\n"
 	"	BaseMaterial basic = read_base_material(material_index);\n"
 
 	"   v_uv0 = (a_texcoord0 * basic.uv0_scale) + basic.uv0_offset;\n"
@@ -236,9 +236,6 @@ void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	angles.x += 0.05f * delta;
 
 	node->apply(vec3(0.f), quat(angles));
-
-	//renderer.clear();
-	//composer.render(0.01);
 
 	static Film film = { 0.35f, 0.95f, 2048, false };
 

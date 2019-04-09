@@ -18,7 +18,7 @@ static string vertex_shader =
 	"void main()\n"
 	"{\n"
 #if GEOMETRY
-	"	int material_index = int(u_state_material);\n"
+	"	int material_index = int(u_state_material_vertex);\n"
 	"	BaseMaterial basic = read_base_material(material_index);\n"
 	"	\n"
 	"   v_uv0 = (a_texcoord0 * basic.uv0_scale) + basic.uv0_offset;\n"
