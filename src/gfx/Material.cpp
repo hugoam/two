@@ -659,7 +659,10 @@ namespace mud
 	{
 		UNUSED(render);
 #if MATERIALS_BUFFER
-		GpuState<Material>::me.pack(m_materials_texture, m_gfx.materials().m_vector);
+		const vector<Material*> materials = m_gfx.materials().m_vector;
+		for(uint32_t i = 0; i < materials.size(); ++i)
+			materials[i]->m_index = i;
+		GpuState<Material>::me.pack(m_materials_texture, materials);
 #endif
 	}
 

@@ -44,32 +44,34 @@ static string translucent_fragment =
 	"#include <encode.sh>\n"
 	"#include <pbr/pbr.sh>\n"
 	"#include <pbr/light.sh>\n"
-	//"#define BRDF_TRANSLUCENT_BLINN_PHONG\n"
 	"#include <pbr/light_brdf_three.sh>\n"
 	"#include <pbr/radiance.sh>\n"
 
-	// Translucency
-	//"SAMPLER2D(s_thickness, 7);\n"
 	"#define s_thickness s_user0\n"
-	"#define u_scatter_p0 u_user_p0\n"
-	"#define u_scatter_p1 u_user_p1\n"
-	"#define u_thicknessPower u_scatter_p0.x\n"
-	"#define u_thicknessScale u_scatter_p0.y\n"
-	"#define u_thicknessDistortion u_scatter_p0.z\n"
-	"#define u_thicknessAmbient u_scatter_p0.w\n"
-	"#define u_thicknessAttenuation u_scatter_p1.x\n"
-	"#define u_thicknessColor u_scatter_p1.yzw\n"
 
-	"void direct_scatter(vec3 energy, vec3 l, Fragment fragment, PhongMaterial material, inout vec3 diffuse, inout vec3 specular)\n"
+	"struct TranslucentMaterial\n"
 	"{\n"
-	"   direct_blinn_phong(energy, l, fragment, material, diffuse, specular);\n"
+	"	PhongMaterial phong;\n"
+	"	UserMaterial scatter;\n"
+	"};\n"
 
-	"	vec3 thickness = u_thicknessColor * texture2D(s_thickness, fragment.uv).r;\n"
-	"	vec3 scatteringHalf = normalize(l + (fragment.normal * u_thicknessDistortion));\n"
-	"	float scatteringDot = pow(saturate(dot(fragment.view, -scatteringHalf)), u_thicknessPower) * u_thicknessScale;\n"
-	"	vec3 scatteringIllu = (scatteringDot + u_thicknessAmbient) * thickness;\n"
-		
-	"	diffuse += scatteringIllu * u_thicknessAttenuation * energy;\n"
+	"void direct_scatter(vec3 energy, vec3 l, Fragment fragment, TranslucentMaterial mat, inout vec3 diffuse, inout vec3 specular)\n"
+	"{\n"
+		"direct_blinn_phong(energy, l, fragment, mat.phong, diffuse, specular);\n"
+
+		"float power       = mat.scatter.p0.x;\n"
+		"float scale       = mat.scatter.p0.y;\n"
+		"float distortion  = mat.scatter.p0.z;\n"
+		"float ambient     = mat.scatter.p0.w;\n"
+		"float attenuation = mat.scatter.p1.x;\n"
+		"vec3  color       = mat.scatter.p1.yzw;\n"
+
+		"vec3 thickness = color * texture2D(s_thickness, fragment.uv).r;\n"
+		"vec3 scatteringHalf = normalize(l + (fragment.normal * distortion));\n"
+		"float scatteringDot = pow(saturate(dot(fragment.view, -scatteringHalf)), power) * scale;\n"
+		"vec3 scatteringIllu = (scatteringDot + ambient) * thickness;\n"
+	
+		"diffuse += scatteringIllu * attenuation * energy;\n"
 	"}\n"
 
 	"#define direct_brdf direct_scatter\n"
@@ -79,6 +81,9 @@ static string translucent_fragment =
 	"#include <pbr/fs_fragment.sh>\n"
 		
 	"#include <pbr/fs_phong_material.sh>\n"
+		"TranslucentMaterial material;\n"
+		"material.phong = matphong;\n"
+		"material.scatter = matuser;\n"
 		
 	"#include <pbr/fs_phong.sh>\n"
 	"#include <pbr/fs_out_pbr.sh>\n"

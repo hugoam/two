@@ -253,10 +253,6 @@ static string skin_fragment =
 	"#include <pbr/light_brdf_three.sh>\n"
 	"#include <pbr/radiance.sh>\n"
 
-	//"uniform vec4 u_skin_p0;\n"
-	"#define u_roughness u_user_p0.x\n"
-	"#define u_spec_brightness u_user_p0.y\n"
-
 	"#define s_blur1 s_user0\n"
 	"#define s_blur2 s_user1\n"
 	"#define s_blur3 s_user2\n"
@@ -297,14 +293,23 @@ static string skin_fragment =
 		"return result;\n"
 	"}\n"
 
-	"void direct_skin(vec3 energy, vec3 l, Fragment fragment, PhongMaterial material, inout vec3 diffuse, inout vec3 specular)\n"
+	"struct SkinMaterial\n"
+	"{\n"
+	"	PhongMaterial phong;\n"
+	"	UserMaterial skin;\n"
+	"};\n"
+
+	"void direct_skin(vec3 energy, vec3 l, Fragment fragment, SkinMaterial mat, inout vec3 diffuse, inout vec3 specular)\n"
 	"{\n"
 		"float diffuseWeight = max(dot(fragment.normal, l), 0.0);\n"
 		"diffuse += energy * diffuseWeight;\n"
 
 	"#ifndef PASS_DIFFUSE\n"
-			"float specularWeight = KS_Skin_Specular(fragment.normal, l, fragment.view, u_roughness, u_spec_brightness);\n"
-			"specular += energy * material.specular * specularWeight;\n"
+			"float roughness  = mat.skin.p0.x;\n"
+			"float brightness = mat.skin.p0.y;\n"
+
+			"float specularWeight = KS_Skin_Specular(fragment.normal, l, fragment.view, roughness, brightness);\n"
+			"specular += energy * mat.phong.specular * specularWeight;\n"
 	"#endif\n"
 	"}\n"
 
@@ -315,9 +320,13 @@ static string skin_fragment =
 	"#include <pbr/fs_fragment.sh>\n"
 
 	"#include <pbr/fs_phong_material.sh>\n"
+		"SkinMaterial material;\n"
+		"material.phong = matphong;\n"
+		"material.skin = matuser;\n"
+
 		"vec4 texDiffuse = sample_material_texture(s_diffuse, fragment.uv);\n"
 		"texDiffuse *= texDiffuse;\n"
-		"vec4 diffuseColor = vec4(material.diffuse, 1.0) * texDiffuse;\n"
+		"vec4 diffuseColor = vec4(matphong.diffuse, 1.0) * texDiffuse;\n"
 
 	"#include <pbr/fs_phong.sh>\n"
 
@@ -333,30 +342,16 @@ static string skin_fragment =
 				"vec3 color = light;\n"
 			"#endif\n"
 
-			"vec3 blur1 = texture2D(s_blur1, v_uv0).xyz;\n"
-			"vec3 blur2 = texture2D(s_blur2, v_uv0).xyz;\n"
-			"vec3 blur3 = texture2D(s_blur3, v_uv0).xyz;\n"
-			"vec3 blur4 = texture2D(s_blur4, v_uv0).xyz;\n"
-
-
-			//"gl_FragColor = vec4(blur1, gl_FragColor.w);\n"
-
-			//"gl_FragColor = vec4(vec3(0.22, 0.5, 0.7) * color + vec3(0.2, 0.5, 0.3) * blur1 + vec3(0.58, 0.0, 0.0) * blur2, gl_FragColor.w);\n"
-
-			//"gl_FragColor = vec4(vec3(0.25, 0.6, 0.8) * color + vec3(0.15, 0.25, 0.2) * blur1 + vec3(0.15, 0.15, 0.0) * blur2 + vec3(0.45, 0.0, 0.0) * blur3, gl_FragColor.w);\n"
-
-
 			"light = vec3(vec3(0.22,  0.437, 0.635) * color + \n"
-							"vec3(0.101, 0.355, 0.365) * blur1 + \n"
-							"vec3(0.119, 0.208, 0.0)   * blur2 + \n"
-							"vec3(0.114, 0.0,   0.0)   * blur3 + \n"
-							"vec3(0.444, 0.0,   0.0)   * blur4);\n"
+						 "vec3(0.101, 0.355, 0.365) * texture2D(s_blur1, v_uv0).rgb + \n"
+						 "vec3(0.119, 0.208, 0.0)   * texture2D(s_blur2, v_uv0).rgb + \n"
+						 "vec3(0.114, 0.0,   0.0)   * texture2D(s_blur3, v_uv0).rgb + \n"
+						 "vec3(0.444, 0.0,   0.0)   * texture2D(s_blur4, v_uv0).rgb);\n"
 
 			"light *= sqrt(texDiffuse.xyz);\n"
 
-			//"light += ambientLightColor * diffuse * texDiffuse.xyz + specular;\n"
-			"vec3 ambient = vec3_splat(0.0); //zone.radiance_color * zone.ambient;"
-			"light += ambient * material.diffuse * texDiffuse.xyz + specular;\n"
+			"vec3 ambient = zone.ambient;\n"
+			"light += ambient * matphong.diffuse * texDiffuse.xyz + specular;\n"
 
 			"#ifndef VERSION1\n"
 				"light = sqrt(light);\n"
@@ -475,11 +470,11 @@ void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		//scene.background = new THREE.Color(0x050505);
 
-		Node3& ln0 = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(normalize(vec3(-1.f, -0.5f, -1.f)))));
+		Node3& ln0 = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(vec3(-1.f, -0.5f, -1.f))));
 		Light& l0 = gfx::lights(scene).add(Light(ln0, LightType::Direct, false, rgb(0xffeedd), 1.5f));
 
-		Node3& ln1 = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(normalize(vec3(1.f, -0.5f, 1.f)))));
-		Light& l1 = gfx::lights(scene).add(Light(ln0, LightType::Direct, false, rgb(0xddddff), 0.5f));
+		Node3& ln1 = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(vec3(1.f, -0.5f, 1.f))));
+		Light& l1 = gfx::lights(scene).add(Light(ln1, LightType::Direct, false, rgb(0xddddff), 0.5f));
 
 		// MATERIALS
 

@@ -57,21 +57,22 @@ static string toon1_fragment =
 
 	"#include <common.sh>\n"
 
-	"#define u_toon_color1 u_user_p0.xyz\n"
-	"#define u_toon_color2 u_user_p0.xyz\n"
+	"#define toon_color1 p0.xyz\n"
+	"#define toon_color2 p0.xyz\n"
 
-	"#define u_light_dir u_user_p1.xyz\n"
-	"#define u_light_color u_user_p2.xyz\n"
+	"#define light_dir   p1.xyz\n"
+	"#define light_color p2.xyz\n"
 
-	"#define u_ambient u_user_p3.xyz\n"
+	"#define ambient p3.xyz\n"
 
 	"void main()\n"
 	"{\n"
 		"int material_index = int(u_state_material);\n"
 		"SolidMaterial solid = read_solid_material(material_index);\n"
+		"UserMaterial mat = read_user_material(material_index);\n"
 
-		"float directionalLightWeighting = max(dot(normalize(v_normal), -u_light_dir), 0.0);\n"
-		"vec3 lightWeighting = u_ambient + u_light_color * directionalLightWeighting;\n"
+		"float directionalLightWeighting = max(dot(normalize(v_normal), -mat.light_dir), 0.0);\n"
+		"vec3 lightWeighting = mat.ambient + mat.light_color * directionalLightWeighting;\n"
 
 		"float intensity = smoothstep(- 0.5, 1.0, pow(length(lightWeighting), 20.0));\n"
 		"intensity += length(lightWeighting) * 0.2;\n"
@@ -104,13 +105,13 @@ static string toon2_fragment =
 
 	"#include <common.sh>\n"
 
-	"#define u_toon_color1 u_user_p0.xyz\n"
-	"#define u_toon_color2 u_user_p0.xyz\n"
+	"#define toon_color1 p0.xyz\n"
+	"#define toon_color2 p0.xyz\n"
 
-	"#define u_light_dir u_user_p1.xyz\n"
-	"#define u_light_color u_user_p2.xyz\n"
+	"#define light_dir   p1.xyz\n"
+	"#define light_color p2.xyz\n"
 
-	"#define u_ambient u_user_p3.xyz\n"
+	"#define ambient     p3.xyz\n"
 
 	"void main()\n"
 	"{\n"
@@ -148,44 +149,45 @@ static string hatching_fragment =
 
 	"#include <common.sh>\n"
 
-	"#define u_hatch_color u_user_p0.xyz\n"
+	"#define hatch_color p0.xyz\n"
 
-	"#define u_light_dir u_user_p1.xyz\n"
-	"#define u_light_color u_user_p2.xyz\n"
+	"#define light_dir   p1.xyz\n"
+	"#define light_color p2.xyz\n"
 
-	"#define u_ambient u_user_p3.xyz\n"
+	"#define ambient     p3.xyz\n"
 
 	"void main()\n"
 	"{\n"
 		"int material_index = int(u_state_material);\n"
 		"SolidMaterial solid = read_solid_material(material_index);\n"
+		"UserMaterial mat = read_user_material(material_index);\n"
 
-		"float directionalLightWeighting = max(dot(normalize(v_normal), -u_light_dir), 0.0);\n"
-		"vec3 lightWeighting = u_ambient + u_light_color * directionalLightWeighting;\n"
+		"float directionalLightWeighting = max(dot(normalize(v_normal), -mat.light_dir), 0.0);\n"
+		"vec3 lightWeighting = mat.ambient + mat.light_color * directionalLightWeighting;\n"
 
 		"gl_FragColor = vec4(solid.color.rgb, 1.0);\n"
 
 		"if (length(lightWeighting) < 1.00) {\n"
 			"if (mod(gl_FragCoord.x + gl_FragCoord.y, 10.0) == 0.0) {\n"
-				"gl_FragColor = vec4(u_hatch_color, 1.0);\n" // uLineColor1
+				"gl_FragColor = vec4(mat.hatch_color, 1.0);\n" // uLineColor1
 			"}\n"
 		"}\n"
 
 		"if (length(lightWeighting) < 0.75) {\n"
 			"if (mod(gl_FragCoord.x - gl_FragCoord.y, 10.0) == 0.0) {\n"
-				"gl_FragColor = vec4(u_hatch_color, 1.0);\n" // uLineColor2
+				"gl_FragColor = vec4(mat.hatch_color, 1.0);\n" // uLineColor2
 			"}\n"
 		"}\n"
 
 		"if (length(lightWeighting) < 0.50) {\n"
 			"if (mod(gl_FragCoord.x + gl_FragCoord.y - 5.0, 10.0) == 0.0) {\n"
-				"gl_FragColor = vec4(u_hatch_color, 1.0);\n" // uLineColor3
+				"gl_FragColor = vec4(mat.hatch_color, 1.0);\n" // uLineColor3
 			"}\n"
 		"}\n"
 
 		"if (length(lightWeighting) < 0.3465) {\n"
 			"if (mod(gl_FragCoord.x - gl_FragCoord.y - 5.0, 10.0) == 0.0) {\n"
-				"gl_FragColor = vec4(u_hatch_color, 1.0);\n" // uLineColor4
+				"gl_FragColor = vec4(mat.hatch_color, 1.0);\n" // uLineColor4
 			"}\n"
 		"}\n"
 	"}\n";
@@ -207,32 +209,33 @@ static string dotted_fragment =
 
 	"#include <common.sh>\n"
 
-	"#define u_dot_color u_user_p0.xyz\n"
+	"#define dot_color   p0.xyz\n"
 
-	"#define u_light_dir u_user_p1.xyz\n"
-	"#define u_light_color u_user_p2.xyz\n"
+	"#define light_dir   p1.xyz\n"
+	"#define light_color p2.xyz\n"
 
-	"#define u_ambient u_user_p3.xyz\n"
+	"#define ambient     p3.xyz\n"
 
 	"void main()\n"
 	"{\n"
 		"int material_index = int(u_state_material);\n"
 		"SolidMaterial solid = read_solid_material(material_index);\n"
+		"UserMaterial mat = read_user_material(material_index);\n"
 
-		"float directionalLightWeighting = max(dot(normalize(v_normal), -u_light_dir), 0.0);\n"
-		"vec3 lightWeighting = u_ambient + u_light_color * directionalLightWeighting;\n"
+		"float directionalLightWeighting = max(dot(normalize(v_normal), -mat.light_dir), 0.0);\n"
+		"vec3 lightWeighting = mat.ambient + mat.light_color * directionalLightWeighting;\n"
 
 		"gl_FragColor = vec4(solid.color.rgb, 1.0);\n"
 
 		"if (length(lightWeighting) < 1.00) {\n"
 			"if ((mod(gl_FragCoord.x, 4.001) + mod(gl_FragCoord.y, 4.0)) > 6.00) {\n"
-				"gl_FragColor = vec4(u_dot_color, 1.0);\n"
+				"gl_FragColor = vec4(mat.dot_color, 1.0);\n"
 			"}\n"
 		"}\n"
 
 		"if (length(lightWeighting) < 0.50) {\n"
 			"if ((mod(gl_FragCoord.x + 2.0, 4.001) + mod(gl_FragCoord.y + 2.0, 4.0)) > 6.00) {\n"
-				"gl_FragColor = vec4(u_dot_color, 1.0);\n"
+				"gl_FragColor = vec4(mat.dot_color, 1.0);\n"
 			"}\n"
 		"}\n"
 	"}\n";

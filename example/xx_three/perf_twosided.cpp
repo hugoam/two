@@ -55,9 +55,8 @@ void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			m.m_phong.m_env_blend = PhongEnvBlendMode::Mix;
 		});
 
-		Model& geometry = app.m_gfx.shape(Sphere(1.f, 0.f, c_pi));
-		//Model& geometry = app.m_gfx.shape(SphereRing(1.f, 0.f, c_pi));
-		//new THREE.SphereBufferGeometry(1, 32, 16, 0, c_pi);
+		Symbol symbol; symbol.m_subdiv = uvec2(32, 16);
+		Model& geometry = app.m_gfx.shape(Sphere(1.f, 0.f, c_pi), symbol);
 
 		for(size_t i = 0; i < 5000; ++i)
 		{

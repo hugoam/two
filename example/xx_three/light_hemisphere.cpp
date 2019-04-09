@@ -27,16 +27,19 @@ static string skydome_fragment =
 
 	"#include <common.sh>\n"
 
-	"#define u_top_color u_user_p0.xyz\n"
-	"#define u_bottom_color u_user_p1.xyz\n"
-	"#define u_offset u_user_p2.x\n"
-	"#define u_exponent u_user_p2.y\n"
+	"#define top_color    p0.xyz\n"
+	"#define bottom_color p1.xyz\n"
+	"#define offset       p2.x\n"
+	"#define exponent     p2.y\n"
 
 	"void main()\n"
 	"{\n"
-	"	float h = normalize(v_world + u_offset).y;\n"
-	"	gl_FragColor = vec4(mix(u_bottom_color, u_top_color, max(pow(max(h, 0.0), u_exponent), 0.0)), 1.0);\n"
-	"	gl_FragColor = vec4(pow(gl_FragColor.rgb, vec3_splat(2.0)), 1.0);\n"
+		"int material_index = int(u_state_material);\n"
+		"UserMaterial u = read_user_material(material_index);\n"
+
+		"float h = normalize(v_world + u.offset).y;\n"
+		"gl_FragColor = vec4(mix(u.bottom_color, u.top_color, max(pow(max(h, 0.0), u.exponent), 0.0)), 1.0);\n"
+		"gl_FragColor = vec4(pow(gl_FragColor.rgb, vec3_splat(2.0)), 1.0);\n"
 	"}\n";
 
 void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init)

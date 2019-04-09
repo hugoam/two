@@ -132,45 +132,49 @@ static string lava_fragment =
 	"#include <common.sh>\n"
 	//"#include <fog.sh>\n"
 
-	"#define u_fog_density u_user_p0.x\n"
-	"#define u_fog_source u_user_p0.yzw\n"
+	"#define fog_density p0.x\n"
+	"#define fog_color   p0.yzw\n"
 
 	"void main()\n"
 	"{\n"
-	"	vec2 uv = v_uv0;\n"
-	"	vec2 position = - 1.0 + 2.0 * uv;\n"
+		"int material_index = int(u_state_material);\n"
+		"UserMaterial mat = read_user_material(material_index);\n"
 
-	"	vec4 noise = texture2D(s_user0, uv);\n"
-	"	vec2 T1 = uv + vec2(1.5, - 1.5) * u_time * 0.02;\n"
-	"	vec2 T2 = uv + vec2(- 0.5, 2.0) * u_time * 0.01;\n"
+		"vec2 uv = v_uv0;\n"
+		"vec2 position = - 1.0 + 2.0 * uv;\n"
 
-	"	T1.x += noise.x * 2.0;\n"
-	"	T1.y += noise.y * 2.0;\n"
-	"	T2.x -= noise.y * 0.2;\n"
-	"	T2.y += noise.z * 0.2;\n"
+		"vec4 noise = texture2D(s_user0, uv);\n"
+		"vec2 T1 = uv + vec2(1.5, - 1.5) * u_time * 0.02;\n"
+		"vec2 T2 = uv + vec2(- 0.5, 2.0) * u_time * 0.01;\n"
 
-	"	float p = texture2D(s_user0, T1 * 2.0).a;\n"
+		"T1.x += noise.x * 2.0;\n"
+		"T1.y += noise.y * 2.0;\n"
+		"T2.x -= noise.y * 0.2;\n"
+		"T2.y += noise.z * 0.2;\n"
 
-	"	vec4 lava = texture2D(s_user1, T2 * 2.0);\n"
-	"	vec4 source = lava * (vec4(p, p, p, p) * 2.0) + (lava * lava - 0.1);\n"
+		"float p = texture2D(s_user0, T1 * 2.0).a;\n"
 
-	"	if(source.r > 1.0) { source.bg += clamp(source.r - 2.0, 0.0, 100.0); }\n"
-	"	if(source.g > 1.0) { source.rb += source.g - 1.0; }\n"
-	"	if(source.b > 1.0) { source.rg += source.b - 1.0; }\n"
+		"vec4 lava = texture2D(s_user1, T2 * 2.0);\n"
+		"vec4 source = lava * (vec4(p, p, p, p) * 2.0) + (lava * lava - 0.1);\n"
 
-	"	gl_FragColor = source;\n"
+		"if(source.r > 1.0) { source.bg += clamp(source.r - 2.0, 0.0, 100.0); }\n"
+		"if(source.g > 1.0) { source.rb += source.g - 1.0; }\n"
+		"if(source.b > 1.0) { source.rg += source.b - 1.0; }\n"
+
+		"gl_FragColor = source;\n"
 
 	"#if BGFX_SHADER_LANGUAGE_HLSL\n"
 	//"	float depth = v_position.z;\n"
-	"	float depth = gl_FragCoord.z * gl_FragCoord.w;\n"
+		"float depth = gl_FragCoord.z * gl_FragCoord.w;\n"
 	"#else\n"
 	//"	float depth = (v_position.z + v_position.w) * 0.5;\n"
-	"	float depth = gl_FragCoord.z / gl_FragCoord.w;\n"
+		"float depth = gl_FragCoord.z / gl_FragCoord.w;\n"
 	"#endif\n"
-	"	float fogFactor = exp2(-u_fog_density * u_fog_density * depth * depth * LOG2);\n"
-	"	fogFactor = 1.0 - clamp(fogFactor, 0.0, 1.0);\n"
+		"float fogFactor = exp2(-mat.fog_density * mat.fog_density * depth * depth * LOG2);\n"
+		"fogFactor = 1.0 - clamp(fogFactor, 0.0, 1.0);\n"
 
-	"	gl_FragColor = mix(source, vec4(vec3(0.0, 0.0, 0.0), source.w), fogFactor);\n"
+		//"gl_FragColor = mix(source, vec4(vec3(0.0, 0.0, 0.0), source.w), fogFactor);\n"
+		"gl_FragColor = mix(source, vec4(mat.fog_color, source.w), fogFactor);\n"
 	"}\n";
 
 

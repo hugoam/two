@@ -42,32 +42,24 @@ string water_fragment =
 		
 	"#define s_mirror s_user0\n"
 	"#define s_normal s_user1\n"
-		
-	"#define u_alpha u_user_p0.x\n"
-	"#define u_size u_user_p0.y\n"
-	"#define u_distortion u_user_p0.z\n"
-	"#define u_sun_color u_user_p1.xyz\n"
-	"#define u_sun_dir u_user_p2.xyz\n"
-	"#define u_eye u_user_p3.xyz\n"
-	"#define u_water_color u_user_p4.xyz\n"
-		
+
 	"vec4 getNoise(vec2 uv) {\n"
-	"	vec2 uv0 = (uv / 103.0) + vec2(u_time / 17.0, u_time / 29.0);\n"
-	"	vec2 uv1 = uv / 107.0 - vec2(u_time / -19.0, u_time / 31.0);\n"
-	"	vec2 uv2 = uv / vec2(8907.0, 9803.0) + vec2(u_time / 101.0, u_time / 97.0);\n"
-	"	vec2 uv3 = uv / vec2(1091.0, 1027.0) - vec2(u_time / 109.0, u_time / -113.0);\n"
-	"	vec4 noise = texture2D(s_normal, uv0) +\n"
-	"		texture2D(s_normal, uv1) +\n"
-	"		texture2D(s_normal, uv2) +\n"
-	"		texture2D(s_normal, uv3);\n"
-	"	return noise * 0.5 - 1.0;\n"
+		"vec2 uv0 = (uv / 103.0) + vec2(u_time / 17.0, u_time / 29.0);\n"
+		"vec2 uv1 = uv / 107.0 - vec2(u_time / -19.0, u_time / 31.0);\n"
+		"vec2 uv2 = uv / vec2(8907.0, 9803.0) + vec2(u_time / 101.0, u_time / 97.0);\n"
+		"vec2 uv3 = uv / vec2(1091.0, 1027.0) - vec2(u_time / 109.0, u_time / -113.0);\n"
+		"vec4 noise = texture2D(s_normal, uv0) +\n"
+			"texture2D(s_normal, uv1) +\n"
+			"texture2D(s_normal, uv2) +\n"
+			"texture2D(s_normal, uv3);\n"
+		"return noise * 0.5 - 1.0;\n"
 	"}\n"
 		
-	"void sunLight(vec3 normal, vec3 view, float shiny, float fspec, float fdiff, inout vec3 diffuse, inout vec3 specular) {\n"
-	"	vec3 reflection = normalize(reflect(-u_sun_dir, normal));\n"
-	"	float direction = max(0.0, dot(view, reflection));\n"
-	"	specular += pow(direction, shiny) * u_sun_color * fspec;\n"
-	"	diffuse += max(dot(u_sun_dir, normal), 0.0) * u_sun_color * fdiff;\n"
+	"void sunLight(vec3 normal, vec3 view, vec3 sundir, vec3 suncolor, float shiny, float fspec, float fdiff, inout vec3 diffuse, inout vec3 specular) {\n"
+		"vec3 reflection = normalize(reflect(-sundir, normal));\n"
+		"float direction = max(0.0, dot(view, reflection));\n"
+		"specular += pow(direction, shiny) * suncolor * fspec;\n"
+		"diffuse += max(dot(sundir, normal), 0.0) * suncolor * fdiff;\n"
 	"}\n"
 
 	//THREE.ShaderChunk['common'],
@@ -79,36 +71,47 @@ string water_fragment =
 	//THREE.ShaderChunk['shadowmask_pars_fragment'],
 
 	"void main() {\n"
-	"	vec4 noise = getNoise(v_world.xz * u_size);\n"
-	"	vec3 normal = normalize(noise.xzy * vec3(1.5, 1.0, 1.5));\n"
+		"int material_index = int(u_state_material);\n"
+		"UserMaterial mat = read_user_material(material_index);\n"
+
+		"float alpha      = mat.p0.x;\n"
+		"float size       = mat.p0.y;\n"
+		"float distortion = mat.p0.z;\n"
+		"vec3 suncolor    = mat.p1.xyz;\n"
+		"vec3 sundir      = mat.p2.xyz;\n"
+		"vec3 eye         = mat.p3.xyz;\n"
+		"vec3 water_color = mat.p4.xyz;\n"
+
+		"vec4 noise = getNoise(v_world.xz * size);\n"
+		"vec3 normal = normalize(noise.xzy * vec3(1.5, 1.0, 1.5));\n"
 	//"	gl_FragColor = vec4(normal * 0.5 + 0.5, 1.0);\n"
 		
-	"	vec3 diffuse = vec3_splat(0.0);\n"
-	"	vec3 specular = vec3_splat(0.0);\n"
+		"vec3 diffuse = vec3_splat(0.0);\n"
+		"vec3 specular = vec3_splat(0.0);\n"
 		
-	"	vec3 ray = u_eye - v_world.xyz;\n"
-	"	float distance = length(ray);\n"
-	"	vec3 dir = normalize(ray);\n"
-	"	sunLight(normal, dir, 100.0, 2.0, 0.5, diffuse, specular);\n"
+		"vec3 ray = eye - v_world.xyz;\n"
+		"float distance = length(ray);\n"
+		"vec3 dir = normalize(ray);\n"
+		"sunLight(normal, dir, sundir, suncolor, 100.0, 2.0, 0.5, diffuse, specular);\n"
 		
 		
-	"	vec2 distortion = normal.xz * (0.001 + 1.0 / distance) * u_distortion;\n"
-	"	vec3 reflection = texture2D(s_mirror, v_mirrored.xy / v_mirrored.w + distortion).rgb;\n"
+		"vec2 distort = normal.xz * (0.001 + 1.0 / distance) * distortion;\n"
+		"vec3 reflection = texture2D(s_mirror, v_mirrored.xy / v_mirrored.w + distort).rgb;\n"
 	//"   vec2 uv = v_mirrored.xy / v_mirrored.w + distortion;\n"
 	//"   vec2 uv = v_mirrored.xy / v_mirrored.w + distortion;\n"
 	//"   vec2 uv = vec2_splat(distance / 1000.0);\n"
 	//"	gl_FragColor = vec4(vec3(uv.x, 0.0, uv.y), u_alpha);\n"
 	//"	gl_FragColor = vec4(reflection, u_alpha);\n"
 		
-	"	float theta = max(dot(dir, normal), 0.0);\n"
-	"	float rf0 = 0.3;\n"
-	"	float reflectance = rf0 + (1.0 - rf0) * pow((1.0 - theta), 5.0);\n"
-	"	vec3 scatter = max(0.0, dot(normal, dir)) * u_water_color;\n"
-	"	diffuse = (u_sun_color * diffuse * 0.3 + scatter);\n" // * getShadowMask()
-	"	specular = (vec3_splat(0.1) + reflection * 0.9 + reflection * specular);\n"
-	"	vec3 albedo = mix(diffuse, specular, reflectance);\n"
-	"	vec3 light = albedo;\n"
-	"	gl_FragColor = vec4(light, u_alpha);\n"
+		"float theta = max(dot(dir, normal), 0.0);\n"
+		"float rf0 = 0.3;\n"
+		"float reflectance = rf0 + (1.0 - rf0) * pow((1.0 - theta), 5.0);\n"
+		"vec3 scatter = max(0.0, dot(normal, dir)) * water_color;\n"
+		"diffuse = (suncolor * diffuse * 0.3 + scatter);\n" // * getShadowMask()
+		"specular = (vec3_splat(0.1) + reflection * 0.9 + reflection * specular);\n"
+		"vec3 albedo = mix(diffuse, specular, reflectance);\n"
+		"vec3 light = albedo;\n"
+		"gl_FragColor = vec4(light, alpha);\n"
 
 	//THREE.ShaderChunk['tonemapping_fragment'],
 	//THREE.ShaderChunk['fog_fragment'],
@@ -227,11 +230,6 @@ static string sky_vertex =
 		
 	"#include <common.sh>\n"
 		
-	"#define u_sun_position u_user_p0.xyz\n"
-	"#define u_turbidity u_user_p1.x\n"
-	"#define u_rayleigh u_user_p1.y\n"
-	"#define u_mieCoefficient u_user_p2.x\n"
-
 	"CONST(vec3) up = vec3(0.0, 1.0, 0.0);\n"
 
 	// constants for atmospheric scattering
@@ -269,26 +267,34 @@ static string sky_vertex =
 
 	"void main() {\n"
 
-	"	vec4 worldPosition = mul(u_model[0], vec4(a_position.xyz, 1.0));\n"
-	"	v_world = worldPosition.xyz;\n"
+		"int material_index = int(u_state_material);\n"
+		"UserMaterial mat = read_user_material(material_index);\n"
 
-	"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
-	"	gl_Position.z = gl_Position.w;\n" // set z to camera.far
+		"vec3 sunposition    = mat.p0.xyz;\n"
+		"float turbidity      = mat.p1.x;\n"
+		"float rayleigh       = mat.p1.y;\n"
+		"float mieCoefficient = mat.p2.x;\n"
 
-	"	v_sundir = normalize(u_sun_position);\n"
+		"vec4 worldPosition = mul(u_model[0], vec4(a_position.xyz, 1.0));\n"
+		"v_world = worldPosition.xyz;\n"
 
-	"	float sunE = sunIntensity(dot(v_sundir, up));\n"
-	"	float sunfade = 1.0 - clamp(1.0 - exp((u_sun_position.y / 450000.0)), 0.0, 1.0);\n"
-	"	v_sunp0 = vec2(sunfade, sunE);\n"
+		"gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
+		"gl_Position.z = gl_Position.w;\n" // set z to camera.far
 
-	"	float rayleighCoefficient = u_rayleigh - (1.0 * (1.0 - sunfade));\n"
+		"v_sundir = normalize(sunposition);\n"
+
+		"float sunE = sunIntensity(dot(v_sundir, up));\n"
+		"float sunfade = 1.0 - clamp(1.0 - exp((sunposition.y / 450000.0)), 0.0, 1.0);\n"
+		"v_sunp0 = vec2(sunfade, sunE);\n"
+
+		"float rayleighCoefficient = rayleigh - (1.0 * (1.0 - sunfade));\n"
 
 	// extinction (absorbtion + out scattering)
 	// rayleigh coefficients
-	"	v_betaR = totalRayleigh * rayleighCoefficient;\n"
+		"v_betaR = totalRayleigh * rayleighCoefficient;\n"
 
 	// mie coefficients
-	"	v_betaM = totalMie(u_turbidity) * u_mieCoefficient;\n"
+		"v_betaM = totalMie(turbidity) * mieCoefficient;\n"
 
 	"}\n";
 
@@ -298,9 +304,6 @@ static string sky_fragment =
 		
 	"#include <common.sh>\n"
 		
-	"#define u_luminance u_user_p1.z\n"
-	"#define u_mieDirectionalG u_user_p2.y\n"
-
 	"CONST(vec3) cameraPos = vec3(0.0, 0.0, 0.0);\n"
 
 	// constants for atmospheric scattering
@@ -348,50 +351,57 @@ static string sky_fragment =
 
 
 	"void main() {\n"
-	// optical length
-	// cutoff angle at 90 to avoid singularity in next formula.
-	"	float zenithAngle = acos(max(0.0, dot(up, normalize(v_world - cameraPos))));\n"
-	"	float inverse = 1.0 / (cos(zenithAngle) + 0.15 * pow(93.885 - ((zenithAngle * 180.0) / pi), -1.253));\n"
-	"	float sR = rayleighZenithLength * inverse;\n"
-	"	float sM = mieZenithLength * inverse;\n"
 
-	// combined extinction factor
-	"	vec3 Fex = exp(-(v_betaR * sR + v_betaM * sM));\n"
+		"int material_index = int(u_state_material);\n"
+		"UserMaterial mat = read_user_material(material_index);\n"
 
-	// in scattering
-	"	float cosTheta = dot(normalize(v_world - cameraPos), v_sundir);\n"
+		"float luminance       = mat.p1.z;\n"
+		"float mieDirectionalG = mat.p2.y;\n"
 
-	"	float rPhase = rayleighPhase(cosTheta * 0.5 + 0.5);\n"
-	"	vec3 betaRTheta = v_betaR * rPhase;\n"
+		// optical length
+		// cutoff angle at 90 to avoid singularity in next formula.
+		"float zenithAngle = acos(max(0.0, dot(up, normalize(v_world - cameraPos))));\n"
+		"float inverse = 1.0 / (cos(zenithAngle) + 0.15 * pow(93.885 - ((zenithAngle * 180.0) / pi), -1.253));\n"
+		"float sR = rayleighZenithLength * inverse;\n"
+		"float sM = mieZenithLength * inverse;\n"
 
-	"	float mPhase = hgPhase(cosTheta, u_mieDirectionalG);\n"
-	"	vec3 betaMTheta = v_betaM * mPhase;\n"
+		// combined extinction factor
+		"vec3 Fex = exp(-(v_betaR * sR + v_betaM * sM));\n"
 
-	"	float sunE = v_sunp0.y;"
-	"	vec3 Lin = pow(sunE * ((betaRTheta + betaMTheta) / (v_betaR + v_betaM)) * (1.0 - Fex), vec3_splat(1.5));\n"
-	"	Lin *= mix(vec3_splat(1.0), pow(sunE * ((betaRTheta + betaMTheta) / (v_betaR + v_betaM)) * Fex, vec3_splat(1.0 / 2.0)), clamp(pow(1.0 - dot(up, v_sundir), 5.0), 0.0, 1.0));\n"
+		// in scattering
+		"float cosTheta = dot(normalize(v_world - cameraPos), v_sundir);\n"
 
-	// nightsky
-	"	vec3 direction = normalize(v_world - cameraPos);\n"
-	"	float theta = acos(direction.y);\n" // elevation --> y-axis, [-pi/2, pi/2]
-	"	float phi = atan2(direction.z, direction.x);\n" // azimuth --> x-axis [-pi/2, pi/2]
-	"	vec2 uv = vec2(phi, theta) / vec2(2.0 * pi, pi) + vec2(0.5, 0.0);\n"
-	"	vec3 L0 = vec3_splat(0.1) * Fex;\n"
+		"float rPhase = rayleighPhase(cosTheta * 0.5 + 0.5);\n"
+		"vec3 betaRTheta = v_betaR * rPhase;\n"
 
-	// composition + solar disc
-	"	float sundisk = smoothstep(sunAngularDiameterCos, sunAngularDiameterCos + 0.00002, cosTheta);\n"
-	"	L0 += (sunE * 19000.0 * Fex) * sundisk;\n"
+		"float mPhase = hgPhase(cosTheta, mieDirectionalG);\n"
+		"vec3 betaMTheta = v_betaM * mPhase;\n"
 
-	"	vec3 texColor = (Lin + L0) * 0.04 + vec3(0.0, 0.0003, 0.00075);\n"
+		"float sunE = v_sunp0.y;"
+		"vec3 Lin = pow(sunE * ((betaRTheta + betaMTheta) / (v_betaR + v_betaM)) * (1.0 - Fex), vec3_splat(1.5));\n"
+		"Lin *= mix(vec3_splat(1.0), pow(sunE * ((betaRTheta + betaMTheta) / (v_betaR + v_betaM)) * Fex, vec3_splat(1.0 / 2.0)), clamp(pow(1.0 - dot(up, v_sundir), 5.0), 0.0, 1.0));\n"
 
-	"	vec3 curr = Uncharted2Tonemap((log2(2.0 / pow(u_luminance, 4.0))) * texColor);\n"
-	"	vec3 color = curr * whiteScale;\n"
+		// nightsky
+		"vec3 direction = normalize(v_world - cameraPos);\n"
+		"float theta = acos(direction.y);\n" // elevation --> y-axis, [-pi/2, pi/2]
+		"float phi = atan2(direction.z, direction.x);\n" // azimuth --> x-axis [-pi/2, pi/2]
+		"vec2 uv = vec2(phi, theta) / vec2(2.0 * pi, pi) + vec2(0.5, 0.0);\n"
+		"vec3 L0 = vec3_splat(0.1) * Fex;\n"
 
-	"	float sunfade = v_sunp0.x;"
-	"	vec3 retColor = pow(color, vec3_splat(1.0 / (1.2 + (1.2 * sunfade))));\n"
+		// composition + solar disc
+		"float sundisk = smoothstep(sunAngularDiameterCos, sunAngularDiameterCos + 0.00002, cosTheta);\n"
+		"L0 += (sunE * 19000.0 * Fex) * sundisk;\n"
 
-	"	gl_FragColor = vec4(retColor, 1.0);\n"
-	//"	gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);\n"
+		"vec3 texColor = (Lin + L0) * 0.04 + vec3(0.0, 0.0003, 0.00075);\n"
+
+		"vec3 curr = Uncharted2Tonemap((log2(2.0 / pow(luminance, 4.0))) * texColor);\n"
+		"vec3 color = curr * whiteScale;\n"
+
+		"float sunfade = v_sunp0.x;"
+		"vec3 retColor = pow(color, vec3_splat(1.0 / (1.2 + (1.2 * sunfade))));\n"
+
+		"gl_FragColor = vec4(retColor, 1.0);\n"
+		//"gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);\n"
 
 	"}\n";
 
