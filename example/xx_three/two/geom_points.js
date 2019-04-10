@@ -61,8 +61,8 @@ if (init) {
     batch.cache(instances);
 }
 
-//var time = app.gfx.time / 2.0;
+var timer = app.gfx.time;
 
-var angles = new two.vec3(time * 0.25, time * 0.5, 0.0);
+var angles = new two.vec3(timer * 0.25, timer * 0.5, 0.0);
 this.node.apply(new two.vec3(0.0), new two.quat(angles));
 

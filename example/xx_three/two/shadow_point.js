@@ -90,8 +90,10 @@ function rot(time) {
     return new two.quat(new two.vec3(time, 0.0, time));
 };
 
-var time0 = time * 2.0;
+var timer = app.gfx.time;
+
+var time0 = timer;
 this.lights[0].apply(pos(time0), rot(time0));
 
-var time1 = time * 2.0+ 10000;
+var time1 = timer + 10000;
 this.lights[1].apply(pos(time1), rot(time1));

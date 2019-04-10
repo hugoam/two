@@ -68,7 +68,7 @@ if (init) {
     this.node = n;
 }
 
-//var time = app.gfx.time;
+var timer = app.gfx.time;
 
-var angles = new two.vec3(0.0, time * 0.2, 0.0);
+var angles = new two.vec3(0.0, timer * 0.2, 0.0);
 this.node.apply(new two.vec3(0.0), new two.quat(angles));

@@ -1,5 +1,9 @@
 // effect_bloom.js
 
+// @author spidersharma / http://eduperiment.com/
+// Inspired from Unreal Engine
+// https://docs.unrealengine.com/latest/INT/Engine/Rendering/PostProcessEffects/Bloom/
+
 var filter_vertex = `$input a_position, a_texcoord0
     $output v_uv0
     
@@ -275,6 +279,7 @@ function renderer(gfx, render, tonemap, bcs, bloom) {
 
     two.pass_clear(gfx, render);
     two.pass_opaque(gfx, render);
+    two.pass_alpha(gfx, render);
     
     two.pass_begin_post(gfx, render);
     two.pass_tonemap(gfx, render, tonemap, bcs);

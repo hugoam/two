@@ -28,12 +28,31 @@ void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool i
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 2000.f;
 		camera.m_eye = vec3(0.f, 400.f, 400.f * 3.5f);
 
-		Texture& hdrenv = *app.m_gfx.textures().file("cube/pisaHDR.hdr.cube");
-		scene.m_env.m_radiance.m_texture = &hdrenv;
-		scene.m_env.m_background.m_texture = &hdrenv;
-		scene.m_env.m_background.m_mode = BackgroundMode::Panorama;
+		viewer.m_viewport.m_to_gamma = true;
 
-		//scene.add(new THREE.AmbientLight(0x222222));
+		Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
+		//tonemap.m_enabled = true;
+		//tonemap.m_mode = TonemapMode::Reinhardt;
+		//tonemap.m_mode = TonemapMode::Uncharted2;
+		//tonemap.m_exposure = 0.75f;
+
+		Texture& hdrenv = *app.m_gfx.textures().file("cube/pisaHDR.hdr.cube");
+
+		Zone& env = scene.m_env;
+		env.m_radiance.m_texture = &hdrenv;
+		env.m_background.m_texture = &hdrenv;
+		env.m_background.m_mode = BackgroundMode::Panorama;
+		env.m_radiance.m_ambient = rgb(0x222222);
+
+
+		Model& sphere = app.m_gfx.shape(Sphere(4.f));
+		Node3& l = gfx::nodes(scene).add(Node3());
+		//Item& il = gfx::items(scene).add(Item(l, sphere, 0U, &gfx::solid_material(app.m_gfx, "light", Colour(1.f))));
+		Light& ll = gfx::lights(scene).add(Light(l, LightType::Point, false, rgb(0xffffff), 2.f, 800.f));
+		light = &l;
+
+		Node3& dl = gfx::nodes(scene).add(Node3(vec3(0.f), facing(normalize(vec3(-1.f, -1.f, -1.f)))));
+		gfx::lights(scene).add(Light(dl, LightType::Direct, false, rgb(0xffffff)));
 
 		// Materials
 
@@ -108,21 +127,6 @@ void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool i
 		//addLabel("-diffuse", new THREE.Vector3(0, 0, -300));
 		//addLabel("+diffuse", new THREE.Vector3(0, 0, 300));
 
-		Model& sphere = app.m_gfx.shape(Sphere(4.f));
-		Node3& l = gfx::nodes(scene).add(Node3());
-		//Item& il = gfx::items(scene).add(Item(l, sphere, 0U, &gfx::solid_material(app.m_gfx, "light", Colour(1.f))));
-		Light& ll = gfx::lights(scene).add(Light(l, LightType::Point, false, rgb(0xffffff), 2.f, 800.f));
-		light = &l;
-
-		Node3& dl = gfx::nodes(scene).add(Node3(vec3(0.f), facing(normalize(vec3(-1.f, -1.f, -1.f)))));
-		gfx::lights(scene).add(Light(dl, LightType::Direct, false, rgb(0xffffff)));
-
-		Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
-		tonemap.m_enabled = true;
-		tonemap.m_mode = TonemapMode::Reinhardt;
-		tonemap.m_exposure = 3.f;
-		//tonemap.m_mode = TonemapMode::Uncharted2;
-		//tonemap.m_exposure = 0.75f;
 	}
 
 	const float time = app.m_gfx.m_time * 0.1f;

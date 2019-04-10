@@ -11,9 +11,10 @@ using namespace mud;
 #define MULTI_VIEWPORT 0
 
 // todo js:
-// xx_effect_bloom has no grey alpha parts
+// fix black helmet before envmap is filtered
+// xx_light_point has weird white light near camera
 // xx_shadow_point random crash (in atlas probably)
-// xx_shader_ocean
+// xx_shader_ocean (need to pass mat4 to shader on material submit)
 
 // todo:
 // fix shadow filtering
