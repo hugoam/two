@@ -20,18 +20,12 @@ string water_vertex =
 	"#include <common.sh>\n"
 		
 	"uniform mat4 u_mirror;\n"
-		
-	//THREE.ShaderChunk['fog_pars_vertex'],
-	//THREE.ShaderChunk['shadowmap_pars_vertex'],
-		
+
 	"void main() {\n"
 	"	vec4 world = mul(u_model[0], vec4(a_position.xyz, 1.0));\n"
 	"	v_world = world.xyz;\n"
 	"	v_mirrored = mul(u_mirror, world);\n"
 	"	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));\n"
-		
-	//THREE.ShaderChunk['fog_vertex'],
-	//THREE.ShaderChunk['shadowmap_vertex'],
 	"}\n";
 
 string water_fragment =
@@ -62,14 +56,6 @@ string water_fragment =
 		"diffuse += max(dot(sundir, normal), 0.0) * suncolor * fdiff;\n"
 	"}\n"
 
-	//THREE.ShaderChunk['common'],
-	//THREE.ShaderChunk['packing'],
-	//THREE.ShaderChunk['bsdfs'],
-	//THREE.ShaderChunk['fog_pars_fragment'],
-	//THREE.ShaderChunk['lights_pars_begin'],
-	//THREE.ShaderChunk['shadowmap_pars_fragment'],
-	//THREE.ShaderChunk['shadowmask_pars_fragment'],
-
 	"void main() {\n"
 		"int material_index = int(u_state_material);\n"
 		"UserMaterial mat = read_user_material(material_index);\n"
@@ -84,8 +70,7 @@ string water_fragment =
 
 		"vec4 noise = getNoise(v_world.xz * size);\n"
 		"vec3 normal = normalize(noise.xzy * vec3(1.5, 1.0, 1.5));\n"
-	//"	gl_FragColor = vec4(normal * 0.5 + 0.5, 1.0);\n"
-		
+
 		"vec3 diffuse = vec3_splat(0.0);\n"
 		"vec3 specular = vec3_splat(0.0);\n"
 		
@@ -97,12 +82,7 @@ string water_fragment =
 		
 		"vec2 distort = normal.xz * (0.001 + 1.0 / distance) * distortion;\n"
 		"vec3 reflection = texture2D(s_mirror, v_mirrored.xy / v_mirrored.w + distort).rgb;\n"
-	//"   vec2 uv = v_mirrored.xy / v_mirrored.w + distortion;\n"
-	//"   vec2 uv = v_mirrored.xy / v_mirrored.w + distortion;\n"
-	//"   vec2 uv = vec2_splat(distance / 1000.0);\n"
-	//"	gl_FragColor = vec4(vec3(uv.x, 0.0, uv.y), u_alpha);\n"
-	//"	gl_FragColor = vec4(reflection, u_alpha);\n"
-		
+
 		"float theta = max(dot(dir, normal), 0.0);\n"
 		"float rf0 = 0.3;\n"
 		"float reflectance = rf0 + (1.0 - rf0) * pow((1.0 - theta), 5.0);\n"
@@ -112,10 +92,6 @@ string water_fragment =
 		"vec3 albedo = mix(diffuse, specular, reflectance);\n"
 		"vec3 light = albedo;\n"
 		"gl_FragColor = vec4(light, alpha);\n"
-
-	//THREE.ShaderChunk['tonemapping_fragment'],
-	//THREE.ShaderChunk['fog_fragment'],
-
 	"}\n";
 
 struct WaterParams
@@ -289,11 +265,11 @@ static string sky_vertex =
 
 		"float rayleighCoefficient = rayleigh - (1.0 * (1.0 - sunfade));\n"
 
-	// extinction (absorbtion + out scattering)
-	// rayleigh coefficients
+		// extinction (absorbtion + out scattering)
+		// rayleigh coefficients
 		"v_betaR = totalRayleigh * rayleighCoefficient;\n"
 
-	// mie coefficients
+		// mie coefficients
 		"v_betaM = totalMie(turbidity) * mieCoefficient;\n"
 
 	"}\n";
@@ -351,7 +327,6 @@ static string sky_fragment =
 
 
 	"void main() {\n"
-
 		"int material_index = int(u_state_material);\n"
 		"UserMaterial mat = read_user_material(material_index);\n"
 
@@ -402,7 +377,6 @@ static string sky_fragment =
 
 		"gl_FragColor = vec4(retColor, 1.0);\n"
 		//"gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);\n"
-
 	"}\n";
 
 class Sky

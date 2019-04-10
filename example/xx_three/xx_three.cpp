@@ -12,11 +12,9 @@ using namespace mud;
 
 // todo js:
 // xx_shadow_point random crash (in atlas probably)
-// xx_material_skin
 // xx_shader_ocean
 
 // todo:
-// xx_material_standard albedo/pbr issue
 // fix shadow filtering
 
 // small:
@@ -152,7 +150,7 @@ int main(int argc, char *argv[])
 	//app.m_gfx.init_pipeline(pipeline_minimal);
 
 	//static uint32_t example0 = 0;
-	static uint32_t example0 = find_example("effect/bloom");
+	static uint32_t example0 = find_example("loader/gltf");
 	static bool init0 = true;
 
 #if !MULTI_VIEWPORT && !MULTI_WINDOW

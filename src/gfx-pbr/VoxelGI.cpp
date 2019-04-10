@@ -115,7 +115,7 @@ namespace gfx
 		bgfx::frame();
 		bgfx::frame();
 
-		save_bgfx_texture(gfx.allocator(), gfx.file_writer(), path.c_str(), target_format, texture, source_format, uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv));
+		save_bgfx_texture(gfx, path, target_format, texture, source_format, subdiv, subdiv, subdiv);
 	}
 
 	void load_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, const string& path)

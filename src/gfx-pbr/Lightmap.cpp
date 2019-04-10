@@ -83,7 +83,7 @@ namespace mud
 		bgfx::frame();
 		bgfx::frame();
 
-		save_bgfx_texture(gfx.allocator(), gfx.file_writer(), path.c_str(), target_format, blit_texture, source_format, uint16_t(lightmap.m_size), uint16_t(lightmap.m_size));
+		save_bgfx_texture(gfx, path, target_format, blit_texture, source_format, uint16_t(lightmap.m_size), uint16_t(lightmap.m_size));
 	}
 
 	void load_lightmap(GfxSystem& gfx, Lightmap& lightmap, const string& path)

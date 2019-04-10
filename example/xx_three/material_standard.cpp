@@ -42,12 +42,15 @@ void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 		
 		env.m_radiance.m_ambient = rgb(0xffffff);
 
-		//env.m_skylight.m_enabled = true;
+		env.m_skylight.m_enabled = true;
 		env.m_skylight.m_color = rgb(0x443333);
 		env.m_skylight.m_ground = rgb(0x222233);
 		env.m_skylight.m_intensity = 4.f;
 
 		Texture& albedo = *app.m_gfx.textures().file("cerberus/Cerberus_A.jpg");
+		// @todo options on loading
+		albedo.reload(app.m_gfx, true);
+
 		Texture& metrough = *app.m_gfx.textures().file("cerberus/Cerberus_RM.jpg");
 		Texture& normal = *app.m_gfx.textures().file("cerberus/Cerberus_N.jpg");
 
@@ -57,12 +60,14 @@ void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 		Program& three = *app.m_gfx.programs().file("pbr/three");
 
 		Material& material = app.m_gfx.materials().create("standard", [&](Material& m) {
-			m.m_program = &three;
+			m.m_program = &pbr;
 			m.m_pbr.m_metallic = 1.f;
 			m.m_pbr.m_roughness = 1.f;
 			m.m_pbr.m_albedo = &albedo;
 			m.m_pbr.m_metallic = &metrough;
+			m.m_pbr.m_metallic.m_channel = TextureChannel::Blue;
 			m.m_pbr.m_roughness = &metrough;
+			m.m_pbr.m_roughness.m_channel = TextureChannel::Green;
 			m.m_lit.m_normal = &normal;
 		});
 

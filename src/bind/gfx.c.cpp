@@ -3411,6 +3411,12 @@ extern "C" {
 	bool DECL mud_Texture_valid_0(mud::Texture* self) {
 		return self->valid();
 	}
+	void DECL mud_Texture_reload_1(mud::Texture* self, mud::GfxSystem* gfx) {
+		self->reload(*gfx);
+	}
+	void DECL mud_Texture_reload_2(mud::Texture* self, mud::GfxSystem* gfx, bool srgb) {
+		self->reload(*gfx, srgb);
+	}
 	void DECL mud_Texture_load_rgba_2(mud::Texture* self, const mud::uvec2* size, uint* data, int data_size) {
 		self->load_rgba(*size, { (uint32_t*)data, data_size / (sizeof(uint32_t) / sizeof(uint)) });
 	}
@@ -3428,6 +3434,12 @@ extern "C" {
 	}
 	void DECL mud_Texture__set_name(mud::Texture* self, const char* value) {
 		self->m_name = value;
+	}
+	const char* DECL mud_Texture__get_location(mud::Texture* self) {
+		return self->m_location.c_str();
+	}
+	void DECL mud_Texture__set_location(mud::Texture* self, const char* value) {
+		self->m_location = value;
 	}
 	mud::TextureFormat DECL mud_Texture__get_format(mud::Texture* self) {
 		return self->m_format;

@@ -113,13 +113,6 @@ namespace mud
 		return (uint(lighting) & uint(option)) != 0;
 	}
 
-	struct GpuTexture
-	{
-		Texture* texture = nullptr;
-		uint16_t width = 1024;
-		uint8_t stride = 4;
-	};
-
 	enum class GpuStorage
 	{
 		Uniform,

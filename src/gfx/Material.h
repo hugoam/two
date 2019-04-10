@@ -353,7 +353,7 @@ namespace mud
 		bgfx::UniformHandle u_state_vertex = BGFX_INVALID_HANDLE;
 
 		bgfx::UniformHandle s_materials = BGFX_INVALID_HANDLE;
-		Texture m_materials_texture = {};
+		GpuTexture m_materials_texture = {};
 	};
 
 	export_ MUD_GFX_EXPORT void load_material(Material& material, Program& program);

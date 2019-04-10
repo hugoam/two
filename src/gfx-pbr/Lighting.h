@@ -117,7 +117,7 @@ namespace mud
 
 		vector<GpuLight> m_gpu_lights;
 
-		Texture m_zones_texture = {};
-		Texture m_lights_texture = {};
+		GpuTexture m_zones_texture = {};
+		GpuTexture m_lights_texture = {};
 	};
 }

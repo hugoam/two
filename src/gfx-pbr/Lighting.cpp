@@ -225,7 +225,7 @@ namespace mud
 		UNUSED(render); UNUSED(pass);
 #if LIGHTS_BUFFER
 		bgfx::Encoder& encoder = *pass.m_encoder;
-		encoder.setTexture(uint8_t(TextureSampler::Lights), m_lights_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Lights), m_lights_texture.texture);
 #endif
 	}
 

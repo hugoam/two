@@ -36,7 +36,8 @@ void xx_loader_gltf(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Program& three = app.m_gfx.programs().fetch("pbr/three");
 
 		Model& model = *app.m_gfx.models().file("DamagedHelmet"); // .gltf");
-		//model.get_mesh(0).m_material->m_program = &three;
+		model.get_mesh(0).m_material->m_program = &three;
+		model.get_mesh(0).m_material->m_pbr.m_albedo.m_texture->reload(app.m_gfx, true);
 
 		Node3& n = gfx::nodes(scene).add(Node3());
 		Item& i = gfx::items(scene).add(Item(n, model));

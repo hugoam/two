@@ -448,8 +448,6 @@ void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	Scene& scene = viewer.m_scene;
 
-	bool firstPass = true;
-
 	static Node3* mesh = nullptr;
 	static Item* item = nullptr;
 	static vec3 rotation = vec3(0.f);

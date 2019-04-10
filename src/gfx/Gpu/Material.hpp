@@ -508,10 +508,8 @@ namespace mud
 			GpuState<MaterialUser>::me.pack(material.m_user, offset, buffer, dest);
 		}
 
-		void pack(Texture& texture, span<Material*> materials)
+		void pack(GpuTexture& buffer, span<Material*> materials)
 		{
-			GpuTexture buffer = { &texture, 1024, 4 };
-
 			const uint32_t height = GpuState<MaterialBase>::me.rows
 								  + GpuState<MaterialAlpha>::me.rows
 								  + GpuState<MaterialSolid>::me.rows
@@ -524,19 +522,19 @@ namespace mud
 			const uint32_t lines = 1 + materials.size() / buffer.width;
 			const uvec2 size = uvec2(buffer.width, lines * height);
 
-			if(texture.m_size != size)
-				texture = { size, false, TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
+			if(buffer.texture.m_size != size)
+				buffer.texture = { size, false, TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
 
 			const size_t memsize = size.x * size.y * buffer.stride;
-			const bgfx::Memory* memory = bgfx::alloc(size.x * size.y * buffer.stride * sizeof(float));
+			buffer.memory.resize(memsize);
 
 			for(size_t index = 0; index < materials.size(); ++index)
 			{
-				this->pack(*materials[index], index, buffer, height, memsize, (float*)memory->data);
+				this->pack(*materials[index], index, buffer, height, memsize, buffer.memory.data());
 			}
 
-			//const bgfx::Memory* mem = bgfx::makeRef(m_texture_data.data(), sizeof(float) * m_texture_data.size());
-			bgfx::updateTexture2D(texture, 0, 0, 0, 0, buffer.width, uint16_t(lines * height), memory);
+			const bgfx::Memory* mem = bgfx::makeRef(buffer.memory.data(), sizeof(float) * buffer.memory.size());
+			bgfx::updateTexture2D(buffer.texture, 0, 0, 0, 0, buffer.width, uint16_t(lines * height), mem);
 		}
 
 		static GpuState me;

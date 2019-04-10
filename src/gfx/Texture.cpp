@@ -15,6 +15,7 @@
 module mud.gfx;
 #else
 #include <stl/string.h>
+#include <infra/Vector.h>
 #include <infra/File.h>
 #include <gfx/Texture.h>
 #include <gfx/GfxSystem.h>
@@ -63,9 +64,9 @@ namespace mud
 		bimg::imageFree(imageContainer);
 	}
 
-	void save_bgfx_texture(bx::AllocatorI& allocator, bx::FileWriterI& writer, cstring file_path, bgfx::TextureFormat::Enum target_format, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum texture_format, uint16_t width, uint16_t height, uint16_t depth)
+	void save_bgfx_texture(GfxSystem& gfx, const string& file_path, bgfx::TextureFormat::Enum target_format, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum texture_format, uint16_t width, uint16_t height, uint16_t depth)
 	{
-		bimg::ImageContainer* source = bimg::imageAlloc(&allocator, bimg::TextureFormat::Enum(texture_format), width, height, depth, 1, false, false);
+		bimg::ImageContainer* source = bimg::imageAlloc(&gfx.allocator(), bimg::TextureFormat::Enum(texture_format), width, height, depth, 1, false, false);
 		if(source == nullptr) return;
 
 		for(uint8_t mip = 0; mip < source->m_numMips; ++mip)
@@ -74,7 +75,7 @@ namespace mud
 			while(bgfx::frame() != ready);
 		}
 
-		if(!bx::open(&writer, file_path))
+		if(!bx::open(&gfx.file_writer(), file_path.c_str()))
 		{
 			printf("ERROR: Unable to open output file '%s'", file_path);
 			return;
@@ -82,7 +83,7 @@ namespace mud
 
 		bimg::ImageContainer* encoded = source;
 		if(target_format != texture_format)
-			encoded = bimg::imageEncode(&allocator, bimg::TextureFormat::Enum(target_format), bimg::Quality::Default, *source);
+			encoded = bimg::imageEncode(&gfx.allocator(), bimg::TextureFormat::Enum(target_format), bimg::Quality::Default, *source);
 		if(encoded == nullptr)
 		{
 			bimg::imageFree(source);
@@ -93,41 +94,42 @@ namespace mud
 
 		if(target_format == bgfx::TextureFormat::RGBA16F)
 			//bimg::imageWriteKtx(&writer, bimg::TextureFormat::RGBA16F, false, width, height, depth, source->m_numMips, 1, encoded->m_data, nullptr);
-			bimg::imageWriteHdr(&writer, width, height, width * depth * stride, encoded->m_data, bimg::TextureFormat::RGBA16F, false, nullptr);
+			bimg::imageWriteHdr(&gfx.file_writer(), width, height, width * depth * stride, encoded->m_data, bimg::TextureFormat::RGBA16F, false, nullptr);
 		if(target_format == bgfx::TextureFormat::RGBA8)
-			bimg::imageWritePng(&writer, width, height, width * depth * stride, encoded->m_data, bimg::TextureFormat::RGBA8, false);
+			bimg::imageWritePng(&gfx.file_writer(), width, height, width * depth * stride, encoded->m_data, bimg::TextureFormat::RGBA8, false);
 		if(target_format == bgfx::TextureFormat::BC3 || target_format == bgfx::TextureFormat::BC6H)
-			bimg::imageWriteDds(&writer, *encoded, encoded->m_data, encoded->m_size, nullptr);
+			bimg::imageWriteDds(&gfx.file_writer(), *encoded, encoded->m_data, encoded->m_size, nullptr);
 
-		bx::close(&writer);
+		bx::close(&gfx.file_writer());
 
 		bimg::imageFree(source);
 		if(target_format != texture_format)
 			bimg::imageFree(encoded);
 	}
 
-	bgfx::TextureHandle load_bgfx_image(bimg::ImageContainer& image, const char* name, uint64_t flags, bgfx::TextureInfo* info)
+	bgfx::TextureHandle load_bgfx_image(bimg::ImageContainer& image, const string& name, uint64_t flags, bgfx::TextureInfo* info)
 	{
 		bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
 
 		const bgfx::Memory* mem = bgfx::makeRef(image.m_data, image.m_size, release_bgfx_image, &image);
+		uint64_t srgb = image.m_srgb ? BGFX_TEXTURE_SRGB : 0;
 
-		printf("INFO: Loaded image %s of size %s in memory\n", name, readable_file_size(image.m_size).c_str());
+		printf("INFO: Loaded image %s srgb(%i) of size %s in memory\n", name.c_str(), int(image.m_srgb), readable_file_size(image.m_size).c_str());
 
 		if(image.m_cubeMap)
 		{
 			handle = bgfx::createTextureCube(uint16_t(image.m_width), 1 < image.m_numMips,
-											 image.m_numLayers, bgfx::TextureFormat::Enum(image.m_format), flags, mem);
+											 image.m_numLayers, bgfx::TextureFormat::Enum(image.m_format), flags | srgb, mem);
 		}
 		else if(1 < image.m_depth)
 		{
 			handle = bgfx::createTexture3D(uint16_t(image.m_width), uint16_t(image.m_height), uint16_t(image.m_depth),
-										   1 < image.m_numMips, bgfx::TextureFormat::Enum(image.m_format), flags, mem);
+										   1 < image.m_numMips, bgfx::TextureFormat::Enum(image.m_format), flags | srgb, mem);
 		}
 		else
 		{
 			handle = bgfx::createTexture2D(uint16_t(image.m_width), uint16_t(image.m_height), 1 < image.m_numMips,
-										   image.m_numLayers, bgfx::TextureFormat::Enum(image.m_format), flags, mem);
+										   image.m_numLayers, bgfx::TextureFormat::Enum(image.m_format), flags | srgb, mem);
 		}
 		
 		if(info)
@@ -139,10 +141,10 @@ namespace mud
 		return handle;
 	}
 
-	bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, const char* name, void* data, size_t size, uint64_t flags, bgfx::TextureInfo* info, bool generate_mips)
+	bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& name, void* data, size_t size, uint64_t flags, bgfx::TextureInfo* info, bool generate_mips)
 	{
-		bimg::ImageContainer* image = bimg::imageParse(&allocator, data, uint32_t(size));
-		BX_FREE(&allocator, data);
+		bimg::ImageContainer* image = bimg::imageParse(&gfx.allocator(), data, uint32_t(size));
+		BX_FREE(&gfx.allocator(), data);
 
 		if(!image)
 			return BGFX_INVALID_HANDLE;
@@ -156,8 +158,8 @@ namespace mud
 
 		if(need_mips && generate_mips && image->m_numMips <= 1)
 		{
-			bimg::ImageContainer* rgba8 = bimg::imageConvert(&allocator, bimg::TextureFormat::RGBA8, *image);
-			bimg::ImageContainer* mips = bimg::imageGenerateMips(&allocator, *rgba8);
+			bimg::ImageContainer* rgba8 = bimg::imageConvert(&gfx.allocator(), bimg::TextureFormat::RGBA8, *image);
+			bimg::ImageContainer* mips = bimg::imageGenerateMips(&gfx.allocator(), *rgba8);
 			if(mips != nullptr)
 			{
 				bimg::imageFree(rgba8);
@@ -166,35 +168,34 @@ namespace mud
 			}
 			else
 			{
-				printf("WARNING: could not generate mips for texture %s\n", name);
+				printf("WARNING: could not generate mips for texture %s\n", name.c_str());
 			}
 		}
 
 		return load_bgfx_image(*image, name, flags, info);
 	}
 
-	bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, const char* file_path, uint64_t flags, bgfx::TextureInfo* info, bool generate_mips)
+	bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& file_path, uint64_t flags, bgfx::TextureInfo* info, bool generate_mips)
 	{
 		uint32_t size;
-		void* data = load_mem(&reader, &allocator, file_path, &size);
+		void* data = load_mem(&gfx.file_reader(), &gfx.allocator(), file_path.c_str(), &size);
 		if(!data)
 			return BGFX_INVALID_HANDLE;
 		else
-			return load_bgfx_texture(allocator, file_path, data, size, flags, info, generate_mips);
+			return load_bgfx_texture(gfx, file_path, data, size, flags, info, generate_mips);
 	}
 
-	bimg::ImageContainer* load_bgfx_image(bx::AllocatorI& allocator, bx::FileReaderI& _reader, const char* _filePath, bgfx::TextureFormat::Enum _dstFormat)
+	bimg::ImageContainer* load_bgfx_image(GfxSystem& gfx, const string& file_path, bgfx::TextureFormat::Enum dest_format)
 	{
 		uint32_t size = 0;
-		void* data = load_mem(&_reader, &allocator, _filePath, &size);
-		return bimg::imageParse(&allocator, data, size, bimg::TextureFormat::Enum(_dstFormat));
+		void* data = load_mem(&gfx.file_reader(), &gfx.allocator(), file_path.c_str(), &size);
+		return bimg::imageParse(&gfx.allocator(), data, size, bimg::TextureFormat::Enum(dest_format));
 	}
 
 	void save_texture(GfxSystem& gfx, Texture& tex, const string& path)
 	{
 		bgfx::TextureFormat::Enum bformat = bgfx::TextureFormat::Enum(tex.m_format);
-		save_bgfx_texture(gfx.allocator(), gfx.file_writer(), path.c_str(), bformat, 
-						  tex.m_tex, bformat, uint16_t(tex.m_size.x), uint16_t(tex.m_size.y));
+		save_bgfx_texture(gfx, path, bformat, tex.m_tex, bformat, uint16_t(tex.m_size.x), uint16_t(tex.m_size.y));
 	}
 
 	void set_texture_info(Texture& texture, bgfx::TextureInfo& texture_info)
@@ -208,7 +209,7 @@ namespace mud
 		texture.m_mips = texture_info.numMips > 0;
 	}
 
-	void load_texture(GfxSystem& gfx, Texture& texture, const string& path)
+	void load_texture(GfxSystem& gfx, Texture& texture, const string& path, bool srgb)
 	{
 		if(file_extension(path) == "cube")
 		{
@@ -237,13 +238,15 @@ namespace mud
 				bimg::imageFree(sides[i]);
 
 			bgfx::TextureInfo texture_info;
-			texture.m_tex = load_bgfx_image(*cubemap, path.c_str(), 0U, &texture_info);
+			texture.m_location = path;
+			texture.m_tex = load_bgfx_image(*cubemap, path.c_str(), !srgb ? BGFX_TEXTURE_NONE : BGFX_TEXTURE_SRGB, &texture_info);
 			set_texture_info(texture, texture_info);
 		}
 		else
 		{
 			bgfx::TextureInfo texture_info;
-			texture.m_tex = load_bgfx_texture(gfx.allocator(), gfx.file_reader(), path.c_str(), 0U, &texture_info, true);
+			texture.m_location = path;
+			texture.m_tex = load_bgfx_texture(gfx, path, !srgb ? BGFX_TEXTURE_NONE : BGFX_TEXTURE_SRGB, &texture_info, true);
 			// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 			set_texture_info(texture, texture_info);
 		}
@@ -252,7 +255,7 @@ namespace mud
 	void load_texture_mem(GfxSystem& gfx, Texture& texture, span<uint8_t> data)
 	{
 		bgfx::TextureInfo texture_info;
-		texture.m_tex = load_bgfx_texture(gfx.allocator(), texture.m_name.c_str(), (void*)data.m_pointer, data.m_count, 0U, &texture_info, true);
+		texture.m_tex = load_bgfx_texture(gfx, texture.m_name, (void*)data.m_pointer, data.m_count, 0U, &texture_info, true);
 		// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 		set_texture_info(texture, texture_info);
 	}
@@ -300,6 +303,11 @@ namespace mud
 	}
 
 	bool Texture::valid() const { return bgfx::isValid(m_tex); }
+
+	void Texture::reload(GfxSystem& gfx, bool srgb)
+	{
+		load_texture(gfx, *this, m_location, srgb);
+	}
 
 	void Texture::load_float(const uvec2& size, const bgfx::Memory& memory, uint8_t num_components)
 	{

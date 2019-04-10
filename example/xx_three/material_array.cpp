@@ -18,6 +18,7 @@ void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool i
 	Scene& scene = viewer.m_scene;
 
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
+	static Program& three = *app.m_gfx.programs().file("pbr/three");
 
 	static Node3* light = nullptr;
 
@@ -58,6 +59,7 @@ void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool i
 					const string name = "variation" + to_string(index);
 					Material& material = app.m_gfx.materials().create(name, [&](Material& m) {
 						m.m_program = &pbr;
+						m.m_program = &three;
 						m.m_pbr.m_albedo = diffuse;
 						//m.m_pbr.m_albedo = &texture;
 						//m.m_pbr.m_normal = &texture;

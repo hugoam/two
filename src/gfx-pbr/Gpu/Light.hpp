@@ -147,26 +147,24 @@ namespace mud
 			offset += buffer.width * buffer.stride;
 		}
 
-		void pack(Texture& texture, span<GpuLight> lights)
+		void pack(GpuTexture& buffer, span<GpuLight> lights)
 		{
-			GpuTexture buffer = { &texture, 1024, 4 };
-
 			const size_t height = 9;
 			const size_t lines = 1;
 			const uvec2 size = uvec2(buffer.width, uint16_t(lines * height));
 
-			if(texture.m_size != size)
-				texture = { size, false, TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
+			if(buffer.texture.m_size != size)
+				buffer.texture = { size, false, TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
 
-			const bgfx::Memory* memory = bgfx::alloc(uint32_t(size.x * size.y * buffer.stride * sizeof(float)));
-
+			const uint32_t memsize = uint32_t(size.x * size.y * buffer.stride);
+			buffer.memory.resize(memsize);
 			for(size_t index = 0; index < lights.size(); ++index)
 			{
-				this->pack(lights[index], index, buffer, (float*)memory->data);
+				this->pack(lights[index], index, buffer, buffer.memory.data());
 			}
 
-			//const bgfx::Memory* mem = bgfx::makeRef(m_texture_data.data(), sizeof(float) * m_texture_data.size());
-			bgfx::updateTexture2D(texture, 0, 0, 0, 0, buffer.width, uint16_t(lines * height), memory);
+			const bgfx::Memory* mem = bgfx::makeRef(buffer.memory.data(), sizeof(float) * buffer.memory.size());
+			bgfx::updateTexture2D(buffer.texture, 0, 0, 0, 0, buffer.width, uint16_t(lines * height), mem);
 		}
 
 		static GpuState me;

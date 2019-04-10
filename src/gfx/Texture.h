@@ -34,13 +34,13 @@ namespace mud
 		Normal
 	};
 
-	export_ MUD_GFX_EXPORT void save_bgfx_texture(bx::AllocatorI& allocator, bx::FileWriterI& writer, cstring file_path, bgfx::TextureFormat::Enum target_format, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum texture_format, uint16_t width, uint16_t height, uint16_t depth = 1);
-	export_ MUD_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, cstring name, void* data, size_t size, uint64_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bool generate_mips = false);
-	export_ MUD_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, cstring file_path, uint64_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bool generate_mips = false);
-	export_ MUD_GFX_EXPORT bimg::ImageContainer* load_bgfx_image(bx::AllocatorI& allocator, bx::FileReaderI& reader, cstring file_path, bgfx::TextureFormat::Enum dst_format);
+	export_ MUD_GFX_EXPORT void save_bgfx_texture(GfxSystem& gfx, const string& file_path, bgfx::TextureFormat::Enum target_format, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum texture_format, uint16_t width, uint16_t height, uint16_t depth = 1);
+	export_ MUD_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& name, void* data, size_t size, uint64_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bool generate_mips = false);
+	export_ MUD_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& file_path, uint64_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bool generate_mips = false);
+	export_ MUD_GFX_EXPORT bimg::ImageContainer* load_bgfx_image(GfxSystem& gfx, const string& file_path, bgfx::TextureFormat::Enum dst_format);
 
 	export_ MUD_GFX_EXPORT void save_texture(GfxSystem& gfx, Texture& texture, const string& path);
-	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx, Texture& texture, const string& path);
+	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx, Texture& texture, const string& path, bool srgb = false);
 	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx, Texture& texture, span<uint8_t> data);
 
 	export_ enum class refl_ TextureFormat : unsigned int
@@ -80,6 +80,7 @@ namespace mud
 		Texture& operator=(Texture&& other) { bgfx::TextureHandle tex = m_tex; *this = other; other.m_tex = tex; return *this; }
 
 		attr_ string m_name;
+		attr_ string m_location;
 		attr_ TextureFormat m_format;
 		attr_ uvec2 m_size = uvec2(0U);
 		attr_ uint16_t m_depth = 0;
@@ -94,6 +95,8 @@ namespace mud
 
 		meth_ bool valid() const;
 
+		meth_ void reload(GfxSystem& gfx, bool srgb = false);
+
 		void load_rgba(const uvec2& size, const bgfx::Memory& data);
 		void load_float(const uvec2& size, const bgfx::Memory& data, uint8_t num_components = 4);
 
@@ -107,5 +110,13 @@ namespace mud
 	protected:
 		Texture(const Texture& other) = default;
 		Texture& operator=(const Texture& other) = default;
+	};
+
+	struct GpuTexture
+	{
+		Texture texture;
+		vector<float> memory;
+		uint16_t width = 1024;
+		uint8_t stride = 4;
 	};
 }
