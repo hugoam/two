@@ -144,7 +144,7 @@ namespace mud
 
 		void commit(object<EditorAction> action);
 
-		virtual bool enabled(const vector<Ref>& selection) { UNUSED(selection); return true; }
+		virtual bool enabled(span<Ref> selection) { UNUSED(selection); return true; }
 
 	protected:
 		Callback m_callback;
@@ -155,7 +155,7 @@ namespace mud
 	public:
 		ViewportTool(ToolContext& context, cstring name, Type& type);
 
-		vector<Transform*> gather_transforms(const vector<Ref>& selection);
+		vector<Transform*> gather_transforms(span<Ref> selection);
 
 		vec3 m_symbol_position;
 	};
@@ -167,7 +167,7 @@ namespace mud
 
 		virtual void paint(Gnode& parent) = 0;
 
-		virtual void process(Viewer& viewer, const vector<Ref>& selection) = 0;
+		virtual void process(Viewer& viewer, span<Ref> selection) = 0;
 	};
 
 	export_ class refl_ MUD_TOOL_EXPORT Gizmo
@@ -215,9 +215,9 @@ namespace mud
 
 		virtual void paint(Gnode& parent) override;
 
-		virtual void process(Viewer& viewer, const vector<Ref>& selection) override;
+		virtual void process(Viewer& viewer, span<Ref> selection) override;
 
-		virtual bool enabled(const vector<Ref>& selection) override;
+		virtual bool enabled(span<Ref> selection) override;
 
 		virtual object<TransformAction> create_action(span<Transform*> targets) = 0;
 		virtual bool test_target(Ref target) { UNUSED(target); return true; }
@@ -298,7 +298,7 @@ namespace mud
 		bool m_world_snap;
 		Plane m_work_plane;
 
-		virtual void process(Viewer& viewer, const vector<Ref>& selection);
+		virtual void process(Viewer& viewer, span<Ref> selection);
 
 		virtual void begin(const vec3& position) { UNUSED(position); }
 		virtual void update(const vec3& position) = 0;
@@ -600,12 +600,12 @@ namespace mud
 	export_ class refl_ MUD_TOOL_EXPORT EditContext
     {
     public:
-		EditContext(GfxSystem& gfx_system);
+		EditContext(GfxSystem& gfx);
         ~EditContext();
 
 		void set_tool(ViewportTool& tool, Viewer& viewer);
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 
 		vector<Ref> m_selection;
 
@@ -642,7 +642,7 @@ namespace mud
 	MUD_TOOL_EXPORT void brush_options(Widget& parent, Brush& brush);
 	MUD_TOOL_EXPORT void current_brush_edit(Widget& parent, EditContext& context);
 
-	MUD_TOOL_EXPORT void object_editor(Widget& parent, const vector<Ref>& selection);
+	MUD_TOOL_EXPORT void object_editor(Widget& parent, span<Ref> selection);
 
 	MUD_TOOL_EXPORT void tools_transform(Widget& toolbar, EditContext& context);
 	MUD_TOOL_EXPORT void edit_transform(Widget& parent, EditContext& context);
@@ -679,24 +679,24 @@ namespace mud
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::PlaceBrush>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::PlaneSnapOption>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::RedoTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::SpatialTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::CopyTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::FrameViewTool>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::RotateAction>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::RotateTool>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ScaleAction>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::ScaleTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::ScriptedBrush>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::CopyAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::RotateAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ScaleAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformGizmo>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::TranslateAction>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::CopyAction>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::CopyTool>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::FrameViewTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::TranslateTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::UndoTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::ViewAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ViewportTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::ViewTool>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ViewportTool>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::SpatialTool>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformAction>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformGizmo>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformTool>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::UndoTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::WorkPlaneAction>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::WorkPlaneTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::WorldSnapOption>();
@@ -733,8 +733,8 @@ namespace mud
 		Plane m_plane;
 	};
 
-	inline unique<WorkPlaneTool> xy_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XY Work Plane", Plane{ Zero3, X3, Y3 }); }
-	inline unique<WorkPlaneTool> yz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "YZ Work Plane", Plane{ Zero3, Y3, Z3 }); }
-	inline unique<WorkPlaneTool> xz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XZ Work Plane", Plane{ Zero3, X3, Z3 }); }
+	inline unique<WorkPlaneTool> xy_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XY Work Plane", Plane{ vec3(0.f), X3, Y3 }); }
+	inline unique<WorkPlaneTool> yz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "YZ Work Plane", Plane{ vec3(0.f), Y3, Z3 }); }
+	inline unique<WorkPlaneTool> xz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XZ Work Plane", Plane{ vec3(0.f), X3, Z3 }); }
 }
 

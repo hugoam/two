@@ -47,7 +47,9 @@ namespace mud
 #include <condition_variable>
 #include <mutex>
 
+#ifndef MUD_PLATFORM_EMSCRIPTEN
 #include <immintrin.h>
+#endif
 
 #include <Tracy.hpp>
 

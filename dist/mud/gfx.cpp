@@ -21,22 +21,32 @@ module mud.gfx;
 
 namespace mud
 {
-	Animated::Animated(Node3& node)
-		: m_node(node)
+	Mime::Mime()
 	{}
 
-	Animated::~Animated()
+	Mime::~Mime()
 	{}
 
-	void Animated::add_item(Item& item)
+	void Mime::add_item(Item& item)
 	{
 		m_rig = *item.m_model->m_rig;
 		item.m_rig = &m_rig;
+
+		m_targets = m_rig.m_skeleton.m_bones;
+		m_nodes.resize(m_rig.m_skeleton.m_bones.size());
+
+		m_anims = item.m_model->m_anims;
 	}
 
-	void Animated::start(cstring name, bool loop, float blend, float speed, bool transient)
+	void Mime::add_nodes(span<Node3> nodes)
 	{
-		for(Animation* animation : m_rig.m_skeleton.m_animations)
+		m_targets = nodes;
+		m_nodes.resize(nodes.size());
+	}
+
+	void Mime::start(const string& name, bool loop, float blend, float speed, bool transient)
+	{
+		for(Animation* animation : m_anims)
 			if(animation->m_name == name)
 			{
 				this->play(*animation, loop, blend, speed, transient);
@@ -44,9 +54,9 @@ namespace mud
 			}
 	}
 
-	void Animated::play(const Animation& animation, bool loop, float blend, float speed, bool transient)
+	void Mime::play(const Animation& animation, bool loop, float blend, float speed, bool transient)
 	{
-		for(AnimationPlay& playing : m_playing)
+		for(AnimPlay& playing : m_playing)
 		{
 			playing.m_transient = true;
 			if(blend == 0.f)
@@ -55,76 +65,88 @@ namespace mud
 				playing.m_fadeout = blend;
 		}
 
-		m_playing.push_back({ animation, loop, speed, transient, &m_rig.m_skeleton });
+		m_playing.push_back({ animation, loop, speed, transient, m_nodes, &m_rig });
 		m_active = true;
 	}
 
-	void Animated::stop()
+	void Mime::stop()
 	{
 		m_playing.clear();
 	}
 
-	void Animated::pause()
+	void Mime::pause()
 	{
 		m_active = false;
 	}
 
-	void Animated::next_animation()
+	void Mime::next_animation()
 	{
 		//this->play(*pop(m_queue));
 	}
 
-	void Animated::advance(float delta)
+	void Mime::advance(float delta)
 	{
 		if(m_playing.size() > 2)
-			printf("WARNING: Animated playing more than 2 animations at the same time\n");
+			printf("WARNING: Mime playing more than 2 animations at the same time\n");
 
-		for(AnimationPlay& play : m_playing)
+		for(AnimPlay& play : m_playing)
 			play.step(delta, m_speed_scale);
 
-		remove_if(m_playing, [](AnimationPlay& play) { return play.m_transient && play.m_ended; });
+		remove_if(m_playing, [](AnimPlay& play) { return play.m_transient && play.m_ended; });
 
-		for(Bone& bone : m_rig.m_skeleton.m_bones)
-			bone.m_pose_local = bxTRS(bone.m_scale, bone.m_rotation, bone.m_position);
+		for(AnimNode& node : m_nodes)
+		{
+			node.m_transform = bxTRS(node.m_scale, node.m_rotation, node.m_position);
+		}
+
+		for(size_t i = 0; i < m_nodes.size(); ++i)
+		{
+			Node3& node = m_targets[i];
+			node.m_transform = node.m_parent != UINT32_MAX
+				? m_targets[node.m_parent].m_transform * m_nodes[i].m_transform
+				: m_nodes[i].m_transform;
+		}
 
 		m_rig.update_rig();
 	}
 
-	void Animated::seek(float time)
+	void Mime::seek(float time)
 	{
-		for(AnimationPlay& play : m_playing)
+		for(AnimPlay& play : m_playing)
 		{
 			play.m_cursor = time;
 			play.update(time, 0.f, 1.f);
 		}
 	}
 
-	AnimationPlay::AnimationPlay(const Animation& animation, bool loop, float speed, bool transient, Skeleton* skeleton)
+	AnimPlay::AnimPlay(const Animation& animation, bool loop, float speed, bool transient, span<AnimNode> nodes, Rig* rig)
 		: m_animation(&animation)
 		, m_loop(loop)
 		, m_speed(speed)
 		, m_transient(transient)
+		, m_nodes(nodes)
+		, m_rig(rig)
 	{
 		m_tracks.reserve(animation.tracks.size());
 
-		for(const AnimationTrack& track : animation.tracks)
+		for(const AnimTrack& track : animation.tracks)
 		{
-			Bone* target = nullptr;
-			if(skeleton && skeleton->m_bones.size() > track.m_node)
-				target = &skeleton->m_bones[track.m_node];
-			if(!target)
+			AnimNode* target = nullptr;
+			if(nodes.size() > track.m_node)
+				target = &nodes[track.m_node];
+			if(!target && track.m_target != AnimTarget::Weights)
 			{
-				//printf("WARNING: No bone found for animation %s track %s with target %s\n", animation.m_name.c_str(), "", track.m_node_name.c_str());
+				printf("WARNING: No bone found for animation %s track %s with target %i %s\n", animation.m_name.c_str(), "", track.m_node, track.m_node_name.c_str());
 				continue;
 			}
 
-			AnimatedTrack playtrack = { &track, target, {}, track.m_keys[0].m_value };
+			Track playtrack = { &track, target, {}, track.m_keys[0].m_value };
 
 			m_tracks.push_back(playtrack);
 		}
 	}
 
-	void AnimationPlay::step(float timestep, float speed)
+	void AnimPlay::step(float timestep, float speed)
 	{
 		float delta = timestep * m_speed * speed;
 		float next_pos = m_cursor + delta;
@@ -159,9 +181,9 @@ namespace mud
 				m_ended = true;
 		}
 
-		for(AnimatedTrack& track : m_tracks)
+		for(AnimPlay::Track& track : m_tracks)
 		{
-			AnimationCursor& c = track.m_cursor;
+			AnimCursor& c = track.m_cursor;
 			c.m_time = m_cursor;
 
 			if(m_ended)
@@ -188,19 +210,28 @@ namespace mud
 		this->update(m_cursor, delta, blend);
 	}
 
-	void AnimationPlay::update(float time, float delta, float interp)
+	void AnimPlay::update(float time, float delta, float interp)
 	{
 		UNUSED(time); UNUSED(interp);
-		for(AnimatedTrack& track : m_tracks)
+		for(AnimPlay::Track& track : m_tracks)
 		{
-			auto apply = [](Bone& bone, AnimationTarget target, const Value& value)
+			auto apply = [](Rig& rig, AnimNode& bone, AnimTarget target, const Value& value)
 			{
-				if(target == AnimationTarget::Position)
-					bone.m_position = *(vec3*)value.m_value;
-				else if(target == AnimationTarget::Rotation)
-					bone.m_rotation = *(quat*)value.m_value;
-				if(target == AnimationTarget::Scale)
-					bone.m_scale = *(vec3*)value.m_value;
+				if(target == AnimTarget::Position)
+					bone.m_position = *(vec3*)value.mem;
+				else if(target == AnimTarget::Rotation)
+					bone.m_rotation = *(quat*)value.mem;
+				else if(target == AnimTarget::Scale)
+					bone.m_scale = *(vec3*)value.mem;
+				else if(target == AnimTarget::Weights)
+				{
+					vector<float>& weights = *(vector<float>*)value.mem;
+					rig.m_morphs.resize(weights.size());
+					for(size_t i = 0; i < weights.size(); ++i)
+					{
+						rig.m_morphs[i] = weights[i];
+					}
+				}
 			};
 
 			if(track.m_track->m_interpolation > Interpolation::Nearest)
@@ -216,12 +247,12 @@ namespace mud
 				*/
 
 				//printf("Animation value for track %s = %s\n", track.m_track->m_node_name.c_str(), to_string(track.m_value).c_str());
-				apply(*track.m_target, track.m_track->m_target, track.m_value);
+				apply(*m_rig, *track.m_node, track.m_track->m_target, track.m_value);
 			}
 			else
 			{
 				track.m_value = track.m_track->value(track.m_cursor, delta > 0.f);
-				apply(*track.m_target, track.m_track->m_target, track.m_value);
+				apply(*m_rig, *track.m_node, track.m_track->m_target, track.m_value);
 			}
 		}
 	}
@@ -233,6 +264,7 @@ namespace mud
 module mud.gfx;
 #else
 #include <stl/algorithm.h>
+#include <stl/table.h>
 #endif
 
 #include <cassert>
@@ -240,24 +272,32 @@ module mud.gfx;
 
 namespace mud
 {
-	static Type* s_target_types[3] = { &type<vec3>(), &type<quat>(), &type<vec3>() };
+	static table<AnimTarget, Type*> s_target_types = { &type<vec3>(), &type<quat>(), &type<vec3>(), &type<vector<float>>() };
 
+	static table<AnimTarget, Value(*)()> s_empty_value =
+	{
+		[]() { Value val; new (val.mem) vec3(); return val; },
+		[]() { Value val; new (val.mem) quat(); return val; },
+		[]() { Value val; new (val.mem) vec3(); return val; },
+		[]() { Value val; new (val.mem) vector<float>(); return val; }
+	};
+	
 	Animation::Animation(cstring name)
 		: m_name(name)
 	{}
 	
-	AnimationTrack::AnimationTrack() {}
-	AnimationTrack::AnimationTrack(Animation& animation, size_t node, cstring node_name, AnimationTarget target)
-		: m_animation(&animation), m_node(node), m_node_name(node_name), m_target(target), m_value_type(s_target_types[size_t(target)])
+	AnimTrack::AnimTrack() {}
+	AnimTrack::AnimTrack(Animation& animation, size_t node, cstring node_name, AnimTarget target)
+		: m_animation(&animation), m_node(node), m_node_name(node_name), m_target(target), m_value_type(s_target_types[target])
 	{}
 
-	void AnimationTrack::insert_key(float time, const Value& value, float transition)
+	void AnimTrack::insert_key(float time, const Value& value, float transition)
 	{
 		size_t position = key_before(time);
 		m_keys.insert(m_keys.begin() + position + 1, Key{ time, value, transition });
 	}
 
-	size_t AnimationTrack::key_after(float time) const
+	size_t AnimTrack::key_after(float time) const
 	{
 		assert(m_keys.size() > 0);
 		auto predicate = [](float lhs, const Key& rhs) { return lhs < rhs.m_time; };
@@ -265,12 +305,12 @@ namespace mud
 		return result - m_keys.begin();
 	}
 
-	size_t AnimationTrack::key_before(float time) const
+	size_t AnimTrack::key_before(float time) const
 	{
 		return key_after(time) - 1;
 	}
 
-	Value AnimationTrack::sample(AnimationCursor& cursor) const
+	Value AnimTrack::sample(AnimCursor& cursor) const
 	{
 		assert(m_keys.size() > 0);
 
@@ -286,7 +326,7 @@ namespace mud
 		float c = abs(cursor.m_time - m_keys[cursor.m_prev].m_time) / abs(m_keys[cursor.m_next].m_time - m_keys[cursor.m_prev].m_time);
 		//printf("sample %i < %i, %f\n", int(cursor.m_prev), int(cursor.m_next), c);
 
-		auto at = [&](size_t i) { return Ref((void*)m_keys[i].m_value.m_value, *m_value_type); };
+		auto at = [&](size_t i) { return Ref((void*)m_keys[i].m_value.mem, *m_value_type); };
 
 		if(m_interpolation == Interpolation::Nearest)
 		{
@@ -294,21 +334,21 @@ namespace mud
 		}
 		else if(m_interpolation == Interpolation::Linear)
 		{
-			Value result;
-			interpolate(Ref((void*)result.m_value, *m_value_type), at(cursor.m_prev), at(cursor.m_next), c);
+			Value result = s_empty_value[m_target]();
+			interpolate(Ref((void*)result.mem, *m_value_type), at(cursor.m_prev), at(cursor.m_next), c);
 			return result;
 		}
 		else if(m_interpolation == Interpolation::Cubic || true)
 		{
-			Value result;
+			Value result = s_empty_value[m_target]();
 			size_t pre = max<size_t>(0, cursor.m_prev - 1);
 			size_t post = max<size_t>(cursor.m_next + 1, m_keys.size());
-			interpolate_cubic(Ref((void*)result.m_value, *m_value_type), at(pre), at(cursor.m_prev), at(cursor.m_next), at(post), c);
+			interpolate_cubic(Ref((void*)result.mem, *m_value_type), at(pre), at(cursor.m_prev), at(cursor.m_next), at(post), c);
 			return result;
 		}
 	}
 
-	Value AnimationTrack::value(AnimationCursor& cursor, bool forward) const
+	Value AnimTrack::value(AnimCursor& cursor, bool forward) const
 	{
 		size_t key = forward ? cursor.m_next : cursor.m_prev;
 		return m_keys[key].m_value;
@@ -324,7 +364,7 @@ namespace mud
 	template class MUD_GFX_EXPORT AssetStore<Program>;
 	template class MUD_GFX_EXPORT AssetStore<Material>;
 	template class MUD_GFX_EXPORT AssetStore<Model>;
-	template class MUD_GFX_EXPORT AssetStore<ParticleFlow>;
+	template class MUD_GFX_EXPORT AssetStore<Flow>;
 	template class MUD_GFX_EXPORT AssetStore<Prefab>;
 }
 
@@ -360,9 +400,9 @@ namespace mud
 		using TF = bgfx::TextureFormat;
 		static const TF::Enum formats[8][4] =
 		{
-			{ TF::R8,   TF::RG8U,   TF::RGB8U,   TF::RGBA8U },
+			{ TF::R8,    TF::RG8U,   TF::RGB8U,   TF::RGBA8U },
 			{ TF::R8I,   TF::RG8I,   TF::RGB8I,   TF::RGBA8I },
-			{ TF::R16,  TF::RG16,  TF::Unknown, TF::RGBA16U },
+			{ TF::R16,   TF::RG16,   TF::Unknown, TF::RGBA16U },
 			{ TF::R16I,  TF::RG16I,  TF::Unknown, TF::RGBA16I },
 			{ TF::R32U,  TF::RG32U,  TF::Unknown, TF::RGBA32U },
 			{ TF::R32I,  TF::RG32I,  TF::Unknown, TF::RGBA32I },
@@ -383,8 +423,8 @@ namespace mud
 		, m_row_size(uint16_t(data_type_to_size(element) * row_size))
 	{
 		m_format = data_type_to_texture_format(element);
-		m_texture = bgfx::createTexture2D(m_width, m_height, false, 1, m_format);
-		//m_buffer = bgfx::createDynamicVertexBuffer(m_froxels.m_memory, decl);
+		m_texture = { uvec2(m_width, m_height), false, TextureFormat(m_format) };
+		//m_buffer = bgfx::createDynamicVertexBuffer(m_clusters.m_memory, decl);
 	}
 
 	GpuBuffer::~GpuBuffer()
@@ -429,22 +469,32 @@ module mud.gfx;
 namespace mud
 {
 	Camera::Camera()
-		: m_eye(Z3)
-		, m_target(Zero3)
 	{
-		m_eye = vec3(10.f);
+		//m_eye = vec3(10.f);
 		m_far = 300.f;
 	}
 
 	Camera::Camera(mat4 transform, mat4 projection, bool ortho)
-		: m_transform(transform)
-		, m_projection(projection)
+		: m_view(transform)
+		, m_proj(projection)
 		, m_orthographic(ortho)
 	{}
 
 	Camera::Camera(mat4 transform, float fov, float aspect, float near, float far)
-		: m_transform(transform)
-		, m_projection(bxproj(fov, aspect, near, far, bgfx::getCaps()->homogeneousDepth))
+		: m_view(transform)
+		, m_proj(bxproj(fov, aspect, near, far, bgfx::getCaps()->homogeneousDepth))
+		, m_fov(fov)
+		, m_aspect(aspect)
+		, m_near(near)
+		, m_far(far)
+	{}
+
+	Camera::Camera(vec3 eye, vec3 at, vec3 up, float fov, float aspect, float near, float far)
+		: m_eye(eye)
+		, m_target(at)
+		, m_up(up)
+		, m_view(bxlookat(m_eye, m_target, m_up))
+		, m_proj(bxproj(fov, aspect, near, far, bgfx::getCaps()->homogeneousDepth))
 		, m_fov(fov)
 		, m_aspect(aspect)
 		, m_near(near)
@@ -452,8 +502,8 @@ namespace mud
 	{}
 
 	Camera::Camera(mat4 transform, vec2 rect, float near, float far)
-		: m_transform(transform)
-		, m_projection(bxortho(-rect.x / 2.f, rect.x / 2.f, -rect.y / 2.f, rect.y / 2.f, near, far, 0.0f, bgfx::getCaps()->homogeneousDepth))
+		: m_view(transform)
+		, m_proj(bxortho(-rect.x / 2.f, rect.x / 2.f, -rect.y / 2.f, rect.y / 2.f, near, far, 0.0f, bgfx::getCaps()->homogeneousDepth))
 		, m_aspect(rect.x / rect.y)
 		, m_near(near)
 		, m_far(far)
@@ -489,12 +539,14 @@ namespace mud
 
 	void Camera::update()
 	{
-		m_transform = bxlookat(m_eye, m_target);
+		if(m_no_update) return;
+
+		m_view = bxlookat(m_eye, m_target, m_up);
 
 		if(!m_orthographic)
-			m_projection = bxproj(m_fov, m_aspect, m_near, m_far, bgfx::getCaps()->homogeneousDepth);
+			m_proj = bxproj(m_fov, m_aspect, m_near, m_far, bgfx::getCaps()->homogeneousDepth);
 		else
-			m_projection = bxortho(ortho_rect(m_height, m_aspect), m_near, m_far, 0.0f, bgfx::getCaps()->homogeneousDepth);
+			m_proj = bxortho(ortho_rect(m_height, m_aspect), m_near, m_far, 0.0f, bgfx::getCaps()->homogeneousDepth);
 	}
 
 	void Camera::set_look_at(const vec3& eye, const vec3& target)
@@ -505,8 +557,8 @@ namespace mud
 
 	void Camera::set_isometric(IsometricAngle from_angle, const vec3& position)
 	{
-		static const vec3 z_angles[3] = { Zero3, -Z3,  Z3 };
-		static const vec3 x_angles[3] = { Zero3,  X3, -X3 };
+		static const vec3 z_angles[3] = { vec3(0.f), -Z3,  Z3 };
+		static const vec3 x_angles[3] = { vec3(0.f),  X3, -X3 };
 
 		vec3 angle = Y3 + z_angles[uint8_t(from_angle >> 0)] + x_angles[uint8_t(from_angle >> 8)];
 
@@ -519,12 +571,76 @@ namespace mud
 
 	Ray Camera::ray(const vec2& offset) const
 	{
-		mat4 invViewProj = inverse(bxmul(m_transform, m_projection));
+		const mat4 inv_viewproj = inverse(m_proj * m_view);
 
-		vec3 start = bxmulh(invViewProj, { offset.x, offset.y, 0.0f });
-		vec3 end = bxmulh(invViewProj, { offset.x, offset.y, 1.0f });
+		const vec3 start = bxmulh(inv_viewproj, vec3(offset.x, offset.y, 0.0f));
+		const vec3 end = bxmulh(inv_viewproj, vec3(offset.x, offset.y, 1.0f));
 
 		return { start, end, normalize(end - start), 1.f / normalize(end - start) };
+	}
+
+	vec3 Camera::transform(const vec3& point) const
+	{
+		return mulp(m_view, point);
+	}
+
+	vec3 Camera::project(const vec3& point) const
+	{
+		const mat4 viewproj = m_proj * m_view;
+		const vec4 clip = viewproj * vec4(point, 1.f);
+		const vec3 ndc = vec3(clip) / clip.w;
+		return ndc;
+	}
+
+	MirrorCamera mirror_camera(const Camera& sourcecam, Node3& node, float clipBias)
+	{
+		mat4 rotatemat = rotation(node.m_transform);
+		vec3 position = vec3(node.m_transform[3]);
+		//vec3 normal = muln(m_node->m_transform, Z3);
+		vec3 normal = muln(rotatemat, Y3);
+		vec3 dir = position - sourcecam.m_eye;
+
+		// Avoid rendering when mirror is facing away
+		if(dot(dir, normal) > 0)
+			return {};
+
+		rotatemat = rotation(inverse(sourcecam.m_view));
+		vec3 eye = -reflect(dir, normal) + position;
+		vec3 lookat = muln(rotatemat, -Z3) + sourcecam.m_eye;
+		vec3 target = -reflect(position - lookat, normal) + position;
+		vec3 up = reflect(muln(rotatemat, Y3), normal);
+
+		Camera camera = Camera(eye, target, up, sourcecam.m_fov, sourcecam.m_aspect, sourcecam.m_near, sourcecam.m_far);
+		camera.m_no_update = true;
+
+		static mat4 bias = bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, false);
+		mat4 mirror = bias * camera.m_proj * camera.m_view;
+
+		// Now update projection matrix with new clip plane, implementing code from: http://www.terathon.com/code/oblique.html
+		// Paper explaining this technique: http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
+		Plane plane = Plane(position, normal);
+		plane = camera.m_view * plane;
+
+		vec4 clipPlane = vec4(plane.m_normal.x, plane.m_normal.y, plane.m_normal.z, plane.m_distance);
+
+		mat4& proj = camera.m_proj;
+
+		vec4 q;
+		q.x = (sign(clipPlane.x) + proj.f[8]) / proj.f[0];
+		q.y = (sign(clipPlane.y) + proj.f[9]) / proj.f[5];
+		q.z = -1.0f;
+		q.w = (1.0f + proj.f[10]) / proj.f[14];
+
+		// Calculate the scaled plane vector
+		clipPlane *= 2.f / dot(clipPlane, q);
+
+		// Replacing the third row of the projection matrix
+		proj.f[2] = clipPlane.x;
+		proj.f[6] = clipPlane.y;
+		proj.f[10] = clipPlane.z + 1.0f - clipBias;
+		proj.f[14] = clipPlane.w;
+
+		return { true, camera, mirror };
 	}
 }
 
@@ -563,7 +679,7 @@ namespace mud
 		rect.m_vertices[1] = mulp(mat, vec3(hi.x * nw, lo.y * nh, -near));
 		rect.m_vertices[2] = mulp(mat, vec3(lo.x * nw, lo.y * nh, -near));
 		rect.m_vertices[3] = mulp(mat, vec3(lo.x * nw, hi.y * nh, -near));
-		render.m_shot->m_immediate[0]->shape(identity, { Symbol::wire(colour, true), &rect, OUTLINE });
+		render.m_shot.m_immediate[0]->shape(identity, { Symbol::wire(colour, true), &rect, OUTLINE });
 	}
 
 	// ref: https://github.com/erich666/jgt-code
@@ -697,7 +813,7 @@ namespace mud
 
 	DepthRect project_aabb(const Camera& camera, const mat4& transform, const Aabb& aabb)
 	{
-		return project_aabb(camera.m_eye, camera.m_far, aabb.bmin(), aabb.bmax(), transform, camera.m_transform);
+		return project_aabb(camera.m_eye, camera.m_far, aabb.bmin(), aabb.bmax(), transform, camera.m_view);
 	}
 
 	DepthRect project_aabb_strict(const Camera& camera, const mat4& transform, const Aabb& aabb)
@@ -741,7 +857,7 @@ namespace mud
 		auto round = [](uint number, uint multiple) { return (number / multiple) * multiple; };
 
 		// these are defines in culling library but not exposed
-		uvec2 size = { round(rect_w(viewport.m_rect), 8), round(rect_h(viewport.m_rect), 4) };
+		uvec2 size = { round(viewport.m_rect.width, 8U), round(viewport.m_rect.height, 4U) };
 
 		unsigned int width, height;
 		m_moc->GetResolution(width, height);
@@ -754,10 +870,12 @@ namespace mud
 
 	void Culler::render(Render& render)
 	{
-		if(rect_w(render.m_viewport.m_rect) == 0 || rect_h(render.m_viewport.m_rect) == 0)
+		if(render.m_shot.m_occluders.empty())
+			return;
+		if(render.m_rect.width == 0 || render.m_rect.height == 0)
 			return;
 
-		this->begin(render.m_viewport);
+		this->begin(*render.m_viewport);
 		this->rasterize(render);
 		this->cull(render);
 		//this->debug(render);
@@ -766,28 +884,28 @@ namespace mud
 		mat4 identity = bxidentity();
 		bool debug = render.m_target != nullptr;
 		if(debug)
-			for(Item* item : render.m_shot->m_items)
+			for(Item* item : render.m_shot.m_items)
 				if((item->m_flags & ItemFlag::Occluder) == 0)
 				{
 					Colour colour = { 1.f, 1.f, 0.f, 0.15f };
-					render.m_shot->m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+					render.m_shot.m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
 				}
 #endif
 	}
 
 	void Culler::rasterize(Render& render)
 	{
-		const mat4 world_to_clip = render.m_camera.m_projection * render.m_camera.m_transform;
+		const mat4 world_to_clip = render.m_camera->m_proj * render.m_camera->m_view;
 
-		for(Item* item : render.m_shot->m_occluders)
+		for(Item* item : render.m_shot.m_occluders)
 		{
 			const mat4 model_to_clip = world_to_clip * item->m_node->m_transform;
 
-			for(ModelItem& model_item : item->m_model->m_items)
+			for(ModelElem& elem : item->m_model->m_items)
 			{
-				Mesh& mesh = *model_item.m_mesh;
+				Mesh& mesh = *elem.m_mesh;
 
-				if(mesh.m_draw_mode == DrawMode::OUTLINE)
+				if(mesh.m_primitive < PrimitiveType::Triangles)
 					continue;
 
 				float* vertices = (float*)mesh.m_cached_vertices.data();
@@ -814,33 +932,33 @@ namespace mud
 	void Culler::cull(Render& render)
 	{
 		static const mat4 identity = bxidentity();
-		const mat4 world_to_clip = render.m_camera.m_projection * render.m_camera.m_transform;
-		const mat4 camera_to_world = inverse(render.m_camera.m_transform);
+		const mat4 world_to_clip = render.m_camera->m_proj * render.m_camera->m_view;
+		const mat4 camera_to_world = inverse(render.m_camera->m_view);
 
-		vector<Item*> items = render.m_shot->m_items;
-		render.m_shot->m_items.clear();
+		vector<Item*> items = render.m_shot.m_items;
+		render.m_shot.m_items.clear();
 
-		Plane near = render.m_camera.near_plane();
+		Plane near = render.m_camera->near_plane();
 
 		vector<Item*> culled;
 		for(Item* item : items)
 		{
 			if((item->m_flags & ItemFlag::Occluder) != 0)
 			{
-				render.m_shot->m_items.push_back(item);
+				render.m_shot.m_items.push_back(item);
 				continue;
 			}
 
 #ifdef ITEM_TO_CLIP
 			mat4 item_to_clip = world_to_clip * item->m_node->m_transform;
-			DepthRect bounds = project_aabb_strict(render.m_camera, item_to_clip, item->m_model->m_aabb);
+			DepthRect bounds = project_aabb_strict(*render.m_camera, item_to_clip, item->m_model->m_aabb);
 #else
-			DepthRect bounds = project_aabb_strict(render.m_camera, world_to_clip, item->m_aabb);
+			DepthRect bounds = project_aabb_strict(*render.m_camera, world_to_clip, item->m_aabb);
 #endif
 
 			MaskedOcclusionCulling::CullingResult result = m_moc->TestRect(bounds.lo.x, bounds.lo.y, bounds.hi.x, bounds.hi.y, bounds.depth);
 			if(result == MaskedOcclusionCulling::VISIBLE)
-				render.m_shot->m_items.push_back(item);
+				render.m_shot.m_items.push_back(item);
 			else
 				culled.push_back(item);
 
@@ -859,30 +977,29 @@ namespace mud
 			for(Item* item : culled)
 			{
 				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
-				render.m_shot->m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+				render.m_shot.m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
 			}
 #endif
 	}
 
 	void Culler::debug(Render& render)
 	{
-		if(render.m_frame.m_frame % 30 == 0)
+		if(render.m_frame->m_frame % 30 == 0)
 		{
-			uint16_t width = uint16_t(rect_w(render.m_viewport.m_rect));
-			uint16_t height = uint16_t(rect_h(render.m_viewport.m_rect));
+			const uint width = uint(render.m_rect.width * render.m_target->m_size.x);
+			const uint height = uint(render.m_rect.height * render.m_target->m_size.y);
 			m_depth_data.resize(width * height);
 
 			m_moc->ComputePixelDepthBuffer(m_depth_data.data(), false);
 
 			if(!bgfx::isValid(m_depth_texture))
-				m_depth_texture = bgfx::createTexture2D(width, height, false, 1, bgfx::TextureFormat::R32F);
+				m_depth_texture = { uvec2(width, height), false, TextureFormat::R32F };
 
 			const bgfx::Memory* memory = bgfx::makeRef(m_depth_data.data(), width * height * sizeof(float));
-			bgfx::updateTexture2D(m_depth_texture, 0, 0, 0, 0, width, height, memory);
+			bgfx::updateTexture2D(m_depth_texture, 0, 0, 0, 0, uint16_t(width), uint16_t(height), memory);
 		}
 
-		BlockCopy& copy = *render.m_scene.m_gfx_system.m_pipeline->block<BlockCopy>();
-		copy.debug_show_texture(render, m_depth_texture, vec4(0.f));
+		render.m_scene->m_gfx.m_copy->debug_show_texture(render, m_depth_texture, vec4(0.f));
 	}
 #endif
 }
@@ -898,45 +1015,63 @@ module mud.gfx;
 
 namespace mud
 {
-	PassDepth::PassDepth(GfxSystem& gfx_system, cstring name, BlockDepth& block_depth)
-		: DrawPass(gfx_system, name, PassType::Depth)
-		, m_block_depth(block_depth)
-	{}
-
-	PassDepth::PassDepth(GfxSystem& gfx_system, BlockDepth& block_depth)
-		: PassDepth(gfx_system, "depth", block_depth)
-	{}
-
-	void PassDepth::next_draw_pass(Render& render, Pass& render_pass)
+	bool queue_depth(GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 	{
-		UNUSED(render);
-		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_CULL_CW ;
+		static BlockDepth& block_depth = *gfx.m_renderer.block<BlockDepth>();
 
-		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
+		if(element.m_material->m_base.m_depth_draw != DepthDraw::Enabled
+		|| element.m_material->m_alpha.m_is_alpha)
+			return false;
 
-		m_block_depth.m_current_params = &m_block_depth.m_depth_params;
+		const DepthMethod depth_method = block_depth.m_depth_method;
+		const Program& program = depth_method == DepthMethod::Distance ? *block_depth.m_distance_program
+																	   : *block_depth.m_depth_program;
+
+		element.set_program(program);
+		return true;
 	}
 
-	void PassDepth::queue_draw_element(Render& render, DrawElement& element)
+	void pass_depth(GfxSystem& gfx, Render& render, Pass& pass, bool submit)
+	{
+		static BlockDepth& block_depth = *gfx.m_renderer.block<BlockDepth>();
+		block_depth.submit(render, pass);
+
+		UNUSED(render);
+		if(block_depth.m_depth_method == DepthMethod::Distance)
+			pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_WRITE_A | BGFX_STATE_CULL_CW;
+		else
+			pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_CULL_CW;
+
+		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthAscending);
+
+		if(submit)
+			gfx.m_renderer.pass(render, pass, queue_depth);
+	}
+
+#if 0
+	void pass_override(GfxSystem& gfx, Render& render, Pass& pass, Program& program)
 	{
 		UNUSED(render);
-		
-		if(element.m_material->m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
+		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_CULL_CW;
+
+		auto queue_draw_element = [&](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			if(element.m_item->m_shadow == ItemShadow::DoubleSided)
-				element.m_material = m_block_depth.m_depth_material_twosided;
-			else
-				element.m_material = m_block_depth.m_depth_material;
+			element.set_program(program);
+			return true;
+		};
 
-			element.m_program = element.m_material->m_program;
-			element.m_shader_version = { element.m_material->m_program };
+		gfx.m_renderer.pass(render, pass, queue_draw_element);
+	}
+#endif
 
-			this->add_element(render, element);
-		}
+	void pass_depth(GfxSystem& gfx, Render& render)
+	{
+		Pass pass = render.next_pass("depth", PassType::Depth);
+		pass_depth(gfx, render, pass);
 	}
 
-	BlockDepth::BlockDepth(GfxSystem& gfx_system)
-		: DrawBlock(gfx_system, type<BlockDepth>())
+	BlockDepth::BlockDepth(GfxSystem& gfx)
+		: DrawBlock(gfx, type<BlockDepth>())
 	{}
 
 	BlockDepth::~BlockDepth()
@@ -944,37 +1079,39 @@ namespace mud
 
 	void BlockDepth::init_block()
 	{
-		m_depth_material = &m_gfx_system.fetch_material("depth", "depth");
-		m_depth_material_twosided = &m_gfx_system.fetch_material("depth_twosided", "depth");
-		m_depth_material_twosided->m_base_block.m_cull_mode = CullMode::None;
+		m_depth_program = m_gfx.programs().file("depth");
+		m_distance_program = m_gfx.programs().file("distance");
+
 		u_depth.createUniforms();
 	}
 
 	void BlockDepth::begin_render(Render& render)
 	{
 		UNUSED(render);
+
+		m_depth_params = {};
+		m_distance_params = {};
 	}
 
-	void BlockDepth::begin_pass(Render& render)
+	void BlockDepth::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(program);
 	}
 
-	void BlockDepth::begin_draw_pass(Render& render)
+	void BlockDepth::submit(Render& render, const Pass& pass) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(pass);
+		bgfx::setViewUniform(pass.m_index, u_depth.u_depth_p0, &m_depth_params);
+
+		vec4 distance_p0 = { m_distance_params.m_eye, 0.f };
+		vec4 distance_p1 = { m_distance_params.m_near, m_distance_params.m_far, 0.f, 0.f };
+		bgfx::setViewUniform(pass.m_index, u_depth.u_distance_p0, &distance_p0);
+		bgfx::setViewUniform(pass.m_index, u_depth.u_distance_p1, &distance_p1);
 	}
 
-	void BlockDepth::options(Render& render, ShaderVersion& shader_version) const
+	void BlockDepth::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(shader_version);
-	}
-
-	void BlockDepth::submit(Render& render, const Pass& render_pass) const
-	{
-		UNUSED(render);
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		encoder.setUniform(u_depth.u_depth_params, &(*m_current_params));
+		UNUSED(render); UNUSED(element); UNUSED(pass);
 	}
 }
 
@@ -991,29 +1128,25 @@ module mud.gfx;
 
 namespace mud
 {
-	void shapes_size(span<const ProcShape> shapes, DrawMode draw_mode, ShapeSize& size, size_t& count)
+	ShapeSize shapes_size(span<ProcShape> shapes, DrawMode draw_mode)
 	{
+		ShapeSize size = { 0U, 0U };
+
 		for(const ProcShape& shape : shapes)
 			if(shape.m_draw_mode == draw_mode)
 			{
-				size.vec += draw_mode == PLAIN ? symbol_triangle_size(shape).vec
-											   : symbol_line_size(shape).vec;
-				count++;
+				size.vec += draw_mode == PLAIN
+					? symbol_triangle_size(shape).vec
+					: symbol_line_size(shape).vec;
 			}
-	}
 
-	void shapes_size(span<const ProcShape> shapes, span<ShapeSize> size, size_t& count)
-	{
-		shapes_size(shapes, PLAIN, size[PLAIN], count);
-		shapes_size(shapes, OUTLINE, size[OUTLINE], count);
+		return size;
 	}
 
 	ImmediateDraw::ImmediateDraw(Material& material)
 		: m_material(material)
 		, m_cursor{ 0, 0 }
 	{
-		m_material.m_unshaded_block.m_enabled = true;
-
 		m_batches[PLAIN].resize(64);
 		m_batches[OUTLINE].resize(64);
 
@@ -1048,19 +1181,15 @@ namespace mud
 
 	void ImmediateDraw::draw(const mat4& transform, span<ProcShape> shapes)
 	{
-		ShapeSize size[2] = { { 0, 0 }, { 0, 0 } };
-		size_t shape_count = 0;
-
-		shapes_size(shapes, { size, 2 }, shape_count);
-
-		if(size[PLAIN].vertex_count)
-			this->draw(transform, shapes, size[PLAIN], PLAIN);
-		if(size[OUTLINE].vertex_count)
-			this->draw(transform, shapes, size[OUTLINE], OUTLINE);
+		this->draw(transform, shapes, PLAIN);
+		this->draw(transform, shapes, OUTLINE);
 	}
 
-	void ImmediateDraw::draw(const mat4& transform, span<ProcShape> shapes, ShapeSize size, DrawMode draw_mode)
+	void ImmediateDraw::draw(const mat4& transform, span<ProcShape> shapes, DrawMode draw_mode)
 	{
+		ShapeSize size = shapes_size(shapes, draw_mode);
+		if(size.vertex_count == 0) return;
+
 		Batch* batch = this->batch(draw_mode, size.vertex_count);
 		if(batch)
 			this->draw(*batch, transform, shapes, size, draw_mode);
@@ -1074,7 +1203,7 @@ namespace mud
 		batch.m_vertices.resize(batch.m_vertices.size() + size.vertex_count);
 		batch.m_indices.resize(batch.m_indices.size() + size.index_count);
 
-		MeshAdapter data(Vertex::vertex_format, &batch.m_vertices[vertex_offset], size.vertex_count, &batch.m_indices[index_offset], size.index_count, false);
+		MeshAdapter data(Vertex::vertex_format, { &batch.m_vertices[vertex_offset], size.vertex_count }, { &batch.m_indices[index_offset], size.index_count }, false);
 		data.m_offset = uint32_t(vertex_offset);
 
 		for(const ProcShape& shape : shapes)
@@ -1124,13 +1253,13 @@ namespace mud
 		bgfx::allocTransientIndexBuffer(&index_buffer, num_indices);
 		memcpy(index_buffer.data, batch.m_indices.data(), num_indices * sizeof(uint16_t));
 
-		m_material.submit(encoder, bgfx_state);
+		m_material.submit(*m_material.m_program, encoder, bgfx_state);
 
 		encoder.setVertexBuffer(0, &vertex_buffer);
 		encoder.setIndexBuffer(&index_buffer);
 		encoder.setState(draw_mode == OUTLINE ? bgfx_state | BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA : bgfx_state);
 
-		mat4 identity = bxidentity();
+		static const mat4 identity = bxidentity();
 		encoder.setTransform(value_ptr(identity));
 
 		encoder.submit(view, m_material.m_program->default_version());
@@ -1138,9 +1267,20 @@ namespace mud
 
 	bgfx::VertexDecl ImmediateDraw::ms_vertex_decl;
 
+	static size_t s_direct_index = 0;
+
+	Direct::Direct()
+	{}
+
+	Direct::Direct(Item& item)
+		: m_item(&item)
+		//, m_mesh("direct" + to_string(s_direct_index++))
+		//, m_model("direct" + to_string(s_direct_index++))
+	{}
+
 	struct SymbolIndex::Impl
 	{
-		std::map<uint64_t, Material*> m_materials;
+		std::map<uint64_t, object<Material>> m_materials;
 		std::map<uint64_t, std::map<std::array<char, c_max_shape_size>, object<Model>>> m_symbols;
 	};
 
@@ -1153,7 +1293,8 @@ namespace mud
 
 	uint64_t hash_symbol(const Symbol& symbol, DrawMode draw_mode)
 	{
-		return uint64_t(symbol.m_detail) | uint64_t(draw_mode << 16);
+		uint32_t subdiv = uint16_t(symbol.m_subdiv.x) | uint16_t(symbol.m_subdiv.y) << 16;
+		return uint64_t(symbol.m_detail) | uint64_t(draw_mode << 16) | uint64_t(subdiv) << 32ULL;
 	}
 
 	uint64_t hash_symbol_material(const Symbol& symbol, DrawMode draw_mode)
@@ -1162,20 +1303,22 @@ namespace mud
 								  : uint64_t(to_abgr(symbol.m_outline)) | uint64_t(symbol.m_overlay) << 32 | uint64_t(symbol.m_double_sided) << 33;
 	}
 
-	Material& SymbolIndex::symbol_material(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode)
+	Material& SymbolIndex::symbol_material(GfxSystem& gfx, const Symbol& symbol, DrawMode draw_mode)
 	{
 		Colour colour = draw_mode == PLAIN ? symbol.m_fill : symbol.m_outline;
 
 		uint64_t hash = hash_symbol_material(symbol, draw_mode);
 		if(m_impl->m_materials.find(hash) == m_impl->m_materials.end())
 		{
-			Material& m = gfx_system.fetch_material("Symbol" + to_string(hash), "unshaded");
-			m.m_base_block.m_depth_draw_mode = DepthDraw::Disabled;
-			m.m_base_block.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
-			m.m_base_block.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
-			m.m_unshaded_block.m_enabled = true;
-			m.m_unshaded_block.m_colour.m_value = colour;
-			m_impl->m_materials[hash] = &m;
+			m_impl->m_materials[hash] = construct<Material>("Symbol" + to_string(hash));
+			Material& m = *m_impl->m_materials[hash];
+
+			m.m_program = &gfx.programs().fetch("solid");
+			m.m_base.m_depth_draw = DepthDraw::Disabled;
+			m.m_base.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
+			m.m_base.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
+			m.m_solid.m_colour.m_value = colour;
+			
 		}
 		return *m_impl->m_materials[hash];
 	}
@@ -1191,79 +1334,184 @@ namespace mud
 		{
 			//printf("INFO: created indexed Shape %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
 			string name = "Shape:" + string(shape.m_type.m_name);
-			shapes[shape_mem] = draw_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode }, true);
+			shapes[shape_mem] = gen_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode }, true);
 		}
 
 		return *shapes[shape_mem];
 	}
 
-	object<Model> draw_model(cstring id, const ProcShape& shape, bool readback)
+	object<Model> gen_model(cstring id, const ProcShape& shape, bool readback)
 	{
-		return draw_model(id, vector<ProcShape>{ shape }, readback);
+		return gen_model(id, vector<ProcShape>{ shape }, readback);
 	}
 
-	object<Model> draw_model(cstring id, const vector<ProcShape>& shapes, bool readback)
+	object<Model> gen_model(cstring id, span<ProcShape> shapes, bool readback)
 	{
 		object<Model> model = oconstruct<Model>(id);
-		draw_model(shapes, *model, readback);
+		gen_model(shapes, *model, readback);
 		return model;
 	}
 
-	void draw_model(const ProcShape& shape, Model& model, bool readback, Material* material)
+	void gen_model(const ProcShape& shape, Model& model, bool readback, Material* material)
 	{
-		draw_model(vector<ProcShape>{ shape }, model, readback, material);
+		gen_model(span<ProcShape>{ shape }, model, readback, material);
 	}
 
-	void draw_model(const vector<ProcShape>& shapes, Model& model, bool readback, Material* material)
+	void gen_model(span<ProcShape> shapes, Model& model, bool readback, Material* material)
 	{
-		ShapeSize size[2] = { { 0, 0 }, { 0, 0 } };
-		size_t shape_count = 0;
-
-		shapes_size(shapes, { size, 2 }, shape_count);
-
-		if(size[PLAIN].vertex_count)
-			draw_mesh(shapes, model, size[PLAIN], PLAIN, readback, material);
-		if(size[OUTLINE].vertex_count)
-			draw_mesh(shapes, model, size[OUTLINE], OUTLINE, readback, material);
-
+		gen_mesh(shapes, model, PLAIN, readback, material);
+		gen_mesh(shapes, model, OUTLINE, readback, material);
 		model.prepare();
 	}
 
-	void draw_mesh(const ProcShape& shape, Model& model, DrawMode draw_mode, bool readback, Material* material)
+	void gen_mesh(const ProcShape& shape, Model& model, DrawMode draw_mode, bool readback, Material* material)
 	{
-		draw_mesh(vector<ProcShape>{ { shape } }, model, draw_mode, readback, material);
+		gen_mesh(span<ProcShape>{ shape }, model, draw_mode, readback, material);
 	}
 
-	void draw_mesh(const vector<ProcShape>& shapes, Model& model, DrawMode draw_mode, bool readback, Material* material)
+	void gen_mesh(span<ProcShape> shapes, Model& model, DrawMode draw_mode, bool readback, Material* material)
 	{
-		ShapeSize size = { 0, 0 };
-		size_t shape_count = 0;
+		ShapeSize size = shapes_size(shapes, draw_mode);
+		if(size.vertex_count == 0) return;
 
-		shapes_size(shapes, draw_mode, size, shape_count);
-		draw_mesh(shapes, model, size, draw_mode, readback, material);
-	}
-
-	void draw_mesh(const vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback, Material* material)
-	{
 		Mesh& mesh = model.add_mesh(model.m_name + to_string(uint(draw_mode)), readback);
 		mesh.m_material = material;
 
-		GpuMesh gpu_mesh = alloc_mesh(ShapeVertex::vertex_format, size.vertex_count, size.index_count);
-		
+		const PrimitiveType primitive = draw_mode == PLAIN ? PrimitiveType::Triangles : PrimitiveType::Lines;
+		GpuMesh gpu_mesh = alloc_mesh(primitive, ShapeVertex::vertex_format, size.vertex_count, size.index_count);
+
+		MeshAdapter& writer = gpu_mesh.m_writer;
 		for(const ProcShape& shape : shapes)
 			if(shape.m_draw_mode == draw_mode)
 			{
-				draw_mode == OUTLINE ? symbol_draw_lines(shape, gpu_mesh.m_writer)
-									 : symbol_draw_triangles(shape, gpu_mesh.m_writer);
-				gpu_mesh.m_writer.next();
+				draw_mode == OUTLINE ? symbol_draw_lines(shape, writer)
+									 : symbol_draw_triangles(shape, writer);
+				writer.next();
 			}
 
 		if(draw_mode == PLAIN)
-			generate_mikkt_tangents({ (ShapeIndex*)gpu_mesh.m_indices, gpu_mesh.m_index_count }, { (ShapeVertex*)gpu_mesh.m_vertices, gpu_mesh.m_vertex_count });
+			generate_mikkt_tangents({ (ShapeIndex*)gpu_mesh.m_indices.data(), gpu_mesh.m_index_count }, { (ShapeVertex*)gpu_mesh.m_vertices.data(), gpu_mesh.m_vertex_count });
 
-		mesh.upload(draw_mode, gpu_mesh);
+		mesh.upload(gpu_mesh);
 
 		model.add_item(mesh, bxidentity());
+	}
+
+	void gen_geom(const ProcShape& shape, MeshPacker& geom, DrawMode draw_mode)
+	{
+		gen_geom(span<ProcShape>{ shape }, geom, draw_mode);
+	}
+
+	void gen_geom(span<ProcShape> shapes, MeshPacker& geom, DrawMode draw_mode)
+	{
+		ShapeSize size = shapes_size(shapes, draw_mode);
+		if(size.vertex_count == 0) return;
+
+		geom.resize(size.vertex_count, size.index_count, ShapeVertex::vertex_format);
+
+		MeshAdapter writer = MeshAdapter(size.vertex_count, geom);
+		for(const ProcShape& shape : shapes)
+			if(shape.m_draw_mode == draw_mode)
+			{
+				draw_mode == OUTLINE
+					? symbol_draw_lines(shape, writer)
+					: symbol_draw_triangles(shape, writer);
+				writer.next();
+			}
+	}
+
+	Lines::Lines()
+	{}
+
+	Lines::Lines(const vector<vec3>& points)
+	{
+		this->start(points[0]);
+		for(const vec3& p : points)
+		{
+			this->next(p);
+		}
+	}
+
+	Lines::Lines(const Curve3& curve, size_t subdiv)
+		: Lines(curve.points(subdiv))
+	{}
+
+	void Lines::add(const vec3& start, const vec3& end, const Colour& start_colour, const Colour& end_colour)
+	{
+		const float start_distance = m_segments.size() > 0 ? m_segments.back().dist1 : 0.f;
+		const float end_distance = start_distance + distance(start, end);
+		m_segments.push_back({ start, start_distance, end, end_distance, start_colour, end_colour });
+	}
+
+	void Lines::start(const vec3& position, const Colour& colour)
+	{
+		m_segments.push_back({ position, 0.f, position, 0.f, colour, colour });
+	}
+
+	void Lines::next(const vec3& end, const Colour& colour)
+	{
+		const Segment& last = m_segments.back();
+		const float dist = last.dist1 + distance(last.pos1, end);
+		m_segments.push_back({ last.pos1, last.dist1, end, dist, last.col1, colour });
+	}
+
+	void Lines::setup()
+	{
+		for(size_t i = 0; i < m_segments.size(); ++i)
+		{
+			Segment& seg = m_segments[i];
+			seg.dist0 = i > 0 ? m_segments[i - 1].dist1 : 0.f;
+			seg.dist1 = seg.dist0 + distance(seg.pos0, seg.pos1);
+		}
+	}
+
+	void Lines::write(Mesh& mesh)
+	{
+		const uint32_t vertex_format = VertexAttribute::Position4 | VertexAttribute::Colour;
+		GpuMesh gpu_mesh = alloc_mesh(PrimitiveType::Lines, vertex_format, uint32_t(m_segments.size() * 2), 0U);
+		MeshAdapter& writer = gpu_mesh.m_writer;
+
+		for(const Segment& seg : m_segments)
+		{
+			writer.position4(vec4(seg.pos0, seg.dist0));
+			writer.colour(seg.col0);
+
+			writer.position4(vec4(seg.pos1, seg.dist1));
+			writer.colour(seg.col1);
+		}
+
+		mesh.upload(gpu_mesh);
+	}
+
+	void Lines::commit(Batch& batch)
+	{
+		span<float> memory = batch.begin(uint32_t(m_segments.size())); // , sizeof(Segment)
+		memcpy(memory.data(), m_segments.data(), memory.size() * sizeof(float));
+	}
+
+	void Lines::update_aabb()
+	{
+		m_aabb = {};
+
+		for(Segment& seg : m_segments)
+		{
+			m_aabb.merge(seg.pos0);
+			m_aabb.merge(seg.pos1);
+		}
+	}
+
+	void Lines::update_sphere()
+	{
+		const vec3 center = m_aabb.m_center;
+		float radius2 = 0.f;
+
+		for(Segment& seg : m_segments)
+		{
+			radius2 = max(radius2, distance2(center, seg.pos0));
+			radius2 = max(radius2, distance2(center, seg.pos1));
+		}
+
+		m_radius = sqrt(radius2);
 	}
 }
 
@@ -1276,56 +1524,26 @@ module mud.gfx;
 
 namespace mud
 {
-	PassEffects::PassEffects(GfxSystem& gfx_system)
-		: RenderPass(gfx_system, "effects", PassType::Effects)
-	{}
-
-	void PassEffects::submit_render_pass(Render& render)
+	void pass_resolve(GfxSystem& gfx, Render& render)
 	{
-		UNUSED(render);
-	}
+		// process effects
 
-	BlockResolve::BlockResolve(GfxSystem& gfx_system, BlockCopy& copy)
-		: GfxBlock(gfx_system, *this)
-		, m_copy(copy)
-	{}
-
-	void BlockResolve::init_block()
-	{}
-
-	void BlockResolve::begin_render(Render& render)
-	{
-		UNUSED(render);
-	}
-	
-	void BlockResolve::begin_pass(Render& render)
-	{
 		if(!render.m_is_mrt) return;
 		
 		// @todo three passes to resolve ? this is terrible :( but we can't read and write from the same buffer at the same time can we
-		bgfx::FrameBufferHandle target = render.m_target->m_ping_pong.swap();
-		m_copy.submit_quad(*render.m_target, render.composite_pass(), target,
-						   render.m_target->m_diffuse, render.m_viewport.m_rect);
+		FrameBuffer& fbo = render.m_target->m_ping_pong.swap();
+		gfx.m_copy->quad(render.composite_pass("resolve diffuse"), fbo, render.m_target->m_diffuse);
+		gfx.m_copy->quad(render.composite_pass("resolve specular"), fbo, render.m_target->m_specular, BGFX_STATE_BLEND_ADD);
 
-		m_copy.submit_quad(*render.m_target, render.composite_pass(), target,
-						   render.m_target->m_specular, render.m_viewport.m_rect, BGFX_STATE_BLEND_ADD);
-
-		m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target_fbo,
-						   render.m_target->m_ping_pong.last(), render.m_viewport.m_rect);
+		gfx.m_copy->quad(render.composite_pass("resolve"), *render.m_fbo, render.m_target->m_ping_pong.last());
 	}
 
-	PassPostProcess::PassPostProcess(GfxSystem& gfx_system, BlockCopy& copy)
-		: RenderPass(gfx_system, "post process", PassType::PostProcess)
-		, m_copy(copy)
-	{}
-
-	void PassPostProcess::submit_render_pass(Render& render)
+	void pass_effects(GfxSystem& gfx, Render& render)
 	{
-		m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(),
-							render.m_target->m_diffuse, render.m_viewport.m_rect);
-
-		for(GfxBlock* block : m_gfx_blocks)
-			block->submit_pass(render);
+		UNUSED(gfx); UNUSED(render);
+		// submit ssao
+		// submit ssr
+		// submit sss
 	}
 }
 
@@ -1333,6 +1551,7 @@ namespace mud
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/algorithm.h>
 #endif
 
 #include <cstdio>
@@ -1340,18 +1559,19 @@ module mud.gfx;
 
 namespace mud
 {
-	BlockFilter::BlockFilter(GfxSystem& gfx_system)
-		: GfxBlock(gfx_system, *this)
-		, m_quad_program(gfx_system.programs().create("filter/quad"))
+	BlockFilter::BlockFilter(GfxSystem& gfx)
+		: GfxBlock(gfx, *this)
+		, m_quad_program(gfx.programs().create("filter/quad"))
 	{
-		static cstring options[5] = {
+		gfx.m_filter = this;
+
+		m_options = {
 			"UNPACK_DEPTH",
 			"SOURCE_DEPTH",
 			"SOURCE_0_CUBE",
 			"SOURCE_0_ARRAY",
 			"FILTER_DEBUG_UV"
 		};
-		m_shader_block->m_options = { options, 5 };
 	}
 
 	void BlockFilter::init_block()
@@ -1365,23 +1585,89 @@ namespace mud
 		//this->set_uniforms(render);
 	}
 
-	void BlockFilter::begin_pass(Render& render)
+	void BlockFilter::multiply(float mul)
 	{
-		UNUSED(render);
+		m_multiply = mul;
 	}
 
-	void BlockFilter::set_uniforms(Render& render, bgfx::Encoder& encoder)
+	void BlockFilter::source0p(Texture& texture, ProgramVersion& program, int level, uint32_t flags)
 	{
-		render.set_uniforms(encoder);
+		bgfx::setTexture(uint8_t(TextureSampler::Source0), u_uniform.s_source_0, texture, flags);
 
-		vec4 camera_params{ render.m_camera.m_near, render.m_camera.m_far,
-							render.m_camera.m_fov, render.m_camera.m_aspect };
-		encoder.setUniform(u_uniform.u_camera_params, &camera_params);
+		const vec4 levels = { float(level), 0.f, 0.f, 0.f };
+		bgfx::setUniform(u_uniform.u_source_levels, &levels);
 
-		vec4 screen_params{ vec2(render.m_target->m_size),
-							1.0f / vec2(render.m_target->m_size) };
-		encoder.setUniform(u_uniform.u_screen_size_pixel_size, &screen_params);
+		program.set_option(m_index, SOURCE_DEPTH, texture.m_is_depth);
+		program.set_option(m_index, UNPACK_DEPTH, texture.m_is_depth_packed);
+		program.set_option(m_index, SOURCE_0_ARRAY, texture.m_is_array);
+		program.set_option(m_index, SOURCE_0_CUBE, texture.m_is_cube);
 	}
+
+	void BlockFilter::source0(Texture& texture, uint32_t flags)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::Source0), u_uniform.s_source_0, texture, flags);
+	}
+
+	void BlockFilter::source1(Texture& texture, uint32_t flags)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::Source1), u_uniform.s_source_1, texture, flags);
+	}
+
+	void BlockFilter::source2(Texture& texture, uint32_t flags)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::Source2), u_uniform.s_source_2, texture, flags);
+	}
+
+	void BlockFilter::source3(Texture& texture, uint32_t flags)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::Source3), u_uniform.s_source_3, texture, flags);
+	}
+
+	void BlockFilter::sourcedepth(Texture& texture, uint32_t flags)
+	{
+		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), u_uniform.s_source_depth, texture, flags);
+	}
+
+	void BlockFilter::uniform(const Pass& pass, const string& name, const mat4& value)
+	{
+		//if(!has(m_uniforms, name))			
+		if(m_uniforms.find(name) == m_uniforms.end())
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Mat4, 1U, bgfx::UniformFreq::View);
+
+		bgfx::setViewUniform(pass.m_index, m_uniforms[name], &value);
+	}
+
+	void BlockFilter::uniform(const Pass& pass, const string& name, const vec4& value)
+	{
+		//if(!has(m_uniforms, name))			
+		if(m_uniforms.find(name) == m_uniforms.end())
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+
+		bgfx::setViewUniform(pass.m_index, m_uniforms[name], &value);
+	}
+
+	void BlockFilter::uniforms(const Pass& pass, const string& name, span<float> values)
+	{
+		if(m_uniforms.find(name) == m_uniforms.end())
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, values.size() / 4, bgfx::UniformFreq::View);
+
+		bgfx::setViewUniform(pass.m_index, m_uniforms[name], values.data(), values.size() / 4);
+	}
+
+	void BlockFilter::uniforms4(const Pass& pass, const string& name, span<vec4> values)
+	{
+		//if(!has(m_uniforms, name))			
+		if(m_uniforms.find(name) == m_uniforms.end())
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, values.size(), bgfx::UniformFreq::View);
+
+		bgfx::setViewUniform(pass.m_index, m_uniforms[name], values.data(), values.size());
+	}
+
+	struct GpuTargetRect
+	{
+		attr_ gpu_ vec2 rect_size;
+		attr_ gpu_ vec2 pixel_size;
+	};
 
 	struct ScreenQuadVertex
 	{
@@ -1431,59 +1717,60 @@ namespace mud
 		draw_quad({ 1.f, 1.f }, fbo_flip);
 	}
 
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags, bool render)
+	void BlockFilter::submit(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, const RenderQuad& quad, uint64_t flags, bool render)
 	{
-		if(quad.m_source.z > 1.f || quad.m_source.w > 1.f)
-			printf("WARNING: Source rect expected in relative coordinates\n");
+		const ushort2 pos = ushort2(floor(quad.m_dest.pos * vec2(fbo.m_size)));
+		const ushort2 size = ushort2(ceil((quad.m_dest.pos + quad.m_dest.size) * vec2(fbo.m_size))) - pos;
+
+		ushort4 rect = ushort4(pos, size);
+		if(quad.m_relative && bgfx::getCaps()->originBottomLeft)
+			rect.y = ushort(fbo.m_size.y) - rect.y - rect.height;
+
+		vec4 crop = quad.m_source;
+		if(quad.m_blit)
+			crop = vec4(rect) / vec2(fbo.m_size);
+		if(!quad.m_relative && bgfx::getCaps()->originBottomLeft)
+			crop.y = 1.f - crop.y - crop.height;
+		
+		static mat4 mview = bxidentity();
+		static mat4 proj = bxortho(vec4(0.f, 1.f, 1.f, 0.f), 0.f, 1.f, 0.f, bgfx::getCaps()->homogeneousDepth);// false))
 
 #ifdef _DEBUG
-		bgfx::setViewName(view, "quad");
+		bgfx::setViewName(pass.m_index, pass.m_name.c_str());
 #endif
-		bgfx::setViewFrameBuffer(view, fbo);
-		bgfx::setViewTransform(view, value_ptr(target.m_screen_view), value_ptr(target.m_screen_proj));
-		bgfx::setViewRect(view, uint16_t(quad.m_dest.x), uint16_t(quad.m_dest.y), uint16_t(rect_w(quad.m_dest)), uint16_t(rect_h(quad.m_dest)));
+		bgfx::setViewFrameBuffer(pass.m_index, fbo);
+		bgfx::setViewTransform(pass.m_index, value_ptr(mview), value_ptr(proj));
+		bgfx::setViewRect(pass.m_index, rect.x, rect.y, rect.width, rect.height);
 
 		draw_unit_quad(quad.m_fbo_flip);
-		//draw_quad(rect_w(quad.m_dest), rect_h(quad.m_dest));
+		//draw_quad(quad.m_dest.width, quad.m_dest.height);
 
-		bgfx::setUniform(u_uniform.u_source_0_crop, &quad.m_source);
+		bgfx::setUniform(u_uniform.u_source_crop, &crop);
+
+		const vec4 p0 = { m_multiply, 0.f, 0.f, 0.f };
+		bgfx::setUniform(u_uniform.u_filter_p0, &p0);
 
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_CULL_CW | flags);
-		bgfx::submit(view, program);
+		bgfx::submit(pass.m_index, program.fetch());
 
 		if(render)
 			bgfx::frame();
+
+		m_multiply = 1.f;
 	}
 
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags, bool render)
+	void BlockFilter::quad(const Pass& pass, FrameBuffer& fbo, const ProgramVersion& program, uint64_t flags, bool render)
 	{
-		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
-		this->submit_quad(target, view, fbo, program, quad, flags, render);
+		this->submit(pass, fbo, program, RenderQuad(pass.m_rect, true), flags, render);
 	}
 
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags, bool render)
-	{
-		this->submit_quad(target, view, target.m_fbo, program, quad, flags, render); // BGFX_INVALID_HANDLE
-	}
-
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags, bool render)
-	{
-		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
-		this->submit_quad(target, view, program, quad, flags, render);
-	}
-
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, uint64_t flags, bool render)
-	{
-		vec4 rect = vec4(vec2(0.f), vec2(target.m_size));
-		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
-		this->submit_quad(target, view, program, quad, flags, render);
-	}
-
-	BlockCopy::BlockCopy(GfxSystem& gfx_system, BlockFilter& filter)
-		: GfxBlock(gfx_system, *this)
+	BlockCopy::BlockCopy(GfxSystem& gfx, BlockFilter& filter)
+		: GfxBlock(gfx, *this)
 		, m_filter(filter)
-		, m_program(gfx_system.programs().create("filter/copy"))
+		, m_program(gfx.programs().create("filter/copy"))
 	{
+		gfx.m_copy = this;
+
 		m_program.register_block(filter);
 	}
 
@@ -1495,60 +1782,29 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockCopy::begin_pass(Render& render)
+	void BlockCopy::submit(const Pass& pass, FrameBuffer& fbo, Texture& texture, const RenderQuad& quad, uint64_t flags)
 	{
-		UNUSED(render);
+		ProgramVersion program = { m_program };
+		m_filter.source0p(texture, program, TEXTURE_CLAMP);
+		m_filter.submit(pass, fbo, program, quad, flags);
 	}
 
-	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::TextureHandle texture, const RenderQuad& quad, uint64_t flags)
+	void BlockCopy::quad(const Pass& pass, FrameBuffer& fbo, Texture& texture, uint64_t flags)
 	{
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, texture, GFX_TEXTURE_CLAMP);
-		m_filter.submit_quad(target, view, fbo, m_program.default_version(), quad, flags);
+		this->submit(pass, fbo, texture, RenderQuad(pass.m_rect, true), flags);
 	}
 
-	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::TextureHandle texture, const uvec4& rect, uint64_t flags)
-	{
-		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
-		this->submit_quad(target, view, fbo, texture, quad, flags);
-	}
-
-	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const RenderQuad& quad, uint64_t flags)
-	{
-		this->submit_quad(target, view, target.m_fbo, texture, quad, flags); // BGFX_INVALID_HANDLE
-	}
-
-	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const uvec4& rect, uint64_t flags)
-	{
-		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
-		this->submit_quad(target, view, texture, quad, flags);
-	}
-
-	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, uint64_t flags)
-	{
-		vec4 rect = vec4(vec2(0.f), vec2(target.m_size));
-		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
-		this->submit_quad(target, view, texture, quad, flags);
-	}
-
-	void BlockCopy::debug_show_texture(Render& render, bgfx::TextureHandle texture, const vec4& rect, bool is_depth, bool is_depth_packed, bool is_array, int level)
+	void BlockCopy::debug_show_texture(Render& render, Texture& texture, const vec4& rect, int level)
 	{
 		assert(render.m_target);
-		vec4 dest = rect == vec4(0.f) ? vec4(vec2(0.f), vec2(render.m_target->m_size) * 0.25f) : rect;;
-		RenderQuad target_quad = { Rect4, render.m_target->dest_quad(dest, true) };
+		const vec4 dest = rect == vec4(0.f) ? vec4(vec2(0.f), vec2(0.25f)) : rect;
+		const RenderQuad target_quad = { Rect4, dest };
 
-		ShaderVersion shader_version = { &m_program };
-		if(is_depth)
-			shader_version.set_option(m_filter.m_index, FILTER_SOURCE_DEPTH);
-		if(is_depth_packed)
-			shader_version.set_option(m_filter.m_index, FILTER_UNPACK_DEPTH);
-		if(is_array)
-			shader_version.set_option(m_filter.m_index, FILTER_SOURCE_0_ARRAY);
+		ProgramVersion program = { m_program };
+		m_filter.source0p(texture, program, level, TEXTURE_CLAMP);
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, texture, GFX_TEXTURE_CLAMP);
-		bgfx::setUniform(m_filter.u_uniform.u_source_0_level, &level);
-
-		uint8_t view = render.debug_pass();
-		m_filter.submit_quad(*render.m_target, view, BGFX_INVALID_HANDLE, m_program.version(shader_version), target_quad, 0);
+		Pass pass; pass.m_index = render.debug_pass();
+		m_filter.submit(pass, render.m_target->m_backbuffer, program, target_quad, 0);
 	}
 }
 
@@ -1558,6 +1814,7 @@ namespace mud
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/bitset.h>
 #include <stl/swap.h>
 #include <stl/span.h>
 #include <stl/array.h>
@@ -1576,31 +1833,33 @@ typedef SSIZE_T ssize_t;
 
 //#define USE_STD_BITSET
 
+#include <stl/vector.hpp>
+
 namespace mud
 {
 	// This depends on the maximum number of lights (currently 255),and can't be more than 16 bits.
 	static_assert(CONFIG_MAX_LIGHT_INDEX <= UINT16_MAX, "can't have more than 65536 lights");
 	using RecordBufferType = std::conditional_t<CONFIG_MAX_LIGHT_INDEX <= UINT8_MAX, uint8_t, uint16_t>;
 
-	// this is chosen so froxelizePointAndSpotLight() vectorizes 4 froxel tests / spotlight
-	// with 256 lights this implies 8 jobs (256 / 32) for froxelization.
+	// this is chosen so clusterizePointAndSpotLight() vectorizes 4 cluster tests / spotlight
+	// with 256 lights this implies 8 jobs (256 / 32) for clusterization.
 
 	using LightGroupType = uint32_t;
 
 	// The first entry always encodes the type of light, i.e. point/spot
-	using FroxelThreadData = array<LightGroupType, FROXEL_BUFFER_ENTRY_COUNT_MAX + 1>;
+	using FroxelThreadData = array<LightGroupType, CLUSTER_BUFFER_ENTRY_COUNT_MAX + 1>;
 
-	static constexpr bool SUPPORTS_REMAPPED_FROXELS = false;
+	static constexpr bool SUPPORTS_REMAPPED_CLUSTERS = false;
 
-	// The Froxel buffer is set to FROXEL_BUFFER_WIDTH x n
+	// The Froxel buffer is set to CLUSTER_BUFFER_WIDTH x n
 	// With n limited by the supported texture dimension, which is guaranteed to be at least 2048
 	// in all version of GLES.
 
 	// Make sure this matches the same constants in shading_lit.fs
-	constexpr uint32_t FROXEL_BUFFER_WIDTH_SHIFT = 6u;
-	constexpr uint32_t FROXEL_BUFFER_WIDTH = 1u << FROXEL_BUFFER_WIDTH_SHIFT;
-	constexpr uint32_t FROXEL_BUFFER_WIDTH_MASK = FROXEL_BUFFER_WIDTH - 1u;
-	constexpr uint32_t FROXEL_BUFFER_HEIGHT = (FROXEL_BUFFER_ENTRY_COUNT_MAX + FROXEL_BUFFER_WIDTH_MASK) / FROXEL_BUFFER_WIDTH;
+	constexpr uint32_t CLUSTER_BUFFER_WIDTH_SHIFT = 6u;
+	constexpr uint32_t CLUSTER_BUFFER_WIDTH = 1u << CLUSTER_BUFFER_WIDTH_SHIFT;
+	constexpr uint32_t CLUSTER_BUFFER_WIDTH_MASK = CLUSTER_BUFFER_WIDTH - 1u;
+	constexpr uint32_t CLUSTER_BUFFER_HEIGHT = (CLUSTER_BUFFER_ENTRY_COUNT_MAX + CLUSTER_BUFFER_WIDTH_MASK) / CLUSTER_BUFFER_WIDTH;
 
 	constexpr uint32_t RECORD_BUFFER_WIDTH_SHIFT = 5u;
 	constexpr uint32_t RECORD_BUFFER_WIDTH = 1u << RECORD_BUFFER_WIDTH_SHIFT;
@@ -1612,7 +1871,7 @@ namespace mud
 	// number of lights processed by one group (e.g. 32)
 	static constexpr uint32_t LIGHT_PER_GROUP = sizeof(LightGroupType) * 8;
 
-	// number of groups (i.e. jobs) to use for froxelization (e.g. 8)
+	// number of groups (i.e. jobs) to use for clusterization (e.g. 8)
 	static constexpr uint32_t GROUP_COUNT = (CONFIG_MAX_LIGHT_COUNT + LIGHT_PER_GROUP - 1) / LIGHT_PER_GROUP;
 
 
@@ -1625,6 +1884,16 @@ namespace mud
 	// clustered shading refs
 	// http://www.humus.name/Articles/PracticalClusteredShading.pdf
 	// http://www.cse.chalmers.se/~uffe/clustered_shading_preprint.pdf
+
+	struct LightRecord
+	{
+#ifndef USE_STD_BITSET
+		using Lights = bitset<uint64_t, (CONFIG_MAX_LIGHT_COUNT + 63) / 64>;
+#else
+		using Lights = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
+#endif
+		Lights lights;
+	};
 
 	struct LightParams
 	{
@@ -1640,26 +1909,26 @@ namespace mud
 	{
 		void createUniforms()
 		{
-			s_light_records = bgfx::createUniform("s_light_records", bgfx::UniformType::Int1);
-			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Int1);
+			s_light_records  = bgfx::createUniform("s_light_records",  bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 
-			u_froxel_params = bgfx::createUniform("u_froxel_params", bgfx::UniformType::Vec4);
-			u_froxel_f = bgfx::createUniform("u_froxel_f", bgfx::UniformType::Vec4);
-			u_froxel_z = bgfx::createUniform("u_froxel_z", bgfx::UniformType::Vec4);
+			u_cluster_p0 = bgfx::createUniform("u_cluster_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_cluster_f = bgfx::createUniform("u_cluster_f", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_cluster_z = bgfx::createUniform("u_cluster_z", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 		}
 
 		bgfx::UniformHandle s_light_records;
 		bgfx::UniformHandle s_light_clusters;
 
-		bgfx::UniformHandle u_froxel_params;
-		bgfx::UniformHandle u_froxel_f;
-		bgfx::UniformHandle u_froxel_z;
+		bgfx::UniformHandle u_cluster_p0;
+		bgfx::UniformHandle u_cluster_f;
+		bgfx::UniformHandle u_cluster_z;
 	};
 
 	struct Froxelizer::Impl
 	{
 		Impl()
-			: m_froxels({ GpuBuffer::ElementType::UINT16, 2 }, FROXEL_BUFFER_WIDTH, FROXEL_BUFFER_HEIGHT)
+			: m_clusters({ GpuBuffer::ElementType::UINT16, 2 }, CLUSTER_BUFFER_WIDTH, CLUSTER_BUFFER_HEIGHT)
 			, m_records({ record_type(), 1 }, RECORD_BUFFER_WIDTH, RECORD_BUFFER_HEIGHT)
 		{
 			m_uniform.createUniforms();
@@ -1674,19 +1943,19 @@ namespace mud
 			const bgfx::Memory* m_memory;
 		};
 
-		vector<FroxelThreadData> m_froxel_sharded_data;  // 256 KiB w/ 256 lights
+		vector<FroxelThreadData> m_cluster_sharded_data;  // 256 KiB w/ 256 lights
 		vector<LightRecord> m_light_records;             // 256 KiB w/ 256 lights
 
-		Buffer<FroxelEntry> m_froxels;			//  32 KiB w/ 8192 froxels
+		Buffer<FroxelEntry> m_clusters;			//  32 KiB w/ 8192 clusters
 		Buffer<RecordBufferType> m_records;		//  64 KiB // max 32 KiB  (actual: resolution dependant)
 
 		FroxelUniform m_uniform;
 	};
 
-	void froxelize_light(ClusteredFrustum& frustum, FroxelThreadData& froxelThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far);
+	void clusterize_light(ClusteredFrustum& frustum, FroxelThreadData& clusterThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far);
 
-	Froxelizer::Froxelizer(GfxSystem& gfx_system)
-		: m_gfx_system(gfx_system)
+	Froxelizer::Froxelizer(GfxSystem& gfx)
+		: m_gfx(gfx)
 		, m_impl(construct<Impl>())
 	{
 		UNUSED(RECORD_BUFFER_WIDTH_MASK);
@@ -1695,23 +1964,23 @@ namespace mud
 	Froxelizer::~Froxelizer()
 	{}
 
-	uint32_t Froxelizer::record(uint32_t cluster) { return m_impl->m_froxels.m_data[cluster].offset; }
-	uint32_t Froxelizer::count(uint32_t record, int type) { return m_impl->m_froxels.m_data[record].count[type]; }
+	uint32_t Froxelizer::record(uint32_t cluster) { return m_impl->m_clusters.m_data[cluster].offset; }
+	uint32_t Froxelizer::count(uint32_t record, int type) { return m_impl->m_clusters.m_data[record].count[type]; }
 	uint32_t Froxelizer::light(uint32_t record) { return m_impl->m_records.m_data[record]; }
 
-	bool Froxelizer::update(const Viewport& viewport, const mat4& projection, float near, float far)
+	bool Froxelizer::update(const uvec4& rect, const mat4& projection, float near, float far)
 	{
-		if(m_viewport != &viewport || m_viewport->m_rect != viewport.m_rect) //[[unlikely]]
-			m_dirty |= VIEWPORT_CHANGED;
-		if(m_projection != projection) //[[unlikely]]
-			m_dirty |= PROJECTION_CHANGED;
+		if(m_viewport != rect) //[[unlikely]]
+			m_dirty |= uint8_t(Dirty::Viewport);
+		if(m_proj != projection) //[[unlikely]]
+			m_dirty |= uint8_t(Dirty::Projection);
 
-		//if(all(less(abs(m_projection), vec3(EPSILON))))
+		//if(all(less(abs(m_proj), vec3(EPSILON))))
 
-		m_viewport = &viewport;
-		m_projection = projection;
+		m_viewport = rect;
+		m_proj = projection;
 		m_near = near;
-		UNUSED(far);
+		m_light_far = far;
 
 		bool uniformsNeedUpdating = false;
 
@@ -1721,18 +1990,14 @@ namespace mud
 		return uniformsNeedUpdating;
 	}
 
-	bool Froxelizer::prepare(const Viewport& viewport, const mat4& projection, float near, float far)
+	void Froxelizer::setup()
 	{
-		bool uniformsNeedUpdating = this->update(viewport, projection, near, far);
-
-		// froxel buffer (~32 KiB) & record buffer (~64 KiB)
-		m_impl->m_froxels.m_data.resize(FROXEL_BUFFER_ENTRY_COUNT_MAX);
+		// cluster buffer (~32 KiB) & record buffer (~64 KiB)
+		m_impl->m_clusters.m_data.resize(CLUSTER_BUFFER_ENTRY_COUNT_MAX);
 		m_impl->m_records.m_data.resize(RECORD_BUFFER_ENTRY_COUNT);
 
-		m_impl->m_light_records.resize(FROXEL_BUFFER_ENTRY_COUNT_MAX);  // light records per froxel (~256 KiB)
-		m_impl->m_froxel_sharded_data.resize(GROUP_COUNT);				// froxel thread data (~256 KiB)
-
-		return uniformsNeedUpdating;
+		m_impl->m_light_records.resize(CLUSTER_BUFFER_ENTRY_COUNT_MAX);  // light records per cluster (~256 KiB)
+		m_impl->m_cluster_sharded_data.resize(GROUP_COUNT);				// cluster thread data (~256 KiB)
 	}
 
 	void Froxelizer::update_viewport()
@@ -1740,34 +2005,34 @@ namespace mud
 		m_frustum.m_near = m_light_near;
 		m_frustum.m_far = m_light_far;
 
-		m_frustum.resize(rect_size(vec4(m_viewport->m_rect)));
+		m_frustum.resize(vec2(m_viewport.size));
 
-		m_params_z = { 0.f, 0.f, -m_frustum.m_linearizer, float(m_frustum.m_subdiv_z) };
-		if(SUPPORTS_REMAPPED_FROXELS)
+		m_pz = { 0.f, 0.f, -m_frustum.m_linearizer, float(m_frustum.m_subdiv_z) };
+		if(SUPPORTS_REMAPPED_CLUSTERS)
 		{
-			m_params_f.x = uint32_t(m_frustum.m_subdiv_z);
-			m_params_f.y = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_z);
-			m_params_f.z = 1;
+			m_pf.x = uint32_t(m_frustum.m_subdiv_z);
+			m_pf.y = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_z);
+			m_pf.z = 1;
 		}
 		else
 		{
-			m_params_f.x = 1;
-			m_params_f.y = uint32_t(m_frustum.m_subdiv_x);
-			m_params_f.z = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_y);
+			m_pf.x = 1;
+			m_pf.y = uint32_t(m_frustum.m_subdiv_x);
+			m_pf.z = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_y);
 		}
 	}
 
 	void Froxelizer::update_projection()
 	{
-		m_frustum.recompute(m_projection, rect_size(vec4(m_viewport->m_rect)));
+		m_frustum.recompute(m_proj, vec2(m_viewport.size));
 
 		//    linearizer = log2(zLightFar / zLightNear) / (zcount - 1)
 		//    vz = -exp2((i - zcount) * linearizer) * zLightFar
 		// => i = log2(zLightFar / -vz) / -linearizer + zcount
 		
-		float Pz = m_projection[2][2];
-		float Pw = m_projection[3][2];
-		if(m_projection[2][3] != 0)
+		float Pz = m_proj[2][2];
+		float Pw = m_proj[3][2];
+		if(m_proj[2][3] != 0)
 		{
 			// perspective projection
 			// (clip) cz = Pz*vz+Pw, cw=-vz
@@ -1775,8 +2040,8 @@ namespace mud
 			// (win)  fz = -Pz*0.5+0.5 - Pw*0.5/vz
 			// ->  = vz = -Pw / (2*fz + Pz-1)
 			// i = log2(zLightFar*(2*fz + Pz-1) / Pw) / -linearizer + zcount
-			m_params_z[0] = 2.0f * m_light_far / Pw;
-			m_params_z[1] = m_light_far * (Pz - 1.0f) / Pw;
+			m_pz[0] = 2.0f * m_light_far / Pw;
+			m_pz[1] = m_light_far * (Pz - 1.0f) / Pw;
 		}
 		else
 		{
@@ -1788,25 +2053,25 @@ namespace mud
 			// i = log2(-vz / zLightFar) / linearizer + zcount
 			// i = log2((-2*fz + Pw + 1)/(Pz*zLightFar)) / linearizer + zcount
 
-			m_params_z[0] = -2.0f / (Pz * m_light_far);
-			m_params_z[1] = (1.0f + Pw) / (Pz * m_light_far);
-			m_params_z[2] = m_frustum.m_linearizer;
+			m_pz[0] = -2.0f / (Pz * m_light_far);
+			m_pz[1] = (1.0f + Pw) / (Pz * m_light_far);
+			m_pz[2] = m_frustum.m_linearizer;
 		}
 
 		if(m_debug_clusters.size() > 0)
-			this->compute_froxels();
+			this->compute_clusters();
 	}
 
 	bool Froxelizer::update()
 	{
 		bool uniformsNeedUpdating = false;
-		if(m_dirty & VIEWPORT_CHANGED) // [[unlikely]] 
+		if(m_dirty & uint8_t(Dirty::Viewport)) // [[unlikely]] 
 		{
 			update_viewport();
 			uniformsNeedUpdating = true;
 		}
 
-		if(m_dirty & (PROJECTION_CHANGED | VIEWPORT_CHANGED)) // [[unlikely]] 
+		if(m_dirty & uint8_t(Dirty::Projection) | uint8_t(Dirty::Viewport)) // [[unlikely]] 
 		{
 			update_projection();
 			uniformsNeedUpdating = true;
@@ -1816,7 +2081,7 @@ namespace mud
 		return uniformsNeedUpdating;
 	}
 
-	void Froxelizer::compute_froxels()
+	void Froxelizer::compute_clusters()
 	{	
 		m_debug_clusters.resize(m_frustum.m_cluster_count);
 
@@ -1832,44 +2097,61 @@ namespace mud
 
 	void Froxelizer::upload()
 	{
-		m_impl->m_froxels.m_memory = bgfx::copy(m_impl->m_froxels.m_data.data(), uint32_t(sizeof(FroxelEntry) * m_impl->m_froxels.m_data.size()));
+		m_impl->m_clusters.m_memory = bgfx::copy(m_impl->m_clusters.m_data.data(), uint32_t(sizeof(FroxelEntry) * m_impl->m_clusters.m_data.size()));
 		m_impl->m_records.m_memory = bgfx::copy(m_impl->m_records.m_data.data(), uint32_t(sizeof(RecordBufferType) * m_impl->m_records.m_data.size()));
 
 		// send data to GPU
-		m_impl->m_froxels.m_buffer.commit(m_impl->m_froxels.m_memory);
+		m_impl->m_clusters.m_buffer.commit(m_impl->m_clusters.m_memory);
 		m_impl->m_records.m_buffer.commit(m_impl->m_records.m_memory);
+	}
+
+	struct refl_ GpuClusters
+	{
+		attr_ gpu_ vec2 inv_tile_size;
+		attr_ gpu_ vec2 viewport_pos;
+		attr_ gpu_ vec3 params_f;
+		attr_ gpu_ vec4 params_z;
+	};
+
+	void Froxelizer::submit(const Pass& pass) const
+	{
+		uint32_t records = uint32_t(TextureSampler::LightRecords);
+		uint32_t clusters = uint32_t(TextureSampler::Clusters);
+
+		bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.s_light_records, &records);
+		bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.s_light_clusters, &clusters);
+
+		auto submit = [=](vec4 params, vec4 f, vec4 z)
+		{
+			bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.u_cluster_p0, &params);
+			bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.u_cluster_f, &f);
+			bgfx::setViewUniform(pass.m_index, m_impl->m_uniform.u_cluster_z, &z);
+		};
+
+		submit(vec4(m_frustum.m_inv_tile_size, vec2(m_viewport.pos)), vec4(vec3(m_pf), 0.f), m_pz);
 	}
 
 	void Froxelizer::submit(bgfx::Encoder& encoder) const
 	{
-		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_impl->m_uniform.s_light_records, m_impl->m_records.m_buffer.m_texture);
-		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_impl->m_uniform.s_light_clusters, m_impl->m_froxels.m_buffer.m_texture);
-
-		auto submit = [=](bgfx::Encoder& encoder, vec4 params, vec4 f, vec4 z)
-		{
-			encoder.setUniform(m_impl->m_uniform.u_froxel_params, &params);
-			encoder.setUniform(m_impl->m_uniform.u_froxel_f, &f);
-			encoder.setUniform(m_impl->m_uniform.u_froxel_z, &z);
-		};
-
-		submit(encoder, vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_params_f), 0.f), m_params_z);
+		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_impl->m_records.m_buffer.m_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_impl->m_clusters.m_buffer.m_texture);
 	}
 
-	void Froxelizer::froxelize_lights(const Camera& camera, span<Light*> lights)
+	void Froxelizer::clusterize_lights(const Camera& camera, span<Light*> lights)
 	{
 		// note: this is called asynchronously
-		froxelize_loop(camera, lights);
-		froxelize_assign_records_compress(uint32_t(lights.size()));
+		clusterize_loop(camera, lights);
+		clusterize_assign_records_compress(uint32_t(lights.size()));
 	}
 
-	void Froxelizer::froxelize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride)
+	void Froxelizer::clusterize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride)
 	{
-		const mat4& projection = m_projection;
+		const mat4& projection = m_proj;
 
 		for(uint32_t i = offset; i < lights.size(); i += stride)
 		{
-			vec3 position = mulp(camera.m_transform, lights[i]->m_node.position());
-			vec3 direction = muln(camera.m_transform, lights[i]->m_node.direction());
+			vec3 position = mulp(camera.m_view, lights[i]->m_node->position());
+			vec3 direction = muln(camera.m_view, lights[i]->m_node->direction());
 
 			float cos2 = sq(cos(to_radians(lights[i]->m_spot_angle)));
 			float invsin = 1.f / std::sqrt(1.f - cos2);
@@ -1880,52 +2162,52 @@ namespace mud
 			const uint32_t bit = i / GROUP_COUNT;
 			assert(bit < LIGHT_PER_GROUP);
 
-			FroxelThreadData& threadData = m_impl->m_froxel_sharded_data[group];
+			FroxelThreadData& threadData = m_impl->m_cluster_sharded_data[group];
 			const bool isSpot = light.invSin != std::numeric_limits<float>::infinity();
 			threadData[0] |= isSpot << bit;
-			froxelize_light(m_frustum, threadData, bit, projection, m_near, light, m_light_far);
+			clusterize_light(m_frustum, threadData, bit, projection, m_near, light, m_light_far);
 		}
 	}
 
 #define MUD_THREADED
 
-	void Froxelizer::froxelize_loop(const Camera& camera, span<Light*> lights)
+	void Froxelizer::clusterize_loop(const Camera& camera, span<Light*> lights)
 	{
-		memset(m_impl->m_froxel_sharded_data.data(), 0, m_impl->m_froxel_sharded_data.size() * sizeof(FroxelThreadData));
+		memset(m_impl->m_cluster_sharded_data.data(), 0, m_impl->m_cluster_sharded_data.size() * sizeof(FroxelThreadData));
 
 #ifdef MUD_THREADED
-		JobSystem& js = *m_gfx_system.m_job_system;
+		JobSystem& js = *m_gfx.m_job_system;
 		Job* parent = js.job();
 		for(uint32_t i = 0; i < GROUP_COUNT; i++)
 		{
-			auto task = [=, &camera](JobSystem&, Job*) { this->froxelize_light_group(camera, lights, i, GROUP_COUNT); };
+			auto task = [=, &camera](JobSystem&, Job*) { this->clusterize_light_group(camera, lights, i, GROUP_COUNT); };
 			js.run(js.job(parent, task));
 		}
 		js.complete(parent);
 #else
 		for(uint32_t i = 0; i < GROUP_COUNT; i++)
-			this->froxelize_light_group(camera, lights, i, GROUP_COUNT);
+			this->clusterize_light_group(camera, lights, i, GROUP_COUNT);
 #endif
 	}
 
-	void Froxelizer::froxelize_assign_records_compress(uint32_t num_lights)
+	void Froxelizer::clusterize_assign_records_compress(uint32_t num_lights)
 	{
 		UNUSED(num_lights);
 
 		auto inspect = [&]()
 		{
 			uint32_t i = 0;
-			for(FroxelEntry& entry : m_impl->m_froxels.m_data)
+			for(FroxelEntry& entry : m_impl->m_clusters.m_data)
 			{
 				if((entry.count[0] > 0 || entry.count[1] > 0) && entry.offset == 0)
-					printf("froxel %i has lights but offset 0\n", int(i));
+					printf("cluster %i has lights but offset 0\n", int(i));
 				i++;
 			}
 		};
 		UNUSED(inspect);
 
-		// convert froxel data from N groups of M bits to LightRecord::Lights, so we can
-		// easily compare adjacent froxels, for compaction. The conversion loops below get
+		// convert cluster data from N groups of M bits to LightRecord::Lights, so we can
+		// easily compare adjacent clusters, for compaction. The conversion loops below get
 		// inlined and vectorized in release builds.
 
 		// keep these two loops separate, it helps the compiler a lot
@@ -1936,20 +2218,20 @@ namespace mud
 
 		for(uint32_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
 		{
-			container_type b = m_impl->m_froxel_sharded_data[i * r][0];
+			container_type b = m_impl->m_cluster_sharded_data[i * r][0];
 			for(uint32_t k = 0; k < r; k++)
-				b |= (container_type(m_impl->m_froxel_sharded_data[i * r + k][0]) << (LIGHT_PER_GROUP * k));
+				b |= (container_type(m_impl->m_cluster_sharded_data[i * r + k][0]) << (LIGHT_PER_GROUP * k));
 			spot_lights.at(i) = b;
 		}
 
 		// this gets very well vectorized...
-		for(uint32_t j = 1, jc = FROXEL_BUFFER_ENTRY_COUNT_MAX; j < jc; j++)
+		for(uint32_t j = 1, jc = CLUSTER_BUFFER_ENTRY_COUNT_MAX; j < jc; j++)
 		{
 			for(uint32_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
 			{
-				container_type b = m_impl->m_froxel_sharded_data[i * r][j];
+				container_type b = m_impl->m_cluster_sharded_data[i * r][j];
 				for(uint32_t k = 0; k < r; k++)
-					b |= (container_type(m_impl->m_froxel_sharded_data[i * r + k][j]) << (LIGHT_PER_GROUP * k));
+					b |= (container_type(m_impl->m_cluster_sharded_data[i * r + k][j]) << (LIGHT_PER_GROUP * k));
 				m_impl->m_light_records[j - 1].lights.at(i) = b;
 			}
 		}
@@ -1958,9 +2240,9 @@ namespace mud
 
 		auto remap = [stride = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_y)](uint32_t i) -> uint32_t
 		{
-			if(SUPPORTS_REMAPPED_FROXELS) {
-				// TODO: with the non-square froxel change these would be mask ops instead of divide.
-				i = (i % stride) * CONFIG_FROXEL_SLICE_COUNT + (i / stride);
+			if(SUPPORTS_REMAPPED_CLUSTERS) {
+				// TODO: with the non-square cluster change these would be mask ops instead of divide.
+				i = (i % stride) * CONFIG_CLUSTER_SLICE_COUNT + (i / stride);
 			}
 			return i;
 		};
@@ -1971,11 +2253,11 @@ namespace mud
 			LightRecord b = m_impl->m_light_records[cluster];
 			if(b.lights.none())
 			{
-				m_impl->m_froxels.m_data[remap(cluster++)].u32 = 0;
+				m_impl->m_clusters.m_data[remap(cluster++)].u32 = 0;
 				continue;
 			}
 
-			// We have a limitation of 255 spot + 255 point lights per froxel.
+			// We have a limitation of 255 spot + 255 point lights per cluster.
 			uint8_t point_count = uint8_t(min(255U, uint32_t((b.lights & ~spot_lights).count())));
 			uint8_t spot_count = uint8_t(min(255U, uint32_t((b.lights &  spot_lights).count())));
 
@@ -1985,10 +2267,10 @@ namespace mud
 
 			if(offset + light_count >= RECORD_BUFFER_ENTRY_COUNT) //[[unlikely]]
 			{
-				// note: instead of dropping froxels we could look for similar records we've already
+				// note: instead of dropping clusters we could look for similar records we've already
 				// filed up.
 				do { // this compiles to memset() when remap() is identity
-					m_impl->m_froxels.m_data[remap(cluster++)].u32 = 0;
+					m_impl->m_clusters.m_data[remap(cluster++)].u32 = 0;
 				} while(cluster < num_clusters);
 				goto out_of_memory;
 			}
@@ -2019,7 +2301,7 @@ namespace mud
 
 				m_impl->m_records.m_data[i] = (RecordBufferType)ll;
 				// we need to "cancel" the write if we have more than 255 spot or point lights
-				// (this is a limitation of the data type used to store the light counts per froxel)
+				// (this is a limitation of the data type used to store the light counts per cluster)
 				i += (i - s < 255) ? 1 : 0;
 
 //#ifndef USE_STD_BITSET
@@ -2032,16 +2314,16 @@ namespace mud
 			offset += light_count;
 
 			do {
-				m_impl->m_froxels.m_data[remap(cluster++)].u32 = entry.u32;
+				m_impl->m_clusters.m_data[remap(cluster++)].u32 = entry.u32;
 				if(cluster >= num_clusters) break;
 
 				if(m_impl->m_light_records[cluster].lights != b.lights && cluster >= m_frustum.m_subdiv_x)
 				{
-					// if this froxel record doesn't match the previous one on its left,
-					// we re-try with the record above it, which saves many froxel records
+					// if this cluster record doesn't match the previous one on its left,
+					// we re-try with the record above it, which saves many cluster records
 					// (north of 10% in practice).
 					b = m_impl->m_light_records[cluster - m_frustum.m_subdiv_x];
-					entry.u32 = m_impl->m_froxels.m_data[remap(cluster - m_frustum.m_subdiv_x)].u32;
+					entry.u32 = m_impl->m_clusters.m_data[remap(cluster - m_frustum.m_subdiv_x)].u32;
 				}
 			} while(m_impl->m_light_records[cluster].lights == b.lights);
 
@@ -2093,8 +2375,8 @@ namespace mud
 	
 	void light_bounds(ClusteredFrustum& frustum, const mat4& projection, float near, const LightParams& light, uvec3& lo, uvec3& hi)
 	{
-		// find a reasonable bounding-box in froxel space for the sphere by projecting
-		// it's (clipped) bounding-box to clip-space and converting to froxel indices.
+		// find a reasonable bounding-box in cluster space for the sphere by projecting
+		// it's (clipped) bounding-box to clip-space and converting to cluster indices.
 		Aabb aabb = { light.position, vec3(light.radius) };
 		const float znear = bx::min(-near, aabb.m_center.z + aabb.m_extents.z); // z values are negative
 		const float zfar = aabb.m_center.z - aabb.m_extents.z;
@@ -2121,7 +2403,7 @@ namespace mud
 		};
 	}
 
-	void froxelize_light(ClusteredFrustum& frustum, FroxelThreadData& froxelThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far)
+	void clusterize_light(ClusteredFrustum& frustum, FroxelThreadData& clusterThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far)
 	{
 		if(light.position.z + light.radius < -light_far) // [[unlikely]] // z values are negative
 		{
@@ -2193,16 +2475,16 @@ namespace mud
 							// this loops gets vectorized (on arm64) w/ clang
 							while(bx++ != ex)
 							{
-								// see if this froxel intersects the cone
+								// see if this cluster intersects the cone
 								bool intersect = sphere_cone_intersection(frustum.m_bounding_spheres[fi - 1], light.position, light.axis, light.invSin, light.cosSqr);
-								froxelThread[fi++] |= LightGroupType(intersect) << bit;
+								clusterThread[fi++] |= LightGroupType(intersect) << bit;
 							}
 						}
 						else
 						{
 							// this loops gets vectorized (on arm64) w/ clang
 							while(bx++ != ex)
-								froxelThread[fi++] |= LightGroupType(1) << bit;
+								clusterThread[fi++] |= LightGroupType(1) << bit;
 						}
 					}
 				}
@@ -2230,10 +2512,10 @@ namespace mud
 	inline Plane bounding_plane(const mat4& mat, Axis component, float dir)
 	{
 		return {
-			mat[0][3] + dir * mat[0][size_t(component)],
-			mat[1][3] + dir * mat[1][size_t(component)],
-			mat[2][3] + dir * mat[2][size_t(component)],
-			mat[3][3] + dir * mat[3][size_t(component)]
+			mat[0][3] + dir * mat[0][component],
+			mat[1][3] + dir * mat[1][component],
+			mat[2][3] + dir * mat[2][component],
+			mat[3][3] + dir * mat[3][component]
 		};
 	}
 
@@ -2376,7 +2658,7 @@ namespace mud
 
 	void Frustum::compute()
 	{
-		m_center = Zero3;
+		m_center = vec3(0.f);
 		for(uint i = 0; i < 8; i++)
 			m_center += m_corners[i];
 		//m_center /= 8.f;
@@ -2390,7 +2672,7 @@ namespace mud
 	Frustum optimized_frustum(Camera& camera, span<Item*> items)
 	{
 		if(!camera.m_optimize_ends)
-			return Frustum{ camera.m_transform, camera.m_fov, camera.m_aspect, camera.m_near, camera.m_far };
+			return Frustum{ camera.m_view, camera.m_fov, camera.m_aspect, camera.m_near, camera.m_far };
 
 		Plane near_plane = camera.near_plane();
 
@@ -2408,10 +2690,10 @@ namespace mud
 		float near = max(camera.m_near, z_min);
 		float far = min(camera.m_far, z_max);
 
-		return Frustum{ camera.m_transform, camera.m_fov, camera.m_aspect, near, far };
+		return Frustum{ camera.m_view, camera.m_fov, camera.m_aspect, near, far };
 	}
 
-	void split_frustum_slices(Camera& camera, span<FrustumSlice> slices, uint8_t num_splits, float near, float far, float split_distribution)
+	void split_frustum_slices(Camera& camera, span<FrustumSlice*> slices, uint8_t num_splits, float near, float far, float split_distribution)
 	{
 		const float ratio = far / near;
 
@@ -2420,25 +2702,25 @@ namespace mud
 			float si = float(int8_t(i * 2 + 1)) / float(num_splits * 2);
 
 			const float split = split_distribution * (near * powf(ratio, si)) + (1 - split_distribution) * (near + (far - near) * si);
-			const float slice_near = i == 0 ? near : slices[i - 1].m_frustum.m_far * 1.005f;
+			const float slice_near = i == 0 ? near : slices[i - 1]->m_frustum.m_far * 1.005f;
 			const float slice_far = i == num_splits - 1 ? far : split;
 
 			Frustum frustum;
 			if(camera.m_orthographic)
 			{
 				vec2 rect = { camera.m_height * camera.m_aspect, camera.m_height };
-				frustum = { camera.m_transform, rect, slice_near, slice_far };
+				frustum = { camera.m_view, rect, slice_near, slice_far };
 			}
 			else
 			{
-				frustum = { camera.m_transform, camera.m_fov, camera.m_aspect, slice_near, slice_far };
+				frustum = { camera.m_view, camera.m_fov, camera.m_aspect, slice_near, slice_far };
 			}
 
-			slices[i] = { i, frustum };
+			*slices[i] = { i, frustum };
 		}
 	}
 
-	void split_frustum_slices(Camera& camera, span<FrustumSlice> slices, uint8_t num_splits, float split_distribution)
+	void split_frustum_slices(Camera& camera, span<FrustumSlice*> slices, uint8_t num_splits, float split_distribution)
 	{
 		split_frustum_slices(camera, slices, num_splits, camera.m_near, camera.m_far, split_distribution);
 	}
@@ -2448,6 +2730,7 @@ namespace mud
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/stddef.h>
 #include <stl/limits.h>
 #include <stl/algorithm.h>
 #include <stl/traits.h>
@@ -2455,9 +2738,108 @@ module mud.gfx;
 
 #include <type_traits>
 //#include <limits>
-#include <stl/stddef.h>
 #include <stdint.h>
 #include <cassert>
+
+namespace mud
+{
+	
+namespace fast {
+
+// fast cos(x), ~8 cycles (vs. 66 cycles on ARM) // can be vectorized // x between -pi and pi
+template<typename T>//, typename = typename enable_if<is_floating_point<T>::value>::type>
+constexpr T cos(T x) noexcept {
+    x *= T(c_invpi / 2);
+    x -= T(0.25) + floor(x + T(0.25));
+    x *= T(16.0) * abs(x) - T(8.0);
+    x += T(0.225) * x * (abs(x) - T(1.0));
+    return x;
+}
+
+// fast sin(x), ~8 cycles (vs. 66 cycles on ARM) // can be vectorized // x between -pi and pi
+template <typename T>//, typename = typename enable_if<is_floating_point<T>::value>::type>
+constexpr T sin(T x) noexcept {
+    return cos<T>(x - T(c_pi2));
+}
+
+constexpr inline float ilog2(float x) noexcept {
+    union {
+        float val;
+        int32_t x;
+    } u = { x };
+    return ((u.x >> 23) & 0xff) - 127;
+}
+
+constexpr inline float log2(float x) noexcept {
+    union {
+        float val;
+        int32_t x;
+    } u = { x };
+    float ilog2 = float(((u.x >> 23) & 0xff) - 128);
+    u.x = (u.x & 0x007fffff) | 0x3f800000;
+    return ilog2 + (-0.34484843f * u.val + 2.02466578f) * u.val - 0.67487759f;
+}
+
+constexpr double pow(double x, unsigned int y) noexcept {
+    return y == 0 ? 1.0 : x * pow(x, y - 1);
+}
+
+constexpr unsigned int factorial(unsigned int x) noexcept {
+    return x == 0 ? 1 : x * factorial(x - 1);
+}
+
+constexpr double exp(double x) noexcept {
+    return 1.0 + x + pow(x, 2) / factorial(2) + pow(x, 3) / factorial(3)
+                   + pow(x, 4) / factorial(4) + pow(x, 5) / factorial(5)
+                   + pow(x, 6) / factorial(6) + pow(x, 7) / factorial(7)
+                   + pow(x, 8) / factorial(8) + pow(x, 9) / factorial(9);
+}
+
+constexpr float exp(float x) noexcept {
+    return float(exp(double(x)));
+}
+
+#if defined(__ARM_NEON) && defined(__aarch64__)
+inline uint8_t  qadd(uint8_t a,  uint8_t b)  noexcept { return vuqaddb_s8(a, b);  }
+inline uint16_t qadd(uint16_t a, uint16_t b) noexcept { return vuqaddh_s16(a, b); }
+inline uint32_t qadd(uint32_t a, uint32_t b) noexcept { return vuqadds_s32(a, b); }
+
+inline uint8_t  qsub(uint8_t a,  uint8_t b)  noexcept { return vqsubb_s8(a, b);  }
+inline uint16_t qsub(uint16_t a, uint16_t b) noexcept { return vqsubh_s16(a, b); }
+inline uint32_t qsub(uint32_t a, uint32_t b) noexcept { return vqsubs_s32(a, b); }
+#else
+template<typename T>/*, typename = typename enable_if<
+        is_same<uint8_t, T>::value ||
+        is_same<uint16_t, T>::value ||
+        is_same<uint32_t, T>::value>::type>*/
+inline T qadd(T a, T b)  noexcept {
+    T r = a + b;
+    return r | -T(r < a);
+}
+
+template<typename T>/*, typename = typename enable_if<
+        is_same<uint8_t, T>::value ||
+        is_same<uint16_t, T>::value ||
+        is_same<uint32_t, T>::value>::type>*/
+inline T qsub(T a,  T b)  noexcept {
+    T r = a - b;
+    return r & -T(r <= a);
+}
+#endif
+
+template<typename T>
+inline T qinc(T a)  noexcept {
+    return qadd(a, T(1));
+}
+
+template<typename T>
+inline T qdec(T a)  noexcept {
+    return qsub(a, T(1));
+}
+
+
+}
+}
 
 namespace mud
 {
@@ -2476,22 +2858,22 @@ namespace mud
 
 	void compute_frustum_subdiv_square(ClusteredFrustum& frustum, vec2 clip_size, size_t slices, size_t max_clusters)
 	{
-		// calculate froxel dimension from FROXEL_BUFFER_ENTRY_COUNT_MAX and viewport
-		// - Start from the maximum number of froxels we can use in the x-y plane
+		// calculate cluster dimension from CLUSTER_BUFFER_ENTRY_COUNT_MAX and viewport
+		// - Start from the maximum number of clusters we can use in the x-y plane
 		size_t per_slice = max_clusters / slices;
-		// - compute the number of square froxels we need in width and height, rounded down
-		//   solving: |  froxel_count_x * froxel_count_y == per_slice
-		//            |  froxel_count_x / froxel_count_y == width / height
+		// - compute the number of square clusters we need in width and height, rounded down
+		//   solving: |  cluster_count_x * cluster_count_y == per_slice
+		//            |  cluster_count_x / cluster_count_y == width / height
 		size_t count_x = size_t(sqrt(per_slice * clip_size.x / clip_size.y));
 		size_t count_y = size_t(sqrt(per_slice * clip_size.y / clip_size.x));
-		// - copmute the froxels dimensions, rounded up
+		// - copmute the clusters dimensions, rounded up
 		size_t size_x = (size_t(clip_size.x) + count_x - 1) / count_x;
 		size_t size_y = (size_t(clip_size.y) + count_y - 1) / count_y;
-		// - and since our froxels must be square, only keep the largest dimension
+		// - and since our clusters must be square, only keep the largest dimension
 		size_t size = max(size_x, size_y);
 
-		// Here we recompute the froxel counts which may have changed a little due to the rounding
-		// and the squareness requirement of froxels
+		// Here we recompute the cluster counts which may have changed a little due to the rounding
+		// and the squareness requirement of clusters
 		count_x = (size_t(clip_size.x) + size - 1) / size;
 		count_y = (size_t(clip_size.y) + size - 1) / size;
 
@@ -2504,12 +2886,12 @@ namespace mud
 	uvec2 ClusteredFrustum::tile_index(const vec2& clip) const
 	{
 		// clip coordinates between [-1, 1], conversion to index between [0, count[
-		//  = floor((clip + 1) * ((0.5 * dimension) / froxelsize))
+		//  = floor((clip + 1) * ((0.5 * dimension) / clustersize))
 		//  = floor((clip + 1) * constant
 		//  = floor(clip * constant + constant)
-		const uint xi = uint(clamp(int(clip.x * m_clip_to_cluster.x + m_clip_to_cluster.x), 0, m_subdiv_x - 1));
-		const uint yi = uint(clamp(int(clip.y * m_clip_to_cluster.y + m_clip_to_cluster.y), 0, m_subdiv_y - 1));
-		return{ xi, yi };
+		const uint xi = uint(clamp(int(clip.x * m_clip_to_cluster.x + m_clip_to_cluster.x), 0, int(m_subdiv_x - 1)));
+		const uint yi = uint(clamp(int(clip.y * m_clip_to_cluster.y + m_clip_to_cluster.y), 0, int(m_subdiv_y - 1)));
+		return { xi, yi };
 	}
 
 	uint ClusteredFrustum::slice(float z) const
@@ -2520,16 +2902,16 @@ namespace mud
 
 		// This whole function is now branch-less.
 
-		int s = int((log2(-z) - m_far_log2) * m_linearizer + m_subdiv_z);
+		int s = int((fast::log2(-z) - m_far_log2) * m_linearizer + m_subdiv_z);
 
 		// there are cases where z can be negative here, e.g.:
 		// - the light is visible, but its center is behind the camera
 		// - the camera's near is behind the camera (e.g. with shadowmap cameras)
 		// in that case just return the first slice
-		s = z < 0 ? s : 0;
+		s = z < 0.f ? s : 0U;
 
 		// clamp between [0, m_subdiv_z)
-		return size_t(clamp(s, 0, m_subdiv_z - 1));
+		return uint(clamp(s, 0, int(m_subdiv_z - 1U)));
 	}
 
 	Plane to_plane(const vec4& p) { return{ vec3(p), p.w }; }
@@ -2539,16 +2921,16 @@ namespace mud
 		assert(x < m_subdiv_x);
 		assert(y < m_subdiv_y);
 		assert(z < m_subdiv_z);
-		Frustum froxel;
-		froxel.m_planes.m_left = to_plane(m_planes_x[x]);
-		froxel.m_planes.m_down = to_plane(m_planes_y[y]);
-		froxel.m_planes.m_near = to_plane(vec4{ 0, 0, 1, -m_distances_z[z] });
-		froxel.m_planes.m_right = to_plane(-m_planes_x[x + 1]);
-		froxel.m_planes.m_up = to_plane(-m_planes_y[y + 1]);
-		froxel.m_planes.m_far = to_plane(vec4{ 0, 0, 1, -m_distances_z[z + 1] });
-		froxel.m_corners = frustum_corners(froxel.m_planes);
-		froxel.compute();
-		return froxel;
+		Frustum cluster;
+		cluster.m_planes.m_left = to_plane(m_planes_x[x]);
+		cluster.m_planes.m_down = to_plane(m_planes_y[y]);
+		cluster.m_planes.m_near = to_plane({ 0.f, 0.f, 1.f, -m_distances_z[z] });
+		cluster.m_planes.m_right = to_plane(-m_planes_x[x + 1]);
+		cluster.m_planes.m_up = to_plane(-m_planes_y[y + 1]);
+		cluster.m_planes.m_far = to_plane({ 0.f, 0.f, 1.f, -m_distances_z[z + 1] });
+		cluster.m_corners = frustum_corners(cluster.m_planes);
+		cluster.compute();
+		return cluster;
 	}
 
 	void ClusteredFrustum::resize(const vec2& clip_size)
@@ -2571,7 +2953,9 @@ namespace mud
 		m_distances_z[0] = 0.0f;
 
 		for(int i = 1, n = m_subdiv_z; i <= n; i++)
+		{
 			m_distances_z[i] = m_far * exp2f(float(i - n) * linearizer);
+		}
 
 		// for the inverse-transformation (view-space z to z-slice)
 		m_linearizer = 1 / linearizer;
@@ -2581,7 +2965,7 @@ namespace mud
 	void ClusteredFrustum::recompute(const mat4& projection, const vec2& clip_size)
 	{
 		// clip-space dimensions
-		const vec2 froxel_clip_size = (2.0f * vec2(m_tile_size)) / clip_size;
+		const vec2 cluster_clip_size = (2.0f * vec2(m_tile_size)) / clip_size;
 		const mat4 inv_projection = inverse(projection);
 		
 		auto to_view_space = [](const mat4& inv_projection, vec4 p0, vec4 p1)
@@ -2593,7 +2977,7 @@ namespace mud
 
 		for(uint16_t i = 0, n = m_subdiv_x; i <= n; ++i)
 		{
-			float x = (i * froxel_clip_size.x) - 1.0f;
+			float x = (i * cluster_clip_size.x) - 1.0f;
 			vec4 p0 = { x, -1, -1, 1 };
 			vec4 p1 = { x,  1, -1, 1 };
 			m_planes_x[i] = to_view_space(inv_projection, p0, p1);
@@ -2601,7 +2985,7 @@ namespace mud
 
 		for(uint16_t i = 0, n = m_subdiv_y; i <= n; ++i)
 		{
-			float y = (i * froxel_clip_size.y) - 1.0f;
+			float y = (i * cluster_clip_size.y) - 1.0f;
 			vec4 p0 = { -1, y, -1, 1 };
 			vec4 p1 = {  1, y, -1, 1 };
 			m_planes_y[i] = to_view_space(inv_projection, p0, p1);
@@ -2623,9 +3007,9 @@ namespace mud
 			vec3 minp;
 			vec3 maxp;
 
-			// near/far planes for all froxels at iz
-			planes[4] = vec4{ 0, 0, 1, m_distances_z[iz + 0] };
-			planes[5] = -vec4{ 0, 0, 1, m_distances_z[iz + 1] };
+			// near/far planes for all clusters at iz
+			planes[4] =  vec4(0.f, 0.f, 1.f, m_distances_z[iz + 0]);
+			planes[5] = -vec4(0.f, 0.f, 1.f, m_distances_z[iz + 1]);
 
 			// min/max for z is calculated trivially because near/far planes are parallel to
 			// the camera.
@@ -2635,7 +3019,7 @@ namespace mud
 
 			for(uint16_t ix = 0; ix < m_subdiv_x; ++ix)
 			{
-				// left, right planes for all froxels at ix
+				// left, right planes for all clusters at ix
 				planes[0] = m_planes_x[ix];
 				planes[1] = -m_planes_x[ix + 1];
 				minp.x = limits<float>::max();
@@ -2650,12 +3034,12 @@ namespace mud
 					maxp.x = max(maxp.x, px);
 				}
 				assert(minp.x < maxp.x);
-				minMaxX[ix] = vec2{ minp.x, maxp.x };
+				minMaxX[ix] = vec2(minp.x, maxp.x);
 			}
 
 			for(uint16_t iy = 0; iy < m_subdiv_y; ++iy)
 			{
-				// bottom, top planes for all froxels at iy
+				// bottom, top planes for all clusters at iy
 				planes[2] = m_planes_y[iy];
 				planes[3] = -m_planes_y[iy + 1];
 				minp.y = limits<float>::max();
@@ -2704,11 +3088,13 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<Light*>;
 	template class MUD_GFX_EXPORT vector<Mesh*>;
 	template class MUD_GFX_EXPORT vector<Model*>;
-	template class MUD_GFX_EXPORT vector<Animated*>;
-	template class MUD_GFX_EXPORT vector<Particles*>;
-	template class MUD_GFX_EXPORT vector<ParticleFlow*>;
+	template class MUD_GFX_EXPORT vector<Mime*>;
+	template class MUD_GFX_EXPORT vector<Flare*>;
+	template class MUD_GFX_EXPORT vector<Flow*>;
 	template class MUD_GFX_EXPORT vector<Prefab*>;
 	template class MUD_GFX_EXPORT vector<Item*>;
+	template class MUD_GFX_EXPORT vector<Direct*>;
+	template class MUD_GFX_EXPORT vector<Batch*>;
 	template class MUD_GFX_EXPORT vector<Sound*>;
 	template class MUD_GFX_EXPORT vector<Node3*>;
 	template class MUD_GFX_EXPORT vector<ReflectionProbe*>;
@@ -2720,40 +3106,47 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<Viewport*>;
 	template class MUD_GFX_EXPORT vector<Importer*>;
 	template class MUD_GFX_EXPORT vector<Renderer*>;
+	template class MUD_GFX_EXPORT vector<ShaderBlock*>;
 	template class MUD_GFX_EXPORT vector<GfxBlock*>;
 	template class MUD_GFX_EXPORT vector<DrawBlock*>;
-	template class MUD_GFX_EXPORT vector<GfxContext*>;
+	template class MUD_GFX_EXPORT vector<GfxWindow*>;
 	template class MUD_GFX_EXPORT vector<GfxSystem*>;
 	template class MUD_GFX_EXPORT vector<Vertex>;
 	template class MUD_GFX_EXPORT vector<ShapeVertex>;
 	template class MUD_GFX_EXPORT vector<Tri>;
-	template class MUD_GFX_EXPORT vector<ModelItem>;
+	template class MUD_GFX_EXPORT vector<ModelElem>;
 	template class MUD_GFX_EXPORT vector<Item>;
+	template class MUD_GFX_EXPORT vector<Direct>;
+	//template class MUD_GFX_EXPORT vector<Direct::Batch>;
 	template class MUD_GFX_EXPORT vector<Node3>;
-	template class MUD_GFX_EXPORT vector<Bone>;
 	template class MUD_GFX_EXPORT vector<Joint>;
 	template class MUD_GFX_EXPORT vector<Skin>;
 	template class MUD_GFX_EXPORT vector<ShaderDefine>;
 	template class MUD_GFX_EXPORT vector<PassJob>;
-	template class MUD_GFX_EXPORT vector<AnimationTrack>;
-	template class MUD_GFX_EXPORT vector<AnimationTrack::Key>;
-	template class MUD_GFX_EXPORT vector<AnimationPlay>;
-	template class MUD_GFX_EXPORT vector<AnimatedTrack>;
+	template class MUD_GFX_EXPORT vector<Prefab::Elem>;
+	template class MUD_GFX_EXPORT vector<Mesh::Morph>;
+	template class MUD_GFX_EXPORT vector<Rig::MorphWeight>;
+	template class MUD_GFX_EXPORT vector<AnimNode>;
+	template class MUD_GFX_EXPORT vector<AnimTrack>;
+	template class MUD_GFX_EXPORT vector<AnimTrack::Key>;
+	template class MUD_GFX_EXPORT vector<AnimPlay>;
+	template class MUD_GFX_EXPORT vector<AnimPlay::Track>;
 	template class MUD_GFX_EXPORT vector<Particle>;
 	template class MUD_GFX_EXPORT vector<ParticleSort>;
 	template class MUD_GFX_EXPORT vector<Viewport::RenderTask>;
 	template class MUD_GFX_EXPORT vector<ImmediateDraw::Batch>;
 	template class MUD_GFX_EXPORT vector<ImmediateDraw::Vertex>;
+	template class MUD_GFX_EXPORT vector<Lines::Segment>;
 	template class MUD_GFX_EXPORT vector<Import::Item>;
 	template class MUD_GFX_EXPORT vector<DrawElement>;
 	template class MUD_GFX_EXPORT vector<Frustum>;
-	template class MUD_GFX_EXPORT vector<LightRecord>;
+	//template class MUD_GFX_EXPORT vector<LightRecord>;
 	template class MUD_GFX_EXPORT vector<Froxelizer::FroxelEntry>;
 	template class MUD_GFX_EXPORT vector<array<uint, 8193>>;
 	template class MUD_GFX_EXPORT vector<unique<Gnode>>;
-	template class MUD_GFX_EXPORT vector<unique<RenderPass>>;
 	template class MUD_GFX_EXPORT vector<unique<GfxBlock>>;
 	template class MUD_GFX_EXPORT vector<unique<Picker>>;
+	template class MUD_GFX_EXPORT vector<vector<float>>;
 	template class MUD_GFX_EXPORT unordered_map<int, Skeleton*>;
 	template class MUD_GFX_EXPORT unordered_map<string, Material*>;
 	template class MUD_GFX_EXPORT unordered_set<Model*>;
@@ -2761,16 +3154,17 @@ namespace stl
 	template class MUD_GFX_EXPORT vector<function<void(Material&, const string&)>>;
 	template class MUD_GFX_EXPORT vector<function<void(Program&, const string&)>>;
 	template class MUD_GFX_EXPORT vector<function<void(Model&, const string&)>>;
-	template class MUD_GFX_EXPORT vector<function<void(ParticleFlow&, const string&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Flow&, const string&)>>;
 	template class MUD_GFX_EXPORT vector<function<void(Prefab&, const string&)>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Texture>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Material>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Program>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Model>>;
-	template class MUD_GFX_EXPORT unordered_map<string, unique<ParticleFlow>>;
+	template class MUD_GFX_EXPORT unordered_map<string, unique<Flow>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Prefab>>;
 	template class MUD_GFX_EXPORT unordered_map<uint32_t, uint32_t>;
 	template class MUD_GFX_EXPORT unordered_map<uint64_t, Program::Version>;
+	template class MUD_GFX_EXPORT unordered_map<string, bgfx::UniformHandle>;
 
 	template class MUD_GFX_EXPORT vector<bgfx::InstanceDataBuffer>;
 	template class MUD_GFX_EXPORT unordered_map<uint, bgfx::VertexDecl>;
@@ -2785,11 +3179,12 @@ module mud.gfx;
 namespace mud
 {
     // Exported types
-    template <> MUD_GFX_EXPORT Type& type<mud::AnimationTarget>() { static Type ty("AnimationTarget", sizeof(mud::AnimationTarget)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AnimTarget>() { static Type ty("AnimTarget", sizeof(mud::AnimTarget)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BackgroundMode>() { static Type ty("BackgroundMode", sizeof(mud::BackgroundMode)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlendMode>() { static Type ty("BlendMode", sizeof(mud::BlendMode)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::CullMode>() { static Type ty("CullMode", sizeof(mud::CullMode)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::DepthDraw>() { static Type ty("DepthDraw", sizeof(mud::DepthDraw)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::DepthMethod>() { static Type ty("DepthMethod", sizeof(mud::DepthMethod)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::DepthTest>() { static Type ty("DepthTest", sizeof(mud::DepthTest)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::EmitterFlow>() { static Type ty("EmitterFlow", sizeof(mud::EmitterFlow)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Interpolation>() { static Type ty("Interpolation", sizeof(mud::Interpolation)); return ty; }
@@ -2798,89 +3193,137 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::LightType>() { static Type ty("LightType", sizeof(mud::LightType)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Lighting>() { static Type ty("Lighting", sizeof(mud::Lighting)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MSAA>() { static Type ty("MSAA", sizeof(mud::MSAA)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialBlock>() { static Type ty("MaterialBlock", sizeof(mud::MaterialBlock)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialFlag>() { static Type ty("MaterialFlag", sizeof(mud::MaterialFlag)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ModelFormat>() { static Type ty("ModelFormat", sizeof(mud::ModelFormat)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Month>() { static Type ty("Month", sizeof(mud::Month)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::PassType>() { static Type ty("PassType", sizeof(mud::PassType)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::PbrDiffuseMode>() { static Type ty("PbrDiffuseMode", sizeof(mud::PbrDiffuseMode)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::PbrSpecularMode>() { static Type ty("PbrSpecularMode", sizeof(mud::PbrSpecularMode)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::PhongEnvBlendMode>() { static Type ty("PhongEnvBlendMode", sizeof(mud::PhongEnvBlendMode)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ShaderColor>() { static Type ty("ShaderColor", sizeof(mud::ShaderColor)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ShaderType>() { static Type ty("ShaderType", sizeof(mud::ShaderType)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Shading>() { static Type ty("Shading", sizeof(mud::Shading)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ShadowFlags>() { static Type ty("ShadowFlags", sizeof(mud::ShadowFlags)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::TextureChannel>() { static Type ty("TextureChannel", sizeof(mud::TextureChannel)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::TextureFormat>() { static Type ty("TextureFormat", sizeof(mud::TextureFormat)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::TextureHint>() { static Type ty("TextureHint", sizeof(mud::TextureHint)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::TextureSampler>() { static Type ty("TextureSampler", sizeof(mud::TextureSampler)); return ty; }
     
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Batch>>() { static Type ty("span<mud::Batch>", sizeof(stl::span<mud::Batch>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Direct>>() { static Type ty("span<mud::Direct>", sizeof(stl::span<mud::Direct>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Flare>>() { static Type ty("span<mud::Flare>", sizeof(stl::span<mud::Flare>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Item>>() { static Type ty("span<mud::Item>", sizeof(stl::span<mud::Item>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Light>>() { static Type ty("span<mud::Light>", sizeof(stl::span<mud::Light>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Mime>>() { static Type ty("span<mud::Mime>", sizeof(stl::span<mud::Mime>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Node3>>() { static Type ty("span<mud::Node3>", sizeof(stl::span<mud::Node3>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::span<mud::Texture*>>() { static Type ty("span<mud::Texture*>", sizeof(stl::span<mud::Texture*>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::span<mud::mat4>>() { static Type ty("span<mud::mat4>", sizeof(stl::span<mud::mat4>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::AnimPlay>>() { static Type ty("vector<mud::AnimPlay>", sizeof(stl::vector<mud::AnimPlay>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Animation*>>() { static Type ty("vector<mud::Animation*>", sizeof(stl::vector<mud::Animation*>)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::AnimationPlay>>() { static Type ty("vector<mud::AnimationPlay>", sizeof(stl::vector<mud::AnimationPlay>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Material*>>() { static Type ty("vector<mud::Material*>", sizeof(stl::vector<mud::Material*>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Mesh*>>() { static Type ty("vector<mud::Mesh*>", sizeof(stl::vector<mud::Mesh*>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Model*>>() { static Type ty("vector<mud::Model*>", sizeof(stl::vector<mud::Model*>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<stl::vector<mud::Texture*>>() { static Type ty("vector<mud::Texture*>", sizeof(stl::vector<mud::Texture*>)); return ty; }
     
-    template <> MUD_GFX_EXPORT Type& type<mud::Animated>() { static Type ty("Animated", sizeof(mud::Animated)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::AnimatedTrack>() { static Type ty("AnimatedTrack", sizeof(mud::AnimatedTrack)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AnimNode>() { static Type ty("AnimNode", sizeof(mud::AnimNode)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AnimPlay>() { static Type ty("AnimPlay", sizeof(mud::AnimPlay)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AnimTrack>() { static Type ty("AnimTrack", sizeof(mud::AnimTrack)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Animation>() { static Type ty("Animation", sizeof(mud::Animation)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::AnimationPlay>() { static Type ty("AnimationPlay", sizeof(mud::AnimationPlay)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::AnimationTrack>() { static Type ty("AnimationTrack", sizeof(mud::AnimationTrack)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Flow>>() { static Type ty("AssetStore<mud::Flow>", sizeof(mud::AssetStore<mud::Flow>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Material>>() { static Type ty("AssetStore<mud::Material>", sizeof(mud::AssetStore<mud::Material>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Model>>() { static Type ty("AssetStore<mud::Model>", sizeof(mud::AssetStore<mud::Model>)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::ParticleFlow>>() { static Type ty("AssetStore<mud::ParticleFlow>", sizeof(mud::AssetStore<mud::ParticleFlow>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Prefab>>() { static Type ty("AssetStore<mud::Prefab>", sizeof(mud::AssetStore<mud::Prefab>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Program>>() { static Type ty("AssetStore<mud::Program>", sizeof(mud::AssetStore<mud::Program>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Texture>>() { static Type ty("AssetStore<mud::Texture>", sizeof(mud::AssetStore<mud::Texture>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Background>() { static Type ty("Background", sizeof(mud::Background)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::BaseMaterialBlock>() { static Type ty("BaseMaterialBlock", sizeof(mud::BaseMaterialBlock)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::Bone>() { static Type ty("Bone", sizeof(mud::Bone)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Batch>() { static Type ty("Batch", sizeof(mud::Batch)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Camera>() { static Type ty("Camera", sizeof(mud::Camera)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Cascade>() { static Type ty("Cascade", sizeof(mud::Cascade)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Culler>() { static Type ty("Culler", sizeof(mud::Culler)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::DepthParams>() { static Type ty("DepthParams", sizeof(mud::DepthParams)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::Environment>() { static Type ty("Environment", sizeof(mud::Environment)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::Filter>() { static Type ty("Filter", sizeof(mud::Filter)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Direct>() { static Type ty("Direct", sizeof(mud::Direct)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::DistanceParams>() { static Type ty("DistanceParams", sizeof(mud::DistanceParams)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Flow>() { static Type ty("Flow", sizeof(mud::Flow)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Fog>() { static Type ty("Fog", sizeof(mud::Fog)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::FrameBuffer>() { static Type ty("FrameBuffer", sizeof(mud::FrameBuffer)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::FresnelMaterialBlock>() { static Type ty("FresnelMaterialBlock", sizeof(mud::FresnelMaterialBlock)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Frustum>() { static Type ty("Frustum", sizeof(mud::Frustum)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::FrustumSlice>() { static Type ty("FrustumSlice", sizeof(mud::FrustumSlice)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>() { static Type ty("GfxBlock", sizeof(mud::GfxBlock)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::GfxContext>() { static Type ty("GfxContext", sizeof(mud::GfxContext)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>() { static Type ty("GfxSystem", sizeof(mud::GfxSystem)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::GfxWindow>() { static Type ty("GfxWindow", sizeof(mud::GfxWindow)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Gnode>() { static Type ty("Gnode", sizeof(mud::Gnode)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::GpuMesh>() { static Type ty("GpuMesh", sizeof(mud::GpuMesh)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ImmediateDraw>() { static Type ty("ImmediateDraw", sizeof(mud::ImmediateDraw)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Import>() { static Type ty("Import", sizeof(mud::Import)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ImportConfig>() { static Type ty("ImportConfig", sizeof(mud::ImportConfig)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Item>() { static Type ty("Item", sizeof(mud::Item)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Joint>() { static Type ty("Joint", sizeof(mud::Joint)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Light>() { static Type ty("Light", sizeof(mud::Light)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Lines>() { static Type ty("Lines", sizeof(mud::Lines)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Material>() { static Type ty("Material", sizeof(mud::Material)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialAlpha>() { static Type ty("MaterialAlpha", sizeof(mud::MaterialAlpha)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialBase>() { static Type ty("MaterialBase", sizeof(mud::MaterialBase)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialFresnel>() { static Type ty("MaterialFresnel", sizeof(mud::MaterialFresnel)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialLine>() { static Type ty("MaterialLine", sizeof(mud::MaterialLine)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialLit>() { static Type ty("MaterialLit", sizeof(mud::MaterialLit)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<float>>() { static Type ty("MaterialParam<float>", sizeof(mud::MaterialParam<float>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::Colour>>() { static Type ty("MaterialParam<mud::Colour>", sizeof(mud::MaterialParam<mud::Colour>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::vec4>>() { static Type ty("MaterialParam<mud::vec4>", sizeof(mud::MaterialParam<mud::vec4>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialPbr>() { static Type ty("MaterialPbr", sizeof(mud::MaterialPbr)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialPhong>() { static Type ty("MaterialPhong", sizeof(mud::MaterialPhong)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialPoint>() { static Type ty("MaterialPoint", sizeof(mud::MaterialPoint)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialSolid>() { static Type ty("MaterialSolid", sizeof(mud::MaterialSolid)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MaterialUser>() { static Type ty("MaterialUser", sizeof(mud::MaterialUser)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Mesh>() { static Type ty("Mesh", sizeof(mud::Mesh)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Mime>() { static Type ty("Mime", sizeof(mud::Mime)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::MirrorCamera>() { static Type ty("MirrorCamera", sizeof(mud::MirrorCamera)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Model>() { static Type ty("Model", sizeof(mud::Model)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::ModelItem>() { static Type ty("ModelItem", sizeof(mud::ModelItem)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ModelElem>() { static Type ty("ModelElem", sizeof(mud::ModelElem)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Node3>() { static Type ty("Node3", sizeof(mud::Node3)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::ParticleFlow>() { static Type ty("ParticleFlow", sizeof(mud::ParticleFlow)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::PbrMaterialBlock>() { static Type ty("PbrMaterialBlock", sizeof(mud::PbrMaterialBlock)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Pass>() { static Type ty("Pass", sizeof(mud::Pass)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Prefab>() { static Type ty("Prefab", sizeof(mud::Prefab)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Program>() { static Type ty("Program", sizeof(mud::Program)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ProgramBlock>() { static Type ty("ProgramBlock", sizeof(mud::ProgramBlock)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ProgramMode>() { static Type ty("ProgramMode", sizeof(mud::ProgramMode)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ProgramVersion>() { static Type ty("ProgramVersion", sizeof(mud::ProgramVersion)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Radiance>() { static Type ty("Radiance", sizeof(mud::Radiance)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Render>() { static Type ty("Render", sizeof(mud::Render)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::RenderFrame>() { static Type ty("RenderFrame", sizeof(mud::RenderFrame)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::RenderQuad>() { static Type ty("RenderQuad", sizeof(mud::RenderQuad)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Renderer>() { static Type ty("Renderer", sizeof(mud::Renderer)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Rig>() { static Type ty("Rig", sizeof(mud::Rig)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Scene>() { static Type ty("Scene", sizeof(mud::Scene)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ShaderBlock>() { static Type ty("ShaderBlock", sizeof(mud::ShaderBlock)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ShaderDefine>() { static Type ty("ShaderDefine", sizeof(mud::ShaderDefine)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Shot>() { static Type ty("Shot", sizeof(mud::Shot)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Skeleton>() { static Type ty("Skeleton", sizeof(mud::Skeleton)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Skin>() { static Type ty("Skin", sizeof(mud::Skin)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Skylight>() { static Type ty("Skylight", sizeof(mud::Skylight)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Sun>() { static Type ty("Sun", sizeof(mud::Sun)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::SwapBuffer>() { static Type ty("SwapBuffer", sizeof(mud::SwapBuffer)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::SwapCascade>() { static Type ty("SwapCascade", sizeof(mud::SwapCascade)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::SymbolIndex>() { static Type ty("SymbolIndex", sizeof(mud::SymbolIndex)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Batch>>() { static Type ty("TPool<mud::Batch>", sizeof(mud::TPool<mud::Batch>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Direct>>() { static Type ty("TPool<mud::Direct>", sizeof(mud::TPool<mud::Direct>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Flare>>() { static Type ty("TPool<mud::Flare>", sizeof(mud::TPool<mud::Flare>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Item>>() { static Type ty("TPool<mud::Item>", sizeof(mud::TPool<mud::Item>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Light>>() { static Type ty("TPool<mud::Light>", sizeof(mud::TPool<mud::Light>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Mime>>() { static Type ty("TPool<mud::Mime>", sizeof(mud::TPool<mud::Mime>)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::TPool<mud::Node3>>() { static Type ty("TPool<mud::Node3>", sizeof(mud::TPool<mud::Node3>)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Texture>() { static Type ty("Texture", sizeof(mud::Texture)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::UnshadedMaterialBlock>() { static Type ty("UnshadedMaterialBlock", sizeof(mud::UnshadedMaterialBlock)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::Viewport>() { static Type ty("Viewport", sizeof(mud::Viewport)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Zone>() { static Type ty("Zone", sizeof(mud::Zone)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlockCopy>() { static Type ty("BlockCopy", type<mud::GfxBlock>(), sizeof(mud::BlockCopy)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>() { static Type ty("BlockDepth", type<mud::DrawBlock>(), sizeof(mud::BlockDepth)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlockFilter>() { static Type ty("BlockFilter", type<mud::GfxBlock>(), sizeof(mud::BlockFilter)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::BlockMaterial>() { static Type ty("BlockMaterial", type<mud::GfxBlock>(), sizeof(mud::BlockMaterial)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>() { static Type ty("BlockParticles", type<mud::GfxBlock>(), sizeof(mud::BlockParticles)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::BlockResolve>() { static Type ty("BlockResolve", type<mud::GfxBlock>(), sizeof(mud::BlockResolve)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>() { static Type ty("BlockSky", type<mud::GfxBlock>(), sizeof(mud::BlockSky)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>() { static Type ty("ClusteredFrustum", type<mud::Frustum>(), sizeof(mud::ClusteredFrustum)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>() { static Type ty("GfxBlock", type<mud::ShaderBlock>(), sizeof(mud::GfxBlock)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>() { static Type ty("DrawBlock", type<mud::GfxBlock>(), sizeof(mud::DrawBlock)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>() { static Type ty("BlockDepth", type<mud::DrawBlock>(), sizeof(mud::BlockDepth)); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::Particles>() { static Type ty("Particles", type<mud::ParticleFlow>(), sizeof(mud::Particles)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Flare>() { static Type ty("Flare", type<mud::Flow>(), sizeof(mud::Flare)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>() { static Type ty("GfxSystem", type<mud::BgfxSystem>(), sizeof(mud::GfxSystem)); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>() { static Type ty("RenderTarget", type<mud::FrameBuffer>(), sizeof(mud::RenderTarget)); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Viewport>() { static Type ty("Viewport", type<mud::OEntt>(), sizeof(mud::Viewport)); return ty; }
 }
 
 
@@ -2893,6 +3336,7 @@ namespace mud
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/array.h>
 #include <stl/string.h>
 #include <stl/map.h>
 #endif
@@ -2900,40 +3344,15 @@ module mud.gfx;
 #include <Tracy.hpp>
 
 //#define MUD_GFX_THREADED
+#define POLL_AT_END 0
 
 namespace mud
 {
-	GfxContext::GfxContext(GfxSystem& gfx_system, const string& name, uvec2 size, bool fullScreen, bool init)
-		: BgfxContext(gfx_system, name, size, fullScreen, false)
-		, m_gfx_system(gfx_system)
-		, m_target()
-	{
-		if(init)
-			gfx_system.init(*this);
-		m_target = oconstruct<RenderTarget>(size);
-	}
-
-	GfxContext::~GfxContext()
-	{}
-
-	void GfxContext::reset_fb(const uvec2& size)
-	{
-		bgfx::reset(uint16_t(size.x), uint16_t(size.y), BGFX_RESET_NONE);
-		if(size.x == 0 || size.y == 0)
-			m_target = nullptr;
-		else
-		{
-			if(!m_target || size != m_target->m_size)
-				m_target = oconstruct<RenderTarget>(size);
-		}
-		m_vg_handle = m_reset_vg(*this, *m_gfx_system.m_vg);
-	}
-
 	struct GfxSystem::Impl
 	{
 		vector<string> m_resource_paths;
 
-		vector<GfxContext*> m_contexts;
+		vector<GfxWindow*> m_contexts;
 		vector<Scene*> m_scenes;
 
 		bx::FileReader m_file_reader;
@@ -2947,12 +3366,11 @@ namespace mud
 		unique<AssetStore<Program>> m_programs;
 		unique<AssetStore<Material>> m_materials;
 		unique<AssetStore<Model>> m_models;
-		unique<AssetStore<ParticleFlow>> m_particles;
+		unique<AssetStore<Flow>> m_particles;
 		unique<AssetStore<Prefab>> m_prefabs;
 
-		vector<Importer*> m_importers;
-
-		vector<Renderer*> m_renderers;
+		table<ModelFormat, Importer*> m_importers;
+		table<Shading, RenderFunc> m_renderers;
 
 		Texture* m_white_texture = nullptr;
 		Texture* m_black_texture = nullptr;
@@ -2965,14 +3383,41 @@ namespace mud
 #endif
 	};
 
+	GfxWindow::GfxWindow(GfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main)
+		: BgfxContext(gfx, name, size, fullscreen, main, false)
+		, m_gfx(gfx)
+		, m_target()
+	{
+		if(!gfx.m_initialized)
+			gfx.init(*this);
+		m_target = oconstruct<RenderTarget>(size, main ? nullptr : m_native_handle);
+		gfx.m_impl->m_contexts.push_back(this);
+	}
+
+	GfxWindow::~GfxWindow()
+	{}
+
+	void GfxWindow::reset_fb(const uvec2& size)
+	{
+		bgfx::reset(uint16_t(size.x), uint16_t(size.y), BGFX_RESET_NONE);
+		if(size.x == 0 || size.y == 0)
+			m_target = nullptr;
+		else
+		{
+			if(!m_target || size != m_target->m_size)
+				m_target = oconstruct<RenderTarget>(size);
+		}
+		m_vg_handle = m_reset_vg(*this, *m_vg);
+	}
+
 	GfxSystem::GfxSystem(const string& resource_path)
 		: BgfxSystem(resource_path)
 		, m_impl(make_unique<Impl>())
-		, m_pipeline(make_unique<Pipeline>(*this))
+		, m_renderer(*this)
 	{
-		Program::ms_gfx_system = this;
-		Material::ms_gfx_system = this;
-		Model::ms_gfx_system = this;
+		Program::ms_gfx = this;
+		Material::ms_gfx = this;
+		Model::ms_gfx = this;
 
 		this->add_resource_path(resource_path, false);
 	}
@@ -2991,29 +3436,24 @@ namespace mud
 	AssetStore<Program>& GfxSystem::programs() { return *m_impl->m_programs; }
 	AssetStore<Material>& GfxSystem::materials() { return *m_impl->m_materials; }
 	AssetStore<Model>& GfxSystem::models() { return *m_impl->m_models; }
-	AssetStore<ParticleFlow>& GfxSystem::particles() { return *m_impl->m_particles; }
+	AssetStore<Flow>& GfxSystem::flows() { return *m_impl->m_particles; }
 	AssetStore<Prefab>& GfxSystem::prefabs() { return *m_impl->m_prefabs; }
 
 	void GfxSystem::add_importer(ModelFormat format, Importer& importer)
 	{
-		m_impl->m_importers[size_t(format)] = &importer;
+		m_impl->m_importers[format] = &importer;
 	}
 
 	Importer* GfxSystem::importer(ModelFormat format)
 	{
-		return m_impl->m_importers[size_t(format)];
+		return m_impl->m_importers[format];
 	}
 
-	object<Context> GfxSystem::create_context(const string& name, uvec2 size, bool fullScreen)
-	{
-		object<GfxContext> context = oconstruct<GfxContext>(*this, name, size, fullScreen, !m_initialized);
-		m_impl->m_contexts.push_back(context.get());
-		return move(context);
-	}
-
-	void GfxSystem::init(GfxContext& context)
+	void GfxSystem::init(GfxWindow& context)
 	{
 		BgfxSystem::init(context);
+
+		m_flip_y = bgfx::getCaps()->originBottomLeft;
 
 		m_impl->m_meshes = make_unique<TPool<Mesh>>();
 		m_impl->m_rigs = make_unique<TPool<Rig>>();
@@ -3023,18 +3463,37 @@ namespace mud
 		m_impl->m_programs = make_unique<AssetStore<Program>>(*this, "programs/", ".prg");
 		m_impl->m_materials = make_unique<AssetStore<Material>>(*this, "materials/", ".mtl");
 		m_impl->m_models = make_unique<AssetStore<Model>>(*this, "models/");
-		m_impl->m_particles = make_unique<AssetStore<ParticleFlow>>(*this, "particles/", ".ptc");
+		m_impl->m_particles = make_unique<AssetStore<Flow>>(*this, "particles/", ".ptc");
 		//m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "prefabs/", ".pfb");
 		m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "models/");
-
-		m_impl->m_renderers.resize(size_t(Shading::Count));
-		m_impl->m_importers.resize(size_t(ModelFormat::Count));
 
 		m_impl->m_white_texture = this->textures().file("white.png");
 		m_impl->m_black_texture = this->textures().file("black.png");
 		m_impl->m_normal_texture = this->textures().file("normal.png");
 
-		m_pipeline = make_unique<Pipeline>(*this);
+		// create point mesh
+		{
+			MeshPacker geometry;
+
+			geometry.m_primitive = PrimitiveType::Triangles;
+
+			geometry.m_positions = { vec3(-1, 1, 0), vec3(-1, -1, 0), vec3(1, -1, 0), vec3(1, 1, 0) };
+			geometry.m_uv0s = { vec2(0, 1), vec2(0, 0), vec2(1, 0), vec2(1, 1) };
+			geometry.m_indices = { 0, 1, 2, 2, 3, 0 };
+
+			this->create_model_geo("point", geometry);
+		}
+
+		// create fat line mesh
+		{
+			MeshPacker geometry;
+
+			geometry.m_positions = { vec3(-1, 2, 0), vec3(1, 2, 0), vec3(-1, 1, 0), vec3(1, 1, 0), vec3(-1, 0, 0), vec3(1, 0, 0), vec3(-1, -1, 0), vec3(1, -1, 0) };
+			geometry.m_uv0s = { vec2(-1, 2), vec2(1, 2), vec2(-1, 1), vec2(1, 1), vec2(-1, -1), vec2(1, -1), vec2(-1, -2), vec2(1, -2) };
+			geometry.m_indices = { 0, 2, 1, 2, 3, 1, 2, 4, 3, 4, 5, 3, 4, 6, 5, 6, 7, 5 };
+
+			this->create_model_geo("line", geometry);
+		}
 	}
 
 	void GfxSystem::default_pipeline()
@@ -3045,21 +3504,16 @@ namespace mud
 	void GfxSystem::init_pipeline(PipelineDecl decl)
 	{
 #ifdef MUD_GFX_DEFERRED
-		decl(*this, *m_pipeline, true);
+		decl(*this, m_renderer, true);
 #else
-		decl(*this, *m_pipeline, false);
+		decl(*this, m_renderer, false);
 #endif
 
-		for(auto& block : m_pipeline->m_gfx_blocks)
+		for(auto& block : m_renderer.m_gfx_blocks)
 			block->init_block();
 
-		static ClearRenderer clear_renderer = { *this, *m_pipeline };
-		static UnshadedRenderer unshaded_renderer = { *this, *m_pipeline };
-		static MinimalRenderer minimal_renderer = { *this, *m_pipeline };
-		UNUSED(minimal_renderer);
-
-		this->set_renderer(Shading::Unshaded, unshaded_renderer);
-		this->set_renderer(Shading::Clear, clear_renderer);
+		this->set_renderer(Shading::Solid, render_solid);
+		this->set_renderer(Shading::Clear, render_clear);
 
 		this->create_debug_materials();
 	}
@@ -3070,24 +3524,29 @@ namespace mud
 		m_impl->m_resource_paths.push_back(relative ? m_resource_path + "/" + path : path);
 	}
 
-	void GfxSystem::set_renderer(Shading shading, Renderer& renderer)
+	void GfxSystem::set_renderer(Shading shading, const RenderFunc& renderer)
 	{
-		m_impl->m_renderers[size_t(shading)] = &renderer;
+		m_impl->m_renderers[shading] = renderer;
 	}
 
-	Renderer& GfxSystem::renderer(Shading shading)
+	RenderFunc GfxSystem::renderer(Shading shading)
 	{
-		return *m_impl->m_renderers[size_t(shading)];
+		return *m_impl->m_renderers[shading];
 	}
 
-	GfxContext& GfxSystem::context(size_t index)
+	GfxWindow& GfxSystem::context(size_t index)
 	{
 		return *m_impl->m_contexts[index];
 	}
 
-	void GfxSystem::begin_frame()
+	RenderTarget& GfxSystem::main_target()
 	{
-		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
+		return *this->context(0).m_target;
+	}
+
+	bool GfxSystem::begin_frame()
+	{
+		m_render_frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 
 		{
 			ZoneScopedNC("programs", tracy::Color::Cyan);
@@ -3099,14 +3558,17 @@ namespace mud
 		{
 			ZoneScopedNC("renderers", tracy::Color::Cyan);
 
-			for(auto& block : m_pipeline->m_gfx_blocks)
-				block->begin_frame(frame);
+			for(auto& block : m_renderer.m_gfx_blocks)
+				block->begin_frame(m_render_frame);
 		}
-	}
 
-	bool GfxSystem::next_frame()
-	{
-		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
+		bool pursue = true;
+		{
+			ZoneScopedNC("gfx contexts begin", tracy::Color::Cyan);
+		
+			for(GfxWindow* context : m_impl->m_contexts)
+				pursue &= context->begin_frame();
+		}
 
 #ifdef MUD_GFX_THREADED
 		{
@@ -3120,15 +3582,30 @@ namespace mud
 		}
 #endif
 
-		for(GfxContext* context : m_impl->m_contexts)
+		return pursue;
+	}
+
+	void GfxSystem::render_contexts()
+	{
+		for(GfxWindow* context : m_impl->m_contexts)
 			for(Viewport* viewport : context->m_viewports)
-				if(viewport->m_active)
+				if(viewport->m_autorender)
 				{
 					ZoneScopedNC("gfx viewport", tracy::Color::Cyan);
 
-					Renderer& renderer = this->renderer(viewport->m_shading);
-					this->render(renderer, *context, *viewport, frame);
+					RenderFunc renderer = this->renderer(viewport->m_shading);
+					this->render(viewport->m_shading, renderer, *context->m_target, *viewport);
 				}
+	}
+
+	void GfxSystem::end_frame()
+	{
+		{
+			ZoneScopedNC("gfx contexts render", tracy::Color::Cyan);
+
+			for(GfxWindow* context : m_impl->m_contexts)
+				context->render_frame();
+		}
 
 #ifdef MUD_GFX_THREADED
 		{
@@ -3139,39 +3616,29 @@ namespace mud
 		}
 #endif
 
-		bool pursue = true;
 		{
-			ZoneScopedNC("gfx contexts", tracy::Color::Cyan);
-
-			for(GfxContext* context : m_impl->m_contexts)
-				pursue &= context->next_frame();
+			ZoneScopedNC("gfx contexts end", tracy::Color::Cyan);
+		
+			for(GfxWindow* context : m_impl->m_contexts)
+				context->end_frame();
 		}
+
+		for(Program* program : m_impl->m_programs->m_vector)
+			program->update(*this);
 
 		{
 			ZoneScopedNC("gfx frame", tracy::Color::Cyan);
-			BgfxSystem::next_frame();
+			BgfxSystem::end_frame();
 		}
 
-		return pursue;
+		for(Program* program : m_impl->m_programs->m_vector)
+			program->update(*this);
 	}
 
-	void GfxSystem::render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame)
+	void GfxSystem::render(Shading shading, RenderFunc renderer, RenderTarget& target, Viewport& viewport)
 	{
-		Render render = { renderer.m_shading, viewport, *context.m_target, frame };
-		renderer.gather(render);
-		render.m_viewport.render(render);
-		render.m_viewport.cull(render);
-
-#ifdef DEBUG_ITEMS
-		scene.debug_items(render);
-#endif
-
-		if(rect_w(viewport.m_rect) != 0 && rect_h(viewport.m_rect) != 0)
-			renderer.render(render);
-
-		//copy.debug_show_texture(render, render.m_environment->m_radiance.m_texture->m_texture, vec4(0.f), false, false, false, 0);
-		//copy.debug_show_texture(render, render.m_environment->m_radiance.m_roughness_array, vec4(0.f), false, false, false, 1);
-		//copy.debug_show_texture(render, bgfx::getTexture(render.m_target->m_effects.last()), vec4(0.f));
+		Render render = { shading, viewport, target, m_render_frame };
+		m_renderer.submit(render, renderer);
 	}
 
 	RenderFrame GfxSystem::render_frame()
@@ -3204,21 +3671,53 @@ namespace mud
 			return *m_impl->m_black_texture;
 		else if(hint == TextureHint::White)
 			return *m_impl->m_white_texture;
-		else //if(hint == TextureHint::Normal)
+		else if(hint == TextureHint::Normal || true)
 			return *m_impl->m_normal_texture;
 	}
 
 	void GfxSystem::create_debug_materials()
 	{
-		Material& debug = this->fetch_material("debug", "unshaded");
-		debug.m_unshaded_block.m_enabled = true;
+		Material& debug = this->fetch_material("debug", "solid");
+		UNUSED(debug);
 
-		Material& alpha = this->fetch_material("debug_alpha", "unshaded");
-		alpha.m_unshaded_block.m_enabled = true;
-		alpha.m_unshaded_block.m_colour = Colour{ 0.2f, 0.2f, 0.2f, 0.1f };
+		Material& alpha = this->fetch_material("debug_alpha", "solid");
+		alpha.m_solid.m_colour = Colour(0.2f, 0.1f);
 
 		Material& pbr = this->fetch_material("debug_pbr", "pbr/pbr");
-		pbr.m_pbr_block.m_enabled = true;
+		UNUSED(pbr);
+	}
+
+	Model& GfxSystem::create_model(const string& name)
+	{
+		Model& model = this->models().create(name);
+		Mesh& mesh = model.add_mesh(name);
+
+		model.add_item(mesh, bxidentity());
+		return model;
+	}
+
+	Model& GfxSystem::create_model_geo(const string& name, const MeshPacker& geometry, bool readback, bool optimize)
+	{
+		Model& model = this->models().create(name);
+		Mesh& mesh = model.add_mesh(name, readback);
+
+		mesh.write(geometry, optimize);
+
+		model.add_item(mesh, bxidentity());
+		model.prepare();
+		return model;
+	}
+
+	Model& GfxSystem::create_model_gpu(const string& name, const GpuMesh& gpu_mesh, bool readback, bool optimize)
+	{
+		Model& model = this->models().create(name);
+		Mesh& mesh = model.add_mesh(name, readback);
+
+		mesh.upload(gpu_mesh, optimize);
+
+		model.add_item(mesh, bxidentity());
+		model.prepare();
+		return model;
 	}
 
 	Material& GfxSystem::debug_material()
@@ -3243,30 +3742,63 @@ namespace mud
 		if(!material)
 		{
 			string image_name = "Image256_" + to_string((uintptr_t)&image);
-			auto initializer = [&](Texture& texture) { auto data = image.read(); load_texture_rgba(texture, image.m_width, image.m_height, data); };
+			auto initializer = [&](Texture& texture) { auto data = image.read32(); texture.load_rgba(image.m_size, data); };
 
 			Texture& texture = this->textures().fetch(image_name);
 			initializer(texture);
-			material = &this->fetch_material(name, "unshaded");
-			material->m_unshaded_block.m_enabled = true;
-			material->m_unshaded_block.m_colour.m_texture = &texture;
+			material = &this->fetch_material(name, "solid");
+			material->m_solid.m_colour = &texture;
 		}
 
 		return *material;
 	}
 
-	Model& GfxSystem::fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode)
+	Model& GfxSystem::shape(const Shape& shape, const Symbol& symbol, DrawMode draw_mode)
 	{
 		return m_impl->m_symbols.symbol_model(symbol, shape, draw_mode);
 	}
 
-	Material& GfxSystem::fetch_symbol_material(const Symbol& symbol, DrawMode draw_mode)
+	Material& GfxSystem::symbol_material(const Symbol& symbol, DrawMode draw_mode)
 	{
 		if(symbol.m_image256)
 			return this->fetch_image256_material(*symbol.m_image256);
 		else
 			return m_impl->m_symbols.symbol_material(*this, symbol, draw_mode);
 	}
+
+namespace gfx
+{
+	Model& model_suzanne(GfxSystem& gfx)
+	{
+		constexpr double position[] = { 0.46875,0.242188,0.757812,0.5,0.09375,0.6875,0.5625,0.242188,0.671875,-0.5,0.09375,0.6875,-0.46875,0.242188,0.757812,-0.5625,0.242188,0.671875,0.546875,0.0546875,0.578125,0.625,0.242188,0.5625,-0.546875,0.0546875,0.578125,-0.625,0.242188,0.5625,0.351562,-0.0234375,0.617188,-0.351562,-0.0234375,0.617188,0.4375,0.164063,0.765625,0.351562,0.03125,0.71875,-0.351562,0.03125,0.71875,-0.4375,0.164063,0.765625,0.351562,0.132813,0.78125,0.203125,0.09375,0.742188,-0.203125,0.09375,0.742188,-0.351562,0.132813,0.78125,0.15625,0.0546875,0.648438,-0.15625,0.0546875,0.648438,0.140625,0.242188,0.742188,-0.140625,0.242188,0.742188,-0.078125,0.242188,0.65625,0.242188,0.242188,0.796875,0.273438,0.164063,0.796875,-0.242188,0.242188,0.796875,0.203125,0.390625,0.742188,-0.203125,0.390625,0.742188,0.078125,0.242188,0.65625,-0.15625,0.4375,0.648438,0.351562,0.453125,0.71875,0.15625,0.4375,0.648438,-0.351562,0.453125,0.71875,-0.351562,0.515625,0.617188,0.351562,0.359375,0.78125,0.273438,0.328125,0.796875,-0.351562,0.359375,0.78125,0.4375,0.328125,0.765625,-0.4375,0.328125,0.765625,-0.5,0.390625,0.6875,0.5,0.390625,0.6875,0.351562,0.515625,0.617188,-0.546875,0.4375,0.578125,0.546875,0.4375,0.578125,0.476562,0.242188,0.773438,-0.476562,0.242188,0.773438,-0.445312,0.335938,0.78125,0.445312,0.335938,0.78125,-0.351562,0.375,0.804688,0.351562,0.375,0.804688,-0.273438,0.328125,0.796875,-0.265625,0.335938,0.820312,0.265625,0.335938,0.820312,-0.226562,0.242188,0.820312,0.265625,0.15625,0.820312,0.226562,0.242188,0.820312,-0.265625,0.15625,0.820312,0.351562,0.117188,0.804688,-0.351562,0.117188,0.804688,-0.273438,0.164063,0.796875,0.445312,0.15625,0.78125,-0.445312,0.15625,0.78125,0.351562,0.242188,0.828125,-0.351562,0.242188,0.828125,0.164062,-0.929688,0.632813,0,-0.984375,0.578125,0.179688,-0.96875,0.554688,-0.164062,-0.929688,0.632813,0,-0.945312,0.640625,0.234375,-0.914062,0.632813,0.328125,-0.945312,0.523438,-0.234375,-0.914062,0.632813,-0.179688,-0.96875,0.554688,0.367188,-0.890625,0.53125,-0.367188,-0.890625,0.53125,-0.328125,-0.945312,0.523438,0.351562,-0.695312,0.570313,0.265625,-0.820312,0.664063,-0.265625,-0.820312,0.664063,-0.351562,-0.695312,0.570313,0.3125,-0.4375,0.570312,0.25,-0.703125,0.6875,-0.25,-0.703125,0.6875,-0.3125,-0.4375,0.570312,0.203125,-0.1875,0.5625,0.398438,-0.046875,0.671875,0.125,-0.101562,0.8125,-0.398438,-0.046875,0.671875,-0.203125,-0.1875,0.5625,-0.125,-0.101562,0.8125,0.632812,-0.0390625,0.539062,0.4375,-0.140625,0.53125,-0.632812,-0.0390625,0.539062,-0.617188,0.0546875,0.625,0.726562,0.203125,0.601562,0.617188,0.0546875,0.625,-0.726562,0.203125,0.601562,0.859375,0.429688,0.59375,0.828125,0.148438,0.445312,-0.859375,0.429688,0.59375,-0.742188,0.375,0.65625,0.710938,0.484375,0.625,0.742188,0.375,0.65625,-0.710938,0.484375,0.625,-0.6875,0.414063,0.726562,0.492188,0.601563,0.6875,0.6875,0.414063,0.726562,-0.492188,0.601563,0.6875,-0.4375,0.546875,0.796875,0.3125,0.640625,0.835938,0.4375,0.546875,0.796875,-0.3125,0.640625,0.835938,0.15625,0.71875,0.757812,0.320312,0.757813,0.734375,-0.15625,0.71875,0.757812,-0.203125,0.617188,0.851562,0.0625,0.492188,0.75,0.203125,0.617188,0.851562,-0.0625,0.492188,0.75,-0.101562,0.429688,0.84375,0,0.429688,0.742188,0.101562,0.429688,0.84375,0,0.351563,0.820312,0.25,0.46875,0.757812,0.164062,0.414063,0.773438,-0.25,0.46875,0.757812,0.328125,0.476563,0.742188,0.429688,0.4375,0.71875,-0.328125,0.476563,0.742188,0.601562,0.375,0.664062,-0.429688,0.4375,0.71875,0.640625,0.296875,0.648438,-0.601562,0.375,0.664062,0.625,0.1875,0.648438,-0.640625,0.296875,0.648438,0.492188,0.0625,0.671875,-0.625,0.1875,0.648438,0.375,0.015625,0.703125,-0.492188,0.0625,0.671875,-0.375,0.015625,0.703125,0,0.046875,0.726562,0.125,0.304688,0.765625,-0.125,0.304688,0.765625,0,0.210938,0.765625,0.132812,0.210938,0.757812,-0.132812,0.210938,0.757812,0.164062,0.140625,0.75,-0.164062,0.140625,0.75,0.0625,-0.882812,0.695313,-0.0625,-0.882812,0.695313,0.117188,-0.835937,0.710938,-0.117188,-0.835937,0.710938,0.109375,-0.71875,0.734375,0.210938,-0.445312,0.710938,0.117188,-0.6875,0.734375,-0.117188,-0.6875,0.734375,-0.210938,-0.445312,0.710938,-0.109375,-0.71875,0.734375,0,-0.328125,0.742188,0.078125,-0.445312,0.75,0.0859375,-0.289062,0.742188,-0.078125,-0.445312,0.75,0,-0.445312,0.75,0,-0.679687,0.734375,0,-0.765625,0.734375,0.125,-0.226562,0.75,0.09375,-0.273437,0.78125,-0.09375,-0.273437,0.78125,-0.125,-0.226562,0.75,-0.0859375,-0.289062,0.742188,0.109375,-0.132812,0.78125,0.101562,-0.148437,0.742188,-0.109375,-0.132812,0.78125,-0.132812,-0.226562,0.796875,0.0390625,-0.125,0.78125,0,-0.140625,0.742188,-0.0390625,-0.125,0.78125,-0.101562,-0.148437,0.742188,0,-0.1875,0.796875,0,-0.195312,0.75,0,-0.320312,0.78125,0,-0.289062,0.804688,-0.078125,-0.25,0.804688,0.046875,-0.148437,0.8125,-0.046875,-0.148437,0.8125,0.09375,-0.15625,0.8125,-0.09375,-0.15625,0.8125,0.132812,-0.226562,0.796875,-0.109375,-0.226562,0.828125,0.078125,-0.25,0.804688,0.109375,-0.226562,0.828125,0,-0.203125,0.828125,0.164062,-0.242187,0.710938,-0.164062,-0.242187,0.710938,-0.179688,-0.3125,0.710938,0.179688,-0.3125,0.710938,0.257812,-0.3125,0.554688,-0.257812,-0.3125,0.554688,0.234375,-0.25,0.554688,-0.234375,-0.25,0.554688,0.09375,-0.742187,0.726563,-0.09375,-0.742187,0.726563,0,-0.773437,0.71875,0.09375,-0.820312,0.710938,-0.09375,-0.820312,0.710938,0.046875,-0.867187,0.6875,-0.046875,-0.867187,0.6875,0,-0.890625,0.6875,0,-0.875,0.6875,0,-0.859375,0.632813,-0.046875,-0.851562,0.632813,0.09375,-0.8125,0.640625,0.046875,-0.851562,0.632813,-0.09375,-0.8125,0.640625,0.09375,-0.75,0.664063,-0.09375,-0.75,0.664063,0,-0.78125,0.65625,0.1875,0.15625,0.773438,0.171875,0.21875,0.78125,-0.1875,0.15625,0.773438,-0.171875,0.21875,0.78125,0.179688,0.296875,0.78125,-0.179688,0.296875,0.78125,0.210938,0.375,0.78125,-0.210938,0.375,0.78125,-0.226562,0.109375,0.78125,0.375,0.0625,0.742188,0.226562,0.109375,0.78125,-0.375,0.0625,0.742188,0.476562,0.101563,0.71875,-0.476562,0.101563,0.71875,0.578125,0.195313,0.679688,-0.578125,0.195313,0.679688,0.585938,0.289063,0.6875,-0.585938,0.289063,0.6875,-0.5625,0.351563,0.695312,0.5625,0.351563,0.695312,-0.421875,0.398438,0.773438,0.335938,0.429688,0.757812,0.421875,0.398438,0.773438,-0.335938,0.429688,0.757812,0.273438,0.421875,0.773438,-0.273438,0.421875,0.773438,0.234375,0.359375,0.757812,0.28125,0.398438,0.765625,-0.234375,0.359375,0.757812,-0.28125,0.398438,0.765625,0.335938,0.40625,0.75,-0.335938,0.40625,0.75,0.414062,0.390625,0.75,-0.414062,0.390625,0.75,0.53125,0.335938,0.679688,-0.53125,0.335938,0.679688,0.554688,0.28125,0.671875,-0.554688,0.28125,0.671875,0.546875,0.210938,0.671875,-0.546875,0.210938,0.671875,0.460938,0.117188,0.703125,-0.460938,0.117188,0.703125,0.375,0.0859375,0.726562,-0.375,0.0859375,0.726562,0.242188,0.125,0.757812,-0.242188,0.125,0.757812,0.203125,0.171875,0.75,-0.203125,0.171875,0.75,0.195312,0.296875,0.757812,-0.195312,0.296875,0.757812,0.195312,0.226563,0.75,-0.195312,0.226563,0.75,0.109375,0.460938,0.609375,0,0.40625,0.601562,-0.109375,0.460938,0.609375,0.195312,0.664062,0.617188,-0.195312,0.664062,0.617188,-0.320312,0.757813,0.734375,-0.335938,0.6875,0.59375,0.335938,0.6875,0.59375,-0.484375,0.554688,0.554688,0.484375,0.554688,0.554688,-0.679688,0.453125,0.492187,0.796875,0.40625,0.460937,0.679688,0.453125,0.492187,-0.796875,0.40625,0.460937,-0.828125,0.148438,0.445312,-0.773438,0.164063,0.375,0.601562,1.80992e-08,0.414062,0.773438,0.164063,0.375,-0.601562,1.80992e-08,0.414062,0.4375,-0.09375,0.46875,-0.4375,-0.09375,0.46875,0,-0.484375,0.28125,0.125,-0.539062,0.359375,0,-0.570312,0.320313,-0.125,-0.539062,0.359375,-0.179688,-0.414062,0.257813,0.140625,-0.757812,0.367188,0,-0.804688,0.34375,-0.140625,-0.757812,0.367188,0.164062,-0.945312,0.4375,0,-0.976562,0.460938,-0.164062,-0.945312,0.4375,0.328125,-0.914062,0.398438,-0.328125,-0.914062,0.398438,0.289062,-0.710938,0.382813,-0.289062,-0.710938,0.382813,0.25,-0.5,0.390625,-0.25,-0.5,0.390625,0.179688,-0.414062,0.257813,0.234375,-0.351562,0.40625,-0.234375,-0.351562,0.40625,0.21875,-0.28125,0.429688,-0.21875,-0.28125,0.429688,-0.210938,-0.226562,0.46875,0.203125,-0.171875,0.5,-0.203125,-0.171875,0.5,-0.4375,-0.140625,0.53125,0.335938,0.0546875,-0.664062,0,-0.195313,-0.671875,0,0.0703125,-0.828125,-0.335938,0.0546875,-0.664062,-0.34375,-0.148438,-0.539062,0.34375,-0.148438,-0.539062,0,-0.382813,-0.351562,-0.296875,-0.3125,-0.265625,0.210938,-0.390625,0.164063,0,-0.460938,0.1875,-0.210938,-0.390625,0.164063,0.734375,-0.046875,0.0703125,0.851562,0.234375,0.0546875,-0.734375,-0.046875,0.0703125,-0.851562,0.234375,0.0546875,0.460938,0.4375,-0.703125,0,0.5625,-0.851562,-0.460938,0.4375,-0.703125,0.453125,0.851562,0.234375,0,0.984375,-0.078125,0,0.898438,0.289062,-0.453125,0.851562,0.234375,-0.453125,0.929688,-0.0703125,0.453125,0.867188,-0.382813,0,0.898438,-0.546875,-0.453125,0.867188,-0.382813,0.726562,0.40625,0.335937,0.632812,0.453125,0.28125,-0.726562,0.40625,0.335937,-0.632812,0.453125,0.28125,0.796875,0.5625,0.125,0.640625,0.703125,0.0546875,-0.796875,0.5625,0.125,-0.640625,0.703125,0.0546875,0.796875,0.617188,-0.117188,0.640625,0.75,-0.195313,-0.796875,0.617188,-0.117188,-0.640625,0.75,-0.195313,0.796875,0.539062,-0.359375,0.640625,0.679688,-0.445313,-0.796875,0.539062,-0.359375,-0.640625,0.679688,-0.445313,0.617188,0.328125,-0.585938,0.773438,0.265625,-0.4375,-0.617188,0.328125,-0.585938,0.453125,0.929688,-0.0703125,0.460938,0.523438,0.429687,-0.460938,0.523438,0.429687,0,0.570312,0.570312,0.859375,0.320312,-0.046875,-0.859375,0.320312,-0.046875,0.820312,0.328125,-0.203125,-0.820312,0.328125,-0.203125,0.296875,-0.3125,-0.265625,0.40625,-0.171875,0.148438,-0.40625,-0.171875,0.148438,-0.429688,-0.195313,-0.210937,0.59375,-0.125,-0.164062,-0.59375,-0.125,-0.164062,0.210938,-0.226562,0.46875,0.640625,-0.00781252,-0.429688,-0.640625,-0.00781252,-0.429688,-0.484375,0.0234375,-0.546875,0.429688,-0.195313,-0.210937,0.484375,0.0234375,-0.546875,0.890625,0.40625,-0.234375,1.01562,0.414062,-0.289063,1.02344,0.476562,-0.3125,-0.890625,0.40625,-0.234375,-1.01562,0.414062,-0.289063,-0.921875,0.359375,-0.21875,1.1875,0.4375,-0.390625,1.23438,0.507812,-0.421875,-1.1875,0.4375,-0.390625,-1.02344,0.476562,-0.3125,-1.23438,0.507812,-0.421875,1.35156,0.320312,-0.421875,-1.35156,0.320312,-0.421875,-1.26562,0.289062,-0.40625,1.26562,0.289062,-0.40625,1.28125,0.0546875,-0.429688,-1.28125,0.0546875,-0.429688,-1.21094,0.078125,-0.40625,1.21094,0.078125,-0.40625,1.03906,-0.101563,-0.328125,-1.03906,-0.101563,-0.328125,-1.03125,-0.0390625,-0.304688,0.828125,-0.0703125,-0.132812,0.773438,-0.140625,-0.125,-0.828125,-0.0703125,-0.132812,-0.773438,-0.140625,-0.125,1.03125,-0.0390625,-0.304688,0.882812,-0.0234375,-0.210938,-0.882812,-0.0234375,-0.210938,1.03906,-1.60503e-08,-0.367188,-1.03906,-1.60503e-08,-0.367188,1.23438,0.25,-0.445312,-1.23438,0.25,-0.445312,-1.1875,0.09375,-0.445312,1.17188,0.359375,-0.4375,-1.17188,0.359375,-0.4375,1.02344,0.34375,-0.359375,-1.02344,0.34375,-0.359375,0.945312,0.304688,-0.289062,-0.945312,0.304688,-0.289062,0.726562,-3.07346e-09,-0.0703125,-0.726562,-3.07346e-09,-0.0703125,-0.71875,-0.0234375,-0.171875,0.71875,-0.0234375,-0.171875,0.921875,0.359375,-0.21875,0.8125,-0.015625,-0.273438,-0.8125,-0.015625,-0.273438,0.71875,0.0390625,-0.1875,0.84375,0.015625,-0.273438,-0.71875,0.0390625,-0.1875,0.757812,0.09375,-0.273438,0.820312,0.0859375,-0.273438,-0.84375,0.015625,-0.273438,-0.757812,0.09375,-0.273438,-0.820312,0.0859375,-0.273438,0.796875,0.203125,-0.210938,0.835938,0.171875,-0.273438,-0.796875,0.203125,-0.210938,0.890625,0.242187,-0.265625,0.84375,0.289062,-0.210938,-0.890625,0.242187,-0.265625,-0.835938,0.171875,-0.273438,-0.84375,0.289062,-0.210938,0.890625,0.234375,-0.320312,0.953125,0.289062,-0.34375,-0.890625,0.234375,-0.320312,-0.953125,0.289062,-0.34375,-0.84375,0.171875,-0.320312,0.765625,0.09375,-0.320312,0.84375,0.171875,-0.320312,-0.765625,0.09375,-0.320312,-0.828125,0.078125,-0.320312,0.828125,0.078125,-0.320312,-0.851562,0.015625,-0.320312,0.8125,-0.015625,-0.320312,0.851562,0.015625,-0.320312,-0.8125,-0.015625,-0.320312,0.882812,-0.015625,-0.265625,-0.882812,-0.015625,-0.265625,1.03906,0.328125,-0.414062,-1.03906,0.328125,-0.414062,1.1875,0.34375,-0.484375,-1.1875,0.34375,-0.484375,1.25781,0.242187,-0.492188,-1.25781,0.242187,-0.492188,1.21094,0.0859375,-0.484375,1.1875,0.09375,-0.445312,-1.21094,0.0859375,-0.484375,1.04688,-1.84407e-08,-0.421875,-1.04688,-1.84407e-08,-0.421875,0.890625,0.109375,-0.328125,-0.890625,0.109375,-0.328125,-0.9375,0.0625,-0.335938,0.9375,0.0625,-0.335938,0.960938,0.171875,-0.351562,-0.960938,0.171875,-0.351562,-1,0.125,-0.367188,1.05469,0.1875,-0.382812,1.01562,0.234375,-0.375,-1.05469,0.1875,-0.382812,-1.01562,0.234375,-0.375,1.08594,0.273437,-0.390625,-1.08594,0.273437,-0.390625,-1.10938,0.210937,-0.390625,1.10938,0.210937,-0.390625,0.789062,-0.125,-0.328125,1.03906,-0.0859375,-0.492188,-0.789062,-0.125,-0.328125,-1.03906,-0.0859375,-0.492188,1.3125,0.0546875,-0.53125,-1.3125,0.0546875,-0.53125,1.36719,0.296875,-0.5,-1.36719,0.296875,-0.5,1.25,0.46875,-0.546875,-1.25,0.46875,-0.546875,1.02344,0.4375,-0.484375,-1.02344,0.4375,-0.484375,0.859375,0.382812,-0.382813,-0.859375,0.382812,-0.382813,-0.773438,0.265625,-0.4375,-0.164062,0.414063,0.773438,1,0.125,-0.367188 };
+		constexpr uint indices[] = { 0,1,2,3,4,5,2,6,7,8,5,9,1,10,6,11,3,8,12,13,1,14,15,3,16,17,13,18,19,14,13,20,10,21,14,11,22,20,17,23,21,24,25,17,26,27,18,23,25,28,22,29,27,23,28,30,22,29,24,31,32,33,28,34,31,35,36,28,37,38,29,34,39,32,36,40,34,41,42,43,32,41,35,44,2,45,42,5,44,9,0,42,39,4,41,5,39,46,0,40,47,48,36,49,39,38,48,50,37,51,36,52,50,53,25,54,37,27,53,55,25,56,57,58,27,55,26,59,56,60,61,58,16,62,59,63,19,60,12,46,62,47,15,63,64,62,46,47,63,65,59,62,64,65,63,60,64,56,59,60,58,65,64,57,56,58,55,65,64,54,57,55,53,65,64,51,54,53,50,65,64,49,51,50,48,65,64,46,49,48,47,65,66,67,68,69,67,70,71,68,72,73,74,69,75,71,72,73,76,77,78,79,75,80,81,76,82,83,78,84,85,81,86,87,88,89,90,91,92,87,93,94,89,95,92,96,97,98,94,95,99,96,100,101,98,102,103,104,99,105,102,106,107,108,103,109,106,110,107,111,112,113,109,110,114,111,115,116,113,117,118,119,114,120,117,121,122,123,118,122,121,124,125,123,126,127,121,117,125,111,119,113,127,117,112,128,129,110,130,113,108,129,131,106,132,110,104,131,133,102,134,106,96,133,135,98,136,102,97,135,137,95,138,98,87,137,139,89,140,95,17,87,139,89,18,141,17,142,88,142,18,91,123,143,126,121,144,124,143,145,146,145,144,147,148,145,142,149,145,147,150,70,66,70,151,69,152,66,71,69,153,73,152,79,154,153,80,73,155,156,83,157,158,84,154,83,156,84,159,157,160,161,162,160,163,164,161,165,156,163,165,164,154,165,166,159,165,157,167,168,162,169,170,171,172,167,173,174,170,175,176,173,177,178,179,174,180,177,181,180,177,178,162,182,160,171,182,169,168,183,182,169,183,184,180,185,176,186,180,178,176,187,172,188,178,174,187,189,172,188,175,190,189,191,168,184,175,169,192,185,193,190,186,188,193,191,192,184,193,190,177,88,142,91,177,142,173,194,88,195,179,91,162,194,167,171,195,196,161,197,162,163,196,158,198,155,82,199,158,196,200,197,198,201,196,195,86,194,200,195,90,201,166,202,154,166,203,204,152,202,205,203,153,206,150,205,207,206,151,208,209,207,210,208,209,210,207,211,210,208,211,212,207,213,214,215,208,212,205,216,213,217,206,215,204,216,202,204,217,218,218,214,216,212,218,217,216,214,213,215,212,217,146,219,220,221,147,222,143,220,223,222,144,224,143,225,126,144,226,224,17,219,148,18,221,227,17,228,229,230,18,227,139,231,228,232,141,230,137,233,231,234,140,232,135,235,233,236,138,234,131,235,133,134,236,237,129,238,131,132,237,239,129,240,241,242,132,239,128,243,240,244,130,242,125,225,243,226,127,244,243,245,246,247,244,248,240,246,249,248,242,250,240,251,241,242,252,250,241,253,238,239,254,252,235,253,255,254,236,256,235,257,233,236,258,256,231,257,259,258,232,260,231,261,228,232,262,260,228,263,229,230,264,262,219,263,265,264,221,266,225,267,245,268,226,247,223,269,267,270,224,268,220,265,269,266,222,270,122,271,272,273,122,272,118,274,271,275,120,273,115,274,114,276,275,277,107,278,115,109,277,279,103,280,107,105,279,281,103,282,283,284,105,281,100,282,99,285,284,286,100,287,288,289,285,286,92,290,287,291,94,289,292,293,294,292,295,296,294,297,298,294,299,295,298,300,301,298,302,299,68,301,300,301,74,302,72,300,303,302,77,304,75,303,305,304,76,306,78,305,307,306,81,308,305,293,307,295,306,308,303,297,305,304,299,302,307,309,310,308,296,295,82,307,310,308,85,311,312,200,198,313,201,314,310,198,82,311,199,313,200,315,86,201,316,314,315,93,86,316,317,291,318,319,320,321,319,322,323,324,319,322,324,325,324,326,327,328,324,327,327,309,292,296,327,292,309,312,310,296,313,328,288,329,330,331,286,332,333,320,334,335,320,321,336,337,338,339,337,340,337,341,342,343,337,342,342,333,334,335,342,334,283,344,345,346,281,347,345,348,349,350,347,351,349,352,353,354,351,355,353,356,357,358,355,359,360,356,361,362,358,359,333,357,360,359,335,362,341,353,357,355,343,359,363,349,353,351,340,355,336,345,349,347,339,351,283,364,280,281,365,347,364,338,366,365,338,339,274,280,271,275,279,277,271,364,366,365,273,366,272,271,366,366,273,272,288,344,282,286,346,332,330,348,344,350,332,346,367,352,348,354,368,350,356,369,361,358,370,354,371,372,326,325,373,374,372,375,329,373,376,374,287,372,329,373,289,331,290,312,372,313,291,373,312,326,372,373,328,313,290,315,377,314,316,291,378,360,361,379,362,380,360,318,333,362,321,380,381,378,375,374,379,380,323,381,371,322,374,380,318,382,323,322,380,321,383,384,385,386,387,388,385,389,390,391,392,393,389,394,390,391,395,396,397,398,394,396,399,400,401,402,398,400,403,404,402,405,406,407,403,408,409,410,405,411,404,407,401,412,409,413,400,404,414,401,397,415,400,416,417,397,389,418,396,415,419,389,384,420,391,418,384,421,419,422,387,420,375,423,329,376,424,425,406,426,375,408,425,407,330,423,367,424,332,368,369,427,383,388,370,386,405,428,426,429,407,425,430,428,431,432,429,425,433,431,434,435,436,437,438,433,439,440,436,432,438,441,442,440,443,444,442,421,427,445,422,443,438,369,367,440,370,445,423,438,367,424,440,432,423,426,430,432,425,424,421,446,447,448,422,449,439,446,441,444,448,450,439,451,452,453,444,450,434,451,433,437,453,454,431,455,434,435,454,456,431,457,458,459,435,456,428,460,457,461,429,459,419,447,462,449,420,463,417,462,464,463,418,465,414,464,466,465,415,467,414,468,469,415,470,467,469,471,412,416,472,470,412,460,410,413,461,472,458,473,455,456,474,475,476,477,473,475,478,479,477,480,481,482,478,483,480,484,481,482,485,486,462,481,484,483,463,485,477,447,446,478,449,483,452,477,446,450,478,474,455,452,451,450,454,453,460,458,457,461,456,475,471,476,460,475,472,461,480,471,468,482,472,479,487,468,466,486,470,482,464,487,466,486,465,467,462,484,464,465,485,463,402,488,489,490,403,491,398,489,492,491,399,493,398,494,394,399,495,493,394,496,390,395,497,495,390,498,385,393,499,497,385,500,383,392,501,499,489,500,498,491,501,490,498,492,489,493,499,491,496,494,492,493,495,497,369,500,361,370,501,386,361,488,378,490,502,379,375,488,406,490,376,408,0,12,1,3,15,4,2,1,6,8,3,5,1,13,10,11,14,3,12,16,13,14,19,15,16,26,17,18,61,19,13,17,20,21,18,14,22,30,20,23,18,21,25,22,17,27,61,18,25,37,28,29,52,27,28,33,30,29,23,24,32,43,33,34,29,31,36,32,28,38,52,29,39,42,32,40,38,34,42,45,43,41,34,35,2,7,45,5,41,44,0,2,42,4,40,41,39,49,46,40,4,47,36,51,49,38,40,48,37,54,51,52,38,50,25,57,54,27,52,53,25,26,56,58,61,27,26,16,59,60,19,61,16,12,62,63,15,19,12,0,46,47,4,15,66,70,67,69,74,67,71,66,68,73,77,74,75,79,71,73,80,76,78,83,79,80,84,81,82,155,83,84,158,85,86,93,87,89,317,90,92,97,87,94,317,89,92,100,96,98,285,94,99,104,96,101,285,98,103,108,104,105,101,102,107,112,108,109,105,106,107,115,111,113,276,109,114,119,111,116,276,113,118,123,119,120,116,117,122,124,123,122,120,121,125,119,123,127,503,121,125,128,111,113,130,127,112,111,128,110,132,130,108,112,129,106,134,132,104,108,131,102,136,134,96,104,133,98,138,136,97,96,135,95,140,138,87,97,137,89,141,140,17,88,87,89,91,18,17,148,142,142,149,18,123,124,143,121,503,144,143,124,145,145,124,144,148,146,145,149,142,145,150,209,70,70,209,151,152,150,66,69,151,153,152,71,79,153,159,80,155,161,156,157,163,158,154,79,83,84,80,159,160,164,161,160,171,163,161,164,165,163,157,165,154,156,165,159,166,165,167,189,168,169,175,170,172,189,167,174,179,170,176,172,173,178,177,179,180,176,177,162,168,182,171,160,182,168,191,183,169,182,183,180,193,185,186,193,180,176,185,187,188,186,178,187,192,189,188,174,175,189,192,191,184,190,175,192,187,185,190,193,186,193,183,191,184,183,193,177,173,88,91,179,177,173,167,194,195,170,179,162,197,194,171,170,195,161,155,197,163,171,196,198,197,155,199,85,158,200,194,197,201,199,196,86,88,194,195,91,90,166,204,202,166,159,203,152,154,202,203,159,153,150,152,205,206,153,151,209,150,207,208,151,209,207,214,211,208,210,211,207,205,213,215,206,208,205,202,216,217,203,206,204,218,216,204,203,217,218,211,214,212,211,218,146,148,219,221,149,147,143,146,220,222,147,144,143,223,225,144,503,226,17,229,219,18,149,221,17,139,228,230,141,18,139,137,231,232,140,141,137,135,233,234,138,140,135,133,235,236,136,138,131,238,235,134,136,236,129,241,238,132,134,237,129,128,240,242,130,132,128,125,243,244,127,130,125,126,225,226,503,127,243,225,245,247,226,244,240,243,246,248,244,242,240,249,251,242,239,252,241,251,253,239,237,254,235,238,253,254,237,236,235,255,257,236,234,258,231,233,257,258,234,232,231,259,261,232,230,262,228,261,263,230,227,264,219,229,263,264,227,221,225,223,267,268,224,226,223,220,269,270,222,224,220,219,265,266,221,222,122,118,271,273,120,122,118,114,274,275,116,120,115,278,274,276,116,275,107,280,278,109,276,277,103,283,280,105,109,279,103,99,282,284,101,105,100,288,282,285,101,284,100,92,287,289,94,285,92,93,290,291,317,94,292,309,293,292,294,295,294,293,297,294,298,299,298,297,300,298,301,302,68,67,301,301,67,74,72,68,300,302,74,77,75,72,303,304,77,76,78,75,305,306,76,81,305,297,293,295,299,306,303,300,297,304,306,299,307,293,309,308,311,296,82,78,307,308,81,85,312,377,200,313,199,201,310,312,198,311,85,199,200,377,315,201,90,316,315,290,93,316,90,317,318,323,319,321,320,319,323,371,324,322,319,324,324,371,326,328,325,324,327,326,309,296,328,327,309,326,312,296,311,313,288,287,329,331,289,286,333,318,320,335,334,320,336,363,337,339,338,337,337,363,341,343,340,337,342,341,333,335,343,342,283,282,344,346,284,281,345,344,348,350,346,347,349,348,352,354,350,351,353,352,356,358,354,355,360,357,356,362,502,358,333,341,357,359,343,335,341,363,353,355,340,343,363,336,349,351,339,340,336,364,345,347,365,339,283,345,364,281,279,365,364,336,338,365,366,338,274,278,280,275,273,279,271,280,364,365,279,273,288,330,344,286,284,346,330,367,348,350,368,332,367,369,352,354,370,368,356,352,369,358,502,370,371,381,372,325,328,373,372,381,375,373,331,376,287,290,372,373,291,289,290,377,312,313,314,291,378,382,360,379,502,362,360,382,318,362,335,321,381,382,378,374,376,379,323,382,381,322,325,374,383,427,384,386,392,387,385,384,389,391,387,392,389,397,394,391,393,395,397,401,398,396,395,399,401,409,402,400,399,403,402,409,405,407,404,403,409,412,410,411,413,404,401,469,412,413,416,400,414,469,401,415,396,400,417,414,397,418,391,396,419,417,389,420,387,391,384,427,421,422,388,387,375,426,423,376,331,424,406,405,426,408,376,425,330,329,423,424,331,332,369,442,427,388,445,370,405,410,428,429,411,407,430,426,428,432,435,429,433,430,431,435,432,436,438,430,433,440,444,436,438,439,441,440,445,443,442,441,421,445,388,422,438,442,369,440,368,370,423,430,438,424,368,440,421,441,446,448,443,422,439,452,446,444,443,448,439,433,451,453,436,444,434,455,451,437,436,453,431,458,455,435,437,454,431,428,457,459,429,435,428,410,460,461,411,429,419,421,447,449,422,420,417,419,462,463,420,418,414,417,464,465,418,415,414,466,468,415,416,470,469,468,471,416,413,472,412,471,460,413,411,461,458,476,473,456,454,474,476,504,477,475,474,478,477,504,480,482,479,478,480,487,484,482,483,485,462,447,481,483,449,463,477,481,447,478,448,449,452,473,477,450,448,478,455,473,452,450,474,454,460,476,458,461,459,456,471,504,476,475,479,472,480,504,471,482,470,472,487,480,468,486,467,470,464,484,487,486,485,465,402,406,488,490,408,403,398,402,489,491,403,399,398,492,494,399,395,495,394,494,496,395,393,497,390,496,498,393,392,499,385,498,500,392,386,501,489,488,500,491,499,501,498,496,492,493,497,499,369,383,500,370,502,501,361,500,488,490,501,502,375,378,488,490,379,376 };
+
+		span<double3> points = { (double3*)position, array_size(position) / 3 };
+		span<uint3> faces = { (uint3*)indices, array_size(indices) / 3 };
+
+		MeshPacker shape;
+
+		for(uint3 face : faces)
+		{
+			const vec3 v0 = vec3(points[face[0]]);
+			const vec3 v1 = vec3(points[face[1]]);
+			const vec3 v2 = vec3(points[face[2]]);
+
+			const vec3 normal = Plane(v0, v1, v2).m_normal;
+
+			shape.position(v0);
+			shape.position(v1);
+			shape.position(v2);
+
+			shape.normal(normal);
+			shape.normal(normal);
+			shape.normal(normal);
+		}
+
+		Model& model = gfx.create_model_geo("suzanne", shape);
+		return model;
+	}
+}
 }
 
 
@@ -3281,6 +3813,14 @@ module mud.gfx;
 namespace mud
 {
 	template class Graph<Gnode>;
+
+	template class TPool<Node3>;
+	template class TPool<Item>;
+	template class TPool<Batch>;
+	template class TPool<Direct>;
+	template class TPool<Mime>;
+	template class TPool<Light>;
+	template class TPool<Flare>;
 
 	Gnode::Gnode() : Graph() {}
 	Gnode::Gnode(Scene& scene, SoundManager* sound_manager) : Graph(), m_scene(&scene), m_attach(&scene.m_root_node), m_sound_manager(sound_manager) {}
@@ -3304,14 +3844,24 @@ namespace mud
 			m_scene->m_pool->pool<Item>().tdestroy(*m_item);
 			m_item = nullptr;
 		}
+		if(m_batch)
+		{
+			m_scene->m_pool->pool<Batch>().tdestroy(*m_batch);
+			m_batch = nullptr;
+		}
+		if(m_direct)
+		{
+			m_scene->m_pool->pool<Direct>().tdestroy(*m_direct);
+			m_direct = nullptr;
+		}
 		if(m_animated)
 		{
-			m_scene->m_pool->pool<Animated>().tdestroy(*m_animated);
+			m_scene->m_pool->pool<Mime>().tdestroy(*m_animated);
 			m_animated = nullptr;
 		}
 		if(m_particles)
 		{
-			m_scene->m_pool->pool<Particles>().tdestroy(*m_particles);
+			m_scene->m_pool->pool<Flare>().tdestroy(*m_particles);
 			m_particles = nullptr;
 		}
 		if(m_light)
@@ -3350,14 +3900,28 @@ namespace mud
 
 namespace gfx
 {
+	void setup_pipeline_minimal(GfxSystem& gfx)
+	{
+		gfx.init_pipeline(pipeline_minimal);
+	}
+
+	TPool<Node3>&  nodes(Scene& scene)   { return scene.m_pool->pool<Node3>(); }
+	TPool<Item>&   items(Scene& scene)   { return scene.m_pool->pool<Item>(); }
+	TPool<Batch>&  batches(Scene& scene) { return scene.m_pool->pool<Batch>(); }
+	TPool<Direct>& directs(Scene& scene) { return scene.m_pool->pool<Direct>(); }
+	TPool<Mime>&   mimes(Scene& scene)   { return scene.m_pool->pool<Mime>(); }
+	TPool<Light>&  lights(Scene& scene)  { return scene.m_pool->pool<Light>(); }
+	TPool<Flare>&  flares(Scene& scene)  { return scene.m_pool->pool<Flare>(); }
+
 	Gnode& node(Gnode& parent, Ref object, const mat4& transform)
 	{
 		Gnode& self = parent.subi(object.m_value);
 		if(!self.m_node)
 		{
-			self.m_node = &create<Node3>(*parent.m_scene, parent.m_scene, object);
+			self.m_node = &create<Node3>(*parent.m_scene);
 			self.m_attach = self.m_node;
 		}
+		self.m_node->m_object = object;
 		self.m_node->m_transform = transform;
 		return self;
 	}
@@ -3379,73 +3943,61 @@ namespace gfx
 
 	Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation)
 	{
-		return node(parent, object, parent.m_attach->m_transform * bxTRS(Unit3, rotation, position));
+		return node(parent, object, parent.m_attach->m_transform * bxTRS(vec3(1.f), rotation, position));
 	}
 
-	void update_item_aabb(Item& item)
-	{
-		if(item.m_instances.size() == 0)
-		{
-			item.m_aabb = transform_aabb(item.m_model->m_aabb, item.m_node->m_transform);
-		}
-		else
-		{
-			item.m_aabb = {};
-			for(const mat4& transform : item.m_instances)
-				item.m_aabb.mergeSafe(transform_aabb(item.m_model->m_aabb, transform));
-		}
-	}
-
-	void update_item_lights(Item& item)
-	{
-		item.m_lights.clear();
-
-		item.m_node->m_scene->m_pool->pool<Light>().iterate([&](Light& light)
-		{
-			if(light.m_type == LightType::Direct || sphere_aabb_intersection(light.m_node.position(), light.m_range, item.m_aabb))
-				item.m_lights.push_back(&light);
-		});
-	}
-
-	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material, size_t instances, span<mat4> transforms)
+	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material)
 	{
 		Gnode& self = parent.suba<Gnode>();
 		bool update = (flags & ItemFlag::NoUpdate) == 0;
 		if(!self.m_item)
 		{
-			self.m_item = &create<Item>(*self.m_scene, *self.m_attach, model, flags, material, instances);
+			self.m_item = &create<Item>(*self.m_scene, *self.m_attach, model, flags, material);
 			update = true;
 		}
 		self.m_item->m_model = const_cast<Model*>(&model);
 		self.m_item->m_material = material;
-		if(transforms.size() > 0)
-		{
-			self.m_item->m_instances.resize(instances);
-			copy<mat4>(self.m_item->m_instances, transforms);
-		}
-		if(instances > 0)
-		{
-			self.m_item->m_instances.resize(instances);
-			self.m_item->update_instances();
-		}
 		if(update)
 		{
-			update_item_aabb(*self.m_item);
-			update_item_lights(*self.m_item);
+			self.m_item->update_aabb();
 		}
 		return *self.m_item;
 	}
 
-	void prefab(Gnode& parent, const Prefab& prefab, bool transform, uint32_t flags, Material* material, size_t instances, span<mat4> transforms)
+	Batch& batch(Gnode& parent, Item& item, uint16_t stride)
+	{
+		Gnode& self = parent.suba<Gnode>();
+		if(!self.m_batch)
+		{
+			self.m_batch = &create<Batch>(*self.m_scene, item, stride);
+		}
+		return *self.m_batch;
+	}
+
+	Batch& instances(Gnode& parent, Item& item, span<mat4> transforms)
+	{
+		Gnode& self = parent.suba<Gnode>();
+		if(!self.m_batch)
+		{
+			self.m_batch = &create<Batch>(*self.m_scene, item, uint16_t(sizeof(mat4)));
+			item.m_batch = self.m_batch;
+		}
+		self.m_batch->transforms(transforms);
+		self.m_batch->update_aabb(transforms);
+		return *self.m_batch;
+	}
+
+	void prefab(Gnode& parent, const Prefab& prefab, bool transform, uint32_t flags, Material* material)
 	{
 		Gnode& self = parent.suba<Gnode>();
 		
-		for(size_t i = 0; i < prefab.m_items.size(); ++i)
+		for(const Prefab::Elem& elem : prefab.m_items)
 		{
-			mat4 tr = transform ? parent.m_attach->m_transform * prefab.m_nodes[i].m_transform
-								: prefab.m_nodes[i].m_transform;
+			const Node3& n = prefab.m_nodes[elem.node];
+			mat4 tr = transform ? parent.m_attach->m_transform * n.m_transform
+								: n.m_transform;
 			Gnode& no = node(self, {}, tr);
-			Item& it = item(no, *prefab.m_items[i].m_model, prefab.m_items[i].m_flags | flags, material, instances, transforms);
+			Item& it = item(no, *elem.item.m_model, elem.item.m_flags | flags, material);
 			//it = prefab.m_items[i];
 			//shape(self, Cube(i.m_aabb.m_center, vec3(0.1f)), Symbol::wire(Colour::Red, true));
 			//shape(self, submodel->m_aabb, Symbol::wire(Colour::White));
@@ -3453,21 +4005,21 @@ namespace gfx
 		}
 	}
 
-	Item& shape_item(Gnode& parent, Model& model, const Symbol& symbol, uint32_t flags, Material* material, size_t instances, DrawMode draw_mode)
+	Item& shape_item(Gnode& parent, Model& model, const Symbol& symbol, uint32_t flags, Material* material, DrawMode draw_mode)
 	{
-		Item& self = item(parent, model, flags, material, instances);
-		self.m_material = material ? material : &parent.m_scene->m_gfx_system.fetch_symbol_material(symbol, draw_mode);
+		Item& self = item(parent, model, flags, material);
+		self.m_material = material ? material : &parent.m_scene->m_gfx.symbol_material(symbol, draw_mode);
 		return self;
 	}
 
-	Item& shape(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags, Material* material, size_t instances)
+	Item& shape(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags, Material* material)
 	{
 		Item* item = nullptr;
-		Symbol white = { Colour::White, Colour::White };
+		static Symbol white = { Colour::White, Colour::White };
 		if(symbol.fill())
-			item = &shape_item(parent, parent.m_scene->m_gfx_system.fetch_symbol(white, shape, PLAIN), symbol, flags, material, instances, PLAIN);
+			item = &shape_item(parent, parent.m_scene->m_gfx.shape(shape, white, PLAIN), symbol, flags, material, PLAIN);
 		if(symbol.outline())
-			item = &shape_item(parent, parent.m_scene->m_gfx_system.fetch_symbol(white, shape, OUTLINE), symbol, flags, material, instances, OUTLINE);
+			item = &shape_item(parent, parent.m_scene->m_gfx.shape(shape, white, OUTLINE), symbol, flags, material, OUTLINE);
 		return *item;
 	}
 
@@ -3485,37 +4037,37 @@ namespace gfx
 		draw(*parent.m_scene, parent.m_attach->m_transform, shape, symbol, flags);
 	}
 
-	Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags, Material* material, size_t instances)
+	Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags, Material* material)
 	{
-		return shape(parent, Quad(size), { image }, flags, material, instances);
+		return shape(parent, Quad(size), { image }, flags, material);
 	}
 
-	Item* model(Gnode& parent, const string& name, uint32_t flags, Material* material, size_t instances)
+	Item* model(Gnode& parent, const string& name, uint32_t flags, Material* material)
 	{
-		Model* model = parent.m_scene->m_gfx_system.models().file(name.c_str());
+		Model* model = parent.m_scene->m_gfx.models().file(name.c_str());
 		if(model)
-			return &item(parent, *model, flags, material, instances);
+			return &item(parent, *model, flags, material);
 		return nullptr;
 	}
 
-	Animated& animated(Gnode& parent, Item& item)
+	Mime& animated(Gnode& parent, Item& item)
 	{
 		Gnode& self = parent.suba();
 		if(!self.m_animated)
 		{
-			self.m_animated = &create<Animated>(*self.m_scene, *self.m_attach);
+			self.m_animated = &create<Mime>(*self.m_scene);
 			self.m_animated->add_item(item);
 		}
 		return *self.m_animated;
 	}
 
-	Particles& particles(Gnode& parent, const ParticleFlow& emitter, uint32_t flags, size_t instances)
+	Flare& flows(Gnode& parent, const Flow& emitter, uint32_t flags)
 	{
-		UNUSED(flags); UNUSED(instances);
+		UNUSED(flags);
 		Gnode& self = parent.suba();
 		if(!self.m_particles)
-			self.m_particles = &create<Particles>(*self.m_scene, self.m_attach, Sphere(1.f), 1024);
-		as<ParticleFlow>(*self.m_particles) = emitter;
+			self.m_particles = &create<Flare>(*self.m_scene, self.m_attach, Sphere(1.f), 1024);
+		as<Flow>(*self.m_particles) = emitter;
 		self.m_particles->m_node = self.m_attach;
 		self.m_particles->m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites->find_sprite(emitter.m_sprite_name.c_str());
 		return *self.m_particles;
@@ -3537,27 +4089,15 @@ namespace gfx
 
 	Light& direct_light_node(Gnode& parent, const quat& rotation)
 	{
-		Gnode& self = node(parent, {}, Zero3, rotation);
-		Light& l = light(self, LightType::Direct, true, Colour{ 0.8f, 0.8f, 0.7f }, 1.f);
+		Gnode& self = node(parent, {}, vec3(0.f), rotation);
+		Light& l = light(self, LightType::Direct, true, Colour(0.8f, 0.8f, 0.7f), 1.f);
 		l.m_energy = 0.6f;
-		l.m_shadow_flags = CSM_Stabilize;
-#ifdef MUD_PLATFORM_EMSCRIPTEN
-		l.m_shadow_num_splits = 2;
-#else
-		l.m_shadow_num_splits = 4;
-#endif
 		return l;
 	}
 
 	Light& sun_light(Gnode& parent, float azimuth, float elevation)
 	{
 		return direct_light_node(parent, sun_rotation(azimuth, elevation));
-	}
-
-	quat facing(const vec3& direction)
-	{
-		float angle = atan2(direction.x, direction.z);
-		return { cosf(angle / 2.f), 0.f, 1.f * sinf(angle / 2.f), 0.f };
 	}
 
 	Light& direct_light_node(Gnode& parent, const vec3& direction)
@@ -3567,38 +4107,59 @@ namespace gfx
 
 	Light& direct_light_node(Gnode& parent)
 	{
-		return direct_light_node(parent, quat(vec3(-c_pi / 4.f, -c_pi / 4.f, 0.f)));
+		return direct_light_node(parent, quat(vec3(-c_pi4, -c_pi4, 0.f)));
 	}
 
-	void radiance(Gnode& parent, const string& texture, BackgroundMode background)
+	void radiance(Scene& scene, const string& file, BackgroundMode background)
 	{
-		parent.m_scene->m_environment.m_radiance.m_texture = parent.m_scene->m_gfx_system.textures().file(texture.c_str());
-		parent.m_scene->m_environment.m_background.m_mode = background;
+		scene.m_env.m_radiance.m_texture = scene.m_gfx.textures().file(file.c_str());
+		scene.m_env.m_background.m_mode = background;
+	}
+
+	void radiance(Gnode& parent, const string& file, BackgroundMode background)
+	{
+		Texture& texture = *parent.m_scene->m_gfx.textures().file(file.c_str());
+		Zone& env = parent.m_scene->m_env;
+		env.m_radiance.m_texture = &texture;
+		env.m_radiance.m_ambient = Colour(0.7f);
+		env.m_radiance.m_energy = 0.3f;
+		if(background == BackgroundMode::Panorama)
+			env.m_background.m_texture = &texture;
+		env.m_background.m_mode = background;
 	}
 
 	void custom_sky(Gnode& parent, CustomSky renderer)
 	{
-		parent.m_scene->m_environment.m_background.m_custom_function = renderer;
-		parent.m_scene->m_environment.m_background.m_mode = BackgroundMode::Custom;
+		parent.m_scene->m_env.m_background.m_custom_function = renderer;
+		parent.m_scene->m_env.m_background.m_mode = BackgroundMode::Custom;
 	}
 
 	void manual_job(Gnode& parent, PassType pass, ManualJob job)
 	{
-		parent.m_scene->m_pass_jobs->m_jobs[size_t(pass)].push_back(job);
+		parent.m_scene->m_pass_jobs->m_jobs[pass].push_back(job);
 	}
 
-	Material& pbr_material(GfxSystem& gfx_system, cstring name, const PbrMaterialBlock& pbr_block)
+	Material& solid_material(GfxSystem& gfx, const string& name, const Colour& colour)
 	{
-		Program& program = *gfx_system.programs().file("pbr/pbr");
-		Material& material = gfx_system.materials().fetch(name);
+		Program& program = *gfx.programs().file("solid");
+		Material& material = gfx.materials().fetch(name);
 		material.m_program = &program;
-		material.m_pbr_block = pbr_block;
+		material.m_solid.m_colour = colour;
 		return material;
 	}
 
-	Material& pbr_material(GfxSystem& gfx_system, cstring name, const Colour& albedo, float metallic, float roughness)
+	Material& pbr_material(GfxSystem& gfx, const string& name, const MaterialPbr& pbr_block)
 	{
-		return pbr_material(gfx_system, name, { albedo, metallic, roughness });
+		Program& program = *gfx.programs().file("pbr/pbr");
+		Material& material = gfx.materials().fetch(name);
+		material.m_program = &program;
+		material.m_pbr = pbr_block;
+		return material;
+	}
+
+	Material& pbr_material(GfxSystem& gfx, const string& name, const Colour& albedo, float metallic, float roughness)
+	{
+		return pbr_material(gfx, name, { albedo, metallic, roughness });
 	}
 }
 }
@@ -3612,8 +4173,8 @@ module mud.gfx;
 
 namespace mud
 {
-	Import::Import(GfxSystem& gfx_system, const string& filepath, const ImportConfig& config)
-		: m_gfx_system(gfx_system),m_config(config)
+	Import::Import(GfxSystem& gfx, const string& filepath, const ImportConfig& config)
+		: m_gfx(gfx), m_config(config)
 	{
 		m_path = file_directory(filepath);
 		m_file = file_name(filepath);
@@ -3653,26 +4214,34 @@ namespace mud
 		return false;
 	}
 
-	void import_to_prefab(GfxSystem& gfx_system, Prefab& prefab, Import& state, uint32_t flags)
+	void import_to_prefab(GfxSystem& gfx, Prefab& prefab, Import& state, uint32_t flags)
 	{
-		UNUSED(gfx_system);
+		UNUSED(gfx);
 		prefab.m_nodes.reserve(state.m_items.size());
 		prefab.m_items.reserve(state.m_items.size());
 
 		prefab.m_aabb = {};
 
+		for(const Node3& node : state.m_nodes)
+		{
+			prefab.m_nodes.push_back({ node });
+		}
+
 		for(Import::Item& item : state.m_items)
 		{
 			Model& model = *item.model;
-			prefab.m_nodes.push_back({ item.transform });
-			prefab.m_items.push_back({ prefab.m_nodes.back(), model, ItemFlag::Default | flags });
+			Node3& node = prefab.m_nodes[item.node];
+			prefab.m_items.push_back({ item.node, Item(node, model, ItemFlag::Default | flags) });
+
+			prefab.m_aabb.merge(transform_aabb(model.m_aabb, node.m_transform));
 
 			// special hack for occluders
 			if(model.m_items[0].m_mesh->m_material && model.m_items[0].m_mesh->m_material->m_name == "occluder")
-				prefab.m_items.back().m_flags = ItemFlag::Occluder;
-
-			prefab.m_aabb.mergeSafe(transform_aabb(model.m_aabb, item.transform));
+				prefab.m_items.back().item.m_flags = ItemFlag::Occluder;
 		}
+
+		for(Animation* anim : state.m_animations)
+			prefab.m_anims.push_back(anim);
 	}
 }
 
@@ -3686,66 +4255,153 @@ module mud.gfx;
 
 #include <cstring>
 
+#include <cstdio>
+
 namespace mud
 {
+	uint32_t item_flags(uint32_t flags)
+	{
+		if(flags == 0) return ItemFlag::Default;
+		if((flags & ItemFlag::LodAll) == 0) return flags | ItemFlag::LodAll;
+		return flags;
+	}
+
 	Item::Item() {}
-	Item::Item(Node3& node, const Model& model, uint32_t flags, Material* material, size_t instances)
+	Item::Item(Node3& node, const Model& model, uint32_t flags, Material* material)
 		: m_node(&node)
 		, m_model(const_cast<Model*>(&model))
-		, m_flags(flags)
+		, m_flags(item_flags(flags))
 		, m_material(material)
-		, m_instances(instances)
 	{
-		if(flags == 0)
-			m_flags = ItemFlag::Default;
-		if((flags & ItemFlag::LodAll) == 0)
-			m_flags |= ItemFlag::LodAll;
+		this->update_aabb();
 	}
 
-	Item::~Item()
+	void Item::update_aabb()
+	{
+		if(m_batch == nullptr)
+			m_aabb = transform_aabb(m_model->m_aabb, m_node->m_transform);
+	}
+
+	void Item::submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const ModelElem& item) const
+	{
+		if(m_rig && m_rig->m_weights.size() > 0)
+		{
+			float weights[4] = {};
+
+			for(size_t i = 0; i < 4; ++i)
+			{
+				Rig::MorphWeight& w = m_rig->m_weights[i];
+				weights[i] = w.weight;
+				if(w.weight != 0.f)
+					item.m_mesh->submit_morph(encoder, i, w.index);
+			}
+
+			static bgfx::UniformHandle u_morph_weights = bgfx::createUniform("u_morph_weights", bgfx::UniformType::Vec4);
+			encoder.setUniform(u_morph_weights, weights);
+		}
+
+		bgfx_state |= item.m_mesh->submit(encoder);
+
+		if(!item.m_has_transform)
+			encoder.setTransform(value_ptr(m_node->m_transform));
+		else
+		{
+			mat4 transform = m_node->m_transform * item.m_transform;
+			encoder.setTransform(value_ptr(transform));
+		}
+
+		if(m_batch != nullptr)
+			m_batch->submit(encoder, item);
+	}
+
+	Batch::Batch()
+		: m_buffer{}
 	{}
 
-	void Item::update()
+	Batch::Batch(Item& item, uint16_t stride)
+		: m_item(&item)
+		, m_stride(stride)
+		, m_buffer{}
+	{}
+
+	void Batch::submit(bgfx::Encoder& encoder, const ModelElem& item) // const
 	{
-		//if(!m_instances.empty())
-		//	this->update_instances();
+		if(m_cache.size() > 0)
+			this->commit(m_cache);
+
+		encoder.setInstanceDataBuffer(&m_buffer);
+		//encoder.setInstanceDataBuffer(&m_buffers[item.m_index]);
 	}
 
-	void Item::update_instances()
+	void Batch::update_aabb(span<mat4> instances)
 	{
-		m_instance_buffers.resize(m_model->m_items.size());
-
-		for(const ModelItem& item : m_model->m_items)
+		const Aabb& model = m_item->m_model->m_aabb;
+		Aabb& aabb = m_item->m_aabb;
+		aabb = {};
+		for(const mat4& transform : instances)
 		{
-			bgfx::InstanceDataBuffer& buffer = m_instance_buffers[item.m_index];
-			uint32_t num = bgfx::getAvailInstanceDataBuffer(uint32_t(m_instances.size()), sizeof(mat4));
-			if(num == 0)
-				return;
-			bgfx::allocInstanceDataBuffer(&buffer, num, sizeof(mat4));
-
-			mat4* mat = (mat4*)buffer.data;
-
-			if(item.m_has_transform)
-			{
-				for(uint32_t i = 0; i < buffer.num; ++i)
-					*mat++ = m_instances[i] * item.m_transform;
-			}
-			else
-			{
-				memcpy(mat, m_instances.data(), m_instances.size());
-			}
+			aabb.merge(transform_aabb(model, transform));
 		}
 	}
 
-	void Item::submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const ModelItem& item) const
+	span<float> Batch::begin(uint32_t count)
 	{
-		bgfx_state |= item.m_mesh->submit(encoder);
+		uint32_t num = bgfx::getAvailInstanceDataBuffer(count, m_stride);
+		if(num == 0) return {};
+		bgfx::allocInstanceDataBuffer(&m_buffer, num, m_stride);
+		return { (float*)m_buffer.data, num * m_stride / sizeof(float) };
+	}
 
-		mat4 transform = m_node->m_transform * item.m_transform;
-		encoder.setTransform(value_ptr(transform));
+	void Batch::commit(span<float> data)
+	{
+		const uint32_t count = uint32_t(data.size() * sizeof(float) / m_stride);
+		span<float> dest = this->begin(count);
+		memcpy(dest.data(), data.data(), dest.size() * sizeof(float));
+	}
 
-		if(!m_instances.empty())
-			encoder.setInstanceDataBuffer(&m_instance_buffers[item.m_index]);
+	void Batch::cache(span<float> data)
+	{
+		const uint32_t count = uint32_t(m_cache.size() * sizeof(float) / m_stride);
+		m_cache.assign(data.begin(), data.end());
+	}
+
+	void Batch::transforms(span<mat4> instances)
+	{
+		const Model& model = *m_item->m_model;
+		if(model.m_no_transform)
+		{
+			bgfx::InstanceDataBuffer& buffer = m_buffer;
+			uint32_t num = bgfx::getAvailInstanceDataBuffer(uint32_t(instances.size()), sizeof(mat4));
+			if(num == 0) return;
+			bgfx::allocInstanceDataBuffer(&buffer, num, sizeof(mat4));
+
+			mat4* mat = (mat4*)buffer.data;
+			memcpy(mat, instances.data(), instances.size() * sizeof(mat4));
+		}
+		else
+		{
+			m_buffers.resize(model.m_items.size());
+
+			for(const ModelElem& item : model.m_items)
+			{
+				bgfx::InstanceDataBuffer& buffer = m_buffers[item.m_index];
+				uint32_t num = bgfx::getAvailInstanceDataBuffer(uint32_t(instances.size()), sizeof(mat4));
+				if(num == 0) return;
+				bgfx::allocInstanceDataBuffer(&buffer, num, sizeof(mat4));
+
+				mat4* mat = (mat4*)buffer.data;
+
+				if(item.m_has_transform)
+				{
+					for(uint32_t i = 0; i < buffer.num; ++i)
+						*mat++ = instances[i] * item.m_transform;
+				}
+				else
+				{
+					memcpy(mat, instances.data(), instances.size() * sizeof(mat4));
+				}
+			}
+		}
 	}
 }
 
@@ -3757,52 +4413,35 @@ module mud.gfx;
 
 namespace mud
 {
-	Light::Light(Node3& node, LightType type, bool shadows)
-		: m_node(node)
+	//static uint32_t s_light_index = 0;
+
+	Light::Light(Node3& node, LightType type, bool shadows, Colour colour, float energy, float range)
+		: m_node(&node)
 		, m_type(type)
+		, m_colour(colour)
+		, m_range(range)
+		, m_energy(energy)
 		, m_shadows(shadows)
+		//, m_index(s_light_index++)
 	{
-		m_shadow_bias = 0.1f;
+		m_shadow_bias = 0.01f;
 		m_shadow_normal_bias = 0.f; // @todo investigate why making this higher fucks up the first shadow slice
+
+		m_attenuation = 1.f;
 
 		if(type != LightType::Spot)
 			m_spot_angle = 0.f;
-	}
 
-	Light::~Light()
-	{}
-}
-
-
-#ifdef MUD_MODULES
-module mud.gfx;
+		if(type == LightType::Direct)
+		{
+			m_shadow_flags = CSM_Stabilize;
+			m_shadow_bias = 0.1f;
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+			m_shadow_num_splits = 2;
 #else
+			m_shadow_num_splits = 4;
 #endif
-
-namespace mud
-{
-	ManualRender::ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect)
-		: m_render(render)
-		, m_camera()
-		, m_viewport(m_camera, render.m_scene, viewport_rect)
-		, m_sub_render(shading, m_viewport, fbo, render.m_frame)
-	{
-		m_sub_render.m_shot->m_lights = m_render.m_shot->m_lights;
-	}
-
-	ManualRender::ManualRender(Render& render, Shading shading, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection, bool ortho)
-		: m_render(render)
-		, m_camera(transform, projection, ortho)
-		, m_viewport(m_camera, render.m_scene, viewport_rect)
-		, m_sub_render(shading, m_viewport, fbo, render.m_frame)
-	{
-		m_sub_render.m_shot->m_lights = m_render.m_shot->m_lights;
-	}
-
-	void ManualRender::render(Renderer& renderer)
-	{
-		renderer.render(m_sub_render);
-		m_render.m_pass_index = m_sub_render.m_pass_index;
+		}
 	}
 }
 
@@ -3816,14 +4455,33 @@ module mud.gfx;
 //#include <gfx-pbr/Lightmap.h>
 #endif
 
+#include <cstring>
+#include <cstdio>
+
 namespace mud
 {
+	bool is_valid(Texture* texture) { return texture != nullptr && texture->valid(); };
+
 	template struct MaterialParam<Colour>;
 	template struct MaterialParam<float>;
+	template struct MaterialParam<vec4>;
+
+	GpuState<MaterialBase> GpuState<MaterialBase>::me;
+	GpuState<MaterialAlpha> GpuState<MaterialAlpha>::me;
+	GpuState<MaterialSolid> GpuState<MaterialSolid>::me;
+	GpuState<MaterialPoint> GpuState<MaterialPoint>::me;
+	GpuState<MaterialLine> GpuState<MaterialLine>::me;
+	GpuState<MaterialLit> GpuState<MaterialLit>::me;
+	GpuState<MaterialPbr> GpuState<MaterialPbr>::me;
+	GpuState<MaterialPhong> GpuState<MaterialPhong>::me;
+	GpuState<MaterialUser> GpuState<MaterialUser>::me;
+	GpuState<Material> GpuState<Material>::me;
 
 	void blend_state(BlendMode blend_mode, uint64_t& bgfx_state)
 	{
-		if(blend_mode == BlendMode::Mix)
+		if(blend_mode == BlendMode::None)
+			;
+		else if(blend_mode == BlendMode::Mix)
 			bgfx_state |= BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_ALPHA, BGFX_STATE_BLEND_INV_SRC_ALPHA);
 		else if(blend_mode == BlendMode::Add)
 			//bgfx_state |= BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_ALPHA, BGFX_STATE_BLEND_ONE);
@@ -3839,300 +4497,618 @@ namespace mud
 			bgfx_state |= BGFX_STATE_BLEND_ALPHA;
 	}
 
-	struct BaseMaterialUniform
+	struct MaterialBlockBase
 	{
-		BaseMaterialUniform() {}
-		BaseMaterialUniform(GfxSystem& gfx_system)
-			: u_uv0_scale_offset(bgfx::createUniform("u_material_params_0", bgfx::UniformType::Vec4))
-			, u_uv1_scale_offset(bgfx::createUniform("u_material_params_1", bgfx::UniformType::Vec4))
-			, s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Int1))
+		MaterialBlockBase() {}
+		MaterialBlockBase(GfxSystem& gfx)
+			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
-			UNUSED(gfx_system);
+			UNUSED(gfx);
+#if !MATERIALS_BUFFER
+			GpuState<MaterialBase>::me.init();
+#endif
 		}
 
-		void upload(bgfx::Encoder& encoder, const BaseMaterialBlock& data) const
+		void prepare(const Pass& pass) const
 		{
-			encoder.setUniform(u_uv0_scale_offset, &data.m_uv0_scale.x);
-			//encoder.setUniform(u_uv1_scale_offset, &data.m_uv1_scale.x);
+			uint32_t skeleton = uint32_t(TextureSampler::Skeleton);
+			bgfx::setViewUniform(pass.m_index, s_skeleton, &skeleton);
 		}
 
-		bgfx::UniformHandle u_uv0_scale_offset;
-		bgfx::UniformHandle u_uv1_scale_offset;
+		void upload(bgfx::Encoder& encoder, const MaterialBase& block) const
+		{
+			UNUSED(encoder); UNUSED(block);
+#if !MATERIALS_BUFFER
+			GpuState<MaterialBase>::me.upload(encoder, block);
+#endif
+		}
+
 		bgfx::UniformHandle s_skeleton;
 	};
 
-	struct UnshadedMaterialUniform
+	struct MaterialBlockAlpha
 	{
-		UnshadedMaterialUniform() {}
-		UnshadedMaterialUniform(GfxSystem& gfx_system)
-			: m_white_tex (&gfx_system.default_texture(TextureHint::White))
-			, u_color(bgfx::createUniform("u_color", bgfx::UniformType::Vec4))
-			, s_color (bgfx::createUniform("s_color", bgfx::UniformType::Int1))
-		{}
-
-		void upload(bgfx::Encoder& encoder, const UnshadedMaterialBlock& block) const
+		MaterialBlockAlpha() {}
+		MaterialBlockAlpha(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
+			, s_alpha(bgfx::createUniform("s_alpha", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
-			vec4 colour = to_vec4(block.m_colour.m_value);
-			encoder.setUniform(u_color, &colour);
+#if !MATERIALS_BUFFER
+			GpuState<MaterialAlpha>::me.init();
+#endif
+		}
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), s_color, block.m_colour.m_texture ? block.m_colour.m_texture->m_texture : m_white_tex->m_texture);
+		void prepare(const Pass& pass) const
+		{
+			uint32_t alpha = uint32_t(TextureSampler::Alpha);
+			bgfx::setViewUniform(pass.m_index, s_alpha, &alpha);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialAlpha& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialAlpha>::me.upload(encoder, block);
+#endif
+			encoder.setTexture(uint8_t(TextureSampler::Alpha), is_valid(block.m_alpha.m_texture) ? *block.m_alpha.m_texture : *m_white_tex);
 		}
 
 		Texture* m_white_tex;
 
-		bgfx::UniformHandle u_color;
+		bgfx::UniformHandle s_alpha;
+	};
+
+	struct MaterialBlockSolid
+	{
+		MaterialBlockSolid() {}
+		MaterialBlockSolid(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
+			, s_color(bgfx::createUniform("s_color", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialSolid>::me.init();
+#endif
+		}
+
+		void prepare(const Pass& pass) const
+		{
+			uint32_t color = uint32_t(TextureSampler::Color);
+			bgfx::setViewUniform(pass.m_index, s_color, &color);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialSolid& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialSolid>::me.upload(encoder, block);
+#endif
+
+			encoder.setTexture(uint8_t(TextureSampler::Color), block.m_colour.m_texture ? *block.m_colour.m_texture : *m_white_tex);
+		}
+
+		Texture* m_white_tex;
+
 		bgfx::UniformHandle s_color;
 	};
 
-	struct FresnelMaterialUniform
+	struct MaterialBlockPoint
 	{
-		FresnelMaterialUniform() {}
-		FresnelMaterialUniform(GfxSystem& gfx_system)
-			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
-			, u_fresnel_params(bgfx::createUniform("u_fresnel_params", bgfx::UniformType::Vec4))
-			, u_fresnel_value(bgfx::createUniform("u_fresnel_value", bgfx::UniformType::Vec4))
-			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Int1))
-		{}
-
-		void upload(bgfx::Encoder& encoder, const FresnelMaterialBlock& block) const
+		MaterialBlockPoint() {}
+		MaterialBlockPoint(GfxSystem& gfx)
 		{
-			vec4 value = to_vec4(block.m_value.m_value);
-			vec4 params = { block.m_fresnel_bias, block.m_fresnel_scale, block.m_fresnel_power, 1.f };
-			encoder.setUniform(u_fresnel_value, &value);
-			encoder.setUniform(u_fresnel_params, &params);
+			UNUSED(gfx);
+#if !MATERIALS_BUFFER
+			GpuState<MaterialPoint>::me.init();
+#endif
+		}
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), s_fresnel, block.m_value.m_texture ? block.m_value.m_texture->m_texture : m_white_tex->m_texture);
+		void prepare(const Pass& pass) const
+		{
+			UNUSED(pass);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialPoint& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialPoint>::me.upload(encoder, block);
+#endif
+		}
+	};
+
+	struct MaterialBlockLine
+	{
+		MaterialBlockLine() {}
+		MaterialBlockLine(GfxSystem& gfx)
+		{
+			UNUSED(gfx);
+#if !MATERIALS_BUFFER
+			GpuState<MaterialLine>::me.init();
+#endif
+		}
+
+		void prepare(const Pass& pass) const
+		{
+			UNUSED(pass);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialLine& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialLine>::me.upload(encoder, block);
+#endif
+		}
+	};
+
+	struct MaterialBlockFresnel
+	{
+		MaterialBlockFresnel() {}
+		MaterialBlockFresnel(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
+			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+		{
+#if !MATERIALS_BUFFER
+			//GpuState<MaterialFresnel>::me.init();
+#endif
+		}
+
+		void prepare(const Pass& pass) const
+		{
+			uint8_t color = int8_t(TextureSampler::Color);
+			bgfx::setViewUniform(pass.m_index, s_fresnel, &color);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialFresnel& block) const
+		{
+#if !MATERIALS_BUFFER
+			//GpuState<MaterialFresnel>::me.upload(encoder, block);
+#endif
+
+			encoder.setTexture(uint8_t(TextureSampler::Color), block.m_value.m_texture ? *block.m_value.m_texture : *m_white_tex);
 		}
 
 		Texture* m_white_tex;
 
-		bgfx::UniformHandle u_fresnel_params;
-		bgfx::UniformHandle u_fresnel_value;
 		bgfx::UniformHandle s_fresnel;
 	};
 
-	struct PbrMaterialUniform
+	struct MaterialBlockUser
 	{
-		PbrMaterialUniform() {}
-		PbrMaterialUniform(GfxSystem& gfx_system)
-			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
-			, m_black_tex (&gfx_system.default_texture(TextureHint::Black))
-			, m_normal_tex(&gfx_system.default_texture(TextureHint::Normal))
-			, u_albedo(bgfx::createUniform("u_albedo", bgfx::UniformType::Vec4))
-			, u_pbr_params_0(bgfx::createUniform("u_pbr_params_0", bgfx::UniformType::Vec4))
-			, u_pbr_params_1(bgfx::createUniform("u_pbr_params_1", bgfx::UniformType::Vec4))
-			, u_pbr_channels_0(bgfx::createUniform("u_pbr_channels_0", bgfx::UniformType::Vec4))
-			, u_emissive(bgfx::createUniform("u_emissive", bgfx::UniformType::Vec4))
-			//, u_lightmap_params(bgfx::createUniform("u_lightmap_params", bgfx::UniformType::Vec4))
-			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Int1))
-			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Int1))
-			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Int1))
-			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformType::Int1))
-			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Int1))
-			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Int1))
-			, s_ambient_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Int1))
-			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Int1))
-		{}
-
-		void upload(bgfx::Encoder& encoder, const PbrMaterialBlock& block) const
+		MaterialBlockUser() {}
+		MaterialBlockUser(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
+			, s_user0(bgfx::createUniform("s_user0", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_user1(bgfx::createUniform("s_user1", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_user2(bgfx::createUniform("s_user2", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_user3(bgfx::createUniform("s_user3", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_user4(bgfx::createUniform("s_user4", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_user5(bgfx::createUniform("s_user5", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
 		{
-			vec4 albedo = to_vec4(block.m_albedo.m_value);
-			encoder.setUniform(u_albedo, &albedo);
+#if !MATERIALS_BUFFER
+			GpuState<MaterialUser>::me.init();
+#endif
+		}
 
-			vec4 spec_met_rough = { block.m_specular, block.m_metallic.m_value, block.m_roughness.m_value, block.m_normal.m_value };
-			encoder.setUniform(u_pbr_params_0, &spec_met_rough);
+		void prepare(const Pass& pass) const
+		{
+			uint32_t user0 = uint32_t(TextureSampler::User0);
+			uint32_t user1 = uint32_t(TextureSampler::User1);
+			uint32_t user2 = uint32_t(TextureSampler::User2);
+			uint32_t user3 = uint32_t(TextureSampler::User3);
+			uint32_t user4 = uint32_t(TextureSampler::User4);
+			uint32_t user5 = uint32_t(TextureSampler::User5);
 
-			vec4 emissive = to_vec4(block.m_emissive.m_value);
-			encoder.setUniform(u_emissive, &emissive);
+			bgfx::setViewUniform(pass.m_index, s_user0, &user0);
+			bgfx::setViewUniform(pass.m_index, s_user1, &user1);
+			bgfx::setViewUniform(pass.m_index, s_user2, &user2);
+			bgfx::setViewUniform(pass.m_index, s_user3, &user3);
+			bgfx::setViewUniform(pass.m_index, s_user4, &user4);
+			bgfx::setViewUniform(pass.m_index, s_user5, &user5);
+		}
 
-			vec4 pbr_params_1 = { block.m_anisotropy.m_value, block.m_refraction.m_value, block.m_subsurface.m_value, block.m_depth.m_value };
-			encoder.setUniform(u_pbr_params_1, &pbr_params_1);
+		void upload(bgfx::Encoder& encoder, const MaterialUser& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialUser>::me.upload(encoder, block);
+#endif
 
-			vec4 pbr_channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), 0.f, 0.f };
-			encoder.setUniform(u_pbr_channels_0, &pbr_channels);
+			if(is_valid(block.m_tex0)) encoder.setTexture(uint8_t(TextureSampler::User0), *block.m_tex0);
+			if(is_valid(block.m_tex1)) encoder.setTexture(uint8_t(TextureSampler::User1), *block.m_tex1);
+			if(is_valid(block.m_tex2)) encoder.setTexture(uint8_t(TextureSampler::User2), *block.m_tex2);
+			if(is_valid(block.m_tex3)) encoder.setTexture(uint8_t(TextureSampler::User3), *block.m_tex3);
+			if(is_valid(block.m_tex4)) encoder.setTexture(uint8_t(TextureSampler::User4), *block.m_tex4);
+			if(is_valid(block.m_tex5)) encoder.setTexture(uint8_t(TextureSampler::User5), *block.m_tex5);
+		}
 
-			auto is_valid = [](Texture* texture) { return texture != nullptr && bgfx::isValid(texture->m_texture); };
+		Texture* m_white_tex;
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), s_albedo, is_valid(block.m_albedo.m_texture) ? block.m_albedo.m_texture->m_texture : m_white_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::Metallic), s_metallic, is_valid(block.m_metallic.m_texture) ? block.m_metallic.m_texture->m_texture : m_white_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::Roughness), s_roughness, is_valid(block.m_roughness.m_texture) ? block.m_roughness.m_texture->m_texture : m_white_tex->m_texture);
+		bgfx::UniformHandle s_user0;
+		bgfx::UniformHandle s_user1;
+		bgfx::UniformHandle s_user2;
+		bgfx::UniformHandle s_user3;
+		bgfx::UniformHandle s_user4;
+		bgfx::UniformHandle s_user5;
+	};
+	
+	struct MaterialBlockLit
+	{
+		MaterialBlockLit() {}
+		MaterialBlockLit(GfxSystem& gfx)
+			: m_black_tex (&gfx.default_texture(TextureHint::Black))
+			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_displace(bgfx::createUniform("s_displace", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialLit>::me.init();
+#endif
+		}
+
+		void prepare(const Pass& pass) const
+		{
+			uint32_t normal    = uint32_t(TextureSampler::Normal);
+			uint32_t emissive  = uint32_t(TextureSampler::Emissive);
+			uint32_t ao        = uint32_t(TextureSampler::AO);
+			uint32_t displace  = uint32_t(TextureSampler::Displace);
+
+			bgfx::setViewUniform(pass.m_index, s_normal, &normal);
+			bgfx::setViewUniform(pass.m_index, s_emissive, &emissive);
+			bgfx::setViewUniform(pass.m_index, s_occlusion, &ao);
+			bgfx::setViewUniform(pass.m_index, s_displace, &displace);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialLit& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialLit>::me.upload(encoder, block);
+#endif
 
 			if(is_valid(block.m_normal.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Normal), s_normal, block.m_normal.m_texture->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Normal), *block.m_normal.m_texture);
 
 			if(is_valid(block.m_emissive.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Emissive), s_emissive, block.m_emissive.m_texture->m_texture);
-			else if(block.m_emissive.m_value.m_a > 0.f)
-				encoder.setTexture(uint8_t(TextureSampler::Emissive), s_emissive, m_black_tex->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), *block.m_emissive.m_texture);
+			else if(block.m_emissive.m_value.a > 0.f)
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), *m_black_tex);
+
+			if(is_valid(block.m_occlusion.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::AO), *block.m_occlusion.m_texture);
+
+			if(is_valid(block.m_displace.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Displace), *block.m_displace.m_texture);
+		}
+
+		Texture* m_black_tex;
+
+		bgfx::UniformHandle s_emissive;
+		bgfx::UniformHandle s_normal;
+		bgfx::UniformHandle s_occlusion;
+		//bgfx::UniformHandle s_lightmap;
+		bgfx::UniformHandle s_displace;
+	};
+
+	struct MaterialBlockPbr
+	{
+		MaterialBlockPbr() {}
+		MaterialBlockPbr(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
+			, m_black_tex (&gfx.default_texture(TextureHint::Black))
+			, m_normal_tex(&gfx.default_texture(TextureHint::Normal))
+			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialPbr>::me.init();
+#endif
+		}
+
+		void prepare(const Pass& pass) const
+		{
+			uint32_t albedo    = uint32_t(TextureSampler::Color);
+			uint32_t metallic  = uint32_t(TextureSampler::Metallic);
+			uint32_t roughness = uint32_t(TextureSampler::Roughness);
+			//uint32_t depth     = uint32_t(TextureSampler::Depth);
+
+			bgfx::setViewUniform(pass.m_index, s_albedo, &albedo);
+			bgfx::setViewUniform(pass.m_index, s_metallic, &metallic);
+			bgfx::setViewUniform(pass.m_index, s_roughness, &roughness);
+			//bgfx::setViewUniform(pass.m_index, s_depth, &depth);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialPbr& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialPbr>::me.upload(encoder, block);
+#endif
+
+			encoder.setTexture(uint8_t(TextureSampler::Color), is_valid(block.m_albedo.m_texture) ? *block.m_albedo.m_texture : *m_white_tex);
+			encoder.setTexture(uint8_t(TextureSampler::Metallic), is_valid(block.m_metallic.m_texture) ? *block.m_metallic.m_texture : *m_white_tex);
+			encoder.setTexture(uint8_t(TextureSampler::Roughness), is_valid(block.m_roughness.m_texture) ? *block.m_roughness.m_texture : *m_white_tex);
 
 			if(is_valid(block.m_depth.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Depth), s_depth, block.m_depth.m_texture->m_texture);
-			
-			if(is_valid(block.m_ambient_occlusion.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::AO), s_ambient_occlusion, block.m_ambient_occlusion.m_texture->m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Depth), *block.m_depth.m_texture);
 		}
 
 		Texture* m_white_tex;
 		Texture* m_black_tex;
 		Texture* m_normal_tex;
 
-		bgfx::UniformHandle u_albedo;
-		bgfx::UniformHandle u_pbr_params_0;
-		bgfx::UniformHandle u_pbr_params_1;
-		bgfx::UniformHandle u_pbr_channels_0;
-		bgfx::UniformHandle u_emissive;
-		//bgfx::UniformHandle u_lightmap_params;
-
 		bgfx::UniformHandle s_albedo;
 		bgfx::UniformHandle s_metallic;
 		bgfx::UniformHandle s_roughness;
-		bgfx::UniformHandle s_emissive;
-		bgfx::UniformHandle s_normal;
 		bgfx::UniformHandle s_depth;
-		bgfx::UniformHandle s_ambient_occlusion;
 		//bgfx::UniformHandle s_lightmap;
 	};
 
-	struct PbrBlock : public GfxBlock
+
+	struct MaterialBlockPhong
 	{
-		PbrBlock(GfxSystem& gfx_system);
+		MaterialBlockPhong() {}
+		MaterialBlockPhong(GfxSystem& gfx)
+			: m_white_tex(&gfx.default_texture(TextureHint::White))
+			, s_diffuse(bgfx::createUniform("s_diffuse", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_specular(bgfx::createUniform("s_specular", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_shininess(bgfx::createUniform("s_shininess", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialPhong>::me.init();
+#endif
+		}
 
-		virtual void init_block() override {}
+		void prepare(const Pass& pass) const
+		{
+			uint32_t diffuse = uint32_t(TextureSampler::Diffuse);
+			uint32_t specular = uint32_t(TextureSampler::Specular);
+			uint32_t shininess = uint32_t(TextureSampler::Shininess);
 
-		virtual void begin_render(Render& render) override { UNUSED(render); }
-		virtual void begin_pass(Render& render) override { UNUSED(render); }
+			bgfx::setViewUniform(pass.m_index, s_diffuse, &diffuse);
+			bgfx::setViewUniform(pass.m_index, s_specular, &specular);
+			bgfx::setViewUniform(pass.m_index, s_shininess, &shininess);
+		}
+
+		void upload(bgfx::Encoder& encoder, const MaterialPhong& block) const
+		{
+#if !MATERIALS_BUFFER
+			GpuState<MaterialPhong>::me.upload(encoder, block);
+#endif
+
+			encoder.setTexture(uint8_t(TextureSampler::Diffuse), is_valid(block.m_diffuse.m_texture) ? *block.m_diffuse.m_texture : *m_white_tex);
+			encoder.setTexture(uint8_t(TextureSampler::Specular), is_valid(block.m_specular.m_texture) ? *block.m_specular.m_texture : *m_white_tex);
+			encoder.setTexture(uint8_t(TextureSampler::Shininess), is_valid(block.m_shininess.m_texture) ? *block.m_shininess.m_texture : *m_white_tex);
+		}
+
+		Texture* m_white_tex;
+
+		bgfx::UniformHandle s_diffuse;
+		bgfx::UniformHandle s_specular;
+		bgfx::UniformHandle s_shininess;
 	};
 
-	PbrBlock::PbrBlock(GfxSystem& gfx_system)
-		: GfxBlock(gfx_system, *this)
-	{
-		static cstring options[7] = {
-			"NORMAL_MAP",
-			"EMISSIVE",
-			"ANISOTROPY",
-			"AMBIENT_OCCLUSION",
-			"DEPTH_MAPPING",
-			"DEEP_PARALLAX",
-			"LIGHTMAP"
-		};
-		m_shader_block->m_options = { options, 7 };
-	}
-
-	template <> Type& type<mud::PbrBlock>() { static Type ty("PbrBlock"); return ty; }
-
-	GfxBlock& pbr_block(GfxSystem& gfx_system)
-	{
-		static PbrBlock pbr = { gfx_system };
-		return pbr;
-	}
-
-	//static TypedUniformBlock<BaseMaterialBlock> s_base_material_block = { "material" };
-	//static TypedUniformBlock<UnshadedMaterialBlock> s_unshaded_material_block = { "unshaded" };
-	//static TypedUniformBlock<PbrMaterialBlock> s_pbr_material_block = { "pbr" };
-
-	GfxSystem* Material::ms_gfx_system = nullptr;
+	GfxSystem* Material::ms_gfx = nullptr;
 
 	void load_material(Material& material, Program& program)
 	{
 		material.m_program = &program;
 	}
 
-	//static uint16_t s_material_index = 0;
+	static uint16_t s_material_index = 0;
 
-	static BaseMaterialUniform s_base_material_uniform = {};
-	static UnshadedMaterialUniform s_unshaded_material_block = {};
-	static FresnelMaterialUniform s_fresnel_material_block = {};
-	static PbrMaterialUniform s_pbr_material_block = {};
+	static MaterialBlockBase s_base_material_block = {};
+	static MaterialBlockAlpha s_alpha_material_block = {};
+	static MaterialBlockSolid s_solid_material_block = {};
+	static MaterialBlockLine s_line_material_block = {};
+	static MaterialBlockPoint s_point_material_block = {};
+	static MaterialBlockFresnel s_fresnel_material_block = {};
+	static MaterialBlockLit s_lit_material_block = {};
+	static MaterialBlockPbr s_pbr_material_block = {};
+	static MaterialBlockPhong s_phong_material_block = {};
+	static MaterialBlockUser s_user_material_block = {};
+
+	ShaderBlock MaterialBase::s_block = ShaderBlock({ "VERTEX_COLOR", "DOUBLE_SIDED", "FLAT_SHADED" }, {});
+	ShaderBlock MaterialAlpha::s_block = ShaderBlock({ "ALPHA_MAP", "ALPHA_TEST" }, {});
+	ShaderBlock MaterialSolid::s_block = ShaderBlock();
+	ShaderBlock MaterialLine::s_block = ShaderBlock({ "DASH" }, {});
+	ShaderBlock MaterialPoint::s_block = ShaderBlock();
+	ShaderBlock MaterialFresnel::s_block = ShaderBlock();
+	ShaderBlock MaterialLit::s_block = ShaderBlock({ "NORMAL_MAP", "EMISSIVE", "AMBIENT_OCCLUSION", "LIGHTMAP", "DISPLACEMENT" }, {});
+	ShaderBlock MaterialPbr::s_block = ShaderBlock({ "DEPTH_MAPPING", "DEEP_PARALLAX" }, { "DIFFUSE_MODE", "SPECULAR_MODE" }); // "REFRACTION", "ANISOTROPY", 
+	ShaderBlock MaterialPhong::s_block = ShaderBlock({ "REFRACTION", "TOON" }, { "ENV_BLEND" });
+	ShaderBlock MaterialUser::s_block = ShaderBlock();
 
 	Material::Material(const string& name)
-		: m_index(uint16_t(index(type<Material>(), Ref(this))))//++s_material_index)
+		: m_index(s_material_index++) // uint16_t(index(type<Material>(), Ref(this))))//
 		, m_name(name)
 	{
+		m_pbr.m_diffuse_mode = PbrDiffuseMode::Lambert;
+
 		static bool init_blocks = true;
 		if(init_blocks)
 		{
-			s_base_material_uniform = { *ms_gfx_system };
-			s_unshaded_material_block = { *ms_gfx_system };
-			s_fresnel_material_block = { *ms_gfx_system };
-			s_pbr_material_block = { *ms_gfx_system };
+			s_base_material_block = { *ms_gfx };
+			s_alpha_material_block = { *ms_gfx };
+			s_solid_material_block = { *ms_gfx };
+			s_line_material_block = { *ms_gfx };
+			s_point_material_block = { *ms_gfx };
+			s_fresnel_material_block = { *ms_gfx };
+			s_lit_material_block = { *ms_gfx };
+			s_pbr_material_block = { *ms_gfx };
+			s_phong_material_block = { *ms_gfx };
+			s_user_material_block = { *ms_gfx };
 
 			init_blocks = false;
 		}
 	}
 
-	ShaderVersion Material::shader_version(const Program& program) const
+	ProgramVersion Material::program(const Program& program) const
 	{
-		GfxBlock& pbr = pbr_block(*ms_gfx_system);
+		ProgramVersion version = { program };
 
-		ShaderVersion version = { &program };
+		version.set_option(MaterialBase::s_block.m_index, VERTEX_COLOR, m_base.m_shader_color == ShaderColor::Vertex);
+		version.set_option(MaterialBase::s_block.m_index, DOUBLE_SIDED, m_base.m_cull_mode == CullMode::None);
+		version.set_option(MaterialBase::s_block.m_index, FLAT_SHADED, m_base.m_flat_shaded);
 
-		auto is_valid = [](Texture* texture) { return texture != nullptr && bgfx::isValid(texture->m_texture); };
-
-		if(m_pbr_block.m_enabled)
+		if(program.m_blocks[MaterialBlock::Alpha])
 		{
-			if(is_valid(m_pbr_block.m_normal.m_texture))
-				version.set_option(pbr.m_index, NORMAL_MAP);
-			if(is_valid(m_pbr_block.m_emissive.m_texture) || m_pbr_block.m_emissive.m_value.m_a > 0.f)
-				version.set_option(pbr.m_index, EMISSIVE);
-			if(is_valid(m_pbr_block.m_ambient_occlusion.m_texture))
-				version.set_option(pbr.m_index, AMBIENT_OCCLUSION);
-			if(is_valid(m_pbr_block.m_depth.m_texture))
-				version.set_option(pbr.m_index, DEPTH_MAPPING);
-			if(m_pbr_block.m_deep_parallax)
-				version.set_option(pbr.m_index, DEEP_PARALLAX);
+			//version.set_option(MaterialAlpha::s_block.m_index, ALPHA, m_alpha.m_is_alpha);
+			version.set_option(MaterialAlpha::s_block.m_index, ALPHA_TEST, m_alpha.m_alpha_test);
+			version.set_option(MaterialAlpha::s_block.m_index, ALPHA_MAP, is_valid(m_alpha.m_alpha.m_texture));
+		}
+
+		if(program.m_blocks[MaterialBlock::Line])
+		{
+			version.set_option(MaterialLine::s_block.m_index, DASH, m_line.m_dashed);
+		}
+
+		if(program.m_blocks[MaterialBlock::Lit])
+		{
+			version.set_option(MaterialLit::s_block.m_index, NORMAL_MAP, is_valid(m_lit.m_normal.m_texture));
+			version.set_option(MaterialLit::s_block.m_index, EMISSIVE, is_valid(m_lit.m_emissive.m_texture) || m_lit.m_emissive.m_value.a > 0.f);
+			version.set_option(MaterialLit::s_block.m_index, AMBIENT_OCCLUSION, is_valid(m_lit.m_occlusion.m_texture));
+			version.set_option(MaterialLit::s_block.m_index, DISPLACEMENT, is_valid(m_lit.m_displace.m_texture));
+		}
+
+		if(program.m_blocks[MaterialBlock::Pbr])
+		{
+			version.set_mode(MaterialPbr::s_block.m_index, DIFFUSE_MODE, uint8_t(m_pbr.m_diffuse_mode));
+			version.set_mode(MaterialPbr::s_block.m_index, SPECULAR_MODE, uint8_t(m_pbr.m_specular_mode));
+
+			//version.set_option(MaterialPbr::s_block.m_index, REFRACTION, m_pbr.m_refraction.m_value != 0.f);
+			version.set_option(MaterialPbr::s_block.m_index, DEPTH_MAPPING, is_valid(m_pbr.m_depth.m_texture));
+			version.set_option(MaterialPbr::s_block.m_index, DEEP_PARALLAX, m_pbr.m_deep_parallax);
+		}
+
+		if(program.m_blocks[MaterialBlock::Phong])
+		{
+			version.set_mode(MaterialPhong::s_block.m_index, ENV_BLEND, uint8_t(m_phong.m_env_blend));
+
+			version.set_option(MaterialPhong::s_block.m_index, REFRACTION, m_phong.m_refraction.m_value != 0.f);
+			version.set_option(MaterialPhong::s_block.m_index, TOON, m_phong.m_toon);
 		}
 
 		return version;
 	}
 
-	ShaderVersion Material::shader_version(const Program& program, const Item& item, const ModelItem& model_item) const
+	ProgramVersion Material::program(const Program& program, const Item& item, const ModelElem& elem) const
 	{
-		ShaderVersion version = this->shader_version(program);
-		UNUSED(item); UNUSED(model_item);
-#if 0
-		PbrBlock& pbr = pbr_block(*ms_gfx_system);
+		ProgramVersion version = this->program(program);
+		
+		const bool colours = (elem.m_mesh->m_vertex_format & VertexAttribute::Colour) != 0;
 
-		if(item.m_lightmaps.size() > 0)
-		{
-			LightmapItem& binding = *item.m_lightmaps[model_item.m_index];
-			if(bgfx::isValid(binding.m_lightmap))
-			{
-				version.set_option(pbr.m_index, LIGHTMAP);
-			}
-		}
-#endif
+		version.set_option(MaterialBase::s_block.m_index, VERTEX_COLOR, colours && m_base.m_shader_color == ShaderColor::Vertex);
+
+		//if(item.m_lightmaps.size() > 0)
+		//{
+		//	LightmapItem& binding = *item.m_lightmaps[elem.m_index];
+		//	if(bgfx::isValid(binding.m_lightmap))
+		//	{
+		//		version.set_option(pbr.m_index, LIGHTMAP);
+		//	}
+		//}
 
 		return version;
 	}
 
 	void Material::state(uint64_t& bgfx_state) const
 	{
-		if(m_base_block.m_cull_mode == CullMode::None)
+		// @todo cleanup culling flag responsibility, flipping etc
+		if(m_base.m_cull_mode == CullMode::None
+		|| m_base.m_cull_mode == CullMode::Front)
 			bgfx_state &= ~BGFX_STATE_CULL_MASK;
+		if(m_base.m_cull_mode == CullMode::Front)
+			bgfx_state |= BGFX_STATE_CULL_CCW;
 
-		if(m_base_block.m_depth_test == DepthTest::Disabled)
+		if(m_base.m_depth_test == DepthTest::Disabled)
 			bgfx_state &= ~BGFX_STATE_DEPTH_TEST_MASK;
 
-		if(m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
+		if(m_base.m_depth_draw == DepthDraw::Enabled)
 			bgfx_state |= BGFX_STATE_WRITE_Z;
-		if(m_base_block.m_depth_draw_mode == DepthDraw::Disabled)
+		if(m_base.m_depth_draw == DepthDraw::Disabled)
 			bgfx_state &= ~BGFX_STATE_WRITE_Z;
 	}
 
-	void Material::submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin) const
+	void Material::submit(const Program& program, bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin) const
 	{
 		this->state(bgfx_state);
 
-		s_base_material_uniform.upload(encoder, m_base_block);
-		if(m_unshaded_block.m_enabled)
-			s_unshaded_material_block.upload(encoder, m_unshaded_block);
-		if(m_fresnel_block.m_enabled)
-			s_fresnel_material_block.upload(encoder, m_fresnel_block);
-		if(m_pbr_block.m_enabled)
-			s_pbr_material_block.upload(encoder, m_pbr_block);
+		//if(program.m_blocks[MaterialBlock::Point])
+			bgfx_state |= BGFX_STATE_POINT_SIZE(uint(m_point.m_point_size));
+
+#if MATERIALS_BUFFER
+		const BlockMaterial& block = *ms_gfx->m_renderer.block<BlockMaterial>();
+		vec4 state = { 0.f, float(m_index), 0.f, 0.f };
+		encoder.setUniform(block.u_state, &state);
+		encoder.setUniform(block.u_state_vertex, &state);
+		encoder.setTexture(uint8_t(TextureSampler::Materials), block.s_materials, block.m_materials_texture.texture, TEXTURE_POINT | TEXTURE_CLAMP);
+#endif
+
+		s_base_material_block.upload(encoder, m_base);
+		if(program.m_blocks[MaterialBlock::Alpha])
+			s_alpha_material_block.upload(encoder, m_alpha);
+		if(program.m_blocks[MaterialBlock::Solid])
+			s_solid_material_block.upload(encoder, m_solid);
+		if(program.m_blocks[MaterialBlock::Point])
+			s_point_material_block.upload(encoder, m_point);
+		if(program.m_blocks[MaterialBlock::Line])
+			s_line_material_block.upload(encoder, m_line);
+		if(program.m_blocks[MaterialBlock::Lit])
+			s_lit_material_block.upload(encoder, m_lit);
+		if(program.m_blocks[MaterialBlock::Pbr])
+			s_pbr_material_block.upload(encoder, m_pbr);
+		if(program.m_blocks[MaterialBlock::Phong])
+			s_phong_material_block.upload(encoder, m_phong);
+		if(program.m_blocks[MaterialBlock::Fresnel])
+			s_fresnel_material_block.upload(encoder, m_fresnel);
+		if(program.m_blocks[MaterialBlock::User])
+			s_user_material_block.upload(encoder, m_user);
 
 		if(skin)
-			encoder.setTexture(uint8_t(TextureSampler::Skeleton), s_base_material_uniform.s_skeleton, skin->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Skeleton), skin->m_texture);
+
+		if(m_submit)
+			m_submit(encoder);
+	}
+
+	BlockMaterial::BlockMaterial(GfxSystem& gfx)
+		: GfxBlock(gfx, *this)
+	{}
+
+	void BlockMaterial::init_block()
+	{
+		u_state = bgfx::createUniform("u_state", bgfx::UniformType::Vec4);
+		u_state_vertex = bgfx::createUniform("u_state_vertex", bgfx::UniformType::Vec4);
+
+		s_materials = bgfx::createUniform("s_materials", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+	}
+
+	void BlockMaterial::begin_render(Render& render)
+	{
+		UNUSED(render);
+#if MATERIALS_BUFFER
+		const vector<Material*> materials = m_gfx.materials().m_vector;
+		for(uint32_t i = 0; i < materials.size(); ++i)
+			materials[i]->m_index = i;
+		GpuState<Material>::me.pack(m_materials_texture, materials);
+#endif
+	}
+
+	void BlockMaterial::submit(Render& render, const Pass& pass)
+	{
+		uint32_t materials = uint32_t(TextureSampler::Materials);
+		bgfx::setViewUniform(pass.m_index, s_materials, &materials);
+
+		s_base_material_block.prepare(pass);
+		s_alpha_material_block.prepare(pass);
+		s_solid_material_block.prepare(pass);
+		s_point_material_block.prepare(pass);
+		s_line_material_block.prepare(pass);
+		s_fresnel_material_block.prepare(pass);
+		s_lit_material_block.prepare(pass);
+		s_pbr_material_block.prepare(pass);
+		s_phong_material_block.prepare(pass);
+		s_user_material_block.prepare(pass);
 	}
 }
 
@@ -4141,6 +5117,7 @@ namespace mud
 module mud.gfx;
 #else
 #include <stl/map.h>
+#include <stl/table.h>
 #include <stl/algorithm.h>
 #endif
 
@@ -4170,6 +5147,8 @@ namespace mud
 
 		if((vertex_format & VertexAttribute::Position) != 0)
 			decl.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);
+		if((vertex_format & VertexAttribute::Position4) != 0)
+			decl.add(bgfx::Attrib::Position, 4, bgfx::AttribType::Float);
 		if((vertex_format & VertexAttribute::QPosition) != 0)
 			decl.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Half);
 		if((vertex_format & VertexAttribute::Normal) != 0)
@@ -4196,7 +5175,7 @@ namespace mud
 			decl.add(bgfx::Attrib::Indices, 4, bgfx::AttribType::Uint8, normalize_indices);
 		if((vertex_format & VertexAttribute::Weights) != 0)
 			decl.add(bgfx::Attrib::Weight, 4, bgfx::AttribType::Float);
-
+		
 		decl.end();
 
 		return decl;
@@ -4210,26 +5189,75 @@ namespace mud
 		return decls[vertex_format];
 	}
 
-	GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
+	GpuMesh::GpuMesh() {}
+	GpuMesh::GpuMesh(PrimitiveType primitive, uint32_t vertex_count, uint32_t index_count)
+		: m_primitive(primitive), m_vertex_count(vertex_count), m_index_count(index_count)
+	{}
+
+	GpuMesh alloc_mesh(PrimitiveType primitive, uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
 	{
-		GpuMesh gpu_mesh = { vertex_count, index_count };
+		GpuMesh gpu_mesh = { primitive, vertex_count, index_count };
 
 		gpu_mesh.m_vertex_memory = bgfx::alloc(vertex_count * vertex_size(vertex_format));
-		gpu_mesh.m_index_memory = bgfx::alloc(index_count * (index32 ? sizeof(uint32_t) : sizeof(uint16_t)));
+		if(index_count > 0)
+			gpu_mesh.m_index_memory = bgfx::alloc(index_count * (index32 ? sizeof(uint32_t) : sizeof(uint16_t)));
 		gpu_mesh.m_index32 = index32;
 
-		gpu_mesh.m_vertices = gpu_mesh.m_vertex_memory->data;
-		gpu_mesh.m_indices = gpu_mesh.m_index_memory->data;
+		gpu_mesh.m_vertices = { gpu_mesh.m_vertex_memory->data, vertex_count };
+		if(index_count > 0)
+			gpu_mesh.m_indices = { gpu_mesh.m_index_memory->data, index_count };
 
 		gpu_mesh.m_vertex_format = vertex_format;
-		gpu_mesh.m_writer = MeshAdapter(vertex_format, gpu_mesh.m_vertices, vertex_count, gpu_mesh.m_indices, index_count, index32);
+		gpu_mesh.m_writer = MeshAdapter(vertex_format, gpu_mesh.m_vertices, gpu_mesh.m_indices, index32);
 
 		return gpu_mesh;
 	}
 
+	GpuMesh alloc_mesh(PrimitiveType primitive, uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
+	{
+		return alloc_mesh(primitive, vertex_format, vertex_count, index_count, vertex_count > UINT16_MAX);
+	}
+
 	GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
 	{
-		return alloc_mesh(vertex_format, vertex_count, index_count, vertex_count > UINT16_MAX);
+		return alloc_mesh(PrimitiveType::Triangles, vertex_format, vertex_count, index_count, vertex_count > UINT16_MAX);
+	}
+
+	template <class T>
+	void optimize_mesh(const GpuMesh& mesh, GpuMesh& optmesh)
+	{
+		size_t vertex_stride = vertex_size(mesh.m_vertex_format);
+
+		vector<unsigned int> remap(mesh.m_vertex_count);
+		uint32_t index_count = mesh.m_index_count > 0 ? mesh.m_index_count : mesh.m_vertex_count;
+		size_t vertex_count = meshopt_generateVertexRemap(remap.data(), (T*)mesh.m_indices.data(), index_count, mesh.m_vertices.data(), mesh.m_vertex_count, vertex_stride);
+
+		// we can't allocate a new mesh with different index size because meshoptimizer remap functions don't allow for different types of indices
+		optmesh = alloc_mesh(mesh.m_primitive, mesh.m_vertex_format, uint32_t(vertex_count), index_count, mesh.m_index32);
+
+		optmesh.m_writer.m_aabb = mesh.m_writer.m_aabb;
+		optmesh.m_writer.m_uv0_rect = mesh.m_writer.m_uv0_rect;
+		optmesh.m_writer.m_uv1_rect = mesh.m_writer.m_uv1_rect;
+
+		meshopt_remapIndexBuffer((T*)optmesh.m_indices.data(), (T*)mesh.m_indices.data(), index_count, remap.data());
+
+		meshopt_remapVertexBuffer(optmesh.m_vertices.data(), mesh.m_vertices.data(), mesh.m_vertex_count, vertex_stride, remap.data());
+
+		meshopt_optimizeVertexCache((T*)optmesh.m_indices.data(), (T*)optmesh.m_indices.data(), index_count, vertex_count);
+
+		meshopt_optimizeOverdraw((T*)optmesh.m_indices.data(), (T*)optmesh.m_indices.data(), index_count, (float*)optmesh.m_vertices.data(), vertex_count, vertex_stride, 1.05f);
+
+		meshopt_optimizeVertexFetch(optmesh.m_vertices.data(), (T*)optmesh.m_indices.data(), index_count, optmesh.m_vertices.data(), vertex_count, vertex_stride);
+
+		//meshopt_simplify(optmesh.m_indices, optmesh.m_indices, index_count, optmesh.m_vertices, vertex_count, vertex_stride);
+	}
+
+	template <class T>
+	GpuMesh optimize_mesh(const GpuMesh& mesh)
+	{
+		GpuMesh optmesh;
+		optimize_mesh<T>(mesh, optmesh);
+		return optmesh;
 	}
 
 	static uint16_t s_mesh_index = 0;
@@ -4238,7 +5266,6 @@ namespace mud
 		: m_name(name)
 		, m_index(++s_mesh_index)
 		, m_readback(readback)
-		//, m_material(&gfx_system.debug_material())
 		, m_material(nullptr)
 	{}
 
@@ -4249,83 +5276,62 @@ namespace mud
 
 	void Mesh::clear()
 	{
-		if(bgfx::isValid(m_vertex_buffer))
-			bgfx::destroy(m_vertex_buffer);
-		if(bgfx::isValid(m_index_buffer))
-			bgfx::destroy(m_index_buffer);
-	}
-
-	void Mesh::read(MeshAdapter& writer, const mat4& transform) const
-	{
-		MeshAdapter reader = m_cache.read();
-
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+		if(m_is_dynamic)
 		{
-			writer.position(mulp(transform, reader.position()));
-			if(writer.m_cursor.m_normal)
-				writer.normal(muln(transform, reader.normal()));
-			if(writer.m_cursor.m_uv0)
-				writer.uv0(reader.uv0());
+			if(bgfx::isValid(m_dynamic.m_vertices)) bgfx::destroy(m_dynamic.m_vertices);
+			if(bgfx::isValid(m_dynamic.m_indices)) bgfx::destroy(m_dynamic.m_indices);
 		}
-
-		for(size_t i = 0; i < reader.m_indices.size(); ++i)
+		else
 		{
-			uint32_t index = m_index32 ? reader.index32() : reader.index();
-			assert(index <= writer.m_vertices.size());
-			writer.index(index);
-		}
-
-		writer.next();
-	}
-
-	void Mesh::read(MeshPacker& packer, const mat4& transform) const
-	{
-		MeshAdapter reader = m_cache.read();
-
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
-		{
-			packer.m_positions.push_back(mulp(transform, reader.position()));
-			if((m_vertex_format & VertexAttribute::Normal) != 0)
-				packer.m_normals.push_back(muln(transform, reader.normal()));
-			if((m_vertex_format & VertexAttribute::Colour) != 0)
-				packer.m_colours.push_back(reader.colour());
-			if((m_vertex_format & VertexAttribute::Tangent) != 0)
-				packer.m_tangents.push_back(mult(transform, reader.tangent()));
-			if((m_vertex_format & VertexAttribute::TexCoord0) != 0)
-				packer.m_uv0s.push_back(reader.uv0());
-			if((m_vertex_format & VertexAttribute::TexCoord1) != 0)
-				packer.m_uv1s.push_back(reader.uv1());
-			//packer.m_bones.push_back(source.bones());
-			//packer.m_weights.push_back(source.weights());
-		}
-
-		for(size_t i = 0; i < reader.m_indices.size(); ++i)
-		{
-			packer.m_indices.push_back(m_index32 ? reader.index32() : reader.index());
+			if(bgfx::isValid(m_vertices)) bgfx::destroy(m_vertices);
+			if(bgfx::isValid(m_indices)) bgfx::destroy(m_indices);
 		}
 	}
 
-	void Mesh::upload(DrawMode draw_mode, const GpuMesh& gpu_mesh)
+	void Mesh::upload(const GpuMesh& gpu_mesh, bool optimize)
 	{
+		if(optimize)
+		{
+			if(gpu_mesh.m_index32)
+				return this->upload(optimize_mesh<uint32_t>(gpu_mesh));
+			else
+				return this->upload(optimize_mesh<uint16_t>(gpu_mesh));
+		}
+
 		this->clear();
 
-		m_draw_mode = draw_mode;
+		m_primitive = gpu_mesh.m_primitive;
+		//m_draw_mode = draw_mode;
 		m_vertex_format = gpu_mesh.m_vertex_format;
 		m_vertex_count = gpu_mesh.m_vertex_count;
 		m_index_count = gpu_mesh.m_index_count;
 		m_index32 = gpu_mesh.m_index32;
+		m_is_dynamic = gpu_mesh.m_dynamic;
 
-		m_vertex_buffer = bgfx::createVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl(gpu_mesh.m_vertex_format));
-		m_index_buffer = bgfx::createIndexBuffer(gpu_mesh.m_index_memory, m_index32 ? BGFX_BUFFER_INDEX32 : 0);
+		if(gpu_mesh.m_dynamic)
+		{
+			m_dynamic.m_vertices = bgfx::createDynamicVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl(gpu_mesh.m_vertex_format));
+			if(gpu_mesh.m_index_count > 0)
+				m_dynamic.m_indices = bgfx::createDynamicIndexBuffer(gpu_mesh.m_index_memory, m_index32 ? BGFX_BUFFER_INDEX32 : 0);
+		}
+		else
+		{
+			m_vertices = bgfx::createVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl(gpu_mesh.m_vertex_format));
+			if(gpu_mesh.m_index_count > 0)
+				m_indices = bgfx::createIndexBuffer(gpu_mesh.m_index_memory, m_index32 ? BGFX_BUFFER_INDEX32 : 0);
+		}
 
 		m_aabb = aabb(gpu_mesh.m_writer.m_aabb.lo, gpu_mesh.m_writer.m_aabb.hi);
 		m_uv0_rect = { gpu_mesh.m_writer.m_uv0_rect.lo, gpu_mesh.m_writer.m_uv0_rect.hi };
 		m_uv1_rect = { gpu_mesh.m_writer.m_uv1_rect.lo, gpu_mesh.m_writer.m_uv1_rect.hi };
 
-		MeshAdapter reader = gpu_mesh.m_writer.read();
-		m_radius = 0.f;
-		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
-			m_radius = max(length(reader.position() - m_aabb.m_center), m_radius);
+		if((gpu_mesh.m_vertex_format & VertexAttribute::Position) != 0)
+		{
+			MeshAdapter reader = gpu_mesh.m_writer.read();
+			m_radius = 0.f;
+			for(size_t i = 0; i < reader.m_vertex_count; ++i)
+				m_radius = max(m_radius, length(reader.position() - m_aabb.m_center));
+		}
 
 		m_origin = m_aabb.m_center;
 
@@ -4333,80 +5339,136 @@ namespace mud
 			this->cache(gpu_mesh);
 	}
 
-	template <class T>
-	void optimize(const GpuMesh& mesh, GpuMesh& optmesh)
-	{
-		size_t vertex_stride = vertex_size(mesh.m_vertex_format);
-
-		vector<unsigned int> remap(mesh.m_vertex_count);
-		uint32_t index_count = mesh.m_index_count;
-		size_t vertex_count = meshopt_generateVertexRemap(remap.data(), (T*)mesh.m_indices, index_count, mesh.m_vertices, mesh.m_vertex_count, vertex_stride);
-
-		// we can't allocate a new mesh with different index size because meshoptimizer remap functions don't allow for different types of indices
-		optmesh = alloc_mesh(mesh.m_vertex_format, uint32_t(vertex_count), index_count, mesh.m_index32);
-
-		optmesh.m_writer.m_aabb = mesh.m_writer.m_aabb;
-		optmesh.m_writer.m_uv0_rect = mesh.m_writer.m_uv0_rect;
-		optmesh.m_writer.m_uv1_rect = mesh.m_writer.m_uv1_rect;
-
-		meshopt_remapIndexBuffer((T*)optmesh.m_indices, (T*)mesh.m_indices, index_count, remap.data());
-
-		meshopt_remapVertexBuffer(optmesh.m_vertices, mesh.m_vertices, mesh.m_vertex_count, vertex_stride, remap.data());
-
-		meshopt_optimizeVertexCache((T*)optmesh.m_indices, (T*)optmesh.m_indices, index_count, vertex_count);
-
-		meshopt_optimizeOverdraw((T*)optmesh.m_indices, (T*)optmesh.m_indices, index_count, (float*)optmesh.m_vertices, vertex_count, vertex_stride, 1.05f);
-
-		meshopt_optimizeVertexFetch(optmesh.m_vertices, (T*)optmesh.m_indices, index_count, optmesh.m_vertices, vertex_count, vertex_stride);
-
-		//meshopt_simplify(optmesh.m_indices, optmesh.m_indices, index_count, optmesh.m_vertices, vertex_count, vertex_stride);
-	}
-
-	void Mesh::upload_opt(DrawMode draw_mode, const GpuMesh& mesh)
-	{
-		GpuMesh optmesh;
-
-		if(mesh.m_index32)
-			optimize<uint32_t>(mesh, optmesh);
-		else
-			optimize<uint16_t>(mesh, optmesh);
-
-		//printf("optimized mesh %s from %i to %i vertices\n", m_name.c_str(), mesh.m_vertex_count, optmesh.m_vertex_count);
-
-		this->upload(draw_mode, optmesh);
-	}
-
-	void Mesh::write(DrawMode draw_mode, MeshPacker& packer, bool optimize)
+	void Mesh::write(const MeshPacker& packer, bool optimize, bool dynamic)
 	{
 		m_qnormals = packer.m_quantize;
 
-		GpuMesh gpu_mesh = alloc_mesh(packer.vertex_format(), packer.vertex_count(), packer.index_count());
-		packer.pack_vertices(gpu_mesh.m_writer, bxidentity());
+		GpuMesh gpu_mesh = alloc_mesh(packer.m_primitive, packer.vertex_format(), packer.vertex_count(), packer.index_count());
+		packer.pack(gpu_mesh.m_writer);
 		gpu_mesh.m_writer.rewind();
+		gpu_mesh.m_dynamic = dynamic;
 
-		if(optimize)
-			this->upload_opt(draw_mode, gpu_mesh);
-		else
-			this->upload(draw_mode, gpu_mesh);
+		this->upload(gpu_mesh, optimize);
+	}
+
+	void Mesh::morph(const MeshPacker& packer)
+	{
+		const uint32_t vertex_format = VertexAttribute::Position 
+			| (!packer.m_normals.empty() ? VertexAttribute::Normal : 0);
+
+		GpuMesh gpu_mesh = alloc_mesh(packer.m_primitive, vertex_format, packer.vertex_count(), packer.index_count());
+		packer.pack(gpu_mesh.m_writer);
+
+		Morph& morph = push(m_morphs);
+		morph.m_vertices = bgfx::createVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl(gpu_mesh.m_vertex_format));
 	}
 
 	void Mesh::cache(const GpuMesh& gpu_mesh)
 	{
 		m_cached_vertices.resize(gpu_mesh.m_vertex_memory->size);
-		m_cached_indices.resize(gpu_mesh.m_index_memory->size);
+		if(gpu_mesh.m_index_count)
+			m_cached_indices.resize(gpu_mesh.m_index_memory->size);
 
 		memcpy(m_cached_vertices.data(), gpu_mesh.m_vertex_memory->data, gpu_mesh.m_vertex_memory->size);
-		memcpy(m_cached_indices.data(), gpu_mesh.m_index_memory->data, gpu_mesh.m_index_memory->size);
+		if(gpu_mesh.m_index_count)
+			memcpy(m_cached_indices.data(), gpu_mesh.m_index_memory->data, gpu_mesh.m_index_memory->size);
 
-		m_cache = MeshAdapter(gpu_mesh.m_vertex_format, m_cached_vertices.data(), m_vertex_count, m_cached_indices.data(), m_index_count, m_index32);
+		m_cache = MeshAdapter(gpu_mesh.m_vertex_format, { m_cached_vertices.data(), m_vertex_count }, { m_cached_indices.data(), m_index_count }, m_index32);
 		m_cache.rewind();
+	}
+
+	GpuMesh Mesh::begin()
+	{
+		return alloc_mesh(m_primitive, m_vertex_format, m_vertex_count, m_index_count, m_index32);
+	}
+
+	void Mesh::update(const GpuMesh& gpu_mesh)
+	{
+		bgfx::update(m_dynamic.m_vertices, 0U, gpu_mesh.m_vertex_memory);
+		if(gpu_mesh.m_index_count > 0)
+			bgfx::update(m_dynamic.m_indices, 0U, gpu_mesh.m_index_memory);
+	}
+
+	MeshAdapter& Mesh::direct(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
+	{
+		m_vertex_format = vertex_format;
+		m_vertex_count = vertex_count;
+		m_index_count = index_count;
+
+		const bgfx::VertexDecl& decl = vertex_decl(vertex_format);
+		bgfx::allocTransientVertexBuffer(&m_direct.m_vertices, vertex_count, decl);
+		if(index_count)
+			bgfx::allocTransientIndexBuffer(&m_direct.m_indices, index_count);
+
+		m_direct.m_adapter = { vertex_format, { m_direct.m_vertices.data, vertex_count } };
+		return m_direct.m_adapter;
+	}
+
+	void Mesh::submit_morph(bgfx::Encoder& encoder, size_t index, size_t morph) const
+	{
+		static auto morph_decl = [](VertexAttribute::Enum attrib, bgfx::Attrib::Enum battrib)
+		{
+			UNUSED(attrib);
+			bgfx::VertexDecl decl;
+			decl.begin();
+			decl.add(battrib, 3, bgfx::AttribType::Float);
+			decl.end();
+			return bgfx::findVertexDecl(decl);
+		};
+
+		static bgfx::VertexDeclHandle morph_decls[4] =
+		{
+			morph_decl(VertexAttribute::MorphPosition0, bgfx::Attrib::TexCoord2),
+			morph_decl(VertexAttribute::MorphPosition1, bgfx::Attrib::TexCoord3),
+			morph_decl(VertexAttribute::MorphPosition2, bgfx::Attrib::TexCoord4),
+			morph_decl(VertexAttribute::MorphPosition3, bgfx::Attrib::TexCoord5),
+		};
+
+		static bgfx::VertexDeclHandle normal_decls[4] =
+		{
+			morph_decl(VertexAttribute::MorphNormal0, bgfx::Attrib::TexCoord6),
+			morph_decl(VertexAttribute::MorphNormal1, bgfx::Attrib::TexCoord7),
+			morph_decl(VertexAttribute::MorphNormal2, bgfx::Attrib::Color1),
+			morph_decl(VertexAttribute::MorphNormal3, bgfx::Attrib::Color2),
+		};
+
+		encoder.setVertexBuffer(1 + index, m_morphs[morph].m_vertices, morph_decls[index]);
 	}
 
 	uint64_t Mesh::submit(bgfx::Encoder& encoder) const
 	{
-		encoder.setVertexBuffer(0, m_vertex_buffer);
-		encoder.setIndexBuffer(m_index_buffer);
-		return m_draw_mode == PLAIN ? 0 : (BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA);
+		if(m_is_dynamic)
+			encoder.setVertexBuffer(0, m_dynamic.m_vertices);
+		else if(m_is_direct)
+			encoder.setVertexBuffer(0, &m_direct.m_vertices);
+		else
+			encoder.setVertexBuffer(0, m_vertices);
+
+		if(m_index_count > 0)
+		{
+			if(m_is_dynamic)
+				encoder.setIndexBuffer(m_dynamic.m_indices, m_range.m_start, m_range.m_count);
+			else if(m_is_direct)
+				encoder.setIndexBuffer(&m_direct.m_indices);
+			else
+				encoder.setIndexBuffer(m_indices);
+		}
+
+		constexpr table<PrimitiveType, uint64_t> bgfx_primitive =
+		{
+			BGFX_STATE_PT_POINTS,
+			BGFX_STATE_PT_LINES,
+			BGFX_STATE_PT_LINESTRIP,
+			0, // default,
+			BGFX_STATE_PT_TRISTRIP,
+			0, // unsupported
+		};
+
+		uint64_t flags = bgfx_primitive[m_primitive];
+		// line aa needs blend mode to be alpha, and it looks ugly anyway (and only works in GL)
+		//if(m_primitive == PrimitiveType::Lines || m_primitive == PrimitiveType::LineStrip)
+		//	flags |= BGFX_STATE_LINEAA;
+		return flags;
 	}
 }
 
@@ -4420,7 +5482,7 @@ namespace mud
 {
 	//static uint16_t s_model_index = 0;
 
-	GfxSystem* Model::ms_gfx_system = nullptr;
+	GfxSystem* Model::ms_gfx = nullptr;
 
 	Model::Model(const string& name)
 		: m_name(name)
@@ -4430,20 +5492,25 @@ namespace mud
 	Model::~Model()
 	{}
 
+	Mesh& Model::get_mesh(size_t index)
+	{
+		return *m_items[index].m_mesh;
+	}
+
 	Mesh& Model::add_mesh(const string& name, bool readback)
 	{
-		Mesh& mesh = ms_gfx_system->meshes().construct(name, readback);
+		Mesh& mesh = ms_gfx->meshes().construct(name, readback);
 		return mesh;
 	}
 
 	Rig& Model::add_rig(const string& name)
 	{
 		UNUSED(name);
-		m_rig = &ms_gfx_system->rigs().construct();
+		m_rig = &ms_gfx->rigs().construct();
 		return *m_rig;
 	}
 
-	ModelItem& Model::add_item(Mesh& mesh, mat4 transform, int skin, Colour colour, Material* material)
+	ModelElem& Model::add_item(Mesh& mesh, const mat4& transform, int skin, const Colour& colour, Material* material)
 	{
 		m_items.push_back({ m_items.size(), &mesh, transform != bxidentity(), transform, skin, colour, material });
 		return m_items.back();
@@ -4454,10 +5521,10 @@ namespace mud
 		m_aabb = {};
 		m_radius = 0.f;
 
-		for(const ModelItem& item: m_items)
+		for(const ModelElem& item: m_items)
 		{
-			m_geometry[item.m_mesh->m_draw_mode] = true;
-			m_aabb.mergeSafe(transform_aabb(item.m_mesh->m_aabb, item.m_transform));
+			m_geometry[item.m_mesh->m_primitive] = true;
+			m_aabb.merge(transform_aabb(item.m_mesh->m_aabb, item.m_transform));
 		}
 
 		m_radius = sqrt(2.f) * max(m_aabb.m_extents.x, max(m_aabb.m_extents.y, m_aabb.m_extents.z));
@@ -4465,12 +5532,12 @@ namespace mud
 		m_origin = m_aabb.m_center;
 	}
 
-	Model& model_variant(GfxSystem& gfx_system, Model& original, const string& name, span<string> materials, span<Material*> substitutes)
+	Model& model_variant(GfxSystem& gfx, Model& original, const string& name, span<string> materials, span<Material*> substitutes)
 	{
-		Model& variant = gfx_system.models().create(name);
+		Model& variant = gfx.models().create(name);
 		variant = original;
 
-		for(ModelItem& item : variant.m_items)
+		for(ModelElem& item : variant.m_items)
 			for(size_t i = 0; i < materials.size(); ++i)
 			{
 				if(item.m_mesh->m_material->m_name == materials[i])
@@ -4538,6 +5605,7 @@ namespace bx
 
 namespace mud
 {
+	bx::Vec3 bxvec3(const vec3& v) { return bx::Vec3(v.x, v.y, v.z); }
 	mat4 bxidentity() { mat4 result; bx::mtxIdentity(value_ptr(result)); return result; }
 	mat4 bxinverse(const mat4& mat) { mat4 result; bx::mtxInverse(value_ptr(result), value_ptr(mat)); return result; }
 	mat4 bxSRT(const vec3& scale, const vec3& rot, const vec3& trans) { mat4 result; bx::mtxSRT(value_ptr(result), scale.x, scale.y, scale.z, rot.x, rot.y, rot.z, trans.x, trans.y, trans.z); return result; }
@@ -4547,38 +5615,51 @@ namespace mud
 	mat4 bxtranslation(const vec3& vec) { mat4 result; bx::mtxTranslate(value_ptr(result), vec.x, vec.y, vec.z); return result; }
 	mat4 bxmul(const mat4& lhs, const mat4& rhs) { mat4 result; bx::mtxMul(value_ptr(result), value_ptr(lhs), value_ptr(rhs)); return result; }
 	vec4 bxmul(const mat4& mat, const vec4& vec) { vec4 result; bx::vec4MulMtx(&result[0], value_ptr(vec), value_ptr(mat)); return result; }
-	vec3 bxmul(const mat4& mat, const vec3& vec) { vec3 result; bx::vec3MulMtx(&result[0], value_ptr(vec), value_ptr(mat)); return result; }
-	vec3 bxmulh(const mat4& mat, const vec3& vec) { vec3 result; bx::vec3MulMtxH(&result[0], value_ptr(vec), value_ptr(mat)); return result; }
-	mat4 bxlookat(const vec3& eye, const vec3& at) { mat4 result; bx::mtxLookAtRh(value_ptr(result), value_ptr(eye), value_ptr(at)); return result; }
-	void bxlookat(mat4& result, const vec3& eye, const vec3& at, const vec3& up) { bx::mtxLookAtRh(value_ptr(result), value_ptr(eye), value_ptr(at), value_ptr(up)); }
-	mat4 bxlookat(const vec3& eye, const vec3& at, const vec3& up) { mat4 result; bx::mtxLookAtRh(value_ptr(result), value_ptr(eye), value_ptr(at), value_ptr(up)); return result; }
-	mat4 bxproj(float fov, float aspect, float near, float far, bool oglNdc) { mat4 result; bx::mtxProjRh(value_ptr(result), fov, aspect, near, far, oglNdc); return result; }
-	mat4 bxortho(const vec4& rect, float near, float far, float offset, bool oglNdc) { mat4 result; bx::mtxOrthoRh(value_ptr(result), rect.x, rect.y, rect.z, rect.w, near, far, offset, oglNdc); return result; }
-	mat4 bxortho(float left, float right, float bottom, float top, float near, float far, float offset, bool oglNdc) { mat4 result; bx::mtxOrthoRh(value_ptr(result), left, right, bottom, top, near, far, offset, oglNdc); return result; }
+	vec3 bxmul(const mat4& mat, const vec3& vec) { bx::Vec3 result = bx::mul(bxvec3(vec), value_ptr(mat)); return vec3(result.x, result.y, result.z); }
+	vec3 bxmulh(const mat4& mat, const vec3& vec) { bx::Vec3 result = bx::mulH(bxvec3(vec), value_ptr(mat)); return vec3(result.x, result.y, result.z); }
+	mat4 bxlookat(const vec3& eye, const vec3& at) { mat4 result; bx::mtxLookAt(value_ptr(result), bxvec3(eye), bxvec3(at), bx::Vec3(0.f, 1.f, 0.f), bx::Handness::Right); return result; }
+	void bxlookat(mat4& result, const vec3& eye, const vec3& at, const vec3& up) { bx::mtxLookAt(value_ptr(result), bxvec3(eye), bxvec3(at), bxvec3(up), bx::Handness::Right); }
+	mat4 bxlookat(const vec3& eye, const vec3& at, const vec3& up) { mat4 result; bx::mtxLookAt(value_ptr(result), bxvec3(eye), bxvec3(at), bxvec3(up), bx::Handness::Right); return result; }
+	mat4 bxproj(float fov, float aspect, float near, float far, bool oglNdc) { mat4 result; bx::mtxProj(value_ptr(result), fov, aspect, near, far, oglNdc, bx::Handness::Right); return result; }
+	mat4 bxortho(const vec4& rect, float near, float far, float offset, bool oglNdc) { mat4 result; bx::mtxOrtho(value_ptr(result), rect.x, rect.y, rect.z, rect.w, near, far, offset, oglNdc, bx::Handness::Right); return result; }
+	mat4 bxortho(float left, float right, float bottom, float top, float near, float far, float offset, bool oglNdc) { mat4 result; bx::mtxOrtho(value_ptr(result), left, right, bottom, top, near, far, offset, oglNdc, bx::Handness::Right); return result; }
 	mat4 bxSRT(const vec3& scale, const quat& rot, const vec3& trans) { return bxmul(bxtranslation(trans), bxmul(bxrotation(rot), bxscale(scale))); }
 	mat4 bxTRS(const vec3& scale, const quat& rot, const vec3& trans) { return bxmul(bxscale(scale), bxmul(bxrotation(rot), bxtranslation(trans))); }
 
+	vec3 mat4_position(const mat4& mat) { return vec3(mat[3]); }
+
 	void debug_print_mat(const mat4& mat)
 	{
-		//vec3 scale = { length(vec3{ mat[0] }), length(vec3{ mat[1] }), length(vec3{ mat[2] }) };
-		printf("pos %.1f, %.1f, %.1f ", mat[3].x, mat[3].y, mat[3].z);
+		//vec3 scale = { length(vec3(mat[0])), length(vec3{ mat[1] }), length(vec3{ mat[2] }) };
+		printf("pos %.1f, %.1f, %.1f \n", mat[3].x, mat[3].y, mat[3].z);
 		//printf("orientation %f, %f, %f, %f\n", m_rotation.x, bone.m_rotation.y, bone.m_rotation.z, bone.m_rotation.w);)
 	}
 
 	static uint16_t s_node_index = 0;
 
-	Node3::Node3(Scene* scene, Ref object)
-		: m_scene(scene)
-		, m_index(s_node_index++)
-		, m_object(object)
+	Node3::Node3()
 	{}
 
-	Node3::Node3(const mat4& transform)
-		: m_index(s_node_index++)
-		, m_transform(transform)
+	Node3::Node3(const mat4& transform, uint32_t parent)
+		: m_transform(transform)
+		, m_parent(parent)
 	{}
 
-	vec3 Node3::position() const { return mulp(m_transform, Zero3); }
+	Node3::Node3(const vec3& position, const quat& rotation, const vec3& scale)
+		: Node3(bxTRS(scale, rotation, position))
+	{}
+
+	void Node3::apply(const vec3& position, const quat& rotation, const vec3& scale)
+	{
+		m_transform = bxTRS(scale, rotation, position);
+	}
+
+	void Node3::derive(const Node3& parent, const vec3& position, const quat& rotation, const vec3& scale)
+	{
+		m_transform = parent.m_transform * bxTRS(scale, rotation, position);
+	}
+
+	vec3 Node3::position() const { return mulp(m_transform, vec3(0.f)); }
 	vec3 Node3::axis(const vec3& dir) const { return muln(m_transform, dir); }
 	vec3 Node3::direction() const { return muln(m_transform, -Z3); }
 }
@@ -4606,7 +5687,8 @@ namespace mud
 		decl.begin();
 			decl.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);
 			decl.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);
-			decl.add(bgfx::Attrib::TexCoord0, 4, bgfx::AttribType::Float);
+			decl.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float);
+			decl.add(bgfx::Attrib::TexCoord1, 2, bgfx::AttribType::Float);
 		decl.end();
 
 		return decl;
@@ -4614,14 +5696,14 @@ namespace mud
 		//ms_decl = vertex_decl(VertexAttribute::Position | VertexAttribute::Colour | VertexAttribute::TexCoord0);
 	}
 
-	ParticleFlow::ParticleFlow()
+	Flow::Flow()
 	{}
 
-	ParticleFlow::ParticleFlow(const string& name)
+	Flow::Flow(const string& name)
 		: m_name(name)
 	{}
 
-	Particles::Particles(Node3* node, ShapeVar shape, uint32_t max_particles)
+	Flare::Flare(Node3* node, ShapeVar shape, uint32_t max_particles)
 		: m_node(node)
 		, m_max(max_particles)
 	{
@@ -4629,10 +5711,10 @@ namespace mud
 		m_particles.reserve(m_max);
 	}
 
-	void Particles::upload()
+	void Flare::upload()
 	{}
 
-	void Particles::update(float delta)
+	void Flare::update(float delta)
 	{
 		m_time += delta;
 
@@ -4647,13 +5729,13 @@ namespace mud
 	}
 
 
-	void Particles::spawn(float dt)
+	void Flare::spawn(float dt)
 	{
 		mat4 transform = m_node ? m_node->m_transform : bxidentity();
 
-		//quat rotation = m_rotation.sample(m_time, random_scalar(0.f, 1.f));
-		//vec3 position = m_position.sample(m_time, random_scalar(0.f, 1.f));
-		//transform = bxSRT(Unit3, rotation, position) * transform;
+		//quat rotation = m_rotation.sample(m_time, randf(0.f, 1.f));
+		//vec3 position = m_position.sample(m_time, randf(0.f, 1.f));
+		//transform = bxSRT(vec3(1.f), rotation, position) * transform;
 
 		m_dt += dt;
 
@@ -4669,24 +5751,24 @@ namespace mud
 		{
 			Particle particle;
 
-			float volume = m_volume.sample(m_time, random_scalar(0.f, 1.f));
+			float volume = m_volume.sample(m_time, randf(0.f, 1.f));
 
 			vec3 pos = points[ii] * volume;
 			vec3 dir = m_flow == EmitterFlow::Outward ? normalize(points[ii]) : m_direction;
 
 			particle.life = time;
-			particle.lifetime = m_lifetime.sample(m_time, random_scalar(0.f, 1.f));
+			particle.lifetime = m_lifetime.sample(m_time, randf(0.f, 1.f));
 
-			particle.start = vec3(transform * vec4{ pos, 1.f });
-			particle.dir = vec3(transform * vec4{ dir, 0.f });
+			particle.start = mulp(transform, pos);
+			particle.dir = muln(transform, dir);
 			particle.rot = ZeroQuat; // m_node->m_rotation; // @todo
 
-			particle.speed_seed = random_scalar(0.f, 1.f);
-			particle.angle_seed = random_scalar(0.f, 1.f);
-			particle.blend_seed = random_scalar(0.f, 1.f);
-			particle.colour_seed = random_scalar(0.f, 1.f);
-			particle.scale_seed = random_scalar(0.f, 1.f);
-			particle.sprite_seed = random_scalar(0.f, 1.f);
+			particle.speed_seed = randf(0.f, 1.f);
+			particle.angle_seed = randf(0.f, 1.f);
+			particle.blend_seed = randf(0.f, 1.f);
+			particle.colour_seed = randf(0.f, 1.f);
+			particle.scale_seed = randf(0.f, 1.f);
+			particle.sprite_seed = randf(0.f, 1.f);
 
 			time += particle_period;
 
@@ -4694,7 +5776,7 @@ namespace mud
 		}
 	}
 
-	uint32_t Particles::render(const SpriteAtlas& atlas, const mat4& view, const vec3& eye, uint32_t first, uint32_t max, ParticleSort* outSort, ParticleVertex* outVertices)
+	uint32_t Flare::render(const SpriteAtlas& atlas, const mat4& view, const vec3& eye, uint32_t first, uint32_t max, ParticleSort* outSort, ParticleVertex* outVertices)
 	{
 		m_aabb =
 		{
@@ -4733,8 +5815,8 @@ namespace mud
 
 			if(m_billboard)
 			{
-				udir = scale * vec3{ view[0][0], view[1][0], view[2][0] };
-				vdir = scale * vec3{ view[0][1], view[1][1], view[2][1] };
+				udir = scale * vec3(view[0][0], view[1][0], view[2][0]);
+				vdir = scale * vec3(view[0][1], view[1][1], view[2][1]);
 			}
 			else
 			{
@@ -4758,7 +5840,7 @@ namespace mud
 		return uint32_t(m_particles.size());
 	}
 
-	inline void Particles::write_vertex(ParticleVertex*& dest, ParticleVertex vertex)
+	inline void Flare::write_vertex(ParticleVertex*& dest, ParticleVertex vertex)
 	{
 		m_aabb.merge(vertex.m_pos);
 		*dest = vertex;
@@ -4772,11 +5854,11 @@ namespace mud
 		return lhs.dist > rhs.dist ? -1 : 1;
 	}
 
-	ParticleSystem::ParticleSystem(GfxSystem& gfx_system, TPool<Particles>& emitters)
-		: m_gfx_system(gfx_system)
-		, m_block(*gfx_system.m_pipeline->block<BlockParticles>())
+	ParticleSystem::ParticleSystem(GfxSystem& gfx, TPool<Flare>& emitters)
+		: m_gfx(gfx)
+		, m_block(*gfx.m_renderer.block<BlockParticles>())
 		, m_emitters(emitters)
-		, m_program(gfx_system.programs().fetch("particle").default_version())
+		, m_program(gfx.programs().fetch("particle").default_version())
 	{}
 
 	ParticleSystem::~ParticleSystem()
@@ -4790,7 +5872,7 @@ namespace mud
 	void ParticleSystem::update(float _dt)
 	{
 		uint32_t num_particles = 0;
-		for(Particles* emitter : m_emitters.m_vec_pool->m_objects)
+		for(Flare* emitter : m_emitters.m_vec_pool->m_objects)
 		{
 			emitter->update(_dt);
 			num_particles += uint32_t(emitter->m_particles.size());
@@ -4822,7 +5904,7 @@ namespace mud
 			uint32_t pos = 0;
 			ParticleVertex* vertices = (ParticleVertex*)vertex_buffer.data;
 
-			for(Particles* emitter : m_emitters.m_vec_pool->m_objects)
+			for(Flare* emitter : m_emitters.m_vec_pool->m_objects)
 				pos += emitter->render(*m_block.m_sprites, view, eye, pos, max, particleSort.data(), vertices);
 
 			qsort(particleSort.data(), max, sizeof(ParticleSort), particleSortFn);
@@ -4848,8 +5930,8 @@ namespace mud
 		}
 	}
 
-	BlockParticles::BlockParticles(GfxSystem& gfx_system)
-		: GfxBlock(gfx_system, type<BlockParticles>())
+	BlockParticles::BlockParticles(GfxSystem& gfx)
+		: GfxBlock(gfx, type<BlockParticles>())
 		, m_sprites(construct<SpriteAtlas>(uvec2(SPRITE_TEXTURE_SIZE)))
 	{}
 
@@ -4861,8 +5943,8 @@ namespace mud
 
 	void BlockParticles::init_block()
 	{
-		s_color = bgfx::createUniform("s_texColor", bgfx::UniformType::Int1);
-		m_texture = bgfx::createTexture2D(SPRITE_TEXTURE_SIZE, SPRITE_TEXTURE_SIZE, false, 1, bgfx::TextureFormat::BGRA8);
+		s_color = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+		m_texture = { uvec2(SPRITE_TEXTURE_SIZE), false, TextureFormat::BGRA8 };
 
 		this->create_sprite("particle.ktx", "particle.ktx");
 		//this->create_sprite("flames.png", "flames_b.png", { 2, 2 });
@@ -4876,21 +5958,16 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockParticles::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	Sprite* BlockParticles::create_sprite(cstring name, cstring pathname, uvec2 frames)
 	{
-		LocatedFile location = m_gfx_system.locate_file("textures/particles/" + string(pathname));
-		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.allocator(), m_gfx_system.file_reader(), location.path(true).c_str(), bgfx::TextureFormat::BGRA8);
+		LocatedFile location = m_gfx.locate_file("textures/particles/" + string(pathname));
+		bimg::ImageContainer* image = load_bgfx_image(m_gfx, location.path(true), bgfx::TextureFormat::BGRA8);
 		Sprite* sprite = this->create_sprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
 		bimg::imageFree(image);
 		return sprite;
 	}
 
-	Sprite* BlockParticles::create_sprite(cstring name, uvec2 size, uvec2 frames, const void* data)
+	Sprite* BlockParticles::create_sprite(cstring name, const uvec2& size, uvec2 frames, const void* data)
 	{
 		Sprite* sprite = m_sprites->add_sprite(name, size, frames);
 		if(sprite)
@@ -4907,19 +5984,14 @@ namespace mud
 		UNUSED(sprite);
 	}
 
-	PassParticles::PassParticles(GfxSystem& gfx_system)
-		: RenderPass(gfx_system, "particles", {})
+	void pass_particles(GfxSystem& gfx, Render& render)
 	{
-		UNUSED(gfx_system);
-	}
-
-	void PassParticles::submit_render_pass(Render& render)
-	{
-		Pass particle_pass = render.next_pass("particles");
+		UNUSED(gfx);
+		Pass particle_pass = render.next_pass("particles", PassType::Particles);
 		bgfx::Encoder& encoder = *particle_pass.m_encoder;
 
-		render.m_scene.m_particle_system->update(render.m_frame.m_delta_time); // * timeScale
-		render.m_scene.m_particle_system->render(encoder, particle_pass.m_index, render.m_camera.m_transform, render.m_camera.m_eye);
+		render.m_scene->m_particle_system->update(render.m_frame->m_delta_time); // * timeScale
+		render.m_scene->m_particle_system->render(encoder, particle_pass.m_index, render.m_camera->m_view, render.m_camera->m_eye);
 	}
 }
 
@@ -4938,58 +6010,50 @@ namespace mud
 {
 #define PICKING_FOV 3.0f
 
-	Picker::Picker(GfxSystem& gfx_system, FrameBuffer& target)
+	Picker::Picker(GfxSystem& gfx, FrameBuffer& target)
 		: m_target(target)
 		, m_size(target.m_size) //PICKING_BUFFER_SIZE)
-		, m_program(gfx_system.programs().fetch("picking_id"))
+		, m_program(gfx.programs().fetch("picking_id"))
 		, m_data(target.m_size.x * target.m_size.y)
 	{
 		u_picking_id = bgfx::createUniform("u_picking_id", bgfx::UniformType::Vec4);
 		
-		uint64_t flags = GFX_TEXTURE_POINT | BGFX_SAMPLER_MIP_POINT | GFX_TEXTURE_CLAMP;
+		uint64_t flags = TEXTURE_POINT | BGFX_SAMPLER_MIP_POINT | TEXTURE_CLAMP;
 
 		if((bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0 && (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_READ_BACK) != 0)
-			m_readback_texture = bgfx::createTexture2D(uint16_t(m_size.y), uint16_t(m_size.y), false, 1, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags);
+			m_readback_texture = { m_size, false, TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags };
 
-		bgfx::TextureHandle rt[2] =
-		{
-			bgfx::createTexture2D(uint16_t(m_size.x), uint16_t(m_size.y), false, 1, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_RT | flags),
-			bgfx::createTexture2D(uint16_t(m_size.x), uint16_t(m_size.y), false, 1, bgfx::TextureFormat::D24S8, 0 | BGFX_TEXTURE_RT | flags)
-		};
+		m_fbo_texture = { m_size, false, TextureFormat::RGBA8, 0 | BGFX_TEXTURE_RT | flags };
+		m_fbo_depth = { m_size, false, TextureFormat::D24S8, 0 | BGFX_TEXTURE_RT | flags };
 
-		m_fbo = bgfx::createFrameBuffer(BX_COUNTOF(rt), rt, true);
-		m_fbo_texture = bgfx::getTexture(m_fbo);
+		m_fbo = { m_size, { &m_fbo_texture, &m_fbo_depth } };
 	}
 
 	Picker::~Picker()
-	{
-		bgfx::destroy(m_fbo);
-		if(bgfx::isValid(m_readback_texture))
-			bgfx::destroy(m_readback_texture);
-	}
+	{}
 
 	void Picker::pick_point(Viewport& viewport, vec2 position, PickCallback callback, uint32_t mask)
 	{
 		if(m_query) return;
-		Ray ray = viewport.ray(position);
-		float fov = viewport.m_camera->m_fov / m_size.y;// / float(m_target->m_size.y);
-		m_query = { uvec4{ uvec2(position), uvec2(1U) }, ray, fov, viewport.m_camera->m_aspect, mask };
+		const Ray ray = viewport.ray(position);
+		const float fov = viewport.m_camera->m_fov / m_size.y;// / float(m_target->m_size.y);
+		m_query = { { uvec2(position), uvec2(1U) }, ray, fov, viewport.m_camera->m_aspect, mask };
 		m_query.m_callback = callback;
 	}
 
 	void Picker::pick_rectangle(Viewport& viewport, vec4 rect, MultipickCallback callback, uint32_t mask)
 	{
 		if(m_query) return;
-		Ray ray = viewport.ray(rect_center(rect));
-		float fov = viewport.m_camera->m_fov * rect_h(rect) / m_size.y;
-		float aspect = rect_w(rect) / rect_h(rect);
+		const Ray ray = viewport.ray(rect_center(rect));
+		const float fov = viewport.m_camera->m_fov * rect.height / m_size.y;
+		const float aspect = rect.width / rect.height;
 		m_query = { uvec4(rect), ray, fov, aspect, mask };
 		m_query.m_multi_callback = callback;
 	}
 
 	void Picker::process(Render& render, PickQuery& query)
 	{
-		if(!query || render.m_shot->m_items.empty()) return;
+		if(!query || render.m_shot.m_items.empty()) return;
 
 		uint8_t view = render.picking_pass();
 
@@ -5000,15 +6064,15 @@ namespace mud
 		mat4 pickProj = bxproj(query.m_fov, query.m_aspect, 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
 
 		bgfx::setViewName(view, "picking");
-		uint16_t rect_y = bgfx::getCaps()->originBottomLeft ? uint16_t(m_size.y - rect_h(query.m_rect)) : 0;
-		bgfx::setViewRect(view, 0, rect_y, uint16_t(rect_w(query.m_rect)), uint16_t(rect_h(query.m_rect)));
+		uint16_t rect_y = bgfx::getCaps()->originBottomLeft ? uint16_t(m_size.y - query.m_rect.height) : 0;
+		bgfx::setViewRect(view, 0, rect_y, uint16_t(query.m_rect.width), uint16_t(query.m_rect.height));
 		bgfx::setViewTransform(view, value_ptr(pickView), value_ptr(pickProj));
 		
 		//Frustum frustum = { pickProj, pickView, 0.1f, 1000.f, query.m_fov, query.m_aspect };
 
-		for(uint32_t index = 0; index < render.m_shot->m_items.size(); ++index)
+		for(uint32_t index = 0; index < render.m_shot.m_items.size(); ++index)
 		{
-			Item& item = *render.m_shot->m_items[index];
+			Item& item = *render.m_shot.m_items[index];
 
 			//if(!frustum_aabb_intersection(frustum.m_planes, item.m_aabb))
 			//	continue;
@@ -5026,26 +6090,26 @@ namespace mud
 			if(item.m_model->m_items.empty())
 				encoder.touch(view);
 
-			for(const ModelItem& model_item : item.m_model->m_items)
+			for(const ModelElem& elem : item.m_model->m_items)
 			{
-				Material& material = model_item.m_mesh->m_material ? *model_item.m_mesh->m_material : *item.m_material;
+				Material& material = elem.m_mesh->m_material ? *elem.m_mesh->m_material : *item.m_material;
 
-				ShaderVersion shader_version = { &m_program };
-				shader_version.set_option(0, BILLBOARD, item.m_flags & ItemFlag::Billboard);
+				ProgramVersion program = { m_program };
+				program.set_option(0, BILLBOARD, item.m_flags & ItemFlag::Billboard);
 
 				uint64_t render_state = BGFX_STATE_DEFAULT;
 				material.state(render_state);
-				item.submit(encoder, render_state, model_item);
+				item.submit(encoder, render_state, elem);
 
 				encoder.setState(render_state);
-				encoder.submit(view, m_program.version(shader_version));
+				encoder.submit(view, m_program.version(program));
 			}
 
 			bgfx::end(&encoder);
 		}
 
 		// every time the blit to CPU texture is finished, we read the focused item
-		if(query.m_readback_ready <= render.m_frame.m_frame)
+		if(query.m_readback_ready <= render.m_frame->m_frame)
 		{
 			Item* item = nullptr;
 			vector<Item*> items = {};
@@ -5055,24 +6119,24 @@ namespace mud
 			map<uint32_t, uint32_t> counts; 
 			uint32_t maxAmount = 0;
 
-			//span<uint32_t> data = { m_data.data(), rect_w(query.m_rect) * rect_h(query.m_rect) };
+			//span<uint32_t> data = { m_data.data(), query.m_rect.width * query.m_rect.height };
 			//for(const uint32_t& id : data)
-			for(size_t x = 0; x < rect_w(query.m_rect); ++x)
-				for(size_t y = 0; y < rect_h(query.m_rect); ++y)
+			for(size_t x = 0; x < query.m_rect.width; ++x)
+				for(size_t y = 0; y < query.m_rect.height; ++y)
 				{
 					size_t offset = x + y * m_size.x;
 					const uint32_t& id = m_data[offset];
 
-					if(id == uint32_t(255 << 24) || id >= render.m_shot->m_items.size())
+					if(id == uint32_t(255 << 24) || id >= render.m_shot.m_items.size())
 						continue;
 
-					add(items, render.m_shot->m_items[id]);
+					add(items, render.m_shot.m_items[id]);
 
 					uint32_t count = ++counts[id];
-					if(count > maxAmount && id < render.m_shot->m_items.size())
+					if(count > maxAmount && id < render.m_shot.m_items.size())
 					{
 						maxAmount = count;
-						item = render.m_shot->m_items[id];
+						item = render.m_shot.m_items[id];
 					}
 				}
 
@@ -5088,7 +6152,7 @@ namespace mud
 		{
 			if(bgfx::isValid(m_readback_texture))
 			{
-				bgfx::blit(render.picking_pass(), m_readback_texture, 0, 0, m_fbo_texture, 0, 0, uint16_t(rect_w(query.m_rect)), uint16_t(rect_h(query.m_rect)));
+				bgfx::blit(render.picking_pass(), m_readback_texture, 0, 0, m_fbo_texture, 0, 0, uint16_t(query.m_rect.width), uint16_t(query.m_rect.height));
 				query.m_readback_ready = bgfx::readTexture(m_readback_texture, m_data.data());
 			}
 			else
@@ -5110,170 +6174,162 @@ module mud.gfx;
 
 namespace mud
 {
-#define MUD_GFX_STATE_DEFAULT 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL \
-								| BGFX_STATE_WRITE_Z | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA
-
-#define MUD_GFX_STATE_DEFAULT_ALPHA 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS \
-									  | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA
-
-	void pipeline_minimal(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred)
+	void pipeline_minimal(GfxSystem& gfx, Renderer& pipeline, bool deferred)
 	{
 		UNUSED(deferred);
 
+		BlockMaterial& material = pipeline.add_block<BlockMaterial>(gfx);
+		UNUSED(material);
+
 		// filters
-		BlockFilter& filter = pipeline.add_block<BlockFilter>(gfx_system);
-		BlockCopy& copy = pipeline.add_block<BlockCopy>(gfx_system, filter);
-		
+		BlockFilter& filter = pipeline.add_block<BlockFilter>(gfx);
+		BlockCopy& copy = pipeline.add_block<BlockCopy>(gfx, filter);
+		UNUSED(copy);
+
 		// pipeline
-		BlockDepth& depth = pipeline.add_block<BlockDepth>(gfx_system);
-		BlockSky& sky = pipeline.add_block<BlockSky>(gfx_system, filter);
-		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx_system);
+		BlockDepth& depth = pipeline.add_block<BlockDepth>(gfx);
+		BlockSky& sky = pipeline.add_block<BlockSky>(gfx, filter);
+		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx);
+		UNUSED(sky);
 		UNUSED(particles);
 
-		// mrt
-		BlockResolve& resolve = pipeline.add_block<BlockResolve>(gfx_system, copy);
+		vector<ShaderBlock*> depth_blocks =  { &depth };
 
-		// effects
-
-		pipeline.m_pass_blocks[size_t(PassType::Depth)] = { &depth };
-		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = {};
-		pipeline.m_pass_blocks[size_t(PassType::Background)] = { &sky };
-		pipeline.m_pass_blocks[size_t(PassType::Opaque)] = {};
-		pipeline.m_pass_blocks[size_t(PassType::Alpha)] = {};
-		pipeline.m_pass_blocks[size_t(PassType::Effects)] = { &resolve };
-		pipeline.m_pass_blocks[size_t(PassType::PostProcess)] = {};
-
+		auto create_programs = [&]()
 		{
-			Program& program_unshaded = gfx_system.programs().create("unshaded");
-			program_unshaded.register_blocks(pipeline.pass_blocks(PassType::Unshaded));
+			Program& solid = gfx.programs().create("solid");
+			solid.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Solid });
 
-			Program& program_depth = gfx_system.programs().create("depth");
-			program_depth.register_blocks(pipeline.pass_blocks(PassType::Depth));
+			Program& depth = gfx.programs().create("depth");
+			depth.register_blocks(depth_blocks);
+			solid.set_blocks({ MaterialBlock::Alpha });
 
-			Program& program_pbr = gfx_system.programs().create("pbr/pbr");
-			program_pbr.register_blocks(pipeline.pass_blocks(PassType::Opaque));
+			Program& distance = gfx.programs().create("distance");
+			distance.register_blocks(depth_blocks);
+			solid.set_blocks({ MaterialBlock::Alpha });
 
-			Program& program_fresnel = gfx_system.programs().create("fresnel");
-			UNUSED(program_fresnel);
-		}
+			Program& pbr = gfx.programs().create("pbr/pbr");
+			solid.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
 
-		static MinimalRenderer main_renderer = { gfx_system, pipeline };
-		static MinimalRenderer shadow_renderer = { gfx_system, pipeline };
+			Program& fresnel = gfx.programs().create("fresnel");
+			solid.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Fresnel });
+		};
 
-		gfx_system.set_renderer(Shading::Shaded, main_renderer);
-		gfx_system.set_renderer(Shading::Volume, shadow_renderer);
+		create_programs();
+
+		gfx.set_renderer(Shading::Shaded, render_minimal);
+		gfx.set_renderer(Shading::Volume, render_minimal);
 
 		pipeline.m_gather_func = gather_render;
 	}
 
-	Pipeline::Pipeline(GfxSystem& gfx_system)
+	void render_minimal(GfxSystem& gfx, Render& render)
 	{
-		UNUSED(gfx_system);
+		pass_clear(gfx, render);
+		pass_particles(gfx, render);
+		pass_solid(gfx, render);
 	}
 
-	Pipeline::~Pipeline()
-	{}
-
-	span<GfxBlock*> Pipeline::pass_blocks(PassType pass)
+	void render_solid(GfxSystem& gfx, Render& render)
 	{
-		return m_pass_blocks[size_t(pass)];
+		pass_clear(gfx, render);
+		pass_solid(gfx, render);
 	}
 
-	MinimalRenderer::MinimalRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Shaded)
+	void render_clear(GfxSystem& gfx, Render& render)
 	{
-		this->add_pass<PassClear>(gfx_system);
-		//this->add_pass<PassOpaque>(gfx_system);
-		this->add_pass<PassParticles>(gfx_system);
-		this->add_pass<PassUnshaded>(gfx_system);
-		this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
-		this->init();
-	}
-
-	UnshadedRenderer::UnshadedRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Unshaded)
-	{
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassUnshaded>(gfx_system);
-		this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
-		this->init();
-	}
-
-	ClearRenderer::ClearRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Clear)
-	{
-		this->add_pass<PassClear>(gfx_system);
-		this->init();
+		pass_clear(gfx, render);
 	}
 
 	static uint8_t s_blank = 0;
 	static uint8_t s_zero = 1;
 
-	PassClear::PassClear(GfxSystem& gfx_system)
-		: RenderPass(gfx_system, "clear", PassType::Clear)
+	struct ClearInit
 	{
-		bgfx::setPaletteColor(s_blank, 0.f, 0.f, 0.f, 1.f);
-		bgfx::setPaletteColor(s_zero, 0.f, 0.f, 0.f, 0.f);
+		ClearInit()
+		{
+			bgfx::setPaletteColor(s_blank, 0.f, 0.f, 0.f, 1.f);
+			bgfx::setPaletteColor(s_zero, 0.f, 0.f, 0.f, 0.f);
+		};
+	};
+
+	void pass_clear_fbo(GfxSystem& gfx, Render& render, FrameBuffer& fbo, const Colour& colour, float depth)
+	{
+		UNUSED(gfx);
+		Pass pass = render.next_pass("clear", PassType::Clear);
+
+		bgfx::setViewRect(pass.m_index, 0, 0, uint16_t(fbo.m_size.x), uint16_t(fbo.m_size.y));
+		bgfx::setViewClear(pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, to_rgba(colour), depth);
+		bgfx::setViewFrameBuffer(pass.m_index, fbo);
+
+		bgfx::touch(pass.m_index);
 	}
 
-	void PassClear::submit_render_pass(Render& render)
+	void pass_clear(GfxSystem& gfx, Render& render)
 	{
-		Pass render_pass = render.next_pass("clear");
+		UNUSED(gfx);
+		static ClearInit init;
 
-		if(render.m_target && render.m_target->m_mrt) //render_pass.m_use_mrt)
-			bgfx::setViewClear(render_pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, 1.f, 0, s_blank, s_blank, s_blank, s_blank);
+		Pass pass = render.next_pass("clear", PassType::Clear);
+
+		if(render.m_target && render.m_target->m_mrt) //pass.m_use_mrt)
+			bgfx::setViewClear(pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, 1.f, 0, s_blank, s_blank, s_blank, s_blank);
 		else
-			bgfx::setViewClear(render_pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, to_rgba(render.m_viewport.m_clear_colour), 1.f, 0);
+			bgfx::setViewClear(pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, to_rgba(render.m_viewport->m_clear_colour), 1.f, 0);
 
+		bgfx::touch(pass.m_index);
+	}
+
+	void pass_gclear(GfxSystem& gfx, Render& render)
+	{
+		UNUSED(gfx);
 		if(render.m_target && render.m_target->m_deferred)
 		{
-			Pass gbuffer_pass = render.next_pass("clear gbuffer");
-			bgfx::setViewClear(gbuffer_pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, 1.f, 0, s_zero, s_zero, s_zero, s_zero);
-			bgfx::setViewFrameBuffer(gbuffer_pass.m_index, render.m_target->m_gbuffer.m_fbo);
+			Pass pass = render.next_pass("clear gbuffer", PassType::Clear);
+			bgfx::setViewClear(pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, 1.f, 0, s_zero, s_zero, s_zero, s_zero);
+			bgfx::setViewFrameBuffer(pass.m_index, render.m_target->m_gbuffer.m_fbo);
+			bgfx::touch(pass.m_index);
 		}
-
-		bgfx::touch(render_pass.m_index);
 	}
 
-	PassUnshaded::PassUnshaded(GfxSystem& gfx_system)
-		: DrawPass(gfx_system, "unshaded", PassType::Unshaded)
-	{}
-
-	void PassUnshaded::next_draw_pass(Render& render, Pass& render_pass)
+	void pass_solid(GfxSystem& gfx, Render& render)
 	{
-		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A //| BGFX_STATE_DEPTH_TEST_LEQUAL
-									 | BGFX_STATE_MSAA | BGFX_STATE_CULL_CW | BGFX_STATE_BLEND_ALPHA;
+		UNUSED(gfx);
+		Pass pass = render.next_pass("solid", PassType::Solid);
+		
+		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL
+							  | BGFX_STATE_MSAA | BGFX_STATE_CULL_CW;// | BGFX_STATE_BLEND_ALPHA;
 
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		for(ImmediateDraw* immediate : render.m_shot->m_immediate)
-			immediate->submit(encoder, render_pass.m_index, render_pass.m_bgfx_state);
+		bgfx::Encoder& encoder = *pass.m_encoder;
+		for(ImmediateDraw* immediate : render.m_shot.m_immediate)
+			immediate->submit(encoder, pass.m_index, pass.m_bgfx_state);
+
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
+		{
+			UNUSED(render);
+			const Program& program = *element.m_program.m_program;
+			if(!program.m_blocks[MaterialBlock::Solid] && !program.m_blocks[MaterialBlock::Fresnel])
+				return false;
+
+			blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);
+			return true;
+		};
+
+		gfx.m_renderer.pass(render, pass, queue_draw_element);
 	}
 
-	void PassUnshaded::queue_draw_element(Render& render, DrawElement& element)
+	void pass_background(GfxSystem& gfx, Render& render)
 	{
-		UNUSED(render);
+		static BlockSky& block_sky = *gfx.m_renderer.block<BlockSky>();
 
-		if(element.m_material->m_unshaded_block.m_enabled || element.m_material->m_fresnel_block.m_enabled)
-			this->add_element(render, element);
+		//Pass pass = render.next_pass("background", PassType::Background);
+		block_sky.submit_pass(render);
 	}
 
-	PassBackground::PassBackground(GfxSystem& gfx_system)
-		: RenderPass(gfx_system, "background", PassType::Background)
-	{}
-
-	void PassBackground::submit_render_pass(Render& render)
+	void pass_flip(GfxSystem& gfx, Render& render)
 	{
-		UNUSED(render);
-	}
-
-	PassFlip::PassFlip(GfxSystem& gfx_system, BlockCopy& copy)
-		: RenderPass(gfx_system, "post process", PassType::Flip)
-		, m_copy(copy)
-	{}
-
-	void PassFlip::submit_render_pass(Render& render)
-	{
-		m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_diffuse, render.m_viewport.m_rect);
+		Pass pass = render.next_pass("flip", PassType::Flip);
+		gfx.m_copy->quad(pass, render.m_target->m_backbuffer, render.m_target->m_diffuse);
 	}
 }
 
@@ -5312,28 +6368,44 @@ namespace mud
 		: m_name(name)
 	{}
 
-	Prefab& import_prefab(GfxSystem& gfx_system, ModelFormat format, const string& name, const ImportConfig& config)
+	void Prefab::add(Scene& scene, Mime* mime)
 	{
-		LocatedFile location = gfx_system.locate_file("models/" + name, { format == ModelFormat::obj ? ".obj" : ".gltf" });
-		Prefab& prefab = gfx_system.prefabs().create(name);
-		gfx_system.importer(format)->import_prefab(prefab, location.path(false), config);
+		span<Node3> nodes = gfx::nodes(scene).addvec(m_nodes);
+
+		for(Elem& elem : m_items)
+		{
+			Item& it = gfx::items(scene).add(Item(nodes[elem.node], *elem.item.m_model, elem.item.m_flags));
+		}
+
+		if(mime)
+		{
+			mime->add_nodes(nodes);
+			mime->m_anims = m_anims;
+		}
+	}
+
+	Prefab& import_prefab(GfxSystem& gfx, ModelFormat format, const string& name, const ImportConfig& config)
+	{
+		LocatedFile location = gfx.locate_file("models/" + name, { format == ModelFormat::obj ? ".obj" : ".gltf" });
+		Prefab& prefab = gfx.prefabs().create(name);
+		gfx.importer(format)->import_prefab(prefab, location.path(false), config);
 		return prefab;
 	}
 
-	void destroy_prefab(GfxSystem& gfx_system, Prefab& prefab)
+	void destroy_prefab(GfxSystem& gfx, Prefab& prefab)
 	{
 		set<Model*> models;
-		for(Item& item : prefab.m_items)
-			models.insert(item.m_model);
+		for(Prefab::Elem& elem : prefab.m_items)
+			models.insert(elem.item.m_model);
 
 		for(Model* model : models)
 		{
-			for(ModelItem& model_item : model->m_items)
+			for(ModelElem& elem : model->m_items)
 			{
-				gfx_system.meshes().destroy(Ref(model_item.m_mesh));
+				gfx.meshes().destroy(Ref(elem.m_mesh));
 			}
 
-			gfx_system.models().destroy(model->m_name);
+			gfx.models().destroy(model->m_name);
 		}
 	}
 }
@@ -5351,6 +6423,7 @@ module mud.gfx;
 #include <stl/map.h>
 #include <stl/hash_base.hpp>
 #include <stl/algorithm.h>
+#include <stl/table.h>
 #endif
 
 #include <cstring>
@@ -5418,7 +6491,7 @@ namespace mud
 		return program;
 	}
 
-	static cstring shader_suffixes[] = 
+	static table<ShaderType, cstring> c_shader_suffixes = 
 	{
 		"_cs.sc",
 		"_fs.sc",
@@ -5426,27 +6499,22 @@ namespace mud
 		"_vs.sc",
 	};
 
-	cstring shader_suffix(ShaderType shader_type)
+	string shader_path(GfxSystem& gfx, const string& name, ShaderType shader_type)
 	{
-		return shader_suffixes[size_t(shader_type)];
-	}
-
-	string shader_path(GfxSystem& gfx_system, const string& name, ShaderType shader_type)
-	{
-		string suffix = shader_suffix(shader_type);
-		return gfx_system.m_resource_path + "/shaders/" + name + suffix;
+		string suffix = c_shader_suffixes[shader_type];
+		return gfx.m_resource_path + "/shaders/" + name + suffix;
 	}
 
 #ifdef MUD_LIVE_SHADER_COMPILER
-	bool compile_shader(GfxSystem& gfx_system, const string& name, const string& suffix, ShaderType shader_type, const string& defines_in, cstring source)
+	bool compile_shader(GfxSystem& gfx, const string& name, const string& suffix, ShaderType shader_type, const string& defines_in, const string& source)
 	{
 		string defines = defines_in;
 		bool is_opengl = bgfx::getRendererType() == bgfx::RendererType::OpenGLES
 					  || bgfx::getRendererType() == bgfx::RendererType::OpenGL;
 
-		string source_path = shader_path(gfx_system, name, shader_type);
+		string source_path = shader_path(gfx, name, shader_type);
 
-		if(source != nullptr)
+		if(source != "")
 		{
 			write_file(source_path.c_str(), source);
 		}
@@ -5457,18 +6525,18 @@ namespace mud
 		//bool debug = false;
 #endif
 
-		static cstring output_suffixes[] = { "_cs", "_fs", "_gs", "_vs" };
+		static table<ShaderType, cstring> output_suffixes = { "_cs", "_fs", "_gs", "_vs" };
 
-		string output_suffix = output_suffixes[size_t(shader_type)];
-		string output_path = gfx_system.m_resource_path + "/shaders/compiled/" + name + suffix + output_suffix;
+		string output_suffix = output_suffixes[shader_type];
+		string output_path = gfx.m_resource_path + "/shaders/compiled/" + name + suffix + output_suffix;
 
 		create_file_tree(output_path.c_str());
 
 		printf("INFO: Compiling Shader : %s\n", source_path.c_str());
 		printf("INFO: Defines : %s\n", defines.c_str());
 
-		string include = gfx_system.m_resource_path + "/shaders/";
-		string varying_path = gfx_system.m_resource_path + "/shaders/varying.def.sc";
+		string include = gfx.m_resource_path + "/shaders/";
+		string varying_path = gfx.m_resource_path + "/shaders/varying.def.sc";
 
 		enum Target { GLSL, ESSL, HLSL, Metal };
 #if BX_PLATFORM_WINDOWS
@@ -5476,7 +6544,8 @@ namespace mud
 #elif BX_PLATFORM_LINUX
 		Target target = GLSL; UNUSED(is_opengl);
 #elif BX_PLATFORM_EMSCRIPTEN
-		Target target = ESSL; UNUSED(is_opengl);
+		//Target target = ESSL; UNUSED(is_opengl);
+		Target target = GLSL; UNUSED(is_opengl);
 #elif BX_PLATFORM_OSX
 		Target target = is_opengl ? GLSL : Metal;
 #endif
@@ -5487,7 +6556,7 @@ namespace mud
 		vector<cstring> args;
 		auto push_arg = [&args](cstring name, cstring arg) { args.push_back(name); args.push_back(arg); };
 
-		static cstring types[] = { "compute", "fragment", "geometry", "vertex" };
+		static table<ShaderType, cstring> types = { "compute", "fragment", "geometry", "vertex" };
 
 		push_arg("-f", source_path.c_str());
 		push_arg("-o", output_path.c_str());
@@ -5495,20 +6564,18 @@ namespace mud
 		args.push_back("--depends");
 		push_arg("--varyingdef", varying_path.c_str());
 		push_arg("--define", defines.c_str());
-		push_arg("--type", types[size_t(shader_type)]);
+		push_arg("--type", types[shader_type]);
 
 		//if(debug)
 			//args.push_back("--debug");
 
-#ifndef MUD_PLATFORM_EMSCRIPTEN
 		args.push_back("-O3");
-#endif
 
 		if(target == GLSL)
 		{
 			push_arg("--platform", "linux");
-			push_arg("--profile", "120");
-			//push_arg("--profile", "130");
+			//push_arg("--profile", "120");
+			push_arg("--profile", "130");
 			//push_arg("--profile", "430");
 		}
 		else if(target == ESSL)
@@ -5517,9 +6584,9 @@ namespace mud
 		}
 		else if(target == HLSL)
 		{
-			static cstring profiles[] = { "cs_5_0", "ps_5_0", "gs_5_0", "vs_5_0" };
+			static table<ShaderType, cstring> profiles = { "cs_5_0", "ps_5_0", "gs_5_0", "vs_5_0" };
 			push_arg("--platform", "windows");
-			push_arg("--profile", profiles[size_t(shader_type)]);
+			push_arg("--profile", profiles[shader_type]);
 		}
 		else if(target == Metal)
 		{
@@ -5546,89 +6613,171 @@ namespace mud
 
 	struct Program::Impl
 	{
-		string m_name;
-
 		map<uint64_t, Version> m_versions;
-		vector<string> m_option_names;
-		vector<string> m_mode_names;
-
-		vector<ShaderDefine> m_defines;
 	};
 
-	string program_defines(Program::Impl& program, const ShaderVersion& version)
+	GfxSystem* Program::ms_gfx = nullptr;
+
+	static uint8_t s_block_index = 1;
+
+	ShaderBlock::ShaderBlock()
+		: m_index(s_block_index++)
+	{}
+
+	ShaderBlock::ShaderBlock(span<cstring> options, span<cstring> modes)
+		: m_index(s_block_index++)
 	{
-		string defines = "";
-
-		for(size_t option = 0; option < 32; ++option)
-			if(version.m_options & uint32_t(1 << option))
-				defines += program.m_option_names[option] + ";";
-
-		for(size_t mode = 0; mode < program.m_mode_names.size(); ++mode)
-			defines += program.m_mode_names[mode] + "=" + to_string(version.m_modes[mode]) + ";";
-
-		for(const ShaderDefine& define : program.m_defines)
-			defines += string(define.m_name) + "=" + define.m_value + ";";
-
-		return defines;
+		for(cstring option : options)
+			m_options.push_back(option);
+		for(cstring mode : modes)
+			m_modes.push_back(mode);
 	}
-
-	GfxSystem* Program::ms_gfx_system = nullptr;
 
 	Program::Program(const string& name, bool compute)
-		: m_compute(compute)
+		: m_name(name)
+		, m_compute(compute)
 		, m_impl(make_unique<Impl>())
 	{
-		m_impl->m_name = name;
-		GfxBlock& pbr = pbr_block(*ms_gfx_system);
+		static string options[] = { "INSTANCING", "BILLBOARD", "SKELETON", "MORPHTARGET", "QNORMALS", "VFLIP", "MRT", "DEFERRED", "CLUSTERED",
+									"ZONES_BUFFER", "LIGHTS_BUFFER", "MATERIALS_BUFFER" };
+		this->register_options(0, options);
 
-		static cstring options[7] = { "SKELETON", "INSTANCING", "BILLBOARD", "QNORMALS", "MRT", "DEFERRED", "CLUSTERED" };
-		this->register_options(0, { options, 7 });
-		this->register_options(pbr.m_index, pbr.m_shader_block->m_options);
-	}
-
-	Program::Program(const string& name, span<GfxBlock*> blocks, span<cstring> sources)
-		: Program(name)
-	{
-		this->register_blocks(blocks);
-
-		for(ShaderType shader_type = ShaderType(0); shader_type != ShaderType::Count; shader_type = ShaderType(uint32_t(shader_type) + 1))
-			m_sources[size_t(shader_type)] = sources[size_t(shader_type)];
+		this->set_block(MaterialBlock::Base);
 	}
 
 	Program::~Program()
 	{}
 
-	ShaderVersion Program::shader_version(Version& version)
+	void Program::set_block(MaterialBlock type, bool enabled)
 	{
-		ShaderVersion config = { this };
+		static table<MaterialBlock, ShaderBlock*> shader_blocks =
+		{ {
+			&MaterialBase::s_block,
+			&MaterialAlpha::s_block,
+			&MaterialSolid::s_block,
+			&MaterialPoint::s_block,
+			&MaterialLine::s_block,
+			&MaterialLit::s_block,
+			&MaterialPbr::s_block,
+			&MaterialPhong::s_block,
+			&MaterialFresnel::s_block,
+			&MaterialUser::s_block,
+		} };
+
+		m_blocks[type] = enabled;
+		this->register_block(*shader_blocks[type]);
+	}
+
+	void Program::set_blocks(span<MaterialBlock> blocks)
+	{
+		for(MaterialBlock type : blocks)
+		{
+			this->set_block(type);
+		}
+	}
+
+	void Program::register_blocks(const Program& program)
+	{
+		this->register_blocks(program.m_registered_blocks);
+	}
+
+	void Program::register_blocks(span<ShaderBlock*> blocks)
+	{
+		for(ShaderBlock* block : blocks)
+		{
+			this->register_block(*block);
+			m_registered_blocks.push_back(block);
+		}
+	}
+
+	void Program::register_block(const ShaderBlock& block)
+	{
+		assert(block.m_index < 32);
+		m_shader_blocks[block.m_index].m_enabled = true;
+		this->register_options(block.m_index, block.m_options);
+		this->register_modes(block.m_index, block.m_modes);
+		if(block.m_defines.size() > 0)
+			prepend(m_defines, block.m_defines);
+	}
+
+	void Program::register_options(uint8_t block, span<string> options)
+	{
+		assert(block < 32);
+		m_shader_blocks[block].m_enabled = true;
+		m_shader_blocks[block].m_option_shift = uint8_t(m_options.size());
+
+		for(size_t i = 0; i < options.size(); ++i)
+			m_options.push_back(options[i]);
+	}
+
+	void Program::register_modes(uint8_t block, span<string> modes)
+	{
+		assert(block < 32);
+		m_shader_blocks[block].m_enabled = true;
+		m_shader_blocks[block].m_mode_shift = uint8_t(m_modes.size());
+
+		for(size_t i = 0; i < modes.size(); ++i)
+			m_modes.push_back(modes[i]);
+	}
+
+	void Program::set_pass(PassType type, bool enabled)
+	{
+		m_passes[type] = enabled;
+	}
+
+	void Program::set_source(ShaderType type, const string& source)
+	{
+		m_sources[type] = source;
+	}
+
+	string Program::defines(const ProgramVersion& version) const
+	{
+		string defines = "";
+
+		for(size_t option = 0; option < 32; ++option)
+			if(version.m_options & uint32_t(1 << option))
+				defines += m_options[option] + ";";
+
+		for(size_t mode = 0; mode < m_modes.size(); ++mode)
+			defines += m_modes[mode] + "=" + to_string(version.m_modes[mode]) + ";";
+
+		for(const ShaderDefine& define : m_defines)
+			defines += string(define.m_name) + (define.m_value.empty() ? "" : "=" + define.m_value) + ";";
+
+		return defines;
+	}
+
+	ProgramVersion Program::program(Version& version)
+	{
+		ProgramVersion config = { *this };
 		memcpy(&config.m_options, &version.m_version, sizeof(uint64_t));
 		return config;
 	}
 
-	void Program::compile(GfxSystem& gfx_system, Version& version, bool compute)
+	void Program::compile(GfxSystem& gfx, Version& version, bool compute)
 	{
-		const ShaderVersion config = shader_version(version);
+		const ProgramVersion config = this->program(version);
 
-		string suffix = "_v" + to_string(version.m_version);
-		string defines = program_defines(*m_impl, config);
+		const string suffix = "_v" + to_string(version.m_version);
+		const string defines = this->defines(config);
 
 		bool compiled = true;
 #ifdef MUD_LIVE_SHADER_COMPILER
 		if(compute)
 		{
-			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Compute, defines, m_sources[size_t(ShaderType::Compute)]);
+			compiled &= compile_shader(gfx, m_name, suffix, ShaderType::Compute, defines, m_sources[ShaderType::Compute]);
 		}
 		else
 		{
-			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Vertex, defines, m_sources[size_t(ShaderType::Vertex)]);
-			compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Fragment, defines, m_sources[size_t(ShaderType::Fragment)]);
+			compiled &= compile_shader(gfx, m_name, suffix, ShaderType::Vertex, defines, m_sources[ShaderType::Vertex]);
+			compiled &= compile_shader(gfx, m_name, suffix, ShaderType::Fragment, defines, m_sources[ShaderType::Fragment]);
 
-			if(file_exists(shader_path(gfx_system, m_impl->m_name, ShaderType::Geometry).c_str()))
-				compiled &= compile_shader(gfx_system, m_impl->m_name, suffix, ShaderType::Geometry, defines, m_sources[size_t(ShaderType::Geometry)]);
+			if(file_exists(shader_path(gfx, m_name, ShaderType::Geometry).c_str()))
+				compiled &= compile_shader(gfx, m_name, suffix, ShaderType::Geometry, defines, m_sources[ShaderType::Geometry]);
 		}
 #endif
 
-		string full_name = m_impl->m_name + suffix;
+		const string full_name = m_name + suffix;
 
 		if(!compiled)
 		{
@@ -5638,36 +6787,31 @@ namespace mud
 		}
 
 		printf("INFO: loading program %s with options %s\n", full_name.c_str(), defines.c_str());
-		string compiled_path = gfx_system.m_resource_path + "/shaders/compiled/" + full_name;
-		version.m_program = compute ? load_compute_program(gfx_system.file_reader(), compiled_path)
-									: load_program(gfx_system.file_reader(), compiled_path);
+		const string compiled_path = gfx.m_resource_path + "/shaders/compiled/" + full_name;
+		version.m_program = compute ? load_compute_program(gfx.file_reader(), compiled_path)
+									: load_program(gfx.file_reader(), compiled_path);
 		version.m_update = m_update;
 	}
 
-	void Program::update(GfxSystem& gfx_system)
+	void Program::update(GfxSystem& gfx)
 	{
 		for(auto& hash_version : m_impl->m_versions)
 		{
 			Version& version = hash_version.second;
 			if(version.m_update < m_update)
 			{
-				this->compile(gfx_system, version, m_compute);
+				this->compile(gfx, version, m_compute);
 			}
 		}
 	}
 
-	cstring Program::name()
-	{
-		return m_impl->m_name.c_str();
-	}
-
 	bgfx::ProgramHandle Program::default_version()
 	{
-		ShaderVersion config(this);
+		ProgramVersion config = { *this };
 		return this->version(config);
 	}
 
-	bgfx::ProgramHandle Program::version(const ShaderVersion& config)
+	bgfx::ProgramHandle Program::version(const ProgramVersion& config)
 	{
 		uint64_t version_hash = config.hash();
 
@@ -5675,45 +6819,10 @@ namespace mud
 		if(version.m_update < m_update)
 		{
 			version.m_version = version_hash;
-			this->compile(*ms_gfx_system, version, m_compute);
+			this->compile(*ms_gfx, version, m_compute);
 		}
 
 		return version.m_program;
-	}
-
-	template <class T, class U>
-	inline void vector_prepend(vector<T>& vector, const U& other)
-	{
-		vector.insert(vector.begin(), other.begin(), other.end());
-	}
-
-	void Program::register_blocks(span<GfxBlock*> blocks)
-	{
-		for(GfxBlock* block : blocks)
-			this->register_block(*block);
-	}
-
-	void Program::register_block(const GfxBlock& block)
-	{
-		this->register_options(block.m_index, block.m_shader_block->m_options);
-		this->register_modes(block.m_index, block.m_shader_block->m_modes);
-		vector_prepend(m_impl->m_defines, block.m_shader_block->m_defines);
-	}
-
-	void Program::register_options(uint8_t block, span<cstring> options)
-	{
-		m_blocks.m_shader_blocks[block].m_option_shift = uint8_t(m_impl->m_option_names.size());
-
-		for(size_t i = 0; i < options.size(); ++i)
-			m_impl->m_option_names.push_back(options[i]);
-	}
-
-	void Program::register_modes(uint8_t block, span<cstring> modes)
-	{
-		m_blocks.m_shader_blocks[block].m_mode_shift = uint8_t(m_impl->m_mode_names.size());
-
-		for(size_t i = 0; i < modes.size(); ++i)
-			m_impl->m_mode_names.push_back(modes[i]);
 	}
 }
 
@@ -5730,27 +6839,28 @@ module mud.gfx;
 
 namespace mud
 {
-	uint8_t GfxBlock::s_block_index = 0;
-
 	struct RenderUniform
 	{
 		RenderUniform() {}
 		RenderUniform(int)
-			: u_render_params(bgfx::createUniform("u_render_params", bgfx::UniformType::Vec4))
+			: u_render_p0(bgfx::createUniform("u_render_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
+			, u_viewport_p0(bgfx::createUniform("u_viewport_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
+			, u_camera_p0(bgfx::createUniform("u_camera_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
 		{}
 
-		bgfx::UniformHandle u_render_params;
+		bgfx::UniformHandle u_render_p0;
+		bgfx::UniformHandle u_viewport_p0;
+		bgfx::UniformHandle u_camera_p0;
 	};
 
 	static RenderUniform s_render_uniform;
 
 	Render::Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame)
-		: m_shading(shading), m_scene(*viewport.m_scene), m_target(&target), m_target_fbo(target.m_fbo), m_viewport(viewport)
-		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport), m_lighting(viewport.m_lighting)
+		: m_shading(shading), m_scene(viewport.m_scene), m_target(&target), m_fbo(&target), m_viewport(&viewport), m_rect(viewport.m_rect)
+		, m_camera(viewport.m_camera), m_frame(&frame), m_env(&viewport.m_scene->m_env)
+		, m_filters(viewport), m_lighting(viewport.m_lighting)
 		, m_pass_index(frame.m_render_pass)
-		, m_shot(make_unique<Shot>())
 	{
-		m_debug_pass_index = 245;
 		static bool init_uniform = true;
 		if(init_uniform)
 		{
@@ -5759,146 +6869,73 @@ namespace mud
 		}
 	}
 
-	Render::Render(Shading shading, Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame)
-		: m_shading(shading), m_scene(*viewport.m_scene), m_target(nullptr), m_target_fbo(target_fbo), m_viewport(viewport)
-		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport), m_lighting(viewport.m_lighting)
+	Render::Render(Shading shading, Viewport& viewport, RenderTarget& target, FrameBuffer& target_fbo, RenderFrame& frame)
+		: m_shading(shading), m_scene(viewport.m_scene), m_target(&target), m_fbo(&target_fbo), m_viewport(&viewport), m_rect(viewport.m_rect)
+		, m_camera(viewport.m_camera), m_frame(&frame), m_env(&viewport.m_scene->m_env)
+		, m_filters(viewport), m_lighting(viewport.m_lighting)
 		, m_pass_index(frame.m_render_pass)
-		, m_shot(make_unique<Shot>())
-	{
-		m_debug_pass_index = 245;
-	}
+	{}
 
 	Render::~Render()
 	{}
 
-	Pass Render::next_pass(const char* name, bool subpass)
+	void Render::subrender(const Render& render)
 	{
-		if(!subpass)
-			m_sub_pass_index = 0;
+		m_shot = render.m_shot;
+	}
 
-		Pass render_pass;
-		render_pass.m_target = m_target;
-		render_pass.m_bgfx_state = 0;
-		render_pass.m_fbo = m_target_fbo;
-		render_pass.m_viewport = &m_viewport;
-		render_pass.m_use_mrt = m_needs_mrt;
-		render_pass.m_index = m_pass_index++;
-		render_pass.m_sub_pass = m_sub_pass_index++;
+	Pass Render::next_pass(cstring name, PassType type)
+	{
+		Pass pass;
+		pass.m_name = name;
+		pass.m_target = m_target;
+		pass.m_bgfx_state = 0;
+		pass.m_fbo = m_fbo;
+		pass.m_viewport = m_viewport;
+		pass.m_rect = m_rect;
+		pass.m_use_mrt = m_needs_mrt;
+		pass.m_index = m_pass_index++;
+		pass.m_pass_type = type;
 
-		render_pass.m_encoder = bgfx::begin();
+		pass.m_encoder = bgfx::begin();
+
+		bgfx::setViewName(pass.m_index, name);
 
 		//printf("INFO: render pass %s\n", name.c_str());
-		m_viewport.render_pass(name, render_pass);
+		m_viewport->pass(pass);
 
-		bgfx::setViewName(render_pass.m_index, name);
+		this->set_uniforms(pass);
 
-		return render_pass;
+		return pass;
 	}
 
-	void Render::set_uniforms(bgfx::Encoder& encoder) const
+	Pass Render::composite_pass(cstring name)
 	{
-		vec4 render_params = { m_frame.m_time, float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
-		encoder.setUniform(s_render_uniform.u_render_params, &render_params);
+		return this->next_pass(name, PassType::PostProcess);
 	}
 
-	struct Renderer::Impl
+	Pass Render::composite_pass(cstring name, FrameBuffer& fbo, const vec4& rect)
 	{
-		vector<GfxBlock*> m_gfx_blocks;
-		vector<unique<RenderPass>> m_render_passes;
-	};
-
-	Renderer::Renderer(GfxSystem& gfx_system, Pipeline& pipeline, Shading shading)
-		: m_gfx_system(gfx_system)
-		, m_pipeline(pipeline)
-		, m_shading(shading)
-		, m_impl(make_unique<Impl>())
-	{}
-
-	Renderer::~Renderer()
-	{}
-
-	void Renderer::init()
-	{
-		for(auto& render_pass : m_impl->m_render_passes)
-			for(GfxBlock* gfx_block : render_pass->m_gfx_blocks)
-			{
-				if(!has_block(*gfx_block))
-					add_block(*gfx_block);
-			}
+		Pass pass = this->next_pass(name, PassType::PostProcess);
+		pass.m_fbo = &fbo;
+		pass.m_rect = rect;
+		return pass;
 	}
 
-	bool Renderer::has_block(GfxBlock& block)
+	void Render::set_uniforms(const Pass& pass) const
 	{
-		return has(m_impl->m_gfx_blocks, &block);
-	}
+		vec4 render_p0 = { m_frame->m_time, float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
+		bgfx::setViewUniform(pass.m_index, s_render_uniform.u_render_p0, &render_p0);
 
-	void Renderer::add_block(GfxBlock& block)
-	{
-		m_impl->m_gfx_blocks.push_back(&block);
-	}
-
-	RenderPass& Renderer::add_pass(unique<RenderPass> render_pass)
-	{ 
-		m_impl->m_render_passes.push_back(move(render_pass));
-		return *m_impl->m_render_passes.back();
-	}
-
-	void Renderer::gather(Render& render)
-	{
-		m_pipeline.m_gather_func(render.m_scene, render);
-	}
-
-	void Renderer::render(Render& render)
-	{
-		//render.m_needs_depth_prepass = true;
-
-		for(GfxBlock* block : m_impl->m_gfx_blocks)
-			block->begin_render(render);
-
-		// @todo this temporarily fixes the MRT GL bug by forcing MRT in the shader even if not needed by any effects
-		render.m_is_mrt = render.m_target && render.m_target->m_mrt;
-		//render.m_is_mrt = render.m_needs_mrt && render.m_target && render.m_target->m_mrt;
-
-		for(auto& pass : m_impl->m_render_passes)
+		if(m_target)
 		{
-			ZoneScopedNC(pass->m_name, tracy::Color::Cyan);
-
-			pass->blocks_begin_pass(render);
-			pass->submit_render_pass(render);
+			vec4 screen_p0 = { vec2(m_target->m_size), 1.0f / vec2(m_target->m_size) };
+			bgfx::setViewUniform(pass.m_index, s_render_uniform.u_viewport_p0, &screen_p0);
 		}
 
-		render.m_frame.m_render_pass = render.m_pass_index;
-
-		render.m_frame.m_num_draw_calls += render.m_num_draw_calls;
-		render.m_frame.m_num_vertices += render.m_num_vertices;
-		render.m_frame.m_num_triangles += render.m_num_triangles;
+		vec4 camera_p0 = { m_camera->m_near, m_camera->m_far, m_camera->m_fov, m_camera->m_aspect };
+		bgfx::setViewUniform(pass.m_index, s_render_uniform.u_camera_p0, &camera_p0);
 	}
-	
-	void Renderer::subrender(Render& render, Render& sub)
-	{
-		this->render(sub);
-		render.m_pass_index = sub.m_pass_index;
-	}
-
-	GfxBlock::GfxBlock(GfxSystem& gfx_system, Type& type)
-		: m_gfx_system(gfx_system), m_type(type), m_index(s_block_index++)
-		, m_shader_block(make_unique<ShaderBlock>())
-	{}
-
-	GfxBlock::~GfxBlock()
-	{}
-
-	RenderPass::RenderPass(GfxSystem& gfx_system, const char* name, PassType pass_type)
-		: m_gfx_system(gfx_system)
-		, m_name(name)
-		, m_pass_type(pass_type)
-		, m_gfx_blocks(gfx_system.m_pipeline->pass_blocks(pass_type))
-	{}
-
-	DrawElement::DrawElement(Item& item, const Program& program, const ModelItem& model, const Material& material, const Skin* skin)
-		: m_item(&item), m_program(&program), m_model(&model), m_material(&material), m_skin(skin)
-		, m_shader_version(material.shader_version(program, item, model))
-	{}
 
 	struct DrawList : public vector<DrawElement>
 	{
@@ -5920,84 +6957,189 @@ namespace mud
 		void sort() { quicksort<DrawElement>(*this, SortByKey()); }
 	};
 
-	struct DrawPass::Impl
+	struct Renderer::Impl
 	{
-		Impl() : m_draw_elements(0) {}
-		DrawList m_draw_elements;
-		vector<DrawBlock*> m_draw_blocks;
+		Impl() : m_draw_list(UINT16_MAX) {}
+		DrawList m_draw_list;
 	};
 
-	DrawPass::DrawPass(GfxSystem& gfx_system, const char* name, PassType type)
-		: RenderPass(gfx_system, name, type)
+	Renderer::Renderer(GfxSystem& gfx)
+		: m_gfx(gfx)
 		, m_impl(make_unique<Impl>())
-	{
-		this->init_blocks();
-	}
-
-	DrawPass::~DrawPass()
 	{}
 
-	void DrawPass::init_blocks()
-	{
-		for(GfxBlock* block : m_gfx_blocks)
-			if(block->m_draw_block)
-				m_impl->m_draw_blocks.push_back(&as<DrawBlock>(*block));
+	Renderer::~Renderer()
+	{}
 
-		m_draw_blocks = m_impl->m_draw_blocks;
+	void Renderer::gather(Render& render)
+	{
+		m_gather_func(*render.m_scene, render);
+
+		render.m_viewport->render(render);
+		render.m_viewport->cull(render);
 	}
 
-	void DrawPass::add_element(Render& render, DrawElement element)
+	void Renderer::submit(Render& render, RenderFunc renderer)
 	{
-		for(DrawBlock* block : m_impl->m_draw_blocks)
-			block->options(render, element.m_shader_version);
+		this->gather(render);
 
-		element.m_shader_version.set_option(0, INSTANCING, !element.m_item->m_instances.empty());
-		element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ItemFlag::Billboard);
-		element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
-		element.m_shader_version.set_option(0, QNORMALS, element.m_model->m_mesh->m_qnormals);
+#ifdef DEBUG_ITEMS
+		scene.debug_items(render);
+#endif
 
-		element.m_bgfx_program = const_cast<Program*>(element.m_program)->version(element.m_shader_version);
+		if(render.m_viewport->m_rect.width != 0 && render.m_viewport->m_rect.height != 0)
+			this->render(render, renderer);
 
-		m_impl->m_draw_elements.add_element() = element;
+		//m_gfx.m_copy->debug_show_texture(render, *render.m_env->m_background.m_texture, vec4(0.f), 0);
+		//m_gfx.m_copy->debug_show_texture(render, *render.m_env->m_radiance.m_texture, vec4(0.f), 0);
+		//if(render.m_env->m_radiance.m_filtered)
+		//	m_gfx.m_copy->debug_show_texture(render, *render.m_env->m_radiance.m_filtered, vec4(0.f), 1);
+		//copy.debug_show_texture(render, render.m_env->m_radiance.m_filtered, vec4(0.f), false, false, false, 1);
+		//copy.debug_show_texture(render, bgfx::getTexture(render.m_target->m_effects.last()), vec4(0.f));
 	}
 
-	bool mask_draw_mode(uint32_t mask, DrawMode check)
+	void Renderer::render(Render& render, RenderFunc renderer)
 	{
-		return (mask & 1 << check) == 0;
+		this->begin(render);
+		renderer(m_gfx, render);
+		this->end(render);
 	}
 
-	inline Material& item_material(const Item& item, const ModelItem& model_item, Material& fallback)
+	void Renderer::begin(Render& render)
+	{
+		this->block<BlockMaterial>()->begin_render(render);
+
+		//for(const auto& block : m_gfx_blocks)
+		//	block->begin_render(render);
+
+		// @todo this temporarily fixes the MRT GL bug by forcing MRT in the shader even if not needed by any effects
+		render.m_is_mrt = render.m_target && render.m_target->m_mrt;
+		//render.m_is_mrt = render.m_needs_mrt && render.m_target && render.m_target->m_mrt;
+	}
+
+	void Renderer::end(Render& render)
+	{
+		render.m_frame->m_render_pass = render.m_pass_index;
+
+		render.m_frame->m_num_draw_calls += render.m_num_draw_calls;
+		render.m_frame->m_num_vertices += render.m_num_vertices;
+		render.m_frame->m_num_triangles += render.m_num_triangles;
+	}
+	
+	void Renderer::subrender(Render& render, Render& sub, RenderFunc renderer)
+	{
+		this->render(sub, renderer);
+		render.m_pass_index = sub.m_pass_index;
+	}
+
+	GfxBlock::GfxBlock(GfxSystem& gfx, Type& type)
+		: ShaderBlock()
+		, m_gfx(gfx), m_type(type)
+	{}
+
+	GfxBlock::~GfxBlock()
+	{}
+
+	DrawElement::DrawElement(Item& item, const Program& program, const ModelElem& elem, const Material& material, const Skin* skin, uint64_t sort_key)
+		: m_item(&item), m_elem(&elem), m_material(&material), m_skin(skin)
+		, m_sort_key(sort_key)
+	{
+		this->set_program(program);
+	}
+
+	void DrawElement::set_program(const Program& program)
+	{
+		m_program = m_material->program(program, *m_item, *m_elem);
+	}
+
+	struct DrawPass
+	{
+		DrawList m_draw_elements;
+	};
+
+	void Renderer::shader_options(Render& render, Pass& pass, ProgramVersion& version) const
+	{
+		//for(GfxBlock* block : m_gfx.m_renderer.m_pass_blocks[pass.m_pass_type])
+		//	if(block->m_draw_block)
+		//		((DrawBlock*)block)->options(render, version);
+
+		version.set_option(0, BUFFER_ZONES, ZONES_BUFFER);
+		version.set_option(0, BUFFER_LIGHTS, LIGHTS_BUFFER);
+		version.set_option(0, BUFFER_MATERIALS, MATERIALS_BUFFER);
+	}
+
+	void Renderer::element_options(Render& render, Pass& pass, DrawElement& element)
+	{
+		this->shader_options(render, pass, element.m_program);
+
+		element.m_program.set_option(0, VFLIP, render.m_vflip && bgfx::getCaps()->originBottomLeft);
+		element.m_program.set_option(0, MRT, render.m_is_mrt);
+
+		element.m_program.set_option(0, INSTANCING, element.m_item->m_batch != nullptr);
+		element.m_program.set_option(0, BILLBOARD, element.m_item->m_flags & ItemFlag::Billboard);
+		element.m_program.set_option(0, SKELETON, element.m_skin != nullptr);
+		element.m_program.set_option(0, MORPHTARGET, element.m_item->m_rig && !element.m_item->m_rig->m_morphs.empty());
+		element.m_program.set_option(0, QNORMALS, element.m_elem->m_mesh->m_qnormals);
+
+		Program& program = *const_cast<Program*>(element.m_program.m_program);
+		element.m_bgfx_program = program.version(element.m_program);
+	}
+
+	void Renderer::add_element(Render& render, Pass& pass, DrawElement element)
+	{
+		this->element_options(render, pass, element);
+		m_impl->m_draw_list.add_element() = element;
+	}
+
+	bool mask_primitive(uint32_t mask, PrimitiveType check)
+	{
+		uint32_t filter = 1 << uint(check);
+		return (mask & filter) == 0;
+	}
+
+	inline Material& item_material(const Item& item, const ModelElem& elem, Material& fallback)
 	{
 		if(item.m_material)
 			return *item.m_material;
-		else if(model_item.m_material)
-			return *model_item.m_material;
-		else if(model_item.m_mesh->m_material)
-			return *model_item.m_mesh->m_material;
+		else if(elem.m_material)
+			return *elem.m_material;
+		else if(elem.m_mesh->m_material)
+			return *elem.m_mesh->m_material;
 		else
 			return fallback;
 	}
 
-	void DrawPass::gather_draw_elements(Render& render)
+	DrawElement Renderer::draw_element(Item& item, const ModelElem& elem) const
 	{
-		Material& fallback_material = m_gfx_system.debug_material();
+		static Material& fallback_material = m_gfx.debug_material();
 
-		for(Item* item : render.m_shot->m_items)
-			for(const ModelItem& model_item : item->m_model->m_items)
+		const Material& material = item_material(item, elem, fallback_material);
+		const Program& program = *material.m_program;
+
+		//if(mask_primitive(material.m_base.m_geometry_filter, elem.m_mesh->m_primitive))
+		//	continue;
+
+		const Skin* skin = (elem.m_skin > -1 && item.m_rig) ? &item.m_rig->m_skins[elem.m_skin] : nullptr;
+
+		const uint64_t sort_key = uint64_t(material.m_index) << 0
+								| uint64_t(elem.m_mesh->m_index) << 16;
+
+		return { item, program, elem, material, skin, sort_key };
+	}
+
+	void Renderer::clear_draw_elements(Render& render, Pass& pass)
+	{
+		UNUSED(render); UNUSED(pass);
+		m_impl->m_draw_list.clear();
+	}
+
+	void Renderer::gather_draw_elements(Render& render, Pass& pass)
+	{
+		for(Item* item : render.m_shot.m_items)
+			for(const ModelElem& elem : item->m_model->m_items)
 			{
-				Material& material = item_material(*item, model_item, fallback_material);
-				Program& program = *material.m_program;
-
-				if(mask_draw_mode(material.m_base_block.m_geometry_filter, model_item.m_mesh->m_draw_mode))
-					continue;
-
-				Skin* skin = (model_item.m_skin > -1 && item->m_rig) ? &item->m_rig->m_skins[model_item.m_skin] : nullptr;
-
-				DrawElement element = { *item, program, model_item, material, skin };
-				element.m_sort_key |= uint64_t(element.m_material->m_index) << 0;
-				element.m_sort_key |= uint64_t(element.m_model->m_mesh->m_index) << 16;
-
-				this->queue_draw_element(render, element);
+				DrawElement element = this->draw_element(*item, elem);
+				this->add_element(render, pass, element);
 			}
 	}
 
@@ -6019,74 +7161,121 @@ namespace mud
 		return b;
 	}
 
-	void DrawPass::submit_draw_elements(bgfx::Encoder& encoder, Render& render, Pass& pass, size_t first, size_t count) const
+	void Renderer::submit_draw_elements(bgfx::Encoder& encoder, Render& render, Pass& pass, Submit submit, size_t first, size_t count) const
 	{
 		//printf("submit_draw_elements %i to %i\n", int(first), int(first + count));
 
-		Pass render_pass = pass;
-		render_pass.m_encoder = &encoder;
+		Pass thread_pass = pass;
+		pass.m_encoder = &encoder;
 
 		for(size_t i = first; i < first + count; ++i)
 		{
-			const DrawElement& element = m_impl->m_draw_elements[i];
-
-			for(DrawBlock* block : m_impl->m_draw_blocks)
-				block->submit(render, element, render_pass);
-			
-			uint64_t render_state = 0 | render_pass.m_bgfx_state | element.m_bgfx_state;
-			element.m_material->submit(encoder, render_state, element.m_skin);
-			element.m_item->submit(encoder, render_state, *element.m_model);
-
-			render.set_uniforms(encoder);
-
-			encoder.setState(render_state);
-
-			encoder.submit(render_pass.m_index, element.m_bgfx_program, depth_to_bits(element.m_item->m_depth));
-
-			render.m_num_draw_calls += 1;
-			render.m_num_vertices += element.m_model->m_mesh->m_vertex_count;
-			render.m_num_triangles += element.m_model->m_mesh->m_index_count / 3;
+			const DrawElement& element = m_impl->m_draw_list[i];
+			this->submit(encoder, render, thread_pass, submit, element);
 		}
 	}
 
-	void DrawPass::submit_render_pass(Render& render)
+	void Renderer::submit(bgfx::Encoder& encoder, Render& render, Pass& pass, Submit submit, const DrawElement& element) const
 	{
-		this->blocks_begin_draw_pass(render);
+		//for(GfxBlock* block : m_gfx.m_renderer.m_pass_blocks[pass.m_pass_type])
+		//	if(block->m_draw_block)
+		//		((DrawBlock*)block)->submit(render, element, pass);
 
-		m_impl->m_draw_elements.clear();
-		this->gather_draw_elements(render);
+		if(submit)
+			submit(m_gfx, render, pass, element);
 
-		uint8_t num_sub_passes = this->num_draw_passes(render);
+		uint64_t render_state = 0 | pass.m_bgfx_state | element.m_bgfx_state;
+		element.m_material->submit(*element.m_program.m_program, encoder, render_state, element.m_skin);
+		element.m_item->submit(encoder, render_state, *element.m_elem);
 
-		for(PassJob& job : render.m_scene.m_pass_jobs->m_jobs[size_t(m_pass_type)])
+		encoder.setState(render_state);
+
+		encoder.submit(pass.m_index, element.m_bgfx_program, depth_to_bits(element.m_item->m_depth));
+
+		render.m_num_draw_calls += 1;
+		render.m_num_vertices += element.m_elem->m_mesh->m_vertex_count;
+		render.m_num_triangles += element.m_elem->m_mesh->m_index_count / 3;
+	}
+
+	void Renderer::begin_render_pass(Render& render, PassType pass_type)
+	{
+		//this->clear_draw_elements(render);
+		//this->gather_draw_elements(render);
+
+		for(PassJob& job : render.m_scene->m_pass_jobs->m_jobs[pass_type])
 		{
-			Pass render_pass = render.next_pass(m_name);
-			render.set_uniforms(*render_pass.m_encoder);
-			job(render, render_pass);
+			Pass pass = render.next_pass("job", pass_type); // pass.m_name);
+			job(m_gfx, render, pass);
 		}
+	}
 
-		for(uint8_t sub_pass = 0; sub_pass < num_sub_passes; ++sub_pass)
-		{
-			Pass render_pass = render.next_pass(m_name, sub_pass > 0);
-			this->next_draw_pass(render, render_pass);
-			render.m_viewport.render_pass(m_name, render_pass);
+	void Renderer::submit_render_pass(Render& render, Pass& pass, Submit submit)
+	{
+		render.m_viewport->pass(pass);
+
+		m_gfx.m_renderer.block<BlockMaterial>()->submit(render, pass);
+
+		//for(GfxBlock* block : m_gfx.m_renderer.m_pass_blocks[pass.m_pass_type])
+		//	if(block->m_draw_block)
+		//		((DrawBlock*)block)->submit(render, pass);
 
 #ifdef MUD_GFX_JOBS
-			auto submit = [&](JobSystem& js, Job* job, size_t start, size_t count)
-			{
-				UNUSED(job);
-				bgfx::Encoder& encoder = *m_gfx_system.m_encoders[js.thread()];
-				this->submit_draw_elements(encoder, render, render_pass, start, count);
-			};
+		auto submit = [&](JobSystem& js, Job* job, size_t start, size_t count)
+		{
+			UNUSED(job);
+			bgfx::Encoder& encoder = *m_gfx.m_encoders[js.thread()];
+			this->submit_draw_elements(encoder, render, pass, start, count);
+		};
 
-			JobSystem& js = *m_gfx_system.m_job_system;
-			Job* job = split_jobs<16>(js, nullptr, 0, uint32_t(m_impl->m_draw_elements.size()), submit);
-			js.complete(job);
+		JobSystem& js = *m_gfx.m_job_system;
+		Job* job = split_jobs<16>(js, nullptr, 0, uint32_t(m_impl->m_draw_elements.size()), submit);
+		js.complete(job);
 #else
-			bgfx::Encoder& encoder = *render_pass.m_encoder;
-			this->submit_draw_elements(encoder, render, render_pass, 0, m_impl->m_draw_elements.size());
+		bgfx::Encoder& encoder = *pass.m_encoder;
+		this->submit_draw_elements(encoder, render, pass, submit, 0, m_impl->m_draw_list.size());
 #endif
-		}
+	}
+
+	void Renderer::pass(Render& render, Pass& pass, Enqueue enqueue, Submit submit, bool sorted)
+	{
+		sorted = true;
+		if(sorted)
+			this->sorted_pass(render, pass, enqueue, submit);
+		else
+			this->direct_pass(render, pass, enqueue, submit);
+	}
+
+	void Renderer::sorted_pass(Render& render, Pass& pass, Enqueue enqueue, Submit submit)
+	{
+		this->begin_render_pass(render, pass.m_pass_type);
+
+		this->clear_draw_elements(render, pass);
+
+		for(Item* item : render.m_shot.m_items)
+			for(const ModelElem& elem : item->m_model->m_items)
+			{
+				DrawElement element = this->draw_element(*item, elem);
+				if(enqueue(m_gfx, render, pass, element))
+					this->add_element(render, pass, element);
+			}
+
+		this->submit_render_pass(render, pass, submit);
+	}
+
+	void Renderer::direct_pass(Render& render, Pass& pass, Enqueue enqueue, Submit submit)
+	{
+		this->begin_render_pass(render, pass.m_pass_type);
+
+		for(Item* item : render.m_shot.m_items)
+			for(const ModelElem& elem : item->m_model->m_items)
+			{
+				DrawElement element = this->draw_element(*item, elem);
+				if(enqueue(m_gfx, render, pass, element))
+				{
+					this->element_options(render, pass, element);
+					this->submit(*pass.m_encoder, render, pass, submit, element);
+				}
+			}
 	}
 }
 
@@ -6103,32 +7292,20 @@ module mud.gfx;
 
 namespace mud
 {
-	vec4 fbo_dest_quad(const uvec2& size, const vec4& rect, bool relative)
-	{
-		vec4 result = rect;
-		if(relative && bgfx::getCaps()->originBottomLeft)
-			result.y = size.y - rect.y - rect_h(rect);
-		return result;
-	}
-
-	vec4 fbo_source_quad(const uvec2& size, const vec4& rect, bool relative)
-	{
-		vec4 crop = vec4(rect_offset(rect) / vec2(size), rect_size(rect) / vec2(size));
-		if(!relative && bgfx::getCaps()->originBottomLeft)
-			crop.y = 1.f - crop.y - rect_h(crop);
-		return crop;
-	}
-
 #if defined MUD_UNIFORM_BLOCKS
 	TypedUniformBlock<RenderBlock> RenderBlock::s_block = { "render" };
 #endif
 
-	FrameBuffer::FrameBuffer(uvec2 size)
+	FrameBuffer::FrameBuffer()
+	{}
+
+	FrameBuffer::FrameBuffer(const uvec2& size, void* window)
 		: m_size(size)
-		, m_screen_view(bxidentity())
-		, m_screen_proj(bxortho({ 0.f, 1.f, 1.f, 0.f }, 0.f, 1.f, 0.f, bgfx::getCaps()->homogeneousDepth))// false))
 	{
-		m_fbo = BGFX_INVALID_HANDLE;
+		if(window == nullptr)
+			m_fbo = BGFX_INVALID_HANDLE;
+		else
+			m_fbo = bgfx::createFrameBuffer(window, uint16_t(size.x), uint16_t(size.y));
 
 #if defined MUD_UNIFORM_BLOCKS
 		m_render_block.m_render_size = vec2(m_size);
@@ -6136,16 +7313,35 @@ namespace mud
 #endif
 	}
 
-	FrameBuffer::FrameBuffer(uvec2 size, bgfx::TextureFormat::Enum format, uint32_t textureFlags)
+	FrameBuffer::FrameBuffer(const uvec2& size, TextureFormat format, uint64_t flags)
 		: FrameBuffer(size)
 	{
-		m_fbo = bgfx::createFrameBuffer(uint16_t(size.x), uint16_t(size.y), format, textureFlags);
+		m_tex = { size, false, format, flags | BGFX_TEXTURE_RT };
+		m_fbo = bgfx::createFrameBuffer(1, &m_tex.m_tex, false);
+	}
+	
+	FrameBuffer::FrameBuffer(const uvec2& size, span<Texture*> textures)
+		: FrameBuffer(size)
+	{
+		bgfx::TextureHandle handles[6];
+		for(size_t i = 0; i < textures.size(); ++i)
+		{
+			m_attach[i] = textures[i];
+			handles[i] = textures[i]->m_tex;
+		}
+		m_fbo = bgfx::createFrameBuffer(uint8_t(textures.size()), handles, false);
 	}
 
-	FrameBuffer::FrameBuffer(uvec2 size, bgfx::FrameBufferHandle fbo)
+	FrameBuffer::FrameBuffer(const uvec2& size, Texture& texture, span<bgfx::Attachment> attach)
 		: FrameBuffer(size)
 	{
-		m_fbo = fbo;
+		m_fbo = bgfx::createFrameBuffer(attach.size(), attach.data(), false);
+	}
+
+	FrameBuffer::FrameBuffer(Texture& texture)
+		: FrameBuffer(texture.m_size)
+	{
+		m_fbo = bgfx::createFrameBuffer(1, &texture.m_tex, false);
 	}
 
 	FrameBuffer::~FrameBuffer()
@@ -6154,34 +7350,47 @@ namespace mud
 			bgfx::destroy(m_fbo);
 	}
 
-	void SwapBuffer::create(uvec2 size, bgfx::TextureFormat::Enum color_format)
+	FrameBuffer::FrameBuffer(FrameBuffer&& other)
 	{
-		m_one = bgfx::createFrameBuffer(uint16_t(size.x), uint16_t(size.y), color_format, GFX_TEXTURE_CLAMP);// | GFX_TEXTURE_POINT);
-		m_two = bgfx::createFrameBuffer(uint16_t(size.x), uint16_t(size.y), color_format, GFX_TEXTURE_CLAMP);// | GFX_TEXTURE_POINT);
+		*this = move(other);
+	}
+
+	FrameBuffer& FrameBuffer::operator=(FrameBuffer&& other)
+	{
+		m_fbo = other.m_fbo;
+		m_size = other.m_size;
+		m_tex = move(other.m_tex);
+		for(size_t i = 0; i < 6; ++i)
+			m_attach[i] = other.m_attach[i];
+		other.m_fbo = BGFX_INVALID_HANDLE; return *this;
+	}
+
+	bool FrameBuffer::valid() const { return bgfx::isValid(m_fbo); }
+
+	void SwapBuffer::create(const uvec2& size, TextureFormat color_format)
+	{
+		m_one = { size, color_format, TEXTURE_CLAMP };// | TEXTURE_POINT);
+		m_two = { size, color_format, TEXTURE_CLAMP };// | TEXTURE_POINT);
 	}
 
 	SwapBuffer::~SwapBuffer()
-	{
-		if(bgfx::isValid(m_one))
-			bgfx::destroy(m_one);
-		if(bgfx::isValid(m_two))
-			bgfx::destroy(m_two);
-	}
+	{}
 
-	void Cascade::create(uvec2 size, bgfx::TextureFormat::Enum color_format)
+	void Cascade::create(const uvec2& size, TextureFormat color_format)
 	{
-		//uint64_t flags = BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP;
-		uint64_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP;
+		//const uint64_t flags = BGFX_TEXTURE_BLIT_DST | TEXTURE_CLAMP;
+		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP;
 
-		if(bgfx::isTextureValid(1, true, 1, color_format, flags))
+		if(!bgfx::isTextureValid(1, false, 1, bgfx::TextureFormat::Enum(color_format), flags))
+			return;
+
+		m_texture = { size, true, color_format, flags };
+
+		for(uint16_t i = 0; size.x > 1 && i < 9; ++i)
 		{
-			m_texture = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), true, 1, color_format, flags);
-
-			for(uint16_t i = 1; size.x > 1 && i < 9; ++i)
-			{
-				bgfx::Attachment attachment = { m_texture, i, 0, BGFX_RESOLVE_NONE };
-				m_mips[i] = make_unique<FrameBuffer>(uvec2(size.x >> i, size.y >> i), bgfx::createFrameBuffer(1, &attachment, false));
-			}
+			uvec2 level_size = uvec2(size.x >> i, size.y >> i);
+			bgfx::Attachment attach = { bgfx::Access::Write, m_texture, i, 0, BGFX_RESOLVE_NONE };
+			m_fbos[i] = make_unique<FrameBuffer>(level_size, m_texture, span<bgfx::Attachment>{ attach });
 		}
 	}
 
@@ -6191,35 +7400,40 @@ namespace mud
 			bgfx::destroy(m_texture);
 	}
 
-	RenderTarget::RenderTarget(uvec2 size)
+	void SwapCascade::create(const uvec2& size, TextureFormat color_format)
+	{
+		m_one.create(size, color_format);
+		m_two.create(size, color_format);
+	}
+	
+	SwapCascade::~SwapCascade()
+	{}
+
+	RenderTarget::RenderTarget(const uvec2& size, void* window)
 		: FrameBuffer(size)
+		, m_backbuffer(size, window)
 		//, m_msaa(MSAA::X16)
 	{
-		static const uint64_t msaa_value[] = { BGFX_TEXTURE_RT, BGFX_TEXTURE_RT_MSAA_X2, BGFX_TEXTURE_RT_MSAA_X4, BGFX_TEXTURE_RT_MSAA_X8, BGFX_TEXTURE_RT_MSAA_X16 };
+		static const table<MSAA, uint64_t> msaa_flag = { BGFX_TEXTURE_RT, BGFX_TEXTURE_RT_MSAA_X2, BGFX_TEXTURE_RT_MSAA_X4, BGFX_TEXTURE_RT_MSAA_X8, BGFX_TEXTURE_RT_MSAA_X16 };
 		
-		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
+		TextureFormat color_format = TextureFormat::RGBA16F;
 
-		if(!bgfx::isTextureValid(0, false, 1, color_format, 0))
-			color_format = bgfx::TextureFormat::RGB10A2;
-		if(!bgfx::isTextureValid(0, false, 1, color_format, 0))
-			color_format = bgfx::TextureFormat::RGBA8;
-		if(!bgfx::isTextureValid(0, false, 1, color_format, msaa_value[size_t(m_msaa)]))
+		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::Enum(color_format), 0))
+			color_format = TextureFormat::RGB10A2;
+		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::Enum(color_format), 0))
+			color_format = TextureFormat::RGBA8;
+		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::Enum(color_format), msaa_flag[m_msaa]))
 			m_msaa = MSAA::Disabled;
 
-		uint64_t render_target_flags = msaa_value[size_t(m_msaa)];
-#if defined MUD_PLATFORM_EMSCRIPTEN && !defined MUD_WEBGL2
-		render_target_flags |= GFX_TEXTURE_CLAMP;
-#endif
+		//color_format = TextureFormat::RGBA8;
 
-		m_depth = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::D24S8, render_target_flags);
+		const uint64_t flags = msaa_flag[m_msaa];
 
-		m_diffuse = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, color_format, render_target_flags);
+		m_depth = { size, false, TextureFormat::D24S8, flags | TEXTURE_DEPTH };
 
-#if defined MUD_PLATFORM_EMSCRIPTEN && !defined MUD_WEBGL2
-		m_mrt = false;
-#else
+		m_diffuse = { size, false, color_format, flags };
+
 		m_mrt = bgfx::getCaps()->limits.maxFBAttachments >= 4;
-#endif
 		
 #ifdef MUD_GL_NO_MRT
 		// disabling MRT on OpenGL until we figure out a fix for the visual bug
@@ -6232,11 +7446,11 @@ namespace mud
 		m_mrt = false;
 		if(m_mrt)
 		{
-			m_specular = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, color_format, render_target_flags);
+			m_specular = { size, false, color_format, flags };
 
-			m_normal_rough = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA8, render_target_flags);
+			m_normal_rough = { size, false, TextureFormat::RGBA8, flags };
 
-			//m_sss = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::R8, render_target_flags);
+			//m_sss = { size, bgfx::TextureFormat::R8, render_target_flags };
 
 			bgfx::TextureHandle textures[4] = { m_depth, m_diffuse, m_specular, m_normal_rough };
 			m_fbo = bgfx::createFrameBuffer(4, textures, true);
@@ -6248,11 +7462,9 @@ namespace mud
 		}
 
 		m_ping_pong.create(size, color_format);
-		m_post_process.create(size, color_format);
+		m_post.create(size, color_format);
 
-#if !defined MUD_PLATFORM_EMSCRIPTEN || defined MUD_WEBGL2
 		m_cascade.create(size, color_format);
-#endif
 
 #ifdef MUD_GFX_DEFERRED
 		m_deferred = true;
@@ -6260,22 +7472,21 @@ namespace mud
 		m_deferred = false;
 #endif
 		if(m_deferred)
-		{
-			m_gbuffer.m_depth		= bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::D24S8,	render_target_flags);
-			m_gbuffer.m_position	= bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, color_format,					render_target_flags);
-			m_gbuffer.m_normal		= bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, color_format,					render_target_flags);
-			m_gbuffer.m_albedo		= bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, color_format,					render_target_flags);
-			m_gbuffer.m_surface		= bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA8,	render_target_flags);
-
-			bgfx::TextureHandle textures[5] = { m_gbuffer.m_depth, m_gbuffer.m_position, m_gbuffer.m_normal, m_gbuffer.m_albedo, m_gbuffer.m_surface };
-			m_gbuffer.m_fbo = bgfx::createFrameBuffer(5, textures, true);
-		}
+			m_gbuffer.create(size, color_format, flags);
 	}
 
 	RenderTarget::~RenderTarget()
+	{}
+
+	void GBuffer::create(const uvec2& size, TextureFormat color_format, uint64_t flags)
 	{
-		if(bgfx::isValid(m_fbo))
-			bgfx::destroy(m_fbo);
+		m_depth    = { size, false, TextureFormat::D24S8, flags | TEXTURE_DEPTH };
+		m_position = { size, false, color_format,		  flags };
+		m_normal   = { size, false, color_format,		  flags };
+		m_albedo   = { size, false, color_format,		  flags };
+		m_surface  = { size, false, TextureFormat::RGBA8, flags };
+
+		(FrameBuffer&)*this = { size, { &m_depth, &m_position, &m_normal, &m_albedo, &m_surface } };
 	}
 }
 
@@ -6290,21 +7501,16 @@ module mud.gfx;
 
 namespace mud
 {
-	Scene::Scene(GfxSystem& gfx_system)
-		: m_gfx_system(gfx_system)
-		, m_immediate(oconstruct<ImmediateDraw>(gfx_system.fetch_material("immediate", "unshaded")))
+	Scene::Scene(GfxSystem& gfx)
+		: m_gfx(gfx)
+		, m_immediate(oconstruct<ImmediateDraw>(gfx.fetch_material("immediate", "solid")))
 		, m_pass_jobs(oconstruct<PassJobs>())
 		, m_graph(*this)
-		, m_root_node(this)
 	{
-		m_environment.m_radiance.m_colour = Colour::White;//{ 0.35f, 0.33f, 0.3f, 1.f };
-		m_environment.m_radiance.m_energy = 0.3f;
-		m_environment.m_radiance.m_ambient = 0.7f;
-
 		m_pool = oconstruct<ObjectPool>();
-		m_pool->create_pool<Particles>(1024);
+		m_pool->create_pool<Flare>(1024);
 
-		m_particle_system = oconstruct<ParticleSystem>(gfx_system, m_pool->pool<Particles>());
+		m_particle_system = oconstruct<ParticleSystem>(gfx, m_pool->pool<Flare>());
 	}
 
 	Scene::~Scene()
@@ -6315,18 +7521,15 @@ namespace mud
 		static Clock clock;
 		float timestep = float(clock.step());
 
-		m_pool->pool<Animated>().iterate([=](Animated& animated)
+		m_pool->pool<Mime>().iterate([=](Mime& animated)
 		{
 			animated.advance(timestep);
 		});
 
-		m_pool->pool<Item>().iterate([=](Item& item)
+		for(PassType pass = PassType(0); pass != PassType::Count; pass = PassType(size_t(pass) + 1))
 		{
-			item.update();
-		});
-
-		for(size_t i = 0; i < size_t(PassType::Count); ++i)
-			m_pass_jobs->m_jobs[i].clear();
+			m_pass_jobs->m_jobs[pass].clear();
+		}
 	}
 
 	Gnode& Scene::begin()
@@ -6341,7 +7544,7 @@ namespace mud
 		mat4 identity = bxidentity();
 		bool debug = render.m_target != nullptr;
 		if(debug)
-			for(Item* item : render.m_shot->m_items)
+			for(Item* item : render.m_shot.m_items)
 			{
 				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
 				Cube cube = Cube(item->m_aabb);
@@ -6355,37 +7558,38 @@ namespace mud
 		//items.reserve(m_pool->pool<Item>().size());
 		scene.m_pool->pool<Item>().iterate([&](Item& item)
 		{
-			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0
-			&& frustum_aabb_intersection(planes, item.m_aabb))
-			{
-				items.push_back(&item);
-			}
+			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
+				if((item.m_flags & ItemFlag::NoCull) != 0 || frustum_aabb_intersection(planes, item.m_aabb))
+				{
+					items.push_back(&item);
+				}
 		});
 	}
 
 	void gather_items(Scene& scene, const Camera& camera, vector<Item*>& items)
 	{
-		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
+		const Plane6 planes = frustum_planes(camera.m_proj, camera.m_view);
 
-		Plane near_plane = camera.near_plane();
+		const Plane near_plane = camera.near_plane();
 
-		vec4 lod_levels = camera.m_far * vec4{ 0.02f, 0.3f, 0.6f, 0.8f };
+		const vec4 lod_levels = camera.m_far * vec4(0.02f, 0.3f, 0.6f, 0.8f);
 
 		//items.reserve(m_pool->pool<Item>().size());
 		scene.m_pool->pool<Item>().iterate([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
 			{
-				if(!frustum_aabb_intersection(planes, item.m_aabb))
+				const bool no_cull = (item.m_flags & ItemFlag::NoCull) != 0;
+				if(!no_cull && !frustum_aabb_intersection(planes, item.m_aabb))
 					return;
 
-				float depth = distance(near_plane, item.m_aabb.m_center);
+				const float depth = distance(near_plane, item.m_aabb.m_center);
 
-				vec4 comparison = vec4(greater(vec4(depth), lod_levels));
-				float index = dot(vec4(1.f), comparison);
-				uint8_t lod = uint8_t(min(index, 3.f));
+				const vec4 comparison = vec4(greater(vec4(depth), lod_levels));
+				const float index = dot(vec4(1.f), comparison);
+				const uint8_t lod = uint8_t(min(index, 3.f));
 
-				bool has_lod = (item.m_flags & (ItemFlag::Lod0 << lod)) != 0;
+				const bool has_lod = (item.m_flags & (ItemFlag::Lod0 << lod)) != 0;
 				if(has_lod)
 				{
 					item.m_depth = depth;
@@ -6397,7 +7601,7 @@ namespace mud
 
 	void gather_occluders(Scene& scene, const Camera& camera, vector<Item*>& occluders)
 	{
-		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
+		Plane6 planes = frustum_planes(camera.m_proj, camera.m_view);
 
 		//occluders.reserve(m_pool->pool<Item>().size());
 		scene.m_pool->pool<Item>().iterate([&](Item& item)
@@ -6412,11 +7616,13 @@ namespace mud
 
 	void gather_lights(Scene& scene, vector<Light*>& lights)
 	{
+		uint32_t index = 0;
 		//lights.reserve(m_pool->pool<Light>().size());
 		scene.m_pool->pool<Light>().iterate([&](Light& light)
 		{
 			if(light.m_visible)
 			{
+				light.m_index = index++;
 				light.m_shot_index = lights.size();
 				lights.push_back(&light);
 			}
@@ -6425,14 +7631,13 @@ namespace mud
 
 	void gather_render(Scene& scene, Render& render)
 	{
-		gather_items(scene, render.m_camera, render.m_shot->m_items);
-		gather_occluders(scene, render.m_camera, render.m_shot->m_occluders);
-		gather_lights(scene, render.m_shot->m_lights);
+		gather_items(scene, *render.m_camera, render.m_shot.m_items);
+		gather_occluders(scene, *render.m_camera, render.m_shot.m_occluders);
+		gather_lights(scene, render.m_shot.m_lights);
 
-		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, render.m_shot->m_items));
+		render.m_frustum = optimized_frustum(*render.m_camera, render.m_shot.m_items);
 
-		render.m_environment = &scene.m_environment;
-		render.m_shot->m_immediate = { scene.m_immediate.get() };
+		render.m_shot.m_immediate = { scene.m_immediate.get() };
 
 #if DEBUG_ITEMS
 		scene.debug_items(render);
@@ -6445,6 +7650,10 @@ namespace mud
 module mud.gfx;
 #else
 #endif
+
+#include <algorithm>
+
+#include <cstdio>
 
 #define SKELETON_TEXTURE_SIZE 256
 
@@ -6459,29 +7668,26 @@ namespace mud
 		m_bones.reserve(num_bones);
 	}
 
-	void Skeleton::update_bones()
+	uint32_t Skeleton::add_bone(cstring name, uint32_t parent)
 	{
-		for(Bone& bone : m_bones)
-		{
-			if(bone.m_parent > -1)
-				bone.m_pose = m_bones[bone.m_parent].m_pose * bone.m_pose_local;
-			else
-				bone.m_pose = bone.m_pose_local;
-		}
+		const uint32_t index = uint32_t(m_bones.size());
+		m_names.push_back(name);
+		m_bones.push_back(Node3(mat4(), parent));
+		return index;
 	}
 
-	Bone& Skeleton::add_bone(cstring name, int parent)
-	{		
-		m_bones.push_back({ name, int(m_bones.size()), parent });
-		return m_bones.back();
+	uint32_t Skeleton::bone_index(cstring name) const
+	{
+		for(size_t i = 0; i < m_names.size(); i++)
+			if(m_names[i] == name)
+				return i;
+		return UINT32_MAX;
 	}
 
-	Bone* Skeleton::find_bone(cstring name)
+	Node3* Skeleton::find_bone(cstring name)
 	{
-		for(size_t i = 0; i < m_bones.size(); i++)
-			if(m_bones[i].m_name == name)
-				return &m_bones[i];
-		return nullptr;
+		uint32_t index = this->bone_index(name);
+		return index != UINT32_MAX ? &m_bones[index] : nullptr;
 	}
 
 	Skin::Skin() {}
@@ -6504,33 +7710,27 @@ namespace mud
 
 	void Skin::add_joint(cstring bone, const mat4& inverse_bind)
 	{
-		Joint joint = { size_t(m_skeleton->find_bone(bone)->m_index), inverse_bind, mat4{} };
+		Joint joint = { m_skeleton->bone_index(bone), inverse_bind, mat4() };
 		m_joints.push_back(joint);
-	}
-
-	Joint* Skin::find_bone_joint(cstring name)
-	{
-		for(Joint& joint : m_joints)
-			if(m_skeleton->m_bones[joint.m_bone].m_name == name)
-				return &joint;
-		return nullptr;
 	}
 
 	void Skin::update_joints()
 	{
-		int height = int(m_joints.size()) / SKELETON_TEXTURE_SIZE;
+		uint height = uint(m_joints.size()) / SKELETON_TEXTURE_SIZE;
 		if(m_joints.size() % SKELETON_TEXTURE_SIZE)
 			height++;
+		const uvec2 size = uvec2(SKELETON_TEXTURE_SIZE, height * 4);
 
 		if(!bgfx::isValid(m_texture))
-			m_texture = bgfx::createTexture2D(SKELETON_TEXTURE_SIZE, uint16_t(height * 4), false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
+			m_texture = bgfx::createTexture2D(size.x, size.y, false, 1, bgfx::TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP);
+			//m_texture = { size, false, bgfx::TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
 		
-		m_memory = bgfx::alloc(SKELETON_TEXTURE_SIZE * height * 4 * 4 * sizeof(float));
+		m_memory = bgfx::alloc(size.x * size.y * 4 * sizeof(float));
 
 		int index = 0;
 		for(Joint& joint : m_joints)
 		{
-			joint.m_joint = m_skeleton->m_bones[joint.m_bone].m_pose * joint.m_inverse_bind;
+			joint.m_joint = m_skeleton->m_bones[joint.m_bone].m_transform * joint.m_inverse_bind;
 
 			float* texture = (float*)m_memory->data;
 			//float* texture = m_texture_data.data();
@@ -6572,27 +7772,39 @@ namespace mud
 
 	void Rig::update_rig()
 	{
-		m_skeleton.update_bones();
-
 		for(Skin& skin : m_skins)
 			skin.update_joints();
+
+		if(m_morphs.size() > 0)
+		{
+			m_weights.resize(m_morphs.size());
+
+			for(uint32_t i = 0; i < m_morphs.size(); ++i)
+			{
+				m_weights[i] = { i, m_morphs[i] };
+			}
+
+			std::sort(m_weights.begin(), m_weights.end(), [](const MorphWeight& a, const MorphWeight& b) { return a.weight > b.weight; });
+			// @todo fix that shit quicksort we implemented :D
+			// quicksort(span<MorphWeight>(m_weights), [](const MorphWeight& a, const MorphWeight& b) { return a.weight < b.weight; });
+		}
 	}
 }
 
 #ifdef _DEBUG
 namespace mud
 {
-	mat4 fix_bone_pose(Bone& bone)
+	mat4 fix_bone_pose(Node3& bone)
 	{
-		return bxrotation(angle_axis(-c_pi * 0.5f, X3)) * bxscale(vec3(0.009999999776482582f)) * bone.m_pose;
+		return bxrotation(angle_axis(-c_pi * 0.5f, X3)) * bxscale(vec3(0.009999999776482582f)) * bone.m_transform;
 	}
 
 	void debug_draw_skeleton(Gnode& parent, const vec3& position, const quat& rotation, Rig& rig)
 	{
-		for(Bone& bone : rig.m_skeleton.m_bones)
+		for(Node3& bone : rig.m_skeleton.m_bones)
 		{
 			mat4 pose = bxrotation(rotation) * fix_bone_pose(bone);
-			Gnode& node = gfx::node(parent, {}, position + vec3(pose * vec4(Zero3, 1.f)));
+			Gnode& node = gfx::node(parent, {}, position + vec3(pose * vec4(vec3(0.f), 1.f)));
 			gfx::shape(node, Sphere(0.02f), Symbol());
 		}
 	}
@@ -6654,9 +7866,9 @@ namespace mud
 		bimg::imageFree(imageContainer);
 	}
 
-	void save_bgfx_texture(bx::AllocatorI& allocator, bx::FileWriterI& writer, cstring file_path, bgfx::TextureFormat::Enum target_format, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum texture_format, uint16_t width, uint16_t height, uint16_t depth)
+	void save_bgfx_texture(GfxSystem& gfx, const string& file_path, bgfx::TextureFormat::Enum target_format, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum texture_format, uint16_t width, uint16_t height, uint16_t depth)
 	{
-		bimg::ImageContainer* source = bimg::imageAlloc(&allocator, bimg::TextureFormat::Enum(texture_format), width, height, depth, 1, false, false);
+		bimg::ImageContainer* source = bimg::imageAlloc(&gfx.allocator(), bimg::TextureFormat::Enum(texture_format), width, height, depth, 1, false, false);
 		if(source == nullptr) return;
 
 		for(uint8_t mip = 0; mip < source->m_numMips; ++mip)
@@ -6665,15 +7877,15 @@ namespace mud
 			while(bgfx::frame() != ready);
 		}
 
-		if(!bx::open(&writer, file_path))
+		if(!bx::open(&gfx.file_writer(), file_path.c_str()))
 		{
-			printf("ERROR: Unable to open output file '%s'", file_path);
+			printf("ERROR: Unable to open output file '%s'", file_path.c_str());
 			return;
 		}
 
 		bimg::ImageContainer* encoded = source;
 		if(target_format != texture_format)
-			encoded = bimg::imageEncode(&allocator, bimg::TextureFormat::Enum(target_format), bimg::Quality::Default, *source);
+			encoded = bimg::imageEncode(&gfx.allocator(), bimg::TextureFormat::Enum(target_format), bimg::Quality::Default, *source);
 		if(encoded == nullptr)
 		{
 			bimg::imageFree(source);
@@ -6684,41 +7896,42 @@ namespace mud
 
 		if(target_format == bgfx::TextureFormat::RGBA16F)
 			//bimg::imageWriteKtx(&writer, bimg::TextureFormat::RGBA16F, false, width, height, depth, source->m_numMips, 1, encoded->m_data, nullptr);
-			bimg::imageWriteHdr(&writer, width, height, width * depth * stride, encoded->m_data, bimg::TextureFormat::RGBA16F, false, nullptr);
+			bimg::imageWriteHdr(&gfx.file_writer(), width, height, width * depth * stride, encoded->m_data, bimg::TextureFormat::RGBA16F, false, nullptr);
 		if(target_format == bgfx::TextureFormat::RGBA8)
-			bimg::imageWritePng(&writer, width, height, width * depth * stride, encoded->m_data, bimg::TextureFormat::RGBA8, false);
+			bimg::imageWritePng(&gfx.file_writer(), width, height, width * depth * stride, encoded->m_data, bimg::TextureFormat::RGBA8, false);
 		if(target_format == bgfx::TextureFormat::BC3 || target_format == bgfx::TextureFormat::BC6H)
-			bimg::imageWriteDds(&writer, *encoded, encoded->m_data, encoded->m_size, nullptr);
+			bimg::imageWriteDds(&gfx.file_writer(), *encoded, encoded->m_data, encoded->m_size, nullptr);
 
-		bx::close(&writer);
+		bx::close(&gfx.file_writer());
 
 		bimg::imageFree(source);
 		if(target_format != texture_format)
 			bimg::imageFree(encoded);
 	}
 
-	bgfx::TextureHandle load_bgfx_image(bimg::ImageContainer& image, const char* name, uint64_t flags, bgfx::TextureInfo* info)
+	bgfx::TextureHandle load_bgfx_image(bimg::ImageContainer& image, const string& name, uint64_t flags, bgfx::TextureInfo* info)
 	{
 		bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
 
 		const bgfx::Memory* mem = bgfx::makeRef(image.m_data, image.m_size, release_bgfx_image, &image);
+		uint64_t srgb = image.m_srgb ? BGFX_TEXTURE_SRGB : 0;
 
-		printf("INFO: Loaded image %s of size %s in memory\n", name, readable_file_size(image.m_size).c_str());
+		printf("INFO: Loaded image %s srgb(%i) of size %s in memory\n", name.c_str(), int(image.m_srgb), readable_file_size(image.m_size).c_str());
 
 		if(image.m_cubeMap)
 		{
 			handle = bgfx::createTextureCube(uint16_t(image.m_width), 1 < image.m_numMips,
-											 image.m_numLayers, bgfx::TextureFormat::Enum(image.m_format), flags, mem);
+											 image.m_numLayers, bgfx::TextureFormat::Enum(image.m_format), flags | srgb, mem);
 		}
 		else if(1 < image.m_depth)
 		{
 			handle = bgfx::createTexture3D(uint16_t(image.m_width), uint16_t(image.m_height), uint16_t(image.m_depth),
-										   1 < image.m_numMips, bgfx::TextureFormat::Enum(image.m_format), flags, mem);
+										   1 < image.m_numMips, bgfx::TextureFormat::Enum(image.m_format), flags | srgb, mem);
 		}
 		else
 		{
 			handle = bgfx::createTexture2D(uint16_t(image.m_width), uint16_t(image.m_height), 1 < image.m_numMips,
-										   image.m_numLayers, bgfx::TextureFormat::Enum(image.m_format), flags, mem);
+										   image.m_numLayers, bgfx::TextureFormat::Enum(image.m_format), flags | srgb, mem);
 		}
 		
 		if(info)
@@ -6730,10 +7943,10 @@ namespace mud
 		return handle;
 	}
 
-	bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, const char* name, void* data, size_t size, uint64_t flags, bgfx::TextureInfo* info, bool generate_mips)
+	bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& name, void* data, size_t size, uint64_t flags, bgfx::TextureInfo* info, bool generate_mips)
 	{
-		bimg::ImageContainer* image = bimg::imageParse(&allocator, data, uint32_t(size));
-		BX_FREE(&allocator, data);
+		bimg::ImageContainer* image = bimg::imageParse(&gfx.allocator(), data, uint32_t(size));
+		BX_FREE(&gfx.allocator(), data);
 
 		if(!image)
 			return BGFX_INVALID_HANDLE;
@@ -6747,8 +7960,8 @@ namespace mud
 
 		if(need_mips && generate_mips && image->m_numMips <= 1)
 		{
-			bimg::ImageContainer* rgba8 = bimg::imageConvert(&allocator, bimg::TextureFormat::RGBA8, *image);
-			bimg::ImageContainer* mips = bimg::imageGenerateMips(&allocator, *rgba8);
+			bimg::ImageContainer* rgba8 = bimg::imageConvert(&gfx.allocator(), bimg::TextureFormat::RGBA8, *image);
+			bimg::ImageContainer* mips = bimg::imageGenerateMips(&gfx.allocator(), *rgba8);
 			if(mips != nullptr)
 			{
 				bimg::imageFree(rgba8);
@@ -6757,72 +7970,192 @@ namespace mud
 			}
 			else
 			{
-				printf("WARNING: could not generate mips for texture %s\n", name);
+				printf("WARNING: could not generate mips for texture %s\n", name.c_str());
 			}
 		}
 
 		return load_bgfx_image(*image, name, flags, info);
 	}
 
-	bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, const char* file_path, uint64_t flags, bgfx::TextureInfo* info, bool generate_mips)
+	bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& file_path, uint64_t flags, bgfx::TextureInfo* info, bool generate_mips)
 	{
 		uint32_t size;
-		void* data = load_mem(&reader, &allocator, file_path, &size);
+		void* data = load_mem(&gfx.file_reader(), &gfx.allocator(), file_path.c_str(), &size);
 		if(!data)
 			return BGFX_INVALID_HANDLE;
 		else
-			return load_bgfx_texture(allocator, file_path, data, size, flags, info, generate_mips);
+			return load_bgfx_texture(gfx, file_path, data, size, flags, info, generate_mips);
 	}
 
-	bimg::ImageContainer* load_bgfx_image(bx::AllocatorI& allocator, bx::FileReaderI& _reader, const char* _filePath, bgfx::TextureFormat::Enum _dstFormat)
+	bimg::ImageContainer* load_bgfx_image(GfxSystem& gfx, const string& file_path, bgfx::TextureFormat::Enum dest_format)
 	{
 		uint32_t size = 0;
-		void* data = load_mem(&_reader, &allocator, _filePath, &size);
-		return bimg::imageParse(&allocator, data, size, bimg::TextureFormat::Enum(_dstFormat));
+		void* data = load_mem(&gfx.file_reader(), &gfx.allocator(), file_path.c_str(), &size);
+		return bimg::imageParse(&gfx.allocator(), data, size, bimg::TextureFormat::Enum(dest_format));
 	}
 
-	void save_texture(GfxSystem& gfx_system, Texture& texture, const string& path)
+	void save_texture(GfxSystem& gfx, Texture& tex, const string& path)
 	{
-		save_bgfx_texture(gfx_system.allocator(), gfx_system.file_writer(), path.c_str(), texture.m_format, texture.m_texture, texture.m_format, texture.m_width, texture.m_height);
+		bgfx::TextureFormat::Enum bformat = bgfx::TextureFormat::Enum(tex.m_format);
+		save_bgfx_texture(gfx, path, bformat, tex.m_tex, bformat, uint16_t(tex.m_size.x), uint16_t(tex.m_size.y));
 	}
 
 	void set_texture_info(Texture& texture, bgfx::TextureInfo& texture_info)
 	{
-		texture.m_width = texture_info.width;
-		texture.m_height = texture_info.height;
-		texture.m_format = texture_info.format;
+		texture.m_size = uvec2(texture_info.width, texture_info.height);
+		texture.m_format = TextureFormat(texture_info.format);
+		texture.m_memsize = texture_info.storageSize;
 		texture.m_bits_per_pixel = texture_info.bitsPerPixel;
+		texture.m_is_cube = texture_info.cubeMap;
+		texture.m_is_array = texture_info.numLayers > 1;
+		texture.m_mips = texture_info.numMips > 0;
 	}
 
-	void load_texture(GfxSystem& gfx_system, Texture& texture, const string& path)
+	void load_texture(GfxSystem& gfx, Texture& texture, const string& path, bool srgb)
+	{
+		if(file_extension(path) == "cube")
+		{
+			const string name = file_noext(path);
+			const string format = "." + file_extension(name);
+			const string base = file_noext(name);
+
+			const string paths[] = {
+				base + "/" + "px" + format, base + "/" + "nx" + format,
+				base + "/" + "py" + format, base + "/" + "ny" + format,
+				base + "/" + "pz" + format, base + "/" + "nz" + format
+			};
+			
+			bimg::ImageContainer* sides[6] = {};
+			for(size_t i = 0; i < 6; ++i)
+			{
+				uint32_t size;
+				void* data = load_mem(&gfx.file_reader(), &gfx.allocator(), paths[i].c_str(), &size);
+				sides[i] = bimg::imageParse(&gfx.allocator(), data, uint32_t(size));
+				BX_FREE(&gfx.allocator(), data);
+			}
+
+			bimg::ImageContainer* cubemap = bimg::imageCubemapFrom6Sides(&gfx.allocator(), sides, nullptr);
+
+			for(size_t i = 0; i < 6; ++i)
+				bimg::imageFree(sides[i]);
+
+			bgfx::TextureInfo texture_info;
+			texture.m_location = path;
+			texture.m_tex = load_bgfx_image(*cubemap, path.c_str(), !srgb ? BGFX_TEXTURE_NONE : BGFX_TEXTURE_SRGB, &texture_info);
+			set_texture_info(texture, texture_info);
+		}
+		else
+		{
+			bgfx::TextureInfo texture_info;
+			texture.m_location = path;
+			texture.m_tex = load_bgfx_texture(gfx, path, !srgb ? BGFX_TEXTURE_NONE : BGFX_TEXTURE_SRGB, &texture_info, true);
+			// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
+			set_texture_info(texture, texture_info);
+		}
+	}
+
+	void load_texture_mem(GfxSystem& gfx, Texture& texture, span<uint8_t> data)
 	{
 		bgfx::TextureInfo texture_info;
-		texture.m_texture = load_bgfx_texture(gfx_system.allocator(), gfx_system.file_reader(), path.c_str(), 0U, &texture_info, true);
+		texture.m_tex = load_bgfx_texture(gfx, texture.m_name, (void*)data.m_pointer, data.m_count, 0U, &texture_info, true);
 		// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 		set_texture_info(texture, texture_info);
-	}
-
-	void load_texture_mem(GfxSystem& gfx_system, Texture& texture, span<uint8_t> data)
-	{
-		bgfx::TextureInfo texture_info;
-		texture.m_texture = load_bgfx_texture(gfx_system.allocator(), texture.m_name.c_str(), (void*)data.m_pointer, data.m_count, 0U, &texture_info, true);
-		// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
-		set_texture_info(texture, texture_info);
-	}
-
-	void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, span<uint8_t> data)
-	{
-		const bgfx::Memory* memory = bgfx::alloc(uint32_t(sizeof(uint8_t) * data.m_count));
-		memcpy(memory->data, data.m_pointer, data.m_count);
-		texture.m_texture = bgfx::createTexture2D(width, height, false, 1, bgfx::TextureFormat::RGBA8, GFX_TEXTURE_POINT, memory);
 	}
 
 	Texture::Texture(const string& name)
 		: m_name(name)
 	{}
 
+	Texture::Texture(const uvec2& size, bool mips, TextureFormat format, uint64_t flags, bool cube)
+		: m_size(size)
+		, m_format(format)
+		, m_is_cube(cube)
+	{
+		bgfx::TextureFormat::Enum bformat = bgfx::TextureFormat::Enum(format);
+		m_tex = cube
+			? bgfx::createTextureCube(uint16_t(size.x), mips, 1, bformat, flags)
+			: bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), mips, 1, bformat, flags);
+		m_is_depth = bformat >= bgfx::TextureFormat::D16 && bformat <= bgfx::TextureFormat::D0S8;
+	}
+
+	Texture::Texture(const uvec2& size, bool mips, int layers, TextureFormat format, uint64_t flags)
+		: m_size(size)
+		, m_format(format)
+	{
+		bgfx::TextureFormat::Enum bformat = bgfx::TextureFormat::Enum(format);
+		m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), mips, layers, bformat, flags);
+		m_is_depth = bformat >= bgfx::TextureFormat::D16 && bformat <= bgfx::TextureFormat::D0S8;
+		m_is_array = true;
+	}
+
+	Texture::Texture(const uvec3& size, bool mips, TextureFormat format, uint64_t flags)
+		: m_size(size.x, size.y)
+		, m_depth(size.z)
+		, m_format(format)
+	{
+		bgfx::TextureFormat::Enum bformat = bgfx::TextureFormat::Enum(format);
+		m_tex = bgfx::createTexture3D(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), mips, bformat, flags);
+		m_is_depth = bformat >= bgfx::TextureFormat::D16 && bformat <= bgfx::TextureFormat::D0S8;
+	}
+
 	Texture::~Texture()
-	{}
+	{
+		if(bgfx::isValid(m_tex))
+			bgfx::destroy(m_tex);
+	}
+
+	bool Texture::valid() const { return bgfx::isValid(m_tex); }
+
+	void Texture::reload(GfxSystem& gfx, bool srgb)
+	{
+		load_texture(gfx, *this, m_location, srgb);
+	}
+
+	void Texture::load_float(const uvec2& size, const bgfx::Memory& memory, uint8_t num_components)
+	{
+		if(m_size == size)
+		{
+			bgfx::updateTexture2D(m_tex, 0, 0, 0, 0, uint16_t(size.x), uint16_t(size.y), &memory);
+		}
+		else
+		{
+			m_size = size;
+			m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA32F, TEXTURE_POINT, &memory);
+		}
+	}
+
+	void Texture::load_rgba(const uvec2& size, const bgfx::Memory& memory)
+	{
+		if(m_size == size)
+		{
+			bgfx::updateTexture2D(m_tex, 0, 0, 0, 0, uint16_t(size.x), uint16_t(size.y), &memory);
+		}
+		else
+		{
+			m_size = size;
+			m_tex = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA8, TEXTURE_POINT, &memory);
+		}
+	}
+
+	void Texture::load_rgba(const uvec2& size, span<uint32_t> data, bool ref)
+	{
+		const bgfx::Memory* memory = ref
+			? bgfx::makeRef(data.data(), data.size())
+			: bgfx::alloc(uint32_t(data.m_count * sizeof(uint32_t)));
+		if(!ref)
+			memcpy(memory->data, data.m_pointer, data.m_count * sizeof(uint32_t));
+		this->load_rgba(size, *memory);
+	}
+
+	void Texture::load_float(const uvec2& size, span<float> data, bool ref)
+	{
+		const bgfx::Memory* memory = ref
+			? bgfx::makeRef(data.data(), data.size())
+			: bgfx::alloc(uint32_t(data.m_count * sizeof(float)));
+		if(!ref)
+			memcpy(memory->data, data.m_pointer, data.m_count * sizeof(float));
+		this->load_float(size, *memory);
+	}
 }
 
 #if 0
@@ -6842,13 +8175,13 @@ namespace mud
 	void UniformBlock::pack_member(size_t size, Member& member)
 	{
 		if(m_uniforms.empty() || m_uniforms.back().m_space < size)
-			m_uniforms.push_back({ "u_" + m_name + "_params_" + to_string(m_num_packed++), member.m_offset, bgfx::UniformType::Vec4 });
+			m_uniforms.push_back({ "u_" + m_name + "_p" + to_string(m_num_packed++), member.m_offset, bgfx::UniformType::Vec4 });
 
 		m_uniforms.back().m_fields.push_back({ member.m_name, member.m_offset, size });
 		m_uniforms.back().m_space -= size;
 	}
 
-	void UniformBlock::create_member(GfxSystem& gfx_system, const string& name, Member& member)
+	void UniformBlock::create_member(GfxSystem& gfx, const string& name, Member& member)
 	{
 		if(member.m_type->is<float>())
 			pack_member(1, member);
@@ -6859,13 +8192,13 @@ namespace mud
 		else if(member.m_type->is<vec4>() || member.m_type->is<Colour>())
 			m_uniforms.push_back({ "u_" + name, member.m_offset, bgfx::UniformType::Vec4 });
 		else if(member.m_type->is<Texture>())
-			m_samplers.push_back({ "s_" + name, member.m_offset, uint8_t(m_samplers.size()), &gfx_system.default_texture(TextureHint::White), {} });
+			m_samplers.push_back({ "s_" + name, member.m_offset, uint8_t(m_samplers.size()), &gfx.default_texture(TextureHint::White), {} });
 		else if(member.m_type->is<mat4>())
 			m_uniforms.push_back({ "u_" + name, member.m_offset, bgfx::UniformType::Mat4 });
 
 		else if(member.cls().m_members.size() > 0)
 			for(Member& sub_member : member.cls().m_members)
-				create_member(gfx_system, name, sub_member);
+				create_member(gfx, name, sub_member);
 	}
 
 	string UniformBlock::shader_decl()
@@ -6881,10 +8214,10 @@ namespace mud
 		return "";
 	}
 
-	void UniformBlock::create(GfxSystem& gfx_system)
+	void UniformBlock::create(GfxSystem& gfx)
 	{
 		for(Member& member : cls(m_type).m_members)
-			create_member(gfx_system, member.m_name, member);
+			create_member(gfx, member.m_name, member);
 
 		for(Uniform& uniform : m_uniforms)
 			uniform.create();
@@ -6912,13 +8245,13 @@ namespace mud
 
 	static uint16_t viewportIndex = 1;
 
-	Viewport::Viewport(Camera& camera, Scene& scene, uvec4 rect, bool scissor)
+	Viewport::Viewport(Camera& camera, Scene& scene, const vec4& rect, bool scissor)
 		: m_camera(&camera)
 		, m_scene(&scene)
 		, m_index(viewportIndex++)
 		, m_rect(rect)
 		, m_scissor(scissor)
-		, m_culler(*this)
+		, m_culler(construct<Culler>(*this))
 	{
 		(Entt&)(*this) = { &s_viewer_ecs, s_viewer_ecs.create() };
 	}
@@ -6926,24 +8259,24 @@ namespace mud
 	Viewport::~Viewport()
 	{}
 
-	void Viewport::render_pass(cstring name, const Pass& render_pass)
+	void Viewport::pass(const Pass& pass)
 	{
-		bgfx::setViewName(render_pass.m_index, name);
-		bgfx::setViewRect(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(rect_w(m_rect)), uint16_t(rect_h(m_rect)));
-		bgfx::setViewTransform(render_pass.m_index, value_ptr(m_camera->m_transform), value_ptr(m_camera->m_projection));
-		bgfx::setViewFrameBuffer(render_pass.m_index, render_pass.m_fbo);
-		bgfx::setViewClear(render_pass.m_index, BGFX_CLEAR_NONE);
+		const FrameBuffer& fbo = *pass.m_fbo;
+		const ushort4 rect = ushort4(m_rect * vec2(fbo.m_size));
+
+		bgfx::setViewRect(pass.m_index, rect.x, rect.y, rect.width, rect.height);
+		bgfx::setViewTransform(pass.m_index, value_ptr(m_camera->m_view), value_ptr(m_camera->m_proj));
+		bgfx::setViewFrameBuffer(pass.m_index, *pass.m_fbo);
+		bgfx::setViewClear(pass.m_index, BGFX_CLEAR_NONE);
 
 		if(m_scissor)
-			bgfx::setViewScissor(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(rect_w(m_rect)), uint16_t(rect_h(m_rect)));
-
-		bgfx::touch(render_pass.m_index);
+			bgfx::setViewScissor(pass.m_index, rect.x, rect.y, rect.width, rect.height);
 	}
 
 	void Viewport::cull(Render& render)
 	{
 #ifndef NO_OCCLUSION_CULLING
-		m_culler.render(render);
+		m_culler->render(render);
 #else
 		UNUSED(render);
 #endif
@@ -6951,20 +8284,35 @@ namespace mud
 
 	void Viewport::render(Render& render)
 	{
-		if(rect_h(m_rect) != 0)
-			m_camera->m_aspect = float(rect_w(m_rect)) / float(rect_h(m_rect));
+		if(m_rect.height != 0.f)
+		{
+			const vec2 size = m_rect.size * vec2(render.m_fbo->m_size);
+			m_camera->m_aspect = size.x / size.y;
+		}
+
 		m_camera->update();
 
-		if(m_camera->m_clusters)
+		if(m_clusters)
 		{
-			m_camera->m_clusters->m_dirty |= Froxelizer::VIEWPORT_CHANGED | Froxelizer::PROJECTION_CHANGED;
-			m_camera->m_clusters->update(*this, m_camera->m_projection, m_camera->m_near, m_camera->m_far);
-			m_camera->m_clusters->froxelize_lights(*m_camera, render.m_shot->m_lights);
-			m_camera->m_clusters->upload();
+			const uvec4 rect = uvec4(m_rect * vec2(render.m_fbo->m_size));
+			m_clusters->m_dirty |= uint8_t(Froxelizer::Dirty::Viewport) | uint8_t(Froxelizer::Dirty::Projection);
+			m_clusters->update(rect, m_camera->m_proj, m_camera->m_near, m_camera->m_far);
+			m_clusters->clusterize_lights(*m_camera, render.m_shot.m_lights);
+			m_clusters->upload();
 		}
 
 		for(RenderTask& task : m_tasks)
 			task(render);
+	}
+
+	void Viewport::set_clustered(GfxSystem& gfx)
+	{
+		if(m_rect.width != 0.f && m_rect.height != 0.f && !m_clusters)
+		{
+			m_clustered = true;
+			m_clusters = make_unique<Froxelizer>(gfx);
+			m_clusters->setup();
+		}
 	}
 
 	/*void hmdUpdate()
@@ -6990,8 +8338,8 @@ namespace mud
 	Ray Viewport::ray(const vec2& pos)
 	{
 		// coord in NDC
-		float xNDC = (pos.x / float(rect_w(m_rect))) * 2.0f - 1.0f;
-		float yNDC = ((float(rect_h(m_rect)) - pos.y) / float(rect_h(m_rect))) * 2.0f - 1.0f;
+		float xNDC = (pos.x / float(m_rect.width)) * 2.0f - 1.0f;
+		float yNDC = ((float(m_rect.height) - pos.y) / float(m_rect.height)) * 2.0f - 1.0f;
 
 		return m_camera->ray({ xNDC, yNDC });
 	}
@@ -7035,11 +8383,15 @@ namespace mud
 		return sun_rotation(azimuth, altitude, up, north);
 	}
 
-	BlockSky::BlockSky(GfxSystem& gfx_system, BlockFilter& filter)
-		: GfxBlock(gfx_system, *this)
+	BlockSky::BlockSky(GfxSystem& gfx, BlockFilter& filter)
+		: GfxBlock(gfx, *this)
 		, m_filter(filter)
-		, m_skybox_program(gfx_system.programs().create("skybox"))
-	{}
+		, m_skybox_program(gfx.programs().create("skybox"))
+	{
+		m_options = { "SKYBOX_FBO", "SKYBOX_CUBE" };
+
+		m_skybox_program.register_block(*this);
+	}
 
 	void BlockSky::init_block()
 	{
@@ -7051,34 +8403,42 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockSky::begin_pass(Render& render)
+	void BlockSky::submit_pass(Render& render)
 	{
-		if(!render.m_environment)
+		if(!render.m_env)
 			return;
 
-		BackgroundMode mode = render.m_environment->m_background.m_mode;
+		BackgroundMode mode = render.m_env->m_background.m_mode;
 		if(mode == BackgroundMode::Custom)
-			return render.m_environment->m_background.m_custom_function(render);
+			return render.m_env->m_background.m_custom_function(m_gfx, render);
 		else if(mode == BackgroundMode::Radiance || mode == BackgroundMode::Panorama)
 		{
-			if(!bgfx::isValid(render.m_environment->m_radiance.m_roughness_array))
+			if(mode == BackgroundMode::Radiance && render.m_env->m_radiance.m_filtered == nullptr)
 				return;
 
-			Pass sky_pass = render.next_pass("sky");
-			bgfx::Encoder& encoder = *sky_pass.m_encoder;
+			Pass pass = render.next_pass("sky", PassType::Background);
+			bgfx::Encoder& encoder = *pass.m_encoder;
 
-			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, render.m_environment->m_radiance.m_roughness_array);
+			Texture& texture = mode == BackgroundMode::Radiance
+				? *render.m_env->m_radiance.m_filtered
+				: *render.m_env->m_background.m_texture;
+
+			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, texture);
 
 			unsigned int level = mode == BackgroundMode::Radiance ? 3 : 0;
-			vec4 skybox_params = { float(level), float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
-			encoder.setUniform(u_skybox.u_skybox_params, &skybox_params);
+			vec4 skybox_p0 = { float(level), float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
+			encoder.setUniform(u_skybox.u_skybox_p0, &skybox_p0);
 
-			mat4 skybox_matrix = bxinverse(render.m_camera.m_transform);
+			mat4 skybox_matrix = bxinverse(render.m_camera->m_view);
 			encoder.setUniform(u_skybox.u_skybox_matrix, &skybox_matrix);
 
-			m_filter.set_uniforms(render, encoder);
+			ProgramVersion program = { m_skybox_program };
+			program.set_option(0, VFLIP, render.m_vflip && bgfx::getCaps()->originBottomLeft);
+			program.set_option(m_index, SKYBOX_FBO, texture.m_is_fbo);
+			program.set_option(m_index, SKYBOX_CUBE, texture.m_is_cube);
 
-			m_filter.submit_quad(*render.m_target, sky_pass.m_index, render.m_target_fbo, m_skybox_program.default_version(), render.m_viewport.m_rect, BGFX_STATE_DEPTH_TEST_LEQUAL);
+			const RenderQuad quad = RenderQuad(pass.m_rect, false);
+			m_filter.submit(pass, *render.m_fbo, program, quad, BGFX_STATE_DEPTH_TEST_LEQUAL);
 		}
 	}
 }

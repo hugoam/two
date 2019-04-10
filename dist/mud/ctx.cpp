@@ -17,13 +17,14 @@ namespace mud
 		, m_manual_render(manual_render)
 	{}
 
-	Context::Context(RenderSystem& render_system, const string& title, uvec2 size, bool full_screen)
+	Context::Context(RenderSystem& render_system, const string& title, const uvec2& size, bool fullscreen, bool main)
 		: m_render_system(render_system)
 		, m_resource_path(render_system.m_resource_path)
 		, m_title(title)
 		, m_size(size)
 		, m_fb_size(size)
-		, m_full_screen(full_screen)
+		, m_fullscreen(fullscreen)
+		, m_is_main(main)
 	{}
 
 	Context::~Context()
@@ -248,14 +249,14 @@ namespace mud
 		m_mouse.dispatch_secondary(MouseEvent(m_deviceType, EventType::DragStarted, mouse_event), m_pressed, m_pressed_event.m_pos);
 
 		this->drag(mouse_event);
-		//m_root_sheet.m_cursor.lock();
+		//m_ui.m_cursor.lock();
 		m_dragging = true;
 	}
 
 	void MouseButton::drag_end(MouseEvent& mouse_event)
 	{
 		m_dragging = false;
-		//m_root_sheet.m_cursor.unlock();
+		//m_ui.m_cursor.unlock();
 		this->drag(mouse_event);
 
 		MouseEvent& drop = m_mouse.dispatch_event(MouseEvent(m_deviceType, EventType::Dropped, mouse_event.m_pos, m_pressed_event.m_modifiers));
@@ -315,9 +316,9 @@ namespace mud
 			receiver.m_events->m_control_node = &receiver;
 		}
 
-		receiver.m_events->event(event.m_deviceType, event.m_eventType) = &event;
+		receiver.m_events->m_events[event.m_deviceType][event.m_eventType] = &event;
 		if(event.m_key != -1)
-			receiver.m_events->event(event.m_deviceType, event.m_eventType, event.m_key) = &event;
+			receiver.m_events->m_keyed_events[event.m_deviceType][event.m_eventType][event.m_key] = &event;
 	}
 
 	ControlNode* EventDispatcher::dispatch_event(InputEvent& event, ControlNode* topReceiver)

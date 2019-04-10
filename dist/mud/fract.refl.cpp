@@ -224,6 +224,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_fract::m();
+	return mud_fract::m();
 }
 #endif

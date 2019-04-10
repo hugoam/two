@@ -62,7 +62,7 @@ namespace mud
 			script.m_processes.back()->m_position[1] = position.y;
 		};
 
-		Widget& board = ui::widget(parent, styles().sheet, false, DIM_X);
+		Widget& board = ui::widget(parent, styles().sheet, false, Axis::X);
 
 		Widget& functions = ui::sheet(board);
 		ui::label(functions, "Functions");
@@ -225,7 +225,7 @@ namespace mud
 			return as<NodePlug>(*node.m_outputs->m_nodes[valve.m_process.m_out_flow ? valve.m_index + 1 : valve.m_index]);
 		else if(valve.m_kind == FLOW_VALVE_IN)
 			return as<NodePlug>(*node.m_inputs->m_nodes[0]);
-		else //if(valve.m_kind == FLOW_VALVE_OUT)
+		else if(valve.m_kind == FLOW_VALVE_OUT || true)
 			return as<NodePlug>(*node.m_outputs->m_nodes[0]);
 
 		//Widget& plug = input ? *node.m_inputs->m_nodes[valve.m_index] : *node.m_outputs->m_nodes[valve.m_index];
@@ -763,7 +763,7 @@ namespace mud
 			return object_edit_columns(parent, object);
 		else if(hint == EditorHint::Rows)
 			return object_edit_columns(parent, object);
-		else //if(hint == EditorHint::Inline)
+		else if(hint == EditorHint::Inline || true)
 			return object_edit_inline(parent, object);
 	}
 
@@ -799,7 +799,7 @@ namespace mud
 	{
 		Section& self = section(parent, "Inspector", true);
 		if(object.m_type->is<EntityRef>())
-			return inspector(parent, { as_ent(object), 0 });
+			return inspector(parent, { UINT8_MAX, UINT16_MAX, as_ent(object) });
 		else
 			return object_edit_columns(*self.m_body, object);
 	}
@@ -1041,7 +1041,7 @@ namespace mud
 
 	struct MetaStyles
 	{
-		Style element = { "Element", styles().row, [](Layout& l) { l.m_spacing = vec2{ 5.f, 0.f }; } };
+		Style element = { "Element", styles().row, [](Layout& l) { l.m_spacing = { 5.f, 0.f }; } };
 
 		Style sheet = { "Frame", styles().stack, [](Layout& l) { l.m_padding = vec4(20.f); l.m_spacing = vec2(10.f); } };
 		Style frame = { "Frame", styles().stack, [](Layout& l) { l.m_padding = vec4(5.f); l.m_spacing = vec2(10.f); }, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = to_colour(25, 26, 31); } };
@@ -1058,16 +1058,16 @@ namespace mud
 
 	MetaStyles& meta_styles() { static MetaStyles styles; return styles; }
 
-	void set_meta_palette(const vector<uint32_t>& palette)
+	void set_meta_palette(span<uint32_t> palette)
 	{
-		meta_styles().label.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Word)]);
-		meta_styles().type.skin().m_text_colour			= from_rgba(palette[size_t(CodePalette::Identifier)]);
-		meta_styles().function.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Function)]);
-		meta_styles().identifier.skin().m_text_colour	= from_rgba(palette[size_t(CodePalette::Identifier)]);
-		meta_styles().syntax.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Punctuation)]);
-		meta_styles().argument.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Parameter)]);
-		meta_styles().field.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Field)]);
-		meta_styles().number.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Number)]);
+		meta_styles().label.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Word)]);
+		meta_styles().type.skin().m_text_colour			= rgba(palette[size_t(CodePalette::Identifier)]);
+		meta_styles().function.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Function)]);
+		meta_styles().identifier.skin().m_text_colour	= rgba(palette[size_t(CodePalette::Identifier)]);
+		meta_styles().syntax.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Punctuation)]);
+		meta_styles().argument.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Parameter)]);
+		meta_styles().field.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Field)]);
+		meta_styles().number.skin().m_text_colour		= rgba(palette[size_t(CodePalette::Number)]);
 	}
 
 	void meta_type(Widget& parent, Meta& meta)
@@ -1437,7 +1437,7 @@ namespace mud
 
 	vector<string> meta_words()
 	{
-		vector<string> symbols = convert<string>(System::instance().meta_symbols());
+		vector<string> symbols = convert<string, cstring>(System::instance().meta_symbols());
 		extend(symbols, lua_words());
 		return symbols;
 	}
@@ -1457,7 +1457,7 @@ namespace mud
 	{
 		if(edit.m_hovered_word != "")
 		{
-			vec2 hover_at = rect_offset(edit.m_hovered_word_rect) + vec2{ 0.f, rect_h(edit.m_hovered_word_rect) };
+			vec2 hover_at = edit.m_hovered_word_rect.pos + vec2(0.f, edit.m_hovered_word_rect.height);
 
 			//ui::rectangle(edit, edit.m_hovered_word_rect);
 			

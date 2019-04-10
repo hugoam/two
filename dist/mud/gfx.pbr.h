@@ -20,7 +20,7 @@ namespace mud
     enum ShaderOptionRadiance : unsigned int;
     enum ShaderOptionShadow : unsigned int;
     enum ShaderModeShadow : unsigned int;
-    enum CSMFilterMode : unsigned int;
+    enum ShadowFilterMode : unsigned int;
     enum ShaderOptionBlur : unsigned int;
     enum ShaderOptionDofBlur : unsigned int;
     enum ShaderOptionGlow : unsigned int;
@@ -35,7 +35,8 @@ namespace mud
     struct ForwardRenderer;
 	struct DeferredRenderer;
     class BlockRadiance;
-    struct ReflectionCubemap;
+    class CubeTarget;
+	class CubeCamera;
     class ReflectionAtlas;
     class ReflectionProbe;
 	class PassGeometry;
@@ -44,9 +45,10 @@ namespace mud
 	class PassAlpha;
     class PassProbes;
     class BlockReflection;
-    struct ShadowCubemap;
+    struct ShadowmapCube;
     class ShadowAtlas;
     struct CSMShadow;
+	struct CSMSlice;
     class PassShadow;
     class PassShadowmap;
     struct ShadowRenderer;
@@ -56,6 +58,7 @@ namespace mud
     struct EffectBlurUniform;
     struct BlurKernel;
     class BlockBlur;
+	struct DofParams;
     struct DofBlur;
     struct DofBlurUniform;
     class BlockDofBlur;
@@ -82,149 +85,111 @@ namespace mud
 {
 	enum ShaderOptionLight : unsigned int
 	{
+		SKY_LIGHT,
 		FOG,
-		DIRECT_LIGHT
 	};
 
-	template <uint16_t num_lights, uint16_t num_direct = 1>
-	struct LightArray
+	struct gpu_ GpuBone
 	{
-		vec4 position_range[num_lights];
-		vec4 energy_specular[num_lights];
-		vec4 direction_attenuation[num_lights];
-		vec4 shadow_color_enabled[num_lights];
-		mat4 shadow_matrix[num_lights];
-		vec4 spot_params[num_lights];
-
-		vec4 light_indices[num_lights];
-		vec4 light_counts;
-
-		mat4 csm_matrix[num_direct][4];
-		vec4 csm_splits[num_direct];
+		attr_ mat4 matrix;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Camera& camera);
+	struct gpu_ GpuShadow
+	{
+		attr_ float matrix;
+		attr_ float bias;
+		attr_ float radius;
+		attr_ float range;
+		attr_ vec2 atlas_slot;
+		attr_ vec2 atlas_subdiv;
+	};
+
+	struct gpu_ GpuCSMShadow
+	{
+		attr_ float num_slices;
+		attr_ vec4 splits;
+		attr_ vec4 matrices;
+	};
+
+	struct gpu_ GpuLight
+	{
+		attr_ vec3 position;
+		attr_ float range;
+		attr_ vec3 energy;
+		attr_ float specular;
+		attr_ vec3 direction;
+		attr_ float attenuation;
+		attr_ float spot_attenuation;
+		attr_ float spot_cutoff;
+
+		attr_ GpuShadow shadow;
+		attr_ GpuCSMShadow csm;
+	};
+
+	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Viewport& viewport, Camera& camera);
 	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums = true, bool bounds = true);
+
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+	constexpr size_t c_max_forward_lights = 32;
+#else
+	constexpr size_t c_max_forward_lights = 64;
+#endif
+
+	struct ZoneLights
+	{
+		vec4 m_light_indices[c_max_forward_lights];
+		vec4 m_light_counts;
+		vec4 m_shadow_counts;
+		uint16_t m_light_count;
+	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockLight : public DrawBlock
 	{
 	public:
-		BlockLight(GfxSystem& gfx_system, BlockShadow& block_shadow);
+		BlockLight(GfxSystem& gfx);
 
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const final;
+		virtual void submit(Render& render, const Pass& pass) const final;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const final;
 
-		virtual void options(Render& render, ShaderVersion& shader_version) const final;
-		virtual void submit(Render& render, const Pass& render_pass) const final;
+		void setup_lights(Render& render, const mat4& view);
+		void setup_zones(Render& render);
 
-		void update_lights(Render& render, const mat4& view, span<Light*> lights, span<LightShadow> shadows);
+		void upload_lights(Render& render);
+		void upload_zones(Render& render);
 
-		void upload_environment(Render& render, const Pass& render_pass, Environment* environment) const;
-		void upload_fog(Render& render, const Pass& render_pass, Fog& fog) const;
-		void upload_lights(const Pass& render_pass) const;
-		
-		BlockShadow& m_block_shadow;
+		void commit_zones(Render& render, const Pass& pass) const;
+		void commit_lights(Render& render, const Pass& pass) const;
 
 		uint16_t m_direct_light_index = 0;
 		Light* m_direct_light = nullptr;
 		vector<Light*> m_direct_lights;
 
-		struct LightUniform
-		{
-			void createUniforms(uint16_t max_direct, uint16_t max_lights)
-			{
-				u_light_position_range			= bgfx::createUniform("u_light_position_range",			bgfx::UniformType::Vec4, max_lights);
-				u_light_energy_specular			= bgfx::createUniform("u_light_energy_specular",		bgfx::UniformType::Vec4, max_lights);
-				u_light_direction_attenuation	= bgfx::createUniform("u_light_direction_attenuation",	bgfx::UniformType::Vec4, max_lights);
-				u_light_shadow					= bgfx::createUniform("u_light_shadow",					bgfx::UniformType::Vec4, max_lights);
-				u_light_shadow_matrix			= bgfx::createUniform("u_light_shadow_matrix",			bgfx::UniformType::Mat4, max_lights);
-				u_light_spot_params				= bgfx::createUniform("u_light_spot_params",			bgfx::UniformType::Vec4, max_lights);
-				u_csm_matrix					= bgfx::createUniform("u_csm_matrix",					bgfx::UniformType::Mat4, max_direct * 4);
-				u_csm_splits					= bgfx::createUniform("u_csm_splits",					bgfx::UniformType::Vec4, max_direct);
-			}
-
-			template <uint16_t size>
-			void setUniforms(bgfx::Encoder& encoder, const LightArray<size>& data, uint16_t direct_light_count, uint16_t light_count) const
-			{
-				encoder.setUniform(u_light_position_range,			&data.position_range,			light_count);
-				encoder.setUniform(u_light_energy_specular,			&data.energy_specular,			light_count);
-				encoder.setUniform(u_light_direction_attenuation,	&data.direction_attenuation,	light_count);
-				encoder.setUniform(u_light_shadow,					&data.shadow_color_enabled,		light_count);
-				encoder.setUniform(u_light_shadow_matrix,			&data.shadow_matrix,			light_count);
-				encoder.setUniform(u_light_spot_params,				&data.spot_params,				light_count);
-
-				encoder.setUniform(u_csm_matrix, &data.csm_matrix[0], direct_light_count * 4);
-				encoder.setUniform(u_csm_splits, &data.csm_splits,	direct_light_count);
-			}
-
-			bgfx::UniformHandle u_light_position_range;
-			bgfx::UniformHandle u_light_energy_specular;
-			bgfx::UniformHandle u_light_direction_attenuation;
-			bgfx::UniformHandle u_light_shadow;
-			bgfx::UniformHandle u_light_shadow_matrix;
-			bgfx::UniformHandle u_light_spot_params;
-			bgfx::UniformHandle u_csm_matrix;
-			bgfx::UniformHandle u_csm_splits;
-		};
-
 		struct ShotUniform
 		{
-			static constexpr size_t max_lights = 64;
-			static constexpr size_t max_shadows = 32;
-			static constexpr size_t max_forward_lights = 16;
-			static constexpr size_t max_direct_lights = 1;
-
 			void createUniforms()
 			{
-				u_light_indices = bgfx::createUniform("u_light_indices", bgfx::UniformType::Vec4, max_lights);
-				u_light_counts  = bgfx::createUniform("u_light_counts",  bgfx::UniformType::Vec4);
-
-				u_light_array.createUniforms(uint16_t(max_direct_lights), uint16_t(max_lights));
+				s_zones = bgfx::createUniform("s_zones", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+				s_lights = bgfx::createUniform("s_lights", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 			}
 
-			bgfx::UniformHandle u_light_indices;
-			bgfx::UniformHandle u_light_counts;
-
-			LightUniform u_light_array;
+			bgfx::UniformHandle s_zones;
+			bgfx::UniformHandle s_lights;
 
 		} u_shot;
 
-		struct SceneUniform
-		{
-			void createUniforms()
-			{
-				u_radiance_color_energy =  bgfx::createUniform("u_radiance_color_energy",	bgfx::UniformType::Vec4);
-				u_ambient_params =		   bgfx::createUniform("u_ambient_params",			bgfx::UniformType::Vec4);
-			}
-
-			bgfx::UniformHandle u_radiance_color_energy;
-			bgfx::UniformHandle u_ambient_params;
-
-		} u_scene;
-
-		struct FogUniform
-		{
-			void createUniforms()
-			{
-				u_fog_params_0 = bgfx::createUniform("u_fog_params_0", bgfx::UniformType::Vec4);
-				u_fog_params_1 = bgfx::createUniform("u_fog_params_1", bgfx::UniformType::Vec4);
-				u_fog_params_2 = bgfx::createUniform("u_fog_params_2", bgfx::UniformType::Vec4);
-				u_fog_params_3 = bgfx::createUniform("u_fog_params_3", bgfx::UniformType::Vec4);
-			}
-
-			bgfx::UniformHandle u_fog_params_0;
-			bgfx::UniformHandle u_fog_params_1;
-			bgfx::UniformHandle u_fog_params_2;
-			bgfx::UniformHandle u_fog_params_3;
-
-		} u_fog;
-
-		LightArray<ShotUniform::max_lights> m_lights_data;
 		uint16_t m_light_count;
+
+		ZoneLights m_zones[1];
+
+		vector<GpuLight> m_gpu_lights;
+
+		GpuTexture m_zones_texture = {};
+		GpuTexture m_lights_texture = {};
 	};
 }
 
@@ -239,9 +204,9 @@ namespace mud
 	{
 	public:
 		LightmapItem() {}
-		LightmapItem(size_t item, bgfx::TextureHandle lightmap, vec4 uv_scale_offset) : m_item(item), m_lightmap(lightmap), m_uv_scale_offset(uv_scale_offset) {}
+		LightmapItem(size_t item, Texture& lightmap, vec4 uv_scale_offset) : m_item(item), m_lightmap(&lightmap), m_uv_scale_offset(uv_scale_offset) {}
 		size_t m_item = SIZE_MAX;
-		bgfx::TextureHandle m_lightmap = BGFX_INVALID_HANDLE;
+		Texture* m_lightmap = nullptr;
 		vec4 m_uv_scale_offset = vec4(1.f, 1.f, 0.f, 0.f);
 	};
 
@@ -262,7 +227,7 @@ namespace mud
 
 		TextureAtlas m_atlas;
 
-		bgfx::TextureHandle m_texture = BGFX_INVALID_HANDLE;
+		Texture m_texture = {};
 
 		vector<LightmapItem> m_items;
 
@@ -291,26 +256,10 @@ namespace mud
 		vector<unique<Lightmap>> m_layers;
 	};
 
-	struct LightmapRenderer : public Renderer
-	{
-		LightmapRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
-	};
-
-	export_ class MUD_GFX_PBR_EXPORT PassLightmap : public DrawPass
-	{
-	public:
-		PassLightmap(GfxSystem& gfx_system, BlockLightmap& block_lightmap);
-
-		BlockLightmap& m_block_lightmap;
-
-		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-	};
-
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockLightmap : public DrawBlock
 	{
 	public:
-		BlockLightmap(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake);
+		BlockLightmap(GfxSystem& gfx, BlockLight& block_light, BlockGIBake& block_gi_bake);
 
 		BlockLight& m_block_light;
 		BlockGIBake& m_block_gi_bake;
@@ -319,13 +268,10 @@ namespace mud
 		virtual void begin_frame(const RenderFrame& frame) override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
-
-		virtual void options(Render& render, ShaderVersion& shader_version) const override;
-		virtual void submit(Render& render, const Pass& render_pass) const override;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
 		void bake_geometry(span<Item*> items, LightmapAtlas& atlas);
 		void bake_lightmaps(Scene& scene, LightmapAtlas& atlas, const mat4& transform, const vec3& extents);
@@ -334,7 +280,7 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				s_lightmap = bgfx::createUniform("s_lightmap",        bgfx::UniformType::Int1);
+				s_lightmap = bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 			}
 
 			bgfx::UniformHandle s_lightmap;
@@ -350,6 +296,7 @@ namespace mud
 
 
 #ifndef MUD_MODULES
+#include <stl/table.h>
 #endif
 
 namespace mud
@@ -357,85 +304,56 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT BlockGeometry : public DrawBlock
 	{
 	public:
-		BlockGeometry(GfxSystem& gfx_system);
+		BlockGeometry(GfxSystem& gfx);
 		~BlockGeometry();
 
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
-
-		virtual void options(Render& render, ShaderVersion& shader_version) const final;
-		virtual void submit(Render& render, const Pass& render_pass) const final;
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const final;
+		virtual void submit(Render& render, const Pass& pass) const final;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const final;
 
 		Material* m_material = nullptr;
 		Material* m_material_twosided = nullptr;
 	};
 
-	export_ class MUD_GFX_PBR_EXPORT PassOpaque : public DrawPass
-	{
-	public:
-		PassOpaque(GfxSystem& gfx_system);
+	export_ MUD_GFX_PBR_EXPORT func_ void begin_pbr_render(GfxSystem& gfx, Render& render);
 
-		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_gi_probes(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_shadowmaps(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_shadow(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_opaque(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_alpha(GfxSystem& gfx, Render& render);
 
-		size_t m_direct_light_index;
-	};
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_geometry(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_lights(GfxSystem& gfx, Render& render);
 
-	export_ class MUD_GFX_PBR_EXPORT PassAlpha : public DrawPass
-	{
-	public:
-		PassAlpha(GfxSystem& gfx_system);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_voxel_gi(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_lightmap(GfxSystem& gfx, Render& render);
 
-		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-	};
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_begin_post(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_post_auto(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_post_effects(GfxSystem& gfx, Render& render, DofBlur& dof, Glow& glow, Tonemap& tonemap, BCS& bcs);
 
-	export_ class MUD_GFX_PBR_EXPORT PassGeometry : public DrawPass
-	{
-	public:
-		PassGeometry(GfxSystem& gfx_system, BlockGeometry& block_geometry);
-
-		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-
-		BlockGeometry& m_block_geometry;
-	};
-
-	export_ class MUD_GFX_PBR_EXPORT PassLights : public RenderPass
-	{
-	public:
-		PassLights(GfxSystem& gfx_system, BlockFilter& filter);
-
-		virtual void submit_render_pass(Render& render) final;
-		
-		BlockFilter& m_filter;
-		Program* m_program;
-	};
-
-	struct ReflectionRenderer : public Renderer
-	{
-		ReflectionRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
-	};
-
-	struct ForwardRenderer : public Renderer
-	{
-		ForwardRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
-	};
-
-	struct DeferredRenderer : public Renderer
-	{
-		DeferredRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
-	};
+	export_ MUD_GFX_PBR_EXPORT func_ void render_pbr_forward(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void render_pbr_deferred(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void render_shadow(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void render_voxel(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void render_lightmap(GfxSystem& gfx, Render& render);
+	export_ MUD_GFX_PBR_EXPORT func_ void render_reflection(GfxSystem& gfx, Render& render);
 
 	export_ MUD_GFX_PBR_EXPORT void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes);
 	export_ MUD_GFX_PBR_EXPORT void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases);
 	export_ MUD_GFX_PBR_EXPORT void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes);
 
-	export_ MUD_GFX_PBR_EXPORT void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred = false);
+	export_ MUD_GFX_PBR_EXPORT func_ void pipeline_pbr(GfxSystem& gfx, Renderer& pipeline, bool deferred = false);
+	
+namespace gfx
+{
+	export_ MUD_GFX_PBR_EXPORT func_ void setup_pipeline_pbr(GfxSystem& gfx);
+}
 }
 
 
@@ -449,24 +367,22 @@ namespace mud
 	enum ShaderOptionRadiance : unsigned int
 	{
 		RADIANCE_ENVMAP,
-		RADIANCE_ARRAY,
+		RADIANCE_CUBE,
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockRadiance : public DrawBlock
 	{
 	public:
-		BlockRadiance(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy);
+		BlockRadiance(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy);
 
 		virtual void init_block() override;
 		virtual void begin_frame(const RenderFrame& frame) override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
-
-		virtual void options(Render& render, ShaderVersion& shader_version) const override;
-		virtual void submit(Render& render, const Pass& render_pass) const override;
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
 		void prefilter_radiance(Radiance& radiance);
 
@@ -474,10 +390,10 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				s_radiance_map = bgfx::createUniform("s_radiance_map", bgfx::UniformType::Int1);
+				s_radiance = bgfx::createUniform("s_radiance", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
 			}
 
-			bgfx::UniformHandle s_radiance_map;
+			bgfx::UniformHandle s_radiance;
 
 		} u_radiance;
 
@@ -485,10 +401,12 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				u_prefilter_envmap_params = bgfx::createUniform("u_prefilter_envmap_params", bgfx::UniformType::Vec4);
+				u_prefilter_envmap_p0 = bgfx::createUniform("u_prefilter_envmap_p0", bgfx::UniformType::Vec4);
+				u_prefilter_cube = bgfx::createUniform("u_prefilter_cube", bgfx::UniformType::Mat4);
 			}
 
-			bgfx::UniformHandle u_prefilter_envmap_params;
+			bgfx::UniformHandle u_prefilter_envmap_p0;
+			bgfx::UniformHandle u_prefilter_cube;
 
 		} u_prefilter;
 
@@ -498,7 +416,7 @@ namespace mud
 		Program& m_prefilter_program;
 
 		vector<Radiance*> m_prefilter_queue;
-		map<uint16_t, uint16_t> m_prefiltered;
+		map<Texture*, Texture*> m_prefiltered;
 	};
 }
 
@@ -516,17 +434,37 @@ namespace mud
 
 namespace mud
 {
-	struct ReflectionCubemap
+	export_ class refl_ MUD_GFX_PBR_EXPORT CubeTarget
 	{
-		ReflectionCubemap() {}
-		ReflectionCubemap(uint16_t size);
-		bgfx::FrameBufferHandle m_fbo[6];
-		bgfx::TextureHandle m_cubemap;
-		bgfx::TextureHandle m_depth;
-		uint16_t m_size;
+	public:
+		constr_ CubeTarget() {}
+		meth_ void create(uint32_t size);
+		meth_ FrameBuffer& side(size_t i) { return m_fbos[i]; }
+		FrameBuffer m_fbos[6]; // @todo reflect array members
+		attr_ Texture m_cubemap;
+		attr_ Texture m_depth;
+		attr_ uint32_t m_size;
 	};
 
-	class ReflectionAtlas
+	export_ class refl_ MUD_GFX_PBR_EXPORT CubeCamera
+	{
+	public:
+		constr_ CubeCamera() {}
+		constr_ CubeCamera(Scene& scene, float near, float far, uint32_t size);
+
+		Camera m_cameras[6];
+		Viewport m_viewports[6];
+
+		attr_ CubeTarget m_cubemap;
+		attr_ uvec2 m_size;
+
+		meth_ Render render(GfxSystem& gfx, Render& render, SignedAxis axis);
+
+		void render(GfxSystem& gfx, Render& render, RenderFunc renderer);
+		void clear(GfxSystem& gfx, Render& render, Colour color, float depth, uint8_t stencil);
+	};
+
+	export_ class MUD_GFX_PBR_EXPORT ReflectionAtlas
 	{
 	public:
 		ReflectionAtlas(uint16_t size, uint16_t subdiv);
@@ -535,7 +473,8 @@ namespace mud
 		uint16_t m_size = 0;
 		uint16_t m_subdiv = 0;
 
-		bgfx::TextureHandle m_color_tex = BGFX_INVALID_HANDLE;
+		FrameBuffer m_fbo[6];
+		Texture m_color;
 
 		vec4 probe_rect(ReflectionProbe& probe);
 		uvec4 render_update(Render& render, ReflectionProbe& probe);
@@ -546,11 +485,8 @@ namespace mud
 			ReflectionProbe* m_probe;
 			uvec4 m_urect;
 			vec4 m_rect;
-			uint64_t m_last_update;
+			uint32_t m_last_update;
 		};
-
-		bgfx::FrameBufferHandle m_fbo[6];
-		bgfx::TextureHandle m_color;
 
 		vector<Slot> m_slots;
 		vector<Slot*> m_free_slots;
@@ -559,6 +495,14 @@ namespace mud
 
 namespace mud
 {
+	struct gpu_ GpuReflectionProbe
+	{
+		attr_ gpu_ vec3 extents;
+		attr_ gpu_ float intensity;
+		attr_ gpu_ vec4 atlas_rect;
+		attr_ gpu_ mat4 transform;
+	};
+
 	template <uint16_t num_probes>
 	struct ReflectionProbeArray
 	{
@@ -580,7 +524,7 @@ namespace mud
 
 		attr_ bool m_visible = true;
 		attr_ float m_intensity = 1.f;
-		attr_ vec3 m_extents = Zero3;
+		attr_ vec3 m_extents = vec3(0.f);
 		attr_ bool m_shadows = false;
 
 		ReflectionAtlas* m_atlas;
@@ -589,35 +533,25 @@ namespace mud
 		attr_ bool m_dirty = true;
 	};
 
-	export_ class MUD_GFX_PBR_EXPORT PassProbes : public RenderPass
-	{
-	public:
-		PassProbes(GfxSystem& gfx_system, BlockReflection& block_reflection);
-
-		BlockReflection& m_block_reflection;
-
-		virtual void submit_render_pass(Render& render) final;
-	};
+	export_ MUD_GFX_PBR_EXPORT void pass_probes(GfxSystem& gfx, Render& render);
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockReflection : public DrawBlock
 	{
 	public:
-		BlockReflection(GfxSystem& gfx_system);
+		BlockReflection(GfxSystem& gfx);
 
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
-		virtual void options(Render& render, ShaderVersion& shader_version) const final;
-		virtual void submit(Render& render, const Pass& render_pass) const final;
-
-		void upload_reflection_probes(Render& render, Pass& render_pass, span<ReflectionProbe*> probes);
+		void upload_reflection_probes(Render& render, Pass& pass, span<ReflectionProbe*> probes);
 		void render_reflection_probe(Render& render, ReflectionProbe& reflection_probe);
 
-		ReflectionCubemap& find_cubemap(uint16_t size);
+		CubeTarget& find_cubemap(uint16_t size);
 
 		struct ReflectionUniform
 		{
@@ -630,8 +564,8 @@ namespace mud
 				u_atlas_rect			= bgfx::createUniform("u_reflection_atlas_rect",		bgfx::UniformType::Mat4, max_probes);
 				u_matrix				= bgfx::createUniform("u_reflection_matrix",			bgfx::UniformType::Vec4, max_probes);
 
-				u_indices		= bgfx::createUniform("u_reflection_indices",		bgfx::UniformType::Int1, max_probes);
-				u_count			= bgfx::createUniform("u_reflection_count",			bgfx::UniformType::Int1);
+				//u_indices		= bgfx::createUniform("u_reflection_indices",		bgfx::UniformType::Sampler, max_probes);
+				//u_count		= bgfx::createUniform("u_reflection_count",			bgfx::UniformType::Sampler);
 			}
 
 			template <uint16_t size>
@@ -656,7 +590,7 @@ namespace mud
 
 		ReflectionUniform u_uniform;
 
-		vector<ReflectionCubemap> m_cubemaps;
+		vector<CubeTarget> m_cubemaps;
 
 		ReflectionAtlas m_atlas;
 
@@ -667,6 +601,7 @@ namespace mud
 
 
 #ifndef MUD_MODULES
+#include <stl/map.h>
 #endif
 
 
@@ -679,67 +614,70 @@ namespace mud
 
 namespace mud
 {
-	struct ShadowCubemap
-	{
-		ShadowCubemap() {}
-		ShadowCubemap(uint16_t size);
-		bgfx::FrameBufferHandle m_fbos[6];
-		bgfx::TextureHandle m_cubemap;
-		uint16_t m_size;
-	};
-
 	class ShadowAtlas
 	{
 	public:
 		ShadowAtlas() {}
-		ShadowAtlas(uint16_t size, vector<uint16_t> slices_subdiv);
+		ShadowAtlas(uint16_t size, uint8_t num_slices);
 
-		uint16_t m_size = 0;
+		uint16_t m_side = 0;
+		uvec2 m_size;
 
-		bgfx::TextureHandle m_depth = BGFX_INVALID_HANDLE;
-		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
+		Texture m_color;
+		Texture m_depth;
+		FrameBuffer m_fbo;
 
-		vector<ShadowCubemap> m_cubemaps;
+		struct Block;
 
-		uvec4 light_rect(Light& light);
+		struct Slot
+		{
+			uint16_t m_index;
+			Light* m_light = nullptr;
+			vec4 m_rect;
+			uvec4 m_trect;
+			uint32_t m_frame = 0;
+			uint16_t m_block = UINT16_MAX;
+		};
 
-		uvec4 render_update(Render& render, Light& light);
-		bool update_light(Light& light, uint64_t render, float coverage, uint64_t light_version);
-		void remove_light(Light& light);
+		struct Block
+		{
+			uint32_t m_slots[8];
+		};
 
-		ShadowCubemap& light_cubemap(Light& light, uint16_t shadow_size);
+		struct Slice;
+
+		Slice& light_slice(Light& light);
+		Slot& light_slot(Light& light);
+
+		void begin_frame(const RenderFrame& frame);
+		void subdiv(Slice& slice, uint16_t subdiv);
+		
+		Slot& alloc(Slice& slice, bool block6 = false);
+		void yield(Slice& slice, uint32_t index);
+
+		vec4 render_update(Render& render, Light& light);
+		bool update_light(Light& light, uint32_t render, float coverage, uint32_t light_version);
+		void remove_light(Light& light, bool block = false);
 
 		struct Slice
 		{
 			Slice() {}
-			Slice(uint32_t size, uint16_t subdiv, uvec4 rect);
+			Slice(uint8_t index, const uvec2& size, const vec4& rect);
 
-			uint32_t m_size;
-			uint16_t m_subdiv;
-			uvec4 m_rect;
+			uint8_t m_index;
+			uvec2 m_size;
+			vec4 m_rect;
 
-			struct Slot
-			{
-				Light* m_light;
-				uvec4 m_rect;
-			};
-
-			void remove_light(Light& light);
-			void add_light(Light& light);
-
+			uint16_t m_subdiv = 0;
+			uvec2 m_slot_size;
 			vector<Slot> m_slots;
-			vector<Slot*> m_free_slots;
+			vector<Block> m_blocks;
+
+			vector<uint32_t> m_free_slots;
+			vector<uint32_t> m_free_blocks;
 		};
 
 		vector<Slice> m_slices;
-
-		struct Index
-		{
-			uint8_t m_slice;
-			uint16_t m_slot;
-		};
-
-		vector<Index> m_light_indices;
 	};
 }
 
@@ -753,55 +691,51 @@ namespace mud
 
 	enum ShaderModeShadow : unsigned int
 	{
-		CSM_NUM_CASCADES,
-		CSM_PCF_LEVEL,
+		PCF_LEVEL,
 	};
 
-	enum CSMFilterMode : unsigned int
+	enum ShadowFilterMode : unsigned int
 	{
-		CSM_NO_PCF = 0,
-		CSM_HARD_PCF = 1,
-		CSM_PCF5 = 2,
-		CSM_PCF13 = 3
+		PCF_NONE = 0,
+		PCF_HARD = 1,
+		PCF_5 = 2,
+		PCF_13 = 3
 	};
 
-	struct CSMShadow
+	struct Shadowmap
 	{
-		CSMShadow() {}
-		CSMShadow(uint16_t size);
+		Shadowmap() {}
+		~Shadowmap() {}
 
-		uint16_t m_size = 0;
-		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_depth = BGFX_INVALID_HANDLE;
-		CSMFilterMode m_filter_mode = CSM_PCF5;
+		Shadowmap(const Shadowmap& other) = delete;
+		Shadowmap& operator=(const Shadowmap& other) = delete;
+
+		void create(const uvec2& size, DepthMethod method = DepthMethod::Depth);
+
+		uvec2 m_size = uvec2(0U);
+		DepthMethod m_depth_method = DepthMethod::Depth;
+		FrameBuffer m_fbo;
+		Texture m_depth;
+		Texture m_color;
+
+		const Texture& texture() const { return m_depth_method == DepthMethod::Depth ? m_depth : m_color; }
 	};
 
-	export_ class MUD_GFX_PBR_EXPORT PassShadow : public PassDepth
+	struct ShadowmapCube
 	{
-	public:
-		PassShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockShadow& block_shadow);
+		ShadowmapCube() {}
+		~ShadowmapCube() { if(bgfx::isValid(m_depth)) bgfx::destroy(m_depth); }
 
-		BlockDepth& m_block_depth;
-		BlockShadow& m_block_shadow;
+		void create(uint32_t size);
 
-		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
+		uint32_t m_size = 0U;
+		FrameBuffer m_fbos[6];
+		Texture m_depth;
 	};
 
-	export_ class MUD_GFX_PBR_EXPORT PassShadowmap : public RenderPass
-	{
-	public:
-		PassShadowmap(GfxSystem& gfx_system, BlockShadow& block_shadow);
+	export_ MUD_GFX_PBR_EXPORT void pass_shadowmaps(GfxSystem& gfx, Render& render);
 
-		BlockShadow& m_block_shadow;
-
-		virtual void submit_render_pass(Render& render) final;
-	};
-
-	struct ShadowRenderer : public Renderer
-	{
-		ShadowRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
-	};
+	export_ MUD_GFX_PBR_EXPORT void pass_shadow(GfxSystem& gfx, Render& render);
 
 	export_ struct LightBounds
 	{
@@ -811,89 +745,100 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_PBR_EXPORT LightShadow
 	{
-		struct Slice
-		{
-			vec4 m_viewport_rect;
-			vec4 m_texture_rect;
-			mat4 m_projection;
-			mat4 m_transform;
-			mat4 m_shadow_matrix;
-			float m_bias_scale;
+		Light* m_light = nullptr;
 
-			FrustumSlice m_frustum_slice;
-			LightBounds m_light_bounds;
+		FrameBuffer* m_fbo = nullptr;
+		vec4 m_rect = {};
+		
+		float m_near = 0.f;
+		float m_far = 100.f;
+		mat4 m_proj = {};
+		mat4 m_transform = {};
 
-			vector<Item*> m_items;
-		};
+		mat4 m_shadow_matrix = {};
+		DepthMethod m_depth_method = DepthMethod::Depth;
+		float m_bias_scale = 1.f;
 
-		vector<FrustumSlice> m_frustum_slices;
-		vector<Slice> m_slices;
+		FrustumSlice m_frustum_slice;
+		LightBounds m_light_bounds;
+
+		vector<Item*> m_items;
 	};
+
+	export_ struct refl_ MUD_GFX_PBR_EXPORT CSMSlice : public LightShadow, public FrustumSlice
+	{};
+
+	export_ struct refl_ MUD_GFX_PBR_EXPORT CSMShadow
+	{
+		Light* m_light;
+
+		vector<CSMSlice> m_slices;
+	};
+
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+	constexpr size_t c_max_shadows = 8;
+#else
+	constexpr size_t c_max_shadows = 32;
+#endif
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockShadow : public DrawBlock
 	{
 	public:
-		BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth);
+		BlockShadow(GfxSystem& gfx, BlockDepth& block_depth, BlockLight& block_light);
 
 		virtual void init_block() override;
+		virtual void begin_frame(const RenderFrame& frame) override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
-		virtual void options(Render& render, ShaderVersion& shader_version) const override;
-		virtual void submit(Render& render, const Pass& render_pass) const override;
+		void setup_shadows(Render& render);
+		void commit_shadows(Render& render, const mat4& view);
+		void upload_shadows(Render& render, const Pass& pass) const;
 
-		void update_shadows(Render& render);
-		void render_shadows(Render& render);
-
-		void update_direct(Render& render, Light& light, size_t num_direct, size_t index);
-		void render_direct(Render& render, Light& light, size_t index);
+		void update_csm(Render& render, Light& light, CSMShadow& csm);
 
 		BlockDepth& m_block_depth;
+		BlockLight& m_block_light;
 
-		DepthParams m_depth_params;
+		DepthMethod m_depth_method = DepthMethod::Depth;
+		DepthParams m_depth_params = {};
+		DistanceParams m_distance_params = {};
 
 		Light* m_direct_light = nullptr;
-
-		struct DirectionalShadowUniform
-		{
-			void createUniforms()
-			{
-				s_csm_atlas	 = bgfx::createUniform("s_csm_atlas",  bgfx::UniformType::Int1);
-				u_csm_params = bgfx::createUniform("u_csm_params", bgfx::UniformType::Vec4);
-			}
-
-			bgfx::UniformHandle s_csm_atlas;
-			bgfx::UniformHandle u_csm_params;
-
-		} u_direct_shadow;
 
 		struct ShadowUniform
 		{
 			void createUniforms()
 			{
-				s_shadow_atlas = bgfx::createUniform("s_shadow_atlas", bgfx::UniformType::Int1);
-				u_shadow_pixel_size = bgfx::createUniform("u_shadow_pixel_size", bgfx::UniformType::Vec4);
+				s_shadow_atlas = bgfx::createUniform("s_shadow_atlas", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+				u_shadow_atlas = bgfx::createUniform("u_shadow_atlas", bgfx::UniformType::Vec4,    1U, bgfx::UniformFreq::View);
+				u_pcf_p0   = bgfx::createUniform("u_pcf_p0",   bgfx::UniformType::Vec4,    1U, bgfx::UniformFreq::View);
+				u_csm_p0 = bgfx::createUniform("u_csm_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
 			}
 
 			bgfx::UniformHandle s_shadow_atlas;
-			bgfx::UniformHandle u_shadow_pixel_size;
+			bgfx::UniformHandle u_shadow_atlas;
+			bgfx::UniformHandle u_pcf_p0;
+			bgfx::UniformHandle u_csm_p0;
 
 		} u_shadow;
 
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+		ShadowFilterMode m_pcf_level = PCF_HARD; // @todo can't get true pcf working on WebGL so far
+#else
+		ShadowFilterMode m_pcf_level = PCF_5;
+#endif
+
 		ShadowAtlas m_atlas;
 
+		vector<CSMShadow> m_csm_shadows;
 		vector<LightShadow> m_shadows;
 
-		CSMShadow m_csm;
-
-#ifdef MUD_PLATFORM_EMSCRIPTEN
-		CSMFilterMode m_pcf_level = CSM_HARD_PCF; // @todo can't get true pcf working on WebGL so far
-#else
-		CSMFilterMode m_pcf_level = CSM_PCF5;
-#endif
+		vector<mat4> m_shadow_matrices;
 	};
 }
 
@@ -924,6 +869,19 @@ namespace mud
     
     
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BCS>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMShadow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::CubeCamera>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::CubeTarget>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofParams>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::GIProbe>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Glow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightShadow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Lightmap>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapAtlas>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapItem>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ReflectionProbe>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Tonemap>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockBlur>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockDofBlur>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGIBake>();
@@ -936,15 +894,7 @@ namespace mud
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockReflection>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockShadow>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockTonemap>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::GIProbe>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Glow>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightShadow>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Lightmap>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapAtlas>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapItem>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ReflectionProbe>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Tonemap>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMSlice>();
 }
 
 
@@ -982,13 +932,13 @@ namespace gfx
 
 		Node3& m_node;
 
-		bgfx::TextureHandle m_raster = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_voxels_color = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_voxels_normals = BGFX_INVALID_HANDLE;
-		bgfx::TextureHandle m_voxels_light = BGFX_INVALID_HANDLE;
-		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
+		Texture m_raster = {};
+		Texture m_voxels_color = {};
+		Texture m_voxels_normals = {};
+		Texture m_voxels_light = {};
+		FrameBuffer m_fbo = {};
 
-		bgfx::TextureHandle m_voxels_light_rgba = BGFX_INVALID_HANDLE;
+		Texture m_voxels_light_rgba = {};
 
 		bool m_enabled = true;
 		mat4 m_transform;
@@ -1007,89 +957,61 @@ namespace gfx
 		float m_normal_bias = 0.8f;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void save_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path);
-	export_ MUD_GFX_PBR_EXPORT void load_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, const string& path);
-
-	struct VoxelRenderer : public Renderer
-	{
-		VoxelRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
-	};
-
-	export_ class MUD_GFX_PBR_EXPORT PassGIBake : public DrawPass
-	{
-	public:
-		PassGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake);
-
-		BlockLight& m_block_light;
-		BlockGIBake& m_block_gi_bake;
-
-		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-	};
-
-	export_ class MUD_GFX_PBR_EXPORT PassGIProbes : public RenderPass
-	{
-	public:
-		PassGIProbes(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake);
-
-		BlockLight& m_block_light;
-		BlockGIBake& m_block_gi_bake;
-
-		virtual void submit_render_pass(Render& render) final;
-	};
+	export_ MUD_GFX_PBR_EXPORT void save_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path);
+	export_ MUD_GFX_PBR_EXPORT void load_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, const string& path);
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGITrace : public DrawBlock
 	{
 	public:
-		BlockGITrace(GfxSystem& gfx_system);
+		BlockGITrace(GfxSystem& gfx);
 
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
-		virtual void options(Render& render, ShaderVersion& shader_version) const override;
-		virtual void submit(Render& render, const Pass& render_pass) const override;
-
-		void upload_gi_probes(Render& render, const Pass& render_pass) const;
+		void upload_gi_probes(Render& render, const Pass& pass) const;
 
 		struct GIProbeUniform
 		{
 			static const int max_gi_probes = 2;
 
-			void createUniforms();
-			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe, const mat4& view) const;
-
-			bgfx::UniformHandle u_transform;
-			bgfx::UniformHandle u_bounds;
-			bgfx::UniformHandle u_params;
-			bgfx::UniformHandle u_inv_extents;
-			bgfx::UniformHandle u_cell_size;
+			void createUniforms()
+			{
+				s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Sampler, max_gi_probes, bgfx::UniformFreq::View);
+			}
 
 			bgfx::UniformHandle s_gi_probe;
 
 		} u_gi_probe;
 	};
 
+	struct gpu_ GpuVoxelGI
+	{
+		attr_ gpu_ vec3 extents;
+		attr_ gpu_ vec3 subdiv;
+		attr_ gpu_ mat4 world;
+	};
+
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGIBake : public DrawBlock
 	{
 	public:
-		BlockGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGITrace& block_trace);
+		BlockGIBake(GfxSystem& gfx, BlockLight& block_light, BlockShadow& block_shadow, BlockGITrace& block_trace);
 
 		BlockLight& m_block_light;
+		BlockShadow& m_block_shadow;
 		BlockGITrace& m_block_trace;
 
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 
-		virtual void begin_draw_pass(Render& render) override;
-
-		virtual void options(Render& render, ShaderVersion& shader_version) const override;
-		virtual void submit(Render& render, const Pass& render_pass) const override;
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
 		void voxelize(Render& render, GIProbe& gi_probe);
 		void compute(Render& render, GIProbe& gi_probe);
@@ -1100,44 +1022,17 @@ namespace gfx
 		{
 			void createUniforms()
 			{
-				s_voxels_albedo    = bgfx::createUniform("s_voxels_albedo",  bgfx::UniformType::Int1);
-				s_voxels_normals   = bgfx::createUniform("s_voxels_normals", bgfx::UniformType::Int1);
-				s_voxels_light     = bgfx::createUniform("s_voxels_light",   bgfx::UniformType::Int1);
+				s_voxels_albedo    = bgfx::createUniform("s_voxels_albedo",  bgfx::UniformType::Sampler);
+				s_voxels_normals   = bgfx::createUniform("s_voxels_normals", bgfx::UniformType::Sampler);
+				s_voxels_light     = bgfx::createUniform("s_voxels_light",   bgfx::UniformType::Sampler);
 
-				s_voxels_light_rgba  = bgfx::createUniform("s_voxels_light_rgba",   bgfx::UniformType::Int1);
-
-				u_world  = bgfx::createUniform("u_voxelgi_world",  bgfx::UniformType::Mat4);
-				u_normal = bgfx::createUniform("u_voxelgi_normal", bgfx::UniformType::Mat3);
-
-				u_params_0 = bgfx::createUniform("u_voxelgi_params_0", bgfx::UniformType::Vec4);
-				u_params_1 = bgfx::createUniform("u_voxelgi_params_1", bgfx::UniformType::Vec4);
-			}
-
-			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe) const
-			{
-				vec4 voxelgi_extents = { gi_probe.m_extents, 0.f };
-				vec4 voxelgi_subdiv = { vec3(float(gi_probe.m_subdiv)), 0.f };
-
-				mat4 voxelgi_world = gi_probe.m_transform;
-				//mat3 voxelgi_normal = {};
-
-				encoder.setUniform(u_params_0, &voxelgi_extents);
-				encoder.setUniform(u_params_1, &voxelgi_subdiv);
-
-				encoder.setUniform(u_world, &voxelgi_world);
-				//encoder.setUniform(u_normal, &voxelgi_normal);
+				s_voxels_light_rgba  = bgfx::createUniform("s_voxels_light_rgba",   bgfx::UniformType::Sampler);
 			}
 
 			bgfx::UniformHandle s_voxels_albedo;
 			bgfx::UniformHandle s_voxels_normals;
 			bgfx::UniformHandle s_voxels_light;
 			bgfx::UniformHandle s_voxels_light_rgba;
-
-			bgfx::UniformHandle u_world;
-			bgfx::UniformHandle u_normal;
-
-			bgfx::UniformHandle u_params_0;
-			bgfx::UniformHandle u_params_1;
 
 		} u_voxelgi;
 
@@ -1168,14 +1063,19 @@ namespace mud
 	{
 		void createUniforms()
 		{
-			u_blur_params = bgfx::createUniform("u_blur_params", bgfx::UniformType::Vec4);
+			u_blur_p0 = bgfx::createUniform("u_blur_p0", bgfx::UniformType::Vec4);
 			u_blur_kernel_0_3 = bgfx::createUniform("u_blur_kernel_0_3", bgfx::UniformType::Vec4);
 			u_blur_kernel_4_7 = bgfx::createUniform("u_blur_kernel_4_7", bgfx::UniformType::Vec4);
 		}
 
-		bgfx::UniformHandle u_blur_params;
+		bgfx::UniformHandle u_blur_p0;
 		bgfx::UniformHandle u_blur_kernel_0_3;
 		bgfx::UniformHandle u_blur_kernel_4_7;
+	};
+
+	struct gpu_ GpuBlurKernel
+	{
+		attr_ gpu_ float m_kernel[8];
 	};
 
 	struct BlurKernel
@@ -1187,16 +1087,15 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockBlur : public GfxBlock
 	{
 	public:
-		BlockBlur(GfxSystem& gfx_system, BlockFilter& filter);
+		BlockBlur(GfxSystem& gfx, BlockFilter& filter);
 
 		virtual void init_block() override;
 
 		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
 		
-		void blur(Render& render);
+		void blur(Render& render, RenderTarget& target);
 
-		void gaussian_pass(Render& render, uvec4& rect, uint8_t lod, bool horizontal, const BlurKernel& kernel);
+		void gaussian_pass(Render& render, RenderTarget& target, const vec4& rect, uint8_t lod, bool horizontal, const BlurKernel& kernel);
 
 		BlockFilter& m_filter;
 
@@ -1216,50 +1115,31 @@ namespace mud
 		DOF_FIRST_PASS,
 	};
 
-	export_ struct refl_ MUD_GFX_PBR_EXPORT DofBlur
+	export_ struct refl_ DofParams
+	{
+		attr_ gpu_ float m_distance;
+		attr_ gpu_ float m_transition;
+		attr_ gpu_ float m_radius;
+	};
+
+	export_ struct refl_ DofBlur
 	{
 		attr_ bool m_enabled = false;
-		attr_ float m_far_distance = 10.f;
-		attr_ float m_far_transition = 5.f;
-		attr_ float m_far_radius = 5.f;
-		attr_ float m_near_distance = 2.f;
-		attr_ float m_near_transition = 1.f;
-		attr_ float m_near_radius = 5.f;
-		attr_ float m_max_coc_radius = 8.f;
+		attr_ gpu_ DofParams m_far = { 10.f, 5.f, 5.f };
+		attr_ gpu_ DofParams m_near = { 2.f, 1.f, 5.f };
+		attr_ gpu_ float m_max_coc_radius = 8.f;
 	};
 
-	struct DofBlurUniform
-	{
-		void createUniforms()
-		{
-			u_dof_near_params = bgfx::createUniform("u_dof_near_params", bgfx::UniformType::Vec4);
-			u_dof_far_params = bgfx::createUniform("u_dof_far_params", bgfx::UniformType::Vec4);
-			u_dof_params = bgfx::createUniform("u_dof_params", bgfx::UniformType::Vec4);
-		}
-
-		bgfx::UniformHandle u_dof_near_params;
-		bgfx::UniformHandle u_dof_far_params;
-		bgfx::UniformHandle u_dof_params;
-	};
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_dofblur(GfxSystem& gfx, Render& render, const DofBlur& blur);
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockDofBlur : public GfxBlock
 	{
 	public:
-		BlockDofBlur(GfxSystem& gfx_system, BlockFilter& filter);
+		BlockDofBlur(GfxSystem& gfx, BlockFilter& filter);
 
 		virtual void init_block() override;
 
-		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
-		virtual void submit_pass(Render& render) final;
-
-		void render(Render& render, const DofBlur& blur);
-
-		void submit_blur_pass(Render& render, const DofBlur& blur, bool first, uint64_t bgfx_state = 0);
-
 		BlockFilter& m_filter;
-
-		DofBlurUniform u_uniform;
 
 		Program& m_program;
 	};
@@ -1279,58 +1159,27 @@ namespace mud
 	export_ struct refl_ MUD_GFX_PBR_EXPORT Glow
 	{
 		attr_ bool m_enabled = false;
-		attr_ vec4 m_levels_1_4 = { 1.f, 0.f, 0.f, 0.f };
-		attr_ vec4 m_levels_5_8 = Zero4;
-		attr_ float m_intensity = 0.4f;
-		attr_ float m_bloom = 0.0f;
-		attr_ float m_bleed_threshold = 1.0f;
-		attr_ float m_bleed_scale = 2.0f;
-		attr_ bool m_bicubic_filter = false;
+		attr_ gpu_ vec4 m_levels_1_4 = { 1.f, 0.f, 0.f, 0.f };
+		attr_ gpu_ vec4 m_levels_5_8 = vec4(0.f);
+		attr_ gpu_ float m_intensity = 0.4f;
+		attr_ gpu_ float m_bloom = 0.0f;
+		attr_ gpu_ float m_bleed_threshold = 1.0f;
+		attr_ gpu_ float m_bleed_scale = 2.0f;
+		attr_ gpu_ bool m_bicubic_filter = false;
 	};
 
-	struct GlowUniform
-	{
-		void createUniforms()
-		{
-			u_glow_params_0 = bgfx::createUniform("u_glow_params_0", bgfx::UniformType::Vec4);
-			u_glow_params_1 = bgfx::createUniform("u_glow_params_1", bgfx::UniformType::Vec4);
-			u_glow_levels_1_4 = bgfx::createUniform("u_glow_levels_1_4", bgfx::UniformType::Vec4);
-			u_glow_levels_5_8 = bgfx::createUniform("u_glow_levels_5_8", bgfx::UniformType::Vec4);
-		}
-
-		bgfx::UniformHandle u_glow_params_0;
-		bgfx::UniformHandle u_glow_params_1;
-		bgfx::UniformHandle u_glow_levels_1_4;
-		bgfx::UniformHandle u_glow_levels_5_8;
-	};
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_glow(GfxSystem& gfx, Render& render, Glow& glow);
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGlow : public GfxBlock
 	{
 	public:
-		BlockGlow(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur);
+		BlockGlow(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur);
 
 		virtual void init_block() override;
-
-		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
-		virtual void submit_pass(Render& render) final;
-
-		void glow_bleed(Render& render, Glow& glow);
-		void glow_blur(Render& render, Glow& glow);
-		void glow_merge(Render& render, Glow& glow);
-
-		void render(Render& render, Glow& glow);
-
-		BlockFilter& m_filter;
-		BlockCopy& m_copy;
-		BlockBlur& m_blur;
-
-		GlowUniform u_uniform;
 
 		Program& m_bleed_program;
 		Program& m_merge_program;
 	};
-
 }
 
 
@@ -1341,8 +1190,9 @@ namespace mud
 {
 	enum TonemapShaderOption : unsigned int
 	{
+		TO_GAMMA,
 		ADJUST_BCS,
-		COLOR_CORRECTION,
+		COLOR_LUT,
 	};
 
 	enum TonemapShaderMode : unsigned int
@@ -1355,58 +1205,42 @@ namespace mud
 		Linear,
 		Reinhardt,
 		Filmic,
-		ACES
+		ACES,
+		Cineon,
+		Uncharted2
 	};
 
-	export_ struct refl_ MUD_GFX_PBR_EXPORT BCS
+	export_ struct refl_ BCS
 	{
-		attr_ bool m_enabled = false;
-		attr_ float m_brightness = 1.0f;
-		attr_ float m_contrast = 1.0f;
-		attr_ float m_saturation = 1.0f;
+		attr_ gpu_ bool m_enabled = false;
+		attr_ gpu_ float m_brightness = 1.0f;
+		attr_ gpu_ float m_contrast = 1.0f;
+		attr_ gpu_ float m_saturation = 1.0f;
 	};
 
-	export_ struct refl_ MUD_GFX_PBR_EXPORT Tonemap
+	export_ struct refl_ Tonemap
 	{
 		attr_ TonemapMode m_mode = TonemapMode::Linear;
 		attr_ bool m_enabled = false;
-		attr_ float m_exposure = 1.0f;
-		attr_ float m_white_point = 1.0f;
+		attr_ gpu_ float m_exposure = 1.0f;
+		attr_ gpu_ float m_white_point = 1.0f;
 
-		bgfx::TextureHandle m_color_correction = BGFX_INVALID_HANDLE;
+		Texture* m_color_lut = nullptr;
 	};
 
-	struct TonemapUniform
-	{
-		void createUniforms()
-		{
-			u_bcs = bgfx::createUniform("u_tonemap_bcs", bgfx::UniformType::Vec4);
-			u_exposure_params = bgfx::createUniform("u_exposure_params", bgfx::UniformType::Vec4);
-		}
-
-		bgfx::UniformHandle u_bcs;
-		bgfx::UniformHandle u_exposure_params;
-	};
+	export_ MUD_GFX_PBR_EXPORT func_ void pass_tonemap(GfxSystem& gfx, Render& render, Tonemap& tonemap, BCS& bcs);
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockTonemap : public GfxBlock
 	{
 	public:
-		BlockTonemap(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy);
+		BlockTonemap(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy);
 
 		virtual void init_block() override;
 
-		virtual void begin_render(Render& render) override;
-		virtual void begin_pass(Render& render) override;
-		virtual void submit_pass(Render& render) final;
-
-		void render(Render& render, Tonemap& tonemap, BCS& bcs);
-
-		BlockFilter& m_filter;
-		BlockCopy& m_copy;
-
-		TonemapUniform u_uniform;
 		Program& m_program;
 	};
+
+
 }
 
 
@@ -1419,3 +1253,684 @@ namespace mud
 	template <> struct TypedBuffer<DofBlur> { static uint32_t index() { return 3; } };
 }
 
+
+
+#ifndef MUD_MODULES
+#endif
+
+namespace mud
+{
+	template <>
+	struct GpuState<GpuBlurKernel>
+	{
+		void init()
+		{
+			u_blur_kernel_0_3 = bgfx::createUniform("u_blur_kernel_0_3", bgfx::UniformType::Vec4);
+			u_blur_kernel_4_7 = bgfx::createUniform("u_blur_kernel_4_7", bgfx::UniformType::Vec4);
+		}
+
+		void upload(const GpuBlurKernel& kernel)
+		{
+			bgfx::setUniform(u_blur_kernel_0_3, kernel.m_kernel + 0);
+			bgfx::setUniform(u_blur_kernel_4_7, kernel.m_kernel + 4);
+		}
+
+		bgfx::UniformHandle u_blur_kernel_0_3;
+		bgfx::UniformHandle u_blur_kernel_4_7;
+
+		static GpuState me;
+	};
+}
+
+
+#ifndef MUD_MODULES
+#endif
+
+namespace mud
+{
+	template <>
+	struct GpuState<DofBlur>
+	{
+		void init()
+		{
+			u_dof_near_p0 = bgfx::createUniform("u_dof_near_p0", bgfx::UniformType::Vec4);
+			u_dof_far_p0 = bgfx::createUniform("u_dof_far_p0", bgfx::UniformType::Vec4);
+			u_dof_p0 = bgfx::createUniform("u_dof_p0", bgfx::UniformType::Vec4);
+		}
+
+		void upload(const DofBlur& dof)
+		{
+			vec4 dof_near_p0 =
+			{
+				dof.m_near.m_distance,
+				dof.m_near.m_distance - dof.m_near.m_transition,
+				dof.m_near.m_radius,
+				1.f / dof.m_near.m_radius,
+			};
+
+			vec4 dof_far_p0 =
+			{
+				dof.m_far.m_distance,
+				dof.m_far.m_distance + dof.m_far.m_transition,
+				dof.m_far.m_radius,
+				0.f
+			};
+
+			vec4 dof_p0 = { dof.m_max_coc_radius, 0.f, 0.f, 0.f };
+
+			bgfx::setUniform(u_dof_near_p0, &dof_near_p0);
+			bgfx::setUniform(u_dof_far_p0, &dof_far_p0);
+			bgfx::setUniform(u_dof_p0, &dof_p0);
+		}
+
+		bgfx::UniformHandle u_dof_near_p0;
+		bgfx::UniformHandle u_dof_far_p0;
+		bgfx::UniformHandle u_dof_p0;
+
+		static GpuState me;
+	};
+}
+
+
+#ifndef MUD_MODULES
+#endif
+
+namespace mud
+{
+	template <>
+	struct GpuState<Glow>
+	{
+		void init()
+		{
+			u_glow_p0 = bgfx::createUniform("u_glow_p0", bgfx::UniformType::Vec4);
+			u_glow_p1 = bgfx::createUniform("u_glow_p1", bgfx::UniformType::Vec4);
+			u_glow_levels_1_4 = bgfx::createUniform("u_glow_levels_1_4", bgfx::UniformType::Vec4);
+			u_glow_levels_5_8 = bgfx::createUniform("u_glow_levels_5_8", bgfx::UniformType::Vec4);
+		}
+
+		void upload(const Glow& glow)
+		{
+			vec4 glow_p0 = { 0.f, glow.m_bloom, glow.m_bleed_threshold, glow.m_bleed_scale };
+			bgfx::setUniform(u_glow_p0, &glow_p0);
+
+			vec4 glow_p1 = { glow.m_intensity, 0.f, 0.f, 0.f }; // float(render.m_target->m_size.x), float(render.m_target->m_size.y)
+			bgfx::setUniform(u_glow_p1, &glow_p1);
+			bgfx::setUniform(u_glow_levels_1_4, &glow.m_levels_1_4);
+			bgfx::setUniform(u_glow_levels_5_8, &glow.m_levels_5_8);
+		}
+
+		bgfx::UniformHandle u_glow_p0;
+		bgfx::UniformHandle u_glow_p1;
+		bgfx::UniformHandle u_glow_levels_1_4;
+		bgfx::UniformHandle u_glow_levels_5_8;
+
+		static GpuState me;
+	};
+}
+
+
+#ifndef MUD_MODULES
+#endif
+
+#include <cstring>
+
+#define PAD 0.f
+
+namespace mud
+{
+	template <>
+	struct GpuState<GpuShadow>
+	{
+		void init()
+		{
+			u_shadow_matrix = bgfx::createUniform("u_shadow_matrix", bgfx::UniformType::Mat4, c_max_shadows, bgfx::UniformFreq::View);
+		}
+
+		void upload(const Pass& pass, span<mat4> matrices)
+		{
+			bgfx::setViewUniform(pass.m_index, u_shadow_matrix, matrices.m_pointer, uint16_t(matrices.size()));
+		}
+
+		bgfx::UniformHandle u_shadow_matrix;
+
+		static GpuState me;
+	};
+
+#if !LIGHTS_BUFFER
+	template <>
+	struct GpuState<GpuLight>
+	{
+		void init()
+		{
+			u_light_position_range			= bgfx::createUniform("u_light_position_range",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_energy_specular			= bgfx::createUniform("u_light_energy_specular",		bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_direction_attenuation	= bgfx::createUniform("u_light_direction_attenuation",	bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_spot_p0					= bgfx::createUniform("u_light_spot_p0",				bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_shadow_p0				= bgfx::createUniform("u_light_shadow_p0",				bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_shadowmap_p0			= bgfx::createUniform("u_light_shadowmap_p0",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_csm_p0					= bgfx::createUniform("u_light_csm_p0",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_csm_p1					= bgfx::createUniform("u_light_csm_p1",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_csm_p2					= bgfx::createUniform("u_light_csm_p2",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+		}
+
+		void upload(const Pass& pass, span<GpuLight> lights) const
+		{
+			vec4 position_range[c_max_forward_lights];
+			vec4 energy_specular[c_max_forward_lights];
+			vec4 direction_attenuation[c_max_forward_lights];
+			vec4 spot_p0[c_max_forward_lights];
+			vec4 shadow_p0[c_max_forward_lights];
+			vec4 shadowmap_p0[c_max_forward_lights];
+			vec4 csm_p0[c_max_forward_lights];
+			vec4 csm_p1[c_max_forward_lights];
+			vec4 csm_p2[c_max_forward_lights];
+			//mat4 shadow_matrix[c_max_forward_lights];
+
+			for(size_t i = 0; i < lights.size(); ++i)
+			{
+				const GpuLight& l = lights[i];
+				const GpuShadow& s = l.shadow;
+				const GpuCSMShadow& csm = l.csm;
+
+				position_range[i] = { l.position, l.range };
+				energy_specular[i] = { l.energy, l.specular };
+				direction_attenuation[i] = { l.direction, l.attenuation };
+				spot_p0[i] = { l.spot_attenuation, l.spot_cutoff, PAD, PAD };
+
+				shadow_p0[i] = { s.matrix, s.bias, s.radius, s.range };
+				shadowmap_p0[i] = { s.atlas_slot, s.atlas_subdiv };
+
+				csm_p0[i] = { csm.num_slices, PAD, PAD, PAD };
+				csm_p1[i] = csm.matrices;
+				csm_p2[i] = csm.splits;
+			}
+
+			bgfx::setViewUniform(pass.m_index, u_light_position_range,			&position_range,		uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_energy_specular,			&energy_specular,		uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_direction_attenuation,	&direction_attenuation,	uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_spot_p0,					&spot_p0,				uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_shadow_p0,				&shadow_p0,				uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_shadowmap_p0,			&shadowmap_p0,			uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_csm_p0,					&csm_p0,				uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_csm_p1,					&csm_p1,				uint16_t(lights.size()));
+			bgfx::setViewUniform(pass.m_index, u_light_csm_p2,					&csm_p2,				uint16_t(lights.size()));
+		}
+
+		bgfx::UniformHandle u_light_position_range;
+		bgfx::UniformHandle u_light_energy_specular;
+		bgfx::UniformHandle u_light_direction_attenuation;
+		bgfx::UniformHandle u_light_spot_p0;
+		bgfx::UniformHandle u_light_shadow_p0;
+		bgfx::UniformHandle u_light_shadowmap_p0;
+		bgfx::UniformHandle u_light_csm_p0;
+		bgfx::UniformHandle u_light_csm_p1;
+		bgfx::UniformHandle u_light_csm_p2;
+
+		static GpuState me;
+	};
+#else
+	template <>
+	struct GpuState<GpuLight>
+	{
+		void pack(GpuLight& gpu_light, size_t index, const GpuTexture& buffer, float* dest)
+		{
+			size_t offset = index * buffer.stride;// + (index % texture_size) * height;
+
+			//memcpy(pack, &gpu_light, sizeof(GpuLight));
+
+			memcpy(dest + offset, &gpu_light.position, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &gpu_light.energy, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &gpu_light.direction, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &gpu_light.spot_attenuation, sizeof(float) * 2);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &gpu_light.shadow.matrix, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &gpu_light.shadow.atlas_slot, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &gpu_light.csm.num_slices, sizeof(float) * 1);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &gpu_light.csm.matrices, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &gpu_light.csm.splits, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+		}
+
+		void pack(GpuTexture& buffer, span<GpuLight> lights)
+		{
+			const size_t height = 9;
+			const size_t lines = 1;
+			const uvec2 size = uvec2(buffer.width, uint16_t(lines * height));
+
+			// swap two buffers so that bgfx can still read the previous one
+			swap(buffer.memory, buffer.prev);
+
+			if(buffer.texture.m_size != size)
+				buffer.texture = { size, false, TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
+
+			const uint32_t memsize = uint32_t(size.x * size.y * buffer.stride);
+			buffer.memory.resize(memsize);
+			for(size_t index = 0; index < lights.size(); ++index)
+			{
+				this->pack(lights[index], index, buffer, buffer.memory.data());
+			}
+
+			const bgfx::Memory* mem = bgfx::makeRef(buffer.memory.data(), sizeof(float) * buffer.memory.size());
+			bgfx::updateTexture2D(buffer.texture, 0, 0, 0, 0, buffer.width, uint16_t(lines * height), mem);
+		}
+
+		static GpuState me;
+	};
+#endif
+}
+
+#undef PAD
+
+
+#ifndef MUD_MODULES
+#endif
+
+namespace mud
+{
+	template <>
+	struct GpuState<BCS>
+	{
+		void init()
+		{
+			u_bcs = bgfx::createUniform("u_tonemap_bcs", bgfx::UniformType::Vec4);
+		}
+
+		void upload(const BCS& bcs)
+		{
+			vec4 bcs_values = { bcs.m_brightness, bcs.m_contrast, bcs.m_saturation, 0.f };
+			bgfx::setUniform(u_bcs, &bcs_values);
+		}
+
+		bgfx::UniformHandle u_bcs;
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<Tonemap>
+	{
+		void init()
+		{
+			u_exposure_p0 = bgfx::createUniform("u_exposure_p0", bgfx::UniformType::Vec4);
+		}
+
+		void upload(const Tonemap& tonemap)
+		{
+			vec4 exposure_p0 = { tonemap.m_exposure, tonemap.m_white_point, 0.f, 0.f };
+			bgfx::setUniform(u_exposure_p0, &exposure_p0);
+		}
+
+		bgfx::UniformHandle u_exposure_p0;
+
+		static GpuState me;
+	};
+}
+
+
+
+#ifndef MUD_MODULES
+#endif
+
+namespace mud
+{
+	template <>
+	struct GpuState<GIProbe>
+	{
+		void init(uint16_t array_size = 1U)
+		{
+			u_transform   = bgfx::createUniform("u_gi_probe_transform",    bgfx::UniformType::Mat4, array_size);
+			u_bounds      = bgfx::createUniform("u_gi_probe_bounds4",      bgfx::UniformType::Vec4, array_size);
+			u_p0      = bgfx::createUniform("u_gi_probe_p0",       bgfx::UniformType::Vec4, array_size);
+			u_inv_extents = bgfx::createUniform("u_gi_probe_inv_extents4", bgfx::UniformType::Vec4, array_size);
+			u_cell_size   = bgfx::createUniform("u_gi_probe_cell_size4",   bgfx::UniformType::Vec4, array_size);
+		}
+
+		void upload(bgfx::Encoder& encoder, const GIProbe& gi_probe, const mat4& view) const
+		{
+			float diffuse = gi_probe.m_dynamic_range * gi_probe.m_diffuse;
+			float specular = gi_probe.m_dynamic_range * gi_probe.m_specular;
+
+			mat4 transform = gi_probe.m_transform * inverse(view);
+			vec4 params = { diffuse, specular, gi_probe.m_bias, gi_probe.m_normal_bias };
+			vec4 bounds = { gi_probe.m_extents * 2.f, 0.f };
+			vec4 inv_extents = { vec3(1.f) / gi_probe.m_extents, 1.f };
+			vec4 cell_size = { gi_probe.m_extents * 2.f / float(gi_probe.m_subdiv), 1.f };
+
+			encoder.setUniform(u_transform, &transform);
+			encoder.setUniform(u_bounds, &bounds);
+			encoder.setUniform(u_p0, &params);
+			encoder.setUniform(u_inv_extents, &inv_extents);
+			encoder.setUniform(u_cell_size, &cell_size);
+		}
+
+		bgfx::UniformHandle u_transform;
+		bgfx::UniformHandle u_bounds;
+		bgfx::UniformHandle u_p0;
+		bgfx::UniformHandle u_inv_extents;
+		bgfx::UniformHandle u_cell_size;
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<GpuVoxelGI>
+	{
+		void init()
+		{
+			u_world  = bgfx::createUniform("u_voxelgi_world",  bgfx::UniformType::Mat4);
+			u_normal = bgfx::createUniform("u_voxelgi_normal", bgfx::UniformType::Mat3);
+
+			u_p0 = bgfx::createUniform("u_voxelgi_p0", bgfx::UniformType::Vec4);
+			u_p1 = bgfx::createUniform("u_voxelgi_p1", bgfx::UniformType::Vec4);
+		}
+
+		void upload(bgfx::Encoder& encoder, GIProbe& gi_probe) const
+		{
+			vec4 voxelgi_extents = { gi_probe.m_extents, 0.f };
+			vec4 voxelgi_subdiv = { vec3(float(gi_probe.m_subdiv)), 0.f };
+
+			mat4 voxelgi_world = gi_probe.m_transform;
+			//mat3 voxelgi_normal = {};
+
+			encoder.setUniform(u_p0, &voxelgi_extents);
+			encoder.setUniform(u_p1, &voxelgi_subdiv);
+
+			encoder.setUniform(u_world, &voxelgi_world);
+			//encoder.setUniform(u_normal, &voxelgi_normal);
+		}
+
+		bgfx::UniformHandle u_world;
+		bgfx::UniformHandle u_normal;
+		bgfx::UniformHandle u_p0;
+		bgfx::UniformHandle u_p1;
+
+		static GpuState me;
+
+	};
+}
+
+
+#include <bgfx/bgfx.h>
+
+#ifdef MUD_MODULES
+module mud.gfx.pbr;
+#else
+#endif
+
+#include <cstring>
+
+#define PAD 1.f
+
+namespace mud
+{
+#if !ZONES_LIGHTS_BUFFER
+	template <>
+	struct GpuState<ZoneLights>
+	{
+		void init()
+		{
+			u_light_indices = bgfx::createUniform("u_light_indices", bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_counts = bgfx::createUniform("u_light_counts", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_shadow_counts = bgfx::createUniform("u_shadow_counts", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+		}
+
+		void upload(uint16_t view, const ZoneLights& lights) const
+		{
+			bgfx::setViewUniform(view, u_light_counts, &lights.m_light_counts);
+			bgfx::setViewUniform(view, u_shadow_counts, &lights.m_shadow_counts);
+			if(lights.m_light_count > 0U)
+				bgfx::setViewUniform(view, u_light_indices, lights.m_light_indices, lights.m_light_count);
+		}
+
+		bgfx::UniformHandle u_light_indices = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_light_counts = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_shadow_counts = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+#else
+	template <>
+	struct GpuState<ZoneLights>
+	{
+		constexpr static size_t rows = 1 + BlockLight::ShotUniform::max_lights;
+
+		void pack(const ZoneLights& lights, size_t& offset, GpuTexture& buffer, float* dest)
+		{
+			memcpy(dest + offset, &lights.m_light_counts, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			for(size_t i = 0; i < BlockLight::ShotUniform::max_lights; ++i)
+			{
+				memcpy(dest + offset, lights.m_light_indices + i, sizeof(float) * 4);
+				offset += buffer.width * buffer.stride;
+			}
+		}
+
+		static GpuState me;
+	};
+#endif
+
+#if !ZONES_BUFFER
+	template <>
+	struct GpuState<Radiance>
+	{
+		void init()
+		{
+			u_radiance_p0 = bgfx::createUniform("u_radiance_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_ambient_p0 = bgfx::createUniform("u_ambient_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+		}
+
+		void upload(const Pass& pass, const Radiance& radiance) const
+		{
+			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
+			vec4 ambient_p0 = { to_vec3(radiance.m_ambient), PAD };
+
+			bgfx::setViewUniform(pass.m_index, u_radiance_p0, &radiance_p0);
+			bgfx::setViewUniform(pass.m_index, u_ambient_p0, &ambient_p0);
+		}
+
+		bgfx::UniformHandle u_radiance_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_ambient_p0 = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<Skylight>
+	{
+		void init()
+		{
+			u_skylight_p0 = bgfx::createUniform("u_skylight_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_skylight_p1 = bgfx::createUniform("u_skylight_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_skylight_p2 = bgfx::createUniform("u_skylight_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+		}
+
+		void upload(const Pass& pass, const Skylight& skylight) const
+		{
+			vec4 skylight_p0 = { normalize(skylight.m_direction), PAD };
+			vec4 skylight_p1 = { to_vec3(skylight.m_color) * skylight.m_intensity, PAD };
+			vec4 skylight_p2 = { to_vec3(skylight.m_ground) * skylight.m_intensity, PAD };
+
+			bgfx::setViewUniform(pass.m_index, u_skylight_p0, &skylight_p0);
+			bgfx::setViewUniform(pass.m_index, u_skylight_p1, &skylight_p1);
+			bgfx::setViewUniform(pass.m_index, u_skylight_p2, &skylight_p2);
+		}
+
+		bgfx::UniformHandle u_skylight_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_skylight_p1 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_skylight_p2 = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<Fog>
+	{
+		void init()
+		{
+			u_fog_p0 = bgfx::createUniform("u_fog_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_fog_p1 = bgfx::createUniform("u_fog_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_fog_p2 = bgfx::createUniform("u_fog_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_fog_p3 = bgfx::createUniform("u_fog_p3", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+		}
+
+		void upload(const Pass& pass, const Fog& fog) const
+		{
+			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
+			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_end, fog.m_depth_curve };
+			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
+			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, PAD, PAD };
+
+			bgfx::setViewUniform(pass.m_index, u_fog_p0, &params_0);
+			bgfx::setViewUniform(pass.m_index, u_fog_p1, &params_1);
+			bgfx::setViewUniform(pass.m_index, u_fog_p2, &params_2);
+			bgfx::setViewUniform(pass.m_index, u_fog_p3, &params_3);
+		}
+
+		bgfx::UniformHandle u_fog_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_fog_p1 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_fog_p2 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_fog_p3 = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<Zone>
+	{
+		void upload(const Pass& pass, const Zone& zone) const
+		{
+			GpuState<Radiance>::me.upload(pass, zone.m_radiance);
+			GpuState<Skylight>::me.upload(pass, zone.m_skylight);
+			GpuState<Fog>::me.upload(pass, zone.m_fog);
+		}
+
+		static GpuState me;
+	};
+#else
+	template <>
+	struct GpuState<Radiance>
+	{
+		constexpr static size_t rows = 2;
+
+		void pack(const Radiance& radiance, size_t& offset, GpuTexture& buffer, float* dest)
+		{
+			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
+			vec4 ambient_p0 = { to_vec3(radiance.m_ambient), PAD };
+
+			memcpy(dest + offset, &radiance_p0, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &ambient_p0, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<Skylight>
+	{
+		constexpr static size_t rows = 3;
+
+		void pack(const Skylight& skylight, size_t& offset, GpuTexture& buffer, float* dest)
+		{
+			vec4 skylight_p0 = { normalize(skylight.m_direction), PAD };
+			vec4 skylight_p1 = { to_vec3(skylight.m_color) * skylight.m_intensity, PAD };
+			vec4 skylight_p2 = { to_vec3(skylight.m_ground) * skylight.m_intensity, PAD };
+
+			memcpy(dest + offset, &skylight_p0, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &skylight_p1, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &skylight_p2, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<Fog>
+	{
+		constexpr static size_t rows = 4;
+
+		void pack(const Fog& fog, size_t& offset, GpuTexture& buffer, float* dest)
+		{
+			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
+			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_end, fog.m_depth_curve };
+			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
+			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, PAD, PAD };
+
+			memcpy(dest + offset, &params_0, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &params_1, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &params_2, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &params_3, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+
+	template <>
+	struct GpuState<Zone>
+	{
+		void pack(const Zone& zone, size_t offset, GpuTexture& buffer, float* dest)
+		{
+			GpuState<Radiance>::me.pack(zone.m_radiance, offset, buffer, dest);
+			if(zone.m_fog.m_enabled)
+				GpuState<Fog>::me.pack(zone.m_fog, offset, buffer, dest);
+		}
+
+		void pack(Texture& texture, span<Zone> zones)
+		{
+			GpuTexture buffer = { texture, 1024, 4 };
+
+			const uint32_t height = GpuState<Radiance>::me.rows
+								  + GpuState<Skylight>::me.rows;
+								  + GpuState<Fog>::me.rows;
+			const uint32_t lines = 1;
+			const uvec2 size = uvec2(buffer.width, lines * height);
+
+			if(texture.m_size != size)
+				texture = { size, bgfx::TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
+
+			const bgfx::Memory* memory = bgfx::alloc(buffer.width * lines * height * buffer.stride * sizeof(float));
+
+			for(size_t index = 0; index < zones.size(); ++index)
+			{
+				this->pack(zones[index], index * buffer.stride, buffer, (float*)memory->data);
+			}
+
+			bgfx::updateTexture2D(texture, 0, 0, 0, 0, buffer.width, uint16_t(lines * height), memory);
+		}
+
+		static GpuState me;
+	};
+#endif
+}
+
+#undef PAD

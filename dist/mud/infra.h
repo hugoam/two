@@ -111,8 +111,10 @@ namespace mud
 #define struct_ // Struct
 #define nocopy_ // Nocopy type
 #define array_	// Array type
+#define span_	// Span type
 #define seque_	// Sequence type
 #define extern_ // Extern type
+#define gpu_    // Gpu type
 #define comp_   // Component
 #define constr_ // Constructor
 #define meth_   // Method
@@ -185,6 +187,7 @@ base_ static long long dllong;
 base_ static long double dldouble;
 base_ static float dfloat;
 base_ static double ddouble;
+base_ static const char* dcstring;
 #include <stdint.h>
 #include <stddef.h>
 #endif
@@ -209,25 +212,7 @@ import std.memory; // std.memory exists only in Visual Studio experimental modul
 import std.io;
 #endif
 #endif
-
-
-#include <stl/initializer_list.h>
-#include <stdint.h>
-
-namespace mud
-{
-	export_ template <class Enum, class T, size_t Size = size_t(Enum::Count)>
-	using enum_array = T[Size];
-	
-	export_ template <class Enum, class T, size_t Size = size_t(Enum::Count)>
-	struct enum_array2
-	{
-		const T& operator[](Enum e) const { return m_values[size_t(e)]; }
-		T& operator[](Enum e) { return m_values[size_t(e)]; }
-
-		T m_values[Size] = {};
-	};
-}
+#include <stl/table.h>
 
 
 #include <stdint.h>
@@ -285,7 +270,7 @@ namespace mud
 	export_ MUD_INFRA_EXPORT vector<uint8_t> read_binary_file(const string& path);
 	export_ MUD_INFRA_EXPORT string read_text_file(const string& path);
 
-	export_ using LineVisitor = function<void(const string&)>;
+	export_ using LineVisitor = function<bool(const string&)>;
 	export_ MUD_INFRA_EXPORT void read_text_file(const string& path, LineVisitor visit_line);
 
 	export_ MUD_INFRA_EXPORT void write_file(const string& path, const string& content);
@@ -318,6 +303,17 @@ namespace mud
 	{
 		string directory = file_directory(path);
 		return path.substr(directory.size() + 1);
+	}
+
+	inline string file_label(const string& path)
+	{
+		string directory = file_directory(path);
+		return path.substr(directory.size() + 1, path.rfind(".") + 1);
+	}
+
+	inline string file_noext(const string& path)
+	{
+		return path.substr(0, path.rfind("."));
 	}
 
 	inline string file_extension(const string& path)
@@ -494,8 +490,7 @@ namespace mud
 	export_ MUD_INFRA_EXPORT void split(const string& str, const string& separator, span<string> output);
 	export_ MUD_INFRA_EXPORT vector<string> split(const string& str, const string& separator);
 
-	//export_ MUD_INFRA_EXPORT string join(span<string> strings, string separator);
-	export_ MUD_INFRA_EXPORT string join(const vector<string>& strings, string separator);
+	export_ MUD_INFRA_EXPORT string join(span<string> strings, string separator);
 
 	export_ MUD_INFRA_EXPORT string replace(const string& original, const string& before, const string& after);
 
@@ -1082,12 +1077,6 @@ namespace mud
 	export_ template <class T>
 	vector<T> to_vector(const span<T>& span) { return { span.m_pointer, span.m_pointer + span.m_count }; }
 	
-	//export_ template <class T>
-	//inline bool has(const vector<T>& vec, const T& value)
-	//{
-	//	return find(vec.begin(), vec.end(), value) != vec.end();
-	//}
-	
 	export_ template <class T>
 	inline bool has(span<T> vec, const T& value)
 	{
@@ -1099,9 +1088,26 @@ namespace mud
 	{
 		return find(vec.begin(), vec.end(), value) != vec.end();
 	}
+	
+	export_ template <class T>
+	inline vector<T> slice(span<T> vec, size_t begin, size_t end)
+	{
+		vector<T> result;
+		for(size_t i = begin; i < end; ++i)
+			result.push_back(vec[i]);
+		return result;
+	}
+	
+	export_ template <class T>
+	inline vector<T> prepend(span<T> vec, const T& value)
+	{
+		vector<T> result(vec.begin(), vec.end());
+		result.insert(result.begin(), value);
+		return result;
+	}
 
 	export_ template <class T, class U>
-	inline void cast(const vector<T>& source, vector<U>& target)
+	inline void cast(span<T> source, vector<U>& target)
 	{
 		target.reserve(source.size());
 		for(const T& val : source)
@@ -1109,7 +1115,7 @@ namespace mud
 	}
 
 	export_ template <class U, class T>
-	inline vector<U> convert(const vector<T>& source)
+	inline vector<U> convert(span<T> source)
 	{
 		vector<U> target;
 		cast(source, target);
@@ -1117,7 +1123,7 @@ namespace mud
 	}
 
 	export_ template <class U, class T, class Op>
-	inline vector<U> convert(const vector<T>& source, Op op)
+	inline vector<U> convert(span<T> source, Op op)
 	{
 		vector<U> result;
 		result.resize(source.size());
@@ -1126,7 +1132,7 @@ namespace mud
 	}
 
 	template <class U, class T, class F>
-	export_ vector<U> transform(const vector<T>& vec, F func)
+	export_ vector<U> transform(span<T> vec, F func)
 	{
 		vector<U> result;
 		for(const T& value : vec)
@@ -1135,7 +1141,7 @@ namespace mud
 	}
 
 	template <class V, class T, class U, class F>
-	export_ vector<V> transform(const vector<T>& a, const vector<U>& b, F func)
+	export_ vector<V> transform(span<T> a, span<U> b, F func)
 	{
 		vector<V> result;
 		for(size_t i = 0; i < a.size(); ++i)

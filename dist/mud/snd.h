@@ -183,9 +183,9 @@ namespace mud
 
 		bool m_source_relative = true;
 
-		vec3 m_position = Zero3;	// 3D position
-		vec3 m_direction = Zero3;	// 3D direction
-		vec3 m_velocity = Zero3;	// 3D velocity
+		vec3 m_position = vec3(0.f);	// 3D position
+		vec3 m_direction = vec3(0.f);	// 3D direction
+		vec3 m_velocity = vec3(0.f);	// 3D velocity
 
 		float m_max_gain = 1.f;			// Minimum volume
 		float m_min_gain = 0.f;			// Maximum volume
@@ -323,7 +323,7 @@ namespace mud
 	public:
 		SoundListener();
 
-		vec3 m_position = Zero3;
+		vec3 m_position = vec3(0.f);
 		vec3 m_front = { 0.f, 0.f, -1.f }; //-Z3;
 		vec3 m_up = Y3;
 

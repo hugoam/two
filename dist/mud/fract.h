@@ -177,9 +177,9 @@ namespace mud
 
 		meth_ void generate(size_t num_tabs = 75);
 		meth_ void regen();
-		meth_ void render(const Rect& rect, const Pattern& pattern, uvec2 resolution, Image256& output_image);
-		meth_ void render_whole(const Pattern& pattern, uvec2 resolution, Image256& output_image);
-		meth_ void render_grid(uvec2 size, const Pattern& pattern, uvec2 resolution, vector<Image256>& output_images);
+		meth_ void render(const Rect& rect, const Pattern& pattern, const uvec2& resolution, Image256& output_image);
+		meth_ void render_whole(const Pattern& pattern, const uvec2& resolution, Image256& output_image);
+		meth_ void render_grid(const uvec2& size, const Pattern& pattern, const uvec2& resolution, vector<Image256>& output_images);
 
 		int inverse_point(float& x, float& y);		
 

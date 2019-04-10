@@ -1,14 +1,18 @@
-#include <mud/ui.h>
+#include <mud/ctx.win.h>
+#include <mud/math.h>
+#include <mud/ctx.h>
 
 
-#include <ui/Config.h>
-#include <ui/Context/Windows/WindowsContext.h>
-
-#include <mudobj/Iterable/Iterable.h>
-#include <ui/Input/InputDevice.h>
+#include <stl/algorithm.h>
+//#include <ui/UiWindow.h>
 
 #include <windows.h>
 #include <windowsx.h>
+
+#undef min
+#undef max
+
+#include <stl/vector.hpp>
 
 namespace mud
 {
@@ -17,8 +21,8 @@ namespace mud
 	struct WindowHolder
 	{
 		void add(WinContext& window) { m_windows.push_back(&window); }
-		void remove(WinContext& window) { vector_remove(m_windows, &window); }
-		WinContext* find(HWND hwnd) { for(WinContext* window : m_windows) if(window->m_render.m_hwnd == hwnd) return window; return nullptr; }
+		void remove(WinContext& window) { mud::remove(m_windows, &window); }
+		WinContext* find(HWND hwnd) { for(WinContext* window : m_windows) if(window->m_hwnd == hwnd) return window; return nullptr; }
 
 		vector<WinContext*> m_windows;
 
@@ -28,22 +32,22 @@ namespace mud
 	struct TranslateKeyModifiers
 	{
 		int m_vk;
-		InputModifier m_modifier;
+		InputMod m_modifier;
 	};
 
 	static const TranslateKeyModifiers s_translateKeyModifiers[6] =
 	{
-		{ VK_LMENU,    INPUT_ALT },
-		{ VK_RMENU,    INPUT_ALT },
-		{ VK_LCONTROL, INPUT_CTRL },
-		{ VK_RCONTROL, INPUT_CTRL },
-		{ VK_LSHIFT,   INPUT_SHIFT },
-		{ VK_RSHIFT,   INPUT_SHIFT },
+		{ VK_LMENU,    InputMod::Alt },
+		{ VK_RMENU,    InputMod::Alt },
+		{ VK_LCONTROL, InputMod::Ctrl },
+		{ VK_RCONTROL, InputMod::Ctrl },
+		{ VK_LSHIFT,   InputMod::Shift },
+		{ VK_RSHIFT,   InputMod::Shift },
 		//{ VK_LWIN,     Modifier::LeftMeta },
 		//{ VK_RWIN,     Modifier::RightMeta },
 	};
 
-	MouseButtonCode mouseButton(uint32_t code)
+	MouseButtonCode mouse_button(uint32_t code)
 	{
 		if(code == WM_LBUTTONDOWN
 		|| code == WM_LBUTTONUP) return LEFT_BUTTON;
@@ -51,13 +55,14 @@ namespace mud
 		|| code == WM_MBUTTONUP) return MIDDLE_BUTTON;
 		if(code == WM_RBUTTONDOWN
 		|| code == WM_RBUTTONUP) return RIGHT_BUTTON;
+		return LEFT_BUTTON;
 	}
 
-	static uint8_t translateKeyModifiers()
+	static uint8_t key_modifiers()
 	{
 		uint8_t modifiers = 0;
 		for(const TranslateKeyModifiers& modifier : s_translateKeyModifiers)
-			modifiers |= 0 > GetKeyState(modifier.m_vk) ? modifier.m_modifier : INPUT_NO_MOD;
+			modifiers |= uint8_t(0 > GetKeyState(modifier.m_vk) ? modifier.m_modifier : InputMod::None);
 		return modifiers;
 	}
 
@@ -66,338 +71,119 @@ namespace mud
 		KeyDispatch()
 		{
 			memset(m_translateKey, 0, sizeof(m_translateKey));
-			m_translateKey[VK_ESCAPE] = KC_ESCAPE;
-			m_translateKey[VK_RETURN] = KC_RETURN;
-			m_translateKey[VK_TAB] = KC_TAB;
-			m_translateKey[VK_BACK] = KC_BACK;
-			m_translateKey[VK_SPACE] = KC_SPACE;
-			m_translateKey[VK_UP] = KC_UP;
-			m_translateKey[VK_DOWN] = KC_DOWN;
-			m_translateKey[VK_LEFT] = KC_LEFT;
-			m_translateKey[VK_RIGHT] = KC_RIGHT;
-			m_translateKey[VK_INSERT] = KC_INSERT;
-			m_translateKey[VK_DELETE] = KC_DELETE;
-			m_translateKey[VK_HOME] = KC_HOME;
-			m_translateKey[VK_END] = KC_END;
-			m_translateKey[VK_PRIOR] = KC_PGUP;
-			m_translateKey[VK_NEXT] = KC_PGDOWN;
+			m_translateKey[VK_ESCAPE] = Key::Escape;
+			m_translateKey[VK_RETURN] = Key::Return;
+			m_translateKey[VK_TAB] = Key::Tab;
+			m_translateKey[VK_BACK] = Key::Back;
+			m_translateKey[VK_SPACE] = Key::Space;
+			m_translateKey[VK_UP] = Key::Up;
+			m_translateKey[VK_DOWN] = Key::Down;
+			m_translateKey[VK_LEFT] = Key::Left;
+			m_translateKey[VK_RIGHT] = Key::Right;
+			m_translateKey[VK_INSERT] = Key::Insert;
+			m_translateKey[VK_DELETE] = Key::Delete;
+			m_translateKey[VK_HOME] = Key::Home;
+			m_translateKey[VK_END] = Key::End;
+			m_translateKey[VK_PRIOR] = Key::PageUp;
+			m_translateKey[VK_NEXT] = Key::PageDown;
 			//s_translateKey[VK_SNAPSHOT] = Key::Print;
-			m_translateKey[VK_OEM_PLUS] = KC_ADD;
-			m_translateKey[VK_OEM_MINUS] = KC_SUBTRACT;
-			m_translateKey[VK_OEM_4] = KC_LBRACKET;
-			m_translateKey[VK_OEM_6] = KC_RBRACKET;
-			m_translateKey[VK_OEM_1] = KC_SEMICOLON;
+			m_translateKey[VK_OEM_PLUS] = Key::Add;
+			m_translateKey[VK_OEM_MINUS] = Key::Subtract;
+			m_translateKey[VK_OEM_4] = Key::LeftBracket;
+			m_translateKey[VK_OEM_6] = Key::RightBracket;
+			m_translateKey[VK_OEM_1] = Key::Semicolon;
 			//s_translateKey[VK_OEM_7] = Key::Quote;
-			m_translateKey[VK_OEM_COMMA] = KC_COMMA;
-			m_translateKey[VK_OEM_PERIOD] = KC_PERIOD;
-			m_translateKey[VK_DECIMAL] = KC_PERIOD;
-			m_translateKey[VK_OEM_2] = KC_SLASH;
-			m_translateKey[VK_OEM_5] = KC_BACKSLASH;
+			m_translateKey[VK_OEM_COMMA] = Key::Comma;
+			m_translateKey[VK_OEM_PERIOD] = Key::Period;
+			m_translateKey[VK_DECIMAL] = Key::Period;
+			m_translateKey[VK_OEM_2] = Key::Slash;
+			m_translateKey[VK_OEM_5] = Key::Backslash;
 			//s_translateKey[VK_OEM_3] = Key::Tilde;
-			m_translateKey[VK_F1] = KC_F1;
-			m_translateKey[VK_F2] = KC_F2;
-			m_translateKey[VK_F3] = KC_F3;
-			m_translateKey[VK_F4] = KC_F4;
-			m_translateKey[VK_F5] = KC_F5;
-			m_translateKey[VK_F6] = KC_F6;
-			m_translateKey[VK_F7] = KC_F7;
-			m_translateKey[VK_F8] = KC_F8;
-			m_translateKey[VK_F9] = KC_F9;
-			m_translateKey[VK_F10] = KC_F10;
-			m_translateKey[VK_F11] = KC_F11;
-			m_translateKey[VK_F12] = KC_F12;
-			m_translateKey[VK_NUMPAD0] = KC_NUMPAD0;
-			m_translateKey[VK_NUMPAD1] = KC_NUMPAD1;
-			m_translateKey[VK_NUMPAD2] = KC_NUMPAD2;
-			m_translateKey[VK_NUMPAD3] = KC_NUMPAD3;
-			m_translateKey[VK_NUMPAD4] = KC_NUMPAD4;
-			m_translateKey[VK_NUMPAD5] = KC_NUMPAD5;
-			m_translateKey[VK_NUMPAD6] = KC_NUMPAD6;
-			m_translateKey[VK_NUMPAD7] = KC_NUMPAD7;
-			m_translateKey[VK_NUMPAD8] = KC_NUMPAD8;
-			m_translateKey[VK_NUMPAD9] = KC_NUMPAD9;
-			m_translateKey[uint8_t('0')] = KC_0;
-			m_translateKey[uint8_t('1')] = KC_1;
-			m_translateKey[uint8_t('2')] = KC_2;
-			m_translateKey[uint8_t('3')] = KC_3;
-			m_translateKey[uint8_t('4')] = KC_4;
-			m_translateKey[uint8_t('5')] = KC_5;
-			m_translateKey[uint8_t('6')] = KC_6;
-			m_translateKey[uint8_t('7')] = KC_7;
-			m_translateKey[uint8_t('8')] = KC_8;
-			m_translateKey[uint8_t('9')] = KC_9;
-			m_translateKey[uint8_t('A')] = KC_A;
-			m_translateKey[uint8_t('B')] = KC_B;
-			m_translateKey[uint8_t('C')] = KC_C;
-			m_translateKey[uint8_t('D')] = KC_D;
-			m_translateKey[uint8_t('E')] = KC_E;
-			m_translateKey[uint8_t('F')] = KC_F;
-			m_translateKey[uint8_t('G')] = KC_G;
-			m_translateKey[uint8_t('H')] = KC_H;
-			m_translateKey[uint8_t('I')] = KC_I;
-			m_translateKey[uint8_t('J')] = KC_J;
-			m_translateKey[uint8_t('K')] = KC_K;
-			m_translateKey[uint8_t('L')] = KC_L;
-			m_translateKey[uint8_t('M')] = KC_M;
-			m_translateKey[uint8_t('N')] = KC_N;
-			m_translateKey[uint8_t('O')] = KC_O;
-			m_translateKey[uint8_t('P')] = KC_P;
-			m_translateKey[uint8_t('Q')] = KC_Q;
-			m_translateKey[uint8_t('R')] = KC_R;
-			m_translateKey[uint8_t('S')] = KC_S;
-			m_translateKey[uint8_t('T')] = KC_T;
-			m_translateKey[uint8_t('U')] = KC_U;
-			m_translateKey[uint8_t('V')] = KC_V;
-			m_translateKey[uint8_t('W')] = KC_W;
-			m_translateKey[uint8_t('X')] = KC_X;
-			m_translateKey[uint8_t('Y')] = KC_Y;
-			m_translateKey[uint8_t('Z')] = KC_Z;
+			m_translateKey[VK_F1] = Key::F1;
+			m_translateKey[VK_F2] = Key::F2;
+			m_translateKey[VK_F3] = Key::F3;
+			m_translateKey[VK_F4] = Key::F4;
+			m_translateKey[VK_F5] = Key::F5;
+			m_translateKey[VK_F6] = Key::F6;
+			m_translateKey[VK_F7] = Key::F7;
+			m_translateKey[VK_F8] = Key::F8;
+			m_translateKey[VK_F9] = Key::F9;
+			m_translateKey[VK_F10] = Key::F10;
+			m_translateKey[VK_F11] = Key::F11;
+			m_translateKey[VK_F12] = Key::F12;
+			m_translateKey[VK_NUMPAD0] = Key::Numpad0;
+			m_translateKey[VK_NUMPAD1] = Key::Numpad1;
+			m_translateKey[VK_NUMPAD2] = Key::Numpad2;
+			m_translateKey[VK_NUMPAD3] = Key::Numpad3;
+			m_translateKey[VK_NUMPAD4] = Key::Numpad4;
+			m_translateKey[VK_NUMPAD5] = Key::Numpad5;
+			m_translateKey[VK_NUMPAD6] = Key::Numpad6;
+			m_translateKey[VK_NUMPAD7] = Key::Numpad7;
+			m_translateKey[VK_NUMPAD8] = Key::Numpad8;
+			m_translateKey[VK_NUMPAD9] = Key::Numpad9;
+			m_translateKey[uint8_t('0')] = Key::Num0;
+			m_translateKey[uint8_t('1')] = Key::Num1;
+			m_translateKey[uint8_t('2')] = Key::Num2;
+			m_translateKey[uint8_t('3')] = Key::Num3;
+			m_translateKey[uint8_t('4')] = Key::Num4;
+			m_translateKey[uint8_t('5')] = Key::Num5;
+			m_translateKey[uint8_t('6')] = Key::Num6;
+			m_translateKey[uint8_t('7')] = Key::Num7;
+			m_translateKey[uint8_t('8')] = Key::Num8;
+			m_translateKey[uint8_t('9')] = Key::Num9;
+			m_translateKey[uint8_t('A')] = Key::A;
+			m_translateKey[uint8_t('B')] = Key::B;
+			m_translateKey[uint8_t('C')] = Key::C;
+			m_translateKey[uint8_t('D')] = Key::D;
+			m_translateKey[uint8_t('E')] = Key::E;
+			m_translateKey[uint8_t('F')] = Key::F;
+			m_translateKey[uint8_t('G')] = Key::G;
+			m_translateKey[uint8_t('H')] = Key::H;
+			m_translateKey[uint8_t('I')] = Key::I;
+			m_translateKey[uint8_t('J')] = Key::J;
+			m_translateKey[uint8_t('K')] = Key::K;
+			m_translateKey[uint8_t('L')] = Key::L;
+			m_translateKey[uint8_t('M')] = Key::M;
+			m_translateKey[uint8_t('N')] = Key::N;
+			m_translateKey[uint8_t('O')] = Key::O;
+			m_translateKey[uint8_t('P')] = Key::P;
+			m_translateKey[uint8_t('Q')] = Key::Q;
+			m_translateKey[uint8_t('R')] = Key::R;
+			m_translateKey[uint8_t('S')] = Key::S;
+			m_translateKey[uint8_t('T')] = Key::T;
+			m_translateKey[uint8_t('U')] = Key::U;
+			m_translateKey[uint8_t('V')] = Key::V;
+			m_translateKey[uint8_t('W')] = Key::W;
+			m_translateKey[uint8_t('X')] = Key::X;
+			m_translateKey[uint8_t('Y')] = Key::Y;
+			m_translateKey[uint8_t('Z')] = Key::Z;
 		}
 
-		KeyCode m_translateKey[256];
+		Key m_translateKey[256];
 
 		static KeyDispatch& instance() { static KeyDispatch instance; return instance; }
 	};
 
-	static KeyCode translateKey(WPARAM _wparam)
+	Key convert_key(WPARAM _wparam)
 	{
-		return (KeyCode)KeyDispatch::instance().m_translateKey[_wparam & 0xff];
+		return (Key)KeyDispatch::instance().m_translateKey[_wparam & 0xff];
 	}
 
-	WinRenderWindow::WinRenderWindow(const string& name, int width, int height)
-		: RenderWindow(name, width, height)
-		, m_frame(true)
-		, m_oldWidth(width)
-		, m_oldHeight(height)
+	Key translate_key(WPARAM _wparam)
 	{
-		HINSTANCE instance = (HINSTANCE)GetModuleHandle(NULL);
-		m_hwnd = CreateWindowA("bgfx", name.c_str(), WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, width, height, NULL, NULL, instance, 0);
-
-		m_nativeHandle = m_hwnd;
-
-		this->clear();
-		this->setSize(width, height);
-		//m_eventQueue.postWindowEvent(handle, hwnd);
+		const char* name = nullptr; //glfwGetKeyName(key, scancode);
+		if(name == nullptr) return translate(convert_key(_wparam));
+		else if(name == string("a")) return translate(Key::A);
+		else if(name == string("z")) return translate(Key::Z);
+		else if(name == string("q")) return translate(Key::Q);
+		else if(name == string("w")) return translate(Key::W);
+		else return translate(convert_key(_wparam));
 	}
 
-	WinRenderWindow::~WinRenderWindow()
-	{
-		//while(bgfx::RenderFrame::NoContext != bgfx::renderFrame()) {};
-
-		DestroyWindow(m_hwnd);
-	}
-
-	bool WinRenderWindow::nextFrame()
-	{
-		MSG msg;
-		msg.message = WM_NULL;
-
-		WaitForInputIdle(GetCurrentProcess(), 16);
-
-		while(0 != PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-
-		return !m_shutdown;
-	}
-
-	void WinRenderWindow::destroy()
-	{
-		m_shutdown = true;
-	}
-
-	void WinRenderWindow::setPosition(int32_t x, int32_t y)
-	{
-		SetWindowPos(m_hwnd, 0, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOSIZE);
-	}
-
-	void WinRenderWindow::setSize(uint32_t width, uint32_t height)
-	{
-		this->adjust(width, height, true);
-	}
-
-	void WinRenderWindow::setTitle(const char* title)
-	{
-		SetWindowTextA(m_hwnd, title);
-	}
-
-	void WinRenderWindow::toggleWindowFrame()
-	{
-		if(m_frame)
-		{
-			m_oldWidth = m_width;
-			m_oldHeight = m_height;
-		}
-
-		this->adjust(m_oldWidth, m_oldHeight, !m_frame);
-	}
-
-	void WinRenderWindow::toggleFullscreen()
-	{
-		
-	}
-
-	void WinRenderWindow::clear()
-	{
-		RECT rect;
-		GetWindowRect(m_hwnd, &rect);
-		HBRUSH brush = CreateSolidBrush(RGB(0, 0, 0));
-		HDC hdc = GetDC(m_hwnd);
-		SelectObject(hdc, brush);
-		FillRect(hdc, &rect, brush);
-	}
-
-	void WinRenderWindow::adjust(uint32_t width, uint32_t height, bool windowFrame)
-	{
-		m_width = width;
-		m_height = height;
-		m_aspectRatio = float(width) / float(height);
-
-		ShowWindow(m_hwnd, SW_SHOWNORMAL);
-		RECT rect;
-		RECT newrect = { 0, 0, (LONG)width, (LONG)height };
-		DWORD style = WS_POPUP | WS_SYSMENU;
-
-		if(m_frame)
-		{
-			GetWindowRect(m_hwnd, &m_rect);
-			m_style = GetWindowLong(m_hwnd, GWL_STYLE);
-		}
-
-		if(windowFrame)
-		{
-			rect = m_rect;
-			style = m_style;
-		}
-		else
-		{
-			HMONITOR monitor = MonitorFromWindow(m_hwnd, MONITOR_DEFAULTTONEAREST);
-			MONITORINFO mi;
-			mi.cbSize = sizeof(mi);
-			GetMonitorInfo(monitor, &mi);
-			newrect = mi.rcMonitor;
-			rect = mi.rcMonitor;
-			m_aspectRatio = float(newrect.right - newrect.left) / float(newrect.bottom - newrect.top);
-		}
-
-		SetWindowLong(m_hwnd, GWL_STYLE, style);
-		uint32_t prewidth = newrect.right - newrect.left;
-		uint32_t preheight = newrect.bottom - newrect.top;
-		AdjustWindowRect(&newrect, style, FALSE);
-		m_frameWidth = (newrect.right - newrect.left) - prewidth;
-		m_frameHeight = (newrect.bottom - newrect.top) - preheight;
-		UpdateWindow(m_hwnd);
-
-		if(rect.left == -32000
-			|| rect.top == -32000)
-		{
-			rect.left = 0;
-			rect.top = 0;
-		}
-
-		int32_t left = rect.left;
-		int32_t top = rect.top;
-		width = (newrect.right - newrect.left);
-		height = (newrect.bottom - newrect.top);
-
-		if(!windowFrame)
-		{
-			float aspectRatio = 1.0f / m_aspectRatio;
-			width = max(m_minWidth, width);
-			height = uint32_t(float(width)*aspectRatio);
-
-			left = newrect.left + (newrect.right - newrect.left - width) / 2;
-			top = newrect.top + (newrect.bottom - newrect.top - height) / 2;
-		}
-
-		SetWindowPos(m_hwnd, HWND_TOP, left, top, width, height, SWP_SHOWWINDOW);
-		ShowWindow(m_hwnd, SW_RESTORE);
-
-		m_frame = windowFrame;
-	}
-
-	WinInputWindow::WinInputWindow()
-		: m_hwnd(nullptr)
-		, m_mouse(nullptr)
-		, m_keyboard(nullptr)
-		, m_mouseLock(false)
-		, m_mouse_z(0)
-	{}
-
-	void WinInputWindow::initInput(RenderWindow& renderWindow, Mouse& mouse, Keyboard& keyboard)
-	{
-		m_renderWindow = &as<WinRenderWindow>(renderWindow);
-		m_hwnd = m_renderWindow->m_hwnd;
-		m_mouse = &mouse;
-		m_keyboard = &keyboard;
-	}
-
-	bool WinInputWindow::nextFrame()
-	{
-		return true;
-	}
-
-	void WinInputWindow::resize(size_t width, size_t height)
-	{}
-
-
-	void WinInputWindow::setMousePos(int32_t mx, int32_t my)
-	{
-		POINT pt = { mx, my };
-		ClientToScreen(m_hwnd, &pt);
-		SetCursorPos(pt.x, pt.y);
-	}
-
-	void WinInputWindow::setMouseLock(bool lock)
-	{
-		if(m_mouseLock)
-		{
-			if(lock)
-			{
-				m_mouse_x = m_renderWindow->m_width / 2;
-				m_mouse_y = m_renderWindow->m_height / 2;
-				ShowCursor(false);
-				setMousePos(m_mouse_x, m_mouse_y);
-			}
-			else
-			{
-				setMousePos(m_mouse_x, m_mouse_y);
-				ShowCursor(true);
-			}
-
-			m_mouseLock = m_hwnd;
-		}
-	}
-	
-	void WinInputWindow::mouseCapture(bool capture)
-	{
-		if(capture)
-			SetCapture(m_hwnd);
-		else
-			ReleaseCapture();
-	}
-
-	WinContext::WinContext(RenderSystem& renderSystem, const string& name, int width, int height, bool fullScreen)
-		: Context(renderSystem, initialize(name, width, height, fullScreen), make_object<WinInputWindow>())
-		, m_render(as<WinRenderWindow>(*Context::m_renderWindow))
-		, m_input(as<WinInputWindow>(*Context::m_inputWindow))
-	{
-		WindowHolder::instance().add(*this);
-
-		//winSetHwnd(m_hwnd[0]);
-
-		//bgfx::renderFrame();
-
-	}
-
-	WinContext::~WinContext()
-	{
-		WindowHolder::instance().remove(*this);
-	}
-
-	object_ptr<WinRenderWindow> WinContext::initialize(const string& name, int width, int height, bool fullScreen)
+	WinContext::WinContext(RenderSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main)
+		: Context(gfx, name, size, fullscreen, main)
+		, m_has_frame(true)
+		, m_old_size(size)
 	{
 		if(WindowHolder::instance().m_windows.empty())
 		{
@@ -417,16 +203,191 @@ namespace mud
 			RegisterClassExA(&wnd);
 		}
 
-		return make_object<WinRenderWindow>(name, width, height);
+		WindowHolder::instance().add(*this);
+
+		HINSTANCE instance = (HINSTANCE)GetModuleHandle(NULL);
+		m_hwnd = CreateWindowA("bgfx", name.c_str(), WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, size.x, size.y, NULL, NULL, instance, 0);
+
+		m_native_handle = m_hwnd;
+
+		this->clear();
+		this->resize(size);
+		//m_eventQueue.postWindowEvent(handle, hwnd);
 	}
 
-	WinRenderSystem::WinRenderSystem(const string& resourcePath)
-		: RenderSystem(resourcePath, true)
+	WinContext::~WinContext()
+	{
+		WindowHolder::instance().remove(*this);
+
+		//while(bgfx::RenderFrame::NoContext != bgfx::renderFrame()) {};
+
+		DestroyWindow(m_hwnd);
+	}
+
+	bool WinContext::begin_frame()
+	{
+		MSG msg;
+		msg.message = WM_NULL;
+
+		WaitForInputIdle(GetCurrentProcess(), 16);
+
+		while(0 != PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+
+		return !m_shutdown;
+	}
+
+	void WinContext::end_frame()
 	{}
 
-	object_ptr<Context> WinRenderSystem::createContext(const string& name, int width, int height, bool fullScreen)
+	void WinContext::move(const ivec2& pos)
 	{
-		return make_object<WinContext>(*this, name, width, height, fullScreen);
+		SetWindowPos(m_hwnd, 0, pos.x, pos.y, 0, 0, SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOSIZE);
+	}
+
+	void WinContext::resize(const uvec2& size)
+	{
+		this->adjust(size.x, size.y, true);
+	}
+
+	void WinContext::set_title(const char* title)
+	{
+		SetWindowTextA(m_hwnd, title);
+	}
+
+	void WinContext::toggle_frame()
+	{
+		if(m_has_frame)
+		{
+			m_old_size = m_size;
+		}
+
+		this->adjust(m_old_size.x, m_old_size.y, !m_has_frame);
+	}
+
+	void WinContext::toggle_fullscreen()
+	{}
+
+	void WinContext::clear()
+	{
+		RECT rect;
+		GetWindowRect(m_hwnd, &rect);
+		HBRUSH brush = CreateSolidBrush(RGB(0, 0, 0));
+		HDC hdc = GetDC(m_hwnd);
+		SelectObject(hdc, brush);
+		FillRect(hdc, &rect, brush);
+	}
+
+	void WinContext::adjust(uint32_t width, uint32_t height, bool frame)
+	{
+		m_size = uvec2(width, height);
+		m_aspect = float(width) / float(height);
+
+		ShowWindow(m_hwnd, SW_SHOWNORMAL);
+		RECT rect;
+		RECT newrect = { 0, 0, (LONG)width, (LONG)height };
+		DWORD style = WS_POPUP | WS_SYSMENU;
+
+		if(m_has_frame)
+		{
+			GetWindowRect(m_hwnd, &m_rect);
+			m_style = GetWindowLong(m_hwnd, GWL_STYLE);
+		}
+
+		if(frame)
+		{
+			rect = m_rect;
+			style = m_style;
+		}
+		else
+		{
+			HMONITOR monitor = MonitorFromWindow(m_hwnd, MONITOR_DEFAULTTONEAREST);
+			MONITORINFO mi;
+			mi.cbSize = sizeof(mi);
+			GetMonitorInfo(monitor, &mi);
+			newrect = mi.rcMonitor;
+			rect = mi.rcMonitor;
+			m_aspect = float(newrect.right - newrect.left) / float(newrect.bottom - newrect.top);
+		}
+
+		SetWindowLong(m_hwnd, GWL_STYLE, style);
+		uint32_t prewidth = newrect.right - newrect.left;
+		uint32_t preheight = newrect.bottom - newrect.top;
+		AdjustWindowRect(&newrect, style, FALSE);
+		m_frame.x = (newrect.right - newrect.left) - prewidth;
+		m_frame.y = (newrect.bottom - newrect.top) - preheight;
+		UpdateWindow(m_hwnd);
+
+		if(rect.left == -32000
+			|| rect.top == -32000)
+		{
+			rect.left = 0;
+			rect.top = 0;
+		}
+
+		int32_t left = rect.left;
+		int32_t top = rect.top;
+		width = (newrect.right - newrect.left);
+		height = (newrect.bottom - newrect.top);
+
+		if(!frame)
+		{
+			float aspect = 1.0f / m_aspect;
+			width = max(m_min_size.x, width);
+			height = uint32_t(float(width)*aspect);
+
+			left = newrect.left + (newrect.right - newrect.left - width) / 2;
+			top = newrect.top + (newrect.bottom - newrect.top - height) / 2;
+		}
+
+		SetWindowPos(m_hwnd, HWND_TOP, left, top, width, height, SWP_SHOWWINDOW);
+		ShowWindow(m_hwnd, SW_RESTORE);
+
+		m_has_frame = frame;
+	}
+
+	void WinContext::init_input(Mouse& mouse, Keyboard& keyboard)
+	{
+		m_mouse = &mouse;
+		m_keyboard = &keyboard;
+	}
+
+	void WinContext::set_cursor(const ivec2& pos)
+	{
+		POINT pt = { pos.x, pos.y };
+		ClientToScreen(m_hwnd, &pt);
+		SetCursorPos(pt.x, pt.y);
+	}
+
+	void WinContext::lock_mouse(bool locked)
+	{
+		if(m_mouse_lock)
+		{
+			if(locked)
+			{
+				m_cursor = vec2(m_size) / 2.f;
+				ShowCursor(false);
+				set_cursor(ivec2(m_cursor));
+			}
+			else
+			{
+				set_cursor(ivec2(m_cursor));
+				ShowCursor(true);
+			}
+
+			//m_mouse_lock = m_hwnd;
+		}
+	}
+	
+	void WinContext::capture_mouse(bool capture)
+	{
+		if(capture)
+			SetCapture(m_hwnd);
+		else
+			ReleaseCapture();
 	}
 
 	LRESULT CALLBACK wndProc(HWND _hwnd, UINT _id, WPARAM _wparam, LPARAM _lparam)
@@ -436,22 +397,19 @@ namespace mud
 		if(context == nullptr)
 			return DefWindowProc(_hwnd, _id, _wparam, _lparam);
 
-		WinRenderWindow& render = context->m_render;
-		WinInputWindow& input = context->m_input;
-
 		switch(_id)
 		{
 		case WM_DESTROY:
 			break;
 		case WM_QUIT:
 		case WM_CLOSE:
-			render.destroy();
+			context->m_shutdown = true;
 			return 0;
 		case WM_SIZING:
 		{
 			RECT& rect = *(RECT*)_lparam;
-			uint32_t width = rect.right - rect.left - render.m_frameWidth;
-			uint32_t height = rect.bottom - rect.top - render.m_frameHeight;
+			uint32_t width = rect.right - rect.left - context->m_frame.x;
+			uint32_t height = rect.bottom - rect.top - context->m_frame.y;
 
 			// Recalculate size according to aspect ratio
 			switch(_wparam)
@@ -459,16 +417,16 @@ namespace mud
 			case WMSZ_LEFT:
 			case WMSZ_RIGHT:
 			{
-				float aspectRatio = 1.0f / render.m_aspectRatio;
-				width = max(render.m_minWidth, width);
+				float aspectRatio = 1.0f / context->m_aspect;
+				width = max(context->m_min_size.x, width);
 				height = uint32_t(float(width)*aspectRatio);
 			}
 			break;
 
 			default:
 			{
-				float aspectRatio = render.m_aspectRatio;
-				height = max(render.m_minHeight, height);
+				float aspectRatio = context->m_aspect;
+				height = max(context->m_min_size.y, height);
 				width = uint32_t(float(height)*aspectRatio);
 			}
 			break;
@@ -478,29 +436,29 @@ namespace mud
 			switch(_wparam)
 			{
 			case WMSZ_TOPLEFT:
-				rect.left = rect.right - width - render.m_frameWidth;
-				rect.top = rect.bottom - height - render.m_frameHeight;
+				rect.left = rect.right - width - context->m_frame.x;
+				rect.top = rect.bottom - height - context->m_frame.y;
 				break;
 
 			case WMSZ_TOP:
 			case WMSZ_TOPRIGHT:
-				rect.right = rect.left + width + render.m_frameWidth;
-				rect.top = rect.bottom - height - render.m_frameHeight;
+				rect.right = rect.left + width + context->m_frame.x;
+				rect.top = rect.bottom - height - context->m_frame.y;
 				break;
 
 			case WMSZ_LEFT:
 			case WMSZ_BOTTOMLEFT:
-				rect.left = rect.right - width - render.m_frameWidth;
-				rect.bottom = rect.top + height + render.m_frameHeight;
+				rect.left = rect.right - width - context->m_frame.x;
+				rect.bottom = rect.top + height + context->m_frame.y;
 				break;
 
 			default:
-				rect.right = rect.left + width + render.m_frameWidth;
-				rect.bottom = rect.top + height + render.m_frameHeight;
+				rect.right = rect.left + width + context->m_frame.x;
+				rect.bottom = rect.top + height + context->m_frame.y;
 				break;
 			}
 
-			render.setSize(width, height);
+			context->resize(uvec2(width, height));
 		}
 		return 0;
 
@@ -508,7 +466,7 @@ namespace mud
 		{
 			uint32_t width = GET_X_LPARAM(_lparam);
 			uint32_t height = GET_Y_LPARAM(_lparam);
-			render.setSize(width, height);
+			context->resize(uvec2(width, height));
 		}
 		break;
 
@@ -532,20 +490,20 @@ namespace mud
 			int32_t mx = GET_X_LPARAM(_lparam);
 			int32_t my = GET_Y_LPARAM(_lparam);
 
-			if(input.m_mouseLock)
+			if(context->m_mouse_lock)
 			{
-				mx -= input.m_mouse_x;
-				my -= input.m_mouse_y;
+				mx -= int(context->m_cursor.x);
+				my -= int(context->m_cursor.y);
 
 				if(0 == mx && 0 == my)
 				{
 					break;
 				}
 
-				input.setMousePos(mx, my);
+				context->set_cursor(ivec2(mx, my));
 			}
 
-			input.m_mouse->dispatchMouseMoved({ float(mx), float(my) });
+			context->m_mouse->moved(vec2(float(mx), float(my)));
 		}
 		break;
 
@@ -555,8 +513,8 @@ namespace mud
 			ScreenToClient(_hwnd, &pt);
 			int32_t mx = pt.x;
 			int32_t my = pt.y;
-			input.m_mouse_z += GET_WHEEL_DELTA_WPARAM(_wparam) / WHEEL_DELTA;
-			input.m_mouse->dispatchMouseWheeled({ float(mx), float(my) }, input.m_mouse_z);
+			int amount = GET_WHEEL_DELTA_WPARAM(_wparam) / WHEEL_DELTA;
+			context->m_mouse->wheeled(vec2(float(mx), float(my)), float(amount));
 		}
 		break;
 
@@ -564,10 +522,10 @@ namespace mud
 		case WM_MBUTTONDOWN:
 		case WM_RBUTTONDOWN:
 		{
-			input.mouseCapture(true);
+			context->capture_mouse(true);
 			int32_t mx = GET_X_LPARAM(_lparam);
 			int32_t my = GET_Y_LPARAM(_lparam);
-			input.m_mouse->dispatchMousePressed({ float(mx), float(my) }, mouseButton(_id));
+			context->m_mouse->m_buttons[mouse_button(_id)].pressed(vec2(float(mx), float(my)));
 		}
 		break;
 
@@ -575,10 +533,10 @@ namespace mud
 		case WM_MBUTTONUP:
 		case WM_RBUTTONUP:
 		{
-			input.mouseCapture(false);
+			context->capture_mouse(false);
 			int32_t mx = GET_X_LPARAM(_lparam);
 			int32_t my = GET_Y_LPARAM(_lparam);
-			input.m_mouse->dispatchMouseReleased({ float(mx), float(my) }, mouseButton(_id));
+			context->m_mouse->m_buttons[mouse_button(_id)].released(vec2(float(mx), float(my)));
 		}
 		break;
 
@@ -590,18 +548,15 @@ namespace mud
 		case WM_KEYDOWN:
 		case WM_SYSKEYDOWN:
 		{
-			uint8_t modifiers = translateKeyModifiers();
-			KeyCode key = translateKey(_wparam);
-			printf("key down\n");
-			input.m_keyboard->dispatchKeyPressed(key, '0');
+			uint8_t modifiers = key_modifiers();
+			context->m_keyboard->key_pressed(convert_key(_wparam), translate_key(_wparam));
 		}
 		break;
 
 		case WM_KEYUP:
 		case WM_SYSKEYUP:
 		{
-			uint8_t modifiers = translateKeyModifiers();
-			KeyCode key = translateKey(_wparam);
+			uint8_t modifiers = key_modifiers();
 
 			/*if(Key::Print == key && 0x3 == ((uint32_t)(_lparam) >> 30))
 			{
@@ -612,8 +567,8 @@ namespace mud
 				m_eventQueue.postKeyEvent(handle, key, modifiers, true);
 			}*/
 
-			printf("key released\n");
-			input.m_keyboard->dispatchKeyReleased(key, '0');
+			//printf("key released\n");
+			context->m_keyboard->key_released(convert_key(_wparam), translate_key(_wparam)); // '0');
 		}
 		break;
 

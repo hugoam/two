@@ -365,6 +365,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_type::m();
+	return mud_type::m();
 }
 #endif

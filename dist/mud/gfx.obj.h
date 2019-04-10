@@ -17,6 +17,7 @@
 namespace mud
 {
     class ImporterOBJ;
+	class ImporterPLY;
 }
 
 #ifndef MUD_MODULES
@@ -24,18 +25,36 @@ namespace mud
 
 namespace mud
 {
-
-	export_ class MUD_GFX_OBJ_EXPORT ImporterOBJ : public Importer
+	export_ class refl_ MUD_GFX_OBJ_EXPORT ImporterOBJ : public Importer
 	{
 	public:
-		ImporterOBJ(GfxSystem& gfx_system);
+		constr_ ImporterOBJ(GfxSystem& gfx);
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 
-		virtual void import(Import& import, const string& filepath, const ImportConfig& config) override;
-		virtual void import_model(Model& model, const string& filepath, const ImportConfig& config) override;
-		virtual void import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config) override;
-		virtual void repack(const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void import(Import& import, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void import_model(Model& model, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void repack(const string& filepath, const ImportConfig& config) override;
+	};
+}
+
+#ifndef MUD_MODULES
+#endif
+
+namespace mud
+{
+	export_ class refl_ MUD_GFX_OBJ_EXPORT ImporterPLY : public Importer
+	{
+	public:
+		constr_ ImporterPLY(GfxSystem& gfx);
+
+		GfxSystem& m_gfx;
+
+		meth_ virtual void import(Import& import, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void import_model(Model& model, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void repack(const string& filepath, const ImportConfig& config) override;
 	};
 }
 
@@ -55,5 +74,7 @@ namespace mud
     // Exported types
     
     
+    export_ template <> MUD_GFX_OBJ_EXPORT Type& type<mud::ImporterOBJ>();
+    export_ template <> MUD_GFX_OBJ_EXPORT Type& type<mud::ImporterPLY>();
 }
 

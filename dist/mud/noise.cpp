@@ -19,7 +19,7 @@ namespace mud
 	
 	float noise_2d(float x, float y, Noise::NoiseType noise_type, float frequency, Noise::Interp interp)
 	{
-		static Noise n = { random_integer(INT_MIN, INT_MAX) };
+		static Noise n = { randi(INT_MIN, INT_MAX) };
 		n.SetNoiseType(noise_type);
 		n.SetFrequency(frequency);
 		n.SetInterp(interp);
@@ -28,7 +28,7 @@ namespace mud
 
 	float noise_3d(float x, float y, float z, Noise::NoiseType noise_type, float frequency, Noise::Interp interp)
 	{
-		static Noise n = { random_integer(INT_MIN, INT_MAX) };
+		static Noise n = { randi(INT_MIN, INT_MAX) };
 		n.SetNoiseType(noise_type);
 		n.SetFrequency(frequency);
 		n.SetInterp(interp);
@@ -38,7 +38,7 @@ namespace mud
 	float noise_fract_2d(float x, float y, Noise::NoiseType noise_type, float frequency, Noise::Interp interp, 
 									  Noise::FractalType fractal_type, int octaves, float lacunarity, float gain)
 	{
-		static Noise n = { random_integer(INT_MIN, INT_MAX) };
+		static Noise n = { randi(INT_MIN, INT_MAX) };
 		n.SetNoiseType(noise_type);
 		n.SetFrequency(frequency);
 		n.SetInterp(interp);
@@ -52,7 +52,7 @@ namespace mud
 	float noise_fract_3d(float x, float y, float z, Noise::NoiseType noise_type, float frequency, Noise::Interp interp,
 									  Noise::FractalType fractal_type, int octaves, float lacunarity, float gain)
 	{
-		static Noise n = { random_integer(INT_MIN, INT_MAX) };
+		static Noise n = { randi(INT_MIN, INT_MAX) };
 		n.SetNoiseType(noise_type);
 		n.SetFrequency(frequency);
 		n.SetInterp(interp);
@@ -109,7 +109,7 @@ namespace mud
     template <> MUD_NOISE_EXPORT Type& type<mud::Noise::Interp>() { static Type ty("Interp", sizeof(mud::Noise::Interp)); return ty; }
     template <> MUD_NOISE_EXPORT Type& type<mud::Noise::NoiseType>() { static Type ty("NoiseType", sizeof(mud::Noise::NoiseType)); return ty; }
     
+    template <> MUD_NOISE_EXPORT Type& type<mud::vector3d<float>>() { static Type ty("vector3d<float>", sizeof(mud::vector3d<float>)); return ty; }
     
     template <> MUD_NOISE_EXPORT Type& type<mud::Noise>() { static Type ty("Noise", sizeof(mud::Noise)); return ty; }
-    template <> MUD_NOISE_EXPORT Type& type<mud::vector3d<float>>() { static Type ty("vector3d<float>", sizeof(mud::vector3d<float>)); return ty; }
 }

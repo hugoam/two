@@ -255,7 +255,7 @@ namespace ui
 	inline bool enum_field(Widget& parent, cstring name, T& value, bool reverse = false) { return field([&](Widget& self) { return enum_input<T>(self, value); }, parent, name, reverse); }
 }
 
-	export_ MUD_UIO_EXPORT void set_meta_palette(const vector<uint32_t>& palette);
+	export_ MUD_UIO_EXPORT void set_meta_palette(span<uint32_t> palette);
 
 	export_ MUD_UIO_EXPORT void meta_description(Widget& parent, Type& type);
 

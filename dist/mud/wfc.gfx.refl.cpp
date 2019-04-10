@@ -121,6 +121,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_wfc_gfx::m();
+	return mud_wfc_gfx::m();
 }
 #endif

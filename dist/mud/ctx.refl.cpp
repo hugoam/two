@@ -30,7 +30,9 @@ void mud_MouseButtonCode__to_string(void* val, string& str) { str = g_enu[type<m
 void mud_MouseButtonCode__to_value(const string& str, void* val) { (*static_cast<mud::MouseButtonCode*>(val)) = mud::MouseButtonCode(g_enu[type<mud::MouseButtonCode>().m_id]->value(str.c_str())); }
 void mud_Context_reset_fb(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).reset_fb(*static_cast<mud::uvec2*>(args[0])); }
 void mud_Context_init_input(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).init_input(*static_cast<mud::Mouse*>(args[0]), *static_cast<mud::Keyboard*>(args[1])); }
-void mud_Context_next_frame(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Context*>(object)).next_frame(); }
+void mud_Context_begin_frame(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Context*>(object)).begin_frame(); }
+void mud_Context_render_frame(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Context*>(object)).render_frame(); }
+void mud_Context_end_frame(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Context*>(object)).end_frame(); }
 void mud_Context_lock_mouse(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).lock_mouse(*static_cast<bool*>(args[0])); }
 void mud_InputEvent__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::InputEvent(  ); }
 void mud_InputEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::InputEvent((*static_cast<mud::InputEvent*>(other))); }
@@ -119,6 +121,9 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "Context", sizeof(mud::Context), TypeClass::Object };
 		// bases
 		// defaults
+		static bool fullscreen_default = false;
+		static bool is_main_default = true;
+		static float pixel_ratio_default = 1.f;
 		static bool active_default = true;
 		static bool shutdown_default = false;
 		static bool mouse_lock_default = false;
@@ -130,18 +135,22 @@ namespace mud
 			{ t, offsetof(mud::Context, m_title), type<stl::string>(), "title", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_size), type<mud::uvec2>(), "size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_fb_size), type<mud::uvec2>(), "fb_size", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_full_screen), type<bool>(), "full_screen", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_pixel_ratio), type<float>(), "pixel_ratio", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_fullscreen), type<bool>(), "fullscreen", &fullscreen_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_is_main), type<bool>(), "is_main", &is_main_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_pixel_ratio), type<float>(), "pixel_ratio", &pixel_ratio_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_active), type<bool>(), "active", &active_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_shutdown), type<bool>(), "shutdown", &shutdown_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_cursor), type<mud::vec2>(), "cursor", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_mouse_lock), type<bool>(), "mouse_lock", &mouse_lock_default, Member::Value, nullptr }
+			{ t, offsetof(mud::Context, m_mouse_lock), type<bool>(), "mouse_lock", &mouse_lock_default, Member::Value, nullptr },
+			{ t, offsetof(mud::Context, m_colour), type<mud::Colour>(), "colour", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
 			{ t, "reset_fb", Address(), mud_Context_reset_fb, { { "size", type<mud::uvec2>(),  } }, g_qvoid },
 			{ t, "init_input", Address(), mud_Context_init_input, { { "mouse", type<mud::Mouse>(),  }, { "keyboard", type<mud::Keyboard>(),  } }, g_qvoid },
-			{ t, "next_frame", Address(), mud_Context_next_frame, {}, { &type<bool>(), QualType::None } },
+			{ t, "begin_frame", Address(), mud_Context_begin_frame, {}, { &type<bool>(), QualType::None } },
+			{ t, "render_frame", Address(), mud_Context_render_frame, {}, g_qvoid },
+			{ t, "end_frame", Address(), mud_Context_end_frame, {}, g_qvoid },
 			{ t, "lock_mouse", Address(), mud_Context_lock_mouse, { { "locked", type<bool>(),  } }, g_qvoid }
 		};
 		// static members
@@ -330,6 +339,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_ctx::m();
+	return mud_ctx::m();
 }
 #endif

@@ -19,6 +19,8 @@ using namespace mud;
 
 void mud_TypeClass__to_string(void* val, string& str) { str = g_enu[type<mud::TypeClass>().m_id]->name(uint32_t((*static_cast<mud::TypeClass*>(val)))); }
 void mud_TypeClass__to_value(const string& str, void* val) { (*static_cast<mud::TypeClass*>(val)) = mud::TypeClass(g_enu[type<mud::TypeClass>().m_id]->value(str.c_str())); }
+size_t stl_span_mud_Type___size(void* vec) { return (*static_cast<stl::span<mud::Type*>*>(vec)).size(); }
+void* stl_span_mud_Type___at(void* vec, size_t i) { return &(*static_cast<stl::span<mud::Type*>*>(vec))[i]; }
 size_t stl_vector_mud_Alias___size(void* vec) { return (*static_cast<stl::vector<mud::Alias*>*>(vec)).size(); }
 void* stl_vector_mud_Alias___at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Alias*>*>(vec))[i]; }
 void stl_vector_mud_Alias___push(void* vec) { (*static_cast<stl::vector<mud::Alias*>*>(vec)).emplace_back(); }
@@ -85,6 +87,15 @@ namespace mud
 	}
 	
 	// Sequences
+	{
+		Type& t = type<stl::span<mud::Type*>>();
+		static Meta meta = { t, &namspc({ "stl" }), "span<mud::Type*>", sizeof(stl::span<mud::Type*>), TypeClass::Sequence };
+		static Class cls = { t };
+		static Iterable iterable = { &type<mud::Type>(),
+		                             stl_span_mud_Type___size,
+		                             stl_span_mud_Type___at};
+		g_iterable[t.m_id] = &iterable;
+	}
 	{
 		Type& t = type<stl::vector<mud::Alias*>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Alias*>", sizeof(stl::vector<mud::Alias*>), TypeClass::Sequence };
@@ -551,6 +562,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::Static>());
 		m.m_types.push_back(&type<mud::System>());
 		m.m_types.push_back(&type<mud::TypeClass>());
+		m.m_types.push_back(&type<stl::span<mud::Type*>>());
 		m.m_types.push_back(&type<stl::vector<mud::Alias*>>());
 		m.m_types.push_back(&type<stl::vector<mud::Function*>>());
 		m.m_types.push_back(&type<stl::vector<mud::Module*>>());
@@ -584,6 +596,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-		return mud_refl::m();
+	return mud_refl::m();
 }
 #endif

@@ -16,6 +16,7 @@ namespace mud
     
     template <> MUD_FRAME_EXPORT Type& type<mud::Shell>() { static Type ty("Shell", sizeof(mud::Shell)); return ty; }
     template <> MUD_FRAME_EXPORT Type& type<mud::ShellContext>() { static Type ty("ShellContext", sizeof(mud::ShellContext)); return ty; }
+    template <> MUD_FRAME_EXPORT Type& type<mud::ShellWindow>() { static Type ty("ShellWindow", type<mud::GfxWindow>(), sizeof(mud::ShellWindow)); return ty; }
 }
 //#include <frame/Types.h>
 
@@ -23,6 +24,8 @@ namespace mud
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 #include <emscripten/emscripten.h>
 #endif
+
+#include <stl/vector.hpp>
 
 //#define MUD_GFX_DEFERRED
 
@@ -40,21 +43,67 @@ namespace mud
 	}
 #endif
 
-    Shell::Shell(const string& resource_path, const string& exec_path)
+	unique<Vg> create_vg(GfxSystem& gfx, const string& resource_path)
+	{
+#if defined MUD_VG_VG
+		return construct<VgVg>(resource_path, &gfx.allocator());
+#elif defined MUD_VG_NANOVG
+		return construct<VgNanoBgfx>(m_resource_path);
+#endif
+	}
+
+	ShellWindow::ShellWindow(GfxSystem& gfx, uint32_t index, const string& name, const uvec2& size, bool fullscreen)
+		: GfxWindow(gfx, name, size, fullscreen, index == 0)
+#if !GLOBAL_VG
+		, m_vg(create_vg(gfx, gfx.m_resource_path))
+#endif
+		, m_index(index)
+		, m_ui_window(*this, *m_vg)
+	{
+#if GLOBAL_VG
+		if(index == 0) m_vg->setup_context();
+#else
+		GfxWindow::m_vg = m_vg.get();
+		m_vg->setup_context();
+#endif
+			
+
+		m_reset_vg = [](GfxWindow& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.m_tex.idx); };
+
+		m_ui_window.init();
+		m_ui = m_ui_window.m_ui.get();
+
+		style_minimal(m_ui_window);
+	}
+
+	bool ShellWindow::begin_frame()
+	{
+		GfxWindow::begin_frame();
+		return m_ui_window.input_frame();
+	}
+
+	void ShellWindow::render_frame()
+	{
+		GfxWindow::render_frame();
+		bgfx::setViewFrameBuffer(240 + m_index, m_target->m_backbuffer.m_fbo);
+		m_ui_window.render_frame(240 + m_index);
+	}
+
+    Shell::Shell(const string& resource_path, const string& exec_path, bool window)
         : m_exec_path(exec_path)
 		, m_resource_path(resource_path)
 		, m_job_system()
-		, m_gfx_system(resource_path)
+		, m_gfx(resource_path)
 	{
 		// @todo this should be automatically done by math module
 		register_math_conversions();
 
 		//declare_gfx_edit();
 
-		m_gfx_system.m_job_system = &m_job_system;
+		m_gfx.m_job_system = &m_job_system;
 		m_job_system.adopt();
 
-		this->init();
+		this->init(window);
 	}
 
 	Shell::~Shell()
@@ -78,40 +127,48 @@ namespace mud
 
 	bool Shell::begin_frame()
 	{
-		return m_ui_window->input_frame();
+		bool pursue = m_gfx.begin_frame();
+		return pursue;
 	}
 
-	bool Shell::end_frame()
+	void Shell::end_frame()
 	{
-		m_gfx_system.begin_frame();
-		m_ui_window->render_frame();
-		return m_gfx_system.next_frame();
+		m_gfx.render_contexts();
+		m_gfx.end_frame();
 	}
 
 	bool Shell::pump()
 	{
 		bool pursue = this->begin_frame();
-		if(m_pump) m_pump(*this);
-		pursue &= this->end_frame();
+		if(m_pump)
+		{
+			for(auto& window : m_windows)
+				m_pump(*this, *window);
+		}
+		this->end_frame();
 		return pursue;
 	}
 
-	void Shell::init()
+	void Shell::init(bool window)
 	{
-		m_context = m_gfx_system.create_context("mud EditorCore", { 1600U, 900U }, false);
-		GfxContext& context = as<GfxContext>(*m_context);
-#if defined MUD_VG_VG
-		m_vg = oconstruct<VgVg>(m_resource_path.c_str(), &m_gfx_system.allocator());
-#elif defined MUD_VG_NANOVG
-		m_vg = oconstruct<VgNanoBgfx>(m_resource_path.c_str());
+#if GLOBAL_VG
+		m_vg = create_vg(m_gfx, m_resource_path);
 #endif
-		m_gfx_system.m_vg = &*m_vg;
-		context.m_reset_vg = [](GfxContext& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.idx); };
 
-		m_ui_window = make_unique<UiWindow>(*m_context, *m_vg);
-		m_ui = m_ui_window->m_root_sheet.get();
+		if(window)
+			this->window("two", uvec2(1600U, 900U), false);
+	}
 
-		style_minimal(*m_ui_window);
+	ShellWindow& Shell::window(const string& name, const uvec2& size, bool fullscreen)
+	{
+		const uint32_t index = m_windows.size();
+		m_windows.push_back(construct<ShellWindow>(m_gfx, index, name, size, fullscreen));
+		return *m_windows.back();
+	}
+
+	ShellWindow& Shell::main_window()
+	{
+		return *m_windows[0];
 	}
 
 	void shell_context(Widget& parent, ShellContext& context)

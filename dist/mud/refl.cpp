@@ -360,19 +360,19 @@ namespace mud
 	Class::~Class()
 	{}
 
-	void Class::inherit(vector<Type*> types)
+	void Class::inherit(span<Type*> types)
 	{
 		//for(Type* type : types)
 		//	if(g_class[type->m_id])
 		//	{
-		//		vector_prepend(m_members, cls(*type).m_members);
-		//		vector_prepend(m_methods, cls(*type).m_methods);
+		//		prepend(m_members, cls(*type).m_members);
+		//		prepend(m_methods, cls(*type).m_methods);
 		//	}
 	}
 
 	void Class::setup_class()
 	{
-		//this->inherit(m_bases);
+		this->inherit(m_bases);
 
 		for(size_t i = 0; i < m_members.size(); ++i)
 			m_members[i].m_index = int(i);
@@ -544,17 +544,23 @@ namespace mud
 	void copy_construct(Ref dest, Ref source)
 	{
 		if(is_basic(*dest.m_type))
-			memcpy(dest.m_value, source.m_value, meta(dest).m_size);
-		//else if(cls(dest).m_copy_constructors.size() > 0)
-		//	cls(dest).m_copy_constructors[0](dest, source);
+			memcpy(dest.m_value, source.m_value, type(dest).m_size);
+		else // if(cls(dest).m_copy_constructors.size() > 0)
+			;//meta(dest).copy_construct(dest, source);
 	}
 
-	void assign(Ref first, Ref second)
+	void assign(Ref dest, Ref source)
 	{
-		if(second.m_type->is(*first.m_type))
-			meta(first).copy_assign(first, second);
-		else
+		if(!source.m_type->is(*dest.m_type))
+		{
 			printf("WARNING: can't assign values of unrelated types\n");
+			return;
+		}
+
+		if(is_basic(*dest.m_type))
+			memcpy(dest.m_value, source.m_value, meta(dest).m_size);
+		else
+			meta(dest).copy_assign(dest, source);
 	}
 
 	void assign_pointer(Ref first, Ref second)
@@ -716,18 +722,18 @@ namespace mud
 		//	m_flags = static_cast<Flags>(m_flags | Nullable);
 	}
 
-	Signature::Signature(const vector<Param>& params, QualType return_type)
-		: m_params(params)
+	Signature::Signature(span<Param> params, QualType return_type)
+		: m_params(params.begin(), params.end())
 		, m_return_type(return_type)
 	{}
 
 	static uint32_t s_callable_index = 0;
 
 	Callable::Callable() {}
-	Callable::Callable(cstring name, const vector<Param>& params, QualType return_type)
+	Callable::Callable(cstring name, span<Param> params, QualType return_type)
 		: m_index(++s_callable_index)
 		, m_name(name)
-		, m_params(params)
+		, m_params(params.begin(), params.end())
 		, m_return_type(return_type)
 		, m_num_defaults(0)
 	{
@@ -773,7 +779,7 @@ namespace mud
 	}
 
 	Function::Function() {}
-	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, const vector<Param>& params, QualType return_type)
+	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, span<Param> params, QualType return_type)
 		: Callable(name, params, return_type)
 		, m_namespace(location)
 		, m_identity(identity)
@@ -811,10 +817,10 @@ namespace mud
 		}
 		else return {};
 	}
-
+	
 	Method::Method() {}
-	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, const vector<Param>& params, QualType return_type)
-		: Callable(name, merge({ 1, { "self", object_type } }, params), return_type)
+	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, span<Param> params, QualType return_type)
+		: Callable(name, prepend(params, { "self", object_type }), return_type)
 		, m_object_type(&object_type)
 		, m_address(address)
 		, m_call(trigger)
@@ -826,14 +832,14 @@ namespace mud
 	}
 
 	Constructor::Constructor() {}
-	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, const vector<Param>& params)
-		: Callable(object_type.m_name, merge({ 1, { "self", object_type } }, params))
+	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, span<Param> params)
+		: Callable(object_type.m_name, prepend(params, { "self", object_type }))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
-	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, const vector<Param>& params)
-		: Callable(name, merge({ 1, { "self", object_type } }, params))
+	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, span<Param> params)
+		: Callable(name, prepend(params, { "self", object_type }))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
@@ -845,7 +851,7 @@ namespace mud
 
 	CopyConstructor::CopyConstructor() {}
 	CopyConstructor::CopyConstructor(Type& object_type, CopyConstructorFunc constructor)
-		: Callable(object_type.m_name, { 1, { "self", object_type } })
+		: Callable(object_type.m_name, { { "self", object_type } })
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
@@ -857,7 +863,7 @@ namespace mud
 
 	Destructor::Destructor() {}
 	Destructor::Destructor(Type& object_type, DestructorFunc destructor)
-		: Callable(object_type.m_name, { 1, { "self", object_type } })
+		: Callable(object_type.m_name, { { "self", object_type } })
 		, m_object_type(&object_type)
 		, m_call(destructor)
 	{}
@@ -901,7 +907,7 @@ namespace mud
 		}
 	}
 
-	Namespace& namspc(vector<cstring> path)
+	Namespace& namspc(span<cstring> path)
 	{
 		return system().get_namespace(path);
 	}
@@ -951,6 +957,7 @@ namespace mud
     // Exported types
     template <> MUD_REFL_EXPORT Type& type<mud::TypeClass>() { static Type ty("TypeClass", sizeof(mud::TypeClass)); return ty; }
     
+    template <> MUD_REFL_EXPORT Type& type<stl::span<mud::Type*>>() { static Type ty("span<mud::Type*>", sizeof(stl::span<mud::Type*>)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Alias*>>() { static Type ty("vector<mud::Alias*>", sizeof(stl::vector<mud::Alias*>)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Function*>>() { static Type ty("vector<mud::Function*>", sizeof(stl::vector<mud::Function*>)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Module*>>() { static Type ty("vector<mud::Module*>", sizeof(stl::vector<mud::Module*>)); return ty; }
@@ -1111,7 +1118,7 @@ namespace mud
 #endif
 	}
 
-	void System::load_modules(vector<Module*> modules)
+	void System::load_modules(span<Module*> modules)
 	{
 		for(Module* m : modules)
 			this->load_module(*m);
@@ -1144,6 +1151,10 @@ namespace mud
 
 		for(Function* function : m.m_functions)
 			m_functions.push_back(function);
+
+		for(Type* type : m.m_types)
+			if(g_class[type->m_id])
+				cls(*type).setup_class();
 	}
 
 	void System::unload_module(Module& m)
@@ -1255,18 +1266,18 @@ namespace mud
 		}
 	}
 
-	bool compare(const vector<cstring>& first, const vector<cstring>& second)
+	Namespace& System::get_namespace(span<cstring> path)
 	{
-		if(first.size() != second.size())
-			return false;
-		for(size_t i = 0; i < first.size(); ++i)
-			if(strcmp(first[i], second[i]) != 0)
+		auto compare = [](span<cstring> first, span<cstring> second)
+		{
+			if(first.size() != second.size())
 				return false;
-		return true;
-	}
+			for(size_t i = 0; i < first.size(); ++i)
+				if(strcmp(first[i], second[i]) != 0)
+					return false;
+			return true;
+		};
 
-	Namespace& System::get_namespace(vector<cstring> path)
-	{
 		for(Namespace& location : m_namespaces)
 			if(compare(location.m_path, path))
 			{
@@ -1278,11 +1289,11 @@ namespace mud
 
 		if(!path.empty())
 		{
-			name = pop(path);
-			parent = &namspc(path);
+			name = path[path.size() - 1];
+			parent = &namspc({ path.data(), path.size() - 1 });
 		}
 
-		m_namespaces.push_back(Namespace{ name, parent });
+		m_namespaces.push_back({ name, parent });
 		return m_namespaces.back();
 	}
 }

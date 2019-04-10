@@ -139,7 +139,8 @@ namespace mud
 		{
 			string line = { stdline.data(), stdline.data() + stdline.size() };
 			if(line.back() == '\r') line.pop_back();
-			visit_line(line);
+			if(!visit_line(line))
+				return;
 		}
 	}
 
@@ -158,7 +159,14 @@ namespace mud
 
 	bool file_exists(const string& path)
 	{
-		return std::fstream(path.c_str()).good();
+		//return std::fstream(path.c_str()).good();
+#if defined WIN32
+		struct _stat info;
+		return _stat(path.c_str(), &info) == 0 && (info.st_mode & _S_IFMT) != 0;
+#else 
+		struct stat info;
+		return stat(path.c_str(), &info) == 0 && (info.st_mode & S_IFMT) != 0;
+#endif
 	}
 
 	bool directory_exists(const string& path)
@@ -317,6 +325,7 @@ module mud.infra;
 #endif
 
 #include <cctype>
+#include <cassert>
 
 namespace mud
 {
@@ -330,6 +339,7 @@ namespace mud
 		size_t index = 0;
 		while(next != string::npos && index < output.size())
 		{
+			assert(index < output.size());
 			output[index++].assign(str.data() + start, next - start);
 			start = next + 1;
 			next = str.find(separator, start);
@@ -358,8 +368,7 @@ namespace mud
 		return result;
 	}
 
-	//string join(span<string> strings, string separator)
-	string join(const vector<string>& strings, string separator)
+	string join(span<string> strings, string separator)
 	{
 		if(strings.size() == 0) return "";
 		string result;

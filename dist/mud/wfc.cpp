@@ -15,7 +15,7 @@ module mud.wfc;
 #endif
 
 #include <json11.hpp>
-using json = json11::Json;
+using Json = json11::Json;
 
 
 namespace mud
@@ -370,7 +370,7 @@ namespace mud
 module mud.wfc;
 #else
 #include <json11.hpp>
-using json = json11::Json;
+using Json = json11::Json;
 
 #include <stl/algorithm.h>
 #endif
@@ -378,7 +378,7 @@ using json = json11::Json;
 
 namespace mud
 {
-	void add_tile(Tileset& tileset, const vector<string>& subset_tiles, const string& tile_name, char symmetry, float weight)
+	void add_tile(Tileset& tileset, span<string> subset_tiles, const string& tile_name, char symmetry, float weight)
 	{
 		if(!subset_tiles.empty() && !has(subset_tiles, tile_name))
 			return;
@@ -447,7 +447,7 @@ namespace mud
 		add_tile(tileset, vector<string>(), tile_name, symmetry, weight);
 	}
 
-	void load_json_tileset(Tileset& tileset, const json& config, const string& subset)
+	void load_json_tileset(Tileset& tileset, const Json& config, const string& subset)
 	{
 		tileset.m_name = config["name"].string_value().c_str();
 		from_json(config["tile_size"], tileset.m_tile_size);
@@ -455,10 +455,10 @@ namespace mud
 
 		vector<string> subset_tiles;
 		if(subset != "")
-			for(const json& tile_name : config["subsets"][subset.c_str()].array_items())
+			for(const Json& tile_name : config["subsets"][subset.c_str()].array_items())
 				subset_tiles.push_back(tile_name.string_value().c_str());
 
-		for(const json& json_tile : config["tiles"].array_items())
+		for(const Json& json_tile : config["tiles"].array_items())
 		{
 			const string tile_name = json_tile["name"].string_value().c_str();
 			char symmetry = json_tile["symmetry"].string_value()[0];
@@ -515,9 +515,9 @@ namespace mud
 			}
 	}
 
-	void load_rule_propagator(WaveTileset& tileset, const json& config)
+	void load_rule_propagator(WaveTileset& tileset, const Json& config)
 	{
-		for(const json& neighbor : config["neighbors"].array_items())
+		for(const Json& neighbor : config["neighbors"].array_items())
 		{
 			Tile* left = tileset.tile(neighbor["tiles"][0].string_value().c_str());
 			Tile* right = tileset.tile(neighbor["tiles"][1].string_value().c_str());
@@ -539,24 +539,24 @@ namespace mud
 		}
 	}
 
-	void load_edge_propagator(WaveTileset& tileset, const json& config)
+	void load_edge_propagator(WaveTileset& tileset, const Json& config)
 	{
 		map<char, uint32_t> edge_keys;
 		uint32_t next_key = 0;
 
-		for(const json& edge : config["edges"].array_items())
+		for(const Json& edge : config["edges"].array_items())
 		{
 			char code = edge["code"].string_value()[0];
 			edge_keys[code] = next_key++;
 		}
 
-		for(const json& json_tile : config["tiles"].array_items())
+		for(const Json& json_tile : config["tiles"].array_items())
 		{
 			Tile* tile = tileset.tile(json_tile["name"].string_value().c_str());
 			string edges = json_tile["edges"].string_value().c_str();
 
-			for(size_t side = 0; side < 6; ++side)
-				tile->m_edges[side] = edge_keys[edges[side]];
+			for(SignedAxis side = SignedAxis(0); side != SignedAxis::Count; side = SignedAxis(size_t(side) + 1))
+				tile->m_edges[side] = edge_keys[edges[size_t(side)]];
 		}
 
 		for(const Tile& tile1 : tileset.m_tiles)
@@ -565,26 +565,26 @@ namespace mud
 				if(&tile1 == &tile2)
 					continue;
 
-				if(tile1.m_edges[size_t(SignedAxis::PlusX)] == tile2.m_edges[size_t(SignedAxis::MinusX)])
+				if(tile1.m_edges[SignedAxis::PlusX] == tile2.m_edges[SignedAxis::MinusX])
 					tileset.connect(tile1.m_index, tile2.m_index, true);
-				if(tile1.m_edges[size_t(SignedAxis::PlusY)] == tile2.m_edges[size_t(SignedAxis::MinusY)])
+				if(tile1.m_edges[SignedAxis::PlusY] == tile2.m_edges[SignedAxis::MinusY])
 					tileset.connect(tile1.m_index, tile2.m_index, true);
 
-				if(tile1.m_edges[size_t(SignedAxis::PlusZ)] == tile2.m_edges[size_t(SignedAxis::MinusZ)])
+				if(tile1.m_edges[SignedAxis::PlusZ] == tile2.m_edges[SignedAxis::MinusZ])
 					tileset.connect(tile1.m_index, tile2.m_index, true);
 			}
 	}
 
 	void parse_json_tileset(const string& path, const string& subset, Tileset& tileset)
 	{
-		json config;
+		Json config;
 		parse_json_file(path, config);
 		load_json_tileset(tileset, config, subset);
 	}
 
 	void parse_json_wave_tileset(const string& path, const string& subset, WaveTileset& tileset)
 	{
-		json config;
+		Json config;
 		parse_json_file(path, config);
 		load_json_tileset(tileset, config, subset);
 
@@ -753,7 +753,7 @@ namespace mud
 		size_t tile_size = config["tile_size"];//, 16);
 		const bool unique = config["unique"]; // , false);
 
-		for(const json& tile : config["tiles"])
+		for(const Json& tile : config["tiles"])
 		{
 			const string tile_name = tile["name"];
 
@@ -836,7 +836,7 @@ module mud.wfc;
 
 namespace mud
 {
-	double calc_sum(const vector<double>& a)
+	double calc_sum(span<double> a)
 	{
 		double sum = 0.0;
 		for(double d : a)
@@ -845,7 +845,7 @@ namespace mud
 	}
 
 	// Pick a random index weighted by a
-	size_t spin_the_bottle(const vector<double>& a, double between_zero_and_one)
+	size_t spin_the_bottle(span<double> a, double between_zero_and_one)
 	{
 		double sum = calc_sum(a);
 
@@ -877,7 +877,7 @@ namespace mud
 		, m_states(states, 1.0)
 		, m_wave(width, height, depth, vector<ubool>(states, true))
 	{
-		m_random_double = []() -> double { return random_scalar<double>(); };
+		m_random_double = []() -> double { return randf<double>(); };
 	}
 
 	void Wave::clear()

@@ -18,14 +18,16 @@
 module mud.gltf;
 #else
 #include <json11.hpp>
-using json = json11::Json;
+using Json = json11::Json;
 
 #include <stl/algorithm.h>
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
-	inline void from_json(const json& j, PrimitiveType& mat)
+	inline void from_json(const Json& j, PrimitiveType& mat)
 	{
 		mat = static_cast<PrimitiveType>(j.int_value());
 	}
@@ -36,17 +38,17 @@ namespace mud
 	FromJson gltf_unpacker()
 	{
 		FromJson unpacker;
-		dispatch_branch<mat4>(unpacker, +[](mat4& result, const json& json) { from_json(json, result); });
-		dispatch_branch<quat>(unpacker, +[](quat& result, const json& json) { from_json(json, result); });
+		dispatch_branch<mat4>(unpacker, +[](mat4& result, const Json& json) { from_json(json, result); });
+		dispatch_branch<quat>(unpacker, +[](quat& result, const Json& json) { from_json(json, result); });
 		return unpacker;
 	}
 
 	ToJson gltf_packer()
 	{
 		ToJson packer;
-		dispatch_branch<glTFType>         (packer, +[](glTFType&          value, json& json_value) { json_value = to_string(Ref(&value)); });
-		dispatch_branch<glTFInterpolation>(packer, +[](glTFInterpolation& value, json& json_value) { json_value = to_string(Ref(&value)); });
-		dispatch_branch<glTFAlphaMode>    (packer, +[](glTFAlphaMode&     value, json& json_value) { json_value = to_string(Ref(&value)); });
+		dispatch_branch<glTFType>         (packer, +[](glTFType&          value, Json& json_value) { json_value = to_string(Ref(&value)); });
+		dispatch_branch<glTFInterpolation>(packer, +[](glTFInterpolation& value, Json& json_value) { json_value = to_string(Ref(&value)); });
+		dispatch_branch<glTFAlphaMode>    (packer, +[](glTFAlphaMode&     value, Json& json_value) { json_value = to_string(Ref(&value)); });
 		return packer;
 	}
 
@@ -71,13 +73,17 @@ namespace mud
 			}
 	}
 
-	void parse_glb(const string& path, json& json, vector<uint8_t>& buffer)
+	export_ template <class T>
+	inline T bread(std::istream& stream) { T result; stream.read((char*)&result, sizeof(T)); return result; }
+
+	void parse_glb(const string& path, Json& json, vector<uint8_t>& buffer)
 	{
 		std::ifstream file = std::ifstream(path.c_str(), std::ios::binary);
 
-		uint32_t magic = read<uint32_t>(file);
-		uint32_t version = read<uint32_t>(file);
-		read<uint32_t>(file); // uint32_t length
+		uint32_t magic = bread<uint32_t>(file);
+		uint32_t version = bread<uint32_t>(file);
+		uint32_t length = bread<uint32_t>(file);
+		UNUSED(length);
 
 		if(magic != 0x46546C67 || version != 2)
 		{
@@ -87,22 +93,19 @@ namespace mud
 
 		while(!file.eof())
 		{
-			uint32_t chunk_length = read<uint32_t>(file);
-			uint32_t chunk_type = read<uint32_t>(file);
+			uint32_t chunk_length = bread<uint32_t>(file);
+			uint32_t chunk_type = bread<uint32_t>(file);
 
 			if(chunk_type == 0x4E4F534A)
 			{
 				std::string errors;
-				string json_string = read(file, chunk_length);
-				json = json::parse(json_string.c_str(), errors);
+				string strjson = read(file, chunk_length);
+				printf("DEBUG: gltf .glb json contents: %s\n", strjson.c_str());
+				json = Json::parse(strjson.c_str(), errors);
 			}
 			else if(chunk_type == 0x004E4942)
 			{
-				buffer.reserve(chunk_length);
-#ifndef USE_STL
-#else
-				buffer.insert(buffer.begin(), std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
-#endif
+				read(file, chunk_length, buffer);
 			}
 		}
 	}
@@ -222,6 +225,7 @@ namespace mud
 
 		size_t offset = buffer_view.byte_offset + a.byte_offset;
 		const vector<uint8_t>& buffer = gltf.m_binary_buffers[buffer_view.buffer];
+		//const size_t size = buffer.size();
 
 		for(int i = 0; i < a.count; i++)
 		{
@@ -308,9 +312,10 @@ namespace mud
 
 	void unpack_gltf(const string& path, const string& file, glTF& gltf)
 	{
-		json data;
+		Json data;
 
-		bool glb = ends_with(to_lower(path), ".glb");
+		//bool glb = ends_with(to_lower(path), ".glb");
+		bool glb = file_exists(path + "/" + file + ".glb");
 		if(glb)
 		{
 			vector<uint8_t> buffer;
@@ -322,7 +327,7 @@ namespace mud
 			parse_json_file(path + "/" + file + ".gltf", data);
 		}
 
-		json asset = data["asset"];
+		Json asset = data["asset"];
 		string version = asset["version"].string_value().c_str();
 
 		static FromJson unpacker = gltf_unpacker();

@@ -151,7 +151,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ScriptClass
 	{
 	public:
-		constr_ ScriptClass(const string& name, const vector<Type*>& parts);
+		constr_ ScriptClass(const string& name, span<Type*> parts);
 
 		attr_ string m_name;
 		attr_ Type m_class_type;
@@ -316,7 +316,6 @@ namespace mud
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Interpreter>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Pipe>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Process>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Script>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ScriptClass>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ScriptError>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::StreamBranch>();
@@ -333,6 +332,7 @@ namespace mud
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessSetMember>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessValue>();
+    export_ template <> MUD_LANG_EXPORT Type& type<mud::Script>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Stream>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::TextScript>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
@@ -463,8 +463,8 @@ namespace mud
 		Valve& find_master_input();
 
 		Process& flow(Valve& valve);
-		Valve* pipe(vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
-		Process& plug(vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		Valve* pipe(span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
+		Process& plug(span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 		Process& combine_flow(size_t masterInput, size_t secondaryInput);
 
 		void connected(Process& output);
@@ -518,19 +518,19 @@ namespace mud
 		Valve& reference(T&& value);
 		
 		template <class T>
-		Valve* function(T func, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		Valve* function(T func, span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 
 		template <class T>
-		Valve& create(vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		Valve& create(span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 
 		template <class T_Member>
-		Valve& get(T_Member mem, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		Valve& get(T_Member mem, span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 		
 		template <class T_Member>
-		void set(T_Member mem, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		void set(T_Member mem, span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 		
 		template <class T_Method>
-		Valve* method(T_Method meth, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		Valve* method(T_Method meth, span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 	};
 
 	export_ class refl_ MUD_LANG_EXPORT ProcessInput : public Process, public Param
@@ -668,19 +668,19 @@ namespace mud
 	Valve& VisualScript::reference(T&& value) { return this->node<ProcessValue>(Ref(static_cast<T&&>(value))).output(); }
 
 	template <class T>
-	Valve* VisualScript::function(T f, vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { return this->node<ProcessFunction>(func(f)).pipe(params, flow, modifiers); }
+	Valve* VisualScript::function(T f, span<Valve*> params, Process* flow, span<StreamModifier> modifiers) { return this->node<ProcessFunction>(func(f)).pipe(params, flow, modifiers); }
 
 	template <class T>
-	Valve& VisualScript::create(vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { return *this->node<ProcessCreate>(type<T>(), params.size()).pipe(params, flow, modifiers); }
+	Valve& VisualScript::create(span<Valve*> params, Process* flow, span<StreamModifier> modifiers) { return *this->node<ProcessCreate>(type<T>(), params.size()).pipe(params, flow, modifiers); }
 
 	template <class T_Member>
-	Valve& VisualScript::get(T_Member mem, vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { return *this->node<ProcessGetMember>(member(mem)).pipe(params, flow, modifiers); }
+	Valve& VisualScript::get(T_Member mem, span<Valve*> params, Process* flow, span<StreamModifier> modifiers) { return *this->node<ProcessGetMember>(member(mem)).pipe(params, flow, modifiers); }
 
 	template <class T_Member>
-	void VisualScript::set(T_Member mem, vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { this->node<ProcessSetMember>(member(mem)).pipe(params, flow, modifiers); }
+	void VisualScript::set(T_Member mem, span<Valve*> params, Process* flow, span<StreamModifier> modifiers) { this->node<ProcessSetMember>(member(mem)).pipe(params, flow, modifiers); }
 
 	template <class T_Method>
-	Valve* VisualScript::method(T_Method meth, vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { return this->node<ProcessMethod>(mud::method(meth)).pipe(params, flow, modifiers); }
+	Valve* VisualScript::method(T_Method meth, span<Valve*> params, Process* flow, span<StreamModifier> modifiers) { return this->node<ProcessMethod>(mud::method(meth)).pipe(params, flow, modifiers); }
 
 }
 

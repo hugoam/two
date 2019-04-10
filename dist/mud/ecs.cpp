@@ -18,7 +18,7 @@ namespace mud
 		, m_parts(m_prototype.m_parts.size())
 	{}
 
-	Complex::Complex(uint32_t id, Type& type, const vector<Ref>& parts)
+	Complex::Complex(uint32_t id, Type& type, span<Ref> parts)
 		: Complex(id, type)
 	{
 		this->setup(parts);
@@ -29,7 +29,7 @@ namespace mud
 		unindex(m_type, m_id);
 	}
 
-	void Complex::setup(const vector<Ref>& parts)
+	void Complex::setup(span<Ref> parts)
 	{
 		for(Ref ref : parts)
 			this->add_part(ref);
@@ -47,7 +47,6 @@ namespace stl
 	using namespace mud;
 	template class MUD_ECS_EXPORT vector<Buffer*>;
 	template class MUD_ECS_EXPORT vector<EntityStream*>;
-	template class MUD_ECS_EXPORT vector<EntityData>;
 	template class MUD_ECS_EXPORT vector<EntityStream>;
 	template class MUD_ECS_EXPORT vector<unique<Buffer>>;
 }
@@ -65,6 +64,8 @@ namespace mud
     
     template <> MUD_ECS_EXPORT Type& type<mud::Complex>() { static Type ty("Complex", sizeof(mud::Complex)); return ty; }
     template <> MUD_ECS_EXPORT Type& type<mud::Entity>() { static Type ty("Entity", sizeof(mud::Entity)); return ty; }
+    template <> MUD_ECS_EXPORT Type& type<mud::Entt>() { static Type ty("Entt", sizeof(mud::Entt)); return ty; }
+    template <> MUD_ECS_EXPORT Type& type<mud::OEntt>() { static Type ty("OEntt", type<mud::Entt>(), sizeof(mud::OEntt)); return ty; }
 }
 
 
@@ -82,6 +83,12 @@ namespace mud
 	void Entity::destroy()
 	{
 		if(m_handle != UINT32_MAX)
-			s_ecs[m_ecs]->destroy(m_handle);
+			s_ecs[m_ecs]->destroy(*this);
+	}
+
+	OEntt::~OEntt()
+	{
+		if(m_handle != UINT32_MAX)
+			m_ecs->destroy(m_handle);
 	}
 }

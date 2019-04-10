@@ -26,17 +26,17 @@ namespace mud
 
 namespace mud
 {
-	export_ class MUD_GFX_GLTF_EXPORT ImporterGltf : public Importer
+	export_ class refl_ MUD_GFX_GLTF_EXPORT ImporterGltf : public Importer
 	{
 	public:
-		ImporterGltf(GfxSystem& gfx_system);
+		constr_ ImporterGltf(GfxSystem& gfx);
 
-		GfxSystem& m_gfx_system;
+		GfxSystem& m_gfx;
 
-		virtual void import(Import& import, const string& filepath, const ImportConfig& config) override;
-		virtual void import_model(Model& model, const string& filepath, const ImportConfig& config) override;
-		virtual void import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config) override;
-		virtual void repack(const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void import(Import& import, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void import_model(Model& model, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void repack(const string& filepath, const ImportConfig& config) override;
 	};
 }
 
@@ -56,5 +56,5 @@ namespace mud
     // Exported types
     
     
+    export_ template <> MUD_GFX_GLTF_EXPORT Type& type<mud::ImporterGltf>();
 }
-

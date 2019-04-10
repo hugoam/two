@@ -49,9 +49,12 @@ namespace mud
 }
 
 #ifdef MUD_META_GENERATOR
+#include <stl/span.h>
 #include <stl/vector.h>
 namespace stl
 {
+	export_ extern template struct refl_ span_ span<mud::Type*>;
+
 	export_ extern template class refl_ seque_ vector<mud::Var>;
 	export_ extern template class refl_ seque_ vector<void*>;
 
@@ -134,7 +137,7 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Signature
 	{
 	public:
-		Signature(const vector<Param>& params = {}, QualType return_type = g_qvoid);
+		Signature(span<Param> params = {}, QualType return_type = g_qvoid);
 
 		vector<Param> m_params;
 		QualType m_return_type;
@@ -145,7 +148,7 @@ namespace mud
 	{
 	public:
 		Callable();
-		Callable(cstring name, const vector<Param>& params = {}, QualType return_type = g_qvoid);
+		Callable(cstring name, span<Param> params = {}, QualType return_type = g_qvoid);
 		virtual ~Callable() {}
 
 		void setup();
@@ -165,14 +168,14 @@ namespace mud
 
 		//vector<Var> m_args;
 
-		//bool checkArgs(const vector<Var>& args) const; // { for(const Param& param : m_params) if(!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
+		//bool checkArgs(span<Var> args) const; // { for(const Param& param : m_params) if(!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
 	};
 
 	export_ class refl_ MUD_REFL_EXPORT Function final : public Callable
 	{
 	public:
 		Function();
-		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, const vector<Param>& params = {}, QualType return_type = g_qvoid);
+		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, span<Param> params = {}, QualType return_type = g_qvoid);
 
 		virtual void operator()(span<void*> args, void*& result) const;
 
@@ -196,7 +199,7 @@ namespace mud
 	{
 	public:
 		Method();
-		Method(Type& object_type, cstring name, Address address, MethodFunc method, const vector<Param>& params = {}, QualType return_type = g_qvoid);
+		Method(Type& object_type, cstring name, Address address, MethodFunc method, span<Param> params = {}, QualType return_type = g_qvoid);
 
 		virtual void operator()(span<void*> args, void*& result) const;
 
@@ -216,8 +219,8 @@ namespace mud
 	{
 	public:
 		Constructor();
-		Constructor(Type& object_type, ConstructorFunc func, const vector<Param>& params = {});
-		Constructor(Type& object_type, cstring name, ConstructorFunc func, const vector<Param>& params = {});
+		Constructor(Type& object_type, ConstructorFunc func, span<Param> params = {});
+		Constructor(Type& object_type, cstring name, ConstructorFunc func, span<Param> params = {});
 
 		virtual void operator()(span<void*> args, void*& result) const;
 		
@@ -424,8 +427,8 @@ namespace mud
 		Flags m_flags;
 		MemberGet m_get;
 
-		Meta& meta() { return mud::meta(*m_type); }
-		Class& cls() { return mud::cls(*m_type); }
+		Meta& meta() const { return mud::meta(*m_type); }
+		Class& cls() const { return mud::cls(*m_type); }
 
 		bool is_pointer() const { return (m_flags & Pointer) != 0; }
 		bool is_mutable() const { return (m_flags & NonMutable) == 0; }
@@ -498,7 +501,7 @@ namespace mud
 		);
 		~Class();
 
-		void inherit(vector<Type*> types);
+		void inherit(span<Type*> types);
 		void setup_class();
 
 		Ref upcast(Ref object, const Type& base);
@@ -593,8 +596,8 @@ namespace mud
 		this->set(cast(object), value);
 	}
 
-	export_ inline bool is_root_type(Type& ty) { return !g_class[ty.m_id] || cls(ty).m_root == &ty; }
-
+	export_ inline bool is_root_type(const Type& ty) { return !g_class[ty.m_id] || cls(ty).m_root == &ty; }
+	export_ inline bool is_abstract(const Type& ty) { return g_class[ty.m_id] && cls(ty).m_type_member; }
 	//export_ template <class T>
 	//T& upcast(Ref value) { Ref base = cls(value).upcast(value, type<T>()); return val<T>(base); }
 
@@ -791,6 +794,7 @@ namespace mud
 
 
 #include <stl/vector.h>
+#include <stl/span.h>
 #include <stl/string.h>
 
 namespace mud
@@ -809,7 +813,7 @@ namespace mud
 		vector<cstring> m_path;
 	};
 
-	export_ MUD_REFL_EXPORT Namespace& namspc(vector<cstring> path);
+	export_ MUD_REFL_EXPORT Namespace& namspc(span<cstring> path);
 }
 
 
@@ -1031,7 +1035,7 @@ namespace mud
 
 		void launch_process(cstring path, cstring args);
 
-		void load_modules(vector<Module*> modules);
+		void load_modules(span<Module*> modules);
 
 		Module* open_module(cstring path);
 		void load_module(Module& m);
@@ -1044,7 +1048,7 @@ namespace mud
 		void dump_meta_info();
 		void dump_memory_usage();
 
-		Namespace& get_namespace(vector<cstring> path);
+		Namespace& get_namespace(span<cstring> path);
 		Function& function(FunctionPointer pointer);
 
 		Type* find_type(cstring name);
@@ -1076,6 +1080,7 @@ namespace mud
     // Exported types
     export_ template <> MUD_REFL_EXPORT Type& type<mud::TypeClass>();
     
+    export_ template <> MUD_REFL_EXPORT Type& type<stl::span<mud::Type*>>();
     export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Alias*>>();
     export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Function*>>();
     export_ template <> MUD_REFL_EXPORT Type& type<stl::vector<mud::Module*>>();

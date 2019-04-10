@@ -51,17 +51,17 @@ namespace ui
 
 namespace mud
 {
-    enum Dim : unsigned int;
-    enum FlowAxis : unsigned int;
-    enum Pivot : unsigned int;
-    enum Align : unsigned int;
-    enum LayoutSolver : unsigned int;
-    enum AutoLayout : unsigned int;
-    enum Flow : unsigned int;
-    enum Sizing : unsigned int;
-    enum SpacePreset : unsigned int;
-    enum Clipping : unsigned int;
-    enum Opacity : unsigned int;
+    enum class Axis : unsigned int;
+    enum class FlowAxis : unsigned int;
+    enum class Pivot : unsigned int;
+    enum class Align : unsigned int;
+    enum class Solver : unsigned int;
+    enum class AutoLayout : unsigned int;
+    enum class LayoutFlow : unsigned int;
+    enum class Sizing : unsigned int;
+    enum class Preset : unsigned int;
+    enum class Clip : unsigned int;
+    enum class Opacity : unsigned int;
     enum WidgetState : unsigned int;
     enum DirtyLayout : unsigned int;
     enum class CodePalette : unsigned char;
@@ -69,7 +69,7 @@ namespace mud
     enum WindowState : unsigned int;
     enum class DropState : unsigned int;
     
-    template <class T> struct Dim2;
+    template <class T> struct v2;
     
     class Style;
     struct Space;
@@ -136,8 +136,9 @@ namespace mud
 namespace stl
 {
 	export_ using cstring = const char*;
-	export_ extern template struct refl_ seque_ span<float>;
-	export_ extern template struct refl_ seque_ span<cstring>;
+	export_ extern template struct refl_ span_ span<float>;
+	export_ extern template struct refl_ span_ span<cstring>;
+
 	//export_ extern template class refl_ seque_ vector<string>;
 	export_ extern template class refl_ seque_ vector<mud::Space>;
 }
@@ -188,93 +189,92 @@ namespace mud
 
 
 #include <stl/stddef.h>
-
-#if defined _WIN32
-#undef OPAQUE
-#endif
+#include <stl/table.h>
 
 namespace mud
 {
-	export_ enum refl_ Dim : unsigned int
+	//export_ enum class refl_ Dim : unsigned int
+	//{
+	//	X = 0,
+	//	Y = 1,
+	//	None = 2,
+	//	Count
+	//};
+
+	inline Axis flip(Axis dim) { return dim == Axis::X ? Axis::Y : Axis::X; }
+
+	export_ enum class refl_ FlowAxis : unsigned int
 	{
-		DIM_X = 0,
-		DIM_Y = 1,
-		DIM_NONE = 2
+		Reading = 0,
+		Paragraph = 1,
+		Same = 2,
+		Flip = 3,
+		None = 4,
 	};
 
-	inline Dim flip_dim(Dim dim) { return dim == DIM_X ? DIM_Y : DIM_X; }
-
-	export_ enum refl_ FlowAxis : unsigned int
+	export_ enum class refl_ Pivot : unsigned int
 	{
-		READING = 0,
-		PARAGRAPH = 1,
-		PARALLEL = 2,
-		ORTHOGONAL = 3,
-		AXIS_NONE = 4,
+		Forward = 0,
+		Reverse = 1
 	};
 
-	export_ enum refl_ Pivot : unsigned int
-	{
-		FORWARD = 0,
-		REVERSE = 1
-	};
-
-	export_ enum refl_ Align : unsigned int
+	export_ enum class refl_ Align : unsigned int
 	{
 		Left = 0,
-		CENTER = 1,
+		Center = 1,
 		Right = 2,
-		OUT_LEFT = 3,
-		OUT_RIGHT = 4
+		OutLeft = 3,
+		OutRight = 4,
+		Count
 	};
 
-	extern float AlignExtent[5];
-	extern float AlignSpace[5];
+	extern table<Align, float> c_align_extent;
+	extern table<Align, float> c_align_space;
 
-	export_ enum refl_ LayoutSolver : unsigned int
+	export_ enum class refl_ Solver : unsigned int
 	{
-		FRAME_SOLVER = 0,
-		ROW_SOLVER = 1,
-		GRID_SOLVER = 2,
-		TABLE_SOLVER = 3,
+		Frame = 0,
+		Row = 1,
+		Grid = 2,
+		Table = 3,
 	};
 
-	export_ enum refl_ AutoLayout : unsigned int
+	export_ enum class refl_ AutoLayout : unsigned int
 	{
-		NO_LAYOUT = 0,
-		AUTO_SIZE = 1,
-		AUTO_LAYOUT = 2
+		None = 0,
+		Size = 1,
+		Layout = 2
 	};
 
-	export_ enum refl_ Flow : unsigned int
+	export_ enum class refl_ LayoutFlow : unsigned int
 	{
-		FLOW = 0,			// AUTO_LAYOUT
-		OVERLAY = 1,		// AUTO_SIZE
-		ALIGN = 2,			// AUTO_POSITION
-		FREE = 3			// NO_LAYOUT
+		Flow = 0,			// AutoLayout::Layout
+		Overlay = 1,		// AutoLayout::Size
+		Align = 2,			// AUTO_POSITION
+		Free = 3			// AutoLayout::None
 	};
 
-	export_ enum refl_ Sizing : unsigned int
+	export_ enum class refl_ Sizing : unsigned int
 	{
-		FIXED,
-		SHRINK,
-		WRAP,
-		EXPAND
+		Fixed,
+		Shrink,
+		Wrap,
+		Expand
 	};
 
-	export_ enum refl_ SpacePreset : unsigned int
+	export_ enum class refl_ Preset : unsigned int
 	{
-		SHEET,               // PARAGRAPH   direction, WRAP   length, WRAP   depth
-		FLEX,			     // PARALLEL    direction, WRAP   length, WRAP   depth
-		ITEM,                // READING     direction, SHRINK length, SHRINK depth
-		UNIT,                // PARAGRAPH   direction, SHRINK length, SHRINK depth
-		BLOCK,               // PARAGRAPH   direction, FIXED  length, FIXED  depth
-		LINE,	             // READING     direction, WRAP   length, SHRINK depth
-		STACK,               // PARAGRAPH   direction, SHRINK length, WRAP   depth 
-		DIV,	             // ORTHOGONAL  direction, WRAP   length, SHRINK depth
-		SPACER,              // PARALLEL    direction, WRAP   length, SHRINK depth
-		BOARD,               // READING     direction, EXPAND length, EXPAND depth
-		LAYOUT               // PARAGRAPH   direction, EXPAND length, EXPAND depth
+		Sheet,   // Paragraph   direction, Sizing::Wrap   length, Sizing::Wrap   depth
+		Flex,	 // Same		direction, Sizing::Wrap   length, Sizing::Wrap   depth
+		Item,    // Reading     direction, Sizing::Shrink length, Sizing::Shrink depth
+		Unit,    // Paragraph   direction, Sizing::Shrink length, Sizing::Shrink depth
+		Block,   // Paragraph   direction, Sizing::Fixed  length, Sizing::Fixed  depth
+		Line,	 // Reading     direction, Sizing::Wrap   length, Sizing::Shrink depth
+		Stack,   // Paragraph   direction, Sizing::Shrink length, Sizing::Wrap   depth 
+		Div,	 // Flip        direction, Sizing::Wrap   length, Sizing::Shrink depth
+		Spacer,  // Same        direction, Sizing::Wrap   length, Sizing::Shrink depth
+		Board,   // Reading     direction, Sizing::Expand length, Sizing::Expand depth
+		Layout   // Paragraph   direction, Sizing::Expand length, Sizing::Expand depth
 	};
 
 	export_ struct refl_ MUD_UI_EXPORT Space
@@ -284,53 +284,35 @@ namespace mud
 		attr_ Sizing sizingDepth;
 
 		Space(FlowAxis dir, Sizing length, Sizing depth) : direction(dir), sizingLength(length), sizingDepth(depth) {}
-		Space(SpacePreset preset = FLEX) { *this = Space::preset(preset); }
+		Space(Preset preset = Preset::Flex) { *this = Space::preset(preset); }
 
 		bool operator==(const Space& other) const { return direction == other.direction && sizingLength == other.sizingLength && sizingDepth == other.sizingDepth; }
 
-		static Space preset(SpacePreset preset);
+		static Space preset(Preset preset);
 	};
 
 	extern Space SpacePresets[11];
 
-	export_ enum refl_ Clipping : unsigned int
+	export_ enum class refl_ Clip : unsigned int
 	{
-		NOCLIP = 0,
-		CLIP = 1,
-		UNCLIP = 2
+		None = 0,
+		Clip = 1,
+		Unclip = 2
 	};
 
-	export_ enum refl_ Opacity : unsigned int
+	export_ enum class refl_ Opacity : unsigned int
 	{
-		OPAQUE = 0,
-		CLEAR = 1,
-		HOLLOW = 2
-	};
-	
-	export_ template <class T>
-	struct refl_ struct_ Dim2
-	{
-	public:
-		constr_ Dim2(T a, T b) : d_values{ a, b } {}
-		constr_ Dim2() : Dim2(T(), T()) {}
-
-		T operator[](size_t i) const { return d_values[i]; }
-		T& operator[](size_t i) { return d_values[i]; }
-
-	public:
-		union {
-			T d_values[2];
-			struct { attr_ T x; attr_ T y; };
-			struct { T w; T h; };
-		};
+		Opaque = 0,
+		Clear = 1,
+		Hollow = 2
 	};
 
-	export_ extern template struct refl_ array_ struct_ Dim2<bool>;
-	export_ extern template struct refl_ array_ struct_ Dim2<size_t>;
-	export_ extern template struct refl_ array_ struct_ Dim2<AutoLayout>;
-	export_ extern template struct refl_ array_ struct_ Dim2<Sizing>;
-	export_ extern template struct refl_ array_ struct_ Dim2<Align>;
-	export_ extern template struct refl_ array_ struct_ Dim2<Pivot>;
+	export_ extern template struct refl_ array_ struct_ v2<bool>;
+	export_ extern template struct refl_ array_ struct_ v2<size_t>;
+	export_ extern template struct refl_ array_ struct_ v2<AutoLayout>;
+	export_ extern template struct refl_ array_ struct_ v2<Sizing>;
+	export_ extern template struct refl_ array_ struct_ v2<Align>;
+	export_ extern template struct refl_ array_ struct_ v2<Pivot>;
 }
 
 namespace mud
@@ -357,7 +339,7 @@ namespace mud
 
 namespace ui
 {
-	export_ MUD_UI_EXPORT func_ Widget& widget(Widget& parent, Style& style, bool open = false, Dim length = DIM_NONE, Dim2<size_t> index = { 0, 0 });
+	export_ MUD_UI_EXPORT func_ Widget& widget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<size_t> index = { 0, 0 });
 	export_ MUD_UI_EXPORT Widget& widget(Widget& parent, Style& style, void* identity);
 
 	export_ MUD_UI_EXPORT func_ Widget& item(Widget& parent, Style& style, cstring content = nullptr);
@@ -366,7 +348,7 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Widget& multi_item(Widget& parent, Style& style, span<cstring> elements, Style* element_style = nullptr);
 	export_ MUD_UI_EXPORT Widget& multi_item(Widget& parent, span<cstring> elements, Style* element_style = nullptr);
 
-	export_ MUD_UI_EXPORT func_ Widget& spanner(Widget& parent, Style& style, Dim dim, float span);
+	export_ MUD_UI_EXPORT func_ Widget& spanner(Widget& parent, Style& style, Axis dim, float span);
 }
 }
 
@@ -445,7 +427,7 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ bool modal_multi_button(Widget& screen, Widget& parent, span<cstring> elements, uint32_t mode);
 
 	export_ MUD_UI_EXPORT func_ Widget& checkbox(Widget& parent, bool& on);
-	export_ MUD_UI_EXPORT func_ Widget& fill_bar(Widget& parent, float percentage, Dim dim = DIM_X);
+	export_ MUD_UI_EXPORT func_ Widget& fill_bar(Widget& parent, float percentage, Axis dim = Axis::X);
 
 	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, cstring name, const Image256& source);
 	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, cstring name, const Image256& source, const vec2& size);
@@ -454,8 +436,8 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, const string& name, const Image256& source, const vec2& size);
 
 	export_ MUD_UI_EXPORT func_ Widget& radio_choice(Widget& parent, cstring value, bool active);
-	export_ MUD_UI_EXPORT func_ bool radio_switch(Widget& parent, span<cstring> labels, uint32_t& value, Dim dim = DIM_X);
-	//MUD_UI_EXPORT bool radio_switch(Widget& parent, span<cstring> labels, string& value, Dim dim = DIM_X);
+	export_ MUD_UI_EXPORT func_ bool radio_switch(Widget& parent, span<cstring> labels, uint32_t& value, Axis dim = Axis::X);
+	//MUD_UI_EXPORT bool radio_switch(Widget& parent, span<cstring> labels, string& value, Axis dim = Axis::X);
 
 	//inline bool radio_switch_string(Widget& parent, span<cstring> labels, string& value) { return radio_switch(parent, labels, value); }
 
@@ -554,7 +536,7 @@ namespace mud
 		Style div; Style row; Style stack; Style sheet; Style flex; Style list; Style header; Style board; Style layout;
 		Style screen; Style decal; Style overlay; Style gridsheet; Style sequence; Style element;
 		Style label; Style title; Style message; Style text; Style button; Style wrap_button; Style multi_button; Style toggle; Style checkbox;
-		Style dummy; Style tooltip; Style rectangle; Style type_in; Style text_edit; Style type_zone; Style caret; Style image; Style image_stretch;
+		Style dummy; Style tooltip; Style rectangle; Style viewport; Style type_in; Style text_edit; Style type_zone; Style caret; Style image; Style image_stretch;
 		Style radio_switch; Style radio_switch_h; Style radio_choice; Style radio_choice_item;
 		Style slider; Style slider_knob; Style slider_display; Style fill_bar; Style number_input;
 		Style slider_input; Style field_input; Style curve_graph; Style curve_input; Style input_bool; Style input_string; Style input_color;
@@ -614,9 +596,9 @@ namespace ui
 
 	export_ func_ MUD_UI_EXPORT Widget* context(Widget& parent, uint32_t mode, PopupFlags flags = PopupFlags::None);
 
-	export_ MUD_UI_EXPORT DragPoint grid_sheet_logic(Widget& self, Dim dim);
-	export_ MUD_UI_EXPORT Widget& grid_sheet(Widget& parent, Style& style, Dim dim);
-	export_ MUD_UI_EXPORT Widget& grid_sheet(Widget& parent, Style& style, Dim dim, span<float> spans);
+	export_ MUD_UI_EXPORT DragPoint grid_sheet_logic(Widget& self, Axis dim);
+	export_ MUD_UI_EXPORT Widget& grid_sheet(Widget& parent, Style& style, Axis dim);
+	export_ MUD_UI_EXPORT Widget& grid_sheet(Widget& parent, Style& style, Axis dim, span<float> spans);
 }
 }
 
@@ -646,6 +628,7 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Widget& cursor(Widget& parent, const vec2& position, Widget& hovered, bool locked = false);
 
 	export_ MUD_UI_EXPORT func_ Widget& rectangle(Widget& parent, const vec4& rect);
+	export_ MUD_UI_EXPORT func_ Widget& viewport(Widget& parent, const vec4& rect);
 }
 }
 
@@ -667,7 +650,7 @@ namespace ui
 
 	export_ MUD_UI_EXPORT DockStyles& dock_styles();
 
-	export_ MUD_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Dim dim);
+	export_ MUD_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Axis dim);
 	export_ MUD_UI_EXPORT Tabber& docksection(Widget& parent);
 
 	export_ MUD_UI_EXPORT func_ Dockspace& dockspace(Widget& parent, Docksystem& docksystem);
@@ -689,7 +672,7 @@ namespace mud
 namespace ui
 {
 	export_ template <class T>
-	bool slider_input_dim(Widget& parent, AutoStat<T> value, Dim dim = DIM_X);
+	bool slider_input_dim(Widget& parent, AutoStat<T> value, Axis dim = Axis::X);
 
 	export_ template <class T>
 	bool slider_input(Widget& parent, AutoStat<T> value);
@@ -710,7 +693,7 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ bool quat_edit(Widget& parent, quat& quat);
 
 	export_ MUD_UI_EXPORT Widget& color_slab(Widget& parent, Style& style, const Colour& value);
-	export_ MUD_UI_EXPORT func_ bool color_edit_hsl(Widget& parent, const Colour& colour, Colour& value);
+	export_ MUD_UI_EXPORT bool color_edit_hsl(Widget& parent, const Colour& colour, ColourHSL& value);
 	export_ MUD_UI_EXPORT func_ Widget& color_display(Widget& parent, const Colour& value);
 	export_ MUD_UI_EXPORT func_ bool color_edit(Widget& parent, Colour& value);
 	export_ MUD_UI_EXPORT func_ bool color_edit_simple(Widget& parent, Colour& value);
@@ -744,7 +727,7 @@ namespace ui
 	inline bool slider_field(Widget& parent, cstring name, AutoStat<T> value, bool reverse = false) { return field([&](Widget& self) { return slider_input<T>(self, value); }, parent, name, reverse); }
 
 	export_ func_ inline bool flag_field(Widget& parent, cstring name, uint32_t& value, uint8_t shift, bool reverse = false) { return field([&](Widget& self) { return flag_input(self, value, shift); }, parent, name, reverse); }
-	export_ func_ inline bool radio_field(Widget& parent, cstring name, span<cstring> choices, uint32_t& value, Dim dim = DIM_X, bool reverse = false) { return field([&](Widget& self) { return radio_switch(self, choices, value, dim); }, parent, name, reverse); }
+	export_ func_ inline bool radio_field(Widget& parent, cstring name, span<cstring> choices, uint32_t& value, Axis dim = Axis::X, bool reverse = false) { return field([&](Widget& self) { return radio_switch(self, choices, value, dim); }, parent, name, reverse); }
 	export_ func_ inline bool dropdown_field(Widget& parent, cstring name, span<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return dropdown_input(self, choices, value); }, parent, name, reverse); }
 	export_ func_ inline bool typedown_field(Widget& parent, cstring name, span<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return typedown_input(self, choices, value); }, parent, name, reverse); }
 	export_ func_ inline bool color_field(Widget& parent, cstring name, Colour& value, bool reverse = false) { return field([&](Widget& self) { return color_toggle_edit(self, value); }, parent, name, reverse); }
@@ -794,8 +777,8 @@ namespace ui
 		SliderState compute(float value);
 	};
 
-	export_ MUD_UI_EXPORT bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Dim dim = DIM_X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
-	export_ MUD_UI_EXPORT bool slider(Widget& parent, float& value, SliderMetrics metrics, Dim dim = DIM_X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
+	export_ MUD_UI_EXPORT bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
+	export_ MUD_UI_EXPORT bool slider(Widget& parent, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
 }
 }
 
@@ -827,10 +810,10 @@ namespace mud
 {
 	export_ struct refl_ MUD_UI_EXPORT UiRect
 	{
-		attr_ vec2 m_position = Zero2;
-		attr_ vec2 m_size = Zero2;
-		attr_ vec2 m_content = Zero2;
-		attr_ vec2 m_span = Unit2;
+		attr_ vec2 m_position = vec2(0.f);
+		attr_ vec2 m_size = vec2(0.f);
+		attr_ vec2 m_content = vec2(0.f);
+		attr_ vec2 m_span = vec2(1.f);
 		attr_ float m_scale = 1.f;
 	};
 }
@@ -856,8 +839,8 @@ namespace mud
 
 		bool empty() const;
 
-		inline bool opaque() const { return m_opacity == OPAQUE; }
-		inline bool hollow() const { return m_opacity == HOLLOW; }
+		inline bool opaque() const { return m_opacity == Opacity::Opaque; }
+		inline bool hollow() const { return m_opacity == Opacity::Hollow; }
 
 		void set_caption(cstring text);
 		void set_icon(Image* image);
@@ -867,7 +850,7 @@ namespace mud
 		Frame& root();
 		Layer& layer();
 
-		FrameSolver& solver(Style& style, Dim length = DIM_NONE, Dim2<size_t> index = { 0, 0 });
+		FrameSolver& solver(Style& style, Axis length = Axis::None, v2<size_t> index = { 0, 0 });
 
 		DirtyLayout clearDirty() { DirtyLayout dirty = d_dirty; d_dirty = CLEAN; return dirty; }
 		void set_dirty(DirtyLayout dirty) { if(dirty > d_dirty) d_dirty = dirty; }
@@ -877,12 +860,12 @@ namespace mud
 		void update_state(WidgetState state);
 		void update_inkstyle(InkStyle& inkstyle);
 
-		void set_size(Dim dim, float size);
-		void set_span(Dim dim, float span);
-		void set_position(Dim dim, float position);
+		void set_size(Axis dim, float size);
+		void set_span(Axis dim, float span);
+		void set_position(Axis dim, float position);
 
-		inline void set_position(const vec2& pos) { set_position(DIM_X, pos.x), set_position(DIM_Y, pos.y); }
-		inline void set_size(const vec2& size) { set_size(DIM_X, size.x); set_size(DIM_Y, size.y); }
+		inline void set_position(const vec2& pos) { set_position(Axis::X, pos.x), set_position(Axis::Y, pos.y); }
+		inline void set_size(const vec2& size) { set_size(Axis::X, size.x); set_size(Axis::Y, size.y); }
 
 		// global to local
 		void integrate_position(Frame& root, vec2& global);
@@ -908,7 +891,7 @@ namespace mud
 		bool first(const Frame& frame);
 		bool last(const Frame& frame);
 
-		void transfer_pixel_span(Frame& prev, Frame& next, Dim dim, float pixelSpan);
+		void transfer_pixel_span(Frame& prev, Frame& next, Axis dim, float pixelSpan);
 
 		void relayout();
 
@@ -921,9 +904,9 @@ namespace mud
 		Widget& d_widget;
 		Frame* d_parent;
 		DirtyLayout d_dirty = DIRTY_FORCE_LAYOUT;
-		Dim2<size_t> d_index = { 0, 0 };
+		v2<size_t> d_index = { 0, 0 };
 
-		Opacity m_opacity = CLEAR;
+		Opacity m_opacity = Opacity::Clear;
 
 		Style* d_style = nullptr;
 		Layout* d_layout = nullptr;
@@ -966,6 +949,8 @@ namespace mud
 		meth_ UiWindow& ui_window();
 		meth_ Ui& ui();
 		meth_ Widget& parent_modal();
+
+		meth_ void clear();
 
 		void set_content(cstring content);
 
@@ -1013,13 +998,13 @@ namespace mud
 		Widget& layer();
 
 		bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
-		Widget& init(Style& style, bool open = false, Dim length = DIM_NONE, Dim2<size_t> index = { 0, 0 }) { if(!m_frame.d_style) { m_frame.solver(style, length, index); m_open = open; } return *this; }
+		Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<size_t> index = { 0, 0 }) { if(!m_frame.d_style) { m_frame.solver(style, length, index); m_open = open; } return *this; }
 	};
 
 namespace ui
 {
 	export_ template <class T>
-	inline T& twidget(Widget& parent, Style& style, bool open = false, Dim length = DIM_NONE, Dim2<size_t> index = { 0, 0 })
+	inline T& twidget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<size_t> index = { 0, 0 })
 	{
 		T& self = parent.subi<T>(&style); self.init(style, open, length, index); return self;
 	}
@@ -1102,7 +1087,7 @@ namespace mud
 		attr_ cstring m_font;
 		attr_ Colour m_colour;
 		attr_ float m_size;
-		attr_ Dim2<Align> m_align;
+		attr_ v2<Align> m_align;
 		attr_ bool m_text_break;
 		attr_ bool m_text_wrap;
 	};
@@ -1395,7 +1380,7 @@ namespace mud
 		vec2 m_text_offset;
 
 		string m_hovered_word = "";
-		vec4 m_hovered_word_rect = Zero4;
+		vec4 m_hovered_word_rect = vec4(0.f);
 
 		using AllowChar = bool(*)(char); AllowChar m_allow_char;
 
@@ -1440,7 +1425,7 @@ namespace mud
 namespace ui
 {
 	export_ template <class T>
-	bool slider_input_dim(Widget& parent, AutoStat<T> value, Dim dim)
+	bool slider_input_dim(Widget& parent, AutoStat<T> value, Axis dim)
 	{
 		Widget& self = widget(parent, styles().slider_input);
 		SliderMetrics metrics = { float(value.min()), float(value.max()), float(value.step()) };
@@ -1454,7 +1439,7 @@ namespace ui
 	export_ template <class T>
 	bool slider_input(Widget& parent, AutoStat<T> value)
 	{
-		return slider_input_dim(parent, value, DIM_X);
+		return slider_input_dim(parent, value, Axis::X);
 	}
 
 	export_ template <class T>
@@ -1605,8 +1590,8 @@ namespace ui
 
 	export_ MUD_UI_EXPORT ScrollbarStyles& scrollbar_styles();
 
-	export_ MUD_UI_EXPORT bool overflow(Frame& frame, Frame& content, Dim dim);
-	export_ MUD_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Dim dim, Dim2<size_t> grid_index = { 0, 0 });
+	export_ MUD_UI_EXPORT bool overflow(Frame& frame, Frame& content, Axis dim);
+	export_ MUD_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Axis dim, v2<size_t> grid_index = { 0, 0 });
 }
 }
 
@@ -1682,31 +1667,23 @@ namespace mud
     // Exported types
     export_ template <> MUD_UI_EXPORT Type& type<mud::Align>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::AutoLayout>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Clipping>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Flow>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Clip>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::LayoutSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::LayoutFlow>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Opacity>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Pivot>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::ui::PopupFlags>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Preset>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Sizing>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::SpacePreset>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Solver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::WidgetState>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::WindowState>();
     
     export_ template <> MUD_UI_EXPORT Type& type<stl::span<const char*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<stl::span<float>>();
     export_ template <> MUD_UI_EXPORT Type& type<stl::vector<mud::Space>>();
     
     export_ template <> MUD_UI_EXPORT Type& type<mud::CanvasConnect>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Clipboard>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<bool>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Align>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::AutoLayout>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Pivot>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Sizing>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<size_t>>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Dock>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Docksystem>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Gradient>();
@@ -1730,7 +1707,11 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::UiWindow>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::User>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Vg>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Align>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::AutoLayout>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Pivot>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Sizing>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<size_t>>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Canvas>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Dockable>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Docker>();
@@ -1739,15 +1720,16 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::Expandbox>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Frame>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Node>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::NodePlug>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::ScrollSheet>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::ui::Sequence>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Tabber>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Table>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::TextEdit>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::TreeNode>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Ui>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Window>();
@@ -1849,8 +1831,8 @@ namespace mud
 		virtual uint16_t load_texture(uint16_t texture) = 0;
 
 		// rendering
-		virtual void begin_frame(const vec4& rect, float pixel_ratio = 1.f) = 0;
-		virtual void end_frame() = 0;
+		virtual void begin_frame(uint16_t view, const vec4& rect, float pixel_ratio = 1.f, const Colour& colour = Colour(0.f)) = 0;
+		virtual void end_frame(uint16_t view) = 0;
 
 		// drawing
 		virtual void begin_target() = 0;
@@ -1860,10 +1842,10 @@ namespace mud
 		virtual void begin_cached(Layer& layer) = 0;
 		virtual void end_cached() = 0;
 
-		virtual void draw_layer(Layer& layer, const vec2& position = Zero2, float scale = 1.f) = 0;
+		virtual void draw_layer(Layer& layer, const vec2& position = vec2(0.f), float scale = 1.f) = 0;
 #endif
 
-		virtual void begin_layer(Layer& layer, const vec2& position = Zero2, float scale = 1.f) = 0;
+		virtual void begin_layer(Layer& layer, const vec2& position = vec2(0.f), float scale = 1.f) = 0;
 		virtual void end_layer() = 0;
 
 		virtual void begin_update(const vec2& position, float scale) = 0;
@@ -1903,10 +1885,10 @@ namespace mud
 		virtual void break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) = 0;
 
 		virtual float line_height(const TextPaint& paint) = 0;
-		virtual float text_size(cstring text, size_t len, Dim dim, const TextPaint& paint) = 0;
+		virtual float text_size(cstring text, size_t len, Axis dim, const TextPaint& paint) = 0;
 		virtual vec2 text_size(cstring text, size_t len, const TextPaint& paint) = 0;
 
-		void draw_rect(const vec4& rect, const Paint& paint, const vec4& corners = Zero4);
+		void draw_rect(const vec4& rect, const Paint& paint, const vec4& corners = vec4(0.f));
 
 		cstring font_path(cstring font);
 
@@ -1923,7 +1905,7 @@ namespace mud
 		UiRenderer(Vg& vg);
 		virtual ~UiRenderer();
 
-		void render(Layer& layer, float pixel_ratio);// = 1.f);
+		void render(Layer& layer, uint16_t view, float pixel_ratio, const Colour& colour = Colour(0.f));// = 1.f);
 
 		// drawing implementation
 		void render_layer(Layer& layer);
@@ -1937,7 +1919,7 @@ namespace mud
 		void draw_frame(const Frame& frame, const vec4& rect);
 
 		vec4 select_corners(const Frame& frame);
-		float content_pos(const Frame& frame, const vec2& content, const vec4& padded_rect, Dim dim);
+		float content_pos(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim);
 		void draw_content(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
 		void draw_background(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
 		void draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
@@ -1977,7 +1959,7 @@ namespace mud
 
 		void init();
 		bool input_frame();
-		void render_frame();
+		void render_frame(uint16_t view);
 		void shutdown();
 
 		void init_styles();
@@ -1985,7 +1967,7 @@ namespace mud
 
 		void resize(const uvec2& size, const uvec2& fb_size);
 
-		Image& create_image(cstring image, uvec2 size, uint8_t* data, bool filtering = true);
+		Image& create_image(cstring image, const uvec2& size, uint8_t* data, bool filtering = true);
 		void remove_image(Image& image);
 		Image* find_image(cstring name);
 
@@ -2008,7 +1990,7 @@ namespace mud
 
 		Clipboard m_clipboard;
 
-		object<Ui> m_root_sheet;
+		object<Ui> m_ui;
 
 		bool m_shutdown = false;
 
@@ -2147,6 +2129,7 @@ namespace mud
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>
+#include <stl/table.h>
 #endif
 
 
@@ -2169,19 +2152,19 @@ namespace mud
 		Layout(T_Initializer func) { func(*this); }
 
 		attr_ string m_name = "";
-		attr_ LayoutSolver m_solver = FRAME_SOLVER;
-		attr_ Dim2<AutoLayout> m_layout = { AUTO_LAYOUT, AUTO_LAYOUT };
-		attr_ Flow m_flow = FLOW;
-		attr_ Space m_space = SHEET;
-		attr_ Clipping m_clipping = NOCLIP;
-		attr_ Opacity m_opacity = CLEAR;
-		attr_ Dim2<Align> m_align = { Left, Left };
+		attr_ Solver m_solver = Solver::Frame;
+		attr_ v2<AutoLayout> m_layout = { AutoLayout::Layout, AutoLayout::Layout };
+		attr_ LayoutFlow m_flow = LayoutFlow::Flow;
+		attr_ Space m_space = Preset::Sheet;
+		attr_ Clip m_clipping = Clip::None;
+		attr_ Opacity m_opacity = Opacity::Clear;
+		attr_ v2<Align> m_align = { Align::Left, Align::Left };
 		attr_ vec2 m_span = vec2(1.f);
 		attr_ vec2 m_size = vec2(0.f);
 		attr_ vec4 m_padding = vec4(0.f);
 		attr_ vec2 m_margin = vec2(0.f);
 		attr_ vec2 m_spacing = vec2(0.f);
-		attr_ Dim2<Pivot> m_pivot = { FORWARD, FORWARD };
+		attr_ v2<Pivot> m_pivot = { Pivot::Forward, Pivot::Forward };
 		attr_ int m_zorder = 0;
 		attr_ bool m_no_grid = false;
 
@@ -2206,22 +2189,22 @@ namespace mud
 		FrameSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 		virtual ~FrameSolver() {}
 
-		inline bool flow() { return d_layout->m_flow == FLOW; }
-		inline bool posflow() { return d_layout->m_flow <= ALIGN; }
-		inline bool sizeflow() { return d_layout->m_flow <= OVERLAY; }
+		inline bool flow() { return d_layout->m_flow == LayoutFlow::Flow; }
+		inline bool posflow() { return d_layout->m_flow <= LayoutFlow::Align; }
+		inline bool sizeflow() { return d_layout->m_flow <= LayoutFlow::Overlay; }
 
-		inline float dpadding(Dim dim) { return d_layout->m_padding[dim]; }
-		inline float dbackpadding(Dim dim) { return d_layout->m_padding[dim + 2]; }
-		inline float dmargin(Dim dim) { return d_layout->m_margin[dim]; }
+		inline float dpadding(Axis dim) { return d_layout->m_padding[size_t(dim)]; }
+		inline float dbackpadding(Axis dim) { return d_layout->m_padding[size_t(dim) + 2]; }
+		inline float dmargin(Axis dim) { return d_layout->m_margin[dim]; }
 
-		inline Align dalign(Dim dim) { return d_layout->m_align[dim]; }
+		inline Align dalign(Axis dim) { return d_layout->m_align[dim]; }
 
-		inline float dcontent(Dim dim) { return d_content[dim] + dpadding(dim) + dbackpadding(dim); }
-		inline float dbounds(Dim dim) { return dcontent(dim) + dmargin(dim) * 2.f; }
+		inline float dcontent(Axis dim) { return d_content[dim] + dpadding(dim) + dbackpadding(dim); }
+		inline float dbounds(Axis dim) { return dcontent(dim) + dmargin(dim) * 2.f; }
 
-		inline float dextent(Dim dim) { return m_size[dim] + dmargin(dim) * 2.f; }
-		inline float doffset(Dim dim) { return m_position[dim] + m_size[dim] + dmargin(dim); }
-		inline float dspace(Dim dim) { return m_size[dim] - dpadding(dim) - dbackpadding(dim); }
+		inline float dextent(Axis dim) { return m_size[dim] + dmargin(dim) * 2.f; }
+		inline float doffset(Axis dim) { return m_position[dim] + m_size[dim] + dmargin(dim); }
+		inline float dspace(Axis dim) { return m_size[dim] - dpadding(dim) - dbackpadding(dim); }
 
 		//inline float spacing(FrameSolver& frame) { return d_prev ? d_layout->m_spacing[d_length] : 0.f; }
 		inline float spacing() { return d_layout->m_spacing[d_length]; }
@@ -2232,10 +2215,10 @@ namespace mud
 			m_span = span;
 			m_size = size;
 
-			if(d_sizing.x == FIXED) d_content.x = (content ? content->x : m_size.x - dpadding(DIM_X) - dbackpadding(DIM_X));
-			if(d_sizing.y == FIXED) d_content.y = (content ? content->y : m_size.y - dpadding(DIM_Y) - dbackpadding(DIM_Y));
-			if(d_sizing.x == FIXED) m_size.x = d_content.x + dpadding(DIM_X) + dbackpadding(DIM_X);
-			if(d_sizing.y == FIXED) m_size.y = d_content.y + dpadding(DIM_Y) + dbackpadding(DIM_Y);
+			if(d_sizing.x == Sizing::Fixed) d_content.x = (content ? content->x : m_size.x - dpadding(Axis::X) - dbackpadding(Axis::X));
+			if(d_sizing.y == Sizing::Fixed) d_content.y = (content ? content->y : m_size.y - dpadding(Axis::Y) - dbackpadding(Axis::Y));
+			if(d_sizing.x == Sizing::Fixed) m_size.x = d_content.x + dpadding(Axis::X) + dbackpadding(Axis::X);
+			if(d_sizing.y == Sizing::Fixed) m_size.y = d_content.y + dpadding(Axis::Y) + dbackpadding(Axis::Y);
 		}
 
 		void reset(bool partial = false)
@@ -2244,18 +2227,18 @@ namespace mud
 			if(!partial)
 				d_content = { 0.f, 0.f };
 			d_spacing = { 0.f, 0.f };
-			m_spaceContent = { 0.f, 0.f };
-			d_contentExpand = false;
-			d_totalSpan = 0.f;
+			m_space_content = { 0.f, 0.f };
+			d_content_expand = false;
+			d_total_span = 0.f;
 			d_prev = nullptr;
 			d_count = 0;
 		}
 
-		void applySpace(Dim length = DIM_NONE);
+		void applySpace(Axis length = Axis::None);
 
 		virtual void collect(SolverVector& solvers);
 
-		virtual FrameSolver& solver(FrameSolver& frame, Dim dim);
+		virtual FrameSolver& solver(FrameSolver& frame, Axis dim);
 		virtual FrameSolver* grid() { return nullptr; }
 
 		void sync();
@@ -2263,29 +2246,30 @@ namespace mud
 		void layout();
 		void read();
 
-		virtual void compute(FrameSolver& frame, Dim dim);
-		virtual void layout(FrameSolver& frame, Dim dim);
+		virtual void compute(FrameSolver& frame, Axis dim);
+		virtual void layout(FrameSolver& frame, Axis dim);
 
 	public:
 		Frame* d_frame;
 		FrameSolver* d_parent;
 		Layout* d_layout;
 
-		FrameSolver* m_solvers[2];
+		table<Axis, FrameSolver*> m_solvers;
+		//FrameSolver* m_solvers[2];
 		FrameSolver* d_grid;
 
-		Dim d_length = DIM_NONE;
-		Dim d_depth = DIM_NONE;
+		Axis d_length = Axis::None;
+		Axis d_depth = Axis::None;
 
-		Dim2<Sizing> d_sizing = { SHRINK, SHRINK };
+		v2<Sizing> d_sizing = { Sizing::Shrink, Sizing::Shrink };
 
 		vec2 d_content = { 0.f, 0.f };
 		vec2 d_spacing = { 0.f, 0.f };
-		vec2 m_spaceContent = { 0.f, 0.f };
-		bool d_contentExpand = false;
-		float d_totalSpan;
+		vec2 m_space_content = { 0.f, 0.f };
+		bool d_content_expand = false;
+		float d_total_span;
 
-		Dim2<size_t> d_index;
+		v2<size_t> d_index;
 
 		FrameSolver* d_prev = nullptr;
 		size_t d_count = 0;
@@ -2297,15 +2281,15 @@ namespace mud
 		RowSolver();
 		RowSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 
-		virtual void compute(FrameSolver& frame, Dim dim);
-		virtual void layout(FrameSolver& frame, Dim dim);
+		virtual void compute(FrameSolver& frame, Axis dim);
+		virtual void layout(FrameSolver& frame, Axis dim);
 
 	protected:
-		void measure(FrameSolver& frame, Dim dim);
-		void resize(FrameSolver& frame, Dim dim);
-		void position(FrameSolver& frame, Dim dim);
+		void measure(FrameSolver& frame, Axis dim);
+		void resize(FrameSolver& frame, Axis dim);
+		void position(FrameSolver& frame, Axis dim);
 
-		float positionFree(FrameSolver& frame, Dim dim, float space);
+		float positionFree(FrameSolver& frame, Axis dim, float space);
 		float positionSequence(FrameSolver& frame, float space);
 	};
 
@@ -2328,10 +2312,10 @@ namespace mud
 	public:
 		TableSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 
-		void divide(const vector<float>& spans);
-		void update(const vector<float>& spans);
+		void divide(span<float> spans);
+		void update(span<float> spans);
 
-		virtual FrameSolver& solver(FrameSolver& frame, Dim dim);
+		virtual FrameSolver& solver(FrameSolver& frame, Axis dim);
 		virtual FrameSolver* grid() { return this; }
 	};
 
@@ -2350,9 +2334,9 @@ namespace mud
 	public:
 		GridSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 
-		void divide(vector<Space> spaces);
+		void divide(span<Space> spaces);
 
-		virtual FrameSolver& solver(FrameSolver& frame, Dim dim);
+		virtual FrameSolver& solver(FrameSolver& frame, Axis dim);
 	};
 }
 
@@ -2650,7 +2634,7 @@ namespace mud
 		};
 
 	public:
-		constr_ ImageSkin(Image& image, int left, int top, int right, int bottom, int margin = 0, Dim stretch = DIM_NONE);
+		constr_ ImageSkin(Image& image, int left, int top, int right, int bottom, int margin = 0, Axis stretch = Axis::None);
 		ImageSkin(Image& image, const ImageSkin& ref);
 		ImageSkin();
 
@@ -2665,7 +2649,7 @@ namespace mud
 		attr_ int d_right = 0;
 		attr_ int d_bottom = 0;
 		attr_ int m_margin = 0;
-		attr_ Dim d_stretch = DIM_NONE;
+		attr_ Axis d_stretch = Axis::None;
 
 		vec2 d_size;
 		vec2 d_solid_size;
@@ -2715,10 +2699,10 @@ namespace mud
 		attr_ bool m_weak_corners = false;
 		attr_ vec4 m_padding = vec4(0.f);
 		attr_ vec4 m_margin = vec4(0.f);
-		attr_ Dim2<Align> m_align = { Left, Left };
+		attr_ v2<Align> m_align = { Align::Left, Align::Left };
 		attr_ vec2 m_linear_gradient = vec2(0.f);
-		attr_ Dim m_linear_gradient_dim = DIM_Y;
-		attr_ Dim2<bool> m_stretch = { false, false };
+		attr_ Axis m_linear_gradient_dim = Axis::Y;
+		attr_ v2<bool> m_stretch = { false, false };
 		attr_ Image* m_image = nullptr;
 		attr_ Image* m_overlay = nullptr;
 		attr_ Image* m_tile = nullptr;

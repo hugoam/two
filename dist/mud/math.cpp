@@ -31,73 +31,79 @@ namespace mud
 	Colour Colour::None(0.f, 0.f, 0.f, 0.f);
 
 	Colour::Colour()
-		: m_r(1.f), m_g(1.f), m_b(1.f), m_a(1.f)
+		: r(1.f), g(1.f), b(1.f), a(1.f)
 	{}
 
 	Colour::Colour(float v, float a)
-		: m_r(v), m_g(v), m_b(v), m_a(a)
+		: r(v), g(v), b(v), a(a)
 	{}
 
 	Colour::Colour(float r, float g, float b, float a)
-		: m_r(r), m_g(g), m_b(b), m_a(a)
+		: r(r), g(g), b(b), a(a)
 	{}
 
 	Colour Colour::hsl(float h, float s, float l)
 	{
-		return hsl_to_rgb(h, s, l);
-	}
-
-	Colour clamp_colour(const Colour& colour)
-	{
-#ifdef MUD_PLATFORM_EMSCRIPTEN
-		Colour clamped = colour;
-		for(size_t i = 0; i < 4; ++i)
-			clamped[i] = clamp(colour[i], 0.f, 1.f);
-		return clamped;
-#else
-		return colour;
-#endif
+		return mud::hsl(h, s, l);
 	}
 
 	uint32_t to_rgba(const Colour& colour)
 	{
-		Colour col = clamp_colour(colour);
 		uint32_t rgba = 0;
-		rgba |= uint8_t(col.m_r * 255.f) << 24;
-		rgba |= uint8_t(col.m_g * 255.f) << 16;
-		rgba |= uint8_t(col.m_b * 255.f) << 8;
-		rgba |= uint8_t(col.m_a * 255.f);
+		rgba |= uint8_t(clamp(colour.r, 0.f, 1.f) * 255.f) << 24;
+		rgba |= uint8_t(clamp(colour.g, 0.f, 1.f) * 255.f) << 16;
+		rgba |= uint8_t(clamp(colour.b, 0.f, 1.f) * 255.f) << 8;
+		rgba |= uint8_t(clamp(colour.a, 0.f, 1.f) * 255.f);
+		return rgba;
+	}
+
+	uint32_t to_abgr(float r, float g, float b, float a)
+	{
+		//Colour col = clamp_colour(colour);
+		uint32_t rgba = 0;
+		rgba |= uint8_t(clamp(r, 0.f, 1.f) * 255.f);
+		rgba |= uint8_t(clamp(g, 0.f, 1.f) * 255.f) << 8;
+		rgba |= uint8_t(clamp(b, 0.f, 1.f) * 255.f) << 16;
+		rgba |= uint8_t(clamp(a, 0.f, 1.f) * 255.f) << 24;
 		return rgba;
 	}
 
 	uint32_t to_abgr(const Colour& colour)
 	{
-		Colour col = clamp_colour(colour);
 		uint32_t rgba = 0;
-		rgba |= uint8_t(col.m_r * 255.f);
-		rgba |= uint8_t(col.m_g * 255.f) << 8;
-		rgba |= uint8_t(col.m_b * 255.f) << 16;
-		rgba |= uint8_t(col.m_a * 255.f) << 24;
+		rgba |= uint8_t(clamp(colour.r, 0.f, 1.f) * 255.f);
+		rgba |= uint8_t(clamp(colour.g, 0.f, 1.f) * 255.f) << 8;
+		rgba |= uint8_t(clamp(colour.b, 0.f, 1.f) * 255.f) << 16;
+		rgba |= uint8_t(clamp(colour.a, 0.f, 1.f) * 255.f) << 24;
 		return rgba;
 	}
-
-	Colour from_rgba(uint32_t rgba)
+	
+	Colour rgb(uint32_t rgba)
 	{
 		Colour colour;
-		colour.m_r =  (rgba >> 24) / 255.f;
-		colour.m_g = ((rgba >> 16) & 0xFF) / 255.f;
-		colour.m_b = ((rgba >> 8) & 0xFF) / 255.f;
-		colour.m_a = ((rgba >> 0) & 0xFF) / 255.f;
+		colour.r = ((rgba >> 16) & 0xFF) / 255.f;
+		colour.g = ((rgba >> 8)  & 0xFF) / 255.f;
+		colour.b = ((rgba >> 0)  & 0xFF) / 255.f;
 		return colour;
 	}
 
-	Colour from_abgr(uint32_t abgr)
+	Colour rgba(uint32_t rgba)
 	{
 		Colour colour;
-		colour.m_r = ((abgr >> 0)  & 0xFF) / 255.f;
-		colour.m_g = ((abgr >> 8)  & 0xFF) / 255.f;
-		colour.m_b = ((abgr >> 16) & 0xFF) / 255.f;
-		colour.m_a =  (abgr >> 24) / 255.f;
+		colour.r =  (rgba >> 24) / 255.f;
+		colour.g = ((rgba >> 16) & 0xFF) / 255.f;
+		colour.b = ((rgba >> 8)  & 0xFF) / 255.f;
+		colour.a = ((rgba >> 0)  & 0xFF) / 255.f;
+		return colour;
+	}
+
+	Colour abgr(uint32_t abgr)
+	{
+		Colour colour;
+		colour.r = ((abgr >> 0)  & 0xFF) / 255.f;
+		colour.g = ((abgr >> 8)  & 0xFF) / 255.f;
+		colour.b = ((abgr >> 16) & 0xFF) / 255.f;
+		colour.a =  (abgr >> 24) / 255.f;
 		return colour;
 	}
 
@@ -113,17 +119,17 @@ namespace mud
 
 	Colour to_linear(const Colour& colour)
 	{
-		return Colour(to_linear(colour.m_r), to_linear(colour.m_g), to_linear(colour.m_b), colour.m_a);
+		return Colour(to_linear(colour.r), to_linear(colour.g), to_linear(colour.b), colour.a);
 	}
 
 	Colour to_gamma(const Colour& colour)
 	{
-		return Colour(to_gamma(colour.m_r), to_gamma(colour.m_g), to_gamma(colour.m_b), colour.m_a);
+		return Colour(to_gamma(colour.r), to_gamma(colour.g), to_gamma(colour.b), colour.a);
 	}
 
 	Colour to_srgb(const Colour& colour)
 	{
-		return Colour(to_gamma(colour.m_r), to_gamma(colour.m_g), to_gamma(colour.m_b), colour.m_a);
+		return Colour(to_gamma(colour.r), to_gamma(colour.g), to_gamma(colour.b), colour.a);
 	}
 
 	float hue_to_rgb(float p, float q, float t)
@@ -136,7 +142,7 @@ namespace mud
 		return p;
 	}
 
-	Colour hsl_to_rgb(float h, float s, float l)
+	Colour hsl(float h, float s, float l)
 	{
 		float r, g, b;
 
@@ -155,12 +161,12 @@ namespace mud
 		return { r, g, b };
 	}
 
-	Colour hsla_to_rgba(const Colour& colour)
+	Colour to_rgba(const ColourHSL& colour)
 	{
-		return hsl_to_rgb(colour.m_h, colour.m_s, colour.m_l);
+		return hsl(colour.h, colour.s, colour.l);
 	}
 
-	Colour rgb_to_hsl(float r, float g, float b)
+	ColourHSL to_hsl(float r, float g, float b)
 	{
 		float lmax = max(r, max(g, b));
 		float lmin = min(r, min(g, b));
@@ -181,12 +187,17 @@ namespace mud
 			h /= 6.f;
 		}
 
-		return { h, s, l };
+		return { h, s, l, 1.f };
 	}
 
-	Colour rgba_to_hsla(const Colour& colour)
+	ColourHSL to_hsl(const Colour& colour)
 	{
-		return rgb_to_hsl(colour.m_r, colour.m_g, colour.m_b);
+		return to_hsl(colour.r, colour.g, colour.b);
+	}
+
+	ColourHSL to_hsla(const Colour& colour)
+	{
+		return to_hsl(colour.r, colour.g, colour.b);
 	}
 }
 
@@ -201,7 +212,7 @@ namespace mud
 	template <class T>
 	ValueCurve<T>::ValueCurve() {}
 	template <class T>
-	ValueCurve<T>::ValueCurve(vector<T> keys) : m_keys(keys) {}
+	ValueCurve<T>::ValueCurve(span<T> keys) : m_keys(keys.begin(), keys.end()) {}
 	template <class T>
 	ValueCurve<T>::~ValueCurve() {}
 
@@ -212,7 +223,7 @@ namespace mud
 		float interval = 1.f / float(m_keys.size() - 1);
 		float ttmod = fmod(t, interval) / interval;
 
-		return mud::lerp(m_keys[key], m_keys[key + 1], ttmod);
+		return lerp(m_keys[key], m_keys[key + 1], ttmod);
 	}
 
 	template struct MUD_MATH_EXPORT ValueCurve<vec3>;
@@ -230,9 +241,9 @@ namespace mud
 	template <class T>
 	ValueTrack<T>::ValueTrack(T min, T max) : m_mode(TrackMode::ConstantRandom), m_min(min), m_max(max) {}
 	template <class T>
-	ValueTrack<T>::ValueTrack(vector<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
+	ValueTrack<T>::ValueTrack(span<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
 	template <class T>
-	ValueTrack<T>::ValueTrack(vector<T> min_values, vector<T> max_values) : m_mode(TrackMode::CurveRandom), m_min_curve(min_values), m_max_curve(max_values) {}
+	ValueTrack<T>::ValueTrack(span<T> min_values, span<T> max_values) : m_mode(TrackMode::CurveRandom), m_min_curve(min_values), m_max_curve(max_values) {}
 	template <class T>
 	ValueTrack<T>::~ValueTrack() {}
 
@@ -255,11 +266,11 @@ namespace mud
 		if(m_mode == TrackMode::Constant)
 			return m_value;
 		else if(m_mode == TrackMode::ConstantRandom)
-			return mud::lerp(m_min, m_max, seed);
+			return lerp(m_min, m_max, seed);
 		else if(m_mode == TrackMode::Curve)
-			return m_value * m_curve.sample_curve(t);
-		else //if(m_mode == TrackMode::CurveRandom)
-			return mud::lerp(m_min * m_min_curve.sample_curve(t), m_max * m_max_curve.sample_curve(t), seed);
+			return m_curve.sample_curve(t);
+		else if(m_mode == TrackMode::CurveRandom || true)
+			return lerp(m_min_curve.sample_curve(t), m_max_curve.sample_curve(t), seed);
 	}
 
 	template struct MUD_MATH_EXPORT ValueTrack<vec3>;
@@ -285,8 +296,8 @@ namespace mud
 		: m_colours()
 	{}
 
-	Palette::Palette(vector<Colour> colours)
-		: m_colours(colours)
+	Palette::Palette(span<Colour> colours)
+		: m_colours(colours.begin(), colours.end())
 	{}
 
 	Palette::Palette(Spectrum spectrum, size_t steps)
@@ -313,7 +324,7 @@ namespace mud
 		for(size_t i = 0; i < steps; ++i)
 		{
 			float h = float(i) / float(steps - 1);
-			m_colours.push_back(hsl_to_rgb(h, 0.5f, 0.5f));
+			m_colours.push_back(hsl(h, 0.5f, 0.5f));
 		}
 	}
 
@@ -349,10 +360,9 @@ namespace mud
 		return 0;
 	}
 
-	Image256::Image256(uint16_t width, uint16_t height, const Palette& palette)
-		: m_pixels(width * height)
-		, m_width(width)
-		, m_height(height)
+	Image256::Image256(const uvec2& size, const Palette& palette)
+		: m_pixels(size.x * size.y)
+		, m_size(size)
 		, m_palette(palette)
 	{}
 
@@ -362,34 +372,40 @@ namespace mud
 		return false;
 	}
 
-	void Image256::resize(uint16_t w, uint16_t h)
+	void Image256::resize(const uvec2& size)
 	{
-		m_width = w;
-		m_height = h;
-		m_pixels.resize(m_width * m_height);
+		m_size = size;
+		m_pixels.resize(size.x * size.y);
 	}
 
 	void Image256::read(uint8_t* data) const
 	{
 		size_t index = 0;
-		for(size_t y = 0; y < m_height; ++y)
-			for(size_t x = 0; x < m_width; ++x, ++index)
+		for(size_t y = 0; y < m_size.y; ++y)
+			for(size_t x = 0; x < m_size.x; ++x, ++index)
 			{
 				size_t colid = m_pixels[index];
 				Colour color = /*colid == 16 ? Colour() :*/ m_palette.m_colours[colid];
 
-				*data++ = static_cast<uint8_t>(color.m_r * 255);
-				*data++ = static_cast<uint8_t>(color.m_g * 255);
-				*data++ = static_cast<uint8_t>(color.m_b * 255);
+				*data++ = static_cast<uint8_t>(color.r * 255);
+				*data++ = static_cast<uint8_t>(color.g * 255);
+				*data++ = static_cast<uint8_t>(color.b * 255);
 				*data++ = 255;
 			}
 	}
 
 	vector<uint8_t> Image256::read() const
 	{
-		vector<uint8_t> data(m_width * m_height * 4);
-		this->read(&data[0]);
-		return data;
+		vector<uint8_t> buffer(m_pixels.size() * 4);
+		this->read(buffer.data());
+		return buffer;
+	}
+
+	vector<uint32_t> Image256::read32() const
+	{
+		vector<uint32_t> buffer(m_pixels.size() * 4);
+		this->read((uint8_t*)buffer.data());
+		return buffer;
 	}
 }
 
@@ -423,7 +439,7 @@ namespace mud
 
 	struct StbRectPack
 	{
-		StbRectPack(uvec2 size, size_t num_nodes)
+		StbRectPack(const uvec2& size, size_t num_nodes)
 			: m_nodes(num_nodes)
 		{
 			stbrp_init_target(&m_context, size.x, size.y, m_nodes.data(), int(num_nodes));
@@ -442,12 +458,12 @@ namespace mud
 	ImageAtlas::~ImageAtlas()
 	{}
 
-	vector<unsigned char> ImageAtlas::generate_atlas(vector<Image*>& images)
+	vector<unsigned char> ImageAtlas::generate_atlas(span<Image*> images)
 	{
 		size_t size = m_size.x * m_size.y * 4;
 		vector<unsigned char> data(size, 0);
 
-		m_images = images;
+		m_images = vector<Image*>(images.begin(), images.end());
 
 		// @todo : sort images
 
@@ -545,8 +561,8 @@ namespace mud
 
 		for(size_t i = 0; i < m_frame_coords.size(); ++i)
 		{
-			vec4 uv = { vec2{ m_frame_coords[i] } * atlas_inverse_size,
-						vec2{ m_frame_coords[i] + m_frame_size } * atlas_inverse_size };
+			vec4 uv = { vec2(m_frame_coords[i]) * atlas_inverse_size,
+						vec2(m_frame_coords[i] + m_frame_size) * atlas_inverse_size };
 			m_frame_uvs.push_back(uv);
 		}
 	}
@@ -565,7 +581,7 @@ namespace mud
 		return m_sprites[0];
 	}
 
-	Sprite* SpriteAtlas::add_sprite(cstring name, uvec2 size, uvec2 frames)
+	Sprite* SpriteAtlas::add_sprite(cstring name, const uvec2& size, uvec2 frames)
 	{
 		if(m_sprites.size() >= m_rect_pack->m_nodes.size())
 			return nullptr;
@@ -610,11 +626,21 @@ namespace mud
 	public:
 		Lerp()
 		{
-			dispatch_branch<int>(*this, +[](int& value, Ref source, Ref dest, float ratio) { value = lerp(val<int>(source), val<int>(dest), ratio); });
-			dispatch_branch<float>(*this, +[](float& value, Ref source, Ref dest, float ratio) { value = lerp(val<float>(source), val<float>(dest), ratio); });
-			dispatch_branch<double>(*this, +[](double& value, Ref source, Ref dest, float ratio) { value = lerp(val<double>(source), val<double>(dest), ratio); });
-			dispatch_branch<vec3>(*this, +[](vec3& value, Ref source, Ref dest, float ratio) { value = lerp(val<vec3>(source), val<vec3>(dest), ratio); });
-			dispatch_branch<quat>(*this, +[](quat& value, Ref source, Ref dest, float ratio) { value = slerp(val<quat>(source), val<quat>(dest), ratio); });
+			dispatch_branch<int>(*this, +[](int& value, Ref source, Ref dest, float t) { value = lerp(val<int>(source), val<int>(dest), t); });
+			dispatch_branch<float>(*this, +[](float& value, Ref source, Ref dest, float t) { value = lerp(val<float>(source), val<float>(dest), t); });
+			dispatch_branch<double>(*this, +[](double& value, Ref source, Ref dest, float t) { value = lerp(val<double>(source), val<double>(dest), t); });
+			dispatch_branch<vec3>(*this, +[](vec3& value, Ref source, Ref dest, float t) { value = lerp(val<vec3>(source), val<vec3>(dest), t); });
+			dispatch_branch<quat>(*this, +[](quat& value, Ref source, Ref dest, float t) { value = slerp(val<quat>(source), val<quat>(dest), t); });
+			
+			dispatch_branch<vector<float>>(*this, +[](vector<float>& value, Ref source, Ref dest, float t)
+			{
+				vector<float>& sourcevec = val<vector<float>>(source);
+				vector<float>& destvec = val<vector<float>>(dest);
+				assert(sourcevec.size() == destvec.size());
+				value.resize(sourcevec.size());
+				for(size_t i = 0; i < sourcevec.size(); ++i)
+					value[i] = lerp(sourcevec[i], destvec[i], t);
+			});
 		}
 	};
 
@@ -633,16 +659,21 @@ module mud.math;
 namespace mud
 {
 	template struct Range<vec3>;
-        template struct Range<quat>;
-        template struct Range<float>;
-        template struct Range<uint32_t>;
-        template struct Range<Colour>;
+    template struct Range<quat>;
+    template struct Range<float>;
+    template struct Range<uint32_t>;
+    template struct Range<Colour>;
 
 #ifndef M_PI
 	const float c_pi = 3.14159265358979323846f;
 #else
 	const float c_pi = M_PI;
 #endif
+	const float c_invpi = 1.f / c_pi;
+	const float c_2pi = c_pi * 2.f;
+	const float c_tau = c_pi * 2.f;
+	const float c_pi2 = c_pi / 2.f;
+	const float c_pi4 = c_pi / 4.f;
 
 	void register_math_conversions()
 	{
@@ -652,31 +683,6 @@ namespace mud
 		TypeConverter::me().default_converter<vec3, uvec3>();
 #endif
 	}
-
-	const vec3 X3 = { 1.f, 0.f, 0.f };
-	const vec3 Y3 = { 0.f, 1.f, 0.f };
-	const vec3 Z3 = { 0.f, 0.f, 1.f };
-
-	const vec3 Zero3 = { 0.f, 0.f, 0.f };
-	const vec3 Unit3 = { 1.f, 1.f, 1.f };
-
-	const Side c_sides[6] = { Side::Right, Side::Left, Side::Up, Side::Down, Side::Back, Side::Front };
-
-	const vec3 c_axes[3]			 = {  X3,  Y3,  Z3 };
-	const vec3 c_tangents[6]		 = {  Y3,  Z3,  Y3 };
-	const vec3 c_binormals[6]		 = {  Z3,  X3,  X3 };
-
-	const vec3 c_dirs[6]			 = {  X3, -X3,  Y3, -Y3,  Z3, -Z3 };
-	const vec3 c_dirs_tangents[6]	 = {  Y3, -Z3, -Z3,  X3,  Y3,  X3 };
-	const vec3 c_dirs_normals[6]	 = { -Z3,  Y3,  X3, -Z3,  X3,  Y3 };
-
-	const quat ZeroQuat = { 0.f, 0.f, 0.f, 1.f };
-
-	const vec2 Zero2 = { 0.f, 0.f };
-	const vec2 Unit2 = { 1.f, 1.f };
-
-	const vec4 Zero4 = { 0.f, 0.f, 0.f, 0.f };
-	const vec4 Rect4 = { 0.f, 0.f, 1.f, 1.f };
 
 	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, uint32_t count)
 	{
@@ -691,7 +697,7 @@ namespace mud
 	Transform average_transforms(span<Transform*> transforms)
 	{
 		Transform average;
-		average.m_scale = Zero3;
+		average.m_scale = vec3(0.f);
 
 		quat cumulative = { 0.f, 0.f, 0.f, 0.f };
 
@@ -716,20 +722,21 @@ namespace mud
 
 	quat look_dir(const vec3& direction, const vec3& forward)
 	{
-		float d = dot(forward, direction);
+		const vec3 dir = normalize(direction);
+		const float d = dot(forward, dir);
 
 		if(abs(d - (-1.0f)) < 0.000001f)
 			return axis_angle(Y3, c_pi);
 		if(abs(d - (1.0f)) < 0.000001f)
 			return ZeroQuat;
 
-		vec3 axis = normalize(cross(-Z3, direction));
+		const vec3 axis = normalize(cross(forward, dir));
 		return axis_angle(axis, acos(d));
 	}
 
 	quat look_at(const vec3& source, const vec3& dest, const vec3& forward)
 	{
-		vec3 direction = normalize(dest - source);
+		const vec3 direction = normalize(dest - source);
 		return look_dir(direction, forward);
 	}
 
@@ -789,24 +796,21 @@ namespace mud
 		return axis;
 	}
 
-	float float_shortest_angle(float angle1, float angle2)
+	float shortest_angle(float a, float b)
 	{
-		return min((2.f * c_pi) - abs(angle1 - angle2), abs(angle1 - angle2));
+		return min(c_2pi - abs(a - b), abs(a - b));
 	}
 
-	float trigo_angle(const vec3& vec1, const vec3& vec2)
+	float trigo_angle(const vec3& a, const vec3& b)
 	{
-		float angle = shortest_angle(vec1, vec2);
-		
-		if(angle < 0)
-			angle += 2 * c_pi;
-
+		float angle = shortest_angle(a, b);
+		if(angle < 0) angle += c_2pi;
 		return angle;
 	}
 
-	float shortest_angle(const vec3& vec1, const vec3& vec2)
+	float shortest_angle(const vec3& a, const vec3& b)
 	{
-		return oriented_angle(vec1, vec2, Y3);
+		return oriented_angle(a, b, Y3);
 	}
 
 #if 0
@@ -880,8 +884,8 @@ namespace mud
 	{
 		return
 		{
-			rect_w(rect), 0.f, 0.f, 0.f,
-			0.f, rect_h(rect), 0.f, 0.f,
+			rect.width, 0.f, 0.f, 0.f,
+			0.f, rect.height, 0.f, 0.f,
 			0.f, 0.f, 1.f, 0.f,
 			rect.x, rect.y, 0.f, 1.f
 		};
@@ -936,6 +940,7 @@ namespace stl
 	template class MUD_MATH_EXPORT vector<const char*>;
 	template class MUD_MATH_EXPORT vector<bool>;
 	template class MUD_MATH_EXPORT vector<char>;
+	template class MUD_MATH_EXPORT vector<int>;
 	template class MUD_MATH_EXPORT vector<uchar>;
 	template class MUD_MATH_EXPORT vector<ushort>;
 	template class MUD_MATH_EXPORT vector<uint>;
@@ -981,6 +986,14 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::Spectrum>() { static Type ty("Spectrum", sizeof(mud::Spectrum)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::TrackMode>() { static Type ty("TrackMode", sizeof(mud::TrackMode)); return ty; }
     
+    template <> MUD_MATH_EXPORT Type& type<stl::span<float>>() { static Type ty("span<float>", sizeof(stl::span<float>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<int>>() { static Type ty("span<int>", sizeof(stl::span<int>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<mud::Colour>>() { static Type ty("span<mud::Colour>", sizeof(stl::span<mud::Colour>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<mud::quat>>() { static Type ty("span<mud::quat>", sizeof(stl::span<mud::quat>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<mud::uvec3>>() { static Type ty("span<mud::uvec3>", sizeof(stl::span<mud::uvec3>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<mud::vec3>>() { static Type ty("span<mud::vec3>", sizeof(stl::span<mud::vec3>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<uint32_t>>() { static Type ty("span<uint32_t>", sizeof(stl::span<uint32_t>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<stl::span<uint8_t>>() { static Type ty("span<uint8_t>", sizeof(stl::span<uint8_t>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::vector<float>>() { static Type ty("vector<float>", sizeof(stl::vector<float>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::vector<int>>() { static Type ty("vector<int>", sizeof(stl::vector<int>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::vector<mud::Colour>>() { static Type ty("vector<mud::Colour>", sizeof(stl::vector<mud::Colour>)); return ty; }
@@ -992,6 +1005,7 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<float>>() { static Type ty("AutoStat<float>", sizeof(mud::AutoStat<float>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<int>>() { static Type ty("AutoStat<int>", sizeof(mud::AutoStat<int>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Colour>() { static Type ty("Colour", sizeof(mud::Colour)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::ColourHSL>() { static Type ty("ColourHSL", sizeof(mud::ColourHSL)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Image>() { static Type ty("Image", sizeof(mud::Image)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Image256>() { static Type ty("Image256", sizeof(mud::Image256)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ImageAtlas>() { static Type ty("ImageAtlas", sizeof(mud::ImageAtlas)); return ty; }
@@ -1041,12 +1055,13 @@ namespace mud
 #ifdef MUD_MODULES
 module mud.math;
 #else
+#include <stl/limits.h>
 #endif
 
 namespace mud
 {
 	template <class T>
-	T random_integer(T min, T max)
+	T randi(T min, T max)
 	{
 		static std::random_device device;
 		static std::mt19937 generator(device());
@@ -1055,16 +1070,25 @@ namespace mud
 	}
 
 	template <class T>
-	T random_scalar(T min, T max)
+	T randf(T min, T max)
 	{
 		static std::random_device device;
 		static std::mt19937 generator(device());
 		std::uniform_real_distribution<T> distribution(min, max);
 		return distribution(generator);
 	}
+	
+	template <class T>
+	T randi()
+	{
+		static std::random_device device;
+		static std::mt19937 generator(device());
+		static std::uniform_int_distribution<T> distribution { limits<T>::min(), limits<T>::max() };
+		return distribution(generator);
+	}
 
 	template <class T>
-	T random_scalar()
+	T randf()
 	{
 		static std::random_device device;
 		static std::mt19937 generator(device());
@@ -1072,16 +1096,19 @@ namespace mud
 		return distribution(generator);
 	}
 
-	template MUD_MATH_EXPORT float random_scalar<float>();
-	template MUD_MATH_EXPORT double random_scalar<double>();
+	template MUD_MATH_EXPORT float randf();
+	template MUD_MATH_EXPORT double randf<double>();
 
-	template MUD_MATH_EXPORT float random_scalar<float>(float min, float max);
-	template MUD_MATH_EXPORT double random_scalar<double>(double min, double max);
+	template MUD_MATH_EXPORT float randf(float min, float max);
+	template MUD_MATH_EXPORT double randf<double>(double min, double max);
 
-	template MUD_MATH_EXPORT int random_integer<int>(int min, int max);
-	template MUD_MATH_EXPORT uint random_integer<uint>(uint min, uint max);
-	template MUD_MATH_EXPORT ulong random_integer<ulong>(ulong min, ulong max);
-	template MUD_MATH_EXPORT ullong random_integer<ullong>(ullong min, ullong max);
+	template MUD_MATH_EXPORT int randi<int>();
+	template MUD_MATH_EXPORT uint randi<uint>();
+
+	template MUD_MATH_EXPORT int randi<int>(int min, int max);
+	template MUD_MATH_EXPORT uint randi<uint>(uint min, uint max);
+	template MUD_MATH_EXPORT ulong randi<ulong>(ulong min, ulong max);
+	template MUD_MATH_EXPORT ullong randi<ullong>(ullong min, ullong max);
 }
 
 
@@ -1802,19 +1829,19 @@ module mud.math;
 
 namespace mud
 {
-	inline float jfloat(const json& j) { return float(j.number_value()); }
+	inline float jfloat(const Json& j) { return float(j.number_value()); }
 
-	void from_json(const json& j, vec3& vec)
+	void from_json(const Json& j, vec3& vec)
 	{
 		vec = vec3(jfloat(j[0]), jfloat(j[1]), jfloat(j[2]));
 	}
 
-	void from_json(const json& j, quat& q)
+	void from_json(const Json& j, quat& q)
 	{
 		q = quat(jfloat(j[0]), jfloat(j[1]), jfloat(j[2]), jfloat(j[3]));
 	}
 
-	void from_json(const json& j, mat4& mat)
+	void from_json(const Json& j, mat4& mat)
 	{
 		mat = mat4(
 			vec4(jfloat(j[0]),  jfloat(j[1]),  jfloat(j[2]),  jfloat(j[3])),
@@ -1827,15 +1854,15 @@ namespace mud
 
 namespace mud
 {
-	void from_json(const json& j, Colour& col)
+	void from_json(const Json& j, Colour& col)
 	{
 		col = Colour(float(j[0].number_value()), float(j[1].number_value()), float(j[2].number_value()), float(j[3].number_value()));
 	}
 
-	void to_json(const Colour& col, json& j)
+	void to_json(const Colour& col, Json& j)
 	{
-		std::vector<json> values;
-		values = { col.m_r, col.m_g, col.m_b, col.m_a };
+		std::vector<Json> values;
+		values = { col.r, col.g, col.b, col.a };
 		j = values;
 	}
 }

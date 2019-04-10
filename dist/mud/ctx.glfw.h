@@ -23,15 +23,16 @@ namespace mud
 	export_ class refl_ MUD_CTX_GLFW_EXPORT GlfwContext : public Context
 	{
 	public:
-		GlfwContext(RenderSystem& render_system, const string& name, uvec2 size, bool full_screen, bool auto_swap = true);
+		GlfwContext(RenderSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main = true, bool autoswap = true);
 		~GlfwContext();
 
 		void init_context();
-		virtual void init_input(Mouse& mouse, Keyboard& keyboard) final;
+		virtual void init_input(Mouse& mouse, Keyboard& keyboard) override;
 
-		virtual bool next_frame() final;
+		virtual bool begin_frame() override;
+		virtual void end_frame() override;
 
-		virtual void lock_mouse(bool locked) final;
+		virtual void lock_mouse(bool locked) override;
 
 		void inject_mouse_move(double x, double y);
 		void inject_mouse_button(int button, int action, int mods);

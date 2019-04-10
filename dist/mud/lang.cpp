@@ -55,7 +55,6 @@ namespace mud
     template <> MUD_LANG_EXPORT Type& type<mud::Interpreter>() { static Type ty("Interpreter", sizeof(mud::Interpreter)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::Pipe>() { static Type ty("Pipe", sizeof(mud::Pipe)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::Process>() { static Type ty("Process", sizeof(mud::Process)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::Script>() { static Type ty("Script", sizeof(mud::Script)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ScriptClass>() { static Type ty("ScriptClass", sizeof(mud::ScriptClass)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ScriptError>() { static Type ty("ScriptError", sizeof(mud::ScriptError)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::StreamBranch>() { static Type ty("StreamBranch", sizeof(mud::StreamBranch)); return ty; }
@@ -72,6 +71,7 @@ namespace mud
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>() { static Type ty("ProcessScript", type<mud::ProcessCallable>(), sizeof(mud::ProcessScript)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessSetMember>() { static Type ty("ProcessSetMember", type<mud::Process>(), sizeof(mud::ProcessSetMember)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessValue>() { static Type ty("ProcessValue", type<mud::Process>(), sizeof(mud::ProcessValue)); return ty; }
+    template <> MUD_LANG_EXPORT Type& type<mud::Script>() { static Type ty("Script", type<mud::Callable>(), sizeof(mud::Script)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::Stream>() { static Type ty("Stream", type<mud::StreamBranch>(), sizeof(mud::Stream)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::TextScript>() { static Type ty("TextScript", type<mud::Script>(), sizeof(mud::TextScript)); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>() { static Type ty("VisualScript", type<mud::Script>(), sizeof(mud::VisualScript)); return ty; }
@@ -861,8 +861,8 @@ namespace mud
 	class LuaContext
 	{
 	public:
-		explicit LuaContext(vector<string> import_namespaces = {})
-			: m_import_namespaces(import_namespaces)
+		explicit LuaContext(span<string> import_namespaces = {})
+			: m_import_namespaces(import_namespaces.begin(), import_namespaces.end())
 		{
 			m_state = luaL_newstate();
 
@@ -1127,7 +1127,7 @@ namespace mud
 		m_interpreter->call(*this, args, result);
 	}
 
-	ScriptClass::ScriptClass(const string& name, const vector<Type*>& parts)
+	ScriptClass::ScriptClass(const string& name, span<Type*> parts)
 		: m_name(name)
 		, m_class_type(m_name.c_str())
 		, m_class(m_class_type)
@@ -1842,13 +1842,13 @@ namespace mud
 		return *this;
 	}
 
-	Valve* Process::pipe(vector<Valve*> outputParams, Process* flow, vector<StreamModifier> modifiers)
+	Valve* Process::pipe(span<Valve*> outputParams, Process* flow, span<StreamModifier> modifiers)
 	{
 		this->plug(outputParams, flow, modifiers);
 		return m_outputs.size() > 0 ? &this->output() : nullptr;
 	}
 
-	Process& Process::plug(vector<Valve*> outputParams, Process* flow, vector<StreamModifier> modifiers)
+	Process& Process::plug(span<Valve*> outputParams, Process* flow, span<StreamModifier> modifiers)
 	{
 		if(flow)
 			this->flow(flow->out_flow());

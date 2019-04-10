@@ -25,21 +25,24 @@ namespace stl
 	template class MUD_GFX_PBR_EXPORT vector<BCS>;;
 	template class MUD_GFX_PBR_EXPORT vector<Tonemap>;
 	template class MUD_GFX_PBR_EXPORT vector<MeshPacker>;
+	template class MUD_GFX_PBR_EXPORT vector<GpuLight>;
 	template class MUD_GFX_PBR_EXPORT vector<LightShadow>;
 	template class MUD_GFX_PBR_EXPORT vector<LightmapItem>;
-	template class MUD_GFX_PBR_EXPORT vector<FrustumSlice>;
-	template class MUD_GFX_PBR_EXPORT vector<ShadowCubemap>;
+	template class MUD_GFX_PBR_EXPORT vector<FrustumSlice*>;
+	template class MUD_GFX_PBR_EXPORT vector<CSMSlice>;
+	template class MUD_GFX_PBR_EXPORT vector<CSMShadow>;
+	template class MUD_GFX_PBR_EXPORT vector<AtlasIndex>;
 	template class MUD_GFX_PBR_EXPORT vector<ShadowAtlas::Slice>;
-	template class MUD_GFX_PBR_EXPORT vector<ShadowAtlas::Index>;
-	template class MUD_GFX_PBR_EXPORT vector<ShadowAtlas::Slice::Slot>;
-	template class MUD_GFX_PBR_EXPORT vector<ShadowAtlas::Slice::Slot*>;
-	template class MUD_GFX_PBR_EXPORT vector<ReflectionCubemap>;
+	template class MUD_GFX_PBR_EXPORT vector<ShadowAtlas::Slot>;
+	template class MUD_GFX_PBR_EXPORT vector<ShadowAtlas::Block>;
+	template class MUD_GFX_PBR_EXPORT vector<CubeTarget>;
 	template class MUD_GFX_PBR_EXPORT vector<ReflectionAtlas::Slot>;
 	template class MUD_GFX_PBR_EXPORT vector<ReflectionAtlas::Slot*>;
-	template class MUD_GFX_PBR_EXPORT vector<LightShadow::Slice>;
 	template class MUD_GFX_PBR_EXPORT vector<BlockLightmap::BakeEntry>;
 	template class MUD_GFX_PBR_EXPORT vector<unique<Lightmap>>;
 	template class MUD_GFX_PBR_EXPORT unordered_map<Model*, ModelUnwrap>;
+	template class MUD_GFX_PBR_EXPORT unordered_map<Texture*, Texture*>;
+	//template class MUD_GFX_PBR_EXPORT unordered_map<uint32_t, Shadowmap>;
 }
 #endif
 
@@ -55,19 +58,11 @@ namespace mud
     
     
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::BCS>() { static Type ty("BCS", sizeof(mud::BCS)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockBlur>() { static Type ty("BlockBlur", sizeof(mud::BlockBlur)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockDofBlur>() { static Type ty("BlockDofBlur", sizeof(mud::BlockDofBlur)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGIBake>() { static Type ty("BlockGIBake", sizeof(mud::BlockGIBake)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGITrace>() { static Type ty("BlockGITrace", sizeof(mud::BlockGITrace)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGeometry>() { static Type ty("BlockGeometry", sizeof(mud::BlockGeometry)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGlow>() { static Type ty("BlockGlow", sizeof(mud::BlockGlow)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockLight>() { static Type ty("BlockLight", sizeof(mud::BlockLight)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockLightmap>() { static Type ty("BlockLightmap", sizeof(mud::BlockLightmap)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockRadiance>() { static Type ty("BlockRadiance", sizeof(mud::BlockRadiance)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockReflection>() { static Type ty("BlockReflection", sizeof(mud::BlockReflection)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockShadow>() { static Type ty("BlockShadow", sizeof(mud::BlockShadow)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockTonemap>() { static Type ty("BlockTonemap", sizeof(mud::BlockTonemap)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMShadow>() { static Type ty("CSMShadow", sizeof(mud::CSMShadow)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::CubeCamera>() { static Type ty("CubeCamera", sizeof(mud::CubeCamera)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::CubeTarget>() { static Type ty("CubeTarget", sizeof(mud::CubeTarget)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>() { static Type ty("DofBlur", sizeof(mud::DofBlur)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofParams>() { static Type ty("DofParams", sizeof(mud::DofParams)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::GIProbe>() { static Type ty("GIProbe", sizeof(mud::GIProbe)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::Glow>() { static Type ty("Glow", sizeof(mud::Glow)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightShadow>() { static Type ty("LightShadow", sizeof(mud::LightShadow)); return ty; }
@@ -76,6 +71,19 @@ namespace mud
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapItem>() { static Type ty("LightmapItem", sizeof(mud::LightmapItem)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::ReflectionProbe>() { static Type ty("ReflectionProbe", sizeof(mud::ReflectionProbe)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::Tonemap>() { static Type ty("Tonemap", sizeof(mud::Tonemap)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockBlur>() { static Type ty("BlockBlur", type<mud::GfxBlock>(), sizeof(mud::BlockBlur)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockDofBlur>() { static Type ty("BlockDofBlur", type<mud::GfxBlock>(), sizeof(mud::BlockDofBlur)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGIBake>() { static Type ty("BlockGIBake", type<mud::DrawBlock>(), sizeof(mud::BlockGIBake)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGITrace>() { static Type ty("BlockGITrace", type<mud::DrawBlock>(), sizeof(mud::BlockGITrace)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGeometry>() { static Type ty("BlockGeometry", type<mud::DrawBlock>(), sizeof(mud::BlockGeometry)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGlow>() { static Type ty("BlockGlow", type<mud::GfxBlock>(), sizeof(mud::BlockGlow)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockLight>() { static Type ty("BlockLight", type<mud::DrawBlock>(), sizeof(mud::BlockLight)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockLightmap>() { static Type ty("BlockLightmap", type<mud::DrawBlock>(), sizeof(mud::BlockLightmap)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockRadiance>() { static Type ty("BlockRadiance", type<mud::DrawBlock>(), sizeof(mud::BlockRadiance)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockReflection>() { static Type ty("BlockReflection", type<mud::DrawBlock>(), sizeof(mud::BlockReflection)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockShadow>() { static Type ty("BlockShadow", type<mud::DrawBlock>(), sizeof(mud::BlockShadow)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockTonemap>() { static Type ty("BlockTonemap", type<mud::GfxBlock>(), sizeof(mud::BlockTonemap)); return ty; }
+    template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMSlice>() { static Type ty("CSMSlice", type<mud::LightShadow>(), sizeof(mud::CSMSlice)); return ty; }
 }
 
 
@@ -87,37 +95,48 @@ module mud.gfx.pbr;
 #include <stl/algorithm.h>
 #endif
 
+#include <cstring>
+
+#include <cstdio>
+
 namespace mud
 {
-	constexpr size_t BlockLight::ShotUniform::max_lights;
-	constexpr size_t BlockLight::ShotUniform::max_shadows;
-	constexpr size_t BlockLight::ShotUniform::max_forward_lights;
-	constexpr size_t BlockLight::ShotUniform::max_direct_lights;
+	GpuState<Radiance> GpuState<Radiance>::me;
+	GpuState<Skylight> GpuState<Skylight>::me;
+	GpuState<Fog> GpuState<Fog>::me;
+	GpuState<Zone> GpuState<Zone>::me;
+	GpuState<ZoneLights> GpuState<ZoneLights>::me;
 
-	BlockLight::BlockLight(GfxSystem& gfx_system, BlockShadow& block_shadow)
-		: DrawBlock(gfx_system, type<BlockLight>())
-		, m_block_shadow(block_shadow)
+	GpuState<GpuLight> GpuState<GpuLight>::me;
+
+	BlockLight::BlockLight(GfxSystem& gfx)
+		: DrawBlock(gfx, type<BlockLight>())
 	{
-		static cstring options[2] = { "FOG", "DIRECT_LIGHT" };
-		m_shader_block->m_options = { options, 2 };
+		m_options = { "SKY_LIGHT", "FOG" };
 
-		static string max_lights = to_string(ShotUniform::max_lights);
-		static string max_shadows = to_string(ShotUniform::max_shadows);
-		static string max_dir_lights = to_string(ShotUniform::max_direct_lights);
-
-		static ShaderDefine defines[3] = {
-			{ "MAX_LIGHTS", max_lights.c_str()  },
-			{ "MAX_SHADOWS", max_shadows.c_str() },
-			{ "MAX_DIRECT_LIGHTS", max_dir_lights.c_str() }
+		m_defines = {
+			{ "MAX_LIGHTS", to_string(c_max_forward_lights)  },
+			{ "MAX_SHADOWS", to_string(c_max_shadows) },
 		};
-		m_shader_block->m_defines = { defines, 3 };
 	}
 
 	void BlockLight::init_block()
 	{
 		u_shot.createUniforms();
-		u_scene.createUniforms();
-		u_fog.createUniforms();
+
+#if !ZONES_BUFFER
+		GpuState<Radiance>::me.init();
+		GpuState<Skylight>::me.init();
+		GpuState<Fog>::me.init();
+#endif
+
+#if !LIGHTS_BUFFER
+		GpuState<GpuLight>::me.init();
+#endif
+
+#if !ZONES_LIGHTS_BUFFER
+		GpuState<ZoneLights>::me.init();
+#endif
 	}
 
 	void BlockLight::begin_render(Render& render)
@@ -125,183 +144,181 @@ namespace mud
 		UNUSED(render);
 
 		m_direct_lights.clear();
-		for(Light* light : render.m_shot->m_lights)
-		{
-			if(light->m_type == LightType::Direct && m_direct_lights.size() < ShotUniform::max_direct_lights)
+		for(Light* light : render.m_shot.m_lights)
+			if(light->m_type == LightType::Direct)
+			{
 				m_direct_lights.push_back(light);
-		}
+			}
 
 		m_direct_light = m_direct_lights.empty() ? nullptr : m_direct_lights[m_direct_light_index];
-		m_block_shadow.m_direct_light = m_direct_light;
-	}
 
-	void BlockLight::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
-	void BlockLight::begin_draw_pass(Render& render)
-	{
-		this->update_lights(render, render.m_camera.m_transform, render.m_shot->m_lights, m_block_shadow.m_shadows);
+		this->setup_lights(render, render.m_camera->m_view);
+		this->upload_lights(render);
+		this->upload_zones(render);
 
 		m_direct_light_index = 0;
 
 		m_direct_light = m_direct_lights.empty() ? nullptr : m_direct_lights[m_direct_light_index];
-		m_block_shadow.m_direct_light = m_direct_light;
 
 #ifdef MULTIPLE_DIRECT_LIGHTS
 		if(!m_direct_lights.empty())
 			m_direct_light = m_direct_lights[m_direct_light_index++];
 
 		if(m_direct_light_index > 0)
-			render_pass.m_bgfx_state |= BGFX_STATE_BLEND_ADD;
+			pass.m_bgfx_state |= BGFX_STATE_BLEND_ADD;
 
 		request.num_passes = m_direct_lights.empty() ? 1 : m_direct_lights.size();
 #endif
 	}
 
-	void BlockLight::options(Render& render, ShaderVersion& shader_version) const
+	void BlockLight::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
-		if(render.m_camera.m_clustered)
-			shader_version.set_option(0, CLUSTERED, true);
+		if(render.m_viewport->m_clustered)
+			program.set_option(0, CLUSTERED, true);
 
-		if(render.m_environment && render.m_environment->m_fog.m_enabled)
-			shader_version.set_option(m_index, FOG, true);
+		if(render.m_env && render.m_env->m_skylight.m_enabled)
+			program.set_option(m_index, SKY_LIGHT, true);
 
-		bool cull = !m_direct_light || false; // !(element.m_item->m_layer_mask & m_direct_light->m_layers);
-
-		if(!cull)
-			shader_version.set_option(m_index, DIRECT_LIGHT, true);
+		if(render.m_env && render.m_env->m_fog.m_enabled)
+			program.set_option(m_index, FOG, true);
 	}
 
-	void BlockLight::submit(Render& render, const Pass& render_pass) const
+	void BlockLight::submit(Render& render, const Pass& pass) const
 	{
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		UNUSED(render);
+#if !ZONES_LIGHTS_BUFFER
+		GpuState<ZoneLights>::me.upload(pass.m_index, m_zones[0]);
+#endif
 
-		if(render.m_camera.m_clustered)
-			render.m_camera.m_clusters->submit(encoder);
+#if !ZONES_BUFFER
+		GpuState<Zone>::me.upload(pass, render.m_scene->m_env);
+#endif
 
-		this->upload_environment(render, render_pass, render.m_environment);
-		this->upload_fog(render, render_pass, render.m_scene.m_environment.m_fog);
-		this->upload_lights(render_pass);
+#if !LIGHTS_BUFFER
+		GpuState<GpuLight>::me.upload(pass, const_cast<vector<GpuLight>&>(m_gpu_lights));
+#endif
+
+#if ZONES_BUFFER
+		uint32_t zones = uint32_t(TextureSampler::Zones);
+		bgfx::setViewUniform(pass.m_index, u_shot.s_zones, &zones);
+#endif
+
+#if LIGHTS_BUFFER
+		uint32_t lights = uint32_t(TextureSampler::Lights);
+		bgfx::setViewUniform(pass.m_index, u_shot.s_lights, &lights);
+#endif
+
+		if(render.m_viewport->m_clustered)
+			render.m_viewport->m_clusters->submit(pass);
+	}
+
+	void BlockLight::submit(Render& render, const DrawElement& element, const Pass& pass) const
+	{
+		UNUSED(element);
+		bgfx::Encoder& encoder = *pass.m_encoder;
+
+		if(render.m_viewport->m_clustered)
+			render.m_viewport->m_clusters->submit(encoder);
+
+		this->commit_zones(render, pass); //render, pass, render.m_env);
+		this->commit_lights(render, pass);
 
 		// set to not render if not first direct pass, depending on cull
 	}
 
-	void BlockLight::upload_environment(Render& render, const Pass& render_pass, Environment* environment) const
+	void BlockLight::setup_lights(Render& render, const mat4& view)
 	{
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		const vec3 skylight = muln(view, normalize(render.m_env->m_skylight.m_position));
+		render.m_env->m_skylight.m_direction = skylight;
 
-		Colour clear_color = render.m_viewport.m_clear_colour;
+		span<Light*> lights = render.m_shot.m_lights;
+		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
 
-		vec4 radiance_color_energy = { to_vec3(clear_color), 1.f };
-		vec4 ambient_params = { 0.f, 0.f, 0.f, 0.f };
+		ZoneLights& zone = m_zones[0];
+		zone.m_light_counts = vec4(0.f);
+		zone.m_shadow_counts = vec4(0.f);
 
-		if(environment)
+		m_gpu_lights.clear();
+
+		for(size_t index = 0; index < lights.size(); ++index)
 		{
-			radiance_color_energy = { to_vec3(environment->m_radiance.m_colour), environment->m_radiance.m_energy };
-			ambient_params = { environment->m_radiance.m_ambient, 0.f, 0.f, 0.f };
-		}
+			const Light& light = *lights[index];
 
-		encoder.setUniform(u_scene.u_radiance_color_energy, &radiance_color_energy);
-		encoder.setUniform(u_scene.u_ambient_params, &ambient_params);
-	}
+			const vec3 position = mulp(view, light.m_node->position());
+			const float range = light.m_range;
+			const vec3 energy = to_vec3(light.m_colour * light.m_energy);
+			const vec3 energy2 = to_vec3(to_linear(light.m_colour) * light.m_energy);
+			const float specular = light.m_specular;
+			const vec3 direction = muln(view, light.m_node->direction());
+			const float attenuation = light.m_attenuation;
+			const float spot_attenuation = light.m_spot_attenuation;
+			const float spot_cutoff = cos(to_radians(light.m_spot_angle));
 
-	void BlockLight::upload_fog(Render& render, const Pass& render_pass, Fog& fog) const
-	{
-		UNUSED(render);
+			m_gpu_lights.push_back({ position, range, energy, specular, direction, attenuation, spot_attenuation, spot_cutoff });
 
-		if(!fog.m_enabled)
-			return;
-
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-
-		vec4 fog_params_0 = { fog.m_density, to_vec3(fog.m_colour) };
-		vec4 fog_params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_curve, 0.f };
-		vec4 fog_params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
-		vec4 fog_params_3 = { float(fog.m_transmit), fog.m_transmit_curve, 0.f, 0.f };
-		
-		encoder.setUniform(u_fog.u_fog_params_0, &fog_params_0);
-		encoder.setUniform(u_fog.u_fog_params_1, &fog_params_1);
-		encoder.setUniform(u_fog.u_fog_params_2, &fog_params_2);
-		encoder.setUniform(u_fog.u_fog_params_3, &fog_params_3);
-	}
-
-	void BlockLight::update_lights(Render& render, const mat4& view, span<Light*> all_lights, span<LightShadow> shadows)
-	{
-		UNUSED(render);
-		mat4 inverse_view = inverse(view);
-
-		span<Light*> lights = { all_lights.m_pointer, min(all_lights.m_count, size_t(ShotUniform::max_lights)) };
-		uint16_t light_count = 0;
-
-		m_lights_data.light_counts = Zero4;
-
-		for(Light* light : lights)
-		{
-			Colour energy = to_linear(light->m_colour) * light->m_energy;
-			vec3 position = mulp(view, light->m_node.position());
-			vec3 direction = muln(view, light->m_node.direction());
-			Colour shadow_color = to_linear(light->m_shadow_colour);
-			m_lights_data.shadow_color_enabled[light_count] = { to_vec3(shadow_color), light->m_shadows ? 1.f : 0.f };
-
-			m_lights_data.position_range[light_count] = { position, light->m_range };
-			m_lights_data.energy_specular[light_count] = { to_vec3(energy), light->m_specular };
-			m_lights_data.direction_attenuation[light_count] = { direction, light->m_attenuation };
-			m_lights_data.spot_params[light_count] = { light->m_spot_attenuation, cos(to_radians(light->m_spot_angle)), 0.f, 0.f };
-
-			float& light_type_count = m_lights_data.light_counts[size_t(light->m_type)];
-			m_lights_data.light_indices[size_t(light_type_count)][size_t(light->m_type)] = light_count;
+			float& light_type_count = zone.m_light_counts[size_t(light.m_type)];
+			zone.m_light_indices[size_t(light_type_count)][size_t(light.m_type)] = float(index);
 			light_type_count++;
 
-			if(light->m_shadows) //&& shadows[light_count])
+			if(light.m_shadows)
 			{
-				if(light->m_type == LightType::Direct)
-				{
-					for(uint32_t i = 0; i < shadows[light_count].m_frustum_slices.size(); ++i)
-					{
-						m_lights_data.csm_splits[light_count][i] = shadows[light_count].m_frustum_slices[i].m_frustum.m_far;
-						m_lights_data.csm_matrix[light_count][i] = shadows[light_count].m_slices[i].m_shadow_matrix * inverse_view;
-					}
-				}
-				else if(light->m_type == LightType::Point)
-				{
-					m_lights_data.shadow_matrix[light_count] = inverse(view * light->m_node.m_transform);
-				}
-				else if(light->m_type == LightType::Spot)
-				{
-					m_lights_data.shadow_matrix[light_count] = shadows[light_count].m_slices[0].m_shadow_matrix * inverse_view;
-				}
+				float& shadow_type_count = zone.m_shadow_counts[size_t(light.m_type)];
+				shadow_type_count++;
 			}
-
-			light_count++;
 		}
 
-		m_light_count = light_count;
+		m_light_count = uint16_t(lights.m_count);
+		zone.m_light_count = uint16_t(lights.m_count);
 	}
 
-	void BlockLight::upload_lights(const Pass& render_pass) const
+	void BlockLight::upload_lights(Render& render)
 	{
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		
-		if(m_light_count > 0)
-			u_shot.u_light_array.setUniforms(encoder, m_lights_data, uint16_t(m_direct_lights.size()), m_light_count);
+		UNUSED(render);
+#if LIGHTS_BUFFER
+		GpuState<GpuLight>::me.pack(m_lights_texture, m_gpu_lights);
+#endif
+	}
 
-		encoder.setUniform(u_shot.u_light_counts, &m_lights_data.light_counts);
-		encoder.setUniform(u_shot.u_light_indices, m_lights_data.light_indices, m_light_count);
+	void BlockLight::upload_zones(Render& render)
+	{
+#if ZONES_BUFFER
+		span<Zone> zones = { &render.m_scene->m_env, 1 };
+		GpuState<Zone>::me.pack(m_zones_texture, zones);
+#else
+		UNUSED(render);
+#endif
+	}
+
+	void BlockLight::commit_lights(Render& render, const Pass& pass) const
+	{
+		UNUSED(render); UNUSED(pass);
+#if LIGHTS_BUFFER
+		bgfx::Encoder& encoder = *pass.m_encoder;
+		encoder.setTexture(uint8_t(TextureSampler::Lights), m_lights_texture.texture);
+#endif
+	}
+
+	void BlockLight::commit_zones(Render& render, const Pass& pass) const
+	{
+		UNUSED(render); UNUSED(pass);
+#if ZONES_BUFFER
+		bgfx::Encoder& encoder = *pass.m_encoder;
+		encoder.setTexture(uint8_t(TextureSampler::Zones), m_zones_texture);
+#endif
+		//GpuState<ZoneLights>::me.upload(encoder, m_zones[0]);
 	}
 }
 
 #ifdef _DEBUG
 namespace mud
 {
-	void debug_draw_light_clusters(Gnode& parent, Camera& camera)
+	void debug_draw_light_clusters(Gnode& parent, Viewport& viewport, Camera& camera)
 	{
-		if(!camera.m_clustered) return;
-		Froxelizer& clusters = *camera.m_clusters;
+		if(!viewport.m_clustered) return;
+		Froxelizer& clusters = *viewport.m_clusters;
 
 		if(clusters.m_debug_clusters.empty())
-			clusters.compute_froxels();
+			clusters.compute_clusters();
 
 		enum Mode { ClusterIndex, RecordIndex, LightIndex, LightCount };
 		Mode mode = ClusterIndex;
@@ -322,13 +339,13 @@ namespace mud
 			uint32_t light = clusters.light(record);
 
 			if(mode == ClusterIndex)
-				colour = hsl_to_rgb(float(i) / (29.f * 16.f * 16.f), 1.f, 0.5f);
+				colour = hsl(float(i) / (29.f * 16.f * 16.f), 1.f, 0.5f);
 			else if(mode == RecordIndex)
-				colour = hsl_to_rgb(float(record) / float(255.f), 1.f, 0.5f);
+				colour = hsl(float(record) / float(255.f), 1.f, 0.5f);
 			else if(mode == LightIndex)
-				colour = hsl_to_rgb(float(light) / 255.f, 1.f, 0.5f);
+				colour = hsl(float(light) / 255.f, 1.f, 0.5f);
 			else if(mode == LightCount)
-				colour = hsl_to_rgb(float(clusters.count(i)) / 32.f, 1.f, 0.5f);
+				colour = hsl(float(clusters.count(i)) / 32.f, 1.f, 0.5f);
 
 			gfx::draw(*parent.m_scene, transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(colour));
 			i++;
@@ -339,13 +356,13 @@ namespace mud
 	{
 		uint32_t index = 0; UNUSED(light);// light.m_index];
 
-		GfxSystem& gfx_system = parent.m_scene->m_gfx_system;
-		BlockShadow& block_shadow = *gfx_system.m_pipeline->block<BlockShadow>();
+		GfxSystem& gfx = parent.m_scene->m_gfx;
+		BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
 
 		if(index >= block_shadow.m_shadows.size())
 			return;
 
-		LightShadow& shadow = block_shadow.m_shadows[index];
+		CSMShadow& shadow = block_shadow.m_csm_shadows[index];
 
 		auto draw = [](Gnode& parent, const Shape& shape, const Symbol& symbol)
 		{
@@ -360,7 +377,7 @@ namespace mud
 
 			if(frustums)
 			{
-				Frustum& frustum = shadow.m_frustum_slices[i].m_frustum;
+				Frustum& frustum = shadow.m_slices[i].m_frustum;
 				draw(parent, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(Colour::White));
 				if(false)
 					draw(parent, Sphere(frustum.m_center, frustum.m_radius), Symbol::wire(Colour::DarkGrey));
@@ -369,7 +386,7 @@ namespace mud
 
 			if(bounds)
 			{
-				Box light_bounds = Box(aabb(shadow.m_slices[i].m_light_bounds.min, shadow.m_slices[i].m_light_bounds.max));
+				Box light_bounds = Box(Cube(aabb(shadow.m_slices[i].m_light_bounds.min, shadow.m_slices[i].m_light_bounds.max)));
 
 				for(vec3& vertex : light_bounds.m_vertices)
 					vertex = vec3(inverse_light * vec4(vertex, 1.f));
@@ -406,14 +423,14 @@ namespace mud
 namespace mud
 {
 #ifdef LIGHTMAP_HDR
-	static const bgfx::TextureFormat::Enum c_lightmap_format = bgfx::TextureFormat::RGBA16F;
+	static const TextureFormat c_lightmap_format = TextureFormat::RGBA16F;
 #ifdef LIGHTMAP_COMPRESS
 	static const bgfx::TextureFormat::Enum c_lightmap_file_format = bgfx::TextureFormat::BC6H;
 #else
 	static const bgfx::TextureFormat::Enum c_lightmap_file_format = bgfx::TextureFormat::RGBA16F;
 #endif
 #else
-	static const bgfx::TextureFormat::Enum c_lightmap_format = bgfx::TextureFormat::RGBA8;
+	static const TextureFormat c_lightmap_format = TextureFormat::RGBA8;
 #ifdef LIGHTMAP_COMPRESS
 	static const bgfx::TextureFormat::Enum c_lightmap_file_format = bgfx::TextureFormat::BC3;
 #else
@@ -431,29 +448,31 @@ namespace mud
 		m_items.reserve(4096);
 	}
 
-	void save_lightmap(GfxSystem& gfx_system, Lightmap& lightmap, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
+	void save_lightmap(GfxSystem& gfx, Lightmap& lightmap, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
 	{
 		uint16_t size = uint16_t(lightmap.m_size);
-		bgfx::TextureHandle blit_texture = bgfx::createTexture2D(size, size, false, 1, source_format, BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK);
+		Texture blit_texture = { uvec2(size, size), false, TextureFormat(source_format), BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK };
 		bgfx::blit(0, blit_texture, 0, 0, 0, 0, texture, 0, 0, 0, 0, size, size, 1);
 		bgfx::frame();
 		bgfx::frame();
 
-		save_bgfx_texture(gfx_system.allocator(), gfx_system.file_writer(), path.c_str(), target_format, blit_texture, source_format, uint16_t(lightmap.m_size), uint16_t(lightmap.m_size));
+		save_bgfx_texture(gfx, path, target_format, blit_texture, source_format, uint16_t(lightmap.m_size), uint16_t(lightmap.m_size));
 	}
 
-	void load_lightmap(GfxSystem& gfx_system, Lightmap& lightmap, const string& path)
+	void load_lightmap(GfxSystem& gfx, Lightmap& lightmap, const string& path)
 	{
-		lightmap.m_texture = load_bgfx_texture(gfx_system.allocator(), gfx_system.file_reader(), path.c_str());
+		lightmap.m_texture = { "lightmap" };
+		load_texture(gfx, lightmap.m_texture, path);
 
 		for(LightmapItem& item : lightmap.m_items)
-			item.m_lightmap = lightmap.m_texture;
+			item.m_lightmap = &lightmap.m_texture;
 	}
 
 	void Lightmap::add_item(size_t index, Item& item, bool valid, const vec4& uv_scale_offset)
 	{
-		bgfx::TextureHandle texture = valid ? m_texture : bgfx::TextureHandle(BGFX_INVALID_HANDLE);
-		m_items.push_back({ index, texture, uv_scale_offset });
+		//Texture* texture = valid ? &m_texture : nullptr;
+		if(valid)
+			m_items.push_back({ index, m_texture, uv_scale_offset });
 		item.m_lightmaps.push_back(&m_items.back());
 	}
 
@@ -465,35 +484,36 @@ namespace mud
 	LightmapAtlas::~LightmapAtlas()
 	{}
 
-	PassLightmap::PassLightmap(GfxSystem& gfx_system, BlockLightmap& block_lightmap)
-		: DrawPass(gfx_system, "lightmap", PassType::Lightmap)
-		, m_block_lightmap(block_lightmap)
-	{}
-
-	void PassLightmap::next_draw_pass(Render& render, Pass& render_pass)
+	void pass_lightmap(GfxSystem& gfx, Render& render)
 	{
+		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
+		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
+		static BlockGITrace& block_gi_trace = *gfx.m_renderer.block<BlockGITrace>();
+		static BlockLightmap& block_lightmap = *gfx.m_renderer.block<BlockLightmap>();
+
+		Pass pass = render.next_pass("lightmap", PassType::Lightmap);
+
 		bool conservative = (bgfx::getCaps()->supported & BGFX_CAPS_CONSERVATIVE_RASTER) != 0;
 		if(!conservative)
 			printf("WARNING: rendering lightmap without conservative raster support will produce visible seams\n");
 
-		UNUSED(render); UNUSED(render_pass);
-		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_MSAA;
-	}
+		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_MSAA;
 
-	void PassLightmap::queue_draw_element(Render& render, DrawElement& element)
-	{
-		UNUSED(render);
-		if(element.m_material->m_pbr_block.m_enabled)
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			element.m_program = m_block_lightmap.m_lightmap;
-			element.m_shader_version = element.m_material->shader_version(*element.m_program);
+			const Program& program = *element.m_program.m_program;
+			if(!program.m_blocks[MaterialBlock::Lit])
+				return false;
 
-			this->add_element(render, element);
-		}
+			element.set_program(*block_lightmap.m_lightmap);
+			return true;
+		};
+
+		gfx.m_renderer.pass(render, pass, queue_draw_element);
 	}
 
-	BlockLightmap::BlockLightmap(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake)
-		: DrawBlock(gfx_system, type<BlockLightmap>())
+	BlockLightmap::BlockLightmap(GfxSystem& gfx, BlockLight& block_light, BlockGIBake& block_gi_bake)
+		: DrawBlock(gfx, type<BlockLightmap>())
 		, m_block_light(block_light)
 		, m_block_gi_bake(block_gi_bake)
 	{}
@@ -502,7 +522,7 @@ namespace mud
 	{
 		u_lightmap.createUniforms();
 
-		m_lightmap = &m_gfx_system.programs().fetch("pbr/lightmap");
+		m_lightmap = &m_gfx.programs().fetch("pbr/lightmap");
 	}
 
 	struct XAtlas
@@ -616,7 +636,7 @@ namespace mud
 			result.m_indices.push_back(xmesh->indexArray[i]);
 		}
 
-		mesh.write(PLAIN, result, false);
+		mesh.write(result, false);
 	}
 
 	void unwrap_model(Model& model, ModelUnwrap& unwrap, uint32_t rect_size, float density)
@@ -649,10 +669,10 @@ namespace mud
 		for(size_t i = 0; i < model.m_items.size(); ++i)
 		{
 			Mesh& mesh = *model.m_items[i].m_mesh;
-			mesh.read(geometry[i], model.m_items[i].m_transform);
+			geometry[i].unpack(mesh.m_cache, model.m_items[i].m_transform);
 
 			bool skip = false;
-			skip |= mesh.m_draw_mode != PLAIN;
+			skip |= mesh.m_primitive != PrimitiveType::Triangles;
 			skip |= !mesh.m_cache.m_vertex_format;
 
 			bool success = skip ? false : atlas.add_mesh(mesh, geometry[i]);
@@ -746,16 +766,16 @@ namespace mud
 			uvec4 rect = { pack.image->d_coord, unwrap.size };
 
 			Lightmap& lightmap = *pack.lightmap;
-			for(ModelItem& model_item : model.m_items)
+			for(ModelElem& elem : model.m_items)
 			{
-				if(!unwrap.success[model_item.m_index])
+				if(!unwrap.success[elem.m_index])
 				{
 					lightmap.add_item(i, *items[i], false, vec4(0.f));
 					continue;
 				}
 
 				vec2 scale = vec2(1.f / float(lightmaps.m_size));
-				vec2 offset = rect_offset(vec4(rect)) / float(lightmaps.m_size);
+				vec2 offset = vec2(rect.pos) / float(lightmaps.m_size);
 				lightmap.add_item(i, *items[i], true, vec4(scale, offset));
 			}
 		}
@@ -780,7 +800,7 @@ namespace mud
 		vector<GIProbe*> gi_probes;
 		gather_gi_probes(scene, gi_probes);
 
-		Renderer& renderer = m_gfx_system.renderer(Shading::Lightmap);
+		RenderFunc renderer = m_gfx.renderer(Shading::Lightmap);
 
 		size_t i = 0;
 		for(auto& lightmap : atlas.m_layers)
@@ -798,33 +818,32 @@ namespace mud
 #ifndef LIGHTMAP_FORCE_RENDER
 			if(file_exists(cached_path.c_str()))
 			{
-				load_lightmap(m_gfx_system, *lightmap, cached_path);
+				load_lightmap(m_gfx, *lightmap, cached_path);
 				continue;
 			}
 #endif
 
-			uint16_t resolution = uint16_t(atlas.m_size);
-			bgfx::FrameBufferHandle fbo = bgfx::createFrameBuffer(resolution, resolution, c_lightmap_format, BGFX_TEXTURE_RT);
+			uint32_t resolution = uint16_t(atlas.m_size);
+			FrameBuffer fbo = { uvec2(resolution), c_lightmap_format, BGFX_TEXTURE_RT };
 
-			RenderFrame frame = m_gfx_system.render_frame();
+			RenderFrame frame = m_gfx.render_frame();
+			RenderTarget& target = m_gfx.main_target();
 
 			Camera camera = { transform, vec2(extents.x * 2.f, extents.y * 2.f), -extents.z, extents.z };
-			Viewport viewport = { camera, scene, { uvec2(0U), uvec2(lightmap->m_size) } };
-			Render lightmap_render = { Shading::Lightmap, viewport, fbo, frame };
+			Viewport viewport = { camera, scene, Rect4 };
+			Render lightmap_render = { Shading::Lightmap, viewport, target, fbo, frame };
 			viewport.m_clear_colour = Colour::None;
 
 			for(LightmapItem& item : lightmap->m_items)
-				lightmap_render.m_shot->m_items.push_back(items[item.m_item]);
+				lightmap_render.m_shot.m_items.push_back(items[item.m_item]);
 
-			lightmap_render.m_shot->m_gi_probes = gi_probes;
-			renderer.render(lightmap_render);
+			lightmap_render.m_shot.m_gi_probes = gi_probes;
+			m_gfx.m_renderer.render(lightmap_render, renderer);
 
 			bgfx::frame();
 
-			save_lightmap(m_gfx_system, *lightmap, bgfx::getTexture(fbo), c_lightmap_format, c_lightmap_file_format, cached_path);
-			load_lightmap(m_gfx_system, *lightmap, cached_path);
-
-			bgfx::destroy(fbo);
+			save_lightmap(m_gfx, *lightmap, bgfx::getTexture(fbo), bgfx::TextureFormat::Enum(c_lightmap_format), c_lightmap_file_format, cached_path);
+			load_lightmap(m_gfx, *lightmap, cached_path);
 		}
 
 		printf("INFO: bake lightmaps done\n");
@@ -848,50 +867,42 @@ namespace mud
 			return;
 
 		UNUSED(render);
-		for(LightmapAtlas* atlas : render.m_shot->m_lightmaps)
+		for(LightmapAtlas* atlas : render.m_shot.m_lightmaps)
 			if(atlas->m_dirty)
 			{
-				m_bake_queue.push_back({ &render.m_scene, atlas });
+				m_bake_queue.push_back({ render.m_scene, atlas });
 			}
 	}
 
-	void BlockLightmap::begin_pass(Render& render)
+	void BlockLightmap::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(program);
 	}
 
-	void BlockLightmap::begin_draw_pass(Render& render)
+	void BlockLightmap::submit(Render& render, const Pass& pass) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(pass);
+		//uint32_t lightmap = uint32_t(TextureSampler::Lightmap);
+		//bgfx::setViewUniform(pass.m_index, u_lightmap.s_lightmap, &lightmap);
 	}
 
-	void BlockLightmap::options(Render& render, ShaderVersion& shader_version) const
-	{
-		UNUSED(render); UNUSED(shader_version);
-	}
-
-	void BlockLightmap::submit(Render& render, const Pass& render_pass) const
-	{
-		UNUSED(render); UNUSED(render_pass);
-	}
-
-	void BlockLightmap::submit(Render& render, const DrawElement& element, const Pass& render_pass) const
+	void BlockLightmap::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
 		UNUSED(render);
 
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		if(element.m_item->m_lightmaps.size() > 0)
 		{
-			LightmapItem& binding = *element.m_item->m_lightmaps[element.m_model->m_index];
+			LightmapItem& binding = *element.m_item->m_lightmaps[element.m_elem->m_index];
 
 			//encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &binding.m_uv_scale_offset);
 
-			if(bgfx::isValid(binding.m_lightmap))
+			if(binding.m_lightmap && binding.m_lightmap->valid())
 #ifdef LIGHTMAP_PIXELS
-				encoder.setTexture(uint8_t(TextureSampler::Lightmap), u_lightmap.s_lightmap, binding.m_lightmap, GFX_TEXTURE_POINT);
+				encoder.setTexture(uint8_t(TextureSampler::Lightmap), *binding.m_lightmap, TEXTURE_POINT);
 #else
-				encoder.setTexture(uint8_t(TextureSampler::Lightmap), u_lightmap.s_lightmap, binding.m_lightmap);
+				encoder.setTexture(uint8_t(TextureSampler::Lightmap), *binding.m_lightmap);
 #endif
 		}
 		else
@@ -911,16 +922,18 @@ module mud.gfx.pbr;
 #endif
 
 #define DEBUG_ITEMS 0
-#define DEPTH_PASS 1
+#define DEPTH_PASS 0
 #define DEBUG_GBUFFERS 0
 
 namespace mud
 {
-#define MUD_GFX_STATE_DEFAULT 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL \
-								| BGFX_STATE_WRITE_Z | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA
-
-#define MUD_GFX_STATE_DEFAULT_ALPHA 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS \
-									  | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA
+namespace gfx
+{
+	void setup_pipeline_pbr(GfxSystem& gfx)
+	{
+		gfx.init_pipeline(pipeline_pbr);
+	}
+}
 
 	void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes)
 	{
@@ -954,349 +967,485 @@ namespace mud
 
 	void gather_render_pbr(Scene& scene, Render& render)
 	{
-		gather_items(scene, render.m_camera, render.m_shot->m_items);
-		gather_occluders(scene, render.m_camera, render.m_shot->m_occluders);
-		gather_lights(scene, render.m_shot->m_lights);
-		gather_gi_probes(scene, render.m_shot->m_gi_probes);
-		gather_lightmaps(scene, render.m_shot->m_lightmaps);
-		gather_reflection_probes(scene, render.m_shot->m_reflection_probes);
+		gather_items(scene, *render.m_camera, render.m_shot.m_items);
+		gather_occluders(scene, *render.m_camera, render.m_shot.m_occluders);
+		gather_lights(scene, render.m_shot.m_lights);
+		gather_gi_probes(scene, render.m_shot.m_gi_probes);
+		gather_lightmaps(scene, render.m_shot.m_lightmaps);
+		gather_reflection_probes(scene, render.m_shot.m_reflection_probes);
 
-		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, render.m_shot->m_items));
+		render.m_frustum = optimized_frustum(*render.m_camera, render.m_shot.m_items);
 
-		render.m_environment = &scene.m_environment;
-		render.m_shot->m_immediate = { scene.m_immediate.get() };
+		render.m_shot.m_immediate = { scene.m_immediate.get() };
 
 #if DEBUG_ITEMS
 		scene.debug_items(render);
 #endif
 	}
 
-	void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred)
+	void pipeline_pbr(GfxSystem& gfx, Renderer& pipeline, bool deferred)
 	{
+		BlockMaterial& material = pipeline.add_block<BlockMaterial>(gfx);
+		UNUSED(material);
+
 		// filters
-		BlockFilter& filter = pipeline.add_block<BlockFilter>(gfx_system);
-		BlockCopy& copy = pipeline.add_block<BlockCopy>(gfx_system, filter);
-		BlockBlur& blur = pipeline.add_block<BlockBlur>(gfx_system, filter);
+		BlockFilter& filter = pipeline.add_block<BlockFilter>(gfx);
+		BlockCopy& copy = pipeline.add_block<BlockCopy>(gfx, filter);
+		BlockBlur& blur = pipeline.add_block<BlockBlur>(gfx, filter);
 
 		// pipeline 
-		BlockDepth& depth = pipeline.add_block<BlockDepth>(gfx_system);
-		BlockGeometry& geometry = pipeline.add_block<BlockGeometry>(gfx_system);
-		BlockSky& sky = pipeline.add_block<BlockSky>(gfx_system, filter);
-		BlockRadiance& radiance = pipeline.add_block<BlockRadiance>(gfx_system, filter, copy);
-		BlockShadow& shadow = pipeline.add_block<BlockShadow>(gfx_system, depth);
-		BlockLight& light = pipeline.add_block<BlockLight>(gfx_system, shadow);
-		BlockReflection& reflection = pipeline.add_block<BlockReflection>(gfx_system);
-		BlockGITrace& gi_trace = pipeline.add_block<BlockGITrace>(gfx_system);
-		BlockGIBake& gi_bake = pipeline.add_block<BlockGIBake>(gfx_system, light, gi_trace);
-		BlockLightmap& lightmap = pipeline.add_block<BlockLightmap>(gfx_system, light, gi_bake);
-		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx_system);
+		BlockDepth& depth = pipeline.add_block<BlockDepth>(gfx);
+		BlockGeometry& geometry = pipeline.add_block<BlockGeometry>(gfx);
+		BlockSky& sky = pipeline.add_block<BlockSky>(gfx, filter);
+		BlockRadiance& radiance = pipeline.add_block<BlockRadiance>(gfx, filter, copy);
+		BlockLight& light = pipeline.add_block<BlockLight>(gfx);
+		BlockShadow& shadow = pipeline.add_block<BlockShadow>(gfx, depth, light);
+		BlockReflection& reflection = pipeline.add_block<BlockReflection>(gfx);
+		BlockGITrace& gi_trace = pipeline.add_block<BlockGITrace>(gfx);
+		BlockGIBake& gi_bake = pipeline.add_block<BlockGIBake>(gfx, light, shadow, gi_trace);
+		BlockLightmap& lightmap = pipeline.add_block<BlockLightmap>(gfx, light, gi_bake);
+		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx);
 		UNUSED(geometry);
 		UNUSED(particles);
+		UNUSED(sky);
 
 		// mrt
-		//BlockSSAO& ssao = pipeline.add_block<BlockSSAO>(gfx_system, filter, blur);
-		//BlockSSR& ssr = pipeline.add_block<BlockSSR>(gfx_system);
-		//BlockSSS& sss = pipeline.add_block<BlockSSS>(gfx_system);
-		BlockResolve& resolve = pipeline.add_block<BlockResolve>(gfx_system, copy);
+		//BlockSSAO& ssao = pipeline.add_block<BlockSSAO>(gfx, filter, blur);
+		//BlockSSR& ssr = pipeline.add_block<BlockSSR>(gfx);
+		//BlockSSS& sss = pipeline.add_block<BlockSSS>(gfx);
 
 		// effects
-		BlockDofBlur& dof_blur = pipeline.add_block<BlockDofBlur>(gfx_system, filter);
-		//BlockExposure& exposure = pipeline.add_block<BlockExposure>(gfx_system);
-		BlockGlow& glow = pipeline.add_block<BlockGlow>(gfx_system, filter, copy, blur);
-		BlockTonemap& tonemap = pipeline.add_block<BlockTonemap>(gfx_system, filter, copy);
+		BlockDofBlur& dof_blur = pipeline.add_block<BlockDofBlur>(gfx, filter);
+		//BlockExposure& exposure = pipeline.add_block<BlockExposure>(gfx);
+		BlockGlow& glow = pipeline.add_block<BlockGlow>(gfx, filter, copy, blur);
+		BlockTonemap& tonemap = pipeline.add_block<BlockTonemap>(gfx, filter, copy);
+		UNUSED(dof_blur);
+		UNUSED(glow);
+		UNUSED(tonemap);
 
-		vector<GfxBlock*> depth_blocks = { &depth };
-		vector<GfxBlock*> geometry_blocks = {};
-		vector<GfxBlock*> shading_blocks = { &radiance, &light, &shadow, &gi_trace, &reflection, &lightmap };
-		vector<GfxBlock*> gi_blocks = { &light, &shadow, &gi_bake };
-		vector<GfxBlock*> lightmap_blocks = { &light, &shadow, &gi_trace, &lightmap };
+		vector<ShaderBlock*> depth_blocks = { &depth };
+		vector<ShaderBlock*> geometry_blocks = {};
+		vector<ShaderBlock*> shading_blocks = { &radiance, &light, &shadow, &gi_trace, &reflection, &lightmap };
+		vector<ShaderBlock*> gi_blocks = { &light, &shadow, &gi_bake };
+		vector<ShaderBlock*> lightmap_blocks = { &light, &shadow, &gi_trace, &lightmap };
 
-		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = {};
-		pipeline.m_pass_blocks[size_t(PassType::Background)] = { &sky };
-		pipeline.m_pass_blocks[size_t(PassType::Effects)] = { /*&ssao, &ssr, &sss,*/ &resolve };
-		pipeline.m_pass_blocks[size_t(PassType::PostProcess)] = { &dof_blur/*, &exposure*/, &glow, &tonemap };
-
-		pipeline.m_pass_blocks[size_t(PassType::VoxelGI)] = gi_blocks;
-		pipeline.m_pass_blocks[size_t(PassType::Lightmap)] = lightmap_blocks;
-
-		// forward
-		pipeline.m_pass_blocks[size_t(PassType::Depth)] = depth_blocks;
-		pipeline.m_pass_blocks[size_t(PassType::Opaque)] = shading_blocks;
-		pipeline.m_pass_blocks[size_t(PassType::Alpha)] = shading_blocks;
-
-		// deferred
-		pipeline.m_pass_blocks[size_t(PassType::Geometry)] = geometry_blocks;
-		pipeline.m_pass_blocks[size_t(PassType::Lights)] = shading_blocks;
-
+		auto create_programs = [&]()
 		{
-			Program& program_unshaded = gfx_system.programs().create("unshaded");
-			program_unshaded.register_blocks(depth_blocks);
+			Program& solid = gfx.programs().create("solid");
+			solid.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Solid });
+			solid.register_blocks(depth_blocks);
 
-			Program& program_depth = gfx_system.programs().create("depth");
-			program_depth.register_blocks(depth_blocks);
-			
-			Program& program_pbr = gfx_system.programs().create("pbr/pbr");
-			program_pbr.register_blocks(shading_blocks);
+			Program& normal = gfx.programs().create("normal");
+			normal.set_blocks({ MaterialBlock::Solid });
+			//normal.m_blocks[MaterialBlock::Pbr] = true;
 
-			Program& program_geometry = gfx_system.programs().create("pbr/geometry");
-			program_geometry.register_blocks(geometry_blocks);
+			Program& point = gfx.programs().create("point");
+			point.set_blocks({ MaterialBlock::Solid, MaterialBlock::Point });
+			point.m_primitives = uint32_t(1 << uint(PrimitiveType::Points));
 
-			Program& program_lights = gfx_system.programs().create("pbr/lights");
-			program_lights.register_blocks(shading_blocks);
+			Program& line = gfx.programs().create("line");
+			line.set_blocks({ MaterialBlock::Solid, MaterialBlock::Line });
+			line.m_primitives = uint32_t(1 << uint(PrimitiveType::Lines) | 1 << uint(PrimitiveType::LineStrip));
 
-			Program& program_fresnel = gfx_system.programs().create("fresnel");
-			UNUSED(program_fresnel);
+			Program& line_fat = gfx.programs().create("line_fat");
+			line_fat.set_blocks({ MaterialBlock::Solid, MaterialBlock::Line });
+			//line_fat.m_primitives = uint32_t(1 << uint(PrimitiveType::Lines) | 1 << uint(PrimitiveType::LineStrip));
 
-			Program& program_gi_voxelize = gfx_system.programs().create("gi/voxelize");
-			program_gi_voxelize.register_blocks(gi_blocks);
+			Program& depth = gfx.programs().create("depth");
+			depth.register_blocks(depth_blocks);
+			depth.set_blocks({ MaterialBlock::Alpha });
 
-			Program& program_gi_voxel_light = gfx_system.programs().create("gi/direct_light");
-			program_gi_voxel_light.m_compute = true;
-			program_gi_voxel_light.register_blocks(gi_blocks);
+			Program& distance = gfx.programs().create("distance");
+			distance.register_blocks(depth_blocks);
+			distance.set_blocks({ MaterialBlock::Alpha });
 
-			Program& program_gi_voxel_bounce = gfx_system.programs().create("gi/bounce_light");
-			program_gi_voxel_bounce.m_compute = true;
-			program_gi_voxel_bounce.register_blocks(gi_blocks);
+			Program& pbr = gfx.programs().create("pbr/pbr");
+			pbr.register_blocks(shading_blocks);
+			pbr.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
 
-			Program& program_gi_voxel_output = gfx_system.programs().create("gi/output_light");
-			program_gi_voxel_output.m_compute = true;
-			program_gi_voxel_output.register_blocks(gi_blocks);
+			Program& lambert = gfx.programs().create("pbr/lambert");
+			lambert.register_blocks(shading_blocks);
+			lambert.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Phong });
 
-			Program& program_lightmap = gfx_system.programs().create("pbr/lightmap");
-			program_lightmap.register_blocks(lightmap_blocks);
-		}
+			Program& phong = gfx.programs().create("pbr/phong");
+			phong.register_blocks(shading_blocks);
+			phong.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Phong });
 
-		static ForwardRenderer forward_renderer = { gfx_system, pipeline };
-		static DeferredRenderer deferred_renderer = { gfx_system, pipeline };
-		static ShadowRenderer shadow_renderer = { gfx_system, pipeline };
-		static VoxelRenderer voxel_renderer = { gfx_system, pipeline };
-		static LightmapRenderer lightmap_renderer = { gfx_system, pipeline };
+			Program& three = gfx.programs().create("pbr/three");
+			three.register_blocks(shading_blocks);
+			three.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
+
+			Program& basic = gfx.programs().create("pbr/basic");
+			basic.register_blocks(shading_blocks);
+			basic.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
+
+			Program& geometry = gfx.programs().create("pbr/geometry");
+			geometry.register_blocks(geometry_blocks);
+			geometry.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
+
+			Program& lights = gfx.programs().create("pbr/lights");
+			lights.register_blocks(shading_blocks);
+
+			Program& fresnel = gfx.programs().create("fresnel");
+			geometry.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Fresnel });
+
+			Program& gi_voxelize = gfx.programs().create("gi/voxelize");
+			gi_voxelize.register_blocks(gi_blocks);
+
+			Program& gi_voxel_light = gfx.programs().create("gi/direct_light");
+			gi_voxel_light.m_compute = true;
+			gi_voxel_light.register_blocks(gi_blocks);
+
+			Program& gi_voxel_bounce = gfx.programs().create("gi/bounce_light");
+			gi_voxel_bounce.m_compute = true;
+			gi_voxel_bounce.register_blocks(gi_blocks);
+
+			Program& gi_voxel_output = gfx.programs().create("gi/output_light");
+			gi_voxel_output.m_compute = true;
+			gi_voxel_output.register_blocks(gi_blocks);
+
+			Program& lightmap = gfx.programs().create("pbr/lightmap");
+			lightmap.register_blocks(lightmap_blocks);
+		};
+
+		create_programs();
 
 		if(deferred)
-			gfx_system.set_renderer(Shading::Shaded, deferred_renderer);
+			gfx.set_renderer(Shading::Shaded, render_pbr_deferred);
 		else
-			gfx_system.set_renderer(Shading::Shaded, forward_renderer);
+			gfx.set_renderer(Shading::Shaded, render_pbr_forward);
 
-		gfx_system.set_renderer(Shading::Volume, shadow_renderer);
+		gfx.set_renderer(Shading::Volume, render_shadow);
 
-		gfx_system.set_renderer(Shading::Voxels, voxel_renderer);
+		gfx.set_renderer(Shading::Voxels, render_voxel);
 
-		gfx_system.set_renderer(Shading::Lightmap, lightmap_renderer);
+		gfx.set_renderer(Shading::Lightmap, render_lightmap);
 
 		pipeline.m_gather_func = gather_render_pbr;
 
+		// this (and below) seems to cause a memory corruption in emscripten
+		//construct<TBuffer<Tonemap>>(type<Tonemap>());
+
+#ifndef MUD_PLATFORM_EMSCRIPTEN
 		g_viewer_ecs->init<Tonemap, BCS, Glow, DofBlur>();
-	}
-
-	ForwardRenderer::ForwardRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Shaded)
-	{
-		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
-		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
-		this->add_pass<PassClear>(gfx_system);
-#if DEPTH_PASS
-		this->add_pass<PassDepth>(gfx_system, *pipeline.block<BlockDepth>());
 #endif
-		this->add_pass<PassOpaque>(gfx_system);
-		this->add_pass<PassBackground>(gfx_system);
-		this->add_pass<PassParticles>(gfx_system);
-		this->add_pass<PassAlpha>(gfx_system);
-		this->add_pass<PassUnshaded>(gfx_system);
-		this->add_pass<PassEffects>(gfx_system);
-		this->add_pass<PassPostProcess>(gfx_system, *pipeline.block<BlockCopy>());
-		//this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
-		this->init();
 	}
 
-	DeferredRenderer::DeferredRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Shaded)
+	struct PbrBlocks
 	{
-		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
-		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassGeometry>(gfx_system, *pipeline.block<BlockGeometry>());
-		this->add_pass<PassLights>(gfx_system, *pipeline.block<BlockFilter>());
-		this->add_pass<PassBackground>(gfx_system);
-		this->add_pass<PassParticles>(gfx_system);
-		//this->add_pass<PassAlpha>(gfx_system);
-		this->add_pass<PassUnshaded>(gfx_system);
-		this->add_pass<PassEffects>(gfx_system);
-		this->add_pass<PassPostProcess>(gfx_system, *pipeline.block<BlockCopy>());
-		//this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
-		this->init();
+		BlockRadiance& radiance;
+		BlockLight& light;
+		BlockShadow& shadow;
+		BlockGITrace& gi_trace;
+		BlockReflection& reflection;
+		BlockLightmap& lightmap;
+	};
+
+	span<DrawBlock*> pbr_blocks(GfxSystem& gfx)
+	{
+		static DrawBlock* blocks[] = {
+			gfx.m_renderer.block<BlockRadiance>(),
+			gfx.m_renderer.block<BlockLight>(),
+			gfx.m_renderer.block<BlockShadow>(),
+			gfx.m_renderer.block<BlockGITrace>(),
+			gfx.m_renderer.block<BlockReflection>(),
+			gfx.m_renderer.block<BlockLightmap>()
+		};
+		return blocks;
 	}
 
-	ShadowRenderer::ShadowRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Volume)
+	void begin_pbr_render(GfxSystem& gfx, Render& render)
 	{
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassShadow>(gfx_system, *pipeline.block<BlockDepth>(), *pipeline.block<BlockShadow>());
-		this->init();
+		static span<DrawBlock*> blocks = pbr_blocks(gfx);
+		for(DrawBlock* block : blocks)
+			block->begin_render(render);
 	}
 
-	VoxelRenderer::VoxelRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Voxels)
+	void pbr_options(GfxSystem& gfx, Render& render, DrawElement& element)
 	{
-		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassGIBake>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
-		this->init();
+		static span<DrawBlock*> blocks = pbr_blocks(gfx);
+		for(DrawBlock* block : blocks)
+			block->options(render, element, element.m_program);
 	}
 
-	LightmapRenderer::LightmapRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Lightmap)
+	void submit_pbr_pass(GfxSystem& gfx, Render& render, const Pass& pass)
 	{
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassLightmap>(gfx_system, *pipeline.block<BlockLightmap>());
-		this->init();
+		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
+		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
+
+		block_shadow.m_direct_light = block_light.m_direct_light;
+		block_shadow.commit_shadows(render, render.m_camera->m_view);
+
+		static span<DrawBlock*> blocks = pbr_blocks(gfx);
+		for(DrawBlock* block : blocks)
+			block->submit(render, pass);
+
+		//block_pbr.submit(render, pass);
 	}
 
-	ReflectionRenderer::ReflectionRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline, Shading::Volume)
+	void submit_pbr_element(GfxSystem& gfx, Render& render, const DrawElement& element, Pass& pass)
 	{
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassOpaque>(gfx_system);
-		this->add_pass<PassBackground>(gfx_system);
-		this->add_pass<PassParticles>(gfx_system);
-		this->add_pass<PassAlpha>(gfx_system);
-		this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
-		this->init();
+		static span<DrawBlock*> blocks = pbr_blocks(gfx);
+		for(DrawBlock* block : blocks)
+			block->submit(render, element, pass);
 	}
 
-	PassOpaque::PassOpaque(GfxSystem& gfx_system)
-		: DrawPass(gfx_system, "opaque", PassType::Opaque)
-	{}
-
-	void PassOpaque::next_draw_pass(Render& render, Pass& render_pass)
+	void render_pbr_forward(GfxSystem& gfx, Render& render)
 	{
-		UNUSED(render);
+		begin_pbr_render(gfx, render);
 
-		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
+		pass_gi_probes(gfx, render);
+		pass_shadowmaps(gfx, render);
+
+		//begin_pbr_render(gfx, render);
+
+		pass_clear(gfx, render);
+#if DEPTH_PASS
+		pass_depth(gfx, render);
+#endif
+		pass_opaque(gfx, render);
+		pass_background(gfx, render);
+		pass_particles(gfx, render);
+		pass_alpha(gfx, render);
+		pass_solid(gfx, render);
+		//pass_effects(gfx, render);
+		//pass_resolve(gfx, render);
+		pass_post_auto(gfx, render);
+	}
+
+	void render_pbr_deferred(GfxSystem& gfx, Render& render)
+	{
+		begin_pbr_render(gfx, render);
+
+		pass_gi_probes(gfx, render);
+		pass_shadowmaps(gfx, render);
+		pass_clear(gfx, render);
+		pass_geometry(gfx, render);
+		pass_lights(gfx, render);
+		pass_background(gfx, render);
+		pass_particles(gfx, render);
+		//pass_alpha(gfx, render);
+		pass_solid(gfx, render);
+	}
+
+	void render_shadow(GfxSystem& gfx, Render& render)
+	{
+		//begin_pbr_render(gfx, render);
+
+		pass_clear(gfx, render);
+		pass_shadow(gfx, render);
+	}
+
+	void render_voxel(GfxSystem& gfx, Render& render)
+	{
+		//begin_pbr_render(gfx, render);
+
+		pass_shadowmaps(gfx, render);
+		pass_clear(gfx, render);
+		pass_voxel_gi(gfx, render);
+	}
+
+	void render_lightmap(GfxSystem& gfx, Render& render)
+	{
+		pass_clear(gfx, render);
+		pass_lightmap(gfx, render);
+	}
+
+	void render_reflection(GfxSystem& gfx, Render& render)
+	{
+		pass_clear(gfx, render);
+#if DEPTH_PASS
+		pass_depth(gfx, render);
+#endif
+		pass_opaque(gfx, render);
+		pass_background(gfx, render);
+		pass_particles(gfx, render);
+		pass_alpha(gfx, render);
+	}
+
+	void pass_opaque(GfxSystem& gfx, Render& render)
+	{
+		Pass pass = render.next_pass("opaque", PassType::Opaque);
+
+		submit_pbr_pass(gfx, render, pass);
+
+		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthAscending);
+
+		const bool vflip = render.m_vflip && bgfx::getCaps()->originBottomLeft;
+		const uint64_t cull = vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
 
 #if DEPTH_PASS
-		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_EQUAL
-								     | BGFX_STATE_WRITE_Z | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA;
+		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
+								 | BGFX_STATE_DEPTH_TEST_EQUAL | BGFX_STATE_MSAA;
 #else
-		render_pass.m_bgfx_state = MUD_GFX_STATE_DEFAULT;
+		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
+								 | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_MSAA;
 #endif
-	}
 
-	void PassOpaque::queue_draw_element(Render& render, DrawElement& element)
-	{
-		if(element.m_material->m_pbr_block.m_enabled && !element.m_material->m_base_block.m_is_alpha)
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			if(element.m_material->m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
+			UNUSED(pass);
+			const Program& program = *element.m_program.m_program;
+			bool lit = program.m_blocks[MaterialBlock::Lit] && !element.m_material->m_alpha.m_is_alpha;
+			bool opaque = program.m_passes[PassType::Opaque];
+			if(!lit && !opaque) return false;
+
+			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
-			element.m_shader_version.set_option(0, MRT, render.m_is_mrt);
+			if(lit)
+				pbr_options(gfx, render, element);
+			return true;
+		};
 
-			this->add_element(render, element);
-		}
-	}
-
-	PassAlpha::PassAlpha(GfxSystem& gfx_system)
-		: DrawPass(gfx_system, "alpha", PassType::Alpha)
-	{}
-
-	void PassAlpha::next_draw_pass(Render& render, Pass& render_pass)
-	{
-		UNUSED(render);
-
-		render_pass.m_bgfx_state = MUD_GFX_STATE_DEFAULT_ALPHA;
-
-		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthDescending);
-	}
-
-	void PassAlpha::queue_draw_element(Render& render, DrawElement& element)
-	{
-		UNUSED(render);
-		if(element.m_material->m_pbr_block.m_enabled && element.m_material->m_base_block.m_is_alpha)
+		auto submit_element = [](GfxSystem& gfx, Render& render, Pass& pass, const DrawElement& element)
 		{
-			blend_state(element.m_material->m_base_block.m_blend_mode, element.m_bgfx_state);
+			submit_pbr_element(gfx, render, element, pass);
+		};
 
-			this->add_element(render, element);
-		}
+		gfx.m_renderer.pass(render, pass, queue_draw_element, submit_element);
 	}
 
-	PassGeometry::PassGeometry(GfxSystem& gfx_system, BlockGeometry& block_geometry)
-		: DrawPass(gfx_system, "geometry", PassType::Geometry)
-		, m_block_geometry(block_geometry)
-	{}
-
-	void PassGeometry::next_draw_pass(Render& render, Pass& render_pass)
+	void pass_alpha(GfxSystem& gfx, Render& render)
 	{
-		UNUSED(render);
-		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
+		Pass pass = render.next_pass("alpha", PassType::Alpha);
 
-		render_pass.m_bgfx_state = MUD_GFX_STATE_DEFAULT;
-		render_pass.m_fbo = render.m_target->m_gbuffer.m_fbo;
-	}
+		submit_pbr_pass(gfx, render, pass);
 
-	void PassGeometry::queue_draw_element(Render& render, DrawElement& element)
-	{
-		UNUSED(render);
-		if(element.m_material->m_pbr_block.m_enabled && !element.m_material->m_base_block.m_is_alpha)
+		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS
+							  | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA;
+
+		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthDescending);
+
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			if(element.m_material->m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
+			UNUSED(pass);
+			const Program& program = *element.m_program.m_program;
+			if(!program.m_blocks[MaterialBlock::Pbr] || !element.m_material->m_alpha.m_is_alpha)
+				return false;
+
+			//blend_state(element.m_material->m_base.m_blend_mode, element.m_bgfx_state);
+
+			pbr_options(gfx, render, element);
+
+			return true;
+		};
+
+		auto submit_element = [](GfxSystem& gfx, Render& render, Pass& pass, const DrawElement& element)
+		{
+			submit_pbr_element(gfx, render, element, pass);
+		};
+
+		gfx.m_renderer.pass(render, pass, queue_draw_element, submit_element);
+	}
+
+	void pass_geometry(GfxSystem& gfx, Render& render)
+	{
+		UNUSED(gfx);
+		Pass pass = render.next_pass("geometry", PassType::Geometry);
+
+		bgfx::setViewMode(pass.m_index, bgfx::ViewMode::DepthAscending);
+
+		const bool vflip = render.m_vflip && bgfx::getCaps()->originBottomLeft;
+		const uint64_t cull = vflip ? BGFX_STATE_CULL_CCW : BGFX_STATE_CULL_CW;
+
+		pass.m_bgfx_state = cull | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z 
+								 | BGFX_STATE_DEPTH_TEST_EQUAL | BGFX_STATE_MSAA;
+
+		pass.m_fbo = &render.m_target->m_gbuffer;
+
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
+		{
+			UNUSED(render); UNUSED(pass);
+			const Program& program = *element.m_program.m_program;
+			bool lit = program.m_blocks[MaterialBlock::Lit] && !element.m_material->m_alpha.m_is_alpha;
+			bool opaque = program.m_passes[PassType::Opaque];
+			if(!lit && !opaque) return false;
+
+			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
-			element.m_shader_version.set_option(0, DEFERRED, true);
+			element.m_program.set_option(0, DEFERRED, true);
+			return true;
+		};
 
-			this->add_element(render, element);
-		}
+		auto submit_element = [](GfxSystem& gfx, Render& render, Pass& pass, const DrawElement& element)
+		{
+			submit_pbr_element(gfx, render, element, pass);
+		};
+
+		gfx.m_renderer.pass(render, pass, queue_draw_element, submit_element);
 	}
 
-	PassLights::PassLights(GfxSystem& gfx_system, BlockFilter& filter)
-		: RenderPass(gfx_system, "lights", PassType::Lights)
-		, m_filter(filter)
-		, m_program(&gfx_system.programs().fetch("pbr/lights"))
+	void pass_lights(GfxSystem& gfx, Render& render)
 	{
-		//m_program.register_block(*this);
-	}
+		static Program& program = gfx.programs().fetch("pbr/lights");
 
-	void PassLights::submit_render_pass(Render& render)
-	{
-		Pass render_pass = render.next_pass(m_name);
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		render_pass.m_encoder = &encoder;
+		Pass pass = render.next_pass("lights", PassType::Lights);
+		bgfx::Encoder& encoder = *pass.m_encoder;
+		pass.m_encoder = &encoder;
+
+		submit_pbr_pass(gfx, render, pass);
 
 		DrawCluster cluster;
-		cluster.m_lights = render.m_shot->m_lights;
-		cluster.m_shader_version = { m_program };
+		cluster.m_lights = render.m_shot.m_lights;
+		cluster.m_shader_version = { program };
 
-		for(GfxBlock* block : m_gfx_blocks)
+		for(auto& block : gfx.m_renderer.m_gfx_blocks)
 			if(block->m_draw_block)
 			{
-				as<DrawBlock>(*block).begin_draw_pass(render);
-				as<DrawBlock>(*block).options(render, cluster.m_shader_version);
-				as<DrawBlock>(*block).submit(render, render_pass);
+				//as<DrawBlock>(*block).options(render, cluster.m_shader_version);
+				as<DrawBlock>(*block).submit(render, pass);
 			}
 
-		cluster.m_shader_version.set_option(0, MRT, render.m_is_mrt);
+		RenderTarget& target = *render.m_target;
+		GBuffer& gbuffer = target.m_gbuffer;
 
-		encoder.setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_gbuffer.m_position);
-		encoder.setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, render.m_target->m_gbuffer.m_normal);
-		encoder.setTexture(uint8_t(TextureSampler::Source2), m_filter.u_uniform.s_source_2, render.m_target->m_gbuffer.m_albedo);
-		encoder.setTexture(uint8_t(TextureSampler::Source3), m_filter.u_uniform.s_source_3, render.m_target->m_gbuffer.m_surface);
+		gfx.m_filter->source0(gbuffer.m_position);
+		gfx.m_filter->source1(gbuffer.m_normal);
+		gfx.m_filter->source2(gbuffer.m_albedo);
+		gfx.m_filter->source3(gbuffer.m_surface);
 
-		m_filter.submit_quad(*render.m_target, render_pass.m_index, render.m_target_fbo,
-							 m_program->version(cluster.m_shader_version), render.m_viewport.m_rect, BGFX_STATE_BLEND_ALPHA);
+		gfx.m_filter->quad(pass, *render.m_fbo, cluster.m_shader_version, BGFX_STATE_BLEND_ALPHA);
 
 #if DEBUG_GBUFFERS
-		if(render.m_target)
-		{
-			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
-			vec2 size = vec2(render.m_target->m_size) * 0.25f;
-			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_depth,    vec4(vec2(0.f, size.y * 0.f), size), true);
-			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_normal,   vec4(vec2(0.f, size.y * 1.f), size));
-			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_albedo,   vec4(vec2(0.f, size.y * 2.f), size));
-			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_surface,  vec4(vec2(0.f, size.y * 3.f), size));
-		}
+		vec2 size = vec2(target.m_size) * 0.25f;
+		m_gfx.m_copy->debug_show_texture(render, gbuffer.m_depth, vec4(vec2(0.f, size.y * 0.f), size), true);
+		m_gfx.m_copy->debug_show_texture(render, gbuffer.m_normal, vec4(vec2(0.f, size.y * 1.f), size));
+		m_gfx.m_copy->debug_show_texture(render, gbuffer.m_albedo, vec4(vec2(0.f, size.y * 2.f), size));
+		m_gfx.m_copy->debug_show_texture(render, gbuffer.m_surface, vec4(vec2(0.f, size.y * 3.f), size));
 #endif
 	}
 
-	BlockGeometry::BlockGeometry(GfxSystem& gfx_system)
-		: DrawBlock(gfx_system, type<BlockGeometry>())
+	void pass_begin_post(GfxSystem& gfx, Render& render)
+	{
+		gfx.m_copy->quad(render.composite_pass("post begin"), render.m_target->m_post.swap(), render.m_target->m_diffuse);
+	}
+	
+	void pass_post_auto(GfxSystem& gfx, Render& render)
+	{
+		Entt filters = render.m_filters;
+		pass_post_effects(gfx, render, filters.comp<DofBlur>(), filters.comp<Glow>(), filters.comp<Tonemap>(), filters.comp<BCS>());
+	}
+
+	void pass_post_effects(GfxSystem& gfx, Render& render, DofBlur& dof, Glow& glow, Tonemap& tonemap, BCS& bcs)
+	{
+		pass_begin_post(gfx, render);
+
+		if(dof.m_enabled)
+			pass_dofblur(gfx, render, dof);
+
+		if(glow.m_enabled)
+			pass_glow(gfx, render, glow);
+
+		if(tonemap.m_enabled || render.m_viewport->m_to_gamma)
+			pass_tonemap(gfx, render, tonemap, bcs);
+		else
+			pass_flip(gfx, render);
+	}
+
+	BlockGeometry::BlockGeometry(GfxSystem& gfx)
+		: DrawBlock(gfx, type<BlockGeometry>())
 	{}
 
 	BlockGeometry::~BlockGeometry()
@@ -1304,9 +1453,9 @@ namespace mud
 
 	void BlockGeometry::init_block()
 	{
-		m_material = &m_gfx_system.fetch_material("geometry", "pbr/geometry");
-		m_material_twosided = &m_gfx_system.fetch_material("geometry_twosided", "pbr/geometry");
-		m_material_twosided->m_base_block.m_cull_mode = CullMode::None;
+		m_material = &m_gfx.fetch_material("geometry", "pbr/geometry");
+		m_material_twosided = &m_gfx.fetch_material("geometry_twosided", "pbr/geometry");
+		m_material_twosided->m_base.m_cull_mode = CullMode::None;
 	}
 
 	void BlockGeometry::begin_render(Render& render)
@@ -1314,24 +1463,19 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockGeometry::begin_pass(Render& render)
+	void BlockGeometry::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(program);
 	}
 
-	void BlockGeometry::begin_draw_pass(Render& render)
+	void BlockGeometry::submit(Render& render, const Pass& pass) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(pass);
 	}
 
-	void BlockGeometry::options(Render& render, ShaderVersion& shader_version) const
+	void BlockGeometry::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(shader_version);
-	}
-
-	void BlockGeometry::submit(Render& render, const Pass& render_pass) const
-	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render); UNUSED(element); UNUSED(pass);
 	}
 }
 
@@ -1348,14 +1492,16 @@ module mud.gfx.pbr;
 
 namespace mud
 {
-	BlockRadiance::BlockRadiance(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy)
-		: DrawBlock(gfx_system, type<BlockRadiance>())
+	BlockRadiance::BlockRadiance(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy)
+		: DrawBlock(gfx, type<BlockRadiance>())
 		, m_filter(filter)
 		, m_copy(copy)
-		, m_prefilter_program(gfx_system.programs().create("filter/prefilter_envmap"))
+		, m_prefilter_program(gfx.programs().create("filter/prefilter_envmap"))
 	{
-		static cstring options[2] = { "RADIANCE_ENVMAP", "RADIANCE_ARRAY" };
-		m_shader_block->m_options = { options, 2 };
+		m_options = { "RADIANCE_ENVMAP", "RADIANCE_CUBE" };
+
+		m_prefilter_program.register_block(filter);
+		m_prefilter_program.register_block(*this);
 	}
 
 	void BlockRadiance::init_block()
@@ -1374,144 +1520,147 @@ namespace mud
 
 	void BlockRadiance::begin_render(Render& render)
 	{
-		if(!render.m_environment || !render.m_environment->m_radiance.m_texture)
+		if(!render.m_env || !render.m_env->m_radiance.m_texture)
 			return;
 
-		if(!render.m_environment->m_radiance.m_preprocessed)
-			m_prefilter_queue.push_back(&render.m_environment->m_radiance);
+		if(!render.m_env->m_radiance.m_preprocessed && render.m_env->m_radiance.m_filter)
+			m_prefilter_queue.push_back(&render.m_env->m_radiance);
 
 #ifdef DEBUG_RADIANCE
-		if(bgfx::isValid(render.m_environment->m_radiance.m_roughness_array))
+		if(bgfx::isValid(render.m_env->m_radiance.m_filtered))
 		{
-			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
-			copy.debug_show_texture(render, render.m_environment->m_radiance.m_roughness_array, vec4(0.f), false, false, false, 2);
+			m_gfx.m_copy->debug_show_texture(render, render.m_env->m_radiance.m_filtered, vec4(0.f), false, false, false, 2);
 		}
 #endif
 	}
 
-	void BlockRadiance::begin_pass(Render& render)
+	Texture* radiancemap(Radiance& radiance)
+	{
+		Texture* const filtered = radiance.m_filtered;
+		Texture* const reflection = radiance.m_texture;
+		if(filtered && filtered->valid())
+			return filtered;
+		else if(reflection && reflection->valid() && !radiance.m_filter)
+			return reflection;
+		else
+			return nullptr;
+	}
+
+	void BlockRadiance::options(Render& render, const DrawElement& element, ProgramVersion& program) const
+	{
+		const bool enable = !element.m_material->m_lit.m_no_envmap;
+		Texture* radiance = radiancemap(render.m_env->m_radiance);
+
+		if(enable && radiance)
+			program.set_option(m_index, RADIANCE_ENVMAP);
+		if(enable && radiance && radiance->m_is_cube)
+			program.set_option(m_index, RADIANCE_CUBE);
+	}
+
+	void BlockRadiance::submit(Render& render, const Pass& pass) const
 	{
 		UNUSED(render);
+		uint32_t stage = uint32_t(TextureSampler::Radiance);
+		bgfx::setViewUniform(pass.m_index, u_radiance.s_radiance, &stage);
 	}
 
-	void BlockRadiance::begin_draw_pass(Render& render)
+	void BlockRadiance::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
-		UNUSED(render);
-	}
+		UNUSED(element);
+		bgfx::Encoder& encoder = *pass.m_encoder;
 
-	void BlockRadiance::options(Render& render, ShaderVersion& shader_version) const
-	{
-		bgfx::TextureHandle radiance = render.m_environment->m_radiance.m_roughness_array;
-
-		if(bgfx::isValid(radiance))
-			shader_version.set_option(m_index, RADIANCE_ENVMAP);
-	}
-
-	void BlockRadiance::submit(Render& render, const Pass& render_pass) const
-	{
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		bgfx::TextureHandle radiance = render.m_environment->m_radiance.m_roughness_array;
-
-		if(bgfx::isValid(radiance))
-			encoder.setTexture(uint8_t(TextureSampler::Radiance), u_radiance.s_radiance_map, radiance);
+		if(Texture* radiance = radiancemap(render.m_env->m_radiance))
+			encoder.setTexture(uint8_t(TextureSampler::Radiance), *radiance);
 	}
 
 	void BlockRadiance::prefilter_radiance(Radiance& radiance)
 	{
-		if(m_prefiltered.find(radiance.m_texture->m_texture.idx) != m_prefiltered.end())
+		if(m_prefiltered.find(radiance.m_texture) != m_prefiltered.end())
 		{
-			radiance.m_roughness_array = { m_prefiltered[radiance.m_texture->m_texture.idx] };
+			radiance.m_filtered = m_prefiltered[radiance.m_texture];
 			radiance.m_preprocessed = true;
 			return;
 		}
 
-		if(!bgfx::isValid(radiance.m_texture->m_texture))
+		//if(!radiance.m_texture->valid() || radiance.m_texture->m_is_cube)
+		if(!radiance.m_texture->valid())// || radiance.m_texture->m_is_cube)
 			return;
 
 		constexpr int roughness_levels = 8;
 
-#define MUD_RADIANCE_MIPMAPS
+		const bool cube = radiance.m_texture->m_is_cube;
+		const uvec2 size = cube
+			? radiance.m_texture->m_size
+			: m_gfx.main_target().m_size;
 
-		if(bgfx::isValid(radiance.m_roughness_array))
-			bgfx::destroy(radiance.m_roughness_array);
+		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP;
 
-		RenderTarget& target = *m_gfx_system.context().m_target;
-		uint16_t width = uint16_t(target.m_size.x); //radiance.m_texture->m_width;
-		uint16_t height = uint16_t(target.m_size.y); //radiance.m_texture->m_height;
+		//bgfx::TextureFormat::Enum format = bgfx::TextureFormat::RGBA16F;
+		TextureFormat format = radiance.m_texture->m_format;
+		if(!bgfx::isTextureValid(1, cube, 1, bgfx::TextureFormat::Enum(format), flags))
+			format = TextureFormat::RGB10A2;
 
-#ifdef MUD_RADIANCE_MIPMAPS
-		uint16_t texture_layers = 1;
-		bool mips = true;
-#else
-		uint16_t texture_layers = roughness_levels;
-		bool mips = false;
-#endif
-
-		bgfx::TextureFormat::Enum format = bgfx::TextureFormat::RGBA16F;
-		if(!bgfx::isTextureValid(1, mips, texture_layers, format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP))
-			format = bgfx::TextureFormat::RGB10A2;
-
-		if(!bgfx::isTextureValid(1, mips, texture_layers, format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP))
+		if(!bgfx::isTextureValid(1, cube, 1, bgfx::TextureFormat::Enum(format), flags))
 		{
 			printf("WARNING: could not prefilter env map roughness levels\n");
 			return;
 		}
 
-		bool blit_support = false; // (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0;
+		Texture& filtered = m_gfx.textures().create(radiance.m_texture->m_name + "_filtered");
+		filtered = { size, true, format, flags, cube };
 
-		if(blit_support)
-			radiance.m_roughness_array = bgfx::createTexture2D(width, height, mips, texture_layers, format, BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP);
-		else
-			radiance.m_roughness_array = bgfx::createTexture2D(width, height, mips, texture_layers, format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP);
+		//const uint8_t view_id = Render::s_preprocess_pass_id; //render.preprocess_pass();
 
-		bgfx::TextureHandle radiance_array = radiance.m_roughness_array;
-
-		uint8_t view_id = Render::s_preprocess_pass_id; //render.preprocess_pass();
-
-		auto blit_to_array = [&](bgfx::TextureHandle texture, uvec2 size, int level)
+		auto blit_level = [&](Texture& source, const uvec2& size, int level, int face = 0)
 		{
-			if(blit_support)
-			{
-				bgfx::blit(view_id + 1, radiance_array, 0, 0, 0, uint16_t(level), texture, 0, 0, 0, 0, uint16_t(size.x), uint16_t(size.y), 1);
-				bgfx::frame();
-			}
-			else
-			{
-				bgfx::Attachment attachment = { radiance_array, uint16_t(mips ? level : 0), uint16_t(mips ? 0 : level), BGFX_RESOLVE_NONE };
-				FrameBuffer render_target = { size, bgfx::createFrameBuffer(1, &attachment, false) };
-				m_copy.submit_quad(render_target, view_id + 1, texture);
-				bgfx::frame();
-			}
+			const uvec2 level_size = uvec2(size.x >> level, size.y >> level);
+			bgfx::Attachment attach = { bgfx::Access::Write, filtered, uint16_t(level), uint16_t(face), BGFX_RESOLVE_NONE };
+			FrameBuffer render_target = { level_size, filtered, { attach } }; // @todo fix ownership
+			m_copy.submit(Pass(), render_target, source, RenderQuad());
+			bgfx::frame();
 		};
 
-		blit_to_array(radiance.m_texture->m_texture, { width, height }, 0);
+		const uint16_t num_faces = cube ? 6 : 1;
 
-		for(uint16_t i = 1; i < roughness_levels; i++)
+		for(uint16_t i = 0; i < roughness_levels; i++)
 		{
-			uvec2 size = mips ? uvec2(width >> i, height >> i) : uvec2(width, height);
-			FrameBuffer copy_target = { size, format, GFX_TEXTURE_POINT };
+			const uvec2 level_size = uvec2(size.x >> i, size.y >> i);
+			FrameBuffer target = { level_size, format, TEXTURE_POINT };
 
-			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, radiance_array, GFX_TEXTURE_POINT);
+			for(uint16_t face = 0; face < num_faces; ++face)
+			{
+				ProgramVersion program = { m_prefilter_program };
 
-			int source_level = i - 1;
-			bgfx::setUniform(m_filter.u_uniform.u_source_0_level, &source_level);
+				const int source_level = i == 0 ? 0 : i - 1;
+				Texture& source = i == 0 ? *radiance.m_texture : filtered;
+				m_filter.source0p(source, program, source_level, TEXTURE_POINT);
 
-			float roughness = i / float(roughness_levels - 1);
+				float roughness = i / float(roughness_levels - 1);
 #ifdef MUD_PLATFORM_EMSCRIPTEN
-			float num_samples = 64;
+				constexpr uint num_samples = 64;
 #else
-			float num_samples = 512;
+				constexpr uint num_samples = 512;
 #endif
-			vec4 prefilter_params = { roughness, float(num_samples), 0.f, 0.f };
-			bgfx::setUniform(u_prefilter.u_prefilter_envmap_params, &prefilter_params);
+				const vec4 prefilter_p0 = { roughness, float(num_samples), 0.f, 0.f };
+				bgfx::setUniform(u_prefilter.u_prefilter_envmap_p0, &prefilter_p0);
 
-			bgfx::ProgramHandle program = m_prefilter_program.default_version();
-			m_filter.submit_quad(copy_target, view_id, program, 0U, true);
+				if(cube)
+				{
+					constexpr vec3 up[6] = { Y3, Y3, -Z3, Z3, Y3, Y3 };
+					constexpr vec3 dir[6] = { X3, -X3, Y3, -Y3, Z3, -Z3 };
 
-			blit_to_array(bgfx::getTexture(copy_target.m_fbo), size, i);
+					const mat4 cubemat = bxlookat(vec3(0.f), vec3(0.f) + dir[face], up[face]);
+					bgfx::setUniform(u_prefilter.u_prefilter_cube, &cubemat);
+				}
+
+				m_filter.submit(Pass(), target, program, RenderQuad(), 0U, true);
+
+				blit_level(target.m_tex, size, i, face);
+			}
 		}
 
-		m_prefiltered[radiance.m_texture->m_texture.idx] = radiance.m_roughness_array.idx;
+		m_prefiltered[radiance.m_texture] = &filtered;
+		radiance.m_filtered = &filtered;
 		radiance.m_preprocessed = true;
 	}
 }
@@ -1534,10 +1683,10 @@ namespace mud
 #if 0 // @todo: crashes in D3D11
 		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
 
-		if(!bgfx::isTextureValid(0, true, 1, color_format, GFX_TEXTURE_CLAMP))
+		if(!bgfx::isTextureValid(0, true, 1, color_format, TEXTURE_CLAMP))
 			color_format = bgfx::TextureFormat::RGB10A2;
 
-		m_color = bgfx::createTextureCube(size, true, 1, color_format, GFX_TEXTURE_CLAMP);
+		m_color = bgfx::createTextureCube(size, true, 1, color_format, TEXTURE_CLAMP);
 
 		for(int i = 0; i < 6; i++)
 		{
@@ -1602,29 +1751,91 @@ namespace mud
 		: m_node(node)
 	{}
 
-	ReflectionCubemap::ReflectionCubemap(uint16_t size)
-		: m_size(size)
+	void CubeTarget::create(uint32_t size)
 	{
-		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
-		if(!bgfx::isTextureValid(0, true, 1, color_format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT))
-			color_format = bgfx::TextureFormat::RGB10A2;
+		m_size = size;
 
-		m_cubemap = bgfx::createTextureCube(size, false, 1, color_format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT);
-		m_depth = bgfx::createTexture2D(size, size, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
+		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP3 | TEXTURE_POINT;
+		TextureFormat color_format = TextureFormat::RGBA16F;
+		if(!bgfx::isTextureValid(0, true, 1, bgfx::TextureFormat::Enum(color_format), flags))
+			color_format = TextureFormat::RGB10A2;
+
+		m_cubemap = { uvec2(size), false, color_format, flags, true };
+		m_depth = { uvec2(size), false, TextureFormat::D24S8, BGFX_TEXTURE_RT | TEXTURE_CLAMP | TEXTURE_DEPTH };
+
+		m_cubemap.m_is_fbo = true;
+		m_depth.m_is_fbo = true;
 
 		for(int i = 0; i < 6; i++)
 		{
 			bgfx::Attachment attachments[2] =
 			{
-				{ m_depth , 0, 1, BGFX_RESOLVE_AUTO_GEN_MIPS },
-				{ m_cubemap, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS }
+				{ bgfx::Access::Write, m_depth , 0, 1, BGFX_RESOLVE_AUTO_GEN_MIPS },
+				{ bgfx::Access::Write, m_cubemap, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS }
 			};
-			m_fbo[i] = bgfx::createFrameBuffer(2, attachments, true);
+			m_fbos[i] = { uvec2(size), m_cubemap, attachments };
 		}
 	}
 
-	BlockReflection::BlockReflection(GfxSystem& gfx_system)
-		: DrawBlock(gfx_system, type<BlockReflection>())
+	CubeCamera::CubeCamera(Scene& scene, float near, float far, uint32_t size)
+		: m_size(size)
+	{
+		m_cubemap.create(size);
+
+		// up stays up for all sides of the cube except when looking down (where it's forward aka -Z) or up (back aka Z)
+		const table<SignedAxis, vec3> up = { { Y3, Y3, -Z3, Z3, Y3, Y3 } };
+		// cubemaps are stored in left-handed space, so we need to flip X with -X both when rendering and when sampling cubemaps
+		const table<SignedAxis, vec3> dir = { { -X3, X3, Y3, -Y3, Z3, -Z3 } };
+
+		const float fov = 90.f; const float aspect = 1.f;
+
+		for(SignedAxis axis : c_signed_axes)
+		{
+			size_t i = size_t(axis);
+			m_cameras[i] = Camera(vec3(0.f), dir[axis], up[axis], fov, aspect, near, far);
+			m_viewports[i] = Viewport(m_cameras[i], scene, Rect4);
+		}
+	}
+
+	Render CubeCamera::render(GfxSystem& gfx, Render& render, SignedAxis axis)
+	{
+		Render probe_render = { Shading::Shaded, m_viewports[size_t(axis)], *render.m_target, m_cubemap.m_fbos[size_t(axis)], *render.m_frame };
+		probe_render.m_vflip = true;
+
+		//probe_render.m_shot.m_lights = render.m_shot.m_lights;
+		//probe_render.m_shot.m_items = render.m_shot.m_items;
+
+		return probe_render;
+	}
+
+	void CubeCamera::render(GfxSystem& gfx, Render& render, RenderFunc renderer)
+	{
+		//var generateMipmaps = renderTarget.texture.generateMipmaps;
+
+		//renderTarget.texture.generateMipmaps = false;
+
+		for(SignedAxis axis : c_signed_axes)
+		{
+			//if(axis == SignedAxis(5))
+			//	renderTarget.texture.generateMipmaps = generateMipmaps;
+
+			Render probe_render = this->render(gfx, render, axis);
+			gfx.m_renderer.gather(probe_render);
+			gfx.m_renderer.subrender(render, probe_render, renderer);
+		}
+	}
+
+	void CubeCamera::clear(GfxSystem& gfx, Render& render, Colour color, float depth, uint8_t stencil)
+	{
+		for(SignedAxis axis : c_signed_axes)
+		{
+			//renderer.setRenderTarget(renderTarget, i);
+			//renderer.clear(color, depth, stencil);
+		}
+	}
+
+	BlockReflection::BlockReflection(GfxSystem& gfx)
+		: DrawBlock(gfx, type<BlockReflection>())
 		, m_atlas(1024, 16)
 	{}
 
@@ -1645,36 +1856,33 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockReflection::begin_pass(Render& render)
+	void BlockReflection::options(Render& render, const DrawElement& element, ProgramVersion& program) const
+	{
+		UNUSED(render); UNUSED(program);
+	}
+
+	void BlockReflection::submit(Render& render, const Pass& pass) const
 	{
 		UNUSED(render);
+		//uint32_t stage = uint32_t(TextureSampler::ReflectionProbe);
+		//bgfx::setViewUniform(pass.m_index, u_uniform.s_atlas, &stage);
 	}
 
-	void BlockReflection::begin_draw_pass(Render& render)
+	void BlockReflection::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(element);
+		bgfx::Encoder& encoder = *pass.m_encoder;
+
+		if(m_atlas.m_color.valid() && m_atlas.m_size > 0)
+			encoder.setTexture(uint8_t(TextureSampler::ReflectionProbe), m_atlas.m_color);
+
+		//upload_reflection_probes(render, to_array(render.m_shot.m_reflection_probes));
 	}
 
-	void BlockReflection::options(Render& render, ShaderVersion& shader_version) const
+	void BlockReflection::upload_reflection_probes(Render& render, Pass& pass, span<ReflectionProbe*> probes)
 	{
-		UNUSED(render); UNUSED(shader_version);
-	}
-
-	void BlockReflection::submit(Render& render, const Pass& render_pass) const
-	{
-		UNUSED(render);
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-
-		if(bgfx::isValid(m_atlas.m_color_tex) && m_atlas.m_size > 0)
-			encoder.setTexture(uint8_t(TextureSampler::ReflectionProbe), u_uniform.s_atlas, m_atlas.m_color_tex);
-
-		//upload_reflection_probes(render, to_array(render.m_shot->m_reflection_probes));
-	}
-
-	void BlockReflection::upload_reflection_probes(Render& render, Pass& render_pass, span<ReflectionProbe*> probes)
-	{
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		mat4 view_matrix = inverse(render.m_camera.m_transform);
+		bgfx::Encoder& encoder = *pass.m_encoder;
+		mat4 view_matrix = inverse(render.m_camera->m_view);
 
 		ReflectionProbeArray<16> probe_array;
 
@@ -1686,7 +1894,7 @@ namespace mud
 
 			probe_array.extents_intensity[probe_count] = { probe->m_extents, probe->m_intensity };
 
-			Colour ambient_linear = to_linear(render.m_environment->m_radiance.m_ambient) * render.m_environment->m_radiance.m_energy;
+			Colour ambient_linear = to_linear(render.m_env->m_radiance.m_ambient);
 			probe_array.ambient[probe_count] = { to_vec3(ambient_linear), 0.f };
 
 			probe_array.atlas_rect[probe_count] = { m_atlas.probe_rect(*probe) };
@@ -1702,9 +1910,9 @@ namespace mud
 		encoder.setUniform(u_uniform.u_indices, probe_array.indices, probe_count);
 	}
 
-	ReflectionCubemap& BlockReflection::find_cubemap(uint16_t size)
+	CubeTarget& BlockReflection::find_cubemap(uint16_t size)
 	{
-		for(ReflectionCubemap& cubemap : m_cubemaps)
+		for(CubeTarget& cubemap : m_cubemaps)
 			if(cubemap.m_size > size * 2)
 				return cubemap;
 		return m_cubemaps[0];
@@ -1717,36 +1925,34 @@ namespace mud
 
 		uvec4 atlas_rect = m_atlas.render_update(render, probe);
 
-		ReflectionCubemap& cubemap = find_cubemap(uint16_t(rect_w(atlas_rect)));
+		CubeTarget& cubemap = find_cubemap(uint16_t(atlas_rect.width));
 
 		for(int i = 0; i < 6; ++i)
 		{
-			vec3 edge = view_normal[i] * probe.m_extents;
-			float range = abs(dot(view_normal[i], edge));
+			const vec3 edge = view_normal[i] * probe.m_extents;
+			const float range = abs(dot(view_normal[i], edge));
 
-			mat4 transform = probe.m_node.m_transform * bxlookat(Zero3, view_normal[i], view_up[i]);
-			mat4 projection = bxproj(90.f, 1.f, 0.01f, range, bgfx::getCaps()->homogeneousDepth);
+			const mat4 transform = probe.m_node.m_transform * bxlookat(vec3(0.f), view_normal[i], view_up[i]);
+			const mat4 projection = bxproj(90.f, 1.f, 0.01f, range, bgfx::getCaps()->homogeneousDepth);
 
-			Renderer& renderer = m_gfx_system.renderer(Shading::Volume);
-
-			ManualRender probe_render = { render, Shading::Volume,  cubemap.m_fbo[i], uvec4(Rect4), transform, projection };
+			Camera camera = Camera(transform, projection);
+			Viewport viewport = Viewport(camera, *render.m_scene, Rect4);
+			Render probe_render = { Shading::Volume, viewport, *render.m_target, cubemap.m_fbos[i], *render.m_frame };
 			//probe_render.cull();
-			probe_render.render(renderer);
+			m_gfx.m_renderer.subrender(render, probe_render, m_gfx.renderer(Shading::Shaded));
 		}
 	}
 
-	PassProbes::PassProbes(GfxSystem& gfx_system, BlockReflection& block_reflection)
-		: RenderPass(gfx_system, {}, PassType::Probes)
-		, m_block_reflection(block_reflection)
-	{}
-
-	void PassProbes::submit_render_pass(Render& render)
+	void pass_probes(GfxSystem& gfx, Render& render)
 	{
-		UNUSED(render);
-		m_block_reflection.m_reflection_multiplier = 1.f;
+		static BlockReflection& block_reflection = *gfx.m_renderer.block<BlockReflection>();
+
+		Pass pass = render.next_pass("probes", PassType::Probes);
+
+		block_reflection.m_reflection_multiplier = 1.f;
 
 #if 0
-		for(ReflectionProbe* probe : render.m_shot->m_reflection_probes)
+		for(ReflectionProbe* probe : render.m_shot.m_reflection_probes)
 		{
 			if(!probe->m_dirty)
 				continue;
@@ -1756,7 +1962,7 @@ namespace mud
 		}
 #endif
 
-		m_block_reflection.m_reflection_multiplier = 0.f;
+		block_reflection.m_reflection_multiplier = 0.f;
 	}
 }
 
@@ -1769,71 +1975,46 @@ module mud.gfx.pbr;
 #include <stl/algorithm.h>
 #endif
 
-//#define DEBUG_CSM
+#include <cstdio>
+
+#define DEBUG_ATLAS 0
 
 namespace mud
 {
+	GpuState<GpuShadow> GpuState<GpuShadow>::me;
+
 	float snap_step(float value, float step)
 	{
 		return std::floor(value / step + 0.5f) * step;
 	}
 
-	uvec4 csm_rect(uint size, size_t light_count, Light& light, size_t index, size_t pass)
+	vec4 target_rect(const LightShadow& shadow)
 	{
-		uvec4 light_rect;
+		vec4 rect = shadow.m_rect;
+		if(bgfx::getCaps()->originBottomLeft)
+			rect.y = 1.f - rect.y - rect.height;
+		return rect;
+	}
 
-		if(light_count == 1)
-		{
-			light_rect = uvec4{ 0, 0, size, size };
-		}
-		else if(light_count == 2)
-		{
-			light_rect = uvec4{ 0, 0, size, size / 2 };
-			light_rect.x += index == 1 ? rect_w(light_rect) : 0;
-		}
-		else
-		{
-			light_rect = uvec4{ 0, 0, size / 2, size / 2 };
-			light_rect.x += index & 1 ? rect_w(light_rect) : 0;
-			light_rect.y += index / 2 ? rect_h(light_rect) : 0;
-		}
-
-		uvec4 pass_rect = light_rect;
+	vec4 csm_pass_rect(const vec4& atlas_rect, Light& light, size_t pass)
+	{
+		vec4 pass_rect = atlas_rect;
 
 		if(light.m_shadow_num_splits == 4)
 		{
-			rect_w(pass_rect) /= 2;
-			rect_h(pass_rect) /= 2;
-			pass_rect.x += pass % 2 == 0 ? 0 : rect_w(pass_rect);
-			pass_rect.y += pass < 2 ? 0 : rect_h(pass_rect);
+			pass_rect.width /= 2.f;
+			pass_rect.height /= 2.f;
+			pass_rect.x += pass % 2 == 0 ? 0.f : pass_rect.width;
+			pass_rect.y += pass < 2 ? 0.f : pass_rect.height;
 		}
 		else if(light.m_shadow_num_splits == 2)
 		{
-			rect_h(pass_rect) /= 2;
-			pass_rect.y += pass == 0 ? 0 : rect_h(pass_rect);
+			pass_rect.height /= 2.f;
+			pass_rect.y += pass == 0 ? 0.f : pass_rect.height;
 		}
 
 		return pass_rect;
 	}
-
-	struct ShadowRender : public ManualRender
-	{
-		ShadowRender(Render& render, Light& light, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection)
-			: ManualRender(render, Shading::Volume, fbo, viewport_rect, transform, projection)
-			, m_light(light)
-		{}
-
-		void render(BlockShadow& block_shadow, float bias_scale)
-		{
-			block_shadow.m_depth_params.m_depth_bias = m_light.m_shadow_bias * bias_scale;
-			block_shadow.m_depth_params.m_depth_normal_bias = m_light.m_shadow_normal_bias;
-			block_shadow.m_depth_params.m_depth_z_far = m_light.m_shadow_range;
-			Renderer& renderer = block_shadow.m_gfx_system.renderer(Shading::Volume);
-			ManualRender::render(renderer);
-		}
-
-		Light& m_light;
-	};
 
 	template <class T_Filter>
 	vector<Item*> filter_cull(Scene& scene, T_Filter filter, bool nofilter = false)
@@ -1864,8 +2045,8 @@ namespace mud
 
 	void cull_shadow_render(Render& render, vector<Item*>& result, const Plane6& planes)
 	{
-		auto filter = [](Item& item) { return item.m_visible && item.m_model->m_geometry[PLAIN] && (item.m_flags & ItemFlag::Shadows) != 0; };
-		result = filter_cull(render.m_scene, filter);
+		auto filter = [](Item& item) { return item.m_visible && item.m_model->m_geometry[PrimitiveType::Triangles] && (item.m_flags & ItemFlag::Shadows) != 0; };
+		result = filter_cull(*render.m_scene, filter);
 		//result = frustum_cull(items, planes, filter);
 
 		for(Item* item : result)
@@ -1893,7 +2074,7 @@ namespace mud
 		for(uint i = 0; i < 8; i++)
 		{
 			// Transform to light space.
-			vec3 corner_light = vec3(light_transform * vec4{ slice.m_corners[i], 1.f });
+			vec3 corner_light = vec3(light_transform * vec4(slice.m_corners[i], 1.f));
 
 			bounds.min = min(bounds.min, corner_light);
 			bounds.max = max(bounds.max, corner_light);
@@ -1907,7 +2088,7 @@ namespace mud
 		float zmax = light_bounds.max.z;
 		float radius = slice.m_frustum.m_radius * texture_size / (texture_size - 2.f);
 
-		vec3 slice_center = vec3(light_transform * vec4{ slice.m_frustum.m_center, 0.f });
+		vec3 slice_center = vec3(light_transform * vec4(slice.m_frustum.m_center, 0.f));
 		light_bounds.min = slice_center - radius;
 		light_bounds.max = slice_center + radius;
 		light_bounds.max.z = zmax;
@@ -1915,9 +2096,9 @@ namespace mud
 
 	void light_slice_cull(Render& render, Light& light, LightBounds& light_bounds, vector<Item*>& result)
 	{
-		vec3 x = light.m_node.axis(X3);
-		vec3 y = light.m_node.axis(Y3);
-		vec3 z = light.m_node.axis(Z3);
+		vec3 x = light.m_node->axis(X3);
+		vec3 y = light.m_node->axis(Y3);
+		vec3 z = light.m_node->axis(Z3);
 
 		Plane6 light_frustum_planes =
 		{
@@ -1982,285 +2163,423 @@ namespace mud
 		return light_proj * light_crop;
 	}
 	
-	void update_shadow_slice(Render& render, Light& light, size_t num_direct, size_t index, const mat4& light_transform, const mat4& light_proj, 
-							 FrustumSlice& slice, LightShadow& shadow, LightShadow::Slice& shadow_slice, size_t csm_size)
+	void update_csm_slice(Render& render, Light& light, const mat4& light_transform, const mat4& light_proj, 
+						  CSMSlice& slice, CSMShadow& csm, const vec4& atlas_rect, uint csm_size)
 	{
-		shadow_slice.m_viewport_rect = vec4(csm_rect(uint(csm_size), num_direct, light, index, slice.m_index));
+		slice.m_light = &light;
+		slice.m_rect = csm_pass_rect(atlas_rect, light, slice.m_index);
+		
+		slice.m_light_bounds = light_slice_bounds(slice.m_frustum, light_transform);
 
-		shadow_slice.m_light_bounds = light_slice_bounds(slice.m_frustum, light_transform);
-
-		shadow_slice.m_items = render.m_shot->m_items;
-		light_slice_cull(render, light, shadow_slice.m_light_bounds, shadow_slice.m_items);
-
-		float texture_size = float(rect_w(shadow_slice.m_viewport_rect));
+		slice.m_items = render.m_shot.m_items;
+		light_slice_cull(render, light, slice.m_light_bounds, slice.m_items);
 
 		if(false)//light.m_shadow_flags == CSM_Stabilize)
 		{
-			light_slice_sphere_bounds(slice, light_transform, shadow_slice.m_light_bounds, texture_size);
-			stabilize_light_bounds(slice, shadow_slice.m_light_bounds, texture_size);
+			const float texture_size = float(slice.m_rect.width);
+			light_slice_sphere_bounds(slice, light_transform, slice.m_light_bounds, texture_size);
+			stabilize_light_bounds(slice, slice.m_light_bounds, texture_size);
 		}
 
-		shadow_slice.m_texture_rect = vec4(shadow_slice.m_viewport_rect) / float(csm_size);
+		slice.m_proj = crop_shrink_light_proj(light, slice.m_light_bounds, light_proj, float(csm_size));
+		slice.m_transform = light_transform;
 
-		shadow_slice.m_projection = crop_shrink_light_proj(light, shadow_slice.m_light_bounds, light_proj, float(csm_size));
-		shadow_slice.m_transform = light_transform;
+		mat4 crop_matrix = rect_mat(slice.m_rect) * bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, bgfx::getCaps()->homogeneousDepth);
+		slice.m_shadow_matrix = crop_matrix * slice.m_proj * slice.m_transform;
 
-		mat4 crop_matrix = rect_mat(shadow_slice.m_texture_rect) * bias_mat_bgfx(bgfx::getCaps()->originBottomLeft, bgfx::getCaps()->homogeneousDepth);
-		shadow_slice.m_shadow_matrix = crop_matrix * shadow_slice.m_projection * shadow_slice.m_transform;
+		slice.m_bias_scale = slice.m_index == 0 ? 1.f : slice.m_frustum.m_radius / csm.m_slices[0].m_frustum.m_radius;
 
-		shadow_slice.m_bias_scale = slice.m_index == 0 ? 1.f : slice.m_frustum.m_radius / shadow.m_frustum_slices[0].m_frustum.m_radius;
-
-		shadow_slice.m_frustum_slice = slice;
+		slice.m_frustum_slice = slice;
 	}
 
-	void BlockShadow::update_direct(Render& render, Light& light, size_t num_direct, size_t index)
+	void BlockShadow::update_csm(Render& render, Light& light, CSMShadow& csm)
 	{
-		LightShadow& shadow = m_shadows[index];
+		csm.m_light = &light;
+		csm.m_slices.resize(light.m_shadow_num_splits);
 
-		shadow.m_frustum_slices.resize(light.m_shadow_num_splits);
-		split_frustum_slices(render.m_camera, shadow.m_frustum_slices, light.m_shadow_num_splits, light.m_shadow_split_distribution);
+		vector<FrustumSlice*> slices;
+		for(CSMSlice& slice : csm.m_slices)
+			slices.push_back(&slice);
 
-		mat4 light_transform = bxlookat(-light.m_node.direction(), Zero3);
-		mat4 light_proj = bxortho(1.0f, -1.0f, 1.0f, -1.0f, -light.m_shadow_range, light.m_shadow_range, 0.0f, bgfx::getCaps()->homogeneousDepth);
+		split_frustum_slices(*render.m_camera, slices, light.m_shadow_num_splits, light.m_shadow_split_distribution);
 
-		shadow.m_slices.clear();
-		shadow.m_slices.resize(shadow.m_frustum_slices.size());
+		const mat4 light_transform = bxlookat(-light.m_node->direction(), vec3(0.f));
+		const mat4 light_proj = bxortho(1.0f, -1.0f, 1.0f, -1.0f, -light.m_shadow_range, light.m_shadow_range, 0.0f, bgfx::getCaps()->homogeneousDepth);
 
-		for(size_t i = 0; i < shadow.m_frustum_slices.size(); ++i)
+		const ShadowAtlas::Slot& slot = m_atlas.light_slot(light);
+
+		for(size_t i = 0; i < csm.m_slices.size(); ++i)
 		{
-			FrustumSlice& slice = shadow.m_frustum_slices[i];
-			LightShadow::Slice& shadow_slice = shadow.m_slices[i];
-			update_shadow_slice(render, light, num_direct, index, light_transform, light_proj, slice, shadow, shadow_slice, m_csm.m_size);
+			CSMSlice& slice = csm.m_slices[i];
+			update_csm_slice(render, light, light_transform, light_proj, slice, csm, slot.m_rect, slot.m_trect.width);
+			slice.m_fbo = &m_atlas.m_fbo;
 		}
 	}
 
-	void BlockShadow::render_direct(Render& render, Light& light, size_t index)
+	void Shadowmap::create(const uvec2& size, DepthMethod method)
 	{
-		if(!bgfx::isValid(m_csm.m_fbo))
+		//*this = {};
+		m_size = size;
+		m_depth_method = method;
+
+		if(method == DepthMethod::Depth)
+		{
+			m_depth = { size, false, TextureFormat::D24S8, BGFX_TEXTURE_RT | TEXTURE_CLAMP | TEXTURE_DEPTH };
+			m_fbo = { m_depth };
+		}
+		else if(method == DepthMethod::Distance)
+		{
+			m_color = { size, false, TextureFormat::RGBA8, BGFX_TEXTURE_RT | TEXTURE_CLAMP | TEXTURE_POINT };
+			m_fbo = { m_color };
+		}
+	}
+
+	void ShadowmapCube::create(uint32_t size)
+	{
+		const uint64_t flags = BGFX_TEXTURE_RT | TEXTURE_CLAMP3 | TEXTURE_DEPTH;
+		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::D24S8, flags))
 			return;
 
-		LightShadow& shadow = m_shadows[index];
+		m_size = size;
+		m_depth = { uvec2(size), false, TextureFormat::D24S8, flags, true };
 
-		for(LightShadow::Slice& slice : shadow.m_slices)
+		for(int i = 0; i < 6; i++)
 		{
-			vec4 viewport_rect = slice.m_viewport_rect;
-			if(bgfx::getCaps()->originBottomLeft)
-				viewport_rect.y = 4096 - viewport_rect.y - rect_h(viewport_rect);
-
-			ShadowRender shadow_render = { render, light, m_csm.m_fbo, uvec4(viewport_rect), slice.m_transform, slice.m_projection };
-			shadow_render.m_sub_render.m_shot->m_items = slice.m_items;
-			shadow_render.render(*this, slice.m_bias_scale);
+			bgfx::Attachment attach = { bgfx::Access::Write, m_depth, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS };
+			m_fbos[i] = { uvec2(size), m_depth, { attach } };
 		}
 	}
 
-	CSMShadow::CSMShadow(uint16_t size)
-		: m_size(size)
-	{
-		m_depth = bgfx::createTexture2D(size, size, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
-		m_fbo = bgfx::createFrameBuffer(1, &m_depth, true);
-	}
-
-	BlockShadow::BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth)
-		: DrawBlock(gfx_system, type<BlockShadow>())
+	BlockShadow::BlockShadow(GfxSystem& gfx, BlockDepth& block_depth, BlockLight& block_light)
+		: DrawBlock(gfx, type<BlockShadow>())
 		, m_block_depth(block_depth)
+		, m_block_light(block_light)
 	{
-		static cstring options[1] = { "CSM_SHADOW" };
-		static cstring modes[2] = { "CSM_NUM_CASCADES", "CSM_PCF_LEVEL" };
-		m_shader_block->m_options = { options, 1 };
-		m_shader_block->m_modes = { modes, 2 };
+		m_options = { "CSM_SHADOW" };
+		m_modes = { "PCF_LEVEL" };
+
+		//m_pcf_level = PCF_HARD;
+		m_pcf_level = PCF_NONE;
 	}
 
 	void BlockShadow::init_block()
 	{
-		u_direct_shadow.createUniforms();
+		u_shadow.createUniforms();
+
+		GpuState<GpuShadow>::me.init();
+	}
+
+	void BlockShadow::begin_frame(const RenderFrame& frame)
+	{
+		m_atlas.begin_frame(frame);
 	}
 
 	void BlockShadow::begin_render(Render& render)
 	{
 		UNUSED(render);
-		if(m_direct_light && m_direct_light->m_shadows)
-		{
-			constexpr uint16_t csm_size = 4096;
-			if(m_csm.m_size != csm_size)
-				m_csm = { csm_size };
-		}
 
-		bool needs_atlases = false;
-		if(needs_atlases)
-		{
-			m_atlas = { 1024, { 2, 4, 8, 16 } };
-		}
+		for(Light* light : render.m_shot.m_lights)
+			if(light->m_shadows)
+			{
+				if(m_atlas.m_side == 0)
+					m_atlas = { 1024U, 4U };
 
-#ifdef DEBUG_CSM
-		if(render.m_target)
-		{
-			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
-			copy.debug_show_texture(render, m_csm.m_depth, vec4(0.f), true);
-		}
+				m_atlas.render_update(render, *light);
+			}
+
+		this->setup_shadows(render);
+
+#if DEBUG_ATLAS
+		m_gfx.m_copy->debug_show_texture(render, m_atlas.m_depth, vec4(0.f));
+		//m_gfx.m_copy->debug_show_texture(render, m_atlas.m_color, vec4(0.f));
 #endif
 	}
 
-	void BlockShadow::update_shadows(Render& render)
+	void BlockShadow::setup_shadows(Render& render)
 	{
-		size_t num_direct_shadow = 0;
-		for(Light* light : render.m_shot->m_lights)
-			if(light->m_shadows && light->m_type == LightType::Direct)
-			{
-				num_direct_shadow++;
-			}
-
-		size_t direct_shadow_index = 0;
-
+		span<Light*> lights = render.m_shot.m_lights;
+		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
+		
+		m_csm_shadows.clear();
 		m_shadows.clear();
 
-		for(Light* light : render.m_shot->m_lights)
+		for(size_t index = 0; index < lights.size(); ++index)
 		{
-			if(!light->m_shadows)
-				continue;
+			Light& light = *lights[index];
+			if(!light.m_shadows) continue;
 
-			m_shadows.emplace_back();
-
-			if(light->m_type == LightType::Direct)
+			if(light.m_type == LightType::Direct)
 			{
-				this->update_direct(render, *light, num_direct_shadow, direct_shadow_index);
-				direct_shadow_index++;
+				CSMShadow& csm = push(m_csm_shadows);
+				if(m_atlas.m_size != uvec2(0U))
+					this->update_csm(render, light, csm);
 			}
-		}
-	}
-
-	void BlockShadow::render_shadows(Render& render)
-	{
-		size_t direct_shadow_index = 0;
-
-		for(Light* light : render.m_shot->m_lights)
-		{
-			if(!light->m_shadows)
-				continue;
-
-			if(light->m_type == LightType::Direct)
+			else if(light.m_type == LightType::Point)
 			{
-				this->render_direct(render, *light, direct_shadow_index);
-				direct_shadow_index++;
-			}
-			if(light->m_type == LightType::Point)
-			{
-				uvec4 atlas_rect = m_atlas.render_update(render, *light);
+				if(light.m_shadow_index.slice == UINT8_MAX)
+					continue;
 
-				mat4 projection = bxproj(90.f, 1.f, 0.01f, light->m_range, bgfx::getCaps()->homogeneousDepth);
+				const ShadowAtlas::Slot& slot = m_atlas.light_slot(light);
+				const vec4 atlas_rect = slot.m_rect;
+				const vec2 slot_coord = { atlas_rect.x, atlas_rect.y };
+				const vec2 slot_size = { atlas_rect.width, atlas_rect.height };
 
-				for(int i = 0; i < 6; i++)
+				const mat4 projection = bxproj(90.f, 1.f, 0.01f, light.m_range, bgfx::getCaps()->homogeneousDepth);
+
+				// These viewports map a cube-map onto a 2D texture with the
+				// following orientation:
+				//  xzXZ
+				//   y Y
+
+				const table<SignedAxis, vec2> offsets =
 				{
-					static const vec3 view_normals[6] = { -X3, X3, -Y3, Y3, -Z3, Z3 };
-					static const vec3 view_up[6] = { -Y3, -Y3, -Z3, Z3, -Y3, -Y3 };
+					slot_coord + vec2(2.f, 0.f) * slot_size, // positive X
+					slot_coord + vec2(0.f, 0.f) * slot_size, // negative X
+					slot_coord + vec2(3.f, 1.f) * slot_size, // positive Y
+					slot_coord + vec2(1.f, 1.f) * slot_size, // negative Y
+					slot_coord + vec2(3.f, 0.f) * slot_size, // positive Z
+					slot_coord + vec2(1.f, 0.f) * slot_size, // negative Z
+				};
 
-					mat4 transform = light->m_node.m_transform * bxlookat(Zero3, view_normals[i], view_up[i]);
+				m_block_light.m_gpu_lights[index].shadow.atlas_slot = slot_coord;
+				m_block_light.m_gpu_lights[index].shadow.atlas_subdiv = slot_size;
 
-					ShadowCubemap& cubemap = m_atlas.light_cubemap(*light, uint16_t(rect_w(atlas_rect)));
+				for(SignedAxis axis : c_signed_axes)
+				{
+					// up stays up for all sides of the cube except when looking down (where it's forward aka -Z) or up (back aka Z)
+					static const table<SignedAxis, vec3> view_up = { Y3, Y3, Z3, -Z3, Y3, Y3 };
 
-					ShadowRender shadow_render = { render, *light, cubemap.m_fbos[i], { uvec2(0U), uvec2(uint(cubemap.m_size)) }, projection, transform };
-					cull_shadow_render(render, shadow_render.m_sub_render.m_shot->m_items, projection, transform);
-					shadow_render.render(*this, 1.f);
+					LightShadow& shadow = push(m_shadows);
+					shadow.m_light = &light;
+					shadow.m_rect = { offsets[axis], slot_size };
+					shadow.m_far = light.m_range;
+
+					const vec3& position = light.m_node->position();
+					shadow.m_transform = bxlookat(position, position + to_vec3(axis), view_up[axis]);
+					shadow.m_proj = projection;
+					//shadow.m_light_bounds = 
+
+					shadow.m_items = render.m_shot.m_items;
+					cull_shadow_render(render, shadow.m_items, shadow.m_proj, shadow.m_transform);
+
+					shadow.m_fbo = &m_atlas.m_fbo;
+
+					shadow.m_shadow_matrix = bxtranslation(-position);
+					shadow.m_depth_method = DepthMethod::Distance;
+
 				}
 			}
-			else if(light->m_type == LightType::Spot)
+			else if(light.m_type == LightType::Spot)
 			{
-				uvec4 atlas_rect = m_atlas.render_update(render, *light);
+				LightShadow& shadow = push(m_shadows);
+				shadow.m_light = &light;
+				shadow.m_rect = m_atlas.render_update(render, light);
 
-				mat4 projection = bxproj(light->m_spot_angle * 2.f, 1.f, 0.01f, light->m_range, bgfx::getCaps()->homogeneousDepth);
-				mat4 transform = light->m_node.m_transform;
+				shadow.m_proj = bxproj(light.m_spot_angle * 2.f, 1.f, 0.01f, light.m_range, bgfx::getCaps()->homogeneousDepth);
+				shadow.m_transform = light.m_node->m_transform;
 
-				ShadowRender shadow_render = { render, *light, m_atlas.m_fbo, atlas_rect, projection, transform };
-				cull_shadow_render(render, shadow_render.m_sub_render.m_shot->m_items, projection, transform);
-				shadow_render.render(*this, 1.f);
+				shadow.m_items = render.m_shot.m_items;
+				cull_shadow_render(render, shadow.m_items, shadow.m_proj, shadow.m_transform);
+
+				shadow.m_fbo = &m_atlas.m_fbo;
+				shadow.m_shadow_matrix = light.m_node->m_transform;
+
+				//m_block_light.m_gpu_shadows[index].matrix = m_shadows.size() - 1;
 			}
 		}
 	}
 
-	void BlockShadow::begin_pass(Render& render)
+	void BlockShadow::commit_shadows(Render& render, const mat4& view)
 	{
 		UNUSED(render);
+		const mat4 inverse_view = inverse(view);
+
+		size_t index = 0;
+
+		m_shadow_matrices.resize(m_csm_shadows.size() * 4 + m_shadows.size());
+
+		for(const CSMShadow& csm : m_csm_shadows)
+		{
+			size_t i = 0;
+			for(const CSMSlice& slice : csm.m_slices)
+			{
+				GpuCSMShadow& gpu = m_block_light.m_gpu_lights[slice.m_light->m_index].csm;
+
+				m_shadow_matrices[index] = slice.m_shadow_matrix * inverse_view;
+
+				gpu.num_slices = slice.m_light->m_shadow_num_splits;
+				gpu.matrices[i] = float(index);
+				gpu.splits[i] = slice.m_frustum.m_far;
+
+				index++; i++;
+			}
+		}
+
+		for(const LightShadow& shadow : m_shadows)
+		{
+			GpuShadow& gpu = m_block_light.m_gpu_lights[shadow.m_light->m_index].shadow;
+
+			m_shadow_matrices[index] = shadow.m_shadow_matrix * inverse_view;
+
+			gpu.matrix = float(index);
+			gpu.bias = shadow.m_light->m_shadow_bias;
+			gpu.radius = 1.f;
+			gpu.range = shadow.m_far;
+
+			index++;
+		}
+
+		m_block_light.upload_lights(render);
 	}
 
-	void BlockShadow::begin_draw_pass(Render& render)
+	void BlockShadow::upload_shadows(Render& render, const Pass& pass) const
 	{
 		UNUSED(render);
+		GpuState<GpuShadow>::me.upload(pass, const_cast<BlockShadow*>(this)->m_shadow_matrices);
 	}
 
-	void BlockShadow::options(Render& render, ShaderVersion& shader_version) const
+	void BlockShadow::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
 		UNUSED(render);
 
 		Light* light = m_direct_light;
 		bool direct = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;
 
+		program.set_mode(m_index, PCF_LEVEL, uint8_t(m_pcf_level));
+
 		if(direct && light->m_shadows)
 		{
-			shader_version.set_option(m_index, CSM_SHADOW);
-			//shader_version.set_option(m_index, CSM_BLEND, light->m_shadow_blend_splits);
-			shader_version.set_mode(m_index, CSM_NUM_CASCADES, light->m_shadow_num_splits);
-			shader_version.set_mode(m_index, CSM_PCF_LEVEL, uint8_t(m_pcf_level));
+			program.set_option(m_index, CSM_SHADOW);
+			//program.set_option(m_index, CSM_BLEND, light->m_shadow_blend_splits);
 		}
 	}
 
-	void BlockShadow::submit(Render& render, const Pass& render_pass) const
+	void BlockShadow::submit(Render& render, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render);
+
+		this->upload_shadows(render, pass);
+
+		uint32_t shadow_atlas = uint32_t(TextureSampler::Shadow);
+		bgfx::setViewUniform(pass.m_index, u_shadow.s_shadow_atlas, &shadow_atlas);
 
 		Light* light = m_direct_light;
 		bool direct = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;
 
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-
 		if(direct && light->m_shadows)
 		{
+			vec4 csm_p0 = { 1.f / vec2(m_atlas.m_size), vec2(0.f) };
+			bgfx::setViewUniform(pass.m_index, u_shadow.u_csm_p0, &csm_p0);
+
 			vec2 pcf_offset = { 1.f, 1.f };
-			vec4 csm_params = { vec2(1.f / float(m_csm.m_size)), pcf_offset };
-			encoder.setUniform(u_direct_shadow.u_csm_params, &csm_params);
-
-			if(m_pcf_level == CSM_HARD_PCF)
-				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_direct_shadow.s_csm_atlas, m_csm.m_depth, GFX_TEXTURE_POINT);
-			else
-				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_direct_shadow.s_csm_atlas, m_csm.m_depth, BGFX_SAMPLER_COMPARE_LESS);
-				//encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_direct_shadow.s_csm_atlas, m_csm.m_depth);
+			vec4 pcf_p0 = { pcf_offset, vec2(0.f) };
+			bgfx::setViewUniform(pass.m_index, u_shadow.u_pcf_p0, &pcf_p0);
 		}
 
-		if(0)//render.m_shadow_atlas)
+		if(!m_shadows.empty())
 		{
-			encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), u_shadow.s_shadow_atlas, m_atlas.m_depth, BGFX_SAMPLER_COMPARE_LESS);
-			vec2 shadow_atlas_pixel_size = vec2(1.f) / float(m_atlas.m_size);
-			encoder.setUniform(u_shadow.u_shadow_pixel_size, &shadow_atlas_pixel_size[0]);
+			vec4 atlas_p0 = { vec2(m_atlas.m_size), vec2(1.f) / float(m_atlas.m_side) };
+			bgfx::setViewUniform(pass.m_index, u_shadow.u_shadow_atlas, &atlas_p0);
 		}
 	}
 
-	PassShadowmap::PassShadowmap(GfxSystem& gfx_system, BlockShadow& block_shadow)
-		: RenderPass(gfx_system, "shadowmap", PassType::Shadowmap)
-		, m_block_shadow(block_shadow)
-	{}
-
-	void PassShadowmap::submit_render_pass(Render& render)
+	void BlockShadow::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
-		m_block_shadow.update_shadows(render);
-		m_block_shadow.render_shadows(render);
+		UNUSED(render); UNUSED(element); UNUSED(pass);
+
+		bgfx::Encoder& encoder = *pass.m_encoder;
+
+		bool shadow_sampler = false; // m_pcf_level != PCF_HARD
+		uint32_t shadow_flags = shadow_sampler ? BGFX_SAMPLER_COMPARE_LESS : TEXTURE_POINT;
+
+		// @todo for now normal shadows and direct shadows are incompatible because we use color for the former and depth for the latter
+		// we should be able to switch the distance shader to write to the depth buffer
+		if(!m_shadows.empty())
+		{
+			encoder.setTexture(uint8_t(TextureSampler::Shadow), m_atlas.m_color, shadow_flags);
+		}
+
+		if(!m_csm_shadows.empty())
+		{
+			encoder.setTexture(uint8_t(TextureSampler::Shadow), m_atlas.m_depth, shadow_flags);
+		}
 	}
 
-	PassShadow::PassShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockShadow& block_shadow)
-		: PassDepth(gfx_system, block_depth)
-		, m_block_depth(block_depth)
-		, m_block_shadow(block_shadow)
-	{}
-
-	void PassShadow::next_draw_pass(Render& render, Pass& render_pass)
+	void pass_shadowmaps(GfxSystem& gfx, Render& render)
 	{
-		PassDepth::next_draw_pass(render, render_pass);
+		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
 
-		m_block_depth.m_current_params = &m_block_shadow.m_depth_params;
+		auto setup_block = [&](Light& light, DepthMethod depth_method, float bias_scale = 1.f)
+		{
+			block_shadow.m_depth_method = depth_method;
+
+			block_shadow.m_distance_params.m_eye = light.m_node->position();
+			block_shadow.m_distance_params.m_near = 0.01f;
+			block_shadow.m_distance_params.m_far = light.m_range;
+
+			block_shadow.m_depth_params.m_depth_bias = light.m_shadow_bias * bias_scale;
+			block_shadow.m_depth_params.m_depth_normal_bias = light.m_shadow_normal_bias;
+			block_shadow.m_depth_params.m_depth_z_far = light.m_shadow_range;
+		};
+
+		auto render_shadow = [&](LightShadow& shadow, const vec4& rect)
+		{
+			Camera camera = Camera(shadow.m_transform, shadow.m_proj);
+			Viewport viewport = Viewport(camera, *render.m_scene, rect);
+
+			Render shadow_render = { Shading::Volume, viewport, *render.m_target, *shadow.m_fbo, *render.m_frame };
+			shadow_render.m_shot.m_lights = render.m_shot.m_lights;
+			shadow_render.m_shot.m_items = shadow.m_items;
+
+			setup_block(*shadow.m_light, shadow.m_depth_method, shadow.m_bias_scale);
+
+			RenderFunc renderer = gfx.renderer(Shading::Volume);
+			gfx.m_renderer.subrender(render, shadow_render, gfx.renderer(Shading::Volume));
+		};
+
+		for(CSMShadow& csm : block_shadow.m_csm_shadows)
+		{
+			if(!block_shadow.m_atlas.m_fbo.valid())
+				continue;
+
+			for(LightShadow& slice : csm.m_slices)
+				render_shadow(slice, target_rect(slice));
+		}
+
+		for(LightShadow& shadow : block_shadow.m_shadows)
+		{
+			render_shadow(shadow, shadow.m_rect);
+		}
 	}
 
-	void PassShadow::queue_draw_element(Render& render, DrawElement& element)
+	void pass_shadow(GfxSystem& gfx, Render& render)
 	{
-		if(element.m_material->m_pbr_block.m_enabled && !element.m_material->m_base_block.m_is_alpha)
-			PassDepth::queue_draw_element(render, element);
+		static BlockDepth& block_depth = *gfx.m_renderer.block<BlockDepth>();
+		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
+
+		Pass pass = render.next_pass("shadow", PassType::Shadow);
+
+		block_depth.m_depth_method = block_shadow.m_depth_method;
+		block_depth.m_depth_params = block_shadow.m_depth_params;
+		block_depth.m_distance_params = block_shadow.m_distance_params;
+
+		block_depth.submit(render, pass);
+		//block_shadow.submit(render, pass);
+
+		pass_depth(gfx, render, pass, false);
+
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
+		{
+			const Program& program = *element.m_program.m_program;
+			if(!program.m_blocks[MaterialBlock::Lit] || element.m_material->m_alpha.m_is_alpha)
+				return false;
+			
+			return queue_depth(gfx, render, pass, element);
+		};
+
+		gfx.m_renderer.pass(render, pass, queue_draw_element);
 	}
+
 }
 
 
@@ -2269,158 +2588,251 @@ namespace mud
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
+#include <stl/algorithm.h>
 #endif
+
+#include <cstdio>
 
 namespace mud
 {
-	ShadowCubemap::ShadowCubemap(uint16_t size)
-		: m_size(size)
+	ShadowAtlas::ShadowAtlas(uint16_t size, uint8_t num_slices)
+		: m_side(size)
+		, m_size(size * num_slices, size)
 	{
-		if(!bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT))
-			return;
+		m_depth = { m_size, false, TextureFormat::D24S8, BGFX_TEXTURE_RT | TEXTURE_CLAMP | TEXTURE_DEPTH };
+		m_color = { m_size, false, TextureFormat::RGBA8, BGFX_TEXTURE_RT | TEXTURE_CLAMP };
+		m_fbo = { m_size, { &m_depth, &m_color } };
 
-		m_cubemap = bgfx::createTextureCube(m_size, false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP_UVW | GFX_TEXTURE_POINT);
-
-		for(int i = 0; i < 6; i++)
+		const float fraction = 1.f / float(num_slices);
+		for(uint8_t i = 0; i < num_slices; ++i)
 		{
-			bgfx::Attachment attachment = { m_cubemap, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS };
-			m_fbos[i] = bgfx::createFrameBuffer(1, &attachment, true);
+			m_slices.push_back({ i, uvec2(uint(m_side)), vec4(float(i) * fraction, 0.f, fraction, 1.f) });
 		}
 	}
 
-	ShadowAtlas::ShadowAtlas(uint16_t size, vector<uint16_t> slices_subdiv)
-		: m_size(size)
+	ShadowAtlas::Slot& ShadowAtlas::light_slot(Light& light)
 	{
-		m_depth = bgfx::createTexture2D(m_size, m_size * uint16_t(slices_subdiv.size()), false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP);
-		m_fbo = bgfx::createFrameBuffer(1, &m_depth);
-
-		uint16_t index = 0;
-		for(uint16_t subdiv : slices_subdiv)
-		{
-			m_slices.push_back({ m_size, subdiv, uvec4(0, index * m_size, m_size, m_size) });
-		}
-
-		uint16_t max_cubemap_size = 512;
-		uint16_t cubemap_size = max_cubemap_size;
-		while(cubemap_size >= 32)
-		{
-			m_cubemaps.push_back({ cubemap_size });
-			cubemap_size >>= 1;
-		}
+		Slice& slice = m_slices[light.m_shadow_index.slice];
+		return slice.m_slots[light.m_shadow_index.slot];
 	}
 
-	ShadowCubemap& ShadowAtlas::light_cubemap(Light& light, uint16_t shadow_size)
+	ShadowAtlas::Slice& ShadowAtlas::light_slice(Light& light)
 	{
-		UNUSED(light);
-		for(int i = int(m_cubemaps.size()) - 1; i >= 0; i--)
-			if(m_cubemaps[i].m_size > shadow_size * 2)
-			{
-				return m_cubemaps[i];
-			}
-
-		return m_cubemaps.back();
+		return m_slices[light.m_shadow_index.slice];
 	}
 
-	uvec4 ShadowAtlas::light_rect(Light& light)
-	{
-		UNUSED(light);
-		Index index = {};// = m_light_indices[light.m_light_index];
-		Slice& slice = m_slices[index.m_slice];
-		Slice::Slot& slot = slice.m_slots[index.m_slot];
-		return slot.m_rect;
-	}
-
-	ShadowAtlas::Slice::Slice(uint32_t size, uint16_t subdiv, uvec4 rect)
-		: m_size(size)
-		, m_subdiv(subdiv)
+	ShadowAtlas::Slice::Slice(uint8_t index, const uvec2& size, const vec4& rect)
+		: m_index(index)
+		, m_size(size)
 		, m_rect(rect)
-	{
-		uint32_t subdiv_size = size / subdiv;
+	{}
 
+	void ShadowAtlas::begin_frame(const RenderFrame& frame)
+	{
+		for(Slice& slice : m_slices)
+			for(uint32_t i = 0; i < slice.m_slots.size(); ++i)
+			{
+				Slot& slot = slice.m_slots[i];
+				if(slot.m_light && slot.m_frame < frame.m_frame-1)
+					this->yield(slice, i);
+			}
+	}
+
+	void ShadowAtlas::subdiv(Slice& slice, uint16_t subdiv)
+	{
+		slice.m_subdiv = subdiv;
+		slice.m_slot_size = m_size / uvec2(uint(subdiv));
+
+		const vec2 slot_size = vec2(slice.m_rect.size) / float(subdiv);
+		const vec2 coord = slice.m_rect.pos;
+
+		slice.m_slots.clear();
+		slice.m_free_slots.clear();
+		slice.m_free_blocks.clear();
+
+		auto at = [&](uint x, uint y) -> uint32_t { return x + y*subdiv; };
+
+		uint16_t i = 0;
 		for(uint16_t y = 0; y < subdiv; ++y)
 			for(uint16_t x = 0; x < subdiv; ++x)
 			{
-				uvec4 slot_rect = { rect.x + x * subdiv_size, rect.y + y * subdiv_size,
-									subdiv_size, subdiv_size };
+				vec4 slot_rect = { coord + vec2(x, y) * slot_size, slot_size };
+				uvec4 slot_trect = uvec4(slot_rect * vec2(m_size));
 
-				m_slots.push_back({ nullptr, slot_rect });
+				slice.m_slots.push_back({ i++, nullptr, slot_rect, slot_trect });
+
+				bool at_block = x % 4 == 0 && y % 2 == 0;
+				bool has_space = subdiv - x >= 4 && subdiv - y >= 2;
+				if(at_block && has_space)
+				{
+					Block block = { { at(x+0, y+0), at(x+1, y+0), at(x+2, y+0), at(x+3, y+0),
+									  at(x+0, y+1), at(x+1, y+1), at(x+2, y+1), at(x+3, y+1) } };
+					slice.m_slots.back().m_block = slice.m_blocks.size();
+					slice.m_blocks.push_back(block);
+				}
 			}
+
+		// @todo change to high water mark + free list under water mark
+		for(uint32_t i = 0; i < slice.m_slots.size(); ++i)
+		{
+			slice.m_free_slots.push_back(i);
+		}
+
+		for(uint32_t i = 0; i < slice.m_blocks.size(); ++i)
+		{
+			slice.m_free_blocks.push_back(i);
+		}
 	}
 
-	void ShadowAtlas::Slice::remove_light(Light& light)
+	ShadowAtlas::Slot& ShadowAtlas::alloc(Slice& slice, bool block6)
 	{
-		UNUSED(light);
+		assert((block6 && !slice.m_free_blocks.empty()) || (!block6 && !slice.m_free_slots.empty()));
+		uint32_t index = block6 ? pop(slice.m_free_blocks) : pop(slice.m_free_slots);
+		if(block6)
+		{
+			Block& block = slice.m_blocks[index];
+			remove_if(slice.m_free_slots, [&](uint32_t slot) { for(size_t i = 0; i < 6; ++i) if(block.m_slots[i] == slot) return true; return false; });
+			index = block.m_slots[0];
+		}
+		return slice.m_slots[index];
 	}
 
-	void ShadowAtlas::Slice::add_light(Light& light)
+	void ShadowAtlas::yield(Slice& slice, uint32_t index)
 	{
-		UNUSED(light);
+		Slot& slot = slice.m_slots[index];
+		slot.m_light = nullptr;
+		if(slot.m_block != UINT16_MAX)
+		{
+			Block& block = slice.m_blocks[slot.m_block];
+			slice.m_free_blocks.push_back(slot.m_block);
+			for(size_t i = 0; i < 6; ++i)
+				slice.m_free_slots.push_back(block.m_slots[i]);
+		}
+		else
+		{
+			slice.m_free_slots.push_back(index);
+		}
+
+	}
+	void ShadowAtlas::remove_light(Light& light, bool block)
+	{
+		Slice& slice = m_slices[light.m_shadow_index.slice];
+		this->yield(slice, light.m_shadow_index.slot);
 	}
 
-	void ShadowAtlas::remove_light(Light& light)
+	bool ShadowAtlas::update_light(Light& light, uint32_t frame, float coverage, uint32_t light_version)
 	{
-		UNUSED(light);
-		Index index = {}; // = m_light_indices[light.m_light_index];
-		Slice& slice = m_slices[index.m_slice];
-		slice.m_slots[index.m_slot].m_light = nullptr;
-	}
+		UNUSED(light_version);
 
-	bool ShadowAtlas::update_light(Light& light, uint64_t render, float coverage, uint64_t light_version)
-	{
-		UNUSED(render); UNUSED(light_version);
-		uint16_t target_size = min<uint16_t>(m_size / m_slices[0].m_subdiv, uint16_t(pow2_round_up(uint(m_size * coverage))));
+		if(light.m_type == LightType::Point)
+			coverage /= 4.f;
+			//coverage /= 6.f;
 
-		// @todo check if we need to allocate a new slot
+		if(light.m_shadow_index.slice != UINT8_MAX)
+		{
+			Slice& slice = m_slices[light.m_shadow_index.slice];
+			Slot& slot = slice.m_slots[light.m_shadow_index.slot];
+			slot.m_frame = frame;
+			const float space = 1.f / float(slice.m_subdiv);
+			if(space >= coverage) return false;
+			this->remove_light(light, true);
+		}
 
-		for(Slice& slice : m_slices)
-			if(slice.m_size > target_size)
+		//printf("looking for a shadow atlas slot of size %i\n", int(target_size));
+
+		auto find_slice = [&]() -> Slice*
+		{
+			for(Slice& slice : m_slices)
 			{
-				if(!slice.m_free_slots.empty())
-					slice.add_light(light);
+				const float space = 1.f / float(slice.m_subdiv);
+				if(space < coverage)
+				{
+					printf("atlas slice %i subdiv %i can't hold light with coverage %.2f space %.2f\n", slice.m_index, slice.m_subdiv, coverage, space);
+					continue;
+				}
+				if(light.m_type == LightType::Point && !slice.m_free_blocks.empty())
+					return &slice;
+				else if(light.m_type != LightType::Point && !slice.m_free_slots.empty())
+					return &slice;
 			}
+			return nullptr;
+		};
 
-		return true;
+		auto setup_slice = [&]() -> Slice*
+		{
+			for(Slice& slice : m_slices)
+				if(slice.m_subdiv == 0)
+				{
+					// slice isn't used yet, so we can subdivide it to whatever size we need
+					uint16_t subdiv = next_pow2(uint16_t(1.f / coverage));
+					this->subdiv(slice, subdiv);
+					return &slice;
+				}
+			return nullptr;
+		};
+
+		Slice* slice = find_slice();
+		if(slice == nullptr)
+			slice = setup_slice();
+
+		if(slice != nullptr)
+		{
+			Slot& slot = this->alloc(*slice, light.m_type == LightType::Point);
+			slot.m_light = &light;
+			slot.m_frame = frame;
+			light.m_shadow_index = { slice->m_index, slot.m_index };
+			return true;
+		}
+
+		return false;
 	}
 
-	uvec4 ShadowAtlas::render_update(Render& render, Light& light)
+	vec4 ShadowAtlas::render_update(Render& render, Light& light)
 	{
-		float coverage;
+		if(light.m_type == LightType::Direct)
+		{
+			// direct light has full coverage (1.0)
+			const bool redraw = this->update_light(light, render.m_frame->m_frame, 1.f, light.m_last_update);
+			UNUSED(redraw);
+			return this->light_slot(light).m_rect;
+		}
 
-		Plane camera_near_plane = render.m_camera.near_plane();
+		const Plane camera_near_plane = render.m_camera->near_plane();
 
 		vec3 points[2];
 
+		const Node3& node = *light.m_node;
 		if(light.m_type == LightType::Point)
 		{
-			points[0] = light.m_node.position();
-			points[1] = light.m_node.position() + light.m_node.axis(X3) * light.m_range;
+			points[0] = node.position();
+			points[1] = node.position() + node.axis(X3) * light.m_range;
 		}
 		else if(light.m_type == LightType::Spot)
 		{
-			float w = light.m_range * std::sin(light.m_spot_angle);
-			float d = light.m_range * std::cos(light.m_spot_angle);
+			const float w = light.m_range * sin(light.m_spot_angle);
+			const float d = light.m_range * cos(light.m_spot_angle);
 
-			vec3 base = light.m_node.position() + light.m_node.direction() * d;
+			const vec3 base = light.m_node->position() + node.direction() * d;
 
 			points[0] = base;
-			points[1] = base + light.m_node.axis(X3) * w;
+			points[1] = base + node.axis(X3) * w;
 		}
 
-		if(!render.m_camera.m_orthographic)
+		if(!render.m_camera->m_orthographic)
 		{
 			for(int j = 0; j < 2; j++)
 			{
 				if(distance(camera_near_plane, points[j]) < 0.f)
-					points[j].z = -render.m_camera.m_near; //small hack to keep size constant when hitting the screen
+					points[j].z = -render.m_camera->m_near; //small hack to keep size constant when hitting the screen
 
-				points[j] = plane_segment_intersection(camera_near_plane, { light.m_node.position(), points[j] });
+				points[j] = plane_segment_intersection(camera_near_plane, { node.position(), points[j] });
 			}
 		}
 
-		vec2 size = frustum_viewport_size(render.m_camera.m_projection);
+		const vec2 size = frustum_viewport_size(render.m_camera->m_proj);
 
-		float screen_diameter = distance(points[0], points[1]) * 2.f;
-		coverage = screen_diameter / (size.x + size.y);
+		const float diameter = distance(points[0], points[1]) * 2.f;
+		const float coverage = diameter / (size.x + size.y);
 
 		//if(light.m_shadow_dirty) // updated when lights and objects bounds start or stop intersecting, or move
 		//{
@@ -2428,9 +2840,11 @@ namespace mud
 		//	light.m_shadow_dirty = false;
 		//}
 
-		bool redraw = this->update_light(light, light.m_last_render, coverage, light.m_last_update);
+		// @todo fix coverage calculation
+		const bool redraw = this->update_light(light, render.m_frame->m_frame, 1.f, light.m_last_update);
+		//const bool redraw = this->update_light(light, render.m_frame->m_frame, min(coverage, 1.f), light.m_last_update);
 		UNUSED(redraw);
-		return light_rect(light);
+		return this->light_slot(light).m_rect;
 	}
 }
 
@@ -2462,6 +2876,9 @@ module mud.gfx.pbr;
 
 namespace mud
 {
+	GpuState<GpuVoxelGI> GpuState<GpuVoxelGI>::me;
+	GpuState<GIProbe> GpuState<GIProbe>::me;
+
 namespace gfx
 {
 	template <class T, class... Args>
@@ -2493,34 +2910,14 @@ namespace gfx
 	}
 }
 
-	void BlockGITrace::GIProbeUniform::createUniforms()
+	struct gpu_ GpuGIProbe
 	{
-		u_transform   = bgfx::createUniform("u_gi_probe_transform",    bgfx::UniformType::Mat4, max_gi_probes);
-		u_bounds      = bgfx::createUniform("u_gi_probe_bounds4",      bgfx::UniformType::Vec4, max_gi_probes);
-		// multiplier, bias, normal_bias, blend_ambient
-		u_params      = bgfx::createUniform("u_gi_probe_params",       bgfx::UniformType::Vec4, max_gi_probes);
-		u_inv_extents = bgfx::createUniform("u_gi_probe_inv_extents4", bgfx::UniformType::Vec4, max_gi_probes);
-		u_cell_size   = bgfx::createUniform("u_gi_probe_cell_size4",   bgfx::UniformType::Vec4, max_gi_probes);
-
-		s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Int1, max_gi_probes);
-	}
-
-	void BlockGITrace::GIProbeUniform::setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe, const mat4& view) const
-	{
-		float diffuse = gi_probe.m_dynamic_range * gi_probe.m_diffuse;
-		float specular = gi_probe.m_dynamic_range * gi_probe.m_specular;
-		vec4 params = { diffuse, specular, gi_probe.m_bias, gi_probe.m_normal_bias };
-		vec4 bounds = { gi_probe.m_extents * 2.f, 0.f };
-		mat4 transform = gi_probe.m_transform * inverse(view);
-		vec4 inv_extents = { Unit3 / gi_probe.m_extents, 1.f };
-		vec4 cell_size = { gi_probe.m_extents * 2.f / float(gi_probe.m_subdiv), 1.f };
-
-		encoder.setUniform(u_transform, &transform);
-		encoder.setUniform(u_bounds, &bounds);
-		encoder.setUniform(u_params, &params);
-		encoder.setUniform(u_inv_extents, &inv_extents);
-		encoder.setUniform(u_cell_size, &cell_size);
-	}
+		attr_ gpu_ mat4 transform;
+		attr_ gpu_ vec4 params;
+		attr_ gpu_ vec4 bounds;
+		attr_ gpu_ vec4 inv_extents;
+		attr_ gpu_ vec4 cell_size;
+	};
 
 	GIProbe::GIProbe(Node3& node)
 		: m_node(node)
@@ -2531,130 +2928,127 @@ namespace gfx
 
 	void GIProbe::resize(uint16_t subdiv, const vec3& extents)
 	{
-		if(bgfx::isValid(m_raster))
-		{
-			bgfx::destroy(m_fbo);
-			bgfx::destroy(m_voxels_light_rgba);
-		}
-
 		m_transform = bxidentity();
 		m_subdiv = subdiv;
 		m_extents = extents;
 
 		m_normal_bias = length(extents * 2.f / float(subdiv)) * sqrt(2.f) * 2.f;
 
-		m_raster = bgfx::createTexture2D(subdiv, subdiv, false, 1, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT);
-		m_voxels_color   = bgfx::createTexture3D(subdiv, subdiv, subdiv, false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE);
-		m_voxels_normals = bgfx::createTexture3D(subdiv, subdiv, subdiv, false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE);
-		m_voxels_light   = bgfx::createTexture3D(subdiv, subdiv, subdiv, false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE);
+		m_raster = { uvec2(uint(subdiv)), false, TextureFormat::RGBA8, BGFX_TEXTURE_RT };
+		m_voxels_color   = { uvec3(uint(subdiv)), false, TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
+		m_voxels_normals = { uvec3(uint(subdiv)), false, TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
+		m_voxels_light   = { uvec3(uint(subdiv)), false, TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE };
 
-		bgfx::TextureHandle textures[4] = { m_raster, m_voxels_color, m_voxels_normals, m_voxels_light };
-		m_fbo = bgfx::createFrameBuffer(4, textures, true);
+		m_fbo = { uvec2(subdiv, subdiv), { &m_raster, &m_voxels_color, &m_voxels_normals, &m_voxels_light } };
 		
-		m_voxels_light_rgba = bgfx::createTexture3D(subdiv, subdiv, subdiv, true, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT | BGFX_TEXTURE_COMPUTE_WRITE);
+		m_voxels_light_rgba = { uvec3(uint(subdiv)), true, TextureFormat::RGBA16F, BGFX_TEXTURE_RT | BGFX_TEXTURE_COMPUTE_WRITE };
 
 		m_dirty = true;
 	}
 
-	void save_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
+	void save_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
 	{
-		uint16_t subdiv = gi_probe.m_subdiv;
-		bgfx::TextureHandle texture = bgfx::createTexture3D(subdiv, subdiv, subdiv, true, source_format, BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK);
+		const uint16_t subdiv = gi_probe.m_subdiv;
+		Texture texture = { uvec3(subdiv, subdiv, subdiv), true, TextureFormat(source_format), BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK };
 		bgfx::blit(0, texture, 0, 0, 0, 0, gi_probe.m_voxels_light_rgba, 0, 0, 0, 0, subdiv, subdiv, subdiv);
 		bgfx::frame();
 		bgfx::frame();
 
-		save_bgfx_texture(gfx_system.allocator(), gfx_system.file_writer(), path.c_str(), target_format, texture, source_format, uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv));
+		save_bgfx_texture(gfx, path, target_format, texture, source_format, subdiv, subdiv, subdiv);
 	}
 
-	void load_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, const string& path)
+	void load_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, const string& path)
 	{
-		gi_probe.m_voxels_light_rgba = load_bgfx_texture(gfx_system.allocator(), gfx_system.file_reader(), path.c_str());
+		gi_probe.m_voxels_light_rgba = { "voxels" };
+		load_texture(gfx, gi_probe.m_voxels_light_rgba, path);
 	}
 
-	PassGIBake::PassGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake)
-		: DrawPass(gfx_system, "voxelGI", PassType::VoxelGI)
-		, m_block_light(block_light)
-		, m_block_gi_bake(block_gi_bake)
-	{}
-
-	void PassGIBake::next_draw_pass(Render& render, Pass& render_pass)
+	void pass_voxel_gi(GfxSystem& gfx, Render& render)
 	{
+		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
+		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
+		static BlockGIBake& block_gi_bake = *gfx.m_renderer.block<BlockGIBake>();
+
+		Pass pass = render.next_pass("voxelGI", PassType::VoxelGI);
+
+		block_light.submit(render, pass);
+		block_shadow.submit(render, pass);
+		block_gi_bake.submit(render, pass);
+
 		bool conservative = (bgfx::getCaps()->supported & BGFX_CAPS_CONSERVATIVE_RASTER) != 0;
 		if(!conservative)
 			printf("WARNING: rendering GI probe without conservative raster support will produce wrong output\n");
 
-		UNUSED(render); UNUSED(render_pass);
-		render_pass.m_bgfx_state = BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA;
+		UNUSED(render); UNUSED(pass);
+		pass.m_bgfx_state = BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA;
 
 #ifndef VOXELGI_COMPUTE_LIGHTS
-		GIProbe& gi_probe = *m_block_gi_bake.m_bake_probe; UNUSED(gi_probe);
+		GIProbe& gi_probe = *block_gi_bake.m_bake_probe; UNUSED(gi_probe);
 		mat4 view = bxidentity();//gi_probe.m_transform * bxscale(1.f / gi_probe.m_extents);
-		m_block_light.update_lights(render, view, render.m_shot->m_lights, m_block_light.m_block_shadow.m_shadows);
+		block_light.setup_lights(render, view);
+		block_shadow.commit_shadows(render, view);
 #endif
-	}
 
-	void PassGIBake::queue_draw_element(Render& render, DrawElement& element)
-	{
-		UNUSED(render);
-		if(element.m_material->m_pbr_block.m_enabled)
+		auto queue_draw_element = [](GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 		{
-			element.m_program = m_block_gi_bake.m_voxelize;
-			element.m_shader_version = element.m_material->shader_version(*element.m_program);
+			UNUSED(render);
+			const Program& program = *element.m_program.m_program;
+			if(!program.m_blocks[MaterialBlock::Lit])
+				return false;
 
-			this->add_element(render, element);
-		}
+			element.set_program(*block_gi_bake.m_voxelize);
+			return true;
+		};
+
+		gfx.m_renderer.pass(render, pass, queue_draw_element);
 	}
 
-	PassGIProbes::PassGIProbes(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake)
-		: RenderPass(gfx_system, "voxelGI", PassType::VoxelGI)
-		, m_block_light(block_light)
-		, m_block_gi_bake(block_gi_bake)
-	{}
-
-	void PassGIProbes::submit_render_pass(Render& render)
+	void pass_gi_probes(GfxSystem& gfx, Render& render)
 	{
+		static BlockGIBake& block_gi_bake = *gfx.m_renderer.block<BlockGIBake>();
+
 		if(!check_lighting(render.m_lighting, Lighting::VoxelGI))
 			return;
 
-		for(GIProbe* gi_probe : render.m_shot->m_gi_probes)
+		for(GIProbe* gi_probe : render.m_shot.m_gi_probes)
 		{
-			if(gi_probe->m_enabled && gi_probe->m_dirty)
+			if(!gi_probe->m_enabled || !gi_probe->m_dirty)
+				continue;
+
+			if(gi_probe->m_mode == GIProbeMode::Voxelize)
 			{
-				if(gi_probe->m_mode == GIProbeMode::Voxelize)
+				printf("INFO: bake GIProbe\n");
+
+				block_gi_bake.voxelize(render, *gi_probe);
+				block_gi_bake.output(render, *gi_probe);
+
+				for(int i = 0; i < gi_probe->m_bounces; ++i)
 				{
-					printf("INFO: bake GIProbe\n");
-
-					m_block_gi_bake.voxelize(render, *gi_probe);
-					m_block_gi_bake.output(render, *gi_probe);
-
-					for(int i = 0; i < gi_probe->m_bounces; ++i)
-					{
-						// @todo fix D3D bounce bug
-						m_block_gi_bake.bounce(render, *gi_probe);
-						m_block_gi_bake.output(render, *gi_probe);
-					}
-
-					gi_probe->m_dirty = false;
-
-					printf("INFO: bake GIProbe done\n");
-
-					//string path = m_gfx_system.m_resource_path + "/" + "gi_probe.dds";
-					//save_gi_probe(m_gfx_system, *gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);
+					// @todo fix D3D bounce bug
+					block_gi_bake.bounce(render, *gi_probe);
+					block_gi_bake.output(render, *gi_probe);
 				}
 
-				if(gi_probe->m_mode == GIProbeMode::LoadVoxels)
-				{
-					string path = m_gfx_system.m_resource_path + "/" + "gi_probe.dds";
-					load_gi_probe(m_gfx_system, *gi_probe, path);
-				}
+				gi_probe->m_dirty = false;
+
+				printf("INFO: bake GIProbe done\n");
+
+				//string path = m_gfx.m_resource_path + "/" + "gi_probe.dds";
+				//save_gi_probe(m_gfx, *gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);
+			}
+
+			if(gi_probe->m_mode == GIProbeMode::LoadVoxels)
+			{
+				string path = gfx.m_resource_path + "/" + "gi_probe.dds";
+				load_gi_probe(gfx, *gi_probe, path);
 			}
 		}
 	}
 
-	BlockGIBake::BlockGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGITrace& block_trace)
-		: DrawBlock(gfx_system, type<BlockGIBake>())
+	BlockGIBake::BlockGIBake(GfxSystem& gfx, BlockLight& block_light, BlockShadow& block_shadow, BlockGITrace& block_trace)
+		: DrawBlock(gfx, type<BlockGIBake>())
 		, m_block_light(block_light)
+		, m_block_shadow(block_shadow)
 		, m_block_trace(block_trace)
 	{}
 
@@ -2662,10 +3056,10 @@ namespace gfx
 	{
 		u_voxelgi.createUniforms();
 
-		m_voxelize = &m_gfx_system.programs().fetch("gi/voxelize");
-		m_direct_light = &m_gfx_system.programs().fetch("gi/direct_light");
-		m_bounce_light = &m_gfx_system.programs().fetch("gi/bounce_light");
-		m_output_light = &m_gfx_system.programs().fetch("gi/output_light");
+		m_voxelize = &m_gfx.programs().fetch("gi/voxelize");
+		m_direct_light = &m_gfx.programs().fetch("gi/direct_light");
+		m_bounce_light = &m_gfx.programs().fetch("gi/bounce_light");
+		m_output_light = &m_gfx.programs().fetch("gi/output_light");
 	}
 
 	void BlockGIBake::voxelize(Render& render, GIProbe& gi_probe)
@@ -2675,29 +3069,28 @@ namespace gfx
 		vec3 extents = gi_probe.m_extents;
 		
 		Camera camera = { gi_probe.m_transform, vec2(extents.x * 2.f, extents.y * 2.f), -extents.z, extents.z };
-		Viewport viewport = { camera, render.m_scene, { uvec2(0U), uvec2(uint(gi_probe.m_subdiv)) } };
-		Render voxel_render = { Shading::Voxels, viewport, gi_probe.m_fbo, render.m_frame };
+		Viewport viewport = { camera, *render.m_scene, Rect4 };
+		Render voxel_render = { Shading::Voxels, viewport, *render.m_target, gi_probe.m_fbo, *render.m_frame };
 
-		BlockShadow& block_shadow = *m_gfx_system.m_pipeline->block<BlockShadow>();
-		CSMFilterMode pcf_level = block_shadow.m_pcf_level;
+		ShadowFilterMode pcf_level = m_block_shadow.m_pcf_level;
 		uint8_t splits = 0;
-		block_shadow.m_pcf_level = CSM_NO_PCF;
+		m_block_shadow.m_pcf_level = PCF_NONE;
 		if(m_block_light.m_direct_light)
 		{
 			splits = m_block_light.m_direct_light->m_shadow_num_splits;
 			m_block_light.m_direct_light->m_shadow_num_splits = 1;
 		}
 
-		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
-		voxel_render.m_shot->m_lights = render.m_shot->m_lights;
-		cull_items(render.m_scene, planes, voxel_render.m_shot->m_items);
-		m_gfx_system.renderer(Shading::Voxels).subrender(render, voxel_render);
+		Plane6 planes = frustum_planes(camera.m_proj, camera.m_view);
+		voxel_render.m_shot.m_lights = render.m_shot.m_lights;
+		cull_items(*render.m_scene, planes, voxel_render.m_shot.m_items);
+		m_gfx.m_renderer.subrender(render, voxel_render, m_gfx.renderer(Shading::Voxels));
 
 		if(m_block_light.m_direct_light)
 		{
 			m_block_light.m_direct_light->m_shadow_num_splits = splits;
 		}
-		block_shadow.m_pcf_level = pcf_level;
+		m_block_shadow.m_pcf_level = pcf_level;
 
 		if(m_direct_light_compute)
 			this->compute(render, gi_probe);
@@ -2705,51 +3098,49 @@ namespace gfx
 
 	void BlockGIBake::compute(Render& render, GIProbe& gi_probe)
 	{
-		Pass render_pass = render.next_pass("gi direct");
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		Pass pass = render.next_pass("gi direct", PassType::VoxelGI);
+		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		encoder.setImage(0, u_voxelgi.s_voxels_albedo,  gi_probe.m_voxels_color,   0, bgfx::Access::Read,      bgfx::TextureFormat::R32U);
 		encoder.setImage(1, u_voxelgi.s_voxels_normals, gi_probe.m_voxels_normals, 0, bgfx::Access::Read,      bgfx::TextureFormat::R32U);
 		encoder.setImage(2, u_voxelgi.s_voxels_light,   gi_probe.m_voxels_light,   0, bgfx::Access::ReadWrite, bgfx::TextureFormat::R32U);
 
-		u_voxelgi.setUniforms(encoder, gi_probe);
+		GpuState<GpuVoxelGI>::me.upload(encoder, gi_probe);
 
-		m_block_light.update_lights(render, bxidentity(), render.m_shot->m_lights, m_block_light.m_block_shadow.m_shadows);
-		m_block_light.upload_lights(render_pass);
+		m_block_light.setup_lights(render, bxidentity());
+		m_block_light.commit_lights(render, pass);
+		m_block_shadow.commit_shadows(render, bxidentity());
 
-		ShaderVersion shader_version = { m_direct_light };
-		if(m_block_light.m_direct_light)
-			shader_version.set_option(m_block_light.m_index, DIRECT_LIGHT, true);
+		ProgramVersion program = { *m_direct_light };
 
 		uint16_t subdiv = gi_probe.m_subdiv;
-		bgfx::ProgramHandle program = m_direct_light->version(shader_version);
-		if(bgfx::isValid(program))
-			encoder.dispatch(render_pass.m_index, program, subdiv / 64, subdiv, subdiv, BGFX_VIEW_NONE);
+		if(bgfx::isValid(m_direct_light->version(program)))
+			encoder.dispatch(pass.m_index, m_direct_light->version(program), subdiv / 64, subdiv, subdiv);
 	}
 	
 	void BlockGIBake::bounce(Render& render, GIProbe& gi_probe)
 	{
-		Pass render_pass = render.next_pass("gi bounce");
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		Pass pass = render.next_pass("gi bounce", PassType::VoxelGI);
+		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		encoder.setImage(0,   u_voxelgi.s_voxels_normals,    gi_probe.m_voxels_normals,    0, bgfx::Access::Read,  bgfx::TextureFormat::R32U);
 		//encoder.setImage(1,   u_voxelgi.s_voxels_light,      gi_probe.m_voxels_light,      0, bgfx::Access::Read,  bgfx::TextureFormat::R32U);
 		encoder.setTexture(1, u_voxelgi.s_voxels_light_rgba, gi_probe.m_voxels_light_rgba);
 		encoder.setImage(2,   u_voxelgi.s_voxels_light,      gi_probe.m_voxels_light,      0, bgfx::Access::Write, bgfx::TextureFormat::R32U);
 
-		u_voxelgi.setUniforms(encoder, gi_probe);
-		m_block_trace.u_gi_probe.setUniforms(encoder, gi_probe, bxidentity());
+		GpuState<GpuVoxelGI>::me.upload(encoder, gi_probe);
+		GpuState<GIProbe>::me.upload(encoder, gi_probe, bxidentity());
 
 		uint16_t subdiv = gi_probe.m_subdiv;
 		bgfx::ProgramHandle program = m_bounce_light->default_version();
 		if(bgfx::isValid(program))
-			encoder.dispatch(render_pass.m_index, program, subdiv / 64, subdiv, subdiv, BGFX_VIEW_NONE);
+			encoder.dispatch(pass.m_index, program, subdiv / 64, subdiv, subdiv);
 	}
 
 	void BlockGIBake::output(Render& render, GIProbe& gi_probe)
 	{
-		Pass render_pass = render.next_pass("output light");
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		Pass pass = render.next_pass("output light", PassType::VoxelGI);
+		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		encoder.setImage(0, u_voxelgi.s_voxels_light,      gi_probe.m_voxels_light,      0, bgfx::Access::ReadWrite, bgfx::TextureFormat::R32U);
 		encoder.setImage(1, u_voxelgi.s_voxels_light_rgba, gi_probe.m_voxels_light_rgba, 0, bgfx::Access::ReadWrite, bgfx::TextureFormat::RGBA16F);
@@ -2757,7 +3148,7 @@ namespace gfx
 		uint16_t subdiv = gi_probe.m_subdiv;
 		bgfx::ProgramHandle program = m_output_light->default_version();
 		if(bgfx::isValid(program))
-			encoder.dispatch(render_pass.m_index, program, subdiv / 64, subdiv, subdiv, BGFX_VIEW_NONE);
+			encoder.dispatch(pass.m_index, program, subdiv / 64, subdiv, subdiv);
 	}
 
 	void BlockGIBake::begin_render(Render& render)
@@ -2765,26 +3156,21 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGIBake::begin_pass(Render& render)
+	void BlockGIBake::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(program);
 	}
 
-	void BlockGIBake::begin_draw_pass(Render& render)
+	void BlockGIBake::submit(Render& render, const Pass& pass) const
 	{
-		UNUSED(render);
+		UNUSED(render); UNUSED(pass);
 	}
 
-	void BlockGIBake::options(Render& render, ShaderVersion& shader_version) const
+	void BlockGIBake::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(shader_version);
-	}
+		UNUSED(render); UNUSED(element);
 
-	void BlockGIBake::submit(Render& render, const Pass& render_pass) const
-	{
-		UNUSED(render);
-
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		GIProbe& gi_probe = *m_bake_probe;
 
@@ -2795,18 +3181,17 @@ namespace gfx
 		encoder.setUniform(u_voxelgi.s_voxels_normals, &voxels_normals_index);
 		encoder.setUniform(u_voxelgi.s_voxels_light,   &voxels_light_index);
 
-		u_voxelgi.setUniforms(encoder, gi_probe);
+		GpuState<GpuVoxelGI>::me.upload(encoder, gi_probe);
 
 #ifndef VOXELGI_COMPUTE_LIGHTS
-		m_block_light.upload_lights(render_pass);
+		m_block_light.commit_lights(render, pass);
 #endif
 	}
 
-	BlockGITrace::BlockGITrace(GfxSystem& gfx_system)
-		: DrawBlock(gfx_system, type<BlockGITrace>())
+	BlockGITrace::BlockGITrace(GfxSystem& gfx)
+		: DrawBlock(gfx, type<BlockGITrace>())
 	{
-		static cstring options[1] = { "GI_CONETRACE" };
-		m_shader_block->m_options = { options, 1 };
+		m_options = { "GI_CONETRACE" };
 	}
 
 	void BlockGITrace::init_block()
@@ -2819,48 +3204,47 @@ namespace gfx
 		UNUSED(render);
 	}
 
-	void BlockGITrace::begin_pass(Render& render)
+	void BlockGITrace::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
-		UNUSED(render);
-	}
-
-	void BlockGITrace::begin_draw_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
-	void BlockGITrace::options(Render& render, ShaderVersion& shader_version) const
-	{
-		for(GIProbe* gi_probe : render.m_shot->m_gi_probes)
+		for(GIProbe* gi_probe : render.m_shot.m_gi_probes)
 			if(gi_probe->m_enabled)
 			{
-				shader_version.set_option(m_index, GI_CONETRACE, true);
+				program.set_option(m_index, GI_CONETRACE, true);
 			}
 	}
 
-	void BlockGITrace::submit(Render& render, const Pass& render_pass) const
+	void BlockGITrace::submit(Render& render, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render); UNUSED(pass);
+		//uint32_t stage = uint32_t(TextureSampler::GIProbe);
+		//bgfx::setViewUniform(pass.m_index, u_gi_probe.s_gi_probe, &stage);
+	}
 
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+	void BlockGITrace::submit(Render& render, const DrawElement& element, const Pass& pass) const
+	{
+		UNUSED(render); UNUSED(element); UNUSED(pass);
+
+		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		uint8_t index = 0;
-		for(GIProbe* gi_probe : render.m_shot->m_gi_probes)
+		for(GIProbe* gi_probe : render.m_shot.m_gi_probes)
 		{
 			if(gi_probe->m_enabled)
 			{
-				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, u_gi_probe.s_gi_probe, gi_probe->m_voxels_light_rgba, GFX_TEXTURE_CLAMP_UVW);
+				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, gi_probe->m_voxels_light_rgba, TEXTURE_CLAMP3);
 
-				u_gi_probe.setUniforms(encoder, *gi_probe, render.m_camera.m_transform);
+				GpuState<GIProbe>::me.upload(encoder, *gi_probe, render.m_camera->m_view);
 			}
+
+			return;
 		}
 	}
 
-	void BlockGITrace::upload_gi_probes(Render& render, const Pass& render_pass) const
+	void BlockGITrace::upload_gi_probes(Render& render, const Pass& pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render); UNUSED(pass);
 
-		//bgfx::Encoder& encoder = *render_pass.m_encoder;
+		//bgfx::Encoder& encoder = *pass.m_encoder;
 	}
 }
 
@@ -2874,13 +3258,12 @@ module mud.gfx.pbr;
 
 namespace mud
 {
-	BlockBlur::BlockBlur(GfxSystem& gfx_system, BlockFilter& filter)
-		: GfxBlock(gfx_system, *this)
+	BlockBlur::BlockBlur(GfxSystem& gfx, BlockFilter& filter)
+		: GfxBlock(gfx, *this)
 		, m_filter(filter)
-		, m_program(gfx_system.programs().create("filter/gaussian_blur"))
+		, m_program(gfx.programs().create("filter/gaussian_blur"))
 	{
-		static cstring options[2] = { "GAUSSIAN_HORIZONTAL", "GAUSSIAN_VERTICAL" };
-		m_shader_block->m_options = { options, 2 };
+		m_options = { "GAUSSIAN_HORIZONTAL", "GAUSSIAN_VERTICAL" };
 		m_program.register_block(*this);
 	}
 
@@ -2894,59 +3277,38 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockBlur::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
-	void BlockBlur::blur(Render& render)
+	void BlockBlur::blur(Render& render, RenderTarget& target)
 	{
 		static BlurKernel kernel = {
 			{ 0.214607f, 0.189879f, 0.157305f, 0.071303f, 0.189879f, 0.157305f, 0.071303f },
 			{ 0.38774f, 0.24477f, 0.06136f, 0.24477f, 0.06136f }
 		};
 
-		uvec4 rect = render.m_viewport.m_rect;
-
-		for(uint8_t i = 0; i < 4; ++i)//render.m_target->m_effects.m_num_mips; i++)
+		for(uint8_t i = 0; i < 4; ++i)//target.m_effects.m_num_mips; i++)
 		{
-			gaussian_pass(render, rect, i, true, kernel);
-			gaussian_pass(render, rect, i, false, kernel);
+			gaussian_pass(render, target, render.m_rect, i, true, kernel);
+			gaussian_pass(render, target, render.m_rect, i, false, kernel);
 		}
 	}
 
-	void BlockBlur::gaussian_pass(Render& render, uvec4& rect, uint8_t lod, bool horizontal, const BlurKernel& kernel)
+	void BlockBlur::gaussian_pass(Render& render, RenderTarget& target, const vec4& rect, uint8_t lod, bool horizontal, const BlurKernel& kernel)
 	{
-		bgfx::TextureHandle source = render.m_target->m_ping_pong.last();
-		bgfx::FrameBufferHandle target = render.m_target->m_ping_pong.swap();
+		Texture& source = target.m_ping_pong.last();
+		FrameBuffer& fbo = target.m_ping_pong.swap();
 
-		// @todo: optimize this, I can't think of another way right now than to have a clear pass for EVERY blur level :/
-		uint8_t clear = render.composite_pass();
-		bgfx::setViewRect(clear, 0, 0, uint16_t(render.m_target->m_size.x), uint16_t(render.m_target->m_size.y));
-		bgfx::setViewClear(clear, BGFX_CLEAR_COLOR);
-		bgfx::setViewFrameBuffer(clear, target);
-		bgfx::touch(clear);
-
-		uvec4 source_rect = rect;
-		if(horizontal)
-			rect = rect / 2U;
-
-		vec4 screen_params{ rect_size(vec4(rect)), 1.f / rect_size(vec4(rect)) };
-		bgfx::setUniform(m_filter.u_uniform.u_screen_size_pixel_size, &screen_params);
-
-		vec4 blur_params = { float(lod), 0.f, 0.f, 0.f };
-		bgfx::setUniform(u_uniform.u_blur_params, &blur_params);
+		Pass blur_pass = render.composite_pass("blur", fbo, rect);
+		vec4 blur_p0 = { float(lod), 0.f, 0.f, 0.f };
+		bgfx::setUniform(u_uniform.u_blur_p0, &blur_p0);
 
 		bgfx::setUniform(u_uniform.u_blur_kernel_0_3, horizontal ? &kernel.m_horizontal[0] : &kernel.m_vertical[0]);
 		bgfx::setUniform(u_uniform.u_blur_kernel_4_7, horizontal ? &kernel.m_horizontal[4] : &kernel.m_vertical[4]);
 
-		ShaderVersion version(&m_program);
-		version.set_option(m_index, uint8_t(horizontal ? GAUSSIAN_HORIZONTAL : GAUSSIAN_VERTICAL), true);
+		ProgramVersion program = { m_program };
+		program.set_option(m_index, uint8_t(horizontal ? GAUSSIAN_HORIZONTAL : GAUSSIAN_VERTICAL), true);
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, source);
+		m_filter.source0(source);
 
-		RenderQuad quad = { render.m_target->source_quad(vec4(source_rect), true), render.m_target->dest_quad(vec4(rect), true), true };
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), target, m_program.version(version), quad);
+		m_filter.submit(blur_pass, fbo, program, RenderQuad(rect, true));
 	}
 }
 
@@ -2960,86 +3322,53 @@ module mud.gfx.pbr;
 
 namespace mud
 {
-	BlockDofBlur::BlockDofBlur(GfxSystem& gfx_system, BlockFilter& filter)
-		: GfxBlock(gfx_system, *this)
+	GpuState<DofBlur> GpuState<DofBlur>::me;
+
+	BlockDofBlur::BlockDofBlur(GfxSystem& gfx, BlockFilter& filter)
+		: GfxBlock(gfx, *this)
 		, m_filter(filter)
-		, m_program(gfx_system.programs().create("filter/dof_blur"))
+		, m_program(gfx.programs().create("filter/dof_blur"))
 	{
-		static cstring options[1] = { "DOF_FIRST_PASS" };
-		m_shader_block->m_options = { options, 1 };
+		m_options = { "DOF_FIRST_PASS" };
 		m_program.register_block(*this);
 	}
 
 	void BlockDofBlur::init_block()
 	{
-		u_uniform.createUniforms();
+		GpuState<DofBlur>::me.init();
 	}
 
-	void BlockDofBlur::begin_render(Render& render)
+	void pass_dofblur(GfxSystem& gfx, Render& render, const DofBlur& blur)
 	{
-		UNUSED(render);
-	}
-	
-	void BlockDofBlur::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-	
-	void BlockDofBlur::submit_pass(Render& render)
-	{
-		if(render.m_filters.comp<DofBlur>().m_enabled)
-			this->render(render, render.m_filters.comp<DofBlur>());
-	}
+		static BlockDofBlur& block = *gfx.m_renderer.block<BlockDofBlur>();
 
-	void BlockDofBlur::render(Render& render, const DofBlur& blur)
-	{
-		submit_blur_pass(render, blur, true);
-		submit_blur_pass(render, blur, false);//, BGFX_STATE_BLEND_ALPHA);
-	}
-
-	void BlockDofBlur::submit_blur_pass(Render& render, const DofBlur& blur, bool first_pass, uint64_t bgfx_state)
-	{
-		ShaderVersion shader_version = { &m_program };
-		shader_version.set_option(m_index, DOF_FIRST_PASS, first_pass);
-
-		vec4 dof_near_params =
+		auto blur_pass = [](GfxSystem& gfx, Render& render, RenderTarget& target, const DofBlur& blur, bool first_pass, uint64_t bgfx_state = 0)
 		{
-			blur.m_near_distance,
-			blur.m_near_distance - blur.m_near_transition,
-			blur.m_near_radius,
-			1.f / blur.m_near_radius,
+			ProgramVersion program = { block.m_program };
+			program.set_option(block.m_index, DOF_FIRST_PASS, first_pass);
+
+			GpuState<DofBlur>::me.upload(blur);
+
+			if(first_pass)
+			{
+				gfx.m_filter->source0(target.m_diffuse, TEXTURE_CLAMP | TEXTURE_POINT);
+			}
+			else
+			{
+				gfx.m_filter->source0(target.m_ping_pong.last(), TEXTURE_CLAMP | TEXTURE_POINT);
+				gfx.m_filter->source1(target.m_diffuse, TEXTURE_CLAMP | TEXTURE_POINT);
+			}
+
+			gfx.m_filter->sourcedepth(target.m_depth);
+
+			FrameBuffer& fbo = first_pass ? target.m_ping_pong.swap() : target.m_post.swap();
+
+			Pass pass = render.composite_pass("dof blur");
+			gfx.m_filter->quad(pass, fbo, program, bgfx_state);
 		};
 
-		vec4 dof_far_params =
-		{
-			blur.m_far_distance,
-			blur.m_far_distance + blur.m_far_transition,
-			blur.m_far_radius,
-			0.f
-		};
-
-		vec4 dof_params = { blur.m_max_coc_radius, 0.f, 0.f, 0.f };
-
-		bgfx::setUniform(u_uniform.u_dof_near_params, &dof_near_params);
-		bgfx::setUniform(u_uniform.u_dof_far_params, &dof_far_params);
-		bgfx::setUniform(u_uniform.u_dof_params, &dof_params);
-
-		if(first_pass)
-		{
-			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
-		}
-		else
-		{
-			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_ping_pong.last(), GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
-			bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, render.m_target->m_diffuse, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
-		}
-
-		bgfx::setTexture(uint8_t(TextureSampler::SourceDepth), m_filter.u_uniform.s_source_depth, render.m_target->m_depth);
-
-		bgfx::FrameBufferHandle target = first_pass ? render.m_target->m_ping_pong.swap() : render.m_target->m_post_process.swap();
-
-		m_filter.submit_quad(*render.m_target, render.composite_pass(),
-							 target, m_program.version(shader_version), render.m_viewport.m_rect, bgfx_state);
+		blur_pass(gfx, render, *render.m_target, blur, true);
+		blur_pass(gfx, render, *render.m_target, blur, false);//, BGFX_STATE_BLEND_ALPHA);
 	}
 }
 
@@ -3055,69 +3384,45 @@ module mud.gfx.pbr;
 
 namespace mud
 {
-	BlockGlow::BlockGlow(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur)
-		: GfxBlock(gfx_system, *this)
-		, m_filter(filter)
-		, m_copy(copy)
-		, m_blur(blur)
-		, m_bleed_program(gfx_system.programs().create("filter/glow_bleed"))
-		, m_merge_program(gfx_system.programs().create("filter/glow"))
-	{
-		static cstring options[1] = { "GLOW_FILTER_BICUBIC" };
-		m_shader_block->m_options = { options, 1 };
+	GpuState<Glow> GpuState<Glow>::me;
 
-		m_blur.m_program.register_block(*this);
+	BlockGlow::BlockGlow(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur)
+		: GfxBlock(gfx, *this)
+		, m_bleed_program(gfx.programs().create("filter/glow_bleed"))
+		, m_merge_program(gfx.programs().create("filter/glow"))
+	{
+		m_options = { "GLOW_FILTER_BICUBIC" };
+
+		blur.m_program.register_block(*this);
 		m_merge_program.register_block(*this);
 	}
 
 	void BlockGlow::init_block()
 	{
-		u_uniform.createUniforms();
+		GpuState<Glow>::me.init();
 	}
 
-	void BlockGlow::begin_render(Render& render)
+
+	void debug_glow(GfxSystem& gfx, Render& render, RenderTarget& target)
 	{
-		UNUSED(render);
-#ifdef DEBUG_GLOW
-		BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
-		copy.debug_show_texture(render, render.m_target->m_cascade.m_texture, vec4(0.f), false, false, false, 1);
-		copy.debug_show_texture(render, render.m_target->m_ping_pong.last(), vec4(0.f));
-#endif
+		gfx.m_copy->debug_show_texture(render, target.m_cascade.m_texture, vec4(0.f), 1);
+		gfx.m_copy->debug_show_texture(render, target.m_ping_pong.last(), vec4(0.f));
 	}
 
-	void BlockGlow::begin_pass(Render& render)
+	void glow_bleed(GfxSystem& gfx, Render& render, BlockGlow& block, Glow& glow)
 	{
-		UNUSED(render);
-	}
-
-	void BlockGlow::submit_pass(Render& render)
-	{
-		if(render.m_filters.comp<Glow>().m_enabled)
-			this->render(render, render.m_filters.comp<Glow>());
-	}
-
-	void BlockGlow::render(Render& render, Glow& glow)
-	{
-		this->glow_bleed(render, glow);
-		this->glow_blur(render, glow);
-		this->glow_merge(render, glow);
-	}
-
-	void BlockGlow::glow_bleed(Render& render, Glow& glow)
-	{
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_diffuse);
+		gfx.m_filter->source0(render.m_target->m_diffuse);
 		//bgfx::setUniform(m_blur.u_uniform.u_exposure, &m_tonemap.m_exposure);
 
-		vec4 glow_params = { 0.f, glow.m_bloom, glow.m_bleed_threshold, glow.m_bleed_scale };
-		bgfx::setUniform(u_uniform.u_glow_params_0, &glow_params);
+		GpuState<Glow>::me.upload(glow);
 
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_ping_pong.swap(), m_bleed_program.default_version(), render.m_viewport.m_rect);
+		Pass pass = render.composite_pass("glow bleed");
+		gfx.m_filter->quad(pass, render.m_target->m_ping_pong.swap(), block.m_bleed_program);
 	}
 
-	void BlockGlow::glow_blur(Render& render, Glow& glow)
+	void glow_blur(GfxSystem& gfx, Render& render, BlockBlur& blur, Glow& glow)
 	{
 		UNUSED(glow);
-		uvec4 rect = render.m_viewport.m_rect;
 
 		static BlurKernel kernel = {
 			{ 0.174938f, 0.165569f, 0.140367f, 0.106595f, 0.165569f, 0.140367f, 0.106595f },
@@ -3132,39 +3437,47 @@ namespace mud
 
 		for(uint8_t i = 0; i < (max_level + 1); i++)
 		{
-			m_blur.gaussian_pass(render, rect, i, true, kernel);
-			m_blur.gaussian_pass(render, rect, i, false, kernel);
+			blur.gaussian_pass(render, *render.m_target, render.m_rect, i, true, kernel);
+			blur.gaussian_pass(render, *render.m_target, render.m_rect, i, false, kernel);
 
 			//bool blit_support = (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0;
 			bool blit_support = false;
 
-			RenderQuad quad = { render.m_target->source_quad(vec4(rect), true), render.m_target->dest_quad_mip(vec4(rect), i + 1, true), true };
-			
-			if(blit_support)
-				bgfx::blit(render.composite_pass(),
-						   render.m_target->m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
-						   render.m_target->m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect_w(rect)), uint16_t(rect_h(rect)), 1);
-			else
-				m_copy.submit_quad(*render.m_target->m_cascade.m_mips[i + 1], render.composite_pass(), render.m_target->m_ping_pong.last(), quad);
+			RenderQuad quad = { render.m_rect, render.m_rect, true };
+
+			Pass pass = render.composite_pass("glow blit");
+			//if(blit_support)
+			//	bgfx::blit(pass.m_index,
+			//			   target.m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
+			//			   target.m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect.width), uint16_t(rect.height), 1);
+			//else
+			gfx.m_copy->submit(pass, *render.m_target->m_cascade.m_fbos[i + 1], render.m_target->m_ping_pong.last(), quad);
 		}
 	}
 
-	void BlockGlow::glow_merge(Render& render, Glow& glow)
+	void glow_merge(GfxSystem& gfx, Render& render, BlockGlow& block, Glow& glow)
 	{
-		ShaderVersion shader_version(&m_merge_program);
+		ProgramVersion program = { block.m_merge_program };
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_post_process.last());
+		program.set_option(block.m_index, GLOW_FILTER_BICUBIC, glow.m_bicubic_filter);
 
-		shader_version.set_option(m_index, GLOW_FILTER_BICUBIC, glow.m_bicubic_filter);
+		gfx.m_filter->source0(render.m_target->m_post.last());
+		gfx.m_filter->source1(render.m_target->m_cascade.m_texture);
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, render.m_target->m_cascade.m_texture);
+		GpuState<Glow>::me.upload(glow);
 
-		vec4 glow_params = { glow.m_intensity, 0.f, float(render.m_target->m_size.x), float(render.m_target->m_size.y) };
-		bgfx::setUniform(u_uniform.u_glow_params_1, &glow_params);
-		bgfx::setUniform(u_uniform.u_glow_levels_1_4, &glow.m_levels_1_4);
-		bgfx::setUniform(u_uniform.u_glow_levels_5_8, &glow.m_levels_5_8);
+		Pass pass = render.composite_pass("glow merge");
+		gfx.m_filter->quad(pass, render.m_target->m_post.swap(), program);
+	}
 
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(), m_merge_program.version(shader_version), render.m_viewport.m_rect);
+	void pass_glow(GfxSystem& gfx, Render& render, Glow& glow)
+	{
+		static BlockGlow& block = *gfx.m_renderer.block<BlockGlow>();
+		static BlockBlur& blur = *gfx.m_renderer.block<BlockBlur>();
+
+		glow_bleed(gfx, render, block, glow);
+		glow_blur(gfx, render, blur, glow);
+		glow_merge(gfx, render, block, glow);
 	}
 }
 
@@ -3178,76 +3491,52 @@ module mud.gfx.pbr;
 
 namespace mud
 {
-	BlockTonemap::BlockTonemap(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy)
-		: GfxBlock(gfx_system, *this)
-		, m_filter(filter)
-		, m_copy(copy)
-		, m_program(gfx_system.programs().create("filter/tonemap"))
-	{
-		static cstring options[2] = {
-			"ADJUST_BCS",
-			"COLOR_CORRECTION",
-		};
-		static cstring modes[2] = {
-			"TONEMAP_MODE",
-		};
+	GpuState<BCS> GpuState<BCS>::me;
+	GpuState<Tonemap> GpuState<Tonemap>::me;
 
-		m_shader_block->m_options = { options, 1 };
-		m_shader_block->m_modes = { modes, 1 };
+	BlockTonemap::BlockTonemap(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy)
+		: GfxBlock(gfx, *this)
+		, m_program(gfx.programs().create("filter/tonemap"))
+	{
+		m_options = { "TO_GAMMA", "ADJUST_BCS", "COLOR_LUT" };
+		m_modes = { "TONEMAP_MODE" };
 
 		m_program.register_block(*this);
 	}
 
 	void BlockTonemap::init_block()
 	{
-		u_uniform.createUniforms();
+		GpuState<BCS>::me.init();
+		GpuState<Tonemap>::me.init();
 	}
 
-	void BlockTonemap::begin_render(Render& render)
+	void pass_tonemap(GfxSystem& gfx, Render& render, Tonemap& tonemap, BCS& bcs)
 	{
-		UNUSED(render);
-	}
+		static BlockTonemap& block = *gfx.m_renderer.block<BlockTonemap>();
 
-	void BlockTonemap::begin_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-	
-	void BlockTonemap::submit_pass(Render& render)
-	{
-		if(render.m_filters.comp<Tonemap>().m_enabled)
-			this->render(render, render.m_filters.comp<Tonemap>(), render.m_filters.comp<BCS>());
-		else
-			m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.last(), render.m_viewport.m_rect);
-	}
+		ProgramVersion program = { block.m_program };
 
-	void BlockTonemap::render(Render& render, Tonemap& tonemap, BCS& bcs)
-	{
-		ShaderVersion shader_version(&m_program);
+		program.set_mode(block.m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
+		program.set_option(block.m_index, TO_GAMMA, render.m_viewport->m_to_gamma);
 
-		m_filter.set_uniforms(render, *bgfx::begin());
+		gfx.m_filter->source0(render.m_target->m_post.last());
 
-		shader_version.set_mode(m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
-
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_post_process.last());
-
-		if(bgfx::isValid(tonemap.m_color_correction))
+		if(tonemap.m_color_lut)
 		{
-			shader_version.set_option(m_index, COLOR_CORRECTION, true);
-			bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, tonemap.m_color_correction);
+			program.set_option(block.m_index, COLOR_LUT, true);
+			gfx.m_filter->source1(*tonemap.m_color_lut);
 		}
 
-		vec4 exposure_params = { tonemap.m_exposure, tonemap.m_white_point, 0.f, 0.f };
-		bgfx::setUniform(u_uniform.u_exposure_params, &exposure_params);
+		GpuState<Tonemap>::me.upload(tonemap);
 
 		if(bcs.m_enabled)
 		{
-			shader_version.set_option(m_index, ADJUST_BCS, true);
+			program.set_option(block.m_index, ADJUST_BCS, true);
 
-			vec4 bcs_values = { bcs.m_brightness, bcs.m_contrast, bcs.m_saturation, 0.f };
-			bgfx::setUniform(u_uniform.u_bcs, &bcs_values);
+			GpuState<BCS>::me.upload(bcs);
 		}
 
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_fbo, m_program.version(shader_version), render.m_viewport.m_rect);
+		const Pass pass = render.composite_pass("tonemap");
+		gfx.m_filter->quad(pass, *render.m_fbo, program);
 	}
 }

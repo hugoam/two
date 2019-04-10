@@ -201,10 +201,10 @@ namespace mud
 		else return translate(convert_glfw_key(key));
 	}
 
-	GlfwContext::GlfwContext(RenderSystem& render_system, const string& name, uvec2 size, bool full_screen, bool auto_swap)
-		: Context(render_system, name, size, full_screen)
+	GlfwContext::GlfwContext(RenderSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main, bool autoswap)
+		: Context(gfx, name, size, fullscreen, main)
 		, m_gl_window(nullptr)
-		, m_auto_swap(auto_swap)
+		, m_auto_swap(autoswap)
 	{
 		this->init_context();
 	}
@@ -269,16 +269,19 @@ namespace mud
 			glfwSetInputMode(m_gl_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
-	bool GlfwContext::next_frame()
+	bool GlfwContext::begin_frame()
 	{
 		this->update_size();
 
 		glfwPollEvents();
 
+		return !glfwWindowShouldClose(m_gl_window);
+	}
+
+	void GlfwContext::end_frame()
+	{
 		if(m_auto_swap)
 			glfwSwapBuffers(m_gl_window);
-
-		return !glfwWindowShouldClose(m_gl_window);
 	}
 
 	void GlfwContext::update_size()
@@ -300,11 +303,12 @@ namespace mud
 		m_mouse = &mouse;
 		m_keyboard = &keyboard;
 
-		glfwSetKeyCallback(m_gl_window, [](GLFWwindow* w, int key, int scancode, int action, int mods) { static_cast<GlfwContext*>(glfwGetWindowUserPointer(w))->inject_key(key, scancode, action, mods); });
-		glfwSetCharCallback(m_gl_window, [](GLFWwindow* w, unsigned int c) { static_cast<GlfwContext*>(glfwGetWindowUserPointer(w))->inject_char(c); });
-		glfwSetMouseButtonCallback(m_gl_window, [](GLFWwindow* w, int button, int action, int mods) { static_cast<GlfwContext*>(glfwGetWindowUserPointer(w))->inject_mouse_button(button, action, mods); });
-		glfwSetCursorPosCallback(m_gl_window, [](GLFWwindow* w, double x, double y) { static_cast<GlfwContext*>(glfwGetWindowUserPointer(w))->inject_mouse_move(x, y); });
-		glfwSetScrollCallback(m_gl_window, [](GLFWwindow* w, double x, double y) { static_cast<GlfwContext*>(glfwGetWindowUserPointer(w))->inject_wheel(x, y); });
+		static auto getw = [](GLFWwindow* w) { return static_cast<GlfwContext*>(glfwGetWindowUserPointer(w)); };
+		glfwSetKeyCallback(m_gl_window, [](GLFWwindow* w, int key, int scancode, int action, int mods) { getw(w)->inject_key(key, scancode, action, mods); });
+		glfwSetCharCallback(m_gl_window, [](GLFWwindow* w, unsigned int c) { getw(w)->inject_char(c); });
+		glfwSetMouseButtonCallback(m_gl_window, [](GLFWwindow* w, int button, int action, int mods) { getw(w)->inject_mouse_button(button, action, mods); });
+		glfwSetCursorPosCallback(m_gl_window, [](GLFWwindow* w, double x, double y) { getw(w)->inject_mouse_move(x, y); });
+		glfwSetScrollCallback(m_gl_window, [](GLFWwindow* w, double x, double y) { getw(w)->inject_wheel(x, y); });
 
 		//glfwSetInputMode(m_glWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	}
@@ -315,7 +319,7 @@ namespace mud
 		if(m_mouse_lock)
 			m_cursor = { float(x), float(y) };
 		else
-			m_cursor = max(vec2(0.f), min(vec2(m_fb_size), vec2{ float(x), float(y) }));
+			m_cursor = max(vec2(0.f), min(vec2(m_fb_size), vec2(float(x), float(y))));
 		m_mouse->moved(m_cursor);
 	}
 

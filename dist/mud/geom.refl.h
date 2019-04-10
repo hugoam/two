@@ -37,6 +37,9 @@ MUD_GEOM_REFL_EXPORT Module& getModule();
 
 namespace mud
 {
+	export_ template <> inline void to_value(const string& str, mud::CatmullType& val) { val = mud::CatmullType(enu<mud::CatmullType>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::CatmullType& val, string& str) { str = enu<mud::CatmullType>().name(uint32_t(val)); };
+	
 	export_ template <> inline void to_value(const string& str, mud::DrawMode& val) { val = mud::DrawMode(enu<mud::DrawMode>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::DrawMode& val, string& str) { str = enu<mud::DrawMode>().name(uint32_t(val)); };
 	

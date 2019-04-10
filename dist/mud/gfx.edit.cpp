@@ -37,7 +37,7 @@ module mud.gfx-edit;
 
 namespace mud
 {
-	void animation_edit(Widget& parent, Animated& animated)
+	void animation_edit(Widget& parent, Mime& animated)
 	{
 		Widget& self = ui::sheet(parent);
 
@@ -45,22 +45,22 @@ namespace mud
 
 		static vector<cstring> animations;
 		animations.clear();
-		for(Animation* animation : animated.m_rig.m_skeleton.m_animations)
+		for(Animation* animation : animated.m_anims)
 			animations.push_back(animation->m_name.c_str());
 
 		static uint32_t animation = 0;
-		if(ui::radio_field(table, "animation", animations, animation, DIM_Y))
+		if(ui::radio_field(table, "animation", animations, animation, Axis::Y))
 			animated.start(animations[animation], true, 0.f, 1.f);
 
 		if(!animated.m_playing.empty())
 		{
-			AnimationPlay& play = animated.m_playing.back();
+			AnimPlay& play = animated.m_playing.back();
 			ui::slider_field<float>(table, "speed", { play.m_speed, { -5.f, 5.f, 0.01f } });
 			ui::slider_field<float>(table, "timeline", { play.m_cursor, { 0.f, play.m_animation->m_length, 0.01f } });
 		}
 
 		Table& playing = ui::table(self, { "Animation", "Time" }, { 0.6f, 0.4f });
-		for(AnimationPlay& play : animated.m_playing)
+		for(AnimPlay& play : animated.m_playing)
 		{
 			Widget& row = ui::table_row(playing);
 			ui::label(row, play.m_animation->m_name.c_str());
@@ -71,11 +71,11 @@ namespace mud
 
 	void space_axes(Gnode& parent)
 	{
-		static Colour colours[3] = { Colour::Red, Colour::Green, Colour::Blue };
+		static table<Axis, Colour> colours = { Colour::Red, Colour::Green, Colour::Blue };
 		for(Axis axis : { Axis::X, Axis::Y, Axis::Z })
 		{
 			Gnode& node = gfx::node(parent, {}, to_vec3(axis) * 1.f);
-			gfx::shape(node, Cylinder(0.1f, 1.f, axis), Symbol(colours[size_t(axis)]));
+			gfx::shape(node, Cylinder(0.1f, 1.f, axis), Symbol(colours[axis]));
 		}
 	}
 
@@ -129,7 +129,7 @@ namespace mud
 		SceneViewer& viewer = ui::scene_viewer(parent, vec2(200.f));
 		viewer.m_camera.m_eye = radius * 2.5f * Z3;
 
-		quat rotation = axis_angle(Y3, fmod(time, 2.f * c_pi));
+		quat rotation = axis_angle(Y3, fmod(time, c_2pi));
 
 		Gnode& scene = viewer.m_scene.begin();
 		gfx::node(scene, object, offset, rotation);
@@ -139,7 +139,7 @@ namespace mud
 
 	SceneViewer& material_viewer(Widget& parent, Material& material)
 	{
-		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&material), Zero3, 1.f);
+		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&material), vec3(0.f), 1.f);
 		gfx::shape(*viewer.m_scene.m_graph.m_nodes[0], Sphere(), Symbol(Colour::White), 0U, &material);
 		return viewer;
 	}
@@ -151,10 +151,10 @@ namespace mud
 		return viewer;
 	}
 
-	SceneViewer& particles_viewer(Widget& parent, ParticleFlow& particles)
+	SceneViewer& particles_viewer(Widget& parent, Flow& particles)
 	{
-		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&particles), Zero3, 1.f); // particles.m_radius
-		gfx::particles(*viewer.m_scene.m_graph.m_nodes[0], particles);
+		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&particles), vec3(0.f), 1.f); // particles.m_radius
+		gfx::flows(*viewer.m_scene.m_graph.m_nodes[0], particles);
 		return viewer;
 	}
 
@@ -165,7 +165,7 @@ namespace mud
 		{
 			dispatch_branch<Material>		(*this, +[](Material& material, Widget& parent) -> SceneViewer&			{ return material_viewer(parent, material); });
 			dispatch_branch<Model>			(*this, +[](Model& model, Widget& parent) -> SceneViewer&				{ return model_viewer(parent, model); });
-			dispatch_branch<ParticleFlow>	(*this, +[](ParticleFlow& generator, Widget& parent) -> SceneViewer&	{ return particles_viewer(parent, generator); });
+			dispatch_branch<Flow>	(*this, +[](Flow& generator, Widget& parent) -> SceneViewer&	{ return particles_viewer(parent, generator); });
 		}
 	};
 
@@ -192,7 +192,7 @@ namespace mud
 		return self;
 	}
 
-	void asset_browser(Widget& parent, GfxSystem& gfx_system, vector<Ref>& selection)
+	void asset_browser(Widget& parent, GfxSystem& gfx, vector<Ref>& selection)
 	{
 		Section& self = section(parent, "Assets");
 
@@ -214,42 +214,42 @@ namespace mud
 		sequence.m_selection = &selection;
 
 		if(materials)
-			for(Material* material : gfx_system.materials().m_vector)
+			for(Material* material : gfx.materials().m_vector)
 				if(!material->m_builtin)
 				{
 					asset_element(sequence, "(material)", material->m_name, Ref(material));
 				}
 
 		if(programs)
-			for(Program* program : gfx_system.programs().m_vector)
+			for(Program* program : gfx.programs().m_vector)
 			{
 				Widget& element = ui::element(sequence, Ref(program));
-				ui::multi_item(element, { "(program)", program->name() });
+				ui::multi_item(element, { "(program)", program->m_name.c_str() });
 			}
 
 		if(models)
-			for(Model* model : gfx_system.models().m_vector)
+			for(Model* model : gfx.models().m_vector)
 			{
 				asset_element(sequence, "(model)", model->m_name, Ref(model));
 			}
 
 		if(particles)
-			for(ParticleFlow* particle : gfx_system.particles().m_vector)
+			for(Flow* particle : gfx.flows().m_vector)
 			{
 				asset_element(sequence, "(particles)", particle->m_name, Ref(particle));
 			}
 	}
 
-	void asset_browser(Widget& parent, GfxSystem& gfx_system)
+	void asset_browser(Widget& parent, GfxSystem& gfx)
 	{
 		static vector<Ref> selection = {};
-		asset_browser(parent, gfx_system, selection);
+		asset_browser(parent, gfx, selection);
 	}
 
-	void asset_browser(Widget& parent, GfxSystem& gfx_system, Ref& selected)
+	void asset_browser(Widget& parent, GfxSystem& gfx, Ref& selected)
 	{
 		static vector<Ref> selection = {};
-		asset_browser(parent, gfx_system, selection);
+		asset_browser(parent, gfx, selection);
 		if(selection.size() > 0)
 			selected = selection[0];
 		else
@@ -262,7 +262,7 @@ namespace mud
 		Widget& self = ui::sheet(*scroll_sheet.m_body);
 		UNUSED(self); UNUSED(viewer);
 
-		Entt filters = viewer.m_viewport;
+		Entt& filters = viewer.m_viewport;
 		object_edit_expandbox(self, Ref(&filters.comp<DofBlur>()));
 		object_edit_expandbox(self, Ref(&filters.comp<Glow>()));
 		object_edit_expandbox(self, Ref(&filters.comp<BCS>()));
@@ -293,14 +293,14 @@ namespace mud
 	}
 #endif
 
-	void edit_gfx_scenes(Widget& parent, GfxSystem& gfx_system)
+	void edit_gfx_scenes(Widget& parent, GfxSystem& gfx)
 	{
 		Widget& self = ui::layout(parent);
-		UNUSED(gfx_system);
+		UNUSED(gfx);
 		UNUSED(self);
 	}
 
-	void gfx_editor(Widget& parent, GfxSystem& gfx_system)
+	void gfx_editor(Widget& parent, GfxSystem& gfx)
 	{
 		enum Modes { SELECT = 1 << 0 };
 
@@ -312,17 +312,17 @@ namespace mud
 		if(ui::modal_button(sheet, sheet, "Select", SELECT))
 		{
 			Widget& modal = ui::auto_modal(sheet, SELECT, { 800.f, 600.f });
-			asset_browser(*modal.m_body, gfx_system, asset);
+			asset_browser(*modal.m_body, gfx, asset);
 		}
 
 		if(asset)
 		{
-			if(type(asset).is<ParticleFlow>())
-				particle_edit(sheet, gfx_system, val<ParticleFlow>(asset));
+			if(type(asset).is<Flow>())
+				particle_edit(sheet, gfx, val<Flow>(asset));
 		}
 	}
 
-	void edit_gfx_system(Widget& parent, GfxSystem& gfx_system)
+	void edit_gfx(Widget& parent, GfxSystem& gfx)
 	{
 		Tabber& tabber = ui::tabber(parent);
 
@@ -331,32 +331,32 @@ namespace mud
 
 #if 0
 		if(Widget* textures = ui::tab(tabber, "Textures"))
-			multi_object_edit_container<Texture>(*textures, gfx_system.m_textures);
+			multi_object_edit_container<Texture>(*textures, gfx.m_textures);
 
 		if(Widget* programs = ui::tab(tabber, "Programs"))
-			multi_object_edit_container<Program>(*programs, gfx_system.m_programs);
+			multi_object_edit_container<Program>(*programs, gfx.m_programs);
 
 		if(Widget* materials = ui::tab(tabber, "Materials"))
-			multi_object_edit_container<Material>(*materials, gfx_system.m_materials);
+			multi_object_edit_container<Material>(*materials, gfx.m_materials);
 
 		if(Widget* blocks = ui::tab(tabber, "Blocks"))
-			multi_object_edit_container<GfxBlock>(*blocks, gfx_system.m_pipeline->m_gfx_blocks);
+			multi_object_edit_container<GfxBlock>(*blocks, gfx.m_renderer.m_gfx_blocks);
 
 #endif
 
 #if 0
 		if(Widget* items = ui::tab(tabber, "Items"))
-			edit_gfx_items(*items, gfx_system);
+			edit_gfx_items(*items, gfx);
 
 		if(Widget* scenes = ui::tab(tabber, "Scenes"))
-			edit_gfx_scenes(*scenes, gfx_system);
+			edit_gfx_scenes(*scenes, gfx);
 #endif
 
 		if(Widget* editor = ui::tab(tabber, "Editor"))
-			gfx_editor(*editor, gfx_system);
+			gfx_editor(*editor, gfx);
 
 		if(Widget* particles = ui::tab(tabber, "Particle Editor"))
-			particle_editor(*particles, gfx_system);
+			particle_editor(*particles, gfx);
 	}
 
 	export_ inline Var construct(Type& type)
@@ -404,9 +404,9 @@ namespace mud
 			g_edit_specs[type.m_id].m_setup = true;
 		};
 
-		nest_mode(type<BaseMaterialBlock>(), EditNestMode::Embed);
-		nest_mode(type<UnshadedMaterialBlock>(), EditNestMode::Embed);
-		nest_mode(type<PbrMaterialBlock>(), EditNestMode::Embed);
+		nest_mode(type<MaterialBase>(), EditNestMode::Embed);
+		nest_mode(type<MaterialSolid>(), EditNestMode::Embed);
+		nest_mode(type<MaterialPbr>(), EditNestMode::Embed);
 
 		nest_mode(type<MaterialParam<float>>(), EditNestMode::Embed);
 		nest_mode(type<MaterialParam<Colour>>(), EditNestMode::Embed);
@@ -439,7 +439,7 @@ namespace mud
 	struct ParticleEditorState : public NodeState
 	{
 		ParticleEditorState() {}
-		ParticleFlow m_particles;
+		Flow m_particles;
 	};
 
 	void cube_test(Gnode& parent)
@@ -448,16 +448,16 @@ namespace mud
 		gfx::shape(self, Cube(1.f), Symbol());
 	}
 
-	void particle_editor_viewer(Widget& parent, ParticleFlow& particles)
+	void particle_editor_viewer(Widget& parent, Flow& particles)
 	{
-		SceneViewer& viewer = ui::scene_viewer(parent, vec2{ 500.f });
+		SceneViewer& viewer = ui::scene_viewer(parent, vec2(500.f));
 		ui::orbit_controller(viewer);
 
 		//viewer.m_clear_colour = Colour::DarkGrey;
-		//viewer.m_camera.set_isometric(SOUTH, Zero3);
+		//viewer.m_camera.set_isometric(SOUTH, vec3(0.f));
 
 		Gnode& scene = viewer.m_scene.begin();
-		gfx::particles(scene, particles);
+		gfx::flows(scene, particles);
 
 		Shape* shape = particles.m_shape.m_shape.get();
 		if(shape)
@@ -472,7 +472,7 @@ namespace mud
 		SAVE_PARTICLES = 1 << 1
 	};
 
-	void open_particles(Widget& parent, GfxSystem& system, ParticleFlow& generator)
+	void open_particles(Widget& parent, GfxSystem& system, Flow& generator)
 	{
 		static string location = "";
 		if(select_value(parent, OPEN_PARTICLES, location, true))
@@ -484,7 +484,7 @@ namespace mud
 		}
 	}
 
-	void save_particles(Widget& parent, GfxSystem& system, ParticleFlow& generator)
+	void save_particles(Widget& parent, GfxSystem& system, Flow& generator)
 	{
 		static string destination = "";
 		if(select_value(parent, SAVE_PARTICLES, destination, true))
@@ -493,7 +493,7 @@ namespace mud
 		}
 	}
 
-	void particle_edit(Widget& parent, GfxSystem& system, ParticleFlow& generator)
+	void particle_edit(Widget& parent, GfxSystem& system, Flow& generator)
 	{
 		Section& self = section(parent, "Particle Editor");
 
@@ -563,7 +563,7 @@ namespace mud
 	{
 		Section& self = section(parent, "Prefab Inspector");
 
-		static cstring types[6] = { "None", "Item", "Model", "Shape", "Particles", "Light" };
+		static cstring types[6] = { "None", "Item", "Model", "Shape", "Flare", "Light" };
 		static vector<Function*> functions = { nullptr, &function(gfx::item), &function(gfx::model), &function(gfx::shape), &function(&gfx::particles), &function(gfx::light) };
 
 		static cstring columns[2] = { "field", "value" };
@@ -581,9 +581,9 @@ namespace mud
 		return self;
 	}
 
-	void prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected)
+	void prefab_edit(Widget& parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected)
 	{
-		UNUSED(gfx_system);
+		UNUSED(gfx);
 		Widget& self = ui::sheet(parent);
 
 		prefab_structure(self, node, selected);

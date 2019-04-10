@@ -37,8 +37,8 @@ MUD_GFX_REFL_EXPORT Module& getModule();
 
 namespace mud
 {
-	export_ template <> inline void to_value(const string& str, mud::AnimationTarget& val) { val = mud::AnimationTarget(enu<mud::AnimationTarget>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::AnimationTarget& val, string& str) { str = enu<mud::AnimationTarget>().name(uint32_t(val)); };
+	export_ template <> inline void to_value(const string& str, mud::AnimTarget& val) { val = mud::AnimTarget(enu<mud::AnimTarget>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::AnimTarget& val, string& str) { str = enu<mud::AnimTarget>().name(uint32_t(val)); };
 	
 	export_ template <> inline void to_value(const string& str, mud::BackgroundMode& val) { val = mud::BackgroundMode(enu<mud::BackgroundMode>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::BackgroundMode& val, string& str) { str = enu<mud::BackgroundMode>().name(uint32_t(val)); };
@@ -51,6 +51,9 @@ namespace mud
 	
 	export_ template <> inline void to_value(const string& str, mud::DepthDraw& val) { val = mud::DepthDraw(enu<mud::DepthDraw>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::DepthDraw& val, string& str) { str = enu<mud::DepthDraw>().name(uint32_t(val)); };
+	
+	export_ template <> inline void to_value(const string& str, mud::DepthMethod& val) { val = mud::DepthMethod(enu<mud::DepthMethod>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::DepthMethod& val, string& str) { str = enu<mud::DepthMethod>().name(uint32_t(val)); };
 	
 	export_ template <> inline void to_value(const string& str, mud::DepthTest& val) { val = mud::DepthTest(enu<mud::DepthTest>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::DepthTest& val, string& str) { str = enu<mud::DepthTest>().name(uint32_t(val)); };
@@ -76,6 +79,9 @@ namespace mud
 	export_ template <> inline void to_value(const string& str, mud::MSAA& val) { val = mud::MSAA(enu<mud::MSAA>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::MSAA& val, string& str) { str = enu<mud::MSAA>().name(uint32_t(val)); };
 	
+	export_ template <> inline void to_value(const string& str, mud::MaterialBlock& val) { val = mud::MaterialBlock(enu<mud::MaterialBlock>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::MaterialBlock& val, string& str) { str = enu<mud::MaterialBlock>().name(uint32_t(val)); };
+	
 	export_ template <> inline void to_value(const string& str, mud::MaterialFlag& val) { val = mud::MaterialFlag(enu<mud::MaterialFlag>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::MaterialFlag& val, string& str) { str = enu<mud::MaterialFlag>().name(uint32_t(val)); };
 	
@@ -85,11 +91,20 @@ namespace mud
 	export_ template <> inline void to_value(const string& str, mud::Month& val) { val = mud::Month(enu<mud::Month>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::Month& val, string& str) { str = enu<mud::Month>().name(uint32_t(val)); };
 	
+	export_ template <> inline void to_value(const string& str, mud::PassType& val) { val = mud::PassType(enu<mud::PassType>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::PassType& val, string& str) { str = enu<mud::PassType>().name(uint32_t(val)); };
+	
 	export_ template <> inline void to_value(const string& str, mud::PbrDiffuseMode& val) { val = mud::PbrDiffuseMode(enu<mud::PbrDiffuseMode>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::PbrDiffuseMode& val, string& str) { str = enu<mud::PbrDiffuseMode>().name(uint32_t(val)); };
 	
 	export_ template <> inline void to_value(const string& str, mud::PbrSpecularMode& val) { val = mud::PbrSpecularMode(enu<mud::PbrSpecularMode>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::PbrSpecularMode& val, string& str) { str = enu<mud::PbrSpecularMode>().name(uint32_t(val)); };
+	
+	export_ template <> inline void to_value(const string& str, mud::PhongEnvBlendMode& val) { val = mud::PhongEnvBlendMode(enu<mud::PhongEnvBlendMode>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::PhongEnvBlendMode& val, string& str) { str = enu<mud::PhongEnvBlendMode>().name(uint32_t(val)); };
+	
+	export_ template <> inline void to_value(const string& str, mud::ShaderColor& val) { val = mud::ShaderColor(enu<mud::ShaderColor>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::ShaderColor& val, string& str) { str = enu<mud::ShaderColor>().name(uint32_t(val)); };
 	
 	export_ template <> inline void to_value(const string& str, mud::ShaderType& val) { val = mud::ShaderType(enu<mud::ShaderType>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::ShaderType& val, string& str) { str = enu<mud::ShaderType>().name(uint32_t(val)); };
@@ -102,6 +117,9 @@ namespace mud
 	
 	export_ template <> inline void to_value(const string& str, mud::TextureChannel& val) { val = mud::TextureChannel(enu<mud::TextureChannel>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::TextureChannel& val, string& str) { str = enu<mud::TextureChannel>().name(uint32_t(val)); };
+	
+	export_ template <> inline void to_value(const string& str, mud::TextureFormat& val) { val = mud::TextureFormat(enu<mud::TextureFormat>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::TextureFormat& val, string& str) { str = enu<mud::TextureFormat>().name(uint32_t(val)); };
 	
 	export_ template <> inline void to_value(const string& str, mud::TextureHint& val) { val = mud::TextureHint(enu<mud::TextureHint>().value(str.c_str())); };
 	export_ template <> inline void to_string(const mud::TextureHint& val, string& str) { str = enu<mud::TextureHint>().name(uint32_t(val)); };

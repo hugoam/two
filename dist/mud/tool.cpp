@@ -106,7 +106,7 @@ namespace mud
 		this->add_option(oconstruct<WorldSnapOption>(*this));
 	}
 
-	void Brush::process(Viewer& viewer, const vector<Ref>& selection)
+	void Brush::process(Viewer& viewer, span<Ref> selection)
 	{
 		UNUSED(selection);
 		Widget& screen = ui::overlay(viewer);
@@ -134,7 +134,7 @@ namespace mud
 		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			this->update(m_position);
-			static_cast<MouseEvent*>(screen.m_events->event(DeviceType::MouseLeft, EventType::Dragged))->consume(screen); // @todo this works, and not the next one
+			static_cast<MouseEvent*>(screen.m_events->m_events[DeviceType::MouseLeft][EventType::Dragged])->consume(screen); // @todo this works, and not the next one
 			mouse_event.consume(screen);
 		}
 
@@ -252,7 +252,7 @@ namespace mud
 			this->clearStroke(position);
 
 		float side = m_radius * 2.f;
-		m_distribution = oconstruct<Poisson>(vec2{ side }, m_maxSpotRadius);
+		m_distribution = oconstruct<Poisson>(vec2(side), m_maxSpotRadius);
 
 		vec3 point;
 		while(m_distribution->addPoint(m_maxSpotRadius, point))
@@ -319,8 +319,8 @@ module mud.tool;
 
 namespace mud
 {
-	EditContext::EditContext(GfxSystem& gfx_system)
-		: m_gfx_system(gfx_system)
+	EditContext::EditContext(GfxSystem& gfx)
+		: m_gfx(gfx)
 		, m_undo_tool(m_tool_context)
 		, m_redo_tool(m_tool_context)
 		, m_work_plane() //vec3(0.f, 10.f, 0.f), Entity::FrontVector, Entity::RightVector)
@@ -417,7 +417,7 @@ namespace mud
 		}
 	}
 
-	void object_editor(Widget& parent, const vector<Ref>& selection)
+	void object_editor(Widget& parent, span<Ref> selection)
 	{
 		Widget& self = section(parent, "Inspector");
 
@@ -426,7 +426,7 @@ namespace mud
 			Ref selected = selection[0];
 			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_value);
 			if(selected.m_type->is<EntityRef>())
-				entity_edit(sheet, { as_ent(selected), 0 });
+				entity_edit(sheet, { UINT8_MAX, UINT16_MAX, as_ent(selected) });
 			else
 				object_edit(sheet, selected);
 		}
@@ -448,7 +448,7 @@ namespace mud
 		//if(Widget* dock = ui::dockitem(*context.m_dockbar, "VisualScript", { 5U }))
 		//	visual_script_edit(self, shell.m_editor.m_script_editor);
 		if(Widget* dock = ui::dockitem(docker, "Gfx", { 6U }))
-			edit_gfx_system(*dock, context.m_gfx_system);
+			edit_gfx(*dock, context.m_gfx);
 		if(Widget* dock = ui::dockitem(docker, "Ui", { 7U }))
 			ui_debug(*dock, screen);
 
@@ -513,7 +513,7 @@ namespace mud
 		: Tool(context, name, type)
 	{}
 
-	vector<Transform*> ViewportTool::gather_transforms(const vector<Ref>& objects)
+	vector<Transform*> ViewportTool::gather_transforms(span<Ref> objects)
 	{
 		vector<Transform*> transforms;
 		for(Ref object : objects)
@@ -537,7 +537,7 @@ namespace mud
 	vec3 gizmo_grab_linear(Viewer& viewer, const Transform& space, Axis axis)
 	{
 		vec3 direction = space.m_rotation * to_vec3(axis);
-		vec3 normal = space.m_rotation * c_tangents[uint(axis)];
+		vec3 normal = space.m_rotation * c_tangents[axis];
 		vec3 projected = plane_segment_intersection(Plane(space.m_position, space.m_position + direction, space.m_position + normal), to_segment(viewer.mouse_ray()));
 		return nearest_point_on_line(space.m_position, direction, projected);
 	}
@@ -571,7 +571,7 @@ namespace mud
 	TransformTool::~TransformTool()
 	{}
 
-	bool TransformTool::enabled(const vector<Ref>& selection)
+	bool TransformTool::enabled(span<Ref> selection)
 	{
 		for(Ref object : selection)
 			if(this->test_target(object))
@@ -601,7 +601,7 @@ namespace mud
 	void TransformTool::refresh()
 	{}
 
-	void TransformTool::process(Viewer& viewer, const vector<Ref>& targets)
+	void TransformTool::process(Viewer& viewer, span<Ref> targets)
 	{
 		Widget& screen = viewer;//= ui::overlay(viewer);
 
@@ -701,24 +701,24 @@ namespace mud
     template <> MUD_TOOL_EXPORT Type& type<mud::PlaceBrush>() { static Type ty("PlaceBrush", type<mud::Brush>(), sizeof(mud::PlaceBrush)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::PlaneSnapOption>() { static Type ty("PlaneSnapOption", type<mud::ToolOption>(), sizeof(mud::PlaneSnapOption)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::RedoTool>() { static Type ty("RedoTool", type<mud::Tool>(), sizeof(mud::RedoTool)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::SpatialTool>() { static Type ty("SpatialTool", type<mud::ViewportTool>(), sizeof(mud::SpatialTool)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::CopyTool>() { static Type ty("CopyTool", type<mud::TransformTool>(), sizeof(mud::CopyTool)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::FrameViewTool>() { static Type ty("FrameViewTool", type<mud::ViewportTool>(), sizeof(mud::FrameViewTool)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::RotateAction>() { static Type ty("RotateAction", type<mud::TransformAction>(), sizeof(mud::RotateAction)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::RotateTool>() { static Type ty("RotateTool", type<mud::TransformTool>(), sizeof(mud::RotateTool)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::ScaleAction>() { static Type ty("ScaleAction", type<mud::TransformAction>(), sizeof(mud::ScaleAction)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::ScaleTool>() { static Type ty("ScaleTool", type<mud::TransformTool>(), sizeof(mud::ScaleTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::ScriptedBrush>() { static Type ty("ScriptedBrush", type<mud::Brush>(), sizeof(mud::ScriptedBrush)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::TransformAction>() { static Type ty("TransformAction", type<mud::EditorAction>(), sizeof(mud::TransformAction)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::CopyAction>() { static Type ty("CopyAction", type<mud::TranslateAction>(), sizeof(mud::CopyAction)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::RotateAction>() { static Type ty("RotateAction", type<mud::TransformAction>(), sizeof(mud::RotateAction)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::ScaleAction>() { static Type ty("ScaleAction", type<mud::TransformAction>(), sizeof(mud::ScaleAction)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::TransformGizmo>() { static Type ty("TransformGizmo", type<mud::Gizmo>(), sizeof(mud::TransformGizmo)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::TranslateAction>() { static Type ty("TranslateAction", type<mud::TransformAction>(), sizeof(mud::TranslateAction)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::CopyAction>() { static Type ty("CopyAction", type<mud::TranslateAction>(), sizeof(mud::CopyAction)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::CopyTool>() { static Type ty("CopyTool", type<mud::TransformTool>(), sizeof(mud::CopyTool)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::FrameViewTool>() { static Type ty("FrameViewTool", type<mud::ViewportTool>(), sizeof(mud::FrameViewTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::TranslateTool>() { static Type ty("TranslateTool", type<mud::TransformTool>(), sizeof(mud::TranslateTool)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::UndoTool>() { static Type ty("UndoTool", type<mud::Tool>(), sizeof(mud::UndoTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::ViewAction>() { static Type ty("ViewAction", type<mud::EditorAction>(), sizeof(mud::ViewAction)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::ViewportTool>() { static Type ty("ViewportTool", type<mud::Tool>(), sizeof(mud::ViewportTool)); return ty; }
-    template <> MUD_TOOL_EXPORT Type& type<mud::TransformTool>() { static Type ty("TransformTool", type<mud::SpatialTool>(), sizeof(mud::TransformTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::ViewTool>() { static Type ty("ViewTool", type<mud::ViewportTool>(), sizeof(mud::ViewTool)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::ViewportTool>() { static Type ty("ViewportTool", type<mud::Tool>(), sizeof(mud::ViewportTool)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::SpatialTool>() { static Type ty("SpatialTool", type<mud::ViewportTool>(), sizeof(mud::SpatialTool)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::TransformAction>() { static Type ty("TransformAction", type<mud::EditorAction>(), sizeof(mud::TransformAction)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::TransformGizmo>() { static Type ty("TransformGizmo", type<mud::Gizmo>(), sizeof(mud::TransformGizmo)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::TransformTool>() { static Type ty("TransformTool", type<mud::SpatialTool>(), sizeof(mud::TransformTool)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::UndoTool>() { static Type ty("UndoTool", type<mud::Tool>(), sizeof(mud::UndoTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::WorkPlaneAction>() { static Type ty("WorkPlaneAction", type<mud::EditorAction>(), sizeof(mud::WorkPlaneAction)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::WorkPlaneTool>() { static Type ty("WorkPlaneTool", type<mud::Tool>(), sizeof(mud::WorkPlaneTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::WorldSnapOption>() { static Type ty("WorldSnapOption", type<mud::ToolOption>(), sizeof(mud::WorldSnapOption)); return ty; }
@@ -818,7 +818,7 @@ namespace mud
 
 	Item& rotate_gizmo(Gnode& parent, Axis axis, Colour colour, float ring_radius, uint32_t flags = 0U)
 	{
-		Gnode& node = gfx::transform(parent, {}, Zero3, ZeroQuat);
+		Gnode& node = gfx::transform(parent, {}, vec3(0.f), ZeroQuat);
 		return gfx::shape(node, Torus(1.f, ring_radius, axis), Symbol(colour, Colour::None, true, true), ItemFlag::Render | flags);
 	}
 
@@ -859,7 +859,7 @@ namespace mud
 {
 	ScaleAction::ScaleAction(span<Transform*> targets)
 		: TransformAction(targets)
-		, m_scale_offset(Zero3)
+		, m_scale_offset(vec3(0.f))
 	{}
 
 	void ScaleAction::apply(Transform& transform)
@@ -900,12 +900,12 @@ namespace mud
 	Item& scale_2d_gizmo(Gnode& parent, Axis axis, Colour colour, uint32_t flags = 0U)
 	{
 		Gnode& node = gfx::transform(parent, {}, 0.5f * to_vec3(axis), ZeroQuat);
-		return gfx::shape(node, Quad(0.2f, c_tangents[uint(axis)], c_binormals[uint(axis)]), Symbol(colour, Colour::None, true, true), flags);
+		return gfx::shape(node, Quad(0.2f, c_tangents[axis], c_binormals[axis]), Symbol(colour, Colour::None, true, true), flags);
 	}
 
 	Item& scale_3d_gizmo(Gnode& parent, Colour colour, uint32_t flags = 0U)
 	{
-		Gnode& node = gfx::transform(parent, {}, Zero3, ZeroQuat);
+		Gnode& node = gfx::transform(parent, {}, vec3(0.f), ZeroQuat);
 		return gfx::shape(node, Cube(0.1f), Symbol(colour, Colour::None, true), flags);
 	}
 
@@ -978,7 +978,7 @@ namespace mud
 {
 	TranslateAction::TranslateAction(span<Transform*> targets)
 		: TransformAction(targets)
-		, m_translation(Zero3)
+		, m_translation(vec3(0.f))
 	{}
 
 	void TranslateAction::apply(Transform& transform)
@@ -1016,8 +1016,8 @@ namespace mud
 
 	Item& translate_2d_gizmo(Gnode& parent, Axis axis, Colour colour, uint32_t flags = 0U)
 	{
-		Gnode& node = gfx::transform(parent, {}, 0.5f * (c_tangents[uint(axis)] + c_binormals[uint(axis)]), ZeroQuat);
-		return gfx::shape(node, Quad(0.3f, c_tangents[uint(axis)], c_binormals[uint(axis)]), Symbol(colour, Colour::None, true, true), flags);
+		Gnode& node = gfx::transform(parent, {}, 0.5f * (c_tangents[axis] + c_binormals[axis]), ZeroQuat);
+		return gfx::shape(node, Quad(0.3f, c_tangents[axis], c_binormals[axis]), Symbol(colour, Colour::None, true, true), flags);
 	}
 
 	class TranslateLinearGizmo : public TransformGizmo

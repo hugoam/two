@@ -62,7 +62,7 @@ namespace mud
 {
 	inline vg::Color vgColour(const Colour& colour)
 	{
-		return vg::color4f(colour.m_r, colour.m_g, colour.m_b, colour.m_a);
+		return vg::color4f(colour.r, colour.g, colour.b, colour.a);
 	}
 
 #define RECT_FLOATS(rect) rect.x, rect.y, rect.z, rect.w
@@ -91,7 +91,7 @@ namespace mud
 			16									// m_MaxCommandListDepth
 		};
 
-		m_vg = vg::createContext(240, m_allocator, &config);
+		m_vg = vg::createContext(m_allocator, &config);
 	}
 
 	void VgVg::release_context()
@@ -145,18 +145,19 @@ namespace mud
 		return vgimage.idx;
 	}
 
-	void VgVg::begin_frame(const vec4& rect, float pixel_ratio)
+	void VgVg::begin_frame(uint16_t view, const vec4& rect, float pixel_ratio, const Colour& colour)
 	{
-		bgfx::setViewRect(240, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect_w(rect)), uint16_t(rect_h(rect)));
-		bgfx::setViewMode(240, bgfx::ViewMode::Sequential);
-		bgfx::setViewName(240, "ui");
+		bgfx::setViewClear(view, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, to_rgba(colour), 1.0f, 0);
+		bgfx::setViewRect(view, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect.width), uint16_t(rect.height));
+		bgfx::setViewMode(view, bgfx::ViewMode::Sequential);
+		bgfx::setViewName(view, "ui");
 
-		vg::beginFrame(m_vg, uint16_t(rect_w(rect)), uint16_t(rect_h(rect)), pixel_ratio);
+		vg::beginFrame(m_vg, uint16_t(rect.width), uint16_t(rect.height), pixel_ratio);
 	}
 
-	void VgVg::end_frame()
+	void VgVg::end_frame(uint16_t view)
 	{
-		vg::endFrame(m_vg);
+		vg::endFrame(m_vg, view);
 	}
 
 	bool VgVg::clipped(const vec4& rect)
@@ -204,8 +205,8 @@ namespace mud
 	{
 		vg::beginPath(m_vg);
 
-		vec4 path_rect = { rect_offset(rect) + border * 0.5f, rect_size(rect) - border };
-		if(corners == Zero4)
+		vec4 path_rect = { rect.pos + border * 0.5f, rect.size - border };
+		if(corners == vec4(0.f))
 			vg::rect(m_vg, RECT_FLOATS(path_rect));
 		else
 			vg::roundedRectVarying(m_vg, RECT_FLOATS(path_rect), RECT_FLOATS(corners));
@@ -219,8 +220,8 @@ namespace mud
 
 	void VgVg::draw_shadow(const vec4& rect, const vec4& corners, const Shadow& shadow)
 	{
-		vec4 shadow_rect = { rect_offset(rect) + shadow.d_pos - shadow.d_radius, rect_size(rect) + shadow.d_radius * 2.f };
-		vec4 gradient_rect = { rect_offset(rect) + shadow.d_pos - shadow.d_spread, rect_size(rect) + shadow.d_spread * 2.f };
+		vec4 shadow_rect = { rect.pos + shadow.d_pos - shadow.d_radius, rect.size + shadow.d_radius * 2.f };
+		vec4 gradient_rect = { rect.pos + shadow.d_pos - shadow.d_spread, rect.size + shadow.d_spread * 2.f };
 		vg::GradientHandle shadowPaint = vg::createBoxGradient(m_vg, RECT_FLOATS(gradient_rect), corners[0] + shadow.d_spread, shadow.d_blur, vgColour(shadow.d_colour), vg::Colors::Transparent);
 		vg::beginPath(m_vg);
 		vg::rect(m_vg, RECT_FLOATS(shadow_rect));
@@ -263,8 +264,8 @@ namespace mud
 
 		for(int i = 0; i < 6; i++)
 		{
-			float a0 = (float)i / 6.0f * c_pi * 2.0f - aeps;
-			float a1 = (float)(i + 1.0f) / 6.0f * c_pi * 2.0f + aeps;
+			float a0 = (float)i / 6.0f * c_2pi - aeps;
+			float a1 = (float)(i + 1.0f) / 6.0f * c_2pi + aeps;
 			vg::beginPath(m_vg);
 			vg::moveTo(m_vg, center.x + r0 * cosf(a0), center.y + r0 * sinf(a0));
 			vg::lineTo(m_vg, center.x + r0 * cosf(a1), center.y + r0 * sinf(a1));
@@ -274,10 +275,10 @@ namespace mud
 			//vg::ArcTo(center.x, center.y, a0, a1, r0); //, NVG_CW);
 			//vg::ArcTo(center.x, center.y, a1, a0, r1); //, NVG_CCW);
 			vg::closePath(m_vg);
-			vec2 a = vec2{ cosf(a0), sinf(a0) } *(r0 + r1) * 0.5f + center;
-			vec2 b = vec2{ cosf(a1), sinf(a1) } *(r0 + r1) * 0.5f + center;
-			Colour colour_a = hsla_to_rgba(Colour{ a0 / (c_pi * 2.f), 1.0f, 0.55f });
-			Colour colour_b = hsla_to_rgba(Colour{ a1 / (c_pi * 2.f), 1.0f, 0.55f });
+			vec2 a = vec2(cosf(a0), sinf(a0)) * (r0 + r1) * 0.5f + center;
+			vec2 b = vec2(cosf(a1), sinf(a1)) * (r0 + r1) * 0.5f + center;
+			Colour colour_a = hsl(a0 / c_2pi, 1.0f, 0.55f);
+			Colour colour_b = hsl(a1 / c_2pi, 1.0f, 0.55f);
 			vg::GradientHandle paint = vg::createLinearGradient(m_vg, a.x, a.y, b.x, b.y, vgColour(colour_a), vgColour(colour_b));
 			vg::fillPath(m_vg, paint, vg::FillFlags::ConvexAA);
 		}
@@ -287,11 +288,11 @@ namespace mud
 	{
 		UNUSED(s); UNUSED(l);
 		vg::transformTranslate(m_vg, center.x, center.y);
-		vg::transformRotate(m_vg, hue * c_pi * 2);
+		vg::transformRotate(m_vg, hue * c_2pi);
 
 		float r = r0 - 6;
-		vec2 a = vec2{ cosf(120.0f / 180.0f * c_pi), sinf(120.0f / 180.0f * c_pi) } *r;
-		vec2 b = vec2{ cosf(-120.0f / 180.0f * c_pi), sinf(-120.0f / 180.0f * c_pi) } *r;
+		vec2 a = vec2(cosf(120.0f / 180.0f * c_pi), sinf(120.0f / 180.0f * c_pi)) * r;
+		vec2 b = vec2(cosf(-120.0f / 180.0f * c_pi), sinf(-120.0f / 180.0f * c_pi)) * r;
 
 		vg::beginPath(m_vg);
 		vg::moveTo(m_vg, r, 0);
@@ -299,7 +300,7 @@ namespace mud
 		vg::lineTo(m_vg, b.x, b.y);
 		vg::closePath(m_vg);
 
-		Colour colour = hsla_to_rgba(Colour{ hue, 1.0f, 0.5f });
+		Colour colour = hsl(hue, 1.0f, 0.5f);
 		vg::GradientHandle paint1 = vg::createLinearGradient(m_vg, r, 0, a.x, a.y, vgColour(colour), vg::Colors::White);
 		vg::fillPath(m_vg, paint1, vg::FillFlags::ConvexAA);
 		vg::GradientHandle paint2 = vg::createLinearGradient(m_vg, (r + a.x) * 0.5f, (0 + a.y) * 0.5f, b.x, b.y, vg::Colors::Transparent, vg::Colors::Black);
@@ -310,9 +311,9 @@ namespace mud
 
 	uint32_t VgVg::text_align(const TextPaint& paint)
 	{
-		if(paint.m_align.x == CENTER)
+		if(paint.m_align.x == Align::Center)
 			return vg::TextAlign::Center | vg::TextAlign::Top;
-		else if(paint.m_align.x == Right)
+		else if(paint.m_align.x == Align::Right)
 			return vg::TextAlign::Right | vg::TextAlign::Top;
 		else
 			return vg::TextAlign::Left | vg::TextAlign::Top;
@@ -344,14 +345,14 @@ namespace mud
 		for(size_t i = 0; i < glyphs.size(); ++i)
 		{
 			textRow.m_glyphs[i].m_position = textRow.m_start + i;
-			textRow.m_glyphs[i].m_rect = vec4{ glyphs[i].minx, textRow.m_rect.y, glyphs[i].maxx - glyphs[i].minx, rect_h(textRow.m_rect) };
+			textRow.m_glyphs[i].m_rect = { glyphs[i].minx, textRow.m_rect.y, glyphs[i].maxx - glyphs[i].minx, textRow.m_rect.height };
 		}
 	}
 
 	void VgVg::draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint)
 	{
 		if(paint.m_text_break)
-			vg::textBox(m_vg, text_font(paint), offset.x, offset.y, FLT_MAX, start, end);
+			vg::textBox(m_vg, text_font(paint), offset.x, offset.y, FLT_MAX, start, end, 0); // vg::TextBoxFlags::KeepSpaces);
 		else
 			vg::text(m_vg, text_font(paint), offset.x, offset.y, start, end);
 	}
@@ -441,8 +442,8 @@ namespace mud
 		return { bounds[2] - bounds[0], bounds[3] - bounds[1] };
 	}
 
-	float VgVg::text_size(cstring text, size_t len, Dim dim, const TextPaint& paint)
+	float VgVg::text_size(cstring text, size_t len, Axis dim, const TextPaint& paint)
 	{
-		return dim == DIM_X ? text_size(text, len, paint).x : text_size(text, len, paint).y;
+		return dim == Axis::X ? text_size(text, len, paint).x : text_size(text, len, paint).y;
 	}
 }

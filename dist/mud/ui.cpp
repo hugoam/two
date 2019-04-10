@@ -122,7 +122,7 @@ namespace ui
 		return toggle(parent, styles().checkbox, on);
 	}
 
-	Widget& fill_bar(Widget& parent, float percentage, Dim dim)
+	Widget& fill_bar(Widget& parent, float percentage, Axis dim)
 	{
 		Widget& self = widget(parent, styles().fill_bar);
 		spanner(self, styles().filler, dim, percentage);
@@ -138,7 +138,7 @@ namespace ui
 		if(!image)
 		{
 			vector<uint8_t> data = source.read();
-			image = &self.ui_window().create_image(name, uvec2{ source.m_width, source.m_height }, &data[0], false);
+			image = &self.ui_window().create_image(name, source.m_size, &data[0], false);
 		}
 		self.m_frame.set_icon(image);
 		return self;
@@ -167,7 +167,7 @@ namespace ui
 		return self;
 	}
 
-	bool radio_switch(Widget& parent, span<cstring> labels, uint32_t& value, Dim dim)
+	bool radio_switch(Widget& parent, span<cstring> labels, uint32_t& value, Axis dim)
 	{
 		Widget& self = widget(parent, styles().radio_switch, false, dim);
 		bool changed = false;
@@ -321,34 +321,34 @@ namespace ui
 		, scroll_down("ScrollDown", styles().button, {})
 		, scroll_left("ScrollLeft", styles().button, {})
 		, scroll_right("ScrollRight", styles().button, {})
-		, scroller("Scroller", styles().slider, [](Layout& l) { l.m_space = FLEX; })
-		, scroller_knob("ScrollerKnob", styles().slider_knob, [](Layout& l) { l.m_space = FLEX; })
+		, scroller("Scroller", styles().slider, [](Layout& l) { l.m_space = Preset::Flex; })
+		, scroller_knob("ScrollerKnob", styles().slider_knob, [](Layout& l) { l.m_space = Preset::Flex; })
 	{}
 
 	DropdownStyles::DropdownStyles()
-		: popdown("Popdown", styles().popup, [](Layout& l) { l.m_flow = FREE; l.m_space = BLOCK; l.m_size = { 200.f, 200.f }; })
+		: popdown("Popdown", styles().popup, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_space = Preset::Block; l.m_size = { 200.f, 200.f }; })
 		, dropdown("Dropdown", styles().wrap_button, {})
 		, toggle("DropdownToggle", styles().button, {})
 		, head("DropdownHead", styles().multi_button, {})
-		, list("DropdownList", styles().overlay, [](Layout& l) { l.m_flow = ALIGN; l.m_clipping = UNCLIP; l.m_align = { Left, OUT_RIGHT }; })
+		, list("DropdownList", styles().overlay, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_clipping = Clip::Unclip; l.m_align = { Align::Left, Align::OutRight }; })
 		, choice("DropdownChoice", styles().multi_button, {})
 		, dropdown_input("DropdownInput", dropdown, {})
-		, dropdown_input_compact("DropdownInputCompact", dropdown, [](Layout& l) { l.m_space = ITEM; })
+		, dropdown_input_compact("DropdownInputCompact", dropdown, [](Layout& l) { l.m_space = Preset::Item; })
 		, typedown_input("TypedownInput", dropdown, {})
 	{}
 
 	MenuStyles::MenuStyles()
 		: menubar("Menubar", styles().header, {})
-		, menu("Menu", dropdown_styles().dropdown, [](Layout& l) { l.m_space = ITEM; })
-		, list("MenuList", dropdown_styles().list, [](Layout& l) { l.m_align = { Left, OUT_RIGHT }; })
-		, sublist("SubMenuList", list, [](Layout& l) { l.m_align = { OUT_RIGHT, Left }; })
+		, menu("Menu", dropdown_styles().dropdown, [](Layout& l) { l.m_space = Preset::Item; })
+		, list("MenuList", dropdown_styles().list, [](Layout& l) { l.m_align = { Align::Left, Align::OutRight }; })
+		, sublist("SubMenuList", list, [](Layout& l) { l.m_align = { Align::OutRight, Align::Left }; })
 	{}
 
 	ToolbarStyles::ToolbarStyles()
 		: toolbutton("ToolButton", dropdown_styles().dropdown_input, {})
 		, tooldock("Tooldock", styles().div, {})
 		, toolbar("Toolbar", styles().wrap_control, {})
-		, toolbar_wrap("ToolbarWrap", toolbar, [](Layout& l) { l.m_space = ITEM; })
+		, toolbar_wrap("ToolbarWrap", toolbar, [](Layout& l) { l.m_space = Preset::Item; })
 		, mover("ToolbarMover", styles().control, {})
 	{}
 
@@ -408,13 +408,13 @@ namespace ui
 		Table& self = table(parent, columns.size(), weights);
 		self.init(styles().table);
 
-		Widget& header = grid_sheet(self, styles().table_head, DIM_X, self.m_weights); // [this](Frame& first, Frame& second) { this->resize(first, second); }
+		Widget& header = grid_sheet(self, styles().table_head, Axis::X, self.m_weights); // [this](Frame& first, Frame& second) { this->resize(first, second); }
 
 		as<TableSolver>(*self.m_frame.m_solver).update(self.m_weights);
 
 		for(size_t i = 0; i < columns.size(); ++i)
 		{
-			Widget& column = spanner(header, styles().column_header, DIM_X, self.m_weights[i]);
+			Widget& column = spanner(header, styles().column_header, Axis::X, self.m_weights[i]);
 			label(column, columns[i]);
 		}
 
@@ -542,7 +542,7 @@ namespace ui
 	{}
 
 	TabberStyles::TabberStyles()
-		: tab("Tab", styles().wedge, [](Layout& l) { l.m_clipping = CLIP; })
+		: tab("Tab", styles().wedge, [](Layout& l) { l.m_clipping = Clip::Clip; })
 		, tab_button("TabHeader", styles().button, {})
 		, tabber("Tabber", styles().wedge, {})
 		, head("TabberHead", styles().row, {})
@@ -606,12 +606,12 @@ namespace ui
 
 	Widget* tooltip(Widget& parent, const Frame& parent_frame)
 	{
-		return hoverbox(parent, vec2{ 0.f, 0.f + parent_frame.m_size.y });
+		return hoverbox(parent, vec2(0.f, 0.f + parent_frame.m_size.y));
 	}
 
 	Widget* tooltip(Widget& parent, const Frame& parent_frame, span<cstring> elements)
 	{
-		return tooltip(parent, vec2{ parent_frame.m_position.x, parent_frame.m_position.y + parent_frame.m_size.y }, elements);
+		return tooltip(parent, vec2(parent_frame.m_position.x, parent_frame.m_position.y + parent_frame.m_size.y), elements);
 	}
 
 	Widget* tooltip(Widget& parent, const Frame& parent_frame, cstring element)
@@ -622,8 +622,16 @@ namespace ui
 	Widget& rectangle(Widget& parent, const vec4& rect)
 	{
 		Widget& self = widget(parent, styles().rectangle).layer();
-		self.m_frame.set_position(rect_offset(rect));
-		self.m_frame.set_size(rect_size(rect));
+		self.m_frame.set_position(rect.pos);
+		self.m_frame.set_size(rect.size);
+		return self;
+	}
+
+	Widget& viewport(Widget& parent, const vec4& rect)
+	{
+		Widget& self = widget(parent, styles().viewport).layer();
+		self.m_frame.set_position(rect.pos);
+		self.m_frame.set_size(rect.size);
 		return self;
 	}
 
@@ -656,7 +664,7 @@ namespace mud
 {
 namespace ui
 {
-	Widget& dockline(Widget& parent, uint16_t index, Dim dim)
+	Widget& dockline(Widget& parent, uint16_t index, Axis dim)
 	{
 		if(parent.m_nodes.size() > index && parent.m_nodes[index]->m_heartbeat == parent.m_heartbeat)
 			return *parent.m_nodes[index];
@@ -680,7 +688,7 @@ namespace ui
 	{
 		Dockspace& self = parent.suba<Dockspace, Docksystem&>(docksystem);
 		self.init(dock_styles().dockspace);
-		self.m_mainline = &dockline(self, 0, DIM_Y);
+		self.m_mainline = &dockline(self, 0, Axis::Y);
 		return self;
 	}
 
@@ -838,14 +846,14 @@ namespace mud
 		vector<uint16_t> dockid = reverse(dock.m_dockid);
 		Widget* line = m_mainline;
 
-		Dim dim = DIM_Y;
+		Axis dim = Axis::Y;
 		while(dockid.size() > 0)
 		{
 			uint16_t index = pop(dockid);
-			dim = flip_dim(dim);
+			dim = flip(dim);
 			line = &ui::dockline(*line, index, dim);
-			if(dockid.size() == 0 && dock.m_span > 0.f && line->m_frame.m_span[flip_dim(dim)] == 1.f)
-				line->m_frame.set_span(flip_dim(dim), dock.m_span);
+			if(dockid.size() == 0 && dock.m_span > 0.f && line->m_frame.m_span[flip(dim)] == 1.f)
+				line->m_frame.set_span(flip(dim), dock.m_span);
 		}
 
 		Tabber& section = ui::docksection(*line);
@@ -870,8 +878,8 @@ namespace mud
 	{
 		vec2 local = frame.local_position(pos);
 
-		Dim dim = Dim(target.m_dockid.size() % 2);
-		Dim ortho = flip_dim(dim);
+		Axis dim = Axis(target.m_dockid.size() % 2);
+		Axis ortho = flip(dim);
 
 		if(local[dim] < frame.m_size[dim] * 0.25f)
 			this->dock_split(dock, target, false); // dock split first
@@ -1024,21 +1032,21 @@ namespace ui
 		return dist <= r1 && dist >= r0;
 	}
 
-	void drag_color_wheel(Widget& self, Colour& hsla, const MouseEvent& event)
+	void drag_color_wheel(Widget& self, ColourHSL& hsla, const MouseEvent& event)
 	{
 		vec2 coord = { event.m_relative.x, self.m_frame.m_size.y - event.m_relative.y };
 		vec2 center = self.m_frame.m_size * 0.5f;
 		float angle = oriented_angle_2d(normalize(coord - center), { 1.f, 0.f });
-		hsla.m_h = angle / (c_pi * 2.f);
+		hsla.h = angle / c_2pi;
 	}
 
-	bool color_wheel(Widget& parent, Colour& hsla)
+	bool color_wheel(Widget& parent, ColourHSL& hsla)
 	{
 		Widget& self = widget(parent, styles().color_wheel);
 		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
-			draw_color_wheel(vg, frame.m_size, hsla.m_h, hsla.m_s, hsla.m_l);
+			draw_color_wheel(vg, frame.m_size, hsla.h, hsla.s, hsla.l);
 		};
 		bool changed = false;
 
@@ -1058,7 +1066,7 @@ namespace ui
 		return changed;
 	}
 
-	bool color_edit_hsl(Widget& parent, const Colour& colour, Colour& hsla)
+	bool color_edit_hsl(Widget& parent, const Colour& colour, ColourHSL& hsla)
 	{
 		static cstring columns[2] = { "field", "value" };
 		Widget& self = table(parent, { columns, 2 }, {}); // , { 0.3f, 0.7f }
@@ -1066,9 +1074,9 @@ namespace ui
 
 		bool changed = false;
 		StatDef<float> def = { 0.f, 1.f, 0.01f };
-		changed |= slider_field<float>(self, "hue", { hsla.m_h, def });
-		changed |= slider_field<float>(self, "saturation", { hsla.m_s, def });
-		changed |= slider_field<float>(self, "lightness", { hsla.m_l, def });
+		changed |= slider_field<float>(self, "hue", { hsla.h, def });
+		changed |= slider_field<float>(self, "saturation", { hsla.s, def });
+		changed |= slider_field<float>(self, "lightness", { hsla.l, def });
 
 		return changed;
 	}
@@ -1080,21 +1088,21 @@ namespace ui
 
 		bool changed = false;
 		StatDef<float> def = { 0.f, 1.f, 0.01f };
-		changed |= slider_input<float>(self, { value.m_r, def });
-		changed |= slider_input<float>(self, { value.m_g, def });
-		changed |= slider_input<float>(self, { value.m_b, def });
+		changed |= slider_input<float>(self, { value.r, def });
+		changed |= slider_input<float>(self, { value.g, def });
+		changed |= slider_input<float>(self, { value.b, def });
 
 		return changed;
 	}
 
 	bool color_edit(Widget& parent, Colour& value)
 	{
-		Colour hsla = rgba_to_hsla(value);
+		ColourHSL hsla = to_hsla(value);
 		Widget& self = stack(parent);
 		bool changed = false;
 		changed |= color_wheel(self, hsla);
 		changed |= color_edit_hsl(self, value, hsla);
-		value = hsla_to_rgba(hsla);
+		value = to_rgba(hsla);
 		return changed;
 	}
 
@@ -1111,7 +1119,7 @@ namespace ui
 		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
-			vg.draw_rect({ Zero2, frame.m_size }, value, frame.d_inkstyle->m_corner_radius);
+			vg.draw_rect({ vec2(0.f), frame.m_size }, value, frame.d_inkstyle->m_corner_radius);
 		};
 		return self;
 	}
@@ -1138,7 +1146,7 @@ namespace
 		Curve(const vec2& size, float min, float max, span<float> values, span<float> points)
 			: m_min(min), m_max(max), m_values(values), m_points(points)
 		{
-			m_scale = size * vec2{ 1.f, max - min };
+			m_scale = size * vec2(1.f, max - min);
 		}
 
 		float m_min;
@@ -1150,7 +1158,7 @@ namespace
 		vec2 point(size_t i)
 		{
 			float t = m_points.size() > 0 ? m_points[i] : i / float(m_values.size() - 1);
-			return m_scale * vec2{ t, (m_values[i] - m_min) };
+			return m_scale * vec2(t, (m_values[i] - m_min));
 		}
 
 		size_t point_at(vec2 position)
@@ -1174,7 +1182,7 @@ namespace
 		{
 			vec2 begin = curve.point(i);
 			vec2 end = curve.point(i + 1);
-			vg.path_bezier(begin, begin + vec2{ distance, 0.f }, end - vec2{ distance, 0.f }, end, false);
+			vg.path_bezier(begin, begin + vec2(distance, 0.f), end - vec2(distance, 0.f), end, false);
 			vg.stroke(paint);
 		}
 	}
@@ -1196,7 +1204,7 @@ namespace
 		const float highest = 1.f;
 
 		Widget& self = widget(parent, styles().curve_graph);
-		Curve curve = { rect_size(self.m_frame.content_rect()), lowest, highest, values, points };
+		Curve curve = { self.m_frame.content_rect().size, lowest, highest, values, points };
 		
 		static size_t hovered = SIZE_MAX;
 		static size_t dragged = SIZE_MAX;
@@ -1220,7 +1228,7 @@ namespace
 		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(frame); UNUSED(rect);
-			Curve curve = { rect_size(rect), 0.f, 1.f, values, points };
+			Curve curve = { rect.size, 0.f, 1.f, values, points };
 			vg.draw_rect(rect, { Colour::DarkGrey });
 			draw_curve(Colour::NeonGreen, curve, hovered, vg);
 			draw_points(Colour::NeonGreen, curve, hovered, vg);
@@ -1281,10 +1289,10 @@ namespace ui
 
 		int shift = -min(0, min_index);
 		
-		static Layout layout_overlay = [](Layout& l) { l.m_space = BOARD; };
-		static Layout layout_line = [](Layout& l) { l.m_space = ITEM; l.m_align = { CENTER, CENTER }; l.m_padding = vec4(20.f); l.m_spacing = vec2(100.f); };
-		static Layout layout_column = [](Layout& l) { l.m_space = UNIT; l.m_align = { Left, CENTER }; l.m_padding = vec4(20.f); l.m_spacing = vec2(20.f); };
-		static Layout layout_node = [](Layout& l) { l.m_space = BLOCK; };
+		static Layout layout_overlay = [](Layout& l) { l.m_space = Preset::Board; };
+		static Layout layout_line = [](Layout& l) { l.m_space = Preset::Item; l.m_align = { Align::Center, Align::Center }; l.m_padding = vec4(20.f); l.m_spacing = vec2(100.f); };
+		static Layout layout_column = [](Layout& l) { l.m_space = Preset::Unit; l.m_align = { Align::Left, Align::Center }; l.m_padding = vec4(20.f); l.m_spacing = vec2(20.f); };
+		static Layout layout_node = [](Layout& l) { l.m_space = Preset::Block; };
 
 		SolverVector solvers;
 		
@@ -1319,7 +1327,7 @@ namespace ui
 	{
 		float distance = straight ? 20.f : 100.f;
 		Gradient paint = { colour_out, colour_in };
-		vg.path_bezier(pos_out, pos_out + vec2{ distance, 0.f }, pos_in - vec2{ distance, 0.f }, pos_in, straight);
+		vg.path_bezier(pos_out, pos_out + vec2(distance, 0.f), pos_in - vec2(distance, 0.f), pos_in, straight);
 		vg.stroke_gradient(paint, 1.f, pos_out, pos_in);
 	}
 
@@ -1475,7 +1483,7 @@ namespace ui
 	Node& node(Canvas& parent, span<cstring> title, float* position, int order, Ref identity)
 	{
 		Node& self = node(parent, title, order, identity);
-		if(self.once())// && position != Zero2)
+		if(self.once())// && position != vec2(0.f))
 			self.m_frame.set_position({ position[0], position[1] });
 		else
 		{
@@ -1553,7 +1561,7 @@ namespace ui
 		}
 		else
 		{
-			canvas_cable(*canvas.m_plan, Zero2, Zero2, Colour::None, Colour::None);
+			canvas_cable(*canvas.m_plan, vec2(0.f), vec2(0.f), Colour::None, Colour::None);
 			connect = {};
 		}
 
@@ -1572,26 +1580,26 @@ namespace mud
 {
 namespace ui
 {
-	bool overflow(Frame& frame, Frame& content, Dim dim)
+	bool overflow(Frame& frame, Frame& content, Axis dim)
 	{
 		float visible_size = frame.m_size[dim];
 		float content_size = content.m_size[dim] * content.m_scale;
 		return content_size - visible_size > 0.f;
 	}
 
-	void scroll_to(Frame& content, Dim dim, float offset)
+	void scroll_to(Frame& content, Axis dim, float offset)
 	{
 		content.set_position(dim, -offset);
 		//content.layer().setForceRedraw();
 	}
 
-	bool scroller(Widget& parent, float& cursor, float overflow, float visible_size, Dim dim)
+	bool scroller(Widget& parent, float& cursor, float overflow, float visible_size, Axis dim)
 	{
 		return slider(parent, scrollbar_styles().scroller, cursor, SliderMetrics{ 0.f, overflow, 1.f, visible_size },
 					  dim, true, false, &scrollbar_styles().scroller_knob);
 	}
 
-	Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Dim dim, Dim2<size_t> grid_index)
+	Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Axis dim, v2<size_t> grid_index)
 	{
 		Widget& self = widget(parent, styles().row, false, dim, grid_index);
 
@@ -1608,12 +1616,12 @@ namespace ui
 		if(cursor > 0.f && content_size - cursor < visible_size)
 			cursor = max(content_size - visible_size, 0.f);
 
-		Widget& rewind = button(scrollbar, dim == DIM_Y ? scrollbar_styles().scroll_up
+		Widget& rewind = button(scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_up
 														: scrollbar_styles().scroll_left);
 
 		scroller(scrollbar, cursor, overflow, visible_size, dim);
 
-		Widget& forward = button(scrollbar, dim == DIM_Y ? scrollbar_styles().scroll_down
+		Widget& forward = button(scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_down
 														 : scrollbar_styles().scroll_right);
 
 		if(rewind.activated())
@@ -1672,7 +1680,7 @@ namespace ui
 	{
 		vec2 position = scroll_plan.m_position + mouse_event.m_delta;
 		vec2 overflow = (scroll_plan.m_size * scroll_plan.m_scale) - scroll_zone.m_size;
-		scroll_plan.set_position(min(Zero2, max(position, -overflow)));
+		scroll_plan.set_position(min(vec2(0.f), max(position, -overflow)));
 		//m_frame.mark_dirty(DIRTY_FORCE_LAYOUT);
 	}
 
@@ -1710,18 +1718,18 @@ namespace ui
 	ScrollSheet& scroll_sheet(Widget& parent, Style& style, Style* surface_style)
 	{
 		ScrollSheet& self = twidget<ScrollSheet>(parent, style);
-		self.m_scroll_zone = &widget(self, styles().scroll_zone, false, DIM_NONE, { 0, 0 });
+		self.m_scroll_zone = &widget(self, styles().scroll_zone, false, Axis::None, { 0, 0 });
 		self.m_body = &widget(*self.m_scroll_zone, surface_style ? *surface_style : styles().scroll_surface);
 
-		scrollbar(self, self.m_scroll_zone->m_frame, self.m_body->m_frame, DIM_X, { 0, 1 });
-		scrollbar(self, self.m_scroll_zone->m_frame, self.m_body->m_frame, DIM_Y, { 1, 0 });
+		scrollbar(self, self.m_scroll_zone->m_frame, self.m_body->m_frame, Axis::X, { 0, 1 });
+		scrollbar(self, self.m_scroll_zone->m_frame, self.m_body->m_frame, Axis::Y, { 1, 0 });
 
 #if 0
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
-			self.m_body->m_frame.set_position(DIM_X, self.m_body->m_frame.m_position[DIM_X] - mouse_event.m_delta.x);
-			self.m_body->m_frame.set_position(DIM_Y, self.m_body->m_frame.m_position[DIM_Y] - mouse_event.m_delta.y);
-			self.m_body->m_frame.set_position(DIM_Y, self.m_body->m_frame.m_position[DIM_Y] - 10.f * mouse_event.m_deltaZ);
+			self.m_body->m_frame.set_position(Axis::X, self.m_body->m_frame.m_position[Axis::X] - mouse_event.m_delta.x);
+			self.m_body->m_frame.set_position(Axis::Y, self.m_body->m_frame.m_position[Axis::Y] - mouse_event.m_delta.y);
+			self.m_body->m_frame.set_position(Axis::Y, self.m_body->m_frame.m_position[Axis::Y] - 10.f * mouse_event.m_deltaZ);
 		}
 #endif
 
@@ -1750,14 +1758,14 @@ namespace ui
 		Frame& scroll_plan = scroll_sheet.m_body->m_frame;
 
 		float margin = 1000.f;
-		vec2 bounds_min = vec2{ FLT_MAX };
-		vec2 bounds_max = vec2{ FLT_MIN };
+		vec2 bounds_min = vec2(FLT_MAX);
+		vec2 bounds_max = vec2(FLT_MIN);
 
 		for(Widget* widget : elements)
 		{
 			bounds_min = min(widget->m_frame.m_position, bounds_min);
 			bounds_max = max(widget->m_frame.m_position + widget->m_frame.m_size, bounds_max);
-			//offset = min(vec2{ widget->m_frame.m_position - margin });
+			//offset = min(vec2(widget->m_frame.m_position - margin));
 		}
 
 		vec2 offset = vec2(margin) - bounds_min;
@@ -1790,8 +1798,8 @@ namespace mud
 {
 	Style& section_style()
 	{
-		// STACK
-		static Style style = { "Section", styles().sheet, [](Layout& l) { l.m_padding = vec4{ 2.f }; } };
+		// Preset::Stack
+		static Style style = { "Section", styles().sheet, [](Layout& l) { l.m_padding = vec4(2.f); } };
 		return style;
 	}
 
@@ -1925,8 +1933,8 @@ namespace ui
 	Widget& layout_span(Widget& parent, float span)
 	{
 		Widget& self = ui::layout(parent);
-		self.m_frame.set_span(DIM_X, span);
-		self.m_frame.set_span(DIM_Y, span);
+		self.m_frame.set_span(Axis::X, span);
+		self.m_frame.set_span(Axis::Y, span);
 		return self;
 	}
 
@@ -2004,7 +2012,7 @@ namespace ui
 	}
 
 
-	DragPoint grid_sheet_drag(Widget& self, MouseEvent& mouse_event, Dim dim, bool start_drag)
+	DragPoint grid_sheet_drag(Widget& self, MouseEvent& mouse_event, Axis dim, bool start_drag)
 	{
 		// If not dragging already we take the position BEFORE the mouse moved as a reference
 		DragPoint drag_point;
@@ -2023,7 +2031,7 @@ namespace ui
 		return drag_point;
 	}
 
-	DragPoint grid_sheet_logic(Widget& self, Dim dim, bool& dragging)
+	DragPoint grid_sheet_logic(Widget& self, Axis dim, bool& dragging)
 	{
 		// @todo we need to store the drag point only when the drag starts
 		static DragPoint drag_point;
@@ -2037,30 +2045,30 @@ namespace ui
 		{
 			dragging = true;
 			if(drag_point.next && drag_point.prev)
-				self.m_frame.transfer_pixel_span(*drag_point.prev, *drag_point.next, dim, mouse_event.m_delta[dim]);
+				self.m_frame.transfer_pixel_span(*drag_point.prev, *drag_point.next, dim, mouse_event.m_delta[size_t(dim)]);
 		}
 
 		if(&self == self.ui().m_hovered)
-			self.ui().m_cursor_style = dim == DIM_X ? &cursor_styles().resize_x
-															: &cursor_styles().resize_x;
+			self.ui().m_cursor_style = dim == Axis::X ? &cursor_styles().resize_x
+													  : &cursor_styles().resize_x;
 
 		return drag_point;
 	}
 
-	DragPoint grid_sheet_logic(Widget& self, Dim dim)
+	DragPoint grid_sheet_logic(Widget& self, Axis dim)
 	{
 		bool dragging = false;
 		return grid_sheet_logic(self, dim, dragging);
 	}
 
-	Widget& grid_sheet(Widget& parent, Style& style, Dim dim)
+	Widget& grid_sheet(Widget& parent, Style& style, Axis dim)
 	{
 		Widget& self = widget(parent, style, false, dim);
 		grid_sheet_logic(self, dim);
 		return self;
 	}
 
-	Widget& grid_sheet(Widget& parent, Style& style, Dim dim, span<float> spans)
+	Widget& grid_sheet(Widget& parent, Style& style, Axis dim, span<float> spans)
 	{
 		Widget& self = widget(parent, style, false, dim);
 
@@ -2121,7 +2129,7 @@ namespace ui
 		return state;
 	}
 
-	bool slider_cursor(Frame& slider, Frame& knob, Dim dim, const MouseEvent& mouse_event, float& value, const SliderMetrics& metrics, bool relative)
+	bool slider_cursor(Frame& slider, Frame& knob, Axis dim, const MouseEvent& mouse_event, float& value, const SliderMetrics& metrics, bool relative)
 	{
 		if(relative)
 		{
@@ -2139,7 +2147,7 @@ namespace ui
 		return true;
 	}
 
-	bool slider_logic(Widget& self, Frame& slider, Frame& filler, Frame& knob, float& value, const SliderMetrics& metrics, Dim dim, bool relative)
+	bool slider_logic(Widget& self, Frame& slider, Frame& filler, Frame& knob, float& value, const SliderMetrics& metrics, Axis dim, bool relative)
 	{
         UNUSED(filler);
 		bool changed = false;
@@ -2159,7 +2167,7 @@ namespace ui
 		return changed;
 	}
 
-	bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Dim dim, bool relative, bool fill, Style* knob_style)
+	bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
 	{
 		Widget& self = widget(parent, style, false, dim);
 
@@ -2174,7 +2182,7 @@ namespace ui
 		return changed;
 	}
 
-	bool slider(Widget& parent, float& value, SliderMetrics metrics, Dim dim, bool relative, bool fill, Style* knob_style)
+	bool slider(Widget& parent, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
 	{
 		return slider(parent, styles().slider, value, metrics, dim, relative, fill, knob_style);
 	}
@@ -2236,31 +2244,23 @@ namespace mud
     // Exported types
     template <> MUD_UI_EXPORT Type& type<mud::Align>() { static Type ty("Align", sizeof(mud::Align)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::AutoLayout>() { static Type ty("AutoLayout", sizeof(mud::AutoLayout)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Clipping>() { static Type ty("Clipping", sizeof(mud::Clipping)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dim>() { static Type ty("Dim", sizeof(mud::Dim)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Flow>() { static Type ty("Flow", sizeof(mud::Flow)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Clip>() { static Type ty("Clip", sizeof(mud::Clip)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>() { static Type ty("FlowAxis", sizeof(mud::FlowAxis)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::LayoutSolver>() { static Type ty("LayoutSolver", sizeof(mud::LayoutSolver)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::LayoutFlow>() { static Type ty("LayoutFlow", sizeof(mud::LayoutFlow)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Opacity>() { static Type ty("Opacity", sizeof(mud::Opacity)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Pivot>() { static Type ty("Pivot", sizeof(mud::Pivot)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::ui::PopupFlags>() { static Type ty("PopupFlags", sizeof(mud::ui::PopupFlags)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Preset>() { static Type ty("Preset", sizeof(mud::Preset)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Sizing>() { static Type ty("Sizing", sizeof(mud::Sizing)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::SpacePreset>() { static Type ty("SpacePreset", sizeof(mud::SpacePreset)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Solver>() { static Type ty("Solver", sizeof(mud::Solver)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::WidgetState>() { static Type ty("WidgetState", sizeof(mud::WidgetState)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::WindowState>() { static Type ty("WindowState", sizeof(mud::WindowState)); return ty; }
     
     template <> MUD_UI_EXPORT Type& type<stl::span<const char*>>() { static Type ty("span<const char*>", sizeof(stl::span<const char*>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<stl::span<float>>() { static Type ty("span<float>", sizeof(stl::span<float>)); return ty; }
     template <> MUD_UI_EXPORT Type& type<stl::vector<mud::Space>>() { static Type ty("vector<mud::Space>", sizeof(stl::vector<mud::Space>)); return ty; }
     
     template <> MUD_UI_EXPORT Type& type<mud::CanvasConnect>() { static Type ty("CanvasConnect", sizeof(mud::CanvasConnect)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Clipboard>() { static Type ty("Clipboard", sizeof(mud::Clipboard)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dim2<bool>>() { static Type ty("Dim2<bool>", sizeof(mud::Dim2<bool>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Align>>() { static Type ty("Dim2<mud::Align>", sizeof(mud::Dim2<mud::Align>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::AutoLayout>>() { static Type ty("Dim2<mud::AutoLayout>", sizeof(mud::Dim2<mud::AutoLayout>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Pivot>>() { static Type ty("Dim2<mud::Pivot>", sizeof(mud::Dim2<mud::Pivot>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Sizing>>() { static Type ty("Dim2<mud::Sizing>", sizeof(mud::Dim2<mud::Sizing>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dim2<size_t>>() { static Type ty("Dim2<size_t>", sizeof(mud::Dim2<size_t>)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Dock>() { static Type ty("Dock", sizeof(mud::Dock)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Docksystem>() { static Type ty("Docksystem", sizeof(mud::Docksystem)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Gradient>() { static Type ty("Gradient", sizeof(mud::Gradient)); return ty; }
@@ -2284,7 +2284,11 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::UiWindow>() { static Type ty("UiWindow", sizeof(mud::UiWindow)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::User>() { static Type ty("User", sizeof(mud::User)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Vg>() { static Type ty("Vg", sizeof(mud::Vg)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Widget>() { static Type ty("Widget", sizeof(mud::Widget)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Align>>() { static Type ty("v2<mud::Align>", sizeof(mud::v2<mud::Align>)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::v2<mud::AutoLayout>>() { static Type ty("v2<mud::AutoLayout>", sizeof(mud::v2<mud::AutoLayout>)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Pivot>>() { static Type ty("v2<mud::Pivot>", sizeof(mud::v2<mud::Pivot>)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Sizing>>() { static Type ty("v2<mud::Sizing>", sizeof(mud::v2<mud::Sizing>)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::v2<size_t>>() { static Type ty("v2<size_t>", sizeof(mud::v2<size_t>)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Canvas>() { static Type ty("Canvas", type<mud::Widget>(), sizeof(mud::Canvas)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Dockable>() { static Type ty("Dockable", type<mud::Widget>(), sizeof(mud::Dockable)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Docker>() { static Type ty("Docker", type<mud::Widget>(), sizeof(mud::Docker)); return ty; }
@@ -2293,15 +2297,16 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::Expandbox>() { static Type ty("Expandbox", type<mud::Widget>(), sizeof(mud::Expandbox)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Frame>() { static Type ty("Frame", type<mud::UiRect>(), sizeof(mud::Frame)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>() { static Type ty("FrameSolver", type<mud::UiRect>(), sizeof(mud::FrameSolver)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::RowSolver>() { static Type ty("RowSolver", type<mud::FrameSolver>(), sizeof(mud::RowSolver)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::LineSolver>() { static Type ty("LineSolver", type<mud::RowSolver>(), sizeof(mud::LineSolver)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Node>() { static Type ty("Node", type<mud::Widget>(), sizeof(mud::Node)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::NodePlug>() { static Type ty("NodePlug", type<mud::Widget>(), sizeof(mud::NodePlug)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::RowSolver>() { static Type ty("RowSolver", type<mud::FrameSolver>(), sizeof(mud::RowSolver)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::LineSolver>() { static Type ty("LineSolver", type<mud::RowSolver>(), sizeof(mud::LineSolver)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::ScrollSheet>() { static Type ty("ScrollSheet", type<mud::Widget>(), sizeof(mud::ScrollSheet)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::ui::Sequence>() { static Type ty("Sequence", type<mud::Widget>(), sizeof(mud::ui::Sequence)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Tabber>() { static Type ty("Tabber", type<mud::Widget>(), sizeof(mud::Tabber)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Table>() { static Type ty("Table", type<mud::Widget>(), sizeof(mud::Table)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::TextEdit>() { static Type ty("TextEdit", type<mud::Widget>(), sizeof(mud::TextEdit)); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Widget>() { static Type ty("Widget", type<mud::ControlNode>(), sizeof(mud::Widget)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::TreeNode>() { static Type ty("TreeNode", type<mud::Widget>(), sizeof(mud::TreeNode)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Ui>() { static Type ty("Ui", type<mud::Widget>(), sizeof(mud::Ui)); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Window>() { static Type ty("Window", type<mud::Dockable>(), sizeof(mud::Window)); return ty; }
@@ -2322,10 +2327,10 @@ namespace mud
 	inline Colour offset_colour(const Colour& colour, float delta)
 	{
 		float offset = delta / 255.0f;
-		return Colour(clamp(colour.m_r + offset, 0.f, 1.f),
-					  clamp(colour.m_g + offset, 0.f, 1.f),
-					  clamp(colour.m_b + offset, 0.f, 1.f),
-					  colour.m_a);
+		return Colour(clamp(colour.r + offset, 0.f, 1.f),
+					  clamp(colour.g + offset, 0.f, 1.f),
+					  clamp(colour.b + offset, 0.f, 1.f),
+					  colour.a);
 	}
 
 	struct Vg::Impl
@@ -2377,7 +2382,7 @@ namespace mud
 
 	void Vg::fill_text(cstring text, size_t len, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
-		row = text_row(text, text, text + len, { rect.x, rect.y, this->text_size(text, len, DIM_X, paint), line_height(paint) });
+		row = text_row(text, text, text + len, { rect.x, rect.y, this->text_size(text, len, Axis::X, paint), line_height(paint) });
 		this->break_glyphs(rect, paint, row);
 	}
 
@@ -2396,12 +2401,12 @@ namespace mud
 		while(*iter != '\n' && iter < end)
 			++iter;
 
-		row = text_row(text, first, iter, vec4{ rect.x, rect.y, this->text_size(first, iter - first, DIM_X, paint), line_height(paint) });
+		row = text_row(text, first, iter, { rect.x, rect.y, this->text_size(first, iter - first, Axis::X, paint), line_height(paint) });
 		this->break_glyphs(rect, paint, row);
 
 		// @kludge because text_size doesn't report the correct size when there is a space at the end : investigate (vg-renderer, nanovg)
 		if(!row.m_glyphs.empty())
-			row.m_rect = vec4{ rect.x, rect.y, row.m_glyphs.back().m_rect.x + rect_w(row.m_glyphs.back().m_rect), line_height(paint) };
+			row.m_rect = { rect.x, rect.y, row.m_glyphs.back().m_rect.x + row.m_glyphs.back().m_rect.width, line_height(paint) };
 	}
 
 	void Vg::break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, vector<TextRow>& textRows)
@@ -2458,14 +2463,14 @@ namespace mud
 	UiRenderer::~UiRenderer()
 	{}
 
-	void UiRenderer::render(Layer& target, float pixel_ratio)
+	void UiRenderer::render(Layer& target, uint16_t view, float pixel_ratio, const Colour& colour)
 	{
 		this->log_FPS();
 
 		m_debug_batch = 0;
 		static size_t prevBatch = 0;
 
-		m_vg.begin_frame({ vec2(0.f), target.m_frame.m_size }, pixel_ratio);
+		m_vg.begin_frame(view, vec4(vec2(0.f), target.m_frame.m_size), pixel_ratio, colour);
 
 #ifdef MUD_UI_DRAW_CACHE
 		target.visit([&](Layer& layer) {
@@ -2474,7 +2479,7 @@ namespace mud
 		});
 
 		target.visit([&](Layer& layer) {
-			m_vg.draw_layer(layer, Zero2, 1.f);
+			m_vg.draw_layer(layer, vec2(0.f), 1.f);
 		});
 #else
 		target.visit([&](Layer& layer)
@@ -2489,7 +2494,7 @@ namespace mud
 			//printf("DEBUG: Render Frame : %i frames redrawn\n", m_debug_batch);
 		}
 
-		m_vg.end_frame();
+		m_vg.end_frame(view);
 	}
 
 	void UiRenderer::render_layer(Layer& layer)
@@ -2526,12 +2531,12 @@ namespace mud
 	{
 		m_vg.begin_update(floor(frame.m_position), frame.m_scale);
 
-		if(frame.d_layout->m_clipping == CLIP)
+		if(frame.d_layout->m_clipping == Clip::Clip)
 		{
 			m_vg.clip(frame.content_rect());
 		}
 
-		if(frame.d_layout->m_clipping == UNCLIP)
+		if(frame.d_layout->m_clipping == Clip::Unclip)
 			m_vg.unclip();
 	}
 
@@ -2591,34 +2596,34 @@ namespace mud
 
 	void UiRenderer::draw_frame(const Frame& frame, const vec4& rect)
 	{
-		vec4 padded_rect = { floor(rect_offset(frame.d_inkstyle->m_padding)),
-							 floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding)) };
+		vec2 padded_pos = floor(frame.d_inkstyle->m_padding.pos);
+		vec2 padded_size = floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding));
 
 		vec2 content = frame.m_content;
 		if(frame.d_inkstyle->m_stretch.x)
-			content.x = rect_w(padded_rect);
+			content.x = padded_size.x;
 		if(frame.d_inkstyle->m_stretch.y)
-			content.y = rect_h(padded_rect);
+			content.y = padded_size.y;
 
-		vec2 content_pos = { this->content_pos(frame, content, padded_rect, DIM_X), this->content_pos(frame, content, padded_rect, DIM_Y) };
+		vec2 content_pos = { this->content_pos(frame, content, padded_pos, padded_size, Axis::X), this->content_pos(frame, content, padded_pos, padded_size, Axis::Y) };
 		vec4 content_rect = { content_pos, content };
 
 		//m_vg.debug_rect(rect, Colour::Red);
 		//m_vg.debug_rect(padded_rect, Colour::Green);
 		//m_vg.debug_rect(content_rect, Colour::Blue);
 
-		this->draw_background(frame, rect, padded_rect, content_rect);
-		this->draw_content(frame, rect, padded_rect, content_rect);
+		this->draw_background(frame, rect, { padded_pos, padded_size }, content_rect);
+		this->draw_content(frame, rect, { padded_pos, padded_size }, content_rect);
 	}
 
-	float UiRenderer::content_pos(const Frame& frame, const vec2& content, const vec4& padded_rect, Dim dim)
+	float UiRenderer::content_pos(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim)
 	{
-		if(frame.d_inkstyle->m_align[dim] == CENTER)
-			return padded_rect[dim] + padded_rect[dim + 2] / 2.f - content[dim] / 2.f;
-		else if(frame.d_inkstyle->m_align[dim] == Right)
-			return padded_rect[dim] + padded_rect[dim + 2] - content[dim];
+		if(frame.d_inkstyle->m_align[dim] == Align::Center)
+			return padded_pos[dim] + padded_size[dim] / 2.f - content[dim] / 2.f;
+		else if(frame.d_inkstyle->m_align[dim] == Align::Right)
+			return padded_pos[dim] + padded_size[dim] - content[dim];
 		else
-			return padded_rect[dim];
+			return padded_pos[dim];
 	}
 
 	vec4 UiRenderer::select_corners(const Frame& frame)
@@ -2627,9 +2632,9 @@ namespace mud
 
 		const vec4& corners = parent.d_inkstyle->m_corner_radius;
 		if(parent.first(frame))
-			return parent.m_solver->d_length == DIM_X ? vec4(corners[0], 0.f, 0.f, corners[3]) : vec4(corners[0], corners[1], 0.f, 0.f);
+			return parent.m_solver->d_length == Axis::X ? vec4(corners[0], 0.f, 0.f, corners[3]) : vec4(corners[0], corners[1], 0.f, 0.f);
 		else if(parent.last(frame))
-			return parent.m_solver->d_length == DIM_X ? vec4(0.f, corners[1], corners[2], 0.f) : vec4(0.f, 0.f, corners[2], corners[3]);
+			return parent.m_solver->d_length == Axis::X ? vec4(0.f, corners[1], corners[2], 0.f) : vec4(0.f, 0.f, corners[2], corners[3]);
 		else
 			return vec4();
 	}
@@ -2658,15 +2663,15 @@ namespace mud
 		if(!image_skin.null())
 		{
 			float margin = image_skin.m_margin * 2.f;
-			vec4 skin_rect = { rect_offset(rect), rect_size(rect) + margin };
+			vec4 skin_rect = { rect.pos, rect.size + margin };
 
-			if(image_skin.d_stretch == DIM_X)
+			if(image_skin.d_stretch == Axis::X)
 				skin_rect = { rect.x, content_rect.y + margin, rect.z + margin, image_skin.d_size.y };
-			else if(image_skin.d_stretch == DIM_Y)
+			else if(image_skin.d_stretch == Axis::Y)
 				skin_rect = { content_rect.x + image_skin.m_margin, rect.y, image_skin.d_size.x, rect.w + margin };
 
 			vec4 sections[ImageSkin::Count];
-			image_skin.stretch_coords(rect_offset(skin_rect), rect_size(skin_rect), { sections, ImageSkin::Count });
+			image_skin.stretch_coords(skin_rect.pos, skin_rect.size, { sections, ImageSkin::Count });
 
 			for(int s = 0; s < ImageSkin::Count; ++s)
 				this->draw_skin_image(frame, s, sections[s]);
@@ -2683,7 +2688,7 @@ namespace mud
 	{
 		if(image.d_atlas)
 		{
-			vec4 image_rect = { rect_offset(rect) - vec2(image.d_coord), vec2(image.d_atlas->m_image.d_size) };
+			vec4 image_rect = { rect.pos - vec2(image.d_coord), vec2(image.d_atlas->m_image.d_size) };
 			m_vg.draw_texture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
 		}
 		else
@@ -2696,12 +2701,12 @@ namespace mud
 	{
 		if(image.d_atlas)
 		{
-			vec4 image_rect = { rect_offset(rect) - vec2(image.d_coord) * stretch, vec2(image.d_atlas->m_image.d_size) * stretch };
+			vec4 image_rect = { rect.pos - vec2(image.d_coord) * stretch, vec2(image.d_atlas->m_image.d_size) * stretch };
 			m_vg.draw_texture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
 		}
 		else
 		{
-			vec4 image_rect = { rect_offset(rect), vec2(image.d_size) * stretch };
+			vec4 image_rect = { rect.pos, vec2(image.d_size) * stretch };
 			m_vg.draw_texture(uint16_t(image.d_handle), rect, image_rect);
 		}
 	}
@@ -2712,7 +2717,7 @@ namespace mud
 		rect.x = rect.x - imageSkin.m_margin;
 		rect.y = rect.y - imageSkin.m_margin;
 
-		vec2 divided = rect_size(rect) / imageSkin.d_fill_size;
+		vec2 divided = rect.size / imageSkin.d_fill_size;
 		vec2 ratio = { 1.f, 1.f };
 
 		if(section == ImageSkin::Top || section == ImageSkin::Bottom || section == ImageSkin::Fill)
@@ -2736,7 +2741,7 @@ namespace mud
 			this->draw_image(*frame.icon(), content_rect);
 
 		if(frame.caption())
-			m_vg.draw_text(rect_offset(padded_rect), frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
+			m_vg.draw_text(padded_rect.pos, frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
 	}
 
 	void UiRenderer::draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle)
@@ -2745,7 +2750,7 @@ namespace mud
 
 		if(!inkstyle.m_background_colour.null())
 		{
-			if(inkstyle.m_linear_gradient == Zero2)
+			if(inkstyle.m_linear_gradient == vec2(0.f))
 			{
 				m_vg.fill({ inkstyle.m_background_colour, inkstyle.m_border_colour, inkstyle.m_border_width.x });
 			}
@@ -2753,10 +2758,10 @@ namespace mud
 			{
 				Colour first = offset_colour(inkstyle.m_background_colour, inkstyle.m_linear_gradient.x);
 				Colour second = offset_colour(inkstyle.m_background_colour, inkstyle.m_linear_gradient.y);
-				if(inkstyle.m_linear_gradient_dim == DIM_X)
-					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x + rect_w(rect), rect.y });
+				if(inkstyle.m_linear_gradient_dim == Axis::X)
+					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x + rect.width, rect.y });
 				else
-					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x, rect.y + rect_h(rect) });
+					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x, rect.y + rect.height });
 			}
 
 		}
@@ -2869,8 +2874,7 @@ namespace mud
 		, m_size(context.m_size)
 		, m_user(user)
 	{
-		this->init();
-		this->resize(context.m_size, context.m_fb_size);
+		//this->init();
 	}
 
 	UiWindow::~UiWindow()
@@ -2886,17 +2890,19 @@ namespace mud
 	{
 		this->init_styles();
 
-		printf("INFO: Initializing UiWindow: resource path %s\n", m_resource_path.c_str());
-		m_vg.setup_context();
+		printf("INFO: ui - window init - resource path %s\n", m_resource_path.c_str());
 
 		this->init_resources();
 		this->load_resources();
 
 		styles().setup(*this);
 
-		m_root_sheet = oconstruct<Ui>(*this);
+		m_ui = oconstruct<Ui>(*this);
 
-		m_context.init_input(m_root_sheet->m_mouse, m_root_sheet->m_keyboard);
+		printf("INFO: ui - init input\n");
+		m_context.init_input(m_ui->m_mouse, m_ui->m_keyboard);
+
+		this->resize(m_context.m_size, m_context.m_fb_size);
 	}
 
 	void UiWindow::init_styles()
@@ -2943,7 +2949,7 @@ namespace mud
 	{
 		string sprite_path = m_resource_path + "/interface/uisprites";
 
-		printf("INFO: Loading Images in path %s\n", sprite_path.c_str());
+		printf("INFO: ui - loading images from path %s\n", sprite_path.c_str());
 
 		vector<Image> images;
 		load_folder_images(images, sprite_path, "");
@@ -2955,11 +2961,13 @@ namespace mud
 
 		visit_folders(sprite_path.c_str(), visit_folder);
 
-		m_images = convert<object<Image>>(images, [](const Image& image) { return oconstruct<Image>(image); });
+		m_images = convert<object<Image>, Image>(images, [](const Image& image) { return oconstruct<Image>(image); });
 	}
 
 	void UiWindow::load_resources()
 	{
+		printf("INFO: ui - loading resources\n");
+
 		m_vg.load_default_font();
 
 		vector<Image*> images;
@@ -2969,7 +2977,7 @@ namespace mud
 		m_vg.load_image_RGBA(m_atlas.m_image, atlas.data());
 	}
 
-	Image& UiWindow::create_image(cstring name, uvec2 size, uint8_t* data, bool filtering)
+	Image& UiWindow::create_image(cstring name, const uvec2& size, uint8_t* data, bool filtering)
 	{
 		m_images.push_back(construct<Image>(name, name, size));
 		Image& image = *m_images.back();
@@ -2997,35 +3005,32 @@ namespace mud
 		printf("INFO: ui window - resize to (%i, %i) - pixel size (%i, %i)\n", int(size.x), int(size.y), int(fb_size.x), int(fb_size.y));
 		m_size = size;
 		m_context.reset_fb(fb_size);
-		m_root_sheet->m_frame.set_size(vec2(fb_size));
+		m_ui->m_frame.set_size(vec2(fb_size));
 	}
 
 	bool UiWindow::input_frame()
 	{
-		bool pursue = !m_shutdown;
-		pursue &= m_context.next_frame();
-
 		if(m_size != m_context.m_size)
 			this->resize(m_context.m_size, m_context.m_fb_size);
 
-		m_root_sheet->input_frame();
+		m_ui->input_frame();
 
-		m_root_sheet->m_frame.relayout();
+		m_ui->m_frame.relayout();
 
-		return pursue;
+		return !m_shutdown;
 	}
 
-	void UiWindow::render_frame()
+	void UiWindow::render_frame(uint16_t view)
 	{
-		//m_root_sheet->render_frame();
+		//m_ui->render_frame();
 
 		if(m_context.m_render_system.m_manual_render)
 		{
-			m_renderer.render(*m_root_sheet->m_frame.m_layer, m_context.m_pixel_ratio);
+			m_renderer.render(*m_ui->m_frame.m_layer, view, m_context.m_pixel_ratio, m_context.m_colour);
 			// add sub layers
 		}
 
-		m_root_sheet->clear_events();
+		m_ui->clear_events();
 	}
 
 	void UiWindow::shutdown()
@@ -3063,7 +3068,7 @@ namespace ui
 		return self;
 	}
 
-	Widget& widget(Widget& parent, Style& style, bool open, Dim length, Dim2<size_t> index)
+	Widget& widget(Widget& parent, Style& style, bool open, Axis length, v2<size_t> index)
 	{
 		Widget& self = parent.subi(&style).init(style, open, length, index);
 		assert(self.m_frame.d_style);
@@ -3097,7 +3102,7 @@ namespace ui
 		return multi_item(parent, styles().row, elements, element_style);
 	}
 
-	Widget& spanner(Widget& parent, Style& style, Dim dim, float span)
+	Widget& spanner(Widget& parent, Style& style, Axis dim, float span)
 	{
 		Widget& self = widget(parent, style);
 		self.m_frame.set_span(dim, span);
@@ -3116,7 +3121,7 @@ namespace mud
 {
 	template class Graph<Widget>;
 
-	inline bool clip(const Frame& frame) { return frame.d_layout->m_clipping == CLIP; }
+	inline bool clip(const Frame& frame) { return frame.d_layout->m_clipping == Clip::Clip; }
 
 	Frame* pinpoint(Frame& frame, vec2 pos, const FrameFilter& filter)
 	{
@@ -3191,6 +3196,11 @@ namespace mud
 	UiWindow& Widget::ui_window()
 	{
 		return as<Ui>(this->root()).m_window;
+	}
+
+	void Widget::clear()
+	{
+		m_nodes.clear();
 	}
 
 	void Widget::set_content(cstring content)
@@ -3279,14 +3289,14 @@ namespace mud
 	KeyEvent Widget::key_event(Key code, EventType event_type, InputMod modifier)
 	{
 		if(!m_events) return KeyEvent();
-		KeyEvent* event = static_cast<KeyEvent*>(m_events->event(DeviceType::Keyboard, event_type, int(code)));
+		KeyEvent* event = static_cast<KeyEvent*>(m_events->m_keyed_events[DeviceType::Keyboard][event_type][int(code)]);
 		return event && fits_modifier(event->m_modifiers, modifier) ? *event : KeyEvent();
 	}
 
 	MouseEvent Widget::mouse_event(DeviceType device, EventType event_type, InputMod modifier, bool consume)
 	{
 		if(!m_events) return MouseEvent();
-		MouseEvent* event = static_cast<MouseEvent*>(m_events->event(device, event_type));
+		MouseEvent* event = static_cast<MouseEvent*>(m_events->m_events[device][event_type]);
 		if(event && fits_modifier(event->m_modifiers, modifier))
 		{
 			MouseEvent result = *event;;
@@ -3323,7 +3333,7 @@ namespace ui
 				window.m_dock->m_docker->undock(window);
 
 			window.m_frame.layer().moveToTop();
-			window.m_frame.layer().m_frame.m_opacity = HOLLOW;
+			window.m_frame.layer().m_frame.m_opacity = Opacity::Hollow;
 
 			if(window.movable())
 				window.m_frame.set_position(window.m_frame.m_position + mouse_event.m_delta);
@@ -3334,7 +3344,7 @@ namespace ui
 			//if(window.dockable())
 			//	window.m_dock->m_docksystem->dock(window, mouse_event.m_pos);
 
-			window.m_frame.layer().m_frame.m_opacity = OPAQUE;
+			window.m_frame.layer().m_frame.m_opacity = Opacity::Opaque;
 		}
 	}
 
@@ -3345,7 +3355,7 @@ namespace ui
 			window.m_frame.layer().moveToTop();
 
 			if(left)
-				window.m_frame.set_position(DIM_X, window.m_frame.m_position.x + mouse_event.m_delta.x);
+				window.m_frame.set_position(Axis::X, window.m_frame.m_position.x + mouse_event.m_delta.x);
 			if(left)
 				window.m_frame.set_size({ max(50.f, window.m_frame.m_size.x - mouse_event.m_delta.x), max(50.f, window.m_frame.m_size.y + mouse_event.m_delta.y) });
 			else
@@ -3439,18 +3449,18 @@ namespace mud
 namespace ui
 {
 	WindowStyles::WindowStyles()
-		: window("Window", styles().overlay, [](Layout& l) { l.m_space = BLOCK; })
-		, body("WindowBody", styles().wedge, [](Layout& l) { l.m_clipping = CLIP; })
-		, close_button("CloseButton", styles().button, [](Layout& l) { l.m_align = { Right, CENTER }; })
+		: window("Window", styles().overlay, [](Layout& l) { l.m_space = Preset::Block; })
+		, body("WindowBody", styles().wedge, [](Layout& l) { l.m_clipping = Clip::Clip; })
+		, close_button("CloseButton", styles().button, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; })
 		, header("WindowHeader", styles().wrap_control, {}, {})
 		, header_movable("WindowHeaderMovable", header, {}, {}) //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().move; } })
-		, footer("WindowFooter", styles().wrap_control, {}, {}) // , [](Layout& l) { l.m_space = Space{ READING, WRAP, FIXED }; } }
-		, sizer("WindowSizer", styles().control, [](Layout& l) { l.m_space = Space{ READING, WRAP, FIXED }; })
+		, footer("WindowFooter", styles().wrap_control, {}, {}) // , [](Layout& l) { l.m_space = Space{ FlowAxis::Reading, Sizing::Wrap, Sizing::Fixed }; } }
+		, sizer("WindowSizer", styles().control, [](Layout& l) { l.m_space = Space{ FlowAxis::Reading, Sizing::Wrap, Sizing::Fixed }; })
 		, sizer_left("WindowSizerLeft", sizer, {}, {}) //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().resize_diag_left; } })
 		, sizer_right("WindowSizerRight", sizer, {}, {}) //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().resize_diag_right; } })
 
-		, dock_window("DockWindow", window, [](Layout& l) { l.m_flow = FLOW; l.m_space = SHEET; })
-		, wrap_window("WrapWindow", window, [](Layout& l) { l.m_space = UNIT; })
+		, dock_window("DockWindow", window, [](Layout& l) { l.m_flow = LayoutFlow::Flow; l.m_space = Preset::Sheet; })
+		, wrap_window("WrapWindow", window, [](Layout& l) { l.m_space = Preset::Unit; })
 	{}
 
 	WindowStyles& window_styles() { static WindowStyles styles; return styles; }
@@ -3460,36 +3470,36 @@ namespace ui
 		, placeholder("Placeholder", styles().board, {}, [](InkStyle& l) { l.m_background_colour = Colour::Blue; })
 
 		, docksection("Docksection", styles().gridsheet, {}, {})
-		, dockline("Dockline", styles().gridsheet, [](Layout& l) { l.m_space = SHEET; })
-		, dockspace("Dockspace", styles().layout, [](Layout& l) { l.m_opacity = OPAQUE; l.m_spacing = vec2(6.f); })
+		, dockline("Dockline", styles().gridsheet, [](Layout& l) { l.m_space = Preset::Sheet; })
+		, dockspace("Dockspace", styles().layout, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_spacing = vec2(6.f); })
 
 		, docktoggle("DockToggle", styles().toggle, {}, {})
-		, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_space = { PARAGRAPH, WRAP, FIXED }; })
-		//, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_flow = ALIGN; l.m_space = SPACER; l.m_align = { Left, OUT_LEFT }; })
-		, docktabs("Docktabs", styles().wedge, [](Layout& l) { l.m_flow = ALIGN; l.m_space = DIV; l.m_align = { OUT_LEFT, Left }; })
-		, dockbar("Dockbar", styles().wedge, [](Layout& l) { l.m_space = { PARALLEL, SHRINK, WRAP }; })
+		, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Fixed }; })
+		//, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Spacer; l.m_align = { Align::Left, OUT_LEFT }; })
+		, docktabs("Docktabs", styles().wedge, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Div; l.m_align = { Align::OutLeft, Align::Left }; })
+		, dockbar("Dockbar", styles().wedge, [](Layout& l) { l.m_space = { FlowAxis::Same, Sizing::Shrink, Sizing::Wrap }; })
 
-		//, dockbox("Dockbox", window_styles().window, [](Layout& l) { l.m_flow = FLOW; l.m_space = { PARAGRAPH, WRAP, SHRINK }; l.m_size = vec2{ 300.f, 0.f }; })
+		//, dockbox("Dockbox", window_styles().window, [](Layout& l) { l.m_flow = LayoutFlow::Flow; l.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Shrink }; l.m_size = { 300.f, 0.f }; })
 	{}
 
 	DockStyles& dock_styles() { static DockStyles styles; return styles; }
 
 	NodeStyles::NodeStyles()
-		: node("Node", styles().overlay, [](Layout& l) { l.m_space = UNIT; })
+		: node("Node", styles().overlay, [](Layout& l) { l.m_space = Preset::Unit; })
 		, body("NodeBody", styles().sheet, {}, {})
-		, plugs("NodePlugs", styles().sheet, [](Layout& l) { l.m_space = { READING, WRAP, WRAP }; })
+		, plugs("NodePlugs", styles().sheet, [](Layout& l) { l.m_space = { FlowAxis::Reading, Sizing::Wrap, Sizing::Wrap }; })
 		, inputs("NodeInputs", styles().div, {}, {})
-		, outputs("NodeOutputs", styles().div, [](Layout& l) { l.m_align = { Right, CENTER }; })
+		, outputs("NodeOutputs", styles().div, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; })
 		, knob("NodeKnob", styles().item, [](Layout& l) { l.m_size = { 10.f, 22.f }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
-		, knob_output("NodeKnobOutput", knob, [](Layout& l) { l.m_align = { Right, CENTER }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
-		, knob_proxy("NodeKnobProxy", knob, [](Layout& l) { l.m_flow = FREE; })
+		, knob_output("NodeKnobOutput", knob, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
+		, knob_proxy("NodeKnobProxy", knob, [](Layout& l) { l.m_flow = LayoutFlow::Free; })
 		, plug("NodePlug", styles().wrap_control, {}, {})
-		, cable("NodeCable", styles().decal, [](Layout& l) { l.m_space = UNIT; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
+		, cable("NodeCable", styles().decal, [](Layout& l) { l.m_space = Preset::Unit; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
 		, header("NodeHeader", styles().row, {}, {})
 	{}
 
 	CanvasStyles::CanvasStyles()
-		: canvas("Canvas", styles().layout, [](Layout& l) { l.m_clipping = CLIP; }) // l.m_opacity = OPAQUE;
+		: canvas("Canvas", styles().layout, [](Layout& l) { l.m_clipping = Clip::Clip; }) // l.m_opacity = Opacity::Opaque;
 	{}
 
 	NodeStyles& node_styles() { static NodeStyles styles; return styles; }
@@ -3512,14 +3522,14 @@ namespace mud
 	{
 		if(!widget.m_events) return;
 
-		KeyEvent* key_down_event = static_cast<KeyEvent*>(widget.m_events->m_events[size_t(DeviceType::Keyboard)][size_t(EventType::Pressed)]);
+		KeyEvent* key_down_event = static_cast<KeyEvent*>(widget.m_events->m_events[DeviceType::Keyboard][EventType::Pressed]);
 		if(key_down_event)
 		{
 			if(m_key_down_handlers.find(key_down_event->m_code) != m_key_down_handlers.end())
 				m_key_down_handlers[key_down_event->m_code]();
 		}
 
-		KeyEvent* key_up_event = static_cast<KeyEvent*>(widget.m_events->m_events[size_t(DeviceType::Keyboard)][size_t(EventType::Released)]);
+		KeyEvent* key_up_event = static_cast<KeyEvent*>(widget.m_events->m_events[DeviceType::Keyboard][EventType::Released]);
 		if(key_up_event)
 		{
 			if(m_key_up_handlers.find(key_up_event->m_code) != m_key_up_handlers.end())
@@ -3775,7 +3785,7 @@ namespace mud
 		lang.m_regex_tokens.push_back({ std::regex(token.c_str(), std::regex_constants::optimize), PaletteIndex(index) });
 	}
 
-	string list_regex(const vector<string>& tokens)
+	string list_regex(span<string> tokens)
 	{
 		string r = "[";
 		for(const string& token : tokens)
@@ -4235,7 +4245,7 @@ namespace mud
 		if(m_num_lines)
 			return line_height() * m_num_lines;
 		else if(!m_text_rows.empty())
-			return m_text_rows.back().m_rect.y + rect_h(m_text_rows.back().m_rect);
+			return m_text_rows.back().m_rect.y + m_text_rows.back().m_rect.height;
 		else
 			return 0.f;
 	}
@@ -4244,7 +4254,7 @@ namespace mud
 	{
 		float result = 0.f;
 		for(const TextRow& row : m_text_rows)
-			result = max(result, rect_w(row.m_rect));
+			result = max(result, row.m_rect.width);
 		return result;
 	}
 
@@ -4276,10 +4286,10 @@ namespace mud
 				imarker++;
 			}
 
-			if(pos.y < offset + row.m_rect.y + rect_h(row.m_rect)) // pos.y >= row.m_rect.y && 
+			if(pos.y < offset + row.m_rect.y + row.m_rect.height) // pos.y >= row.m_rect.y && 
 			{
 				for(const TextGlyph& glyph : row.m_glyphs)
-					if(pos.x < glyph.m_rect.x + rect_w(glyph.m_rect) * 0.5f) // pos.x >= glyph.m_rect.x &&
+					if(pos.x < glyph.m_rect.x + glyph.m_rect.width * 0.5f) // pos.x >= glyph.m_rect.x &&
 						return glyph.m_position - start;
 
 				return row.m_end - start;
@@ -4296,7 +4306,7 @@ namespace mud
 		const TextGlyph& start_glyph = row.m_glyphs[start - row.m_start_index];
 		const TextGlyph& end_glyph = row.m_glyphs[end - row.m_start_index];
 
-		return { start_glyph.m_rect.x, row.m_rect.y, end_glyph.m_rect.x + rect_w(end_glyph.m_rect) - start_glyph.m_rect.x, rect_h(row.m_rect) };
+		return { start_glyph.m_rect.x, row.m_rect.y, end_glyph.m_rect.x + end_glyph.m_rect.width - start_glyph.m_rect.x, row.m_rect.height };
 	}
 
 	vec4 Text::interval_rect(size_t start, size_t end) const
@@ -4322,7 +4332,7 @@ namespace mud
 		}
 		else
 		{
-			return { vec2{ row.m_rect.x + rect_w(row.m_rect), row.m_rect.y }, vec2{ 1.f, line_height() } };
+			return { vec2(row.m_rect.x + row.m_rect.width, row.m_rect.y), vec2(1.f, line_height()) };
 		}
 	}
 
@@ -4410,9 +4420,9 @@ namespace mud
 		auto count_digits = [](int number) { int digits = 0; do { number /= 10; digits++; } while (number != 0); return digits; };
 		int digits = count_digits(int(m_text.m_text_rows.size()));
 
-		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
+		vec2 padding = floor(m_frame.d_inkstyle->m_padding.pos);
 		if(m_editor)
-			m_text_offset = padding + vec2{ m_text.line_height() * float(digits) * 0.7f, 0.f };
+			m_text_offset = padding + vec2(m_text.line_height() * float(digits) * 0.7f, 0.f);
 		else
 			m_text_offset = padding;
 	}
@@ -4763,7 +4773,7 @@ namespace mud
 			if(m_hovered_word != "")
 			{
 				m_hovered_word_rect = m_text.interval_rect(word_begin(m_string, index), word_end(m_string, index));
-				m_hovered_word_rect = { rect_offset(m_hovered_word_rect) + m_text_offset, rect_size(m_hovered_word_rect) };
+				m_hovered_word_rect = { m_hovered_word_rect.pos + m_text_offset, m_hovered_word_rect.size };
 			}
 
 			this->ui().m_cursor_style = &ui::cursor_styles().caret;
@@ -4888,25 +4898,25 @@ namespace mud
 	
 	Colour palette_colour(const ColourPalette& palette, PaletteIndex color_index)
 	{
-		return from_rgba(palette[color_index]);
+		return rgba(palette[color_index]);
 	}
 
 	Paint palette_paint(const ColourPalette& palette, PaletteIndex color_index)
 	{
-		return { from_rgba(palette[color_index]) };
+		return { rgba(palette[color_index]) };
 	}
 
 	TextPaint palette_text_paint(const Text& text, const ColourPalette& palette, PaletteIndex color_index)
 	{
 		TextPaint paint = text.m_text_paint;
-		paint.m_colour = from_rgba(palette[color_index]);
+		paint.m_colour = rgba(palette[color_index]);
 		return paint;
 	}
 
 	void draw_text(Vg& vg, const vec2& padding, const Text& text)
 	{
 		for(const TextRow& row : text.m_text_rows)
-			vg.draw_text(padding + rect_offset(row.m_rect), row.m_start, row.m_end, text.m_text_paint);
+			vg.draw_text(padding + row.m_rect.pos, row.m_start, row.m_end, text.m_text_paint);
 	}
 
 	void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette)
@@ -4926,13 +4936,13 @@ namespace mud
 				isection++;
 
 			snprintf(line_number, 16, "%6d", int(++line));
-			vg.draw_text(padding + offset + rect_offset(row.m_rect), line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
+			vg.draw_text(padding + offset + row.m_rect.pos, line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
 
 			while(isection < text.m_sections.size() && text.m_sections[isection].m_start < row.m_end_index)
 			{
 				const Text::ColorSection& section = text.m_sections[isection];
 
-				vec2 position = offset + text_offset + rect_offset(row.m_glyphs[section.m_start - row.m_start_index].m_rect);
+				vec2 position = offset + text_offset + row.m_glyphs[section.m_start - row.m_start_index].m_rect.pos;
 				const char* front = &text.m_text.front();
 				vg.draw_text(floor(position) + vec2(0.f, 0.5f), front + section.m_start, front + section.m_end, palette_text_paint(text, palette, section.m_colour));
 
@@ -4941,8 +4951,8 @@ namespace mud
 
 			if(imarker < text.m_markers.size() && text.m_markers[imarker].m_line == line)
 			{
-				vec4 rect = { offset + padding + vec2{ 0.f, row.m_rect.y + line_height }, vec2{ frame.m_size.x, text.line_height() } };
-				vec2 position = offset + text_offset + rect_offset(row.m_rect) + line_height;
+				vec4 rect = { offset + padding + vec2(0.f, row.m_rect.y + line_height), vec2(frame.m_size.x, text.line_height()) };
+				vec2 position = offset + text_offset + row.m_rect.pos + line_height;
 
 				vg.draw_rect(rect, palette_paint(palette, text.m_markers[imarker].m_highlight));
 				vg.draw_text(floor(position) + vec2(0.f, 2.5f), text.m_markers[imarker].m_message.c_str(), nullptr, palette_text_paint(text, palette, text.m_markers[imarker].m_colour));
@@ -4959,11 +4969,11 @@ namespace mud
 		if(text.m_text_rows.empty())
 			return;
 
+		const float line_height = vg.line_height(text.m_text_paint);
+
 		size_t line = 0;
 		size_t imarker = 0;
-
 		vec2 offset = vec2(0.f);
-		float line_height = vg.line_height(text.m_text_paint);
 
 		for(const TextRow& row : text.m_text_rows)
 		{
@@ -4973,15 +4983,15 @@ namespace mud
 			{
 				if(row.m_glyphs.empty())
 				{
-					vg.draw_rect({ offset + text_offset + rect_offset(row.m_rect), vec2{ 5.f, rect_h(row.m_rect) } }, palette_paint(palette, Text::Selection));
+					vg.draw_rect({ offset + text_offset + row.m_rect.pos, vec2(5.f, row.m_rect.height) }, palette_paint(palette, Text::Selection));
 					continue;
 				}
 
-				size_t select_start = max(row.m_start_index, size_t(selection.m_start));
-				size_t select_end = min(row.m_end_index, size_t(selection.m_end));
+				const size_t select_start = max(row.m_start_index, size_t(selection.m_start));
+				const size_t select_end = min(row.m_end_index, size_t(selection.m_end));
 
-				vec4 row_rect = text.interval_rect(row, select_start, select_end - 1);
-				vg.draw_rect({ offset + text_offset + rect_offset(row_rect), rect_size(row_rect) }, palette_paint(palette, Text::Selection));
+				const vec4 row_rect = text.interval_rect(row, select_start, select_end - 1);
+				vg.draw_rect({ offset + text_offset + row_rect.pos, row_rect.size }, palette_paint(palette, Text::Selection));
 			}
 
 			if(selection.m_cursor >= row.m_start_index && selection.m_cursor <= row.m_end_index)
@@ -4989,7 +4999,7 @@ namespace mud
 				if(current_line && selection.m_start == selection.m_end)
 				{
 					bool focused = false;
-					vec4 rect = { offset + padding + vec2{ 0.f, row.m_rect.y }, vec2{ frame.m_size.x, text.line_height() } };
+					vec4 rect = { offset + padding + vec2(0.f, row.m_rect.y), vec2(frame.m_size.x, text.line_height()) };
 					vg.draw_rect(rect, { palette_colour(palette, focused ? Text::CurrentLineFill : Text::CurrentLineFillInactive),
 										 palette_colour(palette, Text::CurrentLineEdge), 1.0f });
 				}
@@ -5010,7 +5020,7 @@ namespace mud
 						cursor_rect.x -= 1.f;
 						cursor_rect.z = 1.f;
 					}
-					vg.draw_rect({ offset + text_offset + rect_offset(cursor_rect), rect_size(cursor_rect) }, palette_paint(palette, Text::Cursor));
+					vg.draw_rect({ offset + text_offset + cursor_rect.pos, cursor_rect.size }, palette_paint(palette, Text::Cursor));
 				}
 			}
 
@@ -5032,7 +5042,7 @@ namespace mud
 		//else
 		//	vg.draw_background(m_frame, { m_frame.m_position, m_frame.m_size }, {}, {});
 
-		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
+		const vec2 padding = floor(m_frame.d_inkstyle->m_padding.pos);
 
 		if(this->focused())
 			draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
@@ -5069,8 +5079,8 @@ namespace mud
 
 		std::match_results<const char*> results;
 
-		size_t begin = line_begin(m_string, from);
-		size_t end = line_end(m_string, to);
+		const size_t begin = line_begin(m_string, from);
+		const size_t end = line_end(m_string, to);
 
 		bool preproc = false;
 
@@ -5120,7 +5130,7 @@ namespace mud
 						preproc = true;
 					}
 
-					Text::ColorSection section = { size_t(match.first - first), size_t(match.second - first), color };
+					const Text::ColorSection section = { size_t(match.first - first), size_t(match.second - first), color };
 					start_section = m_text.m_sections.insert(start_section, section);
 					start_section++;
 
@@ -5136,17 +5146,17 @@ namespace mud
 
 	void TextEdit::scroll_to_cursor(Frame& frame, Frame& content)
 	{
-		vec2 margin = vec2(0.f);
+		const vec2 margin = vec2(0.f);
 
-		vec4 cursor_rect = m_text.cursor_rect(m_selection.m_cursor);
-		vec2 cursor_min = rect_offset(cursor_rect) - margin;
-		vec2 cursor_max = cursor_min + rect_size(cursor_rect) + margin;
+		const vec4 cursor_rect = m_text.cursor_rect(m_selection.m_cursor);
+		const vec2 cursor_min = cursor_rect.pos - margin;
+		const vec2 cursor_max = cursor_min + cursor_rect.size + margin;
 
-		vec2 frame_min = -content.m_position;
-		vec2 frame_max = -content.m_position + frame.m_size;
+		const vec2 frame_min = -content.m_position;
+		const vec2 frame_max = -content.m_position + frame.m_size;
 
-		vec2 delta_neg = max(vec2(0.f), frame_min - cursor_min);
-		vec2 delta_pos = min(vec2(0.f), frame_max - cursor_max);
+		const vec2 delta_neg = max(vec2(0.f), frame_min - cursor_min);
+		const vec2 delta_pos = min(vec2(0.f), frame_max - cursor_max);
 
 		content.set_position(content.m_position + delta_neg);
 		content.set_position(content.m_position + delta_pos);
@@ -5202,7 +5212,7 @@ namespace ui
 		self.update();
 		text = self.m_string;
 
-		vec2 size = self.frame_size();
+		const vec2 size = self.frame_size();
 		ui::dummy(self, size);
 
 		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); self.render(vg); };
@@ -5219,12 +5229,12 @@ namespace ui
 
 	void autocomplete_popup(TextEdit& edit, string& text, const string& current_word, size_t cursor, size_t word_start, span<cstring> completions)
 	{
-		vec4 word_rect = edit.m_text.interval_rect(word_start, cursor - 1);
-		vec2 popup_position = edit.m_text_offset + rect_offset(word_rect) + vec2(0.f, rect_h(word_rect));
+		const vec4 word_rect = edit.m_text.interval_rect(word_start, cursor - 1);
+		const vec2 popup_position = edit.m_text_offset + word_rect.pos + vec2(0.f, word_rect.height);
 
 		static uint32_t current = 0;
 
-		bool selected = ui::popdown(edit, completions, current, popup_position, PopupFlags::None); //auto_complete_style
+		const bool selected = ui::popdown(edit, completions, current, popup_position, PopupFlags::None); //auto_complete_style
 
 		if(edit.key_stroke(Key::Up))
 			current = max(current - 1, uint32_t(0));
@@ -5251,10 +5261,10 @@ namespace ui
 
 		if(vocabulary && edit.m_completing && !edit.has_selection())
 		{
-			size_t cursor = edit.m_selection.m_cursor;
-			size_t begin = word_begin(edit.m_string, cursor - 1);
+			const size_t cursor = edit.m_selection.m_cursor;
+			const size_t begin = word_begin(edit.m_string, cursor - 1);
 
-			string current_word = begin == SIZE_MAX ? "" : edit.m_string.substr(begin, cursor - begin);
+			const string current_word = begin == SIZE_MAX ? "" : edit.m_string.substr(begin, cursor - begin);
 			if(current_word != "")
 			{
 				vector<cstring> completions;
@@ -5351,12 +5361,12 @@ module mud.ui;
 
 namespace mud
 {
-	template struct Dim2<bool>;
-	template struct Dim2<size_t>;
-	template struct Dim2<AutoLayout>;
-	template struct Dim2<Sizing>;
-	template struct Dim2<Align>;
-	template struct Dim2<Pivot>;
+	template struct v2<bool>;
+	template struct v2<size_t>;
+	template struct v2<AutoLayout>;
+	template struct v2<Sizing>;
+	template struct v2<Align>;
+	template struct v2<Pivot>;
 
 	template <> string to_string<DirtyLayout>(const DirtyLayout& dirty) { if(dirty == CLEAN) return "CLEAN"; else if(dirty == DIRTY_REDRAW) return "DIRTY_REDRAW"; else if(dirty == DIRTY_PARENT) return "DIRTY_PARENT"; else if(dirty == DIRTY_LAYOUT) return "DIRTY_LAYOUT"; else if(dirty == DIRTY_FORCE_LAYOUT) return "DIRTY_FORCE_LAYOUT"; else /*if(dirty == DIRTY_STRUCTURE)*/ return "DIRTY_STRUCTURE"; }
 
@@ -5404,7 +5414,7 @@ namespace mud
 		return d_content->d_caption.c_str();
 	}
 
-	FrameSolver& Frame::solver(Style& style, Dim length, Dim2<size_t> index)
+	FrameSolver& Frame::solver(Style& style, Axis length, v2<size_t> index)
 	{
 		d_style = &style;
 		d_layout = &style.layout();
@@ -5412,17 +5422,17 @@ namespace mud
 
 		this->update_style();
 
-		LayoutSolver type = d_layout->m_solver;
+		Solver type = d_layout->m_solver;
 		FrameSolver* solver = d_parent ? d_parent->m_solver.get() : nullptr;
 
-		if(type == FRAME_SOLVER)
-			m_solver = oconstruct<FrameSolver>(solver, d_layout, this);
-		else if(type == ROW_SOLVER)
-			m_solver = oconstruct<RowSolver>(solver, d_layout, this);
-		else if(type == GRID_SOLVER)
-			m_solver = oconstruct<GridSolver>(solver, d_layout, this);
-		else if(type == TABLE_SOLVER)
-			m_solver = oconstruct<TableSolver>(solver, d_layout, this);
+		if(type == Solver::Frame)
+			m_solver = construct<FrameSolver>(solver, d_layout, this);
+		else if(type == Solver::Row)
+			m_solver = construct<RowSolver>(solver, d_layout, this);
+		else if(type == Solver::Grid)
+			m_solver = construct<GridSolver>(solver, d_layout, this);
+		else if(type == Solver::Table)
+			m_solver = construct<TableSolver>(solver, d_layout, this);
 
 		m_solver->applySpace(length);
 		return *m_solver;
@@ -5455,7 +5465,7 @@ namespace mud
 	{
 		d_layout = &d_style->layout();
 		m_opacity = d_layout->m_opacity;
-		m_size = d_layout->m_size == Zero2 ? m_size : d_layout->m_size;
+		m_size = d_layout->m_size == vec2(0.f) ? m_size : d_layout->m_size;
 
 		this->update_inkstyle(d_style->state_skin(d_widget.m_state));
 
@@ -5493,7 +5503,7 @@ namespace mud
 			m_content = s_vg->text_size(d_content->d_caption.c_str(), d_content->d_caption.size(), paint);
 		}
 		else
-			m_content = Zero2;
+			m_content = vec2(0.f);
 		mark_dirty(DIRTY_LAYOUT);
 	}
 
@@ -5504,25 +5514,25 @@ namespace mud
 		if(d_content->d_icon == image)
 			return;
 		d_content->d_icon = image;
-		m_content = image ? vec2{ image->d_size } : Zero2;
+		m_content = image ? vec2(image->d_size) : vec2(0.f);
 		mark_dirty(DIRTY_LAYOUT);
 	}
 
-	void Frame::set_size(Dim dim, float size)
+	void Frame::set_size(Axis dim, float size)
 	{
 		if(m_size[dim] == size) return;
 		m_size[dim] = size;
 		this->mark_dirty(DIRTY_FORCE_LAYOUT);
 	}
 
-	void Frame::set_span(Dim dim, float span)
+	void Frame::set_span(Axis dim, float span)
 	{
 		if(m_span[dim] == span) return;
 		m_span[dim] = span;
 		this->mark_dirty(DIRTY_FORCE_LAYOUT);
 	}
 
-	void Frame::set_position(Dim dim, float position)
+	void Frame::set_position(Axis dim, float position)
 	{
 		if(m_position[dim] == position) return;
 		m_position[dim] = position;
@@ -5554,7 +5564,7 @@ namespace mud
 	Frame* clip_parent(Frame& frame)
 	{
 		Frame* parent = frame.d_parent;
-		while(parent->d_layout->m_clipping != CLIP)
+		while(parent->d_layout->m_clipping != Clip::Clip)
 			parent = parent->d_parent;
 		return parent;
 	}
@@ -5563,9 +5573,9 @@ namespace mud
 	{
 		//Frame* clip = clip_parent(*this);
 		Frame* clip = &this->root();
-		vec2 position = this->derive_position(Zero2, *clip);
+		vec2 position = this->derive_position(vec2(0.f), *clip);
 
-		for(Dim dim : { DIM_X, DIM_Y })
+		for(Axis dim : { Axis::X, Axis::Y })
 		{
 			m_size[dim] = min(clip->m_size[dim], m_size[dim]);
 
@@ -5576,7 +5586,7 @@ namespace mud
 
 	vec4 Frame::content_rect() const
 	{
-		return { floor(rect_offset(d_inkstyle->m_margin)),
+		return { floor(d_inkstyle->m_margin.pos),
 				 floor(m_size - rect_sum(d_inkstyle->m_margin)) };
 	}
 
@@ -5596,7 +5606,7 @@ namespace mud
 		return frame.d_widget.m_index == d_widget.m_nodes.size() - 1;
 	}
 
-	void Frame::transfer_pixel_span(Frame& prev, Frame& next, Dim dim, float pixelSpan)
+	void Frame::transfer_pixel_span(Frame& prev, Frame& next, Axis dim, float pixelSpan)
 	{
 		float pixspan = 1.f / this->m_size[dim];
 		float offset = pixelSpan * pixspan;
@@ -5624,7 +5634,7 @@ namespace mud
 	void Frame::sync_solver(FrameSolver& solver)
 	{
 		vec2 content = m_content + rect_sum(d_inkstyle->m_padding);
-		solver.setup(m_position, m_size, m_span, m_content != Zero2 ? &content : nullptr);
+		solver.setup(m_position, m_size, m_span, m_content != vec2(0.f) ? &content : nullptr);
 
 		if(d_dirty == DIRTY_PARENT)
 		{
@@ -5633,7 +5643,7 @@ namespace mud
 		}
 	}
 
-	void fix_position(Frame& frame, Dim dim, FrameSolver* solver)
+	void fix_position(Frame& frame, Axis dim, FrameSolver* solver)
 	{
 		// @todo should be while but it causes a bug with nested tables
 		if(solver->m_solvers[dim] && solver->m_solvers[dim]->d_frame != frame.d_parent)
@@ -5650,8 +5660,8 @@ namespace mud
 		this->set_size(solver.m_size);
 		m_span = solver.m_span;
 
-		fix_position(*this, DIM_X, &solver);
-		fix_position(*this, DIM_Y, &solver);
+		fix_position(*this, Axis::X, &solver);
+		fix_position(*this, Axis::Y, &solver);
 	}
 
 	void Frame::debug_print(bool commit)
@@ -5783,24 +5793,24 @@ namespace mud
 			solver->read();
 	}
 
-	Space Space::preset(SpacePreset preset)
+	Space Space::preset(Preset preset)
 	{
-		if     (preset == SHEET)  return { PARAGRAPH,  WRAP,   WRAP };
-		else if(preset == FLEX)	  return { PARALLEL,   WRAP,   WRAP };
-		else if(preset == ITEM)   return { READING,    SHRINK, SHRINK };
-		else if(preset == UNIT)   return { PARAGRAPH,  SHRINK, SHRINK };
-		else if(preset == BLOCK)  return { PARAGRAPH,  FIXED,  FIXED };
-		else if(preset == LINE)   return { READING,    WRAP,   SHRINK };
-		else if(preset == STACK)  return { PARAGRAPH,  SHRINK, WRAP };
-		else if(preset == DIV)    return { ORTHOGONAL, WRAP,   SHRINK };
-		else if(preset == SPACER) return { PARALLEL,   WRAP,   SHRINK };
-		else if(preset == BOARD)  return { READING,    EXPAND, EXPAND };
-		else if(preset == LAYOUT) return { PARAGRAPH,  EXPAND, EXPAND };
-		else 					  return { PARAGRAPH,  WRAP,   WRAP };
+		if     (preset == Preset::Sheet)  return { FlowAxis::Paragraph,	Sizing::Wrap,   Sizing::Wrap };
+		else if(preset == Preset::Flex)	  return { FlowAxis::Same,	    Sizing::Wrap,   Sizing::Wrap };
+		else if(preset == Preset::Item)   return { FlowAxis::Reading,   Sizing::Shrink, Sizing::Shrink };
+		else if(preset == Preset::Unit)   return { FlowAxis::Paragraph, Sizing::Shrink, Sizing::Shrink };
+		else if(preset == Preset::Block)  return { FlowAxis::Paragraph, Sizing::Fixed,  Sizing::Fixed };
+		else if(preset == Preset::Line)   return { FlowAxis::Reading,   Sizing::Wrap,   Sizing::Shrink };
+		else if(preset == Preset::Stack)  return { FlowAxis::Paragraph, Sizing::Shrink, Sizing::Wrap };
+		else if(preset == Preset::Div)    return { FlowAxis::Flip,      Sizing::Wrap,   Sizing::Shrink };
+		else if(preset == Preset::Spacer) return { FlowAxis::Same,      Sizing::Wrap,   Sizing::Shrink };
+		else if(preset == Preset::Board)  return { FlowAxis::Reading,   Sizing::Expand, Sizing::Expand };
+		else if(preset == Preset::Layout) return { FlowAxis::Paragraph, Sizing::Expand, Sizing::Expand };
+		else 							  return { FlowAxis::Paragraph, Sizing::Wrap,   Sizing::Wrap };
 	}
 
-	float AlignSpace[5] = { 0.f, 0.5f, 1.f, 0.f, 1.f };
-	float AlignExtent[5] = { 0.f, 0.5f, 1.f, 1.f, 0.f };
+	table<Align, float> c_align_space = { 0.f, 0.5f, 1.f, 0.f, 1.f };
+	table<Align, float> c_align_extent = { 0.f, 0.5f, 1.f, 1.f, 0.f };
 
 	FrameSolver::FrameSolver()
 	{}
@@ -5809,36 +5819,36 @@ namespace mud
 		: d_frame(frame)
 		, d_parent(solver)
 		, d_layout(layout)
-		, m_solvers{ solver ? &solver->solver(*this, DIM_X) : nullptr, solver ? &solver->solver(*this, DIM_Y) : nullptr }
+		, m_solvers{ solver ? &solver->solver(*this, Axis::X) : nullptr, solver ? &solver->solver(*this, Axis::Y) : nullptr }
 		, d_grid(solver ? solver->grid() : nullptr)
 	{
 		if(d_layout)
 			this->applySpace();
 	}
 
-	FrameSolver& FrameSolver::solver(FrameSolver& frame, Dim dim)
+	FrameSolver& FrameSolver::solver(FrameSolver& frame, Axis dim)
 	{
 		if(dim == d_length && d_grid && frame.d_frame && frame.d_parent != d_grid) // && !d_layout->m_no_grid
 			return d_grid->solver(frame, dim);
 		return *this;
 	}
 
-	void FrameSolver::applySpace(Dim length)
+	void FrameSolver::applySpace(Axis length)
 	{
 		const Space& space = d_layout->m_space;
 
-		if(length != DIM_NONE)
+		if(length != Axis::None)
 			d_length = length;
-		else if(space.direction == ORTHOGONAL)
-			d_length = flip_dim(d_parent->d_length);
-		else if(space.direction == PARALLEL)
+		else if(space.direction == FlowAxis::Flip)
+			d_length = flip(d_parent->d_length);
+		else if(space.direction == FlowAxis::Same)
 			d_length = d_parent->d_length;
-		else if(space.direction == READING)
-			d_length = DIM_X;
-		else if(space.direction == PARAGRAPH)
-			d_length = DIM_Y;
+		else if(space.direction == FlowAxis::Reading)
+			d_length = Axis::X;
+		else if(space.direction == FlowAxis::Paragraph)
+			d_length = Axis::Y;
 
-		d_depth = flip_dim(d_length);
+		d_depth = flip(d_length);
 
 		d_sizing[d_length] = space.sizingLength;
 		d_sizing[d_depth] = space.sizingDepth;
@@ -5860,21 +5870,21 @@ namespace mud
 	void FrameSolver::compute()
 	{
 		if(!d_parent) return;
-		m_solvers[DIM_X]->compute(*this, DIM_X);
-		m_solvers[DIM_Y]->compute(*this, DIM_Y);
+		m_solvers[Axis::X]->compute(*this, Axis::X);
+		m_solvers[Axis::Y]->compute(*this, Axis::Y);
 
 #if 0 // DEBUG
 		if(!d_frame) return;
 		d_frame->debug_print(false);
-		printf(" LAYOUT measured content size %i , %i\n", int(d_content.x), int(d_content.y));
+		printf(" Preset::Layout measured content size %i , %i\n", int(d_content.x), int(d_content.y));
 #endif
 	}
 
 	void FrameSolver::layout()
 	{
 		if(!d_parent) return;
-		m_solvers[DIM_X]->layout(*this, DIM_X);
-		m_solvers[DIM_Y]->layout(*this, DIM_Y);
+		m_solvers[Axis::X]->layout(*this, Axis::X);
+		m_solvers[Axis::Y]->layout(*this, Axis::Y);
 
 #if 0 // DEBUG
 		if(!d_frame) return;
@@ -5890,12 +5900,12 @@ namespace mud
 			d_frame->read_solver(*this);
 	}
 
-	void FrameSolver::compute(FrameSolver& frame, Dim dim)
+	void FrameSolver::compute(FrameSolver& frame, Axis dim)
 	{
 		UNUSED(frame); UNUSED(dim);
 	}
 
-	void FrameSolver::layout(FrameSolver& frame, Dim dim)
+	void FrameSolver::layout(FrameSolver& frame, Axis dim)
 	{
 		UNUSED(frame); UNUSED(dim);
 	}
@@ -5907,25 +5917,25 @@ namespace mud
 		: FrameSolver(solver, layout, frame)
 	{}
 
-	void RowSolver::compute(FrameSolver& frame, Dim dim)
+	void RowSolver::compute(FrameSolver& frame, Axis dim)
 	{
-		if(dim == d_length && frame.flow() && frame.d_sizing[d_length] >= WRAP)
-			d_totalSpan += frame.m_span[d_length];
+		if(dim == d_length && frame.flow() && frame.d_sizing[d_length] >= Sizing::Wrap)
+			d_total_span += frame.m_span[d_length];
 
 		if(!frame.sizeflow())
 			return;
 
-		if(frame.d_sizing[dim] <= WRAP)
+		if(frame.d_sizing[dim] <= Sizing::Wrap)
 			this->measure(frame, dim);
 
-		if(frame.d_sizing[dim] <= SHRINK && frame.flow() && dim == d_length)
-			m_spaceContent[dim] += frame.dbounds(dim);
+		if(frame.d_sizing[dim] <= Sizing::Shrink && frame.flow() && dim == d_length)
+			m_space_content[dim] += frame.dbounds(dim);
 
-		if(dim == d_length && frame.d_sizing[d_length] >= WRAP)
-			d_contentExpand = true;
+		if(dim == d_length && frame.d_sizing[d_length] >= Sizing::Wrap)
+			d_content_expand = true;
 	}
 
-	void RowSolver::measure(FrameSolver& frame, Dim dim)
+	void RowSolver::measure(FrameSolver& frame, Axis dim)
 	{
 		if(dim == d_length && frame.flow())
 		{
@@ -5936,10 +5946,10 @@ namespace mud
 			d_content[dim] = max(d_content[dim], frame.dbounds(dim));
 	}
 
-	void RowSolver::layout(FrameSolver& frame, Dim dim)
+	void RowSolver::layout(FrameSolver& frame, Axis dim)
 	{
-		if(dim == d_length && frame.flow() && frame.d_sizing[d_length] >= WRAP)
-			frame.m_span[d_length] = frame.m_span[d_length] / d_totalSpan;
+		if(dim == d_length && frame.flow() && frame.d_sizing[d_length] >= Sizing::Wrap)
+			frame.m_span[d_length] = frame.m_span[d_length] / d_total_span;
 
 		this->resize(frame, dim);
 
@@ -5947,9 +5957,9 @@ namespace mud
 			this->position(frame, dim);
 	}
 
-	void RowSolver::resize(FrameSolver& frame, Dim dim)
+	void RowSolver::resize(FrameSolver& frame, Axis dim)
 	{
-		if(d_layout->m_layout[dim] < AUTO_SIZE)
+		if(d_layout->m_layout[dim] < AutoLayout::Size)
 			return;
 
 		float space = this->dspace(dim);
@@ -5957,7 +5967,7 @@ namespace mud
 		if(dim == d_length && frame.flow())
 		{
 			float spacings = d_spacing[dim];
-			space -= (m_spaceContent[dim] + spacings);
+			space -= (m_space_content[dim] + spacings);
 			space *= frame.m_span[d_length];
 		}
 		else
@@ -5968,23 +5978,23 @@ namespace mud
 		float content = frame.dcontent(dim);
 
 		Sizing sizing = frame.d_sizing[dim];
-		if(sizing == SHRINK)
+		if(sizing == Sizing::Shrink)
 			frame.m_size[dim] = content;
-		else if(sizing == WRAP)
+		else if(sizing == Sizing::Wrap)
 			frame.m_size[dim] = max(content, space);
-		else if(sizing == EXPAND)
+		else if(sizing == Sizing::Expand)
 			frame.m_size[dim] = space;
 	}
 
-	void RowSolver::position(FrameSolver& frame, Dim dim)
+	void RowSolver::position(FrameSolver& frame, Axis dim)
 	{
-		if(d_layout->m_layout[dim] < AUTO_LAYOUT)
+		if(d_layout->m_layout[dim] < AutoLayout::Layout)
 			return;
 
 		float space = this->dspace(dim);
 
 		if(dim == d_length && frame.flow())
-			frame.m_position[dim] = this->positionSequence(frame, d_contentExpand ? 0.f : space - d_content[d_length]);
+			frame.m_position[dim] = this->positionSequence(frame, d_content_expand ? 0.f : space - d_content[d_length]);
 		else
 			frame.m_position[dim] = this->positionFree(frame, dim, space);
 
@@ -5992,16 +6002,16 @@ namespace mud
 			d_prev = &frame;
 	}
 
-	float RowSolver::positionFree(FrameSolver& frame, Dim dim, float space)
+	float RowSolver::positionFree(FrameSolver& frame, Axis dim, float space)
 	{
-		Align align = frame.dalign(dim);// == d_length ? DIM_X : DIM_Y);
-		float alignOffset = space * AlignSpace[align] - frame.dextent(dim) * AlignExtent[align];
+		Align align = frame.dalign(dim);// == d_length ? Axis::X : Axis::Y);
+		float alignOffset = space * c_align_space[align] - frame.dextent(dim) * c_align_extent[align];
 		return (frame.flow() ? dpadding(dim) + frame.dmargin(dim) : 0.f) + alignOffset;
 	}
 
 	float RowSolver::positionSequence(FrameSolver& frame, float space)
 	{
-		auto alignSequence = [&](FrameSolver& frame, float space) { return space * AlignSpace[frame.dalign(d_length)]; };
+		auto alignSequence = [&](FrameSolver& frame, float space) { return space * c_align_space[frame.dalign(d_length)]; };
 		if(d_prev)
 			return d_prev->doffset(d_length) - alignSequence(*d_prev, space) + this->spacing() + alignSequence(frame, space);
 		else
@@ -6023,9 +6033,9 @@ namespace mud
 	static Layout& gridOverlayStyle()
 	{
 		static Layout style;
-		//style.m_space = { READING, EXPAND, EXPAND };
-		style.m_space = { READING, WRAP, WRAP };
-		style.m_flow = OVERLAY;
+		//style.m_space = { FlowAxis::Reading, Sizing::Expand, Sizing::Expand };
+		style.m_space = { FlowAxis::Reading, Sizing::Wrap, Sizing::Wrap };
+		style.m_flow = LayoutFlow::Overlay;
 		style.m_spacing = { 2.f, 2.f };
 		return style;
 	}
@@ -6033,9 +6043,9 @@ namespace mud
 	static Layout& columnSolverStyle()
 	{
 		static Layout style;
-		//style.m_space = { PARAGRAPH, EXPAND, EXPAND };
-		style.m_space = { PARAGRAPH, WRAP, WRAP };
-		style.m_layout = { AUTO_LAYOUT, NO_LAYOUT };
+		//style.m_space = { FlowAxis::Paragraph, Sizing::Expand, Sizing::Expand };
+		style.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Wrap };
+		style.m_layout = { AutoLayout::Layout, AutoLayout::None };
 		return style;
 	}
 
@@ -6045,7 +6055,7 @@ namespace mud
 		this->divide(layout->m_table_division);
 	}
 
-	void TableSolver::divide(const vector<float>& columns)
+	void TableSolver::divide(span<float> columns)
 	{
 		m_solvers.clear();
 		m_solvers.push_back(construct<RowSolver>(this, &gridOverlayStyle()));
@@ -6056,7 +6066,7 @@ namespace mud
 		}
 	}
 
-	void TableSolver::update(const vector<float>& columns)
+	void TableSolver::update(span<float> columns)
 	{
 		if(m_solvers.size() != columns.size() + 1)
 			return divide(columns);
@@ -6065,7 +6075,7 @@ namespace mud
 			m_solvers[1 + i]->m_span[d_depth] = columns[i];
 	}
 
-	FrameSolver& TableSolver::solver(FrameSolver& frame, Dim dim)
+	FrameSolver& TableSolver::solver(FrameSolver& frame, Axis dim)
 	{
 		UNUSED(dim);
 		if(frame.d_frame && frame.d_parent != this && !frame.d_parent->d_layout->m_no_grid)
@@ -6083,7 +6093,7 @@ namespace mud
 		, d_layout()
 	{
 		d_layout.m_space = space;
-		d_layout.m_space.direction = READING;
+		d_layout.m_space.direction = FlowAxis::Reading;
 		FrameSolver::d_layout = &d_layout;
 		this->applySpace();
 	}
@@ -6094,14 +6104,14 @@ namespace mud
 		this->divide(layout->m_grid_division);
 	}
 
-	void GridSolver::divide(vector<Space> lines)
+	void GridSolver::divide(span<Space> lines)
 	{
 		m_solvers.clear();
 		for(size_t i = 0; i < lines.size(); ++i)
 			m_solvers.push_back(construct<LineSolver>(this, lines[i]));
 	}
 
-	FrameSolver& GridSolver::solver(FrameSolver& frame, Dim dim)
+	FrameSolver& GridSolver::solver(FrameSolver& frame, Axis dim)
 	{
 		UNUSED(dim);
 		if(frame.d_frame)
@@ -6130,7 +6140,7 @@ namespace mud
 		StyleSelector& declare(T_Decl decl);
 
 		template <class T_Decl>
-		StyleSelector& decline(const vector<uint32_t>& states, T_Decl decl);
+		StyleSelector& decline(span<uint32_t> states, T_Decl decl);
 
 		vector<Style*> styles;
 	};
@@ -6144,7 +6154,7 @@ namespace mud
 	}
 
 	template <class T_Decl>
-	StyleSelector& StyleSelector::decline(const vector<uint32_t>& states, T_Decl decl)
+	StyleSelector& StyleSelector::decline(span<uint32_t> states, T_Decl decl)
 	{
 		for(Style* style : styles)
 			for(uint32_t state : states)
@@ -6154,7 +6164,7 @@ namespace mud
 		return *this;
 	}
 
-	StyleSelector select(const vector<string> styles)
+	StyleSelector select(span<string> styles)
 	{
 		StyleSelector selector;
 		for(const string& name : styles)
@@ -6231,7 +6241,7 @@ namespace mud
 		
 		select({ "RadioChoiceItem" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
-			l.m_align = { CENTER, CENTER };
+			l.m_align = { Align::Center, Align::Center };
 		});
 	}
 
@@ -6239,21 +6249,21 @@ namespace mud
 	{
 		layout_minimal(ui_window);
 
-		Colour white = { 1.f };
-		Colour black = { 0.f };
-		Colour transparent = { 0.f, 0.f };
-		Colour clearGreyText = { 0.627f };
-		Colour grey600 = { 0.600f };
-		Colour grey400 = { 0.400f };
-		Colour grey312 = { 0.312f };
-		Colour grey248 = { 0.248f };
-		Colour grey204 = { 0.204f };
-		Colour grey176 = { 0.176f };
-		Colour grey145 = { 0.145f };
-		Colour grey117 = { 0.117f };
-		Colour grey86  = { 0.086f };
-		Colour grey69  = { 0.069f };
-		Colour grey52  = { 0.052f };
+		Colour white = Colour(1.f);
+		Colour black = Colour(0.f);
+		Colour transparent = Colour(0.f, 0.f);
+		Colour clearGreyText = Colour(0.627f);
+		Colour grey600 = Colour(0.600f);
+		Colour grey400 = Colour(0.400f);
+		Colour grey312 = Colour(0.312f);
+		Colour grey248 = Colour(0.248f);
+		Colour grey204 = Colour(0.204f);
+		Colour grey176 = Colour(0.176f);
+		Colour grey145 = Colour(0.145f);
+		Colour grey117 = Colour(0.117f);
+		Colour grey86  = Colour(0.086f);
+		Colour grey69  = Colour(0.069f);
+		Colour grey52  = Colour(0.052f);
 		Colour activeBlue = { 0.145f, 0.5f, 1.f, 1.f };
 
 		select({ "Label", "Title", "Message", "Tooltip", "TextEdit", "TypeLabel", "TypeZone", "SliderDisplay", "RadioChoiceItem" })
@@ -6391,7 +6401,7 @@ namespace mud
 
 		select({ "WindowSizerRight" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-			i.m_align = { Right, Right };
+			i.m_align = { Align::Right, Align::Right };
 		});
 
 		select({  "Toolbar", "Tooldock"  })
@@ -6406,7 +6416,7 @@ namespace mud
 
 		select({  "Tooltip", "Popdown", "DropdownList", "MenuList", "SubMenuList"  })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-			i.m_background_colour = { 0.098f, 0.802f };
+			i.m_background_colour = Colour(0.098f, 0.802f);
 			i.m_text_colour = clearGreyText;
 		});
 
@@ -6450,7 +6460,7 @@ module mud.ui;
 
 namespace mud
 {
-	ImageSkin::ImageSkin(Image& image, int left, int top, int right, int bottom, int margin, Dim stretch)
+	ImageSkin::ImageSkin(Image& image, int left, int top, int right, int bottom, int margin, Axis stretch)
 		: d_image(&image)
 		, d_left(left), d_top(top), d_right(right), d_bottom(bottom)
 		, m_margin(margin)
@@ -6463,15 +6473,15 @@ namespace mud
 		for(Image& subimage : d_images)
 			subimage = *d_image;
 
-		m_min_size.x = d_stretch == DIM_X ? float(d_solid_size.x) : 0.f;
-		m_min_size.y = d_stretch == DIM_Y ? float(d_solid_size.y) : 0.f;
+		m_min_size.x = d_stretch == Axis::X ? float(d_solid_size.x) : 0.f;
+		m_min_size.y = d_stretch == Axis::Y ? float(d_solid_size.y) : 0.f;
 
 		vec4 coords[Count] = {};
-		this->stretch_coords(Zero2, vec2(image.d_size), span<vec4>{ coords, Count });
+		this->stretch_coords(vec2(0.f), vec2(image.d_size), span<vec4>{ coords, Count });
 		for(size_t s = 0; s < Count; ++s)
 		{
-			this->d_images[s].d_coord = this->d_image->d_coord + uvec2(rect_offset(coords[s]));
-			this->d_images[s].d_size = uvec2(rect_size(coords[s]));
+			this->d_images[s].d_coord = this->d_image->d_coord + uvec2(coords[s].pos);
+			this->d_images[s].d_size = uvec2(coords[s].size);
 		}
 	}
 
@@ -6600,59 +6610,61 @@ module mud.ui;
 namespace mud
 {
 	Styles::Styles()
-		: widget("Widget", nullptr, [](Layout& l) { l.m_solver = FRAME_SOLVER; })
-		, wedge("Wedge", widget, [](Layout& l) { l.m_solver = ROW_SOLVER; l.m_space = SHEET; })
-		, ui("Ui", wedge, [](Layout& l) { l.m_space = LAYOUT; l.m_clipping = CLIP; l.m_opacity = OPAQUE; })
+		: widget("Widget", nullptr, [](Layout& l) { l.m_solver = Solver::Frame; })
+		, wedge("Wedge", widget, [](Layout& l) { l.m_solver = Solver::Row; l.m_space = Preset::Sheet; })
+		, ui("Ui", wedge, [](Layout& l) { l.m_space = Preset::Layout; l.m_clipping = Clip::Clip; l.m_opacity = Opacity::Opaque; })
 
-		, unit("Unit", wedge, [](Layout& l) { l.m_space = UNIT; l.m_align = { Left, CENTER }; },
+		, unit("Unit", wedge, [](Layout& l) { l.m_space = Preset::Unit; l.m_align = { Align::Left, Align::Center }; },
 							  [](InkStyle& o) { o.m_empty = false; o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })
-		, item("Item", widget, [](Layout& l) { l.m_space = BLOCK; l.m_align = { Left, CENTER }; },
+		, item("Item", widget, [](Layout& l) { l.m_space = Preset::Block; l.m_align = { Align::Left, Align::Center }; },
 							   [](InkStyle& o) { o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })
-		, control("Control", item, [](Layout& l) { l.m_opacity = OPAQUE; })
-		, wrap_control("WrapControl", wedge, [](Layout& l) { l.m_space = LINE; l.m_opacity = OPAQUE; })
+		, control("Control", item, [](Layout& l) { l.m_opacity = Opacity::Opaque; })
+		, wrap_control("WrapControl", wedge, [](Layout& l) { l.m_space = Preset::Line; l.m_opacity = Opacity::Opaque; })
 
-		, spacer("Spacer", item, [](Layout& l) { l.m_space = SPACER; })
-		, filler("Filler", spacer, [](Layout& l) { l.m_space = FLEX; })
+		, spacer("Spacer", item, [](Layout& l) { l.m_space = Preset::Spacer; })
+		, filler("Filler", spacer, [](Layout& l) { l.m_space = Preset::Flex; })
 
-		, drag_handle("DragHandle", control, [](Layout& l) { l.m_space = { ORTHOGONAL, WRAP, FIXED }; l.m_size = vec2{ 5.f, 5.f }; })
+		, drag_handle("DragHandle", control, [](Layout& l) { l.m_space = { FlowAxis::Flip, Sizing::Wrap, Sizing::Fixed }; l.m_size = { 5.f, 5.f }; })
 
-		, div("Div", wedge, [](Layout& l) { l.m_space = DIV; })
-		, row("Row", wedge, [](Layout& l) { l.m_space = LINE; })
-		, stack("Stack", wedge, [](Layout& l) { l.m_space = STACK; })
-		, sheet("Sheet", wedge, [](Layout& l) { l.m_space = SHEET; })
-		, flex("Flex", wedge, [](Layout& l) { l.m_space = FLEX; })
+		, div("Div", wedge, [](Layout& l) { l.m_space = Preset::Div; })
+		, row("Row", wedge, [](Layout& l) { l.m_space = Preset::Line; })
+		, stack("Stack", wedge, [](Layout& l) { l.m_space = Preset::Stack; })
+		, sheet("Sheet", wedge, [](Layout& l) { l.m_space = Preset::Sheet; })
+		, flex("Flex", wedge, [](Layout& l) { l.m_space = Preset::Flex; })
 		, list("List", wedge, {})
 		, header("Header", row, {})
-		, board("Board", wedge, [](Layout& l) { l.m_space = BOARD; l.m_clipping = CLIP; })
-		, layout("Layout", board, [](Layout& l) { l.m_space = LAYOUT; })
-		, screen("Screen", wedge, [](Layout& l) { l.m_flow = FREE; l.m_space = LAYOUT; })
-		, decal("Decal", wedge, [](Layout& l) { l.m_flow = FREE; l.m_space = BLOCK; })
-		, overlay("Overlay", wedge, [](Layout& l) { l.m_flow = FREE; l.m_opacity = OPAQUE; })
-		, gridsheet("GridSheet", wedge, [](Layout& l) { l.m_opacity = OPAQUE; l.m_spacing = vec2(5.f); })
+		, board("Board", wedge, [](Layout& l) { l.m_space = Preset::Board; l.m_clipping = Clip::Clip; })
+		, layout("Layout", board, [](Layout& l) { l.m_space = Preset::Layout; })
+		, screen("Screen", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_space = Preset::Layout; })
+		, decal("Decal", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_space = Preset::Block; })
+		, overlay("Overlay", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_opacity = Opacity::Opaque; })
+		, gridsheet("GridSheet", wedge, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_spacing = vec2(5.f); })
 
-		, sequence("Sequence", wedge, [](Layout& l) { l.m_space = SHEET; })
-		, element("Element", wedge, [](Layout& l) { l.m_space = STACK; l.m_opacity = OPAQUE; })
+		, sequence("Sequence", wedge, [](Layout& l) { l.m_space = Preset::Sheet; })
+		, element("Element", wedge, [](Layout& l) { l.m_space = Preset::Stack; l.m_opacity = Opacity::Opaque; })
 
-		, label("Label", item, [](Layout& l) { l.m_align = { Left, CENTER }; })
+		, label("Label", item, [](Layout& l) { l.m_align = { Align::Left, Align::Center }; })
 		, title("Title", label, {}, [](InkStyle& o) { UNUSED(o); }) //o.m_text_size = 18.f; })
 		, message("Message", label, {}, [](InkStyle& o) { UNUSED(o); }) //o.m_text_size = 18.f; })
-		, text("Text", item, [](Layout& l) { l.m_space = { PARAGRAPH, FIXED, WRAP }; },
+		, text("Text", item, [](Layout& l) { l.m_space = { FlowAxis::Paragraph, Sizing::Fixed, Sizing::Wrap }; },
 							 [](InkStyle& o) { o.m_text_break = true; })
 
 		, button("Button", control, {})
 		, wrap_button("WrapButton", wrap_control, {})
 		, multi_button("MultiButton", wrap_button, {})
 		, toggle("Toggle", control, {})
-		, checkbox("Checkbox", toggle, [](Layout& l) { l.m_align = { Left, CENTER }; }) // @todo why doesn't work ?? why u checkbox not aligned ??
+		, checkbox("Checkbox", toggle, [](Layout& l) { l.m_align = { Align::Left, Align::Center }; }) // @todo why doesn't work ?? why u checkbox not aligned ??
 
-		, dummy("Dummy", wedge, [](Layout& l) { l.m_space = BLOCK; })
-		, tooltip("Tooltip", decal, [](Layout& l) { l.m_space = UNIT; l.m_zorder = -2; })
-		, rectangle("Rectangle", decal, [](Layout& l) { l.m_space = BLOCK; l.m_zorder = -3; },
+		, dummy("Dummy", wedge, [](Layout& l) { l.m_space = Preset::Block; })
+		, tooltip("Tooltip", decal, [](Layout& l) { l.m_space = Preset::Unit; l.m_zorder = -2; })
+		, rectangle("Rectangle", decal, [](Layout& l) { l.m_space = Preset::Block; l.m_zorder = -3; },
 										[](InkStyle& l) { l.m_border_width = vec4(1.f); l.m_border_colour = Colour::White; l.m_background_colour = Colour::AlphaGrey; })
+		
+		, viewport("Viewport", wedge, [](Layout& l) { l.m_space = Preset::Block; l.m_opacity = Opacity::Opaque; })
 
-		, type_in("TypeIn", wrap_control, [](Layout& l) { l.m_opacity = OPAQUE; })
-		, text_edit("TextEdit", type_in, [](Layout& l) { l.m_space = LAYOUT; })
-		, type_zone("TypeZone", wrap_control, [](Layout& l) { l.m_space = SHEET; l.m_opacity = OPAQUE; },
+		, type_in("TypeIn", wrap_control, [](Layout& l) { l.m_opacity = Opacity::Opaque; })
+		, text_edit("TextEdit", type_in, [](Layout& l) { l.m_space = Preset::Layout; })
+		, type_zone("TypeZone", wrap_control, [](Layout& l) { l.m_space = Preset::Sheet; l.m_opacity = Opacity::Opaque; },
 											  [](InkStyle& l) { l.m_text_font = "consolas"; l.m_text_break = true; })
 		, caret("Caret", item, {}, [](InkStyle& l) { l.m_background_colour = Colour::White; })
 
@@ -6660,44 +6672,44 @@ namespace mud
 		, image_stretch("ImageStretch", unit, {}, [](InkStyle& l) { l.m_empty = false; l.m_stretch = { true, true }; })
 
 		, radio_switch("RadioSwitch", wrap_control, {})
-		, radio_switch_h("RadioSwitchH", radio_switch, [](Layout& l) { l.m_space = STACK; })
+		, radio_switch_h("RadioSwitchH", radio_switch, [](Layout& l) { l.m_space = Preset::Stack; })
 		, radio_choice("RadioChoice", multi_button, {})
 		, radio_choice_item("RadioChoiceItem", item, {})
 
-		, slider("Slider", wrap_control, [](Layout& l) { l.m_space = FLEX; })
-		, slider_knob("SliderKnob", control, {}) // [](Layout& l) { l.m_space = FLEX; } }
-		, slider_display("SliderDisplay", label, [](Layout& l) { l.m_flow = OVERLAY; l.m_align = { CENTER, CENTER }; })
+		, slider("Slider", wrap_control, [](Layout& l) { l.m_space = Preset::Flex; })
+		, slider_knob("SliderKnob", control, {}) // [](Layout& l) { l.m_space = Preset::Flex; } }
+		, slider_display("SliderDisplay", label, [](Layout& l) { l.m_flow = LayoutFlow::Overlay; l.m_align = { Align::Center, Align::Center }; })
 
 		, fill_bar("Fillbar", row, {})
 
 		, number_input("NumberInput", row, {})
 		, slider_input("SliderInput", row, {})
 		, field_input("Field", wrap_control, {})
-		, curve_graph("CurveGraph", sheet, [](Layout& l) { l.m_opacity = OPAQUE; }, [](InkStyle& l) { l.m_empty = false; })
+		, curve_graph("CurveGraph", sheet, [](Layout& l) { l.m_opacity = Opacity::Opaque; }, [](InkStyle& l) { l.m_empty = false; })
 		, curve_input("CurveInput", sheet, [](Layout& l) { l.m_padding = vec4(6.f); })
-		, input_bool("Input<bool>", wedge, [](Layout& l) { l.m_space = UNIT; })
+		, input_bool("Input<bool>", wedge, [](Layout& l) { l.m_space = Preset::Unit; })
 		, input_string("Input<string>", type_in, {})
 		, input_color("Input<Colour>", row, {})
 
 		, color_wheel("ColourWheel", control, [](Layout& l) { l.m_size = { 200.f, 200.f }; }, [](InkStyle& l) { l.m_empty = false; })
 		, color_slab("ColourSlab", control, [](Layout& l) { l.m_size = { 22.f, 22.f }; }, [](InkStyle& l) { l.m_empty = false; })
 		, color_display("ColourDisplay", flex, {}, [](InkStyle& l) { l.m_empty = false; })
-		, color_toggle("ColourToggle", color_slab, [](Layout& l) { l.m_solver = ROW_SOLVER; }, [](InkStyle& l) { l.m_empty = false; })
+		, color_toggle("ColourToggle", color_slab, [](Layout& l) { l.m_solver = Solver::Row; }, [](InkStyle& l) { l.m_empty = false; })
 
-		, scrollsheet("ScrollSheet", wedge, [](Layout& l) { l.m_solver = GRID_SOLVER; l.m_opacity = OPAQUE; l.m_grid_division = { LAYOUT, LINE }; })
-		, scroll_zone("ScrollZone", layout, [](Layout& l) { l.m_layout = { AUTO_SIZE, AUTO_SIZE }; l.m_clipping = CLIP; })
+		, scrollsheet("ScrollSheet", wedge, [](Layout& l) { l.m_solver = Solver::Grid; l.m_opacity = Opacity::Opaque; l.m_grid_division = { Preset::Layout, Preset::Line }; })
+		, scroll_zone("ScrollZone", layout, [](Layout& l) { l.m_layout = { AutoLayout::Size, AutoLayout::Size }; l.m_clipping = Clip::Clip; })
 
 		, scroll_surface("ScrollSurface", wedge, {})
-		, scroll_plan("ScrollPlan", sheet, [](Layout& l) { l.m_space = BLOCK; }) // { l.m_custom_draw = &draw_grid }
+		, scroll_plan("ScrollPlan", sheet, [](Layout& l) { l.m_space = Preset::Block; }) // { l.m_custom_draw = &draw_grid }
 
-		, table("Table", stack, [](Layout& l) { l.m_solver = TABLE_SOLVER; l.m_spacing = vec2(0.f, 2.f); })
-		, table_head("TableHead", gridsheet, [](Layout& l) { l.m_space = DIV; })
-		, column_header("ColumnHeader", row, [](Layout& l) { l.m_space = LINE; })
+		, table("Table", stack, [](Layout& l) { l.m_solver = Solver::Table; l.m_spacing = vec2(0.f, 2.f); })
+		, table_head("TableHead", gridsheet, [](Layout& l) { l.m_space = Preset::Div; })
+		, column_header("ColumnHeader", row, [](Layout& l) { l.m_space = Preset::Line; })
 
-		, popup("Popup", overlay, [](Layout& l) { l.m_space = UNIT; l.m_clipping = UNCLIP; })
-		, modal("Modal", popup, [](Layout& l) { l.m_flow = ALIGN; l.m_space = UNIT; l.m_align = { CENTER, CENTER }; })
+		, popup("Popup", overlay, [](Layout& l) { l.m_space = Preset::Unit; l.m_clipping = Clip::Unclip; })
+		, modal("Modal", popup, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Unit; l.m_align = { Align::Center, Align::Center }; })
 
-		, color_popup("ColourPopup", overlay, [](Layout& l) { l.m_flow = ALIGN; l.m_clipping = UNCLIP; l.m_align = { Left, OUT_RIGHT }; })
+		, color_popup("ColourPopup", overlay, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_clipping = Clip::Unclip; l.m_align = { Align::Left, Align::OutRight }; })
 	{}
 
 	void Styles::setup(UiWindow& ui_window)

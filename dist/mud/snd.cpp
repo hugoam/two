@@ -434,8 +434,8 @@ namespace mud
 	void Sound::disable_3D()
 	{
 		m_source_relative = false;
-		m_position = Zero3;
-		m_direction = Zero3;
+		m_position = vec3(0.f);
+		m_direction = vec3(0.f);
 		m_reference_distance = 1.f;
 
 		if(m_active)

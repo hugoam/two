@@ -14,6 +14,7 @@ namespace mud
     // Exported types
     
     
+    template <> MUD_BGFX_EXPORT Type& type<mud::BgfxSystem>() { static Type ty("BgfxSystem", type<mud::RenderSystem>(), sizeof(mud::BgfxSystem)); return ty; }
 }
 
 #include <cstdio>
@@ -30,17 +31,24 @@ module mud.bgfx;
 
 namespace mud
 {
-	BgfxContext::BgfxContext(BgfxSystem& gfx_system, const string& name, uvec2 size, bool fullScreen, bool init)
+	BgfxContext::BgfxContext(BgfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main, bool init)
 #if defined MUD_CONTEXT_GLFW
-		: GlfwContext(gfx_system, name, size, fullScreen, false)
+		: GlfwContext(gfx, name, size, fullscreen, main, false)
 #elif defined MUD_CONTEXT_WASM
-		: EmContext(gfx_system, name, size, fullScreen)
+		: EmContext(gfx, name, size, fullscreen, main)
 #elif defined MUD_CONTEXT_WINDOWS
-		: WinContext(gfx_system, name, size, fullScreen)
+		: WinContext(gfx, name, size, fullscreen, main)
 #endif
 	{
-		if(init)
-			gfx_system.init(*this);
+		if(main && init)
+			gfx.init(*this);
+	}
+
+	void BgfxContext::render_frame()
+	{
+		// @todo this won't do for multiple contexts
+		bgfx::setViewRect(0, 0, 0, uint16_t(m_fb_size.x), uint16_t(m_fb_size.y));
+		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, to_rgba(m_colour), 1.0f, 0);
 	}
 
 	void BgfxContext::reset_fb(const uvec2& size)
@@ -67,11 +75,6 @@ namespace mud
 		return alloc;
 	}
 
-	object<Context> BgfxSystem::create_context(const string& name, uvec2 size, bool fullScreen)
-	{
-		return oconstruct<BgfxContext>(*this, name, size, fullScreen, !m_initialized);
-	}
-
 	void BgfxSystem::init(BgfxContext& context)
 	{
 		printf("GfxSystem: Native Handle = %p\n", context.m_native_handle);
@@ -95,17 +98,16 @@ namespace mud
 		bgfx::setDebug(BGFX_DEBUG_TEXT | BGFX_DEBUG_PROFILER);
 #endif
 
-		bgfx::setViewRect(0, 0, 0, uint16_t(context.m_fb_size.x), uint16_t(context.m_fb_size.y));
-		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
-
 		m_start_counter = double(bx::getHPCounter());
 		m_initialized = true;
 	}
 
-	void BgfxSystem::begin_frame()
-	{}
+	bool BgfxSystem::begin_frame()
+	{
+		return true;
+	}
 
-	bool BgfxSystem::next_frame()
+	void BgfxSystem::end_frame()
 	{
 #ifdef _DEBUG
 		m_capture |= m_capture_every && (m_frame % m_capture_every) == 0;
@@ -116,7 +118,6 @@ namespace mud
 #endif
 
 		this->advance();
-		return true;
 	}
 
 	void TimerBx::begin()

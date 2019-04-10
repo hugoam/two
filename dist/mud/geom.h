@@ -21,10 +21,10 @@ namespace mud
     enum DrawMode : unsigned int;
     enum class PrimitiveType : unsigned int;
     enum class SymbolDetail : unsigned short;
-    
+	enum class CatmullType : unsigned int;
     
     class Shape;
-    struct ShapeVar;
+    class ShapeVar;
     struct Line;
     struct Rect;
     struct Quad;
@@ -32,6 +32,7 @@ namespace mud
     struct Triangle;
     struct Circle;
     struct Torus;
+	struct TorusKnot;
     struct Ring;
     struct Ellipsis;
     struct Arc;
@@ -39,10 +40,23 @@ namespace mud
     struct Cylinder;
     struct Capsule;
     struct Cube;
+	struct Tetraedr;
     struct Sphere;
     struct SphereRing;
     struct Spheroid;
+	struct Icosaedr;
     struct Aabb;
+	class Curve2;
+	class Curve3;
+	struct CurveBezierCubic;
+	struct CurveBezierCubic3;
+	struct CurveBezierQuadratic;
+	struct CurveBezierQuadratic3;
+	struct CurveCatmullRom3;
+	struct CurveLine;
+	struct CurveLine3;
+	struct CurveSpline;
+	struct CurveSpline3;
     struct Plane;
     struct Plane3;
     struct Face3;
@@ -58,6 +72,7 @@ namespace mud
     struct MeshAdapter;
     class Geometry;
     struct MeshPacker;
+	class MarchingCubes;
     class Distribution;
     class Poisson;
     class RandomShapePoint;
@@ -76,8 +91,15 @@ namespace mud
 
 #ifdef MUD_META_GENERATOR
 #include <stl/vector.h>
+#include <stl/span.h>
 namespace stl
 {
+	export_ extern template struct refl_ span_ span<mud::vec3>;
+
+	export_ extern template class refl_ seque_ vector<mud::vec2>;
+	export_ extern template class refl_ seque_ vector<mud::vec4>;
+	export_ extern template class refl_ seque_ vector<mud::ivec4>;
+
 	export_ extern template class refl_ seque_ vector<mud::Circle>;
 }
 #endif
@@ -102,7 +124,6 @@ namespace mud
 
 		void merge(const vec3& point);
 		void merge(const Aabb& other);
-		void mergeSafe(const Aabb& other);
 
 		bool cull(const vec3& point) const;
 		bool cull(span<vec3> points) const;
@@ -115,6 +136,167 @@ namespace mud
 }
 
 
+#include <stl/vector.h>
+
+namespace mud
+{
+	class refl_ Curve2
+	{
+	public:
+		meth_ virtual vec2 point(float t) const = 0;
+	};
+
+	class refl_ Curve3
+	{
+	public:
+		meth_ virtual vec3 point(float t) const = 0;
+		//virtual vec2 point(float t) const = 0;
+
+		//meth_ float length() const;
+
+		vec3 tangent(float t) const;
+
+		vector<vec3> points(size_t subdiv = 5) const;
+
+		vector<float> lengths() const;
+		vector<float> lengths(size_t subdiv) const;
+
+		struct FrenetFrames
+		{
+			vector<vec3> tangents;
+			vector<vec3> normals;
+			vector<vec3> binormals;
+		};
+
+		// see http://www.cs.indiana.edu/pub/techreports/TR425.pdf
+		FrenetFrames frenet_frames(size_t segments, bool closed);
+
+		size_t m_curved_subdiv = 200;
+	};
+
+	struct Curve3Sampler
+	{
+		Curve3Sampler(Curve3& curve);
+
+		void subdiv(size_t subdiv);
+		vector<vec3> points(size_t subdiv = 5) const;
+		vec3 point(float u) const;
+		vec3 tangent(float u) const;
+		float at(float u) const;
+		float at_distance(float distance) const;
+
+		Curve3& m_curve;
+		vector<float> m_lengths;
+		bool m_dirty = false;
+	};
+
+	struct refl_ CurveSpline : public Curve2
+	{
+		virtual vec2 point(float t) const override;
+
+		attr_ vector<vec2> m_points;
+	};
+
+	struct refl_ CurveSpline3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vector<vec3> m_points;
+	};
+
+	struct CurveEllipse
+	{
+		vec2 m_a = vec2(0.f);
+		vec2 m_radius = vec2(1.f);
+		float m_angle[2] = { 0.f, c_2pi };
+
+		bool m_clockwise = false;
+		float m_rotation = 0.f;
+
+		vec2 point(float t);
+	};
+
+	struct CurveArcCurve : public CurveEllipse
+	{};
+
+	struct refl_ CurveBezierCubic : public Curve2
+	{
+		virtual vec2 point(float t) const override;
+
+		attr_ vec2 v0;
+		attr_ vec2 v1;
+		attr_ vec2 v2;
+		attr_ vec2 v3;
+	};
+
+	struct refl_ CurveBezierCubic3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vec3 v0;
+		attr_ vec3 v1;
+		attr_ vec3 v2;
+		attr_ vec3 v3;
+	};
+
+	struct refl_ CurveLine : public Curve2
+	{
+		virtual vec2 point(float t) const override;
+
+		attr_ vec2 v0;
+		attr_ vec2 v1;
+	};
+
+	struct refl_ CurveLine3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vec3 v0;
+		attr_ vec3 v1;
+	};
+
+	struct refl_ CurveBezierQuadratic : public Curve2
+	{
+		virtual vec2 point(float t) const override;
+
+		attr_ vec2 v0;
+		attr_ vec2 v1;
+		attr_ vec2 v2;
+	};
+
+	struct refl_ CurveBezierQuadratic3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vec3 v0;
+		attr_ vec3 v1;
+		attr_ vec3 v2;
+	};
+
+	enum class refl_ CatmullType : unsigned int
+	{
+		Centripetal,
+		Chordal,
+		CatmullRom
+	};
+
+	struct refl_ CurveCatmullRom3 : public Curve3
+	{
+		constr_ CurveCatmullRom3();
+		constr_ CurveCatmullRom3(const vector<vec3>& points, bool closed = false, CatmullType curve_type = CatmullType::Centripetal, float tension = 0.5f);
+
+		virtual vec3 point(float t) const override;
+
+		meth_ void add_point(const vec3& point);
+
+		attr_ vector<vec3> m_points = {};
+		attr_ bool m_closed = false;
+		attr_ CatmullType m_curve_type = CatmullType::Centripetal;
+		attr_ float m_tension = 0.5f;
+	};
+}
+
+
 #ifndef MUD_MODULES
 #endif
 
@@ -124,15 +306,15 @@ namespace mud
 	export_ MUD_GEOM_EXPORT Aabb translate_aabb(const Aabb& source, const vec3& offset);
 	export_ MUD_GEOM_EXPORT vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb);
 
-	export_ extern MUD_GEOM_EXPORT const float c_cmp_epsilon;
-	export_ extern MUD_GEOM_EXPORT const float c_cmp_epsilon2;
+	export_ constexpr inline float c_cmp_epsilon = 0.00001f;
+	export_ constexpr inline float c_cmp_epsilon2 = c_cmp_epsilon * c_cmp_epsilon;
 
 	export_ struct refl_ Plane
 	{
 		attr_ vec3 m_normal;
 		attr_ float m_distance;
 
-		Plane(const vec3& normal = Zero3, float distance = 0.f);
+		Plane(const vec3& normal = vec3(0.f), float distance = 0.f);
 		Plane(float a, float b, float c, float d);
 		Plane(const vec3& point, const vec3& normal);
 		Plane(const vec3& p1, const vec3& p2, const vec3& p3, Clockwise dir = ANTI_CLOCKWISE);
@@ -192,7 +374,7 @@ namespace mud
 		Point8(vec3 a, vec3 b, vec3 c, vec3 d, vec3 e, vec3 f, vec3 g, vec3 h);
 		const vec3& operator[](size_t index) const { return *((vec3*)&m_a + index); }
 		vec3& operator[](size_t index) { return *(&m_a + index); }
-		vec3 m_a, m_b, m_c, m_d, m_e, m_f, m_g, m_h;
+		vec3 m_a, m_b, m_c, m_d, m_e, m_f, g, m_h;
 	};
 }
 
@@ -211,6 +393,16 @@ namespace mud
 	{
 		return p - plane.m_normal * distance(plane, p);
 	}	// Implementation
+
+	inline Plane operator*(const mat4& mat, const Plane& p)
+	{
+		//const mat4 normalmat = transpose(inverse(mat));
+		const vec3 point = p.m_normal * -p.m_distance;
+		const vec3 refpoint = mulp(mat, point);
+		const vec3 normal = muln(mat, p.m_normal);
+		const float d = dot(-refpoint, normal);
+		return { normal, d };
+	}
 
 	inline Plane::Plane(const vec3& normal, float distance)
 		: m_normal(normal), m_distance(distance)
@@ -234,7 +426,7 @@ namespace mud
 	{
 		float l = length(plane.m_normal);
 		if(l == 0)
-			return { Zero3, 0.f };
+			return { vec3(0.f), 0.f };
 		return { plane.m_normal / l, plane.m_distance / l };
 	}
 
@@ -245,7 +437,7 @@ namespace mud
 	inline Plane6::Plane6(Plane right, Plane left, Plane up, Plane down, Plane near, Plane far) : m_right(right), m_left(left), m_up(up), m_down(down), m_near(near), m_far(far) {}
 
 	inline Point8::Point8() {}
-	inline Point8::Point8(vec3 a, vec3 b, vec3 c, vec3 d, vec3 e, vec3 f, vec3 g, vec3 h) : m_a(a), m_b(b), m_c(c), m_d(d), m_e(e), m_f(f), m_g(g), m_h(h) {}
+	inline Point8::Point8(vec3 a, vec3 b, vec3 c, vec3 d, vec3 e, vec3 f, vec3 g, vec3 h) : m_a(a), m_b(b), m_c(c), m_d(d), m_e(e), m_f(f), g(g), m_h(h) {}
 }
 
 
@@ -328,11 +520,11 @@ namespace mud
 	{
 		Points = 0,
 		Lines = 1,
-		LineLoop = 2,
-		LineStrip = 3,
-		Triangles = 4,
-		TriangleStrip = 5,
-		TriangleFan = 6
+		LineStrip = 2,
+		Triangles = 3,
+		TriangleStrip = 4,
+		TriangleFan = 5,
+		Count
 	};
 
 	export_ struct VertexAttribute
@@ -340,21 +532,30 @@ namespace mud
 		enum Enum
 		{
 			Position = 1 << 0,
-			QPosition = 1 << 1,
-			Normal = 1 << 2,
-			QNormal = 1 << 3,
-			Colour = 1 << 4,
-			Tangent = 1 << 5,
-			QTangent = 1 << 6,
-			Bitangent = 1 << 7,
-			TexCoord0 = 1 << 8,
-			QTexCoord0 = 1 << 9,
-			TexCoord1 = 1 << 10,
-			QTexCoord1 = 1 << 11,
-			Joints = 1 << 12,
-			Weights = 1 << 13,
+			Position4 = 1 << 1,
+			QPosition = 1 << 2,
+			Normal = 1 << 3,
+			QNormal = 1 << 4,
+			Colour = 1 << 5,
+			Tangent = 1 << 6,
+			QTangent = 1 << 7,
+			Bitangent = 1 << 8,
+			TexCoord0 = 1 << 9,
+			QTexCoord0 = 1 << 10,
+			TexCoord1 = 1 << 11,
+			QTexCoord1 = 1 << 12,
+			Joints = 1 << 13,
+			Weights = 1 << 14,
+			MorphPosition0 = 1 << 15,
+			MorphPosition1 = 1 << 16,
+			MorphPosition2 = 1 << 17,
+			MorphPosition3 = 1 << 18,
+			MorphNormal0 = 1 << 19,
+			MorphNormal1 = 1 << 20,
+			MorphNormal2 = 1 << 21,
+			MorphNormal3 = 1 << 22,
 
-			Count = 1 << 14
+			Count = 1 << 17
 		};
 	};
 
@@ -389,56 +590,68 @@ namespace mud
 
 	export_ size_t vertex_offset(uint32_t vertex_format, VertexAttribute::Enum attribute);
 
-	export_ struct MUD_GEOM_EXPORT MeshAdapter
+	export_ struct refl_ MUD_GEOM_EXPORT MeshAdapter
 	{
-		struct Array
+		MeshAdapter() {}
+		MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices = {}, bool index32 = false);
+		MeshAdapter(uint32_t vertex_count, MeshPacker& geom);
+
+		attr_ uint32_t m_vertex_format = 0;
+		attr_ bool m_index32 = false;
+
+		attr_ uint32_t m_vertex_count = 0;
+		attr_ uint32_t m_index_count = 0;
+
+		attr_ uint32_t m_vertex_stride = 0;
+
+		template <class T>
+		struct Cursor
 		{
-			Array();
-			Array(void* pointer, uint32_t count);
-				
-			uint32_t size();
-			void* data() const;
-
-			void* m_pointer;
-			uint32_t m_count;
+			T* p = nullptr; uint32_t s;
+			inline void init(void* data) { p = (T*)data; s = uint32_t(sizeof(T)); }
+			inline void init(uint32_t vertex_format, VertexAttribute::Enum attr, void* data)
+			{
+				if((vertex_format & attr) != 0) this->init(data);
+			}
+			inline void init(uint32_t vertex_format, VertexAttribute::Enum attr, void* data, uint32_t stride)
+			{
+				if((vertex_format & attr) != 0)
+					p = (T*)((char*)data + vertex_offset(vertex_format, attr));
+				s = stride;
+			}
+			inline void next() { p = (T*)((char*)p + s); }
+			inline void write(const T& val) { *p = val; this->next(); }
+			inline T read() { T val = *p; this->next(); return val; }
+			inline operator bool() { return p != nullptr; }
 		};
-
-		MeshAdapter();
-		MeshAdapter(uint32_t vertex_format, void* vertices, uint32_t num_vertices, void* indices, uint32_t num_indices, bool index32);
-
-		Array m_vertices = {};
-		Array m_indices = {};
-
-		//span<void> m_vertices = {};
-		//span<void> m_indices = {};
-
-		uint32_t m_vertex_format = 0;
-		uint32_t m_vertex_stride = 0;
-		uint32_t m_index_stride = 0;
 
 		struct Pointers
 		{
-			vec3* m_position = nullptr;
-			vec3* m_normal = nullptr;
-			uint32_t* m_colour = nullptr;
-			vec4* m_tangent = nullptr;
-			vec3* m_bitangent = nullptr;
-			vec2* m_uv0 = nullptr;
-			vec2* m_uv1 = nullptr;
-			uint32_t* m_joints = nullptr;
-			vec4* m_weights = nullptr;
+			Cursor<uint16_t> m_index;
+			Cursor<uint32_t> m_index32;
 
-			half3* m_qposition = nullptr;
-			uint32_t* m_qnormal = nullptr;
-			uint32_t* m_qtangent = nullptr;
-			half2* m_quv0 = nullptr;
-			half2* m_quv1 = nullptr;
+			Cursor<vec3> m_position;
+			Cursor<vec4> m_position4;
+			Cursor<vec3> m_normal;
+			Cursor<uint32_t> m_colour;
+			Cursor<vec4> m_tangent;
+			Cursor<vec3> m_bitangent;
+			Cursor<vec2> m_uv0;
+			Cursor<vec2> m_uv1;
+			Cursor<uint32_t> m_joints;
+			Cursor<vec4> m_weights;
+
+			Cursor<half3> m_qposition;
+			Cursor<uint32_t> m_qnormal;
+			Cursor<uint32_t> m_qtangent;
+			Cursor<half2> m_quv0;
+			Cursor<half2> m_quv1;
 		};
 
 		Pointers m_start;
 		Pointers m_cursor;
 
-		void* m_index = nullptr;
+		//void* m_index = nullptr;
 
 		uint32_t m_vertex = 0;
 		uint32_t m_offset = 0;
@@ -449,30 +662,40 @@ namespace mud
 		Bounds<vec2> m_uv0_rect = {};
 		Bounds<vec2> m_uv1_rect = {};
 
-		void rewind();
-		void next();
+		meth_ void rewind();
+		meth_ void copy(MeshAdapter& dest);
+		meth_ void xcopy(MeshAdapter& dest, const mat4& transform);
+		meth_ void next();
 
 		MeshAdapter read() const;
 
-		template <class T>
-		inline void next(T*& pointer);
+		meth_ MeshAdapter& position(const vec3& p);
+		meth_ MeshAdapter& position4(const vec4& p);
+		meth_ MeshAdapter& normal(const vec3& n);
+		meth_ MeshAdapter& colour(const Colour& c);
+		meth_ MeshAdapter& tangent(const vec4& t);
+		meth_ MeshAdapter& bitangent(const vec3& b);
+		meth_ MeshAdapter& uv0(const vec2& uv);
+		meth_ MeshAdapter& uv1(const vec2& uv);
+		meth_ MeshAdapter& joints(const uint32_t& j);
+		meth_ MeshAdapter& weights(const vec4& w);
 
-		MeshAdapter& position(const vec3& p);
-		MeshAdapter& normal(const vec3& n);
-		MeshAdapter& colour(const Colour& c);
-		MeshAdapter& tangent(const vec4& t);
-		MeshAdapter& bitangent(const vec4& b);
-		MeshAdapter& uv0(const vec2& uv);
-		MeshAdapter& uv1(const vec2& uv);
-		MeshAdapter& joints(const uint32_t& j);
-		MeshAdapter& weights(const vec4& w);
+		MeshAdapter& colour(const vec3& c);
+
+		// direct functions (faster, no bounds computation)
+		MeshAdapter& dposition(const vec3& p);
+		MeshAdapter& duv0(const vec2& uv);
+		MeshAdapter& duv1(const vec2& uv);
 
 		vec3 position();
 		vec3 normal();
 		Colour colour();
 		vec4 tangent();
+		vec3 bitangent();
 		vec2 uv0();
 		vec2 uv1();
+		uint32_t joints();
+		vec4 weights();
 		uint16_t index();
 		uint32_t index32();
 
@@ -498,7 +721,7 @@ namespace mud
 	export_ class refl_ MUD_GEOM_EXPORT Shape
 	{
 	public:
-		Shape(Type& type) : m_type(type), m_center(Zero3) {}
+		Shape(Type& type) : m_type(type), m_center(vec3(0.f)) {}
 		Shape(Type& type, const vec3& center) : m_type(type), m_center(center) {}
 		virtual ~Shape() {}
 
@@ -512,7 +735,7 @@ namespace mud
 		virtual object<Shape> clone() const = 0;
 	};
 
-	export_ struct refl_ MUD_GEOM_EXPORT ShapeVar
+	export_ class refl_ MUD_GEOM_EXPORT ShapeVar
 	{
 	public:
 		constr_ ShapeVar() : m_shape() {}
@@ -556,34 +779,68 @@ namespace mud
 	{
 		constr_ MeshPacker();
 
-		uint32_t vertex_format();
-		uint32_t vertex_count() { return uint32_t(m_positions.size()); }
-		uint32_t index_count() { return m_indices.size() > 0 ? uint32_t(m_indices.size()) : uint32_t(m_positions.size()); }
+		uint32_t vertex_format() const;
+		uint32_t vertex_count() const { return uint32_t(m_positions.size()); }
+		uint32_t index_count() const { return uint32_t(m_indices.size()); }
+		uint32_t face_count() const { return m_indices.empty() ? this->vertex_count() / 3 : this->index_count() / 3; }
 
-		PrimitiveType m_primitive = PrimitiveType::Triangles;
+		attr_ PrimitiveType m_primitive = PrimitiveType::Triangles;
 
-		vector<vec3> m_positions;		// Position
-		vector<vec3> m_normals;		// Normal
-		vector<Colour> m_colours;		// Colour
-		vector<vec4> m_tangents;		// Tangent
-		vector<vec3> m_bitangents;		// Bitangent
-		vector<vec2> m_uv0s;			// Texture Coordinates 0
-		vector<vec2> m_uv1s;			// Texture Coordinates 1
-		vector<ivec4> m_bones;			// Bones Indices
-		vector<vec4> m_weights;		// Bones Weights
+		attr_ vector<vec3> m_positions;		// Position
+		attr_ vector<vec3> m_normals;		// Normal
+		attr_ vector<Colour> m_colours;		// Colour
+		attr_ vector<uint32_t> m_ucolours;	// Colour
+		attr_ vector<vec4> m_tangents;		// Tangent
+		attr_ vector<vec3> m_bitangents;	// Bitangent
+		attr_ vector<vec2> m_uv0s;			// Texture Coordinates 0
+		attr_ vector<vec2> m_uv1s;			// Texture Coordinates 1
+		attr_ vector<ivec4> m_bones;		// Bones Indices
+		attr_ vector<vec4> m_weights;		// Bones Weights
 
-		vector<uint32_t> m_indices;
+		attr_ vector<uint32_t> m_indices;
 
-		bool m_quantize = false;
+		meth_ void position(const vec3& p) { m_positions.push_back(p); }
+		meth_ void normal(const vec3& n) { m_normals.push_back(n); }
+		meth_ void colour(const Colour& c) { m_colours.push_back(c); }
+		meth_ void tangent(const vec4& t) { m_tangents.push_back(t); }
+		meth_ void bitangent(const vec3& b) { m_bitangents.push_back(b); }
+		meth_ void uv0(const vec2& uv) { m_uv0s.push_back(uv); }
+		meth_ void uv1(const vec2& uv) { m_uv1s.push_back(uv); }
+		meth_ void bones(const ivec4& j) { m_bones.push_back(j); }
+		meth_ void weights(const vec4& w) { m_weights.push_back(w); }
+
+		meth_ void index(uint32_t i) { m_indices.push_back(i); }
+
+		attr_ bool m_quantize = false;
+
+		meth_ void resize(uint32_t vertex_count, uint32_t index_count, uint32_t vertex_format);
+		meth_ void clear();
+		meth_ void pack(MeshAdapter& writer) const;
+		meth_ void xpack(MeshAdapter& writer, const mat4& transform) const;
+		meth_ void unpack(const MeshAdapter& reader, const mat4& transform);
 
 		void bake(bool normals, bool tangents);
 
-		void pack_vertices(MeshAdapter& writer, const mat4& transform);
-		void generate_normals();
-		void generate_tangents();
+		meth_ void gen_normals(bool area_weighted = true);
+		meth_ void gen_flat_normals();
+		meth_ void gen_tangents();
+
+		meth_ void smooth_normals();
 	};
 
 	export_ MUD_GEOM_EXPORT void generate_mikkt_tangents(span<ShapeIndex> indices, span<ShapeVertex> vertices);
+}
+
+
+#include <stl/vector.h>
+
+namespace mud
+{
+	export_ MUD_GEOM_EXPORT vector<vec3> hilbert2d(vec3 center = vec3(0.f), float size = 10.f, int iterations = 1, 
+												   uint v0 = 0, uint v1 = 1, uint v2 = 2, uint v3 = 3);
+
+	export_ MUD_GEOM_EXPORT vector<vec3> hilbert3d(vec3 center = vec3(0.f), float size = 10.f, int iterations = 1,
+												   uint v0 = 0, uint v1 = 1, uint v2 = 2, uint v3 = 3, uint v4 = 4, uint v5 = 5, uint v6 = 6, uint v7 = 7);
 }
 
 
@@ -602,8 +859,8 @@ namespace mud
 		constr_ Line();
 		constr_ Line(const vec3& start, const vec3& end);
 
-		attr_ vec3 m_start = Zero3;
-		attr_ vec3 m_end = Unit3;
+		attr_ vec3 m_start = vec3(0.f);
+		attr_ vec3 m_end = vec3(1.f);
 
 		virtual object<Shape> clone() const;
 	};
@@ -615,8 +872,8 @@ namespace mud
 		constr_ Rect(const vec2& position, const vec2& size);
 		constr_ Rect(float x, float y, float w, float h);
 
-		attr_ vec2 m_position = Zero2;
-		attr_ vec2 m_size = Unit2;
+		attr_ vec2 m_position = vec2(0.f);
+		attr_ vec2 m_size = vec2(1.f);
 
 		virtual object<Shape> clone() const;
 	};
@@ -645,10 +902,10 @@ namespace mud
 	{
 	public:
 		constr_ Grid2();
-		constr_ Grid2(const vec2& size, const vec2& space = Unit2);
+		constr_ Grid2(const vec2& size, const vec2& space = vec2(1.f));
 
-		attr_ vec2 m_size = vec2{ 1.f };
-		attr_ vec2 m_space = vec2{ 0.1f };
+		attr_ vec2 m_size = vec2(1.f);
+		attr_ vec2 m_space = vec2(0.1f);
 
 		virtual object<Shape> clone() const;
 	};
@@ -659,7 +916,7 @@ namespace mud
 		constr_ Triangle();
 		constr_ Triangle(const vec2& size);
 
-		attr_ vec2 m_size = Unit2;
+		attr_ vec2 m_size = vec2(1.f);
 
 		virtual object<Shape> clone() const;
 	};
@@ -671,7 +928,7 @@ namespace mud
 		constr_ Circle(float radius, Axis axis = Axis::Y);
 		constr_ Circle(const vec3& center, float radius, Axis axis = Axis::Y);
 
-		bool operator==(const Circle& other) const { return m_radius == other.m_radius && m_axis == other.m_axis && m_center == other.m_center; }
+		bool operator==(const Circle& other) const;
 
 		attr_ float m_radius = 1.f;
 		attr_ Axis m_axis = Axis::X;
@@ -683,14 +940,29 @@ namespace mud
 	{
 	public:
 		constr_ Torus();
-		constr_ Torus(float radius, float solid_radius, Axis axis = Axis::Y);
-		constr_ Torus(const vec3& center, float radius, float solid_radius, Axis axis = Axis::Y);
+		constr_ Torus(float radius, float tube, Axis axis = Axis::Y);
+		constr_ Torus(const vec3& center, float radius, float tube, Axis axis = Axis::Y);
 
-		bool operator==(const Torus& other) const { return m_radius == other.m_radius && m_solid_radius == other.m_solid_radius && m_axis == other.m_axis && m_center == other.m_center; }
+		//bool operator==(const Torus& other) const;
 
 		attr_ float m_radius = 1.f;
-		attr_ float m_solid_radius = 1.f;
+		attr_ float m_tube = 1.f;
 		attr_ Axis m_axis = Axis::X;
+
+		virtual object<Shape> clone() const;
+	};
+
+	export_ struct refl_ MUD_GEOM_EXPORT TorusKnot final : public Shape
+	{
+	public:
+		constr_ TorusKnot();
+		constr_ TorusKnot(float radius, float tube, float p = 2.f, float q = 3.f);
+		constr_ TorusKnot(const vec3& center, float radius, float tube, float p = 2.f, float q = 3.f);
+
+		attr_ float m_radius = 1.f;
+		attr_ float m_tube = 1.f;
+		attr_ float m_p = 2.f;
+		attr_ float m_q = 3.f;
 
 		virtual object<Shape> clone() const;
 	};
@@ -714,7 +986,7 @@ namespace mud
 		constr_ Ellipsis();
 		constr_ Ellipsis(vec2 radius, Axis axis = Axis::Y);
 
-		attr_ vec2 m_radius = Unit2;
+		attr_ vec2 m_radius = vec2(1.f);
 		attr_ Axis m_axis = Axis::Y;
 
 		virtual object<Shape> clone() const;
@@ -740,7 +1012,7 @@ namespace mud
 		constr_ ArcLine(const vec3& start, const vec3& middle, const vec3& end);
 		constr_ ArcLine(const vec3& center, const vec3& start, const vec3& middle, const vec3& end);
 
-		attr_ vec3 m_start = Zero3;
+		attr_ vec3 m_start = vec3(0.f);
 		attr_ vec3 m_middle;
 		attr_ vec3 m_end;
 
@@ -774,7 +1046,6 @@ namespace mud
 		virtual object<Shape> clone() const;
 	};
 
-
 	export_ struct refl_ MUD_GEOM_EXPORT Cube : public Shape
 	{
 	public:
@@ -784,7 +1055,19 @@ namespace mud
 		Cube(float side);
 		Cube(const Aabb& aabb);
 
-		attr_ vec3 m_extents = vec3{ 0.5f };
+		attr_ vec3 m_extents = vec3(0.5f);
+
+		virtual object<Shape> clone() const;
+	};
+
+	export_ struct refl_ MUD_GEOM_EXPORT Tetraedr : public Shape
+	{
+	public:
+		constr_ Tetraedr();
+		constr_ Tetraedr(float radius);
+		constr_ Tetraedr(const vec3& center, float radius);
+
+		attr_ float m_radius = 1.f;
 
 		virtual object<Shape> clone() const;
 	};
@@ -793,10 +1076,12 @@ namespace mud
 	{
 	public:
 		constr_ Sphere();
-		constr_ Sphere(float radius);
-		constr_ Sphere(const vec3& center, float radius);
+		constr_ Sphere(float radius, float start = 0.f, float end = c_2pi);
+		constr_ Sphere(const vec3& center, float radius, float start = 0.f, float end = c_2pi);
 
 		attr_ float m_radius = 1.f;
+		attr_ float m_start = 0.f;
+		attr_ float m_end = c_2pi;
 
 		virtual object<Shape> clone() const;
 	};
@@ -826,6 +1111,18 @@ namespace mud
 		Circle m_circleX;
 		Circle m_circleY;
 		Circle m_circleZ;
+
+		virtual object<Shape> clone() const;
+	};
+
+	export_ struct refl_ MUD_GEOM_EXPORT Icosaedr final : public Shape
+	{
+	public:
+		constr_ Icosaedr();
+		constr_ Icosaedr(float radius);
+		constr_ Icosaedr(const vec3& center, float radius);
+
+		attr_ float m_radius = 1.f;
 
 		virtual object<Shape> clone() const;
 	};
@@ -916,7 +1213,7 @@ namespace mud
 	{
 	public:
 		constr_ Polygon();
-		constr_ Polygon(vector<vec3> vertices);
+		constr_ Polygon(span<vec3> vertices);
 
 		vector<vec3> m_vertices;
 
@@ -940,7 +1237,7 @@ namespace mud
 	{
 	public:
 		constr_ Points();
-		constr_ Points(const vector<vec3>& points);
+		constr_ Points(span<vec3> points);
 
 		attr_ vector<vec3> m_points;
 
@@ -951,7 +1248,7 @@ namespace mud
 	{
 	public:
 		constr_ Grid3();
-		constr_ Grid3(const uvec2& size, const vector<vec3>& points = {});
+		constr_ Grid3(const uvec2& size, span<vec3> points = {});
 
 		attr_ uvec2 m_size;
 		attr_ vector<vec3> m_points;
@@ -963,7 +1260,7 @@ namespace mud
 	{
 	public:
 		constr_ ConvexHull();
-		constr_ ConvexHull(const vector<vec3>& vertices);
+		constr_ ConvexHull(span<vec3> vertices);
 
 		attr_ vector<vec3> m_vertices;
 
@@ -991,12 +1288,12 @@ namespace mud
 	export_ struct refl_ MUD_GEOM_EXPORT Symbol
 	{
 	public:
-		constr_ Symbol(Colour fill = Colour::White, Colour outline = Colour::None, bool overlay = false, bool double_sided = false, SymbolDetail detail = SymbolDetail::Medium);
+		constr_ Symbol(Colour fill = Colour(1.f), Colour outline = Colour(0.f, 0.f), bool overlay = false, bool double_sided = false, SymbolDetail detail = SymbolDetail::Medium);
 		Symbol(cstring image, float alpha = 1.f);
 		Symbol(const Image256& image256, float alpha = 1.f);
 
-		constr_ static Symbol plain(Colour colour, bool overlay = false) { return Symbol(colour, Colour::None, overlay); }
-		constr_ static Symbol wire(Colour colour, bool overlay = false) { return Symbol(Colour::None, colour, overlay); }
+		constr_ static Symbol plain(Colour colour, bool overlay = false) { return Symbol(colour, Colour(0.f, 0.f), overlay); }
+		constr_ static Symbol wire(Colour colour, bool overlay = false) { return Symbol(Colour(0.f, 0.f), colour, overlay); }
 
 		bool operator==(const Symbol& other) const;
 
@@ -1005,6 +1302,7 @@ namespace mud
 		attr_ bool m_overlay;
 		attr_ bool m_double_sided;
 		attr_ SymbolDetail m_detail;
+		attr_ uvec2 m_subdiv = uvec2(0U);
 
 		attr_ cstring m_image = nullptr;
 		attr_ Image256* m_image256 = nullptr;
@@ -1029,15 +1327,23 @@ namespace mud
 namespace mud
 {
     // Exported types
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CatmullType>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::DrawMode>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::PrimitiveType>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::SymbolDetail>();
     
     export_ template <> MUD_GEOM_EXPORT Type& type<stl::vector<mud::Circle>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<stl::vector<mud::ivec4>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<stl::vector<mud::vec2>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<stl::vector<mud::vec4>>();
     
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Curve2>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Curve3>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Face3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::MarchingCubes>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::MeshAdapter>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::MeshPacker>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Plane>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Plane3>();
@@ -1053,11 +1359,21 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Circle>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::ConvexHull>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Cube>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierCubic>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierCubic3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierQuadratic>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveBezierQuadratic3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveCatmullRom3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveLine>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveLine3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveSpline>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::CurveSpline3>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Cylinder>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Ellipsis>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Geometry>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Grid2>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Grid3>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Icosaedr>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Line>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Points>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>();
@@ -1068,8 +1384,77 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Sphere>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::SphereRing>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Tetraedr>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Torus>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::TorusKnot>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>();
+}
+
+
+#ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/function.h>
+#endif
+
+namespace mud
+{
+	// port of http://webglsamples.org/blob/blob.html
+	export_ class refl_ MUD_GEOM_EXPORT MarchingCubes
+	{
+	public:
+		attr_ float m_isolation = 80.f;
+		attr_ uint32_t m_subdiv = 32;
+
+		size_t m_size;
+		float m_extent;
+
+		float m_delta;
+
+		uint32_t m_xd;
+		uint32_t m_yd;
+		uint32_t m_zd;
+
+		vector<float> m_field;
+		//vector<uint8_t> m_class;
+
+		vector<vec3> m_colour;
+
+		struct Cache
+		{
+			struct Normal { vec3 n; bool set = false; };
+			vector<Normal> m_normal;
+
+			vec3 vert[12];
+			vec3 norm[12];
+			vec3 color[12];
+		};
+		
+		mutable Cache m_cache;
+
+	public:
+		constr_ MarchingCubes(uint32_t resolution);
+
+		// immediate render mode simulator
+		uint8_t classify(size_t q, float isol) const;
+		uint8_t polygonize(Cache& cache, const vec3& p, size_t q, float isol) const;
+		uint32_t triangulate(MeshAdapter& output, Cache& cache, uint8_t cubeindex) const;
+		uint32_t triangulate(MeshPacker& output, Cache& cache, uint8_t cubeindex) const;
+
+		meth_ void reset();
+
+		void begin(Cache& cache) const;
+
+		meth_ uint32_t count() const;
+		meth_ void direct(MeshAdapter& output) const;
+		meth_ void render(MeshPacker& output) const;
+	};
+
+	MUD_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract, const Colour& colour);
+	MUD_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract);
+
+	MUD_GEOM_EXPORT func_ void add_planeX(MarchingCubes& cubes, float strength, float subtract);
+	MUD_GEOM_EXPORT func_ void add_planeY(MarchingCubes& cubes, float strength, float subtract);
+	MUD_GEOM_EXPORT func_ void add_planeZ(MarchingCubes& cubes, float strength, float subtract);
 }
 
 
@@ -1083,13 +1468,13 @@ namespace mud
 	export_ struct MUD_GEOM_EXPORT ShapeSize
 	{
 		ShapeSize() : vertex_count(0), index_count(0) {}
-		ShapeSize(int verts, int indices) : vertex_count(verts), index_count(indices) {}
+		ShapeSize(uint32_t verts, uint32_t indices) : vertex_count(verts), index_count(indices) {}
 
 		operator uvec2() { return vec; }
 
 		union {
 			uvec2 vec;
-			struct { int vertex_count; int index_count; };
+			struct { uint vertex_count; uint index_count; };
 		};
 	};
 
@@ -1134,6 +1519,9 @@ namespace mud
 
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Torus& torus);
 	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshAdapter& writer);
+
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const TorusKnot& torus);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const TorusKnot& torus, MeshAdapter& writer);
 }
 
 
@@ -1165,6 +1553,12 @@ namespace mud
 
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Box& box);
 	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Box& box, MeshAdapter& writer);
+
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Tetraedr& tetra);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Tetraedr& tetra, MeshAdapter& writer);
+
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Icosaedr& icosa);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Icosaedr& ticosaetra, MeshAdapter& writer);
 
 	// Cube : Box(cube)
 	// Aabb : Box(aabb)
@@ -1199,17 +1593,28 @@ namespace mud
 	};
 
 	template <class T_Shape>
-	inline void declare_shape(DispatchDrawProcShape& dispatch)
+	inline void decl_shape_lines(DispatchDrawProcShape& dispatch)
 	{
 		dispatch_branch<T_Shape>(dispatch.m_size_lines, +[](T_Shape& shape, const ProcShape& procshape) { return size_shape_lines(procshape, shape); });
 		dispatch_branch<T_Shape>(dispatch.m_draw_lines, +[](T_Shape& shape, const ProcShape& procshape, MeshAdapter& writer) { draw_shape_lines(procshape, shape, writer); });
+	}
 
+	template <class T_Shape>
+	inline void decl_shape_triangles(DispatchDrawProcShape& dispatch)
+	{
 		dispatch_branch<T_Shape>(dispatch.m_size_triangles, +[](T_Shape& shape, const ProcShape& procshape) { return size_shape_triangles(procshape, shape); });
 		dispatch_branch<T_Shape>(dispatch.m_draw_triangles, +[](T_Shape& shape, const ProcShape& procshape, MeshAdapter& writer) { draw_shape_triangles(procshape, shape, writer); });
 	}
 
 	template <class T_Shape>
-	inline void declare_compound_shape(DispatchDrawProcShape& dispatch)
+	inline void decl_shape(DispatchDrawProcShape& dispatch)
+	{
+		decl_shape_lines<T_Shape>(dispatch);
+		decl_shape_triangles<T_Shape>(dispatch);
+	}
+
+	template <class T_Shape>
+	inline void decl_compound_shape(DispatchDrawProcShape& dispatch)
 	{
 		dispatch_branch<T_Shape>(dispatch.m_size_lines, +[](T_Shape& shape, const ProcShape& procshape) { CompoundShape compound = shape_compound(procshape, shape); return size_shape_lines(procshape, compound); });
 		dispatch_branch<T_Shape>(dispatch.m_draw_lines, +[](T_Shape& shape, const ProcShape& procshape, MeshAdapter& writer) { CompoundShape compound = shape_compound(procshape, shape); draw_shape_lines(procshape, compound, writer); });
@@ -1332,11 +1737,14 @@ namespace mud
 
 #include <cstring>
 
+#include <cassert>
+
 namespace mud
 {
 	inline size_t vertex_attribute_size(VertexAttribute::Enum attribute)
 	{
 		if(attribute == VertexAttribute::Position)			return sizeof(vec3);
+		else if(attribute == VertexAttribute::Position4)	return sizeof(vec4);
 		else if(attribute == VertexAttribute::QPosition)	return sizeof(half3);
 		else if(attribute == VertexAttribute::Normal)		return sizeof(vec3);
 		else if(attribute == VertexAttribute::QNormal)		return sizeof(uint32_t);
@@ -1375,78 +1783,70 @@ namespace mud
 		return offset;
 	}
 
-	inline MeshAdapter::Array::Array() : m_pointer(nullptr), m_count(0) {}
-	inline MeshAdapter::Array::Array(void* pointer, uint32_t count) : m_pointer(pointer), m_count(count) {}
-
-	inline uint32_t MeshAdapter::Array::size() { return m_count; }
-	inline void* MeshAdapter::Array::data() const { return m_pointer; }
-
-	inline MeshAdapter::MeshAdapter() {}
-	inline MeshAdapter::MeshAdapter(uint32_t vertex_format, void* vertices, uint32_t num_vertices, void* indices, uint32_t num_indices, bool index32)
-		: m_vertices(vertices, num_vertices), m_indices(indices, num_indices), m_vertex_format(vertex_format)
-		, m_vertex_stride(vertex_size(vertex_format)), m_index_stride(index32 ? sizeof(uint32_t) : sizeof(uint16_t)), m_index(indices)
+	inline MeshAdapter::MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices, bool index32)
+		: m_vertex_format(vertex_format), m_index32(index32)
+		, m_vertex_count(uint32_t(vertices.size()))
+		, m_index_count(uint32_t(indices.size()))
+		, m_vertex_stride(vertex_size(vertex_format))
 	{
-		if((vertex_format & VertexAttribute::Position) != 0)
-			m_start.m_position	= (vec3*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::Position));
-		if((vertex_format & VertexAttribute::Normal) != 0)
-			m_start.m_normal	= (vec3*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::Normal));
-		if((vertex_format & VertexAttribute::Colour) != 0)
-			m_start.m_colour	= (uint32_t*)	((char*)vertices + vertex_offset(vertex_format, VertexAttribute::Colour));
-		if((vertex_format & VertexAttribute::Tangent) != 0)
-			m_start.m_tangent	= (vec4*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::Tangent));
-		if((vertex_format & VertexAttribute::Bitangent) != 0)
-			m_start.m_bitangent	= (vec3*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::Bitangent));
-		if((vertex_format & VertexAttribute::TexCoord0) != 0)
-			m_start.m_uv0		= (vec2*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::TexCoord0));
-		if((vertex_format & VertexAttribute::TexCoord1) != 0)
-			m_start.m_uv1		= (vec2*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::TexCoord1));
-		if((vertex_format & VertexAttribute::Joints) != 0)
-			m_start.m_joints	= (uint32_t*)	((char*)vertices + vertex_offset(vertex_format, VertexAttribute::Joints));
-		if((vertex_format & VertexAttribute::Weights) != 0)
-			m_start.m_weights	= (vec4*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::Weights));
-			
-		if((vertex_format & VertexAttribute::QPosition) != 0)
-			m_start.m_qposition	= (half3*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::QPosition));
-		if((vertex_format & VertexAttribute::QNormal) != 0)
-			m_start.m_qnormal	= (uint32_t*)	((char*)vertices + vertex_offset(vertex_format, VertexAttribute::QNormal));
-		if((vertex_format & VertexAttribute::QTangent) != 0)
-			m_start.m_qtangent	= (uint32_t*)	((char*)vertices + vertex_offset(vertex_format, VertexAttribute::QTangent));
-		if((vertex_format & VertexAttribute::QTexCoord0) != 0)
-			m_start.m_quv0		= (half2*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::QTexCoord0));
-		if((vertex_format & VertexAttribute::QTexCoord1) != 0)
-			m_start.m_quv1		= (half2*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::QTexCoord1));
+		uint32_t stride = vertex_size(vertex_format);
+
+		m_start.m_position .init(vertex_format, VertexAttribute::Position,  vertices.data(), stride);
+		m_start.m_position4.init(vertex_format, VertexAttribute::Position4, vertices.data(), stride);
+		m_start.m_normal   .init(vertex_format, VertexAttribute::Normal,    vertices.data(), stride);
+		m_start.m_colour   .init(vertex_format, VertexAttribute::Colour,    vertices.data(), stride);
+		m_start.m_tangent  .init(vertex_format, VertexAttribute::Tangent,   vertices.data(), stride);
+		m_start.m_bitangent.init(vertex_format, VertexAttribute::Bitangent, vertices.data(), stride);
+		m_start.m_uv0	   .init(vertex_format, VertexAttribute::TexCoord0, vertices.data(), stride);
+		m_start.m_uv1      .init(vertex_format, VertexAttribute::TexCoord1, vertices.data(), stride);
+		m_start.m_joints   .init(vertex_format, VertexAttribute::Joints,    vertices.data(), stride);
+		m_start.m_weights  .init(vertex_format, VertexAttribute::Weights,   vertices.data(), stride);
+		
+		m_start.m_qposition.init(vertex_format, VertexAttribute::QPosition,  vertices.data(), stride);
+		m_start.m_qnormal  .init(vertex_format, VertexAttribute::QNormal,    vertices.data(), stride);
+		m_start.m_qtangent .init(vertex_format, VertexAttribute::QTangent,   vertices.data(), stride);
+		m_start.m_quv0     .init(vertex_format, VertexAttribute::QTexCoord0, vertices.data(), stride);
+		m_start.m_quv1     .init(vertex_format, VertexAttribute::QTexCoord1, vertices.data(), stride);
+
+		if(index32)
+			m_start.m_index32.init(indices.data());
+		else
+			m_start.m_index.init(indices.data());
 
 		m_cursor = m_start;
 	}
 
-	inline void MeshAdapter::rewind() { m_cursor = m_start; m_vertex = 0; m_offset = 0; m_index = m_indices.m_pointer; }
-	inline void MeshAdapter::next() { m_offset = m_vertex; }
-
 	inline MeshAdapter MeshAdapter::read() const { MeshAdapter reader = *this; reader.rewind(); return reader; }
 
-	template <class T>
-	inline void MeshAdapter::next(T*& pointer) { pointer = (T*)((char*)pointer + m_vertex_stride); }
-
+#if 0
 	inline MeshAdapter& MeshAdapter::position(const vec3& p) { m_aabb.add(p); *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
+	inline MeshAdapter& MeshAdapter::position4(const vec4& p) { m_aabb.add(vec3(p)); *m_cursor.m_position4 = p; next(m_cursor.m_position4); ++m_vertex; return *this; }
 	inline MeshAdapter& MeshAdapter::normal(const vec3& n) { if(m_cursor.m_normal) { *m_cursor.m_normal = n; next(m_cursor.m_normal); } return *this; }
 	inline MeshAdapter& MeshAdapter::colour(const Colour& c) { if(m_cursor.m_colour) { *m_cursor.m_colour = to_abgr(c); next(m_cursor.m_colour); } return *this; }
 	inline MeshAdapter& MeshAdapter::tangent(const vec4& t) { if(m_cursor.m_tangent) { *m_cursor.m_tangent = t; next(m_cursor.m_tangent); } return *this; }
-	inline MeshAdapter& MeshAdapter::bitangent(const vec4& b) { if(m_cursor.m_bitangent) { *m_cursor.m_bitangent = vec3(b); next(m_cursor.m_bitangent); } return *this; }
+	inline MeshAdapter& MeshAdapter::bitangent(const vec3& b) { if(m_cursor.m_bitangent) { *m_cursor.m_bitangent = b; next(m_cursor.m_bitangent); } return *this; }
 	inline MeshAdapter& MeshAdapter::uv0(const vec2& uv) { if(m_cursor.m_uv0) { m_uv0_rect.add(uv); *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
 	inline MeshAdapter& MeshAdapter::uv1(const vec2& uv) { if(m_cursor.m_uv1) { m_uv1_rect.add(uv); *m_cursor.m_uv1 = uv; next(m_cursor.m_uv1); } return *this; }
 	inline MeshAdapter& MeshAdapter::joints(const uint32_t& j) { if(m_cursor.m_joints) { *m_cursor.m_joints = j; next(m_cursor.m_joints); } return *this; }
 	inline MeshAdapter& MeshAdapter::weights(const vec4& w) { if(m_cursor.m_weights) { *m_cursor.m_weights = w; next(m_cursor.m_weights); } return *this; }
+#endif
 
-	inline vec3 MeshAdapter::position() { vec3 value = *m_cursor.m_position; next(m_cursor.m_position); return value; }
-	inline vec3 MeshAdapter::normal() { if(!m_cursor.m_normal) return Zero3; vec3 value = *m_cursor.m_normal; next(m_cursor.m_normal); return value; }
-	inline Colour MeshAdapter::colour() { if(!m_cursor.m_colour) return Colour::None; Colour value = from_abgr(*m_cursor.m_colour); next(m_cursor.m_colour); return value; }
-	inline vec4 MeshAdapter::tangent() { if(!m_cursor.m_tangent) return vec4(Zero3, 1.f); vec4 value = *m_cursor.m_tangent; next(m_cursor.m_tangent); return value; }
-	inline vec2 MeshAdapter::uv0() { if(!m_cursor.m_uv0) return Zero2; vec2 value = *m_cursor.m_uv0; next(m_cursor.m_uv0); return value; }
-	inline vec2 MeshAdapter::uv1() { if(!m_cursor.m_uv1) return Zero2; vec2 value = *m_cursor.m_uv1; next(m_cursor.m_uv1); return value; }
-	inline uint16_t MeshAdapter::index() { uint16_t value = *(uint16_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
-	inline uint32_t MeshAdapter::index32() { uint32_t value = *(uint32_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
+	inline MeshAdapter& MeshAdapter::dposition(const vec3& p) { m_cursor.m_position.write(p); ++m_vertex; return *this; }
+	inline MeshAdapter& MeshAdapter::duv0(const vec2& uv) { if(m_cursor.m_uv0) { m_cursor.m_uv0.write(uv); } return *this; }
+	inline MeshAdapter& MeshAdapter::duv1(const vec2& uv) { if(m_cursor.m_uv1) { m_cursor.m_uv1.write(uv); } return *this; }
 
-	inline void MeshAdapter::index(uint32_t i) { uint32_t index = i + m_offset; memcpy(m_index, &index, m_index_stride); m_index = ((char*)m_index + m_index_stride); }
+	inline vec3 MeshAdapter::position() { return m_cursor.m_position.read(); }
+	inline vec3 MeshAdapter::normal() { if(!m_cursor.m_normal) return vec3(0.f); return m_cursor.m_normal.read(); }
+	inline Colour MeshAdapter::colour() { if(!m_cursor.m_colour) return Colour::None; return abgr(m_cursor.m_colour.read()); }
+	inline vec4 MeshAdapter::tangent() { if(!m_cursor.m_tangent) return vec4(vec3(0.f), 1.f); return m_cursor.m_tangent.read(); }
+	inline vec2 MeshAdapter::uv0() { if(!m_cursor.m_uv0) return vec2(0.f); return m_cursor.m_uv0.read(); }
+	inline vec2 MeshAdapter::uv1() { if(!m_cursor.m_uv1) return vec2(0.f); return m_cursor.m_uv1.read(); }
+	inline uint32_t MeshAdapter::joints() { if(!m_cursor.m_joints) return uint32_t(0U); return m_cursor.m_joints.read(); }
+	inline vec4 MeshAdapter::weights() { if(!m_cursor.m_weights) return vec4(0.f); return m_cursor.m_weights.read(); }
+	inline uint16_t MeshAdapter::index() { return m_cursor.m_index.read(); }
+	inline uint32_t MeshAdapter::index32() { return m_cursor.m_index32.read(); }
+
+	inline void MeshAdapter::index(uint32_t i) { uint32_t index = i + m_offset; m_index32 ? m_cursor.m_index32.write(index) : m_cursor.m_index.write(uint16_t(index)); }
 	inline void MeshAdapter::line(uint32_t a, uint32_t b) { index(a); index(b); }
 	inline void MeshAdapter::tri(uint32_t a, uint32_t b, uint32_t c) { index(a); index(b); index(c); }
 	inline void MeshAdapter::quad(uint32_t a, uint32_t b, uint32_t c, uint32_t d) { tri(a, b, c); tri(c, d, a); }

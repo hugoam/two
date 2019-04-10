@@ -36,6 +36,7 @@ namespace stl
 //  Copyright (c) 2015 Hugo Amiard hugo.amiard@laposte.net
 
 
+#include <stl/span.h>
 
 #include <cstddef>
 
@@ -57,15 +58,19 @@ namespace mud
 	};
 
 	export_ template <class T>
-	class TPool : public Pool
+	class refl_ TPool : public Pool
 	{
 	public:
-		TPool(size_t size = 12);
+		TPool(size_t size = 64);
 		~TPool();
 
-		inline T* talloc();
-		inline void tdestroy(T& object);
-		inline void tfree(T& object);
+		//meth_ T& add(T&& value);
+		meth_ T& add(const T& value);
+		meth_ span<T> addvec(span<T> values);
+
+		meth_ T* talloc();
+		meth_ void tdestroy(T& object);
+		meth_ void tfree(T& object);
 
 		virtual void alloc(Ref& ref);
 		virtual Ref alloc();
@@ -73,18 +78,18 @@ namespace mud
 		virtual void destroy(Ref object);
 		virtual void free(Ref object);
 
-		inline void reset(size_t size);
+		void reset(size_t size);
 		virtual void reset();
 		virtual void clear();
 
 		template <class... Types>
-		inline T& construct(Types&&... args);
+		T& construct(Types&&... args);
 
 		template <class T_Func>
-		inline void iterate(T_Func func) const;
+		void iterate(T_Func func) const;
 
 		template <class T_Test>
-		inline T* find(T_Test test) const;
+		T* find(T_Test test) const;
 
 		unique<VecPool<T>> m_vec_pool;
 	};
@@ -139,7 +144,7 @@ namespace mud
 	template <class T>
 	class SparsePool;
 
-	template <class T>
+	export_ template <class T>
 	struct refl_ struct_ SparseHandle
 	{
 		SparseHandle();
@@ -170,7 +175,7 @@ namespace mud
 		static void destroy(const OwnedHandle<T>& handle) { UNUSED(handle); }
 	};
 
-	template <class T>
+	export_ template <class T>
 	struct refl_ struct_ nocopy_ OwnedHandle : public SparseHandle<T>
 	{
 		OwnedHandle();
@@ -188,56 +193,21 @@ namespace mud
 		operator SparseHandle<T>() const;
 	};
 
-	//template <bool Dense = false>
-	//using SparseIndexMap = vector<uint32_t>;
-	//template <>
-	//using SparseIndexMap<true> = unordered_map<uint32_t, uint32_t>;
-
-	template <bool Dense = false>
-	class SparseIndices
-	{
-	public:
-		SparseIndices();
-
-		void add();
-		void clear();
-		void erase(uint32_t handle);
-		void ensure(uint32_t capacity);
-		uint32_t& operator[](uint32_t at);
-		uint32_t size() const;
-
-	private:
-		vector<uint32_t> m_indices;
-	};
-
-	template <>
-	class SparseIndices<true>
-	{
-	public:
-		SparseIndices();
-
-		void add();
-		void clear();
-		void erase(uint32_t handle);
-		void ensure(uint32_t capacity);
-		uint32_t& operator[](uint32_t at);
-		uint32_t size() const;
-
-	private:
-		unordered_map<uint32_t, uint32_t> m_indices;
-	};
-
-	template <bool Dense = false>
-	class SparseHandles
+	export_ class MUD_POOL_EXPORT SparseHandles
 	{
 	public:
 		SparseHandles();
 
 		void ensure(uint32_t capacity);
+
 		uint32_t alloc();
-		uint32_t create();
+		uint32_t alloc(uint32_t count);
 		void add(uint32_t handle);
+
+		uint32_t create();
+		uint32_t create(uint32_t count);
 		uint32_t remove(uint32_t handle);
+
 		void clear();
 
 		uint32_t& operator[](uint32_t at);
@@ -249,7 +219,7 @@ namespace mud
 		uint32_t handle(uint32_t index) const;
 
 	private:
-		SparseIndices<Dense> m_indices;
+		vector<uint32_t> m_indices;
 		vector<uint32_t> m_handles;
 	};
 
@@ -269,7 +239,7 @@ namespace mud
 		virtual void clear();
 
 	public:
-		SparseHandles<false> m_handles;
+		SparseHandles m_handles;
 		vector<T> m_objects;
 		vector<uint32_t> m_available;
 	};
@@ -308,6 +278,7 @@ namespace mud
 		~VecPool();
 
 		T* alloc();
+		span<T> alloc(size_t count);
 		void destroy(T* object);
 		void free(T* object);
 
@@ -317,11 +288,12 @@ namespace mud
 
 	public:
 		size_t m_size;
-		vector<T*> m_available;
+		vector<T*> m_recycled;
 		vector<T*> m_objects;
-		void* m_chunk;
-		T* m_memory;
+		void* m_memory;
+		T* m_first;
 		T* m_last;
+		T* m_end;
 
 		unique<VecPool<T>> m_next;
 
@@ -335,6 +307,7 @@ namespace mud
 
 
 #include <stl/new.h>
+#include <stl/move.h>
 
 
 #include <stl/algorithm.h>
@@ -344,18 +317,15 @@ namespace mud
 	template <class T>
 	VecPool<T>::VecPool(size_t size)
 		: m_size(size)
-		, m_chunk(operator new(size * sizeof(T)))
-		, m_memory((T*)m_chunk)
-		, m_last(m_memory + size - 1)
+		, m_memory(operator new(size * sizeof(T)))
+		, m_first((T*)m_memory)
+		, m_last(m_first)
+		, m_end(m_first + size - 1)
 	{
 		++s_count;
 		//printf("VecPool for type %s, count %u, size %u\n", type<T>().name().c_str(), s_count, size * sizeof(T));
 
-		m_available.reserve(size);
 		m_objects.reserve(size);
-
-		for(size_t i = 0; i < size; ++i)
-			m_available.push_back(&m_memory[i]);
 	}
 
 	template <class T>
@@ -365,21 +335,37 @@ namespace mud
 
 		for(T* object : m_objects)
 			any_destruct(*object);
-		operator delete(m_chunk);
+		operator delete(m_memory);
 	}
 
 	template <class T>
 	T* VecPool<T>::alloc()
 	{
-		if(m_available.empty() && !m_next)
+		bool fits = m_end - m_last >= 1 || !m_recycled.empty();
+		if(!fits && !m_next)
 			m_next = make_unique<VecPool<T>>(m_size * 2);
-		if(m_available.empty())
+		if(!fits)
 			return m_next->alloc();
 
-		T* object = m_available.back();
-		m_available.pop_back();
+		T* object = !m_recycled.empty() ? pop(m_recycled) : m_last++;
 		m_objects.push_back(object);
 		return object;
+	}
+
+	template <class T>
+	span<T> VecPool<T>::alloc(size_t count)
+	{
+		bool fits = size_t(m_end - m_last) >= count;
+		if(!fits && !m_next)
+			m_next = make_unique<VecPool<T>>(m_size * 2);
+		if(!fits)
+			return m_next->alloc(count);
+
+		span<T> objects = { m_last, count };
+		m_last += count;
+		for(size_t i = 0; i < count; ++i)
+			m_objects.push_back(&objects[i]);
+		return objects;
 	}
 
 	template <class T>
@@ -392,10 +378,10 @@ namespace mud
 	template <class T>
 	void VecPool<T>::free(T* object)
 	{
-		if(object < m_memory || object > m_last)
+		if(object < m_first || object > m_end)
 			return m_next->free(object);
 
-		m_available.push_back(object);
+		m_recycled.push_back(object);
 		remove(m_objects, object);
 	}
 
@@ -418,6 +404,24 @@ namespace mud
 	TPool<T>::TPool(size_t size) : m_vec_pool(make_unique<VecPool<T>>(size)) {}
 	template <class T>
 	TPool<T>::~TPool() {}
+
+	template <class T>
+	//inline T& TPool<T>::add(T&& value)
+	inline T& TPool<T>::add(const T& value)
+	{
+		T* at = this->talloc();
+		new (stl::placeholder(), at) T(value);
+		return *at;
+	}
+
+	template <class T>
+	inline span<T> TPool<T>::addvec(span<T> values)
+	{
+		span<T> objects = m_vec_pool->alloc(values.size());
+		for(size_t i = 0; i < values.size(); ++i)
+			new (stl::placeholder(), &objects[i]) T(values[i]);
+		return objects;
+	}
 
 	template <class T>
 	inline T* TPool<T>::talloc() { return m_vec_pool->alloc(); }
@@ -550,88 +554,78 @@ namespace mud
 	template <class T>
 	inline OwnedHandle<T>::operator SparseHandle<T>() const { return { *this->m_pool, this->m_handle }; }
 	
-
-	template <> inline SparseIndices<false>::SparseIndices() {}
-	template <> inline void SparseIndices<false>::add() { m_indices.emplace_back(); }
-	template <> inline void SparseIndices<false>::clear() { m_indices.resize(m_indices.size(), UINT32_MAX); }
-	template <> inline void SparseIndices<false>::erase(uint32_t handle) { m_indices[handle] = UINT32_MAX; }
-	template <> inline void SparseIndices<false>::ensure(uint32_t capacity) { m_indices.resize(capacity, UINT32_MAX); }
-	template <> inline uint32_t& SparseIndices<false>::operator[](uint32_t at) { return m_indices[at]; }
-	template <> inline uint32_t SparseIndices<false>::size() const { return uint32_t(m_indices.size()); }
-
-	inline SparseIndices<true>::SparseIndices() {}
-	inline void SparseIndices<true>::add() {}
-	inline void SparseIndices<true>::clear() { m_indices.clear(); }
-	inline void SparseIndices<true>::erase(uint32_t handle) { m_indices.erase(handle); }
-	inline void SparseIndices<true>::ensure(uint32_t capacity) { UNUSED(capacity); }
-	inline uint32_t& SparseIndices<true>::operator[](uint32_t at) { return m_indices[at]; }
-	inline uint32_t SparseIndices<true>::size() const { return uint32_t(m_indices.size()); }
-
-	template <bool Dense>
-	inline SparseHandles<Dense>::SparseHandles() {}
-	template <bool Dense>
-	inline void SparseHandles<Dense>::ensure(uint32_t capacity)
+	inline SparseHandles::SparseHandles() {}
+	inline void SparseHandles::ensure(uint32_t capacity)
 	{
-		m_indices.ensure(capacity);
+		m_indices.resize(capacity, UINT32_MAX);
 	}
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::alloc()
+	inline uint32_t SparseHandles::alloc()
 	{
-		const uint32_t count = uint32_t(m_indices.size());
-		m_indices.add();
-		return count;
+		const uint32_t index = uint32_t(m_indices.size());
+		m_indices.emplace_back();
+		return index;
 	}
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::create()
+	inline uint32_t SparseHandles::alloc(uint32_t count)
+	{
+		const uint32_t index = uint32_t(m_indices.size());
+		m_indices.resize(m_indices.size() + count);
+		return index;
+	}
+
+	inline uint32_t SparseHandles::create()
 	{
 		uint32_t handle = this->alloc();
 		this->add(handle);
 		return handle;
 	}
 
-	template <bool Dense>
-	inline void SparseHandles<Dense>::add(uint32_t handle)
+	inline uint32_t SparseHandles::create(uint32_t count)
+	{
+		uint32_t first = this->alloc(count);
+		for(uint32_t handle = first; handle < first + count; ++handle)
+			this->add(handle);
+		return first;
+	}
+
+	inline void SparseHandles::add(uint32_t handle)
 	{
 		const uint32_t index = uint32_t(m_handles.size());
 		m_indices[handle] = index;
 		m_handles.push_back(handle);
 	}
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::remove(uint32_t handle)
+	inline uint32_t SparseHandles::remove(uint32_t handle)
 	{
 		const uint32_t index = m_indices[handle];
+		const bool back = index == m_handles.size() - 1;
 		swap_pop(m_handles, index);
 
-		const uint32_t moved = m_handles[index];
-		m_indices[moved] = index;
-		m_indices.erase(handle);
+		if(!back)
+		{
+			const uint32_t moved = m_handles[index];
+			m_indices[moved] = index;
+		}
+		m_indices[handle] = UINT32_MAX;
 		return index;
 	}
 
-	template <bool Dense>
-	inline void SparseHandles<Dense>::clear()
+	inline void SparseHandles::clear()
 	{
-		m_indices.clear();
+		m_indices.resize(m_indices.size(), UINT32_MAX);
 		m_handles.clear();
 	}
 
-	template <bool Dense>
-	inline uint32_t& SparseHandles<Dense>::operator[](uint32_t at) { return m_indices[at]; }
+	inline uint32_t& SparseHandles::operator[](uint32_t at) { return m_indices[at]; }
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::size() const { return uint32_t(m_handles.size()); }
+	inline uint32_t SparseHandles::size() const { return uint32_t(m_handles.size()); }
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::count() const { return uint32_t(m_handles.size()); }
+	inline uint32_t SparseHandles::count() const { return uint32_t(m_handles.size()); }
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::reverse(uint32_t index) const { return m_handles[index]; }
+	inline uint32_t SparseHandles::reverse(uint32_t index) const { return m_handles[index]; }
 
-	template <bool Dense>
-	inline uint32_t SparseHandles<Dense>::handle(uint32_t index) const { return m_handles[index]; }
+	inline uint32_t SparseHandles::handle(uint32_t index) const { return m_handles[index]; }
 
 	template <class T>
 	inline SparsePool<T>::SparsePool() {}

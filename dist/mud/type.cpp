@@ -23,7 +23,7 @@ namespace mud
 {
 	vector<Prototype*> g_prototypes = vector<Prototype*>(c_max_types);
 
-	Prototype::Prototype(Type& type, vector<Type*> parts)
+	Prototype::Prototype(Type& type, span<Type*> parts)
 		: m_type(type)
 		, m_hash_parts(c_max_types)
 	{

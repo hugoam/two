@@ -53,11 +53,9 @@ namespace mud
 		RenderSystem(const string& resource_path, bool manual_render);
 		virtual ~RenderSystem() {}
 
-		virtual void begin_frame() = 0;
-		virtual bool next_frame() = 0;
+		virtual bool begin_frame() = 0;
+		virtual void end_frame() = 0;
 
-		virtual object<Context> create_context(const string& name, uvec2 size, bool fullScreen) = 0;
-		
 		const string m_resource_path;
 		const bool m_manual_render;
 	};
@@ -65,7 +63,7 @@ namespace mud
 	export_ class refl_ MUD_CTX_EXPORT Context
 	{
 	public:
-		Context(RenderSystem& render_system, const string& title, uvec2 size, bool full_screen = false);
+		Context(RenderSystem& render_system, const string& title, const uvec2& size, bool fullscreen = false, bool main = true);
 		virtual ~Context();
 
 		RenderSystem& m_render_system;
@@ -74,9 +72,10 @@ namespace mud
 		attr_ string m_title;
 		attr_ uvec2 m_size;
 		attr_ uvec2 m_fb_size;
-		attr_ bool m_full_screen;
+		attr_ bool m_fullscreen = false;
+		attr_ bool m_is_main = true;
 
-		attr_ float m_pixel_ratio;
+		attr_ float m_pixel_ratio = 1.f;
 
 		size_t m_handle = 0;
 		void* m_native_handle = nullptr;
@@ -88,10 +87,14 @@ namespace mud
 		attr_ vec2 m_cursor;
 		attr_ bool m_mouse_lock = false;
 
+		attr_ Colour m_colour = Colour(0.f);
+
 		meth_ virtual void reset_fb(const uvec2& size) = 0;
 		meth_ virtual void init_input(Mouse& mouse, Keyboard& keyboard) = 0;
 
-		meth_ virtual bool next_frame() = 0;
+		meth_ virtual bool begin_frame() = 0;
+		meth_ virtual void render_frame() = 0;
+		meth_ virtual void end_frame() = 0;
 
 		meth_ virtual void lock_mouse(bool locked) = 0;
 	};
@@ -427,6 +430,7 @@ namespace mud
 #ifndef MUD_MODULES
 #include <stl/vector.h>
 #include <stl/map.h>
+#include <stl/table.h>
 #endif
 
 namespace mud
@@ -434,13 +438,10 @@ namespace mud
 	export_ template <class T>
 	struct EventMap
 	{
-		enum_array<DeviceType, enum_array<EventType, T>> m_events = {};
-		enum_array<DeviceType, enum_array<EventType, map<int, T>>> m_keyed_events = {};
+		table<DeviceType, table<EventType, T>> m_events = {};
+		table<DeviceType, table<EventType, map<int, T>>> m_keyed_events = {};
 
 		void clear() { *this = {}; }
-
-		T& event(DeviceType device_type, EventType event_type) { return m_events[size_t(device_type)][size_t(event_type)]; }
-		T& event(DeviceType device_type, EventType event_type, int key) { return m_keyed_events[size_t(device_type)][size_t(event_type)][key]; }
 	};
 
 	export_ struct MUD_CTX_EXPORT EventBatch : public EventMap<InputEvent*>

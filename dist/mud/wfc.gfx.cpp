@@ -45,13 +45,13 @@ namespace mud
 		return m_position + m_aabb.bmin() + (vec3(coord) + vec3(0.5f, 0.f, 0.5f)) * m_scale;
 	}
 
-	void WfcBlock::load_models(GfxSystem& gfx_system, bool from_file)
+	void WfcBlock::load_models(GfxSystem& gfx, bool from_file)
 	{
 		for(Tile& tile : m_tileset->m_tiles_flip)
 		{
-			Model* model = from_file ? gfx_system.models().file(m_tileset->m_name + "/" + tile.m_name)
-									 : gfx_system.models().get(tile.m_name.c_str());
-			quat rotation = angle_axis(tile.m_profile * c_pi / 2.f, Y3);
+			Model* model = from_file ? gfx.models().file(m_tileset->m_name + "/" + tile.m_name)
+									 : gfx.models().get(tile.m_name.c_str());
+			quat rotation = angle_axis(tile.m_profile * c_pi2, Y3);
 			m_tile_models.push_back({ model, rotation });
 		}
 	}
@@ -146,7 +146,7 @@ namespace mud
 		{
 			float entropy = tileblock.m_tileset->m_num_tiles > 0 ? float(states) / float(tileblock.m_tileset->m_num_tiles) : 1.f;
 			Colour colour = Colour::AlphaGrey * entropy;
-			cubes[states] = &parent.m_scene->m_gfx_system.fetch_symbol(Symbol(colour), Cube(0.5f), OUTLINE);
+			cubes[states] = &parent.m_scene->m_gfx.shape(Cube(0.5f), Symbol(colour), OUTLINE);
 		}
 		return *cubes[states];
 	}
@@ -214,14 +214,14 @@ namespace mud
 			}
 		}
 
-		static Material& alpha_material = parent.m_scene->m_gfx_system.fetch_material("debug_alpha", "unshaded");
+		static Material& alpha_material = parent.m_scene->m_gfx.fetch_material("debug_alpha", "solid");
 
 		for(auto& model_tiles : visu.m_tiles)
 		{
 			Material* material = focused == uvec3(UINT32_MAX) ? nullptr : &alpha_material;
-			uint32_t flags = ItemFlag::Default | ItemFlag::Static | (dirty ? 0 : uint32_t(ItemFlag::NoUpdate));
-			Item& item = gfx::item(self, *model_tiles.first, flags, material, model_tiles.second.size(), model_tiles.second);
-			gfx::update_item_lights(item);
+			uint32_t flags = ItemFlag::Default | ItemFlag::Static | ItemFlag::NoCull | (dirty ? 0 : uint32_t(ItemFlag::NoUpdate));
+			Item& item = gfx::item(self, *model_tiles.first, flags, material);
+			gfx::instances(self, item, model_tiles.second);
 		}
 
 		if(focused != uvec3(UINT32_MAX))
@@ -297,7 +297,7 @@ namespace mud
 		for(uint16_t i = 0; i < state.m_items.size(); ++i)
 		{
 			state.m_items[i].m_position = { float(i % num_columns), 0.f, float(i / num_columns) };
-			state.m_items[i].m_scale = vec3{ 1.f / (state.m_item_radius * 2.f * margin) };
+			state.m_items[i].m_scale = vec3(1.f / (state.m_item_radius * 2.f * margin));
 		}
 
 		Gnode& scene = viewer.m_scene.begin();
@@ -329,7 +329,7 @@ namespace mud
 			for(Tile& tile : tileset.m_tiles_flip)
 			{
 				TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
-				state.m_items.push_back({ tile_model.m_model, Zero3, rotate(tile_model.m_rotation, c_pi / 4.f, Y3), Unit3 });
+				state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi4, Y3), vec3(1.f) });
 				if(tile_model.m_model && state.m_item_radius == 0.f)
 					state.m_item_radius = tile_model.m_model->m_radius;
 			}
@@ -347,7 +347,7 @@ namespace mud
 				{
 					Tile& tile = tileblock.m_tileset->m_tiles_flip[t];
 					TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
-					state.m_items.push_back({ tile_model.m_model, Zero3, rotate(tile_model.m_rotation, c_pi / 4.f, Y3), Unit3 });
+					state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi4, Y3), vec3(1.f) });
 					if(tile_model.m_model && state.m_item_radius == 0.f)
 						state.m_item_radius = tile_model.m_model->m_radius;
 				}
