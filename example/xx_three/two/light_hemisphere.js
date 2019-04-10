@@ -14,19 +14,22 @@ var skydome_vertex = `$input a_position, a_texcoord0
 
 var skydome_fragment = `$input v_world
 
-    #include <common.sh>
+	#include <common.sh>
 
-    #define u_top_color u_user_p0.xyz
-    #define u_bottom_color u_user_p1.xyz
-    #define u_offset u_user_p2.x
-    #define u_exponent u_user_p2.y
+	void main()
+	{
+		int material_index = int(u_state_material);
+		UserMaterial mat = read_user_material(material_index);
 
-    void main()
-    {
-        float h = normalize(v_world + u_offset).y;
-        gl_FragColor = vec4(mix(u_bottom_color, u_top_color, max(pow(max(h, 0.0), u_exponent), 0.0)), 1.0);
-        gl_FragColor = vec4(pow(gl_FragColor.rgb, vec3_splat(2.0)), 1.0);
-    }`;
+		vec3 top_color    = mat.p0.xyz;
+		vec3 bottom_color = mat.p1.xyz;
+		float offset      = mat.p2.x;
+		float exponent    = mat.p2.y;
+
+		float h = normalize(v_world + offset).y;
+		gl_FragColor = vec4(mix(bottom_color, top_color, max(pow(max(h, 0.0), exponent), 0.0)), 1.0);
+		gl_FragColor = vec4(pow(gl_FragColor.rgb, vec3_splat(2.0)), 1.0);
+	}`;
 
 var viewer = two.ui.scene_viewer(panel);
 two.ui.orbit_controls(viewer);

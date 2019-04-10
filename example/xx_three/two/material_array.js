@@ -16,6 +16,7 @@ if(init) {
     env.radiance.texture = hdrenv;
     env.background.texture = hdrenv;
     env.background.mode = two.BackgroundMode.Panorama;
+    env.radiance.ambient = two.rgb(0x222222);
 
     viewer.viewport.to_gamma = true;
     
@@ -26,12 +27,7 @@ if(init) {
     //this.tonemap.mode = two.TonemapMode.Uncharted2;
     //this.tonemap.exposure = 0.75;
     
-    //scene.add(new THREE.AmbientLight(0x222222));
-
     // Materials
-
-    //var texture = app.gfx.textures.file('planets/moon_1024.jpg');
-    //imgTexture.anisotropy = 16;
 
     var subdiv = 5;
     var width = 400.0;
@@ -57,12 +53,10 @@ if(init) {
                 var material = app.gfx.materials.create(name); var m = material;
                     m.program = pbr;
                     m.pbr.albedo.value = diffuse;
-                    //m.pbr.albedo.texture = texture;
-                    //m.pbr.normal.texture = texture;
                     m.lit.normal.value = 1.0;
                     m.pbr.metallic.value = beta;
                     m.pbr.roughness.value = 1.0 - alpha;
-                    m.pbr.scene_environment = index % 2 == 0 ? false : true;
+                    m.lit.no_envmap = index % 2 == 0 ? true : false;
 
                 index++;
 

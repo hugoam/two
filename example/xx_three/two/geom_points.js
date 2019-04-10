@@ -24,7 +24,7 @@ if (init) {
 
     var s = 1000.0; var s2 = s / 2.0; // particles spread in the cube
 
-    var instances = new Float32Array(particles * 16);
+    var instances = new Float32Array(particles * 12);
     
     var f =  0;
     for(var i = 0; i < particles; i++)
@@ -55,7 +55,7 @@ if (init) {
     var it = scene.items().add(new two.Item(n, model, 0, material));
     this.node = n;
 
-    var batch = scene.batches().add(new two.Batch(it, 16 * 4));
+    var batch = scene.batches().add(new two.Batch(it, 12 * 4));
     it.batch = batch;
     
     batch.cache(instances);

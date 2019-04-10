@@ -11,8 +11,8 @@ if (init) {
     camera.eye.z = 500.0;
 
     var scene = viewer.scene;
-    viewer.viewport.clear_colour = two.rgb(0xffffff);
-    scene.env.background.colour = two.rgb(0xffffff);
+    //viewer.viewport.clear_colour = two.rgb(0xffffff);
+    //scene.env.background.colour = two.rgb(0xffffff);
 
     var normal = app.gfx.programs.fetch('normal');
     var material = app.gfx.materials.create('hierarchy2');

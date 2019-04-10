@@ -10,8 +10,8 @@ var convolution_vertex = `$input a_position, a_texcoord0
 
     #include <filter.sh>
 
-    uniform vec4 u_blooblur_p0;
-    #define u_increment u_blooblur_p0.xy
+    uniform vec4 u_bloom_blur_p0;
+    #define u_increment u_bloom_blur_p0.xy
 
     void main() {
         v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;
@@ -23,11 +23,10 @@ var convolution_fragment = `$input v_uv0
 
     #include <filter.sh>
 
-    //uniform vec4 u_kernel[KERNEL_SIZE/4];
     uniform vec4 u_kernel[8];
 
-    uniform vec4 u_blooblur_p0;
-    #define u_increment u_blooblur_p0.xy
+    uniform vec4 u_bloom_blur_p1;
+    #define u_increment u_bloom_blur_p1.xy
 
     void main()
     {
@@ -36,7 +35,7 @@ var convolution_fragment = `$input v_uv0
 
         for(int i = 0; i < KERNEL_SIZE; i++)
         {
-            sum += texture2D(s_source_0, uv) * u_kernel[i/4][i%4];
+            sum += texture2D(s_source_0, uv) * u_kernel[i/4][int(mod(float(i), 4.0))];
             uv += u_increment;
         }
 
@@ -48,26 +47,73 @@ var KERNEL_SIZE = 0;
 function blur_kernel(sigma) {
     // We lop off the sqrt(2 * pi) * sigma term, since we're going to normalize anyway.
 
-    auto gauss = [](float x, float sigma) { return exp(-sq(x) / (2.0 * sq(sigma))); };
+    function gauss(x, sigma) { return Math.exp(-x*x / (2.0 * sigma*sigma)); };
 
-    constexpr int kMaxKernelSize = 25;
-    int kernelSize = 2.0 * ceil(sigma * 3.f) + 1;
+    var kMaxKernelSize = 25;
+    var kernelSize = 2.0 * Math.ceil(sigma * 3.0) + 1;
 
     if (kernelSize > kMaxKernelSize) kernelSize = kMaxKernelSize;
-    float halfWidth = (kernelSize - 1) * 0.5;
+    var halfWidth = (kernelSize - 1) * 0.5;
 
-    vector<float> values(kernelSize); 
-    float sum = 0.0;
-    for (int i = 0; i < kernelSize; ++i)
+    var values = new Array(kernelSize); 
+    var sum = 0.0;
+    for (var i = 0; i < kernelSize; ++i)
     {
         values[i] = gauss(i - halfWidth, sigma);
         sum += values[i];
     }
 
     // normalize the kernel
-    for (int i = 0; i < kernelSize; ++ i) values[i] /= sum;
+    for (var i = 0; i < kernelSize; ++ i) values[i] /= sum;
 
     return values;
+}
+
+function pass_bloom(gfx, render, source, fbo, clear, strength, kernel_size = 25, sigma = 4.0, resolution = 256) {
+    
+    if(this.targetX === undefined) {
+        this.targetX = new two.FrameBuffer(new two.uvec2(resolution), two.TextureFormat.RGBA8);
+        this.targetY = new two.FrameBuffer(new two.uvec2(resolution), two.TextureFormat.RGBA8);
+    }
+    
+    var blurX = new two.vec2(0.001953125, 0.0);
+    var blurY = new two.vec2(0.0, 0.001953125);
+
+    var max_kernel = 8;
+    var kernel = new Array(max_kernel);
+
+    var kernel = blur_kernel(sigma);
+
+    var program = new two.ProgramVersion(gfx.programs.fetch('convolution'));
+    program.set_mode(0, KERNEL_SIZE, Math.min(kernel.length, kernel_size));
+
+    function blur_pass(gfx, render, target, source, program, increment)
+    {
+        var pass = render.next_pass('bloom_blur', two.PassType.PostProcess);
+
+        gfx.filter.uniforms(pass, 'u_kernel', kernel);
+
+        gfx.filter.uniform(pass, 'u_bloom_blur_p0', new two.vec4(increment.x, increment.y, 0.0, 0.0));
+        gfx.filter.uniform(pass, 'u_bloom_blur_p1', new two.vec4(increment.x, increment.y, 0.0, 0.0));
+        gfx.filter.source0(source);
+        //renderer.clear();
+        gfx.filter.quad(pass, target, program);
+    }
+
+    blur_pass(gfx, render, this.targetX, source, program, blurX);
+    blur_pass(gfx, render, this.targetY, this.targetX.tex, program, blurY);
+
+    var pass = render.next_pass('bloom_merge', two.PassType.PostProcess);
+    //if(clear) renderer.clear();
+
+    if(strength != 1.0)
+    {
+        //this.copyUniforms['opacity'].value = strength;
+        //transparent: true
+        gfx.copy.quad(pass, fbo, this.targetY.tex, 35790848); //BGFX_STATE_BLEND_ADD);
+    }
+    else
+        gfx.copy.quad(pass, fbo, this.targetY.tex);
 }
 
 //	Skin shader
@@ -90,10 +136,6 @@ var skin_fragment = `$input v_view, v_position, v_normal, v_tangent, v_color, v_
     #include <pbr/light.sh>
     #include <pbr/light_brdf_three.sh>
     #include <pbr/radiance.sh>
-
-    //uniform vec4 u_skin_p0;
-    #define u_roughness u_user_p0.x
-    #define u_spec_brightness u_user_p0.y
 
     #define s_blur1 s_user0
     #define s_blur2 s_user1
@@ -135,14 +177,23 @@ var skin_fragment = `$input v_view, v_position, v_normal, v_tangent, v_color, v_
         return result;
     }
 
-    void direct_skin(vec3 energy, vec3 l, Fragment fragment, Phongvar material, inout vec3 diffuse, inout vec3 specular)
+    struct SkinMaterial
+    {
+        PhongMaterial phong;
+        UserMaterial skin;
+    };
+
+    void direct_skin(vec3 energy, vec3 l, Fragment fragment, SkinMaterial mat, inout vec3 diffuse, inout vec3 specular)
     {
         float diffuseWeight = max(dot(fragment.normal, l), 0.0);
         diffuse += energy * diffuseWeight;
 
     #ifndef PASS_DIFFUSE
-            float specularWeight = KS_Skin_Specular(fragment.normal, l, fragment.view, u_roughness, u_spec_brightness);
-            specular += energy * material.specular * specularWeight;
+            float roughness  = mat.skin.p0.x;
+            float brightness = mat.skin.p0.y;
+
+            float specularWeight = KS_Skin_Specular(fragment.normal, l, fragment.view, roughness, brightness);
+            specular += energy * mat.phong.specular * specularWeight;
     #endif
     }
 
@@ -153,9 +204,13 @@ var skin_fragment = `$input v_view, v_position, v_normal, v_tangent, v_color, v_
     #include <pbr/fs_fragment.sh>
 
     #include <pbr/fs_phong_material.sh>
+        SkinMaterial material;
+        material.phong = matphong;
+        material.skin = matuser;
+        
         vec4 texDiffuse = sample_material_texture(s_diffuse, fragment.uv);
         texDiffuse *= texDiffuse;
-        vec4 diffuseColor = vec4(material.diffuse, 1.0) * texDiffuse;
+        vec4 diffuseColor = vec4(matphong.diffuse, 1.0) * texDiffuse;
 
     #include <pbr/fs_phong.sh>
 
@@ -164,51 +219,24 @@ var skin_fragment = `$input v_view, v_position, v_normal, v_tangent, v_color, v_
     #ifdef PASS_DIFFUSE
             light = sqrt(light);
     #else
-            //#define VERSION1
-            #ifdef VERSION1
-                vec3 color = sqrt(light);
-            #else
-                vec3 color = light;
-            #endif
-
-            vec3 blur1 = texture2D(s_blur1, v_uv0).xyz;
-            vec3 blur2 = texture2D(s_blur2, v_uv0).xyz;
-            vec3 blur3 = texture2D(s_blur3, v_uv0).xyz;
-            vec3 blur4 = texture2D(s_blur4, v_uv0).xyz;
-
-
-            //gl_FragColor = vec4(blur1, gl_FragColor.w);
-
-            //gl_FragColor = vec4(vec3(0.22, 0.5, 0.7) * color + vec3(0.2, 0.5, 0.3) * blur1 + vec3(0.58, 0.0, 0.0) * blur2, gl_FragColor.w);
-
-            //gl_FragColor = vec4(vec3(0.25, 0.6, 0.8) * color + vec3(0.15, 0.25, 0.2) * blur1 + vec3(0.15, 0.15, 0.0) * blur2 + vec3(0.45, 0.0, 0.0) * blur3, gl_FragColor.w);
-
+            vec3 color = light;
 
             light = vec3(vec3(0.22,  0.437, 0.635) * color + 
-                         vec3(0.101, 0.355, 0.365) * blur1 + 
-                         vec3(0.119, 0.208, 0.0)   * blur2 + 
-                         vec3(0.114, 0.0,   0.0)   * blur3 + 
-                         vec3(0.444, 0.0,   0.0)   * blur4);
+                         vec3(0.101, 0.355, 0.365) * texture2D(s_blur1, v_uv0).rgb + 
+                         vec3(0.119, 0.208, 0.0)   * texture2D(s_blur2, v_uv0).rgb + 
+                         vec3(0.114, 0.0,   0.0)   * texture2D(s_blur3, v_uv0).rgb + 
+                         vec3(0.444, 0.0,   0.0)   * texture2D(s_blur4, v_uv0).rgb);
 
             light *= sqrt(texDiffuse.xyz);
 
             //light += ambientLightColor * diffuse * texDiffuse.xyz + specular;
             vec3 ambient = vec3_splat(0.0); //zone.radiance_color * zone.ambient;
-            light += ambient * material.diffuse * texDiffuse.xyz + specular;
+            light += ambient * matphong.diffuse * texDiffuse.xyz + specular;
 
-            #ifndef VERSION1
-                light = sqrt(light);
-            #endif
+            light = sqrt(light);
     #endif
 
         gl_FragColor = vec4(light, diffuseColor.a);
-        // TODO, this should be pre-multiplied to allow for bright highlights on very transparent objects
-
-        //#include <pbr/fs_out_pbr.sh>
-        //gl_FragColor = LinearToGamma(gl_FragColor, 2.0);
-
-        //THREE.ShaderChunk[fog_fragment],
-
     }`;
 
 var skin_vertex =
@@ -264,67 +292,16 @@ var beckmann_fragment = `$input v_uv0
 function render_beckmann(gfx, size) {
     
     var fbo = new two.FrameBuffer(size, two.TextureFormat.RGBA8);
-
+    
     var beckmann = gfx.programs.create('beckmann');
     beckmann.set_source(two.ShaderType.Vertex, beckmann_vertex);
     beckmann.set_source(two.ShaderType.Fragment, beckmann_fragment);
 
-    gfx.filter.quad(new two.Pass(), fbo, beckmann, 0, true);
+    var program = new two.ProgramVersion(beckmann);
+    gfx.filter.quad(new two.Pass(), fbo, program, 0, true);
 
     // @todo should copy it to a normal texture
     return fbo.tex;
-}
-
-function pass_bloom(gfx, render, source, fbo, clear = true, strength = 1.0, kernel_size = 25, sigma = 4.0, resolution = 256) {
-    
-    var targetX = new two.FrameBuffer(new two.uvec2(resolution), two.TextureFormat.RGBA8);
-    var targetY = new two.FrameBuffer(new two.uvec2(resolution), two.TextureFormat.RGBA8);
-
-    var blurX = new two.vec2(0.001953125, 0.0);
-    var blurY = new two.vec2(0.0, 0.001953125);
-
-    var convolution = convolution_program(gfx);
-
-    var max_kernel = 8;
-    vec4 kernel[max_kernel] = {};
-
-    //printf('pass bloom\n');
-    const vector<float> kernel_values = blur_kernel(sigma);
-    const uint32_t nuvalues = uint32_t(kernel_values.size());
-    //assert(nuvalues >= kernel_size);
-    for(var i = 0; i < kernel_values.size(); ++i) {
-        kernel[i/4][i%4] = kernel_values[i];
-    }
-
-    var program = new two.ProgramVersion(convolution);
-    program.set_mode(0, KERNEL_SIZE, min(nuvalues, kernel_size));
-
-    function blur_pass(gfx, render, target, source, program, increment)
-    {
-        var pass = render.next_pass('bloom_blur', two.PassType.PostProcess);
-
-        gfx.filter.uniforms(pass, 'u_kernel', kernel, max_kernel);
-
-        gfx.filter.uniform(pass, 'u_bloom_blur_p0', new two.vec4(increment.x, increment.y, 0.0, 0.0));
-        gfx.filter.source0(source);
-        //renderer.clear();
-        gfx.filter.quad(pass, target, program);
-    }
-
-    blur_pass(gfx, render, targetX, source, program, blurX);
-    blur_pass(gfx, render, targetY, targetX.tex, program, blurY);
-
-    var pass = render.next_pass('bloom_merge', two.PassType.PostProcess);
-    //if(clear) renderer.clear();
-
-    if(strength != 1.0)
-    {
-        //this.copyUniforms['opacity'].value = strength;
-        //transparent: true
-        gfx.copy.quad(pass, fbo, targetY.tex, BGFX_STATE_BLEND_ADD);
-    }
-    else
-        gfx.copy.quad(pass, fbo, targetY.tex);
 }
 
 var viewer = two.ui.scene_viewer(panel);
@@ -333,129 +310,141 @@ viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
 
-var firstPass = true;
-
 if(init) {
     this.importerGltf = new two.ImporterGltf(app.gfx);
 
-    this.uv = new two.FrameBuffer(uvec2(512U), two.TextureFormat.RGBA8);
-    this.blur1 = new two.FrameBuffer(uvec2(512U), two.TextureFormat.RGBA8);
-    this.blur2 = new two.FrameBuffer(uvec2(512U), two.TextureFormat.RGBA8);
-    this.blur3 = new two.FrameBuffer(uvec2(512U), two.TextureFormat.RGBA8);
+    this.uv = new two.FrameBuffer(new two.uvec2(512), two.TextureFormat.RGBA8);
+    this.blur1 = new two.FrameBuffer(new two.uvec2(512), two.TextureFormat.RGBA8);
+    this.blur2 = new two.FrameBuffer(new two.uvec2(512), two.TextureFormat.RGBA8);
+    this.blur3 = new two.FrameBuffer(new two.uvec2(512), two.TextureFormat.RGBA8);
 
     this.mouse = new two.vec2(0.0);
     
     var camera = viewer.camera;
-    camera.fov = 35.f; camera.near = 1.0; camera.far = 10000.0;
+    camera.fov = 35.0; camera.near = 1.0; camera.far = 10000.0;
     camera.eye.z = 900.0;
 
     //scene.background = new THREE.Color(0x050505);
 
-    var ln0 = scene.nodes().add(new two.Node3(vec3(0.0), look_dir(normalize(vec3(-1.0, -0.5, -1.0)))));
+    var ln0 = scene.nodes().add(new two.Node3(new two.vec3(0.0), two.look_dir(new two.vec3(-1.0, -0.5, -1.0))));
     var l0 = scene.lights().add(new two.Light(ln0, two.LightType.Direct, false, two.rgb(0xffeedd), 1.5));
 
-    var ln1 = scene.nodes().add(new two.Node3(vec3(0.0), look_dir(normalize(vec3(1.0, -0.5, 1.0)))));
-    var l1 = scene.lights().add(new two.Light(ln0, two.LightType.Direct, false, two.rgb(0xddddff), 0.5));
+    var ln1 = scene.nodes().add(new two.Node3(new two.vec3(0.0), two.look_dir(new two.vec3(1.0, -0.5, 1.0))));
+    var l1 = scene.lights().add(new two.Light(ln1, two.LightType.Direct, false, two.rgb(0xddddff), 0.5));
 
-fu convolution_program(GfxSystem gfx)
-{
-	var program = gfx.programs.create('convolution');
-	program.set_source(two.ShaderType.Vertex, convolution_vertex());
-	program.set_source(two.ShaderType.Fragment, convolution_fragment());
-
-	program.register_modes(0, { 'KERNEL_SIZE' });
-	return program;
-}
+    var blur_block = new two.ShaderBlock();
+    blur_block.index = 0;
+    blur_block.add_mode('KERNEL_SIZE');
+    
+    var convol = app.gfx.programs.create('convolution');
+    convol.set_source(two.ShaderType.Vertex, convolution_vertex);
+    convol.set_source(two.ShaderType.Fragment, convolution_fragment);
+    convol.register_block(blur_block);
 
     // MATERIALS
 
     var pbr = app.gfx.programs.fetch('pbr/pbr');
     var phong = app.gfx.programs.fetch('pbr/phong');
 
+    function setup_program(program) {
+        program.set_block(two.MaterialBlock.Lit);
+        program.set_block(two.MaterialBlock.Phong);
+        program.set_block(two.MaterialBlock.User);
+        program.register_blocks(pbr);
+    }
+    
     var program = app.gfx.programs.create('skin');
-    program.set_block(two.MaterialBlock.Lit);
-    program.set_block(two.MaterialBlock.Phong);
-    program.set_block(two.MaterialBlock.User);
     program.set_source(two.ShaderType.Vertex, skin_vertex);
     program.set_source(two.ShaderType.Fragment, skin_fragment);
-    program.register_blocks(pbr.registered_blocks);
+    setup_program(program);
 
     var program_uv = app.gfx.programs.create('skin_uv');
-    program_uv.set_block(two.MaterialBlock.Lit);
-    program_uv.set_block(two.MaterialBlock.Phong);
-    program_uv.set_block(two.MaterialBlock.User);
     program_uv.set_source(two.ShaderType.Vertex, skin_vertex_uv);
     program_uv.set_source(two.ShaderType.Fragment, skin_fragment);
-    program_uv.register_blocks(pbr.registered_blocks);
+    setup_program(program_uv);
 
+    var blur_block = new two.ShaderBlock();
+    blur_block.index = 31;
+    blur_block.add_define('PASS_DIFFUSE', '');
+    program_uv.register_block(blur_block);
+    
     // @todo
     //program_uv.defines.push_back({ 'PASS_DIFFUSE', '' });
 
-    this.material = app.gfx.materials.create('skin'); var m = material;
-        //m.program = phong;
-        m.program = program;
-        //m.base.uv0_scale = vec2(1.0, -1.0);
+    function setup_material(m) {
+        m.base.uv0_scale = new two.vec2(1.0, -1.0);
         m.lit.normal.texture = app.gfx.textures.file('LeePerrySmith/Norm.jpg');
         m.lit.normal.value = -1.5;
-        m.phong.diffuse.value = app.gfx.textures.file('LeePerrySmith/Diff.jpg');
+        m.phong.diffuse.texture = app.gfx.textures.file('LeePerrySmith/Diff.jpg');
         m.phong.diffuse.value = two.rgb(0xbbbbbb);
         m.phong.specular.value = two.rgb(0x555555);
         var roughness = 0.185;
         var specular_brightness = 0.7;
         m.user.attr0 = new two.vec4(roughness, specular_brightness, 0.0, 0.0);
-
-    this.material_uv = app.gfx.materials.create('skin_uv'); m = material_uv;
-        // @todo
-        m = material;
-        m.name = 'skin_uv';
+    }
+    
+    this.material = app.gfx.materials.create('skin'); var m = this.material;
+        setup_material(m);
+        m.program = program;
+    
+    this.material_uv = app.gfx.materials.create('skin_uv'); m = this.material_uv;
+        setup_material(m);
         m.program = program_uv;
-
+        
     var model = app.gfx.models.file('LeePerrySmith'); // .glb
 
-    var n = scene.nodes().add(new two.Node3(vec3(0.0, -50.0, 0.0), ZeroQuat, vec3(100.0)));
-    var it = scene.items().add(new two.Item(n, model, 0, material));
+    var zeroq = new two.quat(new two.vec3(0.0));
+    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0, -50.0, 0.0), zeroq, new two.vec3(100.0)));
+    var it = scene.items().add(new two.Item(n, model, 0, this.material));
     this.mesh = n;
     this.item = it;
 
-    var beckmann = render_beckmann(app.gfx, uvec2(512U));
-    material.user.tex4 = beckmann;
+    var beckmann = render_beckmann(app.gfx, new two.uvec2(512));
+    this.material.user.tex4 = beckmann;
 
-    material.user.tex0 = uv.tex;
-    material.user.tex1 = blur1.tex;
-    material.user.tex2 = blur2.tex;
-    material.user.tex3 = blur3.tex;
+    this.material.user.tex0 = this.uv.tex;
+    this.material.user.tex1 = this.blur1.tex;
+    this.material.user.tex2 = this.blur2.tex;
+    this.material.user.tex3 = this.blur3.tex;
+    
+    this.rotation = new two.vec3(0.0);
 }
 
 var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved)
 if(event.valid())
 {
-    mouse.x = event.relative.x - viewer.frame.size.x / 2.0;
-    mouse.y = event.relative.y - viewer.frame.size.y / 2.0;
+    this.mouse.x = event.relative.x - viewer.frame.size.x / 2.0;
+    this.mouse.y = event.relative.y - viewer.frame.size.y / 2.0;
 }
 
-rotation.y += 0.05 * (mouse.x * 0.001 - rotation.y);
-rotation.x += 0.05 * (mouse.y * 0.001 - rotation.x);
+this.rotation.y += 0.05 * (this.mouse.x * 0.001 - this.rotation.y);
+this.rotation.x += 0.05 * (this.mouse.y * 0.001 - this.rotation.x);
 
-mesh.apply(new two.vec3(0.0, -50.0, 0.0), new two.quat(rotation), new two.vec3(100.0));
+this.mesh.apply(new two.vec3(0.0, -50.0, 0.0), new two.quat(this.rotation), new two.vec3(100.0));
 
 var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 
-var viewport = new two.Viewport(render.camera, render.scene, new two.uvec4(new two.uvec2(0), new two.uvec2(512)));
-Render subrender = new two.Render(two.Shading.Shaded, viewport, render.target, uv, app.gfx.render_frame);
-subrender.shot = render.shot;
+var viewport = new two.Viewport(render.camera, render.scene, new two.vec4(0.0, 0.0, 1.0, 1.0));
+var uvrender = new two.Render(two.Shading.Shaded, viewport, render.target, this.uv, app.gfx.render_frame);
+uvrender.subrender(render);
+uvrender.vflip = true;
 
-item.material = material_uv;
-//var renderModelUV = new THREE.RenderPass(scene, camera, materialUV, new THREE.Color(0x575757));
-app.gfx.renderer.subrender(render, subrender, render_pbr_forward);
+this.item.material = this.material_uv;
 
-pass_bloom(app.gfx, render, uv.tex, blur1, true, 1.0, 15, 2.0, 512);
-pass_bloom(app.gfx, render, uv.tex, blur2, true, 1.0, 25, 3.f, 512);
-pass_bloom(app.gfx, render, uv.tex, blur3, true, 1.0, 25, 4.0, 512);
+app.gfx.renderer.begin(uvrender);
+two.render_pbr_forward(app.gfx, uvrender);
+app.gfx.renderer.end(uvrender);
+render.pass_index = uvrender.pass_index;
 
-item.material = material;
-render_pbr_forward(app.gfx, render);
+pass_bloom(app.gfx, render, this.uv.tex, this.blur1, true, 1.0, 15, 2.0, 512);
+pass_bloom(app.gfx, render, this.uv.tex, this.blur2, true, 1.0, 25, 3.0, 512);
+pass_bloom(app.gfx, render, this.uv.tex, this.blur3, true, 1.0, 25, 4.0, 512);
+
+this.item.material = this.material;
+//this.item.material = this.material_uv;
+two.render_pbr_forward(app.gfx, render);
 
 app.gfx.renderer.end(render);
 

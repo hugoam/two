@@ -58,6 +58,7 @@ var tiled_phong_fragment = `$input v_view, v_position, v_normal, v_tangent, v_co
     {
     #include <pbr/fs_fragment.sh>
     #include <pbr/fs_phong_material.sh>
+        PhongMaterial material = matphong;
     #include <pbr/fs_phong.sh>
     ` + lights_fragment + `
     #include <pbr/fs_out_pbr.sh>

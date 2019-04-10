@@ -1,6 +1,126 @@
 // shader_lava.js
 
 // @author alteredq / http://alteredqualia.com/
+// Convolution shader
+// ported from o3d sample to WebGL / GLSL
+// http://o3d.googlecode.com/svn/trunk/samples/convolution.html
+
+var convolution_vertex = `$input a_position, a_texcoord0
+    $output v_uv0
+
+    #include <filter.sh>
+
+    uniform vec4 u_bloom_blur_p0;
+    #define u_increment u_bloom_blur_p0.xy
+
+    void main() {
+        v_uv0 = u_source_crop.xy + a_texcoord0 * u_source_crop.zw;
+        v_uv0 = v_uv0 - ((float(KERNEL_SIZE) - 1.0) / 2.0) * u_increment;
+        gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));
+    }`;
+
+var convolution_fragment = `$input v_uv0
+
+    #include <filter.sh>
+
+    uniform vec4 u_kernel[8];
+
+    uniform vec4 u_bloom_blur_p1;
+    #define u_increment u_bloom_blur_p1.xy
+
+    void main()
+    {
+        vec2 uv = v_uv0;
+        vec4 sum = vec4(0.0, 0.0, 0.0, 0.0);
+
+        for(int i = 0; i < KERNEL_SIZE; i++)
+        {
+            sum += texture2D(s_source_0, uv) * u_kernel[i/4][int(mod(float(i), 4.0))];
+            uv += u_increment;
+        }
+
+        gl_FragColor = sum;
+    }`;
+
+var KERNEL_SIZE = 0;
+
+function blur_kernel(sigma) {
+    // We lop off the sqrt(2 * pi) * sigma term, since we're going to normalize anyway.
+
+    function gauss(x, sigma) { return Math.exp(-x*x / (2.0 * sigma*sigma)); };
+
+    var kMaxKernelSize = 25;
+    var kernelSize = 2.0 * Math.ceil(sigma * 3.0) + 1;
+
+    if (kernelSize > kMaxKernelSize) kernelSize = kMaxKernelSize;
+    var halfWidth = (kernelSize - 1) * 0.5;
+
+    var values = new Array(kernelSize); 
+    var sum = 0.0;
+    for (var i = 0; i < kernelSize; ++i)
+    {
+        values[i] = gauss(i - halfWidth, sigma);
+        sum += values[i];
+    }
+
+    // normalize the kernel
+    for (var i = 0; i < kernelSize; ++ i) values[i] /= sum;
+
+    return values;
+}
+
+function pass_bloom(gfx, render, source, fbo, clear, strength, kernel_size, sigma, resolution) {
+    
+    kernel_size = kernel_size | 25;
+    sigma = sigma | 4.0;
+    resolution = resolution | 256;
+    
+    if(this.targetX === undefined) {
+        this.targetX = new two.FrameBuffer(new two.uvec2(resolution), two.TextureFormat.RGBA8);
+        this.targetY = new two.FrameBuffer(new two.uvec2(resolution), two.TextureFormat.RGBA8);
+    }
+    
+    var blurX = new two.vec2(0.001953125, 0.0);
+    var blurY = new two.vec2(0.0, 0.001953125);
+
+    var max_kernel = 8;
+    var kernel = new Array(max_kernel);
+
+    var kernel = blur_kernel(sigma);
+
+    var program = new two.ProgramVersion(gfx.programs.fetch('convolution'));
+    program.set_mode(0, KERNEL_SIZE, Math.min(kernel.length, kernel_size));
+
+    function blur_pass(gfx, render, target, source, program, increment)
+    {
+        var pass = render.next_pass('bloom_blur', two.PassType.PostProcess);
+
+        gfx.filter.uniforms(pass, 'u_kernel', kernel);
+
+        gfx.filter.uniform(pass, 'u_bloom_blur_p0', new two.vec4(increment.x, increment.y, 0.0, 0.0));
+        gfx.filter.uniform(pass, 'u_bloom_blur_p1', new two.vec4(increment.x, increment.y, 0.0, 0.0));
+        gfx.filter.source0(source);
+        //renderer.clear();
+        gfx.filter.quad(pass, target, program);
+    }
+
+    blur_pass(gfx, render, this.targetX, source, program, blurX);
+    blur_pass(gfx, render, this.targetY, this.targetX.tex, program, blurY);
+
+    var pass = render.next_pass('bloom_merge', two.PassType.PostProcess);
+    //if(clear) renderer.clear();
+
+    if(strength != 1.0)
+    {
+        //this.copyUniforms['opacity'].value = strength;
+        //transparent: true
+        gfx.copy.quad(pass, fbo, this.targetY.tex, 35790848); //BGFX_STATE_BLEND_ADD);
+    }
+    else
+        gfx.copy.quad(pass, fbo, this.targetY.tex);
+}
+
+// @author alteredq / http://alteredqualia.com/
 // Film grain & scanlines shader
 
 var film_vertex = `$input a_position, a_texcoord0
@@ -58,19 +178,16 @@ function pass_film(gfx, render, film) {
     gfx.filter.uniform(pass, 'u_film_p0', new two.vec4(film.noise, film.scanlines, film.num_scanlines, film.grayscale));
     gfx.filter.source0(render.target.post.last());
     gfx.filter.quad(pass, render.target.post.swap(), program);
-
-    var flip = render.next_pass('flip', two.PassType.PostProcess);
-    gfx.copy.quad(flip, render.fbo, render.target.post.last());
 }
 
-var vertex_shader = `$input a_position, a_texcoord0
+var lava_vertex = `$input a_position, a_texcoord0
     $output v_position, v_uv0
     
     #include <common.sh>
     
     void main()
     {
-        int material_index = int(u_state_material);
+        int material_index = int(u_state_material_vertex);
         BaseMaterial basic = read_base_material(material_index);
         
         v_uv0 = (a_texcoord0 * basic.uv0_scale) + basic.uv0_offset;
@@ -79,50 +196,51 @@ var vertex_shader = `$input a_position, a_texcoord0
         gl_Position = v_position;
     }`;
 
-var fragment_shader = `$input v_position, v_uv0
-    
-    #include <common.sh>
-    
+var lava_fragment = `$input v_position, v_uv0
 
-    #define u_fog_density u_user_p0.x
-    #define u_fog_source u_user_p0.yzw
-    
+    #include <common.sh>
+
     void main()
     {
+        int material_index = int(u_state_material);
+        UserMaterial mat = read_user_material(material_index);
+
+        float fog_density = mat.p0.x;
+        vec3 fog_color    = mat.p0.yzw;
+
         vec2 uv = v_uv0;
         vec2 position = - 1.0 + 2.0 * uv;
-    
+
         vec4 noise = texture2D(s_user0, uv);
         vec2 T1 = uv + vec2(1.5, - 1.5) * u_time * 0.02;
         vec2 T2 = uv + vec2(- 0.5, 2.0) * u_time * 0.01;
-    
+
         T1.x += noise.x * 2.0;
         T1.y += noise.y * 2.0;
         T2.x -= noise.y * 0.2;
         T2.y += noise.z * 0.2;
-    
+
         float p = texture2D(s_user0, T1 * 2.0).a;
-    
+
         vec4 lava = texture2D(s_user1, T2 * 2.0);
-        vec4 color = lava * (vec4(p, p, p, p) * 2.0) + (lava * lava - 0.1);
-    
-        if(color.r > 1.0) { color.bg += clamp(color.r - 2.0, 0.0, 100.0); }
-        if(color.g > 1.0) { color.rb += color.g - 1.0; }
-        if(color.b > 1.0) { color.rg += color.b - 1.0; }
-    
-        gl_FragColor = color;
-    
+        vec4 source = lava * (vec4(p, p, p, p) * 2.0) + (lava * lava - 0.1);
+
+        if(source.r > 1.0) { source.bg += clamp(source.r - 2.0, 0.0, 100.0); }
+        if(source.g > 1.0) { source.rb += source.g - 1.0; }
+        if(source.b > 1.0) { source.rg += source.b - 1.0; }
+
+        gl_FragColor = source;
+
     #if BGFX_SHADER_LANGUAGE_HLSL
-    //	float depth = v_position.z;
         float depth = gl_FragCoord.z * gl_FragCoord.w;
     #else
-    //	float depth = (v_position.z + v_position.w) * 0.5;
         float depth = gl_FragCoord.z / gl_FragCoord.w;
     #endif
-        float fogFactor = exp2(-u_fog_density * u_fog_density * depth * depth * LOG2);
+        float fogFactor = exp2(-fog_density * fog_density * depth * depth * LOG2);
         fogFactor = 1.0 - clamp(fogFactor, 0.0, 1.0);
-    
-        gl_FragColor = mix(color, vec4(vec3(0.0, 0.0, 0.0), color.w), fogFactor);
+
+        gl_FragColor = mix(source, vec4(vec3(0.0, 0.0, 0.0), source.w), fogFactor);
+        //gl_FragColor = mix(source, vec4(fog_color, source.w), fogFactor);
     }`;
 
 var viewer = two.ui.scene_viewer(panel);
@@ -142,13 +260,22 @@ if (init) {
     var program = app.gfx.programs.create('lava'); //new two.Program('lava');
     program.set_block(two.MaterialBlock.Solid);
     program.set_block(two.MaterialBlock.User);
-    program.set_source(two.ShaderType.Vertex, vertex_shader);
-    program.set_source(two.ShaderType.Fragment, fragment_shader);
+    program.set_source(two.ShaderType.Vertex, lava_vertex);
+    program.set_source(two.ShaderType.Fragment, lava_fragment);
 
     var film = app.gfx.programs.create('film');
     film.set_source(two.ShaderType.Vertex, film_vertex);
     film.set_source(two.ShaderType.Fragment, film_fragment);
+
+    var blur_block = new two.ShaderBlock();
+    blur_block.index = 0;
+    blur_block.add_mode('KERNEL_SIZE');
     
+    var convol = app.gfx.programs.create('convolution');
+    convol.set_source(two.ShaderType.Vertex, convolution_vertex);
+    convol.set_source(two.ShaderType.Fragment, convolution_fragment);
+    convol.register_block(blur_block);
+
     var cloud = app.gfx.textures.file('lava/cloud.png');
     var lava = app.gfx.textures.file('lava/lavatile.jpg');
 
@@ -160,8 +287,6 @@ if (init) {
     m.user.tex0 = cloud;
     m.user.tex1 = lava;
     
-    // material.submit = submit;
-
     this.angles = new two.vec3(0.3, 0.0, 0.0);
 
     var size = 0.65;
@@ -172,10 +297,10 @@ if (init) {
     var it = scene.items().add(new two.Item(node, model, 0, material));
         
     this.film = {
-        noise: 0.5,
-        scanlines: 0.05,
-        num_scanlines: 4096,
-        grayscale: true
+        noise: 0.35,
+        scanlines: 0.95,
+        num_scanlines: 2048,
+        grayscale: false
     };
 
 }
@@ -195,9 +320,12 @@ function renderer(gfx, render, film) {
     two.pass_clear(gfx, render);
     two.pass_solid(gfx, render);
     
-    //pass_film(gfx, render, film);
-    
-    two.pass_flip(gfx, render);
+    two.pass_begin_post(gfx, render);
+    pass_bloom(gfx, render, render.target.diffuse, render.target.post.current(), false, 1.25);
+    pass_film(gfx, render, film);
+
+    var flip = render.next_pass('flip', two.PassType.PostProcess);
+    gfx.copy.quad(flip, render.fbo, render.target.post.last());
 }
 
 var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);

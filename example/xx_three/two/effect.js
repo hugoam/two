@@ -156,7 +156,6 @@ if(init) {
     this.nodes = [];
     for(var i = 0; i < 100; i++) {
         
-        //var p = normalize(new two.vec3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)) * Math.random() * 400.0;
         var d = Math.random() * 400.0;
         var p = new two.vec3((Math.random() - 0.5) * d, (Math.random() - 0.5) * d, (Math.random() - 0.5) * d);
         var a = new two.vec3(Math.random() * 2.0, Math.random() * 2.0, Math.random() * 2.0);

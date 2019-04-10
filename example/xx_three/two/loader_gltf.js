@@ -22,8 +22,13 @@ if(init) {
     env.background.texture = texture;
     env.background.mode = two.BackgroundMode.Panorama;
 
-    var model = app.gfx.models.file('DamagedHelmet'); // .gltf');
+    var three = app.gfx.programs.fetch('pbr/three');
 
+    var model = app.gfx.models.file('DamagedHelmet'); // .gltf');
+    var mesh = model.get_mesh(0);
+    mesh.material.program = three;
+    mesh.material.pbr.albedo.texture.reload(app.gfx, true);
+    
     var n = scene.nodes().add(new two.Node3());
     var i = scene.items().add(new two.Item(n, model));
 }

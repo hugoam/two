@@ -44,7 +44,9 @@ if (init) {
         m.phong.reflectivity.value = 0.1;
         m.phong.env_blend = two.PhongEnvBlendMode.Mix;
     
-    var geometry = app.gfx.shape(new two.Sphere(1.0, 0.0, Math.PI));
+    
+    var symbol = new two.Symbol(new two.Colour(1.0)); symbol.subdiv = new two.uvec2(32, 16);
+    var geometry = app.gfx.shape(new two.Sphere(1.0, 0.0, Math.PI), symbol);
 
     for(var i = 0; i < 5000; ++i)
     {

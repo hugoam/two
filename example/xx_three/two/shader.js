@@ -50,7 +50,7 @@ var fragment_shader =`$input v_uv0
     }`;
 
 var viewer = two.ui.scene_viewer(panel);
-two.ui.orbit_controller(viewer);
+two.ui.orbit_controls(viewer);
 
 if (init) {
     var program = app.gfx.programs.create('custom');
@@ -64,7 +64,8 @@ if (init) {
     m.base.cull_mode = two.CullMode.None;
     
     //var model = app.gfx.shape(new two.Quad(1.0));
-    var model = app.gfx.shape(new two.Rect(0.0, 0.0, 1.0, 1.0));
+    var model = app.gfx.shape(new two.Quad(new two.vec3(0.5, 0.5, 0.0), new two.vec3(0.5, -0.5, 0.0), new two.vec3(-0.5, -0.5, 0.0), new two.vec3(-0.5, 0.5, 0.0)));
+    //var model = app.gfx.shape(new two.Rect(0.0, 0.0, 1.0, 1.0));
 
     var scene = viewer.scene;
 

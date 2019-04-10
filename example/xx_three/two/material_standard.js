@@ -28,9 +28,14 @@ if(init) {
     //this.tonemap.mode = two.TonemapMode.Reinhardt;
     //this.tonemap.exposure = 3.0;
     
-    //scene.add(new THREE.HemisphereLight(0x443333, 0x222233, 4));
+    env.skylight.enabled = true;
+    env.skylight.color = two.rgb(0x443333);
+    env.skylight.ground = two.rgb(0x222233);
+    env.skylight.intensity = 4.0;
 
     var albedo = app.gfx.textures.file('cerberus/Cerberus_A.jpg');
+    albedo.reload(app.gfx, true);
+    
     var metrough = app.gfx.textures.file('cerberus/Cerberus_RM.jpg');
     var normal = app.gfx.textures.file('cerberus/Cerberus_N.jpg');
 
@@ -44,7 +49,9 @@ if(init) {
         m.pbr.roughness.value = 1.0;
         m.pbr.albedo.texture = albedo;
         m.pbr.metallic.texture = metrough;
+        m.pbr.metallic.channel = two.TextureChannel.Blue;
         m.pbr.roughness.texture = metrough;
+        m.pbr.roughness.channel = two.TextureChannel.Green;
         m.lit.normal.texture = normal;
 
     var position = new two.vec3(-0.45, 0.0, 0.0);

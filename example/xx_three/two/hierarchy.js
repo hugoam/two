@@ -22,8 +22,8 @@ if (init) {
     camera.fov = 60.0; camera.near = 1.0; camera.far = 10000.0;
     camera.eye.z = 500.0;
 
-    viewer.viewport.clear_colour = two.rgb(0xffffff);
-    scene.env.background.colour = two.rgb(0xffffff);
+    //viewer.viewport.clear_colour = two.rgb(0xffffff);
+    //scene.env.background.colour = two.rgb(0xffffff);
     //scene.fog = new THREE.Fog(0xffffff, 1, 10000);
 
     var geometry = app.gfx.shape(new two.Cube(new two.vec3(50.0)));

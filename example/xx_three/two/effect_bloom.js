@@ -15,7 +15,7 @@ var luminosity_fragment = `$input v_uv0
     #include <filter.sh>
     
     uniform vec4 u_glow_lum_p0;
-    #define u_threshold u_glow_lum_p0.x
+    #define u_threshold    u_glow_lum_p0.x
     #define u_smooth_width u_glow_lum_p0.y
     
     //uniform vec3 defaultColor;
@@ -45,7 +45,7 @@ var blur_fragment = `$input v_uv0
     #define SIGMA KERNEL_RADIUS
     
     uniform vec4 u_glow_blur_p0;
-    #define u_direction u_glow_blur_p0.xy
+    #define u_direction  u_glow_blur_p0.xy
     #define u_level_size u_glow_blur_p0.zw
     
     float gaussianPdf(in float x, in float sigma) {
@@ -77,7 +77,7 @@ var merge_fragment = `$input v_uv0
     
     uniform vec4 u_glow_merge_p0;
     #define u_glow_strength u_glow_merge_p0.x
-    #define u_glow_radius u_glow_merge_p0.y
+    #define u_glow_radius   u_glow_merge_p0.y
     
     uniform vec4 u_glow_levels[2];
     //uniform vec4 u_glow_colors[5];
@@ -238,21 +238,22 @@ if(init) {
     var ln = scene.nodes().add(new two.Node3());
     scene.lights().add(new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 1.0));
 
-    var model = app.gfx.models.file('PrimaryIonDrive'); // .glb
+    //var model = app.gfx.models.file('PrimaryIonDrive'); // .glb
+    //
+    //var n = scene.nodes().add(new two.Node3());
+    //scene.items().add(new two.Item(n, model));
 
-    var n = scene.nodes().add(new two.Node3());
-    scene.items().add(new two.Item(n, model));
+    var prefab = app.gfx.prefabs.file('PrimaryIonDrive');
 
-    // Mesh contains self-intersecting semi-transparent faces, which display
-    // z-fighting unless depthWrite is disabled.
-    //var core = model.getObjectByName('geo1_HoloFillDark_0');
-    //core.material.depthWrite = false;
+    var mi = scene.mimes().add(new two.Mime());
+    prefab.add(scene, mi);
 
-    //mixer = new THREE.AnimationMixer(model);
-    //var clip = gltf.animations[0];
-    //mixer.clipAction(clip.optimize()).play();
+    //var anim = prefab.anims[0];
+    mi.start('Main', true, 0.0, 1.0);
 }
 
+scene.update();
+    
 //if(var dock = two.ui.dockitem(dockbar, 'Game', { 1 }))
 //{
 //	var sheet = two.ui.sheet(*dock);
@@ -289,7 +290,3 @@ app.gfx.renderer.begin(render);
 renderer(app.gfx, render, this.tonemap, this.bcs, this.bloom);
 
 app.gfx.renderer.end(render);
-
-//const float delta = clock.getDelta();
-
-//mixer.update(delta);
