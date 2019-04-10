@@ -77,7 +77,7 @@ namespace mud
 
 		if(!bx::open(&gfx.file_writer(), file_path.c_str()))
 		{
-			printf("ERROR: Unable to open output file '%s'", file_path);
+			printf("ERROR: Unable to open output file '%s'", file_path.c_str());
 			return;
 		}
 
