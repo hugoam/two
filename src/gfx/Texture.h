@@ -116,6 +116,7 @@ namespace mud
 	{
 		Texture texture;
 		vector<float> memory;
+		vector<float> prev;
 		uint16_t width = 1024;
 		uint8_t stride = 4;
 	};

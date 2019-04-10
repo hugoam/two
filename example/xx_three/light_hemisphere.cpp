@@ -27,18 +27,18 @@ static string skydome_fragment =
 
 	"#include <common.sh>\n"
 
-	"#define top_color    p0.xyz\n"
-	"#define bottom_color p1.xyz\n"
-	"#define offset       p2.x\n"
-	"#define exponent     p2.y\n"
-
 	"void main()\n"
 	"{\n"
 		"int material_index = int(u_state_material);\n"
-		"UserMaterial u = read_user_material(material_index);\n"
+		"UserMaterial mat = read_user_material(material_index);\n"
 
-		"float h = normalize(v_world + u.offset).y;\n"
-		"gl_FragColor = vec4(mix(u.bottom_color, u.top_color, max(pow(max(h, 0.0), u.exponent), 0.0)), 1.0);\n"
+		"vec3 top_color    = mat.p0.xyz;\n"
+		"vec3 bottom_color = mat.p1.xyz;\n"
+		"float offset      = mat.p2.x;\n"
+		"float exponent    = mat.p2.y;\n"
+
+		"float h = normalize(v_world + offset).y;\n"
+		"gl_FragColor = vec4(mix(bottom_color, top_color, max(pow(max(h, 0.0), exponent), 0.0)), 1.0);\n"
 		"gl_FragColor = vec4(pow(gl_FragColor.rgb, vec3_splat(2.0)), 1.0);\n"
 	"}\n";
 
@@ -48,7 +48,7 @@ void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
+	ui::orbit_controls(viewer);
 
 	Scene& scene = viewer.m_scene;
 
@@ -142,7 +142,7 @@ void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 		});
 
 		Node3& nsky = gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(nsky, skysphere, 0, &skymat));
+		gfx::items(scene).add(Item(nsky, skysphere, ItemFlag::Render | ItemFlag::LodAll, &skymat));
 
 		// MODEL
 

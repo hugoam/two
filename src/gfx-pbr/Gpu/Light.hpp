@@ -153,6 +153,9 @@ namespace mud
 			const size_t lines = 1;
 			const uvec2 size = uvec2(buffer.width, uint16_t(lines * height));
 
+			// swap two buffers so that bgfx can still read the previous one
+			swap(buffer.memory, buffer.prev);
+
 			if(buffer.texture.m_size != size)
 				buffer.texture = { size, false, TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
 
