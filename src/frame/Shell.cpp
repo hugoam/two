@@ -148,6 +148,11 @@ namespace mud
 		return *m_windows.back();
 	}
 
+	void Shell::add_file(const string& path, span<uint8_t> data)
+	{
+		write_binary_file(path, data);
+	}
+
 	ShellWindow& Shell::main_window()
 	{
 		return *m_windows[0];

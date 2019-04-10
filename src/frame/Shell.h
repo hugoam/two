@@ -54,6 +54,8 @@ namespace mud
 		meth_ void init(bool window = true);
 		meth_ ShellWindow& window(const string& name, const uvec2& size, bool fullscreen = false);
 
+		meth_ void add_file(const string& path, span<uint8_t> data);
+
 		void run(const ShellUpdate& func, size_t iterations = 0U);
 
 		meth_ bool begin_frame();

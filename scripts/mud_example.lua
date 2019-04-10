@@ -74,8 +74,8 @@ if _OPTIONS["jsbind"] then
         mud_js("xx_js", mud.all)
         mud_js("two", mud.all)
     end
-    project "two"
-        add_example_data("xx_three")
+    --project "two"
+    --    add_example_data("xx_three")
 end
 
 if _OPTIONS["renderer-bgfx"] then

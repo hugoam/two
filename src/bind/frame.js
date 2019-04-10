@@ -19,6 +19,10 @@ Shell.prototype["window"] = Shell.prototype.window = function(a0, a1, a2) {
     if (a2 === undefined) { return wrapPointer(_mud_Shell_window_2(this.__ptr, ensureString(/*name*/a0), /*size*/a1.__ptr), ShellWindow); }
     return wrapPointer(_mud_Shell_window_3(this.__ptr, ensureString(/*name*/a0), /*size*/a1.__ptr, /*fullscreen*/a2), ShellWindow);
 };
+Shell.prototype["add_file"] = Shell.prototype.add_file = function(a0, a1) {
+    ensureCache.prepare();
+    _mud_Shell_add_file_2(this.__ptr, ensureString(/*path*/a0), ensureInt8(/*data*/a1), /*data*/a1.length);
+};
 Shell.prototype["begin_frame"] = Shell.prototype.begin_frame = function() {
     return !!(_mud_Shell_begin_frame_0(this.__ptr));
 };
