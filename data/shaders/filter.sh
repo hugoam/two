@@ -16,12 +16,16 @@ SAMPLER2D(s_source_2, 2);
 SAMPLER2D(s_source_3, 3);
 SAMPLER2D(s_source_depth, 3);
 
-uniform vec4 u_source_0_crop;
+uniform vec4 u_source_crop;
 
-uniform int u_source_0_level;
-uniform int u_source_1_level;
-uniform int u_source_2_level;
-uniform int u_source_3_level;
+uniform vec4 u_source_levels;
+#define u_source_0_level int(u_source_levels.x)
+#define u_source_1_level int(u_source_levels.y)
+#define u_source_2_level int(u_source_levels.z)
+#define u_source_3_level int(u_source_levels.w)
+
+uniform vec4 u_filter_p0;
+#define u_multiply u_filter_p0.x
 
 uniform mat4 u_camera_proj;
 

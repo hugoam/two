@@ -1,12 +1,11 @@
-$input v_uv0,
+$input v_uv0, v_dir
 
 #include <common.sh>
 #include <spherical.sh>
 
-//#define SOURCE_0_ARRAY
 #include <filter.sh>
 
-#define s_radiance_source s_source_0
+#define s_radiance s_source_0
 
 uniform vec4 u_prefilter_envmap_p0;
 #define u_roughness u_prefilter_envmap_p0.x
@@ -16,25 +15,25 @@ uniform vec4 u_prefilter_envmap_p0;
 // also : https://learnopengl.com/PBR/IBL/Specular-IBL
 vec3 ImportanceSampleGGX(vec2 Xi, float Roughness, vec3 N)
 {
-	float a = Roughness * Roughness;
+    float a = Roughness * Roughness;
 
-	// Compute distribution direction
-	float Phi = 2.0 * M_PI * Xi.x;
-	float CosTheta = sqrt((1.0 - Xi.y) / (1.0 + (a*a - 1.0) * Xi.y));
-	float SinTheta = sqrt(1.0 - CosTheta * CosTheta);
+    // Compute distribution direction
+    float Phi = 2.0 * PI * Xi.x;
+    float CosTheta = sqrt((1.0 - Xi.y) / (1.0 + (a*a - 1.0) * Xi.y));
+    float SinTheta = sqrt(1.0 - CosTheta * CosTheta);
 
-	// Convert to spherical direction
-	vec3 H;
-	H.x = SinTheta * cos(Phi);
-	H.y = SinTheta * sin(Phi);
-	H.z = CosTheta;
+    // Convert to spherical direction
+    vec3 H;
+    H.x = SinTheta * cos(Phi);
+    H.y = SinTheta * sin(Phi);
+    H.z = CosTheta;
 
-	vec3 UpVector = abs(N.z) < 0.999 ? vec3(0.0, 0.0, 1.0) : vec3(1.0, 0.0, 0.0);
-	vec3 TangentX = normalize(cross(UpVector, N));
-	vec3 TangentY = cross(N, TangentX);
+    vec3 UpVector = abs(N.z) < 0.999 ? vec3(0.0, 0.0, 1.0) : vec3(1.0, 0.0, 0.0);
+    vec3 TangentX = normalize(cross(UpVector, N));
+    vec3 TangentY = cross(N, TangentX);
 
-	// Tangent to world space
-	return TangentX * H.x + TangentY * H.y + N * H.z;
+    // Tangent to world space
+    return TangentX * H.x + TangentY * H.y + N * H.z;
 }
 
 #if BGFX_SHADER_LANGUAGE_GLSL <= 120
@@ -80,11 +79,26 @@ vec2 Hammersley(uint i, uint N)
 
 void main()
 {
-	vec3 N = invertedSphericalUV(v_uv0);
+#ifdef SOURCE_0_CUBE
+    vec3 N = normalize(v_dir);
+#else
+    vec3 N = invertedSphericalUV(v_uv0);
+#endif
     vec3 V = N;
 
-	vec4 color = vec4_splat(0.0);
-
+    if(u_roughness == 0.0)
+    {
+#ifdef SOURCE_0_CUBE
+        vec4 color = textureCubeLod(s_radiance, N, float(u_source_0_level));
+#else
+        vec4 color = textureSpherical2D(s_radiance, N, float(u_source_0_level));
+#endif
+        gl_FragColor = vec4(color.rgb, 1.0);
+        return;
+    }
+    
+    vec4 color = vec4_splat(0.0);
+    
 #if BGFX_SHADER_LANGUAGE_GLSL <= 120
     int num_samples = int(u_num_samples);
 	for(int i = 0; i < num_samples; i++)
@@ -93,27 +107,27 @@ void main()
 	for(uint i = 0u; i < num_samples; i++)
 #endif
     {
-		vec2 Xi = Hammersley(i, num_samples);
+        vec2 Xi = Hammersley(i, num_samples);
 
-		vec3 H = ImportanceSampleGGX(Xi, u_roughness, N);
-		vec3 L = 2.0 * dot(V, H) * H - V;
+        vec3 H = ImportanceSampleGGX(Xi, u_roughness, N);
+        vec3 L = 2.0 * dot(V, H) * H - V;
 
-		float NoL = saturate(dot(N, L));
+        float NoL = saturate(dot(N, L));
 
-		if (NoL > 0.0)
+        if (NoL > 0.0)
         {
-#ifdef SOURCE_0_ARRAY
-			color.rgb += textureSpherical2DArray(s_radiance_source, L, float(u_source_0_level)).rgb * NoL;
+#ifdef SOURCE_0_CUBE
+            color.rgb += textureCubeLod(s_radiance, L, float(u_source_0_level)).rgb * NoL;
 #else
-			color.rgb += textureSpherical2D(s_radiance_source, L, float(u_source_0_level)).rgb * NoL;
+            color.rgb += textureSpherical2D(s_radiance, L, float(u_source_0_level)).rgb * NoL;
 #endif
-			color.a += NoL;
-		}
-	}
+            color.a += NoL;
+        }
+    }
 
-	color /= color.a;
+    color /= color.a;
 
-	gl_FragColor = vec4(color.rgb, 1.0);
-	//gl_FragColor = vec4(N, 1.0);
+    gl_FragColor = vec4(color.rgb, 1.0);
+    //gl_FragColor = vec4(N, 1.0);
 }
 

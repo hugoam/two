@@ -165,6 +165,11 @@ vec4 bgfxTexture2DLod(BgfxSampler2D _sampler, vec2 _coord, float _level)
 	return _sampler.m_texture.SampleLevel(_sampler.m_sampler, _coord, _level);
 }
 
+vec4 bgfxTexture2DLodOffset(BgfxSampler2D _sampler, vec2 _coord, float _level, vec2 _offset)
+{
+	return _sampler.m_texture.SampleLevel(_sampler.m_sampler, _coord, _level, _offset);
+}
+
 vec4 bgfxTexture2DProj(BgfxSampler2D _sampler, vec3 _coord)
 {
 	vec2 coord = _coord.xy * rcp(_coord.z);
@@ -289,6 +294,7 @@ vec4 bgfxTexelFetch(BgfxSampler3D _sampler, ivec3 _coord, int _lod)
 #		define sampler2D BgfxSampler2D
 #		define texture2D(_sampler, _coord) bgfxTexture2D(_sampler, _coord)
 #		define texture2DLod(_sampler, _coord, _level) bgfxTexture2DLod(_sampler, _coord, _level)
+#		define texture2DLodOffset(_sampler, _coord, _level, _offset) bgfxTexture2DLod(_sampler, _coord, _level, _offset)
 #		define texture2DProj(_sampler, _coord) bgfxTexture2DProj(_sampler, _coord)
 #		define texture2DGrad(_sampler, _coord, _dPdx, _dPdy) bgfxTexture2DGrad(_sampler, _coord, _dPdx, _dPdy)
 

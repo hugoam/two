@@ -190,17 +190,17 @@ vec4 decodeColor(uint colorMask)
 	float hdr;
 	vec4 color;
 
-	hdr = (colorMask >> 24u) & 0x0000007f;
-	color.r = (colorMask >> 16u) & 0x000000ff;
-	color.g = (colorMask >> 8u) & 0x000000ff;
-	color.b = colorMask & 0x000000ff;
+	hdr = (colorMask >> 24u) & 0x0000007fu;
+	color.r = (colorMask >> 16u) & 0x000000ffu;
+	color.g = (colorMask >> 8u) & 0x000000ffu;
+	color.b = colorMask & 0x000000ffu;
 
 	hdr /= 127.0;
 	color.rgb /= 255.0;
 
 	color.rgb *= hdr * hdrRange;
 
-	color.a = (colorMask >> 31u) & 0x00000001;
+	color.a = (colorMask >> 31u) & 0x00000001u;
 
 	return color;
 }
@@ -213,7 +213,7 @@ uint encodeNormal(vec3 n)
 	signs.y = uint((inor.y >> 14) & 0x00020000);
 	signs.z = uint((inor.z >> 23) & 0x00000100);
 	inor = abs(inor);
-	uint val = int(signs.x) | (inor.x << 18) | int(signs.y) | (inor.y << 9) | int(signs.z) | inor.z;
+	uint val = uint(int(signs.x) | (inor.x << 18) | int(signs.y) | (inor.y << 9) | int(signs.z) | inor.z);
 	//uint val = signs.x | uint(inor.x << 18) | signs.y | uint(inor.y << 9) | signs.z | uint(inor.z);
 	return val;
 }

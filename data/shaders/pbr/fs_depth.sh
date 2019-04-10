@@ -11,7 +11,7 @@
 #ifdef DEEP_PARALLAX
     float num_layers = mix(float(8), float(32), abs(dot(vec3(0.0, 0.0, 1.0), view_dir)));
     float layer_depth = 1.0 / num_layers;
-    vec2 P = view_dir.xy * pbr.depth_scale;
+    vec2 P = view_dir.xy * matpbr.depth_scale;
     vec2 delta = P / num_layers;
     float depth = texture2D(s_depth, fragment.uv).r;
     float current_depth = 0.0;
@@ -29,7 +29,7 @@
     fragment.uv = mix(current_uv, prev_uv, weight);
 #else
     float depth = texture2D(s_depth, fragment.uv).r;
-    fragment.uv -= view_dir.xy / view_dir.z * (depth * pbr.depth_scale);
+    fragment.uv -= view_dir.xy / view_dir.z * (depth * matpbr.depth_scale);
 #endif
 
 #endif

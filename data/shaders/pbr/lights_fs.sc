@@ -63,8 +63,10 @@ void main()
     material.roughness = surface.x;
 	material.metallic = surface.y;
     material.specular = surface.z;
-	material.alpha = 1.0;
-    material.emission = colour.rgb * colour.a;
+    
+	float alpha = 1.0;
+    
+    vec4 emission = vec4(colour.rgb * colour.a, colour.a);
     
 #include "fs_pbr.sh"
 

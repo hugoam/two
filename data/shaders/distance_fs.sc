@@ -6,6 +6,9 @@ $input v_world, v_uv0
 
 void main()
 {
+    int material_index = int(u_state_material);
+    AlphaMaterial matalpha = read_alpha_material(material_index);
+    
     vec2 uv = v_uv0;
 #include "fs_alpha.sh"
 #include "fs_alphatest.sh"

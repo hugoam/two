@@ -1,7 +1,5 @@
 $input v_uv0
-
 #include <filter.sh>
-
 uniform vec4 u_glitch_p0;
 #define u_amount u_glitch_p0.x
 #define u_angle u_glitch_p0.y
@@ -9,12 +7,9 @@ uniform vec4 u_glitch_p0;
 uniform vec4 u_glitch_p1;
 #define u_scale u_glitch_p1.xy
 #define u_distort u_glitch_p1.zw
-
-
-float rand(vec2 co){
+float rand2(vec2 co){
 	return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
 }
-
 void main() {
 	const float col_s = 0.5;
 	vec2 p = v_uv0;
@@ -47,6 +42,6 @@ void main() {
 	vec4 cb = texture2D(s_source_0, p - offset);
 	gl_FragColor = vec4(cr.r, cga.g, cb.b, cga.a);
 	//add noise
-	vec4 snow = 200.0 * u_amount * vec4(rand(vec2(xs * u_seed, ys * u_seed * 50.0)) * 0.2);
+	vec4 snow = 200.0 * u_amount * vec4_splat(rand2(vec2(xs * u_seed, ys * u_seed * 50.0)) * 0.2);
 	gl_FragColor = gl_FragColor + snow;
 }

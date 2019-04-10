@@ -1,17 +1,23 @@
-$input a_position, a_texcoord0, i_data0
-$output v_uv0, v_scale
+$input a_position, i_data0, i_data1, i_data2, i_data3
+$output v_position, v_color
+
+#define i_offset i_data0.xyz
+#define i_color i_data1
+#define i_orientation_start i_data2
+#define i_orientation_end i_data3
 
 #include <common.sh>
 
 void main()
 {
-   vec3 i_position = i_data0.xyz;	vec3 timexyz = i_position + vec3_splat(u_time / 2.0);
-	float scale =  sin(timexyz.x * 2.1) + sin(timexyz.y * 3.2) + sin(timexyz.z * 4.3);
-	v_scale = scale;
-	float size = scale * 10.0 + 10.0;
-	vec3 view = mul(u_modelView, vec4(i_position, 1.0)).xyz;
-	view += a_position.xyz * size;
-	v_uv0 = a_texcoord0;
-	gl_Position = mul(u_proj, vec4(view, 1.0));
+	float t = sin(u_time * 0.2);
+	vec3 position = i_offset * max(abs(t * 2.0 + 1.0), 0.5) + a_position.xyz;
+	vec4 orientation = normalize(mix(i_orientation_start, i_orientation_end, t));
+	vec3 vcV = cross(orientation.xyz, position);
+	position = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + position);
 
+	v_color = i_color;
+
+   v_position = vec4(a_position.xyz, 1.0);
+	gl_Position = mul(u_modelViewProj, vec4(a_position.xyz, 1.0));
 }

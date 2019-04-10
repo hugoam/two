@@ -66,22 +66,26 @@ vec3 compute_voxel_lights(vec3 voxel_position, vec3 voxel_color, vec3 voxel_norm
 {
     vec3 diffuse = vec3_splat(0.0);
     
-#ifdef DIRECT_LIGHT
-    diffuse += accumulate_light(voxel_position, voxel_color, voxel_normal, 0, LIGHT_DIRECT);
+    for(int i = 0; i < int(u_light_counts[LIGHT_DIRECT]); i++)
+    {
+        int index = int(u_light_indices[i][LIGHT_DIRECT]);
+        diffuse += accumulate_light(voxel_position, voxel_color, voxel_normal, index, LIGHT_DIRECT);
 #ifdef CSM_SHADOW
-    diffuse *= sample_cascade(0, voxel_position, 0.0, u_csm_atlas_pixel_size);
-    //diffuse = debug_sample_cascade(0, voxel_position, 0.0, u_csm_atlas_pixel_size);
+        diffuse *= sample_cascade(0, voxel_position, 0.0, u_csm_atlas_pixel_size);
+        //diffuse = debug_sample_cascade(0, voxel_position, 0.0, u_csm_atlas_pixel_size);
 #endif
-#endif
-
+    }
+    
     for(int i = 0; i < int(u_light_counts[LIGHT_OMNI]); i++)
     {
-        diffuse += accumulate_light(voxel_position, voxel_color, voxel_normal, int(u_light_indices[i][LIGHT_OMNI]), LIGHT_OMNI);
+        int index = int(u_light_indices[i][LIGHT_OMNI]);
+        diffuse += accumulate_light(voxel_position, voxel_color, voxel_normal, index, LIGHT_OMNI);
     }
     
     for(int j = 0; j < int(u_light_counts[LIGHT_SPOT]); j++)
     {
-        diffuse += accumulate_light(voxel_position, voxel_color, voxel_normal, int(u_light_indices[j][LIGHT_SPOT]), LIGHT_SPOT);
+        int index = int(u_light_indices[j][LIGHT_SPOT]);
+        diffuse += accumulate_light(voxel_position, voxel_color, voxel_normal, index, LIGHT_SPOT);
     }
     
     diffuse = clamp(diffuse, vec3_splat(0.0), vec3_splat(1.0));

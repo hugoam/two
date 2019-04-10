@@ -32,7 +32,7 @@ void trimSegment(vec4 start, inout vec4 end)
 
 void main()
 {
-    int material_index = int(u_state_material);
+    int material_index = int(u_state_material_vertex);
     LineMaterial mat = read_line_material(material_index);
     
     #if 1 //def USE_COLOR
@@ -43,7 +43,7 @@ void main()
         v_line_distance = (a_position.y < 0.5) ? mat.dash_scale * i_distance_start : mat.dash_scale * i_distance_end;
     #endif
 
-    v_uv0 = vec4(a_texcoord0, 0.0, 0.0);
+    v_uv0 = a_texcoord0;
 
     // camera space
     vec4 start = mul(u_modelView, vec4(i_start, 1.0));

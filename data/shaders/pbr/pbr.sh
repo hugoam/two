@@ -9,6 +9,10 @@ SAMPLER2D(s_albedo, 0);
 SAMPLER2D(s_metallic, 2);
 SAMPLER2D(s_roughness, 3);
 
+SAMPLER2D(s_diffuse, 0);
+SAMPLER2D(s_specular, 2);
+SAMPLER2D(s_shininess, 3);
+
 #ifdef EMISSIVE
 SAMPLER2D(s_emissive, 4);
 #endif
@@ -69,7 +73,7 @@ struct Material
     float metallic;
     float specular;
     vec3 f0;
-    vec4 emission;
+    float refraction;
     float ao;
     float anisotropy;
     float rim;
@@ -79,7 +83,6 @@ struct Material
 
 struct Radiance
 {
-    vec3 ambient;
     vec3 diffuse;
     vec3 specular;
 };

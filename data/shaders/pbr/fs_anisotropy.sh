@@ -1,6 +1,6 @@
 #ifdef ANISOTROPY
     vec3 anisotropy_tex = sample_material_texture(s_anisotropy, fragment.uv).rga;
-    material.anisotropy = pbr.anisotropy * anisotropy_tex.b;
+    material.anisotropy = matpbr.anisotropy * anisotropy_tex.b;
 
     if (anisotropy > 0.01) {
         vec2 flow = anisotropy_tex.rg * 2.0 - 1.0;

@@ -5,7 +5,7 @@
 
     // mikktspace formula
     vec3 normal_offset = v_tangent * normal_tex.x + v_binormal * normal_tex.y + v_normal * normal_tex.z;
-    fragment.normal = normalize(mix(fragment.normal, normal_offset, pbr.normal_scale));
+    fragment.normal = normalize(mix(fragment.normal, normal_offset, matlit.normal_scale));
 #else
-    fragment.normal *= pbr.normal_scale;
+    fragment.normal *= matlit.normal_scale;
 #endif

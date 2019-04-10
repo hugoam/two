@@ -163,7 +163,7 @@ vec3 trace_diffuse(sampler3D probe, vec3 pos, vec3 normal, float bias)
 vec3 trace_specular(sampler3D probe, vec3 pos, vec3 refl_vec, float roughness, float bias)
 {
 	float max_distance = length(u_gi_probe_bounds) * cone_distance_factor;
-    float tan_half_angle = max(min_ref_tan, tan(roughness * 0.5 * M_PI));
+    float tan_half_angle = max(min_ref_tan, tan(roughness * 0.5 * PI));
     
     return vec3_splat(0.0);
 	return cone_trace(probe, u_gi_probe_inv_extents, pos, refl_vec, tan_half_angle, max_distance, bias);

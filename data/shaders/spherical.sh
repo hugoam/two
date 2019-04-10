@@ -15,8 +15,8 @@ vec2 sphericalUV(vec3 v)
 vec3 invertedSphericalUV(vec2 uv)
 {
     uv.y = 1.0 - uv.y; // spherical uvs are sampled from bottom left
-	float theta = (uv.x * 2.0 - 1.0) * M_PI;
-	float phi = (uv.y * 2.0 - 1.0) * M_PI / 2.0; 
+	float theta = (uv.x * 2.0 - 1.0) * PI;
+	float phi = (uv.y * 2.0 - 1.0) * PI / 2.0; 
     //float phi = asin(uv.y); // for spherical vertical distortion
 
 	return vec3(cos(phi) * cos(theta), sin(phi), cos(phi) * sin(theta));

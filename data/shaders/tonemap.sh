@@ -27,37 +27,42 @@ vec4 toFilmic(vec4 _rgba)
 
 vec3 toAcesFilmic(vec3 _rgb)
 {
-	// Reference:
-	// ACES Filmic Tone Mapping Curve
-	// https://knarkowicz.wordpress.com/2016/01/06/aces-filmic-tone-mapping-curve/
-	float aa = 2.51f;
-	float bb = 0.03f;
-	float cc = 2.43f;
-	float dd = 0.59f;
-	float ee = 0.14f;
-	return saturate( (_rgb*(aa*_rgb + bb) )/(_rgb*(cc*_rgb + dd) + ee) );
+    // Reference:
+    // ACES Filmic Tone Mapping Curve
+    // https://knarkowicz.wordpress.com/2016/01/06/aces-filmic-tone-mapping-curve/
+    float aa = 2.51f;
+    float bb = 0.03f;
+    float cc = 2.43f;
+    float dd = 0.59f;
+    float ee = 0.14f;
+    return saturate( (_rgb*(aa*_rgb + bb) )/(_rgb*(cc*_rgb + dd) + ee) );
 }
 
 vec4 toAcesFilmic(vec4 _rgba)
 {
-	return vec4(toAcesFilmic(_rgba.xyz), _rgba.w);
+    return vec4(toAcesFilmic(_rgba.xyz), _rgba.w);
 }
 
-vec3 luma(vec3 _rgb)
+float luma(vec3 _rgb)
 {
-	float yy = dot(vec3(0.2126729, 0.7151522, 0.0721750), _rgb);
-	return vec3_splat(yy);
+    float yy = dot(vec3(0.2126729, 0.7151522, 0.0721750), _rgb);
+    return yy;
+}
+
+vec3 luma3(vec3 _rgb)
+{
+	return vec3_splat(luma(_rgb));
 }
 
 vec4 luma(vec4 _rgba)
 {
-	return vec4(luma(_rgba.xyz), _rgba.w);
+	return vec4(luma3(_rgba.xyz), _rgba.w);
 }
 
 vec3 conSatBri(vec3 _rgb, vec3 _csb)
 {
 	vec3 rgb = _rgb * _csb.z;
-	rgb = mix(luma(rgb), rgb, _csb.y);
+	rgb = mix(luma3(rgb), rgb, _csb.y);
 	rgb = mix(vec3_splat(0.5), rgb, _csb.x);
 	return rgb;
 }

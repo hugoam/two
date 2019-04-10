@@ -1,13 +1,9 @@
 $input v_uv0
-
 #include <filter.sh>
-
 void main() {
-
 	vec2 p = - 1.0 + 2.0 * v_uv0;
 	float a = u_time * 40.0;
 	float d, e, f, g = 1.0 / 40.0 ,h ,i ,r ,q;
-
 	e = 400.0 * (p.x * 0.5 + 0.5);
 	f = 400.0 * (p.y * 0.5 + 0.5);
 	i = 200.0 + sin(e * g + a / 150.0) * 20.0;
@@ -29,5 +25,4 @@ void main() {
 	d += sin(d * d * 8.0) * 0.52;
 	f = (sin(a * g) + 1.0) / 2.0;
 	gl_FragColor = vec4(vec3(f * i / 1.6, i / 2.0 + d / 13.0, i) * d * p.x + vec3(i / 1.3 + d / 8.0, i / 2.0 + d / 18.0, i) * d * (1.0 - p.x), 1.0);
-
 }

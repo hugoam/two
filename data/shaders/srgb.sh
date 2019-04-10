@@ -1,6 +1,11 @@
 #ifndef MUD_SHADER_SRGB
 #define MUD_SHADER_SRGB
 
+vec4 sRGBToLinear(vec4 value)
+{
+	return vec4(mix(pow(value.rgb * 0.9478672986 + vec3_splat(0.0521327014), vec3_splat(2.4)), value.rgb * 0.0773993808, vec3(lessThanEqual(value.rgb, vec3_splat(0.04045)))), value.a);
+}
+
 vec3 toLinear(vec3 _rgb)
 {
 	return pow(abs(_rgb), vec3_splat(2.2) );

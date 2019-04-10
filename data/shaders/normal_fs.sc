@@ -7,7 +7,7 @@ void main()
 {
     vec3 normal = normalize(v_normal);
     int material_index = int(u_state_material);
-    SolidMaterial solid = read_solid_material(material_index);
+    AlphaMaterial matalpha = read_alpha_material(material_index);
     
 #include "fs_alpha.sh"
 #include "fs_alphatest.sh"

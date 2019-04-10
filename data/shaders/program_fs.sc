@@ -1,7 +1,5 @@
 $input v_color
-
 #include <common.sh>
-
 void main()
 {
 	if (v_color.a > 0.0) {
@@ -9,5 +7,4 @@ void main()
 	} else {
 		discard;
 	}
-
 }

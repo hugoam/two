@@ -11,17 +11,21 @@ $input v_color DASH_PARAMS
 void main()
 {
     int material_index = int(u_state_material);
-    SolidMaterial solid = read_solid_material(material_index);
-    LineMaterial mat = read_line_material(material_index);
+    AlphaMaterial matalpha = read_alpha_material(material_index);
+    SolidMaterial matsolid = read_solid_material(material_index);
+    LineMaterial  matline  = read_line_material(material_index);
     
 #include "fs_alpha.sh"
 #include "fs_alphatest.sh"
 
-    #ifdef DASH
-        if (mod(v_line_distance, mat.dash_size + mat.dash_gap) > mat.dash_size) discard; // todo - FIX
-    #endif
+#ifdef DASH
+    if (mod(v_line_distance, matline.dash_size + matline.dash_gap) > matline.dash_size) discard; // todo - FIX
+#endif
 
-    vec4 diffuse = v_color * vec4(solid.color.rgb, solid.color.a * alpha);
+    vec4 color = vec4(matsolid.color.rgb, matsolid.color.a * alpha);
+#ifdef VERTEX_COLOR
+    color *= v_color;
+#endif
 
-    gl_FragColor = vec4(diffuse.rgb, diffuse.a);
+    gl_FragColor = vec4(color.rgb, color.a);
 }
