@@ -107,14 +107,6 @@ Object.defineProperty(Context.prototype, "mouse_lock", {
         _mud_Context__set_mouse_lock(this.__ptr, value);
     }
 });
-Object.defineProperty(Context.prototype, "colour", {
-    get: function() {
-        return wrapPointer(_mud_Context__get_colour(this.__ptr), Colour);
-    },
-    set: function(value) {
-        _mud_Context__set_colour(this.__ptr, value.__ptr);
-    }
-});
 Context.prototype["__destroy"] = Context.prototype.__destroy = function() {
     _mud_Context__destroy(this.__ptr);
 };

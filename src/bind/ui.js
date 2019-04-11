@@ -899,6 +899,42 @@ UiWindow.prototype.constructor = UiWindow;
 UiWindow.prototype.__class = UiWindow;
 UiWindow.__cache = {};
 Module['UiWindow'] = UiWindow;
+Object.defineProperty(UiWindow.prototype, "resource_path", {
+    get: function() {
+        return UTF8ToString(_mud_UiWindow__get_resource_path(this.__ptr));
+    }});
+Object.defineProperty(UiWindow.prototype, "context", {
+    get: function() {
+        return wrapPointer(_mud_UiWindow__get_context(this.__ptr), Context);
+    }});
+Object.defineProperty(UiWindow.prototype, "vg", {
+    get: function() {
+        return wrapPointer(_mud_UiWindow__get_vg(this.__ptr), Vg);
+    }});
+Object.defineProperty(UiWindow.prototype, "size", {
+    get: function() {
+        return wrapPointer(_mud_UiWindow__get_size(this.__ptr), v2_uint);
+    },
+    set: function(value) {
+        _mud_UiWindow__set_size(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(UiWindow.prototype, "colour", {
+    get: function() {
+        return wrapPointer(_mud_UiWindow__get_colour(this.__ptr), Colour);
+    },
+    set: function(value) {
+        _mud_UiWindow__set_colour(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(UiWindow.prototype, "shutdown", {
+    get: function() {
+        return !!(_mud_UiWindow__get_shutdown(this.__ptr));
+    },
+    set: function(value) {
+        _mud_UiWindow__set_shutdown(this.__ptr, value);
+    }
+});
 UiWindow.prototype["__destroy"] = UiWindow.prototype.__destroy = function() {
     _mud_UiWindow__destroy(this.__ptr);
 };

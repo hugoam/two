@@ -36,7 +36,7 @@ namespace mud
 	{
 		// @todo this won't do for multiple contexts
 		bgfx::setViewRect(0, 0, 0, uint16_t(m_fb_size.x), uint16_t(m_fb_size.y));
-		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, to_rgba(m_colour), 1.0f, 0);
+		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, to_rgba(Colour(0.f)), 1.0f, 0);
 	}
 
 	void BgfxContext::reset_fb(const uvec2& size)

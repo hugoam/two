@@ -93,6 +93,8 @@ void mud_TextSelection__construct_0(void* ref, span<void*> args) { UNUSED(args);
 void mud_TextSelection__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::TextSelection((*static_cast<mud::TextSelection*>(other))); }
 void mud_UiRect__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::UiRect(  ); }
 void mud_UiRect__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::UiRect((*static_cast<mud::UiRect*>(other))); }
+void* mud_UiWindow__get_context(void* object) { return &(*static_cast<mud::UiWindow*>(object)).m_context; }
+void* mud_UiWindow__get_vg(void* object) { return &(*static_cast<mud::UiWindow*>(object)).m_vg; }
 void mud_v2_mud_Align__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::v2<mud::Align>(  ); }
 void mud_v2_mud_Align__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Align>( *static_cast<mud::Align*>(args[0]) ); }
 void mud_v2_mud_Align__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::v2<mud::Align>( *static_cast<mud::Align*>(args[0]), *static_cast<mud::Align*>(args[1]) ); }
@@ -985,12 +987,21 @@ namespace mud
 		static Meta meta = { t, &namspc({ "mud" }), "UiWindow", sizeof(mud::UiWindow), TypeClass::Object };
 		// bases
 		// defaults
+		static bool shutdown_default = false;
 		// constructors
 		// copy constructor
 		// members
+		static Member members[] = {
+			{ t, offsetof(mud::UiWindow, m_resource_path), type<stl::string>(), "resource_path", nullptr, Member::Flags(Member::Value|Member::NonMutable), nullptr },
+			{ t, SIZE_MAX, type<mud::Context>(), "context", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_UiWindow__get_context },
+			{ t, SIZE_MAX, type<mud::Vg>(), "vg", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_UiWindow__get_vg },
+			{ t, offsetof(mud::UiWindow, m_size), type<mud::uvec2>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::UiWindow, m_colour), type<mud::Colour>(), "colour", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::UiWindow, m_shutdown), type<bool>(), "shutdown", &shutdown_default, Member::Value, nullptr }
+		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// mud::User
 	{

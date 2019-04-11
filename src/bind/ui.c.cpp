@@ -712,6 +712,33 @@ extern "C" {
 	mud::Type* DECL mud_UiWindow__type() {
 		return &mud::type<mud::UiWindow>();
 	}
+	const char* DECL mud_UiWindow__get_resource_path(mud::UiWindow* self) {
+		return self->m_resource_path.c_str();
+	}
+	mud::Context* DECL mud_UiWindow__get_context(mud::UiWindow* self) {
+		return &self->m_context;
+	}
+	mud::Vg* DECL mud_UiWindow__get_vg(mud::UiWindow* self) {
+		return &self->m_vg;
+	}
+	mud::uvec2* DECL mud_UiWindow__get_size(mud::UiWindow* self) {
+		return &self->m_size;
+	}
+	void DECL mud_UiWindow__set_size(mud::UiWindow* self, mud::uvec2* value) {
+		self->m_size = *value;
+	}
+	mud::Colour* DECL mud_UiWindow__get_colour(mud::UiWindow* self) {
+		return &self->m_colour;
+	}
+	void DECL mud_UiWindow__set_colour(mud::UiWindow* self, mud::Colour* value) {
+		self->m_colour = *value;
+	}
+	bool DECL mud_UiWindow__get_shutdown(mud::UiWindow* self) {
+		return self->m_shutdown;
+	}
+	void DECL mud_UiWindow__set_shutdown(mud::UiWindow* self, bool value) {
+		self->m_shutdown = value;
+	}
 	void DECL mud_UiWindow__destroy(mud::UiWindow* self) {
 		delete self;
 	}

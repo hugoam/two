@@ -144,8 +144,7 @@ namespace mud
 			{ t, offsetof(mud::Context, m_active), type<bool>(), "active", &active_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_shutdown), type<bool>(), "shutdown", &shutdown_default, Member::Value, nullptr },
 			{ t, offsetof(mud::Context, m_cursor), type<mud::vec2>(), "cursor", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_mouse_lock), type<bool>(), "mouse_lock", &mouse_lock_default, Member::Value, nullptr },
-			{ t, offsetof(mud::Context, m_colour), type<mud::Colour>(), "colour", nullptr, Member::Value, nullptr }
+			{ t, offsetof(mud::Context, m_mouse_lock), type<bool>(), "mouse_lock", &mouse_lock_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {

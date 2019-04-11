@@ -51,23 +51,24 @@ namespace mud
 		void load_resources();
 
 	public:
-		const string m_resource_path;
+		attr_ const string m_resource_path;
 
-		Context& m_context;
-		Vg& m_vg;
+		attr_ Context& m_context;
+		attr_ Vg& m_vg;
 
 		UiRenderer m_renderer;
 
 		vector<object<Image>> m_images;
 		ImageAtlas m_atlas;
 
-		uvec2 m_size;
+		attr_ uvec2 m_size;
+		attr_ Colour m_colour;
 
 		Clipboard m_clipboard;
 
 		object<Ui> m_ui;
 
-		bool m_shutdown = false;
+		attr_ bool m_shutdown = false;
 
 		User* m_user = nullptr;
 

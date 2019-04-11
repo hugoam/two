@@ -56,8 +56,6 @@ namespace mud
 		attr_ vec2 m_cursor;
 		attr_ bool m_mouse_lock = false;
 
-		attr_ Colour m_colour = Colour(0.f);
-
 		meth_ virtual void reset_fb(const uvec2& size) = 0;
 		meth_ virtual void init_input(Mouse& mouse, Keyboard& keyboard) = 0;
 

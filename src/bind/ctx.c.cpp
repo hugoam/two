@@ -98,12 +98,6 @@ extern "C" {
 	void DECL mud_Context__set_mouse_lock(mud::Context* self, bool value) {
 		self->m_mouse_lock = value;
 	}
-	mud::Colour* DECL mud_Context__get_colour(mud::Context* self) {
-		return &self->m_colour;
-	}
-	void DECL mud_Context__set_colour(mud::Context* self, mud::Colour* value) {
-		self->m_colour = *value;
-	}
 	void DECL mud_Context__destroy(mud::Context* self) {
 		delete self;
 	}
