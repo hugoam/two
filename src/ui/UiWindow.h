@@ -62,13 +62,12 @@ namespace mud
 		ImageAtlas m_atlas;
 
 		attr_ uvec2 m_size;
-		attr_ Colour m_colour;
+		attr_ Colour m_colour = Colour(0.f);
+		attr_ bool m_shutdown = false;
 
 		Clipboard m_clipboard;
 
 		object<Ui> m_ui;
-
-		attr_ bool m_shutdown = false;
 
 		User* m_user = nullptr;
 
