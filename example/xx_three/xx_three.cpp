@@ -158,9 +158,11 @@ int main(int argc, char *argv[])
 #if !MULTI_VIEWPORT && !MULTI_WINDOW
 	app.run([](Shell& app, ShellWindow& win) { pump(app, win, init0, example0); });
 #else
+#if MULTI_WINDOW
 	ShellWindow& w1 = app.window("two", uvec2(1600U, 900U));
+#endif
 
-	static uint32_t example1 = find_example("hierarchy2");
+	static uint32_t example1 = find_example("depthtexture");
 	static bool init1 = true;
 
 

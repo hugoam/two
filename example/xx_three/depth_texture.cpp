@@ -64,6 +64,7 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	OrbitControls& controls = ui::orbit_controls(viewer);
 	//TrackballController& controls = ui::trackball_controller(viewer);
 	//controls.m_dynamicDampingFactor = 0.05f;
+	viewer.m_viewport.m_autorender = false;
 
 	controls.enableDamping = true;
 	controls.dampingFactor = 0.15f;
@@ -106,18 +107,22 @@ void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 			Node3& n = gfx::nodes(scene).add(Node3(p, quat(a)));
 			gfx::items(scene).add(Item(n, geometry, 0U, &material));
 		}
-
-		auto render = [](GfxSystem& gfx, Render& render)
-		{
-			begin_pbr_render(gfx, render);
-
-			render.m_is_mrt = false;
-			pass_clear(gfx, render);
-			pass_opaque(gfx, render);
-			pass_solid(gfx, render);
-			pass_to_depth(gfx, render);
-		};
-
-		app.m_gfx.set_renderer(Shading::Shaded, render);
 	}
+
+	auto renderer = [](GfxSystem& gfx, Render& render)
+	{
+		begin_pbr_render(gfx, render);
+
+		render.m_is_mrt = false;
+		pass_clear(gfx, render);
+		pass_opaque(gfx, render);
+		pass_solid(gfx, render);
+		pass_to_depth(gfx, render);
+	};
+
+	Render render = { Shading::Shaded, viewer.m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
+	app.m_gfx.m_renderer.gather(render);
+	app.m_gfx.m_renderer.begin(render);
+	renderer(app.m_gfx, render);
+	app.m_gfx.m_renderer.end(render);
 }

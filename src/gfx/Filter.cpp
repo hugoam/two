@@ -197,6 +197,8 @@ namespace mud
 		if(!quad.m_relative && bgfx::getCaps()->originBottomLeft)
 			crop.y = 1.f - crop.y - crop.height;
 		
+		//printf("%s crop (%f, %f) (%f, %f)\n", pass.m_name.c_str(), crop.x, crop.y, crop.width, crop.height);
+
 		static mat4 mview = bxidentity();
 		static mat4 proj = bxortho(vec4(0.f, 1.f, 1.f, 0.f), 0.f, 1.f, 0.f, bgfx::getCaps()->homogeneousDepth);// false))
 
