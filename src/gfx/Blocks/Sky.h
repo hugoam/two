@@ -13,8 +13,6 @@ namespace mud
 {
 	enum ShaderOptionSkybox : unsigned int
 	{
-		SKYBOX_FBO,
-		SKYBOX_CUBE,
 	};
 
 	export_ enum class refl_ Month : unsigned int
@@ -53,13 +51,9 @@ namespace mud
 			void createUniforms()
 			{
 				u_skybox_matrix = bgfx::createUniform("u_skybox_matrix", bgfx::UniformType::Mat4);
-				u_skybox_p0 = bgfx::createUniform("u_skybox_p0", bgfx::UniformType::Vec4);
-				s_skybox_map = bgfx::createUniform("s_skybox_map", bgfx::UniformType::Sampler);
 			}
 
 			bgfx::UniformHandle u_skybox_matrix;
-			bgfx::UniformHandle u_skybox_p0;
-			bgfx::UniformHandle s_skybox_map;
 
 		} u_skybox;
 

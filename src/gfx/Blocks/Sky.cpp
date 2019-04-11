@@ -49,9 +49,7 @@ namespace mud
 		, m_filter(filter)
 		, m_skybox_program(gfx.programs().create("skybox"))
 	{
-		m_options = { "SKYBOX_FBO", "SKYBOX_CUBE" };
-
-		m_skybox_program.register_block(*this);
+		m_skybox_program.register_block(m_filter);
 	}
 
 	void BlockSky::init_block()
@@ -84,19 +82,15 @@ namespace mud
 				? *render.m_env->m_radiance.m_filtered
 				: *render.m_env->m_background.m_texture;
 
-			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, texture);
-
 			unsigned int level = mode == BackgroundMode::Radiance ? 3 : 0;
-			vec4 skybox_p0 = { float(level), float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
-			encoder.setUniform(u_skybox.u_skybox_p0, &skybox_p0);
-
-			mat4 skybox_matrix = bxinverse(render.m_camera->m_view);
-			encoder.setUniform(u_skybox.u_skybox_matrix, &skybox_matrix);
 
 			ProgramVersion program = { m_skybox_program };
 			program.set_option(0, VFLIP, render.m_vflip && bgfx::getCaps()->originBottomLeft);
-			program.set_option(m_index, SKYBOX_FBO, texture.m_is_fbo);
-			program.set_option(m_index, SKYBOX_CUBE, texture.m_is_cube);
+
+			m_filter.source0p(texture, program, level);
+
+			mat4 skybox_matrix = bxinverse(render.m_camera->m_view);
+			encoder.setUniform(u_skybox.u_skybox_matrix, &skybox_matrix);
 
 			const RenderQuad quad = RenderQuad(pass.m_rect, false);
 			m_filter.submit(pass, *render.m_fbo, program, quad, BGFX_STATE_DEPTH_TEST_LEQUAL);
