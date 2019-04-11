@@ -253,7 +253,8 @@ if(init) {
     prefab.add(scene, mi);
 
     //var anim = prefab.anims[0];
-    mi.start('Main', true, 0.0, 1.0);
+    // @todo doesn't work when compiled with O3 somehow
+    //mi.start('Main', true, 0.0, 1.0);
 }
 
 scene.update();
