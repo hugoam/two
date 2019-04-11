@@ -23,7 +23,7 @@ using namespace mud;
 void mud_Shell__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Shell( *static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<bool*>(args[2]) ); }
 void mud_Shell_init(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Shell*>(object)).init(*static_cast<bool*>(args[0])); }
 void mud_Shell_window(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Shell*>(object)).window(*static_cast<stl::string*>(args[0]), *static_cast<mud::uvec2*>(args[1]), *static_cast<bool*>(args[2])); }
-void mud_Shell_add_file(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Shell*>(object)).add_file(*static_cast<stl::string*>(args[0]), *static_cast<stl::span<uint8_t>*>(args[1])); }
+void mud_Shell_add_file(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Shell*>(object)).add_file(*static_cast<stl::string*>(args[0]), *static_cast<stl::span<uint8_t>*>(args[1]), *static_cast<bool*>(args[2])); }
 void mud_Shell_begin_frame(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Shell*>(object)).begin_frame(); }
 void mud_Shell_end_frame(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Shell*>(object)).end_frame(); }
 void mud_Shell_pump(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Shell*>(object)).pump(); }
@@ -53,6 +53,7 @@ namespace mud
 		static bool construct_0_window_default = true;
 		static bool init_0_window_default = true;
 		static bool window_0_fullscreen_default = false;
+		static bool add_file_0_binary_default = true;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Shell__construct_0, { { "resource_path", type<stl::string>(),  }, { "exec_path", type<stl::string>(), Param::Default, &construct_0_exec_path_default }, { "window", type<bool>(), Param::Default, &construct_0_window_default } } }
@@ -70,7 +71,7 @@ namespace mud
 		static Method methods[] = {
 			{ t, "init", Address(), mud_Shell_init, { { "window", type<bool>(), Param::Default, &init_0_window_default } }, g_qvoid },
 			{ t, "window", Address(), mud_Shell_window, { { "name", type<stl::string>(),  }, { "size", type<mud::uvec2>(),  }, { "fullscreen", type<bool>(), Param::Default, &window_0_fullscreen_default } }, { &type<mud::ShellWindow>(), QualType::None } },
-			{ t, "add_file", Address(), mud_Shell_add_file, { { "path", type<stl::string>(),  }, { "data", type<stl::span<uint8_t>>(),  } }, g_qvoid },
+			{ t, "add_file", Address(), mud_Shell_add_file, { { "path", type<stl::string>(),  }, { "data", type<stl::span<uint8_t>>(),  }, { "binary", type<bool>(), Param::Default, &add_file_0_binary_default } }, g_qvoid },
 			{ t, "begin_frame", Address(), mud_Shell_begin_frame, {}, { &type<bool>(), QualType::None } },
 			{ t, "end_frame", Address(), mud_Shell_end_frame, {}, g_qvoid },
 			{ t, "pump", Address(), mud_Shell_pump, {}, { &type<bool>(), QualType::None } },
