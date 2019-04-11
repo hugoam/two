@@ -40,9 +40,6 @@ extern "C" {
 	void DECL mud_Shell_add_file_2(mud::Shell* self, const char* path, uchar* data, int data_size) {
 		self->add_file(path, { (uint8_t*)data, data_size / (sizeof(uint8_t) / sizeof(uchar)) });
 	}
-	void DECL mud_Shell_add_file_3(mud::Shell* self, const char* path, uchar* data, int data_size, bool binary) {
-		self->add_file(path, { (uint8_t*)data, data_size / (sizeof(uint8_t) / sizeof(uchar)) }, binary);
-	}
 	bool DECL mud_Shell_begin_frame_0(mud::Shell* self) {
 		return self->begin_frame();
 	}

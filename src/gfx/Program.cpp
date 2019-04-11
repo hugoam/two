@@ -118,7 +118,7 @@ namespace mud
 
 		if(source != "")
 		{
-			write_file(source_path.c_str(), source);
+			write_file(source_path, source);
 		}
 
 #ifdef _DEBUG
@@ -132,7 +132,7 @@ namespace mud
 		string output_suffix = output_suffixes[shader_type];
 		string output_path = gfx.m_resource_path + "/shaders/compiled/" + name + suffix + output_suffix;
 
-		create_file_tree(output_path.c_str());
+		create_file_tree(output_path);
 
 		printf("INFO: Compiling Shader : %s\n", source_path.c_str());
 		printf("INFO: Defines : %s\n", defines.c_str());
