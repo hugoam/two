@@ -29,12 +29,9 @@ uniform vec4 u_shadow_atlas;
 #define u_shadow_atlas_size u_shadow_atlas.xy
 #define u_shadow_atlas_pixel_size u_shadow_atlas.zw
 
-#ifdef CSM_SHADOW
-uniform mat4 u_csm_matrix[4];
 uniform vec4 u_csm_splits;
 uniform vec4 u_csm_p0;
 #define u_csm_atlas_pixel_size u_csm_p0.xy
-#endif
 
 float texture2DCompare(samplerShadow depth, vec2 uv, float compare)
 {
@@ -152,8 +149,6 @@ float sample_shadow_pcf(samplerShadow shadowmap, vec4 coord, float bias, vec2 te
 #endif
 }
 
-#ifdef CSM_SHADOW
-
 float sample_cascade(CSMShadow csm, int index, vec3 frag, float bias, vec2 texel_size)
 {
     int matindex = csm.matrices[index];
@@ -197,7 +192,6 @@ float shadow_csm(CSMShadow csm, vec3 frag, float w)
 
     return saturate(shadowmap);
 }
-#endif
 
 // refs: https://gist.github.com/tschw/da10c43c467ce8afd0c4
 //       https://github.com/mrdoob/three.js/pull/7153

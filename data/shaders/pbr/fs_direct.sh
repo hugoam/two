@@ -5,13 +5,13 @@ float spot_shadows[MAX_LIGHTS];
 
 int i = 0;
 
-#ifdef CSM_SHADOW
+//#ifdef CSM_SHADOW
 for(i = 0; i < int(u_shadow_counts[LIGHT_DIRECT]); i++)
 {
     CSMShadow shadow = read_csm_shadow(int(u_light_indices[i][LIGHT_DIRECT]));
     direct_shadows[i] = shadow_csm(shadow, fragment.position, fragment.depth);
 }
-#endif
+//#endif
 
 for(i = 0; i < int(u_shadow_counts[LIGHT_POINT]); i++)
 {

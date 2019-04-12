@@ -1,32 +1,25 @@
-$input v_dir, v_uv0
+$input v_dir, v_color
 
 #include <common.sh>
 #include <spherical.sh>
+#include <filter.sh>
 
-#ifdef SKYBOX_CUBE
-SAMPLERCUBE(s_skybox_map, 0);
-#else
-SAMPLER2D(s_skybox_map, 0);
-#endif
-
-uniform vec4 u_skybox_p0;
-#define u_skybox_level u_skybox_p0.x
+#define s_skybox s_source_0
+#define u_skybox_level u_source_0_level
 
 void main()
 {
     vec3 dir = normalize(v_dir);
     //dir = fixCubeLookup(dir, lod, 256.0);
 
-#ifdef SKYBOX_CUBE
+#ifdef SOURCE_0_CUBE
     // cubemaps are left-handed, but we are right-handed
-    vec4 color = textureCubeLod(s_skybox_map, vec3(-dir.x, dir.y, dir.z), u_skybox_level);
+    vec4 color = textureCubeLod(s_skybox, vec3(-dir.x, dir.y, dir.z), u_skybox_level);
 #else
-    vec4 color = textureSpherical2D(s_skybox_map, dir, u_skybox_level);
+    vec4 color = textureSpherical2D(s_skybox, dir, u_skybox_level);
 #endif
-    //color = toLinear(color);
-    //color *= exp2(u_exposure);
 
     gl_FragColor = color;
     //gl_FragColor = vec4(dir, 1.0);
-    //gl_FragColor = toFilmic(color);
+    //gl_FragColor = v_color;
 }
