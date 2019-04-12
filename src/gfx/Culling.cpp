@@ -211,7 +211,7 @@ namespace mud
 #ifdef NO_OCCLUSION_CULLING
 	Culler::Culler(Viewport& viewport) : m_viewport(&viewport) {}
 	Culler::~Culler() {}
-	void Culler::begin(Viewport& viewport) { UNUSED(viewport); }
+	void Culler::begin(Render& render) { UNUSED(viewport); }
 	void Culler::render(Render& render) { UNUSED(render); }
 	void Culler::rasterize(Render& render) { UNUSED(render); }
 	void Culler::cull(Render& render) { UNUSED(render); }
