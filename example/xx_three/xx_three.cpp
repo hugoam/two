@@ -8,7 +8,7 @@ using namespace mud;
 
 #define SIDE_PANEL 1
 #define MULTI_WINDOW 0
-#define MULTI_VIEWPORT 1
+#define MULTI_VIEWPORT 0
 
 // todo js:
 // fix black helmet before envmap is filtered
