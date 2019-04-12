@@ -8,7 +8,7 @@ using namespace mud;
 
 #define SIDE_PANEL 1
 #define MULTI_WINDOW 0
-#define MULTI_VIEWPORT 0
+#define MULTI_VIEWPORT 1
 
 // todo js:
 // fix black helmet before envmap is filtered
@@ -108,13 +108,18 @@ uint32_t find_example(const string& name)
 void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar, bool& init, uint32_t& example)
 {
 	static vector<cstring> labels = example_labels();
-	
+
+#if !MULTI_VIEWPORT
 #if SIDE_PANEL
 	Widget& sheet = ui::board(parent);
 	bool changed = ui::radio_switch(sheet, labels, example, Axis::Y);
 #else
 	Widget& sheet = ui::sheet(parent);
 	bool changed = ui::dropdown_field(sheet, "switch example:", labels, example);
+#endif
+#else
+	Widget& sheet = parent;
+	bool changed = false;
 #endif
 
 	Widget& canvas = ui::sheet(sheet);
@@ -151,20 +156,24 @@ int main(int argc, char *argv[])
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	//app.m_gfx.init_pipeline(pipeline_minimal);
 
-	//static uint32_t example0 = 0;
-	static uint32_t example0 = find_example("loader/gltf");
-	static bool init0 = true;
-
 #if !MULTI_VIEWPORT && !MULTI_WINDOW
-	app.run([](Shell& app, ShellWindow& win) { pump(app, win, init0, example0); });
+	//static uint32_t example = 0;
+	static uint32_t example = find_example("loader/gltf");
+	static bool init = true;
+
+	app.run([](Shell& app, ShellWindow& win) { pump(app, win, init, example); });
 #else
 #if MULTI_WINDOW
 	ShellWindow& w1 = app.window("two", uvec2(1600U, 900U));
 #endif
 
-	static uint32_t example1 = find_example("depthtexture");
-	static bool init1 = true;
-
+	static uint32_t example[6] = {
+		15, 16, 17, 18, 19, 20
+	};
+	
+	static bool init[6] = {
+		true, true, true, true, true, true
+	};
 
 	while(true)
 	{
@@ -173,13 +182,17 @@ int main(int argc, char *argv[])
 #if MULTI_VIEWPORT
 		shell_context(w0.m_ui->begin(), app.m_editor);
 
-		Widget& screen = *app.m_editor.m_screen;
-		//Widget& panel0 = ui::sheet(screen);
-		//Widget& panel1 = ui::sheet(screen);
-		Widget& panel0 = ui::viewport(screen, vec4(0.f, 150.f, 600.f, 750.f));
-		Widget& panel1 = ui::viewport(screen, vec4(600.f, 150.f, 600.f, 750.f));
-		ex_xx_three(app, panel0, *app.m_editor.m_dockbar, init0, example0);
-		ex_xx_three(app, panel1, *app.m_editor.m_dockbar, init1, example1);
+		Widget& screen = ui::sheet(*app.m_editor.m_screen);
+
+		Widget& row0 = ui::board(screen);
+		Widget& row1 = ui::board(screen);
+
+		for(size_t i = 0; i < 6; ++i)
+		{
+			Widget& parent = i < 3 ? row0 : row1;
+			Widget& panel = ui::sheet(parent);
+			ex_xx_three(app, panel, *app.m_editor.m_dockbar, init[i], example[i]);
+	}
 #else
 		pump(app, w0, init0, example0);
 #if MULTI_WINDOW

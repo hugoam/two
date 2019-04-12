@@ -24,7 +24,7 @@ namespace mud
 	{
 		void init()
 		{
-			u_shadow_matrix = bgfx::createUniform("u_shadow_matrix", bgfx::UniformType::Mat4, c_max_shadows, bgfx::UniformFreq::View);
+			u_shadow_matrix = bgfx::createUniform("u_shadow_matrix", bgfx::UniformType::Mat4, c_max_shadows, bgfx::UniformSet::View);
 		}
 
 		void upload(const Pass& pass, span<mat4> matrices)
@@ -43,15 +43,15 @@ namespace mud
 	{
 		void init()
 		{
-			u_light_position_range			= bgfx::createUniform("u_light_position_range",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
-			u_light_energy_specular			= bgfx::createUniform("u_light_energy_specular",		bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
-			u_light_direction_attenuation	= bgfx::createUniform("u_light_direction_attenuation",	bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
-			u_light_spot_p0					= bgfx::createUniform("u_light_spot_p0",				bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
-			u_light_shadow_p0				= bgfx::createUniform("u_light_shadow_p0",				bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
-			u_light_shadowmap_p0			= bgfx::createUniform("u_light_shadowmap_p0",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
-			u_light_csm_p0					= bgfx::createUniform("u_light_csm_p0",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
-			u_light_csm_p1					= bgfx::createUniform("u_light_csm_p1",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
-			u_light_csm_p2					= bgfx::createUniform("u_light_csm_p2",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformFreq::View);
+			u_light_position_range			= bgfx::createUniform("u_light_position_range",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
+			u_light_energy_specular			= bgfx::createUniform("u_light_energy_specular",		bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
+			u_light_direction_attenuation	= bgfx::createUniform("u_light_direction_attenuation",	bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
+			u_light_spot_p0					= bgfx::createUniform("u_light_spot_p0",				bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
+			u_light_shadow_p0				= bgfx::createUniform("u_light_shadow_p0",				bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
+			u_light_shadowmap_p0			= bgfx::createUniform("u_light_shadowmap_p0",			bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
+			u_light_csm_p0					= bgfx::createUniform("u_light_csm_p0",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
+			u_light_csm_p1					= bgfx::createUniform("u_light_csm_p1",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
+			u_light_csm_p2					= bgfx::createUniform("u_light_csm_p2",					bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
 		}
 
 		void upload(const Pass& pass, span<GpuLight> lights) const

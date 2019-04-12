@@ -228,13 +228,14 @@ namespace mud
 		MaskedOcclusionCulling::Destroy(m_moc);
 	}
 
-	void Culler::begin(Viewport& viewport)
+	void Culler::begin(Render& render)
 	{
 		//auto round = [](uint number, uint multiple) { return ((number + multiple / 2) / multiple) * multiple; };
 		auto round = [](uint number, uint multiple) { return (number / multiple) * multiple; };
 
 		// these are defines in culling library but not exposed
-		uvec2 size = { round(viewport.m_rect.width, 8U), round(viewport.m_rect.height, 4U) };
+		const uvec4 rect = uvec4(render.m_viewport->m_rect * vec2(render.m_fbo->m_size));
+		const uvec2 size = { round(rect.width, 8U), round(rect.height, 4U) };
 
 		unsigned int width, height;
 		m_moc->GetResolution(width, height);
@@ -252,7 +253,7 @@ namespace mud
 		if(render.m_rect.width == 0 || render.m_rect.height == 0)
 			return;
 
-		this->begin(*render.m_viewport);
+		this->begin(render);
 		this->rasterize(render);
 		this->cull(render);
 		//this->debug(render);

@@ -94,16 +94,12 @@ namespace mud
 		void commit_zones(Render& render, const Pass& pass) const;
 		void commit_lights(Render& render, const Pass& pass) const;
 
-		uint16_t m_direct_light_index = 0;
-		Light* m_direct_light = nullptr;
-		vector<Light*> m_direct_lights;
-
 		struct ShotUniform
 		{
 			void createUniforms()
 			{
-				s_zones = bgfx::createUniform("s_zones", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
-				s_lights = bgfx::createUniform("s_lights", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+				s_zones = bgfx::createUniform("s_zones", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+				s_lights = bgfx::createUniform("s_lights", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
 			}
 
 			bgfx::UniformHandle s_zones;

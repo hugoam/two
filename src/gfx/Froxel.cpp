@@ -114,12 +114,12 @@ namespace mud
 	{
 		void createUniforms()
 		{
-			s_light_records  = bgfx::createUniform("s_light_records",  bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
-			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+			s_light_records  = bgfx::createUniform("s_light_records",  bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
 
-			u_cluster_p0 = bgfx::createUniform("u_cluster_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-			u_cluster_f = bgfx::createUniform("u_cluster_f", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
-			u_cluster_z = bgfx::createUniform("u_cluster_z", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			u_cluster_p0 = bgfx::createUniform("u_cluster_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_cluster_f = bgfx::createUniform("u_cluster_f", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_cluster_z = bgfx::createUniform("u_cluster_z", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
 		}
 
 		bgfx::UniformHandle s_light_records;

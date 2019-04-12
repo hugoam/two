@@ -26,7 +26,7 @@ namespace mud
 
 		void render(Render& render);
 
-		void begin(Viewport& viewport);
+		void begin(Render& render);
 		void rasterize(Render& render);
 		void cull(Render& render);
 		void debug(Render& render);

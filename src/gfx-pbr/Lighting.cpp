@@ -74,32 +74,9 @@ namespace mud
 	{
 		UNUSED(render);
 
-		m_direct_lights.clear();
-		for(Light* light : render.m_shot.m_lights)
-			if(light->m_type == LightType::Direct)
-			{
-				m_direct_lights.push_back(light);
-			}
-
-		m_direct_light = m_direct_lights.empty() ? nullptr : m_direct_lights[m_direct_light_index];
-
 		this->setup_lights(render, render.m_camera->m_view);
 		this->upload_lights(render);
 		this->upload_zones(render);
-
-		m_direct_light_index = 0;
-
-		m_direct_light = m_direct_lights.empty() ? nullptr : m_direct_lights[m_direct_light_index];
-
-#ifdef MULTIPLE_DIRECT_LIGHTS
-		if(!m_direct_lights.empty())
-			m_direct_light = m_direct_lights[m_direct_light_index++];
-
-		if(m_direct_light_index > 0)
-			pass.m_bgfx_state |= BGFX_STATE_BLEND_ADD;
-
-		request.num_passes = m_direct_lights.empty() ? 1 : m_direct_lights.size();
-#endif
 	}
 
 	void BlockLight::options(Render& render, const DrawElement& element, ProgramVersion& program) const

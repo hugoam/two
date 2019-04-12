@@ -75,7 +75,7 @@ namespace mud
 	{
 		MaterialBlockBase() {}
 		MaterialBlockBase(GfxSystem& gfx)
-			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 		{
 			UNUSED(gfx);
 #if !MATERIALS_BUFFER
@@ -105,7 +105,7 @@ namespace mud
 		MaterialBlockAlpha() {}
 		MaterialBlockAlpha(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
-			, s_alpha(bgfx::createUniform("s_alpha", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_alpha(bgfx::createUniform("s_alpha", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialAlpha>::me.init();
@@ -136,7 +136,7 @@ namespace mud
 		MaterialBlockSolid() {}
 		MaterialBlockSolid(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
-			, s_color(bgfx::createUniform("s_color", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_color(bgfx::createUniform("s_color", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialSolid>::me.init();
@@ -216,7 +216,7 @@ namespace mud
 		MaterialBlockFresnel() {}
 		MaterialBlockFresnel(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
-			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 		{
 #if !MATERIALS_BUFFER
 			//GpuState<MaterialFresnel>::me.init();
@@ -248,12 +248,12 @@ namespace mud
 		MaterialBlockUser() {}
 		MaterialBlockUser(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
-			, s_user0(bgfx::createUniform("s_user0", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_user1(bgfx::createUniform("s_user1", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_user2(bgfx::createUniform("s_user2", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_user3(bgfx::createUniform("s_user3", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_user4(bgfx::createUniform("s_user4", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_user5(bgfx::createUniform("s_user5", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_user0(bgfx::createUniform("s_user0", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_user1(bgfx::createUniform("s_user1", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_user2(bgfx::createUniform("s_user2", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_user3(bgfx::createUniform("s_user3", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_user4(bgfx::createUniform("s_user4", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_user5(bgfx::createUniform("s_user5", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialUser>::me.init();
@@ -306,11 +306,11 @@ namespace mud
 		MaterialBlockLit() {}
 		MaterialBlockLit(GfxSystem& gfx)
 			: m_black_tex (&gfx.default_texture(TextureHint::Black))
-			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_displace(bgfx::createUniform("s_displace", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_displace(bgfx::createUniform("s_displace", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialLit>::me.init();
@@ -367,11 +367,11 @@ namespace mud
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
 			, m_black_tex (&gfx.default_texture(TextureHint::Black))
 			, m_normal_tex(&gfx.default_texture(TextureHint::Normal))
-			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialPbr>::me.init();
@@ -422,10 +422,10 @@ namespace mud
 		MaterialBlockPhong() {}
 		MaterialBlockPhong(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
-			, s_diffuse(bgfx::createUniform("s_diffuse", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_specular(bgfx::createUniform("s_specular", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			, s_shininess(bgfx::createUniform("s_shininess", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
-			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View))
+			, s_diffuse(bgfx::createUniform("s_diffuse", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_specular(bgfx::createUniform("s_specular", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_shininess(bgfx::createUniform("s_shininess", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialPhong>::me.init();
@@ -654,7 +654,7 @@ namespace mud
 		u_state = bgfx::createUniform("u_state", bgfx::UniformType::Vec4);
 		u_state_vertex = bgfx::createUniform("u_state_vertex", bgfx::UniformType::Vec4);
 
-		s_materials = bgfx::createUniform("s_materials", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+		s_materials = bgfx::createUniform("s_materials", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
 	}
 
 	void BlockMaterial::begin_render(Render& render)

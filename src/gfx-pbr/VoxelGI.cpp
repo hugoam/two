@@ -234,23 +234,23 @@ namespace gfx
 		Render voxel_render = { Shading::Voxels, viewport, *render.m_target, gi_probe.m_fbo, *render.m_frame };
 
 		ShadowFilterMode pcf_level = m_block_shadow.m_pcf_level;
-		uint8_t splits = 0;
+		//uint8_t splits = 0;
 		m_block_shadow.m_pcf_level = PCF_NONE;
-		if(m_block_light.m_direct_light)
-		{
-			splits = m_block_light.m_direct_light->m_shadow_num_splits;
-			m_block_light.m_direct_light->m_shadow_num_splits = 1;
-		}
+		//if(m_block_light.m_direct_light)
+		//{
+		//	splits = m_block_light.m_direct_light->m_shadow_num_splits;
+		//	m_block_light.m_direct_light->m_shadow_num_splits = 1;
+		//}
 
 		Plane6 planes = frustum_planes(camera.m_proj, camera.m_view);
 		voxel_render.m_shot.m_lights = render.m_shot.m_lights;
 		cull_items(*render.m_scene, planes, voxel_render.m_shot.m_items);
 		m_gfx.m_renderer.subrender(render, voxel_render, m_gfx.renderer(Shading::Voxels));
 
-		if(m_block_light.m_direct_light)
-		{
-			m_block_light.m_direct_light->m_shadow_num_splits = splits;
-		}
+		//if(m_block_light.m_direct_light)
+		//{
+		//	m_block_light.m_direct_light->m_shadow_num_splits = splits;
+		//}
 		m_block_shadow.m_pcf_level = pcf_level;
 
 		if(m_direct_light_compute)

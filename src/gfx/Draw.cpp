@@ -55,6 +55,8 @@ namespace mud
 		m_batches[PLAIN].resize(64);
 		m_batches[OUTLINE].resize(64);
 
+		m_material.m_base.m_shader_color = ShaderColor::Vertex;
+
 		ms_vertex_decl = vertex_decl(VertexAttribute::Position | VertexAttribute::Colour);
 	}
 
@@ -158,7 +160,8 @@ namespace mud
 		bgfx::allocTransientIndexBuffer(&index_buffer, num_indices);
 		memcpy(index_buffer.data, batch.m_indices.data(), num_indices * sizeof(uint16_t));
 
-		m_material.submit(*m_material.m_program, encoder, bgfx_state);
+		ProgramVersion program = m_material.program(*m_material.m_program);
+		m_material.submit(*program.m_program, encoder, bgfx_state);
 
 		encoder.setVertexBuffer(0, &vertex_buffer);
 		encoder.setIndexBuffer(&index_buffer);
@@ -167,7 +170,7 @@ namespace mud
 		static const mat4 identity = bxidentity();
 		encoder.setTransform(value_ptr(identity));
 
-		encoder.submit(view, m_material.m_program->default_version());
+		encoder.submit(view, program.fetch());
 	}
 
 	bgfx::VertexDecl ImmediateDraw::ms_vertex_decl;

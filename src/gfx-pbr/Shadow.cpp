@@ -499,16 +499,13 @@ namespace mud
 	{
 		UNUSED(render);
 
-		Light* light = m_direct_light;
-		bool direct = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;
-
 		program.set_mode(m_index, PCF_LEVEL, uint8_t(m_pcf_level));
 
-		if(direct && light->m_shadows)
-		{
-			program.set_option(m_index, CSM_SHADOW);
-			//program.set_option(m_index, CSM_BLEND, light->m_shadow_blend_splits);
-		}
+		//if(direct && light->m_shadows)
+		//{
+		//	program.set_option(m_index, CSM_SHADOW);
+		//	//program.set_option(m_index, CSM_BLEND, light->m_shadow_blend_splits);
+		//}
 	}
 
 	void BlockShadow::submit(Render& render, const Pass& pass) const
@@ -520,10 +517,7 @@ namespace mud
 		uint32_t shadow_atlas = uint32_t(TextureSampler::Shadow);
 		bgfx::setViewUniform(pass.m_index, u_shadow.s_shadow_atlas, &shadow_atlas);
 
-		Light* light = m_direct_light;
-		bool direct = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;
-
-		if(direct && light->m_shadows)
+		if(true) //direct && light->m_shadows)
 		{
 			vec4 csm_p0 = { 1.f / vec2(m_atlas.m_size), vec2(0.f) };
 			bgfx::setViewUniform(pass.m_index, u_shadow.u_csm_p0, &csm_p0);

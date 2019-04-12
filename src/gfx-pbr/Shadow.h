@@ -139,16 +139,14 @@ namespace mud
 		DepthParams m_depth_params = {};
 		DistanceParams m_distance_params = {};
 
-		Light* m_direct_light = nullptr;
-
 		struct ShadowUniform
 		{
 			void createUniforms()
 			{
-				s_shadow_atlas = bgfx::createUniform("s_shadow_atlas", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
-				u_shadow_atlas = bgfx::createUniform("u_shadow_atlas", bgfx::UniformType::Vec4,    1U, bgfx::UniformFreq::View);
-				u_pcf_p0   = bgfx::createUniform("u_pcf_p0",   bgfx::UniformType::Vec4,    1U, bgfx::UniformFreq::View);
-				u_csm_p0 = bgfx::createUniform("u_csm_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+				s_shadow_atlas = bgfx::createUniform("s_shadow_atlas", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+				u_shadow_atlas = bgfx::createUniform("u_shadow_atlas", bgfx::UniformType::Vec4,    1U, bgfx::UniformSet::View);
+				u_pcf_p0   = bgfx::createUniform("u_pcf_p0",   bgfx::UniformType::Vec4,    1U, bgfx::UniformSet::View);
+				u_csm_p0 = bgfx::createUniform("u_csm_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
 			}
 
 			bgfx::UniformHandle s_shadow_atlas;

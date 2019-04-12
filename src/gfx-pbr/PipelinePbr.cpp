@@ -269,7 +269,6 @@ namespace gfx
 		static BlockLight& block_light = *gfx.m_renderer.block<BlockLight>();
 		static BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
 
-		block_shadow.m_direct_light = block_light.m_direct_light;
 		block_shadow.commit_shadows(render, render.m_camera->m_view);
 
 		static span<DrawBlock*> blocks = pbr_blocks(gfx);

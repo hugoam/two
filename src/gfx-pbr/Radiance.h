@@ -40,7 +40,7 @@ namespace mud
 		{
 			void createUniforms()
 			{
-				s_radiance = bgfx::createUniform("s_radiance", bgfx::UniformType::Sampler, 1U, bgfx::UniformFreq::View);
+				s_radiance = bgfx::createUniform("s_radiance", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
 			}
 
 			bgfx::UniformHandle s_radiance;

@@ -97,7 +97,7 @@ namespace mud
 	{
 		//if(!has(m_uniforms, name))			
 		if(m_uniforms.find(name) == m_uniforms.end())
-			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Mat4, 1U, bgfx::UniformFreq::View);
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Mat4, 1U, bgfx::UniformSet::View);
 
 		bgfx::setViewUniform(pass.m_index, m_uniforms[name], &value);
 	}
@@ -106,7 +106,7 @@ namespace mud
 	{
 		//if(!has(m_uniforms, name))			
 		if(m_uniforms.find(name) == m_uniforms.end())
-			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View);
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
 
 		bgfx::setViewUniform(pass.m_index, m_uniforms[name], &value);
 	}
@@ -114,7 +114,7 @@ namespace mud
 	void BlockFilter::uniforms(const Pass& pass, const string& name, span<float> values)
 	{
 		if(m_uniforms.find(name) == m_uniforms.end())
-			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, values.size() / 4, bgfx::UniformFreq::View);
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, values.size() / 4, bgfx::UniformSet::View);
 
 		bgfx::setViewUniform(pass.m_index, m_uniforms[name], values.data(), values.size() / 4);
 	}
@@ -123,7 +123,7 @@ namespace mud
 	{
 		//if(!has(m_uniforms, name))			
 		if(m_uniforms.find(name) == m_uniforms.end())
-			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, values.size(), bgfx::UniformFreq::View);
+			m_uniforms[name] = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4, values.size(), bgfx::UniformSet::View);
 
 		bgfx::setViewUniform(pass.m_index, m_uniforms[name], values.data(), values.size());
 	}

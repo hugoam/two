@@ -16,6 +16,9 @@ void xx_material_cubemap(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	OrbitControls& controls = ui::orbit_controls(viewer);
+	controls.enableDamping = true;
+	controls.dampingFactor = 0.25f;
+	controls.rotateSpeed = 0.35f;
 	//controls.enableZoom = false;
 	//controls.enablePan = false;
 	//controls.minPolarAngle = c_pi / 4;

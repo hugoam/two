@@ -555,11 +555,13 @@ void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	item->m_material = material_uv;
 	//var renderModelUV = new THREE.RenderPass(scene, camera, materialUV, new THREE.Color(0x575757));
-	app.m_gfx.m_renderer.subrender(render, subrender, render_pbr_forward);
+	app.m_gfx.m_renderer.render(subrender, render_pbr_forward);
 
-	pass_bloom(app.m_gfx, render, uv.m_tex, blur1, true, 1.f, 15, 2.f, uvec2(512U));
-	pass_bloom(app.m_gfx, render, uv.m_tex, blur2, true, 1.f, 25, 3.f, uvec2(512U));
-	pass_bloom(app.m_gfx, render, uv.m_tex, blur3, true, 1.f, 25, 4.f, uvec2(512U));
+	pass_bloom(app.m_gfx, subrender, uv.m_tex, blur1, true, 1.f, 15, 2.f, uvec2(512U));
+	pass_bloom(app.m_gfx, subrender, uv.m_tex, blur2, true, 1.f, 25, 3.f, uvec2(512U));
+	pass_bloom(app.m_gfx, subrender, uv.m_tex, blur3, true, 1.f, 25, 4.f, uvec2(512U));
+
+	render.m_pass_index = subrender.m_pass_index;
 
 	item->m_material = material;
 	render_pbr_forward(app.m_gfx, render);

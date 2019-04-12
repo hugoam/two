@@ -41,9 +41,9 @@ namespace mud
 	{
 		RenderUniform() {}
 		RenderUniform(int)
-			: u_render_p0(bgfx::createUniform("u_render_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
-			, u_viewport_p0(bgfx::createUniform("u_viewport_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
-			, u_camera_p0(bgfx::createUniform("u_camera_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformFreq::View))
+			: u_render_p0(bgfx::createUniform("u_render_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View))
+			, u_viewport_p0(bgfx::createUniform("u_viewport_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View))
+			, u_camera_p0(bgfx::createUniform("u_camera_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View))
 		{}
 
 		bgfx::UniformHandle u_render_p0;
@@ -386,6 +386,7 @@ namespace mud
 		element.m_material->submit(*element.m_program.m_program, encoder, render_state, element.m_skin);
 		element.m_item->submit(encoder, render_state, *element.m_elem);
 
+		encoder.setGroup(bgfx::UniformSet::Group, element.m_material->m_index);
 		encoder.setState(render_state);
 
 		encoder.submit(pass.m_index, element.m_bgfx_program, depth_to_bits(element.m_item->m_depth));
