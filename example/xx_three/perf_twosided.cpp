@@ -29,6 +29,7 @@ void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		viewer.m_viewport.m_clear_colour = ungamma(rgb(0x050505));
 
 		Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
+		reflection.reload(app.m_gfx, false, true);
 
 		Zone& env = scene.m_env;
 		env.m_radiance.m_texture = &reflection;

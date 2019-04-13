@@ -488,8 +488,9 @@ namespace mud
 	ShaderBlock MaterialPoint::s_block = ShaderBlock();
 	ShaderBlock MaterialFresnel::s_block = ShaderBlock();
 	ShaderBlock MaterialLit::s_block = ShaderBlock({ "NORMAL_MAP", "EMISSIVE", "AMBIENT_OCCLUSION", "LIGHTMAP", "DISPLACEMENT" }, {});
-	ShaderBlock MaterialPbr::s_block = ShaderBlock({ "DEPTH_MAPPING", "DEEP_PARALLAX" }, { "DIFFUSE_MODE", "SPECULAR_MODE" }); // "REFRACTION", "ANISOTROPY", 
-	ShaderBlock MaterialPhong::s_block = ShaderBlock({ "REFRACTION", "TOON" }, { "ENV_BLEND" });
+	ShaderBlock MaterialPbr::s_block = ShaderBlock({ "ALBEDO_MAP", "ROUGHNESS_MAP", "METALLIC_MAP", "DEPTH_MAPPING", "DEEP_PARALLAX" },  // "REFRACTION", "ANISOTROPY", 
+												   { "DIFFUSE_MODE", "SPECULAR_MODE" });
+	ShaderBlock MaterialPhong::s_block = ShaderBlock({ "DIFFUSE_MAP", "SPECULAR_MAP", "SHININESS_MAP", "REFRACTION", "TOON" }, { "ENV_BLEND" });
 	ShaderBlock MaterialUser::s_block = ShaderBlock();
 
 	Material::Material(const string& name)
@@ -549,6 +550,10 @@ namespace mud
 			version.set_mode(MaterialPbr::s_block.m_index, DIFFUSE_MODE, uint8_t(m_pbr.m_diffuse_mode));
 			version.set_mode(MaterialPbr::s_block.m_index, SPECULAR_MODE, uint8_t(m_pbr.m_specular_mode));
 
+			version.set_option(MaterialPbr::s_block.m_index, ALBEDO_MAP, is_valid(m_pbr.m_albedo.m_texture));
+			version.set_option(MaterialPbr::s_block.m_index, ROUGHNESS_MAP, is_valid(m_pbr.m_roughness.m_texture));
+			version.set_option(MaterialPbr::s_block.m_index, METALLIC_MAP, is_valid(m_pbr.m_metallic.m_texture));
+
 			//version.set_option(MaterialPbr::s_block.m_index, REFRACTION, m_pbr.m_refraction.m_value != 0.f);
 			version.set_option(MaterialPbr::s_block.m_index, DEPTH_MAPPING, is_valid(m_pbr.m_depth.m_texture));
 			version.set_option(MaterialPbr::s_block.m_index, DEEP_PARALLAX, m_pbr.m_deep_parallax);
@@ -557,6 +562,10 @@ namespace mud
 		if(program.m_blocks[MaterialBlock::Phong])
 		{
 			version.set_mode(MaterialPhong::s_block.m_index, ENV_BLEND, uint8_t(m_phong.m_env_blend));
+
+			version.set_option(MaterialPhong::s_block.m_index, DIFFUSE_MAP, is_valid(m_phong.m_diffuse.m_texture));
+			version.set_option(MaterialPhong::s_block.m_index, SPECULAR_MAP, is_valid(m_phong.m_specular.m_texture));
+			version.set_option(MaterialPhong::s_block.m_index, SHININESS_MAP, is_valid(m_phong.m_shininess.m_texture));
 
 			version.set_option(MaterialPhong::s_block.m_index, REFRACTION, m_phong.m_refraction.m_value != 0.f);
 			version.set_option(MaterialPhong::s_block.m_index, TOON, m_phong.m_toon);

@@ -4193,9 +4193,10 @@ Module['Texture'] = Texture;
 Texture.prototype["valid"] = Texture.prototype.valid = function() {
     return !!(_mud_Texture_valid_0(this.__ptr));
 };
-Texture.prototype["reload"] = Texture.prototype.reload = function(a0, a1) {
+Texture.prototype["reload"] = Texture.prototype.reload = function(a0, a1, a2) {
     if (a1 === undefined) { _mud_Texture_reload_1(this.__ptr, /*gfx*/a0.__ptr); return; }
-    _mud_Texture_reload_2(this.__ptr, /*gfx*/a0.__ptr, /*srgb*/a1);
+    if (a2 === undefined) { _mud_Texture_reload_2(this.__ptr, /*gfx*/a0.__ptr, /*srgb*/a1); return; }
+    _mud_Texture_reload_3(this.__ptr, /*gfx*/a0.__ptr, /*srgb*/a1, /*mips*/a2);
 };
 Texture.prototype["load_rgba"] = Texture.prototype.load_rgba = function(a0, a1, a2) {
     if (a2 === undefined) { _mud_Texture_load_rgba_2(this.__ptr, /*size*/a0.__ptr, ensureInt32(/*data*/a1), /*data*/a1.length); return; }

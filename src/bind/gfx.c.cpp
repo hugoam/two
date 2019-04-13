@@ -3417,6 +3417,9 @@ extern "C" {
 	void DECL mud_Texture_reload_2(mud::Texture* self, mud::GfxSystem* gfx, bool srgb) {
 		self->reload(*gfx, srgb);
 	}
+	void DECL mud_Texture_reload_3(mud::Texture* self, mud::GfxSystem* gfx, bool srgb, bool mips) {
+		self->reload(*gfx, srgb, mips);
+	}
 	void DECL mud_Texture_load_rgba_2(mud::Texture* self, const mud::uvec2* size, uint* data, int data_size) {
 		self->load_rgba(*size, { (uint32_t*)data, data_size / (sizeof(uint32_t) / sizeof(uint)) });
 	}

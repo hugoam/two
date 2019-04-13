@@ -239,6 +239,9 @@ namespace mud
 
 	export_ enum ShaderOptionPbr : unsigned int
 	{
+		ALBEDO_MAP,
+		ROUGHNESS_MAP,
+		METALLIC_MAP,
 		//REFRACTION,
 		//ANISOTROPY,
 		DEPTH_MAPPING,
@@ -253,6 +256,9 @@ namespace mud
 
 	export_ enum ShaderOptionPhong : unsigned int
 	{
+		DIFFUSE_MAP,
+		SPECULAR_MAP,
+		SHININESS_MAP,
 		REFRACTION,
 		TOON,
 	};

@@ -240,11 +240,19 @@ namespace mud
 		, m_compute(compute)
 		, m_impl(make_unique<Impl>())
 	{
-		static string options[] = { "INSTANCING", "BILLBOARD", "SKELETON", "MORPHTARGET", "QNORMALS", "VFLIP", "MRT", "DEFERRED", "CLUSTERED",
-									"ZONES_BUFFER", "LIGHTS_BUFFER", "MATERIALS_BUFFER" };
+		static string options[] = { "INSTANCING", "BILLBOARD", "SKELETON", "MORPHTARGET", "QNORMALS", "VFLIP", "MRT", "DEFERRED", "CLUSTERED" };
 		this->register_options(0, options);
 
 		this->set_block(MaterialBlock::Base);
+
+		if constexpr(ZONES_BUFFER)
+			m_defines.push_back({ "ZONES_BUFFER" , "" });
+
+		if constexpr(LIGHTS_BUFFER)
+			m_defines.push_back({ "LIGHTS_BUFFER" , "" });
+
+		if constexpr(MATERIALS_BUFFER)
+			m_defines.push_back({ "MATERIALS_BUFFER" , "" });
 	}
 
 	Program::~Program()

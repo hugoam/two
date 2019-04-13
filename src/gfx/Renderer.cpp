@@ -260,10 +260,6 @@ namespace mud
 		//for(GfxBlock* block : m_gfx.m_renderer.m_pass_blocks[pass.m_pass_type])
 		//	if(block->m_draw_block)
 		//		((DrawBlock*)block)->options(render, version);
-
-		version.set_option(0, BUFFER_ZONES, ZONES_BUFFER);
-		version.set_option(0, BUFFER_LIGHTS, LIGHTS_BUFFER);
-		version.set_option(0, BUFFER_MATERIALS, MATERIALS_BUFFER);
 	}
 
 	void Renderer::element_options(Render& render, Pass& pass, DrawElement& element)

@@ -40,7 +40,7 @@ namespace mud
 	export_ MUD_GFX_EXPORT bimg::ImageContainer* load_bgfx_image(GfxSystem& gfx, const string& file_path, bgfx::TextureFormat::Enum dst_format);
 
 	export_ MUD_GFX_EXPORT void save_texture(GfxSystem& gfx, Texture& texture, const string& path);
-	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx, Texture& texture, const string& path, bool srgb = false);
+	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx, Texture& texture, const string& path, bool srgb = false, bool mips = false);
 	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx, Texture& texture, span<uint8_t> data);
 
 	export_ enum class refl_ TextureFormat : unsigned int
@@ -95,7 +95,7 @@ namespace mud
 
 		meth_ bool valid() const;
 
-		meth_ void reload(GfxSystem& gfx, bool srgb = false);
+		meth_ void reload(GfxSystem& gfx, bool srgb = false, bool mips = false);
 
 		void load_rgba(const uvec2& size, const bgfx::Memory& data);
 		void load_float(const uvec2& size, const bgfx::Memory& data, uint8_t num_components = 4);

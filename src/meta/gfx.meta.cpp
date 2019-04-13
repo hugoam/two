@@ -399,7 +399,7 @@ void mud_TPool_mud_Node3_tfree(void* object, span<void*> args, void*& result) { 
 void mud_Texture__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Texture( *static_cast<stl::string*>(args[0]) ); }
 void mud_Texture__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Texture( *static_cast<mud::uvec2*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<mud::TextureFormat*>(args[2]), *static_cast<uint64_t*>(args[3]), *static_cast<bool*>(args[4]) ); }
 void mud_Texture_valid(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Texture*>(object)).valid(); }
-void mud_Texture_reload(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Texture*>(object)).reload(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<bool*>(args[1])); }
+void mud_Texture_reload(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Texture*>(object)).reload(*static_cast<mud::GfxSystem*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<bool*>(args[2])); }
 void mud_Texture_load_rgba(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Texture*>(object)).load_rgba(*static_cast<mud::uvec2*>(args[0]), *static_cast<stl::span<uint32_t>*>(args[1]), *static_cast<bool*>(args[2])); }
 void mud_Texture_load_float(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Texture*>(object)).load_float(*static_cast<mud::uvec2*>(args[0]), *static_cast<stl::span<float>*>(args[1]), *static_cast<bool*>(args[2])); }
 void mud_Zone__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Zone(  ); }
@@ -3360,6 +3360,7 @@ namespace mud
 		static uint64_t construct_1_flags_default = 0U;
 		static bool construct_1_cube_default = false;
 		static bool reload_0_srgb_default = false;
+		static bool reload_0_mips_default = false;
 		static bool load_rgba_0_ref_default = false;
 		static bool load_float_0_ref_default = false;
 		// constructors
@@ -3387,7 +3388,7 @@ namespace mud
 		// methods
 		static Method methods[] = {
 			{ t, "valid", Address(), mud_Texture_valid, {}, { &type<bool>(), QualType::None } },
-			{ t, "reload", Address(), mud_Texture_reload, { { "gfx", type<mud::GfxSystem>(),  }, { "srgb", type<bool>(), Param::Default, &reload_0_srgb_default } }, g_qvoid },
+			{ t, "reload", Address(), mud_Texture_reload, { { "gfx", type<mud::GfxSystem>(),  }, { "srgb", type<bool>(), Param::Default, &reload_0_srgb_default }, { "mips", type<bool>(), Param::Default, &reload_0_mips_default } }, g_qvoid },
 			{ t, "load_rgba", Address(), mud_Texture_load_rgba, { { "size", type<mud::uvec2>(),  }, { "data", type<stl::span<uint32_t>>(),  }, { "ref", type<bool>(), Param::Default, &load_rgba_0_ref_default } }, g_qvoid },
 			{ t, "load_float", Address(), mud_Texture_load_float, { { "size", type<mud::uvec2>(),  }, { "data", type<stl::span<float>>(),  }, { "ref", type<bool>(), Param::Default, &load_float_0_ref_default } }, g_qvoid }
 		};

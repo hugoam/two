@@ -107,8 +107,31 @@ namespace mud
 			bimg::imageFree(encoded);
 	}
 
-	bgfx::TextureHandle load_bgfx_image(bimg::ImageContainer& image, const string& name, uint64_t flags, bgfx::TextureInfo* info)
+	bgfx::TextureHandle load_bgfx_image(GfxSystem& gfx, bimg::ImageContainer& image, const string& name, uint64_t flags, bgfx::TextureInfo* info, bool gen_mips)
 	{
+		// @todo implement per-type asset load options and remove this
+		bool need_mips = image.m_format == bimg::TextureFormat::R8
+			|| image.m_format == bimg::TextureFormat::RGB8
+			|| image.m_format == bimg::TextureFormat::RGBA8;
+
+		//need_mips = false;
+
+		if(need_mips && gen_mips && image.m_numMips <= 1)
+		{
+			bimg::ImageContainer* rgba8 = bimg::imageConvert(&gfx.allocator(), bimg::TextureFormat::RGBA8, image);
+			bimg::ImageContainer* mips = bimg::imageGenerateMips(&gfx.allocator(), *rgba8);
+			if(mips != nullptr)
+			{
+				bimg::imageFree(rgba8);
+				bimg::imageFree(&image);
+				return load_bgfx_image(gfx, *mips, name, flags, info, false);
+			}
+			else
+			{
+				printf("WARNING: could not generate mips for texture %s\n", name.c_str());
+			}
+		}
+
 		bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
 
 		const bgfx::Memory* mem = bgfx::makeRef(image.m_data, image.m_size, release_bgfx_image, &image);
@@ -141,7 +164,7 @@ namespace mud
 		return handle;
 	}
 
-	bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& name, void* data, size_t size, uint64_t flags, bgfx::TextureInfo* info, bool generate_mips)
+	bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& name, void* data, size_t size, uint64_t flags, bgfx::TextureInfo* info, bool gen_mips)
 	{
 		bimg::ImageContainer* image = bimg::imageParse(&gfx.allocator(), data, uint32_t(size));
 		BX_FREE(&gfx.allocator(), data);
@@ -149,30 +172,7 @@ namespace mud
 		if(!image)
 			return BGFX_INVALID_HANDLE;
 
-		// @todo implement per-type asset load options and remove this
-		bool need_mips = image->m_format == bimg::TextureFormat::R8
-					  || image->m_format == bimg::TextureFormat::RGB8
-					  || image->m_format == bimg::TextureFormat::RGBA8;
-
-		need_mips = false;
-
-		if(need_mips && generate_mips && image->m_numMips <= 1)
-		{
-			bimg::ImageContainer* rgba8 = bimg::imageConvert(&gfx.allocator(), bimg::TextureFormat::RGBA8, *image);
-			bimg::ImageContainer* mips = bimg::imageGenerateMips(&gfx.allocator(), *rgba8);
-			if(mips != nullptr)
-			{
-				bimg::imageFree(rgba8);
-				bimg::imageFree(image);
-				image = mips;
-			}
-			else
-			{
-				printf("WARNING: could not generate mips for texture %s\n", name.c_str());
-			}
-		}
-
-		return load_bgfx_image(*image, name, flags, info);
+		return load_bgfx_image(gfx, *image, name, flags, info, gen_mips);
 	}
 
 	bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& file_path, uint64_t flags, bgfx::TextureInfo* info, bool generate_mips)
@@ -209,7 +209,7 @@ namespace mud
 		texture.m_mips = texture_info.numMips > 0;
 	}
 
-	void load_texture(GfxSystem& gfx, Texture& texture, const string& path, bool srgb)
+	void load_texture(GfxSystem& gfx, Texture& texture, const string& path, bool srgb, bool mips)
 	{
 		if(file_extension(path) == "cube")
 		{
@@ -239,14 +239,14 @@ namespace mud
 
 			bgfx::TextureInfo texture_info;
 			texture.m_location = path;
-			texture.m_tex = load_bgfx_image(*cubemap, path.c_str(), !srgb ? BGFX_TEXTURE_NONE : BGFX_TEXTURE_SRGB, &texture_info);
+			texture.m_tex = load_bgfx_image(gfx, *cubemap, path.c_str(), !srgb ? BGFX_TEXTURE_NONE : BGFX_TEXTURE_SRGB, &texture_info, mips);
 			set_texture_info(texture, texture_info);
 		}
 		else
 		{
 			bgfx::TextureInfo texture_info;
 			texture.m_location = path;
-			texture.m_tex = load_bgfx_texture(gfx, path, !srgb ? BGFX_TEXTURE_NONE : BGFX_TEXTURE_SRGB, &texture_info, true);
+			texture.m_tex = load_bgfx_texture(gfx, path, !srgb ? BGFX_TEXTURE_NONE : BGFX_TEXTURE_SRGB, &texture_info, mips);
 			// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 			set_texture_info(texture, texture_info);
 		}
@@ -304,9 +304,9 @@ namespace mud
 
 	bool Texture::valid() const { return bgfx::isValid(m_tex); }
 
-	void Texture::reload(GfxSystem& gfx, bool srgb)
+	void Texture::reload(GfxSystem& gfx, bool srgb, bool mips)
 	{
-		load_texture(gfx, *this, m_location, srgb);
+		load_texture(gfx, *this, m_location, srgb, mips);
 	}
 
 	void Texture::load_float(const uvec2& size, const bgfx::Memory& memory, uint8_t num_components)
