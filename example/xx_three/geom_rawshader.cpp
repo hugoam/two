@@ -48,9 +48,12 @@ void xx_geom_rawshader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	Scene& scene = viewer.m_scene;
 
 	static Program& program = app.m_gfx.programs().create("rawshader");
-	program.set_block(MaterialBlock::Solid);
-	program.set_source(ShaderType::Vertex, vertex_shader);
-	program.set_source(ShaderType::Fragment, fragment_shader);
+	if(init)
+	{
+		program.set_block(MaterialBlock::Solid);
+		program.set_source(ShaderType::Vertex, vertex_shader);
+		program.set_source(ShaderType::Fragment, fragment_shader);
+	}
 	
 	static Node3* node = nullptr;
 

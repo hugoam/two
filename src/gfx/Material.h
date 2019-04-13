@@ -173,6 +173,11 @@ namespace mud
 		static ShaderBlock s_block;
 	};
 
+	export_ enum ShaderOptionSolid : unsigned int
+	{
+		COLOR_MAP,
+	};
+
 	export_ enum ShaderOptionLine : unsigned int
 	{
 		DASH,

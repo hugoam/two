@@ -159,7 +159,8 @@ int main(int argc, char *argv[])
 #if !MULTI_VIEWPORT && !MULTI_WINDOW
 	//static uint32_t example = 0;
 	//static uint32_t example = find_example("loader/gltf");
-	static uint32_t example = find_example("perf/twosided");
+	//static uint32_t example = find_example("perf/twosided");
+	static uint32_t example = find_example("geom/points");
 	static bool init = true;
 
 	app.run([](Shell& app, ShellWindow& win) { pump(app, win, init, example); });

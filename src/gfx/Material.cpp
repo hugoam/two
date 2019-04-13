@@ -104,8 +104,7 @@ namespace mud
 	{
 		MaterialBlockAlpha() {}
 		MaterialBlockAlpha(GfxSystem& gfx)
-			: m_white_tex(&gfx.default_texture(TextureHint::White))
-			, s_alpha(bgfx::createUniform("s_alpha", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			: s_alpha(bgfx::createUniform("s_alpha", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialAlpha>::me.init();
@@ -123,10 +122,9 @@ namespace mud
 #if !MATERIALS_BUFFER
 			GpuState<MaterialAlpha>::me.upload(encoder, block);
 #endif
-			encoder.setTexture(uint8_t(TextureSampler::Alpha), is_valid(block.m_alpha.m_texture) ? *block.m_alpha.m_texture : *m_white_tex);
+			if(is_valid(block.m_alpha.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Alpha), *block.m_alpha.m_texture);
 		}
-
-		Texture* m_white_tex;
 
 		bgfx::UniformHandle s_alpha;
 	};
@@ -135,8 +133,7 @@ namespace mud
 	{
 		MaterialBlockSolid() {}
 		MaterialBlockSolid(GfxSystem& gfx)
-			: m_white_tex(&gfx.default_texture(TextureHint::White))
-			, s_color(bgfx::createUniform("s_color", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			: s_color(bgfx::createUniform("s_color", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialSolid>::me.init();
@@ -155,10 +152,9 @@ namespace mud
 			GpuState<MaterialSolid>::me.upload(encoder, block);
 #endif
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), block.m_colour.m_texture ? *block.m_colour.m_texture : *m_white_tex);
+			if(is_valid(block.m_colour.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Color), *block.m_colour.m_texture);
 		}
-
-		Texture* m_white_tex;
 
 		bgfx::UniformHandle s_color;
 	};
@@ -364,10 +360,7 @@ namespace mud
 	{
 		MaterialBlockPbr() {}
 		MaterialBlockPbr(GfxSystem& gfx)
-			: m_white_tex(&gfx.default_texture(TextureHint::White))
-			, m_black_tex (&gfx.default_texture(TextureHint::Black))
-			, m_normal_tex(&gfx.default_texture(TextureHint::Normal))
-			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			: s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
@@ -397,17 +390,16 @@ namespace mud
 			GpuState<MaterialPbr>::me.upload(encoder, block);
 #endif
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), is_valid(block.m_albedo.m_texture) ? *block.m_albedo.m_texture : *m_white_tex);
-			encoder.setTexture(uint8_t(TextureSampler::Metallic), is_valid(block.m_metallic.m_texture) ? *block.m_metallic.m_texture : *m_white_tex);
-			encoder.setTexture(uint8_t(TextureSampler::Roughness), is_valid(block.m_roughness.m_texture) ? *block.m_roughness.m_texture : *m_white_tex);
+			if(is_valid(block.m_albedo.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Color), *block.m_albedo.m_texture);
+			if(is_valid(block.m_metallic.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Metallic), *block.m_metallic.m_texture);
+			if(is_valid(block.m_roughness.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Roughness), *block.m_roughness.m_texture);
 
 			if(is_valid(block.m_depth.m_texture))
 				encoder.setTexture(uint8_t(TextureSampler::Depth), *block.m_depth.m_texture);
 		}
-
-		Texture* m_white_tex;
-		Texture* m_black_tex;
-		Texture* m_normal_tex;
 
 		bgfx::UniformHandle s_albedo;
 		bgfx::UniformHandle s_metallic;
@@ -421,8 +413,7 @@ namespace mud
 	{
 		MaterialBlockPhong() {}
 		MaterialBlockPhong(GfxSystem& gfx)
-			: m_white_tex(&gfx.default_texture(TextureHint::White))
-			, s_diffuse(bgfx::createUniform("s_diffuse", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			: s_diffuse(bgfx::createUniform("s_diffuse", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 			, s_specular(bgfx::createUniform("s_specular", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 			, s_shininess(bgfx::createUniform("s_shininess", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
 			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
@@ -449,12 +440,13 @@ namespace mud
 			GpuState<MaterialPhong>::me.upload(encoder, block);
 #endif
 
-			encoder.setTexture(uint8_t(TextureSampler::Diffuse), is_valid(block.m_diffuse.m_texture) ? *block.m_diffuse.m_texture : *m_white_tex);
-			encoder.setTexture(uint8_t(TextureSampler::Specular), is_valid(block.m_specular.m_texture) ? *block.m_specular.m_texture : *m_white_tex);
-			encoder.setTexture(uint8_t(TextureSampler::Shininess), is_valid(block.m_shininess.m_texture) ? *block.m_shininess.m_texture : *m_white_tex);
+			if(is_valid(block.m_diffuse.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Diffuse), *block.m_diffuse.m_texture);
+			if(is_valid(block.m_specular.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Specular), *block.m_specular.m_texture);
+			if(is_valid(block.m_shininess.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Shininess), *block.m_shininess.m_texture);
 		}
-
-		Texture* m_white_tex;
 
 		bgfx::UniformHandle s_diffuse;
 		bgfx::UniformHandle s_specular;
@@ -483,7 +475,7 @@ namespace mud
 
 	ShaderBlock MaterialBase::s_block = ShaderBlock({ "VERTEX_COLOR", "DOUBLE_SIDED", "FLAT_SHADED" }, {});
 	ShaderBlock MaterialAlpha::s_block = ShaderBlock({ "ALPHA_MAP", "ALPHA_TEST" }, {});
-	ShaderBlock MaterialSolid::s_block = ShaderBlock();
+	ShaderBlock MaterialSolid::s_block = ShaderBlock({ "COLOR_MAP" }, {});
 	ShaderBlock MaterialLine::s_block = ShaderBlock({ "DASH" }, {});
 	ShaderBlock MaterialPoint::s_block = ShaderBlock();
 	ShaderBlock MaterialFresnel::s_block = ShaderBlock();
@@ -532,6 +524,11 @@ namespace mud
 			version.set_option(MaterialAlpha::s_block.m_index, ALPHA_MAP, is_valid(m_alpha.m_alpha.m_texture));
 		}
 
+		if(program.m_blocks[MaterialBlock::Solid])
+		{
+			version.set_option(MaterialSolid::s_block.m_index, COLOR_MAP, is_valid(m_solid.m_colour.m_texture));
+		}
+
 		if(program.m_blocks[MaterialBlock::Line])
 		{
 			version.set_option(MaterialLine::s_block.m_index, DASH, m_line.m_dashed);
@@ -578,7 +575,8 @@ namespace mud
 	{
 		ProgramVersion version = this->program(program);
 		
-		const bool colours = (elem.m_mesh->m_vertex_format & VertexAttribute::Colour) != 0;
+		bool colours = (elem.m_mesh->m_vertex_format & VertexAttribute::Colour) != 0;
+		colours |= (item.m_batch != nullptr); // if instancing we assume we might have colors too
 
 		version.set_option(MaterialBase::s_block.m_index, VERTEX_COLOR, colours && m_base.m_shader_color == ShaderColor::Vertex);
 
