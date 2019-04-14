@@ -63,13 +63,13 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 	float middle = 0.f;//particles_vector.size() * 10.f / 2.f;
 	for(ParticleItem& item : particles_vector)
 	{
-		Gnode& node = gfx::node(scene, {}, vec3(-middle + item.m_index * 10.f, 0.f, 0.f));
+		Gnode& node = gfx::node(scene, vec3(-middle + item.m_index * 10.f, 0.f, 0.f));
 		item.m_particles = &gfx::flows(node, *item.m_emitter);
 
 		if(item.m_particles->ended())
 			item.m_particles->m_time = 0.f;
 
-		node.m_node->m_object = Ref(&item);
+		//node.m_node->m_object = Ref(&item);
 
 		gfx::shape(node, *item.m_particles->m_shape, Symbol::wire(&item == edited ? Colour::White : Colour::AlphaGrey));
 		gfx::shape(node, Cube(0.1f), Symbol::wire(Colour::White), ItemFlag::Default | ItemFlag::Selectable);

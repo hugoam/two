@@ -86,8 +86,8 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	config.m_optimize_geometry = true;
 	static Prefab& prefab = import_prefab(app.m_gfx, ModelFormat::obj, "sponza", config);
 
-	//Gnode& sponza_node = gfx::node(scene, {}, vec3(0.f, -5.f, 0.f));
-	Gnode& sponza_node = gfx::node(scene, {}, -prefab.m_aabb.m_center);
+	//Gnode& sponza_node = gfx::node(scene, vec3(0.f, -5.f, 0.f));
+	Gnode& sponza_node = gfx::node(scene, -prefab.m_aabb.m_center);
 	gfx::prefab(sponza_node, prefab, false, ItemFlag::NoUpdate);
 
 #if GI_PROBE

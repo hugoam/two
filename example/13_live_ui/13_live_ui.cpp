@@ -192,10 +192,10 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		Gnode& scene = viewers[i]->m_scene.begin();
 
-		Gnode& cn1 = gfx::node(scene, {}, vec3(0.f), quat(rotation), vec3(1.f));
+		Gnode& cn1 = gfx::node(scene, vec3(0.f), quat(rotation), vec3(1.f));
 		gfx::shape(cn1, Cube(), Symbol::plain(colours[i]));
 
-		Gnode& cn2 = gfx::node(scene, {}, vec3(0.f), quat(rotation), vec3(2.f));
+		Gnode& cn2 = gfx::node(scene, vec3(0.f), quat(rotation), vec3(2.f));
 		gfx::shape(cn2, Cube(), Symbol::wire(colours[i]));
 	}
 	

@@ -91,7 +91,7 @@ namespace mud
 		static table<Axis, Colour> colours = { Colour::Red, Colour::Green, Colour::Blue };
 		for(Axis axis : { Axis::X, Axis::Y, Axis::Z })
 		{
-			Gnode& node = gfx::node(parent, {}, to_vec3(axis) * 1.f);
+			Gnode& node = gfx::node(parent, to_vec3(axis) * 1.f);
 			gfx::shape(node, Cylinder(0.1f, 1.f, axis), Symbol(colours[axis]));
 		}
 	}
@@ -149,7 +149,7 @@ namespace mud
 		quat rotation = axis_angle(Y3, fmod(time, c_2pi));
 
 		Gnode& scene = viewer.m_scene.begin();
-		gfx::node(scene, Entity(), offset, rotation); // object
+		gfx::node(scene, offset, rotation); // object
 		gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 		return viewer;
 	}

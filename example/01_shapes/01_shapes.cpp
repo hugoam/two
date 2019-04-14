@@ -40,7 +40,7 @@ void shape_grid(Gnode& parent, span2d<ShapeInstance> shape_grid, const Symbol* s
 			vec3 angles = rotate ? vec3(time + float(x) * 0.21f, 0.f, time + float(y) * 0.37f)
 								 : vec3(0.f);
 
-			Gnode& node = gfx::node(parent, {}, center + vec3(x * spacing, 0.f, y * spacing), quat(angles));
+			Gnode& node = gfx::node(parent, center + vec3(x * spacing, 0.f, y * spacing), quat(angles));
 			gfx::shape(node, shape.shape, symbol ? *symbol : shape.symbol, ItemFlag::Default | ItemFlag::Selectable, material);
 		}
 }
@@ -53,7 +53,7 @@ void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene.begin();
 
-	Gnode& node = gfx::node(scene, {}, vec3(-5.f, 0.f, -5.f));
+	Gnode& node = gfx::node(scene, vec3(-5.f, 0.f, -5.f));
 	gfx::shape(node, Grid2({ 10.f, 10.f }), Symbol(Colour::AlphaGrey));
 
 	static vector<ShapeVar> shapes = { Cube(), Sphere(), Spheroid(), Cylinder(), Rect(), Circle() };

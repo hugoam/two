@@ -48,18 +48,21 @@ namespace mud
 		vector<string> m_formats;
 		vector<Loader> m_format_loaders;
 
+		//meth_ bool locate(const string& name);
 		meth_ T_Asset* get(const string& name);
 		meth_ T_Asset& create(const string& name);
 		meth_ T_Asset& fetch(const string& name);
-		//meth_ bool locate(const string& name);
-		meth_ T_Asset* file(const string& name, const Config& config = {});
-		meth_ T_Asset& file_at(const string& path, const string& name, const Config& config = {});
+		      T_Asset* file(const string& name, const Config& config);
+		meth_ T_Asset* file(const string& name) { return this->file(name, {}); }
+		      T_Asset& file_at(const string& path, const string& name, const Config& config);
+		meth_ T_Asset& file_at(const string& path, const string& name) { return this->file_at(path, name, {}); }
+			  T_Asset* load(const string& path, const string& name, const Config& config);
+		meth_ T_Asset* load(const string& path, const string& name) { return this->load(path, name, {}); }
 		meth_ void destroy(const string& name);
 		meth_ void clear();
 
 		T_Asset& create(const string& name, const Init& init);
 
-		T_Asset* load(const string& path, const string& name, const Config& config = {});
 		void load_files(const string& path);
 
 		map<string, unique<T_Asset>> m_assets;

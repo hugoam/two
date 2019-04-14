@@ -142,10 +142,11 @@ void material_spheres(Gnode& parent, span<Material*> materials)
 
 	for(size_t i = 0; i < materials.size(); ++i)
 	{
-		//Gnode& material_node = gfx::node(parent, Ref(materials[i]), vec3(-center + float(i) * spacing, 0.f, 0.f));
-		Gnode& material_node = gfx::node(parent, Entity(), vec3(-center + float(i) * spacing, 0.f, 0.f));
-		gfx::shape(material_node, Sphere(), Symbol(), 0, materials[i]);
-		//gfx::model(material_node, "sphere", 0, materials[i]);
+		Gnode& node = gfx::node(parent, vec3(-center + float(i) * spacing, 0.f, 0.f));
+		//node.m_node->m_object = Ref(materials[i]);
+
+		gfx::shape(node, Sphere(), Symbol(), 0, materials[i]);
+		//gfx::model(node, "sphere", 0, materials[i]);
 	}
 }
 
@@ -159,15 +160,15 @@ void roughness_spheres(Gnode& parent)
 	float di_center = dielectric.size() * 2.f / 2.f;
 	for(size_t i = 0; i < dielectric.size(); ++i)
 	{
-		Gnode& material_node = gfx::node(parent, {}, vec3(-di_center + float(i) * 2.f, 0.f, 0.f));
-		gfx::shape(material_node, Sphere(), Symbol(), 0U, dielectric[i]);
+		Gnode& node = gfx::node(parent, vec3(-di_center + float(i) * 2.f, 0.f, 0.f));
+		gfx::shape(node, Sphere(), Symbol(), 0U, dielectric[i]);
 	}
 
 	float met_center = metallic.size() * 2.f / 2.f;
 	for(size_t i = 0; i < metallic.size(); ++i)
 	{
-		Gnode& material_node = gfx::node(parent, {}, vec3(-met_center + float(i) * 2.f, 0.f, 4.f));
-		gfx::shape(material_node, Sphere(), Symbol(), 0U, metallic[i]);
+		Gnode& node = gfx::node(parent, vec3(-met_center + float(i) * 2.f, 0.f, 4.f));
+		gfx::shape(node, Sphere(), Symbol(), 0U, metallic[i]);
 	}
 }
 
@@ -182,7 +183,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene.begin();
 
-	Gnode& ground_node = gfx::node(scene, {}, -Y3);
+	Gnode& ground_node = gfx::node(scene, -Y3);
 	gfx::shape(ground_node, Rect(vec2(-50.f), vec2(100.f)), Symbol(), 0U, &milky_white(app.m_gfx));
 
 	gfx::direct_light_node(scene);

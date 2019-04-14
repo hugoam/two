@@ -462,7 +462,7 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Material& material = milky_white(app.m_gfx);
 
-	Gnode& ground_node = gfx::node(scene, {}, { 0.f, -5.f, 0.f });
+	Gnode& ground_node = gfx::node(scene, vec3(0.f, -5.f, 0.f));
 	gfx::shape(ground_node, Rect(vec2(-50.f), vec2(100.f)), Symbol(), 0U, &material);
 
 	gfx::direct_light_node(scene, g_sky.m_sun.m_sun_rotation);

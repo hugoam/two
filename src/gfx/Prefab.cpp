@@ -27,8 +27,8 @@ namespace mud
 
 	void PrefabNode::draw(Gnode& parent)
 	{
-		Gnode& self = gfx::node(parent, m_object);
-		Gnode& item = gfx::node(self, Ref(this), m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
+		Gnode& self = gfx::node(parent); // , m_object);
+		Gnode& item = gfx::node(self, m_transform.m_position, m_transform.m_rotation, m_transform.m_scale); // Ref(this), 
 
 		if(m_call.m_callable)
 			m_call.m_args[0] = Ref(&item);

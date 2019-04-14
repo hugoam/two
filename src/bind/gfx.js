@@ -1380,6 +1380,14 @@ Object.defineProperty(ImportConfig.prototype, "need_uvs", {
         _mud_ImportConfig__set_need_uvs(this.__ptr, value);
     }
 });
+Object.defineProperty(ImportConfig.prototype, "no_transforms", {
+    get: function() {
+        return !!(_mud_ImportConfig__get_no_transforms(this.__ptr));
+    },
+    set: function(value) {
+        _mud_ImportConfig__set_no_transforms(this.__ptr, value);
+    }
+});
 Object.defineProperty(ImportConfig.prototype, "flags", {
     get: function() {
         return _mud_ImportConfig__get_flags(this.__ptr);
@@ -2656,6 +2664,11 @@ Mesh.prototype["write"] = Mesh.prototype.write = function(a0, a1, a2) {
     if (a1 === undefined) { _mud_Mesh_write_1(this.__ptr, /*packer*/a0.__ptr); return; }
     if (a2 === undefined) { _mud_Mesh_write_2(this.__ptr, /*packer*/a0.__ptr, /*optimize*/a1); return; }
     _mud_Mesh_write_3(this.__ptr, /*packer*/a0.__ptr, /*optimize*/a1, /*dynamic*/a2);
+};
+Mesh.prototype["xwrite"] = Mesh.prototype.xwrite = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { _mud_Mesh_xwrite_2(this.__ptr, /*packer*/a0.__ptr, /*transform*/a1.__ptr); return; }
+    if (a3 === undefined) { _mud_Mesh_xwrite_3(this.__ptr, /*packer*/a0.__ptr, /*transform*/a1.__ptr, /*optimize*/a2); return; }
+    _mud_Mesh_xwrite_4(this.__ptr, /*packer*/a0.__ptr, /*transform*/a1.__ptr, /*optimize*/a2, /*dynamic*/a3);
 };
 Mesh.prototype["morph"] = Mesh.prototype.morph = function(a0) {
     _mud_Mesh_morph_1(this.__ptr, /*packer*/a0.__ptr);
@@ -4891,12 +4904,11 @@ Module['mirror_camera'] = function(a0, a1, a2) {
 Module['gfx']['setup_pipeline_minimal'] = function(a0) {
     _mud_gfx_setup_pipeline_minimal_1(/*gfx*/a0.__ptr);
 };
-Module['gfx']['node'] = function(a0, a1, a2, a3, a4) {
+Module['gfx']['node'] = function(a0, a1, a2, a3) {
     if (a1 === undefined) { return wrapPointer(_mud_gfx_node_1(/*parent*/a0.__ptr), Gnode); }
-    if (a2 === undefined) { return wrapPointer(_mud_gfx_node_2(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)), Gnode); }
-    if (a3 === undefined) { return wrapPointer(_mud_gfx_node_3(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), /*position*/a2.__ptr), Gnode); }
-    if (a4 === undefined) { return wrapPointer(_mud_gfx_node_4(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), /*position*/a2.__ptr, /*rotation*/a3.__ptr), Gnode); }
-    return wrapPointer(_mud_gfx_node_5(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), /*position*/a2.__ptr, /*rotation*/a3.__ptr, /*scale*/a4.__ptr), Gnode);
+    if (a2 === undefined) { return wrapPointer(_mud_gfx_node_2(/*parent*/a0.__ptr, /*position*/a1.__ptr), Gnode); }
+    if (a3 === undefined) { return wrapPointer(_mud_gfx_node_3(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr), Gnode); }
+    return wrapPointer(_mud_gfx_node_4(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr, /*scale*/a3.__ptr), Gnode);
 };
 Module['gfx']['shape'] = function(a0, a1, a2, a3, a4) {
     if (a3 === undefined) { return wrapPointer(_mud_gfx_shape_3(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr), Item); }

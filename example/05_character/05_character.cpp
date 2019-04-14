@@ -37,7 +37,7 @@ public:
 
 Mime& paint_human(Gnode& parent, Human& human, bool high_lod)
 {
-	Gnode& self = gfx::node(parent, {}, human.m_position, human.m_rotation);
+	Gnode& self = gfx::node(parent, human.m_position, human.m_rotation);
 	gfx::shape(self, Circle(0.35f), Symbol::wire(Colour::White), ItemFlag::Default | ItemFlag::Selectable);
 	Item* item = gfx::model(self, high_lod ? "human" : "human00", ItemFlag::Default | ItemFlag::Selectable);
 	Mime& animated = gfx::animated(self, *item);

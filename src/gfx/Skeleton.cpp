@@ -170,7 +170,7 @@ namespace mud
 		for(Node3& bone : rig.m_skeleton.m_bones)
 		{
 			mat4 pose = bxrotation(rotation) * fix_bone_pose(bone);
-			Gnode& node = gfx::node(parent, {}, position + vec3(pose * vec4(vec3(0.f), 1.f)));
+			Gnode& node = gfx::node(parent, position + vec3(pose * vec4(vec3(0.f), 1.f)));
 			gfx::shape(node, Sphere(0.02f), Symbol());
 		}
 	}

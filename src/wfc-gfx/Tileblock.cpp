@@ -153,10 +153,10 @@ namespace mud
 		Colour colour = { 0.3f, 0.3f, 0.3f, 0.4f };
 		Grid2 grid = { to_xz(vec3(tileblock.m_size)), to_xz(tileblock.m_scale) };
 
-		Gnode& top = gfx::node(parent, {}, tileblock.m_aabb.m_center + Y3 * tileblock.m_aabb.m_extents.y);
+		Gnode& top = gfx::node(parent, tileblock.m_aabb.m_center + Y3 * tileblock.m_aabb.m_extents.y);
 		gfx::shape(top, grid, Symbol(colour));
 
-		Gnode& bottom = gfx::node(parent, {}, tileblock.m_aabb.m_center - Y3 * tileblock.m_aabb.m_extents.y);
+		Gnode& bottom = gfx::node(parent, tileblock.m_aabb.m_center - Y3 * tileblock.m_aabb.m_extents.y);
 		gfx::shape(bottom, grid, Symbol(colour));
 	}
 
@@ -189,7 +189,8 @@ namespace mud
 	{
 		VisuBlock& visu = parent.state<VisuBlock>();
 
-		Gnode& self = gfx::node(parent, object, tileblock.m_aabb.bmin());
+		Gnode& self = gfx::node(parent, tileblock.m_aabb.bmin());
+		self.m_node->m_object = object;
 
 		bool dirty = visu.m_updated < tileblock.m_wave_updated;
 
@@ -277,7 +278,7 @@ namespace mud
 			if(index != UINT16_MAX)
 			{
 				TileModel& tile = tileblock.m_tile_models[index];
-				Gnode& node = gfx::node(self, {}, tileblock.to_position(focused), tile.m_rotation, tileblock.m_tileset->m_tile_scale * tileblock.m_scale);
+				Gnode& node = gfx::node(self, tileblock.to_position(focused), tile.m_rotation, tileblock.m_tileset->m_tile_scale * tileblock.m_scale);
 				if(tile.m_model)
 					gfx::item(node, *tile.m_model);
 			}
@@ -286,7 +287,7 @@ namespace mud
 
 	void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill)
 	{
-		Gnode& node = gfx::node(parent, {}, tileblock.to_position(coord) + Y3 * 0.5f);
+		Gnode& node = gfx::node(parent, tileblock.to_position(coord) + Y3 * 0.5f);
 		gfx::shape(node, Cube(0.5f + 0.01f), Symbol(outline, fill));
 	}
 
@@ -352,7 +353,7 @@ namespace mud
 
 		auto draw = [](Gnode& parent, const Model& model, const vec3& position, const quat& rotation, const vec3& scale)
 		{
-			Gnode& self = gfx::node(parent, {}, position, rotation, scale);
+			Gnode& self = gfx::node(parent, position, rotation, scale);
 			return gfx::item(self, model);
 		};
 
@@ -360,12 +361,12 @@ namespace mud
 			if(item.m_model)
 				draw(scene, *item.m_model, item.m_position, item.m_rotation, item.m_scale);
 
-		//Gnode& origin = gfx::node(scene, {}, center);
+		//Gnode& origin = gfx::node(scene, center);
 		//gfx::draw(origin, Line(-100.f * X3, 100.f * X3), Symbol(Colour::Red));
 		//gfx::draw(origin, Line(-100.f * Y3, 100.f * Y3), Symbol(Colour::Green));
 		//gfx::draw(origin, Line(-100.f * Z3, 100.f * Z3), Symbol(Colour::Blue));
 		//
-		//Gnode& horigin = gfx::node(scene, {}, vec3(0.f, center.y, 0.f));
+		//Gnode& horigin = gfx::node(scene, vec3(0.f, center.y, 0.f));
 		//gfx::draw(horigin, Grid2(vec2(num_columns, num_rows)), Symbol());
 	}
 
@@ -417,7 +418,7 @@ namespace mud
 	{
 		paint_tile_cube(parent, tileblock, coord, Colour::Pink, Colour::None);
 
-		Gnode& node = gfx::node(parent, {}, vec3(coord));
+		Gnode& node = gfx::node(parent, vec3(coord));
 
 		size_t index = tileblock.m_wave.m_wave.indexAt(coord.x, coord.y, coord.z);
 		size_t side = size_t(ceil(sqrt(float(tileblock.m_entropy[index]))));
@@ -430,7 +431,7 @@ namespace mud
 			if(tileblock.m_wave.m_wave.at(coord.x, coord.y, coord.z)[t])
 			{
 				vec3 position = offset + vec3(float(count % side), 0.f, float(count / side));
-				Gnode& con = gfx::node(node, {}, position, tileblock.m_tile_models[t].m_rotation, tileblock.m_tileset->m_tile_scale / 2.f);
+				Gnode& con = gfx::node(node, position, tileblock.m_tile_models[t].m_rotation, tileblock.m_tileset->m_tile_scale / 2.f);
 				if(tileblock.m_tile_models[t].m_model)
 					gfx::item(con, *tileblock.m_tile_models[t].m_model);
 				++count;
@@ -439,7 +440,7 @@ namespace mud
 
 	void paint_connections(Gnode& parent, WfcBlock& tileblock, const uvec3& coord)
 	{
-		Gnode& node = gfx::node(parent, {}, vec3(coord));
+		Gnode& node = gfx::node(parent, vec3(coord));
 
 		int directions = tileblock.m_wave.m_depth == 1 ? 4 : 6;
 		for(int d = 0; d < directions; d++)
@@ -454,7 +455,7 @@ namespace mud
 						if(tileblock.m_tile_models[t1].m_model)
 						{
 							vec3 position = tileblock.to_position(coord) + to_vec3(SignedAxis(d)) * float(++count) * 2.f;
-							Gnode& con = gfx::node(node, {}, position, tileblock.m_tile_models[t1].m_rotation, tileblock.m_tileset->m_tile_scale);
+							Gnode& con = gfx::node(node, position, tileblock.m_tile_models[t1].m_rotation, tileblock.m_tileset->m_tile_scale);
 							gfx::item(con, *tileblock.m_tile_models[t1].m_model);
 						}
 		}

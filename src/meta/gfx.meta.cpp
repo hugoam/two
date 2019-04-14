@@ -263,6 +263,7 @@ void mud_MaterialUser__construct_0(void* ref, span<void*> args) { UNUSED(args); 
 void mud_MaterialUser__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MaterialUser((*static_cast<mud::MaterialUser*>(other))); }
 void mud_Mesh_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Mesh*>(object)).clear(); }
 void mud_Mesh_write(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).write(*static_cast<mud::MeshPacker*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<bool*>(args[2])); }
+void mud_Mesh_xwrite(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).xwrite(*static_cast<mud::MeshPacker*>(args[0]), *static_cast<mud::mat4*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3])); }
 void mud_Mesh_morph(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).morph(*static_cast<mud::MeshPacker*>(args[0])); }
 void mud_Mesh_upload(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).upload(*static_cast<mud::GpuMesh*>(args[0]), *static_cast<bool*>(args[1])); }
 void mud_Mesh_cache(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Mesh*>(object)).cache(*static_cast<mud::GpuMesh*>(args[0])); }
@@ -466,7 +467,7 @@ void mud_bxSRT_16(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(r
 void mud_bxTRS_17(span<void*> args, void*& result) { (*static_cast<mud::mat4*>(result)) = mud::bxTRS(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
 void mud_mirror_camera_18(span<void*> args, void*& result) { (*static_cast<mud::MirrorCamera*>(result)) = mud::mirror_camera(*static_cast<mud::Camera*>(args[0]), *static_cast<mud::Node3*>(args[1]), *static_cast<float*>(args[2])); }
 void mud_gfx_setup_pipeline_minimal_19(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::setup_pipeline_minimal(*static_cast<mud::GfxSystem*>(args[0])); }
-void mud_gfx_node_20(span<void*> args, void*& result) { result = &mud::gfx::node(*static_cast<mud::Gnode*>(args[0]), Entity(), *static_cast<mud::vec3*>(args[2]), *static_cast<mud::quat*>(args[3]), *static_cast<mud::vec3*>(args[4])); }
+void mud_gfx_node_20(span<void*> args, void*& result) { result = &mud::gfx::node(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::quat*>(args[2]), *static_cast<mud::vec3*>(args[3])); }
 void mud_gfx_shape_21(span<void*> args, void*& result) { result = &mud::gfx::shape(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::Symbol*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4])); }
 void mud_gfx_draw_22(span<void*> args, void*& result) { UNUSED(result);  mud::gfx::draw(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Shape*>(args[1]), *static_cast<mud::Symbol*>(args[2]), *static_cast<uint32_t*>(args[3])); }
 void mud_gfx_sprite_23(span<void*> args, void*& result) { result = &mud::gfx::sprite(*static_cast<mud::Gnode*>(args[0]), *static_cast<mud::Image256*>(args[1]), *static_cast<mud::vec2*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<mud::Material*>(args[4])); }
@@ -1760,6 +1761,7 @@ namespace mud
 		static bool optimize_geometry_default = false;
 		static bool need_normals_default = true;
 		static bool need_uvs_default = true;
+		static bool no_transforms_default = false;
 		static uint32_t flags_default = ItemFlag::None;
 		// constructors
 		static Constructor constructors[] = {
@@ -1786,6 +1788,7 @@ namespace mud
 			{ t, offsetof(mud::ImportConfig, m_optimize_geometry), type<bool>(), "optimize_geometry", &optimize_geometry_default, Member::Value, nullptr },
 			{ t, offsetof(mud::ImportConfig, m_need_normals), type<bool>(), "need_normals", &need_normals_default, Member::Value, nullptr },
 			{ t, offsetof(mud::ImportConfig, m_need_uvs), type<bool>(), "need_uvs", &need_uvs_default, Member::Value, nullptr },
+			{ t, offsetof(mud::ImportConfig, m_no_transforms), type<bool>(), "no_transforms", &no_transforms_default, Member::Value, nullptr },
 			{ t, offsetof(mud::ImportConfig, m_flags), type<uint32_t>(), "flags", &flags_default, Member::Value, nullptr }
 		};
 		// methods
@@ -2416,6 +2419,8 @@ namespace mud
 		static bool is_direct_default = false;
 		static bool write_0_optimize_default = false;
 		static bool write_0_dynamic_default = false;
+		static bool xwrite_0_optimize_default = false;
+		static bool xwrite_0_dynamic_default = false;
 		static bool upload_0_optimize_default = false;
 		static uint32_t direct_0_index_count_default = 0;
 		// constructors
@@ -2443,6 +2448,7 @@ namespace mud
 		static Method methods[] = {
 			{ t, "clear", Address(), mud_Mesh_clear, {}, g_qvoid },
 			{ t, "write", Address(), mud_Mesh_write, { { "packer", type<mud::MeshPacker>(),  }, { "optimize", type<bool>(), Param::Default, &write_0_optimize_default }, { "dynamic", type<bool>(), Param::Default, &write_0_dynamic_default } }, g_qvoid },
+			{ t, "xwrite", Address(), mud_Mesh_xwrite, { { "packer", type<mud::MeshPacker>(),  }, { "transform", type<mud::mat4>(),  }, { "optimize", type<bool>(), Param::Default, &xwrite_0_optimize_default }, { "dynamic", type<bool>(), Param::Default, &xwrite_0_dynamic_default } }, g_qvoid },
 			{ t, "morph", Address(), mud_Mesh_morph, { { "packer", type<mud::MeshPacker>(),  } }, g_qvoid },
 			{ t, "upload", Address(), mud_Mesh_upload, { { "gpu_mesh", type<mud::GpuMesh>(),  }, { "optimize", type<bool>(), Param::Default, &upload_0_optimize_default } }, g_qvoid },
 			{ t, "cache", Address(), mud_Mesh_cache, { { "gpu_mesh", type<mud::GpuMesh>(),  } }, g_qvoid },
@@ -3985,11 +3991,10 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static mud::Ref object_default = {};
 			static mud::vec3 position_default = vec3(0.f);
 			static mud::quat rotation_default = ZeroQuat;
 			static mud::vec3 scale_default = vec3(1.f);
-			static Function f = { &namspc({ "mud", "gfx" }), "node", nullptr, mud_gfx_node_20, { { "parent", type<mud::Gnode>(),  }, { "object", type<mud::Ref>(), Param::Flags(Param::Nullable|Param::Default), &object_default }, { "position", type<mud::vec3>(), Param::Default, &position_default }, { "rotation", type<mud::quat>(), Param::Default, &rotation_default }, { "scale", type<mud::vec3>(), Param::Default, &scale_default } }, { &type<mud::Gnode>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "gfx" }), "node", nullptr, mud_gfx_node_20, { { "parent", type<mud::Gnode>(),  }, { "position", type<mud::vec3>(), Param::Default, &position_default }, { "rotation", type<mud::quat>(), Param::Default, &rotation_default }, { "scale", type<mud::vec3>(), Param::Default, &scale_default } }, { &type<mud::Gnode>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{

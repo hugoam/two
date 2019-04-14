@@ -73,7 +73,7 @@ void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 	position += speed;
 
 	Gnode& scene = viewer.m_scene.begin();
-    Gnode& node = gfx::node(scene, {}, position);
+    Gnode& node = gfx::node(scene, position);
 	gfx::shape(node, Cube(), Symbol::wire(Colour::Red));
 }
 

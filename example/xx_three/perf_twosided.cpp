@@ -72,6 +72,7 @@ void main()
         direct_brdf(light.energy * a, normalize(l), fragment, material, diffuse, specular);
     }
 
+    #include <pbr/fs_phong_ibl.sh>
     #include <pbr/fs_out_pbr.sh>
     #include <fs_fog_simple.sh>
 }
@@ -92,7 +93,7 @@ void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	Program& phong = app.m_gfx.programs().fetch("pbr/phong");
 
 #if CUSTOM_SHADER
-	static Program& program = app.m_gfx.programs().fetch("twosided");
+	static Program& program = app.m_gfx.programs().create("twosided");
 	if(init)
 	{
 		program.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Phong });

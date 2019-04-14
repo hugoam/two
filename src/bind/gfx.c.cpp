@@ -1086,6 +1086,12 @@ extern "C" {
 	void DECL mud_ImportConfig__set_need_uvs(mud::ImportConfig* self, bool value) {
 		self->m_need_uvs = value;
 	}
+	bool DECL mud_ImportConfig__get_no_transforms(mud::ImportConfig* self) {
+		return self->m_no_transforms;
+	}
+	void DECL mud_ImportConfig__set_no_transforms(mud::ImportConfig* self, bool value) {
+		self->m_no_transforms = value;
+	}
 	uint32_t DECL mud_ImportConfig__get_flags(mud::ImportConfig* self) {
 		return self->m_flags;
 	}
@@ -2106,6 +2112,15 @@ extern "C" {
 	}
 	void DECL mud_Mesh_write_3(mud::Mesh* self, const mud::MeshPacker* packer, bool optimize, bool dynamic) {
 		self->write(*packer, optimize, dynamic);
+	}
+	void DECL mud_Mesh_xwrite_2(mud::Mesh* self, const mud::MeshPacker* packer, const mud::mat4* transform) {
+		self->xwrite(*packer, *transform);
+	}
+	void DECL mud_Mesh_xwrite_3(mud::Mesh* self, const mud::MeshPacker* packer, const mud::mat4* transform, bool optimize) {
+		self->xwrite(*packer, *transform, optimize);
+	}
+	void DECL mud_Mesh_xwrite_4(mud::Mesh* self, const mud::MeshPacker* packer, const mud::mat4* transform, bool optimize, bool dynamic) {
+		self->xwrite(*packer, *transform, optimize, dynamic);
 	}
 	void DECL mud_Mesh_morph_1(mud::Mesh* self, const mud::MeshPacker* packer) {
 		self->morph(*packer);
@@ -4059,17 +4074,14 @@ extern "C" {
 	mud::Gnode* DECL mud_gfx_node_1(mud::Gnode* parent) {
 		return &mud::gfx::node(*parent);
 	}
-	mud::Gnode* DECL mud_gfx_node_2(mud::Gnode* parent, void* object, mud::Type* object_type) {
-		return &mud::gfx::node(*parent, { object, *object_type });
+	mud::Gnode* DECL mud_gfx_node_2(mud::Gnode* parent, const mud::vec3* position) {
+		return &mud::gfx::node(*parent, *position);
 	}
-	mud::Gnode* DECL mud_gfx_node_3(mud::Gnode* parent, void* object, mud::Type* object_type, const mud::vec3* position) {
-		return &mud::gfx::node(*parent, { object, *object_type }, *position);
+	mud::Gnode* DECL mud_gfx_node_3(mud::Gnode* parent, const mud::vec3* position, const mud::quat* rotation) {
+		return &mud::gfx::node(*parent, *position, *rotation);
 	}
-	mud::Gnode* DECL mud_gfx_node_4(mud::Gnode* parent, void* object, mud::Type* object_type, const mud::vec3* position, const mud::quat* rotation) {
-		return &mud::gfx::node(*parent, { object, *object_type }, *position, *rotation);
-	}
-	mud::Gnode* DECL mud_gfx_node_5(mud::Gnode* parent, void* object, mud::Type* object_type, const mud::vec3* position, const mud::quat* rotation, const mud::vec3* scale) {
-		return &mud::gfx::node(*parent, { object, *object_type }, *position, *rotation, *scale);
+	mud::Gnode* DECL mud_gfx_node_4(mud::Gnode* parent, const mud::vec3* position, const mud::quat* rotation, const mud::vec3* scale) {
+		return &mud::gfx::node(*parent, *position, *rotation, *scale);
 	}
 	mud::Item* DECL mud_gfx_shape_3(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol) {
 		return &mud::gfx::shape(*parent, *shape, *symbol);

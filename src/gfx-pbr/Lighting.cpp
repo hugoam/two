@@ -279,7 +279,7 @@ namespace mud
 
 		auto draw = [](Gnode& parent, const Shape& shape, const Symbol& symbol)
 		{
-			Gnode& self = gfx::node(parent, {});
+			Gnode& self = gfx::node(parent);
 			gfx::draw(self, shape, symbol);
 		};
 

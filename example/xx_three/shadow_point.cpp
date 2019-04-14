@@ -113,7 +113,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		float intensity = 1.5f;
 		float range = 20.f;
 
-		Gnode& node = gfx::node(parent, {}, pos, rot);
+		Gnode& node = gfx::node(parent, pos, rot);
 
 		Item& inner = gfx::shape(node, Sphere(0.3f), Symbol::plain(color * intensity));
 		Item& outer = gfx::shape(node, Sphere(2.0f), Symbol::plain(Colour::White), 0U, spheremat);
@@ -155,7 +155,7 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 #if IMMEDIATE
 	Box box = Cube(vec3(15.f));
-	Gnode& node = gfx::node(scene, {});// , Y3 * 10.f);
+	Gnode& node = gfx::node(scene);// , Y3 * 10.f);
 	gfx::shape(node, box, Symbol::plain(Colour::White), 0U, cubemat);
 
 	gfx::shape(scene, Cylinder(X3, 0.1f, 1.f, Axis::X), Symbol::plain(Colour::Red));

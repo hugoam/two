@@ -66,7 +66,7 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 				float g = ncosf(time);
 				Colour color = { r, g, b };
 
-				Gnode& gnode = gfx::node(scene, {}, pos, quat(angles), vec3(1.f));
+				Gnode& gnode = gfx::node(scene, pos, quat(angles), vec3(1.f));
 				gfx::shape(gnode, Cube(), Symbol(color, Colour::None));
 			}
 	}

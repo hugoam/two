@@ -128,7 +128,7 @@ namespace mud
 
 	void TransformTool::paint(Gnode& parent)
 	{
-		Gnode& self = gfx::node(parent, {}, m_transform);
+		Gnode& self = gfx::node(parent, m_transform);
 
 		for(auto& gizmo : m_gizmos)
 		{
@@ -137,10 +137,10 @@ namespace mud
 		}
 
 #ifdef MUD_DEBUG_TRANSFORM_POINTS
-		Gnode& start = gfx::node(parent, {}, m_grab_start);
+		Gnode& start = gfx::node(parent, m_grab_start);
 		gfx::shape(start, Sphere(0.1f), Symbol(Colour::Pink, Colour::None, true));
 
-		Gnode& end = gfx::node(parent, {}, m_grab_end);
+		Gnode& end = gfx::node(parent, m_grab_end);
 		gfx::shape(end, Sphere(0.1f), Symbol(Colour::Pink, Colour::None, true));
 #endif
 	}

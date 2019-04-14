@@ -141,37 +141,37 @@ namespace gfx
 	TPool<Light>&  lights(Scene& scene)  { return scene.m_pool->pool<Light>(); }
 	TPool<Flare>&  flares(Scene& scene)  { return scene.m_pool->pool<Flare>(); }
 
-	Gnode& node(Gnode& parent, Entity object, const mat4& transform)
+	Gnode& node(Gnode& parent, const mat4& transform)
 	{
-		Gnode& self = parent.subi((void*)object.as_uint());
+		Gnode& self = parent.suba();
+		//Gnode& self = parent.subi((void*)object.as_uint());
 		if(!self.m_node)
 		{
 			self.m_node = &create<Node3>(*parent.m_scene);
 			self.m_attach = self.m_node;
 		}
-		self.m_node->m_object = object;
 		self.m_node->m_transform = transform;
 		return self;
 	}
 
-	Gnode& node(Gnode& parent, Entity object, const vec3& position, const quat& rotation, const vec3& scale)
+	Gnode& node(Gnode& parent, const vec3& position, const quat& rotation, const vec3& scale)
 	{
-		return node(parent, object, bxTRS(scale, rotation, position));
+		return node(parent, bxTRS(scale, rotation, position));
 	}
 
-	Gnode& node(Gnode& parent, Entity object, const Transform& transform)
+	Gnode& node(Gnode& parent, const Transform& transform)
 	{
-		return node(parent, object, transform.m_position, transform.m_rotation, transform.m_scale);
+		return node(parent, transform.m_position, transform.m_rotation, transform.m_scale);
 	}
 
-	Gnode& transform(Gnode& parent, Entity object, const vec3& position, const quat& rotation, const vec3& scale)
+	Gnode& transform(Gnode& parent, const vec3& position, const quat& rotation, const vec3& scale)
 	{
-		return node(parent, object, parent.m_attach->m_transform * bxTRS(scale, rotation, position));
+		return node(parent, parent.m_attach->m_transform * bxTRS(scale, rotation, position));
 	}
 
-	Gnode& transform(Gnode& parent, Entity object, const vec3& position, const quat& rotation)
+	Gnode& transform(Gnode& parent, const vec3& position, const quat& rotation)
 	{
-		return node(parent, object, parent.m_attach->m_transform * bxTRS(vec3(1.f), rotation, position));
+		return node(parent, parent.m_attach->m_transform * bxTRS(vec3(1.f), rotation, position));
 	}
 
 	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material)
@@ -225,7 +225,7 @@ namespace gfx
 			const Node3& n = prefab.m_nodes[elem.node];
 			mat4 tr = transform ? parent.m_attach->m_transform * n.m_transform
 								: n.m_transform;
-			Gnode& no = node(self, Entity(), tr);
+			Gnode& no = node(self, tr);
 			Item& it = item(no, *elem.item.m_model, elem.item.m_flags | flags, material);
 			//it = prefab.m_items[i];
 			//shape(self, Cube(i.m_aabb.m_center, vec3(0.1f)), Symbol::wire(Colour::Red, true));
@@ -318,7 +318,7 @@ namespace gfx
 
 	Light& direct_light_node(Gnode& parent, const quat& rotation)
 	{
-		Gnode& self = node(parent, {}, vec3(0.f), rotation);
+		Gnode& self = node(parent, vec3(0.f), rotation);
 		Light& l = light(self, LightType::Direct, true, Colour(0.8f, 0.8f, 0.7f), 1.f);
 		l.m_energy = 0.6f;
 		return l;
