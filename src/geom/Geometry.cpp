@@ -149,7 +149,9 @@ namespace mud
 
 		for(size_t i = 0; i < reader.m_vertex_count; ++i)
 		{
-			dest.position(mulp(transform, reader.position()));
+			const vec3 p = mulp(transform, reader.position());
+			//printf("xcopy pos %.2f, %.2f, %.2f\n", p.x, p.y, p.z);
+			dest.position(p);
 			dest.normal(muln(transform, reader.normal()));
 			dest.colour(reader.colour());
 			dest.tangent(mult(transform, reader.tangent()));

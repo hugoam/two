@@ -97,18 +97,18 @@ namespace mud
 	}
 
 	template <class T_Asset>
-	T_Asset& AssetStore<T_Asset>::file_at(const string& path, const string& name)
+	T_Asset& AssetStore<T_Asset>::file_at(const string& path, const string& name, const Config& config)
 	{
 		if(m_assets.find(name) == m_assets.end())
 		{
 			T_Asset& asset = this->create(name);
-			m_loader(asset, path + "/" + name);
+			m_loader(asset, path + "/" + name, config);
 		}
 		return *m_assets[name];
 	}
 
 	template <class T_Asset>
-	T_Asset* AssetStore<T_Asset>::file(const string& name)
+	T_Asset* AssetStore<T_Asset>::file(const string& name, const Config& config)
 	{
 		if(m_assets.find(name) == m_assets.end())
 		{
@@ -121,13 +121,13 @@ namespace mud
 
 			T_Asset& asset = this->create(name);
 			Loader& loader = m_formats.size() > 0 ? m_format_loaders[location.m_extension_index] : m_loader;
-			loader(asset, location.path(false));
+			loader(asset, location.path(false), config);
 		}
 		return m_assets[name].get();
 	}
 	
 	template <class T_Asset>
-	T_Asset* AssetStore<T_Asset>::load(const string& path, const string& file)
+	T_Asset* AssetStore<T_Asset>::load(const string& path, const string& file, const Config& config)
 	{
 		string filename = file;
 		for(size_t i = 0; i < m_formats.size(); ++i)
@@ -135,7 +135,7 @@ namespace mud
 			{
 				string name = filename.substr(0, filename.size() - m_formats[i].size());
 				T_Asset& asset = this->create(name);
-				m_format_loaders[i](asset, path + "/" + name);
+				m_format_loaders[i](asset, path + "/" + name, config);
 				return &asset;
 			}
 		return nullptr;

@@ -247,6 +247,18 @@ namespace mud
 		this->upload(gpu_mesh, optimize);
 	}
 
+	void Mesh::xwrite(const MeshPacker& packer, const mat4& transform, bool optimize, bool dynamic)
+	{
+		m_qnormals = packer.m_quantize;
+
+		GpuMesh gpu_mesh = alloc_mesh(packer.m_primitive, packer.vertex_format(), packer.vertex_count(), packer.index_count());
+		packer.xpack(gpu_mesh.m_writer, transform);
+		gpu_mesh.m_writer.rewind();
+		gpu_mesh.m_dynamic = dynamic;
+
+		this->upload(gpu_mesh, optimize);
+	}
+
 	void Mesh::morph(const MeshPacker& packer)
 	{
 		const uint32_t vertex_format = VertexAttribute::Position 

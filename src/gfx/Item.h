@@ -56,6 +56,7 @@ namespace mud
 		bgfx::InstanceDataBuffer m_buffer;
 		vector<bgfx::InstanceDataBuffer> m_buffers;
 		vector<float> m_cache;
+		//span<mat4> m_transforms;
 
 		meth_ void update_aabb(span<mat4> instances);
 		meth_ void transforms(span<mat4> instances);

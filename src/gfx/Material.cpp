@@ -258,12 +258,12 @@ namespace mud
 
 		void prepare(const Pass& pass) const
 		{
-			uint32_t user0 = uint32_t(TextureSampler::User0);
-			uint32_t user1 = uint32_t(TextureSampler::User1);
-			uint32_t user2 = uint32_t(TextureSampler::User2);
-			uint32_t user3 = uint32_t(TextureSampler::User3);
-			uint32_t user4 = uint32_t(TextureSampler::User4);
-			uint32_t user5 = uint32_t(TextureSampler::User5);
+			const uint32_t user0 = uint32_t(TextureSampler::User0);
+			const uint32_t user1 = uint32_t(TextureSampler::User1);
+			const uint32_t user2 = uint32_t(TextureSampler::User2);
+			const uint32_t user3 = uint32_t(TextureSampler::User3);
+			const uint32_t user4 = uint32_t(TextureSampler::User4);
+			const uint32_t user5 = uint32_t(TextureSampler::User5);
 
 			bgfx::setViewUniform(pass.m_index, s_user0, &user0);
 			bgfx::setViewUniform(pass.m_index, s_user1, &user1);
@@ -315,10 +315,10 @@ namespace mud
 
 		void prepare(const Pass& pass) const
 		{
-			uint32_t normal    = uint32_t(TextureSampler::Normal);
-			uint32_t emissive  = uint32_t(TextureSampler::Emissive);
-			uint32_t ao        = uint32_t(TextureSampler::AO);
-			uint32_t displace  = uint32_t(TextureSampler::Displace);
+			const uint32_t normal    = uint32_t(TextureSampler::Normal);
+			const uint32_t emissive  = uint32_t(TextureSampler::Emissive);
+			const uint32_t ao        = uint32_t(TextureSampler::AO);
+			const uint32_t displace  = uint32_t(TextureSampler::Displace);
 
 			bgfx::setViewUniform(pass.m_index, s_normal, &normal);
 			bgfx::setViewUniform(pass.m_index, s_emissive, &emissive);
@@ -373,10 +373,10 @@ namespace mud
 
 		void prepare(const Pass& pass) const
 		{
-			uint32_t albedo    = uint32_t(TextureSampler::Color);
-			uint32_t metallic  = uint32_t(TextureSampler::Metallic);
-			uint32_t roughness = uint32_t(TextureSampler::Roughness);
-			//uint32_t depth     = uint32_t(TextureSampler::Depth);
+			const uint32_t albedo    = uint32_t(TextureSampler::Color);
+			const uint32_t metallic  = uint32_t(TextureSampler::Metallic);
+			const uint32_t roughness = uint32_t(TextureSampler::Roughness);
+			//const uint32_t depth     = uint32_t(TextureSampler::Depth);
 
 			bgfx::setViewUniform(pass.m_index, s_albedo, &albedo);
 			bgfx::setViewUniform(pass.m_index, s_metallic, &metallic);
@@ -425,9 +425,9 @@ namespace mud
 
 		void prepare(const Pass& pass) const
 		{
-			uint32_t diffuse = uint32_t(TextureSampler::Diffuse);
-			uint32_t specular = uint32_t(TextureSampler::Specular);
-			uint32_t shininess = uint32_t(TextureSampler::Shininess);
+			const uint32_t diffuse = uint32_t(TextureSampler::Diffuse);
+			const uint32_t specular = uint32_t(TextureSampler::Specular);
+			const uint32_t shininess = uint32_t(TextureSampler::Shininess);
 
 			bgfx::setViewUniform(pass.m_index, s_diffuse, &diffuse);
 			bgfx::setViewUniform(pass.m_index, s_specular, &specular);
@@ -579,15 +579,6 @@ namespace mud
 		colours |= (item.m_batch != nullptr); // if instancing we assume we might have colors too
 
 		version.set_option(MaterialBase::s_block.m_index, VERTEX_COLOR, colours && m_base.m_shader_color == ShaderColor::Vertex);
-
-		//if(item.m_lightmaps.size() > 0)
-		//{
-		//	LightmapItem& binding = *item.m_lightmaps[elem.m_index];
-		//	if(bgfx::isValid(binding.m_lightmap))
-		//	{
-		//		version.set_option(pbr.m_index, LIGHTMAP);
-		//	}
-		//}
 
 		return version;
 	}

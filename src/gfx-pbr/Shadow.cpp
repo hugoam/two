@@ -312,7 +312,7 @@ namespace mud
 		, m_block_depth(block_depth)
 		, m_block_light(block_light)
 	{
-		m_options = { "CSM_SHADOW" };
+		m_options = { "SHADOWS", "CSM_BLEND" };
 		m_modes = { "PCF_LEVEL" };
 
 		//m_pcf_level = PCF_HARD;
@@ -500,6 +500,9 @@ namespace mud
 		UNUSED(render);
 
 		program.set_mode(m_index, PCF_LEVEL, uint8_t(m_pcf_level));
+
+		const bool shadows = !m_csm_shadows.empty() || !m_shadows.empty();
+		program.set_option(m_index, SHADOWS, shadows);
 
 		//if(direct && light->m_shadows)
 		//{

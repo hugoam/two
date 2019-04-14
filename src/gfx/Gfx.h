@@ -26,11 +26,11 @@ namespace gfx
 	export_ MUD_GFX_EXPORT meth_ TPool<Light>&  lights(Scene& scene);
 	export_ MUD_GFX_EXPORT meth_ TPool<Flare>&	flares(Scene& scene);
 
-	export_ MUD_GFX_EXPORT func_ Gnode& node(Gnode& parent, Ref object = {}, const vec3& position = vec3(0.f), const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
-	export_ MUD_GFX_EXPORT Gnode& node(Gnode& parent, Ref object, const mat4& transform);
-	export_ MUD_GFX_EXPORT Gnode& node(Gnode& parent, Ref object, const Transform& transform);
-	export_ MUD_GFX_EXPORT Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale);
-	export_ MUD_GFX_EXPORT Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation);
+	export_ MUD_GFX_EXPORT func_ Gnode& node(Gnode& parent, Entity object = {}, const vec3& position = vec3(0.f), const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
+	export_ MUD_GFX_EXPORT Gnode& node(Gnode& parent, Entity object, const mat4& transform);
+	export_ MUD_GFX_EXPORT Gnode& node(Gnode& parent, Entity object, const Transform& transform);
+	export_ MUD_GFX_EXPORT Gnode& transform(Gnode& parent, Entity object, const vec3& position, const quat& rotation, const vec3& scale);
+	export_ MUD_GFX_EXPORT Gnode& transform(Gnode& parent, Entity object, const vec3& position, const quat& rotation);
 	export_ MUD_GFX_EXPORT func_ Item& shape(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags = 0, Material* material = nullptr);
 	export_ MUD_GFX_EXPORT void draw(Scene& scene, const mat4& transform, const Shape& shape, const Symbol& symbol, uint32_t flags = 0);
 	export_ MUD_GFX_EXPORT func_ void draw(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags = 0);

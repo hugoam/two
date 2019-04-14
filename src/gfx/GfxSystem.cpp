@@ -158,8 +158,10 @@ namespace mud
 		m_impl->m_meshes = make_unique<TPool<Mesh>>();
 		m_impl->m_rigs = make_unique<TPool<Rig>>();
 		m_impl->m_animations = make_unique<TPool<Animation>>();
-		//std::function<T>();
-		m_impl->m_textures = make_unique<AssetStore<Texture>>(*this, "textures/", [&](Texture& texture, const string& path) { load_texture(*this, texture, path); });
+		
+		auto load_tex = [&](Texture& texture, const string& path, const NoConfig& config) { load_texture(*this, texture, path); };
+
+		m_impl->m_textures = make_unique<AssetStore<Texture>>(*this, "textures/", load_tex);
 		m_impl->m_programs = make_unique<AssetStore<Program>>(*this, "programs/", ".prg");
 		m_impl->m_materials = make_unique<AssetStore<Material>>(*this, "materials/", ".mtl");
 		m_impl->m_models = make_unique<AssetStore<Model>>(*this, "models/");

@@ -114,6 +114,7 @@ namespace mud
 
 		meth_ void clear();
 		meth_ void write(const MeshPacker& packer, bool optimize = false, bool dynamic = false);
+		meth_ void xwrite(const MeshPacker& packer, const mat4& transform, bool optimize = false, bool dynamic = false);
 		meth_ void morph(const MeshPacker& packer);
 		meth_ void upload(const GpuMesh& gpu_mesh, bool optimize = false);
 		meth_ void cache(const GpuMesh& gpu_mesh);

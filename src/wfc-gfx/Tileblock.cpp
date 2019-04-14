@@ -25,6 +25,7 @@ module mud.wfc.gfx;
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>
 #include <gfx/Asset.h>
+#include <gfx/Importer.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Gfx.h>
 #include <gfx-ui/Viewer.h>
@@ -33,6 +34,9 @@ module mud.wfc.gfx;
 #include <ecs/ECS.h>
 #include <meta/math.conv.h>
 #endif
+
+#include <cstring>
+#include <cstdio>
 
 namespace mud
 {
@@ -64,7 +68,10 @@ namespace mud
 	{
 		for(Tile& tile : m_tileset->m_tiles_flip)
 		{
-			Model* model = from_file ? gfx.models().file(m_tileset->m_name + "/" + tile.m_name)
+			ImportConfig config;
+			config.m_no_transforms = true;
+
+			Model* model = from_file ? gfx.models().file(m_tileset->m_name + "/" + tile.m_name, config)
 									 : gfx.models().get(tile.m_name.c_str());
 			quat rotation = angle_axis(tile.m_profile * c_pi2, Y3);
 			m_tile_models.push_back({ model, rotation });
@@ -169,7 +176,6 @@ namespace mud
 	struct VisuBlock : public NodeState
 	{
 		size_t m_updated = 0;
-		map<Model*, vector<mat4>> m_tiles;
 	};
 
 	inline bool intersects(const uvec3& coord, const uvec3& lo, const uvec3& hi)
@@ -179,37 +185,74 @@ namespace mud
 			&& coord.z >= lo.z && coord.z <= hi.z;
 	}
 
-	void paint_tiles(Gnode& parent, Ref object, WfcBlock& tileblock, const uvec3& focused, const uvec3* exclude, bool draw_entropy)
+	void paint_tiles(Gnode& parent, Entity object, WfcBlock& tileblock, const uvec3& focused, const uvec3* exclude, bool draw_entropy)
 	{
 		VisuBlock& visu = parent.state<VisuBlock>();
 
 		Gnode& self = gfx::node(parent, object, tileblock.m_aabb.bmin());
 
 		bool dirty = visu.m_updated < tileblock.m_wave_updated;
+
+		static Material& alpha_material = parent.m_scene->m_gfx.fetch_material("debug_alpha", "solid");
+
+		const uint32_t num_tiles = tileblock.m_tileset->m_num_tiles;
+		vector<Batch*> batches = vector<Batch*>(num_tiles + 1, nullptr);
+
+		for(uint32_t i = 0; i < num_tiles; ++i)
+		{
+			Model* model = tileblock.m_tile_models[i].m_model;
+			if(!model) continue;
+
+			Material* material = focused == uvec3(UINT32_MAX) ? nullptr : &alpha_material;
+			uint32_t flags = ItemFlag::Default | ItemFlag::Static | ItemFlag::NoCull | (dirty ? 0 : uint32_t(ItemFlag::NoUpdate));
+			Item& item = gfx::item(self, *model, flags, material);
+			item.m_aabb = tileblock.m_aabb;
+
+			batches[i] = &gfx::batch(self, item, uint16_t(sizeof(mat4))); //gfx::instances(self, item, *model);
+
+			for(const ModelElem& item : model->m_items)
+			{
+				const mat4& t = item.m_transform;
+				int i = 0;
+			}
+		}
+
 		if(dirty || exclude)
 		{
+			for(uint32_t i = 0; i < num_tiles; ++i)
+				if(batches[i])
+				{
+					batches[i]->m_cache.clear();
+				}
+
 			visu.m_updated = tileblock.m_wave_updated;
 
-			self.clear();
-			visu.m_tiles.clear();
-
-			for(size_t x = 0; x < tileblock.m_tiles.m_x; ++x) for(size_t y = 0; y < tileblock.m_tiles.m_y; ++y) for(size_t z = 0; z < tileblock.m_tiles.m_z; ++z)
+			for(size_t x = 0; x < tileblock.m_tiles.m_x; ++x)
+			for(size_t y = 0; y < tileblock.m_tiles.m_y; ++y)
+			for(size_t z = 0; z < tileblock.m_tiles.m_z; ++z)
 			{
 				uint16_t index = tileblock.m_tiles.at(x, y, z);
 
-				auto tile_transform = [&](quat rotation)
+				auto push_transform = [&](uint32_t index, quat rotation)
 				{
-					vec3 position = tileblock.to_position({ uint(x), uint(y), uint(z) });
-					vec3 scale = tileblock.m_tileset->m_tile_scale * tileblock.m_scale;
-					return bxTRS(scale, rotation, position);
+					if(!batches[index]) return;
+
+					const vec3 position = tileblock.to_position({ uint(x), uint(y), uint(z) });
+					const vec3 scale = tileblock.m_tileset->m_tile_scale * tileblock.m_scale;
+					const mat4 transform = bxTRS(scale, rotation, position);
+
+					Batch& batch = *batches[index];
+					const size_t size = batch.m_cache.size();
+					batch.m_cache.resize(size + 16);
+					memcpy(&batch.m_cache[size], &transform, 16 * sizeof(float));
 				};
 
 				if(index == UINT16_MAX)
 				{
 					if(draw_entropy)
 					{
-						Model& cube = entropy_cube(parent, tileblock, uint16_t(x), uint16_t(y), uint16_t(z));
-						visu.m_tiles[&cube].push_back(tile_transform(ZeroQuat));
+						//Model& cube = entropy_cube(parent, tileblock, uint16_t(x), uint16_t(y), uint16_t(z));
+						//push_transform(num_tiles, ZeroQuat);
 					}
 				}
 				else
@@ -223,20 +266,9 @@ namespace mud
 					}
 
 					TileModel& tile = tileblock.m_tile_models[index];
-					if(tile.m_model)
-						visu.m_tiles[tile.m_model].push_back(tile_transform(tile.m_rotation));
+					push_transform(index, tile.m_rotation);
 				}
 			}
-		}
-
-		static Material& alpha_material = parent.m_scene->m_gfx.fetch_material("debug_alpha", "solid");
-
-		for(auto& model_tiles : visu.m_tiles)
-		{
-			Material* material = focused == uvec3(UINT32_MAX) ? nullptr : &alpha_material;
-			uint32_t flags = ItemFlag::Default | ItemFlag::Static | ItemFlag::NoCull | (dirty ? 0 : uint32_t(ItemFlag::NoUpdate));
-			Item& item = gfx::item(self, *model_tiles.first, flags, material);
-			gfx::instances(self, item, model_tiles.second);
 		}
 
 		if(focused != uvec3(UINT32_MAX))
@@ -263,7 +295,7 @@ namespace mud
 		return paint_tile_cube(parent, tileblock, coord, Colour::Red);
 	}
 
-	void paint_tileblock(Gnode& parent, Ref object, WfcBlock& tileblock, const uvec3& focused, const uvec3* exclude, bool draw_entropy)
+	void paint_tileblock(Gnode& parent, Entity object, WfcBlock& tileblock, const uvec3& focused, const uvec3* exclude, bool draw_entropy)
 	{
 		paint_tile_grid(parent, tileblock);
 		paint_tiles(parent, object, tileblock, focused, exclude, draw_entropy);

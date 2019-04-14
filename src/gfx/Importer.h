@@ -43,6 +43,7 @@ namespace mud
 		attr_ bool m_optimize_geometry = false;
 		attr_ bool m_need_normals = true;
 		attr_ bool m_need_uvs = true;
+		attr_ bool m_no_transforms = false;
 		attr_ uint32_t m_flags = ItemFlag::None;
 
 		bool filter_element(const string& name) const;

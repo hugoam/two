@@ -50,9 +50,9 @@ namespace mud
 
 namespace mud
 {
-	static ImportConfig load_model_config(const string& path, const string& model_name)
+	static ImportConfig load_model_config(const string& path, const string& model_name, const ImportConfig& inconfig)
 	{
-		ImportConfig config = {};
+		ImportConfig config = inconfig;
 
 		string config_path = file_directory(path) + "/" + model_name + ".cfg";
 		if(file_exists(config_path))
@@ -70,15 +70,15 @@ namespace mud
 	{
 		setup_gltf(mud_gltf::m());
 
-		static auto load_gltf_model = [&](Model& model, const string& path)
+		static auto load_gltf_model = [&](Model& model, const string& path, const ImportConfig& inconfig)
 		{
-			ImportConfig config = load_model_config(path, model.m_name);
+			ImportConfig config = load_model_config(path, model.m_name, inconfig);
 			this->import_model(model, path, config);
 		};
 
-		static auto load_gltf_prefab = [&](Prefab& prefab, const string& path)
+		static auto load_gltf_prefab = [&](Prefab& prefab, const string& path, const ImportConfig& inconfig)
 		{
-			ImportConfig config = load_model_config(path, prefab.m_name);
+			ImportConfig config = load_model_config(path, prefab.m_name, inconfig);
 			this->import_prefab(prefab, path, config);
 		};
 
@@ -89,6 +89,15 @@ namespace mud
 
 		gfx.models().add_format(".glb", load_gltf_model);
 		gfx.prefabs().add_format(".glb", load_gltf_prefab);
+	}
+
+	mat4 derive_transform(const glTF& gltf, const glTFNode& node)
+	{
+		// not handling the matrix case here : waiting for c++17 optionals since matrix is almost never used
+		if(node.parent > -1)
+			return derive_transform(gltf, gltf.m_nodes[node.parent]) * node.matrix;
+		else
+			return node.matrix;
 	}
 
 	static vector<uint8_t> read_base64_uri(const string& uri)
@@ -190,8 +199,9 @@ namespace mud
 		if(attributes.TEXCOORD_1 != -1)
 		{
 			vector<vec2> uv1s = unpack_accessor<vec2, 2>(gltf, attributes.TEXCOORD_1, true);
-			//if(!equal(uv1s.begin() + 1, uv1s.end(), uv1s.begin())) // probably full of zeroes, skip it
-			//	mesh.m_uv1s = uv1s;
+			// add it only if not filled with zeroes
+			if(find_if(uv1s, [](const vec2& uv) { return uv != vec2(0.f);}) != uv1s.end())
+				mesh.m_uv1s = uv1s;
 		}
 		if(attributes.COLOR_0 != -1)
 		{
@@ -305,12 +315,18 @@ namespace mud
 				if(packer.m_tangents.empty() && packer.m_uv0s.empty())
 					printf("WARNING: mesh %s imported without tangents (no uvs)\n", name.c_str());
 
+				bool optimize = config.m_optimize_geometry;
 #ifdef MUD_PLATFORM_EMSCRIPTEN
-				mesh.write(packer, false);
-#else
-				mesh.write(packer, config.m_optimize_geometry);
+				optimize = false;
 #endif
-				//mesh.write(PLAIN, packer);
+
+				if(config.m_no_transforms)
+				{
+					const mat4 transform = config.m_transform * derive_transform(gltf, gltf.m_nodes[gltf_mesh.node]);
+					mesh.xwrite(packer, transform);
+				}
+				else
+					mesh.write(packer, optimize);
 			}
 
 			if(model.m_items.size() == 0)
@@ -337,7 +353,7 @@ namespace mud
 		{
 			glTFMaterialPBR pbr_material = gltf_material.pbr_metallic_roughness;
 
-			material.m_base.m_shader_color = ShaderColor::Vertex;
+			//material.m_base.m_shader_color = ShaderColor::Vertex;
 			//material.m_base.m_flat_shaded = true;
 
 			material.m_pbr.m_albedo.m_value = to_colour(pbr_material.base_color_factor);
@@ -422,11 +438,16 @@ namespace mud
 			}
 
 		for(size_t i = 0; i < gltf.m_nodes.size(); i++)
+		{
+			if(gltf.m_nodes[i].mesh != -1)
+				gltf.m_meshes[gltf.m_nodes[i].mesh].node = i;
+
 			for(size_t j = 0; j < gltf.m_nodes[i].children.size(); j++)
 			{
 				int child = gltf.m_nodes[i].children[j];
 				gltf.m_nodes[child].parent = int(i);
 			}
+		}
 	}
 
 	void create_bone(const glTF& gltf, const glTFNode& node, Skeleton& skeleton, uint32_t parent)
@@ -577,15 +598,6 @@ namespace mud
 			import_animation(gltf, state, int(i), rig);
 	}
 
-	mat4 derive_transform(const glTF& gltf, const glTFNode& node)
-	{
-		// not handling the matrix case here : waiting for c++17 optionals since matrix is almost never used
-		if(node.parent > -1)
-			return derive_transform(gltf, gltf.m_nodes[node.parent]) * node.matrix;
-		else
-			return node.matrix;
-	}
-
 	void import_items(const glTF& gltf, Import& state, const ImportConfig& config)
 	{
 		state.m_nodes.reserve(gltf.m_nodes.size());
@@ -596,7 +608,11 @@ namespace mud
 			if(config.filter_element(node.name))
 				continue;
 
-			const mat4 transform = config.m_transform * derive_transform(gltf, node);
+			static const mat4 identity = bxidentity();
+			const mat4 transform = config.m_no_transforms
+				? identity
+				: config.m_transform * derive_transform(gltf, node);
+
 			state.m_nodes.push_back(Node3(transform, node.parent));
 			Node3& n = state.m_nodes.back();
 

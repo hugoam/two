@@ -149,7 +149,7 @@ namespace mud
 		quat rotation = axis_angle(Y3, fmod(time, c_2pi));
 
 		Gnode& scene = viewer.m_scene.begin();
-		gfx::node(scene, object, offset, rotation);
+		gfx::node(scene, Entity(), offset, rotation); // object
 		gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 		return viewer;
 	}

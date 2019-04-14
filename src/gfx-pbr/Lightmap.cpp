@@ -26,6 +26,7 @@ module mud.gfx.pbr;
 #include <gfx/Mesh.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Pipeline.h>
+#include <gfx/Gpu/Material.hpp>
 #include <gfx-pbr/Lightmap.h>
 #include <gfx-pbr/VoxelGI.h>
 #include <gfx-pbr/Lighting.h>
@@ -504,13 +505,24 @@ namespace mud
 	void BlockLightmap::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
 		UNUSED(render); UNUSED(program);
+
+		const Item& item = *element.m_item;
+		const ModelElem& elem = *element.m_elem;
+		if(item.m_lightmaps.size() > 0)
+		{
+			LightmapItem& binding = *item.m_lightmaps[elem.m_index];
+			if(binding.m_lightmap->valid())
+			{
+				program.set_option(MaterialLit::s_block.m_index, LIGHTMAP);
+			}
+		}
 	}
 
 	void BlockLightmap::submit(Render& render, const Pass& pass) const
 	{
 		UNUSED(render); UNUSED(pass);
-		//uint32_t lightmap = uint32_t(TextureSampler::Lightmap);
-		//bgfx::setViewUniform(pass.m_index, u_lightmap.s_lightmap, &lightmap);
+		const uint32_t lightmap = uint32_t(TextureSampler::Lightmap);
+		bgfx::setViewUniform(pass.m_index, u_lightmap.s_lightmap, &lightmap);
 	}
 
 	void BlockLightmap::submit(Render& render, const DrawElement& element, const Pass& pass) const
@@ -523,7 +535,7 @@ namespace mud
 		{
 			LightmapItem& binding = *element.m_item->m_lightmaps[element.m_elem->m_index];
 
-			//encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &binding.m_uv_scale_offset);
+			encoder.setUniform(GpuState<MaterialBase>::me.u_uv1_scale_offset, &binding.m_uv_scale_offset);
 
 			if(binding.m_lightmap && binding.m_lightmap->valid())
 #ifdef LIGHTMAP_PIXELS
@@ -535,7 +547,7 @@ namespace mud
 		else
 		{
 			vec4 uv_scale_offset = vec4(0.f);
-			//encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &uv_scale_offset);
+			encoder.setUniform(GpuState<MaterialBase>::me.u_uv1_scale_offset, &uv_scale_offset);
 		}
 	}
 }

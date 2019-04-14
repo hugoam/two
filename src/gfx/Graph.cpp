@@ -141,9 +141,9 @@ namespace gfx
 	TPool<Light>&  lights(Scene& scene)  { return scene.m_pool->pool<Light>(); }
 	TPool<Flare>&  flares(Scene& scene)  { return scene.m_pool->pool<Flare>(); }
 
-	Gnode& node(Gnode& parent, Ref object, const mat4& transform)
+	Gnode& node(Gnode& parent, Entity object, const mat4& transform)
 	{
-		Gnode& self = parent.subi(object.m_value);
+		Gnode& self = parent.subi((void*)object.as_uint());
 		if(!self.m_node)
 		{
 			self.m_node = &create<Node3>(*parent.m_scene);
@@ -154,22 +154,22 @@ namespace gfx
 		return self;
 	}
 
-	Gnode& node(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale)
+	Gnode& node(Gnode& parent, Entity object, const vec3& position, const quat& rotation, const vec3& scale)
 	{
 		return node(parent, object, bxTRS(scale, rotation, position));
 	}
 
-	Gnode& node(Gnode& parent, Ref object, const Transform& transform)
+	Gnode& node(Gnode& parent, Entity object, const Transform& transform)
 	{
 		return node(parent, object, transform.m_position, transform.m_rotation, transform.m_scale);
 	}
 
-	Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale)
+	Gnode& transform(Gnode& parent, Entity object, const vec3& position, const quat& rotation, const vec3& scale)
 	{
 		return node(parent, object, parent.m_attach->m_transform * bxTRS(scale, rotation, position));
 	}
 
-	Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation)
+	Gnode& transform(Gnode& parent, Entity object, const vec3& position, const quat& rotation)
 	{
 		return node(parent, object, parent.m_attach->m_transform * bxTRS(vec3(1.f), rotation, position));
 	}
@@ -198,6 +198,7 @@ namespace gfx
 		if(!self.m_batch)
 		{
 			self.m_batch = &create<Batch>(*self.m_scene, item, stride);
+			item.m_batch = self.m_batch;
 		}
 		return *self.m_batch;
 	}
@@ -224,7 +225,7 @@ namespace gfx
 			const Node3& n = prefab.m_nodes[elem.node];
 			mat4 tr = transform ? parent.m_attach->m_transform * n.m_transform
 								: n.m_transform;
-			Gnode& no = node(self, {}, tr);
+			Gnode& no = node(self, Entity(), tr);
 			Item& it = item(no, *elem.item.m_model, elem.item.m_flags | flags, material);
 			//it = prefab.m_items[i];
 			//shape(self, Cube(i.m_aabb.m_center, vec3(0.1f)), Symbol::wire(Colour::Red, true));
@@ -349,7 +350,6 @@ namespace gfx
 		Texture& texture = *parent.m_scene->m_gfx.textures().file(file.c_str());
 		Zone& env = parent.m_scene->m_env;
 		env.m_radiance.m_texture = &texture;
-		env.m_radiance.m_ambient = Colour(0.7f);
 		env.m_radiance.m_energy = 0.3f;
 		if(background == BackgroundMode::Panorama)
 			env.m_background.m_texture = &texture;

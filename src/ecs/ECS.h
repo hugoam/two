@@ -202,9 +202,9 @@ namespace mud
 	inline uint32_t as_ent(const Ref& ref) { return ref.m_type->is<EntityRef>() ? uint32_t((uintptr_t)ref.m_value) : UINT32_MAX; }
 #endif
 
-	inline cstring entity_prototype(const Entity& entity)
+	inline string entity_prototype(const Entity& entity)
 	{
-		EntityStream& stream = s_ecs[entity.m_ecs]->stream(entity.m_handle);
+		EntityStream& stream = s_ecs[entity.m_ecs]->stream(entity.m_stream);
 		return stream.m_name;
 	}
 

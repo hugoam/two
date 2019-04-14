@@ -26,7 +26,7 @@ namespace mud
 		void init()
 		{
 			u_uv0_scale_offset = bgfx::createUniform("u_material_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_uv1_scale_offset = bgfx::createUniform("u_material_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
+			u_uv1_scale_offset = bgfx::createUniform("u_material_p1", bgfx::UniformType::Vec4);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialBase& block) const

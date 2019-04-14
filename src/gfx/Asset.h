@@ -17,11 +17,18 @@ namespace mud
 {
 	using cstring = const char*;
 
+	struct NoConfig {};
+
+	export_ template <class T_Asset>
+	struct AssetConfig { using type = NoConfig; };
+
 	export_ template <class T_Asset>
 	class refl_ AssetStore
 	{
 	public:
-		using Loader = function<void(T_Asset&, const string&)>;
+		using Config = typename AssetConfig<T_Asset>::type;
+
+		using Loader = function<void(T_Asset&, const string&, const Config&)>;
 		using Init = function<void(T_Asset&)>;
 
 		AssetStore(GfxSystem& gfx, const string& path);
@@ -45,17 +52,23 @@ namespace mud
 		meth_ T_Asset& create(const string& name);
 		meth_ T_Asset& fetch(const string& name);
 		//meth_ bool locate(const string& name);
-		meth_ T_Asset* file(const string& name);
-		meth_ T_Asset& file_at(const string& path, const string& name);
+		meth_ T_Asset* file(const string& name, const Config& config = {});
+		meth_ T_Asset& file_at(const string& path, const string& name, const Config& config = {});
 		meth_ void destroy(const string& name);
 		meth_ void clear();
 
 		T_Asset& create(const string& name, const Init& init);
 
-		T_Asset* load(const string& path, const string& name);
+		T_Asset* load(const string& path, const string& name, const Config& config = {});
 		void load_files(const string& path);
 
 		map<string, unique<T_Asset>> m_assets;
 		vector<T_Asset*> m_vector;
 	};
+	
+	export_ template <>
+	struct AssetConfig<Prefab> { using type = ImportConfig; };
+	
+	export_ template <>
+	struct AssetConfig<Model> { using type = ImportConfig; };
 }

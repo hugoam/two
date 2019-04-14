@@ -213,6 +213,8 @@ export_ struct refl_ glTFMesh
 	attr_ string name;
 	attr_ vector<glTFPrimitive> primitives;
 	attr_ vector<float> weights;
+
+	int node = -1;
 };
 
 export_ struct refl_ glTFPerspective

@@ -6,6 +6,7 @@
 
 #include <type/Ref.h>
 #include <math/Vec.h>
+#include <ecs/Entity.h>
 #include <gfx/Forward.h>
 
 namespace mud
@@ -43,7 +44,8 @@ namespace mud
 		attr_ uint32_t m_parent = UINT32_MAX;
 		attr_ mat4 m_transform = bxidentity();
 
-		Ref m_object;
+		//Ref m_object;
+		Entity m_object;
 
 		meth_ void apply(const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
 		meth_ void derive(const Node3& parent, const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));

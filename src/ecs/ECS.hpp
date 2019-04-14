@@ -336,8 +336,8 @@ namespace mud
 			const uint32_t size = stream->size();
 			for(uint32_t i = 0; i < size; ++i)
 			{
-				uint32_t handle = stream->handle(i);
-				action(handle, at<Is>(buffers).m_data[i]...);
+				Entity entity = { ecs.m_index, stream->m_index, stream->handle(i) };
+				action(entity, at<Is>(buffers).m_data[i]...);
 			}
 		}
 	}

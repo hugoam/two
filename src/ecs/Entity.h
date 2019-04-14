@@ -33,6 +33,8 @@ namespace mud
 		uint8_t m_ecs = UINT8_MAX;
 		uint16_t m_stream = UINT16_MAX;
 		uint32_t m_handle = UINT32_MAX;
+
+		uint64_t as_uint() { return uint64_t(m_ecs) << 48ULL | uint64_t(m_stream) << 32ULL | uint64_t(m_handle); }
 	};
 
 	struct refl_ struct_ MUD_ECS_EXPORT Entt

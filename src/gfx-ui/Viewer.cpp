@@ -1103,8 +1103,8 @@ namespace ui
 
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
-			if(viewer.m_hovered)
-				select(selection, viewer.m_hovered->m_node->m_object);
+			//if(viewer.m_hovered)
+			//	select(selection, viewer.m_hovered->m_node->m_object);
 		}
 
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseRight, EventType::Stroked))

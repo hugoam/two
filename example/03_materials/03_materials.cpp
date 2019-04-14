@@ -142,7 +142,8 @@ void material_spheres(Gnode& parent, span<Material*> materials)
 
 	for(size_t i = 0; i < materials.size(); ++i)
 	{
-		Gnode& material_node = gfx::node(parent, Ref(materials[i]), vec3(-center + float(i) * spacing, 0.f, 0.f));
+		//Gnode& material_node = gfx::node(parent, Ref(materials[i]), vec3(-center + float(i) * spacing, 0.f, 0.f));
+		Gnode& material_node = gfx::node(parent, Entity(), vec3(-center + float(i) * spacing, 0.f, 0.f));
 		gfx::shape(material_node, Sphere(), Symbol(), 0, materials[i]);
 		//gfx::model(material_node, "sphere", 0, materials[i]);
 	}
@@ -203,7 +204,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 		auto callback = [&](Item* item)
 		{
 			if(!item->m_node->m_object) return;
-			edited = &val<Material>(item->m_node->m_object);
+			//edited = &val<Material>(item->m_node->m_object);
 			float center = float(materials.size()) * 4.f / 2.f;
 			size_t index = edited->m_index - materials[0]->m_index;
 			controller.m_position = { -center + index * 4.f, 0.f, 0.f };

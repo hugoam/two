@@ -82,12 +82,12 @@ namespace stl
 	template class MUD_GFX_EXPORT unordered_map<int, Skeleton*>;
 	template class MUD_GFX_EXPORT unordered_map<string, Material*>;
 	template class MUD_GFX_EXPORT unordered_set<Model*>;
-	template class MUD_GFX_EXPORT vector<function<void(Texture&, const string&)>>;
-	template class MUD_GFX_EXPORT vector<function<void(Material&, const string&)>>;
-	template class MUD_GFX_EXPORT vector<function<void(Program&, const string&)>>;
-	template class MUD_GFX_EXPORT vector<function<void(Model&, const string&)>>;
-	template class MUD_GFX_EXPORT vector<function<void(Flow&, const string&)>>;
-	template class MUD_GFX_EXPORT vector<function<void(Prefab&, const string&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Texture&, const string&, const NoConfig&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Material&, const string&, const NoConfig&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Program&, const string&, const NoConfig&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Model&, const string&, const ImportConfig&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Flow&, const string&, const NoConfig&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Prefab&, const string&, const ImportConfig&)>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Texture>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Material>>;
 	template class MUD_GFX_EXPORT unordered_map<string, unique<Program>>;

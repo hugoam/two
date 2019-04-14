@@ -16,7 +16,7 @@ namespace mud
 {
 	enum ShaderOptionShadow : unsigned int
 	{
-		CSM_SHADOW,
+		SHADOWS,
 		CSM_BLEND,
 	};
 

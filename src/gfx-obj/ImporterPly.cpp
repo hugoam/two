@@ -30,9 +30,9 @@ module mud.gfx.obj;
 
 namespace mud
 {
-	static ImportConfig load_model_config(const string& path, const string& model_name)
+	static ImportConfig load_model_config(const string& path, const string& model_name, const ImportConfig& inconfig)
 	{
-		ImportConfig config = {};
+		ImportConfig config = inconfig;
 
 		string config_path = file_directory(path) + "/" + model_name + ".cfg";
 		if(file_exists(config_path))
@@ -46,15 +46,15 @@ namespace mud
 	ImporterPLY::ImporterPLY(GfxSystem& gfx)
 		: m_gfx(gfx)
 	{
-		static auto load_model = [&](Model& model, const string& path)
+		static auto load_model = [&](Model& model, const string& path, const ImportConfig& inconfig)
 		{
-			ImportConfig config = load_model_config(path, model.m_name);
+			ImportConfig config = load_model_config(path, model.m_name, inconfig);
 			this->import_model(model, path, config);
 		};
 
-		static auto load_prefab = [&](Prefab& prefab, const string& path)
+		static auto load_prefab = [&](Prefab& prefab, const string& path, const ImportConfig& inconfig)
 		{
-			ImportConfig config = load_model_config(path, prefab.m_name);
+			ImportConfig config = load_model_config(path, prefab.m_name, inconfig);
 			this->import_prefab(prefab, path, config);
 		};
 
