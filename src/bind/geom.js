@@ -2,7 +2,7 @@ Module['stl'] = Module['stl'] || {};
 // Aabb
 function Aabb(a0, a1) {
     if (a0 === undefined) {  }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] Aabb(0:center): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] Aabb(1:extents): expected v3<float>'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] Aabb(0:center): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] Aabb(1:extents): expected v3<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Aabb__construct_0(); this.__type = Aabb.__type; getCache(Aabb)[this.__ptr] = this; }
     else { this.__ptr = _mud_Aabb__construct_2(/*center*/a0.__ptr, /*extents*/a1.__ptr); this.__type = Aabb.__type; getCache(Aabb)[this.__ptr] = this; }
 };
@@ -108,11 +108,11 @@ MarchingCubes.prototype["count"] = MarchingCubes.prototype.count = function() {
     return _mud_MarchingCubes_count_0(this.__ptr);
 };
 MarchingCubes.prototype["direct"] = MarchingCubes.prototype.direct = function(a0) {
-    assert(a0.__type === MeshAdapter.__type, '[ERROR] direct(0:output): expected MeshAdapter');
+    assert(checkClass(a0, MeshAdapter), '[ERROR] direct(0:output): expected MeshAdapter');
     _mud_MarchingCubes_direct_1(this.__ptr, /*output*/a0.__ptr);
 };
 MarchingCubes.prototype["render"] = MarchingCubes.prototype.render = function(a0) {
-    assert(a0.__type === MeshPacker.__type, '[ERROR] render(0:output): expected MeshPacker');
+    assert(checkClass(a0, MeshPacker), '[ERROR] render(0:output): expected MeshPacker');
     _mud_MarchingCubes_render_1(this.__ptr, /*output*/a0.__ptr);
 };
 Object.defineProperty(MarchingCubes.prototype, "isolation", {
@@ -149,11 +149,11 @@ MeshAdapter.prototype["rewind"] = MeshAdapter.prototype.rewind = function() {
     _mud_MeshAdapter_rewind_0(this.__ptr);
 };
 MeshAdapter.prototype["copy"] = MeshAdapter.prototype.copy = function(a0) {
-    assert(a0.__type === MeshAdapter.__type, '[ERROR] copy(0:dest): expected MeshAdapter');
+    assert(checkClass(a0, MeshAdapter), '[ERROR] copy(0:dest): expected MeshAdapter');
     _mud_MeshAdapter_copy_1(this.__ptr, /*dest*/a0.__ptr);
 };
 MeshAdapter.prototype["xcopy"] = MeshAdapter.prototype.xcopy = function(a0, a1) {
-    assert(a0.__type === MeshAdapter.__type, '[ERROR] xcopy(0:dest): expected MeshAdapter'); assert(a1.__type === mat4.__type, '[ERROR] xcopy(1:transform): expected mat4');
+    assert(checkClass(a0, MeshAdapter), '[ERROR] xcopy(0:dest): expected MeshAdapter'); assert(checkClass(a1, mat4), '[ERROR] xcopy(1:transform): expected mat4');
     _mud_MeshAdapter_xcopy_2(this.__ptr, /*dest*/a0.__ptr, /*transform*/a1.__ptr);
 };
 MeshAdapter.prototype["next"] = MeshAdapter.prototype.next = function() {
@@ -161,35 +161,35 @@ MeshAdapter.prototype["next"] = MeshAdapter.prototype.next = function() {
     _mud_MeshAdapter_next_0(this.__ptr);
 };
 MeshAdapter.prototype["position"] = MeshAdapter.prototype.position = function(a0) {
-    assert(a0.__type === v3_float.__type, '[ERROR] position(0:p): expected v3<float>');
+    assert(checkClass(a0, v3_float), '[ERROR] position(0:p): expected v3<float>');
     return wrapPointer(_mud_MeshAdapter_position_1(this.__ptr, /*p*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["position4"] = MeshAdapter.prototype.position4 = function(a0) {
-    assert(a0.__type === v4_float.__type, '[ERROR] position4(0:p): expected v4<float>');
+    assert(checkClass(a0, v4_float), '[ERROR] position4(0:p): expected v4<float>');
     return wrapPointer(_mud_MeshAdapter_position4_1(this.__ptr, /*p*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["normal"] = MeshAdapter.prototype.normal = function(a0) {
-    assert(a0.__type === v3_float.__type, '[ERROR] normal(0:n): expected v3<float>');
+    assert(checkClass(a0, v3_float), '[ERROR] normal(0:n): expected v3<float>');
     return wrapPointer(_mud_MeshAdapter_normal_1(this.__ptr, /*n*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["colour"] = MeshAdapter.prototype.colour = function(a0) {
-    assert(a0.__type === Colour.__type, '[ERROR] colour(0:c): expected Colour');
+    assert(checkClass(a0, Colour), '[ERROR] colour(0:c): expected Colour');
     return wrapPointer(_mud_MeshAdapter_colour_1(this.__ptr, /*c*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["tangent"] = MeshAdapter.prototype.tangent = function(a0) {
-    assert(a0.__type === v4_float.__type, '[ERROR] tangent(0:t): expected v4<float>');
+    assert(checkClass(a0, v4_float), '[ERROR] tangent(0:t): expected v4<float>');
     return wrapPointer(_mud_MeshAdapter_tangent_1(this.__ptr, /*t*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["bitangent"] = MeshAdapter.prototype.bitangent = function(a0) {
-    assert(a0.__type === v3_float.__type, '[ERROR] bitangent(0:b): expected v3<float>');
+    assert(checkClass(a0, v3_float), '[ERROR] bitangent(0:b): expected v3<float>');
     return wrapPointer(_mud_MeshAdapter_bitangent_1(this.__ptr, /*b*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["uv0"] = MeshAdapter.prototype.uv0 = function(a0) {
-    assert(a0.__type === v2_float.__type, '[ERROR] uv0(0:uv): expected v2<float>');
+    assert(checkClass(a0, v2_float), '[ERROR] uv0(0:uv): expected v2<float>');
     return wrapPointer(_mud_MeshAdapter_uv0_1(this.__ptr, /*uv*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["uv1"] = MeshAdapter.prototype.uv1 = function(a0) {
-    assert(a0.__type === v2_float.__type, '[ERROR] uv1(0:uv): expected v2<float>');
+    assert(checkClass(a0, v2_float), '[ERROR] uv1(0:uv): expected v2<float>');
     return wrapPointer(_mud_MeshAdapter_uv1_1(this.__ptr, /*uv*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["joints"] = MeshAdapter.prototype.joints = function(a0) {
@@ -197,7 +197,7 @@ MeshAdapter.prototype["joints"] = MeshAdapter.prototype.joints = function(a0) {
     return wrapPointer(_mud_MeshAdapter_joints_1(this.__ptr, /*j*/a0), MeshAdapter);
 };
 MeshAdapter.prototype["weights"] = MeshAdapter.prototype.weights = function(a0) {
-    assert(a0.__type === v4_float.__type, '[ERROR] weights(0:w): expected v4<float>');
+    assert(checkClass(a0, v4_float), '[ERROR] weights(0:w): expected v4<float>');
     return wrapPointer(_mud_MeshAdapter_weights_1(this.__ptr, /*w*/a0.__ptr), MeshAdapter);
 };
 Object.defineProperty(MeshAdapter.prototype, "vertex_format", {
@@ -254,39 +254,39 @@ MeshPacker.prototype.__class = MeshPacker;
 MeshPacker.__cache = {};
 Module['MeshPacker'] = MeshPacker;
 MeshPacker.prototype["position"] = MeshPacker.prototype.position = function(a0) {
-    assert(a0.__type === v3_float.__type, '[ERROR] position(0:p): expected v3<float>');
+    assert(checkClass(a0, v3_float), '[ERROR] position(0:p): expected v3<float>');
     _mud_MeshPacker_position_1(this.__ptr, /*p*/a0.__ptr);
 };
 MeshPacker.prototype["normal"] = MeshPacker.prototype.normal = function(a0) {
-    assert(a0.__type === v3_float.__type, '[ERROR] normal(0:n): expected v3<float>');
+    assert(checkClass(a0, v3_float), '[ERROR] normal(0:n): expected v3<float>');
     _mud_MeshPacker_normal_1(this.__ptr, /*n*/a0.__ptr);
 };
 MeshPacker.prototype["colour"] = MeshPacker.prototype.colour = function(a0) {
-    assert(a0.__type === Colour.__type, '[ERROR] colour(0:c): expected Colour');
+    assert(checkClass(a0, Colour), '[ERROR] colour(0:c): expected Colour');
     _mud_MeshPacker_colour_1(this.__ptr, /*c*/a0.__ptr);
 };
 MeshPacker.prototype["tangent"] = MeshPacker.prototype.tangent = function(a0) {
-    assert(a0.__type === v4_float.__type, '[ERROR] tangent(0:t): expected v4<float>');
+    assert(checkClass(a0, v4_float), '[ERROR] tangent(0:t): expected v4<float>');
     _mud_MeshPacker_tangent_1(this.__ptr, /*t*/a0.__ptr);
 };
 MeshPacker.prototype["bitangent"] = MeshPacker.prototype.bitangent = function(a0) {
-    assert(a0.__type === v3_float.__type, '[ERROR] bitangent(0:b): expected v3<float>');
+    assert(checkClass(a0, v3_float), '[ERROR] bitangent(0:b): expected v3<float>');
     _mud_MeshPacker_bitangent_1(this.__ptr, /*b*/a0.__ptr);
 };
 MeshPacker.prototype["uv0"] = MeshPacker.prototype.uv0 = function(a0) {
-    assert(a0.__type === v2_float.__type, '[ERROR] uv0(0:uv): expected v2<float>');
+    assert(checkClass(a0, v2_float), '[ERROR] uv0(0:uv): expected v2<float>');
     _mud_MeshPacker_uv0_1(this.__ptr, /*uv*/a0.__ptr);
 };
 MeshPacker.prototype["uv1"] = MeshPacker.prototype.uv1 = function(a0) {
-    assert(a0.__type === v2_float.__type, '[ERROR] uv1(0:uv): expected v2<float>');
+    assert(checkClass(a0, v2_float), '[ERROR] uv1(0:uv): expected v2<float>');
     _mud_MeshPacker_uv1_1(this.__ptr, /*uv*/a0.__ptr);
 };
 MeshPacker.prototype["bones"] = MeshPacker.prototype.bones = function(a0) {
-    assert(a0.__type === v4_int.__type, '[ERROR] bones(0:j): expected v4<int>');
+    assert(checkClass(a0, v4_int), '[ERROR] bones(0:j): expected v4<int>');
     _mud_MeshPacker_bones_1(this.__ptr, /*j*/a0.__ptr);
 };
 MeshPacker.prototype["weights"] = MeshPacker.prototype.weights = function(a0) {
-    assert(a0.__type === v4_float.__type, '[ERROR] weights(0:w): expected v4<float>');
+    assert(checkClass(a0, v4_float), '[ERROR] weights(0:w): expected v4<float>');
     _mud_MeshPacker_weights_1(this.__ptr, /*w*/a0.__ptr);
 };
 MeshPacker.prototype["index"] = MeshPacker.prototype.index = function(a0) {
@@ -302,15 +302,15 @@ MeshPacker.prototype["clear"] = MeshPacker.prototype.clear = function() {
     _mud_MeshPacker_clear_0(this.__ptr);
 };
 MeshPacker.prototype["pack"] = MeshPacker.prototype.pack = function(a0) {
-    assert(a0.__type === MeshAdapter.__type, '[ERROR] pack(0:writer): expected MeshAdapter');
+    assert(checkClass(a0, MeshAdapter), '[ERROR] pack(0:writer): expected MeshAdapter');
     _mud_MeshPacker_pack_1(this.__ptr, /*writer*/a0.__ptr);
 };
 MeshPacker.prototype["xpack"] = MeshPacker.prototype.xpack = function(a0, a1) {
-    assert(a0.__type === MeshAdapter.__type, '[ERROR] xpack(0:writer): expected MeshAdapter'); assert(a1.__type === mat4.__type, '[ERROR] xpack(1:transform): expected mat4');
+    assert(checkClass(a0, MeshAdapter), '[ERROR] xpack(0:writer): expected MeshAdapter'); assert(checkClass(a1, mat4), '[ERROR] xpack(1:transform): expected mat4');
     _mud_MeshPacker_xpack_2(this.__ptr, /*writer*/a0.__ptr, /*transform*/a1.__ptr);
 };
 MeshPacker.prototype["unpack"] = MeshPacker.prototype.unpack = function(a0, a1) {
-    assert(a0.__type === MeshAdapter.__type, '[ERROR] unpack(0:reader): expected MeshAdapter'); assert(a1.__type === mat4.__type, '[ERROR] unpack(1:transform): expected mat4');
+    assert(checkClass(a0, MeshAdapter), '[ERROR] unpack(0:reader): expected MeshAdapter'); assert(checkClass(a1, mat4), '[ERROR] unpack(1:transform): expected mat4');
     _mud_MeshPacker_unpack_2(this.__ptr, /*reader*/a0.__ptr, /*transform*/a1.__ptr);
 };
 MeshPacker.prototype["gen_normals"] = MeshPacker.prototype.gen_normals = function(a0) {
@@ -551,7 +551,7 @@ Shape.prototype["__destroy"] = Shape.prototype.__destroy = function() {
 // ShapeVar
 function ShapeVar(a0) {
     if (a0 === undefined) {  }
-    else { assert(a0.__type === Shape.__type, '[ERROR] ShapeVar(0:shape): expected Shape'); }
+    else { assert(checkClass(a0, Shape), '[ERROR] ShapeVar(0:shape): expected Shape'); }
     if (a0 === undefined) { this.__ptr = _mud_ShapeVar__construct_0(); this.__type = ShapeVar.__type; getCache(ShapeVar)[this.__ptr] = this; }
     else { this.__ptr = _mud_ShapeVar__construct_1(/*shape*/a0.__ptr); this.__type = ShapeVar.__type; getCache(ShapeVar)[this.__ptr] = this; }
 };
@@ -569,11 +569,11 @@ ShapeVar.prototype["__destroy"] = ShapeVar.prototype.__destroy = function() {
 };
 // Symbol
 function Symbol(a0, a1, a2, a3, a4) {
-    if (a1 === undefined) { assert(a0.__type === Colour.__type, '[ERROR] Symbol(0:fill): expected Colour'); }
-    else if (a2 === undefined) { assert(a0.__type === Colour.__type, '[ERROR] Symbol(0:fill): expected Colour'); assert(a1.__type === Colour.__type, '[ERROR] Symbol(1:outline): expected Colour'); }
-    else if (a3 === undefined) { assert(a0.__type === Colour.__type, '[ERROR] Symbol(0:fill): expected Colour'); assert(a1.__type === Colour.__type, '[ERROR] Symbol(1:outline): expected Colour'); assert(typeof a2 === 'boolean', '[ERROR] Symbol(2:overlay): expected boolean'); }
-    else if (a4 === undefined) { assert(a0.__type === Colour.__type, '[ERROR] Symbol(0:fill): expected Colour'); assert(a1.__type === Colour.__type, '[ERROR] Symbol(1:outline): expected Colour'); assert(typeof a2 === 'boolean', '[ERROR] Symbol(2:overlay): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] Symbol(3:double_sided): expected boolean'); }
-    else { assert(a0.__type === Colour.__type, '[ERROR] Symbol(0:fill): expected Colour'); assert(a1.__type === Colour.__type, '[ERROR] Symbol(1:outline): expected Colour'); assert(typeof a2 === 'boolean', '[ERROR] Symbol(2:overlay): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] Symbol(3:double_sided): expected boolean'); assert(typeof a4 === 'number', '[ERROR] Symbol(4:detail): expected integer'); }
+    if (a1 === undefined) { assert(checkClass(a0, Colour), '[ERROR] Symbol(0:fill): expected Colour'); }
+    else if (a2 === undefined) { assert(checkClass(a0, Colour), '[ERROR] Symbol(0:fill): expected Colour'); assert(checkClass(a1, Colour), '[ERROR] Symbol(1:outline): expected Colour'); }
+    else if (a3 === undefined) { assert(checkClass(a0, Colour), '[ERROR] Symbol(0:fill): expected Colour'); assert(checkClass(a1, Colour), '[ERROR] Symbol(1:outline): expected Colour'); assert(typeof a2 === 'boolean', '[ERROR] Symbol(2:overlay): expected boolean'); }
+    else if (a4 === undefined) { assert(checkClass(a0, Colour), '[ERROR] Symbol(0:fill): expected Colour'); assert(checkClass(a1, Colour), '[ERROR] Symbol(1:outline): expected Colour'); assert(typeof a2 === 'boolean', '[ERROR] Symbol(2:overlay): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] Symbol(3:double_sided): expected boolean'); }
+    else { assert(checkClass(a0, Colour), '[ERROR] Symbol(0:fill): expected Colour'); assert(checkClass(a1, Colour), '[ERROR] Symbol(1:outline): expected Colour'); assert(typeof a2 === 'boolean', '[ERROR] Symbol(2:overlay): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] Symbol(3:double_sided): expected boolean'); assert(typeof a4 === 'number', '[ERROR] Symbol(4:detail): expected integer'); }
     if (a1 === undefined) { this.__ptr = _mud_Symbol__construct_1(/*fill*/a0.__ptr); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Symbol__construct_2(/*fill*/a0.__ptr, /*outline*/a1.__ptr); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _mud_Symbol__construct_3(/*fill*/a0.__ptr, /*outline*/a1.__ptr, /*overlay*/a2); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; }
@@ -670,6 +670,7 @@ function Arc(a0, a1, a2) {
 Arc.prototype = Object.create(Shape.prototype);
 Arc.prototype.constructor = Arc;
 Arc.prototype.__class = Arc;
+Arc.prototype.__base = Shape;
 Arc.__cache = {};
 Module['Arc'] = Arc;
 Object.defineProperty(Arc.prototype, "radius", {
@@ -702,8 +703,8 @@ Arc.prototype["__destroy"] = Arc.prototype.__destroy = function() {
 // ArcLine
 function ArcLine(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else if (a3 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] ArcLine(0:start): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] ArcLine(1:middle): expected v3<float>'); assert(a2.__type === v3_float.__type, '[ERROR] ArcLine(2:end): expected v3<float>'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] ArcLine(0:center): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] ArcLine(1:start): expected v3<float>'); assert(a2.__type === v3_float.__type, '[ERROR] ArcLine(2:middle): expected v3<float>'); assert(a3.__type === v3_float.__type, '[ERROR] ArcLine(3:end): expected v3<float>'); }
+    else if (a3 === undefined) { assert(checkClass(a0, v3_float), '[ERROR] ArcLine(0:start): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] ArcLine(1:middle): expected v3<float>'); assert(checkClass(a2, v3_float), '[ERROR] ArcLine(2:end): expected v3<float>'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] ArcLine(0:center): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] ArcLine(1:start): expected v3<float>'); assert(checkClass(a2, v3_float), '[ERROR] ArcLine(2:middle): expected v3<float>'); assert(checkClass(a3, v3_float), '[ERROR] ArcLine(3:end): expected v3<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_ArcLine__construct_0(); this.__type = ArcLine.__type; getCache(ArcLine)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _mud_ArcLine__construct_3(/*start*/a0.__ptr, /*middle*/a1.__ptr, /*end*/a2.__ptr); this.__type = ArcLine.__type; getCache(ArcLine)[this.__ptr] = this; }
     else { this.__ptr = _mud_ArcLine__construct_4(/*center*/a0.__ptr, /*start*/a1.__ptr, /*middle*/a2.__ptr, /*end*/a3.__ptr); this.__type = ArcLine.__type; getCache(ArcLine)[this.__ptr] = this; }
@@ -711,6 +712,7 @@ function ArcLine(a0, a1, a2, a3) {
 ArcLine.prototype = Object.create(Shape.prototype);
 ArcLine.prototype.constructor = ArcLine;
 ArcLine.prototype.__class = ArcLine;
+ArcLine.prototype.__base = Shape;
 ArcLine.__cache = {};
 Module['ArcLine'] = ArcLine;
 Object.defineProperty(ArcLine.prototype, "start", {
@@ -748,6 +750,7 @@ function Box() {
 Box.prototype = Object.create(Shape.prototype);
 Box.prototype.constructor = Box;
 Box.prototype.__class = Box;
+Box.prototype.__base = Shape;
 Box.__cache = {};
 Module['Box'] = Box;
 Box.prototype["__destroy"] = Box.prototype.__destroy = function() {
@@ -765,6 +768,7 @@ function Capsule(a0, a1, a2) {
 Capsule.prototype = Object.create(Shape.prototype);
 Capsule.prototype.constructor = Capsule;
 Capsule.prototype.__class = Capsule;
+Capsule.prototype.__base = Shape;
 Capsule.__cache = {};
 Module['Capsule'] = Capsule;
 Object.defineProperty(Capsule.prototype, "radius", {
@@ -799,7 +803,7 @@ function Circle(a0, a1, a2) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] Circle(0:radius): expected number'); }
     else if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] Circle(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Circle(1:axis): expected integer'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] Circle(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Circle(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Circle(2:axis): expected integer'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] Circle(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Circle(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Circle(2:axis): expected integer'); }
     if (a0 === undefined) { this.__ptr = _mud_Circle__construct_0(); this.__type = Circle.__type; getCache(Circle)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Circle__construct_1(/*radius*/a0); this.__type = Circle.__type; getCache(Circle)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Circle__construct_2(/*radius*/a0, /*axis*/a1); this.__type = Circle.__type; getCache(Circle)[this.__ptr] = this; }
@@ -808,6 +812,7 @@ function Circle(a0, a1, a2) {
 Circle.prototype = Object.create(Shape.prototype);
 Circle.prototype.constructor = Circle;
 Circle.prototype.__class = Circle;
+Circle.prototype.__base = Shape;
 Circle.__cache = {};
 Module['Circle'] = Circle;
 Object.defineProperty(Circle.prototype, "radius", {
@@ -832,13 +837,14 @@ Circle.prototype["__destroy"] = Circle.prototype.__destroy = function() {
 // ConvexHull
 function ConvexHull(a0) {
     if (a0 === undefined) {  }
-    else { assert(a0.__type === span_mud_vec3.__type, '[ERROR] ConvexHull(0:vertices): expected span<mud::vec3>'); }
+    else {  }
     if (a0 === undefined) { this.__ptr = _mud_ConvexHull__construct_0(); this.__type = ConvexHull.__type; getCache(ConvexHull)[this.__ptr] = this; }
     else { this.__ptr = _mud_ConvexHull__construct_1(ensureFloat32(/*vertices*/a0), /*vertices*/a0.length); this.__type = ConvexHull.__type; getCache(ConvexHull)[this.__ptr] = this; }
 };
 ConvexHull.prototype = Object.create(Shape.prototype);
 ConvexHull.prototype.constructor = ConvexHull;
 ConvexHull.prototype.__class = ConvexHull;
+ConvexHull.prototype.__base = Shape;
 ConvexHull.__cache = {};
 Module['ConvexHull'] = ConvexHull;
 Object.defineProperty(ConvexHull.prototype, "vertices", {
@@ -851,8 +857,8 @@ ConvexHull.prototype["__destroy"] = ConvexHull.prototype.__destroy = function() 
 // Cube
 function Cube(a0, a1) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] Cube(0:extents): expected v3<float>'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] Cube(0:center): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] Cube(1:extents): expected v3<float>'); }
+    else if (a1 === undefined) { assert(checkClass(a0, v3_float), '[ERROR] Cube(0:extents): expected v3<float>'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] Cube(0:center): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] Cube(1:extents): expected v3<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Cube__construct_0(); this.__type = Cube.__type; getCache(Cube)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Cube__construct_1(/*extents*/a0.__ptr); this.__type = Cube.__type; getCache(Cube)[this.__ptr] = this; }
     else { this.__ptr = _mud_Cube__construct_2(/*center*/a0.__ptr, /*extents*/a1.__ptr); this.__type = Cube.__type; getCache(Cube)[this.__ptr] = this; }
@@ -860,6 +866,7 @@ function Cube(a0, a1) {
 Cube.prototype = Object.create(Shape.prototype);
 Cube.prototype.constructor = Cube;
 Cube.prototype.__class = Cube;
+Cube.prototype.__base = Shape;
 Cube.__cache = {};
 Module['Cube'] = Cube;
 Object.defineProperty(Cube.prototype, "extents", {
@@ -881,6 +888,7 @@ function CurveBezierCubic() {
 CurveBezierCubic.prototype = Object.create(Curve2.prototype);
 CurveBezierCubic.prototype.constructor = CurveBezierCubic;
 CurveBezierCubic.prototype.__class = CurveBezierCubic;
+CurveBezierCubic.prototype.__base = Curve2;
 CurveBezierCubic.__cache = {};
 Module['CurveBezierCubic'] = CurveBezierCubic;
 Object.defineProperty(CurveBezierCubic.prototype, "v0", {
@@ -926,6 +934,7 @@ function CurveBezierCubic3() {
 CurveBezierCubic3.prototype = Object.create(Curve3.prototype);
 CurveBezierCubic3.prototype.constructor = CurveBezierCubic3;
 CurveBezierCubic3.prototype.__class = CurveBezierCubic3;
+CurveBezierCubic3.prototype.__base = Curve3;
 CurveBezierCubic3.__cache = {};
 Module['CurveBezierCubic3'] = CurveBezierCubic3;
 Object.defineProperty(CurveBezierCubic3.prototype, "v0", {
@@ -971,6 +980,7 @@ function CurveBezierQuadratic() {
 CurveBezierQuadratic.prototype = Object.create(Curve2.prototype);
 CurveBezierQuadratic.prototype.constructor = CurveBezierQuadratic;
 CurveBezierQuadratic.prototype.__class = CurveBezierQuadratic;
+CurveBezierQuadratic.prototype.__base = Curve2;
 CurveBezierQuadratic.__cache = {};
 Module['CurveBezierQuadratic'] = CurveBezierQuadratic;
 Object.defineProperty(CurveBezierQuadratic.prototype, "v0", {
@@ -1008,6 +1018,7 @@ function CurveBezierQuadratic3() {
 CurveBezierQuadratic3.prototype = Object.create(Curve3.prototype);
 CurveBezierQuadratic3.prototype.constructor = CurveBezierQuadratic3;
 CurveBezierQuadratic3.prototype.__class = CurveBezierQuadratic3;
+CurveBezierQuadratic3.prototype.__base = Curve3;
 CurveBezierQuadratic3.__cache = {};
 Module['CurveBezierQuadratic3'] = CurveBezierQuadratic3;
 Object.defineProperty(CurveBezierQuadratic3.prototype, "v0", {
@@ -1045,10 +1056,11 @@ function CurveCatmullRom3() {
 CurveCatmullRom3.prototype = Object.create(Curve3.prototype);
 CurveCatmullRom3.prototype.constructor = CurveCatmullRom3;
 CurveCatmullRom3.prototype.__class = CurveCatmullRom3;
+CurveCatmullRom3.prototype.__base = Curve3;
 CurveCatmullRom3.__cache = {};
 Module['CurveCatmullRom3'] = CurveCatmullRom3;
 CurveCatmullRom3.prototype["add_point"] = CurveCatmullRom3.prototype.add_point = function(a0) {
-    assert(a0.__type === v3_float.__type, '[ERROR] add_point(0:point): expected v3<float>');
+    assert(checkClass(a0, v3_float), '[ERROR] add_point(0:point): expected v3<float>');
     _mud_CurveCatmullRom3_add_point_1(this.__ptr, /*point*/a0.__ptr);
 };
 Object.defineProperty(CurveCatmullRom3.prototype, "points", {
@@ -1090,6 +1102,7 @@ function CurveLine() {
 CurveLine.prototype = Object.create(Curve2.prototype);
 CurveLine.prototype.constructor = CurveLine;
 CurveLine.prototype.__class = CurveLine;
+CurveLine.prototype.__base = Curve2;
 CurveLine.__cache = {};
 Module['CurveLine'] = CurveLine;
 Object.defineProperty(CurveLine.prototype, "v0", {
@@ -1119,6 +1132,7 @@ function CurveLine3() {
 CurveLine3.prototype = Object.create(Curve3.prototype);
 CurveLine3.prototype.constructor = CurveLine3;
 CurveLine3.prototype.__class = CurveLine3;
+CurveLine3.prototype.__base = Curve3;
 CurveLine3.__cache = {};
 Module['CurveLine3'] = CurveLine3;
 Object.defineProperty(CurveLine3.prototype, "v0", {
@@ -1148,6 +1162,7 @@ function CurveSpline() {
 CurveSpline.prototype = Object.create(Curve2.prototype);
 CurveSpline.prototype.constructor = CurveSpline;
 CurveSpline.prototype.__class = CurveSpline;
+CurveSpline.prototype.__base = Curve2;
 CurveSpline.__cache = {};
 Module['CurveSpline'] = CurveSpline;
 Object.defineProperty(CurveSpline.prototype, "points", {
@@ -1165,6 +1180,7 @@ function CurveSpline3() {
 CurveSpline3.prototype = Object.create(Curve3.prototype);
 CurveSpline3.prototype.constructor = CurveSpline3;
 CurveSpline3.prototype.__class = CurveSpline3;
+CurveSpline3.prototype.__base = Curve3;
 CurveSpline3.__cache = {};
 Module['CurveSpline3'] = CurveSpline3;
 Object.defineProperty(CurveSpline3.prototype, "points", {
@@ -1179,7 +1195,7 @@ function Cylinder(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
     else if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] Cylinder(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Cylinder(1:height): expected number'); }
     else if (a3 === undefined) { assert(typeof a0 === 'number', '[ERROR] Cylinder(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Cylinder(1:height): expected number'); assert(typeof a2 === 'number', '[ERROR] Cylinder(2:axis): expected integer'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] Cylinder(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Cylinder(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Cylinder(2:height): expected number'); assert(typeof a3 === 'number', '[ERROR] Cylinder(3:axis): expected integer'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] Cylinder(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Cylinder(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Cylinder(2:height): expected number'); assert(typeof a3 === 'number', '[ERROR] Cylinder(3:axis): expected integer'); }
     if (a0 === undefined) { this.__ptr = _mud_Cylinder__construct_0(); this.__type = Cylinder.__type; getCache(Cylinder)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Cylinder__construct_2(/*radius*/a0, /*height*/a1); this.__type = Cylinder.__type; getCache(Cylinder)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _mud_Cylinder__construct_3(/*radius*/a0, /*height*/a1, /*axis*/a2); this.__type = Cylinder.__type; getCache(Cylinder)[this.__ptr] = this; }
@@ -1188,6 +1204,7 @@ function Cylinder(a0, a1, a2, a3) {
 Cylinder.prototype = Object.create(Shape.prototype);
 Cylinder.prototype.constructor = Cylinder;
 Cylinder.prototype.__class = Cylinder;
+Cylinder.prototype.__base = Shape;
 Cylinder.__cache = {};
 Module['Cylinder'] = Cylinder;
 Object.defineProperty(Cylinder.prototype, "radius", {
@@ -1220,8 +1237,8 @@ Cylinder.prototype["__destroy"] = Cylinder.prototype.__destroy = function() {
 // Ellipsis
 function Ellipsis(a0, a1) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { assert(a0.__type === v2_float.__type, '[ERROR] Ellipsis(0:radius): expected v2<float>'); }
-    else { assert(a0.__type === v2_float.__type, '[ERROR] Ellipsis(0:radius): expected v2<float>'); assert(typeof a1 === 'number', '[ERROR] Ellipsis(1:axis): expected integer'); }
+    else if (a1 === undefined) { assert(checkClass(a0, v2_float), '[ERROR] Ellipsis(0:radius): expected v2<float>'); }
+    else { assert(checkClass(a0, v2_float), '[ERROR] Ellipsis(0:radius): expected v2<float>'); assert(typeof a1 === 'number', '[ERROR] Ellipsis(1:axis): expected integer'); }
     if (a0 === undefined) { this.__ptr = _mud_Ellipsis__construct_0(); this.__type = Ellipsis.__type; getCache(Ellipsis)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Ellipsis__construct_1(/*radius*/a0.__ptr); this.__type = Ellipsis.__type; getCache(Ellipsis)[this.__ptr] = this; }
     else { this.__ptr = _mud_Ellipsis__construct_2(/*radius*/a0.__ptr, /*axis*/a1); this.__type = Ellipsis.__type; getCache(Ellipsis)[this.__ptr] = this; }
@@ -1229,6 +1246,7 @@ function Ellipsis(a0, a1) {
 Ellipsis.prototype = Object.create(Shape.prototype);
 Ellipsis.prototype.constructor = Ellipsis;
 Ellipsis.prototype.__class = Ellipsis;
+Ellipsis.prototype.__base = Shape;
 Ellipsis.__cache = {};
 Module['Ellipsis'] = Ellipsis;
 Object.defineProperty(Ellipsis.prototype, "radius", {
@@ -1258,6 +1276,7 @@ function Geometry() {
 Geometry.prototype = Object.create(Shape.prototype);
 Geometry.prototype.constructor = Geometry;
 Geometry.prototype.__class = Geometry;
+Geometry.prototype.__base = Shape;
 Geometry.__cache = {};
 Module['Geometry'] = Geometry;
 Geometry.prototype["__destroy"] = Geometry.prototype.__destroy = function() {
@@ -1266,8 +1285,8 @@ Geometry.prototype["__destroy"] = Geometry.prototype.__destroy = function() {
 // Grid2
 function Grid2(a0, a1) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { assert(a0.__type === v2_float.__type, '[ERROR] Grid2(0:size): expected v2<float>'); }
-    else { assert(a0.__type === v2_float.__type, '[ERROR] Grid2(0:size): expected v2<float>'); assert(a1.__type === v2_float.__type, '[ERROR] Grid2(1:space): expected v2<float>'); }
+    else if (a1 === undefined) { assert(checkClass(a0, v2_float), '[ERROR] Grid2(0:size): expected v2<float>'); }
+    else { assert(checkClass(a0, v2_float), '[ERROR] Grid2(0:size): expected v2<float>'); assert(checkClass(a1, v2_float), '[ERROR] Grid2(1:space): expected v2<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Grid2__construct_0(); this.__type = Grid2.__type; getCache(Grid2)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Grid2__construct_1(/*size*/a0.__ptr); this.__type = Grid2.__type; getCache(Grid2)[this.__ptr] = this; }
     else { this.__ptr = _mud_Grid2__construct_2(/*size*/a0.__ptr, /*space*/a1.__ptr); this.__type = Grid2.__type; getCache(Grid2)[this.__ptr] = this; }
@@ -1275,6 +1294,7 @@ function Grid2(a0, a1) {
 Grid2.prototype = Object.create(Shape.prototype);
 Grid2.prototype.constructor = Grid2;
 Grid2.prototype.__class = Grid2;
+Grid2.prototype.__base = Shape;
 Grid2.__cache = {};
 Module['Grid2'] = Grid2;
 Object.defineProperty(Grid2.prototype, "size", {
@@ -1299,8 +1319,8 @@ Grid2.prototype["__destroy"] = Grid2.prototype.__destroy = function() {
 // Grid3
 function Grid3(a0, a1) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { assert(a0.__type === v2_uint.__type, '[ERROR] Grid3(0:size): expected v2<uint>'); }
-    else { assert(a0.__type === v2_uint.__type, '[ERROR] Grid3(0:size): expected v2<uint>'); assert(a1.__type === span_mud_vec3.__type, '[ERROR] Grid3(1:points): expected span<mud::vec3>'); }
+    else if (a1 === undefined) { assert(checkClass(a0, v2_uint), '[ERROR] Grid3(0:size): expected v2<uint>'); }
+    else { assert(checkClass(a0, v2_uint), '[ERROR] Grid3(0:size): expected v2<uint>');  }
     if (a0 === undefined) { this.__ptr = _mud_Grid3__construct_0(); this.__type = Grid3.__type; getCache(Grid3)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Grid3__construct_1(/*size*/a0.__ptr); this.__type = Grid3.__type; getCache(Grid3)[this.__ptr] = this; }
     else { this.__ptr = _mud_Grid3__construct_2(/*size*/a0.__ptr, ensureFloat32(/*points*/a1), /*points*/a1.length); this.__type = Grid3.__type; getCache(Grid3)[this.__ptr] = this; }
@@ -1308,6 +1328,7 @@ function Grid3(a0, a1) {
 Grid3.prototype = Object.create(Shape.prototype);
 Grid3.prototype.constructor = Grid3;
 Grid3.prototype.__class = Grid3;
+Grid3.prototype.__base = Shape;
 Grid3.__cache = {};
 Module['Grid3'] = Grid3;
 Object.defineProperty(Grid3.prototype, "size", {
@@ -1329,7 +1350,7 @@ Grid3.prototype["__destroy"] = Grid3.prototype.__destroy = function() {
 function Icosaedr(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] Icosaedr(0:radius): expected number'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] Icosaedr(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Icosaedr(1:radius): expected number'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] Icosaedr(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Icosaedr(1:radius): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Icosaedr__construct_0(); this.__type = Icosaedr.__type; getCache(Icosaedr)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Icosaedr__construct_1(/*radius*/a0); this.__type = Icosaedr.__type; getCache(Icosaedr)[this.__ptr] = this; }
     else { this.__ptr = _mud_Icosaedr__construct_2(/*center*/a0.__ptr, /*radius*/a1); this.__type = Icosaedr.__type; getCache(Icosaedr)[this.__ptr] = this; }
@@ -1337,6 +1358,7 @@ function Icosaedr(a0, a1) {
 Icosaedr.prototype = Object.create(Shape.prototype);
 Icosaedr.prototype.constructor = Icosaedr;
 Icosaedr.prototype.__class = Icosaedr;
+Icosaedr.prototype.__base = Shape;
 Icosaedr.__cache = {};
 Module['Icosaedr'] = Icosaedr;
 Object.defineProperty(Icosaedr.prototype, "radius", {
@@ -1353,13 +1375,14 @@ Icosaedr.prototype["__destroy"] = Icosaedr.prototype.__destroy = function() {
 // Line
 function Line(a0, a1) {
     if (a0 === undefined) {  }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] Line(0:start): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] Line(1:end): expected v3<float>'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] Line(0:start): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] Line(1:end): expected v3<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Line__construct_0(); this.__type = Line.__type; getCache(Line)[this.__ptr] = this; }
     else { this.__ptr = _mud_Line__construct_2(/*start*/a0.__ptr, /*end*/a1.__ptr); this.__type = Line.__type; getCache(Line)[this.__ptr] = this; }
 };
 Line.prototype = Object.create(Shape.prototype);
 Line.prototype.constructor = Line;
 Line.prototype.__class = Line;
+Line.prototype.__base = Shape;
 Line.__cache = {};
 Module['Line'] = Line;
 Object.defineProperty(Line.prototype, "start", {
@@ -1384,13 +1407,14 @@ Line.prototype["__destroy"] = Line.prototype.__destroy = function() {
 // Points
 function Points(a0) {
     if (a0 === undefined) {  }
-    else { assert(a0.__type === span_mud_vec3.__type, '[ERROR] Points(0:points): expected span<mud::vec3>'); }
+    else {  }
     if (a0 === undefined) { this.__ptr = _mud_Points__construct_0(); this.__type = Points.__type; getCache(Points)[this.__ptr] = this; }
     else { this.__ptr = _mud_Points__construct_1(ensureFloat32(/*points*/a0), /*points*/a0.length); this.__type = Points.__type; getCache(Points)[this.__ptr] = this; }
 };
 Points.prototype = Object.create(Shape.prototype);
 Points.prototype.constructor = Points;
 Points.prototype.__class = Points;
+Points.prototype.__base = Shape;
 Points.__cache = {};
 Module['Points'] = Points;
 Object.defineProperty(Points.prototype, "points", {
@@ -1402,12 +1426,13 @@ Points.prototype["__destroy"] = Points.prototype.__destroy = function() {
 };
 // Poisson
 function Poisson(a0, a1) {
-    assert(a0.__type === v2_float.__type, '[ERROR] Poisson(0:size): expected v2<float>'); assert(typeof a1 === 'number', '[ERROR] Poisson(1:maxRadius): expected number');
+    assert(checkClass(a0, v2_float), '[ERROR] Poisson(0:size): expected v2<float>'); assert(typeof a1 === 'number', '[ERROR] Poisson(1:maxRadius): expected number');
     this.__ptr = _mud_Poisson__construct_2(/*size*/a0.__ptr, /*maxRadius*/a1); this.__type = Poisson.__type; getCache(Poisson)[this.__ptr] = this;
 };
 Poisson.prototype = Object.create(Distribution.prototype);
 Poisson.prototype.constructor = Poisson;
 Poisson.prototype.__class = Poisson;
+Poisson.prototype.__base = Distribution;
 Poisson.__cache = {};
 Module['Poisson'] = Poisson;
 Poisson.prototype["distribute"] = Poisson.prototype.distribute = function(a0) {
@@ -1415,7 +1440,7 @@ Poisson.prototype["distribute"] = Poisson.prototype.distribute = function(a0) {
     return _mud_Poisson_distribute_1(this.__ptr, /*radius*/a0);
 };
 Poisson.prototype["addPoint"] = Poisson.prototype.addPoint = function(a0, a1) {
-    assert(typeof a0 === 'number', '[ERROR] addPoint(0:radius): expected number'); assert(a1.__type === v3_float.__type, '[ERROR] addPoint(1:point): expected v3<float>');
+    assert(typeof a0 === 'number', '[ERROR] addPoint(0:radius): expected number'); assert(checkClass(a1, v3_float), '[ERROR] addPoint(1:point): expected v3<float>');
     return !!(_mud_Poisson_addPoint_2(this.__ptr, /*radius*/a0, /*point*/a1.__ptr));
 };
 Poisson.prototype["__destroy"] = Poisson.prototype.__destroy = function() {
@@ -1424,13 +1449,14 @@ Poisson.prototype["__destroy"] = Poisson.prototype.__destroy = function() {
 // Polygon
 function Polygon(a0) {
     if (a0 === undefined) {  }
-    else { assert(a0.__type === span_mud_vec3.__type, '[ERROR] Polygon(0:vertices): expected span<mud::vec3>'); }
+    else {  }
     if (a0 === undefined) { this.__ptr = _mud_Polygon__construct_0(); this.__type = Polygon.__type; getCache(Polygon)[this.__ptr] = this; }
     else { this.__ptr = _mud_Polygon__construct_1(ensureFloat32(/*vertices*/a0), /*vertices*/a0.length); this.__type = Polygon.__type; getCache(Polygon)[this.__ptr] = this; }
 };
 Polygon.prototype = Object.create(Shape.prototype);
 Polygon.prototype.constructor = Polygon;
 Polygon.prototype.__class = Polygon;
+Polygon.prototype.__base = Shape;
 Polygon.__cache = {};
 Module['Polygon'] = Polygon;
 Polygon.prototype["__destroy"] = Polygon.prototype.__destroy = function() {
@@ -1439,13 +1465,14 @@ Polygon.prototype["__destroy"] = Polygon.prototype.__destroy = function() {
 // Quad
 function Quad(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] Quad(0:a): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] Quad(1:b): expected v3<float>'); assert(a2.__type === v3_float.__type, '[ERROR] Quad(2:c): expected v3<float>'); assert(a3.__type === v3_float.__type, '[ERROR] Quad(3:d): expected v3<float>'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] Quad(0:a): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] Quad(1:b): expected v3<float>'); assert(checkClass(a2, v3_float), '[ERROR] Quad(2:c): expected v3<float>'); assert(checkClass(a3, v3_float), '[ERROR] Quad(3:d): expected v3<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Quad__construct_0(); this.__type = Quad.__type; getCache(Quad)[this.__ptr] = this; }
     else { this.__ptr = _mud_Quad__construct_4(/*a*/a0.__ptr, /*b*/a1.__ptr, /*c*/a2.__ptr, /*d*/a3.__ptr); this.__type = Quad.__type; getCache(Quad)[this.__ptr] = this; }
 };
 Quad.prototype = Object.create(Shape.prototype);
 Quad.prototype.constructor = Quad;
 Quad.prototype.__class = Quad;
+Quad.prototype.__base = Shape;
 Quad.__cache = {};
 Module['Quad'] = Quad;
 Quad.prototype["__destroy"] = Quad.prototype.__destroy = function() {
@@ -1454,7 +1481,7 @@ Quad.prototype["__destroy"] = Quad.prototype.__destroy = function() {
 // Rect
 function Rect(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else if (a2 === undefined) { assert(a0.__type === v2_float.__type, '[ERROR] Rect(0:position): expected v2<float>'); assert(a1.__type === v2_float.__type, '[ERROR] Rect(1:size): expected v2<float>'); }
+    else if (a2 === undefined) { assert(checkClass(a0, v2_float), '[ERROR] Rect(0:position): expected v2<float>'); assert(checkClass(a1, v2_float), '[ERROR] Rect(1:size): expected v2<float>'); }
     else { assert(typeof a0 === 'number', '[ERROR] Rect(0:x): expected number'); assert(typeof a1 === 'number', '[ERROR] Rect(1:y): expected number'); assert(typeof a2 === 'number', '[ERROR] Rect(2:w): expected number'); assert(typeof a3 === 'number', '[ERROR] Rect(3:h): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Rect__construct_0(); this.__type = Rect.__type; getCache(Rect)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Rect__construct_2(/*position*/a0.__ptr, /*size*/a1.__ptr); this.__type = Rect.__type; getCache(Rect)[this.__ptr] = this; }
@@ -1463,6 +1490,7 @@ function Rect(a0, a1, a2, a3) {
 Rect.prototype = Object.create(Shape.prototype);
 Rect.prototype.constructor = Rect;
 Rect.prototype.__class = Rect;
+Rect.prototype.__base = Shape;
 Rect.__cache = {};
 Module['Rect'] = Rect;
 Object.defineProperty(Rect.prototype, "position", {
@@ -1494,6 +1522,7 @@ function Ring(a0, a1, a2) {
 Ring.prototype = Object.create(Shape.prototype);
 Ring.prototype.constructor = Ring;
 Ring.prototype.__class = Ring;
+Ring.prototype.__base = Shape;
 Ring.__cache = {};
 Module['Ring'] = Ring;
 Object.defineProperty(Ring.prototype, "radius", {
@@ -1529,7 +1558,7 @@ function Sphere(a0, a1, a2, a3) {
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] Sphere(0:radius): expected number'); }
     else if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] Sphere(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Sphere(1:start): expected number'); }
     else if (a3 === undefined) { assert(typeof a0 === 'number', '[ERROR] Sphere(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Sphere(1:start): expected number'); assert(typeof a2 === 'number', '[ERROR] Sphere(2:end): expected number'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] Sphere(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Sphere(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Sphere(2:start): expected number'); assert(typeof a3 === 'number', '[ERROR] Sphere(3:end): expected number'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] Sphere(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Sphere(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Sphere(2:start): expected number'); assert(typeof a3 === 'number', '[ERROR] Sphere(3:end): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Sphere__construct_0(); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Sphere__construct_1(/*radius*/a0); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Sphere__construct_2(/*radius*/a0, /*start*/a1); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; }
@@ -1539,6 +1568,7 @@ function Sphere(a0, a1, a2, a3) {
 Sphere.prototype = Object.create(Shape.prototype);
 Sphere.prototype.constructor = Sphere;
 Sphere.prototype.__class = Sphere;
+Sphere.prototype.__base = Shape;
 Sphere.__cache = {};
 Module['Sphere'] = Sphere;
 Object.defineProperty(Sphere.prototype, "radius", {
@@ -1578,6 +1608,7 @@ function SphereRing(a0, a1, a2) {
 SphereRing.prototype = Object.create(Shape.prototype);
 SphereRing.prototype.constructor = SphereRing;
 SphereRing.prototype.__class = SphereRing;
+SphereRing.prototype.__base = Shape;
 SphereRing.__cache = {};
 Module['SphereRing'] = SphereRing;
 Object.defineProperty(SphereRing.prototype, "radius", {
@@ -1611,7 +1642,7 @@ SphereRing.prototype["__destroy"] = SphereRing.prototype.__destroy = function() 
 function Spheroid(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] Spheroid(0:radius): expected number'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] Spheroid(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Spheroid(1:radius): expected number'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] Spheroid(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Spheroid(1:radius): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Spheroid__construct_0(); this.__type = Spheroid.__type; getCache(Spheroid)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Spheroid__construct_1(/*radius*/a0); this.__type = Spheroid.__type; getCache(Spheroid)[this.__ptr] = this; }
     else { this.__ptr = _mud_Spheroid__construct_2(/*center*/a0.__ptr, /*radius*/a1); this.__type = Spheroid.__type; getCache(Spheroid)[this.__ptr] = this; }
@@ -1619,6 +1650,7 @@ function Spheroid(a0, a1) {
 Spheroid.prototype = Object.create(Shape.prototype);
 Spheroid.prototype.constructor = Spheroid;
 Spheroid.prototype.__class = Spheroid;
+Spheroid.prototype.__base = Shape;
 Spheroid.__cache = {};
 Module['Spheroid'] = Spheroid;
 Object.defineProperty(Spheroid.prototype, "radius", {
@@ -1636,7 +1668,7 @@ Spheroid.prototype["__destroy"] = Spheroid.prototype.__destroy = function() {
 function Tetraedr(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] Tetraedr(0:radius): expected number'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] Tetraedr(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Tetraedr(1:radius): expected number'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] Tetraedr(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Tetraedr(1:radius): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Tetraedr__construct_0(); this.__type = Tetraedr.__type; getCache(Tetraedr)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Tetraedr__construct_1(/*radius*/a0); this.__type = Tetraedr.__type; getCache(Tetraedr)[this.__ptr] = this; }
     else { this.__ptr = _mud_Tetraedr__construct_2(/*center*/a0.__ptr, /*radius*/a1); this.__type = Tetraedr.__type; getCache(Tetraedr)[this.__ptr] = this; }
@@ -1644,6 +1676,7 @@ function Tetraedr(a0, a1) {
 Tetraedr.prototype = Object.create(Shape.prototype);
 Tetraedr.prototype.constructor = Tetraedr;
 Tetraedr.prototype.__class = Tetraedr;
+Tetraedr.prototype.__base = Shape;
 Tetraedr.__cache = {};
 Module['Tetraedr'] = Tetraedr;
 Object.defineProperty(Tetraedr.prototype, "radius", {
@@ -1662,7 +1695,7 @@ function Torus(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
     else if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] Torus(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Torus(1:tube): expected number'); }
     else if (a3 === undefined) { assert(typeof a0 === 'number', '[ERROR] Torus(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Torus(1:tube): expected number'); assert(typeof a2 === 'number', '[ERROR] Torus(2:axis): expected integer'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] Torus(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Torus(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Torus(2:tube): expected number'); assert(typeof a3 === 'number', '[ERROR] Torus(3:axis): expected integer'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] Torus(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Torus(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Torus(2:tube): expected number'); assert(typeof a3 === 'number', '[ERROR] Torus(3:axis): expected integer'); }
     if (a0 === undefined) { this.__ptr = _mud_Torus__construct_0(); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Torus__construct_2(/*radius*/a0, /*tube*/a1); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _mud_Torus__construct_3(/*radius*/a0, /*tube*/a1, /*axis*/a2); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; }
@@ -1671,6 +1704,7 @@ function Torus(a0, a1, a2, a3) {
 Torus.prototype = Object.create(Shape.prototype);
 Torus.prototype.constructor = Torus;
 Torus.prototype.__class = Torus;
+Torus.prototype.__base = Shape;
 Torus.__cache = {};
 Module['Torus'] = Torus;
 Object.defineProperty(Torus.prototype, "radius", {
@@ -1706,7 +1740,7 @@ function TorusKnot(a0, a1, a2, a3, a4) {
     else if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] TorusKnot(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] TorusKnot(1:tube): expected number'); }
     else if (a3 === undefined) { assert(typeof a0 === 'number', '[ERROR] TorusKnot(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] TorusKnot(1:tube): expected number'); assert(typeof a2 === 'number', '[ERROR] TorusKnot(2:p): expected number'); }
     else if (a4 === undefined) { assert(typeof a0 === 'number', '[ERROR] TorusKnot(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] TorusKnot(1:tube): expected number'); assert(typeof a2 === 'number', '[ERROR] TorusKnot(2:p): expected number'); assert(typeof a3 === 'number', '[ERROR] TorusKnot(3:q): expected number'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] TorusKnot(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] TorusKnot(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] TorusKnot(2:tube): expected number'); assert(typeof a3 === 'number', '[ERROR] TorusKnot(3:p): expected number'); assert(typeof a4 === 'number', '[ERROR] TorusKnot(4:q): expected number'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] TorusKnot(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] TorusKnot(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] TorusKnot(2:tube): expected number'); assert(typeof a3 === 'number', '[ERROR] TorusKnot(3:p): expected number'); assert(typeof a4 === 'number', '[ERROR] TorusKnot(4:q): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_TorusKnot__construct_0(); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_TorusKnot__construct_2(/*radius*/a0, /*tube*/a1); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _mud_TorusKnot__construct_3(/*radius*/a0, /*tube*/a1, /*p*/a2); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; }
@@ -1716,6 +1750,7 @@ function TorusKnot(a0, a1, a2, a3, a4) {
 TorusKnot.prototype = Object.create(Shape.prototype);
 TorusKnot.prototype.constructor = TorusKnot;
 TorusKnot.prototype.__class = TorusKnot;
+TorusKnot.prototype.__base = Shape;
 TorusKnot.__cache = {};
 Module['TorusKnot'] = TorusKnot;
 Object.defineProperty(TorusKnot.prototype, "radius", {
@@ -1756,13 +1791,14 @@ TorusKnot.prototype["__destroy"] = TorusKnot.prototype.__destroy = function() {
 // Triangle
 function Triangle(a0) {
     if (a0 === undefined) {  }
-    else { assert(a0.__type === v2_float.__type, '[ERROR] Triangle(0:size): expected v2<float>'); }
+    else { assert(checkClass(a0, v2_float), '[ERROR] Triangle(0:size): expected v2<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Triangle__construct_0(); this.__type = Triangle.__type; getCache(Triangle)[this.__ptr] = this; }
     else { this.__ptr = _mud_Triangle__construct_1(/*size*/a0.__ptr); this.__type = Triangle.__type; getCache(Triangle)[this.__ptr] = this; }
 };
 Triangle.prototype = Object.create(Shape.prototype);
 Triangle.prototype.constructor = Triangle;
 Triangle.prototype.__class = Triangle;
+Triangle.prototype.__base = Shape;
 Triangle.__cache = {};
 Module['Triangle'] = Triangle;
 Object.defineProperty(Triangle.prototype, "size", {
@@ -1777,35 +1813,35 @@ Triangle.prototype["__destroy"] = Triangle.prototype.__destroy = function() {
     _mud_Triangle__destroy(this.__ptr);
 };
 Module['to_ray'] = function(a0, a1, a2) {
-    if (a2 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] to_ray(0:pos): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] to_ray(1:dir): expected v3<float>'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] to_ray(0:pos): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] to_ray(1:dir): expected v3<float>'); assert(typeof a2 === 'number', '[ERROR] to_ray(2:distance): expected number'); }
+    if (a2 === undefined) { assert(checkClass(a0, v3_float), '[ERROR] to_ray(0:pos): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] to_ray(1:dir): expected v3<float>'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] to_ray(0:pos): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] to_ray(1:dir): expected v3<float>'); assert(typeof a2 === 'number', '[ERROR] to_ray(2:distance): expected number'); }
     if (a2 === undefined) { return wrapPointer(_mud_to_ray_2(/*pos*/a0.__ptr, /*dir*/a1.__ptr), Ray); }
     else { return wrapPointer(_mud_to_ray_3(/*pos*/a0.__ptr, /*dir*/a1.__ptr, /*distance*/a2), Ray); }
 };
 Module['to_segment'] = function(a0) {
-    assert(a0.__type === Ray.__type, '[ERROR] to_segment(0:ray): expected Ray');
+    assert(checkClass(a0, Ray), '[ERROR] to_segment(0:ray): expected Ray');
     return wrapPointer(_mud_to_segment_1(/*ray*/a0.__ptr), Segment);
 };
 Module['distribute_poisson'] = function(a0, a1) {
-    assert(a0.__type === v2_float.__type, '[ERROR] distribute_poisson(0:size): expected v2<float>'); assert(typeof a1 === 'number', '[ERROR] distribute_poisson(1:radius): expected number');
+    assert(checkClass(a0, v2_float), '[ERROR] distribute_poisson(0:size): expected v2<float>'); assert(typeof a1 === 'number', '[ERROR] distribute_poisson(1:radius): expected number');
     return _mud_distribute_poisson_2(/*size*/a0.__ptr, /*radius*/a1);
 };
 Module['add_ball'] = function(a0, a1, a2, a3, a4) {
-    if (a4 === undefined) { assert(a0.__type === MarchingCubes.__type, '[ERROR] add_ball(0:cubes): expected MarchingCubes'); assert(a1.__type === v3_float.__type, '[ERROR] add_ball(1:ball): expected v3<float>'); assert(typeof a2 === 'number', '[ERROR] add_ball(2:strength): expected number'); assert(typeof a3 === 'number', '[ERROR] add_ball(3:subtract): expected number'); }
-    else { assert(a0.__type === MarchingCubes.__type, '[ERROR] add_ball(0:cubes): expected MarchingCubes'); assert(a1.__type === v3_float.__type, '[ERROR] add_ball(1:ball): expected v3<float>'); assert(typeof a2 === 'number', '[ERROR] add_ball(2:strength): expected number'); assert(typeof a3 === 'number', '[ERROR] add_ball(3:subtract): expected number'); assert(a4.__type === Colour.__type, '[ERROR] add_ball(4:colour): expected Colour'); }
+    if (a4 === undefined) { assert(checkClass(a0, MarchingCubes), '[ERROR] add_ball(0:cubes): expected MarchingCubes'); assert(checkClass(a1, v3_float), '[ERROR] add_ball(1:ball): expected v3<float>'); assert(typeof a2 === 'number', '[ERROR] add_ball(2:strength): expected number'); assert(typeof a3 === 'number', '[ERROR] add_ball(3:subtract): expected number'); }
+    else { assert(checkClass(a0, MarchingCubes), '[ERROR] add_ball(0:cubes): expected MarchingCubes'); assert(checkClass(a1, v3_float), '[ERROR] add_ball(1:ball): expected v3<float>'); assert(typeof a2 === 'number', '[ERROR] add_ball(2:strength): expected number'); assert(typeof a3 === 'number', '[ERROR] add_ball(3:subtract): expected number'); assert(checkClass(a4, Colour), '[ERROR] add_ball(4:colour): expected Colour'); }
     if (a4 === undefined) { _mud_add_ball_4(/*cubes*/a0.__ptr, /*ball*/a1.__ptr, /*strength*/a2, /*subtract*/a3); }
     else { _mud_add_ball_5(/*cubes*/a0.__ptr, /*ball*/a1.__ptr, /*strength*/a2, /*subtract*/a3, /*colour*/a4.__ptr); }
 };
 Module['add_planeX'] = function(a0, a1, a2) {
-    assert(a0.__type === MarchingCubes.__type, '[ERROR] add_planeX(0:cubes): expected MarchingCubes'); assert(typeof a1 === 'number', '[ERROR] add_planeX(1:strength): expected number'); assert(typeof a2 === 'number', '[ERROR] add_planeX(2:subtract): expected number');
+    assert(checkClass(a0, MarchingCubes), '[ERROR] add_planeX(0:cubes): expected MarchingCubes'); assert(typeof a1 === 'number', '[ERROR] add_planeX(1:strength): expected number'); assert(typeof a2 === 'number', '[ERROR] add_planeX(2:subtract): expected number');
     _mud_add_planeX_3(/*cubes*/a0.__ptr, /*strength*/a1, /*subtract*/a2);
 };
 Module['add_planeY'] = function(a0, a1, a2) {
-    assert(a0.__type === MarchingCubes.__type, '[ERROR] add_planeY(0:cubes): expected MarchingCubes'); assert(typeof a1 === 'number', '[ERROR] add_planeY(1:strength): expected number'); assert(typeof a2 === 'number', '[ERROR] add_planeY(2:subtract): expected number');
+    assert(checkClass(a0, MarchingCubes), '[ERROR] add_planeY(0:cubes): expected MarchingCubes'); assert(typeof a1 === 'number', '[ERROR] add_planeY(1:strength): expected number'); assert(typeof a2 === 'number', '[ERROR] add_planeY(2:subtract): expected number');
     _mud_add_planeY_3(/*cubes*/a0.__ptr, /*strength*/a1, /*subtract*/a2);
 };
 Module['add_planeZ'] = function(a0, a1, a2) {
-    assert(a0.__type === MarchingCubes.__type, '[ERROR] add_planeZ(0:cubes): expected MarchingCubes'); assert(typeof a1 === 'number', '[ERROR] add_planeZ(1:strength): expected number'); assert(typeof a2 === 'number', '[ERROR] add_planeZ(2:subtract): expected number');
+    assert(checkClass(a0, MarchingCubes), '[ERROR] add_planeZ(0:cubes): expected MarchingCubes'); assert(typeof a1 === 'number', '[ERROR] add_planeZ(1:strength): expected number'); assert(typeof a2 === 'number', '[ERROR] add_planeZ(2:subtract): expected number');
     _mud_add_planeZ_3(/*cubes*/a0.__ptr, /*strength*/a1, /*subtract*/a2);
 };
 

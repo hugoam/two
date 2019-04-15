@@ -7,7 +7,7 @@ Index.prototype.__class = Index;
 Index.__cache = {};
 Module['Index'] = Index;
 Index.prototype["indexer"] = Index.prototype.indexer = function(a0) {
-    assert(a0.__type === Type.__type, '[ERROR] indexer(0:type): expected Type');
+    assert(checkClass(a0, Type), '[ERROR] indexer(0:type): expected Type');
     return wrapPointer(_mud_Index_indexer_1(this.__ptr, /*type*/a0.__ptr), Indexer);
 };
 Index.prototype["__destroy"] = Index.prototype.__destroy = function() {
@@ -44,7 +44,7 @@ Prototype.prototype["__destroy"] = Prototype.prototype.__destroy = function() {
 // Ref
 function Ref(a0, a1) {
     if (a0 === undefined) {  }
-    else { assert(typeof a0 === 'number', '[ERROR] Ref(0:value): expected integer'); assert(a1.__type === Type.__type, '[ERROR] Ref(1:type): expected Type'); }
+    else { assert(typeof a0 === 'number', '[ERROR] Ref(0:value): expected integer'); assert(checkClass(a1, Type), '[ERROR] Ref(1:type): expected Type'); }
     if (a0 === undefined) { this.__ptr = _mud_Ref__construct_0(); this.__type = Ref.__type; getCache(Ref)[this.__ptr] = this; }
     else { this.__ptr = _mud_Ref__construct_2(/*value*/a0, /*type*/a1.__ptr); this.__type = Ref.__type; getCache(Ref)[this.__ptr] = this; }
 };
@@ -125,7 +125,7 @@ Var.prototype["__destroy"] = Var.prototype.__destroy = function() {
     _mud_Var__destroy(this.__ptr);
 };
 Module['indexed'] = function(a0, a1) {
-    assert(a0.__type === Type.__type, '[ERROR] indexed(0:type): expected Type'); assert(typeof a1 === 'number', '[ERROR] indexed(1:id): expected integer');
+    assert(checkClass(a0, Type), '[ERROR] indexed(0:type): expected Type'); assert(typeof a1 === 'number', '[ERROR] indexed(1:id): expected integer');
     return wrapPointer(_mud_indexed_2(/*type*/a0.__ptr, /*id*/a1), Ref);
 };
 

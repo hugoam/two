@@ -60,7 +60,7 @@ CSMShadow.prototype["__destroy"] = CSMShadow.prototype.__destroy = function() {
 // CubeCamera
 function CubeCamera(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else { assert(a0.__type === Scene.__type, '[ERROR] CubeCamera(0:scene): expected Scene'); assert(typeof a1 === 'number', '[ERROR] CubeCamera(1:near): expected number'); assert(typeof a2 === 'number', '[ERROR] CubeCamera(2:far): expected number'); assert(typeof a3 === 'number', '[ERROR] CubeCamera(3:size): expected integer'); }
+    else { assert(checkClass(a0, Scene), '[ERROR] CubeCamera(0:scene): expected Scene'); assert(typeof a1 === 'number', '[ERROR] CubeCamera(1:near): expected number'); assert(typeof a2 === 'number', '[ERROR] CubeCamera(2:far): expected number'); assert(typeof a3 === 'number', '[ERROR] CubeCamera(3:size): expected integer'); }
     if (a0 === undefined) { this.__ptr = _mud_CubeCamera__construct_0(); this.__type = CubeCamera.__type; getCache(CubeCamera)[this.__ptr] = this; }
     else { this.__ptr = _mud_CubeCamera__construct_4(/*scene*/a0.__ptr, /*near*/a1, /*far*/a2, /*size*/a3); this.__type = CubeCamera.__type; getCache(CubeCamera)[this.__ptr] = this; }
 };
@@ -70,7 +70,7 @@ CubeCamera.prototype.__class = CubeCamera;
 CubeCamera.__cache = {};
 Module['CubeCamera'] = CubeCamera;
 CubeCamera.prototype["render"] = CubeCamera.prototype.render = function(a0, a1, a2) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] render(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render(1:render): expected Render'); assert(typeof a2 === 'number', '[ERROR] render(2:axis): expected integer');
+    assert(checkClass(a0, GfxSystem), '[ERROR] render(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] render(1:render): expected Render'); assert(typeof a2 === 'number', '[ERROR] render(2:axis): expected integer');
     return wrapPointer(_mud_CubeCamera_render_3(this.__ptr, /*gfx*/a0.__ptr, /*render*/a1.__ptr, /*axis*/a2), Render);
 };
 Object.defineProperty(CubeCamera.prototype, "cubemap", {
@@ -441,6 +441,7 @@ function BlockBlur() { throw "cannot construct a BlockBlur, no constructor in ID
 BlockBlur.prototype = Object.create(GfxBlock.prototype);
 BlockBlur.prototype.constructor = BlockBlur;
 BlockBlur.prototype.__class = BlockBlur;
+BlockBlur.prototype.__base = GfxBlock;
 BlockBlur.__cache = {};
 Module['BlockBlur'] = BlockBlur;
 BlockBlur.prototype["__destroy"] = BlockBlur.prototype.__destroy = function() {
@@ -451,6 +452,7 @@ function BlockDofBlur() { throw "cannot construct a BlockDofBlur, no constructor
 BlockDofBlur.prototype = Object.create(GfxBlock.prototype);
 BlockDofBlur.prototype.constructor = BlockDofBlur;
 BlockDofBlur.prototype.__class = BlockDofBlur;
+BlockDofBlur.prototype.__base = GfxBlock;
 BlockDofBlur.__cache = {};
 Module['BlockDofBlur'] = BlockDofBlur;
 BlockDofBlur.prototype["__destroy"] = BlockDofBlur.prototype.__destroy = function() {
@@ -461,6 +463,7 @@ function BlockGIBake() { throw "cannot construct a BlockGIBake, no constructor i
 BlockGIBake.prototype = Object.create(DrawBlock.prototype);
 BlockGIBake.prototype.constructor = BlockGIBake;
 BlockGIBake.prototype.__class = BlockGIBake;
+BlockGIBake.prototype.__base = DrawBlock;
 BlockGIBake.__cache = {};
 Module['BlockGIBake'] = BlockGIBake;
 BlockGIBake.prototype["__destroy"] = BlockGIBake.prototype.__destroy = function() {
@@ -471,6 +474,7 @@ function BlockGITrace() { throw "cannot construct a BlockGITrace, no constructor
 BlockGITrace.prototype = Object.create(DrawBlock.prototype);
 BlockGITrace.prototype.constructor = BlockGITrace;
 BlockGITrace.prototype.__class = BlockGITrace;
+BlockGITrace.prototype.__base = DrawBlock;
 BlockGITrace.__cache = {};
 Module['BlockGITrace'] = BlockGITrace;
 BlockGITrace.prototype["__destroy"] = BlockGITrace.prototype.__destroy = function() {
@@ -481,6 +485,7 @@ function BlockGeometry() { throw "cannot construct a BlockGeometry, no construct
 BlockGeometry.prototype = Object.create(DrawBlock.prototype);
 BlockGeometry.prototype.constructor = BlockGeometry;
 BlockGeometry.prototype.__class = BlockGeometry;
+BlockGeometry.prototype.__base = DrawBlock;
 BlockGeometry.__cache = {};
 Module['BlockGeometry'] = BlockGeometry;
 BlockGeometry.prototype["__destroy"] = BlockGeometry.prototype.__destroy = function() {
@@ -491,6 +496,7 @@ function BlockGlow() { throw "cannot construct a BlockGlow, no constructor in ID
 BlockGlow.prototype = Object.create(GfxBlock.prototype);
 BlockGlow.prototype.constructor = BlockGlow;
 BlockGlow.prototype.__class = BlockGlow;
+BlockGlow.prototype.__base = GfxBlock;
 BlockGlow.__cache = {};
 Module['BlockGlow'] = BlockGlow;
 BlockGlow.prototype["__destroy"] = BlockGlow.prototype.__destroy = function() {
@@ -501,6 +507,7 @@ function BlockLight() { throw "cannot construct a BlockLight, no constructor in 
 BlockLight.prototype = Object.create(DrawBlock.prototype);
 BlockLight.prototype.constructor = BlockLight;
 BlockLight.prototype.__class = BlockLight;
+BlockLight.prototype.__base = DrawBlock;
 BlockLight.__cache = {};
 Module['BlockLight'] = BlockLight;
 BlockLight.prototype["__destroy"] = BlockLight.prototype.__destroy = function() {
@@ -511,6 +518,7 @@ function BlockLightmap() { throw "cannot construct a BlockLightmap, no construct
 BlockLightmap.prototype = Object.create(DrawBlock.prototype);
 BlockLightmap.prototype.constructor = BlockLightmap;
 BlockLightmap.prototype.__class = BlockLightmap;
+BlockLightmap.prototype.__base = DrawBlock;
 BlockLightmap.__cache = {};
 Module['BlockLightmap'] = BlockLightmap;
 BlockLightmap.prototype["__destroy"] = BlockLightmap.prototype.__destroy = function() {
@@ -521,6 +529,7 @@ function BlockRadiance() { throw "cannot construct a BlockRadiance, no construct
 BlockRadiance.prototype = Object.create(DrawBlock.prototype);
 BlockRadiance.prototype.constructor = BlockRadiance;
 BlockRadiance.prototype.__class = BlockRadiance;
+BlockRadiance.prototype.__base = DrawBlock;
 BlockRadiance.__cache = {};
 Module['BlockRadiance'] = BlockRadiance;
 BlockRadiance.prototype["__destroy"] = BlockRadiance.prototype.__destroy = function() {
@@ -531,6 +540,7 @@ function BlockReflection() { throw "cannot construct a BlockReflection, no const
 BlockReflection.prototype = Object.create(DrawBlock.prototype);
 BlockReflection.prototype.constructor = BlockReflection;
 BlockReflection.prototype.__class = BlockReflection;
+BlockReflection.prototype.__base = DrawBlock;
 BlockReflection.__cache = {};
 Module['BlockReflection'] = BlockReflection;
 BlockReflection.prototype["__destroy"] = BlockReflection.prototype.__destroy = function() {
@@ -541,6 +551,7 @@ function BlockShadow() { throw "cannot construct a BlockShadow, no constructor i
 BlockShadow.prototype = Object.create(DrawBlock.prototype);
 BlockShadow.prototype.constructor = BlockShadow;
 BlockShadow.prototype.__class = BlockShadow;
+BlockShadow.prototype.__base = DrawBlock;
 BlockShadow.__cache = {};
 Module['BlockShadow'] = BlockShadow;
 BlockShadow.prototype["__destroy"] = BlockShadow.prototype.__destroy = function() {
@@ -551,6 +562,7 @@ function BlockTonemap() { throw "cannot construct a BlockTonemap, no constructor
 BlockTonemap.prototype = Object.create(GfxBlock.prototype);
 BlockTonemap.prototype.constructor = BlockTonemap;
 BlockTonemap.prototype.__class = BlockTonemap;
+BlockTonemap.prototype.__base = GfxBlock;
 BlockTonemap.__cache = {};
 Module['BlockTonemap'] = BlockTonemap;
 BlockTonemap.prototype["__destroy"] = BlockTonemap.prototype.__destroy = function() {
@@ -564,120 +576,121 @@ function CSMSlice() {
 CSMSlice.prototype = Object.create(LightShadow.prototype);
 CSMSlice.prototype.constructor = CSMSlice;
 CSMSlice.prototype.__class = CSMSlice;
+CSMSlice.prototype.__base = LightShadow;
 CSMSlice.__cache = {};
 Module['CSMSlice'] = CSMSlice;
 CSMSlice.prototype["__destroy"] = CSMSlice.prototype.__destroy = function() {
     _mud_CSMSlice__destroy(this.__ptr);
 };
 Module['begin_pbr_render'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] begin_pbr_render(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] begin_pbr_render(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] begin_pbr_render(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] begin_pbr_render(1:render): expected Render');
     _mud_begin_pbr_render_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_gi_probes'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_gi_probes(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_gi_probes(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_gi_probes(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_gi_probes(1:render): expected Render');
     _mud_pass_gi_probes_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_shadowmaps'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_shadowmaps(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_shadowmaps(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_shadowmaps(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_shadowmaps(1:render): expected Render');
     _mud_pass_shadowmaps_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_shadow'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_shadow(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_shadow(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_shadow(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_shadow(1:render): expected Render');
     _mud_pass_shadow_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_opaque'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_opaque(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_opaque(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_opaque(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_opaque(1:render): expected Render');
     _mud_pass_opaque_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_alpha'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_alpha(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_alpha(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_alpha(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_alpha(1:render): expected Render');
     _mud_pass_alpha_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_geometry'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_geometry(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_geometry(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_geometry(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_geometry(1:render): expected Render');
     _mud_pass_geometry_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_lights'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_lights(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_lights(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_lights(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_lights(1:render): expected Render');
     _mud_pass_lights_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_voxel_gi'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_voxel_gi(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_voxel_gi(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_voxel_gi(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_voxel_gi(1:render): expected Render');
     _mud_pass_voxel_gi_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_lightmap'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_lightmap(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_lightmap(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_lightmap(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_lightmap(1:render): expected Render');
     _mud_pass_lightmap_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_begin_post'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_begin_post(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_begin_post(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_begin_post(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_begin_post(1:render): expected Render');
     _mud_pass_begin_post_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_post_auto'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_post_auto(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_post_auto(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_post_auto(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_post_auto(1:render): expected Render');
     _mud_pass_post_auto_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_post_effects'] = function(a0, a1, a2, a3, a4, a5) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_post_effects(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_post_effects(1:render): expected Render'); assert(a2.__type === DofBlur.__type, '[ERROR] pass_post_effects(2:dof): expected DofBlur'); assert(a3.__type === Glow.__type, '[ERROR] pass_post_effects(3:glow): expected Glow'); assert(a4.__type === Tonemap.__type, '[ERROR] pass_post_effects(4:tonemap): expected Tonemap'); assert(a5.__type === BCS.__type, '[ERROR] pass_post_effects(5:bcs): expected BCS');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_post_effects(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_post_effects(1:render): expected Render'); assert(checkClass(a2, DofBlur), '[ERROR] pass_post_effects(2:dof): expected DofBlur'); assert(checkClass(a3, Glow), '[ERROR] pass_post_effects(3:glow): expected Glow'); assert(checkClass(a4, Tonemap), '[ERROR] pass_post_effects(4:tonemap): expected Tonemap'); assert(checkClass(a5, BCS), '[ERROR] pass_post_effects(5:bcs): expected BCS');
     _mud_pass_post_effects_6(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*dof*/a2.__ptr, /*glow*/a3.__ptr, /*tonemap*/a4.__ptr, /*bcs*/a5.__ptr);
 };
 Module['render_pbr_forward'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] render_pbr_forward(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_pbr_forward(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] render_pbr_forward(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] render_pbr_forward(1:render): expected Render');
     _mud_render_pbr_forward_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_pbr_deferred'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] render_pbr_deferred(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_pbr_deferred(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] render_pbr_deferred(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] render_pbr_deferred(1:render): expected Render');
     _mud_render_pbr_deferred_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_shadow'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] render_shadow(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_shadow(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] render_shadow(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] render_shadow(1:render): expected Render');
     _mud_render_shadow_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_voxel'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] render_voxel(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_voxel(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] render_voxel(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] render_voxel(1:render): expected Render');
     _mud_render_voxel_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_lightmap'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] render_lightmap(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_lightmap(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] render_lightmap(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] render_lightmap(1:render): expected Render');
     _mud_render_lightmap_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_reflection'] = function(a0, a1) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] render_reflection(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_reflection(1:render): expected Render');
+    assert(checkClass(a0, GfxSystem), '[ERROR] render_reflection(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] render_reflection(1:render): expected Render');
     _mud_render_reflection_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pipeline_pbr'] = function(a0, a1, a2) {
-    if (a2 === undefined) { assert(a0.__type === GfxSystem.__type, '[ERROR] pipeline_pbr(0:gfx): expected GfxSystem'); assert(a1.__type === Renderer.__type, '[ERROR] pipeline_pbr(1:pipeline): expected Renderer'); }
-    else { assert(a0.__type === GfxSystem.__type, '[ERROR] pipeline_pbr(0:gfx): expected GfxSystem'); assert(a1.__type === Renderer.__type, '[ERROR] pipeline_pbr(1:pipeline): expected Renderer'); assert(typeof a2 === 'boolean', '[ERROR] pipeline_pbr(2:deferred): expected boolean'); }
+    if (a2 === undefined) { assert(checkClass(a0, GfxSystem), '[ERROR] pipeline_pbr(0:gfx): expected GfxSystem'); assert(checkClass(a1, Renderer), '[ERROR] pipeline_pbr(1:pipeline): expected Renderer'); }
+    else { assert(checkClass(a0, GfxSystem), '[ERROR] pipeline_pbr(0:gfx): expected GfxSystem'); assert(checkClass(a1, Renderer), '[ERROR] pipeline_pbr(1:pipeline): expected Renderer'); assert(typeof a2 === 'boolean', '[ERROR] pipeline_pbr(2:deferred): expected boolean'); }
     if (a2 === undefined) { _mud_pipeline_pbr_2(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr); }
     else { _mud_pipeline_pbr_3(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr, /*deferred*/a2); }
 };
 Module['gfx']['setup_pipeline_pbr'] = function(a0) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] setup_pipeline_pbr(0:gfx): expected GfxSystem');
+    assert(checkClass(a0, GfxSystem), '[ERROR] setup_pipeline_pbr(0:gfx): expected GfxSystem');
     _mud_gfx_setup_pipeline_pbr_1(/*gfx*/a0.__ptr);
 };
 Module['gfx']['gi_probe'] = function(a0, a1, a2) {
-    assert(a0.__type === Gnode.__type, '[ERROR] gi_probe(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] gi_probe(1:subdiv): expected integer'); assert(a2.__type === v3_float.__type, '[ERROR] gi_probe(2:extents): expected v3<float>');
+    assert(checkClass(a0, Gnode), '[ERROR] gi_probe(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] gi_probe(1:subdiv): expected integer'); assert(checkClass(a2, v3_float), '[ERROR] gi_probe(2:extents): expected v3<float>');
     return wrapPointer(_mud_gfx_gi_probe_3(/*parent*/a0.__ptr, /*subdiv*/a1, /*extents*/a2.__ptr), GIProbe);
 };
 Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
-    if (a2 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] lightmap(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] lightmap(1:resolution): expected integer'); }
-    else if (a3 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] lightmap(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] lightmap(1:resolution): expected integer'); assert(typeof a2 === 'number', '[ERROR] lightmap(2:density): expected number'); }
-    else { assert(a0.__type === Gnode.__type, '[ERROR] lightmap(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] lightmap(1:resolution): expected integer'); assert(typeof a2 === 'number', '[ERROR] lightmap(2:density): expected number'); assert(typeof a3 === 'string', '[ERROR] lightmap(3:save_path): expected string'); }
+    if (a2 === undefined) { assert(checkClass(a0, Gnode), '[ERROR] lightmap(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] lightmap(1:resolution): expected integer'); }
+    else if (a3 === undefined) { assert(checkClass(a0, Gnode), '[ERROR] lightmap(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] lightmap(1:resolution): expected integer'); assert(typeof a2 === 'number', '[ERROR] lightmap(2:density): expected number'); }
+    else { assert(checkClass(a0, Gnode), '[ERROR] lightmap(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] lightmap(1:resolution): expected integer'); assert(typeof a2 === 'number', '[ERROR] lightmap(2:density): expected number'); assert(typeof a3 === 'string', '[ERROR] lightmap(3:save_path): expected string'); }
     if (a2 === undefined) { return wrapPointer(_mud_gfx_lightmap_2(/*parent*/a0.__ptr, /*resolution*/a1), LightmapAtlas); }
     else if (a3 === undefined) { return wrapPointer(_mud_gfx_lightmap_3(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2), LightmapAtlas); }
     else { return wrapPointer(_mud_gfx_lightmap_4(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2, ensureString(/*save_path*/a3)), LightmapAtlas); }
 };
 Module['pass_dofblur'] = function(a0, a1, a2) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_dofblur(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_dofblur(1:render): expected Render'); assert(a2.__type === DofBlur.__type, '[ERROR] pass_dofblur(2:blur): expected DofBlur');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_dofblur(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_dofblur(1:render): expected Render'); assert(checkClass(a2, DofBlur), '[ERROR] pass_dofblur(2:blur): expected DofBlur');
     _mud_pass_dofblur_3(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*blur*/a2.__ptr);
 };
 Module['pass_glow'] = function(a0, a1, a2) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_glow(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_glow(1:render): expected Render'); assert(a2.__type === Glow.__type, '[ERROR] pass_glow(2:glow): expected Glow');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_glow(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_glow(1:render): expected Render'); assert(checkClass(a2, Glow), '[ERROR] pass_glow(2:glow): expected Glow');
     _mud_pass_glow_3(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*glow*/a2.__ptr);
 };
 Module['pass_tonemap'] = function(a0, a1, a2, a3) {
-    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_tonemap(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_tonemap(1:render): expected Render'); assert(a2.__type === Tonemap.__type, '[ERROR] pass_tonemap(2:tonemap): expected Tonemap'); assert(a3.__type === BCS.__type, '[ERROR] pass_tonemap(3:bcs): expected BCS');
+    assert(checkClass(a0, GfxSystem), '[ERROR] pass_tonemap(0:gfx): expected GfxSystem'); assert(checkClass(a1, Render), '[ERROR] pass_tonemap(1:render): expected Render'); assert(checkClass(a2, Tonemap), '[ERROR] pass_tonemap(2:tonemap): expected Tonemap'); assert(checkClass(a3, BCS), '[ERROR] pass_tonemap(3:bcs): expected BCS');
     _mud_pass_tonemap_4(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*tonemap*/a2.__ptr, /*bcs*/a3.__ptr);
 };
 

@@ -1,7 +1,7 @@
 Module['stl'] = Module['stl'] || {};
 // Circlifier
 function Circlifier(a0) {
-    assert(a0.__type === Image256.__type, '[ERROR] Circlifier(0:image): expected Image256');
+    assert(checkClass(a0, Image256), '[ERROR] Circlifier(0:image): expected Image256');
     this.__ptr = _mud_Circlifier__construct_1(/*image*/a0.__ptr); this.__type = Circlifier.__type; getCache(Circlifier)[this.__ptr] = this;
 };
 Circlifier.prototype = Object.create(WrapperObject.prototype);
@@ -35,11 +35,11 @@ Fract.prototype["regen"] = Fract.prototype.regen = function() {
     _mud_Fract_regen_0(this.__ptr);
 };
 Fract.prototype["render"] = Fract.prototype.render = function(a0, a1, a2, a3) {
-    assert(a0.__type === Rect.__type, '[ERROR] render(0:rect): expected Rect'); assert(a1.__type === Pattern.__type, '[ERROR] render(1:pattern): expected Pattern'); assert(a2.__type === v2_uint.__type, '[ERROR] render(2:resolution): expected v2<uint>'); assert(a3.__type === Image256.__type, '[ERROR] render(3:output_image): expected Image256');
+    assert(checkClass(a0, Rect), '[ERROR] render(0:rect): expected Rect'); assert(checkClass(a1, Pattern), '[ERROR] render(1:pattern): expected Pattern'); assert(checkClass(a2, v2_uint), '[ERROR] render(2:resolution): expected v2<uint>'); assert(checkClass(a3, Image256), '[ERROR] render(3:output_image): expected Image256');
     _mud_Fract_render_4(this.__ptr, /*rect*/a0.__ptr, /*pattern*/a1.__ptr, /*resolution*/a2.__ptr, /*output_image*/a3.__ptr);
 };
 Fract.prototype["render_whole"] = Fract.prototype.render_whole = function(a0, a1, a2) {
-    assert(a0.__type === Pattern.__type, '[ERROR] render_whole(0:pattern): expected Pattern'); assert(a1.__type === v2_uint.__type, '[ERROR] render_whole(1:resolution): expected v2<uint>'); assert(a2.__type === Image256.__type, '[ERROR] render_whole(2:output_image): expected Image256');
+    assert(checkClass(a0, Pattern), '[ERROR] render_whole(0:pattern): expected Pattern'); assert(checkClass(a1, v2_uint), '[ERROR] render_whole(1:resolution): expected v2<uint>'); assert(checkClass(a2, Image256), '[ERROR] render_whole(2:output_image): expected Image256');
     _mud_Fract_render_whole_3(this.__ptr, /*pattern*/a0.__ptr, /*resolution*/a1.__ptr, /*output_image*/a2.__ptr);
 };
 Object.defineProperty(Fract.prototype, "nutabs", {
@@ -55,7 +55,7 @@ Fract.prototype["__destroy"] = Fract.prototype.__destroy = function() {
 };
 // FractSample
 function FractSample(a0, a1, a2) {
-    assert(a0.__type === Fract.__type, '[ERROR] FractSample(0:fract): expected Fract'); assert(a1.__type === Rect.__type, '[ERROR] FractSample(1:rect): expected Rect'); assert(a2.__type === v2_uint.__type, '[ERROR] FractSample(2:resolution): expected v2<uint>');
+    assert(checkClass(a0, Fract), '[ERROR] FractSample(0:fract): expected Fract'); assert(checkClass(a1, Rect), '[ERROR] FractSample(1:rect): expected Rect'); assert(checkClass(a2, v2_uint), '[ERROR] FractSample(2:resolution): expected v2<uint>');
     this.__ptr = _mud_FractSample__construct_3(/*fract*/a0.__ptr, /*rect*/a1.__ptr, /*resolution*/a2.__ptr); this.__type = FractSample.__type; getCache(FractSample)[this.__ptr] = this;
 };
 FractSample.prototype = Object.create(WrapperObject.prototype);
@@ -64,7 +64,7 @@ FractSample.prototype.__class = FractSample;
 FractSample.__cache = {};
 Module['FractSample'] = FractSample;
 FractSample.prototype["render"] = FractSample.prototype.render = function(a0, a1) {
-    assert(a0.__type === Pattern.__type, '[ERROR] render(0:pattern): expected Pattern'); assert(a1.__type === Image256.__type, '[ERROR] render(1:outputImage): expected Image256');
+    assert(checkClass(a0, Pattern), '[ERROR] render(0:pattern): expected Pattern'); assert(checkClass(a1, Image256), '[ERROR] render(1:outputImage): expected Image256');
     _mud_FractSample_render_2(this.__ptr, /*pattern*/a0.__ptr, /*outputImage*/a1.__ptr);
 };
 Object.defineProperty(FractSample.prototype, "fract", {
@@ -106,9 +106,9 @@ FractTab.prototype["__destroy"] = FractTab.prototype.__destroy = function() {
 // Pattern
 function Pattern(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else if (a2 === undefined) { assert(a0.__type === Palette.__type, '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); }
-    else if (a3 === undefined) { assert(a0.__type === Palette.__type, '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); assert(typeof a2 === 'number', '[ERROR] Pattern(2:precision): expected number'); }
-    else { assert(a0.__type === Palette.__type, '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); assert(typeof a2 === 'number', '[ERROR] Pattern(2:precision): expected number'); assert(typeof a3 === 'number', '[ERROR] Pattern(3:step): expected integer'); }
+    else if (a2 === undefined) { assert(checkClass(a0, Palette), '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); }
+    else if (a3 === undefined) { assert(checkClass(a0, Palette), '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); assert(typeof a2 === 'number', '[ERROR] Pattern(2:precision): expected number'); }
+    else { assert(checkClass(a0, Palette), '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); assert(typeof a2 === 'number', '[ERROR] Pattern(2:precision): expected number'); assert(typeof a3 === 'number', '[ERROR] Pattern(3:step): expected integer'); }
     if (a0 === undefined) { this.__ptr = _mud_Pattern__construct_0(); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Pattern__construct_2(/*palette*/a0.__ptr, /*sampling*/a1); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _mud_Pattern__construct_3(/*palette*/a0.__ptr, /*sampling*/a1, /*precision*/a2); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; }
@@ -123,7 +123,7 @@ Pattern.prototype["__destroy"] = Pattern.prototype.__destroy = function() {
     _mud_Pattern__destroy(this.__ptr);
 };
 Module['generate_fract'] = function(a0, a1, a2) {
-    assert(a0.__type === v2_uint.__type, '[ERROR] generate_fract(0:resolution): expected v2<uint>'); assert(a1.__type === Pattern.__type, '[ERROR] generate_fract(1:pattern): expected Pattern'); assert(a2.__type === Image256.__type, '[ERROR] generate_fract(2:output_image): expected Image256');
+    assert(checkClass(a0, v2_uint), '[ERROR] generate_fract(0:resolution): expected v2<uint>'); assert(checkClass(a1, Pattern), '[ERROR] generate_fract(1:pattern): expected Pattern'); assert(checkClass(a2, Image256), '[ERROR] generate_fract(2:output_image): expected Image256');
     _mud_generate_fract_3(/*resolution*/a0.__ptr, /*pattern*/a1.__ptr, /*output_image*/a2.__ptr);
 };
 

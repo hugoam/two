@@ -3,6 +3,7 @@ function BgfxSystem() { throw "cannot construct a BgfxSystem, no constructor in 
 BgfxSystem.prototype = Object.create(RenderSystem.prototype);
 BgfxSystem.prototype.constructor = BgfxSystem;
 BgfxSystem.prototype.__class = BgfxSystem;
+BgfxSystem.prototype.__base = RenderSystem;
 BgfxSystem.__cache = {};
 Module['BgfxSystem'] = BgfxSystem;
 Object.defineProperty(BgfxSystem.prototype, "frame", {

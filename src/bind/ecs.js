@@ -29,6 +29,7 @@ function OEntt() { throw "cannot construct a OEntt, no constructor in IDL" }
 OEntt.prototype = Object.create(Entt.prototype);
 OEntt.prototype.constructor = OEntt;
 OEntt.prototype.__class = OEntt;
+OEntt.prototype.__base = Entt;
 OEntt.__cache = {};
 Module['OEntt'] = OEntt;
 OEntt.prototype["__destroy"] = OEntt.prototype.__destroy = function() {

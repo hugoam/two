@@ -21,14 +21,14 @@ Shell.prototype["init"] = Shell.prototype.init = function(a0) {
 };
 Shell.prototype["window"] = Shell.prototype.window = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] window(0:name): expected string'); assert(a1.__type === v2_uint.__type, '[ERROR] window(1:size): expected v2<uint>'); }
-    else { assert(typeof a0 === 'string', '[ERROR] window(0:name): expected string'); assert(a1.__type === v2_uint.__type, '[ERROR] window(1:size): expected v2<uint>'); assert(typeof a2 === 'boolean', '[ERROR] window(2:fullscreen): expected boolean'); }
+    if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] window(0:name): expected string'); assert(checkClass(a1, v2_uint), '[ERROR] window(1:size): expected v2<uint>'); }
+    else { assert(typeof a0 === 'string', '[ERROR] window(0:name): expected string'); assert(checkClass(a1, v2_uint), '[ERROR] window(1:size): expected v2<uint>'); assert(typeof a2 === 'boolean', '[ERROR] window(2:fullscreen): expected boolean'); }
     if (a2 === undefined) { return wrapPointer(_mud_Shell_window_2(this.__ptr, ensureString(/*name*/a0), /*size*/a1.__ptr), ShellWindow); }
     else { return wrapPointer(_mud_Shell_window_3(this.__ptr, ensureString(/*name*/a0), /*size*/a1.__ptr, /*fullscreen*/a2), ShellWindow); }
 };
 Shell.prototype["add_file"] = Shell.prototype.add_file = function(a0, a1) {
     ensureCache.prepare();
-    assert(typeof a0 === 'string', '[ERROR] add_file(0:path): expected string'); assert(a1.__type === span_uint8_t.__type, '[ERROR] add_file(1:data): expected span<uint8_t>');
+    assert(typeof a0 === 'string', '[ERROR] add_file(0:path): expected string'); 
     _mud_Shell_add_file_2(this.__ptr, ensureString(/*path*/a0), ensureInt8(/*data*/a1), /*data*/a1.length);
 };
 Shell.prototype["begin_frame"] = Shell.prototype.begin_frame = function() {
@@ -116,6 +116,7 @@ function ShellWindow() { throw "cannot construct a ShellWindow, no constructor i
 ShellWindow.prototype = Object.create(GfxWindow.prototype);
 ShellWindow.prototype.constructor = ShellWindow;
 ShellWindow.prototype.__class = ShellWindow;
+ShellWindow.prototype.__base = GfxWindow;
 ShellWindow.__cache = {};
 Module['ShellWindow'] = ShellWindow;
 Object.defineProperty(ShellWindow.prototype, "index", {

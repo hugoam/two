@@ -1499,11 +1499,13 @@ namespace clgen
 			else if(t.iscstring() || t.isstring())
 				return "assert(typeof " + a + " === 'string', '" + msg + "expected string');";
 				//return "assert(typeof " + a + " === 'string' || (" + a + " && typeof " + a + " === 'object' && typeof " + a + ".__ptr === 'number'), '" + msg + "expected string');";
+			else if(t.issequence())
+				return string();
 			else if(t.isclass())
-				return "assert(" + a + ".__type === " + name(t) + ".__type, '" + msg + "expected " + t.m_name + "');";
+				return "assert(checkClass(" + a + ", " + name(t) + "), '" + msg + "expected " + t.m_name + "');";
 				//return "assert(typeof " + a + " === 'object' && " + a + ".__type === " + name(t) + ".__type, '" + msg + "expected " + t.m_name + "');";
 
-			return string("");
+			return string();
 		};
 
 		auto js_call_check_n = [&](const CLCallable& f, size_t n, size_t max_args, bool first)
@@ -1571,10 +1573,12 @@ namespace clgen
 
 		auto js_constructor = [&](const CLClass& c)
 		{
-			string implementing = c.m_bases.size() > 0 ? name(real_type(*c.m_bases[0])) : "WrapperObject"; // = implements[name][0] if implements.get(name) else 'WrapperObject'
-			jsw(name(c) + ".prototype = Object.create(" + implementing + ".prototype);");
+			const string base = c.m_bases.size() > 0 ? name(real_type(*c.m_bases[0])) : "WrapperObject"; // = implements[name][0] if implements.get(name) else 'WrapperObject'
+			jsw(name(c) + ".prototype = Object.create(" + base + ".prototype);");
 			jsw(name(c) + ".prototype.constructor = " + name(c) + ";");
 			jsw(name(c) + ".prototype.__class = " + name(c) + ";");
+			if(c.m_bases.size() > 0)
+				jsw(name(c) + ".prototype.__base = " + base + ";");
 			jsw(name(c) + ".__cache = {};");
 			jsw(js_module_path(m, c) + " = " + name(c) + ";");
 		};

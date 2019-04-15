@@ -6,11 +6,11 @@ Context.prototype.__class = Context;
 Context.__cache = {};
 Module['Context'] = Context;
 Context.prototype["reset_fb"] = Context.prototype.reset_fb = function(a0) {
-    assert(a0.__type === v2_uint.__type, '[ERROR] reset_fb(0:size): expected v2<uint>');
+    assert(checkClass(a0, v2_uint), '[ERROR] reset_fb(0:size): expected v2<uint>');
     _mud_Context_reset_fb_1(this.__ptr, /*size*/a0.__ptr);
 };
 Context.prototype["init_input"] = Context.prototype.init_input = function(a0, a1) {
-    assert(a0.__type === Mouse.__type, '[ERROR] init_input(0:mouse): expected Mouse'); assert(a1.__type === Keyboard.__type, '[ERROR] init_input(1:keyboard): expected Keyboard');
+    assert(checkClass(a0, Mouse), '[ERROR] init_input(0:mouse): expected Mouse'); assert(checkClass(a1, Keyboard), '[ERROR] init_input(1:keyboard): expected Keyboard');
     _mud_Context_init_input_2(this.__ptr, /*mouse*/a0.__ptr, /*keyboard*/a1.__ptr);
 };
 Context.prototype["begin_frame"] = Context.prototype.begin_frame = function() {
@@ -137,7 +137,7 @@ InputEvent.prototype.__class = InputEvent;
 InputEvent.__cache = {};
 Module['InputEvent'] = InputEvent;
 InputEvent.prototype["consume"] = InputEvent.prototype.consume = function(a0) {
-    assert(a0.__type === ControlNode.__type, '[ERROR] consume(0:consumer): expected ControlNode');
+    assert(checkClass(a0, ControlNode), '[ERROR] consume(0:consumer): expected ControlNode');
     return wrapPointer(_mud_InputEvent_consume_1(this.__ptr, /*consumer*/a0.__ptr), InputEvent);
 };
 InputEvent.prototype["valid"] = InputEvent.prototype.valid = function() {
@@ -241,6 +241,7 @@ function KeyEvent() {
 KeyEvent.prototype = Object.create(InputEvent.prototype);
 KeyEvent.prototype.constructor = KeyEvent;
 KeyEvent.prototype.__class = KeyEvent;
+KeyEvent.prototype.__base = InputEvent;
 KeyEvent.__cache = {};
 Module['KeyEvent'] = KeyEvent;
 Object.defineProperty(KeyEvent.prototype, "code", {
@@ -270,6 +271,7 @@ function MouseEvent() {
 MouseEvent.prototype = Object.create(InputEvent.prototype);
 MouseEvent.prototype.constructor = MouseEvent;
 MouseEvent.prototype.__class = MouseEvent;
+MouseEvent.prototype.__base = InputEvent;
 MouseEvent.__cache = {};
 Module['MouseEvent'] = MouseEvent;
 Object.defineProperty(MouseEvent.prototype, "pos", {

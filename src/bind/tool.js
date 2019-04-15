@@ -163,6 +163,7 @@ function Brush() { throw "cannot construct a Brush, no constructor in IDL" }
 Brush.prototype = Object.create(SpatialTool.prototype);
 Brush.prototype.constructor = Brush;
 Brush.prototype.__class = Brush;
+Brush.prototype.__base = SpatialTool;
 Brush.__cache = {};
 Module['Brush'] = Brush;
 Brush.prototype["__destroy"] = Brush.prototype.__destroy = function() {
@@ -170,12 +171,13 @@ Brush.prototype["__destroy"] = Brush.prototype.__destroy = function() {
 };
 // CircleBrush
 function CircleBrush(a0) {
-    assert(a0.__type === ToolContext.__type, '[ERROR] CircleBrush(0:context): expected ToolContext');
+    assert(checkClass(a0, ToolContext), '[ERROR] CircleBrush(0:context): expected ToolContext');
     this.__ptr = _mud_CircleBrush__construct_1(/*context*/a0.__ptr); this.__type = CircleBrush.__type; getCache(CircleBrush)[this.__ptr] = this;
 };
 CircleBrush.prototype = Object.create(Brush.prototype);
 CircleBrush.prototype.constructor = CircleBrush;
 CircleBrush.prototype.__class = CircleBrush;
+CircleBrush.prototype.__base = Brush;
 CircleBrush.__cache = {};
 Module['CircleBrush'] = CircleBrush;
 Object.defineProperty(CircleBrush.prototype, "creator", {
@@ -203,12 +205,13 @@ CircleBrush.prototype["__destroy"] = CircleBrush.prototype.__destroy = function(
 };
 // PlaceBrush
 function PlaceBrush(a0) {
-    assert(a0.__type === ToolContext.__type, '[ERROR] PlaceBrush(0:context): expected ToolContext');
+    assert(checkClass(a0, ToolContext), '[ERROR] PlaceBrush(0:context): expected ToolContext');
     this.__ptr = _mud_PlaceBrush__construct_1(/*context*/a0.__ptr); this.__type = PlaceBrush.__type; getCache(PlaceBrush)[this.__ptr] = this;
 };
 PlaceBrush.prototype = Object.create(Brush.prototype);
 PlaceBrush.prototype.constructor = PlaceBrush;
 PlaceBrush.prototype.__class = PlaceBrush;
+PlaceBrush.prototype.__base = Brush;
 PlaceBrush.__cache = {};
 Module['PlaceBrush'] = PlaceBrush;
 Object.defineProperty(PlaceBrush.prototype, "creator", {
@@ -223,6 +226,7 @@ function PlaneSnapOption() { throw "cannot construct a PlaneSnapOption, no const
 PlaneSnapOption.prototype = Object.create(ToolOption.prototype);
 PlaneSnapOption.prototype.constructor = PlaneSnapOption;
 PlaneSnapOption.prototype.__class = PlaneSnapOption;
+PlaneSnapOption.prototype.__base = ToolOption;
 PlaneSnapOption.__cache = {};
 Module['PlaneSnapOption'] = PlaneSnapOption;
 PlaneSnapOption.prototype["__destroy"] = PlaneSnapOption.prototype.__destroy = function() {
@@ -233,6 +237,7 @@ function RedoTool() { throw "cannot construct a RedoTool, no constructor in IDL"
 RedoTool.prototype = Object.create(Tool.prototype);
 RedoTool.prototype.constructor = RedoTool;
 RedoTool.prototype.__class = RedoTool;
+RedoTool.prototype.__base = Tool;
 RedoTool.__cache = {};
 Module['RedoTool'] = RedoTool;
 RedoTool.prototype["__destroy"] = RedoTool.prototype.__destroy = function() {
@@ -243,6 +248,7 @@ function RotateAction() { throw "cannot construct a RotateAction, no constructor
 RotateAction.prototype = Object.create(TransformAction.prototype);
 RotateAction.prototype.constructor = RotateAction;
 RotateAction.prototype.__class = RotateAction;
+RotateAction.prototype.__base = TransformAction;
 RotateAction.__cache = {};
 Module['RotateAction'] = RotateAction;
 RotateAction.prototype["__destroy"] = RotateAction.prototype.__destroy = function() {
@@ -253,6 +259,7 @@ function RotateTool() { throw "cannot construct a RotateTool, no constructor in 
 RotateTool.prototype = Object.create(TransformTool.prototype);
 RotateTool.prototype.constructor = RotateTool;
 RotateTool.prototype.__class = RotateTool;
+RotateTool.prototype.__base = TransformTool;
 RotateTool.__cache = {};
 Module['RotateTool'] = RotateTool;
 RotateTool.prototype["__destroy"] = RotateTool.prototype.__destroy = function() {
@@ -263,6 +270,7 @@ function ScaleAction() { throw "cannot construct a ScaleAction, no constructor i
 ScaleAction.prototype = Object.create(TransformAction.prototype);
 ScaleAction.prototype.constructor = ScaleAction;
 ScaleAction.prototype.__class = ScaleAction;
+ScaleAction.prototype.__base = TransformAction;
 ScaleAction.__cache = {};
 Module['ScaleAction'] = ScaleAction;
 ScaleAction.prototype["__destroy"] = ScaleAction.prototype.__destroy = function() {
@@ -273,6 +281,7 @@ function ScaleTool() { throw "cannot construct a ScaleTool, no constructor in ID
 ScaleTool.prototype = Object.create(TransformTool.prototype);
 ScaleTool.prototype.constructor = ScaleTool;
 ScaleTool.prototype.__class = ScaleTool;
+ScaleTool.prototype.__base = TransformTool;
 ScaleTool.__cache = {};
 Module['ScaleTool'] = ScaleTool;
 ScaleTool.prototype["__destroy"] = ScaleTool.prototype.__destroy = function() {
@@ -280,12 +289,13 @@ ScaleTool.prototype["__destroy"] = ScaleTool.prototype.__destroy = function() {
 };
 // ScriptedBrush
 function ScriptedBrush(a0, a1) {
-    assert(a0.__type === ToolContext.__type, '[ERROR] ScriptedBrush(0:context): expected ToolContext'); assert(a1.__type === Script.__type, '[ERROR] ScriptedBrush(1:script): expected Script');
+    assert(checkClass(a0, ToolContext), '[ERROR] ScriptedBrush(0:context): expected ToolContext'); assert(checkClass(a1, Script), '[ERROR] ScriptedBrush(1:script): expected Script');
     this.__ptr = _mud_ScriptedBrush__construct_2(/*context*/a0.__ptr, /*script*/a1.__ptr); this.__type = ScriptedBrush.__type; getCache(ScriptedBrush)[this.__ptr] = this;
 };
 ScriptedBrush.prototype = Object.create(Brush.prototype);
 ScriptedBrush.prototype.constructor = ScriptedBrush;
 ScriptedBrush.prototype.__class = ScriptedBrush;
+ScriptedBrush.prototype.__base = Brush;
 ScriptedBrush.__cache = {};
 Module['ScriptedBrush'] = ScriptedBrush;
 Object.defineProperty(ScriptedBrush.prototype, "call", {
@@ -304,6 +314,7 @@ function TranslateAction() { throw "cannot construct a TranslateAction, no const
 TranslateAction.prototype = Object.create(TransformAction.prototype);
 TranslateAction.prototype.constructor = TranslateAction;
 TranslateAction.prototype.__class = TranslateAction;
+TranslateAction.prototype.__base = TransformAction;
 TranslateAction.__cache = {};
 Module['TranslateAction'] = TranslateAction;
 TranslateAction.prototype["__destroy"] = TranslateAction.prototype.__destroy = function() {
@@ -314,6 +325,7 @@ function CopyAction() { throw "cannot construct a CopyAction, no constructor in 
 CopyAction.prototype = Object.create(TranslateAction.prototype);
 CopyAction.prototype.constructor = CopyAction;
 CopyAction.prototype.__class = CopyAction;
+CopyAction.prototype.__base = TranslateAction;
 CopyAction.__cache = {};
 Module['CopyAction'] = CopyAction;
 CopyAction.prototype["__destroy"] = CopyAction.prototype.__destroy = function() {
@@ -324,6 +336,7 @@ function CopyTool() { throw "cannot construct a CopyTool, no constructor in IDL"
 CopyTool.prototype = Object.create(TransformTool.prototype);
 CopyTool.prototype.constructor = CopyTool;
 CopyTool.prototype.__class = CopyTool;
+CopyTool.prototype.__base = TransformTool;
 CopyTool.__cache = {};
 Module['CopyTool'] = CopyTool;
 CopyTool.prototype["__destroy"] = CopyTool.prototype.__destroy = function() {
@@ -334,6 +347,7 @@ function FrameViewTool() { throw "cannot construct a FrameViewTool, no construct
 FrameViewTool.prototype = Object.create(ViewportTool.prototype);
 FrameViewTool.prototype.constructor = FrameViewTool;
 FrameViewTool.prototype.__class = FrameViewTool;
+FrameViewTool.prototype.__base = ViewportTool;
 FrameViewTool.__cache = {};
 Module['FrameViewTool'] = FrameViewTool;
 FrameViewTool.prototype["__destroy"] = FrameViewTool.prototype.__destroy = function() {
@@ -344,6 +358,7 @@ function TranslateTool() { throw "cannot construct a TranslateTool, no construct
 TranslateTool.prototype = Object.create(TransformTool.prototype);
 TranslateTool.prototype.constructor = TranslateTool;
 TranslateTool.prototype.__class = TranslateTool;
+TranslateTool.prototype.__base = TransformTool;
 TranslateTool.__cache = {};
 Module['TranslateTool'] = TranslateTool;
 TranslateTool.prototype["__destroy"] = TranslateTool.prototype.__destroy = function() {
@@ -354,6 +369,7 @@ function ViewAction() { throw "cannot construct a ViewAction, no constructor in 
 ViewAction.prototype = Object.create(EditorAction.prototype);
 ViewAction.prototype.constructor = ViewAction;
 ViewAction.prototype.__class = ViewAction;
+ViewAction.prototype.__base = EditorAction;
 ViewAction.__cache = {};
 Module['ViewAction'] = ViewAction;
 ViewAction.prototype["__destroy"] = ViewAction.prototype.__destroy = function() {
@@ -364,6 +380,7 @@ function ViewTool() { throw "cannot construct a ViewTool, no constructor in IDL"
 ViewTool.prototype = Object.create(ViewportTool.prototype);
 ViewTool.prototype.constructor = ViewTool;
 ViewTool.prototype.__class = ViewTool;
+ViewTool.prototype.__base = ViewportTool;
 ViewTool.__cache = {};
 Module['ViewTool'] = ViewTool;
 ViewTool.prototype["__destroy"] = ViewTool.prototype.__destroy = function() {
@@ -374,6 +391,7 @@ function ViewportTool() { throw "cannot construct a ViewportTool, no constructor
 ViewportTool.prototype = Object.create(Tool.prototype);
 ViewportTool.prototype.constructor = ViewportTool;
 ViewportTool.prototype.__class = ViewportTool;
+ViewportTool.prototype.__base = Tool;
 ViewportTool.__cache = {};
 Module['ViewportTool'] = ViewportTool;
 ViewportTool.prototype["__destroy"] = ViewportTool.prototype.__destroy = function() {
@@ -384,6 +402,7 @@ function SpatialTool() { throw "cannot construct a SpatialTool, no constructor i
 SpatialTool.prototype = Object.create(ViewportTool.prototype);
 SpatialTool.prototype.constructor = SpatialTool;
 SpatialTool.prototype.__class = SpatialTool;
+SpatialTool.prototype.__base = ViewportTool;
 SpatialTool.__cache = {};
 Module['SpatialTool'] = SpatialTool;
 SpatialTool.prototype["__destroy"] = SpatialTool.prototype.__destroy = function() {
@@ -394,6 +413,7 @@ function TransformAction() { throw "cannot construct a TransformAction, no const
 TransformAction.prototype = Object.create(EditorAction.prototype);
 TransformAction.prototype.constructor = TransformAction;
 TransformAction.prototype.__class = TransformAction;
+TransformAction.prototype.__base = EditorAction;
 TransformAction.__cache = {};
 Module['TransformAction'] = TransformAction;
 TransformAction.prototype["__destroy"] = TransformAction.prototype.__destroy = function() {
@@ -404,6 +424,7 @@ function TransformGizmo() { throw "cannot construct a TransformGizmo, no constru
 TransformGizmo.prototype = Object.create(Gizmo.prototype);
 TransformGizmo.prototype.constructor = TransformGizmo;
 TransformGizmo.prototype.__class = TransformGizmo;
+TransformGizmo.prototype.__base = Gizmo;
 TransformGizmo.__cache = {};
 Module['TransformGizmo'] = TransformGizmo;
 TransformGizmo.prototype["__destroy"] = TransformGizmo.prototype.__destroy = function() {
@@ -414,6 +435,7 @@ function TransformTool() { throw "cannot construct a TransformTool, no construct
 TransformTool.prototype = Object.create(SpatialTool.prototype);
 TransformTool.prototype.constructor = TransformTool;
 TransformTool.prototype.__class = TransformTool;
+TransformTool.prototype.__base = SpatialTool;
 TransformTool.__cache = {};
 Module['TransformTool'] = TransformTool;
 TransformTool.prototype["__destroy"] = TransformTool.prototype.__destroy = function() {
@@ -424,6 +446,7 @@ function UndoTool() { throw "cannot construct a UndoTool, no constructor in IDL"
 UndoTool.prototype = Object.create(Tool.prototype);
 UndoTool.prototype.constructor = UndoTool;
 UndoTool.prototype.__class = UndoTool;
+UndoTool.prototype.__base = Tool;
 UndoTool.__cache = {};
 Module['UndoTool'] = UndoTool;
 UndoTool.prototype["__destroy"] = UndoTool.prototype.__destroy = function() {
@@ -434,6 +457,7 @@ function WorkPlaneAction() { throw "cannot construct a WorkPlaneAction, no const
 WorkPlaneAction.prototype = Object.create(EditorAction.prototype);
 WorkPlaneAction.prototype.constructor = WorkPlaneAction;
 WorkPlaneAction.prototype.__class = WorkPlaneAction;
+WorkPlaneAction.prototype.__base = EditorAction;
 WorkPlaneAction.__cache = {};
 Module['WorkPlaneAction'] = WorkPlaneAction;
 WorkPlaneAction.prototype["__destroy"] = WorkPlaneAction.prototype.__destroy = function() {
@@ -444,6 +468,7 @@ function WorkPlaneTool() { throw "cannot construct a WorkPlaneTool, no construct
 WorkPlaneTool.prototype = Object.create(Tool.prototype);
 WorkPlaneTool.prototype.constructor = WorkPlaneTool;
 WorkPlaneTool.prototype.__class = WorkPlaneTool;
+WorkPlaneTool.prototype.__base = Tool;
 WorkPlaneTool.__cache = {};
 Module['WorkPlaneTool'] = WorkPlaneTool;
 WorkPlaneTool.prototype["__destroy"] = WorkPlaneTool.prototype.__destroy = function() {
@@ -454,6 +479,7 @@ function WorldSnapOption() { throw "cannot construct a WorldSnapOption, no const
 WorldSnapOption.prototype = Object.create(ToolOption.prototype);
 WorldSnapOption.prototype.constructor = WorldSnapOption;
 WorldSnapOption.prototype.__class = WorldSnapOption;
+WorldSnapOption.prototype.__base = ToolOption;
 WorldSnapOption.__cache = {};
 Module['WorldSnapOption'] = WorldSnapOption;
 WorldSnapOption.prototype["__destroy"] = WorldSnapOption.prototype.__destroy = function() {

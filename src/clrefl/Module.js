@@ -16,6 +16,7 @@ function wrapPointer(ptr, cls) {
   if (ret) return ret;
   ret = Object.create((cls || WrapperObject).prototype);
   ret.__ptr = ptr;
+  if (cls) ret.__type = cls.__type;
   return cache[ptr] = ret;
 }
 Module['wrapPointer'] = wrapPointer;
@@ -35,14 +36,12 @@ function compare(obj1, obj2) {
   return obj1.__ptr === obj2.__ptr;
 }
 Module['compare'] = compare;
-function getPointer(obj) {
-  return obj.__ptr;
+function checkClass(obj, cls) {
+  if (obj.__type == cls.__type) return true;
+  else if (cls.__base) return checkClass(obj, cls.__base);
+  else return false;
 }
-Module['getPointer'] = getPointer;
-function getClass(obj) {
-  return obj.__class;
-}
-Module['getClass'] = getClass;
+Module['checkClass'] = checkClass;
 // Converts big (string or array) values into a C-style storage, in temporary space
 var ensureCache = {
   buffer: 0,  // the main buffer of temporary storage

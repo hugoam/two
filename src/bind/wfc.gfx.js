@@ -14,8 +14,8 @@ TileModel.prototype["__destroy"] = TileModel.prototype.__destroy = function() {
 // WfcBlock
 function WfcBlock(a0, a1, a2, a3, a4) {
     if (a0 === undefined) {  }
-    else if (a4 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] WfcBlock(0:position): expected v3<float>'); assert(a1.__type === v3_uint.__type, '[ERROR] WfcBlock(1:size): expected v3<uint>'); assert(a2.__type === v3_float.__type, '[ERROR] WfcBlock(2:scale): expected v3<float>'); assert(a3.__type === WaveTileset.__type, '[ERROR] WfcBlock(3:tileset): expected WaveTileset'); }
-    else { assert(a0.__type === v3_float.__type, '[ERROR] WfcBlock(0:position): expected v3<float>'); assert(a1.__type === v3_uint.__type, '[ERROR] WfcBlock(1:size): expected v3<uint>'); assert(a2.__type === v3_float.__type, '[ERROR] WfcBlock(2:scale): expected v3<float>'); assert(a3.__type === WaveTileset.__type, '[ERROR] WfcBlock(3:tileset): expected WaveTileset'); assert(typeof a4 === 'boolean', '[ERROR] WfcBlock(4:auto_solve): expected boolean'); }
+    else if (a4 === undefined) { assert(checkClass(a0, v3_float), '[ERROR] WfcBlock(0:position): expected v3<float>'); assert(checkClass(a1, v3_uint), '[ERROR] WfcBlock(1:size): expected v3<uint>'); assert(checkClass(a2, v3_float), '[ERROR] WfcBlock(2:scale): expected v3<float>'); assert(checkClass(a3, WaveTileset), '[ERROR] WfcBlock(3:tileset): expected WaveTileset'); }
+    else { assert(checkClass(a0, v3_float), '[ERROR] WfcBlock(0:position): expected v3<float>'); assert(checkClass(a1, v3_uint), '[ERROR] WfcBlock(1:size): expected v3<uint>'); assert(checkClass(a2, v3_float), '[ERROR] WfcBlock(2:scale): expected v3<float>'); assert(checkClass(a3, WaveTileset), '[ERROR] WfcBlock(3:tileset): expected WaveTileset'); assert(typeof a4 === 'boolean', '[ERROR] WfcBlock(4:auto_solve): expected boolean'); }
     if (a0 === undefined) { this.__ptr = _mud_WfcBlock__construct_0(); this.__type = WfcBlock.__type; getCache(WfcBlock)[this.__ptr] = this; }
     else if (a4 === undefined) { this.__ptr = _mud_WfcBlock__construct_4(/*position*/a0.__ptr, /*size*/a1.__ptr, /*scale*/a2.__ptr, /*tileset*/a3.__ptr); this.__type = WfcBlock.__type; getCache(WfcBlock)[this.__ptr] = this; }
     else { this.__ptr = _mud_WfcBlock__construct_5(/*position*/a0.__ptr, /*size*/a1.__ptr, /*scale*/a2.__ptr, /*tileset*/a3.__ptr, /*auto_solve*/a4); this.__type = WfcBlock.__type; getCache(WfcBlock)[this.__ptr] = this; }
@@ -44,7 +44,7 @@ WfcBlock.prototype["solve"] = WfcBlock.prototype.solve = function(a0) {
     else { _mud_WfcBlock_solve_1(this.__ptr, /*limit*/a0); }
 };
 WfcBlock.prototype["update"] = WfcBlock.prototype.update = function(a0) {
-    assert(a0.__type === Wave.__type, '[ERROR] update(0:wave): expected Wave');
+    assert(checkClass(a0, Wave), '[ERROR] update(0:wave): expected Wave');
     _mud_WfcBlock_update_1(this.__ptr, /*wave*/a0.__ptr);
 };
 Object.defineProperty(WfcBlock.prototype, "position", {
