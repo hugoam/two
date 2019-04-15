@@ -40,7 +40,6 @@ namespace mud
 	{
 	public:
 		Viewer(Widget* parent, void* identity, Scene& scene);
-		//Viewer(UiWindow& ui_window, Scene& scene);
 		~Viewer();
 
 		attr_ Scene* m_scene;
@@ -66,6 +65,7 @@ namespace mud
 		vec4 query_rect();
 
 		Ray mouse_ray();
+		Ray mouse_ray(const vec2& pos);
 
 		Picker& picker(size_t index);
 	};

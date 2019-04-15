@@ -86,6 +86,8 @@ var scene = viewer.scene.begin();
 
 two.gfx.radiance(scene, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
 
+var time = app.gfx.time;
+
 var light0 = light_source(scene, two.rgba(0x0088ff), pos(time), rot(time));
 var light1 = light_source(scene, two.rgba(0xff8888), pos(time + Math.PI), rot(time + Math.PI));
 

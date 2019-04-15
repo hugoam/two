@@ -291,10 +291,10 @@ if (init) {
 
     var size = 0.65;
 
-    this.model = app.gfx.shape(new two.Torus(size, 0.3));
+    var model = app.gfx.shape(new two.Torus(size, 0.3));
 
-    this.node = scene.nodes().add(new two.Node3(new two.vec3(0.0), new two.quat(angles)));
-    var it = scene.items().add(new two.Item(node, model, 0, material));
+    this.node = scene.nodes().add(new two.Node3(new two.vec3(0.0), new two.quat(this.angles)));
+    var it = scene.items().add(new two.Item(this.node, model, 0, material));
         
     this.film = {
         noise: 0.35,

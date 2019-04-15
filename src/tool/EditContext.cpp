@@ -123,18 +123,21 @@ namespace mud
 		}
 	}
 
-	void object_editor(Widget& parent, span<Ref> selection)
+	void object_editor(Widget& parent, const Selection& selection)
 	{
 		Widget& self = section(parent, "Inspector");
 
-		if(!selection.empty() && selection[0])
+		if(!selection.objects.empty() && selection.objects[0])
 		{
-			Ref selected = selection[0];
+			Ref selected = selection.objects[0];
 			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_value);
-			if(selected.m_type->is<EntityRef>())
-				entity_edit(sheet, { UINT8_MAX, UINT16_MAX, as_ent(selected) });
-			else
-				object_edit(sheet, selected);
+			object_edit(sheet, selected);
+		}
+		else if(!selection.entities.empty() && selection.entities[0])
+		{
+			Entity selected = selection.entities[0];
+			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_handle);
+			entity_edit(sheet, selected);
 		}
 	}
 
@@ -159,7 +162,7 @@ namespace mud
 			ui_debug(*dock, screen);
 
 		if(context.m_spatial_tool && context.m_viewer)
-			context.m_spatial_tool->process(*context.m_viewer, context.m_selection);
+			context.m_spatial_tool->process(*context.m_viewer, context.m_selection.objects);
 	}
 
 	void edit_tools(Widget& screen, EditContext& context)

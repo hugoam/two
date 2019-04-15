@@ -50,6 +50,7 @@ namespace mud
     class RotateTool;
     class ScaleAction;
     class ScaleTool;
+	struct Selection;
     class CopyAction;
     class CopyTool;
     class ViewAction;

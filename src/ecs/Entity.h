@@ -21,10 +21,10 @@ namespace mud
 	struct refl_ struct_ MUD_ECS_EXPORT Entity
 	{
 		explicit operator bool() const { return m_handle != UINT32_MAX; }
-		operator uint32_t() const { return m_handle; }
+		//operator uint32_t() const { return m_handle; }
 
-		bool operator==(const Entity& other) const { return m_handle == other.m_handle; };
-		bool operator!=(const Entity& other) const { return m_handle != other.m_handle; };
+		bool operator==(const Entity& other) const { return m_ecs == other.m_ecs && m_stream == other.m_stream && m_handle == other.m_handle; };
+		bool operator!=(const Entity& other) const { return m_ecs != other.m_ecs || m_stream != other.m_stream || m_handle != other.m_handle; };
 
 		void destroy(); // { if(m_handle != UINT32_MAX) s_ecs[m_ecs]->destroy(m_handle); }
 

@@ -87,8 +87,8 @@ if(init) {
     //add_light(scene, new two.vec3(-0.5, -1.0, 1.0), two.rgb(0xffaa00), 1.0, true);
 }
 
-var timer = app.gfx.time * 0.5;
+var time = app.gfx.time * 0.5;
 
 var camera = viewer.camera;
-camera.eye.x = Math.sin(timer) * 2.5;
-camera.eye.z = Math.cos(timer) * 2.5;
+camera.eye.x = Math.sin(time) * 2.5;
+camera.eye.z = Math.cos(time) * 2.5;

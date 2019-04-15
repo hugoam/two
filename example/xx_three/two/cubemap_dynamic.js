@@ -86,19 +86,19 @@ function toRadians(degrees) {
     return degrees * Math.PI / 180;
 }
 
-var timer = app.gfx.time;
+var time = app.gfx.time;
 
 this.lat = Math.max(-85.0, Math.min(85.0, this.lat));
 this.phi = toRadians(90.0 - this.lat);
-this.theta = toRadians(this.lon + timer * 0.15);
+this.theta = toRadians(this.lon + time * 0.15);
 
 function trigo3(a, f) { return new two.vec3(Math.cos(a) * f, Math.sin(a) * f, Math.sin(a) * f); };
 
-var cubep = trigo3(timer, 30.0);
+var cubep = trigo3(time, 30.0);
 this.cubea.x += 0.02; this.cubea.y += 0.03;
 this.cube.apply(cubep, new two.quat(this.cubea));
 
-var torusp = trigo3(timer + 10.0, 30.0);
+var torusp = trigo3(time + 10.0, 30.0);
 this.torusa.x += 0.02; this.cubea.y += 0.03;
 this.torus.apply(torusp, new two.quat(this.torusa));
 

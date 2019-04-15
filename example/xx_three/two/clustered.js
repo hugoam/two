@@ -27,9 +27,9 @@ if (init) {
     env.background.colour = two.rgb(0x111111);
     viewport.clear_colour = two.rgb(0x111111);
     
-    this.solid = app.gfx.programs.file('solid');
-    this.phong = app.gfx.programs.file('pbr/phong');
-    this.three = app.gfx.programs.file('pbr/three');
+    var solid = app.gfx.programs.file('solid');
+    var phong = app.gfx.programs.file('pbr/phong');
+    var three = app.gfx.programs.file('pbr/three');
 
     var m0 = app.gfx.materials.create('m0');
     var m1 = app.gfx.materials.create('m1');
@@ -103,14 +103,16 @@ if (init) {
                 dir: Math.random() > 0.5 ? 1.0 : -1.0
             };
             
-            lights.push(l);
+            this.lights.push(l);
         }
     }
 }
 
-for(var i = 0; i < lights.length; ++i)
+var time = app.gfx.time;
+
+for(var i = 0; i < this.lights.length; ++i)
 {
-    var l = lights[i];
+    var l = this.lights[i];
     
     var r = 0.8 + 0.2 * Math.sin(l.pr + (0.6 + 0.3 * l.sr) * time);
     var x = (Math.sin(l.pc + (0.8 + 0.2 * l.sc) * time * l.dir)) * r * radius;

@@ -42,5 +42,5 @@ if(event.valid())
 }
 
 var camera = viewer.camera;
-camera.eye.x += (mouse.x - camera.eye.x) * .05;
-camera.eye.y += (-mouse.y - camera.eye.y) * .05;
+camera.eye.x += (this.mouse.x - camera.eye.x) * .05;
+camera.eye.y += (-this.mouse.y - camera.eye.y) * .05;

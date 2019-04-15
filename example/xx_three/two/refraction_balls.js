@@ -40,7 +40,7 @@ if(init) {
         var n = scene.nodes().add(new two.Node3(p, zeroq, s));
         scene.items().add(new two.Item(n, sphere, 0, material));
 
-        spheres.push({ p: p, s: s, node: n });
+        this.spheres.push({ p: p, s: s, node: n });
     }
 }
 
@@ -51,16 +51,17 @@ if(event.valid())
     this.mouse.y = (event.relative.y - viewer.frame.size.y / 2.0) * 10.0;
 }
 
-//var timer = app.gfx.time * -0.0001;
+var time = app.gfx.time * -0.01;
 
-for(var i = 0; i < spheres.length; i++) {
+for(var i = 0; i < this.spheres.length; i++) {
     
-    var p = spheres[i].p;
+    var sphere = this.spheres[i];
+    var p = sphere.p;
     p.x = Math.cos(time * -0.01 + i) * 5000.0;
     p.y = Math.sin(time * -0.01 + i * 1.1) * 5000.0;
-    spheres[i].node.apply(p, zeroq, spheres[i].s);
+    sphere.node.apply(p, zeroq, sphere.s);
 }
 
 var camera = viewer.camera;
-camera.eye.x += (mouse.x - camera.eye.x) * .05;
-camera.eye.y += (-mouse.y - camera.eye.y) * .05;
+camera.eye.x += (this.mouse.x - camera.eye.x) * .05;
+camera.eye.y += (-this.mouse.y - camera.eye.y) * .05;

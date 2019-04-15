@@ -9,6 +9,7 @@ module mud.tool;
 namespace stl
 {
 	using namespace mud;
+	template class MUD_TOOL_EXPORT vector<Entity>;
 	template class MUD_TOOL_EXPORT vector<Transform*>;
 	template class MUD_TOOL_EXPORT vector<unique<Gizmo>>;
 	template class MUD_TOOL_EXPORT vector<unique<ToolOption>>;

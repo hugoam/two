@@ -77,10 +77,10 @@ if(init) {
     scene.lights().add(new two.Light(dl, two.LightType.Direct, false, two.rgb(0xffffff)));
 }
 
-var timer = time * 0.1;
+var time = app.gfx.time * 0.1;
 
-//camera.position.x = cos(timer) * 800;
-//camera.position.z = sin(timer) * 800;
+//camera.position.x = cos(time) * 800;
+//camera.position.z = sin(time) * 800;
 
-var p = new two.vec3(Math.sin(timer * 7.0) * 300.0, Math.cos(timer * 5.0) * 400.0, Math.cos(timer * 3.0) * 300.0);
+var p = new two.vec3(Math.sin(time * 7.0) * 300.0, Math.cos(time * 5.0) * 400.0, Math.cos(time * 3.0) * 300.0);
 this.light.apply(p);

@@ -218,8 +218,8 @@ namespace mud
 		static float spans[2] = { 0.4f, 0.6f };
 		Table& self = ui::table(parent, { columns, 2 }, { spans, 2 });
 
-		EntityStream& stream = s_ecs[entity.m_ecs]->stream(entity);
-		uint32_t index = stream.m_handles[entity];
+		EntityStream& stream = s_ecs[entity.m_ecs]->stream(entity.m_stream);
+		uint32_t index = stream.m_handles[entity.m_handle];
 		for(auto& buffer : stream.m_buffers)
 		{
 			Widget& row = ui::table_separator(self);

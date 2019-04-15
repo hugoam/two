@@ -63,7 +63,7 @@ if (init) {
 
     this.cubes = new two.MarchingCubes(resolution);
 
-    this.model = app.gfx.create_model('cubes');
+    var model = app.gfx.create_model('cubes');
     this.mesh = model.get_mesh(0);
     this.mesh.is_direct = true;
 
@@ -96,11 +96,7 @@ function add_blobs(cubes, time, numblobs, floor, wallx, wallz) {
     if(wallx) two.add_planeX(cubes, 2, 12);
 };
 
-//var time = 0.0;
-
-//var delta = app.gfx.frame_time;
-//
-//time += delta * controller.speed * 0.5;
+var time = app.gfx.time * 0.5;
 
 add_blobs(this.cubes, time, this.controller.numBlobs, this.controller.floor, this.controller.wallx, this.controller.wallz);
 

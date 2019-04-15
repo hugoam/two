@@ -341,21 +341,21 @@ if(init) {
 var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid())
 {
-    mouse.x = event.relative.x - viewer.frame.size.x / 2.0;
-    mouse.y = event.relative.y - viewer.frame.size.y / 2.0;
+    this.mouse.x = event.relative.x - viewer.frame.size.x / 2.0;
+    this.mouse.y = event.relative.y - viewer.frame.size.y / 2.0;
 }
 
 var camera = viewer.camera;
-camera.eye.x += (mouse.x - camera.eye.x) * 0.036;
-camera.eye.y += (-(mouse.y) - camera.eye.y) * 0.036;
+camera.eye.x += (this.mouse.x - camera.eye.x) * 0.036;
+camera.eye.y += (-(this.mouse.y) - camera.eye.y) * 0.036;
 
-var timer = app.gfx.time * 0.5;
+var time = app.gfx.time * 0.5;
 
 var position = new two.vec3(0.0);
-position.x = orbit_radius * Math.cos(timer);
-position.z = orbit_radius * Math.sin(timer) - 100.0;
+position.x = orbit_radius * Math.cos(time);
+position.z = orbit_radius * Math.sin(time) - 100.0;
 
-node.apply(position, zeroq, new two.vec3(20.0));
+this.node.apply(position, zeroq, new two.vec3(20.0));
 
 // Find the screenspace position of the sun
 var sun_ndc = camera.project(this.godrays.sun_position);

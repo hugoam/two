@@ -63,7 +63,9 @@ if(init) {
     scene.items().add(new two.Item(n, model, 0, mat));
 }
 
-var r = time; // * 0.1;
+var time = app.gfx.time;
+
+var r = time * 0.5;
 
 this.light.apply(new two.vec3(2500.0 * Math.cos(r), 2500.0 * Math.sin(r), 0.0));
 
@@ -71,4 +73,3 @@ this.light.apply(new two.vec3(2500.0 * Math.cos(r), 2500.0 * Math.sin(r), 0.0));
 this.material.pbr.metallic.value = (Math.cos(r) + 1.0) / 2.0;
 this.material.lit.displace.value = (Math.sin(r) + 1.0) / 2.0 * 5.0;
 
-r += 0.01;

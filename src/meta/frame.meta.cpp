@@ -127,13 +127,6 @@ namespace mud
 		static Class cls = { t, bases, bases_offsets, {}, {}, members, {}, {}, };
 	}
 	
-	{
-		Type& t = type<stl::vector<mud::Ref>>();
-		static Alias alias = { &t, &namspc({ "mud" }), "Selection" };
-		m.m_aliases.push_back(&alias);
-	}
-	
-		m.m_types.push_back(&type<mud::Selection>());
 		m.m_types.push_back(&type<mud::Shell>());
 		m.m_types.push_back(&type<mud::ShellContext>());
 		m.m_types.push_back(&type<mud::ShellWindow>());

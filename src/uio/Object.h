@@ -23,4 +23,6 @@ namespace mud
 	export_ MUD_UIO_EXPORT Widget& object_item(Widget& parent, Ref object);
 	export_ MUD_UIO_EXPORT bool object_item(Widget& parent, Ref object, Ref& selection);
 	export_ MUD_UIO_EXPORT bool object_item(Widget& parent, Ref object, vector<Ref>& selection);
+
+	export_ MUD_UIO_EXPORT Widget& entity_item(Widget& parent, Entity entity);
 }

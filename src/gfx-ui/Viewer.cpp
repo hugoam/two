@@ -119,10 +119,18 @@ namespace mud
 		m_viewport.m_rect = this->query_rect();
     }
 
+	Ray Viewer::mouse_ray(const vec2& pos)
+	{
+		float xNDC = (pos.x / m_size.x) * 2.0f - 1.0f;
+		float yNDC = ((m_size.y - pos.y) / m_size.y) * 2.0f - 1.0f;
+		return m_camera.ray(vec2(xNDC, yNDC));
+	}
+
 	Ray Viewer::mouse_ray()
 	{
 		vec2 pos = m_frame.local_position(this->ui().m_mouse.m_pos);
-		return m_viewport.ray(pos);
+		//return m_viewport.ray(pos);
+		return this->mouse_ray(pos);
 	}
 
 	Picker& Viewer::picker(size_t index)

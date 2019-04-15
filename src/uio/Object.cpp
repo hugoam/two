@@ -52,13 +52,16 @@ namespace mud
 		}
 	}
 
-	Widget& generic_object_item(Widget& parent, Ref object)
+	Widget& object_item(Widget& parent, Ref object)
 	{
+		if(DispatchItem::me().check(object))
+			return DispatchItem::me().dispatch(object, parent);
+
 		enum Modes { Context = (1 << 0) };
 
 		Widget& self = ui::element(parent, object);
 		ui::multi_item(self, { object_icon(object).c_str(), object_name(object).c_str() });
-		
+
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			self.m_switch |= Context;
 		if((self.m_switch & Context) != 0)
@@ -69,15 +72,7 @@ namespace mud
 
 	Widget& object_button(Widget& parent, Ref object)
 	{
-		return generic_object_item(parent, object);
-	}
-
-	Widget& object_item(Widget& parent, Ref object)
-	{
-		if(DispatchItem::me().check(object))
-			return DispatchItem::me().dispatch(object, parent);
-		else
-			return generic_object_item(parent, object);
+		return object_item(parent, object);
 	}
 
 	bool object_item(Widget& parent, Ref object, Ref& selection)

@@ -94,14 +94,10 @@ if(init) {
     var white = app.gfx.textures.file('white.jpg');
     var texture = app.gfx.textures.file('bunny_thickness.jpg');
 
-    this.phong = { diffuse: new two.Colour(1.0, 0.2, 0.2), shininess: 500.0 };
-    // specular = two.rgb(0xffffff);
-    // emissive = two.rgb(0x000000);
-    // opacity = 1.0;
-
     this.thickness = { texture: texture, color: new two.Colour(0.5, 0.3, 0.0), distortion: 0.1, ambient: 0.4, 
                        attenuation: 0.8, power: 2.0, scale: 16.0 };
-
+    var thickness = this.thickness;
+    
     var pbr = app.gfx.programs.fetch('pbr/pbr');
 
     var program = app.gfx.programs.create('translucent');
@@ -147,6 +143,5 @@ if(init) {
 //    two.ui.slider_field_float(a, 'scale', { thickness.scale,       { 0.01, 50.0, 0.1 } });
 //}
 
-//var y = app.gfx.time / 5.0;
-var y = time / 5.0;
+var y = app.gfx.time / 5.0;
 this.node.apply(new two.vec3(0.0, 0.0, 10.0), new two.quat(new two.vec3(0.0, y, 0.0)));

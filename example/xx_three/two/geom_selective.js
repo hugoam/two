@@ -80,7 +80,7 @@ if (init) {
     //updateCount();
 }
 
-//var time = app.gfx.time; // * 0.001;
+var time = app.gfx.time;
 
 var angles = new two.vec3(time * 0.25, time * 0.5, 0.0);
 this.node.apply(new two.vec3(0.0), new two.quat(angles));

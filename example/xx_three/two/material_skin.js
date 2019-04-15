@@ -436,11 +436,12 @@ this.item.material = this.material_uv;
 app.gfx.renderer.begin(uvrender);
 two.render_pbr_forward(app.gfx, uvrender);
 app.gfx.renderer.end(uvrender);
-render.pass_index = uvrender.pass_index;
 
-pass_bloom(app.gfx, render, this.uv.tex, this.blur1, true, 1.0, 15, 2.0, 512);
-pass_bloom(app.gfx, render, this.uv.tex, this.blur2, true, 1.0, 25, 3.0, 512);
-pass_bloom(app.gfx, render, this.uv.tex, this.blur3, true, 1.0, 25, 4.0, 512);
+pass_bloom(app.gfx, uvrender, this.uv.tex, this.blur1, true, 1.0, 15, 2.0, 512);
+pass_bloom(app.gfx, uvrender, this.uv.tex, this.blur2, true, 1.0, 25, 3.0, 512);
+pass_bloom(app.gfx, uvrender, this.uv.tex, this.blur3, true, 1.0, 25, 4.0, 512);
+
+render.pass_index = uvrender.pass_index;
 
 this.item.material = this.material;
 //this.item.material = this.material_uv;

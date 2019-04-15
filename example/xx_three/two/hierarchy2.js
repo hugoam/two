@@ -58,6 +58,8 @@ if(event.valid())
     this.mouse.y = (event.relative.y - viewer.frame.size.y / 2.0) * 10.0;
 }
 
+var time = app.gfx.time;
+
 var rx = Math.sin(time * 0.7) * 0.2;
 var ry = Math.sin(time * 0.3) * 0.1;
 var rz = Math.sin(time * 0.2) * 0.1;

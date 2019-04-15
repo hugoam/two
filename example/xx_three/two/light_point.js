@@ -18,9 +18,9 @@ if (init) {
 
     var env = scene.env;
     env.fog.enabled = true;
-    env.fog.color = bg;
+    env.fog.colour = bg;
     env.fog.depth_begin = 10.0;
-    env.fog.deph_end = 300.0;
+    env.fog.depth_end = 300.0;
 
     // GROUND
 
@@ -94,7 +94,8 @@ if (init) {
 var coef0 = [0.7, 0.3, 0.7, 0.3, 0.3, 0.7];
 var coef1 = [0.3, 0.7, 0.5, 0.5, 0.5, 0.5];
 
-//var time = Date.now() * 0.00025;
+var time = app.gfx.time * 0.2;
+
 var d = 150;
 
 for(var i = 0; i < 6; ++i)

@@ -499,7 +499,7 @@ if(init)
 
 this.angles.y += app.gfx.delta_time * 0.1;
 
-this.node.apply(new two.vec3(0.0), new two.quat(angles));
+this.node.apply(new two.vec3(0.0), new two.quat(this.angles));
 for(var i = 0; i < this.nodes.length; ++i) {
     var n = this.nodes[i];
     n.node.derive(this.node, n.p, new two.quat(n.a), n.s);

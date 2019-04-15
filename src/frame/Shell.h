@@ -15,8 +15,6 @@
 
 namespace mud
 {
-	using Selection = vector<Ref>;
-
 	struct refl_ ShellContext
 	{
 		Docksystem m_docksystem;

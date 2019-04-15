@@ -24,6 +24,12 @@
 
 namespace mud
 {
+	export_ struct refl_ MUD_TOOL_EXPORT Selection
+	{
+		vector<Ref> objects;
+		vector<Entity> entities;
+	};
+
 	export_ class refl_ MUD_TOOL_EXPORT EditContext
     {
     public:
@@ -34,7 +40,7 @@ namespace mud
 
 		GfxSystem& m_gfx;
 
-		vector<Ref> m_selection;
+		Selection m_selection;
 
 		ActionStack m_action_stack;
 		ToolContext m_tool_context;
@@ -69,7 +75,7 @@ namespace mud
 	MUD_TOOL_EXPORT void brush_options(Widget& parent, Brush& brush);
 	MUD_TOOL_EXPORT void current_brush_edit(Widget& parent, EditContext& context);
 
-	MUD_TOOL_EXPORT void object_editor(Widget& parent, span<Ref> selection);
+	MUD_TOOL_EXPORT void object_editor(Widget& parent, const Selection& selection);
 
 	MUD_TOOL_EXPORT void tools_transform(Widget& toolbar, EditContext& context);
 	MUD_TOOL_EXPORT void edit_transform(Widget& parent, EditContext& context);

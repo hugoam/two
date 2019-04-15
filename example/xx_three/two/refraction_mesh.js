@@ -72,11 +72,11 @@ if(event.valid())
     this.mouse.y = (event.relative.y - viewer.frame.size.y / 2.0) * 4.0;
 }
 
-var timer = time * -0.02;
+var time = app.gfx.time * -0.02;
 
 var camera = viewer.camera;
-camera.eye.x += (mouse.x - camera.eye.x) * .05;
-camera.eye.y += (-mouse.y - camera.eye.y) * .05;
+camera.eye.x += (this.mouse.x - camera.eye.x) * .05;
+camera.eye.y += (-this.mouse.y - camera.eye.y) * .05;
 
-var position = new two.vec3(Math.cos(timer) * 1500.0, Math.sin(timer) * 1500.0, 0.0);
+var position = new two.vec3(Math.cos(time) * 1500.0, Math.sin(time) * 1500.0, 0.0);
 this.light.apply(position);

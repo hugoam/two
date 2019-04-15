@@ -180,7 +180,7 @@ if(event.valid())
     this.mouse.y = event.relative.y - viewer.frame.size.y / 2.0;
 }
 
-//var time = app.gfx.time * 0.05;
+var time = app.gfx.time * 0.5;
 
 var camera = viewer.camera;
 camera.eye.x += (this.mouse.x - camera.eye.x) * 0.036;

@@ -65,6 +65,8 @@ namespace mud
 		meth_ void commit(span<float> data);
 		meth_ void cache(span<float> data);
 
+		meth_ void transform(const mat4& m);
+
 		void submit(bgfx::Encoder& encoder, const ModelElem& item); // const;
 	};
 

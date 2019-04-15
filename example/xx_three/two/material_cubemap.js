@@ -2,6 +2,7 @@
 
 var viewer = two.ui.scene_viewer(panel);
 var controls = two.ui.orbit_controls(viewer);
+controls.dampingFactor = 0.25;
 //controls.enableZoom = false;
 //controls.enablePan = false;
 //controls.minPolarAngle = c_pi / 4;

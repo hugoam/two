@@ -243,9 +243,7 @@ namespace mud
 					const mat4 transform = bxTRS(scale, rotation, position);
 
 					Batch& batch = *batches[index];
-					const size_t size = batch.m_cache.size();
-					batch.m_cache.resize(size + 16);
-					memcpy(&batch.m_cache[size], &transform, 16 * sizeof(float));
+					batch.transform(transform);
 				};
 
 				if(index == UINT16_MAX)

@@ -50,7 +50,7 @@ if (init) {
 //var root = viewer.scene.begin();
 //two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
 
-//var time = app.gfx.time / 2.0;
+var time = app.gfx.time;
 
 var angles = new two.vec3(time * 0.25, time * 0.5, 0.0);
 this.node.apply(new two.vec3(0.0), new two.quat(angles));

@@ -130,6 +130,13 @@ namespace mud
 		m_cache.assign(data.begin(), data.end());
 	}
 
+	void Batch::transform(const mat4& m)
+	{
+		const size_t size = m_cache.size();
+		m_cache.resize(size + 16);
+		memcpy(&m_cache[size], &m, 16 * sizeof(float));
+	}
+
 	void Batch::transforms(span<mat4> instances)
 	{
 		const Model& model = *m_item->m_model;

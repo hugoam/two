@@ -232,9 +232,9 @@ if (init) {
     env.background.colour = two.rgb(0x111111);
     viewer.viewport.clear_colour = two.rgb(0x111111);
     
-    this.solid = app.gfx.programs.file('solid');
-    this.phong = app.gfx.programs.file('pbr/phong');
-    this.three = app.gfx.programs.file('pbr/three');
+    var solid = app.gfx.programs.file('solid');
+    var phong = app.gfx.programs.file('pbr/phong');
+    var three = app.gfx.programs.file('pbr/three');
 
     var tiled_phong = app.gfx.programs.create('tiledphong');
     tiled_phong.set_source(two.ShaderType.Vertex, tiled_vertex);
@@ -333,6 +333,8 @@ if (init) {
         }
     }
 }
+
+var time = app.gfx.time;
 
 for(var i = 0; i < this.state.lights.length; ++i)
 {
