@@ -1,5 +1,6 @@
 // Tile
 function Tile() {
+    
     this.__ptr = _mud_Tile__construct_0(); this.__type = Tile.__type; getCache(Tile)[this.__ptr] = this;
 };
 Tile.prototype = Object.create(WrapperObject.prototype);
@@ -52,6 +53,7 @@ Tile.prototype["__destroy"] = Tile.prototype.__destroy = function() {
 };
 // Tileset
 function Tileset() {
+    
     this.__ptr = _mud_Tileset__construct_0(); this.__type = Tileset.__type; getCache(Tileset)[this.__ptr] = this;
 };
 Tileset.prototype = Object.create(WrapperObject.prototype);
@@ -96,6 +98,7 @@ Tileset.prototype["__destroy"] = Tileset.prototype.__destroy = function() {
 };
 // Wave
 function Wave() {
+    
     this.__ptr = _mud_Wave__construct_0(); this.__type = Wave.__type; getCache(Wave)[this.__ptr] = this;
 };
 Wave.prototype = Object.create(WrapperObject.prototype);
@@ -104,6 +107,7 @@ Wave.prototype.__class = Wave;
 Wave.__cache = {};
 Module['Wave'] = Wave;
 Wave.prototype["solve"] = Wave.prototype.solve = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] solve(0:limit): expected integer');
     return _mud_Wave_solve_1(this.__ptr, /*limit*/a0);
 };
 Wave.prototype["__destroy"] = Wave.prototype.__destroy = function() {
@@ -111,6 +115,7 @@ Wave.prototype["__destroy"] = Wave.prototype.__destroy = function() {
 };
 // TileWave
 function TileWave(a0, a1, a2, a3, a4) {
+    assert(a0.__type === WaveTileset.__type, '[ERROR] TileWave(0:tileset): expected WaveTileset'); assert(typeof a1 === 'number', '[ERROR] TileWave(1:width): expected integer'); assert(typeof a2 === 'number', '[ERROR] TileWave(2:height): expected integer'); assert(typeof a3 === 'number', '[ERROR] TileWave(3:depth): expected integer'); assert(typeof a4 === 'boolean', '[ERROR] TileWave(4:periodic): expected boolean');
     this.__ptr = _mud_TileWave__construct_5(/*tileset*/a0.__ptr, /*width*/a1, /*height*/a2, /*depth*/a3, /*periodic*/a4); this.__type = TileWave.__type; getCache(TileWave)[this.__ptr] = this;
 };
 TileWave.prototype = Object.create(Wave.prototype);
@@ -123,6 +128,7 @@ TileWave.prototype["__destroy"] = TileWave.prototype.__destroy = function() {
 };
 // WaveTileset
 function WaveTileset() {
+    
     this.__ptr = _mud_WaveTileset__construct_0(); this.__type = WaveTileset.__type; getCache(WaveTileset)[this.__ptr] = this;
 };
 WaveTileset.prototype = Object.create(Tileset.prototype);
@@ -135,10 +141,12 @@ WaveTileset.prototype["__destroy"] = WaveTileset.prototype.__destroy = function(
 };
 Module['parse_json_tileset'] = function(a0, a1, a2) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] parse_json_tileset(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] parse_json_tileset(1:subset): expected string'); assert(a2.__type === Tileset.__type, '[ERROR] parse_json_tileset(2:outputTileset): expected Tileset');
     _mud_parse_json_tileset_3(ensureString(/*path*/a0), ensureString(/*subset*/a1), /*outputTileset*/a2.__ptr);
 };
 Module['parse_json_wave_tileset'] = function(a0, a1, a2) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] parse_json_wave_tileset(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] parse_json_wave_tileset(1:subset): expected string'); assert(a2.__type === WaveTileset.__type, '[ERROR] parse_json_wave_tileset(2:outputTileset): expected WaveTileset');
     _mud_parse_json_wave_tileset_3(ensureString(/*path*/a0), ensureString(/*subset*/a1), /*outputTileset*/a2.__ptr);
 };
 

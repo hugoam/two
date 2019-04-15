@@ -1,9 +1,12 @@
 // Shell
 function Shell(a0, a1, a2) {
     ensureCache.prepare();
-    if (a1 === undefined) { this.__ptr = _mud_Shell__construct_1(ensureString(/*resource_path*/a0)); this.__type = Shell.__type; getCache(Shell)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_Shell__construct_2(ensureString(/*resource_path*/a0), ensureString(/*exec_path*/a1)); this.__type = Shell.__type; getCache(Shell)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Shell__construct_3(ensureString(/*resource_path*/a0), ensureString(/*exec_path*/a1), /*window*/a2); this.__type = Shell.__type; getCache(Shell)[this.__ptr] = this;
+    if (a1 === undefined) { assert(typeof a0 === 'string', '[ERROR] Shell(0:resource_path): expected string'); }
+    else if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] Shell(0:resource_path): expected string'); assert(typeof a1 === 'string', '[ERROR] Shell(1:exec_path): expected string'); }
+    else { assert(typeof a0 === 'string', '[ERROR] Shell(0:resource_path): expected string'); assert(typeof a1 === 'string', '[ERROR] Shell(1:exec_path): expected string'); assert(typeof a2 === 'boolean', '[ERROR] Shell(2:window): expected boolean'); }
+    if (a1 === undefined) { this.__ptr = _mud_Shell__construct_1(ensureString(/*resource_path*/a0)); this.__type = Shell.__type; getCache(Shell)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Shell__construct_2(ensureString(/*resource_path*/a0), ensureString(/*exec_path*/a1)); this.__type = Shell.__type; getCache(Shell)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Shell__construct_3(ensureString(/*resource_path*/a0), ensureString(/*exec_path*/a1), /*window*/a2); this.__type = Shell.__type; getCache(Shell)[this.__ptr] = this; }
 };
 Shell.prototype = Object.create(WrapperObject.prototype);
 Shell.prototype.constructor = Shell;
@@ -11,28 +14,37 @@ Shell.prototype.__class = Shell;
 Shell.__cache = {};
 Module['Shell'] = Shell;
 Shell.prototype["init"] = Shell.prototype.init = function(a0) {
-    if (a0 === undefined) { _mud_Shell_init_0(this.__ptr); return; }
-    _mud_Shell_init_1(this.__ptr, /*window*/a0);
+    if (a0 === undefined) {  }
+    else { assert(typeof a0 === 'boolean', '[ERROR] init(0:window): expected boolean'); }
+    if (a0 === undefined) { _mud_Shell_init_0(this.__ptr); }
+    else { _mud_Shell_init_1(this.__ptr, /*window*/a0); }
 };
 Shell.prototype["window"] = Shell.prototype.window = function(a0, a1, a2) {
     ensureCache.prepare();
+    if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] window(0:name): expected string'); assert(a1.__type === v2_uint.__type, '[ERROR] window(1:size): expected v2<uint>'); }
+    else { assert(typeof a0 === 'string', '[ERROR] window(0:name): expected string'); assert(a1.__type === v2_uint.__type, '[ERROR] window(1:size): expected v2<uint>'); assert(typeof a2 === 'boolean', '[ERROR] window(2:fullscreen): expected boolean'); }
     if (a2 === undefined) { return wrapPointer(_mud_Shell_window_2(this.__ptr, ensureString(/*name*/a0), /*size*/a1.__ptr), ShellWindow); }
-    return wrapPointer(_mud_Shell_window_3(this.__ptr, ensureString(/*name*/a0), /*size*/a1.__ptr, /*fullscreen*/a2), ShellWindow);
+    else { return wrapPointer(_mud_Shell_window_3(this.__ptr, ensureString(/*name*/a0), /*size*/a1.__ptr, /*fullscreen*/a2), ShellWindow); }
 };
 Shell.prototype["add_file"] = Shell.prototype.add_file = function(a0, a1) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] add_file(0:path): expected string'); assert(a1.__type === span_uint8_t.__type, '[ERROR] add_file(1:data): expected span<uint8_t>');
     _mud_Shell_add_file_2(this.__ptr, ensureString(/*path*/a0), ensureInt8(/*data*/a1), /*data*/a1.length);
 };
 Shell.prototype["begin_frame"] = Shell.prototype.begin_frame = function() {
+    
     return !!(_mud_Shell_begin_frame_0(this.__ptr));
 };
 Shell.prototype["end_frame"] = Shell.prototype.end_frame = function() {
+    
     _mud_Shell_end_frame_0(this.__ptr);
 };
 Shell.prototype["pump"] = Shell.prototype.pump = function() {
+    
     return !!(_mud_Shell_pump_0(this.__ptr));
 };
 Shell.prototype["main_window"] = Shell.prototype.main_window = function() {
+    
     return wrapPointer(_mud_Shell_main_window_0(this.__ptr), ShellWindow);
 };
 Object.defineProperty(Shell.prototype, "exec_path", {
@@ -72,6 +84,7 @@ Shell.prototype["__destroy"] = Shell.prototype.__destroy = function() {
 };
 // ShellContext
 function ShellContext() {
+    
     this.__ptr = _mud_ShellContext__construct_0(); this.__type = ShellContext.__type; getCache(ShellContext)[this.__ptr] = this;
 };
 ShellContext.prototype = Object.create(WrapperObject.prototype);

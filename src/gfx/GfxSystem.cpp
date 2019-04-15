@@ -222,7 +222,7 @@ namespace mud
 
 	void GfxSystem::add_resource_path(const string& path, bool relative)
 	{
-		printf("INFO: resource path: %s\n", path.c_str());
+		printf("[info] gfx - resource path: %s\n", path.c_str());
 		m_impl->m_resource_paths.push_back(relative ? m_resource_path + "/" + path : path);
 	}
 

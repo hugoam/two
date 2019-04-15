@@ -350,7 +350,7 @@ namespace mud
 		m.m_types.push_back(&type<void>());
 		m.m_types.push_back(&type<void*>());
 		{
-			static Function f = { &namspc({ "mud" }), "indexed", nullptr, mud_indexed_0, { { "type", type<mud::Type>(),  }, { "id", type<uint32_t>(),  } }, { &type<mud::Ref>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "indexed", funcptr<mud::Ref(*)(const mud::Type&, uint32_t)>(mud::indexed), mud_indexed_0, { { "type", type<mud::Type>(),  }, { "id", type<uint32_t>(),  } }, { &type<mud::Ref>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 	}

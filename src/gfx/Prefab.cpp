@@ -35,7 +35,7 @@ namespace mud
 		if(m_call.validate())
 			m_call();
 		//else
-		//	printf("WARNING: invalid prefab node element arguments\n");
+		//	printf("[warning] invalid prefab node element arguments\n");
 
 		for(PrefabNode& node : m_nodes)
 			node.draw(self);

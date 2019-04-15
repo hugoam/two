@@ -1278,17 +1278,17 @@ extern "C" {
 	double DECL cos_1(double a) {
 		return cos(a);
 	}
-	float DECL mud_add_2(float a, float b) {
-		return mud::add(a, b);
+	float DECL mud_add_float_2(float a, float b) {
+		return mud::add<float>(a, b);
 	}
-	float DECL mud_subtract_2(float a, float b) {
-		return mud::subtract(a, b);
+	float DECL mud_subtract_float_2(float a, float b) {
+		return mud::subtract<float>(a, b);
 	}
-	float DECL mud_multiply_2(float a, float b) {
-		return mud::multiply(a, b);
+	float DECL mud_multiply_float_2(float a, float b) {
+		return mud::multiply<float>(a, b);
 	}
-	float DECL mud_divide_2(float a, float b) {
-		return mud::divide(a, b);
+	float DECL mud_divide_float_2(float a, float b) {
+		return mud::divide<float>(a, b);
 	}
 	float DECL mud_nsinf_1(float a) {
 		return mud::nsinf(a);
@@ -1301,6 +1301,22 @@ extern "C" {
 	}
 	double DECL mud_ncos_1(double a) {
 		return mud::ncos(a);
+	}
+	mud::vec3* DECL mud_add_mud_vec3_2(mud::vec3* a, mud::vec3* b) {
+		static mud::vec3 temp;
+		return (temp = mud::add<mud::vec3>(*a, *b), &temp);
+	}
+	mud::vec3* DECL mud_subtract_mud_vec3_2(mud::vec3* a, mud::vec3* b) {
+		static mud::vec3 temp;
+		return (temp = mud::subtract<mud::vec3>(*a, *b), &temp);
+	}
+	mud::vec3* DECL mud_multiply_mud_vec3_2(mud::vec3* a, mud::vec3* b) {
+		static mud::vec3 temp;
+		return (temp = mud::multiply<mud::vec3>(*a, *b), &temp);
+	}
+	mud::vec3* DECL mud_divide_mud_vec3_2(mud::vec3* a, mud::vec3* b) {
+		static mud::vec3 temp;
+		return (temp = mud::divide<mud::vec3>(*a, *b), &temp);
 	}
 	mud::quat* DECL mud_look_dir_1(const mud::vec3* direction) {
 		static mud::quat temp;

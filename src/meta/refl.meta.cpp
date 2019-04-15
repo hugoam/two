@@ -580,7 +580,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::Injector>());
 		m.m_types.push_back(&type<mud::Method>());
 		{
-			static Function f = { &namspc({ "mud" }), "system", nullptr, mud_system_0, {}, { &type<mud::System>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "system", funcptr<mud::System&(*)()>(mud::system), mud_system_0, {}, { &type<mud::System>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 	}

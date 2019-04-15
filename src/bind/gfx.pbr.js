@@ -1,6 +1,7 @@
 Module['gfx'] = Module['gfx'] || {};
 // BCS
 function BCS() {
+    
     this.__ptr = _mud_BCS__construct_0(); this.__type = BCS.__type; getCache(BCS)[this.__ptr] = this;
 };
 BCS.prototype = Object.create(WrapperObject.prototype);
@@ -45,6 +46,7 @@ BCS.prototype["__destroy"] = BCS.prototype.__destroy = function() {
 };
 // CSMShadow
 function CSMShadow() {
+    
     this.__ptr = _mud_CSMShadow__construct_0(); this.__type = CSMShadow.__type; getCache(CSMShadow)[this.__ptr] = this;
 };
 CSMShadow.prototype = Object.create(WrapperObject.prototype);
@@ -57,8 +59,10 @@ CSMShadow.prototype["__destroy"] = CSMShadow.prototype.__destroy = function() {
 };
 // CubeCamera
 function CubeCamera(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_CubeCamera__construct_0(); this.__type = CubeCamera.__type; getCache(CubeCamera)[this.__ptr] = this; return; }
-    this.__ptr = _mud_CubeCamera__construct_4(/*scene*/a0.__ptr, /*near*/a1, /*far*/a2, /*size*/a3); this.__type = CubeCamera.__type; getCache(CubeCamera)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(a0.__type === Scene.__type, '[ERROR] CubeCamera(0:scene): expected Scene'); assert(typeof a1 === 'number', '[ERROR] CubeCamera(1:near): expected number'); assert(typeof a2 === 'number', '[ERROR] CubeCamera(2:far): expected number'); assert(typeof a3 === 'number', '[ERROR] CubeCamera(3:size): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_CubeCamera__construct_0(); this.__type = CubeCamera.__type; getCache(CubeCamera)[this.__ptr] = this; }
+    else { this.__ptr = _mud_CubeCamera__construct_4(/*scene*/a0.__ptr, /*near*/a1, /*far*/a2, /*size*/a3); this.__type = CubeCamera.__type; getCache(CubeCamera)[this.__ptr] = this; }
 };
 CubeCamera.prototype = Object.create(WrapperObject.prototype);
 CubeCamera.prototype.constructor = CubeCamera;
@@ -66,6 +70,7 @@ CubeCamera.prototype.__class = CubeCamera;
 CubeCamera.__cache = {};
 Module['CubeCamera'] = CubeCamera;
 CubeCamera.prototype["render"] = CubeCamera.prototype.render = function(a0, a1, a2) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] render(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render(1:render): expected Render'); assert(typeof a2 === 'number', '[ERROR] render(2:axis): expected integer');
     return wrapPointer(_mud_CubeCamera_render_3(this.__ptr, /*gfx*/a0.__ptr, /*render*/a1.__ptr, /*axis*/a2), Render);
 };
 Object.defineProperty(CubeCamera.prototype, "cubemap", {
@@ -85,6 +90,7 @@ CubeCamera.prototype["__destroy"] = CubeCamera.prototype.__destroy = function() 
 };
 // CubeTarget
 function CubeTarget() {
+    
     this.__ptr = _mud_CubeTarget__construct_0(); this.__type = CubeTarget.__type; getCache(CubeTarget)[this.__ptr] = this;
 };
 CubeTarget.prototype = Object.create(WrapperObject.prototype);
@@ -93,9 +99,11 @@ CubeTarget.prototype.__class = CubeTarget;
 CubeTarget.__cache = {};
 Module['CubeTarget'] = CubeTarget;
 CubeTarget.prototype["create"] = CubeTarget.prototype.create = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] create(0:size): expected integer');
     _mud_CubeTarget_create_1(this.__ptr, /*size*/a0);
 };
 CubeTarget.prototype["side"] = CubeTarget.prototype.side = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] side(0:i): expected integer');
     return wrapPointer(_mud_CubeTarget_side_1(this.__ptr, /*i*/a0), FrameBuffer);
 };
 Object.defineProperty(CubeTarget.prototype, "cubemap", {
@@ -119,6 +127,7 @@ CubeTarget.prototype["__destroy"] = CubeTarget.prototype.__destroy = function() 
 };
 // DofBlur
 function DofBlur() {
+    
     this.__ptr = _mud_DofBlur__construct_0(); this.__type = DofBlur.__type; getCache(DofBlur)[this.__ptr] = this;
 };
 DofBlur.prototype = Object.create(WrapperObject.prototype);
@@ -163,6 +172,7 @@ DofBlur.prototype["__destroy"] = DofBlur.prototype.__destroy = function() {
 };
 // DofParams
 function DofParams() {
+    
     this.__ptr = _mud_DofParams__construct_0(); this.__type = DofParams.__type; getCache(DofParams)[this.__ptr] = this;
 };
 DofParams.prototype = Object.create(WrapperObject.prototype);
@@ -209,6 +219,7 @@ GIProbe.prototype["__destroy"] = GIProbe.prototype.__destroy = function() {
 };
 // Glow
 function Glow() {
+    
     this.__ptr = _mud_Glow__construct_0(); this.__type = Glow.__type; getCache(Glow)[this.__ptr] = this;
 };
 Glow.prototype = Object.create(WrapperObject.prototype);
@@ -285,6 +296,7 @@ Glow.prototype["__destroy"] = Glow.prototype.__destroy = function() {
 };
 // LightShadow
 function LightShadow() {
+    
     this.__ptr = _mud_LightShadow__construct_0(); this.__type = LightShadow.__type; getCache(LightShadow)[this.__ptr] = this;
 };
 LightShadow.prototype = Object.create(WrapperObject.prototype);
@@ -381,6 +393,7 @@ ReflectionProbe.prototype["__destroy"] = ReflectionProbe.prototype.__destroy = f
 };
 // Tonemap
 function Tonemap() {
+    
     this.__ptr = _mud_Tonemap__construct_0(); this.__type = Tonemap.__type; getCache(Tonemap)[this.__ptr] = this;
 };
 Tonemap.prototype = Object.create(WrapperObject.prototype);
@@ -545,6 +558,7 @@ BlockTonemap.prototype["__destroy"] = BlockTonemap.prototype.__destroy = functio
 };
 // CSMSlice
 function CSMSlice() {
+    
     this.__ptr = _mud_CSMSlice__construct_0(); this.__type = CSMSlice.__type; getCache(CSMSlice)[this.__ptr] = this;
 };
 CSMSlice.prototype = Object.create(LightShadow.prototype);
@@ -556,85 +570,114 @@ CSMSlice.prototype["__destroy"] = CSMSlice.prototype.__destroy = function() {
     _mud_CSMSlice__destroy(this.__ptr);
 };
 Module['begin_pbr_render'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] begin_pbr_render(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] begin_pbr_render(1:render): expected Render');
     _mud_begin_pbr_render_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_gi_probes'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_gi_probes(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_gi_probes(1:render): expected Render');
     _mud_pass_gi_probes_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_shadowmaps'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_shadowmaps(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_shadowmaps(1:render): expected Render');
     _mud_pass_shadowmaps_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_shadow'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_shadow(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_shadow(1:render): expected Render');
     _mud_pass_shadow_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_opaque'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_opaque(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_opaque(1:render): expected Render');
     _mud_pass_opaque_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_alpha'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_alpha(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_alpha(1:render): expected Render');
     _mud_pass_alpha_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_geometry'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_geometry(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_geometry(1:render): expected Render');
     _mud_pass_geometry_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_lights'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_lights(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_lights(1:render): expected Render');
     _mud_pass_lights_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_voxel_gi'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_voxel_gi(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_voxel_gi(1:render): expected Render');
     _mud_pass_voxel_gi_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_lightmap'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_lightmap(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_lightmap(1:render): expected Render');
     _mud_pass_lightmap_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_begin_post'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_begin_post(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_begin_post(1:render): expected Render');
     _mud_pass_begin_post_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_post_auto'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_post_auto(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_post_auto(1:render): expected Render');
     _mud_pass_post_auto_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_post_effects'] = function(a0, a1, a2, a3, a4, a5) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_post_effects(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_post_effects(1:render): expected Render'); assert(a2.__type === DofBlur.__type, '[ERROR] pass_post_effects(2:dof): expected DofBlur'); assert(a3.__type === Glow.__type, '[ERROR] pass_post_effects(3:glow): expected Glow'); assert(a4.__type === Tonemap.__type, '[ERROR] pass_post_effects(4:tonemap): expected Tonemap'); assert(a5.__type === BCS.__type, '[ERROR] pass_post_effects(5:bcs): expected BCS');
     _mud_pass_post_effects_6(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*dof*/a2.__ptr, /*glow*/a3.__ptr, /*tonemap*/a4.__ptr, /*bcs*/a5.__ptr);
 };
 Module['render_pbr_forward'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] render_pbr_forward(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_pbr_forward(1:render): expected Render');
     _mud_render_pbr_forward_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_pbr_deferred'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] render_pbr_deferred(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_pbr_deferred(1:render): expected Render');
     _mud_render_pbr_deferred_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_shadow'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] render_shadow(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_shadow(1:render): expected Render');
     _mud_render_shadow_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_voxel'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] render_voxel(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_voxel(1:render): expected Render');
     _mud_render_voxel_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_lightmap'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] render_lightmap(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_lightmap(1:render): expected Render');
     _mud_render_lightmap_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_reflection'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] render_reflection(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_reflection(1:render): expected Render');
     _mud_render_reflection_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pipeline_pbr'] = function(a0, a1, a2) {
-    if (a2 === undefined) { _mud_pipeline_pbr_2(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr); return; }
-    _mud_pipeline_pbr_3(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr, /*deferred*/a2);
+    if (a2 === undefined) { assert(a0.__type === GfxSystem.__type, '[ERROR] pipeline_pbr(0:gfx): expected GfxSystem'); assert(a1.__type === Renderer.__type, '[ERROR] pipeline_pbr(1:pipeline): expected Renderer'); }
+    else { assert(a0.__type === GfxSystem.__type, '[ERROR] pipeline_pbr(0:gfx): expected GfxSystem'); assert(a1.__type === Renderer.__type, '[ERROR] pipeline_pbr(1:pipeline): expected Renderer'); assert(typeof a2 === 'boolean', '[ERROR] pipeline_pbr(2:deferred): expected boolean'); }
+    if (a2 === undefined) { _mud_pipeline_pbr_2(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr); }
+    else { _mud_pipeline_pbr_3(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr, /*deferred*/a2); }
 };
 Module['gfx']['setup_pipeline_pbr'] = function(a0) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] setup_pipeline_pbr(0:gfx): expected GfxSystem');
     _mud_gfx_setup_pipeline_pbr_1(/*gfx*/a0.__ptr);
 };
 Module['gfx']['gi_probe'] = function(a0, a1, a2) {
+    assert(a0.__type === Gnode.__type, '[ERROR] gi_probe(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] gi_probe(1:subdiv): expected integer'); assert(a2.__type === v3_float.__type, '[ERROR] gi_probe(2:extents): expected v3<float>');
     return wrapPointer(_mud_gfx_gi_probe_3(/*parent*/a0.__ptr, /*subdiv*/a1, /*extents*/a2.__ptr), GIProbe);
 };
 Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
+    if (a2 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] lightmap(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] lightmap(1:resolution): expected integer'); }
+    else if (a3 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] lightmap(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] lightmap(1:resolution): expected integer'); assert(typeof a2 === 'number', '[ERROR] lightmap(2:density): expected number'); }
+    else { assert(a0.__type === Gnode.__type, '[ERROR] lightmap(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] lightmap(1:resolution): expected integer'); assert(typeof a2 === 'number', '[ERROR] lightmap(2:density): expected number'); assert(typeof a3 === 'string', '[ERROR] lightmap(3:save_path): expected string'); }
     if (a2 === undefined) { return wrapPointer(_mud_gfx_lightmap_2(/*parent*/a0.__ptr, /*resolution*/a1), LightmapAtlas); }
-    if (a3 === undefined) { return wrapPointer(_mud_gfx_lightmap_3(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2), LightmapAtlas); }
-    return wrapPointer(_mud_gfx_lightmap_4(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2, ensureString(/*save_path*/a3)), LightmapAtlas);
+    else if (a3 === undefined) { return wrapPointer(_mud_gfx_lightmap_3(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2), LightmapAtlas); }
+    else { return wrapPointer(_mud_gfx_lightmap_4(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2, ensureString(/*save_path*/a3)), LightmapAtlas); }
 };
 Module['pass_dofblur'] = function(a0, a1, a2) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_dofblur(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_dofblur(1:render): expected Render'); assert(a2.__type === DofBlur.__type, '[ERROR] pass_dofblur(2:blur): expected DofBlur');
     _mud_pass_dofblur_3(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*blur*/a2.__ptr);
 };
 Module['pass_glow'] = function(a0, a1, a2) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_glow(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_glow(1:render): expected Render'); assert(a2.__type === Glow.__type, '[ERROR] pass_glow(2:glow): expected Glow');
     _mud_pass_glow_3(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*glow*/a2.__ptr);
 };
 Module['pass_tonemap'] = function(a0, a1, a2, a3) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_tonemap(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_tonemap(1:render): expected Render'); assert(a2.__type === Tonemap.__type, '[ERROR] pass_tonemap(2:tonemap): expected Tonemap'); assert(a3.__type === BCS.__type, '[ERROR] pass_tonemap(3:bcs): expected BCS');
     _mud_pass_tonemap_4(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*tonemap*/a2.__ptr, /*bcs*/a3.__ptr);
 };
 

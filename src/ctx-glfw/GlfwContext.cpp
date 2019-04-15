@@ -43,7 +43,7 @@ module mud.ctx.glfw;
 
 void glfw_error(int error, const char* desc)
 {
-	printf("ERROR: GLFW %d: %s\n", error, desc);
+	printf("[ERROR] ctx glfw - GLFW %d: %s\n", error, desc);
 }
 
 namespace mud
@@ -206,13 +206,13 @@ namespace mud
 
 	void GlfwContext::init_context()
 	{
-		printf("INFO: Creating GLFW context. GLFW version %i.%i\n", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR);
+		printf("[info] ctx glfw - creating GLFW context. GLFW version %i.%i\n", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR);
 
 		glfwSetErrorCallback(glfw_error);
 
 		if(!glfwInit())
 		{
-			printf("ERROR: Failed to init GLFW.\n");
+			printf("[ERROR] ctx glfw - failed to init GLFW.\n");
 			return;
 		}
 

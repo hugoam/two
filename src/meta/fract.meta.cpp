@@ -207,7 +207,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::PatternSampling>());
 		m.m_types.push_back(&type<stl::vector<mud::Image256>>());
 		{
-			static Function f = { &namspc({ "mud" }), "generate_fract", nullptr, mud_generate_fract_0, { { "resolution", type<mud::uvec2>(),  }, { "pattern", type<mud::Pattern>(),  }, { "output_image", type<mud::Image256>(), Param::Output } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "generate_fract", funcptr<void(*)(mud::uvec2, const mud::Pattern&, mud::Image256&)>(mud::generate_fract), mud_generate_fract_0, { { "resolution", type<mud::uvec2>(),  }, { "pattern", type<mud::Pattern>(),  }, { "output_image", type<mud::Image256>(), Param::Output } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

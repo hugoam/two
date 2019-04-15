@@ -135,7 +135,7 @@ namespace mud
 
 		if(!bgfx::isTextureValid(1, cube, 1, bgfx::TextureFormat::Enum(format), flags))
 		{
-			printf("WARNING: could not prefilter env map roughness levels\n");
+			printf("[warning] could not prefilter env map roughness levels\n");
 			return;
 		}
 

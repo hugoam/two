@@ -191,7 +191,7 @@ namespace mud
 		if(m_debug_batch > 1 && m_debug_batch != prevBatch)
 		{
 			prevBatch = m_debug_batch;
-			//printf("DEBUG: Render Frame : %i frames redrawn\n", m_debug_batch);
+			//printf("[debug] Render Frame : %i frames redrawn\n", m_debug_batch);
 		}
 
 		m_vg.end_frame(view);
@@ -477,8 +477,8 @@ namespace mud
 		double time = m_clock.read();
 		if(time - prevtime >= 4.f)
 		{
-			printf("INFO: frame %.2f\n", ((time - prevtime) / frames) * 1000.f);
-			printf("INFO: fps %f\n", (frames / (time - prevtime)));
+			printf("[info] frame %.2f\n", ((time - prevtime) / frames) * 1000.f);
+			printf("[info] fps %f\n", (frames / (time - prevtime)));
 			prevtime = time;
 			frames = 0;
 		}

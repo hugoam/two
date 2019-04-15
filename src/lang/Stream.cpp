@@ -110,7 +110,7 @@ namespace mud
 		bool result = convert(m_value, *expected_type, value, ref);
 #if 0
 		if(!result)
-			printf("WARNING: No conversion possible from %s to %s : dest set to None\n", type(source).m_name, output.m_name);
+			printf("[warning] No conversion possible from %s to %s : dest set to None\n", type(source).m_name, output.m_name);
 #endif
 		return result;
 	}

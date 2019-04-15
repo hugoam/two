@@ -154,13 +154,13 @@ namespace mud
 		{
 			static float frequency_default = 0.01f;
 			static mud::Noise::Interp interp_default = Noise::Quintic;
-			static Function f = { &namspc({ "mud" }), "noise_2d", nullptr, mud_noise_2d_0, { { "x", type<float>(),  }, { "y", type<float>(),  }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default } }, { &type<float>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "noise_2d", funcptr<float(*)(float, float, mud::Noise::NoiseType, float, mud::Noise::Interp)>(mud::noise_2d), mud_noise_2d_0, { { "x", type<float>(),  }, { "y", type<float>(),  }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default } }, { &type<float>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float frequency_default = 0.01f;
 			static mud::Noise::Interp interp_default = Noise::Quintic;
-			static Function f = { &namspc({ "mud" }), "noise_3d", nullptr, mud_noise_3d_1, { { "x", type<float>(),  }, { "y", type<float>(),  }, { "z", type<float>(),  }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default } }, { &type<float>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "noise_3d", funcptr<float(*)(float, float, float, mud::Noise::NoiseType, float, mud::Noise::Interp)>(mud::noise_3d), mud_noise_3d_1, { { "x", type<float>(),  }, { "y", type<float>(),  }, { "z", type<float>(),  }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default } }, { &type<float>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -169,7 +169,7 @@ namespace mud
 			static int octaves_default = 3;
 			static float lacunarity_default = 2.f;
 			static float gain_default = 0.5f;
-			static Function f = { &namspc({ "mud" }), "noise_fract_2d", nullptr, mud_noise_fract_2d_2, { { "x", type<float>(),  }, { "y", type<float>(),  }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(),  }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default }, { "fractal_type", type<mud::Noise::FractalType>(), Param::Default, &fractal_type_default }, { "octaves", type<int>(), Param::Default, &octaves_default }, { "lacunarity", type<float>(), Param::Default, &lacunarity_default }, { "gain", type<float>(), Param::Default, &gain_default } }, { &type<float>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "noise_fract_2d", funcptr<float(*)(float, float, mud::Noise::NoiseType, float, mud::Noise::Interp, mud::Noise::FractalType, int, float, float)>(mud::noise_fract_2d), mud_noise_fract_2d_2, { { "x", type<float>(),  }, { "y", type<float>(),  }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(),  }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default }, { "fractal_type", type<mud::Noise::FractalType>(), Param::Default, &fractal_type_default }, { "octaves", type<int>(), Param::Default, &octaves_default }, { "lacunarity", type<float>(), Param::Default, &lacunarity_default }, { "gain", type<float>(), Param::Default, &gain_default } }, { &type<float>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -178,19 +178,19 @@ namespace mud
 			static int octaves_default = 3;
 			static float lacunarity_default = 2.f;
 			static float gain_default = 0.5f;
-			static Function f = { &namspc({ "mud" }), "noise_fract_3d", nullptr, mud_noise_fract_3d_3, { { "x", type<float>(),  }, { "y", type<float>(),  }, { "z", type<float>(),  }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(),  }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default }, { "fractal_type", type<mud::Noise::FractalType>(), Param::Default, &fractal_type_default }, { "octaves", type<int>(), Param::Default, &octaves_default }, { "lacunarity", type<float>(), Param::Default, &lacunarity_default }, { "gain", type<float>(), Param::Default, &gain_default } }, { &type<float>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "noise_fract_3d", funcptr<float(*)(float, float, float, mud::Noise::NoiseType, float, mud::Noise::Interp, mud::Noise::FractalType, int, float, float)>(mud::noise_fract_3d), mud_noise_fract_3d_3, { { "x", type<float>(),  }, { "y", type<float>(),  }, { "z", type<float>(),  }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(),  }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default }, { "fractal_type", type<mud::Noise::FractalType>(), Param::Default, &fractal_type_default }, { "octaves", type<int>(), Param::Default, &octaves_default }, { "lacunarity", type<float>(), Param::Default, &lacunarity_default }, { "gain", type<float>(), Param::Default, &gain_default } }, { &type<float>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float frequency_default = 0.01f;
 			static mud::Noise::Interp interp_default = Noise::Quintic;
-			static Function f = { &namspc({ "mud" }), "noise_field_2d", nullptr, mud_noise_field_2d_4, { { "output_values", type<mud::vector3d<float>>(), Param::Output }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "noise_field_2d", funcptr<void(*)(mud::vector3d<float>&, mud::Noise::NoiseType, float, mud::Noise::Interp)>(mud::noise_field_2d), mud_noise_field_2d_4, { { "output_values", type<mud::vector3d<float>>(), Param::Output }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float frequency_default = 0.01f;
 			static mud::Noise::Interp interp_default = Noise::Quintic;
-			static Function f = { &namspc({ "mud" }), "noise_field_3d", nullptr, mud_noise_field_3d_5, { { "output_values", type<mud::vector3d<float>>(), Param::Output }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "noise_field_3d", funcptr<void(*)(mud::vector3d<float>&, mud::Noise::NoiseType, float, mud::Noise::Interp)>(mud::noise_field_3d), mud_noise_field_3d_5, { { "output_values", type<mud::vector3d<float>>(), Param::Output }, { "noise_type", type<mud::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<mud::Noise::Interp>(), Param::Default, &interp_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

@@ -1600,418 +1600,418 @@ namespace mud
 			static bool open_default = false;
 			static mud::Axis length_default = mud::Axis::None;
 			static mud::v2<size_t> index_default = {0,0};
-			static Function f = { &namspc({ "mud", "ui" }), "widget", nullptr, mud_ui_widget_0, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "open", type<bool>(), Param::Default, &open_default }, { "length", type<mud::Axis>(), Param::Default, &length_default }, { "index", type<mud::v2<size_t>>(), Param::Default, &index_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "widget", funcptr<mud::Widget&(*)(mud::Widget&, mud::Style&, bool, mud::Axis, mud::v2<size_t>)>(mud::ui::widget), mud_ui_widget_0, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "open", type<bool>(), Param::Default, &open_default }, { "length", type<mud::Axis>(), Param::Default, &length_default }, { "index", type<mud::v2<size_t>>(), Param::Default, &index_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static const char* content_default = nullptr;
-			static Function f = { &namspc({ "mud", "ui" }), "item", nullptr, mud_ui_item_1, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &content_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "item", funcptr<mud::Widget&(*)(mud::Widget&, mud::Style&, const char*)>(mud::ui::item), mud_ui_item_1, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &content_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static mud::Style* element_style_default = nullptr;
-			static Function f = { &namspc({ "mud", "ui" }), "multi_item", nullptr, mud_ui_multi_item_2, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &element_style_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "multi_item", funcptr<mud::Widget&(*)(mud::Widget&, mud::Style&, stl::span<const char*>, mud::Style*)>(mud::ui::multi_item), mud_ui_multi_item_2, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &element_style_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "spanner", nullptr, mud_ui_spanner_3, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "dim", type<mud::Axis>(),  }, { "span", type<float>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "spanner", funcptr<mud::Widget&(*)(mud::Widget&, mud::Style&, mud::Axis, float)>(mud::ui::spanner), mud_ui_spanner_3, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "dim", type<mud::Axis>(),  }, { "span", type<float>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "spacer", nullptr, mud_ui_spacer_4, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "spacer", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::spacer), mud_ui_spacer_4, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "icon", nullptr, mud_ui_icon_5, { { "parent", type<mud::Widget>(),  }, { "image", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "icon", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::icon), mud_ui_icon_5, { { "parent", type<mud::Widget>(),  }, { "image", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "label", nullptr, mud_ui_label_6, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "label", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::label), mud_ui_label_6, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "title", nullptr, mud_ui_title_7, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "title", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::title), mud_ui_title_7, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "message", nullptr, mud_ui_message_8, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "message", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::message), mud_ui_message_8, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "text", nullptr, mud_ui_text_9, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "text", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::text), mud_ui_text_9, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static const char* content_default = nullptr;
-			static Function f = { &namspc({ "mud", "ui" }), "button", nullptr, mud_ui_button_10, { { "parent", type<mud::Widget>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &content_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "button", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::button), mud_ui_button_10, { { "parent", type<mud::Widget>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &content_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static const char* content_default = nullptr;
-			static Function f = { &namspc({ "mud", "ui" }), "toggle", nullptr, mud_ui_toggle_11, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &content_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "toggle", funcptr<mud::Widget&(*)(mud::Widget&, bool&, const char*)>(mud::ui::toggle), mud_ui_toggle_11, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "content", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &content_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "button", nullptr, mud_ui_button_12, { { "parent", type<mud::Widget>(),  }, { "content", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "button", funcptr<mud::Widget&(*)(mud::Widget&, const stl::string&)>(mud::ui::button), mud_ui_button_12, { { "parent", type<mud::Widget>(),  }, { "content", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "toggle", nullptr, mud_ui_toggle_13, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "content", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static mud::Style* element_style_default = nullptr;
-			static Function f = { &namspc({ "mud", "ui" }), "multi_button", nullptr, mud_ui_multi_button_14, { { "parent", type<mud::Widget>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &element_style_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "toggle", funcptr<mud::Widget&(*)(mud::Widget&, bool&, const stl::string&)>(mud::ui::toggle), mud_ui_toggle_13, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "content", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static mud::Style* element_style_default = nullptr;
-			static Function f = { &namspc({ "mud", "ui" }), "multi_toggle", nullptr, mud_ui_multi_toggle_15, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &element_style_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "multi_button", funcptr<mud::Widget&(*)(mud::Widget&, stl::span<const char*>, mud::Style*)>(mud::ui::multi_button), mud_ui_multi_button_14, { { "parent", type<mud::Widget>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &element_style_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "modal_button", nullptr, mud_ui_modal_button_16, { { "screen", type<mud::Widget>(),  }, { "parent", type<mud::Widget>(),  }, { "content", type<const char*>(), Param::Nullable }, { "mode", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
+			static mud::Style* element_style_default = nullptr;
+			static Function f = { &namspc({ "mud", "ui" }), "multi_toggle", funcptr<mud::Widget&(*)(mud::Widget&, bool&, stl::span<const char*>, mud::Style*)>(mud::ui::multi_toggle), mud_ui_multi_toggle_15, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &element_style_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "modal_multi_button", nullptr, mud_ui_modal_multi_button_17, { { "screen", type<mud::Widget>(),  }, { "parent", type<mud::Widget>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "mode", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "modal_button", funcptr<bool(*)(mud::Widget&, mud::Widget&, const char*, uint32_t)>(mud::ui::modal_button), mud_ui_modal_button_16, { { "screen", type<mud::Widget>(),  }, { "parent", type<mud::Widget>(),  }, { "content", type<const char*>(), Param::Nullable }, { "mode", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "checkbox", nullptr, mud_ui_checkbox_18, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "modal_multi_button", funcptr<bool(*)(mud::Widget&, mud::Widget&, stl::span<const char*>, uint32_t)>(mud::ui::modal_multi_button), mud_ui_modal_multi_button_17, { { "screen", type<mud::Widget>(),  }, { "parent", type<mud::Widget>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "mode", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "ui" }), "checkbox", funcptr<mud::Widget&(*)(mud::Widget&, bool&)>(mud::ui::checkbox), mud_ui_checkbox_18, { { "parent", type<mud::Widget>(),  }, { "on", type<bool>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static mud::Axis dim_default = mud::Axis::X;
-			static Function f = { &namspc({ "mud", "ui" }), "fill_bar", nullptr, mud_ui_fill_bar_19, { { "parent", type<mud::Widget>(),  }, { "percentage", type<float>(),  }, { "dim", type<mud::Axis>(), Param::Default, &dim_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "fill_bar", funcptr<mud::Widget&(*)(mud::Widget&, float, mud::Axis)>(mud::ui::fill_bar), mud_ui_fill_bar_19, { { "parent", type<mud::Widget>(),  }, { "percentage", type<float>(),  }, { "dim", type<mud::Axis>(), Param::Default, &dim_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "image256", nullptr, mud_ui_image256_20, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "source", type<mud::Image256>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "image256", funcptr<mud::Widget&(*)(mud::Widget&, const char*, const mud::Image256&)>(mud::ui::image256), mud_ui_image256_20, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "source", type<mud::Image256>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "image256", nullptr, mud_ui_image256_21, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "source", type<mud::Image256>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "image256", funcptr<mud::Widget&(*)(mud::Widget&, const char*, const mud::Image256&, const mud::vec2&)>(mud::ui::image256), mud_ui_image256_21, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "source", type<mud::Image256>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "image256", nullptr, mud_ui_image256_22, { { "parent", type<mud::Widget>(),  }, { "name", type<stl::string>(),  }, { "source", type<mud::Image256>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "image256", funcptr<mud::Widget&(*)(mud::Widget&, const stl::string&, const mud::Image256&)>(mud::ui::image256), mud_ui_image256_22, { { "parent", type<mud::Widget>(),  }, { "name", type<stl::string>(),  }, { "source", type<mud::Image256>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "image256", nullptr, mud_ui_image256_23, { { "parent", type<mud::Widget>(),  }, { "name", type<stl::string>(),  }, { "source", type<mud::Image256>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "image256", funcptr<mud::Widget&(*)(mud::Widget&, const stl::string&, const mud::Image256&, const mud::vec2&)>(mud::ui::image256), mud_ui_image256_23, { { "parent", type<mud::Widget>(),  }, { "name", type<stl::string>(),  }, { "source", type<mud::Image256>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "radio_choice", nullptr, mud_ui_radio_choice_24, { { "parent", type<mud::Widget>(),  }, { "value", type<const char*>(), Param::Nullable }, { "active", type<bool>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "radio_choice", funcptr<mud::Widget&(*)(mud::Widget&, const char*, bool)>(mud::ui::radio_choice), mud_ui_radio_choice_24, { { "parent", type<mud::Widget>(),  }, { "value", type<const char*>(), Param::Nullable }, { "active", type<bool>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static mud::Axis dim_default = mud::Axis::X;
-			static Function f = { &namspc({ "mud", "ui" }), "radio_switch", nullptr, mud_ui_radio_switch_25, { { "parent", type<mud::Widget>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "dim", type<mud::Axis>(), Param::Default, &dim_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "radio_switch", funcptr<bool(*)(mud::Widget&, stl::span<const char*>, uint32_t&, mud::Axis)>(mud::ui::radio_switch), mud_ui_radio_switch_25, { { "parent", type<mud::Widget>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "dim", type<mud::Axis>(), Param::Default, &dim_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "popdown", nullptr, mud_ui_popdown_26, { { "parent", type<mud::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "position", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "popdown", funcptr<bool(*)(mud::Widget&, stl::span<const char*>, uint32_t&, mud::vec2, mud::ui::PopupFlags)>(mud::ui::popdown), mud_ui_popdown_26, { { "parent", type<mud::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "position", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static mud::Style* list_style_default = nullptr;
-			static Function f = { &namspc({ "mud", "ui" }), "dropdown", nullptr, mud_ui_dropdown_27, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "value", type<const char*>(), Param::Nullable }, { "flags", type<mud::ui::PopupFlags>(),  }, { "list_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &list_style_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dropdown", funcptr<mud::Widget&(*)(mud::Widget&, mud::Style&, const char*, mud::ui::PopupFlags, mud::Style*)>(mud::ui::dropdown), mud_ui_dropdown_27, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "value", type<const char*>(), Param::Nullable }, { "flags", type<mud::ui::PopupFlags>(),  }, { "list_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &list_style_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool compact_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "dropdown_input", nullptr, mud_ui_dropdown_input_28, { { "parent", type<mud::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "compact", type<bool>(), Param::Default, &compact_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dropdown_input", funcptr<bool(*)(mud::Widget&, stl::span<const char*>, uint32_t&, bool)>(mud::ui::dropdown_input), mud_ui_dropdown_input_28, { { "parent", type<mud::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "compact", type<bool>(), Param::Default, &compact_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "typedown_input", nullptr, mud_ui_typedown_input_29, { { "parent", type<mud::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "typedown_input", funcptr<bool(*)(mud::Widget&, stl::span<const char*>, uint32_t&)>(mud::ui::typedown_input), mud_ui_typedown_input_29, { { "parent", type<mud::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "menu_choice", nullptr, mud_ui_menu_choice_30, { { "parent", type<mud::Widget>(),  }, { "content", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "menu_choice", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::menu_choice), mud_ui_menu_choice_30, { { "parent", type<mud::Widget>(),  }, { "content", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool submenu_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "menu", nullptr, mud_ui_menu_31, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable }, { "submenu", type<bool>(), Param::Default, &submenu_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "menu", funcptr<mud::Widget&(*)(mud::Widget&, const char*, bool)>(mud::ui::menu), mud_ui_menu_31, { { "parent", type<mud::Widget>(),  }, { "label", type<const char*>(), Param::Nullable }, { "submenu", type<bool>(), Param::Default, &submenu_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "menubar", nullptr, mud_ui_menubar_32, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "menubar", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::menubar), mud_ui_menubar_32, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "toolbutton", nullptr, mud_ui_toolbutton_33, { { "parent", type<mud::Widget>(),  }, { "icon", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "toolbutton", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::toolbutton), mud_ui_toolbutton_33, { { "parent", type<mud::Widget>(),  }, { "icon", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "tooldock", nullptr, mud_ui_tooldock_34, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "tooldock", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::tooldock), mud_ui_tooldock_34, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool wrap_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "toolbar", nullptr, mud_ui_toolbar_35, { { "parent", type<mud::Widget>(),  }, { "wrap", type<bool>(), Param::Default, &wrap_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "toolbar", funcptr<mud::Widget&(*)(mud::Widget&, bool)>(mud::ui::toolbar), mud_ui_toolbar_35, { { "parent", type<mud::Widget>(),  }, { "wrap", type<bool>(), Param::Default, &wrap_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "select_list", nullptr, mud_ui_select_list_36, { { "parent", type<mud::Widget>(),  } }, { &type<mud::ScrollSheet>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "select_list", funcptr<mud::ScrollSheet&(*)(mud::Widget&)>(mud::ui::select_list), mud_ui_select_list_36, { { "parent", type<mud::Widget>(),  } }, { &type<mud::ScrollSheet>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "columns", nullptr, mud_ui_columns_37, { { "parent", type<mud::Widget>(),  }, { "weights", type<stl::span<float>>(),  } }, { &type<mud::Table>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "columns", funcptr<mud::Table&(*)(mud::Widget&, stl::span<float>)>(mud::ui::columns), mud_ui_columns_37, { { "parent", type<mud::Widget>(),  }, { "weights", type<stl::span<float>>(),  } }, { &type<mud::Table>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "table", nullptr, mud_ui_table_38, { { "parent", type<mud::Widget>(),  }, { "columns", type<stl::span<const char*>>(),  }, { "weights", type<stl::span<float>>(),  } }, { &type<mud::Table>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "table", funcptr<mud::Table&(*)(mud::Widget&, stl::span<const char*>, stl::span<float>)>(mud::ui::table), mud_ui_table_38, { { "parent", type<mud::Widget>(),  }, { "columns", type<stl::span<const char*>>(),  }, { "weights", type<stl::span<float>>(),  } }, { &type<mud::Table>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "table_row", nullptr, mud_ui_table_row_39, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "table_row", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::table_row), mud_ui_table_row_39, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "table_separator", nullptr, mud_ui_table_separator_40, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "table_separator", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::table_separator), mud_ui_table_separator_40, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool open_default = true;
-			static Function f = { &namspc({ "mud", "ui" }), "expandbox", nullptr, mud_ui_expandbox_41, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "open", type<bool>(), Param::Default, &open_default } }, { &type<mud::Expandbox>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "expandbox", funcptr<mud::Expandbox&(*)(mud::Widget&, const char*, bool)>(mud::ui::expandbox), mud_ui_expandbox_41, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "open", type<bool>(), Param::Default, &open_default } }, { &type<mud::Expandbox>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool leaf_default = false;
 			static bool open_default = true;
-			static Function f = { &namspc({ "mud", "ui" }), "tree_node", nullptr, mud_ui_tree_node_42, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "leaf", type<bool>(), Param::Default, &leaf_default }, { "open", type<bool>(), Param::Default, &open_default } }, { &type<mud::TreeNode>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "tree_node", funcptr<mud::TreeNode&(*)(mud::Widget&, const char*, bool, bool)>(mud::ui::tree_node), mud_ui_tree_node_42, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "leaf", type<bool>(), Param::Default, &leaf_default }, { "open", type<bool>(), Param::Default, &open_default } }, { &type<mud::TreeNode>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "tree", nullptr, mud_ui_tree_43, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "tree", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::tree), mud_ui_tree_43, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "tab", nullptr, mud_ui_tab_44, { { "tabber", type<mud::Tabber>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "tab", funcptr<mud::Widget*(*)(mud::Tabber&, const char*)>(mud::ui::tab), mud_ui_tab_44, { { "tabber", type<mud::Tabber>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "tabber", nullptr, mud_ui_tabber_45, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Tabber>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "tabber", funcptr<mud::Tabber&(*)(mud::Widget&)>(mud::ui::tabber), mud_ui_tabber_45, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Tabber>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "row", nullptr, mud_ui_row_46, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "row", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::row), mud_ui_row_46, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "header", nullptr, mud_ui_header_47, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "header", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::header), mud_ui_header_47, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "div", nullptr, mud_ui_div_48, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "div", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::div), mud_ui_div_48, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "stack", nullptr, mud_ui_stack_49, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "stack", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::stack), mud_ui_stack_49, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "sheet", nullptr, mud_ui_sheet_50, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "sheet", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::sheet), mud_ui_sheet_50, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "board", nullptr, mud_ui_board_51, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "board", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::board), mud_ui_board_51, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "layout", nullptr, mud_ui_layout_52, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "layout", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::layout), mud_ui_layout_52, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "screen", nullptr, mud_ui_screen_53, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "screen", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::screen), mud_ui_screen_53, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "decal", nullptr, mud_ui_decal_54, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "decal", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::decal), mud_ui_decal_54, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "overlay", nullptr, mud_ui_overlay_55, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "overlay", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::overlay), mud_ui_overlay_55, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "title_header", nullptr, mud_ui_title_header_56, { { "parent", type<mud::Widget>(),  }, { "title", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "title_header", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::title_header), mud_ui_title_header_56, { { "parent", type<mud::Widget>(),  }, { "title", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "dummy", nullptr, mud_ui_dummy_57, { { "parent", type<mud::Widget>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dummy", funcptr<mud::Widget&(*)(mud::Widget&, const mud::vec2&)>(mud::ui::dummy), mud_ui_dummy_57, { { "parent", type<mud::Widget>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "popup", nullptr, mud_ui_popup_58, { { "parent", type<mud::Widget>(),  }, { "flags", type<mud::ui::PopupFlags>(),  } }, { &type<mud::Widget>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static mud::ui::PopupFlags flags_default = mud::ui::PopupFlags::None;
-			static Function f = { &namspc({ "mud", "ui" }), "popup", nullptr, mud_ui_popup_59, { { "parent", type<mud::Widget>(),  }, { "size", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "popup", funcptr<mud::Widget&(*)(mud::Widget&, mud::ui::PopupFlags)>(mud::ui::popup), mud_ui_popup_58, { { "parent", type<mud::Widget>(),  }, { "flags", type<mud::ui::PopupFlags>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static mud::ui::PopupFlags flags_default = mud::ui::PopupFlags::None;
-			static Function f = { &namspc({ "mud", "ui" }), "popup_at", nullptr, mud_ui_popup_at_60, { { "parent", type<mud::Widget>(),  }, { "position", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<mud::Widget>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static Function f = { &namspc({ "mud", "ui" }), "modal", nullptr, mud_ui_modal_61, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static Function f = { &namspc({ "mud", "ui" }), "modal", nullptr, mud_ui_modal_62, { { "parent", type<mud::Widget>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static Function f = { &namspc({ "mud", "ui" }), "auto_modal", nullptr, mud_ui_auto_modal_63, { { "parent", type<mud::Widget>(),  }, { "mode", type<uint32_t>(),  } }, { &type<mud::Widget>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static Function f = { &namspc({ "mud", "ui" }), "auto_modal", nullptr, mud_ui_auto_modal_64, { { "parent", type<mud::Widget>(),  }, { "mode", type<uint32_t>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "popup", funcptr<mud::Widget&(*)(mud::Widget&, const mud::vec2&, mud::ui::PopupFlags)>(mud::ui::popup), mud_ui_popup_59, { { "parent", type<mud::Widget>(),  }, { "size", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static mud::ui::PopupFlags flags_default = mud::ui::PopupFlags::None;
-			static Function f = { &namspc({ "mud", "ui" }), "context", nullptr, mud_ui_context_65, { { "parent", type<mud::Widget>(),  }, { "mode", type<uint32_t>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "popup_at", funcptr<mud::Widget&(*)(mud::Widget&, const mud::vec2&, mud::ui::PopupFlags)>(mud::ui::popup_at), mud_ui_popup_at_60, { { "parent", type<mud::Widget>(),  }, { "position", type<mud::vec2>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<mud::Widget>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "ui" }), "modal", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::modal), mud_ui_modal_61, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "ui" }), "modal", funcptr<mud::Widget&(*)(mud::Widget&, const mud::vec2&)>(mud::ui::modal), mud_ui_modal_62, { { "parent", type<mud::Widget>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "ui" }), "auto_modal", funcptr<mud::Widget&(*)(mud::Widget&, uint32_t)>(mud::ui::auto_modal), mud_ui_auto_modal_63, { { "parent", type<mud::Widget>(),  }, { "mode", type<uint32_t>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud", "ui" }), "auto_modal", funcptr<mud::Widget&(*)(mud::Widget&, uint32_t, const mud::vec2&)>(mud::ui::auto_modal), mud_ui_auto_modal_64, { { "parent", type<mud::Widget>(),  }, { "mode", type<uint32_t>(),  }, { "size", type<mud::vec2>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static mud::ui::PopupFlags flags_default = mud::ui::PopupFlags::None;
+			static Function f = { &namspc({ "mud", "ui" }), "context", funcptr<mud::Widget*(*)(mud::Widget&, uint32_t, mud::ui::PopupFlags)>(mud::ui::context), mud_ui_context_65, { { "parent", type<mud::Widget>(),  }, { "mode", type<uint32_t>(),  }, { "flags", type<mud::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float delay_default = 0.5f;
-			static Function f = { &namspc({ "mud", "ui" }), "hoverbox", nullptr, mud_ui_hoverbox_66, { { "parent", type<mud::Widget>(),  }, { "delay", type<float>(), Param::Default, &delay_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "hoverbox", funcptr<mud::Widget*(*)(mud::Widget&, float)>(mud::ui::hoverbox), mud_ui_hoverbox_66, { { "parent", type<mud::Widget>(),  }, { "delay", type<float>(), Param::Default, &delay_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "tooltip", nullptr, mud_ui_tooltip_67, { { "parent", type<mud::Widget>(),  }, { "position", type<mud::vec2>(),  }, { "content", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "tooltip", funcptr<mud::Widget*(*)(mud::Widget&, const mud::vec2&, const char*)>(mud::ui::tooltip), mud_ui_tooltip_67, { { "parent", type<mud::Widget>(),  }, { "position", type<mud::vec2>(),  }, { "content", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool locked_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "cursor", nullptr, mud_ui_cursor_68, { { "parent", type<mud::Widget>(),  }, { "position", type<mud::vec2>(),  }, { "hovered", type<mud::Widget>(),  }, { "locked", type<bool>(), Param::Default, &locked_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "cursor", funcptr<mud::Widget&(*)(mud::Widget&, const mud::vec2&, mud::Widget&, bool)>(mud::ui::cursor), mud_ui_cursor_68, { { "parent", type<mud::Widget>(),  }, { "position", type<mud::vec2>(),  }, { "hovered", type<mud::Widget>(),  }, { "locked", type<bool>(), Param::Default, &locked_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "rectangle", nullptr, mud_ui_rectangle_69, { { "parent", type<mud::Widget>(),  }, { "rect", type<mud::vec4>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "rectangle", funcptr<mud::Widget&(*)(mud::Widget&, const mud::vec4&)>(mud::ui::rectangle), mud_ui_rectangle_69, { { "parent", type<mud::Widget>(),  }, { "rect", type<mud::vec4>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "viewport", nullptr, mud_ui_viewport_70, { { "parent", type<mud::Widget>(),  }, { "rect", type<mud::vec4>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "viewport", funcptr<mud::Widget&(*)(mud::Widget&, const mud::vec4&)>(mud::ui::viewport), mud_ui_viewport_70, { { "parent", type<mud::Widget>(),  }, { "rect", type<mud::vec4>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "dockspace", nullptr, mud_ui_dockspace_71, { { "parent", type<mud::Widget>(),  }, { "docksystem", type<mud::Docksystem>(),  } }, { &type<mud::Dockspace>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dockspace", funcptr<mud::Dockspace&(*)(mud::Widget&, mud::Docksystem&)>(mud::ui::dockspace), mud_ui_dockspace_71, { { "parent", type<mud::Widget>(),  }, { "docksystem", type<mud::Docksystem>(),  } }, { &type<mud::Dockspace>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "dockbar", nullptr, mud_ui_dockbar_72, { { "parent", type<mud::Widget>(),  }, { "docksystem", type<mud::Docksystem>(),  } }, { &type<mud::Dockbar>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dockbar", funcptr<mud::Dockbar&(*)(mud::Widget&, mud::Docksystem&)>(mud::ui::dockbar), mud_ui_dockbar_72, { { "parent", type<mud::Widget>(),  }, { "docksystem", type<mud::Docksystem>(),  } }, { &type<mud::Dockbar>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "dockitem", nullptr, mud_ui_dockitem_73, { { "parent", type<mud::Widget>(),  }, { "docksystem", type<mud::Docksystem>(),  }, { "dock", type<mud::Dock>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dockitem", funcptr<mud::Widget*(*)(mud::Widget&, mud::Docksystem&, mud::Dock&)>(mud::ui::dockitem), mud_ui_dockitem_73, { { "parent", type<mud::Widget>(),  }, { "docksystem", type<mud::Docksystem>(),  }, { "dock", type<mud::Dock>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float step_default = 0.1f;
-			static Function f = { &namspc({ "mud", "ui" }), "drag_float", nullptr, mud_ui_drag_float_74, { { "parent", type<mud::Widget>(),  }, { "value", type<float>(),  }, { "step", type<float>(), Param::Default, &step_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "drag_float", funcptr<bool(*)(mud::Widget&, float&, float)>(mud::ui::drag_float), mud_ui_drag_float_74, { { "parent", type<mud::Widget>(),  }, { "value", type<float>(),  }, { "step", type<float>(), Param::Default, &step_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "vec2_edit", nullptr, mud_ui_vec2_edit_75, { { "parent", type<mud::Widget>(),  }, { "vec", type<mud::vec2>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "vec2_edit", funcptr<bool(*)(mud::Widget&, mud::vec2&)>(mud::ui::vec2_edit), mud_ui_vec2_edit_75, { { "parent", type<mud::Widget>(),  }, { "vec", type<mud::vec2>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "vec3_edit", nullptr, mud_ui_vec3_edit_76, { { "parent", type<mud::Widget>(),  }, { "vec", type<mud::vec3>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "vec3_edit", funcptr<bool(*)(mud::Widget&, mud::vec3&)>(mud::ui::vec3_edit), mud_ui_vec3_edit_76, { { "parent", type<mud::Widget>(),  }, { "vec", type<mud::vec3>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "quat_edit", nullptr, mud_ui_quat_edit_77, { { "parent", type<mud::Widget>(),  }, { "quat", type<mud::quat>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "quat_edit", funcptr<bool(*)(mud::Widget&, mud::quat&)>(mud::ui::quat_edit), mud_ui_quat_edit_77, { { "parent", type<mud::Widget>(),  }, { "quat", type<mud::quat>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "color_display", nullptr, mud_ui_color_display_78, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "color_display", funcptr<mud::Widget&(*)(mud::Widget&, const mud::Colour&)>(mud::ui::color_display), mud_ui_color_display_78, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "color_edit", nullptr, mud_ui_color_edit_79, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "color_edit", funcptr<bool(*)(mud::Widget&, mud::Colour&)>(mud::ui::color_edit), mud_ui_color_edit_79, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "color_edit_simple", nullptr, mud_ui_color_edit_simple_80, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "color_edit_simple", funcptr<bool(*)(mud::Widget&, mud::Colour&)>(mud::ui::color_edit_simple), mud_ui_color_edit_simple_80, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "color_toggle_edit", nullptr, mud_ui_color_toggle_edit_81, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static stl::span<float> points_default = {};
-			static Function f = { &namspc({ "mud", "ui" }), "curve_graph", nullptr, mud_ui_curve_graph_82, { { "parent", type<mud::Widget>(),  }, { "values", type<stl::span<float>>(),  }, { "points", type<stl::span<float>>(), Param::Default, &points_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "color_toggle_edit", funcptr<bool(*)(mud::Widget&, mud::Colour&)>(mud::ui::color_toggle_edit), mud_ui_color_toggle_edit_81, { { "parent", type<mud::Widget>(),  }, { "value", type<mud::Colour>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static stl::span<float> points_default = {};
-			static Function f = { &namspc({ "mud", "ui" }), "curve_edit", nullptr, mud_ui_curve_edit_83, { { "parent", type<mud::Widget>(),  }, { "values", type<stl::span<float>>(),  }, { "points", type<stl::span<float>>(), Param::Default, &points_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "curve_graph", funcptr<bool(*)(mud::Widget&, stl::span<float>, stl::span<float>)>(mud::ui::curve_graph), mud_ui_curve_graph_82, { { "parent", type<mud::Widget>(),  }, { "values", type<stl::span<float>>(),  }, { "points", type<stl::span<float>>(), Param::Default, &points_default } }, { &type<bool>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static stl::span<float> points_default = {};
+			static Function f = { &namspc({ "mud", "ui" }), "curve_edit", funcptr<bool(*)(mud::Widget&, stl::span<float>, stl::span<float>)>(mud::ui::curve_edit), mud_ui_curve_edit_83, { { "parent", type<mud::Widget>(),  }, { "values", type<stl::span<float>>(),  }, { "points", type<stl::span<float>>(), Param::Default, &points_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "flag_field", nullptr, mud_ui_flag_field_84, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<uint32_t>(),  }, { "shift", type<uint8_t>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "flag_field", funcptr<bool(*)(mud::Widget&, const char*, uint32_t&, uint8_t, bool)>(mud::ui::flag_field), mud_ui_flag_field_84, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<uint32_t>(),  }, { "shift", type<uint8_t>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static mud::Axis dim_default = mud::Axis::X;
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "radio_field", nullptr, mud_ui_radio_field_85, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "dim", type<mud::Axis>(), Param::Default, &dim_default }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "radio_field", funcptr<bool(*)(mud::Widget&, const char*, stl::span<const char*>, uint32_t&, mud::Axis, bool)>(mud::ui::radio_field), mud_ui_radio_field_85, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "dim", type<mud::Axis>(), Param::Default, &dim_default }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "dropdown_field", nullptr, mud_ui_dropdown_field_86, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dropdown_field", funcptr<bool(*)(mud::Widget&, const char*, stl::span<const char*>, uint32_t&, bool)>(mud::ui::dropdown_field), mud_ui_dropdown_field_86, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "typedown_field", nullptr, mud_ui_typedown_field_87, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "typedown_field", funcptr<bool(*)(mud::Widget&, const char*, stl::span<const char*>, uint32_t&, bool)>(mud::ui::typedown_field), mud_ui_typedown_field_87, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "color_field", nullptr, mud_ui_color_field_88, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<mud::Colour>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "color_field", funcptr<bool(*)(mud::Widget&, const char*, mud::Colour&, bool)>(mud::ui::color_field), mud_ui_color_field_88, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<mud::Colour>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "color_display_field", nullptr, mud_ui_color_display_field_89, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<mud::Colour>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, g_qvoid };
+			static Function f = { &namspc({ "mud", "ui" }), "color_display_field", funcptr<void(*)(mud::Widget&, const char*, const mud::Colour&, bool)>(mud::ui::color_display_field), mud_ui_color_display_field_89, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<mud::Colour>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool editor_default = false;
 			static size_t lines_default = 1;
 			static stl::string allowed_chars_default = "";
-			static Function f = { &namspc({ "mud", "ui" }), "text_box", nullptr, mud_ui_text_box_90, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "text", type<stl::string>(),  }, { "editor", type<bool>(), Param::Default, &editor_default }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "allowed_chars", type<stl::string>(), Param::Default, &allowed_chars_default } }, { &type<mud::TextEdit>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "text_box", funcptr<mud::TextEdit&(*)(mud::Widget&, mud::Style&, stl::string&, bool, size_t, const stl::string&)>(mud::ui::text_box), mud_ui_text_box_90, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "text", type<stl::string>(),  }, { "editor", type<bool>(), Param::Default, &editor_default }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "allowed_chars", type<stl::string>(), Param::Default, &allowed_chars_default } }, { &type<mud::TextEdit>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static size_t lines_default = 1;
 			static stl::string allowed_chars_default = "";
-			static Function f = { &namspc({ "mud", "ui" }), "type_in", nullptr, mud_ui_type_in_91, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "allowed_chars", type<stl::string>(), Param::Default, &allowed_chars_default } }, { &type<mud::TextEdit>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "type_in", funcptr<mud::TextEdit&(*)(mud::Widget&, stl::string&, size_t, const stl::string&)>(mud::ui::type_in), mud_ui_type_in_91, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "allowed_chars", type<stl::string>(), Param::Default, &allowed_chars_default } }, { &type<mud::TextEdit>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static size_t lines_default = 1;
 			static stl::vector<stl::string>* vocabulary_default = nullptr;
-			static Function f = { &namspc({ "mud", "ui" }), "text_edit", nullptr, mud_ui_text_edit_92, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "vocabulary", type<stl::vector<stl::string>>(), Param::Flags(Param::Nullable|Param::Default), &vocabulary_default } }, { &type<mud::TextEdit>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "text_edit", funcptr<mud::TextEdit&(*)(mud::Widget&, stl::string&, size_t, stl::vector<stl::string>*)>(mud::ui::text_edit), mud_ui_text_edit_92, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "vocabulary", type<stl::vector<stl::string>>(), Param::Flags(Param::Nullable|Param::Default), &vocabulary_default } }, { &type<mud::TextEdit>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static size_t lines_default = 1;
 			static stl::vector<stl::string>* vocabulary_default = nullptr;
-			static Function f = { &namspc({ "mud", "ui" }), "code_edit", nullptr, mud_ui_code_edit_93, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "vocabulary", type<stl::vector<stl::string>>(), Param::Flags(Param::Nullable|Param::Default), &vocabulary_default } }, { &type<mud::TextEdit>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "code_edit", funcptr<mud::TextEdit&(*)(mud::Widget&, stl::string&, size_t, stl::vector<stl::string>*)>(mud::ui::code_edit), mud_ui_code_edit_93, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "vocabulary", type<stl::vector<stl::string>>(), Param::Flags(Param::Nullable|Param::Default), &vocabulary_default } }, { &type<mud::TextEdit>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2019,7 +2019,7 @@ namespace mud
 			static mud::Colour colour_default = mud::Colour::NeonGreen;
 			static bool active_default = true;
 			static bool connected_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "node_input", nullptr, mud_ui_node_input_94, { { "node", type<mud::Node>(),  }, { "name", type<const char*>(), Param::Nullable }, { "icon", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &icon_default }, { "colour", type<mud::Colour>(), Param::Default, &colour_default }, { "active", type<bool>(), Param::Default, &active_default }, { "connected", type<bool>(), Param::Default, &connected_default } }, { &type<mud::NodePlug>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "node_input", funcptr<mud::NodePlug&(*)(mud::Node&, const char*, const char*, const mud::Colour&, bool, bool)>(mud::ui::node_input), mud_ui_node_input_94, { { "node", type<mud::Node>(),  }, { "name", type<const char*>(), Param::Nullable }, { "icon", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &icon_default }, { "colour", type<mud::Colour>(), Param::Default, &colour_default }, { "active", type<bool>(), Param::Default, &active_default }, { "connected", type<bool>(), Param::Default, &connected_default } }, { &type<mud::NodePlug>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2027,92 +2027,92 @@ namespace mud
 			static mud::Colour colour_default = mud::Colour::NeonGreen;
 			static bool active_default = true;
 			static bool connected_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "node_output", nullptr, mud_ui_node_output_95, { { "node", type<mud::Node>(),  }, { "name", type<const char*>(), Param::Nullable }, { "icon", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &icon_default }, { "colour", type<mud::Colour>(), Param::Default, &colour_default }, { "active", type<bool>(), Param::Default, &active_default }, { "connected", type<bool>(), Param::Default, &connected_default } }, { &type<mud::NodePlug>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "node_output", funcptr<mud::NodePlug&(*)(mud::Node&, const char*, const char*, const mud::Colour&, bool, bool)>(mud::ui::node_output), mud_ui_node_output_95, { { "node", type<mud::Node>(),  }, { "name", type<const char*>(), Param::Nullable }, { "icon", type<const char*>(), Param::Flags(Param::Nullable|Param::Default), &icon_default }, { "colour", type<mud::Colour>(), Param::Default, &colour_default }, { "active", type<bool>(), Param::Default, &active_default }, { "connected", type<bool>(), Param::Default, &connected_default } }, { &type<mud::NodePlug>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static int order_default = 0;
 			static mud::Ref identity_default = {};
-			static Function f = { &namspc({ "mud", "ui" }), "node", nullptr, mud_ui_node_96, { { "parent", type<mud::Canvas>(),  }, { "title", type<const char*>(), Param::Nullable }, { "position", type<mud::vec2>(),  }, { "order", type<int>(), Param::Default, &order_default }, { "identity", type<mud::Ref>(), Param::Flags(Param::Nullable|Param::Default), &identity_default } }, { &type<mud::Node>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "node", funcptr<mud::Node&(*)(mud::Canvas&, const char*, mud::vec2&, int, mud::Ref)>(mud::ui::node), mud_ui_node_96, { { "parent", type<mud::Canvas>(),  }, { "title", type<const char*>(), Param::Nullable }, { "position", type<mud::vec2>(),  }, { "order", type<int>(), Param::Default, &order_default }, { "identity", type<mud::Ref>(), Param::Flags(Param::Nullable|Param::Default), &identity_default } }, { &type<mud::Node>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "node_cable", nullptr, mud_ui_node_cable_97, { { "canvas", type<mud::Canvas>(),  }, { "plug_out", type<mud::NodePlug>(),  }, { "plug_in", type<mud::NodePlug>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "node_cable", funcptr<mud::Widget&(*)(mud::Canvas&, mud::NodePlug&, mud::NodePlug&)>(mud::ui::node_cable), mud_ui_node_cable_97, { { "canvas", type<mud::Canvas>(),  }, { "plug_out", type<mud::NodePlug>(),  }, { "plug_in", type<mud::NodePlug>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static size_t num_nodes_default = 0;
-			static Function f = { &namspc({ "mud", "ui" }), "canvas", nullptr, mud_ui_canvas_98, { { "parent", type<mud::Widget>(),  }, { "num_nodes", type<size_t>(), Param::Default, &num_nodes_default } }, { &type<mud::Canvas>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "canvas", funcptr<mud::Canvas&(*)(mud::Widget&, size_t)>(mud::ui::canvas), mud_ui_canvas_98, { { "parent", type<mud::Widget>(),  }, { "num_nodes", type<size_t>(), Param::Default, &num_nodes_default } }, { &type<mud::Canvas>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "scrollable", nullptr, mud_ui_scrollable_99, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "scrollable", funcptr<mud::Widget&(*)(mud::Widget&)>(mud::ui::scrollable), mud_ui_scrollable_99, { { "parent", type<mud::Widget>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "sequence", nullptr, mud_ui_sequence_100, { { "parent", type<mud::Widget>(),  } }, { &type<mud::ui::Sequence>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "sequence", funcptr<mud::ui::Sequence&(*)(mud::Widget&)>(mud::ui::sequence), mud_ui_sequence_100, { { "parent", type<mud::Widget>(),  } }, { &type<mud::ui::Sequence>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "scroll_sequence", nullptr, mud_ui_scroll_sequence_101, { { "parent", type<mud::Widget>(),  } }, { &type<mud::ui::Sequence>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "scroll_sequence", funcptr<mud::ui::Sequence&(*)(mud::Widget&)>(mud::ui::scroll_sequence), mud_ui_scroll_sequence_101, { { "parent", type<mud::Widget>(),  } }, { &type<mud::ui::Sequence>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "multiselect_logic", nullptr, mud_ui_multiselect_logic_102, { { "element", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable }, { "selection", type<stl::vector<mud::Ref>>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "multiselect_logic", funcptr<bool(*)(mud::Widget&, mud::Ref, stl::vector<mud::Ref>&)>(mud::ui::multiselect_logic), mud_ui_multiselect_logic_102, { { "element", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable }, { "selection", type<stl::vector<mud::Ref>>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "select_logic", nullptr, mud_ui_select_logic_103, { { "element", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable }, { "selection", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "select_logic", funcptr<bool(*)(mud::Widget&, mud::Ref, mud::Ref&)>(mud::ui::select_logic), mud_ui_select_logic_103, { { "element", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable }, { "selection", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "element", nullptr, mud_ui_element_104, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "element", funcptr<mud::Widget&(*)(mud::Widget&, mud::Ref)>(mud::ui::element), mud_ui_element_104, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "sequence_element", nullptr, mud_ui_sequence_element_105, { { "parent", type<mud::ui::Sequence>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "sequence_element", funcptr<mud::Widget&(*)(mud::ui::Sequence&, mud::Ref)>(mud::ui::sequence_element), mud_ui_sequence_element_105, { { "parent", type<mud::ui::Sequence>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static mud::WindowState state_default = WINDOW_DEFAULT;
-			static Function f = { &namspc({ "mud", "ui" }), "window", nullptr, mud_ui_window_106, { { "parent", type<mud::Widget>(),  }, { "title", type<const char*>(), Param::Nullable }, { "state", type<mud::WindowState>(), Param::Default, &state_default } }, { &type<mud::Window>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "window", funcptr<mud::Window&(*)(mud::Widget&, const char*, mud::WindowState)>(mud::ui::window), mud_ui_window_106, { { "parent", type<mud::Widget>(),  }, { "title", type<const char*>(), Param::Nullable }, { "state", type<mud::WindowState>(), Param::Default, &state_default } }, { &type<mud::Window>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "dir_item", nullptr, mud_ui_dir_item_107, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dir_item", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::dir_item), mud_ui_dir_item_107, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "file_item", nullptr, mud_ui_file_item_108, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "file_item", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::file_item), mud_ui_file_item_108, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "file_list", nullptr, mud_ui_file_list_109, { { "parent", type<mud::Widget>(),  }, { "path", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "file_list", funcptr<mud::Widget&(*)(mud::Widget&, stl::string&)>(mud::ui::file_list), mud_ui_file_list_109, { { "parent", type<mud::Widget>(),  }, { "path", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "file_browser", nullptr, mud_ui_file_browser_110, { { "parent", type<mud::Widget>(),  }, { "path", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "file_browser", funcptr<mud::Widget&(*)(mud::Widget&, stl::string&)>(mud::ui::file_browser), mud_ui_file_browser_110, { { "parent", type<mud::Widget>(),  }, { "path", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "dir_node", nullptr, mud_ui_dir_node_111, { { "parent", type<mud::Widget>(),  }, { "path", type<const char*>(), Param::Nullable }, { "name", type<const char*>(), Param::Nullable }, { "collapsed", type<bool>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dir_node", funcptr<mud::Widget&(*)(mud::Widget&, const char*, const char*, bool)>(mud::ui::dir_node), mud_ui_dir_node_111, { { "parent", type<mud::Widget>(),  }, { "path", type<const char*>(), Param::Nullable }, { "name", type<const char*>(), Param::Nullable }, { "collapsed", type<bool>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "file_node", nullptr, mud_ui_file_node_112, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "file_node", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::file_node), mud_ui_file_node_112, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "file_tree", nullptr, mud_ui_file_tree_113, { { "parent", type<mud::Widget>(),  }, { "path", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "file_tree", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::file_tree), mud_ui_file_tree_113, { { "parent", type<mud::Widget>(),  }, { "path", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "command_line", nullptr, mud_ui_command_line_114, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "command", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "command_line", funcptr<mud::Widget&(*)(mud::Widget&, stl::string&, stl::string&)>(mud::ui::command_line), mud_ui_command_line_114, { { "parent", type<mud::Widget>(),  }, { "text", type<stl::string>(),  }, { "command", type<stl::string>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static size_t num_lines_default = 0;
-			static Function f = { &namspc({ "mud", "ui" }), "console", nullptr, mud_ui_console_115, { { "parent", type<mud::Widget>(),  }, { "feed", type<stl::string>(),  }, { "line", type<stl::string>(),  }, { "command", type<stl::string>(),  }, { "num_lines", type<size_t>(), Param::Default, &num_lines_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "console", funcptr<mud::Widget&(*)(mud::Widget&, stl::string&, stl::string&, stl::string&, size_t)>(mud::ui::console), mud_ui_console_115, { { "parent", type<mud::Widget>(),  }, { "feed", type<stl::string>(),  }, { "line", type<stl::string>(),  }, { "command", type<stl::string>(),  }, { "num_lines", type<size_t>(), Param::Default, &num_lines_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 	}

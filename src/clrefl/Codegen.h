@@ -9,6 +9,7 @@ namespace clgen
 {
 	inline vector<string> quote(span<string> strings) { return transform<string>(strings, [](const string& s) { return "\"" + s + "\""; }); }
 	inline string comma(span<string> strings) { return join(strings, ", "); }
+	inline string space(span<string> strings) { return join(strings, " "); }
 
 	string replace_any(const string& original, span<string> tokens, string with)
 	{
@@ -297,7 +298,8 @@ namespace clgen
 
 	string function_identity(const CLCallable& f)
 	{
-		return "nullptr";// "funcptr<" + function_signature(f) + ">(&" + f.m_id + ")";
+		return "funcptr<" + function_signature(f) + ">(" + f.m_id + ")";
+		//return "nullptr";// "funcptr(&" + f.m_id + ")";
 	}
 	
 	string function_return_def(const CLCallable& f)
@@ -1276,7 +1278,7 @@ namespace clgen
 			for(size_t i = f.m_min_args; i <= f.m_params.size(); ++i)
 			{
 				if(o.sigs.find(i) != o.sigs.end())
-					printf("WARNING: can't bind %s%s:%i (can only overload signatures of different lengths)\n", f.m_parent->m_prefix.c_str(), f.m_name.c_str(), int(i));
+					printf("[warning] can't bind %s%s:%i (can only overload signatures of different lengths)\n", f.m_parent->m_prefix.c_str(), f.m_name.c_str(), int(i));
 				else
 					o.sigs.insert({ i, &f });
 			}
@@ -1370,7 +1372,7 @@ namespace clgen
 				else if(has({ "float" }, prim.m_name)) value = "ensureFloat32(" + a + ")";
 				else if(has({ "double" }, prim.m_name)) value = "ensureFloat64(" + a + ")";
 				else
-					printf("WARNING: unknown array primitive\n");
+					printf("[warning] unknown array primitive\n");
 
 				if(t.issequence()) return value + ", " + a + ".length";
 				else return value;
@@ -1431,25 +1433,38 @@ namespace clgen
 			return call;
 		};
 
-		auto js_wrap_optional_call = [&](const CLCallable& f, size_t n, const string& call, size_t max_args)
+		auto js_call_wrap_n = [&](const string& body, size_t n, size_t max_args, bool first)
 		{
 			if(n < max_args)
-				jsw("if (a" + to_string(n) + " === undefined) { " + call + (f.m_return_type.isvoid() ? " return;" : "") + " }");
+			{
+				if(first)
+					return "if (a" + to_string(n) + " === undefined) { " + body + " }";
+				else
+					return "else if (a" + to_string(n) + " === undefined) { " + body + " }";
+			}
 			else
-				jsw(call);
+			{
+				if(!first)
+					return "else { " + body + " }";
+				else
+					return body;
+			}
 		};
 
-		auto js_call_n = [&](const CLCallable& f, size_t n, size_t max_args)
+		auto js_call_n = [&](const CLCallable& f, size_t n, size_t max_args, bool first)
 		{
 			string call = f.m_kind == CLPrimitiveKind::Constructor ? js_call_constructor(f, n) : js_call_func(f, n);
-			return js_wrap_optional_call(f, n, call, max_args);
-
+			jsw(js_call_wrap_n(call, n, max_args, first));
 		};
 
 		auto js_call = [&](const CLCallable& f, const Overloads& o)
 		{
+			bool first = true;
 			for(auto& sig : o.sigs)
-				js_call_n(*sig.second, sig.first, f.m_params.size());
+			{
+				js_call_n(*sig.second, sig.first, f.m_params.size(), first);
+				first = false;
+			}
 		};
 
 		auto js_call_prepare = [&](const CLCallable& f)
@@ -1464,28 +1479,48 @@ namespace clgen
 				jsw("ensureCache.prepare();");
 		};
 
-		auto js_check_msg = [](const CLClass& c, const CLCallable& f, const CLParam& p)
+		auto js_check_msg = [](const CLCallable& f, const CLParam& p, const string& a)
 		{
-			return "[CHECK FAILED] " + c.m_name + "::" + f.m_name + "(arg" + to_string(p.m_index) + ":" + p.m_name + "): ";
+			return "[ERROR] " + f.m_name + "(" + to_string(p.m_index) + ":" + p.m_name + "): ";
 		};
 
-		auto js_call_check_arg = [&](const CLType& t, const string& a, bool optional)
+		auto js_call_check_arg = [&](const CLCallable& f, const CLParam& p, const string& a)
 		{
-			string msg = "";// js_check_msg(c, f, p);
-			if(optional) jsw("if (typeof " + a + " !== \"undefined\" && " + a + " !== null) {");
+			string msg = js_check_msg(f, p, a);
 
-			if(t.isinteger())
-				jsw("assert(typeof " + a + " === \"number\" && !isNaN(" + a + "), \"" + msg + "Expecting <integer>\");");
+			const CLType& t = *p.m_type.m_type;
+
+			if(t.isinteger() || t.ischar() || t.isvoidptr() || t.isenum())
+				return "assert(typeof " + a + " === 'number', '" + msg + "expected integer');";
 			else if(t.isfloat())
-				jsw("assert(typeof " + a + " === \"number\", \"" + msg + "Expecting <number>\");");
+				return "assert(typeof " + a + " === 'number', '" + msg + "expected number');";
 			else if(t.isboolean())
-				jsw("assert(typeof " + a + " === \"boolean\" || (typeof " + a + " === \"number\" && !isNaN(" + a + ")), \"" + msg + "Expecting <boolean>\");");
+				return "assert(typeof " + a + " === 'boolean', '" + msg + "expected boolean');";
 			else if(t.iscstring() || t.isstring())
-				jsw("assert(typeof " + a + " === \"string\" || (" + a + " && typeof " + a + " === \"object\" && typeof " + a + ".__ptr === \"number\"), \"" + msg + "Expecting <string>\");");
+				return "assert(typeof " + a + " === 'string', '" + msg + "expected string');";
+				//return "assert(typeof " + a + " === 'string' || (" + a + " && typeof " + a + " === 'object' && typeof " + a + ".__ptr === 'number'), '" + msg + "expected string');";
 			else if(t.isclass())
-				jsw("assert(typeof " + a + " === \"object\" && typeof " + a + ".__ptr === \"number\", \"" + msg + "Expecting <pointer>\");");
+				return "assert(" + a + ".__type === " + name(t) + ".__type, '" + msg + "expected " + t.m_name + "');";
+				//return "assert(typeof " + a + " === 'object' && " + a + ".__type === " + name(t) + ".__type, '" + msg + "expected " + t.m_name + "');";
 
-			if(optional) jsw("}");
+			return string("");
+		};
+
+		auto js_call_check_n = [&](const CLCallable& f, size_t n, size_t max_args, bool first)
+		{
+			vector<string> check_args = transform<string>(0, n, [&](size_t i) { return js_call_check_arg(f, f.m_params[i], "a" + to_string(i)); });
+			string checks = space(check_args);
+			jsw(js_call_wrap_n(checks, n, max_args, first));
+		};
+
+		auto js_call_check = [&](const CLCallable& f, const Overloads& o)
+		{
+			bool first = true;
+			for(auto& sig : o.sigs)
+			{
+				js_call_check_n(*sig.second, sig.first, f.m_params.size(), first);
+				first = false;
+			}
 		};
 
 		// We need to avoid some closure errors on the constructors we define here.
@@ -1503,6 +1538,7 @@ namespace clgen
 				jsw(js_module_path(m, f) + " = ", true);
 			jsw(js_supress + "function" + (ctor ? " " + name(*f.m_parent) : "") + "(" + comma(js_signature_args(f, max_args)) + ") {");
 			js_call_prepare(f);
+			js_call_check(f, o);
 			js_call(f, o);
 			jsw("};");
 		};
@@ -1572,7 +1608,7 @@ namespace clgen
 			else if(op == "[]")
 				cw("((*self)[" + deref + f.m_params[0].m_name + "])");
 			else
-				printf("ERROR: unfamiliar operator %s\n", op.c_str());
+				printf("[ERROR] unfamiliar operator %s\n", op.c_str());
 		};
 
 		auto c_value_wrap = [&](const CLQualType& q, const string& call, bool ref)
@@ -1587,7 +1623,7 @@ namespace clgen
 				cw("return (" + reduce_element(*q.m_type).m_id + "*)" + call + ".data();");
 			else if(!ref && q.value() && !q.m_type->copyable())
 			{
-				printf("WARNING: cbind - %s - binding return by-value of non-struct type is not supported\n", call.c_str());
+				printf("[warning] cbind - %s - binding return by-value of non-struct type is not supported\n", call.c_str());
 				cw(call + ";");
 			}
 			else if(ref || !q.value() || !q.m_type->copyable())

@@ -58,7 +58,7 @@ namespace mud
 	{
 		if(m_assets.find(name) != m_assets.end())
 		{
-			printf("WARNING: creating asset %s of already existing name: previous asset deleted\n", name.c_str());
+			printf("[warning] creating asset %s of already existing name: previous asset deleted\n", name.c_str());
 			remove(m_vector, &*m_assets[name]);
 		}
 		m_assets[name] = make_unique<T_Asset>(name);

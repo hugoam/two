@@ -17,6 +17,7 @@ namespace mud
     template <> MUD_TOOL_EXPORT Type& type<mud::EditContext>() { static Type ty("EditContext", sizeof(mud::EditContext)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::EditorAction>() { static Type ty("EditorAction", sizeof(mud::EditorAction)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::Gizmo>() { static Type ty("Gizmo", sizeof(mud::Gizmo)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::Selection>() { static Type ty("Selection", sizeof(mud::Selection)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::Tool>() { static Type ty("Tool", sizeof(mud::Tool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::ToolContext>() { static Type ty("ToolContext", sizeof(mud::ToolContext)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::ToolOption>() { static Type ty("ToolOption", sizeof(mud::ToolOption)); return ty; }

@@ -40,7 +40,7 @@ namespace mud
 	{
 		if(!file_exists(path))
 		{
-			printf("ERROR: couldn't open file %s\n", path.c_str());
+			printf("[ERROR] couldn't open file %s\n", path.c_str());
 			return;
 		}
 
@@ -59,7 +59,7 @@ namespace mud
 	void dump_json_file(const string& path, const Json& value)
 	{
 		if(!file_exists(path))
-			printf("ERROR: couldn't open file %s\n", path.c_str());
+			printf("[ERROR] couldn't open file %s\n", path.c_str());
 		std::string text = value.dump();
 		write_file(path, string(text.data(), text.data() + text.size()));
 	}
@@ -217,7 +217,7 @@ namespace mud
 
 		if(!g_class[type(value).m_id])
 		{
-			printf("WARNING: unpack - type %s is not a class\n", type(value).m_name);
+			printf("[warning] unpack - type %s is not a class\n", type(value).m_name);
 			return;
 		}
 
@@ -229,7 +229,7 @@ namespace mud
 			auto unpack_member = [&](const Member& member, const Json& member_value)
 			{
 #if MUD_DEBUG_SERIAL
-				printf("DEBUG: unpacking member %s :: %s\n", type(value).m_name, member.m_name);
+				printf("[debug] unpacking member %s :: %s\n", type(value).m_name, member.m_name);
 #endif
 				if(is_abstract(*member.m_type))
 					member.set(value, unpack_typed(unpacker, member_value));
@@ -261,7 +261,7 @@ namespace mud
 			{
 				const Param& param = construct.m_callable->m_params[index + 1];
 #ifdef MUD_DEBUG_SERIAL
-				printf("DEBUG: unpacking param %s :: %s\n", type(value).m_name, param.m_name);
+				printf("[debug] unpacking param %s :: %s\n", type(value).m_name, param.m_name);
 #endif
 				const Json& json_field = json_value.is_array() ? json_value[index]
 															   : json_value[param.m_name];

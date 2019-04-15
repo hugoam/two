@@ -105,10 +105,11 @@ namespace mud
 		f.m_module = &module;
 		f.m_reflect = should_reflect(cursor, module);
 
-		if(has_pred(module.m_func_templates, [&](const unique<CLFunction>& l) { return l->m_name == f.m_name; }))
+		if(cursor.kind == CXCursor_FunctionDecl
+		&& has_pred(module.m_func_templates, [&](const unique<CLFunction>& l) { return l->m_name == f.m_name; }))
 		{
-			string name = displayname(cursor);
-			string template_type = split(name.substr(name.find("(") + 1), ",")[0];
+			const string name = displayname(cursor);
+			const string template_type = split(name.substr(name.find("(") + 1), ",")[0];
 			//printf("Templated Function %s\n", template_type.c_str());
 			f.m_name += "<" + template_type + ">";
 			f.m_id += "<" + template_type + ">";
@@ -132,6 +133,7 @@ namespace mud
 	{
 		//print "Function Template ", cursor.displayname
 		CLFunction& f = vector_emplace<CLFunction>(module.m_func_templates, parent, spelling(cursor));
+		f.m_is_template = true;
 		decl_callable(module, parent, f, cursor);
 	}
 
@@ -149,7 +151,7 @@ namespace mud
 		if(c.m_template == nullptr)
 		{
 			c.m_reflect = false;
-			printf("ERROR: %s - could not find template type definition\n", c.m_name.c_str());
+			printf("[ERROR] %s - could not find template type definition\n", c.m_name.c_str());
 			return;
 		}
 
@@ -563,7 +565,7 @@ namespace mud
 			for(auto& module : m_modules)
 				if(id == module->m_id)
 					return *module;
-			printf("ERROR: fetching inexistent module\n");
+			printf("[ERROR] fetching inexistent module\n");
 			static CLModule invalid; return invalid;
 		}
 

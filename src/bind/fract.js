@@ -1,6 +1,7 @@
 Module['stl'] = Module['stl'] || {};
 // Circlifier
 function Circlifier(a0) {
+    assert(a0.__type === Image256.__type, '[ERROR] Circlifier(0:image): expected Image256');
     this.__ptr = _mud_Circlifier__construct_1(/*image*/a0.__ptr); this.__type = Circlifier.__type; getCache(Circlifier)[this.__ptr] = this;
 };
 Circlifier.prototype = Object.create(WrapperObject.prototype);
@@ -13,8 +14,10 @@ Circlifier.prototype["__destroy"] = Circlifier.prototype.__destroy = function() 
 };
 // Fract
 function Fract(a0) {
-    if (a0 === undefined) { this.__ptr = _mud_Fract__construct_0(); this.__type = Fract.__type; getCache(Fract)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Fract__construct_1(/*num_tabs*/a0); this.__type = Fract.__type; getCache(Fract)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(typeof a0 === 'number', '[ERROR] Fract(0:num_tabs): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_Fract__construct_0(); this.__type = Fract.__type; getCache(Fract)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Fract__construct_1(/*num_tabs*/a0); this.__type = Fract.__type; getCache(Fract)[this.__ptr] = this; }
 };
 Fract.prototype = Object.create(WrapperObject.prototype);
 Fract.prototype.constructor = Fract;
@@ -22,16 +25,21 @@ Fract.prototype.__class = Fract;
 Fract.__cache = {};
 Module['Fract'] = Fract;
 Fract.prototype["generate"] = Fract.prototype.generate = function(a0) {
-    if (a0 === undefined) { _mud_Fract_generate_0(this.__ptr); return; }
-    _mud_Fract_generate_1(this.__ptr, /*num_tabs*/a0);
+    if (a0 === undefined) {  }
+    else { assert(typeof a0 === 'number', '[ERROR] generate(0:num_tabs): expected integer'); }
+    if (a0 === undefined) { _mud_Fract_generate_0(this.__ptr); }
+    else { _mud_Fract_generate_1(this.__ptr, /*num_tabs*/a0); }
 };
 Fract.prototype["regen"] = Fract.prototype.regen = function() {
+    
     _mud_Fract_regen_0(this.__ptr);
 };
 Fract.prototype["render"] = Fract.prototype.render = function(a0, a1, a2, a3) {
+    assert(a0.__type === Rect.__type, '[ERROR] render(0:rect): expected Rect'); assert(a1.__type === Pattern.__type, '[ERROR] render(1:pattern): expected Pattern'); assert(a2.__type === v2_uint.__type, '[ERROR] render(2:resolution): expected v2<uint>'); assert(a3.__type === Image256.__type, '[ERROR] render(3:output_image): expected Image256');
     _mud_Fract_render_4(this.__ptr, /*rect*/a0.__ptr, /*pattern*/a1.__ptr, /*resolution*/a2.__ptr, /*output_image*/a3.__ptr);
 };
 Fract.prototype["render_whole"] = Fract.prototype.render_whole = function(a0, a1, a2) {
+    assert(a0.__type === Pattern.__type, '[ERROR] render_whole(0:pattern): expected Pattern'); assert(a1.__type === v2_uint.__type, '[ERROR] render_whole(1:resolution): expected v2<uint>'); assert(a2.__type === Image256.__type, '[ERROR] render_whole(2:output_image): expected Image256');
     _mud_Fract_render_whole_3(this.__ptr, /*pattern*/a0.__ptr, /*resolution*/a1.__ptr, /*output_image*/a2.__ptr);
 };
 Object.defineProperty(Fract.prototype, "nutabs", {
@@ -47,6 +55,7 @@ Fract.prototype["__destroy"] = Fract.prototype.__destroy = function() {
 };
 // FractSample
 function FractSample(a0, a1, a2) {
+    assert(a0.__type === Fract.__type, '[ERROR] FractSample(0:fract): expected Fract'); assert(a1.__type === Rect.__type, '[ERROR] FractSample(1:rect): expected Rect'); assert(a2.__type === v2_uint.__type, '[ERROR] FractSample(2:resolution): expected v2<uint>');
     this.__ptr = _mud_FractSample__construct_3(/*fract*/a0.__ptr, /*rect*/a1.__ptr, /*resolution*/a2.__ptr); this.__type = FractSample.__type; getCache(FractSample)[this.__ptr] = this;
 };
 FractSample.prototype = Object.create(WrapperObject.prototype);
@@ -55,6 +64,7 @@ FractSample.prototype.__class = FractSample;
 FractSample.__cache = {};
 Module['FractSample'] = FractSample;
 FractSample.prototype["render"] = FractSample.prototype.render = function(a0, a1) {
+    assert(a0.__type === Pattern.__type, '[ERROR] render(0:pattern): expected Pattern'); assert(a1.__type === Image256.__type, '[ERROR] render(1:outputImage): expected Image256');
     _mud_FractSample_render_2(this.__ptr, /*pattern*/a0.__ptr, /*outputImage*/a1.__ptr);
 };
 Object.defineProperty(FractSample.prototype, "fract", {
@@ -82,6 +92,7 @@ FractSample.prototype["__destroy"] = FractSample.prototype.__destroy = function(
 };
 // FractTab
 function FractTab() {
+    
     this.__ptr = _mud_FractTab__construct_0(); this.__type = FractTab.__type; getCache(FractTab)[this.__ptr] = this;
 };
 FractTab.prototype = Object.create(WrapperObject.prototype);
@@ -94,10 +105,14 @@ FractTab.prototype["__destroy"] = FractTab.prototype.__destroy = function() {
 };
 // Pattern
 function Pattern(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_Pattern__construct_0(); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_Pattern__construct_2(/*palette*/a0.__ptr, /*sampling*/a1); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; return; }
-    if (a3 === undefined) { this.__ptr = _mud_Pattern__construct_3(/*palette*/a0.__ptr, /*sampling*/a1, /*precision*/a2); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Pattern__construct_4(/*palette*/a0.__ptr, /*sampling*/a1, /*precision*/a2, /*step*/a3); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a2 === undefined) { assert(a0.__type === Palette.__type, '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); }
+    else if (a3 === undefined) { assert(a0.__type === Palette.__type, '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); assert(typeof a2 === 'number', '[ERROR] Pattern(2:precision): expected number'); }
+    else { assert(a0.__type === Palette.__type, '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); assert(typeof a2 === 'number', '[ERROR] Pattern(2:precision): expected number'); assert(typeof a3 === 'number', '[ERROR] Pattern(3:step): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_Pattern__construct_0(); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Pattern__construct_2(/*palette*/a0.__ptr, /*sampling*/a1); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Pattern__construct_3(/*palette*/a0.__ptr, /*sampling*/a1, /*precision*/a2); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Pattern__construct_4(/*palette*/a0.__ptr, /*sampling*/a1, /*precision*/a2, /*step*/a3); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; }
 };
 Pattern.prototype = Object.create(WrapperObject.prototype);
 Pattern.prototype.constructor = Pattern;
@@ -108,6 +123,7 @@ Pattern.prototype["__destroy"] = Pattern.prototype.__destroy = function() {
     _mud_Pattern__destroy(this.__ptr);
 };
 Module['generate_fract'] = function(a0, a1, a2) {
+    assert(a0.__type === v2_uint.__type, '[ERROR] generate_fract(0:resolution): expected v2<uint>'); assert(a1.__type === Pattern.__type, '[ERROR] generate_fract(1:pattern): expected Pattern'); assert(a2.__type === Image256.__type, '[ERROR] generate_fract(2:output_image): expected Image256');
     _mud_generate_fract_3(/*resolution*/a0.__ptr, /*pattern*/a1.__ptr, /*output_image*/a2.__ptr);
 };
 

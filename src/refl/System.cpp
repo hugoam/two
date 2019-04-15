@@ -43,7 +43,7 @@ namespace mud
 		
 		if(!file_exists(module_path))
 		{
-			printf("ERROR: Module %s not found\n", module_path.c_str());
+			printf("[ERROR] refl - module %s not found\n", module_path.c_str());
 			return nullptr;
 		}
 
@@ -229,7 +229,7 @@ namespace mud
 			{
 				return *func;
 			}
-		printf("ERROR: retrieving function\n");
+		printf("[ERROR] retrieving function\n");
 		return *m_functions[0];
 	}
 
@@ -249,11 +249,11 @@ namespace mud
 	void System::dump_meta_info()
 	{
 		for(Function* function : System::instance().m_functions)
-			printf("INFO: Meta function %s\n", function->m_name);
+			printf("[info] Meta function %s\n", function->m_name);
 
 		for(Type* type : System::instance().m_types)
 		{
-			printf("INFO: Meta type %s\n", type->m_name);
+			printf("[info] Meta type %s\n", type->m_name);
 
 			if(!g_class[type->m_id])
 				continue;

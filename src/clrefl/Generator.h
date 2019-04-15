@@ -276,6 +276,10 @@ namespace mud
 		bool m_is_template = false;
 		bool m_is_templated = false;
 
+		string m_template_name;
+		vector<string> m_template_types;
+		vector<CLType*> m_templated_types;
+
 		vector<string> m_annotations;
 
 		virtual string fix_template(const string& name) const { return name; };
@@ -348,6 +352,7 @@ namespace mud
 		bool isvoidptr() const { return m_type_kind == CLTypeKind::VoidPtr; }
 		bool isboolean() const { return m_type_kind == CLTypeKind::Boolean; }
 		bool isinteger() const { return m_type_kind == CLTypeKind::Integer; }
+		bool ischar() const { return m_type_kind == CLTypeKind::Char; }
 		bool isfloat() const { return m_type_kind == CLTypeKind::Float; }
 		bool iscstring() const { return m_type_kind == CLTypeKind::CString; }
 		bool isstring() const { return m_type_kind == CLTypeKind::String; }
@@ -559,10 +564,7 @@ namespace mud
 		CLType* m_element_type = nullptr;
 		string m_element = "";
 
-		string m_template_name;
 		CLClass* m_template = nullptr;
-		vector<string> m_template_types;
-		vector<CLType*> m_templated_types;
 
 		CLType* templated_type(const string& name) const
 		{
@@ -781,7 +783,7 @@ namespace mud
 			CXType cl = class_type(cxtype);
 			int g = clang_Type_getNumTemplateArguments(cl);
 
-			printf("WARNING: unknown type %s\n", spelling(cxtype).c_str());
+			printf("[warning] unknown type %s\n", spelling(cxtype).c_str());
 			return this->unknown_type(cxtype);
 		}
 
@@ -821,7 +823,7 @@ namespace mud
 					t = this->find_type(n + "::" + name);
 			if(!t)
 			{
-				printf("WARNING: failed to find suitable template type for %s %s\n", spelling(canonical(cxtype)).c_str(), name.c_str());
+				printf("[warning] failed to find suitable template type for %s %s\n", spelling(canonical(cxtype)).c_str(), name.c_str());
 				t = &this->register_type(cxtype);
 			}
 			return t;

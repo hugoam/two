@@ -99,7 +99,7 @@ namespace mud
 
 		bgfx::setViewName(pass.m_index, name);
 
-		//printf("INFO: render pass %s\n", name.c_str());
+		//printf("[info] render pass %s\n", name.c_str());
 		m_viewport->pass(pass);
 
 		this->set_uniforms(pass);

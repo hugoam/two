@@ -35,6 +35,8 @@ using namespace mud;
 
 void mud_ToolState__to_string(void* val, string& str) { str = g_enu[type<mud::ToolState>().m_id]->name(uint32_t((*static_cast<mud::ToolState*>(val)))); }
 void mud_ToolState__to_value(const string& str, void* val) { (*static_cast<mud::ToolState*>(val)) = mud::ToolState(g_enu[type<mud::ToolState>().m_id]->value(str.c_str())); }
+void mud_Selection__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Selection(  ); }
+void mud_Selection__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Selection((*static_cast<mud::Selection*>(other))); }
 void* mud_Tool__get_type(void* object) { return &(*static_cast<mud::Tool*>(object)).m_type; }
 void* mud_Tool__get_context(void* object) { return &(*static_cast<mud::Tool*>(object)).m_context; }
 void mud_ToolContext__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ToolContext(  ); }
@@ -121,6 +123,25 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::Selection
+	{
+		Type& t = type<mud::Selection>();
+		static Meta meta = { t, &namspc({ "mud" }), "Selection", sizeof(mud::Selection), TypeClass::Struct };
+		// bases
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Selection__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_Selection__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
 	}
 	// mud::Tool
 	{
@@ -588,6 +609,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::EditContext>());
 		m.m_types.push_back(&type<mud::EditorAction>());
 		m.m_types.push_back(&type<mud::Gizmo>());
+		m.m_types.push_back(&type<mud::Selection>());
 		m.m_types.push_back(&type<mud::Tool>());
 		m.m_types.push_back(&type<mud::ToolContext>());
 		m.m_types.push_back(&type<mud::ToolOption>());

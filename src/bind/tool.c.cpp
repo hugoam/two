@@ -91,6 +91,16 @@ extern "C" {
 	void DECL mud_Gizmo__destroy(mud::Gizmo* self) {
 		delete self;
 	}
+	// Selection
+	mud::Type* DECL mud_Selection__type() {
+		return &mud::type<mud::Selection>();
+	}
+	mud::Selection* DECL mud_Selection__construct_0() {
+		return new mud::Selection();
+	}
+	void DECL mud_Selection__destroy(mud::Selection* self) {
+		delete self;
+	}
 	// Tool
 	mud::Type* DECL mud_Tool__type() {
 		return &mud::type<mud::Tool>();

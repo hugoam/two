@@ -37,6 +37,7 @@ namespace mud
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::EditContext>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::EditorAction>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::Gizmo>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::Selection>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::Tool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::ToolContext>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::ToolOption>();

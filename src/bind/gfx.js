@@ -2,6 +2,7 @@ Module['stl'] = Module['stl'] || {};
 Module['gfx'] = Module['gfx'] || {};
 // AnimNode
 function AnimNode() {
+    
     this.__ptr = _mud_AnimNode__construct_0(); this.__type = AnimNode.__type; getCache(AnimNode)[this.__ptr] = this;
 };
 AnimNode.prototype = Object.create(WrapperObject.prototype);
@@ -46,6 +47,7 @@ AnimNode.prototype["__destroy"] = AnimNode.prototype.__destroy = function() {
 };
 // AnimPlay
 function AnimPlay() {
+    
     this.__ptr = _mud_AnimPlay__construct_0(); this.__type = AnimPlay.__type; getCache(AnimPlay)[this.__ptr] = this;
 };
 AnimPlay.prototype = Object.create(WrapperObject.prototype);
@@ -229,29 +231,41 @@ AssetStore_mud_Flow.__cache = {};
 Module['AssetStore_mud_Flow'] = AssetStore_mud_Flow;
 AssetStore_mud_Flow.prototype["get"] = AssetStore_mud_Flow.prototype.get = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] get(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Flow_get_1(this.__ptr, ensureString(/*name*/a0)), Flow);
 };
 AssetStore_mud_Flow.prototype["create"] = AssetStore_mud_Flow.prototype.create = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] create(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Flow_create_1(this.__ptr, ensureString(/*name*/a0)), Flow);
 };
 AssetStore_mud_Flow.prototype["fetch"] = AssetStore_mud_Flow.prototype.fetch = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] fetch(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Flow_fetch_1(this.__ptr, ensureString(/*name*/a0)), Flow);
 };
 AssetStore_mud_Flow.prototype["file"] = AssetStore_mud_Flow.prototype.file = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Flow_file_1(this.__ptr, ensureString(/*name*/a0)), Flow);
 };
 AssetStore_mud_Flow.prototype["file_at"] = AssetStore_mud_Flow.prototype.file_at = function(a0, a1) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file_at(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] file_at(1:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Flow_file_at_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Flow);
+};
+AssetStore_mud_Flow.prototype["load"] = AssetStore_mud_Flow.prototype.load = function(a0, a1) {
+    ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] load(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] load(1:name): expected string');
+    return wrapPointer(_mud_AssetStore_mud_Flow_load_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Flow);
 };
 AssetStore_mud_Flow.prototype["destroy"] = AssetStore_mud_Flow.prototype.destroy = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] destroy(0:name): expected string');
     _mud_AssetStore_mud_Flow_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_mud_Flow.prototype["clear"] = AssetStore_mud_Flow.prototype.clear = function() {
+    
     _mud_AssetStore_mud_Flow_clear_0(this.__ptr);
 };
 AssetStore_mud_Flow.prototype["__destroy"] = AssetStore_mud_Flow.prototype.__destroy = function() {
@@ -266,29 +280,41 @@ AssetStore_mud_Material.__cache = {};
 Module['AssetStore_mud_Material'] = AssetStore_mud_Material;
 AssetStore_mud_Material.prototype["get"] = AssetStore_mud_Material.prototype.get = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] get(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Material_get_1(this.__ptr, ensureString(/*name*/a0)), Material);
 };
 AssetStore_mud_Material.prototype["create"] = AssetStore_mud_Material.prototype.create = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] create(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Material_create_1(this.__ptr, ensureString(/*name*/a0)), Material);
 };
 AssetStore_mud_Material.prototype["fetch"] = AssetStore_mud_Material.prototype.fetch = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] fetch(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Material_fetch_1(this.__ptr, ensureString(/*name*/a0)), Material);
 };
 AssetStore_mud_Material.prototype["file"] = AssetStore_mud_Material.prototype.file = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Material_file_1(this.__ptr, ensureString(/*name*/a0)), Material);
 };
 AssetStore_mud_Material.prototype["file_at"] = AssetStore_mud_Material.prototype.file_at = function(a0, a1) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file_at(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] file_at(1:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Material_file_at_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Material);
+};
+AssetStore_mud_Material.prototype["load"] = AssetStore_mud_Material.prototype.load = function(a0, a1) {
+    ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] load(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] load(1:name): expected string');
+    return wrapPointer(_mud_AssetStore_mud_Material_load_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Material);
 };
 AssetStore_mud_Material.prototype["destroy"] = AssetStore_mud_Material.prototype.destroy = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] destroy(0:name): expected string');
     _mud_AssetStore_mud_Material_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_mud_Material.prototype["clear"] = AssetStore_mud_Material.prototype.clear = function() {
+    
     _mud_AssetStore_mud_Material_clear_0(this.__ptr);
 };
 AssetStore_mud_Material.prototype["__destroy"] = AssetStore_mud_Material.prototype.__destroy = function() {
@@ -303,29 +329,41 @@ AssetStore_mud_Model.__cache = {};
 Module['AssetStore_mud_Model'] = AssetStore_mud_Model;
 AssetStore_mud_Model.prototype["get"] = AssetStore_mud_Model.prototype.get = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] get(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Model_get_1(this.__ptr, ensureString(/*name*/a0)), Model);
 };
 AssetStore_mud_Model.prototype["create"] = AssetStore_mud_Model.prototype.create = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] create(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Model_create_1(this.__ptr, ensureString(/*name*/a0)), Model);
 };
 AssetStore_mud_Model.prototype["fetch"] = AssetStore_mud_Model.prototype.fetch = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] fetch(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Model_fetch_1(this.__ptr, ensureString(/*name*/a0)), Model);
 };
 AssetStore_mud_Model.prototype["file"] = AssetStore_mud_Model.prototype.file = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Model_file_1(this.__ptr, ensureString(/*name*/a0)), Model);
 };
 AssetStore_mud_Model.prototype["file_at"] = AssetStore_mud_Model.prototype.file_at = function(a0, a1) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file_at(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] file_at(1:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Model_file_at_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Model);
+};
+AssetStore_mud_Model.prototype["load"] = AssetStore_mud_Model.prototype.load = function(a0, a1) {
+    ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] load(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] load(1:name): expected string');
+    return wrapPointer(_mud_AssetStore_mud_Model_load_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Model);
 };
 AssetStore_mud_Model.prototype["destroy"] = AssetStore_mud_Model.prototype.destroy = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] destroy(0:name): expected string');
     _mud_AssetStore_mud_Model_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_mud_Model.prototype["clear"] = AssetStore_mud_Model.prototype.clear = function() {
+    
     _mud_AssetStore_mud_Model_clear_0(this.__ptr);
 };
 AssetStore_mud_Model.prototype["__destroy"] = AssetStore_mud_Model.prototype.__destroy = function() {
@@ -340,29 +378,41 @@ AssetStore_mud_Prefab.__cache = {};
 Module['AssetStore_mud_Prefab'] = AssetStore_mud_Prefab;
 AssetStore_mud_Prefab.prototype["get"] = AssetStore_mud_Prefab.prototype.get = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] get(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Prefab_get_1(this.__ptr, ensureString(/*name*/a0)), Prefab);
 };
 AssetStore_mud_Prefab.prototype["create"] = AssetStore_mud_Prefab.prototype.create = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] create(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Prefab_create_1(this.__ptr, ensureString(/*name*/a0)), Prefab);
 };
 AssetStore_mud_Prefab.prototype["fetch"] = AssetStore_mud_Prefab.prototype.fetch = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] fetch(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Prefab_fetch_1(this.__ptr, ensureString(/*name*/a0)), Prefab);
 };
 AssetStore_mud_Prefab.prototype["file"] = AssetStore_mud_Prefab.prototype.file = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Prefab_file_1(this.__ptr, ensureString(/*name*/a0)), Prefab);
 };
 AssetStore_mud_Prefab.prototype["file_at"] = AssetStore_mud_Prefab.prototype.file_at = function(a0, a1) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file_at(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] file_at(1:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Prefab_file_at_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Prefab);
+};
+AssetStore_mud_Prefab.prototype["load"] = AssetStore_mud_Prefab.prototype.load = function(a0, a1) {
+    ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] load(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] load(1:name): expected string');
+    return wrapPointer(_mud_AssetStore_mud_Prefab_load_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Prefab);
 };
 AssetStore_mud_Prefab.prototype["destroy"] = AssetStore_mud_Prefab.prototype.destroy = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] destroy(0:name): expected string');
     _mud_AssetStore_mud_Prefab_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_mud_Prefab.prototype["clear"] = AssetStore_mud_Prefab.prototype.clear = function() {
+    
     _mud_AssetStore_mud_Prefab_clear_0(this.__ptr);
 };
 AssetStore_mud_Prefab.prototype["__destroy"] = AssetStore_mud_Prefab.prototype.__destroy = function() {
@@ -377,29 +427,41 @@ AssetStore_mud_Program.__cache = {};
 Module['AssetStore_mud_Program'] = AssetStore_mud_Program;
 AssetStore_mud_Program.prototype["get"] = AssetStore_mud_Program.prototype.get = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] get(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Program_get_1(this.__ptr, ensureString(/*name*/a0)), Program);
 };
 AssetStore_mud_Program.prototype["create"] = AssetStore_mud_Program.prototype.create = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] create(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Program_create_1(this.__ptr, ensureString(/*name*/a0)), Program);
 };
 AssetStore_mud_Program.prototype["fetch"] = AssetStore_mud_Program.prototype.fetch = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] fetch(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Program_fetch_1(this.__ptr, ensureString(/*name*/a0)), Program);
 };
 AssetStore_mud_Program.prototype["file"] = AssetStore_mud_Program.prototype.file = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Program_file_1(this.__ptr, ensureString(/*name*/a0)), Program);
 };
 AssetStore_mud_Program.prototype["file_at"] = AssetStore_mud_Program.prototype.file_at = function(a0, a1) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file_at(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] file_at(1:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Program_file_at_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Program);
+};
+AssetStore_mud_Program.prototype["load"] = AssetStore_mud_Program.prototype.load = function(a0, a1) {
+    ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] load(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] load(1:name): expected string');
+    return wrapPointer(_mud_AssetStore_mud_Program_load_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Program);
 };
 AssetStore_mud_Program.prototype["destroy"] = AssetStore_mud_Program.prototype.destroy = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] destroy(0:name): expected string');
     _mud_AssetStore_mud_Program_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_mud_Program.prototype["clear"] = AssetStore_mud_Program.prototype.clear = function() {
+    
     _mud_AssetStore_mud_Program_clear_0(this.__ptr);
 };
 AssetStore_mud_Program.prototype["__destroy"] = AssetStore_mud_Program.prototype.__destroy = function() {
@@ -414,29 +476,41 @@ AssetStore_mud_Texture.__cache = {};
 Module['AssetStore_mud_Texture'] = AssetStore_mud_Texture;
 AssetStore_mud_Texture.prototype["get"] = AssetStore_mud_Texture.prototype.get = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] get(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Texture_get_1(this.__ptr, ensureString(/*name*/a0)), Texture);
 };
 AssetStore_mud_Texture.prototype["create"] = AssetStore_mud_Texture.prototype.create = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] create(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Texture_create_1(this.__ptr, ensureString(/*name*/a0)), Texture);
 };
 AssetStore_mud_Texture.prototype["fetch"] = AssetStore_mud_Texture.prototype.fetch = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] fetch(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Texture_fetch_1(this.__ptr, ensureString(/*name*/a0)), Texture);
 };
 AssetStore_mud_Texture.prototype["file"] = AssetStore_mud_Texture.prototype.file = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file(0:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Texture_file_1(this.__ptr, ensureString(/*name*/a0)), Texture);
 };
 AssetStore_mud_Texture.prototype["file_at"] = AssetStore_mud_Texture.prototype.file_at = function(a0, a1) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] file_at(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] file_at(1:name): expected string');
     return wrapPointer(_mud_AssetStore_mud_Texture_file_at_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Texture);
+};
+AssetStore_mud_Texture.prototype["load"] = AssetStore_mud_Texture.prototype.load = function(a0, a1) {
+    ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] load(0:path): expected string'); assert(typeof a1 === 'string', '[ERROR] load(1:name): expected string');
+    return wrapPointer(_mud_AssetStore_mud_Texture_load_2(this.__ptr, ensureString(/*path*/a0), ensureString(/*name*/a1)), Texture);
 };
 AssetStore_mud_Texture.prototype["destroy"] = AssetStore_mud_Texture.prototype.destroy = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] destroy(0:name): expected string');
     _mud_AssetStore_mud_Texture_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_mud_Texture.prototype["clear"] = AssetStore_mud_Texture.prototype.clear = function() {
+    
     _mud_AssetStore_mud_Texture_clear_0(this.__ptr);
 };
 AssetStore_mud_Texture.prototype["__destroy"] = AssetStore_mud_Texture.prototype.__destroy = function() {
@@ -444,6 +518,7 @@ AssetStore_mud_Texture.prototype["__destroy"] = AssetStore_mud_Texture.prototype
 };
 // Background
 function Background() {
+    
     this.__ptr = _mud_Background__construct_0(); this.__type = Background.__type; getCache(Background)[this.__ptr] = this;
 };
 Background.prototype = Object.create(WrapperObject.prototype);
@@ -488,8 +563,10 @@ Background.prototype["__destroy"] = Background.prototype.__destroy = function() 
 };
 // Batch
 function Batch(a0, a1) {
-    if (a0 === undefined) { this.__ptr = _mud_Batch__construct_0(); this.__type = Batch.__type; getCache(Batch)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Batch__construct_2(/*item*/a0.__ptr, /*stride*/a1); this.__type = Batch.__type; getCache(Batch)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(a0.__type === Item.__type, '[ERROR] Batch(0:item): expected Item'); assert(typeof a1 === 'number', '[ERROR] Batch(1:stride): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_Batch__construct_0(); this.__type = Batch.__type; getCache(Batch)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Batch__construct_2(/*item*/a0.__ptr, /*stride*/a1); this.__type = Batch.__type; getCache(Batch)[this.__ptr] = this; }
 };
 Batch.prototype = Object.create(WrapperObject.prototype);
 Batch.prototype.constructor = Batch;
@@ -497,19 +574,28 @@ Batch.prototype.__class = Batch;
 Batch.__cache = {};
 Module['Batch'] = Batch;
 Batch.prototype["update_aabb"] = Batch.prototype.update_aabb = function(a0) {
+    assert(a0.__type === span_mud_mat4.__type, '[ERROR] update_aabb(0:instances): expected span<mud::mat4>');
     _mud_Batch_update_aabb_1(this.__ptr, ensureFloat32(/*instances*/a0), /*instances*/a0.length);
 };
 Batch.prototype["transforms"] = Batch.prototype.transforms = function(a0) {
+    assert(a0.__type === span_mud_mat4.__type, '[ERROR] transforms(0:instances): expected span<mud::mat4>');
     _mud_Batch_transforms_1(this.__ptr, ensureFloat32(/*instances*/a0), /*instances*/a0.length);
 };
 Batch.prototype["begin"] = Batch.prototype.begin = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] begin(0:count): expected integer');
     return _mud_Batch_begin_1(this.__ptr, /*count*/a0);
 };
 Batch.prototype["commit"] = Batch.prototype.commit = function(a0) {
+    assert(a0.__type === span_float.__type, '[ERROR] commit(0:data): expected span<float>');
     _mud_Batch_commit_1(this.__ptr, ensureFloat32(/*data*/a0), /*data*/a0.length);
 };
 Batch.prototype["cache"] = Batch.prototype.cache = function(a0) {
+    assert(a0.__type === span_float.__type, '[ERROR] cache(0:data): expected span<float>');
     _mud_Batch_cache_1(this.__ptr, ensureFloat32(/*data*/a0), /*data*/a0.length);
+};
+Batch.prototype["transform"] = Batch.prototype.transform = function(a0) {
+    assert(a0.__type === mat4.__type, '[ERROR] transform(0:m): expected mat4');
+    _mud_Batch_transform_1(this.__ptr, /*m*/a0.__ptr);
 };
 Object.defineProperty(Batch.prototype, "item", {
     get: function() {
@@ -538,18 +624,23 @@ Camera.prototype.__class = Camera;
 Camera.__cache = {};
 Module['Camera'] = Camera;
 Camera.prototype["set_look_at"] = Camera.prototype.set_look_at = function(a0, a1) {
+    assert(a0.__type === v3_float.__type, '[ERROR] set_look_at(0:eye): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] set_look_at(1:target): expected v3<float>');
     _mud_Camera_set_look_at_2(this.__ptr, /*eye*/a0.__ptr, /*target*/a1.__ptr);
 };
 Camera.prototype["set_isometric"] = Camera.prototype.set_isometric = function(a0, a1) {
+    assert(typeof a0 === 'number', '[ERROR] set_isometric(0:angle): expected integer'); assert(a1.__type === v3_float.__type, '[ERROR] set_isometric(1:position): expected v3<float>');
     _mud_Camera_set_isometric_2(this.__ptr, /*angle*/a0, /*position*/a1.__ptr);
 };
 Camera.prototype["ray"] = Camera.prototype.ray = function(a0) {
+    assert(a0.__type === v2_float.__type, '[ERROR] ray(0:offset): expected v2<float>');
     return wrapPointer(_mud_Camera_ray_1(this.__ptr, /*offset*/a0.__ptr), Ray);
 };
 Camera.prototype["transform"] = Camera.prototype.transform = function(a0) {
+    assert(a0.__type === v3_float.__type, '[ERROR] transform(0:point): expected v3<float>');
     return wrapPointer(_mud_Camera_transform_1(this.__ptr, /*point*/a0.__ptr), v3_float);
 };
 Camera.prototype["project"] = Camera.prototype.project = function(a0) {
+    assert(a0.__type === v3_float.__type, '[ERROR] project(0:point): expected v3<float>');
     return wrapPointer(_mud_Camera_project_1(this.__ptr, /*point*/a0.__ptr), v3_float);
 };
 Object.defineProperty(Camera.prototype, "eye", {
@@ -669,6 +760,7 @@ Camera.prototype["__destroy"] = Camera.prototype.__destroy = function() {
 };
 // Cascade
 function Cascade() {
+    
     this.__ptr = _mud_Cascade__construct_0(); this.__type = Cascade.__type; getCache(Cascade)[this.__ptr] = this;
 };
 Cascade.prototype = Object.create(WrapperObject.prototype);
@@ -677,9 +769,11 @@ Cascade.prototype.__class = Cascade;
 Cascade.__cache = {};
 Module['Cascade'] = Cascade;
 Cascade.prototype["create"] = Cascade.prototype.create = function(a0, a1) {
+    assert(a0.__type === v2_uint.__type, '[ERROR] create(0:size): expected v2<uint>'); assert(typeof a1 === 'number', '[ERROR] create(1:color_format): expected integer');
     _mud_Cascade_create_2(this.__ptr, /*size*/a0.__ptr, /*color_format*/a1);
 };
 Cascade.prototype["level"] = Cascade.prototype.level = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] level(0:index): expected integer');
     return wrapPointer(_mud_Cascade_level_1(this.__ptr, /*index*/a0), FrameBuffer);
 };
 Object.defineProperty(Cascade.prototype, "texture", {
@@ -717,6 +811,7 @@ Culler.prototype["__destroy"] = Culler.prototype.__destroy = function() {
 };
 // DepthParams
 function DepthParams() {
+    
     this.__ptr = _mud_DepthParams__construct_0(); this.__type = DepthParams.__type; getCache(DepthParams)[this.__ptr] = this;
 };
 DepthParams.prototype = Object.create(WrapperObject.prototype);
@@ -753,8 +848,10 @@ DepthParams.prototype["__destroy"] = DepthParams.prototype.__destroy = function(
 };
 // Direct
 function Direct(a0) {
-    if (a0 === undefined) { this.__ptr = _mud_Direct__construct_0(); this.__type = Direct.__type; getCache(Direct)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Direct__construct_1(/*item*/a0.__ptr); this.__type = Direct.__type; getCache(Direct)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(a0.__type === Item.__type, '[ERROR] Direct(0:item): expected Item'); }
+    if (a0 === undefined) { this.__ptr = _mud_Direct__construct_0(); this.__type = Direct.__type; getCache(Direct)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Direct__construct_1(/*item*/a0.__ptr); this.__type = Direct.__type; getCache(Direct)[this.__ptr] = this; }
 };
 Direct.prototype = Object.create(WrapperObject.prototype);
 Direct.prototype.constructor = Direct;
@@ -774,6 +871,7 @@ Direct.prototype["__destroy"] = Direct.prototype.__destroy = function() {
 };
 // DistanceParams
 function DistanceParams() {
+    
     this.__ptr = _mud_DistanceParams__construct_0(); this.__type = DistanceParams.__type; getCache(DistanceParams)[this.__ptr] = this;
 };
 DistanceParams.prototype = Object.create(WrapperObject.prototype);
@@ -810,6 +908,7 @@ DistanceParams.prototype["__destroy"] = DistanceParams.prototype.__destroy = fun
 };
 // Flow
 function Flow() {
+    
     this.__ptr = _mud_Flow__construct_0(); this.__type = Flow.__type; getCache(Flow)[this.__ptr] = this;
 };
 Flow.prototype = Object.create(WrapperObject.prototype);
@@ -986,6 +1085,7 @@ Flow.prototype["__destroy"] = Flow.prototype.__destroy = function() {
 };
 // Fog
 function Fog() {
+    
     this.__ptr = _mud_Fog__construct_0(); this.__type = Fog.__type; getCache(Fog)[this.__ptr] = this;
 };
 Fog.prototype = Object.create(WrapperObject.prototype);
@@ -1102,9 +1202,12 @@ Fog.prototype["__destroy"] = Fog.prototype.__destroy = function() {
 };
 // FrameBuffer
 function FrameBuffer(a0, a1, a2) {
-    if (a0 === undefined) { this.__ptr = _mud_FrameBuffer__construct_0(); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_FrameBuffer__construct_2(/*size*/a0.__ptr, /*format*/a1); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this; return; }
-    this.__ptr = _mud_FrameBuffer__construct_3(/*size*/a0.__ptr, /*format*/a1, /*flags*/a2); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a2 === undefined) { assert(a0.__type === v2_uint.__type, '[ERROR] FrameBuffer(0:size): expected v2<uint>'); assert(typeof a1 === 'number', '[ERROR] FrameBuffer(1:format): expected integer'); }
+    else { assert(a0.__type === v2_uint.__type, '[ERROR] FrameBuffer(0:size): expected v2<uint>'); assert(typeof a1 === 'number', '[ERROR] FrameBuffer(1:format): expected integer'); assert(typeof a2 === 'number', '[ERROR] FrameBuffer(2:flags): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_FrameBuffer__construct_0(); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_FrameBuffer__construct_2(/*size*/a0.__ptr, /*format*/a1); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this; }
+    else { this.__ptr = _mud_FrameBuffer__construct_3(/*size*/a0.__ptr, /*format*/a1, /*flags*/a2); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this; }
 };
 FrameBuffer.prototype = Object.create(WrapperObject.prototype);
 FrameBuffer.prototype.constructor = FrameBuffer;
@@ -1112,6 +1215,7 @@ FrameBuffer.prototype.__class = FrameBuffer;
 FrameBuffer.__cache = {};
 Module['FrameBuffer'] = FrameBuffer;
 FrameBuffer.prototype["valid"] = FrameBuffer.prototype.valid = function() {
+    
     return !!(_mud_FrameBuffer_valid_0(this.__ptr));
 };
 Object.defineProperty(FrameBuffer.prototype, "size", {
@@ -1189,6 +1293,7 @@ Frustum.prototype["__destroy"] = Frustum.prototype.__destroy = function() {
 };
 // FrustumSlice
 function FrustumSlice() {
+    
     this.__ptr = _mud_FrustumSlice__construct_0(); this.__type = FrustumSlice.__type; getCache(FrustumSlice)[this.__ptr] = this;
 };
 FrustumSlice.prototype = Object.create(WrapperObject.prototype);
@@ -1221,6 +1326,7 @@ Gnode.prototype["__destroy"] = Gnode.prototype.__destroy = function() {
 };
 // GpuMesh
 function GpuMesh() {
+    
     this.__ptr = _mud_GpuMesh__construct_0(); this.__type = GpuMesh.__type; getCache(GpuMesh)[this.__ptr] = this;
 };
 GpuMesh.prototype = Object.create(WrapperObject.prototype);
@@ -1285,6 +1391,7 @@ Import.prototype["__destroy"] = Import.prototype.__destroy = function() {
 };
 // ImportConfig
 function ImportConfig() {
+    
     this.__ptr = _mud_ImportConfig__construct_0(); this.__type = ImportConfig.__type; getCache(ImportConfig)[this.__ptr] = this;
 };
 ImportConfig.prototype = Object.create(WrapperObject.prototype);
@@ -1401,10 +1508,14 @@ ImportConfig.prototype["__destroy"] = ImportConfig.prototype.__destroy = functio
 };
 // Item
 function Item(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_Item__construct_0(); this.__type = Item.__type; getCache(Item)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_Item__construct_2(/*node*/a0.__ptr, /*model*/a1.__ptr); this.__type = Item.__type; getCache(Item)[this.__ptr] = this; return; }
-    if (a3 === undefined) { this.__ptr = _mud_Item__construct_3(/*node*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2); this.__type = Item.__type; getCache(Item)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Item__construct_4(/*node*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2, /*material*/a3.__ptr); this.__type = Item.__type; getCache(Item)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a2 === undefined) { assert(a0.__type === Node3.__type, '[ERROR] Item(0:node): expected Node3'); assert(a1.__type === Model.__type, '[ERROR] Item(1:model): expected Model'); }
+    else if (a3 === undefined) { assert(a0.__type === Node3.__type, '[ERROR] Item(0:node): expected Node3'); assert(a1.__type === Model.__type, '[ERROR] Item(1:model): expected Model'); assert(typeof a2 === 'number', '[ERROR] Item(2:flags): expected integer'); }
+    else { assert(a0.__type === Node3.__type, '[ERROR] Item(0:node): expected Node3'); assert(a1.__type === Model.__type, '[ERROR] Item(1:model): expected Model'); assert(typeof a2 === 'number', '[ERROR] Item(2:flags): expected integer'); assert(a3.__type === Material.__type, '[ERROR] Item(3:material): expected Material'); }
+    if (a0 === undefined) { this.__ptr = _mud_Item__construct_0(); this.__type = Item.__type; getCache(Item)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Item__construct_2(/*node*/a0.__ptr, /*model*/a1.__ptr); this.__type = Item.__type; getCache(Item)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Item__construct_3(/*node*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2); this.__type = Item.__type; getCache(Item)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Item__construct_4(/*node*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2, /*material*/a3.__ptr); this.__type = Item.__type; getCache(Item)[this.__ptr] = this; }
 };
 Item.prototype = Object.create(WrapperObject.prototype);
 Item.prototype.constructor = Item;
@@ -1412,6 +1523,7 @@ Item.prototype.__class = Item;
 Item.__cache = {};
 Module['Item'] = Item;
 Item.prototype["update_aabb"] = Item.prototype.update_aabb = function() {
+    
     _mud_Item_update_aabb_0(this.__ptr);
 };
 Object.defineProperty(Item.prototype, "node", {
@@ -1499,6 +1611,7 @@ Item.prototype["__destroy"] = Item.prototype.__destroy = function() {
 };
 // Joint
 function Joint() {
+    
     this.__ptr = _mud_Joint__construct_0(); this.__type = Joint.__type; getCache(Joint)[this.__ptr] = this;
 };
 Joint.prototype = Object.create(WrapperObject.prototype);
@@ -1511,12 +1624,18 @@ Joint.prototype["__destroy"] = Joint.prototype.__destroy = function() {
 };
 // Light
 function Light(a0, a1, a2, a3, a4, a5) {
-    if (a1 === undefined) { this.__ptr = _mud_Light__construct_1(/*node*/a0.__ptr); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_Light__construct_2(/*node*/a0.__ptr, /*type*/a1); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; return; }
-    if (a3 === undefined) { this.__ptr = _mud_Light__construct_3(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; return; }
-    if (a4 === undefined) { this.__ptr = _mud_Light__construct_4(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; return; }
-    if (a5 === undefined) { this.__ptr = _mud_Light__construct_5(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*energy*/a4); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Light__construct_6(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*energy*/a4, /*range*/a5); this.__type = Light.__type; getCache(Light)[this.__ptr] = this;
+    if (a1 === undefined) { assert(a0.__type === Node3.__type, '[ERROR] Light(0:node): expected Node3'); }
+    else if (a2 === undefined) { assert(a0.__type === Node3.__type, '[ERROR] Light(0:node): expected Node3'); assert(typeof a1 === 'number', '[ERROR] Light(1:type): expected integer'); }
+    else if (a3 === undefined) { assert(a0.__type === Node3.__type, '[ERROR] Light(0:node): expected Node3'); assert(typeof a1 === 'number', '[ERROR] Light(1:type): expected integer'); assert(typeof a2 === 'boolean', '[ERROR] Light(2:shadows): expected boolean'); }
+    else if (a4 === undefined) { assert(a0.__type === Node3.__type, '[ERROR] Light(0:node): expected Node3'); assert(typeof a1 === 'number', '[ERROR] Light(1:type): expected integer'); assert(typeof a2 === 'boolean', '[ERROR] Light(2:shadows): expected boolean'); assert(a3.__type === Colour.__type, '[ERROR] Light(3:colour): expected Colour'); }
+    else if (a5 === undefined) { assert(a0.__type === Node3.__type, '[ERROR] Light(0:node): expected Node3'); assert(typeof a1 === 'number', '[ERROR] Light(1:type): expected integer'); assert(typeof a2 === 'boolean', '[ERROR] Light(2:shadows): expected boolean'); assert(a3.__type === Colour.__type, '[ERROR] Light(3:colour): expected Colour'); assert(typeof a4 === 'number', '[ERROR] Light(4:energy): expected number'); }
+    else { assert(a0.__type === Node3.__type, '[ERROR] Light(0:node): expected Node3'); assert(typeof a1 === 'number', '[ERROR] Light(1:type): expected integer'); assert(typeof a2 === 'boolean', '[ERROR] Light(2:shadows): expected boolean'); assert(a3.__type === Colour.__type, '[ERROR] Light(3:colour): expected Colour'); assert(typeof a4 === 'number', '[ERROR] Light(4:energy): expected number'); assert(typeof a5 === 'number', '[ERROR] Light(5:range): expected number'); }
+    if (a1 === undefined) { this.__ptr = _mud_Light__construct_1(/*node*/a0.__ptr); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Light__construct_2(/*node*/a0.__ptr, /*type*/a1); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Light__construct_3(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_Light__construct_4(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
+    else if (a5 === undefined) { this.__ptr = _mud_Light__construct_5(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*energy*/a4); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Light__construct_6(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*energy*/a4, /*range*/a5); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
 };
 Light.prototype = Object.create(WrapperObject.prototype);
 Light.prototype.constructor = Light;
@@ -1688,8 +1807,10 @@ Light.prototype["__destroy"] = Light.prototype.__destroy = function() {
 };
 // Lines
 function Lines(a0, a1) {
-    if (a0 === undefined) { this.__ptr = _mud_Lines__construct_0(); this.__type = Lines.__type; getCache(Lines)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Lines__construct_2(/*curve*/a0.__ptr, /*subdiv*/a1); this.__type = Lines.__type; getCache(Lines)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(a0.__type === Curve3.__type, '[ERROR] Lines(0:curve): expected Curve3'); assert(typeof a1 === 'number', '[ERROR] Lines(1:subdiv): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_Lines__construct_0(); this.__type = Lines.__type; getCache(Lines)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Lines__construct_2(/*curve*/a0.__ptr, /*subdiv*/a1); this.__type = Lines.__type; getCache(Lines)[this.__ptr] = this; }
 };
 Lines.prototype = Object.create(WrapperObject.prototype);
 Lines.prototype.constructor = Lines;
@@ -1697,25 +1818,35 @@ Lines.prototype.__class = Lines;
 Lines.__cache = {};
 Module['Lines'] = Lines;
 Lines.prototype["add"] = Lines.prototype.add = function(a0, a1, a2, a3) {
-    if (a2 === undefined) { _mud_Lines_add_2(this.__ptr, /*start*/a0.__ptr, /*end*/a1.__ptr); return; }
-    if (a3 === undefined) { _mud_Lines_add_3(this.__ptr, /*start*/a0.__ptr, /*end*/a1.__ptr, /*start_colour*/a2.__ptr); return; }
-    _mud_Lines_add_4(this.__ptr, /*start*/a0.__ptr, /*end*/a1.__ptr, /*start_colour*/a2.__ptr, /*end_colour*/a3.__ptr);
+    if (a2 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] add(0:start): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] add(1:end): expected v3<float>'); }
+    else if (a3 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] add(0:start): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] add(1:end): expected v3<float>'); assert(a2.__type === Colour.__type, '[ERROR] add(2:start_colour): expected Colour'); }
+    else { assert(a0.__type === v3_float.__type, '[ERROR] add(0:start): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] add(1:end): expected v3<float>'); assert(a2.__type === Colour.__type, '[ERROR] add(2:start_colour): expected Colour'); assert(a3.__type === Colour.__type, '[ERROR] add(3:end_colour): expected Colour'); }
+    if (a2 === undefined) { _mud_Lines_add_2(this.__ptr, /*start*/a0.__ptr, /*end*/a1.__ptr); }
+    else if (a3 === undefined) { _mud_Lines_add_3(this.__ptr, /*start*/a0.__ptr, /*end*/a1.__ptr, /*start_colour*/a2.__ptr); }
+    else { _mud_Lines_add_4(this.__ptr, /*start*/a0.__ptr, /*end*/a1.__ptr, /*start_colour*/a2.__ptr, /*end_colour*/a3.__ptr); }
 };
 Lines.prototype["start"] = Lines.prototype.start = function(a0, a1) {
-    if (a1 === undefined) { _mud_Lines_start_1(this.__ptr, /*position*/a0.__ptr); return; }
-    _mud_Lines_start_2(this.__ptr, /*position*/a0.__ptr, /*colour*/a1.__ptr);
+    if (a1 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] start(0:position): expected v3<float>'); }
+    else { assert(a0.__type === v3_float.__type, '[ERROR] start(0:position): expected v3<float>'); assert(a1.__type === Colour.__type, '[ERROR] start(1:colour): expected Colour'); }
+    if (a1 === undefined) { _mud_Lines_start_1(this.__ptr, /*position*/a0.__ptr); }
+    else { _mud_Lines_start_2(this.__ptr, /*position*/a0.__ptr, /*colour*/a1.__ptr); }
 };
 Lines.prototype["next"] = Lines.prototype.next = function(a0, a1) {
-    if (a1 === undefined) { _mud_Lines_next_1(this.__ptr, /*position*/a0.__ptr); return; }
-    _mud_Lines_next_2(this.__ptr, /*position*/a0.__ptr, /*colour*/a1.__ptr);
+    if (a1 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] next(0:position): expected v3<float>'); }
+    else { assert(a0.__type === v3_float.__type, '[ERROR] next(0:position): expected v3<float>'); assert(a1.__type === Colour.__type, '[ERROR] next(1:colour): expected Colour'); }
+    if (a1 === undefined) { _mud_Lines_next_1(this.__ptr, /*position*/a0.__ptr); }
+    else { _mud_Lines_next_2(this.__ptr, /*position*/a0.__ptr, /*colour*/a1.__ptr); }
 };
 Lines.prototype["setup"] = Lines.prototype.setup = function() {
+    
     _mud_Lines_setup_0(this.__ptr);
 };
 Lines.prototype["write"] = Lines.prototype.write = function(a0) {
+    assert(a0.__type === Mesh.__type, '[ERROR] write(0:mesh): expected Mesh');
     _mud_Lines_write_1(this.__ptr, /*mesh*/a0.__ptr);
 };
 Lines.prototype["commit"] = Lines.prototype.commit = function(a0) {
+    assert(a0.__type === Batch.__type, '[ERROR] commit(0:batch): expected Batch');
     _mud_Lines_commit_1(this.__ptr, /*batch*/a0.__ptr);
 };
 Lines.prototype["__destroy"] = Lines.prototype.__destroy = function() {
@@ -1845,6 +1976,7 @@ Material.prototype["__destroy"] = Material.prototype.__destroy = function() {
 };
 // MaterialAlpha
 function MaterialAlpha() {
+    
     this.__ptr = _mud_MaterialAlpha__construct_0(); this.__type = MaterialAlpha.__type; getCache(MaterialAlpha)[this.__ptr] = this;
 };
 MaterialAlpha.prototype = Object.create(WrapperObject.prototype);
@@ -1889,6 +2021,7 @@ MaterialAlpha.prototype["__destroy"] = MaterialAlpha.prototype.__destroy = funct
 };
 // MaterialBase
 function MaterialBase() {
+    
     this.__ptr = _mud_MaterialBase__construct_0(); this.__type = MaterialBase.__type; getCache(MaterialBase)[this.__ptr] = this;
 };
 MaterialBase.prototype = Object.create(WrapperObject.prototype);
@@ -1997,6 +2130,7 @@ MaterialBase.prototype["__destroy"] = MaterialBase.prototype.__destroy = functio
 };
 // MaterialFresnel
 function MaterialFresnel() {
+    
     this.__ptr = _mud_MaterialFresnel__construct_0(); this.__type = MaterialFresnel.__type; getCache(MaterialFresnel)[this.__ptr] = this;
 };
 MaterialFresnel.prototype = Object.create(WrapperObject.prototype);
@@ -2041,6 +2175,7 @@ MaterialFresnel.prototype["__destroy"] = MaterialFresnel.prototype.__destroy = f
 };
 // MaterialLine
 function MaterialLine() {
+    
     this.__ptr = _mud_MaterialLine__construct_0(); this.__type = MaterialLine.__type; getCache(MaterialLine)[this.__ptr] = this;
 };
 MaterialLine.prototype = Object.create(WrapperObject.prototype);
@@ -2093,6 +2228,7 @@ MaterialLine.prototype["__destroy"] = MaterialLine.prototype.__destroy = functio
 };
 // MaterialLit
 function MaterialLit() {
+    
     this.__ptr = _mud_MaterialLit__construct_0(); this.__type = MaterialLit.__type; getCache(MaterialLit)[this.__ptr] = this;
 };
 MaterialLit.prototype = Object.create(WrapperObject.prototype);
@@ -2177,6 +2313,7 @@ MaterialLit.prototype["__destroy"] = MaterialLit.prototype.__destroy = function(
 };
 // MaterialParam<float>
 function MaterialParam_float() {
+    
     this.__ptr = _mud_MaterialParam_float__construct_0(); this.__type = MaterialParam_float.__type; getCache(MaterialParam_float)[this.__ptr] = this;
 };
 MaterialParam_float.prototype = Object.create(WrapperObject.prototype);
@@ -2213,6 +2350,7 @@ MaterialParam_float.prototype["__destroy"] = MaterialParam_float.prototype.__des
 };
 // MaterialParam<mud::Colour>
 function MaterialParam_mud_Colour() {
+    
     this.__ptr = _mud_MaterialParam_mud_Colour__construct_0(); this.__type = MaterialParam_mud_Colour.__type; getCache(MaterialParam_mud_Colour)[this.__ptr] = this;
 };
 MaterialParam_mud_Colour.prototype = Object.create(WrapperObject.prototype);
@@ -2249,6 +2387,7 @@ MaterialParam_mud_Colour.prototype["__destroy"] = MaterialParam_mud_Colour.proto
 };
 // MaterialParam<mud::vec4>
 function MaterialParam_mud_vec4() {
+    
     this.__ptr = _mud_MaterialParam_mud_vec4__construct_0(); this.__type = MaterialParam_mud_vec4.__type; getCache(MaterialParam_mud_vec4)[this.__ptr] = this;
 };
 MaterialParam_mud_vec4.prototype = Object.create(WrapperObject.prototype);
@@ -2285,10 +2424,14 @@ MaterialParam_mud_vec4.prototype["__destroy"] = MaterialParam_mud_vec4.prototype
 };
 // MaterialPbr
 function MaterialPbr(a0, a1, a2) {
-    if (a0 === undefined) { this.__ptr = _mud_MaterialPbr__construct_0(); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_MaterialPbr__construct_1(/*albedo*/a0.__ptr); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_MaterialPbr__construct_2(/*albedo*/a0.__ptr, /*metallic*/a1); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; return; }
-    this.__ptr = _mud_MaterialPbr__construct_3(/*albedo*/a0.__ptr, /*metallic*/a1, /*roughness*/a2); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(a0.__type === Colour.__type, '[ERROR] MaterialPbr(0:albedo): expected Colour'); }
+    else if (a2 === undefined) { assert(a0.__type === Colour.__type, '[ERROR] MaterialPbr(0:albedo): expected Colour'); assert(typeof a1 === 'number', '[ERROR] MaterialPbr(1:metallic): expected number'); }
+    else { assert(a0.__type === Colour.__type, '[ERROR] MaterialPbr(0:albedo): expected Colour'); assert(typeof a1 === 'number', '[ERROR] MaterialPbr(1:metallic): expected number'); assert(typeof a2 === 'number', '[ERROR] MaterialPbr(2:roughness): expected number'); }
+    if (a0 === undefined) { this.__ptr = _mud_MaterialPbr__construct_0(); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_MaterialPbr__construct_1(/*albedo*/a0.__ptr); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_MaterialPbr__construct_2(/*albedo*/a0.__ptr, /*metallic*/a1); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; }
+    else { this.__ptr = _mud_MaterialPbr__construct_3(/*albedo*/a0.__ptr, /*metallic*/a1, /*roughness*/a2); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; }
 };
 MaterialPbr.prototype = Object.create(WrapperObject.prototype);
 MaterialPbr.prototype.constructor = MaterialPbr;
@@ -2428,6 +2571,7 @@ MaterialPbr.prototype["__destroy"] = MaterialPbr.prototype.__destroy = function(
 };
 // MaterialPhong
 function MaterialPhong() {
+    
     this.__ptr = _mud_MaterialPhong__construct_0(); this.__type = MaterialPhong.__type; getCache(MaterialPhong)[this.__ptr] = this;
 };
 MaterialPhong.prototype = Object.create(WrapperObject.prototype);
@@ -2496,6 +2640,7 @@ MaterialPhong.prototype["__destroy"] = MaterialPhong.prototype.__destroy = funct
 };
 // MaterialPoint
 function MaterialPoint() {
+    
     this.__ptr = _mud_MaterialPoint__construct_0(); this.__type = MaterialPoint.__type; getCache(MaterialPoint)[this.__ptr] = this;
 };
 MaterialPoint.prototype = Object.create(WrapperObject.prototype);
@@ -2524,6 +2669,7 @@ MaterialPoint.prototype["__destroy"] = MaterialPoint.prototype.__destroy = funct
 };
 // MaterialSolid
 function MaterialSolid() {
+    
     this.__ptr = _mud_MaterialSolid__construct_0(); this.__type = MaterialSolid.__type; getCache(MaterialSolid)[this.__ptr] = this;
 };
 MaterialSolid.prototype = Object.create(WrapperObject.prototype);
@@ -2544,6 +2690,7 @@ MaterialSolid.prototype["__destroy"] = MaterialSolid.prototype.__destroy = funct
 };
 // MaterialUser
 function MaterialUser() {
+    
     this.__ptr = _mud_MaterialUser__construct_0(); this.__type = MaterialUser.__type; getCache(MaterialUser)[this.__ptr] = this;
 };
 MaterialUser.prototype = Object.create(WrapperObject.prototype);
@@ -2658,31 +2805,44 @@ Mesh.prototype.__class = Mesh;
 Mesh.__cache = {};
 Module['Mesh'] = Mesh;
 Mesh.prototype["clear"] = Mesh.prototype.clear = function() {
+    
     _mud_Mesh_clear_0(this.__ptr);
 };
 Mesh.prototype["write"] = Mesh.prototype.write = function(a0, a1, a2) {
-    if (a1 === undefined) { _mud_Mesh_write_1(this.__ptr, /*packer*/a0.__ptr); return; }
-    if (a2 === undefined) { _mud_Mesh_write_2(this.__ptr, /*packer*/a0.__ptr, /*optimize*/a1); return; }
-    _mud_Mesh_write_3(this.__ptr, /*packer*/a0.__ptr, /*optimize*/a1, /*dynamic*/a2);
+    if (a1 === undefined) { assert(a0.__type === MeshPacker.__type, '[ERROR] write(0:packer): expected MeshPacker'); }
+    else if (a2 === undefined) { assert(a0.__type === MeshPacker.__type, '[ERROR] write(0:packer): expected MeshPacker'); assert(typeof a1 === 'boolean', '[ERROR] write(1:optimize): expected boolean'); }
+    else { assert(a0.__type === MeshPacker.__type, '[ERROR] write(0:packer): expected MeshPacker'); assert(typeof a1 === 'boolean', '[ERROR] write(1:optimize): expected boolean'); assert(typeof a2 === 'boolean', '[ERROR] write(2:dynamic): expected boolean'); }
+    if (a1 === undefined) { _mud_Mesh_write_1(this.__ptr, /*packer*/a0.__ptr); }
+    else if (a2 === undefined) { _mud_Mesh_write_2(this.__ptr, /*packer*/a0.__ptr, /*optimize*/a1); }
+    else { _mud_Mesh_write_3(this.__ptr, /*packer*/a0.__ptr, /*optimize*/a1, /*dynamic*/a2); }
 };
 Mesh.prototype["xwrite"] = Mesh.prototype.xwrite = function(a0, a1, a2, a3) {
-    if (a2 === undefined) { _mud_Mesh_xwrite_2(this.__ptr, /*packer*/a0.__ptr, /*transform*/a1.__ptr); return; }
-    if (a3 === undefined) { _mud_Mesh_xwrite_3(this.__ptr, /*packer*/a0.__ptr, /*transform*/a1.__ptr, /*optimize*/a2); return; }
-    _mud_Mesh_xwrite_4(this.__ptr, /*packer*/a0.__ptr, /*transform*/a1.__ptr, /*optimize*/a2, /*dynamic*/a3);
+    if (a2 === undefined) { assert(a0.__type === MeshPacker.__type, '[ERROR] xwrite(0:packer): expected MeshPacker'); assert(a1.__type === mat4.__type, '[ERROR] xwrite(1:transform): expected mat4'); }
+    else if (a3 === undefined) { assert(a0.__type === MeshPacker.__type, '[ERROR] xwrite(0:packer): expected MeshPacker'); assert(a1.__type === mat4.__type, '[ERROR] xwrite(1:transform): expected mat4'); assert(typeof a2 === 'boolean', '[ERROR] xwrite(2:optimize): expected boolean'); }
+    else { assert(a0.__type === MeshPacker.__type, '[ERROR] xwrite(0:packer): expected MeshPacker'); assert(a1.__type === mat4.__type, '[ERROR] xwrite(1:transform): expected mat4'); assert(typeof a2 === 'boolean', '[ERROR] xwrite(2:optimize): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] xwrite(3:dynamic): expected boolean'); }
+    if (a2 === undefined) { _mud_Mesh_xwrite_2(this.__ptr, /*packer*/a0.__ptr, /*transform*/a1.__ptr); }
+    else if (a3 === undefined) { _mud_Mesh_xwrite_3(this.__ptr, /*packer*/a0.__ptr, /*transform*/a1.__ptr, /*optimize*/a2); }
+    else { _mud_Mesh_xwrite_4(this.__ptr, /*packer*/a0.__ptr, /*transform*/a1.__ptr, /*optimize*/a2, /*dynamic*/a3); }
 };
 Mesh.prototype["morph"] = Mesh.prototype.morph = function(a0) {
+    assert(a0.__type === MeshPacker.__type, '[ERROR] morph(0:packer): expected MeshPacker');
     _mud_Mesh_morph_1(this.__ptr, /*packer*/a0.__ptr);
 };
 Mesh.prototype["upload"] = Mesh.prototype.upload = function(a0, a1) {
-    if (a1 === undefined) { _mud_Mesh_upload_1(this.__ptr, /*gpu_mesh*/a0.__ptr); return; }
-    _mud_Mesh_upload_2(this.__ptr, /*gpu_mesh*/a0.__ptr, /*optimize*/a1);
+    if (a1 === undefined) { assert(a0.__type === GpuMesh.__type, '[ERROR] upload(0:gpu_mesh): expected GpuMesh'); }
+    else { assert(a0.__type === GpuMesh.__type, '[ERROR] upload(0:gpu_mesh): expected GpuMesh'); assert(typeof a1 === 'boolean', '[ERROR] upload(1:optimize): expected boolean'); }
+    if (a1 === undefined) { _mud_Mesh_upload_1(this.__ptr, /*gpu_mesh*/a0.__ptr); }
+    else { _mud_Mesh_upload_2(this.__ptr, /*gpu_mesh*/a0.__ptr, /*optimize*/a1); }
 };
 Mesh.prototype["cache"] = Mesh.prototype.cache = function(a0) {
+    assert(a0.__type === GpuMesh.__type, '[ERROR] cache(0:gpu_mesh): expected GpuMesh');
     _mud_Mesh_cache_1(this.__ptr, /*gpu_mesh*/a0.__ptr);
 };
 Mesh.prototype["direct"] = Mesh.prototype.direct = function(a0, a1, a2) {
+    if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] direct(0:vertex_format): expected integer'); assert(typeof a1 === 'number', '[ERROR] direct(1:vertex_count): expected integer'); }
+    else { assert(typeof a0 === 'number', '[ERROR] direct(0:vertex_format): expected integer'); assert(typeof a1 === 'number', '[ERROR] direct(1:vertex_count): expected integer'); assert(typeof a2 === 'number', '[ERROR] direct(2:index_count): expected integer'); }
     if (a2 === undefined) { return wrapPointer(_mud_Mesh_direct_2(this.__ptr, /*vertex_format*/a0, /*vertex_count*/a1), MeshAdapter); }
-    return wrapPointer(_mud_Mesh_direct_3(this.__ptr, /*vertex_format*/a0, /*vertex_count*/a1, /*index_count*/a2), MeshAdapter);
+    else { return wrapPointer(_mud_Mesh_direct_3(this.__ptr, /*vertex_format*/a0, /*vertex_count*/a1, /*index_count*/a2), MeshAdapter); }
 };
 Object.defineProperty(Mesh.prototype, "name", {
     get: function() {
@@ -2817,6 +2977,7 @@ Mesh.prototype["__destroy"] = Mesh.prototype.__destroy = function() {
 };
 // Mime
 function Mime() {
+    
     this.__ptr = _mud_Mime__construct_0(); this.__type = Mime.__type; getCache(Mime)[this.__ptr] = this;
 };
 Mime.prototype = Object.create(WrapperObject.prototype);
@@ -2826,36 +2987,51 @@ Mime.__cache = {};
 Module['Mime'] = Mime;
 Mime.prototype["start"] = Mime.prototype.start = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (a2 === undefined) { _mud_Mime_start_2(this.__ptr, ensureString(/*animation*/a0), /*loop*/a1); return; }
-    if (a3 === undefined) { _mud_Mime_start_3(this.__ptr, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2); return; }
-    if (a4 === undefined) { _mud_Mime_start_4(this.__ptr, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2, /*speed*/a3); return; }
-    _mud_Mime_start_5(this.__ptr, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2, /*speed*/a3, /*transient*/a4);
+    if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] start(0:animation): expected string'); assert(typeof a1 === 'boolean', '[ERROR] start(1:loop): expected boolean'); }
+    else if (a3 === undefined) { assert(typeof a0 === 'string', '[ERROR] start(0:animation): expected string'); assert(typeof a1 === 'boolean', '[ERROR] start(1:loop): expected boolean'); assert(typeof a2 === 'number', '[ERROR] start(2:blend): expected number'); }
+    else if (a4 === undefined) { assert(typeof a0 === 'string', '[ERROR] start(0:animation): expected string'); assert(typeof a1 === 'boolean', '[ERROR] start(1:loop): expected boolean'); assert(typeof a2 === 'number', '[ERROR] start(2:blend): expected number'); assert(typeof a3 === 'number', '[ERROR] start(3:speed): expected number'); }
+    else { assert(typeof a0 === 'string', '[ERROR] start(0:animation): expected string'); assert(typeof a1 === 'boolean', '[ERROR] start(1:loop): expected boolean'); assert(typeof a2 === 'number', '[ERROR] start(2:blend): expected number'); assert(typeof a3 === 'number', '[ERROR] start(3:speed): expected number'); assert(typeof a4 === 'boolean', '[ERROR] start(4:transient): expected boolean'); }
+    if (a2 === undefined) { _mud_Mime_start_2(this.__ptr, ensureString(/*animation*/a0), /*loop*/a1); }
+    else if (a3 === undefined) { _mud_Mime_start_3(this.__ptr, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2); }
+    else if (a4 === undefined) { _mud_Mime_start_4(this.__ptr, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2, /*speed*/a3); }
+    else { _mud_Mime_start_5(this.__ptr, ensureString(/*animation*/a0), /*loop*/a1, /*blend*/a2, /*speed*/a3, /*transient*/a4); }
 };
 Mime.prototype["play"] = Mime.prototype.play = function(a0, a1, a2, a3, a4) {
-    if (a2 === undefined) { _mud_Mime_play_2(this.__ptr, /*animation*/a0.__ptr, /*loop*/a1); return; }
-    if (a3 === undefined) { _mud_Mime_play_3(this.__ptr, /*animation*/a0.__ptr, /*loop*/a1, /*blend*/a2); return; }
-    if (a4 === undefined) { _mud_Mime_play_4(this.__ptr, /*animation*/a0.__ptr, /*loop*/a1, /*blend*/a2, /*speed*/a3); return; }
-    _mud_Mime_play_5(this.__ptr, /*animation*/a0.__ptr, /*loop*/a1, /*blend*/a2, /*speed*/a3, /*transient*/a4);
+    if (a2 === undefined) { assert(a0.__type === Animation.__type, '[ERROR] play(0:animation): expected Animation'); assert(typeof a1 === 'boolean', '[ERROR] play(1:loop): expected boolean'); }
+    else if (a3 === undefined) { assert(a0.__type === Animation.__type, '[ERROR] play(0:animation): expected Animation'); assert(typeof a1 === 'boolean', '[ERROR] play(1:loop): expected boolean'); assert(typeof a2 === 'number', '[ERROR] play(2:blend): expected number'); }
+    else if (a4 === undefined) { assert(a0.__type === Animation.__type, '[ERROR] play(0:animation): expected Animation'); assert(typeof a1 === 'boolean', '[ERROR] play(1:loop): expected boolean'); assert(typeof a2 === 'number', '[ERROR] play(2:blend): expected number'); assert(typeof a3 === 'number', '[ERROR] play(3:speed): expected number'); }
+    else { assert(a0.__type === Animation.__type, '[ERROR] play(0:animation): expected Animation'); assert(typeof a1 === 'boolean', '[ERROR] play(1:loop): expected boolean'); assert(typeof a2 === 'number', '[ERROR] play(2:blend): expected number'); assert(typeof a3 === 'number', '[ERROR] play(3:speed): expected number'); assert(typeof a4 === 'boolean', '[ERROR] play(4:transient): expected boolean'); }
+    if (a2 === undefined) { _mud_Mime_play_2(this.__ptr, /*animation*/a0.__ptr, /*loop*/a1); }
+    else if (a3 === undefined) { _mud_Mime_play_3(this.__ptr, /*animation*/a0.__ptr, /*loop*/a1, /*blend*/a2); }
+    else if (a4 === undefined) { _mud_Mime_play_4(this.__ptr, /*animation*/a0.__ptr, /*loop*/a1, /*blend*/a2, /*speed*/a3); }
+    else { _mud_Mime_play_5(this.__ptr, /*animation*/a0.__ptr, /*loop*/a1, /*blend*/a2, /*speed*/a3, /*transient*/a4); }
 };
 Mime.prototype["seek"] = Mime.prototype.seek = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] seek(0:time): expected number');
     _mud_Mime_seek_1(this.__ptr, /*time*/a0);
 };
 Mime.prototype["pause"] = Mime.prototype.pause = function() {
+    
     _mud_Mime_pause_0(this.__ptr);
 };
 Mime.prototype["stop"] = Mime.prototype.stop = function() {
+    
     _mud_Mime_stop_0(this.__ptr);
 };
 Mime.prototype["advance"] = Mime.prototype.advance = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] advance(0:time): expected number');
     _mud_Mime_advance_1(this.__ptr, /*time*/a0);
 };
 Mime.prototype["next_animation"] = Mime.prototype.next_animation = function() {
+    
     _mud_Mime_next_animation_0(this.__ptr);
 };
 Mime.prototype["add_item"] = Mime.prototype.add_item = function(a0) {
+    assert(a0.__type === Item.__type, '[ERROR] add_item(0:item): expected Item');
     _mud_Mime_add_item_1(this.__ptr, /*item*/a0.__ptr);
 };
 Mime.prototype["playing"] = Mime.prototype.playing = function() {
+    
     return UTF8ToString(_mud_Mime_playing_0(this.__ptr));
 };
 Object.defineProperty(Mime.prototype, "active", {
@@ -2887,6 +3063,7 @@ Mime.prototype["__destroy"] = Mime.prototype.__destroy = function() {
 };
 // MirrorCamera
 function MirrorCamera() {
+    
     this.__ptr = _mud_MirrorCamera__construct_0(); this.__type = MirrorCamera.__type; getCache(MirrorCamera)[this.__ptr] = this;
 };
 MirrorCamera.prototype = Object.create(WrapperObject.prototype);
@@ -2925,24 +3102,33 @@ Model.prototype.__class = Model;
 Model.__cache = {};
 Module['Model'] = Model;
 Model.prototype["get_mesh"] = Model.prototype.get_mesh = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] get_mesh(0:index): expected integer');
     return wrapPointer(_mud_Model_get_mesh_1(this.__ptr, /*index*/a0), Mesh);
 };
 Model.prototype["add_mesh"] = Model.prototype.add_mesh = function(a0, a1) {
     ensureCache.prepare();
+    if (a1 === undefined) { assert(typeof a0 === 'string', '[ERROR] add_mesh(0:name): expected string'); }
+    else { assert(typeof a0 === 'string', '[ERROR] add_mesh(0:name): expected string'); assert(typeof a1 === 'boolean', '[ERROR] add_mesh(1:readback): expected boolean'); }
     if (a1 === undefined) { return wrapPointer(_mud_Model_add_mesh_1(this.__ptr, ensureString(/*name*/a0)), Mesh); }
-    return wrapPointer(_mud_Model_add_mesh_2(this.__ptr, ensureString(/*name*/a0), /*readback*/a1), Mesh);
+    else { return wrapPointer(_mud_Model_add_mesh_2(this.__ptr, ensureString(/*name*/a0), /*readback*/a1), Mesh); }
 };
 Model.prototype["add_rig"] = Model.prototype.add_rig = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] add_rig(0:name): expected string');
     return wrapPointer(_mud_Model_add_rig_1(this.__ptr, ensureString(/*name*/a0)), Rig);
 };
 Model.prototype["add_item"] = Model.prototype.add_item = function(a0, a1, a2, a3, a4) {
+    if (a2 === undefined) { assert(a0.__type === Mesh.__type, '[ERROR] add_item(0:mesh): expected Mesh'); assert(a1.__type === mat4.__type, '[ERROR] add_item(1:transform): expected mat4'); }
+    else if (a3 === undefined) { assert(a0.__type === Mesh.__type, '[ERROR] add_item(0:mesh): expected Mesh'); assert(a1.__type === mat4.__type, '[ERROR] add_item(1:transform): expected mat4'); assert(typeof a2 === 'number', '[ERROR] add_item(2:skin): expected integer'); }
+    else if (a4 === undefined) { assert(a0.__type === Mesh.__type, '[ERROR] add_item(0:mesh): expected Mesh'); assert(a1.__type === mat4.__type, '[ERROR] add_item(1:transform): expected mat4'); assert(typeof a2 === 'number', '[ERROR] add_item(2:skin): expected integer'); assert(a3.__type === Colour.__type, '[ERROR] add_item(3:colour): expected Colour'); }
+    else { assert(a0.__type === Mesh.__type, '[ERROR] add_item(0:mesh): expected Mesh'); assert(a1.__type === mat4.__type, '[ERROR] add_item(1:transform): expected mat4'); assert(typeof a2 === 'number', '[ERROR] add_item(2:skin): expected integer'); assert(a3.__type === Colour.__type, '[ERROR] add_item(3:colour): expected Colour'); assert(a4.__type === Material.__type, '[ERROR] add_item(4:material): expected Material'); }
     if (a2 === undefined) { return wrapPointer(_mud_Model_add_item_2(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr), ModelElem); }
-    if (a3 === undefined) { return wrapPointer(_mud_Model_add_item_3(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr, /*skin*/a2), ModelElem); }
-    if (a4 === undefined) { return wrapPointer(_mud_Model_add_item_4(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr, /*skin*/a2, /*colour*/a3.__ptr), ModelElem); }
-    return wrapPointer(_mud_Model_add_item_5(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr, /*skin*/a2, /*colour*/a3.__ptr, /*material*/a4.__ptr), ModelElem);
+    else if (a3 === undefined) { return wrapPointer(_mud_Model_add_item_3(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr, /*skin*/a2), ModelElem); }
+    else if (a4 === undefined) { return wrapPointer(_mud_Model_add_item_4(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr, /*skin*/a2, /*colour*/a3.__ptr), ModelElem); }
+    else { return wrapPointer(_mud_Model_add_item_5(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr, /*skin*/a2, /*colour*/a3.__ptr, /*material*/a4.__ptr), ModelElem); }
 };
 Model.prototype["prepare"] = Model.prototype.prepare = function() {
+    
     _mud_Model_prepare_0(this.__ptr);
 };
 Object.defineProperty(Model.prototype, "name", {
@@ -2990,6 +3176,7 @@ Model.prototype["__destroy"] = Model.prototype.__destroy = function() {
 };
 // ModelElem
 function ModelElem() {
+    
     this.__ptr = _mud_ModelElem__construct_0(); this.__type = ModelElem.__type; getCache(ModelElem)[this.__ptr] = this;
 };
 ModelElem.prototype = Object.create(WrapperObject.prototype);
@@ -3058,10 +3245,14 @@ ModelElem.prototype["__destroy"] = ModelElem.prototype.__destroy = function() {
 };
 // Node3
 function Node3(a0, a1, a2) {
-    if (a0 === undefined) { this.__ptr = _mud_Node3__construct_0(); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_Node3__construct_1(/*position*/a0.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_Node3__construct_2(/*position*/a0.__ptr, /*rotation*/a1.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Node3__construct_3(/*position*/a0.__ptr, /*rotation*/a1.__ptr, /*scale*/a2.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] Node3(0:position): expected v3<float>'); }
+    else if (a2 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] Node3(0:position): expected v3<float>'); assert(a1.__type === quat.__type, '[ERROR] Node3(1:rotation): expected quat'); }
+    else { assert(a0.__type === v3_float.__type, '[ERROR] Node3(0:position): expected v3<float>'); assert(a1.__type === quat.__type, '[ERROR] Node3(1:rotation): expected quat'); assert(a2.__type === v3_float.__type, '[ERROR] Node3(2:scale): expected v3<float>'); }
+    if (a0 === undefined) { this.__ptr = _mud_Node3__construct_0(); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Node3__construct_1(/*position*/a0.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Node3__construct_2(/*position*/a0.__ptr, /*rotation*/a1.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Node3__construct_3(/*position*/a0.__ptr, /*rotation*/a1.__ptr, /*scale*/a2.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; }
 };
 Node3.prototype = Object.create(WrapperObject.prototype);
 Node3.prototype.constructor = Node3;
@@ -3069,22 +3260,31 @@ Node3.prototype.__class = Node3;
 Node3.__cache = {};
 Module['Node3'] = Node3;
 Node3.prototype["apply"] = Node3.prototype.apply = function(a0, a1, a2) {
-    if (a1 === undefined) { _mud_Node3_apply_1(this.__ptr, /*position*/a0.__ptr); return; }
-    if (a2 === undefined) { _mud_Node3_apply_2(this.__ptr, /*position*/a0.__ptr, /*rotation*/a1.__ptr); return; }
-    _mud_Node3_apply_3(this.__ptr, /*position*/a0.__ptr, /*rotation*/a1.__ptr, /*scale*/a2.__ptr);
+    if (a1 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] apply(0:position): expected v3<float>'); }
+    else if (a2 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] apply(0:position): expected v3<float>'); assert(a1.__type === quat.__type, '[ERROR] apply(1:rotation): expected quat'); }
+    else { assert(a0.__type === v3_float.__type, '[ERROR] apply(0:position): expected v3<float>'); assert(a1.__type === quat.__type, '[ERROR] apply(1:rotation): expected quat'); assert(a2.__type === v3_float.__type, '[ERROR] apply(2:scale): expected v3<float>'); }
+    if (a1 === undefined) { _mud_Node3_apply_1(this.__ptr, /*position*/a0.__ptr); }
+    else if (a2 === undefined) { _mud_Node3_apply_2(this.__ptr, /*position*/a0.__ptr, /*rotation*/a1.__ptr); }
+    else { _mud_Node3_apply_3(this.__ptr, /*position*/a0.__ptr, /*rotation*/a1.__ptr, /*scale*/a2.__ptr); }
 };
 Node3.prototype["derive"] = Node3.prototype.derive = function(a0, a1, a2, a3) {
-    if (a2 === undefined) { _mud_Node3_derive_2(this.__ptr, /*parent*/a0.__ptr, /*position*/a1.__ptr); return; }
-    if (a3 === undefined) { _mud_Node3_derive_3(this.__ptr, /*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr); return; }
-    _mud_Node3_derive_4(this.__ptr, /*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr, /*scale*/a3.__ptr);
+    if (a2 === undefined) { assert(a0.__type === Node3.__type, '[ERROR] derive(0:parent): expected Node3'); assert(a1.__type === v3_float.__type, '[ERROR] derive(1:position): expected v3<float>'); }
+    else if (a3 === undefined) { assert(a0.__type === Node3.__type, '[ERROR] derive(0:parent): expected Node3'); assert(a1.__type === v3_float.__type, '[ERROR] derive(1:position): expected v3<float>'); assert(a2.__type === quat.__type, '[ERROR] derive(2:rotation): expected quat'); }
+    else { assert(a0.__type === Node3.__type, '[ERROR] derive(0:parent): expected Node3'); assert(a1.__type === v3_float.__type, '[ERROR] derive(1:position): expected v3<float>'); assert(a2.__type === quat.__type, '[ERROR] derive(2:rotation): expected quat'); assert(a3.__type === v3_float.__type, '[ERROR] derive(3:scale): expected v3<float>'); }
+    if (a2 === undefined) { _mud_Node3_derive_2(this.__ptr, /*parent*/a0.__ptr, /*position*/a1.__ptr); }
+    else if (a3 === undefined) { _mud_Node3_derive_3(this.__ptr, /*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr); }
+    else { _mud_Node3_derive_4(this.__ptr, /*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr, /*scale*/a3.__ptr); }
 };
 Node3.prototype["position"] = Node3.prototype.position = function() {
+    
     return wrapPointer(_mud_Node3_position_0(this.__ptr), v3_float);
 };
 Node3.prototype["axis"] = Node3.prototype.axis = function(a0) {
+    assert(a0.__type === v3_float.__type, '[ERROR] axis(0:dir): expected v3<float>');
     return wrapPointer(_mud_Node3_axis_1(this.__ptr, /*dir*/a0.__ptr), v3_float);
 };
 Node3.prototype["direction"] = Node3.prototype.direction = function() {
+    
     return wrapPointer(_mud_Node3_direction_0(this.__ptr), v3_float);
 };
 Object.defineProperty(Node3.prototype, "parent", {
@@ -3108,6 +3308,7 @@ Node3.prototype["__destroy"] = Node3.prototype.__destroy = function() {
 };
 // Pass
 function Pass() {
+    
     this.__ptr = _mud_Pass__construct_0(); this.__type = Pass.__type; getCache(Pass)[this.__ptr] = this;
 };
 Pass.prototype = Object.create(WrapperObject.prototype);
@@ -3198,8 +3399,10 @@ Prefab.prototype.__class = Prefab;
 Prefab.__cache = {};
 Module['Prefab'] = Prefab;
 Prefab.prototype["add"] = Prefab.prototype.add = function(a0, a1) {
-    if (a1 === undefined) { _mud_Prefab_add_1(this.__ptr, /*scene*/a0.__ptr); return; }
-    _mud_Prefab_add_2(this.__ptr, /*scene*/a0.__ptr, /*mime*/a1.__ptr);
+    if (a1 === undefined) { assert(a0.__type === Scene.__type, '[ERROR] add(0:scene): expected Scene'); }
+    else { assert(a0.__type === Scene.__type, '[ERROR] add(0:scene): expected Scene'); assert(a1.__type === Mime.__type, '[ERROR] add(1:mime): expected Mime'); }
+    if (a1 === undefined) { _mud_Prefab_add_1(this.__ptr, /*scene*/a0.__ptr); }
+    else { _mud_Prefab_add_2(this.__ptr, /*scene*/a0.__ptr, /*mime*/a1.__ptr); }
 };
 Object.defineProperty(Prefab.prototype, "name", {
     get: function() {
@@ -3220,21 +3423,28 @@ Program.prototype.__class = Program;
 Program.__cache = {};
 Module['Program'] = Program;
 Program.prototype["set_block"] = Program.prototype.set_block = function(a0, a1) {
-    if (a1 === undefined) { _mud_Program_set_block_1(this.__ptr, /*block*/a0); return; }
-    _mud_Program_set_block_2(this.__ptr, /*block*/a0, /*enabled*/a1);
+    if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] set_block(0:block): expected integer'); }
+    else { assert(typeof a0 === 'number', '[ERROR] set_block(0:block): expected integer'); assert(typeof a1 === 'boolean', '[ERROR] set_block(1:enabled): expected boolean'); }
+    if (a1 === undefined) { _mud_Program_set_block_1(this.__ptr, /*block*/a0); }
+    else { _mud_Program_set_block_2(this.__ptr, /*block*/a0, /*enabled*/a1); }
 };
 Program.prototype["set_pass"] = Program.prototype.set_pass = function(a0, a1) {
-    if (a1 === undefined) { _mud_Program_set_pass_1(this.__ptr, /*type*/a0); return; }
-    _mud_Program_set_pass_2(this.__ptr, /*type*/a0, /*enabled*/a1);
+    if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] set_pass(0:type): expected integer'); }
+    else { assert(typeof a0 === 'number', '[ERROR] set_pass(0:type): expected integer'); assert(typeof a1 === 'boolean', '[ERROR] set_pass(1:enabled): expected boolean'); }
+    if (a1 === undefined) { _mud_Program_set_pass_1(this.__ptr, /*type*/a0); }
+    else { _mud_Program_set_pass_2(this.__ptr, /*type*/a0, /*enabled*/a1); }
 };
 Program.prototype["set_source"] = Program.prototype.set_source = function(a0, a1) {
     ensureCache.prepare();
+    assert(typeof a0 === 'number', '[ERROR] set_source(0:type): expected integer'); assert(typeof a1 === 'string', '[ERROR] set_source(1:source): expected string');
     _mud_Program_set_source_2(this.__ptr, /*type*/a0, ensureString(/*source*/a1));
 };
 Program.prototype["register_blocks"] = Program.prototype.register_blocks = function(a0) {
+    assert(a0.__type === Program.__type, '[ERROR] register_blocks(0:program): expected Program');
     _mud_Program_register_blocks_1(this.__ptr, /*program*/a0.__ptr);
 };
 Program.prototype["register_block"] = Program.prototype.register_block = function(a0) {
+    assert(a0.__type === ShaderBlock.__type, '[ERROR] register_block(0:block): expected ShaderBlock');
     _mud_Program_register_block_1(this.__ptr, /*block*/a0.__ptr);
 };
 Object.defineProperty(Program.prototype, "name", {
@@ -3250,6 +3460,7 @@ Program.prototype["__destroy"] = Program.prototype.__destroy = function() {
 };
 // ProgramBlock
 function ProgramBlock() {
+    
     this.__ptr = _mud_ProgramBlock__construct_0(); this.__type = ProgramBlock.__type; getCache(ProgramBlock)[this.__ptr] = this;
 };
 ProgramBlock.prototype = Object.create(WrapperObject.prototype);
@@ -3286,6 +3497,7 @@ ProgramBlock.prototype["__destroy"] = ProgramBlock.prototype.__destroy = functio
 };
 // ProgramMode
 function ProgramMode() {
+    
     this.__ptr = _mud_ProgramMode__construct_0(); this.__type = ProgramMode.__type; getCache(ProgramMode)[this.__ptr] = this;
 };
 ProgramMode.prototype = Object.create(WrapperObject.prototype);
@@ -3330,8 +3542,10 @@ ProgramMode.prototype["__destroy"] = ProgramMode.prototype.__destroy = function(
 };
 // ProgramVersion
 function ProgramVersion(a0) {
-    if (a0 === undefined) { this.__ptr = _mud_ProgramVersion__construct_0(); this.__type = ProgramVersion.__type; getCache(ProgramVersion)[this.__ptr] = this; return; }
-    this.__ptr = _mud_ProgramVersion__construct_1(/*program*/a0.__ptr); this.__type = ProgramVersion.__type; getCache(ProgramVersion)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(a0.__type === Program.__type, '[ERROR] ProgramVersion(0:program): expected Program'); }
+    if (a0 === undefined) { this.__ptr = _mud_ProgramVersion__construct_0(); this.__type = ProgramVersion.__type; getCache(ProgramVersion)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ProgramVersion__construct_1(/*program*/a0.__ptr); this.__type = ProgramVersion.__type; getCache(ProgramVersion)[this.__ptr] = this; }
 };
 ProgramVersion.prototype = Object.create(WrapperObject.prototype);
 ProgramVersion.prototype.constructor = ProgramVersion;
@@ -3339,16 +3553,21 @@ ProgramVersion.prototype.__class = ProgramVersion;
 ProgramVersion.__cache = {};
 Module['ProgramVersion'] = ProgramVersion;
 ProgramVersion.prototype["clear"] = ProgramVersion.prototype.clear = function() {
+    
     _mud_ProgramVersion_clear_0(this.__ptr);
 };
 ProgramVersion.prototype["set_option"] = ProgramVersion.prototype.set_option = function(a0, a1, a2) {
-    if (a2 === undefined) { _mud_ProgramVersion_set_option_2(this.__ptr, /*block*/a0, /*option*/a1); return; }
-    _mud_ProgramVersion_set_option_3(this.__ptr, /*block*/a0, /*option*/a1, /*active*/a2);
+    if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] set_option(0:block): expected integer'); assert(typeof a1 === 'number', '[ERROR] set_option(1:option): expected integer'); }
+    else { assert(typeof a0 === 'number', '[ERROR] set_option(0:block): expected integer'); assert(typeof a1 === 'number', '[ERROR] set_option(1:option): expected integer'); assert(typeof a2 === 'boolean', '[ERROR] set_option(2:active): expected boolean'); }
+    if (a2 === undefined) { _mud_ProgramVersion_set_option_2(this.__ptr, /*block*/a0, /*option*/a1); }
+    else { _mud_ProgramVersion_set_option_3(this.__ptr, /*block*/a0, /*option*/a1, /*active*/a2); }
 };
 ProgramVersion.prototype["set_mode"] = ProgramVersion.prototype.set_mode = function(a0, a1, a2) {
+    assert(typeof a0 === 'number', '[ERROR] set_mode(0:block): expected integer'); assert(typeof a1 === 'number', '[ERROR] set_mode(1:mode): expected integer'); assert(typeof a2 === 'number', '[ERROR] set_mode(2:value): expected integer');
     _mud_ProgramVersion_set_mode_3(this.__ptr, /*block*/a0, /*mode*/a1, /*value*/a2);
 };
 ProgramVersion.prototype["hash"] = ProgramVersion.prototype.hash = function() {
+    
     return _mud_ProgramVersion_hash_0(this.__ptr);
 };
 ProgramVersion.prototype["__destroy"] = ProgramVersion.prototype.__destroy = function() {
@@ -3356,6 +3575,7 @@ ProgramVersion.prototype["__destroy"] = ProgramVersion.prototype.__destroy = fun
 };
 // Radiance
 function Radiance() {
+    
     this.__ptr = _mud_Radiance__construct_0(); this.__type = Radiance.__type; getCache(Radiance)[this.__ptr] = this;
 };
 Radiance.prototype = Object.create(WrapperObject.prototype);
@@ -3416,9 +3636,12 @@ Radiance.prototype["__destroy"] = Radiance.prototype.__destroy = function() {
 };
 // Render
 function Render(a0, a1, a2, a3, a4) {
-    if (a0 === undefined) { this.__ptr = _mud_Render__construct_0(); this.__type = Render.__type; getCache(Render)[this.__ptr] = this; return; }
-    if (a4 === undefined) { this.__ptr = _mud_Render__construct_4(/*shading*/a0, /*viewport*/a1.__ptr, /*target*/a2.__ptr, /*frame*/a3.__ptr); this.__type = Render.__type; getCache(Render)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Render__construct_5(/*shading*/a0, /*viewport*/a1.__ptr, /*target*/a2.__ptr, /*target_fbo*/a3.__ptr, /*frame*/a4.__ptr); this.__type = Render.__type; getCache(Render)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a4 === undefined) { assert(typeof a0 === 'number', '[ERROR] Render(0:shading): expected integer'); assert(a1.__type === Viewport.__type, '[ERROR] Render(1:viewport): expected Viewport'); assert(a2.__type === RenderTarget.__type, '[ERROR] Render(2:target): expected RenderTarget'); assert(a3.__type === RenderFrame.__type, '[ERROR] Render(3:frame): expected RenderFrame'); }
+    else { assert(typeof a0 === 'number', '[ERROR] Render(0:shading): expected integer'); assert(a1.__type === Viewport.__type, '[ERROR] Render(1:viewport): expected Viewport'); assert(a2.__type === RenderTarget.__type, '[ERROR] Render(2:target): expected RenderTarget'); assert(a3.__type === FrameBuffer.__type, '[ERROR] Render(3:target_fbo): expected FrameBuffer'); assert(a4.__type === RenderFrame.__type, '[ERROR] Render(4:frame): expected RenderFrame'); }
+    if (a0 === undefined) { this.__ptr = _mud_Render__construct_0(); this.__type = Render.__type; getCache(Render)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_Render__construct_4(/*shading*/a0, /*viewport*/a1.__ptr, /*target*/a2.__ptr, /*frame*/a3.__ptr); this.__type = Render.__type; getCache(Render)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Render__construct_5(/*shading*/a0, /*viewport*/a1.__ptr, /*target*/a2.__ptr, /*target_fbo*/a3.__ptr, /*frame*/a4.__ptr); this.__type = Render.__type; getCache(Render)[this.__ptr] = this; }
 };
 Render.prototype = Object.create(WrapperObject.prototype);
 Render.prototype.constructor = Render;
@@ -3426,14 +3649,17 @@ Render.prototype.__class = Render;
 Render.__cache = {};
 Module['Render'] = Render;
 Render.prototype["subrender"] = Render.prototype.subrender = function(a0) {
+    assert(a0.__type === Render.__type, '[ERROR] subrender(0:render): expected Render');
     _mud_Render_subrender_1(this.__ptr, /*render*/a0.__ptr);
 };
 Render.prototype["next_pass"] = Render.prototype.next_pass = function(a0, a1) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] next_pass(0:name): expected string'); assert(typeof a1 === 'number', '[ERROR] next_pass(1:type): expected integer');
     return wrapPointer(_mud_Render_next_pass_2(this.__ptr, ensureString(/*name*/a0), /*type*/a1), Pass);
 };
 Render.prototype["composite_pass"] = Render.prototype.composite_pass = function(a0, a1, a2) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] composite_pass(0:name): expected string'); assert(a1.__type === FrameBuffer.__type, '[ERROR] composite_pass(1:fbo): expected FrameBuffer'); assert(a2.__type === v4_float.__type, '[ERROR] composite_pass(2:rect): expected v4<float>');
     return wrapPointer(_mud_Render_composite_pass_3(this.__ptr, ensureString(/*name*/a0), /*fbo*/a1.__ptr, /*rect*/a2.__ptr), Pass);
 };
 Object.defineProperty(Render.prototype, "shading", {
@@ -3557,6 +3783,7 @@ Render.prototype["__destroy"] = Render.prototype.__destroy = function() {
 };
 // RenderFrame
 function RenderFrame() {
+    
     this.__ptr = _mud_RenderFrame__construct_0(); this.__type = RenderFrame.__type; getCache(RenderFrame)[this.__ptr] = this;
 };
 RenderFrame.prototype = Object.create(WrapperObject.prototype);
@@ -3625,11 +3852,16 @@ RenderFrame.prototype["__destroy"] = RenderFrame.prototype.__destroy = function(
 };
 // RenderQuad
 function RenderQuad(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_RenderQuad__construct_0(); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_RenderQuad__construct_1(/*rect*/a0.__ptr); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_RenderQuad__construct_2(/*crop*/a0.__ptr, /*dest*/a1.__ptr); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; return; }
-    if (a3 === undefined) { this.__ptr = _mud_RenderQuad__construct_3(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; return; }
-    this.__ptr = _mud_RenderQuad__construct_4(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2, /*relative*/a3); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(a0.__type === v4_float.__type, '[ERROR] RenderQuad(0:rect): expected v4<float>'); }
+    else if (a2 === undefined) { assert(a0.__type === v4_float.__type, '[ERROR] RenderQuad(0:crop): expected v4<float>'); assert(a1.__type === v4_float.__type, '[ERROR] RenderQuad(1:dest): expected v4<float>'); }
+    else if (a3 === undefined) { assert(a0.__type === v4_float.__type, '[ERROR] RenderQuad(0:crop): expected v4<float>'); assert(a1.__type === v4_float.__type, '[ERROR] RenderQuad(1:dest): expected v4<float>'); assert(typeof a2 === 'boolean', '[ERROR] RenderQuad(2:fbo_flip): expected boolean'); }
+    else { assert(a0.__type === v4_float.__type, '[ERROR] RenderQuad(0:crop): expected v4<float>'); assert(a1.__type === v4_float.__type, '[ERROR] RenderQuad(1:dest): expected v4<float>'); assert(typeof a2 === 'boolean', '[ERROR] RenderQuad(2:fbo_flip): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] RenderQuad(3:relative): expected boolean'); }
+    if (a0 === undefined) { this.__ptr = _mud_RenderQuad__construct_0(); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_RenderQuad__construct_1(/*rect*/a0.__ptr); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_RenderQuad__construct_2(/*crop*/a0.__ptr, /*dest*/a1.__ptr); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_RenderQuad__construct_3(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; }
+    else { this.__ptr = _mud_RenderQuad__construct_4(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2, /*relative*/a3); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; }
 };
 RenderQuad.prototype = Object.create(WrapperObject.prototype);
 RenderQuad.prototype.constructor = RenderQuad;
@@ -3679,12 +3911,15 @@ Renderer.prototype.__class = Renderer;
 Renderer.__cache = {};
 Module['Renderer'] = Renderer;
 Renderer.prototype["gather"] = Renderer.prototype.gather = function(a0) {
+    assert(a0.__type === Render.__type, '[ERROR] gather(0:render): expected Render');
     _mud_Renderer_gather_1(this.__ptr, /*render*/a0.__ptr);
 };
 Renderer.prototype["begin"] = Renderer.prototype.begin = function(a0) {
+    assert(a0.__type === Render.__type, '[ERROR] begin(0:render): expected Render');
     _mud_Renderer_begin_1(this.__ptr, /*render*/a0.__ptr);
 };
 Renderer.prototype["end"] = Renderer.prototype.end = function(a0) {
+    assert(a0.__type === Render.__type, '[ERROR] end(0:render): expected Render');
     _mud_Renderer_end_1(this.__ptr, /*render*/a0.__ptr);
 };
 Renderer.prototype["__destroy"] = Renderer.prototype.__destroy = function() {
@@ -3702,6 +3937,7 @@ Rig.prototype["__destroy"] = Rig.prototype.__destroy = function() {
 };
 // Scene
 function Scene(a0) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] Scene(0:gfx): expected GfxSystem');
     this.__ptr = _mud_Scene__construct_1(/*gfx*/a0.__ptr); this.__type = Scene.__type; getCache(Scene)[this.__ptr] = this;
 };
 Scene.prototype = Object.create(WrapperObject.prototype);
@@ -3710,30 +3946,39 @@ Scene.prototype.__class = Scene;
 Scene.__cache = {};
 Module['Scene'] = Scene;
 Scene.prototype["begin"] = Scene.prototype.begin = function() {
+    
     return wrapPointer(_mud_Scene_begin_0(this.__ptr), Gnode);
 };
 Scene.prototype["update"] = Scene.prototype.update = function() {
+    
     _mud_Scene_update_0(this.__ptr);
 };
 Scene.prototype["nodes"] = Scene.prototype.nodes = function() {
+    
     return wrapPointer(_mud_Scene_nodes_0(this.__ptr), TPool_mud_Node3);
 };
 Scene.prototype["items"] = Scene.prototype.items = function() {
+    
     return wrapPointer(_mud_Scene_items_0(this.__ptr), TPool_mud_Item);
 };
 Scene.prototype["batches"] = Scene.prototype.batches = function() {
+    
     return wrapPointer(_mud_Scene_batches_0(this.__ptr), TPool_mud_Batch);
 };
 Scene.prototype["directs"] = Scene.prototype.directs = function() {
+    
     return wrapPointer(_mud_Scene_directs_0(this.__ptr), TPool_mud_Direct);
 };
 Scene.prototype["mimes"] = Scene.prototype.mimes = function() {
+    
     return wrapPointer(_mud_Scene_mimes_0(this.__ptr), TPool_mud_Mime);
 };
 Scene.prototype["lights"] = Scene.prototype.lights = function() {
+    
     return wrapPointer(_mud_Scene_lights_0(this.__ptr), TPool_mud_Light);
 };
 Scene.prototype["flares"] = Scene.prototype.flares = function() {
+    
     return wrapPointer(_mud_Scene_flares_0(this.__ptr), TPool_mud_Flare);
 };
 Object.defineProperty(Scene.prototype, "index", {
@@ -3773,6 +4018,7 @@ Scene.prototype["__destroy"] = Scene.prototype.__destroy = function() {
 };
 // ShaderBlock
 function ShaderBlock() {
+    
     this.__ptr = _mud_ShaderBlock__construct_0(); this.__type = ShaderBlock.__type; getCache(ShaderBlock)[this.__ptr] = this;
 };
 ShaderBlock.prototype = Object.create(WrapperObject.prototype);
@@ -3782,14 +4028,17 @@ ShaderBlock.__cache = {};
 Module['ShaderBlock'] = ShaderBlock;
 ShaderBlock.prototype["add_option"] = ShaderBlock.prototype.add_option = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] add_option(0:name): expected string');
     _mud_ShaderBlock_add_option_1(this.__ptr, ensureString(/*name*/a0));
 };
 ShaderBlock.prototype["add_mode"] = ShaderBlock.prototype.add_mode = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] add_mode(0:name): expected string');
     _mud_ShaderBlock_add_mode_1(this.__ptr, ensureString(/*name*/a0));
 };
 ShaderBlock.prototype["add_define"] = ShaderBlock.prototype.add_define = function(a0, a1) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] add_define(0:name): expected string'); assert(typeof a1 === 'string', '[ERROR] add_define(1:value): expected string');
     _mud_ShaderBlock_add_define_2(this.__ptr, ensureString(/*name*/a0), ensureString(/*value*/a1));
 };
 Object.defineProperty(ShaderBlock.prototype, "index", {
@@ -3805,6 +4054,7 @@ ShaderBlock.prototype["__destroy"] = ShaderBlock.prototype.__destroy = function(
 };
 // ShaderDefine
 function ShaderDefine() {
+    
     this.__ptr = _mud_ShaderDefine__construct_0(); this.__type = ShaderDefine.__type; getCache(ShaderDefine)[this.__ptr] = this;
 };
 ShaderDefine.prototype = Object.create(WrapperObject.prototype);
@@ -3863,6 +4113,7 @@ Skin.prototype["__destroy"] = Skin.prototype.__destroy = function() {
 };
 // Skylight
 function Skylight() {
+    
     this.__ptr = _mud_Skylight__construct_0(); this.__type = Skylight.__type; getCache(Skylight)[this.__ptr] = this;
 };
 Skylight.prototype = Object.create(WrapperObject.prototype);
@@ -3923,6 +4174,7 @@ Skylight.prototype["__destroy"] = Skylight.prototype.__destroy = function() {
 };
 // Sun
 function Sun() {
+    
     this.__ptr = _mud_Sun__construct_0(); this.__type = Sun.__type; getCache(Sun)[this.__ptr] = this;
 };
 Sun.prototype = Object.create(WrapperObject.prototype);
@@ -3967,6 +4219,7 @@ Sun.prototype["__destroy"] = Sun.prototype.__destroy = function() {
 };
 // SwapBuffer
 function SwapBuffer() {
+    
     this.__ptr = _mud_SwapBuffer__construct_0(); this.__type = SwapBuffer.__type; getCache(SwapBuffer)[this.__ptr] = this;
 };
 SwapBuffer.prototype = Object.create(WrapperObject.prototype);
@@ -3975,15 +4228,19 @@ SwapBuffer.prototype.__class = SwapBuffer;
 SwapBuffer.__cache = {};
 Module['SwapBuffer'] = SwapBuffer;
 SwapBuffer.prototype["create"] = SwapBuffer.prototype.create = function(a0, a1) {
+    assert(a0.__type === v2_uint.__type, '[ERROR] create(0:size): expected v2<uint>'); assert(typeof a1 === 'number', '[ERROR] create(1:color_format): expected integer');
     _mud_SwapBuffer_create_2(this.__ptr, /*size*/a0.__ptr, /*color_format*/a1);
 };
 SwapBuffer.prototype["swap"] = SwapBuffer.prototype.swap = function() {
+    
     return wrapPointer(_mud_SwapBuffer_swap_0(this.__ptr), FrameBuffer);
 };
 SwapBuffer.prototype["current"] = SwapBuffer.prototype.current = function() {
+    
     return wrapPointer(_mud_SwapBuffer_current_0(this.__ptr), FrameBuffer);
 };
 SwapBuffer.prototype["last"] = SwapBuffer.prototype.last = function() {
+    
     return wrapPointer(_mud_SwapBuffer_last_0(this.__ptr), Texture);
 };
 Object.defineProperty(SwapBuffer.prototype, "one", {
@@ -3999,6 +4256,7 @@ SwapBuffer.prototype["__destroy"] = SwapBuffer.prototype.__destroy = function() 
 };
 // SwapCascade
 function SwapCascade() {
+    
     this.__ptr = _mud_SwapCascade__construct_0(); this.__type = SwapCascade.__type; getCache(SwapCascade)[this.__ptr] = this;
 };
 SwapCascade.prototype = Object.create(WrapperObject.prototype);
@@ -4007,12 +4265,15 @@ SwapCascade.prototype.__class = SwapCascade;
 SwapCascade.__cache = {};
 Module['SwapCascade'] = SwapCascade;
 SwapCascade.prototype["create"] = SwapCascade.prototype.create = function(a0, a1) {
+    assert(a0.__type === v2_uint.__type, '[ERROR] create(0:size): expected v2<uint>'); assert(typeof a1 === 'number', '[ERROR] create(1:color_format): expected integer');
     _mud_SwapCascade_create_2(this.__ptr, /*size*/a0.__ptr, /*color_format*/a1);
 };
 SwapCascade.prototype["swap"] = SwapCascade.prototype.swap = function() {
+    
     return wrapPointer(_mud_SwapCascade_swap_0(this.__ptr), Cascade);
 };
 SwapCascade.prototype["last"] = SwapCascade.prototype.last = function() {
+    
     return wrapPointer(_mud_SwapCascade_last_0(this.__ptr), Cascade);
 };
 Object.defineProperty(SwapCascade.prototype, "one", {
@@ -4044,15 +4305,19 @@ TPool_mud_Batch.prototype.__class = TPool_mud_Batch;
 TPool_mud_Batch.__cache = {};
 Module['TPool_mud_Batch'] = TPool_mud_Batch;
 TPool_mud_Batch.prototype["add"] = TPool_mud_Batch.prototype.add = function(a0) {
+    assert(a0.__type === Batch.__type, '[ERROR] add(0:value): expected Batch');
     return wrapPointer(_mud_TPool_mud_Batch_add_1(this.__ptr, /*value*/a0.__ptr), Batch);
 };
 TPool_mud_Batch.prototype["talloc"] = TPool_mud_Batch.prototype.talloc = function() {
+    
     return wrapPointer(_mud_TPool_mud_Batch_talloc_0(this.__ptr), Batch);
 };
 TPool_mud_Batch.prototype["tdestroy"] = TPool_mud_Batch.prototype.tdestroy = function(a0) {
+    assert(a0.__type === Batch.__type, '[ERROR] tdestroy(0:object): expected Batch');
     _mud_TPool_mud_Batch_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Batch.prototype["tfree"] = TPool_mud_Batch.prototype.tfree = function(a0) {
+    assert(a0.__type === Batch.__type, '[ERROR] tfree(0:object): expected Batch');
     _mud_TPool_mud_Batch_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Batch.prototype["__destroy"] = TPool_mud_Batch.prototype.__destroy = function() {
@@ -4066,15 +4331,19 @@ TPool_mud_Direct.prototype.__class = TPool_mud_Direct;
 TPool_mud_Direct.__cache = {};
 Module['TPool_mud_Direct'] = TPool_mud_Direct;
 TPool_mud_Direct.prototype["add"] = TPool_mud_Direct.prototype.add = function(a0) {
+    assert(a0.__type === Direct.__type, '[ERROR] add(0:value): expected Direct');
     return wrapPointer(_mud_TPool_mud_Direct_add_1(this.__ptr, /*value*/a0.__ptr), Direct);
 };
 TPool_mud_Direct.prototype["talloc"] = TPool_mud_Direct.prototype.talloc = function() {
+    
     return wrapPointer(_mud_TPool_mud_Direct_talloc_0(this.__ptr), Direct);
 };
 TPool_mud_Direct.prototype["tdestroy"] = TPool_mud_Direct.prototype.tdestroy = function(a0) {
+    assert(a0.__type === Direct.__type, '[ERROR] tdestroy(0:object): expected Direct');
     _mud_TPool_mud_Direct_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Direct.prototype["tfree"] = TPool_mud_Direct.prototype.tfree = function(a0) {
+    assert(a0.__type === Direct.__type, '[ERROR] tfree(0:object): expected Direct');
     _mud_TPool_mud_Direct_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Direct.prototype["__destroy"] = TPool_mud_Direct.prototype.__destroy = function() {
@@ -4088,15 +4357,19 @@ TPool_mud_Flare.prototype.__class = TPool_mud_Flare;
 TPool_mud_Flare.__cache = {};
 Module['TPool_mud_Flare'] = TPool_mud_Flare;
 TPool_mud_Flare.prototype["add"] = TPool_mud_Flare.prototype.add = function(a0) {
+    assert(a0.__type === Flare.__type, '[ERROR] add(0:value): expected Flare');
     return wrapPointer(_mud_TPool_mud_Flare_add_1(this.__ptr, /*value*/a0.__ptr), Flare);
 };
 TPool_mud_Flare.prototype["talloc"] = TPool_mud_Flare.prototype.talloc = function() {
+    
     return wrapPointer(_mud_TPool_mud_Flare_talloc_0(this.__ptr), Flare);
 };
 TPool_mud_Flare.prototype["tdestroy"] = TPool_mud_Flare.prototype.tdestroy = function(a0) {
+    assert(a0.__type === Flare.__type, '[ERROR] tdestroy(0:object): expected Flare');
     _mud_TPool_mud_Flare_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Flare.prototype["tfree"] = TPool_mud_Flare.prototype.tfree = function(a0) {
+    assert(a0.__type === Flare.__type, '[ERROR] tfree(0:object): expected Flare');
     _mud_TPool_mud_Flare_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Flare.prototype["__destroy"] = TPool_mud_Flare.prototype.__destroy = function() {
@@ -4110,15 +4383,19 @@ TPool_mud_Item.prototype.__class = TPool_mud_Item;
 TPool_mud_Item.__cache = {};
 Module['TPool_mud_Item'] = TPool_mud_Item;
 TPool_mud_Item.prototype["add"] = TPool_mud_Item.prototype.add = function(a0) {
+    assert(a0.__type === Item.__type, '[ERROR] add(0:value): expected Item');
     return wrapPointer(_mud_TPool_mud_Item_add_1(this.__ptr, /*value*/a0.__ptr), Item);
 };
 TPool_mud_Item.prototype["talloc"] = TPool_mud_Item.prototype.talloc = function() {
+    
     return wrapPointer(_mud_TPool_mud_Item_talloc_0(this.__ptr), Item);
 };
 TPool_mud_Item.prototype["tdestroy"] = TPool_mud_Item.prototype.tdestroy = function(a0) {
+    assert(a0.__type === Item.__type, '[ERROR] tdestroy(0:object): expected Item');
     _mud_TPool_mud_Item_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Item.prototype["tfree"] = TPool_mud_Item.prototype.tfree = function(a0) {
+    assert(a0.__type === Item.__type, '[ERROR] tfree(0:object): expected Item');
     _mud_TPool_mud_Item_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Item.prototype["__destroy"] = TPool_mud_Item.prototype.__destroy = function() {
@@ -4132,15 +4409,19 @@ TPool_mud_Light.prototype.__class = TPool_mud_Light;
 TPool_mud_Light.__cache = {};
 Module['TPool_mud_Light'] = TPool_mud_Light;
 TPool_mud_Light.prototype["add"] = TPool_mud_Light.prototype.add = function(a0) {
+    assert(a0.__type === Light.__type, '[ERROR] add(0:value): expected Light');
     return wrapPointer(_mud_TPool_mud_Light_add_1(this.__ptr, /*value*/a0.__ptr), Light);
 };
 TPool_mud_Light.prototype["talloc"] = TPool_mud_Light.prototype.talloc = function() {
+    
     return wrapPointer(_mud_TPool_mud_Light_talloc_0(this.__ptr), Light);
 };
 TPool_mud_Light.prototype["tdestroy"] = TPool_mud_Light.prototype.tdestroy = function(a0) {
+    assert(a0.__type === Light.__type, '[ERROR] tdestroy(0:object): expected Light');
     _mud_TPool_mud_Light_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Light.prototype["tfree"] = TPool_mud_Light.prototype.tfree = function(a0) {
+    assert(a0.__type === Light.__type, '[ERROR] tfree(0:object): expected Light');
     _mud_TPool_mud_Light_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Light.prototype["__destroy"] = TPool_mud_Light.prototype.__destroy = function() {
@@ -4154,15 +4435,19 @@ TPool_mud_Mime.prototype.__class = TPool_mud_Mime;
 TPool_mud_Mime.__cache = {};
 Module['TPool_mud_Mime'] = TPool_mud_Mime;
 TPool_mud_Mime.prototype["add"] = TPool_mud_Mime.prototype.add = function(a0) {
+    assert(a0.__type === Mime.__type, '[ERROR] add(0:value): expected Mime');
     return wrapPointer(_mud_TPool_mud_Mime_add_1(this.__ptr, /*value*/a0.__ptr), Mime);
 };
 TPool_mud_Mime.prototype["talloc"] = TPool_mud_Mime.prototype.talloc = function() {
+    
     return wrapPointer(_mud_TPool_mud_Mime_talloc_0(this.__ptr), Mime);
 };
 TPool_mud_Mime.prototype["tdestroy"] = TPool_mud_Mime.prototype.tdestroy = function(a0) {
+    assert(a0.__type === Mime.__type, '[ERROR] tdestroy(0:object): expected Mime');
     _mud_TPool_mud_Mime_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Mime.prototype["tfree"] = TPool_mud_Mime.prototype.tfree = function(a0) {
+    assert(a0.__type === Mime.__type, '[ERROR] tfree(0:object): expected Mime');
     _mud_TPool_mud_Mime_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Mime.prototype["__destroy"] = TPool_mud_Mime.prototype.__destroy = function() {
@@ -4176,15 +4461,19 @@ TPool_mud_Node3.prototype.__class = TPool_mud_Node3;
 TPool_mud_Node3.__cache = {};
 Module['TPool_mud_Node3'] = TPool_mud_Node3;
 TPool_mud_Node3.prototype["add"] = TPool_mud_Node3.prototype.add = function(a0) {
+    assert(a0.__type === Node3.__type, '[ERROR] add(0:value): expected Node3');
     return wrapPointer(_mud_TPool_mud_Node3_add_1(this.__ptr, /*value*/a0.__ptr), Node3);
 };
 TPool_mud_Node3.prototype["talloc"] = TPool_mud_Node3.prototype.talloc = function() {
+    
     return wrapPointer(_mud_TPool_mud_Node3_talloc_0(this.__ptr), Node3);
 };
 TPool_mud_Node3.prototype["tdestroy"] = TPool_mud_Node3.prototype.tdestroy = function(a0) {
+    assert(a0.__type === Node3.__type, '[ERROR] tdestroy(0:object): expected Node3');
     _mud_TPool_mud_Node3_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Node3.prototype["tfree"] = TPool_mud_Node3.prototype.tfree = function(a0) {
+    assert(a0.__type === Node3.__type, '[ERROR] tfree(0:object): expected Node3');
     _mud_TPool_mud_Node3_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
 TPool_mud_Node3.prototype["__destroy"] = TPool_mud_Node3.prototype.__destroy = function() {
@@ -4192,11 +4481,16 @@ TPool_mud_Node3.prototype["__destroy"] = TPool_mud_Node3.prototype.__destroy = f
 };
 // Texture
 function Texture(a0, a1, a2, a3, a4) {
-    if (a0 === undefined) { this.__ptr = _mud_Texture__construct_0(); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_Texture__construct_1(ensureString(/*name*/a0)); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; return; }
-    if (a3 === undefined) { this.__ptr = _mud_Texture__construct_3(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; return; }
-    if (a4 === undefined) { this.__ptr = _mud_Texture__construct_4(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2, /*flags*/a3); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Texture__construct_5(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2, /*flags*/a3, /*cube*/a4); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'string', '[ERROR] Texture(0:name): expected string'); }
+    else if (a3 === undefined) { assert(a0.__type === v2_uint.__type, '[ERROR] Texture(0:size): expected v2<uint>'); assert(typeof a1 === 'boolean', '[ERROR] Texture(1:mips): expected boolean'); assert(typeof a2 === 'number', '[ERROR] Texture(2:format): expected integer'); }
+    else if (a4 === undefined) { assert(a0.__type === v2_uint.__type, '[ERROR] Texture(0:size): expected v2<uint>'); assert(typeof a1 === 'boolean', '[ERROR] Texture(1:mips): expected boolean'); assert(typeof a2 === 'number', '[ERROR] Texture(2:format): expected integer'); assert(typeof a3 === 'number', '[ERROR] Texture(3:flags): expected integer'); }
+    else { assert(a0.__type === v2_uint.__type, '[ERROR] Texture(0:size): expected v2<uint>'); assert(typeof a1 === 'boolean', '[ERROR] Texture(1:mips): expected boolean'); assert(typeof a2 === 'number', '[ERROR] Texture(2:format): expected integer'); assert(typeof a3 === 'number', '[ERROR] Texture(3:flags): expected integer'); assert(typeof a4 === 'boolean', '[ERROR] Texture(4:cube): expected boolean'); }
+    if (a0 === undefined) { this.__ptr = _mud_Texture__construct_0(); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Texture__construct_1(ensureString(/*name*/a0)); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Texture__construct_3(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_Texture__construct_4(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2, /*flags*/a3); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Texture__construct_5(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2, /*flags*/a3, /*cube*/a4); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; }
 };
 Texture.prototype = Object.create(WrapperObject.prototype);
 Texture.prototype.constructor = Texture;
@@ -4204,20 +4498,28 @@ Texture.prototype.__class = Texture;
 Texture.__cache = {};
 Module['Texture'] = Texture;
 Texture.prototype["valid"] = Texture.prototype.valid = function() {
+    
     return !!(_mud_Texture_valid_0(this.__ptr));
 };
 Texture.prototype["reload"] = Texture.prototype.reload = function(a0, a1, a2) {
-    if (a1 === undefined) { _mud_Texture_reload_1(this.__ptr, /*gfx*/a0.__ptr); return; }
-    if (a2 === undefined) { _mud_Texture_reload_2(this.__ptr, /*gfx*/a0.__ptr, /*srgb*/a1); return; }
-    _mud_Texture_reload_3(this.__ptr, /*gfx*/a0.__ptr, /*srgb*/a1, /*mips*/a2);
+    if (a1 === undefined) { assert(a0.__type === GfxSystem.__type, '[ERROR] reload(0:gfx): expected GfxSystem'); }
+    else if (a2 === undefined) { assert(a0.__type === GfxSystem.__type, '[ERROR] reload(0:gfx): expected GfxSystem'); assert(typeof a1 === 'boolean', '[ERROR] reload(1:srgb): expected boolean'); }
+    else { assert(a0.__type === GfxSystem.__type, '[ERROR] reload(0:gfx): expected GfxSystem'); assert(typeof a1 === 'boolean', '[ERROR] reload(1:srgb): expected boolean'); assert(typeof a2 === 'boolean', '[ERROR] reload(2:mips): expected boolean'); }
+    if (a1 === undefined) { _mud_Texture_reload_1(this.__ptr, /*gfx*/a0.__ptr); }
+    else if (a2 === undefined) { _mud_Texture_reload_2(this.__ptr, /*gfx*/a0.__ptr, /*srgb*/a1); }
+    else { _mud_Texture_reload_3(this.__ptr, /*gfx*/a0.__ptr, /*srgb*/a1, /*mips*/a2); }
 };
 Texture.prototype["load_rgba"] = Texture.prototype.load_rgba = function(a0, a1, a2) {
-    if (a2 === undefined) { _mud_Texture_load_rgba_2(this.__ptr, /*size*/a0.__ptr, ensureInt32(/*data*/a1), /*data*/a1.length); return; }
-    _mud_Texture_load_rgba_3(this.__ptr, /*size*/a0.__ptr, ensureInt32(/*data*/a1), /*data*/a1.length, /*ref*/a2);
+    if (a2 === undefined) { assert(a0.__type === v2_uint.__type, '[ERROR] load_rgba(0:size): expected v2<uint>'); assert(a1.__type === span_uint32_t.__type, '[ERROR] load_rgba(1:data): expected span<uint32_t>'); }
+    else { assert(a0.__type === v2_uint.__type, '[ERROR] load_rgba(0:size): expected v2<uint>'); assert(a1.__type === span_uint32_t.__type, '[ERROR] load_rgba(1:data): expected span<uint32_t>'); assert(typeof a2 === 'boolean', '[ERROR] load_rgba(2:ref): expected boolean'); }
+    if (a2 === undefined) { _mud_Texture_load_rgba_2(this.__ptr, /*size*/a0.__ptr, ensureInt32(/*data*/a1), /*data*/a1.length); }
+    else { _mud_Texture_load_rgba_3(this.__ptr, /*size*/a0.__ptr, ensureInt32(/*data*/a1), /*data*/a1.length, /*ref*/a2); }
 };
 Texture.prototype["load_float"] = Texture.prototype.load_float = function(a0, a1, a2) {
-    if (a2 === undefined) { _mud_Texture_load_float_2(this.__ptr, /*size*/a0.__ptr, ensureFloat32(/*data*/a1), /*data*/a1.length); return; }
-    _mud_Texture_load_float_3(this.__ptr, /*size*/a0.__ptr, ensureFloat32(/*data*/a1), /*data*/a1.length, /*ref*/a2);
+    if (a2 === undefined) { assert(a0.__type === v2_uint.__type, '[ERROR] load_float(0:size): expected v2<uint>'); assert(a1.__type === span_float.__type, '[ERROR] load_float(1:data): expected span<float>'); }
+    else { assert(a0.__type === v2_uint.__type, '[ERROR] load_float(0:size): expected v2<uint>'); assert(a1.__type === span_float.__type, '[ERROR] load_float(1:data): expected span<float>'); assert(typeof a2 === 'boolean', '[ERROR] load_float(2:ref): expected boolean'); }
+    if (a2 === undefined) { _mud_Texture_load_float_2(this.__ptr, /*size*/a0.__ptr, ensureFloat32(/*data*/a1), /*data*/a1.length); }
+    else { _mud_Texture_load_float_3(this.__ptr, /*size*/a0.__ptr, ensureFloat32(/*data*/a1), /*data*/a1.length, /*ref*/a2); }
 };
 Object.defineProperty(Texture.prototype, "name", {
     get: function() {
@@ -4328,6 +4630,7 @@ Texture.prototype["__destroy"] = Texture.prototype.__destroy = function() {
 };
 // Zone
 function Zone() {
+    
     this.__ptr = _mud_Zone__construct_0(); this.__type = Zone.__type; getCache(Zone)[this.__ptr] = this;
 };
 Zone.prototype = Object.create(WrapperObject.prototype);
@@ -4386,16 +4689,22 @@ BlockCopy.prototype.__class = BlockCopy;
 BlockCopy.__cache = {};
 Module['BlockCopy'] = BlockCopy;
 BlockCopy.prototype["submit"] = BlockCopy.prototype.submit = function(a0, a1, a2, a3, a4) {
-    if (a4 === undefined) { _mud_BlockCopy_submit_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*quad*/a3.__ptr); return; }
-    _mud_BlockCopy_submit_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*quad*/a3.__ptr, /*flags*/a4);
+    if (a4 === undefined) { assert(a0.__type === Pass.__type, '[ERROR] submit(0:pass): expected Pass'); assert(a1.__type === FrameBuffer.__type, '[ERROR] submit(1:fbo): expected FrameBuffer'); assert(a2.__type === Texture.__type, '[ERROR] submit(2:texture): expected Texture'); assert(a3.__type === RenderQuad.__type, '[ERROR] submit(3:quad): expected RenderQuad'); }
+    else { assert(a0.__type === Pass.__type, '[ERROR] submit(0:pass): expected Pass'); assert(a1.__type === FrameBuffer.__type, '[ERROR] submit(1:fbo): expected FrameBuffer'); assert(a2.__type === Texture.__type, '[ERROR] submit(2:texture): expected Texture'); assert(a3.__type === RenderQuad.__type, '[ERROR] submit(3:quad): expected RenderQuad'); assert(typeof a4 === 'number', '[ERROR] submit(4:flags): expected integer'); }
+    if (a4 === undefined) { _mud_BlockCopy_submit_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*quad*/a3.__ptr); }
+    else { _mud_BlockCopy_submit_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*quad*/a3.__ptr, /*flags*/a4); }
 };
 BlockCopy.prototype["quad"] = BlockCopy.prototype.quad = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { _mud_BlockCopy_quad_3(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr); return; }
-    _mud_BlockCopy_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*flags*/a3);
+    if (a3 === undefined) { assert(a0.__type === Pass.__type, '[ERROR] quad(0:pass): expected Pass'); assert(a1.__type === FrameBuffer.__type, '[ERROR] quad(1:fbo): expected FrameBuffer'); assert(a2.__type === Texture.__type, '[ERROR] quad(2:texture): expected Texture'); }
+    else { assert(a0.__type === Pass.__type, '[ERROR] quad(0:pass): expected Pass'); assert(a1.__type === FrameBuffer.__type, '[ERROR] quad(1:fbo): expected FrameBuffer'); assert(a2.__type === Texture.__type, '[ERROR] quad(2:texture): expected Texture'); assert(typeof a3 === 'number', '[ERROR] quad(3:flags): expected integer'); }
+    if (a3 === undefined) { _mud_BlockCopy_quad_3(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr); }
+    else { _mud_BlockCopy_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*texture*/a2.__ptr, /*flags*/a3); }
 };
 BlockCopy.prototype["debug_show_texture"] = BlockCopy.prototype.debug_show_texture = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { _mud_BlockCopy_debug_show_texture_3(this.__ptr, /*render*/a0.__ptr, /*texture*/a1.__ptr, /*rect*/a2.__ptr); return; }
-    _mud_BlockCopy_debug_show_texture_4(this.__ptr, /*render*/a0.__ptr, /*texture*/a1.__ptr, /*rect*/a2.__ptr, /*level*/a3);
+    if (a3 === undefined) { assert(a0.__type === Render.__type, '[ERROR] debug_show_texture(0:render): expected Render'); assert(a1.__type === Texture.__type, '[ERROR] debug_show_texture(1:texture): expected Texture'); assert(a2.__type === v4_float.__type, '[ERROR] debug_show_texture(2:rect): expected v4<float>'); }
+    else { assert(a0.__type === Render.__type, '[ERROR] debug_show_texture(0:render): expected Render'); assert(a1.__type === Texture.__type, '[ERROR] debug_show_texture(1:texture): expected Texture'); assert(a2.__type === v4_float.__type, '[ERROR] debug_show_texture(2:rect): expected v4<float>'); assert(typeof a3 === 'number', '[ERROR] debug_show_texture(3:level): expected integer'); }
+    if (a3 === undefined) { _mud_BlockCopy_debug_show_texture_3(this.__ptr, /*render*/a0.__ptr, /*texture*/a1.__ptr, /*rect*/a2.__ptr); }
+    else { _mud_BlockCopy_debug_show_texture_4(this.__ptr, /*render*/a0.__ptr, /*texture*/a1.__ptr, /*rect*/a2.__ptr, /*level*/a3); }
 };
 BlockCopy.prototype["__destroy"] = BlockCopy.prototype.__destroy = function() {
     _mud_BlockCopy__destroy(this.__ptr);
@@ -4418,49 +4727,71 @@ BlockFilter.prototype.__class = BlockFilter;
 BlockFilter.__cache = {};
 Module['BlockFilter'] = BlockFilter;
 BlockFilter.prototype["submit"] = BlockFilter.prototype.submit = function(a0, a1, a2, a3, a4, a5) {
-    if (a4 === undefined) { _mud_BlockFilter_submit_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*quad*/a3.__ptr); return; }
-    if (a5 === undefined) { _mud_BlockFilter_submit_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*quad*/a3.__ptr, /*flags*/a4); return; }
-    _mud_BlockFilter_submit_6(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*quad*/a3.__ptr, /*flags*/a4, /*render*/a5);
+    if (a4 === undefined) { assert(a0.__type === Pass.__type, '[ERROR] submit(0:pass): expected Pass'); assert(a1.__type === FrameBuffer.__type, '[ERROR] submit(1:fbo): expected FrameBuffer'); assert(a2.__type === ProgramVersion.__type, '[ERROR] submit(2:program): expected ProgramVersion'); assert(a3.__type === RenderQuad.__type, '[ERROR] submit(3:quad): expected RenderQuad'); }
+    else if (a5 === undefined) { assert(a0.__type === Pass.__type, '[ERROR] submit(0:pass): expected Pass'); assert(a1.__type === FrameBuffer.__type, '[ERROR] submit(1:fbo): expected FrameBuffer'); assert(a2.__type === ProgramVersion.__type, '[ERROR] submit(2:program): expected ProgramVersion'); assert(a3.__type === RenderQuad.__type, '[ERROR] submit(3:quad): expected RenderQuad'); assert(typeof a4 === 'number', '[ERROR] submit(4:flags): expected integer'); }
+    else { assert(a0.__type === Pass.__type, '[ERROR] submit(0:pass): expected Pass'); assert(a1.__type === FrameBuffer.__type, '[ERROR] submit(1:fbo): expected FrameBuffer'); assert(a2.__type === ProgramVersion.__type, '[ERROR] submit(2:program): expected ProgramVersion'); assert(a3.__type === RenderQuad.__type, '[ERROR] submit(3:quad): expected RenderQuad'); assert(typeof a4 === 'number', '[ERROR] submit(4:flags): expected integer'); assert(typeof a5 === 'boolean', '[ERROR] submit(5:render): expected boolean'); }
+    if (a4 === undefined) { _mud_BlockFilter_submit_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*quad*/a3.__ptr); }
+    else if (a5 === undefined) { _mud_BlockFilter_submit_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*quad*/a3.__ptr, /*flags*/a4); }
+    else { _mud_BlockFilter_submit_6(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*quad*/a3.__ptr, /*flags*/a4, /*render*/a5); }
 };
 BlockFilter.prototype["quad"] = BlockFilter.prototype.quad = function(a0, a1, a2, a3, a4) {
-    if (a3 === undefined) { _mud_BlockFilter_quad_3(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr); return; }
-    if (a4 === undefined) { _mud_BlockFilter_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*flags*/a3); return; }
-    _mud_BlockFilter_quad_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*flags*/a3, /*render*/a4);
+    if (a3 === undefined) { assert(a0.__type === Pass.__type, '[ERROR] quad(0:pass): expected Pass'); assert(a1.__type === FrameBuffer.__type, '[ERROR] quad(1:fbo): expected FrameBuffer'); assert(a2.__type === ProgramVersion.__type, '[ERROR] quad(2:program): expected ProgramVersion'); }
+    else if (a4 === undefined) { assert(a0.__type === Pass.__type, '[ERROR] quad(0:pass): expected Pass'); assert(a1.__type === FrameBuffer.__type, '[ERROR] quad(1:fbo): expected FrameBuffer'); assert(a2.__type === ProgramVersion.__type, '[ERROR] quad(2:program): expected ProgramVersion'); assert(typeof a3 === 'number', '[ERROR] quad(3:flags): expected integer'); }
+    else { assert(a0.__type === Pass.__type, '[ERROR] quad(0:pass): expected Pass'); assert(a1.__type === FrameBuffer.__type, '[ERROR] quad(1:fbo): expected FrameBuffer'); assert(a2.__type === ProgramVersion.__type, '[ERROR] quad(2:program): expected ProgramVersion'); assert(typeof a3 === 'number', '[ERROR] quad(3:flags): expected integer'); assert(typeof a4 === 'boolean', '[ERROR] quad(4:render): expected boolean'); }
+    if (a3 === undefined) { _mud_BlockFilter_quad_3(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr); }
+    else if (a4 === undefined) { _mud_BlockFilter_quad_4(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*flags*/a3); }
+    else { _mud_BlockFilter_quad_5(this.__ptr, /*pass*/a0.__ptr, /*fbo*/a1.__ptr, /*program*/a2.__ptr, /*flags*/a3, /*render*/a4); }
 };
 BlockFilter.prototype["multiply"] = BlockFilter.prototype.multiply = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] multiply(0:mul): expected number');
     _mud_BlockFilter_multiply_1(this.__ptr, /*mul*/a0);
 };
 BlockFilter.prototype["source0p"] = BlockFilter.prototype.source0p = function(a0, a1, a2, a3) {
-    if (a2 === undefined) { _mud_BlockFilter_source0p_2(this.__ptr, /*texture*/a0.__ptr, /*program*/a1.__ptr); return; }
-    if (a3 === undefined) { _mud_BlockFilter_source0p_3(this.__ptr, /*texture*/a0.__ptr, /*program*/a1.__ptr, /*level*/a2); return; }
-    _mud_BlockFilter_source0p_4(this.__ptr, /*texture*/a0.__ptr, /*program*/a1.__ptr, /*level*/a2, /*flags*/a3);
+    if (a2 === undefined) { assert(a0.__type === Texture.__type, '[ERROR] source0p(0:texture): expected Texture'); assert(a1.__type === ProgramVersion.__type, '[ERROR] source0p(1:program): expected ProgramVersion'); }
+    else if (a3 === undefined) { assert(a0.__type === Texture.__type, '[ERROR] source0p(0:texture): expected Texture'); assert(a1.__type === ProgramVersion.__type, '[ERROR] source0p(1:program): expected ProgramVersion'); assert(typeof a2 === 'number', '[ERROR] source0p(2:level): expected integer'); }
+    else { assert(a0.__type === Texture.__type, '[ERROR] source0p(0:texture): expected Texture'); assert(a1.__type === ProgramVersion.__type, '[ERROR] source0p(1:program): expected ProgramVersion'); assert(typeof a2 === 'number', '[ERROR] source0p(2:level): expected integer'); assert(typeof a3 === 'number', '[ERROR] source0p(3:flags): expected integer'); }
+    if (a2 === undefined) { _mud_BlockFilter_source0p_2(this.__ptr, /*texture*/a0.__ptr, /*program*/a1.__ptr); }
+    else if (a3 === undefined) { _mud_BlockFilter_source0p_3(this.__ptr, /*texture*/a0.__ptr, /*program*/a1.__ptr, /*level*/a2); }
+    else { _mud_BlockFilter_source0p_4(this.__ptr, /*texture*/a0.__ptr, /*program*/a1.__ptr, /*level*/a2, /*flags*/a3); }
 };
 BlockFilter.prototype["source0"] = BlockFilter.prototype.source0 = function(a0, a1) {
-    if (a1 === undefined) { _mud_BlockFilter_source0_1(this.__ptr, /*texture*/a0.__ptr); return; }
-    _mud_BlockFilter_source0_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
+    if (a1 === undefined) { assert(a0.__type === Texture.__type, '[ERROR] source0(0:texture): expected Texture'); }
+    else { assert(a0.__type === Texture.__type, '[ERROR] source0(0:texture): expected Texture'); assert(typeof a1 === 'number', '[ERROR] source0(1:flags): expected integer'); }
+    if (a1 === undefined) { _mud_BlockFilter_source0_1(this.__ptr, /*texture*/a0.__ptr); }
+    else { _mud_BlockFilter_source0_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1); }
 };
 BlockFilter.prototype["source1"] = BlockFilter.prototype.source1 = function(a0, a1) {
-    if (a1 === undefined) { _mud_BlockFilter_source1_1(this.__ptr, /*texture*/a0.__ptr); return; }
-    _mud_BlockFilter_source1_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
+    if (a1 === undefined) { assert(a0.__type === Texture.__type, '[ERROR] source1(0:texture): expected Texture'); }
+    else { assert(a0.__type === Texture.__type, '[ERROR] source1(0:texture): expected Texture'); assert(typeof a1 === 'number', '[ERROR] source1(1:flags): expected integer'); }
+    if (a1 === undefined) { _mud_BlockFilter_source1_1(this.__ptr, /*texture*/a0.__ptr); }
+    else { _mud_BlockFilter_source1_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1); }
 };
 BlockFilter.prototype["source2"] = BlockFilter.prototype.source2 = function(a0, a1) {
-    if (a1 === undefined) { _mud_BlockFilter_source2_1(this.__ptr, /*texture*/a0.__ptr); return; }
-    _mud_BlockFilter_source2_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
+    if (a1 === undefined) { assert(a0.__type === Texture.__type, '[ERROR] source2(0:texture): expected Texture'); }
+    else { assert(a0.__type === Texture.__type, '[ERROR] source2(0:texture): expected Texture'); assert(typeof a1 === 'number', '[ERROR] source2(1:flags): expected integer'); }
+    if (a1 === undefined) { _mud_BlockFilter_source2_1(this.__ptr, /*texture*/a0.__ptr); }
+    else { _mud_BlockFilter_source2_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1); }
 };
 BlockFilter.prototype["source3"] = BlockFilter.prototype.source3 = function(a0, a1) {
-    if (a1 === undefined) { _mud_BlockFilter_source3_1(this.__ptr, /*texture*/a0.__ptr); return; }
-    _mud_BlockFilter_source3_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
+    if (a1 === undefined) { assert(a0.__type === Texture.__type, '[ERROR] source3(0:texture): expected Texture'); }
+    else { assert(a0.__type === Texture.__type, '[ERROR] source3(0:texture): expected Texture'); assert(typeof a1 === 'number', '[ERROR] source3(1:flags): expected integer'); }
+    if (a1 === undefined) { _mud_BlockFilter_source3_1(this.__ptr, /*texture*/a0.__ptr); }
+    else { _mud_BlockFilter_source3_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1); }
 };
 BlockFilter.prototype["sourcedepth"] = BlockFilter.prototype.sourcedepth = function(a0, a1) {
-    if (a1 === undefined) { _mud_BlockFilter_sourcedepth_1(this.__ptr, /*texture*/a0.__ptr); return; }
-    _mud_BlockFilter_sourcedepth_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1);
+    if (a1 === undefined) { assert(a0.__type === Texture.__type, '[ERROR] sourcedepth(0:texture): expected Texture'); }
+    else { assert(a0.__type === Texture.__type, '[ERROR] sourcedepth(0:texture): expected Texture'); assert(typeof a1 === 'number', '[ERROR] sourcedepth(1:flags): expected integer'); }
+    if (a1 === undefined) { _mud_BlockFilter_sourcedepth_1(this.__ptr, /*texture*/a0.__ptr); }
+    else { _mud_BlockFilter_sourcedepth_2(this.__ptr, /*texture*/a0.__ptr, /*flags*/a1); }
 };
 BlockFilter.prototype["uniform"] = BlockFilter.prototype.uniform = function(a0, a1, a2) {
     ensureCache.prepare();
+    assert(a0.__type === Pass.__type, '[ERROR] uniform(0:pass): expected Pass'); assert(typeof a1 === 'string', '[ERROR] uniform(1:name): expected string'); assert(a2.__type === v4_float.__type, '[ERROR] uniform(2:value): expected v4<float>');
     _mud_BlockFilter_uniform_3(this.__ptr, /*pass*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr);
 };
 BlockFilter.prototype["uniforms"] = BlockFilter.prototype.uniforms = function(a0, a1, a2) {
     ensureCache.prepare();
+    assert(a0.__type === Pass.__type, '[ERROR] uniforms(0:pass): expected Pass'); assert(typeof a1 === 'string', '[ERROR] uniforms(1:name): expected string'); assert(a2.__type === span_float.__type, '[ERROR] uniforms(2:values): expected span<float>');
     _mud_BlockFilter_uniforms_3(this.__ptr, /*pass*/a0.__ptr, ensureString(/*name*/a1), ensureFloat32(/*values*/a2), /*values*/a2.length);
 };
 BlockFilter.prototype["__destroy"] = BlockFilter.prototype.__destroy = function() {
@@ -4498,6 +4829,7 @@ BlockSky.prototype["__destroy"] = BlockSky.prototype.__destroy = function() {
 };
 // ClusteredFrustum
 function ClusteredFrustum() {
+    
     this.__ptr = _mud_ClusteredFrustum__construct_0(); this.__type = ClusteredFrustum.__type; getCache(ClusteredFrustum)[this.__ptr] = this;
 };
 ClusteredFrustum.prototype = Object.create(Frustum.prototype);
@@ -4534,6 +4866,7 @@ DrawBlock.prototype["__destroy"] = DrawBlock.prototype.__destroy = function() {
 };
 // Flare
 function Flare() {
+    
     this.__ptr = _mud_Flare__construct_0(); this.__type = Flare.__type; getCache(Flare)[this.__ptr] = this;
 };
 Flare.prototype = Object.create(Flow.prototype);
@@ -4555,6 +4888,7 @@ Flare.prototype["__destroy"] = Flare.prototype.__destroy = function() {
 // GfxSystem
 function GfxSystem(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] GfxSystem(0:resource_path): expected string');
     this.__ptr = _mud_GfxSystem__construct_1(ensureString(/*resource_path*/a0)); this.__type = GfxSystem.__type; getCache(GfxSystem)[this.__ptr] = this;
 };
 GfxSystem.prototype = Object.create(BgfxSystem.prototype);
@@ -4563,51 +4897,71 @@ GfxSystem.prototype.__class = GfxSystem;
 GfxSystem.__cache = {};
 Module['GfxSystem'] = GfxSystem;
 GfxSystem.prototype["main_target"] = GfxSystem.prototype.main_target = function() {
+    
     return wrapPointer(_mud_GfxSystem_main_target_0(this.__ptr), RenderTarget);
 };
 GfxSystem.prototype["default_pipeline"] = GfxSystem.prototype.default_pipeline = function() {
+    
     _mud_GfxSystem_default_pipeline_0(this.__ptr);
 };
 GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(a0, a1) {
     ensureCache.prepare();
-    if (a1 === undefined) { _mud_GfxSystem_add_resource_path_1(this.__ptr, ensureString(/*path*/a0)); return; }
-    _mud_GfxSystem_add_resource_path_2(this.__ptr, ensureString(/*path*/a0), /*relative*/a1);
+    if (a1 === undefined) { assert(typeof a0 === 'string', '[ERROR] add_resource_path(0:path): expected string'); }
+    else { assert(typeof a0 === 'string', '[ERROR] add_resource_path(0:path): expected string'); assert(typeof a1 === 'boolean', '[ERROR] add_resource_path(1:relative): expected boolean'); }
+    if (a1 === undefined) { _mud_GfxSystem_add_resource_path_1(this.__ptr, ensureString(/*path*/a0)); }
+    else { _mud_GfxSystem_add_resource_path_2(this.__ptr, ensureString(/*path*/a0), /*relative*/a1); }
 };
 GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = function() {
+    
     return wrapPointer(_mud_GfxSystem_debug_material_0(this.__ptr), Material);
 };
 GfxSystem.prototype["create_model"] = GfxSystem.prototype.create_model = function(a0) {
     ensureCache.prepare();
+    assert(typeof a0 === 'string', '[ERROR] create_model(0:name): expected string');
     return wrapPointer(_mud_GfxSystem_create_model_1(this.__ptr, ensureString(/*name*/a0)), Model);
 };
 GfxSystem.prototype["create_model_geo"] = GfxSystem.prototype.create_model_geo = function(a0, a1, a2, a3) {
     ensureCache.prepare();
+    if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] create_model_geo(0:name): expected string'); assert(a1.__type === MeshPacker.__type, '[ERROR] create_model_geo(1:geometry): expected MeshPacker'); }
+    else if (a3 === undefined) { assert(typeof a0 === 'string', '[ERROR] create_model_geo(0:name): expected string'); assert(a1.__type === MeshPacker.__type, '[ERROR] create_model_geo(1:geometry): expected MeshPacker'); assert(typeof a2 === 'boolean', '[ERROR] create_model_geo(2:readback): expected boolean'); }
+    else { assert(typeof a0 === 'string', '[ERROR] create_model_geo(0:name): expected string'); assert(a1.__type === MeshPacker.__type, '[ERROR] create_model_geo(1:geometry): expected MeshPacker'); assert(typeof a2 === 'boolean', '[ERROR] create_model_geo(2:readback): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] create_model_geo(3:optimize): expected boolean'); }
     if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_geo_2(this.__ptr, ensureString(/*name*/a0), /*geometry*/a1.__ptr), Model); }
-    if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_geo_3(this.__ptr, ensureString(/*name*/a0), /*geometry*/a1.__ptr, /*readback*/a2), Model); }
-    return wrapPointer(_mud_GfxSystem_create_model_geo_4(this.__ptr, ensureString(/*name*/a0), /*geometry*/a1.__ptr, /*readback*/a2, /*optimize*/a3), Model);
+    else if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_geo_3(this.__ptr, ensureString(/*name*/a0), /*geometry*/a1.__ptr, /*readback*/a2), Model); }
+    else { return wrapPointer(_mud_GfxSystem_create_model_geo_4(this.__ptr, ensureString(/*name*/a0), /*geometry*/a1.__ptr, /*readback*/a2, /*optimize*/a3), Model); }
 };
 GfxSystem.prototype["create_model_gpu"] = GfxSystem.prototype.create_model_gpu = function(a0, a1, a2, a3) {
     ensureCache.prepare();
+    if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] create_model_gpu(0:name): expected string'); assert(a1.__type === GpuMesh.__type, '[ERROR] create_model_gpu(1:gpu_mesh): expected GpuMesh'); }
+    else if (a3 === undefined) { assert(typeof a0 === 'string', '[ERROR] create_model_gpu(0:name): expected string'); assert(a1.__type === GpuMesh.__type, '[ERROR] create_model_gpu(1:gpu_mesh): expected GpuMesh'); assert(typeof a2 === 'boolean', '[ERROR] create_model_gpu(2:readback): expected boolean'); }
+    else { assert(typeof a0 === 'string', '[ERROR] create_model_gpu(0:name): expected string'); assert(a1.__type === GpuMesh.__type, '[ERROR] create_model_gpu(1:gpu_mesh): expected GpuMesh'); assert(typeof a2 === 'boolean', '[ERROR] create_model_gpu(2:readback): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] create_model_gpu(3:optimize): expected boolean'); }
     if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_gpu_2(this.__ptr, ensureString(/*name*/a0), /*gpu_mesh*/a1.__ptr), Model); }
-    if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_gpu_3(this.__ptr, ensureString(/*name*/a0), /*gpu_mesh*/a1.__ptr, /*readback*/a2), Model); }
-    return wrapPointer(_mud_GfxSystem_create_model_gpu_4(this.__ptr, ensureString(/*name*/a0), /*gpu_mesh*/a1.__ptr, /*readback*/a2, /*optimize*/a3), Model);
+    else if (a3 === undefined) { return wrapPointer(_mud_GfxSystem_create_model_gpu_3(this.__ptr, ensureString(/*name*/a0), /*gpu_mesh*/a1.__ptr, /*readback*/a2), Model); }
+    else { return wrapPointer(_mud_GfxSystem_create_model_gpu_4(this.__ptr, ensureString(/*name*/a0), /*gpu_mesh*/a1.__ptr, /*readback*/a2, /*optimize*/a3), Model); }
 };
 GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(a0, a1, a2) {
     ensureCache.prepare();
+    if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] fetch_material(0:name): expected string'); assert(typeof a1 === 'string', '[ERROR] fetch_material(1:shader): expected string'); }
+    else { assert(typeof a0 === 'string', '[ERROR] fetch_material(0:name): expected string'); assert(typeof a1 === 'string', '[ERROR] fetch_material(1:shader): expected string'); assert(typeof a2 === 'boolean', '[ERROR] fetch_material(2:builtin): expected boolean'); }
     if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_fetch_material_2(this.__ptr, ensureString(/*name*/a0), ensureString(/*shader*/a1)), Material); }
-    return wrapPointer(_mud_GfxSystem_fetch_material_3(this.__ptr, ensureString(/*name*/a0), ensureString(/*shader*/a1), /*builtin*/a2), Material);
+    else { return wrapPointer(_mud_GfxSystem_fetch_material_3(this.__ptr, ensureString(/*name*/a0), ensureString(/*shader*/a1), /*builtin*/a2), Material); }
 };
 GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image256_material = function(a0) {
+    assert(a0.__type === Image256.__type, '[ERROR] fetch_image256_material(0:image): expected Image256');
     return wrapPointer(_mud_GfxSystem_fetch_image256_material_1(this.__ptr, /*image*/a0.__ptr), Material);
 };
 GfxSystem.prototype["shape"] = GfxSystem.prototype.shape = function(a0, a1, a2) {
+    if (a1 === undefined) { assert(a0.__type === Shape.__type, '[ERROR] shape(0:shape): expected Shape'); }
+    else if (a2 === undefined) { assert(a0.__type === Shape.__type, '[ERROR] shape(0:shape): expected Shape'); assert(a1.__type === Symbol.__type, '[ERROR] shape(1:symbol): expected Symbol'); }
+    else { assert(a0.__type === Shape.__type, '[ERROR] shape(0:shape): expected Shape'); assert(a1.__type === Symbol.__type, '[ERROR] shape(1:symbol): expected Symbol'); assert(typeof a2 === 'number', '[ERROR] shape(2:draw_mode): expected integer'); }
     if (a1 === undefined) { return wrapPointer(_mud_GfxSystem_shape_1(this.__ptr, /*shape*/a0.__ptr), Model); }
-    if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_shape_2(this.__ptr, /*shape*/a0.__ptr, /*symbol*/a1.__ptr), Model); }
-    return wrapPointer(_mud_GfxSystem_shape_3(this.__ptr, /*shape*/a0.__ptr, /*symbol*/a1.__ptr, /*draw_mode*/a2), Model);
+    else if (a2 === undefined) { return wrapPointer(_mud_GfxSystem_shape_2(this.__ptr, /*shape*/a0.__ptr, /*symbol*/a1.__ptr), Model); }
+    else { return wrapPointer(_mud_GfxSystem_shape_3(this.__ptr, /*shape*/a0.__ptr, /*symbol*/a1.__ptr, /*draw_mode*/a2), Model); }
 };
 GfxSystem.prototype["symbol_material"] = GfxSystem.prototype.symbol_material = function(a0, a1) {
+    if (a1 === undefined) { assert(a0.__type === Symbol.__type, '[ERROR] symbol_material(0:symbol): expected Symbol'); }
+    else { assert(a0.__type === Symbol.__type, '[ERROR] symbol_material(0:symbol): expected Symbol'); assert(typeof a1 === 'number', '[ERROR] symbol_material(1:draw_mode): expected integer'); }
     if (a1 === undefined) { return wrapPointer(_mud_GfxSystem_symbol_material_1(this.__ptr, /*symbol*/a0.__ptr), Material); }
-    return wrapPointer(_mud_GfxSystem_symbol_material_2(this.__ptr, /*symbol*/a0.__ptr, /*draw_mode*/a1), Material);
+    else { return wrapPointer(_mud_GfxSystem_symbol_material_2(this.__ptr, /*symbol*/a0.__ptr, /*draw_mode*/a1), Material); }
 };
 Object.defineProperty(GfxSystem.prototype, "renderer", {
     get: function() {
@@ -4748,10 +5102,14 @@ RenderTarget.prototype["__destroy"] = RenderTarget.prototype.__destroy = functio
 };
 // Viewport
 function Viewport(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_Viewport__construct_0(); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_Viewport__construct_2(/*camera*/a0.__ptr, /*scene*/a1.__ptr); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; return; }
-    if (a3 === undefined) { this.__ptr = _mud_Viewport__construct_3(/*camera*/a0.__ptr, /*scene*/a1.__ptr, /*rect*/a2.__ptr); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Viewport__construct_4(/*camera*/a0.__ptr, /*scene*/a1.__ptr, /*rect*/a2.__ptr, /*scissor*/a3); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a2 === undefined) { assert(a0.__type === Camera.__type, '[ERROR] Viewport(0:camera): expected Camera'); assert(a1.__type === Scene.__type, '[ERROR] Viewport(1:scene): expected Scene'); }
+    else if (a3 === undefined) { assert(a0.__type === Camera.__type, '[ERROR] Viewport(0:camera): expected Camera'); assert(a1.__type === Scene.__type, '[ERROR] Viewport(1:scene): expected Scene'); assert(a2.__type === v4_float.__type, '[ERROR] Viewport(2:rect): expected v4<float>'); }
+    else { assert(a0.__type === Camera.__type, '[ERROR] Viewport(0:camera): expected Camera'); assert(a1.__type === Scene.__type, '[ERROR] Viewport(1:scene): expected Scene'); assert(a2.__type === v4_float.__type, '[ERROR] Viewport(2:rect): expected v4<float>'); assert(typeof a3 === 'boolean', '[ERROR] Viewport(3:scissor): expected boolean'); }
+    if (a0 === undefined) { this.__ptr = _mud_Viewport__construct_0(); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Viewport__construct_2(/*camera*/a0.__ptr, /*scene*/a1.__ptr); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Viewport__construct_3(/*camera*/a0.__ptr, /*scene*/a1.__ptr, /*rect*/a2.__ptr); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Viewport__construct_4(/*camera*/a0.__ptr, /*scene*/a1.__ptr, /*rect*/a2.__ptr, /*scissor*/a3); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; }
 };
 Viewport.prototype = Object.create(OEntt.prototype);
 Viewport.prototype.constructor = Viewport;
@@ -4759,12 +5117,15 @@ Viewport.prototype.__class = Viewport;
 Viewport.__cache = {};
 Module['Viewport'] = Viewport;
 Viewport.prototype["cull"] = Viewport.prototype.cull = function(a0) {
+    assert(a0.__type === Render.__type, '[ERROR] cull(0:render): expected Render');
     _mud_Viewport_cull_1(this.__ptr, /*render*/a0.__ptr);
 };
 Viewport.prototype["render"] = Viewport.prototype.render = function(a0) {
+    assert(a0.__type === Render.__type, '[ERROR] render(0:render): expected Render');
     _mud_Viewport_render_1(this.__ptr, /*render*/a0.__ptr);
 };
 Viewport.prototype["set_clustered"] = Viewport.prototype.set_clustered = function(a0) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] set_clustered(0:gfx): expected GfxSystem');
     _mud_Viewport_set_clustered_1(this.__ptr, /*gfx*/a0.__ptr);
 };
 Object.defineProperty(Viewport.prototype, "camera", {
@@ -4859,159 +5220,227 @@ Viewport.prototype["__destroy"] = Viewport.prototype.__destroy = function() {
     _mud_Viewport__destroy(this.__ptr);
 };
 Module['bxidentity'] = function() {
+    
     return wrapPointer(_mud_bxidentity_0(), mat4);
 };
 Module['bxinverse'] = function(a0) {
+    assert(a0.__type === mat4.__type, '[ERROR] bxinverse(0:mat): expected mat4');
     return wrapPointer(_mud_bxinverse_1(/*mat*/a0.__ptr), mat4);
 };
 Module['bxSRT'] = function(a0, a1, a2) {
+    assert(a0.__type === v3_float.__type, '[ERROR] bxSRT(0:scale): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] bxSRT(1:rot): expected v3<float>'); assert(a2.__type === v3_float.__type, '[ERROR] bxSRT(2:trans): expected v3<float>');
     return wrapPointer(_mud_bxSRT_3(/*scale*/a0.__ptr, /*rot*/a1.__ptr, /*trans*/a2.__ptr), mat4);
 };
 Module['bxscale'] = function(a0) {
+    assert(a0.__type === v3_float.__type, '[ERROR] bxscale(0:scale): expected v3<float>');
     return wrapPointer(_mud_bxscale_1(/*scale*/a0.__ptr), mat4);
 };
 Module['bxrotation'] = function(a0) {
+    assert(a0.__type === quat.__type, '[ERROR] bxrotation(0:rot): expected quat');
     return wrapPointer(_mud_bxrotation_1(/*rot*/a0.__ptr), mat4);
 };
 Module['bxtranslation'] = function(a0) {
+    assert(a0.__type === v3_float.__type, '[ERROR] bxtranslation(0:vec): expected v3<float>');
     return wrapPointer(_mud_bxtranslation_1(/*vec*/a0.__ptr), mat4);
 };
 Module['bxmul'] = function(a0, a1) {
+    assert(a0.__type === mat4.__type, '[ERROR] bxmul(0:lhs): expected mat4'); assert(a1.__type === mat4.__type, '[ERROR] bxmul(1:rhs): expected mat4');
     return wrapPointer(_mud_bxmul_2(/*lhs*/a0.__ptr, /*rhs*/a1.__ptr), mat4);
 };
 Module['bxmulh'] = function(a0, a1) {
+    assert(a0.__type === mat4.__type, '[ERROR] bxmulh(0:mat): expected mat4'); assert(a1.__type === v3_float.__type, '[ERROR] bxmulh(1:vec): expected v3<float>');
     return wrapPointer(_mud_bxmulh_2(/*mat*/a0.__ptr, /*vec*/a1.__ptr), v3_float);
 };
 Module['bxlookat'] = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] bxlookat(0:eye): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] bxlookat(1:at): expected v3<float>'); }
+    else if (a3 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] bxlookat(0:eye): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] bxlookat(1:at): expected v3<float>'); assert(a2.__type === v3_float.__type, '[ERROR] bxlookat(2:up): expected v3<float>'); }
+    else { assert(a0.__type === mat4.__type, '[ERROR] bxlookat(0:result): expected mat4'); assert(a1.__type === v3_float.__type, '[ERROR] bxlookat(1:eye): expected v3<float>'); assert(a2.__type === v3_float.__type, '[ERROR] bxlookat(2:at): expected v3<float>'); assert(a3.__type === v3_float.__type, '[ERROR] bxlookat(3:up): expected v3<float>'); }
     if (a2 === undefined) { return wrapPointer(_mud_bxlookat_2(/*eye*/a0.__ptr, /*at*/a1.__ptr), mat4); }
-    if (a3 === undefined) { return wrapPointer(_mud_bxlookat_3(/*eye*/a0.__ptr, /*at*/a1.__ptr, /*up*/a2.__ptr), mat4); }
-    _mud_bxlookat_4(/*result*/a0.__ptr, /*eye*/a1.__ptr, /*at*/a2.__ptr, /*up*/a3.__ptr);
+    else if (a3 === undefined) { return wrapPointer(_mud_bxlookat_3(/*eye*/a0.__ptr, /*at*/a1.__ptr, /*up*/a2.__ptr), mat4); }
+    else { _mud_bxlookat_4(/*result*/a0.__ptr, /*eye*/a1.__ptr, /*at*/a2.__ptr, /*up*/a3.__ptr); }
 };
 Module['bxproj'] = function(a0, a1, a2, a3, a4) {
+    assert(typeof a0 === 'number', '[ERROR] bxproj(0:fov): expected number'); assert(typeof a1 === 'number', '[ERROR] bxproj(1:aspect): expected number'); assert(typeof a2 === 'number', '[ERROR] bxproj(2:near): expected number'); assert(typeof a3 === 'number', '[ERROR] bxproj(3:far): expected number'); assert(typeof a4 === 'boolean', '[ERROR] bxproj(4:oglNdc): expected boolean');
     return wrapPointer(_mud_bxproj_5(/*fov*/a0, /*aspect*/a1, /*near*/a2, /*far*/a3, /*oglNdc*/a4), mat4);
 };
 Module['bxortho'] = function(a0, a1, a2, a3, a4, a5, a6, a7) {
+    if (a5 === undefined) { assert(a0.__type === v4_float.__type, '[ERROR] bxortho(0:rect): expected v4<float>'); assert(typeof a1 === 'number', '[ERROR] bxortho(1:near): expected number'); assert(typeof a2 === 'number', '[ERROR] bxortho(2:far): expected number'); assert(typeof a3 === 'number', '[ERROR] bxortho(3:offset): expected number'); assert(typeof a4 === 'boolean', '[ERROR] bxortho(4:oglNdc): expected boolean'); }
+    else { assert(typeof a0 === 'number', '[ERROR] bxortho(0:left): expected number'); assert(typeof a1 === 'number', '[ERROR] bxortho(1:right): expected number'); assert(typeof a2 === 'number', '[ERROR] bxortho(2:bottom): expected number'); assert(typeof a3 === 'number', '[ERROR] bxortho(3:top): expected number'); assert(typeof a4 === 'number', '[ERROR] bxortho(4:near): expected number'); assert(typeof a5 === 'number', '[ERROR] bxortho(5:far): expected number'); assert(typeof a6 === 'number', '[ERROR] bxortho(6:offset): expected number'); assert(typeof a7 === 'boolean', '[ERROR] bxortho(7:oglNdc): expected boolean'); }
     if (a5 === undefined) { return wrapPointer(_mud_bxortho_5(/*rect*/a0.__ptr, /*near*/a1, /*far*/a2, /*offset*/a3, /*oglNdc*/a4), mat4); }
-    return wrapPointer(_mud_bxortho_8(/*left*/a0, /*right*/a1, /*bottom*/a2, /*top*/a3, /*near*/a4, /*far*/a5, /*offset*/a6, /*oglNdc*/a7), mat4);
+    else { return wrapPointer(_mud_bxortho_8(/*left*/a0, /*right*/a1, /*bottom*/a2, /*top*/a3, /*near*/a4, /*far*/a5, /*offset*/a6, /*oglNdc*/a7), mat4); }
 };
 Module['bxTRS'] = function(a0, a1, a2) {
+    assert(a0.__type === v3_float.__type, '[ERROR] bxTRS(0:scale): expected v3<float>'); assert(a1.__type === quat.__type, '[ERROR] bxTRS(1:rot): expected quat'); assert(a2.__type === v3_float.__type, '[ERROR] bxTRS(2:trans): expected v3<float>');
     return wrapPointer(_mud_bxTRS_3(/*scale*/a0.__ptr, /*rot*/a1.__ptr, /*trans*/a2.__ptr), mat4);
 };
 Module['mirror_camera'] = function(a0, a1, a2) {
+    if (a2 === undefined) { assert(a0.__type === Camera.__type, '[ERROR] mirror_camera(0:sourcecam): expected Camera'); assert(a1.__type === Node3.__type, '[ERROR] mirror_camera(1:node): expected Node3'); }
+    else { assert(a0.__type === Camera.__type, '[ERROR] mirror_camera(0:sourcecam): expected Camera'); assert(a1.__type === Node3.__type, '[ERROR] mirror_camera(1:node): expected Node3'); assert(typeof a2 === 'number', '[ERROR] mirror_camera(2:clipBias): expected number'); }
     if (a2 === undefined) { return wrapPointer(_mud_mirror_camera_2(/*sourcecam*/a0.__ptr, /*node*/a1.__ptr), MirrorCamera); }
-    return wrapPointer(_mud_mirror_camera_3(/*sourcecam*/a0.__ptr, /*node*/a1.__ptr, /*clipBias*/a2), MirrorCamera);
+    else { return wrapPointer(_mud_mirror_camera_3(/*sourcecam*/a0.__ptr, /*node*/a1.__ptr, /*clipBias*/a2), MirrorCamera); }
 };
 Module['gfx']['setup_pipeline_minimal'] = function(a0) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] setup_pipeline_minimal(0:gfx): expected GfxSystem');
     _mud_gfx_setup_pipeline_minimal_1(/*gfx*/a0.__ptr);
 };
 Module['gfx']['node'] = function(a0, a1, a2, a3) {
+    if (a1 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] node(0:parent): expected Gnode'); }
+    else if (a2 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] node(0:parent): expected Gnode'); assert(a1.__type === v3_float.__type, '[ERROR] node(1:position): expected v3<float>'); }
+    else if (a3 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] node(0:parent): expected Gnode'); assert(a1.__type === v3_float.__type, '[ERROR] node(1:position): expected v3<float>'); assert(a2.__type === quat.__type, '[ERROR] node(2:rotation): expected quat'); }
+    else { assert(a0.__type === Gnode.__type, '[ERROR] node(0:parent): expected Gnode'); assert(a1.__type === v3_float.__type, '[ERROR] node(1:position): expected v3<float>'); assert(a2.__type === quat.__type, '[ERROR] node(2:rotation): expected quat'); assert(a3.__type === v3_float.__type, '[ERROR] node(3:scale): expected v3<float>'); }
     if (a1 === undefined) { return wrapPointer(_mud_gfx_node_1(/*parent*/a0.__ptr), Gnode); }
-    if (a2 === undefined) { return wrapPointer(_mud_gfx_node_2(/*parent*/a0.__ptr, /*position*/a1.__ptr), Gnode); }
-    if (a3 === undefined) { return wrapPointer(_mud_gfx_node_3(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr), Gnode); }
-    return wrapPointer(_mud_gfx_node_4(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr, /*scale*/a3.__ptr), Gnode);
+    else if (a2 === undefined) { return wrapPointer(_mud_gfx_node_2(/*parent*/a0.__ptr, /*position*/a1.__ptr), Gnode); }
+    else if (a3 === undefined) { return wrapPointer(_mud_gfx_node_3(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr), Gnode); }
+    else { return wrapPointer(_mud_gfx_node_4(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr, /*scale*/a3.__ptr), Gnode); }
 };
 Module['gfx']['shape'] = function(a0, a1, a2, a3, a4) {
+    if (a3 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] shape(0:parent): expected Gnode'); assert(a1.__type === Shape.__type, '[ERROR] shape(1:shape): expected Shape'); assert(a2.__type === Symbol.__type, '[ERROR] shape(2:symbol): expected Symbol'); }
+    else if (a4 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] shape(0:parent): expected Gnode'); assert(a1.__type === Shape.__type, '[ERROR] shape(1:shape): expected Shape'); assert(a2.__type === Symbol.__type, '[ERROR] shape(2:symbol): expected Symbol'); assert(typeof a3 === 'number', '[ERROR] shape(3:flags): expected integer'); }
+    else { assert(a0.__type === Gnode.__type, '[ERROR] shape(0:parent): expected Gnode'); assert(a1.__type === Shape.__type, '[ERROR] shape(1:shape): expected Shape'); assert(a2.__type === Symbol.__type, '[ERROR] shape(2:symbol): expected Symbol'); assert(typeof a3 === 'number', '[ERROR] shape(3:flags): expected integer'); assert(a4.__type === Material.__type, '[ERROR] shape(4:material): expected Material'); }
     if (a3 === undefined) { return wrapPointer(_mud_gfx_shape_3(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr), Item); }
-    if (a4 === undefined) { return wrapPointer(_mud_gfx_shape_4(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr, /*flags*/a3), Item); }
-    return wrapPointer(_mud_gfx_shape_5(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr, /*flags*/a3, /*material*/a4.__ptr), Item);
+    else if (a4 === undefined) { return wrapPointer(_mud_gfx_shape_4(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr, /*flags*/a3), Item); }
+    else { return wrapPointer(_mud_gfx_shape_5(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr, /*flags*/a3, /*material*/a4.__ptr), Item); }
 };
 Module['gfx']['draw'] = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { _mud_gfx_draw_3(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr); return; }
-    _mud_gfx_draw_4(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr, /*flags*/a3);
+    if (a3 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] draw(0:parent): expected Gnode'); assert(a1.__type === Shape.__type, '[ERROR] draw(1:shape): expected Shape'); assert(a2.__type === Symbol.__type, '[ERROR] draw(2:symbol): expected Symbol'); }
+    else { assert(a0.__type === Gnode.__type, '[ERROR] draw(0:parent): expected Gnode'); assert(a1.__type === Shape.__type, '[ERROR] draw(1:shape): expected Shape'); assert(a2.__type === Symbol.__type, '[ERROR] draw(2:symbol): expected Symbol'); assert(typeof a3 === 'number', '[ERROR] draw(3:flags): expected integer'); }
+    if (a3 === undefined) { _mud_gfx_draw_3(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr); }
+    else { _mud_gfx_draw_4(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr, /*flags*/a3); }
 };
 Module['gfx']['sprite'] = function(a0, a1, a2, a3, a4) {
+    if (a3 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] sprite(0:parent): expected Gnode'); assert(a1.__type === Image256.__type, '[ERROR] sprite(1:image): expected Image256'); assert(a2.__type === v2_float.__type, '[ERROR] sprite(2:size): expected v2<float>'); }
+    else if (a4 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] sprite(0:parent): expected Gnode'); assert(a1.__type === Image256.__type, '[ERROR] sprite(1:image): expected Image256'); assert(a2.__type === v2_float.__type, '[ERROR] sprite(2:size): expected v2<float>'); assert(typeof a3 === 'number', '[ERROR] sprite(3:flags): expected integer'); }
+    else { assert(a0.__type === Gnode.__type, '[ERROR] sprite(0:parent): expected Gnode'); assert(a1.__type === Image256.__type, '[ERROR] sprite(1:image): expected Image256'); assert(a2.__type === v2_float.__type, '[ERROR] sprite(2:size): expected v2<float>'); assert(typeof a3 === 'number', '[ERROR] sprite(3:flags): expected integer'); assert(a4.__type === Material.__type, '[ERROR] sprite(4:material): expected Material'); }
     if (a3 === undefined) { return wrapPointer(_mud_gfx_sprite_3(/*parent*/a0.__ptr, /*image*/a1.__ptr, /*size*/a2.__ptr), Item); }
-    if (a4 === undefined) { return wrapPointer(_mud_gfx_sprite_4(/*parent*/a0.__ptr, /*image*/a1.__ptr, /*size*/a2.__ptr, /*flags*/a3), Item); }
-    return wrapPointer(_mud_gfx_sprite_5(/*parent*/a0.__ptr, /*image*/a1.__ptr, /*size*/a2.__ptr, /*flags*/a3, /*material*/a4.__ptr), Item);
+    else if (a4 === undefined) { return wrapPointer(_mud_gfx_sprite_4(/*parent*/a0.__ptr, /*image*/a1.__ptr, /*size*/a2.__ptr, /*flags*/a3), Item); }
+    else { return wrapPointer(_mud_gfx_sprite_5(/*parent*/a0.__ptr, /*image*/a1.__ptr, /*size*/a2.__ptr, /*flags*/a3, /*material*/a4.__ptr), Item); }
 };
 Module['gfx']['item'] = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] item(0:parent): expected Gnode'); assert(a1.__type === Model.__type, '[ERROR] item(1:model): expected Model'); }
+    else if (a3 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] item(0:parent): expected Gnode'); assert(a1.__type === Model.__type, '[ERROR] item(1:model): expected Model'); assert(typeof a2 === 'number', '[ERROR] item(2:flags): expected integer'); }
+    else { assert(a0.__type === Gnode.__type, '[ERROR] item(0:parent): expected Gnode'); assert(a1.__type === Model.__type, '[ERROR] item(1:model): expected Model'); assert(typeof a2 === 'number', '[ERROR] item(2:flags): expected integer'); assert(a3.__type === Material.__type, '[ERROR] item(3:material): expected Material'); }
     if (a2 === undefined) { return wrapPointer(_mud_gfx_item_2(/*parent*/a0.__ptr, /*model*/a1.__ptr), Item); }
-    if (a3 === undefined) { return wrapPointer(_mud_gfx_item_3(/*parent*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2), Item); }
-    return wrapPointer(_mud_gfx_item_4(/*parent*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2, /*material*/a3.__ptr), Item);
+    else if (a3 === undefined) { return wrapPointer(_mud_gfx_item_3(/*parent*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2), Item); }
+    else { return wrapPointer(_mud_gfx_item_4(/*parent*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2, /*material*/a3.__ptr), Item); }
 };
 Module['gfx']['batch'] = function(a0, a1, a2) {
+    assert(a0.__type === Gnode.__type, '[ERROR] batch(0:parent): expected Gnode'); assert(a1.__type === Item.__type, '[ERROR] batch(1:item): expected Item'); assert(typeof a2 === 'number', '[ERROR] batch(2:stride): expected integer');
     return wrapPointer(_mud_gfx_batch_3(/*parent*/a0.__ptr, /*item*/a1.__ptr, /*stride*/a2), Batch);
 };
 Module['gfx']['instances'] = function(a0, a1, a2) {
+    if (a2 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] instances(0:parent): expected Gnode'); assert(a1.__type === Item.__type, '[ERROR] instances(1:item): expected Item'); }
+    else { assert(a0.__type === Gnode.__type, '[ERROR] instances(0:parent): expected Gnode'); assert(a1.__type === Item.__type, '[ERROR] instances(1:item): expected Item'); assert(a2.__type === span_mud_mat4.__type, '[ERROR] instances(2:transforms): expected span<mud::mat4>'); }
     if (a2 === undefined) { return wrapPointer(_mud_gfx_instances_2(/*parent*/a0.__ptr, /*item*/a1.__ptr), Batch); }
-    return wrapPointer(_mud_gfx_instances_3(/*parent*/a0.__ptr, /*item*/a1.__ptr, ensureFloat32(/*transforms*/a2), /*transforms*/a2.length), Batch);
+    else { return wrapPointer(_mud_gfx_instances_3(/*parent*/a0.__ptr, /*item*/a1.__ptr, ensureFloat32(/*transforms*/a2), /*transforms*/a2.length), Batch); }
 };
 Module['gfx']['prefab'] = function(a0, a1, a2, a3, a4) {
-    if (a2 === undefined) { _mud_gfx_prefab_2(/*parent*/a0.__ptr, /*prefab*/a1.__ptr); return; }
-    if (a3 === undefined) { _mud_gfx_prefab_3(/*parent*/a0.__ptr, /*prefab*/a1.__ptr, /*transform*/a2); return; }
-    if (a4 === undefined) { _mud_gfx_prefab_4(/*parent*/a0.__ptr, /*prefab*/a1.__ptr, /*transform*/a2, /*flags*/a3); return; }
-    _mud_gfx_prefab_5(/*parent*/a0.__ptr, /*prefab*/a1.__ptr, /*transform*/a2, /*flags*/a3, /*material*/a4.__ptr);
+    if (a2 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] prefab(0:parent): expected Gnode'); assert(a1.__type === Prefab.__type, '[ERROR] prefab(1:prefab): expected Prefab'); }
+    else if (a3 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] prefab(0:parent): expected Gnode'); assert(a1.__type === Prefab.__type, '[ERROR] prefab(1:prefab): expected Prefab'); assert(typeof a2 === 'boolean', '[ERROR] prefab(2:transform): expected boolean'); }
+    else if (a4 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] prefab(0:parent): expected Gnode'); assert(a1.__type === Prefab.__type, '[ERROR] prefab(1:prefab): expected Prefab'); assert(typeof a2 === 'boolean', '[ERROR] prefab(2:transform): expected boolean'); assert(typeof a3 === 'number', '[ERROR] prefab(3:flags): expected integer'); }
+    else { assert(a0.__type === Gnode.__type, '[ERROR] prefab(0:parent): expected Gnode'); assert(a1.__type === Prefab.__type, '[ERROR] prefab(1:prefab): expected Prefab'); assert(typeof a2 === 'boolean', '[ERROR] prefab(2:transform): expected boolean'); assert(typeof a3 === 'number', '[ERROR] prefab(3:flags): expected integer'); assert(a4.__type === Material.__type, '[ERROR] prefab(4:material): expected Material'); }
+    if (a2 === undefined) { _mud_gfx_prefab_2(/*parent*/a0.__ptr, /*prefab*/a1.__ptr); }
+    else if (a3 === undefined) { _mud_gfx_prefab_3(/*parent*/a0.__ptr, /*prefab*/a1.__ptr, /*transform*/a2); }
+    else if (a4 === undefined) { _mud_gfx_prefab_4(/*parent*/a0.__ptr, /*prefab*/a1.__ptr, /*transform*/a2, /*flags*/a3); }
+    else { _mud_gfx_prefab_5(/*parent*/a0.__ptr, /*prefab*/a1.__ptr, /*transform*/a2, /*flags*/a3, /*material*/a4.__ptr); }
 };
 Module['gfx']['model'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
+    if (a2 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] model(0:parent): expected Gnode'); assert(typeof a1 === 'string', '[ERROR] model(1:name): expected string'); }
+    else if (a3 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] model(0:parent): expected Gnode'); assert(typeof a1 === 'string', '[ERROR] model(1:name): expected string'); assert(typeof a2 === 'number', '[ERROR] model(2:flags): expected integer'); }
+    else { assert(a0.__type === Gnode.__type, '[ERROR] model(0:parent): expected Gnode'); assert(typeof a1 === 'string', '[ERROR] model(1:name): expected string'); assert(typeof a2 === 'number', '[ERROR] model(2:flags): expected integer'); assert(a3.__type === Material.__type, '[ERROR] model(3:material): expected Material'); }
     if (a2 === undefined) { return wrapPointer(_mud_gfx_model_2(/*parent*/a0.__ptr, ensureString(/*name*/a1)), Item); }
-    if (a3 === undefined) { return wrapPointer(_mud_gfx_model_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*flags*/a2), Item); }
-    return wrapPointer(_mud_gfx_model_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*flags*/a2, /*material*/a3.__ptr), Item);
+    else if (a3 === undefined) { return wrapPointer(_mud_gfx_model_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*flags*/a2), Item); }
+    else { return wrapPointer(_mud_gfx_model_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*flags*/a2, /*material*/a3.__ptr), Item); }
 };
 Module['gfx']['animated'] = function(a0, a1) {
+    assert(a0.__type === Gnode.__type, '[ERROR] animated(0:parent): expected Gnode'); assert(a1.__type === Item.__type, '[ERROR] animated(1:item): expected Item');
     return wrapPointer(_mud_gfx_animated_2(/*parent*/a0.__ptr, /*item*/a1.__ptr), Mime);
 };
 Module['gfx']['flows'] = function(a0, a1, a2) {
+    if (a2 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] flows(0:parent): expected Gnode'); assert(a1.__type === Flow.__type, '[ERROR] flows(1:emitter): expected Flow'); }
+    else { assert(a0.__type === Gnode.__type, '[ERROR] flows(0:parent): expected Gnode'); assert(a1.__type === Flow.__type, '[ERROR] flows(1:emitter): expected Flow'); assert(typeof a2 === 'number', '[ERROR] flows(2:flags): expected integer'); }
     if (a2 === undefined) { return wrapPointer(_mud_gfx_flows_2(/*parent*/a0.__ptr, /*emitter*/a1.__ptr), Flare); }
-    return wrapPointer(_mud_gfx_flows_3(/*parent*/a0.__ptr, /*emitter*/a1.__ptr, /*flags*/a2), Flare);
+    else { return wrapPointer(_mud_gfx_flows_3(/*parent*/a0.__ptr, /*emitter*/a1.__ptr, /*flags*/a2), Flare); }
 };
 Module['gfx']['light'] = function(a0, a1, a2, a3, a4, a5) {
+    if (a4 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] light(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] light(1:type): expected integer'); assert(typeof a2 === 'boolean', '[ERROR] light(2:shadows): expected boolean'); assert(a3.__type === Colour.__type, '[ERROR] light(3:colour): expected Colour'); }
+    else if (a5 === undefined) { assert(a0.__type === Gnode.__type, '[ERROR] light(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] light(1:type): expected integer'); assert(typeof a2 === 'boolean', '[ERROR] light(2:shadows): expected boolean'); assert(a3.__type === Colour.__type, '[ERROR] light(3:colour): expected Colour'); assert(typeof a4 === 'number', '[ERROR] light(4:range): expected number'); }
+    else { assert(a0.__type === Gnode.__type, '[ERROR] light(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] light(1:type): expected integer'); assert(typeof a2 === 'boolean', '[ERROR] light(2:shadows): expected boolean'); assert(a3.__type === Colour.__type, '[ERROR] light(3:colour): expected Colour'); assert(typeof a4 === 'number', '[ERROR] light(4:range): expected number'); assert(typeof a5 === 'number', '[ERROR] light(5:attenuation): expected number'); }
     if (a4 === undefined) { return wrapPointer(_mud_gfx_light_4(/*parent*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr), Light); }
-    if (a5 === undefined) { return wrapPointer(_mud_gfx_light_5(/*parent*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*range*/a4), Light); }
-    return wrapPointer(_mud_gfx_light_6(/*parent*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*range*/a4, /*attenuation*/a5), Light);
+    else if (a5 === undefined) { return wrapPointer(_mud_gfx_light_5(/*parent*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*range*/a4), Light); }
+    else { return wrapPointer(_mud_gfx_light_6(/*parent*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*range*/a4, /*attenuation*/a5), Light); }
 };
 Module['gfx']['sun_light'] = function(a0, a1, a2) {
+    assert(a0.__type === Gnode.__type, '[ERROR] sun_light(0:parent): expected Gnode'); assert(typeof a1 === 'number', '[ERROR] sun_light(1:azimuth): expected number'); assert(typeof a2 === 'number', '[ERROR] sun_light(2:elevation): expected number');
     return wrapPointer(_mud_gfx_sun_light_3(/*parent*/a0.__ptr, /*azimuth*/a1, /*elevation*/a2), Light);
 };
 Module['gfx']['radiance'] = function(a0, a1, a2) {
     ensureCache.prepare();
+    assert(a0.__type === Gnode.__type, '[ERROR] radiance(0:parent): expected Gnode'); assert(typeof a1 === 'string', '[ERROR] radiance(1:texture): expected string'); assert(typeof a2 === 'number', '[ERROR] radiance(2:background): expected integer');
     _mud_gfx_radiance_3(/*parent*/a0.__ptr, ensureString(/*texture*/a1), /*background*/a2);
 };
 Module['gfx']['direct_light_node'] = function(a0, a1) {
+    assert(a0.__type === Gnode.__type, '[ERROR] direct_light_node(0:parent): expected Gnode'); assert(a1.__type === v3_float.__type, '[ERROR] direct_light_node(1:direction): expected v3<float>');
     return wrapPointer(_mud_gfx_direct_light_node_2(/*parent*/a0.__ptr, /*direction*/a1.__ptr), Light);
 };
 Module['gfx']['solid_material'] = function(a0, a1, a2) {
     ensureCache.prepare();
+    assert(a0.__type === GfxSystem.__type, '[ERROR] solid_material(0:gfx): expected GfxSystem'); assert(typeof a1 === 'string', '[ERROR] solid_material(1:name): expected string'); assert(a2.__type === Colour.__type, '[ERROR] solid_material(2:colour): expected Colour');
     return wrapPointer(_mud_gfx_solid_material_3(/*gfx*/a0.__ptr, ensureString(/*name*/a1), /*colour*/a2.__ptr), Material);
 };
 Module['gfx']['pbr_material'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
+    if (a3 === undefined) { assert(a0.__type === GfxSystem.__type, '[ERROR] pbr_material(0:gfx): expected GfxSystem'); assert(typeof a1 === 'string', '[ERROR] pbr_material(1:name): expected string'); assert(a2.__type === Colour.__type, '[ERROR] pbr_material(2:albedo): expected Colour'); }
+    else if (a4 === undefined) { assert(a0.__type === GfxSystem.__type, '[ERROR] pbr_material(0:gfx): expected GfxSystem'); assert(typeof a1 === 'string', '[ERROR] pbr_material(1:name): expected string'); assert(a2.__type === Colour.__type, '[ERROR] pbr_material(2:albedo): expected Colour'); assert(typeof a3 === 'number', '[ERROR] pbr_material(3:metallic): expected number'); }
+    else { assert(a0.__type === GfxSystem.__type, '[ERROR] pbr_material(0:gfx): expected GfxSystem'); assert(typeof a1 === 'string', '[ERROR] pbr_material(1:name): expected string'); assert(a2.__type === Colour.__type, '[ERROR] pbr_material(2:albedo): expected Colour'); assert(typeof a3 === 'number', '[ERROR] pbr_material(3:metallic): expected number'); assert(typeof a4 === 'number', '[ERROR] pbr_material(4:roughness): expected number'); }
     if (a3 === undefined) { return wrapPointer(_mud_gfx_pbr_material_3(/*gfx*/a0.__ptr, ensureString(/*name*/a1), /*albedo*/a2.__ptr), Material); }
-    if (a4 === undefined) { return wrapPointer(_mud_gfx_pbr_material_4(/*gfx*/a0.__ptr, ensureString(/*name*/a1), /*albedo*/a2.__ptr, /*metallic*/a3), Material); }
-    return wrapPointer(_mud_gfx_pbr_material_5(/*gfx*/a0.__ptr, ensureString(/*name*/a1), /*albedo*/a2.__ptr, /*metallic*/a3, /*roughness*/a4), Material);
+    else if (a4 === undefined) { return wrapPointer(_mud_gfx_pbr_material_4(/*gfx*/a0.__ptr, ensureString(/*name*/a1), /*albedo*/a2.__ptr, /*metallic*/a3), Material); }
+    else { return wrapPointer(_mud_gfx_pbr_material_5(/*gfx*/a0.__ptr, ensureString(/*name*/a1), /*albedo*/a2.__ptr, /*metallic*/a3, /*roughness*/a4), Material); }
 };
 Module['gfx']['model_suzanne'] = function(a0) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] model_suzanne(0:gfx): expected GfxSystem');
     return wrapPointer(_mud_gfx_model_suzanne_1(/*gfx*/a0.__ptr), Model);
 };
 Module['pass_clear_fbo'] = function(a0, a1, a2, a3, a4) {
-    if (a4 === undefined) { _mud_pass_clear_fbo_4(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*fbo*/a2.__ptr, /*colour*/a3.__ptr); return; }
-    _mud_pass_clear_fbo_5(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*fbo*/a2.__ptr, /*colour*/a3.__ptr, /*depth*/a4);
+    if (a4 === undefined) { assert(a0.__type === GfxSystem.__type, '[ERROR] pass_clear_fbo(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_clear_fbo(1:render): expected Render'); assert(a2.__type === FrameBuffer.__type, '[ERROR] pass_clear_fbo(2:fbo): expected FrameBuffer'); assert(a3.__type === Colour.__type, '[ERROR] pass_clear_fbo(3:colour): expected Colour'); }
+    else { assert(a0.__type === GfxSystem.__type, '[ERROR] pass_clear_fbo(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_clear_fbo(1:render): expected Render'); assert(a2.__type === FrameBuffer.__type, '[ERROR] pass_clear_fbo(2:fbo): expected FrameBuffer'); assert(a3.__type === Colour.__type, '[ERROR] pass_clear_fbo(3:colour): expected Colour'); assert(typeof a4 === 'number', '[ERROR] pass_clear_fbo(4:depth): expected number'); }
+    if (a4 === undefined) { _mud_pass_clear_fbo_4(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*fbo*/a2.__ptr, /*colour*/a3.__ptr); }
+    else { _mud_pass_clear_fbo_5(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*fbo*/a2.__ptr, /*colour*/a3.__ptr, /*depth*/a4); }
 };
 Module['pass_clear'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_clear(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_clear(1:render): expected Render');
     _mud_pass_clear_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_gclear'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_gclear(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_gclear(1:render): expected Render');
     _mud_pass_gclear_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_depth'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_depth(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_depth(1:render): expected Render');
     _mud_pass_depth_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_background'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_background(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_background(1:render): expected Render');
     _mud_pass_background_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_solid'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_solid(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_solid(1:render): expected Render');
     _mud_pass_solid_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_flip'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] pass_flip(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] pass_flip(1:render): expected Render');
     _mud_pass_flip_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_minimal'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] render_minimal(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_minimal(1:render): expected Render');
     _mud_render_minimal_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_solid'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] render_solid(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_solid(1:render): expected Render');
     _mud_render_solid_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_clear'] = function(a0, a1) {
+    assert(a0.__type === GfxSystem.__type, '[ERROR] render_clear(0:gfx): expected GfxSystem'); assert(a1.__type === Render.__type, '[ERROR] render_clear(1:render): expected Render');
     _mud_render_clear_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 

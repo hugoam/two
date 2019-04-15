@@ -32,7 +32,7 @@ namespace mud
 		bool needs_half = (vertex_format & VertexAttribute::QTexCoord0) != 0
 					   || (vertex_format & VertexAttribute::QTexCoord1) != 0;
 		if(needs_half && !half_support)
-			printf("WARNING: half vertex attribute not supported but used by texcoords\n");
+			printf("[warning] half vertex attribute not supported but used by texcoords\n");
 
 		bool normalize_indices = false;
 #ifdef MUD_PLATFORM_EMSCRIPTEN

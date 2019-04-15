@@ -43,7 +43,7 @@ namespace mud
 	{
 		if(!bx::open(reader, file_path))
 		{
-			printf("ERROR: Failed to open: %s.\n", file_path);
+			printf("[ERROR] Failed to open: %s.\n", file_path);
 			return nullptr;
 		}
 
@@ -77,7 +77,7 @@ namespace mud
 
 		if(!bx::open(&gfx.file_writer(), file_path.c_str()))
 		{
-			printf("ERROR: Unable to open output file '%s'", file_path.c_str());
+			printf("[ERROR] Unable to open output file '%s'", file_path.c_str());
 			return;
 		}
 
@@ -128,7 +128,7 @@ namespace mud
 			}
 			else
 			{
-				printf("WARNING: could not generate mips for texture %s\n", name.c_str());
+				printf("[warning] could not generate mips for texture %s\n", name.c_str());
 			}
 		}
 
@@ -137,7 +137,7 @@ namespace mud
 		const bgfx::Memory* mem = bgfx::makeRef(image.m_data, image.m_size, release_bgfx_image, &image);
 		uint64_t srgb = image.m_srgb ? BGFX_TEXTURE_SRGB : 0;
 
-		printf("INFO: Loaded image %s srgb(%i) of size %s in memory\n", name.c_str(), int(image.m_srgb), readable_file_size(image.m_size).c_str());
+		printf("[info] gfx - loaded image %s srgb(%i) of size %s in memory\n", name.c_str(), int(image.m_srgb), readable_file_size(image.m_size).c_str());
 
 		if(image.m_cubeMap)
 		{

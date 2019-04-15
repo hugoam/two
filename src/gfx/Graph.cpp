@@ -102,7 +102,7 @@ namespace mud
 		{
 			m_scene->m_orphan_sounds.push_back(m_sound);
 			m_sound = nullptr;
-			printf("ERROR: sound goes out of graph but wasn't destroyed\n");
+			printf("[ERROR] sound goes out of graph but wasn't destroyed\n");
 		}
 	}
 

@@ -50,7 +50,7 @@ namespace mud
 		bool has_member(size_t offset);
 		bool has_method(Address address);
 
-		template <class T> inline Member& member(T member) { return this->member(member_address(member)); }
+		template <class T> inline Member& member(T member) { return this->member(member_offset(member)); }
 		template <class T> inline Method& method(T method) { return this->method(member_address(method)); }
 
 		const Constructor* constructor(ConstructorIndex index) const;

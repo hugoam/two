@@ -138,7 +138,7 @@ namespace gfx
 
 		bool conservative = (bgfx::getCaps()->supported & BGFX_CAPS_CONSERVATIVE_RASTER) != 0;
 		if(!conservative)
-			printf("WARNING: rendering GI probe without conservative raster support will produce wrong output\n");
+			printf("[warning] rendering GI probe without conservative raster support will produce wrong output\n");
 
 		UNUSED(render); UNUSED(pass);
 		pass.m_bgfx_state = BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA;
@@ -178,7 +178,7 @@ namespace gfx
 
 			if(gi_probe->m_mode == GIProbeMode::Voxelize)
 			{
-				printf("INFO: bake GIProbe\n");
+				printf("[info] bake GIProbe\n");
 
 				block_gi_bake.voxelize(render, *gi_probe);
 				block_gi_bake.output(render, *gi_probe);
@@ -192,7 +192,7 @@ namespace gfx
 
 				gi_probe->m_dirty = false;
 
-				printf("INFO: bake GIProbe done\n");
+				printf("[info] bake GIProbe done\n");
 
 				//string path = m_gfx.m_resource_path + "/" + "gi_probe.dds";
 				//save_gi_probe(m_gfx, *gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);

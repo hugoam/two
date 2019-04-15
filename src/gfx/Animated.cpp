@@ -89,7 +89,7 @@ namespace mud
 	void Mime::advance(float delta)
 	{
 		if(m_playing.size() > 2)
-			printf("WARNING: Mime playing more than 2 animations at the same time\n");
+			printf("[warning] Mime playing more than 2 animations at the same time\n");
 
 		for(AnimPlay& play : m_playing)
 			play.step(delta, m_speed_scale);
@@ -138,7 +138,7 @@ namespace mud
 				target = &nodes[track.m_node];
 			if(!target && track.m_target != AnimTarget::Weights)
 			{
-				printf("WARNING: No bone found for animation %s track %s with target %i %s\n", animation.m_name.c_str(), "", track.m_node, track.m_node_name.c_str());
+				printf("[warning] No bone found for animation %s track %s with target %i %s\n", animation.m_name.c_str(), "", track.m_node, track.m_node_name.c_str());
 				continue;
 			}
 

@@ -250,7 +250,7 @@ namespace mud
 				string name = model_name + ":" + to_string(primindex++);
 				bool occluder = false;
 
-				//printf("DEBUG: importing mesh %s\n", name.c_str());
+				//printf("[debug] importing mesh %s\n", name.c_str());
 
 				if(primitive.material != -1)
 				{
@@ -313,7 +313,7 @@ namespace mud
 				if(packer.m_tangents.empty() && !packer.m_normals.empty() && !packer.m_uv0s.empty())
 					packer.gen_tangents();
 				if(packer.m_tangents.empty() && packer.m_uv0s.empty())
-					printf("WARNING: mesh %s imported without tangents (no uvs)\n", name.c_str());
+					printf("[warning] mesh %s imported without tangents (no uvs)\n", name.c_str());
 
 				bool optimize = config.m_optimize_geometry;
 #ifdef MUD_PLATFORM_EMSCRIPTEN
@@ -452,7 +452,7 @@ namespace mud
 
 	void create_bone(const glTF& gltf, const glTFNode& node, Skeleton& skeleton, uint32_t parent)
 	{
-		//printf("INFO:      - adding bone %s index %i\n", node.name.c_str(), skeleton.m_bones.size());
+		//printf("[info]      - adding bone %s index %i\n", node.name.c_str(), skeleton.m_bones.size());
 		uint32_t bone = skeleton.add_bone(node.name.c_str(), parent);
 
 		for(int child : node.children)
@@ -464,7 +464,7 @@ namespace mud
 	{
 		const glTFNode& skeleton_node = gltf.m_nodes[node];
 
-		printf("INFO: Gltf - adding skeleton %s\n", skeleton_node.name.c_str());
+		printf("[info] Gltf - adding skeleton %s\n", skeleton_node.name.c_str());
 		model.m_rig->m_skeleton = { skeleton_node.name.c_str(), num_bones };
 		state.m_skeletons[node] = &model.m_rig->m_skeleton;
 
@@ -487,7 +487,7 @@ namespace mud
 
 		for(glTFSkin& gltf_skin : gltf.m_skins)
 		{
-			printf("INFO: Gltf - adding skin %s\n", gltf_skin.name.c_str());
+			printf("[info] Gltf - adding skin %s\n", gltf_skin.name.c_str());
 			model.m_rig->m_skins.push_back({ *state.m_skeletons[gltf_skin.skeleton], int(gltf_skin.joints.size()) }); // gltf_skin.name
 			Skin& skin = model.m_rig->m_skins.back();
 
@@ -524,7 +524,7 @@ namespace mud
 
 		animation.m_length = 0.f;
 
-		printf("INFO: Gltf - importing animation %s\n", animation.m_name.c_str());
+		printf("[info] Gltf - importing animation %s\n", animation.m_name.c_str());
 
 		for(const glTFAnimationChannel& channel : gltf_anim.channels)
 		{
@@ -661,7 +661,7 @@ namespace mud
 
 	void ImporterGltf::import(Import& state, const string& filepath, const ImportConfig& config)
 	{
-		printf("INFO: gltf - loading scene %s\n", filepath.c_str());
+		printf("[info] gltf - loading scene %s\n", filepath.c_str());
 
 		glTF gltf = { &m_gfx };
 		unpack_gltf(state.m_path, state.m_file, gltf);
@@ -671,7 +671,7 @@ namespace mud
 
 	void ImporterGltf::import_model(Model& model, const string& filepath, const ImportConfig& config)
 	{
-		printf("INFO: gltf - loading model %s\n", filepath.c_str());
+		printf("[info] gltf - loading model %s\n", filepath.c_str());
 
 		Import state = { m_gfx, filepath, config };
 
@@ -697,7 +697,7 @@ namespace mud
 
 	void ImporterGltf::import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config)
 	{
-		printf("INFO: gltf - loading prefab %s\n", filepath.c_str());
+		printf("[info] gltf - loading prefab %s\n", filepath.c_str());
 
 		Import state = { m_gfx, filepath, config };
 
@@ -712,7 +712,7 @@ namespace mud
 	void ImporterGltf::repack(const string& filepath, const ImportConfig& config)
 	{
 		UNUSED(config);
-		printf("INFO: gltf - repacking asset %s\n", filepath.c_str());
+		printf("[info] gltf - repacking asset %s\n", filepath.c_str());
 
 		string path = file_directory(filepath);
 		string file = file_name(filepath);

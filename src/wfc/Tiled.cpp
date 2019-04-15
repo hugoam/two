@@ -78,7 +78,7 @@ namespace mud
 			for(int s = 0; s < 8; ++s)
 				tile.m_flips[s] += num_patterns;
 
-			printf("DEBUG: tile %i = %s %i\n", int(tileset.m_tiles_flip.size()), tile_name.c_str(), t);
+			printf("[debug] tile %i = %s %i\n", int(tileset.m_tiles_flip.size()), tile_name.c_str(), t);
 			tileset.m_tiles_flip.push_back(tile);
 		}
 

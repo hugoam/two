@@ -59,7 +59,7 @@ namespace mud
 			if(UiWindow::s_styles.find(name) != UiWindow::s_styles.end())
 				selector.styles.push_back(UiWindow::s_styles[name]);
 			else
-				printf("WARNING: style %s not found\n", name.c_str());
+				printf("[warning] ui - style %s not found\n", name.c_str());
 		return selector;
 	}
 

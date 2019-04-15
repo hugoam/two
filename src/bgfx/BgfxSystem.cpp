@@ -48,7 +48,7 @@ namespace mud
 		: RenderSystem(resource_path, true)
 		//, m_capture_every(100)
 	{
-		printf("INFO: Init Gfx System\n");
+		printf("[info] gfx - init gfx system\n");
 	}
 
 	BgfxSystem::~BgfxSystem()
@@ -65,13 +65,13 @@ namespace mud
 
 	void BgfxSystem::init(BgfxContext& context)
 	{
-		printf("GfxSystem: Native Handle = %p\n", context.m_native_handle);
+		printf("[info] gfx - native handle = %p\n", context.m_native_handle);
 		bgfx::PlatformData pd = {};
 		pd.nwh = context.m_native_handle;
 		pd.ndt = context.m_native_target;
 		bgfx::setPlatformData(pd);
 
-		printf("GfxSystem: bgfx::init\n");
+		printf("[info] gfx - bgfx::init\n");
 		bgfx::Init params = {};
 		params.type = bgfx::RendererType::OpenGL;
 		//params.type = bgfx::RendererType::Direct3D11;

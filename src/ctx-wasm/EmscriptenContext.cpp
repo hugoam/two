@@ -41,7 +41,7 @@ namespace mud
 		else if(result == EMSCRIPTEN_RESULT_NO_DATA)
 			message = "The operation failed because no data is currently available.";
 
-		printf("ERROR: html5 - %s\n", message.c_str());
+		printf("[ERROR] html5 - %s\n", message.c_str());
 	}
 
 	MouseButtonCode convert_html5_mouse_button(unsigned short button)
@@ -234,7 +234,7 @@ namespace mud
 
 		const string id = name;//"#" + name;
 		
-		printf("DEBUG: create webgl context on canvas %s\n", id.c_str());
+		printf("[debug] create webgl context on canvas %s\n", id.c_str());
 		auto context = emscripten_webgl_create_context(id.c_str(), &attrs);
 		if(context == 0 || context < 0)
 		{

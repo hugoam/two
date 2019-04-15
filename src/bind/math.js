@@ -1,6 +1,7 @@
 Module['stl'] = Module['stl'] || {};
 // AutoStat<float>
 function AutoStat_float() {
+    
     this.__ptr = _mud_AutoStat_float__construct_0(); this.__type = AutoStat_float.__type; getCache(AutoStat_float)[this.__ptr] = this;
 };
 AutoStat_float.prototype = Object.create(WrapperObject.prototype);
@@ -21,6 +22,7 @@ AutoStat_float.prototype["__destroy"] = AutoStat_float.prototype.__destroy = fun
 };
 // AutoStat<int>
 function AutoStat_int() {
+    
     this.__ptr = _mud_AutoStat_int__construct_0(); this.__type = AutoStat_int.__type; getCache(AutoStat_int)[this.__ptr] = this;
 };
 AutoStat_int.prototype = Object.create(WrapperObject.prototype);
@@ -41,11 +43,16 @@ AutoStat_int.prototype["__destroy"] = AutoStat_int.prototype.__destroy = functio
 };
 // Colour
 function Colour(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_Colour__construct_0(); this.__type = Colour.__type; getCache(Colour)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_Colour__construct_1(/*v*/a0); this.__type = Colour.__type; getCache(Colour)[this.__ptr] = this; return; }
-    if (a2 === undefined) { this.__ptr = _mud_Colour__construct_2(/*v*/a0, /*a*/a1); this.__type = Colour.__type; getCache(Colour)[this.__ptr] = this; return; }
-    if (a3 === undefined) { this.__ptr = _mud_Colour__construct_3(/*r*/a0, /*g*/a1, /*b*/a2); this.__type = Colour.__type; getCache(Colour)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Colour__construct_4(/*r*/a0, /*g*/a1, /*b*/a2, /*a*/a3); this.__type = Colour.__type; getCache(Colour)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] Colour(0:v): expected number'); }
+    else if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] Colour(0:v): expected number'); assert(typeof a1 === 'number', '[ERROR] Colour(1:a): expected number'); }
+    else if (a3 === undefined) { assert(typeof a0 === 'number', '[ERROR] Colour(0:r): expected number'); assert(typeof a1 === 'number', '[ERROR] Colour(1:g): expected number'); assert(typeof a2 === 'number', '[ERROR] Colour(2:b): expected number'); }
+    else { assert(typeof a0 === 'number', '[ERROR] Colour(0:r): expected number'); assert(typeof a1 === 'number', '[ERROR] Colour(1:g): expected number'); assert(typeof a2 === 'number', '[ERROR] Colour(2:b): expected number'); assert(typeof a3 === 'number', '[ERROR] Colour(3:a): expected number'); }
+    if (a0 === undefined) { this.__ptr = _mud_Colour__construct_0(); this.__type = Colour.__type; getCache(Colour)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Colour__construct_1(/*v*/a0); this.__type = Colour.__type; getCache(Colour)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Colour__construct_2(/*v*/a0, /*a*/a1); this.__type = Colour.__type; getCache(Colour)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Colour__construct_3(/*r*/a0, /*g*/a1, /*b*/a2); this.__type = Colour.__type; getCache(Colour)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Colour__construct_4(/*r*/a0, /*g*/a1, /*b*/a2, /*a*/a3); this.__type = Colour.__type; getCache(Colour)[this.__ptr] = this; }
 };
 Colour.prototype = Object.create(WrapperObject.prototype);
 Colour.prototype.constructor = Colour;
@@ -89,6 +96,7 @@ Colour.prototype["__destroy"] = Colour.prototype.__destroy = function() {
 };
 // ColourHSL
 function ColourHSL() {
+    
     this.__ptr = _mud_ColourHSL__construct_0(); this.__type = ColourHSL.__type; getCache(ColourHSL)[this.__ptr] = this;
 };
 ColourHSL.prototype = Object.create(WrapperObject.prototype);
@@ -133,6 +141,7 @@ ColourHSL.prototype["__destroy"] = ColourHSL.prototype.__destroy = function() {
 };
 // Image
 function Image() {
+    
     this.__ptr = _mud_Image__construct_0(); this.__type = Image.__type; getCache(Image)[this.__ptr] = this;
 };
 Image.prototype = Object.create(WrapperObject.prototype);
@@ -161,9 +170,12 @@ Image.prototype["__destroy"] = Image.prototype.__destroy = function() {
 };
 // Image256
 function Image256(a0, a1) {
-    if (a0 === undefined) { this.__ptr = _mud_Image256__construct_0(); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_Image256__construct_1(/*size*/a0.__ptr); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Image256__construct_2(/*size*/a0.__ptr, /*palette*/a1.__ptr); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(a0.__type === v2_uint.__type, '[ERROR] Image256(0:size): expected v2<uint>'); }
+    else { assert(a0.__type === v2_uint.__type, '[ERROR] Image256(0:size): expected v2<uint>'); assert(a1.__type === Palette.__type, '[ERROR] Image256(1:palette): expected Palette'); }
+    if (a0 === undefined) { this.__ptr = _mud_Image256__construct_0(); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Image256__construct_1(/*size*/a0.__ptr); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Image256__construct_2(/*size*/a0.__ptr, /*palette*/a1.__ptr); this.__type = Image256.__type; getCache(Image256)[this.__ptr] = this; }
 };
 Image256.prototype = Object.create(WrapperObject.prototype);
 Image256.prototype.constructor = Image256;
@@ -205,9 +217,12 @@ ImageAtlas.prototype["__destroy"] = ImageAtlas.prototype.__destroy = function() 
 };
 // Palette
 function Palette(a0, a1) {
-    if (a0 === undefined) { this.__ptr = _mud_Palette__construct_0(); this.__type = Palette.__type; getCache(Palette)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_Palette__construct_1(ensureFloat32(/*colours*/a0), /*colours*/a0.length); this.__type = Palette.__type; getCache(Palette)[this.__ptr] = this; return; }
-    this.__ptr = _mud_Palette__construct_2(/*spectrum*/a0, /*steps*/a1); this.__type = Palette.__type; getCache(Palette)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(a0.__type === span_mud_Colour.__type, '[ERROR] Palette(0:colours): expected span<mud::Colour>'); }
+    else { assert(typeof a0 === 'number', '[ERROR] Palette(0:spectrum): expected integer'); assert(typeof a1 === 'number', '[ERROR] Palette(1:steps): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_Palette__construct_0(); this.__type = Palette.__type; getCache(Palette)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Palette__construct_1(ensureFloat32(/*colours*/a0), /*colours*/a0.length); this.__type = Palette.__type; getCache(Palette)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Palette__construct_2(/*spectrum*/a0, /*steps*/a1); this.__type = Palette.__type; getCache(Palette)[this.__ptr] = this; }
 };
 Palette.prototype = Object.create(WrapperObject.prototype);
 Palette.prototype.constructor = Palette;
@@ -219,6 +234,7 @@ Palette.prototype["__destroy"] = Palette.prototype.__destroy = function() {
 };
 // Range<float>
 function Range_float() {
+    
     this.__ptr = _mud_Range_float__construct_0(); this.__type = Range_float.__type; getCache(Range_float)[this.__ptr] = this;
 };
 Range_float.prototype = Object.create(WrapperObject.prototype);
@@ -247,6 +263,7 @@ Range_float.prototype["__destroy"] = Range_float.prototype.__destroy = function(
 };
 // Range<mud::Colour>
 function Range_mud_Colour() {
+    
     this.__ptr = _mud_Range_mud_Colour__construct_0(); this.__type = Range_mud_Colour.__type; getCache(Range_mud_Colour)[this.__ptr] = this;
 };
 Range_mud_Colour.prototype = Object.create(WrapperObject.prototype);
@@ -275,6 +292,7 @@ Range_mud_Colour.prototype["__destroy"] = Range_mud_Colour.prototype.__destroy =
 };
 // Range<mud::quat>
 function Range_mud_quat() {
+    
     this.__ptr = _mud_Range_mud_quat__construct_0(); this.__type = Range_mud_quat.__type; getCache(Range_mud_quat)[this.__ptr] = this;
 };
 Range_mud_quat.prototype = Object.create(WrapperObject.prototype);
@@ -303,6 +321,7 @@ Range_mud_quat.prototype["__destroy"] = Range_mud_quat.prototype.__destroy = fun
 };
 // Range<mud::vec3>
 function Range_mud_vec3() {
+    
     this.__ptr = _mud_Range_mud_vec3__construct_0(); this.__type = Range_mud_vec3.__type; getCache(Range_mud_vec3)[this.__ptr] = this;
 };
 Range_mud_vec3.prototype = Object.create(WrapperObject.prototype);
@@ -331,6 +350,7 @@ Range_mud_vec3.prototype["__destroy"] = Range_mud_vec3.prototype.__destroy = fun
 };
 // Range<uint32_t>
 function Range_uint32_t() {
+    
     this.__ptr = _mud_Range_uint32_t__construct_0(); this.__type = Range_uint32_t.__type; getCache(Range_uint32_t)[this.__ptr] = this;
 };
 Range_uint32_t.prototype = Object.create(WrapperObject.prototype);
@@ -359,6 +379,7 @@ Range_uint32_t.prototype["__destroy"] = Range_uint32_t.prototype.__destroy = fun
 };
 // Time
 function Time(a0) {
+    assert(typeof a0 === 'number', '[ERROR] Time(0:value): expected number');
     this.__ptr = _mud_Time__construct_1(/*value*/a0); this.__type = Time.__type; getCache(Time)[this.__ptr] = this;
 };
 Time.prototype = Object.create(WrapperObject.prototype);
@@ -379,6 +400,7 @@ Time.prototype["__destroy"] = Time.prototype.__destroy = function() {
 };
 // TimeSpan
 function TimeSpan(a0, a1) {
+    assert(a0.__type === Time.__type, '[ERROR] TimeSpan(0:s): expected Time'); assert(a1.__type === Time.__type, '[ERROR] TimeSpan(1:e): expected Time');
     this.__ptr = _mud_TimeSpan__construct_2(/*s*/a0.__ptr, /*e*/a1.__ptr); this.__type = TimeSpan.__type; getCache(TimeSpan)[this.__ptr] = this;
 };
 TimeSpan.prototype = Object.create(WrapperObject.prototype);
@@ -407,6 +429,7 @@ TimeSpan.prototype["__destroy"] = TimeSpan.prototype.__destroy = function() {
 };
 // Transform
 function Transform() {
+    
     this.__ptr = _mud_Transform__construct_0(); this.__type = Transform.__type; getCache(Transform)[this.__ptr] = this;
 };
 Transform.prototype = Object.create(WrapperObject.prototype);
@@ -443,8 +466,10 @@ Transform.prototype["__destroy"] = Transform.prototype.__destroy = function() {
 };
 // ValueCurve<float>
 function ValueCurve_float(a0) {
-    if (a0 === undefined) { this.__ptr = _mud_ValueCurve_float__construct_0(); this.__type = ValueCurve_float.__type; getCache(ValueCurve_float)[this.__ptr] = this; return; }
-    this.__ptr = _mud_ValueCurve_float__construct_1(ensureFloat32(/*keys*/a0), /*keys*/a0.length); this.__type = ValueCurve_float.__type; getCache(ValueCurve_float)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(a0.__type === span_float.__type, '[ERROR] ValueCurve<T>(0:keys): expected span<float>'); }
+    if (a0 === undefined) { this.__ptr = _mud_ValueCurve_float__construct_0(); this.__type = ValueCurve_float.__type; getCache(ValueCurve_float)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ValueCurve_float__construct_1(ensureFloat32(/*keys*/a0), /*keys*/a0.length); this.__type = ValueCurve_float.__type; getCache(ValueCurve_float)[this.__ptr] = this; }
 };
 ValueCurve_float.prototype = Object.create(WrapperObject.prototype);
 ValueCurve_float.prototype.constructor = ValueCurve_float;
@@ -460,8 +485,10 @@ ValueCurve_float.prototype["__destroy"] = ValueCurve_float.prototype.__destroy =
 };
 // ValueCurve<mud::Colour>
 function ValueCurve_mud_Colour(a0) {
-    if (a0 === undefined) { this.__ptr = _mud_ValueCurve_mud_Colour__construct_0(); this.__type = ValueCurve_mud_Colour.__type; getCache(ValueCurve_mud_Colour)[this.__ptr] = this; return; }
-    this.__ptr = _mud_ValueCurve_mud_Colour__construct_1(ensureFloat32(/*keys*/a0), /*keys*/a0.length); this.__type = ValueCurve_mud_Colour.__type; getCache(ValueCurve_mud_Colour)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(a0.__type === span_mud_Colour.__type, '[ERROR] ValueCurve<T>(0:keys): expected span<mud::Colour>'); }
+    if (a0 === undefined) { this.__ptr = _mud_ValueCurve_mud_Colour__construct_0(); this.__type = ValueCurve_mud_Colour.__type; getCache(ValueCurve_mud_Colour)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ValueCurve_mud_Colour__construct_1(ensureFloat32(/*keys*/a0), /*keys*/a0.length); this.__type = ValueCurve_mud_Colour.__type; getCache(ValueCurve_mud_Colour)[this.__ptr] = this; }
 };
 ValueCurve_mud_Colour.prototype = Object.create(WrapperObject.prototype);
 ValueCurve_mud_Colour.prototype.constructor = ValueCurve_mud_Colour;
@@ -477,6 +504,7 @@ ValueCurve_mud_Colour.prototype["__destroy"] = ValueCurve_mud_Colour.prototype._
 };
 // ValueCurve<mud::quat>
 function ValueCurve_mud_quat() {
+    
     this.__ptr = _mud_ValueCurve_mud_quat__construct_0(); this.__type = ValueCurve_mud_quat.__type; getCache(ValueCurve_mud_quat)[this.__ptr] = this;
 };
 ValueCurve_mud_quat.prototype = Object.create(WrapperObject.prototype);
@@ -489,8 +517,10 @@ ValueCurve_mud_quat.prototype["__destroy"] = ValueCurve_mud_quat.prototype.__des
 };
 // ValueCurve<mud::vec3>
 function ValueCurve_mud_vec3(a0) {
-    if (a0 === undefined) { this.__ptr = _mud_ValueCurve_mud_vec3__construct_0(); this.__type = ValueCurve_mud_vec3.__type; getCache(ValueCurve_mud_vec3)[this.__ptr] = this; return; }
-    this.__ptr = _mud_ValueCurve_mud_vec3__construct_1(ensureFloat32(/*keys*/a0), /*keys*/a0.length); this.__type = ValueCurve_mud_vec3.__type; getCache(ValueCurve_mud_vec3)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(a0.__type === span_mud_vec3.__type, '[ERROR] ValueCurve<T>(0:keys): expected span<mud::vec3>'); }
+    if (a0 === undefined) { this.__ptr = _mud_ValueCurve_mud_vec3__construct_0(); this.__type = ValueCurve_mud_vec3.__type; getCache(ValueCurve_mud_vec3)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ValueCurve_mud_vec3__construct_1(ensureFloat32(/*keys*/a0), /*keys*/a0.length); this.__type = ValueCurve_mud_vec3.__type; getCache(ValueCurve_mud_vec3)[this.__ptr] = this; }
 };
 ValueCurve_mud_vec3.prototype = Object.create(WrapperObject.prototype);
 ValueCurve_mud_vec3.prototype.constructor = ValueCurve_mud_vec3;
@@ -506,8 +536,10 @@ ValueCurve_mud_vec3.prototype["__destroy"] = ValueCurve_mud_vec3.prototype.__des
 };
 // ValueCurve<uint32_t>
 function ValueCurve_uint32_t(a0) {
-    if (a0 === undefined) { this.__ptr = _mud_ValueCurve_uint32_t__construct_0(); this.__type = ValueCurve_uint32_t.__type; getCache(ValueCurve_uint32_t)[this.__ptr] = this; return; }
-    this.__ptr = _mud_ValueCurve_uint32_t__construct_1(ensureInt32(/*keys*/a0), /*keys*/a0.length); this.__type = ValueCurve_uint32_t.__type; getCache(ValueCurve_uint32_t)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(a0.__type === span_uint32_t.__type, '[ERROR] ValueCurve<T>(0:keys): expected span<uint32_t>'); }
+    if (a0 === undefined) { this.__ptr = _mud_ValueCurve_uint32_t__construct_0(); this.__type = ValueCurve_uint32_t.__type; getCache(ValueCurve_uint32_t)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ValueCurve_uint32_t__construct_1(ensureInt32(/*keys*/a0), /*keys*/a0.length); this.__type = ValueCurve_uint32_t.__type; getCache(ValueCurve_uint32_t)[this.__ptr] = this; }
 };
 ValueCurve_uint32_t.prototype = Object.create(WrapperObject.prototype);
 ValueCurve_uint32_t.prototype.constructor = ValueCurve_uint32_t;
@@ -523,8 +555,10 @@ ValueCurve_uint32_t.prototype["__destroy"] = ValueCurve_uint32_t.prototype.__des
 };
 // ValueTrack<float>
 function ValueTrack_float(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_ValueTrack_float__construct_0(); this.__type = ValueTrack_float.__type; getCache(ValueTrack_float)[this.__ptr] = this; return; }
-    this.__ptr = _mud_ValueTrack_float__construct_4(/*mode*/a0, /*curve*/a1.__ptr, /*min_curve*/a2.__ptr, /*max_curve*/a3.__ptr); this.__type = ValueTrack_float.__type; getCache(ValueTrack_float)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(typeof a0 === 'number', '[ERROR] ValueTrack<T>(0:mode): expected integer'); assert(a1.__type === ValueCurve_float.__type, '[ERROR] ValueTrack<T>(1:curve): expected ValueCurve<float>'); assert(a2.__type === ValueCurve_float.__type, '[ERROR] ValueTrack<T>(2:min_curve): expected ValueCurve<float>'); assert(a3.__type === ValueCurve_float.__type, '[ERROR] ValueTrack<T>(3:max_curve): expected ValueCurve<float>'); }
+    if (a0 === undefined) { this.__ptr = _mud_ValueTrack_float__construct_0(); this.__type = ValueTrack_float.__type; getCache(ValueTrack_float)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ValueTrack_float__construct_4(/*mode*/a0, /*curve*/a1.__ptr, /*min_curve*/a2.__ptr, /*max_curve*/a3.__ptr); this.__type = ValueTrack_float.__type; getCache(ValueTrack_float)[this.__ptr] = this; }
 };
 ValueTrack_float.prototype = Object.create(WrapperObject.prototype);
 ValueTrack_float.prototype.constructor = ValueTrack_float;
@@ -592,8 +626,10 @@ ValueTrack_float.prototype["__destroy"] = ValueTrack_float.prototype.__destroy =
 };
 // ValueTrack<mud::Colour>
 function ValueTrack_mud_Colour(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_ValueTrack_mud_Colour__construct_0(); this.__type = ValueTrack_mud_Colour.__type; getCache(ValueTrack_mud_Colour)[this.__ptr] = this; return; }
-    this.__ptr = _mud_ValueTrack_mud_Colour__construct_4(/*mode*/a0, /*curve*/a1.__ptr, /*min_curve*/a2.__ptr, /*max_curve*/a3.__ptr); this.__type = ValueTrack_mud_Colour.__type; getCache(ValueTrack_mud_Colour)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(typeof a0 === 'number', '[ERROR] ValueTrack<T>(0:mode): expected integer'); assert(a1.__type === ValueCurve_mud_Colour.__type, '[ERROR] ValueTrack<T>(1:curve): expected ValueCurve<mud::Colour>'); assert(a2.__type === ValueCurve_mud_Colour.__type, '[ERROR] ValueTrack<T>(2:min_curve): expected ValueCurve<mud::Colour>'); assert(a3.__type === ValueCurve_mud_Colour.__type, '[ERROR] ValueTrack<T>(3:max_curve): expected ValueCurve<mud::Colour>'); }
+    if (a0 === undefined) { this.__ptr = _mud_ValueTrack_mud_Colour__construct_0(); this.__type = ValueTrack_mud_Colour.__type; getCache(ValueTrack_mud_Colour)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ValueTrack_mud_Colour__construct_4(/*mode*/a0, /*curve*/a1.__ptr, /*min_curve*/a2.__ptr, /*max_curve*/a3.__ptr); this.__type = ValueTrack_mud_Colour.__type; getCache(ValueTrack_mud_Colour)[this.__ptr] = this; }
 };
 ValueTrack_mud_Colour.prototype = Object.create(WrapperObject.prototype);
 ValueTrack_mud_Colour.prototype.constructor = ValueTrack_mud_Colour;
@@ -661,8 +697,10 @@ ValueTrack_mud_Colour.prototype["__destroy"] = ValueTrack_mud_Colour.prototype._
 };
 // ValueTrack<mud::quat>
 function ValueTrack_mud_quat(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_ValueTrack_mud_quat__construct_0(); this.__type = ValueTrack_mud_quat.__type; getCache(ValueTrack_mud_quat)[this.__ptr] = this; return; }
-    this.__ptr = _mud_ValueTrack_mud_quat__construct_4(/*mode*/a0, /*curve*/a1.__ptr, /*min_curve*/a2.__ptr, /*max_curve*/a3.__ptr); this.__type = ValueTrack_mud_quat.__type; getCache(ValueTrack_mud_quat)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(typeof a0 === 'number', '[ERROR] ValueTrack<T>(0:mode): expected integer'); assert(a1.__type === ValueCurve_mud_quat.__type, '[ERROR] ValueTrack<T>(1:curve): expected ValueCurve<mud::quat>'); assert(a2.__type === ValueCurve_mud_quat.__type, '[ERROR] ValueTrack<T>(2:min_curve): expected ValueCurve<mud::quat>'); assert(a3.__type === ValueCurve_mud_quat.__type, '[ERROR] ValueTrack<T>(3:max_curve): expected ValueCurve<mud::quat>'); }
+    if (a0 === undefined) { this.__ptr = _mud_ValueTrack_mud_quat__construct_0(); this.__type = ValueTrack_mud_quat.__type; getCache(ValueTrack_mud_quat)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ValueTrack_mud_quat__construct_4(/*mode*/a0, /*curve*/a1.__ptr, /*min_curve*/a2.__ptr, /*max_curve*/a3.__ptr); this.__type = ValueTrack_mud_quat.__type; getCache(ValueTrack_mud_quat)[this.__ptr] = this; }
 };
 ValueTrack_mud_quat.prototype = Object.create(WrapperObject.prototype);
 ValueTrack_mud_quat.prototype.constructor = ValueTrack_mud_quat;
@@ -730,8 +768,10 @@ ValueTrack_mud_quat.prototype["__destroy"] = ValueTrack_mud_quat.prototype.__des
 };
 // ValueTrack<mud::vec3>
 function ValueTrack_mud_vec3(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_ValueTrack_mud_vec3__construct_0(); this.__type = ValueTrack_mud_vec3.__type; getCache(ValueTrack_mud_vec3)[this.__ptr] = this; return; }
-    this.__ptr = _mud_ValueTrack_mud_vec3__construct_4(/*mode*/a0, /*curve*/a1.__ptr, /*min_curve*/a2.__ptr, /*max_curve*/a3.__ptr); this.__type = ValueTrack_mud_vec3.__type; getCache(ValueTrack_mud_vec3)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(typeof a0 === 'number', '[ERROR] ValueTrack<T>(0:mode): expected integer'); assert(a1.__type === ValueCurve_mud_vec3.__type, '[ERROR] ValueTrack<T>(1:curve): expected ValueCurve<mud::vec3>'); assert(a2.__type === ValueCurve_mud_vec3.__type, '[ERROR] ValueTrack<T>(2:min_curve): expected ValueCurve<mud::vec3>'); assert(a3.__type === ValueCurve_mud_vec3.__type, '[ERROR] ValueTrack<T>(3:max_curve): expected ValueCurve<mud::vec3>'); }
+    if (a0 === undefined) { this.__ptr = _mud_ValueTrack_mud_vec3__construct_0(); this.__type = ValueTrack_mud_vec3.__type; getCache(ValueTrack_mud_vec3)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ValueTrack_mud_vec3__construct_4(/*mode*/a0, /*curve*/a1.__ptr, /*min_curve*/a2.__ptr, /*max_curve*/a3.__ptr); this.__type = ValueTrack_mud_vec3.__type; getCache(ValueTrack_mud_vec3)[this.__ptr] = this; }
 };
 ValueTrack_mud_vec3.prototype = Object.create(WrapperObject.prototype);
 ValueTrack_mud_vec3.prototype.constructor = ValueTrack_mud_vec3;
@@ -799,8 +839,10 @@ ValueTrack_mud_vec3.prototype["__destroy"] = ValueTrack_mud_vec3.prototype.__des
 };
 // ValueTrack<uint32_t>
 function ValueTrack_uint32_t(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_ValueTrack_uint32_t__construct_0(); this.__type = ValueTrack_uint32_t.__type; getCache(ValueTrack_uint32_t)[this.__ptr] = this; return; }
-    this.__ptr = _mud_ValueTrack_uint32_t__construct_4(/*mode*/a0, /*curve*/a1.__ptr, /*min_curve*/a2.__ptr, /*max_curve*/a3.__ptr); this.__type = ValueTrack_uint32_t.__type; getCache(ValueTrack_uint32_t)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else { assert(typeof a0 === 'number', '[ERROR] ValueTrack<T>(0:mode): expected integer'); assert(a1.__type === ValueCurve_uint32_t.__type, '[ERROR] ValueTrack<T>(1:curve): expected ValueCurve<uint32_t>'); assert(a2.__type === ValueCurve_uint32_t.__type, '[ERROR] ValueTrack<T>(2:min_curve): expected ValueCurve<uint32_t>'); assert(a3.__type === ValueCurve_uint32_t.__type, '[ERROR] ValueTrack<T>(3:max_curve): expected ValueCurve<uint32_t>'); }
+    if (a0 === undefined) { this.__ptr = _mud_ValueTrack_uint32_t__construct_0(); this.__type = ValueTrack_uint32_t.__type; getCache(ValueTrack_uint32_t)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ValueTrack_uint32_t__construct_4(/*mode*/a0, /*curve*/a1.__ptr, /*min_curve*/a2.__ptr, /*max_curve*/a3.__ptr); this.__type = ValueTrack_uint32_t.__type; getCache(ValueTrack_uint32_t)[this.__ptr] = this; }
 };
 ValueTrack_uint32_t.prototype = Object.create(WrapperObject.prototype);
 ValueTrack_uint32_t.prototype.constructor = ValueTrack_uint32_t;
@@ -868,9 +910,12 @@ ValueTrack_uint32_t.prototype["__destroy"] = ValueTrack_uint32_t.prototype.__des
 };
 // mat3
 function mat3(a0, a1, a2, a3, a4, a5, a6, a7, a8) {
-    if (a0 === undefined) { this.__ptr = _mud_mat3__construct_0(); this.__type = mat3.__type; getCache(mat3)[this.__ptr] = this; return; }
-    if (a3 === undefined) { this.__ptr = _mud_mat3__construct_3(/*x*/a0.__ptr, /*y*/a1.__ptr, /*z*/a2.__ptr); this.__type = mat3.__type; getCache(mat3)[this.__ptr] = this; return; }
-    this.__ptr = _mud_mat3__construct_9(/*f0*/a0, /*f1*/a1, /*f2*/a2, /*f3*/a3, /*f4*/a4, /*f5*/a5, /*f6*/a6, /*f7*/a7, /*f8*/a8); this.__type = mat3.__type; getCache(mat3)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a3 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] mat3(0:x): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] mat3(1:y): expected v3<float>'); assert(a2.__type === v3_float.__type, '[ERROR] mat3(2:z): expected v3<float>'); }
+    else { assert(typeof a0 === 'number', '[ERROR] mat3(0:f0): expected number'); assert(typeof a1 === 'number', '[ERROR] mat3(1:f1): expected number'); assert(typeof a2 === 'number', '[ERROR] mat3(2:f2): expected number'); assert(typeof a3 === 'number', '[ERROR] mat3(3:f3): expected number'); assert(typeof a4 === 'number', '[ERROR] mat3(4:f4): expected number'); assert(typeof a5 === 'number', '[ERROR] mat3(5:f5): expected number'); assert(typeof a6 === 'number', '[ERROR] mat3(6:f6): expected number'); assert(typeof a7 === 'number', '[ERROR] mat3(7:f7): expected number'); assert(typeof a8 === 'number', '[ERROR] mat3(8:f8): expected number'); }
+    if (a0 === undefined) { this.__ptr = _mud_mat3__construct_0(); this.__type = mat3.__type; getCache(mat3)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_mat3__construct_3(/*x*/a0.__ptr, /*y*/a1.__ptr, /*z*/a2.__ptr); this.__type = mat3.__type; getCache(mat3)[this.__ptr] = this; }
+    else { this.__ptr = _mud_mat3__construct_9(/*f0*/a0, /*f1*/a1, /*f2*/a2, /*f3*/a3, /*f4*/a4, /*f5*/a5, /*f6*/a6, /*f7*/a7, /*f8*/a8); this.__type = mat3.__type; getCache(mat3)[this.__ptr] = this; }
 };
 mat3.prototype = Object.create(WrapperObject.prototype);
 mat3.prototype.constructor = mat3;
@@ -890,9 +935,12 @@ mat3.prototype["__destroy"] = mat3.prototype.__destroy = function() {
 };
 // mat4
 function mat4(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15) {
-    if (a0 === undefined) { this.__ptr = _mud_mat4__construct_0(); this.__type = mat4.__type; getCache(mat4)[this.__ptr] = this; return; }
-    if (a4 === undefined) { this.__ptr = _mud_mat4__construct_4(/*x*/a0.__ptr, /*y*/a1.__ptr, /*z*/a2.__ptr, /*w*/a3.__ptr); this.__type = mat4.__type; getCache(mat4)[this.__ptr] = this; return; }
-    this.__ptr = _mud_mat4__construct_16(/*f0*/a0, /*f1*/a1, /*f2*/a2, /*f3*/a3, /*f4*/a4, /*f5*/a5, /*f6*/a6, /*f7*/a7, /*f8*/a8, /*f9*/a9, /*f10*/a10, /*f11*/a11, /*f12*/a12, /*f13*/a13, /*f14*/a14, /*f15*/a15); this.__type = mat4.__type; getCache(mat4)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a4 === undefined) { assert(a0.__type === v4_float.__type, '[ERROR] mat4(0:x): expected v4<float>'); assert(a1.__type === v4_float.__type, '[ERROR] mat4(1:y): expected v4<float>'); assert(a2.__type === v4_float.__type, '[ERROR] mat4(2:z): expected v4<float>'); assert(a3.__type === v4_float.__type, '[ERROR] mat4(3:w): expected v4<float>'); }
+    else { assert(typeof a0 === 'number', '[ERROR] mat4(0:f0): expected number'); assert(typeof a1 === 'number', '[ERROR] mat4(1:f1): expected number'); assert(typeof a2 === 'number', '[ERROR] mat4(2:f2): expected number'); assert(typeof a3 === 'number', '[ERROR] mat4(3:f3): expected number'); assert(typeof a4 === 'number', '[ERROR] mat4(4:f4): expected number'); assert(typeof a5 === 'number', '[ERROR] mat4(5:f5): expected number'); assert(typeof a6 === 'number', '[ERROR] mat4(6:f6): expected number'); assert(typeof a7 === 'number', '[ERROR] mat4(7:f7): expected number'); assert(typeof a8 === 'number', '[ERROR] mat4(8:f8): expected number'); assert(typeof a9 === 'number', '[ERROR] mat4(9:f9): expected number'); assert(typeof a10 === 'number', '[ERROR] mat4(10:f10): expected number'); assert(typeof a11 === 'number', '[ERROR] mat4(11:f11): expected number'); assert(typeof a12 === 'number', '[ERROR] mat4(12:f12): expected number'); assert(typeof a13 === 'number', '[ERROR] mat4(13:f13): expected number'); assert(typeof a14 === 'number', '[ERROR] mat4(14:f14): expected number'); assert(typeof a15 === 'number', '[ERROR] mat4(15:f15): expected number'); }
+    if (a0 === undefined) { this.__ptr = _mud_mat4__construct_0(); this.__type = mat4.__type; getCache(mat4)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_mat4__construct_4(/*x*/a0.__ptr, /*y*/a1.__ptr, /*z*/a2.__ptr, /*w*/a3.__ptr); this.__type = mat4.__type; getCache(mat4)[this.__ptr] = this; }
+    else { this.__ptr = _mud_mat4__construct_16(/*f0*/a0, /*f1*/a1, /*f2*/a2, /*f3*/a3, /*f4*/a4, /*f5*/a5, /*f6*/a6, /*f7*/a7, /*f8*/a8, /*f9*/a9, /*f10*/a10, /*f11*/a11, /*f12*/a12, /*f13*/a13, /*f14*/a14, /*f15*/a15); this.__type = mat4.__type; getCache(mat4)[this.__ptr] = this; }
 };
 mat4.prototype = Object.create(WrapperObject.prototype);
 mat4.prototype.constructor = mat4;
@@ -912,9 +960,12 @@ mat4.prototype["__destroy"] = mat4.prototype.__destroy = function() {
 };
 // v2<bool>
 function v2_bool(a0, a1) {
-    if (a0 === undefined) { this.__ptr = _mud_v2_bool__construct_0(); this.__type = v2_bool.__type; getCache(v2_bool)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v2_bool__construct_1(/*v*/a0); this.__type = v2_bool.__type; getCache(v2_bool)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v2_bool__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_bool.__type; getCache(v2_bool)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'boolean', '[ERROR] v2<T>(0:v): expected boolean'); }
+    else { assert(typeof a0 === 'boolean', '[ERROR] v2<T>(0:x): expected boolean'); assert(typeof a1 === 'boolean', '[ERROR] v2<T>(1:y): expected boolean'); }
+    if (a0 === undefined) { this.__ptr = _mud_v2_bool__construct_0(); this.__type = v2_bool.__type; getCache(v2_bool)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_bool__construct_1(/*v*/a0); this.__type = v2_bool.__type; getCache(v2_bool)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_bool__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_bool.__type; getCache(v2_bool)[this.__ptr] = this; }
 };
 v2_bool.prototype = Object.create(WrapperObject.prototype);
 v2_bool.prototype.constructor = v2_bool;
@@ -942,9 +993,12 @@ v2_bool.prototype["__destroy"] = v2_bool.prototype.__destroy = function() {
 };
 // v2<float>
 function v2_float(a0, a1) {
-    if (a0 === undefined) { this.__ptr = _mud_v2_float__construct_0(); this.__type = v2_float.__type; getCache(v2_float)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v2_float__construct_1(/*v*/a0); this.__type = v2_float.__type; getCache(v2_float)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v2_float__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_float.__type; getCache(v2_float)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:v): expected number'); }
+    else { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:x): expected number'); assert(typeof a1 === 'number', '[ERROR] v2<T>(1:y): expected number'); }
+    if (a0 === undefined) { this.__ptr = _mud_v2_float__construct_0(); this.__type = v2_float.__type; getCache(v2_float)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_float__construct_1(/*v*/a0); this.__type = v2_float.__type; getCache(v2_float)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_float__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_float.__type; getCache(v2_float)[this.__ptr] = this; }
 };
 v2_float.prototype = Object.create(WrapperObject.prototype);
 v2_float.prototype.constructor = v2_float;
@@ -972,9 +1026,12 @@ v2_float.prototype["__destroy"] = v2_float.prototype.__destroy = function() {
 };
 // v2<int>
 function v2_int(a0, a1) {
-    if (a0 === undefined) { this.__ptr = _mud_v2_int__construct_0(); this.__type = v2_int.__type; getCache(v2_int)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v2_int__construct_1(/*v*/a0); this.__type = v2_int.__type; getCache(v2_int)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v2_int__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_int.__type; getCache(v2_int)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:v): expected integer'); }
+    else { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:x): expected integer'); assert(typeof a1 === 'number', '[ERROR] v2<T>(1:y): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_v2_int__construct_0(); this.__type = v2_int.__type; getCache(v2_int)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_int__construct_1(/*v*/a0); this.__type = v2_int.__type; getCache(v2_int)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_int__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_int.__type; getCache(v2_int)[this.__ptr] = this; }
 };
 v2_int.prototype = Object.create(WrapperObject.prototype);
 v2_int.prototype.constructor = v2_int;
@@ -1002,9 +1059,12 @@ v2_int.prototype["__destroy"] = v2_int.prototype.__destroy = function() {
 };
 // v2<uint>
 function v2_uint(a0, a1) {
-    if (a0 === undefined) { this.__ptr = _mud_v2_uint__construct_0(); this.__type = v2_uint.__type; getCache(v2_uint)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v2_uint__construct_1(/*v*/a0); this.__type = v2_uint.__type; getCache(v2_uint)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v2_uint__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_uint.__type; getCache(v2_uint)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:v): expected integer'); }
+    else { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:x): expected integer'); assert(typeof a1 === 'number', '[ERROR] v2<T>(1:y): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_v2_uint__construct_0(); this.__type = v2_uint.__type; getCache(v2_uint)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_uint__construct_1(/*v*/a0); this.__type = v2_uint.__type; getCache(v2_uint)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_uint__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_uint.__type; getCache(v2_uint)[this.__ptr] = this; }
 };
 v2_uint.prototype = Object.create(WrapperObject.prototype);
 v2_uint.prototype.constructor = v2_uint;
@@ -1032,9 +1092,12 @@ v2_uint.prototype["__destroy"] = v2_uint.prototype.__destroy = function() {
 };
 // v3<bool>
 function v3_bool(a0, a1, a2) {
-    if (a0 === undefined) { this.__ptr = _mud_v3_bool__construct_0(); this.__type = v3_bool.__type; getCache(v3_bool)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v3_bool__construct_1(/*v*/a0); this.__type = v3_bool.__type; getCache(v3_bool)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v3_bool__construct_3(/*x*/a0, /*y*/a1, /*z*/a2); this.__type = v3_bool.__type; getCache(v3_bool)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'boolean', '[ERROR] v3<T>(0:v): expected boolean'); }
+    else { assert(typeof a0 === 'boolean', '[ERROR] v3<T>(0:x): expected boolean'); assert(typeof a1 === 'boolean', '[ERROR] v3<T>(1:y): expected boolean'); assert(typeof a2 === 'boolean', '[ERROR] v3<T>(2:z): expected boolean'); }
+    if (a0 === undefined) { this.__ptr = _mud_v3_bool__construct_0(); this.__type = v3_bool.__type; getCache(v3_bool)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v3_bool__construct_1(/*v*/a0); this.__type = v3_bool.__type; getCache(v3_bool)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v3_bool__construct_3(/*x*/a0, /*y*/a1, /*z*/a2); this.__type = v3_bool.__type; getCache(v3_bool)[this.__ptr] = this; }
 };
 v3_bool.prototype = Object.create(WrapperObject.prototype);
 v3_bool.prototype.constructor = v3_bool;
@@ -1070,9 +1133,12 @@ v3_bool.prototype["__destroy"] = v3_bool.prototype.__destroy = function() {
 };
 // v3<float>
 function v3_float(a0, a1, a2) {
-    if (a0 === undefined) { this.__ptr = _mud_v3_float__construct_0(); this.__type = v3_float.__type; getCache(v3_float)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v3_float__construct_1(/*v*/a0); this.__type = v3_float.__type; getCache(v3_float)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v3_float__construct_3(/*x*/a0, /*y*/a1, /*z*/a2); this.__type = v3_float.__type; getCache(v3_float)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v3<T>(0:v): expected number'); }
+    else { assert(typeof a0 === 'number', '[ERROR] v3<T>(0:x): expected number'); assert(typeof a1 === 'number', '[ERROR] v3<T>(1:y): expected number'); assert(typeof a2 === 'number', '[ERROR] v3<T>(2:z): expected number'); }
+    if (a0 === undefined) { this.__ptr = _mud_v3_float__construct_0(); this.__type = v3_float.__type; getCache(v3_float)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v3_float__construct_1(/*v*/a0); this.__type = v3_float.__type; getCache(v3_float)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v3_float__construct_3(/*x*/a0, /*y*/a1, /*z*/a2); this.__type = v3_float.__type; getCache(v3_float)[this.__ptr] = this; }
 };
 v3_float.prototype = Object.create(WrapperObject.prototype);
 v3_float.prototype.constructor = v3_float;
@@ -1108,9 +1174,12 @@ v3_float.prototype["__destroy"] = v3_float.prototype.__destroy = function() {
 };
 // v3<int>
 function v3_int(a0, a1, a2) {
-    if (a0 === undefined) { this.__ptr = _mud_v3_int__construct_0(); this.__type = v3_int.__type; getCache(v3_int)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v3_int__construct_1(/*v*/a0); this.__type = v3_int.__type; getCache(v3_int)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v3_int__construct_3(/*x*/a0, /*y*/a1, /*z*/a2); this.__type = v3_int.__type; getCache(v3_int)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v3<T>(0:v): expected integer'); }
+    else { assert(typeof a0 === 'number', '[ERROR] v3<T>(0:x): expected integer'); assert(typeof a1 === 'number', '[ERROR] v3<T>(1:y): expected integer'); assert(typeof a2 === 'number', '[ERROR] v3<T>(2:z): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_v3_int__construct_0(); this.__type = v3_int.__type; getCache(v3_int)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v3_int__construct_1(/*v*/a0); this.__type = v3_int.__type; getCache(v3_int)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v3_int__construct_3(/*x*/a0, /*y*/a1, /*z*/a2); this.__type = v3_int.__type; getCache(v3_int)[this.__ptr] = this; }
 };
 v3_int.prototype = Object.create(WrapperObject.prototype);
 v3_int.prototype.constructor = v3_int;
@@ -1146,9 +1215,12 @@ v3_int.prototype["__destroy"] = v3_int.prototype.__destroy = function() {
 };
 // v3<uint>
 function v3_uint(a0, a1, a2) {
-    if (a0 === undefined) { this.__ptr = _mud_v3_uint__construct_0(); this.__type = v3_uint.__type; getCache(v3_uint)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v3_uint__construct_1(/*v*/a0); this.__type = v3_uint.__type; getCache(v3_uint)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v3_uint__construct_3(/*x*/a0, /*y*/a1, /*z*/a2); this.__type = v3_uint.__type; getCache(v3_uint)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v3<T>(0:v): expected integer'); }
+    else { assert(typeof a0 === 'number', '[ERROR] v3<T>(0:x): expected integer'); assert(typeof a1 === 'number', '[ERROR] v3<T>(1:y): expected integer'); assert(typeof a2 === 'number', '[ERROR] v3<T>(2:z): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_v3_uint__construct_0(); this.__type = v3_uint.__type; getCache(v3_uint)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v3_uint__construct_1(/*v*/a0); this.__type = v3_uint.__type; getCache(v3_uint)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v3_uint__construct_3(/*x*/a0, /*y*/a1, /*z*/a2); this.__type = v3_uint.__type; getCache(v3_uint)[this.__ptr] = this; }
 };
 v3_uint.prototype = Object.create(WrapperObject.prototype);
 v3_uint.prototype.constructor = v3_uint;
@@ -1184,9 +1256,12 @@ v3_uint.prototype["__destroy"] = v3_uint.prototype.__destroy = function() {
 };
 // v4<bool>
 function v4_bool(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_v4_bool__construct_0(); this.__type = v4_bool.__type; getCache(v4_bool)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v4_bool__construct_1(/*v*/a0); this.__type = v4_bool.__type; getCache(v4_bool)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v4_bool__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.__type = v4_bool.__type; getCache(v4_bool)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'boolean', '[ERROR] v4<T>(0:v): expected boolean'); }
+    else { assert(typeof a0 === 'boolean', '[ERROR] v4<T>(0:x): expected boolean'); assert(typeof a1 === 'boolean', '[ERROR] v4<T>(1:y): expected boolean'); assert(typeof a2 === 'boolean', '[ERROR] v4<T>(2:z): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] v4<T>(3:w): expected boolean'); }
+    if (a0 === undefined) { this.__ptr = _mud_v4_bool__construct_0(); this.__type = v4_bool.__type; getCache(v4_bool)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v4_bool__construct_1(/*v*/a0); this.__type = v4_bool.__type; getCache(v4_bool)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v4_bool__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.__type = v4_bool.__type; getCache(v4_bool)[this.__ptr] = this; }
 };
 v4_bool.prototype = Object.create(WrapperObject.prototype);
 v4_bool.prototype.constructor = v4_bool;
@@ -1230,9 +1305,12 @@ v4_bool.prototype["__destroy"] = v4_bool.prototype.__destroy = function() {
 };
 // v4<float>
 function v4_float(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_v4_float__construct_0(); this.__type = v4_float.__type; getCache(v4_float)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v4_float__construct_1(/*v*/a0); this.__type = v4_float.__type; getCache(v4_float)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v4_float__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.__type = v4_float.__type; getCache(v4_float)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v4<T>(0:v): expected number'); }
+    else { assert(typeof a0 === 'number', '[ERROR] v4<T>(0:x): expected number'); assert(typeof a1 === 'number', '[ERROR] v4<T>(1:y): expected number'); assert(typeof a2 === 'number', '[ERROR] v4<T>(2:z): expected number'); assert(typeof a3 === 'number', '[ERROR] v4<T>(3:w): expected number'); }
+    if (a0 === undefined) { this.__ptr = _mud_v4_float__construct_0(); this.__type = v4_float.__type; getCache(v4_float)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v4_float__construct_1(/*v*/a0); this.__type = v4_float.__type; getCache(v4_float)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v4_float__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.__type = v4_float.__type; getCache(v4_float)[this.__ptr] = this; }
 };
 v4_float.prototype = Object.create(WrapperObject.prototype);
 v4_float.prototype.constructor = v4_float;
@@ -1276,9 +1354,12 @@ v4_float.prototype["__destroy"] = v4_float.prototype.__destroy = function() {
 };
 // v4<int>
 function v4_int(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_v4_int__construct_0(); this.__type = v4_int.__type; getCache(v4_int)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v4_int__construct_1(/*v*/a0); this.__type = v4_int.__type; getCache(v4_int)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v4_int__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.__type = v4_int.__type; getCache(v4_int)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v4<T>(0:v): expected integer'); }
+    else { assert(typeof a0 === 'number', '[ERROR] v4<T>(0:x): expected integer'); assert(typeof a1 === 'number', '[ERROR] v4<T>(1:y): expected integer'); assert(typeof a2 === 'number', '[ERROR] v4<T>(2:z): expected integer'); assert(typeof a3 === 'number', '[ERROR] v4<T>(3:w): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_v4_int__construct_0(); this.__type = v4_int.__type; getCache(v4_int)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v4_int__construct_1(/*v*/a0); this.__type = v4_int.__type; getCache(v4_int)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v4_int__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.__type = v4_int.__type; getCache(v4_int)[this.__ptr] = this; }
 };
 v4_int.prototype = Object.create(WrapperObject.prototype);
 v4_int.prototype.constructor = v4_int;
@@ -1322,9 +1403,12 @@ v4_int.prototype["__destroy"] = v4_int.prototype.__destroy = function() {
 };
 // v4<uint>
 function v4_uint(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_v4_uint__construct_0(); this.__type = v4_uint.__type; getCache(v4_uint)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_v4_uint__construct_1(/*v*/a0); this.__type = v4_uint.__type; getCache(v4_uint)[this.__ptr] = this; return; }
-    this.__ptr = _mud_v4_uint__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.__type = v4_uint.__type; getCache(v4_uint)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v4<T>(0:v): expected integer'); }
+    else { assert(typeof a0 === 'number', '[ERROR] v4<T>(0:x): expected integer'); assert(typeof a1 === 'number', '[ERROR] v4<T>(1:y): expected integer'); assert(typeof a2 === 'number', '[ERROR] v4<T>(2:z): expected integer'); assert(typeof a3 === 'number', '[ERROR] v4<T>(3:w): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_v4_uint__construct_0(); this.__type = v4_uint.__type; getCache(v4_uint)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v4_uint__construct_1(/*v*/a0); this.__type = v4_uint.__type; getCache(v4_uint)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v4_uint__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.__type = v4_uint.__type; getCache(v4_uint)[this.__ptr] = this; }
 };
 v4_uint.prototype = Object.create(WrapperObject.prototype);
 v4_uint.prototype.constructor = v4_uint;
@@ -1398,9 +1482,12 @@ TextureAtlas.prototype["__destroy"] = TextureAtlas.prototype.__destroy = functio
 };
 // quat
 function quat(a0, a1, a2, a3) {
-    if (a0 === undefined) { this.__ptr = _mud_quat__construct_0(); this.__type = quat.__type; getCache(quat)[this.__ptr] = this; return; }
-    if (a1 === undefined) { this.__ptr = _mud_quat__construct_1(/*euler_angles*/a0.__ptr); this.__type = quat.__type; getCache(quat)[this.__ptr] = this; return; }
-    this.__ptr = _mud_quat__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.__type = quat.__type; getCache(quat)[this.__ptr] = this;
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] quat(0:euler_angles): expected v3<float>'); }
+    else { assert(typeof a0 === 'number', '[ERROR] quat(0:x): expected number'); assert(typeof a1 === 'number', '[ERROR] quat(1:y): expected number'); assert(typeof a2 === 'number', '[ERROR] quat(2:z): expected number'); assert(typeof a3 === 'number', '[ERROR] quat(3:w): expected number'); }
+    if (a0 === undefined) { this.__ptr = _mud_quat__construct_0(); this.__type = quat.__type; getCache(quat)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_quat__construct_1(/*euler_angles*/a0.__ptr); this.__type = quat.__type; getCache(quat)[this.__ptr] = this; }
+    else { this.__ptr = _mud_quat__construct_4(/*x*/a0, /*y*/a1, /*z*/a2, /*w*/a3); this.__type = quat.__type; getCache(quat)[this.__ptr] = this; }
 };
 quat.prototype = Object.create(v4_float.prototype);
 quat.prototype.constructor = quat;
@@ -1411,86 +1498,133 @@ quat.prototype["__destroy"] = quat.prototype.__destroy = function() {
     _mud_quat__destroy(this.__ptr);
 };
 Module['rgb'] = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] rgb(0:colour): expected integer');
     return wrapPointer(_mud_rgb_1(/*colour*/a0), Colour);
 };
 Module['rgba'] = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] rgba(0:colour): expected integer');
     return wrapPointer(_mud_rgba_1(/*colour*/a0), Colour);
 };
 Module['abgr'] = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] abgr(0:colour): expected integer');
     return wrapPointer(_mud_abgr_1(/*colour*/a0), Colour);
 };
 Module['hsl'] = function(a0, a1, a2) {
+    assert(typeof a0 === 'number', '[ERROR] hsl(0:h): expected number'); assert(typeof a1 === 'number', '[ERROR] hsl(1:s): expected number'); assert(typeof a2 === 'number', '[ERROR] hsl(2:l): expected number');
     return wrapPointer(_mud_hsl_3(/*h*/a0, /*s*/a1, /*l*/a2), Colour);
 };
 Module['to_rgba'] = function(a0) {
+    assert(a0.__type === Colour.__type, '[ERROR] to_rgba(0:colour): expected Colour');
     return _mud_to_rgba_1(/*colour*/a0.__ptr);
 };
 Module['to_abgr'] = function(a0, a1, a2, a3) {
+    if (a1 === undefined) { assert(a0.__type === Colour.__type, '[ERROR] to_abgr(0:colour): expected Colour'); }
+    else if (a3 === undefined) { assert(typeof a0 === 'number', '[ERROR] to_abgr(0:r): expected number'); assert(typeof a1 === 'number', '[ERROR] to_abgr(1:g): expected number'); assert(typeof a2 === 'number', '[ERROR] to_abgr(2:b): expected number'); }
+    else { assert(typeof a0 === 'number', '[ERROR] to_abgr(0:r): expected number'); assert(typeof a1 === 'number', '[ERROR] to_abgr(1:g): expected number'); assert(typeof a2 === 'number', '[ERROR] to_abgr(2:b): expected number'); assert(typeof a3 === 'number', '[ERROR] to_abgr(3:a): expected number'); }
     if (a1 === undefined) { return _mud_to_abgr_1(/*colour*/a0.__ptr); }
-    if (a3 === undefined) { return _mud_to_abgr_3(/*r*/a0, /*g*/a1, /*b*/a2); }
-    return _mud_to_abgr_4(/*r*/a0, /*g*/a1, /*b*/a2, /*a*/a3);
+    else if (a3 === undefined) { return _mud_to_abgr_3(/*r*/a0, /*g*/a1, /*b*/a2); }
+    else { return _mud_to_abgr_4(/*r*/a0, /*g*/a1, /*b*/a2, /*a*/a3); }
 };
 Module['to_linear'] = function(a0) {
+    assert(a0.__type === Colour.__type, '[ERROR] to_linear(0:colour): expected Colour');
     return wrapPointer(_mud_to_linear_1(/*colour*/a0.__ptr), Colour);
 };
 Module['to_gamma'] = function(a0) {
+    assert(a0.__type === Colour.__type, '[ERROR] to_gamma(0:colour): expected Colour');
     return wrapPointer(_mud_to_gamma_1(/*colour*/a0.__ptr), Colour);
 };
 Module['to_srgb'] = function(a0) {
+    assert(a0.__type === Colour.__type, '[ERROR] to_srgb(0:colour): expected Colour');
     return wrapPointer(_mud_to_srgb_1(/*colour*/a0.__ptr), Colour);
 };
 Module['to_hsl'] = function(a0, a1, a2) {
+    if (a1 === undefined) { assert(a0.__type === Colour.__type, '[ERROR] to_hsl(0:colour): expected Colour'); }
+    else { assert(typeof a0 === 'number', '[ERROR] to_hsl(0:r): expected number'); assert(typeof a1 === 'number', '[ERROR] to_hsl(1:g): expected number'); assert(typeof a2 === 'number', '[ERROR] to_hsl(2:b): expected number'); }
     if (a1 === undefined) { return wrapPointer(_mud_to_hsl_1(/*colour*/a0.__ptr), ColourHSL); }
-    return wrapPointer(_mud_to_hsl_3(/*r*/a0, /*g*/a1, /*b*/a2), ColourHSL);
+    else { return wrapPointer(_mud_to_hsl_3(/*r*/a0, /*g*/a1, /*b*/a2), ColourHSL); }
 };
 Module['to_hsla'] = function(a0) {
+    assert(a0.__type === Colour.__type, '[ERROR] to_hsla(0:colour): expected Colour');
     return wrapPointer(_mud_to_hsla_1(/*colour*/a0.__ptr), ColourHSL);
 };
 Module['sinf'] = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] sinf(0:a): expected number');
     return _sinf_1(/*a*/a0);
 };
 Module['cosf'] = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] cosf(0:a): expected number');
     return _cosf_1(/*a*/a0);
 };
 Module['sin'] = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] sin(0:a): expected number');
     return _sin_1(/*a*/a0);
 };
 Module['cos'] = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] cos(0:a): expected number');
     return _cos_1(/*a*/a0);
 };
-Module['add'] = function(a0, a1) {
-    return _mud_add_2(/*a*/a0, /*b*/a1);
+Module['add_float'] = function(a0, a1) {
+    assert(typeof a0 === 'number', '[ERROR] add<float>(0:a): expected number'); assert(typeof a1 === 'number', '[ERROR] add<float>(1:b): expected number');
+    return _mud_add_float_2(/*a*/a0, /*b*/a1);
 };
-Module['subtract'] = function(a0, a1) {
-    return _mud_subtract_2(/*a*/a0, /*b*/a1);
+Module['subtract_float'] = function(a0, a1) {
+    assert(typeof a0 === 'number', '[ERROR] subtract<float>(0:a): expected number'); assert(typeof a1 === 'number', '[ERROR] subtract<float>(1:b): expected number');
+    return _mud_subtract_float_2(/*a*/a0, /*b*/a1);
 };
-Module['multiply'] = function(a0, a1) {
-    return _mud_multiply_2(/*a*/a0, /*b*/a1);
+Module['multiply_float'] = function(a0, a1) {
+    assert(typeof a0 === 'number', '[ERROR] multiply<float>(0:a): expected number'); assert(typeof a1 === 'number', '[ERROR] multiply<float>(1:b): expected number');
+    return _mud_multiply_float_2(/*a*/a0, /*b*/a1);
 };
-Module['divide'] = function(a0, a1) {
-    return _mud_divide_2(/*a*/a0, /*b*/a1);
+Module['divide_float'] = function(a0, a1) {
+    assert(typeof a0 === 'number', '[ERROR] divide<float>(0:a): expected number'); assert(typeof a1 === 'number', '[ERROR] divide<float>(1:b): expected number');
+    return _mud_divide_float_2(/*a*/a0, /*b*/a1);
 };
 Module['nsinf'] = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] nsinf(0:a): expected number');
     return _mud_nsinf_1(/*a*/a0);
 };
 Module['ncosf'] = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] ncosf(0:a): expected number');
     return _mud_ncosf_1(/*a*/a0);
 };
 Module['nsin'] = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] nsin(0:a): expected number');
     return _mud_nsin_1(/*a*/a0);
 };
 Module['ncos'] = function(a0) {
+    assert(typeof a0 === 'number', '[ERROR] ncos(0:a): expected number');
     return _mud_ncos_1(/*a*/a0);
 };
+Module['add_mud_vec3'] = function(a0, a1) {
+    assert(a0.__type === v3_float.__type, '[ERROR] add<mud::vec3>(0:a): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] add<mud::vec3>(1:b): expected v3<float>');
+    return wrapPointer(_mud_add_mud_vec3_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
+};
+Module['subtract_mud_vec3'] = function(a0, a1) {
+    assert(a0.__type === v3_float.__type, '[ERROR] subtract<mud::vec3>(0:a): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] subtract<mud::vec3>(1:b): expected v3<float>');
+    return wrapPointer(_mud_subtract_mud_vec3_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
+};
+Module['multiply_mud_vec3'] = function(a0, a1) {
+    assert(a0.__type === v3_float.__type, '[ERROR] multiply<mud::vec3>(0:a): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] multiply<mud::vec3>(1:b): expected v3<float>');
+    return wrapPointer(_mud_multiply_mud_vec3_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
+};
+Module['divide_mud_vec3'] = function(a0, a1) {
+    assert(a0.__type === v3_float.__type, '[ERROR] divide<mud::vec3>(0:a): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] divide<mud::vec3>(1:b): expected v3<float>');
+    return wrapPointer(_mud_divide_mud_vec3_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
+};
 Module['look_dir'] = function(a0, a1) {
+    if (a1 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] look_dir(0:direction): expected v3<float>'); }
+    else { assert(a0.__type === v3_float.__type, '[ERROR] look_dir(0:direction): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] look_dir(1:forward): expected v3<float>'); }
     if (a1 === undefined) { return wrapPointer(_mud_look_dir_1(/*direction*/a0.__ptr), quat); }
-    return wrapPointer(_mud_look_dir_2(/*direction*/a0.__ptr, /*forward*/a1.__ptr), quat);
+    else { return wrapPointer(_mud_look_dir_2(/*direction*/a0.__ptr, /*forward*/a1.__ptr), quat); }
 };
 Module['look_at'] = function(a0, a1, a2) {
+    if (a2 === undefined) { assert(a0.__type === v3_float.__type, '[ERROR] look_at(0:eye): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] look_at(1:target): expected v3<float>'); }
+    else { assert(a0.__type === v3_float.__type, '[ERROR] look_at(0:eye): expected v3<float>'); assert(a1.__type === v3_float.__type, '[ERROR] look_at(1:target): expected v3<float>'); assert(a2.__type === v3_float.__type, '[ERROR] look_at(2:forward): expected v3<float>'); }
     if (a2 === undefined) { return wrapPointer(_mud_look_at_2(/*eye*/a0.__ptr, /*target*/a1.__ptr), quat); }
-    return wrapPointer(_mud_look_at_3(/*eye*/a0.__ptr, /*target*/a1.__ptr, /*forward*/a2.__ptr), quat);
+    else { return wrapPointer(_mud_look_at_3(/*eye*/a0.__ptr, /*target*/a1.__ptr, /*forward*/a2.__ptr), quat); }
 };
 Module['grid_center'] = function(a0, a1) {
+    assert(a0.__type === v3_uint.__type, '[ERROR] grid_center(0:coord): expected v3<uint>'); assert(a1.__type === v3_float.__type, '[ERROR] grid_center(1:cell_size): expected v3<float>');
     return wrapPointer(_mud_grid_center_2(/*coord*/a0.__ptr, /*cell_size*/a1.__ptr), v3_float);
 };
 Module['float2'] = v2_float;

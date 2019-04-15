@@ -467,7 +467,7 @@ namespace mud
 			success &= !arg.none();
 			success &= param.nullable() || !arg.null();
 			if(!success)
-				printf("ERROR: lua -> %s wrong argument %s, expect %s%s, got %s%s\n",
+				printf("[ERROR] lua -> %s wrong argument %s, expect %s%s, got %s%s\n",
 					   callable.m_name, param.m_name, param.m_type->m_name, param.nullable() ? "" : " (non null)", type(arg).m_name, arg.null() ? " (null)" : "");
 		};
 		for(size_t i = 0; i < vars.m_count; ++i)
@@ -493,7 +493,7 @@ namespace mud
 #endif
 			return result;
 		}
-		lua_printf("ERROR: lua -> %s wrong arguments\n", call.m_callable->m_name); // lua_printf
+		lua_printf("[ERROR] lua -> %s wrong arguments\n", call.m_callable->m_name); // lua_printf
 		return Stack{ state, 0 };
 	}
 
@@ -546,7 +546,7 @@ namespace mud
 		}
 		else
 		{
-			lua_printf("ERROR: lua -> %s no constructor taking %d arguments\n", type.m_name, int(num_args)); // lua_printf
+			lua_printf("[ERROR] lua -> %s no constructor taking %d arguments\n", type.m_name, int(num_args)); // lua_printf
 			lua_pushnil(state);
 		}
 		return 1;
@@ -873,7 +873,7 @@ namespace mud
 		{
 			if(!g_meta[type.m_id])
 			{
-				printf("WARNING: lua - type %s doesn't have reflection meta type\n", type.m_name);
+				printf("[warning] lua - type %s doesn't have reflection meta type\n", type.m_name);
 				return;
 			}
 
@@ -941,7 +941,7 @@ namespace mud
 	{
 		System& system = System::instance();
 
-		//printf("INFO: Declaring lua Meta info\n");
+		//printf("[info] Declaring lua Meta info\n");
 		//system.dumpMetaInfo();
 
 		for(Namespace& location : system.m_namespaces)

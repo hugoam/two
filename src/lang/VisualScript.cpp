@@ -20,6 +20,8 @@ module mud.lang;
 
 #include <cstdio>
 
+#include <algorithm>
+
 #define MUD_DEBUG_SCRIPT
 
 namespace mud
@@ -160,7 +162,7 @@ namespace mud
 	
 	void dump_stream(Stream& stream, const string& name)
 	{
-		printf("INFO: Dump tree %s\n", name.c_str());
+		printf("[info] Dump tree %s\n", name.c_str());
 		stream.visit(true, [&](StreamBranch& branch)
 		{
 			for(size_t d = 0; d < branch.m_depth; ++d)
@@ -211,7 +213,7 @@ namespace mud
 
 	void Process::recompute()
 	{
-		//printf("DEBUG: Process %s executing\n", m_title.c_str());
+		//printf("[debug] Process %s executing\n", m_title.c_str());
 		this->execute();
 		m_state = COMPUTED;
 
@@ -286,7 +288,7 @@ namespace mud
 			valid = valid && check;
 #ifdef MUD_DEBUG_SCRIPT
 			if(!check)
-				printf("WARNING: Wrong parameter for process %s, input %s, branch %s\n", m_title.c_str(), input->m_name.c_str(), to_string(branch.m_index).c_str());
+				printf("[warning] vislang - wrong parameter for process %s, input %s, branch %s\n", m_title.c_str(), input->m_name.c_str(), to_string(branch.m_index).c_str());
 #endif
 		}
 		return valid;
@@ -298,7 +300,7 @@ namespace mud
 		{
 #ifdef MUD_DEBUG_SCRIPT
 			//if(!branch.empty()) // @todo this doesn't work (branches are never empty :/
-				printf("WARNING: Process %s failed for branch %s\n", m_title.c_str(), to_string(branch.m_index).c_str());
+				printf("[warning] vislang - process %s failed for branch %s\n", m_title.c_str(), to_string(branch.m_index).c_str());
 #endif
 			for(Valve* valve : m_outputs)
 				valve->m_stream.write(branch, Var());
@@ -418,7 +420,8 @@ namespace mud
 		for(auto& process : m_processes)
 			m_execution.push_back(process.get());
 
-		quicksort<Process*>(m_execution, [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
+		//quicksort<Process*>(m_execution, [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
+		std::sort(m_execution.begin(), m_execution.end(), [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
 	}
 
 	void VisualScript::connect(Valve& output, Valve& input, StreamModifier modifier)
@@ -446,10 +449,14 @@ namespace mud
 	void VisualScript::execute(bool uncomputed)
 	{
 		for(Process* process : m_execution)
+		{
+			printf("[debug] vislang - eval process %s\n", process->m_title.c_str());
 			if(!uncomputed || (!process->computed() && !process->locked()))
 			{
+				printf("[debug] vislang - run process %s\n", process->m_title.c_str());
 				process->recompute();
 			}
+		}
 	}
 
 	void VisualScript::operator()(span<void*> args, void*& result) const

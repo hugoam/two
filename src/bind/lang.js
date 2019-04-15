@@ -63,6 +63,7 @@ ScriptClass.prototype["__destroy"] = ScriptClass.prototype.__destroy = function(
 };
 // ScriptError
 function ScriptError() {
+    
     this.__ptr = _mud_ScriptError__construct_0(); this.__type = ScriptError.__type; getCache(ScriptError)[this.__ptr] = this;
 };
 ScriptError.prototype = Object.create(WrapperObject.prototype);
@@ -105,6 +106,7 @@ LuaInterpreter.prototype["__destroy"] = LuaInterpreter.prototype.__destroy = fun
 };
 // ProcessCallable
 function ProcessCallable(a0, a1) {
+    assert(a0.__type === VisualScript.__type, '[ERROR] ProcessCallable(0:script): expected VisualScript'); assert(a1.__type === Callable.__type, '[ERROR] ProcessCallable(1:callable): expected Callable');
     this.__ptr = _mud_ProcessCallable__construct_2(/*script*/a0.__ptr, /*callable*/a1.__ptr); this.__type = ProcessCallable.__type; getCache(ProcessCallable)[this.__ptr] = this;
 };
 ProcessCallable.prototype = Object.create(Process.prototype);
@@ -117,6 +119,7 @@ ProcessCallable.prototype["__destroy"] = ProcessCallable.prototype.__destroy = f
 };
 // ProcessCreate
 function ProcessCreate(a0, a1, a2) {
+    assert(a0.__type === VisualScript.__type, '[ERROR] ProcessCreate(0:script): expected VisualScript'); assert(a1.__type === Type.__type, '[ERROR] ProcessCreate(1:type): expected Type'); assert(a2.__type === Constructor.__type, '[ERROR] ProcessCreate(2:constructor): expected Constructor');
     this.__ptr = _mud_ProcessCreate__construct_3(/*script*/a0.__ptr, /*type*/a1.__ptr, /*constructor*/a2.__ptr); this.__type = ProcessCreate.__type; getCache(ProcessCreate)[this.__ptr] = this;
 };
 ProcessCreate.prototype = Object.create(Process.prototype);
@@ -139,6 +142,7 @@ ProcessDisplay.prototype["__destroy"] = ProcessDisplay.prototype.__destroy = fun
 };
 // ProcessFunction
 function ProcessFunction(a0, a1) {
+    assert(a0.__type === VisualScript.__type, '[ERROR] ProcessFunction(0:script): expected VisualScript'); assert(a1.__type === Function.__type, '[ERROR] ProcessFunction(1:function): expected Function');
     this.__ptr = _mud_ProcessFunction__construct_2(/*script*/a0.__ptr, /*function*/a1.__ptr); this.__type = ProcessFunction.__type; getCache(ProcessFunction)[this.__ptr] = this;
 };
 ProcessFunction.prototype = Object.create(ProcessCallable.prototype);
@@ -151,6 +155,7 @@ ProcessFunction.prototype["__destroy"] = ProcessFunction.prototype.__destroy = f
 };
 // ProcessGetMember
 function ProcessGetMember(a0, a1) {
+    assert(a0.__type === VisualScript.__type, '[ERROR] ProcessGetMember(0:script): expected VisualScript'); assert(a1.__type === Member.__type, '[ERROR] ProcessGetMember(1:member): expected Member');
     this.__ptr = _mud_ProcessGetMember__construct_2(/*script*/a0.__ptr, /*member*/a1.__ptr); this.__type = ProcessGetMember.__type; getCache(ProcessGetMember)[this.__ptr] = this;
 };
 ProcessGetMember.prototype = Object.create(Process.prototype);
@@ -173,6 +178,7 @@ ProcessInput.prototype["__destroy"] = ProcessInput.prototype.__destroy = functio
 };
 // ProcessMethod
 function ProcessMethod(a0, a1) {
+    assert(a0.__type === VisualScript.__type, '[ERROR] ProcessMethod(0:script): expected VisualScript'); assert(a1.__type === Method.__type, '[ERROR] ProcessMethod(1:method): expected Method');
     this.__ptr = _mud_ProcessMethod__construct_2(/*script*/a0.__ptr, /*method*/a1.__ptr); this.__type = ProcessMethod.__type; getCache(ProcessMethod)[this.__ptr] = this;
 };
 ProcessMethod.prototype = Object.create(ProcessCallable.prototype);
@@ -195,6 +201,7 @@ ProcessOutput.prototype["__destroy"] = ProcessOutput.prototype.__destroy = funct
 };
 // ProcessScript
 function ProcessScript(a0, a1) {
+    assert(a0.__type === VisualScript.__type, '[ERROR] ProcessScript(0:script): expected VisualScript'); assert(a1.__type === VisualScript.__type, '[ERROR] ProcessScript(1:target): expected VisualScript');
     this.__ptr = _mud_ProcessScript__construct_2(/*script*/a0.__ptr, /*target*/a1.__ptr); this.__type = ProcessScript.__type; getCache(ProcessScript)[this.__ptr] = this;
 };
 ProcessScript.prototype = Object.create(ProcessCallable.prototype);
@@ -207,6 +214,7 @@ ProcessScript.prototype["__destroy"] = ProcessScript.prototype.__destroy = funct
 };
 // ProcessSetMember
 function ProcessSetMember(a0, a1) {
+    assert(a0.__type === VisualScript.__type, '[ERROR] ProcessSetMember(0:script): expected VisualScript'); assert(a1.__type === Member.__type, '[ERROR] ProcessSetMember(1:member): expected Member');
     this.__ptr = _mud_ProcessSetMember__construct_2(/*script*/a0.__ptr, /*member*/a1.__ptr); this.__type = ProcessSetMember.__type; getCache(ProcessSetMember)[this.__ptr] = this;
 };
 ProcessSetMember.prototype = Object.create(Process.prototype);
@@ -219,6 +227,7 @@ ProcessSetMember.prototype["__destroy"] = ProcessSetMember.prototype.__destroy =
 };
 // ProcessValue
 function ProcessValue(a0, a1) {
+    assert(a0.__type === VisualScript.__type, '[ERROR] ProcessValue(0:script): expected VisualScript'); assert(a1.__type === Var.__type, '[ERROR] ProcessValue(1:value): expected Var');
     this.__ptr = _mud_ProcessValue__construct_2(/*script*/a0.__ptr, /*value*/a1.__ptr); this.__type = ProcessValue.__type; getCache(ProcessValue)[this.__ptr] = this;
 };
 ProcessValue.prototype = Object.create(Process.prototype);
@@ -280,8 +289,10 @@ Stream.prototype["__destroy"] = Stream.prototype.__destroy = function() {
 // TextScript
 function TextScript(a0, a1, a2) {
     ensureCache.prepare();
-    if (a2 === undefined) { this.__ptr = _mud_TextScript__construct_2(ensureString(/*name*/a0), /*language*/a1); this.__type = TextScript.__type; getCache(TextScript)[this.__ptr] = this; return; }
-    this.__ptr = _mud_TextScript__construct_3(ensureString(/*name*/a0), /*language*/a1, /*signature*/a2.__ptr); this.__type = TextScript.__type; getCache(TextScript)[this.__ptr] = this;
+    if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] TextScript(0:name): expected string'); assert(typeof a1 === 'number', '[ERROR] TextScript(1:language): expected integer'); }
+    else { assert(typeof a0 === 'string', '[ERROR] TextScript(0:name): expected string'); assert(typeof a1 === 'number', '[ERROR] TextScript(1:language): expected integer'); assert(a2.__type === Signature.__type, '[ERROR] TextScript(2:signature): expected Signature'); }
+    if (a2 === undefined) { this.__ptr = _mud_TextScript__construct_2(ensureString(/*name*/a0), /*language*/a1); this.__type = TextScript.__type; getCache(TextScript)[this.__ptr] = this; }
+    else { this.__ptr = _mud_TextScript__construct_3(ensureString(/*name*/a0), /*language*/a1, /*signature*/a2.__ptr); this.__type = TextScript.__type; getCache(TextScript)[this.__ptr] = this; }
 };
 TextScript.prototype = Object.create(Script.prototype);
 TextScript.prototype.constructor = TextScript;
@@ -318,8 +329,10 @@ TextScript.prototype["__destroy"] = TextScript.prototype.__destroy = function() 
 // VisualScript
 function VisualScript(a0, a1) {
     ensureCache.prepare();
-    if (a1 === undefined) { this.__ptr = _mud_VisualScript__construct_1(ensureString(/*name*/a0)); this.__type = VisualScript.__type; getCache(VisualScript)[this.__ptr] = this; return; }
-    this.__ptr = _mud_VisualScript__construct_2(ensureString(/*name*/a0), /*signature*/a1.__ptr); this.__type = VisualScript.__type; getCache(VisualScript)[this.__ptr] = this;
+    if (a1 === undefined) { assert(typeof a0 === 'string', '[ERROR] VisualScript(0:name): expected string'); }
+    else { assert(typeof a0 === 'string', '[ERROR] VisualScript(0:name): expected string'); assert(a1.__type === Signature.__type, '[ERROR] VisualScript(1:signature): expected Signature'); }
+    if (a1 === undefined) { this.__ptr = _mud_VisualScript__construct_1(ensureString(/*name*/a0)); this.__type = VisualScript.__type; getCache(VisualScript)[this.__ptr] = this; }
+    else { this.__ptr = _mud_VisualScript__construct_2(ensureString(/*name*/a0), /*signature*/a1.__ptr); this.__type = VisualScript.__type; getCache(VisualScript)[this.__ptr] = this; }
 };
 VisualScript.prototype = Object.create(Script.prototype);
 VisualScript.prototype.constructor = VisualScript;

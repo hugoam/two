@@ -337,7 +337,7 @@ namespace mud
 		m_selection.m_start = min(size_t(m_selection.m_start), text.size());
 		m_selection.m_end = min(size_t(m_selection.m_end), text.size());
 
-		printf("WARNING: undo/redo won't work after this\n");
+		printf("[warning] undo/redo won't work after this\n");
 		//mUndoBuffer.clear();
 
 		mark_dirty(0, m_string.size());

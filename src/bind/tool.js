@@ -88,6 +88,19 @@ Module['Gizmo'] = Gizmo;
 Gizmo.prototype["__destroy"] = Gizmo.prototype.__destroy = function() {
     _mud_Gizmo__destroy(this.__ptr);
 };
+// Selection
+function Selection() {
+    
+    this.__ptr = _mud_Selection__construct_0(); this.__type = Selection.__type; getCache(Selection)[this.__ptr] = this;
+};
+Selection.prototype = Object.create(WrapperObject.prototype);
+Selection.prototype.constructor = Selection;
+Selection.prototype.__class = Selection;
+Selection.__cache = {};
+Module['Selection'] = Selection;
+Selection.prototype["__destroy"] = Selection.prototype.__destroy = function() {
+    _mud_Selection__destroy(this.__ptr);
+};
 // Tool
 function Tool() { throw "cannot construct a Tool, no constructor in IDL" }
 Tool.prototype = Object.create(WrapperObject.prototype);
@@ -124,6 +137,7 @@ Tool.prototype["__destroy"] = Tool.prototype.__destroy = function() {
 };
 // ToolContext
 function ToolContext() {
+    
     this.__ptr = _mud_ToolContext__construct_0(); this.__type = ToolContext.__type; getCache(ToolContext)[this.__ptr] = this;
 };
 ToolContext.prototype = Object.create(WrapperObject.prototype);
@@ -156,6 +170,7 @@ Brush.prototype["__destroy"] = Brush.prototype.__destroy = function() {
 };
 // CircleBrush
 function CircleBrush(a0) {
+    assert(a0.__type === ToolContext.__type, '[ERROR] CircleBrush(0:context): expected ToolContext');
     this.__ptr = _mud_CircleBrush__construct_1(/*context*/a0.__ptr); this.__type = CircleBrush.__type; getCache(CircleBrush)[this.__ptr] = this;
 };
 CircleBrush.prototype = Object.create(Brush.prototype);
@@ -188,6 +203,7 @@ CircleBrush.prototype["__destroy"] = CircleBrush.prototype.__destroy = function(
 };
 // PlaceBrush
 function PlaceBrush(a0) {
+    assert(a0.__type === ToolContext.__type, '[ERROR] PlaceBrush(0:context): expected ToolContext');
     this.__ptr = _mud_PlaceBrush__construct_1(/*context*/a0.__ptr); this.__type = PlaceBrush.__type; getCache(PlaceBrush)[this.__ptr] = this;
 };
 PlaceBrush.prototype = Object.create(Brush.prototype);
@@ -264,6 +280,7 @@ ScaleTool.prototype["__destroy"] = ScaleTool.prototype.__destroy = function() {
 };
 // ScriptedBrush
 function ScriptedBrush(a0, a1) {
+    assert(a0.__type === ToolContext.__type, '[ERROR] ScriptedBrush(0:context): expected ToolContext'); assert(a1.__type === Script.__type, '[ERROR] ScriptedBrush(1:script): expected Script');
     this.__ptr = _mud_ScriptedBrush__construct_2(/*context*/a0.__ptr, /*script*/a1.__ptr); this.__type = ScriptedBrush.__type; getCache(ScriptedBrush)[this.__ptr] = this;
 };
 ScriptedBrush.prototype = Object.create(Brush.prototype);
@@ -448,6 +465,7 @@ WorldSnapOption.prototype["__destroy"] = WorldSnapOption.prototype.__destroy = f
         EditContext.__type = _mud_EditContext__type();
         EditorAction.__type = _mud_EditorAction__type();
         Gizmo.__type = _mud_Gizmo__type();
+        Selection.__type = _mud_Selection__type();
         Tool.__type = _mud_Tool__type();
         ToolContext.__type = _mud_ToolContext__type();
         ToolOption.__type = _mud_ToolOption__type();

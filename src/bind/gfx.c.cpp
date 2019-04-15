@@ -204,6 +204,9 @@ extern "C" {
 	mud::Flow* DECL mud_AssetStore_mud_Flow_file_at_2(mud::AssetStore<mud::Flow>* self, const char* path, const char* name) {
 		return &self->file_at(path, name);
 	}
+	mud::Flow* DECL mud_AssetStore_mud_Flow_load_2(mud::AssetStore<mud::Flow>* self, const char* path, const char* name) {
+		return self->load(path, name);
+	}
 	void DECL mud_AssetStore_mud_Flow_destroy_1(mud::AssetStore<mud::Flow>* self, const char* name) {
 		self->destroy(name);
 	}
@@ -231,6 +234,9 @@ extern "C" {
 	}
 	mud::Material* DECL mud_AssetStore_mud_Material_file_at_2(mud::AssetStore<mud::Material>* self, const char* path, const char* name) {
 		return &self->file_at(path, name);
+	}
+	mud::Material* DECL mud_AssetStore_mud_Material_load_2(mud::AssetStore<mud::Material>* self, const char* path, const char* name) {
+		return self->load(path, name);
 	}
 	void DECL mud_AssetStore_mud_Material_destroy_1(mud::AssetStore<mud::Material>* self, const char* name) {
 		self->destroy(name);
@@ -260,6 +266,9 @@ extern "C" {
 	mud::Model* DECL mud_AssetStore_mud_Model_file_at_2(mud::AssetStore<mud::Model>* self, const char* path, const char* name) {
 		return &self->file_at(path, name);
 	}
+	mud::Model* DECL mud_AssetStore_mud_Model_load_2(mud::AssetStore<mud::Model>* self, const char* path, const char* name) {
+		return self->load(path, name);
+	}
 	void DECL mud_AssetStore_mud_Model_destroy_1(mud::AssetStore<mud::Model>* self, const char* name) {
 		self->destroy(name);
 	}
@@ -287,6 +296,9 @@ extern "C" {
 	}
 	mud::Prefab* DECL mud_AssetStore_mud_Prefab_file_at_2(mud::AssetStore<mud::Prefab>* self, const char* path, const char* name) {
 		return &self->file_at(path, name);
+	}
+	mud::Prefab* DECL mud_AssetStore_mud_Prefab_load_2(mud::AssetStore<mud::Prefab>* self, const char* path, const char* name) {
+		return self->load(path, name);
 	}
 	void DECL mud_AssetStore_mud_Prefab_destroy_1(mud::AssetStore<mud::Prefab>* self, const char* name) {
 		self->destroy(name);
@@ -316,6 +328,9 @@ extern "C" {
 	mud::Program* DECL mud_AssetStore_mud_Program_file_at_2(mud::AssetStore<mud::Program>* self, const char* path, const char* name) {
 		return &self->file_at(path, name);
 	}
+	mud::Program* DECL mud_AssetStore_mud_Program_load_2(mud::AssetStore<mud::Program>* self, const char* path, const char* name) {
+		return self->load(path, name);
+	}
 	void DECL mud_AssetStore_mud_Program_destroy_1(mud::AssetStore<mud::Program>* self, const char* name) {
 		self->destroy(name);
 	}
@@ -343,6 +358,9 @@ extern "C" {
 	}
 	mud::Texture* DECL mud_AssetStore_mud_Texture_file_at_2(mud::AssetStore<mud::Texture>* self, const char* path, const char* name) {
 		return &self->file_at(path, name);
+	}
+	mud::Texture* DECL mud_AssetStore_mud_Texture_load_2(mud::AssetStore<mud::Texture>* self, const char* path, const char* name) {
+		return self->load(path, name);
 	}
 	void DECL mud_AssetStore_mud_Texture_destroy_1(mud::AssetStore<mud::Texture>* self, const char* name) {
 		self->destroy(name);
@@ -411,6 +429,9 @@ extern "C" {
 	}
 	void DECL mud_Batch_cache_1(mud::Batch* self, float* data, int data_size) {
 		self->cache({ (float*)data, data_size / (sizeof(float) / sizeof(float)) });
+	}
+	void DECL mud_Batch_transform_1(mud::Batch* self, const mud::mat4* m) {
+		self->transform(*m);
 	}
 	mud::Item* DECL mud_Batch__get_item(mud::Batch* self) {
 		return self->m_item;

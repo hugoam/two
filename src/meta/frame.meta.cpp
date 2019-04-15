@@ -127,6 +127,7 @@ namespace mud
 		static Class cls = { t, bases, bases_offsets, {}, {}, members, {}, {}, };
 	}
 	
+	
 		m.m_types.push_back(&type<mud::Shell>());
 		m.m_types.push_back(&type<mud::ShellContext>());
 		m.m_types.push_back(&type<mud::ShellWindow>());

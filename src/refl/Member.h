@@ -99,7 +99,7 @@ namespace mud
 	};
 
 	export_ template <class T_Value, class T>
-	Member& member(T_Value T::*mem) { return cls<T>().member(member_address(mem)); }
+	Member& member(T_Value T::*mem) { return cls<T>().member(member_offset(mem)); }
 
 	export_ template <class T_Return, class T, typename... T_Params>
 	Member& member(T_Return(T::*meth)(T_Params...)) { return cls<T>().member(member_address(meth)); }

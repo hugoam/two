@@ -211,11 +211,11 @@ namespace mud
 		m.m_types.push_back(&type<mud::TileWave>());
 		m.m_types.push_back(&type<mud::WaveTileset>());
 		{
-			static Function f = { &namspc({ "mud" }), "parse_json_tileset", nullptr, mud_parse_json_tileset_0, { { "path", type<stl::string>(),  }, { "subset", type<stl::string>(),  }, { "outputTileset", type<mud::Tileset>(), Param::Output } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "parse_json_tileset", funcptr<void(*)(const stl::string&, const stl::string&, mud::Tileset&)>(mud::parse_json_tileset), mud_parse_json_tileset_0, { { "path", type<stl::string>(),  }, { "subset", type<stl::string>(),  }, { "outputTileset", type<mud::Tileset>(), Param::Output } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "parse_json_wave_tileset", nullptr, mud_parse_json_wave_tileset_1, { { "path", type<stl::string>(),  }, { "subset", type<stl::string>(),  }, { "outputTileset", type<mud::WaveTileset>(), Param::Output } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "parse_json_wave_tileset", funcptr<void(*)(const stl::string&, const stl::string&, mud::WaveTileset&)>(mud::parse_json_wave_tileset), mud_parse_json_wave_tileset_1, { { "path", type<stl::string>(),  }, { "subset", type<stl::string>(),  }, { "outputTileset", type<mud::WaveTileset>(), Param::Output } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

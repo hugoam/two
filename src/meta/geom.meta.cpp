@@ -1786,44 +1786,44 @@ namespace mud
 		m.m_types.push_back(&type<mud::Triangle>());
 		{
 			static float distance_default = 1000.f;
-			static Function f = { &namspc({ "mud" }), "to_ray", nullptr, mud_to_ray_0, { { "pos", type<mud::vec3>(),  }, { "dir", type<mud::vec3>(),  }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<mud::Ray>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "to_ray", funcptr<mud::Ray(*)(const mud::vec3&, const mud::vec3&, float)>(mud::to_ray), mud_to_ray_0, { { "pos", type<mud::vec3>(),  }, { "dir", type<mud::vec3>(),  }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<mud::Ray>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "to_segment", nullptr, mud_to_segment_1, { { "ray", type<mud::Ray>(),  } }, { &type<mud::Segment>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "to_segment", funcptr<mud::Segment(*)(const mud::Ray&)>(mud::to_segment), mud_to_segment_1, { { "ray", type<mud::Ray>(),  } }, { &type<mud::Segment>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float distance_default = 1000.f;
-			static Function f = { &namspc({ "mud" }), "to_ray", nullptr, mud_to_ray_2, { { "pos", type<mud::vec3>(),  }, { "dir", type<mud::vec3>(),  }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<mud::Ray>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "to_ray", funcptr<mud::Ray(*)(const mud::vec3&, const mud::vec3&, float)>(mud::to_ray), mud_to_ray_2, { { "pos", type<mud::vec3>(),  }, { "dir", type<mud::vec3>(),  }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<mud::Ray>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "to_segment", nullptr, mud_to_segment_3, { { "ray", type<mud::Ray>(),  } }, { &type<mud::Segment>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "to_segment", funcptr<mud::Segment(*)(const mud::Ray&)>(mud::to_segment), mud_to_segment_3, { { "ray", type<mud::Ray>(),  } }, { &type<mud::Segment>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "distribute_poisson", nullptr, mud_distribute_poisson_4, { { "size", type<mud::vec2>(),  }, { "radius", type<float>(),  } }, { &type<stl::vector<mud::vec3>>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "distribute_poisson", funcptr<stl::vector<mud::vec3>(*)(mud::vec2, float)>(mud::distribute_poisson), mud_distribute_poisson_4, { { "size", type<mud::vec2>(),  }, { "radius", type<float>(),  } }, { &type<stl::vector<mud::vec3>>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "add_ball", nullptr, mud_add_ball_5, { { "cubes", type<mud::MarchingCubes>(),  }, { "ball", type<mud::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  }, { "colour", type<mud::Colour>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "add_ball", funcptr<void(*)(mud::MarchingCubes&, const mud::vec3&, float, float, const mud::Colour&)>(mud::add_ball), mud_add_ball_5, { { "cubes", type<mud::MarchingCubes>(),  }, { "ball", type<mud::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  }, { "colour", type<mud::Colour>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "add_ball", nullptr, mud_add_ball_6, { { "cubes", type<mud::MarchingCubes>(),  }, { "ball", type<mud::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "add_ball", funcptr<void(*)(mud::MarchingCubes&, const mud::vec3&, float, float)>(mud::add_ball), mud_add_ball_6, { { "cubes", type<mud::MarchingCubes>(),  }, { "ball", type<mud::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "add_planeX", nullptr, mud_add_planeX_7, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "add_planeX", funcptr<void(*)(mud::MarchingCubes&, float, float)>(mud::add_planeX), mud_add_planeX_7, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "add_planeY", nullptr, mud_add_planeY_8, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "add_planeY", funcptr<void(*)(mud::MarchingCubes&, float, float)>(mud::add_planeY), mud_add_planeY_8, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "add_planeZ", nullptr, mud_add_planeZ_9, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "add_planeZ", funcptr<void(*)(mud::MarchingCubes&, float, float)>(mud::add_planeZ), mud_add_planeZ_9, { { "cubes", type<mud::MarchingCubes>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

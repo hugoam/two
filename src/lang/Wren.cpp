@@ -77,7 +77,7 @@ namespace mud
 			}
 		}
 		else
-			printf("ERROR: wren -> %s:%i %s\n", module, line, message);
+			printf("[ERROR] wren -> %s:%i %s\n", module, line, message);
 	}
 
 	void wren_print(WrenVM* vm, const char* text)
@@ -181,7 +181,7 @@ namespace mud
 
 	inline Ref alloc_object(WrenVM* vm, int slot, int class_slot, const Type& type)
 	{
-		//printf("DEBUG: Wren -> alloc object %s\n", type.m_name);
+		//printf("[debug] Wren -> alloc object %s\n", type.m_name);
 		WrenRef* ref = static_cast<WrenRef*>(wrenSetSlotNewForeign(vm, slot, class_slot, sizeof(WrenRef) + meta(type).m_size));
 		new (stl::placeholder(), ref) WrenRef(true, ref + 1, type);
 		return *ref;
@@ -189,7 +189,7 @@ namespace mud
 
 	inline Ref alloc_ref(WrenVM* vm, int slot, int class_slot, Ref source)
 	{
-		//printf("DEBUG: Wren -> alloc ref %s\n", type(source).m_name);
+		//printf("[debug] Wren -> alloc ref %s\n", type(source).m_name);
 		WrenRef* ref = static_cast<WrenRef*>(wrenSetSlotNewForeign(vm, slot, class_slot, sizeof(WrenRef)));
 		new (stl::placeholder(), ref) WrenRef(false, source.m_value, *source.m_type);
 		return *ref;
@@ -297,7 +297,7 @@ namespace mud
 			if(!success)
 			{
 #ifdef MUD_WREN_DEBUG
-				printf("ERROR: wren -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, type(callable.m_params[i].m_value).m_name, type(vars[i]).m_name);
+				printf("[ERROR] wren -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, type(callable.m_params[i].m_value).m_name, type(vars[i]).m_name);
 #endif
 				return false;
 			}
@@ -317,14 +317,14 @@ namespace mud
 				push_value(vm, 0, call.m_result);
 		}
 		else
-			printf("ERROR: wren -> %s wrong arguments\n", call.m_callable->m_name);
+			printf("[ERROR] wren -> %s wrong arguments\n", call.m_callable->m_name);
 	}
 
 	inline void call_function(WrenVM* vm, size_t num_args)
 	{
 		const Callable& callable = val<Callable>(wren_ref(vm, 0));
 #ifdef MUD_WREN_DEBUG
-		printf("INFO: wren -> call function %s\n", callable.m_name);
+		printf("[info] wren -> call function %s\n", callable.m_name);
 #endif
 		Call& call = cached_call(callable);
 		call_cpp(vm, call, 1, num_args);
@@ -340,7 +340,7 @@ namespace mud
 	{
 		const Callable& callable = val<Callable>(read_ref(vm, 0));
 #ifdef MUD_WREN_DEBUG
-		printf("INFO: wren -> call method %s\n", callable.m_name);
+		printf("[info] wren -> call method %s\n", callable.m_name);
 #endif
 		Call& call = cached_call(callable);
 		call_cpp(vm, call, 1, num_args + 1);
@@ -366,7 +366,7 @@ namespace mud
 	inline void call_wren_virtual(WrenVM* vm, Method& method, Ref object, span<Var> parameters)
 	{
 #ifdef MUD_WREN_DEBUG
-		printf("INFO: wren -> call wren %s\n", method.m_name);
+		printf("[info] wren -> call wren %s\n", method.m_name);
 #endif
 		WrenHandle* hmethod = g_wren_methods[method.m_index];
 		WrenHandle* hobject = g_wren_objects[object.m_value];
@@ -377,7 +377,7 @@ namespace mud
 	{
 		const Member& member = val<Member>(read_ref(vm, 0));
 #ifdef MUD_WREN_DEBUG
-		printf("INFO: wren -> get member %s\n", member.m_name);
+		printf("[info] wren -> get member %s\n", member.m_name);
 #endif
 		Ref object = read_ref(vm, 1);
 		Ref value = member.cast_get(object);
@@ -388,7 +388,7 @@ namespace mud
 	{
 		const Member& member = val<Member>(read_ref(vm, 0));
 #ifdef MUD_WREN_DEBUG
-		printf("INFO: wren -> set member %s\n", member.m_name);
+		printf("[info] wren -> set member %s\n", member.m_name);
 #endif
 		Ref object = read_ref(vm, 1);
 #ifdef MUD_WREN_OPTIMIZE_SET_MEMBER
@@ -423,7 +423,7 @@ namespace mud
 		const Constructor* constructor = &val<Constructor>(read_ref(vm, 0));
 		if(!constructor) return;
 #ifdef MUD_WREN_DEBUG
-		printf("INFO: wren -> construct %s\n", constructor->m_name);
+		printf("[info] wren -> construct %s\n", constructor->m_name);
 #endif
 		Call& construct = cached_call(*constructor);
 		if(read_params(vm, *construct.m_callable, construct.m_args, 1, 2))
@@ -438,7 +438,7 @@ namespace mud
 		const CopyConstructor* constructor = &val<CopyConstructor>(read_ref(vm, 0));
 		if(!constructor) return;
 #ifdef MUD_WREN_DEBUG
-		printf("INFO: wren -> copy construct %s\n", constructor->m_name);
+		printf("[info] wren -> copy construct %s\n", constructor->m_name);
 #endif
 		
 		Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
@@ -452,7 +452,7 @@ namespace mud
 		const Constructor* constructor = &val<Constructor>(read_ref(vm, 0));
 		if(!constructor) return;
 #ifdef MUD_WREN_DEBUG
-		printf("INFO: wren -> construct %s\n", constructor->m_name);
+		printf("[info] wren -> construct %s\n", constructor->m_name);
 #endif
 		Call& construct = cached_call(*constructor);
 		VirtualMethod virtual_method = [=](Method& method, Ref object, span<Var> args) { wren->virtual_call(method, object, args); };
@@ -625,7 +625,7 @@ namespace mud
 
 		if(result != WREN_RESULT_SUCCESS)
 		{
-			printf("ERROR: could not declare wren class %s\n", name.c_str());
+			printf("[ERROR] could not declare wren class %s\n", name.c_str());
 			return;
 		}
 
@@ -668,7 +668,7 @@ namespace mud
 				const char* name = wrenGetSlotString(vm, 1);
 				Type* type = system().find_type(name);
 				if(g_wren_types[type->m_id] != nullptr)
-					printf("WARNING: type %s already fetched\n", name);
+					printf("[warning] type %s already fetched\n", name);
 				else
 				{
 					alloc_ref(vm, 0, 0, Ref(type));
@@ -1181,7 +1181,7 @@ namespace mud
 		{
 			if(!g_meta[type.m_id])
 			{
-				printf("WARNING: wren - type %s doesn't have reflection meta type\n", type.m_name);
+				printf("[warning] wren - type %s doesn't have reflection meta type\n", type.m_name);
 				return;
 			}
 

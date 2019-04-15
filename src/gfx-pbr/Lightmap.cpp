@@ -70,7 +70,7 @@ namespace mud
 		: m_size(size)
 		, m_atlas(uvec2(size))
 	{
-		printf("INFO: create lightmap\n");
+		printf("[info] create lightmap\n");
 
 		//m_items.reserve(1024);
 		m_items.reserve(4096);
@@ -123,7 +123,7 @@ namespace mud
 
 		bool conservative = (bgfx::getCaps()->supported & BGFX_CAPS_CONSERVATIVE_RASTER) != 0;
 		if(!conservative)
-			printf("WARNING: rendering lightmap without conservative raster support will produce visible seams\n");
+			printf("[warning] rendering lightmap without conservative raster support will produce visible seams\n");
 
 		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_MSAA;
 
@@ -205,7 +205,7 @@ namespace mud
 				MeshPacker& geometry = *(MeshPacker*)userData;
 				vec3 pos0 = geometry.m_positions[index0];
 				vec3 pos1 = geometry.m_positions[index1];
-				printf("DEBUG: already added edge %i to %i from face %i from %f, %f, %f to %f, %f, %f\n", index0, index1, face, pos0.x, pos0.y, pos0.z, pos1.x, pos1.y, pos1.z);
+				printf("[debug] already added edge %i to %i from face %i from %f, %f, %f to %f, %f, %f\n", index0, index1, face, pos0.x, pos0.y, pos0.z, pos1.x, pos1.y, pos1.z);
 			}
 		};
 
@@ -213,7 +213,7 @@ namespace mud
 
 		if(error != xatlas::AddMeshError::Success)
 		{
-			printf("ERROR: xatlas - adding mesh '%s': %s\n", mesh.m_name.c_str(), xatlas::StringForEnum(error));
+			printf("[ERROR] xatlas - adding mesh '%s': %s\n", mesh.m_name.c_str(), xatlas::StringForEnum(error));
 		}
 
 		return error == xatlas::AddMeshError::Success;
@@ -289,7 +289,7 @@ namespace mud
 		if(is_unwrapped)
 			return;
 
-		printf("INFO: unwrapping model %s for lightmap\n", model.m_name.c_str());
+		printf("[info] unwrapping model %s for lightmap\n", model.m_name.c_str());
 
 		XAtlas atlas;
 
@@ -311,7 +311,7 @@ namespace mud
 
 		if(unwrap.size.x == 0 || unwrap.size.y == 0)
 		{
-			printf("WARNING: model %s unwrapped to zero size rect\n", model.m_name.c_str());
+			printf("[warning] model %s unwrapped to zero size rect\n", model.m_name.c_str());
 			return;
 		}
 
@@ -411,7 +411,7 @@ namespace mud
 
 	void BlockLightmap::bake_lightmaps(Scene& scene, LightmapAtlas& atlas, const mat4& transform, const vec3& extents)
 	{
-		printf("INFO: bake lightmaps\n");
+		printf("[info] bake lightmaps\n");
 
 		vector<Item*> items;
 		//Plane6 planes = frustum_planes(transform, vec2(extents.x, extents.y), -extents.z / 2.f, -extents.z / 2.f);
@@ -474,7 +474,7 @@ namespace mud
 			load_lightmap(m_gfx, *lightmap, cached_path);
 		}
 
-		printf("INFO: bake lightmaps done\n");
+		printf("[info] bake lightmaps done\n");
 	}
 
 	void BlockLightmap::begin_frame(const RenderFrame& frame)

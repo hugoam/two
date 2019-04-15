@@ -43,7 +43,7 @@ namespace mud
 	{
 		if(!bx::open(&reader, file_path))
 		{
-			printf("ERROR: failed to open file %s\n", file_path);
+			printf("[ERROR] failed to open file %s\n", file_path);
 			return nullptr;
 		}
 
@@ -86,9 +86,9 @@ namespace mud
 																	 : bgfx::createProgram(vertex_shader, fragment_shader, true);
 
 		if(!bgfx::isValid(program))
-			printf("ERROR: failed to load program %s\n", shader_path.c_str());
-		else
-			printf("INFO: loaded program %s id %i\n", shader_path.c_str(), int(program.idx));
+			printf("[ERROR] gfx - failed to load program %s\n", shader_path.c_str());
+		//else
+		//	printf("[info] gfx - loaded program %s id %i\n", shader_path.c_str(), int(program.idx));
 
 		return program;
 	}
@@ -134,8 +134,8 @@ namespace mud
 
 		create_file_tree(output_path);
 
-		printf("INFO: Compiling Shader : %s\n", source_path.c_str());
-		printf("INFO: Defines : %s\n", defines.c_str());
+		printf("[info] gfx - compiling shader : %s\n", source_path.c_str());
+		printf("[info] gfx - defines : %s\n", defines.c_str());
 
 		string include = gfx.m_resource_path + "/shaders/";
 		string varying_path = gfx.m_resource_path + "/shaders/varying.def.sc";
@@ -204,7 +204,7 @@ namespace mud
 			uint16_t output_size;
 			bgfx::getShaderError(output_text, output_size);
 
-			printf("ERROR: failed to compile %s (%s), defines = %s\n", source_path.c_str(), output_path.c_str(), defines.c_str());
+			printf("[ERROR] failed to compile %s (%s), defines = %s\n", source_path.c_str(), output_path.c_str(), defines.c_str());
 			printf("%s\n", output_text);
 			return false;
 		}
@@ -391,12 +391,12 @@ namespace mud
 
 		if(!compiled)
 		{
-			printf("WARNING: failed to compile program %s : using last valid version instead\n", full_name.c_str());
+			printf("[warning] gfx - failed to compile program %s : using last valid version instead\n", full_name.c_str());
 			version.m_update = m_update;
 			return;
 		}
 
-		printf("INFO: loading program %s with options %s\n", full_name.c_str(), defines.c_str());
+		printf("[info] gfx - loading program %s with options %s\n", full_name.c_str(), defines.c_str());
 		const string compiled_path = gfx.m_resource_path + "/shaders/compiled/" + full_name;
 		version.m_program = compute ? load_compute_program(gfx.file_reader(), compiled_path)
 									: load_program(gfx.file_reader(), compiled_path);

@@ -492,7 +492,7 @@ namespace mud
 
 		bool success = genTangSpaceDefault(&context) != 0;
 		if(!success)
-			printf("WARNING: Couldn't generate mikktspace tangents\n");
+			printf("[warning] Couldn't generate mikktspace tangents\n");
 	}
 
 	void MeshPacker::gen_tangents()
@@ -528,6 +528,6 @@ namespace mud
 
 		bool success = genTangSpaceDefault(&context) != 0;
 		if(!success)
-			printf("WARNING: Couldn't generate mikktspace tangents\n");
+			printf("[warning] Couldn't generate mikktspace tangents\n");
 	}
 }

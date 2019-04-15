@@ -390,7 +390,7 @@ namespace mud
 
 	void ImporterPLY::import(Import& scene, const string& path, const ImportConfig& config)
 	{
-		printf("INFO: gltf - loading scene %s\n", scene.m_file.c_str());
+		printf("[info] gltf - loading scene %s\n", scene.m_file.c_str());
 
 		bool as_model = scene.m_models.size() > 0;
 		Model& model = as_model
@@ -445,6 +445,6 @@ namespace mud
 	void ImporterPLY::repack(const string& filepath, const ImportConfig& config)
 	{
 		UNUSED(filepath); UNUSED(config);
-		printf("WARNING: ply - repack for this format not supported\n");
+		printf("[warning] ply - repack for this format not supported\n");
 	}
 }

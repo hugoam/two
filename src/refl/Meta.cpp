@@ -89,7 +89,7 @@ namespace mud
 			size_t value = m_values[i];
 			if(value > size_t(1 << 16))
 			{
-				printf("WARNING: enum value %s::%s above 2^16, something is fishy\n", type.m_name, m_names[i]);
+				printf("[warning] enum value %s::%s above 2^16, something is fishy\n", type.m_name, m_names[i]);
 				continue;
 			}
 			m_reverse.resize(value + 1);
@@ -102,7 +102,7 @@ namespace mud
 		for(uint32_t i = 0; i < uint32_t(m_names.size()); ++i)
 			if(strcmp(name, m_names[i]) == 0)
 				return m_values[i];
-		printf("WARNING: fetching unknown Enum %s value : %s\n", m_type.m_name, name);
+		printf("[warning] fetching unknown Enum %s value : %s\n", m_type.m_name, name);
 		return m_values[0];
 	}
 
@@ -112,7 +112,7 @@ namespace mud
 		for(uint32_t i = 0; i < uint32_t(m_vars.size()); ++i)
 			if(memcmp(value.m_value, m_vars[i], size) == 0)
 				return m_values[i];
-		printf("WARNING: fetching unknown Enum %s index : %s\n", m_type.m_name, to_string(value).c_str());
+		printf("[warning] fetching unknown Enum %s index : %s\n", m_type.m_name, to_string(value).c_str());
 		return 0;
 	}
 
@@ -121,7 +121,7 @@ namespace mud
 		for(uint32_t i = 0; i < uint32_t(m_names.size()); ++i)
 			if(strcmp(name, m_names[i]) == 0)
 				return i;
-		printf("WARNING: fetching unknown Enum %s index : %s\n", m_type.m_name, name);
+		printf("[warning] fetching unknown Enum %s index : %s\n", m_type.m_name, name);
 		return 0;
 	}
 
@@ -131,7 +131,7 @@ namespace mud
 		for(uint32_t i = 0; i < uint32_t(m_vars.size()); ++i)
 			if(memcmp(value.m_value, m_vars[i], size) == 0)
 				return i;
-		printf("WARNING: fetching unknown Enum %s index : %s\n", m_type.m_name, to_string(value).c_str());
+		printf("[warning] fetching unknown Enum %s index : %s\n", m_type.m_name, to_string(value).c_str());
 		return 0;
 	}
 
@@ -281,7 +281,7 @@ namespace mud
 		for(Member& look : m_members)
 			if(look.m_offset == offset)
 				return look;
-		printf("ERROR: retrieving member\n");
+		printf("[ERROR] retrieving member\n");
 		return m_members[0];
 	}
 
@@ -290,7 +290,7 @@ namespace mud
 		for(Method& look : m_methods)
 			if(look.m_address == address)
 				return look;
-		printf("ERROR: retrieving method\n");
+		printf("[ERROR] retrieving method\n");
 		return m_methods[0];
 	}
 
@@ -355,7 +355,7 @@ namespace mud
 	{
 		if(!source.m_type->is(*dest.m_type))
 		{
-			printf("WARNING: can't assign values of unrelated types\n");
+			printf("[warning] can't assign values of unrelated types\n");
 			return;
 		}
 

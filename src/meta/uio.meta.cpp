@@ -100,53 +100,53 @@ namespace mud
 		m.m_types.push_back(&type<mud::EditorHint>());
 		m.m_types.push_back(&type<mud::ScriptEditor>());
 		{
-			static Function f = { &namspc({ "mud" }), "object_edit_inline", nullptr, mud_object_edit_inline_0, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "object_edit_inline", funcptr<bool(*)(mud::Widget&, mud::Ref)>(mud::object_edit_inline), mud_object_edit_inline_0, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "object_edit_rows", nullptr, mud_object_edit_rows_1, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "object_edit_rows", funcptr<bool(*)(mud::Widget&, mud::Ref)>(mud::object_edit_rows), mud_object_edit_rows_1, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "object_edit_columns", nullptr, mud_object_edit_columns_2, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "object_edit_columns", funcptr<bool(*)(mud::Widget&, mud::Ref)>(mud::object_edit_columns), mud_object_edit_columns_2, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "object_edit_table", nullptr, mud_object_edit_table_3, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "object_edit_table", funcptr<bool(*)(mud::Widget&, mud::Ref)>(mud::object_edit_table), mud_object_edit_table_3, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "object_edit_expandbox", nullptr, mud_object_edit_expandbox_4, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static mud::EditorHint hint_default = mud::EditorHint::Table;
-			static Function f = { &namspc({ "mud" }), "object_edit", nullptr, mud_object_edit_5, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable }, { "hint", type<mud::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "object_edit_expandbox", funcptr<bool(*)(mud::Widget&, mud::Ref)>(mud::object_edit_expandbox), mud_object_edit_expandbox_4, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static mud::EditorHint hint_default = mud::EditorHint::Table;
-			static Function f = { &namspc({ "mud" }), "entity_edit", nullptr, mud_entity_edit_6, { { "parent", type<mud::Widget>(),  }, { "entity", type<mud::Entity>(),  }, { "hint", type<mud::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "object_edit", funcptr<bool(*)(mud::Widget&, mud::Ref, mud::EditorHint)>(mud::object_edit), mud_object_edit_5, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable }, { "hint", type<mud::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "inspector", nullptr, mud_inspector_7, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
+			static mud::EditorHint hint_default = mud::EditorHint::Table;
+			static Function f = { &namspc({ "mud" }), "entity_edit", funcptr<bool(*)(mud::Widget&, mud::Entity, mud::EditorHint)>(mud::entity_edit), mud_entity_edit_6, { { "parent", type<mud::Widget>(),  }, { "entity", type<mud::Entity>(),  }, { "hint", type<mud::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "inspector", nullptr, mud_inspector_8, { { "parent", type<mud::Widget>(),  }, { "entity", type<mud::Entity>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "inspector", funcptr<bool(*)(mud::Widget&, mud::Ref)>(mud::inspector), mud_inspector_7, { { "parent", type<mud::Widget>(),  }, { "object", type<mud::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "inspector", nullptr, mud_inspector_9, { { "parent", type<mud::Widget>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "inspector", funcptr<bool(*)(mud::Widget&, mud::Entity)>(mud::inspector), mud_inspector_8, { { "parent", type<mud::Widget>(),  }, { "entity", type<mud::Entity>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "multi_inspector", nullptr, mud_multi_inspector_10, { { "parent", type<mud::Widget>(),  }, { "type", type<mud::Type>(),  }, { "objects", type<stl::vector<mud::Var>>(),  }, { "selected", type<size_t>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "inspector", funcptr<bool(*)(mud::Widget&)>(mud::inspector), mud_inspector_9, { { "parent", type<mud::Widget>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "multi_object_edit", nullptr, mud_multi_object_edit_11, { { "parent", type<mud::Widget>(),  }, { "type", type<mud::Type>(),  }, { "objects", type<stl::vector<mud::Ref>>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "mud" }), "multi_inspector", funcptr<void(*)(mud::Widget&, mud::Type&, stl::vector<mud::Var>&, size_t&)>(mud::multi_inspector), mud_multi_inspector_10, { { "parent", type<mud::Widget>(),  }, { "type", type<mud::Type>(),  }, { "objects", type<stl::vector<mud::Var>>(),  }, { "selected", type<size_t>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "mud" }), "multi_object_edit", funcptr<void(*)(mud::Widget&, mud::Type&, stl::vector<mud::Ref>)>(mud::multi_object_edit), mud_multi_object_edit_11, { { "parent", type<mud::Widget>(),  }, { "type", type<mud::Type>(),  }, { "objects", type<stl::vector<mud::Ref>>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

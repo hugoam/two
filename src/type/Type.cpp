@@ -45,10 +45,10 @@ namespace mud
 		, m_name(name)
 		, m_size(size)
 	{
-		//printf("DEBUG: Type %s %i\n", name, int(m_id));
+		//printf("[debug] Type %s %i\n", name, int(m_id));
 
 		if(strcmp(name, "INVALID") == 0)
-			printf("WARNING: Invalid type created, this means an lref was created for a type which isn't exported\n");
+			printf("[warning] Invalid type created, this means an lref was created for a type which isn't exported\n");
 	}
 	
 	Type::Type(const char* name, Type& base, size_t size)

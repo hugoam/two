@@ -1,6 +1,7 @@
 Module['stl'] = Module['stl'] || {};
 // Alias
 function Alias() {
+    
     this.__ptr = _mud_Alias__construct_0(); this.__type = Alias.__type; getCache(Alias)[this.__ptr] = this;
 };
 Alias.prototype = Object.create(WrapperObject.prototype);
@@ -13,6 +14,7 @@ Alias.prototype["__destroy"] = Alias.prototype.__destroy = function() {
 };
 // Call
 function Call() {
+    
     this.__ptr = _mud_Call__construct_0(); this.__type = Call.__type; getCache(Call)[this.__ptr] = this;
 };
 Call.prototype = Object.create(WrapperObject.prototype);
@@ -163,6 +165,7 @@ Namespace.prototype["__destroy"] = Namespace.prototype.__destroy = function() {
 };
 // Operator
 function Operator() {
+    
     this.__ptr = _mud_Operator__construct_0(); this.__type = Operator.__type; getCache(Operator)[this.__ptr] = this;
 };
 Operator.prototype = Object.create(WrapperObject.prototype);
@@ -217,6 +220,7 @@ Param.prototype["__destroy"] = Param.prototype.__destroy = function() {
 };
 // QualType
 function QualType() {
+    
     this.__ptr = _mud_QualType__construct_0(); this.__type = QualType.__type; getCache(QualType)[this.__ptr] = this;
 };
 QualType.prototype = Object.create(WrapperObject.prototype);
@@ -318,6 +322,7 @@ Method.prototype["__destroy"] = Method.prototype.__destroy = function() {
     _mud_Method__destroy(this.__ptr);
 };
 Module['system'] = function() {
+    
     return wrapPointer(_mud_system_0(), System);
 };
 

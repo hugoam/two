@@ -43,17 +43,17 @@ namespace mud
 
 			Program& depth = gfx.programs().create("depth");
 			depth.register_blocks(depth_blocks);
-			solid.set_blocks({ MaterialBlock::Alpha });
+			depth.set_blocks({ MaterialBlock::Alpha });
 
 			Program& distance = gfx.programs().create("distance");
 			distance.register_blocks(depth_blocks);
-			solid.set_blocks({ MaterialBlock::Alpha });
+			distance.set_blocks({ MaterialBlock::Alpha });
 
 			Program& pbr = gfx.programs().create("pbr/pbr");
-			solid.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
+			pbr.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Pbr });
 
 			Program& fresnel = gfx.programs().create("fresnel");
-			solid.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Fresnel });
+			fresnel.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Fresnel });
 		};
 
 		create_programs();
@@ -138,7 +138,7 @@ namespace mud
 		UNUSED(gfx);
 		Pass pass = render.next_pass("solid", PassType::Solid);
 		
-		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL
+		pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A// | BGFX_STATE_DEPTH_TEST_LEQUAL
 							  | BGFX_STATE_MSAA | BGFX_STATE_CULL_CW;// | BGFX_STATE_BLEND_ALPHA;
 
 		bgfx::Encoder& encoder = *pass.m_encoder;

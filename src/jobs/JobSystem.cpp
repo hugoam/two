@@ -116,7 +116,7 @@ namespace mud
 		{
 			m_thread_states = aligned_vector<ThreadState>(num_threads + adoptable_threads);
 
-			printf("INFO: job system running on %i worker threads\n", int(num_threads));
+			printf("[info] jobs - job system running on %i worker threads\n", int(num_threads));
 
 			for(size_t i = 0, n = m_thread_states.size(); i < n; i++)
 			{

@@ -230,46 +230,46 @@ namespace mud
 		m.m_types.push_back(&type<mud::SceneViewer>());
 		m.m_types.push_back(&type<mud::TrackballController>());
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "viewer", nullptr, mud_ui_viewer_0, { { "parent", type<mud::Widget>(),  }, { "scene", type<mud::Scene>(),  } }, { &type<mud::Viewer>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "viewer", funcptr<mud::Viewer&(*)(mud::Widget&, mud::Scene&)>(mud::ui::viewer), mud_ui_viewer_0, { { "parent", type<mud::Widget>(),  }, { "scene", type<mud::Scene>(),  } }, { &type<mud::Viewer>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static mud::vec2 size_default = vec2(0.f);
-			static Function f = { &namspc({ "mud", "ui" }), "scene_viewer", nullptr, mud_ui_scene_viewer_1, { { "parent", type<mud::Widget>(),  }, { "size", type<mud::vec2>(), Param::Default, &size_default } }, { &type<mud::SceneViewer>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "scene_viewer", funcptr<mud::SceneViewer&(*)(mud::Widget&, const mud::vec2&)>(mud::ui::scene_viewer), mud_ui_scene_viewer_1, { { "parent", type<mud::Widget>(),  }, { "size", type<mud::vec2>(), Param::Default, &size_default } }, { &type<mud::SceneViewer>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "trackball_controller", nullptr, mud_ui_trackball_controller_2, { { "viewer", type<mud::Viewer>(),  } }, { &type<mud::TrackballController>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "trackball_controller", funcptr<mud::TrackballController&(*)(mud::Viewer&)>(mud::ui::trackball_controller), mud_ui_trackball_controller_2, { { "viewer", type<mud::Viewer>(),  } }, { &type<mud::TrackballController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "orbit_controls", nullptr, mud_ui_orbit_controls_3, { { "viewer", type<mud::Viewer>(),  } }, { &type<mud::OrbitControls>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "orbit_controls", funcptr<mud::OrbitControls&(*)(mud::Viewer&)>(mud::ui::orbit_controls), mud_ui_orbit_controls_3, { { "viewer", type<mud::Viewer>(),  } }, { &type<mud::OrbitControls>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float yaw_default = c_pi4;
 			static float pitch_default = -c_pi4;
 			static float distance_default = 10.f;
-			static Function f = { &namspc({ "mud", "ui" }), "orbit_controller", nullptr, mud_ui_orbit_controller_4, { { "viewer", type<mud::Viewer>(),  }, { "yaw", type<float>(), Param::Default, &yaw_default }, { "pitch", type<float>(), Param::Default, &pitch_default }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<mud::OrbitController>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "orbit_controller", funcptr<mud::OrbitController&(*)(mud::Viewer&, float, float, float)>(mud::ui::orbit_controller), mud_ui_orbit_controller_4, { { "viewer", type<mud::Viewer>(),  }, { "yaw", type<float>(), Param::Default, &yaw_default }, { "pitch", type<float>(), Param::Default, &pitch_default }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<mud::OrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "free_orbit_controller", nullptr, mud_ui_free_orbit_controller_5, { { "viewer", type<mud::Viewer>(),  } }, { &type<mud::FreeOrbitController>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "free_orbit_controller", funcptr<mud::FreeOrbitController&(*)(mud::Viewer&)>(mud::ui::free_orbit_controller), mud_ui_free_orbit_controller_5, { { "viewer", type<mud::Viewer>(),  } }, { &type<mud::FreeOrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool topdown_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "isometric_controller", nullptr, mud_ui_isometric_controller_6, { { "viewer", type<mud::Viewer>(),  }, { "topdown", type<bool>(), Param::Default, &topdown_default } }, { &type<mud::OrbitController>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "isometric_controller", funcptr<mud::OrbitController&(*)(mud::Viewer&, bool)>(mud::ui::isometric_controller), mud_ui_isometric_controller_6, { { "viewer", type<mud::Viewer>(),  }, { "topdown", type<bool>(), Param::Default, &topdown_default } }, { &type<mud::OrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool modal_default = false;
-			static Function f = { &namspc({ "mud", "ui" }), "hybrid_controller", nullptr, mud_ui_hybrid_controller_7, { { "viewer", type<mud::Viewer>(),  }, { "mode", type<mud::ui::OrbitMode>(),  }, { "entity", type<mud::Transform>(),  }, { "aiming", type<bool>(),  }, { "angles", type<mud::vec2>(),  }, { "modal", type<bool>(), Param::Default, &modal_default } }, { &type<mud::OrbitController>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "hybrid_controller", funcptr<mud::OrbitController&(*)(mud::Viewer&, mud::ui::OrbitMode, mud::Transform&, bool&, mud::vec2&, bool)>(mud::ui::hybrid_controller), mud_ui_hybrid_controller_7, { { "viewer", type<mud::Viewer>(),  }, { "mode", type<mud::ui::OrbitMode>(),  }, { "entity", type<mud::Transform>(),  }, { "aiming", type<bool>(),  }, { "angles", type<mud::vec2>(),  }, { "modal", type<bool>(), Param::Default, &modal_default } }, { &type<mud::OrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float speed_default = 1.f;
-			static Function f = { &namspc({ "mud", "ui" }), "velocity_controller", nullptr, mud_ui_velocity_controller_8, { { "viewer", type<mud::Viewer>(),  }, { "linear", type<mud::vec3>(),  }, { "angular", type<mud::vec3>(),  }, { "speed", type<float>(), Param::Default, &speed_default } }, g_qvoid };
+			static Function f = { &namspc({ "mud", "ui" }), "velocity_controller", funcptr<void(*)(mud::Viewer&, mud::vec3&, mud::vec3&, float)>(mud::ui::velocity_controller), mud_ui_velocity_controller_8, { { "viewer", type<mud::Viewer>(),  }, { "linear", type<mud::vec3>(),  }, { "angular", type<mud::vec3>(),  }, { "speed", type<float>(), Param::Default, &speed_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

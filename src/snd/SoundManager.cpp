@@ -30,14 +30,14 @@ namespace mud
 	{
 		ALenum error = alGetError();
 		if(error == AL_NO_ERROR)				return false;
-		else if(error == AL_INVALID_NAME)		printf("ERROR: OpenAL - AL_INVALID_NAME\n");
-		else if(error == AL_ILLEGAL_ENUM)		printf("ERROR: OpenAL - AL_ILLEGAL_ENUM\n");
-		else if(error == AL_INVALID_ENUM)		printf("ERROR: OpenAL - AL_INVALID_ENUM\n");
-		else if(error == AL_INVALID_VALUE)		printf("ERROR: OpenAL - AL_INVALID_VALUE\n");
-		else if(error == AL_ILLEGAL_COMMAND)	printf("ERROR: OpenAL - AL_ILLEGAL_COMMAND\n");
-		else if(error == AL_INVALID_OPERATION)	printf("ERROR: OpenAL - AL_INVALID_OPERATION\n");
-		else if(error == AL_OUT_OF_MEMORY)		printf("ERROR: OpenAL - AL_OUT_OF_MEMORY\n");
-		else									printf("ERROR: OpenAL - %i\n", int(error));
+		else if(error == AL_INVALID_NAME)		printf("[ERROR] snd - OpenAL - AL_INVALID_NAME\n");
+		else if(error == AL_ILLEGAL_ENUM)		printf("[ERROR] snd - OpenAL - AL_ILLEGAL_ENUM\n");
+		else if(error == AL_INVALID_ENUM)		printf("[ERROR] snd - OpenAL - AL_INVALID_ENUM\n");
+		else if(error == AL_INVALID_VALUE)		printf("[ERROR] snd - OpenAL - AL_INVALID_VALUE\n");
+		else if(error == AL_ILLEGAL_COMMAND)	printf("[ERROR] snd - OpenAL - AL_ILLEGAL_COMMAND\n");
+		else if(error == AL_INVALID_OPERATION)	printf("[ERROR] snd - OpenAL - AL_INVALID_OPERATION\n");
+		else if(error == AL_OUT_OF_MEMORY)		printf("[ERROR] snd - OpenAL - AL_OUT_OF_MEMORY\n");
+		else									printf("[ERROR] snd - OpenAL - %i\n", int(error));
 		return true;
 	}
 
@@ -46,11 +46,11 @@ namespace mud
 		bool errors = false;
 		while(ALCenum error = alcGetError(device) != ALC_NO_ERROR)
 		{
-			if(error == ALC_INVALID_DEVICE)			printf("ERROR: OpenALC - ALC_INVALID_DEVICE\n");
-			else if(error == ALC_INVALID_CONTEXT)	printf("ERROR: OpenALC - ALC_INVALID_CONTEXT\n");
-			else if(error == ALC_INVALID_ENUM)		printf("ERROR: OpenALC - ALC_INVALID_ENUM\n");
-			else if(error == ALC_INVALID_VALUE)		printf("ERROR: OpenALC - ALC_INVALID_VALUE\n");
-			else if(error == ALC_OUT_OF_MEMORY)		printf("ERROR: OpenALC - ALC_OUT_OF_MEMORY\n");
+			if(error == ALC_INVALID_DEVICE)			printf("[ERROR] OpenALC - ALC_INVALID_DEVICE\n");
+			else if(error == ALC_INVALID_CONTEXT)	printf("[ERROR] OpenALC - ALC_INVALID_CONTEXT\n");
+			else if(error == ALC_INVALID_ENUM)		printf("[ERROR] OpenALC - ALC_INVALID_ENUM\n");
+			else if(error == ALC_INVALID_VALUE)		printf("[ERROR] OpenALC - ALC_INVALID_VALUE\n");
+			else if(error == ALC_OUT_OF_MEMORY)		printf("[ERROR] OpenALC - ALC_OUT_OF_MEMORY\n");
 			errors = true;
 		}
 		return errors;
@@ -113,7 +113,7 @@ namespace mud
 
 	bool SoundManager::init(const string& device_name, unsigned int max_sources)
 	{
-		printf("INFO: Init Sound Manager\n");
+		printf("[info] Init Sound Manager\n");
 
 		if(m_device)
 			return true;
@@ -172,7 +172,7 @@ namespace mud
 			}
 		}
 
-		printf("INFO: Sound - added %i source\n", num_sources);
+		printf("[info] Sound - added %i source\n", num_sources);
 		return num_sources;
 	}
 
@@ -218,7 +218,7 @@ namespace mud
 
 		if(!file_exists(path))
 		{
-			printf("ERROR: Could not open sound file %s\n", path.c_str());
+			printf("[ERROR] Could not open sound file %s\n", path.c_str());
 			return nullptr;
 		}
 
@@ -512,7 +512,7 @@ namespace mud
 
 	void SoundManager::log_features()
 	{
-		printf("INFO: Supported sound formats\n");
+		printf("[info] Supported sound formats\n");
 
 		if(alcGetEnumValue(m_device, "AL_FORMAT_MONO16"))
 			printf("    - AL_FORMAT_MONO16 -- Monophonic Sound\n");

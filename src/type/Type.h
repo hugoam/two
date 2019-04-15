@@ -74,13 +74,19 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 
 	export_ template <class T, class U>
 	inline const T* try_as(const U& object) { if(object.m_type.template is<T>()) return &static_cast<const T&>(object); else return nullptr; }
+	
+	export_ template <class T, class U>
+	constexpr size_t member_offset(U T::*member)
+	{
+		return (char*)&((T*)nullptr->*member) - (char*)nullptr;
+	}
 
 	export_ template <class T_Method>
 	Address member_address(T_Method p)
 	{
 		Address result = {};
 		for(size_t i = 0; i < sizeof p; ++i)
-			result.value[i] = reinterpret_cast<char *>(&p)[i];
+			result.value[i] = reinterpret_cast<char*>(&p)[i];
 		return result;
 	}
 }

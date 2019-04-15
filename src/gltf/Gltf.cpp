@@ -98,7 +98,7 @@ namespace mud
 
 		if(magic != 0x46546C67 || version != 2)
 		{
-			printf("ERROR: .glb contents invalid\n");
+			printf("[ERROR] .glb contents invalid\n");
 			return;
 		}
 
@@ -111,7 +111,7 @@ namespace mud
 			{
 				std::string errors;
 				string strjson = read(file, chunk_length);
-				printf("DEBUG: gltf .glb json contents: %s\n", strjson.c_str());
+				printf("[debug] gltf .glb json contents: %s\n", strjson.c_str());
 				json = Json::parse(strjson.c_str(), errors);
 			}
 			else if(chunk_type == 0x004E4942)

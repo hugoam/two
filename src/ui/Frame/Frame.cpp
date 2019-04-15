@@ -143,7 +143,7 @@ namespace mud
 	{
 		bool skin_image = d_inkstyle && d_inkstyle->m_image;
 		if(d_inkstyle == &inkstyle) return;
-		//printf("INFO: Update inkstyle %s\n", inkstyle.m_name.c_str());
+		//printf("[info] Update inkstyle %s\n", inkstyle.m_name.c_str());
 		d_inkstyle = &inkstyle;
 		this->mark_dirty(DIRTY_REDRAW);
 

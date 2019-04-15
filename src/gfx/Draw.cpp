@@ -165,6 +165,8 @@ namespace mud
 
 		encoder.setVertexBuffer(0, &vertex_buffer);
 		encoder.setIndexBuffer(&index_buffer);
+
+		encoder.setGroup(bgfx::UniformSet::Group, m_material.m_index);
 		encoder.setState(draw_mode == OUTLINE ? bgfx_state | BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA : bgfx_state);
 
 		static const mat4 identity = bxidentity();
@@ -226,7 +228,6 @@ namespace mud
 			m.m_base.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
 			m.m_base.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
 			m.m_solid.m_colour.m_value = colour;
-			
 		}
 		return *m_impl->m_materials[hash];
 	}
@@ -240,7 +241,7 @@ namespace mud
 		auto& shapes = m_impl->m_symbols[hash];
 		if(shapes.find(shape_mem) == shapes.end())
 		{
-			//printf("INFO: created indexed Shape %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
+			//printf("[info] created indexed Shape %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
 			string name = "Shape:" + string(shape.m_type.m_name);
 			shapes[shape_mem] = gen_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode }, true);
 		}
