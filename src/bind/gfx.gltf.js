@@ -1,7 +1,7 @@
 // ImporterGltf
 function ImporterGltf(a0) {
     assert(checkClass(a0, GfxSystem), '[ERROR] ImporterGltf(0:gfx): expected GfxSystem');
-    this.__ptr = _mud_ImporterGltf__construct_1(/*gfx*/a0.__ptr); this.__type = ImporterGltf.__type; getCache(ImporterGltf)[this.__ptr] = this;
+    this.__ptr = _mud_ImporterGltf__construct_1(/*gfx*/a0.__ptr); getCache(ImporterGltf)[this.__ptr] = this;
 };
 ImporterGltf.prototype = Object.create(WrapperObject.prototype);
 ImporterGltf.prototype.constructor = ImporterGltf;
@@ -34,7 +34,7 @@ ImporterGltf.prototype["__destroy"] = ImporterGltf.prototype.__destroy = functio
 
 (function() {
     function setup() {
-        ImporterGltf.__type = _mud_ImporterGltf__type();
+        ImporterGltf.prototype.__type = _mud_ImporterGltf__type();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

@@ -3,7 +3,7 @@ Module['stl'] = Module['stl'] || {};
 // CanvasConnect
 function CanvasConnect() {
     
-    this.__ptr = _mud_CanvasConnect__construct_0(); this.__type = CanvasConnect.__type; getCache(CanvasConnect)[this.__ptr] = this;
+    this.__ptr = _mud_CanvasConnect__construct_0(); getCache(CanvasConnect)[this.__ptr] = this;
 };
 CanvasConnect.prototype = Object.create(WrapperObject.prototype);
 CanvasConnect.prototype.constructor = CanvasConnect;
@@ -16,7 +16,7 @@ CanvasConnect.prototype["__destroy"] = CanvasConnect.prototype.__destroy = funct
 // Clipboard
 function Clipboard() {
     
-    this.__ptr = _mud_Clipboard__construct_0(); this.__type = Clipboard.__type; getCache(Clipboard)[this.__ptr] = this;
+    this.__ptr = _mud_Clipboard__construct_0(); getCache(Clipboard)[this.__ptr] = this;
 };
 Clipboard.prototype = Object.create(WrapperObject.prototype);
 Clipboard.prototype.constructor = Clipboard;
@@ -45,7 +45,7 @@ Clipboard.prototype["__destroy"] = Clipboard.prototype.__destroy = function() {
 // Dock
 function Dock() {
     
-    this.__ptr = _mud_Dock__construct_0(); this.__type = Dock.__type; getCache(Dock)[this.__ptr] = this;
+    this.__ptr = _mud_Dock__construct_0(); getCache(Dock)[this.__ptr] = this;
 };
 Dock.prototype = Object.create(WrapperObject.prototype);
 Dock.prototype.constructor = Dock;
@@ -68,7 +68,7 @@ Docksystem.prototype["__destroy"] = Docksystem.prototype.__destroy = function() 
 // Gradient
 function Gradient() {
     
-    this.__ptr = _mud_Gradient__construct_0(); this.__type = Gradient.__type; getCache(Gradient)[this.__ptr] = this;
+    this.__ptr = _mud_Gradient__construct_0(); getCache(Gradient)[this.__ptr] = this;
 };
 Gradient.prototype = Object.create(WrapperObject.prototype);
 Gradient.prototype.constructor = Gradient;
@@ -109,9 +109,9 @@ function ImageSkin(a0, a1, a2, a3, a4, a5, a6) {
     if (a5 === undefined) { assert(checkClass(a0, Image), '[ERROR] ImageSkin(0:image): expected Image'); assert(typeof a1 === 'number', '[ERROR] ImageSkin(1:left): expected integer'); assert(typeof a2 === 'number', '[ERROR] ImageSkin(2:top): expected integer'); assert(typeof a3 === 'number', '[ERROR] ImageSkin(3:right): expected integer'); assert(typeof a4 === 'number', '[ERROR] ImageSkin(4:bottom): expected integer'); }
     else if (a6 === undefined) { assert(checkClass(a0, Image), '[ERROR] ImageSkin(0:image): expected Image'); assert(typeof a1 === 'number', '[ERROR] ImageSkin(1:left): expected integer'); assert(typeof a2 === 'number', '[ERROR] ImageSkin(2:top): expected integer'); assert(typeof a3 === 'number', '[ERROR] ImageSkin(3:right): expected integer'); assert(typeof a4 === 'number', '[ERROR] ImageSkin(4:bottom): expected integer'); assert(typeof a5 === 'number', '[ERROR] ImageSkin(5:margin): expected integer'); }
     else { assert(checkClass(a0, Image), '[ERROR] ImageSkin(0:image): expected Image'); assert(typeof a1 === 'number', '[ERROR] ImageSkin(1:left): expected integer'); assert(typeof a2 === 'number', '[ERROR] ImageSkin(2:top): expected integer'); assert(typeof a3 === 'number', '[ERROR] ImageSkin(3:right): expected integer'); assert(typeof a4 === 'number', '[ERROR] ImageSkin(4:bottom): expected integer'); assert(typeof a5 === 'number', '[ERROR] ImageSkin(5:margin): expected integer'); assert(typeof a6 === 'number', '[ERROR] ImageSkin(6:stretch): expected integer'); }
-    if (a5 === undefined) { this.__ptr = _mud_ImageSkin__construct_5(/*image*/a0.__ptr, /*left*/a1, /*top*/a2, /*right*/a3, /*bottom*/a4); this.__type = ImageSkin.__type; getCache(ImageSkin)[this.__ptr] = this; }
-    else if (a6 === undefined) { this.__ptr = _mud_ImageSkin__construct_6(/*image*/a0.__ptr, /*left*/a1, /*top*/a2, /*right*/a3, /*bottom*/a4, /*margin*/a5); this.__type = ImageSkin.__type; getCache(ImageSkin)[this.__ptr] = this; }
-    else { this.__ptr = _mud_ImageSkin__construct_7(/*image*/a0.__ptr, /*left*/a1, /*top*/a2, /*right*/a3, /*bottom*/a4, /*margin*/a5, /*stretch*/a6); this.__type = ImageSkin.__type; getCache(ImageSkin)[this.__ptr] = this; }
+    if (a5 === undefined) { this.__ptr = _mud_ImageSkin__construct_5(/*image*/a0.__ptr, /*left*/a1, /*top*/a2, /*right*/a3, /*bottom*/a4); getCache(ImageSkin)[this.__ptr] = this; }
+    else if (a6 === undefined) { this.__ptr = _mud_ImageSkin__construct_6(/*image*/a0.__ptr, /*left*/a1, /*top*/a2, /*right*/a3, /*bottom*/a4, /*margin*/a5); getCache(ImageSkin)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ImageSkin__construct_7(/*image*/a0.__ptr, /*left*/a1, /*top*/a2, /*right*/a3, /*bottom*/a4, /*margin*/a5, /*stretch*/a6); getCache(ImageSkin)[this.__ptr] = this; }
 };
 ImageSkin.prototype = Object.create(WrapperObject.prototype);
 ImageSkin.prototype.constructor = ImageSkin;
@@ -182,8 +182,8 @@ function InkStyle(a0) {
     ensureCache.prepare();
     if (a0 === undefined) {  }
     else { assert(typeof a0 === 'string', '[ERROR] InkStyle(0:name): expected string'); }
-    if (a0 === undefined) { this.__ptr = _mud_InkStyle__construct_0(); this.__type = InkStyle.__type; getCache(InkStyle)[this.__ptr] = this; }
-    else { this.__ptr = _mud_InkStyle__construct_1(ensureString(/*name*/a0)); this.__type = InkStyle.__type; getCache(InkStyle)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_InkStyle__construct_0(); getCache(InkStyle)[this.__ptr] = this; }
+    else { this.__ptr = _mud_InkStyle__construct_1(ensureString(/*name*/a0)); getCache(InkStyle)[this.__ptr] = this; }
 };
 InkStyle.prototype = Object.create(WrapperObject.prototype);
 InkStyle.prototype.constructor = InkStyle;
@@ -416,8 +416,8 @@ function Layout(a0) {
     ensureCache.prepare();
     if (a0 === undefined) {  }
     else { assert(typeof a0 === 'string', '[ERROR] Layout(0:name): expected string'); }
-    if (a0 === undefined) { this.__ptr = _mud_Layout__construct_0(); this.__type = Layout.__type; getCache(Layout)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Layout__construct_1(ensureString(/*name*/a0)); this.__type = Layout.__type; getCache(Layout)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Layout__construct_0(); getCache(Layout)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Layout__construct_1(ensureString(/*name*/a0)); getCache(Layout)[this.__ptr] = this; }
 };
 Layout.prototype = Object.create(WrapperObject.prototype);
 Layout.prototype.constructor = Layout;
@@ -570,7 +570,7 @@ Layout.prototype["__destroy"] = Layout.prototype.__destroy = function() {
 // NodeConnection
 function NodeConnection() {
     
-    this.__ptr = _mud_NodeConnection__construct_0(); this.__type = NodeConnection.__type; getCache(NodeConnection)[this.__ptr] = this;
+    this.__ptr = _mud_NodeConnection__construct_0(); getCache(NodeConnection)[this.__ptr] = this;
 };
 NodeConnection.prototype = Object.create(WrapperObject.prototype);
 NodeConnection.prototype.constructor = NodeConnection;
@@ -583,7 +583,7 @@ NodeConnection.prototype["__destroy"] = NodeConnection.prototype.__destroy = fun
 // Paint
 function Paint() {
     
-    this.__ptr = _mud_Paint__construct_0(); this.__type = Paint.__type; getCache(Paint)[this.__ptr] = this;
+    this.__ptr = _mud_Paint__construct_0(); getCache(Paint)[this.__ptr] = this;
 };
 Paint.prototype = Object.create(WrapperObject.prototype);
 Paint.prototype.constructor = Paint;
@@ -622,9 +622,9 @@ function Shadow(a0, a1, a2, a3, a4) {
     if (a0 === undefined) {  }
     else if (a4 === undefined) { assert(typeof a0 === 'number', '[ERROR] Shadow(0:xpos): expected number'); assert(typeof a1 === 'number', '[ERROR] Shadow(1:ypos): expected number'); assert(typeof a2 === 'number', '[ERROR] Shadow(2:blur): expected number'); assert(typeof a3 === 'number', '[ERROR] Shadow(3:spread): expected number'); }
     else { assert(typeof a0 === 'number', '[ERROR] Shadow(0:xpos): expected number'); assert(typeof a1 === 'number', '[ERROR] Shadow(1:ypos): expected number'); assert(typeof a2 === 'number', '[ERROR] Shadow(2:blur): expected number'); assert(typeof a3 === 'number', '[ERROR] Shadow(3:spread): expected number'); assert(checkClass(a4, Colour), '[ERROR] Shadow(4:colour): expected Colour'); }
-    if (a0 === undefined) { this.__ptr = _mud_Shadow__construct_0(); this.__type = Shadow.__type; getCache(Shadow)[this.__ptr] = this; }
-    else if (a4 === undefined) { this.__ptr = _mud_Shadow__construct_4(/*xpos*/a0, /*ypos*/a1, /*blur*/a2, /*spread*/a3); this.__type = Shadow.__type; getCache(Shadow)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Shadow__construct_5(/*xpos*/a0, /*ypos*/a1, /*blur*/a2, /*spread*/a3, /*colour*/a4.__ptr); this.__type = Shadow.__type; getCache(Shadow)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Shadow__construct_0(); getCache(Shadow)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_Shadow__construct_4(/*xpos*/a0, /*ypos*/a1, /*blur*/a2, /*spread*/a3); getCache(Shadow)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Shadow__construct_5(/*xpos*/a0, /*ypos*/a1, /*blur*/a2, /*spread*/a3, /*colour*/a4.__ptr); getCache(Shadow)[this.__ptr] = this; }
 };
 Shadow.prototype = Object.create(WrapperObject.prototype);
 Shadow.prototype.constructor = Shadow;
@@ -677,7 +677,7 @@ Shadow.prototype["__destroy"] = Shadow.prototype.__destroy = function() {
 // Space
 function Space() {
     
-    this.__ptr = _mud_Space__construct_0(); this.__type = Space.__type; getCache(Space)[this.__ptr] = this;
+    this.__ptr = _mud_Space__construct_0(); getCache(Space)[this.__ptr] = this;
 };
 Space.prototype = Object.create(WrapperObject.prototype);
 Space.prototype.constructor = Space;
@@ -764,7 +764,7 @@ Text.prototype["__destroy"] = Text.prototype.__destroy = function() {
 // TextCursor
 function TextCursor() {
     
-    this.__ptr = _mud_TextCursor__construct_0(); this.__type = TextCursor.__type; getCache(TextCursor)[this.__ptr] = this;
+    this.__ptr = _mud_TextCursor__construct_0(); getCache(TextCursor)[this.__ptr] = this;
 };
 TextCursor.prototype = Object.create(WrapperObject.prototype);
 TextCursor.prototype.constructor = TextCursor;
@@ -777,7 +777,7 @@ TextCursor.prototype["__destroy"] = TextCursor.prototype.__destroy = function() 
 // TextMarker
 function TextMarker() {
     
-    this.__ptr = _mud_TextMarker__construct_0(); this.__type = TextMarker.__type; getCache(TextMarker)[this.__ptr] = this;
+    this.__ptr = _mud_TextMarker__construct_0(); getCache(TextMarker)[this.__ptr] = this;
 };
 TextMarker.prototype = Object.create(WrapperObject.prototype);
 TextMarker.prototype.constructor = TextMarker;
@@ -790,7 +790,7 @@ TextMarker.prototype["__destroy"] = TextMarker.prototype.__destroy = function() 
 // TextPaint
 function TextPaint() {
     
-    this.__ptr = _mud_TextPaint__construct_0(); this.__type = TextPaint.__type; getCache(TextPaint)[this.__ptr] = this;
+    this.__ptr = _mud_TextPaint__construct_0(); getCache(TextPaint)[this.__ptr] = this;
 };
 TextPaint.prototype = Object.create(WrapperObject.prototype);
 TextPaint.prototype.constructor = TextPaint;
@@ -851,7 +851,7 @@ TextPaint.prototype["__destroy"] = TextPaint.prototype.__destroy = function() {
 // TextSelection
 function TextSelection() {
     
-    this.__ptr = _mud_TextSelection__construct_0(); this.__type = TextSelection.__type; getCache(TextSelection)[this.__ptr] = this;
+    this.__ptr = _mud_TextSelection__construct_0(); getCache(TextSelection)[this.__ptr] = this;
 };
 TextSelection.prototype = Object.create(WrapperObject.prototype);
 TextSelection.prototype.constructor = TextSelection;
@@ -864,7 +864,7 @@ TextSelection.prototype["__destroy"] = TextSelection.prototype.__destroy = funct
 // UiRect
 function UiRect() {
     
-    this.__ptr = _mud_UiRect__construct_0(); this.__type = UiRect.__type; getCache(UiRect)[this.__ptr] = this;
+    this.__ptr = _mud_UiRect__construct_0(); getCache(UiRect)[this.__ptr] = this;
 };
 UiRect.prototype = Object.create(WrapperObject.prototype);
 UiRect.prototype.constructor = UiRect;
@@ -985,9 +985,9 @@ function v2_mud_Align(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:v): expected integer'); }
     else { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:x): expected integer'); assert(typeof a1 === 'number', '[ERROR] v2<T>(1:y): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Align__construct_0(); this.__type = v2_mud_Align.__type; getCache(v2_mud_Align)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Align__construct_1(/*v*/a0); this.__type = v2_mud_Align.__type; getCache(v2_mud_Align)[this.__ptr] = this; }
-    else { this.__ptr = _mud_v2_mud_Align__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_mud_Align.__type; getCache(v2_mud_Align)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Align__construct_0(); getCache(v2_mud_Align)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Align__construct_1(/*v*/a0); getCache(v2_mud_Align)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_mud_Align__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_Align)[this.__ptr] = this; }
 };
 v2_mud_Align.prototype = Object.create(WrapperObject.prototype);
 v2_mud_Align.prototype.constructor = v2_mud_Align;
@@ -1018,9 +1018,9 @@ function v2_mud_AutoLayout(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:v): expected integer'); }
     else { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:x): expected integer'); assert(typeof a1 === 'number', '[ERROR] v2<T>(1:y): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_v2_mud_AutoLayout__construct_0(); this.__type = v2_mud_AutoLayout.__type; getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_AutoLayout__construct_1(/*v*/a0); this.__type = v2_mud_AutoLayout.__type; getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
-    else { this.__ptr = _mud_v2_mud_AutoLayout__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_mud_AutoLayout.__type; getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_v2_mud_AutoLayout__construct_0(); getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_AutoLayout__construct_1(/*v*/a0); getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_mud_AutoLayout__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
 };
 v2_mud_AutoLayout.prototype = Object.create(WrapperObject.prototype);
 v2_mud_AutoLayout.prototype.constructor = v2_mud_AutoLayout;
@@ -1051,9 +1051,9 @@ function v2_mud_Pivot(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:v): expected integer'); }
     else { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:x): expected integer'); assert(typeof a1 === 'number', '[ERROR] v2<T>(1:y): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Pivot__construct_0(); this.__type = v2_mud_Pivot.__type; getCache(v2_mud_Pivot)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Pivot__construct_1(/*v*/a0); this.__type = v2_mud_Pivot.__type; getCache(v2_mud_Pivot)[this.__ptr] = this; }
-    else { this.__ptr = _mud_v2_mud_Pivot__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_mud_Pivot.__type; getCache(v2_mud_Pivot)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Pivot__construct_0(); getCache(v2_mud_Pivot)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Pivot__construct_1(/*v*/a0); getCache(v2_mud_Pivot)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_mud_Pivot__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_Pivot)[this.__ptr] = this; }
 };
 v2_mud_Pivot.prototype = Object.create(WrapperObject.prototype);
 v2_mud_Pivot.prototype.constructor = v2_mud_Pivot;
@@ -1084,9 +1084,9 @@ function v2_mud_Sizing(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:v): expected integer'); }
     else { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:x): expected integer'); assert(typeof a1 === 'number', '[ERROR] v2<T>(1:y): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Sizing__construct_0(); this.__type = v2_mud_Sizing.__type; getCache(v2_mud_Sizing)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Sizing__construct_1(/*v*/a0); this.__type = v2_mud_Sizing.__type; getCache(v2_mud_Sizing)[this.__ptr] = this; }
-    else { this.__ptr = _mud_v2_mud_Sizing__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_mud_Sizing.__type; getCache(v2_mud_Sizing)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Sizing__construct_0(); getCache(v2_mud_Sizing)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Sizing__construct_1(/*v*/a0); getCache(v2_mud_Sizing)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_mud_Sizing__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_Sizing)[this.__ptr] = this; }
 };
 v2_mud_Sizing.prototype = Object.create(WrapperObject.prototype);
 v2_mud_Sizing.prototype.constructor = v2_mud_Sizing;
@@ -1117,9 +1117,9 @@ function v2_size_t(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:v): expected integer'); }
     else { assert(typeof a0 === 'number', '[ERROR] v2<T>(0:x): expected integer'); assert(typeof a1 === 'number', '[ERROR] v2<T>(1:y): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_v2_size_t__construct_0(); this.__type = v2_size_t.__type; getCache(v2_size_t)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_v2_size_t__construct_1(/*v*/a0); this.__type = v2_size_t.__type; getCache(v2_size_t)[this.__ptr] = this; }
-    else { this.__ptr = _mud_v2_size_t__construct_2(/*x*/a0, /*y*/a1); this.__type = v2_size_t.__type; getCache(v2_size_t)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_v2_size_t__construct_0(); getCache(v2_size_t)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_size_t__construct_1(/*v*/a0); getCache(v2_size_t)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_size_t__construct_2(/*x*/a0, /*y*/a1); getCache(v2_size_t)[this.__ptr] = this; }
 };
 v2_size_t.prototype = Object.create(WrapperObject.prototype);
 v2_size_t.prototype.constructor = v2_size_t;
@@ -1150,7 +1150,7 @@ function Canvas() { throw "cannot construct a Canvas, no constructor in IDL" }
 Canvas.prototype = Object.create(Widget.prototype);
 Canvas.prototype.constructor = Canvas;
 Canvas.prototype.__class = Canvas;
-Canvas.prototype.__base = Widget;
+Canvas.__base = Widget;
 Canvas.__cache = {};
 Module['Canvas'] = Canvas;
 Canvas.prototype["__destroy"] = Canvas.prototype.__destroy = function() {
@@ -1161,7 +1161,7 @@ function Dockable() { throw "cannot construct a Dockable, no constructor in IDL"
 Dockable.prototype = Object.create(Widget.prototype);
 Dockable.prototype.constructor = Dockable;
 Dockable.prototype.__class = Dockable;
-Dockable.prototype.__base = Widget;
+Dockable.__base = Widget;
 Dockable.__cache = {};
 Module['Dockable'] = Dockable;
 Dockable.prototype["__destroy"] = Dockable.prototype.__destroy = function() {
@@ -1172,7 +1172,7 @@ function Docker() { throw "cannot construct a Docker, no constructor in IDL" }
 Docker.prototype = Object.create(Widget.prototype);
 Docker.prototype.constructor = Docker;
 Docker.prototype.__class = Docker;
-Docker.prototype.__base = Widget;
+Docker.__base = Widget;
 Docker.__cache = {};
 Module['Docker'] = Docker;
 Docker.prototype["__destroy"] = Docker.prototype.__destroy = function() {
@@ -1183,7 +1183,7 @@ function Dockbar() { throw "cannot construct a Dockbar, no constructor in IDL" }
 Dockbar.prototype = Object.create(Docker.prototype);
 Dockbar.prototype.constructor = Dockbar;
 Dockbar.prototype.__class = Dockbar;
-Dockbar.prototype.__base = Docker;
+Dockbar.__base = Docker;
 Dockbar.__cache = {};
 Module['Dockbar'] = Dockbar;
 Dockbar.prototype["__destroy"] = Dockbar.prototype.__destroy = function() {
@@ -1194,7 +1194,7 @@ function Dockspace() { throw "cannot construct a Dockspace, no constructor in ID
 Dockspace.prototype = Object.create(Docker.prototype);
 Dockspace.prototype.constructor = Dockspace;
 Dockspace.prototype.__class = Dockspace;
-Dockspace.prototype.__base = Docker;
+Dockspace.__base = Docker;
 Dockspace.__cache = {};
 Module['Dockspace'] = Dockspace;
 Dockspace.prototype["__destroy"] = Dockspace.prototype.__destroy = function() {
@@ -1205,7 +1205,7 @@ function Expandbox() { throw "cannot construct a Expandbox, no constructor in ID
 Expandbox.prototype = Object.create(Widget.prototype);
 Expandbox.prototype.constructor = Expandbox;
 Expandbox.prototype.__class = Expandbox;
-Expandbox.prototype.__base = Widget;
+Expandbox.__base = Widget;
 Expandbox.__cache = {};
 Module['Expandbox'] = Expandbox;
 Expandbox.prototype["__destroy"] = Expandbox.prototype.__destroy = function() {
@@ -1216,7 +1216,7 @@ function Frame() { throw "cannot construct a Frame, no constructor in IDL" }
 Frame.prototype = Object.create(UiRect.prototype);
 Frame.prototype.constructor = Frame;
 Frame.prototype.__class = Frame;
-Frame.prototype.__base = UiRect;
+Frame.__base = UiRect;
 Frame.__cache = {};
 Module['Frame'] = Frame;
 Frame.prototype["__destroy"] = Frame.prototype.__destroy = function() {
@@ -1227,7 +1227,7 @@ function FrameSolver() { throw "cannot construct a FrameSolver, no constructor i
 FrameSolver.prototype = Object.create(UiRect.prototype);
 FrameSolver.prototype.constructor = FrameSolver;
 FrameSolver.prototype.__class = FrameSolver;
-FrameSolver.prototype.__base = UiRect;
+FrameSolver.__base = UiRect;
 FrameSolver.__cache = {};
 Module['FrameSolver'] = FrameSolver;
 FrameSolver.prototype["__destroy"] = FrameSolver.prototype.__destroy = function() {
@@ -1238,7 +1238,7 @@ function Node() { throw "cannot construct a Node, no constructor in IDL" }
 Node.prototype = Object.create(Widget.prototype);
 Node.prototype.constructor = Node;
 Node.prototype.__class = Node;
-Node.prototype.__base = Widget;
+Node.__base = Widget;
 Node.__cache = {};
 Module['Node'] = Node;
 Node.prototype["__destroy"] = Node.prototype.__destroy = function() {
@@ -1249,7 +1249,7 @@ function NodePlug() { throw "cannot construct a NodePlug, no constructor in IDL"
 NodePlug.prototype = Object.create(Widget.prototype);
 NodePlug.prototype.constructor = NodePlug;
 NodePlug.prototype.__class = NodePlug;
-NodePlug.prototype.__base = Widget;
+NodePlug.__base = Widget;
 NodePlug.__cache = {};
 Module['NodePlug'] = NodePlug;
 NodePlug.prototype["__destroy"] = NodePlug.prototype.__destroy = function() {
@@ -1260,7 +1260,7 @@ function RowSolver() { throw "cannot construct a RowSolver, no constructor in ID
 RowSolver.prototype = Object.create(FrameSolver.prototype);
 RowSolver.prototype.constructor = RowSolver;
 RowSolver.prototype.__class = RowSolver;
-RowSolver.prototype.__base = FrameSolver;
+RowSolver.__base = FrameSolver;
 RowSolver.__cache = {};
 Module['RowSolver'] = RowSolver;
 RowSolver.prototype["__destroy"] = RowSolver.prototype.__destroy = function() {
@@ -1271,7 +1271,7 @@ function LineSolver() { throw "cannot construct a LineSolver, no constructor in 
 LineSolver.prototype = Object.create(RowSolver.prototype);
 LineSolver.prototype.constructor = LineSolver;
 LineSolver.prototype.__class = LineSolver;
-LineSolver.prototype.__base = RowSolver;
+LineSolver.__base = RowSolver;
 LineSolver.__cache = {};
 Module['LineSolver'] = LineSolver;
 LineSolver.prototype["__destroy"] = LineSolver.prototype.__destroy = function() {
@@ -1282,7 +1282,7 @@ function ScrollSheet() { throw "cannot construct a ScrollSheet, no constructor i
 ScrollSheet.prototype = Object.create(Widget.prototype);
 ScrollSheet.prototype.constructor = ScrollSheet;
 ScrollSheet.prototype.__class = ScrollSheet;
-ScrollSheet.prototype.__base = Widget;
+ScrollSheet.__base = Widget;
 ScrollSheet.__cache = {};
 Module['ScrollSheet'] = ScrollSheet;
 ScrollSheet.prototype["__destroy"] = ScrollSheet.prototype.__destroy = function() {
@@ -1293,7 +1293,7 @@ function Sequence() { throw "cannot construct a Sequence, no constructor in IDL"
 Sequence.prototype = Object.create(Widget.prototype);
 Sequence.prototype.constructor = Sequence;
 Sequence.prototype.__class = Sequence;
-Sequence.prototype.__base = Widget;
+Sequence.__base = Widget;
 Sequence.__cache = {};
 Module['ui']['Sequence'] = Sequence;
 Sequence.prototype["__destroy"] = Sequence.prototype.__destroy = function() {
@@ -1304,7 +1304,7 @@ function Tabber() { throw "cannot construct a Tabber, no constructor in IDL" }
 Tabber.prototype = Object.create(Widget.prototype);
 Tabber.prototype.constructor = Tabber;
 Tabber.prototype.__class = Tabber;
-Tabber.prototype.__base = Widget;
+Tabber.__base = Widget;
 Tabber.__cache = {};
 Module['Tabber'] = Tabber;
 Tabber.prototype["__destroy"] = Tabber.prototype.__destroy = function() {
@@ -1315,7 +1315,7 @@ function Table() { throw "cannot construct a Table, no constructor in IDL" }
 Table.prototype = Object.create(Widget.prototype);
 Table.prototype.constructor = Table;
 Table.prototype.__class = Table;
-Table.prototype.__base = Widget;
+Table.__base = Widget;
 Table.__cache = {};
 Module['Table'] = Table;
 Table.prototype["__destroy"] = Table.prototype.__destroy = function() {
@@ -1326,7 +1326,7 @@ function TextEdit() { throw "cannot construct a TextEdit, no constructor in IDL"
 TextEdit.prototype = Object.create(Widget.prototype);
 TextEdit.prototype.constructor = TextEdit;
 TextEdit.prototype.__class = TextEdit;
-TextEdit.prototype.__base = Widget;
+TextEdit.__base = Widget;
 TextEdit.__cache = {};
 Module['TextEdit'] = TextEdit;
 TextEdit.prototype["__destroy"] = TextEdit.prototype.__destroy = function() {
@@ -1337,7 +1337,7 @@ function Widget() { throw "cannot construct a Widget, no constructor in IDL" }
 Widget.prototype = Object.create(ControlNode.prototype);
 Widget.prototype.constructor = Widget;
 Widget.prototype.__class = Widget;
-Widget.prototype.__base = ControlNode;
+Widget.__base = ControlNode;
 Widget.__cache = {};
 Module['Widget'] = Widget;
 Widget.prototype["focused"] = Widget.prototype.focused = function() {
@@ -1498,7 +1498,7 @@ function TreeNode() { throw "cannot construct a TreeNode, no constructor in IDL"
 TreeNode.prototype = Object.create(Widget.prototype);
 TreeNode.prototype.constructor = TreeNode;
 TreeNode.prototype.__class = TreeNode;
-TreeNode.prototype.__base = Widget;
+TreeNode.__base = Widget;
 TreeNode.__cache = {};
 Module['TreeNode'] = TreeNode;
 TreeNode.prototype["__destroy"] = TreeNode.prototype.__destroy = function() {
@@ -1509,7 +1509,7 @@ function Ui() { throw "cannot construct a Ui, no constructor in IDL" }
 Ui.prototype = Object.create(Widget.prototype);
 Ui.prototype.constructor = Ui;
 Ui.prototype.__class = Ui;
-Ui.prototype.__base = Widget;
+Ui.__base = Widget;
 Ui.__cache = {};
 Module['Ui'] = Ui;
 Ui.prototype["begin"] = Ui.prototype.begin = function() {
@@ -1524,7 +1524,7 @@ function Window() { throw "cannot construct a Window, no constructor in IDL" }
 Window.prototype = Object.create(Dockable.prototype);
 Window.prototype.constructor = Window;
 Window.prototype.__class = Window;
-Window.prototype.__base = Dockable;
+Window.__base = Dockable;
 Window.__cache = {};
 Module['Window'] = Window;
 Window.prototype["__destroy"] = Window.prototype.__destroy = function() {
@@ -2060,52 +2060,52 @@ Module['ui']['file_tree'] = function(a0, a1) {
 
 (function() {
     function setup() {
-        CanvasConnect.__type = _mud_CanvasConnect__type();
-        Clipboard.__type = _mud_Clipboard__type();
-        Dock.__type = _mud_Dock__type();
-        Docksystem.__type = _mud_Docksystem__type();
-        Gradient.__type = _mud_Gradient__type();
-        GridSolver.__type = _mud_GridSolver__type();
-        ImageSkin.__type = _mud_ImageSkin__type();
-        InkStyle.__type = _mud_InkStyle__type();
-        Layer.__type = _mud_Layer__type();
-        Layout.__type = _mud_Layout__type();
-        NodeConnection.__type = _mud_NodeConnection__type();
-        Paint.__type = _mud_Paint__type();
-        Shadow.__type = _mud_Shadow__type();
-        Space.__type = _mud_Space__type();
-        Style.__type = _mud_Style__type();
-        TableSolver.__type = _mud_TableSolver__type();
-        Text.__type = _mud_Text__type();
-        TextCursor.__type = _mud_TextCursor__type();
-        TextMarker.__type = _mud_TextMarker__type();
-        TextPaint.__type = _mud_TextPaint__type();
-        TextSelection.__type = _mud_TextSelection__type();
-        UiRect.__type = _mud_UiRect__type();
-        UiWindow.__type = _mud_UiWindow__type();
-        User.__type = _mud_User__type();
-        Vg.__type = _mud_Vg__type();
-        Canvas.__type = _mud_Canvas__type();
-        Dockable.__type = _mud_Dockable__type();
-        Docker.__type = _mud_Docker__type();
-        Dockbar.__type = _mud_Dockbar__type();
-        Dockspace.__type = _mud_Dockspace__type();
-        Expandbox.__type = _mud_Expandbox__type();
-        Frame.__type = _mud_Frame__type();
-        FrameSolver.__type = _mud_FrameSolver__type();
-        Node.__type = _mud_Node__type();
-        NodePlug.__type = _mud_NodePlug__type();
-        RowSolver.__type = _mud_RowSolver__type();
-        LineSolver.__type = _mud_LineSolver__type();
-        ScrollSheet.__type = _mud_ScrollSheet__type();
-        Sequence.__type = _mud_ui_Sequence__type();
-        Tabber.__type = _mud_Tabber__type();
-        Table.__type = _mud_Table__type();
-        TextEdit.__type = _mud_TextEdit__type();
-        Widget.__type = _mud_Widget__type();
-        TreeNode.__type = _mud_TreeNode__type();
-        Ui.__type = _mud_Ui__type();
-        Window.__type = _mud_Window__type();
+        CanvasConnect.prototype.__type = _mud_CanvasConnect__type();
+        Clipboard.prototype.__type = _mud_Clipboard__type();
+        Dock.prototype.__type = _mud_Dock__type();
+        Docksystem.prototype.__type = _mud_Docksystem__type();
+        Gradient.prototype.__type = _mud_Gradient__type();
+        GridSolver.prototype.__type = _mud_GridSolver__type();
+        ImageSkin.prototype.__type = _mud_ImageSkin__type();
+        InkStyle.prototype.__type = _mud_InkStyle__type();
+        Layer.prototype.__type = _mud_Layer__type();
+        Layout.prototype.__type = _mud_Layout__type();
+        NodeConnection.prototype.__type = _mud_NodeConnection__type();
+        Paint.prototype.__type = _mud_Paint__type();
+        Shadow.prototype.__type = _mud_Shadow__type();
+        Space.prototype.__type = _mud_Space__type();
+        Style.prototype.__type = _mud_Style__type();
+        TableSolver.prototype.__type = _mud_TableSolver__type();
+        Text.prototype.__type = _mud_Text__type();
+        TextCursor.prototype.__type = _mud_TextCursor__type();
+        TextMarker.prototype.__type = _mud_TextMarker__type();
+        TextPaint.prototype.__type = _mud_TextPaint__type();
+        TextSelection.prototype.__type = _mud_TextSelection__type();
+        UiRect.prototype.__type = _mud_UiRect__type();
+        UiWindow.prototype.__type = _mud_UiWindow__type();
+        User.prototype.__type = _mud_User__type();
+        Vg.prototype.__type = _mud_Vg__type();
+        Canvas.prototype.__type = _mud_Canvas__type();
+        Dockable.prototype.__type = _mud_Dockable__type();
+        Docker.prototype.__type = _mud_Docker__type();
+        Dockbar.prototype.__type = _mud_Dockbar__type();
+        Dockspace.prototype.__type = _mud_Dockspace__type();
+        Expandbox.prototype.__type = _mud_Expandbox__type();
+        Frame.prototype.__type = _mud_Frame__type();
+        FrameSolver.prototype.__type = _mud_FrameSolver__type();
+        Node.prototype.__type = _mud_Node__type();
+        NodePlug.prototype.__type = _mud_NodePlug__type();
+        RowSolver.prototype.__type = _mud_RowSolver__type();
+        LineSolver.prototype.__type = _mud_LineSolver__type();
+        ScrollSheet.prototype.__type = _mud_ScrollSheet__type();
+        Sequence.prototype.__type = _mud_ui_Sequence__type();
+        Tabber.prototype.__type = _mud_Tabber__type();
+        Table.prototype.__type = _mud_Table__type();
+        TextEdit.prototype.__type = _mud_TextEdit__type();
+        Widget.prototype.__type = _mud_Widget__type();
+        TreeNode.prototype.__type = _mud_TreeNode__type();
+        Ui.prototype.__type = _mud_Ui__type();
+        Window.prototype.__type = _mud_Window__type();
         // Align
         Module['Align'] = Module['Align'] || {};
         Module['Align']['Left'] = _mud_Align_Left();

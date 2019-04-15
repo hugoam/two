@@ -2,7 +2,7 @@ Module['stl'] = Module['stl'] || {};
 // Circlifier
 function Circlifier(a0) {
     assert(checkClass(a0, Image256), '[ERROR] Circlifier(0:image): expected Image256');
-    this.__ptr = _mud_Circlifier__construct_1(/*image*/a0.__ptr); this.__type = Circlifier.__type; getCache(Circlifier)[this.__ptr] = this;
+    this.__ptr = _mud_Circlifier__construct_1(/*image*/a0.__ptr); getCache(Circlifier)[this.__ptr] = this;
 };
 Circlifier.prototype = Object.create(WrapperObject.prototype);
 Circlifier.prototype.constructor = Circlifier;
@@ -16,8 +16,8 @@ Circlifier.prototype["__destroy"] = Circlifier.prototype.__destroy = function() 
 function Fract(a0) {
     if (a0 === undefined) {  }
     else { assert(typeof a0 === 'number', '[ERROR] Fract(0:num_tabs): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_Fract__construct_0(); this.__type = Fract.__type; getCache(Fract)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Fract__construct_1(/*num_tabs*/a0); this.__type = Fract.__type; getCache(Fract)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Fract__construct_0(); getCache(Fract)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Fract__construct_1(/*num_tabs*/a0); getCache(Fract)[this.__ptr] = this; }
 };
 Fract.prototype = Object.create(WrapperObject.prototype);
 Fract.prototype.constructor = Fract;
@@ -56,7 +56,7 @@ Fract.prototype["__destroy"] = Fract.prototype.__destroy = function() {
 // FractSample
 function FractSample(a0, a1, a2) {
     assert(checkClass(a0, Fract), '[ERROR] FractSample(0:fract): expected Fract'); assert(checkClass(a1, Rect), '[ERROR] FractSample(1:rect): expected Rect'); assert(checkClass(a2, v2_uint), '[ERROR] FractSample(2:resolution): expected v2<uint>');
-    this.__ptr = _mud_FractSample__construct_3(/*fract*/a0.__ptr, /*rect*/a1.__ptr, /*resolution*/a2.__ptr); this.__type = FractSample.__type; getCache(FractSample)[this.__ptr] = this;
+    this.__ptr = _mud_FractSample__construct_3(/*fract*/a0.__ptr, /*rect*/a1.__ptr, /*resolution*/a2.__ptr); getCache(FractSample)[this.__ptr] = this;
 };
 FractSample.prototype = Object.create(WrapperObject.prototype);
 FractSample.prototype.constructor = FractSample;
@@ -93,7 +93,7 @@ FractSample.prototype["__destroy"] = FractSample.prototype.__destroy = function(
 // FractTab
 function FractTab() {
     
-    this.__ptr = _mud_FractTab__construct_0(); this.__type = FractTab.__type; getCache(FractTab)[this.__ptr] = this;
+    this.__ptr = _mud_FractTab__construct_0(); getCache(FractTab)[this.__ptr] = this;
 };
 FractTab.prototype = Object.create(WrapperObject.prototype);
 FractTab.prototype.constructor = FractTab;
@@ -109,10 +109,10 @@ function Pattern(a0, a1, a2, a3) {
     else if (a2 === undefined) { assert(checkClass(a0, Palette), '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); }
     else if (a3 === undefined) { assert(checkClass(a0, Palette), '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); assert(typeof a2 === 'number', '[ERROR] Pattern(2:precision): expected number'); }
     else { assert(checkClass(a0, Palette), '[ERROR] Pattern(0:palette): expected Palette'); assert(typeof a1 === 'number', '[ERROR] Pattern(1:sampling): expected integer'); assert(typeof a2 === 'number', '[ERROR] Pattern(2:precision): expected number'); assert(typeof a3 === 'number', '[ERROR] Pattern(3:step): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_Pattern__construct_0(); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Pattern__construct_2(/*palette*/a0.__ptr, /*sampling*/a1); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_Pattern__construct_3(/*palette*/a0.__ptr, /*sampling*/a1, /*precision*/a2); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Pattern__construct_4(/*palette*/a0.__ptr, /*sampling*/a1, /*precision*/a2, /*step*/a3); this.__type = Pattern.__type; getCache(Pattern)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Pattern__construct_0(); getCache(Pattern)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Pattern__construct_2(/*palette*/a0.__ptr, /*sampling*/a1); getCache(Pattern)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Pattern__construct_3(/*palette*/a0.__ptr, /*sampling*/a1, /*precision*/a2); getCache(Pattern)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Pattern__construct_4(/*palette*/a0.__ptr, /*sampling*/a1, /*precision*/a2, /*step*/a3); getCache(Pattern)[this.__ptr] = this; }
 };
 Pattern.prototype = Object.create(WrapperObject.prototype);
 Pattern.prototype.constructor = Pattern;
@@ -129,11 +129,11 @@ Module['generate_fract'] = function(a0, a1, a2) {
 
 (function() {
     function setup() {
-        Circlifier.__type = _mud_Circlifier__type();
-        Fract.__type = _mud_Fract__type();
-        FractSample.__type = _mud_FractSample__type();
-        FractTab.__type = _mud_FractTab__type();
-        Pattern.__type = _mud_Pattern__type();
+        Circlifier.prototype.__type = _mud_Circlifier__type();
+        Fract.prototype.__type = _mud_Fract__type();
+        FractSample.prototype.__type = _mud_FractSample__type();
+        FractTab.prototype.__type = _mud_FractTab__type();
+        Pattern.prototype.__type = _mud_Pattern__type();
         // PatternSampling
         Module['PatternSampling'] = Module['PatternSampling'] || {};
         Module['PatternSampling']['X'] = _mud_PatternSampling_X();

@@ -55,7 +55,7 @@ Module['noise_fract_3d'] = function(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) {
 
 (function() {
     function setup() {
-        Noise.__type = _mud_Noise__type();
+        Noise.prototype.__type = _mud_Noise__type();
         // CellularDistanceFunction
         Module['Noise']['Euclidean'] = _mud_Noise_CellularDistanceFunction_Euclidean();
         Module['Noise']['Manhattan'] = _mud_Noise_CellularDistanceFunction_Manhattan();

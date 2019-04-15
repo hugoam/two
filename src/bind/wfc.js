@@ -1,7 +1,7 @@
 // Tile
 function Tile() {
     
-    this.__ptr = _mud_Tile__construct_0(); this.__type = Tile.__type; getCache(Tile)[this.__ptr] = this;
+    this.__ptr = _mud_Tile__construct_0(); getCache(Tile)[this.__ptr] = this;
 };
 Tile.prototype = Object.create(WrapperObject.prototype);
 Tile.prototype.constructor = Tile;
@@ -54,7 +54,7 @@ Tile.prototype["__destroy"] = Tile.prototype.__destroy = function() {
 // Tileset
 function Tileset() {
     
-    this.__ptr = _mud_Tileset__construct_0(); this.__type = Tileset.__type; getCache(Tileset)[this.__ptr] = this;
+    this.__ptr = _mud_Tileset__construct_0(); getCache(Tileset)[this.__ptr] = this;
 };
 Tileset.prototype = Object.create(WrapperObject.prototype);
 Tileset.prototype.constructor = Tileset;
@@ -99,7 +99,7 @@ Tileset.prototype["__destroy"] = Tileset.prototype.__destroy = function() {
 // Wave
 function Wave() {
     
-    this.__ptr = _mud_Wave__construct_0(); this.__type = Wave.__type; getCache(Wave)[this.__ptr] = this;
+    this.__ptr = _mud_Wave__construct_0(); getCache(Wave)[this.__ptr] = this;
 };
 Wave.prototype = Object.create(WrapperObject.prototype);
 Wave.prototype.constructor = Wave;
@@ -116,12 +116,12 @@ Wave.prototype["__destroy"] = Wave.prototype.__destroy = function() {
 // TileWave
 function TileWave(a0, a1, a2, a3, a4) {
     assert(checkClass(a0, WaveTileset), '[ERROR] TileWave(0:tileset): expected WaveTileset'); assert(typeof a1 === 'number', '[ERROR] TileWave(1:width): expected integer'); assert(typeof a2 === 'number', '[ERROR] TileWave(2:height): expected integer'); assert(typeof a3 === 'number', '[ERROR] TileWave(3:depth): expected integer'); assert(typeof a4 === 'boolean', '[ERROR] TileWave(4:periodic): expected boolean');
-    this.__ptr = _mud_TileWave__construct_5(/*tileset*/a0.__ptr, /*width*/a1, /*height*/a2, /*depth*/a3, /*periodic*/a4); this.__type = TileWave.__type; getCache(TileWave)[this.__ptr] = this;
+    this.__ptr = _mud_TileWave__construct_5(/*tileset*/a0.__ptr, /*width*/a1, /*height*/a2, /*depth*/a3, /*periodic*/a4); getCache(TileWave)[this.__ptr] = this;
 };
 TileWave.prototype = Object.create(Wave.prototype);
 TileWave.prototype.constructor = TileWave;
 TileWave.prototype.__class = TileWave;
-TileWave.prototype.__base = Wave;
+TileWave.__base = Wave;
 TileWave.__cache = {};
 Module['TileWave'] = TileWave;
 TileWave.prototype["__destroy"] = TileWave.prototype.__destroy = function() {
@@ -130,12 +130,12 @@ TileWave.prototype["__destroy"] = TileWave.prototype.__destroy = function() {
 // WaveTileset
 function WaveTileset() {
     
-    this.__ptr = _mud_WaveTileset__construct_0(); this.__type = WaveTileset.__type; getCache(WaveTileset)[this.__ptr] = this;
+    this.__ptr = _mud_WaveTileset__construct_0(); getCache(WaveTileset)[this.__ptr] = this;
 };
 WaveTileset.prototype = Object.create(Tileset.prototype);
 WaveTileset.prototype.constructor = WaveTileset;
 WaveTileset.prototype.__class = WaveTileset;
-WaveTileset.prototype.__base = Tileset;
+WaveTileset.__base = Tileset;
 WaveTileset.__cache = {};
 Module['WaveTileset'] = WaveTileset;
 WaveTileset.prototype["__destroy"] = WaveTileset.prototype.__destroy = function() {
@@ -154,11 +154,11 @@ Module['parse_json_wave_tileset'] = function(a0, a1, a2) {
 
 (function() {
     function setup() {
-        Tile.__type = _mud_Tile__type();
-        Tileset.__type = _mud_Tileset__type();
-        Wave.__type = _mud_Wave__type();
-        TileWave.__type = _mud_TileWave__type();
-        WaveTileset.__type = _mud_WaveTileset__type();
+        Tile.prototype.__type = _mud_Tile__type();
+        Tileset.prototype.__type = _mud_Tileset__type();
+        Wave.prototype.__type = _mud_Wave__type();
+        TileWave.prototype.__type = _mud_TileWave__type();
+        WaveTileset.prototype.__type = _mud_WaveTileset__type();
         // Result
         Module['kSuccess'] = _mud_Result_kSuccess();
         Module['kFail'] = _mud_Result_kFail();

@@ -1,7 +1,7 @@
 // TileModel
 function TileModel() {
     
-    this.__ptr = _mud_TileModel__construct_0(); this.__type = TileModel.__type; getCache(TileModel)[this.__ptr] = this;
+    this.__ptr = _mud_TileModel__construct_0(); getCache(TileModel)[this.__ptr] = this;
 };
 TileModel.prototype = Object.create(WrapperObject.prototype);
 TileModel.prototype.constructor = TileModel;
@@ -16,9 +16,9 @@ function WfcBlock(a0, a1, a2, a3, a4) {
     if (a0 === undefined) {  }
     else if (a4 === undefined) { assert(checkClass(a0, v3_float), '[ERROR] WfcBlock(0:position): expected v3<float>'); assert(checkClass(a1, v3_uint), '[ERROR] WfcBlock(1:size): expected v3<uint>'); assert(checkClass(a2, v3_float), '[ERROR] WfcBlock(2:scale): expected v3<float>'); assert(checkClass(a3, WaveTileset), '[ERROR] WfcBlock(3:tileset): expected WaveTileset'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] WfcBlock(0:position): expected v3<float>'); assert(checkClass(a1, v3_uint), '[ERROR] WfcBlock(1:size): expected v3<uint>'); assert(checkClass(a2, v3_float), '[ERROR] WfcBlock(2:scale): expected v3<float>'); assert(checkClass(a3, WaveTileset), '[ERROR] WfcBlock(3:tileset): expected WaveTileset'); assert(typeof a4 === 'boolean', '[ERROR] WfcBlock(4:auto_solve): expected boolean'); }
-    if (a0 === undefined) { this.__ptr = _mud_WfcBlock__construct_0(); this.__type = WfcBlock.__type; getCache(WfcBlock)[this.__ptr] = this; }
-    else if (a4 === undefined) { this.__ptr = _mud_WfcBlock__construct_4(/*position*/a0.__ptr, /*size*/a1.__ptr, /*scale*/a2.__ptr, /*tileset*/a3.__ptr); this.__type = WfcBlock.__type; getCache(WfcBlock)[this.__ptr] = this; }
-    else { this.__ptr = _mud_WfcBlock__construct_5(/*position*/a0.__ptr, /*size*/a1.__ptr, /*scale*/a2.__ptr, /*tileset*/a3.__ptr, /*auto_solve*/a4); this.__type = WfcBlock.__type; getCache(WfcBlock)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_WfcBlock__construct_0(); getCache(WfcBlock)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_WfcBlock__construct_4(/*position*/a0.__ptr, /*size*/a1.__ptr, /*scale*/a2.__ptr, /*tileset*/a3.__ptr); getCache(WfcBlock)[this.__ptr] = this; }
+    else { this.__ptr = _mud_WfcBlock__construct_5(/*position*/a0.__ptr, /*size*/a1.__ptr, /*scale*/a2.__ptr, /*tileset*/a3.__ptr, /*auto_solve*/a4); getCache(WfcBlock)[this.__ptr] = this; }
 };
 WfcBlock.prototype = Object.create(WrapperObject.prototype);
 WfcBlock.prototype.constructor = WfcBlock;
@@ -85,8 +85,8 @@ WfcBlock.prototype["__destroy"] = WfcBlock.prototype.__destroy = function() {
 
 (function() {
     function setup() {
-        TileModel.__type = _mud_TileModel__type();
-        WfcBlock.__type = _mud_WfcBlock__type();
+        TileModel.prototype.__type = _mud_TileModel__type();
+        WfcBlock.prototype.__type = _mud_WfcBlock__type();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

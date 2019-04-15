@@ -129,7 +129,7 @@ ControlNode.prototype["__destroy"] = ControlNode.prototype.__destroy = function(
 // InputEvent
 function InputEvent() {
     
-    this.__ptr = _mud_InputEvent__construct_0(); this.__type = InputEvent.__type; getCache(InputEvent)[this.__ptr] = this;
+    this.__ptr = _mud_InputEvent__construct_0(); getCache(InputEvent)[this.__ptr] = this;
 };
 InputEvent.prototype = Object.create(WrapperObject.prototype);
 InputEvent.prototype.constructor = InputEvent;
@@ -236,12 +236,12 @@ RenderSystem.prototype["__destroy"] = RenderSystem.prototype.__destroy = functio
 // KeyEvent
 function KeyEvent() {
     
-    this.__ptr = _mud_KeyEvent__construct_0(); this.__type = KeyEvent.__type; getCache(KeyEvent)[this.__ptr] = this;
+    this.__ptr = _mud_KeyEvent__construct_0(); getCache(KeyEvent)[this.__ptr] = this;
 };
 KeyEvent.prototype = Object.create(InputEvent.prototype);
 KeyEvent.prototype.constructor = KeyEvent;
 KeyEvent.prototype.__class = KeyEvent;
-KeyEvent.prototype.__base = InputEvent;
+KeyEvent.__base = InputEvent;
 KeyEvent.__cache = {};
 Module['KeyEvent'] = KeyEvent;
 Object.defineProperty(KeyEvent.prototype, "code", {
@@ -266,12 +266,12 @@ KeyEvent.prototype["__destroy"] = KeyEvent.prototype.__destroy = function() {
 // MouseEvent
 function MouseEvent() {
     
-    this.__ptr = _mud_MouseEvent__construct_0(); this.__type = MouseEvent.__type; getCache(MouseEvent)[this.__ptr] = this;
+    this.__ptr = _mud_MouseEvent__construct_0(); getCache(MouseEvent)[this.__ptr] = this;
 };
 MouseEvent.prototype = Object.create(InputEvent.prototype);
 MouseEvent.prototype.constructor = MouseEvent;
 MouseEvent.prototype.__class = MouseEvent;
-MouseEvent.prototype.__base = InputEvent;
+MouseEvent.__base = InputEvent;
 MouseEvent.__cache = {};
 Module['MouseEvent'] = MouseEvent;
 Object.defineProperty(MouseEvent.prototype, "pos", {
@@ -328,14 +328,14 @@ MouseEvent.prototype["__destroy"] = MouseEvent.prototype.__destroy = function() 
 
 (function() {
     function setup() {
-        Context.__type = _mud_Context__type();
-        ControlNode.__type = _mud_ControlNode__type();
-        InputEvent.__type = _mud_InputEvent__type();
-        Keyboard.__type = _mud_Keyboard__type();
-        Mouse.__type = _mud_Mouse__type();
-        RenderSystem.__type = _mud_RenderSystem__type();
-        KeyEvent.__type = _mud_KeyEvent__type();
-        MouseEvent.__type = _mud_MouseEvent__type();
+        Context.prototype.__type = _mud_Context__type();
+        ControlNode.prototype.__type = _mud_ControlNode__type();
+        InputEvent.prototype.__type = _mud_InputEvent__type();
+        Keyboard.prototype.__type = _mud_Keyboard__type();
+        Mouse.prototype.__type = _mud_Mouse__type();
+        RenderSystem.prototype.__type = _mud_RenderSystem__type();
+        KeyEvent.prototype.__type = _mud_KeyEvent__type();
+        MouseEvent.prototype.__type = _mud_MouseEvent__type();
         // DeviceType
         Module['DeviceType'] = Module['DeviceType'] || {};
         Module['DeviceType']['None'] = _mud_DeviceType_None();

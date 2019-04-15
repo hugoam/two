@@ -3,7 +3,7 @@ Module['gfx'] = Module['gfx'] || {};
 // AnimNode
 function AnimNode() {
     
-    this.__ptr = _mud_AnimNode__construct_0(); this.__type = AnimNode.__type; getCache(AnimNode)[this.__ptr] = this;
+    this.__ptr = _mud_AnimNode__construct_0(); getCache(AnimNode)[this.__ptr] = this;
 };
 AnimNode.prototype = Object.create(WrapperObject.prototype);
 AnimNode.prototype.constructor = AnimNode;
@@ -48,7 +48,7 @@ AnimNode.prototype["__destroy"] = AnimNode.prototype.__destroy = function() {
 // AnimPlay
 function AnimPlay() {
     
-    this.__ptr = _mud_AnimPlay__construct_0(); this.__type = AnimPlay.__type; getCache(AnimPlay)[this.__ptr] = this;
+    this.__ptr = _mud_AnimPlay__construct_0(); getCache(AnimPlay)[this.__ptr] = this;
 };
 AnimPlay.prototype = Object.create(WrapperObject.prototype);
 AnimPlay.prototype.constructor = AnimPlay;
@@ -519,7 +519,7 @@ AssetStore_mud_Texture.prototype["__destroy"] = AssetStore_mud_Texture.prototype
 // Background
 function Background() {
     
-    this.__ptr = _mud_Background__construct_0(); this.__type = Background.__type; getCache(Background)[this.__ptr] = this;
+    this.__ptr = _mud_Background__construct_0(); getCache(Background)[this.__ptr] = this;
 };
 Background.prototype = Object.create(WrapperObject.prototype);
 Background.prototype.constructor = Background;
@@ -565,8 +565,8 @@ Background.prototype["__destroy"] = Background.prototype.__destroy = function() 
 function Batch(a0, a1) {
     if (a0 === undefined) {  }
     else { assert(checkClass(a0, Item), '[ERROR] Batch(0:item): expected Item'); assert(typeof a1 === 'number', '[ERROR] Batch(1:stride): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_Batch__construct_0(); this.__type = Batch.__type; getCache(Batch)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Batch__construct_2(/*item*/a0.__ptr, /*stride*/a1); this.__type = Batch.__type; getCache(Batch)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Batch__construct_0(); getCache(Batch)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Batch__construct_2(/*item*/a0.__ptr, /*stride*/a1); getCache(Batch)[this.__ptr] = this; }
 };
 Batch.prototype = Object.create(WrapperObject.prototype);
 Batch.prototype.constructor = Batch;
@@ -761,7 +761,7 @@ Camera.prototype["__destroy"] = Camera.prototype.__destroy = function() {
 // Cascade
 function Cascade() {
     
-    this.__ptr = _mud_Cascade__construct_0(); this.__type = Cascade.__type; getCache(Cascade)[this.__ptr] = this;
+    this.__ptr = _mud_Cascade__construct_0(); getCache(Cascade)[this.__ptr] = this;
 };
 Cascade.prototype = Object.create(WrapperObject.prototype);
 Cascade.prototype.constructor = Cascade;
@@ -812,7 +812,7 @@ Culler.prototype["__destroy"] = Culler.prototype.__destroy = function() {
 // DepthParams
 function DepthParams() {
     
-    this.__ptr = _mud_DepthParams__construct_0(); this.__type = DepthParams.__type; getCache(DepthParams)[this.__ptr] = this;
+    this.__ptr = _mud_DepthParams__construct_0(); getCache(DepthParams)[this.__ptr] = this;
 };
 DepthParams.prototype = Object.create(WrapperObject.prototype);
 DepthParams.prototype.constructor = DepthParams;
@@ -850,8 +850,8 @@ DepthParams.prototype["__destroy"] = DepthParams.prototype.__destroy = function(
 function Direct(a0) {
     if (a0 === undefined) {  }
     else { assert(checkClass(a0, Item), '[ERROR] Direct(0:item): expected Item'); }
-    if (a0 === undefined) { this.__ptr = _mud_Direct__construct_0(); this.__type = Direct.__type; getCache(Direct)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Direct__construct_1(/*item*/a0.__ptr); this.__type = Direct.__type; getCache(Direct)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Direct__construct_0(); getCache(Direct)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Direct__construct_1(/*item*/a0.__ptr); getCache(Direct)[this.__ptr] = this; }
 };
 Direct.prototype = Object.create(WrapperObject.prototype);
 Direct.prototype.constructor = Direct;
@@ -872,7 +872,7 @@ Direct.prototype["__destroy"] = Direct.prototype.__destroy = function() {
 // DistanceParams
 function DistanceParams() {
     
-    this.__ptr = _mud_DistanceParams__construct_0(); this.__type = DistanceParams.__type; getCache(DistanceParams)[this.__ptr] = this;
+    this.__ptr = _mud_DistanceParams__construct_0(); getCache(DistanceParams)[this.__ptr] = this;
 };
 DistanceParams.prototype = Object.create(WrapperObject.prototype);
 DistanceParams.prototype.constructor = DistanceParams;
@@ -909,7 +909,7 @@ DistanceParams.prototype["__destroy"] = DistanceParams.prototype.__destroy = fun
 // Flow
 function Flow() {
     
-    this.__ptr = _mud_Flow__construct_0(); this.__type = Flow.__type; getCache(Flow)[this.__ptr] = this;
+    this.__ptr = _mud_Flow__construct_0(); getCache(Flow)[this.__ptr] = this;
 };
 Flow.prototype = Object.create(WrapperObject.prototype);
 Flow.prototype.constructor = Flow;
@@ -1086,7 +1086,7 @@ Flow.prototype["__destroy"] = Flow.prototype.__destroy = function() {
 // Fog
 function Fog() {
     
-    this.__ptr = _mud_Fog__construct_0(); this.__type = Fog.__type; getCache(Fog)[this.__ptr] = this;
+    this.__ptr = _mud_Fog__construct_0(); getCache(Fog)[this.__ptr] = this;
 };
 Fog.prototype = Object.create(WrapperObject.prototype);
 Fog.prototype.constructor = Fog;
@@ -1205,9 +1205,9 @@ function FrameBuffer(a0, a1, a2) {
     if (a0 === undefined) {  }
     else if (a2 === undefined) { assert(checkClass(a0, v2_uint), '[ERROR] FrameBuffer(0:size): expected v2<uint>'); assert(typeof a1 === 'number', '[ERROR] FrameBuffer(1:format): expected integer'); }
     else { assert(checkClass(a0, v2_uint), '[ERROR] FrameBuffer(0:size): expected v2<uint>'); assert(typeof a1 === 'number', '[ERROR] FrameBuffer(1:format): expected integer'); assert(typeof a2 === 'number', '[ERROR] FrameBuffer(2:flags): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_FrameBuffer__construct_0(); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_FrameBuffer__construct_2(/*size*/a0.__ptr, /*format*/a1); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this; }
-    else { this.__ptr = _mud_FrameBuffer__construct_3(/*size*/a0.__ptr, /*format*/a1, /*flags*/a2); this.__type = FrameBuffer.__type; getCache(FrameBuffer)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_FrameBuffer__construct_0(); getCache(FrameBuffer)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_FrameBuffer__construct_2(/*size*/a0.__ptr, /*format*/a1); getCache(FrameBuffer)[this.__ptr] = this; }
+    else { this.__ptr = _mud_FrameBuffer__construct_3(/*size*/a0.__ptr, /*format*/a1, /*flags*/a2); getCache(FrameBuffer)[this.__ptr] = this; }
 };
 FrameBuffer.prototype = Object.create(WrapperObject.prototype);
 FrameBuffer.prototype.constructor = FrameBuffer;
@@ -1294,7 +1294,7 @@ Frustum.prototype["__destroy"] = Frustum.prototype.__destroy = function() {
 // FrustumSlice
 function FrustumSlice() {
     
-    this.__ptr = _mud_FrustumSlice__construct_0(); this.__type = FrustumSlice.__type; getCache(FrustumSlice)[this.__ptr] = this;
+    this.__ptr = _mud_FrustumSlice__construct_0(); getCache(FrustumSlice)[this.__ptr] = this;
 };
 FrustumSlice.prototype = Object.create(WrapperObject.prototype);
 FrustumSlice.prototype.constructor = FrustumSlice;
@@ -1327,7 +1327,7 @@ Gnode.prototype["__destroy"] = Gnode.prototype.__destroy = function() {
 // GpuMesh
 function GpuMesh() {
     
-    this.__ptr = _mud_GpuMesh__construct_0(); this.__type = GpuMesh.__type; getCache(GpuMesh)[this.__ptr] = this;
+    this.__ptr = _mud_GpuMesh__construct_0(); getCache(GpuMesh)[this.__ptr] = this;
 };
 GpuMesh.prototype = Object.create(WrapperObject.prototype);
 GpuMesh.prototype.constructor = GpuMesh;
@@ -1392,7 +1392,7 @@ Import.prototype["__destroy"] = Import.prototype.__destroy = function() {
 // ImportConfig
 function ImportConfig() {
     
-    this.__ptr = _mud_ImportConfig__construct_0(); this.__type = ImportConfig.__type; getCache(ImportConfig)[this.__ptr] = this;
+    this.__ptr = _mud_ImportConfig__construct_0(); getCache(ImportConfig)[this.__ptr] = this;
 };
 ImportConfig.prototype = Object.create(WrapperObject.prototype);
 ImportConfig.prototype.constructor = ImportConfig;
@@ -1512,10 +1512,10 @@ function Item(a0, a1, a2, a3) {
     else if (a2 === undefined) { assert(checkClass(a0, Node3), '[ERROR] Item(0:node): expected Node3'); assert(checkClass(a1, Model), '[ERROR] Item(1:model): expected Model'); }
     else if (a3 === undefined) { assert(checkClass(a0, Node3), '[ERROR] Item(0:node): expected Node3'); assert(checkClass(a1, Model), '[ERROR] Item(1:model): expected Model'); assert(typeof a2 === 'number', '[ERROR] Item(2:flags): expected integer'); }
     else { assert(checkClass(a0, Node3), '[ERROR] Item(0:node): expected Node3'); assert(checkClass(a1, Model), '[ERROR] Item(1:model): expected Model'); assert(typeof a2 === 'number', '[ERROR] Item(2:flags): expected integer'); assert(checkClass(a3, Material), '[ERROR] Item(3:material): expected Material'); }
-    if (a0 === undefined) { this.__ptr = _mud_Item__construct_0(); this.__type = Item.__type; getCache(Item)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Item__construct_2(/*node*/a0.__ptr, /*model*/a1.__ptr); this.__type = Item.__type; getCache(Item)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_Item__construct_3(/*node*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2); this.__type = Item.__type; getCache(Item)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Item__construct_4(/*node*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2, /*material*/a3.__ptr); this.__type = Item.__type; getCache(Item)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Item__construct_0(); getCache(Item)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Item__construct_2(/*node*/a0.__ptr, /*model*/a1.__ptr); getCache(Item)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Item__construct_3(/*node*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2); getCache(Item)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Item__construct_4(/*node*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2, /*material*/a3.__ptr); getCache(Item)[this.__ptr] = this; }
 };
 Item.prototype = Object.create(WrapperObject.prototype);
 Item.prototype.constructor = Item;
@@ -1612,7 +1612,7 @@ Item.prototype["__destroy"] = Item.prototype.__destroy = function() {
 // Joint
 function Joint() {
     
-    this.__ptr = _mud_Joint__construct_0(); this.__type = Joint.__type; getCache(Joint)[this.__ptr] = this;
+    this.__ptr = _mud_Joint__construct_0(); getCache(Joint)[this.__ptr] = this;
 };
 Joint.prototype = Object.create(WrapperObject.prototype);
 Joint.prototype.constructor = Joint;
@@ -1630,12 +1630,12 @@ function Light(a0, a1, a2, a3, a4, a5) {
     else if (a4 === undefined) { assert(checkClass(a0, Node3), '[ERROR] Light(0:node): expected Node3'); assert(typeof a1 === 'number', '[ERROR] Light(1:type): expected integer'); assert(typeof a2 === 'boolean', '[ERROR] Light(2:shadows): expected boolean'); assert(checkClass(a3, Colour), '[ERROR] Light(3:colour): expected Colour'); }
     else if (a5 === undefined) { assert(checkClass(a0, Node3), '[ERROR] Light(0:node): expected Node3'); assert(typeof a1 === 'number', '[ERROR] Light(1:type): expected integer'); assert(typeof a2 === 'boolean', '[ERROR] Light(2:shadows): expected boolean'); assert(checkClass(a3, Colour), '[ERROR] Light(3:colour): expected Colour'); assert(typeof a4 === 'number', '[ERROR] Light(4:energy): expected number'); }
     else { assert(checkClass(a0, Node3), '[ERROR] Light(0:node): expected Node3'); assert(typeof a1 === 'number', '[ERROR] Light(1:type): expected integer'); assert(typeof a2 === 'boolean', '[ERROR] Light(2:shadows): expected boolean'); assert(checkClass(a3, Colour), '[ERROR] Light(3:colour): expected Colour'); assert(typeof a4 === 'number', '[ERROR] Light(4:energy): expected number'); assert(typeof a5 === 'number', '[ERROR] Light(5:range): expected number'); }
-    if (a1 === undefined) { this.__ptr = _mud_Light__construct_1(/*node*/a0.__ptr); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Light__construct_2(/*node*/a0.__ptr, /*type*/a1); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_Light__construct_3(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
-    else if (a4 === undefined) { this.__ptr = _mud_Light__construct_4(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
-    else if (a5 === undefined) { this.__ptr = _mud_Light__construct_5(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*energy*/a4); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Light__construct_6(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*energy*/a4, /*range*/a5); this.__type = Light.__type; getCache(Light)[this.__ptr] = this; }
+    if (a1 === undefined) { this.__ptr = _mud_Light__construct_1(/*node*/a0.__ptr); getCache(Light)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Light__construct_2(/*node*/a0.__ptr, /*type*/a1); getCache(Light)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Light__construct_3(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2); getCache(Light)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_Light__construct_4(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr); getCache(Light)[this.__ptr] = this; }
+    else if (a5 === undefined) { this.__ptr = _mud_Light__construct_5(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*energy*/a4); getCache(Light)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Light__construct_6(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*energy*/a4, /*range*/a5); getCache(Light)[this.__ptr] = this; }
 };
 Light.prototype = Object.create(WrapperObject.prototype);
 Light.prototype.constructor = Light;
@@ -1809,8 +1809,8 @@ Light.prototype["__destroy"] = Light.prototype.__destroy = function() {
 function Lines(a0, a1) {
     if (a0 === undefined) {  }
     else { assert(checkClass(a0, Curve3), '[ERROR] Lines(0:curve): expected Curve3'); assert(typeof a1 === 'number', '[ERROR] Lines(1:subdiv): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_Lines__construct_0(); this.__type = Lines.__type; getCache(Lines)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Lines__construct_2(/*curve*/a0.__ptr, /*subdiv*/a1); this.__type = Lines.__type; getCache(Lines)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Lines__construct_0(); getCache(Lines)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Lines__construct_2(/*curve*/a0.__ptr, /*subdiv*/a1); getCache(Lines)[this.__ptr] = this; }
 };
 Lines.prototype = Object.create(WrapperObject.prototype);
 Lines.prototype.constructor = Lines;
@@ -1977,7 +1977,7 @@ Material.prototype["__destroy"] = Material.prototype.__destroy = function() {
 // MaterialAlpha
 function MaterialAlpha() {
     
-    this.__ptr = _mud_MaterialAlpha__construct_0(); this.__type = MaterialAlpha.__type; getCache(MaterialAlpha)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialAlpha__construct_0(); getCache(MaterialAlpha)[this.__ptr] = this;
 };
 MaterialAlpha.prototype = Object.create(WrapperObject.prototype);
 MaterialAlpha.prototype.constructor = MaterialAlpha;
@@ -2022,7 +2022,7 @@ MaterialAlpha.prototype["__destroy"] = MaterialAlpha.prototype.__destroy = funct
 // MaterialBase
 function MaterialBase() {
     
-    this.__ptr = _mud_MaterialBase__construct_0(); this.__type = MaterialBase.__type; getCache(MaterialBase)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialBase__construct_0(); getCache(MaterialBase)[this.__ptr] = this;
 };
 MaterialBase.prototype = Object.create(WrapperObject.prototype);
 MaterialBase.prototype.constructor = MaterialBase;
@@ -2131,7 +2131,7 @@ MaterialBase.prototype["__destroy"] = MaterialBase.prototype.__destroy = functio
 // MaterialFresnel
 function MaterialFresnel() {
     
-    this.__ptr = _mud_MaterialFresnel__construct_0(); this.__type = MaterialFresnel.__type; getCache(MaterialFresnel)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialFresnel__construct_0(); getCache(MaterialFresnel)[this.__ptr] = this;
 };
 MaterialFresnel.prototype = Object.create(WrapperObject.prototype);
 MaterialFresnel.prototype.constructor = MaterialFresnel;
@@ -2176,7 +2176,7 @@ MaterialFresnel.prototype["__destroy"] = MaterialFresnel.prototype.__destroy = f
 // MaterialLine
 function MaterialLine() {
     
-    this.__ptr = _mud_MaterialLine__construct_0(); this.__type = MaterialLine.__type; getCache(MaterialLine)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialLine__construct_0(); getCache(MaterialLine)[this.__ptr] = this;
 };
 MaterialLine.prototype = Object.create(WrapperObject.prototype);
 MaterialLine.prototype.constructor = MaterialLine;
@@ -2229,7 +2229,7 @@ MaterialLine.prototype["__destroy"] = MaterialLine.prototype.__destroy = functio
 // MaterialLit
 function MaterialLit() {
     
-    this.__ptr = _mud_MaterialLit__construct_0(); this.__type = MaterialLit.__type; getCache(MaterialLit)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialLit__construct_0(); getCache(MaterialLit)[this.__ptr] = this;
 };
 MaterialLit.prototype = Object.create(WrapperObject.prototype);
 MaterialLit.prototype.constructor = MaterialLit;
@@ -2314,7 +2314,7 @@ MaterialLit.prototype["__destroy"] = MaterialLit.prototype.__destroy = function(
 // MaterialParam<float>
 function MaterialParam_float() {
     
-    this.__ptr = _mud_MaterialParam_float__construct_0(); this.__type = MaterialParam_float.__type; getCache(MaterialParam_float)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialParam_float__construct_0(); getCache(MaterialParam_float)[this.__ptr] = this;
 };
 MaterialParam_float.prototype = Object.create(WrapperObject.prototype);
 MaterialParam_float.prototype.constructor = MaterialParam_float;
@@ -2351,7 +2351,7 @@ MaterialParam_float.prototype["__destroy"] = MaterialParam_float.prototype.__des
 // MaterialParam<mud::Colour>
 function MaterialParam_mud_Colour() {
     
-    this.__ptr = _mud_MaterialParam_mud_Colour__construct_0(); this.__type = MaterialParam_mud_Colour.__type; getCache(MaterialParam_mud_Colour)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialParam_mud_Colour__construct_0(); getCache(MaterialParam_mud_Colour)[this.__ptr] = this;
 };
 MaterialParam_mud_Colour.prototype = Object.create(WrapperObject.prototype);
 MaterialParam_mud_Colour.prototype.constructor = MaterialParam_mud_Colour;
@@ -2388,7 +2388,7 @@ MaterialParam_mud_Colour.prototype["__destroy"] = MaterialParam_mud_Colour.proto
 // MaterialParam<mud::vec4>
 function MaterialParam_mud_vec4() {
     
-    this.__ptr = _mud_MaterialParam_mud_vec4__construct_0(); this.__type = MaterialParam_mud_vec4.__type; getCache(MaterialParam_mud_vec4)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialParam_mud_vec4__construct_0(); getCache(MaterialParam_mud_vec4)[this.__ptr] = this;
 };
 MaterialParam_mud_vec4.prototype = Object.create(WrapperObject.prototype);
 MaterialParam_mud_vec4.prototype.constructor = MaterialParam_mud_vec4;
@@ -2428,10 +2428,10 @@ function MaterialPbr(a0, a1, a2) {
     else if (a1 === undefined) { assert(checkClass(a0, Colour), '[ERROR] MaterialPbr(0:albedo): expected Colour'); }
     else if (a2 === undefined) { assert(checkClass(a0, Colour), '[ERROR] MaterialPbr(0:albedo): expected Colour'); assert(typeof a1 === 'number', '[ERROR] MaterialPbr(1:metallic): expected number'); }
     else { assert(checkClass(a0, Colour), '[ERROR] MaterialPbr(0:albedo): expected Colour'); assert(typeof a1 === 'number', '[ERROR] MaterialPbr(1:metallic): expected number'); assert(typeof a2 === 'number', '[ERROR] MaterialPbr(2:roughness): expected number'); }
-    if (a0 === undefined) { this.__ptr = _mud_MaterialPbr__construct_0(); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_MaterialPbr__construct_1(/*albedo*/a0.__ptr); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_MaterialPbr__construct_2(/*albedo*/a0.__ptr, /*metallic*/a1); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; }
-    else { this.__ptr = _mud_MaterialPbr__construct_3(/*albedo*/a0.__ptr, /*metallic*/a1, /*roughness*/a2); this.__type = MaterialPbr.__type; getCache(MaterialPbr)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_MaterialPbr__construct_0(); getCache(MaterialPbr)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_MaterialPbr__construct_1(/*albedo*/a0.__ptr); getCache(MaterialPbr)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_MaterialPbr__construct_2(/*albedo*/a0.__ptr, /*metallic*/a1); getCache(MaterialPbr)[this.__ptr] = this; }
+    else { this.__ptr = _mud_MaterialPbr__construct_3(/*albedo*/a0.__ptr, /*metallic*/a1, /*roughness*/a2); getCache(MaterialPbr)[this.__ptr] = this; }
 };
 MaterialPbr.prototype = Object.create(WrapperObject.prototype);
 MaterialPbr.prototype.constructor = MaterialPbr;
@@ -2572,7 +2572,7 @@ MaterialPbr.prototype["__destroy"] = MaterialPbr.prototype.__destroy = function(
 // MaterialPhong
 function MaterialPhong() {
     
-    this.__ptr = _mud_MaterialPhong__construct_0(); this.__type = MaterialPhong.__type; getCache(MaterialPhong)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialPhong__construct_0(); getCache(MaterialPhong)[this.__ptr] = this;
 };
 MaterialPhong.prototype = Object.create(WrapperObject.prototype);
 MaterialPhong.prototype.constructor = MaterialPhong;
@@ -2641,7 +2641,7 @@ MaterialPhong.prototype["__destroy"] = MaterialPhong.prototype.__destroy = funct
 // MaterialPoint
 function MaterialPoint() {
     
-    this.__ptr = _mud_MaterialPoint__construct_0(); this.__type = MaterialPoint.__type; getCache(MaterialPoint)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialPoint__construct_0(); getCache(MaterialPoint)[this.__ptr] = this;
 };
 MaterialPoint.prototype = Object.create(WrapperObject.prototype);
 MaterialPoint.prototype.constructor = MaterialPoint;
@@ -2670,7 +2670,7 @@ MaterialPoint.prototype["__destroy"] = MaterialPoint.prototype.__destroy = funct
 // MaterialSolid
 function MaterialSolid() {
     
-    this.__ptr = _mud_MaterialSolid__construct_0(); this.__type = MaterialSolid.__type; getCache(MaterialSolid)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialSolid__construct_0(); getCache(MaterialSolid)[this.__ptr] = this;
 };
 MaterialSolid.prototype = Object.create(WrapperObject.prototype);
 MaterialSolid.prototype.constructor = MaterialSolid;
@@ -2691,7 +2691,7 @@ MaterialSolid.prototype["__destroy"] = MaterialSolid.prototype.__destroy = funct
 // MaterialUser
 function MaterialUser() {
     
-    this.__ptr = _mud_MaterialUser__construct_0(); this.__type = MaterialUser.__type; getCache(MaterialUser)[this.__ptr] = this;
+    this.__ptr = _mud_MaterialUser__construct_0(); getCache(MaterialUser)[this.__ptr] = this;
 };
 MaterialUser.prototype = Object.create(WrapperObject.prototype);
 MaterialUser.prototype.constructor = MaterialUser;
@@ -2978,7 +2978,7 @@ Mesh.prototype["__destroy"] = Mesh.prototype.__destroy = function() {
 // Mime
 function Mime() {
     
-    this.__ptr = _mud_Mime__construct_0(); this.__type = Mime.__type; getCache(Mime)[this.__ptr] = this;
+    this.__ptr = _mud_Mime__construct_0(); getCache(Mime)[this.__ptr] = this;
 };
 Mime.prototype = Object.create(WrapperObject.prototype);
 Mime.prototype.constructor = Mime;
@@ -3064,7 +3064,7 @@ Mime.prototype["__destroy"] = Mime.prototype.__destroy = function() {
 // MirrorCamera
 function MirrorCamera() {
     
-    this.__ptr = _mud_MirrorCamera__construct_0(); this.__type = MirrorCamera.__type; getCache(MirrorCamera)[this.__ptr] = this;
+    this.__ptr = _mud_MirrorCamera__construct_0(); getCache(MirrorCamera)[this.__ptr] = this;
 };
 MirrorCamera.prototype = Object.create(WrapperObject.prototype);
 MirrorCamera.prototype.constructor = MirrorCamera;
@@ -3177,7 +3177,7 @@ Model.prototype["__destroy"] = Model.prototype.__destroy = function() {
 // ModelElem
 function ModelElem() {
     
-    this.__ptr = _mud_ModelElem__construct_0(); this.__type = ModelElem.__type; getCache(ModelElem)[this.__ptr] = this;
+    this.__ptr = _mud_ModelElem__construct_0(); getCache(ModelElem)[this.__ptr] = this;
 };
 ModelElem.prototype = Object.create(WrapperObject.prototype);
 ModelElem.prototype.constructor = ModelElem;
@@ -3249,10 +3249,10 @@ function Node3(a0, a1, a2) {
     else if (a1 === undefined) { assert(checkClass(a0, v3_float), '[ERROR] Node3(0:position): expected v3<float>'); }
     else if (a2 === undefined) { assert(checkClass(a0, v3_float), '[ERROR] Node3(0:position): expected v3<float>'); assert(checkClass(a1, quat), '[ERROR] Node3(1:rotation): expected quat'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] Node3(0:position): expected v3<float>'); assert(checkClass(a1, quat), '[ERROR] Node3(1:rotation): expected quat'); assert(checkClass(a2, v3_float), '[ERROR] Node3(2:scale): expected v3<float>'); }
-    if (a0 === undefined) { this.__ptr = _mud_Node3__construct_0(); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_Node3__construct_1(/*position*/a0.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Node3__construct_2(/*position*/a0.__ptr, /*rotation*/a1.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Node3__construct_3(/*position*/a0.__ptr, /*rotation*/a1.__ptr, /*scale*/a2.__ptr); this.__type = Node3.__type; getCache(Node3)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Node3__construct_0(); getCache(Node3)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Node3__construct_1(/*position*/a0.__ptr); getCache(Node3)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Node3__construct_2(/*position*/a0.__ptr, /*rotation*/a1.__ptr); getCache(Node3)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Node3__construct_3(/*position*/a0.__ptr, /*rotation*/a1.__ptr, /*scale*/a2.__ptr); getCache(Node3)[this.__ptr] = this; }
 };
 Node3.prototype = Object.create(WrapperObject.prototype);
 Node3.prototype.constructor = Node3;
@@ -3309,7 +3309,7 @@ Node3.prototype["__destroy"] = Node3.prototype.__destroy = function() {
 // Pass
 function Pass() {
     
-    this.__ptr = _mud_Pass__construct_0(); this.__type = Pass.__type; getCache(Pass)[this.__ptr] = this;
+    this.__ptr = _mud_Pass__construct_0(); getCache(Pass)[this.__ptr] = this;
 };
 Pass.prototype = Object.create(WrapperObject.prototype);
 Pass.prototype.constructor = Pass;
@@ -3461,7 +3461,7 @@ Program.prototype["__destroy"] = Program.prototype.__destroy = function() {
 // ProgramBlock
 function ProgramBlock() {
     
-    this.__ptr = _mud_ProgramBlock__construct_0(); this.__type = ProgramBlock.__type; getCache(ProgramBlock)[this.__ptr] = this;
+    this.__ptr = _mud_ProgramBlock__construct_0(); getCache(ProgramBlock)[this.__ptr] = this;
 };
 ProgramBlock.prototype = Object.create(WrapperObject.prototype);
 ProgramBlock.prototype.constructor = ProgramBlock;
@@ -3498,7 +3498,7 @@ ProgramBlock.prototype["__destroy"] = ProgramBlock.prototype.__destroy = functio
 // ProgramMode
 function ProgramMode() {
     
-    this.__ptr = _mud_ProgramMode__construct_0(); this.__type = ProgramMode.__type; getCache(ProgramMode)[this.__ptr] = this;
+    this.__ptr = _mud_ProgramMode__construct_0(); getCache(ProgramMode)[this.__ptr] = this;
 };
 ProgramMode.prototype = Object.create(WrapperObject.prototype);
 ProgramMode.prototype.constructor = ProgramMode;
@@ -3544,8 +3544,8 @@ ProgramMode.prototype["__destroy"] = ProgramMode.prototype.__destroy = function(
 function ProgramVersion(a0) {
     if (a0 === undefined) {  }
     else { assert(checkClass(a0, Program), '[ERROR] ProgramVersion(0:program): expected Program'); }
-    if (a0 === undefined) { this.__ptr = _mud_ProgramVersion__construct_0(); this.__type = ProgramVersion.__type; getCache(ProgramVersion)[this.__ptr] = this; }
-    else { this.__ptr = _mud_ProgramVersion__construct_1(/*program*/a0.__ptr); this.__type = ProgramVersion.__type; getCache(ProgramVersion)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_ProgramVersion__construct_0(); getCache(ProgramVersion)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ProgramVersion__construct_1(/*program*/a0.__ptr); getCache(ProgramVersion)[this.__ptr] = this; }
 };
 ProgramVersion.prototype = Object.create(WrapperObject.prototype);
 ProgramVersion.prototype.constructor = ProgramVersion;
@@ -3576,7 +3576,7 @@ ProgramVersion.prototype["__destroy"] = ProgramVersion.prototype.__destroy = fun
 // Radiance
 function Radiance() {
     
-    this.__ptr = _mud_Radiance__construct_0(); this.__type = Radiance.__type; getCache(Radiance)[this.__ptr] = this;
+    this.__ptr = _mud_Radiance__construct_0(); getCache(Radiance)[this.__ptr] = this;
 };
 Radiance.prototype = Object.create(WrapperObject.prototype);
 Radiance.prototype.constructor = Radiance;
@@ -3639,9 +3639,9 @@ function Render(a0, a1, a2, a3, a4) {
     if (a0 === undefined) {  }
     else if (a4 === undefined) { assert(typeof a0 === 'number', '[ERROR] Render(0:shading): expected integer'); assert(checkClass(a1, Viewport), '[ERROR] Render(1:viewport): expected Viewport'); assert(checkClass(a2, RenderTarget), '[ERROR] Render(2:target): expected RenderTarget'); assert(checkClass(a3, RenderFrame), '[ERROR] Render(3:frame): expected RenderFrame'); }
     else { assert(typeof a0 === 'number', '[ERROR] Render(0:shading): expected integer'); assert(checkClass(a1, Viewport), '[ERROR] Render(1:viewport): expected Viewport'); assert(checkClass(a2, RenderTarget), '[ERROR] Render(2:target): expected RenderTarget'); assert(checkClass(a3, FrameBuffer), '[ERROR] Render(3:target_fbo): expected FrameBuffer'); assert(checkClass(a4, RenderFrame), '[ERROR] Render(4:frame): expected RenderFrame'); }
-    if (a0 === undefined) { this.__ptr = _mud_Render__construct_0(); this.__type = Render.__type; getCache(Render)[this.__ptr] = this; }
-    else if (a4 === undefined) { this.__ptr = _mud_Render__construct_4(/*shading*/a0, /*viewport*/a1.__ptr, /*target*/a2.__ptr, /*frame*/a3.__ptr); this.__type = Render.__type; getCache(Render)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Render__construct_5(/*shading*/a0, /*viewport*/a1.__ptr, /*target*/a2.__ptr, /*target_fbo*/a3.__ptr, /*frame*/a4.__ptr); this.__type = Render.__type; getCache(Render)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Render__construct_0(); getCache(Render)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_Render__construct_4(/*shading*/a0, /*viewport*/a1.__ptr, /*target*/a2.__ptr, /*frame*/a3.__ptr); getCache(Render)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Render__construct_5(/*shading*/a0, /*viewport*/a1.__ptr, /*target*/a2.__ptr, /*target_fbo*/a3.__ptr, /*frame*/a4.__ptr); getCache(Render)[this.__ptr] = this; }
 };
 Render.prototype = Object.create(WrapperObject.prototype);
 Render.prototype.constructor = Render;
@@ -3784,7 +3784,7 @@ Render.prototype["__destroy"] = Render.prototype.__destroy = function() {
 // RenderFrame
 function RenderFrame() {
     
-    this.__ptr = _mud_RenderFrame__construct_0(); this.__type = RenderFrame.__type; getCache(RenderFrame)[this.__ptr] = this;
+    this.__ptr = _mud_RenderFrame__construct_0(); getCache(RenderFrame)[this.__ptr] = this;
 };
 RenderFrame.prototype = Object.create(WrapperObject.prototype);
 RenderFrame.prototype.constructor = RenderFrame;
@@ -3857,11 +3857,11 @@ function RenderQuad(a0, a1, a2, a3) {
     else if (a2 === undefined) { assert(checkClass(a0, v4_float), '[ERROR] RenderQuad(0:crop): expected v4<float>'); assert(checkClass(a1, v4_float), '[ERROR] RenderQuad(1:dest): expected v4<float>'); }
     else if (a3 === undefined) { assert(checkClass(a0, v4_float), '[ERROR] RenderQuad(0:crop): expected v4<float>'); assert(checkClass(a1, v4_float), '[ERROR] RenderQuad(1:dest): expected v4<float>'); assert(typeof a2 === 'boolean', '[ERROR] RenderQuad(2:fbo_flip): expected boolean'); }
     else { assert(checkClass(a0, v4_float), '[ERROR] RenderQuad(0:crop): expected v4<float>'); assert(checkClass(a1, v4_float), '[ERROR] RenderQuad(1:dest): expected v4<float>'); assert(typeof a2 === 'boolean', '[ERROR] RenderQuad(2:fbo_flip): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] RenderQuad(3:relative): expected boolean'); }
-    if (a0 === undefined) { this.__ptr = _mud_RenderQuad__construct_0(); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_RenderQuad__construct_1(/*rect*/a0.__ptr); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_RenderQuad__construct_2(/*crop*/a0.__ptr, /*dest*/a1.__ptr); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_RenderQuad__construct_3(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; }
-    else { this.__ptr = _mud_RenderQuad__construct_4(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2, /*relative*/a3); this.__type = RenderQuad.__type; getCache(RenderQuad)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_RenderQuad__construct_0(); getCache(RenderQuad)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_RenderQuad__construct_1(/*rect*/a0.__ptr); getCache(RenderQuad)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_RenderQuad__construct_2(/*crop*/a0.__ptr, /*dest*/a1.__ptr); getCache(RenderQuad)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_RenderQuad__construct_3(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2); getCache(RenderQuad)[this.__ptr] = this; }
+    else { this.__ptr = _mud_RenderQuad__construct_4(/*crop*/a0.__ptr, /*dest*/a1.__ptr, /*fbo_flip*/a2, /*relative*/a3); getCache(RenderQuad)[this.__ptr] = this; }
 };
 RenderQuad.prototype = Object.create(WrapperObject.prototype);
 RenderQuad.prototype.constructor = RenderQuad;
@@ -3938,7 +3938,7 @@ Rig.prototype["__destroy"] = Rig.prototype.__destroy = function() {
 // Scene
 function Scene(a0) {
     assert(checkClass(a0, GfxSystem), '[ERROR] Scene(0:gfx): expected GfxSystem');
-    this.__ptr = _mud_Scene__construct_1(/*gfx*/a0.__ptr); this.__type = Scene.__type; getCache(Scene)[this.__ptr] = this;
+    this.__ptr = _mud_Scene__construct_1(/*gfx*/a0.__ptr); getCache(Scene)[this.__ptr] = this;
 };
 Scene.prototype = Object.create(WrapperObject.prototype);
 Scene.prototype.constructor = Scene;
@@ -4019,7 +4019,7 @@ Scene.prototype["__destroy"] = Scene.prototype.__destroy = function() {
 // ShaderBlock
 function ShaderBlock() {
     
-    this.__ptr = _mud_ShaderBlock__construct_0(); this.__type = ShaderBlock.__type; getCache(ShaderBlock)[this.__ptr] = this;
+    this.__ptr = _mud_ShaderBlock__construct_0(); getCache(ShaderBlock)[this.__ptr] = this;
 };
 ShaderBlock.prototype = Object.create(WrapperObject.prototype);
 ShaderBlock.prototype.constructor = ShaderBlock;
@@ -4055,7 +4055,7 @@ ShaderBlock.prototype["__destroy"] = ShaderBlock.prototype.__destroy = function(
 // ShaderDefine
 function ShaderDefine() {
     
-    this.__ptr = _mud_ShaderDefine__construct_0(); this.__type = ShaderDefine.__type; getCache(ShaderDefine)[this.__ptr] = this;
+    this.__ptr = _mud_ShaderDefine__construct_0(); getCache(ShaderDefine)[this.__ptr] = this;
 };
 ShaderDefine.prototype = Object.create(WrapperObject.prototype);
 ShaderDefine.prototype.constructor = ShaderDefine;
@@ -4114,7 +4114,7 @@ Skin.prototype["__destroy"] = Skin.prototype.__destroy = function() {
 // Skylight
 function Skylight() {
     
-    this.__ptr = _mud_Skylight__construct_0(); this.__type = Skylight.__type; getCache(Skylight)[this.__ptr] = this;
+    this.__ptr = _mud_Skylight__construct_0(); getCache(Skylight)[this.__ptr] = this;
 };
 Skylight.prototype = Object.create(WrapperObject.prototype);
 Skylight.prototype.constructor = Skylight;
@@ -4175,7 +4175,7 @@ Skylight.prototype["__destroy"] = Skylight.prototype.__destroy = function() {
 // Sun
 function Sun() {
     
-    this.__ptr = _mud_Sun__construct_0(); this.__type = Sun.__type; getCache(Sun)[this.__ptr] = this;
+    this.__ptr = _mud_Sun__construct_0(); getCache(Sun)[this.__ptr] = this;
 };
 Sun.prototype = Object.create(WrapperObject.prototype);
 Sun.prototype.constructor = Sun;
@@ -4220,7 +4220,7 @@ Sun.prototype["__destroy"] = Sun.prototype.__destroy = function() {
 // SwapBuffer
 function SwapBuffer() {
     
-    this.__ptr = _mud_SwapBuffer__construct_0(); this.__type = SwapBuffer.__type; getCache(SwapBuffer)[this.__ptr] = this;
+    this.__ptr = _mud_SwapBuffer__construct_0(); getCache(SwapBuffer)[this.__ptr] = this;
 };
 SwapBuffer.prototype = Object.create(WrapperObject.prototype);
 SwapBuffer.prototype.constructor = SwapBuffer;
@@ -4257,7 +4257,7 @@ SwapBuffer.prototype["__destroy"] = SwapBuffer.prototype.__destroy = function() 
 // SwapCascade
 function SwapCascade() {
     
-    this.__ptr = _mud_SwapCascade__construct_0(); this.__type = SwapCascade.__type; getCache(SwapCascade)[this.__ptr] = this;
+    this.__ptr = _mud_SwapCascade__construct_0(); getCache(SwapCascade)[this.__ptr] = this;
 };
 SwapCascade.prototype = Object.create(WrapperObject.prototype);
 SwapCascade.prototype.constructor = SwapCascade;
@@ -4486,11 +4486,11 @@ function Texture(a0, a1, a2, a3, a4) {
     else if (a3 === undefined) { assert(checkClass(a0, v2_uint), '[ERROR] Texture(0:size): expected v2<uint>'); assert(typeof a1 === 'boolean', '[ERROR] Texture(1:mips): expected boolean'); assert(typeof a2 === 'number', '[ERROR] Texture(2:format): expected integer'); }
     else if (a4 === undefined) { assert(checkClass(a0, v2_uint), '[ERROR] Texture(0:size): expected v2<uint>'); assert(typeof a1 === 'boolean', '[ERROR] Texture(1:mips): expected boolean'); assert(typeof a2 === 'number', '[ERROR] Texture(2:format): expected integer'); assert(typeof a3 === 'number', '[ERROR] Texture(3:flags): expected integer'); }
     else { assert(checkClass(a0, v2_uint), '[ERROR] Texture(0:size): expected v2<uint>'); assert(typeof a1 === 'boolean', '[ERROR] Texture(1:mips): expected boolean'); assert(typeof a2 === 'number', '[ERROR] Texture(2:format): expected integer'); assert(typeof a3 === 'number', '[ERROR] Texture(3:flags): expected integer'); assert(typeof a4 === 'boolean', '[ERROR] Texture(4:cube): expected boolean'); }
-    if (a0 === undefined) { this.__ptr = _mud_Texture__construct_0(); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_Texture__construct_1(ensureString(/*name*/a0)); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_Texture__construct_3(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; }
-    else if (a4 === undefined) { this.__ptr = _mud_Texture__construct_4(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2, /*flags*/a3); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Texture__construct_5(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2, /*flags*/a3, /*cube*/a4); this.__type = Texture.__type; getCache(Texture)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Texture__construct_0(); getCache(Texture)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Texture__construct_1(ensureString(/*name*/a0)); getCache(Texture)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Texture__construct_3(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2); getCache(Texture)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_Texture__construct_4(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2, /*flags*/a3); getCache(Texture)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Texture__construct_5(/*size*/a0.__ptr, /*mips*/a1, /*format*/a2, /*flags*/a3, /*cube*/a4); getCache(Texture)[this.__ptr] = this; }
 };
 Texture.prototype = Object.create(WrapperObject.prototype);
 Texture.prototype.constructor = Texture;
@@ -4631,7 +4631,7 @@ Texture.prototype["__destroy"] = Texture.prototype.__destroy = function() {
 // Zone
 function Zone() {
     
-    this.__ptr = _mud_Zone__construct_0(); this.__type = Zone.__type; getCache(Zone)[this.__ptr] = this;
+    this.__ptr = _mud_Zone__construct_0(); getCache(Zone)[this.__ptr] = this;
 };
 Zone.prototype = Object.create(WrapperObject.prototype);
 Zone.prototype.constructor = Zone;
@@ -4686,7 +4686,7 @@ function BlockCopy() { throw "cannot construct a BlockCopy, no constructor in ID
 BlockCopy.prototype = Object.create(GfxBlock.prototype);
 BlockCopy.prototype.constructor = BlockCopy;
 BlockCopy.prototype.__class = BlockCopy;
-BlockCopy.prototype.__base = GfxBlock;
+BlockCopy.__base = GfxBlock;
 BlockCopy.__cache = {};
 Module['BlockCopy'] = BlockCopy;
 BlockCopy.prototype["submit"] = BlockCopy.prototype.submit = function(a0, a1, a2, a3, a4) {
@@ -4715,7 +4715,7 @@ function BlockDepth() { throw "cannot construct a BlockDepth, no constructor in 
 BlockDepth.prototype = Object.create(DrawBlock.prototype);
 BlockDepth.prototype.constructor = BlockDepth;
 BlockDepth.prototype.__class = BlockDepth;
-BlockDepth.prototype.__base = DrawBlock;
+BlockDepth.__base = DrawBlock;
 BlockDepth.__cache = {};
 Module['BlockDepth'] = BlockDepth;
 BlockDepth.prototype["__destroy"] = BlockDepth.prototype.__destroy = function() {
@@ -4726,7 +4726,7 @@ function BlockFilter() { throw "cannot construct a BlockFilter, no constructor i
 BlockFilter.prototype = Object.create(GfxBlock.prototype);
 BlockFilter.prototype.constructor = BlockFilter;
 BlockFilter.prototype.__class = BlockFilter;
-BlockFilter.prototype.__base = GfxBlock;
+BlockFilter.__base = GfxBlock;
 BlockFilter.__cache = {};
 Module['BlockFilter'] = BlockFilter;
 BlockFilter.prototype["submit"] = BlockFilter.prototype.submit = function(a0, a1, a2, a3, a4, a5) {
@@ -4805,7 +4805,7 @@ function BlockMaterial() { throw "cannot construct a BlockMaterial, no construct
 BlockMaterial.prototype = Object.create(GfxBlock.prototype);
 BlockMaterial.prototype.constructor = BlockMaterial;
 BlockMaterial.prototype.__class = BlockMaterial;
-BlockMaterial.prototype.__base = GfxBlock;
+BlockMaterial.__base = GfxBlock;
 BlockMaterial.__cache = {};
 Module['BlockMaterial'] = BlockMaterial;
 BlockMaterial.prototype["__destroy"] = BlockMaterial.prototype.__destroy = function() {
@@ -4816,7 +4816,7 @@ function BlockParticles() { throw "cannot construct a BlockParticles, no constru
 BlockParticles.prototype = Object.create(GfxBlock.prototype);
 BlockParticles.prototype.constructor = BlockParticles;
 BlockParticles.prototype.__class = BlockParticles;
-BlockParticles.prototype.__base = GfxBlock;
+BlockParticles.__base = GfxBlock;
 BlockParticles.__cache = {};
 Module['BlockParticles'] = BlockParticles;
 BlockParticles.prototype["__destroy"] = BlockParticles.prototype.__destroy = function() {
@@ -4827,7 +4827,7 @@ function BlockSky() { throw "cannot construct a BlockSky, no constructor in IDL"
 BlockSky.prototype = Object.create(GfxBlock.prototype);
 BlockSky.prototype.constructor = BlockSky;
 BlockSky.prototype.__class = BlockSky;
-BlockSky.prototype.__base = GfxBlock;
+BlockSky.__base = GfxBlock;
 BlockSky.__cache = {};
 Module['BlockSky'] = BlockSky;
 BlockSky.prototype["__destroy"] = BlockSky.prototype.__destroy = function() {
@@ -4836,12 +4836,12 @@ BlockSky.prototype["__destroy"] = BlockSky.prototype.__destroy = function() {
 // ClusteredFrustum
 function ClusteredFrustum() {
     
-    this.__ptr = _mud_ClusteredFrustum__construct_0(); this.__type = ClusteredFrustum.__type; getCache(ClusteredFrustum)[this.__ptr] = this;
+    this.__ptr = _mud_ClusteredFrustum__construct_0(); getCache(ClusteredFrustum)[this.__ptr] = this;
 };
 ClusteredFrustum.prototype = Object.create(Frustum.prototype);
 ClusteredFrustum.prototype.constructor = ClusteredFrustum;
 ClusteredFrustum.prototype.__class = ClusteredFrustum;
-ClusteredFrustum.prototype.__base = Frustum;
+ClusteredFrustum.__base = Frustum;
 ClusteredFrustum.__cache = {};
 Module['ClusteredFrustum'] = ClusteredFrustum;
 ClusteredFrustum.prototype["__destroy"] = ClusteredFrustum.prototype.__destroy = function() {
@@ -4852,7 +4852,7 @@ function GfxBlock() { throw "cannot construct a GfxBlock, no constructor in IDL"
 GfxBlock.prototype = Object.create(ShaderBlock.prototype);
 GfxBlock.prototype.constructor = GfxBlock;
 GfxBlock.prototype.__class = GfxBlock;
-GfxBlock.prototype.__base = ShaderBlock;
+GfxBlock.__base = ShaderBlock;
 GfxBlock.__cache = {};
 Module['GfxBlock'] = GfxBlock;
 Object.defineProperty(GfxBlock.prototype, "type", {
@@ -4867,7 +4867,7 @@ function DrawBlock() { throw "cannot construct a DrawBlock, no constructor in ID
 DrawBlock.prototype = Object.create(GfxBlock.prototype);
 DrawBlock.prototype.constructor = DrawBlock;
 DrawBlock.prototype.__class = DrawBlock;
-DrawBlock.prototype.__base = GfxBlock;
+DrawBlock.__base = GfxBlock;
 DrawBlock.__cache = {};
 Module['DrawBlock'] = DrawBlock;
 DrawBlock.prototype["__destroy"] = DrawBlock.prototype.__destroy = function() {
@@ -4876,12 +4876,12 @@ DrawBlock.prototype["__destroy"] = DrawBlock.prototype.__destroy = function() {
 // Flare
 function Flare() {
     
-    this.__ptr = _mud_Flare__construct_0(); this.__type = Flare.__type; getCache(Flare)[this.__ptr] = this;
+    this.__ptr = _mud_Flare__construct_0(); getCache(Flare)[this.__ptr] = this;
 };
 Flare.prototype = Object.create(Flow.prototype);
 Flare.prototype.constructor = Flare;
 Flare.prototype.__class = Flare;
-Flare.prototype.__base = Flow;
+Flare.__base = Flow;
 Flare.__cache = {};
 Module['Flare'] = Flare;
 Object.defineProperty(Flare.prototype, "node", {
@@ -4899,12 +4899,12 @@ Flare.prototype["__destroy"] = Flare.prototype.__destroy = function() {
 function GfxSystem(a0) {
     ensureCache.prepare();
     assert(typeof a0 === 'string', '[ERROR] GfxSystem(0:resource_path): expected string');
-    this.__ptr = _mud_GfxSystem__construct_1(ensureString(/*resource_path*/a0)); this.__type = GfxSystem.__type; getCache(GfxSystem)[this.__ptr] = this;
+    this.__ptr = _mud_GfxSystem__construct_1(ensureString(/*resource_path*/a0)); getCache(GfxSystem)[this.__ptr] = this;
 };
 GfxSystem.prototype = Object.create(BgfxSystem.prototype);
 GfxSystem.prototype.constructor = GfxSystem;
 GfxSystem.prototype.__class = GfxSystem;
-GfxSystem.prototype.__base = BgfxSystem;
+GfxSystem.__base = BgfxSystem;
 GfxSystem.__cache = {};
 Module['GfxSystem'] = GfxSystem;
 GfxSystem.prototype["main_target"] = GfxSystem.prototype.main_target = function() {
@@ -5042,7 +5042,7 @@ function RenderTarget() { throw "cannot construct a RenderTarget, no constructor
 RenderTarget.prototype = Object.create(FrameBuffer.prototype);
 RenderTarget.prototype.constructor = RenderTarget;
 RenderTarget.prototype.__class = RenderTarget;
-RenderTarget.prototype.__base = FrameBuffer;
+RenderTarget.__base = FrameBuffer;
 RenderTarget.__cache = {};
 Module['RenderTarget'] = RenderTarget;
 Object.defineProperty(RenderTarget.prototype, "backbuffer", {
@@ -5118,15 +5118,15 @@ function Viewport(a0, a1, a2, a3) {
     else if (a2 === undefined) { assert(checkClass(a0, Camera), '[ERROR] Viewport(0:camera): expected Camera'); assert(checkClass(a1, Scene), '[ERROR] Viewport(1:scene): expected Scene'); }
     else if (a3 === undefined) { assert(checkClass(a0, Camera), '[ERROR] Viewport(0:camera): expected Camera'); assert(checkClass(a1, Scene), '[ERROR] Viewport(1:scene): expected Scene'); assert(checkClass(a2, v4_float), '[ERROR] Viewport(2:rect): expected v4<float>'); }
     else { assert(checkClass(a0, Camera), '[ERROR] Viewport(0:camera): expected Camera'); assert(checkClass(a1, Scene), '[ERROR] Viewport(1:scene): expected Scene'); assert(checkClass(a2, v4_float), '[ERROR] Viewport(2:rect): expected v4<float>'); assert(typeof a3 === 'boolean', '[ERROR] Viewport(3:scissor): expected boolean'); }
-    if (a0 === undefined) { this.__ptr = _mud_Viewport__construct_0(); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Viewport__construct_2(/*camera*/a0.__ptr, /*scene*/a1.__ptr); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_Viewport__construct_3(/*camera*/a0.__ptr, /*scene*/a1.__ptr, /*rect*/a2.__ptr); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Viewport__construct_4(/*camera*/a0.__ptr, /*scene*/a1.__ptr, /*rect*/a2.__ptr, /*scissor*/a3); this.__type = Viewport.__type; getCache(Viewport)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Viewport__construct_0(); getCache(Viewport)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Viewport__construct_2(/*camera*/a0.__ptr, /*scene*/a1.__ptr); getCache(Viewport)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Viewport__construct_3(/*camera*/a0.__ptr, /*scene*/a1.__ptr, /*rect*/a2.__ptr); getCache(Viewport)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Viewport__construct_4(/*camera*/a0.__ptr, /*scene*/a1.__ptr, /*rect*/a2.__ptr, /*scissor*/a3); getCache(Viewport)[this.__ptr] = this; }
 };
 Viewport.prototype = Object.create(OEntt.prototype);
 Viewport.prototype.constructor = Viewport;
 Viewport.prototype.__class = Viewport;
-Viewport.prototype.__base = OEntt;
+Viewport.__base = OEntt;
 Viewport.__cache = {};
 Module['Viewport'] = Viewport;
 Viewport.prototype["cull"] = Viewport.prototype.cull = function(a0) {
@@ -5459,88 +5459,88 @@ Module['render_clear'] = function(a0, a1) {
 
 (function() {
     function setup() {
-        AnimNode.__type = _mud_AnimNode__type();
-        AnimPlay.__type = _mud_AnimPlay__type();
-        AnimTrack.__type = _mud_AnimTrack__type();
-        Animation.__type = _mud_Animation__type();
-        Background.__type = _mud_Background__type();
-        Batch.__type = _mud_Batch__type();
-        Camera.__type = _mud_Camera__type();
-        Cascade.__type = _mud_Cascade__type();
-        Culler.__type = _mud_Culler__type();
-        DepthParams.__type = _mud_DepthParams__type();
-        Direct.__type = _mud_Direct__type();
-        DistanceParams.__type = _mud_DistanceParams__type();
-        Flow.__type = _mud_Flow__type();
-        Fog.__type = _mud_Fog__type();
-        FrameBuffer.__type = _mud_FrameBuffer__type();
-        Frustum.__type = _mud_Frustum__type();
-        FrustumSlice.__type = _mud_FrustumSlice__type();
-        GfxWindow.__type = _mud_GfxWindow__type();
-        Gnode.__type = _mud_Gnode__type();
-        GpuMesh.__type = _mud_GpuMesh__type();
-        ImmediateDraw.__type = _mud_ImmediateDraw__type();
-        Import.__type = _mud_Import__type();
-        ImportConfig.__type = _mud_ImportConfig__type();
-        Item.__type = _mud_Item__type();
-        Joint.__type = _mud_Joint__type();
-        Light.__type = _mud_Light__type();
-        Lines.__type = _mud_Lines__type();
-        Material.__type = _mud_Material__type();
-        MaterialAlpha.__type = _mud_MaterialAlpha__type();
-        MaterialBase.__type = _mud_MaterialBase__type();
-        MaterialFresnel.__type = _mud_MaterialFresnel__type();
-        MaterialLine.__type = _mud_MaterialLine__type();
-        MaterialLit.__type = _mud_MaterialLit__type();
-        MaterialPbr.__type = _mud_MaterialPbr__type();
-        MaterialPhong.__type = _mud_MaterialPhong__type();
-        MaterialPoint.__type = _mud_MaterialPoint__type();
-        MaterialSolid.__type = _mud_MaterialSolid__type();
-        MaterialUser.__type = _mud_MaterialUser__type();
-        Mesh.__type = _mud_Mesh__type();
-        Mime.__type = _mud_Mime__type();
-        MirrorCamera.__type = _mud_MirrorCamera__type();
-        Model.__type = _mud_Model__type();
-        ModelElem.__type = _mud_ModelElem__type();
-        Node3.__type = _mud_Node3__type();
-        Pass.__type = _mud_Pass__type();
-        Prefab.__type = _mud_Prefab__type();
-        Program.__type = _mud_Program__type();
-        ProgramBlock.__type = _mud_ProgramBlock__type();
-        ProgramMode.__type = _mud_ProgramMode__type();
-        ProgramVersion.__type = _mud_ProgramVersion__type();
-        Radiance.__type = _mud_Radiance__type();
-        Render.__type = _mud_Render__type();
-        RenderFrame.__type = _mud_RenderFrame__type();
-        RenderQuad.__type = _mud_RenderQuad__type();
-        Renderer.__type = _mud_Renderer__type();
-        Rig.__type = _mud_Rig__type();
-        Scene.__type = _mud_Scene__type();
-        ShaderBlock.__type = _mud_ShaderBlock__type();
-        ShaderDefine.__type = _mud_ShaderDefine__type();
-        Shot.__type = _mud_Shot__type();
-        Skeleton.__type = _mud_Skeleton__type();
-        Skin.__type = _mud_Skin__type();
-        Skylight.__type = _mud_Skylight__type();
-        Sun.__type = _mud_Sun__type();
-        SwapBuffer.__type = _mud_SwapBuffer__type();
-        SwapCascade.__type = _mud_SwapCascade__type();
-        SymbolIndex.__type = _mud_SymbolIndex__type();
-        Texture.__type = _mud_Texture__type();
-        Zone.__type = _mud_Zone__type();
-        BlockCopy.__type = _mud_BlockCopy__type();
-        BlockDepth.__type = _mud_BlockDepth__type();
-        BlockFilter.__type = _mud_BlockFilter__type();
-        BlockMaterial.__type = _mud_BlockMaterial__type();
-        BlockParticles.__type = _mud_BlockParticles__type();
-        BlockSky.__type = _mud_BlockSky__type();
-        ClusteredFrustum.__type = _mud_ClusteredFrustum__type();
-        GfxBlock.__type = _mud_GfxBlock__type();
-        DrawBlock.__type = _mud_DrawBlock__type();
-        Flare.__type = _mud_Flare__type();
-        GfxSystem.__type = _mud_GfxSystem__type();
-        RenderTarget.__type = _mud_RenderTarget__type();
-        Viewport.__type = _mud_Viewport__type();
+        AnimNode.prototype.__type = _mud_AnimNode__type();
+        AnimPlay.prototype.__type = _mud_AnimPlay__type();
+        AnimTrack.prototype.__type = _mud_AnimTrack__type();
+        Animation.prototype.__type = _mud_Animation__type();
+        Background.prototype.__type = _mud_Background__type();
+        Batch.prototype.__type = _mud_Batch__type();
+        Camera.prototype.__type = _mud_Camera__type();
+        Cascade.prototype.__type = _mud_Cascade__type();
+        Culler.prototype.__type = _mud_Culler__type();
+        DepthParams.prototype.__type = _mud_DepthParams__type();
+        Direct.prototype.__type = _mud_Direct__type();
+        DistanceParams.prototype.__type = _mud_DistanceParams__type();
+        Flow.prototype.__type = _mud_Flow__type();
+        Fog.prototype.__type = _mud_Fog__type();
+        FrameBuffer.prototype.__type = _mud_FrameBuffer__type();
+        Frustum.prototype.__type = _mud_Frustum__type();
+        FrustumSlice.prototype.__type = _mud_FrustumSlice__type();
+        GfxWindow.prototype.__type = _mud_GfxWindow__type();
+        Gnode.prototype.__type = _mud_Gnode__type();
+        GpuMesh.prototype.__type = _mud_GpuMesh__type();
+        ImmediateDraw.prototype.__type = _mud_ImmediateDraw__type();
+        Import.prototype.__type = _mud_Import__type();
+        ImportConfig.prototype.__type = _mud_ImportConfig__type();
+        Item.prototype.__type = _mud_Item__type();
+        Joint.prototype.__type = _mud_Joint__type();
+        Light.prototype.__type = _mud_Light__type();
+        Lines.prototype.__type = _mud_Lines__type();
+        Material.prototype.__type = _mud_Material__type();
+        MaterialAlpha.prototype.__type = _mud_MaterialAlpha__type();
+        MaterialBase.prototype.__type = _mud_MaterialBase__type();
+        MaterialFresnel.prototype.__type = _mud_MaterialFresnel__type();
+        MaterialLine.prototype.__type = _mud_MaterialLine__type();
+        MaterialLit.prototype.__type = _mud_MaterialLit__type();
+        MaterialPbr.prototype.__type = _mud_MaterialPbr__type();
+        MaterialPhong.prototype.__type = _mud_MaterialPhong__type();
+        MaterialPoint.prototype.__type = _mud_MaterialPoint__type();
+        MaterialSolid.prototype.__type = _mud_MaterialSolid__type();
+        MaterialUser.prototype.__type = _mud_MaterialUser__type();
+        Mesh.prototype.__type = _mud_Mesh__type();
+        Mime.prototype.__type = _mud_Mime__type();
+        MirrorCamera.prototype.__type = _mud_MirrorCamera__type();
+        Model.prototype.__type = _mud_Model__type();
+        ModelElem.prototype.__type = _mud_ModelElem__type();
+        Node3.prototype.__type = _mud_Node3__type();
+        Pass.prototype.__type = _mud_Pass__type();
+        Prefab.prototype.__type = _mud_Prefab__type();
+        Program.prototype.__type = _mud_Program__type();
+        ProgramBlock.prototype.__type = _mud_ProgramBlock__type();
+        ProgramMode.prototype.__type = _mud_ProgramMode__type();
+        ProgramVersion.prototype.__type = _mud_ProgramVersion__type();
+        Radiance.prototype.__type = _mud_Radiance__type();
+        Render.prototype.__type = _mud_Render__type();
+        RenderFrame.prototype.__type = _mud_RenderFrame__type();
+        RenderQuad.prototype.__type = _mud_RenderQuad__type();
+        Renderer.prototype.__type = _mud_Renderer__type();
+        Rig.prototype.__type = _mud_Rig__type();
+        Scene.prototype.__type = _mud_Scene__type();
+        ShaderBlock.prototype.__type = _mud_ShaderBlock__type();
+        ShaderDefine.prototype.__type = _mud_ShaderDefine__type();
+        Shot.prototype.__type = _mud_Shot__type();
+        Skeleton.prototype.__type = _mud_Skeleton__type();
+        Skin.prototype.__type = _mud_Skin__type();
+        Skylight.prototype.__type = _mud_Skylight__type();
+        Sun.prototype.__type = _mud_Sun__type();
+        SwapBuffer.prototype.__type = _mud_SwapBuffer__type();
+        SwapCascade.prototype.__type = _mud_SwapCascade__type();
+        SymbolIndex.prototype.__type = _mud_SymbolIndex__type();
+        Texture.prototype.__type = _mud_Texture__type();
+        Zone.prototype.__type = _mud_Zone__type();
+        BlockCopy.prototype.__type = _mud_BlockCopy__type();
+        BlockDepth.prototype.__type = _mud_BlockDepth__type();
+        BlockFilter.prototype.__type = _mud_BlockFilter__type();
+        BlockMaterial.prototype.__type = _mud_BlockMaterial__type();
+        BlockParticles.prototype.__type = _mud_BlockParticles__type();
+        BlockSky.prototype.__type = _mud_BlockSky__type();
+        ClusteredFrustum.prototype.__type = _mud_ClusteredFrustum__type();
+        GfxBlock.prototype.__type = _mud_GfxBlock__type();
+        DrawBlock.prototype.__type = _mud_DrawBlock__type();
+        Flare.prototype.__type = _mud_Flare__type();
+        GfxSystem.prototype.__type = _mud_GfxSystem__type();
+        RenderTarget.prototype.__type = _mud_RenderTarget__type();
+        Viewport.prototype.__type = _mud_Viewport__type();
         // AnimTarget
         Module['AnimTarget'] = Module['AnimTarget'] || {};
         Module['AnimTarget']['Position'] = _mud_AnimTarget_Position();

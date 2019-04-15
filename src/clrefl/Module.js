@@ -16,14 +16,9 @@ function wrapPointer(ptr, cls) {
   if (ret) return ret;
   ret = Object.create((cls || WrapperObject).prototype);
   ret.__ptr = ptr;
-  if (cls) ret.__type = cls.__type;
   return cache[ptr] = ret;
 }
 Module['wrapPointer'] = wrapPointer;
-function castObject(obj, cls) {
-  return wrapPointer(obj.__ptr, cls);
-}
-Module['castObject'] = castObject;
 Module['NULL'] = wrapPointer(0);
 function destroy(obj) {
   if (!obj['__destroy']) throw 'Error: Cannot destroy object. (Did you create it yourself?)';
@@ -36,9 +31,10 @@ function compare(obj1, obj2) {
   return obj1.__ptr === obj2.__ptr;
 }
 Module['compare'] = compare;
-function checkClass(obj, cls) {
-  if (obj.__type == cls.__type) return true;
-  else if (cls.__base) return checkClass(obj, cls.__base);
+function checkClass(obj, destcls, cls) {
+  cls = cls || obj.__class;
+  if (cls == destcls) return true;
+  else if (cls.__base) return checkClass(obj, destcls, cls.__base);
   else return false;
 }
 Module['checkClass'] = checkClass;

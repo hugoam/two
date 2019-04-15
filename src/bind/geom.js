@@ -3,8 +3,8 @@ Module['stl'] = Module['stl'] || {};
 function Aabb(a0, a1) {
     if (a0 === undefined) {  }
     else { assert(checkClass(a0, v3_float), '[ERROR] Aabb(0:center): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] Aabb(1:extents): expected v3<float>'); }
-    if (a0 === undefined) { this.__ptr = _mud_Aabb__construct_0(); this.__type = Aabb.__type; getCache(Aabb)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Aabb__construct_2(/*center*/a0.__ptr, /*extents*/a1.__ptr); this.__type = Aabb.__type; getCache(Aabb)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Aabb__construct_0(); getCache(Aabb)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Aabb__construct_2(/*center*/a0.__ptr, /*extents*/a1.__ptr); getCache(Aabb)[this.__ptr] = this; }
 };
 Aabb.prototype = Object.create(WrapperObject.prototype);
 Aabb.prototype.constructor = Aabb;
@@ -79,7 +79,7 @@ Distribution.prototype["__destroy"] = Distribution.prototype.__destroy = functio
 // Face3
 function Face3() {
     
-    this.__ptr = _mud_Face3__construct_0(); this.__type = Face3.__type; getCache(Face3)[this.__ptr] = this;
+    this.__ptr = _mud_Face3__construct_0(); getCache(Face3)[this.__ptr] = this;
 };
 Face3.prototype = Object.create(WrapperObject.prototype);
 Face3.prototype.constructor = Face3;
@@ -92,7 +92,7 @@ Face3.prototype["__destroy"] = Face3.prototype.__destroy = function() {
 // MarchingCubes
 function MarchingCubes(a0) {
     assert(typeof a0 === 'number', '[ERROR] MarchingCubes(0:resolution): expected integer');
-    this.__ptr = _mud_MarchingCubes__construct_1(/*resolution*/a0); this.__type = MarchingCubes.__type; getCache(MarchingCubes)[this.__ptr] = this;
+    this.__ptr = _mud_MarchingCubes__construct_1(/*resolution*/a0); getCache(MarchingCubes)[this.__ptr] = this;
 };
 MarchingCubes.prototype = Object.create(WrapperObject.prototype);
 MarchingCubes.prototype.constructor = MarchingCubes;
@@ -137,7 +137,7 @@ MarchingCubes.prototype["__destroy"] = MarchingCubes.prototype.__destroy = funct
 // MeshAdapter
 function MeshAdapter() {
     
-    this.__ptr = _mud_MeshAdapter__construct_0(); this.__type = MeshAdapter.__type; getCache(MeshAdapter)[this.__ptr] = this;
+    this.__ptr = _mud_MeshAdapter__construct_0(); getCache(MeshAdapter)[this.__ptr] = this;
 };
 MeshAdapter.prototype = Object.create(WrapperObject.prototype);
 MeshAdapter.prototype.constructor = MeshAdapter;
@@ -246,7 +246,7 @@ MeshAdapter.prototype["__destroy"] = MeshAdapter.prototype.__destroy = function(
 // MeshPacker
 function MeshPacker() {
     
-    this.__ptr = _mud_MeshPacker__construct_0(); this.__type = MeshPacker.__type; getCache(MeshPacker)[this.__ptr] = this;
+    this.__ptr = _mud_MeshPacker__construct_0(); getCache(MeshPacker)[this.__ptr] = this;
 };
 MeshPacker.prototype = Object.create(WrapperObject.prototype);
 MeshPacker.prototype.constructor = MeshPacker;
@@ -397,7 +397,7 @@ MeshPacker.prototype["__destroy"] = MeshPacker.prototype.__destroy = function() 
 // Plane
 function Plane() {
     
-    this.__ptr = _mud_Plane__construct_0(); this.__type = Plane.__type; getCache(Plane)[this.__ptr] = this;
+    this.__ptr = _mud_Plane__construct_0(); getCache(Plane)[this.__ptr] = this;
 };
 Plane.prototype = Object.create(WrapperObject.prototype);
 Plane.prototype.constructor = Plane;
@@ -426,7 +426,7 @@ Plane.prototype["__destroy"] = Plane.prototype.__destroy = function() {
 // Plane3
 function Plane3() {
     
-    this.__ptr = _mud_Plane3__construct_0(); this.__type = Plane3.__type; getCache(Plane3)[this.__ptr] = this;
+    this.__ptr = _mud_Plane3__construct_0(); getCache(Plane3)[this.__ptr] = this;
 };
 Plane3.prototype = Object.create(WrapperObject.prototype);
 Plane3.prototype.constructor = Plane3;
@@ -463,7 +463,7 @@ Plane3.prototype["__destroy"] = Plane3.prototype.__destroy = function() {
 // Ray
 function Ray() {
     
-    this.__ptr = _mud_Ray__construct_0(); this.__type = Ray.__type; getCache(Ray)[this.__ptr] = this;
+    this.__ptr = _mud_Ray__construct_0(); getCache(Ray)[this.__ptr] = this;
 };
 Ray.prototype = Object.create(WrapperObject.prototype);
 Ray.prototype.constructor = Ray;
@@ -508,7 +508,7 @@ Ray.prototype["__destroy"] = Ray.prototype.__destroy = function() {
 // Segment
 function Segment() {
     
-    this.__ptr = _mud_Segment__construct_0(); this.__type = Segment.__type; getCache(Segment)[this.__ptr] = this;
+    this.__ptr = _mud_Segment__construct_0(); getCache(Segment)[this.__ptr] = this;
 };
 Segment.prototype = Object.create(WrapperObject.prototype);
 Segment.prototype.constructor = Segment;
@@ -552,8 +552,8 @@ Shape.prototype["__destroy"] = Shape.prototype.__destroy = function() {
 function ShapeVar(a0) {
     if (a0 === undefined) {  }
     else { assert(checkClass(a0, Shape), '[ERROR] ShapeVar(0:shape): expected Shape'); }
-    if (a0 === undefined) { this.__ptr = _mud_ShapeVar__construct_0(); this.__type = ShapeVar.__type; getCache(ShapeVar)[this.__ptr] = this; }
-    else { this.__ptr = _mud_ShapeVar__construct_1(/*shape*/a0.__ptr); this.__type = ShapeVar.__type; getCache(ShapeVar)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_ShapeVar__construct_0(); getCache(ShapeVar)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ShapeVar__construct_1(/*shape*/a0.__ptr); getCache(ShapeVar)[this.__ptr] = this; }
 };
 ShapeVar.prototype = Object.create(WrapperObject.prototype);
 ShapeVar.prototype.constructor = ShapeVar;
@@ -574,11 +574,11 @@ function Symbol(a0, a1, a2, a3, a4) {
     else if (a3 === undefined) { assert(checkClass(a0, Colour), '[ERROR] Symbol(0:fill): expected Colour'); assert(checkClass(a1, Colour), '[ERROR] Symbol(1:outline): expected Colour'); assert(typeof a2 === 'boolean', '[ERROR] Symbol(2:overlay): expected boolean'); }
     else if (a4 === undefined) { assert(checkClass(a0, Colour), '[ERROR] Symbol(0:fill): expected Colour'); assert(checkClass(a1, Colour), '[ERROR] Symbol(1:outline): expected Colour'); assert(typeof a2 === 'boolean', '[ERROR] Symbol(2:overlay): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] Symbol(3:double_sided): expected boolean'); }
     else { assert(checkClass(a0, Colour), '[ERROR] Symbol(0:fill): expected Colour'); assert(checkClass(a1, Colour), '[ERROR] Symbol(1:outline): expected Colour'); assert(typeof a2 === 'boolean', '[ERROR] Symbol(2:overlay): expected boolean'); assert(typeof a3 === 'boolean', '[ERROR] Symbol(3:double_sided): expected boolean'); assert(typeof a4 === 'number', '[ERROR] Symbol(4:detail): expected integer'); }
-    if (a1 === undefined) { this.__ptr = _mud_Symbol__construct_1(/*fill*/a0.__ptr); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Symbol__construct_2(/*fill*/a0.__ptr, /*outline*/a1.__ptr); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_Symbol__construct_3(/*fill*/a0.__ptr, /*outline*/a1.__ptr, /*overlay*/a2); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; }
-    else if (a4 === undefined) { this.__ptr = _mud_Symbol__construct_4(/*fill*/a0.__ptr, /*outline*/a1.__ptr, /*overlay*/a2, /*double_sided*/a3); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Symbol__construct_5(/*fill*/a0.__ptr, /*outline*/a1.__ptr, /*overlay*/a2, /*double_sided*/a3, /*detail*/a4); this.__type = Symbol.__type; getCache(Symbol)[this.__ptr] = this; }
+    if (a1 === undefined) { this.__ptr = _mud_Symbol__construct_1(/*fill*/a0.__ptr); getCache(Symbol)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Symbol__construct_2(/*fill*/a0.__ptr, /*outline*/a1.__ptr); getCache(Symbol)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Symbol__construct_3(/*fill*/a0.__ptr, /*outline*/a1.__ptr, /*overlay*/a2); getCache(Symbol)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_Symbol__construct_4(/*fill*/a0.__ptr, /*outline*/a1.__ptr, /*overlay*/a2, /*double_sided*/a3); getCache(Symbol)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Symbol__construct_5(/*fill*/a0.__ptr, /*outline*/a1.__ptr, /*overlay*/a2, /*double_sided*/a3, /*detail*/a4); getCache(Symbol)[this.__ptr] = this; }
 };
 Symbol.prototype = Object.create(WrapperObject.prototype);
 Symbol.prototype.constructor = Symbol;
@@ -664,13 +664,13 @@ Symbol.prototype["__destroy"] = Symbol.prototype.__destroy = function() {
 function Arc(a0, a1, a2) {
     if (a0 === undefined) {  }
     else { assert(typeof a0 === 'number', '[ERROR] Arc(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Arc(1:start): expected number'); assert(typeof a2 === 'number', '[ERROR] Arc(2:end): expected number'); }
-    if (a0 === undefined) { this.__ptr = _mud_Arc__construct_0(); this.__type = Arc.__type; getCache(Arc)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Arc__construct_3(/*radius*/a0, /*start*/a1, /*end*/a2); this.__type = Arc.__type; getCache(Arc)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Arc__construct_0(); getCache(Arc)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Arc__construct_3(/*radius*/a0, /*start*/a1, /*end*/a2); getCache(Arc)[this.__ptr] = this; }
 };
 Arc.prototype = Object.create(Shape.prototype);
 Arc.prototype.constructor = Arc;
 Arc.prototype.__class = Arc;
-Arc.prototype.__base = Shape;
+Arc.__base = Shape;
 Arc.__cache = {};
 Module['Arc'] = Arc;
 Object.defineProperty(Arc.prototype, "radius", {
@@ -705,14 +705,14 @@ function ArcLine(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
     else if (a3 === undefined) { assert(checkClass(a0, v3_float), '[ERROR] ArcLine(0:start): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] ArcLine(1:middle): expected v3<float>'); assert(checkClass(a2, v3_float), '[ERROR] ArcLine(2:end): expected v3<float>'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] ArcLine(0:center): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] ArcLine(1:start): expected v3<float>'); assert(checkClass(a2, v3_float), '[ERROR] ArcLine(2:middle): expected v3<float>'); assert(checkClass(a3, v3_float), '[ERROR] ArcLine(3:end): expected v3<float>'); }
-    if (a0 === undefined) { this.__ptr = _mud_ArcLine__construct_0(); this.__type = ArcLine.__type; getCache(ArcLine)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_ArcLine__construct_3(/*start*/a0.__ptr, /*middle*/a1.__ptr, /*end*/a2.__ptr); this.__type = ArcLine.__type; getCache(ArcLine)[this.__ptr] = this; }
-    else { this.__ptr = _mud_ArcLine__construct_4(/*center*/a0.__ptr, /*start*/a1.__ptr, /*middle*/a2.__ptr, /*end*/a3.__ptr); this.__type = ArcLine.__type; getCache(ArcLine)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_ArcLine__construct_0(); getCache(ArcLine)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_ArcLine__construct_3(/*start*/a0.__ptr, /*middle*/a1.__ptr, /*end*/a2.__ptr); getCache(ArcLine)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ArcLine__construct_4(/*center*/a0.__ptr, /*start*/a1.__ptr, /*middle*/a2.__ptr, /*end*/a3.__ptr); getCache(ArcLine)[this.__ptr] = this; }
 };
 ArcLine.prototype = Object.create(Shape.prototype);
 ArcLine.prototype.constructor = ArcLine;
 ArcLine.prototype.__class = ArcLine;
-ArcLine.prototype.__base = Shape;
+ArcLine.__base = Shape;
 ArcLine.__cache = {};
 Module['ArcLine'] = ArcLine;
 Object.defineProperty(ArcLine.prototype, "start", {
@@ -745,12 +745,12 @@ ArcLine.prototype["__destroy"] = ArcLine.prototype.__destroy = function() {
 // Box
 function Box() {
     
-    this.__ptr = _mud_Box__construct_0(); this.__type = Box.__type; getCache(Box)[this.__ptr] = this;
+    this.__ptr = _mud_Box__construct_0(); getCache(Box)[this.__ptr] = this;
 };
 Box.prototype = Object.create(Shape.prototype);
 Box.prototype.constructor = Box;
 Box.prototype.__class = Box;
-Box.prototype.__base = Shape;
+Box.__base = Shape;
 Box.__cache = {};
 Module['Box'] = Box;
 Box.prototype["__destroy"] = Box.prototype.__destroy = function() {
@@ -761,14 +761,14 @@ function Capsule(a0, a1, a2) {
     if (a0 === undefined) {  }
     else if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] Capsule(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Capsule(1:height): expected number'); }
     else { assert(typeof a0 === 'number', '[ERROR] Capsule(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Capsule(1:height): expected number'); assert(typeof a2 === 'number', '[ERROR] Capsule(2:axis): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_Capsule__construct_0(); this.__type = Capsule.__type; getCache(Capsule)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Capsule__construct_2(/*radius*/a0, /*height*/a1); this.__type = Capsule.__type; getCache(Capsule)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Capsule__construct_3(/*radius*/a0, /*height*/a1, /*axis*/a2); this.__type = Capsule.__type; getCache(Capsule)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Capsule__construct_0(); getCache(Capsule)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Capsule__construct_2(/*radius*/a0, /*height*/a1); getCache(Capsule)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Capsule__construct_3(/*radius*/a0, /*height*/a1, /*axis*/a2); getCache(Capsule)[this.__ptr] = this; }
 };
 Capsule.prototype = Object.create(Shape.prototype);
 Capsule.prototype.constructor = Capsule;
 Capsule.prototype.__class = Capsule;
-Capsule.prototype.__base = Shape;
+Capsule.__base = Shape;
 Capsule.__cache = {};
 Module['Capsule'] = Capsule;
 Object.defineProperty(Capsule.prototype, "radius", {
@@ -804,15 +804,15 @@ function Circle(a0, a1, a2) {
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] Circle(0:radius): expected number'); }
     else if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] Circle(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Circle(1:axis): expected integer'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] Circle(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Circle(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Circle(2:axis): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_Circle__construct_0(); this.__type = Circle.__type; getCache(Circle)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_Circle__construct_1(/*radius*/a0); this.__type = Circle.__type; getCache(Circle)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Circle__construct_2(/*radius*/a0, /*axis*/a1); this.__type = Circle.__type; getCache(Circle)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Circle__construct_3(/*center*/a0.__ptr, /*radius*/a1, /*axis*/a2); this.__type = Circle.__type; getCache(Circle)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Circle__construct_0(); getCache(Circle)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Circle__construct_1(/*radius*/a0); getCache(Circle)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Circle__construct_2(/*radius*/a0, /*axis*/a1); getCache(Circle)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Circle__construct_3(/*center*/a0.__ptr, /*radius*/a1, /*axis*/a2); getCache(Circle)[this.__ptr] = this; }
 };
 Circle.prototype = Object.create(Shape.prototype);
 Circle.prototype.constructor = Circle;
 Circle.prototype.__class = Circle;
-Circle.prototype.__base = Shape;
+Circle.__base = Shape;
 Circle.__cache = {};
 Module['Circle'] = Circle;
 Object.defineProperty(Circle.prototype, "radius", {
@@ -838,13 +838,13 @@ Circle.prototype["__destroy"] = Circle.prototype.__destroy = function() {
 function ConvexHull(a0) {
     if (a0 === undefined) {  }
     else {  }
-    if (a0 === undefined) { this.__ptr = _mud_ConvexHull__construct_0(); this.__type = ConvexHull.__type; getCache(ConvexHull)[this.__ptr] = this; }
-    else { this.__ptr = _mud_ConvexHull__construct_1(ensureFloat32(/*vertices*/a0), /*vertices*/a0.length); this.__type = ConvexHull.__type; getCache(ConvexHull)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_ConvexHull__construct_0(); getCache(ConvexHull)[this.__ptr] = this; }
+    else { this.__ptr = _mud_ConvexHull__construct_1(ensureFloat32(/*vertices*/a0), /*vertices*/a0.length); getCache(ConvexHull)[this.__ptr] = this; }
 };
 ConvexHull.prototype = Object.create(Shape.prototype);
 ConvexHull.prototype.constructor = ConvexHull;
 ConvexHull.prototype.__class = ConvexHull;
-ConvexHull.prototype.__base = Shape;
+ConvexHull.__base = Shape;
 ConvexHull.__cache = {};
 Module['ConvexHull'] = ConvexHull;
 Object.defineProperty(ConvexHull.prototype, "vertices", {
@@ -859,14 +859,14 @@ function Cube(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(checkClass(a0, v3_float), '[ERROR] Cube(0:extents): expected v3<float>'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] Cube(0:center): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] Cube(1:extents): expected v3<float>'); }
-    if (a0 === undefined) { this.__ptr = _mud_Cube__construct_0(); this.__type = Cube.__type; getCache(Cube)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_Cube__construct_1(/*extents*/a0.__ptr); this.__type = Cube.__type; getCache(Cube)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Cube__construct_2(/*center*/a0.__ptr, /*extents*/a1.__ptr); this.__type = Cube.__type; getCache(Cube)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Cube__construct_0(); getCache(Cube)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Cube__construct_1(/*extents*/a0.__ptr); getCache(Cube)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Cube__construct_2(/*center*/a0.__ptr, /*extents*/a1.__ptr); getCache(Cube)[this.__ptr] = this; }
 };
 Cube.prototype = Object.create(Shape.prototype);
 Cube.prototype.constructor = Cube;
 Cube.prototype.__class = Cube;
-Cube.prototype.__base = Shape;
+Cube.__base = Shape;
 Cube.__cache = {};
 Module['Cube'] = Cube;
 Object.defineProperty(Cube.prototype, "extents", {
@@ -883,12 +883,12 @@ Cube.prototype["__destroy"] = Cube.prototype.__destroy = function() {
 // CurveBezierCubic
 function CurveBezierCubic() {
     
-    this.__ptr = _mud_CurveBezierCubic__construct_0(); this.__type = CurveBezierCubic.__type; getCache(CurveBezierCubic)[this.__ptr] = this;
+    this.__ptr = _mud_CurveBezierCubic__construct_0(); getCache(CurveBezierCubic)[this.__ptr] = this;
 };
 CurveBezierCubic.prototype = Object.create(Curve2.prototype);
 CurveBezierCubic.prototype.constructor = CurveBezierCubic;
 CurveBezierCubic.prototype.__class = CurveBezierCubic;
-CurveBezierCubic.prototype.__base = Curve2;
+CurveBezierCubic.__base = Curve2;
 CurveBezierCubic.__cache = {};
 Module['CurveBezierCubic'] = CurveBezierCubic;
 Object.defineProperty(CurveBezierCubic.prototype, "v0", {
@@ -929,12 +929,12 @@ CurveBezierCubic.prototype["__destroy"] = CurveBezierCubic.prototype.__destroy =
 // CurveBezierCubic3
 function CurveBezierCubic3() {
     
-    this.__ptr = _mud_CurveBezierCubic3__construct_0(); this.__type = CurveBezierCubic3.__type; getCache(CurveBezierCubic3)[this.__ptr] = this;
+    this.__ptr = _mud_CurveBezierCubic3__construct_0(); getCache(CurveBezierCubic3)[this.__ptr] = this;
 };
 CurveBezierCubic3.prototype = Object.create(Curve3.prototype);
 CurveBezierCubic3.prototype.constructor = CurveBezierCubic3;
 CurveBezierCubic3.prototype.__class = CurveBezierCubic3;
-CurveBezierCubic3.prototype.__base = Curve3;
+CurveBezierCubic3.__base = Curve3;
 CurveBezierCubic3.__cache = {};
 Module['CurveBezierCubic3'] = CurveBezierCubic3;
 Object.defineProperty(CurveBezierCubic3.prototype, "v0", {
@@ -975,12 +975,12 @@ CurveBezierCubic3.prototype["__destroy"] = CurveBezierCubic3.prototype.__destroy
 // CurveBezierQuadratic
 function CurveBezierQuadratic() {
     
-    this.__ptr = _mud_CurveBezierQuadratic__construct_0(); this.__type = CurveBezierQuadratic.__type; getCache(CurveBezierQuadratic)[this.__ptr] = this;
+    this.__ptr = _mud_CurveBezierQuadratic__construct_0(); getCache(CurveBezierQuadratic)[this.__ptr] = this;
 };
 CurveBezierQuadratic.prototype = Object.create(Curve2.prototype);
 CurveBezierQuadratic.prototype.constructor = CurveBezierQuadratic;
 CurveBezierQuadratic.prototype.__class = CurveBezierQuadratic;
-CurveBezierQuadratic.prototype.__base = Curve2;
+CurveBezierQuadratic.__base = Curve2;
 CurveBezierQuadratic.__cache = {};
 Module['CurveBezierQuadratic'] = CurveBezierQuadratic;
 Object.defineProperty(CurveBezierQuadratic.prototype, "v0", {
@@ -1013,12 +1013,12 @@ CurveBezierQuadratic.prototype["__destroy"] = CurveBezierQuadratic.prototype.__d
 // CurveBezierQuadratic3
 function CurveBezierQuadratic3() {
     
-    this.__ptr = _mud_CurveBezierQuadratic3__construct_0(); this.__type = CurveBezierQuadratic3.__type; getCache(CurveBezierQuadratic3)[this.__ptr] = this;
+    this.__ptr = _mud_CurveBezierQuadratic3__construct_0(); getCache(CurveBezierQuadratic3)[this.__ptr] = this;
 };
 CurveBezierQuadratic3.prototype = Object.create(Curve3.prototype);
 CurveBezierQuadratic3.prototype.constructor = CurveBezierQuadratic3;
 CurveBezierQuadratic3.prototype.__class = CurveBezierQuadratic3;
-CurveBezierQuadratic3.prototype.__base = Curve3;
+CurveBezierQuadratic3.__base = Curve3;
 CurveBezierQuadratic3.__cache = {};
 Module['CurveBezierQuadratic3'] = CurveBezierQuadratic3;
 Object.defineProperty(CurveBezierQuadratic3.prototype, "v0", {
@@ -1051,12 +1051,12 @@ CurveBezierQuadratic3.prototype["__destroy"] = CurveBezierQuadratic3.prototype._
 // CurveCatmullRom3
 function CurveCatmullRom3() {
     
-    this.__ptr = _mud_CurveCatmullRom3__construct_0(); this.__type = CurveCatmullRom3.__type; getCache(CurveCatmullRom3)[this.__ptr] = this;
+    this.__ptr = _mud_CurveCatmullRom3__construct_0(); getCache(CurveCatmullRom3)[this.__ptr] = this;
 };
 CurveCatmullRom3.prototype = Object.create(Curve3.prototype);
 CurveCatmullRom3.prototype.constructor = CurveCatmullRom3;
 CurveCatmullRom3.prototype.__class = CurveCatmullRom3;
-CurveCatmullRom3.prototype.__base = Curve3;
+CurveCatmullRom3.__base = Curve3;
 CurveCatmullRom3.__cache = {};
 Module['CurveCatmullRom3'] = CurveCatmullRom3;
 CurveCatmullRom3.prototype["add_point"] = CurveCatmullRom3.prototype.add_point = function(a0) {
@@ -1097,12 +1097,12 @@ CurveCatmullRom3.prototype["__destroy"] = CurveCatmullRom3.prototype.__destroy =
 // CurveLine
 function CurveLine() {
     
-    this.__ptr = _mud_CurveLine__construct_0(); this.__type = CurveLine.__type; getCache(CurveLine)[this.__ptr] = this;
+    this.__ptr = _mud_CurveLine__construct_0(); getCache(CurveLine)[this.__ptr] = this;
 };
 CurveLine.prototype = Object.create(Curve2.prototype);
 CurveLine.prototype.constructor = CurveLine;
 CurveLine.prototype.__class = CurveLine;
-CurveLine.prototype.__base = Curve2;
+CurveLine.__base = Curve2;
 CurveLine.__cache = {};
 Module['CurveLine'] = CurveLine;
 Object.defineProperty(CurveLine.prototype, "v0", {
@@ -1127,12 +1127,12 @@ CurveLine.prototype["__destroy"] = CurveLine.prototype.__destroy = function() {
 // CurveLine3
 function CurveLine3() {
     
-    this.__ptr = _mud_CurveLine3__construct_0(); this.__type = CurveLine3.__type; getCache(CurveLine3)[this.__ptr] = this;
+    this.__ptr = _mud_CurveLine3__construct_0(); getCache(CurveLine3)[this.__ptr] = this;
 };
 CurveLine3.prototype = Object.create(Curve3.prototype);
 CurveLine3.prototype.constructor = CurveLine3;
 CurveLine3.prototype.__class = CurveLine3;
-CurveLine3.prototype.__base = Curve3;
+CurveLine3.__base = Curve3;
 CurveLine3.__cache = {};
 Module['CurveLine3'] = CurveLine3;
 Object.defineProperty(CurveLine3.prototype, "v0", {
@@ -1157,12 +1157,12 @@ CurveLine3.prototype["__destroy"] = CurveLine3.prototype.__destroy = function() 
 // CurveSpline
 function CurveSpline() {
     
-    this.__ptr = _mud_CurveSpline__construct_0(); this.__type = CurveSpline.__type; getCache(CurveSpline)[this.__ptr] = this;
+    this.__ptr = _mud_CurveSpline__construct_0(); getCache(CurveSpline)[this.__ptr] = this;
 };
 CurveSpline.prototype = Object.create(Curve2.prototype);
 CurveSpline.prototype.constructor = CurveSpline;
 CurveSpline.prototype.__class = CurveSpline;
-CurveSpline.prototype.__base = Curve2;
+CurveSpline.__base = Curve2;
 CurveSpline.__cache = {};
 Module['CurveSpline'] = CurveSpline;
 Object.defineProperty(CurveSpline.prototype, "points", {
@@ -1175,12 +1175,12 @@ CurveSpline.prototype["__destroy"] = CurveSpline.prototype.__destroy = function(
 // CurveSpline3
 function CurveSpline3() {
     
-    this.__ptr = _mud_CurveSpline3__construct_0(); this.__type = CurveSpline3.__type; getCache(CurveSpline3)[this.__ptr] = this;
+    this.__ptr = _mud_CurveSpline3__construct_0(); getCache(CurveSpline3)[this.__ptr] = this;
 };
 CurveSpline3.prototype = Object.create(Curve3.prototype);
 CurveSpline3.prototype.constructor = CurveSpline3;
 CurveSpline3.prototype.__class = CurveSpline3;
-CurveSpline3.prototype.__base = Curve3;
+CurveSpline3.__base = Curve3;
 CurveSpline3.__cache = {};
 Module['CurveSpline3'] = CurveSpline3;
 Object.defineProperty(CurveSpline3.prototype, "points", {
@@ -1196,15 +1196,15 @@ function Cylinder(a0, a1, a2, a3) {
     else if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] Cylinder(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Cylinder(1:height): expected number'); }
     else if (a3 === undefined) { assert(typeof a0 === 'number', '[ERROR] Cylinder(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Cylinder(1:height): expected number'); assert(typeof a2 === 'number', '[ERROR] Cylinder(2:axis): expected integer'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] Cylinder(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Cylinder(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Cylinder(2:height): expected number'); assert(typeof a3 === 'number', '[ERROR] Cylinder(3:axis): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_Cylinder__construct_0(); this.__type = Cylinder.__type; getCache(Cylinder)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Cylinder__construct_2(/*radius*/a0, /*height*/a1); this.__type = Cylinder.__type; getCache(Cylinder)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_Cylinder__construct_3(/*radius*/a0, /*height*/a1, /*axis*/a2); this.__type = Cylinder.__type; getCache(Cylinder)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Cylinder__construct_4(/*center*/a0.__ptr, /*radius*/a1, /*height*/a2, /*axis*/a3); this.__type = Cylinder.__type; getCache(Cylinder)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Cylinder__construct_0(); getCache(Cylinder)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Cylinder__construct_2(/*radius*/a0, /*height*/a1); getCache(Cylinder)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Cylinder__construct_3(/*radius*/a0, /*height*/a1, /*axis*/a2); getCache(Cylinder)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Cylinder__construct_4(/*center*/a0.__ptr, /*radius*/a1, /*height*/a2, /*axis*/a3); getCache(Cylinder)[this.__ptr] = this; }
 };
 Cylinder.prototype = Object.create(Shape.prototype);
 Cylinder.prototype.constructor = Cylinder;
 Cylinder.prototype.__class = Cylinder;
-Cylinder.prototype.__base = Shape;
+Cylinder.__base = Shape;
 Cylinder.__cache = {};
 Module['Cylinder'] = Cylinder;
 Object.defineProperty(Cylinder.prototype, "radius", {
@@ -1239,14 +1239,14 @@ function Ellipsis(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(checkClass(a0, v2_float), '[ERROR] Ellipsis(0:radius): expected v2<float>'); }
     else { assert(checkClass(a0, v2_float), '[ERROR] Ellipsis(0:radius): expected v2<float>'); assert(typeof a1 === 'number', '[ERROR] Ellipsis(1:axis): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_Ellipsis__construct_0(); this.__type = Ellipsis.__type; getCache(Ellipsis)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_Ellipsis__construct_1(/*radius*/a0.__ptr); this.__type = Ellipsis.__type; getCache(Ellipsis)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Ellipsis__construct_2(/*radius*/a0.__ptr, /*axis*/a1); this.__type = Ellipsis.__type; getCache(Ellipsis)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Ellipsis__construct_0(); getCache(Ellipsis)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Ellipsis__construct_1(/*radius*/a0.__ptr); getCache(Ellipsis)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Ellipsis__construct_2(/*radius*/a0.__ptr, /*axis*/a1); getCache(Ellipsis)[this.__ptr] = this; }
 };
 Ellipsis.prototype = Object.create(Shape.prototype);
 Ellipsis.prototype.constructor = Ellipsis;
 Ellipsis.prototype.__class = Ellipsis;
-Ellipsis.prototype.__base = Shape;
+Ellipsis.__base = Shape;
 Ellipsis.__cache = {};
 Module['Ellipsis'] = Ellipsis;
 Object.defineProperty(Ellipsis.prototype, "radius", {
@@ -1271,12 +1271,12 @@ Ellipsis.prototype["__destroy"] = Ellipsis.prototype.__destroy = function() {
 // Geometry
 function Geometry() {
     
-    this.__ptr = _mud_Geometry__construct_0(); this.__type = Geometry.__type; getCache(Geometry)[this.__ptr] = this;
+    this.__ptr = _mud_Geometry__construct_0(); getCache(Geometry)[this.__ptr] = this;
 };
 Geometry.prototype = Object.create(Shape.prototype);
 Geometry.prototype.constructor = Geometry;
 Geometry.prototype.__class = Geometry;
-Geometry.prototype.__base = Shape;
+Geometry.__base = Shape;
 Geometry.__cache = {};
 Module['Geometry'] = Geometry;
 Geometry.prototype["__destroy"] = Geometry.prototype.__destroy = function() {
@@ -1287,14 +1287,14 @@ function Grid2(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(checkClass(a0, v2_float), '[ERROR] Grid2(0:size): expected v2<float>'); }
     else { assert(checkClass(a0, v2_float), '[ERROR] Grid2(0:size): expected v2<float>'); assert(checkClass(a1, v2_float), '[ERROR] Grid2(1:space): expected v2<float>'); }
-    if (a0 === undefined) { this.__ptr = _mud_Grid2__construct_0(); this.__type = Grid2.__type; getCache(Grid2)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_Grid2__construct_1(/*size*/a0.__ptr); this.__type = Grid2.__type; getCache(Grid2)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Grid2__construct_2(/*size*/a0.__ptr, /*space*/a1.__ptr); this.__type = Grid2.__type; getCache(Grid2)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Grid2__construct_0(); getCache(Grid2)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Grid2__construct_1(/*size*/a0.__ptr); getCache(Grid2)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Grid2__construct_2(/*size*/a0.__ptr, /*space*/a1.__ptr); getCache(Grid2)[this.__ptr] = this; }
 };
 Grid2.prototype = Object.create(Shape.prototype);
 Grid2.prototype.constructor = Grid2;
 Grid2.prototype.__class = Grid2;
-Grid2.prototype.__base = Shape;
+Grid2.__base = Shape;
 Grid2.__cache = {};
 Module['Grid2'] = Grid2;
 Object.defineProperty(Grid2.prototype, "size", {
@@ -1321,14 +1321,14 @@ function Grid3(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(checkClass(a0, v2_uint), '[ERROR] Grid3(0:size): expected v2<uint>'); }
     else { assert(checkClass(a0, v2_uint), '[ERROR] Grid3(0:size): expected v2<uint>');  }
-    if (a0 === undefined) { this.__ptr = _mud_Grid3__construct_0(); this.__type = Grid3.__type; getCache(Grid3)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_Grid3__construct_1(/*size*/a0.__ptr); this.__type = Grid3.__type; getCache(Grid3)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Grid3__construct_2(/*size*/a0.__ptr, ensureFloat32(/*points*/a1), /*points*/a1.length); this.__type = Grid3.__type; getCache(Grid3)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Grid3__construct_0(); getCache(Grid3)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Grid3__construct_1(/*size*/a0.__ptr); getCache(Grid3)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Grid3__construct_2(/*size*/a0.__ptr, ensureFloat32(/*points*/a1), /*points*/a1.length); getCache(Grid3)[this.__ptr] = this; }
 };
 Grid3.prototype = Object.create(Shape.prototype);
 Grid3.prototype.constructor = Grid3;
 Grid3.prototype.__class = Grid3;
-Grid3.prototype.__base = Shape;
+Grid3.__base = Shape;
 Grid3.__cache = {};
 Module['Grid3'] = Grid3;
 Object.defineProperty(Grid3.prototype, "size", {
@@ -1351,14 +1351,14 @@ function Icosaedr(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] Icosaedr(0:radius): expected number'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] Icosaedr(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Icosaedr(1:radius): expected number'); }
-    if (a0 === undefined) { this.__ptr = _mud_Icosaedr__construct_0(); this.__type = Icosaedr.__type; getCache(Icosaedr)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_Icosaedr__construct_1(/*radius*/a0); this.__type = Icosaedr.__type; getCache(Icosaedr)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Icosaedr__construct_2(/*center*/a0.__ptr, /*radius*/a1); this.__type = Icosaedr.__type; getCache(Icosaedr)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Icosaedr__construct_0(); getCache(Icosaedr)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Icosaedr__construct_1(/*radius*/a0); getCache(Icosaedr)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Icosaedr__construct_2(/*center*/a0.__ptr, /*radius*/a1); getCache(Icosaedr)[this.__ptr] = this; }
 };
 Icosaedr.prototype = Object.create(Shape.prototype);
 Icosaedr.prototype.constructor = Icosaedr;
 Icosaedr.prototype.__class = Icosaedr;
-Icosaedr.prototype.__base = Shape;
+Icosaedr.__base = Shape;
 Icosaedr.__cache = {};
 Module['Icosaedr'] = Icosaedr;
 Object.defineProperty(Icosaedr.prototype, "radius", {
@@ -1376,13 +1376,13 @@ Icosaedr.prototype["__destroy"] = Icosaedr.prototype.__destroy = function() {
 function Line(a0, a1) {
     if (a0 === undefined) {  }
     else { assert(checkClass(a0, v3_float), '[ERROR] Line(0:start): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] Line(1:end): expected v3<float>'); }
-    if (a0 === undefined) { this.__ptr = _mud_Line__construct_0(); this.__type = Line.__type; getCache(Line)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Line__construct_2(/*start*/a0.__ptr, /*end*/a1.__ptr); this.__type = Line.__type; getCache(Line)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Line__construct_0(); getCache(Line)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Line__construct_2(/*start*/a0.__ptr, /*end*/a1.__ptr); getCache(Line)[this.__ptr] = this; }
 };
 Line.prototype = Object.create(Shape.prototype);
 Line.prototype.constructor = Line;
 Line.prototype.__class = Line;
-Line.prototype.__base = Shape;
+Line.__base = Shape;
 Line.__cache = {};
 Module['Line'] = Line;
 Object.defineProperty(Line.prototype, "start", {
@@ -1408,13 +1408,13 @@ Line.prototype["__destroy"] = Line.prototype.__destroy = function() {
 function Points(a0) {
     if (a0 === undefined) {  }
     else {  }
-    if (a0 === undefined) { this.__ptr = _mud_Points__construct_0(); this.__type = Points.__type; getCache(Points)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Points__construct_1(ensureFloat32(/*points*/a0), /*points*/a0.length); this.__type = Points.__type; getCache(Points)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Points__construct_0(); getCache(Points)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Points__construct_1(ensureFloat32(/*points*/a0), /*points*/a0.length); getCache(Points)[this.__ptr] = this; }
 };
 Points.prototype = Object.create(Shape.prototype);
 Points.prototype.constructor = Points;
 Points.prototype.__class = Points;
-Points.prototype.__base = Shape;
+Points.__base = Shape;
 Points.__cache = {};
 Module['Points'] = Points;
 Object.defineProperty(Points.prototype, "points", {
@@ -1427,12 +1427,12 @@ Points.prototype["__destroy"] = Points.prototype.__destroy = function() {
 // Poisson
 function Poisson(a0, a1) {
     assert(checkClass(a0, v2_float), '[ERROR] Poisson(0:size): expected v2<float>'); assert(typeof a1 === 'number', '[ERROR] Poisson(1:maxRadius): expected number');
-    this.__ptr = _mud_Poisson__construct_2(/*size*/a0.__ptr, /*maxRadius*/a1); this.__type = Poisson.__type; getCache(Poisson)[this.__ptr] = this;
+    this.__ptr = _mud_Poisson__construct_2(/*size*/a0.__ptr, /*maxRadius*/a1); getCache(Poisson)[this.__ptr] = this;
 };
 Poisson.prototype = Object.create(Distribution.prototype);
 Poisson.prototype.constructor = Poisson;
 Poisson.prototype.__class = Poisson;
-Poisson.prototype.__base = Distribution;
+Poisson.__base = Distribution;
 Poisson.__cache = {};
 Module['Poisson'] = Poisson;
 Poisson.prototype["distribute"] = Poisson.prototype.distribute = function(a0) {
@@ -1450,13 +1450,13 @@ Poisson.prototype["__destroy"] = Poisson.prototype.__destroy = function() {
 function Polygon(a0) {
     if (a0 === undefined) {  }
     else {  }
-    if (a0 === undefined) { this.__ptr = _mud_Polygon__construct_0(); this.__type = Polygon.__type; getCache(Polygon)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Polygon__construct_1(ensureFloat32(/*vertices*/a0), /*vertices*/a0.length); this.__type = Polygon.__type; getCache(Polygon)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Polygon__construct_0(); getCache(Polygon)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Polygon__construct_1(ensureFloat32(/*vertices*/a0), /*vertices*/a0.length); getCache(Polygon)[this.__ptr] = this; }
 };
 Polygon.prototype = Object.create(Shape.prototype);
 Polygon.prototype.constructor = Polygon;
 Polygon.prototype.__class = Polygon;
-Polygon.prototype.__base = Shape;
+Polygon.__base = Shape;
 Polygon.__cache = {};
 Module['Polygon'] = Polygon;
 Polygon.prototype["__destroy"] = Polygon.prototype.__destroy = function() {
@@ -1466,13 +1466,13 @@ Polygon.prototype["__destroy"] = Polygon.prototype.__destroy = function() {
 function Quad(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
     else { assert(checkClass(a0, v3_float), '[ERROR] Quad(0:a): expected v3<float>'); assert(checkClass(a1, v3_float), '[ERROR] Quad(1:b): expected v3<float>'); assert(checkClass(a2, v3_float), '[ERROR] Quad(2:c): expected v3<float>'); assert(checkClass(a3, v3_float), '[ERROR] Quad(3:d): expected v3<float>'); }
-    if (a0 === undefined) { this.__ptr = _mud_Quad__construct_0(); this.__type = Quad.__type; getCache(Quad)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Quad__construct_4(/*a*/a0.__ptr, /*b*/a1.__ptr, /*c*/a2.__ptr, /*d*/a3.__ptr); this.__type = Quad.__type; getCache(Quad)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Quad__construct_0(); getCache(Quad)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Quad__construct_4(/*a*/a0.__ptr, /*b*/a1.__ptr, /*c*/a2.__ptr, /*d*/a3.__ptr); getCache(Quad)[this.__ptr] = this; }
 };
 Quad.prototype = Object.create(Shape.prototype);
 Quad.prototype.constructor = Quad;
 Quad.prototype.__class = Quad;
-Quad.prototype.__base = Shape;
+Quad.__base = Shape;
 Quad.__cache = {};
 Module['Quad'] = Quad;
 Quad.prototype["__destroy"] = Quad.prototype.__destroy = function() {
@@ -1483,14 +1483,14 @@ function Rect(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
     else if (a2 === undefined) { assert(checkClass(a0, v2_float), '[ERROR] Rect(0:position): expected v2<float>'); assert(checkClass(a1, v2_float), '[ERROR] Rect(1:size): expected v2<float>'); }
     else { assert(typeof a0 === 'number', '[ERROR] Rect(0:x): expected number'); assert(typeof a1 === 'number', '[ERROR] Rect(1:y): expected number'); assert(typeof a2 === 'number', '[ERROR] Rect(2:w): expected number'); assert(typeof a3 === 'number', '[ERROR] Rect(3:h): expected number'); }
-    if (a0 === undefined) { this.__ptr = _mud_Rect__construct_0(); this.__type = Rect.__type; getCache(Rect)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Rect__construct_2(/*position*/a0.__ptr, /*size*/a1.__ptr); this.__type = Rect.__type; getCache(Rect)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Rect__construct_4(/*x*/a0, /*y*/a1, /*w*/a2, /*h*/a3); this.__type = Rect.__type; getCache(Rect)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Rect__construct_0(); getCache(Rect)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Rect__construct_2(/*position*/a0.__ptr, /*size*/a1.__ptr); getCache(Rect)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Rect__construct_4(/*x*/a0, /*y*/a1, /*w*/a2, /*h*/a3); getCache(Rect)[this.__ptr] = this; }
 };
 Rect.prototype = Object.create(Shape.prototype);
 Rect.prototype.constructor = Rect;
 Rect.prototype.__class = Rect;
-Rect.prototype.__base = Shape;
+Rect.__base = Shape;
 Rect.__cache = {};
 Module['Rect'] = Rect;
 Object.defineProperty(Rect.prototype, "position", {
@@ -1516,13 +1516,13 @@ Rect.prototype["__destroy"] = Rect.prototype.__destroy = function() {
 function Ring(a0, a1, a2) {
     if (a0 === undefined) {  }
     else { assert(typeof a0 === 'number', '[ERROR] Ring(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Ring(1:min): expected number'); assert(typeof a2 === 'number', '[ERROR] Ring(2:max): expected number'); }
-    if (a0 === undefined) { this.__ptr = _mud_Ring__construct_0(); this.__type = Ring.__type; getCache(Ring)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Ring__construct_3(/*radius*/a0, /*min*/a1, /*max*/a2); this.__type = Ring.__type; getCache(Ring)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Ring__construct_0(); getCache(Ring)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Ring__construct_3(/*radius*/a0, /*min*/a1, /*max*/a2); getCache(Ring)[this.__ptr] = this; }
 };
 Ring.prototype = Object.create(Shape.prototype);
 Ring.prototype.constructor = Ring;
 Ring.prototype.__class = Ring;
-Ring.prototype.__base = Shape;
+Ring.__base = Shape;
 Ring.__cache = {};
 Module['Ring'] = Ring;
 Object.defineProperty(Ring.prototype, "radius", {
@@ -1559,16 +1559,16 @@ function Sphere(a0, a1, a2, a3) {
     else if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] Sphere(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Sphere(1:start): expected number'); }
     else if (a3 === undefined) { assert(typeof a0 === 'number', '[ERROR] Sphere(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Sphere(1:start): expected number'); assert(typeof a2 === 'number', '[ERROR] Sphere(2:end): expected number'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] Sphere(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Sphere(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Sphere(2:start): expected number'); assert(typeof a3 === 'number', '[ERROR] Sphere(3:end): expected number'); }
-    if (a0 === undefined) { this.__ptr = _mud_Sphere__construct_0(); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_Sphere__construct_1(/*radius*/a0); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Sphere__construct_2(/*radius*/a0, /*start*/a1); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_Sphere__construct_3(/*radius*/a0, /*start*/a1, /*end*/a2); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Sphere__construct_4(/*center*/a0.__ptr, /*radius*/a1, /*start*/a2, /*end*/a3); this.__type = Sphere.__type; getCache(Sphere)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Sphere__construct_0(); getCache(Sphere)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Sphere__construct_1(/*radius*/a0); getCache(Sphere)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Sphere__construct_2(/*radius*/a0, /*start*/a1); getCache(Sphere)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Sphere__construct_3(/*radius*/a0, /*start*/a1, /*end*/a2); getCache(Sphere)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Sphere__construct_4(/*center*/a0.__ptr, /*radius*/a1, /*start*/a2, /*end*/a3); getCache(Sphere)[this.__ptr] = this; }
 };
 Sphere.prototype = Object.create(Shape.prototype);
 Sphere.prototype.constructor = Sphere;
 Sphere.prototype.__class = Sphere;
-Sphere.prototype.__base = Shape;
+Sphere.__base = Shape;
 Sphere.__cache = {};
 Module['Sphere'] = Sphere;
 Object.defineProperty(Sphere.prototype, "radius", {
@@ -1602,13 +1602,13 @@ Sphere.prototype["__destroy"] = Sphere.prototype.__destroy = function() {
 function SphereRing(a0, a1, a2) {
     if (a0 === undefined) {  }
     else { assert(typeof a0 === 'number', '[ERROR] SphereRing(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] SphereRing(1:min): expected number'); assert(typeof a2 === 'number', '[ERROR] SphereRing(2:max): expected number'); }
-    if (a0 === undefined) { this.__ptr = _mud_SphereRing__construct_0(); this.__type = SphereRing.__type; getCache(SphereRing)[this.__ptr] = this; }
-    else { this.__ptr = _mud_SphereRing__construct_3(/*radius*/a0, /*min*/a1, /*max*/a2); this.__type = SphereRing.__type; getCache(SphereRing)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_SphereRing__construct_0(); getCache(SphereRing)[this.__ptr] = this; }
+    else { this.__ptr = _mud_SphereRing__construct_3(/*radius*/a0, /*min*/a1, /*max*/a2); getCache(SphereRing)[this.__ptr] = this; }
 };
 SphereRing.prototype = Object.create(Shape.prototype);
 SphereRing.prototype.constructor = SphereRing;
 SphereRing.prototype.__class = SphereRing;
-SphereRing.prototype.__base = Shape;
+SphereRing.__base = Shape;
 SphereRing.__cache = {};
 Module['SphereRing'] = SphereRing;
 Object.defineProperty(SphereRing.prototype, "radius", {
@@ -1643,14 +1643,14 @@ function Spheroid(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] Spheroid(0:radius): expected number'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] Spheroid(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Spheroid(1:radius): expected number'); }
-    if (a0 === undefined) { this.__ptr = _mud_Spheroid__construct_0(); this.__type = Spheroid.__type; getCache(Spheroid)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_Spheroid__construct_1(/*radius*/a0); this.__type = Spheroid.__type; getCache(Spheroid)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Spheroid__construct_2(/*center*/a0.__ptr, /*radius*/a1); this.__type = Spheroid.__type; getCache(Spheroid)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Spheroid__construct_0(); getCache(Spheroid)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Spheroid__construct_1(/*radius*/a0); getCache(Spheroid)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Spheroid__construct_2(/*center*/a0.__ptr, /*radius*/a1); getCache(Spheroid)[this.__ptr] = this; }
 };
 Spheroid.prototype = Object.create(Shape.prototype);
 Spheroid.prototype.constructor = Spheroid;
 Spheroid.prototype.__class = Spheroid;
-Spheroid.prototype.__base = Shape;
+Spheroid.__base = Shape;
 Spheroid.__cache = {};
 Module['Spheroid'] = Spheroid;
 Object.defineProperty(Spheroid.prototype, "radius", {
@@ -1669,14 +1669,14 @@ function Tetraedr(a0, a1) {
     if (a0 === undefined) {  }
     else if (a1 === undefined) { assert(typeof a0 === 'number', '[ERROR] Tetraedr(0:radius): expected number'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] Tetraedr(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Tetraedr(1:radius): expected number'); }
-    if (a0 === undefined) { this.__ptr = _mud_Tetraedr__construct_0(); this.__type = Tetraedr.__type; getCache(Tetraedr)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_Tetraedr__construct_1(/*radius*/a0); this.__type = Tetraedr.__type; getCache(Tetraedr)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Tetraedr__construct_2(/*center*/a0.__ptr, /*radius*/a1); this.__type = Tetraedr.__type; getCache(Tetraedr)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Tetraedr__construct_0(); getCache(Tetraedr)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_Tetraedr__construct_1(/*radius*/a0); getCache(Tetraedr)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Tetraedr__construct_2(/*center*/a0.__ptr, /*radius*/a1); getCache(Tetraedr)[this.__ptr] = this; }
 };
 Tetraedr.prototype = Object.create(Shape.prototype);
 Tetraedr.prototype.constructor = Tetraedr;
 Tetraedr.prototype.__class = Tetraedr;
-Tetraedr.prototype.__base = Shape;
+Tetraedr.__base = Shape;
 Tetraedr.__cache = {};
 Module['Tetraedr'] = Tetraedr;
 Object.defineProperty(Tetraedr.prototype, "radius", {
@@ -1696,15 +1696,15 @@ function Torus(a0, a1, a2, a3) {
     else if (a2 === undefined) { assert(typeof a0 === 'number', '[ERROR] Torus(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Torus(1:tube): expected number'); }
     else if (a3 === undefined) { assert(typeof a0 === 'number', '[ERROR] Torus(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] Torus(1:tube): expected number'); assert(typeof a2 === 'number', '[ERROR] Torus(2:axis): expected integer'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] Torus(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] Torus(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] Torus(2:tube): expected number'); assert(typeof a3 === 'number', '[ERROR] Torus(3:axis): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_Torus__construct_0(); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Torus__construct_2(/*radius*/a0, /*tube*/a1); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_Torus__construct_3(/*radius*/a0, /*tube*/a1, /*axis*/a2); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Torus__construct_4(/*center*/a0.__ptr, /*radius*/a1, /*tube*/a2, /*axis*/a3); this.__type = Torus.__type; getCache(Torus)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Torus__construct_0(); getCache(Torus)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Torus__construct_2(/*radius*/a0, /*tube*/a1); getCache(Torus)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_Torus__construct_3(/*radius*/a0, /*tube*/a1, /*axis*/a2); getCache(Torus)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Torus__construct_4(/*center*/a0.__ptr, /*radius*/a1, /*tube*/a2, /*axis*/a3); getCache(Torus)[this.__ptr] = this; }
 };
 Torus.prototype = Object.create(Shape.prototype);
 Torus.prototype.constructor = Torus;
 Torus.prototype.__class = Torus;
-Torus.prototype.__base = Shape;
+Torus.__base = Shape;
 Torus.__cache = {};
 Module['Torus'] = Torus;
 Object.defineProperty(Torus.prototype, "radius", {
@@ -1741,16 +1741,16 @@ function TorusKnot(a0, a1, a2, a3, a4) {
     else if (a3 === undefined) { assert(typeof a0 === 'number', '[ERROR] TorusKnot(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] TorusKnot(1:tube): expected number'); assert(typeof a2 === 'number', '[ERROR] TorusKnot(2:p): expected number'); }
     else if (a4 === undefined) { assert(typeof a0 === 'number', '[ERROR] TorusKnot(0:radius): expected number'); assert(typeof a1 === 'number', '[ERROR] TorusKnot(1:tube): expected number'); assert(typeof a2 === 'number', '[ERROR] TorusKnot(2:p): expected number'); assert(typeof a3 === 'number', '[ERROR] TorusKnot(3:q): expected number'); }
     else { assert(checkClass(a0, v3_float), '[ERROR] TorusKnot(0:center): expected v3<float>'); assert(typeof a1 === 'number', '[ERROR] TorusKnot(1:radius): expected number'); assert(typeof a2 === 'number', '[ERROR] TorusKnot(2:tube): expected number'); assert(typeof a3 === 'number', '[ERROR] TorusKnot(3:p): expected number'); assert(typeof a4 === 'number', '[ERROR] TorusKnot(4:q): expected number'); }
-    if (a0 === undefined) { this.__ptr = _mud_TorusKnot__construct_0(); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_TorusKnot__construct_2(/*radius*/a0, /*tube*/a1); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; }
-    else if (a3 === undefined) { this.__ptr = _mud_TorusKnot__construct_3(/*radius*/a0, /*tube*/a1, /*p*/a2); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; }
-    else if (a4 === undefined) { this.__ptr = _mud_TorusKnot__construct_4(/*radius*/a0, /*tube*/a1, /*p*/a2, /*q*/a3); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; }
-    else { this.__ptr = _mud_TorusKnot__construct_5(/*center*/a0.__ptr, /*radius*/a1, /*tube*/a2, /*p*/a3, /*q*/a4); this.__type = TorusKnot.__type; getCache(TorusKnot)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_TorusKnot__construct_0(); getCache(TorusKnot)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_TorusKnot__construct_2(/*radius*/a0, /*tube*/a1); getCache(TorusKnot)[this.__ptr] = this; }
+    else if (a3 === undefined) { this.__ptr = _mud_TorusKnot__construct_3(/*radius*/a0, /*tube*/a1, /*p*/a2); getCache(TorusKnot)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_TorusKnot__construct_4(/*radius*/a0, /*tube*/a1, /*p*/a2, /*q*/a3); getCache(TorusKnot)[this.__ptr] = this; }
+    else { this.__ptr = _mud_TorusKnot__construct_5(/*center*/a0.__ptr, /*radius*/a1, /*tube*/a2, /*p*/a3, /*q*/a4); getCache(TorusKnot)[this.__ptr] = this; }
 };
 TorusKnot.prototype = Object.create(Shape.prototype);
 TorusKnot.prototype.constructor = TorusKnot;
 TorusKnot.prototype.__class = TorusKnot;
-TorusKnot.prototype.__base = Shape;
+TorusKnot.__base = Shape;
 TorusKnot.__cache = {};
 Module['TorusKnot'] = TorusKnot;
 Object.defineProperty(TorusKnot.prototype, "radius", {
@@ -1792,13 +1792,13 @@ TorusKnot.prototype["__destroy"] = TorusKnot.prototype.__destroy = function() {
 function Triangle(a0) {
     if (a0 === undefined) {  }
     else { assert(checkClass(a0, v2_float), '[ERROR] Triangle(0:size): expected v2<float>'); }
-    if (a0 === undefined) { this.__ptr = _mud_Triangle__construct_0(); this.__type = Triangle.__type; getCache(Triangle)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Triangle__construct_1(/*size*/a0.__ptr); this.__type = Triangle.__type; getCache(Triangle)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Triangle__construct_0(); getCache(Triangle)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Triangle__construct_1(/*size*/a0.__ptr); getCache(Triangle)[this.__ptr] = this; }
 };
 Triangle.prototype = Object.create(Shape.prototype);
 Triangle.prototype.constructor = Triangle;
 Triangle.prototype.__class = Triangle;
-Triangle.prototype.__base = Shape;
+Triangle.__base = Shape;
 Triangle.__cache = {};
 Module['Triangle'] = Triangle;
 Object.defineProperty(Triangle.prototype, "size", {
@@ -1847,57 +1847,57 @@ Module['add_planeZ'] = function(a0, a1, a2) {
 
 (function() {
     function setup() {
-        Aabb.__type = _mud_Aabb__type();
-        Curve2.__type = _mud_Curve2__type();
-        Curve3.__type = _mud_Curve3__type();
-        Distribution.__type = _mud_Distribution__type();
-        Face3.__type = _mud_Face3__type();
-        MarchingCubes.__type = _mud_MarchingCubes__type();
-        MeshAdapter.__type = _mud_MeshAdapter__type();
-        MeshPacker.__type = _mud_MeshPacker__type();
-        Plane.__type = _mud_Plane__type();
-        Plane3.__type = _mud_Plane3__type();
-        Ray.__type = _mud_Ray__type();
-        Segment.__type = _mud_Segment__type();
-        Shape.__type = _mud_Shape__type();
-        ShapeVar.__type = _mud_ShapeVar__type();
-        Symbol.__type = _mud_Symbol__type();
-        Arc.__type = _mud_Arc__type();
-        ArcLine.__type = _mud_ArcLine__type();
-        Box.__type = _mud_Box__type();
-        Capsule.__type = _mud_Capsule__type();
-        Circle.__type = _mud_Circle__type();
-        ConvexHull.__type = _mud_ConvexHull__type();
-        Cube.__type = _mud_Cube__type();
-        CurveBezierCubic.__type = _mud_CurveBezierCubic__type();
-        CurveBezierCubic3.__type = _mud_CurveBezierCubic3__type();
-        CurveBezierQuadratic.__type = _mud_CurveBezierQuadratic__type();
-        CurveBezierQuadratic3.__type = _mud_CurveBezierQuadratic3__type();
-        CurveCatmullRom3.__type = _mud_CurveCatmullRom3__type();
-        CurveLine.__type = _mud_CurveLine__type();
-        CurveLine3.__type = _mud_CurveLine3__type();
-        CurveSpline.__type = _mud_CurveSpline__type();
-        CurveSpline3.__type = _mud_CurveSpline3__type();
-        Cylinder.__type = _mud_Cylinder__type();
-        Ellipsis.__type = _mud_Ellipsis__type();
-        Geometry.__type = _mud_Geometry__type();
-        Grid2.__type = _mud_Grid2__type();
-        Grid3.__type = _mud_Grid3__type();
-        Icosaedr.__type = _mud_Icosaedr__type();
-        Line.__type = _mud_Line__type();
-        Points.__type = _mud_Points__type();
-        Poisson.__type = _mud_Poisson__type();
-        Polygon.__type = _mud_Polygon__type();
-        Quad.__type = _mud_Quad__type();
-        Rect.__type = _mud_Rect__type();
-        Ring.__type = _mud_Ring__type();
-        Sphere.__type = _mud_Sphere__type();
-        SphereRing.__type = _mud_SphereRing__type();
-        Spheroid.__type = _mud_Spheroid__type();
-        Tetraedr.__type = _mud_Tetraedr__type();
-        Torus.__type = _mud_Torus__type();
-        TorusKnot.__type = _mud_TorusKnot__type();
-        Triangle.__type = _mud_Triangle__type();
+        Aabb.prototype.__type = _mud_Aabb__type();
+        Curve2.prototype.__type = _mud_Curve2__type();
+        Curve3.prototype.__type = _mud_Curve3__type();
+        Distribution.prototype.__type = _mud_Distribution__type();
+        Face3.prototype.__type = _mud_Face3__type();
+        MarchingCubes.prototype.__type = _mud_MarchingCubes__type();
+        MeshAdapter.prototype.__type = _mud_MeshAdapter__type();
+        MeshPacker.prototype.__type = _mud_MeshPacker__type();
+        Plane.prototype.__type = _mud_Plane__type();
+        Plane3.prototype.__type = _mud_Plane3__type();
+        Ray.prototype.__type = _mud_Ray__type();
+        Segment.prototype.__type = _mud_Segment__type();
+        Shape.prototype.__type = _mud_Shape__type();
+        ShapeVar.prototype.__type = _mud_ShapeVar__type();
+        Symbol.prototype.__type = _mud_Symbol__type();
+        Arc.prototype.__type = _mud_Arc__type();
+        ArcLine.prototype.__type = _mud_ArcLine__type();
+        Box.prototype.__type = _mud_Box__type();
+        Capsule.prototype.__type = _mud_Capsule__type();
+        Circle.prototype.__type = _mud_Circle__type();
+        ConvexHull.prototype.__type = _mud_ConvexHull__type();
+        Cube.prototype.__type = _mud_Cube__type();
+        CurveBezierCubic.prototype.__type = _mud_CurveBezierCubic__type();
+        CurveBezierCubic3.prototype.__type = _mud_CurveBezierCubic3__type();
+        CurveBezierQuadratic.prototype.__type = _mud_CurveBezierQuadratic__type();
+        CurveBezierQuadratic3.prototype.__type = _mud_CurveBezierQuadratic3__type();
+        CurveCatmullRom3.prototype.__type = _mud_CurveCatmullRom3__type();
+        CurveLine.prototype.__type = _mud_CurveLine__type();
+        CurveLine3.prototype.__type = _mud_CurveLine3__type();
+        CurveSpline.prototype.__type = _mud_CurveSpline__type();
+        CurveSpline3.prototype.__type = _mud_CurveSpline3__type();
+        Cylinder.prototype.__type = _mud_Cylinder__type();
+        Ellipsis.prototype.__type = _mud_Ellipsis__type();
+        Geometry.prototype.__type = _mud_Geometry__type();
+        Grid2.prototype.__type = _mud_Grid2__type();
+        Grid3.prototype.__type = _mud_Grid3__type();
+        Icosaedr.prototype.__type = _mud_Icosaedr__type();
+        Line.prototype.__type = _mud_Line__type();
+        Points.prototype.__type = _mud_Points__type();
+        Poisson.prototype.__type = _mud_Poisson__type();
+        Polygon.prototype.__type = _mud_Polygon__type();
+        Quad.prototype.__type = _mud_Quad__type();
+        Rect.prototype.__type = _mud_Rect__type();
+        Ring.prototype.__type = _mud_Ring__type();
+        Sphere.prototype.__type = _mud_Sphere__type();
+        SphereRing.prototype.__type = _mud_SphereRing__type();
+        Spheroid.prototype.__type = _mud_Spheroid__type();
+        Tetraedr.prototype.__type = _mud_Tetraedr__type();
+        Torus.prototype.__type = _mud_Torus__type();
+        TorusKnot.prototype.__type = _mud_TorusKnot__type();
+        Triangle.prototype.__type = _mud_Triangle__type();
         // CatmullType
         Module['CatmullType'] = Module['CatmullType'] || {};
         Module['CatmullType']['Centripetal'] = _mud_CatmullType_Centripetal();

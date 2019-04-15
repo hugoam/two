@@ -11,7 +11,7 @@ JobSystem.prototype["__destroy"] = JobSystem.prototype.__destroy = function() {
 
 (function() {
     function setup() {
-        JobSystem.__type = _mud_JobSystem__type();
+        JobSystem.prototype.__type = _mud_JobSystem__type();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

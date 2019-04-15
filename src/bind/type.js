@@ -45,8 +45,8 @@ Prototype.prototype["__destroy"] = Prototype.prototype.__destroy = function() {
 function Ref(a0, a1) {
     if (a0 === undefined) {  }
     else { assert(typeof a0 === 'number', '[ERROR] Ref(0:value): expected integer'); assert(checkClass(a1, Type), '[ERROR] Ref(1:type): expected Type'); }
-    if (a0 === undefined) { this.__ptr = _mud_Ref__construct_0(); this.__type = Ref.__type; getCache(Ref)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Ref__construct_2(/*value*/a0, /*type*/a1.__ptr); this.__type = Ref.__type; getCache(Ref)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _mud_Ref__construct_0(); getCache(Ref)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Ref__construct_2(/*value*/a0, /*type*/a1.__ptr); getCache(Ref)[this.__ptr] = this; }
 };
 Ref.prototype = Object.create(WrapperObject.prototype);
 Ref.prototype.constructor = Ref;
@@ -131,12 +131,12 @@ Module['indexed'] = function(a0, a1) {
 
 (function() {
     function setup() {
-        Index.__type = _mud_Index__type();
-        Indexer.__type = _mud_Indexer__type();
-        Prototype.__type = _mud_Prototype__type();
-        Ref.__type = _mud_Ref__type();
-        Type.__type = _mud_Type__type();
-        Var.__type = _mud_Var__type();
+        Index.prototype.__type = _mud_Index__type();
+        Indexer.prototype.__type = _mud_Indexer__type();
+        Prototype.prototype.__type = _mud_Prototype__type();
+        Ref.prototype.__type = _mud_Ref__type();
+        Type.prototype.__type = _mud_Type__type();
+        Var.prototype.__type = _mud_Var__type();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

@@ -2,7 +2,7 @@ Module['stl'] = Module['stl'] || {};
 // Alias
 function Alias() {
     
-    this.__ptr = _mud_Alias__construct_0(); this.__type = Alias.__type; getCache(Alias)[this.__ptr] = this;
+    this.__ptr = _mud_Alias__construct_0(); getCache(Alias)[this.__ptr] = this;
 };
 Alias.prototype = Object.create(WrapperObject.prototype);
 Alias.prototype.constructor = Alias;
@@ -15,7 +15,7 @@ Alias.prototype["__destroy"] = Alias.prototype.__destroy = function() {
 // Call
 function Call() {
     
-    this.__ptr = _mud_Call__construct_0(); this.__type = Call.__type; getCache(Call)[this.__ptr] = this;
+    this.__ptr = _mud_Call__construct_0(); getCache(Call)[this.__ptr] = this;
 };
 Call.prototype = Object.create(WrapperObject.prototype);
 Call.prototype.constructor = Call;
@@ -166,7 +166,7 @@ Namespace.prototype["__destroy"] = Namespace.prototype.__destroy = function() {
 // Operator
 function Operator() {
     
-    this.__ptr = _mud_Operator__construct_0(); this.__type = Operator.__type; getCache(Operator)[this.__ptr] = this;
+    this.__ptr = _mud_Operator__construct_0(); getCache(Operator)[this.__ptr] = this;
 };
 Operator.prototype = Object.create(WrapperObject.prototype);
 Operator.prototype.constructor = Operator;
@@ -221,7 +221,7 @@ Param.prototype["__destroy"] = Param.prototype.__destroy = function() {
 // QualType
 function QualType() {
     
-    this.__ptr = _mud_QualType__construct_0(); this.__type = QualType.__type; getCache(QualType)[this.__ptr] = this;
+    this.__ptr = _mud_QualType__construct_0(); getCache(QualType)[this.__ptr] = this;
 };
 QualType.prototype = Object.create(WrapperObject.prototype);
 QualType.prototype.constructor = QualType;
@@ -266,7 +266,7 @@ function Constructor() { throw "cannot construct a Constructor, no constructor i
 Constructor.prototype = Object.create(Callable.prototype);
 Constructor.prototype.constructor = Constructor;
 Constructor.prototype.__class = Constructor;
-Constructor.prototype.__base = Callable;
+Constructor.__base = Callable;
 Constructor.__cache = {};
 Module['Constructor'] = Constructor;
 Constructor.prototype["__destroy"] = Constructor.prototype.__destroy = function() {
@@ -277,7 +277,7 @@ function CopyConstructor() { throw "cannot construct a CopyConstructor, no const
 CopyConstructor.prototype = Object.create(Callable.prototype);
 CopyConstructor.prototype.constructor = CopyConstructor;
 CopyConstructor.prototype.__class = CopyConstructor;
-CopyConstructor.prototype.__base = Callable;
+CopyConstructor.__base = Callable;
 CopyConstructor.__cache = {};
 Module['CopyConstructor'] = CopyConstructor;
 CopyConstructor.prototype["__destroy"] = CopyConstructor.prototype.__destroy = function() {
@@ -288,7 +288,7 @@ function Destructor() { throw "cannot construct a Destructor, no constructor in 
 Destructor.prototype = Object.create(Callable.prototype);
 Destructor.prototype.constructor = Destructor;
 Destructor.prototype.__class = Destructor;
-Destructor.prototype.__base = Callable;
+Destructor.__base = Callable;
 Destructor.__cache = {};
 Module['Destructor'] = Destructor;
 Destructor.prototype["__destroy"] = Destructor.prototype.__destroy = function() {
@@ -299,7 +299,7 @@ function Function() { throw "cannot construct a Function, no constructor in IDL"
 Function.prototype = Object.create(Callable.prototype);
 Function.prototype.constructor = Function;
 Function.prototype.__class = Function;
-Function.prototype.__base = Callable;
+Function.__base = Callable;
 Function.__cache = {};
 Module['Function'] = Function;
 Function.prototype["__destroy"] = Function.prototype.__destroy = function() {
@@ -310,7 +310,7 @@ function Injector() { throw "cannot construct a Injector, no constructor in IDL"
 Injector.prototype = Object.create(Call.prototype);
 Injector.prototype.constructor = Injector;
 Injector.prototype.__class = Injector;
-Injector.prototype.__base = Call;
+Injector.__base = Call;
 Injector.__cache = {};
 Module['Injector'] = Injector;
 Injector.prototype["__destroy"] = Injector.prototype.__destroy = function() {
@@ -321,7 +321,7 @@ function Method() { throw "cannot construct a Method, no constructor in IDL" }
 Method.prototype = Object.create(Callable.prototype);
 Method.prototype.constructor = Method;
 Method.prototype.__class = Method;
-Method.prototype.__base = Callable;
+Method.__base = Callable;
 Method.__cache = {};
 Module['Method'] = Method;
 Method.prototype["__destroy"] = Method.prototype.__destroy = function() {
@@ -334,29 +334,29 @@ Module['system'] = function() {
 
 (function() {
     function setup() {
-        Alias.__type = _mud_Alias__type();
-        Call.__type = _mud_Call__type();
-        Callable.__type = _mud_Callable__type();
-        Class.__type = _mud_Class__type();
-        Convert.__type = _mud_Convert__type();
-        Creator.__type = _mud_Creator__type();
-        Enum.__type = _mud_Enum__type();
-        Member.__type = _mud_Member__type();
-        Meta.__type = _mud_Meta__type();
-        Module.__type = _mud_Module__type();
-        Namespace.__type = _mud_Namespace__type();
-        Operator.__type = _mud_Operator__type();
-        Param.__type = _mud_Param__type();
-        QualType.__type = _mud_QualType__type();
-        Signature.__type = _mud_Signature__type();
-        Static.__type = _mud_Static__type();
-        System.__type = _mud_System__type();
-        Constructor.__type = _mud_Constructor__type();
-        CopyConstructor.__type = _mud_CopyConstructor__type();
-        Destructor.__type = _mud_Destructor__type();
-        Function.__type = _mud_Function__type();
-        Injector.__type = _mud_Injector__type();
-        Method.__type = _mud_Method__type();
+        Alias.prototype.__type = _mud_Alias__type();
+        Call.prototype.__type = _mud_Call__type();
+        Callable.prototype.__type = _mud_Callable__type();
+        Class.prototype.__type = _mud_Class__type();
+        Convert.prototype.__type = _mud_Convert__type();
+        Creator.prototype.__type = _mud_Creator__type();
+        Enum.prototype.__type = _mud_Enum__type();
+        Member.prototype.__type = _mud_Member__type();
+        Meta.prototype.__type = _mud_Meta__type();
+        Module.prototype.__type = _mud_Module__type();
+        Namespace.prototype.__type = _mud_Namespace__type();
+        Operator.prototype.__type = _mud_Operator__type();
+        Param.prototype.__type = _mud_Param__type();
+        QualType.prototype.__type = _mud_QualType__type();
+        Signature.prototype.__type = _mud_Signature__type();
+        Static.prototype.__type = _mud_Static__type();
+        System.prototype.__type = _mud_System__type();
+        Constructor.prototype.__type = _mud_Constructor__type();
+        CopyConstructor.prototype.__type = _mud_CopyConstructor__type();
+        Destructor.prototype.__type = _mud_Destructor__type();
+        Function.prototype.__type = _mud_Function__type();
+        Injector.prototype.__type = _mud_Injector__type();
+        Method.prototype.__type = _mud_Method__type();
         // TypeClass
         Module['TypeClass'] = Module['TypeClass'] || {};
         Module['TypeClass']['None'] = _mud_TypeClass_None();

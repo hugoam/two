@@ -1,7 +1,7 @@
 // ImporterOBJ
 function ImporterOBJ(a0) {
     assert(checkClass(a0, GfxSystem), '[ERROR] ImporterOBJ(0:gfx): expected GfxSystem');
-    this.__ptr = _mud_ImporterOBJ__construct_1(/*gfx*/a0.__ptr); this.__type = ImporterOBJ.__type; getCache(ImporterOBJ)[this.__ptr] = this;
+    this.__ptr = _mud_ImporterOBJ__construct_1(/*gfx*/a0.__ptr); getCache(ImporterOBJ)[this.__ptr] = this;
 };
 ImporterOBJ.prototype = Object.create(WrapperObject.prototype);
 ImporterOBJ.prototype.constructor = ImporterOBJ;
@@ -34,7 +34,7 @@ ImporterOBJ.prototype["__destroy"] = ImporterOBJ.prototype.__destroy = function(
 // ImporterPLY
 function ImporterPLY(a0) {
     assert(checkClass(a0, GfxSystem), '[ERROR] ImporterPLY(0:gfx): expected GfxSystem');
-    this.__ptr = _mud_ImporterPLY__construct_1(/*gfx*/a0.__ptr); this.__type = ImporterPLY.__type; getCache(ImporterPLY)[this.__ptr] = this;
+    this.__ptr = _mud_ImporterPLY__construct_1(/*gfx*/a0.__ptr); getCache(ImporterPLY)[this.__ptr] = this;
 };
 ImporterPLY.prototype = Object.create(WrapperObject.prototype);
 ImporterPLY.prototype.constructor = ImporterPLY;
@@ -67,8 +67,8 @@ ImporterPLY.prototype["__destroy"] = ImporterPLY.prototype.__destroy = function(
 
 (function() {
     function setup() {
-        ImporterOBJ.__type = _mud_ImporterOBJ__type();
-        ImporterPLY.__type = _mud_ImporterPLY__type();
+        ImporterOBJ.prototype.__type = _mud_ImporterOBJ__type();
+        ImporterPLY.prototype.__type = _mud_ImporterPLY__type();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

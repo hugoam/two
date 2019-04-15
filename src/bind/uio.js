@@ -49,7 +49,7 @@ Module['inspector'] = function(a0, a1) {
 
 (function() {
     function setup() {
-        ScriptEditor.__type = _mud_ScriptEditor__type();
+        ScriptEditor.prototype.__type = _mud_ScriptEditor__type();
         // EditNestMode
         Module['EditNestMode'] = Module['EditNestMode'] || {};
         Module['EditNestMode']['Inline'] = _mud_EditNestMode_Inline();

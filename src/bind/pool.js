@@ -21,8 +21,8 @@ Pool.prototype["__destroy"] = Pool.prototype.__destroy = function() {
 
 (function() {
     function setup() {
-        HandlePool.__type = _mud_HandlePool__type();
-        Pool.__type = _mud_Pool__type();
+        HandlePool.prototype.__type = _mud_HandlePool__type();
+        Pool.prototype.__type = _mud_Pool__type();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

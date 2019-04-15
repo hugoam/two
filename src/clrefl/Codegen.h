@@ -1428,7 +1428,6 @@ namespace clgen
 		auto js_call_constructor = [&](const CLCallable& f, size_t n)
 		{
 			string call = "this.__ptr = " + js_call_inner(f, n, id(*f.m_parent, "_construct_" + to_string(n))) + "; ";
-			call += "this.__type = " + name(*f.m_parent) + ".__type; ";
 			call += "getCache(" + name(*f.m_parent) + ")[this.__ptr] = this;";
 			return call;
 		};
@@ -1503,7 +1502,7 @@ namespace clgen
 				return string();
 			else if(t.isclass())
 				return "assert(checkClass(" + a + ", " + name(t) + "), '" + msg + "expected " + t.m_name + "');";
-				//return "assert(typeof " + a + " === 'object' && " + a + ".__type === " + name(t) + ".__type, '" + msg + "expected " + t.m_name + "');";
+				//return "assert(typeof " + a + " === 'object' && checkClass" + a + "), '" + msg + "expected " + t.m_name + "');";
 
 			return string();
 		};
@@ -1578,7 +1577,7 @@ namespace clgen
 			jsw(name(c) + ".prototype.constructor = " + name(c) + ";");
 			jsw(name(c) + ".prototype.__class = " + name(c) + ";");
 			if(c.m_bases.size() > 0)
-				jsw(name(c) + ".prototype.__base = " + base + ";");
+				jsw(name(c) + ".__base = " + base + ";");
 			jsw(name(c) + ".__cache = {};");
 			jsw(js_module_path(m, c) + " = " + name(c) + ";");
 		};
@@ -1862,7 +1861,7 @@ namespace clgen
 
 					CLClass& c = *pc;
 
-					jsw(replace(c.m_name, "::", "_") + ".__type = " + "_" + replace(c.m_id, "::", "_") + "__type();"); // add wrapPointer() ?
+					jsw(name(c) + ".prototype.__type = " + "_" + replace(c.m_id, "::", "_") + "__type();"); // add wrapPointer() ?
 				}
 
 			//string enum_prefix = "emscripten_enum_";

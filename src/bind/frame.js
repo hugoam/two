@@ -4,9 +4,9 @@ function Shell(a0, a1, a2) {
     if (a1 === undefined) { assert(typeof a0 === 'string', '[ERROR] Shell(0:resource_path): expected string'); }
     else if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] Shell(0:resource_path): expected string'); assert(typeof a1 === 'string', '[ERROR] Shell(1:exec_path): expected string'); }
     else { assert(typeof a0 === 'string', '[ERROR] Shell(0:resource_path): expected string'); assert(typeof a1 === 'string', '[ERROR] Shell(1:exec_path): expected string'); assert(typeof a2 === 'boolean', '[ERROR] Shell(2:window): expected boolean'); }
-    if (a1 === undefined) { this.__ptr = _mud_Shell__construct_1(ensureString(/*resource_path*/a0)); this.__type = Shell.__type; getCache(Shell)[this.__ptr] = this; }
-    else if (a2 === undefined) { this.__ptr = _mud_Shell__construct_2(ensureString(/*resource_path*/a0), ensureString(/*exec_path*/a1)); this.__type = Shell.__type; getCache(Shell)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Shell__construct_3(ensureString(/*resource_path*/a0), ensureString(/*exec_path*/a1), /*window*/a2); this.__type = Shell.__type; getCache(Shell)[this.__ptr] = this; }
+    if (a1 === undefined) { this.__ptr = _mud_Shell__construct_1(ensureString(/*resource_path*/a0)); getCache(Shell)[this.__ptr] = this; }
+    else if (a2 === undefined) { this.__ptr = _mud_Shell__construct_2(ensureString(/*resource_path*/a0), ensureString(/*exec_path*/a1)); getCache(Shell)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Shell__construct_3(ensureString(/*resource_path*/a0), ensureString(/*exec_path*/a1), /*window*/a2); getCache(Shell)[this.__ptr] = this; }
 };
 Shell.prototype = Object.create(WrapperObject.prototype);
 Shell.prototype.constructor = Shell;
@@ -85,7 +85,7 @@ Shell.prototype["__destroy"] = Shell.prototype.__destroy = function() {
 // ShellContext
 function ShellContext() {
     
-    this.__ptr = _mud_ShellContext__construct_0(); this.__type = ShellContext.__type; getCache(ShellContext)[this.__ptr] = this;
+    this.__ptr = _mud_ShellContext__construct_0(); getCache(ShellContext)[this.__ptr] = this;
 };
 ShellContext.prototype = Object.create(WrapperObject.prototype);
 ShellContext.prototype.constructor = ShellContext;
@@ -116,7 +116,7 @@ function ShellWindow() { throw "cannot construct a ShellWindow, no constructor i
 ShellWindow.prototype = Object.create(GfxWindow.prototype);
 ShellWindow.prototype.constructor = ShellWindow;
 ShellWindow.prototype.__class = ShellWindow;
-ShellWindow.prototype.__base = GfxWindow;
+ShellWindow.__base = GfxWindow;
 ShellWindow.__cache = {};
 Module['ShellWindow'] = ShellWindow;
 Object.defineProperty(ShellWindow.prototype, "index", {
@@ -145,9 +145,9 @@ ShellWindow.prototype["__destroy"] = ShellWindow.prototype.__destroy = function(
 
 (function() {
     function setup() {
-        Shell.__type = _mud_Shell__type();
-        ShellContext.__type = _mud_ShellContext__type();
-        ShellWindow.__type = _mud_ShellWindow__type();
+        Shell.prototype.__type = _mud_Shell__type();
+        ShellContext.prototype.__type = _mud_ShellContext__type();
+        ShellWindow.prototype.__type = _mud_ShellWindow__type();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);
