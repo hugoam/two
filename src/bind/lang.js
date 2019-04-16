@@ -43,6 +43,7 @@ Object.defineProperty(ScriptClass.prototype, "name", {
         return UTF8ToString(_mud_ScriptClass__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('ScriptClass.name: expected string');
         _mud_ScriptClass__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -263,6 +264,7 @@ Object.defineProperty(Script.prototype, "index", {
         return _mud_Script__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Script.index: expected integer');
         _mud_Script__set_index(this.__ptr, value);
     }
 });
@@ -275,6 +277,7 @@ Object.defineProperty(Script.prototype, "name", {
         return UTF8ToString(_mud_Script__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Script.name: expected string');
         _mud_Script__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -283,6 +286,7 @@ Object.defineProperty(Script.prototype, "locked", {
         return !!(_mud_Script__get_locked(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Script.locked: expected boolean');
         _mud_Script__set_locked(this.__ptr, value);
     }
 });
@@ -319,6 +323,7 @@ Object.defineProperty(TextScript.prototype, "language", {
         return _mud_TextScript__get_language(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('TextScript.language: expected integer');
         _mud_TextScript__set_language(this.__ptr, value);
     }
 });
@@ -327,6 +332,7 @@ Object.defineProperty(TextScript.prototype, "script", {
         return UTF8ToString(_mud_TextScript__get_script(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('TextScript.script: expected string');
         _mud_TextScript__set_script(this.__ptr, ensureString(value));
     }
 });
@@ -335,6 +341,7 @@ Object.defineProperty(TextScript.prototype, "dirty", {
         return !!(_mud_TextScript__get_dirty(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('TextScript.dirty: expected boolean');
         _mud_TextScript__set_dirty(this.__ptr, value);
     }
 });

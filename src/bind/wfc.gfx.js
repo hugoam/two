@@ -52,6 +52,7 @@ Object.defineProperty(WfcBlock.prototype, "position", {
         return wrapPointer(_mud_WfcBlock__get_position(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('WfcBlock.position: expected v3<float>');
         _mud_WfcBlock__set_position(this.__ptr, value.__ptr);
     }
 });
@@ -60,6 +61,7 @@ Object.defineProperty(WfcBlock.prototype, "size", {
         return wrapPointer(_mud_WfcBlock__get_size(this.__ptr), v3_uint);
     },
     set: function(value) {
+        if (!checkClass(value, v3_uint)) throw Error('WfcBlock.size: expected v3<uint>');
         _mud_WfcBlock__set_size(this.__ptr, value.__ptr);
     }
 });
@@ -68,6 +70,7 @@ Object.defineProperty(WfcBlock.prototype, "scale", {
         return wrapPointer(_mud_WfcBlock__get_scale(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('WfcBlock.scale: expected v3<float>');
         _mud_WfcBlock__set_scale(this.__ptr, value.__ptr);
     }
 });
@@ -76,6 +79,7 @@ Object.defineProperty(WfcBlock.prototype, "aabb", {
         return wrapPointer(_mud_WfcBlock__get_aabb(this.__ptr), Aabb);
     },
     set: function(value) {
+        if (!checkClass(value, Aabb)) throw Error('WfcBlock.aabb: expected Aabb');
         _mud_WfcBlock__set_aabb(this.__ptr, value.__ptr);
     }
 });

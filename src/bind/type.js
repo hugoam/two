@@ -25,6 +25,7 @@ Object.defineProperty(Indexer.prototype, "type", {
         return wrapPointer(_mud_Indexer__get_type(this.__ptr), Type);
     },
     set: function(value) {
+        if (!checkClass(value, Type)) throw Error('Indexer.type: expected Type');
         _mud_Indexer__set_type(this.__ptr, value.__ptr);
     }
 });
@@ -58,6 +59,7 @@ Object.defineProperty(Ref.prototype, "type", {
         return wrapPointer(_mud_Ref__get_type(this.__ptr), Type);
     },
     set: function(value) {
+        if (!checkClass(value, Type)) throw Error('Ref.type: expected Type');
         _mud_Ref__set_type(this.__ptr, value.__ptr);
     }
 });
@@ -66,6 +68,7 @@ Object.defineProperty(Ref.prototype, "value", {
         return _mud_Ref__get_value(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Ref.value: expected integer');
         _mud_Ref__set_value(this.__ptr, value);
     }
 });
@@ -84,6 +87,7 @@ Object.defineProperty(Type.prototype, "id", {
         return _mud_Type__get_id(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Type.id: expected integer');
         _mud_Type__set_id(this.__ptr, value);
     }
 });
@@ -92,6 +96,7 @@ Object.defineProperty(Type.prototype, "name", {
         return UTF8ToString(_mud_Type__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Type.name: expected string');
         _mud_Type__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -100,6 +105,7 @@ Object.defineProperty(Type.prototype, "size", {
         return _mud_Type__get_size(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Type.size: expected integer');
         _mud_Type__set_size(this.__ptr, value);
     }
 });
@@ -108,6 +114,7 @@ Object.defineProperty(Type.prototype, "base", {
         return wrapPointer(_mud_Type__get_base(this.__ptr), Type);
     },
     set: function(value) {
+        if (!checkClass(value, Type)) throw Error('Type.base: expected Type');
         _mud_Type__set_base(this.__ptr, value.__ptr);
     }
 });

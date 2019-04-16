@@ -11,6 +11,7 @@ Object.defineProperty(BgfxSystem.prototype, "frame", {
         return _mud_BgfxSystem__get_frame(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('BgfxSystem.frame: expected integer');
         _mud_BgfxSystem__set_frame(this.__ptr, value);
     }
 });
@@ -19,6 +20,7 @@ Object.defineProperty(BgfxSystem.prototype, "time", {
         return _mud_BgfxSystem__get_time(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('BgfxSystem.time: expected number');
         _mud_BgfxSystem__set_time(this.__ptr, value);
     }
 });
@@ -27,6 +29,7 @@ Object.defineProperty(BgfxSystem.prototype, "frame_time", {
         return _mud_BgfxSystem__get_frame_time(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('BgfxSystem.frame_time: expected number');
         _mud_BgfxSystem__set_frame_time(this.__ptr, value);
     }
 });
@@ -35,6 +38,7 @@ Object.defineProperty(BgfxSystem.prototype, "delta_time", {
         return _mud_BgfxSystem__get_delta_time(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('BgfxSystem.delta_time: expected number');
         _mud_BgfxSystem__set_delta_time(this.__ptr, value);
     }
 });

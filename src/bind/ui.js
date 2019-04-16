@@ -28,6 +28,7 @@ Object.defineProperty(Clipboard.prototype, "text", {
         return UTF8ToString(_mud_Clipboard__get_text(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Clipboard.text: expected string');
         _mud_Clipboard__set_text(this.__ptr, ensureString(value));
     }
 });
@@ -36,6 +37,7 @@ Object.defineProperty(Clipboard.prototype, "line_mode", {
         return !!(_mud_Clipboard__get_line_mode(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Clipboard.line_mode: expected boolean');
         _mud_Clipboard__set_line_mode(this.__ptr, value);
     }
 });
@@ -80,6 +82,7 @@ Object.defineProperty(Gradient.prototype, "start", {
         return wrapPointer(_mud_Gradient__get_start(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Gradient.start: expected Colour');
         _mud_Gradient__set_start(this.__ptr, value.__ptr);
     }
 });
@@ -88,6 +91,7 @@ Object.defineProperty(Gradient.prototype, "end", {
         return wrapPointer(_mud_Gradient__get_end(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Gradient.end: expected Colour');
         _mud_Gradient__set_end(this.__ptr, value.__ptr);
     }
 });
@@ -123,6 +127,7 @@ Object.defineProperty(ImageSkin.prototype, "d_image", {
         return wrapPointer(_mud_ImageSkin__get_d_image(this.__ptr), Image);
     },
     set: function(value) {
+        if (!checkClass(value, Image)) throw Error('ImageSkin.d_image: expected Image');
         _mud_ImageSkin__set_d_image(this.__ptr, value.__ptr);
     }
 });
@@ -131,6 +136,7 @@ Object.defineProperty(ImageSkin.prototype, "d_left", {
         return _mud_ImageSkin__get_d_left(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ImageSkin.d_left: expected integer');
         _mud_ImageSkin__set_d_left(this.__ptr, value);
     }
 });
@@ -139,6 +145,7 @@ Object.defineProperty(ImageSkin.prototype, "d_top", {
         return _mud_ImageSkin__get_d_top(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ImageSkin.d_top: expected integer');
         _mud_ImageSkin__set_d_top(this.__ptr, value);
     }
 });
@@ -147,6 +154,7 @@ Object.defineProperty(ImageSkin.prototype, "d_right", {
         return _mud_ImageSkin__get_d_right(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ImageSkin.d_right: expected integer');
         _mud_ImageSkin__set_d_right(this.__ptr, value);
     }
 });
@@ -155,6 +163,7 @@ Object.defineProperty(ImageSkin.prototype, "d_bottom", {
         return _mud_ImageSkin__get_d_bottom(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ImageSkin.d_bottom: expected integer');
         _mud_ImageSkin__set_d_bottom(this.__ptr, value);
     }
 });
@@ -163,6 +172,7 @@ Object.defineProperty(ImageSkin.prototype, "margin", {
         return _mud_ImageSkin__get_margin(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ImageSkin.margin: expected integer');
         _mud_ImageSkin__set_margin(this.__ptr, value);
     }
 });
@@ -171,6 +181,7 @@ Object.defineProperty(ImageSkin.prototype, "d_stretch", {
         return _mud_ImageSkin__get_d_stretch(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ImageSkin.d_stretch: expected integer');
         _mud_ImageSkin__set_d_stretch(this.__ptr, value);
     }
 });
@@ -195,6 +206,7 @@ Object.defineProperty(InkStyle.prototype, "name", {
         return UTF8ToString(_mud_InkStyle__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('InkStyle.name: expected string');
         _mud_InkStyle__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -203,6 +215,7 @@ Object.defineProperty(InkStyle.prototype, "empty", {
         return !!(_mud_InkStyle__get_empty(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('InkStyle.empty: expected boolean');
         _mud_InkStyle__set_empty(this.__ptr, value);
     }
 });
@@ -211,6 +224,7 @@ Object.defineProperty(InkStyle.prototype, "background_colour", {
         return wrapPointer(_mud_InkStyle__get_background_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('InkStyle.background_colour: expected Colour');
         _mud_InkStyle__set_background_colour(this.__ptr, value.__ptr);
     }
 });
@@ -219,6 +233,7 @@ Object.defineProperty(InkStyle.prototype, "border_colour", {
         return wrapPointer(_mud_InkStyle__get_border_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('InkStyle.border_colour: expected Colour');
         _mud_InkStyle__set_border_colour(this.__ptr, value.__ptr);
     }
 });
@@ -227,6 +242,7 @@ Object.defineProperty(InkStyle.prototype, "image_colour", {
         return wrapPointer(_mud_InkStyle__get_image_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('InkStyle.image_colour: expected Colour');
         _mud_InkStyle__set_image_colour(this.__ptr, value.__ptr);
     }
 });
@@ -235,6 +251,7 @@ Object.defineProperty(InkStyle.prototype, "text_colour", {
         return wrapPointer(_mud_InkStyle__get_text_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('InkStyle.text_colour: expected Colour');
         _mud_InkStyle__set_text_colour(this.__ptr, value.__ptr);
     }
 });
@@ -243,6 +260,7 @@ Object.defineProperty(InkStyle.prototype, "text_font", {
         return UTF8ToString(_mud_InkStyle__get_text_font(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('InkStyle.text_font: expected string');
         _mud_InkStyle__set_text_font(this.__ptr, ensureString(value));
     }
 });
@@ -251,6 +269,7 @@ Object.defineProperty(InkStyle.prototype, "text_size", {
         return _mud_InkStyle__get_text_size(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('InkStyle.text_size: expected number');
         _mud_InkStyle__set_text_size(this.__ptr, value);
     }
 });
@@ -259,6 +278,7 @@ Object.defineProperty(InkStyle.prototype, "text_break", {
         return !!(_mud_InkStyle__get_text_break(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('InkStyle.text_break: expected boolean');
         _mud_InkStyle__set_text_break(this.__ptr, value);
     }
 });
@@ -267,6 +287,7 @@ Object.defineProperty(InkStyle.prototype, "text_wrap", {
         return !!(_mud_InkStyle__get_text_wrap(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('InkStyle.text_wrap: expected boolean');
         _mud_InkStyle__set_text_wrap(this.__ptr, value);
     }
 });
@@ -275,6 +296,7 @@ Object.defineProperty(InkStyle.prototype, "border_width", {
         return wrapPointer(_mud_InkStyle__get_border_width(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('InkStyle.border_width: expected v4<float>');
         _mud_InkStyle__set_border_width(this.__ptr, value.__ptr);
     }
 });
@@ -283,6 +305,7 @@ Object.defineProperty(InkStyle.prototype, "corner_radius", {
         return wrapPointer(_mud_InkStyle__get_corner_radius(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('InkStyle.corner_radius: expected v4<float>');
         _mud_InkStyle__set_corner_radius(this.__ptr, value.__ptr);
     }
 });
@@ -291,6 +314,7 @@ Object.defineProperty(InkStyle.prototype, "weak_corners", {
         return !!(_mud_InkStyle__get_weak_corners(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('InkStyle.weak_corners: expected boolean');
         _mud_InkStyle__set_weak_corners(this.__ptr, value);
     }
 });
@@ -299,6 +323,7 @@ Object.defineProperty(InkStyle.prototype, "padding", {
         return wrapPointer(_mud_InkStyle__get_padding(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('InkStyle.padding: expected v4<float>');
         _mud_InkStyle__set_padding(this.__ptr, value.__ptr);
     }
 });
@@ -307,6 +332,7 @@ Object.defineProperty(InkStyle.prototype, "margin", {
         return wrapPointer(_mud_InkStyle__get_margin(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('InkStyle.margin: expected v4<float>');
         _mud_InkStyle__set_margin(this.__ptr, value.__ptr);
     }
 });
@@ -315,6 +341,7 @@ Object.defineProperty(InkStyle.prototype, "align", {
         return wrapPointer(_mud_InkStyle__get_align(this.__ptr), v2_mud_Align);
     },
     set: function(value) {
+        if (!checkClass(value, v2_mud_Align)) throw Error('InkStyle.align: expected v2<mud::Align>');
         _mud_InkStyle__set_align(this.__ptr, value.__ptr);
     }
 });
@@ -323,6 +350,7 @@ Object.defineProperty(InkStyle.prototype, "linear_gradient", {
         return wrapPointer(_mud_InkStyle__get_linear_gradient(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('InkStyle.linear_gradient: expected v2<float>');
         _mud_InkStyle__set_linear_gradient(this.__ptr, value.__ptr);
     }
 });
@@ -331,6 +359,7 @@ Object.defineProperty(InkStyle.prototype, "linear_gradient_dim", {
         return _mud_InkStyle__get_linear_gradient_dim(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('InkStyle.linear_gradient_dim: expected integer');
         _mud_InkStyle__set_linear_gradient_dim(this.__ptr, value);
     }
 });
@@ -339,6 +368,7 @@ Object.defineProperty(InkStyle.prototype, "stretch", {
         return wrapPointer(_mud_InkStyle__get_stretch(this.__ptr), v2_bool);
     },
     set: function(value) {
+        if (!checkClass(value, v2_bool)) throw Error('InkStyle.stretch: expected v2<bool>');
         _mud_InkStyle__set_stretch(this.__ptr, value.__ptr);
     }
 });
@@ -347,6 +377,7 @@ Object.defineProperty(InkStyle.prototype, "image", {
         return wrapPointer(_mud_InkStyle__get_image(this.__ptr), Image);
     },
     set: function(value) {
+        if (!checkClass(value, Image)) throw Error('InkStyle.image: expected Image');
         _mud_InkStyle__set_image(this.__ptr, value.__ptr);
     }
 });
@@ -355,6 +386,7 @@ Object.defineProperty(InkStyle.prototype, "overlay", {
         return wrapPointer(_mud_InkStyle__get_overlay(this.__ptr), Image);
     },
     set: function(value) {
+        if (!checkClass(value, Image)) throw Error('InkStyle.overlay: expected Image');
         _mud_InkStyle__set_overlay(this.__ptr, value.__ptr);
     }
 });
@@ -363,6 +395,7 @@ Object.defineProperty(InkStyle.prototype, "tile", {
         return wrapPointer(_mud_InkStyle__get_tile(this.__ptr), Image);
     },
     set: function(value) {
+        if (!checkClass(value, Image)) throw Error('InkStyle.tile: expected Image');
         _mud_InkStyle__set_tile(this.__ptr, value.__ptr);
     }
 });
@@ -371,6 +404,7 @@ Object.defineProperty(InkStyle.prototype, "image_skin", {
         return wrapPointer(_mud_InkStyle__get_image_skin(this.__ptr), ImageSkin);
     },
     set: function(value) {
+        if (!checkClass(value, ImageSkin)) throw Error('InkStyle.image_skin: expected ImageSkin');
         _mud_InkStyle__set_image_skin(this.__ptr, value.__ptr);
     }
 });
@@ -379,6 +413,7 @@ Object.defineProperty(InkStyle.prototype, "shadow", {
         return wrapPointer(_mud_InkStyle__get_shadow(this.__ptr), Shadow);
     },
     set: function(value) {
+        if (!checkClass(value, Shadow)) throw Error('InkStyle.shadow: expected Shadow');
         _mud_InkStyle__set_shadow(this.__ptr, value.__ptr);
     }
 });
@@ -387,6 +422,7 @@ Object.defineProperty(InkStyle.prototype, "shadow_colour", {
         return wrapPointer(_mud_InkStyle__get_shadow_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('InkStyle.shadow_colour: expected Colour');
         _mud_InkStyle__set_shadow_colour(this.__ptr, value.__ptr);
     }
 });
@@ -395,6 +431,7 @@ Object.defineProperty(InkStyle.prototype, "hover_cursor", {
         return wrapPointer(_mud_InkStyle__get_hover_cursor(this.__ptr), Style);
     },
     set: function(value) {
+        if (!checkClass(value, Style)) throw Error('InkStyle.hover_cursor: expected Style');
         _mud_InkStyle__set_hover_cursor(this.__ptr, value.__ptr);
     }
 });
@@ -429,6 +466,7 @@ Object.defineProperty(Layout.prototype, "name", {
         return UTF8ToString(_mud_Layout__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Layout.name: expected string');
         _mud_Layout__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -437,6 +475,7 @@ Object.defineProperty(Layout.prototype, "solver", {
         return _mud_Layout__get_solver(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Layout.solver: expected integer');
         _mud_Layout__set_solver(this.__ptr, value);
     }
 });
@@ -445,6 +484,7 @@ Object.defineProperty(Layout.prototype, "layout", {
         return wrapPointer(_mud_Layout__get_layout(this.__ptr), v2_mud_AutoLayout);
     },
     set: function(value) {
+        if (!checkClass(value, v2_mud_AutoLayout)) throw Error('Layout.layout: expected v2<mud::AutoLayout>');
         _mud_Layout__set_layout(this.__ptr, value.__ptr);
     }
 });
@@ -453,6 +493,7 @@ Object.defineProperty(Layout.prototype, "flow", {
         return _mud_Layout__get_flow(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Layout.flow: expected integer');
         _mud_Layout__set_flow(this.__ptr, value);
     }
 });
@@ -461,6 +502,7 @@ Object.defineProperty(Layout.prototype, "space", {
         return wrapPointer(_mud_Layout__get_space(this.__ptr), Space);
     },
     set: function(value) {
+        if (!checkClass(value, Space)) throw Error('Layout.space: expected Space');
         _mud_Layout__set_space(this.__ptr, value.__ptr);
     }
 });
@@ -469,6 +511,7 @@ Object.defineProperty(Layout.prototype, "clipping", {
         return _mud_Layout__get_clipping(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Layout.clipping: expected integer');
         _mud_Layout__set_clipping(this.__ptr, value);
     }
 });
@@ -477,6 +520,7 @@ Object.defineProperty(Layout.prototype, "opacity", {
         return _mud_Layout__get_opacity(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Layout.opacity: expected integer');
         _mud_Layout__set_opacity(this.__ptr, value);
     }
 });
@@ -485,6 +529,7 @@ Object.defineProperty(Layout.prototype, "align", {
         return wrapPointer(_mud_Layout__get_align(this.__ptr), v2_mud_Align);
     },
     set: function(value) {
+        if (!checkClass(value, v2_mud_Align)) throw Error('Layout.align: expected v2<mud::Align>');
         _mud_Layout__set_align(this.__ptr, value.__ptr);
     }
 });
@@ -493,6 +538,7 @@ Object.defineProperty(Layout.prototype, "span", {
         return wrapPointer(_mud_Layout__get_span(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('Layout.span: expected v2<float>');
         _mud_Layout__set_span(this.__ptr, value.__ptr);
     }
 });
@@ -501,6 +547,7 @@ Object.defineProperty(Layout.prototype, "size", {
         return wrapPointer(_mud_Layout__get_size(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('Layout.size: expected v2<float>');
         _mud_Layout__set_size(this.__ptr, value.__ptr);
     }
 });
@@ -509,6 +556,7 @@ Object.defineProperty(Layout.prototype, "padding", {
         return wrapPointer(_mud_Layout__get_padding(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('Layout.padding: expected v4<float>');
         _mud_Layout__set_padding(this.__ptr, value.__ptr);
     }
 });
@@ -517,6 +565,7 @@ Object.defineProperty(Layout.prototype, "margin", {
         return wrapPointer(_mud_Layout__get_margin(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('Layout.margin: expected v2<float>');
         _mud_Layout__set_margin(this.__ptr, value.__ptr);
     }
 });
@@ -525,6 +574,7 @@ Object.defineProperty(Layout.prototype, "spacing", {
         return wrapPointer(_mud_Layout__get_spacing(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('Layout.spacing: expected v2<float>');
         _mud_Layout__set_spacing(this.__ptr, value.__ptr);
     }
 });
@@ -533,6 +583,7 @@ Object.defineProperty(Layout.prototype, "pivot", {
         return wrapPointer(_mud_Layout__get_pivot(this.__ptr), v2_mud_Pivot);
     },
     set: function(value) {
+        if (!checkClass(value, v2_mud_Pivot)) throw Error('Layout.pivot: expected v2<mud::Pivot>');
         _mud_Layout__set_pivot(this.__ptr, value.__ptr);
     }
 });
@@ -541,6 +592,7 @@ Object.defineProperty(Layout.prototype, "zorder", {
         return _mud_Layout__get_zorder(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Layout.zorder: expected integer');
         _mud_Layout__set_zorder(this.__ptr, value);
     }
 });
@@ -549,6 +601,7 @@ Object.defineProperty(Layout.prototype, "no_grid", {
         return !!(_mud_Layout__get_no_grid(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Layout.no_grid: expected boolean');
         _mud_Layout__set_no_grid(this.__ptr, value);
     }
 });
@@ -561,6 +614,7 @@ Object.defineProperty(Layout.prototype, "updated", {
         return _mud_Layout__get_updated(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Layout.updated: expected integer');
         _mud_Layout__set_updated(this.__ptr, value);
     }
 });
@@ -595,6 +649,7 @@ Object.defineProperty(Paint.prototype, "fill_colour", {
         return wrapPointer(_mud_Paint__get_fill_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Paint.fill_colour: expected Colour');
         _mud_Paint__set_fill_colour(this.__ptr, value.__ptr);
     }
 });
@@ -603,6 +658,7 @@ Object.defineProperty(Paint.prototype, "stroke_colour", {
         return wrapPointer(_mud_Paint__get_stroke_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Paint.stroke_colour: expected Colour');
         _mud_Paint__set_stroke_colour(this.__ptr, value.__ptr);
     }
 });
@@ -611,6 +667,7 @@ Object.defineProperty(Paint.prototype, "stroke_width", {
         return _mud_Paint__get_stroke_width(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Paint.stroke_width: expected number');
         _mud_Paint__set_stroke_width(this.__ptr, value);
     }
 });
@@ -636,6 +693,7 @@ Object.defineProperty(Shadow.prototype, "d_xpos", {
         return _mud_Shadow__get_d_xpos(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Shadow.d_xpos: expected number');
         _mud_Shadow__set_d_xpos(this.__ptr, value);
     }
 });
@@ -644,6 +702,7 @@ Object.defineProperty(Shadow.prototype, "d_ypos", {
         return _mud_Shadow__get_d_ypos(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Shadow.d_ypos: expected number');
         _mud_Shadow__set_d_ypos(this.__ptr, value);
     }
 });
@@ -652,6 +711,7 @@ Object.defineProperty(Shadow.prototype, "d_blur", {
         return _mud_Shadow__get_d_blur(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Shadow.d_blur: expected number');
         _mud_Shadow__set_d_blur(this.__ptr, value);
     }
 });
@@ -660,6 +720,7 @@ Object.defineProperty(Shadow.prototype, "d_spread", {
         return _mud_Shadow__get_d_spread(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Shadow.d_spread: expected number');
         _mud_Shadow__set_d_spread(this.__ptr, value);
     }
 });
@@ -668,6 +729,7 @@ Object.defineProperty(Shadow.prototype, "d_colour", {
         return wrapPointer(_mud_Shadow__get_d_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Shadow.d_colour: expected Colour');
         _mud_Shadow__set_d_colour(this.__ptr, value.__ptr);
     }
 });
@@ -689,6 +751,7 @@ Object.defineProperty(Space.prototype, "direction", {
         return _mud_Space__get_direction(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Space.direction: expected integer');
         _mud_Space__set_direction(this.__ptr, value);
     }
 });
@@ -697,6 +760,7 @@ Object.defineProperty(Space.prototype, "sizingLength", {
         return _mud_Space__get_sizingLength(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Space.sizingLength: expected integer');
         _mud_Space__set_sizingLength(this.__ptr, value);
     }
 });
@@ -705,6 +769,7 @@ Object.defineProperty(Space.prototype, "sizingDepth", {
         return _mud_Space__get_sizingDepth(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Space.sizingDepth: expected integer');
         _mud_Space__set_sizingDepth(this.__ptr, value);
     }
 });
@@ -723,6 +788,7 @@ Object.defineProperty(Style.prototype, "base", {
         return wrapPointer(_mud_Style__get_base(this.__ptr), Style);
     },
     set: function(value) {
+        if (!checkClass(value, Style)) throw Error('Style.base: expected Style');
         _mud_Style__set_base(this.__ptr, value.__ptr);
     }
 });
@@ -802,6 +868,7 @@ Object.defineProperty(TextPaint.prototype, "font", {
         return UTF8ToString(_mud_TextPaint__get_font(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('TextPaint.font: expected string');
         _mud_TextPaint__set_font(this.__ptr, ensureString(value));
     }
 });
@@ -810,6 +877,7 @@ Object.defineProperty(TextPaint.prototype, "colour", {
         return wrapPointer(_mud_TextPaint__get_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('TextPaint.colour: expected Colour');
         _mud_TextPaint__set_colour(this.__ptr, value.__ptr);
     }
 });
@@ -818,6 +886,7 @@ Object.defineProperty(TextPaint.prototype, "size", {
         return _mud_TextPaint__get_size(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('TextPaint.size: expected number');
         _mud_TextPaint__set_size(this.__ptr, value);
     }
 });
@@ -826,6 +895,7 @@ Object.defineProperty(TextPaint.prototype, "align", {
         return wrapPointer(_mud_TextPaint__get_align(this.__ptr), v2_mud_Align);
     },
     set: function(value) {
+        if (!checkClass(value, v2_mud_Align)) throw Error('TextPaint.align: expected v2<mud::Align>');
         _mud_TextPaint__set_align(this.__ptr, value.__ptr);
     }
 });
@@ -834,6 +904,7 @@ Object.defineProperty(TextPaint.prototype, "text_break", {
         return !!(_mud_TextPaint__get_text_break(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('TextPaint.text_break: expected boolean');
         _mud_TextPaint__set_text_break(this.__ptr, value);
     }
 });
@@ -842,6 +913,7 @@ Object.defineProperty(TextPaint.prototype, "text_wrap", {
         return !!(_mud_TextPaint__get_text_wrap(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('TextPaint.text_wrap: expected boolean');
         _mud_TextPaint__set_text_wrap(this.__ptr, value);
     }
 });
@@ -876,6 +948,7 @@ Object.defineProperty(UiRect.prototype, "position", {
         return wrapPointer(_mud_UiRect__get_position(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('UiRect.position: expected v2<float>');
         _mud_UiRect__set_position(this.__ptr, value.__ptr);
     }
 });
@@ -884,6 +957,7 @@ Object.defineProperty(UiRect.prototype, "size", {
         return wrapPointer(_mud_UiRect__get_size(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('UiRect.size: expected v2<float>');
         _mud_UiRect__set_size(this.__ptr, value.__ptr);
     }
 });
@@ -892,6 +966,7 @@ Object.defineProperty(UiRect.prototype, "content", {
         return wrapPointer(_mud_UiRect__get_content(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('UiRect.content: expected v2<float>');
         _mud_UiRect__set_content(this.__ptr, value.__ptr);
     }
 });
@@ -900,6 +975,7 @@ Object.defineProperty(UiRect.prototype, "span", {
         return wrapPointer(_mud_UiRect__get_span(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('UiRect.span: expected v2<float>');
         _mud_UiRect__set_span(this.__ptr, value.__ptr);
     }
 });
@@ -908,6 +984,7 @@ Object.defineProperty(UiRect.prototype, "scale", {
         return _mud_UiRect__get_scale(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('UiRect.scale: expected number');
         _mud_UiRect__set_scale(this.__ptr, value);
     }
 });
@@ -938,6 +1015,7 @@ Object.defineProperty(UiWindow.prototype, "size", {
         return wrapPointer(_mud_UiWindow__get_size(this.__ptr), v2_uint);
     },
     set: function(value) {
+        if (!checkClass(value, v2_uint)) throw Error('UiWindow.size: expected v2<uint>');
         _mud_UiWindow__set_size(this.__ptr, value.__ptr);
     }
 });
@@ -946,6 +1024,7 @@ Object.defineProperty(UiWindow.prototype, "colour", {
         return wrapPointer(_mud_UiWindow__get_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('UiWindow.colour: expected Colour');
         _mud_UiWindow__set_colour(this.__ptr, value.__ptr);
     }
 });
@@ -954,6 +1033,7 @@ Object.defineProperty(UiWindow.prototype, "shutdown", {
         return !!(_mud_UiWindow__get_shutdown(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('UiWindow.shutdown: expected boolean');
         _mud_UiWindow__set_shutdown(this.__ptr, value);
     }
 });
@@ -999,6 +1079,7 @@ Object.defineProperty(v2_mud_Align.prototype, "x", {
         return _mud_v2_mud_Align__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Align>.x: expected integer');
         _mud_v2_mud_Align__set_x(this.__ptr, value);
     }
 });
@@ -1007,6 +1088,7 @@ Object.defineProperty(v2_mud_Align.prototype, "y", {
         return _mud_v2_mud_Align__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Align>.y: expected integer');
         _mud_v2_mud_Align__set_y(this.__ptr, value);
     }
 });
@@ -1032,6 +1114,7 @@ Object.defineProperty(v2_mud_AutoLayout.prototype, "x", {
         return _mud_v2_mud_AutoLayout__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::AutoLayout>.x: expected integer');
         _mud_v2_mud_AutoLayout__set_x(this.__ptr, value);
     }
 });
@@ -1040,6 +1123,7 @@ Object.defineProperty(v2_mud_AutoLayout.prototype, "y", {
         return _mud_v2_mud_AutoLayout__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::AutoLayout>.y: expected integer');
         _mud_v2_mud_AutoLayout__set_y(this.__ptr, value);
     }
 });
@@ -1065,6 +1149,7 @@ Object.defineProperty(v2_mud_Pivot.prototype, "x", {
         return _mud_v2_mud_Pivot__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Pivot>.x: expected integer');
         _mud_v2_mud_Pivot__set_x(this.__ptr, value);
     }
 });
@@ -1073,6 +1158,7 @@ Object.defineProperty(v2_mud_Pivot.prototype, "y", {
         return _mud_v2_mud_Pivot__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Pivot>.y: expected integer');
         _mud_v2_mud_Pivot__set_y(this.__ptr, value);
     }
 });
@@ -1098,6 +1184,7 @@ Object.defineProperty(v2_mud_Sizing.prototype, "x", {
         return _mud_v2_mud_Sizing__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Sizing>.x: expected integer');
         _mud_v2_mud_Sizing__set_x(this.__ptr, value);
     }
 });
@@ -1106,6 +1193,7 @@ Object.defineProperty(v2_mud_Sizing.prototype, "y", {
         return _mud_v2_mud_Sizing__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Sizing>.y: expected integer');
         _mud_v2_mud_Sizing__set_y(this.__ptr, value);
     }
 });
@@ -1131,6 +1219,7 @@ Object.defineProperty(v2_size_t.prototype, "x", {
         return _mud_v2_size_t__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<size_t>.x: expected integer');
         _mud_v2_size_t__set_x(this.__ptr, value);
     }
 });
@@ -1139,6 +1228,7 @@ Object.defineProperty(v2_size_t.prototype, "y", {
         return _mud_v2_size_t__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<size_t>.y: expected integer');
         _mud_v2_size_t__set_y(this.__ptr, value);
     }
 });
@@ -1455,6 +1545,7 @@ Object.defineProperty(Widget.prototype, "state", {
         return _mud_Widget__get_state(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Widget.state: expected integer');
         _mud_Widget__set_state(this.__ptr, value);
     }
 });
@@ -1463,6 +1554,7 @@ Object.defineProperty(Widget.prototype, "switch", {
         return _mud_Widget__get_switch(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Widget.switch: expected integer');
         _mud_Widget__set_switch(this.__ptr, value);
     }
 });
@@ -1471,6 +1563,7 @@ Object.defineProperty(Widget.prototype, "index", {
         return _mud_Widget__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Widget.index: expected integer');
         _mud_Widget__set_index(this.__ptr, value);
     }
 });
@@ -1479,6 +1572,7 @@ Object.defineProperty(Widget.prototype, "open", {
         return !!(_mud_Widget__get_open(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Widget.open: expected boolean');
         _mud_Widget__set_open(this.__ptr, value);
     }
 });
@@ -1487,6 +1581,7 @@ Object.defineProperty(Widget.prototype, "body", {
         return wrapPointer(_mud_Widget__get_body(this.__ptr), Widget);
     },
     set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('Widget.body: expected Widget');
         _mud_Widget__set_body(this.__ptr, value.__ptr);
     }
 });

@@ -30,6 +30,7 @@ Object.defineProperty(OrbitController.prototype, "position", {
         return wrapPointer(_mud_OrbitController__get_position(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('OrbitController.position: expected v3<float>');
         _mud_OrbitController__set_position(this.__ptr, value.__ptr);
     }
 });
@@ -38,6 +39,7 @@ Object.defineProperty(OrbitController.prototype, "yaw", {
         return _mud_OrbitController__get_yaw(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('OrbitController.yaw: expected number');
         _mud_OrbitController__set_yaw(this.__ptr, value);
     }
 });
@@ -46,6 +48,7 @@ Object.defineProperty(OrbitController.prototype, "pitch", {
         return _mud_OrbitController__get_pitch(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('OrbitController.pitch: expected number');
         _mud_OrbitController__set_pitch(this.__ptr, value);
     }
 });
@@ -54,6 +57,7 @@ Object.defineProperty(OrbitController.prototype, "distance", {
         return _mud_OrbitController__get_distance(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('OrbitController.distance: expected number');
         _mud_OrbitController__set_distance(this.__ptr, value);
     }
 });
@@ -95,6 +99,7 @@ Object.defineProperty(Viewer.prototype, "scene", {
         return wrapPointer(_mud_Viewer__get_scene(this.__ptr), Scene);
     },
     set: function(value) {
+        if (!checkClass(value, Scene)) throw Error('Viewer.scene: expected Scene');
         _mud_Viewer__set_scene(this.__ptr, value.__ptr);
     }
 });
@@ -111,6 +116,7 @@ Object.defineProperty(Viewer.prototype, "position", {
         return wrapPointer(_mud_Viewer__get_position(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('Viewer.position: expected v2<float>');
         _mud_Viewer__set_position(this.__ptr, value.__ptr);
     }
 });
@@ -119,6 +125,7 @@ Object.defineProperty(Viewer.prototype, "size", {
         return wrapPointer(_mud_Viewer__get_size(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('Viewer.size: expected v2<float>');
         _mud_Viewer__set_size(this.__ptr, value.__ptr);
     }
 });
@@ -160,6 +167,7 @@ Object.defineProperty(TrackballController.prototype, "rotateSpeed", {
         return _mud_TrackballController__get_rotateSpeed(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('TrackballController.rotateSpeed: expected number');
         _mud_TrackballController__set_rotateSpeed(this.__ptr, value);
     }
 });
@@ -168,6 +176,7 @@ Object.defineProperty(TrackballController.prototype, "zoomSpeed", {
         return _mud_TrackballController__get_zoomSpeed(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('TrackballController.zoomSpeed: expected number');
         _mud_TrackballController__set_zoomSpeed(this.__ptr, value);
     }
 });
@@ -176,6 +185,7 @@ Object.defineProperty(TrackballController.prototype, "panSpeed", {
         return _mud_TrackballController__get_panSpeed(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('TrackballController.panSpeed: expected number');
         _mud_TrackballController__set_panSpeed(this.__ptr, value);
     }
 });
@@ -184,6 +194,7 @@ Object.defineProperty(TrackballController.prototype, "staticMoving", {
         return !!(_mud_TrackballController__get_staticMoving(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('TrackballController.staticMoving: expected boolean');
         _mud_TrackballController__set_staticMoving(this.__ptr, value);
     }
 });
@@ -192,6 +203,7 @@ Object.defineProperty(TrackballController.prototype, "dynamicDampingFactor", {
         return _mud_TrackballController__get_dynamicDampingFactor(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('TrackballController.dynamicDampingFactor: expected number');
         _mud_TrackballController__set_dynamicDampingFactor(this.__ptr, value);
     }
 });
@@ -200,6 +212,7 @@ Object.defineProperty(TrackballController.prototype, "minDistance", {
         return _mud_TrackballController__get_minDistance(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('TrackballController.minDistance: expected number');
         _mud_TrackballController__set_minDistance(this.__ptr, value);
     }
 });
@@ -208,6 +221,7 @@ Object.defineProperty(TrackballController.prototype, "maxDistance", {
         return _mud_TrackballController__get_maxDistance(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('TrackballController.maxDistance: expected number');
         _mud_TrackballController__set_maxDistance(this.__ptr, value);
     }
 });
@@ -216,6 +230,7 @@ Object.defineProperty(TrackballController.prototype, "target", {
         return wrapPointer(_mud_TrackballController__get_target(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('TrackballController.target: expected v3<float>');
         _mud_TrackballController__set_target(this.__ptr, value.__ptr);
     }
 });

@@ -79,6 +79,7 @@ Object.defineProperty(Creator.prototype, "construct", {
         return !!(_mud_Creator__get_construct(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Creator.construct: expected boolean');
         _mud_Creator__set_construct(this.__ptr, value);
     }
 });
@@ -87,6 +88,7 @@ Object.defineProperty(Creator.prototype, "prototype", {
         return wrapPointer(_mud_Creator__get_prototype(this.__ptr), Type);
     },
     set: function(value) {
+        if (!checkClass(value, Type)) throw Error('Creator.prototype: expected Type');
         _mud_Creator__set_prototype(this.__ptr, value.__ptr);
     }
 });
@@ -152,6 +154,7 @@ Object.defineProperty(Operator.prototype, "function", {
         return wrapPointer(_mud_Operator__get_function(this.__ptr), Function);
     },
     set: function(value) {
+        if (!checkClass(value, Function)) throw Error('Operator.function: expected Function');
         _mud_Operator__set_function(this.__ptr, value.__ptr);
     }
 });
@@ -160,6 +163,7 @@ Object.defineProperty(Operator.prototype, "type", {
         return wrapPointer(_mud_Operator__get_type(this.__ptr), Type);
     },
     set: function(value) {
+        if (!checkClass(value, Type)) throw Error('Operator.type: expected Type');
         _mud_Operator__set_type(this.__ptr, value.__ptr);
     }
 });
@@ -168,6 +172,7 @@ Object.defineProperty(Operator.prototype, "name", {
         return UTF8ToString(_mud_Operator__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Operator.name: expected string');
         _mud_Operator__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -176,6 +181,7 @@ Object.defineProperty(Operator.prototype, "sign", {
         return UTF8ToString(_mud_Operator__get_sign(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Operator.sign: expected string');
         _mud_Operator__set_sign(this.__ptr, ensureString(value));
     }
 });

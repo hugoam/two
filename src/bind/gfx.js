@@ -15,6 +15,7 @@ Object.defineProperty(AnimNode.prototype, "position", {
         return wrapPointer(_mud_AnimNode__get_position(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('AnimNode.position: expected v3<float>');
         _mud_AnimNode__set_position(this.__ptr, value.__ptr);
     }
 });
@@ -23,6 +24,7 @@ Object.defineProperty(AnimNode.prototype, "rotation", {
         return wrapPointer(_mud_AnimNode__get_rotation(this.__ptr), quat);
     },
     set: function(value) {
+        if (!checkClass(value, quat)) throw Error('AnimNode.rotation: expected quat');
         _mud_AnimNode__set_rotation(this.__ptr, value.__ptr);
     }
 });
@@ -31,6 +33,7 @@ Object.defineProperty(AnimNode.prototype, "scale", {
         return wrapPointer(_mud_AnimNode__get_scale(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('AnimNode.scale: expected v3<float>');
         _mud_AnimNode__set_scale(this.__ptr, value.__ptr);
     }
 });
@@ -39,6 +42,7 @@ Object.defineProperty(AnimNode.prototype, "transform", {
         return wrapPointer(_mud_AnimNode__get_transform(this.__ptr), mat4);
     },
     set: function(value) {
+        if (!checkClass(value, mat4)) throw Error('AnimNode.transform: expected mat4');
         _mud_AnimNode__set_transform(this.__ptr, value.__ptr);
     }
 });
@@ -60,6 +64,7 @@ Object.defineProperty(AnimPlay.prototype, "animation", {
         return wrapPointer(_mud_AnimPlay__get_animation(this.__ptr), Animation);
     },
     set: function(value) {
+        if (!checkClass(value, Animation)) throw Error('AnimPlay.animation: expected Animation');
         _mud_AnimPlay__set_animation(this.__ptr, value.__ptr);
     }
 });
@@ -68,6 +73,7 @@ Object.defineProperty(AnimPlay.prototype, "loop", {
         return !!(_mud_AnimPlay__get_loop(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('AnimPlay.loop: expected boolean');
         _mud_AnimPlay__set_loop(this.__ptr, value);
     }
 });
@@ -76,6 +82,7 @@ Object.defineProperty(AnimPlay.prototype, "speed", {
         return _mud_AnimPlay__get_speed(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('AnimPlay.speed: expected number');
         _mud_AnimPlay__set_speed(this.__ptr, value);
     }
 });
@@ -84,6 +91,7 @@ Object.defineProperty(AnimPlay.prototype, "transient", {
         return !!(_mud_AnimPlay__get_transient(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('AnimPlay.transient: expected boolean');
         _mud_AnimPlay__set_transient(this.__ptr, value);
     }
 });
@@ -92,6 +100,7 @@ Object.defineProperty(AnimPlay.prototype, "fadeout", {
         return _mud_AnimPlay__get_fadeout(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('AnimPlay.fadeout: expected number');
         _mud_AnimPlay__set_fadeout(this.__ptr, value);
     }
 });
@@ -100,6 +109,7 @@ Object.defineProperty(AnimPlay.prototype, "fadeout_left", {
         return _mud_AnimPlay__get_fadeout_left(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('AnimPlay.fadeout_left: expected number');
         _mud_AnimPlay__set_fadeout_left(this.__ptr, value);
     }
 });
@@ -108,6 +118,7 @@ Object.defineProperty(AnimPlay.prototype, "cursor", {
         return _mud_AnimPlay__get_cursor(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('AnimPlay.cursor: expected number');
         _mud_AnimPlay__set_cursor(this.__ptr, value);
     }
 });
@@ -116,6 +127,7 @@ Object.defineProperty(AnimPlay.prototype, "ended", {
         return !!(_mud_AnimPlay__get_ended(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('AnimPlay.ended: expected boolean');
         _mud_AnimPlay__set_ended(this.__ptr, value);
     }
 });
@@ -134,6 +146,7 @@ Object.defineProperty(AnimTrack.prototype, "animation", {
         return wrapPointer(_mud_AnimTrack__get_animation(this.__ptr), Animation);
     },
     set: function(value) {
+        if (!checkClass(value, Animation)) throw Error('AnimTrack.animation: expected Animation');
         _mud_AnimTrack__set_animation(this.__ptr, value.__ptr);
     }
 });
@@ -142,6 +155,7 @@ Object.defineProperty(AnimTrack.prototype, "node", {
         return _mud_AnimTrack__get_node(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('AnimTrack.node: expected integer');
         _mud_AnimTrack__set_node(this.__ptr, value);
     }
 });
@@ -150,6 +164,7 @@ Object.defineProperty(AnimTrack.prototype, "node_name", {
         return UTF8ToString(_mud_AnimTrack__get_node_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('AnimTrack.node_name: expected string');
         _mud_AnimTrack__set_node_name(this.__ptr, ensureString(value));
     }
 });
@@ -158,6 +173,7 @@ Object.defineProperty(AnimTrack.prototype, "target", {
         return _mud_AnimTrack__get_target(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('AnimTrack.target: expected integer');
         _mud_AnimTrack__set_target(this.__ptr, value);
     }
 });
@@ -166,6 +182,7 @@ Object.defineProperty(AnimTrack.prototype, "value_type", {
         return wrapPointer(_mud_AnimTrack__get_value_type(this.__ptr), Type);
     },
     set: function(value) {
+        if (!checkClass(value, Type)) throw Error('AnimTrack.value_type: expected Type');
         _mud_AnimTrack__set_value_type(this.__ptr, value.__ptr);
     }
 });
@@ -174,6 +191,7 @@ Object.defineProperty(AnimTrack.prototype, "length", {
         return _mud_AnimTrack__get_length(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('AnimTrack.length: expected number');
         _mud_AnimTrack__set_length(this.__ptr, value);
     }
 });
@@ -182,6 +200,7 @@ Object.defineProperty(AnimTrack.prototype, "interpolation", {
         return _mud_AnimTrack__get_interpolation(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('AnimTrack.interpolation: expected integer');
         _mud_AnimTrack__set_interpolation(this.__ptr, value);
     }
 });
@@ -200,6 +219,7 @@ Object.defineProperty(Animation.prototype, "name", {
         return UTF8ToString(_mud_Animation__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Animation.name: expected string');
         _mud_Animation__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -208,6 +228,7 @@ Object.defineProperty(Animation.prototype, "length", {
         return _mud_Animation__get_length(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Animation.length: expected number');
         _mud_Animation__set_length(this.__ptr, value);
     }
 });
@@ -216,6 +237,7 @@ Object.defineProperty(Animation.prototype, "step", {
         return _mud_Animation__get_step(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Animation.step: expected number');
         _mud_Animation__set_step(this.__ptr, value);
     }
 });
@@ -531,6 +553,7 @@ Object.defineProperty(Background.prototype, "mode", {
         return _mud_Background__get_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Background.mode: expected integer');
         _mud_Background__set_mode(this.__ptr, value);
     }
 });
@@ -539,6 +562,7 @@ Object.defineProperty(Background.prototype, "colour", {
         return wrapPointer(_mud_Background__get_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Background.colour: expected Colour');
         _mud_Background__set_colour(this.__ptr, value.__ptr);
     }
 });
@@ -547,6 +571,7 @@ Object.defineProperty(Background.prototype, "custoprogram", {
         return wrapPointer(_mud_Background__get_custoprogram(this.__ptr), Program);
     },
     set: function(value) {
+        if (!checkClass(value, Program)) throw Error('Background.custoprogram: expected Program');
         _mud_Background__set_custoprogram(this.__ptr, value.__ptr);
     }
 });
@@ -555,6 +580,7 @@ Object.defineProperty(Background.prototype, "texture", {
         return wrapPointer(_mud_Background__get_texture(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('Background.texture: expected Texture');
         _mud_Background__set_texture(this.__ptr, value.__ptr);
     }
 });
@@ -602,6 +628,7 @@ Object.defineProperty(Batch.prototype, "item", {
         return wrapPointer(_mud_Batch__get_item(this.__ptr), Item);
     },
     set: function(value) {
+        if (!checkClass(value, Item)) throw Error('Batch.item: expected Item');
         _mud_Batch__set_item(this.__ptr, value.__ptr);
     }
 });
@@ -610,6 +637,7 @@ Object.defineProperty(Batch.prototype, "stride", {
         return _mud_Batch__get_stride(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Batch.stride: expected integer');
         _mud_Batch__set_stride(this.__ptr, value);
     }
 });
@@ -648,6 +676,7 @@ Object.defineProperty(Camera.prototype, "eye", {
         return wrapPointer(_mud_Camera__get_eye(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Camera.eye: expected v3<float>');
         _mud_Camera__set_eye(this.__ptr, value.__ptr);
     }
 });
@@ -656,6 +685,7 @@ Object.defineProperty(Camera.prototype, "target", {
         return wrapPointer(_mud_Camera__get_target(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Camera.target: expected v3<float>');
         _mud_Camera__set_target(this.__ptr, value.__ptr);
     }
 });
@@ -664,6 +694,7 @@ Object.defineProperty(Camera.prototype, "up", {
         return wrapPointer(_mud_Camera__get_up(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Camera.up: expected v3<float>');
         _mud_Camera__set_up(this.__ptr, value.__ptr);
     }
 });
@@ -672,6 +703,7 @@ Object.defineProperty(Camera.prototype, "view", {
         return wrapPointer(_mud_Camera__get_view(this.__ptr), mat4);
     },
     set: function(value) {
+        if (!checkClass(value, mat4)) throw Error('Camera.view: expected mat4');
         _mud_Camera__set_view(this.__ptr, value.__ptr);
     }
 });
@@ -680,6 +712,7 @@ Object.defineProperty(Camera.prototype, "proj", {
         return wrapPointer(_mud_Camera__get_proj(this.__ptr), mat4);
     },
     set: function(value) {
+        if (!checkClass(value, mat4)) throw Error('Camera.proj: expected mat4');
         _mud_Camera__set_proj(this.__ptr, value.__ptr);
     }
 });
@@ -688,6 +721,7 @@ Object.defineProperty(Camera.prototype, "fov", {
         return _mud_Camera__get_fov(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Camera.fov: expected number');
         _mud_Camera__set_fov(this.__ptr, value);
     }
 });
@@ -696,6 +730,7 @@ Object.defineProperty(Camera.prototype, "aspect", {
         return _mud_Camera__get_aspect(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Camera.aspect: expected number');
         _mud_Camera__set_aspect(this.__ptr, value);
     }
 });
@@ -704,6 +739,7 @@ Object.defineProperty(Camera.prototype, "near", {
         return _mud_Camera__get_near(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Camera.near: expected number');
         _mud_Camera__set_near(this.__ptr, value);
     }
 });
@@ -712,6 +748,7 @@ Object.defineProperty(Camera.prototype, "far", {
         return _mud_Camera__get_far(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Camera.far: expected number');
         _mud_Camera__set_far(this.__ptr, value);
     }
 });
@@ -720,6 +757,7 @@ Object.defineProperty(Camera.prototype, "orthographic", {
         return !!(_mud_Camera__get_orthographic(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Camera.orthographic: expected boolean');
         _mud_Camera__set_orthographic(this.__ptr, value);
     }
 });
@@ -728,6 +766,7 @@ Object.defineProperty(Camera.prototype, "height", {
         return _mud_Camera__get_height(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Camera.height: expected number');
         _mud_Camera__set_height(this.__ptr, value);
     }
 });
@@ -736,6 +775,7 @@ Object.defineProperty(Camera.prototype, "no_update", {
         return !!(_mud_Camera__get_no_update(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Camera.no_update: expected boolean');
         _mud_Camera__set_no_update(this.__ptr, value);
     }
 });
@@ -744,6 +784,7 @@ Object.defineProperty(Camera.prototype, "optimize_ends", {
         return !!(_mud_Camera__get_optimize_ends(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Camera.optimize_ends: expected boolean');
         _mud_Camera__set_optimize_ends(this.__ptr, value);
     }
 });
@@ -752,6 +793,7 @@ Object.defineProperty(Camera.prototype, "lod_offsets", {
         return wrapPointer(_mud_Camera__get_lod_offsets(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('Camera.lod_offsets: expected v4<float>');
         _mud_Camera__set_lod_offsets(this.__ptr, value.__ptr);
     }
 });
@@ -785,6 +827,7 @@ Object.defineProperty(Cascade.prototype, "numips", {
         return _mud_Cascade__get_numips(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Cascade.numips: expected integer');
         _mud_Cascade__set_numips(this.__ptr, value);
     }
 });
@@ -803,6 +846,7 @@ Object.defineProperty(Culler.prototype, "viewport", {
         return wrapPointer(_mud_Culler__get_viewport(this.__ptr), Viewport);
     },
     set: function(value) {
+        if (!checkClass(value, Viewport)) throw Error('Culler.viewport: expected Viewport');
         _mud_Culler__set_viewport(this.__ptr, value.__ptr);
     }
 });
@@ -824,6 +868,7 @@ Object.defineProperty(DepthParams.prototype, "depth_bias", {
         return _mud_DepthParams__get_depth_bias(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('DepthParams.depth_bias: expected number');
         _mud_DepthParams__set_depth_bias(this.__ptr, value);
     }
 });
@@ -832,6 +877,7 @@ Object.defineProperty(DepthParams.prototype, "depth_normal_bias", {
         return _mud_DepthParams__get_depth_normal_bias(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('DepthParams.depth_normal_bias: expected number');
         _mud_DepthParams__set_depth_normal_bias(this.__ptr, value);
     }
 });
@@ -840,6 +886,7 @@ Object.defineProperty(DepthParams.prototype, "depth_z_far", {
         return _mud_DepthParams__get_depth_z_far(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('DepthParams.depth_z_far: expected number');
         _mud_DepthParams__set_depth_z_far(this.__ptr, value);
     }
 });
@@ -863,6 +910,7 @@ Object.defineProperty(Direct.prototype, "item", {
         return wrapPointer(_mud_Direct__get_item(this.__ptr), Item);
     },
     set: function(value) {
+        if (!checkClass(value, Item)) throw Error('Direct.item: expected Item');
         _mud_Direct__set_item(this.__ptr, value.__ptr);
     }
 });
@@ -884,6 +932,7 @@ Object.defineProperty(DistanceParams.prototype, "eye", {
         return wrapPointer(_mud_DistanceParams__get_eye(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('DistanceParams.eye: expected v3<float>');
         _mud_DistanceParams__set_eye(this.__ptr, value.__ptr);
     }
 });
@@ -892,6 +941,7 @@ Object.defineProperty(DistanceParams.prototype, "near", {
         return _mud_DistanceParams__get_near(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('DistanceParams.near: expected number');
         _mud_DistanceParams__set_near(this.__ptr, value);
     }
 });
@@ -900,6 +950,7 @@ Object.defineProperty(DistanceParams.prototype, "far", {
         return _mud_DistanceParams__get_far(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('DistanceParams.far: expected number');
         _mud_DistanceParams__set_far(this.__ptr, value);
     }
 });
@@ -921,6 +972,7 @@ Object.defineProperty(Flow.prototype, "name", {
         return UTF8ToString(_mud_Flow__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Flow.name: expected string');
         _mud_Flow__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -929,6 +981,7 @@ Object.defineProperty(Flow.prototype, "duration", {
         return _mud_Flow__get_duration(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Flow.duration: expected number');
         _mud_Flow__set_duration(this.__ptr, value);
     }
 });
@@ -937,6 +990,7 @@ Object.defineProperty(Flow.prototype, "start_time", {
         return _mud_Flow__get_start_time(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Flow.start_time: expected number');
         _mud_Flow__set_start_time(this.__ptr, value);
     }
 });
@@ -945,6 +999,7 @@ Object.defineProperty(Flow.prototype, "loop", {
         return !!(_mud_Flow__get_loop(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Flow.loop: expected boolean');
         _mud_Flow__set_loop(this.__ptr, value);
     }
 });
@@ -957,6 +1012,7 @@ Object.defineProperty(Flow.prototype, "flow", {
         return _mud_Flow__get_flow(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Flow.flow: expected integer');
         _mud_Flow__set_flow(this.__ptr, value);
     }
 });
@@ -965,6 +1021,7 @@ Object.defineProperty(Flow.prototype, "billboard", {
         return !!(_mud_Flow__get_billboard(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Flow.billboard: expected boolean');
         _mud_Flow__set_billboard(this.__ptr, value);
     }
 });
@@ -973,6 +1030,7 @@ Object.defineProperty(Flow.prototype, "direction", {
         return wrapPointer(_mud_Flow__get_direction(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Flow.direction: expected v3<float>');
         _mud_Flow__set_direction(this.__ptr, value.__ptr);
     }
 });
@@ -981,6 +1039,7 @@ Object.defineProperty(Flow.prototype, "rotation", {
         return wrapPointer(_mud_Flow__get_rotation(this.__ptr), quat);
     },
     set: function(value) {
+        if (!checkClass(value, quat)) throw Error('Flow.rotation: expected quat');
         _mud_Flow__set_rotation(this.__ptr, value.__ptr);
     }
 });
@@ -989,6 +1048,7 @@ Object.defineProperty(Flow.prototype, "blend_mode", {
         return _mud_Flow__get_blend_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Flow.blend_mode: expected integer');
         _mud_Flow__set_blend_mode(this.__ptr, value);
     }
 });
@@ -997,6 +1057,7 @@ Object.defineProperty(Flow.prototype, "volume", {
         return wrapPointer(_mud_Flow__get_volume(this.__ptr), ValueTrack_float);
     },
     set: function(value) {
+        if (!checkClass(value, ValueTrack_float)) throw Error('Flow.volume: expected ValueTrack<float>');
         _mud_Flow__set_volume(this.__ptr, value.__ptr);
     }
 });
@@ -1005,6 +1066,7 @@ Object.defineProperty(Flow.prototype, "rate", {
         return wrapPointer(_mud_Flow__get_rate(this.__ptr), ValueTrack_uint32_t);
     },
     set: function(value) {
+        if (!checkClass(value, ValueTrack_uint32_t)) throw Error('Flow.rate: expected ValueTrack<uint32_t>');
         _mud_Flow__set_rate(this.__ptr, value.__ptr);
     }
 });
@@ -1013,6 +1075,7 @@ Object.defineProperty(Flow.prototype, "lifetime", {
         return wrapPointer(_mud_Flow__get_lifetime(this.__ptr), ValueTrack_float);
     },
     set: function(value) {
+        if (!checkClass(value, ValueTrack_float)) throw Error('Flow.lifetime: expected ValueTrack<float>');
         _mud_Flow__set_lifetime(this.__ptr, value.__ptr);
     }
 });
@@ -1021,6 +1084,7 @@ Object.defineProperty(Flow.prototype, "gravity", {
         return wrapPointer(_mud_Flow__get_gravity(this.__ptr), ValueTrack_float);
     },
     set: function(value) {
+        if (!checkClass(value, ValueTrack_float)) throw Error('Flow.gravity: expected ValueTrack<float>');
         _mud_Flow__set_gravity(this.__ptr, value.__ptr);
     }
 });
@@ -1029,6 +1093,7 @@ Object.defineProperty(Flow.prototype, "speed", {
         return wrapPointer(_mud_Flow__get_speed(this.__ptr), ValueTrack_float);
     },
     set: function(value) {
+        if (!checkClass(value, ValueTrack_float)) throw Error('Flow.speed: expected ValueTrack<float>');
         _mud_Flow__set_speed(this.__ptr, value.__ptr);
     }
 });
@@ -1037,6 +1102,7 @@ Object.defineProperty(Flow.prototype, "angle", {
         return wrapPointer(_mud_Flow__get_angle(this.__ptr), ValueTrack_float);
     },
     set: function(value) {
+        if (!checkClass(value, ValueTrack_float)) throw Error('Flow.angle: expected ValueTrack<float>');
         _mud_Flow__set_angle(this.__ptr, value.__ptr);
     }
 });
@@ -1045,6 +1111,7 @@ Object.defineProperty(Flow.prototype, "blend", {
         return wrapPointer(_mud_Flow__get_blend(this.__ptr), ValueTrack_float);
     },
     set: function(value) {
+        if (!checkClass(value, ValueTrack_float)) throw Error('Flow.blend: expected ValueTrack<float>');
         _mud_Flow__set_blend(this.__ptr, value.__ptr);
     }
 });
@@ -1053,6 +1120,7 @@ Object.defineProperty(Flow.prototype, "colour", {
         return wrapPointer(_mud_Flow__get_colour(this.__ptr), ValueTrack_mud_Colour);
     },
     set: function(value) {
+        if (!checkClass(value, ValueTrack_mud_Colour)) throw Error('Flow.colour: expected ValueTrack<mud::Colour>');
         _mud_Flow__set_colour(this.__ptr, value.__ptr);
     }
 });
@@ -1061,6 +1129,7 @@ Object.defineProperty(Flow.prototype, "scale", {
         return wrapPointer(_mud_Flow__get_scale(this.__ptr), ValueTrack_float);
     },
     set: function(value) {
+        if (!checkClass(value, ValueTrack_float)) throw Error('Flow.scale: expected ValueTrack<float>');
         _mud_Flow__set_scale(this.__ptr, value.__ptr);
     }
 });
@@ -1069,6 +1138,7 @@ Object.defineProperty(Flow.prototype, "sprite_frame", {
         return wrapPointer(_mud_Flow__get_sprite_frame(this.__ptr), ValueTrack_float);
     },
     set: function(value) {
+        if (!checkClass(value, ValueTrack_float)) throw Error('Flow.sprite_frame: expected ValueTrack<float>');
         _mud_Flow__set_sprite_frame(this.__ptr, value.__ptr);
     }
 });
@@ -1077,6 +1147,7 @@ Object.defineProperty(Flow.prototype, "sprite_name", {
         return UTF8ToString(_mud_Flow__get_sprite_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Flow.sprite_name: expected string');
         _mud_Flow__set_sprite_name(this.__ptr, ensureString(value));
     }
 });
@@ -1098,6 +1169,7 @@ Object.defineProperty(Fog.prototype, "enabled", {
         return !!(_mud_Fog__get_enabled(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Fog.enabled: expected boolean');
         _mud_Fog__set_enabled(this.__ptr, value);
     }
 });
@@ -1106,6 +1178,7 @@ Object.defineProperty(Fog.prototype, "density", {
         return _mud_Fog__get_density(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Fog.density: expected number');
         _mud_Fog__set_density(this.__ptr, value);
     }
 });
@@ -1114,6 +1187,7 @@ Object.defineProperty(Fog.prototype, "colour", {
         return wrapPointer(_mud_Fog__get_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Fog.colour: expected Colour');
         _mud_Fog__set_colour(this.__ptr, value.__ptr);
     }
 });
@@ -1122,6 +1196,7 @@ Object.defineProperty(Fog.prototype, "depth", {
         return !!(_mud_Fog__get_depth(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Fog.depth: expected boolean');
         _mud_Fog__set_depth(this.__ptr, value);
     }
 });
@@ -1130,6 +1205,7 @@ Object.defineProperty(Fog.prototype, "depth_begin", {
         return _mud_Fog__get_depth_begin(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Fog.depth_begin: expected number');
         _mud_Fog__set_depth_begin(this.__ptr, value);
     }
 });
@@ -1138,6 +1214,7 @@ Object.defineProperty(Fog.prototype, "depth_end", {
         return _mud_Fog__get_depth_end(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Fog.depth_end: expected number');
         _mud_Fog__set_depth_end(this.__ptr, value);
     }
 });
@@ -1146,6 +1223,7 @@ Object.defineProperty(Fog.prototype, "depth_curve", {
         return _mud_Fog__get_depth_curve(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Fog.depth_curve: expected number');
         _mud_Fog__set_depth_curve(this.__ptr, value);
     }
 });
@@ -1154,6 +1232,7 @@ Object.defineProperty(Fog.prototype, "height", {
         return !!(_mud_Fog__get_height(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Fog.height: expected boolean');
         _mud_Fog__set_height(this.__ptr, value);
     }
 });
@@ -1162,6 +1241,7 @@ Object.defineProperty(Fog.prototype, "height_min", {
         return _mud_Fog__get_height_min(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Fog.height_min: expected number');
         _mud_Fog__set_height_min(this.__ptr, value);
     }
 });
@@ -1170,6 +1250,7 @@ Object.defineProperty(Fog.prototype, "height_max", {
         return _mud_Fog__get_height_max(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Fog.height_max: expected number');
         _mud_Fog__set_height_max(this.__ptr, value);
     }
 });
@@ -1178,6 +1259,7 @@ Object.defineProperty(Fog.prototype, "height_curve", {
         return _mud_Fog__get_height_curve(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Fog.height_curve: expected number');
         _mud_Fog__set_height_curve(this.__ptr, value);
     }
 });
@@ -1186,6 +1268,7 @@ Object.defineProperty(Fog.prototype, "transmit", {
         return !!(_mud_Fog__get_transmit(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Fog.transmit: expected boolean');
         _mud_Fog__set_transmit(this.__ptr, value);
     }
 });
@@ -1194,6 +1277,7 @@ Object.defineProperty(Fog.prototype, "transmit_curve", {
         return _mud_Fog__get_transmit_curve(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Fog.transmit_curve: expected number');
         _mud_Fog__set_transmit_curve(this.__ptr, value);
     }
 });
@@ -1223,6 +1307,7 @@ Object.defineProperty(FrameBuffer.prototype, "size", {
         return wrapPointer(_mud_FrameBuffer__get_size(this.__ptr), v2_uint);
     },
     set: function(value) {
+        if (!checkClass(value, v2_uint)) throw Error('FrameBuffer.size: expected v2<uint>');
         _mud_FrameBuffer__set_size(this.__ptr, value.__ptr);
     }
 });
@@ -1245,6 +1330,7 @@ Object.defineProperty(Frustum.prototype, "fov", {
         return _mud_Frustum__get_fov(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Frustum.fov: expected number');
         _mud_Frustum__set_fov(this.__ptr, value);
     }
 });
@@ -1253,6 +1339,7 @@ Object.defineProperty(Frustum.prototype, "aspect", {
         return _mud_Frustum__get_aspect(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Frustum.aspect: expected number');
         _mud_Frustum__set_aspect(this.__ptr, value);
     }
 });
@@ -1261,6 +1348,7 @@ Object.defineProperty(Frustum.prototype, "near", {
         return _mud_Frustum__get_near(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Frustum.near: expected number');
         _mud_Frustum__set_near(this.__ptr, value);
     }
 });
@@ -1269,6 +1357,7 @@ Object.defineProperty(Frustum.prototype, "far", {
         return _mud_Frustum__get_far(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Frustum.far: expected number');
         _mud_Frustum__set_far(this.__ptr, value);
     }
 });
@@ -1277,6 +1366,7 @@ Object.defineProperty(Frustum.prototype, "center", {
         return wrapPointer(_mud_Frustum__get_center(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Frustum.center: expected v3<float>');
         _mud_Frustum__set_center(this.__ptr, value.__ptr);
     }
 });
@@ -1285,6 +1375,7 @@ Object.defineProperty(Frustum.prototype, "radius", {
         return _mud_Frustum__get_radius(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Frustum.radius: expected number');
         _mud_Frustum__set_radius(this.__ptr, value);
     }
 });
@@ -1359,6 +1450,7 @@ Object.defineProperty(Import.prototype, "name", {
         return UTF8ToString(_mud_Import__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Import.name: expected string');
         _mud_Import__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -1367,6 +1459,7 @@ Object.defineProperty(Import.prototype, "file", {
         return UTF8ToString(_mud_Import__get_file(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Import.file: expected string');
         _mud_Import__set_file(this.__ptr, ensureString(value));
     }
 });
@@ -1375,6 +1468,7 @@ Object.defineProperty(Import.prototype, "path", {
         return UTF8ToString(_mud_Import__get_path(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Import.path: expected string');
         _mud_Import__set_path(this.__ptr, ensureString(value));
     }
 });
@@ -1383,6 +1477,7 @@ Object.defineProperty(Import.prototype, "config", {
         return wrapPointer(_mud_Import__get_config(this.__ptr), ImportConfig);
     },
     set: function(value) {
+        if (!checkClass(value, ImportConfig)) throw Error('Import.config: expected ImportConfig');
         _mud_Import__set_config(this.__ptr, value.__ptr);
     }
 });
@@ -1404,6 +1499,7 @@ Object.defineProperty(ImportConfig.prototype, "format", {
         return _mud_ImportConfig__get_format(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ImportConfig.format: expected integer');
         _mud_ImportConfig__set_format(this.__ptr, value);
     }
 });
@@ -1412,6 +1508,7 @@ Object.defineProperty(ImportConfig.prototype, "position", {
         return wrapPointer(_mud_ImportConfig__get_position(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('ImportConfig.position: expected v3<float>');
         _mud_ImportConfig__set_position(this.__ptr, value.__ptr);
     }
 });
@@ -1420,6 +1517,7 @@ Object.defineProperty(ImportConfig.prototype, "rotation", {
         return wrapPointer(_mud_ImportConfig__get_rotation(this.__ptr), quat);
     },
     set: function(value) {
+        if (!checkClass(value, quat)) throw Error('ImportConfig.rotation: expected quat');
         _mud_ImportConfig__set_rotation(this.__ptr, value.__ptr);
     }
 });
@@ -1428,6 +1526,7 @@ Object.defineProperty(ImportConfig.prototype, "scale", {
         return wrapPointer(_mud_ImportConfig__get_scale(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('ImportConfig.scale: expected v3<float>');
         _mud_ImportConfig__set_scale(this.__ptr, value.__ptr);
     }
 });
@@ -1436,6 +1535,7 @@ Object.defineProperty(ImportConfig.prototype, "transform", {
         return wrapPointer(_mud_ImportConfig__get_transform(this.__ptr), mat4);
     },
     set: function(value) {
+        if (!checkClass(value, mat4)) throw Error('ImportConfig.transform: expected mat4');
         _mud_ImportConfig__set_transform(this.__ptr, value.__ptr);
     }
 });
@@ -1444,6 +1544,7 @@ Object.defineProperty(ImportConfig.prototype, "suffix", {
         return UTF8ToString(_mud_ImportConfig__get_suffix(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('ImportConfig.suffix: expected string');
         _mud_ImportConfig__set_suffix(this.__ptr, ensureString(value));
     }
 });
@@ -1452,6 +1553,7 @@ Object.defineProperty(ImportConfig.prototype, "force_reimport", {
         return !!(_mud_ImportConfig__get_force_reimport(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('ImportConfig.force_reimport: expected boolean');
         _mud_ImportConfig__set_force_reimport(this.__ptr, value);
     }
 });
@@ -1460,6 +1562,7 @@ Object.defineProperty(ImportConfig.prototype, "cache_geometry", {
         return !!(_mud_ImportConfig__get_cache_geometry(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('ImportConfig.cache_geometry: expected boolean');
         _mud_ImportConfig__set_cache_geometry(this.__ptr, value);
     }
 });
@@ -1468,6 +1571,7 @@ Object.defineProperty(ImportConfig.prototype, "optimize_geometry", {
         return !!(_mud_ImportConfig__get_optimize_geometry(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('ImportConfig.optimize_geometry: expected boolean');
         _mud_ImportConfig__set_optimize_geometry(this.__ptr, value);
     }
 });
@@ -1476,6 +1580,7 @@ Object.defineProperty(ImportConfig.prototype, "need_normals", {
         return !!(_mud_ImportConfig__get_need_normals(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('ImportConfig.need_normals: expected boolean');
         _mud_ImportConfig__set_need_normals(this.__ptr, value);
     }
 });
@@ -1484,6 +1589,7 @@ Object.defineProperty(ImportConfig.prototype, "need_uvs", {
         return !!(_mud_ImportConfig__get_need_uvs(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('ImportConfig.need_uvs: expected boolean');
         _mud_ImportConfig__set_need_uvs(this.__ptr, value);
     }
 });
@@ -1492,6 +1598,7 @@ Object.defineProperty(ImportConfig.prototype, "no_transforms", {
         return !!(_mud_ImportConfig__get_no_transforms(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('ImportConfig.no_transforms: expected boolean');
         _mud_ImportConfig__set_no_transforms(this.__ptr, value);
     }
 });
@@ -1500,6 +1607,7 @@ Object.defineProperty(ImportConfig.prototype, "flags", {
         return _mud_ImportConfig__get_flags(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ImportConfig.flags: expected integer');
         _mud_ImportConfig__set_flags(this.__ptr, value);
     }
 });
@@ -1531,6 +1639,7 @@ Object.defineProperty(Item.prototype, "node", {
         return wrapPointer(_mud_Item__get_node(this.__ptr), Node3);
     },
     set: function(value) {
+        if (!checkClass(value, Node3)) throw Error('Item.node: expected Node3');
         _mud_Item__set_node(this.__ptr, value.__ptr);
     }
 });
@@ -1539,6 +1648,7 @@ Object.defineProperty(Item.prototype, "model", {
         return wrapPointer(_mud_Item__get_model(this.__ptr), Model);
     },
     set: function(value) {
+        if (!checkClass(value, Model)) throw Error('Item.model: expected Model');
         _mud_Item__set_model(this.__ptr, value.__ptr);
     }
 });
@@ -1547,6 +1657,7 @@ Object.defineProperty(Item.prototype, "flags", {
         return _mud_Item__get_flags(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Item.flags: expected integer');
         _mud_Item__set_flags(this.__ptr, value);
     }
 });
@@ -1555,6 +1666,7 @@ Object.defineProperty(Item.prototype, "colour", {
         return wrapPointer(_mud_Item__get_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Item.colour: expected Colour');
         _mud_Item__set_colour(this.__ptr, value.__ptr);
     }
 });
@@ -1563,6 +1675,7 @@ Object.defineProperty(Item.prototype, "material", {
         return wrapPointer(_mud_Item__get_material(this.__ptr), Material);
     },
     set: function(value) {
+        if (!checkClass(value, Material)) throw Error('Item.material: expected Material');
         _mud_Item__set_material(this.__ptr, value.__ptr);
     }
 });
@@ -1571,6 +1684,7 @@ Object.defineProperty(Item.prototype, "visible", {
         return !!(_mud_Item__get_visible(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Item.visible: expected boolean');
         _mud_Item__set_visible(this.__ptr, value);
     }
 });
@@ -1579,6 +1693,7 @@ Object.defineProperty(Item.prototype, "shadow", {
         return _mud_Item__get_shadow(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Item.shadow: expected integer');
         _mud_Item__set_shadow(this.__ptr, value);
     }
 });
@@ -1587,6 +1702,7 @@ Object.defineProperty(Item.prototype, "rig", {
         return wrapPointer(_mud_Item__get_rig(this.__ptr), Rig);
     },
     set: function(value) {
+        if (!checkClass(value, Rig)) throw Error('Item.rig: expected Rig');
         _mud_Item__set_rig(this.__ptr, value.__ptr);
     }
 });
@@ -1595,6 +1711,7 @@ Object.defineProperty(Item.prototype, "aabb", {
         return wrapPointer(_mud_Item__get_aabb(this.__ptr), Aabb);
     },
     set: function(value) {
+        if (!checkClass(value, Aabb)) throw Error('Item.aabb: expected Aabb');
         _mud_Item__set_aabb(this.__ptr, value.__ptr);
     }
 });
@@ -1603,6 +1720,7 @@ Object.defineProperty(Item.prototype, "batch", {
         return wrapPointer(_mud_Item__get_batch(this.__ptr), Batch);
     },
     set: function(value) {
+        if (!checkClass(value, Batch)) throw Error('Item.batch: expected Batch');
         _mud_Item__set_batch(this.__ptr, value.__ptr);
     }
 });
@@ -1647,6 +1765,7 @@ Object.defineProperty(Light.prototype, "node", {
         return wrapPointer(_mud_Light__get_node(this.__ptr), Node3);
     },
     set: function(value) {
+        if (!checkClass(value, Node3)) throw Error('Light.node: expected Node3');
         _mud_Light__set_node(this.__ptr, value.__ptr);
     }
 });
@@ -1655,6 +1774,7 @@ Object.defineProperty(Light.prototype, "type", {
         return _mud_Light__get_type(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.type: expected integer');
         _mud_Light__set_type(this.__ptr, value);
     }
 });
@@ -1663,6 +1783,7 @@ Object.defineProperty(Light.prototype, "visible", {
         return !!(_mud_Light__get_visible(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Light.visible: expected boolean');
         _mud_Light__set_visible(this.__ptr, value);
     }
 });
@@ -1671,6 +1792,7 @@ Object.defineProperty(Light.prototype, "colour", {
         return wrapPointer(_mud_Light__get_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Light.colour: expected Colour');
         _mud_Light__set_colour(this.__ptr, value.__ptr);
     }
 });
@@ -1679,6 +1801,7 @@ Object.defineProperty(Light.prototype, "range", {
         return _mud_Light__get_range(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.range: expected number');
         _mud_Light__set_range(this.__ptr, value);
     }
 });
@@ -1687,6 +1810,7 @@ Object.defineProperty(Light.prototype, "energy", {
         return _mud_Light__get_energy(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.energy: expected number');
         _mud_Light__set_energy(this.__ptr, value);
     }
 });
@@ -1695,6 +1819,7 @@ Object.defineProperty(Light.prototype, "specular", {
         return _mud_Light__get_specular(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.specular: expected number');
         _mud_Light__set_specular(this.__ptr, value);
     }
 });
@@ -1703,6 +1828,7 @@ Object.defineProperty(Light.prototype, "attenuation", {
         return _mud_Light__get_attenuation(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.attenuation: expected number');
         _mud_Light__set_attenuation(this.__ptr, value);
     }
 });
@@ -1711,6 +1837,7 @@ Object.defineProperty(Light.prototype, "shadows", {
         return !!(_mud_Light__get_shadows(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Light.shadows: expected boolean');
         _mud_Light__set_shadows(this.__ptr, value);
     }
 });
@@ -1719,6 +1846,7 @@ Object.defineProperty(Light.prototype, "shadow_range", {
         return _mud_Light__get_shadow_range(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.shadow_range: expected number');
         _mud_Light__set_shadow_range(this.__ptr, value);
     }
 });
@@ -1727,6 +1855,7 @@ Object.defineProperty(Light.prototype, "layers", {
         return _mud_Light__get_layers(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.layers: expected integer');
         _mud_Light__set_layers(this.__ptr, value);
     }
 });
@@ -1735,6 +1864,7 @@ Object.defineProperty(Light.prototype, "last_render", {
         return _mud_Light__get_last_render(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.last_render: expected integer');
         _mud_Light__set_last_render(this.__ptr, value);
     }
 });
@@ -1743,6 +1873,7 @@ Object.defineProperty(Light.prototype, "last_update", {
         return _mud_Light__get_last_update(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.last_update: expected integer');
         _mud_Light__set_last_update(this.__ptr, value);
     }
 });
@@ -1751,6 +1882,7 @@ Object.defineProperty(Light.prototype, "spot_angle", {
         return _mud_Light__get_spot_angle(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.spot_angle: expected number');
         _mud_Light__set_spot_angle(this.__ptr, value);
     }
 });
@@ -1759,6 +1891,7 @@ Object.defineProperty(Light.prototype, "spot_attenuation", {
         return _mud_Light__get_spot_attenuation(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.spot_attenuation: expected number');
         _mud_Light__set_spot_attenuation(this.__ptr, value);
     }
 });
@@ -1767,6 +1900,7 @@ Object.defineProperty(Light.prototype, "shadow_flags", {
         return _mud_Light__get_shadow_flags(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.shadow_flags: expected integer');
         _mud_Light__set_shadow_flags(this.__ptr, value);
     }
 });
@@ -1775,6 +1909,7 @@ Object.defineProperty(Light.prototype, "shadow_nusplits", {
         return _mud_Light__get_shadow_nusplits(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.shadow_nusplits: expected integer');
         _mud_Light__set_shadow_nusplits(this.__ptr, value);
     }
 });
@@ -1783,6 +1918,7 @@ Object.defineProperty(Light.prototype, "shadow_split_distribution", {
         return _mud_Light__get_shadow_split_distribution(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.shadow_split_distribution: expected number');
         _mud_Light__set_shadow_split_distribution(this.__ptr, value);
     }
 });
@@ -1791,6 +1927,7 @@ Object.defineProperty(Light.prototype, "shadow_normal_bias", {
         return _mud_Light__get_shadow_normal_bias(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.shadow_normal_bias: expected number');
         _mud_Light__set_shadow_normal_bias(this.__ptr, value);
     }
 });
@@ -1799,6 +1936,7 @@ Object.defineProperty(Light.prototype, "shadow_bias", {
         return _mud_Light__get_shadow_bias(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Light.shadow_bias: expected number');
         _mud_Light__set_shadow_bias(this.__ptr, value);
     }
 });
@@ -1864,6 +2002,7 @@ Object.defineProperty(Material.prototype, "index", {
         return _mud_Material__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Material.index: expected integer');
         _mud_Material__set_index(this.__ptr, value);
     }
 });
@@ -1872,6 +2011,7 @@ Object.defineProperty(Material.prototype, "name", {
         return UTF8ToString(_mud_Material__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Material.name: expected string');
         _mud_Material__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -1880,6 +2020,7 @@ Object.defineProperty(Material.prototype, "builtin", {
         return !!(_mud_Material__get_builtin(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Material.builtin: expected boolean');
         _mud_Material__set_builtin(this.__ptr, value);
     }
 });
@@ -1888,6 +2029,7 @@ Object.defineProperty(Material.prototype, "program", {
         return wrapPointer(_mud_Material__get_program(this.__ptr), Program);
     },
     set: function(value) {
+        if (!checkClass(value, Program)) throw Error('Material.program: expected Program');
         _mud_Material__set_program(this.__ptr, value.__ptr);
     }
 });
@@ -1896,6 +2038,7 @@ Object.defineProperty(Material.prototype, "base", {
         return wrapPointer(_mud_Material__get_base(this.__ptr), MaterialBase);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialBase)) throw Error('Material.base: expected MaterialBase');
         _mud_Material__set_base(this.__ptr, value.__ptr);
     }
 });
@@ -1904,6 +2047,7 @@ Object.defineProperty(Material.prototype, "alpha", {
         return wrapPointer(_mud_Material__get_alpha(this.__ptr), MaterialAlpha);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialAlpha)) throw Error('Material.alpha: expected MaterialAlpha');
         _mud_Material__set_alpha(this.__ptr, value.__ptr);
     }
 });
@@ -1912,6 +2056,7 @@ Object.defineProperty(Material.prototype, "solid", {
         return wrapPointer(_mud_Material__get_solid(this.__ptr), MaterialSolid);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialSolid)) throw Error('Material.solid: expected MaterialSolid');
         _mud_Material__set_solid(this.__ptr, value.__ptr);
     }
 });
@@ -1920,6 +2065,7 @@ Object.defineProperty(Material.prototype, "point", {
         return wrapPointer(_mud_Material__get_point(this.__ptr), MaterialPoint);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialPoint)) throw Error('Material.point: expected MaterialPoint');
         _mud_Material__set_point(this.__ptr, value.__ptr);
     }
 });
@@ -1928,6 +2074,7 @@ Object.defineProperty(Material.prototype, "line", {
         return wrapPointer(_mud_Material__get_line(this.__ptr), MaterialLine);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialLine)) throw Error('Material.line: expected MaterialLine');
         _mud_Material__set_line(this.__ptr, value.__ptr);
     }
 });
@@ -1936,6 +2083,7 @@ Object.defineProperty(Material.prototype, "lit", {
         return wrapPointer(_mud_Material__get_lit(this.__ptr), MaterialLit);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialLit)) throw Error('Material.lit: expected MaterialLit');
         _mud_Material__set_lit(this.__ptr, value.__ptr);
     }
 });
@@ -1944,6 +2092,7 @@ Object.defineProperty(Material.prototype, "pbr", {
         return wrapPointer(_mud_Material__get_pbr(this.__ptr), MaterialPbr);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialPbr)) throw Error('Material.pbr: expected MaterialPbr');
         _mud_Material__set_pbr(this.__ptr, value.__ptr);
     }
 });
@@ -1952,6 +2101,7 @@ Object.defineProperty(Material.prototype, "phong", {
         return wrapPointer(_mud_Material__get_phong(this.__ptr), MaterialPhong);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialPhong)) throw Error('Material.phong: expected MaterialPhong');
         _mud_Material__set_phong(this.__ptr, value.__ptr);
     }
 });
@@ -1960,6 +2110,7 @@ Object.defineProperty(Material.prototype, "fresnel", {
         return wrapPointer(_mud_Material__get_fresnel(this.__ptr), MaterialFresnel);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialFresnel)) throw Error('Material.fresnel: expected MaterialFresnel');
         _mud_Material__set_fresnel(this.__ptr, value.__ptr);
     }
 });
@@ -1968,6 +2119,7 @@ Object.defineProperty(Material.prototype, "user", {
         return wrapPointer(_mud_Material__get_user(this.__ptr), MaterialUser);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialUser)) throw Error('Material.user: expected MaterialUser');
         _mud_Material__set_user(this.__ptr, value.__ptr);
     }
 });
@@ -1989,6 +2141,7 @@ Object.defineProperty(MaterialAlpha.prototype, "alpha", {
         return wrapPointer(_mud_MaterialAlpha__get_alpha(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialAlpha.alpha: expected MaterialParam<float>');
         _mud_MaterialAlpha__set_alpha(this.__ptr, value.__ptr);
     }
 });
@@ -1997,6 +2150,7 @@ Object.defineProperty(MaterialAlpha.prototype, "alpha_scissor", {
         return _mud_MaterialAlpha__get_alpha_scissor(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialAlpha.alpha_scissor: expected number');
         _mud_MaterialAlpha__set_alpha_scissor(this.__ptr, value);
     }
 });
@@ -2005,6 +2159,7 @@ Object.defineProperty(MaterialAlpha.prototype, "alpha_test", {
         return !!(_mud_MaterialAlpha__get_alpha_test(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('MaterialAlpha.alpha_test: expected boolean');
         _mud_MaterialAlpha__set_alpha_test(this.__ptr, value);
     }
 });
@@ -2013,6 +2168,7 @@ Object.defineProperty(MaterialAlpha.prototype, "is_alpha", {
         return !!(_mud_MaterialAlpha__get_is_alpha(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('MaterialAlpha.is_alpha: expected boolean');
         _mud_MaterialAlpha__set_is_alpha(this.__ptr, value);
     }
 });
@@ -2034,6 +2190,7 @@ Object.defineProperty(MaterialBase.prototype, "blend_mode", {
         return _mud_MaterialBase__get_blend_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialBase.blend_mode: expected integer');
         _mud_MaterialBase__set_blend_mode(this.__ptr, value);
     }
 });
@@ -2042,6 +2199,7 @@ Object.defineProperty(MaterialBase.prototype, "cull_mode", {
         return _mud_MaterialBase__get_cull_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialBase.cull_mode: expected integer');
         _mud_MaterialBase__set_cull_mode(this.__ptr, value);
     }
 });
@@ -2050,6 +2208,7 @@ Object.defineProperty(MaterialBase.prototype, "depth_draw", {
         return _mud_MaterialBase__get_depth_draw(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialBase.depth_draw: expected integer');
         _mud_MaterialBase__set_depth_draw(this.__ptr, value);
     }
 });
@@ -2058,6 +2217,7 @@ Object.defineProperty(MaterialBase.prototype, "depth_test", {
         return _mud_MaterialBase__get_depth_test(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialBase.depth_test: expected integer');
         _mud_MaterialBase__set_depth_test(this.__ptr, value);
     }
 });
@@ -2066,6 +2226,7 @@ Object.defineProperty(MaterialBase.prototype, "uv0_scale", {
         return wrapPointer(_mud_MaterialBase__get_uv0_scale(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('MaterialBase.uv0_scale: expected v2<float>');
         _mud_MaterialBase__set_uv0_scale(this.__ptr, value.__ptr);
     }
 });
@@ -2074,6 +2235,7 @@ Object.defineProperty(MaterialBase.prototype, "uv0_offset", {
         return wrapPointer(_mud_MaterialBase__get_uv0_offset(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('MaterialBase.uv0_offset: expected v2<float>');
         _mud_MaterialBase__set_uv0_offset(this.__ptr, value.__ptr);
     }
 });
@@ -2082,6 +2244,7 @@ Object.defineProperty(MaterialBase.prototype, "uv1_scale", {
         return wrapPointer(_mud_MaterialBase__get_uv1_scale(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('MaterialBase.uv1_scale: expected v2<float>');
         _mud_MaterialBase__set_uv1_scale(this.__ptr, value.__ptr);
     }
 });
@@ -2090,6 +2253,7 @@ Object.defineProperty(MaterialBase.prototype, "uv1_offset", {
         return wrapPointer(_mud_MaterialBase__get_uv1_offset(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('MaterialBase.uv1_offset: expected v2<float>');
         _mud_MaterialBase__set_uv1_offset(this.__ptr, value.__ptr);
     }
 });
@@ -2098,6 +2262,7 @@ Object.defineProperty(MaterialBase.prototype, "shader_color", {
         return _mud_MaterialBase__get_shader_color(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialBase.shader_color: expected integer');
         _mud_MaterialBase__set_shader_color(this.__ptr, value);
     }
 });
@@ -2106,6 +2271,7 @@ Object.defineProperty(MaterialBase.prototype, "flat_shaded", {
         return !!(_mud_MaterialBase__get_flat_shaded(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('MaterialBase.flat_shaded: expected boolean');
         _mud_MaterialBase__set_flat_shaded(this.__ptr, value);
     }
 });
@@ -2114,6 +2280,7 @@ Object.defineProperty(MaterialBase.prototype, "screen_filter", {
         return !!(_mud_MaterialBase__get_screen_filter(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('MaterialBase.screen_filter: expected boolean');
         _mud_MaterialBase__set_screen_filter(this.__ptr, value);
     }
 });
@@ -2122,6 +2289,7 @@ Object.defineProperty(MaterialBase.prototype, "anisotropy", {
         return _mud_MaterialBase__get_anisotropy(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialBase.anisotropy: expected number');
         _mud_MaterialBase__set_anisotropy(this.__ptr, value);
     }
 });
@@ -2143,6 +2311,7 @@ Object.defineProperty(MaterialFresnel.prototype, "value", {
         return wrapPointer(_mud_MaterialFresnel__get_value(this.__ptr), MaterialParam_mud_Colour);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_mud_Colour)) throw Error('MaterialFresnel.value: expected MaterialParam<mud::Colour>');
         _mud_MaterialFresnel__set_value(this.__ptr, value.__ptr);
     }
 });
@@ -2151,6 +2320,7 @@ Object.defineProperty(MaterialFresnel.prototype, "fresnel_scale", {
         return _mud_MaterialFresnel__get_fresnel_scale(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialFresnel.fresnel_scale: expected number');
         _mud_MaterialFresnel__set_fresnel_scale(this.__ptr, value);
     }
 });
@@ -2159,6 +2329,7 @@ Object.defineProperty(MaterialFresnel.prototype, "fresnel_bias", {
         return _mud_MaterialFresnel__get_fresnel_bias(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialFresnel.fresnel_bias: expected number');
         _mud_MaterialFresnel__set_fresnel_bias(this.__ptr, value);
     }
 });
@@ -2167,6 +2338,7 @@ Object.defineProperty(MaterialFresnel.prototype, "fresnel_power", {
         return _mud_MaterialFresnel__get_fresnel_power(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialFresnel.fresnel_power: expected number');
         _mud_MaterialFresnel__set_fresnel_power(this.__ptr, value);
     }
 });
@@ -2188,6 +2360,7 @@ Object.defineProperty(MaterialLine.prototype, "line_width", {
         return _mud_MaterialLine__get_line_width(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialLine.line_width: expected number');
         _mud_MaterialLine__set_line_width(this.__ptr, value);
     }
 });
@@ -2196,6 +2369,7 @@ Object.defineProperty(MaterialLine.prototype, "dashed", {
         return !!(_mud_MaterialLine__get_dashed(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('MaterialLine.dashed: expected boolean');
         _mud_MaterialLine__set_dashed(this.__ptr, value);
     }
 });
@@ -2204,6 +2378,7 @@ Object.defineProperty(MaterialLine.prototype, "dash_scale", {
         return _mud_MaterialLine__get_dash_scale(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialLine.dash_scale: expected number');
         _mud_MaterialLine__set_dash_scale(this.__ptr, value);
     }
 });
@@ -2212,6 +2387,7 @@ Object.defineProperty(MaterialLine.prototype, "dash_size", {
         return _mud_MaterialLine__get_dash_size(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialLine.dash_size: expected number');
         _mud_MaterialLine__set_dash_size(this.__ptr, value);
     }
 });
@@ -2220,6 +2396,7 @@ Object.defineProperty(MaterialLine.prototype, "dash_gap", {
         return _mud_MaterialLine__get_dash_gap(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialLine.dash_gap: expected number');
         _mud_MaterialLine__set_dash_gap(this.__ptr, value);
     }
 });
@@ -2241,6 +2418,7 @@ Object.defineProperty(MaterialLit.prototype, "emissive", {
         return wrapPointer(_mud_MaterialLit__get_emissive(this.__ptr), MaterialParam_mud_Colour);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_mud_Colour)) throw Error('MaterialLit.emissive: expected MaterialParam<mud::Colour>');
         _mud_MaterialLit__set_emissive(this.__ptr, value.__ptr);
     }
 });
@@ -2249,6 +2427,7 @@ Object.defineProperty(MaterialLit.prototype, "emissive_energy", {
         return _mud_MaterialLit__get_emissive_energy(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialLit.emissive_energy: expected number');
         _mud_MaterialLit__set_emissive_energy(this.__ptr, value);
     }
 });
@@ -2257,6 +2436,7 @@ Object.defineProperty(MaterialLit.prototype, "normal", {
         return wrapPointer(_mud_MaterialLit__get_normal(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialLit.normal: expected MaterialParam<float>');
         _mud_MaterialLit__set_normal(this.__ptr, value.__ptr);
     }
 });
@@ -2265,6 +2445,7 @@ Object.defineProperty(MaterialLit.prototype, "bump", {
         return wrapPointer(_mud_MaterialLit__get_bump(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialLit.bump: expected MaterialParam<float>');
         _mud_MaterialLit__set_bump(this.__ptr, value.__ptr);
     }
 });
@@ -2273,6 +2454,7 @@ Object.defineProperty(MaterialLit.prototype, "displace", {
         return wrapPointer(_mud_MaterialLit__get_displace(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialLit.displace: expected MaterialParam<float>');
         _mud_MaterialLit__set_displace(this.__ptr, value.__ptr);
     }
 });
@@ -2281,6 +2463,7 @@ Object.defineProperty(MaterialLit.prototype, "displace_bias", {
         return _mud_MaterialLit__get_displace_bias(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialLit.displace_bias: expected number');
         _mud_MaterialLit__set_displace_bias(this.__ptr, value);
     }
 });
@@ -2289,6 +2472,7 @@ Object.defineProperty(MaterialLit.prototype, "occlusion", {
         return wrapPointer(_mud_MaterialLit__get_occlusion(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialLit.occlusion: expected MaterialParam<float>');
         _mud_MaterialLit__set_occlusion(this.__ptr, value.__ptr);
     }
 });
@@ -2297,6 +2481,7 @@ Object.defineProperty(MaterialLit.prototype, "lightmap", {
         return wrapPointer(_mud_MaterialLit__get_lightmap(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialLit.lightmap: expected MaterialParam<float>');
         _mud_MaterialLit__set_lightmap(this.__ptr, value.__ptr);
     }
 });
@@ -2305,6 +2490,7 @@ Object.defineProperty(MaterialLit.prototype, "no_envmap", {
         return !!(_mud_MaterialLit__get_no_envmap(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('MaterialLit.no_envmap: expected boolean');
         _mud_MaterialLit__set_no_envmap(this.__ptr, value);
     }
 });
@@ -2326,6 +2512,7 @@ Object.defineProperty(MaterialParam_float.prototype, "value", {
         return _mud_MaterialParam_float__get_value(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialParam<float>.value: expected number');
         _mud_MaterialParam_float__set_value(this.__ptr, value);
     }
 });
@@ -2334,6 +2521,7 @@ Object.defineProperty(MaterialParam_float.prototype, "texture", {
         return wrapPointer(_mud_MaterialParam_float__get_texture(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('MaterialParam<float>.texture: expected Texture');
         _mud_MaterialParam_float__set_texture(this.__ptr, value.__ptr);
     }
 });
@@ -2342,6 +2530,7 @@ Object.defineProperty(MaterialParam_float.prototype, "channel", {
         return _mud_MaterialParam_float__get_channel(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialParam<float>.channel: expected integer');
         _mud_MaterialParam_float__set_channel(this.__ptr, value);
     }
 });
@@ -2363,6 +2552,7 @@ Object.defineProperty(MaterialParam_mud_Colour.prototype, "value", {
         return wrapPointer(_mud_MaterialParam_mud_Colour__get_value(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('MaterialParam<mud::Colour>.value: expected Colour');
         _mud_MaterialParam_mud_Colour__set_value(this.__ptr, value.__ptr);
     }
 });
@@ -2371,6 +2561,7 @@ Object.defineProperty(MaterialParam_mud_Colour.prototype, "texture", {
         return wrapPointer(_mud_MaterialParam_mud_Colour__get_texture(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('MaterialParam<mud::Colour>.texture: expected Texture');
         _mud_MaterialParam_mud_Colour__set_texture(this.__ptr, value.__ptr);
     }
 });
@@ -2379,6 +2570,7 @@ Object.defineProperty(MaterialParam_mud_Colour.prototype, "channel", {
         return _mud_MaterialParam_mud_Colour__get_channel(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialParam<mud::Colour>.channel: expected integer');
         _mud_MaterialParam_mud_Colour__set_channel(this.__ptr, value);
     }
 });
@@ -2400,6 +2592,7 @@ Object.defineProperty(MaterialParam_mud_vec4.prototype, "value", {
         return wrapPointer(_mud_MaterialParam_mud_vec4__get_value(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('MaterialParam<mud::vec4>.value: expected v4<float>');
         _mud_MaterialParam_mud_vec4__set_value(this.__ptr, value.__ptr);
     }
 });
@@ -2408,6 +2601,7 @@ Object.defineProperty(MaterialParam_mud_vec4.prototype, "texture", {
         return wrapPointer(_mud_MaterialParam_mud_vec4__get_texture(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('MaterialParam<mud::vec4>.texture: expected Texture');
         _mud_MaterialParam_mud_vec4__set_texture(this.__ptr, value.__ptr);
     }
 });
@@ -2416,6 +2610,7 @@ Object.defineProperty(MaterialParam_mud_vec4.prototype, "channel", {
         return _mud_MaterialParam_mud_vec4__get_channel(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialParam<mud::vec4>.channel: expected integer');
         _mud_MaterialParam_mud_vec4__set_channel(this.__ptr, value);
     }
 });
@@ -2443,6 +2638,7 @@ Object.defineProperty(MaterialPbr.prototype, "albedo", {
         return wrapPointer(_mud_MaterialPbr__get_albedo(this.__ptr), MaterialParam_mud_Colour);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_mud_Colour)) throw Error('MaterialPbr.albedo: expected MaterialParam<mud::Colour>');
         _mud_MaterialPbr__set_albedo(this.__ptr, value.__ptr);
     }
 });
@@ -2451,6 +2647,7 @@ Object.defineProperty(MaterialPbr.prototype, "specular", {
         return _mud_MaterialPbr__get_specular(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialPbr.specular: expected number');
         _mud_MaterialPbr__set_specular(this.__ptr, value);
     }
 });
@@ -2459,6 +2656,7 @@ Object.defineProperty(MaterialPbr.prototype, "metallic", {
         return wrapPointer(_mud_MaterialPbr__get_metallic(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialPbr.metallic: expected MaterialParam<float>');
         _mud_MaterialPbr__set_metallic(this.__ptr, value.__ptr);
     }
 });
@@ -2467,6 +2665,7 @@ Object.defineProperty(MaterialPbr.prototype, "roughness", {
         return wrapPointer(_mud_MaterialPbr__get_roughness(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialPbr.roughness: expected MaterialParam<float>');
         _mud_MaterialPbr__set_roughness(this.__ptr, value.__ptr);
     }
 });
@@ -2475,6 +2674,7 @@ Object.defineProperty(MaterialPbr.prototype, "rim", {
         return wrapPointer(_mud_MaterialPbr__get_rim(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialPbr.rim: expected MaterialParam<float>');
         _mud_MaterialPbr__set_rim(this.__ptr, value.__ptr);
     }
 });
@@ -2483,6 +2683,7 @@ Object.defineProperty(MaterialPbr.prototype, "ritint", {
         return _mud_MaterialPbr__get_ritint(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialPbr.ritint: expected number');
         _mud_MaterialPbr__set_ritint(this.__ptr, value);
     }
 });
@@ -2491,6 +2692,7 @@ Object.defineProperty(MaterialPbr.prototype, "clearcoat", {
         return wrapPointer(_mud_MaterialPbr__get_clearcoat(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialPbr.clearcoat: expected MaterialParam<float>');
         _mud_MaterialPbr__set_clearcoat(this.__ptr, value.__ptr);
     }
 });
@@ -2499,6 +2701,7 @@ Object.defineProperty(MaterialPbr.prototype, "clearcoat_gloss", {
         return _mud_MaterialPbr__get_clearcoat_gloss(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialPbr.clearcoat_gloss: expected number');
         _mud_MaterialPbr__set_clearcoat_gloss(this.__ptr, value);
     }
 });
@@ -2507,6 +2710,7 @@ Object.defineProperty(MaterialPbr.prototype, "anisotropy", {
         return wrapPointer(_mud_MaterialPbr__get_anisotropy(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialPbr.anisotropy: expected MaterialParam<float>');
         _mud_MaterialPbr__set_anisotropy(this.__ptr, value.__ptr);
     }
 });
@@ -2515,6 +2719,7 @@ Object.defineProperty(MaterialPbr.prototype, "subsurface", {
         return wrapPointer(_mud_MaterialPbr__get_subsurface(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialPbr.subsurface: expected MaterialParam<float>');
         _mud_MaterialPbr__set_subsurface(this.__ptr, value.__ptr);
     }
 });
@@ -2523,6 +2728,7 @@ Object.defineProperty(MaterialPbr.prototype, "refraction", {
         return wrapPointer(_mud_MaterialPbr__get_refraction(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialPbr.refraction: expected MaterialParam<float>');
         _mud_MaterialPbr__set_refraction(this.__ptr, value.__ptr);
     }
 });
@@ -2531,6 +2737,7 @@ Object.defineProperty(MaterialPbr.prototype, "depth", {
         return wrapPointer(_mud_MaterialPbr__get_depth(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialPbr.depth: expected MaterialParam<float>');
         _mud_MaterialPbr__set_depth(this.__ptr, value.__ptr);
     }
 });
@@ -2539,6 +2746,7 @@ Object.defineProperty(MaterialPbr.prototype, "transmission", {
         return wrapPointer(_mud_MaterialPbr__get_transmission(this.__ptr), MaterialParam_mud_Colour);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_mud_Colour)) throw Error('MaterialPbr.transmission: expected MaterialParam<mud::Colour>');
         _mud_MaterialPbr__set_transmission(this.__ptr, value.__ptr);
     }
 });
@@ -2547,6 +2755,7 @@ Object.defineProperty(MaterialPbr.prototype, "deep_parallax", {
         return !!(_mud_MaterialPbr__get_deep_parallax(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('MaterialPbr.deep_parallax: expected boolean');
         _mud_MaterialPbr__set_deep_parallax(this.__ptr, value);
     }
 });
@@ -2555,6 +2764,7 @@ Object.defineProperty(MaterialPbr.prototype, "diffuse_mode", {
         return _mud_MaterialPbr__get_diffuse_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialPbr.diffuse_mode: expected integer');
         _mud_MaterialPbr__set_diffuse_mode(this.__ptr, value);
     }
 });
@@ -2563,6 +2773,7 @@ Object.defineProperty(MaterialPbr.prototype, "specular_mode", {
         return _mud_MaterialPbr__get_specular_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialPbr.specular_mode: expected integer');
         _mud_MaterialPbr__set_specular_mode(this.__ptr, value);
     }
 });
@@ -2584,6 +2795,7 @@ Object.defineProperty(MaterialPhong.prototype, "diffuse", {
         return wrapPointer(_mud_MaterialPhong__get_diffuse(this.__ptr), MaterialParam_mud_Colour);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_mud_Colour)) throw Error('MaterialPhong.diffuse: expected MaterialParam<mud::Colour>');
         _mud_MaterialPhong__set_diffuse(this.__ptr, value.__ptr);
     }
 });
@@ -2592,6 +2804,7 @@ Object.defineProperty(MaterialPhong.prototype, "specular", {
         return wrapPointer(_mud_MaterialPhong__get_specular(this.__ptr), MaterialParam_mud_Colour);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_mud_Colour)) throw Error('MaterialPhong.specular: expected MaterialParam<mud::Colour>');
         _mud_MaterialPhong__set_specular(this.__ptr, value.__ptr);
     }
 });
@@ -2600,6 +2813,7 @@ Object.defineProperty(MaterialPhong.prototype, "shininess", {
         return wrapPointer(_mud_MaterialPhong__get_shininess(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialPhong.shininess: expected MaterialParam<float>');
         _mud_MaterialPhong__set_shininess(this.__ptr, value.__ptr);
     }
 });
@@ -2608,6 +2822,7 @@ Object.defineProperty(MaterialPhong.prototype, "reflectivity", {
         return wrapPointer(_mud_MaterialPhong__get_reflectivity(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialPhong.reflectivity: expected MaterialParam<float>');
         _mud_MaterialPhong__set_reflectivity(this.__ptr, value.__ptr);
     }
 });
@@ -2616,6 +2831,7 @@ Object.defineProperty(MaterialPhong.prototype, "refraction", {
         return wrapPointer(_mud_MaterialPhong__get_refraction(this.__ptr), MaterialParam_float);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_float)) throw Error('MaterialPhong.refraction: expected MaterialParam<float>');
         _mud_MaterialPhong__set_refraction(this.__ptr, value.__ptr);
     }
 });
@@ -2624,6 +2840,7 @@ Object.defineProperty(MaterialPhong.prototype, "env_blend", {
         return _mud_MaterialPhong__get_env_blend(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialPhong.env_blend: expected integer');
         _mud_MaterialPhong__set_env_blend(this.__ptr, value);
     }
 });
@@ -2632,6 +2849,7 @@ Object.defineProperty(MaterialPhong.prototype, "toon", {
         return !!(_mud_MaterialPhong__get_toon(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('MaterialPhong.toon: expected boolean');
         _mud_MaterialPhong__set_toon(this.__ptr, value);
     }
 });
@@ -2653,6 +2871,7 @@ Object.defineProperty(MaterialPoint.prototype, "point_size", {
         return _mud_MaterialPoint__get_point_size(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MaterialPoint.point_size: expected number');
         _mud_MaterialPoint__set_point_size(this.__ptr, value);
     }
 });
@@ -2661,6 +2880,7 @@ Object.defineProperty(MaterialPoint.prototype, "project", {
         return !!(_mud_MaterialPoint__get_project(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('MaterialPoint.project: expected boolean');
         _mud_MaterialPoint__set_project(this.__ptr, value);
     }
 });
@@ -2682,6 +2902,7 @@ Object.defineProperty(MaterialSolid.prototype, "colour", {
         return wrapPointer(_mud_MaterialSolid__get_colour(this.__ptr), MaterialParam_mud_Colour);
     },
     set: function(value) {
+        if (!checkClass(value, MaterialParam_mud_Colour)) throw Error('MaterialSolid.colour: expected MaterialParam<mud::Colour>');
         _mud_MaterialSolid__set_colour(this.__ptr, value.__ptr);
     }
 });
@@ -2703,6 +2924,7 @@ Object.defineProperty(MaterialUser.prototype, "tex0", {
         return wrapPointer(_mud_MaterialUser__get_tex0(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('MaterialUser.tex0: expected Texture');
         _mud_MaterialUser__set_tex0(this.__ptr, value.__ptr);
     }
 });
@@ -2711,6 +2933,7 @@ Object.defineProperty(MaterialUser.prototype, "tex1", {
         return wrapPointer(_mud_MaterialUser__get_tex1(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('MaterialUser.tex1: expected Texture');
         _mud_MaterialUser__set_tex1(this.__ptr, value.__ptr);
     }
 });
@@ -2719,6 +2942,7 @@ Object.defineProperty(MaterialUser.prototype, "tex2", {
         return wrapPointer(_mud_MaterialUser__get_tex2(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('MaterialUser.tex2: expected Texture');
         _mud_MaterialUser__set_tex2(this.__ptr, value.__ptr);
     }
 });
@@ -2727,6 +2951,7 @@ Object.defineProperty(MaterialUser.prototype, "tex3", {
         return wrapPointer(_mud_MaterialUser__get_tex3(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('MaterialUser.tex3: expected Texture');
         _mud_MaterialUser__set_tex3(this.__ptr, value.__ptr);
     }
 });
@@ -2735,6 +2960,7 @@ Object.defineProperty(MaterialUser.prototype, "tex4", {
         return wrapPointer(_mud_MaterialUser__get_tex4(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('MaterialUser.tex4: expected Texture');
         _mud_MaterialUser__set_tex4(this.__ptr, value.__ptr);
     }
 });
@@ -2743,6 +2969,7 @@ Object.defineProperty(MaterialUser.prototype, "tex5", {
         return wrapPointer(_mud_MaterialUser__get_tex5(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('MaterialUser.tex5: expected Texture');
         _mud_MaterialUser__set_tex5(this.__ptr, value.__ptr);
     }
 });
@@ -2751,6 +2978,7 @@ Object.defineProperty(MaterialUser.prototype, "attr0", {
         return wrapPointer(_mud_MaterialUser__get_attr0(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('MaterialUser.attr0: expected v4<float>');
         _mud_MaterialUser__set_attr0(this.__ptr, value.__ptr);
     }
 });
@@ -2759,6 +2987,7 @@ Object.defineProperty(MaterialUser.prototype, "attr1", {
         return wrapPointer(_mud_MaterialUser__get_attr1(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('MaterialUser.attr1: expected v4<float>');
         _mud_MaterialUser__set_attr1(this.__ptr, value.__ptr);
     }
 });
@@ -2767,6 +2996,7 @@ Object.defineProperty(MaterialUser.prototype, "attr2", {
         return wrapPointer(_mud_MaterialUser__get_attr2(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('MaterialUser.attr2: expected v4<float>');
         _mud_MaterialUser__set_attr2(this.__ptr, value.__ptr);
     }
 });
@@ -2775,6 +3005,7 @@ Object.defineProperty(MaterialUser.prototype, "attr3", {
         return wrapPointer(_mud_MaterialUser__get_attr3(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('MaterialUser.attr3: expected v4<float>');
         _mud_MaterialUser__set_attr3(this.__ptr, value.__ptr);
     }
 });
@@ -2783,6 +3014,7 @@ Object.defineProperty(MaterialUser.prototype, "attr4", {
         return wrapPointer(_mud_MaterialUser__get_attr4(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('MaterialUser.attr4: expected v4<float>');
         _mud_MaterialUser__set_attr4(this.__ptr, value.__ptr);
     }
 });
@@ -2791,6 +3023,7 @@ Object.defineProperty(MaterialUser.prototype, "attr5", {
         return wrapPointer(_mud_MaterialUser__get_attr5(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('MaterialUser.attr5: expected v4<float>');
         _mud_MaterialUser__set_attr5(this.__ptr, value.__ptr);
     }
 });
@@ -2849,6 +3082,7 @@ Object.defineProperty(Mesh.prototype, "name", {
         return UTF8ToString(_mud_Mesh__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Mesh.name: expected string');
         _mud_Mesh__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -2857,6 +3091,7 @@ Object.defineProperty(Mesh.prototype, "index", {
         return _mud_Mesh__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Mesh.index: expected integer');
         _mud_Mesh__set_index(this.__ptr, value);
     }
 });
@@ -2865,6 +3100,7 @@ Object.defineProperty(Mesh.prototype, "primitive", {
         return _mud_Mesh__get_primitive(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Mesh.primitive: expected integer');
         _mud_Mesh__set_primitive(this.__ptr, value);
     }
 });
@@ -2873,6 +3109,7 @@ Object.defineProperty(Mesh.prototype, "aabb", {
         return wrapPointer(_mud_Mesh__get_aabb(this.__ptr), Aabb);
     },
     set: function(value) {
+        if (!checkClass(value, Aabb)) throw Error('Mesh.aabb: expected Aabb');
         _mud_Mesh__set_aabb(this.__ptr, value.__ptr);
     }
 });
@@ -2881,6 +3118,7 @@ Object.defineProperty(Mesh.prototype, "radius", {
         return _mud_Mesh__get_radius(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Mesh.radius: expected number');
         _mud_Mesh__set_radius(this.__ptr, value);
     }
 });
@@ -2889,6 +3127,7 @@ Object.defineProperty(Mesh.prototype, "origin", {
         return wrapPointer(_mud_Mesh__get_origin(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Mesh.origin: expected v3<float>');
         _mud_Mesh__set_origin(this.__ptr, value.__ptr);
     }
 });
@@ -2897,6 +3136,7 @@ Object.defineProperty(Mesh.prototype, "readback", {
         return !!(_mud_Mesh__get_readback(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Mesh.readback: expected boolean');
         _mud_Mesh__set_readback(this.__ptr, value);
     }
 });
@@ -2905,6 +3145,7 @@ Object.defineProperty(Mesh.prototype, "vertex_format", {
         return _mud_Mesh__get_vertex_format(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Mesh.vertex_format: expected integer');
         _mud_Mesh__set_vertex_format(this.__ptr, value);
     }
 });
@@ -2913,6 +3154,7 @@ Object.defineProperty(Mesh.prototype, "qnormals", {
         return !!(_mud_Mesh__get_qnormals(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Mesh.qnormals: expected boolean');
         _mud_Mesh__set_qnormals(this.__ptr, value);
     }
 });
@@ -2921,6 +3163,7 @@ Object.defineProperty(Mesh.prototype, "vertex_count", {
         return _mud_Mesh__get_vertex_count(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Mesh.vertex_count: expected integer');
         _mud_Mesh__set_vertex_count(this.__ptr, value);
     }
 });
@@ -2929,6 +3172,7 @@ Object.defineProperty(Mesh.prototype, "index_count", {
         return _mud_Mesh__get_index_count(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Mesh.index_count: expected integer');
         _mud_Mesh__set_index_count(this.__ptr, value);
     }
 });
@@ -2937,6 +3181,7 @@ Object.defineProperty(Mesh.prototype, "index32", {
         return !!(_mud_Mesh__get_index32(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Mesh.index32: expected boolean');
         _mud_Mesh__set_index32(this.__ptr, value);
     }
 });
@@ -2945,6 +3190,7 @@ Object.defineProperty(Mesh.prototype, "material", {
         return wrapPointer(_mud_Mesh__get_material(this.__ptr), Material);
     },
     set: function(value) {
+        if (!checkClass(value, Material)) throw Error('Mesh.material: expected Material');
         _mud_Mesh__set_material(this.__ptr, value.__ptr);
     }
 });
@@ -2953,6 +3199,7 @@ Object.defineProperty(Mesh.prototype, "is_dynamic", {
         return !!(_mud_Mesh__get_is_dynamic(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Mesh.is_dynamic: expected boolean');
         _mud_Mesh__set_is_dynamic(this.__ptr, value);
     }
 });
@@ -2961,6 +3208,7 @@ Object.defineProperty(Mesh.prototype, "is_direct", {
         return !!(_mud_Mesh__get_is_direct(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Mesh.is_direct: expected boolean');
         _mud_Mesh__set_is_direct(this.__ptr, value);
     }
 });
@@ -2969,6 +3217,7 @@ Object.defineProperty(Mesh.prototype, "cache", {
         return wrapPointer(_mud_Mesh__get_cache(this.__ptr), MeshAdapter);
     },
     set: function(value) {
+        if (!checkClass(value, MeshAdapter)) throw Error('Mesh.cache: expected MeshAdapter');
         _mud_Mesh__set_cache(this.__ptr, value.__ptr);
     }
 });
@@ -3039,6 +3288,7 @@ Object.defineProperty(Mime.prototype, "active", {
         return !!(_mud_Mime__get_active(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Mime.active: expected boolean');
         _mud_Mime__set_active(this.__ptr, value);
     }
 });
@@ -3047,6 +3297,7 @@ Object.defineProperty(Mime.prototype, "speed_scale", {
         return _mud_Mime__get_speed_scale(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Mime.speed_scale: expected number');
         _mud_Mime__set_speed_scale(this.__ptr, value);
     }
 });
@@ -3055,6 +3306,7 @@ Object.defineProperty(Mime.prototype, "default_blend_time", {
         return _mud_Mime__get_default_blend_time(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Mime.default_blend_time: expected number');
         _mud_Mime__set_default_blend_time(this.__ptr, value);
     }
 });
@@ -3076,6 +3328,7 @@ Object.defineProperty(MirrorCamera.prototype, "visible", {
         return !!(_mud_MirrorCamera__get_visible(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('MirrorCamera.visible: expected boolean');
         _mud_MirrorCamera__set_visible(this.__ptr, value);
     }
 });
@@ -3088,6 +3341,7 @@ Object.defineProperty(MirrorCamera.prototype, "mirror", {
         return wrapPointer(_mud_MirrorCamera__get_mirror(this.__ptr), mat4);
     },
     set: function(value) {
+        if (!checkClass(value, mat4)) throw Error('MirrorCamera.mirror: expected mat4');
         _mud_MirrorCamera__set_mirror(this.__ptr, value.__ptr);
     }
 });
@@ -3136,6 +3390,7 @@ Object.defineProperty(Model.prototype, "name", {
         return UTF8ToString(_mud_Model__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Model.name: expected string');
         _mud_Model__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -3144,6 +3399,7 @@ Object.defineProperty(Model.prototype, "index", {
         return _mud_Model__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Model.index: expected integer');
         _mud_Model__set_index(this.__ptr, value);
     }
 });
@@ -3152,6 +3408,7 @@ Object.defineProperty(Model.prototype, "aabb", {
         return wrapPointer(_mud_Model__get_aabb(this.__ptr), Aabb);
     },
     set: function(value) {
+        if (!checkClass(value, Aabb)) throw Error('Model.aabb: expected Aabb');
         _mud_Model__set_aabb(this.__ptr, value.__ptr);
     }
 });
@@ -3160,6 +3417,7 @@ Object.defineProperty(Model.prototype, "radius", {
         return _mud_Model__get_radius(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Model.radius: expected number');
         _mud_Model__set_radius(this.__ptr, value);
     }
 });
@@ -3168,6 +3426,7 @@ Object.defineProperty(Model.prototype, "origin", {
         return wrapPointer(_mud_Model__get_origin(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Model.origin: expected v3<float>');
         _mud_Model__set_origin(this.__ptr, value.__ptr);
     }
 });
@@ -3189,6 +3448,7 @@ Object.defineProperty(ModelElem.prototype, "index", {
         return _mud_ModelElem__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ModelElem.index: expected integer');
         _mud_ModelElem__set_index(this.__ptr, value);
     }
 });
@@ -3197,6 +3457,7 @@ Object.defineProperty(ModelElem.prototype, "mesh", {
         return wrapPointer(_mud_ModelElem__get_mesh(this.__ptr), Mesh);
     },
     set: function(value) {
+        if (!checkClass(value, Mesh)) throw Error('ModelElem.mesh: expected Mesh');
         _mud_ModelElem__set_mesh(this.__ptr, value.__ptr);
     }
 });
@@ -3205,6 +3466,7 @@ Object.defineProperty(ModelElem.prototype, "has_transform", {
         return !!(_mud_ModelElem__get_has_transform(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('ModelElem.has_transform: expected boolean');
         _mud_ModelElem__set_has_transform(this.__ptr, value);
     }
 });
@@ -3213,6 +3475,7 @@ Object.defineProperty(ModelElem.prototype, "transform", {
         return wrapPointer(_mud_ModelElem__get_transform(this.__ptr), mat4);
     },
     set: function(value) {
+        if (!checkClass(value, mat4)) throw Error('ModelElem.transform: expected mat4');
         _mud_ModelElem__set_transform(this.__ptr, value.__ptr);
     }
 });
@@ -3221,6 +3484,7 @@ Object.defineProperty(ModelElem.prototype, "skin", {
         return _mud_ModelElem__get_skin(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ModelElem.skin: expected integer');
         _mud_ModelElem__set_skin(this.__ptr, value);
     }
 });
@@ -3229,6 +3493,7 @@ Object.defineProperty(ModelElem.prototype, "colour", {
         return wrapPointer(_mud_ModelElem__get_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('ModelElem.colour: expected Colour');
         _mud_ModelElem__set_colour(this.__ptr, value.__ptr);
     }
 });
@@ -3237,6 +3502,7 @@ Object.defineProperty(ModelElem.prototype, "material", {
         return wrapPointer(_mud_ModelElem__get_material(this.__ptr), Material);
     },
     set: function(value) {
+        if (!checkClass(value, Material)) throw Error('ModelElem.material: expected Material');
         _mud_ModelElem__set_material(this.__ptr, value.__ptr);
     }
 });
@@ -3292,6 +3558,7 @@ Object.defineProperty(Node3.prototype, "parent", {
         return _mud_Node3__get_parent(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Node3.parent: expected integer');
         _mud_Node3__set_parent(this.__ptr, value);
     }
 });
@@ -3300,6 +3567,7 @@ Object.defineProperty(Node3.prototype, "transform", {
         return wrapPointer(_mud_Node3__get_transform(this.__ptr), mat4);
     },
     set: function(value) {
+        if (!checkClass(value, mat4)) throw Error('Node3.transform: expected mat4');
         _mud_Node3__set_transform(this.__ptr, value.__ptr);
     }
 });
@@ -3321,6 +3589,7 @@ Object.defineProperty(Pass.prototype, "name", {
         return UTF8ToString(_mud_Pass__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Pass.name: expected string');
         _mud_Pass__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -3329,6 +3598,7 @@ Object.defineProperty(Pass.prototype, "target", {
         return wrapPointer(_mud_Pass__get_target(this.__ptr), RenderTarget);
     },
     set: function(value) {
+        if (!checkClass(value, RenderTarget)) throw Error('Pass.target: expected RenderTarget');
         _mud_Pass__set_target(this.__ptr, value.__ptr);
     }
 });
@@ -3337,6 +3607,7 @@ Object.defineProperty(Pass.prototype, "fbo", {
         return wrapPointer(_mud_Pass__get_fbo(this.__ptr), FrameBuffer);
     },
     set: function(value) {
+        if (!checkClass(value, FrameBuffer)) throw Error('Pass.fbo: expected FrameBuffer');
         _mud_Pass__set_fbo(this.__ptr, value.__ptr);
     }
 });
@@ -3345,6 +3616,7 @@ Object.defineProperty(Pass.prototype, "viewport", {
         return wrapPointer(_mud_Pass__get_viewport(this.__ptr), Viewport);
     },
     set: function(value) {
+        if (!checkClass(value, Viewport)) throw Error('Pass.viewport: expected Viewport');
         _mud_Pass__set_viewport(this.__ptr, value.__ptr);
     }
 });
@@ -3353,6 +3625,7 @@ Object.defineProperty(Pass.prototype, "rect", {
         return wrapPointer(_mud_Pass__get_rect(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('Pass.rect: expected v4<float>');
         _mud_Pass__set_rect(this.__ptr, value.__ptr);
     }
 });
@@ -3361,6 +3634,7 @@ Object.defineProperty(Pass.prototype, "bgfx_state", {
         return _mud_Pass__get_bgfx_state(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Pass.bgfx_state: expected integer');
         _mud_Pass__set_bgfx_state(this.__ptr, value);
     }
 });
@@ -3369,6 +3643,7 @@ Object.defineProperty(Pass.prototype, "pass_type", {
         return _mud_Pass__get_pass_type(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Pass.pass_type: expected integer');
         _mud_Pass__set_pass_type(this.__ptr, value);
     }
 });
@@ -3377,6 +3652,7 @@ Object.defineProperty(Pass.prototype, "use_mrt", {
         return !!(_mud_Pass__get_use_mrt(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Pass.use_mrt: expected boolean');
         _mud_Pass__set_use_mrt(this.__ptr, value);
     }
 });
@@ -3385,6 +3661,7 @@ Object.defineProperty(Pass.prototype, "index", {
         return _mud_Pass__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Pass.index: expected integer');
         _mud_Pass__set_index(this.__ptr, value);
     }
 });
@@ -3409,6 +3686,7 @@ Object.defineProperty(Prefab.prototype, "name", {
         return UTF8ToString(_mud_Prefab__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Prefab.name: expected string');
         _mud_Prefab__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -3452,6 +3730,7 @@ Object.defineProperty(Program.prototype, "name", {
         return UTF8ToString(_mud_Program__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Program.name: expected string');
         _mud_Program__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -3473,6 +3752,7 @@ Object.defineProperty(ProgramBlock.prototype, "enabled", {
         return !!(_mud_ProgramBlock__get_enabled(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('ProgramBlock.enabled: expected boolean');
         _mud_ProgramBlock__set_enabled(this.__ptr, value);
     }
 });
@@ -3481,6 +3761,7 @@ Object.defineProperty(ProgramBlock.prototype, "option_shift", {
         return _mud_ProgramBlock__get_option_shift(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ProgramBlock.option_shift: expected integer');
         _mud_ProgramBlock__set_option_shift(this.__ptr, value);
     }
 });
@@ -3489,6 +3770,7 @@ Object.defineProperty(ProgramBlock.prototype, "mode_shift", {
         return _mud_ProgramBlock__get_mode_shift(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ProgramBlock.mode_shift: expected integer');
         _mud_ProgramBlock__set_mode_shift(this.__ptr, value);
     }
 });
@@ -3510,6 +3792,7 @@ Object.defineProperty(ProgramMode.prototype, "name", {
         return UTF8ToString(_mud_ProgramMode__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('ProgramMode.name: expected string');
         _mud_ProgramMode__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -3518,6 +3801,7 @@ Object.defineProperty(ProgramMode.prototype, "size", {
         return _mud_ProgramMode__get_size(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ProgramMode.size: expected integer');
         _mud_ProgramMode__set_size(this.__ptr, value);
     }
 });
@@ -3526,6 +3810,7 @@ Object.defineProperty(ProgramMode.prototype, "shift", {
         return _mud_ProgramMode__get_shift(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ProgramMode.shift: expected integer');
         _mud_ProgramMode__set_shift(this.__ptr, value);
     }
 });
@@ -3534,6 +3819,7 @@ Object.defineProperty(ProgramMode.prototype, "mask", {
         return _mud_ProgramMode__get_mask(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ProgramMode.mask: expected integer');
         _mud_ProgramMode__set_mask(this.__ptr, value);
     }
 });
@@ -3588,6 +3874,7 @@ Object.defineProperty(Radiance.prototype, "colour", {
         return wrapPointer(_mud_Radiance__get_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Radiance.colour: expected Colour');
         _mud_Radiance__set_colour(this.__ptr, value.__ptr);
     }
 });
@@ -3596,6 +3883,7 @@ Object.defineProperty(Radiance.prototype, "energy", {
         return _mud_Radiance__get_energy(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Radiance.energy: expected number');
         _mud_Radiance__set_energy(this.__ptr, value);
     }
 });
@@ -3604,6 +3892,7 @@ Object.defineProperty(Radiance.prototype, "ambient", {
         return wrapPointer(_mud_Radiance__get_ambient(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Radiance.ambient: expected Colour');
         _mud_Radiance__set_ambient(this.__ptr, value.__ptr);
     }
 });
@@ -3612,6 +3901,7 @@ Object.defineProperty(Radiance.prototype, "texture", {
         return wrapPointer(_mud_Radiance__get_texture(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('Radiance.texture: expected Texture');
         _mud_Radiance__set_texture(this.__ptr, value.__ptr);
     }
 });
@@ -3620,6 +3910,7 @@ Object.defineProperty(Radiance.prototype, "filtered", {
         return wrapPointer(_mud_Radiance__get_filtered(this.__ptr), Texture);
     },
     set: function(value) {
+        if (!checkClass(value, Texture)) throw Error('Radiance.filtered: expected Texture');
         _mud_Radiance__set_filtered(this.__ptr, value.__ptr);
     }
 });
@@ -3628,6 +3919,7 @@ Object.defineProperty(Radiance.prototype, "filter", {
         return !!(_mud_Radiance__get_filter(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Radiance.filter: expected boolean');
         _mud_Radiance__set_filter(this.__ptr, value);
     }
 });
@@ -3667,6 +3959,7 @@ Object.defineProperty(Render.prototype, "shading", {
         return _mud_Render__get_shading(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Render.shading: expected integer');
         _mud_Render__set_shading(this.__ptr, value);
     }
 });
@@ -3675,6 +3968,7 @@ Object.defineProperty(Render.prototype, "scene", {
         return wrapPointer(_mud_Render__get_scene(this.__ptr), Scene);
     },
     set: function(value) {
+        if (!checkClass(value, Scene)) throw Error('Render.scene: expected Scene');
         _mud_Render__set_scene(this.__ptr, value.__ptr);
     }
 });
@@ -3683,6 +3977,7 @@ Object.defineProperty(Render.prototype, "target", {
         return wrapPointer(_mud_Render__get_target(this.__ptr), RenderTarget);
     },
     set: function(value) {
+        if (!checkClass(value, RenderTarget)) throw Error('Render.target: expected RenderTarget');
         _mud_Render__set_target(this.__ptr, value.__ptr);
     }
 });
@@ -3691,6 +3986,7 @@ Object.defineProperty(Render.prototype, "fbo", {
         return wrapPointer(_mud_Render__get_fbo(this.__ptr), FrameBuffer);
     },
     set: function(value) {
+        if (!checkClass(value, FrameBuffer)) throw Error('Render.fbo: expected FrameBuffer');
         _mud_Render__set_fbo(this.__ptr, value.__ptr);
     }
 });
@@ -3699,6 +3995,7 @@ Object.defineProperty(Render.prototype, "viewport", {
         return wrapPointer(_mud_Render__get_viewport(this.__ptr), Viewport);
     },
     set: function(value) {
+        if (!checkClass(value, Viewport)) throw Error('Render.viewport: expected Viewport');
         _mud_Render__set_viewport(this.__ptr, value.__ptr);
     }
 });
@@ -3707,6 +4004,7 @@ Object.defineProperty(Render.prototype, "rect", {
         return wrapPointer(_mud_Render__get_rect(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('Render.rect: expected v4<float>');
         _mud_Render__set_rect(this.__ptr, value.__ptr);
     }
 });
@@ -3715,6 +4013,7 @@ Object.defineProperty(Render.prototype, "camera", {
         return wrapPointer(_mud_Render__get_camera(this.__ptr), Camera);
     },
     set: function(value) {
+        if (!checkClass(value, Camera)) throw Error('Render.camera: expected Camera');
         _mud_Render__set_camera(this.__ptr, value.__ptr);
     }
 });
@@ -3723,6 +4022,7 @@ Object.defineProperty(Render.prototype, "frame", {
         return wrapPointer(_mud_Render__get_frame(this.__ptr), RenderFrame);
     },
     set: function(value) {
+        if (!checkClass(value, RenderFrame)) throw Error('Render.frame: expected RenderFrame');
         _mud_Render__set_frame(this.__ptr, value.__ptr);
     }
 });
@@ -3735,6 +4035,7 @@ Object.defineProperty(Render.prototype, "env", {
         return wrapPointer(_mud_Render__get_env(this.__ptr), Zone);
     },
     set: function(value) {
+        if (!checkClass(value, Zone)) throw Error('Render.env: expected Zone');
         _mud_Render__set_env(this.__ptr, value.__ptr);
     }
 });
@@ -3743,6 +4044,7 @@ Object.defineProperty(Render.prototype, "lighting", {
         return _mud_Render__get_lighting(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Render.lighting: expected integer');
         _mud_Render__set_lighting(this.__ptr, value);
     }
 });
@@ -3751,6 +4053,7 @@ Object.defineProperty(Render.prototype, "vflip", {
         return !!(_mud_Render__get_vflip(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Render.vflip: expected boolean');
         _mud_Render__set_vflip(this.__ptr, value);
     }
 });
@@ -3759,6 +4062,7 @@ Object.defineProperty(Render.prototype, "needs_mrt", {
         return !!(_mud_Render__get_needs_mrt(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Render.needs_mrt: expected boolean');
         _mud_Render__set_needs_mrt(this.__ptr, value);
     }
 });
@@ -3767,6 +4071,7 @@ Object.defineProperty(Render.prototype, "is_mrt", {
         return !!(_mud_Render__get_is_mrt(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Render.is_mrt: expected boolean');
         _mud_Render__set_is_mrt(this.__ptr, value);
     }
 });
@@ -3775,6 +4080,7 @@ Object.defineProperty(Render.prototype, "pass_index", {
         return _mud_Render__get_pass_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Render.pass_index: expected integer');
         _mud_Render__set_pass_index(this.__ptr, value);
     }
 });
@@ -3796,6 +4102,7 @@ Object.defineProperty(RenderFrame.prototype, "frame", {
         return _mud_RenderFrame__get_frame(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('RenderFrame.frame: expected integer');
         _mud_RenderFrame__set_frame(this.__ptr, value);
     }
 });
@@ -3804,6 +4111,7 @@ Object.defineProperty(RenderFrame.prototype, "time", {
         return _mud_RenderFrame__get_time(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('RenderFrame.time: expected number');
         _mud_RenderFrame__set_time(this.__ptr, value);
     }
 });
@@ -3812,6 +4120,7 @@ Object.defineProperty(RenderFrame.prototype, "delta_time", {
         return _mud_RenderFrame__get_delta_time(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('RenderFrame.delta_time: expected number');
         _mud_RenderFrame__set_delta_time(this.__ptr, value);
     }
 });
@@ -3820,6 +4129,7 @@ Object.defineProperty(RenderFrame.prototype, "render_pass", {
         return _mud_RenderFrame__get_render_pass(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('RenderFrame.render_pass: expected integer');
         _mud_RenderFrame__set_render_pass(this.__ptr, value);
     }
 });
@@ -3828,6 +4138,7 @@ Object.defineProperty(RenderFrame.prototype, "nudraw_calls", {
         return _mud_RenderFrame__get_nudraw_calls(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('RenderFrame.nudraw_calls: expected integer');
         _mud_RenderFrame__set_nudraw_calls(this.__ptr, value);
     }
 });
@@ -3836,6 +4147,7 @@ Object.defineProperty(RenderFrame.prototype, "nuvertices", {
         return _mud_RenderFrame__get_nuvertices(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('RenderFrame.nuvertices: expected integer');
         _mud_RenderFrame__set_nuvertices(this.__ptr, value);
     }
 });
@@ -3844,6 +4156,7 @@ Object.defineProperty(RenderFrame.prototype, "nutriangles", {
         return _mud_RenderFrame__get_nutriangles(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('RenderFrame.nutriangles: expected integer');
         _mud_RenderFrame__set_nutriangles(this.__ptr, value);
     }
 });
@@ -3873,6 +4186,7 @@ Object.defineProperty(RenderQuad.prototype, "source", {
         return wrapPointer(_mud_RenderQuad__get_source(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('RenderQuad.source: expected v4<float>');
         _mud_RenderQuad__set_source(this.__ptr, value.__ptr);
     }
 });
@@ -3881,6 +4195,7 @@ Object.defineProperty(RenderQuad.prototype, "dest", {
         return wrapPointer(_mud_RenderQuad__get_dest(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('RenderQuad.dest: expected v4<float>');
         _mud_RenderQuad__set_dest(this.__ptr, value.__ptr);
     }
 });
@@ -3889,6 +4204,7 @@ Object.defineProperty(RenderQuad.prototype, "fbo_flip", {
         return !!(_mud_RenderQuad__get_fbo_flip(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('RenderQuad.fbo_flip: expected boolean');
         _mud_RenderQuad__set_fbo_flip(this.__ptr, value);
     }
 });
@@ -3897,6 +4213,7 @@ Object.defineProperty(RenderQuad.prototype, "relative", {
         return !!(_mud_RenderQuad__get_relative(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('RenderQuad.relative: expected boolean');
         _mud_RenderQuad__set_relative(this.__ptr, value);
     }
 });
@@ -3986,6 +4303,7 @@ Object.defineProperty(Scene.prototype, "index", {
         return _mud_Scene__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Scene.index: expected integer');
         _mud_Scene__set_index(this.__ptr, value);
     }
 });
@@ -4002,6 +4320,7 @@ Object.defineProperty(Scene.prototype, "env", {
         return wrapPointer(_mud_Scene__get_env(this.__ptr), Zone);
     },
     set: function(value) {
+        if (!checkClass(value, Zone)) throw Error('Scene.env: expected Zone');
         _mud_Scene__set_env(this.__ptr, value.__ptr);
     }
 });
@@ -4010,6 +4329,7 @@ Object.defineProperty(Scene.prototype, "user", {
         return wrapPointer(_mud_Scene__get_user(this.__ptr), Ref);
     },
     set: function(value) {
+        if (!checkClass(value, Ref)) throw Error('Scene.user: expected Ref');
         _mud_Scene__set_user(this.__ptr, ensureRef(value), ensureRefType(value));
     }
 });
@@ -4046,6 +4366,7 @@ Object.defineProperty(ShaderBlock.prototype, "index", {
         return _mud_ShaderBlock__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ShaderBlock.index: expected integer');
         _mud_ShaderBlock__set_index(this.__ptr, value);
     }
 });
@@ -4067,6 +4388,7 @@ Object.defineProperty(ShaderDefine.prototype, "name", {
         return UTF8ToString(_mud_ShaderDefine__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('ShaderDefine.name: expected string');
         _mud_ShaderDefine__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -4075,6 +4397,7 @@ Object.defineProperty(ShaderDefine.prototype, "value", {
         return UTF8ToString(_mud_ShaderDefine__get_value(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('ShaderDefine.value: expected string');
         _mud_ShaderDefine__set_value(this.__ptr, ensureString(value));
     }
 });
@@ -4126,6 +4449,7 @@ Object.defineProperty(Skylight.prototype, "enabled", {
         return !!(_mud_Skylight__get_enabled(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Skylight.enabled: expected boolean');
         _mud_Skylight__set_enabled(this.__ptr, value);
     }
 });
@@ -4134,6 +4458,7 @@ Object.defineProperty(Skylight.prototype, "intensity", {
         return _mud_Skylight__get_intensity(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Skylight.intensity: expected number');
         _mud_Skylight__set_intensity(this.__ptr, value);
     }
 });
@@ -4142,6 +4467,7 @@ Object.defineProperty(Skylight.prototype, "position", {
         return wrapPointer(_mud_Skylight__get_position(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Skylight.position: expected v3<float>');
         _mud_Skylight__set_position(this.__ptr, value.__ptr);
     }
 });
@@ -4150,6 +4476,7 @@ Object.defineProperty(Skylight.prototype, "direction", {
         return wrapPointer(_mud_Skylight__get_direction(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Skylight.direction: expected v3<float>');
         _mud_Skylight__set_direction(this.__ptr, value.__ptr);
     }
 });
@@ -4158,6 +4485,7 @@ Object.defineProperty(Skylight.prototype, "color", {
         return wrapPointer(_mud_Skylight__get_color(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Skylight.color: expected Colour');
         _mud_Skylight__set_color(this.__ptr, value.__ptr);
     }
 });
@@ -4166,6 +4494,7 @@ Object.defineProperty(Skylight.prototype, "ground", {
         return wrapPointer(_mud_Skylight__get_ground(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Skylight.ground: expected Colour');
         _mud_Skylight__set_ground(this.__ptr, value.__ptr);
     }
 });
@@ -4187,6 +4516,7 @@ Object.defineProperty(Sun.prototype, "azimuth", {
         return _mud_Sun__get_azimuth(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Sun.azimuth: expected number');
         _mud_Sun__set_azimuth(this.__ptr, value);
     }
 });
@@ -4195,6 +4525,7 @@ Object.defineProperty(Sun.prototype, "elevation", {
         return _mud_Sun__get_elevation(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Sun.elevation: expected number');
         _mud_Sun__set_elevation(this.__ptr, value);
     }
 });
@@ -4203,6 +4534,7 @@ Object.defineProperty(Sun.prototype, "colour", {
         return wrapPointer(_mud_Sun__get_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Sun.colour: expected Colour');
         _mud_Sun__set_colour(this.__ptr, value.__ptr);
     }
 });
@@ -4211,6 +4543,7 @@ Object.defineProperty(Sun.prototype, "intensity", {
         return _mud_Sun__get_intensity(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Sun.intensity: expected number');
         _mud_Sun__set_intensity(this.__ptr, value);
     }
 });
@@ -4526,6 +4859,7 @@ Object.defineProperty(Texture.prototype, "name", {
         return UTF8ToString(_mud_Texture__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Texture.name: expected string');
         _mud_Texture__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -4534,6 +4868,7 @@ Object.defineProperty(Texture.prototype, "location", {
         return UTF8ToString(_mud_Texture__get_location(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Texture.location: expected string');
         _mud_Texture__set_location(this.__ptr, ensureString(value));
     }
 });
@@ -4542,6 +4877,7 @@ Object.defineProperty(Texture.prototype, "format", {
         return _mud_Texture__get_format(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Texture.format: expected integer');
         _mud_Texture__set_format(this.__ptr, value);
     }
 });
@@ -4550,6 +4886,7 @@ Object.defineProperty(Texture.prototype, "size", {
         return wrapPointer(_mud_Texture__get_size(this.__ptr), v2_uint);
     },
     set: function(value) {
+        if (!checkClass(value, v2_uint)) throw Error('Texture.size: expected v2<uint>');
         _mud_Texture__set_size(this.__ptr, value.__ptr);
     }
 });
@@ -4558,6 +4895,7 @@ Object.defineProperty(Texture.prototype, "depth", {
         return _mud_Texture__get_depth(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Texture.depth: expected integer');
         _mud_Texture__set_depth(this.__ptr, value);
     }
 });
@@ -4566,6 +4904,7 @@ Object.defineProperty(Texture.prototype, "memsize", {
         return _mud_Texture__get_memsize(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Texture.memsize: expected integer');
         _mud_Texture__set_memsize(this.__ptr, value);
     }
 });
@@ -4574,6 +4913,7 @@ Object.defineProperty(Texture.prototype, "bits_per_pixel", {
         return _mud_Texture__get_bits_per_pixel(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Texture.bits_per_pixel: expected integer');
         _mud_Texture__set_bits_per_pixel(this.__ptr, value);
     }
 });
@@ -4582,6 +4922,7 @@ Object.defineProperty(Texture.prototype, "is_depth", {
         return !!(_mud_Texture__get_is_depth(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Texture.is_depth: expected boolean');
         _mud_Texture__set_is_depth(this.__ptr, value);
     }
 });
@@ -4590,6 +4931,7 @@ Object.defineProperty(Texture.prototype, "is_depth_packed", {
         return !!(_mud_Texture__get_is_depth_packed(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Texture.is_depth_packed: expected boolean');
         _mud_Texture__set_is_depth_packed(this.__ptr, value);
     }
 });
@@ -4598,6 +4940,7 @@ Object.defineProperty(Texture.prototype, "is_array", {
         return !!(_mud_Texture__get_is_array(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Texture.is_array: expected boolean');
         _mud_Texture__set_is_array(this.__ptr, value);
     }
 });
@@ -4606,6 +4949,7 @@ Object.defineProperty(Texture.prototype, "is_cube", {
         return !!(_mud_Texture__get_is_cube(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Texture.is_cube: expected boolean');
         _mud_Texture__set_is_cube(this.__ptr, value);
     }
 });
@@ -4614,6 +4958,7 @@ Object.defineProperty(Texture.prototype, "is_fbo", {
         return !!(_mud_Texture__get_is_fbo(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Texture.is_fbo: expected boolean');
         _mud_Texture__set_is_fbo(this.__ptr, value);
     }
 });
@@ -4622,6 +4967,7 @@ Object.defineProperty(Texture.prototype, "mips", {
         return !!(_mud_Texture__get_mips(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Texture.mips: expected boolean');
         _mud_Texture__set_mips(this.__ptr, value);
     }
 });
@@ -4643,6 +4989,7 @@ Object.defineProperty(Zone.prototype, "background", {
         return wrapPointer(_mud_Zone__get_background(this.__ptr), Background);
     },
     set: function(value) {
+        if (!checkClass(value, Background)) throw Error('Zone.background: expected Background');
         _mud_Zone__set_background(this.__ptr, value.__ptr);
     }
 });
@@ -4651,6 +4998,7 @@ Object.defineProperty(Zone.prototype, "radiance", {
         return wrapPointer(_mud_Zone__get_radiance(this.__ptr), Radiance);
     },
     set: function(value) {
+        if (!checkClass(value, Radiance)) throw Error('Zone.radiance: expected Radiance');
         _mud_Zone__set_radiance(this.__ptr, value.__ptr);
     }
 });
@@ -4659,6 +5007,7 @@ Object.defineProperty(Zone.prototype, "sun", {
         return wrapPointer(_mud_Zone__get_sun(this.__ptr), Sun);
     },
     set: function(value) {
+        if (!checkClass(value, Sun)) throw Error('Zone.sun: expected Sun');
         _mud_Zone__set_sun(this.__ptr, value.__ptr);
     }
 });
@@ -4667,6 +5016,7 @@ Object.defineProperty(Zone.prototype, "skylight", {
         return wrapPointer(_mud_Zone__get_skylight(this.__ptr), Skylight);
     },
     set: function(value) {
+        if (!checkClass(value, Skylight)) throw Error('Zone.skylight: expected Skylight');
         _mud_Zone__set_skylight(this.__ptr, value.__ptr);
     }
 });
@@ -4675,6 +5025,7 @@ Object.defineProperty(Zone.prototype, "fog", {
         return wrapPointer(_mud_Zone__get_fog(this.__ptr), Fog);
     },
     set: function(value) {
+        if (!checkClass(value, Fog)) throw Error('Zone.fog: expected Fog');
         _mud_Zone__set_fog(this.__ptr, value.__ptr);
     }
 });
@@ -4889,6 +5240,7 @@ Object.defineProperty(Flare.prototype, "node", {
         return wrapPointer(_mud_Flare__get_node(this.__ptr), Node3);
     },
     set: function(value) {
+        if (!checkClass(value, Node3)) throw Error('Flare.node: expected Node3');
         _mud_Flare__set_node(this.__ptr, value.__ptr);
     }
 });
@@ -4983,6 +5335,7 @@ Object.defineProperty(GfxSystem.prototype, "copy", {
         return wrapPointer(_mud_GfxSystem__get_copy(this.__ptr), BlockCopy);
     },
     set: function(value) {
+        if (!checkClass(value, BlockCopy)) throw Error('GfxSystem.copy: expected BlockCopy');
         _mud_GfxSystem__set_copy(this.__ptr, value.__ptr);
     }
 });
@@ -4991,6 +5344,7 @@ Object.defineProperty(GfxSystem.prototype, "filter", {
         return wrapPointer(_mud_GfxSystem__get_filter(this.__ptr), BlockFilter);
     },
     set: function(value) {
+        if (!checkClass(value, BlockFilter)) throw Error('GfxSystem.filter: expected BlockFilter');
         _mud_GfxSystem__set_filter(this.__ptr, value.__ptr);
     }
 });
@@ -4999,6 +5353,7 @@ Object.defineProperty(GfxSystem.prototype, "flip_y", {
         return !!(_mud_GfxSystem__get_flip_y(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('GfxSystem.flip_y: expected boolean');
         _mud_GfxSystem__set_flip_y(this.__ptr, value);
     }
 });
@@ -5007,6 +5362,7 @@ Object.defineProperty(GfxSystem.prototype, "render_frame", {
         return wrapPointer(_mud_GfxSystem__get_render_frame(this.__ptr), RenderFrame);
     },
     set: function(value) {
+        if (!checkClass(value, RenderFrame)) throw Error('GfxSystem.render_frame: expected RenderFrame');
         _mud_GfxSystem__set_render_frame(this.__ptr, value.__ptr);
     }
 });
@@ -5054,6 +5410,7 @@ Object.defineProperty(RenderTarget.prototype, "msaa", {
         return _mud_RenderTarget__get_msaa(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('RenderTarget.msaa: expected integer');
         _mud_RenderTarget__set_msaa(this.__ptr, value);
     }
 });
@@ -5062,6 +5419,7 @@ Object.defineProperty(RenderTarget.prototype, "mrt", {
         return !!(_mud_RenderTarget__get_mrt(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('RenderTarget.mrt: expected boolean');
         _mud_RenderTarget__set_mrt(this.__ptr, value);
     }
 });
@@ -5106,6 +5464,7 @@ Object.defineProperty(RenderTarget.prototype, "deferred", {
         return !!(_mud_RenderTarget__get_deferred(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('RenderTarget.deferred: expected boolean');
         _mud_RenderTarget__set_deferred(this.__ptr, value);
     }
 });
@@ -5146,6 +5505,7 @@ Object.defineProperty(Viewport.prototype, "camera", {
         return wrapPointer(_mud_Viewport__get_camera(this.__ptr), Camera);
     },
     set: function(value) {
+        if (!checkClass(value, Camera)) throw Error('Viewport.camera: expected Camera');
         _mud_Viewport__set_camera(this.__ptr, value.__ptr);
     }
 });
@@ -5154,6 +5514,7 @@ Object.defineProperty(Viewport.prototype, "scene", {
         return wrapPointer(_mud_Viewport__get_scene(this.__ptr), Scene);
     },
     set: function(value) {
+        if (!checkClass(value, Scene)) throw Error('Viewport.scene: expected Scene');
         _mud_Viewport__set_scene(this.__ptr, value.__ptr);
     }
 });
@@ -5162,6 +5523,7 @@ Object.defineProperty(Viewport.prototype, "index", {
         return _mud_Viewport__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Viewport.index: expected integer');
         _mud_Viewport__set_index(this.__ptr, value);
     }
 });
@@ -5170,6 +5532,7 @@ Object.defineProperty(Viewport.prototype, "autorender", {
         return !!(_mud_Viewport__get_autorender(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Viewport.autorender: expected boolean');
         _mud_Viewport__set_autorender(this.__ptr, value);
     }
 });
@@ -5178,6 +5541,7 @@ Object.defineProperty(Viewport.prototype, "rect", {
         return wrapPointer(_mud_Viewport__get_rect(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('Viewport.rect: expected v4<float>');
         _mud_Viewport__set_rect(this.__ptr, value.__ptr);
     }
 });
@@ -5186,6 +5550,7 @@ Object.defineProperty(Viewport.prototype, "scissor", {
         return !!(_mud_Viewport__get_scissor(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Viewport.scissor: expected boolean');
         _mud_Viewport__set_scissor(this.__ptr, value);
     }
 });
@@ -5194,6 +5559,7 @@ Object.defineProperty(Viewport.prototype, "clear_colour", {
         return wrapPointer(_mud_Viewport__get_clear_colour(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Viewport.clear_colour: expected Colour');
         _mud_Viewport__set_clear_colour(this.__ptr, value.__ptr);
     }
 });
@@ -5202,6 +5568,7 @@ Object.defineProperty(Viewport.prototype, "shading", {
         return _mud_Viewport__get_shading(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Viewport.shading: expected integer');
         _mud_Viewport__set_shading(this.__ptr, value);
     }
 });
@@ -5210,6 +5577,7 @@ Object.defineProperty(Viewport.prototype, "lighting", {
         return _mud_Viewport__get_lighting(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Viewport.lighting: expected integer');
         _mud_Viewport__set_lighting(this.__ptr, value);
     }
 });
@@ -5218,6 +5586,7 @@ Object.defineProperty(Viewport.prototype, "clustered", {
         return !!(_mud_Viewport__get_clustered(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Viewport.clustered: expected boolean');
         _mud_Viewport__set_clustered(this.__ptr, value);
     }
 });
@@ -5226,6 +5595,7 @@ Object.defineProperty(Viewport.prototype, "to_gamma", {
         return !!(_mud_Viewport__get_to_gamma(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Viewport.to_gamma: expected boolean');
         _mud_Viewport__set_to_gamma(this.__ptr, value);
     }
 });

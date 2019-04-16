@@ -1478,17 +1478,8 @@ namespace clgen
 				jsw("ensureCache.prepare();");
 		};
 
-		auto js_check_msg = [](const CLCallable& f, const CLParam& p, const string& a)
+		auto js_check_type = [&](const CLType& t, const string& a, const string& msg)
 		{
-			return f.m_name + "(" + to_string(p.m_index) + ":" + p.m_name + "): ";
-		};
-
-		auto js_call_check_arg = [&](const CLCallable& f, const CLParam& p, const string& a)
-		{
-			string msg = js_check_msg(f, p, a);
-
-			const CLType& t = *p.m_type.m_type;
-
 			if(t.isinteger() || t.ischar() || t.isvoidptr() || t.isenum())
 				return "if (typeof " + a + " !== 'number') throw Error('" + msg + "expected integer');";
 			else if(t.isfloat())
@@ -1497,14 +1488,25 @@ namespace clgen
 				return "if (typeof " + a + " !== 'boolean') throw Error('" + msg + "expected boolean');";
 			else if(t.iscstring() || t.isstring())
 				return "if (typeof " + a + " !== 'string') throw Error('" + msg + "expected string');";
-				//return "if (typeof " + a + " !== 'string' && (!" + a + " || typeof " + a + " !== 'object' || typeof " + a + ".__ptr !== 'number')) throw Error('" + msg + "expected string');";
+			//return "if (typeof " + a + " !== 'string' && (!" + a + " || typeof " + a + " !== 'object' || typeof " + a + ".__ptr !== 'number')) throw Error('" + msg + "expected string');";
 			else if(t.issequence())
 				return string();
 			else if(t.isclass())
 				return "if (!checkClass(" + a + ", " + name(t) + ")) throw Error('" + msg + "expected " + t.m_name + "');";
-				//return "if (typeof " + a + " !== 'object' || !checkClass(" + a + ")) throw Error('" + msg + "expected " + t.m_name + "');";
+			//return "if (typeof " + a + " !== 'object' || !checkClass(" + a + ")) throw Error('" + msg + "expected " + t.m_name + "');";
 
 			return string();
+		};
+
+		auto js_check_param_msg = [](const CLCallable& f, const CLParam& p, const string& a)
+		{
+			return f.m_name + "(" + to_string(p.m_index) + ":" + p.m_name + "): ";
+		};
+
+		auto js_call_check_arg = [&](const CLCallable& f, const CLParam& p, const string& a)
+		{
+			const CLType& t = *p.m_type.m_type;
+			return js_check_type(t, a, js_check_param_msg(f, p, a));
 		};
 
 		auto js_call_check_n = [&](const CLCallable& f, size_t n, size_t max_args, bool first)
@@ -1554,6 +1556,8 @@ namespace clgen
 		auto js_setter = [&](const CLClass& c, const CLMember& m, bool isarray = false)
 		{
 			jsw("function(" + string(isarray ? "index, " : "") + "value) {");
+			string msg = c.m_name + "." + m.m_name + ": ";
+			jsw(js_check_type(*m.m_type.m_type, "value", msg));
 #if MULTI_FUNC
 			jsw("_" + id(c, "_set_" + m.m_name) + "(this.__ptr" + (isarray ? ", index" : "") + ", " + js_call_convert_arg(m.m_type, *m.m_type.m_type, "value", isarray) + ");");
 #else

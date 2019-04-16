@@ -14,6 +14,7 @@ Object.defineProperty(AutoStat_float.prototype, "value", {
         return _mud_AutoStat_float__get_value(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('AutoStat<float>.value: expected number');
         _mud_AutoStat_float__set_value(this.__ptr, value);
     }
 });
@@ -35,6 +36,7 @@ Object.defineProperty(AutoStat_int.prototype, "value", {
         return _mud_AutoStat_int__get_value(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('AutoStat<int>.value: expected integer');
         _mud_AutoStat_int__set_value(this.__ptr, value);
     }
 });
@@ -64,6 +66,7 @@ Object.defineProperty(Colour.prototype, "r", {
         return _mud_Colour__get_r(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Colour.r: expected number');
         _mud_Colour__set_r(this.__ptr, value);
     }
 });
@@ -72,6 +75,7 @@ Object.defineProperty(Colour.prototype, "g", {
         return _mud_Colour__get_g(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Colour.g: expected number');
         _mud_Colour__set_g(this.__ptr, value);
     }
 });
@@ -80,6 +84,7 @@ Object.defineProperty(Colour.prototype, "b", {
         return _mud_Colour__get_b(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Colour.b: expected number');
         _mud_Colour__set_b(this.__ptr, value);
     }
 });
@@ -88,6 +93,7 @@ Object.defineProperty(Colour.prototype, "a", {
         return _mud_Colour__get_a(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Colour.a: expected number');
         _mud_Colour__set_a(this.__ptr, value);
     }
 });
@@ -109,6 +115,7 @@ Object.defineProperty(ColourHSL.prototype, "h", {
         return _mud_ColourHSL__get_h(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ColourHSL.h: expected number');
         _mud_ColourHSL__set_h(this.__ptr, value);
     }
 });
@@ -117,6 +124,7 @@ Object.defineProperty(ColourHSL.prototype, "s", {
         return _mud_ColourHSL__get_s(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ColourHSL.s: expected number');
         _mud_ColourHSL__set_s(this.__ptr, value);
     }
 });
@@ -125,6 +133,7 @@ Object.defineProperty(ColourHSL.prototype, "l", {
         return _mud_ColourHSL__get_l(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ColourHSL.l: expected number');
         _mud_ColourHSL__set_l(this.__ptr, value);
     }
 });
@@ -133,6 +142,7 @@ Object.defineProperty(ColourHSL.prototype, "a", {
         return _mud_ColourHSL__get_a(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ColourHSL.a: expected number');
         _mud_ColourHSL__set_a(this.__ptr, value);
     }
 });
@@ -154,6 +164,7 @@ Object.defineProperty(Image.prototype, "d_name", {
         return UTF8ToString(_mud_Image__get_d_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Image.d_name: expected string');
         _mud_Image__set_d_name(this.__ptr, ensureString(value));
     }
 });
@@ -162,6 +173,7 @@ Object.defineProperty(Image.prototype, "d_path", {
         return UTF8ToString(_mud_Image__get_d_path(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Image.d_path: expected string');
         _mud_Image__set_d_path(this.__ptr, ensureString(value));
     }
 });
@@ -191,6 +203,7 @@ Object.defineProperty(Image256.prototype, "size", {
         return wrapPointer(_mud_Image256__get_size(this.__ptr), v2_uint);
     },
     set: function(value) {
+        if (!checkClass(value, v2_uint)) throw Error('Image256.size: expected v2<uint>');
         _mud_Image256__set_size(this.__ptr, value.__ptr);
     }
 });
@@ -199,6 +212,7 @@ Object.defineProperty(Image256.prototype, "palette", {
         return wrapPointer(_mud_Image256__get_palette(this.__ptr), Palette);
     },
     set: function(value) {
+        if (!checkClass(value, Palette)) throw Error('Image256.palette: expected Palette');
         _mud_Image256__set_palette(this.__ptr, value.__ptr);
     }
 });
@@ -247,6 +261,7 @@ Object.defineProperty(Range_float.prototype, "min", {
         return _mud_Range_float__get_min(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Range<float>.min: expected number');
         _mud_Range_float__set_min(this.__ptr, value);
     }
 });
@@ -255,6 +270,7 @@ Object.defineProperty(Range_float.prototype, "max", {
         return _mud_Range_float__get_max(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Range<float>.max: expected number');
         _mud_Range_float__set_max(this.__ptr, value);
     }
 });
@@ -276,6 +292,7 @@ Object.defineProperty(Range_mud_Colour.prototype, "min", {
         return wrapPointer(_mud_Range_mud_Colour__get_min(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Range<mud::Colour>.min: expected Colour');
         _mud_Range_mud_Colour__set_min(this.__ptr, value.__ptr);
     }
 });
@@ -284,6 +301,7 @@ Object.defineProperty(Range_mud_Colour.prototype, "max", {
         return wrapPointer(_mud_Range_mud_Colour__get_max(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Range<mud::Colour>.max: expected Colour');
         _mud_Range_mud_Colour__set_max(this.__ptr, value.__ptr);
     }
 });
@@ -305,6 +323,7 @@ Object.defineProperty(Range_mud_quat.prototype, "min", {
         return wrapPointer(_mud_Range_mud_quat__get_min(this.__ptr), quat);
     },
     set: function(value) {
+        if (!checkClass(value, quat)) throw Error('Range<mud::quat>.min: expected quat');
         _mud_Range_mud_quat__set_min(this.__ptr, value.__ptr);
     }
 });
@@ -313,6 +332,7 @@ Object.defineProperty(Range_mud_quat.prototype, "max", {
         return wrapPointer(_mud_Range_mud_quat__get_max(this.__ptr), quat);
     },
     set: function(value) {
+        if (!checkClass(value, quat)) throw Error('Range<mud::quat>.max: expected quat');
         _mud_Range_mud_quat__set_max(this.__ptr, value.__ptr);
     }
 });
@@ -334,6 +354,7 @@ Object.defineProperty(Range_mud_vec3.prototype, "min", {
         return wrapPointer(_mud_Range_mud_vec3__get_min(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Range<mud::vec3>.min: expected v3<float>');
         _mud_Range_mud_vec3__set_min(this.__ptr, value.__ptr);
     }
 });
@@ -342,6 +363,7 @@ Object.defineProperty(Range_mud_vec3.prototype, "max", {
         return wrapPointer(_mud_Range_mud_vec3__get_max(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Range<mud::vec3>.max: expected v3<float>');
         _mud_Range_mud_vec3__set_max(this.__ptr, value.__ptr);
     }
 });
@@ -363,6 +385,7 @@ Object.defineProperty(Range_uint32_t.prototype, "min", {
         return _mud_Range_uint32_t__get_min(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Range<uint32_t>.min: expected integer');
         _mud_Range_uint32_t__set_min(this.__ptr, value);
     }
 });
@@ -371,6 +394,7 @@ Object.defineProperty(Range_uint32_t.prototype, "max", {
         return _mud_Range_uint32_t__get_max(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Range<uint32_t>.max: expected integer');
         _mud_Range_uint32_t__set_max(this.__ptr, value);
     }
 });
@@ -392,6 +416,7 @@ Object.defineProperty(Time.prototype, "value", {
         return _mud_Time__get_value(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Time.value: expected number');
         _mud_Time__set_value(this.__ptr, value);
     }
 });
@@ -413,6 +438,7 @@ Object.defineProperty(TimeSpan.prototype, "start", {
         return wrapPointer(_mud_TimeSpan__get_start(this.__ptr), Time);
     },
     set: function(value) {
+        if (!checkClass(value, Time)) throw Error('TimeSpan.start: expected Time');
         _mud_TimeSpan__set_start(this.__ptr, value.__ptr);
     }
 });
@@ -421,6 +447,7 @@ Object.defineProperty(TimeSpan.prototype, "end", {
         return wrapPointer(_mud_TimeSpan__get_end(this.__ptr), Time);
     },
     set: function(value) {
+        if (!checkClass(value, Time)) throw Error('TimeSpan.end: expected Time');
         _mud_TimeSpan__set_end(this.__ptr, value.__ptr);
     }
 });
@@ -442,6 +469,7 @@ Object.defineProperty(Transform.prototype, "position", {
         return wrapPointer(_mud_Transform__get_position(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Transform.position: expected v3<float>');
         _mud_Transform__set_position(this.__ptr, value.__ptr);
     }
 });
@@ -450,6 +478,7 @@ Object.defineProperty(Transform.prototype, "rotation", {
         return wrapPointer(_mud_Transform__get_rotation(this.__ptr), quat);
     },
     set: function(value) {
+        if (!checkClass(value, quat)) throw Error('Transform.rotation: expected quat');
         _mud_Transform__set_rotation(this.__ptr, value.__ptr);
     }
 });
@@ -458,6 +487,7 @@ Object.defineProperty(Transform.prototype, "scale", {
         return wrapPointer(_mud_Transform__get_scale(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Transform.scale: expected v3<float>');
         _mud_Transform__set_scale(this.__ptr, value.__ptr);
     }
 });
@@ -570,6 +600,7 @@ Object.defineProperty(ValueTrack_float.prototype, "mode", {
         return _mud_ValueTrack_float__get_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ValueTrack<float>.mode: expected integer');
         _mud_ValueTrack_float__set_mode(this.__ptr, value);
     }
 });
@@ -578,6 +609,7 @@ Object.defineProperty(ValueTrack_float.prototype, "value", {
         return _mud_ValueTrack_float__get_value(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ValueTrack<float>.value: expected number');
         _mud_ValueTrack_float__set_value(this.__ptr, value);
     }
 });
@@ -586,6 +618,7 @@ Object.defineProperty(ValueTrack_float.prototype, "min", {
         return _mud_ValueTrack_float__get_min(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ValueTrack<float>.min: expected number');
         _mud_ValueTrack_float__set_min(this.__ptr, value);
     }
 });
@@ -594,6 +627,7 @@ Object.defineProperty(ValueTrack_float.prototype, "max", {
         return _mud_ValueTrack_float__get_max(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ValueTrack<float>.max: expected number');
         _mud_ValueTrack_float__set_max(this.__ptr, value);
     }
 });
@@ -602,6 +636,7 @@ Object.defineProperty(ValueTrack_float.prototype, "curve", {
         return wrapPointer(_mud_ValueTrack_float__get_curve(this.__ptr), ValueCurve_float);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_float)) throw Error('ValueTrack<float>.curve: expected ValueCurve<float>');
         _mud_ValueTrack_float__set_curve(this.__ptr, value.__ptr);
     }
 });
@@ -610,6 +645,7 @@ Object.defineProperty(ValueTrack_float.prototype, "min_curve", {
         return wrapPointer(_mud_ValueTrack_float__get_min_curve(this.__ptr), ValueCurve_float);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_float)) throw Error('ValueTrack<float>.min_curve: expected ValueCurve<float>');
         _mud_ValueTrack_float__set_min_curve(this.__ptr, value.__ptr);
     }
 });
@@ -618,6 +654,7 @@ Object.defineProperty(ValueTrack_float.prototype, "max_curve", {
         return wrapPointer(_mud_ValueTrack_float__get_max_curve(this.__ptr), ValueCurve_float);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_float)) throw Error('ValueTrack<float>.max_curve: expected ValueCurve<float>');
         _mud_ValueTrack_float__set_max_curve(this.__ptr, value.__ptr);
     }
 });
@@ -641,6 +678,7 @@ Object.defineProperty(ValueTrack_mud_Colour.prototype, "mode", {
         return _mud_ValueTrack_mud_Colour__get_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ValueTrack<mud::Colour>.mode: expected integer');
         _mud_ValueTrack_mud_Colour__set_mode(this.__ptr, value);
     }
 });
@@ -649,6 +687,7 @@ Object.defineProperty(ValueTrack_mud_Colour.prototype, "value", {
         return wrapPointer(_mud_ValueTrack_mud_Colour__get_value(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('ValueTrack<mud::Colour>.value: expected Colour');
         _mud_ValueTrack_mud_Colour__set_value(this.__ptr, value.__ptr);
     }
 });
@@ -657,6 +696,7 @@ Object.defineProperty(ValueTrack_mud_Colour.prototype, "min", {
         return wrapPointer(_mud_ValueTrack_mud_Colour__get_min(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('ValueTrack<mud::Colour>.min: expected Colour');
         _mud_ValueTrack_mud_Colour__set_min(this.__ptr, value.__ptr);
     }
 });
@@ -665,6 +705,7 @@ Object.defineProperty(ValueTrack_mud_Colour.prototype, "max", {
         return wrapPointer(_mud_ValueTrack_mud_Colour__get_max(this.__ptr), Colour);
     },
     set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('ValueTrack<mud::Colour>.max: expected Colour');
         _mud_ValueTrack_mud_Colour__set_max(this.__ptr, value.__ptr);
     }
 });
@@ -673,6 +714,7 @@ Object.defineProperty(ValueTrack_mud_Colour.prototype, "curve", {
         return wrapPointer(_mud_ValueTrack_mud_Colour__get_curve(this.__ptr), ValueCurve_mud_Colour);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_mud_Colour)) throw Error('ValueTrack<mud::Colour>.curve: expected ValueCurve<mud::Colour>');
         _mud_ValueTrack_mud_Colour__set_curve(this.__ptr, value.__ptr);
     }
 });
@@ -681,6 +723,7 @@ Object.defineProperty(ValueTrack_mud_Colour.prototype, "min_curve", {
         return wrapPointer(_mud_ValueTrack_mud_Colour__get_min_curve(this.__ptr), ValueCurve_mud_Colour);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_mud_Colour)) throw Error('ValueTrack<mud::Colour>.min_curve: expected ValueCurve<mud::Colour>');
         _mud_ValueTrack_mud_Colour__set_min_curve(this.__ptr, value.__ptr);
     }
 });
@@ -689,6 +732,7 @@ Object.defineProperty(ValueTrack_mud_Colour.prototype, "max_curve", {
         return wrapPointer(_mud_ValueTrack_mud_Colour__get_max_curve(this.__ptr), ValueCurve_mud_Colour);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_mud_Colour)) throw Error('ValueTrack<mud::Colour>.max_curve: expected ValueCurve<mud::Colour>');
         _mud_ValueTrack_mud_Colour__set_max_curve(this.__ptr, value.__ptr);
     }
 });
@@ -712,6 +756,7 @@ Object.defineProperty(ValueTrack_mud_quat.prototype, "mode", {
         return _mud_ValueTrack_mud_quat__get_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ValueTrack<mud::quat>.mode: expected integer');
         _mud_ValueTrack_mud_quat__set_mode(this.__ptr, value);
     }
 });
@@ -720,6 +765,7 @@ Object.defineProperty(ValueTrack_mud_quat.prototype, "value", {
         return wrapPointer(_mud_ValueTrack_mud_quat__get_value(this.__ptr), quat);
     },
     set: function(value) {
+        if (!checkClass(value, quat)) throw Error('ValueTrack<mud::quat>.value: expected quat');
         _mud_ValueTrack_mud_quat__set_value(this.__ptr, value.__ptr);
     }
 });
@@ -728,6 +774,7 @@ Object.defineProperty(ValueTrack_mud_quat.prototype, "min", {
         return wrapPointer(_mud_ValueTrack_mud_quat__get_min(this.__ptr), quat);
     },
     set: function(value) {
+        if (!checkClass(value, quat)) throw Error('ValueTrack<mud::quat>.min: expected quat');
         _mud_ValueTrack_mud_quat__set_min(this.__ptr, value.__ptr);
     }
 });
@@ -736,6 +783,7 @@ Object.defineProperty(ValueTrack_mud_quat.prototype, "max", {
         return wrapPointer(_mud_ValueTrack_mud_quat__get_max(this.__ptr), quat);
     },
     set: function(value) {
+        if (!checkClass(value, quat)) throw Error('ValueTrack<mud::quat>.max: expected quat');
         _mud_ValueTrack_mud_quat__set_max(this.__ptr, value.__ptr);
     }
 });
@@ -744,6 +792,7 @@ Object.defineProperty(ValueTrack_mud_quat.prototype, "curve", {
         return wrapPointer(_mud_ValueTrack_mud_quat__get_curve(this.__ptr), ValueCurve_mud_quat);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_mud_quat)) throw Error('ValueTrack<mud::quat>.curve: expected ValueCurve<mud::quat>');
         _mud_ValueTrack_mud_quat__set_curve(this.__ptr, value.__ptr);
     }
 });
@@ -752,6 +801,7 @@ Object.defineProperty(ValueTrack_mud_quat.prototype, "min_curve", {
         return wrapPointer(_mud_ValueTrack_mud_quat__get_min_curve(this.__ptr), ValueCurve_mud_quat);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_mud_quat)) throw Error('ValueTrack<mud::quat>.min_curve: expected ValueCurve<mud::quat>');
         _mud_ValueTrack_mud_quat__set_min_curve(this.__ptr, value.__ptr);
     }
 });
@@ -760,6 +810,7 @@ Object.defineProperty(ValueTrack_mud_quat.prototype, "max_curve", {
         return wrapPointer(_mud_ValueTrack_mud_quat__get_max_curve(this.__ptr), ValueCurve_mud_quat);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_mud_quat)) throw Error('ValueTrack<mud::quat>.max_curve: expected ValueCurve<mud::quat>');
         _mud_ValueTrack_mud_quat__set_max_curve(this.__ptr, value.__ptr);
     }
 });
@@ -783,6 +834,7 @@ Object.defineProperty(ValueTrack_mud_vec3.prototype, "mode", {
         return _mud_ValueTrack_mud_vec3__get_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ValueTrack<mud::vec3>.mode: expected integer');
         _mud_ValueTrack_mud_vec3__set_mode(this.__ptr, value);
     }
 });
@@ -791,6 +843,7 @@ Object.defineProperty(ValueTrack_mud_vec3.prototype, "value", {
         return wrapPointer(_mud_ValueTrack_mud_vec3__get_value(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('ValueTrack<mud::vec3>.value: expected v3<float>');
         _mud_ValueTrack_mud_vec3__set_value(this.__ptr, value.__ptr);
     }
 });
@@ -799,6 +852,7 @@ Object.defineProperty(ValueTrack_mud_vec3.prototype, "min", {
         return wrapPointer(_mud_ValueTrack_mud_vec3__get_min(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('ValueTrack<mud::vec3>.min: expected v3<float>');
         _mud_ValueTrack_mud_vec3__set_min(this.__ptr, value.__ptr);
     }
 });
@@ -807,6 +861,7 @@ Object.defineProperty(ValueTrack_mud_vec3.prototype, "max", {
         return wrapPointer(_mud_ValueTrack_mud_vec3__get_max(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('ValueTrack<mud::vec3>.max: expected v3<float>');
         _mud_ValueTrack_mud_vec3__set_max(this.__ptr, value.__ptr);
     }
 });
@@ -815,6 +870,7 @@ Object.defineProperty(ValueTrack_mud_vec3.prototype, "curve", {
         return wrapPointer(_mud_ValueTrack_mud_vec3__get_curve(this.__ptr), ValueCurve_mud_vec3);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_mud_vec3)) throw Error('ValueTrack<mud::vec3>.curve: expected ValueCurve<mud::vec3>');
         _mud_ValueTrack_mud_vec3__set_curve(this.__ptr, value.__ptr);
     }
 });
@@ -823,6 +879,7 @@ Object.defineProperty(ValueTrack_mud_vec3.prototype, "min_curve", {
         return wrapPointer(_mud_ValueTrack_mud_vec3__get_min_curve(this.__ptr), ValueCurve_mud_vec3);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_mud_vec3)) throw Error('ValueTrack<mud::vec3>.min_curve: expected ValueCurve<mud::vec3>');
         _mud_ValueTrack_mud_vec3__set_min_curve(this.__ptr, value.__ptr);
     }
 });
@@ -831,6 +888,7 @@ Object.defineProperty(ValueTrack_mud_vec3.prototype, "max_curve", {
         return wrapPointer(_mud_ValueTrack_mud_vec3__get_max_curve(this.__ptr), ValueCurve_mud_vec3);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_mud_vec3)) throw Error('ValueTrack<mud::vec3>.max_curve: expected ValueCurve<mud::vec3>');
         _mud_ValueTrack_mud_vec3__set_max_curve(this.__ptr, value.__ptr);
     }
 });
@@ -854,6 +912,7 @@ Object.defineProperty(ValueTrack_uint32_t.prototype, "mode", {
         return _mud_ValueTrack_uint32_t__get_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ValueTrack<uint32_t>.mode: expected integer');
         _mud_ValueTrack_uint32_t__set_mode(this.__ptr, value);
     }
 });
@@ -862,6 +921,7 @@ Object.defineProperty(ValueTrack_uint32_t.prototype, "value", {
         return _mud_ValueTrack_uint32_t__get_value(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ValueTrack<uint32_t>.value: expected integer');
         _mud_ValueTrack_uint32_t__set_value(this.__ptr, value);
     }
 });
@@ -870,6 +930,7 @@ Object.defineProperty(ValueTrack_uint32_t.prototype, "min", {
         return _mud_ValueTrack_uint32_t__get_min(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ValueTrack<uint32_t>.min: expected integer');
         _mud_ValueTrack_uint32_t__set_min(this.__ptr, value);
     }
 });
@@ -878,6 +939,7 @@ Object.defineProperty(ValueTrack_uint32_t.prototype, "max", {
         return _mud_ValueTrack_uint32_t__get_max(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ValueTrack<uint32_t>.max: expected integer');
         _mud_ValueTrack_uint32_t__set_max(this.__ptr, value);
     }
 });
@@ -886,6 +948,7 @@ Object.defineProperty(ValueTrack_uint32_t.prototype, "curve", {
         return wrapPointer(_mud_ValueTrack_uint32_t__get_curve(this.__ptr), ValueCurve_uint32_t);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_uint32_t)) throw Error('ValueTrack<uint32_t>.curve: expected ValueCurve<uint32_t>');
         _mud_ValueTrack_uint32_t__set_curve(this.__ptr, value.__ptr);
     }
 });
@@ -894,6 +957,7 @@ Object.defineProperty(ValueTrack_uint32_t.prototype, "min_curve", {
         return wrapPointer(_mud_ValueTrack_uint32_t__get_min_curve(this.__ptr), ValueCurve_uint32_t);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_uint32_t)) throw Error('ValueTrack<uint32_t>.min_curve: expected ValueCurve<uint32_t>');
         _mud_ValueTrack_uint32_t__set_min_curve(this.__ptr, value.__ptr);
     }
 });
@@ -902,6 +966,7 @@ Object.defineProperty(ValueTrack_uint32_t.prototype, "max_curve", {
         return wrapPointer(_mud_ValueTrack_uint32_t__get_max_curve(this.__ptr), ValueCurve_uint32_t);
     },
     set: function(value) {
+        if (!checkClass(value, ValueCurve_uint32_t)) throw Error('ValueTrack<uint32_t>.max_curve: expected ValueCurve<uint32_t>');
         _mud_ValueTrack_uint32_t__set_max_curve(this.__ptr, value.__ptr);
     }
 });
@@ -927,6 +992,7 @@ Object.defineProperty(mat3.prototype, "f", {
         return _mud_mat3__get_f(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('mat3.f: expected number');
         _mud_mat3__set_f(this.__ptr, ensureFloat32(value));
     }
 });
@@ -952,6 +1018,7 @@ Object.defineProperty(mat4.prototype, "f", {
         return _mud_mat4__get_f(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('mat4.f: expected number');
         _mud_mat4__set_f(this.__ptr, ensureFloat32(value));
     }
 });
@@ -977,6 +1044,7 @@ Object.defineProperty(v2_bool.prototype, "x", {
         return !!(_mud_v2_bool__get_x(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('v2<bool>.x: expected boolean');
         _mud_v2_bool__set_x(this.__ptr, value);
     }
 });
@@ -985,6 +1053,7 @@ Object.defineProperty(v2_bool.prototype, "y", {
         return !!(_mud_v2_bool__get_y(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('v2<bool>.y: expected boolean');
         _mud_v2_bool__set_y(this.__ptr, value);
     }
 });
@@ -1010,6 +1079,7 @@ Object.defineProperty(v2_float.prototype, "x", {
         return _mud_v2_float__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<float>.x: expected number');
         _mud_v2_float__set_x(this.__ptr, value);
     }
 });
@@ -1018,6 +1088,7 @@ Object.defineProperty(v2_float.prototype, "y", {
         return _mud_v2_float__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<float>.y: expected number');
         _mud_v2_float__set_y(this.__ptr, value);
     }
 });
@@ -1043,6 +1114,7 @@ Object.defineProperty(v2_int.prototype, "x", {
         return _mud_v2_int__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<int>.x: expected integer');
         _mud_v2_int__set_x(this.__ptr, value);
     }
 });
@@ -1051,6 +1123,7 @@ Object.defineProperty(v2_int.prototype, "y", {
         return _mud_v2_int__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<int>.y: expected integer');
         _mud_v2_int__set_y(this.__ptr, value);
     }
 });
@@ -1076,6 +1149,7 @@ Object.defineProperty(v2_uint.prototype, "x", {
         return _mud_v2_uint__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<uint>.x: expected integer');
         _mud_v2_uint__set_x(this.__ptr, value);
     }
 });
@@ -1084,6 +1158,7 @@ Object.defineProperty(v2_uint.prototype, "y", {
         return _mud_v2_uint__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<uint>.y: expected integer');
         _mud_v2_uint__set_y(this.__ptr, value);
     }
 });
@@ -1109,6 +1184,7 @@ Object.defineProperty(v3_bool.prototype, "x", {
         return !!(_mud_v3_bool__get_x(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('v3<bool>.x: expected boolean');
         _mud_v3_bool__set_x(this.__ptr, value);
     }
 });
@@ -1117,6 +1193,7 @@ Object.defineProperty(v3_bool.prototype, "y", {
         return !!(_mud_v3_bool__get_y(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('v3<bool>.y: expected boolean');
         _mud_v3_bool__set_y(this.__ptr, value);
     }
 });
@@ -1125,6 +1202,7 @@ Object.defineProperty(v3_bool.prototype, "z", {
         return !!(_mud_v3_bool__get_z(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('v3<bool>.z: expected boolean');
         _mud_v3_bool__set_z(this.__ptr, value);
     }
 });
@@ -1150,6 +1228,7 @@ Object.defineProperty(v3_float.prototype, "x", {
         return _mud_v3_float__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v3<float>.x: expected number');
         _mud_v3_float__set_x(this.__ptr, value);
     }
 });
@@ -1158,6 +1237,7 @@ Object.defineProperty(v3_float.prototype, "y", {
         return _mud_v3_float__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v3<float>.y: expected number');
         _mud_v3_float__set_y(this.__ptr, value);
     }
 });
@@ -1166,6 +1246,7 @@ Object.defineProperty(v3_float.prototype, "z", {
         return _mud_v3_float__get_z(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v3<float>.z: expected number');
         _mud_v3_float__set_z(this.__ptr, value);
     }
 });
@@ -1191,6 +1272,7 @@ Object.defineProperty(v3_int.prototype, "x", {
         return _mud_v3_int__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v3<int>.x: expected integer');
         _mud_v3_int__set_x(this.__ptr, value);
     }
 });
@@ -1199,6 +1281,7 @@ Object.defineProperty(v3_int.prototype, "y", {
         return _mud_v3_int__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v3<int>.y: expected integer');
         _mud_v3_int__set_y(this.__ptr, value);
     }
 });
@@ -1207,6 +1290,7 @@ Object.defineProperty(v3_int.prototype, "z", {
         return _mud_v3_int__get_z(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v3<int>.z: expected integer');
         _mud_v3_int__set_z(this.__ptr, value);
     }
 });
@@ -1232,6 +1316,7 @@ Object.defineProperty(v3_uint.prototype, "x", {
         return _mud_v3_uint__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v3<uint>.x: expected integer');
         _mud_v3_uint__set_x(this.__ptr, value);
     }
 });
@@ -1240,6 +1325,7 @@ Object.defineProperty(v3_uint.prototype, "y", {
         return _mud_v3_uint__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v3<uint>.y: expected integer');
         _mud_v3_uint__set_y(this.__ptr, value);
     }
 });
@@ -1248,6 +1334,7 @@ Object.defineProperty(v3_uint.prototype, "z", {
         return _mud_v3_uint__get_z(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v3<uint>.z: expected integer');
         _mud_v3_uint__set_z(this.__ptr, value);
     }
 });
@@ -1273,6 +1360,7 @@ Object.defineProperty(v4_bool.prototype, "x", {
         return !!(_mud_v4_bool__get_x(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('v4<bool>.x: expected boolean');
         _mud_v4_bool__set_x(this.__ptr, value);
     }
 });
@@ -1281,6 +1369,7 @@ Object.defineProperty(v4_bool.prototype, "y", {
         return !!(_mud_v4_bool__get_y(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('v4<bool>.y: expected boolean');
         _mud_v4_bool__set_y(this.__ptr, value);
     }
 });
@@ -1289,6 +1378,7 @@ Object.defineProperty(v4_bool.prototype, "z", {
         return !!(_mud_v4_bool__get_z(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('v4<bool>.z: expected boolean');
         _mud_v4_bool__set_z(this.__ptr, value);
     }
 });
@@ -1297,6 +1387,7 @@ Object.defineProperty(v4_bool.prototype, "w", {
         return !!(_mud_v4_bool__get_w(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('v4<bool>.w: expected boolean');
         _mud_v4_bool__set_w(this.__ptr, value);
     }
 });
@@ -1322,6 +1413,7 @@ Object.defineProperty(v4_float.prototype, "x", {
         return _mud_v4_float__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<float>.x: expected number');
         _mud_v4_float__set_x(this.__ptr, value);
     }
 });
@@ -1330,6 +1422,7 @@ Object.defineProperty(v4_float.prototype, "y", {
         return _mud_v4_float__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<float>.y: expected number');
         _mud_v4_float__set_y(this.__ptr, value);
     }
 });
@@ -1338,6 +1431,7 @@ Object.defineProperty(v4_float.prototype, "z", {
         return _mud_v4_float__get_z(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<float>.z: expected number');
         _mud_v4_float__set_z(this.__ptr, value);
     }
 });
@@ -1346,6 +1440,7 @@ Object.defineProperty(v4_float.prototype, "w", {
         return _mud_v4_float__get_w(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<float>.w: expected number');
         _mud_v4_float__set_w(this.__ptr, value);
     }
 });
@@ -1371,6 +1466,7 @@ Object.defineProperty(v4_int.prototype, "x", {
         return _mud_v4_int__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<int>.x: expected integer');
         _mud_v4_int__set_x(this.__ptr, value);
     }
 });
@@ -1379,6 +1475,7 @@ Object.defineProperty(v4_int.prototype, "y", {
         return _mud_v4_int__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<int>.y: expected integer');
         _mud_v4_int__set_y(this.__ptr, value);
     }
 });
@@ -1387,6 +1484,7 @@ Object.defineProperty(v4_int.prototype, "z", {
         return _mud_v4_int__get_z(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<int>.z: expected integer');
         _mud_v4_int__set_z(this.__ptr, value);
     }
 });
@@ -1395,6 +1493,7 @@ Object.defineProperty(v4_int.prototype, "w", {
         return _mud_v4_int__get_w(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<int>.w: expected integer');
         _mud_v4_int__set_w(this.__ptr, value);
     }
 });
@@ -1420,6 +1519,7 @@ Object.defineProperty(v4_uint.prototype, "x", {
         return _mud_v4_uint__get_x(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<uint>.x: expected integer');
         _mud_v4_uint__set_x(this.__ptr, value);
     }
 });
@@ -1428,6 +1528,7 @@ Object.defineProperty(v4_uint.prototype, "y", {
         return _mud_v4_uint__get_y(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<uint>.y: expected integer');
         _mud_v4_uint__set_y(this.__ptr, value);
     }
 });
@@ -1436,6 +1537,7 @@ Object.defineProperty(v4_uint.prototype, "z", {
         return _mud_v4_uint__get_z(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<uint>.z: expected integer');
         _mud_v4_uint__set_z(this.__ptr, value);
     }
 });
@@ -1444,6 +1546,7 @@ Object.defineProperty(v4_uint.prototype, "w", {
         return _mud_v4_uint__get_w(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('v4<uint>.w: expected integer');
         _mud_v4_uint__set_w(this.__ptr, value);
     }
 });

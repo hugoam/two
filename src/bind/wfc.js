@@ -13,6 +13,7 @@ Object.defineProperty(Tile.prototype, "index", {
         return _mud_Tile__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Tile.index: expected integer');
         _mud_Tile__set_index(this.__ptr, value);
     }
 });
@@ -21,6 +22,7 @@ Object.defineProperty(Tile.prototype, "name", {
         return UTF8ToString(_mud_Tile__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Tile.name: expected string');
         _mud_Tile__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -29,6 +31,7 @@ Object.defineProperty(Tile.prototype, "symmetry", {
         return _mud_Tile__get_symmetry(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Tile.symmetry: expected integer');
         _mud_Tile__set_symmetry(this.__ptr, value);
     }
 });
@@ -37,6 +40,7 @@ Object.defineProperty(Tile.prototype, "cardinality", {
         return _mud_Tile__get_cardinality(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Tile.cardinality: expected integer');
         _mud_Tile__set_cardinality(this.__ptr, value);
     }
 });
@@ -45,6 +49,7 @@ Object.defineProperty(Tile.prototype, "profile", {
         return _mud_Tile__get_profile(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Tile.profile: expected integer');
         _mud_Tile__set_profile(this.__ptr, value);
     }
 });
@@ -66,6 +71,7 @@ Object.defineProperty(Tileset.prototype, "name", {
         return UTF8ToString(_mud_Tileset__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Tileset.name: expected string');
         _mud_Tileset__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -74,6 +80,7 @@ Object.defineProperty(Tileset.prototype, "tile_size", {
         return wrapPointer(_mud_Tileset__get_tile_size(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Tileset.tile_size: expected v3<float>');
         _mud_Tileset__set_tile_size(this.__ptr, value.__ptr);
     }
 });
@@ -82,6 +89,7 @@ Object.defineProperty(Tileset.prototype, "tile_scale", {
         return wrapPointer(_mud_Tileset__get_tile_scale(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('Tileset.tile_scale: expected v3<float>');
         _mud_Tileset__set_tile_scale(this.__ptr, value.__ptr);
     }
 });
@@ -90,6 +98,7 @@ Object.defineProperty(Tileset.prototype, "nutiles", {
         return _mud_Tileset__get_nutiles(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Tileset.nutiles: expected integer');
         _mud_Tileset__set_nutiles(this.__ptr, value);
     }
 });

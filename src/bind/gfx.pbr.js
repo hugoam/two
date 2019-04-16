@@ -14,6 +14,7 @@ Object.defineProperty(BCS.prototype, "enabled", {
         return !!(_mud_BCS__get_enabled(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('BCS.enabled: expected boolean');
         _mud_BCS__set_enabled(this.__ptr, value);
     }
 });
@@ -22,6 +23,7 @@ Object.defineProperty(BCS.prototype, "brightness", {
         return _mud_BCS__get_brightness(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('BCS.brightness: expected number');
         _mud_BCS__set_brightness(this.__ptr, value);
     }
 });
@@ -30,6 +32,7 @@ Object.defineProperty(BCS.prototype, "contrast", {
         return _mud_BCS__get_contrast(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('BCS.contrast: expected number');
         _mud_BCS__set_contrast(this.__ptr, value);
     }
 });
@@ -38,6 +41,7 @@ Object.defineProperty(BCS.prototype, "saturation", {
         return _mud_BCS__get_saturation(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('BCS.saturation: expected number');
         _mud_BCS__set_saturation(this.__ptr, value);
     }
 });
@@ -82,6 +86,7 @@ Object.defineProperty(CubeCamera.prototype, "size", {
         return wrapPointer(_mud_CubeCamera__get_size(this.__ptr), v2_uint);
     },
     set: function(value) {
+        if (!checkClass(value, v2_uint)) throw Error('CubeCamera.size: expected v2<uint>');
         _mud_CubeCamera__set_size(this.__ptr, value.__ptr);
     }
 });
@@ -119,6 +124,7 @@ Object.defineProperty(CubeTarget.prototype, "size", {
         return _mud_CubeTarget__get_size(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('CubeTarget.size: expected integer');
         _mud_CubeTarget__set_size(this.__ptr, value);
     }
 });
@@ -140,6 +146,7 @@ Object.defineProperty(DofBlur.prototype, "enabled", {
         return !!(_mud_DofBlur__get_enabled(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('DofBlur.enabled: expected boolean');
         _mud_DofBlur__set_enabled(this.__ptr, value);
     }
 });
@@ -148,6 +155,7 @@ Object.defineProperty(DofBlur.prototype, "far", {
         return wrapPointer(_mud_DofBlur__get_far(this.__ptr), DofParams);
     },
     set: function(value) {
+        if (!checkClass(value, DofParams)) throw Error('DofBlur.far: expected DofParams');
         _mud_DofBlur__set_far(this.__ptr, value.__ptr);
     }
 });
@@ -156,6 +164,7 @@ Object.defineProperty(DofBlur.prototype, "near", {
         return wrapPointer(_mud_DofBlur__get_near(this.__ptr), DofParams);
     },
     set: function(value) {
+        if (!checkClass(value, DofParams)) throw Error('DofBlur.near: expected DofParams');
         _mud_DofBlur__set_near(this.__ptr, value.__ptr);
     }
 });
@@ -164,6 +173,7 @@ Object.defineProperty(DofBlur.prototype, "max_coc_radius", {
         return _mud_DofBlur__get_max_coc_radius(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('DofBlur.max_coc_radius: expected number');
         _mud_DofBlur__set_max_coc_radius(this.__ptr, value);
     }
 });
@@ -185,6 +195,7 @@ Object.defineProperty(DofParams.prototype, "distance", {
         return _mud_DofParams__get_distance(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('DofParams.distance: expected number');
         _mud_DofParams__set_distance(this.__ptr, value);
     }
 });
@@ -193,6 +204,7 @@ Object.defineProperty(DofParams.prototype, "transition", {
         return _mud_DofParams__get_transition(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('DofParams.transition: expected number');
         _mud_DofParams__set_transition(this.__ptr, value);
     }
 });
@@ -201,6 +213,7 @@ Object.defineProperty(DofParams.prototype, "radius", {
         return _mud_DofParams__get_radius(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('DofParams.radius: expected number');
         _mud_DofParams__set_radius(this.__ptr, value);
     }
 });
@@ -232,6 +245,7 @@ Object.defineProperty(Glow.prototype, "enabled", {
         return !!(_mud_Glow__get_enabled(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Glow.enabled: expected boolean');
         _mud_Glow__set_enabled(this.__ptr, value);
     }
 });
@@ -240,6 +254,7 @@ Object.defineProperty(Glow.prototype, "levels_1_4", {
         return wrapPointer(_mud_Glow__get_levels_1_4(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('Glow.levels_1_4: expected v4<float>');
         _mud_Glow__set_levels_1_4(this.__ptr, value.__ptr);
     }
 });
@@ -248,6 +263,7 @@ Object.defineProperty(Glow.prototype, "levels_5_8", {
         return wrapPointer(_mud_Glow__get_levels_5_8(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('Glow.levels_5_8: expected v4<float>');
         _mud_Glow__set_levels_5_8(this.__ptr, value.__ptr);
     }
 });
@@ -256,6 +272,7 @@ Object.defineProperty(Glow.prototype, "intensity", {
         return _mud_Glow__get_intensity(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Glow.intensity: expected number');
         _mud_Glow__set_intensity(this.__ptr, value);
     }
 });
@@ -264,6 +281,7 @@ Object.defineProperty(Glow.prototype, "bloom", {
         return _mud_Glow__get_bloom(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Glow.bloom: expected number');
         _mud_Glow__set_bloom(this.__ptr, value);
     }
 });
@@ -272,6 +290,7 @@ Object.defineProperty(Glow.prototype, "bleed_threshold", {
         return _mud_Glow__get_bleed_threshold(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Glow.bleed_threshold: expected number');
         _mud_Glow__set_bleed_threshold(this.__ptr, value);
     }
 });
@@ -280,6 +299,7 @@ Object.defineProperty(Glow.prototype, "bleed_scale", {
         return _mud_Glow__get_bleed_scale(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Glow.bleed_scale: expected number');
         _mud_Glow__set_bleed_scale(this.__ptr, value);
     }
 });
@@ -288,6 +308,7 @@ Object.defineProperty(Glow.prototype, "bicubic_filter", {
         return !!(_mud_Glow__get_bicubic_filter(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Glow.bicubic_filter: expected boolean');
         _mud_Glow__set_bicubic_filter(this.__ptr, value);
     }
 });
@@ -353,6 +374,7 @@ Object.defineProperty(ReflectionProbe.prototype, "visible", {
         return !!(_mud_ReflectionProbe__get_visible(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('ReflectionProbe.visible: expected boolean');
         _mud_ReflectionProbe__set_visible(this.__ptr, value);
     }
 });
@@ -361,6 +383,7 @@ Object.defineProperty(ReflectionProbe.prototype, "intensity", {
         return _mud_ReflectionProbe__get_intensity(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ReflectionProbe.intensity: expected number');
         _mud_ReflectionProbe__set_intensity(this.__ptr, value);
     }
 });
@@ -369,6 +392,7 @@ Object.defineProperty(ReflectionProbe.prototype, "extents", {
         return wrapPointer(_mud_ReflectionProbe__get_extents(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('ReflectionProbe.extents: expected v3<float>');
         _mud_ReflectionProbe__set_extents(this.__ptr, value.__ptr);
     }
 });
@@ -377,6 +401,7 @@ Object.defineProperty(ReflectionProbe.prototype, "shadows", {
         return !!(_mud_ReflectionProbe__get_shadows(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('ReflectionProbe.shadows: expected boolean');
         _mud_ReflectionProbe__set_shadows(this.__ptr, value);
     }
 });
@@ -385,6 +410,7 @@ Object.defineProperty(ReflectionProbe.prototype, "dirty", {
         return !!(_mud_ReflectionProbe__get_dirty(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('ReflectionProbe.dirty: expected boolean');
         _mud_ReflectionProbe__set_dirty(this.__ptr, value);
     }
 });
@@ -406,6 +432,7 @@ Object.defineProperty(Tonemap.prototype, "mode", {
         return _mud_Tonemap__get_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Tonemap.mode: expected integer');
         _mud_Tonemap__set_mode(this.__ptr, value);
     }
 });
@@ -414,6 +441,7 @@ Object.defineProperty(Tonemap.prototype, "enabled", {
         return !!(_mud_Tonemap__get_enabled(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Tonemap.enabled: expected boolean');
         _mud_Tonemap__set_enabled(this.__ptr, value);
     }
 });
@@ -422,6 +450,7 @@ Object.defineProperty(Tonemap.prototype, "exposure", {
         return _mud_Tonemap__get_exposure(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Tonemap.exposure: expected number');
         _mud_Tonemap__set_exposure(this.__ptr, value);
     }
 });
@@ -430,6 +459,7 @@ Object.defineProperty(Tonemap.prototype, "white_point", {
         return _mud_Tonemap__get_white_point(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Tonemap.white_point: expected number');
         _mud_Tonemap__set_white_point(this.__ptr, value);
     }
 });

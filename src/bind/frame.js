@@ -52,6 +52,7 @@ Object.defineProperty(Shell.prototype, "exec_path", {
         return UTF8ToString(_mud_Shell__get_exec_path(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Shell.exec_path: expected string');
         _mud_Shell__set_exec_path(this.__ptr, ensureString(value));
     }
 });
@@ -60,6 +61,7 @@ Object.defineProperty(Shell.prototype, "resource_path", {
         return UTF8ToString(_mud_Shell__get_resource_path(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Shell.resource_path: expected string');
         _mud_Shell__set_resource_path(this.__ptr, ensureString(value));
     }
 });
@@ -76,6 +78,7 @@ Object.defineProperty(Shell.prototype, "editor", {
         return wrapPointer(_mud_Shell__get_editor(this.__ptr), ShellContext);
     },
     set: function(value) {
+        if (!checkClass(value, ShellContext)) throw Error('Shell.editor: expected ShellContext');
         _mud_Shell__set_editor(this.__ptr, value.__ptr);
     }
 });
@@ -97,6 +100,7 @@ Object.defineProperty(ShellContext.prototype, "screen", {
         return wrapPointer(_mud_ShellContext__get_screen(this.__ptr), Widget);
     },
     set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('ShellContext.screen: expected Widget');
         _mud_ShellContext__set_screen(this.__ptr, value.__ptr);
     }
 });
@@ -105,6 +109,7 @@ Object.defineProperty(ShellContext.prototype, "dockbar", {
         return wrapPointer(_mud_ShellContext__get_dockbar(this.__ptr), Dockbar);
     },
     set: function(value) {
+        if (!checkClass(value, Dockbar)) throw Error('ShellContext.dockbar: expected Dockbar');
         _mud_ShellContext__set_dockbar(this.__ptr, value.__ptr);
     }
 });
@@ -124,6 +129,7 @@ Object.defineProperty(ShellWindow.prototype, "index", {
         return _mud_ShellWindow__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('ShellWindow.index: expected integer');
         _mud_ShellWindow__set_index(this.__ptr, value);
     }
 });
@@ -136,6 +142,7 @@ Object.defineProperty(ShellWindow.prototype, "ui", {
         return wrapPointer(_mud_ShellWindow__get_ui(this.__ptr), Ui);
     },
     set: function(value) {
+        if (!checkClass(value, Ui)) throw Error('ShellWindow.ui: expected Ui');
         _mud_ShellWindow__set_ui(this.__ptr, value.__ptr);
     }
 });

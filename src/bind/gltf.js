@@ -27,6 +27,7 @@ Object.defineProperty(glTFAccessor.prototype, "name", {
         return UTF8ToString(_glTFAccessor__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFAccessor.name: expected string');
         _glTFAccessor__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -35,6 +36,7 @@ Object.defineProperty(glTFAccessor.prototype, "buffer_view", {
         return _glTFAccessor__get_buffer_view(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAccessor.buffer_view: expected integer');
         _glTFAccessor__set_buffer_view(this.__ptr, value);
     }
 });
@@ -43,6 +45,7 @@ Object.defineProperty(glTFAccessor.prototype, "byte_offset", {
         return _glTFAccessor__get_byte_offset(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAccessor.byte_offset: expected integer');
         _glTFAccessor__set_byte_offset(this.__ptr, value);
     }
 });
@@ -51,6 +54,7 @@ Object.defineProperty(glTFAccessor.prototype, "component_type", {
         return _glTFAccessor__get_component_type(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAccessor.component_type: expected integer');
         _glTFAccessor__set_component_type(this.__ptr, value);
     }
 });
@@ -59,6 +63,7 @@ Object.defineProperty(glTFAccessor.prototype, "normalized", {
         return !!(_glTFAccessor__get_normalized(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('glTFAccessor.normalized: expected boolean');
         _glTFAccessor__set_normalized(this.__ptr, value);
     }
 });
@@ -67,6 +72,7 @@ Object.defineProperty(glTFAccessor.prototype, "count", {
         return _glTFAccessor__get_count(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAccessor.count: expected integer');
         _glTFAccessor__set_count(this.__ptr, value);
     }
 });
@@ -75,6 +81,7 @@ Object.defineProperty(glTFAccessor.prototype, "type", {
         return _glTFAccessor__get_type(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAccessor.type: expected integer');
         _glTFAccessor__set_type(this.__ptr, value);
     }
 });
@@ -83,6 +90,7 @@ Object.defineProperty(glTFAccessor.prototype, "sparse", {
         return wrapPointer(_glTFAccessor__get_sparse(this.__ptr), glTFSparse);
     },
     set: function(value) {
+        if (!checkClass(value, glTFSparse)) throw Error('glTFAccessor.sparse: expected glTFSparse');
         _glTFAccessor__set_sparse(this.__ptr, value.__ptr);
     }
 });
@@ -104,6 +112,7 @@ Object.defineProperty(glTFAnimation.prototype, "name", {
         return UTF8ToString(_glTFAnimation__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFAnimation.name: expected string');
         _glTFAnimation__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -125,6 +134,7 @@ Object.defineProperty(glTFAnimationChannel.prototype, "sampler", {
         return _glTFAnimationChannel__get_sampler(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAnimationChannel.sampler: expected integer');
         _glTFAnimationChannel__set_sampler(this.__ptr, value);
     }
 });
@@ -133,6 +143,7 @@ Object.defineProperty(glTFAnimationChannel.prototype, "target", {
         return wrapPointer(_glTFAnimationChannel__get_target(this.__ptr), glTFAnimationTarget);
     },
     set: function(value) {
+        if (!checkClass(value, glTFAnimationTarget)) throw Error('glTFAnimationChannel.target: expected glTFAnimationTarget');
         _glTFAnimationChannel__set_target(this.__ptr, value.__ptr);
     }
 });
@@ -154,6 +165,7 @@ Object.defineProperty(glTFAnimationSampler.prototype, "interpolation", {
         return _glTFAnimationSampler__get_interpolation(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAnimationSampler.interpolation: expected integer');
         _glTFAnimationSampler__set_interpolation(this.__ptr, value);
     }
 });
@@ -162,6 +174,7 @@ Object.defineProperty(glTFAnimationSampler.prototype, "input", {
         return _glTFAnimationSampler__get_input(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAnimationSampler.input: expected integer');
         _glTFAnimationSampler__set_input(this.__ptr, value);
     }
 });
@@ -170,6 +183,7 @@ Object.defineProperty(glTFAnimationSampler.prototype, "output", {
         return _glTFAnimationSampler__get_output(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAnimationSampler.output: expected integer');
         _glTFAnimationSampler__set_output(this.__ptr, value);
     }
 });
@@ -191,6 +205,7 @@ Object.defineProperty(glTFAnimationTarget.prototype, "node", {
         return _glTFAnimationTarget__get_node(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAnimationTarget.node: expected integer');
         _glTFAnimationTarget__set_node(this.__ptr, value);
     }
 });
@@ -199,6 +214,7 @@ Object.defineProperty(glTFAnimationTarget.prototype, "path", {
         return UTF8ToString(_glTFAnimationTarget__get_path(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFAnimationTarget.path: expected string');
         _glTFAnimationTarget__set_path(this.__ptr, ensureString(value));
     }
 });
@@ -220,6 +236,7 @@ Object.defineProperty(glTFAttributes.prototype, "POSITION", {
         return _glTFAttributes__get_POSITION(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAttributes.POSITION: expected integer');
         _glTFAttributes__set_POSITION(this.__ptr, value);
     }
 });
@@ -228,6 +245,7 @@ Object.defineProperty(glTFAttributes.prototype, "NORMAL", {
         return _glTFAttributes__get_NORMAL(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAttributes.NORMAL: expected integer');
         _glTFAttributes__set_NORMAL(this.__ptr, value);
     }
 });
@@ -236,6 +254,7 @@ Object.defineProperty(glTFAttributes.prototype, "TANGENT", {
         return _glTFAttributes__get_TANGENT(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAttributes.TANGENT: expected integer');
         _glTFAttributes__set_TANGENT(this.__ptr, value);
     }
 });
@@ -244,6 +263,7 @@ Object.defineProperty(glTFAttributes.prototype, "TEXCOORD_0", {
         return _glTFAttributes__get_TEXCOORD_0(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAttributes.TEXCOORD_0: expected integer');
         _glTFAttributes__set_TEXCOORD_0(this.__ptr, value);
     }
 });
@@ -252,6 +272,7 @@ Object.defineProperty(glTFAttributes.prototype, "TEXCOORD_1", {
         return _glTFAttributes__get_TEXCOORD_1(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAttributes.TEXCOORD_1: expected integer');
         _glTFAttributes__set_TEXCOORD_1(this.__ptr, value);
     }
 });
@@ -260,6 +281,7 @@ Object.defineProperty(glTFAttributes.prototype, "COLOR_0", {
         return _glTFAttributes__get_COLOR_0(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAttributes.COLOR_0: expected integer');
         _glTFAttributes__set_COLOR_0(this.__ptr, value);
     }
 });
@@ -268,6 +290,7 @@ Object.defineProperty(glTFAttributes.prototype, "JOINTS_0", {
         return _glTFAttributes__get_JOINTS_0(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAttributes.JOINTS_0: expected integer');
         _glTFAttributes__set_JOINTS_0(this.__ptr, value);
     }
 });
@@ -276,6 +299,7 @@ Object.defineProperty(glTFAttributes.prototype, "WEIGHTS_0", {
         return _glTFAttributes__get_WEIGHTS_0(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFAttributes.WEIGHTS_0: expected integer');
         _glTFAttributes__set_WEIGHTS_0(this.__ptr, value);
     }
 });
@@ -297,6 +321,7 @@ Object.defineProperty(glTFBuffer.prototype, "name", {
         return UTF8ToString(_glTFBuffer__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFBuffer.name: expected string');
         _glTFBuffer__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -305,6 +330,7 @@ Object.defineProperty(glTFBuffer.prototype, "mime_type", {
         return UTF8ToString(_glTFBuffer__get_mime_type(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFBuffer.mime_type: expected string');
         _glTFBuffer__set_mime_type(this.__ptr, ensureString(value));
     }
 });
@@ -313,6 +339,7 @@ Object.defineProperty(glTFBuffer.prototype, "uri", {
         return UTF8ToString(_glTFBuffer__get_uri(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFBuffer.uri: expected string');
         _glTFBuffer__set_uri(this.__ptr, ensureString(value));
     }
 });
@@ -321,6 +348,7 @@ Object.defineProperty(glTFBuffer.prototype, "byte_length", {
         return _glTFBuffer__get_byte_length(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFBuffer.byte_length: expected integer');
         _glTFBuffer__set_byte_length(this.__ptr, value);
     }
 });
@@ -342,6 +370,7 @@ Object.defineProperty(glTFBufferView.prototype, "name", {
         return UTF8ToString(_glTFBufferView__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFBufferView.name: expected string');
         _glTFBufferView__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -350,6 +379,7 @@ Object.defineProperty(glTFBufferView.prototype, "buffer", {
         return _glTFBufferView__get_buffer(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFBufferView.buffer: expected integer');
         _glTFBufferView__set_buffer(this.__ptr, value);
     }
 });
@@ -358,6 +388,7 @@ Object.defineProperty(glTFBufferView.prototype, "byte_offset", {
         return _glTFBufferView__get_byte_offset(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFBufferView.byte_offset: expected integer');
         _glTFBufferView__set_byte_offset(this.__ptr, value);
     }
 });
@@ -366,6 +397,7 @@ Object.defineProperty(glTFBufferView.prototype, "byte_length", {
         return _glTFBufferView__get_byte_length(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFBufferView.byte_length: expected integer');
         _glTFBufferView__set_byte_length(this.__ptr, value);
     }
 });
@@ -374,6 +406,7 @@ Object.defineProperty(glTFBufferView.prototype, "byte_stride", {
         return _glTFBufferView__get_byte_stride(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFBufferView.byte_stride: expected integer');
         _glTFBufferView__set_byte_stride(this.__ptr, value);
     }
 });
@@ -382,6 +415,7 @@ Object.defineProperty(glTFBufferView.prototype, "target", {
         return _glTFBufferView__get_target(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFBufferView.target: expected integer');
         _glTFBufferView__set_target(this.__ptr, value);
     }
 });
@@ -403,6 +437,7 @@ Object.defineProperty(glTFCamera.prototype, "name", {
         return UTF8ToString(_glTFCamera__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFCamera.name: expected string');
         _glTFCamera__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -411,6 +446,7 @@ Object.defineProperty(glTFCamera.prototype, "type", {
         return UTF8ToString(_glTFCamera__get_type(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFCamera.type: expected string');
         _glTFCamera__set_type(this.__ptr, ensureString(value));
     }
 });
@@ -419,6 +455,7 @@ Object.defineProperty(glTFCamera.prototype, "orthographic", {
         return wrapPointer(_glTFCamera__get_orthographic(this.__ptr), glTFOrthographic);
     },
     set: function(value) {
+        if (!checkClass(value, glTFOrthographic)) throw Error('glTFCamera.orthographic: expected glTFOrthographic');
         _glTFCamera__set_orthographic(this.__ptr, value.__ptr);
     }
 });
@@ -427,6 +464,7 @@ Object.defineProperty(glTFCamera.prototype, "perspective", {
         return wrapPointer(_glTFCamera__get_perspective(this.__ptr), glTFPerspective);
     },
     set: function(value) {
+        if (!checkClass(value, glTFPerspective)) throw Error('glTFCamera.perspective: expected glTFPerspective');
         _glTFCamera__set_perspective(this.__ptr, value.__ptr);
     }
 });
@@ -448,6 +486,7 @@ Object.defineProperty(glTFImage.prototype, "name", {
         return UTF8ToString(_glTFImage__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFImage.name: expected string');
         _glTFImage__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -456,6 +495,7 @@ Object.defineProperty(glTFImage.prototype, "mime_type", {
         return UTF8ToString(_glTFImage__get_mime_type(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFImage.mime_type: expected string');
         _glTFImage__set_mime_type(this.__ptr, ensureString(value));
     }
 });
@@ -464,6 +504,7 @@ Object.defineProperty(glTFImage.prototype, "uri", {
         return UTF8ToString(_glTFImage__get_uri(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFImage.uri: expected string');
         _glTFImage__set_uri(this.__ptr, ensureString(value));
     }
 });
@@ -472,6 +513,7 @@ Object.defineProperty(glTFImage.prototype, "buffer_view", {
         return _glTFImage__get_buffer_view(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFImage.buffer_view: expected integer');
         _glTFImage__set_buffer_view(this.__ptr, value);
     }
 });
@@ -493,6 +535,7 @@ Object.defineProperty(glTFMaterial.prototype, "name", {
         return UTF8ToString(_glTFMaterial__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFMaterial.name: expected string');
         _glTFMaterial__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -501,6 +544,7 @@ Object.defineProperty(glTFMaterial.prototype, "normal_texture", {
         return wrapPointer(_glTFMaterial__get_normal_texture(this.__ptr), glTFTextureInfo);
     },
     set: function(value) {
+        if (!checkClass(value, glTFTextureInfo)) throw Error('glTFMaterial.normal_texture: expected glTFTextureInfo');
         _glTFMaterial__set_normal_texture(this.__ptr, value.__ptr);
     }
 });
@@ -509,6 +553,7 @@ Object.defineProperty(glTFMaterial.prototype, "occlusion_texture", {
         return wrapPointer(_glTFMaterial__get_occlusion_texture(this.__ptr), glTFTextureInfo);
     },
     set: function(value) {
+        if (!checkClass(value, glTFTextureInfo)) throw Error('glTFMaterial.occlusion_texture: expected glTFTextureInfo');
         _glTFMaterial__set_occlusion_texture(this.__ptr, value.__ptr);
     }
 });
@@ -517,6 +562,7 @@ Object.defineProperty(glTFMaterial.prototype, "emissive_factor", {
         return wrapPointer(_glTFMaterial__get_emissive_factor(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('glTFMaterial.emissive_factor: expected v3<float>');
         _glTFMaterial__set_emissive_factor(this.__ptr, value.__ptr);
     }
 });
@@ -525,6 +571,7 @@ Object.defineProperty(glTFMaterial.prototype, "emissive_texture", {
         return wrapPointer(_glTFMaterial__get_emissive_texture(this.__ptr), glTFTextureInfo);
     },
     set: function(value) {
+        if (!checkClass(value, glTFTextureInfo)) throw Error('glTFMaterial.emissive_texture: expected glTFTextureInfo');
         _glTFMaterial__set_emissive_texture(this.__ptr, value.__ptr);
     }
 });
@@ -533,6 +580,7 @@ Object.defineProperty(glTFMaterial.prototype, "double_sided", {
         return !!(_glTFMaterial__get_double_sided(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('glTFMaterial.double_sided: expected boolean');
         _glTFMaterial__set_double_sided(this.__ptr, value);
     }
 });
@@ -541,6 +589,7 @@ Object.defineProperty(glTFMaterial.prototype, "alpha_mode", {
         return _glTFMaterial__get_alpha_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFMaterial.alpha_mode: expected integer');
         _glTFMaterial__set_alpha_mode(this.__ptr, value);
     }
 });
@@ -549,6 +598,7 @@ Object.defineProperty(glTFMaterial.prototype, "pbr_metallic_roughness", {
         return wrapPointer(_glTFMaterial__get_pbr_metallic_roughness(this.__ptr), glTFMaterialPBR);
     },
     set: function(value) {
+        if (!checkClass(value, glTFMaterialPBR)) throw Error('glTFMaterial.pbr_metallic_roughness: expected glTFMaterialPBR');
         _glTFMaterial__set_pbr_metallic_roughness(this.__ptr, value.__ptr);
     }
 });
@@ -570,6 +620,7 @@ Object.defineProperty(glTFMaterialPBR.prototype, "base_color_factor", {
         return wrapPointer(_glTFMaterialPBR__get_base_color_factor(this.__ptr), v4_float);
     },
     set: function(value) {
+        if (!checkClass(value, v4_float)) throw Error('glTFMaterialPBR.base_color_factor: expected v4<float>');
         _glTFMaterialPBR__set_base_color_factor(this.__ptr, value.__ptr);
     }
 });
@@ -578,6 +629,7 @@ Object.defineProperty(glTFMaterialPBR.prototype, "base_color_texture", {
         return wrapPointer(_glTFMaterialPBR__get_base_color_texture(this.__ptr), glTFTextureInfo);
     },
     set: function(value) {
+        if (!checkClass(value, glTFTextureInfo)) throw Error('glTFMaterialPBR.base_color_texture: expected glTFTextureInfo');
         _glTFMaterialPBR__set_base_color_texture(this.__ptr, value.__ptr);
     }
 });
@@ -586,6 +638,7 @@ Object.defineProperty(glTFMaterialPBR.prototype, "metallic_factor", {
         return _glTFMaterialPBR__get_metallic_factor(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFMaterialPBR.metallic_factor: expected number');
         _glTFMaterialPBR__set_metallic_factor(this.__ptr, value);
     }
 });
@@ -594,6 +647,7 @@ Object.defineProperty(glTFMaterialPBR.prototype, "roughness_factor", {
         return _glTFMaterialPBR__get_roughness_factor(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFMaterialPBR.roughness_factor: expected number');
         _glTFMaterialPBR__set_roughness_factor(this.__ptr, value);
     }
 });
@@ -602,6 +656,7 @@ Object.defineProperty(glTFMaterialPBR.prototype, "metallic_roughness_texture", {
         return wrapPointer(_glTFMaterialPBR__get_metallic_roughness_texture(this.__ptr), glTFTextureInfo);
     },
     set: function(value) {
+        if (!checkClass(value, glTFTextureInfo)) throw Error('glTFMaterialPBR.metallic_roughness_texture: expected glTFTextureInfo');
         _glTFMaterialPBR__set_metallic_roughness_texture(this.__ptr, value.__ptr);
     }
 });
@@ -623,6 +678,7 @@ Object.defineProperty(glTFMesh.prototype, "name", {
         return UTF8ToString(_glTFMesh__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFMesh.name: expected string');
         _glTFMesh__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -648,6 +704,7 @@ Object.defineProperty(glTFMorphTarget.prototype, "POSITION", {
         return _glTFMorphTarget__get_POSITION(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFMorphTarget.POSITION: expected integer');
         _glTFMorphTarget__set_POSITION(this.__ptr, value);
     }
 });
@@ -656,6 +713,7 @@ Object.defineProperty(glTFMorphTarget.prototype, "NORMAL", {
         return _glTFMorphTarget__get_NORMAL(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFMorphTarget.NORMAL: expected integer');
         _glTFMorphTarget__set_NORMAL(this.__ptr, value);
     }
 });
@@ -664,6 +722,7 @@ Object.defineProperty(glTFMorphTarget.prototype, "TANGENT", {
         return _glTFMorphTarget__get_TANGENT(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFMorphTarget.TANGENT: expected integer');
         _glTFMorphTarget__set_TANGENT(this.__ptr, value);
     }
 });
@@ -685,6 +744,7 @@ Object.defineProperty(glTFNode.prototype, "name", {
         return UTF8ToString(_glTFNode__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFNode.name: expected string');
         _glTFNode__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -693,6 +753,7 @@ Object.defineProperty(glTFNode.prototype, "mesh", {
         return _glTFNode__get_mesh(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFNode.mesh: expected integer');
         _glTFNode__set_mesh(this.__ptr, value);
     }
 });
@@ -701,6 +762,7 @@ Object.defineProperty(glTFNode.prototype, "camera", {
         return _glTFNode__get_camera(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFNode.camera: expected integer');
         _glTFNode__set_camera(this.__ptr, value);
     }
 });
@@ -709,6 +771,7 @@ Object.defineProperty(glTFNode.prototype, "skin", {
         return _glTFNode__get_skin(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFNode.skin: expected integer');
         _glTFNode__set_skin(this.__ptr, value);
     }
 });
@@ -717,6 +780,7 @@ Object.defineProperty(glTFNode.prototype, "matrix", {
         return wrapPointer(_glTFNode__get_matrix(this.__ptr), mat4);
     },
     set: function(value) {
+        if (!checkClass(value, mat4)) throw Error('glTFNode.matrix: expected mat4');
         _glTFNode__set_matrix(this.__ptr, value.__ptr);
     }
 });
@@ -725,6 +789,7 @@ Object.defineProperty(glTFNode.prototype, "translation", {
         return wrapPointer(_glTFNode__get_translation(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('glTFNode.translation: expected v3<float>');
         _glTFNode__set_translation(this.__ptr, value.__ptr);
     }
 });
@@ -733,6 +798,7 @@ Object.defineProperty(glTFNode.prototype, "rotation", {
         return wrapPointer(_glTFNode__get_rotation(this.__ptr), quat);
     },
     set: function(value) {
+        if (!checkClass(value, quat)) throw Error('glTFNode.rotation: expected quat');
         _glTFNode__set_rotation(this.__ptr, value.__ptr);
     }
 });
@@ -741,6 +807,7 @@ Object.defineProperty(glTFNode.prototype, "scale", {
         return wrapPointer(_glTFNode__get_scale(this.__ptr), v3_float);
     },
     set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('glTFNode.scale: expected v3<float>');
         _glTFNode__set_scale(this.__ptr, value.__ptr);
     }
 });
@@ -779,6 +846,7 @@ Object.defineProperty(glTFOrthographic.prototype, "xmag", {
         return _glTFOrthographic__get_xmag(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFOrthographic.xmag: expected number');
         _glTFOrthographic__set_xmag(this.__ptr, value);
     }
 });
@@ -787,6 +855,7 @@ Object.defineProperty(glTFOrthographic.prototype, "ymag", {
         return _glTFOrthographic__get_ymag(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFOrthographic.ymag: expected number');
         _glTFOrthographic__set_ymag(this.__ptr, value);
     }
 });
@@ -795,6 +864,7 @@ Object.defineProperty(glTFOrthographic.prototype, "zfar", {
         return _glTFOrthographic__get_zfar(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFOrthographic.zfar: expected number');
         _glTFOrthographic__set_zfar(this.__ptr, value);
     }
 });
@@ -803,6 +873,7 @@ Object.defineProperty(glTFOrthographic.prototype, "znear", {
         return _glTFOrthographic__get_znear(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFOrthographic.znear: expected number');
         _glTFOrthographic__set_znear(this.__ptr, value);
     }
 });
@@ -824,6 +895,7 @@ Object.defineProperty(glTFPerspective.prototype, "yfov", {
         return _glTFPerspective__get_yfov(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFPerspective.yfov: expected number');
         _glTFPerspective__set_yfov(this.__ptr, value);
     }
 });
@@ -832,6 +904,7 @@ Object.defineProperty(glTFPerspective.prototype, "zfar", {
         return _glTFPerspective__get_zfar(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFPerspective.zfar: expected number');
         _glTFPerspective__set_zfar(this.__ptr, value);
     }
 });
@@ -840,6 +913,7 @@ Object.defineProperty(glTFPerspective.prototype, "znear", {
         return _glTFPerspective__get_znear(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFPerspective.znear: expected number');
         _glTFPerspective__set_znear(this.__ptr, value);
     }
 });
@@ -848,6 +922,7 @@ Object.defineProperty(glTFPerspective.prototype, "aspect_ratio", {
         return _glTFPerspective__get_aspect_ratio(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFPerspective.aspect_ratio: expected number');
         _glTFPerspective__set_aspect_ratio(this.__ptr, value);
     }
 });
@@ -869,6 +944,7 @@ Object.defineProperty(glTFPrimitive.prototype, "attributes", {
         return wrapPointer(_glTFPrimitive__get_attributes(this.__ptr), glTFAttributes);
     },
     set: function(value) {
+        if (!checkClass(value, glTFAttributes)) throw Error('glTFPrimitive.attributes: expected glTFAttributes');
         _glTFPrimitive__set_attributes(this.__ptr, value.__ptr);
     }
 });
@@ -877,6 +953,7 @@ Object.defineProperty(glTFPrimitive.prototype, "indices", {
         return _glTFPrimitive__get_indices(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFPrimitive.indices: expected integer');
         _glTFPrimitive__set_indices(this.__ptr, value);
     }
 });
@@ -885,6 +962,7 @@ Object.defineProperty(glTFPrimitive.prototype, "material", {
         return _glTFPrimitive__get_material(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFPrimitive.material: expected integer');
         _glTFPrimitive__set_material(this.__ptr, value);
     }
 });
@@ -893,6 +971,7 @@ Object.defineProperty(glTFPrimitive.prototype, "mode", {
         return _glTFPrimitive__get_mode(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFPrimitive.mode: expected integer');
         _glTFPrimitive__set_mode(this.__ptr, value);
     }
 });
@@ -914,6 +993,7 @@ Object.defineProperty(glTFSampler.prototype, "mag_filter", {
         return _glTFSampler__get_mag_filter(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSampler.mag_filter: expected integer');
         _glTFSampler__set_mag_filter(this.__ptr, value);
     }
 });
@@ -922,6 +1002,7 @@ Object.defineProperty(glTFSampler.prototype, "min_filter", {
         return _glTFSampler__get_min_filter(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSampler.min_filter: expected integer');
         _glTFSampler__set_min_filter(this.__ptr, value);
     }
 });
@@ -930,6 +1011,7 @@ Object.defineProperty(glTFSampler.prototype, "wrap_s", {
         return _glTFSampler__get_wrap_s(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSampler.wrap_s: expected integer');
         _glTFSampler__set_wrap_s(this.__ptr, value);
     }
 });
@@ -938,6 +1020,7 @@ Object.defineProperty(glTFSampler.prototype, "wrap_t", {
         return _glTFSampler__get_wrap_t(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSampler.wrap_t: expected integer');
         _glTFSampler__set_wrap_t(this.__ptr, value);
     }
 });
@@ -946,6 +1029,7 @@ Object.defineProperty(glTFSampler.prototype, "name", {
         return UTF8ToString(_glTFSampler__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFSampler.name: expected string');
         _glTFSampler__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -967,6 +1051,7 @@ Object.defineProperty(glTFScene.prototype, "name", {
         return UTF8ToString(_glTFScene__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFScene.name: expected string');
         _glTFScene__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -992,6 +1077,7 @@ Object.defineProperty(glTFSkin.prototype, "name", {
         return UTF8ToString(_glTFSkin__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFSkin.name: expected string');
         _glTFSkin__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -1000,6 +1086,7 @@ Object.defineProperty(glTFSkin.prototype, "skeleton", {
         return _glTFSkin__get_skeleton(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSkin.skeleton: expected integer');
         _glTFSkin__set_skeleton(this.__ptr, value);
     }
 });
@@ -1012,6 +1099,7 @@ Object.defineProperty(glTFSkin.prototype, "inverse_bind_matrices", {
         return _glTFSkin__get_inverse_bind_matrices(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSkin.inverse_bind_matrices: expected integer');
         _glTFSkin__set_inverse_bind_matrices(this.__ptr, value);
     }
 });
@@ -1033,6 +1121,7 @@ Object.defineProperty(glTFSparse.prototype, "count", {
         return _glTFSparse__get_count(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSparse.count: expected integer');
         _glTFSparse__set_count(this.__ptr, value);
     }
 });
@@ -1041,6 +1130,7 @@ Object.defineProperty(glTFSparse.prototype, "indices", {
         return wrapPointer(_glTFSparse__get_indices(this.__ptr), glTFSparseIndices);
     },
     set: function(value) {
+        if (!checkClass(value, glTFSparseIndices)) throw Error('glTFSparse.indices: expected glTFSparseIndices');
         _glTFSparse__set_indices(this.__ptr, value.__ptr);
     }
 });
@@ -1049,6 +1139,7 @@ Object.defineProperty(glTFSparse.prototype, "values", {
         return wrapPointer(_glTFSparse__get_values(this.__ptr), glTFSparseValues);
     },
     set: function(value) {
+        if (!checkClass(value, glTFSparseValues)) throw Error('glTFSparse.values: expected glTFSparseValues');
         _glTFSparse__set_values(this.__ptr, value.__ptr);
     }
 });
@@ -1070,6 +1161,7 @@ Object.defineProperty(glTFSparseIndices.prototype, "buffer_view", {
         return _glTFSparseIndices__get_buffer_view(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSparseIndices.buffer_view: expected integer');
         _glTFSparseIndices__set_buffer_view(this.__ptr, value);
     }
 });
@@ -1078,6 +1170,7 @@ Object.defineProperty(glTFSparseIndices.prototype, "byte_offset", {
         return _glTFSparseIndices__get_byte_offset(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSparseIndices.byte_offset: expected integer');
         _glTFSparseIndices__set_byte_offset(this.__ptr, value);
     }
 });
@@ -1086,6 +1179,7 @@ Object.defineProperty(glTFSparseIndices.prototype, "component_type", {
         return _glTFSparseIndices__get_component_type(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSparseIndices.component_type: expected integer');
         _glTFSparseIndices__set_component_type(this.__ptr, value);
     }
 });
@@ -1107,6 +1201,7 @@ Object.defineProperty(glTFSparseValues.prototype, "buffer_view", {
         return _glTFSparseValues__get_buffer_view(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSparseValues.buffer_view: expected integer');
         _glTFSparseValues__set_buffer_view(this.__ptr, value);
     }
 });
@@ -1115,6 +1210,7 @@ Object.defineProperty(glTFSparseValues.prototype, "byte_offset", {
         return _glTFSparseValues__get_byte_offset(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFSparseValues.byte_offset: expected integer');
         _glTFSparseValues__set_byte_offset(this.__ptr, value);
     }
 });
@@ -1136,6 +1232,7 @@ Object.defineProperty(glTFTexture.prototype, "name", {
         return UTF8ToString(_glTFTexture__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('glTFTexture.name: expected string');
         _glTFTexture__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -1144,6 +1241,7 @@ Object.defineProperty(glTFTexture.prototype, "sampler", {
         return _glTFTexture__get_sampler(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFTexture.sampler: expected integer');
         _glTFTexture__set_sampler(this.__ptr, value);
     }
 });
@@ -1152,6 +1250,7 @@ Object.defineProperty(glTFTexture.prototype, "source", {
         return _glTFTexture__get_source(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFTexture.source: expected integer');
         _glTFTexture__set_source(this.__ptr, value);
     }
 });
@@ -1173,6 +1272,7 @@ Object.defineProperty(glTFTextureInfo.prototype, "index", {
         return _glTFTextureInfo__get_index(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFTextureInfo.index: expected integer');
         _glTFTextureInfo__set_index(this.__ptr, value);
     }
 });
@@ -1181,6 +1281,7 @@ Object.defineProperty(glTFTextureInfo.prototype, "scale", {
         return _glTFTextureInfo__get_scale(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('glTFTextureInfo.scale: expected number');
         _glTFTextureInfo__set_scale(this.__ptr, value);
     }
 });

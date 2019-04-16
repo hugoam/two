@@ -2840,7 +2840,7 @@ namespace mud
 		static bool vflip_default = false;
 		static bool needs_mrt_default = false;
 		static bool is_mrt_default = false;
-		static uint8_t pass_index_default = mud::Render::s_render_pass_id;
+		static uint8_t pass_index_default = s_render_pass_id;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Render__construct_0, {} },

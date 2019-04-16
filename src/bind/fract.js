@@ -47,6 +47,7 @@ Object.defineProperty(Fract.prototype, "nutabs", {
         return _mud_Fract__get_nutabs(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Fract.nutabs: expected integer');
         _mud_Fract__set_nutabs(this.__ptr, value);
     }
 });
@@ -76,6 +77,7 @@ Object.defineProperty(FractSample.prototype, "rect", {
         return wrapPointer(_mud_FractSample__get_rect(this.__ptr), Rect);
     },
     set: function(value) {
+        if (!checkClass(value, Rect)) throw Error('FractSample.rect: expected Rect');
         _mud_FractSample__set_rect(this.__ptr, value.__ptr);
     }
 });
@@ -84,6 +86,7 @@ Object.defineProperty(FractSample.prototype, "resolution", {
         return wrapPointer(_mud_FractSample__get_resolution(this.__ptr), v2_uint);
     },
     set: function(value) {
+        if (!checkClass(value, v2_uint)) throw Error('FractSample.resolution: expected v2<uint>');
         _mud_FractSample__set_resolution(this.__ptr, value.__ptr);
     }
 });

@@ -38,6 +38,7 @@ Object.defineProperty(Context.prototype, "title", {
         return UTF8ToString(_mud_Context__get_title(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Context.title: expected string');
         _mud_Context__set_title(this.__ptr, ensureString(value));
     }
 });
@@ -46,6 +47,7 @@ Object.defineProperty(Context.prototype, "size", {
         return wrapPointer(_mud_Context__get_size(this.__ptr), v2_uint);
     },
     set: function(value) {
+        if (!checkClass(value, v2_uint)) throw Error('Context.size: expected v2<uint>');
         _mud_Context__set_size(this.__ptr, value.__ptr);
     }
 });
@@ -54,6 +56,7 @@ Object.defineProperty(Context.prototype, "fb_size", {
         return wrapPointer(_mud_Context__get_fb_size(this.__ptr), v2_uint);
     },
     set: function(value) {
+        if (!checkClass(value, v2_uint)) throw Error('Context.fb_size: expected v2<uint>');
         _mud_Context__set_fb_size(this.__ptr, value.__ptr);
     }
 });
@@ -62,6 +65,7 @@ Object.defineProperty(Context.prototype, "fullscreen", {
         return !!(_mud_Context__get_fullscreen(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Context.fullscreen: expected boolean');
         _mud_Context__set_fullscreen(this.__ptr, value);
     }
 });
@@ -70,6 +74,7 @@ Object.defineProperty(Context.prototype, "is_main", {
         return !!(_mud_Context__get_is_main(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Context.is_main: expected boolean');
         _mud_Context__set_is_main(this.__ptr, value);
     }
 });
@@ -78,6 +83,7 @@ Object.defineProperty(Context.prototype, "pixel_ratio", {
         return _mud_Context__get_pixel_ratio(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Context.pixel_ratio: expected number');
         _mud_Context__set_pixel_ratio(this.__ptr, value);
     }
 });
@@ -86,6 +92,7 @@ Object.defineProperty(Context.prototype, "active", {
         return !!(_mud_Context__get_active(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Context.active: expected boolean');
         _mud_Context__set_active(this.__ptr, value);
     }
 });
@@ -94,6 +101,7 @@ Object.defineProperty(Context.prototype, "shutdown", {
         return !!(_mud_Context__get_shutdown(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Context.shutdown: expected boolean');
         _mud_Context__set_shutdown(this.__ptr, value);
     }
 });
@@ -102,6 +110,7 @@ Object.defineProperty(Context.prototype, "cursor", {
         return wrapPointer(_mud_Context__get_cursor(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('Context.cursor: expected v2<float>');
         _mud_Context__set_cursor(this.__ptr, value.__ptr);
     }
 });
@@ -110,6 +119,7 @@ Object.defineProperty(Context.prototype, "mouse_lock", {
         return !!(_mud_Context__get_mouse_lock(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Context.mouse_lock: expected boolean');
         _mud_Context__set_mouse_lock(this.__ptr, value);
     }
 });
@@ -149,6 +159,7 @@ Object.defineProperty(InputEvent.prototype, "deviceType", {
         return _mud_InputEvent__get_deviceType(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('InputEvent.deviceType: expected integer');
         _mud_InputEvent__set_deviceType(this.__ptr, value);
     }
 });
@@ -157,6 +168,7 @@ Object.defineProperty(InputEvent.prototype, "eventType", {
         return _mud_InputEvent__get_eventType(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('InputEvent.eventType: expected integer');
         _mud_InputEvent__set_eventType(this.__ptr, value);
     }
 });
@@ -165,6 +177,7 @@ Object.defineProperty(InputEvent.prototype, "receiver", {
         return wrapPointer(_mud_InputEvent__get_receiver(this.__ptr), ControlNode);
     },
     set: function(value) {
+        if (!checkClass(value, ControlNode)) throw Error('InputEvent.receiver: expected ControlNode');
         _mud_InputEvent__set_receiver(this.__ptr, value.__ptr);
     }
 });
@@ -173,6 +186,7 @@ Object.defineProperty(InputEvent.prototype, "consumer", {
         return wrapPointer(_mud_InputEvent__get_consumer(this.__ptr), ControlNode);
     },
     set: function(value) {
+        if (!checkClass(value, ControlNode)) throw Error('InputEvent.consumer: expected ControlNode');
         _mud_InputEvent__set_consumer(this.__ptr, value.__ptr);
     }
 });
@@ -181,6 +195,7 @@ Object.defineProperty(InputEvent.prototype, "abort", {
         return !!(_mud_InputEvent__get_abort(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'boolean') throw Error('InputEvent.abort: expected boolean');
         _mud_InputEvent__set_abort(this.__ptr, value);
     }
 });
@@ -189,6 +204,7 @@ Object.defineProperty(InputEvent.prototype, "modifiers", {
         return _mud_InputEvent__get_modifiers(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('InputEvent.modifiers: expected integer');
         _mud_InputEvent__set_modifiers(this.__ptr, value);
     }
 });
@@ -197,6 +213,7 @@ Object.defineProperty(InputEvent.prototype, "key", {
         return _mud_InputEvent__get_key(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('InputEvent.key: expected integer');
         _mud_InputEvent__set_key(this.__ptr, value);
     }
 });
@@ -249,6 +266,7 @@ Object.defineProperty(KeyEvent.prototype, "code", {
         return _mud_KeyEvent__get_code(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('KeyEvent.code: expected integer');
         _mud_KeyEvent__set_code(this.__ptr, value);
     }
 });
@@ -257,6 +275,7 @@ Object.defineProperty(KeyEvent.prototype, "char", {
         return _mud_KeyEvent__get_char(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('KeyEvent.char: expected integer');
         _mud_KeyEvent__set_char(this.__ptr, value);
     }
 });
@@ -279,6 +298,7 @@ Object.defineProperty(MouseEvent.prototype, "pos", {
         return wrapPointer(_mud_MouseEvent__get_pos(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('MouseEvent.pos: expected v2<float>');
         _mud_MouseEvent__set_pos(this.__ptr, value.__ptr);
     }
 });
@@ -287,6 +307,7 @@ Object.defineProperty(MouseEvent.prototype, "relative", {
         return wrapPointer(_mud_MouseEvent__get_relative(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('MouseEvent.relative: expected v2<float>');
         _mud_MouseEvent__set_relative(this.__ptr, value.__ptr);
     }
 });
@@ -295,6 +316,7 @@ Object.defineProperty(MouseEvent.prototype, "delta", {
         return wrapPointer(_mud_MouseEvent__get_delta(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('MouseEvent.delta: expected v2<float>');
         _mud_MouseEvent__set_delta(this.__ptr, value.__ptr);
     }
 });
@@ -303,6 +325,7 @@ Object.defineProperty(MouseEvent.prototype, "deltaZ", {
         return _mud_MouseEvent__get_deltaZ(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MouseEvent.deltaZ: expected number');
         _mud_MouseEvent__set_deltaZ(this.__ptr, value);
     }
 });
@@ -311,6 +334,7 @@ Object.defineProperty(MouseEvent.prototype, "pressed", {
         return wrapPointer(_mud_MouseEvent__get_pressed(this.__ptr), v2_float);
     },
     set: function(value) {
+        if (!checkClass(value, v2_float)) throw Error('MouseEvent.pressed: expected v2<float>');
         _mud_MouseEvent__set_pressed(this.__ptr, value.__ptr);
     }
 });
@@ -319,6 +343,7 @@ Object.defineProperty(MouseEvent.prototype, "button", {
         return _mud_MouseEvent__get_button(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('MouseEvent.button: expected integer');
         _mud_MouseEvent__set_button(this.__ptr, value);
     }
 });

@@ -18,6 +18,7 @@ Object.defineProperty(EditContext.prototype, "work_plane", {
         return wrapPointer(_mud_EditContext__get_work_plane(this.__ptr), Plane);
     },
     set: function(value) {
+        if (!checkClass(value, Plane)) throw Error('EditContext.work_plane: expected Plane');
         _mud_EditContext__set_work_plane(this.__ptr, value.__ptr);
     }
 });
@@ -38,6 +39,7 @@ Object.defineProperty(EditContext.prototype, "viewer", {
         return wrapPointer(_mud_EditContext__get_viewer(this.__ptr), Viewer);
     },
     set: function(value) {
+        if (!checkClass(value, Viewer)) throw Error('EditContext.viewer: expected Viewer');
         _mud_EditContext__set_viewer(this.__ptr, value.__ptr);
     }
 });
@@ -46,6 +48,7 @@ Object.defineProperty(EditContext.prototype, "tool", {
         return wrapPointer(_mud_EditContext__get_tool(this.__ptr), ViewportTool);
     },
     set: function(value) {
+        if (!checkClass(value, ViewportTool)) throw Error('EditContext.tool: expected ViewportTool');
         _mud_EditContext__set_tool(this.__ptr, value.__ptr);
     }
 });
@@ -54,6 +57,7 @@ Object.defineProperty(EditContext.prototype, "spatial_tool", {
         return wrapPointer(_mud_EditContext__get_spatial_tool(this.__ptr), SpatialTool);
     },
     set: function(value) {
+        if (!checkClass(value, SpatialTool)) throw Error('EditContext.spatial_tool: expected SpatialTool');
         _mud_EditContext__set_spatial_tool(this.__ptr, value.__ptr);
     }
 });
@@ -62,6 +66,7 @@ Object.defineProperty(EditContext.prototype, "brush", {
         return wrapPointer(_mud_EditContext__get_brush(this.__ptr), Brush);
     },
     set: function(value) {
+        if (!checkClass(value, Brush)) throw Error('EditContext.brush: expected Brush');
         _mud_EditContext__set_brush(this.__ptr, value.__ptr);
     }
 });
@@ -121,6 +126,7 @@ Object.defineProperty(Tool.prototype, "name", {
         return UTF8ToString(_mud_Tool__get_name(this.__ptr));
     },
     set: function(value) {
+        if (typeof value !== 'string') throw Error('Tool.name: expected string');
         _mud_Tool__set_name(this.__ptr, ensureString(value));
     }
 });
@@ -129,6 +135,7 @@ Object.defineProperty(Tool.prototype, "state", {
         return _mud_Tool__get_state(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('Tool.state: expected integer');
         _mud_Tool__set_state(this.__ptr, value);
     }
 });
@@ -189,6 +196,7 @@ Object.defineProperty(CircleBrush.prototype, "radius", {
         return _mud_CircleBrush__get_radius(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('CircleBrush.radius: expected number');
         _mud_CircleBrush__set_radius(this.__ptr, value);
     }
 });
@@ -197,6 +205,7 @@ Object.defineProperty(CircleBrush.prototype, "maxSpotRadius", {
         return _mud_CircleBrush__get_maxSpotRadius(this.__ptr);
     },
     set: function(value) {
+        if (typeof value !== 'number') throw Error('CircleBrush.maxSpotRadius: expected number');
         _mud_CircleBrush__set_maxSpotRadius(this.__ptr, value);
     }
 });
@@ -303,6 +312,7 @@ Object.defineProperty(ScriptedBrush.prototype, "call", {
         return wrapPointer(_mud_ScriptedBrush__get_call(this.__ptr), Call);
     },
     set: function(value) {
+        if (!checkClass(value, Call)) throw Error('ScriptedBrush.call: expected Call');
         _mud_ScriptedBrush__set_call(this.__ptr, value.__ptr);
     }
 });
