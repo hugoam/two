@@ -60,7 +60,7 @@ CSMShadow.prototype["__destroy"] = CSMShadow.prototype.__destroy = function() {
 // CubeCamera
 function CubeCamera(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else { if (!checkClass(a0, Scene) throw Error('CubeCamera(0:scene): expected Scene'); if (typeof a1 !== 'number') throw Error('CubeCamera(1:near): expected number'); if (typeof a2 !== 'number') throw Error('CubeCamera(2:far): expected number'); if (typeof a3 !== 'number') throw Error('CubeCamera(3:size): expected integer'); }
+    else { if (!checkClass(a0, Scene) { throw Error('CubeCamera(0:scene): expected Scene'); } if (typeof a1 !== 'number') { throw Error('CubeCamera(1:near): expected number'); } if (typeof a2 !== 'number') { throw Error('CubeCamera(2:far): expected number'); } if (typeof a3 !== 'number') { throw Error('CubeCamera(3:size): expected integer'); } }
     if (a0 === undefined) { this.__ptr = _mud_CubeCamera__construct_0(); getCache(CubeCamera)[this.__ptr] = this; }
     else { this.__ptr = _mud_CubeCamera__construct_4(/*scene*/a0.__ptr, /*near*/a1, /*far*/a2, /*size*/a3); getCache(CubeCamera)[this.__ptr] = this; }
 };
@@ -70,7 +70,7 @@ CubeCamera.prototype.__class = CubeCamera;
 CubeCamera.__cache = {};
 Module['CubeCamera'] = CubeCamera;
 CubeCamera.prototype["render"] = CubeCamera.prototype.render = function(a0, a1, a2) {
-    if (!checkClass(a0, GfxSystem) throw Error('render(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('render(1:render): expected Render'); if (typeof a2 !== 'number') throw Error('render(2:axis): expected integer');
+    if (!checkClass(a0, GfxSystem) { throw Error('render(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('render(1:render): expected Render'); } if (typeof a2 !== 'number') { throw Error('render(2:axis): expected integer'); }
     return wrapPointer(_mud_CubeCamera_render_3(this.__ptr, /*gfx*/a0.__ptr, /*render*/a1.__ptr, /*axis*/a2), Render);
 };
 Object.defineProperty(CubeCamera.prototype, "cubemap", {
@@ -99,11 +99,11 @@ CubeTarget.prototype.__class = CubeTarget;
 CubeTarget.__cache = {};
 Module['CubeTarget'] = CubeTarget;
 CubeTarget.prototype["create"] = CubeTarget.prototype.create = function(a0) {
-    if (typeof a0 !== 'number') throw Error('create(0:size): expected integer');
+    if (typeof a0 !== 'number') { throw Error('create(0:size): expected integer'); }
     _mud_CubeTarget_create_1(this.__ptr, /*size*/a0);
 };
 CubeTarget.prototype["side"] = CubeTarget.prototype.side = function(a0) {
-    if (typeof a0 !== 'number') throw Error('side(0:i): expected integer');
+    if (typeof a0 !== 'number') { throw Error('side(0:i): expected integer'); }
     return wrapPointer(_mud_CubeTarget_side_1(this.__ptr, /*i*/a0), FrameBuffer);
 };
 Object.defineProperty(CubeTarget.prototype, "cubemap", {
@@ -583,114 +583,114 @@ CSMSlice.prototype["__destroy"] = CSMSlice.prototype.__destroy = function() {
     _mud_CSMSlice__destroy(this.__ptr);
 };
 Module['begin_pbr_render'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('begin_pbr_render(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('begin_pbr_render(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('begin_pbr_render(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('begin_pbr_render(1:render): expected Render'); }
     _mud_begin_pbr_render_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_gi_probes'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_gi_probes(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_gi_probes(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_gi_probes(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_gi_probes(1:render): expected Render'); }
     _mud_pass_gi_probes_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_shadowmaps'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_shadowmaps(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_shadowmaps(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_shadowmaps(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_shadowmaps(1:render): expected Render'); }
     _mud_pass_shadowmaps_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_shadow'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_shadow(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_shadow(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_shadow(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_shadow(1:render): expected Render'); }
     _mud_pass_shadow_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_opaque'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_opaque(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_opaque(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_opaque(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_opaque(1:render): expected Render'); }
     _mud_pass_opaque_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_alpha'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_alpha(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_alpha(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_alpha(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_alpha(1:render): expected Render'); }
     _mud_pass_alpha_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_geometry'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_geometry(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_geometry(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_geometry(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_geometry(1:render): expected Render'); }
     _mud_pass_geometry_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_lights'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_lights(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_lights(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_lights(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_lights(1:render): expected Render'); }
     _mud_pass_lights_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_voxel_gi'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_voxel_gi(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_voxel_gi(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_voxel_gi(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_voxel_gi(1:render): expected Render'); }
     _mud_pass_voxel_gi_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_lightmap'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_lightmap(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_lightmap(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_lightmap(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_lightmap(1:render): expected Render'); }
     _mud_pass_lightmap_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_begin_post'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_begin_post(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_begin_post(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_begin_post(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_begin_post(1:render): expected Render'); }
     _mud_pass_begin_post_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_post_auto'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_post_auto(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_post_auto(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_post_auto(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_post_auto(1:render): expected Render'); }
     _mud_pass_post_auto_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pass_post_effects'] = function(a0, a1, a2, a3, a4, a5) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_post_effects(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_post_effects(1:render): expected Render'); if (!checkClass(a2, DofBlur) throw Error('pass_post_effects(2:dof): expected DofBlur'); if (!checkClass(a3, Glow) throw Error('pass_post_effects(3:glow): expected Glow'); if (!checkClass(a4, Tonemap) throw Error('pass_post_effects(4:tonemap): expected Tonemap'); if (!checkClass(a5, BCS) throw Error('pass_post_effects(5:bcs): expected BCS');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_post_effects(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_post_effects(1:render): expected Render'); } if (!checkClass(a2, DofBlur) { throw Error('pass_post_effects(2:dof): expected DofBlur'); } if (!checkClass(a3, Glow) { throw Error('pass_post_effects(3:glow): expected Glow'); } if (!checkClass(a4, Tonemap) { throw Error('pass_post_effects(4:tonemap): expected Tonemap'); } if (!checkClass(a5, BCS) { throw Error('pass_post_effects(5:bcs): expected BCS'); }
     _mud_pass_post_effects_6(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*dof*/a2.__ptr, /*glow*/a3.__ptr, /*tonemap*/a4.__ptr, /*bcs*/a5.__ptr);
 };
 Module['render_pbr_forward'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('render_pbr_forward(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('render_pbr_forward(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('render_pbr_forward(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('render_pbr_forward(1:render): expected Render'); }
     _mud_render_pbr_forward_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_pbr_deferred'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('render_pbr_deferred(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('render_pbr_deferred(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('render_pbr_deferred(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('render_pbr_deferred(1:render): expected Render'); }
     _mud_render_pbr_deferred_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_shadow'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('render_shadow(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('render_shadow(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('render_shadow(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('render_shadow(1:render): expected Render'); }
     _mud_render_shadow_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_voxel'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('render_voxel(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('render_voxel(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('render_voxel(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('render_voxel(1:render): expected Render'); }
     _mud_render_voxel_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_lightmap'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('render_lightmap(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('render_lightmap(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('render_lightmap(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('render_lightmap(1:render): expected Render'); }
     _mud_render_lightmap_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['render_reflection'] = function(a0, a1) {
-    if (!checkClass(a0, GfxSystem) throw Error('render_reflection(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('render_reflection(1:render): expected Render');
+    if (!checkClass(a0, GfxSystem) { throw Error('render_reflection(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('render_reflection(1:render): expected Render'); }
     _mud_render_reflection_2(/*gfx*/a0.__ptr, /*render*/a1.__ptr);
 };
 Module['pipeline_pbr'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, GfxSystem) throw Error('pipeline_pbr(0:gfx): expected GfxSystem'); if (!checkClass(a1, Renderer) throw Error('pipeline_pbr(1:pipeline): expected Renderer'); }
-    else { if (!checkClass(a0, GfxSystem) throw Error('pipeline_pbr(0:gfx): expected GfxSystem'); if (!checkClass(a1, Renderer) throw Error('pipeline_pbr(1:pipeline): expected Renderer'); if (typeof a2 !== 'boolean'), throw Error('pipeline_pbr(2:deferred): expected boolean'); }
+    if (a2 === undefined) { if (!checkClass(a0, GfxSystem) { throw Error('pipeline_pbr(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Renderer) { throw Error('pipeline_pbr(1:pipeline): expected Renderer'); } }
+    else { if (!checkClass(a0, GfxSystem) { throw Error('pipeline_pbr(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Renderer) { throw Error('pipeline_pbr(1:pipeline): expected Renderer'); } if (typeof a2 !== 'boolean') { throw Error('pipeline_pbr(2:deferred): expected boolean'); } }
     if (a2 === undefined) { _mud_pipeline_pbr_2(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr); }
     else { _mud_pipeline_pbr_3(/*gfx*/a0.__ptr, /*pipeline*/a1.__ptr, /*deferred*/a2); }
 };
 Module['gfx']['setup_pipeline_pbr'] = function(a0) {
-    if (!checkClass(a0, GfxSystem) throw Error('setup_pipeline_pbr(0:gfx): expected GfxSystem');
+    if (!checkClass(a0, GfxSystem) { throw Error('setup_pipeline_pbr(0:gfx): expected GfxSystem'); }
     _mud_gfx_setup_pipeline_pbr_1(/*gfx*/a0.__ptr);
 };
 Module['gfx']['gi_probe'] = function(a0, a1, a2) {
-    if (!checkClass(a0, Gnode) throw Error('gi_probe(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('gi_probe(1:subdiv): expected integer'); if (!checkClass(a2, v3_float) throw Error('gi_probe(2:extents): expected v3<float>');
+    if (!checkClass(a0, Gnode) { throw Error('gi_probe(0:parent): expected Gnode'); } if (typeof a1 !== 'number') { throw Error('gi_probe(1:subdiv): expected integer'); } if (!checkClass(a2, v3_float) { throw Error('gi_probe(2:extents): expected v3<float>'); }
     return wrapPointer(_mud_gfx_gi_probe_3(/*parent*/a0.__ptr, /*subdiv*/a1, /*extents*/a2.__ptr), GIProbe);
 };
 Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
-    if (a2 === undefined) { if (!checkClass(a0, Gnode) throw Error('lightmap(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('lightmap(1:resolution): expected integer'); }
-    else if (a3 === undefined) { if (!checkClass(a0, Gnode) throw Error('lightmap(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('lightmap(1:resolution): expected integer'); if (typeof a2 !== 'number') throw Error('lightmap(2:density): expected number'); }
-    else { if (!checkClass(a0, Gnode) throw Error('lightmap(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('lightmap(1:resolution): expected integer'); if (typeof a2 !== 'number') throw Error('lightmap(2:density): expected number'); if (typeof a3 !== 'string') throw Error('lightmap(3:save_path): expected string'); }
+    if (a2 === undefined) { if (!checkClass(a0, Gnode) { throw Error('lightmap(0:parent): expected Gnode'); } if (typeof a1 !== 'number') { throw Error('lightmap(1:resolution): expected integer'); } }
+    else if (a3 === undefined) { if (!checkClass(a0, Gnode) { throw Error('lightmap(0:parent): expected Gnode'); } if (typeof a1 !== 'number') { throw Error('lightmap(1:resolution): expected integer'); } if (typeof a2 !== 'number') { throw Error('lightmap(2:density): expected number'); } }
+    else { if (!checkClass(a0, Gnode) { throw Error('lightmap(0:parent): expected Gnode'); } if (typeof a1 !== 'number') { throw Error('lightmap(1:resolution): expected integer'); } if (typeof a2 !== 'number') { throw Error('lightmap(2:density): expected number'); } if (typeof a3 !== 'string') { throw Error('lightmap(3:save_path): expected string'); } }
     if (a2 === undefined) { return wrapPointer(_mud_gfx_lightmap_2(/*parent*/a0.__ptr, /*resolution*/a1), LightmapAtlas); }
     else if (a3 === undefined) { return wrapPointer(_mud_gfx_lightmap_3(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2), LightmapAtlas); }
     else { return wrapPointer(_mud_gfx_lightmap_4(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2, ensureString(/*save_path*/a3)), LightmapAtlas); }
 };
 Module['pass_dofblur'] = function(a0, a1, a2) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_dofblur(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_dofblur(1:render): expected Render'); if (!checkClass(a2, DofBlur) throw Error('pass_dofblur(2:blur): expected DofBlur');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_dofblur(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_dofblur(1:render): expected Render'); } if (!checkClass(a2, DofBlur) { throw Error('pass_dofblur(2:blur): expected DofBlur'); }
     _mud_pass_dofblur_3(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*blur*/a2.__ptr);
 };
 Module['pass_glow'] = function(a0, a1, a2) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_glow(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_glow(1:render): expected Render'); if (!checkClass(a2, Glow) throw Error('pass_glow(2:glow): expected Glow');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_glow(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_glow(1:render): expected Render'); } if (!checkClass(a2, Glow) { throw Error('pass_glow(2:glow): expected Glow'); }
     _mud_pass_glow_3(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*glow*/a2.__ptr);
 };
 Module['pass_tonemap'] = function(a0, a1, a2, a3) {
-    if (!checkClass(a0, GfxSystem) throw Error('pass_tonemap(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render) throw Error('pass_tonemap(1:render): expected Render'); if (!checkClass(a2, Tonemap) throw Error('pass_tonemap(2:tonemap): expected Tonemap'); if (!checkClass(a3, BCS) throw Error('pass_tonemap(3:bcs): expected BCS');
+    if (!checkClass(a0, GfxSystem) { throw Error('pass_tonemap(0:gfx): expected GfxSystem'); } if (!checkClass(a1, Render) { throw Error('pass_tonemap(1:render): expected Render'); } if (!checkClass(a2, Tonemap) { throw Error('pass_tonemap(2:tonemap): expected Tonemap'); } if (!checkClass(a3, BCS) { throw Error('pass_tonemap(3:bcs): expected BCS'); }
     _mud_pass_tonemap_4(/*gfx*/a0.__ptr, /*render*/a1.__ptr, /*tonemap*/a2.__ptr, /*bcs*/a3.__ptr);
 };
 

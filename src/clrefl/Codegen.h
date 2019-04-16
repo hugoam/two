@@ -1490,18 +1490,18 @@ namespace clgen
 			const CLType& t = *p.m_type.m_type;
 
 			if(t.isinteger() || t.ischar() || t.isvoidptr() || t.isenum())
-				return "if (typeof " + a + " !== 'number') throw Error('" + msg + "expected integer');";
+				return "if (typeof " + a + " !== 'number') { throw Error('" + msg + "expected integer'); }";
 			else if(t.isfloat())
-				return "if (typeof " + a + " !== 'number') throw Error('" + msg + "expected number');";
+				return "if (typeof " + a + " !== 'number') { throw Error('" + msg + "expected number'); }";
 			else if(t.isboolean())
-				return "if (typeof " + a + " !== 'boolean'), throw Error('" + msg + "expected boolean');";
+				return "if (typeof " + a + " !== 'boolean') { throw Error('" + msg + "expected boolean'); }";
 			else if(t.iscstring() || t.isstring())
-				return "if (typeof " + a + " !== 'string') throw Error('" + msg + "expected string');";
+				return "if (typeof " + a + " !== 'string') { throw Error('" + msg + "expected string'); }";
 				//return "assert(typeof " + a + " === 'string' || (" + a + " && typeof " + a + " === 'object' && typeof " + a + ".__ptr === 'number'), '" + msg + "expected string');";
 			else if(t.issequence())
 				return string();
 			else if(t.isclass())
-				return "if (!checkClass(" + a + ", " + name(t) + ") throw Error('" + msg + "expected " + t.m_name + "');";
+				return "if (!checkClass(" + a + ", " + name(t) + ") { throw Error('" + msg + "expected " + t.m_name + "'); }";
 				//return "if (typeof " + a + " !== 'object' || !checkClass" + a + ") throw Error('" + msg + "expected " + t.m_name + "');";
 
 			return string();

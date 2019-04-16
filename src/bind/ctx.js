@@ -6,11 +6,11 @@ Context.prototype.__class = Context;
 Context.__cache = {};
 Module['Context'] = Context;
 Context.prototype["reset_fb"] = Context.prototype.reset_fb = function(a0) {
-    if (!checkClass(a0, v2_uint) throw Error('reset_fb(0:size): expected v2<uint>');
+    if (!checkClass(a0, v2_uint) { throw Error('reset_fb(0:size): expected v2<uint>'); }
     _mud_Context_reset_fb_1(this.__ptr, /*size*/a0.__ptr);
 };
 Context.prototype["init_input"] = Context.prototype.init_input = function(a0, a1) {
-    if (!checkClass(a0, Mouse) throw Error('init_input(0:mouse): expected Mouse'); if (!checkClass(a1, Keyboard) throw Error('init_input(1:keyboard): expected Keyboard');
+    if (!checkClass(a0, Mouse) { throw Error('init_input(0:mouse): expected Mouse'); } if (!checkClass(a1, Keyboard) { throw Error('init_input(1:keyboard): expected Keyboard'); }
     _mud_Context_init_input_2(this.__ptr, /*mouse*/a0.__ptr, /*keyboard*/a1.__ptr);
 };
 Context.prototype["begin_frame"] = Context.prototype.begin_frame = function() {
@@ -26,7 +26,7 @@ Context.prototype["end_frame"] = Context.prototype.end_frame = function() {
     _mud_Context_end_frame_0(this.__ptr);
 };
 Context.prototype["lock_mouse"] = Context.prototype.lock_mouse = function(a0) {
-    if (typeof a0 !== 'boolean'), throw Error('lock_mouse(0:locked): expected boolean');
+    if (typeof a0 !== 'boolean') { throw Error('lock_mouse(0:locked): expected boolean'); }
     _mud_Context_lock_mouse_1(this.__ptr, /*locked*/a0);
 };
 Object.defineProperty(Context.prototype, "resource_path", {
@@ -137,7 +137,7 @@ InputEvent.prototype.__class = InputEvent;
 InputEvent.__cache = {};
 Module['InputEvent'] = InputEvent;
 InputEvent.prototype["consume"] = InputEvent.prototype.consume = function(a0) {
-    if (!checkClass(a0, ControlNode) throw Error('consume(0:consumer): expected ControlNode');
+    if (!checkClass(a0, ControlNode) { throw Error('consume(0:consumer): expected ControlNode'); }
     return wrapPointer(_mud_InputEvent_consume_1(this.__ptr, /*consumer*/a0.__ptr), InputEvent);
 };
 InputEvent.prototype["valid"] = InputEvent.prototype.valid = function() {

@@ -107,7 +107,7 @@ LuaInterpreter.prototype["__destroy"] = LuaInterpreter.prototype.__destroy = fun
 };
 // ProcessCallable
 function ProcessCallable(a0, a1) {
-    if (!checkClass(a0, VisualScript) throw Error('ProcessCallable(0:script): expected VisualScript'); if (!checkClass(a1, Callable) throw Error('ProcessCallable(1:callable): expected Callable');
+    if (!checkClass(a0, VisualScript) { throw Error('ProcessCallable(0:script): expected VisualScript'); } if (!checkClass(a1, Callable) { throw Error('ProcessCallable(1:callable): expected Callable'); }
     this.__ptr = _mud_ProcessCallable__construct_2(/*script*/a0.__ptr, /*callable*/a1.__ptr); getCache(ProcessCallable)[this.__ptr] = this;
 };
 ProcessCallable.prototype = Object.create(Process.prototype);
@@ -121,7 +121,7 @@ ProcessCallable.prototype["__destroy"] = ProcessCallable.prototype.__destroy = f
 };
 // ProcessCreate
 function ProcessCreate(a0, a1, a2) {
-    if (!checkClass(a0, VisualScript) throw Error('ProcessCreate(0:script): expected VisualScript'); if (!checkClass(a1, Type) throw Error('ProcessCreate(1:type): expected Type'); if (!checkClass(a2, Constructor) throw Error('ProcessCreate(2:constructor): expected Constructor');
+    if (!checkClass(a0, VisualScript) { throw Error('ProcessCreate(0:script): expected VisualScript'); } if (!checkClass(a1, Type) { throw Error('ProcessCreate(1:type): expected Type'); } if (!checkClass(a2, Constructor) { throw Error('ProcessCreate(2:constructor): expected Constructor'); }
     this.__ptr = _mud_ProcessCreate__construct_3(/*script*/a0.__ptr, /*type*/a1.__ptr, /*constructor*/a2.__ptr); getCache(ProcessCreate)[this.__ptr] = this;
 };
 ProcessCreate.prototype = Object.create(Process.prototype);
@@ -146,7 +146,7 @@ ProcessDisplay.prototype["__destroy"] = ProcessDisplay.prototype.__destroy = fun
 };
 // ProcessFunction
 function ProcessFunction(a0, a1) {
-    if (!checkClass(a0, VisualScript) throw Error('ProcessFunction(0:script): expected VisualScript'); if (!checkClass(a1, Function) throw Error('ProcessFunction(1:function): expected Function');
+    if (!checkClass(a0, VisualScript) { throw Error('ProcessFunction(0:script): expected VisualScript'); } if (!checkClass(a1, Function) { throw Error('ProcessFunction(1:function): expected Function'); }
     this.__ptr = _mud_ProcessFunction__construct_2(/*script*/a0.__ptr, /*function*/a1.__ptr); getCache(ProcessFunction)[this.__ptr] = this;
 };
 ProcessFunction.prototype = Object.create(ProcessCallable.prototype);
@@ -160,7 +160,7 @@ ProcessFunction.prototype["__destroy"] = ProcessFunction.prototype.__destroy = f
 };
 // ProcessGetMember
 function ProcessGetMember(a0, a1) {
-    if (!checkClass(a0, VisualScript) throw Error('ProcessGetMember(0:script): expected VisualScript'); if (!checkClass(a1, Member) throw Error('ProcessGetMember(1:member): expected Member');
+    if (!checkClass(a0, VisualScript) { throw Error('ProcessGetMember(0:script): expected VisualScript'); } if (!checkClass(a1, Member) { throw Error('ProcessGetMember(1:member): expected Member'); }
     this.__ptr = _mud_ProcessGetMember__construct_2(/*script*/a0.__ptr, /*member*/a1.__ptr); getCache(ProcessGetMember)[this.__ptr] = this;
 };
 ProcessGetMember.prototype = Object.create(Process.prototype);
@@ -185,7 +185,7 @@ ProcessInput.prototype["__destroy"] = ProcessInput.prototype.__destroy = functio
 };
 // ProcessMethod
 function ProcessMethod(a0, a1) {
-    if (!checkClass(a0, VisualScript) throw Error('ProcessMethod(0:script): expected VisualScript'); if (!checkClass(a1, Method) throw Error('ProcessMethod(1:method): expected Method');
+    if (!checkClass(a0, VisualScript) { throw Error('ProcessMethod(0:script): expected VisualScript'); } if (!checkClass(a1, Method) { throw Error('ProcessMethod(1:method): expected Method'); }
     this.__ptr = _mud_ProcessMethod__construct_2(/*script*/a0.__ptr, /*method*/a1.__ptr); getCache(ProcessMethod)[this.__ptr] = this;
 };
 ProcessMethod.prototype = Object.create(ProcessCallable.prototype);
@@ -210,7 +210,7 @@ ProcessOutput.prototype["__destroy"] = ProcessOutput.prototype.__destroy = funct
 };
 // ProcessScript
 function ProcessScript(a0, a1) {
-    if (!checkClass(a0, VisualScript) throw Error('ProcessScript(0:script): expected VisualScript'); if (!checkClass(a1, VisualScript) throw Error('ProcessScript(1:target): expected VisualScript');
+    if (!checkClass(a0, VisualScript) { throw Error('ProcessScript(0:script): expected VisualScript'); } if (!checkClass(a1, VisualScript) { throw Error('ProcessScript(1:target): expected VisualScript'); }
     this.__ptr = _mud_ProcessScript__construct_2(/*script*/a0.__ptr, /*target*/a1.__ptr); getCache(ProcessScript)[this.__ptr] = this;
 };
 ProcessScript.prototype = Object.create(ProcessCallable.prototype);
@@ -224,7 +224,7 @@ ProcessScript.prototype["__destroy"] = ProcessScript.prototype.__destroy = funct
 };
 // ProcessSetMember
 function ProcessSetMember(a0, a1) {
-    if (!checkClass(a0, VisualScript) throw Error('ProcessSetMember(0:script): expected VisualScript'); if (!checkClass(a1, Member) throw Error('ProcessSetMember(1:member): expected Member');
+    if (!checkClass(a0, VisualScript) { throw Error('ProcessSetMember(0:script): expected VisualScript'); } if (!checkClass(a1, Member) { throw Error('ProcessSetMember(1:member): expected Member'); }
     this.__ptr = _mud_ProcessSetMember__construct_2(/*script*/a0.__ptr, /*member*/a1.__ptr); getCache(ProcessSetMember)[this.__ptr] = this;
 };
 ProcessSetMember.prototype = Object.create(Process.prototype);
@@ -238,7 +238,7 @@ ProcessSetMember.prototype["__destroy"] = ProcessSetMember.prototype.__destroy =
 };
 // ProcessValue
 function ProcessValue(a0, a1) {
-    if (!checkClass(a0, VisualScript) throw Error('ProcessValue(0:script): expected VisualScript'); if (!checkClass(a1, Var) throw Error('ProcessValue(1:value): expected Var');
+    if (!checkClass(a0, VisualScript) { throw Error('ProcessValue(0:script): expected VisualScript'); } if (!checkClass(a1, Var) { throw Error('ProcessValue(1:value): expected Var'); }
     this.__ptr = _mud_ProcessValue__construct_2(/*script*/a0.__ptr, /*value*/a1.__ptr); getCache(ProcessValue)[this.__ptr] = this;
 };
 ProcessValue.prototype = Object.create(Process.prototype);
@@ -303,8 +303,8 @@ Stream.prototype["__destroy"] = Stream.prototype.__destroy = function() {
 // TextScript
 function TextScript(a0, a1, a2) {
     ensureCache.prepare();
-    if (a2 === undefined) { if (typeof a0 !== 'string') throw Error('TextScript(0:name): expected string'); if (typeof a1 !== 'number') throw Error('TextScript(1:language): expected integer'); }
-    else { if (typeof a0 !== 'string') throw Error('TextScript(0:name): expected string'); if (typeof a1 !== 'number') throw Error('TextScript(1:language): expected integer'); if (!checkClass(a2, Signature) throw Error('TextScript(2:signature): expected Signature'); }
+    if (a2 === undefined) { if (typeof a0 !== 'string') { throw Error('TextScript(0:name): expected string'); } if (typeof a1 !== 'number') { throw Error('TextScript(1:language): expected integer'); } }
+    else { if (typeof a0 !== 'string') { throw Error('TextScript(0:name): expected string'); } if (typeof a1 !== 'number') { throw Error('TextScript(1:language): expected integer'); } if (!checkClass(a2, Signature) { throw Error('TextScript(2:signature): expected Signature'); } }
     if (a2 === undefined) { this.__ptr = _mud_TextScript__construct_2(ensureString(/*name*/a0), /*language*/a1); getCache(TextScript)[this.__ptr] = this; }
     else { this.__ptr = _mud_TextScript__construct_3(ensureString(/*name*/a0), /*language*/a1, /*signature*/a2.__ptr); getCache(TextScript)[this.__ptr] = this; }
 };
@@ -344,8 +344,8 @@ TextScript.prototype["__destroy"] = TextScript.prototype.__destroy = function() 
 // VisualScript
 function VisualScript(a0, a1) {
     ensureCache.prepare();
-    if (a1 === undefined) { if (typeof a0 !== 'string') throw Error('VisualScript(0:name): expected string'); }
-    else { if (typeof a0 !== 'string') throw Error('VisualScript(0:name): expected string'); if (!checkClass(a1, Signature) throw Error('VisualScript(1:signature): expected Signature'); }
+    if (a1 === undefined) { if (typeof a0 !== 'string') { throw Error('VisualScript(0:name): expected string'); } }
+    else { if (typeof a0 !== 'string') { throw Error('VisualScript(0:name): expected string'); } if (!checkClass(a1, Signature) { throw Error('VisualScript(1:signature): expected Signature'); } }
     if (a1 === undefined) { this.__ptr = _mud_VisualScript__construct_1(ensureString(/*name*/a0)); getCache(VisualScript)[this.__ptr] = this; }
     else { this.__ptr = _mud_VisualScript__construct_2(ensureString(/*name*/a0), /*signature*/a1.__ptr); getCache(VisualScript)[this.__ptr] = this; }
 };
