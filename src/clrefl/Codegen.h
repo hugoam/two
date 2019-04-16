@@ -1189,7 +1189,7 @@ namespace clgen
 		// - references to strings
 
 		// not implemented yet
-		vector<string> blacklist = { "mud::Complex" };
+		vector<string> blacklist = { "mud::Complex", "mud::Module" };
 
 		auto blacklist_qualtype = [&](const CLQualType& t) { for(const string& n : blacklist) { if(t.m_spelling.find(n) != string::npos) return true; } if(t.m_type->isstring() && t.reference() && !t.isconst()) return true; return false; };
 		auto blacklist_type = [&](const CLType& t) { for(const string& n : blacklist) { if(t.m_id.find(n) != string::npos) return true; } return false; };
@@ -1480,7 +1480,7 @@ namespace clgen
 
 		auto js_check_msg = [](const CLCallable& f, const CLParam& p, const string& a)
 		{
-			return "[ERROR] " + f.m_name + "(" + to_string(p.m_index) + ":" + p.m_name + "): ";
+			return f.m_name + "(" + to_string(p.m_index) + ":" + p.m_name + "): ";
 		};
 
 		auto js_call_check_arg = [&](const CLCallable& f, const CLParam& p, const string& a)
@@ -1490,19 +1490,19 @@ namespace clgen
 			const CLType& t = *p.m_type.m_type;
 
 			if(t.isinteger() || t.ischar() || t.isvoidptr() || t.isenum())
-				return "assert(typeof " + a + " === 'number', '" + msg + "expected integer');";
+				return "if (typeof " + a + " !== 'number') throw Error('" + msg + "expected integer');";
 			else if(t.isfloat())
-				return "assert(typeof " + a + " === 'number', '" + msg + "expected number');";
+				return "if (typeof " + a + " !== 'number') throw Error('" + msg + "expected number');";
 			else if(t.isboolean())
-				return "assert(typeof " + a + " === 'boolean', '" + msg + "expected boolean');";
+				return "if (typeof " + a + " !== 'boolean'), throw Error('" + msg + "expected boolean');";
 			else if(t.iscstring() || t.isstring())
-				return "assert(typeof " + a + " === 'string', '" + msg + "expected string');";
+				return "if (typeof " + a + " !== 'string') throw Error('" + msg + "expected string');";
 				//return "assert(typeof " + a + " === 'string' || (" + a + " && typeof " + a + " === 'object' && typeof " + a + ".__ptr === 'number'), '" + msg + "expected string');";
 			else if(t.issequence())
 				return string();
 			else if(t.isclass())
-				return "assert(checkClass(" + a + ", " + name(t) + "), '" + msg + "expected " + t.m_name + "');";
-				//return "assert(typeof " + a + " === 'object' && checkClass" + a + "), '" + msg + "expected " + t.m_name + "');";
+				return "if (!checkClass(" + a + ", " + name(t) + ") throw Error('" + msg + "expected " + t.m_name + "');";
+				//return "if (typeof " + a + " !== 'object' || !checkClass" + a + ") throw Error('" + msg + "expected " + t.m_name + "');";
 
 			return string();
 		};
@@ -1751,8 +1751,6 @@ namespace clgen
 
 				for(CLConstructor& ctor : c.m_constructors)
 				{
-					if(c.m_id == "mud::Polygon")
-						int i = 0;
 					if(blacklist_callable(ctor)) continue;
 					overload(constructors, ctor);
 				}

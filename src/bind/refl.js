@@ -127,32 +127,6 @@ Module['Meta'] = Meta;
 Meta.prototype["__destroy"] = Meta.prototype.__destroy = function() {
     _mud_Meta__destroy(this.__ptr);
 };
-// Module
-function Module() { throw "cannot construct a Module, no constructor in IDL" }
-Module.prototype = Object.create(WrapperObject.prototype);
-Module.prototype.constructor = Module;
-Module.prototype.__class = Module;
-Module.__cache = {};
-Module['Module'] = Module;
-Object.defineProperty(Module.prototype, "name", {
-    get: function() {
-        return UTF8ToString(_mud_Module__get_name(this.__ptr));
-    },
-    set: function(value) {
-        _mud_Module__set_name(this.__ptr, ensureString(value));
-    }
-});
-Object.defineProperty(Module.prototype, "path", {
-    get: function() {
-        return UTF8ToString(_mud_Module__get_path(this.__ptr));
-    },
-    set: function(value) {
-        _mud_Module__set_path(this.__ptr, ensureString(value));
-    }
-});
-Module.prototype["__destroy"] = Module.prototype.__destroy = function() {
-    _mud_Module__destroy(this.__ptr);
-};
 // Namespace
 function Namespace() { throw "cannot construct a Namespace, no constructor in IDL" }
 Namespace.prototype = Object.create(WrapperObject.prototype);
@@ -343,7 +317,6 @@ Module['system'] = function() {
         Enum.prototype.__type = _mud_Enum__type();
         Member.prototype.__type = _mud_Member__type();
         Meta.prototype.__type = _mud_Meta__type();
-        Module.prototype.__type = _mud_Module__type();
         Namespace.prototype.__type = _mud_Namespace__type();
         Operator.prototype.__type = _mud_Operator__type();
         Param.prototype.__type = _mud_Param__type();

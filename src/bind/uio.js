@@ -9,40 +9,40 @@ ScriptEditor.prototype["__destroy"] = ScriptEditor.prototype.__destroy = functio
     _mud_ScriptEditor__destroy(this.__ptr);
 };
 Module['object_edit_inline'] = function(a0, a1) {
-    assert(checkClass(a0, Widget), '[ERROR] object_edit_inline(0:parent): expected Widget'); assert(checkClass(a1, Ref), '[ERROR] object_edit_inline(1:object): expected Ref');
+    if (!checkClass(a0, Widget) throw Error('object_edit_inline(0:parent): expected Widget'); if (!checkClass(a1, Ref) throw Error('object_edit_inline(1:object): expected Ref');
     return !!(_mud_object_edit_inline_2(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
 Module['object_edit_rows'] = function(a0, a1) {
-    assert(checkClass(a0, Widget), '[ERROR] object_edit_rows(0:parent): expected Widget'); assert(checkClass(a1, Ref), '[ERROR] object_edit_rows(1:object): expected Ref');
+    if (!checkClass(a0, Widget) throw Error('object_edit_rows(0:parent): expected Widget'); if (!checkClass(a1, Ref) throw Error('object_edit_rows(1:object): expected Ref');
     return !!(_mud_object_edit_rows_2(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
 Module['object_edit_columns'] = function(a0, a1) {
-    assert(checkClass(a0, Widget), '[ERROR] object_edit_columns(0:parent): expected Widget'); assert(checkClass(a1, Ref), '[ERROR] object_edit_columns(1:object): expected Ref');
+    if (!checkClass(a0, Widget) throw Error('object_edit_columns(0:parent): expected Widget'); if (!checkClass(a1, Ref) throw Error('object_edit_columns(1:object): expected Ref');
     return !!(_mud_object_edit_columns_2(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
 Module['object_edit_table'] = function(a0, a1) {
-    assert(checkClass(a0, Widget), '[ERROR] object_edit_table(0:parent): expected Widget'); assert(checkClass(a1, Ref), '[ERROR] object_edit_table(1:object): expected Ref');
+    if (!checkClass(a0, Widget) throw Error('object_edit_table(0:parent): expected Widget'); if (!checkClass(a1, Ref) throw Error('object_edit_table(1:object): expected Ref');
     return !!(_mud_object_edit_table_2(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
 Module['object_edit_expandbox'] = function(a0, a1) {
-    assert(checkClass(a0, Widget), '[ERROR] object_edit_expandbox(0:parent): expected Widget'); assert(checkClass(a1, Ref), '[ERROR] object_edit_expandbox(1:object): expected Ref');
+    if (!checkClass(a0, Widget) throw Error('object_edit_expandbox(0:parent): expected Widget'); if (!checkClass(a1, Ref) throw Error('object_edit_expandbox(1:object): expected Ref');
     return !!(_mud_object_edit_expandbox_2(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)));
 };
 Module['object_edit'] = function(a0, a1, a2) {
-    if (a2 === undefined) { assert(checkClass(a0, Widget), '[ERROR] object_edit(0:parent): expected Widget'); assert(checkClass(a1, Ref), '[ERROR] object_edit(1:object): expected Ref'); }
-    else { assert(checkClass(a0, Widget), '[ERROR] object_edit(0:parent): expected Widget'); assert(checkClass(a1, Ref), '[ERROR] object_edit(1:object): expected Ref'); assert(typeof a2 === 'number', '[ERROR] object_edit(2:hint): expected integer'); }
+    if (a2 === undefined) { if (!checkClass(a0, Widget) throw Error('object_edit(0:parent): expected Widget'); if (!checkClass(a1, Ref) throw Error('object_edit(1:object): expected Ref'); }
+    else { if (!checkClass(a0, Widget) throw Error('object_edit(0:parent): expected Widget'); if (!checkClass(a1, Ref) throw Error('object_edit(1:object): expected Ref'); if (typeof a2 !== 'number') throw Error('object_edit(2:hint): expected integer'); }
     if (a2 === undefined) { return !!(_mud_object_edit_2(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1))); }
     else { return !!(_mud_object_edit_3(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), /*hint*/a2)); }
 };
 Module['entity_edit'] = function(a0, a1, a2) {
-    if (a2 === undefined) { assert(checkClass(a0, Widget), '[ERROR] entity_edit(0:parent): expected Widget'); assert(checkClass(a1, Entity), '[ERROR] entity_edit(1:entity): expected Entity'); }
-    else { assert(checkClass(a0, Widget), '[ERROR] entity_edit(0:parent): expected Widget'); assert(checkClass(a1, Entity), '[ERROR] entity_edit(1:entity): expected Entity'); assert(typeof a2 === 'number', '[ERROR] entity_edit(2:hint): expected integer'); }
+    if (a2 === undefined) { if (!checkClass(a0, Widget) throw Error('entity_edit(0:parent): expected Widget'); if (!checkClass(a1, Entity) throw Error('entity_edit(1:entity): expected Entity'); }
+    else { if (!checkClass(a0, Widget) throw Error('entity_edit(0:parent): expected Widget'); if (!checkClass(a1, Entity) throw Error('entity_edit(1:entity): expected Entity'); if (typeof a2 !== 'number') throw Error('entity_edit(2:hint): expected integer'); }
     if (a2 === undefined) { return !!(_mud_entity_edit_2(/*parent*/a0.__ptr, /*entity*/a1.__ptr)); }
     else { return !!(_mud_entity_edit_3(/*parent*/a0.__ptr, /*entity*/a1.__ptr, /*hint*/a2)); }
 };
 Module['inspector'] = function(a0, a1) {
-    if (a1 === undefined) { assert(checkClass(a0, Widget), '[ERROR] inspector(0:parent): expected Widget'); }
-    else { assert(checkClass(a0, Widget), '[ERROR] inspector(0:parent): expected Widget'); assert(checkClass(a1, Ref), '[ERROR] inspector(1:object): expected Ref'); }
+    if (a1 === undefined) { if (!checkClass(a0, Widget) throw Error('inspector(0:parent): expected Widget'); }
+    else { if (!checkClass(a0, Widget) throw Error('inspector(0:parent): expected Widget'); if (!checkClass(a1, Ref) throw Error('inspector(1:object): expected Ref'); }
     if (a1 === undefined) { return !!(_mud_inspector_1(/*parent*/a0.__ptr)); }
     else { return !!(_mud_inspector_2(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1))); }
 };

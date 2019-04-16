@@ -171,7 +171,7 @@ Brush.prototype["__destroy"] = Brush.prototype.__destroy = function() {
 };
 // CircleBrush
 function CircleBrush(a0) {
-    assert(checkClass(a0, ToolContext), '[ERROR] CircleBrush(0:context): expected ToolContext');
+    if (!checkClass(a0, ToolContext) throw Error('CircleBrush(0:context): expected ToolContext');
     this.__ptr = _mud_CircleBrush__construct_1(/*context*/a0.__ptr); getCache(CircleBrush)[this.__ptr] = this;
 };
 CircleBrush.prototype = Object.create(Brush.prototype);
@@ -205,7 +205,7 @@ CircleBrush.prototype["__destroy"] = CircleBrush.prototype.__destroy = function(
 };
 // PlaceBrush
 function PlaceBrush(a0) {
-    assert(checkClass(a0, ToolContext), '[ERROR] PlaceBrush(0:context): expected ToolContext');
+    if (!checkClass(a0, ToolContext) throw Error('PlaceBrush(0:context): expected ToolContext');
     this.__ptr = _mud_PlaceBrush__construct_1(/*context*/a0.__ptr); getCache(PlaceBrush)[this.__ptr] = this;
 };
 PlaceBrush.prototype = Object.create(Brush.prototype);
@@ -289,7 +289,7 @@ ScaleTool.prototype["__destroy"] = ScaleTool.prototype.__destroy = function() {
 };
 // ScriptedBrush
 function ScriptedBrush(a0, a1) {
-    assert(checkClass(a0, ToolContext), '[ERROR] ScriptedBrush(0:context): expected ToolContext'); assert(checkClass(a1, Script), '[ERROR] ScriptedBrush(1:script): expected Script');
+    if (!checkClass(a0, ToolContext) throw Error('ScriptedBrush(0:context): expected ToolContext'); if (!checkClass(a1, Script) throw Error('ScriptedBrush(1:script): expected Script');
     this.__ptr = _mud_ScriptedBrush__construct_2(/*context*/a0.__ptr, /*script*/a1.__ptr); getCache(ScriptedBrush)[this.__ptr] = this;
 };
 ScriptedBrush.prototype = Object.create(Brush.prototype);

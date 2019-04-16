@@ -1,9 +1,9 @@
 // Shell
 function Shell(a0, a1, a2) {
     ensureCache.prepare();
-    if (a1 === undefined) { assert(typeof a0 === 'string', '[ERROR] Shell(0:resource_path): expected string'); }
-    else if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] Shell(0:resource_path): expected string'); assert(typeof a1 === 'string', '[ERROR] Shell(1:exec_path): expected string'); }
-    else { assert(typeof a0 === 'string', '[ERROR] Shell(0:resource_path): expected string'); assert(typeof a1 === 'string', '[ERROR] Shell(1:exec_path): expected string'); assert(typeof a2 === 'boolean', '[ERROR] Shell(2:window): expected boolean'); }
+    if (a1 === undefined) { if (typeof a0 !== 'string') throw Error('Shell(0:resource_path): expected string'); }
+    else if (a2 === undefined) { if (typeof a0 !== 'string') throw Error('Shell(0:resource_path): expected string'); if (typeof a1 !== 'string') throw Error('Shell(1:exec_path): expected string'); }
+    else { if (typeof a0 !== 'string') throw Error('Shell(0:resource_path): expected string'); if (typeof a1 !== 'string') throw Error('Shell(1:exec_path): expected string'); if (typeof a2 !== 'boolean'), throw Error('Shell(2:window): expected boolean'); }
     if (a1 === undefined) { this.__ptr = _mud_Shell__construct_1(ensureString(/*resource_path*/a0)); getCache(Shell)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Shell__construct_2(ensureString(/*resource_path*/a0), ensureString(/*exec_path*/a1)); getCache(Shell)[this.__ptr] = this; }
     else { this.__ptr = _mud_Shell__construct_3(ensureString(/*resource_path*/a0), ensureString(/*exec_path*/a1), /*window*/a2); getCache(Shell)[this.__ptr] = this; }
@@ -15,20 +15,20 @@ Shell.__cache = {};
 Module['Shell'] = Shell;
 Shell.prototype["init"] = Shell.prototype.init = function(a0) {
     if (a0 === undefined) {  }
-    else { assert(typeof a0 === 'boolean', '[ERROR] init(0:window): expected boolean'); }
+    else { if (typeof a0 !== 'boolean'), throw Error('init(0:window): expected boolean'); }
     if (a0 === undefined) { _mud_Shell_init_0(this.__ptr); }
     else { _mud_Shell_init_1(this.__ptr, /*window*/a0); }
 };
 Shell.prototype["window"] = Shell.prototype.window = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (a2 === undefined) { assert(typeof a0 === 'string', '[ERROR] window(0:name): expected string'); assert(checkClass(a1, v2_uint), '[ERROR] window(1:size): expected v2<uint>'); }
-    else { assert(typeof a0 === 'string', '[ERROR] window(0:name): expected string'); assert(checkClass(a1, v2_uint), '[ERROR] window(1:size): expected v2<uint>'); assert(typeof a2 === 'boolean', '[ERROR] window(2:fullscreen): expected boolean'); }
+    if (a2 === undefined) { if (typeof a0 !== 'string') throw Error('window(0:name): expected string'); if (!checkClass(a1, v2_uint) throw Error('window(1:size): expected v2<uint>'); }
+    else { if (typeof a0 !== 'string') throw Error('window(0:name): expected string'); if (!checkClass(a1, v2_uint) throw Error('window(1:size): expected v2<uint>'); if (typeof a2 !== 'boolean'), throw Error('window(2:fullscreen): expected boolean'); }
     if (a2 === undefined) { return wrapPointer(_mud_Shell_window_2(this.__ptr, ensureString(/*name*/a0), /*size*/a1.__ptr), ShellWindow); }
     else { return wrapPointer(_mud_Shell_window_3(this.__ptr, ensureString(/*name*/a0), /*size*/a1.__ptr, /*fullscreen*/a2), ShellWindow); }
 };
 Shell.prototype["add_file"] = Shell.prototype.add_file = function(a0, a1) {
     ensureCache.prepare();
-    assert(typeof a0 === 'string', '[ERROR] add_file(0:path): expected string'); 
+    if (typeof a0 !== 'string') throw Error('add_file(0:path): expected string'); 
     _mud_Shell_add_file_2(this.__ptr, ensureString(/*path*/a0), ensureInt8(/*data*/a1), /*data*/a1.length);
 };
 Shell.prototype["begin_frame"] = Shell.prototype.begin_frame = function() {

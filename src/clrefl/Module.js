@@ -38,6 +38,10 @@ function checkClass(obj, destcls, cls) {
   else return false;
 }
 Module['checkClass'] = checkClass;
+function safeCheck(cond, message) {
+    if (!cond) throw Error(message);
+}
+Module['safeCheck'] = checkClass;
 // Converts big (string or array) values into a C-style storage, in temporary space
 var ensureCache = {
   buffer: 0,  // the main buffer of temporary storage

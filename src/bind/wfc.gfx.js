@@ -14,8 +14,8 @@ TileModel.prototype["__destroy"] = TileModel.prototype.__destroy = function() {
 // WfcBlock
 function WfcBlock(a0, a1, a2, a3, a4) {
     if (a0 === undefined) {  }
-    else if (a4 === undefined) { assert(checkClass(a0, v3_float), '[ERROR] WfcBlock(0:position): expected v3<float>'); assert(checkClass(a1, v3_uint), '[ERROR] WfcBlock(1:size): expected v3<uint>'); assert(checkClass(a2, v3_float), '[ERROR] WfcBlock(2:scale): expected v3<float>'); assert(checkClass(a3, WaveTileset), '[ERROR] WfcBlock(3:tileset): expected WaveTileset'); }
-    else { assert(checkClass(a0, v3_float), '[ERROR] WfcBlock(0:position): expected v3<float>'); assert(checkClass(a1, v3_uint), '[ERROR] WfcBlock(1:size): expected v3<uint>'); assert(checkClass(a2, v3_float), '[ERROR] WfcBlock(2:scale): expected v3<float>'); assert(checkClass(a3, WaveTileset), '[ERROR] WfcBlock(3:tileset): expected WaveTileset'); assert(typeof a4 === 'boolean', '[ERROR] WfcBlock(4:auto_solve): expected boolean'); }
+    else if (a4 === undefined) { if (!checkClass(a0, v3_float) throw Error('WfcBlock(0:position): expected v3<float>'); if (!checkClass(a1, v3_uint) throw Error('WfcBlock(1:size): expected v3<uint>'); if (!checkClass(a2, v3_float) throw Error('WfcBlock(2:scale): expected v3<float>'); if (!checkClass(a3, WaveTileset) throw Error('WfcBlock(3:tileset): expected WaveTileset'); }
+    else { if (!checkClass(a0, v3_float) throw Error('WfcBlock(0:position): expected v3<float>'); if (!checkClass(a1, v3_uint) throw Error('WfcBlock(1:size): expected v3<uint>'); if (!checkClass(a2, v3_float) throw Error('WfcBlock(2:scale): expected v3<float>'); if (!checkClass(a3, WaveTileset) throw Error('WfcBlock(3:tileset): expected WaveTileset'); if (typeof a4 !== 'boolean'), throw Error('WfcBlock(4:auto_solve): expected boolean'); }
     if (a0 === undefined) { this.__ptr = _mud_WfcBlock__construct_0(); getCache(WfcBlock)[this.__ptr] = this; }
     else if (a4 === undefined) { this.__ptr = _mud_WfcBlock__construct_4(/*position*/a0.__ptr, /*size*/a1.__ptr, /*scale*/a2.__ptr, /*tileset*/a3.__ptr); getCache(WfcBlock)[this.__ptr] = this; }
     else { this.__ptr = _mud_WfcBlock__construct_5(/*position*/a0.__ptr, /*size*/a1.__ptr, /*scale*/a2.__ptr, /*tileset*/a3.__ptr, /*auto_solve*/a4); getCache(WfcBlock)[this.__ptr] = this; }
@@ -39,12 +39,12 @@ WfcBlock.prototype["propagate"] = WfcBlock.prototype.propagate = function() {
 };
 WfcBlock.prototype["solve"] = WfcBlock.prototype.solve = function(a0) {
     if (a0 === undefined) {  }
-    else { assert(typeof a0 === 'number', '[ERROR] solve(0:limit): expected integer'); }
+    else { if (typeof a0 !== 'number') throw Error('solve(0:limit): expected integer'); }
     if (a0 === undefined) { _mud_WfcBlock_solve_0(this.__ptr); }
     else { _mud_WfcBlock_solve_1(this.__ptr, /*limit*/a0); }
 };
 WfcBlock.prototype["update"] = WfcBlock.prototype.update = function(a0) {
-    assert(checkClass(a0, Wave), '[ERROR] update(0:wave): expected Wave');
+    if (!checkClass(a0, Wave) throw Error('update(0:wave): expected Wave');
     _mud_WfcBlock_update_1(this.__ptr, /*wave*/a0.__ptr);
 };
 Object.defineProperty(WfcBlock.prototype, "position", {

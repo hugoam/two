@@ -106,25 +106,6 @@ extern "C" {
 	void DECL mud_Meta__destroy(mud::Meta* self) {
 		delete self;
 	}
-	// Module
-	mud::Type* DECL mud_Module__type() {
-		return &mud::type<mud::Module>();
-	}
-	const char* DECL mud_Module__get_name(mud::Module* self) {
-		return self->m_name;
-	}
-	void DECL mud_Module__set_name(mud::Module* self, const char* value) {
-		self->m_name = value;
-	}
-	const char* DECL mud_Module__get_path(mud::Module* self) {
-		return self->m_path;
-	}
-	void DECL mud_Module__set_path(mud::Module* self, const char* value) {
-		self->m_path = value;
-	}
-	void DECL mud_Module__destroy(mud::Module* self) {
-		delete self;
-	}
 	// Namespace
 	mud::Type* DECL mud_Namespace__type() {
 		return &mud::type<mud::Namespace>();

@@ -321,7 +321,7 @@ namespace mud
 			decl.begin();
 			decl.add(battrib, 3, bgfx::AttribType::Float);
 			decl.end();
-			return bgfx::findVertexDecl(decl);
+			return bgfx::createVertexDecl(decl);
 		};
 
 		static bgfx::VertexDeclHandle morph_decls[4] =
@@ -340,7 +340,7 @@ namespace mud
 			morph_decl(VertexAttribute::MorphNormal3, bgfx::Attrib::Color2),
 		};
 
-		encoder.setVertexBuffer(1 + index, m_morphs[morph].m_vertices, morph_decls[index]);
+		encoder.setVertexBuffer(1 + index, m_morphs[morph].m_vertices, 0, m_vertex_count, morph_decls[index]);
 	}
 
 	uint64_t Mesh::submit(bgfx::Encoder& encoder) const
