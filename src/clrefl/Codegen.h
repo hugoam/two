@@ -1497,7 +1497,7 @@ namespace clgen
 				return "if (typeof " + a + " !== 'boolean') throw Error('" + msg + "expected boolean');";
 			else if(t.iscstring() || t.isstring())
 				return "if (typeof " + a + " !== 'string') throw Error('" + msg + "expected string');";
-				//return "assert(typeof " + a + " === 'string' || (" + a + " && typeof " + a + " === 'object' && typeof " + a + ".__ptr === 'number'), '" + msg + "expected string');";
+				//return "if (typeof " + a + " !== 'string' && (!" + a + " || typeof " + a + " !== 'object' || typeof " + a + ".__ptr !== 'number')) throw Error('" + msg + "expected string');";
 			else if(t.issequence())
 				return string();
 			else if(t.isclass())

@@ -34,7 +34,7 @@ Module['compare'] = compare;
 function checkClass(obj, destcls, cls) {
   cls = cls || obj.__class;
   if (cls == destcls) return true;
-  else if (cls.__base) return checkClass(obj, destcls, cls.__base);
+  else if (cls && cls.__base) return checkClass(obj, destcls, cls.__base);
   else return false;
 }
 Module['checkClass'] = checkClass;
