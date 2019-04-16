@@ -18,11 +18,11 @@ OrbitController.__base = ViewerController;
 OrbitController.__cache = {};
 Module['OrbitController'] = OrbitController;
 OrbitController.prototype["set_eye"] = OrbitController.prototype.set_eye = function(a0) {
-    if (!checkClass(a0, quat) { throw Error('set_eye(0:rotation): expected quat'); }
+    if (!checkClass(a0, quat)) throw Error('set_eye(0:rotation): expected quat');
     _mud_OrbitController_set_eye_1(this.__ptr, /*rotation*/a0.__ptr);
 };
 OrbitController.prototype["set_target"] = OrbitController.prototype.set_target = function(a0) {
-    if (!checkClass(a0, v3_float) { throw Error('set_target(0:position): expected v3<float>'); }
+    if (!checkClass(a0, v3_float)) throw Error('set_target(0:position): expected v3<float>');
     _mud_OrbitController_set_target_1(this.__ptr, /*position*/a0.__ptr);
 };
 Object.defineProperty(OrbitController.prototype, "position", {
@@ -223,52 +223,52 @@ TrackballController.prototype["__destroy"] = TrackballController.prototype.__des
     _mud_TrackballController__destroy(this.__ptr);
 };
 Module['ui']['viewer'] = function(a0, a1) {
-    if (!checkClass(a0, Widget) { throw Error('viewer(0:parent): expected Widget'); } if (!checkClass(a1, Scene) { throw Error('viewer(1:scene): expected Scene'); }
+    if (!checkClass(a0, Widget)) throw Error('viewer(0:parent): expected Widget'); if (!checkClass(a1, Scene)) throw Error('viewer(1:scene): expected Scene');
     return wrapPointer(_mud_ui_viewer_2(/*parent*/a0.__ptr, /*scene*/a1.__ptr), Viewer);
 };
 Module['ui']['scene_viewer'] = function(a0, a1) {
-    if (a1 === undefined) { if (!checkClass(a0, Widget) { throw Error('scene_viewer(0:parent): expected Widget'); } }
-    else { if (!checkClass(a0, Widget) { throw Error('scene_viewer(0:parent): expected Widget'); } if (!checkClass(a1, v2_float) { throw Error('scene_viewer(1:size): expected v2<float>'); } }
+    if (a1 === undefined) { if (!checkClass(a0, Widget)) throw Error('scene_viewer(0:parent): expected Widget'); }
+    else { if (!checkClass(a0, Widget)) throw Error('scene_viewer(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('scene_viewer(1:size): expected v2<float>'); }
     if (a1 === undefined) { return wrapPointer(_mud_ui_scene_viewer_1(/*parent*/a0.__ptr), SceneViewer); }
     else { return wrapPointer(_mud_ui_scene_viewer_2(/*parent*/a0.__ptr, /*size*/a1.__ptr), SceneViewer); }
 };
 Module['ui']['trackball_controller'] = function(a0) {
-    if (!checkClass(a0, Viewer) { throw Error('trackball_controller(0:viewer): expected Viewer'); }
+    if (!checkClass(a0, Viewer)) throw Error('trackball_controller(0:viewer): expected Viewer');
     return wrapPointer(_mud_ui_trackball_controller_1(/*viewer*/a0.__ptr), TrackballController);
 };
 Module['ui']['orbit_controls'] = function(a0) {
-    if (!checkClass(a0, Viewer) { throw Error('orbit_controls(0:viewer): expected Viewer'); }
+    if (!checkClass(a0, Viewer)) throw Error('orbit_controls(0:viewer): expected Viewer');
     return wrapPointer(_mud_ui_orbit_controls_1(/*viewer*/a0.__ptr), OrbitControls);
 };
 Module['ui']['orbit_controller'] = function(a0, a1, a2, a3) {
-    if (a1 === undefined) { if (!checkClass(a0, Viewer) { throw Error('orbit_controller(0:viewer): expected Viewer'); } }
-    else if (a2 === undefined) { if (!checkClass(a0, Viewer) { throw Error('orbit_controller(0:viewer): expected Viewer'); } if (typeof a1 !== 'number') { throw Error('orbit_controller(1:yaw): expected number'); } }
-    else if (a3 === undefined) { if (!checkClass(a0, Viewer) { throw Error('orbit_controller(0:viewer): expected Viewer'); } if (typeof a1 !== 'number') { throw Error('orbit_controller(1:yaw): expected number'); } if (typeof a2 !== 'number') { throw Error('orbit_controller(2:pitch): expected number'); } }
-    else { if (!checkClass(a0, Viewer) { throw Error('orbit_controller(0:viewer): expected Viewer'); } if (typeof a1 !== 'number') { throw Error('orbit_controller(1:yaw): expected number'); } if (typeof a2 !== 'number') { throw Error('orbit_controller(2:pitch): expected number'); } if (typeof a3 !== 'number') { throw Error('orbit_controller(3:distance): expected number'); } }
+    if (a1 === undefined) { if (!checkClass(a0, Viewer)) throw Error('orbit_controller(0:viewer): expected Viewer'); }
+    else if (a2 === undefined) { if (!checkClass(a0, Viewer)) throw Error('orbit_controller(0:viewer): expected Viewer'); if (typeof a1 !== 'number') throw Error('orbit_controller(1:yaw): expected number'); }
+    else if (a3 === undefined) { if (!checkClass(a0, Viewer)) throw Error('orbit_controller(0:viewer): expected Viewer'); if (typeof a1 !== 'number') throw Error('orbit_controller(1:yaw): expected number'); if (typeof a2 !== 'number') throw Error('orbit_controller(2:pitch): expected number'); }
+    else { if (!checkClass(a0, Viewer)) throw Error('orbit_controller(0:viewer): expected Viewer'); if (typeof a1 !== 'number') throw Error('orbit_controller(1:yaw): expected number'); if (typeof a2 !== 'number') throw Error('orbit_controller(2:pitch): expected number'); if (typeof a3 !== 'number') throw Error('orbit_controller(3:distance): expected number'); }
     if (a1 === undefined) { return wrapPointer(_mud_ui_orbit_controller_1(/*viewer*/a0.__ptr), OrbitController); }
     else if (a2 === undefined) { return wrapPointer(_mud_ui_orbit_controller_2(/*viewer*/a0.__ptr, /*yaw*/a1), OrbitController); }
     else if (a3 === undefined) { return wrapPointer(_mud_ui_orbit_controller_3(/*viewer*/a0.__ptr, /*yaw*/a1, /*pitch*/a2), OrbitController); }
     else { return wrapPointer(_mud_ui_orbit_controller_4(/*viewer*/a0.__ptr, /*yaw*/a1, /*pitch*/a2, /*distance*/a3), OrbitController); }
 };
 Module['ui']['free_orbit_controller'] = function(a0) {
-    if (!checkClass(a0, Viewer) { throw Error('free_orbit_controller(0:viewer): expected Viewer'); }
+    if (!checkClass(a0, Viewer)) throw Error('free_orbit_controller(0:viewer): expected Viewer');
     return wrapPointer(_mud_ui_free_orbit_controller_1(/*viewer*/a0.__ptr), FreeOrbitController);
 };
 Module['ui']['isometric_controller'] = function(a0, a1) {
-    if (a1 === undefined) { if (!checkClass(a0, Viewer) { throw Error('isometric_controller(0:viewer): expected Viewer'); } }
-    else { if (!checkClass(a0, Viewer) { throw Error('isometric_controller(0:viewer): expected Viewer'); } if (typeof a1 !== 'boolean') { throw Error('isometric_controller(1:topdown): expected boolean'); } }
+    if (a1 === undefined) { if (!checkClass(a0, Viewer)) throw Error('isometric_controller(0:viewer): expected Viewer'); }
+    else { if (!checkClass(a0, Viewer)) throw Error('isometric_controller(0:viewer): expected Viewer'); if (typeof a1 !== 'boolean') throw Error('isometric_controller(1:topdown): expected boolean'); }
     if (a1 === undefined) { return wrapPointer(_mud_ui_isometric_controller_1(/*viewer*/a0.__ptr), OrbitController); }
     else { return wrapPointer(_mud_ui_isometric_controller_2(/*viewer*/a0.__ptr, /*topdown*/a1), OrbitController); }
 };
 Module['ui']['hybrid_controller'] = function(a0, a1, a2, a3, a4, a5) {
-    if (a5 === undefined) { if (!checkClass(a0, Viewer) { throw Error('hybrid_controller(0:viewer): expected Viewer'); } if (typeof a1 !== 'number') { throw Error('hybrid_controller(1:mode): expected integer'); } if (!checkClass(a2, Transform) { throw Error('hybrid_controller(2:entity): expected Transform'); } if (typeof a3 !== 'boolean') { throw Error('hybrid_controller(3:aiming): expected boolean'); } if (!checkClass(a4, v2_float) { throw Error('hybrid_controller(4:angles): expected v2<float>'); } }
-    else { if (!checkClass(a0, Viewer) { throw Error('hybrid_controller(0:viewer): expected Viewer'); } if (typeof a1 !== 'number') { throw Error('hybrid_controller(1:mode): expected integer'); } if (!checkClass(a2, Transform) { throw Error('hybrid_controller(2:entity): expected Transform'); } if (typeof a3 !== 'boolean') { throw Error('hybrid_controller(3:aiming): expected boolean'); } if (!checkClass(a4, v2_float) { throw Error('hybrid_controller(4:angles): expected v2<float>'); } if (typeof a5 !== 'boolean') { throw Error('hybrid_controller(5:modal): expected boolean'); } }
+    if (a5 === undefined) { if (!checkClass(a0, Viewer)) throw Error('hybrid_controller(0:viewer): expected Viewer'); if (typeof a1 !== 'number') throw Error('hybrid_controller(1:mode): expected integer'); if (!checkClass(a2, Transform)) throw Error('hybrid_controller(2:entity): expected Transform'); if (typeof a3 !== 'boolean') throw Error('hybrid_controller(3:aiming): expected boolean'); if (!checkClass(a4, v2_float)) throw Error('hybrid_controller(4:angles): expected v2<float>'); }
+    else { if (!checkClass(a0, Viewer)) throw Error('hybrid_controller(0:viewer): expected Viewer'); if (typeof a1 !== 'number') throw Error('hybrid_controller(1:mode): expected integer'); if (!checkClass(a2, Transform)) throw Error('hybrid_controller(2:entity): expected Transform'); if (typeof a3 !== 'boolean') throw Error('hybrid_controller(3:aiming): expected boolean'); if (!checkClass(a4, v2_float)) throw Error('hybrid_controller(4:angles): expected v2<float>'); if (typeof a5 !== 'boolean') throw Error('hybrid_controller(5:modal): expected boolean'); }
     if (a5 === undefined) { return wrapPointer(_mud_ui_hybrid_controller_5(/*viewer*/a0.__ptr, /*mode*/a1, /*entity*/a2.__ptr, /*aiming*/a3, /*angles*/a4.__ptr), OrbitController); }
     else { return wrapPointer(_mud_ui_hybrid_controller_6(/*viewer*/a0.__ptr, /*mode*/a1, /*entity*/a2.__ptr, /*aiming*/a3, /*angles*/a4.__ptr, /*modal*/a5), OrbitController); }
 };
 Module['ui']['velocity_controller'] = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { if (!checkClass(a0, Viewer) { throw Error('velocity_controller(0:viewer): expected Viewer'); } if (!checkClass(a1, v3_float) { throw Error('velocity_controller(1:linear): expected v3<float>'); } if (!checkClass(a2, v3_float) { throw Error('velocity_controller(2:angular): expected v3<float>'); } }
-    else { if (!checkClass(a0, Viewer) { throw Error('velocity_controller(0:viewer): expected Viewer'); } if (!checkClass(a1, v3_float) { throw Error('velocity_controller(1:linear): expected v3<float>'); } if (!checkClass(a2, v3_float) { throw Error('velocity_controller(2:angular): expected v3<float>'); } if (typeof a3 !== 'number') { throw Error('velocity_controller(3:speed): expected number'); } }
+    if (a3 === undefined) { if (!checkClass(a0, Viewer)) throw Error('velocity_controller(0:viewer): expected Viewer'); if (!checkClass(a1, v3_float)) throw Error('velocity_controller(1:linear): expected v3<float>'); if (!checkClass(a2, v3_float)) throw Error('velocity_controller(2:angular): expected v3<float>'); }
+    else { if (!checkClass(a0, Viewer)) throw Error('velocity_controller(0:viewer): expected Viewer'); if (!checkClass(a1, v3_float)) throw Error('velocity_controller(1:linear): expected v3<float>'); if (!checkClass(a2, v3_float)) throw Error('velocity_controller(2:angular): expected v3<float>'); if (typeof a3 !== 'number') throw Error('velocity_controller(3:speed): expected number'); }
     if (a3 === undefined) { _mud_ui_velocity_controller_3(/*viewer*/a0.__ptr, /*linear*/a1.__ptr, /*angular*/a2.__ptr); }
     else { _mud_ui_velocity_controller_4(/*viewer*/a0.__ptr, /*linear*/a1.__ptr, /*angular*/a2.__ptr, /*speed*/a3); }
 };

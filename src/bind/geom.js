@@ -2,7 +2,7 @@ Module['stl'] = Module['stl'] || {};
 // Aabb
 function Aabb(a0, a1) {
     if (a0 === undefined) {  }
-    else { if (!checkClass(a0, v3_float) { throw Error('Aabb(0:center): expected v3<float>'); } if (!checkClass(a1, v3_float) { throw Error('Aabb(1:extents): expected v3<float>'); } }
+    else { if (!checkClass(a0, v3_float)) throw Error('Aabb(0:center): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('Aabb(1:extents): expected v3<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Aabb__construct_0(); getCache(Aabb)[this.__ptr] = this; }
     else { this.__ptr = _mud_Aabb__construct_2(/*center*/a0.__ptr, /*extents*/a1.__ptr); getCache(Aabb)[this.__ptr] = this; }
 };
@@ -46,7 +46,7 @@ Curve2.prototype.__class = Curve2;
 Curve2.__cache = {};
 Module['Curve2'] = Curve2;
 Curve2.prototype["point"] = Curve2.prototype.point = function(a0) {
-    if (typeof a0 !== 'number') { throw Error('point(0:t): expected number'); }
+    if (typeof a0 !== 'number') throw Error('point(0:t): expected number');
     return wrapPointer(_mud_Curve2_point_1(this.__ptr, /*t*/a0), v2_float);
 };
 Curve2.prototype["__destroy"] = Curve2.prototype.__destroy = function() {
@@ -60,7 +60,7 @@ Curve3.prototype.__class = Curve3;
 Curve3.__cache = {};
 Module['Curve3'] = Curve3;
 Curve3.prototype["point"] = Curve3.prototype.point = function(a0) {
-    if (typeof a0 !== 'number') { throw Error('point(0:t): expected number'); }
+    if (typeof a0 !== 'number') throw Error('point(0:t): expected number');
     return wrapPointer(_mud_Curve3_point_1(this.__ptr, /*t*/a0), v3_float);
 };
 Curve3.prototype["__destroy"] = Curve3.prototype.__destroy = function() {
@@ -91,7 +91,7 @@ Face3.prototype["__destroy"] = Face3.prototype.__destroy = function() {
 };
 // MarchingCubes
 function MarchingCubes(a0) {
-    if (typeof a0 !== 'number') { throw Error('MarchingCubes(0:resolution): expected integer'); }
+    if (typeof a0 !== 'number') throw Error('MarchingCubes(0:resolution): expected integer');
     this.__ptr = _mud_MarchingCubes__construct_1(/*resolution*/a0); getCache(MarchingCubes)[this.__ptr] = this;
 };
 MarchingCubes.prototype = Object.create(WrapperObject.prototype);
@@ -108,11 +108,11 @@ MarchingCubes.prototype["count"] = MarchingCubes.prototype.count = function() {
     return _mud_MarchingCubes_count_0(this.__ptr);
 };
 MarchingCubes.prototype["direct"] = MarchingCubes.prototype.direct = function(a0) {
-    if (!checkClass(a0, MeshAdapter) { throw Error('direct(0:output): expected MeshAdapter'); }
+    if (!checkClass(a0, MeshAdapter)) throw Error('direct(0:output): expected MeshAdapter');
     _mud_MarchingCubes_direct_1(this.__ptr, /*output*/a0.__ptr);
 };
 MarchingCubes.prototype["render"] = MarchingCubes.prototype.render = function(a0) {
-    if (!checkClass(a0, MeshPacker) { throw Error('render(0:output): expected MeshPacker'); }
+    if (!checkClass(a0, MeshPacker)) throw Error('render(0:output): expected MeshPacker');
     _mud_MarchingCubes_render_1(this.__ptr, /*output*/a0.__ptr);
 };
 Object.defineProperty(MarchingCubes.prototype, "isolation", {
@@ -149,11 +149,11 @@ MeshAdapter.prototype["rewind"] = MeshAdapter.prototype.rewind = function() {
     _mud_MeshAdapter_rewind_0(this.__ptr);
 };
 MeshAdapter.prototype["copy"] = MeshAdapter.prototype.copy = function(a0) {
-    if (!checkClass(a0, MeshAdapter) { throw Error('copy(0:dest): expected MeshAdapter'); }
+    if (!checkClass(a0, MeshAdapter)) throw Error('copy(0:dest): expected MeshAdapter');
     _mud_MeshAdapter_copy_1(this.__ptr, /*dest*/a0.__ptr);
 };
 MeshAdapter.prototype["xcopy"] = MeshAdapter.prototype.xcopy = function(a0, a1) {
-    if (!checkClass(a0, MeshAdapter) { throw Error('xcopy(0:dest): expected MeshAdapter'); } if (!checkClass(a1, mat4) { throw Error('xcopy(1:transform): expected mat4'); }
+    if (!checkClass(a0, MeshAdapter)) throw Error('xcopy(0:dest): expected MeshAdapter'); if (!checkClass(a1, mat4)) throw Error('xcopy(1:transform): expected mat4');
     _mud_MeshAdapter_xcopy_2(this.__ptr, /*dest*/a0.__ptr, /*transform*/a1.__ptr);
 };
 MeshAdapter.prototype["next"] = MeshAdapter.prototype.next = function() {
@@ -161,43 +161,43 @@ MeshAdapter.prototype["next"] = MeshAdapter.prototype.next = function() {
     _mud_MeshAdapter_next_0(this.__ptr);
 };
 MeshAdapter.prototype["position"] = MeshAdapter.prototype.position = function(a0) {
-    if (!checkClass(a0, v3_float) { throw Error('position(0:p): expected v3<float>'); }
+    if (!checkClass(a0, v3_float)) throw Error('position(0:p): expected v3<float>');
     return wrapPointer(_mud_MeshAdapter_position_1(this.__ptr, /*p*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["position4"] = MeshAdapter.prototype.position4 = function(a0) {
-    if (!checkClass(a0, v4_float) { throw Error('position4(0:p): expected v4<float>'); }
+    if (!checkClass(a0, v4_float)) throw Error('position4(0:p): expected v4<float>');
     return wrapPointer(_mud_MeshAdapter_position4_1(this.__ptr, /*p*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["normal"] = MeshAdapter.prototype.normal = function(a0) {
-    if (!checkClass(a0, v3_float) { throw Error('normal(0:n): expected v3<float>'); }
+    if (!checkClass(a0, v3_float)) throw Error('normal(0:n): expected v3<float>');
     return wrapPointer(_mud_MeshAdapter_normal_1(this.__ptr, /*n*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["colour"] = MeshAdapter.prototype.colour = function(a0) {
-    if (!checkClass(a0, Colour) { throw Error('colour(0:c): expected Colour'); }
+    if (!checkClass(a0, Colour)) throw Error('colour(0:c): expected Colour');
     return wrapPointer(_mud_MeshAdapter_colour_1(this.__ptr, /*c*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["tangent"] = MeshAdapter.prototype.tangent = function(a0) {
-    if (!checkClass(a0, v4_float) { throw Error('tangent(0:t): expected v4<float>'); }
+    if (!checkClass(a0, v4_float)) throw Error('tangent(0:t): expected v4<float>');
     return wrapPointer(_mud_MeshAdapter_tangent_1(this.__ptr, /*t*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["bitangent"] = MeshAdapter.prototype.bitangent = function(a0) {
-    if (!checkClass(a0, v3_float) { throw Error('bitangent(0:b): expected v3<float>'); }
+    if (!checkClass(a0, v3_float)) throw Error('bitangent(0:b): expected v3<float>');
     return wrapPointer(_mud_MeshAdapter_bitangent_1(this.__ptr, /*b*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["uv0"] = MeshAdapter.prototype.uv0 = function(a0) {
-    if (!checkClass(a0, v2_float) { throw Error('uv0(0:uv): expected v2<float>'); }
+    if (!checkClass(a0, v2_float)) throw Error('uv0(0:uv): expected v2<float>');
     return wrapPointer(_mud_MeshAdapter_uv0_1(this.__ptr, /*uv*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["uv1"] = MeshAdapter.prototype.uv1 = function(a0) {
-    if (!checkClass(a0, v2_float) { throw Error('uv1(0:uv): expected v2<float>'); }
+    if (!checkClass(a0, v2_float)) throw Error('uv1(0:uv): expected v2<float>');
     return wrapPointer(_mud_MeshAdapter_uv1_1(this.__ptr, /*uv*/a0.__ptr), MeshAdapter);
 };
 MeshAdapter.prototype["joints"] = MeshAdapter.prototype.joints = function(a0) {
-    if (typeof a0 !== 'number') { throw Error('joints(0:j): expected integer'); }
+    if (typeof a0 !== 'number') throw Error('joints(0:j): expected integer');
     return wrapPointer(_mud_MeshAdapter_joints_1(this.__ptr, /*j*/a0), MeshAdapter);
 };
 MeshAdapter.prototype["weights"] = MeshAdapter.prototype.weights = function(a0) {
-    if (!checkClass(a0, v4_float) { throw Error('weights(0:w): expected v4<float>'); }
+    if (!checkClass(a0, v4_float)) throw Error('weights(0:w): expected v4<float>');
     return wrapPointer(_mud_MeshAdapter_weights_1(this.__ptr, /*w*/a0.__ptr), MeshAdapter);
 };
 Object.defineProperty(MeshAdapter.prototype, "vertex_format", {
@@ -254,47 +254,47 @@ MeshPacker.prototype.__class = MeshPacker;
 MeshPacker.__cache = {};
 Module['MeshPacker'] = MeshPacker;
 MeshPacker.prototype["position"] = MeshPacker.prototype.position = function(a0) {
-    if (!checkClass(a0, v3_float) { throw Error('position(0:p): expected v3<float>'); }
+    if (!checkClass(a0, v3_float)) throw Error('position(0:p): expected v3<float>');
     _mud_MeshPacker_position_1(this.__ptr, /*p*/a0.__ptr);
 };
 MeshPacker.prototype["normal"] = MeshPacker.prototype.normal = function(a0) {
-    if (!checkClass(a0, v3_float) { throw Error('normal(0:n): expected v3<float>'); }
+    if (!checkClass(a0, v3_float)) throw Error('normal(0:n): expected v3<float>');
     _mud_MeshPacker_normal_1(this.__ptr, /*n*/a0.__ptr);
 };
 MeshPacker.prototype["colour"] = MeshPacker.prototype.colour = function(a0) {
-    if (!checkClass(a0, Colour) { throw Error('colour(0:c): expected Colour'); }
+    if (!checkClass(a0, Colour)) throw Error('colour(0:c): expected Colour');
     _mud_MeshPacker_colour_1(this.__ptr, /*c*/a0.__ptr);
 };
 MeshPacker.prototype["tangent"] = MeshPacker.prototype.tangent = function(a0) {
-    if (!checkClass(a0, v4_float) { throw Error('tangent(0:t): expected v4<float>'); }
+    if (!checkClass(a0, v4_float)) throw Error('tangent(0:t): expected v4<float>');
     _mud_MeshPacker_tangent_1(this.__ptr, /*t*/a0.__ptr);
 };
 MeshPacker.prototype["bitangent"] = MeshPacker.prototype.bitangent = function(a0) {
-    if (!checkClass(a0, v3_float) { throw Error('bitangent(0:b): expected v3<float>'); }
+    if (!checkClass(a0, v3_float)) throw Error('bitangent(0:b): expected v3<float>');
     _mud_MeshPacker_bitangent_1(this.__ptr, /*b*/a0.__ptr);
 };
 MeshPacker.prototype["uv0"] = MeshPacker.prototype.uv0 = function(a0) {
-    if (!checkClass(a0, v2_float) { throw Error('uv0(0:uv): expected v2<float>'); }
+    if (!checkClass(a0, v2_float)) throw Error('uv0(0:uv): expected v2<float>');
     _mud_MeshPacker_uv0_1(this.__ptr, /*uv*/a0.__ptr);
 };
 MeshPacker.prototype["uv1"] = MeshPacker.prototype.uv1 = function(a0) {
-    if (!checkClass(a0, v2_float) { throw Error('uv1(0:uv): expected v2<float>'); }
+    if (!checkClass(a0, v2_float)) throw Error('uv1(0:uv): expected v2<float>');
     _mud_MeshPacker_uv1_1(this.__ptr, /*uv*/a0.__ptr);
 };
 MeshPacker.prototype["bones"] = MeshPacker.prototype.bones = function(a0) {
-    if (!checkClass(a0, v4_int) { throw Error('bones(0:j): expected v4<int>'); }
+    if (!checkClass(a0, v4_int)) throw Error('bones(0:j): expected v4<int>');
     _mud_MeshPacker_bones_1(this.__ptr, /*j*/a0.__ptr);
 };
 MeshPacker.prototype["weights"] = MeshPacker.prototype.weights = function(a0) {
-    if (!checkClass(a0, v4_float) { throw Error('weights(0:w): expected v4<float>'); }
+    if (!checkClass(a0, v4_float)) throw Error('weights(0:w): expected v4<float>');
     _mud_MeshPacker_weights_1(this.__ptr, /*w*/a0.__ptr);
 };
 MeshPacker.prototype["index"] = MeshPacker.prototype.index = function(a0) {
-    if (typeof a0 !== 'number') { throw Error('index(0:i): expected integer'); }
+    if (typeof a0 !== 'number') throw Error('index(0:i): expected integer');
     _mud_MeshPacker_index_1(this.__ptr, /*i*/a0);
 };
 MeshPacker.prototype["resize"] = MeshPacker.prototype.resize = function(a0, a1, a2) {
-    if (typeof a0 !== 'number') { throw Error('resize(0:vertex_count): expected integer'); } if (typeof a1 !== 'number') { throw Error('resize(1:index_count): expected integer'); } if (typeof a2 !== 'number') { throw Error('resize(2:vertex_format): expected integer'); }
+    if (typeof a0 !== 'number') throw Error('resize(0:vertex_count): expected integer'); if (typeof a1 !== 'number') throw Error('resize(1:index_count): expected integer'); if (typeof a2 !== 'number') throw Error('resize(2:vertex_format): expected integer');
     _mud_MeshPacker_resize_3(this.__ptr, /*vertex_count*/a0, /*index_count*/a1, /*vertex_format*/a2);
 };
 MeshPacker.prototype["clear"] = MeshPacker.prototype.clear = function() {
@@ -302,20 +302,20 @@ MeshPacker.prototype["clear"] = MeshPacker.prototype.clear = function() {
     _mud_MeshPacker_clear_0(this.__ptr);
 };
 MeshPacker.prototype["pack"] = MeshPacker.prototype.pack = function(a0) {
-    if (!checkClass(a0, MeshAdapter) { throw Error('pack(0:writer): expected MeshAdapter'); }
+    if (!checkClass(a0, MeshAdapter)) throw Error('pack(0:writer): expected MeshAdapter');
     _mud_MeshPacker_pack_1(this.__ptr, /*writer*/a0.__ptr);
 };
 MeshPacker.prototype["xpack"] = MeshPacker.prototype.xpack = function(a0, a1) {
-    if (!checkClass(a0, MeshAdapter) { throw Error('xpack(0:writer): expected MeshAdapter'); } if (!checkClass(a1, mat4) { throw Error('xpack(1:transform): expected mat4'); }
+    if (!checkClass(a0, MeshAdapter)) throw Error('xpack(0:writer): expected MeshAdapter'); if (!checkClass(a1, mat4)) throw Error('xpack(1:transform): expected mat4');
     _mud_MeshPacker_xpack_2(this.__ptr, /*writer*/a0.__ptr, /*transform*/a1.__ptr);
 };
 MeshPacker.prototype["unpack"] = MeshPacker.prototype.unpack = function(a0, a1) {
-    if (!checkClass(a0, MeshAdapter) { throw Error('unpack(0:reader): expected MeshAdapter'); } if (!checkClass(a1, mat4) { throw Error('unpack(1:transform): expected mat4'); }
+    if (!checkClass(a0, MeshAdapter)) throw Error('unpack(0:reader): expected MeshAdapter'); if (!checkClass(a1, mat4)) throw Error('unpack(1:transform): expected mat4');
     _mud_MeshPacker_unpack_2(this.__ptr, /*reader*/a0.__ptr, /*transform*/a1.__ptr);
 };
 MeshPacker.prototype["gen_normals"] = MeshPacker.prototype.gen_normals = function(a0) {
     if (a0 === undefined) {  }
-    else { if (typeof a0 !== 'boolean') { throw Error('gen_normals(0:area_weighted): expected boolean'); } }
+    else { if (typeof a0 !== 'boolean') throw Error('gen_normals(0:area_weighted): expected boolean'); }
     if (a0 === undefined) { _mud_MeshPacker_gen_normals_0(this.__ptr); }
     else { _mud_MeshPacker_gen_normals_1(this.__ptr, /*area_weighted*/a0); }
 };
@@ -551,7 +551,7 @@ Shape.prototype["__destroy"] = Shape.prototype.__destroy = function() {
 // ShapeVar
 function ShapeVar(a0) {
     if (a0 === undefined) {  }
-    else { if (!checkClass(a0, Shape) { throw Error('ShapeVar(0:shape): expected Shape'); } }
+    else { if (!checkClass(a0, Shape)) throw Error('ShapeVar(0:shape): expected Shape'); }
     if (a0 === undefined) { this.__ptr = _mud_ShapeVar__construct_0(); getCache(ShapeVar)[this.__ptr] = this; }
     else { this.__ptr = _mud_ShapeVar__construct_1(/*shape*/a0.__ptr); getCache(ShapeVar)[this.__ptr] = this; }
 };
@@ -569,11 +569,11 @@ ShapeVar.prototype["__destroy"] = ShapeVar.prototype.__destroy = function() {
 };
 // Symbol
 function Symbol(a0, a1, a2, a3, a4) {
-    if (a1 === undefined) { if (!checkClass(a0, Colour) { throw Error('Symbol(0:fill): expected Colour'); } }
-    else if (a2 === undefined) { if (!checkClass(a0, Colour) { throw Error('Symbol(0:fill): expected Colour'); } if (!checkClass(a1, Colour) { throw Error('Symbol(1:outline): expected Colour'); } }
-    else if (a3 === undefined) { if (!checkClass(a0, Colour) { throw Error('Symbol(0:fill): expected Colour'); } if (!checkClass(a1, Colour) { throw Error('Symbol(1:outline): expected Colour'); } if (typeof a2 !== 'boolean') { throw Error('Symbol(2:overlay): expected boolean'); } }
-    else if (a4 === undefined) { if (!checkClass(a0, Colour) { throw Error('Symbol(0:fill): expected Colour'); } if (!checkClass(a1, Colour) { throw Error('Symbol(1:outline): expected Colour'); } if (typeof a2 !== 'boolean') { throw Error('Symbol(2:overlay): expected boolean'); } if (typeof a3 !== 'boolean') { throw Error('Symbol(3:double_sided): expected boolean'); } }
-    else { if (!checkClass(a0, Colour) { throw Error('Symbol(0:fill): expected Colour'); } if (!checkClass(a1, Colour) { throw Error('Symbol(1:outline): expected Colour'); } if (typeof a2 !== 'boolean') { throw Error('Symbol(2:overlay): expected boolean'); } if (typeof a3 !== 'boolean') { throw Error('Symbol(3:double_sided): expected boolean'); } if (typeof a4 !== 'number') { throw Error('Symbol(4:detail): expected integer'); } }
+    if (a1 === undefined) { if (!checkClass(a0, Colour)) throw Error('Symbol(0:fill): expected Colour'); }
+    else if (a2 === undefined) { if (!checkClass(a0, Colour)) throw Error('Symbol(0:fill): expected Colour'); if (!checkClass(a1, Colour)) throw Error('Symbol(1:outline): expected Colour'); }
+    else if (a3 === undefined) { if (!checkClass(a0, Colour)) throw Error('Symbol(0:fill): expected Colour'); if (!checkClass(a1, Colour)) throw Error('Symbol(1:outline): expected Colour'); if (typeof a2 !== 'boolean') throw Error('Symbol(2:overlay): expected boolean'); }
+    else if (a4 === undefined) { if (!checkClass(a0, Colour)) throw Error('Symbol(0:fill): expected Colour'); if (!checkClass(a1, Colour)) throw Error('Symbol(1:outline): expected Colour'); if (typeof a2 !== 'boolean') throw Error('Symbol(2:overlay): expected boolean'); if (typeof a3 !== 'boolean') throw Error('Symbol(3:double_sided): expected boolean'); }
+    else { if (!checkClass(a0, Colour)) throw Error('Symbol(0:fill): expected Colour'); if (!checkClass(a1, Colour)) throw Error('Symbol(1:outline): expected Colour'); if (typeof a2 !== 'boolean') throw Error('Symbol(2:overlay): expected boolean'); if (typeof a3 !== 'boolean') throw Error('Symbol(3:double_sided): expected boolean'); if (typeof a4 !== 'number') throw Error('Symbol(4:detail): expected integer'); }
     if (a1 === undefined) { this.__ptr = _mud_Symbol__construct_1(/*fill*/a0.__ptr); getCache(Symbol)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Symbol__construct_2(/*fill*/a0.__ptr, /*outline*/a1.__ptr); getCache(Symbol)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _mud_Symbol__construct_3(/*fill*/a0.__ptr, /*outline*/a1.__ptr, /*overlay*/a2); getCache(Symbol)[this.__ptr] = this; }
@@ -663,7 +663,7 @@ Symbol.prototype["__destroy"] = Symbol.prototype.__destroy = function() {
 // Arc
 function Arc(a0, a1, a2) {
     if (a0 === undefined) {  }
-    else { if (typeof a0 !== 'number') { throw Error('Arc(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('Arc(1:start): expected number'); } if (typeof a2 !== 'number') { throw Error('Arc(2:end): expected number'); } }
+    else { if (typeof a0 !== 'number') throw Error('Arc(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('Arc(1:start): expected number'); if (typeof a2 !== 'number') throw Error('Arc(2:end): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Arc__construct_0(); getCache(Arc)[this.__ptr] = this; }
     else { this.__ptr = _mud_Arc__construct_3(/*radius*/a0, /*start*/a1, /*end*/a2); getCache(Arc)[this.__ptr] = this; }
 };
@@ -703,8 +703,8 @@ Arc.prototype["__destroy"] = Arc.prototype.__destroy = function() {
 // ArcLine
 function ArcLine(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else if (a3 === undefined) { if (!checkClass(a0, v3_float) { throw Error('ArcLine(0:start): expected v3<float>'); } if (!checkClass(a1, v3_float) { throw Error('ArcLine(1:middle): expected v3<float>'); } if (!checkClass(a2, v3_float) { throw Error('ArcLine(2:end): expected v3<float>'); } }
-    else { if (!checkClass(a0, v3_float) { throw Error('ArcLine(0:center): expected v3<float>'); } if (!checkClass(a1, v3_float) { throw Error('ArcLine(1:start): expected v3<float>'); } if (!checkClass(a2, v3_float) { throw Error('ArcLine(2:middle): expected v3<float>'); } if (!checkClass(a3, v3_float) { throw Error('ArcLine(3:end): expected v3<float>'); } }
+    else if (a3 === undefined) { if (!checkClass(a0, v3_float)) throw Error('ArcLine(0:start): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('ArcLine(1:middle): expected v3<float>'); if (!checkClass(a2, v3_float)) throw Error('ArcLine(2:end): expected v3<float>'); }
+    else { if (!checkClass(a0, v3_float)) throw Error('ArcLine(0:center): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('ArcLine(1:start): expected v3<float>'); if (!checkClass(a2, v3_float)) throw Error('ArcLine(2:middle): expected v3<float>'); if (!checkClass(a3, v3_float)) throw Error('ArcLine(3:end): expected v3<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_ArcLine__construct_0(); getCache(ArcLine)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _mud_ArcLine__construct_3(/*start*/a0.__ptr, /*middle*/a1.__ptr, /*end*/a2.__ptr); getCache(ArcLine)[this.__ptr] = this; }
     else { this.__ptr = _mud_ArcLine__construct_4(/*center*/a0.__ptr, /*start*/a1.__ptr, /*middle*/a2.__ptr, /*end*/a3.__ptr); getCache(ArcLine)[this.__ptr] = this; }
@@ -759,8 +759,8 @@ Box.prototype["__destroy"] = Box.prototype.__destroy = function() {
 // Capsule
 function Capsule(a0, a1, a2) {
     if (a0 === undefined) {  }
-    else if (a2 === undefined) { if (typeof a0 !== 'number') { throw Error('Capsule(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('Capsule(1:height): expected number'); } }
-    else { if (typeof a0 !== 'number') { throw Error('Capsule(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('Capsule(1:height): expected number'); } if (typeof a2 !== 'number') { throw Error('Capsule(2:axis): expected integer'); } }
+    else if (a2 === undefined) { if (typeof a0 !== 'number') throw Error('Capsule(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('Capsule(1:height): expected number'); }
+    else { if (typeof a0 !== 'number') throw Error('Capsule(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('Capsule(1:height): expected number'); if (typeof a2 !== 'number') throw Error('Capsule(2:axis): expected integer'); }
     if (a0 === undefined) { this.__ptr = _mud_Capsule__construct_0(); getCache(Capsule)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Capsule__construct_2(/*radius*/a0, /*height*/a1); getCache(Capsule)[this.__ptr] = this; }
     else { this.__ptr = _mud_Capsule__construct_3(/*radius*/a0, /*height*/a1, /*axis*/a2); getCache(Capsule)[this.__ptr] = this; }
@@ -801,9 +801,9 @@ Capsule.prototype["__destroy"] = Capsule.prototype.__destroy = function() {
 // Circle
 function Circle(a0, a1, a2) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (typeof a0 !== 'number') { throw Error('Circle(0:radius): expected number'); } }
-    else if (a2 === undefined) { if (typeof a0 !== 'number') { throw Error('Circle(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('Circle(1:axis): expected integer'); } }
-    else { if (!checkClass(a0, v3_float) { throw Error('Circle(0:center): expected v3<float>'); } if (typeof a1 !== 'number') { throw Error('Circle(1:radius): expected number'); } if (typeof a2 !== 'number') { throw Error('Circle(2:axis): expected integer'); } }
+    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('Circle(0:radius): expected number'); }
+    else if (a2 === undefined) { if (typeof a0 !== 'number') throw Error('Circle(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('Circle(1:axis): expected integer'); }
+    else { if (!checkClass(a0, v3_float)) throw Error('Circle(0:center): expected v3<float>'); if (typeof a1 !== 'number') throw Error('Circle(1:radius): expected number'); if (typeof a2 !== 'number') throw Error('Circle(2:axis): expected integer'); }
     if (a0 === undefined) { this.__ptr = _mud_Circle__construct_0(); getCache(Circle)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Circle__construct_1(/*radius*/a0); getCache(Circle)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Circle__construct_2(/*radius*/a0, /*axis*/a1); getCache(Circle)[this.__ptr] = this; }
@@ -857,8 +857,8 @@ ConvexHull.prototype["__destroy"] = ConvexHull.prototype.__destroy = function() 
 // Cube
 function Cube(a0, a1) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (!checkClass(a0, v3_float) { throw Error('Cube(0:extents): expected v3<float>'); } }
-    else { if (!checkClass(a0, v3_float) { throw Error('Cube(0:center): expected v3<float>'); } if (!checkClass(a1, v3_float) { throw Error('Cube(1:extents): expected v3<float>'); } }
+    else if (a1 === undefined) { if (!checkClass(a0, v3_float)) throw Error('Cube(0:extents): expected v3<float>'); }
+    else { if (!checkClass(a0, v3_float)) throw Error('Cube(0:center): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('Cube(1:extents): expected v3<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Cube__construct_0(); getCache(Cube)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Cube__construct_1(/*extents*/a0.__ptr); getCache(Cube)[this.__ptr] = this; }
     else { this.__ptr = _mud_Cube__construct_2(/*center*/a0.__ptr, /*extents*/a1.__ptr); getCache(Cube)[this.__ptr] = this; }
@@ -1060,7 +1060,7 @@ CurveCatmullRom3.__base = Curve3;
 CurveCatmullRom3.__cache = {};
 Module['CurveCatmullRom3'] = CurveCatmullRom3;
 CurveCatmullRom3.prototype["add_point"] = CurveCatmullRom3.prototype.add_point = function(a0) {
-    if (!checkClass(a0, v3_float) { throw Error('add_point(0:point): expected v3<float>'); }
+    if (!checkClass(a0, v3_float)) throw Error('add_point(0:point): expected v3<float>');
     _mud_CurveCatmullRom3_add_point_1(this.__ptr, /*point*/a0.__ptr);
 };
 Object.defineProperty(CurveCatmullRom3.prototype, "points", {
@@ -1193,9 +1193,9 @@ CurveSpline3.prototype["__destroy"] = CurveSpline3.prototype.__destroy = functio
 // Cylinder
 function Cylinder(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else if (a2 === undefined) { if (typeof a0 !== 'number') { throw Error('Cylinder(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('Cylinder(1:height): expected number'); } }
-    else if (a3 === undefined) { if (typeof a0 !== 'number') { throw Error('Cylinder(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('Cylinder(1:height): expected number'); } if (typeof a2 !== 'number') { throw Error('Cylinder(2:axis): expected integer'); } }
-    else { if (!checkClass(a0, v3_float) { throw Error('Cylinder(0:center): expected v3<float>'); } if (typeof a1 !== 'number') { throw Error('Cylinder(1:radius): expected number'); } if (typeof a2 !== 'number') { throw Error('Cylinder(2:height): expected number'); } if (typeof a3 !== 'number') { throw Error('Cylinder(3:axis): expected integer'); } }
+    else if (a2 === undefined) { if (typeof a0 !== 'number') throw Error('Cylinder(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('Cylinder(1:height): expected number'); }
+    else if (a3 === undefined) { if (typeof a0 !== 'number') throw Error('Cylinder(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('Cylinder(1:height): expected number'); if (typeof a2 !== 'number') throw Error('Cylinder(2:axis): expected integer'); }
+    else { if (!checkClass(a0, v3_float)) throw Error('Cylinder(0:center): expected v3<float>'); if (typeof a1 !== 'number') throw Error('Cylinder(1:radius): expected number'); if (typeof a2 !== 'number') throw Error('Cylinder(2:height): expected number'); if (typeof a3 !== 'number') throw Error('Cylinder(3:axis): expected integer'); }
     if (a0 === undefined) { this.__ptr = _mud_Cylinder__construct_0(); getCache(Cylinder)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Cylinder__construct_2(/*radius*/a0, /*height*/a1); getCache(Cylinder)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _mud_Cylinder__construct_3(/*radius*/a0, /*height*/a1, /*axis*/a2); getCache(Cylinder)[this.__ptr] = this; }
@@ -1237,8 +1237,8 @@ Cylinder.prototype["__destroy"] = Cylinder.prototype.__destroy = function() {
 // Ellipsis
 function Ellipsis(a0, a1) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (!checkClass(a0, v2_float) { throw Error('Ellipsis(0:radius): expected v2<float>'); } }
-    else { if (!checkClass(a0, v2_float) { throw Error('Ellipsis(0:radius): expected v2<float>'); } if (typeof a1 !== 'number') { throw Error('Ellipsis(1:axis): expected integer'); } }
+    else if (a1 === undefined) { if (!checkClass(a0, v2_float)) throw Error('Ellipsis(0:radius): expected v2<float>'); }
+    else { if (!checkClass(a0, v2_float)) throw Error('Ellipsis(0:radius): expected v2<float>'); if (typeof a1 !== 'number') throw Error('Ellipsis(1:axis): expected integer'); }
     if (a0 === undefined) { this.__ptr = _mud_Ellipsis__construct_0(); getCache(Ellipsis)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Ellipsis__construct_1(/*radius*/a0.__ptr); getCache(Ellipsis)[this.__ptr] = this; }
     else { this.__ptr = _mud_Ellipsis__construct_2(/*radius*/a0.__ptr, /*axis*/a1); getCache(Ellipsis)[this.__ptr] = this; }
@@ -1285,8 +1285,8 @@ Geometry.prototype["__destroy"] = Geometry.prototype.__destroy = function() {
 // Grid2
 function Grid2(a0, a1) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (!checkClass(a0, v2_float) { throw Error('Grid2(0:size): expected v2<float>'); } }
-    else { if (!checkClass(a0, v2_float) { throw Error('Grid2(0:size): expected v2<float>'); } if (!checkClass(a1, v2_float) { throw Error('Grid2(1:space): expected v2<float>'); } }
+    else if (a1 === undefined) { if (!checkClass(a0, v2_float)) throw Error('Grid2(0:size): expected v2<float>'); }
+    else { if (!checkClass(a0, v2_float)) throw Error('Grid2(0:size): expected v2<float>'); if (!checkClass(a1, v2_float)) throw Error('Grid2(1:space): expected v2<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Grid2__construct_0(); getCache(Grid2)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Grid2__construct_1(/*size*/a0.__ptr); getCache(Grid2)[this.__ptr] = this; }
     else { this.__ptr = _mud_Grid2__construct_2(/*size*/a0.__ptr, /*space*/a1.__ptr); getCache(Grid2)[this.__ptr] = this; }
@@ -1319,8 +1319,8 @@ Grid2.prototype["__destroy"] = Grid2.prototype.__destroy = function() {
 // Grid3
 function Grid3(a0, a1) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (!checkClass(a0, v2_uint) { throw Error('Grid3(0:size): expected v2<uint>'); } }
-    else { if (!checkClass(a0, v2_uint) { throw Error('Grid3(0:size): expected v2<uint>'); }  }
+    else if (a1 === undefined) { if (!checkClass(a0, v2_uint)) throw Error('Grid3(0:size): expected v2<uint>'); }
+    else { if (!checkClass(a0, v2_uint)) throw Error('Grid3(0:size): expected v2<uint>');  }
     if (a0 === undefined) { this.__ptr = _mud_Grid3__construct_0(); getCache(Grid3)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Grid3__construct_1(/*size*/a0.__ptr); getCache(Grid3)[this.__ptr] = this; }
     else { this.__ptr = _mud_Grid3__construct_2(/*size*/a0.__ptr, ensureFloat32(/*points*/a1), /*points*/a1.length); getCache(Grid3)[this.__ptr] = this; }
@@ -1349,8 +1349,8 @@ Grid3.prototype["__destroy"] = Grid3.prototype.__destroy = function() {
 // Icosaedr
 function Icosaedr(a0, a1) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (typeof a0 !== 'number') { throw Error('Icosaedr(0:radius): expected number'); } }
-    else { if (!checkClass(a0, v3_float) { throw Error('Icosaedr(0:center): expected v3<float>'); } if (typeof a1 !== 'number') { throw Error('Icosaedr(1:radius): expected number'); } }
+    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('Icosaedr(0:radius): expected number'); }
+    else { if (!checkClass(a0, v3_float)) throw Error('Icosaedr(0:center): expected v3<float>'); if (typeof a1 !== 'number') throw Error('Icosaedr(1:radius): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Icosaedr__construct_0(); getCache(Icosaedr)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Icosaedr__construct_1(/*radius*/a0); getCache(Icosaedr)[this.__ptr] = this; }
     else { this.__ptr = _mud_Icosaedr__construct_2(/*center*/a0.__ptr, /*radius*/a1); getCache(Icosaedr)[this.__ptr] = this; }
@@ -1375,7 +1375,7 @@ Icosaedr.prototype["__destroy"] = Icosaedr.prototype.__destroy = function() {
 // Line
 function Line(a0, a1) {
     if (a0 === undefined) {  }
-    else { if (!checkClass(a0, v3_float) { throw Error('Line(0:start): expected v3<float>'); } if (!checkClass(a1, v3_float) { throw Error('Line(1:end): expected v3<float>'); } }
+    else { if (!checkClass(a0, v3_float)) throw Error('Line(0:start): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('Line(1:end): expected v3<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Line__construct_0(); getCache(Line)[this.__ptr] = this; }
     else { this.__ptr = _mud_Line__construct_2(/*start*/a0.__ptr, /*end*/a1.__ptr); getCache(Line)[this.__ptr] = this; }
 };
@@ -1426,7 +1426,7 @@ Points.prototype["__destroy"] = Points.prototype.__destroy = function() {
 };
 // Poisson
 function Poisson(a0, a1) {
-    if (!checkClass(a0, v2_float) { throw Error('Poisson(0:size): expected v2<float>'); } if (typeof a1 !== 'number') { throw Error('Poisson(1:maxRadius): expected number'); }
+    if (!checkClass(a0, v2_float)) throw Error('Poisson(0:size): expected v2<float>'); if (typeof a1 !== 'number') throw Error('Poisson(1:maxRadius): expected number');
     this.__ptr = _mud_Poisson__construct_2(/*size*/a0.__ptr, /*maxRadius*/a1); getCache(Poisson)[this.__ptr] = this;
 };
 Poisson.prototype = Object.create(Distribution.prototype);
@@ -1436,11 +1436,11 @@ Poisson.__base = Distribution;
 Poisson.__cache = {};
 Module['Poisson'] = Poisson;
 Poisson.prototype["distribute"] = Poisson.prototype.distribute = function(a0) {
-    if (typeof a0 !== 'number') { throw Error('distribute(0:radius): expected number'); }
+    if (typeof a0 !== 'number') throw Error('distribute(0:radius): expected number');
     return _mud_Poisson_distribute_1(this.__ptr, /*radius*/a0);
 };
 Poisson.prototype["addPoint"] = Poisson.prototype.addPoint = function(a0, a1) {
-    if (typeof a0 !== 'number') { throw Error('addPoint(0:radius): expected number'); } if (!checkClass(a1, v3_float) { throw Error('addPoint(1:point): expected v3<float>'); }
+    if (typeof a0 !== 'number') throw Error('addPoint(0:radius): expected number'); if (!checkClass(a1, v3_float)) throw Error('addPoint(1:point): expected v3<float>');
     return !!(_mud_Poisson_addPoint_2(this.__ptr, /*radius*/a0, /*point*/a1.__ptr));
 };
 Poisson.prototype["__destroy"] = Poisson.prototype.__destroy = function() {
@@ -1465,7 +1465,7 @@ Polygon.prototype["__destroy"] = Polygon.prototype.__destroy = function() {
 // Quad
 function Quad(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else { if (!checkClass(a0, v3_float) { throw Error('Quad(0:a): expected v3<float>'); } if (!checkClass(a1, v3_float) { throw Error('Quad(1:b): expected v3<float>'); } if (!checkClass(a2, v3_float) { throw Error('Quad(2:c): expected v3<float>'); } if (!checkClass(a3, v3_float) { throw Error('Quad(3:d): expected v3<float>'); } }
+    else { if (!checkClass(a0, v3_float)) throw Error('Quad(0:a): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('Quad(1:b): expected v3<float>'); if (!checkClass(a2, v3_float)) throw Error('Quad(2:c): expected v3<float>'); if (!checkClass(a3, v3_float)) throw Error('Quad(3:d): expected v3<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Quad__construct_0(); getCache(Quad)[this.__ptr] = this; }
     else { this.__ptr = _mud_Quad__construct_4(/*a*/a0.__ptr, /*b*/a1.__ptr, /*c*/a2.__ptr, /*d*/a3.__ptr); getCache(Quad)[this.__ptr] = this; }
 };
@@ -1481,8 +1481,8 @@ Quad.prototype["__destroy"] = Quad.prototype.__destroy = function() {
 // Rect
 function Rect(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else if (a2 === undefined) { if (!checkClass(a0, v2_float) { throw Error('Rect(0:position): expected v2<float>'); } if (!checkClass(a1, v2_float) { throw Error('Rect(1:size): expected v2<float>'); } }
-    else { if (typeof a0 !== 'number') { throw Error('Rect(0:x): expected number'); } if (typeof a1 !== 'number') { throw Error('Rect(1:y): expected number'); } if (typeof a2 !== 'number') { throw Error('Rect(2:w): expected number'); } if (typeof a3 !== 'number') { throw Error('Rect(3:h): expected number'); } }
+    else if (a2 === undefined) { if (!checkClass(a0, v2_float)) throw Error('Rect(0:position): expected v2<float>'); if (!checkClass(a1, v2_float)) throw Error('Rect(1:size): expected v2<float>'); }
+    else { if (typeof a0 !== 'number') throw Error('Rect(0:x): expected number'); if (typeof a1 !== 'number') throw Error('Rect(1:y): expected number'); if (typeof a2 !== 'number') throw Error('Rect(2:w): expected number'); if (typeof a3 !== 'number') throw Error('Rect(3:h): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Rect__construct_0(); getCache(Rect)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Rect__construct_2(/*position*/a0.__ptr, /*size*/a1.__ptr); getCache(Rect)[this.__ptr] = this; }
     else { this.__ptr = _mud_Rect__construct_4(/*x*/a0, /*y*/a1, /*w*/a2, /*h*/a3); getCache(Rect)[this.__ptr] = this; }
@@ -1515,7 +1515,7 @@ Rect.prototype["__destroy"] = Rect.prototype.__destroy = function() {
 // Ring
 function Ring(a0, a1, a2) {
     if (a0 === undefined) {  }
-    else { if (typeof a0 !== 'number') { throw Error('Ring(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('Ring(1:min): expected number'); } if (typeof a2 !== 'number') { throw Error('Ring(2:max): expected number'); } }
+    else { if (typeof a0 !== 'number') throw Error('Ring(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('Ring(1:min): expected number'); if (typeof a2 !== 'number') throw Error('Ring(2:max): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Ring__construct_0(); getCache(Ring)[this.__ptr] = this; }
     else { this.__ptr = _mud_Ring__construct_3(/*radius*/a0, /*min*/a1, /*max*/a2); getCache(Ring)[this.__ptr] = this; }
 };
@@ -1555,10 +1555,10 @@ Ring.prototype["__destroy"] = Ring.prototype.__destroy = function() {
 // Sphere
 function Sphere(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (typeof a0 !== 'number') { throw Error('Sphere(0:radius): expected number'); } }
-    else if (a2 === undefined) { if (typeof a0 !== 'number') { throw Error('Sphere(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('Sphere(1:start): expected number'); } }
-    else if (a3 === undefined) { if (typeof a0 !== 'number') { throw Error('Sphere(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('Sphere(1:start): expected number'); } if (typeof a2 !== 'number') { throw Error('Sphere(2:end): expected number'); } }
-    else { if (!checkClass(a0, v3_float) { throw Error('Sphere(0:center): expected v3<float>'); } if (typeof a1 !== 'number') { throw Error('Sphere(1:radius): expected number'); } if (typeof a2 !== 'number') { throw Error('Sphere(2:start): expected number'); } if (typeof a3 !== 'number') { throw Error('Sphere(3:end): expected number'); } }
+    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('Sphere(0:radius): expected number'); }
+    else if (a2 === undefined) { if (typeof a0 !== 'number') throw Error('Sphere(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('Sphere(1:start): expected number'); }
+    else if (a3 === undefined) { if (typeof a0 !== 'number') throw Error('Sphere(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('Sphere(1:start): expected number'); if (typeof a2 !== 'number') throw Error('Sphere(2:end): expected number'); }
+    else { if (!checkClass(a0, v3_float)) throw Error('Sphere(0:center): expected v3<float>'); if (typeof a1 !== 'number') throw Error('Sphere(1:radius): expected number'); if (typeof a2 !== 'number') throw Error('Sphere(2:start): expected number'); if (typeof a3 !== 'number') throw Error('Sphere(3:end): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Sphere__construct_0(); getCache(Sphere)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Sphere__construct_1(/*radius*/a0); getCache(Sphere)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Sphere__construct_2(/*radius*/a0, /*start*/a1); getCache(Sphere)[this.__ptr] = this; }
@@ -1601,7 +1601,7 @@ Sphere.prototype["__destroy"] = Sphere.prototype.__destroy = function() {
 // SphereRing
 function SphereRing(a0, a1, a2) {
     if (a0 === undefined) {  }
-    else { if (typeof a0 !== 'number') { throw Error('SphereRing(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('SphereRing(1:min): expected number'); } if (typeof a2 !== 'number') { throw Error('SphereRing(2:max): expected number'); } }
+    else { if (typeof a0 !== 'number') throw Error('SphereRing(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('SphereRing(1:min): expected number'); if (typeof a2 !== 'number') throw Error('SphereRing(2:max): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_SphereRing__construct_0(); getCache(SphereRing)[this.__ptr] = this; }
     else { this.__ptr = _mud_SphereRing__construct_3(/*radius*/a0, /*min*/a1, /*max*/a2); getCache(SphereRing)[this.__ptr] = this; }
 };
@@ -1641,8 +1641,8 @@ SphereRing.prototype["__destroy"] = SphereRing.prototype.__destroy = function() 
 // Spheroid
 function Spheroid(a0, a1) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (typeof a0 !== 'number') { throw Error('Spheroid(0:radius): expected number'); } }
-    else { if (!checkClass(a0, v3_float) { throw Error('Spheroid(0:center): expected v3<float>'); } if (typeof a1 !== 'number') { throw Error('Spheroid(1:radius): expected number'); } }
+    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('Spheroid(0:radius): expected number'); }
+    else { if (!checkClass(a0, v3_float)) throw Error('Spheroid(0:center): expected v3<float>'); if (typeof a1 !== 'number') throw Error('Spheroid(1:radius): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Spheroid__construct_0(); getCache(Spheroid)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Spheroid__construct_1(/*radius*/a0); getCache(Spheroid)[this.__ptr] = this; }
     else { this.__ptr = _mud_Spheroid__construct_2(/*center*/a0.__ptr, /*radius*/a1); getCache(Spheroid)[this.__ptr] = this; }
@@ -1667,8 +1667,8 @@ Spheroid.prototype["__destroy"] = Spheroid.prototype.__destroy = function() {
 // Tetraedr
 function Tetraedr(a0, a1) {
     if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (typeof a0 !== 'number') { throw Error('Tetraedr(0:radius): expected number'); } }
-    else { if (!checkClass(a0, v3_float) { throw Error('Tetraedr(0:center): expected v3<float>'); } if (typeof a1 !== 'number') { throw Error('Tetraedr(1:radius): expected number'); } }
+    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('Tetraedr(0:radius): expected number'); }
+    else { if (!checkClass(a0, v3_float)) throw Error('Tetraedr(0:center): expected v3<float>'); if (typeof a1 !== 'number') throw Error('Tetraedr(1:radius): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_Tetraedr__construct_0(); getCache(Tetraedr)[this.__ptr] = this; }
     else if (a1 === undefined) { this.__ptr = _mud_Tetraedr__construct_1(/*radius*/a0); getCache(Tetraedr)[this.__ptr] = this; }
     else { this.__ptr = _mud_Tetraedr__construct_2(/*center*/a0.__ptr, /*radius*/a1); getCache(Tetraedr)[this.__ptr] = this; }
@@ -1693,9 +1693,9 @@ Tetraedr.prototype["__destroy"] = Tetraedr.prototype.__destroy = function() {
 // Torus
 function Torus(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else if (a2 === undefined) { if (typeof a0 !== 'number') { throw Error('Torus(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('Torus(1:tube): expected number'); } }
-    else if (a3 === undefined) { if (typeof a0 !== 'number') { throw Error('Torus(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('Torus(1:tube): expected number'); } if (typeof a2 !== 'number') { throw Error('Torus(2:axis): expected integer'); } }
-    else { if (!checkClass(a0, v3_float) { throw Error('Torus(0:center): expected v3<float>'); } if (typeof a1 !== 'number') { throw Error('Torus(1:radius): expected number'); } if (typeof a2 !== 'number') { throw Error('Torus(2:tube): expected number'); } if (typeof a3 !== 'number') { throw Error('Torus(3:axis): expected integer'); } }
+    else if (a2 === undefined) { if (typeof a0 !== 'number') throw Error('Torus(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('Torus(1:tube): expected number'); }
+    else if (a3 === undefined) { if (typeof a0 !== 'number') throw Error('Torus(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('Torus(1:tube): expected number'); if (typeof a2 !== 'number') throw Error('Torus(2:axis): expected integer'); }
+    else { if (!checkClass(a0, v3_float)) throw Error('Torus(0:center): expected v3<float>'); if (typeof a1 !== 'number') throw Error('Torus(1:radius): expected number'); if (typeof a2 !== 'number') throw Error('Torus(2:tube): expected number'); if (typeof a3 !== 'number') throw Error('Torus(3:axis): expected integer'); }
     if (a0 === undefined) { this.__ptr = _mud_Torus__construct_0(); getCache(Torus)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_Torus__construct_2(/*radius*/a0, /*tube*/a1); getCache(Torus)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _mud_Torus__construct_3(/*radius*/a0, /*tube*/a1, /*axis*/a2); getCache(Torus)[this.__ptr] = this; }
@@ -1737,10 +1737,10 @@ Torus.prototype["__destroy"] = Torus.prototype.__destroy = function() {
 // TorusKnot
 function TorusKnot(a0, a1, a2, a3, a4) {
     if (a0 === undefined) {  }
-    else if (a2 === undefined) { if (typeof a0 !== 'number') { throw Error('TorusKnot(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('TorusKnot(1:tube): expected number'); } }
-    else if (a3 === undefined) { if (typeof a0 !== 'number') { throw Error('TorusKnot(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('TorusKnot(1:tube): expected number'); } if (typeof a2 !== 'number') { throw Error('TorusKnot(2:p): expected number'); } }
-    else if (a4 === undefined) { if (typeof a0 !== 'number') { throw Error('TorusKnot(0:radius): expected number'); } if (typeof a1 !== 'number') { throw Error('TorusKnot(1:tube): expected number'); } if (typeof a2 !== 'number') { throw Error('TorusKnot(2:p): expected number'); } if (typeof a3 !== 'number') { throw Error('TorusKnot(3:q): expected number'); } }
-    else { if (!checkClass(a0, v3_float) { throw Error('TorusKnot(0:center): expected v3<float>'); } if (typeof a1 !== 'number') { throw Error('TorusKnot(1:radius): expected number'); } if (typeof a2 !== 'number') { throw Error('TorusKnot(2:tube): expected number'); } if (typeof a3 !== 'number') { throw Error('TorusKnot(3:p): expected number'); } if (typeof a4 !== 'number') { throw Error('TorusKnot(4:q): expected number'); } }
+    else if (a2 === undefined) { if (typeof a0 !== 'number') throw Error('TorusKnot(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('TorusKnot(1:tube): expected number'); }
+    else if (a3 === undefined) { if (typeof a0 !== 'number') throw Error('TorusKnot(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('TorusKnot(1:tube): expected number'); if (typeof a2 !== 'number') throw Error('TorusKnot(2:p): expected number'); }
+    else if (a4 === undefined) { if (typeof a0 !== 'number') throw Error('TorusKnot(0:radius): expected number'); if (typeof a1 !== 'number') throw Error('TorusKnot(1:tube): expected number'); if (typeof a2 !== 'number') throw Error('TorusKnot(2:p): expected number'); if (typeof a3 !== 'number') throw Error('TorusKnot(3:q): expected number'); }
+    else { if (!checkClass(a0, v3_float)) throw Error('TorusKnot(0:center): expected v3<float>'); if (typeof a1 !== 'number') throw Error('TorusKnot(1:radius): expected number'); if (typeof a2 !== 'number') throw Error('TorusKnot(2:tube): expected number'); if (typeof a3 !== 'number') throw Error('TorusKnot(3:p): expected number'); if (typeof a4 !== 'number') throw Error('TorusKnot(4:q): expected number'); }
     if (a0 === undefined) { this.__ptr = _mud_TorusKnot__construct_0(); getCache(TorusKnot)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _mud_TorusKnot__construct_2(/*radius*/a0, /*tube*/a1); getCache(TorusKnot)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _mud_TorusKnot__construct_3(/*radius*/a0, /*tube*/a1, /*p*/a2); getCache(TorusKnot)[this.__ptr] = this; }
@@ -1791,7 +1791,7 @@ TorusKnot.prototype["__destroy"] = TorusKnot.prototype.__destroy = function() {
 // Triangle
 function Triangle(a0) {
     if (a0 === undefined) {  }
-    else { if (!checkClass(a0, v2_float) { throw Error('Triangle(0:size): expected v2<float>'); } }
+    else { if (!checkClass(a0, v2_float)) throw Error('Triangle(0:size): expected v2<float>'); }
     if (a0 === undefined) { this.__ptr = _mud_Triangle__construct_0(); getCache(Triangle)[this.__ptr] = this; }
     else { this.__ptr = _mud_Triangle__construct_1(/*size*/a0.__ptr); getCache(Triangle)[this.__ptr] = this; }
 };
@@ -1813,35 +1813,35 @@ Triangle.prototype["__destroy"] = Triangle.prototype.__destroy = function() {
     _mud_Triangle__destroy(this.__ptr);
 };
 Module['to_ray'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, v3_float) { throw Error('to_ray(0:pos): expected v3<float>'); } if (!checkClass(a1, v3_float) { throw Error('to_ray(1:dir): expected v3<float>'); } }
-    else { if (!checkClass(a0, v3_float) { throw Error('to_ray(0:pos): expected v3<float>'); } if (!checkClass(a1, v3_float) { throw Error('to_ray(1:dir): expected v3<float>'); } if (typeof a2 !== 'number') { throw Error('to_ray(2:distance): expected number'); } }
+    if (a2 === undefined) { if (!checkClass(a0, v3_float)) throw Error('to_ray(0:pos): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('to_ray(1:dir): expected v3<float>'); }
+    else { if (!checkClass(a0, v3_float)) throw Error('to_ray(0:pos): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('to_ray(1:dir): expected v3<float>'); if (typeof a2 !== 'number') throw Error('to_ray(2:distance): expected number'); }
     if (a2 === undefined) { return wrapPointer(_mud_to_ray_2(/*pos*/a0.__ptr, /*dir*/a1.__ptr), Ray); }
     else { return wrapPointer(_mud_to_ray_3(/*pos*/a0.__ptr, /*dir*/a1.__ptr, /*distance*/a2), Ray); }
 };
 Module['to_segment'] = function(a0) {
-    if (!checkClass(a0, Ray) { throw Error('to_segment(0:ray): expected Ray'); }
+    if (!checkClass(a0, Ray)) throw Error('to_segment(0:ray): expected Ray');
     return wrapPointer(_mud_to_segment_1(/*ray*/a0.__ptr), Segment);
 };
 Module['distribute_poisson'] = function(a0, a1) {
-    if (!checkClass(a0, v2_float) { throw Error('distribute_poisson(0:size): expected v2<float>'); } if (typeof a1 !== 'number') { throw Error('distribute_poisson(1:radius): expected number'); }
+    if (!checkClass(a0, v2_float)) throw Error('distribute_poisson(0:size): expected v2<float>'); if (typeof a1 !== 'number') throw Error('distribute_poisson(1:radius): expected number');
     return _mud_distribute_poisson_2(/*size*/a0.__ptr, /*radius*/a1);
 };
 Module['add_ball'] = function(a0, a1, a2, a3, a4) {
-    if (a4 === undefined) { if (!checkClass(a0, MarchingCubes) { throw Error('add_ball(0:cubes): expected MarchingCubes'); } if (!checkClass(a1, v3_float) { throw Error('add_ball(1:ball): expected v3<float>'); } if (typeof a2 !== 'number') { throw Error('add_ball(2:strength): expected number'); } if (typeof a3 !== 'number') { throw Error('add_ball(3:subtract): expected number'); } }
-    else { if (!checkClass(a0, MarchingCubes) { throw Error('add_ball(0:cubes): expected MarchingCubes'); } if (!checkClass(a1, v3_float) { throw Error('add_ball(1:ball): expected v3<float>'); } if (typeof a2 !== 'number') { throw Error('add_ball(2:strength): expected number'); } if (typeof a3 !== 'number') { throw Error('add_ball(3:subtract): expected number'); } if (!checkClass(a4, Colour) { throw Error('add_ball(4:colour): expected Colour'); } }
+    if (a4 === undefined) { if (!checkClass(a0, MarchingCubes)) throw Error('add_ball(0:cubes): expected MarchingCubes'); if (!checkClass(a1, v3_float)) throw Error('add_ball(1:ball): expected v3<float>'); if (typeof a2 !== 'number') throw Error('add_ball(2:strength): expected number'); if (typeof a3 !== 'number') throw Error('add_ball(3:subtract): expected number'); }
+    else { if (!checkClass(a0, MarchingCubes)) throw Error('add_ball(0:cubes): expected MarchingCubes'); if (!checkClass(a1, v3_float)) throw Error('add_ball(1:ball): expected v3<float>'); if (typeof a2 !== 'number') throw Error('add_ball(2:strength): expected number'); if (typeof a3 !== 'number') throw Error('add_ball(3:subtract): expected number'); if (!checkClass(a4, Colour)) throw Error('add_ball(4:colour): expected Colour'); }
     if (a4 === undefined) { _mud_add_ball_4(/*cubes*/a0.__ptr, /*ball*/a1.__ptr, /*strength*/a2, /*subtract*/a3); }
     else { _mud_add_ball_5(/*cubes*/a0.__ptr, /*ball*/a1.__ptr, /*strength*/a2, /*subtract*/a3, /*colour*/a4.__ptr); }
 };
 Module['add_planeX'] = function(a0, a1, a2) {
-    if (!checkClass(a0, MarchingCubes) { throw Error('add_planeX(0:cubes): expected MarchingCubes'); } if (typeof a1 !== 'number') { throw Error('add_planeX(1:strength): expected number'); } if (typeof a2 !== 'number') { throw Error('add_planeX(2:subtract): expected number'); }
+    if (!checkClass(a0, MarchingCubes)) throw Error('add_planeX(0:cubes): expected MarchingCubes'); if (typeof a1 !== 'number') throw Error('add_planeX(1:strength): expected number'); if (typeof a2 !== 'number') throw Error('add_planeX(2:subtract): expected number');
     _mud_add_planeX_3(/*cubes*/a0.__ptr, /*strength*/a1, /*subtract*/a2);
 };
 Module['add_planeY'] = function(a0, a1, a2) {
-    if (!checkClass(a0, MarchingCubes) { throw Error('add_planeY(0:cubes): expected MarchingCubes'); } if (typeof a1 !== 'number') { throw Error('add_planeY(1:strength): expected number'); } if (typeof a2 !== 'number') { throw Error('add_planeY(2:subtract): expected number'); }
+    if (!checkClass(a0, MarchingCubes)) throw Error('add_planeY(0:cubes): expected MarchingCubes'); if (typeof a1 !== 'number') throw Error('add_planeY(1:strength): expected number'); if (typeof a2 !== 'number') throw Error('add_planeY(2:subtract): expected number');
     _mud_add_planeY_3(/*cubes*/a0.__ptr, /*strength*/a1, /*subtract*/a2);
 };
 Module['add_planeZ'] = function(a0, a1, a2) {
-    if (!checkClass(a0, MarchingCubes) { throw Error('add_planeZ(0:cubes): expected MarchingCubes'); } if (typeof a1 !== 'number') { throw Error('add_planeZ(1:strength): expected number'); } if (typeof a2 !== 'number') { throw Error('add_planeZ(2:subtract): expected number'); }
+    if (!checkClass(a0, MarchingCubes)) throw Error('add_planeZ(0:cubes): expected MarchingCubes'); if (typeof a1 !== 'number') throw Error('add_planeZ(1:strength): expected number'); if (typeof a2 !== 'number') throw Error('add_planeZ(2:subtract): expected number');
     _mud_add_planeZ_3(/*cubes*/a0.__ptr, /*strength*/a1, /*subtract*/a2);
 };
 
