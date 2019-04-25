@@ -1,7 +1,9 @@
 #define MUD_NO_GFX
-#include <mud/mud.h>
-#include <mud/Modules.h>
+#include <frame/Api.h>
 #include <00_ui/00_ui.h>
+
+#include <stl/array.h>
+#include <stl/vector.hpp>
 
 #ifdef MUD_RENDERER_GL
 #include <gl/GlSystem.h>
@@ -50,9 +52,9 @@ struct Person
 	bool m_removed;
 };
 
-std::vector<Person> person_vector()
+vector<Person> person_vector()
 {
-	std::vector<Person> persons;
+	vector<Person> persons;
 	for(const string& name : boy_names)
 		persons.push_back({ name, MALE, false, false });
 	for(const string& name : girl_names)
@@ -60,7 +62,7 @@ std::vector<Person> person_vector()
 	return persons;
 }
 
-std::vector<Person> persons = person_vector();
+vector<Person> persons = person_vector();
 
 void custom_element(Widget& parent, cstring name, cstring gender, bool& selected, bool& removed)
 {
@@ -209,6 +211,7 @@ void ex_application(Widget& parent)
 	}
 }
 
+#ifdef SCRIPT
 LuaInterpreter& lua_interpreter()
 {
 	static LuaInterpreter lua;
@@ -232,6 +235,7 @@ void ex_console(Widget& parent)
 		command = "";
 	}
 }
+#endif
 
 void ex_script_editor(Widget& parent)
 {
@@ -252,16 +256,16 @@ void ex_dockspace(Widget& parent)
 
 	docksystem.m_dockers = { &dockspace, &dockbar };
 
-	if(Widget* dock = ui::dockitem(dockspace, "Dock 0", carray<uint16_t, 2>{ 0U, 0U }))
+	if(Widget* dock = ui::dockitem(dockspace, "Dock 0", { 0U, 0U }))
 		ex_controls(*dock);
 
-	if(Widget* dock = ui::dockitem(dockspace, "Dock 1", carray<uint16_t, 2>{ 0U, 1U }))
+	if(Widget* dock = ui::dockitem(dockspace, "Dock 1", { 0U, 1U }))
 		ex_inline_controls(*dock);
 
-	if(Widget* dock = ui::dockitem(dockspace, "Dock 2", carray<uint16_t, 2>{ 0U, 2U }))
+	if(Widget* dock = ui::dockitem(dockspace, "Dock 2", { 0U, 2U }))
 		ex_table(*dock);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Options", carray<uint16_t, 1>{ 0U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Options", { 0U }))
 		ex_controls(*dock);
 
 }
@@ -294,10 +298,10 @@ public:
 
 	void disconnect(NodeCable::Plug plug)
 	{
-		vector_remove_if(m_cables, [=](const NodeCable& cable) { return cable.m_in == plug || cable.m_out == plug; });
+		remove_if(m_cables, [=](const NodeCable& cable) { return cable.m_in == plug || cable.m_out == plug; });
 	}
 
-	std::vector<NodeCable> m_cables;
+	vector<NodeCable> m_cables;
 };
 
 void ex_nodes(Widget& parent)
@@ -373,7 +377,7 @@ void ex_tabs(Widget& parent)
 void ex_table(Widget& parent)
 {
 	{
-		Widget& table = ui::table(parent, carray<cstring, 4>{ "ID", "Name", "Path", "Flags" }, carray<float, 4>{ 0.25f, 0.25f, 0.25f, 0.25f });
+		Widget& table = ui::table(parent, { "ID", "Name", "Path", "Flags" }, { 0.25f, 0.25f, 0.25f, 0.25f });
 
 		cstring contents[3][4] = {
 			{ "0000", "Robert",    "/path/robert",    "...." },
@@ -390,7 +394,7 @@ void ex_table(Widget& parent)
 	}
 
 	{
-		Widget& table = ui::table(parent, carray<cstring, 3>{ "Column 0", "Column 1", "Column 3" }, carray<float, 3>{ 0.33f, 0.33f, 0.33f });
+		Widget& table = ui::table(parent, { "Column 0", "Column 1", "Column 3" }, { 0.33f, 0.33f, 0.33f });
 
 		{
 			Widget& row = ui::row(table);
@@ -405,7 +409,7 @@ void ex_table(Widget& parent)
 		}
 
 		static uint32_t radio_val = 0;
-		ui::radio_switch(table, carray<cstring, 3>{ "radio a", "radio b", "radio c" }, radio_val);
+		ui::radio_switch(table, { "radio a", "radio b", "radio c" }, radio_val);
 
 		{
 			Widget& row = ui::row(table);
@@ -420,7 +424,7 @@ void ex_table(Widget& parent)
 	}
 
 	{
-		Widget& table = ui::table(parent, carray<cstring, 2>{ "Left", "Right" }, carray<float, 2>{ 0.5f, 0.5f });
+		Widget& table = ui::table(parent, { "Left", "Right" }, { 0.5f, 0.5f });
 
 		{
 			Widget& row = ui::row(table);
@@ -525,17 +529,17 @@ void ex_markup_text(Widget& parent)
 
 void ex_controls(Widget& parent)
 {
-	Widget& table = ui::table(parent, carray<cstring, 2>{ "input", "label" }, carray<float, 2>{ 0.7f, 0.3f });
+	Widget& table = ui::table(parent, { "input", "label" }, { 0.7f, 0.3f });
 
 	static bool val_bool = false;
 	static string val_string = "Hello, world!";
 	static uint32_t val_radio = 0;
 
 	ui::input_field<bool>(table, "checkbox input", val_bool, true);
-	ui::radio_field(table, "radio input", carray<cstring, 3>{ "radio a", "radio b", "radio c" }, val_radio, true);
+	ui::radio_field(table, "radio input", { "radio a", "radio b", "radio c" }, val_radio, Axis::X, true);
 
 	static uint32_t val_choice = 0;
-	static std::vector<cstring> choices = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK" };
+	static vector<cstring> choices = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK" };
 	ui::dropdown_field(table, "dropdown input", choices, val_choice, true);
 	ui::typedown_field(table, "typedown input", choices, val_choice, true);
 
@@ -696,7 +700,7 @@ void ex_debug_dock(Widget& parent)
 	Dockbar& tooldock = ui::dockbar(parent, docksystem);
 
 	{
-		Widget* options = ui::dockitem(tooldock, "Options", carray<uint16_t, 1>{ 0U });
+		Widget* options = ui::dockitem(tooldock, "Options", { 0U });
 		UNUSED(options);
 
 		//VgRenderer& renderer = *Frame::s_renderer;
@@ -710,6 +714,7 @@ void ex_debug_dock(Widget& parent)
 
 void switchUiTheme(UiWindow& ui_window, const string& name)
 {
+#if STYLE_SHEETS
 	string clean_name = to_lower(replace_all(name, " ", "_"));
 	if(name == "Default")
 		set_default_style_sheet(*ui_window.m_styler);
@@ -717,6 +722,7 @@ void switchUiTheme(UiWindow& ui_window, const string& name)
 		set_style_sheet(*ui_window.m_styler, (string(ui_window.m_resource_path) + "interface/styles/" + clean_name + ".yml").c_str());
 
 	//ui_window.m_styler->style(CustomElement::style()).m_layout.d_align = Dim<Align>(LEFT, CENTER);
+#endif
 }
 
 using Sample = void(*)(Widget&);
@@ -742,10 +748,12 @@ enum class SampleId : uint32_t
 	Invalid,
 };
 
-carray<cstring, 16> sample_names =
+cstring sample_names[] =
 {
 	"Application",
+#ifdef SCRIPT
 	"Console",
+#endif
 	"ScriptEditor",
 	"Dockspace",
 	"Nodes",
@@ -762,10 +770,12 @@ carray<cstring, 16> sample_names =
 	"ProgressDialog"
 };
 
-carray<Sample, 16> samples =
+Sample samples[] =
 {
 	ex_application,
+#ifdef SCRIPT
 	ex_console,
+#endif
 	ex_script_editor,
 	ex_dockspace,
 	ex_nodes,
@@ -782,14 +792,14 @@ carray<Sample, 16> samples =
 	ex_progress_dialog,
 };
 
-using SampleMap = const std::map<SampleId, Sample>;
+using SampleMap = const map<SampleId, Sample>;
 
 void example_ui(Widget& root_sheet)
 {
-	static carray<cstring, 6> themes = { "Minimal", "Vector", "Blendish Clear", "Blendish Dark", "TurboBadger", "MyGui" };
+	static cstring themes[6] = { "Minimal", "Vector", "Blendish Clear", "Blendish Dark", "TurboBadger", "MyGui" };
 
 	static string active_theme = "Minimal";
-	static std::vector<SampleId> active_window_samples = {};
+	static vector<SampleId> active_window_samples = {};
 	static SampleId active_board_sample = SampleId::Application;
 
 	Widget& header = ui::header(root_sheet);
@@ -847,12 +857,15 @@ void example_ui(Widget& root_sheet)
 }
 
 #ifdef _00_UI_EXE
-bool pump(RenderSystem& render_system, UiWindow& ui_window)
+bool pump(RenderSystem& render_system, BgfxContext& context, UiWindow& ui_window)
 {
-	bool pursue = ui_window.input_frame();
-	example_ui(ui_window.m_root_sheet->begin());
-	ui_window.render_frame();
-	render_system.next_frame();
+	bool pursue = context.begin_frame();
+	pursue &= ui_window.input_frame();
+	example_ui(ui_window.m_ui->begin());
+	context.render_frame();
+	//bgfx::setViewFrameBuffer(240, context.m_target->m_backbuffer.m_fbo);
+	ui_window.render_frame(240);
+	render_system.end_frame();
 	return pursue;
 }
 
@@ -867,7 +880,9 @@ bool pump(RenderSystem& render_system, UiWindow& ui_window)
 int main(int argc, char *argv[])
 {
 	UNUSED(argc); UNUSED(argv);
+#ifdef SCRIPT
 	System::instance().load_modules({ &mud_obj::m(), &mud_math::m(), &mud_lang::m(), &mud_ui::m() });
+#endif
 
 #ifdef MUD_RENDERER_GL
 	static GlSystem render_system = { MUD_RESOURCE_PATH };
@@ -875,16 +890,27 @@ int main(int argc, char *argv[])
 	static BgfxSystem render_system = { MUD_RESOURCE_PATH };
 #endif
 
-	static object_ptr<Context> context = render_system.create_context("mud ui demo", 1200, 800, false);
+	static BgfxContext context = BgfxContext(render_system, "mud ui demo", uvec2(1200, 800), false, true);
 
-	static object_ptr<VgVg> vg = make_object<VgVg>(MUD_RESOURCE_PATH, &render_system.m_allocator);
+	static VgVg vg = VgVg(MUD_RESOURCE_PATH, &render_system.allocator());
 
-	static UiWindow ui_window = { *context, *vg };
+	//context.m_vg = m_vg.get();
+	//context.m_reset_vg = [](GfxWindow& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.m_tex.idx); };
+
+	vg.setup_context();
+
+	static UiWindow ui_window = UiWindow(context, vg);
+
 	//switchUiTheme(ui_window, "Minimal");
 	switchUiTheme(ui_window, "Blendish Dark");
 	//switchUiTheme(ui_window, "Blendish");
 	//switchUiTheme(ui_window, "TurboBadger");
 	//switchUiTheme(ui_window, "MyGUI");
+
+	ui_window.init();
+	//m_ui = m_ui_window.m_ui.get();
+
+	style_minimal(ui_window);
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 	g_render_system = &render_system;
@@ -893,7 +919,7 @@ int main(int argc, char *argv[])
 #else
 	bool pursue = true;
 	while(pursue)
-		pump(render_system, ui_window);
+		pump(render_system, context, ui_window);
 #endif
 }
 #endif

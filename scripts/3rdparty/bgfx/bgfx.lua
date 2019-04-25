@@ -10,6 +10,19 @@ dofile(path.join(BIMG_DIR, "scripts/bimg_encode.lua"))
 dofile(path.join(BGFX_DIR, "scripts/bgfx.lua"))
 bgfxProject("", "StaticLib", {})
 
+if _OPTIONS["webgpu"] then
+project "bgfx"
+    includedirs {
+        path.join(DAWN_DIR, "src"),
+        path.join(DAWN_DIR, "src/include"),
+        path.join(DAWN_DIR, "out/Default/gen")
+    }
+    
+    defines {
+        "BGFX_CONFIG_RENDERER_WEBGPU=1",
+    }
+end
+
 project "bgfx"
     configuration { "Debug" }
         defines {

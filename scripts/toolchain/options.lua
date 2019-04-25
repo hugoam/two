@@ -32,6 +32,11 @@ newoption {
 }
 
 newoption {
+    trigger = "webgpu",
+    description = "Experimental WebGPU (dawn) renderer",
+}
+
+newoption {
     trigger = "culling",
     description = "Enable Occlusion Culling",
 }

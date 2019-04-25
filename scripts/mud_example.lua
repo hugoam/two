@@ -34,6 +34,8 @@ function mud_example(name, deps, exdeps, ismodule)
     mud_binary(name, table.union({ _G[name] }, exdeps), deps)
 end
 
+
+    mud_example("00_ui",                { mud.frame },                                     {})
 --mud_example("00_ui",               {})
     
 if not _OPTIONS["renderer-gl"] then

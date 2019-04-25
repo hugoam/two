@@ -1,5 +1,6 @@
 #include <stl/string.h>
 #include <stl/set.h>
+#include <stl/map.h>
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <infra/File.h>

@@ -338,7 +338,7 @@ mud.frame   = mud_module("mud", "frame",    MUD_SRC_DIR,    "frame",    nil,    
 
 if _OPTIONS["tools"] then
   mud.clrefl = mud_module("mud", "clrefl",  MUD_SRC_DIR,    "clrefl",   mud_clrefl, nil,            false,      { json11, mud.infra })
-  mud.amalg  = mud_module("mud", "amalg",   MUD_SRC_DIR,    "amalg",    nil,        nil,            false,      { json11, mud.infra })
+  mud.amalg  = mud_module("mud", "amalg",   MUD_SRC_DIR,    "amalg",    mud_srlz,   nil,            false,      { json11, mud.infra, mud.srlz })
 end
 
 --mud_sys(true)

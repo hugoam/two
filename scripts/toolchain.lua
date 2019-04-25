@@ -17,6 +17,8 @@ BX_DIR   = path.join(MUD_3RDPARTY_DIR, "bx")
 BGFX_DIR = path.join(MUD_3RDPARTY_DIR, "bgfx")
 BIMG_DIR = path.join(MUD_3RDPARTY_DIR, "bimg")
 
+DAWN_DIR = path.join(MUD_DIR, "../../dawn")
+
 json = dofile(path.join(MUD_3RDPARTY_DIR, "jsonlua/json.lua"))
 
 dofile("toolchain/table.lua")

@@ -14,6 +14,7 @@ namespace stl
 #include <stl/buffer.h>
 #include <stl/stddef.h>
 #include <stl/hash.h>
+#include <stl/span.h>
 
 namespace stl {
 
@@ -77,6 +78,8 @@ namespace stl {
 		size_t rfind(char c, const size_t offset = npos) const;
 		size_t find(const basic_string& other, const size_t offset = 0) const;
 		size_t rfind(const basic_string& other, const size_t offset = npos) const;
+
+		size_t find_any(span<char> chars, const size_t offset = 0) const;
 
 		bool operator==(const basic_string& rhs) const;
 		bool operator!=(const basic_string& rhs) const;

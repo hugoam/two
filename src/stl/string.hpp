@@ -321,6 +321,29 @@ namespace stl {
 		return nullptr;
 	}
 
+
+	template <class Alloc>
+	inline size_t basic_string<Alloc>::find_any(span<char> chars, const size_t offset) const {
+		const char* hay = this->begin();
+		const char* needle = chars.begin();
+		const size_t hay_size = this->size();
+		const size_t needle_size = chars.size();
+
+		if(needle_size != 0 && offset < hay_size)
+		{	// room for match, look for it
+			const char* end = hay + hay_size;
+			for(const char* c = hay + offset; c < end; ++c)
+			{
+				if(string_find(needle, needle_size, *c))
+				{
+					return size_t(c - hay);
+				}
+			}
+		}
+
+		return size_t(-1);
+	}
+
 	template <class Alloc>
 	inline size_t basic_string<Alloc>::find(char c, const size_t offset) const {
 		const size_t hay_size = this->size();
