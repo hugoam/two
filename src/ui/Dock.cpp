@@ -60,8 +60,8 @@ namespace ui
 		static float width = 300.f;
 
 		Widget& drag_handle = widget(self, styles().drag_handle);
-		if(MouseEvent mouse_event = drag_handle.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
-			width -= mouse_event.m_delta.x;
+		if(MouseEvent event = drag_handle.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+			width -= event.m_delta.x;
 
 		self.m_dockzone = &widget(self, dock_styles().dockdiv);
 		if(self.m_current_tab == SIZE_MAX)
@@ -81,7 +81,7 @@ namespace ui
 		}
 		else
 		{
-			Window& container = window(parent, dock.m_name, static_cast<WindowState>(WINDOW_DOCKABLE | WINDOW_DEFAULT), &dock);
+			Window& container = window(parent, dock.m_name, WindowState(uint(WindowState::Dockable) | uint(WindowState::Default)), &dock);
 			container.m_dock = &dock;
 			return &container;
 		}

@@ -157,40 +157,40 @@ namespace mud
 		vector<Transform*> transforms = gather_transforms(targets);
 		m_transform = average_transforms(transforms);
 
-		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = screen.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			if(!m_dragging)
 			{
 				auto callback = [&](Item* item) { m_current = &this->gizmo(*item); };
-				viewer.picker(1).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Ui);
+				viewer.picker(1).pick_point(viewer.m_viewport, event.m_relative, callback, ItemFlag::Ui);
 			}
 		}
 
-		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
+		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
 		{
 			m_dragging = m_current;
-			m_drag_start = mouse_event.m_relative;
-			m_grab_start = m_current->grab_point(viewer, mouse_event.m_relative);
+			m_drag_start = event.m_relative;
+			m_grab_start = m_current->grab_point(viewer, event.m_relative);
 			m_action = this->create_action(transforms);
-			mouse_event.consume(screen);
+			event.consume(screen);
 		}
 
-		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			m_grab_end = m_current->grab_point(viewer, mouse_event.m_relative);
+			m_grab_end = m_current->grab_point(viewer, event.m_relative);
 
 			m_action->undo();
 			m_action->update(m_grab_start, m_grab_end);
 			m_action->apply();
-			mouse_event.consume(screen);
+			event.consume(screen);
 		}
 
-		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
+		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 		{
 			m_dragging = nullptr;
 			m_action->undo();
 			this->commit(move(m_action));
-			mouse_event.consume(screen);
+			event.consume(screen);
 		}
 
 		viewer.m_controller->process(static_cast<Viewer&>(screen)); // @HACK @UGLY it's not a viewer !!

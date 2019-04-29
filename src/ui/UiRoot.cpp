@@ -74,4 +74,12 @@ namespace mud
 
 		EventDispatcher::update();
 	}
+
+	void Ui::reset_styles()
+	{
+		visit([](Widget& widget, bool& visit)
+		{
+			widget.m_frame.update_style(true);
+		});
+	}
 }

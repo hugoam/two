@@ -30,7 +30,7 @@ namespace ui
 {
 	export_ struct NodeStyles
 	{
-		NodeStyles();
+		void reset();
 		Style node; Style body; Style plugs; Style inputs; Style outputs; Style knob; Style knob_output; Style knob_proxy; Style plug; Style cable; Style header;
 	};
 
@@ -38,7 +38,7 @@ namespace ui
 
 	export_ struct CanvasStyles
 	{
-		CanvasStyles();
+		void reset();
 		Style canvas;
 	};
 

@@ -138,12 +138,15 @@ namespace mud
 
 	float oriented_angle(const float2& a, const float2& b)
 	{
-		const float angle = acos(clamp(dot(a, b), float(-1), float(1)));
+		float det = a.x * b.y - a.y * b.x; // determinant
+		return atan2(det, dot(a, b));      // atan2(y, x) or atan2(sin, cos)
 
-		if(all(equal(b, rotate(a, angle), epsilon<float>())))
-			return angle;
-		else
-			return -angle;
+		//const float angle = acos(clamp(dot(a, b), float(-1), float(1)));
+		//
+		//if(all(equal(b, rotate(a, angle), epsilon<float>())))
+		//	return angle;
+		//else
+		//	return -angle;
 	}
 
 	mat4 operator*(const mat4& m, float f)

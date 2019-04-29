@@ -99,10 +99,10 @@ void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		auto hover = [](Item& item) {};
 		auto unhover = [](Item& item) {};
 
-		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			//auto pick = [&](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
-			//viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, pick, ItemFlag::Selectable);
+			//viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, pick, ItemFlag::Selectable);
 		}
 	}
 

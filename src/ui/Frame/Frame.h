@@ -51,7 +51,7 @@ namespace mud
 
 		void update_style(bool reset = false);
 		void update_state(WidgetState state);
-		void update_inkstyle(InkStyle& inkstyle);
+		void update_inkstyle(InkStyle& inkstyle, bool reset = false);
 
 		void set_size(Axis dim, float size);
 		void set_span(Axis dim, float span);

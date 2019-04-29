@@ -59,6 +59,11 @@ namespace mud
 		virtual void clip(const vec4& rect) = 0;
 		virtual void unclip() = 0;
 
+		virtual void begin_path() = 0;
+		virtual void move_to(const vec2& p) = 0;
+		virtual void line_to(const vec2& p) = 0;
+		virtual void close_path() = 0;
+
 		virtual void path_line(const vec2& p1, const vec2& p2) = 0;
 		virtual void path_bezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten = false) = 0;
 		virtual void path_rect(const vec4& rect, const vec4& corners, float border) = 0;
@@ -103,6 +108,17 @@ namespace mud
 		bool m_null = false;
 	};
 
+	export_ MUD_UI_EXPORT vec4 select_corners(const Frame& frame);
+	export_ MUD_UI_EXPORT float content_position(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim);
+
+	export_ MUD_UI_EXPORT void draw_frame(Vg& vg, const Frame& frame, const vec4& rect);
+	export_ MUD_UI_EXPORT void draw_content(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+	export_ MUD_UI_EXPORT void draw_background(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+	export_ MUD_UI_EXPORT void draw_rect(Vg& vg, const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
+	export_ MUD_UI_EXPORT void draw_image(Vg& vg, const Image& image, const vec4& rect);
+	export_ MUD_UI_EXPORT void draw_image_stretch(Vg& vg, const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
+	export_ MUD_UI_EXPORT void draw_skin_image(Vg& vg, const Frame& frame, int section, vec4 rect);
+
 	export_ class MUD_UI_EXPORT UiRenderer
 	{
 	public:
@@ -120,16 +136,6 @@ namespace mud
 		void end_frame(Frame& frame);
 		void end_layer(Frame& frame);
 		void draw_frame(const Frame& frame);
-		void draw_frame(const Frame& frame, const vec4& rect);
-
-		vec4 select_corners(const Frame& frame);
-		float content_pos(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim);
-		void draw_content(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
-		void draw_background(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
-		void draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
-		void draw_image(const Image& image, const vec4& rect);
-		void draw_image_stretch(const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
-		void draw_skin_image(const Frame& frame, int section, vec4 rect);
 
 		void log_FPS();
 

@@ -36,7 +36,7 @@ end
 
 
     mud_example("00_ui",                { mud.frame },                                     {})
---mud_example("00_ui",               {})
+    mud_example("00_imgui",             { mud.frame },                                     {})
     
 if not _OPTIONS["renderer-gl"] then
 --              name                    dependencies                                       examples deps

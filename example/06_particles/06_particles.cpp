@@ -76,7 +76,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 		gfx::shape(node, Cube(), Symbol(Colour::Transparent), ItemFlag::Default | ItemFlag::Selectable);
 	}
 
-	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto callback = [&controller, middle](Item* item)
 		{
@@ -84,7 +84,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 			edited = &val<ParticleItem>(item->m_node->m_object);
 			controller.m_position = vec3(-middle + edited->m_index * 10.f, 0.f, 0.f);
 		};
-		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
+		viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	if(edited)

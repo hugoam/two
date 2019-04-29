@@ -18,12 +18,15 @@ namespace mud
 			: Dockable(parent, identity)
 		{}
 
-		bool header() { return (m_window_state & WINDOW_HEADER) != 0; }
-		bool closable() { return (m_window_state & WINDOW_CLOSABLE) != 0; }
-		bool dockable() { return (m_window_state & WINDOW_DOCKABLE) != 0; }
-		bool movable() { return (m_window_state & WINDOW_MOVABLE) != 0; }
-		bool sizable() { return (m_window_state & WINDOW_SIZABLE) != 0; }
+		bool header()   { return (uint(m_window_state) & uint(WindowState::Header)) != 0; }
+		bool closable() { return (uint(m_window_state) & uint(WindowState::Closable)) != 0; }
+		bool dockable() { return (uint(m_window_state) & uint(WindowState::Dockable)) != 0; }
+		bool movable()  { return (uint(m_window_state) & uint(WindowState::Movable)) != 0; }
+		bool sizable()  { return (uint(m_window_state) & uint(WindowState::Sizable)) != 0; }
+		bool hasmenu()  { return (uint(m_window_state) & uint(WindowState::Menu)) != 0; }
 
 		WindowState m_window_state;
+
+		Widget* m_menu = nullptr;
 	};
 }

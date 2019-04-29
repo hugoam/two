@@ -153,18 +153,18 @@ namespace mud
 	{
 		//EventDispatch::process(viewer);
 
-		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		if(MouseEvent event = viewer.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
-			if(mouse_event.m_deltaZ > 0)
+			if(event.m_deltaZ > 0)
 				m_distance *= 0.75f;
 			else
 				m_distance *= 1.3f;
 		}
 
-		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
+		if(MouseEvent event = viewer.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
 		{
-			m_yaw = fmod(m_yaw - 0.02f * mouse_event.m_delta.x, c_2pi);
-			m_pitch = fmod(m_pitch - 0.02f * mouse_event.m_delta.y, c_2pi);
+			m_yaw = fmod(m_yaw - 0.02f * event.m_delta.x, c_2pi);
+			m_pitch = fmod(m_pitch - 0.02f * event.m_delta.y, c_2pi);
 		}
 
 		this->update_eye();
@@ -1074,7 +1074,7 @@ namespace ui
 		Viewer& viewer = parent.subi<Viewer, Scene&>(&type<Viewer>(), scene);
 		viewer.m_scene = viewer.m_viewport.m_scene = &scene;;
 		viewer.resize();
-		//if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
+		//if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 		//	viewer.take_focus();
 		return viewer;
 	}
@@ -1103,21 +1103,21 @@ namespace ui
 
 	void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection)
 	{
-		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::Mouse, EventType::Moved, InputMod::None, false))
+		if(MouseEvent event = widget.mouse_event(DeviceType::Mouse, EventType::Moved, InputMod::None, false))
 		{
 			auto callback = [&](Item* item) { viewer.m_hovered = item; };
-			viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Selectable);
+			viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, callback, ItemFlag::Selectable);
 		}
 
-		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
 			//if(viewer.m_hovered)
 			//	select(selection, viewer.m_hovered->m_node->m_object);
 		}
 
-		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 		{
-			//Entity* entity = pick_entity(viewer, mouse_event.m_relative, ItemFlag::Selectable | ItemFlag::Static);
+			//Entity* entity = pick_entity(viewer, event.m_relative, ItemFlag::Selectable | ItemFlag::Static);
 			//context_menu(viewer.m_vision.m_user.m_selector, *entity);
 		}
 	}
@@ -1169,7 +1169,7 @@ namespace ui
 		FreeOrbitController& controller = as<FreeOrbitController>(*viewer.m_controller);
 		controller.process(viewer);
 		
-		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
+		if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 			viewer.take_focus();
 
 		struct KeyMove { Key key; vec3 velocity; };
@@ -1229,7 +1229,7 @@ namespace ui
 
 		orbit.set_target(entity.m_position + Y3 * 2.f);
 
-		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
+		if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 		{
 			if(!viewer.modal())
 			{
@@ -1243,14 +1243,14 @@ namespace ui
 			}
 		}
 
-		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			const float rotation_speed = 1.f;
-			vec2 angle = -mouse_event.m_delta / 250.f * rotation_speed;
+			vec2 angle = -event.m_delta / 250.f * rotation_speed;
 
 			if(mode != Mode::ThirdPerson)
 			{
-				Ray ray = viewer.m_viewport.ray(mouse_event.m_relative);
+				Ray ray = viewer.m_viewport.ray(event.m_relative);
 				vec3 target = plane_segment_intersection(Plane(Y3, entity.m_position.y), to_segment(ray));
 				if(mode == Mode::Isometric)
 				{

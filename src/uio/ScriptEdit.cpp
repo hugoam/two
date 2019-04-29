@@ -128,7 +128,7 @@ namespace mud
 				}
 			}
 		
-			if(MouseEvent mouse_event = edit.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+			if(MouseEvent event = edit.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			{
 			}
 		}

@@ -68,7 +68,7 @@ namespace mud
 	{
 		Flow = 0,			// AutoLayout::Layout
 		Overlay = 1,		// AutoLayout::Size
-		Align = 2,			// AUTO_POSITION
+		Align = 2,			// AutoLayout::Position
 		Free = 3			// AutoLayout::None
 	};
 

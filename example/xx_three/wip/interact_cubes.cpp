@@ -70,10 +70,10 @@ void xx_interact_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	auto hover = [](Item& item) { item.m_material->m_lit.m_emissive = rgba(0xff0000ff); };
 	auto unhover = [](Item& item) { item.m_material->m_lit.m_emissive = rgba(0x00000000); };
 
-	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
+	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		auto pick = [&](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
-		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, pick, ItemFlag::Selectable);
+		viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, pick, ItemFlag::Selectable);
 	}
 
 	// find intersections

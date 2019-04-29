@@ -78,7 +78,7 @@ namespace mud
 	FrameSolver& Frame::solver(Style& style, Axis length, v2<size_t> index)
 	{
 		d_style = &style;
-		d_layout = &style.layout();
+		d_layout = &style.m_layout;
 		d_index = index;
 
 		this->update_style();
@@ -124,11 +124,12 @@ namespace mud
 
 	void Frame::update_style(bool reset)
 	{
-		d_layout = &d_style->layout();
+		d_layout = &d_style->m_layout;
 		m_opacity = d_layout->m_opacity;
 		m_size = d_layout->m_size == vec2(0.f) ? m_size : d_layout->m_size;
 
-		this->update_inkstyle(d_style->state_skin(d_widget.m_state));
+		InkStyle& inkstyle = d_style->state_skin(d_widget.m_state);
+		this->update_inkstyle(inkstyle, reset);
 
 		reset ? this->mark_dirty(DIRTY_FORCE_LAYOUT) : this->mark_dirty(DIRTY_LAYOUT);
 	}
@@ -139,11 +140,11 @@ namespace mud
 		this->update_inkstyle(inkstyle);
 	}
 
-	void Frame::update_inkstyle(InkStyle& inkstyle)
+	void Frame::update_inkstyle(InkStyle& inkstyle, bool reset)
 	{
 		bool skin_image = d_inkstyle && d_inkstyle->m_image;
-		if(d_inkstyle == &inkstyle) return;
-		//printf("[info] Update inkstyle %s\n", inkstyle.m_name.c_str());
+		if(d_inkstyle == &inkstyle && !reset) return;
+		//printf("[debug] Update inkstyle %s\n", inkstyle.m_name.c_str());
 		d_inkstyle = &inkstyle;
 		this->mark_dirty(DIRTY_REDRAW);
 
@@ -333,7 +334,7 @@ namespace mud
 			printf("  ");
 			parent = parent->d_parent;
 		}
-		printf("FRAME: %s ", d_style->name());
+		printf("FRAME: %s ", d_style->m_name.c_str());
 		if(commit)
 			printf("\n");
 	}

@@ -22,59 +22,71 @@ namespace mud
 {
 namespace ui
 {
-	WindowStyles::WindowStyles()
-		: window("Window", styles().overlay, [](Layout& l) { l.m_space = Preset::Block; })
-		, body("WindowBody", styles().wedge, [](Layout& l) { l.m_clipping = Clip::Clip; })
-		, close_button("CloseButton", styles().button, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; })
-		, header("WindowHeader", styles().wrap_control, {}, {})
-		, header_movable("WindowHeaderMovable", header, {}, {}) //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().move; } })
-		, footer("WindowFooter", styles().wrap_control, {}, {}) // , [](Layout& l) { l.m_space = Space{ FlowAxis::Reading, Sizing::Wrap, Sizing::Fixed }; } }
-		, sizer("WindowSizer", styles().control, [](Layout& l) { l.m_space = Space{ FlowAxis::Reading, Sizing::Wrap, Sizing::Fixed }; })
-		, sizer_left("WindowSizerLeft", sizer, {}, {}) //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().resize_diag_left; } })
-		, sizer_right("WindowSizerRight", sizer, {}, {}) //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().resize_diag_right; } })
+	void WindowStyles::reset()
+	{
+		window = Style("Window", styles().overlay, [](Layout& l) { l.m_space = Preset::Block; });
+		body = Style("WindowBody", styles().wedge, [](Layout& l) { l.m_clipping = Clip::Clip; });
+		close_button = Style("CloseButton", styles().button, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; });
+		header = Style("WindowHeader", styles().wrap_control, {}, {});
+		header_movable = Style("WindowHeaderMovable", header, {}, {}); //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().move; } })
+		footer = Style("WindowFooter", styles().wrap_control, {}, {}); // , [](Layout& l) { l.m_space = Space{ FlowAxis::Reading, Sizing::Wrap, Sizing::Fixed }; } }
+		sizer = Style("WindowSizer", styles().control, [](Layout& l) { l.m_space = Space{ FlowAxis::Reading, Sizing::Wrap, Sizing::Fixed }; });
+		sizer_left = Style("WindowSizerLeft", sizer, {}, {}); //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().resize_diag_left; } })
+		sizer_right = Style("WindowSizerRight", sizer, {}, {}); //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().resize_diag_right; } })
 
-		, dock_window("DockWindow", window, [](Layout& l) { l.m_flow = LayoutFlow::Flow; l.m_space = Preset::Sheet; })
-		, wrap_window("WrapWindow", window, [](Layout& l) { l.m_space = Preset::Unit; })
-	{}
+		dock_window = Style("DockWindow", window, [](Layout& l) { l.m_flow = LayoutFlow::Flow; l.m_space = Preset::Sheet; });
+		wrap_window = Style("WrapWindow", window, [](Layout& l) { l.m_space = Preset::Unit; });
+
+		register_styles({ &window, &body, &close_button, &header, &header_movable, &footer, &sizer, &sizer_left, &sizer_right, &dock_window, &wrap_window });
+	}
 
 	WindowStyles& window_styles() { static WindowStyles styles; return styles; }
 
-	DockStyles::DockStyles()
-		: docktab("Docktab", tabber_styles().tab, {}, {})
-		, placeholder("Placeholder", styles().board, {}, [](InkStyle& l) { l.m_background_colour = Colour::Blue; })
+	void DockStyles::reset()
+	{
+		docktab = Style("Docktab", tabber_styles().tab, {}, {});
+		placeholder = Style("Placeholder", styles().board, {}, [](InkStyle& l) { l.m_background_colour = Colour::Blue; });
 
-		, docksection("Docksection", styles().gridsheet, {}, {})
-		, dockline("Dockline", styles().gridsheet, [](Layout& l) { l.m_space = Preset::Sheet; })
-		, dockspace("Dockspace", styles().layout, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_spacing = vec2(6.f); })
+		docksection = Style("Docksection", styles().gridsheet, {}, {});
+		dockline = Style("Dockline", styles().gridsheet, [](Layout& l) { l.m_space = Preset::Sheet; });
+		dockspace = Style("Dockspace", styles().layout, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_spacing = vec2(6.f); });
 
-		, docktoggle("DockToggle", styles().toggle, {}, {})
-		, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Fixed }; })
-		//, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Spacer; l.m_align = { Align::Left, OUT_LEFT }; })
-		, docktabs("Docktabs", styles().wedge, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Div; l.m_align = { Align::OutLeft, Align::Left }; })
-		, dockbar("Dockbar", styles().wedge, [](Layout& l) { l.m_space = { FlowAxis::Same, Sizing::Shrink, Sizing::Wrap }; })
+		docktoggle = Style("DockToggle", styles().toggle, {}, {});
+		dockdiv = Style("Dockzone", styles().wedge, [](Layout& l) { l.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Fixed }; });
+		//dockdiv = Style("Dockzone", styles().wedge, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Spacer; l.m_align = { Align::Left, OUT_LEFT }; });
+		docktabs = Style("Docktabs", styles().wedge, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Div; l.m_align = { Align::OutLeft, Align::Left }; });
+		dockbar = Style("Dockbar", styles().wedge, [](Layout& l) { l.m_space = { FlowAxis::Same, Sizing::Shrink, Sizing::Wrap }; });
 
-		//, dockbox("Dockbox", window_styles().window, [](Layout& l) { l.m_flow = LayoutFlow::Flow; l.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Shrink }; l.m_size = { 300.f, 0.f }; })
-	{}
+		//dockbox = Style("Dockbox", window_styles().window, [](Layout& l) { l.m_flow = LayoutFlow::Flow; l.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Shrink }; l.m_size = { 300.f, 0.f }; });
+
+		register_styles({ &docktab, &placeholder, &docksection, &dockline, &dockspace, &docktoggle, &dockdiv, &docktabs, &dockbar });
+	}
 
 	DockStyles& dock_styles() { static DockStyles styles; return styles; }
 
-	NodeStyles::NodeStyles()
-		: node("Node", styles().overlay, [](Layout& l) { l.m_space = Preset::Unit; })
-		, body("NodeBody", styles().sheet, {}, {})
-		, plugs("NodePlugs", styles().sheet, [](Layout& l) { l.m_space = { FlowAxis::Reading, Sizing::Wrap, Sizing::Wrap }; })
-		, inputs("NodeInputs", styles().div, {}, {})
-		, outputs("NodeOutputs", styles().div, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; })
-		, knob("NodeKnob", styles().item, [](Layout& l) { l.m_size = { 10.f, 22.f }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
-		, knob_output("NodeKnobOutput", knob, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
-		, knob_proxy("NodeKnobProxy", knob, [](Layout& l) { l.m_flow = LayoutFlow::Free; })
-		, plug("NodePlug", styles().wrap_control, {}, {})
-		, cable("NodeCable", styles().decal, [](Layout& l) { l.m_space = Preset::Unit; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
-		, header("NodeHeader", styles().row, {}, {})
-	{}
+	void NodeStyles::reset()
+	{
+		node = Style("Node", styles().overlay, [](Layout& l) { l.m_space = Preset::Unit; });
+		body = Style("NodeBody", styles().sheet, {}, {});
+		plugs = Style("NodePlugs", styles().sheet, [](Layout& l) { l.m_space = { FlowAxis::Reading, Sizing::Wrap, Sizing::Wrap }; });
+		inputs = Style("NodeInputs", styles().div, {}, {});
+		outputs = Style("NodeOutputs", styles().div, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; });
+		knob = Style("NodeKnob", styles().item, [](Layout& l) { l.m_size = vec2(10.f, 22.f); }, [](InkStyle& l) { l.m_background_colour = Colour::White; });
+		knob_output = Style("NodeKnobOutput", knob, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; });
+		knob_proxy = Style("NodeKnobProxy", knob, [](Layout& l) { l.m_flow = LayoutFlow::Free; });
+		plug = Style("NodePlug", styles().wrap_control, {}, {});
+		cable = Style("NodeCable", styles().decal, [](Layout& l) { l.m_space = Preset::Unit; }, [](InkStyle& l) { l.m_background_colour = Colour::White; });
+		header = Style("NodeHeader", styles().row, {}, {});
 
-	CanvasStyles::CanvasStyles()
-		: canvas("Canvas", styles().layout, [](Layout& l) { l.m_clipping = Clip::Clip; }) // l.m_opacity = Opacity::Opaque;
-	{}
+		register_styles({ &node, &body, &plugs, &inputs, &outputs, &knob, &knob_output, &knob_proxy, &plug, &cable, &header });
+	}
+
+	void CanvasStyles::reset()
+	{
+		canvas = Style("Canvas", styles().layout, [](Layout& l) { l.m_clipping = Clip::Clip; }); // l.m_opacity = Opacity::Opaque;
+
+		register_styles({ &canvas });
+	}
 
 	NodeStyles& node_styles() { static NodeStyles styles; return styles; }
 	CanvasStyles& canvas_styles() { static CanvasStyles styles; return styles; }

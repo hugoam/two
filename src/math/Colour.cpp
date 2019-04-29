@@ -144,6 +144,12 @@ namespace mud
 		return p;
 	}
 
+	Colour hsv(float h, float s, float v)
+	{
+		// @todo
+		return hsl(h, s, v);
+	}
+
 	Colour hsl(float h, float s, float l)
 	{
 		float r, g, b;

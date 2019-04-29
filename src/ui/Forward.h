@@ -58,7 +58,7 @@ namespace mud
     enum DirtyLayout : unsigned int;
     enum class CodePalette : unsigned char;
     enum class TextFocusMode : unsigned int;
-    enum WindowState : unsigned int;
+    enum class WindowState : unsigned int;
     enum class DropState : unsigned int;
     
     template <class T> struct v2;

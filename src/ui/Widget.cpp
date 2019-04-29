@@ -22,7 +22,7 @@ namespace ui
 {
 	void widget_logic(Widget& self)
 	{
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::Mouse, EventType::Heartbeat))
+		if(MouseEvent event = self.mouse_event(DeviceType::Mouse, EventType::Heartbeat))
 			self.enable_state(HOVERED);
 		else
 			self.disable_state(HOVERED);

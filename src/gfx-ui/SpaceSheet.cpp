@@ -99,9 +99,9 @@ namespace mud
 			m_quad = oconstruct<SpaceQuad>(m_viewer.m_viewport, uvec2(m_size), m_size_ratio);
 	}
 
-	void SpaceSheet::transformCoordinates(MouseEvent& mouse_event)
+	void SpaceSheet::transformCoordinates(MouseEvent& event)
 	{
-		Ray ray = m_viewer.m_viewport.ray(mouse_event.m_relative);
+		Ray ray = m_viewer.m_viewport.ray(event.m_relative);
 
 		vec3 p0 = m_quad->m_node.position();
 		vec3 p1 = p0 + m_quad->m_node.axis(X3);
@@ -111,8 +111,8 @@ namespace mud
 
 		vec3 rel = vec3(0.f); UNUSED(pos); //inverse(m_quad->m_node.m_rotation) * pos - m_quad->m_node.m_position;
 
-		mouse_event.m_pos.x = rel[0] / m_size_ratio + m_frame.m_size.x / 2.f;
-		mouse_event.m_pos.y = -rel[1] / m_size_ratio + m_frame.m_size.y / 2.f;
+		event.m_pos.x = rel[0] / m_size_ratio + m_frame.m_size.x / 2.f;
+		event.m_pos.y = -rel[1] / m_size_ratio + m_frame.m_size.y / 2.f;
 	}
 
 	void SpaceSheet::receive_event(InputEvent& inputEvent)

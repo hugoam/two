@@ -73,6 +73,7 @@ namespace mud
 	export_ MUD_MATH_EXPORT func_ Colour rgba(uint32_t colour);
 	export_ MUD_MATH_EXPORT func_ Colour abgr(uint32_t colour);
 
+	export_ MUD_MATH_EXPORT func_ Colour hsv(float h, float s, float v);
 	export_ MUD_MATH_EXPORT func_ Colour hsl(float h, float s, float l);
 	export_ inline Colour hsl(const ColourHSL& col) { return hsl(col.h, col.s, col.l); }
 

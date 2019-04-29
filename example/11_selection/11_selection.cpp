@@ -38,21 +38,21 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, false, &material);
 
 	static vector<Item*> selected = {};
-	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto pick = [&](Item* item) { selected = { item }; };
-		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, pick, ItemFlag::Default | ItemFlag::Selectable);
+		viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, pick, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	static vec4 select_rect = vec4(0.f);
-	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+	if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 	{
 		vec2 start = viewer.m_frame.local_position(mouse_event.m_pressed);
-		vec2 end = mouse_event.m_relative;
+		vec2 end = event.m_relative;
 		select_rect = abs_rect(start, end - start);
 	}
 
-	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
+	if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 	{
 		auto select = [&](span<Item*> items) { selected = to_vector(items); };
 		viewer.picker(0).pick_rectangle(viewer.m_viewport, select_rect, select, ItemFlag::Default | ItemFlag::Selectable);

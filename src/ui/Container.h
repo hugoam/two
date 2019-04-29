@@ -16,7 +16,7 @@ namespace ui
 {
 	export_ struct TableStyles
 	{
-		TableStyles();
+		void reset();
 		Style row; Style row_odd; Style row_even; Style separator;
 	};
 
@@ -24,7 +24,7 @@ namespace ui
 
 	export_ struct ExpandboxStyles
 	{
-		ExpandboxStyles();
+		void reset();
 		Style expandbox; Style header; Style toggle; Style body;
 	};
 
@@ -32,7 +32,7 @@ namespace ui
 
 	export_ struct TreeNodeStyles
 	{
-		TreeNodeStyles();
+		void reset();
 		Style treenode; Style header; Style toggle; Style no_toggle; Style body;
 	};
 
@@ -40,7 +40,7 @@ namespace ui
 
 	export_ struct TabberStyles
 	{
-		TabberStyles();
+		void reset();
 		Style tab; Style tab_button; Style tabber; Style head; Style body;
 	};
 

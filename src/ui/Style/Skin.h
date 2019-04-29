@@ -21,7 +21,7 @@ namespace mud
 	{
 	public:
 		constr_ InkStyle() {}
-		constr_ InkStyle(cstring name) : m_name(name) {}
+		constr_ InkStyle(const string& name) : m_name(name) {}
 
 		template <class T_Initializer>
 		InkStyle(T_Initializer func) { func(*this); }
@@ -39,7 +39,7 @@ namespace mud
 		attr_ Colour m_image_colour = Colour::None;
 		attr_ Colour m_text_colour = Colour::None;
 		attr_ string m_text_font = "dejavu";
-		attr_ float m_text_size = 14.f;
+		attr_ float m_text_size = 13.f;
 		attr_ bool m_text_break = false;
 		attr_ bool m_text_wrap = false;
 		attr_ vec4 m_border_width = vec4(0.f);
@@ -59,8 +59,6 @@ namespace mud
 		attr_ Colour m_shadow_colour;
 		attr_ Style* m_hover_cursor = nullptr;
 		/*attr_*/ CustomDraw m_custom_draw = nullptr;
-
-		WidgetState m_state;
 	};
 
 	inline TextPaint text_paint(InkStyle& inkstyle)

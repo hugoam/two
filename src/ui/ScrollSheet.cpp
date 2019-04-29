@@ -49,9 +49,9 @@ namespace ui
 		draw_grid(frame, 100.f, main_paint, vg);
 	}
 
-	void scroll_plan_drag(Frame& scroll_zone, Frame& scroll_plan, const MouseEvent& mouse_event)
+	void scroll_plan_drag(Frame& scroll_zone, Frame& scroll_plan, const MouseEvent& event)
 	{
-		vec2 position = scroll_plan.m_position + mouse_event.m_delta;
+		vec2 position = scroll_plan.m_position + event.m_delta;
 		vec2 overflow = (scroll_plan.m_size * scroll_plan.m_scale) - scroll_zone.m_size;
 		scroll_plan.set_position(min(vec2(0.f), max(position, -overflow)));
 		//m_frame.mark_dirty(DIRTY_FORCE_LAYOUT);
@@ -98,10 +98,10 @@ namespace ui
 		scrollbar(self, self.m_scroll_zone->m_frame, self.m_body->m_frame, Axis::Y, { 1, 0 });
 
 #if 0
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
-			self.m_body->m_frame.set_position(Axis::X, self.m_body->m_frame.m_position[Axis::X] - mouse_event.m_delta.x);
-			self.m_body->m_frame.set_position(Axis::Y, self.m_body->m_frame.m_position[Axis::Y] - mouse_event.m_delta.y);
+			self.m_body->m_frame.set_position(Axis::X, self.m_body->m_frame.m_position[Axis::X] - event.m_delta.x);
+			self.m_body->m_frame.set_position(Axis::Y, self.m_body->m_frame.m_position[Axis::Y] - event.m_delta.y);
 			self.m_body->m_frame.set_position(Axis::Y, self.m_body->m_frame.m_position[Axis::Y] - 10.f * mouse_event.m_deltaZ);
 		}
 #endif
@@ -115,10 +115,10 @@ namespace ui
 
 		ScrollSheet& self = scroll_sheet(parent, style, &styles().scroll_plan);
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
-			scroll_plan_drag(self, mouse_event);
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
-			scroll_plan_zoom(self, mouse_event, clamped);
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
+			scroll_plan_drag(self, event);
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+			scroll_plan_zoom(self, event, clamped);
 		
 		return self;
 	}

@@ -200,7 +200,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	//roughness_spheres(scene);
 	material_spheres(scene, materials);
 
-	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto callback = [&](Item* item)
 		{
@@ -210,7 +210,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 			size_t index = edited->m_index - materials[0]->m_index;
 			controller.m_position = { -center + index * 4.f, 0.f, 0.f };
 		};
-		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
+		viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))

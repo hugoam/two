@@ -29,6 +29,7 @@ namespace stl
 	template class MUD_UI_EXPORT vector<KeyEvent>;
 	template class MUD_UI_EXPORT vector<MouseEvent>;
 	template class MUD_UI_EXPORT vector<InkStyle>;
+	template class MUD_UI_EXPORT vector<Subskin>;
 	template class MUD_UI_EXPORT vector<FrameSolver>;
 	template class MUD_UI_EXPORT vector<RowSolver>;
 	template class MUD_UI_EXPORT vector<unique<Widget>>;

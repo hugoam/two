@@ -37,7 +37,6 @@ namespace mud
 		void render_frame(uint16_t view);
 		void shutdown();
 
-		void init_styles();
 		void reset_styles();
 
 		void resize(const uvec2& size, const uvec2& fb_size);
@@ -70,7 +69,5 @@ namespace mud
 		object<Ui> m_ui;
 
 		User* m_user = nullptr;
-
-		static map<string, Style*> s_styles;
 	};
 }

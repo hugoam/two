@@ -37,37 +37,38 @@ namespace mud
 		UNUSED(selection);
 		Widget& screen = ui::overlay(viewer);
 
-		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = screen.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
-			m_position = this->raycast_target(viewer, mouse_event);
+			m_position = this->raycast_target(viewer, event);
 			m_symbol_position = m_position;
 		}
 
-		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
 			this->begin(m_position);
 			this->update(m_position);
 			this->end();
-			mouse_event.consume(screen);
+			event.consume(screen);
 		}
 
-		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
+		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
 		{
 			this->begin(m_position);
-			mouse_event.consume(screen);
+			event.consume(screen);
 		}
 
-		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			this->update(m_position);
-			static_cast<MouseEvent*>(screen.m_events->m_events[DeviceType::MouseLeft][EventType::Dragged])->consume(screen); // @todo this works, and not the next one
-			mouse_event.consume(screen);
+			// @todo this works, and not the next one
+			//static_cast<MouseEvent*>(screen.m_events->m_events[DeviceType::MouseLeft][EventType::Dragged])->consume(screen);
+			event.consume(screen);
 		}
 
-		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
+		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 		{
 			this->end();
-			mouse_event.consume(screen);
+			event.consume(screen);
 		}
 
 		viewer.m_controller->process(static_cast<Viewer&>(screen)); // @HACK @UGLY it's not a viewer !!
@@ -75,19 +76,19 @@ namespace mud
 		this->paint(viewer.m_scene->m_graph.subi(this));
 	}
 
-	vec3 Brush::raycast_target(Viewer& viewer, MouseEvent& mouse_event)
+	vec3 Brush::raycast_target(Viewer& viewer, MouseEvent& event)
 	{
 		if(m_world_snap)
 		{
 #if 0
-			Ray ray = viewer.ray(mouse_event.m_relative);
+			Ray ray = viewer.ray(event.m_relative);
 			return as<PhysicWorld>(m_origin.m_world).ground_point(ray);
 #endif
 			return vec3();
 		}
 		else
 		{
-			Ray ray = viewer.m_viewport.ray(mouse_event.m_relative);
+			Ray ray = viewer.m_viewport.ray(event.m_relative);
 			return plane_segment_intersection(m_work_plane, { ray.m_start, ray.m_end });
 		}
 	}

@@ -43,16 +43,16 @@ namespace ui
 	{
 		Widget& self = widget(parent, style, true).layer();
 
-		if(!self.modal() && popup_flag(flags, PopupFlags::Modal))
+		if(!self.modal() && bit(flags, PopupFlags::Modal))
 			self.take_modal();
 
-		if(popup_flag(flags, PopupFlags::Clamp))
+		if(bit(flags, PopupFlags::Clamp))
 			self.m_frame.clamp_to_parent();
 
-		if(popup_flag(flags, PopupFlags::AutoClose))
+		if(bit(flags, PopupFlags::AutoClose))
 		{
 			// @todo change to Pressed, but causes a crash because InputDevice is holding to the pressed element
-			if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+			if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 				self.m_open = false;
 		}
 
@@ -91,7 +91,7 @@ namespace ui
 
 	Widget* context(Widget& parent, uint32_t mode, PopupFlags flags)
 	{
-		if(MouseEvent mouse_event = parent.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+		if(MouseEvent event = parent.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			parent.m_switch |= mode;
 
 		if((parent.m_switch & mode) != 0)
@@ -113,11 +113,11 @@ namespace ui
 	}
 
 
-	DragPoint grid_sheet_drag(Widget& self, MouseEvent& mouse_event, Axis dim, bool start_drag)
+	DragPoint grid_sheet_drag(Widget& self, MouseEvent& event, Axis dim, bool start_drag)
 	{
 		// If not dragging already we take the position BEFORE the mouse moved as a reference
 		DragPoint drag_point;
-		vec2 local = !start_drag ? mouse_event.m_relative : self.m_frame.local_position(mouse_event.m_pressed);
+		vec2 local = !start_drag ? event.m_relative : self.m_frame.local_position(event.m_pressed);
 
 		for(auto& widget : self.m_nodes)
 		{
@@ -137,16 +137,16 @@ namespace ui
 		// @todo we need to store the drag point only when the drag starts
 		static DragPoint drag_point;
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
 		{
-			drag_point = grid_sheet_drag(self, mouse_event, dim, false);
+			drag_point = grid_sheet_drag(self, event, dim, false);
 		}
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			dragging = true;
 			if(drag_point.next && drag_point.prev)
-				self.m_frame.transfer_pixel_span(*drag_point.prev, *drag_point.next, dim, mouse_event.m_delta[size_t(dim)]);
+				self.m_frame.transfer_pixel_span(*drag_point.prev, *drag_point.next, dim, event.m_delta[size_t(dim)]);
 		}
 
 		if(&self == self.ui().m_hovered)

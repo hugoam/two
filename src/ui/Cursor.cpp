@@ -16,6 +16,8 @@ module mud.ui;
 #include <ui/Style/Skin.h>
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
 namespace ui
@@ -36,20 +38,27 @@ namespace ui
 
 	Widget* hoverbox(Widget& parent, float delay)
 	{
-		return hoverbox(parent, parent.ui().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position(), delay);
+		const vec2 position = parent.ui().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position();
+		return hoverbox(parent, position, delay);
 	}
 
 	Widget* tooltip(Widget& parent, const vec2& position, span<cstring> elements)
 	{
 		Widget* self = hoverbox(parent, position);
 		if(self)
-			multi_item(parent, styles().tooltip, elements).layer();
+			multi_item(*self, styles().tooltip, elements);
 		return self;
 	}
 
-	Widget* tooltip(Widget& parent, const vec2& position, cstring content)
+	Widget* tooltip(Widget& parent, span<cstring> elements)
 	{
-		return tooltip(parent, position, { &content, 1 });
+		const vec2 position = parent.ui().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position();
+		return tooltip(parent, position, elements);
+	}
+
+	Widget* tooltip(Widget& parent, cstring element)
+	{
+		return tooltip(parent, { &element, 1 });
 	}
 
 	Widget* tooltip(Widget& parent, const Frame& parent_frame)
@@ -93,7 +102,7 @@ namespace ui
 
 	Widget& cursor(Widget& parent, const vec2& position, Widget& hovered, bool locked)
 	{
-		Style* style = hovered.m_frame.d_style->skin().m_hover_cursor ? hovered.m_frame.d_style->skin().m_hover_cursor : &cursor_styles().cursor;
+		Style* style = hovered.m_frame.d_style->m_skin.m_hover_cursor ? hovered.m_frame.d_style->m_skin.m_hover_cursor : &cursor_styles().cursor;
 		return cursor(parent, position, *style, locked);
 	}
 }

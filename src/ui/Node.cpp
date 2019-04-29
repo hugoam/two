@@ -153,9 +153,9 @@ namespace ui
 
 		Canvas& canvas = *node.m_canvas;
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			Widget* target = static_cast<Widget*>(mouse_event.m_target);
+			Widget* target = static_cast<Widget*>(event.m_target);
 			NodePlug* target_plug = nullptr;
 			if(target && target->m_frame.d_style == &node_styles().plug && target != &self)
 				target_plug = static_cast<NodePlug*>(target);
@@ -163,10 +163,10 @@ namespace ui
 			canvas.m_connect.m_origin = &self;
 			canvas.m_connect.m_in = input ? &self : target_plug;
 			canvas.m_connect.m_out = input ? target_plug : &self;
-			canvas.m_connect.m_position = mouse_event.m_pos;
+			canvas.m_connect.m_position = event.m_pos;
 		}
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 		{
 			canvas.m_connect.m_done = true;
 		}
@@ -221,20 +221,20 @@ namespace ui
 
 		self.m_body = &self;
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::Shift))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::Shift))
 			canvas_swap_select(parent, self);
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			canvas_select(parent, self);
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			canvas_select(parent, self);
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			if(!has(parent.m_selection, &self))
 				canvas_select(parent, self);
 
 			for(Node* node : parent.m_selection)
-				node->m_frame.set_position(node->m_frame.m_position + mouse_event.m_delta / node->m_frame.absolute_scale());
+				node->m_frame.set_position(node->m_frame.m_position + event.m_delta / node->m_frame.absolute_scale());
 		}
 
 		self.m_index = parent.m_nodes.size();
@@ -279,16 +279,16 @@ namespace ui
 		//if(mouse_click_right(self) && context_trigger)
 		//	context_trigger(self);
 
-		if(MouseEvent mouse_event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			for(Node* node : self.m_selection)
-				node->m_frame.set_position(node->m_frame.m_position + mouse_event.m_delta / node->m_frame.absolute_scale());
+				node->m_frame.set_position(node->m_frame.m_position + event.m_delta / node->m_frame.absolute_scale());
 		}
 
-		if(MouseEvent mouse_event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			canvas_clear_select(self);
 
-		if(MouseEvent mouse_event = self.m_scroll_plan->mouse_event(DeviceType::MouseMiddle, EventType::Stroked))
+		if(MouseEvent event = self.m_scroll_plan->mouse_event(DeviceType::MouseMiddle, EventType::Stroked))
 			canvas_autolayout(self);
 
 		self.m_nodes.reserve(num_nodes);

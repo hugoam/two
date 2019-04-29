@@ -2,52 +2,34 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <infra/Cpp20.h>
-
 #ifdef MUD_MODULES
 module mud.ui;
 #else
 #include <stl/hash_base.hpp>
 #include <math/Vec.hpp>
-#include <infra/Reverse.h>
-#include <ui/Style/Style.h>
-#include <ui/Style/Layout.h>
-#include <ui/Style/Skin.h>
+#include <ui/Style/Styles.h>
 #include <ui/UiWindow.h>
 #include <ui/Widget.h>
-#include <ui/Input.h>
 #endif
 
 #include <cstdio>
 
 namespace mud
 {
-	struct StyleSelector
-	{
-		template <class T_Decl>
-		StyleSelector& declare(T_Decl decl);
-
-		template <class T_Decl>
-		StyleSelector& decline(span<uint32_t> states, T_Decl decl);
-
-		vector<Style*> styles;
-	};
-
-	template <class T_Decl>
-	StyleSelector& StyleSelector::declare(T_Decl decl)
+	StyleSelector& StyleSelector::declare(StyleDecl decl)
 	{
 		for(Style* style : styles)
-			decl(style->layout(), style->skin());
+			decl(style->m_layout, style->m_skin);
 		return *this;
 	}
 
-	template <class T_Decl>
-	StyleSelector& StyleSelector::decline(span<uint32_t> states, T_Decl decl)
+	StyleSelector& StyleSelector::decline(span<uint32_t> states, InkDecl decl)
 	{
 		for(Style* style : styles)
 			for(uint32_t state : states)
 			{
-				decl(style->decline_skin(WidgetState(state)));
+				InkStyle& i = style->decline_skin(WidgetState(state));
+				decl(i);
 			}
 		return *this;
 	}
@@ -56,8 +38,8 @@ namespace mud
 	{
 		StyleSelector selector;
 		for(const string& name : styles)
-			if(UiWindow::s_styles.find(name) != UiWindow::s_styles.end())
-				selector.styles.push_back(UiWindow::s_styles[name]);
+			if(g_styles.find(name) != g_styles.end())
+				selector.styles.push_back(g_styles[name]);
 			else
 				printf("[warning] ui - style %s not found\n", name.c_str());
 		return selector;
@@ -126,35 +108,30 @@ namespace mud
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
 			i.m_padding = vec4(ivec4(-5, 0, -5, 0));
 		});
-		
-		select({ "RadioChoiceItem" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
-			l.m_align = { Align::Center, Align::Center };
-		});
 	}
 
 	void style_minimal(UiWindow& ui_window)
 	{
 		layout_minimal(ui_window);
 
-		Colour white = Colour(1.f);
-		Colour black = Colour(0.f);
-		Colour transparent = Colour(0.f, 0.f);
-		Colour clearGreyText = Colour(0.627f);
-		Colour grey600 = Colour(0.600f);
-		Colour grey400 = Colour(0.400f);
-		Colour grey312 = Colour(0.312f);
-		Colour grey248 = Colour(0.248f);
-		Colour grey204 = Colour(0.204f);
-		Colour grey176 = Colour(0.176f);
-		Colour grey145 = Colour(0.145f);
-		Colour grey117 = Colour(0.117f);
-		Colour grey86  = Colour(0.086f);
-		Colour grey69  = Colour(0.069f);
-		Colour grey52  = Colour(0.052f);
-		Colour activeBlue = { 0.145f, 0.5f, 1.f, 1.f };
+		const Colour white = Colour(1.f);
+		const Colour black = Colour(0.f);
+		const Colour transparent = Colour(0.f, 0.f);
+		const Colour clearGreyText = Colour(0.627f);
+		const Colour grey600 = Colour(0.600f);
+		const Colour grey400 = Colour(0.400f);
+		const Colour grey312 = Colour(0.312f);
+		const Colour grey248 = Colour(0.248f);
+		const Colour grey204 = Colour(0.204f);
+		const Colour grey176 = Colour(0.176f);
+		const Colour grey145 = Colour(0.145f);
+		const Colour grey117 = Colour(0.117f);
+		const Colour grey86  = Colour(0.086f);
+		const Colour grey69  = Colour(0.069f);
+		const Colour grey52  = Colour(0.052f);
+		const Colour activeBlue = Colour(0.145f, 0.5f, 1.f, 1.f);
 
-		select({ "Label", "Title", "Message", "Tooltip", "TextEdit", "TypeLabel", "TypeZone", "SliderDisplay", "RadioChoiceItem" })
+		select({ "Label", "Text", "Title", "Message", "Control", "Tooltip", "TextEdit", "TypeLabel", "TypeZone", "SliderDisplay", "RadioChoiceItem" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
 			i.m_text_colour = white;
 		})
@@ -164,7 +141,7 @@ namespace mud
 
 		select({ "Element", "Button", "WrapButton", "MultiButton", "Toggle", "ToolButton", "TabHeader", "DockToggle", "RadioChoice", "DropdownChoice", "SliderKnob", "ScrollerKnob", "DragHandle", "DropdownInput", "DropdownInputCompact", "TypedownInput", "Menu", "TypeIn", "Input<string>", "TreeNodeHeader" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-			i = styles().label.skin();
+			i = styles().label.m_skin;
 			i.m_background_colour = grey204;
 		})
 		.decline({ HOVERED }, [&](InkStyle& i) {
@@ -176,7 +153,7 @@ namespace mud
 
 		select({ "CloseButton", "Checkbox" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-			i = styles().button.skin();
+			i = styles().button.m_skin;
 		});
 
 		select({ "Element", "TreeNodeHeader" })
@@ -186,7 +163,7 @@ namespace mud
 
 		select({ "SliderKnob", "ScrollerKnob" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-			i = styles().button.skin();
+			i = styles().button.m_skin;
 			i.m_background_colour = grey176;
 		});
 
@@ -335,7 +312,7 @@ namespace mud
 			i.m_background_colour = black;
 		});
 
-		for(auto name_style : UiWindow::s_styles)
+		for(auto name_style : g_styles)
 			name_style.second->prepare();
 	}
 }

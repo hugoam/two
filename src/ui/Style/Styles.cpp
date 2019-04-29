@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <math/Vec.hpp>
 #include <infra/ToString.h>
 #include <ui/Style/Styles.h>
 #include <ui/Style/Skin.h>
@@ -19,134 +20,168 @@ module mud.ui;
 
 namespace mud
 {
-	Styles::Styles()
-		: widget("Widget", nullptr, [](Layout& l) { l.m_solver = Solver::Frame; })
-		, wedge("Wedge", widget, [](Layout& l) { l.m_solver = Solver::Row; l.m_space = Preset::Sheet; })
-		, ui("Ui", wedge, [](Layout& l) { l.m_space = Preset::Layout; l.m_clipping = Clip::Clip; l.m_opacity = Opacity::Opaque; })
+	void render_bullet(const Frame& frame, const vec4& rect, Vg& vg)
+	{
+		static auto render_bullet = [](Vg& vg, vec2 pos, float fontsize, Colour colour)
+		{
+			vg.path_circle(pos, fontsize * 0.20f);
+			vg.fill(Paint(colour));
+		};
 
-		, unit("Unit", wedge, [](Layout& l) { l.m_space = Preset::Unit; l.m_align = { Align::Left, Align::Center }; },
-							  [](InkStyle& o) { o.m_empty = false; o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })
-		, item("Item", widget, [](Layout& l) { l.m_space = Preset::Block; l.m_align = { Align::Left, Align::Center }; },
-							   [](InkStyle& o) { o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })
-		, control("Control", item, [](Layout& l) { l.m_opacity = Opacity::Opaque; })
-		, wrap_control("WrapControl", wedge, [](Layout& l) { l.m_space = Preset::Line; l.m_opacity = Opacity::Opaque; })
+		const InkStyle& ink = *frame.d_inkstyle;
+		render_bullet(vg, rect.pos + vec2(ink.m_text_size * 0.5f), ink.m_text_size, Colour(1.f));
+	}
+	
+	map<string, Style*> g_styles;
 
-		, spacer("Spacer", item, [](Layout& l) { l.m_space = Preset::Spacer; })
-		, filler("Filler", spacer, [](Layout& l) { l.m_space = Preset::Flex; })
+	void Styles::reset()
+	{
+		widget = Style("Widget", nullptr, [](Layout& l) { l.m_solver = Solver::Frame; });
+		wedge = Style("Wedge", widget, [](Layout& l) { l.m_solver = Solver::Row; l.m_space = Preset::Sheet; });
+		ui = Style("Ui", wedge, [](Layout& l) { l.m_space = Preset::Layout; l.m_clipping = Clip::Clip; l.m_opacity = Opacity::Opaque; });
 
-		, drag_handle("DragHandle", control, [](Layout& l) { l.m_space = { FlowAxis::Flip, Sizing::Wrap, Sizing::Fixed }; l.m_size = { 5.f, 5.f }; })
+		unit = Style("Unit", wedge, [](Layout& l) { l.m_space = Preset::Unit; l.m_align = { Align::Left, Align::Center }; },
+						  [](InkStyle& o) { o.m_empty = false; o.m_text_colour = Colour::White; }); // o.m_padding = vec4(2.f);
+		item = Style("Item", widget, [](Layout& l) { l.m_space = Preset::Block; l.m_align = { Align::Left, Align::Center }; },
+						   [](InkStyle& o) { o.m_text_colour = Colour::White; }); // o.m_padding = vec4(2.f);
+		control = Style("Control", item, [](Layout& l) { l.m_opacity = Opacity::Opaque; });
+		wrap_control = Style("WrapControl", wedge, [](Layout& l) { l.m_space = Preset::Line; l.m_opacity = Opacity::Opaque; });
 
-		, div("Div", wedge, [](Layout& l) { l.m_space = Preset::Div; })
-		, row("Row", wedge, [](Layout& l) { l.m_space = Preset::Line; })
-		, stack("Stack", wedge, [](Layout& l) { l.m_space = Preset::Stack; })
-		, sheet("Sheet", wedge, [](Layout& l) { l.m_space = Preset::Sheet; })
-		, flex("Flex", wedge, [](Layout& l) { l.m_space = Preset::Flex; })
-		, list("List", wedge, {})
-		, header("Header", row, {})
-		, board("Board", wedge, [](Layout& l) { l.m_space = Preset::Board; l.m_clipping = Clip::Clip; })
-		, layout("Layout", board, [](Layout& l) { l.m_space = Preset::Layout; })
-		, screen("Screen", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_space = Preset::Layout; })
-		, decal("Decal", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_space = Preset::Block; })
-		, overlay("Overlay", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_opacity = Opacity::Opaque; })
-		, gridsheet("GridSheet", wedge, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_spacing = vec2(5.f); })
+		spacer = Style("Spacer", item, [](Layout& l) { l.m_space = Preset::Spacer; });
+		filler = Style("Filler", spacer, [](Layout& l) { l.m_space = Preset::Flex; });
 
-		, sequence("Sequence", wedge, [](Layout& l) { l.m_space = Preset::Sheet; })
-		, element("Element", wedge, [](Layout& l) { l.m_space = Preset::Stack; l.m_opacity = Opacity::Opaque; })
+		separator = Style("Separator", item, [](Layout& l) { l.m_space = { FlowAxis::Flip, Sizing::Wrap, Sizing::Fixed }; l.m_size = vec2(1.f); });
 
-		, label("Label", item, [](Layout& l) { l.m_align = { Align::Left, Align::Center }; })
-		, title("Title", label, {}, [](InkStyle& o) { UNUSED(o); }) //o.m_text_size = 18.f; })
-		, message("Message", label, {}, [](InkStyle& o) { UNUSED(o); }) //o.m_text_size = 18.f; })
-		, text("Text", item, [](Layout& l) { l.m_space = { FlowAxis::Paragraph, Sizing::Fixed, Sizing::Wrap }; },
-							 [](InkStyle& o) { o.m_text_break = true; })
+		drag_handle = Style("DragHandle", control, [](Layout& l) { l.m_space = { FlowAxis::Flip, Sizing::Wrap, Sizing::Fixed }; l.m_size = vec2(5.f); });
 
-		, button("Button", control, {})
-		, wrap_button("WrapButton", wrap_control, {})
-		, multi_button("MultiButton", wrap_button, {})
-		, toggle("Toggle", control, {})
-		, checkbox("Checkbox", toggle, [](Layout& l) { l.m_align = { Align::Left, Align::Center }; }) // @todo why doesn't work ?? why u checkbox not aligned ??
+		div = Style("Div", wedge, [](Layout& l) { l.m_space = Preset::Div; });
+		row = Style("Row", wedge, [](Layout& l) { l.m_space = Preset::Line; });
+		stack = Style("Stack", wedge, [](Layout& l) { l.m_space = Preset::Stack; });
+		sheet = Style("Sheet", wedge, [](Layout& l) { l.m_space = Preset::Sheet; });
+		flex = Style("Flex", wedge, [](Layout& l) { l.m_space = Preset::Flex; });
+		list = Style("List", wedge, {});
+		header = Style("Header", row, {});
+		board = Style("Board", wedge, [](Layout& l) { l.m_space = Preset::Board; l.m_clipping = Clip::Clip; });
+		layout = Style("Layout", board, [](Layout& l) { l.m_space = Preset::Layout; });
+		indent = Style("IndentBlock", wedge, [](Layout& l) { l.m_space = Preset::Sheet; l.m_padding = vec4(12.f, 0.f, 0.f, 0.f); });
+		screen = Style("Screen", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_space = Preset::Layout; });
+		decal = Style("Decal", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_space = Preset::Block; });
+		overlay = Style("Overlay", wedge, [](Layout& l) { l.m_flow = LayoutFlow::Free; l.m_opacity = Opacity::Opaque; });
+		gridsheet = Style("GridSheet", wedge, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_spacing = vec2(5.f); });
 
-		, dummy("Dummy", wedge, [](Layout& l) { l.m_space = Preset::Block; })
-		, tooltip("Tooltip", decal, [](Layout& l) { l.m_space = Preset::Unit; l.m_zorder = -2; })
-		, rectangle("Rectangle", decal, [](Layout& l) { l.m_space = Preset::Block; l.m_zorder = -3; },
-										[](InkStyle& l) { l.m_border_width = vec4(1.f); l.m_border_colour = Colour::White; l.m_background_colour = Colour::AlphaGrey; })
+		sequence = Style("Sequence", wedge, [](Layout& l) { l.m_space = Preset::Sheet; });
+		element = Style("Element", wedge, [](Layout& l) { l.m_space = Preset::Stack; l.m_opacity = Opacity::Opaque; });
+
+		label = Style("Label", item, [](Layout& l) { l.m_align = { Align::Left, Align::Center }; });
+		title = Style("Title", label, {}, [](InkStyle& o) { UNUSED(o); }); //o.m_text_size = 18.f; });
+		message = Style("Message", label, {}, [](InkStyle& o) { UNUSED(o); }); //o.m_text_size = 18.f; });
+		text = Style("Text", item, [](Layout& l) { l.m_space = { FlowAxis::Paragraph, Sizing::Fixed, Sizing::Wrap }; },
+						 [](InkStyle& o) { o.m_text_break = true; });
+
+		bullet = Style("Bullet", item, [](Layout& l) { l.m_size = vec2(15.f); }, [](InkStyle& o) { o.m_empty = false; o.m_custom_draw = render_bullet; });
+		button = Style("Button", control, {});
+		wrap_button = Style("WrapButton", wrap_control, {});
+		multi_button = Style("MultiButton", wrap_button, {});
+		toggle = Style("Toggle", control, {});
+		checkbox = Style("Checkbox", toggle, [](Layout& l) { l.m_align = { Align::Left, Align::Center }; }); // @todo why doesn't work ?? why u checkbox not aligned ??
+		checkmark = Style("Checkmark", screen, [](Layout& l) {});
+
+		dummy = Style("Dummy", wedge, [](Layout& l) { l.m_space = Preset::Block; });
+		tooltip = Style("Tooltip", decal, [](Layout& l) { l.m_space = Preset::Unit; l.m_zorder = -2; });
+		rectangle = Style("Rectangle", decal, [](Layout& l) { l.m_space = Preset::Block; l.m_zorder = -3; },
+									[](InkStyle& l) { l.m_border_width = vec4(1.f); l.m_border_colour = Colour::White; l.m_background_colour = Colour::AlphaGrey; });
 		
-		, viewport("Viewport", wedge, [](Layout& l) { l.m_space = Preset::Block; l.m_opacity = Opacity::Opaque; })
+		viewport = Style("Viewport", wedge, [](Layout& l) { l.m_space = Preset::Block; l.m_opacity = Opacity::Opaque; });
 
-		, type_in("TypeIn", wrap_control, [](Layout& l) { l.m_opacity = Opacity::Opaque; })
-		, text_edit("TextEdit", type_in, [](Layout& l) { l.m_space = Preset::Layout; })
-		, type_zone("TypeZone", wrap_control, [](Layout& l) { l.m_space = Preset::Sheet; l.m_opacity = Opacity::Opaque; },
-											  [](InkStyle& l) { l.m_text_font = "consolas"; l.m_text_break = true; })
-		, caret("Caret", item, {}, [](InkStyle& l) { l.m_background_colour = Colour::White; })
+		type_in = Style("TypeIn", wrap_control, [](Layout& l) { l.m_opacity = Opacity::Opaque; });
+		text_edit = Style("TextEdit", type_in, [](Layout& l) { l.m_space = Preset::Layout; });
+		type_zone = Style("TypeZone", wrap_control, [](Layout& l) { l.m_space = Preset::Sheet; l.m_opacity = Opacity::Opaque; },
+										  [](InkStyle& l) { l.m_text_font = "consolas"; l.m_text_break = true; });
+		caret = Style("Caret", item, {}, [](InkStyle& l) { l.m_background_colour = Colour::White; });
 
-		, image("Figure", item, {}, [](InkStyle& l) { l.m_empty = false; })
-		, image_stretch("ImageStretch", unit, {}, [](InkStyle& l) { l.m_empty = false; l.m_stretch = { true, true }; })
+		image = Style("Figure", item, {}, [](InkStyle& l) { l.m_empty = false; });
+		image_stretch = Style("ImageStretch", unit, {}, [](InkStyle& l) { l.m_empty = false; l.m_stretch = { true, true }; });
 
-		, radio_switch("RadioSwitch", wrap_control, {})
-		, radio_switch_h("RadioSwitchH", radio_switch, [](Layout& l) { l.m_space = Preset::Stack; })
-		, radio_choice("RadioChoice", multi_button, {})
-		, radio_choice_item("RadioChoiceItem", item, {})
+		radio_switch = Style("RadioSwitch", wrap_control, {});
+		radio_switch_h = Style("RadioSwitchH", radio_switch, [](Layout& l) { l.m_space = Preset::Stack; });
+		radio_choice = Style("RadioChoice", multi_button, {});
+		radio_choice_item = Style("RadioChoiceItem", item, [](Layout& l) { l.m_align = { Align::Center, Align::Center }; });
 
-		, slider("Slider", wrap_control, [](Layout& l) { l.m_space = Preset::Flex; })
-		, slider_knob("SliderKnob", control, {}) // [](Layout& l) { l.m_space = Preset::Flex; } }
-		, slider_display("SliderDisplay", label, [](Layout& l) { l.m_flow = LayoutFlow::Overlay; l.m_align = { Align::Center, Align::Center }; })
+		slider = Style("Slider", wrap_control, [](Layout& l) { l.m_space = Preset::Flex; });
+		slider_knob = Style("SliderKnob", control, {}); // [](Layout& l) { l.m_space = Preset::Flex; } }
+		slider_display = Style("SliderDisplay", label, [](Layout& l) { l.m_flow = LayoutFlow::Overlay; l.m_align = { Align::Center, Align::Center }; });
 
-		, fill_bar("Fillbar", row, {})
+		fill_bar = Style("Fillbar", row, {});
 
-		, number_input("NumberInput", row, {})
-		, slider_input("SliderInput", row, {})
-		, field_input("Field", wrap_control, {})
-		, curve_graph("CurveGraph", sheet, [](Layout& l) { l.m_opacity = Opacity::Opaque; }, [](InkStyle& l) { l.m_empty = false; })
-		, curve_input("CurveInput", sheet, [](Layout& l) { l.m_padding = vec4(6.f); })
-		, input_bool("Input<bool>", wedge, [](Layout& l) { l.m_space = Preset::Unit; })
-		, input_string("Input<string>", type_in, {})
-		, input_color("Input<Colour>", row, {})
+		number_input = Style("NumberInput", row, {});
+		slider_input = Style("SliderInput", row, {});
+		field_input = Style("Field", wrap_control, {});
+		curve_graph = Style("CurveGraph", sheet, [](Layout& l) { l.m_opacity = Opacity::Opaque; }, [](InkStyle& l) { l.m_empty = false; });
+		curve_input = Style("CurveInput", sheet, [](Layout& l) { l.m_padding = vec4(6.f); });
+		input_bool = Style("Input<bool>", wedge, [](Layout& l) { l.m_space = Preset::Unit; });
+		input_string = Style("Input<string>", type_in, {});
+		input_color = Style("Input<Colour>", row, {});
 
-		, color_wheel("ColourWheel", control, [](Layout& l) { l.m_size = { 200.f, 200.f }; }, [](InkStyle& l) { l.m_empty = false; })
-		, color_slab("ColourSlab", control, [](Layout& l) { l.m_size = { 22.f, 22.f }; }, [](InkStyle& l) { l.m_empty = false; })
-		, color_display("ColourDisplay", flex, {}, [](InkStyle& l) { l.m_empty = false; })
-		, color_toggle("ColourToggle", color_slab, [](Layout& l) { l.m_solver = Solver::Row; }, [](InkStyle& l) { l.m_empty = false; })
+		color_wheel = Style("ColourWheel", control, [](Layout& l) { l.m_size = vec2(200.f); }, [](InkStyle& l) { l.m_empty = false; });
+		color_slab = Style("ColourSlab", control, [](Layout& l) { l.m_size = vec2(22.f); }, [](InkStyle& l) { l.m_empty = false; });
+		color_display = Style("ColourDisplay", flex, {}, [](InkStyle& l) { l.m_empty = false; });
+		color_toggle = Style("ColourToggle", color_slab, [](Layout& l) { l.m_solver = Solver::Row; }, [](InkStyle& l) { l.m_empty = false; });
 
-		, scrollsheet("ScrollSheet", wedge, [](Layout& l) { l.m_solver = Solver::Grid; l.m_opacity = Opacity::Opaque; l.m_grid_division = { Preset::Layout, Preset::Line }; })
-		, scroll_zone("ScrollZone", layout, [](Layout& l) { l.m_layout = { AutoLayout::Size, AutoLayout::Size }; l.m_clipping = Clip::Clip; })
+		scrollsheet = Style("ScrollSheet", wedge, [](Layout& l) { l.m_solver = Solver::Grid; l.m_opacity = Opacity::Opaque; l.m_grid_division = { Preset::Layout, Preset::Line }; });
+		scroll_zone = Style("ScrollZone", layout, [](Layout& l) { l.m_layout = { AutoLayout::Size, AutoLayout::Size }; l.m_clipping = Clip::Clip; });
 
-		, scroll_surface("ScrollSurface", wedge, {})
-		, scroll_plan("ScrollPlan", sheet, [](Layout& l) { l.m_space = Preset::Block; }) // { l.m_custom_draw = &draw_grid }
+		scroll_surface = Style("ScrollSurface", wedge, {});
+		scroll_plan = Style("ScrollPlan", sheet, [](Layout& l) { l.m_space = Preset::Block; }); // { l.m_custom_draw = &draw_grid }
 
-		, table("Table", stack, [](Layout& l) { l.m_solver = Solver::Table; l.m_spacing = vec2(0.f, 2.f); })
-		, table_head("TableHead", gridsheet, [](Layout& l) { l.m_space = Preset::Div; })
-		, column_header("ColumnHeader", row, [](Layout& l) { l.m_space = Preset::Line; })
+		table = Style("Table", stack, [](Layout& l) { l.m_solver = Solver::Table; l.m_spacing = vec2(0.f, 2.f); });
+		table_head = Style("TableHead", gridsheet, [](Layout& l) { l.m_space = Preset::Div; });
+		column_header = Style("ColumnHeader", row, [](Layout& l) { l.m_space = Preset::Line; });
 
-		, popup("Popup", overlay, [](Layout& l) { l.m_space = Preset::Unit; l.m_clipping = Clip::Unclip; })
-		, modal("Modal", popup, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Unit; l.m_align = { Align::Center, Align::Center }; })
+		popup = Style("Popup", overlay, [](Layout& l) { l.m_space = Preset::Unit; l.m_clipping = Clip::Unclip; });
+		modal = Style("Modal", popup, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Unit; l.m_align = { Align::Center, Align::Center }; });
 
-		, color_popup("ColourPopup", overlay, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_clipping = Clip::Unclip; l.m_align = { Align::Left, Align::OutRight }; })
-	{}
+		color_popup = Style("ColourPopup", overlay, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_clipping = Clip::Unclip; l.m_align = { Align::Left, Align::OutRight }; });
+	
+		register_styles({
+			&widget, &wedge, &ui, &unit, &item, &control, &wrap_control, &spacer, &separator, &filler, &drag_handle,
+			&div, &row, &stack, &sheet, &flex, &list, &header, &board, &layout, &indent,
+			&screen, &decal, &overlay, &gridsheet, &sequence, &element,
+			&label, &title, &message, &text, &bullet, &button, &wrap_button, &multi_button, &toggle, &checkbox, &checkmark,
+			&dummy, &tooltip, &rectangle, &viewport, &type_in, &text_edit, &type_zone, &caret, &image, &image_stretch,
+			&radio_switch, &radio_switch_h, &radio_choice, &radio_choice_item,
+			&slider, &slider_knob, &slider_display, &fill_bar, &number_input,
+			&slider_input, &field_input, &curve_graph, &curve_input, &input_bool, &input_string, &input_color,
+			&color_wheel, &color_slab, &color_display, &color_toggle,
+			&scrollsheet, &scroll_zone, &scroll_surface, &scroll_plan, &table, &table_head, &column_header,
+			&popup, &modal, &color_popup
+		});
+	}
 
 	void Styles::setup(UiWindow& ui_window)
 	{
-		styles().scroll_plan.skin().m_custom_draw = &ui::draw_grid;
+		styles().scroll_plan.m_skin.m_custom_draw = &ui::draw_grid;
 
-		ui::cursor_styles().cursor.skin().m_image = ui_window.find_image("mousepointer");
+		ui::cursor_styles().cursor.m_skin.m_image = ui_window.find_image("mousepointer");
 
-		ui::cursor_styles().resize_x.skin().m_image = ui_window.find_image("resize_h_20");
-		ui::cursor_styles().resize_y.skin().m_image = ui_window.find_image("resize_v_20");
-		ui::cursor_styles().move.skin().m_image = ui_window.find_image("move_20");
-		ui::cursor_styles().resize_diag_left.skin().m_image = ui_window.find_image("resize_diag_left_20");
-		ui::cursor_styles().resize_diag_right.skin().m_image = ui_window.find_image("resize_diag_right_20");
-		ui::cursor_styles().caret.skin().m_image = ui_window.find_image("caret_white");
+		ui::cursor_styles().resize_x.m_skin.m_image = ui_window.find_image("resize_h_20");
+		ui::cursor_styles().resize_y.m_skin.m_image = ui_window.find_image("resize_v_20");
+		ui::cursor_styles().move.m_skin.m_image = ui_window.find_image("move_20");
+		ui::cursor_styles().resize_diag_left.m_skin.m_image = ui_window.find_image("resize_diag_left_20");
+		ui::cursor_styles().resize_diag_right.m_skin.m_image = ui_window.find_image("resize_diag_right_20");
+		ui::cursor_styles().caret.m_skin.m_image = ui_window.find_image("caret_white");
 
-		ui::scrollbar_styles().scroll_up.skin().m_image = ui_window.find_image("arrow_up_15");
-		ui::scrollbar_styles().scroll_down.skin().m_image = ui_window.find_image("arrow_down_15");
-		ui::scrollbar_styles().scroll_left.skin().m_image = ui_window.find_image("arrow_left_15");
-		ui::scrollbar_styles().scroll_right.skin().m_image = ui_window.find_image("arrow_right_15");
-
-		ui::window_styles().close_button.skin().m_image = ui_window.find_image("close_15");
-		ui::toolbar_styles().mover.skin().m_image = ui_window.find_image("handle");
-
-		ui::treenode_styles().no_toggle.skin().m_image = ui_window.find_image("empty_15");
-
-		ui::treenode_styles().toggle.skin().m_image = ui_window.find_image("toggle_closed");
-		ui::treenode_styles().toggle.decline_skin(ACTIVE).m_image = ui_window.find_image("toggle_open");
-		ui::treenode_styles().toggle.decline_skin(DISABLED).m_image = ui_window.find_image("empty_15");
+		//ui::scrollbar_styles().scroll_up.m_skin.m_image = ui_window.find_image("arrow_up_15");
+		//ui::scrollbar_styles().scroll_down.m_skin.m_image = ui_window.find_image("arrow_down_15");
+		//ui::scrollbar_styles().scroll_left.m_skin.m_image = ui_window.find_image("arrow_left_15");
+		//ui::scrollbar_styles().scroll_right.m_skin.m_image = ui_window.find_image("arrow_right_15");
+		//
+		//ui::window_styles().close_button.m_skin.m_image = ui_window.find_image("close_15");
+		//ui::toolbar_styles().mover.m_skin.m_image = ui_window.find_image("handle");
+		//
+		//ui::treenode_styles().no_toggle.m_skin.m_image = ui_window.find_image("empty_15");
+		//
+		//ui::treenode_styles().toggle.m_skin.m_image = ui_window.find_image("toggle_closed");
+		//ui::treenode_styles().toggle.decline_skin(ACTIVE).m_image = ui_window.find_image("toggle_open");
+		//ui::treenode_styles().toggle.decline_skin(DISABLED).m_image = ui_window.find_image("empty_15");
 	}
 }

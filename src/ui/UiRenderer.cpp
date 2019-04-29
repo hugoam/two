@@ -49,6 +49,7 @@ namespace mud
 
 		m_impl->m_font_sources["dejavu"] = string(resource_path) + "/interface/fonts/DejaVuSans.ttf";
 		m_impl->m_font_sources["consolas"] = string(resource_path) + "/interface/fonts/Consolas.ttf";
+		m_impl->m_font_sources["proggy"] = string(resource_path) + "/interface/fonts/ProggyClean.ttf";
 		//m_impl->m_font_sources["consolas-bold"] = string(resource_path) + "/interface/fonts/Consolas-Bold.ttf";
 		//m_impl->m_font_sources["inconsolata"] = string(resource_path) + "/interface/fonts/Inconsolata-Regular.ttf";
 		//m_impl->m_font_sources["inconsolata-bold"] = string(resource_path) + "/interface/fonts/Inconsolata-Bold.ttf";
@@ -282,6 +283,8 @@ namespace mud
 		if(m_vg.clipped(rect))
 			return;
 
+		//m_vg.debug_rect(rect, Colour::Red);
+
 		if(frame.d_inkstyle->m_empty)
 			return;
 
@@ -291,13 +294,14 @@ namespace mud
 		if(frame.d_inkstyle->m_custom_draw)
 			return frame.d_inkstyle->m_custom_draw(frame, rect, m_vg);
 	
-		this->draw_frame(frame, rect);
+		mud::draw_frame(m_vg, frame, rect);
 	}
 
-	void UiRenderer::draw_frame(const Frame& frame, const vec4& rect)
+	void draw_frame(Vg& vg, const Frame& frame, const vec4& rect)
 	{
-		vec2 padded_pos = floor(frame.d_inkstyle->m_padding.pos);
-		vec2 padded_size = floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding));
+		const vec2 padded_pos = floor(frame.d_inkstyle->m_padding.pos);
+		const vec2 padded_size = floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding));
+		const vec4 padded_rect = { padded_pos, padded_size };
 
 		vec2 content = frame.m_content;
 		if(frame.d_inkstyle->m_stretch.x)
@@ -305,18 +309,18 @@ namespace mud
 		if(frame.d_inkstyle->m_stretch.y)
 			content.y = padded_size.y;
 
-		vec2 content_pos = { this->content_pos(frame, content, padded_pos, padded_size, Axis::X), this->content_pos(frame, content, padded_pos, padded_size, Axis::Y) };
-		vec4 content_rect = { content_pos, content };
+		const vec2 content_pos = { content_position(frame, content, padded_pos, padded_size, Axis::X), content_position(frame, content, padded_pos, padded_size, Axis::Y) };
+		const vec4 content_rect = { content_pos, content };
 
-		//m_vg.debug_rect(rect, Colour::Red);
-		//m_vg.debug_rect(padded_rect, Colour::Green);
-		//m_vg.debug_rect(content_rect, Colour::Blue);
+		draw_background(vg, frame, rect, padded_rect, content_rect);
+		draw_content(vg, frame, rect, padded_rect, content_rect);
 
-		this->draw_background(frame, rect, { padded_pos, padded_size }, content_rect);
-		this->draw_content(frame, rect, { padded_pos, padded_size }, content_rect);
+		//vg.debug_rect(rect, Colour::Red);
+		//vg.debug_rect(padded_rect, Colour::Green);
+		//vg.debug_rect(content_rect, Colour::Blue);
 	}
 
-	float UiRenderer::content_pos(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim)
+	float content_position(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim)
 	{
 		if(frame.d_inkstyle->m_align[dim] == Align::Center)
 			return padded_pos[dim] + padded_size[dim] / 2.f - content[dim] / 2.f;
@@ -326,7 +330,7 @@ namespace mud
 			return padded_pos[dim];
 	}
 
-	vec4 UiRenderer::select_corners(const Frame& frame)
+	vec4 select_corners(const Frame& frame)
 	{
 		Frame& parent = *frame.d_parent;
 
@@ -339,23 +343,23 @@ namespace mud
 			return vec4();
 	}
 
-	void UiRenderer::draw_background(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
+	void draw_background(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
 	{
-		m_debug_batch++;
+		//m_debug_batch++;
 
 		InkStyle& inkstyle = *frame.d_inkstyle;
 
 		// Shadow
 		if(!inkstyle.m_shadow.d_null)
 		{
-			m_vg.draw_shadow(rect, inkstyle.m_corner_radius, inkstyle.m_shadow);
+			vg.draw_shadow(rect, inkstyle.m_corner_radius, inkstyle.m_shadow);
 		}
 
 		// Rect
 		if(inkstyle.m_border_width.x || !inkstyle.m_background_colour.null())
 		{
-			vec4 corners = inkstyle.m_weak_corners ? this->select_corners(frame) : inkstyle.m_corner_radius;
-			this->draw_rect(rect, corners, inkstyle);
+			vec4 corners = inkstyle.m_weak_corners ? select_corners(frame) : inkstyle.m_corner_radius;
+			draw_rect(vg, rect, corners, inkstyle);
 		}
 
 		// ImageSkin
@@ -374,44 +378,44 @@ namespace mud
 			image_skin.stretch_coords(skin_rect.pos, skin_rect.size, { sections, ImageSkin::Count });
 
 			for(int s = 0; s < ImageSkin::Count; ++s)
-				this->draw_skin_image(frame, s, sections[s]);
+				draw_skin_image(vg, frame, s, sections[s]);
 		}
 
 		// Image
 		if(inkstyle.m_overlay)
-			this->draw_image(*inkstyle.m_overlay, padded_rect);
+			draw_image(vg, *inkstyle.m_overlay, padded_rect);
 		if(inkstyle.m_tile)
-			this->draw_image(*inkstyle.m_tile, rect);
+			draw_image(vg, *inkstyle.m_tile, rect);
 	}
 
-	void UiRenderer::draw_image(const Image& image, const vec4& rect)
+	void draw_image(Vg& vg, const Image& image, const vec4& rect)
 	{
 		if(image.d_atlas)
 		{
 			vec4 image_rect = { rect.pos - vec2(image.d_coord), vec2(image.d_atlas->m_image.d_size) };
-			m_vg.draw_texture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
+			vg.draw_texture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
 		}
 		else
 		{
-			m_vg.draw_texture(uint16_t(image.d_handle), rect, rect);
+			vg.draw_texture(uint16_t(image.d_handle), rect, rect);
 		}
 	}
 
-	void UiRenderer::draw_image_stretch(const Image& image, const vec4& rect, const vec2& stretch)
+	void draw_image_stretch(Vg& vg, const Image& image, const vec4& rect, const vec2& stretch)
 	{
 		if(image.d_atlas)
 		{
 			vec4 image_rect = { rect.pos - vec2(image.d_coord) * stretch, vec2(image.d_atlas->m_image.d_size) * stretch };
-			m_vg.draw_texture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
+			vg.draw_texture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
 		}
 		else
 		{
 			vec4 image_rect = { rect.pos, vec2(image.d_size) * stretch };
-			m_vg.draw_texture(uint16_t(image.d_handle), rect, image_rect);
+			vg.draw_texture(uint16_t(image.d_handle), rect, image_rect);
 		}
 	}
 
-	void UiRenderer::draw_skin_image(const Frame& frame, int section, vec4 rect)
+	void draw_skin_image(Vg& vg, const Frame& frame, int section, vec4 rect)
 	{
 		ImageSkin& imageSkin = frame.d_inkstyle->m_image_skin;
 		rect.x = rect.x - imageSkin.m_margin;
@@ -425,10 +429,10 @@ namespace mud
 		if(section == ImageSkin::Left || section == ImageSkin::Right || section == ImageSkin::Fill)
 			ratio.y = divided.y;
 
-		this->draw_image_stretch(imageSkin.d_images[section], rect, ratio);
+		draw_image_stretch(vg, imageSkin.d_images[section], rect, ratio);
 	}
 
-	void UiRenderer::draw_content(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
+	void draw_content(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
 	{
 		UNUSED(rect);
 
@@ -438,35 +442,35 @@ namespace mud
 		//this->clip(rect);
 
 		if(frame.icon())
-			this->draw_image(*frame.icon(), content_rect);
+			draw_image(vg, *frame.icon(), content_rect);
 
 		if(frame.caption())
-			m_vg.draw_text(padded_rect.pos, frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
+			vg.draw_text(padded_rect.pos, frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
 	}
 
-	void UiRenderer::draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle)
+	void draw_rect(Vg& vg, const vec4& rect, const vec4& corners, const InkStyle& inkstyle)
 	{
-		m_vg.path_rect(rect, corners, inkstyle.m_border_width.x);
+		vg.path_rect(rect, corners, inkstyle.m_border_width.x);
 
 		if(!inkstyle.m_background_colour.null())
 		{
 			if(inkstyle.m_linear_gradient == vec2(0.f))
 			{
-				m_vg.fill({ inkstyle.m_background_colour, inkstyle.m_border_colour, inkstyle.m_border_width.x });
+				vg.fill({ inkstyle.m_background_colour, inkstyle.m_border_colour, inkstyle.m_border_width.x });
 			}
 			else
 			{
 				Colour first = offset_colour(inkstyle.m_background_colour, inkstyle.m_linear_gradient.x);
 				Colour second = offset_colour(inkstyle.m_background_colour, inkstyle.m_linear_gradient.y);
 				if(inkstyle.m_linear_gradient_dim == Axis::X)
-					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x + rect.width, rect.y });
+					vg.fill({ first, second }, { rect.x, rect.y }, { rect.x + rect.width, rect.y });
 				else
-					m_vg.fill({ first, second }, { rect.x, rect.y }, { rect.x, rect.y + rect.height });
+					vg.fill({ first, second }, { rect.x, rect.y }, { rect.x, rect.y + rect.height });
 			}
 
 		}
 		if(inkstyle.m_border_width.x > 0.f)
-			m_vg.stroke({ inkstyle.m_background_colour, inkstyle.m_border_colour, inkstyle.m_border_width.x });
+			vg.stroke({ inkstyle.m_background_colour, inkstyle.m_border_colour, inkstyle.m_border_width.x });
 	}
 
 	void UiRenderer::log_FPS()

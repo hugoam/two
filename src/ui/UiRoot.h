@@ -45,6 +45,8 @@ namespace mud
 
 		void clear_events();
 
+		void reset_styles();
+
 	public:
 		UiWindow& m_window;
 		Keyboard m_keyboard;

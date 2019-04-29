@@ -14,13 +14,11 @@
 
 namespace mud
 {
-	using cstring = const char*;
-
 	export_ struct refl_ MUD_UI_EXPORT Layout
 	{
 	public:
 		constr_ Layout() {}
-		constr_ Layout(cstring name) : m_name(name) {}
+		constr_ Layout(const string& name) : m_name(name) {}
 
 		template <class T_Initializer>
 		Layout(T_Initializer func) { func(*this); }

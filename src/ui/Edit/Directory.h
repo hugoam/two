@@ -16,7 +16,7 @@ namespace ui
 {
 	export_ struct FileStyles
 	{
-		FileStyles();
+		void reset();
 		Style dir; Style file;
 	};
 

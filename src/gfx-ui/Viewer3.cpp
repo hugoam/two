@@ -25,8 +25,8 @@ namespace mud
 		if(inputEvent.m_deviceType < DeviceType::Mouse)
 			return this;
 
-		//MouseEvent& mouse_event = static_cast<MouseEvent&>(inputEvent);
-		//Item* item = this->pick_point(mouse_event.m_relative, ItemFlag::Ui);
+		//MouseEvent& event = static_cast<MouseEvent&>(inputEvent);
+		//Item* item = this->pick_point(event.m_relative, ItemFlag::Ui);
 		//return item ? &val<SpaceSheet>(item->m_node->m_object) : m_parent;
 		return nullptr;
 	}

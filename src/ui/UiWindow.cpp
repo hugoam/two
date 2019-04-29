@@ -8,6 +8,7 @@
 module mud.ui;
 #else
 #include <stl/algorithm.h>
+#include <stl/unordered_map.hpp>
 #include <infra/Vector.h>
 #include <infra/StringOps.h>
 #include <infra/File.h>
@@ -21,8 +22,6 @@ module mud.ui;
 
 namespace mud
 {
-	map<string, Style*> UiWindow::s_styles;
-
 	UiWindow::UiWindow(Context& context, Vg& vg, User* user)
 		: m_resource_path(context.m_resource_path)
 		, m_context(context)
@@ -46,7 +45,7 @@ namespace mud
 
 	void UiWindow::init()
 	{
-		this->init_styles();
+		this->reset_styles();
 
 		printf("[info] ui - window init - resource path %s\n", m_resource_path.c_str());
 
@@ -63,44 +62,24 @@ namespace mud
 		this->resize(m_context.m_size, m_context.m_fb_size);
 	}
 
-	void UiWindow::init_styles()
-	{
-		styles();
-
-		ui::cursor_styles();
-		ui::scrollbar_styles();
-		ui::dropdown_styles();
-		ui::table_styles();
-		ui::expandbox_styles();
-		ui::treenode_styles();
-		ui::tabber_styles();
-		ui::menu_styles();
-		ui::toolbar_styles();
-		ui::window_styles();
-		ui::dock_styles();
-		ui::canvas_styles();
-		ui::node_styles();
-		ui::file_styles();
-	}
-
 	void UiWindow::reset_styles()
 	{
-		styles() = {};
+		styles().reset();
 
-		ui::cursor_styles() = {};
-		ui::scrollbar_styles() = {};
-		ui::dropdown_styles() = {};
-		ui::table_styles() = {};
-		ui::expandbox_styles() = {};
-		ui::treenode_styles() = {};
-		ui::tabber_styles() = {};
-		ui::menu_styles() = {};
-		ui::toolbar_styles() = {};
-		ui::window_styles() = {};
-		ui::dock_styles() = {};
-		ui::canvas_styles() = {};
-		ui::node_styles() = {};
-		ui::file_styles() = {};
+		ui::cursor_styles().reset();
+		ui::scrollbar_styles().reset();
+		ui::dropdown_styles().reset();
+		ui::table_styles().reset();
+		ui::expandbox_styles().reset();
+		ui::treenode_styles().reset();
+		ui::tabber_styles().reset();
+		ui::menu_styles().reset();
+		ui::toolbar_styles().reset();
+		ui::window_styles().reset();
+		ui::dock_styles().reset();
+		ui::canvas_styles().reset();
+		ui::node_styles().reset();
+		ui::file_styles().reset();
 	}
 
 	void UiWindow::init_resources()

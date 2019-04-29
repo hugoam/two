@@ -29,6 +29,8 @@ module mud.ui.vg;
 #include <ui-vg/VgVg.h>
 #endif
 
+#define ANGLED_WHEEL 0
+
 namespace vg
 {
 	bool checkIntersectScissor(Context* ctx, float x, float y, float w, float h);
@@ -156,6 +158,26 @@ namespace mud
 		vg::resetScissor(m_vg);
 	}
 
+	void VgVg::begin_path()
+	{
+		vg::beginPath(m_vg);
+	}
+
+	void VgVg::move_to(const vec2& p)
+	{
+		vg::moveTo(m_vg, p.x, p.y);
+	}
+
+	void VgVg::line_to(const vec2& p)
+	{
+		vg::lineTo(m_vg, p.x, p.y);
+	}
+	
+	void VgVg::close_path()
+	{
+		vg::closePath(m_vg);
+	}
+
 	void VgVg::path_line(const vec2& p1, const vec2& p2)
 	{
 		vg::beginPath(m_vg);
@@ -236,27 +258,34 @@ namespace mud
 
 	void VgVg::draw_color_wheel(const vec2& center, float r0, float r1)
 	{
-		float aeps = 0.5f / r1;	// half a pixel arc length in radians (2pi cancels out).
+		const float aeps = 0.5f / r1; // half a pixel arc length in radians (2pi cancels out).
 
 		for(int i = 0; i < 6; i++)
 		{
-			float a0 = (float)i / 6.0f * c_2pi - aeps;
-			float a1 = (float)(i + 1.0f) / 6.0f * c_2pi + aeps;
+			const float a0 = float(i) / 6.0f * c_2pi - aeps;
+			const float a1 = (float(i) + 1.0f) / 6.0f * c_2pi + aeps;
+
 			vg::beginPath(m_vg);
+#if ANGLED_WHEEL
 			vg::moveTo(m_vg, center.x + r0 * cosf(a0), center.y + r0 * sinf(a0));
 			vg::lineTo(m_vg, center.x + r0 * cosf(a1), center.y + r0 * sinf(a1));
 			vg::lineTo(m_vg, center.x + r1 * cosf(a1), center.y + r1 * sinf(a1));
 			vg::lineTo(m_vg, center.x + r1 * cosf(a0), center.y + r1 * sinf(a0));
-
-			//vg::ArcTo(center.x, center.y, a0, a1, r0); //, NVG_CW);
-			//vg::ArcTo(center.x, center.y, a1, a0, r1); //, NVG_CCW);
+#else
+			vg::arc(m_vg, center.x, center.y, r0, a0, a1, vg::Winding::CW);
+			vg::arc(m_vg, center.x, center.y, r1, a1, a0, vg::Winding::CCW);
+			//vg::arc(m_vg, center.x, center.y, r1, a0, a1, vg::Winding::CCW);
+#endif
 			vg::closePath(m_vg);
-			vec2 a = vec2(cosf(a0), sinf(a0)) * (r0 + r1) * 0.5f + center;
-			vec2 b = vec2(cosf(a1), sinf(a1)) * (r0 + r1) * 0.5f + center;
-			Colour colour_a = hsl(a0 / c_2pi, 1.0f, 0.55f);
-			Colour colour_b = hsl(a1 / c_2pi, 1.0f, 0.55f);
-			vg::GradientHandle paint = vg::createLinearGradient(m_vg, a.x, a.y, b.x, b.y, vgColour(colour_a), vgColour(colour_b));
-			vg::fillPath(m_vg, paint, vg::FillFlags::ConvexAA);
+
+			const vec2 a = vec2(cosf(a0), sinf(a0)) * (r0 + r1) * 0.5f + center;
+			const vec2 b = vec2(cosf(a1), sinf(a1)) * (r0 + r1) * 0.5f + center;
+			const Colour cola = hsl(a0 / c_2pi, 1.0f, 0.55f);
+			const Colour colb = hsl(a1 / c_2pi, 1.0f, 0.55f);
+
+			vg::GradientHandle paint = vg::createLinearGradient(m_vg, a.x, a.y, b.x, b.y, vgColour(cola), vgColour(colb));
+			vg::fillPath(m_vg, paint, vg::FillFlags::ConcaveAA);
+			//vg::strokePath(m_vg, paint, 1.f, vg::FillFlags::ConcaveAA);
 		}
 	}
 
@@ -266,9 +295,9 @@ namespace mud
 		vg::transformTranslate(m_vg, center.x, center.y);
 		vg::transformRotate(m_vg, hue * c_2pi);
 
-		float r = r0 - 6;
-		vec2 a = vec2(cosf(120.0f / 180.0f * c_pi), sinf(120.0f / 180.0f * c_pi)) * r;
-		vec2 b = vec2(cosf(-120.0f / 180.0f * c_pi), sinf(-120.0f / 180.0f * c_pi)) * r;
+		const float r = r0 - 6;
+		const vec2 a = vec2(cosf(120.0f / 180.0f * c_pi), sinf(120.0f / 180.0f * c_pi)) * r;
+		const vec2 b = vec2(cosf(-120.0f / 180.0f * c_pi), sinf(-120.0f / 180.0f * c_pi)) * r;
 
 		vg::beginPath(m_vg);
 		vg::moveTo(m_vg, r, 0);
@@ -276,7 +305,7 @@ namespace mud
 		vg::lineTo(m_vg, b.x, b.y);
 		vg::closePath(m_vg);
 
-		Colour colour = hsl(hue, 1.0f, 0.5f);
+		const Colour colour = hsl(hue, 1.0f, 0.5f);
 		vg::GradientHandle paint1 = vg::createLinearGradient(m_vg, r, 0, a.x, a.y, vgColour(colour), vg::Colors::White);
 		vg::fillPath(m_vg, paint1, vg::FillFlags::ConvexAA);
 		vg::GradientHandle paint2 = vg::createLinearGradient(m_vg, (r + a.x) * 0.5f, (0 + a.y) * 0.5f, b.x, b.y, vg::Colors::Transparent, vg::Colors::Black);
@@ -287,12 +316,13 @@ namespace mud
 
 	uint32_t VgVg::text_align(const TextPaint& paint)
 	{
+		const uint32_t yalign = vg::TextAlign::Middle; //vg::TextAlign::Top;
 		if(paint.m_align.x == Align::Center)
-			return vg::TextAlign::Center | vg::TextAlign::Top;
+			return vg::TextAlign::Center | yalign;
 		else if(paint.m_align.x == Align::Right)
-			return vg::TextAlign::Right | vg::TextAlign::Top;
+			return vg::TextAlign::Right | yalign;
 		else
-			return vg::TextAlign::Left | vg::TextAlign::Top;
+			return vg::TextAlign::Left | yalign;
 	}
 
 	vg::TextConfig VgVg::text_font(const TextPaint& paint)
@@ -312,7 +342,7 @@ namespace mud
 
 	void VgVg::break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow)
 	{
-		size_t numGlyphs = textRow.m_end - textRow.m_start;
+		const size_t numGlyphs = textRow.m_end - textRow.m_start;
 		vector<vg::GlyphPosition> glyphs(numGlyphs);
 		textRow.m_glyphs.resize(numGlyphs);
 
@@ -327,10 +357,11 @@ namespace mud
 
 	void VgVg::draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint)
 	{
+		const float yoff = ceil(paint.m_size * 0.5f) + 1;
 		if(paint.m_text_break)
-			vg::textBox(m_vg, text_font(paint), offset.x, offset.y, FLT_MAX, start, end, 0); // vg::TextBoxFlags::KeepSpaces);
+			vg::textBox(m_vg, text_font(paint), offset.x, offset.y + yoff, FLT_MAX, start, end, 0); // vg::TextBoxFlags::KeepSpaces);
 		else
-			vg::text(m_vg, text_font(paint), offset.x, offset.y, start, end);
+			vg::text(m_vg, text_font(paint), offset.x, offset.y + yoff, start, end);
 	}
 
 	void VgVg::begin_target()
@@ -410,12 +441,12 @@ namespace mud
 
 	vec2 VgVg::text_size(cstring text, size_t len, const TextPaint& paint)
 	{
-		float bounds[4];
+		vec4 bounds;
 		if(paint.m_text_break)
-			vg::measureTextBox(m_vg, text_font(paint), 0, 0, FLT_MAX, text, text + len, bounds, 0); //vg::TextBreakFlags::SpacesAsChars
+			vg::measureTextBox(m_vg, text_font(paint), 0, 0, FLT_MAX, text, text + len, bounds.f, 0); //vg::TextBreakFlags::SpacesAsChars
 		else
-			vg::measureText(m_vg, text_font(paint), 0, 0, text, text + len, bounds);
-		return { bounds[2] - bounds[0], bounds[3] - bounds[1] };
+			vg::measureText(m_vg, text_font(paint), 0, 0, text, text + len, bounds.f);
+		return vec2(bounds.width - bounds.x, bounds.height - bounds.y);
 	}
 
 	float VgVg::text_size(cstring text, size_t len, Axis dim, const TextPaint& paint)

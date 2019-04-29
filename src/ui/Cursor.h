@@ -13,7 +13,7 @@ namespace ui
 {
 	export_ struct CursorStyles
 	{
-		CursorStyles();
+		void reset();
 		Style cursor; Style resize_x; Style resize_y; Style move; Style resize_diag_left; Style resize_diag_right; Style caret;
 	};
 
@@ -23,7 +23,9 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Widget* hoverbox(Widget& parent, float delay = 0.5f);
 
 	export_ MUD_UI_EXPORT Widget* tooltip(Widget& parent, const vec2& position, span<cstring> elements);
-	export_ MUD_UI_EXPORT func_ Widget* tooltip(Widget& parent, const vec2& position, cstring content);
+
+	export_ MUD_UI_EXPORT Widget* tooltip(Widget& parent, cstring content);
+	export_ MUD_UI_EXPORT Widget* tooltip(Widget& parent, span<cstring> elements);
 
 	export_ MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame);
 	export_ MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame, cstring content);

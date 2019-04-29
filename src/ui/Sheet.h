@@ -26,6 +26,7 @@ namespace ui
 	export_ func_ inline Widget& sheet(Widget& parent) { return widget(parent, styles().sheet); }
 	export_ func_ inline Widget& board(Widget& parent) { return widget(parent, styles().board); }
 	export_ func_ inline Widget& layout(Widget& parent) { return widget(parent, styles().layout); }
+	export_ func_ inline Widget& indent(Widget& parent) { return widget(parent, styles().indent); }
 	export_ func_ inline Widget& screen(Widget& parent) { return widget(parent, styles().screen); }
 	export_ func_ inline Widget& decal(Widget& parent) { return widget(parent, styles().decal); }
 	export_ func_ inline Widget& overlay(Widget& parent) { return widget(parent, styles().overlay); }

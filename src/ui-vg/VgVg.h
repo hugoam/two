@@ -65,6 +65,11 @@ namespace mud
 		virtual void clip(const vec4& rect) override;
 		virtual void unclip() override;
 
+		virtual void begin_path() override;
+		virtual void move_to(const vec2& p) override;
+		virtual void line_to(const vec2& p) override;
+		virtual void close_path() override;
+
 		virtual void path_line(const vec2& p1, const vec2& p2) override;
 		virtual void path_bezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten = false) override;
 		virtual void path_rect(const vec4& rect, const vec4& corners, float border) override;

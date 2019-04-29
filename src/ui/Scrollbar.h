@@ -14,7 +14,7 @@ namespace ui
 {
 	export_ struct ScrollbarStyles
 	{
-		ScrollbarStyles();
+		void reset();
 		Style scrollbar; Style scroll_up; Style scroll_down; Style scroll_left; Style scroll_right; Style scroller; Style scroller_knob;
 	};
 

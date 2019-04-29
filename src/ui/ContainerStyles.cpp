@@ -18,40 +18,55 @@ namespace mud
 {
 namespace ui
 {
-	TableStyles::TableStyles()
-		: row("TableRow", styles().wrap_button, {})
-		, row_odd("TableRowOdd", row, {}, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = Colour{ 0.1f, 0.1f, 0.1f }; })
-		, row_even("TableRowEven", row, {}, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = Colour::Black; })
-		, separator("TableSeparator", styles().row, [](Layout& l) { l.m_no_grid = true; })
-	{}
+	void TableStyles::reset()
+	{
+		row = Style("TableRow", styles().wrap_button, {});
+		row_odd = Style("TableRowOdd", row, {}, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = Colour{ 0.1f, 0.1f, 0.1f }; });
+		row_even = Style("TableRowEven", row, {}, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = Colour::Black; });
+		separator = Style("TableSeparator", styles().row, [](Layout& l) { l.m_no_grid = true; });
 
-	ExpandboxStyles::ExpandboxStyles()
-		: expandbox("Expandbox", styles().stack, {})
-		, header("ExpandboxHeader", styles().wrap_button, {})
-		, toggle("ExpandboxToggle", styles().toggle, {})
-		, body("ExpandboxBody", styles().stack, [](Layout& l) { l.m_padding = { 12.f, 2.f, 0.f, 2.f }; l.m_spacing = vec2(6.f); })
-	{}
+		register_styles({ &row, &row_odd, &row_even, &separator });
+	}
 
-	TreeNodeStyles::TreeNodeStyles()
-		: treenode("TreeNode", expandbox_styles().expandbox, {})
-		, header("TreeNodeHeader", expandbox_styles().header, {})
-		, toggle("TreeNodeToggle", expandbox_styles().toggle, {})
-		, no_toggle("TreeNodeNoToggle", toggle, {})
-		, body("TreeNodeBody", expandbox_styles().body, [](Layout& l) { l.m_padding = { 18.f, 0.f, 0.f, 0.f }; l.m_spacing = vec2(0.f); })
-	{}
+	void ExpandboxStyles::reset()
+	{
+		expandbox = Style("Expandbox", styles().stack, {});
+		header = Style("ExpandboxHeader", styles().wrap_button, {});
+		toggle = Style("ExpandboxToggle", styles().toggle, {});
+		body = Style("ExpandboxBody", styles().stack, [](Layout& l) {}); //  l.m_padding = vec4(12.f, 2.f, 0.f, 2.f); l.m_spacing = vec2(0.f); 
 
-	TabberStyles::TabberStyles()
-		: tab("Tab", styles().wedge, [](Layout& l) { l.m_clipping = Clip::Clip; })
-		, tab_button("TabHeader", styles().button, {})
-		, tabber("Tabber", styles().wedge, {})
-		, head("TabberHead", styles().row, {})
-		, body("TabberBody", styles().sheet, {})
-	{}
+		register_styles({ &expandbox, &header, &toggle, &body });
+	}
 
-	FileStyles::FileStyles()
-		: dir("Dir", styles().multi_button, {})
-		, file("File", styles().multi_button, {})
-	{}
+	void TreeNodeStyles::reset()
+	{
+		treenode = Style("TreeNode", expandbox_styles().expandbox, {});
+		header = Style("TreeNodeHeader", expandbox_styles().header, {});
+		toggle = Style("TreeNodeToggle", expandbox_styles().toggle, {});
+		no_toggle = Style("TreeNodeNoToggle", toggle, {});
+		body = Style("TreeNodeBody", expandbox_styles().body, [](Layout& l) {}); // l.m_padding = vec4(18.f, 0.f, 0.f, 0.f); l.m_spacing = vec2(0.f); 
+
+		register_styles({ &treenode, &header, &toggle, &no_toggle, &body });
+	}
+
+	void TabberStyles::reset()
+	{
+		tab = Style("Tab", styles().wedge, [](Layout& l) { l.m_clipping = Clip::Clip; });
+		tab_button = Style("TabHeader", styles().button, {});
+		tabber = Style("Tabber", styles().wedge, {});
+		head = Style("TabberHead", styles().row, {});
+		body = Style("TabberBody", styles().sheet, {});
+
+		register_styles({ &tab, &tab_button, &tabber, &head, &body });
+	}
+
+	void FileStyles::reset()
+	{
+		dir = Style("Dir", styles().multi_button, {});
+		file = Style("File", styles().multi_button, {});
+
+		register_styles({ &dir, &file });
+	}
 
 	TableStyles& table_styles() { static TableStyles styles; return styles; }
 	ExpandboxStyles& expandbox_styles() { static ExpandboxStyles styles; return styles; }

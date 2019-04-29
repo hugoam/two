@@ -20,14 +20,15 @@ module mud.ui;
 #include <ui/UiWindow.h>
 #endif
 
+#include <cstdarg>
+#include <cstdio>
+
 namespace mud
 {
 namespace ui
 {
-	Widget& spacer(Widget& parent)
-	{
-		return widget(parent, styles().spacer);
-	}
+	Widget& spacer(Widget& parent) { return widget(parent, styles().spacer); }
+	Widget& separator(Widget& parent) { return widget(parent, styles().separator); }
 
 	Widget& icon(Widget& parent, cstring icon) { return item(parent, styles().item, icon); }
 	Widget& label(Widget& parent, cstring label) { return item(parent, styles().label, label); }
@@ -35,23 +36,70 @@ namespace ui
 	Widget& message(Widget& parent, cstring label) { return item(parent, styles().message, label); }
 	Widget& text(Widget& parent, cstring label) { return item(parent, styles().text, label); }
 
+	Widget& bullet(Widget& parent, cstring label)
+	{
+		Widget& self = row(parent);
+		item(self, styles().bullet);
+		item(self, styles().text, label);
+		return self;
+	}
+
 	Widget& icon(Widget& parent, const string& icon) { return item(parent, styles().item, icon); }
 	Widget& label(Widget& parent, const string& label) { return item(parent, styles().label, label); }
 	Widget& title(Widget& parent, const string& label) { return item(parent, styles().title, label); }
 	Widget& message(Widget& parent, const string& label) { return item(parent, styles().message, label); }
 	Widget& text(Widget& parent, const string& label) { return item(parent, styles().text, label); }
+	Widget& bullet(Widget& parent, const string& label) { return item(parent, styles().label, label); }
+
+	int format(char* buf, size_t buf_size, const char* fmt, ...)
+	{
+		va_list args;
+		va_start(args, fmt);
+		int w = vsnprintf(buf, buf_size, fmt, args);
+		va_end(args);
+		if(w == -1 || w >= (int)buf_size)
+			w = (int)buf_size - 1;
+		buf[w] = 0;
+		return w;
+	}
+
+	int format(char* buf, size_t buf_size, const char* fmt, va_list args)
+	{
+		int w = vsnprintf(buf, buf_size, fmt, args);
+		if(w == -1 || w >= (int)buf_size)
+			w = (int)buf_size - 1;
+		buf[w] = 0;
+		return w;
+	}
+
+	Widget& labelfv(Widget& parent, const char* fmt, va_list args)
+	{
+		static char buffer[1024];
+		int len = format(buffer, 1024, fmt, args);
+		return label(parent, string(buffer, len));
+	}
+
+	Widget& labelf(Widget& parent, const char* fmt, ...)
+	{
+		static char buffer[1024];
+		va_list args;
+		va_start(args, fmt);
+		int len = format(buffer, 1024, fmt, args);
+		va_end(args);
+		return label(parent, string(buffer, len));
+	}
 
 	void button_logic(Widget& self)
 	{
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 			self.enable_state(PRESSED);
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
 			self.disable_state(PRESSED);
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
 			self.enable_state(ACTIVATED);
-			mouse_event.consume(self);
+			event.consume(self);
 		}
 		else
 			self.disable_state(ACTIVATED);
@@ -124,7 +172,10 @@ namespace ui
 
 	Widget& checkbox(Widget& parent, bool& on)
 	{
-		return toggle(parent, styles().checkbox, on);
+		Widget& self = toggle(parent, styles().checkbox, on);
+		if(on)
+			item(parent, styles().checkmark);
+		return self;
 	}
 
 	Widget& fill_bar(Widget& parent, float percentage, Axis dim)
@@ -165,9 +216,18 @@ namespace ui
 	Widget& image256(Widget& parent, const string& name, const Image256& source) { return image256(parent, name.c_str(), source); }
 	Widget& image256(Widget& parent, const string& name, const Image256& source, const vec2& size) { return image256(parent, name.c_str(), source, size); }
 
-	Widget& radio_choice(Widget& parent, cstring value, bool active)
+	Widget& radio_button(Widget& parent, cstring label, uint32_t& value, uint32_t index)
 	{
-		Widget& self = multi_button(parent, styles().radio_choice, { value }, &styles().radio_choice_item);
+		Widget& self = multi_button(parent, styles().radio_choice, { label }, &styles().radio_choice_item);
+		self.set_state(ACTIVE, value == index);
+		if(self.activated())
+			value = index;
+		return self;
+	}
+
+	Widget& radio_choice(Widget& parent, cstring label, bool active)
+	{
+		Widget& self = multi_button(parent, styles().radio_choice, { label }, &styles().radio_choice_item);
 		self.set_state(ACTIVE, active);
 		return self;
 	}
@@ -187,13 +247,19 @@ namespace ui
 		return changed;
 	}
 
-	Widget& dropdown(Widget& parent, Style& style, cstring value, PopupFlags popup_flags, Style* list_style)
-	{ 
+	Widget& dropdown(Widget& parent, Style& style, cstring value, PopupFlags popup_flags, bool no_toggle, Style* list_style)
+	{
+		bool hovered = false;
 		Widget& self = widget(parent, style);
 		Widget& header = multi_toggle(self, dropdown_styles().head, self.m_open, { value });
-		Widget& button = toggle(self, dropdown_styles().toggle, self.m_open);
+		hovered |= header.hovered();
+		if(!no_toggle)
+		{
+			Widget& button = toggle(self, dropdown_styles().toggle, self.m_open);
+			hovered |= button.hovered();
+		}
 
-		self.set_state(HOVERED, header.hovered() || button.hovered());
+		self.set_state(HOVERED, hovered);
 		self.m_body = nullptr;
 
 		if(self.m_open)
@@ -255,21 +321,28 @@ namespace ui
 
 	Widget& menu_choice(Widget& parent, span<cstring> elements)
 	{
-		Widget& self = multi_button(parent, elements); //, menu_styles().choice
+		Widget& self = multi_button(parent, menu_styles().choice, elements);
 		if(self.activated())
 			self.m_parent->m_parent->m_open = false;
 		return self;
 	}
 
-	Widget& menu_choice(Widget& parent, cstring content)
+	Widget& menu_choice(Widget& parent, cstring content, cstring shortcut)
 	{
+		UNUSED(shortcut);
+		return menu_choice(parent, span<cstring>{ content });
+	}
+
+	Widget& menu_option(Widget& parent, cstring content, cstring shortcut, bool enabled)
+	{
+		UNUSED(shortcut); UNUSED(enabled);
 		return menu_choice(parent, span<cstring>{ content });
 	}
 
 	Widget& menu(Widget& parent, cstring label, bool submenu)
 	{
 		Style& list_style = submenu ? menu_styles().sublist : menu_styles().list;
-		return dropdown(parent, menu_styles().menu, label, PopupFlags::Modal, &list_style);
+		return dropdown(parent, menu_styles().menu, label, submenu ? PopupFlags::None : PopupFlags::AutoModal, true, &list_style);
 	}
 
 	Widget& menubar(Widget& parent)

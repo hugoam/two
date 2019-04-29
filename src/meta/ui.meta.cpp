@@ -66,10 +66,10 @@ void mud_Gradient__copy_construct(void* ref, void* other) { new(stl::placeholder
 void mud_ImageSkin__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ImageSkin( *static_cast<mud::Image*>(args[0]), *static_cast<int*>(args[1]), *static_cast<int*>(args[2]), *static_cast<int*>(args[3]), *static_cast<int*>(args[4]), *static_cast<int*>(args[5]), *static_cast<mud::Axis*>(args[6]) ); }
 void mud_ImageSkin__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ImageSkin((*static_cast<mud::ImageSkin*>(other))); }
 void mud_InkStyle__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::InkStyle(  ); }
-void mud_InkStyle__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::InkStyle( static_cast<const char*>(args[0]) ); }
+//void mud_InkStyle__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::InkStyle( static_cast<const char*>(args[0]) ); }
 void mud_InkStyle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::InkStyle((*static_cast<mud::InkStyle*>(other))); }
 void mud_Layout__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Layout(  ); }
-void mud_Layout__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Layout( static_cast<const char*>(args[0]) ); }
+//void mud_Layout__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Layout( static_cast<const char*>(args[0]) ); }
 void mud_Layout__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Layout((*static_cast<mud::Layout*>(other))); }
 void mud_NodeConnection__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::NodeConnection(  ); }
 void mud_NodeConnection__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::NodeConnection((*static_cast<mud::NodeConnection*>(other))); }
@@ -80,9 +80,9 @@ void mud_Shadow__construct_1(void* ref, span<void*> args) { UNUSED(args); new(st
 void mud_Shadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Shadow((*static_cast<mud::Shadow*>(other))); }
 void mud_Space__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Space(  ); }
 void mud_Space__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Space((*static_cast<mud::Space*>(other))); }
-void* mud_Style__get_name(void* object) { return (void*)(*static_cast<mud::Style*>(object)).name(); }
-void* mud_Style__get_layout(void* object) { return &(*static_cast<mud::Style*>(object)).layout(); }
-void* mud_Style__get_skin(void* object) { return &(*static_cast<mud::Style*>(object)).skin(); }
+void* mud_Style__get_name(void* object) { return (void*)(*static_cast<mud::Style*>(object)).m_name.c_str(); }
+void* mud_Style__get_layout(void* object) { return &(*static_cast<mud::Style*>(object)).m_layout; }
+void* mud_Style__get_skin(void* object) { return &(*static_cast<mud::Style*>(object)).m_skin; }
 void mud_TextCursor__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::TextCursor(  ); }
 void mud_TextCursor__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::TextCursor((*static_cast<mud::TextCursor*>(other))); }
 void mud_TextMarker__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::TextMarker(  ); }
@@ -207,7 +207,6 @@ void mud_ui_auto_modal_63(span<void*> args, void*& result) { result = &mud::ui::
 void mud_ui_auto_modal_64(span<void*> args, void*& result) { result = &mud::ui::auto_modal(*static_cast<mud::Widget*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<mud::vec2*>(args[2])); }
 void mud_ui_context_65(span<void*> args, void*& result) { result = mud::ui::context(*static_cast<mud::Widget*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<mud::ui::PopupFlags*>(args[2])); }
 void mud_ui_hoverbox_66(span<void*> args, void*& result) { result = mud::ui::hoverbox(*static_cast<mud::Widget*>(args[0]), *static_cast<float*>(args[1])); }
-void mud_ui_tooltip_67(span<void*> args, void*& result) { result = mud::ui::tooltip(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1]), static_cast<const char*>(args[2])); }
 void mud_ui_cursor_68(span<void*> args, void*& result) { result = &mud::ui::cursor(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec2*>(args[1]), *static_cast<mud::Widget*>(args[2]), *static_cast<bool*>(args[3])); }
 void mud_ui_rectangle_69(span<void*> args, void*& result) { result = &mud::ui::rectangle(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec4*>(args[1])); }
 void mud_ui_viewport_70(span<void*> args, void*& result) { result = &mud::ui::viewport(*static_cast<mud::Widget*>(args[0]), *static_cast<mud::vec4*>(args[1])); }
@@ -413,9 +412,9 @@ namespace mud
 	{
 		Type& t = type<mud::WindowState>();
 		static Meta meta = { t, &namspc({ "mud" }), "WindowState", sizeof(mud::WindowState), TypeClass::Enum };
-		static cstring ids[] = { "WINDOW_NOSTATE", "WINDOW_HEADER", "WINDOW_DOCKABLE", "WINDOW_CLOSABLE", "WINDOW_MOVABLE", "WINDOW_SIZABLE", "WINDOW_DEFAULT" };
+		static cstring ids[] = { "None", "Header", "Dockable", "Closable", "Movable", "Sizable", "Default" };
 		static uint32_t values[] = { 0, 2, 4, 8, 16, 32, 58 };
-		static mud::WindowState vars[] = { mud::WINDOW_NOSTATE, mud::WINDOW_HEADER, mud::WINDOW_DOCKABLE, mud::WINDOW_CLOSABLE, mud::WINDOW_MOVABLE, mud::WINDOW_SIZABLE, mud::WINDOW_DEFAULT};
+		static mud::WindowState vars[] = { WindowState::None };
 		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6]};
 		static Enum enu = { t, false, ids, values, refs };
 		static Convert convert = { mud_WindowState__to_string,
@@ -625,7 +624,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_InkStyle__construct_0, {} },
-			{ t, mud_InkStyle__construct_1, { { "name", type<const char*>(), Param::Nullable } } }
+			//{ t, mud_InkStyle__construct_1, { { "name", type<const char*>(), Param::Nullable } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -698,7 +697,7 @@ namespace mud
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_Layout__construct_0, {} },
-			{ t, mud_Layout__construct_1, { { "name", type<const char*>(), Param::Nullable } } }
+			//{ t, mud_Layout__construct_1, { { "name", type<const char*>(), Param::Nullable } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -1717,7 +1716,7 @@ namespace mud
 		}
 		{
 			static mud::Style* list_style_default = nullptr;
-			static Function f = { &namspc({ "mud", "ui" }), "dropdown", funcptr<mud::Widget&(*)(mud::Widget&, mud::Style&, const char*, mud::ui::PopupFlags, mud::Style*)>(mud::ui::dropdown), mud_ui_dropdown_27, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "value", type<const char*>(), Param::Nullable }, { "flags", type<mud::ui::PopupFlags>(),  }, { "list_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &list_style_default } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dropdown", funcptr<mud::Widget&(*)(mud::Widget&, mud::Style&, const char*, mud::ui::PopupFlags, bool, mud::Style*)>(mud::ui::dropdown), mud_ui_dropdown_27, { { "parent", type<mud::Widget>(),  }, { "style", type<mud::Style>(),  }, { "value", type<const char*>(), Param::Nullable }, { "flags", type<mud::ui::PopupFlags>(),  }, { "list_style", type<mud::Style>(), Param::Flags(Param::Nullable|Param::Default), &list_style_default } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1730,7 +1729,7 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "menu_choice", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::menu_choice), mud_ui_menu_choice_30, { { "parent", type<mud::Widget>(),  }, { "content", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "menu_choice", funcptr<mud::Widget&(*)(mud::Widget&, const char*, const char*)>(mud::ui::menu_choice), mud_ui_menu_choice_30, { { "parent", type<mud::Widget>(),  }, { "content", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -1884,10 +1883,6 @@ namespace mud
 		{
 			static float delay_default = 0.5f;
 			static Function f = { &namspc({ "mud", "ui" }), "hoverbox", funcptr<mud::Widget*(*)(mud::Widget&, float)>(mud::ui::hoverbox), mud_ui_hoverbox_66, { { "parent", type<mud::Widget>(),  }, { "delay", type<float>(), Param::Default, &delay_default } }, { &type<mud::Widget>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static Function f = { &namspc({ "mud", "ui" }), "tooltip", funcptr<mud::Widget*(*)(mud::Widget&, const mud::vec2&, const char*)>(mud::ui::tooltip), mud_ui_tooltip_67, { { "parent", type<mud::Widget>(),  }, { "position", type<mud::vec2>(),  }, { "content", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2074,7 +2069,7 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static mud::WindowState state_default = WINDOW_DEFAULT;
+			static mud::WindowState state_default = WindowState::Default;
 			static Function f = { &namspc({ "mud", "ui" }), "window", funcptr<mud::Window&(*)(mud::Widget&, const char*, mud::WindowState)>(mud::ui::window), mud_ui_window_106, { { "parent", type<mud::Widget>(),  }, { "title", type<const char*>(), Param::Nullable }, { "state", type<mud::WindowState>(), Param::Default, &state_default } }, { &type<mud::Window>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}

@@ -126,19 +126,18 @@ void ex_text_editor(Widget& parent)
 {
 	{
 		Widget& menubar = ui::menubar(parent);
+
+		Widget* menu = ui::menu(menubar, "Menu").m_body;
+		if(menu)
 		{
-			Widget* menu = ui::menu(menubar, "Menu").m_body;
-			if(menu)
+			ui::menu_choice(*menu, "Redo");
+			ui::menu_choice(*menu, "Undo");
 			{
-				ui::menu_choice(*menu, "Redo");
-				ui::menu_choice(*menu, "Undo");
+				Widget* submenu = ui::menu(*menu, "Change Font", true).m_body;
+				if(submenu)
 				{
-					Widget* submenu = ui::menu(*menu, "Change Font", true).m_body;
-					if(submenu)
-					{
-						ui::menu_choice(*submenu, "Arial");
-						ui::menu_choice(*submenu, "Myriad");
-					}
+					ui::menu_choice(*submenu, "Arial");
+					ui::menu_choice(*submenu, "Myriad");
 				}
 			}
 		}
@@ -648,7 +647,7 @@ void ex_progress_dialog(Widget& parent)
 	ui::slider_field<float>(parent, "Set progress", { percentage, { 0.f, 1.f, 0.01f } }, false);
 }
 
-WindowState window_state = WINDOW_DEFAULT;
+WindowState window_state = WindowState::Default;
 
 void ex_window(Widget& parent)
 {
@@ -730,7 +729,9 @@ using Sample = void(*)(Widget&);
 enum class SampleId : uint32_t
 {
 	Application,
+#ifdef SCRIPT
 	Console,
+#endif
 	ScriptEditor,
 	Dockspace,
 	Nodes,
@@ -793,16 +794,14 @@ Sample samples[] =
 };
 
 using SampleMap = const map<SampleId, Sample>;
+using SelectTheme = void(*)(UiWindow&);
 
-void example_ui(Widget& root_sheet)
+void example_ui(Widget& ui)
 {
-	static cstring themes[6] = { "Minimal", "Vector", "Blendish Clear", "Blendish Dark", "TurboBadger", "MyGui" };
-
-	static string active_theme = "Minimal";
 	static vector<SampleId> active_window_samples = {};
 	static SampleId active_board_sample = SampleId::Application;
 
-	Widget& header = ui::header(root_sheet);
+	Widget& header = ui::header(ui);
 
 	ui::label(header, "Pick a demo sample : ");
 
@@ -817,14 +816,17 @@ void example_ui(Widget& root_sheet)
 
 	ui::label(header, "Switch theme : ");
 
+	static SelectTheme select[6] = { style_minimal, style_minimal, style_blendish_light, style_blendish_dark, style_minimal, style_minimal };
+	static cstring themes[6] = { "Minimal", "Vector", "Blendish Clear", "Blendish Dark", "TurboBadger", "MyGui" };
+
 	static uint32_t theme = 0;
 	if(ui::dropdown_input(header, themes, theme))
 	{
-		switchUiTheme(root_sheet.ui_window(), themes[theme]);
-		active_theme = themes[theme];
+		ui.ui_window().reset_styles();
+		select[theme](ui.ui_window());
 	}
 
-	Widget& board = ui::board(root_sheet);
+	Widget& board = ui::board(ui);
 	Widget& layout = ui::layout(board);
 	Widget& windows = ui::screen(layout);
 
@@ -901,16 +903,17 @@ int main(int argc, char *argv[])
 
 	static UiWindow ui_window = UiWindow(context, vg);
 
+	ui_window.init();
+	//m_ui = m_ui_window.m_ui.get();
+
+	//style_minimal(ui_window);
+	style_imgui(ui_window, ImguiStyle::Dark);
+
 	//switchUiTheme(ui_window, "Minimal");
 	switchUiTheme(ui_window, "Blendish Dark");
 	//switchUiTheme(ui_window, "Blendish");
 	//switchUiTheme(ui_window, "TurboBadger");
 	//switchUiTheme(ui_window, "MyGUI");
-
-	ui_window.init();
-	//m_ui = m_ui_window.m_ui.get();
-
-	style_minimal(ui_window);
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 	g_render_system = &render_system;

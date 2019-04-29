@@ -16,6 +16,11 @@ module mud.ui;
 #include <ui/Frame/Layer.h>
 #endif
 
+#include <cstdio>
+
+#define DEBUG_BOUNDS 1
+#define DEBUG_LAYOUT 0
+
 namespace mud
 {
 	void collect_solvers(Frame& frame, SolverVector& solvers, DirtyLayout dirtyTop)
@@ -144,10 +149,11 @@ namespace mud
 		m_solvers[Axis::X]->compute(*this, Axis::X);
 		m_solvers[Axis::Y]->compute(*this, Axis::Y);
 
-#if 0 // DEBUG
+#if DEBUG_BOUNDS
 		if(!d_frame) return;
+		if(d_frame->d_style->m_name != "WindowSizerLeft") return;
 		d_frame->debug_print(false);
-		printf(" Preset::Layout measured content size %i , %i\n", int(d_content.x), int(d_content.y));
+		printf(" layout measured content size %i , %i\n", int(d_content.x), int(d_content.y));
 #endif
 	}
 
@@ -157,7 +163,7 @@ namespace mud
 		m_solvers[Axis::X]->layout(*this, Axis::X);
 		m_solvers[Axis::Y]->layout(*this, Axis::Y);
 
-#if 0 // DEBUG
+#if DEBUG_LAYOUT
 		if(!d_frame) return;
 		d_frame->debug_print(false);
 		printf(" size %i , %i ", int(m_size.x), int(m_size.y));

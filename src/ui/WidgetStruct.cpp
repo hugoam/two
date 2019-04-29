@@ -170,7 +170,7 @@ namespace mud
 		{
 			MouseEvent& mouse_event = static_cast<MouseEvent&>(event);
 			Widget* pinned = this->pinpoint(mouse_event.m_relative);
-			return (pinned && pinned != this) ? pinned->control_event(event) : this;
+			return (pinned && pinned != this) ? pinned->control_event(mouse_event) : this;
 		}
 
 		return this;

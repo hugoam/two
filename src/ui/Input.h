@@ -29,10 +29,25 @@ namespace ui
 	export_ template <class T>
 	bool number_input(Widget& parent, AutoStat<T> value);
 
+	export_ template <class T>
+	bool drag_input(Widget& parent, AutoStat<T> value) { return number_input<T>(parent, value); }
+
 	export_ MUD_UI_EXPORT func_ bool drag_float(Widget& parent, float& value, float step = 0.1f);
 
 	export_ template <class T>
 	inline bool input(Widget& parent, T& value);
+
+	export_ MUD_UI_EXPORT func_ bool float2_input(Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def = { limits<float>::min(), limits<float>::max(), 0.01f });
+	export_ MUD_UI_EXPORT func_ bool float3_input(Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def = { limits<float>::min(), limits<float>::max(), 0.01f });
+	export_ MUD_UI_EXPORT func_ bool float4_input(Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def = { limits<float>::min(), limits<float>::max(), 0.01f });
+
+	//export_ MUD_UI_EXPORT func_ bool float2_slider(Widget& parent, span<cstring> labels, span<float> vals);
+	//export_ MUD_UI_EXPORT func_ bool float3_slider(Widget& parent, span<cstring> labels, span<float> vals);
+	//export_ MUD_UI_EXPORT func_ bool float4_slider(Widget& parent, span<cstring> labels, span<float> vals);
+
+	export_ MUD_UI_EXPORT func_ bool float2_slider(Widget& parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def);
+	export_ MUD_UI_EXPORT func_ bool float3_slider(Widget& parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def);
+	export_ MUD_UI_EXPORT func_ bool float4_slider(Widget& parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def);
 
 	export_ MUD_UI_EXPORT func_ bool vec2_edit(Widget& parent, vec2& vec);
 	export_ MUD_UI_EXPORT func_ bool vec3_edit(Widget& parent, vec3& vec);
@@ -68,6 +83,9 @@ namespace ui
 
 	export_ template <class T>
 	inline bool number_field(Widget& parent, cstring name, AutoStat<T> value, bool reverse = false) { return field([&](Widget& self) { return number_input<T>(self, value); }, parent, name, reverse); }
+	
+	export_ template <class T>
+	inline bool drag_field(Widget& parent, cstring name, AutoStat<T> value, bool reverse = false) { return field([&](Widget& self) { return drag_input<T>(self, value); }, parent, name, reverse); }
 
 	export_ template <class T>
 	inline bool slider_field(Widget& parent, cstring name, AutoStat<T> value, bool reverse = false) { return field([&](Widget& self) { return slider_input<T>(self, value); }, parent, name, reverse); }

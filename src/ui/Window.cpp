@@ -23,14 +23,14 @@ namespace ui
 {
 	void window_drag_logic(Widget& widget, Window& window)
 	{
-		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
-			window.enable_state(ACTIVATED);
+			window.enable_state(ACTIVE);
 			//if(!window.m_dock) // crashes for some reason
 			window.m_frame.layer().moveToTop();
 		}
 
-		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			if(window.m_dock)
 				window.m_dock->m_docker->undock(window);
@@ -39,10 +39,10 @@ namespace ui
 			window.m_frame.layer().m_frame.m_opacity = Opacity::Hollow;
 
 			if(window.movable())
-				window.m_frame.set_position(window.m_frame.m_position + mouse_event.m_delta);
+				window.m_frame.set_position(window.m_frame.m_position + event.m_delta);
 		}
 
-		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 		{
 			//if(window.dockable())
 			//	window.m_dock->m_docksystem->dock(window, mouse_event.m_pos);
@@ -53,16 +53,16 @@ namespace ui
 
 	void window_resize_logic(Widget& widget, Window& window, bool left)
 	{
-		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			window.m_frame.layer().moveToTop();
 
 			if(left)
-				window.m_frame.set_position(Axis::X, window.m_frame.m_position.x + mouse_event.m_delta.x);
+				window.m_frame.set_position(Axis::X, window.m_frame.m_position.x + event.m_delta.x);
 			if(left)
-				window.m_frame.set_size({ max(50.f, window.m_frame.m_size.x - mouse_event.m_delta.x), max(50.f, window.m_frame.m_size.y + mouse_event.m_delta.y) });
+				window.m_frame.set_size(max(vec2(50.f), window.m_frame.m_size - event.m_delta));
 			else
-				window.m_frame.set_size({ max(50.f, window.m_frame.m_size.x + mouse_event.m_delta.x), max(50.f, window.m_frame.m_size.y + mouse_event.m_delta.y) });
+				window.m_frame.set_size(max(vec2(50.f), window.m_frame.m_size + event.m_delta));
 		}
 	}
 
@@ -70,13 +70,14 @@ namespace ui
 	{
 		Style* style = window.movable() ? &window_styles().header_movable : &window_styles().header;
 		Widget& self = widget(parent, *style);
+		self.set_state(ACTIVE, window.active());
 
 		item(self, styles().title, title);
 		if(window.closable())
 			if(button(self, window_styles().close_button).activated())
 				window.m_open = false;
 
-		tooltip(self, self.ui().m_mouse.m_pos, "Drag me");
+		tooltip(self, "Drag me");
 
 		window_drag_logic(self, window);
 
@@ -110,7 +111,7 @@ namespace ui
 			self.m_window_state = state;
 
 			if(!self.m_dock)
-				self.m_frame.set_size({ 480.f, 350.f });
+				self.m_frame.set_size(vec2(480.f, 350.f));
 
 			if(!self.m_dock)
 				self.m_frame.set_position((self.m_parent->m_frame.m_size - self.m_frame.m_size) / 2.f);
@@ -118,6 +119,9 @@ namespace ui
 
 		if(self.header())
 			window_header(self, self, title);
+
+		if(self.hasmenu())
+			self.m_menu = &menubar(self);
 
 		Widget& body = widget(self, window_styles().body);
 

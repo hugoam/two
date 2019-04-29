@@ -35,17 +35,17 @@ namespace ui
 	bool multiselect_logic(Widget& element, Ref object, vector<Ref>& selection)
 	{
 		bool changed = false;
-		if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::Shift))
+		if(MouseEvent event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::Shift))
 		{
 			select_swap(selection, object);
 			changed = true;
 		}
-		if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
 			select(selection, object);
 			changed = true;
 		}
-		if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+		if(MouseEvent event = element.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 		{
 			select(selection, object);
 			changed = true;
@@ -58,7 +58,7 @@ namespace ui
 	bool select_logic(Widget& element, Ref object, Ref& selection)
 	{
 		bool changed = false;
-		if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
 			selection = object;
 			changed = true;
@@ -72,11 +72,11 @@ namespace ui
 	{
 		Widget& self = widget(parent, styles().element, object.m_value);
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
-			parent.ui().m_drop = { static_cast<Widget*>(mouse_event.m_target), object, DropState::Preview };
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+			parent.ui().m_drop = { static_cast<Widget*>(event.m_target), object, DropState::Preview };
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
-			parent.ui().m_drop = { static_cast<Widget*>(mouse_event.m_target), object, DropState::Done };
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
+			parent.ui().m_drop = { static_cast<Widget*>(event.m_target), object, DropState::Done };
 
 		return self;
 	}

@@ -125,36 +125,36 @@ namespace mud
 
 	MouseEvent& Mouse::heartbeat()
 	{
-		MouseEvent& mouse_event = dispatch_event(MouseEvent(DeviceType::Mouse, EventType::Heartbeat, m_pos));
+		MouseEvent& event = dispatch_event(MouseEvent(DeviceType::Mouse, EventType::Heartbeat, m_pos));
 		m_last_pos = m_pos;
-		m_pos = mouse_event.m_pos;
+		m_pos = event.m_pos;
 		for(MouseButton& button : m_buttons)
 			if(button.m_dragging)
-				button.drag(mouse_event);
-		return mouse_event;
+				button.drag(event);
+		return event;
 	}
 
 	void Mouse::moved(vec2 pos, vec2* offset)
 	{
 		m_pos = offset ? m_pos + *offset : pos;
 
-		MouseEvent& mouse_event = dispatch_event(MouseEvent(DeviceType::Mouse, EventType::Moved, pos));
+		MouseEvent& event = dispatch_event(MouseEvent(DeviceType::Mouse, EventType::Moved, pos));
 		
 		const float drag_threshold = 3.f;
 
 		for(MouseButton& button : m_buttons)
 			if(button.m_pressed && !button.m_dragging)
 			{
-				vec2 delta = mouse_event.m_pos - button.m_pressed_event.m_pos;
+				vec2 delta = event.m_pos - button.m_pressed_event.m_pos;
 				if(abs(delta.x) > drag_threshold || abs(delta.y) > drag_threshold)
-					button.drag_start(mouse_event);
+					button.drag_start(event);
 			}
 	}
 
 	void Mouse::wheeled(vec2 pos, float amount)
 	{
-		MouseEvent& mouse_event = dispatch_event(MouseEvent(DeviceType::MouseMiddle, EventType::Moved, pos, m_keyboard.modifiers()));
-		mouse_event.m_deltaZ = amount;
+		MouseEvent& event = dispatch_event(MouseEvent(DeviceType::MouseMiddle, EventType::Moved, pos, m_keyboard.modifiers()));
+		event.m_deltaZ = amount;
 	}
 
 	void Mouse::fix_press(ControlNode& node)
@@ -171,10 +171,10 @@ namespace mud
 
 	void MouseButton::pressed(vec2 pos, InputMod modifiers)
 	{
-		MouseEvent& mouse_event = m_mouse.dispatch_event(MouseEvent(m_deviceType, EventType::Pressed, pos, modifiers));
+		MouseEvent& event = m_mouse.dispatch_event(MouseEvent(m_deviceType, EventType::Pressed, pos, modifiers));
 
-		m_pressed = m_dispatcher.dispatch_event(mouse_event);
-		m_pressed_event = mouse_event;
+		m_pressed = m_dispatcher.dispatch_event(event);
+		m_pressed_event = event;
 	}
 
 	void MouseButton::pressed(vec2 pos)
@@ -184,12 +184,12 @@ namespace mud
 
 	void MouseButton::released(vec2 pos)
 	{
-		MouseEvent& mouse_event = m_mouse.dispatch_event(MouseEvent(m_deviceType, EventType::Released, pos, m_pressed_event.m_modifiers));
+		MouseEvent& event = m_mouse.dispatch_event(MouseEvent(m_deviceType, EventType::Released, pos, m_pressed_event.m_modifiers));
 
 		if(m_dragging)
-			this->drag_end(mouse_event);
+			this->drag_end(event);
 		else
-			this->click(mouse_event);
+			this->click(event);
 
 		m_pressed = nullptr;
 	}

@@ -27,7 +27,7 @@ namespace mud
 		Widget* current_target = &target.ui();
 		while(current_target && current_node)
 		{
-			string elements[2] = { current_target->m_frame.d_style->name(), to_string(current_target->m_control.m_mask) };
+			string elements[2] = { current_target->m_frame.d_style->m_name, to_string(current_target->m_control.m_mask) };
 			current_node = ui::tree_node(*current_node, { elements[0].c_str(), elements[1].c_str() }).m_body;
 			current_target = static_cast<Widget*>(current_target->m_control.m_modal);
 		}
@@ -38,7 +38,7 @@ namespace mud
 		for(auto& widget : target.m_nodes)
 		{
 			string size = "size : " + truncate_number(to_string(widget->m_frame.m_size.x)) + ", " + truncate_number(to_string(widget->m_frame.m_size.y));
-			TreeNode& node = ui::tree_node(parent, { widget->m_frame.d_style->name(), size.c_str() });
+			TreeNode& node = ui::tree_node(parent, { widget->m_frame.d_style->m_name.c_str(), size.c_str() });
 			node.m_header->set_state(SELECTED, selected == widget.get());
 			if(node.m_header->activated())
 				selected = widget.get();
@@ -85,7 +85,7 @@ namespace mud
 			if(Widget* tab = ui::tab(tabber, "Style"))
 				object_edit(*tab, Ref(selected->m_frame.d_layout));
 			if(Widget* tab = ui::tab(tabber, "Skin"))
-				object_edit(*tab, Ref(&selected->m_frame.d_style->skin()));
+				object_edit(*tab, Ref(&selected->m_frame.d_style->m_skin));
 		}
 	}
 }

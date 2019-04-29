@@ -37,6 +37,7 @@ namespace mud
 		meth_ bool hovered() { return (m_state & HOVERED) != 0; }
 		meth_ bool pressed() { return (m_state & PRESSED) != 0; }
 		meth_ bool activated() { return (m_state & ACTIVATED) != 0; }
+		meth_ bool active() { return (m_state & ACTIVE) != 0; }
 		meth_ bool selected() { return (m_state & SELECTED) != 0; }
 		meth_ bool modal() { return (m_state & FOCUSED) != 0; }
 		meth_ bool closed() { return (m_state & CLOSED) != 0; }

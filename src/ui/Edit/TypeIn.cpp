@@ -656,7 +656,7 @@ namespace mud
 		EventType event_focus = m_focus_mode == TextFocusMode::Press ? EventType::Pressed
 																	 : EventType::Stroked;
 		if(!this->focused())
-			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, event_focus, InputMod::None, false))
+			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, event_focus, InputMod::None, false))
 			{
 				take_focus();
 				this->cursor(0);
@@ -666,9 +666,9 @@ namespace mud
 		bool ctrl = this->ui().m_keyboard.m_ctrl;
 		bool alt = this->ui().m_keyboard.m_alt;
 		
-		if(MouseEvent mouse_event = this->mouse_event(DeviceType::Mouse, EventType::Heartbeat))
+		if(MouseEvent event = this->mouse_event(DeviceType::Mouse, EventType::Heartbeat))
 		{
-			size_t index = m_text.char_at(mouse_event.m_relative - m_text_offset);
+			size_t index = m_text.char_at(event.m_relative - m_text_offset);
 			m_hovered_word = word_at(m_string, index);
 			if(m_hovered_word != "")
 			{
@@ -745,30 +745,30 @@ namespace mud
 
 		if(this->focused() && !shift && !alt)
 		{
-			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 			{
-				m_select_from = m_text.cursor_at(mouse_event.m_relative - m_text_offset);
+				m_select_from = m_text.cursor_at(event.m_relative - m_text_offset);
 				this->cursor(m_select_from, ctrl);
 			}
-			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::Pressed, InputMod::Ctrl))
+			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, EventType::Pressed, InputMod::Ctrl))
 			{
-				m_select_from = m_text.cursor_at(mouse_event.m_relative - m_text_offset);
+				m_select_from = m_text.cursor_at(event.m_relative - m_text_offset);
 				m_word_selection_mode = true;
 				this->cursor(m_select_from, true);
 			}
-			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::Released))
+			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, EventType::Released))
 			{
 				if(!focused())
 					this->select_all();
 			}
-			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::DoubleStroked))
+			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, EventType::DoubleStroked))
 			{
-				TextCursor cursor = m_text.cursor_at(mouse_event.m_relative - m_text_offset);
+				TextCursor cursor = m_text.cursor_at(event.m_relative - m_text_offset);
 				this->cursor(cursor, true);
 			}
-			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 			{
-				TextCursor cursor = m_text.cursor_at(mouse_event.m_relative - m_text_offset);
+				TextCursor cursor = m_text.cursor_at(event.m_relative - m_text_offset);
 				this->select(m_select_from, cursor, m_word_selection_mode);
 				m_selection.m_cursor = cursor;
 			}
@@ -782,10 +782,10 @@ namespace mud
 
 	void TextEdit::update_scroll(Frame& frame, Frame& content)
 	{
-		if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		if(MouseEvent event = this->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
 			float overflow = content.m_size.y - frame.m_size.y;
-			content.m_position.y += mouse_event.m_deltaZ * 22.f * 3.f;
+			content.m_position.y += event.m_deltaZ * 22.f * 3.f;
 			content.m_position.y = min(0.f, max(content.m_position.y, -overflow));
 		}
 

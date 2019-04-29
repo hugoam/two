@@ -15,3 +15,14 @@ using ulong = unsigned long;
 using ullong = unsigned long long;
 using llong = long long;
 using ldouble = long double;
+
+namespace stl
+{
+	template <class T>
+	inline bool bit(T flags, T bit) { return (uint(flags) & uint(bit)) != 0; }
+}
+
+namespace mud
+{
+	using stl::bit;
+}

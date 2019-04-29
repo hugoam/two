@@ -16,7 +16,7 @@ namespace ui
 {
 	export_ struct DockStyles
 	{
-		DockStyles();
+		void reset();
 		Style docktab; Style placeholder; Style docksection; Style dockline; Style dockspace; Style docktoggle; Style dockdiv; Style docktabs; Style dockbar;
 		//Style dockdiv; Style dockbox;
 	};

@@ -20,6 +20,8 @@ module mud.ui;
 #include <ui/Style/Skin.h>
 #endif
 
+#include <iostream>
+
 namespace mud
 {
 namespace ui
@@ -40,10 +42,10 @@ namespace ui
 		string text = truncate_number(to_string(value));
 		TextEdit& self = type_in(parent, text, 0, "1234567890.");
 		self.m_focus_mode = TextFocusMode::Click;
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			self.clear_focus();
-			value += mouse_event.m_delta.x * step;
+			value += event.m_delta.x * step;
 			return true;
 		}
 		else if(self.m_changed)
@@ -65,45 +67,84 @@ namespace ui
 			value &= ~(1 << shift);
 		return changed;
 	}
-	
-	bool vec2_edit(Widget& parent, vec2& vec)
+
+	bool float2_input(Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def)
+	{
+		UNUSED(labels); // @todo
+		Widget& self = ui::row(parent);
+		bool changed = false;
+		for(size_t i = 0; i < 2; ++i)
+			changed |= ui::number_input<float>(self, { vals[i], def });
+		return changed;
+	}
+
+	bool float3_input(Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def)
+	{
+		UNUSED(labels); // @todo
+		Widget& self = ui::row(parent);
+		bool changed = false;
+		for(size_t i = 0; i < 3; ++i)
+			changed |= ui::number_input<float>(self, { vals[i], def });
+		return changed;
+	}
+
+	bool float4_input(Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def)
+	{
+		UNUSED(labels); // @todo
+		Widget& self = ui::row(parent);
+		bool changed = false;
+		for(size_t i = 0; i < 4; ++i)
+			changed |= ui::number_input<float>(self, { vals[i], def });
+		return changed;
+	}
+
+	bool float2_slider(Widget& parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def)
 	{
 		Widget& self = ui::row(parent);
-		StatDef<float> def = { limits<float>::min(), limits<float>::max(), 0.01f };
-		bool changed = false;
-		changed |= ui::number_input<float>(self, { vec.x, def });
-		changed |= ui::number_input<float>(self, { vec.y, def });
+		bool changed = ui::float2_input(self, labels, vals, def);
+		ui::label(self, label);
 		return changed;
+	}
+
+	bool float3_slider(Widget& parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def)
+	{
+		Widget& self = ui::row(parent);
+		bool changed = ui::float3_input(self, labels, vals, def);
+		ui::label(self, label);
+		return changed;
+	}
+
+	bool float4_slider(Widget& parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def)
+	{
+		Widget& self = ui::row(parent);
+		bool changed = ui::float4_input(self, labels, vals, def);
+		ui::label(self, label);
+		return changed;
+	}
+
+	bool vec2_edit(Widget& parent, vec2& vec)
+	{
+		return float2_input(parent, {}, vec.f);
 	}
 
 	bool vec3_edit(Widget& parent, vec3& vec)
 	{
-		Widget& self = ui::row(parent);
-		StatDef<float> def = { limits<float>::min(), limits<float>::max(), 0.01f };
-		bool changed = false;
-		changed |= ui::number_input<float>(self, { vec.x, def });
-		changed |= ui::number_input<float>(self, { vec.y, def });
-		changed |= ui::number_input<float>(self, { vec.z, def });
-		return changed;
+		return float3_input(parent, {}, vec.f);
 	}
 
 	bool quat_edit(Widget& parent, quat& quat)
 	{
-		Widget& self = ui::row(parent);
-		StatDef<float> def = { 0.f, 1.f, 0.01f };
-		bool changed = false;
-		changed |= ui::number_input<float>(self, { quat.x, def });
-		changed |= ui::number_input<float>(self, { quat.y, def });
-		changed |= ui::number_input<float>(self, { quat.z, def });
-		changed |= ui::number_input<float>(self, { quat.w, def });
-		return changed;
+		return float4_input(parent, {}, quat.f, { 0.f, 1.f, 0.01f });
 	}
+
+	constexpr float color_wheel_padding = 5.0f;
+	constexpr float color_wheel_thickness = 20.0f;
 
 	void draw_color_wheel(Vg& vg, const vec2& size, float hue, float s, float l)
 	{
-		vec2 center = size * 0.5f;
-		float r1 = (size.x < size.y ? size.x : size.y) * 0.5f - 5.0f;
-		float r0 = r1 - 20.0f;
+		const vec2 center = size * 0.5f;
+		const float r1 = (size.x < size.y ? size.x : size.y) * 0.5f - color_wheel_padding;
+		const float r0 = r1 - color_wheel_thickness;
 
 		vg.draw_color_wheel(center, r0, r1);
 		vg.draw_color_triangle(center, r0, hue, s, l);
@@ -111,42 +152,43 @@ namespace ui
 
 	bool inside_color_wheel(Widget& self, const MouseEvent& event)
 	{
-		vec2 center = self.m_frame.m_size * 0.5f;
-		float r1 = center.x - 5.0f;
-		float r0 = r1 - 20.0f;
-		float dist = distance(center, event.m_relative);
+		const vec2 center = self.m_frame.m_size * 0.5f;
+		const float r1 = center.x - color_wheel_padding;
+		const float r0 = r1 - color_wheel_thickness;
+		const float dist = distance(center, event.m_relative);
 		return dist <= r1 && dist >= r0;
 	}
 
 	void drag_color_wheel(Widget& self, ColourHSL& hsla, const MouseEvent& event)
 	{
-		vec2 coord = { event.m_relative.x, self.m_frame.m_size.y - event.m_relative.y };
-		vec2 center = self.m_frame.m_size * 0.5f;
-		float angle = oriented_angle_2d(normalize(coord - center), { 1.f, 0.f });
+		const vec2 coord = { event.m_relative.x, self.m_frame.m_size.y - event.m_relative.y };
+		const vec2 center = self.m_frame.m_size * 0.5f;
+		const vec2 vec = normalize(coord - center);
+		const float angle = oriented_angle_2d(vec, vec2(1.f, 0.f));
 		hsla.h = angle / c_2pi;
 	}
 
 	bool color_wheel(Widget& parent, ColourHSL& hsla)
 	{
 		Widget& self = widget(parent, styles().color_wheel);
-		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
 			draw_color_wheel(vg, frame.m_size, hsla.h, hsla.s, hsla.l);
 		};
 		bool changed = false;
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 		{
 			changed = true;
-			if(inside_color_wheel(self, mouse_event))
-				drag_color_wheel(self, hsla, mouse_event);
+			if(inside_color_wheel(self, event))
+				drag_color_wheel(self, hsla, event);
 		}
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			changed = true;
-			drag_color_wheel(self, hsla, mouse_event);
+			drag_color_wheel(self, hsla, event);
 		}
 
 		return changed;
@@ -298,17 +340,17 @@ namespace
 		if(self.ui().m_hovered == &self)
 			hovered = curve.point_at(self.m_frame.local_position(self.ui().m_mouse.m_pos));
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
-			dragged = curve.point_at(mouse_event.m_relative);
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+			dragged = curve.point_at(event.m_relative);
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 			if(dragged != SIZE_MAX)
 			{
-				vec2 delta = mouse_event.m_delta / curve.m_scale;
+				vec2 delta = event.m_delta / curve.m_scale;
 				curve.m_values[dragged] = clamp(curve.m_values[dragged] + delta.y, lowest, highest);
 			}
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
 			dragged = SIZE_MAX;
 
 		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)

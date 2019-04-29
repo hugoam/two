@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <stl/string.h>
+#include <stl/map.h>
 #include <ui/Forward.h>
 #include <ui/Style/Style.h>
 
@@ -11,14 +13,13 @@ namespace mud
 {
 	export_ struct MUD_UI_EXPORT Styles
 	{
-		Styles();
-
 		void setup(UiWindow& window);
+		void reset();
 
-		Style widget; Style wedge; Style ui; Style unit; Style item; Style control; Style wrap_control; Style spacer; Style filler; Style drag_handle;
-		Style div; Style row; Style stack; Style sheet; Style flex; Style list; Style header; Style board; Style layout;
+		Style widget; Style wedge; Style ui; Style unit; Style item; Style control; Style wrap_control; Style spacer; Style separator; Style filler; Style drag_handle;
+		Style div; Style row; Style stack; Style sheet; Style flex; Style list; Style header; Style board; Style layout; Style indent;
 		Style screen; Style decal; Style overlay; Style gridsheet; Style sequence; Style element;
-		Style label; Style title; Style message; Style text; Style button; Style wrap_button; Style multi_button; Style toggle; Style checkbox;
+		Style label; Style title; Style message; Style text; Style bullet; Style button; Style wrap_button; Style multi_button; Style toggle; Style checkbox; Style checkmark;
 		Style dummy; Style tooltip; Style rectangle; Style viewport; Style type_in; Style text_edit; Style type_zone; Style caret; Style image; Style image_stretch;
 		Style radio_switch; Style radio_switch_h; Style radio_choice; Style radio_choice_item;
 		Style slider; Style slider_knob; Style slider_display; Style fill_bar; Style number_input;
@@ -29,4 +30,6 @@ namespace mud
 	};
 
 	export_ MUD_UI_EXPORT Styles& styles();
+
+	extern map<string, Style*> g_styles;
 }

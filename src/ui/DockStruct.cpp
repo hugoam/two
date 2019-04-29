@@ -128,7 +128,7 @@ namespace mud
 
 		if(tab)
 		{
-			Window& container = ui::window(*tab, dock.m_name, WindowState(WINDOW_DOCKABLE), nullptr, &dock);
+			Window& container = ui::window(*tab, dock.m_name, WindowState::Dockable, nullptr, &dock);
 			return container.m_body;
 		}
 
