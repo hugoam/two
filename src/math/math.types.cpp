@@ -35,8 +35,6 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<stl::vector<mud::vec3>>() { static Type ty("vector<mud::vec3>", sizeof(stl::vector<mud::vec3>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<stl::vector<uint32_t>>() { static Type ty("vector<uint32_t>", sizeof(stl::vector<uint32_t>)); return ty; }
     
-    template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<float>>() { static Type ty("AutoStat<float>", sizeof(mud::AutoStat<float>)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<int>>() { static Type ty("AutoStat<int>", sizeof(mud::AutoStat<int>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Colour>() { static Type ty("Colour", sizeof(mud::Colour)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ColourHSL>() { static Type ty("ColourHSL", sizeof(mud::ColourHSL)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Image>() { static Type ty("Image", sizeof(mud::Image)); return ty; }

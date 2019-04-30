@@ -93,7 +93,7 @@ namespace mud
 		ui::field_label(self, "name", meta.m_name);
 		ui::field_label(self, "namespace", meta.m_namespace->m_name);
 		ui::enum_field<TypeClass>(self, "type class", meta.m_type_class);
-		ui::input_field<size_t>(self, "size", meta.m_size);
+		ui::field<size_t>(self, "size", meta.m_size);
 	}
 
 	void meta_description(Widget& parent, Type& type)

@@ -419,7 +419,7 @@ void example_options(Widget& parent, PerezSky& sky)
 	ui::slider_field<float>(body, "Time", { sky.m_time, { 0.0f, 24.0f } });
 	ui::slider_field<float>(body, "Latitude", { sky.m_sun.m_latitude, { -90.0f, 90.0f } });
 	ui::slider_field<float>(body, "Turbidity", { sky.m_turbidity, { 1.9f, 10.0f, 0.1f } });
-	ui::input_field<bool>(body, "Prevent color banding", sky.m_sky.m_preventBanding);
+	ui::field<bool>(body, "Prevent color banding", sky.m_sky.m_preventBanding);
 
 	static cstring months[12] =
 	{

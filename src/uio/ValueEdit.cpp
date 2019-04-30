@@ -32,10 +32,10 @@ namespace mud
 	bool range_edit(Widget& parent, Range<T>& value)
 	{
 		Widget& self = ui::row(parent);
-		StatDef<T> def = { T(0), T(100), T(1) };
+		static const StatDef<T> def = { T(0), T(100), T(1) };
 		bool changed = false;
-		changed |= ui::slider_field<T>(self, "min", { value.m_min, def });
-		changed |= ui::slider_field<T>(self, "max", { value.m_max, def });
+		changed |= ui::slider_field<T>(self, "min", value.m_min, def);
+		changed |= ui::slider_field<T>(self, "max", value.m_max, def);
 		return changed;
 	}
 
@@ -99,14 +99,14 @@ namespace mud
 		return changed;
 	}
 
-	template <class T_Val, bool(*Input)(Widget&, T_Val&)>
-	bool value_input(T_Val& value, Widget& parent) { return Input(parent, value); }
+	template <class T, bool(*Input)(Widget&, T&)>
+	bool value_input(T& value, Widget& parent) { return Input(parent, value); }
 
-	template <class T_Val, bool(*Input)(Widget&, AutoStat<T_Val>)>
-	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, { limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1) })); }
+	template <class T, bool(*Input)(Widget&, T&, StatDef<T>)>
+	bool stat_value_input(T& value, Widget& parent) { return Input(parent, value, { limits<T>::min(), limits<T>::max(), T(1) }); }
 
-	template <class T_Val, bool(*Input)(Widget&, AutoStat<T_Val>), int decimal>
-	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, { limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1) / T_Val(decimal) })); }
+	template <class T, bool(*Input)(Widget&, T&, StatDef<T>), int decimal>
+	bool stat_value_input(T& value, Widget& parent) { return Input(parent, value, { limits<T>::min(), limits<T>::max(), T(1) / T(decimal) }); }
 
 	DispatchInput::DispatchInput()
 	{
@@ -134,9 +134,6 @@ namespace mud
 		dispatch_branch<ValueTrack<vec3>>(*this, value_input<ValueTrack<vec3>, value_track_edit<vec3>>);
 		dispatch_branch<ValueTrack<quat>>(*this, value_input<ValueTrack<quat>, value_track_edit<quat>>);
 		dispatch_branch<ValueTrack<Colour>>(*this, value_input<ValueTrack<Colour>, value_track_edit<Colour>>);
-
-		//dispatch_branch<AutoStat<int>>(valueWidget<AutoStat<int>, ui::slider_input<int>>);
-		//dispatch_branch<AutoStat<float>>(valueWidget<AutoStat<float>, ui::slider_input<float>>);
 
 		//dispatch_branch<Image256>([](Image256& image, Wedge& parent) -> object<Widget> { return oconstruct<Figure>(Widget::Input{ &parent }, image); });
 	}

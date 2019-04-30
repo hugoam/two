@@ -320,7 +320,7 @@ void ShowDemoWindow(Widget& parent)
 		auto bool_field = [](Widget& parent, cstring label, bool& value, cstring help = nullptr)
 		{
 			Widget& row = ui::row(parent);
-			ui::input_field(row, label, value, true);
+			ui::field(row, label, value, true);
 			if(help != nullptr)
 				HelpMarker(row, help);
 		};
@@ -385,22 +385,22 @@ void ShowDemoWindow(Widget& parent)
 	if(Widget* opts = ui::expandbox(body, "Window options").m_body)
 	{
 		Widget& row0 = ui::row(*opts);
-		ui::input_field(row0, "No titlebar", no_titlebar, true);// ImGui::SameLine(150);
-		ui::input_field(row0, "No scrollbar", no_scrollbar, true);// ImGui::SameLine(300);
-		ui::input_field(row0, "No menu", no_menu, true);
+		ui::field(row0, "No titlebar", no_titlebar, true);// ImGui::SameLine(150);
+		ui::field(row0, "No scrollbar", no_scrollbar, true);// ImGui::SameLine(300);
+		ui::field(row0, "No menu", no_menu, true);
 
 		Widget& row1 = ui::row(*opts);
-		ui::input_field(row1, "No move", no_move, true);// ImGui::SameLine(150);
-		ui::input_field(row1, "No resize", no_resize, true);// ImGui::SameLine(300);
-		ui::input_field(row1, "No collapse", no_collapse, true);
+		ui::field(row1, "No move", no_move, true);// ImGui::SameLine(150);
+		ui::field(row1, "No resize", no_resize, true);// ImGui::SameLine(300);
+		ui::field(row1, "No collapse", no_collapse, true);
 
 		Widget& row2 = ui::row(*opts);
-		ui::input_field(row2, "No close", no_close, true);// ImGui::SameLine(150);
-		ui::input_field(row2, "No nav", no_nav, true);// ImGui::SameLine(300);
-		ui::input_field(row2, "No background", no_background, true);
+		ui::field(row2, "No close", no_close, true);// ImGui::SameLine(150);
+		ui::field(row2, "No nav", no_nav, true);// ImGui::SameLine(300);
+		ui::field(row2, "No background", no_background, true);
 
 		Widget& row3 = ui::row(*opts);
-		ui::input_field(row3, "No bring to front", no_bring_to_front, true);
+		ui::field(row3, "No bring to front", no_bring_to_front, true);
 	}
 
 	// All demo contents
@@ -432,7 +432,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		}
 
 		static bool check = true;
-		ui::input_field(*n, "checkbox", check, true);
+		ui::field(*n, "checkbox", check, true);
 
 		static uint32_t e = 0;
 		Widget& row0 = ui::row(*n);
@@ -537,21 +537,21 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		{
 			static float f0 = 0.001f;
 			Widget& row = ui::row(t);
-			ui::number_input<float>(row, { f0, 0.01f, 1.0f }); // , "%.3f");
+			ui::number_input<float>(row, f0, { 0.01f, 1.0f }); // , "%.3f");
 			label(row, "input float");
 		}
 
 		{
 			static double d0 = 999999.00000001;
 			Widget& row = ui::row(t);
-			ui::number_input<double>(row, { d0, 0.01, 1.0 }); // , "%.8f");
+			ui::number_input<double>(row, d0, { 0.01, 1.0 }); // , "%.8f");
 			label(row, "input double");
 		}
 
 		{
 			static float f1 = 1.e10f;
 			Widget& row = ui::row(t);
-			ui::number_input<float>(row, { f1, 0.0f, 0.0f }); // , "%e");
+			ui::number_input<float>(row, f1, { 0.0f, 0.0f }); // , "%e");
 			label(row, "input scientific", "You can input value using the scientific notation,\n  e.g. \"1e+8\" becomes \"100000000\".\n");
 
 			static float vec4a[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
@@ -562,13 +562,13 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		static int i1 = 50, i2 = 42;
 		{
 			Widget& row = ui::row(t);
-			ui::drag_input<int>(row, { i1, 1 });
+			ui::drag_input<int>(row, i1, { 1 });
 			label(row, "drag int", "Click and drag to edit value.\nHold SHIFT/ALT for faster/slower edit.\nDouble-click or CTRL+click to input value.");
 		}
 
 		{
 			Widget& row = ui::row(t);
-			ui::drag_input<int>(row, { i2, 1, 0, 100 }); // , "%d%%");
+			ui::drag_input<int>(row, i2, { 1, 0, 100 }); // , "%d%%");
 			label(row, "drag int 0..100");
 		}
 
@@ -576,12 +576,12 @@ static void ShowDemoWindowWidgets(Widget& parent)
 			static float f1 = 1.00f, f2 = 0.0067f;
 			{
 				Widget& row = ui::row(t);
-				ui::drag_input<float>(row, { f1, 0.005f });
+				ui::drag_input<float>(row, f1, { 0.005f });
 				label(row, "drag float");
 			}
 			{
 				Widget& row = ui::row(t);
-				ui::drag_input<float>(row, { f2, 0.0001f, 0.0f, 0.0f }); // , "%.06f ns");
+				ui::drag_input<float>(row, f2, { 0.0001f, 0.0f, 0.0f }); // , "%.06f ns");
 				label(row, "drag small float");
 			}
 		}
@@ -589,20 +589,20 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		{
 			static int i1 = 0;
 			Widget& row = ui::row(t);
-			ui::slider_input<int>(row, { i1, -1, 3 });
+			ui::slider_input<int>(row, i1, { -1, 3 });
 			label(row, "slider int", "CTRL+click to input value.");
 		}
 
 		static float f1 = 0.123f, f2 = 0.0f;
 		{
 			Widget& row = ui::row(t);
-			ui::slider_input<float>(row, { f1, 0.0f, 1.0f }); // , "ratio = %.3f");
+			ui::slider_input<float>(row, f1, { 0.0f, 1.0f }); // , "ratio = %.3f");
 			label(row, "slider float");
 		}
 
 		{
 			Widget& row = ui::row(t);
-			ui::slider_input<float>(row, { f2, -10.0f, 10.0f }); // , "%.4f", 2.0f);
+			ui::slider_input<float>(row, f2, { -10.0f, 10.0f }); // , "%.4f", 2.0f);
 			label(row, "slider float (curve)");
 			//static float angle = 0.0f;
 			//ImGui::SliderAngle("slider angle", angle);
@@ -667,7 +667,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		{
 			HelpMarker(*n, "This is a more typical looking tree with selectable nodes.\nClick to select, CTRL+Click to toggle, click on arrows or double-click to open.");
 			static bool align_label_with_current_x_position = false;
-			ui::input_field(*n, "Align label with current X position)", align_label_with_current_x_position);
+			ui::field(*n, "Align label with current X position)", align_label_with_current_x_position);
 			ui::label(*n, "Hello!");
 			//if(align_label_with_current_x_position)
 			//	ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
@@ -725,7 +725,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 	if(Widget* n = ui::tree_node(*body, "Collapsing Headers").m_body)
 	{
 		static bool closable_group = true;
-		ui::input_field(*n, "Show 2nd header", closable_group);
+		ui::field(*n, "Show 2nd header", closable_group);
 		if(Widget* h = ui::expandbox(*n, "Header").m_body)
 		{
 			ui::labelf(*h, "IsItemHovered: %d", false); // ImGui::IsItemHovered());
@@ -1115,7 +1115,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 	if(Widget& n = ui::tree_node(*body, "Plots Widgets"))
 	{
 		static bool animate = true;
-		ui::input_field(parent, "Animate", animate);
+		ui::field(parent, "Animate", animate);
 
 		static float arr[] = { 0.6f, 0.1f, 1.0f, 0.5f, 0.92f, 0.1f, 0.2f };
 		ImGui::PlotLines("Frame Times", arr, IM_ARRAYSIZE(arr));
@@ -1186,11 +1186,11 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		static bool drag_and_drop = true;
 		static bool options_menu = true;
 		static bool hdr = false;
-		ui::input_field(parent, "With Alpha Preview", alpha_preview);
-		ui::input_field(parent, "With Half Alpha Preview", alpha_half_preview);
-		ui::input_field(parent, "With Drag and Drop", drag_and_drop);
-		ui::input_field(parent, "With Options Menu", options_menu); ImGui::SameLine(); HelpMarker("Right-click on the individual color widget to show options.");
-		ui::input_field(parent, "With HDR", hdr); ImGui::SameLine(); HelpMarker("Currently all this does is to lift the 0..1 limits on dragging widgets.");
+		ui::field(parent, "With Alpha Preview", alpha_preview);
+		ui::field(parent, "With Half Alpha Preview", alpha_half_preview);
+		ui::field(parent, "With Drag and Drop", drag_and_drop);
+		ui::field(parent, "With Options Menu", options_menu); ImGui::SameLine(); HelpMarker("Right-click on the individual color widget to show options.");
+		ui::field(parent, "With HDR", hdr); ImGui::SameLine(); HelpMarker("Currently all this does is to lift the 0..1 limits on dragging widgets.");
 		int misc_flags = (hdr ? ImGuiColorEditFlags_HDR : 0) | (drag_and_drop ? 0 : ImGuiColorEditFlags_NoDragDrop) | (alpha_half_preview ? ImGuiColorEditFlags_AlphaPreviewHalf : (alpha_preview ? ImGuiColorEditFlags_AlphaPreview : 0)) | (options_menu ? 0 : ImGuiColorEditFlags_NoOptions);
 
 		ui::label(parent, "Color widget:");
@@ -1282,13 +1282,13 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		static vec4 ref_color_v(1.0f, 0.0f, 1.0f, 0.5f);
 		static int display_mode = 0;
 		static int picker_mode = 0;
-		ui::input_field(parent, "With Alpha", alpha);
-		ui::input_field(parent, "With Alpha Bar", alpha_bar);
-		ui::input_field(parent, "With Side Preview", side_preview);
+		ui::field(parent, "With Alpha", alpha);
+		ui::field(parent, "With Alpha Bar", alpha_bar);
+		ui::field(parent, "With Side Preview", side_preview);
 		if(side_preview)
 		{
 			ImGui::SameLine();
-			ui::input_field(parent, "With Ref Color", ref_color);
+			ui::field(parent, "With Ref Color", ref_color);
 			if(ref_color)
 			{
 				ImGui::SameLine();
@@ -1387,7 +1387,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		const float drag_speed = 0.2f;
 		static bool drag_clamp = false;
 		ui::label(parent, "Drags:");
-		ui::input_field(parent, "Clamp integers to 0..50", drag_clamp); ImGui::SameLine(); HelpMarker("As with every widgets in dear imgui, we never modify values unless there is a user interaction.\nYou can override the clamping limits by using CTRL+Click to input a value.");
+		ui::field(parent, "Clamp integers to 0..50", drag_clamp); ImGui::SameLine(); HelpMarker("As with every widgets in dear imgui, we never modify values unless there is a user interaction.\nYou can override the clamping limits by using CTRL+Click to input a value.");
 		ImGui::DragScalar("drag s8", ImGuiDataType_S8, &s8_v, drag_speed, drag_clamp ? &s8_zero : NULL, drag_clamp ? &s8_fifty : NULL);
 		ImGui::DragScalar("drag u8", ImGuiDataType_U8, &u8_v, drag_speed, drag_clamp ? &u8_zero : NULL, drag_clamp ? &u8_fifty : NULL, "%u ms");
 		ImGui::DragScalar("drag s16", ImGuiDataType_S16, &s16_v, drag_speed, drag_clamp ? &s16_zero : NULL, drag_clamp ? &s16_fifty : NULL);
@@ -1427,7 +1427,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 
 		static bool inputs_step = true;
 		ui::label(parent, "Inputs");
-		ui::input_field(parent, "Show step buttons", inputs_step);
+		ui::field(parent, "Show step buttons", inputs_step);
 		ImGui::InputScalar("input s8", ImGuiDataType_S8, &s8_v, inputs_step ? &s8_one : NULL, NULL, "%d");
 		ImGui::InputScalar("input u8", ImGuiDataType_U8, &u8_v, inputs_step ? &u8_one : NULL, NULL, "%u");
 		ImGui::InputScalar("input s16", ImGuiDataType_S16, &s16_v, inputs_step ? &s16_one : NULL, NULL, "%d");
@@ -1637,7 +1637,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		bool ret = false;
 		if(item_type == 0) { ui::label(parent, "ITEM: Text"); }                                              // Testing text items with no identifier/interaction
 		if(item_type == 1) { ret = ui::button(parent, "ITEM: Button"); }                                    // Testing button
-		if(item_type == 2) { ret = ui::input_field(parent, "ITEM: Checkbox", b); }                            // Testing checkbox
+		if(item_type == 2) { ret = ui::field(parent, "ITEM: Checkbox", b); }                            // Testing checkbox
 		if(item_type == 3) { ret = ui::slider_field<float>(parent, "ITEM: SliderFloat", col4f[0], 0.0f, 1.0f); }   // Testing basic item
 		if(item_type == 4) { ret = ImGui::InputText("ITEM: InputText", str[0], IM_ARRAYSIZE(str)); }  // Testing input text (which handles tabbing)
 		if(item_type == 5) { ret = ImGui::ColorEdit4("ITEM: ColorEdit4", col4f); }                     // Testing multi-component items (IsItemXXX flags are reported merged)
@@ -1682,7 +1682,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		);
 
 		static bool embed_all_inside_a_child_window = false;
-		ui::input_field(parent, "Embed everything inside a child window (for additional testing)", embed_all_inside_a_child_window);
+		ui::field(parent, "Embed everything inside a child window (for additional testing)", embed_all_inside_a_child_window);
 		if(embed_all_inside_a_child_window)
 			ImGui::BeginChild("outer_child", vec2(0, ImGui::GetFontSize() * 20), true);
 
@@ -1727,7 +1727,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		// Calling IsItemHovered() after begin returns the hovered status of the title bar.
 		// This is useful in particular if you want to create a context menu (with BeginPopupContextItem) associated to the title bar of a window.
 		static bool test_window = false;
-		ui::input_field(parent, "Hovered/Active tests after Begin() for title bar testing", test_window);
+		ui::field(parent, "Hovered/Active tests after Begin() for title bar testing", test_window);
 		if(test_window)
 		{
 			ImGui::Begin("Title bar Hovered/Active tests", test_window);
@@ -1760,14 +1760,14 @@ static void ShowDemoWindowLayout()
 		HelpMarker("Use child windows to begin into a self-contained independent scrolling/clipping regions within a host window.");
 		static bool disable_mouse_wheel = false;
 		static bool disable_menu = false;
-		ui::input_field(parent, "Disable Mouse Wheel", disable_mouse_wheel);
-		ui::input_field(parent, "Disable Menu", disable_menu);
+		ui::field(parent, "Disable Mouse Wheel", disable_mouse_wheel);
+		ui::field(parent, "Disable Menu", disable_menu);
 
 		static int line = 50;
 		bool goto_line = ui::button(parent, "Goto");
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(100);
-		goto_line |= ui::number_field<int>(parent, "##Line", line, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue);
+		goto_line |= ui::field<int>(parent, "##Line", line, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue);
 
 		// Child 1: no border, enable horizontal scrollbar
 		{
@@ -1908,10 +1908,10 @@ static void ShowDemoWindowLayout()
 		// Checkbox
 		static bool c1 = false, c2 = false, c3 = false, c4 = false;
 		Widget& row = ui::row(parent);
-		ui::input_field(row, "My", c1);
-		ui::input_field(row, "Tailor", c2);
-		ui::input_field(row, "Is", c3);
-		ui::input_field(row, "Rich", c4);
+		ui::field(row, "My", c1);
+		ui::field(row, "Tailor", c2);
+		ui::field(row, "Is", c3);
+		ui::field(row, "Rich", c4);
 
 		// Various
 		static float f0 = 1.0f, f1 = 2.0f, f2 = 3.0f;
@@ -2012,7 +2012,7 @@ static void ShowDemoWindowLayout()
 			for(int n = 0; n < IM_ARRAYSIZE(opened); n++)
 			{
 				if(n > 0) { ImGui::SameLine(); }
-				ui::input_field(parent, names[n], &opened[n]);
+				ui::field(parent, names[n], &opened[n]);
 			}
 
 			// Passing a bool* to BeginTabItem() is similar to passing one to Begin(): the underlying bool will be set to false when the tab is closed.
@@ -2139,7 +2139,7 @@ static void ShowDemoWindowLayout()
 
 		static bool track = true;
 		static int track_line = 50, scroll_to_px = 200;
-		ui::input_field(parent, "Track", track);
+		ui::field(parent, "Track", track);
 		ImGui::PushItemWidth(100);
 		ImGui::SameLine(130); track |= ui::drag_field<int>(parent, "##line", track_line, 0.25f, 0, 99, "Line = %d");
 		bool scroll_to = ui::button(parent, "Scroll To Pos");
@@ -2388,7 +2388,7 @@ static void ShowDemoWindowPopups(Widget& parent)
 
 			static bool dont_ask_me_next_time = false;
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, vec2(0, 0));
-			ui::input_field(parent, "Don't ask me next time", dont_ask_me_next_time);
+			ui::field(parent, "Don't ask me next time", dont_ask_me_next_time);
 			ImGui::PopStyleVar();
 
 			if(ui::button(parent, "OK", vec2(120, 0))) { ImGui::CloseCurrentPopup(); }
@@ -2469,7 +2469,7 @@ static void ShowDemoWindowColumns()
 	ImGui::PushID("Columns");
 
 	static bool disable_indent = false;
-	ui::input_field(parent, "Disable tree indentation", disable_indent);
+	ui::field(parent, "Disable tree indentation", disable_indent);
 	ImGui::SameLine();
 	HelpMarker("Disable the indenting of tree nodes so demo columns can use the full window width.");
 	if(disable_indent)
@@ -2537,14 +2537,14 @@ static void ShowDemoWindowColumns()
 		ui::label(col1, "ImGui");
 		ui::button(col1, "Apple");
 		static float foo = 1.0f;
-		ui::number_field<float>(col1, "red", { foo, 0.05f, 0 }); // , "%.3f");
+		ui::field<float>(col1, "red", { foo, 0.05f, 0 }); // , "%.3f");
 		ui::label(col1, "An extra line here.");
 
 		Widget& col2 = ui::row(row);
 		ui::label(col2, "Sailor");
 		ui::button(col2, "Corniflower");
 		static float bar = 1.0f;
-		ui::number_field<float>(col2, "blue", { bar, 0.05f, 0 }); // , "%.3f");
+		ui::field<float>(col2, "blue", { bar, 0.05f, 0 }); // , "%.3f");
 
 		Widget& row1 = ui::row(cols);
 		if(Widget& b = ui::expandbox(row1, "Category A")) { ui::label(b, "Blah blah blah"); }
@@ -2575,9 +2575,9 @@ static void ShowDemoWindowColumns()
 		// NB: Future columns API should allow automatic horizontal borders.
 		static bool h_borders = true;
 		static bool v_borders = true;
-		ui::input_field(parent, "horizontal", h_borders);
+		ui::field(parent, "horizontal", h_borders);
 		ImGui::SameLine();
-		ui::input_field(parent, "vertical", v_borders);
+		ui::field(parent, "vertical", v_borders);
 		Widget& cols = ui::columns(parent, 4, NULL, v_borders);
 		for(int i = 0; i < 4 * 3; i++)
 		{
@@ -2835,7 +2835,7 @@ void ShowAboutWindow(Widget& parent, bool* p_open)
 	ui::label(parent, "Dear ImGui is licensed under the MIT License, see LICENSE for more information.");
 
 	static bool show_config_info = false;
-	ui::input_field(parent, "Config/Build Information", show_config_info);
+	ui::field(parent, "Config/Build Information", show_config_info);
 	if(show_config_info)
 	{
 		ImGuiIO& io = ImGui::GetIO();
@@ -3008,13 +3008,13 @@ void ShowStyleEditor(Widget& parent, ImguiLook& style, ImguiColours& colours)
 	//ImGui::ShowFontSelector("Fonts##Selector");
 
 	// Simplified Settings
-	if(ui::slider_field<float>(parent, "FrameRounding", { style.FrameRounding, 0.0f, 12.0f })) //, "%.0f"))
+	if(ui::slider_field<float>(parent, "FrameRounding", style.FrameRounding, { 0.0f, 12.0f })) //, "%.0f"))
 		style.GrabRounding = style.FrameRounding; // Make GrabRounding always the same value as FrameRounding
 
 	Widget& row = ui::row(parent);
-	{ bool window_border = (style.WindowBorderSize > 0.0f); if(ui::input_field(row, "WindowBorder", window_border)) style.WindowBorderSize = window_border ? 1.0f : 0.0f; }
-	{ bool frame_border = (style.FrameBorderSize > 0.0f); if(ui::input_field(row, "FrameBorder", frame_border)) style.FrameBorderSize = frame_border ? 1.0f : 0.0f; }
-	{ bool popup_border = (style.PopupBorderSize > 0.0f); if(ui::input_field(row, "PopupBorder", popup_border)) style.PopupBorderSize = popup_border ? 1.0f : 0.0f; }
+	{ bool window_border = (style.WindowBorderSize > 0.0f); if(ui::field(row, "WindowBorder", window_border)) style.WindowBorderSize = window_border ? 1.0f : 0.0f; }
+	{ bool frame_border = (style.FrameBorderSize > 0.0f); if(ui::field(row, "FrameBorder", frame_border)) style.FrameBorderSize = frame_border ? 1.0f : 0.0f; }
+	{ bool popup_border = (style.PopupBorderSize > 0.0f); if(ui::field(row, "PopupBorder", popup_border)) style.PopupBorderSize = popup_border ? 1.0f : 0.0f; }
 
 	// Save/Revert button
 	Widget& ops = ui::row(parent);
@@ -3037,23 +3037,23 @@ void ShowStyleEditor(Widget& parent, ImguiLook& style, ImguiColours& colours)
 			ui::float2_slider(cols, "ItemSpacing", { "x", "y" }, style.ItemSpacing.f, { 0.0f, 20.0f }); // , "%.0f");
 			ui::float2_slider(cols, "ItemInnerSpacing", { "x", "y" }, style.ItemInnerSpacing.f, { 0.0f, 20.0f }); // , "%.0f");
 			ui::float2_slider(cols, "TouchExtraPadding", { "x", "y" }, style.TouchExtraPadding.f, { 0.0f, 10.0f }); // , "%.0f");
-			ui::slider_field<float>(cols, "IndentSpacing", { style.IndentSpacing, 0.0f, 30.0f }, true); // , "%.0f");
-			ui::slider_field<float>(cols, "ScrollbarSize", { style.ScrollbarSize, 1.0f, 20.0f }, true); // , "%.0f");
-			ui::slider_field<float>(cols, "GrabMinSize", { style.GrabMinSize, 1.0f, 20.0f }, true); //, "%.0f");
+			ui::slider_field<float>(cols, "IndentSpacing", style.IndentSpacing, { 0.0f, 30.0f }, true); // , "%.0f");
+			ui::slider_field<float>(cols, "ScrollbarSize", style.ScrollbarSize, { 1.0f, 20.0f }, true); // , "%.0f");
+			ui::slider_field<float>(cols, "GrabMinSize", style.GrabMinSize, { 1.0f, 20.0f }, true); //, "%.0f");
 			ui::label(cols, "Borders");
-			ui::slider_field<float>(cols, "WindowBorderSize", { style.WindowBorderSize, 0.0f, 1.0f }, true); //, "%.0f");
-			ui::slider_field<float>(cols, "ChildBorderSize", { style.ChildBorderSize, 0.0f, 1.0f }, true); //, "%.0f");
-			ui::slider_field<float>(cols, "PopupBorderSize", { style.PopupBorderSize, 0.0f, 1.0f }, true); //, "%.0f");
-			ui::slider_field<float>(cols, "FrameBorderSize", { style.FrameBorderSize, 0.0f, 1.0f }, true); //, "%.0f");
-			ui::slider_field<float>(cols, "TabBorderSize", { style.TabBorderSize, 0.0f, 1.0f }, true); //, "%.0f");
+			ui::slider_field<float>(cols, "WindowBorderSize", style.WindowBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
+			ui::slider_field<float>(cols, "ChildBorderSize", style.ChildBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
+			ui::slider_field<float>(cols, "PopupBorderSize", style.PopupBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
+			ui::slider_field<float>(cols, "FrameBorderSize", style.FrameBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
+			ui::slider_field<float>(cols, "TabBorderSize", style.TabBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
 			ui::label(cols, "Rounding");
-			ui::slider_field<float>(cols, "WindowRounding", { style.WindowRounding, 0.0f, 12.0f }, true);// , "%.0f");
-			ui::slider_field<float>(cols, "ChildRounding", { style.ChildRounding, 0.0f, 12.0f }, true);//, "%.0f");
-			ui::slider_field<float>(cols, "FrameRounding", { style.FrameRounding, 0.0f, 12.0f }, true);//, "%.0f");
-			ui::slider_field<float>(cols, "PopupRounding", { style.PopupRounding, 0.0f, 12.0f }, true);//, "%.0f");
-			ui::slider_field<float>(cols, "ScrollbarRounding", { style.ScrollbarRounding, 0.0f, 12.0f }, true);//, "%.0f");
-			ui::slider_field<float>(cols, "GrabRounding", { style.GrabRounding, 0.0f, 12.0f }, true);//, "%.0f");
-			ui::slider_field<float>(cols, "TabRounding", { style.TabRounding, 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field<float>(cols, "WindowRounding", style.WindowRounding, { 0.0f, 12.0f }, true);// , "%.0f");
+			ui::slider_field<float>(cols, "ChildRounding", style.ChildRounding, { 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field<float>(cols, "FrameRounding", style.FrameRounding, { 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field<float>(cols, "PopupRounding", style.PopupRounding, { 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field<float>(cols, "ScrollbarRounding", style.ScrollbarRounding, { 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field<float>(cols, "GrabRounding", style.GrabRounding, { 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field<float>(cols, "TabRounding", style.TabRounding, { 0.0f, 12.0f }, true);//, "%.0f");
 			ui::label(cols, "Alignment");
 			ui::float2_slider(cols, "WindowTitleAlign", { "x", "y" }, style.WindowTitleAlign.f, { 0.0f, 1.0f }); // , "%.2f");
 			ui::float2_slider(cols, "ButtonTextAlign", { "x", "y" }, style.ButtonTextAlign.f, { 0.0f, 1.0f }); // , "%.2f");
@@ -3088,7 +3088,7 @@ void ShowStyleEditor(Widget& parent, ImguiLook& style, ImguiColours& colours)
 				ImGui::LogFinish();
 			}
 			ImGui::SameLine(); ImGui::SetNextItemWidth(120); ui::dropdown_field(*tab, "##output_type", output_dest, "To Clipboard", "To TTY", "");
-			ImGui::SameLine(); ui::input_field(*tab, "Only Modified Colors", output_only_modified);
+			ImGui::SameLine(); ui::field(*tab, "Only Modified Colors", output_only_modified);
 #endif
 
 #if 0
@@ -3152,7 +3152,7 @@ void ShowStyleEditor(Widget& parent, ImguiLook& style, ImguiColours& colours)
 					ImGui::PopFont();
 					ui::drag_field<float>(*tab, "Font scale", font->Scale, 0.005f, 0.3f, 2.0f, "%.1f");   // Scale only this font
 					ImGui::SameLine(); HelpMarker("Note than the default embedded font is NOT meant to be scaled.\n\nFont are currently rendered into bitmaps at a given size at the time of building the atlas. You may oversample them to get some flexibility with scaling. You can also render at multiple sizes and select which one to use at runtime.\n\n(Glimmer of hope: the atlas system should hopefully be rewritten in the future to make scaling more natural and automatic.)");
-					ui::number_field<float>(*tab, "Font offset", font->DisplayOffset.y, 1, 1, "%.0f");
+					ui::field<float>(*tab, "Font offset", font->DisplayOffset.y, 1, 1, "%.0f");
 					ui::label(*tab, "Ascent: %f, Descent: %f, Height: %f", font->Ascent, font->Descent, font->Ascent - font->Descent);
 					ui::label(*tab, "Fallback character: '%c' (%d)", font->FallbackChar, font->FallbackChar);
 					const float surface_sqrt = sqrtf((float)font->MetricsTotalSurface);
@@ -3223,13 +3223,13 @@ void ShowStyleEditor(Widget& parent, ImguiLook& style, ImguiColours& colours)
 
 		if(Widget* tab = ui::tab(tabber, "Rendering"))
 		{
-			ui::input_field(*tab, "Anti-aliased lines", style.AntiAliasedLines);
+			ui::field(*tab, "Anti-aliased lines", style.AntiAliasedLines);
 			//ImGui::SameLine(); HelpMarker("When disabling anti-aliasing lines, you'll probably want to disable borders in your style as well.");
-			ui::input_field(*tab, "Anti-aliased fill", style.AntiAliasedFill);
+			ui::field(*tab, "Anti-aliased fill", style.AntiAliasedFill);
 			//ImGui::PushItemWidth(100);
-			ui::drag_field<float>(*tab, "Curve Tessellation Tolerance", { style.CurveTessellationTol, 0.02f, 0.10f, FLT_MAX }); // , "%.2f", 2.0f);
+			ui::drag_field<float>(*tab, "Curve Tessellation Tolerance", style.CurveTessellationTol, { 0.02f, 0.10f, FLT_MAX }); // , "%.2f", 2.0f);
 			if(style.CurveTessellationTol < 0.10f) style.CurveTessellationTol = 0.10f;
-			ui::drag_field<float>(*tab, "Global Alpha", { style.Alpha, 0.005f, 0.20f, 1.0f }); // , "%.2f"); // Not exposing zero here so user doesn't "lose" the UI (zero alpha clips all widgets). But application code could have a toggle to switch between zero and non-zero.
+			ui::drag_field<float>(*tab, "Global Alpha", style.Alpha, { 0.005f, 0.20f, 1.0f }); // , "%.2f"); // Not exposing zero here so user doesn't "lose" the UI (zero alpha clips all widgets). But application code could have a toggle to switch between zero and non-zero.
 			//ImGui::PopItemWidth();
 		}
 	}
@@ -3306,9 +3306,9 @@ static void ShowExampleMenuFile()
 		static int n = 0;
 		static bool b = true;
 		ui::slider_field<float>(parent, "Value", f, 0.0f, 1.0f);
-		ui::number_field<float>(parent, "Input", f, 0.1f);
+		ui::field<float>(parent, "Input", f, 0.1f);
 		ui::dropdown_field(parent, "Combo", n, "Yes", "No", "Maybe", "", "");
-		ui::input_field(parent, "Check", b);
+		ui::field(parent, "Check", b);
 		ImGui::EndMenu();
 	}
 	if(ImGui::BeginMenu("Colors"))
@@ -3432,7 +3432,7 @@ struct ExampleAppConsole
 		// Options menu
 		if(ImGui::BeginPopup("Options"))
 		{
-			if(ui::input_field(parent, "Auto-scroll", AutoScroll))
+			if(ui::field(parent, "Auto-scroll", AutoScroll))
 				if(AutoScroll)
 					ScrollToBottom = true;
 			ImGui::EndPopup();
@@ -3718,7 +3718,7 @@ struct ExampleAppLog
 		// Options menu
 		if(ImGui::BeginPopup("Options"))
 		{
-			if(ui::input_field(parent, "Auto-scroll", AutoScroll))
+			if(ui::field(parent, "Auto-scroll", AutoScroll))
 				if(AutoScroll)
 					ScrollToBottom = true;
 			ImGui::EndPopup();
@@ -3928,7 +3928,7 @@ static void ShowExampleAppPropertyEditor(bool* p_open)
 						ImGui::NextColumn();
 						ImGui::SetNextItemWidth(-1);
 						if(i >= 5)
-							ui::number_field<float>(parent, "##value", dummy_members[i], 1.0f);
+							ui::field<float>(parent, "##value", dummy_members[i], 1.0f);
 						else
 							ui::drag_field<float>(parent, "##value", dummy_members[i], 0.01f);
 						ImGui::NextColumn();
@@ -4070,7 +4070,7 @@ static void ShowExampleAppConstrainedResize(bool* p_open)
 		ui::dropdown_field(parent, "Constraint", type, desc, IM_ARRAYSIZE(desc));
 		ImGui::SetNextItemWidth(200);
 		ui::drag_field<int>(parent, "Lines", display_lines, 0.2f, 1, 100);
-		ui::input_field(parent, "Auto-resize", auto_resize);
+		ui::field(parent, "Auto-resize", auto_resize);
 		for(int i = 0; i < display_lines; i++)
 			ui::label(parent, "%*sHello, sailor! Making this line long enough for the example.", i * 4, "");
 	}
@@ -4264,8 +4264,8 @@ static void ShowExampleAppCustomRendering(bool* p_open)
 		{
 			static bool draw_bg = true;
 			static bool draw_fg = true;
-			ui::input_field(parent, "Draw in Background draw list", draw_bg);
-			ui::input_field(parent, "Draw in Foreground draw list", draw_fg);
+			ui::field(parent, "Draw in Background draw list", draw_bg);
+			ui::field(parent, "Draw in Foreground draw list", draw_fg);
 			vec2 window_pos = ImGui::GetWindowPos();
 			vec2 window_size = ImGui::GetWindowSize();
 			vec2 window_center = vec2(window_pos.x + window_size.x * 0.5f, window_pos.y + window_size.y * 0.5f);
@@ -4424,7 +4424,7 @@ void ShowExampleAppDocuments(bool* p_open)
 		if(doc_n > 0)
 			ImGui::SameLine();
 		ImGui::PushID(doc);
-		if(ui::input_field(parent, doc->Name, &doc->Open))
+		if(ui::field(parent, doc->Name, &doc->Open))
 			if(!doc->Open)
 				doc->DoForceClose();
 		ImGui::PopID();

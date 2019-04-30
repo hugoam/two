@@ -43,8 +43,6 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<stl::vector<mud::vec3>>();
     export_ template <> MUD_MATH_EXPORT Type& type<stl::vector<uint32_t>>();
     
-    export_ template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<float>>();
-    export_ template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<int>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Colour>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::ColourHSL>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Image>();

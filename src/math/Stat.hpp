@@ -69,24 +69,4 @@ namespace mud
 	inline void Stat<T>::increment() { m_def->increment(*m_ref); }
 	export_ template <class T>
 	inline void Stat<T>::decrement() { m_def->decrement(*m_ref); }
-
-	export_ template <class T>
-	AutoStat<T>::AutoStat(T value, T min, T max, T step)
-		: Stat<T>(m_value, m_def)
-		, m_value(value)
-		, m_def{ min, max, step }
-	{}
-
-	export_ template <class T>
-	AutoStat<T>::AutoStat(T& value, StatDef<T> def)
-		: Stat<T>(value, m_def)
-		, m_def(def)
-	{}
-
-	export_ template <class T>
-	AutoStat<T>::AutoStat(const AutoStat& other)
-		: Stat<T>(&other.m_value == other.m_ref ? m_value : *other.m_ref, m_def)
-		, m_value(other.m_value)
-		, m_def(other.m_def)
-	{}
 }

@@ -401,10 +401,10 @@ void ex_table(Widget& parent)
 
 	{
 		Widget& r0 = ui::table_row(table2);
-		float red = 0.05f;
-		float blue = 0.05f;
-		ui::number_field<float>(r0, "Red", red);
-		ui::number_field<float>(r0, "Blue", blue);
+		static float red = 0.05f;
+		static float blue = 0.05f;
+		ui::field<float>(r0, "Red", red);
+		ui::field<float>(r0, "Blue", blue);
 
 		Widget& r1 = ui::table_row(table2);
 		static string s0 = "The quick brown fox jumps over the lazy dog.";
@@ -472,8 +472,9 @@ void ex_table_tree(Widget& parent)
 
 void ex_markup_text(Widget& parent)
 {
+	static float width = 200.f;
 	ui::text(parent, "This is a long paragraph. The text should automatically wrap on the edge of the window. The current implementation follows no word splitting rules, text is just split at the last character.");
-	ui::slider_field<float>(parent, "Wrap width", AutoStat<float>(200.f, -20.f, 600.f, 0.1f), false);
+	ui::slider_field<float>(parent, "Wrap width", width, { -20.f, 600.f, 0.1f }, false);
 
 	Widget& r0 = ui::row(parent);
 	ui::icon(r0, "(bullet)");
@@ -496,7 +497,7 @@ void ex_controls(Widget& parent)
 	static string val_string = "Hello, world!";
 	static uint32_t val_radio = 0;
 
-	ui::input_field<bool>(table, "checkbox input", val_bool, true);
+	ui::field<bool>(table, "checkbox input", val_bool, true);
 	ui::radio_field(table, "radio input", { "radio a", "radio b", "radio c" }, val_radio, Axis::X, true);
 
 	static uint32_t val_choice = 0;
@@ -504,23 +505,23 @@ void ex_controls(Widget& parent)
 	ui::dropdown_field(table, "dropdown input", choices, val_choice, true);
 	ui::typedown_field(table, "typedown input", choices, val_choice, true);
 
-	ui::input_field<string>(table, "string input", val_string, true);
+	ui::field<string>(table, "string input", val_string, true);
 
 	static int val_int = 123;
 	static float val_float_input = 0.001f;
-	ui::number_field<int>(table, "int input", { val_int, { 0, 1000, 1 } }, true);
-	ui::number_field<float>(table, "float input", { val_float_input, { 0.f, 100.f, 0.001f } }, true);
+	ui::field<int>(table, "int input", val_int, { 0, 1000, 1 }, true);
+	ui::field<float>(table, "float input", val_float_input, { 0.f, 100.f, 0.001f }, true);
 
 	static int val_int_0_3 = 2;
 	static int val_int_100_100 = 0;
-	ui::slider_field<int>(table, "int 0..3", { val_int_0_3, { 0, 3, 1 } }, true);
-	ui::slider_field<int>(table, "int -100..100", { val_int_100_100, { -100, 100, 1 } }, true);
+	ui::slider_field<int>(table, "int 0..3", val_int_0_3, { 0, 3, 1 }, true);
+	ui::slider_field<int>(table, "int -100..100", val_int_100_100, { -100, 100, 1 }, true);
 
 	static float val_float = 1.123f;
-	ui::slider_field<float>(table, "float input", { val_float, { 0.0f, 2.0f, 0.001f } }, true);
-	//table.emplace<SliderFloat>("log float", AutoStat<float>(0.f, 0.0f, 10.0f, 1.f));
-	//table.emplace<SliderFloat>("signed log float", AutoStat<float>(0.f, -10.0f, 10.0f, 1.f));
-	//table.emplace<SliderFloat>("unbound float", AutoStat<float>(123456789.0f, -FLT_MAX, FLT_MAX, 1.f));
+	ui::slider_field<float>(table, "float input", val_float, { 0.0f, 2.0f, 0.001f }, true);
+	//ui::slider_field<float>(table, "log float", val_float, { 0.0f, 10.0f, 1.f }, true);
+	//ui::slider_field<float>(table, "signed log float", val_float, { -10.0f, 10.0f, 1.f }, true);
+	//ui::slider_field<float>(table, "unbound float", 123456789.0f, { -FLT_MAX, FLT_MAX, 1.f }, true);
 
 	// table.emplace<SliderAngle>("angle", 0.f);
 
@@ -529,7 +530,7 @@ void ex_controls(Widget& parent)
 	static Colour val_colour0 = Colour::Red;
 	static Colour val_colour1 = Colour::Green;
 
-	ui::input_field<Colour>(table, "color input", val_colour0, true);
+	ui::field<Colour>(table, "color input", val_colour0, true);
 	ui::color_field(table, "color input", val_colour1, true);
 }
 
@@ -579,24 +580,24 @@ void ex_inline_controls(Widget& parent)
 
 	Widget& r3 = ui::row(parent);
 	static bool bools[4] = { false, false, false, false };
-	ui::input_field<bool>(r3, "My", bools[0]);
-	ui::input_field<bool>(r3, "Tailor", bools[1]);
-	ui::input_field<bool>(r3, "Is", bools[2]);
-	ui::input_field<bool>(r3, "Rich", bools[3]);
+	ui::field<bool>(r3, "My", bools[0]);
+	ui::field<bool>(r3, "Tailor", bools[1]);
+	ui::field<bool>(r3, "Is", bools[2]);
+	ui::field<bool>(r3, "Rich", bools[3]);
 
 	Widget& r4 = ui::row(parent);
 	static float values[3] = { 0.f, 0.f, 0.f };
 	StatDef<float> def = {};
-	ui::number_field<float>(r4, "X", { values[0], def });
-	ui::number_field<float>(r4, "Y", { values[1], def });
-	ui::number_field<float>(r4, "Z", { values[2], def });
+	ui::field<float>(r4, "X", values[0], def);
+	ui::field<float>(r4, "Y", values[1], def);
+	ui::field<float>(r4, "Z", values[2], def);
 }
 
 void ex_progress_dialog(Widget& parent)
 {
 	static float percentage = 0.57f;
 	ui::fill_bar(parent, percentage);
-	ui::slider_field<float>(parent, "Set progress", { percentage, { 0.f, 1.f, 0.01f } }, false);
+	ui::slider_field<float>(parent, "Set progress", percentage, { 0.f, 1.f, 0.01f }, false);
 }
 
 WindowState window_state = WindowState::Default;
@@ -624,7 +625,7 @@ void ex_window_page(Widget& parent)
 		ui::flag_field(*expandbox, "resizable", (uint32_t&)window_state, 5, true);
 
 		static float alpha = 0.f; //[&window](float alpha) { window.frame().d_inkstyle->m_background_colour.m_a = alpha; }
-		ui::slider_field<float>(*expandbox, "fill alpha", AutoStat<float>(alpha, { 0.f, 1.f, 0.1f }), true);
+		ui::slider_field<float>(*expandbox, "fill alpha", alpha, { 0.f, 1.f, 0.1f }, true);
 	}
 
 	if(Widget* expandbox = ui::expandbox(parent, "Widgets").m_body)
@@ -649,11 +650,11 @@ void ex_debug_dock(Widget& parent)
 		UNUSED(options);
 
 		//VgRenderer& renderer = *Frame::s_renderer;
-		//ui::input_field<string>(tooldock, "Debug draw filter", renderer.m_debug_filter);
-		//ui::input_field<bool>(tooldock, "Debug draw Frame", renderer.m_debug_frame_rect);
-		//ui::input_field<bool>(tooldock, "Debug draw Padding", renderer.m_debug_padded_rect);
-		//ui::input_field<bool>(tooldock, "Debug draw Content", renderer.m_debug_content_rect);
-		//ui::input_field<bool>(tooldock, "Debug draw Clip", renderer.m_debug_clip_rect);
+		//ui::field<string>(tooldock, "Debug draw filter", renderer.m_debug_filter);
+		//ui::field<bool>(tooldock, "Debug draw Frame", renderer.m_debug_frame_rect);
+		//ui::field<bool>(tooldock, "Debug draw Padding", renderer.m_debug_padded_rect);
+		//ui::field<bool>(tooldock, "Debug draw Content", renderer.m_debug_content_rect);
+		//ui::field<bool>(tooldock, "Debug draw Clip", renderer.m_debug_clip_rect);
 	}
 }
 

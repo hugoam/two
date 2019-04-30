@@ -473,7 +473,7 @@ namespace mud
 			tileblock.solve(10);
 
 		static uint16_t tile = 0;
-		ui::number_field<uint16_t>(body, "tile", { tile, StatDef<uint16_t>{} });
+		ui::field<uint16_t>(body, "tile", tile, {});
 
 		if(button("set tile"))
 			tileblock.m_wave.set_tile(selected, tile);

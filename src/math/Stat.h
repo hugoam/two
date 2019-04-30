@@ -66,23 +66,6 @@ namespace mud
 	export_ extern template struct Stat<int>;
 	export_ extern template struct Stat<float>;
 
-	export_ template <class T>
-	struct refl_ AutoStat : public Stat<T>
-	{
-	public:
-		AutoStat(T value = T(), T min = limits<T>::min(), T max = limits<T>::max(), T step = T(1));
-		AutoStat(T& value, StatDef<T> def);
-		AutoStat(const AutoStat& other);
-
-		AutoStat& operator=(const AutoStat& other) = default;
-
-		attr_ T m_value;
-		StatDef<T> m_def;
-	};
-
-	export_ extern template struct refl_ AutoStat<int>;
-	export_ extern template struct refl_ AutoStat<float>;
-
 #if 0
 	export_ struct refl_ MUD_MATH_EXPORT Ratio : public Stat<float>
 	{

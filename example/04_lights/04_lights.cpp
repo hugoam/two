@@ -148,7 +148,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 
 		ui::label(sheet, "Lights :");
 
-		ui::input_field<bool>(sheet, "Moving", moving_lights);
+		ui::field<bool>(sheet, "Moving", moving_lights);
 
 		uint32_t light_type_index = UINT32_MAX;
 		cstring light_types[3] = { "Direct", "Point", "Spot" };

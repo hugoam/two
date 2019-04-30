@@ -72,8 +72,8 @@ namespace mud
 		if(!animated.m_playing.empty())
 		{
 			AnimPlay& play = animated.m_playing.back();
-			ui::slider_field<float>(table, "speed", { play.m_speed, { -5.f, 5.f, 0.01f } });
-			ui::slider_field<float>(table, "timeline", { play.m_cursor, { 0.f, play.m_animation->m_length, 0.01f } });
+			ui::slider_field<float>(table, "speed", play.m_speed, { -5.f, 5.f, 0.01f });
+			ui::slider_field<float>(table, "timeline", play.m_cursor, { 0.f, play.m_animation->m_length, 0.01f });
 		}
 
 		Table& playing = ui::table(self, { "Animation", "Time" }, { 0.6f, 0.4f });

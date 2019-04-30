@@ -25,11 +25,11 @@ namespace mud
 {
 namespace ui
 {
-	template bool slider_input(Widget& parent, AutoStat<int> value);
-	template bool slider_input(Widget& parent, AutoStat<float> value);
+	template bool slider_input(Widget& parent, int& value, StatDef<int> def);
+	template bool slider_input(Widget& parent, float& value, StatDef<float> def);
 
-	template bool number_input(Widget& parent, AutoStat<int> value);
-	//template bool number_input(Widget& parent, AutoStat<float> value);
+	template bool number_input(Widget& parent, int& value, StatDef<int> def);
+	//template bool number_input(Widget& parent, float& value, StatDef<float> def);
 
 	//template bool input(Widget& parent, bool& value);
 	template bool input(Widget& parent, int& value);
@@ -73,7 +73,7 @@ namespace ui
 		Widget& self = ui::row(parent);
 		bool changed = false;
 		for(size_t i = 0; i < 2; ++i)
-			changed |= ui::number_input<float>(self, { vals[i], def });
+			changed |= ui::number_input<float>(self, vals[i], def);
 		return changed;
 	}
 
@@ -83,7 +83,7 @@ namespace ui
 		Widget& self = ui::row(parent);
 		bool changed = false;
 		for(size_t i = 0; i < 3; ++i)
-			changed |= ui::number_input<float>(self, { vals[i], def });
+			changed |= ui::number_input<float>(self, vals[i], def);
 		return changed;
 	}
 
@@ -93,7 +93,7 @@ namespace ui
 		Widget& self = ui::row(parent);
 		bool changed = false;
 		for(size_t i = 0; i < 4; ++i)
-			changed |= ui::number_input<float>(self, { vals[i], def });
+			changed |= ui::number_input<float>(self, vals[i], def);
 		return changed;
 	}
 
@@ -201,9 +201,9 @@ namespace ui
 
 		bool changed = false;
 		StatDef<float> def = { 0.f, 1.f, 0.01f };
-		changed |= slider_field<float>(self, "hue", { hsla.h, def });
-		changed |= slider_field<float>(self, "saturation", { hsla.s, def });
-		changed |= slider_field<float>(self, "lightness", { hsla.l, def });
+		changed |= slider_field(self, "hue", hsla.h, def);
+		changed |= slider_field(self, "saturation", hsla.s, def);
+		changed |= slider_field(self, "lightness", hsla.l, def);
 
 		return changed;
 	}
@@ -215,9 +215,9 @@ namespace ui
 
 		bool changed = false;
 		StatDef<float> def = { 0.f, 1.f, 0.01f };
-		changed |= slider_input<float>(self, { value.r, def });
-		changed |= slider_input<float>(self, { value.g, def });
-		changed |= slider_input<float>(self, { value.b, def });
+		changed |= slider_input<float>(self, value.r, def);
+		changed |= slider_input<float>(self, value.g, def);
+		changed |= slider_input<float>(self, value.b, def);
 
 		return changed;
 	}

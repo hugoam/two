@@ -42,8 +42,8 @@ namespace ui
 	void draw_grid(const Frame& frame, const vec4& rect, Vg& vg)
 	{
 		UNUSED(rect);
-		Paint main_paint = { Colour(0.162f, 0.162f, 0.162f, 1.f), 1.f };
-		Paint second_paint = { Colour(0.094f, 0.094f, 0.094f, 1.f), 0.5f };
+		static const Paint main_paint = Paint(Colour(0.162f), 1.f);
+		static const Paint second_paint = Paint(Colour(0.094f), 0.5f);
 
 		draw_grid(frame, 20.0f, second_paint, vg);
 		draw_grid(frame, 100.f, main_paint, vg);
@@ -51,8 +51,8 @@ namespace ui
 
 	void scroll_plan_drag(Frame& scroll_zone, Frame& scroll_plan, const MouseEvent& event)
 	{
-		vec2 position = scroll_plan.m_position + event.m_delta;
-		vec2 overflow = (scroll_plan.m_size * scroll_plan.m_scale) - scroll_zone.m_size;
+		const vec2 position = scroll_plan.m_position + event.m_delta;
+		const vec2 overflow = (scroll_plan.m_size * scroll_plan.m_scale) - scroll_zone.m_size;
 		scroll_plan.set_position(min(vec2(0.f), max(position, -overflow)));
 		//m_frame.mark_dirty(DIRTY_FORCE_LAYOUT);
 	}
@@ -64,18 +64,18 @@ namespace ui
 
 	void scroll_plan_zoom(Frame& scroll_zone, Frame& scroll_plan, const MouseEvent& mouse_event, bool clamped)
 	{
-		float delta_scale = mouse_event.m_deltaZ > 0.f ? 1.2f : 0.8333f;
+		const float delta_scale = mouse_event.m_deltaZ > 0.f ? 1.2f : 0.8333f;
 		scroll_plan.m_scale = scroll_plan.m_scale * delta_scale;
 
 		if(clamped)
 		{
-			vec2 min_scale = scroll_zone.m_size / scroll_plan.m_size;
+			const vec2 min_scale = scroll_zone.m_size / scroll_plan.m_size;
 			scroll_plan.m_scale = max(scroll_plan.m_scale, max(min_scale.x, min_scale.y));
 		}
 
-		vec2 relative = mouse_event.m_pos - scroll_plan.absolute_position();
-		vec2 offset = relative - relative * delta_scale;
-		vec2 position = offset + scroll_plan.m_position;
+		const vec2 relative = mouse_event.m_pos - scroll_plan.absolute_position();
+		const vec2 offset = relative - relative * delta_scale;
+		const vec2 position = offset + scroll_plan.m_position;
 
 		if(clamped)
 			scroll_plan.set_position(min(vec2(0.f), position));
@@ -111,7 +111,7 @@ namespace ui
 
 	ScrollSheet& scroll_plan(Widget& parent, Style& style)
 	{
-		bool clamped = true;
+		static const bool clamped = true;
 
 		ScrollSheet& self = scroll_sheet(parent, style, &styles().scroll_plan);
 
@@ -130,7 +130,7 @@ namespace ui
 
 		Frame& scroll_plan = scroll_sheet.m_body->m_frame;
 
-		float margin = 1000.f;
+		const float margin = 1000.f;
 		vec2 bounds_min = vec2(FLT_MAX);
 		vec2 bounds_max = vec2(FLT_MIN);
 
@@ -142,7 +142,7 @@ namespace ui
 		}
 
 		vec2 offset = vec2(margin) - bounds_min;
-		vec2 remainder = mod(offset, vec2(100.f));
+		const vec2 remainder = mod(offset, vec2(100.f));
 		offset = offset - remainder;
 
 		for(Widget* widget : elements)
@@ -150,7 +150,7 @@ namespace ui
 
 		scroll_plan.m_position += -offset * scroll_plan.m_scale;
 
-		vec2 bounds = bounds_max + 2.f * margin - bounds_min;
+		const vec2 bounds = bounds_max + 2.f * margin - bounds_min;
 		scroll_plan.m_size = bounds;
 	}
 

@@ -85,10 +85,6 @@ void* stl_vector_uint32_t__at(void* vec, size_t i) { return &(*static_cast<stl::
 void stl_vector_uint32_t__push(void* vec) { (*static_cast<stl::vector<uint32_t>*>(vec)).emplace_back(); }
 void stl_vector_uint32_t__add(void* vec, void* value) { (*static_cast<stl::vector<uint32_t>*>(vec)).push_back(*static_cast<uint32_t*>(value)); }
 void stl_vector_uint32_t__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<uint32_t>*>(vec)), *static_cast<uint32_t*>(value)); }
-void mud_AutoStat_float__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::AutoStat<float>(  ); }
-void mud_AutoStat_float__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::AutoStat<float>((*static_cast<mud::AutoStat<float>*>(other))); }
-void mud_AutoStat_int__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::AutoStat<int>(  ); }
-void mud_AutoStat_int__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::AutoStat<int>((*static_cast<mud::AutoStat<int>*>(other))); }
 void mud_Colour__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Colour(  ); }
 void mud_Colour__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Colour( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]) ); }
 void mud_Colour__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Colour( *static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]) ); }
@@ -504,50 +500,6 @@ namespace mud
 		g_sequence[t.m_id] = &sequence;
 	}
 	
-	// mud::AutoStat<float>
-	{
-		Type& t = type<mud::AutoStat<float>>();
-		static Meta meta = { t, &namspc({ "mud" }), "AutoStat<float>", sizeof(mud::AutoStat<float>), TypeClass::Struct };
-		// bases
-		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_AutoStat_float__construct_0, {} }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, mud_AutoStat_float__copy_construct }
-		};
-		// members
-		static Member members[] = {
-			{ t, offsetof(mud::AutoStat<float>, m_value), type<float>(), "value", nullptr, Member::Value, nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
-	}
-	// mud::AutoStat<int>
-	{
-		Type& t = type<mud::AutoStat<int>>();
-		static Meta meta = { t, &namspc({ "mud" }), "AutoStat<int>", sizeof(mud::AutoStat<int>), TypeClass::Struct };
-		// bases
-		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_AutoStat_int__construct_0, {} }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, mud_AutoStat_int__copy_construct }
-		};
-		// members
-		static Member members[] = {
-			{ t, offsetof(mud::AutoStat<int>, m_value), type<int>(), "value", nullptr, Member::Value, nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
-	}
 	// mud::Colour
 	{
 		Type& t = type<mud::Colour>();
@@ -1710,8 +1662,6 @@ namespace mud
 		m.m_aliases.push_back(&alias);
 	}
 	
-		m.m_types.push_back(&type<mud::AutoStat<float>>());
-		m.m_types.push_back(&type<mud::AutoStat<int>>());
 		m.m_types.push_back(&type<mud::Axes>());
 		m.m_types.push_back(&type<mud::Axis>());
 		m.m_types.push_back(&type<mud::Clockwise>());

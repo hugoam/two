@@ -503,7 +503,7 @@ void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		ui::slider_field<float>(a, "scale",     { sao.scale,     { 0.f, 10.f, 0.1f } });
 		ui::slider_field<size_t>(a, "kernel radius", { sao.kernelRadius, { 1, 100, 1 } });
 
-		ui::input_field<bool>(a,    "blur", sao.blur);
+		ui::field<bool>(a,    "blur", sao.blur);
 		ui::slider_field<size_t>(a, "blur radius",       { sao.blurRadius,      { 0, 200, 1 } });
 		ui::slider_field<float>(a,  "blur std dev",      { sao.blurStdDev,      { 0.5f, 150.f, 0.1f } });
 		ui::slider_field<float>(a,  "blur depth cutoff", { sao.blurDepthCutoff, { 0.0f, 0.1f, 0.01f } });

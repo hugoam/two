@@ -28,7 +28,6 @@ namespace mud
     template <class T> struct ValueTrack;
 	template <class T> struct StatDef;
 	template <class T> struct Stat;
-    template <class T> struct AutoStat;
 
 	template <class T> struct v2;
 	template <class T> struct v3;

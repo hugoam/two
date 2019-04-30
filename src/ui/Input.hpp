@@ -21,21 +21,15 @@ namespace mud
 namespace ui
 {
 	export_ template <class T>
-	bool slider_input_dim(Widget& parent, AutoStat<T> value, Axis dim)
+	bool slider_input(Widget& parent, T& value, StatDef<T> def, Axis dim)
 	{
 		Widget& self = widget(parent, styles().slider_input);
-		SliderMetrics metrics = { float(value.min()), float(value.max()), float(value.step()) };
+		const SliderMetrics metrics = { float(def.m_min), float(def.m_max), float(def.m_step) };
 		float slider_value = float(value);
-		bool changed = slider(self, slider_value, metrics, dim);
-		value.ref() = T(slider_value);
+		const bool changed = slider(self, slider_value, metrics, dim);
+		value = T(slider_value);
 		item(self, styles().slider_display, truncate_number(to_string(slider_value)));
 		return changed;
-	}
-
-	export_ template <class T>
-	bool slider_input(Widget& parent, AutoStat<T> value)
-	{
-		return slider_input_dim(parent, value, Axis::X);
 	}
 
 	export_ template <class T>
@@ -52,36 +46,36 @@ namespace ui
 	}
 
 	export_ template <class T>
-	bool number_input(Widget& parent, AutoStat<T> value)
+	bool number_input(Widget& parent, T& value, StatDef<T> def)
 	{
 		Widget& self = widget(parent, styles().number_input);
 		bool changed = false;
 
-		changed |= number_type_in<T>(self, value.ref());
+		changed |= number_type_in<T>(self, value);
 		if(button(self, "+").activated())
 		{
 			changed = true;
-			value.increment();
+			def.increment(value);
 		}
 		if(button(self, "-").activated())
 		{
 			changed |= true;
-			value.decrement();
+			def.decrement(value);
 		}
 
 		return changed;
 	}
 
 	export_ template <>
-	inline bool number_input(Widget& parent, AutoStat<float> value)
+	inline bool number_input(Widget& parent, float& value, StatDef<float> def)
 	{
-		return drag_float(parent, value.ref(), value.step());
+		return drag_float(parent, value, def.m_step);
 	}
 
 	export_ template <class T>
-	inline bool input(Widget& parent, T& value)
+	inline enable_if<is_number<T>, bool> input(Widget& parent, T& value, StatDef<T> def)
 	{
-		return number_input(parent, AutoStat<T>{ value, StatDef<T>{} });
+		return number_input(parent, value, def);
 	}
 
 	export_ template <>

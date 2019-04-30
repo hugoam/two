@@ -30,7 +30,4 @@ namespace mud
 
 	template struct MUD_MATH_EXPORT Stat<int>;
 	template struct MUD_MATH_EXPORT Stat<float>;
-
-	template struct MUD_MATH_EXPORT AutoStat<int>;
-	template struct MUD_MATH_EXPORT AutoStat<float>;
 }

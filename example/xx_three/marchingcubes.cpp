@@ -506,9 +506,9 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		ui::slider_field<uint32_t>(e, "resolution", { controller.resolution, { 14, 100, 1 } });
 		ui::slider_field<float>(e,    "isolation",  { controller.isolation,  { 10.f, 300.f, 1.f } });
 
-		ui::input_field<bool>(e, "floor", controller.floor);
-		ui::input_field<bool>(e, "wallx", controller.wallx);
-		ui::input_field<bool>(e, "wallz", controller.wallz);
+		ui::field(e, "floor", controller.floor);
+		ui::field(e, "wallx", controller.wallx);
+		ui::field(e, "wallz", controller.wallz);
 	}
 
 	// this controls content of marching cubes voxel field
