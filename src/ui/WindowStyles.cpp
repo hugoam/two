@@ -51,7 +51,7 @@ namespace ui
 		dockline = Style("Dockline", styles().gridsheet, [](Layout& l) { l.m_space = Preset::Sheet; });
 		dockspace = Style("Dockspace", styles().layout, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_spacing = vec2(6.f); });
 
-		docktoggle = Style("DockToggle", styles().toggle, {}, {});
+		docktoggle = Style("DockToggle", styles().toggle, [](Layout& l) { l.m_align = { Align::Left, Align::Left }; });
 		dockdiv = Style("Dockzone", styles().wedge, [](Layout& l) { l.m_space = { FlowAxis::Paragraph, Sizing::Wrap, Sizing::Fixed }; });
 		//dockdiv = Style("Dockzone", styles().wedge, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Spacer; l.m_align = { Align::Left, OUT_LEFT }; });
 		docktabs = Style("Docktabs", styles().wedge, [](Layout& l) { l.m_flow = LayoutFlow::Align; l.m_space = Preset::Div; l.m_align = { Align::OutLeft, Align::Left }; });
@@ -71,7 +71,7 @@ namespace ui
 		plugs = Style("NodePlugs", styles().sheet, [](Layout& l) { l.m_space = { FlowAxis::Reading, Sizing::Wrap, Sizing::Wrap }; });
 		inputs = Style("NodeInputs", styles().div, {}, {});
 		outputs = Style("NodeOutputs", styles().div, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; });
-		knob = Style("NodeKnob", styles().item, [](Layout& l) { l.m_size = vec2(10.f, 22.f); }, [](InkStyle& l) { l.m_background_colour = Colour::White; });
+		knob = Style("NodeKnob", styles().item, [](Layout& l) { l.m_size = vec2(10.f, 10.f); }, [](InkStyle& l) { l.m_background_colour = Colour::White; });
 		knob_output = Style("NodeKnobOutput", knob, [](Layout& l) { l.m_align = { Align::Right, Align::Center }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; });
 		knob_proxy = Style("NodeKnobProxy", knob, [](Layout& l) { l.m_flow = LayoutFlow::Free; });
 		plug = Style("NodePlug", styles().wrap_control, {}, {});

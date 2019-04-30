@@ -19,14 +19,14 @@ namespace mud
 		layout_minimal(ui_window);
 
 		const Colour active_blue_alpha = rgba(0x5680c2e6);
-		const Colour active_blue = rgba(0x5680c2ff);
-		const Colour grey_37 = rgba(0x373737ff);
-		const Colour grey_44 = rgba(0x444444ff);
-		const Colour grey_58 = rgba(0x585858ff);
-		const Colour grey_59 = rgba(0x595959ff);
-		const Colour white_d9 = rgba(0xd9d9d9ff);
-		const Colour white_e6 = rgba(0xe6e6e6ff);
-		const Colour white = rgba(0xffffffff);
+		const Colour active_blue = rgb(0x5680c2);
+		const Colour grey_37 = rgb(0x373737);
+		const Colour grey_44 = rgb(0x444444);
+		const Colour grey_58 = rgb(0x585858);
+		const Colour grey_59 = rgb(0x595959);
+		const Colour white_d9 = rgb(0xd9d9d9);
+		const Colour white_e6 = rgb(0xe6e6e6);
+		const Colour white = rgb(0xffffff);
 
 		auto wcol_regular = [=](InkStyle& i, InkStyle& s)
 		{
@@ -53,7 +53,7 @@ namespace mud
 		auto wcol_toolbar_item = [=](InkStyle& i, InkStyle& s)
 		{
 			i.m_border_colour = grey_37;
-			i.m_background_colour = rgba(0x313131ff);
+			i.m_background_colour = rgb(0x313131);
 			s.m_background_colour = active_blue;
 			//.item = RGBA(0xffffff8f);
 			i.m_text_colour = white_e6;
@@ -63,7 +63,7 @@ namespace mud
 		auto wcol_text = [=](InkStyle& i, InkStyle& s)
 		{
 			i.m_border_colour = grey_44;
-			i.m_background_colour = rgba(0x1f1f1fff);
+			i.m_background_colour = rgb(0x1f1f1f);
 			s.m_background_colour = rgba(0xb3b3b333);
 			//.item = RGBA(0x191919ff);
 			i.m_text_colour = white_e6;
@@ -87,7 +87,7 @@ namespace mud
 		auto wcol_option = [=](InkStyle& i, InkStyle& s)
 		{
 			i.m_border_colour = grey_37;
-			i.m_background_colour = rgba(0x666666ff);
+			i.m_background_colour = rgb(0x666666);
 			s.m_background_colour = active_blue_alpha;
 			//.item = RGBA(0xffffffff);
 			i.m_text_colour = white_e6;
@@ -129,19 +129,19 @@ namespace mud
 		};
 		auto wcol_tab = [=](InkStyle& i, InkStyle& s)
 		{
-			i.m_border_colour = rgba(0x202020ff);
-			i.m_background_colour = rgba(0x2b2b2bff);
-			s.m_background_colour = rgba(0x424242ff);
+			i.m_border_colour = rgb(0x202020);
+			i.m_background_colour = rgb(0x2b2b2b);
+			s.m_background_colour = rgb(0x424242);
 			//.item = RGBA(0x2d2d2dff);
-			i.m_text_colour = rgba(0x989898ff);
+			i.m_text_colour = rgb(0x989898);
 			s.m_text_colour = white;
 			//.roundness = 0.2f,
 		};
 		auto wcol_menu = [=](InkStyle& i, InkStyle& s)
 		{
 			i.m_border_colour = grey_44;
-			i.m_background_colour = rgba(0x2c2c2cff);
-			s.m_background_colour = rgba(0x696e76ff);
+			i.m_background_colour = rgb(0x2c2c2c);
+			s.m_background_colour = rgb(0x696e76);
 			//.item = RGBA(0xe6e6e6ff);
 			i.m_text_colour = white_d9;
 			s.m_text_colour = white;
@@ -151,7 +151,7 @@ namespace mud
 		};
 		auto wcol_pulldown = [=](InkStyle& i, InkStyle& s)
 		{
-			i.m_border_colour = rgba(0x4d4d4dff);
+			i.m_border_colour = rgb(0x4d4d4d);
 			i.m_background_colour = rgba(0x2e2e2ecc);
 			s.m_background_colour = active_blue_alpha;
 			//.item = RGBA(0x727272ff);
@@ -163,11 +163,11 @@ namespace mud
 		};
 		auto wcol_menu_back = [=](InkStyle& i, InkStyle& s)
 		{
-			i.m_border_colour = rgba(0x19191aff);
+			i.m_border_colour = rgb(0x19191a);
 			i.m_background_colour = rgba(0x1f1f1fef);
-			s.m_background_colour = rgba(0x585858ff);
+			s.m_background_colour = rgb(0x585858);
 			//.item = RGBA(0x727272ff);
-			i.m_text_colour = rgba(0xa5a5a5ff);
+			i.m_text_colour = rgb(0xa5a5a5);
 			s.m_text_colour = white;
 			//.shadetop = 25,
 			//.shadedown = -20,
@@ -184,7 +184,7 @@ namespace mud
 		};
 		auto wcol_tooltip = [=](InkStyle& i, InkStyle& s)
 		{
-			i.m_border_colour = rgba(0x19191aff);
+			i.m_border_colour = rgb(0x19191a);
 			i.m_background_colour = rgba(0x19191aef);
 			s.m_background_colour = rgba(0x19191aef);
 			//.item = RGBA(0x19191aef);
@@ -198,7 +198,7 @@ namespace mud
 		{
 			i.m_border_colour = grey_44;
 			i.m_background_colour = rgba(0x00000033);
-			s.m_background_colour = rgba(0x696e76ff);
+			s.m_background_colour = rgb(0x696e76);
 			//.item = RGBA(0x191919ff);
 			i.m_text_colour = white_e6;
 			s.m_text_colour = white;
@@ -206,9 +206,9 @@ namespace mud
 		};
 		auto wcol_scroll = [=](InkStyle& i, InkStyle& s)
 		{
-			i.m_border_colour = rgba(0x424242ff);
+			i.m_border_colour = rgb(0x424242);
 			i.m_background_colour = rgba(0x67676700);
-			s.m_background_colour = rgba(0xb3b3b3ff);
+			s.m_background_colour = rgb(0xb3b3b3);
 			//.item = RGBA(0x676767ff);
 			i.m_text_colour = white_e6;
 			s.m_text_colour = white;
@@ -218,8 +218,8 @@ namespace mud
 		};
 		auto wcol_progress = [=](InkStyle& i, InkStyle& s)
 		{
-			i.m_border_colour = rgba(0x585858ff);
-			i.m_background_colour = rgba(0x2c2c2cff);
+			i.m_border_colour = rgb(0x585858);
+			i.m_background_colour = rgb(0x2c2c2c);
 			s.m_background_colour = active_blue;
 			//.item = RGBA(0x5680c2ff);
 			i.m_text_colour = white_e6;
@@ -228,9 +228,9 @@ namespace mud
 		};
 		auto wcol_list_item = [=](InkStyle& i, InkStyle& s)
 		{
-			i.m_border_colour = rgba(0x2d2d2dff);
+			i.m_border_colour = rgb(0x2d2d2d);
 			i.m_background_colour = rgba(0x2d2d2d00);
-			s.m_background_colour = rgba(0x696e76ff);
+			s.m_background_colour = rgb(0x696e76);
 			//.item = RGBA(0xb3b3b3ff);
 			i.m_text_colour = white_e6;
 			s.m_text_colour = white;
@@ -238,7 +238,7 @@ namespace mud
 		};
 		auto wcol_pie_menu = [=](InkStyle& i, InkStyle& s)
 		{
-			i.m_border_colour = rgba(0x333333ff);
+			i.m_border_colour = rgb(0x333333);
 			i.m_background_colour = rgba(0x212121ef);
 			s.m_background_colour = active_blue_alpha;
 			//.item = RGBA(0x585858ff);

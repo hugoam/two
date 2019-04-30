@@ -76,7 +76,7 @@ namespace mud
 		title = Style("Title", label, {}, [](InkStyle& o) { UNUSED(o); }); //o.m_text_size = 18.f; });
 		message = Style("Message", label, {}, [](InkStyle& o) { UNUSED(o); }); //o.m_text_size = 18.f; });
 		text = Style("Text", item, [](Layout& l) { l.m_space = { FlowAxis::Paragraph, Sizing::Fixed, Sizing::Wrap }; },
-						 [](InkStyle& o) { o.m_text_break = true; });
+								   [](InkStyle& o) { o.m_text_break = true; o.m_text_wrap = true; });
 
 		bullet = Style("Bullet", item, [](Layout& l) { l.m_size = vec2(15.f); }, [](InkStyle& o) { o.m_empty = false; o.m_custom_draw = render_bullet; });
 		button = Style("Button", control, {});
@@ -89,14 +89,14 @@ namespace mud
 		dummy = Style("Dummy", wedge, [](Layout& l) { l.m_space = Preset::Block; });
 		tooltip = Style("Tooltip", decal, [](Layout& l) { l.m_space = Preset::Unit; l.m_zorder = -2; });
 		rectangle = Style("Rectangle", decal, [](Layout& l) { l.m_space = Preset::Block; l.m_zorder = -3; },
-									[](InkStyle& l) { l.m_border_width = vec4(1.f); l.m_border_colour = Colour::White; l.m_background_colour = Colour::AlphaGrey; });
+											  [](InkStyle& l) { l.m_border_width = vec4(1.f); l.m_border_colour = Colour::White; l.m_background_colour = Colour::AlphaGrey; });
 		
 		viewport = Style("Viewport", wedge, [](Layout& l) { l.m_space = Preset::Block; l.m_opacity = Opacity::Opaque; });
 
 		type_in = Style("TypeIn", wrap_control, [](Layout& l) { l.m_opacity = Opacity::Opaque; });
 		text_edit = Style("TextEdit", type_in, [](Layout& l) { l.m_space = Preset::Layout; });
 		type_zone = Style("TypeZone", wrap_control, [](Layout& l) { l.m_space = Preset::Sheet; l.m_opacity = Opacity::Opaque; },
-										  [](InkStyle& l) { l.m_text_font = "consolas"; l.m_text_break = true; });
+												    [](InkStyle& l) { l.m_text_font = "consolas"; l.m_text_break = true; });
 		caret = Style("Caret", item, {}, [](InkStyle& l) { l.m_background_colour = Colour::White; });
 
 		image = Style("Figure", item, {}, [](InkStyle& l) { l.m_empty = false; });
@@ -169,19 +169,5 @@ namespace mud
 		ui::cursor_styles().resize_diag_left.m_skin.m_image = ui_window.find_image("resize_diag_left_20");
 		ui::cursor_styles().resize_diag_right.m_skin.m_image = ui_window.find_image("resize_diag_right_20");
 		ui::cursor_styles().caret.m_skin.m_image = ui_window.find_image("caret_white");
-
-		//ui::scrollbar_styles().scroll_up.m_skin.m_image = ui_window.find_image("arrow_up_15");
-		//ui::scrollbar_styles().scroll_down.m_skin.m_image = ui_window.find_image("arrow_down_15");
-		//ui::scrollbar_styles().scroll_left.m_skin.m_image = ui_window.find_image("arrow_left_15");
-		//ui::scrollbar_styles().scroll_right.m_skin.m_image = ui_window.find_image("arrow_right_15");
-		//
-		//ui::window_styles().close_button.m_skin.m_image = ui_window.find_image("close_15");
-		//ui::toolbar_styles().mover.m_skin.m_image = ui_window.find_image("handle");
-		//
-		//ui::treenode_styles().no_toggle.m_skin.m_image = ui_window.find_image("empty_15");
-		//
-		//ui::treenode_styles().toggle.m_skin.m_image = ui_window.find_image("toggle_closed");
-		//ui::treenode_styles().toggle.decline_skin(ACTIVE).m_image = ui_window.find_image("toggle_open");
-		//ui::treenode_styles().toggle.decline_skin(DISABLED).m_image = ui_window.find_image("empty_15");
 	}
 }

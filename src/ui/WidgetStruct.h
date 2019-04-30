@@ -84,7 +84,7 @@ namespace mud
 		attr_ Frame m_frame;
 		attr_ WidgetState m_state = CREATED;
 		attr_ uint32_t m_switch = 0;
-		attr_ size_t m_index = 0;
+		attr_ uint32_t m_index = 0;
 		attr_ bool m_open = false;
 		attr_ Widget* m_body = nullptr;
 

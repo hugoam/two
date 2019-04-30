@@ -138,7 +138,7 @@ namespace mud
 				target = &nodes[track.m_node];
 			if(!target && track.m_target != AnimTarget::Weights)
 			{
-				printf("[warning] No bone found for animation %s track %s with target %i %s\n", animation.m_name.c_str(), "", track.m_node, track.m_node_name.c_str());
+				printf("[warning] No bone found for animation %s track %s with target %i %s\n", animation.m_name.c_str(), "", int(track.m_node), track.m_node_name.c_str());
 				continue;
 			}
 

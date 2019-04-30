@@ -48,8 +48,8 @@ using SelectTheme = void(*)(UiWindow&);
 
 void theme_menu(Widget& parent)
 {
-	static SelectTheme select[] = { style_minimal, style_minimal, style_imgui_dark, style_blendish_light, style_blendish_dark, style_minimal, style_minimal };
-	static cstring themes[] = { "Minimal", "Vector", "Imgui (Dark)", "Blendish (Light)", "Blendish (Dark)", "TurboBadger", "MyGui" };
+	static SelectTheme select[] = { style_minimal, style_vector, style_imgui_dark, style_blendish_light, style_blendish_dark }; // style_minimal, style_minimal };
+	static cstring themes[] = { "Minimal", "Vector", "Imgui (Dark)", "Blendish (Light)", "Blendish (Dark)" }; //, "TurboBadger", "MyGui" };
 
 	if(Widget* menu = ui::menu(parent, "Theme").m_body)
 	{
@@ -67,14 +67,15 @@ void theme_menu(Widget& parent)
 
 void theme_selector(Widget& parent)
 {
-	static SelectTheme select[] = { style_minimal, style_minimal, style_imgui_dark, style_blendish_light, style_blendish_dark, style_minimal, style_minimal };
-	static cstring themes[] = { "Minimal", "Vector", "Imgui (Dark)", "Blendish (Light)", "Blendish (Dark)", "TurboBadger", "MyGui" };
+	static SelectTheme select[] = { style_minimal, style_vector, style_imgui_dark, style_blendish_light, style_blendish_dark }; // style_minimal, style_minimal };
+	static cstring themes[] = { "Minimal", "Vector", "Imgui (Dark)", "Blendish (Light)", "Blendish (Dark)" }; //, "TurboBadger", "MyGui" };
 
 	static uint32_t theme = 0;
 	if(ui::dropdown_input(parent, themes, theme))
 	{
 		parent.ui_window().reset_styles();
 		select[theme](parent.ui_window());
+		parent.ui().reset_styles();
 	}
 }
 
@@ -4571,7 +4572,6 @@ bool pump(RenderSystem& render_system, BgfxContext& context, UiWindow& ui_window
 	pursue &= ui_window.input_frame();
 	example_ui(ui_window.m_ui->begin());
 	context.render_frame();
-	//bgfx::setViewFrameBuffer(240, context.m_target->m_backbuffer.m_fbo);
 	ui_window.render_frame(240);
 	render_system.end_frame();
 	return pursue;
@@ -4601,25 +4601,14 @@ int main(int argc, char *argv[])
 	static BgfxContext context = BgfxContext(render_system, "mud ui demo", uvec2(1200, 800), false, true);
 
 	static VgVg vg = VgVg(MUD_RESOURCE_PATH, &render_system.allocator());
-
-	//context.m_vg = m_vg.get();
-	//context.m_reset_vg = [](GfxWindow& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.m_tex.idx); };
-
 	vg.setup_context();
 
 	static UiWindow ui_window = UiWindow(context, vg);
 
 	ui_window.init();
-	//m_ui = m_ui_window.m_ui.get();
 
-	//style_minimal(ui_window);
-	style_imgui(ui_window, ImguiStyle::Dark);
-
-	//switchUiTheme(ui_window, "Minimal");
-	switchUiTheme(ui_window, "Blendish Dark");
-	//switchUiTheme(ui_window, "Blendish");
-	//switchUiTheme(ui_window, "TurboBadger");
-	//switchUiTheme(ui_window, "MyGUI");
+	style_minimal(ui_window);
+	//style_imgui(ui_window, ImguiStyle::Dark);
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 	g_render_system = &render_system;

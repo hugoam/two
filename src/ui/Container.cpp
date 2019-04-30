@@ -154,6 +154,8 @@ namespace ui
 	{
 		Tabber& self = twidget<Tabber>(parent, tabber_styles().tabber);
 		self.m_head = &widget(self, tabber_styles().head);
+		widget(self, tabber_styles().edge);
+		//separator(self);
 		self.m_body = &widget(self, tabber_styles().body);
 		self.m_index = 0;
 		return self;

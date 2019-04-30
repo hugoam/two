@@ -53,21 +53,19 @@ namespace ui
 	Dockbar& dockbar(Widget& parent, Docksystem& docksystem)
 	{
 		Dockbar& self = parent.suba<Dockbar, Docksystem&>(docksystem);
-		self.init(dock_styles().dockbar);
+		self.init(dock_styles().dockbar).layer();
 
 		self.m_togglebar = &widget(self, dock_styles().docktabs);
 
-		static float width = 300.f;
-
 		Widget& drag_handle = widget(self, styles().drag_handle);
 		if(MouseEvent event = drag_handle.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
-			width -= event.m_delta.x;
+			self.width -= event.m_delta.x;
 
 		self.m_dockzone = &widget(self, dock_styles().dockdiv);
 		if(self.m_current_tab == SIZE_MAX)
-			self.m_dockzone->m_frame.m_size = { 0.f, 0.f };
+			self.m_dockzone->m_frame.m_size = vec2(0.f);
 		else
-			self.m_dockzone->m_frame.m_size = { width, 0.f };
+			self.m_dockzone->m_frame.m_size = vec2(self.width, 0.f);
 
 		return self;
 	}

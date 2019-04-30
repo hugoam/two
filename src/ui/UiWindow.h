@@ -8,7 +8,7 @@
 #include <stl/string.h>
 #include <stl/vector.h>
 #include <stl/map.h>
-#include <type/Unique.h>
+#include <stl/memory.h>
 #include <math/Timer.h>
 #include <math/ImageAtlas.h>
 #endif
@@ -57,7 +57,7 @@ namespace mud
 
 		UiRenderer m_renderer;
 
-		vector<object<Image>> m_images;
+		vector<unique<Image>> m_images;
 		ImageAtlas m_atlas;
 
 		attr_ uvec2 m_size;
@@ -66,7 +66,7 @@ namespace mud
 
 		Clipboard m_clipboard;
 
-		object<Ui> m_ui;
+		unique<Ui> m_ui;
 
 		User* m_user = nullptr;
 	};

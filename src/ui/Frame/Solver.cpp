@@ -18,7 +18,7 @@ module mud.ui;
 
 #include <cstdio>
 
-#define DEBUG_BOUNDS 1
+#define DEBUG_BOUNDS 0
 #define DEBUG_LAYOUT 0
 
 namespace mud
@@ -151,7 +151,6 @@ namespace mud
 
 #if DEBUG_BOUNDS
 		if(!d_frame) return;
-		if(d_frame->d_style->m_name != "WindowSizerLeft") return;
 		d_frame->debug_print(false);
 		printf(" layout measured content size %i , %i\n", int(d_content.x), int(d_content.y));
 #endif

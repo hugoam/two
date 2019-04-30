@@ -69,11 +69,11 @@ void custom_element(Widget& parent, cstring name, cstring gender, bool& selected
 	Widget& self = ui::row(parent);
 	ui::checkbox(self, selected);
 	ui::icon(self, "(tbb/icon48)");
-	{
-		Widget& stack = ui::stack(self);
-		ui::label(stack, name);
-		ui::label(stack, gender);
-	}
+
+	Widget& stack = ui::stack(self);
+	ui::label(stack, name);
+	ui::label(stack, gender);
+
 	if(ui::button(self, ui::window_styles().close_button, "").activated())
 		removed = true;
 };
@@ -109,43 +109,34 @@ void ex_scroll_list(Widget& parent)
 {
 	Widget& sequence = ui::layout(parent);
 
-	{
-		Widget& sheet = ui::scroll_sheet(sequence);
-		for(int i = 0; i < 100; i++)
-			ui::label(sheet, ("Element " + to_string(i)).c_str());
-	}
+	Widget& sheet0 = ui::scroll_sheet(sequence);
+	for(int i = 0; i < 100; i++)
+		ui::label(sheet0, ("Element " + to_string(i)).c_str());
 
-	{
-		Widget& sheet = ui::scroll_sheet(sequence);
-		for(int i = 0; i < 100; i++)
-			ui::button(sheet, ("Element " + to_string(i)).c_str());
-	}
+	Widget& sheet1 = ui::scroll_sheet(sequence);
+	for(int i = 0; i < 100; i++)
+		ui::button(sheet1, ("Element " + to_string(i)).c_str());
 }
 
 void ex_text_editor(Widget& parent)
 {
+	Widget& menubar = ui::menubar(parent);
+
+	if(Widget* menu = ui::menu(menubar, "Menu").m_body)
 	{
-		Widget& menubar = ui::menubar(parent);
+		ui::menu_choice(*menu, "Redo");
+		ui::menu_choice(*menu, "Undo");
 
-		Widget* menu = ui::menu(menubar, "Menu").m_body;
-		if(menu)
+		if(Widget* submenu = ui::menu(*menu, "Change Font", true).m_body)
 		{
-			ui::menu_choice(*menu, "Redo");
-			ui::menu_choice(*menu, "Undo");
-			{
-				Widget* submenu = ui::menu(*menu, "Change Font", true).m_body;
-				if(submenu)
-				{
-					ui::menu_choice(*submenu, "Arial");
-					ui::menu_choice(*submenu, "Myriad");
-				}
-			}
+			ui::menu_choice(*submenu, "Arial");
+			ui::menu_choice(*submenu, "Myriad");
 		}
-
-		ui::button(menubar, "Open File");
-		ui::button(menubar, "Undo");
-		ui::button(menubar, "Redo");
 	}
+
+	ui::button(menubar, "Open File");
+	ui::button(menubar, "Undo");
+	ui::button(menubar, "Redo");
 
 	static string text = "This is an example text editor field\nYou can use it as any common editor";
 	//ui::text_edit(parent, text);
@@ -154,60 +145,44 @@ void ex_text_editor(Widget& parent)
 
 void ex_application(Widget& parent)
 {
+	Widget& menubar = ui::menubar(parent);
+
+	if(Widget* menu = ui::menu(menubar, "File").m_body)
 	{
-		Widget& menubar = ui::menubar(parent);
+		ui::menu_choice(*menu, "Open");
+		ui::menu_choice(*menu, "Save");
 
+		if(Widget* submenu = ui::menu(*menu, "Save As", true).m_body)
 		{
-			Widget* menu = ui::menu(menubar, "File").m_body;
-			if(menu)
-			{
-				ui::menu_choice(*menu, "Open");
-				ui::menu_choice(*menu, "Save");
-				{
-					Widget* submenu = ui::menu(*menu, "Save As", true).m_body;
-					if(submenu)
-					{
-						ui::menu_choice(*submenu, "Save As JPEG");
-						ui::menu_choice(*submenu, "Save As PNG");
-						ui::menu_choice(*submenu, "Save As PDF");
-					}
-				}
-				ui::menu_choice(*menu, "Close");
-			}
+			ui::menu_choice(*submenu, "Save As JPEG");
+			ui::menu_choice(*submenu, "Save As PNG");
+			ui::menu_choice(*submenu, "Save As PDF");
 		}
 
-		{
-			Widget* menu = ui::menu(menubar, "Edit").m_body;
-			if(menu)
-			{
-				ui::menu_choice(*menu, "Redo");
-				ui::menu_choice(*menu, "Undo");
-			}
-		}
-
-		{
-			Widget* menu = ui::menu(menubar, "Help").m_body;
-			if(menu)
-			{
-				ui::menu_choice(*menu, "About kiUi");
-			}
-		}
+		ui::menu_choice(*menu, "Close");
 	}
 
+	if(Widget* menu = ui::menu(menubar, "Edit").m_body)
 	{
-		Widget& tools = ui::tooldock(parent);
-		{
-			Widget& toolbar = ui::toolbar(tools, true);
-			ui::toolbutton(toolbar, "(arrow_left_15)");
-			ui::toolbutton(toolbar, "(arrow_right_15)");
-		}
-		{
-			Widget& toolbar = ui::toolbar(tools, true);
-			ui::toolbutton(toolbar, "(file_15)");
-			ui::toolbutton(toolbar, "(folder_15)");
-			ui::toolbutton(toolbar, "(close_15)");
-		}
+		ui::menu_choice(*menu, "Redo");
+		ui::menu_choice(*menu, "Undo");
 	}
+
+	if(Widget* menu = ui::menu(menubar, "Help").m_body)
+	{
+		ui::menu_choice(*menu, "About kiUi");
+	}
+
+	Widget& tools = ui::tooldock(parent);
+
+	Widget& toolbar0 = ui::toolbar(tools, true);
+	ui::toolbutton(toolbar0, "(arrow_left_15)");
+	ui::toolbutton(toolbar0, "(arrow_right_15)");
+
+	Widget& toolbar1 = ui::toolbar(tools, true);
+	ui::toolbutton(toolbar1, "(file_15)");
+	ui::toolbutton(toolbar1, "(folder_15)");
+	ui::toolbutton(toolbar1, "(close_15)");
 }
 
 #ifdef SCRIPT
@@ -238,7 +213,7 @@ void ex_console(Widget& parent)
 
 void ex_script_editor(Widget& parent)
 {
-	static string text = "This is an example text editor field\nYou can use it as any common editor vec3 float";
+	static string text = "This is an example text editor field\nYou can use it as any common editor";
 	ui::code_edit(parent, text);
 }
 
@@ -256,13 +231,22 @@ void ex_dockspace(Widget& parent)
 	docksystem.m_dockers = { &dockspace, &dockbar };
 
 	if(Widget* dock = ui::dockitem(dockspace, "Dock 0", { 0U, 0U }))
-		ex_controls(*dock);
+	{
+		Widget& body = *ui::scroll_sheet(*dock).m_body;
+		ex_controls(body);
+	}
 
 	if(Widget* dock = ui::dockitem(dockspace, "Dock 1", { 0U, 1U }))
-		ex_inline_controls(*dock);
+	{
+		Widget& body = *ui::scroll_sheet(*dock).m_body;
+		ex_inline_controls(body);
+	}
 
 	if(Widget* dock = ui::dockitem(dockspace, "Dock 2", { 0U, 2U }))
-		ex_table(*dock);
+	{
+		Widget& body = *ui::scroll_sheet(*dock).m_body;
+		ex_table(body);
+	}
 
 	if(Widget* dock = ui::dockitem(dockbar, "Options", { 0U }))
 		ex_controls(*dock);
@@ -273,15 +257,15 @@ struct NodeCable
 {
 	struct Plug
 	{
-		Node* m_node;
+		size_t m_node;
 		bool m_input;
 		size_t m_index;
 
 		bool operator==(const Plug& other) const { return m_node == other.m_node && m_input == other.m_input && m_index == other.m_index; }
 	};
 
-	Plug m_in;
 	Plug m_out;
+	Plug m_in;
 };
 
 class CanvasExample
@@ -289,15 +273,15 @@ class CanvasExample
 public:
 	CanvasExample() {}
 
-	NodeCable& connect(NodeCable::Plug in, NodeCable::Plug out)
+	NodeCable& connect(NodeCable::Plug out, NodeCable::Plug in)
 	{
-		m_cables.push_back(NodeCable{ in, out });
+		m_cables.push_back({ out, in });
 		return m_cables.back();
 	}
 
 	void disconnect(NodeCable::Plug plug)
 	{
-		remove_if(m_cables, [=](const NodeCable& cable) { return cable.m_in == plug || cable.m_out == plug; });
+		remove_if(m_cables, [=](const NodeCable& cable) { return cable.m_out == plug || cable.m_in == plug; });
 	}
 
 	vector<NodeCable> m_cables;
@@ -306,7 +290,8 @@ public:
 void ex_nodes(Widget& parent)
 {
 	Widget& tools = ui::toolbar(parent);
-	CanvasExample model;
+
+	static CanvasExample model;
 
 	Canvas& canvas = ui::canvas(parent, 4);
 
@@ -316,136 +301,122 @@ void ex_nodes(Widget& parent)
 	//if(ui::toolbutton(tools, "autolayout selected").activated())
 		//
 
+
+	static vec2 p0 = vec2(150.f, 250.f);
+	Node& n0 = ui::node(canvas, "A Node", p0);
+	ui::node_input(n0, "a", "", Colour::Cyan);
+	ui::node_input(n0, "b", "", Colour::Cyan);
+	ui::node_output(n0, "result");
+
+	static vec2 p1 = vec2(350.f, 150.f);
+	Node& n1 = ui::node(canvas, "A Node", p1);
+	ui::node_input(n1, "a");
+	ui::node_input(n1, "b");
+	ui::node_output(n1, "result", "", Colour::Red);
+
+	static vec2 p2 = vec2(450.f, 450.f);
+	Node& n2 = ui::node(canvas, "Another Node", p2);
+	ui::node_input(n2, "u", "", Colour::Pink);
+	ui::node_input(n2, "v", "", Colour::Pink);
+	ui::node_output(n2, "x", "", Colour::Cyan);
+	ui::node_output(n2, "y", "", Colour::Cyan);
+	ui::node_output(n2, "z", "", Colour::Cyan);
+
+	static vec2 p3 = vec2(800.f, 200.f);
+	Node& n3 = ui::node(canvas, "End Node", p3);
+	ui::node_input(n3, "input 1");
+	ui::node_input(n3, "input 2");
+
+	NodeConnection connection = ui::canvas_connect(canvas);
+	if(connection.valid())
 	{
-		static vec2 position = { 150.f, 250.f };
-		Node& node = ui::node(canvas, "A Node", position);
-		ui::node_input(node, "a", "", Colour::Cyan);
-		ui::node_input(node, "b", "", Colour::Cyan);
-		ui::node_output(node, "result");
+		const NodeCable::Plug out = { connection.m_out_node, false, connection.m_out_plug };
+		const NodeCable::Plug in = { connection.m_in_node, true, connection.m_in_plug };
+		model.connect(out, in);
 	}
 
+	for(NodeCable& cable : model.m_cables)
 	{
-		static vec2 position = { 350.f, 150.f };
-		Node& node = ui::node(canvas, "A Node", position);
-		ui::node_input(node, "a");
-		ui::node_input(node, "b");
-		ui::node_output(node, "result", "", Colour::Red);
+		NodePlug& out = as<NodePlug>(*canvas.m_nodes[cable.m_out.m_node]->m_outputs->m_nodes[cable.m_out.m_index]);
+		NodePlug& in = as<NodePlug>(*canvas.m_nodes[cable.m_in.m_node]->m_inputs->m_nodes[cable.m_in.m_index]);
+		ui::node_cable(canvas, out, in);
 	}
-
-	{
-		static vec2 position = { 450.f, 450.f };
-		Node& node = ui::node(canvas, "Another Node", position);
-		ui::node_input(node, "u", "", Colour::Pink);
-		ui::node_input(node, "v", "", Colour::Pink);
-		ui::node_output(node, "x", "", Colour::Cyan);
-		ui::node_output(node, "y", "", Colour::Cyan);
-		ui::node_output(node, "z", "", Colour::Cyan);
-	}
-
-	{
-		static vec2 position = { 800.f, 200.f };
-		Node& node = ui::node(canvas, "End Node", position);
-		ui::node_input(node, "input 1");
-		ui::node_input(node, "input 2");
-	}
-
-	ui::canvas_connect(canvas);
-
-	//for(NodeCable& cable : model.m_cables)
-	//	ui::node_cable(*canvas.m_cables, canvas.m_plan->m_frame, cable.m_out.m_node->m_frame, cable.m_out.m_node->m_frame, Colour::NeonGreen, Colour::Red);
-
 }
 
 void ex_tabs(Widget& parent)
 {
 	Tabber& tabber = ui::tabber(parent);
 
-	Widget* tab0 = ui::tab(tabber, "Tab 0");
-	if(tab0)
+	if(Widget* tab0 = ui::tab(tabber, "Tab 0"))
 		ex_table(*tab0);
 
-	Widget* tab1 = ui::tab(tabber, "Tab 1");
-	if(tab1)
+	if(Widget* tab1 = ui::tab(tabber, "Tab 1"))
 		ex_inline_controls(*tab1);
 
-	Widget* tab2 = ui::tab(tabber, "Tab 2");
-	if(tab2)
+	if(Widget* tab2 = ui::tab(tabber, "Tab 2"))
 		ex_controls(*tab2);
 }
 
 void ex_table(Widget& parent)
 {
+	Widget& table0 = ui::table(parent, { "ID", "Name", "Path", "Flags" }, { 0.25f, 0.25f, 0.25f, 0.25f });
+
+	cstring contents[3][4] = {
+		{ "0000", "Robert",    "/path/robert",    "...." },
+		{ "0001", "Stephanie", "/path/stephanie", "line 1" },
+		{ "0002", "C64",       "/path/computer",  "...." }
+	};
+
+	for(auto& r : contents)
 	{
-		Widget& table = ui::table(parent, { "ID", "Name", "Path", "Flags" }, { 0.25f, 0.25f, 0.25f, 0.25f });
-
-		cstring contents[3][4] = {
-			{ "0000", "Robert",    "/path/robert",    "...." },
-			{ "0001", "Stephanie", "/path/stephanie", "line 1" },
-			{ "0002", "C64",       "/path/computer",  "...." }
-		};
-
-		for(auto& r : contents)
-		{
-			Widget& row = ui::row(table);
-			for(cstring name : r)
-				ui::label(row, name);
-		}
+		Widget& row = ui::table_row(table0);
+		for(cstring name : r)
+			ui::label(row, name);
 	}
 
+	Widget& table1 = ui::table(parent, { "Column 0", "Column 1", "Column 3" }, { 0.33f, 0.33f, 0.33f });
+
 	{
-		Widget& table = ui::table(parent, { "Column 0", "Column 1", "Column 3" }, { 0.33f, 0.33f, 0.33f });
+		Widget& r0 = ui::table_row(table1);
+		for(cstring name : { "Hello", "kiUi", "World!" })
+			ui::label(r0, name);
 
-		{
-			Widget& row = ui::row(table);
-			for(cstring name : { "Hello", "kiUi", "World!" })
-				ui::label(row, name);
-		}
-
-		{
-			Widget& row = ui::row(table);
-			for(cstring name : { "Banana", "Apple", "Corniflower" })
-				ui::button(row, name);
-		}
+		Widget& r1 = ui::table_row(table1);
+		for(cstring name : { "Banana", "Apple", "Corniflower" })
+			ui::button(r1, name);
 
 		static uint32_t radio_val = 0;
-		ui::radio_switch(table, { "radio a", "radio b", "radio c" }, radio_val);
+		ui::radio_switch(table1, { "radio a", "radio b", "radio c" }, radio_val);
 
+		Widget& r2 = ui::row(table1);
+
+		for(const string& c : { "A", "B", "C" })
 		{
-			Widget& row = ui::row(table);
-
-			for(const string& c : { "A", "B", "C" })
-			{
-				Widget* expandbox = ui::expandbox(row, (string("Category") + c).c_str()).m_body;
-				if(expandbox)
-					ui::label(*expandbox, "Blah blah blah");
-			}
+			if(Widget* expandbox = ui::expandbox(r2, (string("Category") + c).c_str()).m_body)
+				ui::label(*expandbox, "Blah blah blah");
 		}
 	}
 
+	Widget& table2 = ui::table(parent, { "Left", "Right" }, { 0.5f, 0.5f });
+
 	{
-		Widget& table = ui::table(parent, { "Left", "Right" }, { 0.5f, 0.5f });
+		Widget& r0 = ui::table_row(table2);
+		float red = 0.05f;
+		float blue = 0.05f;
+		ui::number_field<float>(r0, "Red", red);
+		ui::number_field<float>(r0, "Blue", blue);
 
-		{
-			Widget& row = ui::row(table);
-			float red = 0.05f;
-			float blue = 0.05f;
-			ui::number_field<float>(row, "Red", red);
-			ui::number_field<float>(row, "Blue", blue);
-		}
+		Widget& r1 = ui::table_row(table2);
+		static string s0 = "The quick brown fox jumps over the lazy dog.";
+		static string s1 = "The quick brown fox jumps over the lazy dog.";
+		//ui::type_in(row, s0);
+		//ui::type_in(row, s1);
+		ui::text(r1, s0);
+		ui::text(r1, s1);
 
-		{
-			Widget& row = ui::row(table);
-			string s0 = "The quick brown fox jumps over the lazy dog.";
-			string s1 = "The quick brown fox jumps over the lazy dog.";
-			ui::type_in(row, s0);
-			ui::type_in(row, s1);
-		}
-
-		{
-			Widget& row = ui::row(table);
-			ui::label(row, "Hello Left");
-			ui::label(row, "Hello Right");
-		}
+		Widget& r2 = ui::table_row(table2);
+		ui::label(r2, "Hello Left");
+		ui::label(r2, "Hello Right");
 	}
 }
 
@@ -466,8 +437,7 @@ void ex_tree(Widget& parent)
 
 	for(size_t i = 0; i < 5; i++)
 	{
-		Widget* node = ui::tree_node(*root_node, ("Child " + to_string(5 + i)).c_str()).m_body;
-		if(node)
+		if(Widget* node = ui::tree_node(*root_node, ("Child " + to_string(5 + i)).c_str()).m_body)
 		{
 			Widget& row = ui::row(*node);
 			ui::label(row, "Blah blah");
@@ -483,8 +453,7 @@ void ex_table_tree(Widget& parent)
 	ui::tree_node(tree, "Inside a tree...");
 	ui::tree_node(tree, "Node 1 (with borders)");
 
-	Widget* node2 = ui::tree_node(tree, "Table Node 0").m_body;
-	if(node2)
+	if(Widget* node2 = ui::tree_node(tree, "Table Node 0").m_body)
 	{
 		ui::label(*node2, "aaa");
 		ui::label(*node2, "bbb");
@@ -492,8 +461,7 @@ void ex_table_tree(Widget& parent)
 		ui::label(*node2, "ddd");
 	}
 
-	Widget* node3 = ui::tree_node(tree, "Table Node 1").m_body;
-	if(node3)
+	if(Widget* node3 = ui::tree_node(tree, "Table Node 1").m_body)
 	{
 		ui::label(*node3, "eee");
 		ui::label(*node3, "fff");
@@ -507,23 +475,17 @@ void ex_markup_text(Widget& parent)
 	ui::text(parent, "This is a long paragraph. The text should automatically wrap on the edge of the window. The current implementation follows no word splitting rules, text is just split at the last character.");
 	ui::slider_field<float>(parent, "Wrap width", AutoStat<float>(200.f, -20.f, 600.f, 0.1f), false);
 
-	{
-		Widget& row = ui::row(parent);
-		ui::icon(row, "(bullet)");
-		ui::label(row, "Bullet point 1");
-	}
+	Widget& r0 = ui::row(parent);
+	ui::icon(r0, "(bullet)");
+	ui::label(r0, "Bullet point 1");
 
-	{
-		Widget& row = ui::row(parent);
-		ui::icon(row, "(bullet)");
-		ui::text(row, "Bullet point 2\nOn multiple lines");
-	}
+	Widget& r1 = ui::row(parent);
+	ui::icon(r1, "(bullet)");
+	ui::text(r1, "Bullet point 2\nOn multiple lines");
 
-	{
-		Widget& row = ui::row(parent);
-		ui::icon(row, "(bullet)");
-		ui::label(row, "Bullet point 3");
-	}
+	Widget& r2 = ui::row(parent);
+	ui::icon(r2, "(bullet)");
+	ui::label(r2, "Bullet point 3");
 }
 
 void ex_controls(Widget& parent)
@@ -601,43 +563,33 @@ void ex_file_tree(Widget& parent)
 
 void ex_inline_controls(Widget& parent)
 {
-	{
-		Widget& row = ui::row(parent);
-		ui::label(row, "Hello");
-		ui::label(row, "World");
-	}
+	Widget& r0 = ui::row(parent);
+	ui::label(r0, "Hello");
+	ui::label(r0, "World");
 
-	{
-		Widget& row = ui::row(parent);
-		ui::button(row, "Banana");
-		ui::button(row, "Apple");
-		ui::button(row, "Corniflower");
-	}
+	Widget& r1 = ui::row(parent);
+	ui::button(r1, "Banana");
+	ui::button(r1, "Apple");
+	ui::button(r1, "Corniflower");
 
-	{
-		Widget& row = ui::row(parent);
-		ui::label(row, "Small buttons");
-		ui::button(row, "Like this one");
-		ui::label(row, "can fit within a text block.");
-	}
+	Widget& r2 = ui::row(parent);
+	ui::label(r2, "Small buttons");
+	ui::button(r2, "Like this one");
+	ui::label(r2, "can fit within a text block.");
 
-	{
-		Widget& row = ui::row(parent);
-		static bool values[4] = { false, false, false, false };
-		ui::input_field<bool>(row, "My", values[0]);
-		ui::input_field<bool>(row, "Tailor", values[1]);
-		ui::input_field<bool>(row, "Is", values[2]);
-		ui::input_field<bool>(row, "Rich", values[3]);
-	}
+	Widget& r3 = ui::row(parent);
+	static bool bools[4] = { false, false, false, false };
+	ui::input_field<bool>(r3, "My", bools[0]);
+	ui::input_field<bool>(r3, "Tailor", bools[1]);
+	ui::input_field<bool>(r3, "Is", bools[2]);
+	ui::input_field<bool>(r3, "Rich", bools[3]);
 
-	{
-		Widget& row = ui::row(parent);
-		static float values[3] = { 0.f, 0.f, 0.f };
-		StatDef<float> def = {};
-		ui::number_field<float>(row, "X", { values[0], def });
-		ui::number_field<float>(row, "Y", { values[1], def });
-		ui::number_field<float>(row, "Z", { values[2], def });
-	}
+	Widget& r4 = ui::row(parent);
+	static float values[3] = { 0.f, 0.f, 0.f };
+	StatDef<float> def = {};
+	ui::number_field<float>(r4, "X", { values[0], def });
+	ui::number_field<float>(r4, "Y", { values[1], def });
+	ui::number_field<float>(r4, "Z", { values[2], def });
 }
 
 void ex_progress_dialog(Widget& parent)
@@ -659,36 +611,30 @@ void ex_window_page(Widget& parent)
 {
 	ui::text(parent, "kiui says hello.\n" "line breaks can happen in a label");
 
+	if(Widget* expandbox = ui::expandbox(parent, "Help").m_body)
 	{
-		Widget* expandbox = ui::expandbox(parent, "Help").m_body;
-		if(expandbox)
-			ui::text(*expandbox, "This window is being created by the ex_window_page() function.\nPlease refer to the code for programming reference.\n\nUser Guide:");
+		ui::text(*expandbox, "This window is being created by the ex_window_page() function.\nPlease refer to the code for programming reference.\n\nUser Guide:");
 	}
 
+	if(Widget* expandbox = ui::expandbox(parent, "Window options").m_body)
 	{
-		Widget* expandbox = ui::expandbox(parent, "Window options").m_body;
-		if(expandbox)
-		{
-			ui::flag_field(*expandbox, "titlebar", (uint32_t&)window_state, 1, true);
-			ui::flag_field(*expandbox, "closable", (uint32_t&)window_state, 3, true);
-			ui::flag_field(*expandbox, "movable", (uint32_t&)window_state, 4, true);
-			ui::flag_field(*expandbox, "resizable", (uint32_t&)window_state, 5, true);
+		ui::flag_field(*expandbox, "titlebar", (uint32_t&)window_state, 1, true);
+		ui::flag_field(*expandbox, "closable", (uint32_t&)window_state, 3, true);
+		ui::flag_field(*expandbox, "movable", (uint32_t&)window_state, 4, true);
+		ui::flag_field(*expandbox, "resizable", (uint32_t&)window_state, 5, true);
 
-			static float alpha = 0.f; //[&window](float alpha) { window.frame().d_inkstyle->m_background_colour.m_a = alpha; }
-			ui::slider_field<float>(*expandbox, "fill alpha", AutoStat<float>(alpha, { 0.f, 1.f, 0.1f }), true);
-		}
+		static float alpha = 0.f; //[&window](float alpha) { window.frame().d_inkstyle->m_background_colour.m_a = alpha; }
+		ui::slider_field<float>(*expandbox, "fill alpha", AutoStat<float>(alpha, { 0.f, 1.f, 0.1f }), true);
 	}
 
+	if(Widget* expandbox = ui::expandbox(parent, "Widgets").m_body)
 	{
-		Widget* expandbox = ui::expandbox(parent, "Widgets").m_body;
-		if(expandbox)
-			ex_controls(*expandbox);
+		ex_controls(*expandbox);
 	}
 
+	if(Widget* expandbox = ui::expandbox(parent, "Table").m_body)
 	{
-		Widget* expandbox = ui::expandbox(parent, "Table").m_body;
-		if(expandbox)
-			ex_table(*expandbox);
+		ex_table(*expandbox);
 	}
 }
 
@@ -698,8 +644,8 @@ void ex_debug_dock(Widget& parent)
 
 	Dockbar& tooldock = ui::dockbar(parent, docksystem);
 
+	if(Widget* options = ui::dockitem(tooldock, "Options", { 0U }))
 	{
-		Widget* options = ui::dockitem(tooldock, "Options", { 0U });
 		UNUSED(options);
 
 		//VgRenderer& renderer = *Frame::s_renderer;
@@ -816,14 +762,15 @@ void example_ui(Widget& ui)
 
 	ui::label(header, "Switch theme : ");
 
-	static SelectTheme select[6] = { style_minimal, style_minimal, style_blendish_light, style_blendish_dark, style_minimal, style_minimal };
-	static cstring themes[6] = { "Minimal", "Vector", "Blendish Clear", "Blendish Dark", "TurboBadger", "MyGui" };
+	static SelectTheme select[] = { style_minimal, style_vector, style_imgui_dark, style_imgui_light, style_imgui_classic, style_blendish_light, style_blendish_dark }; // style_minimal, style_minimal };
+	static cstring themes[] = { "Minimal", "Vector", "Imgui (Dark)", "Imgui (Light)", "Imgui (Classic)", "Blendish (Light)", "Blendish (Dark)" }; //, "TurboBadger", "MyGui" };
 
 	static uint32_t theme = 0;
 	if(ui::dropdown_input(header, themes, theme))
 	{
 		ui.ui_window().reset_styles();
 		select[theme](ui.ui_window());
+		ui.ui().reset_styles();
 	}
 
 	Widget& board = ui::board(ui);
@@ -907,13 +854,8 @@ int main(int argc, char *argv[])
 	//m_ui = m_ui_window.m_ui.get();
 
 	//style_minimal(ui_window);
-	style_imgui(ui_window, ImguiStyle::Dark);
-
-	//switchUiTheme(ui_window, "Minimal");
-	switchUiTheme(ui_window, "Blendish Dark");
-	//switchUiTheme(ui_window, "Blendish");
-	//switchUiTheme(ui_window, "TurboBadger");
-	//switchUiTheme(ui_window, "MyGUI");
+	//style_imgui(ui_window, ImguiStyle::Dark);
+	style_blendish_dark(ui_window);
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 	g_render_system = &render_system;

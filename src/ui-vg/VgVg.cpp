@@ -218,8 +218,8 @@ namespace mud
 
 	void VgVg::draw_shadow(const vec4& rect, const vec4& corners, const Shadow& shadow)
 	{
-		vec4 shadow_rect = { rect.pos + shadow.d_pos - shadow.d_radius, rect.size + shadow.d_radius * 2.f };
-		vec4 gradient_rect = { rect.pos + shadow.d_pos - shadow.d_spread, rect.size + shadow.d_spread * 2.f };
+		const vec4 shadow_rect = { rect.pos + shadow.d_pos - shadow.d_radius, rect.size + shadow.d_radius * 2.f };
+		const vec4 gradient_rect = { rect.pos + shadow.d_pos - shadow.d_spread, rect.size + shadow.d_spread * 2.f };
 		vg::GradientHandle shadowPaint = vg::createBoxGradient(m_vg, RECT_FLOATS(gradient_rect), corners[0] + shadow.d_spread, shadow.d_blur, vgColour(shadow.d_colour), vg::Colors::Transparent);
 		vg::beginPath(m_vg);
 		vg::rect(m_vg, RECT_FLOATS(shadow_rect));
@@ -311,7 +311,7 @@ namespace mud
 		vg::GradientHandle paint2 = vg::createLinearGradient(m_vg, (r + a.x) * 0.5f, (0 + a.y) * 0.5f, b.x, b.y, vg::Colors::Transparent, vg::Colors::Black);
 		vg::fillPath(m_vg, paint2, vg::FillFlags::ConvexAA);
 
-		vg::strokePath(m_vg, vg::color4ub(0, 0, 0, 64), 1.f, vg::StrokeFlags::ButtMiterAA);
+		//vg::strokePath(m_vg, vg::color4ub(0, 0, 0, 64), 1.f, vg::StrokeFlags::ButtMiterAA);
 	}
 
 	uint32_t VgVg::text_align(const TextPaint& paint)
@@ -357,7 +357,7 @@ namespace mud
 
 	void VgVg::draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint)
 	{
-		const float yoff = ceil(paint.m_size * 0.5f) + 1;
+		const float yoff = ceil(paint.m_size * 0.5f);// + 1;
 		if(paint.m_text_break)
 			vg::textBox(m_vg, text_font(paint), offset.x, offset.y + yoff, FLT_MAX, start, end, 0); // vg::TextBoxFlags::KeepSpaces);
 		else

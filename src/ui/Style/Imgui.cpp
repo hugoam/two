@@ -33,7 +33,7 @@ namespace mud
 			l.m_padding = vec4(look.FramePadding, look.FramePadding);
 		});
 
-		select({ "ExpandboxHeader", "WindowHeader", "WindowHeaderMovable", "Scrollbar" }) // , "Menu"
+		select({ "Header", "ExpandboxHeader", "WindowHeader", "WindowHeaderMovable", "Scrollbar", "NodePlug" }) // , "Menu"
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
 			l.m_padding = vec4(look.FramePadding, look.FramePadding);
 		});
@@ -68,13 +68,13 @@ namespace mud
 			l.m_spacing.x = look.ItemInnerSpacing.x;
 		});
 
-		select({ "ExpandboxBody", "Dockbar", "Toolbar", "Header", "TabberHead", "Tab" })
+		select({ "ExpandboxBody", "Dockbar", "Toolbar", "Header", "Tab" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			//l.m_padding = vec4(look.ItemSpacing, look.ItemSpacing);
 			l.m_padding = vec4(look.FramePadding, look.FramePadding);
 		});
 		
-		select({ "Modal", "Popup", "ColourPopup", "Tooltip", "Popdown", "DropdownList", "MenuList", "SubMenuList", "ScrollSurface" })
+		select({ "Header", "Modal", "Popup", "ColourPopup", "Tooltip", "Popdown", "DropdownList", "MenuList", "SubMenuList", "ScrollSurface" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			l.m_padding = vec4(look.WindowPadding, look.WindowPadding);
 		});
@@ -84,12 +84,19 @@ namespace mud
 			const vec2 padding = vec2(look.FramePadding.x, look.WindowPadding.y);
 			l.m_padding = vec4(padding, padding);
 		});
+		
+		select({ "NodePlugs" })
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
+			l.m_padding = vec4(-5.f - look.FramePadding.x, 0.f, -5.f - look.FramePadding.x, 0.f);
+		});
 	}
 
 	void style_imgui(UiWindow& ui_window, const ImguiLook& look, const ImguiColours& style)
 	{
 		//layout_minimal(ui_window);
 		layout_imgui(ui_window, look);
+
+		const Colour none = Colour(0.f, 0.f);
 
 		// Render an arrow aimed to be aligned with text (offset is a position in the same space text would be positioned). To e.g. denote expanded/collapsed state
 		static auto render_arrow = [](Vg& vg, vec2 offset, SignedAxis dir, float fontsize, float scale, Colour colour)
@@ -214,6 +221,12 @@ namespace mud
 			i.m_background_colour = style.Header;
 		});
 
+		select({ "TabberEdge" })
+		.declare([&](Layout& l, InkStyle& i) {
+			i.m_background_colour = style.TabActive;
+			l.m_size = vec2(2.f);
+		});
+
 		select({ "TabHeader" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
 			i.m_background_colour = style.Tab;
@@ -260,6 +273,11 @@ namespace mud
 			i.m_custom_draw = [](const Frame& frame, const vec4& rect, Vg& vg) {};
 		});
 		
+		select({ "TreeNodeNoToggle" })
+		.declare([&](Layout& l, InkStyle& i) {
+			l.m_size = vec2(13.f) * 0.7f;
+		});
+
 		select({ "TreeNodeToggle" })
 		.declare([&](Layout& l, InkStyle& i) {
 			i.m_custom_draw = [](const Frame& frame, const vec4& rect, Vg& vg) { render_arrow(vg, rect.pos, SignedAxis::PlusX, 13.f, 0.7f, Colour(1.f)); };
@@ -338,7 +356,7 @@ namespace mud
 			i.m_background_colour = style.MenuBarBg;
 		});
 
-		select({ "Popup", "Modal", "ColourPopup" })
+		select({ "Popup", "Modal" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
 			i.m_background_colour = style.PopupBg;
 		});
@@ -352,27 +370,28 @@ namespace mud
 		});
 
 
-		select({ "Window", "WindowHeader", "WindowHeaderMovable", "WindowFooter", "DockWindow", "Dockbox", "Tab", "TextEdit", "Node", "Section", "Popup", "Modal", "ColourPopup" })
+		select({ "Window", "DockWindow", "Dockbox", "Node", "Section", "Popup", "Modal", "ColourPopup" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
 			//i.m_background_colour = grey52;
 			i.m_border_colour = style.Border;
 			i.m_border_width = vec4(1.f);
 		});
 
-		select({ "WindowHeader", "WindowHeaderMovable" })
+		select({ "Window", "DockWindow", "Dockbox", "Node", "ColourPopup", "Header", "Tab" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-			i.m_corner_radius = vec4(look.WindowRounding, look.WindowRounding, 0.f, 0.f);
+			i.m_background_colour = style.WindowBg;
 		});
 
 		select({ "Window", "Dockbox", "Node" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-			i.m_background_colour = style.WindowBg;
 			i.m_corner_radius = vec4(look.WindowRounding);
-		})
-		.decline({ SELECTED }, [&](InkStyle& i) {
 		});
-
-
+		
+		select({ "WindowHeader", "WindowHeaderMovable" })
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+			i.m_corner_radius = vec4(look.WindowRounding, look.WindowRounding, 0.f, 0.f);
+		});
+		
 		select({ "WindowHeader", "WindowHeaderMovable", "NodeHeader" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
 			i.m_background_colour = style.TitleBg;
@@ -398,6 +417,20 @@ namespace mud
 			i.m_align = { Align::Right, Align::Right };
 		});
 		
+		select({ "ColumnHeader" })
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+			i.m_background_colour = style.FrameBg;
+		});
+
+		select({ "TableRowOdd" })
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+			i.m_background_colour = none;
+		});
+
+		select({ "TableRowEven" })
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+			i.m_background_colour = style.FrameBg;
+		});
 #if 0
 		select({ "Canvas" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
@@ -407,18 +440,20 @@ namespace mud
 
 		for(auto name_style : g_styles)
 		{
-			Style& style = *name_style.second;
+			Style& s = *name_style.second;
 
-			style.m_skin.m_text_font = "proggy";
-			style.m_skin.m_text_size = 13.f;
+			s.m_skin.m_text_font = "proggy";
+			s.m_skin.m_text_size = 13.f;
+			s.m_skin.m_text_colour = style.Text;
 
-			for(Subskin& subskin : style.m_skins)
+			for(Subskin& subskin : s.m_skins)
 			{
 				subskin.skin.m_text_font = "proggy";
 				subskin.skin.m_text_size = 13.f;
+				s.m_skin.m_text_colour = style.Text;
 			}
 
-			style.prepare();
+			s.prepare();
 		}
 	}
 

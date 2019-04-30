@@ -90,6 +90,7 @@ namespace mud
 
 		virtual void dock(Dockable& widget, const vec2& pos) final;
 
+		float width = 300.f;
 		size_t m_current_tab = SIZE_MAX;
 	};
 }

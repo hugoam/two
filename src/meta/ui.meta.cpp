@@ -2074,11 +2074,11 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "dir_item", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::dir_item), mud_ui_dir_item_107, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dir_item", funcptr<mud::Widget&(*)(mud::Widget&, const string&)>(mud::ui::dir_item), mud_ui_dir_item_107, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "file_item", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::file_item), mud_ui_file_item_108, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "file_item", funcptr<mud::Widget&(*)(mud::Widget&, const string&)>(mud::ui::file_item), mud_ui_file_item_108, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2090,15 +2090,15 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "dir_node", funcptr<mud::Widget&(*)(mud::Widget&, const char*, const char*, bool)>(mud::ui::dir_node), mud_ui_dir_node_111, { { "parent", type<mud::Widget>(),  }, { "path", type<const char*>(), Param::Nullable }, { "name", type<const char*>(), Param::Nullable }, { "collapsed", type<bool>(),  } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "dir_node", funcptr<mud::Widget&(*)(mud::Widget&, const string&, const string&, bool)>(mud::ui::dir_node), mud_ui_dir_node_111, { { "parent", type<mud::Widget>(),  }, { "path", type<const char*>(), Param::Nullable }, { "name", type<const char*>(), Param::Nullable }, { "collapsed", type<bool>(),  } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "file_node", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::file_node), mud_ui_file_node_112, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "file_node", funcptr<mud::Widget&(*)(mud::Widget&, const string&)>(mud::ui::file_node), mud_ui_file_node_112, { { "parent", type<mud::Widget>(),  }, { "name", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud", "ui" }), "file_tree", funcptr<mud::Widget&(*)(mud::Widget&, const char*)>(mud::ui::file_tree), mud_ui_file_tree_113, { { "parent", type<mud::Widget>(),  }, { "path", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "mud", "ui" }), "file_tree", funcptr<mud::Widget&(*)(mud::Widget&, const string&)>(mud::ui::file_tree), mud_ui_file_tree_113, { { "parent", type<mud::Widget>(),  }, { "path", type<const char*>(), Param::Nullable } }, { &type<mud::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{

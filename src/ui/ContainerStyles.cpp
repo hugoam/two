@@ -21,8 +21,8 @@ namespace ui
 	void TableStyles::reset()
 	{
 		row = Style("TableRow", styles().wrap_button, {});
-		row_odd = Style("TableRowOdd", row, {}, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = Colour{ 0.1f, 0.1f, 0.1f }; });
-		row_even = Style("TableRowEven", row, {}, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = Colour::Black; });
+		row_odd = Style("TableRowOdd", row, {}, [](InkStyle& l) { l.m_empty = false; });
+		row_even = Style("TableRowEven", row, {}, [](InkStyle& l) { l.m_empty = false; });
 		separator = Style("TableSeparator", styles().row, [](Layout& l) { l.m_no_grid = true; });
 
 		register_styles({ &row, &row_odd, &row_even, &separator });
@@ -55,9 +55,10 @@ namespace ui
 		tab_button = Style("TabHeader", styles().button, {});
 		tabber = Style("Tabber", styles().wedge, {});
 		head = Style("TabberHead", styles().row, {});
+		edge = Style("TabberEdge", styles().separator, {});
 		body = Style("TabberBody", styles().sheet, {});
 
-		register_styles({ &tab, &tab_button, &tabber, &head, &body });
+		register_styles({ &tab, &tab_button, &tabber, &head, &edge, &body });
 	}
 
 	void FileStyles::reset()

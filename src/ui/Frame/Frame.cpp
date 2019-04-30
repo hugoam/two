@@ -33,12 +33,6 @@ namespace mud
 
 	Vg* Frame::s_vg = nullptr;
 
-	struct Frame::Content
-	{
-		string d_caption = "";
-		Image* d_icon = nullptr;
-	};
-
 	Frame::Frame(Frame* parent, Widget& widget)
 		: UiRect()
 		, d_widget(widget)
@@ -62,17 +56,17 @@ namespace mud
 
 	bool Frame::empty() const
 	{
-		return !d_content || (d_content->d_caption == "" && d_content->d_icon == nullptr);
+		return d_caption == "" && d_icon == nullptr && !m_text;
 	}
 
 	Image* Frame::icon() const
 	{
-		return d_content->d_icon;
+		return d_icon;
 	}
 
 	cstring Frame::caption() const
 	{
-		return d_content->d_caption.c_str();
+		return d_caption.c_str();
 	}
 
 	FrameSolver& Frame::solver(Style& style, Axis length, v2<size_t> index)
@@ -125,11 +119,12 @@ namespace mud
 	void Frame::update_style(bool reset)
 	{
 		d_layout = &d_style->m_layout;
-		m_opacity = d_layout->m_opacity;
-		m_size = d_layout->m_size == vec2(0.f) ? m_size : d_layout->m_size;
 
 		InkStyle& inkstyle = d_style->state_skin(d_widget.m_state);
 		this->update_inkstyle(inkstyle, reset);
+
+		m_opacity = d_layout->m_opacity;
+		m_size = d_layout->m_size == vec2(0.f) ? m_size : d_layout->m_size;
 
 		reset ? this->mark_dirty(DIRTY_FORCE_LAYOUT) : this->mark_dirty(DIRTY_LAYOUT);
 	}
@@ -142,40 +137,42 @@ namespace mud
 
 	void Frame::update_inkstyle(InkStyle& inkstyle, bool reset)
 	{
-		bool skin_image = d_inkstyle && d_inkstyle->m_image;
 		if(d_inkstyle == &inkstyle && !reset) return;
 		//printf("[debug] Update inkstyle %s\n", inkstyle.m_name.c_str());
 		d_inkstyle = &inkstyle;
 		this->mark_dirty(DIRTY_REDRAW);
+		this->set_icon(d_inkstyle->m_image);
+		if(d_caption != "")
+			this->size_caption();
+	}
 
-		if(d_inkstyle->m_image || skin_image)
-			this->set_icon(d_inkstyle->m_image);
+	void Frame::size_caption()
+	{
+		if(d_caption != "")
+		{
+			TextPaint paint = text_paint(*d_inkstyle);
+			m_content = s_vg->text_size(d_caption.c_str(), d_caption.size(), paint);
+		}
+		else
+			m_content = vec2(0.f);
 	}
 
 	void Frame::set_caption(cstring text)
 	{
-		if(!d_content)
-			d_content = make_unique<Content>();
-		if(d_content->d_caption == text)
+		if(d_caption == text)
 			return;
-		d_content->d_caption = text;
-		if(d_content->d_caption != "")
-		{
-			TextPaint paint = text_paint(*d_inkstyle);
-			m_content = s_vg->text_size(d_content->d_caption.c_str(), d_content->d_caption.size(), paint);
-		}
-		else
-			m_content = vec2(0.f);
+		d_caption = text;
+		m_size = vec2(0.f);
+		this->size_caption();
 		mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Frame::set_icon(Image* image)
 	{
-		if(!d_content)
-			d_content = make_unique<Content>();
-		if(d_content->d_icon == image)
+		if(d_icon == image)
 			return;
-		d_content->d_icon = image;
+		d_icon = image;
+		m_size = vec2(0.f);
 		m_content = image ? vec2(image->d_size) : vec2(0.f);
 		mark_dirty(DIRTY_LAYOUT);
 	}
@@ -280,7 +277,7 @@ namespace mud
 
 	void Frame::relayout()
 	{
-		DirtyLayout dirty = this->clearDirty();
+		const DirtyLayout dirty = this->clearDirty();
 		if(!dirty) return;
 
 		SolverVector solvers;
@@ -295,8 +292,10 @@ namespace mud
 
 	void Frame::sync_solver(FrameSolver& solver)
 	{
-		vec2 content = m_content + rect_sum(d_inkstyle->m_padding);
-		solver.setup(m_position, m_size, m_span, m_content != vec2(0.f) ? &content : nullptr);
+		if(d_style->m_name == "Text")
+			int i = 0;
+		const vec2 content = m_content + rect_sum(d_inkstyle->m_padding);
+		solver.setup(m_position, m_size, m_span, !empty() ? &content : nullptr);
 
 		if(d_dirty == DIRTY_PARENT)
 		{

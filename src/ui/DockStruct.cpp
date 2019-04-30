@@ -105,7 +105,7 @@ namespace mud
 	Dockable& Dockspace::pinpoint_dock(const vec2& pos)
 	{
 		Widget* widget = this->pinpoint(pos, [](Frame& frame) { return frame.d_style == &ui::dock_styles().docksection; });
-		return as<Dockable>(*widget);
+		return static_cast<Dockable&>(*widget);
 	}
 
 	Widget* Dockspace::docksection(Dock& dock)

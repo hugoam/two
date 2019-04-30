@@ -61,7 +61,7 @@ namespace mud
 		: Graph(parent, identity)
 		, m_frame(&m_parent->m_frame, *this)
 	{
-		m_index = parent->m_nodes.size();
+		m_index = uint32_t(parent->m_nodes.size());
 	}
 
 	Widget::~Widget()

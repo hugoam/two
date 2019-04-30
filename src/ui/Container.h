@@ -41,7 +41,7 @@ namespace ui
 	export_ struct TabberStyles
 	{
 		void reset();
-		Style tab; Style tab_button; Style tabber; Style head; Style body;
+		Style tab; Style tab_button; Style tabber; Style head; Style edge; Style body;
 	};
 
 	export_ MUD_UI_EXPORT TabberStyles& tabber_styles();

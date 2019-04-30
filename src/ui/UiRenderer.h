@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <type/Unique.h>
+#include <stl/memory.h>
 #include <math/Timer.h>
 #include <math/Colour.h>
 #endif

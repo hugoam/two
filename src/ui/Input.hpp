@@ -5,9 +5,9 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/traits.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
-#include <type/Type.h>
 #include <math/Stat.hpp>
 #endif
 #include <ui/Forward.h>
@@ -39,13 +39,10 @@ namespace ui
 	}
 
 	export_ template <class T>
-	bool is_scalar() { return type<T>().template is<float>() || type<T>().template is<double>(); }
-
-	export_ template <class T>
 	bool number_type_in(Widget& parent, T& value)
 	{
 		string text = truncate_number(to_string(value));
-		TextEdit& self = type_in(parent, text, 0, is_scalar<T>() ? "1234567890." : "1234567890");
+		TextEdit& self = type_in(parent, text, 0, is_float<T> ? "1234567890." : "1234567890");
 		if(self.m_changed)
 		{
 			value = to_value<T>(text);

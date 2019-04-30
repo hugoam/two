@@ -17,13 +17,13 @@ namespace mud
 {
 	export_ struct refl_ MUD_UI_EXPORT NodeConnection
 	{
-		NodeConnection() : m_valid(false) {}
-		NodeConnection(size_t out_node, size_t out_plug, size_t in_node, size_t in_plug) : m_valid(true), m_out_node(out_node), m_out_plug(out_plug), m_in_node(in_node), m_in_plug(in_plug) {}
-		bool m_valid;
-		size_t m_out_node;
-		size_t m_out_plug;
-		size_t m_in_node;
-		size_t m_in_plug;
+		uint32_t m_out_node = UINT32_MAX;
+		uint32_t m_out_plug;
+
+		uint32_t m_in_node;
+		uint32_t m_in_plug;
+
+		bool valid() { return m_out_node != UINT32_MAX; }
 	};
 
 namespace ui

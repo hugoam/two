@@ -8,7 +8,6 @@
 module mud.ui;
 #else
 #include <math/Vec.hpp>
-#include <type/Types.h>
 #include <ui/Input.h>
 #include <ui/Input.hpp>
 #include <ui/Sheet.h>

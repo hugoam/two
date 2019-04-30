@@ -34,7 +34,20 @@ namespace ui
 	Widget& label(Widget& parent, cstring label) { return item(parent, styles().label, label); }
 	Widget& title(Widget& parent, cstring label) { return item(parent, styles().title, label); }
 	Widget& message(Widget& parent, cstring label) { return item(parent, styles().message, label); }
-	Widget& text(Widget& parent, cstring label) { return item(parent, styles().text, label); }
+
+	Widget& text(Widget& parent, cstring label)
+	{
+		Widget& self = item(parent, styles().text);
+
+		// @todo optimize (doesn't need to be done on each call)
+		if(!self.m_frame.m_text)
+			self.m_frame.m_text = make_unique<Text>(self.m_frame);
+		self.m_frame.m_text->m_text = label;
+		self.m_frame.m_text->update_style();
+		self.m_frame.m_text->break_text_rows();
+
+		return self;
+	}
 
 	Widget& bullet(Widget& parent, cstring label)
 	{
@@ -48,8 +61,8 @@ namespace ui
 	Widget& label(Widget& parent, const string& label) { return item(parent, styles().label, label); }
 	Widget& title(Widget& parent, const string& label) { return item(parent, styles().title, label); }
 	Widget& message(Widget& parent, const string& label) { return item(parent, styles().message, label); }
-	Widget& text(Widget& parent, const string& label) { return item(parent, styles().text, label); }
-	Widget& bullet(Widget& parent, const string& label) { return item(parent, styles().label, label); }
+	Widget& text(Widget& parent, const string& label) { return text(parent, label.c_str()); }
+	Widget& bullet(Widget& parent, const string& label) { return bullet(parent, label.c_str()); }
 
 	int format(char* buf, size_t buf_size, const char* fmt, ...)
 	{

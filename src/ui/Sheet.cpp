@@ -23,9 +23,11 @@ namespace ui
 	Widget& dummy(Widget& parent, const vec2& size)
 	{
 		Widget& self = widget(parent, styles().dummy);
-		if(size != self.m_frame.m_content)
+		//if(size != self.m_frame.m_content)
+		if(size != self.m_frame.m_size)
 		{
-			self.m_frame.m_content = size;
+			self.m_frame.set_size(size);
+			//self.m_frame.m_content = size;
 			self.m_frame.mark_dirty(DIRTY_LAYOUT);
 		}
 		return self;

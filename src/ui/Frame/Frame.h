@@ -5,8 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
 #include <stl/memory.h>
-#include <type/Unique.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Frame/UiRect.h>
@@ -39,6 +39,8 @@ namespace mud
 		void set_icon(Image* image);
 		Image* icon() const;
 		cstring caption() const;
+
+		void size_caption();
 
 		Frame& root();
 		Layer& layer();
@@ -106,11 +108,13 @@ namespace mud
 		InkStyle* d_inkstyle = nullptr;
 
 	public:
-		struct Content;
-		object<Content> d_content;
-		object<FrameSolver> m_solver;
+		string d_caption = "";
+		Image* d_icon = nullptr;
 
-		object<Layer> m_layer;
+		unique<FrameSolver> m_solver;
+
+		unique<Layer> m_layer;
+		unique<Text> m_text;
 
 		static Vg* s_vg;
 	};

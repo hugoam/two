@@ -54,6 +54,7 @@ namespace mud
 
 		StyleSelector& declare(StyleDecl decl);
 		StyleSelector& decline(span<uint32_t> states, InkDecl decl);
+		StyleSelector& style(InkDecl decl);
 
 		vector<Style*> styles;
 	};
@@ -62,6 +63,7 @@ namespace mud
 
 	export_ MUD_UI_EXPORT void layout_minimal(UiWindow& ui_window);
 	export_ MUD_UI_EXPORT void style_minimal(UiWindow& ui_window);
+	export_ MUD_UI_EXPORT void style_vector(UiWindow& ui_window);
 
 	export_ MUD_UI_EXPORT void style_blendish(UiWindow& ui_window);
 	export_ MUD_UI_EXPORT void style_blendish_light(UiWindow& ui_window);

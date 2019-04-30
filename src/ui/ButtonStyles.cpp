@@ -44,7 +44,7 @@ namespace ui
 		scroller = Style("Scroller", styles().slider, [](Layout& l) { l.m_space = Preset::Flex; });
 		scroller_knob = Style("ScrollerKnob", styles().slider_knob, [](Layout& l) { l.m_space = Preset::Flex; });
 
-		register_styles({ &scrollbar, &scroll_up, &scroll_down, &scroll_down, &scroll_right, &scroller, &scroller_knob });
+		register_styles({ &scrollbar, &scroll_up, &scroll_down, &scroll_left, &scroll_right, &scroller, &scroller_knob });
 	}
 
 	void DropdownStyles::reset()

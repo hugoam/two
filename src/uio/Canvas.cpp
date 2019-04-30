@@ -263,7 +263,7 @@ namespace mud
 			script_pipe(canvas, *pipe);
 
 		NodeConnection connection = ui::canvas_connect(canvas);
-		if(connection.m_valid)
+		if(connection.valid())
 		{
 			Valve& output = *script.m_processes[connection.m_out_node]->m_outputs[connection.m_out_plug];
 			Valve& input = *script.m_processes[connection.m_in_node]->m_inputs[connection.m_in_plug];

@@ -228,5 +228,5 @@ namespace mud
 	using stl::is_invocable; using stl::is_invocable_r;
 	using stl::is_copy_assignable;
 	using stl::is_constructible; using stl::is_copy_constructible; using stl::is_default_constructible;
-	using stl::is_pointer; using stl::is_integral; using stl::is_signed; using stl::is_unsigned;
+	using stl::is_pointer; using stl::is_integral; using stl::is_signed; using stl::is_unsigned; using stl::is_float;
 }

@@ -98,7 +98,7 @@ namespace ui
 	{
 		Widget& self = widget(parent, style);
 		static Colour disabled_colour = Colour::DarkGrey;
-		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect); draw_knob(frame, active ? colour : disabled_colour, connected, vg);
 		};
@@ -110,7 +110,7 @@ namespace ui
 		Widget& self = widget(parent, node_styles().cable);
 		self.m_frame.m_position = min(out, in);
 		self.m_frame.m_size = max(out, in) - self.m_frame.m_position;
-		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect); draw_node_cable(out - frame.m_position, in - frame.m_position, colour_out, colour_in, straight, vg);
 		};
@@ -129,9 +129,9 @@ namespace ui
 		return knob.derive_position({ 0.f, knob.m_size.y / 2 }, canvas.m_plan->m_frame);
 	}
 
-	Widget& node_cable(Canvas& canvas, NodePlug& plug_out, NodePlug& plug_in)
+	Widget& node_cable(Canvas& canvas, NodePlug& out, NodePlug& in)
 	{
-		return canvas_cable(*canvas.m_plan, plug_at_out(canvas, plug_out), plug_at_in(canvas, plug_in), plug_out.m_colour, plug_in.m_colour, !canvas.m_rounded_links);
+		return canvas_cable(*canvas.m_plan, plug_at_out(canvas, out), plug_at_in(canvas, in), out.m_colour, in.m_colour, !canvas.m_rounded_links);
 	}
 
 	NodePlug& node_plug(Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected)
@@ -237,7 +237,7 @@ namespace ui
 				node->m_frame.set_position(node->m_frame.m_position + event.m_delta / node->m_frame.absolute_scale());
 		}
 
-		self.m_index = parent.m_nodes.size();
+		self.m_index = uint32_t(parent.m_nodes.size());
 		parent.m_nodes.push_back(&self);
 
 		return self;
@@ -304,14 +304,15 @@ namespace ui
 		CanvasConnect& connect = canvas.m_connect;
 		if(connect.m_origin)
 		{
-			vec2 target = canvas.m_plan->m_frame.local_position(connect.m_position);
-			Colour out_colour = connect.m_out ? connect.m_out->m_colour : connect.m_in->m_colour;
-			Colour in_colour = connect.m_in ? connect.m_in->m_colour : connect.m_out->m_colour;
+			const vec2 target = canvas.m_plan->m_frame.local_position(connect.m_position);
 
-			vec2 out = connect.m_out ? plug_at_out(canvas, *connect.m_out) : target;
-			vec2 in = connect.m_in ? plug_at_in(canvas, *connect.m_in) : target;
+			const Colour outcolor = connect.m_out ? connect.m_out->m_colour : connect.m_in->m_colour;
+			const Colour incolor = connect.m_in ? connect.m_in->m_colour : connect.m_out->m_colour;
 
-			canvas_cable(*canvas.m_plan, out, in, out_colour, in_colour);
+			const vec2 out = connect.m_out ? plug_at_out(canvas, *connect.m_out) : target;
+			const vec2 in = connect.m_in ? plug_at_in(canvas, *connect.m_in) : target;
+
+			canvas_cable(*canvas.m_plan, out, in, outcolor, incolor);
 
 			if(connect.m_done)
 			{

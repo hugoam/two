@@ -366,7 +366,7 @@ namespace mud
 		ImageSkin& image_skin = inkstyle.m_image_skin;
 		if(!image_skin.null())
 		{
-			float margin = image_skin.m_margin * 2.f;
+			const float margin = image_skin.m_margin * 2.f;
 			vec4 skin_rect = { rect.pos, rect.size + margin };
 
 			if(image_skin.d_stretch == Axis::X)
@@ -405,12 +405,12 @@ namespace mud
 	{
 		if(image.d_atlas)
 		{
-			vec4 image_rect = { rect.pos - vec2(image.d_coord) * stretch, vec2(image.d_atlas->m_image.d_size) * stretch };
+			const vec4 image_rect = { rect.pos - vec2(image.d_coord) * stretch, vec2(image.d_atlas->m_image.d_size) * stretch };
 			vg.draw_texture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
 		}
 		else
 		{
-			vec4 image_rect = { rect.pos, vec2(image.d_size) * stretch };
+			const vec4 image_rect = { rect.pos, vec2(image.d_size) * stretch };
 			vg.draw_texture(uint16_t(image.d_handle), rect, image_rect);
 		}
 	}
@@ -421,7 +421,7 @@ namespace mud
 		rect.x = rect.x - imageSkin.m_margin;
 		rect.y = rect.y - imageSkin.m_margin;
 
-		vec2 divided = rect.size / imageSkin.d_fill_size;
+		const vec2 divided = rect.size / imageSkin.d_fill_size;
 		vec2 ratio = { 1.f, 1.f };
 
 		if(section == ImageSkin::Top || section == ImageSkin::Bottom || section == ImageSkin::Fill)
@@ -446,6 +446,12 @@ namespace mud
 
 		if(frame.caption())
 			vg.draw_text(padded_rect.pos, frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
+
+		if(frame.m_text)
+		{
+			const vec2 padding = floor(frame.d_inkstyle->m_padding.pos);
+			draw_text(vg, padding, *frame.m_text);
+		}
 	}
 
 	void draw_rect(Vg& vg, const vec4& rect, const vec4& corners, const InkStyle& inkstyle)
