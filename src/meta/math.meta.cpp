@@ -1513,7 +1513,7 @@ namespace mud
 		// defaults
 		static int min_default = limits<int>::min();
 		static int max_default = limits<int>::max();
-		static int step_default = T(1);
+		static int step_default = int(1);
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_StatDef_int__construct_0, {} }
@@ -1540,7 +1540,7 @@ namespace mud
 		// defaults
 		static float min_default = limits<float>::min();
 		static float max_default = limits<float>::max();
-		static float step_default = T(1);
+		static float step_default = float(1);
 		// constructors
 		static Constructor constructors[] = {
 			{ t, mud_StatDef_float__construct_0, {} }
