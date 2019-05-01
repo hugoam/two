@@ -98,9 +98,10 @@ namespace ui
 	export_ func_ inline bool color_field(Widget& parent, cstring name, Colour& value, bool reverse = false) { return do_field([&](Widget& self) { return color_toggle_edit(self, value); }, parent, name, reverse); }
 	export_ func_ inline void color_display_field(Widget& parent, cstring name, const Colour& value, bool reverse = false) { do_field([&](Widget& self) { color_display(self, value); return false; }, parent, name, reverse); }
 
+	template <> func_ bool input<bool>(Widget& parent, bool& value);
+	template <> func_ bool input<string>(Widget& parent, string& value);
+
 #ifndef MUD_META_GENERATOR
-	export_ func_ extern template bool input<bool>(Widget& parent, bool& value);
-	export_ func_ extern template bool input<string>(Widget& parent, string& value);
 	export_ func_ extern template bool input<int>(Widget& parent, int& value, StatDef<int> def);
 	export_ func_ extern template bool input<float>(Widget& parent, float& value, StatDef<float> def);
 
@@ -109,8 +110,6 @@ namespace ui
 	//export_ func_ template bool field<int>(Widget& parent, cstring name, int& value, StatDef<int> def, bool reverse);
 	//export_ func_ template bool field<float>(Widget& parent, cstring name, float& value, StatDef<float> def, bool reverse);
 #else
-	template <> func_ bool input<bool>(Widget& parent, bool& value);
-	template <> func_ bool input<string>(Widget& parent, string& value);
 	template <> func_ bool input<int>(Widget& parent, int& value, StatDef<int> def);
 	template <> func_ bool input<float>(Widget& parent, float& value, StatDef<float> def);
 
