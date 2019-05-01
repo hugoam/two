@@ -34,6 +34,7 @@ namespace ui
 	Widget& label(Widget& parent, cstring label) { return item(parent, styles().label, label); }
 	Widget& title(Widget& parent, cstring label) { return item(parent, styles().title, label); }
 	Widget& message(Widget& parent, cstring label) { return item(parent, styles().message, label); }
+	Widget& selectable(Widget& parent, cstring label) { return item(parent, styles().item, label); }
 
 	Widget& text(Widget& parent, cstring label)
 	{
@@ -61,6 +62,7 @@ namespace ui
 	Widget& label(Widget& parent, const string& label) { return item(parent, styles().label, label); }
 	Widget& title(Widget& parent, const string& label) { return item(parent, styles().title, label); }
 	Widget& message(Widget& parent, const string& label) { return item(parent, styles().message, label); }
+	Widget& selectable(Widget& parent, const string& label) { return item(parent, styles().item, label); }
 	Widget& text(Widget& parent, const string& label) { return text(parent, label.c_str()); }
 	Widget& bullet(Widget& parent, const string& label) { return bullet(parent, label.c_str()); }
 
