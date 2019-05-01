@@ -236,10 +236,10 @@ void mud_nsinf_23(span<void*> args, void*& result) { (*static_cast<float*>(resul
 void mud_ncosf_24(span<void*> args, void*& result) { (*static_cast<float*>(result)) = mud::ncosf(*static_cast<float*>(args[0])); }
 void mud_nsin_25(span<void*> args, void*& result) { (*static_cast<double*>(result)) = mud::nsin(*static_cast<double*>(args[0])); }
 void mud_ncos_26(span<void*> args, void*& result) { (*static_cast<double*>(result)) = mud::ncos(*static_cast<double*>(args[0])); }
-void mud_add_mud_vec3_27(span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = mud::add<mud::vec3>(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
-void mud_subtract_mud_vec3_28(span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = mud::subtract<mud::vec3>(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
-void mud_multiply_mud_vec3_29(span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = mud::multiply<mud::vec3>(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
-void mud_divide_mud_vec3_30(span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = mud::divide<mud::vec3>(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
+void mud_add_mud_v3_float_27(span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = mud::add<mud::v3<float>>(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
+void mud_subtract_mud_v3_float_28(span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = mud::subtract<mud::v3<float>>(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
+void mud_multiply_mud_v3_float_29(span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = mud::multiply<mud::v3<float>>(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
+void mud_divide_mud_v3_float_30(span<void*> args, void*& result) { (*static_cast<mud::v3<float>*>(result)) = mud::divide<mud::v3<float>>(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
 void mud_look_dir_31(span<void*> args, void*& result) { (*static_cast<mud::quat*>(result)) = mud::look_dir(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1])); }
 void mud_look_at_32(span<void*> args, void*& result) { (*static_cast<mud::quat*>(result)) = mud::look_at(*static_cast<mud::vec3*>(args[0]), *static_cast<mud::vec3*>(args[1]), *static_cast<mud::vec3*>(args[2])); }
 void mud_grid_33(span<void*> args, void*& result) { UNUSED(result);  mud::grid(*static_cast<mud::uvec3*>(args[0]), *static_cast<stl::vector<mud::uvec3>*>(args[1])); }
@@ -1920,19 +1920,19 @@ namespace mud
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "add<mud::vec3>", funcptr<mud::vec3(*)(mud::vec3, mud::vec3)>(mud::add<mud::vec3>), mud_add_mud_vec3_27, { { "a", type<mud::vec3>(),  }, { "b", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "add<mud::v3<float>>", funcptr<mud::vec3(*)(mud::vec3, mud::vec3)>(mud::add<mud::v3<float>>), mud_add_mud_v3_float_27, { { "a", type<mud::vec3>(),  }, { "b", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "subtract<mud::vec3>", funcptr<mud::vec3(*)(mud::vec3, mud::vec3)>(mud::subtract<mud::vec3>), mud_subtract_mud_vec3_28, { { "a", type<mud::vec3>(),  }, { "b", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "subtract<mud::v3<float>>", funcptr<mud::vec3(*)(mud::vec3, mud::vec3)>(mud::subtract<mud::v3<float>>), mud_subtract_mud_v3_float_28, { { "a", type<mud::vec3>(),  }, { "b", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "multiply<mud::vec3>", funcptr<mud::vec3(*)(mud::vec3, mud::vec3)>(mud::multiply<mud::vec3>), mud_multiply_mud_vec3_29, { { "a", type<mud::vec3>(),  }, { "b", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "multiply<mud::v3<float>>", funcptr<mud::vec3(*)(mud::vec3, mud::vec3)>(mud::multiply<mud::v3<float>>), mud_multiply_mud_v3_float_29, { { "a", type<mud::vec3>(),  }, { "b", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "mud" }), "divide<mud::vec3>", funcptr<mud::vec3(*)(mud::vec3, mud::vec3)>(mud::divide<mud::vec3>), mud_divide_mud_vec3_30, { { "a", type<mud::vec3>(),  }, { "b", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } };
+			static Function f = { &namspc({ "mud" }), "divide<mud::v3<float>>", funcptr<mud::vec3(*)(mud::vec3, mud::vec3)>(mud::divide<mud::v3<float>>), mud_divide_mud_v3_float_30, { { "a", type<mud::vec3>(),  }, { "b", type<mud::vec3>(),  } }, { &type<mud::vec3>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{

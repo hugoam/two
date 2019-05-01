@@ -22,18 +22,18 @@ namespace mud
 	export_ extern MUD_MATH_EXPORT const float c_pi;
 	export_ extern MUD_MATH_EXPORT const float c_pi2;
 	export_ extern MUD_MATH_EXPORT const float c_pi4;
+	
+	export_ template <class T>
+	T add(T a, T b) { return a + b; }
 
 	export_ template <class T>
-	func_ T add(T a, T b) { return a + b; }
+	T subtract(T a, T b) { return a - b; }
 
 	export_ template <class T>
-	func_ T subtract(T a, T b) { return a - b; }
+	T multiply(T a, T b) { return a * b; }
 
 	export_ template <class T>
-	func_ T multiply(T a, T b) { return a * b; }
-
-	export_ template <class T>
-	func_ T divide(T a, T b) { return a / b; }
+	T divide(T a, T b) { return a / b; }
 
 #ifndef MUD_META_GENERATOR
 	template MUD_MATH_EXPORT func_ float add<float>(float a, float b);

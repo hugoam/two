@@ -1742,21 +1742,21 @@ Module['ncos'] = function(a0) {
     if (typeof a0 !== 'number') throw Error('ncos(0:a): expected number');
     return _mud_ncos_1(/*a*/a0);
 };
-Module['add_mud_vec3'] = function(a0, a1) {
-    if (!checkClass(a0, v3_float)) throw Error('add<mud::vec3>(0:a): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('add<mud::vec3>(1:b): expected v3<float>');
-    return wrapPointer(_mud_add_mud_vec3_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
+Module['add_mud_v3_float'] = function(a0, a1) {
+    if (!checkClass(a0, v3_float)) throw Error('add<mud::v3<float>>(0:a): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('add<mud::v3<float>>(1:b): expected v3<float>');
+    return wrapPointer(_mud_add_mud_v3_float_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
 };
-Module['subtract_mud_vec3'] = function(a0, a1) {
-    if (!checkClass(a0, v3_float)) throw Error('subtract<mud::vec3>(0:a): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('subtract<mud::vec3>(1:b): expected v3<float>');
-    return wrapPointer(_mud_subtract_mud_vec3_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
+Module['subtract_mud_v3_float'] = function(a0, a1) {
+    if (!checkClass(a0, v3_float)) throw Error('subtract<mud::v3<float>>(0:a): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('subtract<mud::v3<float>>(1:b): expected v3<float>');
+    return wrapPointer(_mud_subtract_mud_v3_float_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
 };
-Module['multiply_mud_vec3'] = function(a0, a1) {
-    if (!checkClass(a0, v3_float)) throw Error('multiply<mud::vec3>(0:a): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('multiply<mud::vec3>(1:b): expected v3<float>');
-    return wrapPointer(_mud_multiply_mud_vec3_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
+Module['multiply_mud_v3_float'] = function(a0, a1) {
+    if (!checkClass(a0, v3_float)) throw Error('multiply<mud::v3<float>>(0:a): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('multiply<mud::v3<float>>(1:b): expected v3<float>');
+    return wrapPointer(_mud_multiply_mud_v3_float_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
 };
-Module['divide_mud_vec3'] = function(a0, a1) {
-    if (!checkClass(a0, v3_float)) throw Error('divide<mud::vec3>(0:a): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('divide<mud::vec3>(1:b): expected v3<float>');
-    return wrapPointer(_mud_divide_mud_vec3_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
+Module['divide_mud_v3_float'] = function(a0, a1) {
+    if (!checkClass(a0, v3_float)) throw Error('divide<mud::v3<float>>(0:a): expected v3<float>'); if (!checkClass(a1, v3_float)) throw Error('divide<mud::v3<float>>(1:b): expected v3<float>');
+    return wrapPointer(_mud_divide_mud_v3_float_2(/*a*/a0.__ptr, /*b*/a1.__ptr), v3_float);
 };
 Module['look_dir'] = function(a0, a1) {
     if (a1 === undefined) { if (!checkClass(a0, v3_float)) throw Error('look_dir(0:direction): expected v3<float>'); }

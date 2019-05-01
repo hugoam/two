@@ -2155,6 +2155,14 @@ Module['ui']['color_display_field'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { _mud_ui_color_display_field_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr); }
     else { _mud_ui_color_display_field_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr, /*reverse*/a3); }
 };
+Module['ui']['input_int'] = function(a0, a1, a2) {
+    if (!checkClass(a0, Widget)) throw Error('input<int>(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('input<int>(1:value): expected integer'); if (!checkClass(a2, StatDef_int)) throw Error('input<int>(2:def): expected StatDef<int>');
+    return !!(_mud_ui_input_int_3(/*parent*/a0.__ptr, /*value*/a1, /*def*/a2.__ptr));
+};
+Module['ui']['input_float'] = function(a0, a1, a2) {
+    if (!checkClass(a0, Widget)) throw Error('input<float>(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('input<float>(1:value): expected number'); if (!checkClass(a2, StatDef_float)) throw Error('input<float>(2:def): expected StatDef<float>');
+    return !!(_mud_ui_input_float_3(/*parent*/a0.__ptr, /*value*/a1, /*def*/a2.__ptr));
+};
 Module['ui']['node_input'] = function(a0, a1, a2, a3, a4, a5) {
     ensureCache.prepare();
     if (a2 === undefined) { if (!checkClass(a0, Node)) throw Error('node_input(0:node): expected Node'); if (typeof a1 !== 'string') throw Error('node_input(1:name): expected string'); }

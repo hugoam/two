@@ -5,12 +5,12 @@
 
 namespace mud
 {
-namespace clgen
-{
 	inline vector<string> quote(span<string> strings) { return transform<string>(strings, [](const string& s) { return "\"" + s + "\""; }); }
 	inline string comma(span<string> strings) { return join(strings, ", "); }
 	inline string space(span<string> strings) { return join(strings, " "); }
 
+namespace clgen
+{
 	string replace_any(const string& original, span<string> tokens, string with)
 	{
 		string result = original;

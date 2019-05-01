@@ -1602,6 +1602,12 @@ extern "C" {
 	void DECL mud_ui_color_display_field_4(mud::Widget* parent, const char* name, const mud::Colour* value, bool reverse) {
 		mud::ui::color_display_field(*parent, name, *value, reverse);
 	}
+	bool DECL mud_ui_input_int_3(mud::Widget* parent, int value, mud::StatDef<int>* def) {
+		return mud::ui::input<int>(*parent, value, *def);
+	}
+	bool DECL mud_ui_input_float_3(mud::Widget* parent, float value, mud::StatDef<float>* def) {
+		return mud::ui::input<float>(*parent, value, *def);
+	}
 	mud::NodePlug* DECL mud_ui_node_input_2(mud::Node* node, const char* name) {
 		return &mud::ui::node_input(*node, name);
 	}

@@ -105,14 +105,19 @@ namespace mud
 		f.m_module = &module;
 		f.m_reflect = should_reflect(cursor, module);
 
-		if(cursor.kind == CXCursor_FunctionDecl
-		&& has_pred(module.m_func_templates, [&](const unique<CLFunction>& l) { return l->m_name == f.m_name; }))
+		const int template_args = clang_Cursor_getNumTemplateArguments(cursor);
+		if(cursor.kind == CXCursor_FunctionDecl	&& template_args > 0)
 		{
-			const string name = displayname(cursor);
-			const string template_type = split(name.substr(name.find("(") + 1), ",")[0];
-			//printf("Templated Function %s\n", template_type.c_str());
-			f.m_name += "<" + template_type + ">";
-			f.m_id += "<" + template_type + ">";
+			vector<string> types;
+			for(int i = 0; i < template_args; ++i)
+			{
+				CXType t = clang_Cursor_getTemplateArgumentType(cursor, 0);
+				types.push_back(spelling(t));
+				//f.m_templated_types.push_back(find_type(t));
+			}
+
+			f.m_name += "<" + comma(types) + ">";
+			f.m_id += "<" + comma(types) + ">";
 		}
 
 		f.m_is_template = cursor.kind == CXCursor_FunctionTemplate || (parent.m_is_template);
@@ -129,9 +134,10 @@ namespace mud
 		f.m_index = module.m_functions.size() - 1;
 	}
 
+	// @todo cleanup this isn't really used, we declare specializations directly
 	void decl_function_template(CLModule& module, CLPrimitive& parent, CXCursor cursor)
 	{
-		//print "Function Template ", cursor.displayname
+		//printf("Function Template %s %s\n", displayname(cursor).c_str(), spelling(cursor).c_str());
 		CLFunction& f = vector_emplace<CLFunction>(module.m_func_templates, parent, spelling(cursor));
 		f.m_is_template = true;
 		decl_callable(module, parent, f, cursor);
@@ -166,7 +172,7 @@ namespace mud
 			c.m_template_types[i] = type->m_id + string(pointer && type->m_type_kind != CLTypeKind::VoidPtr ? "*" : "");
 		}
 
-		c.set_name(c.m_template_name + "<" + clgen::comma(c.m_template_types) + ">");
+		c.set_name(c.m_template_name + "<" + comma(c.m_template_types) + ">");
 
 		if(c.m_sequence)
 		{
