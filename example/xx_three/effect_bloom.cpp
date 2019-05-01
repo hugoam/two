@@ -344,12 +344,12 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		float exposure = pow(tonemap.m_exposure, 1.0 / 4.0);
 
 		Widget& controls = ui::stack(sheet);
-		ui::slider_field<float>(controls, "threshold", { bloom.threshold, { 0.f, 1.f, 0.01f } });
-		ui::slider_field<float>(controls, "strength",  { bloom.strength,  { 0.f, 3.f, 0.1f } });
-		ui::slider_field<float>(controls, "radius",    { bloom.radius,    { 0.f, 1.f, 0.01f } });
+		ui::slider_field<float>(controls, "threshold", bloom.threshold, { 0.f, 1.f, 0.01f });
+		ui::slider_field<float>(controls, "strength",  bloom.strength,  { 0.f, 3.f, 0.1f  });
+		ui::slider_field<float>(controls, "radius",    bloom.radius,    { 0.f, 1.f, 0.01f });
 
 
-		ui::slider_field<float>(controls, "exposure", { exposure, { 0.1f, 2.f, 0.01f } });
+		ui::slider_field<float>(controls, "exposure", exposure, { 0.1f, 2.f, 0.01f });
 
 		tonemap.m_exposure = pow(exposure, 4.0);
 	}

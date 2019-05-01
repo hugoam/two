@@ -34,17 +34,17 @@ namespace mud
 		});
 
 		select({ "Header", "ExpandboxHeader", "WindowHeader", "WindowHeaderMovable", "Scrollbar", "NodePlug" }) // , "Menu"
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			l.m_padding = vec4(look.FramePadding, look.FramePadding);
 		});
 		
 		select({ "Slider" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			l.m_padding = vec4(look.FramePadding - 1.f, look.FramePadding - 1.f);
 		});
 
 		select({ "Menubar" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			l.m_padding = vec4(look.FramePadding.x, 0.f, look.FramePadding.x, 0.f);
 		});
 

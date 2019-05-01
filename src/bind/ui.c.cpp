@@ -567,15 +567,46 @@ extern "C" {
 		self->m_base = value;
 	}
 	const char* DECL mud_Style__get_name(mud::Style* self) {
-		return self->name();
+		return self->m_name.c_str();
+	}
+	void DECL mud_Style__set_name(mud::Style* self, const char* value) {
+		self->m_name = value;
 	}
 	mud::Layout* DECL mud_Style__get_layout(mud::Style* self) {
-		return &self->layout();
+		return &self->m_layout;
+	}
+	void DECL mud_Style__set_layout(mud::Style* self, mud::Layout* value) {
+		self->m_layout = *value;
 	}
 	mud::InkStyle* DECL mud_Style__get_skin(mud::Style* self) {
-		return &self->skin();
+		return &self->m_skin;
+	}
+	void DECL mud_Style__set_skin(mud::Style* self, mud::InkStyle* value) {
+		self->m_skin = *value;
 	}
 	void DECL mud_Style__destroy(mud::Style* self) {
+		delete self;
+	}
+	// Subskin
+	mud::Type* DECL mud_Subskin__type() {
+		return &mud::type<mud::Subskin>();
+	}
+	mud::Subskin* DECL mud_Subskin__construct_0() {
+		return new mud::Subskin();
+	}
+	mud::InkStyle* DECL mud_Subskin__get_skin(mud::Subskin* self) {
+		return &self->skin;
+	}
+	void DECL mud_Subskin__set_skin(mud::Subskin* self, mud::InkStyle* value) {
+		self->skin = *value;
+	}
+	mud::WidgetState DECL mud_Subskin__get_state(mud::Subskin* self) {
+		return self->state;
+	}
+	void DECL mud_Subskin__set_state(mud::Subskin* self, mud::WidgetState value) {
+		self->state = value;
+	}
+	void DECL mud_Subskin__destroy(mud::Subskin* self) {
 		delete self;
 	}
 	// TableSolver
@@ -931,13 +962,6 @@ extern "C" {
 	void DECL mud_Dockspace__destroy(mud::Dockspace* self) {
 		delete self;
 	}
-	// Expandbox
-	mud::Type* DECL mud_Expandbox__type() {
-		return &mud::type<mud::Expandbox>();
-	}
-	void DECL mud_Expandbox__destroy(mud::Expandbox* self) {
-		delete self;
-	}
 	// Frame
 	mud::Type* DECL mud_Frame__type() {
 		return &mud::type<mud::Frame>();
@@ -980,41 +1004,6 @@ extern "C" {
 	void DECL mud_LineSolver__destroy(mud::LineSolver* self) {
 		delete self;
 	}
-	// ScrollSheet
-	mud::Type* DECL mud_ScrollSheet__type() {
-		return &mud::type<mud::ScrollSheet>();
-	}
-	void DECL mud_ScrollSheet__destroy(mud::ScrollSheet* self) {
-		delete self;
-	}
-	// Sequence
-	mud::Type* DECL mud_ui_Sequence__type() {
-		return &mud::type<mud::ui::Sequence>();
-	}
-	void DECL mud_ui_Sequence__destroy(mud::ui::Sequence* self) {
-		delete self;
-	}
-	// Tabber
-	mud::Type* DECL mud_Tabber__type() {
-		return &mud::type<mud::Tabber>();
-	}
-	void DECL mud_Tabber__destroy(mud::Tabber* self) {
-		delete self;
-	}
-	// Table
-	mud::Type* DECL mud_Table__type() {
-		return &mud::type<mud::Table>();
-	}
-	void DECL mud_Table__destroy(mud::Table* self) {
-		delete self;
-	}
-	// TextEdit
-	mud::Type* DECL mud_TextEdit__type() {
-		return &mud::type<mud::TextEdit>();
-	}
-	void DECL mud_TextEdit__destroy(mud::TextEdit* self) {
-		delete self;
-	}
 	// Widget
 	mud::Type* DECL mud_Widget__type() {
 		return &mud::type<mud::Widget>();
@@ -1030,6 +1019,9 @@ extern "C" {
 	}
 	bool DECL mud_Widget_activated_0(mud::Widget* self) {
 		return self->activated();
+	}
+	bool DECL mud_Widget_active_0(mud::Widget* self) {
+		return self->active();
 	}
 	bool DECL mud_Widget_selected_0(mud::Widget* self) {
 		return self->selected();
@@ -1130,10 +1122,10 @@ extern "C" {
 	void DECL mud_Widget__set_switch(mud::Widget* self, uint32_t value) {
 		self->m_switch = value;
 	}
-	size_t DECL mud_Widget__get_index(mud::Widget* self) {
+	uint32_t DECL mud_Widget__get_index(mud::Widget* self) {
 		return self->m_index;
 	}
-	void DECL mud_Widget__set_index(mud::Widget* self, size_t value) {
+	void DECL mud_Widget__set_index(mud::Widget* self, uint32_t value) {
 		self->m_index = value;
 	}
 	bool DECL mud_Widget__get_open(mud::Widget* self) {
@@ -1149,6 +1141,48 @@ extern "C" {
 		self->m_body = value;
 	}
 	void DECL mud_Widget__destroy(mud::Widget* self) {
+		delete self;
+	}
+	// Expandbox
+	mud::Type* DECL mud_Expandbox__type() {
+		return &mud::type<mud::Expandbox>();
+	}
+	void DECL mud_Expandbox__destroy(mud::Expandbox* self) {
+		delete self;
+	}
+	// ScrollSheet
+	mud::Type* DECL mud_ScrollSheet__type() {
+		return &mud::type<mud::ScrollSheet>();
+	}
+	void DECL mud_ScrollSheet__destroy(mud::ScrollSheet* self) {
+		delete self;
+	}
+	// Sequence
+	mud::Type* DECL mud_ui_Sequence__type() {
+		return &mud::type<mud::ui::Sequence>();
+	}
+	void DECL mud_ui_Sequence__destroy(mud::ui::Sequence* self) {
+		delete self;
+	}
+	// Tabber
+	mud::Type* DECL mud_Tabber__type() {
+		return &mud::type<mud::Tabber>();
+	}
+	void DECL mud_Tabber__destroy(mud::Tabber* self) {
+		delete self;
+	}
+	// Table
+	mud::Type* DECL mud_Table__type() {
+		return &mud::type<mud::Table>();
+	}
+	void DECL mud_Table__destroy(mud::Table* self) {
+		delete self;
+	}
+	// TextEdit
+	mud::Type* DECL mud_TextEdit__type() {
+		return &mud::type<mud::TextEdit>();
+	}
+	void DECL mud_TextEdit__destroy(mud::TextEdit* self) {
 		delete self;
 	}
 	// TreeNode
@@ -1205,6 +1239,9 @@ extern "C" {
 	mud::Widget* DECL mud_ui_spacer_1(mud::Widget* parent) {
 		return &mud::ui::spacer(*parent);
 	}
+	mud::Widget* DECL mud_ui_separator_1(mud::Widget* parent) {
+		return &mud::ui::separator(*parent);
+	}
 	mud::Widget* DECL mud_ui_icon_2(mud::Widget* parent, const char* image) {
 		return &mud::ui::icon(*parent, image);
 	}
@@ -1219,6 +1256,12 @@ extern "C" {
 	}
 	mud::Widget* DECL mud_ui_text_2(mud::Widget* parent, const char* label) {
 		return &mud::ui::text(*parent, label);
+	}
+	mud::Widget* DECL mud_ui_bullet_2(mud::Widget* parent, const char* label) {
+		return &mud::ui::bullet(*parent, label);
+	}
+	mud::Widget* DECL mud_ui_selectable_3(mud::Widget* parent, const char* label, bool selected) {
+		return &mud::ui::selectable(*parent, label, selected);
 	}
 	mud::Widget* DECL mud_ui_button_1(mud::Widget* parent) {
 		return &mud::ui::button(*parent);
@@ -1265,8 +1308,11 @@ extern "C" {
 	mud::Widget* DECL mud_ui_image256_4(mud::Widget* parent, const char* name, const mud::Image256* source, const mud::vec2* size) {
 		return &mud::ui::image256(*parent, name, *source, *size);
 	}
-	mud::Widget* DECL mud_ui_radio_choice_3(mud::Widget* parent, const char* value, bool active) {
-		return &mud::ui::radio_choice(*parent, value, active);
+	mud::Widget* DECL mud_ui_radio_choice_3(mud::Widget* parent, const char* label, bool active) {
+		return &mud::ui::radio_choice(*parent, label, active);
+	}
+	mud::Widget* DECL mud_ui_radio_button_4(mud::Widget* parent, const char* label, uint32_t value, uint32_t index) {
+		return &mud::ui::radio_button(*parent, label, value, index);
 	}
 	bool DECL mud_ui_radio_switch_3(mud::Widget* parent, const char** labels, int labels_size, uint32_t value) {
 		return mud::ui::radio_switch(*parent, { (const char**)labels, labels_size / (sizeof(const char*) / sizeof(const char*)) }, value);
@@ -1280,8 +1326,11 @@ extern "C" {
 	mud::Widget* DECL mud_ui_dropdown_4(mud::Widget* parent, mud::Style* style, const char* value, mud::ui::PopupFlags flags) {
 		return &mud::ui::dropdown(*parent, *style, value, flags);
 	}
-	mud::Widget* DECL mud_ui_dropdown_5(mud::Widget* parent, mud::Style* style, const char* value, mud::ui::PopupFlags flags, mud::Style* list_style) {
-		return &mud::ui::dropdown(*parent, *style, value, flags, list_style);
+	mud::Widget* DECL mud_ui_dropdown_5(mud::Widget* parent, mud::Style* style, const char* value, mud::ui::PopupFlags flags, bool no_toggle) {
+		return &mud::ui::dropdown(*parent, *style, value, flags, no_toggle);
+	}
+	mud::Widget* DECL mud_ui_dropdown_6(mud::Widget* parent, mud::Style* style, const char* value, mud::ui::PopupFlags flags, bool no_toggle, mud::Style* list_style) {
+		return &mud::ui::dropdown(*parent, *style, value, flags, no_toggle, list_style);
 	}
 	bool DECL mud_ui_dropdown_input_3(mud::Widget* parent, const char** choices, int choices_size, uint32_t value) {
 		return mud::ui::dropdown_input(*parent, { (const char**)choices, choices_size / (sizeof(const char*) / sizeof(const char*)) }, value);
@@ -1294,6 +1343,12 @@ extern "C" {
 	}
 	mud::Widget* DECL mud_ui_menu_choice_2(mud::Widget* parent, const char* content) {
 		return &mud::ui::menu_choice(*parent, content);
+	}
+	mud::Widget* DECL mud_ui_menu_choice_3(mud::Widget* parent, const char* content, const char* shortcut) {
+		return &mud::ui::menu_choice(*parent, content, shortcut);
+	}
+	mud::Widget* DECL mud_ui_menu_option_4(mud::Widget* parent, const char* content, const char* shortcut, bool enabled) {
+		return &mud::ui::menu_option(*parent, content, shortcut, enabled);
 	}
 	mud::Widget* DECL mud_ui_menu_2(mud::Widget* parent, const char* label) {
 		return &mud::ui::menu(*parent, label);
@@ -1376,6 +1431,9 @@ extern "C" {
 	mud::Widget* DECL mud_ui_layout_1(mud::Widget* parent) {
 		return &mud::ui::layout(*parent);
 	}
+	mud::Widget* DECL mud_ui_indent_1(mud::Widget* parent) {
+		return &mud::ui::indent(*parent);
+	}
 	mud::Widget* DECL mud_ui_screen_1(mud::Widget* parent) {
 		return &mud::ui::screen(*parent);
 	}
@@ -1427,9 +1485,6 @@ extern "C" {
 	mud::Widget* DECL mud_ui_hoverbox_2(mud::Widget* parent, float delay) {
 		return mud::ui::hoverbox(*parent, delay);
 	}
-	mud::Widget* DECL mud_ui_tooltip_3(mud::Widget* parent, const mud::vec2* position, const char* content) {
-		return mud::ui::tooltip(*parent, *position, content);
-	}
 	mud::Widget* DECL mud_ui_cursor_3(mud::Widget* parent, const mud::vec2* position, mud::Widget* hovered) {
 		return &mud::ui::cursor(*parent, *position, *hovered);
 	}
@@ -1456,6 +1511,24 @@ extern "C" {
 	}
 	bool DECL mud_ui_drag_float_3(mud::Widget* parent, float value, float step) {
 		return mud::ui::drag_float(*parent, value, step);
+	}
+	bool DECL mud_ui_float2_input_4(mud::Widget* parent, const char** labels, int labels_size, float* vals, int vals_size, mud::StatDef<float>* def) {
+		return mud::ui::float2_input(*parent, { (const char**)labels, labels_size / (sizeof(const char*) / sizeof(const char*)) }, { (float*)vals, vals_size / (sizeof(float) / sizeof(float)) }, *def);
+	}
+	bool DECL mud_ui_float3_input_4(mud::Widget* parent, const char** labels, int labels_size, float* vals, int vals_size, mud::StatDef<float>* def) {
+		return mud::ui::float3_input(*parent, { (const char**)labels, labels_size / (sizeof(const char*) / sizeof(const char*)) }, { (float*)vals, vals_size / (sizeof(float) / sizeof(float)) }, *def);
+	}
+	bool DECL mud_ui_float4_input_4(mud::Widget* parent, const char** labels, int labels_size, float* vals, int vals_size, mud::StatDef<float>* def) {
+		return mud::ui::float4_input(*parent, { (const char**)labels, labels_size / (sizeof(const char*) / sizeof(const char*)) }, { (float*)vals, vals_size / (sizeof(float) / sizeof(float)) }, *def);
+	}
+	bool DECL mud_ui_float2_slider_5(mud::Widget* parent, const char* label, const char** labels, int labels_size, float* vals, int vals_size, mud::StatDef<float>* def) {
+		return mud::ui::float2_slider(*parent, label, { (const char**)labels, labels_size / (sizeof(const char*) / sizeof(const char*)) }, { (float*)vals, vals_size / (sizeof(float) / sizeof(float)) }, *def);
+	}
+	bool DECL mud_ui_float3_slider_5(mud::Widget* parent, const char* label, const char** labels, int labels_size, float* vals, int vals_size, mud::StatDef<float>* def) {
+		return mud::ui::float3_slider(*parent, label, { (const char**)labels, labels_size / (sizeof(const char*) / sizeof(const char*)) }, { (float*)vals, vals_size / (sizeof(float) / sizeof(float)) }, *def);
+	}
+	bool DECL mud_ui_float4_slider_5(mud::Widget* parent, const char* label, const char** labels, int labels_size, float* vals, int vals_size, mud::StatDef<float>* def) {
+		return mud::ui::float4_slider(*parent, label, { (const char**)labels, labels_size / (sizeof(const char*) / sizeof(const char*)) }, { (float*)vals, vals_size / (sizeof(float) / sizeof(float)) }, *def);
 	}
 	bool DECL mud_ui_vec2_edit_2(mud::Widget* parent, mud::vec2* vec) {
 		return mud::ui::vec2_edit(*parent, *vec);
@@ -1812,26 +1885,32 @@ extern "C" {
 		return mud::CLOSED;
 	}
 	// WindowState
-	mud::WindowState DECL mud_WindowState_WINDOW_NOSTATE() {
-		return mud::WINDOW_NOSTATE;
+	mud::WindowState DECL mud_WindowState_None() {
+		return mud::WindowState::None;
 	}
-	mud::WindowState DECL mud_WindowState_WINDOW_HEADER() {
-		return mud::WINDOW_HEADER;
+	mud::WindowState DECL mud_WindowState_Header() {
+		return mud::WindowState::Header;
 	}
-	mud::WindowState DECL mud_WindowState_WINDOW_DOCKABLE() {
-		return mud::WINDOW_DOCKABLE;
+	mud::WindowState DECL mud_WindowState_Dockable() {
+		return mud::WindowState::Dockable;
 	}
-	mud::WindowState DECL mud_WindowState_WINDOW_CLOSABLE() {
-		return mud::WINDOW_CLOSABLE;
+	mud::WindowState DECL mud_WindowState_Closable() {
+		return mud::WindowState::Closable;
 	}
-	mud::WindowState DECL mud_WindowState_WINDOW_MOVABLE() {
-		return mud::WINDOW_MOVABLE;
+	mud::WindowState DECL mud_WindowState_Movable() {
+		return mud::WindowState::Movable;
 	}
-	mud::WindowState DECL mud_WindowState_WINDOW_SIZABLE() {
-		return mud::WINDOW_SIZABLE;
+	mud::WindowState DECL mud_WindowState_Sizable() {
+		return mud::WindowState::Sizable;
 	}
-	mud::WindowState DECL mud_WindowState_WINDOW_DEFAULT() {
-		return mud::WINDOW_DEFAULT;
+	mud::WindowState DECL mud_WindowState_Scrollable() {
+		return mud::WindowState::Scrollable;
+	}
+	mud::WindowState DECL mud_WindowState_Menu() {
+		return mud::WindowState::Menu;
+	}
+	mud::WindowState DECL mud_WindowState_Default() {
+		return mud::WindowState::Default;
 	}
 	
 }

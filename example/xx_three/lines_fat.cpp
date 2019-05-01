@@ -114,12 +114,12 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	{
 		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
 
-		ui::slider_field<float>(sheet, "line width", { material->m_line.m_line_width, { 0.f, 20.f, 0.1f } });
+		ui::slider_field<float>(sheet, "line width", material->m_line.m_line_width, { 0.f, 20.f, 0.1f });
 
 		ui::field<bool>(sheet, "dashed", material->m_line.m_dashed);
-		ui::slider_field<float>(sheet, "dash scale", { material->m_line.m_dash_scale, { 0.f, 20.f, 0.1f } });
-		ui::slider_field<float>(sheet, "dash size",  { material->m_line.m_dash_size,  { 0.f, 20.f, 0.1f } });
-		ui::slider_field<float>(sheet, "dash gap",   { material->m_line.m_dash_gap,   { 0.f, 20.f, 0.1f } });
+		ui::slider_field<float>(sheet, "dash scale", material->m_line.m_dash_scale, { 0.f, 20.f, 0.1f });
+		ui::slider_field<float>(sheet, "dash size",  material->m_line.m_dash_size,  { 0.f, 20.f, 0.1f });
+		ui::slider_field<float>(sheet, "dash gap",   material->m_line.m_dash_gap,   { 0.f, 20.f, 0.1f });
 	}
 }
 			

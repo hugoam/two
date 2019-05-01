@@ -210,12 +210,6 @@ namespace mud
 			item.m_aabb = tileblock.m_aabb;
 
 			batches[i] = &gfx::batch(self, item, uint16_t(sizeof(mat4))); //gfx::instances(self, item, *model);
-
-			for(const ModelElem& item : model->m_items)
-			{
-				const mat4& t = item.m_transform;
-				int i = 0;
-			}
 		}
 
 		if(dirty || exclude)

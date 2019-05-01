@@ -795,17 +795,63 @@ Object.defineProperty(Style.prototype, "base", {
 Object.defineProperty(Style.prototype, "name", {
     get: function() {
         return UTF8ToString(_mud_Style__get_name(this.__ptr));
-    }});
+    },
+    set: function(value) {
+        if (typeof value !== 'string') throw Error('Style.name: expected string');
+        _mud_Style__set_name(this.__ptr, ensureString(value));
+    }
+});
 Object.defineProperty(Style.prototype, "layout", {
     get: function() {
         return wrapPointer(_mud_Style__get_layout(this.__ptr), Layout);
-    }});
+    },
+    set: function(value) {
+        if (!checkClass(value, Layout)) throw Error('Style.layout: expected Layout');
+        _mud_Style__set_layout(this.__ptr, value.__ptr);
+    }
+});
 Object.defineProperty(Style.prototype, "skin", {
     get: function() {
         return wrapPointer(_mud_Style__get_skin(this.__ptr), InkStyle);
-    }});
+    },
+    set: function(value) {
+        if (!checkClass(value, InkStyle)) throw Error('Style.skin: expected InkStyle');
+        _mud_Style__set_skin(this.__ptr, value.__ptr);
+    }
+});
 Style.prototype["__destroy"] = Style.prototype.__destroy = function() {
     _mud_Style__destroy(this.__ptr);
+};
+// Subskin
+function Subskin() {
+    
+    this.__ptr = _mud_Subskin__construct_0(); getCache(Subskin)[this.__ptr] = this;
+};
+Subskin.prototype = Object.create(WrapperObject.prototype);
+Subskin.prototype.constructor = Subskin;
+Subskin.prototype.__class = Subskin;
+Subskin.__cache = {};
+Module['Subskin'] = Subskin;
+Object.defineProperty(Subskin.prototype, "skin", {
+    get: function() {
+        return wrapPointer(_mud_Subskin__get_skin(this.__ptr), InkStyle);
+    },
+    set: function(value) {
+        if (!checkClass(value, InkStyle)) throw Error('Subskin.skin: expected InkStyle');
+        _mud_Subskin__set_skin(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Subskin.prototype, "state", {
+    get: function() {
+        return _mud_Subskin__get_state(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('Subskin.state: expected integer');
+        _mud_Subskin__set_state(this.__ptr, value);
+    }
+});
+Subskin.prototype["__destroy"] = Subskin.prototype.__destroy = function() {
+    _mud_Subskin__destroy(this.__ptr);
 };
 // TableSolver
 function TableSolver() { throw "cannot construct a TableSolver, no constructor in IDL" }
@@ -1290,17 +1336,6 @@ Module['Dockspace'] = Dockspace;
 Dockspace.prototype["__destroy"] = Dockspace.prototype.__destroy = function() {
     _mud_Dockspace__destroy(this.__ptr);
 };
-// Expandbox
-function Expandbox() { throw "cannot construct a Expandbox, no constructor in IDL" }
-Expandbox.prototype = Object.create(Widget.prototype);
-Expandbox.prototype.constructor = Expandbox;
-Expandbox.prototype.__class = Expandbox;
-Expandbox.__base = Widget;
-Expandbox.__cache = {};
-Module['Expandbox'] = Expandbox;
-Expandbox.prototype["__destroy"] = Expandbox.prototype.__destroy = function() {
-    _mud_Expandbox__destroy(this.__ptr);
-};
 // Frame
 function Frame() { throw "cannot construct a Frame, no constructor in IDL" }
 Frame.prototype = Object.create(UiRect.prototype);
@@ -1367,61 +1402,6 @@ Module['LineSolver'] = LineSolver;
 LineSolver.prototype["__destroy"] = LineSolver.prototype.__destroy = function() {
     _mud_LineSolver__destroy(this.__ptr);
 };
-// ScrollSheet
-function ScrollSheet() { throw "cannot construct a ScrollSheet, no constructor in IDL" }
-ScrollSheet.prototype = Object.create(Widget.prototype);
-ScrollSheet.prototype.constructor = ScrollSheet;
-ScrollSheet.prototype.__class = ScrollSheet;
-ScrollSheet.__base = Widget;
-ScrollSheet.__cache = {};
-Module['ScrollSheet'] = ScrollSheet;
-ScrollSheet.prototype["__destroy"] = ScrollSheet.prototype.__destroy = function() {
-    _mud_ScrollSheet__destroy(this.__ptr);
-};
-// Sequence
-function Sequence() { throw "cannot construct a Sequence, no constructor in IDL" }
-Sequence.prototype = Object.create(Widget.prototype);
-Sequence.prototype.constructor = Sequence;
-Sequence.prototype.__class = Sequence;
-Sequence.__base = Widget;
-Sequence.__cache = {};
-Module['ui']['Sequence'] = Sequence;
-Sequence.prototype["__destroy"] = Sequence.prototype.__destroy = function() {
-    _mud_ui_Sequence__destroy(this.__ptr);
-};
-// Tabber
-function Tabber() { throw "cannot construct a Tabber, no constructor in IDL" }
-Tabber.prototype = Object.create(Widget.prototype);
-Tabber.prototype.constructor = Tabber;
-Tabber.prototype.__class = Tabber;
-Tabber.__base = Widget;
-Tabber.__cache = {};
-Module['Tabber'] = Tabber;
-Tabber.prototype["__destroy"] = Tabber.prototype.__destroy = function() {
-    _mud_Tabber__destroy(this.__ptr);
-};
-// Table
-function Table() { throw "cannot construct a Table, no constructor in IDL" }
-Table.prototype = Object.create(Widget.prototype);
-Table.prototype.constructor = Table;
-Table.prototype.__class = Table;
-Table.__base = Widget;
-Table.__cache = {};
-Module['Table'] = Table;
-Table.prototype["__destroy"] = Table.prototype.__destroy = function() {
-    _mud_Table__destroy(this.__ptr);
-};
-// TextEdit
-function TextEdit() { throw "cannot construct a TextEdit, no constructor in IDL" }
-TextEdit.prototype = Object.create(Widget.prototype);
-TextEdit.prototype.constructor = TextEdit;
-TextEdit.prototype.__class = TextEdit;
-TextEdit.__base = Widget;
-TextEdit.__cache = {};
-Module['TextEdit'] = TextEdit;
-TextEdit.prototype["__destroy"] = TextEdit.prototype.__destroy = function() {
-    _mud_TextEdit__destroy(this.__ptr);
-};
 // Widget
 function Widget() { throw "cannot construct a Widget, no constructor in IDL" }
 Widget.prototype = Object.create(ControlNode.prototype);
@@ -1445,6 +1425,10 @@ Widget.prototype["pressed"] = Widget.prototype.pressed = function() {
 Widget.prototype["activated"] = Widget.prototype.activated = function() {
     
     return !!(_mud_Widget_activated_0(this.__ptr));
+};
+Widget.prototype["active"] = Widget.prototype.active = function() {
+    
+    return !!(_mud_Widget_active_0(this.__ptr));
 };
 Widget.prototype["selected"] = Widget.prototype.selected = function() {
     
@@ -1588,6 +1572,72 @@ Object.defineProperty(Widget.prototype, "body", {
 Widget.prototype["__destroy"] = Widget.prototype.__destroy = function() {
     _mud_Widget__destroy(this.__ptr);
 };
+// Expandbox
+function Expandbox() { throw "cannot construct a Expandbox, no constructor in IDL" }
+Expandbox.prototype = Object.create(Widget.prototype);
+Expandbox.prototype.constructor = Expandbox;
+Expandbox.prototype.__class = Expandbox;
+Expandbox.__base = Widget;
+Expandbox.__cache = {};
+Module['Expandbox'] = Expandbox;
+Expandbox.prototype["__destroy"] = Expandbox.prototype.__destroy = function() {
+    _mud_Expandbox__destroy(this.__ptr);
+};
+// ScrollSheet
+function ScrollSheet() { throw "cannot construct a ScrollSheet, no constructor in IDL" }
+ScrollSheet.prototype = Object.create(Widget.prototype);
+ScrollSheet.prototype.constructor = ScrollSheet;
+ScrollSheet.prototype.__class = ScrollSheet;
+ScrollSheet.__base = Widget;
+ScrollSheet.__cache = {};
+Module['ScrollSheet'] = ScrollSheet;
+ScrollSheet.prototype["__destroy"] = ScrollSheet.prototype.__destroy = function() {
+    _mud_ScrollSheet__destroy(this.__ptr);
+};
+// Sequence
+function Sequence() { throw "cannot construct a Sequence, no constructor in IDL" }
+Sequence.prototype = Object.create(Widget.prototype);
+Sequence.prototype.constructor = Sequence;
+Sequence.prototype.__class = Sequence;
+Sequence.__base = Widget;
+Sequence.__cache = {};
+Module['ui']['Sequence'] = Sequence;
+Sequence.prototype["__destroy"] = Sequence.prototype.__destroy = function() {
+    _mud_ui_Sequence__destroy(this.__ptr);
+};
+// Tabber
+function Tabber() { throw "cannot construct a Tabber, no constructor in IDL" }
+Tabber.prototype = Object.create(Widget.prototype);
+Tabber.prototype.constructor = Tabber;
+Tabber.prototype.__class = Tabber;
+Tabber.__base = Widget;
+Tabber.__cache = {};
+Module['Tabber'] = Tabber;
+Tabber.prototype["__destroy"] = Tabber.prototype.__destroy = function() {
+    _mud_Tabber__destroy(this.__ptr);
+};
+// Table
+function Table() { throw "cannot construct a Table, no constructor in IDL" }
+Table.prototype = Object.create(Widget.prototype);
+Table.prototype.constructor = Table;
+Table.prototype.__class = Table;
+Table.__base = Widget;
+Table.__cache = {};
+Module['Table'] = Table;
+Table.prototype["__destroy"] = Table.prototype.__destroy = function() {
+    _mud_Table__destroy(this.__ptr);
+};
+// TextEdit
+function TextEdit() { throw "cannot construct a TextEdit, no constructor in IDL" }
+TextEdit.prototype = Object.create(Widget.prototype);
+TextEdit.prototype.constructor = TextEdit;
+TextEdit.prototype.__class = TextEdit;
+TextEdit.__base = Widget;
+TextEdit.__cache = {};
+Module['TextEdit'] = TextEdit;
+TextEdit.prototype["__destroy"] = TextEdit.prototype.__destroy = function() {
+    _mud_TextEdit__destroy(this.__ptr);
+};
 // TreeNode
 function TreeNode() { throw "cannot construct a TreeNode, no constructor in IDL" }
 TreeNode.prototype = Object.create(Widget.prototype);
@@ -1656,6 +1706,10 @@ Module['ui']['spacer'] = function(a0) {
     if (!checkClass(a0, Widget)) throw Error('spacer(0:parent): expected Widget');
     return wrapPointer(_mud_ui_spacer_1(/*parent*/a0.__ptr), Widget);
 };
+Module['ui']['separator'] = function(a0) {
+    if (!checkClass(a0, Widget)) throw Error('separator(0:parent): expected Widget');
+    return wrapPointer(_mud_ui_separator_1(/*parent*/a0.__ptr), Widget);
+};
 Module['ui']['icon'] = function(a0, a1) {
     ensureCache.prepare();
     if (!checkClass(a0, Widget)) throw Error('icon(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('icon(1:image): expected string');
@@ -1680,6 +1734,16 @@ Module['ui']['text'] = function(a0, a1) {
     ensureCache.prepare();
     if (!checkClass(a0, Widget)) throw Error('text(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('text(1:label): expected string');
     return wrapPointer(_mud_ui_text_2(/*parent*/a0.__ptr, ensureString(/*label*/a1)), Widget);
+};
+Module['ui']['bullet'] = function(a0, a1) {
+    ensureCache.prepare();
+    if (!checkClass(a0, Widget)) throw Error('bullet(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('bullet(1:label): expected string');
+    return wrapPointer(_mud_ui_bullet_2(/*parent*/a0.__ptr, ensureString(/*label*/a1)), Widget);
+};
+Module['ui']['selectable'] = function(a0, a1, a2) {
+    ensureCache.prepare();
+    if (!checkClass(a0, Widget)) throw Error('selectable(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('selectable(1:label): expected string'); if (typeof a2 !== 'boolean') throw Error('selectable(2:selected): expected boolean');
+    return wrapPointer(_mud_ui_selectable_3(/*parent*/a0.__ptr, ensureString(/*label*/a1), /*selected*/a2), Widget);
 };
 Module['ui']['button'] = function(a0, a1) {
     ensureCache.prepare();
@@ -1735,8 +1799,13 @@ Module['ui']['image256'] = function(a0, a1, a2, a3) {
 };
 Module['ui']['radio_choice'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('radio_choice(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('radio_choice(1:value): expected string'); if (typeof a2 !== 'boolean') throw Error('radio_choice(2:active): expected boolean');
-    return wrapPointer(_mud_ui_radio_choice_3(/*parent*/a0.__ptr, ensureString(/*value*/a1), /*active*/a2), Widget);
+    if (!checkClass(a0, Widget)) throw Error('radio_choice(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('radio_choice(1:label): expected string'); if (typeof a2 !== 'boolean') throw Error('radio_choice(2:active): expected boolean');
+    return wrapPointer(_mud_ui_radio_choice_3(/*parent*/a0.__ptr, ensureString(/*label*/a1), /*active*/a2), Widget);
+};
+Module['ui']['radio_button'] = function(a0, a1, a2, a3) {
+    ensureCache.prepare();
+    if (!checkClass(a0, Widget)) throw Error('radio_button(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('radio_button(1:label): expected string'); if (typeof a2 !== 'number') throw Error('radio_button(2:value): expected integer'); if (typeof a3 !== 'number') throw Error('radio_button(3:index): expected integer');
+    return wrapPointer(_mud_ui_radio_button_4(/*parent*/a0.__ptr, ensureString(/*label*/a1), /*value*/a2, /*index*/a3), Widget);
 };
 Module['ui']['radio_switch'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('radio_switch(0:parent): expected Widget');  if (typeof a2 !== 'number') throw Error('radio_switch(2:value): expected integer'); }
@@ -1748,12 +1817,14 @@ Module['ui']['popdown'] = function(a0, a1, a2, a3, a4) {
     if (!checkClass(a0, Widget)) throw Error('popdown(0:parent): expected Widget');  if (typeof a2 !== 'number') throw Error('popdown(2:value): expected integer'); if (!checkClass(a3, v2_float)) throw Error('popdown(3:position): expected v2<float>'); if (typeof a4 !== 'number') throw Error('popdown(4:flags): expected integer');
     return !!(_mud_ui_popdown_5(/*parent*/a0.__ptr, ensureInt8(/*choices*/a1), /*choices*/a1.length, /*value*/a2, /*position*/a3.__ptr, /*flags*/a4));
 };
-Module['ui']['dropdown'] = function(a0, a1, a2, a3, a4) {
+Module['ui']['dropdown'] = function(a0, a1, a2, a3, a4, a5) {
     ensureCache.prepare();
     if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('dropdown(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('dropdown(1:style): expected Style'); if (typeof a2 !== 'string') throw Error('dropdown(2:value): expected string'); if (typeof a3 !== 'number') throw Error('dropdown(3:flags): expected integer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('dropdown(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('dropdown(1:style): expected Style'); if (typeof a2 !== 'string') throw Error('dropdown(2:value): expected string'); if (typeof a3 !== 'number') throw Error('dropdown(3:flags): expected integer'); if (!checkClass(a4, Style)) throw Error('dropdown(4:list_style): expected Style'); }
+    else if (a5 === undefined) { if (!checkClass(a0, Widget)) throw Error('dropdown(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('dropdown(1:style): expected Style'); if (typeof a2 !== 'string') throw Error('dropdown(2:value): expected string'); if (typeof a3 !== 'number') throw Error('dropdown(3:flags): expected integer'); if (typeof a4 !== 'boolean') throw Error('dropdown(4:no_toggle): expected boolean'); }
+    else { if (!checkClass(a0, Widget)) throw Error('dropdown(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('dropdown(1:style): expected Style'); if (typeof a2 !== 'string') throw Error('dropdown(2:value): expected string'); if (typeof a3 !== 'number') throw Error('dropdown(3:flags): expected integer'); if (typeof a4 !== 'boolean') throw Error('dropdown(4:no_toggle): expected boolean'); if (!checkClass(a5, Style)) throw Error('dropdown(5:list_style): expected Style'); }
     if (a4 === undefined) { return wrapPointer(_mud_ui_dropdown_4(/*parent*/a0.__ptr, /*style*/a1.__ptr, ensureString(/*value*/a2), /*flags*/a3), Widget); }
-    else { return wrapPointer(_mud_ui_dropdown_5(/*parent*/a0.__ptr, /*style*/a1.__ptr, ensureString(/*value*/a2), /*flags*/a3, /*list_style*/a4.__ptr), Widget); }
+    else if (a5 === undefined) { return wrapPointer(_mud_ui_dropdown_5(/*parent*/a0.__ptr, /*style*/a1.__ptr, ensureString(/*value*/a2), /*flags*/a3, /*no_toggle*/a4), Widget); }
+    else { return wrapPointer(_mud_ui_dropdown_6(/*parent*/a0.__ptr, /*style*/a1.__ptr, ensureString(/*value*/a2), /*flags*/a3, /*no_toggle*/a4, /*list_style*/a5.__ptr), Widget); }
 };
 Module['ui']['dropdown_input'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('dropdown_input(0:parent): expected Widget');  if (typeof a2 !== 'number') throw Error('dropdown_input(2:value): expected integer'); }
@@ -1765,10 +1836,17 @@ Module['ui']['typedown_input'] = function(a0, a1, a2) {
     if (!checkClass(a0, Widget)) throw Error('typedown_input(0:parent): expected Widget');  if (typeof a2 !== 'number') throw Error('typedown_input(2:value): expected integer');
     return !!(_mud_ui_typedown_input_3(/*parent*/a0.__ptr, ensureInt8(/*choices*/a1), /*choices*/a1.length, /*value*/a2));
 };
-Module['ui']['menu_choice'] = function(a0, a1) {
+Module['ui']['menu_choice'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('menu_choice(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('menu_choice(1:content): expected string');
-    return wrapPointer(_mud_ui_menu_choice_2(/*parent*/a0.__ptr, ensureString(/*content*/a1)), Widget);
+    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('menu_choice(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('menu_choice(1:content): expected string'); }
+    else { if (!checkClass(a0, Widget)) throw Error('menu_choice(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('menu_choice(1:content): expected string'); if (typeof a2 !== 'string') throw Error('menu_choice(2:shortcut): expected string'); }
+    if (a2 === undefined) { return wrapPointer(_mud_ui_menu_choice_2(/*parent*/a0.__ptr, ensureString(/*content*/a1)), Widget); }
+    else { return wrapPointer(_mud_ui_menu_choice_3(/*parent*/a0.__ptr, ensureString(/*content*/a1), ensureString(/*shortcut*/a2)), Widget); }
+};
+Module['ui']['menu_option'] = function(a0, a1, a2, a3) {
+    ensureCache.prepare();
+    if (!checkClass(a0, Widget)) throw Error('menu_option(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('menu_option(1:content): expected string'); if (typeof a2 !== 'string') throw Error('menu_option(2:shortcut): expected string'); if (typeof a3 !== 'boolean') throw Error('menu_option(3:enabled): expected boolean');
+    return wrapPointer(_mud_ui_menu_option_4(/*parent*/a0.__ptr, ensureString(/*content*/a1), ensureString(/*shortcut*/a2), /*enabled*/a3), Widget);
 };
 Module['ui']['menu'] = function(a0, a1, a2) {
     ensureCache.prepare();
@@ -1873,6 +1951,10 @@ Module['ui']['layout'] = function(a0) {
     if (!checkClass(a0, Widget)) throw Error('layout(0:parent): expected Widget');
     return wrapPointer(_mud_ui_layout_1(/*parent*/a0.__ptr), Widget);
 };
+Module['ui']['indent'] = function(a0) {
+    if (!checkClass(a0, Widget)) throw Error('indent(0:parent): expected Widget');
+    return wrapPointer(_mud_ui_indent_1(/*parent*/a0.__ptr), Widget);
+};
 Module['ui']['screen'] = function(a0) {
     if (!checkClass(a0, Widget)) throw Error('screen(0:parent): expected Widget');
     return wrapPointer(_mud_ui_screen_1(/*parent*/a0.__ptr), Widget);
@@ -1930,11 +2012,6 @@ Module['ui']['hoverbox'] = function(a0, a1) {
     if (a1 === undefined) { return wrapPointer(_mud_ui_hoverbox_1(/*parent*/a0.__ptr), Widget); }
     else { return wrapPointer(_mud_ui_hoverbox_2(/*parent*/a0.__ptr, /*delay*/a1), Widget); }
 };
-Module['ui']['tooltip'] = function(a0, a1, a2) {
-    ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('tooltip(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('tooltip(1:position): expected v2<float>'); if (typeof a2 !== 'string') throw Error('tooltip(2:content): expected string');
-    return wrapPointer(_mud_ui_tooltip_3(/*parent*/a0.__ptr, /*position*/a1.__ptr, ensureString(/*content*/a2)), Widget);
-};
 Module['ui']['cursor'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('cursor(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('cursor(1:position): expected v2<float>'); if (!checkClass(a2, Widget)) throw Error('cursor(2:hovered): expected Widget'); }
     else { if (!checkClass(a0, Widget)) throw Error('cursor(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('cursor(1:position): expected v2<float>'); if (!checkClass(a2, Widget)) throw Error('cursor(2:hovered): expected Widget'); if (typeof a3 !== 'boolean') throw Error('cursor(3:locked): expected boolean'); }
@@ -1966,6 +2043,33 @@ Module['ui']['drag_float'] = function(a0, a1, a2) {
     else { if (!checkClass(a0, Widget)) throw Error('drag_float(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('drag_float(1:value): expected number'); if (typeof a2 !== 'number') throw Error('drag_float(2:step): expected number'); }
     if (a2 === undefined) { return !!(_mud_ui_drag_float_2(/*parent*/a0.__ptr, /*value*/a1)); }
     else { return !!(_mud_ui_drag_float_3(/*parent*/a0.__ptr, /*value*/a1, /*step*/a2)); }
+};
+Module['ui']['float2_input'] = function(a0, a1, a2, a3) {
+    if (!checkClass(a0, Widget)) throw Error('float2_input(0:parent): expected Widget');   if (!checkClass(a3, StatDef_float)) throw Error('float2_input(3:def): expected StatDef<float>');
+    return !!(_mud_ui_float2_input_4(/*parent*/a0.__ptr, ensureInt8(/*labels*/a1), /*labels*/a1.length, ensureFloat32(/*vals*/a2), /*vals*/a2.length, /*def*/a3.__ptr));
+};
+Module['ui']['float3_input'] = function(a0, a1, a2, a3) {
+    if (!checkClass(a0, Widget)) throw Error('float3_input(0:parent): expected Widget');   if (!checkClass(a3, StatDef_float)) throw Error('float3_input(3:def): expected StatDef<float>');
+    return !!(_mud_ui_float3_input_4(/*parent*/a0.__ptr, ensureInt8(/*labels*/a1), /*labels*/a1.length, ensureFloat32(/*vals*/a2), /*vals*/a2.length, /*def*/a3.__ptr));
+};
+Module['ui']['float4_input'] = function(a0, a1, a2, a3) {
+    if (!checkClass(a0, Widget)) throw Error('float4_input(0:parent): expected Widget');   if (!checkClass(a3, StatDef_float)) throw Error('float4_input(3:def): expected StatDef<float>');
+    return !!(_mud_ui_float4_input_4(/*parent*/a0.__ptr, ensureInt8(/*labels*/a1), /*labels*/a1.length, ensureFloat32(/*vals*/a2), /*vals*/a2.length, /*def*/a3.__ptr));
+};
+Module['ui']['float2_slider'] = function(a0, a1, a2, a3, a4) {
+    ensureCache.prepare();
+    if (!checkClass(a0, Widget)) throw Error('float2_slider(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('float2_slider(1:label): expected string');   if (!checkClass(a4, StatDef_float)) throw Error('float2_slider(4:def): expected StatDef<float>');
+    return !!(_mud_ui_float2_slider_5(/*parent*/a0.__ptr, ensureString(/*label*/a1), ensureInt8(/*labels*/a2), /*labels*/a2.length, ensureFloat32(/*vals*/a3), /*vals*/a3.length, /*def*/a4.__ptr));
+};
+Module['ui']['float3_slider'] = function(a0, a1, a2, a3, a4) {
+    ensureCache.prepare();
+    if (!checkClass(a0, Widget)) throw Error('float3_slider(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('float3_slider(1:label): expected string');   if (!checkClass(a4, StatDef_float)) throw Error('float3_slider(4:def): expected StatDef<float>');
+    return !!(_mud_ui_float3_slider_5(/*parent*/a0.__ptr, ensureString(/*label*/a1), ensureInt8(/*labels*/a2), /*labels*/a2.length, ensureFloat32(/*vals*/a3), /*vals*/a3.length, /*def*/a4.__ptr));
+};
+Module['ui']['float4_slider'] = function(a0, a1, a2, a3, a4) {
+    ensureCache.prepare();
+    if (!checkClass(a0, Widget)) throw Error('float4_slider(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('float4_slider(1:label): expected string');   if (!checkClass(a4, StatDef_float)) throw Error('float4_slider(4:def): expected StatDef<float>');
+    return !!(_mud_ui_float4_slider_5(/*parent*/a0.__ptr, ensureString(/*label*/a1), ensureInt8(/*labels*/a2), /*labels*/a2.length, ensureFloat32(/*vals*/a3), /*vals*/a3.length, /*def*/a4.__ptr));
 };
 Module['ui']['vec2_edit'] = function(a0, a1) {
     if (!checkClass(a0, Widget)) throw Error('vec2_edit(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('vec2_edit(1:vec): expected v2<float>');
@@ -2170,6 +2274,7 @@ Module['ui']['file_tree'] = function(a0, a1) {
         Shadow.prototype.__type = _mud_Shadow__type();
         Space.prototype.__type = _mud_Space__type();
         Style.prototype.__type = _mud_Style__type();
+        Subskin.prototype.__type = _mud_Subskin__type();
         TableSolver.prototype.__type = _mud_TableSolver__type();
         Text.prototype.__type = _mud_Text__type();
         TextCursor.prototype.__type = _mud_TextCursor__type();
@@ -2185,19 +2290,19 @@ Module['ui']['file_tree'] = function(a0, a1) {
         Docker.prototype.__type = _mud_Docker__type();
         Dockbar.prototype.__type = _mud_Dockbar__type();
         Dockspace.prototype.__type = _mud_Dockspace__type();
-        Expandbox.prototype.__type = _mud_Expandbox__type();
         Frame.prototype.__type = _mud_Frame__type();
         FrameSolver.prototype.__type = _mud_FrameSolver__type();
         Node.prototype.__type = _mud_Node__type();
         NodePlug.prototype.__type = _mud_NodePlug__type();
         RowSolver.prototype.__type = _mud_RowSolver__type();
         LineSolver.prototype.__type = _mud_LineSolver__type();
+        Widget.prototype.__type = _mud_Widget__type();
+        Expandbox.prototype.__type = _mud_Expandbox__type();
         ScrollSheet.prototype.__type = _mud_ScrollSheet__type();
         Sequence.prototype.__type = _mud_ui_Sequence__type();
         Tabber.prototype.__type = _mud_Tabber__type();
         Table.prototype.__type = _mud_Table__type();
         TextEdit.prototype.__type = _mud_TextEdit__type();
-        Widget.prototype.__type = _mud_Widget__type();
         TreeNode.prototype.__type = _mud_TreeNode__type();
         Ui.prototype.__type = _mud_Ui__type();
         Window.prototype.__type = _mud_Window__type();
@@ -2286,13 +2391,16 @@ Module['ui']['file_tree'] = function(a0, a1) {
         Module['FOCUSED'] = _mud_WidgetState_FOCUSED();
         Module['CLOSED'] = _mud_WidgetState_CLOSED();
         // WindowState
-        Module['WINDOW_NOSTATE'] = _mud_WindowState_WINDOW_NOSTATE();
-        Module['WINDOW_HEADER'] = _mud_WindowState_WINDOW_HEADER();
-        Module['WINDOW_DOCKABLE'] = _mud_WindowState_WINDOW_DOCKABLE();
-        Module['WINDOW_CLOSABLE'] = _mud_WindowState_WINDOW_CLOSABLE();
-        Module['WINDOW_MOVABLE'] = _mud_WindowState_WINDOW_MOVABLE();
-        Module['WINDOW_SIZABLE'] = _mud_WindowState_WINDOW_SIZABLE();
-        Module['WINDOW_DEFAULT'] = _mud_WindowState_WINDOW_DEFAULT();
+        Module['WindowState'] = Module['WindowState'] || {};
+        Module['WindowState']['None'] = _mud_WindowState_None();
+        Module['WindowState']['Header'] = _mud_WindowState_Header();
+        Module['WindowState']['Dockable'] = _mud_WindowState_Dockable();
+        Module['WindowState']['Closable'] = _mud_WindowState_Closable();
+        Module['WindowState']['Movable'] = _mud_WindowState_Movable();
+        Module['WindowState']['Sizable'] = _mud_WindowState_Sizable();
+        Module['WindowState']['Scrollable'] = _mud_WindowState_Scrollable();
+        Module['WindowState']['Menu'] = _mud_WindowState_Menu();
+        Module['WindowState']['Default'] = _mud_WindowState_Default();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

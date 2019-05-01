@@ -102,15 +102,11 @@ namespace mud
 		});
 
         select({ "Button", "Toggle", "DockToggle", "ToolButton", "RadioChoice", "Dropdown", "DropdownInput", "TabHeader" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-		})
 		.decline({ PRESSED, SELECTED, ACTIVE, PRESSED|ACTIVE }, [&](InkStyle& i) {
 			i.m_linear_gradient = vec2(-15.f, 15.f);
 		});
 
         select({ "Toggle", "DockToggle", "ToolButton", "RadioChoice", "TabHeader" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-		})
 		.decline({ ACTIVE, ACTIVE|HOVERED, PRESSED|HOVERED }, [&](InkStyle& i) {
 			i.m_background_colour = activeBlue;
         })
@@ -152,7 +148,7 @@ namespace mud
 		});
 
         select({ "Checkbox" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			l.m_size = vec2(16.f);
 		})
 		.decline({ ACTIVE, ACTIVE|HOVERED }, [&](InkStyle& i) {
@@ -176,7 +172,7 @@ namespace mud
 		});
 
         select({ "SliderKnob" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			l.m_flow = LayoutFlow::Overlay;
 		});
 
@@ -219,7 +215,7 @@ namespace mud
 		});
 
         select({ "WindowBody" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			l.m_padding = vec4(10.f, 4.f, 4.f, 4.f);
 		});
 		
@@ -234,7 +230,7 @@ namespace mud
 		});
 
         select({ "WindowSizerLeft", "WindowSizerRight" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			l.m_size = vec2(0.f, 8.f);
 		});
 
@@ -287,17 +283,17 @@ namespace mud
 		});
 
         select({ "Menubar" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			l.m_padding = vec4(8.f, 2.f, 8.f, 2.f);
 		});
 
         select({ "Toolbar", "Tab", "Header", "Scrollbar", "Popup", "ColourPopup" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			l.m_padding = vec4(6.f);
 		});
 
         select({ "Dockbar", "Toolbar", "Menubar", "Header" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
 			l.m_spacing = vec2(6.f);
 		});
 

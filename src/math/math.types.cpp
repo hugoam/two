@@ -46,6 +46,8 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::quat>>() { static Type ty("Range<mud::quat>", sizeof(mud::Range<mud::quat>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::vec3>>() { static Type ty("Range<mud::vec3>", sizeof(mud::Range<mud::vec3>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Range<uint32_t>>() { static Type ty("Range<uint32_t>", sizeof(mud::Range<uint32_t>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::StatDef<float>>() { static Type ty("StatDef<float>", sizeof(mud::StatDef<float>)); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::StatDef<int>>() { static Type ty("StatDef<int>", sizeof(mud::StatDef<int>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Time>() { static Type ty("Time", sizeof(mud::Time)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::TimeSpan>() { static Type ty("TimeSpan", sizeof(mud::TimeSpan)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Transform>() { static Type ty("Transform", sizeof(mud::Transform)); return ty; }

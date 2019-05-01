@@ -13,11 +13,11 @@
 namespace mud
 {
 	export_ template <class T>
-	struct StatDef
+	struct refl_ StatDef
 	{
-		T m_min = limits<T>::min();
-		T m_max = limits<T>::max();
-		T m_step = T(1);
+		attr_ T m_min = limits<T>::min();
+		attr_ T m_max = limits<T>::max();
+		attr_ T m_step = T(1);
 
 		T rincrement(T& value, T amount) const;
 		T rdecrement(T& value, T amount) const;
@@ -35,8 +35,8 @@ namespace mud
 		void update(T& value) const;
 	};
 
-	export_ extern template struct StatDef<int>;
-	export_ extern template struct StatDef<float>;
+	export_ extern template struct refl_ StatDef<int>;
+	export_ extern template struct refl_ StatDef<float>;
 
 	export_ template <class T>
 	struct Stat

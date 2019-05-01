@@ -1,48 +1,4 @@
 Module['stl'] = Module['stl'] || {};
-// AutoStat<float>
-function AutoStat_float() {
-    
-    this.__ptr = _mud_AutoStat_float__construct_0(); getCache(AutoStat_float)[this.__ptr] = this;
-};
-AutoStat_float.prototype = Object.create(WrapperObject.prototype);
-AutoStat_float.prototype.constructor = AutoStat_float;
-AutoStat_float.prototype.__class = AutoStat_float;
-AutoStat_float.__cache = {};
-Module['AutoStat_float'] = AutoStat_float;
-Object.defineProperty(AutoStat_float.prototype, "value", {
-    get: function() {
-        return _mud_AutoStat_float__get_value(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('AutoStat<float>.value: expected number');
-        _mud_AutoStat_float__set_value(this.__ptr, value);
-    }
-});
-AutoStat_float.prototype["__destroy"] = AutoStat_float.prototype.__destroy = function() {
-    _mud_AutoStat_float__destroy(this.__ptr);
-};
-// AutoStat<int>
-function AutoStat_int() {
-    
-    this.__ptr = _mud_AutoStat_int__construct_0(); getCache(AutoStat_int)[this.__ptr] = this;
-};
-AutoStat_int.prototype = Object.create(WrapperObject.prototype);
-AutoStat_int.prototype.constructor = AutoStat_int;
-AutoStat_int.prototype.__class = AutoStat_int;
-AutoStat_int.__cache = {};
-Module['AutoStat_int'] = AutoStat_int;
-Object.defineProperty(AutoStat_int.prototype, "value", {
-    get: function() {
-        return _mud_AutoStat_int__get_value(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('AutoStat<int>.value: expected integer');
-        _mud_AutoStat_int__set_value(this.__ptr, value);
-    }
-});
-AutoStat_int.prototype["__destroy"] = AutoStat_int.prototype.__destroy = function() {
-    _mud_AutoStat_int__destroy(this.__ptr);
-};
 // Colour
 function Colour(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
@@ -400,6 +356,86 @@ Object.defineProperty(Range_uint32_t.prototype, "max", {
 });
 Range_uint32_t.prototype["__destroy"] = Range_uint32_t.prototype.__destroy = function() {
     _mud_Range_uint32_t__destroy(this.__ptr);
+};
+// StatDef<float>
+function StatDef_float() {
+    
+    this.__ptr = _mud_StatDef_float__construct_0(); getCache(StatDef_float)[this.__ptr] = this;
+};
+StatDef_float.prototype = Object.create(WrapperObject.prototype);
+StatDef_float.prototype.constructor = StatDef_float;
+StatDef_float.prototype.__class = StatDef_float;
+StatDef_float.__cache = {};
+Module['StatDef_float'] = StatDef_float;
+Object.defineProperty(StatDef_float.prototype, "min", {
+    get: function() {
+        return _mud_StatDef_float__get_min(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('StatDef<float>.min: expected number');
+        _mud_StatDef_float__set_min(this.__ptr, value);
+    }
+});
+Object.defineProperty(StatDef_float.prototype, "max", {
+    get: function() {
+        return _mud_StatDef_float__get_max(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('StatDef<float>.max: expected number');
+        _mud_StatDef_float__set_max(this.__ptr, value);
+    }
+});
+Object.defineProperty(StatDef_float.prototype, "step", {
+    get: function() {
+        return _mud_StatDef_float__get_step(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('StatDef<float>.step: expected number');
+        _mud_StatDef_float__set_step(this.__ptr, value);
+    }
+});
+StatDef_float.prototype["__destroy"] = StatDef_float.prototype.__destroy = function() {
+    _mud_StatDef_float__destroy(this.__ptr);
+};
+// StatDef<int>
+function StatDef_int() {
+    
+    this.__ptr = _mud_StatDef_int__construct_0(); getCache(StatDef_int)[this.__ptr] = this;
+};
+StatDef_int.prototype = Object.create(WrapperObject.prototype);
+StatDef_int.prototype.constructor = StatDef_int;
+StatDef_int.prototype.__class = StatDef_int;
+StatDef_int.__cache = {};
+Module['StatDef_int'] = StatDef_int;
+Object.defineProperty(StatDef_int.prototype, "min", {
+    get: function() {
+        return _mud_StatDef_int__get_min(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('StatDef<int>.min: expected integer');
+        _mud_StatDef_int__set_min(this.__ptr, value);
+    }
+});
+Object.defineProperty(StatDef_int.prototype, "max", {
+    get: function() {
+        return _mud_StatDef_int__get_max(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('StatDef<int>.max: expected integer');
+        _mud_StatDef_int__set_max(this.__ptr, value);
+    }
+});
+Object.defineProperty(StatDef_int.prototype, "step", {
+    get: function() {
+        return _mud_StatDef_int__get_step(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('StatDef<int>.step: expected integer');
+        _mud_StatDef_int__set_step(this.__ptr, value);
+    }
+});
+StatDef_int.prototype["__destroy"] = StatDef_int.prototype.__destroy = function() {
+    _mud_StatDef_int__destroy(this.__ptr);
 };
 // Time
 function Time(a0) {
@@ -1615,6 +1651,10 @@ Module['rgba'] = function(a0) {
 Module['abgr'] = function(a0) {
     if (typeof a0 !== 'number') throw Error('abgr(0:colour): expected integer');
     return wrapPointer(_mud_abgr_1(/*colour*/a0), Colour);
+};
+Module['hsv'] = function(a0, a1, a2) {
+    if (typeof a0 !== 'number') throw Error('hsv(0:h): expected number'); if (typeof a1 !== 'number') throw Error('hsv(1:s): expected number'); if (typeof a2 !== 'number') throw Error('hsv(2:v): expected number');
+    return wrapPointer(_mud_hsv_3(/*h*/a0, /*s*/a1, /*v*/a2), Colour);
 };
 Module['hsl'] = function(a0, a1, a2) {
     if (typeof a0 !== 'number') throw Error('hsl(0:h): expected number'); if (typeof a1 !== 'number') throw Error('hsl(1:s): expected number'); if (typeof a2 !== 'number') throw Error('hsl(2:l): expected number');

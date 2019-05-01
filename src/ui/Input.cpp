@@ -25,16 +25,16 @@ namespace mud
 {
 namespace ui
 {
-	template bool slider_input(Widget& parent, int& value, StatDef<int> def);
-	template bool slider_input(Widget& parent, float& value, StatDef<float> def);
+	template bool slider_input(Widget& parent, int& value, StatDef<int> def, Axis dim);
+	template bool slider_input(Widget& parent, float& value, StatDef<float> def, Axis dim);
 
 	template bool number_input(Widget& parent, int& value, StatDef<int> def);
 	//template bool number_input(Widget& parent, float& value, StatDef<float> def);
 
 	//template bool input(Widget& parent, bool& value);
-	template bool input(Widget& parent, int& value);
-	template bool input(Widget& parent, float& value);
 	//template bool input(Widget& parent, string& value);
+	template bool input(Widget& parent, int& value, StatDef<int> def);
+	template bool input(Widget& parent, float& value, StatDef<float> def);
 
 	bool drag_float(Widget& parent, float& value, float step)
 	{

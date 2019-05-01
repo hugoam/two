@@ -18,10 +18,10 @@ namespace mud
 	using InkStyleDef = void(*)(InkStyle&);
 	using StyleDef = void(*)(Style&);
 
-	export_ struct Subskin
+	export_ struct refl_ Subskin
 	{
-		InkStyle skin;
-		WidgetState state;
+		attr_ InkStyle skin;
+		attr_ WidgetState state;
 	};
 
 	export_ MUD_UI_EXPORT void register_styles(span<Style*> styles);

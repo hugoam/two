@@ -64,6 +64,7 @@ namespace mud
     template <class T> struct v2;
     
     class Style;
+	struct Subskin;
     struct Space;
     struct Styles;
     struct UiRect;
@@ -125,6 +126,7 @@ namespace mud
 #ifdef MUD_META_GENERATOR
 #include <stl/vector.h>
 #include <stl/span.h>
+#include <ui/Style/Style.h>
 namespace stl
 {
 	export_ using cstring = const char*;
@@ -133,5 +135,6 @@ namespace stl
 
 	//export_ extern template class refl_ seque_ vector<string>;
 	export_ extern template class refl_ seque_ vector<mud::Space>;
+	export_ extern template class refl_ seque_ vector<mud::Subskin>;
 }
 #endif

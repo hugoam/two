@@ -567,14 +567,14 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		};
 
 		Widget& a = panel("Sky");
-		ui::slider_field<float>(a, "inclination", { params.inclination,  { 0.f, 0.5f, 0.0001f } });
-		ui::slider_field<float>(a, "azimuth",     { params.azimuth,      { 0.f, 1.f,  0.0001f } });
+		ui::slider_field<float>(a, "inclination", params.inclination,  { 0.f, 0.5f, 0.0001f });
+		ui::slider_field<float>(a, "azimuth",     params.azimuth,      { 0.f, 1.f,  0.0001f });
 	
 #if WATER
 		Widget& b = panel("Water");
-		ui::slider_field<float>(b, "distortion", { water.distortionScale,	{ 0.f, 8.f, 0.1f } });
-		ui::slider_field<float>(b, "size",		 { water.size,				{ 0.1f, 10.f, 0.1f } });
-		ui::slider_field<float>(b, "alpha",		 { water.alpha,				{ 0.9f, 1.f, 0.001f } });
+		ui::slider_field<float>(b, "distortion", water.distortionScale,	{ 0.f, 8.f, 0.1f });
+		ui::slider_field<float>(b, "size",		 water.size,			{ 0.1f, 10.f, 0.1f });
+		ui::slider_field<float>(b, "alpha",		 water.alpha,			{ 0.9f, 1.f, 0.001f });
 #endif
 	}
 

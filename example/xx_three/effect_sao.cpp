@@ -498,15 +498,15 @@ void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		ui::dropdown_field(a, "shape", { "Beauty+SAO", "Beauty", "SAO", "Depth", "Normal" }, (uint32_t&)sao.output);
 
-		ui::slider_field<float>(a, "bias",      { sao.bias,      { -1.f, 1.f, 0.1f } });
-		ui::slider_field<float>(a, "intensity", { sao.intensity, { 0.f, 1.f, 0.01f } });
-		ui::slider_field<float>(a, "scale",     { sao.scale,     { 0.f, 10.f, 0.1f } });
-		ui::slider_field<size_t>(a, "kernel radius", { sao.kernelRadius, { 1, 100, 1 } });
+		ui::slider_field<float>(a, "bias",           sao.bias,         { -1.f, 1.f, 0.1f });
+		ui::slider_field<float>(a, "intensity",      sao.intensity,    { 0.f, 1.f, 0.01f });
+		ui::slider_field<float>(a, "scale",          sao.scale,        { 0.f, 10.f, 0.1f });
+		ui::slider_field<size_t>(a, "kernel radius", sao.kernelRadius, { 1, 100, 1 });
 
 		ui::field<bool>(a,    "blur", sao.blur);
-		ui::slider_field<size_t>(a, "blur radius",       { sao.blurRadius,      { 0, 200, 1 } });
-		ui::slider_field<float>(a,  "blur std dev",      { sao.blurStdDev,      { 0.5f, 150.f, 0.1f } });
-		ui::slider_field<float>(a,  "blur depth cutoff", { sao.blurDepthCutoff, { 0.0f, 0.1f, 0.01f } });
+		ui::slider_field<size_t>(a, "blur radius",       sao.blurRadius,      { 0, 200, 1 });
+		ui::slider_field<float>(a,  "blur std dev",      sao.blurStdDev,      { 0.5f, 150.f, 0.1f });
+		ui::slider_field<float>(a,  "blur depth cutoff", sao.blurDepthCutoff, { 0.0f, 0.1f, 0.01f });
 	}
 
 	const float time = app.m_gfx.m_time;

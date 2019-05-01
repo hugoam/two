@@ -12,38 +12,6 @@
 
 extern "C" {
 	
-	// AutoStat<float>
-	mud::Type* DECL mud_AutoStat_float__type() {
-		return &mud::type<mud::AutoStat<float>>();
-	}
-	mud::AutoStat<float>* DECL mud_AutoStat_float__construct_0() {
-		return new mud::AutoStat<float>();
-	}
-	float DECL mud_AutoStat_float__get_value(mud::AutoStat<float>* self) {
-		return self->m_value;
-	}
-	void DECL mud_AutoStat_float__set_value(mud::AutoStat<float>* self, float value) {
-		self->m_value = value;
-	}
-	void DECL mud_AutoStat_float__destroy(mud::AutoStat<float>* self) {
-		delete self;
-	}
-	// AutoStat<int>
-	mud::Type* DECL mud_AutoStat_int__type() {
-		return &mud::type<mud::AutoStat<int>>();
-	}
-	mud::AutoStat<int>* DECL mud_AutoStat_int__construct_0() {
-		return new mud::AutoStat<int>();
-	}
-	int DECL mud_AutoStat_int__get_value(mud::AutoStat<int>* self) {
-		return self->m_value;
-	}
-	void DECL mud_AutoStat_int__set_value(mud::AutoStat<int>* self, int value) {
-		self->m_value = value;
-	}
-	void DECL mud_AutoStat_int__destroy(mud::AutoStat<int>* self) {
-		delete self;
-	}
 	// Colour
 	mud::Type* DECL mud_Colour__type() {
 		return &mud::type<mud::Colour>();
@@ -308,6 +276,62 @@ extern "C" {
 		self->m_max = value;
 	}
 	void DECL mud_Range_uint32_t__destroy(mud::Range<uint32_t>* self) {
+		delete self;
+	}
+	// StatDef<float>
+	mud::Type* DECL mud_StatDef_float__type() {
+		return &mud::type<mud::StatDef<float>>();
+	}
+	mud::StatDef<float>* DECL mud_StatDef_float__construct_0() {
+		return new mud::StatDef<float>();
+	}
+	float DECL mud_StatDef_float__get_min(mud::StatDef<float>* self) {
+		return self->m_min;
+	}
+	void DECL mud_StatDef_float__set_min(mud::StatDef<float>* self, float value) {
+		self->m_min = value;
+	}
+	float DECL mud_StatDef_float__get_max(mud::StatDef<float>* self) {
+		return self->m_max;
+	}
+	void DECL mud_StatDef_float__set_max(mud::StatDef<float>* self, float value) {
+		self->m_max = value;
+	}
+	float DECL mud_StatDef_float__get_step(mud::StatDef<float>* self) {
+		return self->m_step;
+	}
+	void DECL mud_StatDef_float__set_step(mud::StatDef<float>* self, float value) {
+		self->m_step = value;
+	}
+	void DECL mud_StatDef_float__destroy(mud::StatDef<float>* self) {
+		delete self;
+	}
+	// StatDef<int>
+	mud::Type* DECL mud_StatDef_int__type() {
+		return &mud::type<mud::StatDef<int>>();
+	}
+	mud::StatDef<int>* DECL mud_StatDef_int__construct_0() {
+		return new mud::StatDef<int>();
+	}
+	int DECL mud_StatDef_int__get_min(mud::StatDef<int>* self) {
+		return self->m_min;
+	}
+	void DECL mud_StatDef_int__set_min(mud::StatDef<int>* self, int value) {
+		self->m_min = value;
+	}
+	int DECL mud_StatDef_int__get_max(mud::StatDef<int>* self) {
+		return self->m_max;
+	}
+	void DECL mud_StatDef_int__set_max(mud::StatDef<int>* self, int value) {
+		self->m_max = value;
+	}
+	int DECL mud_StatDef_int__get_step(mud::StatDef<int>* self) {
+		return self->m_step;
+	}
+	void DECL mud_StatDef_int__set_step(mud::StatDef<int>* self, int value) {
+		self->m_step = value;
+	}
+	void DECL mud_StatDef_int__destroy(mud::StatDef<int>* self) {
 		delete self;
 	}
 	// Time
@@ -1225,6 +1249,10 @@ extern "C" {
 	mud::Colour* DECL mud_abgr_1(uint32_t colour) {
 		static mud::Colour temp;
 		return (temp = mud::abgr(colour), &temp);
+	}
+	mud::Colour* DECL mud_hsv_3(float h, float s, float v) {
+		static mud::Colour temp;
+		return (temp = mud::hsv(h, s, v), &temp);
 	}
 	mud::Colour* DECL mud_hsl_3(float h, float s, float l) {
 		static mud::Colour temp;

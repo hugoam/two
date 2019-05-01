@@ -54,6 +54,8 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::quat>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::vec3>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Range<uint32_t>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::StatDef<float>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::StatDef<int>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Time>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::TimeSpan>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Transform>();

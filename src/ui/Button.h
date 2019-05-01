@@ -61,7 +61,7 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Widget& bullet(Widget& parent, cstring label);
 	export_ MUD_UI_EXPORT func_ Widget& selectable(Widget& parent, cstring label, bool& selected);
 
-	export_ MUD_UI_EXPORT func_ Widget& labelf(Widget& parent, cstring label, ...);
+	export_ MUD_UI_EXPORT Widget& labelf(Widget& parent, cstring label, ...);
 
 	export_ MUD_UI_EXPORT Widget& icon(Widget& parent, const string& image);
 	export_ MUD_UI_EXPORT Widget& label(Widget& parent, const string& text);

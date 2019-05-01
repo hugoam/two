@@ -616,6 +616,9 @@ namespace mud
 		m.m_types.push_back(&type<mud::ToolState>());
 		m.m_types.push_back(&type<mud::Brush>());
 		m.m_types.push_back(&type<mud::CircleBrush>());
+		m.m_types.push_back(&type<mud::CopyAction>());
+		m.m_types.push_back(&type<mud::CopyTool>());
+		m.m_types.push_back(&type<mud::FrameViewTool>());
 		m.m_types.push_back(&type<mud::PlaceBrush>());
 		m.m_types.push_back(&type<mud::PlaneSnapOption>());
 		m.m_types.push_back(&type<mud::RedoTool>());
@@ -625,9 +628,6 @@ namespace mud
 		m.m_types.push_back(&type<mud::ScaleTool>());
 		m.m_types.push_back(&type<mud::ScriptedBrush>());
 		m.m_types.push_back(&type<mud::TranslateAction>());
-		m.m_types.push_back(&type<mud::CopyAction>());
-		m.m_types.push_back(&type<mud::CopyTool>());
-		m.m_types.push_back(&type<mud::FrameViewTool>());
 		m.m_types.push_back(&type<mud::TranslateTool>());
 		m.m_types.push_back(&type<mud::ViewAction>());
 		m.m_types.push_back(&type<mud::ViewTool>());

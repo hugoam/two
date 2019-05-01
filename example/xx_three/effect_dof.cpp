@@ -249,9 +249,9 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		Widget& sheet = ui::sheet(*dock);
 
 		Widget& controls = ui::stack(sheet);
-		ui::slider_field<float>(controls, "focus",    { bokeh.focus,    { 10.f, 3000.f, 10.f } });
-		ui::slider_field<float>(controls, "aperture", { bokeh.aperture, { 0.f, 10.f, 0.1f } });
-		ui::slider_field<float>(controls, "maxblur",  { bokeh.maxblur,  { 0.f, 3.f, 0.025f } });
+		ui::slider_field<float>(controls, "focus",    bokeh.focus,    { 10.f, 3000.f, 10.f });
+		ui::slider_field<float>(controls, "aperture", bokeh.aperture, { 0.f, 10.f, 0.1f });
+		ui::slider_field<float>(controls, "maxblur",  bokeh.maxblur,  { 0.f, 3.f, 0.025f });
 	}
 
 #if !RENDERER
