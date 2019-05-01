@@ -45,7 +45,7 @@ namespace mud
 
 		void clear_events();
 
-		void reset_styles();
+		meth_ void reset_styles();
 
 	public:
 		UiWindow& m_window;

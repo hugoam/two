@@ -1199,6 +1199,9 @@ extern "C" {
 	mud::Widget* DECL mud_Ui_begin_0(mud::Ui* self) {
 		return &self->begin();
 	}
+	void DECL mud_Ui_reset_styles_0(mud::Ui* self) {
+		self->reset_styles();
+	}
 	void DECL mud_Ui__destroy(mud::Ui* self) {
 		delete self;
 	}

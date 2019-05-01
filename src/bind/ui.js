@@ -1661,6 +1661,10 @@ Ui.prototype["begin"] = Ui.prototype.begin = function() {
     
     return wrapPointer(_mud_Ui_begin_0(this.__ptr), Widget);
 };
+Ui.prototype["reset_styles"] = Ui.prototype.reset_styles = function() {
+    
+    _mud_Ui_reset_styles_0(this.__ptr);
+};
 Ui.prototype["__destroy"] = Ui.prototype.__destroy = function() {
     _mud_Ui__destroy(this.__ptr);
 };

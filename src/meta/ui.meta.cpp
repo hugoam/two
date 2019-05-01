@@ -145,6 +145,7 @@ void mud_Dock__copy_construct(void* ref, void* other) { new(stl::placeholder(), 
 void mud_CanvasConnect__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CanvasConnect(  ); }
 void mud_CanvasConnect__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::CanvasConnect((*static_cast<mud::CanvasConnect*>(other))); }
 void mud_Ui_begin(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<mud::Ui*>(object)).begin(); }
+void mud_Ui_reset_styles(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Ui*>(object)).reset_styles(); }
 void mud_layout_minimal_0(span<void*> args, void*& result) { UNUSED(result);  mud::layout_minimal(*static_cast<mud::UiWindow*>(args[0])); }
 void mud_style_minimal_1(span<void*> args, void*& result) { UNUSED(result);  mud::style_minimal(*static_cast<mud::UiWindow*>(args[0])); }
 void mud_style_vector_2(span<void*> args, void*& result) { UNUSED(result);  mud::style_vector(*static_cast<mud::UiWindow*>(args[0])); }
@@ -1571,7 +1572,8 @@ namespace mud
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "begin", Address(), mud_Ui_begin, {}, { &type<mud::Widget>(), QualType::None } }
+			{ t, "begin", Address(), mud_Ui_begin, {}, { &type<mud::Widget>(), QualType::None } },
+			{ t, "reset_styles", Address(), mud_Ui_reset_styles, {}, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, methods, {}, };
