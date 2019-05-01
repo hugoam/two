@@ -24,6 +24,35 @@ extern "C" {
 	void DECL mud_Circlifier__destroy(mud::Circlifier* self) {
 		delete self;
 	}
+	// Pattern
+	mud::Type* DECL mud_Pattern__type() {
+		return &mud::type<mud::Pattern>();
+	}
+	mud::Pattern* DECL mud_Pattern__construct_0() {
+		return new mud::Pattern();
+	}
+	mud::Pattern* DECL mud_Pattern__construct_2(mud::Palette* palette, mud::PatternSampling sampling) {
+		return new mud::Pattern(*palette, sampling);
+	}
+	mud::Pattern* DECL mud_Pattern__construct_3(mud::Palette* palette, mud::PatternSampling sampling, float precision) {
+		return new mud::Pattern(*palette, sampling, precision);
+	}
+	mud::Pattern* DECL mud_Pattern__construct_4(mud::Palette* palette, mud::PatternSampling sampling, float precision, size_t step) {
+		return new mud::Pattern(*palette, sampling, precision, step);
+	}
+	void DECL mud_Pattern__destroy(mud::Pattern* self) {
+		delete self;
+	}
+	// FractTab
+	mud::Type* DECL mud_FractTab__type() {
+		return &mud::type<mud::FractTab>();
+	}
+	mud::FractTab* DECL mud_FractTab__construct_0() {
+		return new mud::FractTab();
+	}
+	void DECL mud_FractTab__destroy(mud::FractTab* self) {
+		delete self;
+	}
 	// Fract
 	mud::Type* DECL mud_Fract__type() {
 		return &mud::type<mud::Fract>();
@@ -84,35 +113,6 @@ extern "C" {
 		self->m_resolution = *value;
 	}
 	void DECL mud_FractSample__destroy(mud::FractSample* self) {
-		delete self;
-	}
-	// FractTab
-	mud::Type* DECL mud_FractTab__type() {
-		return &mud::type<mud::FractTab>();
-	}
-	mud::FractTab* DECL mud_FractTab__construct_0() {
-		return new mud::FractTab();
-	}
-	void DECL mud_FractTab__destroy(mud::FractTab* self) {
-		delete self;
-	}
-	// Pattern
-	mud::Type* DECL mud_Pattern__type() {
-		return &mud::type<mud::Pattern>();
-	}
-	mud::Pattern* DECL mud_Pattern__construct_0() {
-		return new mud::Pattern();
-	}
-	mud::Pattern* DECL mud_Pattern__construct_2(mud::Palette* palette, mud::PatternSampling sampling) {
-		return new mud::Pattern(*palette, sampling);
-	}
-	mud::Pattern* DECL mud_Pattern__construct_3(mud::Palette* palette, mud::PatternSampling sampling, float precision) {
-		return new mud::Pattern(*palette, sampling, precision);
-	}
-	mud::Pattern* DECL mud_Pattern__construct_4(mud::Palette* palette, mud::PatternSampling sampling, float precision, size_t step) {
-		return new mud::Pattern(*palette, sampling, precision, step);
-	}
-	void DECL mud_Pattern__destroy(mud::Pattern* self) {
 		delete self;
 	}
 	void DECL mud_generate_fract_3(mud::uvec2* resolution, const mud::Pattern* pattern, mud::Image256* output_image) {

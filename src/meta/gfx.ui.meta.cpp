@@ -64,6 +64,21 @@ namespace mud
 	
 	// Sequences
 	
+	// mud::SpaceSheet
+	{
+		Type& t = type<mud::SpaceSheet>();
+		static Meta meta = { t, &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Ui>() };
+		static size_t bases_offsets[] = { base_offset<mud::SpaceSheet, mud::Ui>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
 	// mud::ViewerController
 	{
 		Type& t = type<mud::ViewerController>();
@@ -76,64 +91,6 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
-	}
-	// mud::OrbitController
-	{
-		Type& t = type<mud::OrbitController>();
-		static Meta meta = { t, &namspc({ "mud" }), "OrbitController", sizeof(mud::OrbitController), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::ViewerController>() };
-		static size_t bases_offsets[] = { base_offset<mud::OrbitController, mud::ViewerController>() };
-		// defaults
-		static float yaw_default = 0.f;
-		static float pitch_default = 0.f;
-		static float distance_default = 1.f;
-		// constructors
-		// copy constructor
-		// members
-		static Member members[] = {
-			{ t, offsetof(mud::OrbitController, m_position), type<mud::vec3>(), "position", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::OrbitController, m_yaw), type<float>(), "yaw", &yaw_default, Member::Value, nullptr },
-			{ t, offsetof(mud::OrbitController, m_pitch), type<float>(), "pitch", &pitch_default, Member::Value, nullptr },
-			{ t, offsetof(mud::OrbitController, m_distance), type<float>(), "distance", &distance_default, Member::Value, nullptr }
-		};
-		// methods
-		static Method methods[] = {
-			{ t, "set_eye", Address(), mud_OrbitController_set_eye, { { "rotation", type<mud::quat>(),  } }, g_qvoid },
-			{ t, "set_target", Address(), mud_OrbitController_set_target, { { "position", type<mud::vec3>(),  } }, g_qvoid }
-		};
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, members, methods, {}, };
-	}
-	// mud::FreeOrbitController
-	{
-		Type& t = type<mud::FreeOrbitController>();
-		static Meta meta = { t, &namspc({ "mud" }), "FreeOrbitController", sizeof(mud::FreeOrbitController), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::OrbitController>() };
-		static size_t bases_offsets[] = { base_offset<mud::FreeOrbitController, mud::OrbitController>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::OrbitControls
-	{
-		Type& t = type<mud::OrbitControls>();
-		static Meta meta = { t, &namspc({ "mud" }), "OrbitControls", sizeof(mud::OrbitControls), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::ViewerController>() };
-		static size_t bases_offsets[] = { base_offset<mud::OrbitControls, mud::ViewerController>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
 	// mud::Viewer
 	{
@@ -172,20 +129,33 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::SpaceSheet
+	// mud::OrbitController
 	{
-		Type& t = type<mud::SpaceSheet>();
-		static Meta meta = { t, &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
+		Type& t = type<mud::OrbitController>();
+		static Meta meta = { t, &namspc({ "mud" }), "OrbitController", sizeof(mud::OrbitController), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Ui>() };
-		static size_t bases_offsets[] = { base_offset<mud::SpaceSheet, mud::Ui>() };
+		static Type* bases[] = { &type<mud::ViewerController>() };
+		static size_t bases_offsets[] = { base_offset<mud::OrbitController, mud::ViewerController>() };
 		// defaults
+		static float yaw_default = 0.f;
+		static float pitch_default = 0.f;
+		static float distance_default = 1.f;
 		// constructors
 		// copy constructor
 		// members
+		static Member members[] = {
+			{ t, offsetof(mud::OrbitController, m_position), type<mud::vec3>(), "position", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::OrbitController, m_yaw), type<float>(), "yaw", &yaw_default, Member::Value, nullptr },
+			{ t, offsetof(mud::OrbitController, m_pitch), type<float>(), "pitch", &pitch_default, Member::Value, nullptr },
+			{ t, offsetof(mud::OrbitController, m_distance), type<float>(), "distance", &distance_default, Member::Value, nullptr }
+		};
 		// methods
+		static Method methods[] = {
+			{ t, "set_eye", Address(), mud_OrbitController_set_eye, { { "rotation", type<mud::quat>(),  } }, g_qvoid },
+			{ t, "set_target", Address(), mud_OrbitController_set_target, { { "position", type<mud::vec3>(),  } }, g_qvoid }
+		};
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, members, methods, {}, };
 	}
 	// mud::TrackballController
 	{
@@ -218,17 +188,47 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, members, {}, {}, };
 	}
+	// mud::OrbitControls
+	{
+		Type& t = type<mud::OrbitControls>();
+		static Meta meta = { t, &namspc({ "mud" }), "OrbitControls", sizeof(mud::OrbitControls), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::ViewerController>() };
+		static size_t bases_offsets[] = { base_offset<mud::OrbitControls, mud::ViewerController>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::FreeOrbitController
+	{
+		Type& t = type<mud::FreeOrbitController>();
+		static Meta meta = { t, &namspc({ "mud" }), "FreeOrbitController", sizeof(mud::FreeOrbitController), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::OrbitController>() };
+		static size_t bases_offsets[] = { base_offset<mud::FreeOrbitController, mud::OrbitController>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
 	
 	
-		m.m_types.push_back(&type<mud::ui::OrbitMode>());
-		m.m_types.push_back(&type<mud::ViewerController>());
-		m.m_types.push_back(&type<mud::OrbitController>());
-		m.m_types.push_back(&type<mud::FreeOrbitController>());
-		m.m_types.push_back(&type<mud::OrbitControls>());
 		m.m_types.push_back(&type<mud::SpaceSheet>());
+		m.m_types.push_back(&type<mud::ViewerController>());
 		m.m_types.push_back(&type<mud::Viewer>());
 		m.m_types.push_back(&type<mud::SceneViewer>());
+		m.m_types.push_back(&type<mud::OrbitController>());
 		m.m_types.push_back(&type<mud::TrackballController>());
+		m.m_types.push_back(&type<mud::OrbitControls>());
+		m.m_types.push_back(&type<mud::FreeOrbitController>());
+		m.m_types.push_back(&type<mud::ui::OrbitMode>());
 		{
 			static Function f = { &namspc({ "mud", "ui" }), "viewer", funcptr<mud::Viewer&(*)(mud::Widget&, mud::Scene&)>(mud::ui::viewer), mud_ui_viewer_0, { { "parent", type<mud::Widget>(),  }, { "scene", type<mud::Scene>(),  } }, { &type<mud::Viewer>(), QualType::None } };
 			m.m_functions.push_back(&f);

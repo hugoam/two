@@ -14,82 +14,172 @@
 
 extern "C" {
 	
-	// CanvasConnect
-	mud::Type* DECL mud_CanvasConnect__type() {
-		return &mud::type<mud::CanvasConnect>();
+	// Space
+	mud::Type* DECL mud_Space__type() {
+		return &mud::type<mud::Space>();
 	}
-	mud::CanvasConnect* DECL mud_CanvasConnect__construct_0() {
-		return new mud::CanvasConnect();
+	mud::Space* DECL mud_Space__construct_0() {
+		return new mud::Space();
 	}
-	void DECL mud_CanvasConnect__destroy(mud::CanvasConnect* self) {
+	mud::FlowAxis DECL mud_Space__get_direction(mud::Space* self) {
+		return self->direction;
+	}
+	void DECL mud_Space__set_direction(mud::Space* self, mud::FlowAxis value) {
+		self->direction = value;
+	}
+	mud::Sizing DECL mud_Space__get_sizingLength(mud::Space* self) {
+		return self->sizingLength;
+	}
+	void DECL mud_Space__set_sizingLength(mud::Space* self, mud::Sizing value) {
+		self->sizingLength = value;
+	}
+	mud::Sizing DECL mud_Space__get_sizingDepth(mud::Space* self) {
+		return self->sizingDepth;
+	}
+	void DECL mud_Space__set_sizingDepth(mud::Space* self, mud::Sizing value) {
+		self->sizingDepth = value;
+	}
+	void DECL mud_Space__destroy(mud::Space* self) {
 		delete self;
 	}
-	// Clipboard
-	mud::Type* DECL mud_Clipboard__type() {
-		return &mud::type<mud::Clipboard>();
+	// v2<size_t>
+	mud::Type* DECL mud_v2_size_t__type() {
+		return &mud::type<mud::v2<size_t>>();
 	}
-	mud::Clipboard* DECL mud_Clipboard__construct_0() {
-		return new mud::Clipboard();
+	mud::v2<size_t>* DECL mud_v2_size_t__construct_0() {
+		return new mud::v2<size_t>();
 	}
-	const char* DECL mud_Clipboard__get_text(mud::Clipboard* self) {
-		return self->m_text.c_str();
+	mud::v2<size_t>* DECL mud_v2_size_t__construct_1(size_t v) {
+		return new mud::v2<size_t>(v);
 	}
-	void DECL mud_Clipboard__set_text(mud::Clipboard* self, const char* value) {
-		self->m_text = value;
+	mud::v2<size_t>* DECL mud_v2_size_t__construct_2(size_t x, size_t y) {
+		return new mud::v2<size_t>(x, y);
 	}
-	bool DECL mud_Clipboard__get_line_mode(mud::Clipboard* self) {
-		return self->m_line_mode;
+	size_t DECL mud_v2_size_t__get_x(mud::v2<size_t>* self) {
+		return self->x;
 	}
-	void DECL mud_Clipboard__set_line_mode(mud::Clipboard* self, bool value) {
-		self->m_line_mode = value;
+	void DECL mud_v2_size_t__set_x(mud::v2<size_t>* self, size_t value) {
+		self->x = value;
 	}
-	void DECL mud_Clipboard__destroy(mud::Clipboard* self) {
+	size_t DECL mud_v2_size_t__get_y(mud::v2<size_t>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_size_t__set_y(mud::v2<size_t>* self, size_t value) {
+		self->y = value;
+	}
+	void DECL mud_v2_size_t__destroy(mud::v2<size_t>* self) {
 		delete self;
 	}
-	// Dock
-	mud::Type* DECL mud_Dock__type() {
-		return &mud::type<mud::Dock>();
+	// v2<mud::AutoLayout>
+	mud::Type* DECL mud_v2_mud_AutoLayout__type() {
+		return &mud::type<mud::v2<mud::AutoLayout>>();
 	}
-	mud::Dock* DECL mud_Dock__construct_0() {
-		return new mud::Dock();
+	mud::v2<mud::AutoLayout>* DECL mud_v2_mud_AutoLayout__construct_0() {
+		return new mud::v2<mud::AutoLayout>();
 	}
-	void DECL mud_Dock__destroy(mud::Dock* self) {
+	mud::v2<mud::AutoLayout>* DECL mud_v2_mud_AutoLayout__construct_1(mud::AutoLayout v) {
+		return new mud::v2<mud::AutoLayout>(v);
+	}
+	mud::v2<mud::AutoLayout>* DECL mud_v2_mud_AutoLayout__construct_2(mud::AutoLayout x, mud::AutoLayout y) {
+		return new mud::v2<mud::AutoLayout>(x, y);
+	}
+	mud::AutoLayout DECL mud_v2_mud_AutoLayout__get_x(mud::v2<mud::AutoLayout>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_mud_AutoLayout__set_x(mud::v2<mud::AutoLayout>* self, mud::AutoLayout value) {
+		self->x = value;
+	}
+	mud::AutoLayout DECL mud_v2_mud_AutoLayout__get_y(mud::v2<mud::AutoLayout>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_mud_AutoLayout__set_y(mud::v2<mud::AutoLayout>* self, mud::AutoLayout value) {
+		self->y = value;
+	}
+	void DECL mud_v2_mud_AutoLayout__destroy(mud::v2<mud::AutoLayout>* self) {
 		delete self;
 	}
-	// Docksystem
-	mud::Type* DECL mud_Docksystem__type() {
-		return &mud::type<mud::Docksystem>();
+	// v2<mud::Sizing>
+	mud::Type* DECL mud_v2_mud_Sizing__type() {
+		return &mud::type<mud::v2<mud::Sizing>>();
 	}
-	void DECL mud_Docksystem__destroy(mud::Docksystem* self) {
+	mud::v2<mud::Sizing>* DECL mud_v2_mud_Sizing__construct_0() {
+		return new mud::v2<mud::Sizing>();
+	}
+	mud::v2<mud::Sizing>* DECL mud_v2_mud_Sizing__construct_1(mud::Sizing v) {
+		return new mud::v2<mud::Sizing>(v);
+	}
+	mud::v2<mud::Sizing>* DECL mud_v2_mud_Sizing__construct_2(mud::Sizing x, mud::Sizing y) {
+		return new mud::v2<mud::Sizing>(x, y);
+	}
+	mud::Sizing DECL mud_v2_mud_Sizing__get_x(mud::v2<mud::Sizing>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_mud_Sizing__set_x(mud::v2<mud::Sizing>* self, mud::Sizing value) {
+		self->x = value;
+	}
+	mud::Sizing DECL mud_v2_mud_Sizing__get_y(mud::v2<mud::Sizing>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_mud_Sizing__set_y(mud::v2<mud::Sizing>* self, mud::Sizing value) {
+		self->y = value;
+	}
+	void DECL mud_v2_mud_Sizing__destroy(mud::v2<mud::Sizing>* self) {
 		delete self;
 	}
-	// Gradient
-	mud::Type* DECL mud_Gradient__type() {
-		return &mud::type<mud::Gradient>();
+	// v2<mud::Align>
+	mud::Type* DECL mud_v2_mud_Align__type() {
+		return &mud::type<mud::v2<mud::Align>>();
 	}
-	mud::Gradient* DECL mud_Gradient__construct_0() {
-		return new mud::Gradient();
+	mud::v2<mud::Align>* DECL mud_v2_mud_Align__construct_0() {
+		return new mud::v2<mud::Align>();
 	}
-	mud::Colour* DECL mud_Gradient__get_start(mud::Gradient* self) {
-		return &self->m_start;
+	mud::v2<mud::Align>* DECL mud_v2_mud_Align__construct_1(mud::Align v) {
+		return new mud::v2<mud::Align>(v);
 	}
-	void DECL mud_Gradient__set_start(mud::Gradient* self, mud::Colour* value) {
-		self->m_start = *value;
+	mud::v2<mud::Align>* DECL mud_v2_mud_Align__construct_2(mud::Align x, mud::Align y) {
+		return new mud::v2<mud::Align>(x, y);
 	}
-	mud::Colour* DECL mud_Gradient__get_end(mud::Gradient* self) {
-		return &self->m_end;
+	mud::Align DECL mud_v2_mud_Align__get_x(mud::v2<mud::Align>* self) {
+		return self->x;
 	}
-	void DECL mud_Gradient__set_end(mud::Gradient* self, mud::Colour* value) {
-		self->m_end = *value;
+	void DECL mud_v2_mud_Align__set_x(mud::v2<mud::Align>* self, mud::Align value) {
+		self->x = value;
 	}
-	void DECL mud_Gradient__destroy(mud::Gradient* self) {
+	mud::Align DECL mud_v2_mud_Align__get_y(mud::v2<mud::Align>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_mud_Align__set_y(mud::v2<mud::Align>* self, mud::Align value) {
+		self->y = value;
+	}
+	void DECL mud_v2_mud_Align__destroy(mud::v2<mud::Align>* self) {
 		delete self;
 	}
-	// GridSolver
-	mud::Type* DECL mud_GridSolver__type() {
-		return &mud::type<mud::GridSolver>();
+	// v2<mud::Pivot>
+	mud::Type* DECL mud_v2_mud_Pivot__type() {
+		return &mud::type<mud::v2<mud::Pivot>>();
 	}
-	void DECL mud_GridSolver__destroy(mud::GridSolver* self) {
+	mud::v2<mud::Pivot>* DECL mud_v2_mud_Pivot__construct_0() {
+		return new mud::v2<mud::Pivot>();
+	}
+	mud::v2<mud::Pivot>* DECL mud_v2_mud_Pivot__construct_1(mud::Pivot v) {
+		return new mud::v2<mud::Pivot>(v);
+	}
+	mud::v2<mud::Pivot>* DECL mud_v2_mud_Pivot__construct_2(mud::Pivot x, mud::Pivot y) {
+		return new mud::v2<mud::Pivot>(x, y);
+	}
+	mud::Pivot DECL mud_v2_mud_Pivot__get_x(mud::v2<mud::Pivot>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_mud_Pivot__set_x(mud::v2<mud::Pivot>* self, mud::Pivot value) {
+		self->x = value;
+	}
+	mud::Pivot DECL mud_v2_mud_Pivot__get_y(mud::v2<mud::Pivot>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_mud_Pivot__set_y(mud::v2<mud::Pivot>* self, mud::Pivot value) {
+		self->y = value;
+	}
+	void DECL mud_v2_mud_Pivot__destroy(mud::v2<mud::Pivot>* self) {
 		delete self;
 	}
 	// ImageSkin
@@ -148,6 +238,148 @@ extern "C" {
 		self->d_stretch = value;
 	}
 	void DECL mud_ImageSkin__destroy(mud::ImageSkin* self) {
+		delete self;
+	}
+	// Shadow
+	mud::Type* DECL mud_Shadow__type() {
+		return &mud::type<mud::Shadow>();
+	}
+	mud::Shadow* DECL mud_Shadow__construct_0() {
+		return new mud::Shadow();
+	}
+	mud::Shadow* DECL mud_Shadow__construct_4(float xpos, float ypos, float blur, float spread) {
+		return new mud::Shadow(xpos, ypos, blur, spread);
+	}
+	mud::Shadow* DECL mud_Shadow__construct_5(float xpos, float ypos, float blur, float spread, mud::Colour* colour) {
+		return new mud::Shadow(xpos, ypos, blur, spread, *colour);
+	}
+	float DECL mud_Shadow__get_d_xpos(mud::Shadow* self) {
+		return self->d_xpos;
+	}
+	void DECL mud_Shadow__set_d_xpos(mud::Shadow* self, float value) {
+		self->d_xpos = value;
+	}
+	float DECL mud_Shadow__get_d_ypos(mud::Shadow* self) {
+		return self->d_ypos;
+	}
+	void DECL mud_Shadow__set_d_ypos(mud::Shadow* self, float value) {
+		self->d_ypos = value;
+	}
+	float DECL mud_Shadow__get_d_blur(mud::Shadow* self) {
+		return self->d_blur;
+	}
+	void DECL mud_Shadow__set_d_blur(mud::Shadow* self, float value) {
+		self->d_blur = value;
+	}
+	float DECL mud_Shadow__get_d_spread(mud::Shadow* self) {
+		return self->d_spread;
+	}
+	void DECL mud_Shadow__set_d_spread(mud::Shadow* self, float value) {
+		self->d_spread = value;
+	}
+	mud::Colour* DECL mud_Shadow__get_d_colour(mud::Shadow* self) {
+		return &self->d_colour;
+	}
+	void DECL mud_Shadow__set_d_colour(mud::Shadow* self, mud::Colour* value) {
+		self->d_colour = *value;
+	}
+	void DECL mud_Shadow__destroy(mud::Shadow* self) {
+		delete self;
+	}
+	// Paint
+	mud::Type* DECL mud_Paint__type() {
+		return &mud::type<mud::Paint>();
+	}
+	mud::Paint* DECL mud_Paint__construct_0() {
+		return new mud::Paint();
+	}
+	mud::Colour* DECL mud_Paint__get_fill_colour(mud::Paint* self) {
+		return &self->m_fill_colour;
+	}
+	void DECL mud_Paint__set_fill_colour(mud::Paint* self, mud::Colour* value) {
+		self->m_fill_colour = *value;
+	}
+	mud::Colour* DECL mud_Paint__get_stroke_colour(mud::Paint* self) {
+		return &self->m_stroke_colour;
+	}
+	void DECL mud_Paint__set_stroke_colour(mud::Paint* self, mud::Colour* value) {
+		self->m_stroke_colour = *value;
+	}
+	float DECL mud_Paint__get_stroke_width(mud::Paint* self) {
+		return self->m_stroke_width;
+	}
+	void DECL mud_Paint__set_stroke_width(mud::Paint* self, float value) {
+		self->m_stroke_width = value;
+	}
+	void DECL mud_Paint__destroy(mud::Paint* self) {
+		delete self;
+	}
+	// TextPaint
+	mud::Type* DECL mud_TextPaint__type() {
+		return &mud::type<mud::TextPaint>();
+	}
+	mud::TextPaint* DECL mud_TextPaint__construct_0() {
+		return new mud::TextPaint();
+	}
+	const char* DECL mud_TextPaint__get_font(mud::TextPaint* self) {
+		return self->m_font;
+	}
+	void DECL mud_TextPaint__set_font(mud::TextPaint* self, const char* value) {
+		self->m_font = value;
+	}
+	mud::Colour* DECL mud_TextPaint__get_colour(mud::TextPaint* self) {
+		return &self->m_colour;
+	}
+	void DECL mud_TextPaint__set_colour(mud::TextPaint* self, mud::Colour* value) {
+		self->m_colour = *value;
+	}
+	float DECL mud_TextPaint__get_size(mud::TextPaint* self) {
+		return self->m_size;
+	}
+	void DECL mud_TextPaint__set_size(mud::TextPaint* self, float value) {
+		self->m_size = value;
+	}
+	mud::v2<mud::Align>* DECL mud_TextPaint__get_align(mud::TextPaint* self) {
+		return &self->m_align;
+	}
+	void DECL mud_TextPaint__set_align(mud::TextPaint* self, mud::v2<mud::Align>* value) {
+		self->m_align = *value;
+	}
+	bool DECL mud_TextPaint__get_text_break(mud::TextPaint* self) {
+		return self->m_text_break;
+	}
+	void DECL mud_TextPaint__set_text_break(mud::TextPaint* self, bool value) {
+		self->m_text_break = value;
+	}
+	bool DECL mud_TextPaint__get_text_wrap(mud::TextPaint* self) {
+		return self->m_text_wrap;
+	}
+	void DECL mud_TextPaint__set_text_wrap(mud::TextPaint* self, bool value) {
+		self->m_text_wrap = value;
+	}
+	void DECL mud_TextPaint__destroy(mud::TextPaint* self) {
+		delete self;
+	}
+	// Gradient
+	mud::Type* DECL mud_Gradient__type() {
+		return &mud::type<mud::Gradient>();
+	}
+	mud::Gradient* DECL mud_Gradient__construct_0() {
+		return new mud::Gradient();
+	}
+	mud::Colour* DECL mud_Gradient__get_start(mud::Gradient* self) {
+		return &self->m_start;
+	}
+	void DECL mud_Gradient__set_start(mud::Gradient* self, mud::Colour* value) {
+		self->m_start = *value;
+	}
+	mud::Colour* DECL mud_Gradient__get_end(mud::Gradient* self) {
+		return &self->m_end;
+	}
+	void DECL mud_Gradient__set_end(mud::Gradient* self, mud::Colour* value) {
+		self->m_end = *value;
+	}
+	void DECL mud_Gradient__destroy(mud::Gradient* self) {
 		delete self;
 	}
 	// InkStyle
@@ -319,13 +551,6 @@ extern "C" {
 	void DECL mud_InkStyle__destroy(mud::InkStyle* self) {
 		delete self;
 	}
-	// Layer
-	mud::Type* DECL mud_Layer__type() {
-		return &mud::type<mud::Layer>();
-	}
-	void DECL mud_Layer__destroy(mud::Layer* self) {
-		delete self;
-	}
 	// Layout
 	mud::Type* DECL mud_Layout__type() {
 		return &mud::type<mud::Layout>();
@@ -444,116 +669,26 @@ extern "C" {
 	void DECL mud_Layout__destroy(mud::Layout* self) {
 		delete self;
 	}
-	// NodeConnection
-	mud::Type* DECL mud_NodeConnection__type() {
-		return &mud::type<mud::NodeConnection>();
+	// Subskin
+	mud::Type* DECL mud_Subskin__type() {
+		return &mud::type<mud::Subskin>();
 	}
-	mud::NodeConnection* DECL mud_NodeConnection__construct_0() {
-		return new mud::NodeConnection();
+	mud::Subskin* DECL mud_Subskin__construct_0() {
+		return new mud::Subskin();
 	}
-	void DECL mud_NodeConnection__destroy(mud::NodeConnection* self) {
-		delete self;
+	mud::InkStyle* DECL mud_Subskin__get_skin(mud::Subskin* self) {
+		return &self->skin;
 	}
-	// Paint
-	mud::Type* DECL mud_Paint__type() {
-		return &mud::type<mud::Paint>();
+	void DECL mud_Subskin__set_skin(mud::Subskin* self, mud::InkStyle* value) {
+		self->skin = *value;
 	}
-	mud::Paint* DECL mud_Paint__construct_0() {
-		return new mud::Paint();
+	mud::WidgetState DECL mud_Subskin__get_state(mud::Subskin* self) {
+		return self->state;
 	}
-	mud::Colour* DECL mud_Paint__get_fill_colour(mud::Paint* self) {
-		return &self->m_fill_colour;
+	void DECL mud_Subskin__set_state(mud::Subskin* self, mud::WidgetState value) {
+		self->state = value;
 	}
-	void DECL mud_Paint__set_fill_colour(mud::Paint* self, mud::Colour* value) {
-		self->m_fill_colour = *value;
-	}
-	mud::Colour* DECL mud_Paint__get_stroke_colour(mud::Paint* self) {
-		return &self->m_stroke_colour;
-	}
-	void DECL mud_Paint__set_stroke_colour(mud::Paint* self, mud::Colour* value) {
-		self->m_stroke_colour = *value;
-	}
-	float DECL mud_Paint__get_stroke_width(mud::Paint* self) {
-		return self->m_stroke_width;
-	}
-	void DECL mud_Paint__set_stroke_width(mud::Paint* self, float value) {
-		self->m_stroke_width = value;
-	}
-	void DECL mud_Paint__destroy(mud::Paint* self) {
-		delete self;
-	}
-	// Shadow
-	mud::Type* DECL mud_Shadow__type() {
-		return &mud::type<mud::Shadow>();
-	}
-	mud::Shadow* DECL mud_Shadow__construct_0() {
-		return new mud::Shadow();
-	}
-	mud::Shadow* DECL mud_Shadow__construct_4(float xpos, float ypos, float blur, float spread) {
-		return new mud::Shadow(xpos, ypos, blur, spread);
-	}
-	mud::Shadow* DECL mud_Shadow__construct_5(float xpos, float ypos, float blur, float spread, mud::Colour* colour) {
-		return new mud::Shadow(xpos, ypos, blur, spread, *colour);
-	}
-	float DECL mud_Shadow__get_d_xpos(mud::Shadow* self) {
-		return self->d_xpos;
-	}
-	void DECL mud_Shadow__set_d_xpos(mud::Shadow* self, float value) {
-		self->d_xpos = value;
-	}
-	float DECL mud_Shadow__get_d_ypos(mud::Shadow* self) {
-		return self->d_ypos;
-	}
-	void DECL mud_Shadow__set_d_ypos(mud::Shadow* self, float value) {
-		self->d_ypos = value;
-	}
-	float DECL mud_Shadow__get_d_blur(mud::Shadow* self) {
-		return self->d_blur;
-	}
-	void DECL mud_Shadow__set_d_blur(mud::Shadow* self, float value) {
-		self->d_blur = value;
-	}
-	float DECL mud_Shadow__get_d_spread(mud::Shadow* self) {
-		return self->d_spread;
-	}
-	void DECL mud_Shadow__set_d_spread(mud::Shadow* self, float value) {
-		self->d_spread = value;
-	}
-	mud::Colour* DECL mud_Shadow__get_d_colour(mud::Shadow* self) {
-		return &self->d_colour;
-	}
-	void DECL mud_Shadow__set_d_colour(mud::Shadow* self, mud::Colour* value) {
-		self->d_colour = *value;
-	}
-	void DECL mud_Shadow__destroy(mud::Shadow* self) {
-		delete self;
-	}
-	// Space
-	mud::Type* DECL mud_Space__type() {
-		return &mud::type<mud::Space>();
-	}
-	mud::Space* DECL mud_Space__construct_0() {
-		return new mud::Space();
-	}
-	mud::FlowAxis DECL mud_Space__get_direction(mud::Space* self) {
-		return self->direction;
-	}
-	void DECL mud_Space__set_direction(mud::Space* self, mud::FlowAxis value) {
-		self->direction = value;
-	}
-	mud::Sizing DECL mud_Space__get_sizingLength(mud::Space* self) {
-		return self->sizingLength;
-	}
-	void DECL mud_Space__set_sizingLength(mud::Space* self, mud::Sizing value) {
-		self->sizingLength = value;
-	}
-	mud::Sizing DECL mud_Space__get_sizingDepth(mud::Space* self) {
-		return self->sizingDepth;
-	}
-	void DECL mud_Space__set_sizingDepth(mud::Space* self, mud::Sizing value) {
-		self->sizingDepth = value;
-	}
-	void DECL mud_Space__destroy(mud::Space* self) {
+	void DECL mud_Subskin__destroy(mud::Subskin* self) {
 		delete self;
 	}
 	// Style
@@ -585,118 +720,6 @@ extern "C" {
 		self->m_skin = *value;
 	}
 	void DECL mud_Style__destroy(mud::Style* self) {
-		delete self;
-	}
-	// Subskin
-	mud::Type* DECL mud_Subskin__type() {
-		return &mud::type<mud::Subskin>();
-	}
-	mud::Subskin* DECL mud_Subskin__construct_0() {
-		return new mud::Subskin();
-	}
-	mud::InkStyle* DECL mud_Subskin__get_skin(mud::Subskin* self) {
-		return &self->skin;
-	}
-	void DECL mud_Subskin__set_skin(mud::Subskin* self, mud::InkStyle* value) {
-		self->skin = *value;
-	}
-	mud::WidgetState DECL mud_Subskin__get_state(mud::Subskin* self) {
-		return self->state;
-	}
-	void DECL mud_Subskin__set_state(mud::Subskin* self, mud::WidgetState value) {
-		self->state = value;
-	}
-	void DECL mud_Subskin__destroy(mud::Subskin* self) {
-		delete self;
-	}
-	// TableSolver
-	mud::Type* DECL mud_TableSolver__type() {
-		return &mud::type<mud::TableSolver>();
-	}
-	void DECL mud_TableSolver__destroy(mud::TableSolver* self) {
-		delete self;
-	}
-	// Text
-	mud::Type* DECL mud_Text__type() {
-		return &mud::type<mud::Text>();
-	}
-	void DECL mud_Text__destroy(mud::Text* self) {
-		delete self;
-	}
-	// TextCursor
-	mud::Type* DECL mud_TextCursor__type() {
-		return &mud::type<mud::TextCursor>();
-	}
-	mud::TextCursor* DECL mud_TextCursor__construct_0() {
-		return new mud::TextCursor();
-	}
-	void DECL mud_TextCursor__destroy(mud::TextCursor* self) {
-		delete self;
-	}
-	// TextMarker
-	mud::Type* DECL mud_TextMarker__type() {
-		return &mud::type<mud::TextMarker>();
-	}
-	mud::TextMarker* DECL mud_TextMarker__construct_0() {
-		return new mud::TextMarker();
-	}
-	void DECL mud_TextMarker__destroy(mud::TextMarker* self) {
-		delete self;
-	}
-	// TextPaint
-	mud::Type* DECL mud_TextPaint__type() {
-		return &mud::type<mud::TextPaint>();
-	}
-	mud::TextPaint* DECL mud_TextPaint__construct_0() {
-		return new mud::TextPaint();
-	}
-	const char* DECL mud_TextPaint__get_font(mud::TextPaint* self) {
-		return self->m_font;
-	}
-	void DECL mud_TextPaint__set_font(mud::TextPaint* self, const char* value) {
-		self->m_font = value;
-	}
-	mud::Colour* DECL mud_TextPaint__get_colour(mud::TextPaint* self) {
-		return &self->m_colour;
-	}
-	void DECL mud_TextPaint__set_colour(mud::TextPaint* self, mud::Colour* value) {
-		self->m_colour = *value;
-	}
-	float DECL mud_TextPaint__get_size(mud::TextPaint* self) {
-		return self->m_size;
-	}
-	void DECL mud_TextPaint__set_size(mud::TextPaint* self, float value) {
-		self->m_size = value;
-	}
-	mud::v2<mud::Align>* DECL mud_TextPaint__get_align(mud::TextPaint* self) {
-		return &self->m_align;
-	}
-	void DECL mud_TextPaint__set_align(mud::TextPaint* self, mud::v2<mud::Align>* value) {
-		self->m_align = *value;
-	}
-	bool DECL mud_TextPaint__get_text_break(mud::TextPaint* self) {
-		return self->m_text_break;
-	}
-	void DECL mud_TextPaint__set_text_break(mud::TextPaint* self, bool value) {
-		self->m_text_break = value;
-	}
-	bool DECL mud_TextPaint__get_text_wrap(mud::TextPaint* self) {
-		return self->m_text_wrap;
-	}
-	void DECL mud_TextPaint__set_text_wrap(mud::TextPaint* self, bool value) {
-		self->m_text_wrap = value;
-	}
-	void DECL mud_TextPaint__destroy(mud::TextPaint* self) {
-		delete self;
-	}
-	// TextSelection
-	mud::Type* DECL mud_TextSelection__type() {
-		return &mud::type<mud::TextSelection>();
-	}
-	mud::TextSelection* DECL mud_TextSelection__construct_0() {
-		return new mud::TextSelection();
-	}
-	void DECL mud_TextSelection__destroy(mud::TextSelection* self) {
 		delete self;
 	}
 	// UiRect
@@ -739,269 +762,11 @@ extern "C" {
 	void DECL mud_UiRect__destroy(mud::UiRect* self) {
 		delete self;
 	}
-	// UiWindow
-	mud::Type* DECL mud_UiWindow__type() {
-		return &mud::type<mud::UiWindow>();
-	}
-	const char* DECL mud_UiWindow__get_resource_path(mud::UiWindow* self) {
-		return self->m_resource_path.c_str();
-	}
-	mud::Context* DECL mud_UiWindow__get_context(mud::UiWindow* self) {
-		return &self->m_context;
-	}
-	mud::Vg* DECL mud_UiWindow__get_vg(mud::UiWindow* self) {
-		return &self->m_vg;
-	}
-	mud::uvec2* DECL mud_UiWindow__get_size(mud::UiWindow* self) {
-		return &self->m_size;
-	}
-	void DECL mud_UiWindow__set_size(mud::UiWindow* self, mud::uvec2* value) {
-		self->m_size = *value;
-	}
-	mud::Colour* DECL mud_UiWindow__get_colour(mud::UiWindow* self) {
-		return &self->m_colour;
-	}
-	void DECL mud_UiWindow__set_colour(mud::UiWindow* self, mud::Colour* value) {
-		self->m_colour = *value;
-	}
-	bool DECL mud_UiWindow__get_shutdown(mud::UiWindow* self) {
-		return self->m_shutdown;
-	}
-	void DECL mud_UiWindow__set_shutdown(mud::UiWindow* self, bool value) {
-		self->m_shutdown = value;
-	}
-	void DECL mud_UiWindow__destroy(mud::UiWindow* self) {
-		delete self;
-	}
-	// User
-	mud::Type* DECL mud_User__type() {
-		return &mud::type<mud::User>();
-	}
-	void DECL mud_User__destroy(mud::User* self) {
-		delete self;
-	}
-	// Vg
-	mud::Type* DECL mud_Vg__type() {
-		return &mud::type<mud::Vg>();
-	}
-	void DECL mud_Vg__destroy(mud::Vg* self) {
-		delete self;
-	}
-	// v2<mud::Align>
-	mud::Type* DECL mud_v2_mud_Align__type() {
-		return &mud::type<mud::v2<mud::Align>>();
-	}
-	mud::v2<mud::Align>* DECL mud_v2_mud_Align__construct_0() {
-		return new mud::v2<mud::Align>();
-	}
-	mud::v2<mud::Align>* DECL mud_v2_mud_Align__construct_1(mud::Align v) {
-		return new mud::v2<mud::Align>(v);
-	}
-	mud::v2<mud::Align>* DECL mud_v2_mud_Align__construct_2(mud::Align x, mud::Align y) {
-		return new mud::v2<mud::Align>(x, y);
-	}
-	mud::Align DECL mud_v2_mud_Align__get_x(mud::v2<mud::Align>* self) {
-		return self->x;
-	}
-	void DECL mud_v2_mud_Align__set_x(mud::v2<mud::Align>* self, mud::Align value) {
-		self->x = value;
-	}
-	mud::Align DECL mud_v2_mud_Align__get_y(mud::v2<mud::Align>* self) {
-		return self->y;
-	}
-	void DECL mud_v2_mud_Align__set_y(mud::v2<mud::Align>* self, mud::Align value) {
-		self->y = value;
-	}
-	void DECL mud_v2_mud_Align__destroy(mud::v2<mud::Align>* self) {
-		delete self;
-	}
-	// v2<mud::AutoLayout>
-	mud::Type* DECL mud_v2_mud_AutoLayout__type() {
-		return &mud::type<mud::v2<mud::AutoLayout>>();
-	}
-	mud::v2<mud::AutoLayout>* DECL mud_v2_mud_AutoLayout__construct_0() {
-		return new mud::v2<mud::AutoLayout>();
-	}
-	mud::v2<mud::AutoLayout>* DECL mud_v2_mud_AutoLayout__construct_1(mud::AutoLayout v) {
-		return new mud::v2<mud::AutoLayout>(v);
-	}
-	mud::v2<mud::AutoLayout>* DECL mud_v2_mud_AutoLayout__construct_2(mud::AutoLayout x, mud::AutoLayout y) {
-		return new mud::v2<mud::AutoLayout>(x, y);
-	}
-	mud::AutoLayout DECL mud_v2_mud_AutoLayout__get_x(mud::v2<mud::AutoLayout>* self) {
-		return self->x;
-	}
-	void DECL mud_v2_mud_AutoLayout__set_x(mud::v2<mud::AutoLayout>* self, mud::AutoLayout value) {
-		self->x = value;
-	}
-	mud::AutoLayout DECL mud_v2_mud_AutoLayout__get_y(mud::v2<mud::AutoLayout>* self) {
-		return self->y;
-	}
-	void DECL mud_v2_mud_AutoLayout__set_y(mud::v2<mud::AutoLayout>* self, mud::AutoLayout value) {
-		self->y = value;
-	}
-	void DECL mud_v2_mud_AutoLayout__destroy(mud::v2<mud::AutoLayout>* self) {
-		delete self;
-	}
-	// v2<mud::Pivot>
-	mud::Type* DECL mud_v2_mud_Pivot__type() {
-		return &mud::type<mud::v2<mud::Pivot>>();
-	}
-	mud::v2<mud::Pivot>* DECL mud_v2_mud_Pivot__construct_0() {
-		return new mud::v2<mud::Pivot>();
-	}
-	mud::v2<mud::Pivot>* DECL mud_v2_mud_Pivot__construct_1(mud::Pivot v) {
-		return new mud::v2<mud::Pivot>(v);
-	}
-	mud::v2<mud::Pivot>* DECL mud_v2_mud_Pivot__construct_2(mud::Pivot x, mud::Pivot y) {
-		return new mud::v2<mud::Pivot>(x, y);
-	}
-	mud::Pivot DECL mud_v2_mud_Pivot__get_x(mud::v2<mud::Pivot>* self) {
-		return self->x;
-	}
-	void DECL mud_v2_mud_Pivot__set_x(mud::v2<mud::Pivot>* self, mud::Pivot value) {
-		self->x = value;
-	}
-	mud::Pivot DECL mud_v2_mud_Pivot__get_y(mud::v2<mud::Pivot>* self) {
-		return self->y;
-	}
-	void DECL mud_v2_mud_Pivot__set_y(mud::v2<mud::Pivot>* self, mud::Pivot value) {
-		self->y = value;
-	}
-	void DECL mud_v2_mud_Pivot__destroy(mud::v2<mud::Pivot>* self) {
-		delete self;
-	}
-	// v2<mud::Sizing>
-	mud::Type* DECL mud_v2_mud_Sizing__type() {
-		return &mud::type<mud::v2<mud::Sizing>>();
-	}
-	mud::v2<mud::Sizing>* DECL mud_v2_mud_Sizing__construct_0() {
-		return new mud::v2<mud::Sizing>();
-	}
-	mud::v2<mud::Sizing>* DECL mud_v2_mud_Sizing__construct_1(mud::Sizing v) {
-		return new mud::v2<mud::Sizing>(v);
-	}
-	mud::v2<mud::Sizing>* DECL mud_v2_mud_Sizing__construct_2(mud::Sizing x, mud::Sizing y) {
-		return new mud::v2<mud::Sizing>(x, y);
-	}
-	mud::Sizing DECL mud_v2_mud_Sizing__get_x(mud::v2<mud::Sizing>* self) {
-		return self->x;
-	}
-	void DECL mud_v2_mud_Sizing__set_x(mud::v2<mud::Sizing>* self, mud::Sizing value) {
-		self->x = value;
-	}
-	mud::Sizing DECL mud_v2_mud_Sizing__get_y(mud::v2<mud::Sizing>* self) {
-		return self->y;
-	}
-	void DECL mud_v2_mud_Sizing__set_y(mud::v2<mud::Sizing>* self, mud::Sizing value) {
-		self->y = value;
-	}
-	void DECL mud_v2_mud_Sizing__destroy(mud::v2<mud::Sizing>* self) {
-		delete self;
-	}
-	// v2<size_t>
-	mud::Type* DECL mud_v2_size_t__type() {
-		return &mud::type<mud::v2<size_t>>();
-	}
-	mud::v2<size_t>* DECL mud_v2_size_t__construct_0() {
-		return new mud::v2<size_t>();
-	}
-	mud::v2<size_t>* DECL mud_v2_size_t__construct_1(size_t v) {
-		return new mud::v2<size_t>(v);
-	}
-	mud::v2<size_t>* DECL mud_v2_size_t__construct_2(size_t x, size_t y) {
-		return new mud::v2<size_t>(x, y);
-	}
-	size_t DECL mud_v2_size_t__get_x(mud::v2<size_t>* self) {
-		return self->x;
-	}
-	void DECL mud_v2_size_t__set_x(mud::v2<size_t>* self, size_t value) {
-		self->x = value;
-	}
-	size_t DECL mud_v2_size_t__get_y(mud::v2<size_t>* self) {
-		return self->y;
-	}
-	void DECL mud_v2_size_t__set_y(mud::v2<size_t>* self, size_t value) {
-		self->y = value;
-	}
-	void DECL mud_v2_size_t__destroy(mud::v2<size_t>* self) {
-		delete self;
-	}
-	// Canvas
-	mud::Type* DECL mud_Canvas__type() {
-		return &mud::type<mud::Canvas>();
-	}
-	void DECL mud_Canvas__destroy(mud::Canvas* self) {
-		delete self;
-	}
-	// Dockable
-	mud::Type* DECL mud_Dockable__type() {
-		return &mud::type<mud::Dockable>();
-	}
-	void DECL mud_Dockable__destroy(mud::Dockable* self) {
-		delete self;
-	}
-	// Docker
-	mud::Type* DECL mud_Docker__type() {
-		return &mud::type<mud::Docker>();
-	}
-	void DECL mud_Docker__destroy(mud::Docker* self) {
-		delete self;
-	}
-	// Dockbar
-	mud::Type* DECL mud_Dockbar__type() {
-		return &mud::type<mud::Dockbar>();
-	}
-	void DECL mud_Dockbar__destroy(mud::Dockbar* self) {
-		delete self;
-	}
-	// Dockspace
-	mud::Type* DECL mud_Dockspace__type() {
-		return &mud::type<mud::Dockspace>();
-	}
-	void DECL mud_Dockspace__destroy(mud::Dockspace* self) {
-		delete self;
-	}
 	// Frame
 	mud::Type* DECL mud_Frame__type() {
 		return &mud::type<mud::Frame>();
 	}
 	void DECL mud_Frame__destroy(mud::Frame* self) {
-		delete self;
-	}
-	// FrameSolver
-	mud::Type* DECL mud_FrameSolver__type() {
-		return &mud::type<mud::FrameSolver>();
-	}
-	void DECL mud_FrameSolver__destroy(mud::FrameSolver* self) {
-		delete self;
-	}
-	// Node
-	mud::Type* DECL mud_Node__type() {
-		return &mud::type<mud::Node>();
-	}
-	void DECL mud_Node__destroy(mud::Node* self) {
-		delete self;
-	}
-	// NodePlug
-	mud::Type* DECL mud_NodePlug__type() {
-		return &mud::type<mud::NodePlug>();
-	}
-	void DECL mud_NodePlug__destroy(mud::NodePlug* self) {
-		delete self;
-	}
-	// RowSolver
-	mud::Type* DECL mud_RowSolver__type() {
-		return &mud::type<mud::RowSolver>();
-	}
-	void DECL mud_RowSolver__destroy(mud::RowSolver* self) {
-		delete self;
-	}
-	// LineSolver
-	mud::Type* DECL mud_LineSolver__type() {
-		return &mud::type<mud::LineSolver>();
-	}
-	void DECL mud_LineSolver__destroy(mud::LineSolver* self) {
 		delete self;
 	}
 	// Widget
@@ -1143,11 +908,170 @@ extern "C" {
 	void DECL mud_Widget__destroy(mud::Widget* self) {
 		delete self;
 	}
-	// Expandbox
-	mud::Type* DECL mud_Expandbox__type() {
-		return &mud::type<mud::Expandbox>();
+	// TextCursor
+	mud::Type* DECL mud_TextCursor__type() {
+		return &mud::type<mud::TextCursor>();
 	}
-	void DECL mud_Expandbox__destroy(mud::Expandbox* self) {
+	mud::TextCursor* DECL mud_TextCursor__construct_0() {
+		return new mud::TextCursor();
+	}
+	void DECL mud_TextCursor__destroy(mud::TextCursor* self) {
+		delete self;
+	}
+	// TextSelection
+	mud::Type* DECL mud_TextSelection__type() {
+		return &mud::type<mud::TextSelection>();
+	}
+	mud::TextSelection* DECL mud_TextSelection__construct_0() {
+		return new mud::TextSelection();
+	}
+	void DECL mud_TextSelection__destroy(mud::TextSelection* self) {
+		delete self;
+	}
+	// TextMarker
+	mud::Type* DECL mud_TextMarker__type() {
+		return &mud::type<mud::TextMarker>();
+	}
+	mud::TextMarker* DECL mud_TextMarker__construct_0() {
+		return new mud::TextMarker();
+	}
+	void DECL mud_TextMarker__destroy(mud::TextMarker* self) {
+		delete self;
+	}
+	// Text
+	mud::Type* DECL mud_Text__type() {
+		return &mud::type<mud::Text>();
+	}
+	void DECL mud_Text__destroy(mud::Text* self) {
+		delete self;
+	}
+	// TextEdit
+	mud::Type* DECL mud_TextEdit__type() {
+		return &mud::type<mud::TextEdit>();
+	}
+	void DECL mud_TextEdit__destroy(mud::TextEdit* self) {
+		delete self;
+	}
+	// NodeConnection
+	mud::Type* DECL mud_NodeConnection__type() {
+		return &mud::type<mud::NodeConnection>();
+	}
+	mud::NodeConnection* DECL mud_NodeConnection__construct_0() {
+		return new mud::NodeConnection();
+	}
+	void DECL mud_NodeConnection__destroy(mud::NodeConnection* self) {
+		delete self;
+	}
+	// Vg
+	mud::Type* DECL mud_Vg__type() {
+		return &mud::type<mud::Vg>();
+	}
+	void DECL mud_Vg__destroy(mud::Vg* self) {
+		delete self;
+	}
+	// Clipboard
+	mud::Type* DECL mud_Clipboard__type() {
+		return &mud::type<mud::Clipboard>();
+	}
+	mud::Clipboard* DECL mud_Clipboard__construct_0() {
+		return new mud::Clipboard();
+	}
+	const char* DECL mud_Clipboard__get_text(mud::Clipboard* self) {
+		return self->m_text.c_str();
+	}
+	void DECL mud_Clipboard__set_text(mud::Clipboard* self, const char* value) {
+		self->m_text = value;
+	}
+	bool DECL mud_Clipboard__get_line_mode(mud::Clipboard* self) {
+		return self->m_line_mode;
+	}
+	void DECL mud_Clipboard__set_line_mode(mud::Clipboard* self, bool value) {
+		self->m_line_mode = value;
+	}
+	void DECL mud_Clipboard__destroy(mud::Clipboard* self) {
+		delete self;
+	}
+	// UiWindow
+	mud::Type* DECL mud_UiWindow__type() {
+		return &mud::type<mud::UiWindow>();
+	}
+	const char* DECL mud_UiWindow__get_resource_path(mud::UiWindow* self) {
+		return self->m_resource_path.c_str();
+	}
+	mud::Context* DECL mud_UiWindow__get_context(mud::UiWindow* self) {
+		return &self->m_context;
+	}
+	mud::Vg* DECL mud_UiWindow__get_vg(mud::UiWindow* self) {
+		return &self->m_vg;
+	}
+	mud::uvec2* DECL mud_UiWindow__get_size(mud::UiWindow* self) {
+		return &self->m_size;
+	}
+	void DECL mud_UiWindow__set_size(mud::UiWindow* self, mud::uvec2* value) {
+		self->m_size = *value;
+	}
+	mud::Colour* DECL mud_UiWindow__get_colour(mud::UiWindow* self) {
+		return &self->m_colour;
+	}
+	void DECL mud_UiWindow__set_colour(mud::UiWindow* self, mud::Colour* value) {
+		self->m_colour = *value;
+	}
+	bool DECL mud_UiWindow__get_shutdown(mud::UiWindow* self) {
+		return self->m_shutdown;
+	}
+	void DECL mud_UiWindow__set_shutdown(mud::UiWindow* self, bool value) {
+		self->m_shutdown = value;
+	}
+	void DECL mud_UiWindow__destroy(mud::UiWindow* self) {
+		delete self;
+	}
+	// User
+	mud::Type* DECL mud_User__type() {
+		return &mud::type<mud::User>();
+	}
+	void DECL mud_User__destroy(mud::User* self) {
+		delete self;
+	}
+	// Layer
+	mud::Type* DECL mud_Layer__type() {
+		return &mud::type<mud::Layer>();
+	}
+	void DECL mud_Layer__destroy(mud::Layer* self) {
+		delete self;
+	}
+	// FrameSolver
+	mud::Type* DECL mud_FrameSolver__type() {
+		return &mud::type<mud::FrameSolver>();
+	}
+	void DECL mud_FrameSolver__destroy(mud::FrameSolver* self) {
+		delete self;
+	}
+	// RowSolver
+	mud::Type* DECL mud_RowSolver__type() {
+		return &mud::type<mud::RowSolver>();
+	}
+	void DECL mud_RowSolver__destroy(mud::RowSolver* self) {
+		delete self;
+	}
+	// TableSolver
+	mud::Type* DECL mud_TableSolver__type() {
+		return &mud::type<mud::TableSolver>();
+	}
+	void DECL mud_TableSolver__destroy(mud::TableSolver* self) {
+		delete self;
+	}
+	// LineSolver
+	mud::Type* DECL mud_LineSolver__type() {
+		return &mud::type<mud::LineSolver>();
+	}
+	void DECL mud_LineSolver__destroy(mud::LineSolver* self) {
+		delete self;
+	}
+	// GridSolver
+	mud::Type* DECL mud_GridSolver__type() {
+		return &mud::type<mud::GridSolver>();
+	}
+	void DECL mud_GridSolver__destroy(mud::GridSolver* self) {
 		delete self;
 	}
 	// ScrollSheet
@@ -1171,18 +1095,11 @@ extern "C" {
 	void DECL mud_Tabber__destroy(mud::Tabber* self) {
 		delete self;
 	}
-	// Table
-	mud::Type* DECL mud_Table__type() {
-		return &mud::type<mud::Table>();
+	// Expandbox
+	mud::Type* DECL mud_Expandbox__type() {
+		return &mud::type<mud::Expandbox>();
 	}
-	void DECL mud_Table__destroy(mud::Table* self) {
-		delete self;
-	}
-	// TextEdit
-	mud::Type* DECL mud_TextEdit__type() {
-		return &mud::type<mud::TextEdit>();
-	}
-	void DECL mud_TextEdit__destroy(mud::TextEdit* self) {
+	void DECL mud_Expandbox__destroy(mud::Expandbox* self) {
 		delete self;
 	}
 	// TreeNode
@@ -1190,6 +1107,89 @@ extern "C" {
 		return &mud::type<mud::TreeNode>();
 	}
 	void DECL mud_TreeNode__destroy(mud::TreeNode* self) {
+		delete self;
+	}
+	// Table
+	mud::Type* DECL mud_Table__type() {
+		return &mud::type<mud::Table>();
+	}
+	void DECL mud_Table__destroy(mud::Table* self) {
+		delete self;
+	}
+	// Dock
+	mud::Type* DECL mud_Dock__type() {
+		return &mud::type<mud::Dock>();
+	}
+	mud::Dock* DECL mud_Dock__construct_0() {
+		return new mud::Dock();
+	}
+	void DECL mud_Dock__destroy(mud::Dock* self) {
+		delete self;
+	}
+	// Docksystem
+	mud::Type* DECL mud_Docksystem__type() {
+		return &mud::type<mud::Docksystem>();
+	}
+	void DECL mud_Docksystem__destroy(mud::Docksystem* self) {
+		delete self;
+	}
+	// Dockable
+	mud::Type* DECL mud_Dockable__type() {
+		return &mud::type<mud::Dockable>();
+	}
+	void DECL mud_Dockable__destroy(mud::Dockable* self) {
+		delete self;
+	}
+	// Docker
+	mud::Type* DECL mud_Docker__type() {
+		return &mud::type<mud::Docker>();
+	}
+	void DECL mud_Docker__destroy(mud::Docker* self) {
+		delete self;
+	}
+	// Dockspace
+	mud::Type* DECL mud_Dockspace__type() {
+		return &mud::type<mud::Dockspace>();
+	}
+	void DECL mud_Dockspace__destroy(mud::Dockspace* self) {
+		delete self;
+	}
+	// Dockbar
+	mud::Type* DECL mud_Dockbar__type() {
+		return &mud::type<mud::Dockbar>();
+	}
+	void DECL mud_Dockbar__destroy(mud::Dockbar* self) {
+		delete self;
+	}
+	// NodePlug
+	mud::Type* DECL mud_NodePlug__type() {
+		return &mud::type<mud::NodePlug>();
+	}
+	void DECL mud_NodePlug__destroy(mud::NodePlug* self) {
+		delete self;
+	}
+	// Node
+	mud::Type* DECL mud_Node__type() {
+		return &mud::type<mud::Node>();
+	}
+	void DECL mud_Node__destroy(mud::Node* self) {
+		delete self;
+	}
+	// CanvasConnect
+	mud::Type* DECL mud_CanvasConnect__type() {
+		return &mud::type<mud::CanvasConnect>();
+	}
+	mud::CanvasConnect* DECL mud_CanvasConnect__construct_0() {
+		return new mud::CanvasConnect();
+	}
+	void DECL mud_CanvasConnect__destroy(mud::CanvasConnect* self) {
+		delete self;
+	}
+	// Canvas
+	mud::Type* DECL mud_Canvas__type() {
+		return &mud::type<mud::Canvas>();
+	}
+	void DECL mud_Canvas__destroy(mud::Canvas* self) {
 		delete self;
 	}
 	// Ui
@@ -1716,6 +1716,15 @@ extern "C" {
 	mud::Canvas* DECL mud_ui_canvas_2(mud::Widget* parent, size_t num_nodes) {
 		return &mud::ui::canvas(*parent, num_nodes);
 	}
+	mud::ScrollSheet* DECL mud_ui_scroll_sheet_2(mud::Widget* parent, mud::Style* style) {
+		return &mud::ui::scroll_sheet(*parent, *style);
+	}
+	mud::ScrollSheet* DECL mud_ui_scroll_sheet_3(mud::Widget* parent, mud::Style* style, mud::Style* surface_style) {
+		return &mud::ui::scroll_sheet(*parent, *style, surface_style);
+	}
+	mud::ScrollSheet* DECL mud_ui_scroll_plan_2(mud::Widget* parent, mud::Style* style) {
+		return &mud::ui::scroll_plan(*parent, *style);
+	}
 	mud::Widget* DECL mud_ui_scrollable_1(mud::Widget* parent) {
 		return &mud::ui::scrollable(*parent);
 	}
@@ -1755,6 +1764,29 @@ extern "C" {
 	mud::Widget* DECL mud_ui_file_tree_2(mud::Widget* parent, const char* path) {
 		return &mud::ui::file_tree(*parent, path);
 	}
+	// FlowAxis
+	mud::FlowAxis DECL mud_FlowAxis_Reading() {
+		return mud::FlowAxis::Reading;
+	}
+	mud::FlowAxis DECL mud_FlowAxis_Paragraph() {
+		return mud::FlowAxis::Paragraph;
+	}
+	mud::FlowAxis DECL mud_FlowAxis_Same() {
+		return mud::FlowAxis::Same;
+	}
+	mud::FlowAxis DECL mud_FlowAxis_Flip() {
+		return mud::FlowAxis::Flip;
+	}
+	mud::FlowAxis DECL mud_FlowAxis_None() {
+		return mud::FlowAxis::None;
+	}
+	// Pivot
+	mud::Pivot DECL mud_Pivot_Forward() {
+		return mud::Pivot::Forward;
+	}
+	mud::Pivot DECL mud_Pivot_Reverse() {
+		return mud::Pivot::Reverse;
+	}
 	// Align
 	mud::Align DECL mud_Align_Left() {
 		return mud::Align::Left;
@@ -1774,6 +1806,19 @@ extern "C" {
 	mud::Align DECL mud_Align_Count() {
 		return mud::Align::Count;
 	}
+	// Solver
+	mud::Solver DECL mud_Solver_Frame() {
+		return mud::Solver::Frame;
+	}
+	mud::Solver DECL mud_Solver_Row() {
+		return mud::Solver::Row;
+	}
+	mud::Solver DECL mud_Solver_Grid() {
+		return mud::Solver::Grid;
+	}
+	mud::Solver DECL mud_Solver_Table() {
+		return mud::Solver::Table;
+	}
 	// AutoLayout
 	mud::AutoLayout DECL mud_AutoLayout_None() {
 		return mud::AutoLayout::None;
@@ -1783,32 +1828,6 @@ extern "C" {
 	}
 	mud::AutoLayout DECL mud_AutoLayout_Layout() {
 		return mud::AutoLayout::Layout;
-	}
-	// Clip
-	mud::Clip DECL mud_Clip_None() {
-		return mud::Clip::None;
-	}
-	mud::Clip DECL mud_Clip_Clip() {
-		return mud::Clip::Clip;
-	}
-	mud::Clip DECL mud_Clip_Unclip() {
-		return mud::Clip::Unclip;
-	}
-	// FlowAxis
-	mud::FlowAxis DECL mud_FlowAxis_Reading() {
-		return mud::FlowAxis::Reading;
-	}
-	mud::FlowAxis DECL mud_FlowAxis_Paragraph() {
-		return mud::FlowAxis::Paragraph;
-	}
-	mud::FlowAxis DECL mud_FlowAxis_Same() {
-		return mud::FlowAxis::Same;
-	}
-	mud::FlowAxis DECL mud_FlowAxis_Flip() {
-		return mud::FlowAxis::Flip;
-	}
-	mud::FlowAxis DECL mud_FlowAxis_None() {
-		return mud::FlowAxis::None;
 	}
 	// LayoutFlow
 	mud::LayoutFlow DECL mud_LayoutFlow_Flow() {
@@ -1823,38 +1842,18 @@ extern "C" {
 	mud::LayoutFlow DECL mud_LayoutFlow_Free() {
 		return mud::LayoutFlow::Free;
 	}
-	// Opacity
-	mud::Opacity DECL mud_Opacity_Opaque() {
-		return mud::Opacity::Opaque;
+	// Sizing
+	mud::Sizing DECL mud_Sizing_Fixed() {
+		return mud::Sizing::Fixed;
 	}
-	mud::Opacity DECL mud_Opacity_Clear() {
-		return mud::Opacity::Clear;
+	mud::Sizing DECL mud_Sizing_Shrink() {
+		return mud::Sizing::Shrink;
 	}
-	mud::Opacity DECL mud_Opacity_Hollow() {
-		return mud::Opacity::Hollow;
+	mud::Sizing DECL mud_Sizing_Wrap() {
+		return mud::Sizing::Wrap;
 	}
-	// Pivot
-	mud::Pivot DECL mud_Pivot_Forward() {
-		return mud::Pivot::Forward;
-	}
-	mud::Pivot DECL mud_Pivot_Reverse() {
-		return mud::Pivot::Reverse;
-	}
-	// PopupFlags
-	mud::ui::PopupFlags DECL mud_ui_PopupFlags_None() {
-		return mud::ui::PopupFlags::None;
-	}
-	mud::ui::PopupFlags DECL mud_ui_PopupFlags_Modal() {
-		return mud::ui::PopupFlags::Modal;
-	}
-	mud::ui::PopupFlags DECL mud_ui_PopupFlags_Clamp() {
-		return mud::ui::PopupFlags::Clamp;
-	}
-	mud::ui::PopupFlags DECL mud_ui_PopupFlags_AutoClose() {
-		return mud::ui::PopupFlags::AutoClose;
-	}
-	mud::ui::PopupFlags DECL mud_ui_PopupFlags_AutoModal() {
-		return mud::ui::PopupFlags::AutoModal;
+	mud::Sizing DECL mud_Sizing_Expand() {
+		return mud::Sizing::Expand;
 	}
 	// Preset
 	mud::Preset DECL mud_Preset_Sheet() {
@@ -1890,31 +1889,25 @@ extern "C" {
 	mud::Preset DECL mud_Preset_Layout() {
 		return mud::Preset::Layout;
 	}
-	// Sizing
-	mud::Sizing DECL mud_Sizing_Fixed() {
-		return mud::Sizing::Fixed;
+	// Clip
+	mud::Clip DECL mud_Clip_None() {
+		return mud::Clip::None;
 	}
-	mud::Sizing DECL mud_Sizing_Shrink() {
-		return mud::Sizing::Shrink;
+	mud::Clip DECL mud_Clip_Clip() {
+		return mud::Clip::Clip;
 	}
-	mud::Sizing DECL mud_Sizing_Wrap() {
-		return mud::Sizing::Wrap;
+	mud::Clip DECL mud_Clip_Unclip() {
+		return mud::Clip::Unclip;
 	}
-	mud::Sizing DECL mud_Sizing_Expand() {
-		return mud::Sizing::Expand;
+	// Opacity
+	mud::Opacity DECL mud_Opacity_Opaque() {
+		return mud::Opacity::Opaque;
 	}
-	// Solver
-	mud::Solver DECL mud_Solver_Frame() {
-		return mud::Solver::Frame;
+	mud::Opacity DECL mud_Opacity_Clear() {
+		return mud::Opacity::Clear;
 	}
-	mud::Solver DECL mud_Solver_Row() {
-		return mud::Solver::Row;
-	}
-	mud::Solver DECL mud_Solver_Grid() {
-		return mud::Solver::Grid;
-	}
-	mud::Solver DECL mud_Solver_Table() {
-		return mud::Solver::Table;
+	mud::Opacity DECL mud_Opacity_Hollow() {
+		return mud::Opacity::Hollow;
 	}
 	// WidgetState
 	mud::WidgetState DECL mud_WidgetState_NOSTATE() {
@@ -1949,6 +1942,22 @@ extern "C" {
 	}
 	mud::WidgetState DECL mud_WidgetState_CLOSED() {
 		return mud::CLOSED;
+	}
+	// PopupFlags
+	mud::ui::PopupFlags DECL mud_ui_PopupFlags_None() {
+		return mud::ui::PopupFlags::None;
+	}
+	mud::ui::PopupFlags DECL mud_ui_PopupFlags_Modal() {
+		return mud::ui::PopupFlags::Modal;
+	}
+	mud::ui::PopupFlags DECL mud_ui_PopupFlags_Clamp() {
+		return mud::ui::PopupFlags::Clamp;
+	}
+	mud::ui::PopupFlags DECL mud_ui_PopupFlags_AutoClose() {
+		return mud::ui::PopupFlags::AutoClose;
+	}
+	mud::ui::PopupFlags DECL mud_ui_PopupFlags_AutoModal() {
+		return mud::ui::PopupFlags::AutoModal;
 	}
 	// WindowState
 	mud::WindowState DECL mud_WindowState_None() {

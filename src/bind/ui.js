@@ -1,112 +1,219 @@
 Module['ui'] = Module['ui'] || {};
 Module['stl'] = Module['stl'] || {};
-// CanvasConnect
-function CanvasConnect() {
+// Space
+function Space() {
     
-    this.__ptr = _mud_CanvasConnect__construct_0(); getCache(CanvasConnect)[this.__ptr] = this;
+    this.__ptr = _mud_Space__construct_0(); getCache(Space)[this.__ptr] = this;
 };
-CanvasConnect.prototype = Object.create(WrapperObject.prototype);
-CanvasConnect.prototype.constructor = CanvasConnect;
-CanvasConnect.prototype.__class = CanvasConnect;
-CanvasConnect.__cache = {};
-Module['CanvasConnect'] = CanvasConnect;
-CanvasConnect.prototype["__destroy"] = CanvasConnect.prototype.__destroy = function() {
-    _mud_CanvasConnect__destroy(this.__ptr);
-};
-// Clipboard
-function Clipboard() {
-    
-    this.__ptr = _mud_Clipboard__construct_0(); getCache(Clipboard)[this.__ptr] = this;
-};
-Clipboard.prototype = Object.create(WrapperObject.prototype);
-Clipboard.prototype.constructor = Clipboard;
-Clipboard.prototype.__class = Clipboard;
-Clipboard.__cache = {};
-Module['Clipboard'] = Clipboard;
-Object.defineProperty(Clipboard.prototype, "text", {
+Space.prototype = Object.create(WrapperObject.prototype);
+Space.prototype.constructor = Space;
+Space.prototype.__class = Space;
+Space.__cache = {};
+Module['Space'] = Space;
+Object.defineProperty(Space.prototype, "direction", {
     get: function() {
-        return UTF8ToString(_mud_Clipboard__get_text(this.__ptr));
+        return _mud_Space__get_direction(this.__ptr);
     },
     set: function(value) {
-        if (typeof value !== 'string') throw Error('Clipboard.text: expected string');
-        _mud_Clipboard__set_text(this.__ptr, ensureString(value));
+        if (typeof value !== 'number') throw Error('Space.direction: expected integer');
+        _mud_Space__set_direction(this.__ptr, value);
     }
 });
-Object.defineProperty(Clipboard.prototype, "line_mode", {
+Object.defineProperty(Space.prototype, "sizingLength", {
     get: function() {
-        return !!(_mud_Clipboard__get_line_mode(this.__ptr));
+        return _mud_Space__get_sizingLength(this.__ptr);
     },
     set: function(value) {
-        if (typeof value !== 'boolean') throw Error('Clipboard.line_mode: expected boolean');
-        _mud_Clipboard__set_line_mode(this.__ptr, value);
+        if (typeof value !== 'number') throw Error('Space.sizingLength: expected integer');
+        _mud_Space__set_sizingLength(this.__ptr, value);
     }
 });
-Clipboard.prototype["__destroy"] = Clipboard.prototype.__destroy = function() {
-    _mud_Clipboard__destroy(this.__ptr);
-};
-// Dock
-function Dock() {
-    
-    this.__ptr = _mud_Dock__construct_0(); getCache(Dock)[this.__ptr] = this;
-};
-Dock.prototype = Object.create(WrapperObject.prototype);
-Dock.prototype.constructor = Dock;
-Dock.prototype.__class = Dock;
-Dock.__cache = {};
-Module['Dock'] = Dock;
-Dock.prototype["__destroy"] = Dock.prototype.__destroy = function() {
-    _mud_Dock__destroy(this.__ptr);
-};
-// Docksystem
-function Docksystem() { throw "cannot construct a Docksystem, no constructor in IDL" }
-Docksystem.prototype = Object.create(WrapperObject.prototype);
-Docksystem.prototype.constructor = Docksystem;
-Docksystem.prototype.__class = Docksystem;
-Docksystem.__cache = {};
-Module['Docksystem'] = Docksystem;
-Docksystem.prototype["__destroy"] = Docksystem.prototype.__destroy = function() {
-    _mud_Docksystem__destroy(this.__ptr);
-};
-// Gradient
-function Gradient() {
-    
-    this.__ptr = _mud_Gradient__construct_0(); getCache(Gradient)[this.__ptr] = this;
-};
-Gradient.prototype = Object.create(WrapperObject.prototype);
-Gradient.prototype.constructor = Gradient;
-Gradient.prototype.__class = Gradient;
-Gradient.__cache = {};
-Module['Gradient'] = Gradient;
-Object.defineProperty(Gradient.prototype, "start", {
+Object.defineProperty(Space.prototype, "sizingDepth", {
     get: function() {
-        return wrapPointer(_mud_Gradient__get_start(this.__ptr), Colour);
+        return _mud_Space__get_sizingDepth(this.__ptr);
     },
     set: function(value) {
-        if (!checkClass(value, Colour)) throw Error('Gradient.start: expected Colour');
-        _mud_Gradient__set_start(this.__ptr, value.__ptr);
+        if (typeof value !== 'number') throw Error('Space.sizingDepth: expected integer');
+        _mud_Space__set_sizingDepth(this.__ptr, value);
     }
 });
-Object.defineProperty(Gradient.prototype, "end", {
+Space.prototype["__destroy"] = Space.prototype.__destroy = function() {
+    _mud_Space__destroy(this.__ptr);
+};
+// v2<size_t>
+function v2_size_t(a0, a1) {
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('v2<T>(0:v): expected integer'); }
+    else { if (typeof a0 !== 'number') throw Error('v2<T>(0:x): expected integer'); if (typeof a1 !== 'number') throw Error('v2<T>(1:y): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_v2_size_t__construct_0(); getCache(v2_size_t)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_size_t__construct_1(/*v*/a0); getCache(v2_size_t)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_size_t__construct_2(/*x*/a0, /*y*/a1); getCache(v2_size_t)[this.__ptr] = this; }
+};
+v2_size_t.prototype = Object.create(WrapperObject.prototype);
+v2_size_t.prototype.constructor = v2_size_t;
+v2_size_t.prototype.__class = v2_size_t;
+v2_size_t.__cache = {};
+Module['v2_size_t'] = v2_size_t;
+Object.defineProperty(v2_size_t.prototype, "x", {
     get: function() {
-        return wrapPointer(_mud_Gradient__get_end(this.__ptr), Colour);
+        return _mud_v2_size_t__get_x(this.__ptr);
     },
     set: function(value) {
-        if (!checkClass(value, Colour)) throw Error('Gradient.end: expected Colour');
-        _mud_Gradient__set_end(this.__ptr, value.__ptr);
+        if (typeof value !== 'number') throw Error('v2<size_t>.x: expected integer');
+        _mud_v2_size_t__set_x(this.__ptr, value);
     }
 });
-Gradient.prototype["__destroy"] = Gradient.prototype.__destroy = function() {
-    _mud_Gradient__destroy(this.__ptr);
+Object.defineProperty(v2_size_t.prototype, "y", {
+    get: function() {
+        return _mud_v2_size_t__get_y(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<size_t>.y: expected integer');
+        _mud_v2_size_t__set_y(this.__ptr, value);
+    }
+});
+v2_size_t.prototype["__destroy"] = v2_size_t.prototype.__destroy = function() {
+    _mud_v2_size_t__destroy(this.__ptr);
 };
-// GridSolver
-function GridSolver() { throw "cannot construct a GridSolver, no constructor in IDL" }
-GridSolver.prototype = Object.create(WrapperObject.prototype);
-GridSolver.prototype.constructor = GridSolver;
-GridSolver.prototype.__class = GridSolver;
-GridSolver.__cache = {};
-Module['GridSolver'] = GridSolver;
-GridSolver.prototype["__destroy"] = GridSolver.prototype.__destroy = function() {
-    _mud_GridSolver__destroy(this.__ptr);
+// v2<mud::AutoLayout>
+function v2_mud_AutoLayout(a0, a1) {
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('v2<T>(0:v): expected integer'); }
+    else { if (typeof a0 !== 'number') throw Error('v2<T>(0:x): expected integer'); if (typeof a1 !== 'number') throw Error('v2<T>(1:y): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_v2_mud_AutoLayout__construct_0(); getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_AutoLayout__construct_1(/*v*/a0); getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_mud_AutoLayout__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
+};
+v2_mud_AutoLayout.prototype = Object.create(WrapperObject.prototype);
+v2_mud_AutoLayout.prototype.constructor = v2_mud_AutoLayout;
+v2_mud_AutoLayout.prototype.__class = v2_mud_AutoLayout;
+v2_mud_AutoLayout.__cache = {};
+Module['v2_mud_AutoLayout'] = v2_mud_AutoLayout;
+Object.defineProperty(v2_mud_AutoLayout.prototype, "x", {
+    get: function() {
+        return _mud_v2_mud_AutoLayout__get_x(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::AutoLayout>.x: expected integer');
+        _mud_v2_mud_AutoLayout__set_x(this.__ptr, value);
+    }
+});
+Object.defineProperty(v2_mud_AutoLayout.prototype, "y", {
+    get: function() {
+        return _mud_v2_mud_AutoLayout__get_y(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::AutoLayout>.y: expected integer');
+        _mud_v2_mud_AutoLayout__set_y(this.__ptr, value);
+    }
+});
+v2_mud_AutoLayout.prototype["__destroy"] = v2_mud_AutoLayout.prototype.__destroy = function() {
+    _mud_v2_mud_AutoLayout__destroy(this.__ptr);
+};
+// v2<mud::Sizing>
+function v2_mud_Sizing(a0, a1) {
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('v2<T>(0:v): expected integer'); }
+    else { if (typeof a0 !== 'number') throw Error('v2<T>(0:x): expected integer'); if (typeof a1 !== 'number') throw Error('v2<T>(1:y): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Sizing__construct_0(); getCache(v2_mud_Sizing)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Sizing__construct_1(/*v*/a0); getCache(v2_mud_Sizing)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_mud_Sizing__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_Sizing)[this.__ptr] = this; }
+};
+v2_mud_Sizing.prototype = Object.create(WrapperObject.prototype);
+v2_mud_Sizing.prototype.constructor = v2_mud_Sizing;
+v2_mud_Sizing.prototype.__class = v2_mud_Sizing;
+v2_mud_Sizing.__cache = {};
+Module['v2_mud_Sizing'] = v2_mud_Sizing;
+Object.defineProperty(v2_mud_Sizing.prototype, "x", {
+    get: function() {
+        return _mud_v2_mud_Sizing__get_x(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Sizing>.x: expected integer');
+        _mud_v2_mud_Sizing__set_x(this.__ptr, value);
+    }
+});
+Object.defineProperty(v2_mud_Sizing.prototype, "y", {
+    get: function() {
+        return _mud_v2_mud_Sizing__get_y(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Sizing>.y: expected integer');
+        _mud_v2_mud_Sizing__set_y(this.__ptr, value);
+    }
+});
+v2_mud_Sizing.prototype["__destroy"] = v2_mud_Sizing.prototype.__destroy = function() {
+    _mud_v2_mud_Sizing__destroy(this.__ptr);
+};
+// v2<mud::Align>
+function v2_mud_Align(a0, a1) {
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('v2<T>(0:v): expected integer'); }
+    else { if (typeof a0 !== 'number') throw Error('v2<T>(0:x): expected integer'); if (typeof a1 !== 'number') throw Error('v2<T>(1:y): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Align__construct_0(); getCache(v2_mud_Align)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Align__construct_1(/*v*/a0); getCache(v2_mud_Align)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_mud_Align__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_Align)[this.__ptr] = this; }
+};
+v2_mud_Align.prototype = Object.create(WrapperObject.prototype);
+v2_mud_Align.prototype.constructor = v2_mud_Align;
+v2_mud_Align.prototype.__class = v2_mud_Align;
+v2_mud_Align.__cache = {};
+Module['v2_mud_Align'] = v2_mud_Align;
+Object.defineProperty(v2_mud_Align.prototype, "x", {
+    get: function() {
+        return _mud_v2_mud_Align__get_x(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Align>.x: expected integer');
+        _mud_v2_mud_Align__set_x(this.__ptr, value);
+    }
+});
+Object.defineProperty(v2_mud_Align.prototype, "y", {
+    get: function() {
+        return _mud_v2_mud_Align__get_y(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Align>.y: expected integer');
+        _mud_v2_mud_Align__set_y(this.__ptr, value);
+    }
+});
+v2_mud_Align.prototype["__destroy"] = v2_mud_Align.prototype.__destroy = function() {
+    _mud_v2_mud_Align__destroy(this.__ptr);
+};
+// v2<mud::Pivot>
+function v2_mud_Pivot(a0, a1) {
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('v2<T>(0:v): expected integer'); }
+    else { if (typeof a0 !== 'number') throw Error('v2<T>(0:x): expected integer'); if (typeof a1 !== 'number') throw Error('v2<T>(1:y): expected integer'); }
+    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Pivot__construct_0(); getCache(v2_mud_Pivot)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Pivot__construct_1(/*v*/a0); getCache(v2_mud_Pivot)[this.__ptr] = this; }
+    else { this.__ptr = _mud_v2_mud_Pivot__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_Pivot)[this.__ptr] = this; }
+};
+v2_mud_Pivot.prototype = Object.create(WrapperObject.prototype);
+v2_mud_Pivot.prototype.constructor = v2_mud_Pivot;
+v2_mud_Pivot.prototype.__class = v2_mud_Pivot;
+v2_mud_Pivot.__cache = {};
+Module['v2_mud_Pivot'] = v2_mud_Pivot;
+Object.defineProperty(v2_mud_Pivot.prototype, "x", {
+    get: function() {
+        return _mud_v2_mud_Pivot__get_x(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Pivot>.x: expected integer');
+        _mud_v2_mud_Pivot__set_x(this.__ptr, value);
+    }
+});
+Object.defineProperty(v2_mud_Pivot.prototype, "y", {
+    get: function() {
+        return _mud_v2_mud_Pivot__get_y(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('v2<mud::Pivot>.y: expected integer');
+        _mud_v2_mud_Pivot__set_y(this.__ptr, value);
+    }
+});
+v2_mud_Pivot.prototype["__destroy"] = v2_mud_Pivot.prototype.__destroy = function() {
+    _mud_v2_mud_Pivot__destroy(this.__ptr);
 };
 // ImageSkin
 function ImageSkin(a0, a1, a2, a3, a4, a5, a6) {
@@ -187,6 +294,206 @@ Object.defineProperty(ImageSkin.prototype, "d_stretch", {
 });
 ImageSkin.prototype["__destroy"] = ImageSkin.prototype.__destroy = function() {
     _mud_ImageSkin__destroy(this.__ptr);
+};
+// Shadow
+function Shadow(a0, a1, a2, a3, a4) {
+    if (a0 === undefined) {  }
+    else if (a4 === undefined) { if (typeof a0 !== 'number') throw Error('Shadow(0:xpos): expected number'); if (typeof a1 !== 'number') throw Error('Shadow(1:ypos): expected number'); if (typeof a2 !== 'number') throw Error('Shadow(2:blur): expected number'); if (typeof a3 !== 'number') throw Error('Shadow(3:spread): expected number'); }
+    else { if (typeof a0 !== 'number') throw Error('Shadow(0:xpos): expected number'); if (typeof a1 !== 'number') throw Error('Shadow(1:ypos): expected number'); if (typeof a2 !== 'number') throw Error('Shadow(2:blur): expected number'); if (typeof a3 !== 'number') throw Error('Shadow(3:spread): expected number'); if (!checkClass(a4, Colour)) throw Error('Shadow(4:colour): expected Colour'); }
+    if (a0 === undefined) { this.__ptr = _mud_Shadow__construct_0(); getCache(Shadow)[this.__ptr] = this; }
+    else if (a4 === undefined) { this.__ptr = _mud_Shadow__construct_4(/*xpos*/a0, /*ypos*/a1, /*blur*/a2, /*spread*/a3); getCache(Shadow)[this.__ptr] = this; }
+    else { this.__ptr = _mud_Shadow__construct_5(/*xpos*/a0, /*ypos*/a1, /*blur*/a2, /*spread*/a3, /*colour*/a4.__ptr); getCache(Shadow)[this.__ptr] = this; }
+};
+Shadow.prototype = Object.create(WrapperObject.prototype);
+Shadow.prototype.constructor = Shadow;
+Shadow.prototype.__class = Shadow;
+Shadow.__cache = {};
+Module['Shadow'] = Shadow;
+Object.defineProperty(Shadow.prototype, "d_xpos", {
+    get: function() {
+        return _mud_Shadow__get_d_xpos(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('Shadow.d_xpos: expected number');
+        _mud_Shadow__set_d_xpos(this.__ptr, value);
+    }
+});
+Object.defineProperty(Shadow.prototype, "d_ypos", {
+    get: function() {
+        return _mud_Shadow__get_d_ypos(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('Shadow.d_ypos: expected number');
+        _mud_Shadow__set_d_ypos(this.__ptr, value);
+    }
+});
+Object.defineProperty(Shadow.prototype, "d_blur", {
+    get: function() {
+        return _mud_Shadow__get_d_blur(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('Shadow.d_blur: expected number');
+        _mud_Shadow__set_d_blur(this.__ptr, value);
+    }
+});
+Object.defineProperty(Shadow.prototype, "d_spread", {
+    get: function() {
+        return _mud_Shadow__get_d_spread(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('Shadow.d_spread: expected number');
+        _mud_Shadow__set_d_spread(this.__ptr, value);
+    }
+});
+Object.defineProperty(Shadow.prototype, "d_colour", {
+    get: function() {
+        return wrapPointer(_mud_Shadow__get_d_colour(this.__ptr), Colour);
+    },
+    set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Shadow.d_colour: expected Colour');
+        _mud_Shadow__set_d_colour(this.__ptr, value.__ptr);
+    }
+});
+Shadow.prototype["__destroy"] = Shadow.prototype.__destroy = function() {
+    _mud_Shadow__destroy(this.__ptr);
+};
+// Paint
+function Paint() {
+    
+    this.__ptr = _mud_Paint__construct_0(); getCache(Paint)[this.__ptr] = this;
+};
+Paint.prototype = Object.create(WrapperObject.prototype);
+Paint.prototype.constructor = Paint;
+Paint.prototype.__class = Paint;
+Paint.__cache = {};
+Module['Paint'] = Paint;
+Object.defineProperty(Paint.prototype, "fill_colour", {
+    get: function() {
+        return wrapPointer(_mud_Paint__get_fill_colour(this.__ptr), Colour);
+    },
+    set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Paint.fill_colour: expected Colour');
+        _mud_Paint__set_fill_colour(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Paint.prototype, "stroke_colour", {
+    get: function() {
+        return wrapPointer(_mud_Paint__get_stroke_colour(this.__ptr), Colour);
+    },
+    set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Paint.stroke_colour: expected Colour');
+        _mud_Paint__set_stroke_colour(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Paint.prototype, "stroke_width", {
+    get: function() {
+        return _mud_Paint__get_stroke_width(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('Paint.stroke_width: expected number');
+        _mud_Paint__set_stroke_width(this.__ptr, value);
+    }
+});
+Paint.prototype["__destroy"] = Paint.prototype.__destroy = function() {
+    _mud_Paint__destroy(this.__ptr);
+};
+// TextPaint
+function TextPaint() {
+    
+    this.__ptr = _mud_TextPaint__construct_0(); getCache(TextPaint)[this.__ptr] = this;
+};
+TextPaint.prototype = Object.create(WrapperObject.prototype);
+TextPaint.prototype.constructor = TextPaint;
+TextPaint.prototype.__class = TextPaint;
+TextPaint.__cache = {};
+Module['TextPaint'] = TextPaint;
+Object.defineProperty(TextPaint.prototype, "font", {
+    get: function() {
+        return UTF8ToString(_mud_TextPaint__get_font(this.__ptr));
+    },
+    set: function(value) {
+        if (typeof value !== 'string') throw Error('TextPaint.font: expected string');
+        _mud_TextPaint__set_font(this.__ptr, ensureString(value));
+    }
+});
+Object.defineProperty(TextPaint.prototype, "colour", {
+    get: function() {
+        return wrapPointer(_mud_TextPaint__get_colour(this.__ptr), Colour);
+    },
+    set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('TextPaint.colour: expected Colour');
+        _mud_TextPaint__set_colour(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(TextPaint.prototype, "size", {
+    get: function() {
+        return _mud_TextPaint__get_size(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('TextPaint.size: expected number');
+        _mud_TextPaint__set_size(this.__ptr, value);
+    }
+});
+Object.defineProperty(TextPaint.prototype, "align", {
+    get: function() {
+        return wrapPointer(_mud_TextPaint__get_align(this.__ptr), v2_mud_Align);
+    },
+    set: function(value) {
+        if (!checkClass(value, v2_mud_Align)) throw Error('TextPaint.align: expected v2<mud::Align>');
+        _mud_TextPaint__set_align(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(TextPaint.prototype, "text_break", {
+    get: function() {
+        return !!(_mud_TextPaint__get_text_break(this.__ptr));
+    },
+    set: function(value) {
+        if (typeof value !== 'boolean') throw Error('TextPaint.text_break: expected boolean');
+        _mud_TextPaint__set_text_break(this.__ptr, value);
+    }
+});
+Object.defineProperty(TextPaint.prototype, "text_wrap", {
+    get: function() {
+        return !!(_mud_TextPaint__get_text_wrap(this.__ptr));
+    },
+    set: function(value) {
+        if (typeof value !== 'boolean') throw Error('TextPaint.text_wrap: expected boolean');
+        _mud_TextPaint__set_text_wrap(this.__ptr, value);
+    }
+});
+TextPaint.prototype["__destroy"] = TextPaint.prototype.__destroy = function() {
+    _mud_TextPaint__destroy(this.__ptr);
+};
+// Gradient
+function Gradient() {
+    
+    this.__ptr = _mud_Gradient__construct_0(); getCache(Gradient)[this.__ptr] = this;
+};
+Gradient.prototype = Object.create(WrapperObject.prototype);
+Gradient.prototype.constructor = Gradient;
+Gradient.prototype.__class = Gradient;
+Gradient.__cache = {};
+Module['Gradient'] = Gradient;
+Object.defineProperty(Gradient.prototype, "start", {
+    get: function() {
+        return wrapPointer(_mud_Gradient__get_start(this.__ptr), Colour);
+    },
+    set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Gradient.start: expected Colour');
+        _mud_Gradient__set_start(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Gradient.prototype, "end", {
+    get: function() {
+        return wrapPointer(_mud_Gradient__get_end(this.__ptr), Colour);
+    },
+    set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('Gradient.end: expected Colour');
+        _mud_Gradient__set_end(this.__ptr, value.__ptr);
+    }
+});
+Gradient.prototype["__destroy"] = Gradient.prototype.__destroy = function() {
+    _mud_Gradient__destroy(this.__ptr);
 };
 // InkStyle
 function InkStyle(a0) {
@@ -438,16 +745,6 @@ Object.defineProperty(InkStyle.prototype, "hover_cursor", {
 InkStyle.prototype["__destroy"] = InkStyle.prototype.__destroy = function() {
     _mud_InkStyle__destroy(this.__ptr);
 };
-// Layer
-function Layer() { throw "cannot construct a Layer, no constructor in IDL" }
-Layer.prototype = Object.create(WrapperObject.prototype);
-Layer.prototype.constructor = Layer;
-Layer.prototype.__class = Layer;
-Layer.__cache = {};
-Module['Layer'] = Layer;
-Layer.prototype["__destroy"] = Layer.prototype.__destroy = function() {
-    _mud_Layer__destroy(this.__ptr);
-};
 // Layout
 function Layout(a0) {
     ensureCache.prepare();
@@ -621,160 +918,36 @@ Object.defineProperty(Layout.prototype, "updated", {
 Layout.prototype["__destroy"] = Layout.prototype.__destroy = function() {
     _mud_Layout__destroy(this.__ptr);
 };
-// NodeConnection
-function NodeConnection() {
+// Subskin
+function Subskin() {
     
-    this.__ptr = _mud_NodeConnection__construct_0(); getCache(NodeConnection)[this.__ptr] = this;
+    this.__ptr = _mud_Subskin__construct_0(); getCache(Subskin)[this.__ptr] = this;
 };
-NodeConnection.prototype = Object.create(WrapperObject.prototype);
-NodeConnection.prototype.constructor = NodeConnection;
-NodeConnection.prototype.__class = NodeConnection;
-NodeConnection.__cache = {};
-Module['NodeConnection'] = NodeConnection;
-NodeConnection.prototype["__destroy"] = NodeConnection.prototype.__destroy = function() {
-    _mud_NodeConnection__destroy(this.__ptr);
-};
-// Paint
-function Paint() {
-    
-    this.__ptr = _mud_Paint__construct_0(); getCache(Paint)[this.__ptr] = this;
-};
-Paint.prototype = Object.create(WrapperObject.prototype);
-Paint.prototype.constructor = Paint;
-Paint.prototype.__class = Paint;
-Paint.__cache = {};
-Module['Paint'] = Paint;
-Object.defineProperty(Paint.prototype, "fill_colour", {
+Subskin.prototype = Object.create(WrapperObject.prototype);
+Subskin.prototype.constructor = Subskin;
+Subskin.prototype.__class = Subskin;
+Subskin.__cache = {};
+Module['Subskin'] = Subskin;
+Object.defineProperty(Subskin.prototype, "skin", {
     get: function() {
-        return wrapPointer(_mud_Paint__get_fill_colour(this.__ptr), Colour);
+        return wrapPointer(_mud_Subskin__get_skin(this.__ptr), InkStyle);
     },
     set: function(value) {
-        if (!checkClass(value, Colour)) throw Error('Paint.fill_colour: expected Colour');
-        _mud_Paint__set_fill_colour(this.__ptr, value.__ptr);
+        if (!checkClass(value, InkStyle)) throw Error('Subskin.skin: expected InkStyle');
+        _mud_Subskin__set_skin(this.__ptr, value.__ptr);
     }
 });
-Object.defineProperty(Paint.prototype, "stroke_colour", {
+Object.defineProperty(Subskin.prototype, "state", {
     get: function() {
-        return wrapPointer(_mud_Paint__get_stroke_colour(this.__ptr), Colour);
+        return _mud_Subskin__get_state(this.__ptr);
     },
     set: function(value) {
-        if (!checkClass(value, Colour)) throw Error('Paint.stroke_colour: expected Colour');
-        _mud_Paint__set_stroke_colour(this.__ptr, value.__ptr);
+        if (typeof value !== 'number') throw Error('Subskin.state: expected integer');
+        _mud_Subskin__set_state(this.__ptr, value);
     }
 });
-Object.defineProperty(Paint.prototype, "stroke_width", {
-    get: function() {
-        return _mud_Paint__get_stroke_width(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Paint.stroke_width: expected number');
-        _mud_Paint__set_stroke_width(this.__ptr, value);
-    }
-});
-Paint.prototype["__destroy"] = Paint.prototype.__destroy = function() {
-    _mud_Paint__destroy(this.__ptr);
-};
-// Shadow
-function Shadow(a0, a1, a2, a3, a4) {
-    if (a0 === undefined) {  }
-    else if (a4 === undefined) { if (typeof a0 !== 'number') throw Error('Shadow(0:xpos): expected number'); if (typeof a1 !== 'number') throw Error('Shadow(1:ypos): expected number'); if (typeof a2 !== 'number') throw Error('Shadow(2:blur): expected number'); if (typeof a3 !== 'number') throw Error('Shadow(3:spread): expected number'); }
-    else { if (typeof a0 !== 'number') throw Error('Shadow(0:xpos): expected number'); if (typeof a1 !== 'number') throw Error('Shadow(1:ypos): expected number'); if (typeof a2 !== 'number') throw Error('Shadow(2:blur): expected number'); if (typeof a3 !== 'number') throw Error('Shadow(3:spread): expected number'); if (!checkClass(a4, Colour)) throw Error('Shadow(4:colour): expected Colour'); }
-    if (a0 === undefined) { this.__ptr = _mud_Shadow__construct_0(); getCache(Shadow)[this.__ptr] = this; }
-    else if (a4 === undefined) { this.__ptr = _mud_Shadow__construct_4(/*xpos*/a0, /*ypos*/a1, /*blur*/a2, /*spread*/a3); getCache(Shadow)[this.__ptr] = this; }
-    else { this.__ptr = _mud_Shadow__construct_5(/*xpos*/a0, /*ypos*/a1, /*blur*/a2, /*spread*/a3, /*colour*/a4.__ptr); getCache(Shadow)[this.__ptr] = this; }
-};
-Shadow.prototype = Object.create(WrapperObject.prototype);
-Shadow.prototype.constructor = Shadow;
-Shadow.prototype.__class = Shadow;
-Shadow.__cache = {};
-Module['Shadow'] = Shadow;
-Object.defineProperty(Shadow.prototype, "d_xpos", {
-    get: function() {
-        return _mud_Shadow__get_d_xpos(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Shadow.d_xpos: expected number');
-        _mud_Shadow__set_d_xpos(this.__ptr, value);
-    }
-});
-Object.defineProperty(Shadow.prototype, "d_ypos", {
-    get: function() {
-        return _mud_Shadow__get_d_ypos(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Shadow.d_ypos: expected number');
-        _mud_Shadow__set_d_ypos(this.__ptr, value);
-    }
-});
-Object.defineProperty(Shadow.prototype, "d_blur", {
-    get: function() {
-        return _mud_Shadow__get_d_blur(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Shadow.d_blur: expected number');
-        _mud_Shadow__set_d_blur(this.__ptr, value);
-    }
-});
-Object.defineProperty(Shadow.prototype, "d_spread", {
-    get: function() {
-        return _mud_Shadow__get_d_spread(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Shadow.d_spread: expected number');
-        _mud_Shadow__set_d_spread(this.__ptr, value);
-    }
-});
-Object.defineProperty(Shadow.prototype, "d_colour", {
-    get: function() {
-        return wrapPointer(_mud_Shadow__get_d_colour(this.__ptr), Colour);
-    },
-    set: function(value) {
-        if (!checkClass(value, Colour)) throw Error('Shadow.d_colour: expected Colour');
-        _mud_Shadow__set_d_colour(this.__ptr, value.__ptr);
-    }
-});
-Shadow.prototype["__destroy"] = Shadow.prototype.__destroy = function() {
-    _mud_Shadow__destroy(this.__ptr);
-};
-// Space
-function Space() {
-    
-    this.__ptr = _mud_Space__construct_0(); getCache(Space)[this.__ptr] = this;
-};
-Space.prototype = Object.create(WrapperObject.prototype);
-Space.prototype.constructor = Space;
-Space.prototype.__class = Space;
-Space.__cache = {};
-Module['Space'] = Space;
-Object.defineProperty(Space.prototype, "direction", {
-    get: function() {
-        return _mud_Space__get_direction(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Space.direction: expected integer');
-        _mud_Space__set_direction(this.__ptr, value);
-    }
-});
-Object.defineProperty(Space.prototype, "sizingLength", {
-    get: function() {
-        return _mud_Space__get_sizingLength(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Space.sizingLength: expected integer');
-        _mud_Space__set_sizingLength(this.__ptr, value);
-    }
-});
-Object.defineProperty(Space.prototype, "sizingDepth", {
-    get: function() {
-        return _mud_Space__get_sizingDepth(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Space.sizingDepth: expected integer');
-        _mud_Space__set_sizingDepth(this.__ptr, value);
-    }
-});
-Space.prototype["__destroy"] = Space.prototype.__destroy = function() {
-    _mud_Space__destroy(this.__ptr);
+Subskin.prototype["__destroy"] = Subskin.prototype.__destroy = function() {
+    _mud_Subskin__destroy(this.__ptr);
 };
 // Style
 function Style() { throw "cannot construct a Style, no constructor in IDL" }
@@ -821,163 +994,6 @@ Object.defineProperty(Style.prototype, "skin", {
 });
 Style.prototype["__destroy"] = Style.prototype.__destroy = function() {
     _mud_Style__destroy(this.__ptr);
-};
-// Subskin
-function Subskin() {
-    
-    this.__ptr = _mud_Subskin__construct_0(); getCache(Subskin)[this.__ptr] = this;
-};
-Subskin.prototype = Object.create(WrapperObject.prototype);
-Subskin.prototype.constructor = Subskin;
-Subskin.prototype.__class = Subskin;
-Subskin.__cache = {};
-Module['Subskin'] = Subskin;
-Object.defineProperty(Subskin.prototype, "skin", {
-    get: function() {
-        return wrapPointer(_mud_Subskin__get_skin(this.__ptr), InkStyle);
-    },
-    set: function(value) {
-        if (!checkClass(value, InkStyle)) throw Error('Subskin.skin: expected InkStyle');
-        _mud_Subskin__set_skin(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Subskin.prototype, "state", {
-    get: function() {
-        return _mud_Subskin__get_state(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Subskin.state: expected integer');
-        _mud_Subskin__set_state(this.__ptr, value);
-    }
-});
-Subskin.prototype["__destroy"] = Subskin.prototype.__destroy = function() {
-    _mud_Subskin__destroy(this.__ptr);
-};
-// TableSolver
-function TableSolver() { throw "cannot construct a TableSolver, no constructor in IDL" }
-TableSolver.prototype = Object.create(WrapperObject.prototype);
-TableSolver.prototype.constructor = TableSolver;
-TableSolver.prototype.__class = TableSolver;
-TableSolver.__cache = {};
-Module['TableSolver'] = TableSolver;
-TableSolver.prototype["__destroy"] = TableSolver.prototype.__destroy = function() {
-    _mud_TableSolver__destroy(this.__ptr);
-};
-// Text
-function Text() { throw "cannot construct a Text, no constructor in IDL" }
-Text.prototype = Object.create(WrapperObject.prototype);
-Text.prototype.constructor = Text;
-Text.prototype.__class = Text;
-Text.__cache = {};
-Module['Text'] = Text;
-Text.prototype["__destroy"] = Text.prototype.__destroy = function() {
-    _mud_Text__destroy(this.__ptr);
-};
-// TextCursor
-function TextCursor() {
-    
-    this.__ptr = _mud_TextCursor__construct_0(); getCache(TextCursor)[this.__ptr] = this;
-};
-TextCursor.prototype = Object.create(WrapperObject.prototype);
-TextCursor.prototype.constructor = TextCursor;
-TextCursor.prototype.__class = TextCursor;
-TextCursor.__cache = {};
-Module['TextCursor'] = TextCursor;
-TextCursor.prototype["__destroy"] = TextCursor.prototype.__destroy = function() {
-    _mud_TextCursor__destroy(this.__ptr);
-};
-// TextMarker
-function TextMarker() {
-    
-    this.__ptr = _mud_TextMarker__construct_0(); getCache(TextMarker)[this.__ptr] = this;
-};
-TextMarker.prototype = Object.create(WrapperObject.prototype);
-TextMarker.prototype.constructor = TextMarker;
-TextMarker.prototype.__class = TextMarker;
-TextMarker.__cache = {};
-Module['TextMarker'] = TextMarker;
-TextMarker.prototype["__destroy"] = TextMarker.prototype.__destroy = function() {
-    _mud_TextMarker__destroy(this.__ptr);
-};
-// TextPaint
-function TextPaint() {
-    
-    this.__ptr = _mud_TextPaint__construct_0(); getCache(TextPaint)[this.__ptr] = this;
-};
-TextPaint.prototype = Object.create(WrapperObject.prototype);
-TextPaint.prototype.constructor = TextPaint;
-TextPaint.prototype.__class = TextPaint;
-TextPaint.__cache = {};
-Module['TextPaint'] = TextPaint;
-Object.defineProperty(TextPaint.prototype, "font", {
-    get: function() {
-        return UTF8ToString(_mud_TextPaint__get_font(this.__ptr));
-    },
-    set: function(value) {
-        if (typeof value !== 'string') throw Error('TextPaint.font: expected string');
-        _mud_TextPaint__set_font(this.__ptr, ensureString(value));
-    }
-});
-Object.defineProperty(TextPaint.prototype, "colour", {
-    get: function() {
-        return wrapPointer(_mud_TextPaint__get_colour(this.__ptr), Colour);
-    },
-    set: function(value) {
-        if (!checkClass(value, Colour)) throw Error('TextPaint.colour: expected Colour');
-        _mud_TextPaint__set_colour(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(TextPaint.prototype, "size", {
-    get: function() {
-        return _mud_TextPaint__get_size(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('TextPaint.size: expected number');
-        _mud_TextPaint__set_size(this.__ptr, value);
-    }
-});
-Object.defineProperty(TextPaint.prototype, "align", {
-    get: function() {
-        return wrapPointer(_mud_TextPaint__get_align(this.__ptr), v2_mud_Align);
-    },
-    set: function(value) {
-        if (!checkClass(value, v2_mud_Align)) throw Error('TextPaint.align: expected v2<mud::Align>');
-        _mud_TextPaint__set_align(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(TextPaint.prototype, "text_break", {
-    get: function() {
-        return !!(_mud_TextPaint__get_text_break(this.__ptr));
-    },
-    set: function(value) {
-        if (typeof value !== 'boolean') throw Error('TextPaint.text_break: expected boolean');
-        _mud_TextPaint__set_text_break(this.__ptr, value);
-    }
-});
-Object.defineProperty(TextPaint.prototype, "text_wrap", {
-    get: function() {
-        return !!(_mud_TextPaint__get_text_wrap(this.__ptr));
-    },
-    set: function(value) {
-        if (typeof value !== 'boolean') throw Error('TextPaint.text_wrap: expected boolean');
-        _mud_TextPaint__set_text_wrap(this.__ptr, value);
-    }
-});
-TextPaint.prototype["__destroy"] = TextPaint.prototype.__destroy = function() {
-    _mud_TextPaint__destroy(this.__ptr);
-};
-// TextSelection
-function TextSelection() {
-    
-    this.__ptr = _mud_TextSelection__construct_0(); getCache(TextSelection)[this.__ptr] = this;
-};
-TextSelection.prototype = Object.create(WrapperObject.prototype);
-TextSelection.prototype.constructor = TextSelection;
-TextSelection.prototype.__class = TextSelection;
-TextSelection.__cache = {};
-Module['TextSelection'] = TextSelection;
-TextSelection.prototype["__destroy"] = TextSelection.prototype.__destroy = function() {
-    _mud_TextSelection__destroy(this.__ptr);
 };
 // UiRect
 function UiRect() {
@@ -1037,305 +1053,6 @@ Object.defineProperty(UiRect.prototype, "scale", {
 UiRect.prototype["__destroy"] = UiRect.prototype.__destroy = function() {
     _mud_UiRect__destroy(this.__ptr);
 };
-// UiWindow
-function UiWindow() { throw "cannot construct a UiWindow, no constructor in IDL" }
-UiWindow.prototype = Object.create(WrapperObject.prototype);
-UiWindow.prototype.constructor = UiWindow;
-UiWindow.prototype.__class = UiWindow;
-UiWindow.__cache = {};
-Module['UiWindow'] = UiWindow;
-Object.defineProperty(UiWindow.prototype, "resource_path", {
-    get: function() {
-        return UTF8ToString(_mud_UiWindow__get_resource_path(this.__ptr));
-    }});
-Object.defineProperty(UiWindow.prototype, "context", {
-    get: function() {
-        return wrapPointer(_mud_UiWindow__get_context(this.__ptr), Context);
-    }});
-Object.defineProperty(UiWindow.prototype, "vg", {
-    get: function() {
-        return wrapPointer(_mud_UiWindow__get_vg(this.__ptr), Vg);
-    }});
-Object.defineProperty(UiWindow.prototype, "size", {
-    get: function() {
-        return wrapPointer(_mud_UiWindow__get_size(this.__ptr), v2_uint);
-    },
-    set: function(value) {
-        if (!checkClass(value, v2_uint)) throw Error('UiWindow.size: expected v2<uint>');
-        _mud_UiWindow__set_size(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(UiWindow.prototype, "colour", {
-    get: function() {
-        return wrapPointer(_mud_UiWindow__get_colour(this.__ptr), Colour);
-    },
-    set: function(value) {
-        if (!checkClass(value, Colour)) throw Error('UiWindow.colour: expected Colour');
-        _mud_UiWindow__set_colour(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(UiWindow.prototype, "shutdown", {
-    get: function() {
-        return !!(_mud_UiWindow__get_shutdown(this.__ptr));
-    },
-    set: function(value) {
-        if (typeof value !== 'boolean') throw Error('UiWindow.shutdown: expected boolean');
-        _mud_UiWindow__set_shutdown(this.__ptr, value);
-    }
-});
-UiWindow.prototype["__destroy"] = UiWindow.prototype.__destroy = function() {
-    _mud_UiWindow__destroy(this.__ptr);
-};
-// User
-function User() { throw "cannot construct a User, no constructor in IDL" }
-User.prototype = Object.create(WrapperObject.prototype);
-User.prototype.constructor = User;
-User.prototype.__class = User;
-User.__cache = {};
-Module['User'] = User;
-User.prototype["__destroy"] = User.prototype.__destroy = function() {
-    _mud_User__destroy(this.__ptr);
-};
-// Vg
-function Vg() { throw "cannot construct a Vg, no constructor in IDL" }
-Vg.prototype = Object.create(WrapperObject.prototype);
-Vg.prototype.constructor = Vg;
-Vg.prototype.__class = Vg;
-Vg.__cache = {};
-Module['Vg'] = Vg;
-Vg.prototype["__destroy"] = Vg.prototype.__destroy = function() {
-    _mud_Vg__destroy(this.__ptr);
-};
-// v2<mud::Align>
-function v2_mud_Align(a0, a1) {
-    if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('v2<T>(0:v): expected integer'); }
-    else { if (typeof a0 !== 'number') throw Error('v2<T>(0:x): expected integer'); if (typeof a1 !== 'number') throw Error('v2<T>(1:y): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Align__construct_0(); getCache(v2_mud_Align)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Align__construct_1(/*v*/a0); getCache(v2_mud_Align)[this.__ptr] = this; }
-    else { this.__ptr = _mud_v2_mud_Align__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_Align)[this.__ptr] = this; }
-};
-v2_mud_Align.prototype = Object.create(WrapperObject.prototype);
-v2_mud_Align.prototype.constructor = v2_mud_Align;
-v2_mud_Align.prototype.__class = v2_mud_Align;
-v2_mud_Align.__cache = {};
-Module['v2_mud_Align'] = v2_mud_Align;
-Object.defineProperty(v2_mud_Align.prototype, "x", {
-    get: function() {
-        return _mud_v2_mud_Align__get_x(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('v2<mud::Align>.x: expected integer');
-        _mud_v2_mud_Align__set_x(this.__ptr, value);
-    }
-});
-Object.defineProperty(v2_mud_Align.prototype, "y", {
-    get: function() {
-        return _mud_v2_mud_Align__get_y(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('v2<mud::Align>.y: expected integer');
-        _mud_v2_mud_Align__set_y(this.__ptr, value);
-    }
-});
-v2_mud_Align.prototype["__destroy"] = v2_mud_Align.prototype.__destroy = function() {
-    _mud_v2_mud_Align__destroy(this.__ptr);
-};
-// v2<mud::AutoLayout>
-function v2_mud_AutoLayout(a0, a1) {
-    if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('v2<T>(0:v): expected integer'); }
-    else { if (typeof a0 !== 'number') throw Error('v2<T>(0:x): expected integer'); if (typeof a1 !== 'number') throw Error('v2<T>(1:y): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_v2_mud_AutoLayout__construct_0(); getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_AutoLayout__construct_1(/*v*/a0); getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
-    else { this.__ptr = _mud_v2_mud_AutoLayout__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_AutoLayout)[this.__ptr] = this; }
-};
-v2_mud_AutoLayout.prototype = Object.create(WrapperObject.prototype);
-v2_mud_AutoLayout.prototype.constructor = v2_mud_AutoLayout;
-v2_mud_AutoLayout.prototype.__class = v2_mud_AutoLayout;
-v2_mud_AutoLayout.__cache = {};
-Module['v2_mud_AutoLayout'] = v2_mud_AutoLayout;
-Object.defineProperty(v2_mud_AutoLayout.prototype, "x", {
-    get: function() {
-        return _mud_v2_mud_AutoLayout__get_x(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('v2<mud::AutoLayout>.x: expected integer');
-        _mud_v2_mud_AutoLayout__set_x(this.__ptr, value);
-    }
-});
-Object.defineProperty(v2_mud_AutoLayout.prototype, "y", {
-    get: function() {
-        return _mud_v2_mud_AutoLayout__get_y(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('v2<mud::AutoLayout>.y: expected integer');
-        _mud_v2_mud_AutoLayout__set_y(this.__ptr, value);
-    }
-});
-v2_mud_AutoLayout.prototype["__destroy"] = v2_mud_AutoLayout.prototype.__destroy = function() {
-    _mud_v2_mud_AutoLayout__destroy(this.__ptr);
-};
-// v2<mud::Pivot>
-function v2_mud_Pivot(a0, a1) {
-    if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('v2<T>(0:v): expected integer'); }
-    else { if (typeof a0 !== 'number') throw Error('v2<T>(0:x): expected integer'); if (typeof a1 !== 'number') throw Error('v2<T>(1:y): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Pivot__construct_0(); getCache(v2_mud_Pivot)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Pivot__construct_1(/*v*/a0); getCache(v2_mud_Pivot)[this.__ptr] = this; }
-    else { this.__ptr = _mud_v2_mud_Pivot__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_Pivot)[this.__ptr] = this; }
-};
-v2_mud_Pivot.prototype = Object.create(WrapperObject.prototype);
-v2_mud_Pivot.prototype.constructor = v2_mud_Pivot;
-v2_mud_Pivot.prototype.__class = v2_mud_Pivot;
-v2_mud_Pivot.__cache = {};
-Module['v2_mud_Pivot'] = v2_mud_Pivot;
-Object.defineProperty(v2_mud_Pivot.prototype, "x", {
-    get: function() {
-        return _mud_v2_mud_Pivot__get_x(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('v2<mud::Pivot>.x: expected integer');
-        _mud_v2_mud_Pivot__set_x(this.__ptr, value);
-    }
-});
-Object.defineProperty(v2_mud_Pivot.prototype, "y", {
-    get: function() {
-        return _mud_v2_mud_Pivot__get_y(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('v2<mud::Pivot>.y: expected integer');
-        _mud_v2_mud_Pivot__set_y(this.__ptr, value);
-    }
-});
-v2_mud_Pivot.prototype["__destroy"] = v2_mud_Pivot.prototype.__destroy = function() {
-    _mud_v2_mud_Pivot__destroy(this.__ptr);
-};
-// v2<mud::Sizing>
-function v2_mud_Sizing(a0, a1) {
-    if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('v2<T>(0:v): expected integer'); }
-    else { if (typeof a0 !== 'number') throw Error('v2<T>(0:x): expected integer'); if (typeof a1 !== 'number') throw Error('v2<T>(1:y): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_v2_mud_Sizing__construct_0(); getCache(v2_mud_Sizing)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_v2_mud_Sizing__construct_1(/*v*/a0); getCache(v2_mud_Sizing)[this.__ptr] = this; }
-    else { this.__ptr = _mud_v2_mud_Sizing__construct_2(/*x*/a0, /*y*/a1); getCache(v2_mud_Sizing)[this.__ptr] = this; }
-};
-v2_mud_Sizing.prototype = Object.create(WrapperObject.prototype);
-v2_mud_Sizing.prototype.constructor = v2_mud_Sizing;
-v2_mud_Sizing.prototype.__class = v2_mud_Sizing;
-v2_mud_Sizing.__cache = {};
-Module['v2_mud_Sizing'] = v2_mud_Sizing;
-Object.defineProperty(v2_mud_Sizing.prototype, "x", {
-    get: function() {
-        return _mud_v2_mud_Sizing__get_x(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('v2<mud::Sizing>.x: expected integer');
-        _mud_v2_mud_Sizing__set_x(this.__ptr, value);
-    }
-});
-Object.defineProperty(v2_mud_Sizing.prototype, "y", {
-    get: function() {
-        return _mud_v2_mud_Sizing__get_y(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('v2<mud::Sizing>.y: expected integer');
-        _mud_v2_mud_Sizing__set_y(this.__ptr, value);
-    }
-});
-v2_mud_Sizing.prototype["__destroy"] = v2_mud_Sizing.prototype.__destroy = function() {
-    _mud_v2_mud_Sizing__destroy(this.__ptr);
-};
-// v2<size_t>
-function v2_size_t(a0, a1) {
-    if (a0 === undefined) {  }
-    else if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('v2<T>(0:v): expected integer'); }
-    else { if (typeof a0 !== 'number') throw Error('v2<T>(0:x): expected integer'); if (typeof a1 !== 'number') throw Error('v2<T>(1:y): expected integer'); }
-    if (a0 === undefined) { this.__ptr = _mud_v2_size_t__construct_0(); getCache(v2_size_t)[this.__ptr] = this; }
-    else if (a1 === undefined) { this.__ptr = _mud_v2_size_t__construct_1(/*v*/a0); getCache(v2_size_t)[this.__ptr] = this; }
-    else { this.__ptr = _mud_v2_size_t__construct_2(/*x*/a0, /*y*/a1); getCache(v2_size_t)[this.__ptr] = this; }
-};
-v2_size_t.prototype = Object.create(WrapperObject.prototype);
-v2_size_t.prototype.constructor = v2_size_t;
-v2_size_t.prototype.__class = v2_size_t;
-v2_size_t.__cache = {};
-Module['v2_size_t'] = v2_size_t;
-Object.defineProperty(v2_size_t.prototype, "x", {
-    get: function() {
-        return _mud_v2_size_t__get_x(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('v2<size_t>.x: expected integer');
-        _mud_v2_size_t__set_x(this.__ptr, value);
-    }
-});
-Object.defineProperty(v2_size_t.prototype, "y", {
-    get: function() {
-        return _mud_v2_size_t__get_y(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('v2<size_t>.y: expected integer');
-        _mud_v2_size_t__set_y(this.__ptr, value);
-    }
-});
-v2_size_t.prototype["__destroy"] = v2_size_t.prototype.__destroy = function() {
-    _mud_v2_size_t__destroy(this.__ptr);
-};
-// Canvas
-function Canvas() { throw "cannot construct a Canvas, no constructor in IDL" }
-Canvas.prototype = Object.create(Widget.prototype);
-Canvas.prototype.constructor = Canvas;
-Canvas.prototype.__class = Canvas;
-Canvas.__base = Widget;
-Canvas.__cache = {};
-Module['Canvas'] = Canvas;
-Canvas.prototype["__destroy"] = Canvas.prototype.__destroy = function() {
-    _mud_Canvas__destroy(this.__ptr);
-};
-// Dockable
-function Dockable() { throw "cannot construct a Dockable, no constructor in IDL" }
-Dockable.prototype = Object.create(Widget.prototype);
-Dockable.prototype.constructor = Dockable;
-Dockable.prototype.__class = Dockable;
-Dockable.__base = Widget;
-Dockable.__cache = {};
-Module['Dockable'] = Dockable;
-Dockable.prototype["__destroy"] = Dockable.prototype.__destroy = function() {
-    _mud_Dockable__destroy(this.__ptr);
-};
-// Docker
-function Docker() { throw "cannot construct a Docker, no constructor in IDL" }
-Docker.prototype = Object.create(Widget.prototype);
-Docker.prototype.constructor = Docker;
-Docker.prototype.__class = Docker;
-Docker.__base = Widget;
-Docker.__cache = {};
-Module['Docker'] = Docker;
-Docker.prototype["__destroy"] = Docker.prototype.__destroy = function() {
-    _mud_Docker__destroy(this.__ptr);
-};
-// Dockbar
-function Dockbar() { throw "cannot construct a Dockbar, no constructor in IDL" }
-Dockbar.prototype = Object.create(Docker.prototype);
-Dockbar.prototype.constructor = Dockbar;
-Dockbar.prototype.__class = Dockbar;
-Dockbar.__base = Docker;
-Dockbar.__cache = {};
-Module['Dockbar'] = Dockbar;
-Dockbar.prototype["__destroy"] = Dockbar.prototype.__destroy = function() {
-    _mud_Dockbar__destroy(this.__ptr);
-};
-// Dockspace
-function Dockspace() { throw "cannot construct a Dockspace, no constructor in IDL" }
-Dockspace.prototype = Object.create(Docker.prototype);
-Dockspace.prototype.constructor = Dockspace;
-Dockspace.prototype.__class = Dockspace;
-Dockspace.__base = Docker;
-Dockspace.__cache = {};
-Module['Dockspace'] = Dockspace;
-Dockspace.prototype["__destroy"] = Dockspace.prototype.__destroy = function() {
-    _mud_Dockspace__destroy(this.__ptr);
-};
 // Frame
 function Frame() { throw "cannot construct a Frame, no constructor in IDL" }
 Frame.prototype = Object.create(UiRect.prototype);
@@ -1346,61 +1063,6 @@ Frame.__cache = {};
 Module['Frame'] = Frame;
 Frame.prototype["__destroy"] = Frame.prototype.__destroy = function() {
     _mud_Frame__destroy(this.__ptr);
-};
-// FrameSolver
-function FrameSolver() { throw "cannot construct a FrameSolver, no constructor in IDL" }
-FrameSolver.prototype = Object.create(UiRect.prototype);
-FrameSolver.prototype.constructor = FrameSolver;
-FrameSolver.prototype.__class = FrameSolver;
-FrameSolver.__base = UiRect;
-FrameSolver.__cache = {};
-Module['FrameSolver'] = FrameSolver;
-FrameSolver.prototype["__destroy"] = FrameSolver.prototype.__destroy = function() {
-    _mud_FrameSolver__destroy(this.__ptr);
-};
-// Node
-function Node() { throw "cannot construct a Node, no constructor in IDL" }
-Node.prototype = Object.create(Widget.prototype);
-Node.prototype.constructor = Node;
-Node.prototype.__class = Node;
-Node.__base = Widget;
-Node.__cache = {};
-Module['Node'] = Node;
-Node.prototype["__destroy"] = Node.prototype.__destroy = function() {
-    _mud_Node__destroy(this.__ptr);
-};
-// NodePlug
-function NodePlug() { throw "cannot construct a NodePlug, no constructor in IDL" }
-NodePlug.prototype = Object.create(Widget.prototype);
-NodePlug.prototype.constructor = NodePlug;
-NodePlug.prototype.__class = NodePlug;
-NodePlug.__base = Widget;
-NodePlug.__cache = {};
-Module['NodePlug'] = NodePlug;
-NodePlug.prototype["__destroy"] = NodePlug.prototype.__destroy = function() {
-    _mud_NodePlug__destroy(this.__ptr);
-};
-// RowSolver
-function RowSolver() { throw "cannot construct a RowSolver, no constructor in IDL" }
-RowSolver.prototype = Object.create(FrameSolver.prototype);
-RowSolver.prototype.constructor = RowSolver;
-RowSolver.prototype.__class = RowSolver;
-RowSolver.__base = FrameSolver;
-RowSolver.__cache = {};
-Module['RowSolver'] = RowSolver;
-RowSolver.prototype["__destroy"] = RowSolver.prototype.__destroy = function() {
-    _mud_RowSolver__destroy(this.__ptr);
-};
-// LineSolver
-function LineSolver() { throw "cannot construct a LineSolver, no constructor in IDL" }
-LineSolver.prototype = Object.create(RowSolver.prototype);
-LineSolver.prototype.constructor = LineSolver;
-LineSolver.prototype.__class = LineSolver;
-LineSolver.__base = RowSolver;
-LineSolver.__cache = {};
-Module['LineSolver'] = LineSolver;
-LineSolver.prototype["__destroy"] = LineSolver.prototype.__destroy = function() {
-    _mud_LineSolver__destroy(this.__ptr);
 };
 // Widget
 function Widget() { throw "cannot construct a Widget, no constructor in IDL" }
@@ -1572,16 +1234,241 @@ Object.defineProperty(Widget.prototype, "body", {
 Widget.prototype["__destroy"] = Widget.prototype.__destroy = function() {
     _mud_Widget__destroy(this.__ptr);
 };
-// Expandbox
-function Expandbox() { throw "cannot construct a Expandbox, no constructor in IDL" }
-Expandbox.prototype = Object.create(Widget.prototype);
-Expandbox.prototype.constructor = Expandbox;
-Expandbox.prototype.__class = Expandbox;
-Expandbox.__base = Widget;
-Expandbox.__cache = {};
-Module['Expandbox'] = Expandbox;
-Expandbox.prototype["__destroy"] = Expandbox.prototype.__destroy = function() {
-    _mud_Expandbox__destroy(this.__ptr);
+// TextCursor
+function TextCursor() {
+    
+    this.__ptr = _mud_TextCursor__construct_0(); getCache(TextCursor)[this.__ptr] = this;
+};
+TextCursor.prototype = Object.create(WrapperObject.prototype);
+TextCursor.prototype.constructor = TextCursor;
+TextCursor.prototype.__class = TextCursor;
+TextCursor.__cache = {};
+Module['TextCursor'] = TextCursor;
+TextCursor.prototype["__destroy"] = TextCursor.prototype.__destroy = function() {
+    _mud_TextCursor__destroy(this.__ptr);
+};
+// TextSelection
+function TextSelection() {
+    
+    this.__ptr = _mud_TextSelection__construct_0(); getCache(TextSelection)[this.__ptr] = this;
+};
+TextSelection.prototype = Object.create(WrapperObject.prototype);
+TextSelection.prototype.constructor = TextSelection;
+TextSelection.prototype.__class = TextSelection;
+TextSelection.__cache = {};
+Module['TextSelection'] = TextSelection;
+TextSelection.prototype["__destroy"] = TextSelection.prototype.__destroy = function() {
+    _mud_TextSelection__destroy(this.__ptr);
+};
+// TextMarker
+function TextMarker() {
+    
+    this.__ptr = _mud_TextMarker__construct_0(); getCache(TextMarker)[this.__ptr] = this;
+};
+TextMarker.prototype = Object.create(WrapperObject.prototype);
+TextMarker.prototype.constructor = TextMarker;
+TextMarker.prototype.__class = TextMarker;
+TextMarker.__cache = {};
+Module['TextMarker'] = TextMarker;
+TextMarker.prototype["__destroy"] = TextMarker.prototype.__destroy = function() {
+    _mud_TextMarker__destroy(this.__ptr);
+};
+// Text
+function Text() { throw "cannot construct a Text, no constructor in IDL" }
+Text.prototype = Object.create(WrapperObject.prototype);
+Text.prototype.constructor = Text;
+Text.prototype.__class = Text;
+Text.__cache = {};
+Module['Text'] = Text;
+Text.prototype["__destroy"] = Text.prototype.__destroy = function() {
+    _mud_Text__destroy(this.__ptr);
+};
+// TextEdit
+function TextEdit() { throw "cannot construct a TextEdit, no constructor in IDL" }
+TextEdit.prototype = Object.create(Widget.prototype);
+TextEdit.prototype.constructor = TextEdit;
+TextEdit.prototype.__class = TextEdit;
+TextEdit.__base = Widget;
+TextEdit.__cache = {};
+Module['TextEdit'] = TextEdit;
+TextEdit.prototype["__destroy"] = TextEdit.prototype.__destroy = function() {
+    _mud_TextEdit__destroy(this.__ptr);
+};
+// NodeConnection
+function NodeConnection() {
+    
+    this.__ptr = _mud_NodeConnection__construct_0(); getCache(NodeConnection)[this.__ptr] = this;
+};
+NodeConnection.prototype = Object.create(WrapperObject.prototype);
+NodeConnection.prototype.constructor = NodeConnection;
+NodeConnection.prototype.__class = NodeConnection;
+NodeConnection.__cache = {};
+Module['NodeConnection'] = NodeConnection;
+NodeConnection.prototype["__destroy"] = NodeConnection.prototype.__destroy = function() {
+    _mud_NodeConnection__destroy(this.__ptr);
+};
+// Vg
+function Vg() { throw "cannot construct a Vg, no constructor in IDL" }
+Vg.prototype = Object.create(WrapperObject.prototype);
+Vg.prototype.constructor = Vg;
+Vg.prototype.__class = Vg;
+Vg.__cache = {};
+Module['Vg'] = Vg;
+Vg.prototype["__destroy"] = Vg.prototype.__destroy = function() {
+    _mud_Vg__destroy(this.__ptr);
+};
+// Clipboard
+function Clipboard() {
+    
+    this.__ptr = _mud_Clipboard__construct_0(); getCache(Clipboard)[this.__ptr] = this;
+};
+Clipboard.prototype = Object.create(WrapperObject.prototype);
+Clipboard.prototype.constructor = Clipboard;
+Clipboard.prototype.__class = Clipboard;
+Clipboard.__cache = {};
+Module['Clipboard'] = Clipboard;
+Object.defineProperty(Clipboard.prototype, "text", {
+    get: function() {
+        return UTF8ToString(_mud_Clipboard__get_text(this.__ptr));
+    },
+    set: function(value) {
+        if (typeof value !== 'string') throw Error('Clipboard.text: expected string');
+        _mud_Clipboard__set_text(this.__ptr, ensureString(value));
+    }
+});
+Object.defineProperty(Clipboard.prototype, "line_mode", {
+    get: function() {
+        return !!(_mud_Clipboard__get_line_mode(this.__ptr));
+    },
+    set: function(value) {
+        if (typeof value !== 'boolean') throw Error('Clipboard.line_mode: expected boolean');
+        _mud_Clipboard__set_line_mode(this.__ptr, value);
+    }
+});
+Clipboard.prototype["__destroy"] = Clipboard.prototype.__destroy = function() {
+    _mud_Clipboard__destroy(this.__ptr);
+};
+// UiWindow
+function UiWindow() { throw "cannot construct a UiWindow, no constructor in IDL" }
+UiWindow.prototype = Object.create(WrapperObject.prototype);
+UiWindow.prototype.constructor = UiWindow;
+UiWindow.prototype.__class = UiWindow;
+UiWindow.__cache = {};
+Module['UiWindow'] = UiWindow;
+Object.defineProperty(UiWindow.prototype, "resource_path", {
+    get: function() {
+        return UTF8ToString(_mud_UiWindow__get_resource_path(this.__ptr));
+    }});
+Object.defineProperty(UiWindow.prototype, "context", {
+    get: function() {
+        return wrapPointer(_mud_UiWindow__get_context(this.__ptr), Context);
+    }});
+Object.defineProperty(UiWindow.prototype, "vg", {
+    get: function() {
+        return wrapPointer(_mud_UiWindow__get_vg(this.__ptr), Vg);
+    }});
+Object.defineProperty(UiWindow.prototype, "size", {
+    get: function() {
+        return wrapPointer(_mud_UiWindow__get_size(this.__ptr), v2_uint);
+    },
+    set: function(value) {
+        if (!checkClass(value, v2_uint)) throw Error('UiWindow.size: expected v2<uint>');
+        _mud_UiWindow__set_size(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(UiWindow.prototype, "colour", {
+    get: function() {
+        return wrapPointer(_mud_UiWindow__get_colour(this.__ptr), Colour);
+    },
+    set: function(value) {
+        if (!checkClass(value, Colour)) throw Error('UiWindow.colour: expected Colour');
+        _mud_UiWindow__set_colour(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(UiWindow.prototype, "shutdown", {
+    get: function() {
+        return !!(_mud_UiWindow__get_shutdown(this.__ptr));
+    },
+    set: function(value) {
+        if (typeof value !== 'boolean') throw Error('UiWindow.shutdown: expected boolean');
+        _mud_UiWindow__set_shutdown(this.__ptr, value);
+    }
+});
+UiWindow.prototype["__destroy"] = UiWindow.prototype.__destroy = function() {
+    _mud_UiWindow__destroy(this.__ptr);
+};
+// User
+function User() { throw "cannot construct a User, no constructor in IDL" }
+User.prototype = Object.create(WrapperObject.prototype);
+User.prototype.constructor = User;
+User.prototype.__class = User;
+User.__cache = {};
+Module['User'] = User;
+User.prototype["__destroy"] = User.prototype.__destroy = function() {
+    _mud_User__destroy(this.__ptr);
+};
+// Layer
+function Layer() { throw "cannot construct a Layer, no constructor in IDL" }
+Layer.prototype = Object.create(WrapperObject.prototype);
+Layer.prototype.constructor = Layer;
+Layer.prototype.__class = Layer;
+Layer.__cache = {};
+Module['Layer'] = Layer;
+Layer.prototype["__destroy"] = Layer.prototype.__destroy = function() {
+    _mud_Layer__destroy(this.__ptr);
+};
+// FrameSolver
+function FrameSolver() { throw "cannot construct a FrameSolver, no constructor in IDL" }
+FrameSolver.prototype = Object.create(UiRect.prototype);
+FrameSolver.prototype.constructor = FrameSolver;
+FrameSolver.prototype.__class = FrameSolver;
+FrameSolver.__base = UiRect;
+FrameSolver.__cache = {};
+Module['FrameSolver'] = FrameSolver;
+FrameSolver.prototype["__destroy"] = FrameSolver.prototype.__destroy = function() {
+    _mud_FrameSolver__destroy(this.__ptr);
+};
+// RowSolver
+function RowSolver() { throw "cannot construct a RowSolver, no constructor in IDL" }
+RowSolver.prototype = Object.create(FrameSolver.prototype);
+RowSolver.prototype.constructor = RowSolver;
+RowSolver.prototype.__class = RowSolver;
+RowSolver.__base = FrameSolver;
+RowSolver.__cache = {};
+Module['RowSolver'] = RowSolver;
+RowSolver.prototype["__destroy"] = RowSolver.prototype.__destroy = function() {
+    _mud_RowSolver__destroy(this.__ptr);
+};
+// TableSolver
+function TableSolver() { throw "cannot construct a TableSolver, no constructor in IDL" }
+TableSolver.prototype = Object.create(WrapperObject.prototype);
+TableSolver.prototype.constructor = TableSolver;
+TableSolver.prototype.__class = TableSolver;
+TableSolver.__cache = {};
+Module['TableSolver'] = TableSolver;
+TableSolver.prototype["__destroy"] = TableSolver.prototype.__destroy = function() {
+    _mud_TableSolver__destroy(this.__ptr);
+};
+// LineSolver
+function LineSolver() { throw "cannot construct a LineSolver, no constructor in IDL" }
+LineSolver.prototype = Object.create(RowSolver.prototype);
+LineSolver.prototype.constructor = LineSolver;
+LineSolver.prototype.__class = LineSolver;
+LineSolver.__base = RowSolver;
+LineSolver.__cache = {};
+Module['LineSolver'] = LineSolver;
+LineSolver.prototype["__destroy"] = LineSolver.prototype.__destroy = function() {
+    _mud_LineSolver__destroy(this.__ptr);
+};
+// GridSolver
+function GridSolver() { throw "cannot construct a GridSolver, no constructor in IDL" }
+GridSolver.prototype = Object.create(WrapperObject.prototype);
+GridSolver.prototype.constructor = GridSolver;
+GridSolver.prototype.__class = GridSolver;
+GridSolver.__cache = {};
+Module['GridSolver'] = GridSolver;
+GridSolver.prototype["__destroy"] = GridSolver.prototype.__destroy = function() {
+    _mud_GridSolver__destroy(this.__ptr);
 };
 // ScrollSheet
 function ScrollSheet() { throw "cannot construct a ScrollSheet, no constructor in IDL" }
@@ -1616,27 +1503,16 @@ Module['Tabber'] = Tabber;
 Tabber.prototype["__destroy"] = Tabber.prototype.__destroy = function() {
     _mud_Tabber__destroy(this.__ptr);
 };
-// Table
-function Table() { throw "cannot construct a Table, no constructor in IDL" }
-Table.prototype = Object.create(Widget.prototype);
-Table.prototype.constructor = Table;
-Table.prototype.__class = Table;
-Table.__base = Widget;
-Table.__cache = {};
-Module['Table'] = Table;
-Table.prototype["__destroy"] = Table.prototype.__destroy = function() {
-    _mud_Table__destroy(this.__ptr);
-};
-// TextEdit
-function TextEdit() { throw "cannot construct a TextEdit, no constructor in IDL" }
-TextEdit.prototype = Object.create(Widget.prototype);
-TextEdit.prototype.constructor = TextEdit;
-TextEdit.prototype.__class = TextEdit;
-TextEdit.__base = Widget;
-TextEdit.__cache = {};
-Module['TextEdit'] = TextEdit;
-TextEdit.prototype["__destroy"] = TextEdit.prototype.__destroy = function() {
-    _mud_TextEdit__destroy(this.__ptr);
+// Expandbox
+function Expandbox() { throw "cannot construct a Expandbox, no constructor in IDL" }
+Expandbox.prototype = Object.create(Widget.prototype);
+Expandbox.prototype.constructor = Expandbox;
+Expandbox.prototype.__class = Expandbox;
+Expandbox.__base = Widget;
+Expandbox.__cache = {};
+Module['Expandbox'] = Expandbox;
+Expandbox.prototype["__destroy"] = Expandbox.prototype.__destroy = function() {
+    _mud_Expandbox__destroy(this.__ptr);
 };
 // TreeNode
 function TreeNode() { throw "cannot construct a TreeNode, no constructor in IDL" }
@@ -1648,6 +1524,130 @@ TreeNode.__cache = {};
 Module['TreeNode'] = TreeNode;
 TreeNode.prototype["__destroy"] = TreeNode.prototype.__destroy = function() {
     _mud_TreeNode__destroy(this.__ptr);
+};
+// Table
+function Table() { throw "cannot construct a Table, no constructor in IDL" }
+Table.prototype = Object.create(Widget.prototype);
+Table.prototype.constructor = Table;
+Table.prototype.__class = Table;
+Table.__base = Widget;
+Table.__cache = {};
+Module['Table'] = Table;
+Table.prototype["__destroy"] = Table.prototype.__destroy = function() {
+    _mud_Table__destroy(this.__ptr);
+};
+// Dock
+function Dock() {
+    
+    this.__ptr = _mud_Dock__construct_0(); getCache(Dock)[this.__ptr] = this;
+};
+Dock.prototype = Object.create(WrapperObject.prototype);
+Dock.prototype.constructor = Dock;
+Dock.prototype.__class = Dock;
+Dock.__cache = {};
+Module['Dock'] = Dock;
+Dock.prototype["__destroy"] = Dock.prototype.__destroy = function() {
+    _mud_Dock__destroy(this.__ptr);
+};
+// Docksystem
+function Docksystem() { throw "cannot construct a Docksystem, no constructor in IDL" }
+Docksystem.prototype = Object.create(WrapperObject.prototype);
+Docksystem.prototype.constructor = Docksystem;
+Docksystem.prototype.__class = Docksystem;
+Docksystem.__cache = {};
+Module['Docksystem'] = Docksystem;
+Docksystem.prototype["__destroy"] = Docksystem.prototype.__destroy = function() {
+    _mud_Docksystem__destroy(this.__ptr);
+};
+// Dockable
+function Dockable() { throw "cannot construct a Dockable, no constructor in IDL" }
+Dockable.prototype = Object.create(Widget.prototype);
+Dockable.prototype.constructor = Dockable;
+Dockable.prototype.__class = Dockable;
+Dockable.__base = Widget;
+Dockable.__cache = {};
+Module['Dockable'] = Dockable;
+Dockable.prototype["__destroy"] = Dockable.prototype.__destroy = function() {
+    _mud_Dockable__destroy(this.__ptr);
+};
+// Docker
+function Docker() { throw "cannot construct a Docker, no constructor in IDL" }
+Docker.prototype = Object.create(Widget.prototype);
+Docker.prototype.constructor = Docker;
+Docker.prototype.__class = Docker;
+Docker.__base = Widget;
+Docker.__cache = {};
+Module['Docker'] = Docker;
+Docker.prototype["__destroy"] = Docker.prototype.__destroy = function() {
+    _mud_Docker__destroy(this.__ptr);
+};
+// Dockspace
+function Dockspace() { throw "cannot construct a Dockspace, no constructor in IDL" }
+Dockspace.prototype = Object.create(Docker.prototype);
+Dockspace.prototype.constructor = Dockspace;
+Dockspace.prototype.__class = Dockspace;
+Dockspace.__base = Docker;
+Dockspace.__cache = {};
+Module['Dockspace'] = Dockspace;
+Dockspace.prototype["__destroy"] = Dockspace.prototype.__destroy = function() {
+    _mud_Dockspace__destroy(this.__ptr);
+};
+// Dockbar
+function Dockbar() { throw "cannot construct a Dockbar, no constructor in IDL" }
+Dockbar.prototype = Object.create(Docker.prototype);
+Dockbar.prototype.constructor = Dockbar;
+Dockbar.prototype.__class = Dockbar;
+Dockbar.__base = Docker;
+Dockbar.__cache = {};
+Module['Dockbar'] = Dockbar;
+Dockbar.prototype["__destroy"] = Dockbar.prototype.__destroy = function() {
+    _mud_Dockbar__destroy(this.__ptr);
+};
+// NodePlug
+function NodePlug() { throw "cannot construct a NodePlug, no constructor in IDL" }
+NodePlug.prototype = Object.create(Widget.prototype);
+NodePlug.prototype.constructor = NodePlug;
+NodePlug.prototype.__class = NodePlug;
+NodePlug.__base = Widget;
+NodePlug.__cache = {};
+Module['NodePlug'] = NodePlug;
+NodePlug.prototype["__destroy"] = NodePlug.prototype.__destroy = function() {
+    _mud_NodePlug__destroy(this.__ptr);
+};
+// Node
+function Node() { throw "cannot construct a Node, no constructor in IDL" }
+Node.prototype = Object.create(Widget.prototype);
+Node.prototype.constructor = Node;
+Node.prototype.__class = Node;
+Node.__base = Widget;
+Node.__cache = {};
+Module['Node'] = Node;
+Node.prototype["__destroy"] = Node.prototype.__destroy = function() {
+    _mud_Node__destroy(this.__ptr);
+};
+// CanvasConnect
+function CanvasConnect() {
+    
+    this.__ptr = _mud_CanvasConnect__construct_0(); getCache(CanvasConnect)[this.__ptr] = this;
+};
+CanvasConnect.prototype = Object.create(WrapperObject.prototype);
+CanvasConnect.prototype.constructor = CanvasConnect;
+CanvasConnect.prototype.__class = CanvasConnect;
+CanvasConnect.__cache = {};
+Module['CanvasConnect'] = CanvasConnect;
+CanvasConnect.prototype["__destroy"] = CanvasConnect.prototype.__destroy = function() {
+    _mud_CanvasConnect__destroy(this.__ptr);
+};
+// Canvas
+function Canvas() { throw "cannot construct a Canvas, no constructor in IDL" }
+Canvas.prototype = Object.create(Widget.prototype);
+Canvas.prototype.constructor = Canvas;
+Canvas.prototype.__class = Canvas;
+Canvas.__base = Widget;
+Canvas.__cache = {};
+Module['Canvas'] = Canvas;
+Canvas.prototype["__destroy"] = Canvas.prototype.__destroy = function() {
+    _mud_Canvas__destroy(this.__ptr);
 };
 // Ui
 function Ui() { throw "cannot construct a Ui, no constructor in IDL" }
@@ -2287,6 +2287,16 @@ Module['ui']['canvas'] = function(a0, a1) {
     if (a1 === undefined) { return wrapPointer(_mud_ui_canvas_1(/*parent*/a0.__ptr), Canvas); }
     else { return wrapPointer(_mud_ui_canvas_2(/*parent*/a0.__ptr, /*num_nodes*/a1), Canvas); }
 };
+Module['ui']['scroll_sheet'] = function(a0, a1, a2) {
+    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('scroll_sheet(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('scroll_sheet(1:style): expected Style'); }
+    else { if (!checkClass(a0, Widget)) throw Error('scroll_sheet(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('scroll_sheet(1:style): expected Style'); if (!checkClass(a2, Style)) throw Error('scroll_sheet(2:surface_style): expected Style'); }
+    if (a2 === undefined) { return wrapPointer(_mud_ui_scroll_sheet_2(/*parent*/a0.__ptr, /*style*/a1.__ptr), ScrollSheet); }
+    else { return wrapPointer(_mud_ui_scroll_sheet_3(/*parent*/a0.__ptr, /*style*/a1.__ptr, /*surface_style*/a2.__ptr), ScrollSheet); }
+};
+Module['ui']['scroll_plan'] = function(a0, a1) {
+    if (!checkClass(a0, Widget)) throw Error('scroll_plan(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('scroll_plan(1:style): expected Style');
+    return wrapPointer(_mud_ui_scroll_plan_2(/*parent*/a0.__ptr, /*style*/a1.__ptr), ScrollSheet);
+};
 Module['ui']['scrollable'] = function(a0) {
     if (!checkClass(a0, Widget)) throw Error('scrollable(0:parent): expected Widget');
     return wrapPointer(_mud_ui_scrollable_1(/*parent*/a0.__ptr), Widget);
@@ -2346,53 +2356,64 @@ Module['ui']['file_tree'] = function(a0, a1) {
 
 (function() {
     function setup() {
-        CanvasConnect.prototype.__type = _mud_CanvasConnect__type();
-        Clipboard.prototype.__type = _mud_Clipboard__type();
-        Dock.prototype.__type = _mud_Dock__type();
-        Docksystem.prototype.__type = _mud_Docksystem__type();
-        Gradient.prototype.__type = _mud_Gradient__type();
-        GridSolver.prototype.__type = _mud_GridSolver__type();
-        ImageSkin.prototype.__type = _mud_ImageSkin__type();
-        InkStyle.prototype.__type = _mud_InkStyle__type();
-        Layer.prototype.__type = _mud_Layer__type();
-        Layout.prototype.__type = _mud_Layout__type();
-        NodeConnection.prototype.__type = _mud_NodeConnection__type();
-        Paint.prototype.__type = _mud_Paint__type();
-        Shadow.prototype.__type = _mud_Shadow__type();
         Space.prototype.__type = _mud_Space__type();
-        Style.prototype.__type = _mud_Style__type();
-        Subskin.prototype.__type = _mud_Subskin__type();
-        TableSolver.prototype.__type = _mud_TableSolver__type();
-        Text.prototype.__type = _mud_Text__type();
-        TextCursor.prototype.__type = _mud_TextCursor__type();
-        TextMarker.prototype.__type = _mud_TextMarker__type();
+        ImageSkin.prototype.__type = _mud_ImageSkin__type();
+        Shadow.prototype.__type = _mud_Shadow__type();
+        Paint.prototype.__type = _mud_Paint__type();
         TextPaint.prototype.__type = _mud_TextPaint__type();
-        TextSelection.prototype.__type = _mud_TextSelection__type();
+        Gradient.prototype.__type = _mud_Gradient__type();
+        InkStyle.prototype.__type = _mud_InkStyle__type();
+        Layout.prototype.__type = _mud_Layout__type();
+        Subskin.prototype.__type = _mud_Subskin__type();
+        Style.prototype.__type = _mud_Style__type();
         UiRect.prototype.__type = _mud_UiRect__type();
+        Frame.prototype.__type = _mud_Frame__type();
+        Widget.prototype.__type = _mud_Widget__type();
+        TextCursor.prototype.__type = _mud_TextCursor__type();
+        TextSelection.prototype.__type = _mud_TextSelection__type();
+        TextMarker.prototype.__type = _mud_TextMarker__type();
+        Text.prototype.__type = _mud_Text__type();
+        TextEdit.prototype.__type = _mud_TextEdit__type();
+        NodeConnection.prototype.__type = _mud_NodeConnection__type();
+        Vg.prototype.__type = _mud_Vg__type();
+        Clipboard.prototype.__type = _mud_Clipboard__type();
         UiWindow.prototype.__type = _mud_UiWindow__type();
         User.prototype.__type = _mud_User__type();
-        Vg.prototype.__type = _mud_Vg__type();
-        Canvas.prototype.__type = _mud_Canvas__type();
-        Dockable.prototype.__type = _mud_Dockable__type();
-        Docker.prototype.__type = _mud_Docker__type();
-        Dockbar.prototype.__type = _mud_Dockbar__type();
-        Dockspace.prototype.__type = _mud_Dockspace__type();
-        Frame.prototype.__type = _mud_Frame__type();
+        Layer.prototype.__type = _mud_Layer__type();
         FrameSolver.prototype.__type = _mud_FrameSolver__type();
-        Node.prototype.__type = _mud_Node__type();
-        NodePlug.prototype.__type = _mud_NodePlug__type();
         RowSolver.prototype.__type = _mud_RowSolver__type();
+        TableSolver.prototype.__type = _mud_TableSolver__type();
         LineSolver.prototype.__type = _mud_LineSolver__type();
-        Widget.prototype.__type = _mud_Widget__type();
-        Expandbox.prototype.__type = _mud_Expandbox__type();
+        GridSolver.prototype.__type = _mud_GridSolver__type();
         ScrollSheet.prototype.__type = _mud_ScrollSheet__type();
         Sequence.prototype.__type = _mud_ui_Sequence__type();
         Tabber.prototype.__type = _mud_Tabber__type();
-        Table.prototype.__type = _mud_Table__type();
-        TextEdit.prototype.__type = _mud_TextEdit__type();
+        Expandbox.prototype.__type = _mud_Expandbox__type();
         TreeNode.prototype.__type = _mud_TreeNode__type();
+        Table.prototype.__type = _mud_Table__type();
+        Dock.prototype.__type = _mud_Dock__type();
+        Docksystem.prototype.__type = _mud_Docksystem__type();
+        Dockable.prototype.__type = _mud_Dockable__type();
+        Docker.prototype.__type = _mud_Docker__type();
+        Dockspace.prototype.__type = _mud_Dockspace__type();
+        Dockbar.prototype.__type = _mud_Dockbar__type();
+        NodePlug.prototype.__type = _mud_NodePlug__type();
+        Node.prototype.__type = _mud_Node__type();
+        CanvasConnect.prototype.__type = _mud_CanvasConnect__type();
+        Canvas.prototype.__type = _mud_Canvas__type();
         Ui.prototype.__type = _mud_Ui__type();
         Window.prototype.__type = _mud_Window__type();
+        // FlowAxis
+        Module['FlowAxis'] = Module['FlowAxis'] || {};
+        Module['FlowAxis']['Reading'] = _mud_FlowAxis_Reading();
+        Module['FlowAxis']['Paragraph'] = _mud_FlowAxis_Paragraph();
+        Module['FlowAxis']['Same'] = _mud_FlowAxis_Same();
+        Module['FlowAxis']['Flip'] = _mud_FlowAxis_Flip();
+        Module['FlowAxis']['None'] = _mud_FlowAxis_None();
+        // Pivot
+        Module['Pivot'] = Module['Pivot'] || {};
+        Module['Pivot']['Forward'] = _mud_Pivot_Forward();
+        Module['Pivot']['Reverse'] = _mud_Pivot_Reverse();
         // Align
         Module['Align'] = Module['Align'] || {};
         Module['Align']['Left'] = _mud_Align_Left();
@@ -2401,45 +2422,29 @@ Module['ui']['file_tree'] = function(a0, a1) {
         Module['Align']['OutLeft'] = _mud_Align_OutLeft();
         Module['Align']['OutRight'] = _mud_Align_OutRight();
         Module['Align']['Count'] = _mud_Align_Count();
+        // Solver
+        Module['Solver'] = Module['Solver'] || {};
+        Module['Solver']['Frame'] = _mud_Solver_Frame();
+        Module['Solver']['Row'] = _mud_Solver_Row();
+        Module['Solver']['Grid'] = _mud_Solver_Grid();
+        Module['Solver']['Table'] = _mud_Solver_Table();
         // AutoLayout
         Module['AutoLayout'] = Module['AutoLayout'] || {};
         Module['AutoLayout']['None'] = _mud_AutoLayout_None();
         Module['AutoLayout']['Size'] = _mud_AutoLayout_Size();
         Module['AutoLayout']['Layout'] = _mud_AutoLayout_Layout();
-        // Clip
-        Module['Clip'] = Module['Clip'] || {};
-        Module['Clip']['None'] = _mud_Clip_None();
-        Module['Clip']['Clip'] = _mud_Clip_Clip();
-        Module['Clip']['Unclip'] = _mud_Clip_Unclip();
-        // FlowAxis
-        Module['FlowAxis'] = Module['FlowAxis'] || {};
-        Module['FlowAxis']['Reading'] = _mud_FlowAxis_Reading();
-        Module['FlowAxis']['Paragraph'] = _mud_FlowAxis_Paragraph();
-        Module['FlowAxis']['Same'] = _mud_FlowAxis_Same();
-        Module['FlowAxis']['Flip'] = _mud_FlowAxis_Flip();
-        Module['FlowAxis']['None'] = _mud_FlowAxis_None();
         // LayoutFlow
         Module['LayoutFlow'] = Module['LayoutFlow'] || {};
         Module['LayoutFlow']['Flow'] = _mud_LayoutFlow_Flow();
         Module['LayoutFlow']['Overlay'] = _mud_LayoutFlow_Overlay();
         Module['LayoutFlow']['Align'] = _mud_LayoutFlow_Align();
         Module['LayoutFlow']['Free'] = _mud_LayoutFlow_Free();
-        // Opacity
-        Module['Opacity'] = Module['Opacity'] || {};
-        Module['Opacity']['Opaque'] = _mud_Opacity_Opaque();
-        Module['Opacity']['Clear'] = _mud_Opacity_Clear();
-        Module['Opacity']['Hollow'] = _mud_Opacity_Hollow();
-        // Pivot
-        Module['Pivot'] = Module['Pivot'] || {};
-        Module['Pivot']['Forward'] = _mud_Pivot_Forward();
-        Module['Pivot']['Reverse'] = _mud_Pivot_Reverse();
-        // PopupFlags
-        Module['ui']['PopupFlags'] = Module['ui']['PopupFlags'] || {};
-        Module['ui']['PopupFlags']['None'] = _mud_ui_PopupFlags_None();
-        Module['ui']['PopupFlags']['Modal'] = _mud_ui_PopupFlags_Modal();
-        Module['ui']['PopupFlags']['Clamp'] = _mud_ui_PopupFlags_Clamp();
-        Module['ui']['PopupFlags']['AutoClose'] = _mud_ui_PopupFlags_AutoClose();
-        Module['ui']['PopupFlags']['AutoModal'] = _mud_ui_PopupFlags_AutoModal();
+        // Sizing
+        Module['Sizing'] = Module['Sizing'] || {};
+        Module['Sizing']['Fixed'] = _mud_Sizing_Fixed();
+        Module['Sizing']['Shrink'] = _mud_Sizing_Shrink();
+        Module['Sizing']['Wrap'] = _mud_Sizing_Wrap();
+        Module['Sizing']['Expand'] = _mud_Sizing_Expand();
         // Preset
         Module['Preset'] = Module['Preset'] || {};
         Module['Preset']['Sheet'] = _mud_Preset_Sheet();
@@ -2453,18 +2458,16 @@ Module['ui']['file_tree'] = function(a0, a1) {
         Module['Preset']['Spacer'] = _mud_Preset_Spacer();
         Module['Preset']['Board'] = _mud_Preset_Board();
         Module['Preset']['Layout'] = _mud_Preset_Layout();
-        // Sizing
-        Module['Sizing'] = Module['Sizing'] || {};
-        Module['Sizing']['Fixed'] = _mud_Sizing_Fixed();
-        Module['Sizing']['Shrink'] = _mud_Sizing_Shrink();
-        Module['Sizing']['Wrap'] = _mud_Sizing_Wrap();
-        Module['Sizing']['Expand'] = _mud_Sizing_Expand();
-        // Solver
-        Module['Solver'] = Module['Solver'] || {};
-        Module['Solver']['Frame'] = _mud_Solver_Frame();
-        Module['Solver']['Row'] = _mud_Solver_Row();
-        Module['Solver']['Grid'] = _mud_Solver_Grid();
-        Module['Solver']['Table'] = _mud_Solver_Table();
+        // Clip
+        Module['Clip'] = Module['Clip'] || {};
+        Module['Clip']['None'] = _mud_Clip_None();
+        Module['Clip']['Clip'] = _mud_Clip_Clip();
+        Module['Clip']['Unclip'] = _mud_Clip_Unclip();
+        // Opacity
+        Module['Opacity'] = Module['Opacity'] || {};
+        Module['Opacity']['Opaque'] = _mud_Opacity_Opaque();
+        Module['Opacity']['Clear'] = _mud_Opacity_Clear();
+        Module['Opacity']['Hollow'] = _mud_Opacity_Hollow();
         // WidgetState
         Module['NOSTATE'] = _mud_WidgetState_NOSTATE();
         Module['CREATED'] = _mud_WidgetState_CREATED();
@@ -2477,6 +2480,13 @@ Module['ui']['file_tree'] = function(a0, a1) {
         Module['DRAGGED'] = _mud_WidgetState_DRAGGED();
         Module['FOCUSED'] = _mud_WidgetState_FOCUSED();
         Module['CLOSED'] = _mud_WidgetState_CLOSED();
+        // PopupFlags
+        Module['ui']['PopupFlags'] = Module['ui']['PopupFlags'] || {};
+        Module['ui']['PopupFlags']['None'] = _mud_ui_PopupFlags_None();
+        Module['ui']['PopupFlags']['Modal'] = _mud_ui_PopupFlags_Modal();
+        Module['ui']['PopupFlags']['Clamp'] = _mud_ui_PopupFlags_Clamp();
+        Module['ui']['PopupFlags']['AutoClose'] = _mud_ui_PopupFlags_AutoClose();
+        Module['ui']['PopupFlags']['AutoModal'] = _mud_ui_PopupFlags_AutoModal();
         // WindowState
         Module['WindowState'] = Module['WindowState'] || {};
         Module['WindowState']['None'] = _mud_WindowState_None();

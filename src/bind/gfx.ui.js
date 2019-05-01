@@ -1,4 +1,15 @@
 Module['ui'] = Module['ui'] || {};
+// SpaceSheet
+function SpaceSheet() { throw "cannot construct a SpaceSheet, no constructor in IDL" }
+SpaceSheet.prototype = Object.create(Ui.prototype);
+SpaceSheet.prototype.constructor = SpaceSheet;
+SpaceSheet.prototype.__class = SpaceSheet;
+SpaceSheet.__base = Ui;
+SpaceSheet.__cache = {};
+Module['SpaceSheet'] = SpaceSheet;
+SpaceSheet.prototype["__destroy"] = SpaceSheet.prototype.__destroy = function() {
+    _mud_SpaceSheet__destroy(this.__ptr);
+};
 // ViewerController
 function ViewerController() { throw "cannot construct a ViewerController, no constructor in IDL" }
 ViewerController.prototype = Object.create(WrapperObject.prototype);
@@ -8,83 +19,6 @@ ViewerController.__cache = {};
 Module['ViewerController'] = ViewerController;
 ViewerController.prototype["__destroy"] = ViewerController.prototype.__destroy = function() {
     _mud_ViewerController__destroy(this.__ptr);
-};
-// OrbitController
-function OrbitController() { throw "cannot construct a OrbitController, no constructor in IDL" }
-OrbitController.prototype = Object.create(ViewerController.prototype);
-OrbitController.prototype.constructor = OrbitController;
-OrbitController.prototype.__class = OrbitController;
-OrbitController.__base = ViewerController;
-OrbitController.__cache = {};
-Module['OrbitController'] = OrbitController;
-OrbitController.prototype["set_eye"] = OrbitController.prototype.set_eye = function(a0) {
-    if (!checkClass(a0, quat)) throw Error('set_eye(0:rotation): expected quat');
-    _mud_OrbitController_set_eye_1(this.__ptr, /*rotation*/a0.__ptr);
-};
-OrbitController.prototype["set_target"] = OrbitController.prototype.set_target = function(a0) {
-    if (!checkClass(a0, v3_float)) throw Error('set_target(0:position): expected v3<float>');
-    _mud_OrbitController_set_target_1(this.__ptr, /*position*/a0.__ptr);
-};
-Object.defineProperty(OrbitController.prototype, "position", {
-    get: function() {
-        return wrapPointer(_mud_OrbitController__get_position(this.__ptr), v3_float);
-    },
-    set: function(value) {
-        if (!checkClass(value, v3_float)) throw Error('OrbitController.position: expected v3<float>');
-        _mud_OrbitController__set_position(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(OrbitController.prototype, "yaw", {
-    get: function() {
-        return _mud_OrbitController__get_yaw(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('OrbitController.yaw: expected number');
-        _mud_OrbitController__set_yaw(this.__ptr, value);
-    }
-});
-Object.defineProperty(OrbitController.prototype, "pitch", {
-    get: function() {
-        return _mud_OrbitController__get_pitch(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('OrbitController.pitch: expected number');
-        _mud_OrbitController__set_pitch(this.__ptr, value);
-    }
-});
-Object.defineProperty(OrbitController.prototype, "distance", {
-    get: function() {
-        return _mud_OrbitController__get_distance(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('OrbitController.distance: expected number');
-        _mud_OrbitController__set_distance(this.__ptr, value);
-    }
-});
-OrbitController.prototype["__destroy"] = OrbitController.prototype.__destroy = function() {
-    _mud_OrbitController__destroy(this.__ptr);
-};
-// FreeOrbitController
-function FreeOrbitController() { throw "cannot construct a FreeOrbitController, no constructor in IDL" }
-FreeOrbitController.prototype = Object.create(OrbitController.prototype);
-FreeOrbitController.prototype.constructor = FreeOrbitController;
-FreeOrbitController.prototype.__class = FreeOrbitController;
-FreeOrbitController.__base = OrbitController;
-FreeOrbitController.__cache = {};
-Module['FreeOrbitController'] = FreeOrbitController;
-FreeOrbitController.prototype["__destroy"] = FreeOrbitController.prototype.__destroy = function() {
-    _mud_FreeOrbitController__destroy(this.__ptr);
-};
-// OrbitControls
-function OrbitControls() { throw "cannot construct a OrbitControls, no constructor in IDL" }
-OrbitControls.prototype = Object.create(ViewerController.prototype);
-OrbitControls.prototype.constructor = OrbitControls;
-OrbitControls.prototype.__class = OrbitControls;
-OrbitControls.__base = ViewerController;
-OrbitControls.__cache = {};
-Module['OrbitControls'] = OrbitControls;
-OrbitControls.prototype["__destroy"] = OrbitControls.prototype.__destroy = function() {
-    _mud_OrbitControls__destroy(this.__ptr);
 };
 // Viewer
 function Viewer() { throw "cannot construct a Viewer, no constructor in IDL" }
@@ -143,16 +77,60 @@ Module['SceneViewer'] = SceneViewer;
 SceneViewer.prototype["__destroy"] = SceneViewer.prototype.__destroy = function() {
     _mud_SceneViewer__destroy(this.__ptr);
 };
-// SpaceSheet
-function SpaceSheet() { throw "cannot construct a SpaceSheet, no constructor in IDL" }
-SpaceSheet.prototype = Object.create(Ui.prototype);
-SpaceSheet.prototype.constructor = SpaceSheet;
-SpaceSheet.prototype.__class = SpaceSheet;
-SpaceSheet.__base = Ui;
-SpaceSheet.__cache = {};
-Module['SpaceSheet'] = SpaceSheet;
-SpaceSheet.prototype["__destroy"] = SpaceSheet.prototype.__destroy = function() {
-    _mud_SpaceSheet__destroy(this.__ptr);
+// OrbitController
+function OrbitController() { throw "cannot construct a OrbitController, no constructor in IDL" }
+OrbitController.prototype = Object.create(ViewerController.prototype);
+OrbitController.prototype.constructor = OrbitController;
+OrbitController.prototype.__class = OrbitController;
+OrbitController.__base = ViewerController;
+OrbitController.__cache = {};
+Module['OrbitController'] = OrbitController;
+OrbitController.prototype["set_eye"] = OrbitController.prototype.set_eye = function(a0) {
+    if (!checkClass(a0, quat)) throw Error('set_eye(0:rotation): expected quat');
+    _mud_OrbitController_set_eye_1(this.__ptr, /*rotation*/a0.__ptr);
+};
+OrbitController.prototype["set_target"] = OrbitController.prototype.set_target = function(a0) {
+    if (!checkClass(a0, v3_float)) throw Error('set_target(0:position): expected v3<float>');
+    _mud_OrbitController_set_target_1(this.__ptr, /*position*/a0.__ptr);
+};
+Object.defineProperty(OrbitController.prototype, "position", {
+    get: function() {
+        return wrapPointer(_mud_OrbitController__get_position(this.__ptr), v3_float);
+    },
+    set: function(value) {
+        if (!checkClass(value, v3_float)) throw Error('OrbitController.position: expected v3<float>');
+        _mud_OrbitController__set_position(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(OrbitController.prototype, "yaw", {
+    get: function() {
+        return _mud_OrbitController__get_yaw(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('OrbitController.yaw: expected number');
+        _mud_OrbitController__set_yaw(this.__ptr, value);
+    }
+});
+Object.defineProperty(OrbitController.prototype, "pitch", {
+    get: function() {
+        return _mud_OrbitController__get_pitch(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('OrbitController.pitch: expected number');
+        _mud_OrbitController__set_pitch(this.__ptr, value);
+    }
+});
+Object.defineProperty(OrbitController.prototype, "distance", {
+    get: function() {
+        return _mud_OrbitController__get_distance(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('OrbitController.distance: expected number');
+        _mud_OrbitController__set_distance(this.__ptr, value);
+    }
+});
+OrbitController.prototype["__destroy"] = OrbitController.prototype.__destroy = function() {
+    _mud_OrbitController__destroy(this.__ptr);
 };
 // TrackballController
 function TrackballController() { throw "cannot construct a TrackballController, no constructor in IDL" }
@@ -237,6 +215,28 @@ Object.defineProperty(TrackballController.prototype, "target", {
 TrackballController.prototype["__destroy"] = TrackballController.prototype.__destroy = function() {
     _mud_TrackballController__destroy(this.__ptr);
 };
+// OrbitControls
+function OrbitControls() { throw "cannot construct a OrbitControls, no constructor in IDL" }
+OrbitControls.prototype = Object.create(ViewerController.prototype);
+OrbitControls.prototype.constructor = OrbitControls;
+OrbitControls.prototype.__class = OrbitControls;
+OrbitControls.__base = ViewerController;
+OrbitControls.__cache = {};
+Module['OrbitControls'] = OrbitControls;
+OrbitControls.prototype["__destroy"] = OrbitControls.prototype.__destroy = function() {
+    _mud_OrbitControls__destroy(this.__ptr);
+};
+// FreeOrbitController
+function FreeOrbitController() { throw "cannot construct a FreeOrbitController, no constructor in IDL" }
+FreeOrbitController.prototype = Object.create(OrbitController.prototype);
+FreeOrbitController.prototype.constructor = FreeOrbitController;
+FreeOrbitController.prototype.__class = FreeOrbitController;
+FreeOrbitController.__base = OrbitController;
+FreeOrbitController.__cache = {};
+Module['FreeOrbitController'] = FreeOrbitController;
+FreeOrbitController.prototype["__destroy"] = FreeOrbitController.prototype.__destroy = function() {
+    _mud_FreeOrbitController__destroy(this.__ptr);
+};
 Module['ui']['viewer'] = function(a0, a1) {
     if (!checkClass(a0, Widget)) throw Error('viewer(0:parent): expected Widget'); if (!checkClass(a1, Scene)) throw Error('viewer(1:scene): expected Scene');
     return wrapPointer(_mud_ui_viewer_2(/*parent*/a0.__ptr, /*scene*/a1.__ptr), Viewer);
@@ -290,14 +290,14 @@ Module['ui']['velocity_controller'] = function(a0, a1, a2, a3) {
 
 (function() {
     function setup() {
+        SpaceSheet.prototype.__type = _mud_SpaceSheet__type();
         ViewerController.prototype.__type = _mud_ViewerController__type();
-        OrbitController.prototype.__type = _mud_OrbitController__type();
-        FreeOrbitController.prototype.__type = _mud_FreeOrbitController__type();
-        OrbitControls.prototype.__type = _mud_OrbitControls__type();
         Viewer.prototype.__type = _mud_Viewer__type();
         SceneViewer.prototype.__type = _mud_SceneViewer__type();
-        SpaceSheet.prototype.__type = _mud_SpaceSheet__type();
+        OrbitController.prototype.__type = _mud_OrbitController__type();
         TrackballController.prototype.__type = _mud_TrackballController__type();
+        OrbitControls.prototype.__type = _mud_OrbitControls__type();
+        FreeOrbitController.prototype.__type = _mud_FreeOrbitController__type();
         // OrbitMode
         Module['ui']['OrbitMode'] = Module['ui']['OrbitMode'] || {};
         Module['ui']['OrbitMode']['ThirdPerson'] = _mud_ui_OrbitMode_ThirdPerson();

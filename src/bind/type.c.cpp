@@ -11,36 +11,6 @@
 
 extern "C" {
 	
-	// Index
-	mud::Type* DECL mud_Index__type() {
-		return &mud::type<mud::Index>();
-	}
-	mud::Indexer* DECL mud_Index_indexer_1(mud::Index* self, const mud::Type* type) {
-		return &self->indexer(*type);
-	}
-	void DECL mud_Index__destroy(mud::Index* self) {
-		delete self;
-	}
-	// Indexer
-	mud::Type* DECL mud_Indexer__type() {
-		return &mud::type<mud::Indexer>();
-	}
-	const mud::Type* DECL mud_Indexer__get_type(mud::Indexer* self) {
-		return self->m_type;
-	}
-	void DECL mud_Indexer__set_type(mud::Indexer* self, const mud::Type* value) {
-		self->m_type = value;
-	}
-	void DECL mud_Indexer__destroy(mud::Indexer* self) {
-		delete self;
-	}
-	// Prototype
-	mud::Type* DECL mud_Prototype__type() {
-		return &mud::type<mud::Prototype>();
-	}
-	void DECL mud_Prototype__destroy(mud::Prototype* self) {
-		delete self;
-	}
 	// Ref
 	mud::Type* DECL mud_Ref__type() {
 		return &mud::type<mud::Ref>();
@@ -97,11 +67,41 @@ extern "C" {
 	void DECL mud_Type__destroy(mud::Type* self) {
 		delete self;
 	}
+	// Indexer
+	mud::Type* DECL mud_Indexer__type() {
+		return &mud::type<mud::Indexer>();
+	}
+	const mud::Type* DECL mud_Indexer__get_type(mud::Indexer* self) {
+		return self->m_type;
+	}
+	void DECL mud_Indexer__set_type(mud::Indexer* self, const mud::Type* value) {
+		self->m_type = value;
+	}
+	void DECL mud_Indexer__destroy(mud::Indexer* self) {
+		delete self;
+	}
+	// Index
+	mud::Type* DECL mud_Index__type() {
+		return &mud::type<mud::Index>();
+	}
+	mud::Indexer* DECL mud_Index_indexer_1(mud::Index* self, const mud::Type* type) {
+		return &self->indexer(*type);
+	}
+	void DECL mud_Index__destroy(mud::Index* self) {
+		delete self;
+	}
 	// Var
 	mud::Type* DECL mud_Var__type() {
 		return &mud::type<mud::Var>();
 	}
 	void DECL mud_Var__destroy(mud::Var* self) {
+		delete self;
+	}
+	// Prototype
+	mud::Type* DECL mud_Prototype__type() {
+		return &mud::type<mud::Prototype>();
+	}
+	void DECL mud_Prototype__destroy(mud::Prototype* self) {
 		delete self;
 	}
 	mud::Ref* DECL mud_indexed_2(const mud::Type* type, uint32_t id) {

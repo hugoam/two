@@ -21,16 +21,16 @@ module mud.ctx;
 
 using namespace mud;
 
-void mud_DeviceType__to_string(void* val, string& str) { str = g_enu[type<mud::DeviceType>().m_id]->name(uint32_t((*static_cast<mud::DeviceType*>(val)))); }
-void mud_DeviceType__to_value(const string& str, void* val) { (*static_cast<mud::DeviceType*>(val)) = mud::DeviceType(g_enu[type<mud::DeviceType>().m_id]->value(str.c_str())); }
-void mud_EventType__to_string(void* val, string& str) { str = g_enu[type<mud::EventType>().m_id]->name(uint32_t((*static_cast<mud::EventType*>(val)))); }
-void mud_EventType__to_value(const string& str, void* val) { (*static_cast<mud::EventType*>(val)) = mud::EventType(g_enu[type<mud::EventType>().m_id]->value(str.c_str())); }
-void mud_InputMod__to_string(void* val, string& str) { str = g_enu[type<mud::InputMod>().m_id]->name(uint32_t((*static_cast<mud::InputMod*>(val)))); }
-void mud_InputMod__to_value(const string& str, void* val) { (*static_cast<mud::InputMod*>(val)) = mud::InputMod(g_enu[type<mud::InputMod>().m_id]->value(str.c_str())); }
 void mud_Key__to_string(void* val, string& str) { str = g_enu[type<mud::Key>().m_id]->name(uint32_t((*static_cast<mud::Key*>(val)))); }
 void mud_Key__to_value(const string& str, void* val) { (*static_cast<mud::Key*>(val)) = mud::Key(g_enu[type<mud::Key>().m_id]->value(str.c_str())); }
 void mud_MouseButtonCode__to_string(void* val, string& str) { str = g_enu[type<mud::MouseButtonCode>().m_id]->name(uint32_t((*static_cast<mud::MouseButtonCode*>(val)))); }
 void mud_MouseButtonCode__to_value(const string& str, void* val) { (*static_cast<mud::MouseButtonCode*>(val)) = mud::MouseButtonCode(g_enu[type<mud::MouseButtonCode>().m_id]->value(str.c_str())); }
+void mud_InputMod__to_string(void* val, string& str) { str = g_enu[type<mud::InputMod>().m_id]->name(uint32_t((*static_cast<mud::InputMod*>(val)))); }
+void mud_InputMod__to_value(const string& str, void* val) { (*static_cast<mud::InputMod*>(val)) = mud::InputMod(g_enu[type<mud::InputMod>().m_id]->value(str.c_str())); }
+void mud_DeviceType__to_string(void* val, string& str) { str = g_enu[type<mud::DeviceType>().m_id]->name(uint32_t((*static_cast<mud::DeviceType*>(val)))); }
+void mud_DeviceType__to_value(const string& str, void* val) { (*static_cast<mud::DeviceType*>(val)) = mud::DeviceType(g_enu[type<mud::DeviceType>().m_id]->value(str.c_str())); }
+void mud_EventType__to_string(void* val, string& str) { str = g_enu[type<mud::EventType>().m_id]->name(uint32_t((*static_cast<mud::EventType*>(val)))); }
+void mud_EventType__to_value(const string& str, void* val) { (*static_cast<mud::EventType*>(val)) = mud::EventType(g_enu[type<mud::EventType>().m_id]->value(str.c_str())); }
 void mud_Context_reset_fb(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).reset_fb(*static_cast<mud::uvec2*>(args[0])); }
 void mud_Context_init_input(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Context*>(object)).init_input(*static_cast<mud::Mouse*>(args[0]), *static_cast<mud::Keyboard*>(args[1])); }
 void mud_Context_begin_frame(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::Context*>(object)).begin_frame(); }
@@ -41,10 +41,10 @@ void mud_InputEvent__construct_0(void* ref, span<void*> args) { UNUSED(args); ne
 void mud_InputEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::InputEvent((*static_cast<mud::InputEvent*>(other))); }
 void mud_InputEvent_consume(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::InputEvent*>(object)).consume(*static_cast<mud::ControlNode*>(args[0])); }
 void mud_InputEvent_valid(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<mud::InputEvent*>(object)).valid(); }
-void mud_KeyEvent__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::KeyEvent(  ); }
-void mud_KeyEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::KeyEvent((*static_cast<mud::KeyEvent*>(other))); }
 void mud_MouseEvent__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::MouseEvent(  ); }
 void mud_MouseEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::MouseEvent((*static_cast<mud::MouseEvent*>(other))); }
+void mud_KeyEvent__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::KeyEvent(  ); }
+void mud_KeyEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::KeyEvent((*static_cast<mud::KeyEvent*>(other))); }
 
 namespace mud
 {
@@ -55,42 +55,6 @@ namespace mud
 	// Base Types
 	
 	// Enums
-	{
-		Type& t = type<mud::DeviceType>();
-		static Meta meta = { t, &namspc({ "mud" }), "DeviceType", sizeof(mud::DeviceType), TypeClass::Enum };
-		static cstring ids[] = { "None", "Keyboard", "Mouse", "MouseLeft", "MouseRight", "MouseMiddle", "Touch", "Count" };
-		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
-		static mud::DeviceType vars[] = { mud::DeviceType::None, mud::DeviceType::Keyboard, mud::DeviceType::Mouse, mud::DeviceType::MouseLeft, mud::DeviceType::MouseRight, mud::DeviceType::MouseMiddle, mud::DeviceType::Touch, mud::DeviceType::Count};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7]};
-		static Enum enu = { t, true, ids, values, refs };
-		static Convert convert = { mud_DeviceType__to_string,
-		                           mud_DeviceType__to_value };
-		g_convert[t.m_id] = &convert;
-	}
-	{
-		Type& t = type<mud::EventType>();
-		static Meta meta = { t, &namspc({ "mud" }), "EventType", sizeof(mud::EventType), TypeClass::Enum };
-		static cstring ids[] = { "None", "Heartbeat", "Moved", "Pressed", "Released", "Stroked", "DoubleStroked", "Dragged", "DraggedTarget", "DragStarted", "DragEnded", "Dropped", "Count" };
-		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-		static mud::EventType vars[] = { mud::EventType::None, mud::EventType::Heartbeat, mud::EventType::Moved, mud::EventType::Pressed, mud::EventType::Released, mud::EventType::Stroked, mud::EventType::DoubleStroked, mud::EventType::Dragged, mud::EventType::DraggedTarget, mud::EventType::DragStarted, mud::EventType::DragEnded, mud::EventType::Dropped, mud::EventType::Count};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10], &vars[11], &vars[12]};
-		static Enum enu = { t, true, ids, values, refs };
-		static Convert convert = { mud_EventType__to_string,
-		                           mud_EventType__to_value };
-		g_convert[t.m_id] = &convert;
-	}
-	{
-		Type& t = type<mud::InputMod>();
-		static Meta meta = { t, &namspc({ "mud" }), "InputMod", sizeof(mud::InputMod), TypeClass::Enum };
-		static cstring ids[] = { "None", "Shift", "Ctrl", "Alt", "Any" };
-		static uint32_t values[] = { 0, 1, 2, 4, 7 };
-		static mud::InputMod vars[] = { mud::InputMod::None, mud::InputMod::Shift, mud::InputMod::Ctrl, mud::InputMod::Alt, mud::InputMod::Any};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
-		static Enum enu = { t, true, ids, values, refs };
-		static Convert convert = { mud_InputMod__to_string,
-		                           mud_InputMod__to_value };
-		g_convert[t.m_id] = &convert;
-	}
 	{
 		Type& t = type<mud::Key>();
 		static Meta meta = { t, &namspc({ "mud" }), "Key", sizeof(mud::Key), TypeClass::Enum };
@@ -115,9 +79,58 @@ namespace mud
 		                           mud_MouseButtonCode__to_value };
 		g_convert[t.m_id] = &convert;
 	}
+	{
+		Type& t = type<mud::InputMod>();
+		static Meta meta = { t, &namspc({ "mud" }), "InputMod", sizeof(mud::InputMod), TypeClass::Enum };
+		static cstring ids[] = { "None", "Shift", "Ctrl", "Alt", "Any" };
+		static uint32_t values[] = { 0, 1, 2, 4, 7 };
+		static mud::InputMod vars[] = { mud::InputMod::None, mud::InputMod::Shift, mud::InputMod::Ctrl, mud::InputMod::Alt, mud::InputMod::Any};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
+		static Enum enu = { t, true, ids, values, refs };
+		static Convert convert = { mud_InputMod__to_string,
+		                           mud_InputMod__to_value };
+		g_convert[t.m_id] = &convert;
+	}
+	{
+		Type& t = type<mud::DeviceType>();
+		static Meta meta = { t, &namspc({ "mud" }), "DeviceType", sizeof(mud::DeviceType), TypeClass::Enum };
+		static cstring ids[] = { "None", "Keyboard", "Mouse", "MouseLeft", "MouseRight", "MouseMiddle", "Touch", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+		static mud::DeviceType vars[] = { mud::DeviceType::None, mud::DeviceType::Keyboard, mud::DeviceType::Mouse, mud::DeviceType::MouseLeft, mud::DeviceType::MouseRight, mud::DeviceType::MouseMiddle, mud::DeviceType::Touch, mud::DeviceType::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7]};
+		static Enum enu = { t, true, ids, values, refs };
+		static Convert convert = { mud_DeviceType__to_string,
+		                           mud_DeviceType__to_value };
+		g_convert[t.m_id] = &convert;
+	}
+	{
+		Type& t = type<mud::EventType>();
+		static Meta meta = { t, &namspc({ "mud" }), "EventType", sizeof(mud::EventType), TypeClass::Enum };
+		static cstring ids[] = { "None", "Heartbeat", "Moved", "Pressed", "Released", "Stroked", "DoubleStroked", "Dragged", "DraggedTarget", "DragStarted", "DragEnded", "Dropped", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+		static mud::EventType vars[] = { mud::EventType::None, mud::EventType::Heartbeat, mud::EventType::Moved, mud::EventType::Pressed, mud::EventType::Released, mud::EventType::Stroked, mud::EventType::DoubleStroked, mud::EventType::Dragged, mud::EventType::DraggedTarget, mud::EventType::DragStarted, mud::EventType::DragEnded, mud::EventType::Dropped, mud::EventType::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10], &vars[11], &vars[12]};
+		static Enum enu = { t, true, ids, values, refs };
+		static Convert convert = { mud_EventType__to_string,
+		                           mud_EventType__to_value };
+		g_convert[t.m_id] = &convert;
+	}
 	
 	// Sequences
 	
+	// mud::RenderSystem
+	{
+		Type& t = type<mud::RenderSystem>();
+		static Meta meta = { t, &namspc({ "mud" }), "RenderSystem", sizeof(mud::RenderSystem), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
 	// mud::Context
 	{
 		Type& t = type<mud::Context>();
@@ -158,19 +171,6 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
 	}
-	// mud::ControlNode
-	{
-		Type& t = type<mud::ControlNode>();
-		static Meta meta = { t, &namspc({ "mud" }), "ControlNode", sizeof(mud::ControlNode), TypeClass::Object };
-		// bases
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
-	}
 	// mud::InputEvent
 	{
 		Type& t = type<mud::InputEvent>();
@@ -210,70 +210,6 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
 	}
-	// mud::Keyboard
-	{
-		Type& t = type<mud::Keyboard>();
-		static Meta meta = { t, &namspc({ "mud" }), "Keyboard", sizeof(mud::Keyboard), TypeClass::Object };
-		// bases
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
-	}
-	// mud::Mouse
-	{
-		Type& t = type<mud::Mouse>();
-		static Meta meta = { t, &namspc({ "mud" }), "Mouse", sizeof(mud::Mouse), TypeClass::Object };
-		// bases
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
-	}
-	// mud::RenderSystem
-	{
-		Type& t = type<mud::RenderSystem>();
-		static Meta meta = { t, &namspc({ "mud" }), "RenderSystem", sizeof(mud::RenderSystem), TypeClass::Object };
-		// bases
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
-	}
-	// mud::KeyEvent
-	{
-		Type& t = type<mud::KeyEvent>();
-		static Meta meta = { t, &namspc({ "mud" }), "KeyEvent", sizeof(mud::KeyEvent), TypeClass::Struct };
-		// bases
-		static Type* bases[] = { &type<mud::InputEvent>() };
-		static size_t bases_offsets[] = { base_offset<mud::KeyEvent, mud::InputEvent>() };
-		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_KeyEvent__construct_0, {} }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, mud_KeyEvent__copy_construct }
-		};
-		// members
-		static Member members[] = {
-			{ t, offsetof(mud::KeyEvent, m_code), type<mud::Key>(), "code", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::KeyEvent, m_char), type<char>(), "char", nullptr, Member::Value, nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
-	}
 	// mud::MouseEvent
 	{
 		Type& t = type<mud::MouseEvent>();
@@ -309,21 +245,85 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
 	}
+	// mud::KeyEvent
+	{
+		Type& t = type<mud::KeyEvent>();
+		static Meta meta = { t, &namspc({ "mud" }), "KeyEvent", sizeof(mud::KeyEvent), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<mud::InputEvent>() };
+		static size_t bases_offsets[] = { base_offset<mud::KeyEvent, mud::InputEvent>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_KeyEvent__construct_0, {} }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_KeyEvent__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::KeyEvent, m_code), type<mud::Key>(), "code", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::KeyEvent, m_char), type<char>(), "char", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+	}
+	// mud::ControlNode
+	{
+		Type& t = type<mud::ControlNode>();
+		static Meta meta = { t, &namspc({ "mud" }), "ControlNode", sizeof(mud::ControlNode), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::Keyboard
+	{
+		Type& t = type<mud::Keyboard>();
+		static Meta meta = { t, &namspc({ "mud" }), "Keyboard", sizeof(mud::Keyboard), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::Mouse
+	{
+		Type& t = type<mud::Mouse>();
+		static Meta meta = { t, &namspc({ "mud" }), "Mouse", sizeof(mud::Mouse), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
 	
 	
+		m.m_types.push_back(&type<mud::RenderSystem>());
 		m.m_types.push_back(&type<mud::Context>());
-		m.m_types.push_back(&type<mud::ControlNode>());
+		m.m_types.push_back(&type<mud::Key>());
+		m.m_types.push_back(&type<mud::MouseButtonCode>());
+		m.m_types.push_back(&type<mud::InputMod>());
 		m.m_types.push_back(&type<mud::DeviceType>());
 		m.m_types.push_back(&type<mud::EventType>());
 		m.m_types.push_back(&type<mud::InputEvent>());
-		m.m_types.push_back(&type<mud::InputMod>());
-		m.m_types.push_back(&type<mud::Key>());
+		m.m_types.push_back(&type<mud::MouseEvent>());
+		m.m_types.push_back(&type<mud::KeyEvent>());
+		m.m_types.push_back(&type<mud::ControlNode>());
 		m.m_types.push_back(&type<mud::Keyboard>());
 		m.m_types.push_back(&type<mud::Mouse>());
-		m.m_types.push_back(&type<mud::MouseButtonCode>());
-		m.m_types.push_back(&type<mud::RenderSystem>());
-		m.m_types.push_back(&type<mud::KeyEvent>());
-		m.m_types.push_back(&type<mud::MouseEvent>());
 	}
 }
 

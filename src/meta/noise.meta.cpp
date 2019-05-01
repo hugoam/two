@@ -22,16 +22,16 @@ module mud.noise;
 
 using namespace mud;
 
+void mud_Noise_NoiseType__to_string(void* val, string& str) { str = g_enu[type<mud::Noise::NoiseType>().m_id]->name(uint32_t((*static_cast<mud::Noise::NoiseType*>(val)))); }
+void mud_Noise_NoiseType__to_value(const string& str, void* val) { (*static_cast<mud::Noise::NoiseType*>(val)) = mud::Noise::NoiseType(g_enu[type<mud::Noise::NoiseType>().m_id]->value(str.c_str())); }
+void mud_Noise_Interp__to_string(void* val, string& str) { str = g_enu[type<mud::Noise::Interp>().m_id]->name(uint32_t((*static_cast<mud::Noise::Interp*>(val)))); }
+void mud_Noise_Interp__to_value(const string& str, void* val) { (*static_cast<mud::Noise::Interp*>(val)) = mud::Noise::Interp(g_enu[type<mud::Noise::Interp>().m_id]->value(str.c_str())); }
+void mud_Noise_FractalType__to_string(void* val, string& str) { str = g_enu[type<mud::Noise::FractalType>().m_id]->name(uint32_t((*static_cast<mud::Noise::FractalType*>(val)))); }
+void mud_Noise_FractalType__to_value(const string& str, void* val) { (*static_cast<mud::Noise::FractalType*>(val)) = mud::Noise::FractalType(g_enu[type<mud::Noise::FractalType>().m_id]->value(str.c_str())); }
 void mud_Noise_CellularDistanceFunction__to_string(void* val, string& str) { str = g_enu[type<mud::Noise::CellularDistanceFunction>().m_id]->name(uint32_t((*static_cast<mud::Noise::CellularDistanceFunction*>(val)))); }
 void mud_Noise_CellularDistanceFunction__to_value(const string& str, void* val) { (*static_cast<mud::Noise::CellularDistanceFunction*>(val)) = mud::Noise::CellularDistanceFunction(g_enu[type<mud::Noise::CellularDistanceFunction>().m_id]->value(str.c_str())); }
 void mud_Noise_CellularReturnType__to_string(void* val, string& str) { str = g_enu[type<mud::Noise::CellularReturnType>().m_id]->name(uint32_t((*static_cast<mud::Noise::CellularReturnType*>(val)))); }
 void mud_Noise_CellularReturnType__to_value(const string& str, void* val) { (*static_cast<mud::Noise::CellularReturnType*>(val)) = mud::Noise::CellularReturnType(g_enu[type<mud::Noise::CellularReturnType>().m_id]->value(str.c_str())); }
-void mud_Noise_FractalType__to_string(void* val, string& str) { str = g_enu[type<mud::Noise::FractalType>().m_id]->name(uint32_t((*static_cast<mud::Noise::FractalType*>(val)))); }
-void mud_Noise_FractalType__to_value(const string& str, void* val) { (*static_cast<mud::Noise::FractalType*>(val)) = mud::Noise::FractalType(g_enu[type<mud::Noise::FractalType>().m_id]->value(str.c_str())); }
-void mud_Noise_Interp__to_string(void* val, string& str) { str = g_enu[type<mud::Noise::Interp>().m_id]->name(uint32_t((*static_cast<mud::Noise::Interp*>(val)))); }
-void mud_Noise_Interp__to_value(const string& str, void* val) { (*static_cast<mud::Noise::Interp*>(val)) = mud::Noise::Interp(g_enu[type<mud::Noise::Interp>().m_id]->value(str.c_str())); }
-void mud_Noise_NoiseType__to_string(void* val, string& str) { str = g_enu[type<mud::Noise::NoiseType>().m_id]->name(uint32_t((*static_cast<mud::Noise::NoiseType*>(val)))); }
-void mud_Noise_NoiseType__to_value(const string& str, void* val) { (*static_cast<mud::Noise::NoiseType*>(val)) = mud::Noise::NoiseType(g_enu[type<mud::Noise::NoiseType>().m_id]->value(str.c_str())); }
 size_t mud_vector3d_float__size(void* vec) { return (*static_cast<mud::vector3d<float>*>(vec)).size(); }
 void* mud_vector3d_float__at(void* vec, size_t i) { return &(*static_cast<mud::vector3d<float>*>(vec))[i]; }
 void mud_vector3d_float__push(void* vec) { (*static_cast<mud::vector3d<float>*>(vec)).emplace_back(); }
@@ -54,6 +54,42 @@ namespace mud
 	
 	// Enums
 	{
+		Type& t = type<mud::Noise::NoiseType>();
+		static Meta meta = { t, &namspc({ "mud", "Noise" }), "NoiseType", sizeof(mud::Noise::NoiseType), TypeClass::Enum };
+		static cstring ids[] = { "Value", "ValueFractal", "Perlin", "PerlinFractal", "Simplex", "SimplexFractal", "Cellular", "WhiteNoise", "Cubic", "CubicFractal" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		static mud::Noise::NoiseType vars[] = { mud::Noise::Value, mud::Noise::ValueFractal, mud::Noise::Perlin, mud::Noise::PerlinFractal, mud::Noise::Simplex, mud::Noise::SimplexFractal, mud::Noise::Cellular, mud::Noise::WhiteNoise, mud::Noise::Cubic, mud::Noise::CubicFractal};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9]};
+		static Enum enu = { t, false, ids, values, refs };
+		static Convert convert = { mud_Noise_NoiseType__to_string,
+		                           mud_Noise_NoiseType__to_value };
+		g_convert[t.m_id] = &convert;
+	}
+	{
+		Type& t = type<mud::Noise::Interp>();
+		static Meta meta = { t, &namspc({ "mud", "Noise" }), "Interp", sizeof(mud::Noise::Interp), TypeClass::Enum };
+		static cstring ids[] = { "Linear", "Hermite", "Quintic" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Noise::Interp vars[] = { mud::Noise::Linear, mud::Noise::Hermite, mud::Noise::Quintic};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { t, false, ids, values, refs };
+		static Convert convert = { mud_Noise_Interp__to_string,
+		                           mud_Noise_Interp__to_value };
+		g_convert[t.m_id] = &convert;
+	}
+	{
+		Type& t = type<mud::Noise::FractalType>();
+		static Meta meta = { t, &namspc({ "mud", "Noise" }), "FractalType", sizeof(mud::Noise::FractalType), TypeClass::Enum };
+		static cstring ids[] = { "FBM", "Billow", "RigidMulti" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Noise::FractalType vars[] = { mud::Noise::FBM, mud::Noise::Billow, mud::Noise::RigidMulti};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { t, false, ids, values, refs };
+		static Convert convert = { mud_Noise_FractalType__to_string,
+		                           mud_Noise_FractalType__to_value };
+		g_convert[t.m_id] = &convert;
+	}
+	{
 		Type& t = type<mud::Noise::CellularDistanceFunction>();
 		static Meta meta = { t, &namspc({ "mud", "Noise" }), "CellularDistanceFunction", sizeof(mud::Noise::CellularDistanceFunction), TypeClass::Enum };
 		static cstring ids[] = { "Euclidean", "Manhattan", "Natural" };
@@ -75,42 +111,6 @@ namespace mud
 		static Enum enu = { t, false, ids, values, refs };
 		static Convert convert = { mud_Noise_CellularReturnType__to_string,
 		                           mud_Noise_CellularReturnType__to_value };
-		g_convert[t.m_id] = &convert;
-	}
-	{
-		Type& t = type<mud::Noise::FractalType>();
-		static Meta meta = { t, &namspc({ "mud", "Noise" }), "FractalType", sizeof(mud::Noise::FractalType), TypeClass::Enum };
-		static cstring ids[] = { "FBM", "Billow", "RigidMulti" };
-		static uint32_t values[] = { 0, 1, 2 };
-		static mud::Noise::FractalType vars[] = { mud::Noise::FBM, mud::Noise::Billow, mud::Noise::RigidMulti};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
-		static Enum enu = { t, false, ids, values, refs };
-		static Convert convert = { mud_Noise_FractalType__to_string,
-		                           mud_Noise_FractalType__to_value };
-		g_convert[t.m_id] = &convert;
-	}
-	{
-		Type& t = type<mud::Noise::Interp>();
-		static Meta meta = { t, &namspc({ "mud", "Noise" }), "Interp", sizeof(mud::Noise::Interp), TypeClass::Enum };
-		static cstring ids[] = { "Linear", "Hermite", "Quintic" };
-		static uint32_t values[] = { 0, 1, 2 };
-		static mud::Noise::Interp vars[] = { mud::Noise::Linear, mud::Noise::Hermite, mud::Noise::Quintic};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
-		static Enum enu = { t, false, ids, values, refs };
-		static Convert convert = { mud_Noise_Interp__to_string,
-		                           mud_Noise_Interp__to_value };
-		g_convert[t.m_id] = &convert;
-	}
-	{
-		Type& t = type<mud::Noise::NoiseType>();
-		static Meta meta = { t, &namspc({ "mud", "Noise" }), "NoiseType", sizeof(mud::Noise::NoiseType), TypeClass::Enum };
-		static cstring ids[] = { "Value", "ValueFractal", "Perlin", "PerlinFractal", "Simplex", "SimplexFractal", "Cellular", "WhiteNoise", "Cubic", "CubicFractal" };
-		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-		static mud::Noise::NoiseType vars[] = { mud::Noise::Value, mud::Noise::ValueFractal, mud::Noise::Perlin, mud::Noise::PerlinFractal, mud::Noise::Simplex, mud::Noise::SimplexFractal, mud::Noise::Cellular, mud::Noise::WhiteNoise, mud::Noise::Cubic, mud::Noise::CubicFractal};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9]};
-		static Enum enu = { t, false, ids, values, refs };
-		static Convert convert = { mud_Noise_NoiseType__to_string,
-		                           mud_Noise_NoiseType__to_value };
 		g_convert[t.m_id] = &convert;
 	}
 	
@@ -144,12 +144,12 @@ namespace mud
 	}
 	
 	
-		m.m_types.push_back(&type<mud::Noise::CellularDistanceFunction>());
-		m.m_types.push_back(&type<mud::Noise::CellularReturnType>());
-		m.m_types.push_back(&type<mud::Noise::FractalType>());
-		m.m_types.push_back(&type<mud::Noise::Interp>());
 		m.m_types.push_back(&type<mud::Noise>());
 		m.m_types.push_back(&type<mud::Noise::NoiseType>());
+		m.m_types.push_back(&type<mud::Noise::Interp>());
+		m.m_types.push_back(&type<mud::Noise::FractalType>());
+		m.m_types.push_back(&type<mud::Noise::CellularDistanceFunction>());
+		m.m_types.push_back(&type<mud::Noise::CellularReturnType>());
 		m.m_types.push_back(&type<mud::vector3d<float>>());
 		{
 			static float frequency_default = 0.01f;

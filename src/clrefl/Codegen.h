@@ -926,8 +926,8 @@ namespace clgen
 				p("// bases");
 				if(c.m_bases.size() > 0)
 				{
-					p("static Type* bases[] = { " + comma(transform<string, CLType*>(c.m_bases, [&](CLType* base) { return "&" + type_get(*base); })) + " };");
-					p("static size_t bases_offsets[] = { " + comma(transform<string, CLType*>(c.m_bases, [&](CLType* base) { return base_offset_get(c, *base); })) + " };");
+					p("static Type* bases[] = { " + comma(transform<string, CLClass*>(c.m_bases, [&](CLClass* base) { return "&" + type_get(*base); })) + " };");
+					p("static size_t bases_offsets[] = { " + comma(transform<string, CLClass*>(c.m_bases, [&](CLClass* base) { return base_offset_get(c, *base); })) + " };");
 				}
 				p("// defaults");
 				for(CLMember& a : c.m_members)
@@ -1129,9 +1129,14 @@ namespace clgen
 			return "static Type ty(\"" + name + "\"" + (id == "void" ? "" : ", sizeof(" + id + ")") + "); return ty;";
 		};
 
-		auto type_decl = [](const CLType& t)
+		auto type_decl_class = [](const CLClass& t)
 		{
 			return "static Type ty(\"" + t.m_name + "\"" + (t.m_bases.size() > 0 ? ", " + type_get(*t.m_bases[0]) : "") + ", sizeof(" + t.m_id + ")); return ty;";
+		};
+
+		auto type_decl = [](const CLType& t)
+		{
+			return "static Type ty(\"" + t.m_name + "\", sizeof(" + t.m_id + ")); return ty;";
 		};
 
 		p("#include <infra/Cpp20.h>");
@@ -1160,7 +1165,7 @@ namespace clgen
 		p("");
 		for(auto& c : m.m_classes)
 			if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
-				p("template <> " + m.m_export + " Type& type<" + c->m_id + ">() { " + type_decl(*c) + " }");
+				p("template <> " + m.m_export + " Type& type<" + c->m_id + ">() { " + type_decl_class(*c) + " }");
 		//for(auto& c : m.m_classes)
 		//	if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
 		//		p("template <> " + m.m_export + " Type& type<vector<" + c->m_id + "*>>() { " + type_decl_name("vector<" + c->m_id + "*>", "vector<" + c->m_id + "*>") + " }");

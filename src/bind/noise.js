@@ -56,6 +56,25 @@ Module['noise_fract_3d'] = function(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) {
 (function() {
     function setup() {
         Noise.prototype.__type = _mud_Noise__type();
+        // NoiseType
+        Module['Noise']['Value'] = _mud_Noise_NoiseType_Value();
+        Module['Noise']['ValueFractal'] = _mud_Noise_NoiseType_ValueFractal();
+        Module['Noise']['Perlin'] = _mud_Noise_NoiseType_Perlin();
+        Module['Noise']['PerlinFractal'] = _mud_Noise_NoiseType_PerlinFractal();
+        Module['Noise']['Simplex'] = _mud_Noise_NoiseType_Simplex();
+        Module['Noise']['SimplexFractal'] = _mud_Noise_NoiseType_SimplexFractal();
+        Module['Noise']['Cellular'] = _mud_Noise_NoiseType_Cellular();
+        Module['Noise']['WhiteNoise'] = _mud_Noise_NoiseType_WhiteNoise();
+        Module['Noise']['Cubic'] = _mud_Noise_NoiseType_Cubic();
+        Module['Noise']['CubicFractal'] = _mud_Noise_NoiseType_CubicFractal();
+        // Interp
+        Module['Noise']['Linear'] = _mud_Noise_Interp_Linear();
+        Module['Noise']['Hermite'] = _mud_Noise_Interp_Hermite();
+        Module['Noise']['Quintic'] = _mud_Noise_Interp_Quintic();
+        // FractalType
+        Module['Noise']['FBM'] = _mud_Noise_FractalType_FBM();
+        Module['Noise']['Billow'] = _mud_Noise_FractalType_Billow();
+        Module['Noise']['RigidMulti'] = _mud_Noise_FractalType_RigidMulti();
         // CellularDistanceFunction
         Module['Noise']['Euclidean'] = _mud_Noise_CellularDistanceFunction_Euclidean();
         Module['Noise']['Manhattan'] = _mud_Noise_CellularDistanceFunction_Manhattan();
@@ -69,25 +88,6 @@ Module['noise_fract_3d'] = function(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) {
         Module['Noise']['Distance2Sub'] = _mud_Noise_CellularReturnType_Distance2Sub();
         Module['Noise']['Distance2Mul'] = _mud_Noise_CellularReturnType_Distance2Mul();
         Module['Noise']['Distance2Div'] = _mud_Noise_CellularReturnType_Distance2Div();
-        // FractalType
-        Module['Noise']['FBM'] = _mud_Noise_FractalType_FBM();
-        Module['Noise']['Billow'] = _mud_Noise_FractalType_Billow();
-        Module['Noise']['RigidMulti'] = _mud_Noise_FractalType_RigidMulti();
-        // Interp
-        Module['Noise']['Linear'] = _mud_Noise_Interp_Linear();
-        Module['Noise']['Hermite'] = _mud_Noise_Interp_Hermite();
-        Module['Noise']['Quintic'] = _mud_Noise_Interp_Quintic();
-        // NoiseType
-        Module['Noise']['Value'] = _mud_Noise_NoiseType_Value();
-        Module['Noise']['ValueFractal'] = _mud_Noise_NoiseType_ValueFractal();
-        Module['Noise']['Perlin'] = _mud_Noise_NoiseType_Perlin();
-        Module['Noise']['PerlinFractal'] = _mud_Noise_NoiseType_PerlinFractal();
-        Module['Noise']['Simplex'] = _mud_Noise_NoiseType_Simplex();
-        Module['Noise']['SimplexFractal'] = _mud_Noise_NoiseType_SimplexFractal();
-        Module['Noise']['Cellular'] = _mud_Noise_NoiseType_Cellular();
-        Module['Noise']['WhiteNoise'] = _mud_Noise_NoiseType_WhiteNoise();
-        Module['Noise']['Cubic'] = _mud_Noise_NoiseType_Cubic();
-        Module['Noise']['CubicFractal'] = _mud_Noise_NoiseType_CubicFractal();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

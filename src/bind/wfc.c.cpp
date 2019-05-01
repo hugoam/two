@@ -102,16 +102,6 @@ extern "C" {
 	void DECL mud_Wave__destroy(mud::Wave* self) {
 		delete self;
 	}
-	// TileWave
-	mud::Type* DECL mud_TileWave__type() {
-		return &mud::type<mud::TileWave>();
-	}
-	mud::TileWave* DECL mud_TileWave__construct_5(mud::WaveTileset* tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic) {
-		return new mud::TileWave(*tileset, width, height, depth, periodic);
-	}
-	void DECL mud_TileWave__destroy(mud::TileWave* self) {
-		delete self;
-	}
 	// WaveTileset
 	mud::Type* DECL mud_WaveTileset__type() {
 		return &mud::type<mud::WaveTileset>();
@@ -120,6 +110,16 @@ extern "C" {
 		return new mud::WaveTileset();
 	}
 	void DECL mud_WaveTileset__destroy(mud::WaveTileset* self) {
+		delete self;
+	}
+	// TileWave
+	mud::Type* DECL mud_TileWave__type() {
+		return &mud::type<mud::TileWave>();
+	}
+	mud::TileWave* DECL mud_TileWave__construct_5(mud::WaveTileset* tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic) {
+		return new mud::TileWave(*tileset, width, height, depth, periodic);
+	}
+	void DECL mud_TileWave__destroy(mud::TileWave* self) {
 		delete self;
 	}
 	void DECL mud_parse_json_tileset_3(const char* path, const char* subset, mud::Tileset* outputTileset) {

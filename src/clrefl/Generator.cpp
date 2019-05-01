@@ -18,6 +18,72 @@ namespace mud
 {
 	using Json = json11::Json;
 
+	struct TopoSort
+	{
+		vector<vector<size_t>> links;
+		vector<bool> perm_marks;
+		vector<bool> temp_marks;
+		vector<size_t> order;
+		vector<size_t> sorted;
+	};
+
+	auto visit_sort_topological(TopoSort& sort, size_t n) //, T& elem)
+	{
+		if(sort.perm_marks[n]) return;
+		if(sort.temp_marks[n]) return;
+		sort.temp_marks[n] = true;
+        
+		for (size_t c : sort.links[n])
+		{
+			visit_sort_topological(sort, c);
+		}
+        
+		sort.perm_marks[n] = true;
+		sort.order[n] = sort.sorted.size();
+		sort.sorted.push_back(n);
+	};
+    
+	TopoSort sort_topological(vector<vector<size_t>> links)
+	{
+		TopoSort sort;
+		sort.links = links;
+		sort.perm_marks.resize(links.size(), false);
+		sort.temp_marks.resize(links.size(), false);
+		sort.order.resize(links.size());
+
+		for(size_t n = 0; n < links.size(); ++n)
+		{
+			visit_sort_topological(sort, n);
+		}
+
+		return sort;
+	}
+
+	void sort_classes(vector<unique<CLClass>>& classes)
+	{
+		for(size_t n = 0; n < classes.size(); ++n)
+		{
+			classes[n]->m_index = n;
+		}
+
+		vector<vector<size_t>> links;
+		links.resize(classes.size());
+
+		for(size_t n = 0; n < classes.size(); ++n)
+		{
+			CLClass& item = *classes[n];
+			for(CLClass* base : item.m_deep_bases)
+			{
+				if(base == &*classes[base->m_index])
+					links[n].push_back(base->m_index);
+			}
+		}
+
+		const TopoSort sort = sort_topological(links);
+
+		stable_sort(classes, [&](const unique<CLClass>& a, const unique<CLClass>& b) { return sort.order[a->m_index] < sort.order[b->m_index]; });
+	}
+
 	const CLType& element_type(const CLType& t)
 	{
 		if(t.m_type_kind == CLTypeKind::Alias)
@@ -428,11 +494,14 @@ namespace mud
 			if(!c.m_is_templated && name.find("<") == string::npos)
 			{
 				CLType* base = module.find_type(name);
+				if(base && base->m_type_kind == CLTypeKind::Alias)
+					base = static_cast<CLAlias*>(base)->m_target;
 				if(base && (base->m_reflect || has(base->m_annotations, "refl")))
 				{
-					c.m_bases.push_back(base);
-					c.m_deep_bases.push_back(base);
-					extend(c.m_deep_bases, base->m_bases);
+					CLClass* basecls = static_cast<CLClass*>(base);
+					c.m_bases.push_back(basecls);
+					c.m_deep_bases.push_back(basecls);
+					extend(c.m_deep_bases, basecls->m_bases);
 				}
 			}
 		}
@@ -701,35 +770,18 @@ namespace mud
 
 			auto cmp_types = [](CLType& a, CLType& b) -> int
 			{
-				// negative means a before b, positive means a after b
-				int bases = 0;// cmp(first.deep_bases, other.deep_bases)
-				if(false)
-					;
-				else if(b.m_deep_bases.size() > 0 && a.m_deep_bases.size() == 0)
-					return -1;
-				else if(a.m_deep_bases.size() > 0 && b.m_deep_bases.size() == 0)
-					return 1;
-				else if(b.m_deep_bases.size() > 0 && a.m_deep_bases.size() > 0 && bases != 0)
-					return bases;
-				else if(has(b.m_deep_bases, &a))
-					return -1;
-				else if(has(a.m_deep_bases, &b))
-					return 1;
-				else
-				{
-					int result = a.m_name.compare(b.m_name);
-					//printf("compare %s with %s : %i\n", a.m_name.c_str(), b.m_name.c_str(), result);
-					return result;
-				}
+				int result = a.m_name.compare(b.m_name);
+				return result < 0;
 			};
 
 			stable_sort(module.m_types, [&](CLType* a, CLType* b) { return cmp_types(*a, *b) < 0; });
 
-			stable_sort(module.m_classes, [&](const unique<CLClass>& a, const unique<CLClass>& b) { return cmp_types(*a, *b) < 0; });
 			stable_sort(module.m_enums, [&](const unique<CLEnum>& a, const unique<CLEnum>& b) { return cmp_types(*a, *b) < 0; });
 			stable_sort(module.m_sequences, [&](const unique<CLClass>& a, const unique<CLClass>& b) { return cmp_types(*a, *b) < 0; });
 			stable_sort(module.m_basetypes, [&](const unique<CLBaseType>& a, const unique<CLBaseType>& b) { return cmp_types(*a, *b) < 0; });
-            
+
+			sort_classes(module.m_classes);
+
 			//if(module.m_classes.size() == 0 && module.m_enums.size() == 0)
 			//	return;
 

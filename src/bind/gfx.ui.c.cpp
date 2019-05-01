@@ -18,62 +18,18 @@
 
 extern "C" {
 	
+	// SpaceSheet
+	mud::Type* DECL mud_SpaceSheet__type() {
+		return &mud::type<mud::SpaceSheet>();
+	}
+	void DECL mud_SpaceSheet__destroy(mud::SpaceSheet* self) {
+		delete self;
+	}
 	// ViewerController
 	mud::Type* DECL mud_ViewerController__type() {
 		return &mud::type<mud::ViewerController>();
 	}
 	void DECL mud_ViewerController__destroy(mud::ViewerController* self) {
-		delete self;
-	}
-	// OrbitController
-	mud::Type* DECL mud_OrbitController__type() {
-		return &mud::type<mud::OrbitController>();
-	}
-	void DECL mud_OrbitController_set_eye_1(mud::OrbitController* self, const mud::quat* rotation) {
-		self->set_eye(*rotation);
-	}
-	void DECL mud_OrbitController_set_target_1(mud::OrbitController* self, const mud::vec3* position) {
-		self->set_target(*position);
-	}
-	mud::vec3* DECL mud_OrbitController__get_position(mud::OrbitController* self) {
-		return &self->m_position;
-	}
-	void DECL mud_OrbitController__set_position(mud::OrbitController* self, mud::vec3* value) {
-		self->m_position = *value;
-	}
-	float DECL mud_OrbitController__get_yaw(mud::OrbitController* self) {
-		return self->m_yaw;
-	}
-	void DECL mud_OrbitController__set_yaw(mud::OrbitController* self, float value) {
-		self->m_yaw = value;
-	}
-	float DECL mud_OrbitController__get_pitch(mud::OrbitController* self) {
-		return self->m_pitch;
-	}
-	void DECL mud_OrbitController__set_pitch(mud::OrbitController* self, float value) {
-		self->m_pitch = value;
-	}
-	float DECL mud_OrbitController__get_distance(mud::OrbitController* self) {
-		return self->m_distance;
-	}
-	void DECL mud_OrbitController__set_distance(mud::OrbitController* self, float value) {
-		self->m_distance = value;
-	}
-	void DECL mud_OrbitController__destroy(mud::OrbitController* self) {
-		delete self;
-	}
-	// FreeOrbitController
-	mud::Type* DECL mud_FreeOrbitController__type() {
-		return &mud::type<mud::FreeOrbitController>();
-	}
-	void DECL mud_FreeOrbitController__destroy(mud::FreeOrbitController* self) {
-		delete self;
-	}
-	// OrbitControls
-	mud::Type* DECL mud_OrbitControls__type() {
-		return &mud::type<mud::OrbitControls>();
-	}
-	void DECL mud_OrbitControls__destroy(mud::OrbitControls* self) {
 		delete self;
 	}
 	// Viewer
@@ -114,11 +70,41 @@ extern "C" {
 	void DECL mud_SceneViewer__destroy(mud::SceneViewer* self) {
 		delete self;
 	}
-	// SpaceSheet
-	mud::Type* DECL mud_SpaceSheet__type() {
-		return &mud::type<mud::SpaceSheet>();
+	// OrbitController
+	mud::Type* DECL mud_OrbitController__type() {
+		return &mud::type<mud::OrbitController>();
 	}
-	void DECL mud_SpaceSheet__destroy(mud::SpaceSheet* self) {
+	void DECL mud_OrbitController_set_eye_1(mud::OrbitController* self, const mud::quat* rotation) {
+		self->set_eye(*rotation);
+	}
+	void DECL mud_OrbitController_set_target_1(mud::OrbitController* self, const mud::vec3* position) {
+		self->set_target(*position);
+	}
+	mud::vec3* DECL mud_OrbitController__get_position(mud::OrbitController* self) {
+		return &self->m_position;
+	}
+	void DECL mud_OrbitController__set_position(mud::OrbitController* self, mud::vec3* value) {
+		self->m_position = *value;
+	}
+	float DECL mud_OrbitController__get_yaw(mud::OrbitController* self) {
+		return self->m_yaw;
+	}
+	void DECL mud_OrbitController__set_yaw(mud::OrbitController* self, float value) {
+		self->m_yaw = value;
+	}
+	float DECL mud_OrbitController__get_pitch(mud::OrbitController* self) {
+		return self->m_pitch;
+	}
+	void DECL mud_OrbitController__set_pitch(mud::OrbitController* self, float value) {
+		self->m_pitch = value;
+	}
+	float DECL mud_OrbitController__get_distance(mud::OrbitController* self) {
+		return self->m_distance;
+	}
+	void DECL mud_OrbitController__set_distance(mud::OrbitController* self, float value) {
+		self->m_distance = value;
+	}
+	void DECL mud_OrbitController__destroy(mud::OrbitController* self) {
 		delete self;
 	}
 	// TrackballController
@@ -174,6 +160,20 @@ extern "C" {
 		self->m_target = *value;
 	}
 	void DECL mud_TrackballController__destroy(mud::TrackballController* self) {
+		delete self;
+	}
+	// OrbitControls
+	mud::Type* DECL mud_OrbitControls__type() {
+		return &mud::type<mud::OrbitControls>();
+	}
+	void DECL mud_OrbitControls__destroy(mud::OrbitControls* self) {
+		delete self;
+	}
+	// FreeOrbitController
+	mud::Type* DECL mud_FreeOrbitController__type() {
+		return &mud::type<mud::FreeOrbitController>();
+	}
+	void DECL mud_FreeOrbitController__destroy(mud::FreeOrbitController* self) {
 		delete self;
 	}
 	mud::Viewer* DECL mud_ui_viewer_2(mud::Widget* parent, mud::Scene* scene) {

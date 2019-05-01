@@ -75,6 +75,57 @@ extern "C" {
 	float DECL mud_noise_fract_3d_10(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves, float lacunarity, float gain) {
 		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
 	}
+	// NoiseType
+	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Value() {
+		return mud::Noise::Value;
+	}
+	mud::Noise::NoiseType DECL mud_Noise_NoiseType_ValueFractal() {
+		return mud::Noise::ValueFractal;
+	}
+	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Perlin() {
+		return mud::Noise::Perlin;
+	}
+	mud::Noise::NoiseType DECL mud_Noise_NoiseType_PerlinFractal() {
+		return mud::Noise::PerlinFractal;
+	}
+	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Simplex() {
+		return mud::Noise::Simplex;
+	}
+	mud::Noise::NoiseType DECL mud_Noise_NoiseType_SimplexFractal() {
+		return mud::Noise::SimplexFractal;
+	}
+	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Cellular() {
+		return mud::Noise::Cellular;
+	}
+	mud::Noise::NoiseType DECL mud_Noise_NoiseType_WhiteNoise() {
+		return mud::Noise::WhiteNoise;
+	}
+	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Cubic() {
+		return mud::Noise::Cubic;
+	}
+	mud::Noise::NoiseType DECL mud_Noise_NoiseType_CubicFractal() {
+		return mud::Noise::CubicFractal;
+	}
+	// Interp
+	mud::Noise::Interp DECL mud_Noise_Interp_Linear() {
+		return mud::Noise::Linear;
+	}
+	mud::Noise::Interp DECL mud_Noise_Interp_Hermite() {
+		return mud::Noise::Hermite;
+	}
+	mud::Noise::Interp DECL mud_Noise_Interp_Quintic() {
+		return mud::Noise::Quintic;
+	}
+	// FractalType
+	mud::Noise::FractalType DECL mud_Noise_FractalType_FBM() {
+		return mud::Noise::FBM;
+	}
+	mud::Noise::FractalType DECL mud_Noise_FractalType_Billow() {
+		return mud::Noise::Billow;
+	}
+	mud::Noise::FractalType DECL mud_Noise_FractalType_RigidMulti() {
+		return mud::Noise::RigidMulti;
+	}
 	// CellularDistanceFunction
 	mud::Noise::CellularDistanceFunction DECL mud_Noise_CellularDistanceFunction_Euclidean() {
 		return mud::Noise::Euclidean;
@@ -109,57 +160,6 @@ extern "C" {
 	}
 	mud::Noise::CellularReturnType DECL mud_Noise_CellularReturnType_Distance2Div() {
 		return mud::Noise::Distance2Div;
-	}
-	// FractalType
-	mud::Noise::FractalType DECL mud_Noise_FractalType_FBM() {
-		return mud::Noise::FBM;
-	}
-	mud::Noise::FractalType DECL mud_Noise_FractalType_Billow() {
-		return mud::Noise::Billow;
-	}
-	mud::Noise::FractalType DECL mud_Noise_FractalType_RigidMulti() {
-		return mud::Noise::RigidMulti;
-	}
-	// Interp
-	mud::Noise::Interp DECL mud_Noise_Interp_Linear() {
-		return mud::Noise::Linear;
-	}
-	mud::Noise::Interp DECL mud_Noise_Interp_Hermite() {
-		return mud::Noise::Hermite;
-	}
-	mud::Noise::Interp DECL mud_Noise_Interp_Quintic() {
-		return mud::Noise::Quintic;
-	}
-	// NoiseType
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Value() {
-		return mud::Noise::Value;
-	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_ValueFractal() {
-		return mud::Noise::ValueFractal;
-	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Perlin() {
-		return mud::Noise::Perlin;
-	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_PerlinFractal() {
-		return mud::Noise::PerlinFractal;
-	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Simplex() {
-		return mud::Noise::Simplex;
-	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_SimplexFractal() {
-		return mud::Noise::SimplexFractal;
-	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Cellular() {
-		return mud::Noise::Cellular;
-	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_WhiteNoise() {
-		return mud::Noise::WhiteNoise;
-	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Cubic() {
-		return mud::Noise::Cubic;
-	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_CubicFractal() {
-		return mud::Noise::CubicFractal;
 	}
 	
 }

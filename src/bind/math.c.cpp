@@ -12,6 +12,536 @@
 
 extern "C" {
 	
+	// v2<float>
+	mud::Type* DECL mud_v2_float__type() {
+		return &mud::type<mud::v2<float>>();
+	}
+	mud::v2<float>* DECL mud_v2_float__construct_0() {
+		return new mud::v2<float>();
+	}
+	mud::v2<float>* DECL mud_v2_float__construct_1(float v) {
+		return new mud::v2<float>(v);
+	}
+	mud::v2<float>* DECL mud_v2_float__construct_2(float x, float y) {
+		return new mud::v2<float>(x, y);
+	}
+	float DECL mud_v2_float__get_x(mud::v2<float>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_float__set_x(mud::v2<float>* self, float value) {
+		self->x = value;
+	}
+	float DECL mud_v2_float__get_y(mud::v2<float>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_float__set_y(mud::v2<float>* self, float value) {
+		self->y = value;
+	}
+	void DECL mud_v2_float__destroy(mud::v2<float>* self) {
+		delete self;
+	}
+	// v3<float>
+	mud::Type* DECL mud_v3_float__type() {
+		return &mud::type<mud::v3<float>>();
+	}
+	mud::v3<float>* DECL mud_v3_float__construct_0() {
+		return new mud::v3<float>();
+	}
+	mud::v3<float>* DECL mud_v3_float__construct_1(float v) {
+		return new mud::v3<float>(v);
+	}
+	mud::v3<float>* DECL mud_v3_float__construct_3(float x, float y, float z) {
+		return new mud::v3<float>(x, y, z);
+	}
+	float DECL mud_v3_float__get_x(mud::v3<float>* self) {
+		return self->x;
+	}
+	void DECL mud_v3_float__set_x(mud::v3<float>* self, float value) {
+		self->x = value;
+	}
+	float DECL mud_v3_float__get_y(mud::v3<float>* self) {
+		return self->y;
+	}
+	void DECL mud_v3_float__set_y(mud::v3<float>* self, float value) {
+		self->y = value;
+	}
+	float DECL mud_v3_float__get_z(mud::v3<float>* self) {
+		return self->z;
+	}
+	void DECL mud_v3_float__set_z(mud::v3<float>* self, float value) {
+		self->z = value;
+	}
+	void DECL mud_v3_float__destroy(mud::v3<float>* self) {
+		delete self;
+	}
+	// v4<float>
+	mud::Type* DECL mud_v4_float__type() {
+		return &mud::type<mud::v4<float>>();
+	}
+	mud::v4<float>* DECL mud_v4_float__construct_0() {
+		return new mud::v4<float>();
+	}
+	mud::v4<float>* DECL mud_v4_float__construct_1(float v) {
+		return new mud::v4<float>(v);
+	}
+	mud::v4<float>* DECL mud_v4_float__construct_4(float x, float y, float z, float w) {
+		return new mud::v4<float>(x, y, z, w);
+	}
+	float DECL mud_v4_float__get_x(mud::v4<float>* self) {
+		return self->x;
+	}
+	void DECL mud_v4_float__set_x(mud::v4<float>* self, float value) {
+		self->x = value;
+	}
+	float DECL mud_v4_float__get_y(mud::v4<float>* self) {
+		return self->y;
+	}
+	void DECL mud_v4_float__set_y(mud::v4<float>* self, float value) {
+		self->y = value;
+	}
+	float DECL mud_v4_float__get_z(mud::v4<float>* self) {
+		return self->z;
+	}
+	void DECL mud_v4_float__set_z(mud::v4<float>* self, float value) {
+		self->z = value;
+	}
+	float DECL mud_v4_float__get_w(mud::v4<float>* self) {
+		return self->w;
+	}
+	void DECL mud_v4_float__set_w(mud::v4<float>* self, float value) {
+		self->w = value;
+	}
+	void DECL mud_v4_float__destroy(mud::v4<float>* self) {
+		delete self;
+	}
+	// v2<int>
+	mud::Type* DECL mud_v2_int__type() {
+		return &mud::type<mud::v2<int>>();
+	}
+	mud::v2<int>* DECL mud_v2_int__construct_0() {
+		return new mud::v2<int>();
+	}
+	mud::v2<int>* DECL mud_v2_int__construct_1(int v) {
+		return new mud::v2<int>(v);
+	}
+	mud::v2<int>* DECL mud_v2_int__construct_2(int x, int y) {
+		return new mud::v2<int>(x, y);
+	}
+	int DECL mud_v2_int__get_x(mud::v2<int>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_int__set_x(mud::v2<int>* self, int value) {
+		self->x = value;
+	}
+	int DECL mud_v2_int__get_y(mud::v2<int>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_int__set_y(mud::v2<int>* self, int value) {
+		self->y = value;
+	}
+	void DECL mud_v2_int__destroy(mud::v2<int>* self) {
+		delete self;
+	}
+	// v3<int>
+	mud::Type* DECL mud_v3_int__type() {
+		return &mud::type<mud::v3<int>>();
+	}
+	mud::v3<int>* DECL mud_v3_int__construct_0() {
+		return new mud::v3<int>();
+	}
+	mud::v3<int>* DECL mud_v3_int__construct_1(int v) {
+		return new mud::v3<int>(v);
+	}
+	mud::v3<int>* DECL mud_v3_int__construct_3(int x, int y, int z) {
+		return new mud::v3<int>(x, y, z);
+	}
+	int DECL mud_v3_int__get_x(mud::v3<int>* self) {
+		return self->x;
+	}
+	void DECL mud_v3_int__set_x(mud::v3<int>* self, int value) {
+		self->x = value;
+	}
+	int DECL mud_v3_int__get_y(mud::v3<int>* self) {
+		return self->y;
+	}
+	void DECL mud_v3_int__set_y(mud::v3<int>* self, int value) {
+		self->y = value;
+	}
+	int DECL mud_v3_int__get_z(mud::v3<int>* self) {
+		return self->z;
+	}
+	void DECL mud_v3_int__set_z(mud::v3<int>* self, int value) {
+		self->z = value;
+	}
+	void DECL mud_v3_int__destroy(mud::v3<int>* self) {
+		delete self;
+	}
+	// v4<int>
+	mud::Type* DECL mud_v4_int__type() {
+		return &mud::type<mud::v4<int>>();
+	}
+	mud::v4<int>* DECL mud_v4_int__construct_0() {
+		return new mud::v4<int>();
+	}
+	mud::v4<int>* DECL mud_v4_int__construct_1(int v) {
+		return new mud::v4<int>(v);
+	}
+	mud::v4<int>* DECL mud_v4_int__construct_4(int x, int y, int z, int w) {
+		return new mud::v4<int>(x, y, z, w);
+	}
+	int DECL mud_v4_int__get_x(mud::v4<int>* self) {
+		return self->x;
+	}
+	void DECL mud_v4_int__set_x(mud::v4<int>* self, int value) {
+		self->x = value;
+	}
+	int DECL mud_v4_int__get_y(mud::v4<int>* self) {
+		return self->y;
+	}
+	void DECL mud_v4_int__set_y(mud::v4<int>* self, int value) {
+		self->y = value;
+	}
+	int DECL mud_v4_int__get_z(mud::v4<int>* self) {
+		return self->z;
+	}
+	void DECL mud_v4_int__set_z(mud::v4<int>* self, int value) {
+		self->z = value;
+	}
+	int DECL mud_v4_int__get_w(mud::v4<int>* self) {
+		return self->w;
+	}
+	void DECL mud_v4_int__set_w(mud::v4<int>* self, int value) {
+		self->w = value;
+	}
+	void DECL mud_v4_int__destroy(mud::v4<int>* self) {
+		delete self;
+	}
+	// v2<uint>
+	mud::Type* DECL mud_v2_uint__type() {
+		return &mud::type<mud::v2<uint>>();
+	}
+	mud::v2<uint>* DECL mud_v2_uint__construct_0() {
+		return new mud::v2<uint>();
+	}
+	mud::v2<uint>* DECL mud_v2_uint__construct_1(uint v) {
+		return new mud::v2<uint>(v);
+	}
+	mud::v2<uint>* DECL mud_v2_uint__construct_2(uint x, uint y) {
+		return new mud::v2<uint>(x, y);
+	}
+	uint DECL mud_v2_uint__get_x(mud::v2<uint>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_uint__set_x(mud::v2<uint>* self, uint value) {
+		self->x = value;
+	}
+	uint DECL mud_v2_uint__get_y(mud::v2<uint>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_uint__set_y(mud::v2<uint>* self, uint value) {
+		self->y = value;
+	}
+	void DECL mud_v2_uint__destroy(mud::v2<uint>* self) {
+		delete self;
+	}
+	// v3<uint>
+	mud::Type* DECL mud_v3_uint__type() {
+		return &mud::type<mud::v3<uint>>();
+	}
+	mud::v3<uint>* DECL mud_v3_uint__construct_0() {
+		return new mud::v3<uint>();
+	}
+	mud::v3<uint>* DECL mud_v3_uint__construct_1(uint v) {
+		return new mud::v3<uint>(v);
+	}
+	mud::v3<uint>* DECL mud_v3_uint__construct_3(uint x, uint y, uint z) {
+		return new mud::v3<uint>(x, y, z);
+	}
+	uint DECL mud_v3_uint__get_x(mud::v3<uint>* self) {
+		return self->x;
+	}
+	void DECL mud_v3_uint__set_x(mud::v3<uint>* self, uint value) {
+		self->x = value;
+	}
+	uint DECL mud_v3_uint__get_y(mud::v3<uint>* self) {
+		return self->y;
+	}
+	void DECL mud_v3_uint__set_y(mud::v3<uint>* self, uint value) {
+		self->y = value;
+	}
+	uint DECL mud_v3_uint__get_z(mud::v3<uint>* self) {
+		return self->z;
+	}
+	void DECL mud_v3_uint__set_z(mud::v3<uint>* self, uint value) {
+		self->z = value;
+	}
+	void DECL mud_v3_uint__destroy(mud::v3<uint>* self) {
+		delete self;
+	}
+	// v4<uint>
+	mud::Type* DECL mud_v4_uint__type() {
+		return &mud::type<mud::v4<uint>>();
+	}
+	mud::v4<uint>* DECL mud_v4_uint__construct_0() {
+		return new mud::v4<uint>();
+	}
+	mud::v4<uint>* DECL mud_v4_uint__construct_1(uint v) {
+		return new mud::v4<uint>(v);
+	}
+	mud::v4<uint>* DECL mud_v4_uint__construct_4(uint x, uint y, uint z, uint w) {
+		return new mud::v4<uint>(x, y, z, w);
+	}
+	uint DECL mud_v4_uint__get_x(mud::v4<uint>* self) {
+		return self->x;
+	}
+	void DECL mud_v4_uint__set_x(mud::v4<uint>* self, uint value) {
+		self->x = value;
+	}
+	uint DECL mud_v4_uint__get_y(mud::v4<uint>* self) {
+		return self->y;
+	}
+	void DECL mud_v4_uint__set_y(mud::v4<uint>* self, uint value) {
+		self->y = value;
+	}
+	uint DECL mud_v4_uint__get_z(mud::v4<uint>* self) {
+		return self->z;
+	}
+	void DECL mud_v4_uint__set_z(mud::v4<uint>* self, uint value) {
+		self->z = value;
+	}
+	uint DECL mud_v4_uint__get_w(mud::v4<uint>* self) {
+		return self->w;
+	}
+	void DECL mud_v4_uint__set_w(mud::v4<uint>* self, uint value) {
+		self->w = value;
+	}
+	void DECL mud_v4_uint__destroy(mud::v4<uint>* self) {
+		delete self;
+	}
+	// v2<bool>
+	mud::Type* DECL mud_v2_bool__type() {
+		return &mud::type<mud::v2<bool>>();
+	}
+	mud::v2<bool>* DECL mud_v2_bool__construct_0() {
+		return new mud::v2<bool>();
+	}
+	mud::v2<bool>* DECL mud_v2_bool__construct_1(bool v) {
+		return new mud::v2<bool>(v);
+	}
+	mud::v2<bool>* DECL mud_v2_bool__construct_2(bool x, bool y) {
+		return new mud::v2<bool>(x, y);
+	}
+	bool DECL mud_v2_bool__get_x(mud::v2<bool>* self) {
+		return self->x;
+	}
+	void DECL mud_v2_bool__set_x(mud::v2<bool>* self, bool value) {
+		self->x = value;
+	}
+	bool DECL mud_v2_bool__get_y(mud::v2<bool>* self) {
+		return self->y;
+	}
+	void DECL mud_v2_bool__set_y(mud::v2<bool>* self, bool value) {
+		self->y = value;
+	}
+	void DECL mud_v2_bool__destroy(mud::v2<bool>* self) {
+		delete self;
+	}
+	// v3<bool>
+	mud::Type* DECL mud_v3_bool__type() {
+		return &mud::type<mud::v3<bool>>();
+	}
+	mud::v3<bool>* DECL mud_v3_bool__construct_0() {
+		return new mud::v3<bool>();
+	}
+	mud::v3<bool>* DECL mud_v3_bool__construct_1(bool v) {
+		return new mud::v3<bool>(v);
+	}
+	mud::v3<bool>* DECL mud_v3_bool__construct_3(bool x, bool y, bool z) {
+		return new mud::v3<bool>(x, y, z);
+	}
+	bool DECL mud_v3_bool__get_x(mud::v3<bool>* self) {
+		return self->x;
+	}
+	void DECL mud_v3_bool__set_x(mud::v3<bool>* self, bool value) {
+		self->x = value;
+	}
+	bool DECL mud_v3_bool__get_y(mud::v3<bool>* self) {
+		return self->y;
+	}
+	void DECL mud_v3_bool__set_y(mud::v3<bool>* self, bool value) {
+		self->y = value;
+	}
+	bool DECL mud_v3_bool__get_z(mud::v3<bool>* self) {
+		return self->z;
+	}
+	void DECL mud_v3_bool__set_z(mud::v3<bool>* self, bool value) {
+		self->z = value;
+	}
+	void DECL mud_v3_bool__destroy(mud::v3<bool>* self) {
+		delete self;
+	}
+	// v4<bool>
+	mud::Type* DECL mud_v4_bool__type() {
+		return &mud::type<mud::v4<bool>>();
+	}
+	mud::v4<bool>* DECL mud_v4_bool__construct_0() {
+		return new mud::v4<bool>();
+	}
+	mud::v4<bool>* DECL mud_v4_bool__construct_1(bool v) {
+		return new mud::v4<bool>(v);
+	}
+	mud::v4<bool>* DECL mud_v4_bool__construct_4(bool x, bool y, bool z, bool w) {
+		return new mud::v4<bool>(x, y, z, w);
+	}
+	bool DECL mud_v4_bool__get_x(mud::v4<bool>* self) {
+		return self->x;
+	}
+	void DECL mud_v4_bool__set_x(mud::v4<bool>* self, bool value) {
+		self->x = value;
+	}
+	bool DECL mud_v4_bool__get_y(mud::v4<bool>* self) {
+		return self->y;
+	}
+	void DECL mud_v4_bool__set_y(mud::v4<bool>* self, bool value) {
+		self->y = value;
+	}
+	bool DECL mud_v4_bool__get_z(mud::v4<bool>* self) {
+		return self->z;
+	}
+	void DECL mud_v4_bool__set_z(mud::v4<bool>* self, bool value) {
+		self->z = value;
+	}
+	bool DECL mud_v4_bool__get_w(mud::v4<bool>* self) {
+		return self->w;
+	}
+	void DECL mud_v4_bool__set_w(mud::v4<bool>* self, bool value) {
+		self->w = value;
+	}
+	void DECL mud_v4_bool__destroy(mud::v4<bool>* self) {
+		delete self;
+	}
+	// mat3
+	mud::Type* DECL mud_mat3__type() {
+		return &mud::type<mud::mat3>();
+	}
+	mud::mat3* DECL mud_mat3__construct_0() {
+		return new mud::mat3();
+	}
+	mud::mat3* DECL mud_mat3__construct_3(const mud::float3* x, const mud::float3* y, const mud::float3* z) {
+		return new mud::mat3(*x, *y, *z);
+	}
+	mud::mat3* DECL mud_mat3__construct_9(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
+		return new mud::mat3(f0, f1, f2, f3, f4, f5, f6, f7, f8);
+	}
+	float DECL mud_mat3__get_f(mud::mat3* self, unsigned int index) {
+		return self->f[index];
+	}
+	void DECL mud_mat3__set_f(mud::mat3* self, unsigned int index, float value) {
+		self->f[index] = value;
+	}
+	void DECL mud_mat3__destroy(mud::mat3* self) {
+		delete self;
+	}
+	// mat4
+	mud::Type* DECL mud_mat4__type() {
+		return &mud::type<mud::mat4>();
+	}
+	mud::mat4* DECL mud_mat4__construct_0() {
+		return new mud::mat4();
+	}
+	mud::mat4* DECL mud_mat4__construct_4(const mud::float4* x, const mud::float4* y, const mud::float4* z, const mud::float4* w) {
+		return new mud::mat4(*x, *y, *z, *w);
+	}
+	mud::mat4* DECL mud_mat4__construct_16(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, float f12, float f13, float f14, float f15) {
+		return new mud::mat4(f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15);
+	}
+	float DECL mud_mat4__get_f(mud::mat4* self, unsigned int index) {
+		return self->f[index];
+	}
+	void DECL mud_mat4__set_f(mud::mat4* self, unsigned int index, float value) {
+		self->f[index] = value;
+	}
+	void DECL mud_mat4__destroy(mud::mat4* self) {
+		delete self;
+	}
+	// quat
+	mud::Type* DECL mud_quat__type() {
+		return &mud::type<mud::quat>();
+	}
+	mud::quat* DECL mud_quat__construct_0() {
+		return new mud::quat();
+	}
+	mud::quat* DECL mud_quat__construct_1(const mud::float3* euler_angles) {
+		return new mud::quat(*euler_angles);
+	}
+	mud::quat* DECL mud_quat__construct_4(float x, float y, float z, float w) {
+		return new mud::quat(x, y, z, w);
+	}
+	void DECL mud_quat__destroy(mud::quat* self) {
+		delete self;
+	}
+	// Transform
+	mud::Type* DECL mud_Transform__type() {
+		return &mud::type<mud::Transform>();
+	}
+	mud::Transform* DECL mud_Transform__construct_0() {
+		return new mud::Transform();
+	}
+	mud::vec3* DECL mud_Transform__get_position(mud::Transform* self) {
+		return &self->m_position;
+	}
+	void DECL mud_Transform__set_position(mud::Transform* self, mud::vec3* value) {
+		self->m_position = *value;
+	}
+	mud::quat* DECL mud_Transform__get_rotation(mud::Transform* self) {
+		return &self->m_rotation;
+	}
+	void DECL mud_Transform__set_rotation(mud::Transform* self, mud::quat* value) {
+		self->m_rotation = *value;
+	}
+	mud::vec3* DECL mud_Transform__get_scale(mud::Transform* self) {
+		return &self->m_scale;
+	}
+	void DECL mud_Transform__set_scale(mud::Transform* self, mud::vec3* value) {
+		self->m_scale = *value;
+	}
+	void DECL mud_Transform__destroy(mud::Transform* self) {
+		delete self;
+	}
+	// ColourHSL
+	mud::Type* DECL mud_ColourHSL__type() {
+		return &mud::type<mud::ColourHSL>();
+	}
+	mud::ColourHSL* DECL mud_ColourHSL__construct_0() {
+		return new mud::ColourHSL();
+	}
+	float DECL mud_ColourHSL__get_h(mud::ColourHSL* self) {
+		return self->h;
+	}
+	void DECL mud_ColourHSL__set_h(mud::ColourHSL* self, float value) {
+		self->h = value;
+	}
+	float DECL mud_ColourHSL__get_s(mud::ColourHSL* self) {
+		return self->s;
+	}
+	void DECL mud_ColourHSL__set_s(mud::ColourHSL* self, float value) {
+		self->s = value;
+	}
+	float DECL mud_ColourHSL__get_l(mud::ColourHSL* self) {
+		return self->l;
+	}
+	void DECL mud_ColourHSL__set_l(mud::ColourHSL* self, float value) {
+		self->l = value;
+	}
+	float DECL mud_ColourHSL__get_a(mud::ColourHSL* self) {
+		return self->a;
+	}
+	void DECL mud_ColourHSL__set_a(mud::ColourHSL* self, float value) {
+		self->a = value;
+	}
+	void DECL mud_ColourHSL__destroy(mud::ColourHSL* self) {
+		delete self;
+	}
 	// Colour
 	mud::Type* DECL mud_Colour__type() {
 		return &mud::type<mud::Colour>();
@@ -58,348 +588,6 @@ extern "C" {
 	void DECL mud_Colour__destroy(mud::Colour* self) {
 		delete self;
 	}
-	// ColourHSL
-	mud::Type* DECL mud_ColourHSL__type() {
-		return &mud::type<mud::ColourHSL>();
-	}
-	mud::ColourHSL* DECL mud_ColourHSL__construct_0() {
-		return new mud::ColourHSL();
-	}
-	float DECL mud_ColourHSL__get_h(mud::ColourHSL* self) {
-		return self->h;
-	}
-	void DECL mud_ColourHSL__set_h(mud::ColourHSL* self, float value) {
-		self->h = value;
-	}
-	float DECL mud_ColourHSL__get_s(mud::ColourHSL* self) {
-		return self->s;
-	}
-	void DECL mud_ColourHSL__set_s(mud::ColourHSL* self, float value) {
-		self->s = value;
-	}
-	float DECL mud_ColourHSL__get_l(mud::ColourHSL* self) {
-		return self->l;
-	}
-	void DECL mud_ColourHSL__set_l(mud::ColourHSL* self, float value) {
-		self->l = value;
-	}
-	float DECL mud_ColourHSL__get_a(mud::ColourHSL* self) {
-		return self->a;
-	}
-	void DECL mud_ColourHSL__set_a(mud::ColourHSL* self, float value) {
-		self->a = value;
-	}
-	void DECL mud_ColourHSL__destroy(mud::ColourHSL* self) {
-		delete self;
-	}
-	// Image
-	mud::Type* DECL mud_Image__type() {
-		return &mud::type<mud::Image>();
-	}
-	mud::Image* DECL mud_Image__construct_0() {
-		return new mud::Image();
-	}
-	const char* DECL mud_Image__get_d_name(mud::Image* self) {
-		return self->d_name.c_str();
-	}
-	void DECL mud_Image__set_d_name(mud::Image* self, const char* value) {
-		self->d_name = value;
-	}
-	const char* DECL mud_Image__get_d_path(mud::Image* self) {
-		return self->d_path.c_str();
-	}
-	void DECL mud_Image__set_d_path(mud::Image* self, const char* value) {
-		self->d_path = value;
-	}
-	void DECL mud_Image__destroy(mud::Image* self) {
-		delete self;
-	}
-	// Image256
-	mud::Type* DECL mud_Image256__type() {
-		return &mud::type<mud::Image256>();
-	}
-	mud::Image256* DECL mud_Image256__construct_0() {
-		return new mud::Image256();
-	}
-	mud::Image256* DECL mud_Image256__construct_1(const mud::uvec2* size) {
-		return new mud::Image256(*size);
-	}
-	mud::Image256* DECL mud_Image256__construct_2(const mud::uvec2* size, const mud::Palette* palette) {
-		return new mud::Image256(*size, *palette);
-	}
-	uint* DECL mud_Image256__get_pixels(mud::Image256* self) {
-		return (uint*)self->m_pixels.data();
-	}
-	mud::uvec2* DECL mud_Image256__get_size(mud::Image256* self) {
-		return &self->m_size;
-	}
-	void DECL mud_Image256__set_size(mud::Image256* self, mud::uvec2* value) {
-		self->m_size = *value;
-	}
-	mud::Palette* DECL mud_Image256__get_palette(mud::Image256* self) {
-		return &self->m_palette;
-	}
-	void DECL mud_Image256__set_palette(mud::Image256* self, mud::Palette* value) {
-		self->m_palette = *value;
-	}
-	void DECL mud_Image256__destroy(mud::Image256* self) {
-		delete self;
-	}
-	// ImageAtlas
-	mud::Type* DECL mud_ImageAtlas__type() {
-		return &mud::type<mud::ImageAtlas>();
-	}
-	void DECL mud_ImageAtlas__destroy(mud::ImageAtlas* self) {
-		delete self;
-	}
-	// Palette
-	mud::Type* DECL mud_Palette__type() {
-		return &mud::type<mud::Palette>();
-	}
-	mud::Palette* DECL mud_Palette__construct_0() {
-		return new mud::Palette();
-	}
-	mud::Palette* DECL mud_Palette__construct_1(float* colours, int colours_size) {
-		return new mud::Palette({ (mud::Colour*)colours, colours_size / (sizeof(mud::Colour) / sizeof(float)) });
-	}
-	mud::Palette* DECL mud_Palette__construct_2(mud::Spectrum spectrum, size_t steps) {
-		return new mud::Palette(spectrum, steps);
-	}
-	void DECL mud_Palette__destroy(mud::Palette* self) {
-		delete self;
-	}
-	// Range<float>
-	mud::Type* DECL mud_Range_float__type() {
-		return &mud::type<mud::Range<float>>();
-	}
-	mud::Range<float>* DECL mud_Range_float__construct_0() {
-		return new mud::Range<float>();
-	}
-	float DECL mud_Range_float__get_min(mud::Range<float>* self) {
-		return self->m_min;
-	}
-	void DECL mud_Range_float__set_min(mud::Range<float>* self, float value) {
-		self->m_min = value;
-	}
-	float DECL mud_Range_float__get_max(mud::Range<float>* self) {
-		return self->m_max;
-	}
-	void DECL mud_Range_float__set_max(mud::Range<float>* self, float value) {
-		self->m_max = value;
-	}
-	void DECL mud_Range_float__destroy(mud::Range<float>* self) {
-		delete self;
-	}
-	// Range<mud::Colour>
-	mud::Type* DECL mud_Range_mud_Colour__type() {
-		return &mud::type<mud::Range<mud::Colour>>();
-	}
-	mud::Range<mud::Colour>* DECL mud_Range_mud_Colour__construct_0() {
-		return new mud::Range<mud::Colour>();
-	}
-	mud::Colour* DECL mud_Range_mud_Colour__get_min(mud::Range<mud::Colour>* self) {
-		return &self->m_min;
-	}
-	void DECL mud_Range_mud_Colour__set_min(mud::Range<mud::Colour>* self, mud::Colour* value) {
-		self->m_min = *value;
-	}
-	mud::Colour* DECL mud_Range_mud_Colour__get_max(mud::Range<mud::Colour>* self) {
-		return &self->m_max;
-	}
-	void DECL mud_Range_mud_Colour__set_max(mud::Range<mud::Colour>* self, mud::Colour* value) {
-		self->m_max = *value;
-	}
-	void DECL mud_Range_mud_Colour__destroy(mud::Range<mud::Colour>* self) {
-		delete self;
-	}
-	// Range<mud::quat>
-	mud::Type* DECL mud_Range_mud_quat__type() {
-		return &mud::type<mud::Range<mud::quat>>();
-	}
-	mud::Range<mud::quat>* DECL mud_Range_mud_quat__construct_0() {
-		return new mud::Range<mud::quat>();
-	}
-	mud::quat* DECL mud_Range_mud_quat__get_min(mud::Range<mud::quat>* self) {
-		return &self->m_min;
-	}
-	void DECL mud_Range_mud_quat__set_min(mud::Range<mud::quat>* self, mud::quat* value) {
-		self->m_min = *value;
-	}
-	mud::quat* DECL mud_Range_mud_quat__get_max(mud::Range<mud::quat>* self) {
-		return &self->m_max;
-	}
-	void DECL mud_Range_mud_quat__set_max(mud::Range<mud::quat>* self, mud::quat* value) {
-		self->m_max = *value;
-	}
-	void DECL mud_Range_mud_quat__destroy(mud::Range<mud::quat>* self) {
-		delete self;
-	}
-	// Range<mud::vec3>
-	mud::Type* DECL mud_Range_mud_vec3__type() {
-		return &mud::type<mud::Range<mud::vec3>>();
-	}
-	mud::Range<mud::vec3>* DECL mud_Range_mud_vec3__construct_0() {
-		return new mud::Range<mud::vec3>();
-	}
-	mud::vec3* DECL mud_Range_mud_vec3__get_min(mud::Range<mud::vec3>* self) {
-		return &self->m_min;
-	}
-	void DECL mud_Range_mud_vec3__set_min(mud::Range<mud::vec3>* self, mud::vec3* value) {
-		self->m_min = *value;
-	}
-	mud::vec3* DECL mud_Range_mud_vec3__get_max(mud::Range<mud::vec3>* self) {
-		return &self->m_max;
-	}
-	void DECL mud_Range_mud_vec3__set_max(mud::Range<mud::vec3>* self, mud::vec3* value) {
-		self->m_max = *value;
-	}
-	void DECL mud_Range_mud_vec3__destroy(mud::Range<mud::vec3>* self) {
-		delete self;
-	}
-	// Range<uint32_t>
-	mud::Type* DECL mud_Range_uint32_t__type() {
-		return &mud::type<mud::Range<uint32_t>>();
-	}
-	mud::Range<uint32_t>* DECL mud_Range_uint32_t__construct_0() {
-		return new mud::Range<uint32_t>();
-	}
-	uint32_t DECL mud_Range_uint32_t__get_min(mud::Range<uint32_t>* self) {
-		return self->m_min;
-	}
-	void DECL mud_Range_uint32_t__set_min(mud::Range<uint32_t>* self, uint32_t value) {
-		self->m_min = value;
-	}
-	uint32_t DECL mud_Range_uint32_t__get_max(mud::Range<uint32_t>* self) {
-		return self->m_max;
-	}
-	void DECL mud_Range_uint32_t__set_max(mud::Range<uint32_t>* self, uint32_t value) {
-		self->m_max = value;
-	}
-	void DECL mud_Range_uint32_t__destroy(mud::Range<uint32_t>* self) {
-		delete self;
-	}
-	// StatDef<float>
-	mud::Type* DECL mud_StatDef_float__type() {
-		return &mud::type<mud::StatDef<float>>();
-	}
-	mud::StatDef<float>* DECL mud_StatDef_float__construct_0() {
-		return new mud::StatDef<float>();
-	}
-	float DECL mud_StatDef_float__get_min(mud::StatDef<float>* self) {
-		return self->m_min;
-	}
-	void DECL mud_StatDef_float__set_min(mud::StatDef<float>* self, float value) {
-		self->m_min = value;
-	}
-	float DECL mud_StatDef_float__get_max(mud::StatDef<float>* self) {
-		return self->m_max;
-	}
-	void DECL mud_StatDef_float__set_max(mud::StatDef<float>* self, float value) {
-		self->m_max = value;
-	}
-	float DECL mud_StatDef_float__get_step(mud::StatDef<float>* self) {
-		return self->m_step;
-	}
-	void DECL mud_StatDef_float__set_step(mud::StatDef<float>* self, float value) {
-		self->m_step = value;
-	}
-	void DECL mud_StatDef_float__destroy(mud::StatDef<float>* self) {
-		delete self;
-	}
-	// StatDef<int>
-	mud::Type* DECL mud_StatDef_int__type() {
-		return &mud::type<mud::StatDef<int>>();
-	}
-	mud::StatDef<int>* DECL mud_StatDef_int__construct_0() {
-		return new mud::StatDef<int>();
-	}
-	int DECL mud_StatDef_int__get_min(mud::StatDef<int>* self) {
-		return self->m_min;
-	}
-	void DECL mud_StatDef_int__set_min(mud::StatDef<int>* self, int value) {
-		self->m_min = value;
-	}
-	int DECL mud_StatDef_int__get_max(mud::StatDef<int>* self) {
-		return self->m_max;
-	}
-	void DECL mud_StatDef_int__set_max(mud::StatDef<int>* self, int value) {
-		self->m_max = value;
-	}
-	int DECL mud_StatDef_int__get_step(mud::StatDef<int>* self) {
-		return self->m_step;
-	}
-	void DECL mud_StatDef_int__set_step(mud::StatDef<int>* self, int value) {
-		self->m_step = value;
-	}
-	void DECL mud_StatDef_int__destroy(mud::StatDef<int>* self) {
-		delete self;
-	}
-	// Time
-	mud::Type* DECL mud_Time__type() {
-		return &mud::type<mud::Time>();
-	}
-	mud::Time* DECL mud_Time__construct_1(double value) {
-		return new mud::Time(value);
-	}
-	double DECL mud_Time__get_value(mud::Time* self) {
-		return self->m_value;
-	}
-	void DECL mud_Time__set_value(mud::Time* self, double value) {
-		self->m_value = value;
-	}
-	void DECL mud_Time__destroy(mud::Time* self) {
-		delete self;
-	}
-	// TimeSpan
-	mud::Type* DECL mud_TimeSpan__type() {
-		return &mud::type<mud::TimeSpan>();
-	}
-	mud::TimeSpan* DECL mud_TimeSpan__construct_2(mud::Time* s, mud::Time* e) {
-		return new mud::TimeSpan(*s, *e);
-	}
-	mud::Time* DECL mud_TimeSpan__get_start(mud::TimeSpan* self) {
-		return &self->start;
-	}
-	void DECL mud_TimeSpan__set_start(mud::TimeSpan* self, mud::Time* value) {
-		self->start = *value;
-	}
-	mud::Time* DECL mud_TimeSpan__get_end(mud::TimeSpan* self) {
-		return &self->end;
-	}
-	void DECL mud_TimeSpan__set_end(mud::TimeSpan* self, mud::Time* value) {
-		self->end = *value;
-	}
-	void DECL mud_TimeSpan__destroy(mud::TimeSpan* self) {
-		delete self;
-	}
-	// Transform
-	mud::Type* DECL mud_Transform__type() {
-		return &mud::type<mud::Transform>();
-	}
-	mud::Transform* DECL mud_Transform__construct_0() {
-		return new mud::Transform();
-	}
-	mud::vec3* DECL mud_Transform__get_position(mud::Transform* self) {
-		return &self->m_position;
-	}
-	void DECL mud_Transform__set_position(mud::Transform* self, mud::vec3* value) {
-		self->m_position = *value;
-	}
-	mud::quat* DECL mud_Transform__get_rotation(mud::Transform* self) {
-		return &self->m_rotation;
-	}
-	void DECL mud_Transform__set_rotation(mud::Transform* self, mud::quat* value) {
-		self->m_rotation = *value;
-	}
-	mud::vec3* DECL mud_Transform__get_scale(mud::Transform* self) {
-		return &self->m_scale;
-	}
-	void DECL mud_Transform__set_scale(mud::Transform* self, mud::vec3* value) {
-		self->m_scale = *value;
-	}
-	void DECL mud_Transform__destroy(mud::Transform* self) {
-		delete self;
-	}
 	// ValueCurve<float>
 	mud::Type* DECL mud_ValueCurve_float__type() {
 		return &mud::type<mud::ValueCurve<float>>();
@@ -414,48 +602,6 @@ extern "C" {
 		return (float*)self->m_keys.data();
 	}
 	void DECL mud_ValueCurve_float__destroy(mud::ValueCurve<float>* self) {
-		delete self;
-	}
-	// ValueCurve<mud::Colour>
-	mud::Type* DECL mud_ValueCurve_mud_Colour__type() {
-		return &mud::type<mud::ValueCurve<mud::Colour>>();
-	}
-	mud::ValueCurve<mud::Colour>* DECL mud_ValueCurve_mud_Colour__construct_0() {
-		return new mud::ValueCurve<mud::Colour>();
-	}
-	mud::ValueCurve<mud::Colour>* DECL mud_ValueCurve_mud_Colour__construct_1(float* keys, int keys_size) {
-		return new mud::ValueCurve<mud::Colour>({ (mud::Colour*)keys, keys_size / (sizeof(mud::Colour) / sizeof(float)) });
-	}
-	float* DECL mud_ValueCurve_mud_Colour__get_keys(mud::ValueCurve<mud::Colour>* self) {
-		return (float*)self->m_keys.data();
-	}
-	void DECL mud_ValueCurve_mud_Colour__destroy(mud::ValueCurve<mud::Colour>* self) {
-		delete self;
-	}
-	// ValueCurve<mud::quat>
-	mud::Type* DECL mud_ValueCurve_mud_quat__type() {
-		return &mud::type<mud::ValueCurve<mud::quat>>();
-	}
-	mud::ValueCurve<mud::quat>* DECL mud_ValueCurve_mud_quat__construct_0() {
-		return new mud::ValueCurve<mud::quat>();
-	}
-	void DECL mud_ValueCurve_mud_quat__destroy(mud::ValueCurve<mud::quat>* self) {
-		delete self;
-	}
-	// ValueCurve<mud::vec3>
-	mud::Type* DECL mud_ValueCurve_mud_vec3__type() {
-		return &mud::type<mud::ValueCurve<mud::vec3>>();
-	}
-	mud::ValueCurve<mud::vec3>* DECL mud_ValueCurve_mud_vec3__construct_0() {
-		return new mud::ValueCurve<mud::vec3>();
-	}
-	mud::ValueCurve<mud::vec3>* DECL mud_ValueCurve_mud_vec3__construct_1(float* keys, int keys_size) {
-		return new mud::ValueCurve<mud::vec3>({ (mud::vec3*)keys, keys_size / (sizeof(mud::vec3) / sizeof(float)) });
-	}
-	float* DECL mud_ValueCurve_mud_vec3__get_keys(mud::ValueCurve<mud::vec3>* self) {
-		return (float*)self->m_keys.data();
-	}
-	void DECL mud_ValueCurve_mud_vec3__destroy(mud::ValueCurve<mud::vec3>* self) {
 		delete self;
 	}
 	// ValueCurve<uint32_t>
@@ -474,169 +620,46 @@ extern "C" {
 	void DECL mud_ValueCurve_uint32_t__destroy(mud::ValueCurve<uint32_t>* self) {
 		delete self;
 	}
-	// ValueTrack<float>
-	mud::Type* DECL mud_ValueTrack_float__type() {
-		return &mud::type<mud::ValueTrack<float>>();
+	// ValueCurve<mud::vec3>
+	mud::Type* DECL mud_ValueCurve_mud_vec3__type() {
+		return &mud::type<mud::ValueCurve<mud::vec3>>();
 	}
-	mud::ValueTrack<float>* DECL mud_ValueTrack_float__construct_0() {
-		return new mud::ValueTrack<float>();
+	mud::ValueCurve<mud::vec3>* DECL mud_ValueCurve_mud_vec3__construct_0() {
+		return new mud::ValueCurve<mud::vec3>();
 	}
-	mud::ValueTrack<float>* DECL mud_ValueTrack_float__construct_4(mud::TrackMode mode, mud::ValueCurve<float>* curve, mud::ValueCurve<float>* min_curve, mud::ValueCurve<float>* max_curve) {
-		return new mud::ValueTrack<float>(mode, *curve, *min_curve, *max_curve);
+	mud::ValueCurve<mud::vec3>* DECL mud_ValueCurve_mud_vec3__construct_1(float* keys, int keys_size) {
+		return new mud::ValueCurve<mud::vec3>({ (mud::vec3*)keys, keys_size / (sizeof(mud::vec3) / sizeof(float)) });
 	}
-	mud::TrackMode DECL mud_ValueTrack_float__get_mode(mud::ValueTrack<float>* self) {
-		return self->m_mode;
+	float* DECL mud_ValueCurve_mud_vec3__get_keys(mud::ValueCurve<mud::vec3>* self) {
+		return (float*)self->m_keys.data();
 	}
-	void DECL mud_ValueTrack_float__set_mode(mud::ValueTrack<float>* self, mud::TrackMode value) {
-		self->m_mode = value;
-	}
-	float DECL mud_ValueTrack_float__get_value(mud::ValueTrack<float>* self) {
-		return self->m_value;
-	}
-	void DECL mud_ValueTrack_float__set_value(mud::ValueTrack<float>* self, float value) {
-		self->m_value = value;
-	}
-	float DECL mud_ValueTrack_float__get_min(mud::ValueTrack<float>* self) {
-		return self->m_min;
-	}
-	void DECL mud_ValueTrack_float__set_min(mud::ValueTrack<float>* self, float value) {
-		self->m_min = value;
-	}
-	float DECL mud_ValueTrack_float__get_max(mud::ValueTrack<float>* self) {
-		return self->m_max;
-	}
-	void DECL mud_ValueTrack_float__set_max(mud::ValueTrack<float>* self, float value) {
-		self->m_max = value;
-	}
-	mud::ValueCurve<float>* DECL mud_ValueTrack_float__get_curve(mud::ValueTrack<float>* self) {
-		return &self->m_curve;
-	}
-	void DECL mud_ValueTrack_float__set_curve(mud::ValueTrack<float>* self, mud::ValueCurve<float>* value) {
-		self->m_curve = *value;
-	}
-	mud::ValueCurve<float>* DECL mud_ValueTrack_float__get_min_curve(mud::ValueTrack<float>* self) {
-		return &self->m_min_curve;
-	}
-	void DECL mud_ValueTrack_float__set_min_curve(mud::ValueTrack<float>* self, mud::ValueCurve<float>* value) {
-		self->m_min_curve = *value;
-	}
-	mud::ValueCurve<float>* DECL mud_ValueTrack_float__get_max_curve(mud::ValueTrack<float>* self) {
-		return &self->m_max_curve;
-	}
-	void DECL mud_ValueTrack_float__set_max_curve(mud::ValueTrack<float>* self, mud::ValueCurve<float>* value) {
-		self->m_max_curve = *value;
-	}
-	void DECL mud_ValueTrack_float__destroy(mud::ValueTrack<float>* self) {
+	void DECL mud_ValueCurve_mud_vec3__destroy(mud::ValueCurve<mud::vec3>* self) {
 		delete self;
 	}
-	// ValueTrack<mud::Colour>
-	mud::Type* DECL mud_ValueTrack_mud_Colour__type() {
-		return &mud::type<mud::ValueTrack<mud::Colour>>();
+	// ValueCurve<mud::quat>
+	mud::Type* DECL mud_ValueCurve_mud_quat__type() {
+		return &mud::type<mud::ValueCurve<mud::quat>>();
 	}
-	mud::ValueTrack<mud::Colour>* DECL mud_ValueTrack_mud_Colour__construct_0() {
-		return new mud::ValueTrack<mud::Colour>();
+	mud::ValueCurve<mud::quat>* DECL mud_ValueCurve_mud_quat__construct_0() {
+		return new mud::ValueCurve<mud::quat>();
 	}
-	mud::ValueTrack<mud::Colour>* DECL mud_ValueTrack_mud_Colour__construct_4(mud::TrackMode mode, mud::ValueCurve<mud::Colour>* curve, mud::ValueCurve<mud::Colour>* min_curve, mud::ValueCurve<mud::Colour>* max_curve) {
-		return new mud::ValueTrack<mud::Colour>(mode, *curve, *min_curve, *max_curve);
-	}
-	mud::TrackMode DECL mud_ValueTrack_mud_Colour__get_mode(mud::ValueTrack<mud::Colour>* self) {
-		return self->m_mode;
-	}
-	void DECL mud_ValueTrack_mud_Colour__set_mode(mud::ValueTrack<mud::Colour>* self, mud::TrackMode value) {
-		self->m_mode = value;
-	}
-	mud::Colour* DECL mud_ValueTrack_mud_Colour__get_value(mud::ValueTrack<mud::Colour>* self) {
-		return &self->m_value;
-	}
-	void DECL mud_ValueTrack_mud_Colour__set_value(mud::ValueTrack<mud::Colour>* self, mud::Colour* value) {
-		self->m_value = *value;
-	}
-	mud::Colour* DECL mud_ValueTrack_mud_Colour__get_min(mud::ValueTrack<mud::Colour>* self) {
-		return &self->m_min;
-	}
-	void DECL mud_ValueTrack_mud_Colour__set_min(mud::ValueTrack<mud::Colour>* self, mud::Colour* value) {
-		self->m_min = *value;
-	}
-	mud::Colour* DECL mud_ValueTrack_mud_Colour__get_max(mud::ValueTrack<mud::Colour>* self) {
-		return &self->m_max;
-	}
-	void DECL mud_ValueTrack_mud_Colour__set_max(mud::ValueTrack<mud::Colour>* self, mud::Colour* value) {
-		self->m_max = *value;
-	}
-	mud::ValueCurve<mud::Colour>* DECL mud_ValueTrack_mud_Colour__get_curve(mud::ValueTrack<mud::Colour>* self) {
-		return &self->m_curve;
-	}
-	void DECL mud_ValueTrack_mud_Colour__set_curve(mud::ValueTrack<mud::Colour>* self, mud::ValueCurve<mud::Colour>* value) {
-		self->m_curve = *value;
-	}
-	mud::ValueCurve<mud::Colour>* DECL mud_ValueTrack_mud_Colour__get_min_curve(mud::ValueTrack<mud::Colour>* self) {
-		return &self->m_min_curve;
-	}
-	void DECL mud_ValueTrack_mud_Colour__set_min_curve(mud::ValueTrack<mud::Colour>* self, mud::ValueCurve<mud::Colour>* value) {
-		self->m_min_curve = *value;
-	}
-	mud::ValueCurve<mud::Colour>* DECL mud_ValueTrack_mud_Colour__get_max_curve(mud::ValueTrack<mud::Colour>* self) {
-		return &self->m_max_curve;
-	}
-	void DECL mud_ValueTrack_mud_Colour__set_max_curve(mud::ValueTrack<mud::Colour>* self, mud::ValueCurve<mud::Colour>* value) {
-		self->m_max_curve = *value;
-	}
-	void DECL mud_ValueTrack_mud_Colour__destroy(mud::ValueTrack<mud::Colour>* self) {
+	void DECL mud_ValueCurve_mud_quat__destroy(mud::ValueCurve<mud::quat>* self) {
 		delete self;
 	}
-	// ValueTrack<mud::quat>
-	mud::Type* DECL mud_ValueTrack_mud_quat__type() {
-		return &mud::type<mud::ValueTrack<mud::quat>>();
+	// ValueCurve<mud::Colour>
+	mud::Type* DECL mud_ValueCurve_mud_Colour__type() {
+		return &mud::type<mud::ValueCurve<mud::Colour>>();
 	}
-	mud::ValueTrack<mud::quat>* DECL mud_ValueTrack_mud_quat__construct_0() {
-		return new mud::ValueTrack<mud::quat>();
+	mud::ValueCurve<mud::Colour>* DECL mud_ValueCurve_mud_Colour__construct_0() {
+		return new mud::ValueCurve<mud::Colour>();
 	}
-	mud::ValueTrack<mud::quat>* DECL mud_ValueTrack_mud_quat__construct_4(mud::TrackMode mode, mud::ValueCurve<mud::quat>* curve, mud::ValueCurve<mud::quat>* min_curve, mud::ValueCurve<mud::quat>* max_curve) {
-		return new mud::ValueTrack<mud::quat>(mode, *curve, *min_curve, *max_curve);
+	mud::ValueCurve<mud::Colour>* DECL mud_ValueCurve_mud_Colour__construct_1(float* keys, int keys_size) {
+		return new mud::ValueCurve<mud::Colour>({ (mud::Colour*)keys, keys_size / (sizeof(mud::Colour) / sizeof(float)) });
 	}
-	mud::TrackMode DECL mud_ValueTrack_mud_quat__get_mode(mud::ValueTrack<mud::quat>* self) {
-		return self->m_mode;
+	float* DECL mud_ValueCurve_mud_Colour__get_keys(mud::ValueCurve<mud::Colour>* self) {
+		return (float*)self->m_keys.data();
 	}
-	void DECL mud_ValueTrack_mud_quat__set_mode(mud::ValueTrack<mud::quat>* self, mud::TrackMode value) {
-		self->m_mode = value;
-	}
-	mud::quat* DECL mud_ValueTrack_mud_quat__get_value(mud::ValueTrack<mud::quat>* self) {
-		return &self->m_value;
-	}
-	void DECL mud_ValueTrack_mud_quat__set_value(mud::ValueTrack<mud::quat>* self, mud::quat* value) {
-		self->m_value = *value;
-	}
-	mud::quat* DECL mud_ValueTrack_mud_quat__get_min(mud::ValueTrack<mud::quat>* self) {
-		return &self->m_min;
-	}
-	void DECL mud_ValueTrack_mud_quat__set_min(mud::ValueTrack<mud::quat>* self, mud::quat* value) {
-		self->m_min = *value;
-	}
-	mud::quat* DECL mud_ValueTrack_mud_quat__get_max(mud::ValueTrack<mud::quat>* self) {
-		return &self->m_max;
-	}
-	void DECL mud_ValueTrack_mud_quat__set_max(mud::ValueTrack<mud::quat>* self, mud::quat* value) {
-		self->m_max = *value;
-	}
-	mud::ValueCurve<mud::quat>* DECL mud_ValueTrack_mud_quat__get_curve(mud::ValueTrack<mud::quat>* self) {
-		return &self->m_curve;
-	}
-	void DECL mud_ValueTrack_mud_quat__set_curve(mud::ValueTrack<mud::quat>* self, mud::ValueCurve<mud::quat>* value) {
-		self->m_curve = *value;
-	}
-	mud::ValueCurve<mud::quat>* DECL mud_ValueTrack_mud_quat__get_min_curve(mud::ValueTrack<mud::quat>* self) {
-		return &self->m_min_curve;
-	}
-	void DECL mud_ValueTrack_mud_quat__set_min_curve(mud::ValueTrack<mud::quat>* self, mud::ValueCurve<mud::quat>* value) {
-		self->m_min_curve = *value;
-	}
-	mud::ValueCurve<mud::quat>* DECL mud_ValueTrack_mud_quat__get_max_curve(mud::ValueTrack<mud::quat>* self) {
-		return &self->m_max_curve;
-	}
-	void DECL mud_ValueTrack_mud_quat__set_max_curve(mud::ValueTrack<mud::quat>* self, mud::ValueCurve<mud::quat>* value) {
-		self->m_max_curve = *value;
-	}
-	void DECL mud_ValueTrack_mud_quat__destroy(mud::ValueTrack<mud::quat>* self) {
+	void DECL mud_ValueCurve_mud_Colour__destroy(mud::ValueCurve<mud::Colour>* self) {
 		delete self;
 	}
 	// ValueTrack<mud::vec3>
@@ -694,6 +717,116 @@ extern "C" {
 	void DECL mud_ValueTrack_mud_vec3__destroy(mud::ValueTrack<mud::vec3>* self) {
 		delete self;
 	}
+	// ValueTrack<mud::quat>
+	mud::Type* DECL mud_ValueTrack_mud_quat__type() {
+		return &mud::type<mud::ValueTrack<mud::quat>>();
+	}
+	mud::ValueTrack<mud::quat>* DECL mud_ValueTrack_mud_quat__construct_0() {
+		return new mud::ValueTrack<mud::quat>();
+	}
+	mud::ValueTrack<mud::quat>* DECL mud_ValueTrack_mud_quat__construct_4(mud::TrackMode mode, mud::ValueCurve<mud::quat>* curve, mud::ValueCurve<mud::quat>* min_curve, mud::ValueCurve<mud::quat>* max_curve) {
+		return new mud::ValueTrack<mud::quat>(mode, *curve, *min_curve, *max_curve);
+	}
+	mud::TrackMode DECL mud_ValueTrack_mud_quat__get_mode(mud::ValueTrack<mud::quat>* self) {
+		return self->m_mode;
+	}
+	void DECL mud_ValueTrack_mud_quat__set_mode(mud::ValueTrack<mud::quat>* self, mud::TrackMode value) {
+		self->m_mode = value;
+	}
+	mud::quat* DECL mud_ValueTrack_mud_quat__get_value(mud::ValueTrack<mud::quat>* self) {
+		return &self->m_value;
+	}
+	void DECL mud_ValueTrack_mud_quat__set_value(mud::ValueTrack<mud::quat>* self, mud::quat* value) {
+		self->m_value = *value;
+	}
+	mud::quat* DECL mud_ValueTrack_mud_quat__get_min(mud::ValueTrack<mud::quat>* self) {
+		return &self->m_min;
+	}
+	void DECL mud_ValueTrack_mud_quat__set_min(mud::ValueTrack<mud::quat>* self, mud::quat* value) {
+		self->m_min = *value;
+	}
+	mud::quat* DECL mud_ValueTrack_mud_quat__get_max(mud::ValueTrack<mud::quat>* self) {
+		return &self->m_max;
+	}
+	void DECL mud_ValueTrack_mud_quat__set_max(mud::ValueTrack<mud::quat>* self, mud::quat* value) {
+		self->m_max = *value;
+	}
+	mud::ValueCurve<mud::quat>* DECL mud_ValueTrack_mud_quat__get_curve(mud::ValueTrack<mud::quat>* self) {
+		return &self->m_curve;
+	}
+	void DECL mud_ValueTrack_mud_quat__set_curve(mud::ValueTrack<mud::quat>* self, mud::ValueCurve<mud::quat>* value) {
+		self->m_curve = *value;
+	}
+	mud::ValueCurve<mud::quat>* DECL mud_ValueTrack_mud_quat__get_min_curve(mud::ValueTrack<mud::quat>* self) {
+		return &self->m_min_curve;
+	}
+	void DECL mud_ValueTrack_mud_quat__set_min_curve(mud::ValueTrack<mud::quat>* self, mud::ValueCurve<mud::quat>* value) {
+		self->m_min_curve = *value;
+	}
+	mud::ValueCurve<mud::quat>* DECL mud_ValueTrack_mud_quat__get_max_curve(mud::ValueTrack<mud::quat>* self) {
+		return &self->m_max_curve;
+	}
+	void DECL mud_ValueTrack_mud_quat__set_max_curve(mud::ValueTrack<mud::quat>* self, mud::ValueCurve<mud::quat>* value) {
+		self->m_max_curve = *value;
+	}
+	void DECL mud_ValueTrack_mud_quat__destroy(mud::ValueTrack<mud::quat>* self) {
+		delete self;
+	}
+	// ValueTrack<float>
+	mud::Type* DECL mud_ValueTrack_float__type() {
+		return &mud::type<mud::ValueTrack<float>>();
+	}
+	mud::ValueTrack<float>* DECL mud_ValueTrack_float__construct_0() {
+		return new mud::ValueTrack<float>();
+	}
+	mud::ValueTrack<float>* DECL mud_ValueTrack_float__construct_4(mud::TrackMode mode, mud::ValueCurve<float>* curve, mud::ValueCurve<float>* min_curve, mud::ValueCurve<float>* max_curve) {
+		return new mud::ValueTrack<float>(mode, *curve, *min_curve, *max_curve);
+	}
+	mud::TrackMode DECL mud_ValueTrack_float__get_mode(mud::ValueTrack<float>* self) {
+		return self->m_mode;
+	}
+	void DECL mud_ValueTrack_float__set_mode(mud::ValueTrack<float>* self, mud::TrackMode value) {
+		self->m_mode = value;
+	}
+	float DECL mud_ValueTrack_float__get_value(mud::ValueTrack<float>* self) {
+		return self->m_value;
+	}
+	void DECL mud_ValueTrack_float__set_value(mud::ValueTrack<float>* self, float value) {
+		self->m_value = value;
+	}
+	float DECL mud_ValueTrack_float__get_min(mud::ValueTrack<float>* self) {
+		return self->m_min;
+	}
+	void DECL mud_ValueTrack_float__set_min(mud::ValueTrack<float>* self, float value) {
+		self->m_min = value;
+	}
+	float DECL mud_ValueTrack_float__get_max(mud::ValueTrack<float>* self) {
+		return self->m_max;
+	}
+	void DECL mud_ValueTrack_float__set_max(mud::ValueTrack<float>* self, float value) {
+		self->m_max = value;
+	}
+	mud::ValueCurve<float>* DECL mud_ValueTrack_float__get_curve(mud::ValueTrack<float>* self) {
+		return &self->m_curve;
+	}
+	void DECL mud_ValueTrack_float__set_curve(mud::ValueTrack<float>* self, mud::ValueCurve<float>* value) {
+		self->m_curve = *value;
+	}
+	mud::ValueCurve<float>* DECL mud_ValueTrack_float__get_min_curve(mud::ValueTrack<float>* self) {
+		return &self->m_min_curve;
+	}
+	void DECL mud_ValueTrack_float__set_min_curve(mud::ValueTrack<float>* self, mud::ValueCurve<float>* value) {
+		self->m_min_curve = *value;
+	}
+	mud::ValueCurve<float>* DECL mud_ValueTrack_float__get_max_curve(mud::ValueTrack<float>* self) {
+		return &self->m_max_curve;
+	}
+	void DECL mud_ValueTrack_float__set_max_curve(mud::ValueTrack<float>* self, mud::ValueCurve<float>* value) {
+		self->m_max_curve = *value;
+	}
+	void DECL mud_ValueTrack_float__destroy(mud::ValueTrack<float>* self) {
+		delete self;
+	}
 	// ValueTrack<uint32_t>
 	mud::Type* DECL mud_ValueTrack_uint32_t__type() {
 		return &mud::type<mud::ValueTrack<uint32_t>>();
@@ -749,456 +882,142 @@ extern "C" {
 	void DECL mud_ValueTrack_uint32_t__destroy(mud::ValueTrack<uint32_t>* self) {
 		delete self;
 	}
-	// mat3
-	mud::Type* DECL mud_mat3__type() {
-		return &mud::type<mud::mat3>();
+	// ValueTrack<mud::Colour>
+	mud::Type* DECL mud_ValueTrack_mud_Colour__type() {
+		return &mud::type<mud::ValueTrack<mud::Colour>>();
 	}
-	mud::mat3* DECL mud_mat3__construct_0() {
-		return new mud::mat3();
+	mud::ValueTrack<mud::Colour>* DECL mud_ValueTrack_mud_Colour__construct_0() {
+		return new mud::ValueTrack<mud::Colour>();
 	}
-	mud::mat3* DECL mud_mat3__construct_3(const mud::float3* x, const mud::float3* y, const mud::float3* z) {
-		return new mud::mat3(*x, *y, *z);
+	mud::ValueTrack<mud::Colour>* DECL mud_ValueTrack_mud_Colour__construct_4(mud::TrackMode mode, mud::ValueCurve<mud::Colour>* curve, mud::ValueCurve<mud::Colour>* min_curve, mud::ValueCurve<mud::Colour>* max_curve) {
+		return new mud::ValueTrack<mud::Colour>(mode, *curve, *min_curve, *max_curve);
 	}
-	mud::mat3* DECL mud_mat3__construct_9(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
-		return new mud::mat3(f0, f1, f2, f3, f4, f5, f6, f7, f8);
+	mud::TrackMode DECL mud_ValueTrack_mud_Colour__get_mode(mud::ValueTrack<mud::Colour>* self) {
+		return self->m_mode;
 	}
-	float DECL mud_mat3__get_f(mud::mat3* self, unsigned int index) {
-		return self->f[index];
+	void DECL mud_ValueTrack_mud_Colour__set_mode(mud::ValueTrack<mud::Colour>* self, mud::TrackMode value) {
+		self->m_mode = value;
 	}
-	void DECL mud_mat3__set_f(mud::mat3* self, unsigned int index, float value) {
-		self->f[index] = value;
+	mud::Colour* DECL mud_ValueTrack_mud_Colour__get_value(mud::ValueTrack<mud::Colour>* self) {
+		return &self->m_value;
 	}
-	void DECL mud_mat3__destroy(mud::mat3* self) {
+	void DECL mud_ValueTrack_mud_Colour__set_value(mud::ValueTrack<mud::Colour>* self, mud::Colour* value) {
+		self->m_value = *value;
+	}
+	mud::Colour* DECL mud_ValueTrack_mud_Colour__get_min(mud::ValueTrack<mud::Colour>* self) {
+		return &self->m_min;
+	}
+	void DECL mud_ValueTrack_mud_Colour__set_min(mud::ValueTrack<mud::Colour>* self, mud::Colour* value) {
+		self->m_min = *value;
+	}
+	mud::Colour* DECL mud_ValueTrack_mud_Colour__get_max(mud::ValueTrack<mud::Colour>* self) {
+		return &self->m_max;
+	}
+	void DECL mud_ValueTrack_mud_Colour__set_max(mud::ValueTrack<mud::Colour>* self, mud::Colour* value) {
+		self->m_max = *value;
+	}
+	mud::ValueCurve<mud::Colour>* DECL mud_ValueTrack_mud_Colour__get_curve(mud::ValueTrack<mud::Colour>* self) {
+		return &self->m_curve;
+	}
+	void DECL mud_ValueTrack_mud_Colour__set_curve(mud::ValueTrack<mud::Colour>* self, mud::ValueCurve<mud::Colour>* value) {
+		self->m_curve = *value;
+	}
+	mud::ValueCurve<mud::Colour>* DECL mud_ValueTrack_mud_Colour__get_min_curve(mud::ValueTrack<mud::Colour>* self) {
+		return &self->m_min_curve;
+	}
+	void DECL mud_ValueTrack_mud_Colour__set_min_curve(mud::ValueTrack<mud::Colour>* self, mud::ValueCurve<mud::Colour>* value) {
+		self->m_min_curve = *value;
+	}
+	mud::ValueCurve<mud::Colour>* DECL mud_ValueTrack_mud_Colour__get_max_curve(mud::ValueTrack<mud::Colour>* self) {
+		return &self->m_max_curve;
+	}
+	void DECL mud_ValueTrack_mud_Colour__set_max_curve(mud::ValueTrack<mud::Colour>* self, mud::ValueCurve<mud::Colour>* value) {
+		self->m_max_curve = *value;
+	}
+	void DECL mud_ValueTrack_mud_Colour__destroy(mud::ValueTrack<mud::Colour>* self) {
 		delete self;
 	}
-	// mat4
-	mud::Type* DECL mud_mat4__type() {
-		return &mud::type<mud::mat4>();
+	// Image
+	mud::Type* DECL mud_Image__type() {
+		return &mud::type<mud::Image>();
 	}
-	mud::mat4* DECL mud_mat4__construct_0() {
-		return new mud::mat4();
+	mud::Image* DECL mud_Image__construct_0() {
+		return new mud::Image();
 	}
-	mud::mat4* DECL mud_mat4__construct_4(const mud::float4* x, const mud::float4* y, const mud::float4* z, const mud::float4* w) {
-		return new mud::mat4(*x, *y, *z, *w);
+	const char* DECL mud_Image__get_d_name(mud::Image* self) {
+		return self->d_name.c_str();
 	}
-	mud::mat4* DECL mud_mat4__construct_16(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, float f12, float f13, float f14, float f15) {
-		return new mud::mat4(f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15);
+	void DECL mud_Image__set_d_name(mud::Image* self, const char* value) {
+		self->d_name = value;
 	}
-	float DECL mud_mat4__get_f(mud::mat4* self, unsigned int index) {
-		return self->f[index];
+	const char* DECL mud_Image__get_d_path(mud::Image* self) {
+		return self->d_path.c_str();
 	}
-	void DECL mud_mat4__set_f(mud::mat4* self, unsigned int index, float value) {
-		self->f[index] = value;
+	void DECL mud_Image__set_d_path(mud::Image* self, const char* value) {
+		self->d_path = value;
 	}
-	void DECL mud_mat4__destroy(mud::mat4* self) {
+	void DECL mud_Image__destroy(mud::Image* self) {
 		delete self;
 	}
-	// v2<bool>
-	mud::Type* DECL mud_v2_bool__type() {
-		return &mud::type<mud::v2<bool>>();
+	// Palette
+	mud::Type* DECL mud_Palette__type() {
+		return &mud::type<mud::Palette>();
 	}
-	mud::v2<bool>* DECL mud_v2_bool__construct_0() {
-		return new mud::v2<bool>();
+	mud::Palette* DECL mud_Palette__construct_0() {
+		return new mud::Palette();
 	}
-	mud::v2<bool>* DECL mud_v2_bool__construct_1(bool v) {
-		return new mud::v2<bool>(v);
+	mud::Palette* DECL mud_Palette__construct_1(float* colours, int colours_size) {
+		return new mud::Palette({ (mud::Colour*)colours, colours_size / (sizeof(mud::Colour) / sizeof(float)) });
 	}
-	mud::v2<bool>* DECL mud_v2_bool__construct_2(bool x, bool y) {
-		return new mud::v2<bool>(x, y);
+	mud::Palette* DECL mud_Palette__construct_2(mud::Spectrum spectrum, size_t steps) {
+		return new mud::Palette(spectrum, steps);
 	}
-	bool DECL mud_v2_bool__get_x(mud::v2<bool>* self) {
-		return self->x;
-	}
-	void DECL mud_v2_bool__set_x(mud::v2<bool>* self, bool value) {
-		self->x = value;
-	}
-	bool DECL mud_v2_bool__get_y(mud::v2<bool>* self) {
-		return self->y;
-	}
-	void DECL mud_v2_bool__set_y(mud::v2<bool>* self, bool value) {
-		self->y = value;
-	}
-	void DECL mud_v2_bool__destroy(mud::v2<bool>* self) {
+	void DECL mud_Palette__destroy(mud::Palette* self) {
 		delete self;
 	}
-	// v2<float>
-	mud::Type* DECL mud_v2_float__type() {
-		return &mud::type<mud::v2<float>>();
+	// Image256
+	mud::Type* DECL mud_Image256__type() {
+		return &mud::type<mud::Image256>();
 	}
-	mud::v2<float>* DECL mud_v2_float__construct_0() {
-		return new mud::v2<float>();
+	mud::Image256* DECL mud_Image256__construct_0() {
+		return new mud::Image256();
 	}
-	mud::v2<float>* DECL mud_v2_float__construct_1(float v) {
-		return new mud::v2<float>(v);
+	mud::Image256* DECL mud_Image256__construct_1(const mud::uvec2* size) {
+		return new mud::Image256(*size);
 	}
-	mud::v2<float>* DECL mud_v2_float__construct_2(float x, float y) {
-		return new mud::v2<float>(x, y);
+	mud::Image256* DECL mud_Image256__construct_2(const mud::uvec2* size, const mud::Palette* palette) {
+		return new mud::Image256(*size, *palette);
 	}
-	float DECL mud_v2_float__get_x(mud::v2<float>* self) {
-		return self->x;
+	uint* DECL mud_Image256__get_pixels(mud::Image256* self) {
+		return (uint*)self->m_pixels.data();
 	}
-	void DECL mud_v2_float__set_x(mud::v2<float>* self, float value) {
-		self->x = value;
+	mud::uvec2* DECL mud_Image256__get_size(mud::Image256* self) {
+		return &self->m_size;
 	}
-	float DECL mud_v2_float__get_y(mud::v2<float>* self) {
-		return self->y;
+	void DECL mud_Image256__set_size(mud::Image256* self, mud::uvec2* value) {
+		self->m_size = *value;
 	}
-	void DECL mud_v2_float__set_y(mud::v2<float>* self, float value) {
-		self->y = value;
+	mud::Palette* DECL mud_Image256__get_palette(mud::Image256* self) {
+		return &self->m_palette;
 	}
-	void DECL mud_v2_float__destroy(mud::v2<float>* self) {
+	void DECL mud_Image256__set_palette(mud::Image256* self, mud::Palette* value) {
+		self->m_palette = *value;
+	}
+	void DECL mud_Image256__destroy(mud::Image256* self) {
 		delete self;
 	}
-	// v2<int>
-	mud::Type* DECL mud_v2_int__type() {
-		return &mud::type<mud::v2<int>>();
+	// ImageAtlas
+	mud::Type* DECL mud_ImageAtlas__type() {
+		return &mud::type<mud::ImageAtlas>();
 	}
-	mud::v2<int>* DECL mud_v2_int__construct_0() {
-		return new mud::v2<int>();
-	}
-	mud::v2<int>* DECL mud_v2_int__construct_1(int v) {
-		return new mud::v2<int>(v);
-	}
-	mud::v2<int>* DECL mud_v2_int__construct_2(int x, int y) {
-		return new mud::v2<int>(x, y);
-	}
-	int DECL mud_v2_int__get_x(mud::v2<int>* self) {
-		return self->x;
-	}
-	void DECL mud_v2_int__set_x(mud::v2<int>* self, int value) {
-		self->x = value;
-	}
-	int DECL mud_v2_int__get_y(mud::v2<int>* self) {
-		return self->y;
-	}
-	void DECL mud_v2_int__set_y(mud::v2<int>* self, int value) {
-		self->y = value;
-	}
-	void DECL mud_v2_int__destroy(mud::v2<int>* self) {
+	void DECL mud_ImageAtlas__destroy(mud::ImageAtlas* self) {
 		delete self;
 	}
-	// v2<uint>
-	mud::Type* DECL mud_v2_uint__type() {
-		return &mud::type<mud::v2<uint>>();
-	}
-	mud::v2<uint>* DECL mud_v2_uint__construct_0() {
-		return new mud::v2<uint>();
-	}
-	mud::v2<uint>* DECL mud_v2_uint__construct_1(uint v) {
-		return new mud::v2<uint>(v);
-	}
-	mud::v2<uint>* DECL mud_v2_uint__construct_2(uint x, uint y) {
-		return new mud::v2<uint>(x, y);
-	}
-	uint DECL mud_v2_uint__get_x(mud::v2<uint>* self) {
-		return self->x;
-	}
-	void DECL mud_v2_uint__set_x(mud::v2<uint>* self, uint value) {
-		self->x = value;
-	}
-	uint DECL mud_v2_uint__get_y(mud::v2<uint>* self) {
-		return self->y;
-	}
-	void DECL mud_v2_uint__set_y(mud::v2<uint>* self, uint value) {
-		self->y = value;
-	}
-	void DECL mud_v2_uint__destroy(mud::v2<uint>* self) {
-		delete self;
-	}
-	// v3<bool>
-	mud::Type* DECL mud_v3_bool__type() {
-		return &mud::type<mud::v3<bool>>();
-	}
-	mud::v3<bool>* DECL mud_v3_bool__construct_0() {
-		return new mud::v3<bool>();
-	}
-	mud::v3<bool>* DECL mud_v3_bool__construct_1(bool v) {
-		return new mud::v3<bool>(v);
-	}
-	mud::v3<bool>* DECL mud_v3_bool__construct_3(bool x, bool y, bool z) {
-		return new mud::v3<bool>(x, y, z);
-	}
-	bool DECL mud_v3_bool__get_x(mud::v3<bool>* self) {
-		return self->x;
-	}
-	void DECL mud_v3_bool__set_x(mud::v3<bool>* self, bool value) {
-		self->x = value;
-	}
-	bool DECL mud_v3_bool__get_y(mud::v3<bool>* self) {
-		return self->y;
-	}
-	void DECL mud_v3_bool__set_y(mud::v3<bool>* self, bool value) {
-		self->y = value;
-	}
-	bool DECL mud_v3_bool__get_z(mud::v3<bool>* self) {
-		return self->z;
-	}
-	void DECL mud_v3_bool__set_z(mud::v3<bool>* self, bool value) {
-		self->z = value;
-	}
-	void DECL mud_v3_bool__destroy(mud::v3<bool>* self) {
-		delete self;
-	}
-	// v3<float>
-	mud::Type* DECL mud_v3_float__type() {
-		return &mud::type<mud::v3<float>>();
-	}
-	mud::v3<float>* DECL mud_v3_float__construct_0() {
-		return new mud::v3<float>();
-	}
-	mud::v3<float>* DECL mud_v3_float__construct_1(float v) {
-		return new mud::v3<float>(v);
-	}
-	mud::v3<float>* DECL mud_v3_float__construct_3(float x, float y, float z) {
-		return new mud::v3<float>(x, y, z);
-	}
-	float DECL mud_v3_float__get_x(mud::v3<float>* self) {
-		return self->x;
-	}
-	void DECL mud_v3_float__set_x(mud::v3<float>* self, float value) {
-		self->x = value;
-	}
-	float DECL mud_v3_float__get_y(mud::v3<float>* self) {
-		return self->y;
-	}
-	void DECL mud_v3_float__set_y(mud::v3<float>* self, float value) {
-		self->y = value;
-	}
-	float DECL mud_v3_float__get_z(mud::v3<float>* self) {
-		return self->z;
-	}
-	void DECL mud_v3_float__set_z(mud::v3<float>* self, float value) {
-		self->z = value;
-	}
-	void DECL mud_v3_float__destroy(mud::v3<float>* self) {
-		delete self;
-	}
-	// v3<int>
-	mud::Type* DECL mud_v3_int__type() {
-		return &mud::type<mud::v3<int>>();
-	}
-	mud::v3<int>* DECL mud_v3_int__construct_0() {
-		return new mud::v3<int>();
-	}
-	mud::v3<int>* DECL mud_v3_int__construct_1(int v) {
-		return new mud::v3<int>(v);
-	}
-	mud::v3<int>* DECL mud_v3_int__construct_3(int x, int y, int z) {
-		return new mud::v3<int>(x, y, z);
-	}
-	int DECL mud_v3_int__get_x(mud::v3<int>* self) {
-		return self->x;
-	}
-	void DECL mud_v3_int__set_x(mud::v3<int>* self, int value) {
-		self->x = value;
-	}
-	int DECL mud_v3_int__get_y(mud::v3<int>* self) {
-		return self->y;
-	}
-	void DECL mud_v3_int__set_y(mud::v3<int>* self, int value) {
-		self->y = value;
-	}
-	int DECL mud_v3_int__get_z(mud::v3<int>* self) {
-		return self->z;
-	}
-	void DECL mud_v3_int__set_z(mud::v3<int>* self, int value) {
-		self->z = value;
-	}
-	void DECL mud_v3_int__destroy(mud::v3<int>* self) {
-		delete self;
-	}
-	// v3<uint>
-	mud::Type* DECL mud_v3_uint__type() {
-		return &mud::type<mud::v3<uint>>();
-	}
-	mud::v3<uint>* DECL mud_v3_uint__construct_0() {
-		return new mud::v3<uint>();
-	}
-	mud::v3<uint>* DECL mud_v3_uint__construct_1(uint v) {
-		return new mud::v3<uint>(v);
-	}
-	mud::v3<uint>* DECL mud_v3_uint__construct_3(uint x, uint y, uint z) {
-		return new mud::v3<uint>(x, y, z);
-	}
-	uint DECL mud_v3_uint__get_x(mud::v3<uint>* self) {
-		return self->x;
-	}
-	void DECL mud_v3_uint__set_x(mud::v3<uint>* self, uint value) {
-		self->x = value;
-	}
-	uint DECL mud_v3_uint__get_y(mud::v3<uint>* self) {
-		return self->y;
-	}
-	void DECL mud_v3_uint__set_y(mud::v3<uint>* self, uint value) {
-		self->y = value;
-	}
-	uint DECL mud_v3_uint__get_z(mud::v3<uint>* self) {
-		return self->z;
-	}
-	void DECL mud_v3_uint__set_z(mud::v3<uint>* self, uint value) {
-		self->z = value;
-	}
-	void DECL mud_v3_uint__destroy(mud::v3<uint>* self) {
-		delete self;
-	}
-	// v4<bool>
-	mud::Type* DECL mud_v4_bool__type() {
-		return &mud::type<mud::v4<bool>>();
-	}
-	mud::v4<bool>* DECL mud_v4_bool__construct_0() {
-		return new mud::v4<bool>();
-	}
-	mud::v4<bool>* DECL mud_v4_bool__construct_1(bool v) {
-		return new mud::v4<bool>(v);
-	}
-	mud::v4<bool>* DECL mud_v4_bool__construct_4(bool x, bool y, bool z, bool w) {
-		return new mud::v4<bool>(x, y, z, w);
-	}
-	bool DECL mud_v4_bool__get_x(mud::v4<bool>* self) {
-		return self->x;
-	}
-	void DECL mud_v4_bool__set_x(mud::v4<bool>* self, bool value) {
-		self->x = value;
-	}
-	bool DECL mud_v4_bool__get_y(mud::v4<bool>* self) {
-		return self->y;
-	}
-	void DECL mud_v4_bool__set_y(mud::v4<bool>* self, bool value) {
-		self->y = value;
-	}
-	bool DECL mud_v4_bool__get_z(mud::v4<bool>* self) {
-		return self->z;
-	}
-	void DECL mud_v4_bool__set_z(mud::v4<bool>* self, bool value) {
-		self->z = value;
-	}
-	bool DECL mud_v4_bool__get_w(mud::v4<bool>* self) {
-		return self->w;
-	}
-	void DECL mud_v4_bool__set_w(mud::v4<bool>* self, bool value) {
-		self->w = value;
-	}
-	void DECL mud_v4_bool__destroy(mud::v4<bool>* self) {
-		delete self;
-	}
-	// v4<float>
-	mud::Type* DECL mud_v4_float__type() {
-		return &mud::type<mud::v4<float>>();
-	}
-	mud::v4<float>* DECL mud_v4_float__construct_0() {
-		return new mud::v4<float>();
-	}
-	mud::v4<float>* DECL mud_v4_float__construct_1(float v) {
-		return new mud::v4<float>(v);
-	}
-	mud::v4<float>* DECL mud_v4_float__construct_4(float x, float y, float z, float w) {
-		return new mud::v4<float>(x, y, z, w);
-	}
-	float DECL mud_v4_float__get_x(mud::v4<float>* self) {
-		return self->x;
-	}
-	void DECL mud_v4_float__set_x(mud::v4<float>* self, float value) {
-		self->x = value;
-	}
-	float DECL mud_v4_float__get_y(mud::v4<float>* self) {
-		return self->y;
-	}
-	void DECL mud_v4_float__set_y(mud::v4<float>* self, float value) {
-		self->y = value;
-	}
-	float DECL mud_v4_float__get_z(mud::v4<float>* self) {
-		return self->z;
-	}
-	void DECL mud_v4_float__set_z(mud::v4<float>* self, float value) {
-		self->z = value;
-	}
-	float DECL mud_v4_float__get_w(mud::v4<float>* self) {
-		return self->w;
-	}
-	void DECL mud_v4_float__set_w(mud::v4<float>* self, float value) {
-		self->w = value;
-	}
-	void DECL mud_v4_float__destroy(mud::v4<float>* self) {
-		delete self;
-	}
-	// v4<int>
-	mud::Type* DECL mud_v4_int__type() {
-		return &mud::type<mud::v4<int>>();
-	}
-	mud::v4<int>* DECL mud_v4_int__construct_0() {
-		return new mud::v4<int>();
-	}
-	mud::v4<int>* DECL mud_v4_int__construct_1(int v) {
-		return new mud::v4<int>(v);
-	}
-	mud::v4<int>* DECL mud_v4_int__construct_4(int x, int y, int z, int w) {
-		return new mud::v4<int>(x, y, z, w);
-	}
-	int DECL mud_v4_int__get_x(mud::v4<int>* self) {
-		return self->x;
-	}
-	void DECL mud_v4_int__set_x(mud::v4<int>* self, int value) {
-		self->x = value;
-	}
-	int DECL mud_v4_int__get_y(mud::v4<int>* self) {
-		return self->y;
-	}
-	void DECL mud_v4_int__set_y(mud::v4<int>* self, int value) {
-		self->y = value;
-	}
-	int DECL mud_v4_int__get_z(mud::v4<int>* self) {
-		return self->z;
-	}
-	void DECL mud_v4_int__set_z(mud::v4<int>* self, int value) {
-		self->z = value;
-	}
-	int DECL mud_v4_int__get_w(mud::v4<int>* self) {
-		return self->w;
-	}
-	void DECL mud_v4_int__set_w(mud::v4<int>* self, int value) {
-		self->w = value;
-	}
-	void DECL mud_v4_int__destroy(mud::v4<int>* self) {
-		delete self;
-	}
-	// v4<uint>
-	mud::Type* DECL mud_v4_uint__type() {
-		return &mud::type<mud::v4<uint>>();
-	}
-	mud::v4<uint>* DECL mud_v4_uint__construct_0() {
-		return new mud::v4<uint>();
-	}
-	mud::v4<uint>* DECL mud_v4_uint__construct_1(uint v) {
-		return new mud::v4<uint>(v);
-	}
-	mud::v4<uint>* DECL mud_v4_uint__construct_4(uint x, uint y, uint z, uint w) {
-		return new mud::v4<uint>(x, y, z, w);
-	}
-	uint DECL mud_v4_uint__get_x(mud::v4<uint>* self) {
-		return self->x;
-	}
-	void DECL mud_v4_uint__set_x(mud::v4<uint>* self, uint value) {
-		self->x = value;
-	}
-	uint DECL mud_v4_uint__get_y(mud::v4<uint>* self) {
-		return self->y;
-	}
-	void DECL mud_v4_uint__set_y(mud::v4<uint>* self, uint value) {
-		self->y = value;
-	}
-	uint DECL mud_v4_uint__get_z(mud::v4<uint>* self) {
-		return self->z;
-	}
-	void DECL mud_v4_uint__set_z(mud::v4<uint>* self, uint value) {
-		self->z = value;
-	}
-	uint DECL mud_v4_uint__get_w(mud::v4<uint>* self) {
-		return self->w;
-	}
-	void DECL mud_v4_uint__set_w(mud::v4<uint>* self, uint value) {
-		self->w = value;
-	}
-	void DECL mud_v4_uint__destroy(mud::v4<uint>* self) {
+	// TextureAtlas
+	mud::Type* DECL mud_TextureAtlas__type() {
+		return &mud::type<mud::TextureAtlas>();
+	}
+	void DECL mud_TextureAtlas__destroy(mud::TextureAtlas* self) {
 		delete self;
 	}
 	// Sprite
@@ -1215,27 +1034,208 @@ extern "C" {
 	void DECL mud_SpriteAtlas__destroy(mud::SpriteAtlas* self) {
 		delete self;
 	}
-	// TextureAtlas
-	mud::Type* DECL mud_TextureAtlas__type() {
-		return &mud::type<mud::TextureAtlas>();
+	// Range<mud::vec3>
+	mud::Type* DECL mud_Range_mud_vec3__type() {
+		return &mud::type<mud::Range<mud::vec3>>();
 	}
-	void DECL mud_TextureAtlas__destroy(mud::TextureAtlas* self) {
+	mud::Range<mud::vec3>* DECL mud_Range_mud_vec3__construct_0() {
+		return new mud::Range<mud::vec3>();
+	}
+	mud::vec3* DECL mud_Range_mud_vec3__get_min(mud::Range<mud::vec3>* self) {
+		return &self->m_min;
+	}
+	void DECL mud_Range_mud_vec3__set_min(mud::Range<mud::vec3>* self, mud::vec3* value) {
+		self->m_min = *value;
+	}
+	mud::vec3* DECL mud_Range_mud_vec3__get_max(mud::Range<mud::vec3>* self) {
+		return &self->m_max;
+	}
+	void DECL mud_Range_mud_vec3__set_max(mud::Range<mud::vec3>* self, mud::vec3* value) {
+		self->m_max = *value;
+	}
+	void DECL mud_Range_mud_vec3__destroy(mud::Range<mud::vec3>* self) {
 		delete self;
 	}
-	// quat
-	mud::Type* DECL mud_quat__type() {
-		return &mud::type<mud::quat>();
+	// Range<mud::quat>
+	mud::Type* DECL mud_Range_mud_quat__type() {
+		return &mud::type<mud::Range<mud::quat>>();
 	}
-	mud::quat* DECL mud_quat__construct_0() {
-		return new mud::quat();
+	mud::Range<mud::quat>* DECL mud_Range_mud_quat__construct_0() {
+		return new mud::Range<mud::quat>();
 	}
-	mud::quat* DECL mud_quat__construct_1(const mud::float3* euler_angles) {
-		return new mud::quat(*euler_angles);
+	mud::quat* DECL mud_Range_mud_quat__get_min(mud::Range<mud::quat>* self) {
+		return &self->m_min;
 	}
-	mud::quat* DECL mud_quat__construct_4(float x, float y, float z, float w) {
-		return new mud::quat(x, y, z, w);
+	void DECL mud_Range_mud_quat__set_min(mud::Range<mud::quat>* self, mud::quat* value) {
+		self->m_min = *value;
 	}
-	void DECL mud_quat__destroy(mud::quat* self) {
+	mud::quat* DECL mud_Range_mud_quat__get_max(mud::Range<mud::quat>* self) {
+		return &self->m_max;
+	}
+	void DECL mud_Range_mud_quat__set_max(mud::Range<mud::quat>* self, mud::quat* value) {
+		self->m_max = *value;
+	}
+	void DECL mud_Range_mud_quat__destroy(mud::Range<mud::quat>* self) {
+		delete self;
+	}
+	// Range<float>
+	mud::Type* DECL mud_Range_float__type() {
+		return &mud::type<mud::Range<float>>();
+	}
+	mud::Range<float>* DECL mud_Range_float__construct_0() {
+		return new mud::Range<float>();
+	}
+	float DECL mud_Range_float__get_min(mud::Range<float>* self) {
+		return self->m_min;
+	}
+	void DECL mud_Range_float__set_min(mud::Range<float>* self, float value) {
+		self->m_min = value;
+	}
+	float DECL mud_Range_float__get_max(mud::Range<float>* self) {
+		return self->m_max;
+	}
+	void DECL mud_Range_float__set_max(mud::Range<float>* self, float value) {
+		self->m_max = value;
+	}
+	void DECL mud_Range_float__destroy(mud::Range<float>* self) {
+		delete self;
+	}
+	// Range<uint32_t>
+	mud::Type* DECL mud_Range_uint32_t__type() {
+		return &mud::type<mud::Range<uint32_t>>();
+	}
+	mud::Range<uint32_t>* DECL mud_Range_uint32_t__construct_0() {
+		return new mud::Range<uint32_t>();
+	}
+	uint32_t DECL mud_Range_uint32_t__get_min(mud::Range<uint32_t>* self) {
+		return self->m_min;
+	}
+	void DECL mud_Range_uint32_t__set_min(mud::Range<uint32_t>* self, uint32_t value) {
+		self->m_min = value;
+	}
+	uint32_t DECL mud_Range_uint32_t__get_max(mud::Range<uint32_t>* self) {
+		return self->m_max;
+	}
+	void DECL mud_Range_uint32_t__set_max(mud::Range<uint32_t>* self, uint32_t value) {
+		self->m_max = value;
+	}
+	void DECL mud_Range_uint32_t__destroy(mud::Range<uint32_t>* self) {
+		delete self;
+	}
+	// Range<mud::Colour>
+	mud::Type* DECL mud_Range_mud_Colour__type() {
+		return &mud::type<mud::Range<mud::Colour>>();
+	}
+	mud::Range<mud::Colour>* DECL mud_Range_mud_Colour__construct_0() {
+		return new mud::Range<mud::Colour>();
+	}
+	mud::Colour* DECL mud_Range_mud_Colour__get_min(mud::Range<mud::Colour>* self) {
+		return &self->m_min;
+	}
+	void DECL mud_Range_mud_Colour__set_min(mud::Range<mud::Colour>* self, mud::Colour* value) {
+		self->m_min = *value;
+	}
+	mud::Colour* DECL mud_Range_mud_Colour__get_max(mud::Range<mud::Colour>* self) {
+		return &self->m_max;
+	}
+	void DECL mud_Range_mud_Colour__set_max(mud::Range<mud::Colour>* self, mud::Colour* value) {
+		self->m_max = *value;
+	}
+	void DECL mud_Range_mud_Colour__destroy(mud::Range<mud::Colour>* self) {
+		delete self;
+	}
+	// StatDef<int>
+	mud::Type* DECL mud_StatDef_int__type() {
+		return &mud::type<mud::StatDef<int>>();
+	}
+	mud::StatDef<int>* DECL mud_StatDef_int__construct_0() {
+		return new mud::StatDef<int>();
+	}
+	int DECL mud_StatDef_int__get_min(mud::StatDef<int>* self) {
+		return self->m_min;
+	}
+	void DECL mud_StatDef_int__set_min(mud::StatDef<int>* self, int value) {
+		self->m_min = value;
+	}
+	int DECL mud_StatDef_int__get_max(mud::StatDef<int>* self) {
+		return self->m_max;
+	}
+	void DECL mud_StatDef_int__set_max(mud::StatDef<int>* self, int value) {
+		self->m_max = value;
+	}
+	int DECL mud_StatDef_int__get_step(mud::StatDef<int>* self) {
+		return self->m_step;
+	}
+	void DECL mud_StatDef_int__set_step(mud::StatDef<int>* self, int value) {
+		self->m_step = value;
+	}
+	void DECL mud_StatDef_int__destroy(mud::StatDef<int>* self) {
+		delete self;
+	}
+	// StatDef<float>
+	mud::Type* DECL mud_StatDef_float__type() {
+		return &mud::type<mud::StatDef<float>>();
+	}
+	mud::StatDef<float>* DECL mud_StatDef_float__construct_0() {
+		return new mud::StatDef<float>();
+	}
+	float DECL mud_StatDef_float__get_min(mud::StatDef<float>* self) {
+		return self->m_min;
+	}
+	void DECL mud_StatDef_float__set_min(mud::StatDef<float>* self, float value) {
+		self->m_min = value;
+	}
+	float DECL mud_StatDef_float__get_max(mud::StatDef<float>* self) {
+		return self->m_max;
+	}
+	void DECL mud_StatDef_float__set_max(mud::StatDef<float>* self, float value) {
+		self->m_max = value;
+	}
+	float DECL mud_StatDef_float__get_step(mud::StatDef<float>* self) {
+		return self->m_step;
+	}
+	void DECL mud_StatDef_float__set_step(mud::StatDef<float>* self, float value) {
+		self->m_step = value;
+	}
+	void DECL mud_StatDef_float__destroy(mud::StatDef<float>* self) {
+		delete self;
+	}
+	// Time
+	mud::Type* DECL mud_Time__type() {
+		return &mud::type<mud::Time>();
+	}
+	mud::Time* DECL mud_Time__construct_1(double value) {
+		return new mud::Time(value);
+	}
+	double DECL mud_Time__get_value(mud::Time* self) {
+		return self->m_value;
+	}
+	void DECL mud_Time__set_value(mud::Time* self, double value) {
+		self->m_value = value;
+	}
+	void DECL mud_Time__destroy(mud::Time* self) {
+		delete self;
+	}
+	// TimeSpan
+	mud::Type* DECL mud_TimeSpan__type() {
+		return &mud::type<mud::TimeSpan>();
+	}
+	mud::TimeSpan* DECL mud_TimeSpan__construct_2(mud::Time* s, mud::Time* e) {
+		return new mud::TimeSpan(*s, *e);
+	}
+	mud::Time* DECL mud_TimeSpan__get_start(mud::TimeSpan* self) {
+		return &self->start;
+	}
+	void DECL mud_TimeSpan__set_start(mud::TimeSpan* self, mud::Time* value) {
+		self->start = *value;
+	}
+	mud::Time* DECL mud_TimeSpan__get_end(mud::TimeSpan* self) {
+		return &self->end;
+	}
+	void DECL mud_TimeSpan__set_end(mud::TimeSpan* self, mud::Time* value) {
+		self->end = *value;
+	}
+	void DECL mud_TimeSpan__destroy(mud::TimeSpan* self) {
 		delete self;
 	}
 	mud::Colour* DECL mud_rgb_1(uint32_t colour) {
@@ -1366,19 +1366,6 @@ extern "C" {
 		static mud::vec3 temp;
 		return (temp = mud::grid_center(*coord, *cell_size), &temp);
 	}
-	// Axes
-	mud::Axes DECL mud_Axes_None() {
-		return mud::Axes::None;
-	}
-	mud::Axes DECL mud_Axes_X() {
-		return mud::Axes::X;
-	}
-	mud::Axes DECL mud_Axes_Y() {
-		return mud::Axes::Y;
-	}
-	mud::Axes DECL mud_Axes_Z() {
-		return mud::Axes::Z;
-	}
 	// Axis
 	mud::Axis DECL mud_Axis_X() {
 		return mud::Axis::X;
@@ -1395,34 +1382,18 @@ extern "C" {
 	mud::Axis DECL mud_Axis_Count() {
 		return mud::Axis::Count;
 	}
-	// Clockwise
-	mud::Clockwise DECL mud_Clockwise_CLOCKWISE() {
-		return mud::CLOCKWISE;
+	// Axes
+	mud::Axes DECL mud_Axes_None() {
+		return mud::Axes::None;
 	}
-	mud::Clockwise DECL mud_Clockwise_ANTI_CLOCKWISE() {
-		return mud::ANTI_CLOCKWISE;
+	mud::Axes DECL mud_Axes_X() {
+		return mud::Axes::X;
 	}
-	// Side
-	mud::Side DECL mud_Side_Right() {
-		return mud::Side::Right;
+	mud::Axes DECL mud_Axes_Y() {
+		return mud::Axes::Y;
 	}
-	mud::Side DECL mud_Side_Left() {
-		return mud::Side::Left;
-	}
-	mud::Side DECL mud_Side_Up() {
-		return mud::Side::Up;
-	}
-	mud::Side DECL mud_Side_Down() {
-		return mud::Side::Down;
-	}
-	mud::Side DECL mud_Side_Back() {
-		return mud::Side::Back;
-	}
-	mud::Side DECL mud_Side_Front() {
-		return mud::Side::Front;
-	}
-	mud::Side DECL mud_Side_Count() {
-		return mud::Side::Count;
+	mud::Axes DECL mud_Axes_Z() {
+		return mud::Axes::Z;
 	}
 	// SignedAxis
 	mud::SignedAxis DECL mud_SignedAxis_PlusX() {
@@ -1446,12 +1417,34 @@ extern "C" {
 	mud::SignedAxis DECL mud_SignedAxis_Count() {
 		return mud::SignedAxis::Count;
 	}
-	// Spectrum
-	mud::Spectrum DECL mud_Spectrum_Value() {
-		return mud::Spectrum::Value;
+	// Side
+	mud::Side DECL mud_Side_Right() {
+		return mud::Side::Right;
 	}
-	mud::Spectrum DECL mud_Spectrum_Hue() {
-		return mud::Spectrum::Hue;
+	mud::Side DECL mud_Side_Left() {
+		return mud::Side::Left;
+	}
+	mud::Side DECL mud_Side_Up() {
+		return mud::Side::Up;
+	}
+	mud::Side DECL mud_Side_Down() {
+		return mud::Side::Down;
+	}
+	mud::Side DECL mud_Side_Back() {
+		return mud::Side::Back;
+	}
+	mud::Side DECL mud_Side_Front() {
+		return mud::Side::Front;
+	}
+	mud::Side DECL mud_Side_Count() {
+		return mud::Side::Count;
+	}
+	// Clockwise
+	mud::Clockwise DECL mud_Clockwise_CLOCKWISE() {
+		return mud::CLOCKWISE;
+	}
+	mud::Clockwise DECL mud_Clockwise_ANTI_CLOCKWISE() {
+		return mud::ANTI_CLOCKWISE;
 	}
 	// TrackMode
 	mud::TrackMode DECL mud_TrackMode_Constant() {
@@ -1465,6 +1458,13 @@ extern "C" {
 	}
 	mud::TrackMode DECL mud_TrackMode_CurveRandom() {
 		return mud::TrackMode::CurveRandom;
+	}
+	// Spectrum
+	mud::Spectrum DECL mud_Spectrum_Value() {
+		return mud::Spectrum::Value;
+	}
+	mud::Spectrum DECL mud_Spectrum_Hue() {
+		return mud::Spectrum::Hue;
 	}
 	
 }

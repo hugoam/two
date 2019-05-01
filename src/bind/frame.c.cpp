@@ -12,6 +12,50 @@
 
 extern "C" {
 	
+	// ShellContext
+	mud::Type* DECL mud_ShellContext__type() {
+		return &mud::type<mud::ShellContext>();
+	}
+	mud::ShellContext* DECL mud_ShellContext__construct_0() {
+		return new mud::ShellContext();
+	}
+	mud::Widget* DECL mud_ShellContext__get_screen(mud::ShellContext* self) {
+		return self->m_screen;
+	}
+	void DECL mud_ShellContext__set_screen(mud::ShellContext* self, mud::Widget* value) {
+		self->m_screen = value;
+	}
+	mud::Dockbar* DECL mud_ShellContext__get_dockbar(mud::ShellContext* self) {
+		return self->m_dockbar;
+	}
+	void DECL mud_ShellContext__set_dockbar(mud::ShellContext* self, mud::Dockbar* value) {
+		self->m_dockbar = value;
+	}
+	void DECL mud_ShellContext__destroy(mud::ShellContext* self) {
+		delete self;
+	}
+	// ShellWindow
+	mud::Type* DECL mud_ShellWindow__type() {
+		return &mud::type<mud::ShellWindow>();
+	}
+	uint32_t DECL mud_ShellWindow__get_index(mud::ShellWindow* self) {
+		return self->m_index;
+	}
+	void DECL mud_ShellWindow__set_index(mud::ShellWindow* self, uint32_t value) {
+		self->m_index = value;
+	}
+	mud::UiWindow* DECL mud_ShellWindow__get_ui_window(mud::ShellWindow* self) {
+		return &self->m_ui_window;
+	}
+	mud::Ui* DECL mud_ShellWindow__get_ui(mud::ShellWindow* self) {
+		return self->m_ui;
+	}
+	void DECL mud_ShellWindow__set_ui(mud::ShellWindow* self, mud::Ui* value) {
+		self->m_ui = value;
+	}
+	void DECL mud_ShellWindow__destroy(mud::ShellWindow* self) {
+		delete self;
+	}
 	// Shell
 	mud::Type* DECL mud_Shell__type() {
 		return &mud::type<mud::Shell>();
@@ -77,50 +121,6 @@ extern "C" {
 		self->m_editor = *value;
 	}
 	void DECL mud_Shell__destroy(mud::Shell* self) {
-		delete self;
-	}
-	// ShellContext
-	mud::Type* DECL mud_ShellContext__type() {
-		return &mud::type<mud::ShellContext>();
-	}
-	mud::ShellContext* DECL mud_ShellContext__construct_0() {
-		return new mud::ShellContext();
-	}
-	mud::Widget* DECL mud_ShellContext__get_screen(mud::ShellContext* self) {
-		return self->m_screen;
-	}
-	void DECL mud_ShellContext__set_screen(mud::ShellContext* self, mud::Widget* value) {
-		self->m_screen = value;
-	}
-	mud::Dockbar* DECL mud_ShellContext__get_dockbar(mud::ShellContext* self) {
-		return self->m_dockbar;
-	}
-	void DECL mud_ShellContext__set_dockbar(mud::ShellContext* self, mud::Dockbar* value) {
-		self->m_dockbar = value;
-	}
-	void DECL mud_ShellContext__destroy(mud::ShellContext* self) {
-		delete self;
-	}
-	// ShellWindow
-	mud::Type* DECL mud_ShellWindow__type() {
-		return &mud::type<mud::ShellWindow>();
-	}
-	uint32_t DECL mud_ShellWindow__get_index(mud::ShellWindow* self) {
-		return self->m_index;
-	}
-	void DECL mud_ShellWindow__set_index(mud::ShellWindow* self, uint32_t value) {
-		self->m_index = value;
-	}
-	mud::UiWindow* DECL mud_ShellWindow__get_ui_window(mud::ShellWindow* self) {
-		return &self->m_ui_window;
-	}
-	mud::Ui* DECL mud_ShellWindow__get_ui(mud::ShellWindow* self) {
-		return self->m_ui;
-	}
-	void DECL mud_ShellWindow__set_ui(mud::ShellWindow* self, mud::Ui* value) {
-		self->m_ui = value;
-	}
-	void DECL mud_ShellWindow__destroy(mud::ShellWindow* self) {
 		delete self;
 	}
 	

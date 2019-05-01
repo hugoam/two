@@ -1,47 +1,4 @@
 Module['stl'] = Module['stl'] || {};
-// Index
-function Index() { throw "cannot construct a Index, no constructor in IDL" }
-Index.prototype = Object.create(WrapperObject.prototype);
-Index.prototype.constructor = Index;
-Index.prototype.__class = Index;
-Index.__cache = {};
-Module['Index'] = Index;
-Index.prototype["indexer"] = Index.prototype.indexer = function(a0) {
-    if (!checkClass(a0, Type)) throw Error('indexer(0:type): expected Type');
-    return wrapPointer(_mud_Index_indexer_1(this.__ptr, /*type*/a0.__ptr), Indexer);
-};
-Index.prototype["__destroy"] = Index.prototype.__destroy = function() {
-    _mud_Index__destroy(this.__ptr);
-};
-// Indexer
-function Indexer() { throw "cannot construct a Indexer, no constructor in IDL" }
-Indexer.prototype = Object.create(WrapperObject.prototype);
-Indexer.prototype.constructor = Indexer;
-Indexer.prototype.__class = Indexer;
-Indexer.__cache = {};
-Module['Indexer'] = Indexer;
-Object.defineProperty(Indexer.prototype, "type", {
-    get: function() {
-        return wrapPointer(_mud_Indexer__get_type(this.__ptr), Type);
-    },
-    set: function(value) {
-        if (!checkClass(value, Type)) throw Error('Indexer.type: expected Type');
-        _mud_Indexer__set_type(this.__ptr, value.__ptr);
-    }
-});
-Indexer.prototype["__destroy"] = Indexer.prototype.__destroy = function() {
-    _mud_Indexer__destroy(this.__ptr);
-};
-// Prototype
-function Prototype() { throw "cannot construct a Prototype, no constructor in IDL" }
-Prototype.prototype = Object.create(WrapperObject.prototype);
-Prototype.prototype.constructor = Prototype;
-Prototype.prototype.__class = Prototype;
-Prototype.__cache = {};
-Module['Prototype'] = Prototype;
-Prototype.prototype["__destroy"] = Prototype.prototype.__destroy = function() {
-    _mud_Prototype__destroy(this.__ptr);
-};
 // Ref
 function Ref(a0, a1) {
     if (a0 === undefined) {  }
@@ -121,6 +78,39 @@ Object.defineProperty(Type.prototype, "base", {
 Type.prototype["__destroy"] = Type.prototype.__destroy = function() {
     _mud_Type__destroy(this.__ptr);
 };
+// Indexer
+function Indexer() { throw "cannot construct a Indexer, no constructor in IDL" }
+Indexer.prototype = Object.create(WrapperObject.prototype);
+Indexer.prototype.constructor = Indexer;
+Indexer.prototype.__class = Indexer;
+Indexer.__cache = {};
+Module['Indexer'] = Indexer;
+Object.defineProperty(Indexer.prototype, "type", {
+    get: function() {
+        return wrapPointer(_mud_Indexer__get_type(this.__ptr), Type);
+    },
+    set: function(value) {
+        if (!checkClass(value, Type)) throw Error('Indexer.type: expected Type');
+        _mud_Indexer__set_type(this.__ptr, value.__ptr);
+    }
+});
+Indexer.prototype["__destroy"] = Indexer.prototype.__destroy = function() {
+    _mud_Indexer__destroy(this.__ptr);
+};
+// Index
+function Index() { throw "cannot construct a Index, no constructor in IDL" }
+Index.prototype = Object.create(WrapperObject.prototype);
+Index.prototype.constructor = Index;
+Index.prototype.__class = Index;
+Index.__cache = {};
+Module['Index'] = Index;
+Index.prototype["indexer"] = Index.prototype.indexer = function(a0) {
+    if (!checkClass(a0, Type)) throw Error('indexer(0:type): expected Type');
+    return wrapPointer(_mud_Index_indexer_1(this.__ptr, /*type*/a0.__ptr), Indexer);
+};
+Index.prototype["__destroy"] = Index.prototype.__destroy = function() {
+    _mud_Index__destroy(this.__ptr);
+};
 // Var
 function Var() { throw "cannot construct a Var, no constructor in IDL" }
 Var.prototype = Object.create(WrapperObject.prototype);
@@ -131,6 +121,16 @@ Module['Var'] = Var;
 Var.prototype["__destroy"] = Var.prototype.__destroy = function() {
     _mud_Var__destroy(this.__ptr);
 };
+// Prototype
+function Prototype() { throw "cannot construct a Prototype, no constructor in IDL" }
+Prototype.prototype = Object.create(WrapperObject.prototype);
+Prototype.prototype.constructor = Prototype;
+Prototype.prototype.__class = Prototype;
+Prototype.__cache = {};
+Module['Prototype'] = Prototype;
+Prototype.prototype["__destroy"] = Prototype.prototype.__destroy = function() {
+    _mud_Prototype__destroy(this.__ptr);
+};
 Module['indexed'] = function(a0, a1) {
     if (!checkClass(a0, Type)) throw Error('indexed(0:type): expected Type'); if (typeof a1 !== 'number') throw Error('indexed(1:id): expected integer');
     return wrapPointer(_mud_indexed_2(/*type*/a0.__ptr, /*id*/a1), Ref);
@@ -138,12 +138,12 @@ Module['indexed'] = function(a0, a1) {
 
 (function() {
     function setup() {
-        Index.prototype.__type = _mud_Index__type();
-        Indexer.prototype.__type = _mud_Indexer__type();
-        Prototype.prototype.__type = _mud_Prototype__type();
         Ref.prototype.__type = _mud_Ref__type();
         Type.prototype.__type = _mud_Type__type();
+        Indexer.prototype.__type = _mud_Indexer__type();
+        Index.prototype.__type = _mud_Index__type();
         Var.prototype.__type = _mud_Var__type();
+        Prototype.prototype.__type = _mud_Prototype__type();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

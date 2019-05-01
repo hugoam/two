@@ -33,19 +33,6 @@ namespace mud
 	
 	// Sequences
 	
-	// mud::HandlePool
-	{
-		Type& t = type<mud::HandlePool>();
-		static Meta meta = { t, &namspc({ "mud" }), "HandlePool", sizeof(mud::HandlePool), TypeClass::Object };
-		// bases
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
-	}
 	// mud::Pool
 	{
 		Type& t = type<mud::Pool>();
@@ -59,10 +46,23 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
+	// mud::HandlePool
+	{
+		Type& t = type<mud::HandlePool>();
+		static Meta meta = { t, &namspc({ "mud" }), "HandlePool", sizeof(mud::HandlePool), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
 	
 	
-		m.m_types.push_back(&type<mud::HandlePool>());
 		m.m_types.push_back(&type<mud::Pool>());
+		m.m_types.push_back(&type<mud::HandlePool>());
 	}
 }
 

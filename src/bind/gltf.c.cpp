@@ -15,14 +15,206 @@
 
 extern "C" {
 	
-	// glTF
-	mud::Type* DECL glTF__type() {
-		return &mud::type<glTF>();
+	// glTFNodeExtras
+	mud::Type* DECL glTFNodeExtras__type() {
+		return &mud::type<glTFNodeExtras>();
 	}
-	glTF* DECL glTF__construct_0() {
-		return new glTF();
+	glTFNodeExtras* DECL glTFNodeExtras__construct_0() {
+		return new glTFNodeExtras();
 	}
-	void DECL glTF__destroy(glTF* self) {
+	void DECL glTFNodeExtras__destroy(glTFNodeExtras* self) {
+		delete self;
+	}
+	// glTFBuffer
+	mud::Type* DECL glTFBuffer__type() {
+		return &mud::type<glTFBuffer>();
+	}
+	glTFBuffer* DECL glTFBuffer__construct_0() {
+		return new glTFBuffer();
+	}
+	const char* DECL glTFBuffer__get_name(glTFBuffer* self) {
+		return self->name.c_str();
+	}
+	void DECL glTFBuffer__set_name(glTFBuffer* self, const char* value) {
+		self->name = value;
+	}
+	const char* DECL glTFBuffer__get_mime_type(glTFBuffer* self) {
+		return self->mime_type.c_str();
+	}
+	void DECL glTFBuffer__set_mime_type(glTFBuffer* self, const char* value) {
+		self->mime_type = value;
+	}
+	const char* DECL glTFBuffer__get_uri(glTFBuffer* self) {
+		return self->uri.c_str();
+	}
+	void DECL glTFBuffer__set_uri(glTFBuffer* self, const char* value) {
+		self->uri = value;
+	}
+	size_t DECL glTFBuffer__get_byte_length(glTFBuffer* self) {
+		return self->byte_length;
+	}
+	void DECL glTFBuffer__set_byte_length(glTFBuffer* self, size_t value) {
+		self->byte_length = value;
+	}
+	void DECL glTFBuffer__destroy(glTFBuffer* self) {
+		delete self;
+	}
+	// glTFImage
+	mud::Type* DECL glTFImage__type() {
+		return &mud::type<glTFImage>();
+	}
+	glTFImage* DECL glTFImage__construct_0() {
+		return new glTFImage();
+	}
+	const char* DECL glTFImage__get_name(glTFImage* self) {
+		return self->name.c_str();
+	}
+	void DECL glTFImage__set_name(glTFImage* self, const char* value) {
+		self->name = value;
+	}
+	const char* DECL glTFImage__get_mime_type(glTFImage* self) {
+		return self->mime_type.c_str();
+	}
+	void DECL glTFImage__set_mime_type(glTFImage* self, const char* value) {
+		self->mime_type = value;
+	}
+	const char* DECL glTFImage__get_uri(glTFImage* self) {
+		return self->uri.c_str();
+	}
+	void DECL glTFImage__set_uri(glTFImage* self, const char* value) {
+		self->uri = value;
+	}
+	int DECL glTFImage__get_buffer_view(glTFImage* self) {
+		return self->buffer_view;
+	}
+	void DECL glTFImage__set_buffer_view(glTFImage* self, int value) {
+		self->buffer_view = value;
+	}
+	void DECL glTFImage__destroy(glTFImage* self) {
+		delete self;
+	}
+	// glTFBufferView
+	mud::Type* DECL glTFBufferView__type() {
+		return &mud::type<glTFBufferView>();
+	}
+	glTFBufferView* DECL glTFBufferView__construct_0() {
+		return new glTFBufferView();
+	}
+	const char* DECL glTFBufferView__get_name(glTFBufferView* self) {
+		return self->name.c_str();
+	}
+	void DECL glTFBufferView__set_name(glTFBufferView* self, const char* value) {
+		self->name = value;
+	}
+	int DECL glTFBufferView__get_buffer(glTFBufferView* self) {
+		return self->buffer;
+	}
+	void DECL glTFBufferView__set_buffer(glTFBufferView* self, int value) {
+		self->buffer = value;
+	}
+	size_t DECL glTFBufferView__get_byte_offset(glTFBufferView* self) {
+		return self->byte_offset;
+	}
+	void DECL glTFBufferView__set_byte_offset(glTFBufferView* self, size_t value) {
+		self->byte_offset = value;
+	}
+	size_t DECL glTFBufferView__get_byte_length(glTFBufferView* self) {
+		return self->byte_length;
+	}
+	void DECL glTFBufferView__set_byte_length(glTFBufferView* self, size_t value) {
+		self->byte_length = value;
+	}
+	size_t DECL glTFBufferView__get_byte_stride(glTFBufferView* self) {
+		return self->byte_stride;
+	}
+	void DECL glTFBufferView__set_byte_stride(glTFBufferView* self, size_t value) {
+		self->byte_stride = value;
+	}
+	int DECL glTFBufferView__get_target(glTFBufferView* self) {
+		return self->target;
+	}
+	void DECL glTFBufferView__set_target(glTFBufferView* self, int value) {
+		self->target = value;
+	}
+	void DECL glTFBufferView__destroy(glTFBufferView* self) {
+		delete self;
+	}
+	// glTFSparseIndices
+	mud::Type* DECL glTFSparseIndices__type() {
+		return &mud::type<glTFSparseIndices>();
+	}
+	glTFSparseIndices* DECL glTFSparseIndices__construct_0() {
+		return new glTFSparseIndices();
+	}
+	int DECL glTFSparseIndices__get_buffer_view(glTFSparseIndices* self) {
+		return self->buffer_view;
+	}
+	void DECL glTFSparseIndices__set_buffer_view(glTFSparseIndices* self, int value) {
+		self->buffer_view = value;
+	}
+	int DECL glTFSparseIndices__get_byte_offset(glTFSparseIndices* self) {
+		return self->byte_offset;
+	}
+	void DECL glTFSparseIndices__set_byte_offset(glTFSparseIndices* self, int value) {
+		self->byte_offset = value;
+	}
+	glTFComponentType DECL glTFSparseIndices__get_component_type(glTFSparseIndices* self) {
+		return self->component_type;
+	}
+	void DECL glTFSparseIndices__set_component_type(glTFSparseIndices* self, glTFComponentType value) {
+		self->component_type = value;
+	}
+	void DECL glTFSparseIndices__destroy(glTFSparseIndices* self) {
+		delete self;
+	}
+	// glTFSparseValues
+	mud::Type* DECL glTFSparseValues__type() {
+		return &mud::type<glTFSparseValues>();
+	}
+	glTFSparseValues* DECL glTFSparseValues__construct_0() {
+		return new glTFSparseValues();
+	}
+	int DECL glTFSparseValues__get_buffer_view(glTFSparseValues* self) {
+		return self->buffer_view;
+	}
+	void DECL glTFSparseValues__set_buffer_view(glTFSparseValues* self, int value) {
+		self->buffer_view = value;
+	}
+	int DECL glTFSparseValues__get_byte_offset(glTFSparseValues* self) {
+		return self->byte_offset;
+	}
+	void DECL glTFSparseValues__set_byte_offset(glTFSparseValues* self, int value) {
+		self->byte_offset = value;
+	}
+	void DECL glTFSparseValues__destroy(glTFSparseValues* self) {
+		delete self;
+	}
+	// glTFSparse
+	mud::Type* DECL glTFSparse__type() {
+		return &mud::type<glTFSparse>();
+	}
+	glTFSparse* DECL glTFSparse__construct_0() {
+		return new glTFSparse();
+	}
+	int DECL glTFSparse__get_count(glTFSparse* self) {
+		return self->count;
+	}
+	void DECL glTFSparse__set_count(glTFSparse* self, int value) {
+		self->count = value;
+	}
+	glTFSparseIndices* DECL glTFSparse__get_indices(glTFSparse* self) {
+		return &self->indices;
+	}
+	void DECL glTFSparse__set_indices(glTFSparse* self, glTFSparseIndices* value) {
+		self->indices = *value;
+	}
+	glTFSparseValues* DECL glTFSparse__get_values(glTFSparse* self) {
+		return &self->values;
+	}
+	void DECL glTFSparse__set_values(glTFSparse* self, glTFSparseValues* value) {
+		self->values = *value;
+	}
+	void DECL glTFSparse__destroy(glTFSparse* self) {
 		delete self;
 	}
 	// glTFAccessor
@@ -83,92 +275,103 @@ extern "C" {
 	void DECL glTFAccessor__destroy(glTFAccessor* self) {
 		delete self;
 	}
-	// glTFAnimation
-	mud::Type* DECL glTFAnimation__type() {
-		return &mud::type<glTFAnimation>();
+	// glTFSampler
+	mud::Type* DECL glTFSampler__type() {
+		return &mud::type<glTFSampler>();
 	}
-	glTFAnimation* DECL glTFAnimation__construct_0() {
-		return new glTFAnimation();
+	glTFSampler* DECL glTFSampler__construct_0() {
+		return new glTFSampler();
 	}
-	const char* DECL glTFAnimation__get_name(glTFAnimation* self) {
+	int DECL glTFSampler__get_mag_filter(glTFSampler* self) {
+		return self->mag_filter;
+	}
+	void DECL glTFSampler__set_mag_filter(glTFSampler* self, int value) {
+		self->mag_filter = value;
+	}
+	int DECL glTFSampler__get_min_filter(glTFSampler* self) {
+		return self->min_filter;
+	}
+	void DECL glTFSampler__set_min_filter(glTFSampler* self, int value) {
+		self->min_filter = value;
+	}
+	int DECL glTFSampler__get_wrap_s(glTFSampler* self) {
+		return self->wrap_s;
+	}
+	void DECL glTFSampler__set_wrap_s(glTFSampler* self, int value) {
+		self->wrap_s = value;
+	}
+	int DECL glTFSampler__get_wrap_t(glTFSampler* self) {
+		return self->wrap_t;
+	}
+	void DECL glTFSampler__set_wrap_t(glTFSampler* self, int value) {
+		self->wrap_t = value;
+	}
+	const char* DECL glTFSampler__get_name(glTFSampler* self) {
 		return self->name.c_str();
 	}
-	void DECL glTFAnimation__set_name(glTFAnimation* self, const char* value) {
+	void DECL glTFSampler__set_name(glTFSampler* self, const char* value) {
 		self->name = value;
 	}
-	void DECL glTFAnimation__destroy(glTFAnimation* self) {
+	void DECL glTFSampler__destroy(glTFSampler* self) {
 		delete self;
 	}
-	// glTFAnimationChannel
-	mud::Type* DECL glTFAnimationChannel__type() {
-		return &mud::type<glTFAnimationChannel>();
+	// glTFTexture
+	mud::Type* DECL glTFTexture__type() {
+		return &mud::type<glTFTexture>();
 	}
-	glTFAnimationChannel* DECL glTFAnimationChannel__construct_0() {
-		return new glTFAnimationChannel();
+	glTFTexture* DECL glTFTexture__construct_0() {
+		return new glTFTexture();
 	}
-	int DECL glTFAnimationChannel__get_sampler(glTFAnimationChannel* self) {
+	const char* DECL glTFTexture__get_name(glTFTexture* self) {
+		return self->name.c_str();
+	}
+	void DECL glTFTexture__set_name(glTFTexture* self, const char* value) {
+		self->name = value;
+	}
+	int DECL glTFTexture__get_sampler(glTFTexture* self) {
 		return self->sampler;
 	}
-	void DECL glTFAnimationChannel__set_sampler(glTFAnimationChannel* self, int value) {
+	void DECL glTFTexture__set_sampler(glTFTexture* self, int value) {
 		self->sampler = value;
 	}
-	glTFAnimationTarget* DECL glTFAnimationChannel__get_target(glTFAnimationChannel* self) {
-		return &self->target;
+	int DECL glTFTexture__get_source(glTFTexture* self) {
+		return self->source;
 	}
-	void DECL glTFAnimationChannel__set_target(glTFAnimationChannel* self, glTFAnimationTarget* value) {
-		self->target = *value;
+	void DECL glTFTexture__set_source(glTFTexture* self, int value) {
+		self->source = value;
 	}
-	void DECL glTFAnimationChannel__destroy(glTFAnimationChannel* self) {
+	void DECL glTFTexture__destroy(glTFTexture* self) {
 		delete self;
 	}
-	// glTFAnimationSampler
-	mud::Type* DECL glTFAnimationSampler__type() {
-		return &mud::type<glTFAnimationSampler>();
+	// glTFSkin
+	mud::Type* DECL glTFSkin__type() {
+		return &mud::type<glTFSkin>();
 	}
-	glTFAnimationSampler* DECL glTFAnimationSampler__construct_0() {
-		return new glTFAnimationSampler();
+	glTFSkin* DECL glTFSkin__construct_0() {
+		return new glTFSkin();
 	}
-	glTFInterpolation DECL glTFAnimationSampler__get_interpolation(glTFAnimationSampler* self) {
-		return self->interpolation;
+	const char* DECL glTFSkin__get_name(glTFSkin* self) {
+		return self->name.c_str();
 	}
-	void DECL glTFAnimationSampler__set_interpolation(glTFAnimationSampler* self, glTFInterpolation value) {
-		self->interpolation = value;
+	void DECL glTFSkin__set_name(glTFSkin* self, const char* value) {
+		self->name = value;
 	}
-	int DECL glTFAnimationSampler__get_input(glTFAnimationSampler* self) {
-		return self->input;
+	int DECL glTFSkin__get_skeleton(glTFSkin* self) {
+		return self->skeleton;
 	}
-	void DECL glTFAnimationSampler__set_input(glTFAnimationSampler* self, int value) {
-		self->input = value;
+	void DECL glTFSkin__set_skeleton(glTFSkin* self, int value) {
+		self->skeleton = value;
 	}
-	int DECL glTFAnimationSampler__get_output(glTFAnimationSampler* self) {
-		return self->output;
+	int* DECL glTFSkin__get_joints(glTFSkin* self) {
+		return (int*)self->joints.data();
 	}
-	void DECL glTFAnimationSampler__set_output(glTFAnimationSampler* self, int value) {
-		self->output = value;
+	int DECL glTFSkin__get_inverse_bind_matrices(glTFSkin* self) {
+		return self->inverse_bind_matrices;
 	}
-	void DECL glTFAnimationSampler__destroy(glTFAnimationSampler* self) {
-		delete self;
+	void DECL glTFSkin__set_inverse_bind_matrices(glTFSkin* self, int value) {
+		self->inverse_bind_matrices = value;
 	}
-	// glTFAnimationTarget
-	mud::Type* DECL glTFAnimationTarget__type() {
-		return &mud::type<glTFAnimationTarget>();
-	}
-	glTFAnimationTarget* DECL glTFAnimationTarget__construct_0() {
-		return new glTFAnimationTarget();
-	}
-	int DECL glTFAnimationTarget__get_node(glTFAnimationTarget* self) {
-		return self->node;
-	}
-	void DECL glTFAnimationTarget__set_node(glTFAnimationTarget* self, int value) {
-		self->node = value;
-	}
-	const char* DECL glTFAnimationTarget__get_path(glTFAnimationTarget* self) {
-		return self->path.c_str();
-	}
-	void DECL glTFAnimationTarget__set_path(glTFAnimationTarget* self, const char* value) {
-		self->path = value;
-	}
-	void DECL glTFAnimationTarget__destroy(glTFAnimationTarget* self) {
+	void DECL glTFSkin__destroy(glTFSkin* self) {
 		delete self;
 	}
 	// glTFAttributes
@@ -229,84 +432,153 @@ extern "C" {
 	void DECL glTFAttributes__destroy(glTFAttributes* self) {
 		delete self;
 	}
-	// glTFBuffer
-	mud::Type* DECL glTFBuffer__type() {
-		return &mud::type<glTFBuffer>();
+	// glTFMorphTarget
+	mud::Type* DECL glTFMorphTarget__type() {
+		return &mud::type<glTFMorphTarget>();
 	}
-	glTFBuffer* DECL glTFBuffer__construct_0() {
-		return new glTFBuffer();
+	glTFMorphTarget* DECL glTFMorphTarget__construct_0() {
+		return new glTFMorphTarget();
 	}
-	const char* DECL glTFBuffer__get_name(glTFBuffer* self) {
-		return self->name.c_str();
+	int DECL glTFMorphTarget__get_POSITION(glTFMorphTarget* self) {
+		return self->POSITION;
 	}
-	void DECL glTFBuffer__set_name(glTFBuffer* self, const char* value) {
-		self->name = value;
+	void DECL glTFMorphTarget__set_POSITION(glTFMorphTarget* self, int value) {
+		self->POSITION = value;
 	}
-	const char* DECL glTFBuffer__get_mime_type(glTFBuffer* self) {
-		return self->mime_type.c_str();
+	int DECL glTFMorphTarget__get_NORMAL(glTFMorphTarget* self) {
+		return self->NORMAL;
 	}
-	void DECL glTFBuffer__set_mime_type(glTFBuffer* self, const char* value) {
-		self->mime_type = value;
+	void DECL glTFMorphTarget__set_NORMAL(glTFMorphTarget* self, int value) {
+		self->NORMAL = value;
 	}
-	const char* DECL glTFBuffer__get_uri(glTFBuffer* self) {
-		return self->uri.c_str();
+	int DECL glTFMorphTarget__get_TANGENT(glTFMorphTarget* self) {
+		return self->TANGENT;
 	}
-	void DECL glTFBuffer__set_uri(glTFBuffer* self, const char* value) {
-		self->uri = value;
+	void DECL glTFMorphTarget__set_TANGENT(glTFMorphTarget* self, int value) {
+		self->TANGENT = value;
 	}
-	size_t DECL glTFBuffer__get_byte_length(glTFBuffer* self) {
-		return self->byte_length;
-	}
-	void DECL glTFBuffer__set_byte_length(glTFBuffer* self, size_t value) {
-		self->byte_length = value;
-	}
-	void DECL glTFBuffer__destroy(glTFBuffer* self) {
+	void DECL glTFMorphTarget__destroy(glTFMorphTarget* self) {
 		delete self;
 	}
-	// glTFBufferView
-	mud::Type* DECL glTFBufferView__type() {
-		return &mud::type<glTFBufferView>();
+	// glTFPrimitive
+	mud::Type* DECL glTFPrimitive__type() {
+		return &mud::type<glTFPrimitive>();
 	}
-	glTFBufferView* DECL glTFBufferView__construct_0() {
-		return new glTFBufferView();
+	glTFPrimitive* DECL glTFPrimitive__construct_0() {
+		return new glTFPrimitive();
 	}
-	const char* DECL glTFBufferView__get_name(glTFBufferView* self) {
+	glTFAttributes* DECL glTFPrimitive__get_attributes(glTFPrimitive* self) {
+		return &self->attributes;
+	}
+	void DECL glTFPrimitive__set_attributes(glTFPrimitive* self, glTFAttributes* value) {
+		self->attributes = *value;
+	}
+	int DECL glTFPrimitive__get_indices(glTFPrimitive* self) {
+		return self->indices;
+	}
+	void DECL glTFPrimitive__set_indices(glTFPrimitive* self, int value) {
+		self->indices = value;
+	}
+	int DECL glTFPrimitive__get_material(glTFPrimitive* self) {
+		return self->material;
+	}
+	void DECL glTFPrimitive__set_material(glTFPrimitive* self, int value) {
+		self->material = value;
+	}
+	glTFPrimitiveType DECL glTFPrimitive__get_mode(glTFPrimitive* self) {
+		return self->mode;
+	}
+	void DECL glTFPrimitive__set_mode(glTFPrimitive* self, glTFPrimitiveType value) {
+		self->mode = value;
+	}
+	void DECL glTFPrimitive__destroy(glTFPrimitive* self) {
+		delete self;
+	}
+	// glTFMesh
+	mud::Type* DECL glTFMesh__type() {
+		return &mud::type<glTFMesh>();
+	}
+	glTFMesh* DECL glTFMesh__construct_0() {
+		return new glTFMesh();
+	}
+	const char* DECL glTFMesh__get_name(glTFMesh* self) {
 		return self->name.c_str();
 	}
-	void DECL glTFBufferView__set_name(glTFBufferView* self, const char* value) {
+	void DECL glTFMesh__set_name(glTFMesh* self, const char* value) {
 		self->name = value;
 	}
-	int DECL glTFBufferView__get_buffer(glTFBufferView* self) {
-		return self->buffer;
+	float* DECL glTFMesh__get_weights(glTFMesh* self) {
+		return (float*)self->weights.data();
 	}
-	void DECL glTFBufferView__set_buffer(glTFBufferView* self, int value) {
-		self->buffer = value;
+	void DECL glTFMesh__destroy(glTFMesh* self) {
+		delete self;
 	}
-	size_t DECL glTFBufferView__get_byte_offset(glTFBufferView* self) {
-		return self->byte_offset;
+	// glTFPerspective
+	mud::Type* DECL glTFPerspective__type() {
+		return &mud::type<glTFPerspective>();
 	}
-	void DECL glTFBufferView__set_byte_offset(glTFBufferView* self, size_t value) {
-		self->byte_offset = value;
+	glTFPerspective* DECL glTFPerspective__construct_0() {
+		return new glTFPerspective();
 	}
-	size_t DECL glTFBufferView__get_byte_length(glTFBufferView* self) {
-		return self->byte_length;
+	float DECL glTFPerspective__get_yfov(glTFPerspective* self) {
+		return self->yfov;
 	}
-	void DECL glTFBufferView__set_byte_length(glTFBufferView* self, size_t value) {
-		self->byte_length = value;
+	void DECL glTFPerspective__set_yfov(glTFPerspective* self, float value) {
+		self->yfov = value;
 	}
-	size_t DECL glTFBufferView__get_byte_stride(glTFBufferView* self) {
-		return self->byte_stride;
+	float DECL glTFPerspective__get_zfar(glTFPerspective* self) {
+		return self->zfar;
 	}
-	void DECL glTFBufferView__set_byte_stride(glTFBufferView* self, size_t value) {
-		self->byte_stride = value;
+	void DECL glTFPerspective__set_zfar(glTFPerspective* self, float value) {
+		self->zfar = value;
 	}
-	int DECL glTFBufferView__get_target(glTFBufferView* self) {
-		return self->target;
+	float DECL glTFPerspective__get_znear(glTFPerspective* self) {
+		return self->znear;
 	}
-	void DECL glTFBufferView__set_target(glTFBufferView* self, int value) {
-		self->target = value;
+	void DECL glTFPerspective__set_znear(glTFPerspective* self, float value) {
+		self->znear = value;
 	}
-	void DECL glTFBufferView__destroy(glTFBufferView* self) {
+	float DECL glTFPerspective__get_aspect_ratio(glTFPerspective* self) {
+		return self->aspect_ratio;
+	}
+	void DECL glTFPerspective__set_aspect_ratio(glTFPerspective* self, float value) {
+		self->aspect_ratio = value;
+	}
+	void DECL glTFPerspective__destroy(glTFPerspective* self) {
+		delete self;
+	}
+	// glTFOrthographic
+	mud::Type* DECL glTFOrthographic__type() {
+		return &mud::type<glTFOrthographic>();
+	}
+	glTFOrthographic* DECL glTFOrthographic__construct_0() {
+		return new glTFOrthographic();
+	}
+	float DECL glTFOrthographic__get_xmag(glTFOrthographic* self) {
+		return self->xmag;
+	}
+	void DECL glTFOrthographic__set_xmag(glTFOrthographic* self, float value) {
+		self->xmag = value;
+	}
+	float DECL glTFOrthographic__get_ymag(glTFOrthographic* self) {
+		return self->ymag;
+	}
+	void DECL glTFOrthographic__set_ymag(glTFOrthographic* self, float value) {
+		self->ymag = value;
+	}
+	float DECL glTFOrthographic__get_zfar(glTFOrthographic* self) {
+		return self->zfar;
+	}
+	void DECL glTFOrthographic__set_zfar(glTFOrthographic* self, float value) {
+		self->zfar = value;
+	}
+	float DECL glTFOrthographic__get_znear(glTFOrthographic* self) {
+		return self->znear;
+	}
+	void DECL glTFOrthographic__set_znear(glTFOrthographic* self, float value) {
+		self->znear = value;
+	}
+	void DECL glTFOrthographic__destroy(glTFOrthographic* self) {
 		delete self;
 	}
 	// glTFCamera
@@ -343,38 +615,154 @@ extern "C" {
 	void DECL glTFCamera__destroy(glTFCamera* self) {
 		delete self;
 	}
-	// glTFImage
-	mud::Type* DECL glTFImage__type() {
-		return &mud::type<glTFImage>();
+	// glTFAnimationTarget
+	mud::Type* DECL glTFAnimationTarget__type() {
+		return &mud::type<glTFAnimationTarget>();
 	}
-	glTFImage* DECL glTFImage__construct_0() {
-		return new glTFImage();
+	glTFAnimationTarget* DECL glTFAnimationTarget__construct_0() {
+		return new glTFAnimationTarget();
 	}
-	const char* DECL glTFImage__get_name(glTFImage* self) {
+	int DECL glTFAnimationTarget__get_node(glTFAnimationTarget* self) {
+		return self->node;
+	}
+	void DECL glTFAnimationTarget__set_node(glTFAnimationTarget* self, int value) {
+		self->node = value;
+	}
+	const char* DECL glTFAnimationTarget__get_path(glTFAnimationTarget* self) {
+		return self->path.c_str();
+	}
+	void DECL glTFAnimationTarget__set_path(glTFAnimationTarget* self, const char* value) {
+		self->path = value;
+	}
+	void DECL glTFAnimationTarget__destroy(glTFAnimationTarget* self) {
+		delete self;
+	}
+	// glTFAnimationChannel
+	mud::Type* DECL glTFAnimationChannel__type() {
+		return &mud::type<glTFAnimationChannel>();
+	}
+	glTFAnimationChannel* DECL glTFAnimationChannel__construct_0() {
+		return new glTFAnimationChannel();
+	}
+	int DECL glTFAnimationChannel__get_sampler(glTFAnimationChannel* self) {
+		return self->sampler;
+	}
+	void DECL glTFAnimationChannel__set_sampler(glTFAnimationChannel* self, int value) {
+		self->sampler = value;
+	}
+	glTFAnimationTarget* DECL glTFAnimationChannel__get_target(glTFAnimationChannel* self) {
+		return &self->target;
+	}
+	void DECL glTFAnimationChannel__set_target(glTFAnimationChannel* self, glTFAnimationTarget* value) {
+		self->target = *value;
+	}
+	void DECL glTFAnimationChannel__destroy(glTFAnimationChannel* self) {
+		delete self;
+	}
+	// glTFAnimationSampler
+	mud::Type* DECL glTFAnimationSampler__type() {
+		return &mud::type<glTFAnimationSampler>();
+	}
+	glTFAnimationSampler* DECL glTFAnimationSampler__construct_0() {
+		return new glTFAnimationSampler();
+	}
+	glTFInterpolation DECL glTFAnimationSampler__get_interpolation(glTFAnimationSampler* self) {
+		return self->interpolation;
+	}
+	void DECL glTFAnimationSampler__set_interpolation(glTFAnimationSampler* self, glTFInterpolation value) {
+		self->interpolation = value;
+	}
+	int DECL glTFAnimationSampler__get_input(glTFAnimationSampler* self) {
+		return self->input;
+	}
+	void DECL glTFAnimationSampler__set_input(glTFAnimationSampler* self, int value) {
+		self->input = value;
+	}
+	int DECL glTFAnimationSampler__get_output(glTFAnimationSampler* self) {
+		return self->output;
+	}
+	void DECL glTFAnimationSampler__set_output(glTFAnimationSampler* self, int value) {
+		self->output = value;
+	}
+	void DECL glTFAnimationSampler__destroy(glTFAnimationSampler* self) {
+		delete self;
+	}
+	// glTFAnimation
+	mud::Type* DECL glTFAnimation__type() {
+		return &mud::type<glTFAnimation>();
+	}
+	glTFAnimation* DECL glTFAnimation__construct_0() {
+		return new glTFAnimation();
+	}
+	const char* DECL glTFAnimation__get_name(glTFAnimation* self) {
 		return self->name.c_str();
 	}
-	void DECL glTFImage__set_name(glTFImage* self, const char* value) {
+	void DECL glTFAnimation__set_name(glTFAnimation* self, const char* value) {
 		self->name = value;
 	}
-	const char* DECL glTFImage__get_mime_type(glTFImage* self) {
-		return self->mime_type.c_str();
+	void DECL glTFAnimation__destroy(glTFAnimation* self) {
+		delete self;
 	}
-	void DECL glTFImage__set_mime_type(glTFImage* self, const char* value) {
-		self->mime_type = value;
+	// glTFTextureInfo
+	mud::Type* DECL glTFTextureInfo__type() {
+		return &mud::type<glTFTextureInfo>();
 	}
-	const char* DECL glTFImage__get_uri(glTFImage* self) {
-		return self->uri.c_str();
+	glTFTextureInfo* DECL glTFTextureInfo__construct_0() {
+		return new glTFTextureInfo();
 	}
-	void DECL glTFImage__set_uri(glTFImage* self, const char* value) {
-		self->uri = value;
+	int DECL glTFTextureInfo__get_index(glTFTextureInfo* self) {
+		return self->index;
 	}
-	int DECL glTFImage__get_buffer_view(glTFImage* self) {
-		return self->buffer_view;
+	void DECL glTFTextureInfo__set_index(glTFTextureInfo* self, int value) {
+		self->index = value;
 	}
-	void DECL glTFImage__set_buffer_view(glTFImage* self, int value) {
-		self->buffer_view = value;
+	float DECL glTFTextureInfo__get_scale(glTFTextureInfo* self) {
+		return self->scale;
 	}
-	void DECL glTFImage__destroy(glTFImage* self) {
+	void DECL glTFTextureInfo__set_scale(glTFTextureInfo* self, float value) {
+		self->scale = value;
+	}
+	void DECL glTFTextureInfo__destroy(glTFTextureInfo* self) {
+		delete self;
+	}
+	// glTFMaterialPBR
+	mud::Type* DECL glTFMaterialPBR__type() {
+		return &mud::type<glTFMaterialPBR>();
+	}
+	glTFMaterialPBR* DECL glTFMaterialPBR__construct_0() {
+		return new glTFMaterialPBR();
+	}
+	mud::vec4* DECL glTFMaterialPBR__get_base_color_factor(glTFMaterialPBR* self) {
+		return &self->base_color_factor;
+	}
+	void DECL glTFMaterialPBR__set_base_color_factor(glTFMaterialPBR* self, mud::vec4* value) {
+		self->base_color_factor = *value;
+	}
+	glTFTextureInfo* DECL glTFMaterialPBR__get_base_color_texture(glTFMaterialPBR* self) {
+		return &self->base_color_texture;
+	}
+	void DECL glTFMaterialPBR__set_base_color_texture(glTFMaterialPBR* self, glTFTextureInfo* value) {
+		self->base_color_texture = *value;
+	}
+	float DECL glTFMaterialPBR__get_metallic_factor(glTFMaterialPBR* self) {
+		return self->metallic_factor;
+	}
+	void DECL glTFMaterialPBR__set_metallic_factor(glTFMaterialPBR* self, float value) {
+		self->metallic_factor = value;
+	}
+	float DECL glTFMaterialPBR__get_roughness_factor(glTFMaterialPBR* self) {
+		return self->roughness_factor;
+	}
+	void DECL glTFMaterialPBR__set_roughness_factor(glTFMaterialPBR* self, float value) {
+		self->roughness_factor = value;
+	}
+	glTFTextureInfo* DECL glTFMaterialPBR__get_metallic_roughness_texture(glTFMaterialPBR* self) {
+		return &self->metallic_roughness_texture;
+	}
+	void DECL glTFMaterialPBR__set_metallic_roughness_texture(glTFMaterialPBR* self, glTFTextureInfo* value) {
+		self->metallic_roughness_texture = *value;
+	}
+	void DECL glTFMaterialPBR__destroy(glTFMaterialPBR* self) {
 		delete self;
 	}
 	// glTFMaterial
@@ -433,93 +821,6 @@ extern "C" {
 		self->pbr_metallic_roughness = *value;
 	}
 	void DECL glTFMaterial__destroy(glTFMaterial* self) {
-		delete self;
-	}
-	// glTFMaterialPBR
-	mud::Type* DECL glTFMaterialPBR__type() {
-		return &mud::type<glTFMaterialPBR>();
-	}
-	glTFMaterialPBR* DECL glTFMaterialPBR__construct_0() {
-		return new glTFMaterialPBR();
-	}
-	mud::vec4* DECL glTFMaterialPBR__get_base_color_factor(glTFMaterialPBR* self) {
-		return &self->base_color_factor;
-	}
-	void DECL glTFMaterialPBR__set_base_color_factor(glTFMaterialPBR* self, mud::vec4* value) {
-		self->base_color_factor = *value;
-	}
-	glTFTextureInfo* DECL glTFMaterialPBR__get_base_color_texture(glTFMaterialPBR* self) {
-		return &self->base_color_texture;
-	}
-	void DECL glTFMaterialPBR__set_base_color_texture(glTFMaterialPBR* self, glTFTextureInfo* value) {
-		self->base_color_texture = *value;
-	}
-	float DECL glTFMaterialPBR__get_metallic_factor(glTFMaterialPBR* self) {
-		return self->metallic_factor;
-	}
-	void DECL glTFMaterialPBR__set_metallic_factor(glTFMaterialPBR* self, float value) {
-		self->metallic_factor = value;
-	}
-	float DECL glTFMaterialPBR__get_roughness_factor(glTFMaterialPBR* self) {
-		return self->roughness_factor;
-	}
-	void DECL glTFMaterialPBR__set_roughness_factor(glTFMaterialPBR* self, float value) {
-		self->roughness_factor = value;
-	}
-	glTFTextureInfo* DECL glTFMaterialPBR__get_metallic_roughness_texture(glTFMaterialPBR* self) {
-		return &self->metallic_roughness_texture;
-	}
-	void DECL glTFMaterialPBR__set_metallic_roughness_texture(glTFMaterialPBR* self, glTFTextureInfo* value) {
-		self->metallic_roughness_texture = *value;
-	}
-	void DECL glTFMaterialPBR__destroy(glTFMaterialPBR* self) {
-		delete self;
-	}
-	// glTFMesh
-	mud::Type* DECL glTFMesh__type() {
-		return &mud::type<glTFMesh>();
-	}
-	glTFMesh* DECL glTFMesh__construct_0() {
-		return new glTFMesh();
-	}
-	const char* DECL glTFMesh__get_name(glTFMesh* self) {
-		return self->name.c_str();
-	}
-	void DECL glTFMesh__set_name(glTFMesh* self, const char* value) {
-		self->name = value;
-	}
-	float* DECL glTFMesh__get_weights(glTFMesh* self) {
-		return (float*)self->weights.data();
-	}
-	void DECL glTFMesh__destroy(glTFMesh* self) {
-		delete self;
-	}
-	// glTFMorphTarget
-	mud::Type* DECL glTFMorphTarget__type() {
-		return &mud::type<glTFMorphTarget>();
-	}
-	glTFMorphTarget* DECL glTFMorphTarget__construct_0() {
-		return new glTFMorphTarget();
-	}
-	int DECL glTFMorphTarget__get_POSITION(glTFMorphTarget* self) {
-		return self->POSITION;
-	}
-	void DECL glTFMorphTarget__set_POSITION(glTFMorphTarget* self, int value) {
-		self->POSITION = value;
-	}
-	int DECL glTFMorphTarget__get_NORMAL(glTFMorphTarget* self) {
-		return self->NORMAL;
-	}
-	void DECL glTFMorphTarget__set_NORMAL(glTFMorphTarget* self, int value) {
-		self->NORMAL = value;
-	}
-	int DECL glTFMorphTarget__get_TANGENT(glTFMorphTarget* self) {
-		return self->TANGENT;
-	}
-	void DECL glTFMorphTarget__set_TANGENT(glTFMorphTarget* self, int value) {
-		self->TANGENT = value;
-	}
-	void DECL glTFMorphTarget__destroy(glTFMorphTarget* self) {
 		delete self;
 	}
 	// glTFNode
@@ -583,158 +884,6 @@ extern "C" {
 	void DECL glTFNode__destroy(glTFNode* self) {
 		delete self;
 	}
-	// glTFNodeExtras
-	mud::Type* DECL glTFNodeExtras__type() {
-		return &mud::type<glTFNodeExtras>();
-	}
-	glTFNodeExtras* DECL glTFNodeExtras__construct_0() {
-		return new glTFNodeExtras();
-	}
-	void DECL glTFNodeExtras__destroy(glTFNodeExtras* self) {
-		delete self;
-	}
-	// glTFOrthographic
-	mud::Type* DECL glTFOrthographic__type() {
-		return &mud::type<glTFOrthographic>();
-	}
-	glTFOrthographic* DECL glTFOrthographic__construct_0() {
-		return new glTFOrthographic();
-	}
-	float DECL glTFOrthographic__get_xmag(glTFOrthographic* self) {
-		return self->xmag;
-	}
-	void DECL glTFOrthographic__set_xmag(glTFOrthographic* self, float value) {
-		self->xmag = value;
-	}
-	float DECL glTFOrthographic__get_ymag(glTFOrthographic* self) {
-		return self->ymag;
-	}
-	void DECL glTFOrthographic__set_ymag(glTFOrthographic* self, float value) {
-		self->ymag = value;
-	}
-	float DECL glTFOrthographic__get_zfar(glTFOrthographic* self) {
-		return self->zfar;
-	}
-	void DECL glTFOrthographic__set_zfar(glTFOrthographic* self, float value) {
-		self->zfar = value;
-	}
-	float DECL glTFOrthographic__get_znear(glTFOrthographic* self) {
-		return self->znear;
-	}
-	void DECL glTFOrthographic__set_znear(glTFOrthographic* self, float value) {
-		self->znear = value;
-	}
-	void DECL glTFOrthographic__destroy(glTFOrthographic* self) {
-		delete self;
-	}
-	// glTFPerspective
-	mud::Type* DECL glTFPerspective__type() {
-		return &mud::type<glTFPerspective>();
-	}
-	glTFPerspective* DECL glTFPerspective__construct_0() {
-		return new glTFPerspective();
-	}
-	float DECL glTFPerspective__get_yfov(glTFPerspective* self) {
-		return self->yfov;
-	}
-	void DECL glTFPerspective__set_yfov(glTFPerspective* self, float value) {
-		self->yfov = value;
-	}
-	float DECL glTFPerspective__get_zfar(glTFPerspective* self) {
-		return self->zfar;
-	}
-	void DECL glTFPerspective__set_zfar(glTFPerspective* self, float value) {
-		self->zfar = value;
-	}
-	float DECL glTFPerspective__get_znear(glTFPerspective* self) {
-		return self->znear;
-	}
-	void DECL glTFPerspective__set_znear(glTFPerspective* self, float value) {
-		self->znear = value;
-	}
-	float DECL glTFPerspective__get_aspect_ratio(glTFPerspective* self) {
-		return self->aspect_ratio;
-	}
-	void DECL glTFPerspective__set_aspect_ratio(glTFPerspective* self, float value) {
-		self->aspect_ratio = value;
-	}
-	void DECL glTFPerspective__destroy(glTFPerspective* self) {
-		delete self;
-	}
-	// glTFPrimitive
-	mud::Type* DECL glTFPrimitive__type() {
-		return &mud::type<glTFPrimitive>();
-	}
-	glTFPrimitive* DECL glTFPrimitive__construct_0() {
-		return new glTFPrimitive();
-	}
-	glTFAttributes* DECL glTFPrimitive__get_attributes(glTFPrimitive* self) {
-		return &self->attributes;
-	}
-	void DECL glTFPrimitive__set_attributes(glTFPrimitive* self, glTFAttributes* value) {
-		self->attributes = *value;
-	}
-	int DECL glTFPrimitive__get_indices(glTFPrimitive* self) {
-		return self->indices;
-	}
-	void DECL glTFPrimitive__set_indices(glTFPrimitive* self, int value) {
-		self->indices = value;
-	}
-	int DECL glTFPrimitive__get_material(glTFPrimitive* self) {
-		return self->material;
-	}
-	void DECL glTFPrimitive__set_material(glTFPrimitive* self, int value) {
-		self->material = value;
-	}
-	glTFPrimitiveType DECL glTFPrimitive__get_mode(glTFPrimitive* self) {
-		return self->mode;
-	}
-	void DECL glTFPrimitive__set_mode(glTFPrimitive* self, glTFPrimitiveType value) {
-		self->mode = value;
-	}
-	void DECL glTFPrimitive__destroy(glTFPrimitive* self) {
-		delete self;
-	}
-	// glTFSampler
-	mud::Type* DECL glTFSampler__type() {
-		return &mud::type<glTFSampler>();
-	}
-	glTFSampler* DECL glTFSampler__construct_0() {
-		return new glTFSampler();
-	}
-	int DECL glTFSampler__get_mag_filter(glTFSampler* self) {
-		return self->mag_filter;
-	}
-	void DECL glTFSampler__set_mag_filter(glTFSampler* self, int value) {
-		self->mag_filter = value;
-	}
-	int DECL glTFSampler__get_min_filter(glTFSampler* self) {
-		return self->min_filter;
-	}
-	void DECL glTFSampler__set_min_filter(glTFSampler* self, int value) {
-		self->min_filter = value;
-	}
-	int DECL glTFSampler__get_wrap_s(glTFSampler* self) {
-		return self->wrap_s;
-	}
-	void DECL glTFSampler__set_wrap_s(glTFSampler* self, int value) {
-		self->wrap_s = value;
-	}
-	int DECL glTFSampler__get_wrap_t(glTFSampler* self) {
-		return self->wrap_t;
-	}
-	void DECL glTFSampler__set_wrap_t(glTFSampler* self, int value) {
-		self->wrap_t = value;
-	}
-	const char* DECL glTFSampler__get_name(glTFSampler* self) {
-		return self->name.c_str();
-	}
-	void DECL glTFSampler__set_name(glTFSampler* self, const char* value) {
-		self->name = value;
-	}
-	void DECL glTFSampler__destroy(glTFSampler* self) {
-		delete self;
-	}
 	// glTFScene
 	mud::Type* DECL glTFScene__type() {
 		return &mud::type<glTFScene>();
@@ -754,174 +903,15 @@ extern "C" {
 	void DECL glTFScene__destroy(glTFScene* self) {
 		delete self;
 	}
-	// glTFSkin
-	mud::Type* DECL glTFSkin__type() {
-		return &mud::type<glTFSkin>();
+	// glTF
+	mud::Type* DECL glTF__type() {
+		return &mud::type<glTF>();
 	}
-	glTFSkin* DECL glTFSkin__construct_0() {
-		return new glTFSkin();
+	glTF* DECL glTF__construct_0() {
+		return new glTF();
 	}
-	const char* DECL glTFSkin__get_name(glTFSkin* self) {
-		return self->name.c_str();
-	}
-	void DECL glTFSkin__set_name(glTFSkin* self, const char* value) {
-		self->name = value;
-	}
-	int DECL glTFSkin__get_skeleton(glTFSkin* self) {
-		return self->skeleton;
-	}
-	void DECL glTFSkin__set_skeleton(glTFSkin* self, int value) {
-		self->skeleton = value;
-	}
-	int* DECL glTFSkin__get_joints(glTFSkin* self) {
-		return (int*)self->joints.data();
-	}
-	int DECL glTFSkin__get_inverse_bind_matrices(glTFSkin* self) {
-		return self->inverse_bind_matrices;
-	}
-	void DECL glTFSkin__set_inverse_bind_matrices(glTFSkin* self, int value) {
-		self->inverse_bind_matrices = value;
-	}
-	void DECL glTFSkin__destroy(glTFSkin* self) {
+	void DECL glTF__destroy(glTF* self) {
 		delete self;
-	}
-	// glTFSparse
-	mud::Type* DECL glTFSparse__type() {
-		return &mud::type<glTFSparse>();
-	}
-	glTFSparse* DECL glTFSparse__construct_0() {
-		return new glTFSparse();
-	}
-	int DECL glTFSparse__get_count(glTFSparse* self) {
-		return self->count;
-	}
-	void DECL glTFSparse__set_count(glTFSparse* self, int value) {
-		self->count = value;
-	}
-	glTFSparseIndices* DECL glTFSparse__get_indices(glTFSparse* self) {
-		return &self->indices;
-	}
-	void DECL glTFSparse__set_indices(glTFSparse* self, glTFSparseIndices* value) {
-		self->indices = *value;
-	}
-	glTFSparseValues* DECL glTFSparse__get_values(glTFSparse* self) {
-		return &self->values;
-	}
-	void DECL glTFSparse__set_values(glTFSparse* self, glTFSparseValues* value) {
-		self->values = *value;
-	}
-	void DECL glTFSparse__destroy(glTFSparse* self) {
-		delete self;
-	}
-	// glTFSparseIndices
-	mud::Type* DECL glTFSparseIndices__type() {
-		return &mud::type<glTFSparseIndices>();
-	}
-	glTFSparseIndices* DECL glTFSparseIndices__construct_0() {
-		return new glTFSparseIndices();
-	}
-	int DECL glTFSparseIndices__get_buffer_view(glTFSparseIndices* self) {
-		return self->buffer_view;
-	}
-	void DECL glTFSparseIndices__set_buffer_view(glTFSparseIndices* self, int value) {
-		self->buffer_view = value;
-	}
-	int DECL glTFSparseIndices__get_byte_offset(glTFSparseIndices* self) {
-		return self->byte_offset;
-	}
-	void DECL glTFSparseIndices__set_byte_offset(glTFSparseIndices* self, int value) {
-		self->byte_offset = value;
-	}
-	glTFComponentType DECL glTFSparseIndices__get_component_type(glTFSparseIndices* self) {
-		return self->component_type;
-	}
-	void DECL glTFSparseIndices__set_component_type(glTFSparseIndices* self, glTFComponentType value) {
-		self->component_type = value;
-	}
-	void DECL glTFSparseIndices__destroy(glTFSparseIndices* self) {
-		delete self;
-	}
-	// glTFSparseValues
-	mud::Type* DECL glTFSparseValues__type() {
-		return &mud::type<glTFSparseValues>();
-	}
-	glTFSparseValues* DECL glTFSparseValues__construct_0() {
-		return new glTFSparseValues();
-	}
-	int DECL glTFSparseValues__get_buffer_view(glTFSparseValues* self) {
-		return self->buffer_view;
-	}
-	void DECL glTFSparseValues__set_buffer_view(glTFSparseValues* self, int value) {
-		self->buffer_view = value;
-	}
-	int DECL glTFSparseValues__get_byte_offset(glTFSparseValues* self) {
-		return self->byte_offset;
-	}
-	void DECL glTFSparseValues__set_byte_offset(glTFSparseValues* self, int value) {
-		self->byte_offset = value;
-	}
-	void DECL glTFSparseValues__destroy(glTFSparseValues* self) {
-		delete self;
-	}
-	// glTFTexture
-	mud::Type* DECL glTFTexture__type() {
-		return &mud::type<glTFTexture>();
-	}
-	glTFTexture* DECL glTFTexture__construct_0() {
-		return new glTFTexture();
-	}
-	const char* DECL glTFTexture__get_name(glTFTexture* self) {
-		return self->name.c_str();
-	}
-	void DECL glTFTexture__set_name(glTFTexture* self, const char* value) {
-		self->name = value;
-	}
-	int DECL glTFTexture__get_sampler(glTFTexture* self) {
-		return self->sampler;
-	}
-	void DECL glTFTexture__set_sampler(glTFTexture* self, int value) {
-		self->sampler = value;
-	}
-	int DECL glTFTexture__get_source(glTFTexture* self) {
-		return self->source;
-	}
-	void DECL glTFTexture__set_source(glTFTexture* self, int value) {
-		self->source = value;
-	}
-	void DECL glTFTexture__destroy(glTFTexture* self) {
-		delete self;
-	}
-	// glTFTextureInfo
-	mud::Type* DECL glTFTextureInfo__type() {
-		return &mud::type<glTFTextureInfo>();
-	}
-	glTFTextureInfo* DECL glTFTextureInfo__construct_0() {
-		return new glTFTextureInfo();
-	}
-	int DECL glTFTextureInfo__get_index(glTFTextureInfo* self) {
-		return self->index;
-	}
-	void DECL glTFTextureInfo__set_index(glTFTextureInfo* self, int value) {
-		self->index = value;
-	}
-	float DECL glTFTextureInfo__get_scale(glTFTextureInfo* self) {
-		return self->scale;
-	}
-	void DECL glTFTextureInfo__set_scale(glTFTextureInfo* self, float value) {
-		self->scale = value;
-	}
-	void DECL glTFTextureInfo__destroy(glTFTextureInfo* self) {
-		delete self;
-	}
-	// glTFAlphaMode
-	glTFAlphaMode DECL glTFAlphaMode_OPAQUE() {
-		return glTFAlphaMode::OPAQUE;
-	}
-	glTFAlphaMode DECL glTFAlphaMode_MASK() {
-		return glTFAlphaMode::MASK;
-	}
-	glTFAlphaMode DECL glTFAlphaMode_BLEND() {
-		return glTFAlphaMode::BLEND;
 	}
 	// glTFComponentType
 	glTFComponentType DECL glTFComponentType_BYTE() {
@@ -941,41 +931,6 @@ extern "C" {
 	}
 	glTFComponentType DECL glTFComponentType_FLOAT() {
 		return glTFComponentType::FLOAT;
-	}
-	// glTFInterpolation
-	glTFInterpolation DECL glTFInterpolation_LINEAR() {
-		return glTFInterpolation::LINEAR;
-	}
-	glTFInterpolation DECL glTFInterpolation_STEP() {
-		return glTFInterpolation::STEP;
-	}
-	glTFInterpolation DECL glTFInterpolation_CATMULLROMSPLINE() {
-		return glTFInterpolation::CATMULLROMSPLINE;
-	}
-	glTFInterpolation DECL glTFInterpolation_CUBIC_SPLINE() {
-		return glTFInterpolation::CUBIC_SPLINE;
-	}
-	// glTFPrimitiveType
-	glTFPrimitiveType DECL glTFPrimitiveType_POINTS() {
-		return glTFPrimitiveType::POINTS;
-	}
-	glTFPrimitiveType DECL glTFPrimitiveType_LINES() {
-		return glTFPrimitiveType::LINES;
-	}
-	glTFPrimitiveType DECL glTFPrimitiveType_LINE_LOOP() {
-		return glTFPrimitiveType::LINE_LOOP;
-	}
-	glTFPrimitiveType DECL glTFPrimitiveType_LINE_STRIP() {
-		return glTFPrimitiveType::LINE_STRIP;
-	}
-	glTFPrimitiveType DECL glTFPrimitiveType_TRIANGLES() {
-		return glTFPrimitiveType::TRIANGLES;
-	}
-	glTFPrimitiveType DECL glTFPrimitiveType_TRIANGLE_STRIP() {
-		return glTFPrimitiveType::TRIANGLE_STRIP;
-	}
-	glTFPrimitiveType DECL glTFPrimitiveType_TRIANGLE_FAN() {
-		return glTFPrimitiveType::TRIANGLE_FAN;
 	}
 	// glTFType
 	glTFType DECL glTFType_SCALAR() {
@@ -1001,6 +956,51 @@ extern "C" {
 	}
 	glTFType DECL glTFType_INVALID() {
 		return glTFType::INVALID;
+	}
+	// glTFPrimitiveType
+	glTFPrimitiveType DECL glTFPrimitiveType_POINTS() {
+		return glTFPrimitiveType::POINTS;
+	}
+	glTFPrimitiveType DECL glTFPrimitiveType_LINES() {
+		return glTFPrimitiveType::LINES;
+	}
+	glTFPrimitiveType DECL glTFPrimitiveType_LINE_LOOP() {
+		return glTFPrimitiveType::LINE_LOOP;
+	}
+	glTFPrimitiveType DECL glTFPrimitiveType_LINE_STRIP() {
+		return glTFPrimitiveType::LINE_STRIP;
+	}
+	glTFPrimitiveType DECL glTFPrimitiveType_TRIANGLES() {
+		return glTFPrimitiveType::TRIANGLES;
+	}
+	glTFPrimitiveType DECL glTFPrimitiveType_TRIANGLE_STRIP() {
+		return glTFPrimitiveType::TRIANGLE_STRIP;
+	}
+	glTFPrimitiveType DECL glTFPrimitiveType_TRIANGLE_FAN() {
+		return glTFPrimitiveType::TRIANGLE_FAN;
+	}
+	// glTFInterpolation
+	glTFInterpolation DECL glTFInterpolation_LINEAR() {
+		return glTFInterpolation::LINEAR;
+	}
+	glTFInterpolation DECL glTFInterpolation_STEP() {
+		return glTFInterpolation::STEP;
+	}
+	glTFInterpolation DECL glTFInterpolation_CATMULLROMSPLINE() {
+		return glTFInterpolation::CATMULLROMSPLINE;
+	}
+	glTFInterpolation DECL glTFInterpolation_CUBIC_SPLINE() {
+		return glTFInterpolation::CUBIC_SPLINE;
+	}
+	// glTFAlphaMode
+	glTFAlphaMode DECL glTFAlphaMode_OPAQUE() {
+		return glTFAlphaMode::OPAQUE;
+	}
+	glTFAlphaMode DECL glTFAlphaMode_MASK() {
+		return glTFAlphaMode::MASK;
+	}
+	glTFAlphaMode DECL glTFAlphaMode_BLEND() {
+		return glTFAlphaMode::BLEND;
 	}
 	
 }

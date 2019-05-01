@@ -35,15 +35,15 @@ using namespace mud;
 
 void mud_ToolState__to_string(void* val, string& str) { str = g_enu[type<mud::ToolState>().m_id]->name(uint32_t((*static_cast<mud::ToolState*>(val)))); }
 void mud_ToolState__to_value(const string& str, void* val) { (*static_cast<mud::ToolState*>(val)) = mud::ToolState(g_enu[type<mud::ToolState>().m_id]->value(str.c_str())); }
-void mud_Selection__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Selection(  ); }
-void mud_Selection__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Selection((*static_cast<mud::Selection*>(other))); }
-void* mud_Tool__get_type(void* object) { return &(*static_cast<mud::Tool*>(object)).m_type; }
-void* mud_Tool__get_context(void* object) { return &(*static_cast<mud::Tool*>(object)).m_context; }
 void mud_ToolContext__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ToolContext(  ); }
 void mud_ToolContext__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ToolContext((*static_cast<mud::ToolContext*>(other))); }
-void mud_CircleBrush__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::CircleBrush( *static_cast<mud::ToolContext*>(args[0]) ); }
+void* mud_Tool__get_type(void* object) { return &(*static_cast<mud::Tool*>(object)).m_type; }
+void* mud_Tool__get_context(void* object) { return &(*static_cast<mud::Tool*>(object)).m_context; }
 void mud_PlaceBrush__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::PlaceBrush( *static_cast<mud::ToolContext*>(args[0]) ); }
+void mud_CircleBrush__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::CircleBrush( *static_cast<mud::ToolContext*>(args[0]) ); }
 void mud_ScriptedBrush__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ScriptedBrush( *static_cast<mud::ToolContext*>(args[0]), *static_cast<mud::Script*>(args[1]) ); }
+void mud_Selection__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Selection(  ); }
+void mud_Selection__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Selection((*static_cast<mud::Selection*>(other))); }
 
 namespace mud
 {
@@ -69,35 +69,6 @@ namespace mud
 	
 	// Sequences
 	
-	// mud::EditContext
-	{
-		Type& t = type<mud::EditContext>();
-		static Meta meta = { t, &namspc({ "mud" }), "EditContext", sizeof(mud::EditContext), TypeClass::Object };
-		// bases
-		// defaults
-		static mud::Viewer* viewer_default = nullptr;
-		static mud::ViewportTool* tool_default = nullptr;
-		static mud::SpatialTool* spatial_tool_default = nullptr;
-		static mud::Brush* brush_default = nullptr;
-		// constructors
-		// copy constructor
-		// members
-		static Member members[] = {
-			{ t, offsetof(mud::EditContext, m_undo_tool), type<mud::UndoTool>(), "undo_tool", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::EditContext, m_redo_tool), type<mud::RedoTool>(), "redo_tool", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::EditContext, m_work_plane), type<mud::Plane>(), "work_plane", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::EditContext, m_translate_tool), type<mud::TranslateTool>(), "translate_tool", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::EditContext, m_rotate_tool), type<mud::RotateTool>(), "rotate_tool", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::EditContext, m_scale_tool), type<mud::ScaleTool>(), "scale_tool", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::EditContext, m_viewer), type<mud::Viewer>(), "viewer", viewer_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::EditContext, m_tool), type<mud::ViewportTool>(), "tool", tool_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::EditContext, m_spatial_tool), type<mud::SpatialTool>(), "spatial_tool", spatial_tool_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::EditContext, m_brush), type<mud::Brush>(), "brush", brush_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
-	}
 	// mud::EditorAction
 	{
 		Type& t = type<mud::EditorAction>();
@@ -110,57 +81,6 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
-	}
-	// mud::Gizmo
-	{
-		Type& t = type<mud::Gizmo>();
-		static Meta meta = { t, &namspc({ "mud" }), "Gizmo", sizeof(mud::Gizmo), TypeClass::Object };
-		// bases
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
-	}
-	// mud::Selection
-	{
-		Type& t = type<mud::Selection>();
-		static Meta meta = { t, &namspc({ "mud" }), "Selection", sizeof(mud::Selection), TypeClass::Struct };
-		// bases
-		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_Selection__construct_0, {} }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, mud_Selection__copy_construct }
-		};
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
-	}
-	// mud::Tool
-	{
-		Type& t = type<mud::Tool>();
-		static Meta meta = { t, &namspc({ "mud" }), "Tool", sizeof(mud::Tool), TypeClass::Object };
-		// bases
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		static Member members[] = {
-			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Tool__get_type },
-			{ t, SIZE_MAX, type<mud::ToolContext>(), "context", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), mud_Tool__get_context },
-			{ t, offsetof(mud::Tool, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Tool, m_state), type<mud::ToolState>(), "state", nullptr, Member::Value, nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// mud::ToolContext
 	{
@@ -194,6 +114,143 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
+	// mud::Tool
+	{
+		Type& t = type<mud::Tool>();
+		static Meta meta = { t, &namspc({ "mud" }), "Tool", sizeof(mud::Tool), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Tool__get_type },
+			{ t, SIZE_MAX, type<mud::ToolContext>(), "context", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), mud_Tool__get_context },
+			{ t, offsetof(mud::Tool, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Tool, m_state), type<mud::ToolState>(), "state", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+	}
+	// mud::ViewportTool
+	{
+		Type& t = type<mud::ViewportTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "ViewportTool", sizeof(mud::ViewportTool), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Tool>() };
+		static size_t bases_offsets[] = { base_offset<mud::ViewportTool, mud::Tool>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::SpatialTool
+	{
+		Type& t = type<mud::SpatialTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "SpatialTool", sizeof(mud::SpatialTool), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::ViewportTool>() };
+		static size_t bases_offsets[] = { base_offset<mud::SpatialTool, mud::ViewportTool>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::Gizmo
+	{
+		Type& t = type<mud::Gizmo>();
+		static Meta meta = { t, &namspc({ "mud" }), "Gizmo", sizeof(mud::Gizmo), TypeClass::Object };
+		// bases
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// mud::TransformAction
+	{
+		Type& t = type<mud::TransformAction>();
+		static Meta meta = { t, &namspc({ "mud" }), "TransformAction", sizeof(mud::TransformAction), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::EditorAction>() };
+		static size_t bases_offsets[] = { base_offset<mud::TransformAction, mud::EditorAction>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::TransformTool
+	{
+		Type& t = type<mud::TransformTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "TransformTool", sizeof(mud::TransformTool), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::SpatialTool>() };
+		static size_t bases_offsets[] = { base_offset<mud::TransformTool, mud::SpatialTool>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::TransformGizmo
+	{
+		Type& t = type<mud::TransformGizmo>();
+		static Meta meta = { t, &namspc({ "mud" }), "TransformGizmo", sizeof(mud::TransformGizmo), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Gizmo>() };
+		static size_t bases_offsets[] = { base_offset<mud::TransformGizmo, mud::Gizmo>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::UndoTool
+	{
+		Type& t = type<mud::UndoTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "UndoTool", sizeof(mud::UndoTool), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Tool>() };
+		static size_t bases_offsets[] = { base_offset<mud::UndoTool, mud::Tool>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::RedoTool
+	{
+		Type& t = type<mud::RedoTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "RedoTool", sizeof(mud::RedoTool), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Tool>() };
+		static size_t bases_offsets[] = { base_offset<mud::RedoTool, mud::Tool>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
 	// mud::Brush
 	{
 		Type& t = type<mud::Brush>();
@@ -208,6 +265,57 @@ namespace mud
 		// methods
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::PlaneSnapOption
+	{
+		Type& t = type<mud::PlaneSnapOption>();
+		static Meta meta = { t, &namspc({ "mud" }), "PlaneSnapOption", sizeof(mud::PlaneSnapOption), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::ToolOption>() };
+		static size_t bases_offsets[] = { base_offset<mud::PlaneSnapOption, mud::ToolOption>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::WorldSnapOption
+	{
+		Type& t = type<mud::WorldSnapOption>();
+		static Meta meta = { t, &namspc({ "mud" }), "WorldSnapOption", sizeof(mud::WorldSnapOption), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::ToolOption>() };
+		static size_t bases_offsets[] = { base_offset<mud::WorldSnapOption, mud::ToolOption>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::PlaceBrush
+	{
+		Type& t = type<mud::PlaceBrush>();
+		static Meta meta = { t, &namspc({ "mud" }), "PlaceBrush", sizeof(mud::PlaceBrush), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::Brush>() };
+		static size_t bases_offsets[] = { base_offset<mud::PlaceBrush, mud::Brush>() };
+		// defaults
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_PlaceBrush__construct_0, { { "context", type<mud::ToolContext>(),  } } }
+		};
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::PlaceBrush, m_creator), type<mud::Creator>(), "creator", nullptr, Member::NonMutable, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, constructors, {}, members, {}, {}, };
 	}
 	// mud::CircleBrush
 	{
@@ -232,34 +340,34 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, members, {}, {}, };
 	}
-	// mud::PlaceBrush
+	// mud::ScriptedBrush
 	{
-		Type& t = type<mud::PlaceBrush>();
-		static Meta meta = { t, &namspc({ "mud" }), "PlaceBrush", sizeof(mud::PlaceBrush), TypeClass::Object };
+		Type& t = type<mud::ScriptedBrush>();
+		static Meta meta = { t, &namspc({ "mud" }), "ScriptedBrush", sizeof(mud::ScriptedBrush), TypeClass::Object };
 		// bases
 		static Type* bases[] = { &type<mud::Brush>() };
-		static size_t bases_offsets[] = { base_offset<mud::PlaceBrush, mud::Brush>() };
+		static size_t bases_offsets[] = { base_offset<mud::ScriptedBrush, mud::Brush>() };
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_PlaceBrush__construct_0, { { "context", type<mud::ToolContext>(),  } } }
+			{ t, mud_ScriptedBrush__construct_0, { { "context", type<mud::ToolContext>(),  }, { "script", type<mud::Script>(),  } } }
 		};
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::PlaceBrush, m_creator), type<mud::Creator>(), "creator", nullptr, Member::NonMutable, nullptr }
+			{ t, offsetof(mud::ScriptedBrush, m_call), type<mud::Call>(), "call", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, members, {}, {}, };
 	}
-	// mud::PlaneSnapOption
+	// mud::TranslateAction
 	{
-		Type& t = type<mud::PlaneSnapOption>();
-		static Meta meta = { t, &namspc({ "mud" }), "PlaneSnapOption", sizeof(mud::PlaneSnapOption), TypeClass::Object };
+		Type& t = type<mud::TranslateAction>();
+		static Meta meta = { t, &namspc({ "mud" }), "TranslateAction", sizeof(mud::TranslateAction), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::ToolOption>() };
-		static size_t bases_offsets[] = { base_offset<mud::PlaneSnapOption, mud::ToolOption>() };
+		static Type* bases[] = { &type<mud::TransformAction>() };
+		static size_t bases_offsets[] = { base_offset<mud::TranslateAction, mud::TransformAction>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -268,13 +376,13 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::RedoTool
+	// mud::TranslateTool
 	{
-		Type& t = type<mud::RedoTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "RedoTool", sizeof(mud::RedoTool), TypeClass::Object };
+		Type& t = type<mud::TranslateTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "TranslateTool", sizeof(mud::TranslateTool), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Tool>() };
-		static size_t bases_offsets[] = { base_offset<mud::RedoTool, mud::Tool>() };
+		static Type* bases[] = { &type<mud::TransformTool>() };
+		static size_t bases_offsets[] = { base_offset<mud::TranslateTool, mud::TransformTool>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -343,42 +451,6 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::ScriptedBrush
-	{
-		Type& t = type<mud::ScriptedBrush>();
-		static Meta meta = { t, &namspc({ "mud" }), "ScriptedBrush", sizeof(mud::ScriptedBrush), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::Brush>() };
-		static size_t bases_offsets[] = { base_offset<mud::ScriptedBrush, mud::Brush>() };
-		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_ScriptedBrush__construct_0, { { "context", type<mud::ToolContext>(),  }, { "script", type<mud::Script>(),  } } }
-		};
-		// copy constructor
-		// members
-		static Member members[] = {
-			{ t, offsetof(mud::ScriptedBrush, m_call), type<mud::Call>(), "call", nullptr, Member::Value, nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, members, {}, {}, };
-	}
-	// mud::TranslateAction
-	{
-		Type& t = type<mud::TranslateAction>();
-		static Meta meta = { t, &namspc({ "mud" }), "TranslateAction", sizeof(mud::TranslateAction), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::TransformAction>() };
-		static size_t bases_offsets[] = { base_offset<mud::TranslateAction, mud::TransformAction>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
 	// mud::CopyAction
 	{
 		Type& t = type<mud::CopyAction>();
@@ -409,36 +481,6 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::FrameViewTool
-	{
-		Type& t = type<mud::FrameViewTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "FrameViewTool", sizeof(mud::FrameViewTool), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::ViewportTool>() };
-		static size_t bases_offsets[] = { base_offset<mud::FrameViewTool, mud::ViewportTool>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::TranslateTool
-	{
-		Type& t = type<mud::TranslateTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "TranslateTool", sizeof(mud::TranslateTool), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::TransformTool>() };
-		static size_t bases_offsets[] = { base_offset<mud::TranslateTool, mud::TransformTool>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
 	// mud::ViewAction
 	{
 		Type& t = type<mud::ViewAction>();
@@ -446,6 +488,21 @@ namespace mud
 		// bases
 		static Type* bases[] = { &type<mud::EditorAction>() };
 		static size_t bases_offsets[] = { base_offset<mud::ViewAction, mud::EditorAction>() };
+		// defaults
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+	}
+	// mud::FrameViewTool
+	{
+		Type& t = type<mud::FrameViewTool>();
+		static Meta meta = { t, &namspc({ "mud" }), "FrameViewTool", sizeof(mud::FrameViewTool), TypeClass::Object };
+		// bases
+		static Type* bases[] = { &type<mud::ViewportTool>() };
+		static size_t bases_offsets[] = { base_offset<mud::FrameViewTool, mud::ViewportTool>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -469,95 +526,53 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::ViewportTool
+	// mud::Selection
 	{
-		Type& t = type<mud::ViewportTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "ViewportTool", sizeof(mud::ViewportTool), TypeClass::Object };
+		Type& t = type<mud::Selection>();
+		static Meta meta = { t, &namspc({ "mud" }), "Selection", sizeof(mud::Selection), TypeClass::Struct };
 		// bases
-		static Type* bases[] = { &type<mud::Tool>() };
-		static size_t bases_offsets[] = { base_offset<mud::ViewportTool, mud::Tool>() };
 		// defaults
 		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Selection__construct_0, {} }
+		};
 		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_Selection__copy_construct }
+		};
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
 	}
-	// mud::SpatialTool
+	// mud::EditContext
 	{
-		Type& t = type<mud::SpatialTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "SpatialTool", sizeof(mud::SpatialTool), TypeClass::Object };
+		Type& t = type<mud::EditContext>();
+		static Meta meta = { t, &namspc({ "mud" }), "EditContext", sizeof(mud::EditContext), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::ViewportTool>() };
-		static size_t bases_offsets[] = { base_offset<mud::SpatialTool, mud::ViewportTool>() };
 		// defaults
+		static mud::Viewer* viewer_default = nullptr;
+		static mud::ViewportTool* tool_default = nullptr;
+		static mud::SpatialTool* spatial_tool_default = nullptr;
+		static mud::Brush* brush_default = nullptr;
 		// constructors
 		// copy constructor
 		// members
+		static Member members[] = {
+			{ t, offsetof(mud::EditContext, m_undo_tool), type<mud::UndoTool>(), "undo_tool", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::EditContext, m_redo_tool), type<mud::RedoTool>(), "redo_tool", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::EditContext, m_work_plane), type<mud::Plane>(), "work_plane", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::EditContext, m_translate_tool), type<mud::TranslateTool>(), "translate_tool", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::EditContext, m_rotate_tool), type<mud::RotateTool>(), "rotate_tool", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::EditContext, m_scale_tool), type<mud::ScaleTool>(), "scale_tool", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(mud::EditContext, m_viewer), type<mud::Viewer>(), "viewer", viewer_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::EditContext, m_tool), type<mud::ViewportTool>(), "tool", tool_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::EditContext, m_spatial_tool), type<mud::SpatialTool>(), "spatial_tool", spatial_tool_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::EditContext, m_brush), type<mud::Brush>(), "brush", brush_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::TransformAction
-	{
-		Type& t = type<mud::TransformAction>();
-		static Meta meta = { t, &namspc({ "mud" }), "TransformAction", sizeof(mud::TransformAction), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::EditorAction>() };
-		static size_t bases_offsets[] = { base_offset<mud::TransformAction, mud::EditorAction>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::TransformGizmo
-	{
-		Type& t = type<mud::TransformGizmo>();
-		static Meta meta = { t, &namspc({ "mud" }), "TransformGizmo", sizeof(mud::TransformGizmo), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::Gizmo>() };
-		static size_t bases_offsets[] = { base_offset<mud::TransformGizmo, mud::Gizmo>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::TransformTool
-	{
-		Type& t = type<mud::TransformTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "TransformTool", sizeof(mud::TransformTool), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::SpatialTool>() };
-		static size_t bases_offsets[] = { base_offset<mud::TransformTool, mud::SpatialTool>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
-	// mud::UndoTool
-	{
-		Type& t = type<mud::UndoTool>();
-		static Meta meta = { t, &namspc({ "mud" }), "UndoTool", sizeof(mud::UndoTool), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::Tool>() };
-		static size_t bases_offsets[] = { base_offset<mud::UndoTool, mud::Tool>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// mud::WorkPlaneAction
 	{
@@ -589,57 +604,42 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::WorldSnapOption
-	{
-		Type& t = type<mud::WorldSnapOption>();
-		static Meta meta = { t, &namspc({ "mud" }), "WorldSnapOption", sizeof(mud::WorldSnapOption), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<mud::ToolOption>() };
-		static size_t bases_offsets[] = { base_offset<mud::WorldSnapOption, mud::ToolOption>() };
-		// defaults
-		// constructors
-		// copy constructor
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
-	}
 	
 	
-		m.m_types.push_back(&type<mud::EditContext>());
 		m.m_types.push_back(&type<mud::EditorAction>());
-		m.m_types.push_back(&type<mud::Gizmo>());
-		m.m_types.push_back(&type<mud::Selection>());
-		m.m_types.push_back(&type<mud::Tool>());
 		m.m_types.push_back(&type<mud::ToolContext>());
 		m.m_types.push_back(&type<mud::ToolOption>());
 		m.m_types.push_back(&type<mud::ToolState>());
-		m.m_types.push_back(&type<mud::Brush>());
-		m.m_types.push_back(&type<mud::CircleBrush>());
-		m.m_types.push_back(&type<mud::CopyAction>());
-		m.m_types.push_back(&type<mud::CopyTool>());
-		m.m_types.push_back(&type<mud::FrameViewTool>());
-		m.m_types.push_back(&type<mud::PlaceBrush>());
-		m.m_types.push_back(&type<mud::PlaneSnapOption>());
+		m.m_types.push_back(&type<mud::Tool>());
+		m.m_types.push_back(&type<mud::ViewportTool>());
+		m.m_types.push_back(&type<mud::SpatialTool>());
+		m.m_types.push_back(&type<mud::Gizmo>());
+		m.m_types.push_back(&type<mud::TransformAction>());
+		m.m_types.push_back(&type<mud::TransformTool>());
+		m.m_types.push_back(&type<mud::TransformGizmo>());
+		m.m_types.push_back(&type<mud::UndoTool>());
 		m.m_types.push_back(&type<mud::RedoTool>());
+		m.m_types.push_back(&type<mud::Brush>());
+		m.m_types.push_back(&type<mud::PlaneSnapOption>());
+		m.m_types.push_back(&type<mud::WorldSnapOption>());
+		m.m_types.push_back(&type<mud::PlaceBrush>());
+		m.m_types.push_back(&type<mud::CircleBrush>());
+		m.m_types.push_back(&type<mud::ScriptedBrush>());
+		m.m_types.push_back(&type<mud::TranslateAction>());
+		m.m_types.push_back(&type<mud::TranslateTool>());
 		m.m_types.push_back(&type<mud::RotateAction>());
 		m.m_types.push_back(&type<mud::RotateTool>());
 		m.m_types.push_back(&type<mud::ScaleAction>());
 		m.m_types.push_back(&type<mud::ScaleTool>());
-		m.m_types.push_back(&type<mud::ScriptedBrush>());
-		m.m_types.push_back(&type<mud::TranslateAction>());
-		m.m_types.push_back(&type<mud::TranslateTool>());
+		m.m_types.push_back(&type<mud::CopyAction>());
+		m.m_types.push_back(&type<mud::CopyTool>());
 		m.m_types.push_back(&type<mud::ViewAction>());
+		m.m_types.push_back(&type<mud::FrameViewTool>());
 		m.m_types.push_back(&type<mud::ViewTool>());
-		m.m_types.push_back(&type<mud::ViewportTool>());
-		m.m_types.push_back(&type<mud::SpatialTool>());
-		m.m_types.push_back(&type<mud::TransformAction>());
-		m.m_types.push_back(&type<mud::TransformGizmo>());
-		m.m_types.push_back(&type<mud::TransformTool>());
-		m.m_types.push_back(&type<mud::UndoTool>());
+		m.m_types.push_back(&type<mud::Selection>());
+		m.m_types.push_back(&type<mud::EditContext>());
 		m.m_types.push_back(&type<mud::WorkPlaneAction>());
 		m.m_types.push_back(&type<mud::WorkPlaneTool>());
-		m.m_types.push_back(&type<mud::WorldSnapOption>());
 	}
 }
 

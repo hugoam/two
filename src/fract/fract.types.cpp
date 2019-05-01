@@ -16,8 +16,8 @@ namespace mud
     template <> MUD_FRACT_EXPORT Type& type<stl::vector<mud::Image256>>() { static Type ty("vector<mud::Image256>", sizeof(stl::vector<mud::Image256>)); return ty; }
     
     template <> MUD_FRACT_EXPORT Type& type<mud::Circlifier>() { static Type ty("Circlifier", sizeof(mud::Circlifier)); return ty; }
+    template <> MUD_FRACT_EXPORT Type& type<mud::Pattern>() { static Type ty("Pattern", sizeof(mud::Pattern)); return ty; }
+    template <> MUD_FRACT_EXPORT Type& type<mud::FractTab>() { static Type ty("FractTab", sizeof(mud::FractTab)); return ty; }
     template <> MUD_FRACT_EXPORT Type& type<mud::Fract>() { static Type ty("Fract", sizeof(mud::Fract)); return ty; }
     template <> MUD_FRACT_EXPORT Type& type<mud::FractSample>() { static Type ty("FractSample", sizeof(mud::FractSample)); return ty; }
-    template <> MUD_FRACT_EXPORT Type& type<mud::FractTab>() { static Type ty("FractTab", sizeof(mud::FractTab)); return ty; }
-    template <> MUD_FRACT_EXPORT Type& type<mud::Pattern>() { static Type ty("Pattern", sizeof(mud::Pattern)); return ty; }
 }

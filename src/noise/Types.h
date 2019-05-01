@@ -21,11 +21,11 @@
 namespace mud
 {
     // Exported types
+    export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::NoiseType>();
+    export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::Interp>();
+    export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::FractalType>();
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::CellularDistanceFunction>();
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::CellularReturnType>();
-    export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::FractalType>();
-    export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::Interp>();
-    export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::NoiseType>();
     
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::vector3d<float>>();
     

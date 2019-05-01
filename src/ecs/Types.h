@@ -21,8 +21,8 @@ namespace mud
     // Exported types
     
     
-    export_ template <> MUD_ECS_EXPORT Type& type<mud::Complex>();
     export_ template <> MUD_ECS_EXPORT Type& type<mud::Entity>();
     export_ template <> MUD_ECS_EXPORT Type& type<mud::Entt>();
     export_ template <> MUD_ECS_EXPORT Type& type<mud::OEntt>();
+    export_ template <> MUD_ECS_EXPORT Type& type<mud::Complex>();
 }

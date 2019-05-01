@@ -1,3 +1,13 @@
+// RenderSystem
+function RenderSystem() { throw "cannot construct a RenderSystem, no constructor in IDL" }
+RenderSystem.prototype = Object.create(WrapperObject.prototype);
+RenderSystem.prototype.constructor = RenderSystem;
+RenderSystem.prototype.__class = RenderSystem;
+RenderSystem.__cache = {};
+Module['RenderSystem'] = RenderSystem;
+RenderSystem.prototype["__destroy"] = RenderSystem.prototype.__destroy = function() {
+    _mud_RenderSystem__destroy(this.__ptr);
+};
 // Context
 function Context() { throw "cannot construct a Context, no constructor in IDL" }
 Context.prototype = Object.create(WrapperObject.prototype);
@@ -126,16 +136,6 @@ Object.defineProperty(Context.prototype, "mouse_lock", {
 Context.prototype["__destroy"] = Context.prototype.__destroy = function() {
     _mud_Context__destroy(this.__ptr);
 };
-// ControlNode
-function ControlNode() { throw "cannot construct a ControlNode, no constructor in IDL" }
-ControlNode.prototype = Object.create(WrapperObject.prototype);
-ControlNode.prototype.constructor = ControlNode;
-ControlNode.prototype.__class = ControlNode;
-ControlNode.__cache = {};
-Module['ControlNode'] = ControlNode;
-ControlNode.prototype["__destroy"] = ControlNode.prototype.__destroy = function() {
-    _mud_ControlNode__destroy(this.__ptr);
-};
 // InputEvent
 function InputEvent() {
     
@@ -220,68 +220,6 @@ Object.defineProperty(InputEvent.prototype, "key", {
 InputEvent.prototype["__destroy"] = InputEvent.prototype.__destroy = function() {
     _mud_InputEvent__destroy(this.__ptr);
 };
-// Keyboard
-function Keyboard() { throw "cannot construct a Keyboard, no constructor in IDL" }
-Keyboard.prototype = Object.create(WrapperObject.prototype);
-Keyboard.prototype.constructor = Keyboard;
-Keyboard.prototype.__class = Keyboard;
-Keyboard.__cache = {};
-Module['Keyboard'] = Keyboard;
-Keyboard.prototype["__destroy"] = Keyboard.prototype.__destroy = function() {
-    _mud_Keyboard__destroy(this.__ptr);
-};
-// Mouse
-function Mouse() { throw "cannot construct a Mouse, no constructor in IDL" }
-Mouse.prototype = Object.create(WrapperObject.prototype);
-Mouse.prototype.constructor = Mouse;
-Mouse.prototype.__class = Mouse;
-Mouse.__cache = {};
-Module['Mouse'] = Mouse;
-Mouse.prototype["__destroy"] = Mouse.prototype.__destroy = function() {
-    _mud_Mouse__destroy(this.__ptr);
-};
-// RenderSystem
-function RenderSystem() { throw "cannot construct a RenderSystem, no constructor in IDL" }
-RenderSystem.prototype = Object.create(WrapperObject.prototype);
-RenderSystem.prototype.constructor = RenderSystem;
-RenderSystem.prototype.__class = RenderSystem;
-RenderSystem.__cache = {};
-Module['RenderSystem'] = RenderSystem;
-RenderSystem.prototype["__destroy"] = RenderSystem.prototype.__destroy = function() {
-    _mud_RenderSystem__destroy(this.__ptr);
-};
-// KeyEvent
-function KeyEvent() {
-    
-    this.__ptr = _mud_KeyEvent__construct_0(); getCache(KeyEvent)[this.__ptr] = this;
-};
-KeyEvent.prototype = Object.create(InputEvent.prototype);
-KeyEvent.prototype.constructor = KeyEvent;
-KeyEvent.prototype.__class = KeyEvent;
-KeyEvent.__base = InputEvent;
-KeyEvent.__cache = {};
-Module['KeyEvent'] = KeyEvent;
-Object.defineProperty(KeyEvent.prototype, "code", {
-    get: function() {
-        return _mud_KeyEvent__get_code(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('KeyEvent.code: expected integer');
-        _mud_KeyEvent__set_code(this.__ptr, value);
-    }
-});
-Object.defineProperty(KeyEvent.prototype, "char", {
-    get: function() {
-        return _mud_KeyEvent__get_char(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('KeyEvent.char: expected integer');
-        _mud_KeyEvent__set_char(this.__ptr, value);
-    }
-});
-KeyEvent.prototype["__destroy"] = KeyEvent.prototype.__destroy = function() {
-    _mud_KeyEvent__destroy(this.__ptr);
-};
 // MouseEvent
 function MouseEvent() {
     
@@ -350,49 +288,79 @@ Object.defineProperty(MouseEvent.prototype, "button", {
 MouseEvent.prototype["__destroy"] = MouseEvent.prototype.__destroy = function() {
     _mud_MouseEvent__destroy(this.__ptr);
 };
+// KeyEvent
+function KeyEvent() {
+    
+    this.__ptr = _mud_KeyEvent__construct_0(); getCache(KeyEvent)[this.__ptr] = this;
+};
+KeyEvent.prototype = Object.create(InputEvent.prototype);
+KeyEvent.prototype.constructor = KeyEvent;
+KeyEvent.prototype.__class = KeyEvent;
+KeyEvent.__base = InputEvent;
+KeyEvent.__cache = {};
+Module['KeyEvent'] = KeyEvent;
+Object.defineProperty(KeyEvent.prototype, "code", {
+    get: function() {
+        return _mud_KeyEvent__get_code(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('KeyEvent.code: expected integer');
+        _mud_KeyEvent__set_code(this.__ptr, value);
+    }
+});
+Object.defineProperty(KeyEvent.prototype, "char", {
+    get: function() {
+        return _mud_KeyEvent__get_char(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('KeyEvent.char: expected integer');
+        _mud_KeyEvent__set_char(this.__ptr, value);
+    }
+});
+KeyEvent.prototype["__destroy"] = KeyEvent.prototype.__destroy = function() {
+    _mud_KeyEvent__destroy(this.__ptr);
+};
+// ControlNode
+function ControlNode() { throw "cannot construct a ControlNode, no constructor in IDL" }
+ControlNode.prototype = Object.create(WrapperObject.prototype);
+ControlNode.prototype.constructor = ControlNode;
+ControlNode.prototype.__class = ControlNode;
+ControlNode.__cache = {};
+Module['ControlNode'] = ControlNode;
+ControlNode.prototype["__destroy"] = ControlNode.prototype.__destroy = function() {
+    _mud_ControlNode__destroy(this.__ptr);
+};
+// Keyboard
+function Keyboard() { throw "cannot construct a Keyboard, no constructor in IDL" }
+Keyboard.prototype = Object.create(WrapperObject.prototype);
+Keyboard.prototype.constructor = Keyboard;
+Keyboard.prototype.__class = Keyboard;
+Keyboard.__cache = {};
+Module['Keyboard'] = Keyboard;
+Keyboard.prototype["__destroy"] = Keyboard.prototype.__destroy = function() {
+    _mud_Keyboard__destroy(this.__ptr);
+};
+// Mouse
+function Mouse() { throw "cannot construct a Mouse, no constructor in IDL" }
+Mouse.prototype = Object.create(WrapperObject.prototype);
+Mouse.prototype.constructor = Mouse;
+Mouse.prototype.__class = Mouse;
+Mouse.__cache = {};
+Module['Mouse'] = Mouse;
+Mouse.prototype["__destroy"] = Mouse.prototype.__destroy = function() {
+    _mud_Mouse__destroy(this.__ptr);
+};
 
 (function() {
     function setup() {
+        RenderSystem.prototype.__type = _mud_RenderSystem__type();
         Context.prototype.__type = _mud_Context__type();
-        ControlNode.prototype.__type = _mud_ControlNode__type();
         InputEvent.prototype.__type = _mud_InputEvent__type();
+        MouseEvent.prototype.__type = _mud_MouseEvent__type();
+        KeyEvent.prototype.__type = _mud_KeyEvent__type();
+        ControlNode.prototype.__type = _mud_ControlNode__type();
         Keyboard.prototype.__type = _mud_Keyboard__type();
         Mouse.prototype.__type = _mud_Mouse__type();
-        RenderSystem.prototype.__type = _mud_RenderSystem__type();
-        KeyEvent.prototype.__type = _mud_KeyEvent__type();
-        MouseEvent.prototype.__type = _mud_MouseEvent__type();
-        // DeviceType
-        Module['DeviceType'] = Module['DeviceType'] || {};
-        Module['DeviceType']['None'] = _mud_DeviceType_None();
-        Module['DeviceType']['Keyboard'] = _mud_DeviceType_Keyboard();
-        Module['DeviceType']['Mouse'] = _mud_DeviceType_Mouse();
-        Module['DeviceType']['MouseLeft'] = _mud_DeviceType_MouseLeft();
-        Module['DeviceType']['MouseRight'] = _mud_DeviceType_MouseRight();
-        Module['DeviceType']['MouseMiddle'] = _mud_DeviceType_MouseMiddle();
-        Module['DeviceType']['Touch'] = _mud_DeviceType_Touch();
-        Module['DeviceType']['Count'] = _mud_DeviceType_Count();
-        // EventType
-        Module['EventType'] = Module['EventType'] || {};
-        Module['EventType']['None'] = _mud_EventType_None();
-        Module['EventType']['Heartbeat'] = _mud_EventType_Heartbeat();
-        Module['EventType']['Moved'] = _mud_EventType_Moved();
-        Module['EventType']['Pressed'] = _mud_EventType_Pressed();
-        Module['EventType']['Released'] = _mud_EventType_Released();
-        Module['EventType']['Stroked'] = _mud_EventType_Stroked();
-        Module['EventType']['DoubleStroked'] = _mud_EventType_DoubleStroked();
-        Module['EventType']['Dragged'] = _mud_EventType_Dragged();
-        Module['EventType']['DraggedTarget'] = _mud_EventType_DraggedTarget();
-        Module['EventType']['DragStarted'] = _mud_EventType_DragStarted();
-        Module['EventType']['DragEnded'] = _mud_EventType_DragEnded();
-        Module['EventType']['Dropped'] = _mud_EventType_Dropped();
-        Module['EventType']['Count'] = _mud_EventType_Count();
-        // InputMod
-        Module['InputMod'] = Module['InputMod'] || {};
-        Module['InputMod']['None'] = _mud_InputMod_None();
-        Module['InputMod']['Shift'] = _mud_InputMod_Shift();
-        Module['InputMod']['Ctrl'] = _mud_InputMod_Ctrl();
-        Module['InputMod']['Alt'] = _mud_InputMod_Alt();
-        Module['InputMod']['Any'] = _mud_InputMod_Any();
         // Key
         Module['Key'] = Module['Key'] || {};
         Module['Key']['Unassigned'] = _mud_Key_Unassigned();
@@ -510,6 +478,38 @@ MouseEvent.prototype["__destroy"] = MouseEvent.prototype.__destroy = function() 
         Module['RIGHT_BUTTON'] = _mud_MouseButtonCode_RIGHT_BUTTON();
         Module['MIDDLE_BUTTON'] = _mud_MouseButtonCode_MIDDLE_BUTTON();
         Module['NO_BUTTON'] = _mud_MouseButtonCode_NO_BUTTON();
+        // InputMod
+        Module['InputMod'] = Module['InputMod'] || {};
+        Module['InputMod']['None'] = _mud_InputMod_None();
+        Module['InputMod']['Shift'] = _mud_InputMod_Shift();
+        Module['InputMod']['Ctrl'] = _mud_InputMod_Ctrl();
+        Module['InputMod']['Alt'] = _mud_InputMod_Alt();
+        Module['InputMod']['Any'] = _mud_InputMod_Any();
+        // DeviceType
+        Module['DeviceType'] = Module['DeviceType'] || {};
+        Module['DeviceType']['None'] = _mud_DeviceType_None();
+        Module['DeviceType']['Keyboard'] = _mud_DeviceType_Keyboard();
+        Module['DeviceType']['Mouse'] = _mud_DeviceType_Mouse();
+        Module['DeviceType']['MouseLeft'] = _mud_DeviceType_MouseLeft();
+        Module['DeviceType']['MouseRight'] = _mud_DeviceType_MouseRight();
+        Module['DeviceType']['MouseMiddle'] = _mud_DeviceType_MouseMiddle();
+        Module['DeviceType']['Touch'] = _mud_DeviceType_Touch();
+        Module['DeviceType']['Count'] = _mud_DeviceType_Count();
+        // EventType
+        Module['EventType'] = Module['EventType'] || {};
+        Module['EventType']['None'] = _mud_EventType_None();
+        Module['EventType']['Heartbeat'] = _mud_EventType_Heartbeat();
+        Module['EventType']['Moved'] = _mud_EventType_Moved();
+        Module['EventType']['Pressed'] = _mud_EventType_Pressed();
+        Module['EventType']['Released'] = _mud_EventType_Released();
+        Module['EventType']['Stroked'] = _mud_EventType_Stroked();
+        Module['EventType']['DoubleStroked'] = _mud_EventType_DoubleStroked();
+        Module['EventType']['Dragged'] = _mud_EventType_Dragged();
+        Module['EventType']['DraggedTarget'] = _mud_EventType_DraggedTarget();
+        Module['EventType']['DragStarted'] = _mud_EventType_DragStarted();
+        Module['EventType']['DragEnded'] = _mud_EventType_DragEnded();
+        Module['EventType']['Dropped'] = _mud_EventType_Dropped();
+        Module['EventType']['Count'] = _mud_EventType_Count();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

@@ -13,6 +13,13 @@
 
 extern "C" {
 	
+	// RenderSystem
+	mud::Type* DECL mud_RenderSystem__type() {
+		return &mud::type<mud::RenderSystem>();
+	}
+	void DECL mud_RenderSystem__destroy(mud::RenderSystem* self) {
+		delete self;
+	}
 	// Context
 	mud::Type* DECL mud_Context__type() {
 		return &mud::type<mud::Context>();
@@ -101,13 +108,6 @@ extern "C" {
 	void DECL mud_Context__destroy(mud::Context* self) {
 		delete self;
 	}
-	// ControlNode
-	mud::Type* DECL mud_ControlNode__type() {
-		return &mud::type<mud::ControlNode>();
-	}
-	void DECL mud_ControlNode__destroy(mud::ControlNode* self) {
-		delete self;
-	}
 	// InputEvent
 	mud::Type* DECL mud_InputEvent__type() {
 		return &mud::type<mud::InputEvent>();
@@ -166,49 +166,6 @@ extern "C" {
 	void DECL mud_InputEvent__destroy(mud::InputEvent* self) {
 		delete self;
 	}
-	// Keyboard
-	mud::Type* DECL mud_Keyboard__type() {
-		return &mud::type<mud::Keyboard>();
-	}
-	void DECL mud_Keyboard__destroy(mud::Keyboard* self) {
-		delete self;
-	}
-	// Mouse
-	mud::Type* DECL mud_Mouse__type() {
-		return &mud::type<mud::Mouse>();
-	}
-	void DECL mud_Mouse__destroy(mud::Mouse* self) {
-		delete self;
-	}
-	// RenderSystem
-	mud::Type* DECL mud_RenderSystem__type() {
-		return &mud::type<mud::RenderSystem>();
-	}
-	void DECL mud_RenderSystem__destroy(mud::RenderSystem* self) {
-		delete self;
-	}
-	// KeyEvent
-	mud::Type* DECL mud_KeyEvent__type() {
-		return &mud::type<mud::KeyEvent>();
-	}
-	mud::KeyEvent* DECL mud_KeyEvent__construct_0() {
-		return new mud::KeyEvent();
-	}
-	mud::Key DECL mud_KeyEvent__get_code(mud::KeyEvent* self) {
-		return self->m_code;
-	}
-	void DECL mud_KeyEvent__set_code(mud::KeyEvent* self, mud::Key value) {
-		self->m_code = value;
-	}
-	char DECL mud_KeyEvent__get_char(mud::KeyEvent* self) {
-		return self->m_char;
-	}
-	void DECL mud_KeyEvent__set_char(mud::KeyEvent* self, char value) {
-		self->m_char = value;
-	}
-	void DECL mud_KeyEvent__destroy(mud::KeyEvent* self) {
-		delete self;
-	}
 	// MouseEvent
 	mud::Type* DECL mud_MouseEvent__type() {
 		return &mud::type<mud::MouseEvent>();
@@ -255,86 +212,48 @@ extern "C" {
 	void DECL mud_MouseEvent__destroy(mud::MouseEvent* self) {
 		delete self;
 	}
-	// DeviceType
-	mud::DeviceType DECL mud_DeviceType_None() {
-		return mud::DeviceType::None;
+	// KeyEvent
+	mud::Type* DECL mud_KeyEvent__type() {
+		return &mud::type<mud::KeyEvent>();
 	}
-	mud::DeviceType DECL mud_DeviceType_Keyboard() {
-		return mud::DeviceType::Keyboard;
+	mud::KeyEvent* DECL mud_KeyEvent__construct_0() {
+		return new mud::KeyEvent();
 	}
-	mud::DeviceType DECL mud_DeviceType_Mouse() {
-		return mud::DeviceType::Mouse;
+	mud::Key DECL mud_KeyEvent__get_code(mud::KeyEvent* self) {
+		return self->m_code;
 	}
-	mud::DeviceType DECL mud_DeviceType_MouseLeft() {
-		return mud::DeviceType::MouseLeft;
+	void DECL mud_KeyEvent__set_code(mud::KeyEvent* self, mud::Key value) {
+		self->m_code = value;
 	}
-	mud::DeviceType DECL mud_DeviceType_MouseRight() {
-		return mud::DeviceType::MouseRight;
+	char DECL mud_KeyEvent__get_char(mud::KeyEvent* self) {
+		return self->m_char;
 	}
-	mud::DeviceType DECL mud_DeviceType_MouseMiddle() {
-		return mud::DeviceType::MouseMiddle;
+	void DECL mud_KeyEvent__set_char(mud::KeyEvent* self, char value) {
+		self->m_char = value;
 	}
-	mud::DeviceType DECL mud_DeviceType_Touch() {
-		return mud::DeviceType::Touch;
+	void DECL mud_KeyEvent__destroy(mud::KeyEvent* self) {
+		delete self;
 	}
-	mud::DeviceType DECL mud_DeviceType_Count() {
-		return mud::DeviceType::Count;
+	// ControlNode
+	mud::Type* DECL mud_ControlNode__type() {
+		return &mud::type<mud::ControlNode>();
 	}
-	// EventType
-	mud::EventType DECL mud_EventType_None() {
-		return mud::EventType::None;
+	void DECL mud_ControlNode__destroy(mud::ControlNode* self) {
+		delete self;
 	}
-	mud::EventType DECL mud_EventType_Heartbeat() {
-		return mud::EventType::Heartbeat;
+	// Keyboard
+	mud::Type* DECL mud_Keyboard__type() {
+		return &mud::type<mud::Keyboard>();
 	}
-	mud::EventType DECL mud_EventType_Moved() {
-		return mud::EventType::Moved;
+	void DECL mud_Keyboard__destroy(mud::Keyboard* self) {
+		delete self;
 	}
-	mud::EventType DECL mud_EventType_Pressed() {
-		return mud::EventType::Pressed;
+	// Mouse
+	mud::Type* DECL mud_Mouse__type() {
+		return &mud::type<mud::Mouse>();
 	}
-	mud::EventType DECL mud_EventType_Released() {
-		return mud::EventType::Released;
-	}
-	mud::EventType DECL mud_EventType_Stroked() {
-		return mud::EventType::Stroked;
-	}
-	mud::EventType DECL mud_EventType_DoubleStroked() {
-		return mud::EventType::DoubleStroked;
-	}
-	mud::EventType DECL mud_EventType_Dragged() {
-		return mud::EventType::Dragged;
-	}
-	mud::EventType DECL mud_EventType_DraggedTarget() {
-		return mud::EventType::DraggedTarget;
-	}
-	mud::EventType DECL mud_EventType_DragStarted() {
-		return mud::EventType::DragStarted;
-	}
-	mud::EventType DECL mud_EventType_DragEnded() {
-		return mud::EventType::DragEnded;
-	}
-	mud::EventType DECL mud_EventType_Dropped() {
-		return mud::EventType::Dropped;
-	}
-	mud::EventType DECL mud_EventType_Count() {
-		return mud::EventType::Count;
-	}
-	// InputMod
-	mud::InputMod DECL mud_InputMod_None() {
-		return mud::InputMod::None;
-	}
-	mud::InputMod DECL mud_InputMod_Shift() {
-		return mud::InputMod::Shift;
-	}
-	mud::InputMod DECL mud_InputMod_Ctrl() {
-		return mud::InputMod::Ctrl;
-	}
-	mud::InputMod DECL mud_InputMod_Alt() {
-		return mud::InputMod::Alt;
-	}
-	mud::InputMod DECL mud_InputMod_Any() {
-		return mud::InputMod::Any;
+	void DECL mud_Mouse__destroy(mud::Mouse* self) {
+		delete self;
 	}
 	// Key
 	mud::Key DECL mud_Key_Unassigned() {
@@ -679,6 +598,87 @@ extern "C" {
 	}
 	mud::MouseButtonCode DECL mud_MouseButtonCode_NO_BUTTON() {
 		return mud::NO_BUTTON;
+	}
+	// InputMod
+	mud::InputMod DECL mud_InputMod_None() {
+		return mud::InputMod::None;
+	}
+	mud::InputMod DECL mud_InputMod_Shift() {
+		return mud::InputMod::Shift;
+	}
+	mud::InputMod DECL mud_InputMod_Ctrl() {
+		return mud::InputMod::Ctrl;
+	}
+	mud::InputMod DECL mud_InputMod_Alt() {
+		return mud::InputMod::Alt;
+	}
+	mud::InputMod DECL mud_InputMod_Any() {
+		return mud::InputMod::Any;
+	}
+	// DeviceType
+	mud::DeviceType DECL mud_DeviceType_None() {
+		return mud::DeviceType::None;
+	}
+	mud::DeviceType DECL mud_DeviceType_Keyboard() {
+		return mud::DeviceType::Keyboard;
+	}
+	mud::DeviceType DECL mud_DeviceType_Mouse() {
+		return mud::DeviceType::Mouse;
+	}
+	mud::DeviceType DECL mud_DeviceType_MouseLeft() {
+		return mud::DeviceType::MouseLeft;
+	}
+	mud::DeviceType DECL mud_DeviceType_MouseRight() {
+		return mud::DeviceType::MouseRight;
+	}
+	mud::DeviceType DECL mud_DeviceType_MouseMiddle() {
+		return mud::DeviceType::MouseMiddle;
+	}
+	mud::DeviceType DECL mud_DeviceType_Touch() {
+		return mud::DeviceType::Touch;
+	}
+	mud::DeviceType DECL mud_DeviceType_Count() {
+		return mud::DeviceType::Count;
+	}
+	// EventType
+	mud::EventType DECL mud_EventType_None() {
+		return mud::EventType::None;
+	}
+	mud::EventType DECL mud_EventType_Heartbeat() {
+		return mud::EventType::Heartbeat;
+	}
+	mud::EventType DECL mud_EventType_Moved() {
+		return mud::EventType::Moved;
+	}
+	mud::EventType DECL mud_EventType_Pressed() {
+		return mud::EventType::Pressed;
+	}
+	mud::EventType DECL mud_EventType_Released() {
+		return mud::EventType::Released;
+	}
+	mud::EventType DECL mud_EventType_Stroked() {
+		return mud::EventType::Stroked;
+	}
+	mud::EventType DECL mud_EventType_DoubleStroked() {
+		return mud::EventType::DoubleStroked;
+	}
+	mud::EventType DECL mud_EventType_Dragged() {
+		return mud::EventType::Dragged;
+	}
+	mud::EventType DECL mud_EventType_DraggedTarget() {
+		return mud::EventType::DraggedTarget;
+	}
+	mud::EventType DECL mud_EventType_DragStarted() {
+		return mud::EventType::DragStarted;
+	}
+	mud::EventType DECL mud_EventType_DragEnded() {
+		return mud::EventType::DragEnded;
+	}
+	mud::EventType DECL mud_EventType_Dropped() {
+		return mud::EventType::Dropped;
+	}
+	mud::EventType DECL mud_EventType_Count() {
+		return mud::EventType::Count;
 	}
 	
 }

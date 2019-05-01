@@ -331,6 +331,9 @@ namespace mud
 
 			if(m_id.back() == '*')
 				m_pointer = true;
+
+			if(m_name == "Callable")
+				int i = 0;
 		}
 
 		CXType m_cxtype;
@@ -344,8 +347,6 @@ namespace mud
 		bool m_span = false;
 		bool m_sequence = false;
 
-		vector<CLType*> m_bases;
-		vector<CLType*> m_deep_bases;
 		vector<string> m_aliases;
 
 		bool isvoid() const { return m_type_kind == CLTypeKind::Void; }
@@ -551,6 +552,10 @@ namespace mud
 			m_type_kind = CLTypeKind::Class;
 			//this->set_alias(displayname(cursor));
 		}
+
+		size_t m_index = 0;
+		vector<CLClass*> m_bases;
+		vector<CLClass*> m_deep_bases;
 
 		vector<CLConstructor> m_constructors;
 		vector<CLMember> m_members;
