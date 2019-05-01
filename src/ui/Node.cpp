@@ -105,14 +105,14 @@ namespace ui
 		return self;
 	}
 
-	Widget& canvas_cable(Widget& parent, vec2 out, vec2 in, const Colour& colour_out, const Colour& colour_in, bool straight = false)
+	Widget& canvas_cable(Widget& parent, NodeKnob& out, NodeKnob& in, bool straight = false)
 	{
 		Widget& self = widget(parent, node_styles().cable);
-		self.m_frame.m_position = min(out, in);
-		self.m_frame.m_size = max(out, in) - self.m_frame.m_position;
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_frame.m_position = min(out.m_end, in.m_end);
+		self.m_frame.m_size = max(out.m_end, in.m_end) - self.m_frame.m_position;
+		self.m_custom_draw = [&, straight](const Frame& frame, const vec4& rect, Vg& vg)
 		{
-			UNUSED(rect); draw_node_cable(out - frame.m_position, in - frame.m_position, colour_out, colour_in, straight, vg);
+			UNUSED(rect); draw_node_cable(out.m_end - frame.m_position, in.m_end - frame.m_position, out.m_colour, in.m_colour, straight, vg);
 		};
 		return self;
 	}
@@ -131,7 +131,7 @@ namespace ui
 
 	Widget& node_cable(Canvas& canvas, NodePlug& out, NodePlug& in)
 	{
-		return canvas_cable(*canvas.m_plan, plug_at_out(canvas, out), plug_at_in(canvas, in), out.m_colour, in.m_colour, !canvas.m_rounded_links);
+		return canvas_cable(*canvas.m_plan, out, in, !canvas.m_rounded_links);
 	}
 
 	NodePlug& node_plug(Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected)
@@ -153,6 +153,10 @@ namespace ui
 
 		Canvas& canvas = *node.m_canvas;
 
+		self.m_end = input ? plug_at_in(canvas, self) : plug_at_out(canvas, self);
+
+		CanvasConnect& connect = canvas.m_connect;
+
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			Widget* target = static_cast<Widget*>(event.m_target);
@@ -160,10 +164,20 @@ namespace ui
 			if(target && target->m_frame.d_style == &node_styles().plug && target != &self)
 				target_plug = static_cast<NodePlug*>(target);
 
-			canvas.m_connect.m_origin = &self;
-			canvas.m_connect.m_in = input ? &self : target_plug;
-			canvas.m_connect.m_out = input ? target_plug : &self;
-			canvas.m_connect.m_position = event.m_pos;
+			connect.m_origin = &self;
+			connect.m_in = input ? &self : target_plug;
+			connect.m_out = input ? target_plug : &self;
+			connect.m_position = event.m_pos;
+
+			if(target_plug)
+			{
+				connect.m_end = *target_plug;
+			}
+			else
+			{
+				connect.m_end.m_end = canvas.m_plan->m_frame.local_position(connect.m_position);
+				connect.m_end.m_colour = self.m_colour;
+			}
 		}
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
@@ -304,15 +318,7 @@ namespace ui
 		CanvasConnect& connect = canvas.m_connect;
 		if(connect.m_origin)
 		{
-			const vec2 target = canvas.m_plan->m_frame.local_position(connect.m_position);
-
-			const Colour outcolor = connect.m_out ? connect.m_out->m_colour : connect.m_in->m_colour;
-			const Colour incolor = connect.m_in ? connect.m_in->m_colour : connect.m_out->m_colour;
-
-			const vec2 out = connect.m_out ? plug_at_out(canvas, *connect.m_out) : target;
-			const vec2 in = connect.m_in ? plug_at_in(canvas, *connect.m_in) : target;
-
-			canvas_cable(*canvas.m_plan, out, in, outcolor, incolor);
+			canvas_cable(*canvas.m_plan, connect.m_out ? *connect.m_out : connect.m_end, connect.m_in ?  *connect.m_in : connect.m_end);
 
 			if(connect.m_done)
 			{
@@ -325,7 +331,8 @@ namespace ui
 		}
 		else
 		{
-			canvas_cable(*canvas.m_plan, vec2(0.f), vec2(0.f), Colour::None, Colour::None);
+			static NodeKnob dum = { vec2(0.f), Colour(0.f, 0.f) };
+			canvas_cable(*canvas.m_plan, dum, dum);
 			connect = {};
 		}
 

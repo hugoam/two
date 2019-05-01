@@ -13,13 +13,18 @@
 
 namespace mud
 {
-	export_ class refl_ MUD_UI_EXPORT NodePlug : public Widget
+	export_ struct NodeKnob
+	{
+		vec2 m_end;
+		Colour m_colour;
+	};
+
+	export_ class refl_ MUD_UI_EXPORT NodePlug : public Widget, public NodeKnob
 	{
 	public:
 		NodePlug(Widget* parent, void* identity) : Widget(parent, identity) {}
 		Node* m_node;
 		Widget* m_knob;
-		Colour m_colour;
 	};
 
 	export_ class refl_ MUD_UI_EXPORT Node : public Widget
@@ -38,6 +43,7 @@ namespace mud
 		NodePlug* m_origin = nullptr;
 		NodePlug* m_in = nullptr;
 		NodePlug* m_out = nullptr;
+		NodeKnob m_end;
 		vec2 m_position;
 		bool m_done = false;
 	};
