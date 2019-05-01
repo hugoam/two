@@ -1355,6 +1355,10 @@ UiWindow.prototype.constructor = UiWindow;
 UiWindow.prototype.__class = UiWindow;
 UiWindow.__cache = {};
 Module['UiWindow'] = UiWindow;
+UiWindow.prototype["reset_styles"] = UiWindow.prototype.reset_styles = function() {
+    
+    _mud_UiWindow_reset_styles_0(this.__ptr);
+};
 Object.defineProperty(UiWindow.prototype, "resource_path", {
     get: function() {
         return UTF8ToString(_mud_UiWindow__get_resource_path(this.__ptr));

@@ -37,7 +37,7 @@ namespace mud
 		void render_frame(uint16_t view);
 		void shutdown();
 
-		func_ void reset_styles();
+		meth_ void reset_styles();
 
 		void resize(const uvec2& size, const uvec2& fb_size);
 

@@ -995,6 +995,9 @@ extern "C" {
 	mud::Type* DECL mud_UiWindow__type() {
 		return &mud::type<mud::UiWindow>();
 	}
+	void DECL mud_UiWindow_reset_styles_0(mud::UiWindow* self) {
+		self->reset_styles();
+	}
 	const char* DECL mud_UiWindow__get_resource_path(mud::UiWindow* self) {
 		return self->m_resource_path.c_str();
 	}

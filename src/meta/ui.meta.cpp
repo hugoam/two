@@ -140,6 +140,7 @@ void mud_Clipboard__construct_0(void* ref, span<void*> args) { UNUSED(args); new
 void mud_Clipboard__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Clipboard((*static_cast<mud::Clipboard*>(other))); }
 void* mud_UiWindow__get_context(void* object) { return &(*static_cast<mud::UiWindow*>(object)).m_context; }
 void* mud_UiWindow__get_vg(void* object) { return &(*static_cast<mud::UiWindow*>(object)).m_vg; }
+void mud_UiWindow_reset_styles(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::UiWindow*>(object)).reset_styles(); }
 void mud_Dock__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Dock(  ); }
 void mud_Dock__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Dock((*static_cast<mud::Dock*>(other))); }
 void mud_CanvasConnect__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::CanvasConnect(  ); }
@@ -1213,8 +1214,11 @@ namespace mud
 			{ t, offsetof(mud::UiWindow, m_shutdown), type<bool>(), "shutdown", &shutdown_default, Member::Value, nullptr }
 		};
 		// methods
+		static Method methods[] = {
+			{ t, "reset_styles", Address(), mud_UiWindow_reset_styles, {}, g_qvoid }
+		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
 	}
 	// mud::User
 	{
