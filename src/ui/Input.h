@@ -99,11 +99,25 @@ namespace ui
 	export_ func_ inline void color_display_field(Widget& parent, cstring name, const Colour& value, bool reverse = false) { do_field([&](Widget& self) { color_display(self, value); return false; }, parent, name, reverse); }
 
 #ifndef MUD_META_GENERATOR
+	export_ func_ extern template bool input<bool>(Widget& parent, bool& value);
+	export_ func_ extern template bool input<string>(Widget& parent, string& value);
 	export_ func_ extern template bool input<int>(Widget& parent, int& value, StatDef<int> def);
 	export_ func_ extern template bool input<float>(Widget& parent, float& value, StatDef<float> def);
+
+	//export_ func_ template bool field<bool>(Widget& parent, cstring name, bool& value, bool reverse);
+	//export_ func_ template bool field<string>(Widget& parent, cstring name, string& value, bool reverse);
+	//export_ func_ template bool field<int>(Widget& parent, cstring name, int& value, StatDef<int> def, bool reverse);
+	//export_ func_ template bool field<float>(Widget& parent, cstring name, float& value, StatDef<float> def, bool reverse);
 #else
+	template <> func_ bool input<bool>(Widget& parent, bool& value);
+	template <> func_ bool input<string>(Widget& parent, string& value);
 	template <> func_ bool input<int>(Widget& parent, int& value, StatDef<int> def);
 	template <> func_ bool input<float>(Widget& parent, float& value, StatDef<float> def);
+
+	template <> func_ bool field<bool>(Widget& parent, cstring name, bool& value, bool reverse = false);
+	template <> func_ bool field<string>(Widget& parent, cstring name, string& value, bool reverse = false);
+	template <> func_ bool field<int>(Widget& parent, cstring name, int& value, StatDef<int> def, bool reverse = false);
+	template <> func_ bool field<float>(Widget& parent, cstring name, float& value, StatDef<float> def, bool reverse = false
 #endif
 
 	inline void field_label(Widget& parent, cstring field, cstring value)

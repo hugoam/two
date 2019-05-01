@@ -37,11 +37,11 @@ namespace mud
 		void render_frame(uint16_t view);
 		void shutdown();
 
-		void reset_styles();
+		func_ void reset_styles();
 
 		void resize(const uvec2& size, const uvec2& fb_size);
 
-		Image& create_image(cstring image, const uvec2& size, uint8_t* data, bool filtering = true);
+		Image& create_image(cstring image, const uvec2& size, span<uint8_t> data, bool filtering = true);
 		void remove_image(Image& image);
 		Image* find_image(cstring name);
 

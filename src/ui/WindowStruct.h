@@ -25,8 +25,8 @@ namespace mud
 		bool sizable()  { return (uint(m_window_state) & uint(WindowState::Sizable)) != 0; }
 		bool hasmenu()  { return (uint(m_window_state) & uint(WindowState::Menu)) != 0; }
 
-		WindowState m_window_state;
+		attr_ WindowState m_window_state;
 
-		Widget* m_menu = nullptr;
+		attr_ Widget* m_menu = nullptr;
 	};
 }

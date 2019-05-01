@@ -61,13 +61,13 @@ namespace mud
 
 	StyleSelector select(span<string> styles);
 
-	export_ MUD_UI_EXPORT void layout_minimal(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT void style_minimal(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT void style_vector(UiWindow& ui_window);
+	export_ MUD_UI_EXPORT func_ void layout_minimal(UiWindow& ui_window);
+	export_ MUD_UI_EXPORT func_ void style_minimal(UiWindow& ui_window);
+	export_ MUD_UI_EXPORT func_ void style_vector(UiWindow& ui_window);
 
-	export_ MUD_UI_EXPORT void style_blendish(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT void style_blendish_light(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT void style_blendish_dark(UiWindow& ui_window);
+	export_ MUD_UI_EXPORT func_ void style_blendish(UiWindow& ui_window);
+	export_ MUD_UI_EXPORT func_ void style_blendish_light(UiWindow& ui_window);
+	export_ MUD_UI_EXPORT func_ void style_blendish_dark(UiWindow& ui_window);
 
 	export_ enum class ImguiStyle
 	{
@@ -164,9 +164,9 @@ namespace mud
 		Colour ModalWindowDimBg;
 	};
 
-	export_ MUD_UI_EXPORT void style_imgui_dark(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT void style_imgui_light(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT void style_imgui_classic(UiWindow& ui_window);
+	export_ MUD_UI_EXPORT func_ void style_imgui_dark(UiWindow& ui_window);
+	export_ MUD_UI_EXPORT func_ void style_imgui_light(UiWindow& ui_window);
+	export_ MUD_UI_EXPORT func_ void style_imgui_classic(UiWindow& ui_window);
 
 	export_ MUD_UI_EXPORT void style_imgui(UiWindow& ui_window, ImguiStyle style = ImguiStyle::Dark);
 }

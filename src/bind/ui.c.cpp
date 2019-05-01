@@ -1206,8 +1206,47 @@ extern "C" {
 	mud::Type* DECL mud_Window__type() {
 		return &mud::type<mud::Window>();
 	}
+	mud::WindowState DECL mud_Window__get_window_state(mud::Window* self) {
+		return self->m_window_state;
+	}
+	void DECL mud_Window__set_window_state(mud::Window* self, mud::WindowState value) {
+		self->m_window_state = value;
+	}
+	mud::Widget* DECL mud_Window__get_menu(mud::Window* self) {
+		return self->m_menu;
+	}
+	void DECL mud_Window__set_menu(mud::Window* self, mud::Widget* value) {
+		self->m_menu = value;
+	}
 	void DECL mud_Window__destroy(mud::Window* self) {
 		delete self;
+	}
+	void DECL mud_layout_minimal_1(mud::UiWindow* ui_window) {
+		mud::layout_minimal(*ui_window);
+	}
+	void DECL mud_style_minimal_1(mud::UiWindow* ui_window) {
+		mud::style_minimal(*ui_window);
+	}
+	void DECL mud_style_vector_1(mud::UiWindow* ui_window) {
+		mud::style_vector(*ui_window);
+	}
+	void DECL mud_style_blendish_1(mud::UiWindow* ui_window) {
+		mud::style_blendish(*ui_window);
+	}
+	void DECL mud_style_blendish_light_1(mud::UiWindow* ui_window) {
+		mud::style_blendish_light(*ui_window);
+	}
+	void DECL mud_style_blendish_dark_1(mud::UiWindow* ui_window) {
+		mud::style_blendish_dark(*ui_window);
+	}
+	void DECL mud_style_imgui_dark_1(mud::UiWindow* ui_window) {
+		mud::style_imgui_dark(*ui_window);
+	}
+	void DECL mud_style_imgui_light_1(mud::UiWindow* ui_window) {
+		mud::style_imgui_light(*ui_window);
+	}
+	void DECL mud_style_imgui_classic_1(mud::UiWindow* ui_window) {
+		mud::style_imgui_classic(*ui_window);
 	}
 	mud::Widget* DECL mud_ui_widget_2(mud::Widget* parent, mud::Style* style) {
 		return &mud::ui::widget(*parent, *style);
@@ -1602,11 +1641,32 @@ extern "C" {
 	void DECL mud_ui_color_display_field_4(mud::Widget* parent, const char* name, const mud::Colour* value, bool reverse) {
 		mud::ui::color_display_field(*parent, name, *value, reverse);
 	}
+	bool DECL mud_ui_input_bool_2(mud::Widget* parent, bool value) {
+		return mud::ui::input<bool>(*parent, value);
+	}
 	bool DECL mud_ui_input_int_3(mud::Widget* parent, int value, mud::StatDef<int>* def) {
 		return mud::ui::input<int>(*parent, value, *def);
 	}
 	bool DECL mud_ui_input_float_3(mud::Widget* parent, float value, mud::StatDef<float>* def) {
 		return mud::ui::input<float>(*parent, value, *def);
+	}
+	bool DECL mud_ui_field_bool_3(mud::Widget* parent, const char* name, bool value) {
+		return mud::ui::field<bool>(*parent, name, value);
+	}
+	bool DECL mud_ui_field_bool_4(mud::Widget* parent, const char* name, bool value, bool reverse) {
+		return mud::ui::field<bool>(*parent, name, value, reverse);
+	}
+	bool DECL mud_ui_field_int_4(mud::Widget* parent, const char* name, int value, mud::StatDef<int>* def) {
+		return mud::ui::field<int>(*parent, name, value, *def);
+	}
+	bool DECL mud_ui_field_int_5(mud::Widget* parent, const char* name, int value, mud::StatDef<int>* def, bool reverse) {
+		return mud::ui::field<int>(*parent, name, value, *def, reverse);
+	}
+	bool DECL mud_ui_field_float_4(mud::Widget* parent, const char* name, float value, mud::StatDef<float>* def) {
+		return mud::ui::field<float>(*parent, name, value, *def);
+	}
+	bool DECL mud_ui_field_float_5(mud::Widget* parent, const char* name, float value, mud::StatDef<float>* def, bool reverse) {
+		return mud::ui::field<float>(*parent, name, value, *def, reverse);
 	}
 	mud::NodePlug* DECL mud_ui_node_input_2(mud::Node* node, const char* name) {
 		return &mud::ui::node_input(*node, name);

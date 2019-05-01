@@ -209,7 +209,7 @@ namespace ui
 		if(!image)
 		{
 			vector<uint8_t> data = source.read();
-			image = &self.ui_window().create_image(name, source.m_size, &data[0], false);
+			image = &self.ui_window().create_image(name, source.m_size, data, false);
 		}
 		self.m_frame.set_icon(image);
 		return self;

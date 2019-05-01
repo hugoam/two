@@ -114,12 +114,12 @@ namespace mud
 		m_vg.load_image_RGBA(m_atlas.m_image, atlas.data());
 	}
 
-	Image& UiWindow::create_image(cstring name, const uvec2& size, uint8_t* data, bool filtering)
+	Image& UiWindow::create_image(cstring name, const uvec2& size, span<uint8_t> data, bool filtering)
 	{
 		m_images.push_back(construct<Image>(name, name, size));
 		Image& image = *m_images.back();
 		image.d_filtering = filtering;
-		m_vg.load_image_RGBA(image, data);
+		m_vg.load_image_RGBA(image, data.data());
 		return image;
 	}
 

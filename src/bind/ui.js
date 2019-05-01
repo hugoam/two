@@ -1672,8 +1672,62 @@ Window.prototype.__class = Window;
 Window.__base = Dockable;
 Window.__cache = {};
 Module['Window'] = Window;
+Object.defineProperty(Window.prototype, "window_state", {
+    get: function() {
+        return _mud_Window__get_window_state(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('Window.window_state: expected integer');
+        _mud_Window__set_window_state(this.__ptr, value);
+    }
+});
+Object.defineProperty(Window.prototype, "menu", {
+    get: function() {
+        return wrapPointer(_mud_Window__get_menu(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('Window.menu: expected Widget');
+        _mud_Window__set_menu(this.__ptr, value.__ptr);
+    }
+});
 Window.prototype["__destroy"] = Window.prototype.__destroy = function() {
     _mud_Window__destroy(this.__ptr);
+};
+Module['layout_minimal'] = function(a0) {
+    if (!checkClass(a0, UiWindow)) throw Error('layout_minimal(0:ui_window): expected UiWindow');
+    _mud_layout_minimal_1(/*ui_window*/a0.__ptr);
+};
+Module['style_minimal'] = function(a0) {
+    if (!checkClass(a0, UiWindow)) throw Error('style_minimal(0:ui_window): expected UiWindow');
+    _mud_style_minimal_1(/*ui_window*/a0.__ptr);
+};
+Module['style_vector'] = function(a0) {
+    if (!checkClass(a0, UiWindow)) throw Error('style_vector(0:ui_window): expected UiWindow');
+    _mud_style_vector_1(/*ui_window*/a0.__ptr);
+};
+Module['style_blendish'] = function(a0) {
+    if (!checkClass(a0, UiWindow)) throw Error('style_blendish(0:ui_window): expected UiWindow');
+    _mud_style_blendish_1(/*ui_window*/a0.__ptr);
+};
+Module['style_blendish_light'] = function(a0) {
+    if (!checkClass(a0, UiWindow)) throw Error('style_blendish_light(0:ui_window): expected UiWindow');
+    _mud_style_blendish_light_1(/*ui_window*/a0.__ptr);
+};
+Module['style_blendish_dark'] = function(a0) {
+    if (!checkClass(a0, UiWindow)) throw Error('style_blendish_dark(0:ui_window): expected UiWindow');
+    _mud_style_blendish_dark_1(/*ui_window*/a0.__ptr);
+};
+Module['style_imgui_dark'] = function(a0) {
+    if (!checkClass(a0, UiWindow)) throw Error('style_imgui_dark(0:ui_window): expected UiWindow');
+    _mud_style_imgui_dark_1(/*ui_window*/a0.__ptr);
+};
+Module['style_imgui_light'] = function(a0) {
+    if (!checkClass(a0, UiWindow)) throw Error('style_imgui_light(0:ui_window): expected UiWindow');
+    _mud_style_imgui_light_1(/*ui_window*/a0.__ptr);
+};
+Module['style_imgui_classic'] = function(a0) {
+    if (!checkClass(a0, UiWindow)) throw Error('style_imgui_classic(0:ui_window): expected UiWindow');
+    _mud_style_imgui_classic_1(/*ui_window*/a0.__ptr);
 };
 Module['ui']['widget'] = function(a0, a1, a2, a3, a4) {
     if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('widget(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('widget(1:style): expected Style'); }
@@ -2155,6 +2209,10 @@ Module['ui']['color_display_field'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { _mud_ui_color_display_field_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr); }
     else { _mud_ui_color_display_field_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr, /*reverse*/a3); }
 };
+Module['ui']['input_bool'] = function(a0, a1) {
+    if (!checkClass(a0, Widget)) throw Error('input<bool>(0:parent): expected Widget'); if (typeof a1 !== 'boolean') throw Error('input<bool>(1:value): expected boolean');
+    return !!(_mud_ui_input_bool_2(/*parent*/a0.__ptr, /*value*/a1));
+};
 Module['ui']['input_int'] = function(a0, a1, a2) {
     if (!checkClass(a0, Widget)) throw Error('input<int>(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('input<int>(1:value): expected integer'); if (!checkClass(a2, StatDef_int)) throw Error('input<int>(2:def): expected StatDef<int>');
     return !!(_mud_ui_input_int_3(/*parent*/a0.__ptr, /*value*/a1, /*def*/a2.__ptr));
@@ -2162,6 +2220,27 @@ Module['ui']['input_int'] = function(a0, a1, a2) {
 Module['ui']['input_float'] = function(a0, a1, a2) {
     if (!checkClass(a0, Widget)) throw Error('input<float>(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('input<float>(1:value): expected number'); if (!checkClass(a2, StatDef_float)) throw Error('input<float>(2:def): expected StatDef<float>');
     return !!(_mud_ui_input_float_3(/*parent*/a0.__ptr, /*value*/a1, /*def*/a2.__ptr));
+};
+Module['ui']['field_bool'] = function(a0, a1, a2, a3) {
+    ensureCache.prepare();
+    if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('field<bool>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<bool>(1:name): expected string'); if (typeof a2 !== 'boolean') throw Error('field<bool>(2:value): expected boolean'); }
+    else { if (!checkClass(a0, Widget)) throw Error('field<bool>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<bool>(1:name): expected string'); if (typeof a2 !== 'boolean') throw Error('field<bool>(2:value): expected boolean'); if (typeof a3 !== 'boolean') throw Error('field<bool>(3:reverse): expected boolean'); }
+    if (a3 === undefined) { return !!(_mud_ui_field_bool_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2)); }
+    else { return !!(_mud_ui_field_bool_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*reverse*/a3)); }
+};
+Module['ui']['field_int'] = function(a0, a1, a2, a3, a4) {
+    ensureCache.prepare();
+    if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('field<int>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<int>(1:name): expected string'); if (typeof a2 !== 'number') throw Error('field<int>(2:value): expected integer'); if (!checkClass(a3, StatDef_int)) throw Error('field<int>(3:def): expected StatDef<int>'); }
+    else { if (!checkClass(a0, Widget)) throw Error('field<int>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<int>(1:name): expected string'); if (typeof a2 !== 'number') throw Error('field<int>(2:value): expected integer'); if (!checkClass(a3, StatDef_int)) throw Error('field<int>(3:def): expected StatDef<int>'); if (typeof a4 !== 'boolean') throw Error('field<int>(4:reverse): expected boolean'); }
+    if (a4 === undefined) { return !!(_mud_ui_field_int_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*def*/a3.__ptr)); }
+    else { return !!(_mud_ui_field_int_5(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*def*/a3.__ptr, /*reverse*/a4)); }
+};
+Module['ui']['field_float'] = function(a0, a1, a2, a3, a4) {
+    ensureCache.prepare();
+    if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('field<float>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<float>(1:name): expected string'); if (typeof a2 !== 'number') throw Error('field<float>(2:value): expected number'); if (!checkClass(a3, StatDef_float)) throw Error('field<float>(3:def): expected StatDef<float>'); }
+    else { if (!checkClass(a0, Widget)) throw Error('field<float>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<float>(1:name): expected string'); if (typeof a2 !== 'number') throw Error('field<float>(2:value): expected number'); if (!checkClass(a3, StatDef_float)) throw Error('field<float>(3:def): expected StatDef<float>'); if (typeof a4 !== 'boolean') throw Error('field<float>(4:reverse): expected boolean'); }
+    if (a4 === undefined) { return !!(_mud_ui_field_float_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*def*/a3.__ptr)); }
+    else { return !!(_mud_ui_field_float_5(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*def*/a3.__ptr, /*reverse*/a4)); }
 };
 Module['ui']['node_input'] = function(a0, a1, a2, a3, a4, a5) {
     ensureCache.prepare();
